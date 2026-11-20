@@ -125,7 +125,7 @@ unsigned int FUN_00a7fbe0_shell::FUN_00a7fbe0()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x30);
     if (p)
-        return *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(p) + 8);
+        return *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(p) + 0x10);
     return 0;
 }
 
