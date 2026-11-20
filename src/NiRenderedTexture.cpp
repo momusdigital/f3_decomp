@@ -121,6 +121,7 @@ struct FUN_00a7fbe0_shell : public NiRenderedTexture
 };
 
 // @fnv 0x00a7fbe0
+// Returns the width field of the texture's renderer data, or 0 when there is none.
 unsigned int FUN_00a7fbe0_shell::FUN_00a7fbe0()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x30);
