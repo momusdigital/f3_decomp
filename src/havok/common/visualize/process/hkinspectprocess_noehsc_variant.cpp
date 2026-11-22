@@ -173,9 +173,9 @@ class ProcessContext
 class hkOArchive
 {
   public:
-    void FUN_00d60960(unsigned int);
-    void FUN_00d605d0(unsigned char);
-    void FUN_00d609a0(unsigned __int64);
+    void hkOArchive_write32u(unsigned int);
+    void hkOArchive_write8u(unsigned char);
+    void hkOArchive_write64u(unsigned __int64);
 };
 struct hkInspectProcess
 {
@@ -198,9 +198,9 @@ extern GlobalObjectO2_00d472a0 g_0126cae8;
 class FUN_00d605d0_Class
 {
   public:
-    void FUN_00d60960(int iCommand);
-    void FUN_00d605d0(unsigned int uiValue);
-    void FUN_00d609a0(const GlobalObjectO2_00d472a0* pkClass, int iFlags);
+    void hkOArchive_write32u(int iCommand);
+    void hkOArchive_write8u(unsigned int uiValue);
+    void hkOArchive_write64u(const GlobalObjectO2_00d472a0* pkClass, int iFlags);
 };
 struct TrackedObjectDDB3
 {
@@ -361,6 +361,8 @@ struct FUN_00ddba20_hits
     {}
 };
 
+// pdb: hkInspectProcess::step | hkInspectProcess.obj | fnv360_0822_retail, vtable, medium
+// pdb params: frameTimeInMs
 void Shape_ddba::FUN_00ddba20(int unused)
 {
     FUN_00ddba20_hits hits;

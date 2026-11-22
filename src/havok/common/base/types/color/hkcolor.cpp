@@ -4,15 +4,17 @@
 
 #include "havok/hkColor.h"
 
-int __cdecl FUN_00cbfef0(float f);
+int __cdecl hkMath_hkFloatToInt(float f);
 unsigned int __cdecl PackBytesBigEndian(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
-// Scales RGBA floats to 0-255 via FUN_00cbfef0 and packs them into a big-endian unsigned int via PackBytesBigEndian.
+// Scales RGBA floats to 0-255 via hkMath_hkFloatToInt and packs them into a big-endian unsigned int via PackBytesBigEndian.
 // @fnv 0x00cabb30
+// pdb: hkColor::rgbFromFloats | hkColor.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: red, green, blue, alpha
 unsigned int __cdecl PackColorBigEndian(float afRed, float afGreen, float afBlue, float afAlpha)
 {
-    unsigned char ucAlpha = FUN_00cbfef0((float)(afAlpha * 255.0));
-    unsigned char ucRed = FUN_00cbfef0((float)(afRed * 255.0));
-    unsigned char ucGreen = FUN_00cbfef0((float)(afGreen * 255.0));
-    return PackBytesBigEndian(ucRed, ucGreen, FUN_00cbfef0((float)(afBlue * 255.0)), ucAlpha);
+    unsigned char ucAlpha = hkMath_hkFloatToInt((float)(afAlpha * 255.0));
+    unsigned char ucRed = hkMath_hkFloatToInt((float)(afRed * 255.0));
+    unsigned char ucGreen = hkMath_hkFloatToInt((float)(afGreen * 255.0));
+    return PackBytesBigEndian(ucRed, ucGreen, hkMath_hkFloatToInt((float)(afBlue * 255.0)), ucAlpha);
 }

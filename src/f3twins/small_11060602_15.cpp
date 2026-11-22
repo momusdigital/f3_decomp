@@ -5,10 +5,11 @@
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RC_00b530e0 { virtual void V0(); virtual void Release(); long refs; };
 struct R_00b530e0 { char pad[0x64]; int refs; void FUN_00888c10(); };
-struct C_00b530e0 { char pad[0x8c]; RC_00b530e0* a1[26]; RC_00b530e0* a2[13]; void FUN_00b58540(); bool FUN_00b530e0(); };
+struct C_00b530e0 { char pad[0x8c]; RC_00b530e0* a1[26]; RC_00b530e0* a2[13]; void FUN_00b58540(); bool SkinShader_Initialize(); };
 extern R_00b530e0* DAT_01178060[26];
 
-bool C_00b530e0::FUN_00b530e0()
+// pdb: SkinShader::Initialize | SkinShader.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+bool C_00b530e0::SkinShader_Initialize()
 {
     FUN_00b58540();
     for (int i = 0; i < 26; i++) {
@@ -55,6 +56,7 @@ struct C_00b53b10
     V_00b53b10* d[3];
     void FUN_00b53b10();
 };
+// pdb: HairShader::RecreateRendererData | HairShader.obj | fnv360_0822_retail, objrun_prop, medium
 void C_00b53b10::FUN_00b53b10()
 {
     if (f28)
@@ -140,6 +142,7 @@ struct D_00b561d0 : B_00b561d0
     float f88[8];
     D_00b561d0();
 };
+// pdb: SpeedTreeFrondShader::SpeedTreeFrondShader | SpeedTreeFrondShader.obj | fnv360_0822_retail, call_seq, medium
 D_00b561d0::D_00b561d0()
 {
     f84 = 0;
@@ -160,6 +163,8 @@ struct D_00b57b30 : B_00b57b30
     M_00b57b30 b[10];
     D_00b57b30(int p);
 };
+// pdb: SpeedTreeBranchShader::SpeedTreeBranchShader | SpeedTreeBranchShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl
 D_00b57b30::D_00b57b30(int p) : B_00b57b30(p, 0, 0, 0)
 {
     f68 = 5;

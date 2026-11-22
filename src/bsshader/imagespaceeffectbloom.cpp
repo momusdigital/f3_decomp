@@ -3,6 +3,8 @@
 #include "imagespaceeffectbloom_decls.h"
 
 // @fnv 0x00c03410
+// pdb: ImageSpaceEffectSunbeams::Setup | ImageSpaceEffectSunbeams.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apManager, apParam
 void BloomImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEffectParam* param)
 {
     SetTextureArrayCount(2);

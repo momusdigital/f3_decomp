@@ -59,12 +59,15 @@ int __stdcall FUN_00a8f3e0(int arg0, int arg1, int arg2, int arg3, int arg4, int
 }
 
 // @fnv 0x00a8f3f0
+// pdb: NiD3DShader::FirstPass | NiD3DShader.obj | fnv360_0822_retail, objrun_prop, low
 int __stdcall FUN_00a8f3f0(int a, int b, int c, int d, int e, int f, int g, int h)
 {
     return 0;
 }
 
 // @fnv 0x00a8f400
+// pdb: NiShader::SetupGeometry | NiShader.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pkGeometry
 int __stdcall FUN_00a8f400(int arg0, int arg1, int arg2, int arg3)
 {
     return 0;
@@ -77,18 +80,23 @@ int __stdcall FUN_00a8f410(int arg0, int arg1)
 }
 
 // @fnv 0x00a8f420
+// pdb: BaseProcess::CheckforNewPackage | BaseProcess.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: apActor, abFlag
 bool __stdcall FUN_00a8f420(int a, int b, int c, int d, int e, int f)
 {
     return false;
 }
 
 // @fnv 0x00a8f430
+// pdb: TESModel::GetAsModelTextureSwap | EffectSetting.obj | fnv360_0721_beta, objrun_sim, low
 char __stdcall FUN_00a8f430(int a, int b, int c, int d, int e)
 {
     return 0;
 }
 
 // @fnv 0x00c9a420
+// pdb: Menu::DoKey | MenuManager.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aiKey
 bool __stdcall FUN_00c9a420(void* unk00)
 {
     return false;

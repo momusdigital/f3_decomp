@@ -2,14 +2,6 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterinitialradiusctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterinitialradiusctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202748;
-
-// @fnv 0x00c2b750
-void* __cdecl FUN_00c2b750()
-{
-    return &g_01202748;
-}
-
 struct NiPSysModifierFloatCtlr
 {
     float m_fValue;
@@ -25,6 +17,7 @@ struct NiPSysEmitterInitialRadiusCtlr : NiPSysModifierFloatCtlr
 };
 
 // @fnv 0x00c2b760
+// pdb: NiPSysEmitterInitialRadiusCtlr::GetTargetFloatValue | NiPSysEmitterInitialRadiusCtlr.obj | tesv_win, objrun_open, low
 void NiPSysEmitterInitialRadiusCtlr::FUN_00c2b760(float& fOut) const
 {
     fOut = *(float*)((const char*)*(void**)((const char*)this + 0x3c) + 0x40);
@@ -37,36 +30,13 @@ struct NiPSysEmitterInitialRadiusCtlr
 };
 
 // @fnv 0x00c2b770
+// pdb: NiPSysEmitterInitialRadiusCtlr::SetTargetFloatValue | NiPSysEmitterInitialRadiusCtlr.obj | tesv_win, objrun_open, low
 void __thiscall NiPSysEmitterInitialRadiusCtlr::FUN_00c2b770(float value)
 {
     float* p = *(float**)((char*)this + 0x3c);
     p[0x10] = value;
 }
 }  // namespace fnv_00c2b770
-
-struct StrArr
-{
-    unsigned char _0[8];
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short _c;
-    unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
-// Appends the string returned by _FUN_00a7d330(g_01202748) to pkStrings, growing it via SetSize when full and storing it with SetAt.
-// @fnv 0x00c2b820
-void __stdcall FUN_00c2b820(StrArr* pkStrings)
-{
-    FUN_00c32f60(pkStrings);
-    char* psz = _FUN_00a7d330((const char*)g_01202748);
-    unsigned int uiIdx = pkStrings->m_usSize;
-    if (uiIdx >= pkStrings->m_usMaxSize)
-        pkStrings->SetSize(uiIdx + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiIdx, psz);
-}
 
 class NiPSysBaseC2B
 {
@@ -97,6 +67,7 @@ class NiPSysOwnerC2B
 };
 
 // @fnv 0x00c2b780
+// pdb: NiPSysEmitterInitialRadiusCtlr::CreateClone | NiPSysEmitterInitialRadiusCtlr.obj | tesv_win, caller_sim, low
 NiPSysBaseC2B* NiPSysOwnerC2B::FUN_00c2b780(void* pvProcess)
 {
     NiPSysDerivedC2B* pkClone = new NiPSysDerivedC2B;

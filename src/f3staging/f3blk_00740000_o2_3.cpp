@@ -12,7 +12,7 @@ namespace f3m_0074bd90 {
 namespace task1801 {
 struct Count { unsigned FUN_004a0890(); };
 struct Proc { int unk00,unk04,unk08,unk0c,unk10,unk14; int type; int unk1c,unk20; unsigned char flags; int unk28; void* item; Count* count;
-float FUN_005a6440(int,int); unsigned FUN_005a5690(int); float FUN_005a6550(int,int);
+float FUN_005a6440(int,int); unsigned TESPackage_GetLocationRadius(int); float FUN_005a6550(int,int);
 bool IsFlag4Clear(){return ((flags>>2)&1)==0;}
 };
 struct Actor {
@@ -178,6 +178,8 @@ virtual void v278();
 virtual int GetIndex();
 float FUN_0074bd90(int);
 };
+// pdb: LowProcess::GetCurrentDestinationRadius | LowProcess.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apActor
 float Actor::FUN_0074bd90(int arg) {
  float result=128.0f;
  if(!GetProc()) return result;
@@ -186,7 +188,7 @@ float Actor::FUN_0074bd90(int arg) {
  if(GetProc()->item) result=GetProc()->FUN_005a6440(arg,0); break;
  case 47: {
  Count* count=GetProc()->count;
- float unused=(GetProc()->IsFlag4Clear() && GetProc()->item) ? (float)GetProc()->FUN_005a5690(arg) : (count ? (float)count->FUN_004a0890() : 30.0f); break;
+ float unused=(GetProc()->IsFlag4Clear() && GetProc()->item) ? (float)GetProc()->TESPackage_GetLocationRadius(arg) : (count ? (float)count->FUN_004a0890() : 30.0f); break;
  }
  case 1:case 2:case 3:case 8:case 14:case 15:
  if(GetProc()->count) result=GetProc()->FUN_005a6550(arg,0);break;
@@ -245,7 +247,7 @@ extern const char* DAT_00f66798[];
 extern float DAT_00e12730;
 Actor* FUN_006193c0();void FUN_006195d0(const char*);
 bool FUN_0074b090(Actor*,long);bool FUN_0074b130(Actor*,long);
-struct DataHandler {void FUN_0043c140(Cell*,const NiPoint3&,float,const NiPoint3&,float,bool(*)(Actor*,long),long);};extern DataHandler* DAT_0106cdcc;
+struct DataHandler {void TESDataHandler_EnumReferencesCloseToPoint(Cell*,const NiPoint3&,float,const NiPoint3&,float,bool(*)(Actor*,long),long);};extern DataHandler* DAT_0106cdcc;
 struct Actor {
 virtual void unknown_000();
 virtual void unknown_004();
@@ -537,8 +539,8 @@ unsigned int unk58;
 unsigned int unk5c;
 HighProcess* process;
 Cell* GetParentCell(){return cell;} void* GetObjectReference(){return base;}HighProcess* GetProcess(){return process;}void* GetExtraData(){return &unk40;}bool IsDeleted(){return (unk08>>5)&1;}
-void FUN_007001e0();bool FUN_006f8d60();bool FUN_006f8d70();bool FUN_006f8a70(const NiPoint3&,Cell*,void*,float,int);void FUN_00704050(bool);bool FUN_0076c8e0();bool FUN_00772c00(Actor*);int FUN_00780df0();float FUN_004edbf0(Actor*,bool,bool);int FUN_007650b0();bool FUN_006f8d90();const char* FUN_004e9a10();
-void RefreshCurrentPackage(){FUN_007001e0();}bool IsActorEssential(){return FUN_006f8d60();}bool FUN_008b3bb0(){return FUN_006f8d70();}bool IsAtPosition(const NiPoint3&p,Cell*c,void*w,float f,int i){return FUN_006f8a70(p,c,w,f,i);}void SetSpeakingState(bool b){FUN_00704050(b);}bool IsSleepingOrResting(){return FUN_0076c8e0();}bool IsActorInCombatWithPlayer(Actor*a){return FUN_00772c00(a);}int GetCharacterLevel(){return FUN_00780df0();}float GetDistanceToReference(Actor*a,bool b,bool c){return FUN_004edbf0(a,b,c);}int GetCurrentProcessLevel(){return FUN_007650b0();}bool HasBoundObject(){return FUN_006f8d90();}const char* GetFullName(){return FUN_004e9a10();}
+void FUN_007001e0();bool FUN_006f8d60();bool FUN_006f8d70();bool Actor_SetPathfindingGoal(const NiPoint3&,Cell*,void*,float,int);void Actor_EndInterruptPackage(bool);bool FUN_0076c8e0();bool FUN_00772c00(Actor*);int FUN_00780df0();float FUN_004edbf0(Actor*,bool,bool);int FUN_007650b0();bool FUN_006f8d90();const char* FUN_004e9a10();
+void RefreshCurrentPackage(){FUN_007001e0();}bool IsActorEssential(){return FUN_006f8d60();}bool FUN_008b3bb0(){return FUN_006f8d70();}bool IsAtPosition(const NiPoint3&p,Cell*c,void*w,float f,int i){return Actor_SetPathfindingGoal(p,c,w,f,i);}void SetSpeakingState(bool b){Actor_EndInterruptPackage(b);}bool IsSleepingOrResting(){return FUN_0076c8e0();}bool IsActorInCombatWithPlayer(Actor*a){return FUN_00772c00(a);}int GetCharacterLevel(){return FUN_00780df0();}float GetDistanceToReference(Actor*a,bool b,bool c){return FUN_004edbf0(a,b,c);}int GetCurrentProcessLevel(){return FUN_007650b0();}bool HasBoundObject(){return FUN_006f8d90();}const char* GetFullName(){return FUN_004e9a10();}
 };
 struct TESPackage {
 virtual void unknown_000();
@@ -638,8 +640,8 @@ unsigned int unk34;
 unsigned int unk38;
 void* next;
 PackageTargetRecord* GetTarget(){return target;}int GetProcedureType(){return procedure;}bool HasEssentialStatus(){return (unk1c>>16)&1;}int GetPackType(){return type;}
-int FUN_005a3d30();bool FUN_005a3b90();bool FUN_005a3ba0();bool FUN_005a3bb0();bool FUN_005a49a0();void FUN_005a4aa0(bool);void* FUN_005a5140(Actor*);Cell* FUN_005a52a0(Actor*);NiPoint3 FUN_005a53d0(Actor*);void* FUN_005a4020();
-int GetPackageTargetType(){return FUN_005a3d30();}bool FUN_00670f40(){return FUN_005a3b90();}bool FUN_00670f60(){return FUN_005a3ba0();}bool IsMustReachLocation(){return FUN_005a3bb0();}bool IsMustComplete(){return FUN_005a49a0();}void SetWaiting(bool b){FUN_005a4aa0(b);}void* GetPackageWorldSpace(Actor*a){return FUN_005a5140(a);}Cell* GetPackageLocationCell(Actor*a){return FUN_005a52a0(a);}NiPoint3 GetPackageLocationPosition(Actor*a){return FUN_005a53d0(a);}void* GetPackageSecondLocation(){return FUN_005a4020();}
+int FUN_005a3d30();bool FUN_005a3b90();bool FUN_005a3ba0();bool FUN_005a3bb0();bool FUN_005a49a0();void FUN_005a4aa0(bool);void* TESPackage_GetLocationWorld(Actor*);Cell* FUN_005a52a0(Actor*);NiPoint3 TESPackage_GetLocationCoord(Actor*);void* FUN_005a4020();
+int GetPackageTargetType(){return FUN_005a3d30();}bool FUN_00670f40(){return FUN_005a3b90();}bool FUN_00670f60(){return FUN_005a3ba0();}bool IsMustReachLocation(){return FUN_005a3bb0();}bool IsMustComplete(){return FUN_005a49a0();}void SetWaiting(bool b){FUN_005a4aa0(b);}void* GetPackageWorldSpace(Actor*a){return TESPackage_GetLocationWorld(a);}Cell* GetPackageLocationCell(Actor*a){return FUN_005a52a0(a);}NiPoint3 GetPackageLocationPosition(Actor*a){return TESPackage_GetLocationCoord(a);}void* GetPackageSecondLocation(){return FUN_005a4020();}
 };
 struct LowProcess {
 virtual void unknown_000();
@@ -1196,9 +1198,11 @@ unsigned int unkac;
 bool m_bHasBoundObject;unsigned char unkb1,unkb2,unkb3;
 void FUN_0074acb0();float FUN_00749cc0(Actor*);bool FUN_0074a030(Actor*);void UpdateTargetFromPackage(){FUN_0074acb0();}float GetActorTimeDelta(Actor*a){return FUN_00749cc0(a);}bool SelectNextPackage(Actor*a){return FUN_0074a030(a);}void FUN_00750eb0(Actor*);
 };
-void FUN_00518df0(TESPackage*,void*,int);
-struct Script {static void GetLocalData(TESPackage*p,void*d,int f){FUN_00518df0(p,d,f);}};
+void Script_SetActionFlag(TESPackage*,void*,int);
+struct Script {static void GetLocalData(TESPackage*p,void*d,int f){Script_SetActionFlag(p,d,f);}};
 inline const char* PackageName(TESPackage*p){return DAT_00f66798[p->GetPackType()];}
+// pdb: LowProcess::Update | LowProcess.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apRef
 void LowProcess::FUN_00750eb0(Actor* mobile)
 {
     if (!mobile)
@@ -1254,9 +1258,9 @@ void LowProcess::FUN_00750eb0(Actor* mobile)
                 {
                     if (update.actor->FUN_006f8d70())
                     {
-                        if (!update.actor->FUN_006f8a70(GetCurrentPackage()->FUN_005a53d0(update.actor),
+                        if (!update.actor->Actor_SetPathfindingGoal(GetCurrentPackage()->TESPackage_GetLocationCoord(update.actor),
                                                         GetCurrentPackage()->FUN_005a52a0(update.actor),
-                                                        GetCurrentPackage()->FUN_005a5140(update.actor), -1.0f,
+                                                        GetCurrentPackage()->TESPackage_GetLocationWorld(update.actor), -1.0f,
                                                         0))
                             return;
                     }
@@ -1268,7 +1272,7 @@ void LowProcess::FUN_00750eb0(Actor* mobile)
                         if (!vfn_1bc())
                         {
                             if (GetCurrentPackage()->FUN_005a3b90())
-                                DAT_0106cdcc->FUN_0043c140(
+                                DAT_0106cdcc->TESDataHandler_EnumReferencesCloseToPoint(
                                     update.actor->GetParentCell(), *update.actor->GetPos(),
                                     DAT_00e12730, *update.actor->GetPos(),
                                     DAT_00e12730, FUN_0074b090,
@@ -1276,7 +1280,7 @@ void LowProcess::FUN_00750eb0(Actor* mobile)
                             vfn_1c0(true);
                         }
                         if (GetCurrentPackage()->FUN_005a3ba0())
-                            DAT_0106cdcc->FUN_0043c140(update.actor->GetParentCell(), *update.actor->GetPos(),
+                            DAT_0106cdcc->TESDataHandler_EnumReferencesCloseToPoint(update.actor->GetParentCell(), *update.actor->GetPos(),
                                                                DAT_00e12730, *update.actor->GetPos(),
                                                                DAT_00e12730, FUN_0074b130,
                                                                reinterpret_cast<long>(update.actor));
@@ -1300,14 +1304,14 @@ void LowProcess::FUN_00750eb0(Actor* mobile)
                     if (!vfn_1bc())
                     {
                         if (GetCurrentPackage()->FUN_005a3b90())
-                            DAT_0106cdcc->FUN_0043c140(
+                            DAT_0106cdcc->TESDataHandler_EnumReferencesCloseToPoint(
                                 update.actor->GetParentCell(), *update.actor->GetPos(), DAT_00e12730,
                                 *update.actor->GetPos(), DAT_00e12730, FUN_0074b090,
                                 reinterpret_cast<long>(update.actor));
                         vfn_1c0(true);
                     }
                     if (GetCurrentPackage()->FUN_005a3ba0())
-                        DAT_0106cdcc->FUN_0043c140(update.actor->GetParentCell(), *update.actor->GetPos(),
+                        DAT_0106cdcc->TESDataHandler_EnumReferencesCloseToPoint(update.actor->GetParentCell(), *update.actor->GetPos(),
                                                            DAT_00e12730, *update.actor->GetPos(),
                                                            DAT_00e12730, FUN_0074b130,
                                                            reinterpret_cast<long>(update.actor));
@@ -1376,7 +1380,7 @@ void LowProcess::FUN_00750eb0(Actor* mobile)
                 ProcessAcquire(update.actor);
                 break;
             case 12:
-                update.actor->FUN_00704050(false);
+                update.actor->Actor_EndInterruptPackage(false);
                 break;
             case 49: {
                 Actor* target = 0;
@@ -1494,7 +1498,7 @@ void LowProcess::FUN_00750eb0(Actor* mobile)
             {
                 if (!vfn_5a4())
                 {
-                    FUN_00518df0(GetCurrentPackage(), update.actor->GetExtraData(), 0x400);
+                    Script_SetActionFlag(GetCurrentPackage(), update.actor->GetExtraData(), 0x400);
                     OnPackageEnd(update.actor, GetCurrentPackage());
                     vfn_5a8(true);
                 }
@@ -1508,7 +1512,7 @@ void LowProcess::FUN_00750eb0(Actor* mobile)
                 if (GetCurrentPackage() && GetCurrentPackage()->FUN_005a3bb0())
                     update.actor->vfn_28c(GetCurrentPackage(), DAT_01079f68.FUN_006e2a60());
                 if (GetCurrentPackage() && GetCurrentPackage()->FUN_005a49a0())
-                    update.actor->FUN_00704050(false);
+                    update.actor->Actor_EndInterruptPackage(false);
                 if (FUN_006193c0() == update.actor)
                 {
                     sprintf(message, "%s is done with %s", update.actor->FUN_004e9a10(),

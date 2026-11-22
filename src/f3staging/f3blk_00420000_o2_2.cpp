@@ -49,6 +49,7 @@ struct TaskSingleton
 };
 extern TaskSingleton* DAT_0106ca70;
 
+// pdb: ModelLoader::PauseCallback | ModelLoader.obj | fnv360_0822_retail, objrun, medium
 void FUN_004247a0()
 {
     TaskBarrier* barrier = DAT_0106ca70->barrier;
@@ -306,6 +307,8 @@ class QueuedHelmet : public QueuedHelmetBase
     bool unk120;
 };
 
+// pdb: QueuedHelmet::QueuedHelmet | ModelLoader.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apBipedAnim, aePriority, aeBipedObject
 QueuedHelmet::QueuedHelmet(HelmetActorData* actor, void* owner, unsigned int unused)
     : QueuedHelmetBase(owner), m_actor(actor)
 {
@@ -403,6 +406,8 @@ class QueuedMagicItem : public QueuedFileBase9340
     void* m_target;
 };
 
+// pdb: ModelLoader::QueueMagicItem | ModelLoader.obj | fnv360_0822_retail, uvref, low
+// pdb params: apMagicItem, apAVEffectSetting, aePriority
 void __stdcall FUN_00429340(void* item, void* target, void* owner)
 {
     if (item && target) {
@@ -420,6 +425,8 @@ struct FUN_00434130_Arg
     unsigned char unk04;
 };
 
+// pdb: TESObjectWEAP::GetProjectile | TESObjectWEAP.obj | fnv360_0822_debug, call_gap, low, conflict (bridge: TES::GetLODMult)
+// pdb params: apWeaponHolder
 int __cdecl FUN_00434130(FUN_00434130_Arg* arg)
 {
     switch (arg->unk04)
@@ -487,6 +494,7 @@ public:
 
 using namespace f3m_004225a0;
 
+// pdb: ExtraFriendHits::AddHit | ExtraDataObjects.obj | fnv360_0721_beta, call_seq, medium
 void Sampler::FUN_004225a0()
 {
     FUN_00421010();
@@ -508,6 +516,8 @@ struct StringAssignFO3 : std::string {
     StringAssignFO3& FUN_0042eff0(const StringAssignFO3& right, size_type offset, size_type count);
 };
 
+// pdb: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::assign | TESObject.obj | fnv360_0721_retail, call_seq, low
+// pdb params: _Right, _Roff, _Count
 StringAssignFO3& StringAssignFO3::FUN_0042eff0(const StringAssignFO3& right, size_type offset, size_type count)
 {
     if (right.size() < offset)
@@ -541,6 +551,7 @@ private:
     std::string message;
 };
 
+// pdb: std::logic_error::logic_error | FanFgFile.obj | tesv_win, caller_sim, low
 LogicErrorCopy::LogicErrorCopy(const LogicErrorCopy& other)
     : std::exception(other), message(other.message)
 {
@@ -554,6 +565,8 @@ namespace f3m_00424af0 {
 namespace task1450 {
 struct Heap {void* FUN_0086b930(unsigned int);};
 extern Heap DAT_01090a78;
+// pdb: std::allocator<float>::allocate | TESNPC.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: _Count
 void* FUN_00424af0(unsigned int count){
  if(count<=0){count=0;}
  else if((unsigned int)-1/count<4){const char* msg=0;throw std::bad_alloc(msg);}
@@ -598,6 +611,8 @@ struct Owner : Base {
     int zero;
     Owner(unsigned, unsigned, int);
 };
+// pdb: LockFreeMap<char const *,Model *>::LockFreeMap<char const *,Model *> | ModelLoader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiMaxThreads, aiNumBuckets, aiDeleteBatchSize
 Owner::Owner(unsigned n, unsigned m, int v) {
     Guard guard;
     zero = 0;
@@ -625,6 +640,7 @@ struct C {
     Obj* m;
     void FUN_004274a0();
 };
+// pdb: std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >::_Myptr | BipedAnim.obj | tesv_win, objrun_open, low
 void C::FUN_004274a0()
 {
     if(m)m->DecRef();
@@ -695,7 +711,7 @@ struct BatchRegions
     BatchRegionList list;
 };
 struct BatchTerrain {
-void FUN_004ce320(BatchPoint*,float*);
+void TESObjectLAND_GetLandHeight(BatchPoint*,float*);
 };
 struct BatchWorld;
 struct BatchCell
@@ -790,11 +806,11 @@ bool Deleted(){return (formFlags>>5)&1;}
     int FUN_004d62c0();
     BatchRegions* FUN_004d35f0(bool);
     bool Interior(){return cellFlags&1;}
-    int FUN_004d3430();
-    int FUN_004d3450();
+    int TESObjectCELL_GetDataX();
+    int TESObjectCELL_GetDataY();
     void FUN_004df450();
     void FUN_004e1a70(BatchPoint*, BatchPoint*);
-    BatchTerrain* FUN_004d5270();
+    BatchTerrain* TESObjectCELL_GetLand();
     BatchWorld* FUN_004d3780();
     BatchPortal* FUN_004d5110();
     int FUN_004d6190();
@@ -960,14 +976,14 @@ struct BatchTES
     int unk84;
     BatchWorld* currentWorld;
     void SetCategory(void(__cdecl* p)()){callback=reinterpret_cast<void(__cdecl*)(BatchCell*,void*)>(p);}
-    void FUN_00435fb0(BatchWorld*);
+    void TES_SetWorldSpace(BatchWorld*);
     void FUN_00434ff0(BatchCell*);
     void FUN_0043a040(BatchCell*, BatchPoint*);
     BatchCell* IsCellInterior(){return reinterpret_cast<BatchCell*>(unk34);}
     void FUN_0043a670(BatchPoint*);
     void FUN_004399f0(BatchPoint*, bool);
-    void FUN_00435070(bool,bool);void FUN_00433630(bool);
-    __forceinline void Refresh(bool a,bool b){reinterpret_cast<RefreshList*>(reinterpret_cast<char*>(this)+0x8c)->FUN_006c8220();if(unk34 && DAT_0106cdcc){reinterpret_cast<RefreshGrid*>(unk08)->Clear();if(DAT_0116f3d8){DAT_0116f3d8->DecRef();DAT_0116f3d8=0;}DAT_00f4c96c=true;}FUN_00435070(a,b);FUN_00433630(true);*reinterpret_cast<bool*>(reinterpret_cast<char*>(this)+0xb4)=true;}
+    void FUN_00435070(bool,bool);void TES_FreeInteriorBuffer(bool);
+    __forceinline void Refresh(bool a,bool b){reinterpret_cast<RefreshList*>(reinterpret_cast<char*>(this)+0x8c)->FUN_006c8220();if(unk34 && DAT_0106cdcc){reinterpret_cast<RefreshGrid*>(unk08)->Clear();if(DAT_0116f3d8){DAT_0116f3d8->DecRef();DAT_0116f3d8=0;}DAT_00f4c96c=true;}FUN_00435070(a,b);TES_FreeInteriorBuffer(true);*reinterpret_cast<bool*>(reinterpret_cast<char*>(this)+0xb4)=true;}
     void FUN_0043ac20(int mode);
 };
 static bool DAT_0106cda8;
@@ -990,9 +1006,9 @@ extern BatchSave* DAT_01079ca4;
 extern BatchCalendar DAT_01079f68;
 extern BatchProcess DAT_0107c0a0;
 extern BatchPoint DAT_0108ec68;
-void __cdecl FUN_004e0160();
+void __cdecl TESObjectCELL_RenderTestCell();
 extern long DAT_0116d6bc;inline void BatchActive(bool b){if(b)InterlockedIncrement(&DAT_0116d6bc);else InterlockedDecrement(&DAT_0116d6bc);if(DAT_0116d6bc<0)DAT_0116d6bc=0;}
-int __cdecl FUN_00bcd140(const char*);
+int __cdecl BSSystemFile_DeleteFileA(const char*);
 int __cdecl FUN_00887da0(const char*, ...);
 int __cdecl FUN_00c020cb(const char*, const char*, unsigned int);
 int __cdecl FUN_00c02127();
@@ -1003,6 +1019,8 @@ void __cdecl FUN_006ef100(unsigned char*);
 void __cdecl FUN_0046fbd0(float*, float*, bool, bool);
 void __cdecl FUN_0046f720(float, BatchString*, int);
 extern BatchMemory* DAT_0108ee00;inline BatchMemory* BatchMemoryHead(){return DAT_0108ee00;}
+// pdb: TES::TestAllCells | TES.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiControl
 void BatchTES::FUN_0043ac20(int mode)
 {
     if (mode == 4 || mode == 5 || mode == 9)
@@ -1012,7 +1030,7 @@ void BatchTES::FUN_0043ac20(int mode)
     case 7:
         mode -= 5;
         DAT_0106cda8 = true;
-        SetCategory(FUN_004e0160);
+        SetCategory(TESObjectCELL_RenderTestCell);
         break;
     }
     switch (mode)
@@ -1021,7 +1039,7 @@ void BatchTES::FUN_0043ac20(int mode)
         DAT_0106cda4 = mode;
         active = true;
         BatchActive(true);
-        FUN_00bcd140(DAT_00f49444);
+        BSSystemFile_DeleteFileA(DAT_00f49444);
         if (!DAT_0106cda8)
         {
             FUN_00887da0(DAT_00db8f78);
@@ -1120,7 +1138,7 @@ void BatchTES::FUN_0043ac20(int mode)
                     }
                     if (world)
                     {
-                        FUN_00435fb0(world);
+                        TES_SetWorldSpace(world);
                         DAT_0106cd90 = ((int)currentWorld->GetMinX()) >> 12;
                         DAT_0106cd8c = ((int)currentWorld->GetMinY()) >> 12;
                         int maxX = ((int)currentWorld->GetMaxX()) >> 12;
@@ -1190,8 +1208,8 @@ void BatchTES::FUN_0043ac20(int mode)
                 DAT_01079f68.FUN_006e28b0(10.0f);
                 BatchPoint position4 = DAT_0108ec68;
                 if (!cell->Interior()) {
-                    float x = static_cast<float>((cell->FUN_004d3430() << 12) + DAT_00db7de0);
-                    float y = static_cast<float>((cell->FUN_004d3450() << 12) + DAT_00db7de0);
+                    float x = static_cast<float>((cell->TESObjectCELL_GetDataX() << 12) + DAT_00db7de0);
+                    float y = static_cast<float>((cell->TESObjectCELL_GetDataY() << 12) + DAT_00db7de0);
                     BatchPoint exterior(x, y, 0.0f);
                     position4 = exterior;
                 }
@@ -1206,7 +1224,7 @@ void BatchTES::FUN_0043ac20(int mode)
                 {
                     FUN_0043a670(&position4);
                     float height;
-                    cell->FUN_004d5270()->FUN_004ce320(&position4,&height);
+                    cell->TESObjectCELL_GetLand()->TESObjectLAND_GetLandHeight(&position4,&height);
                     if (height >= 0.0)
                         position4.z = height;
                 }
@@ -1214,7 +1232,7 @@ void BatchTES::FUN_0043ac20(int mode)
                 {
                     FUN_004399f0(&position4, false);
                     float height;
-                    cell->FUN_004d5270()->FUN_004ce320(&position4,&height);
+                    cell->TESObjectCELL_GetLand()->TESObjectLAND_GetLandHeight(&position4,&height);
                     if (height >= 0.0)
                         position4.z = height;
                 }
@@ -1272,10 +1290,10 @@ void BatchTES::FUN_0043ac20(int mode)
                         DAT_0106cd88++;
                         FUN_00887da0(
                             DAT_00db8da8,
-                            cell->Name(), cell->FUN_004d3430(), cell->FUN_004d3450(), (const char*)modelString2, textureCount9,
+                            cell->Name(), cell->TESObjectCELL_GetDataX(), cell->TESObjectCELL_GetDataY(), (const char*)modelString2, textureCount9,
                             elapsed, portalsVal ? DAT_00db8ea0 : DAT_00db8e9c, memory2, actors3);
                         FUN_00887da0(DAT_00f49444, DAT_00db8d80, cell->Name(),
-                                       cell->FUN_004d3430(), cell->FUN_004d3450(), (const char*)modelString2, textureCount9, elapsed,
+                                       cell->TESObjectCELL_GetDataX(), cell->TESObjectCELL_GetDataY(), (const char*)modelString2, textureCount9, elapsed,
                                        portalsVal ? DAT_00db8ea0 : DAT_00db8e9c, memory2, actors3);
                     }
                 }
@@ -1338,6 +1356,8 @@ struct FUN_00427200_cls {
     bool FUN_00427200(const char* path, EntryPtr* out);
 };
 
+// pdb: ModelLoader::FindModel | ModelLoader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFilename, aspOutModel
 bool FUN_00427200_cls::FUN_00427200(const char* path, EntryPtr* out)
 {
     *out = 0;
@@ -1421,6 +1441,8 @@ struct Thing {
     void FUN_0042ba60(const Holder&);
 };
 
+// pdb: LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueInterface::Push | ModelLoader.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arData
 void Thing::FUN_0042ba60(const Holder& value)
 {
     HeapContextGuard context(6);

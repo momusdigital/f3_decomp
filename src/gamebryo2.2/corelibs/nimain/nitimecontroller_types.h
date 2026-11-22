@@ -133,7 +133,7 @@ class NiGeometryData : public NiObject
     {
         STATIC = 0
     };
-    void SetDataConsistency(Consistency eConsistency);
+    void SetConsistency(Consistency eConsistency);
 };
 
 // ---------------------------------------------------------------------------

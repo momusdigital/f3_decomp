@@ -99,7 +99,10 @@ struct DispatchTarget
 
 // For each pair member whose tag is 2, resolves a relative target and calls its v24 with the other member's offset-adjusted pointer.
 // @fnv 0x00cf6e40
-void __stdcall DispatchPairTargets(RefPair* apPair)
+// pdb: hkpPhantomBroadPhaseListener::removeCollisionPair | hkpPhantomBroadPhaseListener.obj | fnv360_0822_retail, vtable, high
+// pdb params: pair
+// pdb: hkpPhantomBroadPhaseListener::removeCollisionPair | hkpPhantomBroadPhaseListener.obj | fnv360_0822_retail, vtable, high (was: DispatchPairTargets)
+void __stdcall hkpPhantomBroadPhaseListener_removeCollisionPair(RefPair* apPair)
 {
     if (apPair->pFirst->tag == 2)
     {

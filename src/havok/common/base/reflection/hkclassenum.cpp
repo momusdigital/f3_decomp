@@ -8,6 +8,8 @@ extern "C" int __cdecl FUN_00d86980();
 
 // Reads a signed char, short or int from p depending on the size returned by FUN_00d86980, defaulting to 0.
 // @fnv 0x00d86b80
+// pdb: hkClassMember::getEnumValue | hkClassMember.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: memberAddress
 int __stdcall ReadSignedValueBySize(const void* apData)
 {
     int r = 0;
@@ -37,6 +39,8 @@ struct FUN_00db76a0_Class
 };
 
 // @fnv 0x00db76a0
+// pdb: hkClassEnum::getAttribute | hkClassEnum.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: id
 void* FUN_00db76a0_Class::GetAttribute(void* arg)
 {
     hkCustomAttributes* a = *(hkCustomAttributes**)((char*)this + 0xc);
@@ -66,6 +70,7 @@ struct hkObjDB76
 
 // Constructs a temporary FUN_00db7870 with 0 and passes it to FUN_00db7600.
 // @fnv 0x00db76c0
+// pdb: hkClassEnum::getSignature | hkClassEnum.obj | fnv360_0822_retail, caller_sim, low
 void hkObjDB76::FUN_00db76c0()
 {
     FUN_00db7870 tmp(0);
@@ -137,6 +142,8 @@ class hkOwnerXdb76f0
 // @f3 0x009b2470 (community match, verified in this file)
 void FUN_00901f10(void* arr, int elemSize);
 
+// pdb: hkClassEnum::decomposeFlags | hkClassEnum.obj | fnv360_0721_beta, call_gap_sim, high
+// pdb params: flagValue, bitsOut, bitsOver
 bool hkOwnerXdb76f0::CollectMatchingEntries(unsigned int flags, hkArrayXdb76f0<void*>& out, unsigned int* remaining)
 {
     out.m_iElementCount = 0;

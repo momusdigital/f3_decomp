@@ -13,7 +13,10 @@ struct E02A40StreamWriter
 
 // Calls writer->write with buf and nbytes and returns nonzero if the number of bytes written differs from nbytes.
 // @fnv 0x00e02a40
-int __stdcall WriteAllOrFail(E02A40StreamWriter* writer, const void* buf, int aiNumBytes)
+// pdb: hkPlatformObjectWriter::writeRaw | hkPlatformObjectWriter.obj | fnv360_0822_retail, vtable, high
+// pdb params: writer, data, dataLen
+// pdb: hkPlatformObjectWriter::writeRaw | hkPlatformObjectWriter.obj | fnv360_0822_retail, vtable, high (was: WriteAllOrFail)
+int __stdcall hkPlatformObjectWriter_writeRaw(E02A40StreamWriter* writer, const void* buf, int aiNumBytes)
 {
     return writer->write(buf, aiNumBytes) != aiNumBytes;
 }
@@ -26,33 +29,12 @@ struct OffsetView
     char* FUN_00e02a70();
 };
 // @fnv 0x00e02a70
+// pdb: hkPlatformObjectWriter::getLayout | hkPlatformObjectWriter.obj | fnv360_0822_debug, objrun, medium
 char* OffsetView::FUN_00e02a70()
 {
     return unk08 + 12;
 }
 
-struct hkReferencedObject
-{
-    __declspec(nothrow) void removeReference();
-};
-struct FUN_00e02d40_helper
-{
-    __declspec(nothrow) void ClearAndFreeData();
-};
-struct FUN_00e02c70_audio_iface
-{
-    virtual __declspec(nothrow) void v0();
-    virtual __declspec(nothrow) void v1();
-    virtual __declspec(nothrow) void v2(void* object, unsigned int value);
-};
-struct FUN_00e02c70_audio_holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00e02c70_audio_iface* unk10;
-};
 void* __cdecl FUN_00c85750();
 struct BaseE02c70
 {
@@ -60,43 +42,6 @@ struct BaseE02c70
     virtual __declspec(nothrow) ~BaseE02c70()
     {}
 };
-struct FUN_00e02c70_Class : BaseE02c70
-{
-    hkReferencedObject* unk08;
-    FUN_00e02d40_helper* unk0c;
-    virtual __declspec(nothrow) ~FUN_00e02c70_Class();
-};
-// @fnv 0x00e02c70
-FUN_00e02c70_Class::~FUN_00e02c70_Class()
-{
-    hkReferencedObject* reference = unk08;
-    reference->removeReference();
-    FUN_00e02d40_helper* pHelper = unk0c;
-    if (pHelper)
-    {
-        pHelper->ClearAndFreeData();
-        FUN_00e02c70_audio_holder* pAudioHolder = (FUN_00e02c70_audio_holder*)FUN_00c85750();
-        pAudioHolder->unk10->v2(pHelper, 0x24);
-    }
-}
-
-struct AllocIface
-{
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
-
-extern char DAT_010ea370[];
-extern char DAT_011b7b88[4];
 
 struct IntTemp
 {
@@ -105,28 +50,6 @@ struct IntTemp
     {}
     IntTemp(const IntTemp& o) : m_v(o.m_v)
     {}
-};
-
-struct KeyRef
-{
-    void* m_p;
-    void Set(const void* p);
-};
-
-struct SpawnedBlob
-{
-    int unk00;
-    unsigned short m_w04;
-    unsigned short unk06;
-    void* Init(KeyRef* key, int a1, IntTemp a2);
-};
-
-struct SpawnedSmall
-{
-    int unk00;
-    unsigned short m_w04;
-    unsigned short unk06;
-    void* Make();
 };
 
 struct FUN_00e02bb0_cls
@@ -213,6 +136,8 @@ struct Cache
 };
 }
 
+// pdb: hkPlatformObjectWriter::hkPlatformObjectWriter | hkPlatformObjectWriter.obj | fnv360_0822_retail, call_seq, high
+// pdb params: layout
 FUN_00e02bb0_cls* FUN_00e02bb0_cls::FUN_00e02bb0(int stream)
 {
     using namespace NativePlatformWriter;
@@ -291,7 +216,6 @@ struct hkFlagsE02
 
 class hkObjectE02;
 class hkRegistryE02;
-extern hkRegistryE02 g_kRegistryE02;
 
 class hkLoaderE02;
 hkObjectE02* __cdecl CreateObjectE02(const char* pcName, hkRegistryE02* pkRegistry, hkLoaderE02* pkLoader, int iUnk,
@@ -340,6 +264,8 @@ struct FUN_009b2a50_cls
 
 void __cdecl FUN_00901f10(void* pArray, int iElemSize);
 
+// pdb: hkPlatformObjectWriter::Cache::get | hkPlatformObjectWriter.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: klass, layout
 hkObjectE02* hkLoaderE02::GetOrCreateObject(const char* pcName, hkTrackerE02* pkTracker)
 {
     hkObjectE02* pkObject;
@@ -356,82 +282,6 @@ hkObjectE02* hkLoaderE02::GetOrCreateObject(const char* pcName, hkTrackerE02* pk
     return pkNew;
 }
 
-
-struct E02Allocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct E02Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    E02Allocator* unk10;
-};
-
-void __cdecl FUN_00c856c0(void* allocator, void* element);
-
-struct E02Sub
-{
-    int unk00;
-    int unk04;
-    int unk08;
-
-    void ProcessArgument(void* value);
-    void FUN_00a29680();
-};
-
-struct FUN_00e02d40_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    E02Sub m_sub;
-    void** m_pData;
-    int m_iArrayLength;
-    unsigned int m_uCapBits;
-
-    void ClearAndFreeData();
-    void ProcessArgument(void* value);
-    void FUN_00a29680();
-};
-
-// @fnv 0x00e02d40
-void FUN_00e02d40_cls::ClearAndFreeData()
-{
-    int i = 0;
-    if (m_iArrayLength > 0)
-    {
-        do
-        {
-            void* pElement = m_pData[i];
-            E02Holder* pHolder = (E02Holder*)FUN_00c85750();
-            FUN_00c856c0(pHolder->unk10, pElement);
-            ++i;
-        } while (i < m_iArrayLength);
-    }
-    E02Holder* pHolder = (E02Holder*)FUN_00c85750();
-    E02Allocator* pAllocator = pHolder->unk10;
-    m_iArrayLength = 0;
-    unsigned int uCapBits = m_uCapBits;
-    if ((uCapBits & 0x80000000u) == 0)
-    {
-        pAllocator->FreeArray(m_pData, (uCapBits & 0x3fffffffu) * 4);
-    }
-    m_pData = 0;
-    m_uCapBits = 0x80000000u;
-    E02Sub* pSub = &m_sub;
-    pSub->ProcessArgument(((E02Holder*)FUN_00c85750())->unk10);
-    pSub->FUN_00a29680();
-    ProcessArgument(((E02Holder*)FUN_00c85750())->unk10);
-    FUN_00a29680();
-}
 
 struct E02DE0Allocator;
 
@@ -475,15 +325,6 @@ struct E02DE0Array
 
     E02DE0Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
-};
-
-struct FUN_00e02de0
-{
-    FUN_00e02de0();
-
-    E02DE0Map m_map0;
-    E02DE0Map m_map1;
-    E02DE0Array m_ppData;
 };
 
 // Initializes the two maps and the array member by running their default constructors.
@@ -554,6 +395,7 @@ struct Owner004e0ca0 {
     void FUN_004e0b30();
     void FUN_004e0ca0();
 };
+// pdb: TESObjectCELL::Clear3D | TESObjectCELL.obj | fnv360_0822_retail, call_gap, low
 void Owner004e0ca0::FUN_004e0ca0() {
     Obj004e0ca0_Target* target = unk28.FUN_00410f00();
     if (target && DAT_01071528) {
@@ -635,25 +477,35 @@ struct E02A80Helper
     const char* Name();
 };
 
+class hkClass;
+class hkStatisticsCollector;
+// hkObjectCopier: the slots of its Fallout 3 vtable (0x00e7e8a0) up to copyObject (New Vegas Xbox 360 PDB names).
 struct E02A80Iface
 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual int unk0C(void* a, void* b, void* c, void* d, void* e);
+    virtual ~E02A80Iface();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual int copyObject(void* dataIn, void* klassIn, void* dataOut, void* klassOut, void* reloc);
 };
 
+// hkBool: a class with a constructor, so it comes back through a hidden result pointer.
+struct E02A80Bool
+{
+    char m_bool;
+    E02A80Bool(bool b) : m_bool((char)b) {}
+};
+// hkStreamWriter: the slots of the Fallout 3 vtables up to tell (New Vegas Xbox 360 PDB names).
 struct E02A80Arg
 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual char* unk0C(void* out);
-    virtual void unk10();
-    virtual void unk14();
-    virtual void unk18();
-    virtual void unk1C();
-    virtual int unk20();
+    virtual ~E02A80Arg();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual E02A80Bool isOk() const;
+    virtual int write(const void* buf, int nbytes);
+    virtual void flush();
+    virtual E02A80Bool seekTellSupported() const;
+    virtual int seek(int offset, int whence);
+    virtual int tell() const;
 };
 
 struct E02A80Local
@@ -688,18 +540,19 @@ struct E02A80_cls
 {
     int unk00;
     int unk04;
-    E02A80Iface* unk08;
-    E02A80Helper* unk0c;
+    E02A80Iface* m_copier;   // +0x08
+    E02A80Helper* m_cache;   // +0x0C
 
-    int FUN_00e02a80(E02A80Arg* arg1, int arg2, E02A80Helper* arg3, int arg4);
+    int hkPlatformObjectWriter_writeObject(E02A80Arg* arg1, int arg2, E02A80Helper* arg3, int arg4);
 };
 
 // Resolves a helper, optionally seeks and builds a box via the iface, then calls unk0C and returns whether the result string is empty.
 // @fnv 0x00e02a80
-int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelper, int arg4)
+// pdb: hkPlatformObjectWriter::writeObject | hkPlatformObjectWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int E02A80_cls::hkPlatformObjectWriter_writeObject(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelper, int arg4)
 {
     E02A80Helper* pResolvedHelper;
-    E02A80Helper* pHelper = unk0c;
+    E02A80Helper* pHelper = m_cache;
     if (pHelper != 0)
     {
         pResolvedHelper = pHelper->Resolve(apHelper, reinterpret_cast<E02A80LayoutView*>(this)->FUN_00e02a70());
@@ -711,11 +564,11 @@ int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelp
     E02A80Local a;
     void* b;
     E02A80Arg* e;
-    if (unk0c != 0 && FUN_00cb0fa0(pResolvedHelper->Name(), str_010d66fc) == 0)
+    if (m_cache != 0 && FUN_00cb0fa0(pResolvedHelper->Name(), str_010d66fc) == 0)
     {
-        b = unk0c->Resolve(reinterpret_cast<void*>(aiValue), reinterpret_cast<E02A80LayoutView*>(this)->FUN_00e02a70());
+        b = m_cache->Resolve(reinterpret_cast<void*>(aiValue), reinterpret_cast<E02A80LayoutView*>(this)->FUN_00e02a70());
         e = apArg;
-        a.Seek(e->unk20(), 0);
+        a.Seek(e->tell(), 0);
         E02A80Box box;
         box.unk08 = (int)0x80000000;
         box.unk14 = (int)0x80000000;
@@ -730,7 +583,7 @@ int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelp
         box.unk24 = 0;
         box.unk28 = 0;
         box.unk30 = 0;
-        unk08->unk0C(b, apHelper, apArg, pResolvedHelper, &box);
+        m_copier->copyObject(b, apHelper, apArg, pResolvedHelper, &box);
         e = reinterpret_cast<E02A80Arg*>(&a);
         box.Finish();
     }
@@ -738,7 +591,6 @@ int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelp
     {
         e = apArg;
     }
-    unk08->unk0C(reinterpret_cast<void*>(aiValue), apHelper, e, pResolvedHelper, reinterpret_cast<void*>(arg4));
-    char* p = e->unk0C(&apHelper);
-    return *p == 0;
+    m_copier->copyObject(reinterpret_cast<void*>(aiValue), apHelper, e, pResolvedHelper, reinterpret_cast<void*>(arg4));
+    return e->isOk().m_bool == 0;
 }

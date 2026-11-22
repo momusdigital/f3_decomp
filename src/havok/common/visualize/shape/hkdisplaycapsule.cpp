@@ -2,28 +2,6 @@
 // src/havok/common/visualize/shape/hkdisplaycapsule.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycapsule.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct StaticHelper
-{
-    static void HandleObjectEvent(void* a, void* b, float c, void* d, void* e, void* f, void* g);
-};
-
-struct hkDisplayCapsule
-{
-    void FUN_00d22d70();
-};
-
-// @fnv 0x00d22d70
-void hkDisplayCapsule::FUN_00d22d70()
-{
-    StaticHelper::HandleObjectEvent(this + 0x60, this + 0x70, *(float*)((char*)this + 0x80),
-                                    *(void**)((char*)this + 0x88), *(void**)((char*)this + 0x84), this + 0x10,
-                                    this + 0x8);
-}
-
-// @fnv 0x00d22db0
-void __stdcall FUN_00d22db0(int, int)
-{}
-
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -40,7 +18,6 @@ extern "C"
     __m128 _mm_load_ss(const float*);
     void _mm_store_ss(float*, __m128);
     double sqrt(double);
-    void _ReadWriteBarrier();
 }
 extern float DAT_0104da4c;
 extern double DAT_01016978;
@@ -188,10 +165,6 @@ Limit* volatile inputLimit;
 const Vector* volatile inputPoint;
 Vector* volatile outputPoint;
 Other* volatile inputOther;
-void invokeProjection()
-{
-    FUN_00d234e0(inputLimit, inputPoint, outputPoint, inputOther);
-}
 
 extern "C"
 {
@@ -355,17 +328,6 @@ fallback:
         FUN_00d234e0(a, src, dst, &ca.p->base);
         FUN_00d234e0(b, dst, dst, &ca.p->base);
     }
-}
-
-extern Context* volatile testContext;
-extern Record* volatile testLeft;
-extern Record* volatile testRight;
-extern Vector* volatile testPoint;
-extern Vector* volatile testOut;
-void invokeGeometry()
-{
-    VecArg p(testPoint);
-    FUN_00d23850(testContext, testLeft, testRight, p, testOut);
 }
 
 struct V
@@ -642,16 +604,6 @@ static __declspec(noinline) void FUN_00d23850(IntersectionContext* ctx, PairPlan
     }
 }
 
-struct Wrap_b
-{
-    PlaneRecord* p;
-};
-
-struct Wrap_c
-{
-    PlaneRecord* p;
-};
-
 struct Wrap_reorder
 {
     int p;
@@ -737,35 +689,6 @@ sequential:
         PairWrite pr = {result.p};
         FUN_00d23850(ctx, pb, pc, pf, pr);
     }
-}
-
-extern PlaneRecord* volatile feed_a;
-
-extern IntersectionContext* volatile feed_ctx;
-
-extern PlaneRecord* volatile feed_b;
-
-extern PlaneRecord* volatile feed_c;
-
-extern int volatile feed_reorder;
-
-extern const __m128* volatile feed_fallback;
-
-extern __m128* volatile feed_result;
-
-void emit_intersection()
-{
-    Wrap_b w_b = {feed_b};
-
-    Wrap_c w_c = {feed_c};
-
-    Wrap_reorder w_reorder = {feed_reorder};
-
-    Wrap_fallback w_fallback = {feed_fallback};
-
-    Wrap_result w_result = {feed_result};
-
-    FUN_00d23ca0(feed_ctx, feed_a, w_b.p, w_c.p, w_reorder, w_fallback, w_result);
 }
 
 extern float runtimeFloatSettingDefault166;
@@ -1640,6 +1563,7 @@ hkSimplexSolverSolve3dSolveSequentually:
 	velocityOut = pointVel;
 }
 }
+// pdb: hkSimplexSolverExamineActivePlanes | hkpSimplexSolver.obj | tesv_win, call_seq, medium
 static inline void FUN_00d23f50( SimplexInfo& simplexInfo )
 {
 	using namespace hk_009a5680;

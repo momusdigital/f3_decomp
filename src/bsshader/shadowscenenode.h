@@ -4,6 +4,8 @@
 #include "shadowscenenode_fog_decls.h"
 
 // @fnv 0x00b54110
+// pdb: ShadowSceneNode::SetFogProperty | BSShaderManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFog
 void ShadowSceneNode::SetFogPropertyForIndex(BSFogProperty* property)
 {
     if (!property)

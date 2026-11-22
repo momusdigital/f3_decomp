@@ -42,7 +42,7 @@ public:
     int unk1c;
     __m128 m_20;
 
-    void SetValueIfExpected(float expected, float value, int unused);
+    void hkpGskBaseAgent_warpTime(float expected, float value, int unused);
 };
 extern unsigned int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
@@ -89,7 +89,7 @@ struct hkpCdPointCollector {
     virtual void vfunc00();
     virtual void AddCdPoint(const ContactPointPair& point);
 };
-int FUN_00dabca0(const GskInput* input, void* status, __m128* out1, __m128* out2);
+int hkpGsk_getClosestPoint(const GskInput* input, void* status, __m128* out1, __m128* out2);
 class FUN_00dac9e0_cls {
 public:
     int unk00;
@@ -97,7 +97,7 @@ public:
     int unk08;
     int unk0c;
 
-    void ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const GskAgentInput* input, hkpCdPointCollector* collector);
+    void hkpGskBaseAgent_getClosestPoints(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const GskAgentInput* input, hkpCdPointCollector* collector);
 };
 struct StringCursor {
     void* m_kRayStart;
@@ -105,7 +105,7 @@ struct StringCursor {
     void* m_auiShapeKeys;
     char* m_kRayEnd;
 };
-void __stdcall FUN_00dabe80(int, int, int, int);
+void __stdcall hkpGskBaseAgent_processCollision(int, int, int, int);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
@@ -393,7 +393,7 @@ struct S_00dac2b0_Collector {
     virtual void v0();
     virtual void AddCdBodyPair(const S_00dac2b0_Body& a, const S_00dac2b0_Body& b);
 };
-void __cdecl TestGsk(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB, const void* input, S_00dac2b0_Collector& collector);
+void __cdecl hkpGskBaseAgent_staticGetPenetrations(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB, const void* input, S_00dac2b0_Collector& collector);
 union EarlyScratch { volatile unsigned int ticks; int result; float distance; };
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
@@ -539,7 +539,7 @@ struct S_00dac0b0_Agent : hkpGskBaseAgent {
     int unk18;
     int unk1C;
     S_00dac0b0_Vertex m_sepNormal;
-    void FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB, const void* input, S_00dac0b0_Pad<S_00dac0b0_Out> pOut);
+    void hkpGskBaseAgent_getPenetrations(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB, const void* input, S_00dac0b0_Pad<S_00dac0b0_Out> pOut);
 };
 
 typedef float hkReal;
@@ -1303,10 +1303,12 @@ reinterpret_cast<const ScalarShapeCalls*>(b)->GetVerticesFromIds(cache.m_kVertic
 }
 };
 struct ScalarSolverCalls {
- hkpGskStatus FUN_00a32da0(const hkpConvexShape*,const hkpConvexShape*,const hkTransform_S&,hkVector4&);
- void FUN_00a30be0(const hkVector4&,ShapePairDistanceData&);
+ hkpGskStatus hkpGsk_getClosestFeature(const hkpConvexShape*,const hkpConvexShape*,const hkTransform_S&,hkVector4&);
+ void hkpGsk_convertFeatureToClosestDistance(const hkVector4&,ShapePairDistanceData&);
 };
-struct ScalarRotateCall { void FUN_008d2a00(const hkRotation&,const hkVector4&); };
+struct ScalarRotateCall { void hkVector4_setRotatedDir(const hkRotation&,const hkVector4&); };
+// pdb: hkpGskBaseAgent::staticGetClosestPoints | hkpGskBaseAgent.obj | fnv360_0822_retail, objrun, low
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl hkpGskBaseAgent_S::FUN_00dac450(const hkpCdBody_S&bodyA,const hkpCdBody_S&bodyB,const hkpCollisionInput_S&input,class hkpCdPointCollector_S&collector)
 {
 {hkMonitorStream_S&mStream=*static_cast<hkMonitorStream_S*>(DAT_00d9b080(DAT_0116913c));if(mStream.memoryAvailable()){hkMonitorStream_S::CommandTimingEntry*h=reinterpret_cast<hkMonitorStream_S::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=DAT_00e7f394;h->setTime();mStream.setEnd((char*)(h+1));}};
@@ -1332,9 +1334,9 @@ const hkpConvexShape* __restrict shapeB=static_cast<const hkpConvexShape*>(bodyB
 hkVector4 separatingNormal;
 ScalarSolverData gsk;
 gsk.init(shapeA,shapeB,cache);
-if(reinterpret_cast<ScalarSolverCalls*>(&gsk)->FUN_00a32da0(shapeA,shapeB,aTb,separatingNormal)==HK_GSK_OK) {
-reinterpret_cast<ScalarSolverCalls*>(&gsk)->FUN_00a30be0(separatingNormal,output);
-reinterpret_cast<ScalarRotateCall*>(&output.m_kSecondVector)->FUN_008d2a00(bodyA.getTransform().getRotation(),output.m_vPointOnShapeA);
+if(reinterpret_cast<ScalarSolverCalls*>(&gsk)->hkpGsk_getClosestFeature(shapeA,shapeB,aTb,separatingNormal)==HK_GSK_OK) {
+reinterpret_cast<ScalarSolverCalls*>(&gsk)->hkpGsk_convertFeatureToClosestDistance(separatingNormal,output);
+reinterpret_cast<ScalarRotateCall*>(&output.m_kSecondVector)->hkVector4_setRotatedDir(bodyA.getTransform().getRotation(),output.m_vPointOnShapeA);
 const float dist=output.m_fClosestPointDistanceSquared-shapeA->getRadius()-shapeB->getRadius();
 output.m_fClosestPointDistanceSquared=dist;
 if(dist < reinterpret_cast<const CollisionInputLayout&>(input).tolerance) {

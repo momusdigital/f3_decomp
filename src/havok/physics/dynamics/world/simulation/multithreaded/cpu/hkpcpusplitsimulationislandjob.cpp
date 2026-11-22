@@ -29,13 +29,14 @@ struct D942F0Island
     void markDirty();
 };
 
-void __cdecl FUN_00cb6060(D942F0Island* island, void* world, void* context, D942F0Array* out);
+void __cdecl hkpWorldOperationUtil_splitSimulationIsland(D942F0Island* island, void* world, void* context, D942F0Array* out);
 
 // @fnv 0x00d942f0
+// pdb: hkCpuSplitSimulationIslandJobImpl | hkpCpuSplitSimulationIslandJob.obj | tesv_win, hash, low
 void __cdecl ClearFlagsAndMarkDirty(D942F0Island* island, void* context)
 {
     island->m_flags &= ~3;
     D942F0Array entities;
     island->markDirty();
-    FUN_00cb6060(island, island->m_pOwningWorld, context, &entities);
+    hkpWorldOperationUtil_splitSimulationIsland(island, island->m_pOwningWorld, context, &entities);
 }

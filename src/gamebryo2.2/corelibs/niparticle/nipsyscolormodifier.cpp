@@ -1,17 +1,11 @@
-// gamebryo2.2/corelibs/niparticle/nipsyscolormodifier.cpp: NiPSysColorModifier, Host, NiPSysColorModifierLocal (9 functions)
+// gamebryo2.2/corelibs/niparticle/nipsyscolormodifier.cpp: NiPSysColorModifier, Host, NiPSysColorModifierLocal (7 functions)
 #include "f3_common.h"
 #include "NiPSysColorModifier.h"
-
-// @fnv 0x00C2CF90
-void NiPSysColorModifier::LoadBinary(NiStream& kStream)
-{
-    NiPSysModifier::LoadBinary(kStream);
-    kStream.ResetStreamState();
-}
 
 extern "C" void* g_01202778;
 
 // @fnv 0x00c2d170
+// pdb: NiPSysColorModifier::GetRTTI | NiPSysColorModifier.obj | fnv360_0822_retail, objopen_prop, low
 void* __cdecl FUN_00c2d170()
 {
     return &g_01202778;
@@ -49,6 +43,7 @@ struct FUN_00c2d0d0_Class : NiPSysColorModifier
     bool FUN_00c2d0d0(NiObject* pkObject);
 };
 // @fnv 0x00c2d0d0
+// pdb: NiPSysColorModifier::IsEqual | NiPSysColorModifier.obj | tesv_win, caller_sim, low
 bool FUN_00c2d0d0_Class::FUN_00c2d0d0(NiObject* pkObject)
 {
     NiPSysColorModifier* pkDest;
@@ -75,6 +70,7 @@ struct Host
 };
 // Releases m_at18, calls FUN_00c31750, and deletes this with size 0x24 when f has bit 0 set; returns this.
 // @fnv 0x00c2d1f0
+// pdb: NiPSysColorModifier::`scalar deleting destructor' | NiPSysColorModifier.obj | fnv360_0822_retail, objopen_prop, low
 void* __thiscall Host::Destroy(unsigned int auiFlags)
 {
     if (m_at18)
@@ -101,6 +97,8 @@ struct FUN_00c2d1c0_Class : NiPSysColorModifier
 };
 
 // @fnv 0x00c2d1c0
+// pdb: NiPSysColorModifier::LinkObject | NiPSysColorModifier.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kStream
 void FUN_00c2d1c0_Class::FUN_00c2d1c0(NiStream& kStream)
 {
     NiPSysModifier::LinkObject(kStream);
@@ -128,6 +126,8 @@ struct FUN_00c2d2a0_Class : NiPSysColorModifier
 };
 
 // @fnv 0x00c2d2a0
+// pdb: NiPSysColorModifier::GetViewerStrings | NiPSysColorModifier.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkStrings
 void FUN_00c2d2a0_Class::FUN_00c2d2a0(StrArr* pkStrings)
 {
     ((Base00c319e0*)this)->FUN_00c319e0(pkStrings);
@@ -167,6 +167,8 @@ class NiPSysColorModifierLocal : public NiPSysColorModifier
 
 // Replaces the stored color data with pkColorData, updating reference counts and recomputing the low and high key times from its key times.
 // @fnv 0x00c2d100
+// pdb: NiPSysColorModifier::SetColorData | NiPSysColorModifier.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkColorData
 void NiPSysColorModifierLocal::SetColorData(NiColorData* pkColorData)
 {
     if (m_spColorData.m_pObject != pkColorData)
@@ -200,45 +202,6 @@ void NiPSysColorModifierLocal::SetColorData(NiColorData* pkColorData)
             m_fHiKeyTime = *(float*)(pKeyTimeArray + uiLastKeyOffset);
         }
     }
-}
-
-struct Ctor00c2d240
-{
-    void Ctor();
-};
-struct HostLike
-{
-    void SetColorData(void*);
-};
-
-struct S00c2d240
-{
-    void FUN_00c31780(void*, int);
-    void* CreateAndInit(int arg);
-};
-
-extern "C" void* __cdecl Alloc00c2d240(unsigned int);
-
-// @fnv 0x00c2d240
-void* S00c2d240::CreateAndInit(int arg)
-{
-    void* pObject = Alloc00c2d240(0x24);
-    if (pObject)
-    {
-        ((Ctor00c2d240*)pObject)->Ctor();
-        *(void**)pObject = (void*)0x010bffe4;
-        *(volatile int*)((char*)pObject + 0x18) = 0;
-        *(volatile float*)((char*)pObject + 0x1c) = 0.0f;
-        *(volatile float*)((char*)pObject + 0x20) = 0.0f;
-    }
-    else
-    {
-        pObject = 0;
-    }
-    this->FUN_00c31780(pObject, arg);
-    void* tmp = *(void**)((char*)this + 0x18);
-    ((HostLike*)pObject)->SetColorData(tmp);
-    return pObject;
 }
 
 struct ColorDataStandIn
@@ -298,6 +261,7 @@ struct PSysColorModifierStandIn : PSysModifierBase
 
 // Allocates and returns a new PSysColorModifierStandIn instance.
 // @fnv 0x00c2d180
+// pdb: NiPSysColorModifier::CreateObject | NiPSysColorModifier.obj | fnv360_0822_retail, objopen_prop, low
 void* __cdecl CreateColorModifier()
 {
     return new PSysColorModifierStandIn;
@@ -392,6 +356,7 @@ struct FUN_00c2cfb0_Class : NiPSysColorModifier
 
 // For each active particle, computes a clamped time from PInfo values and samples the color key data to update the particle color array.
 // @fnv 0x00c2cfb0
+// pdb: NiPSysColorModifier::Update | NiPSysColorModifier.obj | tesv_win, caller_sim, low
 void FUN_00c2cfb0_Class::UpdateColor(float fTime, NiPSysData* pkData)
 {
     PData* d = (PData*)pkData;

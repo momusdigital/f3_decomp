@@ -11,15 +11,18 @@ struct ThresholdHolder
 {
     unsigned int unk00;
     unsigned int unk04;
-    unsigned int unk08;
+        unsigned int unk08;
     ThresholdRecord* record;
+    float unk10;
     unsigned char* WriteThresholdFlag(unsigned char* output);
 };
 // Writes 1 to output when record->value is below 1.0f, otherwise 0, and returns output.
 // @f3 0x005740c0 (community match, verified in this file)
+// pdb: hkContactPoint::operator= | CameraCaster.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __that
 unsigned char* ThresholdHolder::WriteThresholdFlag(unsigned char* output) {
     unsigned char result;
-    if (*(float*)((char*)this + 16) < 1.0f)
+    if (unk10 < 1.0f)
         result = 1;
     else
         result = 0;
@@ -27,25 +30,6 @@ unsigned char* ThresholdHolder::WriteThresholdFlag(unsigned char* output) {
     return output;
 }
 
-
-struct CpuScalar
-{
-    unsigned int unk00;
-    float value;
-};
-struct CpuObject
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    CpuScalar* value;
-    float FUN_00d98420();
-};
-// @fnv 0x00d98420
-float CpuObject::FUN_00d98420()
-{
-    return value->value;
-}
 
 struct hkBoolD984
 {
@@ -129,40 +113,3 @@ struct hkpCollisionInputD984
 {
     hkpCollisionDispatcherD984* m_pCollisionDispatcher;
 };
-
-class hkpCollisionFilterD984
-{
-  public:
-    virtual void V0();
-    virtual hkBoolD984 IsCollisionEnabled(const hkCdBodyD984& a, const hkCdBodyD984& b) const;
-};
-
-class FUN_00d98430_cls
-{
-  public:
-    int unk00, unk04;
-    hkpCollisionFilterD984* m_iFilter;
-    void* m_kCollector;
-    void* m_startCollector;
-    const hkCdBodyD984* m_pBodyA;
-    int m_iAgentTypeA;
-    int unk1C;
-    hkpCollisionInputD984 m_pRayCastInput;
-
-    hkBoolD984 QueryPenetrations(const hkCdBodyD984& bodyB);
-};
-
-// Checks if collision is enabled between m_pBodyA and bodyB, then dispatches the penetration query via the agent function table.
-// @fnv 0x00d98430
-hkBoolD984 FUN_00d98430_cls::QueryPenetrations(const hkCdBodyD984& bodyB)
-{
-    const hkpShapeD984* shapeB = bodyB.m_pCollisionShape;
-    if (shapeB && m_pBodyA != &bodyB && m_iFilter->IsCollisionEnabled(*m_pBodyA, bodyB))
-    {
-        hkpCollisionDispatcherD984* pDispatcher = m_pRayCastInput.m_pCollisionDispatcher;
-        pDispatcher->m_agent2Funcs[pDispatcher->m_agent2TypeMap[m_iAgentTypeA][shapeB->m_type]]
-            .m_pQueryPenetrationsFunc(*m_pBodyA, bodyB, m_pRayCastInput, m_kCollector, m_startCollector);
-        return true;
-    }
-    return false;
-}

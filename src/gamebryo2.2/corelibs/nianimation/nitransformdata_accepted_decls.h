@@ -54,9 +54,9 @@ class NiTransformData : public NiObject
     PositionKeyInterpolator* m_pkPositionKeys;
     TimedAnimationKey* m_pkScaleKeyArray;
 
-    void SetRotationKeys(TimedRotationKey*, unsigned int, AnimationKey::KeyType);
-    void SetPositionKeys(PositionKeyInterpolator*, unsigned int, AnimationKey::KeyType);
-    void SetScaleKeys(TimedAnimationKey*, unsigned int, AnimationKey::KeyType);
+    void ReplaceRotAnim(TimedRotationKey*, unsigned int, AnimationKey::KeyType);
+    void ReplacePosAnim(PositionKeyInterpolator*, unsigned int, AnimationKey::KeyType);
+    void ReplaceScaleAnim(TimedAnimationKey*, unsigned int, AnimationKey::KeyType);
 };
 
 FNV_STATIC_ASSERT(sizeof(NiTransformData) == 0x2c);

@@ -6,36 +6,42 @@
 
 extern "C" void __cdecl FUN_00d21a60(void* p, unsigned int x, unsigned int y);
 
-struct FUN_00d4f130_StandIn
+struct FUN_00d4f130_StandIn : public hkpRagdollLimitsData
 {
     void FUN_00d4f130(unsigned int a);
 };
 
 // @fnv 0x00d4f130
+// pdb: hkpRagdollLimitsData::getConstraintInfo | hkpRagdollLimitsData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: infoOut
 void FUN_00d4f130_StandIn::FUN_00d4f130(unsigned int auiValue)
 {
-    FUN_00d21a60((char*)this + 0x10, 0xac, auiValue);
+    FUN_00d21a60(&m_kBridgeAtoms, m_kBridgeAtoms.getSizeOfAllAtoms(), auiValue);
 }
 
 // @fnv 0x00d4f150
+// pdb: hkpRagdollLimitsData::getRuntimeInfo | hkpRagdollLimitsData.obj | tesv_win, objrun_open, low
 void __stdcall FUN_00d4f150(int aiUnused, int* b)
 {
     b[1] = 3;
     b[0] = 0x1c;
 }
 
-struct hkPragdollLimitsData
+struct hkPragdollLimitsData : public hkpRagdollLimitsData
 {
     void __thiscall FUN_00d4f270(bool value);
 };
 
 // @fnv 0x00d4f270
+// pdb: hkpRagdollLimitsData::setConeLimitStabilization | hkpRagdollLimitsData.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: enable
 void __thiscall hkPragdollLimitsData::FUN_00d4f270(bool value)
 {
-    ((char*)this)[0x9a] = (unsigned char)((value ? 1 : 0) << 4);
+    m_kBridgeAtoms.m_kConeLimit.m_memOffsetToAngleOffset = (unsigned char)((value ? 1 : 0) << 4);
 }
 
 // @fnv 0x00d4f290
+// pdb: hkpRagdollLimitsData::getType | hkpRagdollLimitsData.obj | fnv360_0822_retail, objrun_open, low
 int FUN_00d4f290()
 {
     return 0x13;
@@ -77,6 +83,7 @@ struct S00d4f170_StandIn : public hkpConstraintData
 };
 // Sets *result to whether both rotations pass IsOrthonormal and the cone, plane and twist limit angles satisfy the checked comparisons; returns result.
 // @fnv 0x00d4f170
+// pdb: hkpRagdollLimitsData::isValid | hkpRagdollLimitsData.obj | tesv_win, objrun_open, low
 char* __thiscall S00d4f170_StandIn::FUN_00d4f170(char* result)
 {
     char* __restrict out = result;

@@ -34,6 +34,8 @@ public:
     RefHolderV(RefCountedV* object, int value8, int value0);
 };
 
+// pdb: BGSDecalEmitter::BGSDecalEmitter | BGSDecalManager.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apParticleData, apImpactData, aiNumDecals
 RefHolderV::RefHolderV(RefCountedV* object, int value8, int value0)
 {
     spObject = object;
@@ -81,6 +83,7 @@ public:
     NiPointer<NiRefObject> spObject2C;
 };
 
+// pdb: BGSPrimitive::~BGSPrimitive | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
 BGSPrimitive::~BGSPrimitive()
 {
     DetachGeometryV();
@@ -133,6 +136,7 @@ class BGSPrimitiveBox : public BGSPrimitive
     virtual ~BGSPrimitiveBox();
 };
 
+// pdb: BGSPrimitiveBox::BGSPrimitiveBox | BGSPrimitive.obj | fnv360_0822_retail, uvref, medium
 BGSPrimitiveBox::BGSPrimitiveBox()
 {
     unk24 = 0;
@@ -251,6 +255,7 @@ public:
     void FUN_0046c8c0();
 };
 
+// pdb: BGSPrimitivePlane::Build | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 void PlaneOwnerAL46::FUN_0046c8c0()
 {
     m_plane = new PlaneObjAL46;
@@ -331,6 +336,7 @@ public:
     ~BSCullingProcess();
 };
 
+// pdb: BSCullingProcess::~BSCullingProcess | BGSDecalManager.obj | fnv360_0822_retail, call_seq, medium
 BSCullingProcess::~BSCullingProcess()
 {
     Culler_469140* culler = unkC4;
@@ -386,6 +392,7 @@ struct Obj46c770
 };
 }
 using namespace f3m_0046c770;
+// pdb: BGSPrimitive::BGSPrimitive | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
 Obj46c770::Obj46c770() : unk14(0.0f)
 {
     unk24 = 0;
@@ -429,15 +436,17 @@ struct Rec470960 {
     unsigned int unk20;
 };
 
-void* FUN_00470900(Obj470960* p);
+void* BipedAnim_GetLightingProperty(Obj470960* p);
 int FUN_00c020cb(void* a, const char* s, int len);
 int FUN_00887da0(const char* fmt, void* a, void* b);
 
+// pdb: BipedAnim::GetSkinBipedObject | BipedAnim.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSDismemberSkinInstance::EnableAllParts)
+// pdb params: apObj, apLightingProperty
 int FUN_00470960(Obj470960* p1, Rec470960* p2)
 {
     Rec470960* r = p2;
     if (r == 0) {
-        r = (Rec470960*)FUN_00470900(p1);
+        r = (Rec470960*)BipedAnim_GetLightingProperty(p1);
     }
     if (r == 0 || (r->unk20 & 0x400) <= 0) {
         return -1;
@@ -497,6 +506,7 @@ public:
     void FUN_00475020();
 };
 
+// pdb: BSCloneReserver::DecRefCount | BSClonePool.obj | fnv360_0822_retail, call_seq, medium
 void Ref47::FUN_00475020() {
     if (InterlockedDecrement(&m_08) != 0)
         return;
@@ -513,7 +523,7 @@ void Ref47::FUN_00475020() {
 extern int DAT_00f5aca8[];
 extern int DAT_00f5acac[];
 namespace f3m_00461690 {
-int FUN_0054b780(int key);
+int TESAnimGroup_GetType(int key);
 
 class Owner_00461690 {
 public:
@@ -576,13 +586,14 @@ public:
     float unkD0;
     int FUN_00460af0(int a, int b);
     void FUN_0045f220(float f, int a, int b);
-    int FUN_00461690(int p1, int p2, int p3, int p4);
+    int Animation_PlayGroup(int p1, int p2, int p3, int p4);
 };
 
-int Owner_00461690::FUN_00461690(int p1, int p2, int p3, int p4)
+// pdb: Animation::PlayGroup | Animation.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+int Owner_00461690::Animation_PlayGroup(int p1, int p2, int p3, int p4)
 {
     int key = p1;
-    int idx = FUN_0054b780(key);
+    int idx = TESAnimGroup_GetType(key);
     int slot = p4;
     if (p4 == -1) {
         slot = DAT_00f5aca8[idx * 9];
@@ -698,7 +709,8 @@ extern Atom4792* DAT_0106e88c;
 extern Atom4792* DAT_0106e890;
 extern Atom4792* DAT_0106e894;
 extern Atom4792* DAT_0106e898;
-void FUN_004792a0() {
+// pdb: FixedStrings::KillSDM | GlobalFunc.obj | fnv360_0822_retail, udata + bridge(call_gap_sim|udata), high
+void FixedStrings_KillSDM() {
  delete DAT_0106e7c4;
  delete DAT_0106e7c8;
  delete DAT_0106e7cc;
@@ -772,6 +784,8 @@ struct FUN_00469a50 {
     NiPointer<F3RefCounted> m_pReferencedObject;
     ~FUN_00469a50();
 };
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,BGSDecalEmitter *>::RemovePos | BGSDecalManager.obj | fnv360_1110_debug, call_seq, low
+// pdb params: kPos
 FUN_00469a50::~FUN_00469a50() {
     m_pReferencedObject = (F3RefCounted*)0;
 }
@@ -820,7 +834,7 @@ struct SequenceKind {
 extern SequenceKind DAT_00f5ac8c[];
 extern bool __cdecl FUN_0054b820(unsigned short);
 extern bool __cdecl FUN_0054bf00(unsigned short);
-extern int __cdecl FUN_0054b780(unsigned short);
+extern int __cdecl TESAnimGroup_GetType(unsigned short);
 extern void __cdecl FUN_00887da0(const char*, ...);
 extern bool __cdecl FUN_0061ab20();
 
@@ -1590,9 +1604,9 @@ struct Reference {
     bool FUN_006f6c70();
     void FUN_006ff040(int, Sequence*);
     int FUN_006f7370();
-    void FUN_007092c0();
+    void Actor_SetHavokWeapon();
     unsigned int FUN_006f58b0();
-    unsigned short FUN_006fcb20(int,int,int,int);
+    unsigned short Actor_GetAnimGroup(int,int,int,int);
     float FUN_004e6d80();
     AnimData* FUN_0076cce0(bool);
 };
@@ -1887,7 +1901,7 @@ struct AnimData {
     List<TimedEntry*> timers;
     void FUN_00461a70(Sequence*,bool);
     bool FUN_0045c980();
-    void FUN_00461690(unsigned short,int,int,int);
+    void Animation_PlayGroup(unsigned short,int,int,int);
     void FUN_0045feb0(Ptr<Idle>&);
     void FUN_00460af0(unsigned short,int);
     void FUN_0045e4c0(int,bool);
@@ -1927,6 +1941,8 @@ bool AnimData::FUN_0045c980()
     return !queue.IsEmpty();
 }
 
+// pdb: Animation::Update | Animation.obj | fnv360_0822_retail, ustr, medium
+// pdb params: ownerObject, fSecondsPassed, forceTime
 void AnimData::FUN_00462020(Reference* ref, float delta, float requestedTime)
 {
     if (FUN_0045c980()) {
@@ -1954,7 +1970,7 @@ void AnimData::FUN_00462020(Reference* ref, float delta, float requestedTime)
                 break;
         case 3:
             if (attached->FUN_006f6c70()) {
-                FUN_00461690(queuedGroup, 1, -1, -1);
+                Animation_PlayGroup(queuedGroup, 1, -1, -1);
                 if (ref == DAT_0107a104)
                     DAT_0107a104->NotifyPendingGroup(queuedGroup, 1);
                 ref->FUN_006ff040(9, sections[4]);
@@ -2025,13 +2041,13 @@ void AnimData::FUN_00462020(Reference* ref, float delta, float requestedTime)
     float previousTimes[8];
     int i;
     for (i = 0; i < 8; i++) {
-        groupType = FUN_0054b780(currentGroup[i]);
-        nextType = FUN_0054b780(pendingGroup[i]);
+        groupType = TESAnimGroup_GetType(currentGroup[i]);
+        nextType = TESAnimGroup_GetType(pendingGroup[i]);
         if (groupType == 0xff && nextType != 0xff) {
             targetLoops[i] = nextLoops[i];
             FUN_00460af0(pendingGroup[i], -1);
             pendingGroup[i] = nextType = 0xff;
-            groupType = FUN_0054b780(currentGroup[i]);
+            groupType = TESAnimGroup_GetType(currentGroup[i]);
         }
         Sequence* forward = GetSectionSequence(i);
         previousSections[i] = forward;
@@ -2053,8 +2069,8 @@ void AnimData::FUN_00462020(Reference* ref, float delta, float requestedTime)
     for (i = 0; i < 8; i++) {
         Sequence* seq = GetSectionSequence(i);
         bool update = true;
-        groupType = FUN_0054b780(currentGroup[i]);
-        nextType = FUN_0054b780(pendingGroup[i]);
+        groupType = TESAnimGroup_GetType(currentGroup[i]);
+        nextType = TESAnimGroup_GetType(pendingGroup[i]);
         if (groupType == 0xff || !seq)
             continue;
         if (i == 3)
@@ -2132,7 +2148,7 @@ void AnimData::FUN_00462020(Reference* ref, float delta, float requestedTime)
                                 if (actor != DAT_0107a104)
                                     process->QueueAction(0x4000);
                                 else
-                                    actor->FUN_007092c0();
+                                    actor->Actor_SetHavokWeapon();
                             }
                         }
                     }
@@ -2337,8 +2353,8 @@ void AnimData::FUN_00462020(Reference* ref, float delta, float requestedTime)
                         float timeMult = GetTimeMult();
                         move = sections[1]->GetAnimGroup()->FUN_0054bd40() * timeMult * DAT_0106de64 * movementRate;
                     } else {
-                        unsigned short moveGroup = actor->FUN_006fcb20(moveType, 0, 0, 0);
-                        moveType = FUN_0054b780(moveGroup);
+                        unsigned short moveGroup = actor->Actor_GetAnimGroup(moveType, 0, 0, 0);
+                        moveType = TESAnimGroup_GetType(moveGroup);
                         if (moveType) {
                             SequenceBase* baseSequence;
                             if (sequenceMap->FUN_0045c6e0(moveGroup, baseSequence)) {
@@ -2855,6 +2871,7 @@ struct MyThis
 };
 
 
+// pdb: BGSPrimitiveSphere::Build | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 void MyThis::FUN_0046df60()
 {
     if (!m_pkNodeA)
@@ -3210,7 +3227,8 @@ inline bool S472750_IsKindOf(const S472750_RTTI* target, S472750_AVObject* objec
 }
 
 
-void __cdecl FUN_00472750(S472750_Node* apSkeleton, S472750_AVObject* apSkin, S472750_Node* apParentNode, bool abShowWarnings)
+// pdb: BipedAnim::AttachToSkeleton | BipedAnim.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl BipedAnim_AttachToSkeleton(S472750_Node* apSkeleton, S472750_AVObject* apSkin, S472750_Node* apParentNode, bool abShowWarnings)
 {
     if (!apSkin)
         return;
@@ -3269,7 +3287,7 @@ void __cdecl FUN_00472750(S472750_Node* apSkeleton, S472750_AVObject* apSkin, S4
             {
                 S472750_Node* ptemp = pobj->IsNode();
                 if (S472750_IsKindOf(&DAT_0116eeec, pnode) && ptemp)
-                    FUN_00472750(apSkeleton, pobj, apParentNode, true);
+                    BipedAnim_AttachToSkeleton(apSkeleton, pobj, apParentNode, true);
                 else if (!pobj->IsGeometry())
                 {
                     if (!warned && ptemp && static_cast<S472750_Node*>(pobj)->children9C.m_usESize)
@@ -3281,7 +3299,7 @@ void __cdecl FUN_00472750(S472750_Node* apSkeleton, S472750_AVObject* apSkin, S4
                     pnode->DetachChild(pobj);
                 }
                 else
-                    FUN_00472750(apSkeleton, pobj, apParentNode, abShowWarnings);
+                    BipedAnim_AttachToSkeleton(apSkeleton, pobj, apParentNode, abShowWarnings);
             }
         }
         pnode->children9C.FUN_004712a0();

@@ -1,38 +1,32 @@
-// gamebryo2.2/corelibs/nianimation/nisingleinterpcontroller.cpp: NiSingleInterpController, BSMultiTargetTreadTransfControllerStandIn (20 functions)
+// gamebryo2.2/corelibs/nianimation/nisingleinterpcontroller.cpp: NiSingleInterpController, BSMultiTargetTreadTransfControllerStandIn (19 functions)
 #include "f3_common.h"
 #include "nisingleinterpcontroller_decls.h"
-// Calls the base NiTimeController::ProcessClone, then forwards the clone process to the interpolator if one is set.
+#include "NiInterpolator.h"
+#include "NiViewerStrings.h"
 // @fnv 0x00a38f50
-void NiSingleInterpController::ProcessClone(CloningProcess& process)
+// pdb: NiSingleInterpController::ProcessClone | NiSingleInterpController.obj | fnv360_0822_retail, call_dedup, high
+// pdb params: kCloning
+void NiSingleInterpController::ProcessClone(NiCloningProcess& kCloning)
 {
-    NiTimeController::ProcessClone(process);
-    NiInterpolator* pInterpolator = m_spControllerInterpolator;
-    if (pInterpolator)
-        pInterpolator->ProcessClone(process);
+    NiInterpController::ProcessClone(kCloning);
+    if (m_spInterpolator)
+        m_spInterpolator->ProcessClone(kCloning);
 }
 // @fnv 0x00a38f80
-void NiSingleInterpController::LoadBinary(NiStream& stream)
+// pdb: NiSingleInterpController::LoadBinary | NiSingleInterpController.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
+void NiSingleInterpController::LoadBinary(NiStream& kStream)
 {
-    NiInterpController::LoadBinary(stream);
-    if (stream.version >= 0x0a010068)
-    {
-        NiInterpolator* value = (NiInterpolator*)stream.DeserializeObject();
-        NiInterpolator* old = m_spControllerInterpolator;
-        if (old != value)
-        {
-            if (old && InterlockedDecrement(&((NiObject*)old)->refCount) == 0)
-                ((NiObject*)old)->DeleteThis();
-            m_spControllerInterpolator = value;
-            if (value)
-                InterlockedIncrement(&((NiObject*)value)->refCount);
-        }
-    }
+    NiInterpController::LoadBinary(kStream);
+    if (kStream.GetFileVersion() >= NiStream::GetVersion(10, 1, 0, 104))
+        m_spInterpolator = (NiInterpolator*)kStream.ResolveLinkID();
 }
 
 extern int DAT_0109632c;
 void __fastcall FUN_00a6d220(void*);
 
 // @fnv 0x00a2f8c0
+// pdb: NiInterpController::NiInterpController | NiInterpController.obj | tesv_win, uvref, medium
 void* __fastcall FUN_00a2f8c0(void* pThis)
 {
     FUN_00a6d220(pThis);
@@ -41,70 +35,23 @@ void* __fastcall FUN_00a2f8c0(void* pThis)
     return pThis;
 }
 
-struct FUN_00a38e20_shell : public NiSingleInterpController
-{
-    void* FUN_00a38e20();
-};
-
 extern const char* const g_011f36ec_arg1;
-
-// @fnv 0x00a38e20
-void* FUN_00a38e20_shell::FUN_00a38e20()
-{
-    return const_cast<void*>(static_cast<const void*>(&g_011f36ec_arg1));
-}
 
 struct NiBlendInterpolator;
 struct CloningProcess;
 struct NiObjectNET;
 struct NiUpdateData;
-struct NiFloatInterpController : public NiSingleInterpController
-{
-    virtual void __vslot_0();
-    virtual void UpdateFloatValue(float*);
-    virtual void* GetRTTI();
-    void CopyMemberData(NiFloatInterpController*, CloningProcess*);
-    virtual void LoadBinary(NiStream*);
-    virtual void LinkObject(NiStream*);
-    virtual bool RegisterStreamables(NiStream*);
-    virtual void SaveBinary(NiStream*);
-    virtual bool IsEqual(NiObject*);
-    virtual void GetViewerStrings(void*);
-    virtual NiInterpolator* GetInterpolatorAtIndex(unsigned short);
-    virtual void SetInterpolatorForTarget(NiInterpolator*, unsigned short);
-    virtual NiBlendInterpolator* GetBlendInterpolator(unsigned short, bool, bool, float, unsigned char);
-    virtual bool ControlsTransform(NiInterpolator*, unsigned short);
-    void __local_vftable_ctor_closure();
-};
-typedef char _sizecheck_NiFloatInterpController[sizeof(NiFloatInterpController) == 56 ? 1 : -1];
-struct BSFrustumFOVController : public NiFloatInterpController
-{
-    virtual void __vslot_0();
-    virtual void* GetRTTI();
-    virtual NiObject* MakeClone(CloningProcess*);
-    void CopyMemberData(BSFrustumFOVController*, CloningProcess*);
-    virtual void LoadBinary(NiStream*);
-    virtual void LinkObject(NiStream*);
-    virtual bool RegisterStreamables(NiStream*);
-    virtual void SaveBinary(NiStream*);
-    virtual bool IsEqual(NiObject*);
-    static NiObject* CreateObject();
-    virtual void GetViewerStrings(void*);
-    virtual void Update(NiUpdateData*);
-    virtual bool TargetIsRequired(NiObjectNET*);
-    virtual void UpdateFloatValue(float*);
-    void __local_vftable_ctor_closure();
-};
-typedef char _sizecheck_BSFrustumFOVController[sizeof(BSFrustumFOVController) == 56 ? 1 : -1];
 struct FUN_00a38e30_shell : public NiSingleInterpController
 {
     NiInterpolator* FUN_00a38e30(unsigned short);
 };
 
 // @fnv 0x00a38e30
-NiInterpolator* __thiscall FUN_00a38e30_shell::FUN_00a38e30(unsigned short usIndex)
+// pdb: NiSingleInterpController::GetInterpolatorIndex | NiSingleInterpController.obj | fnv360_0822_debug, objrun_open, low
+// F3_EXE: NiSingleInterpController vtable slot 49 (GetInterpolator)
+NiInterpolator* NiSingleInterpController::GetInterpolator(unsigned short usIndex) const
 {
-    return *reinterpret_cast<NiInterpolator**>(reinterpret_cast<unsigned char*>(this) + 0x34);
+    return m_spInterpolator;
 }
 
 struct FUN_00a2f8e0_shell : public NiInterpController
@@ -115,6 +62,7 @@ struct FUN_00a2f8e0_shell : public NiInterpController
 extern const char* const g_011f36bc_arg1;
 
 // @fnv 0x00a2f8e0
+// pdb: BSTempNode::GetRTTI | TES.obj | fnv360_0822_retail, vtable, medium
 void* FUN_00a2f8e0_shell::FUN_00a2f8e0()
 {
     return (void*)&g_011f36bc_arg1;
@@ -182,10 +130,11 @@ struct FUN_00a38df0_shell
     void* m_pe4;
     void* m_pe8;
     void* m_p1e8;
-    void FUN_00a38df0();
+    void NiSingleInterpController_TargetIsRequiredType();
 };
 // @fnv 0x00a38df0
-void FUN_00a38df0_shell::FUN_00a38df0()
+// pdb: NiSingleInterpController::TargetIsRequiredType | NiSingleInterpController.obj | fnv360_0822_retail, call_seq + bridge(vtable|call_seq) + skyrim(call_seq), high
+void FUN_00a38df0_shell::NiSingleInterpController_TargetIsRequiredType()
 {
     ((void(__thiscall*)(void*, void*))(*reinterpret_cast<void***>(this))[0xe8 / 4])(this, m_p2c);
 }
@@ -245,14 +194,14 @@ struct FakeInterpGuarantee
 };
 struct FUN_00a38e90_shell
 {
-    void FUN_00a38e90(float, float);
+    void NiSingleInterpController_GuaranteeTimeRange(float, float);
 };
 // @fnv 0x00a38e90
-void FUN_00a38e90_shell::FUN_00a38e90(float m_fStartTime, float m_fMaximumDistance)
+// pdb: NiSingleInterpController::GuaranteeTimeRange | NiSingleInterpController.obj | fnv360_0822_retail, call_seq + bridge(vtable|call_seq) + skyrim(objrun_open), high
+void NiSingleInterpController::GuaranteeTimeRange(float fStartTime, float fEndTime)
 {
-    NiInterpolator* p = ((NiSingleInterpController*)this)->m_spControllerInterpolator;
-    if (p)
-        ((FakeInterpGuarantee*)p)->SetActiveTimeRange(m_fStartTime, m_fMaximumDistance);
+    if (m_spInterpolator)
+        m_spInterpolator->GuaranteeTimeRange(fStartTime, fEndTime);
 }
 
 struct InterpHelper
@@ -285,15 +234,15 @@ struct FUN_00a38fe0_shell : NiSingleInterpController
     bool FUN_00a2f8b0(NiStream&);
     bool RegisterInterpolatorStreamables(NiStream&);
 };
-// Calls FUN_00a2f8b0, then if the interpolator at offset 0x34 is set, registers its streamables with kStream; returns true unless the first call fails.
 // @fnv 0x00a38fe0
-bool FUN_00a38fe0_shell::RegisterInterpolatorStreamables(NiStream& kStream)
+// pdb: NiSingleInterpController::RegisterStreamables | NiSingleInterpController.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
+bool NiSingleInterpController::RegisterStreamables(NiStream& kStream)
 {
-    if (!FUN_00a2f8b0(kStream))
+    if (!NiInterpController::RegisterStreamables(kStream))
         return false;
-    NiInterpolator* pkInterp = *(NiInterpolator**)((char*)this + 0x34);
-    if (pkInterp)
-        ((InterpHelper*)pkInterp)->RegisterStreamables(kStream);
+    if (m_spInterpolator)
+        m_spInterpolator->RegisterStreamables(kStream);
     return true;
 }
 
@@ -306,15 +255,23 @@ struct FUN_00a39010_shell : NiSingleInterpController
     void FUN_00a39010(NiStream&);
 };
 // @fnv 0x00a39010
-void FUN_00a39010_shell::FUN_00a39010(NiStream& kStream)
+// pdb: NiSingleInterpController::SaveBinary | NiSingleInterpController.obj | fnv360_0822_retail, call_gap, low
+// F3_EXE: NiSingleInterpController vtable slot 22 (SaveBinary)
+// pdb params: kStream
+void NiSingleInterpController::SaveBinary(NiStream& kStream)
 {
-    ((S00c27120*)this)->FUN_00c27120(kStream);
-    ((void(__thiscall*)(NiStream*, NiInterpolator*))(*(void***)&kStream)[12])(&kStream,
-                                                                              *(NiInterpolator**)((char*)this + 0x34));
+    NiInterpController::SaveBinary(kStream);
+    kStream.SaveLinkID(m_spInterpolator);
 }
 
 struct StrArr
 {
+    void* unk00;
+    char** m_pBase;  // src: FNV360_PDB NiTPrimitiveArray +0x4
+    unsigned short m_usMaxSize;  // src: FNV360_PDB +0x8
+    unsigned short m_usSize;  // src: FNV360_PDB +0xA
+    unsigned short m_usESize;  // src: FNV360_PDB +0xC
+    unsigned short m_usGrowBy;  // src: FNV360_PDB +0xE
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
@@ -352,23 +309,19 @@ struct InterpWrap
     virtual void f23();
     virtual void GetViewerStrings(StrArr*);
 };
-struct Holder00a390a0
+struct Holder00a390a0 : NiSingleInterpController
 {
     void FUN_00a390a0(StrArr*);
 };
-// @f3 0x008b2830 (community match, verified in this file)
-extern const char* const DAT_01091f5c;
-void Holder00a390a0::FUN_00a390a0(StrArr* pkStrings)
+// @f3 0x008b2830
+// pdb: NiSingleInterpController::GetViewerStrings | NiSingleInterpController.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkStrings
+void NiSingleInterpController::GetViewerStrings(NiTPrimitiveArray<char*>* pkStrings)
 {
-    ((BaseWrap*)this)->WriteManagerControlledFlag(pkStrings);
-    char* psz = _FUN_00a7d330(DAT_01091f5c);
-    unsigned int uiIdx = *(unsigned short*)((char*)pkStrings + 0xA);
-    if (uiIdx >= *(unsigned short*)((char*)pkStrings + 8))
-        pkStrings->SetSize(uiIdx + *(unsigned short*)((char*)pkStrings + 0xE));
-    pkStrings->SetAt(uiIdx, psz);
-    InterpWrap* pInterp = *(InterpWrap**)((char*)this + 0x34);
-    if (pInterp)
-        pInterp->GetViewerStrings(pkStrings);
+    NiInterpController::GetViewerStrings(pkStrings);
+    pkStrings->Add(NiGetViewerString(ms_RTTI.GetName()));
+    if (m_spInterpolator)
+        m_spInterpolator->GetViewerStrings(pkStrings);
 }
 
 
@@ -377,27 +330,12 @@ struct FUN_00a38e40_cls : public NiSingleInterpController
     void FUN_00a38e40(NiInterpolator* pNew, unsigned int unused);
 };
 
-// Replaces the stored interpolator pointer, releasing the old one and incrementing the new one's reference count.
 // @fnv 0x00a38e40
-void FUN_00a38e40_cls::FUN_00a38e40(NiInterpolator* apNewInterpolator, unsigned int unused)
+// pdb: NiSingleInterpController::SetInterpolator | NiSingleInterpController.obj | tesv_win, objrun_sim, low
+// F3_EXE: NiSingleInterpController vtable slot 50 (SetInterpolator)
+void NiSingleInterpController::SetInterpolator(NiInterpolator* pkInterpolator, unsigned short usIndex)
 {
-    NiInterpolator* pOld = m_spControllerInterpolator;
-    if (pOld == apNewInterpolator)
-    {
-        return;
-    }
-    if (pOld != 0)
-    {
-        if (InterlockedDecrement(&((NiObject*)pOld)->refCount) == 0)
-        {
-            ((NiObject*)pOld)->DeleteThis();
-        }
-    }
-    m_spControllerInterpolator = apNewInterpolator;
-    if (apNewInterpolator != 0)
-    {
-        InterlockedIncrement(&((NiObject*)apNewInterpolator)->refCount);
-    }
+    m_spInterpolator = pkInterpolator;
 }
 
 struct S_00a39030_Interp
@@ -435,20 +373,17 @@ struct FUN_00a39030_cls : public NiSingleInterpController
 };
 
 // @fnv 0x00a39030
-bool FUN_00a39030_cls::IsCompatibleWith(NiSingleInterpController* other)
+// pdb: NiSingleInterpController::IsEqual | NiSingleInterpController.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkObject
+bool NiSingleInterpController::IsEqual(NiObject* pkObject)
 {
-    if (!CheckCompatible(other))
+    if (!NiInterpController::IsEqual(pkObject))
         return false;
-    if ((m_spControllerInterpolator && !other->m_spControllerInterpolator) ||
-        (!m_spControllerInterpolator && other->m_spControllerInterpolator))
+    NiSingleInterpController* pkOther = (NiSingleInterpController*)pkObject;
+    if ((m_spInterpolator && !pkOther->m_spInterpolator) || (!m_spInterpolator && pkOther->m_spInterpolator))
         return false;
-    if (m_spControllerInterpolator)
-    {
-        S_00a39030_Interp* p = (S_00a39030_Interp*)m_spControllerInterpolator;
-        NiInterpolator* o = other->m_spControllerInterpolator;
-        if (!p->v23(o))
-            return false;
-    }
+    if (m_spInterpolator && !m_spInterpolator->IsEqual(pkOther->m_spInterpolator))
+        return false;
     return true;
 }
 
@@ -480,6 +415,8 @@ class FUN_00a39080_cls
 };
 
 // @fnv 0x00a39080
+// pdb: NiSingleInterpController::GetInterpolatorIndexFx | NiSingleInterpController.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arName
 short FUN_00a39080_cls::FUN_00a39080(int* piValue)
 {
     Holder* holder = m_2c;
@@ -577,7 +514,7 @@ class NiTimeControllerA38
         return (bool)(GetField(MANAGERCONTROLLED_MASK, MANAGERCONTROLLED_POS) & 1);
     }
     void AdvanceControllerTime();
-    void UpdateKeyTimes();
+    void NiSingleInterpController_ResetTimeExtrema();
 
     void* m_ppVirtualMethodTable;
     int unk04;
@@ -593,22 +530,26 @@ class NiTimeControllerA38
     int unk28;
     int unk2C;
     int unk30;
-    NiPointerA38<NiTargetA38> m_spControllerInterpolator;
+    NiPointerA38<NiTargetA38> m_spInterpolator;  // src: FNV360_PDB +0x34 (old: m_spControllerInterpolator)
 };
 
 // @fnv 0x00a38ec0
-void NiTimeControllerA38::UpdateKeyTimes()
+// pdb: NiSingleInterpController::ResetTimeExtrema | NiSingleInterpController.obj | fnv360_0822_retail, objrun, high
+// pdb: NiSingleInterpController::ResetTimeExtrema | NiSingleInterpController.obj | fnv360_0822_retail, objrun, high (was: UpdateKeyTimes)
+void NiTimeControllerA38::NiSingleInterpController_ResetTimeExtrema()
 {
     if (GetManagerControlled())
         return;
     AdvanceControllerTime();
-    if (m_spControllerInterpolator)
-        m_spControllerInterpolator->GetBeginEndKeyTimes(&m_fLoKeyTime, &m_fHiKeyTime);
+    if (m_spInterpolator)
+        m_spInterpolator->GetBeginEndKeyTimes(&m_fLoKeyTime, &m_fHiKeyTime);
 }
 
 extern void FUN_00c9a6b0();
 
 // @fnv 0x00a35850
+// pdb: TESChallenge::GetSaveSize | TESChallenge.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void FUN_00a35850()
 {
     FUN_00c9a6b0();
@@ -624,6 +565,8 @@ struct FUN_00a35870 : A30440Controller
     void DoSave(A30440Stream& arStream);
 };
 // @fnv 0x00a35870
+// pdb: TESReputation::LoadGame | TESReputation.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiCurrentFlags
 void FUN_00a35870::DoSave(A30440Stream& arStream)
 {
     SaveBinary(arStream);
@@ -632,6 +575,8 @@ void FUN_00a35870::DoSave(A30440Stream& arStream)
 unsigned short __cdecl FUN_00c283f0(void*, void*);
 
 // @fnv 0x00a35880
+// pdb: TESObjectBOOK::Activate | TESObjectBOOK.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apItemActivated, apActionRef, abIdFlag, apObjectToGet, aiCount
 unsigned short __cdecl FUN_00a35880(void* param1, void* param2)
 {
     return FUN_00c283f0(param1, param2);
@@ -701,17 +646,20 @@ class BSMultiTargetTreadTransfControllerStandIn
     int unk34;
     unsigned short unk38;
 
-    virtual unsigned short FUN_00a35890();
+    virtual unsigned short BSMultiTargetTreadTransfController_GetInterpolatorCount();
 };
 
 // @fnv 0x00a35890
-unsigned short BSMultiTargetTreadTransfControllerStandIn::FUN_00a35890()
+// pdb: BSMultiTargetTreadTransfController::GetInterpolatorCount | BSMultiTargetTreadTransfController.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+unsigned short BSMultiTargetTreadTransfControllerStandIn::BSMultiTargetTreadTransfController_GetInterpolatorCount()
 {
     return unk38;
 }
 
 void __cdecl FUN_00a2f8b0(int arg);
 // @fnv 0x00a35860
+// pdb: TESReputation::SaveGame | TESReputation.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void __cdecl FUN_00a35860(int arg)
 {
     FUN_00a2f8b0(arg);

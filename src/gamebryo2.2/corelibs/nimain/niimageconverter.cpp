@@ -1,12 +1,6 @@
-// gamebryo2.2/corelibs/nimain/niimageconverter.cpp: NiImageConverter, ImageOwner (17 functions)
+// gamebryo2.2/corelibs/nimain/niimageconverter.cpp: NiImageConverter, ImageOwner (13 functions)
 #include "f3_common.h"
 #include "niimageconverter_worker.h"
-
-// @fnv 0x00a76640
-NiImageConverter* NiImageConverter::GetSharedImageConverter()
-{
-    return DAT_011f4a7c;
-}
 
 __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
@@ -53,7 +47,9 @@ inline void Rel(NiRefObject2* o)
 // @f3 0x008410a0 (community match, verified in this file)
 struct RefCounted;
 extern RefCounted* DAT_012003f4;
-void CreateImageConverter()
+// pdb: NiImageConverter::_SDMInit | NiImageConverter.obj | fnv360_0822_retail, call_gap, high
+// pdb: NiImageConverter::_SDMInit | NiImageConverter.obj | fnv360_0822_retail, call_gap, high (was: CreateImageConverter)
+void NiImageConverter__SDMInit()
 {
     NiRefObject2* p = new NiImageConverter2();
     if ((NiRefObject2*)DAT_012003f4 != p)
@@ -68,7 +64,6 @@ void CreateImageConverter()
 
 
 struct NiFile;
-struct NiImageReader;
 struct NiPixelData;
 struct NiPixelFormat;
 struct NiStream;
@@ -92,6 +87,7 @@ struct VTable_FUN_00a76d40
 };
 
 // @fnv 0x00a76d40
+// pdb: NiDevImageConverter::IsASupportedMipmapGenerationFormat | NiDevImageConverter.obj | tesv_win, vtable, medium
 bool __fastcall FUN_00a76d40(const VTable_FUN_00a76d40* pThis, int, const NiPixelFormat& kSrcFmt)
 {
     if (pThis->v20(kSrcFmt) || pThis->v24(kSrcFmt))
@@ -115,17 +111,6 @@ struct NiRefObject
     }
     virtual ~NiRefObject();
 };
-struct FUN_00a76650 : NiRefObject
-{
-    FUN_00a76650();
-    virtual ~FUN_00a76650();
-};
-// Constructs the object and calls FUN_00a8ae50 on the Sub80 subobject at offset 0x80.
-// @fnv 0x00a76650
-FUN_00a76650::FUN_00a76650()
-{
-    ((Sub80*)((char*)this + 0x80))->FUN_00a8ae50();
-}
 }  // namespace fnv_00a76650
 
 namespace fnv_00a76680 {
@@ -145,19 +130,6 @@ struct NiRefObject
         InterlockedDecrement(&DAT_011f4400);
     }
 };
-struct FUN_00a76680 : NiRefObject
-{
-    virtual ~FUN_00a76680();
-};
-// Frees the global DAT_011f4a78, clears it, then calls FUN_00a8ada0 on the sub-object at offset 0x80.
-// @fnv 0x00a76680
-FUN_00a76680::~FUN_00a76680()
-{
-    if (DAT_011f4a78)
-        _NiFreeAlias(DAT_011f4a78);
-    DAT_011f4a78 = 0;
-    ((Sub80*)((char*)this + 0x80))->FUN_00a8ada0();
-}
 }  // namespace fnv_00a76680
 
 struct FUN_00a76890_eq
@@ -166,7 +138,10 @@ struct FUN_00a76890_eq
 };
 
 // @fnv 0x00a76890
-bool __stdcall ArePixelFormatsEqual(void* apFormatA, void* apFormatB)
+// pdb: NiImageConverter::CanConvertPixelData | NiImageConverter.obj | fnv360_0822_retail, objrun, high
+// pdb params: kSrcFmt, kDestFmt
+// pdb: NiImageConverter::CanConvertPixelData | NiImageConverter.obj | fnv360_0822_retail, objrun, high (was: ArePixelFormatsEqual)
+bool __stdcall NiImageConverter_CanConvertPixelData(void* apFormatA, void* apFormatB)
 {
     NiPixelFormat& a = *(NiPixelFormat*)apFormatA;
     NiPixelFormat& b = *(NiPixelFormat*)apFormatB;
@@ -191,6 +166,8 @@ int strcpy_s(char*, unsigned int, const char*);
 extern const char* DAT_011f4a78;
 extern char* EmptyFS;
 // @fnv 0x00a76960
+// pdb: NiImageConverter::ConvertFilenameToPlatformSpecific | NiImageConverter.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: kPath, kPlatformSpecificPath
 void FUN_00a76960(char** apszSource, char** apszDest)
 {
     if (DAT_011f4a78)
@@ -235,16 +212,6 @@ struct RefObj
             Unk1();
     }
 };
-// If the global RefObj pointer DAT_011f4a7c is set, decrements its reference count and clears the pointer.
-// @fnv 0x00a76b30
-void FUN_00a76b30()
-{
-    if (DAT_011f4a7c)
-    {
-        ((RefObj*)DAT_011f4a7c)->DecRef();
-        DAT_011f4a7c = 0;
-    }
-}
 }  // namespace fnv_00a76b30
 
 namespace fnv_00a76b60 {
@@ -341,7 +308,7 @@ struct NiPixelFormat
 typedef char _sizecheck_NiPixelFormat[sizeof(NiPixelFormat) == 68 ? 1 : -1];
 struct FUN_00a76c10_shell : public NiImageConverter
 {
-    NiPixelData* FUN_00a76c10(void*, void*, NiPixelData*, bool);
+    NiPixelData* NiImageConverter_ConvertPixelData(void*, void*, NiPixelData*, bool);
 };
 
 void* _memmove(void* dst, const void* src, unsigned int size);
@@ -384,7 +351,8 @@ struct NiPixelData
 };
 
 // @fnv 0x00a76c10
-NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixelData* pkOptDest, bool bMipmap)
+// pdb: NiImageConverter::ConvertPixelData | NiImageConverter.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(vtable), high
+NiPixelData* FUN_00a76c10_shell::NiImageConverter_ConvertPixelData(void* src, void* apDestFmt, NiPixelData* pkOptDest, bool bMipmap)
 {
     const NiPixelData& kSrc = *(const NiPixelData*)src;
     const NiPixelFormat& kDestFmt = *(const NiPixelFormat*)apDestFmt;
@@ -467,6 +435,8 @@ class Owner766
 
 // Builds a path from pcFile, checks the loader can load it, opens the file read-only, and delegates to the loader's Load, deleting the file handle.
 // @fnv 0x00a766d0
+// pdb: NiImageConverter::ReadImageFileInfo | NiImageConverter.obj | fnv360_0822_retail, objrun, high
+// pdb params: pcFilename, kFmt, bMipmap, uiWidth, uiHeight, uiNumFaces
 bool Owner766::LoadFile(const char* pcFile, void* p2, void* p3, void* p4, void* p5, void* p6)
 {
     FUN_00aa27d0 kPath(pcFile);
@@ -526,6 +496,8 @@ void __cdecl FUN_00a76d70(unsigned int, unsigned int, unsigned int, unsigned cha
                           PixelFormatBitLayout const&, unsigned char const*, PixelFormatBitLayout const&);
 
 // @fnv 0x00a76e90
+// pdb: VampirismEffect::CopyData | VampirismEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apDestination
 void __cdecl FUN_00a76e90(unsigned int a, unsigned int b, unsigned int c, unsigned char* d, NiPalette const* e,
                           PixelFormatBitLayout const& f, unsigned char const* g, PixelFormatBitLayout const& h)
 {
@@ -535,6 +507,8 @@ void __cdecl FUN_00a76e90(unsigned int a, unsigned int b, unsigned int c, unsign
 void __cdecl BuildFullPath(void);
 
 // @fnv 0x00aa29d0
+// pdb: PlayerMover::InitLoadGame | PlayerMover.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: apLoadGameBuffer
 void __cdecl FUN_00aa29d0(void)
 {
     BuildFullPath();
@@ -564,6 +538,8 @@ struct FileNameComponents
 
 // Populates a buffer from pcPath, setting its extension from DAT_011f4a78 when that value is non-null.
 // @fnv 0x00a768b0
+// pdb: NiImageConverter::ConvertFilenameToPlatformSpecific | NiImageConverter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pcPath
 char* GetPathWithExtension(const char* pcPath)
 {
     char* pcDest = (char*)_NiMalloc(0x104);
@@ -676,11 +652,14 @@ struct ImageOwner
     int unk78;
     int unk7c;
     ImageLoader loader;
-    ImageResult* LoadImage(const char* name, ImageResult* destination, InputFile* supplied);
+    ImageResult* NiImageConverter_ReadImageFile(const char* name, ImageResult* destination, InputFile* supplied);
 };
 // Loads an image from a file path using the loader, returning the result or null on failure.
 // @fnv 0x00a767c0
-ImageResult* ImageOwner::LoadImage(const char* apPath, ImageResult* destination, InputFile* apInputFile)
+// pdb: NiImageConverter::ReadImageFile | NiImageConverter.obj | fnv360_0822_retail, objrun, high
+// pdb params: pcFilename, pkOptDest, apFile
+// pdb: NiImageConverter::ReadImageFile | NiImageConverter.obj | fnv360_0822_retail, objrun, high (was: LoadImage)
+ImageResult* ImageOwner::NiImageConverter_ReadImageFile(const char* apPath, ImageResult* destination, InputFile* apInputFile)
 {
 
     PathParts pathParts(apPath);

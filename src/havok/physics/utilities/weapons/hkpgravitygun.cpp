@@ -4,47 +4,10 @@
 
 #include "havok/hkpGravityGun.h"
 
-struct FUN_00e45fb0_class
-{
-    void FUN_00e45e60(int);
-    void FUN_00e45fb0(int, int, int);
-};
-
-// @fnv 0x00e45fb0
-void FUN_00e45fb0_class::FUN_00e45fb0(int, int, int)
-{
-    if (*(int*)((char*)this + 0x24) != 0)
-        FUN_00e45e60(0);
-}
-
 struct DDCC60World
 {
     void removeReference();
 };
-
-struct FUN_00e45fc0_class
-{
-    unsigned char m_unknown[0x20];
-    DDCC60World** m_kExternalLinks;
-    int m_sReferenceCount;
-
-    void RemoveAllReferences(int);
-};
-
-// @fnv 0x00e45fc0
-void FUN_00e45fc0_class::RemoveAllReferences(int)
-{
-    int i = 0;
-    if (m_sReferenceCount > 0)
-    {
-        do
-        {
-            m_kExternalLinks[i]->removeReference();
-            ++i;
-        } while (i < m_sReferenceCount);
-    }
-    m_sReferenceCount = 0;
-}
 
 struct hkFinishLoadedObjectFlagE463
 {
@@ -85,7 +48,7 @@ class FUN_00e46300 : public FUN_00e466a0
 
     FUN_00e46300(hkFinishLoadedObjectFlagE463 flag);
     void finishLoadedObject(hkFinishLoadedObjectFlagE463 flag);
-    void FUN_00448cc0();
+    void TESFile_GetTESForm();
     virtual ~FUN_00e46300();
 };
 
@@ -150,6 +113,8 @@ struct Layout448 {
 
 } // namespace ns_00448e80
 
+// pdb: TESFile::TESRewind | TESFile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: getform
 void FUN_00e46300::finishLoadedObject(hkFinishLoadedObjectFlagE463 flag)
 {
     ns_00448e80::Layout448* s = (ns_00448e80::Layout448*)this;
@@ -160,7 +125,7 @@ void FUN_00e46300::finishLoadedObject(hkFinishLoadedObjectFlagE463 flag)
     s->f26c = 0;
     memset(&s->v240, 0, 24);
     if (flag.m_bFinishing)
-        FUN_00448cc0();
+        TESFile_GetTESForm();
 }
 
 
@@ -243,12 +208,6 @@ class FUN_00cb0c00_class
     }
 };
 
-struct FUN_00d1df70
-{
-    void FUN_00c90510() throw();
-    void removeReference() throw();
-};
-
 class hkReferencedObjectE463
 {
   public:
@@ -263,37 +222,7 @@ class hkReferencedObjectE463
     }
 };
 
-class FUN_00e466e0 : public hkReferencedObjectE463
-{
-  public:
-    int m_08;
-    FUN_00cb0c00_class m_name;
-    int m_10;
-    hkArrayE463<FUN_00d1df70*> m_children;
-
-    virtual ~FUN_00e466e0() throw();
-};
-
-class hkDerivedE463 : public FUN_00e466e0
-{
-  public:
-    hkArrayE463<int> m_iSlotIds;
-
-    hkDerivedE463* DestroyAndFree(unsigned int uiFlags) throw();
-};
-
-// Destroys the object and, when bit 0 of uiFlags is set, frees its memory via operator delete; returns this.
-// @fnv 0x00e46340
-hkDerivedE463* hkDerivedE463::DestroyAndFree(unsigned int uiFlags) throw()
-{
-    this->hkDerivedE463::~hkDerivedE463();
-    if (uiFlags & 1)
-        hkDerivedE463::operator delete(this);
-    return this;
-}
 }  // namespace fnv_00e46340
-
-extern "C" double __cdecl fabs(double);
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -302,10 +231,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 };
 
 namespace MathUtilities {
-inline hkReal fabs(hkReal r)
-{
-    return static_cast<hkReal>(::fabs(r));
-}
 }
 
 struct GGVector4
@@ -602,174 +527,12 @@ struct GravityGun : hkpGravityGun
     GGRigidBody* FUN_00e45a60(const GGTransform& viewTransform, const GGRigidBody* characterBody, const GGWorld* world);
 };
 
-// Finds the best rigid body to grab by scoring candidates in active and inactive islands, then ray-casting to verify line of sight.
-// @fnv 0x00e45a60
-GGRigidBody* GravityGun::FUN_00e45a60(const GGTransform& viewTransform, const GGRigidBody* characterBody,
-                                      const GGWorld* world)
-{
-    GGRigidBody* pickedBody = 0;
-    hkReal bestValue = 0.35f;
-
-    const GGIslandArray* islands = &world->m_kActiveSimulationIslands;
-    for (int iIslandSet = 0; iIslandSet < 2; iIslandSet++)
-    {
-        for (int i = 0; i < islands->m_iElementCount; i++)
-        {
-            GGSimulationIsland* island = islands->m_data[i];
-            for (int e = 0; e < island->m_kActorEntries.m_iElementCount; e++)
-            {
-                GGRigidBody* body = island->m_kActorEntries.m_data[e];
-                const GGVector4& vCenterOfMass = body->getCenterOfMassInWorld();
-
-                GGVector4 posInView;
-                posInView.SetTransformedPosition(viewTransform, vCenterOfMass);
-
-                hkReal x = posInView(0);
-                if (x < 0.1f || x > m_fMaxPickDistance || body == characterBody)
-                {
-                    continue;
-                }
-
-                hkReal value = MathUtilities::fabs(posInView(2)) + MathUtilities::fabs(posInView(1));
-                value = value / (x + 1.0);
-
-                if (body->GetMassValue() > m_fMaxPickMass)
-                {
-                    value += 0.1f;
-                }
-
-                if (value > bestValue)
-                {
-                    continue;
-                }
-
-                if (isGrabbed(body))
-                {
-                    continue;
-                }
-
-                {
-                    GGClosestRayHitCollector collector;
-                    GGWorldRayCastInput input;
-                    input.m_vFrom = viewTransform.m_vTranslation;
-                    input.m_vTo = vCenterOfMass;
-
-                    world->RayCast(input, collector);
-
-                    if (collector.m_kClosestHit.m_pRootCollidable == 0 ||
-                        collector.m_kClosestHit.m_pRootCollidable == body->getCollidable())
-                    {
-                        bestValue = value;
-                        pickedBody = body;
-                    }
-                }
-            }
-        }
-        islands = &world->m_kInactiveSimulationIslands;
-    }
-    return pickedBody;
-}
-
 struct DDCC60World;
 
 struct __declspec(align(16)) MyVec
 {
     float x, y, z, w;
 };
-
-struct GunArg3
-{
-    int unk000, unk004, unk008, unk00c;
-    int unk010, unk014, unk018, unk01c;
-    int unk020, unk024, unk028, unk02c;
-    int unk030, unk034, unk038, unk03c;
-    int unk040, unk044, unk048, unk04c;
-    int unk050, unk054, unk058, unk05c;
-    int unk060, unk064, unk068, unk06c;
-    int unk070, unk074, unk078, unk07c;
-    int unk080, unk084, unk088, unk08c;
-    int unk090, unk094, unk098, unk09c;
-    int unk0a0, unk0a4, unk0a8, unk0ac;
-    int unk0b0, unk0b4, unk0b8, unk0bc;
-    int unk0c0, unk0c4, unk0c8, unk0cc;
-    int unk0d0, unk0d4, unk0d8, unk0dc;
-    int unk0e0, unk0e4, unk0e8, unk0ec;
-    int unk0f0, unk0f4, unk0f8, unk0fc;
-    int unk100, unk104, unk108, unk10c;
-    int unk110, unk114, unk118, unk11c;
-    MyVec unk120;
-};
-
-struct GunTransform
-{
-    int unk00, unk04, unk08, unk0c;
-    int unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c;
-    MyVec m_vTranslation;
-};
-
-struct GunListener
-{
-    virtual void func0();
-    virtual void func1();
-    virtual void func2();
-    virtual void func3();
-    virtual void func4();
-    virtual void gunAction(const MyVec& from, const MyVec* to = 0);
-};
-
-struct hkpGravityGunEx : public hkpGravityGun
-{
-    void FUN_00e45ee0(GunTransform* a4, GunArg3* a3, DDCC60World* world);
-    void FUN_00e46080(GunTransform* a4, GunArg3* a3, DDCC60World* world);
-    void FUN_00e45fb0(GunTransform* a4, GunArg3* a3, DDCC60World* world);
-    void FUN_00e45c90(hkReal dt, GunTransform* a4, GunArg3* a3);
-
-    void FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, GunTransform* a4, bool b1, bool b2);
-};
-
-// Dispatches a gun action to listeners based on b1/b2 and picked-body capacity, then calls FUN_00e45c90 with dt, a4, a3.
-// @fnv 0x00e46140
-void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, GunTransform* apGunTransform, bool b1,
-                                   bool b2)
-{
-    MyVec v1;
-    MyVec v2;
-
-    if (b1)
-    {
-        FUN_00e45ee0(apGunTransform, a3, world);
-        *(__m128*)&v1 = *(__m128*)&a3->unk120;
-        for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
-        {
-            ((GunListener*)m_kListeners.m_data[i])->gunAction(v1, 0);
-        }
-    }
-    else if (b2)
-    {
-        if (m_kPickedBodies.m_iElementCount != m_iMaxPickedBodies)
-        {
-            FUN_00e46080(apGunTransform, a3, world);
-            *(__m128*)&v2 = *(__m128*)&apGunTransform->m_vTranslation;
-            *(__m128*)&v1 = *(__m128*)&a3->unk120;
-            for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
-            {
-                ((GunListener*)m_kListeners.m_data[i])->gunAction(v2, &v1);
-            }
-        }
-        else
-        {
-            FUN_00e45fb0(apGunTransform, a3, world);
-            *(__m128*)&v2 = *(__m128*)&a3->unk120;
-            for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
-            {
-                ((GunListener*)m_kListeners.m_data[i])->gunAction(v2, 0);
-            }
-        }
-    }
-
-    FUN_00e45c90(dt, apGunTransform, a3);
-}
 
 extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 extern "C" void _mm_store_ss(float* _V, __m128 _A);
@@ -844,36 +607,6 @@ struct hkVector4E460
     }
 };
 
-class hkEntityE460
-{
-  public:
-    int unk00[104];
-    hkVector4E460 m_vec1a0;
-
-    void FUN_00c90510();
-    void FUN_00ca88e0(float f);
-};
-
-class hkWorldE460
-{
-  public:
-    int unk00[8];
-    hkArrayE460<hkEntityE460*> m_kActorEntries;
-
-    void FUN_00e46000(hkEntityE460* e);
-};
-
-// Calls e->FUN_00c90510, appends e to m_kActorEntries, then calls e->FUN_00ca88e0 with the w component of m_vec1a0 times 100.
-// @fnv 0x00e46000
-void hkWorldE460::FUN_00e46000(hkEntityE460* apEntity)
-{
-    apEntity->FUN_00c90510();
-    m_kActorEntries.AddBack(apEntity);
-    float w = apEntity->m_vec1a0.getW();
-    float f = (float)(w * 100.0);
-    apEntity->FUN_00ca88e0(f);
-}
-
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 class hkStringPtrE462
@@ -906,48 +639,3 @@ struct __declspec(align(16)) hkVector4E462
         m_vComponents = _mm_setr_ps(x, y, z, w);
     }
 };
-
-class hkpFirstPersonGunListenerE462;
-class hkpRigidBodyE462;
-
-class FUN_00e46660
-{
-  public:
-    virtual ~FUN_00e46660() throw();
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    unsigned char m_type;
-    hkStringPtrE462 m_name;
-    unsigned char m_uiKeyboardKey;
-    hkArrayE462<hkpFirstPersonGunListenerE462*> m_kListeners;
-
-    FUN_00e46660() throw();
-};
-
-class FUN_00e46260 : public FUN_00e46660
-{
-  public:
-    hkArrayE462<hkpRigidBodyE462*> m_kPickedBodies;
-    int m_iMaxPickedBodies;
-    float m_fMaxPickMass;
-    float m_fMaxPickDistance;
-    float m_fPickAngle;
-    float m_fHoldDistance;
-    hkVector4E462 m_kGrabPosition;
-    hkVector4E462 m_kTargetPosition;
-
-    FUN_00e46260() throw();
-    virtual ~FUN_00e46260() throw();
-};
-
-// Constructs a GravityGun object, initializing pick limits, grab and target positions, and setting the type and name fields.
-// @fnv 0x00e46260
-FUN_00e46260::FUN_00e46260() throw()
-    : m_iMaxPickedBodies(10), m_fMaxPickMass(200.0f), m_fMaxPickDistance(50.0f), m_fPickAngle(100.0f),
-      m_fHoldDistance(50.0f)
-{
-    m_type = 3;
-    m_name = "GravityGun";
-    m_kGrabPosition.set(2.5f, 0.6f, 0.0f);
-    m_kTargetPosition.set(0.0f, 1.0f, 0.0f);
-}

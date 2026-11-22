@@ -116,6 +116,10 @@ When `plan` reports no units to build, skip `shard` and run `report` without `..
 
 - Functions in scope: 63,681 of 63,682 match byte for byte.
 - Bytes in scope: 9,107,120 of 9,137,108.
+- Matched under the rules: 17,041 of those 63,681 functions (2,457,227 bytes). A function counts here when its
+  bytes match *and* its source passes every [match] rule in `AGENTS.md`: one definition per type and global, typed
+  members instead of offset casts, real vtables, no fake code, no assembly bodies. The other 46,194 still match
+  byte for byte; `MATCH_PENDING.md` lists each with the rules it fails, and most of it is open work for anyone.
 
 "In scope" leaves out code the compiler and linker generate on their own (runtime stubs, thunks, padding, exception
 unwinding code), the parts of the Visual C++ 2005 runtime that were written in assembly (the build links the real

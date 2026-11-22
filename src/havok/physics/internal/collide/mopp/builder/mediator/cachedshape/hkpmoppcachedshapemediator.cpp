@@ -3,7 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd55d0
-int __stdcall InitIntToZero(int, int* piValue)
+// pdb: hkpMoppCachedShapeMediator::getPrimitiveProperties | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable, high
+// pdb params: primitiveIn, cid
+// pdb: hkpMoppCachedShapeMediator::getPrimitiveProperties | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable, high (was: InitIntToZero)
+int __stdcall hkpMoppCachedShapeMediator_getPrimitiveProperties(int, int* piValue)
 {
     *piValue = 0;
     return 1;
@@ -11,7 +14,10 @@ int __stdcall InitIntToZero(int, int* piValue)
 
 // Copies five pointer-sized values from src to dst at offsets 0, 4, 8, 0xc and 0x10.
 // @fnv 0x00dd5630
-void __stdcall CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest)
+// pdb: hkpMoppCachedShapeMediator::splitPrimitive | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable, high
+// pdb params: primitiveIn, direction, planeOffset, depth, primitiveOut
+// pdb: hkpMoppCachedShapeMediator::splitPrimitive | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable, high (was: CopyFivePointers)
+void __stdcall hkpMoppCachedShapeMediator_splitPrimitive(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest)
 {
     *(void**)apDest = *(void**)apSource;
     *(void**)((char*)apDest + 4) = *(void**)((char*)apSource + 4);
@@ -75,7 +81,8 @@ struct S_00d54cd0_Result
 };
 S_00d54cd0_Result* FUN_00d54a40(S_00d54cd0_Base* col, void* world, S_00d54cd0_Input* in, void* out) throw();
 // @fnv 0x00d54cd0
-S_00d54cd0_Result* FUN_00d54cd0(void* world, S_00d54cd0_Input* pInput, void* out)
+// pdb: hkpMoppUtility::buildCode | hkpMoppUtility.obj | fnv360_0822_retail, caller_sim + bridge(caller_sim|callee_sim) + skyrim(caller_sim), high
+S_00d54cd0_Result* hkpMoppUtility_buildCode(void* world, S_00d54cd0_Input* pInput, void* out)
 {
     S_00d54cd0_Result* r;
     if (pInput->unk20)
@@ -171,21 +178,6 @@ struct RecordBase
     {}
 };
 
-struct FUN_00dd5d90 : RecordBase
-{
-    RecordArray m_kArray;
-    int m_iExtra;
-
-    virtual ~FUN_00dd5d90() throw();
-};
-
-// Destructor that zeroes m_iExtra; the m_kArray member is destroyed afterwards by the compiler-generated code.
-// @fnv 0x00dd5d90
-FUN_00dd5d90::~FUN_00dd5d90() throw()
-{
-    m_iExtra = 0;
-}
-
 struct Item
 {
     virtual void v00();
@@ -223,6 +215,8 @@ class FUN_00dd5cd0_cls
 // Iterates count items from m_pMgr starting at m, calling ComputeAxisRanges on each item whose v14() is nonzero, advancing m via v0c.
 // @f3 0x00a55900 (community match, verified in this file)
 struct Item463 { unsigned int unk00,unk04,unk08; int kind; };
+// pdb: hkpMoppCachedShapeMediator::setSplittingPlaneDirections | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable, high
+// pdb params: directions, numDirections
 void FUN_00dd5cd0_cls::ProcessItems(int first,int second) {
     __declspec(align(16)) int slots[127];
     int count=m_pMgr->v04();
@@ -270,10 +264,10 @@ struct DD5D50Source
     virtual int getCount();
 };
 
-class FUN_00dd5d50 : public DD5D50ReferencedObject
+class hkpMoppCachedShapeMediator : public DD5D50ReferencedObject // src: F3_EXE vtable 0x00e86bc8 (old: FUN_00dd5d50)
 {
   public:
-    FUN_00dd5d50(DD5D50Source* source);
+    hkpMoppCachedShapeMediator(DD5D50Source* source);
     virtual void unk00();
 
     DD5D50Array m_items;
@@ -282,7 +276,9 @@ class FUN_00dd5d50 : public DD5D50ReferencedObject
 };
 
 // @fnv 0x00dd5d50
-FUN_00dd5d50::FUN_00dd5d50(DD5D50Source* source) : m_pObservedSource(source)
+// pdb: hkpMoppCachedShapeMediator::hkpMoppCachedShapeMediator | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, call_seq, high
+// pdb params: shapeArray
+hkpMoppCachedShapeMediator::hkpMoppCachedShapeMediator(DD5D50Source* source) : m_pObservedSource(source)
 {
     m_uiItemCount = source->getCount();
 }
@@ -528,11 +524,12 @@ struct Owner
     unsigned int unk00, unk04, unk08, unk0c, unk10;
     OutCollection* collection;
     int count;
-    void FUN_00dd55f0(OutRecord* out);
+    void hkpMoppCachedShapeMediator_getPrimitives(OutRecord* out);
 };
 // Iterates the collection and writes each element's handle and index into the out array.
 // @fnv 0x00dd55f0
-void Owner::FUN_00dd55f0(OutRecord* out)
+// pdb: hkpMoppCachedShapeMediator::getPrimitives | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Owner::hkpMoppCachedShapeMediator_getPrimitives(OutRecord* out)
 {
     int n = count;
     void* current = collection->Begin();

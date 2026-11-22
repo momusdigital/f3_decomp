@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nianimation/nibsplinecomptransforminterpolator.cpp: NiBSplineCompTransformInterpolator, Holder, SThis (11 functions)
+// gamebryo2.2/corelibs/nianimation/nibsplinecomptransforminterpolator.cpp: NiBSplineCompTransformInterpolator, Holder, SThis (9 functions)
 #include "f3_common.h"
 #include "nibsplinecomptransforminterpolator_decls.h"
 #include "nibsplinecomptransforminterpolator_types_NiBSplineCompTransformInterpolator.h"
@@ -9,6 +9,8 @@
 extern double _DAT_010241b0;
 
 // @fnv 0x00a51140
+// pdb: NiBSplineCompTransformInterpolator::LoadBinary | NiBSplineCompTransformInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiBSplineCompTransformInterpolator::LoadBinary(NiStream& stream)
 {
     NiBSplineTransformInterpolator::LoadBinary(stream);
@@ -18,10 +20,12 @@ void NiBSplineCompTransformInterpolator::LoadBinary(NiStream& stream)
 
 // Copies the spline transform interpolator's translation, rotation and scale control-point handles and an extra field into destination.
 // @fnv 0x00a4fec0
+// pdb: NiBSplineTransformInterpolator::CopyMembers | NiBSplineTransformInterpolator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkDest, kCloning
 void NiBSplineCompTransformInterpolator::CopyMemberData(NiBSplineCompTransformInterpolator* destination,
                                                         CloningProcess& cloningProcess)
 {
-    FUN_00a57fd0(destination, cloningProcess);
+    NiBSplineInterpolator_CopyMembers(destination, cloningProcess);
     destination->m_kDefaultTransform = m_kDefaultTransform;
     destination->m_kTransCPHandle = m_kTransCPHandle;
     destination->m_kRotCPHandle = m_kRotCPHandle;
@@ -29,6 +33,7 @@ void NiBSplineCompTransformInterpolator::CopyMemberData(NiBSplineCompTransformIn
 }
 
 // @fnv 0x00a50f60
+// pdb: NiBSplineCompTransformInterpolator::Update | NiBSplineCompTransformInterpolator.obj | tesv_win, caller_sim, low
 bool NiBSplineCompTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& value)
 {
     if (m_fLastTime == time)
@@ -92,6 +97,7 @@ struct NiMemObject_DeleteHelper : public NiMemObject
 
 // Calls FUN_00a57f80 on pThis, then frees pThis with the delete helper when flags has bit 0 set, and returns pThis.
 // @fnv 0x00a50e50
+// pdb: NiBSplineCompTransformInterpolator::`scalar deleting destructor' | NiBSplineCompTransformInterpolator.obj | fnv360_0822_retail, objrun, medium
 void* __fastcall FUN_00a50e50(void* pThis, int, unsigned int flags)
 {
     FUN_00a57f80(pThis);
@@ -104,22 +110,17 @@ void* __fastcall FUN_00a50e50(void* pThis, int, unsigned int flags)
 
 extern int g_011f4004;
 
-// @fnv 0x00a50e40
-int* __cdecl FUN_00a50e40()
-{
-    return &g_011f4004;
-}
-
 struct FUN_00a501b0_caller
 {
     bool FUN_00a501b0(NiObject*);
 };
 struct FUN_00a50e00_shell : NiBSplineCompTransformInterpolator
 {
-    bool FUN_00a50e00(NiObject* pkObject);
+    bool NiBSplineCompTransformInterpolator_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a50e00
-bool FUN_00a50e00_shell::FUN_00a50e00(NiObject* pkObject)
+// pdb: NiBSplineCompTransformInterpolator::IsEqual | NiBSplineCompTransformInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+bool FUN_00a50e00_shell::NiBSplineCompTransformInterpolator_IsEqual(NiObject* pkObject)
 {
     NiBSplineCompTransformInterpolator* pkDest;
     unsigned int ui;
@@ -134,32 +135,7 @@ bool FUN_00a50e00_shell::FUN_00a50e00(NiObject* pkObject)
     return true;
 }
 
-struct StrArr
-{
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
 extern int g_011f4004;
-char* _FUN_00a7d330(const char*);
-struct Holder
-{
-    void LoadBSplineTransform(StrArr*);
-    void AppendString(StrArr*);
-};
-// @fnv 0x00a511c0
-void Holder::AppendString(StrArr* pkStrings)
-{
-    LoadBSplineTransform(pkStrings);
-    char* s = _FUN_00a7d330((const char*)g_011f4004);
-    unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 0xa);
-    unsigned int uiCapacity = *(unsigned short*)((char*)pkStrings + 8);
-    if (uiSize >= uiCapacity)
-    {
-        unsigned int grow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(uiSize + grow);
-    }
-    pkStrings->SetAt(uiSize, s);
-}
 
 struct SOut
 {
@@ -175,18 +151,19 @@ struct SStream
 };
 struct SBase
 {
-    void FUN_00a503e0(SStream&);
+    void NiBSplineTransformInterpolator_SaveBinary(SStream&);
 };
 struct SThis
 {
     char _pad[0x48];
     char m_buf[0x18];
-    void FUN_00a51180(SStream&);
+    void NiBSplineCompTransformInterpolator_SaveBinary(SStream&);
 };
 // @fnv 0x00a51180
-void SThis::FUN_00a51180(SStream& stream)
+// pdb: NiBSplineCompTransformInterpolator::SaveBinary | NiBSplineCompTransformInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void SThis::NiBSplineCompTransformInterpolator_SaveBinary(SStream& stream)
 {
-    ((SBase*)this)->FUN_00a503e0(stream);
+    ((SBase*)this)->NiBSplineTransformInterpolator_SaveBinary(stream);
     SOut* __restrict output = stream.m_out;
     unsigned int size = 4;
     output->m_pos += output->m_pfnWrite(output, m_buf, 0x18, &size, 1);
@@ -232,6 +209,8 @@ struct FUN_00a4fff0_t : BaseHolder
 
 // Calls the base constructor with a and e, sets the vtable, copies global values into fields m_f1c..m_f38, and stores b, c, d in m_f3c..m_f44.
 // @fnv 0x00a4fff0
+// pdb: NiBSplineTransformInterpolator::NiBSplineTransformInterpolator | NiBSplineTransformInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkData, kTransCPHandle, kRotCPHandle, kScaleCPHandle, pkBasisData
 FUN_00a4fff0_t::FUN_00a4fff0_t(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
 {
     FUN_00a57f20(aiArg1, aiArg5);
@@ -375,6 +354,8 @@ class A50E70Object : public A50E70Base
 };
 
 // @fnv 0x00a50e70
+// pdb: NiBSplineCompTransformInterpolator::CreateClone | NiBSplineCompTransformInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 A50E70Object* A50E70Object::FUN_00a50e70(A50E70CloningProcess& kCloning)
 {
     A50E70Object* pkDest = new A50E70Object;

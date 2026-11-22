@@ -9,6 +9,7 @@ namespace f3m_00817d90 {
 struct AxisValues { float value[3]; };
 struct ExtentBox { char pad[0x30]; float extent[3]; };
 
+// pdb: CaseNoZeros | NiDistSegBox.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: Case000)
 static __declspec(noinline) void FUN_00817d90(const ExtentBox* box, const AxisValues* direction,
                                               float* pfParam, float* pfSqrDistance,
                                               int axis0, AxisValues* point, int axis1, int axis2)
@@ -169,6 +170,8 @@ static __declspec(noinline) void FUN_00817d90(const OrientedBox* box, const BoxV
     }
 }
 
+// pdb: NiSqrDistance::Compute | NiDistSegBox.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kSeg, kBox, fSegParam, fBoxParam0, fBoxParam1, fBoxParam2
 float __cdecl FUN_00817e80(const S00eb50f0_Seg* apSegment, const OrientedBox* box, float* pfLParam, float* pfBParam0,
                            float* pfBParam1, float* pfBParam2)
 {

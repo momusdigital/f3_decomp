@@ -16,6 +16,7 @@ NiQuatTransform::NiQuatTransform()
 
 #pragma optimize("", on)
 // @fnv 0x00a39180
+// pdb: NiQuatTransform::IsTransformInvalid | NiBlendAccumTransformInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
 bool NiQuatTransform::IsInvalid() const
 {
     return m_fScale == -3.4028234663852886e+38 && m_kRotate.m_fVectorY == -3.4028234663852886e+38 && m_kTranslate.x == -3.4028234663852886e+38;

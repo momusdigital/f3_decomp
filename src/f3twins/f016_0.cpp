@@ -154,316 +154,379 @@ extern S_007bb010 DAT_0117a620;
 extern char ARG_00eba118;
 extern char ARG_01091988;
 
+// pdb: `dynamic initializer for 'BSShaderNoLightingProperty::ms_RTTI'' | BSShaderNoLightingProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d83eb0()
 {
     DAT_0116fde4.FUN_007bb010(&ARG_00e90078, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'BSShaderLightingProperty::ms_RTTI'' | BSShaderLightingProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d83f20()
 {
     DAT_011702e0.FUN_007bb010(&ARG_00e900f4, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'ShadowLightShader::ms_RTTI'' | ShadowLightShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84130()
 {
     DAT_01174b08.FUN_007bb010(&ARG_00e961a8, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BSShaderBloodSplatter::ms_RTTI'' | BSShaderBloodSplatter.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84160()
 {
     DAT_01174b48.FUN_007bb010(&ARG_00e96400, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BSShaderBloodSplatterProperty::ms_RTTI'' | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84180()
 {
     DAT_01174e74.FUN_007bb010(&ARG_00e964ec, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'WaterShader::ms_RTTI'' | WaterShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d841a0()
 {
     DAT_01175218.FUN_007bb010(&ARG_00e9679c, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BSBatchRenderer::ms_RTTI'' | BSBatchRenderer.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84500()
 {
     DAT_01175ec4.FUN_007bb010(&ARG_00e969bc, &ARG_0108ed88);
 }
 
+// pdb: `dynamic initializer for 'SkyShader::ms_RTTI'' | SkyShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84520()
 {
     DAT_01176108.FUN_007bb010(&ARG_00e9eb48, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'ParticleShader::ms_RTTI'' | ParticleShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d845f0()
 {
     DAT_0117617c.FUN_007bb010(&ARG_00e9ed44, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'ParticleShaderProperty::ms_RTTI'' | ParticleShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84610()
 {
     DAT_011761b8.FUN_007bb010(&ARG_00e9ee1c, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'BSTextureSet::ms_RTTI'' | BSShaderTextureSet.obj | fnv360_0822_retail, ustr, high
 void FUN_00d84630()
 {
     DAT_011761c0.FUN_007bb010(&ARG_00e9ee34, &ARG_0108ed88);
 }
 
+// pdb: `dynamic initializer for 'BSShaderTextureSet::ms_RTTI'' | BSShaderTextureSet.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84650()
 {
     DAT_011761c8.FUN_007bb010(&ARG_00e9001c, &ARG_011761c0);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeBillboardShaderProperty::ms_RTTI'' | SpeedTreeBillboardShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84670()
 {
     DAT_011761d0.FUN_007bb010(&ARG_00e9ef5c, &ARG_0116fd98);
 }
 
+// pdb: `dynamic initializer for 'BSShaderProperty::ms_RTTI'' | BSShaderProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84690()
 {
     DAT_011761e4.FUN_007bb010(&ARG_00e90110, &ARG_010908d0);
 }
 
+// pdb: `dynamic initializer for 'TallGrassShader::ms_RTTI'' | TallGrassShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d846b0()
 {
     DAT_01176288.FUN_007bb010(&ARG_00e9f750, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'SkyShaderProperty::ms_RTTI'' | SkyShaderProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84920()
 {
     DAT_01176338.FUN_007bb010(&ARG_00e90048, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'PrecipitationShader::ms_RTTI'' | PrecipitationShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84940()
 {
     DAT_01176340.FUN_007bb010(&ARG_00e9fae4, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'PrecipitationShaderProperty::ms_RTTI'' | PrecipitationShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d849f0()
 {
     DAT_0117637c.FUN_007bb010(&ARG_00e9fbec, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeLeafShader::ms_RTTI'' | SpeedTreeLeafShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84a10()
 {
     DAT_01176390.FUN_007bb010(&ARG_00e9fdf8, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeLeafShaderProperty::ms_RTTI'' | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84ad0()
 {
     DAT_01176508.FUN_007bb010(&ARG_00e9ff38, &ARG_01176518);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeShaderPPLightingProperty::ms_RTTI'' | SpeedTreeShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84af0()
 {
     DAT_01176510.FUN_007bb010(&ARG_00ea017c, &ARG_0116fd98);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeShaderLightingProperty::ms_RTTI'' | SpeedTreeShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84b10()
 {
     DAT_01176518.FUN_007bb010(&ARG_00ea01a0, &ARG_011702e0);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeBranchShaderProperty::ms_RTTI'' | SpeedTreeBranchShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84b30()
 {
     DAT_01176520.FUN_007bb010(&ARG_00ea02e8, &ARG_01176510);
 }
 
+// pdb: `dynamic initializer for 'GeometryDecalShaderProperty::ms_RTTI'' | GeometryDecalShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84b50()
 {
     DAT_01176528.FUN_007bb010(&ARG_00ea03d4, &ARG_011702e0);
 }
 
+// pdb: `dynamic initializer for 'Lighting30ShaderProperty::ms_RTTI'' | Lighting30ShaderProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84b70()
 {
     DAT_01176530.FUN_007bb010(&ARG_00e900bc, &ARG_0116fd98);
 }
 
+// pdb: `dynamic initializer for 'BSDistantTreeShader::ms_RTTI'' | BSDistantTreeShader.obj | fnv360_0822_retail, ustr, high
 void FUN_00d84b90()
 {
     DAT_0117653c.FUN_007bb010(&ARG_00ea06fc, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BSDistantTreeShaderProperty::ms_RTTI'' | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84bc0()
 {
     DAT_01176548.FUN_007bb010(&ARG_00e8ff74, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'TileShaderProperty::ms_RTTI'' | TileShaderProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84bf0()
 {
     DAT_01176558.FUN_007bb010(&ARG_00e8ffc4, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'BSFogProperty::ms_RTTI'' | BSFogProperty.obj | fnv360_0822_retail, ustr, high
 void FUN_00d84c10()
 {
     DAT_01176560.FUN_007bb010(&ARG_00ea09d4, &ARG_01090928);
 }
 
+// pdb: `dynamic initializer for 'Lighting30Shader::ms_RTTI'' | Lighting30Shader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84e30()
 {
     DAT_01177cc0.FUN_007bb010(&ARG_00ea0e3c, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BoltShader::ms_RTTI'' | BoltShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84e60()
 {
     DAT_01177cdc.FUN_007bb010(&ARG_00ea0ff8, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BoltShaderProperty::ms_RTTI'' | BoltShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d84e80()
 {
     DAT_01177ce8.FUN_007bb010(&ARG_00ea10cc, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'BSFadeNodeCuller::ms_RTTI'' | BSFadeNodeCuller.obj | fnv360_0822_retail, ustr, high
 void FUN_00d84ea0()
 {
     DAT_01177cf0.FUN_007bb010(&ARG_00ea10e0, &ARG_0108f388);
 }
 
+// pdb: `dynamic initializer for 'BSClearZNode::ms_RTTI'' | BSClearZNode.obj | fnv360_0822_retail, ustr, high
 void FUN_00d84ec0()
 {
     DAT_01177cf8.FUN_007bb010(&ARG_00ea11f8, &ARG_0108f200);
 }
 
+// pdb: `dynamic initializer for 'BSOrderedNode::ms_RTTI'' | BSOrderedNode.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84f20()
 {
     DAT_01177d20.FUN_007bb010(&ARG_00e8ff90, &ARG_0116eb3c);
 }
 
+// pdb: `dynamic initializer for 'BSMaterialEmittanceMultController::ms_RTTI'' | BSMaterialEmittanceMultController.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84f50()
 {
     DAT_01177d2c.FUN_007bb010(&ARG_00e8ffa0, &ARG_01092a20);
 }
 
+// pdb: `dynamic initializer for 'BSRefractionFirePeriodController::ms_RTTI'' | BSRefractionFirePeriodController.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84f80()
 {
     DAT_01177d38.FUN_007bb010(&ARG_00e8ffd8, &ARG_01092a20);
 }
 
+// pdb: `dynamic initializer for 'BSRefractionStrengthController::ms_RTTI'' | BSRefractionStrengthController.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84fb0()
 {
     DAT_01177d44.FUN_007bb010(&ARG_00e8fffc, &ARG_01092a20);
 }
 
+// pdb: `dynamic initializer for 'VolumetricFogShaderProperty::ms_RTTI'' | VolumetricFogShaderProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84fd0()
 {
     DAT_01177d4c.FUN_007bb010(&ARG_00e9005c, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'HairShaderProperty::ms_RTTI'' | HairShaderProperty.obj | fnv360_0822_retail, ustr_rel, high
 void FUN_00d84ff0()
 {
     DAT_01177d54.FUN_007bb010(&ARG_00e900a8, &ARG_0116fd98);
 }
 
+// pdb: `dynamic initializer for 'BeamShader::ms_RTTI'' | BeamShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85020()
 {
     DAT_01177d64.FUN_007bb010(&ARG_00ea1a2c, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'VolumetricFogShader::ms_RTTI'' | VolumetricFogShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85060()
 {
     DAT_01177d74.FUN_007bb010(&ARG_00ea1c04, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BSShaderNoLighting::ms_RTTI'' | BSShaderNoLighting.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85080()
 {
     DAT_01177de0.FUN_007bb010(&ARG_00ea1eec, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'TileShader::ms_RTTI'' | TileShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85150()
 {
     DAT_01177f58.FUN_007bb010(&ARG_00ea20c8, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'GeometryDecalShader::ms_RTTI'' | GeometryDecalShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85190()
 {
     DAT_01177fc8.FUN_007bb010(&ARG_00ea22b0, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'ParallaxShader::ms_RTTI'' | ParallaxShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d851e0()
 {
     DAT_01178054.FUN_007bb010(&ARG_00ea249c, &ARG_01174b08);
 }
 
+// pdb: `dynamic initializer for 'SkinShader::ms_RTTI'' | SkinShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85230()
 {
     DAT_011780c8.FUN_007bb010(&ARG_00ea262c, &ARG_01174b08);
 }
 
+// pdb: `dynamic initializer for 'HairShader::ms_RTTI'' | HairShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85250()
 {
     DAT_011780d0.FUN_007bb010(&ARG_00ea27fc, &ARG_01174b08);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeFrondShader::ms_RTTI'' | SpeedTreeFrondShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85270()
 {
     DAT_011780dc.FUN_007bb010(&ARG_00ea2b80, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeBranchShader::ms_RTTI'' | SpeedTreeBranchShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85290()
 {
     DAT_011780e8.FUN_007bb010(&ARG_00ea2d2c, &ARG_01174b08);
 }
 
+// pdb: `dynamic initializer for 'DistantLODShader::ms_RTTI'' | DistantLODShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d852e0()
 {
     DAT_01178168.FUN_007bb010(&ARG_00ea2f30, &ARG_0117a620);
 }
 
+// pdb: `dynamic initializer for 'BSCubeMapCamera::ms_RTTI'' | BSCubeMapCamera.obj | fnv360_0822_retail, ustr, high
 void FUN_00d85300()
 {
     DAT_01178170.FUN_007bb010(&ARG_00ea3028, &ARG_0108f200);
 }
 
+// pdb: `dynamic initializer for 'TallGrassTriStrips::ms_RTTI'' | TallGrassTriStrips.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d853d0()
 {
     DAT_01178250.FUN_007bb010(&ARG_00ea37f4, &ARG_0108f414);
 }
 
+// pdb: `dynamic initializer for 'TallGrassTriShape::ms_RTTI'' | TallGrassTriShape.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d853f0()
 {
     DAT_01178258.FUN_007bb010(&ARG_00ea3910, &ARG_0108f440);
 }
 
+// pdb: `dynamic initializer for 'BeamShaderProperty::ms_RTTI'' | BeamShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85410()
 {
     DAT_01178264.FUN_007bb010(&ARG_00ea3924, &ARG_011761e4);
 }
 
+// pdb: `dynamic initializer for 'SpeedTreeFrondShaderProperty::ms_RTTI'' | SpeedTreeFrondShaderProperty.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d85430()
 {
     DAT_0117826c.FUN_007bb010(&ARG_00ea3938, &ARG_01176518);
 }
 
+// pdb: `dynamic initializer for 'DebugTextExtraData::ms_RTTI'' | DebugText.obj | fnv360_0721_beta, ustr, high
 void FUN_00d861c0()
 {
     DAT_0117979c.FUN_007bb010(&ARG_00eaa804, &ARG_0108f480);
 }
 
+// pdb: `dynamic initializer for 'NiFragmentMaterial::ms_RTTI'' | NiFragmentMaterial.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d86500()
 {
     DAT_0117a5d8.FUN_007bb010(&ARG_00eb9ba4, &ARG_01090830);
 }
 
+// pdb: `dynamic initializer for 'NiRenderedCubeMap::ms_RTTI'' | NiRenderedCubeMap.obj | fnv360_0822_retail, ustr, high
 void FUN_00d86520()
 {
     DAT_0117a5e0.FUN_007bb010(&ARG_00eb9c64, &ARG_0108f4c4);
 }
 
+// pdb: `dynamic initializer for 'NiRenderTargetGroup::ms_RTTI'' | NiRenderTargetGroup.obj | fnv360_0822_retail, ustr, high
 void FUN_00d86540()
 {
     DAT_0117a5e8.FUN_007bb010(&ARG_00eb9d4c, &ARG_0108ed88);
 }
 
+// pdb: `dynamic initializer for 'NiShaderDeclaration::ms_RTTI'' | NiShaderDeclaration.obj | fnv360_0822_retail, ustr, high
 void FUN_00d86560()
 {
     DAT_0117a5f0.FUN_007bb010(&ARG_00eb9df8, &ARG_0108ed88);
 }
 
+// pdb: `dynamic initializer for 'NiFragmentShaderInstanceDescriptor::ms_RTTI'' | NiFragmentShaderInstanceDescriptor.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d86580()
 {
     DAT_0117a5f8.FUN_007bb010(&ARG_00eb9e0c, &ARG_01090710);
 }
 
+// pdb: `dynamic initializer for 'NiSCMExtraData::ms_RTTI'' | NiSCMExtraData.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d865c0()
 {
     DAT_0117a608.FUN_007bb010(&ARG_00eb9fb8, &ARG_0108f480);

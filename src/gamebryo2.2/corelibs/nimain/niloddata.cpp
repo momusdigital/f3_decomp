@@ -2,6 +2,7 @@
 #include "niloddata_packet.h"
 // Writes count bytes from buffer to the stream, advances position by the bytes written, and returns that count.
 // @fnv 0x00aa1570
+// pdb: NiFile::DiskRead | NiFile_Win32.obj | tesv_win, hash, low
 unsigned int NiLODData::Write(const void* buffer, unsigned int count)
 {
     unsigned int written = _access_s(buffer, 1, count, stream);
@@ -12,7 +13,8 @@ unsigned int NiLODData::Write(const void* buffer, unsigned int count)
 extern const char* const g_011f5ee8_arg1;
 
 // @fnv 0x00aa09e0
-const char* __cdecl FUN_00aa09e0()
+// pdb: NiFogProperty::GetRTTI | BSFogProperty.obj | fnv360_0822_retail, udata, high
+const char* __cdecl NiFogProperty_GetRTTI()
 {
     return (const char*)&g_011f5ee8_arg1;
 }
@@ -36,6 +38,7 @@ struct FUN_00a5d3a0 : NiRefObject
 };
 // Initialises the object by storing the vtable pointer DAT_0109b4f4 into its first field.
 // @fnv 0x00a5d3a0
+// pdb: NiObject::NiObject | NiObject.obj | tesv_win, hash, low
 FUN_00a5d3a0::FUN_00a5d3a0()
 {
     *(void**)this = (void*)&DAT_0109b4f4;
@@ -68,6 +71,8 @@ void* NiLODData_shell::FUN_00aa09f0(int flags)
 }  // namespace fnv_00aa09f0
 
 // @fnv 0x00aa09d0
+// pdb: ActiveEffect::CheckCast | AbsorbEffect.obj | fnv360_0721_beta, vtable, medium
+// pdb params: apCaster
 char __stdcall FUN_00aa09d0(char)
 {
     return 1;

@@ -14,17 +14,11 @@ BSAudio* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void*, void*, int);
 struct UnkRet { int x; int y; };
 void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
-void __fastcall ToggleBit(int a, void* b);
 struct Entry {
     unsigned short key;
     unsigned short value;
 };
 Entry* __stdcall LowerBoundEntry(Entry* first, Entry* last, unsigned short key);
-struct FUN_00d11960_cls {
-    int* m_pEntryData;
-    int m_iArrayLength;
-    void FUN_00d11960(int aiFirst, int aiSecond);
-};
 struct D1A0E0Allocator;
 struct D1A0E0MemoryRouter {
     int unk00;
@@ -35,9 +29,7 @@ struct D1A0E0MemoryRouter {
 
     D1A0E0Allocator& heap() { return *m_pStreamAllocator; }
 };
-extern "C" D1A0E0MemoryRouter& __cdecl D1A0E0GetMemoryRouter();
 void __cdecl FUN_00c908c0(D1A0E0Allocator* alloc, void* array, int numElements, int sizeElem);
-extern char* g_D1A0E0Tables[2];
 struct D1A0E0Entry {
     unsigned short m_flags;
     unsigned short m_uiEdgeIndex;
@@ -75,7 +67,6 @@ struct S_00d1a180_Allocator {
 struct S_00d1a180_ArrayUtil {
     static int __cdecl FUN_00c908c0(S_00d1a180_Allocator& alloc, void* arr, int numElem, int elemSize);
 };
-extern int DAT_011b37b4[2];
 struct S_00d1a180_Router {
     int unk0; int unk4; int unk8; int unkC;
     S_00d1a180_Allocator* m_pStreamAllocator;
@@ -125,52 +116,6 @@ struct S_00d1a180_Axis {
 
     void RemapEndPoints(char* nodes, const S_00d1a180_IntArray& remap);
 };
-void __fastcall FUN_00d10af0(int index, unsigned int* bits);
-struct FUN_00d11620_cls {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int m_iA4;
-    int FUN_00d11620();
-};
 // Reconstructed source for FUN_00d119c0 (forwarding thunk, 24 bytes).
 // Target shape:
 //   mov edx, [esp+4]            ; handle (first stack arg)
@@ -179,71 +124,9 @@ struct FUN_00d11620_cls {
 //   add eax, [ecx+0xA0]         ; + &this->entries
 //   mov [esp+4], eax            ; forward as first stack arg
 //   jmp FUN_00d11650            ; __thiscall tail call, ecx = this preserved
-struct UnkHandle {
-    int unk00; // entry index read at [handle]
-};
-struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-};
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
 // __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-void __fastcall FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
 // Stand-in owner class for the __thiscall thunk; fnvcheck matches the name FUN_00d119c0.
-struct FUN_00d119c0_owner {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    SweepEntry* unkA0; // entry array base pointer at this+0xA0
-
-    void FUN_00d119c0(UnkHandle* handle);
-};
-struct HkHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
 struct PairEntry {
     int m_pHeadNode;
     int m_iSecondInteger;
@@ -275,26 +158,8 @@ struct FnvArr {
     int m_uiItemCount;
     unsigned int m_cap;
 };
-struct FnvPair8 {
-    unsigned int first;
-    unsigned int second;
-};
-struct FnvHolderTail {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAllocator;
-};
 void __fastcall FUN_00d11c60(void* base, FnvNode* p, unsigned short a1, FnvNode* q, FnvArr* a3);
 struct FUN_00d11da0_cls;
-struct FUN_00d11da0_holder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
 struct FUN_00d11da0_entry {
     unsigned short key;
     unsigned short value;
@@ -307,10 +172,6 @@ struct FUN_00d11da0_cls {
 
     void InsertPair(unsigned int a1, unsigned int a2, unsigned short a3,
                       unsigned short a4, unsigned short* outIndex2, unsigned short* outIndex);
-};
-struct S_00d138a0_Heap : BSAudio {
-    int unk0c;
-    void* unk10;
 };
 struct S_00d138a0_Pair {
     int unk00;
@@ -329,54 +190,14 @@ struct S_00d138a0_Node {
     int unk0c;
 };
 void __cdecl CollectNodePairs(int unused, S_00d138a0_Node* node, int count, S_00d138a0_Array* out);
-struct AllocIface {
-    virtual void* unk00();
-    virtual void* Alloc(unsigned int size);
-};
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
-struct SpawnedObject {
-    int unk00;
-    unsigned short m_wSize;
-
-    SpawnedObject* Init(int a, int b, int c);
-};
-SpawnedObject* FUN_00d182a0(int a, int b, int c);
-int __cdecl FUN_00d19d10(const float* v, float* out);
 extern int DAT_011b37a4[];
 struct hkp3AxisSweep;
 struct Endpoint {
     unsigned short value;
     unsigned short handle;
 };
-struct S_00d19d90_Class {
-    Endpoint* m_endpoints;
-    void MergeSortedEndpoints(void* pLookup, int totalCount, Endpoint* pSrc2, int count2);
-};
-struct Pair {
-    unsigned short key;
-    unsigned short hi;
-};
-struct FUN_00d19ef0_cls {
-    Pair* m_pItems;
-    void FUN_00d19ef0(char* out, int n, Pair* src, int k);
-};
 void __cdecl FUN_00d19fa0(unsigned int* base, int lo, int hi, int unkArg);
-void __cdecl QuickSortByLowWord(unsigned int* base, int lo, int hi, int unkArg);
-static int FUN_00d10b10(void* self, int index, unsigned int* bits);
-int IsBitmapBitSet(void* table, int index, unsigned int* bits);
 extern int DAT_011b37a4[];
-class FUN_00d11120_cls {
-public:
-    Endpoint* m_endpoints;
-    void MergeEndpoints(char* cells, int n, int m,
-                      unsigned int axis, Endpoint* scratch);
-};
 // Adapted from an unverified prior attempt by another contributor; original author/model unknown.
 struct S_d11790_Node { unsigned short m_usValue00, m_usValue02, m_usValue04, m_usValue06, m_usValue08, m_usValue0A; unsigned short unk0c, unk0e; };
 struct S_d11790_Edge { unsigned short value; unsigned short handle; };
@@ -398,59 +219,6 @@ static __forceinline void S_d11790_Fix(S_d11790_Node* nodes, S_d11790_Edge* edge
 
     *currentField = i;
 }
-struct S_d11790_Sweep {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    S_d11790_Node* nodes;
-    int unka4;
-    int unka8;
-    S_d11790_Edge* axis0;
-    int unkb0;
-    int unkb4;
-    S_d11790_Edge* axis1;
-    int unkbc;
-    int unkc0;
-    S_d11790_Edge* axis2;
-    void FixNodeEdges(unsigned h);
-};
 extern "C" int __cdecl FUN_00d06f80(const void* ptr, int size);
 struct hkStatisticsCollector {
     virtual void dummy0();
@@ -473,20 +241,6 @@ struct hkArray {
     int m_iElementCount;
     int m_iCapacityState;
 };
-struct FourIntegerBlock {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-struct UnsignedShortPair {
-    unsigned short m_uiFilterValue;
-    unsigned short m_usIndex;
-};
-struct OverlappingMarkerInfo {
-    int unk00;
-    hkArray<unsigned short> m_overlappingMarkers;
-};
 template <typename T>
 __forceinline void addArray(hkStatisticsCollector* collector, const char* name, const hkArray<T>& arr)
 {
@@ -497,30 +251,7 @@ __forceinline void addArray(hkStatisticsCollector* collector, const char* name, 
         collector->AddMemoryChunk(3, name, arr.m_data, arr.m_iElementCount * sizeof(T), allocated);
     }
 }
-struct S_00d119e0 {
-    int unk00; int unk04; int unk08; int unk0C;
-    int unk10; int unk14; int unk18; int unk1C;
-    int unk20; int unk24; int unk28; int unk2C;
-    int unk30; int unk34; int unk38; int unk3C;
-    int unk40; int unk44; int unk48; int unk4C;
-    int unk50; int unk54; int unk58; int unk5C;
-    int unk60; int unk64; int unk68; int unk6C;
-    int unk70; int unk74; int unk78; int unk7C;
-    int unk80; int unk84; int unk88; int unk8C;
-    int unk90; int unk94; int unk98; int unk9C;
-
-    hkArray<FourIntegerBlock> m_kNodeCollection;
-    hkArray<UnsignedShortPair> m_axis0;
-    hkArray<UnsignedShortPair> m_axis1;
-    hkArray<UnsignedShortPair> m_axis2;
-    int m_iMarkerCount;
-    int unkD4;
-    OverlappingMarkerInfo* m_pOverlappingMarkerInfo;
-
-    void ReportStatistics(hkStatisticsCollector* collector, const void* cls);
-};
 BSAudio* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c856c0(void*, void*) throw();
 struct Allocator_00d182e0 {
     virtual void unk00() throw();
     virtual void unk04() throw();
@@ -551,46 +282,6 @@ struct hkArray_00d182e0 {
         m_iCapacityState = 0x80000000;
     }
 };
-struct Node_00d182e0 {
-    int unk00; int unk04; int unk08; int unk0c;
-};
-struct EndPoint_00d182e0 {
-    unsigned short m_uiFilterValue;
-    unsigned short m_usIndex;
-};
-struct SubNode_00d182e0 {
-    int unk00;
-    hkArray_00d182e0<unsigned short> m_ppData;
-};
-struct BroadPhaseBase {
-    virtual ~BroadPhaseBase() throw();
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-struct FUN_00d182e0 : public BroadPhaseBase {
-    int unk20; int unk24; int unk28; int unk2C;
-    int unk30; int unk34; int unk38; int unk3C;
-    int unk40; int unk44; int unk48; int unk4C;
-    int unk50; int unk54; int unk58; int unk5C;
-    int unk60; int unk64; int unk68; int unk6C;
-    int unk70; int unk74; int unk78; int unk7C;
-    int unk80; int unk84; int unk88; int unk8C;
-    int unk90; int unk94; int unk98; int unk9C;
-    hkArray_00d182e0<Node_00d182e0> m_kNodeCollection;
-    hkArray_00d182e0<EndPoint_00d182e0> m_kAxisEndPoints[3];
-    int m_numSubNodes;
-    int unkD4;
-    SubNode_00d182e0* m_subNodes;
-
-    virtual ~FUN_00d182e0() throw();
-};
-int __cdecl FUN_00d10ac0();
-void __cdecl FUN_00d10ff0();
 struct Allocator;
 struct MemoryRouter {
     int unk00, unk04, unk08, unk0C;
@@ -641,10 +332,6 @@ struct SmallArray {
         }
     }
 };
-struct TargetStruct {
-    int unk00;
-    SmallArray m_ppData;
-};
 struct BroadPhasePairArray : S_00d138a0_Array {
     S_00d138a0_Pair& _expandOne(Allocator& alloc) {
         if (unk04 == (int)(unk08 & 0x3fffffff)) {
@@ -658,68 +345,8 @@ struct BroadPhasePairArray : S_00d138a0_Array {
         return _expandOne(MemoryRouter::GetMonitorStream()->heap());
     }
 };
-struct C_00d13620 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    void* m_unkD8;
-
-    void BuildBroadPhasePairs(S_00d138a0_Node* nodesA, int numNodesA, S_00d138a0_Node* nodesB, int numNodesB, int mode, BroadPhasePairArray& pairs);
-};
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 // Broad-phase endpoint sweep with two inline active-node sets.
-struct BSAudioLocal { void* p; int a; int b; };
 void __cdecl ResizeAudioStream(void*, void*, int);
 struct AllocObj {
     void** m_vtbl;
@@ -735,9 +362,6 @@ struct ShortVec {
 struct LocalVec {
     U16* m_00; int m_04; int m_08;
     U16 m_0c[256];
-};
-struct EntryLocal {
-    unsigned short m_00; unsigned short m_02;
 };
 struct Record {
     int m_00; int m_04; int m_08; int m_0c;
@@ -847,37 +471,6 @@ __declspec(align(16)) struct S00d10b30_Node {
     __m64 hi;
 };
 
-struct S00d10b30_Bnd {
-    short lo0;
-    short lo1;
-    short lo2;
-    short lo3;
-    short hi0;
-    short hi1;
-};
-
-// @fnv 0x00d10b30
-void __stdcall FUN_00d10b30(S00d10b30_Node* nodes, int n, const S00d10b30_Bnd* bnd)
-{
-    S00d10b30_Node r1, r2;
-    r1.hi.m64_i16[1] = r1.hi.m64_i16[0] = bnd->hi0 - 1;
-    r1.lo.m64_i16[2] = r1.lo.m64_i16[0] = bnd->lo0 - 1;
-    r1.lo.m64_i16[3] = r1.lo.m64_i16[1] = bnd->lo1 - 1;
-    r2.hi.m64_i16[1] = r2.hi.m64_i16[0] = bnd->hi1 - 2;
-    r2.lo.m64_i16[2] = r2.lo.m64_i16[0] = bnd->lo2 - 2;
-    r2.lo.m64_i16[3] = r2.lo.m64_i16[1] = bnd->lo3 - 2;
-    __m64 mask = _mm_set_pi32(0, -1);
-
-    S00d10b30_Node* end = nodes + n;
-    for (S00d10b30_Node* p = nodes; p < end; ++p) {
-        __m64 lo = p->lo;
-        __m64 hi = p->hi;
-        p->lo = _mm_sub_pi16(lo, _mm_add_pi16(_mm_cmpgt_pi16(lo, r1.lo), _mm_cmpgt_pi16(lo, r2.lo)));
-        p->hi = _mm_sub_pi16(hi, _mm_and_si64(mask, _mm_add_pi16(_mm_cmpgt_pi16(hi, r1.hi), _mm_cmpgt_pi16(hi, r2.hi))));
-    }
-    _mm_empty();
-}
-
 __declspec(align(16)) struct BpRefBounds {
     unsigned short lo0;
     unsigned short lo1;
@@ -889,160 +482,13 @@ __declspec(align(16)) struct BpRefBounds {
     unsigned short hi3;
 };
 
-struct BpDeltaPair {
-    unsigned int lo;
-    unsigned int hi;
-};
-
-// @fnv 0x00d10c40
-void __stdcall FUN_00d10c40(FourIntegerBlock* nodes, int n, int delta, const int* bound)
-{
-    BpRefBounds ref;
-    ref.hi0 = (unsigned short)(bound[0] - 1);
-    ref.hi1 = ref.hi0;
-    ref.lo0 = (unsigned short)(bound[1] - 1);
-    ref.lo2 = ref.lo0;
-    ref.lo1 = (unsigned short)(bound[2] - 1);
-    ref.lo3 = ref.lo1;
-
-    unsigned int d = (unsigned int)delta * 0x10001u;
-    __m64 dAll = _mm_set_pi32(d, d);
-    __m64 dHi = _mm_set_pi32(0, d);
-    __m64 refLo = *(__m64*)&ref.lo0;
-    __m64 refHi = *(__m64*)&ref.hi0;
-
-    FourIntegerBlock* end = nodes + n;
-    for (FourIntegerBlock* p = nodes; p < end; ++p) {
-        __m64 lo = *(__m64*)&p->unk00;
-        __m64 hi = *(__m64*)&p->unk08;
-        *(__m64*)&p->unk00 = _mm_add_pi16(lo, _mm_and_si64(_mm_cmpgt_pi16(lo, refLo), dAll));
-        *(__m64*)&p->unk08 = _mm_add_pi16(hi, _mm_and_si64(_mm_cmpgt_pi16(hi, refHi), dHi));
-    }
-    _mm_empty();
-}
-
-struct BpBoundNode { __m64 lo; __m64 hi; };
-struct BpBoundWords { unsigned short lo0, lo1, lo2, lo3, hi0, hi1; };
 struct __declspec(align(16)) ReferenceBounds {
     unsigned short min0, min1, min2, min3;
     unsigned short max0, max1;
     unsigned int maxSentinels;
 };
-// @fnv 0x00d10d10
-void __stdcall FUN_00d10d10(BpBoundNode* nodes, int n, const BpBoundWords* bnd)
-{
-    ReferenceBounds first, second;
-    __m64 mask;
-    unsigned int hi0 = bnd->hi0;
-    first.max0 = hi0; first.max1 = hi0;
-    unsigned int lo0 = bnd->lo0;
-    first.min0 = lo0; first.min2 = lo0;
-    unsigned int lo1 = bnd->lo1;
-    first.min1 = lo1; first.min3 = lo1;
-    unsigned int hi1 = bnd->hi1;
-    second.max0 = hi1; second.max1 = hi1;
-    unsigned int lo2 = bnd->lo2;
-    second.min0 = lo2; second.min2 = lo2;
-    unsigned int lo3 = bnd->lo3;
-    second.min1 = lo3; second.min3 = lo3;
-    BpBoundNode* end = nodes + n;
-    first.maxSentinels = 0xffffffff;
-    second.maxSentinels = 0xffffffff;
-    mask = _mm_set_pi32(0, -1);
-    __m64 a = *(__m64*)&first.min0;
-    __m64 b = *(__m64*)&first.max0;
-    __m64 d = *(__m64*)&second.max0;
-    for (BpBoundNode* p = nodes; p != end; ++p) {
-        __m64 lo = p->lo;
-        __m64 hi = p->hi;
-        __m64 t0 = _mm_cmpgt_pi16(lo, a);
-        __m64 t1 = _mm_cmpgt_pi16(lo, *(__m64*)&second.min0);
-        t0 = _mm_add_pi16(t0, t1);
-        p->lo = _mm_add_pi16(lo, t0);
-        __m64 u0 = _mm_cmpgt_pi16(hi, b);
-        __m64 u1 = _mm_cmpgt_pi16(hi, d);
-        u0 = _mm_and_si64(_mm_add_pi16(u0, u1), mask);
-        p->hi = _mm_add_pi16(hi, u0);
-    }
-    _mm_empty();
-}
 
 int fnv_FloatToInt(float fValue);
-
-extern __m128 DAT_011b6d70;
-extern __m128 DAT_01267e30;
-
-struct SweepVec4 { __m128 m_vComponents; };
-struct SweepAabb { SweepVec4 m_kMinimumCorner; SweepVec4 m_kMaximumCorner; };
-struct SweepAabbInt { int m_min0; int m_min1; int m_min2; int m_min3; int m_max0; int m_max1; int m_max2; int m_max3; };
-
-struct SweepCls {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual int v14(void* a, SweepAabbInt* b, int c);
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    SweepVec4 m_kVectorAt40;
-    SweepVec4 m_kVectorAt50;
-    SweepVec4 m_vScale;
-    int FUN_00d114e0(void* a1, const SweepAabb& aabb, int a3);
-};
-
-// @fnv 0x00d114e0
-int SweepCls::FUN_00d114e0(void* a1, const SweepAabb& aabb, int a3)
-{
-    SweepAabbInt out;
-    const __m128 maxVal = DAT_011b6d70;
-    {
-        __m128 v = _mm_add_ps(m_kVectorAt40.m_vComponents, aabb.m_kMinimumCorner.m_vComponents);
-        v = _mm_mul_ps(v, m_vScale.m_vComponents);
-        v = _mm_min_ps(v, maxVal);
-        v = _mm_max_ps(v, DAT_01267e30);
-        SweepVec4 t; t.m_vComponents = v;
-        const float* f = (const float*)&t;
-        out.m_min0 = fnv_FloatToInt(f[0]);
-        out.m_min1 = fnv_FloatToInt(f[1]);
-        out.m_min2 = fnv_FloatToInt(f[2]);
-        out.m_min3 = fnv_FloatToInt(f[3]);
-    }
-    {
-        __m128 v = _mm_add_ps(m_kVectorAt50.m_vComponents, aabb.m_kMaximumCorner.m_vComponents);
-        v = _mm_mul_ps(v, m_vScale.m_vComponents);
-        v = _mm_min_ps(v, maxVal);
-        v = _mm_max_ps(v, DAT_01267e30);
-        SweepVec4 t; t.m_vComponents = v;
-        const float* f = (const float*)&t;
-        out.m_max0 = fnv_FloatToInt(f[0]);
-        out.m_max1 = fnv_FloatToInt(f[1]);
-        out.m_max2 = fnv_FloatToInt(f[2]);
-        out.m_max3 = fnv_FloatToInt(f[3]);
-    }
-    return v14(a1, &out, a3);
-}
 
 // Axis0 candidate-bitset sweep. First argument is updated node count,
 // independently confirmed at the real caller; it is not allocation words.
@@ -1134,6 +580,7 @@ inline void clear(hkUint32* bits, int i) {
     bits[idx] &= ~(1u << (i & 31));
 }
 // @f3 0x00991290 (community match, verified in this file)
+// pdb: hkp3AxisSweep::setBitsBasedOnXInterval | hkp3AxisSweep.obj | tesv_win, objrun_sim, low
 void S_00d112c0::FUN_00d112c0(int numNodes, int key, const S_00d112c0_Node* aabb, hkUint16 skip, hkUint32* bits)
 {
     unsigned minX = aabb->m_min0;
@@ -1562,238 +1009,16 @@ Obj8* ep=&current;
 
     void FUN_00d12040(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4);
 };
-// @fnv 0x00d12040
-void Sweep8::FUN_00d12040(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4)
-{
-    
-    int** r;
-    int** res = a0 + a2;
-    r = a0;
-
-    if (r < res) {
-        do {
-            Bounds33 bounds; convert33(const_cast<const unsigned int&>(a1), bounds);
-            unsigned int pObj;
-            Obj8* key;
-            key = objs;
-            pObj = **r;
-            Obj8* ep;
-            ep = key + pObj;
-            axis34_0(key,pObj,*ep,bounds.min[0],bounds.max[0],const_cast<const unsigned int&>(a3),const_cast<const unsigned int&>(a4));
-            axis34_1(key,pObj,*ep,bounds.min[1],bounds.max[1],const_cast<const unsigned int&>(a3),const_cast<const unsigned int&>(a4));
-            {
- const unsigned int& added=const_cast<const unsigned int&>(a3); const unsigned int& removed=const_cast<const unsigned int&>(a4);
-
-            // P7 backward: listC, pos field f1, p bounds.min[2], backward + bwd-equal (4x u16 overlap test, pairs f5/f4 + f2/f0)
-            {
-                End8* list = listC;
-                int obj = ep->f1;
-                End8* i = list + obj;
-                unsigned int p = bounds.min[2];
-                unsigned int n = i[-1].key;
-                if (p < n) {
-                    do {
-                        int nextKey = i[-1].id;
-                        Obj8* other = key + nextKey;
-                        i[0].packed = i[-1].packed;
-                        i--;
-                        if (n & 1) {
-                            unsigned short a;
-                            a = (unsigned short)(other->f5 - ep->f4) | (unsigned short)(ep->f5 - other->f4) | (unsigned short)(other->f2 - ep->f0) | (unsigned short)(ep->f2 - other->f0);
-                            other->slot3() = (unsigned short)obj;
-                            if ((a & 0x8000) == 0)
-                                AppendPairToBuffer(ep, other, added);
-                        } else {
-                            other->slot1() = (unsigned short)obj;
-                        }
-                        n = i[-1].key;
-                        obj--;
-                    } while (p < n);
-                }
-                if (p == i[-1].key) {
-                    do {
-                        unsigned int nextKey = i[-1].id;
-                        if (pObj >= nextKey) break;
-                        Obj8* other = key + nextKey;
-                        i[0].packed = i[-1].packed;
-                        i--;
-                        other->slot1() = (unsigned short)obj;
-                        n = i[-1].key;
-                        obj--;
-                    } while (p == n);
-                }
-                ((End8*)i)->id = (unsigned short)pObj;
-                ((End8*)i)->key = (unsigned short)p;
-                ep->f1 = (unsigned short)obj;
-            }
-            // P8: listC, pos field f3, p bounds.max[2], forward + fwd-equal + backward + bwd-equal
-            {
-                End8* list = listC;
-                int obj = ep->f3;
-                End8* i = list + obj;
-                unsigned int p = bounds.max[2];
-                unsigned int otherIdx = i[1].key;
-                if (p > otherIdx) {
-                    do {
-                        i[0].packed = i[1].packed;
-                        i++;
-                        int nextKey = i[0].id;
-                        Obj8* other = key + nextKey;
-                        obj++;
-                        if ((otherIdx & 1) == 0) {
-                            unsigned short a = (unsigned short)(other->f5 - ep->f4) | (unsigned short)(ep->f5 - other->f4) | (unsigned short)(other->f2 - ep->f0) | (unsigned short)(ep->f2 - other->f0);
-                            other->slot1()--;
-                            if ((a & 0x8000) == 0)
-                                AppendPairToBuffer(ep, other, added);
-                        } else {
-                            other->slot3()--;
-                        }
-                        otherIdx = i[1].key;
-                    } while (p > otherIdx);
-                }
-                if (p == i[1].key) {
-                    do {
-                        unsigned int nextKey = i[1].id;
-                        if (pObj <= nextKey) break;
-                        if (nextKey == 0) break;
-                        Obj8* other = key + nextKey;
-                        i[0].packed = i[1].packed;
-                        i++;
-                        other->slot3()--;
-                        otherIdx = i[1].key;
-                        obj++;
-                    } while (p == otherIdx);
-                }
-                unsigned int n = i[-1].key;
-                if (p < n) {
-                    do {
-                        i[0].packed = i[-1].packed;
-                        int nextKey = i[-1].id;
-                        Obj8* other = key + nextKey;
-                        i--;
-                        obj--;
-                        if ((n & 1) == 0) {
-                            unsigned short a = (unsigned short)(other->f5 - ep->f4) | (unsigned short)(ep->f5 - other->f4) | (unsigned short)(other->f2 - ep->f0) | (unsigned short)(ep->f2 - other->f0);
-                            other->slot1()++;
-                            if ((a & 0x8000) == 0)
-                                AppendPairEntry(ep, other, removed);
-                        } else {
-                            other->slot3()++;
-                        }
-                        n = i[-1].key;
-                    } while (p < n);
-                }
-                if (p == i[-1].key) {
-                    do {
-                        unsigned int nextKey = i[-1].id;
-                        if (pObj >= nextKey) break;
-                        Obj8* other = key + nextKey;
-                        i[0].packed = i[-1].packed;
-                        i--;
-                        other->slot3()++;
-                        n = i[-1].key;
-                        obj--;
-                    } while (p == n);
-                }
-                ep->f3 = (unsigned short)obj;
-                ((End8*)i)->key = (unsigned short)p;
-                ((End8*)i)->id = (unsigned short)pObj;
-            }
-            // P7 forward: listC, pos field f1, p bounds.min[2], forward + fwd-equal
-            {
-                End8* list = listC;
-                int obj = ep->f1;
-                End8* i = list + obj;
-                unsigned int p = bounds.min[2];
-                unsigned int otherIdx = i[1].key;
-                if (p > otherIdx) {
-                    do {
-                        int nextKey = i[1].id;
-                        Obj8* other = key + nextKey;
-                        i[0].packed = i[1].packed;
-                        i++;
-                        obj++;
-                        if (otherIdx & 1) {
-                            unsigned short a = (unsigned short)(other->f5 - ep->f4) | (unsigned short)(ep->f5 - other->f4) | (unsigned short)(other->f2 - ep->f0) | (unsigned short)(ep->f2 - other->f0);
-                            other->slot3()--;
-                            if ((a & 0x8000) == 0)
-                                AppendPairEntry(ep, other, removed);
-                        } else {
-                            other->slot1()--;
-                        }
-                        otherIdx = i[1].key;
-                    } while (p > otherIdx);
-                }
-                if (p == i[1].key) {
-                    do {
-                        unsigned int nextKey = i[1].id;
-                        if (pObj <= nextKey) break;
-                        Obj8* other = key + nextKey;
-                        i[0].packed = i[1].packed;
-                        i++;
-                        other->slot1()--;
-                        otherIdx = i[1].key;
-                        obj++;
-                    } while (p == otherIdx);
-                }
-                ep->f1=(unsigned short)obj;
-i->id=(unsigned short)pObj;
-i->key=(unsigned short)p;
-a1+=sizeof(Vec33);
-a1+=sizeof(Vec33);
-            }
-
-    }
-
-r += 1;
-        } while (r < res);
-    }
-}
 
 #include <xmmintrin.h>
 namespace fnv_00d154a0 {
-extern "C" void _ReadWriteBarrier(void);
 extern __m128 DAT_011b3790;
 extern __m128 DAT_011b3770;
 
-struct Alloc154 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void* alloc(int& size);
-    virtual void ReleaseBlock(void* p, int n);
-};
-struct Router154 {
-    int unk00; int unk04; int unk08;
-    Alloc154* m_pStreamAllocator;
-};
 struct Obj154 {
     virtual float unk00(int a, int b);
     virtual float call4(int a, int b);
 };
-
-struct Entry16 {
-    unsigned short key;
-    unsigned short pad;
-    unsigned short* list;
-    int count;
-    int capacity;
-};
-struct Node16 {
-    int f0; int f4;
-    unsigned short f8;
-    unsigned short f10;
-    int f12;
-};
-struct Elem64 {
-    int minPair;
-    int maxPair;
-    int unk8;
-    int handle;
-};
-
-// A view beginning at one node's packed maximum and ending at the next node's minimum.
-struct NodeTail154 { int maxPair,unk8,handle,nextMinPair; };
 
 struct Axis154 {
     Entry* m_data;
@@ -1814,155 +1039,6 @@ struct Axis154 {
 struct Aabb154 {__m128 min,max;};
 struct Input154 { const Aabb154* p; Input154(const Aabb154* q):p(q) {} };
 struct Callback154 { Obj154* p; Callback154(Obj154* q):p(q) {} };
-struct Sweep154 {
-    int unk00; int unk04; int unk08; int unk0c;
-    int unk10; int unk14; int unk18; int unk1c;
-    int unk20; int unk24; int unk28; int unk2c;
-    int unk30; int unk34; int unk38; int unk3c;
-    __m128 unk40;
-    __m128 unk50;
-    __m128 unk60;
-    int unk70; int unk74; int unk78; int unk7c;
-    int unk80; int unk84; int unk88; int unk8c;
-    int unk90; int unk94; int unk98; int unk9c;
-    Node16* unkA0;
-    int unkA4;
-    int unkA8;
-    int* unkAC;
-    int unkB0, unkB4;
-    Axis154 axisB8;
-    Axis154 axisC4;
-    int unkD0;
-    int unkD4;
-    Entry16* unkD8;
-
-    void FUN_00d154a0(Input154 input, Callback154 callback);
-};
-
-static void toggleBit(int* buf,int v){int idx=v>>5;int mask=1<<(v&31);buf[idx]^=mask;}
-static void clearBit(int* buf,int v){int idx=v>>5;int mask=1<<(v&31);buf[idx]&=~mask;}
-// @fnv 0x00d154a0
-void Sweep154::FUN_00d154a0(Input154 input, Callback154 callback) {
-    int* wordEnd;
-    (void)&wordEnd; // Keep the end pointer first in the compiler's local-symbol ordering.
-    int count = unkA4;
-    int nInts = (count >> 5) + 8;
-    Router154* router = (Router154*)FUN_00c85750();
-    Alloc154* alloc = router->m_pStreamAllocator;
-    int* buf;
-    int cap;
-    if (nInts != 0) {
-        int reqSize=nInts*4;
-        int* data=(int*)alloc->alloc(reqSize);
-        int capacity=reqSize/4;
-        buf=data;
-        _ReadWriteBarrier();
-        cap=capacity;
-    } else {buf=0;cap=0;}
-    if(!cap) cap=0x80000000;
-    int nWords = count >> 7;
-    __m128 zero = _mm_setzero_ps();
-    __m128* zp = (__m128*)buf;
-    for (int i = nWords; i >= 0; i--) { _mm_store_ps((float*)zp++, zero); }
-    __m128 in0 = input.p->min;
-    __m128 in1 = input.p->max;
-    const __m128& scale = unk60;
-    __m128 cmax = DAT_011b3790;
-    const __m128& coff = DAT_011b3770;
-    __m128 r = _mm_add_ps(_mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(unk40, in0), scale), cmax), zero), coff);
-    struct Scratch154 { unsigned short ep[4]; union { __m128 vector; unsigned int u[4]; struct {int low[4],high[4];} bounds; } tmp; } scratch;
-    scratch.tmp.vector = r;
-
-    scratch.ep[0] = (unsigned short)(scratch.tmp.u[0] >> 7);
-    scratch.ep[1] = (unsigned short)(scratch.tmp.u[1] >> 7);
-    scratch.ep[2] = (unsigned short)(scratch.tmp.u[2] >> 7);
-    __m128 r2 = _mm_add_ps(_mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(unk50, in1), scale), cmax), zero), coff);
-    scratch.tmp.vector = r2;
-    unsigned int hx=scratch.tmp.u[0]>>7,hy=scratch.tmp.u[1]>>7,hz=scratch.tmp.u[2]>>7;
-
-    scratch.tmp.bounds.low[0] = *(int*)&scratch.ep[0] & 0xfffe;
-    scratch.tmp.bounds.low[1] = *(int*)&scratch.ep[1] & 0xfffe;
-    scratch.tmp.bounds.low[2] = *(int*)&scratch.ep[2] & 0xfffe;
-    scratch.tmp.bounds.high[0] = (unsigned short)hx | 1;
-    scratch.tmp.bounds.high[1] = (unsigned short)hy | 1;
-    scratch.tmp.bounds.high[2] = (unsigned short)hz | 1;
-
-    Endpoint* scan = (Endpoint*)unkAC + 1;
-    if (unkD0 != 0) {
-        int idx = scratch.tmp.bounds.low[0] >> (16 - unkD4);
-        if (idx > 0) {
-            Entry16* e = &unkD8[idx - 1];
-            toggleBit(buf, e->key);
-            unsigned short* cur = e->list;
-            int rem = e->count - 1;
-            while (rem >= 0) {
-                toggleBit(buf, *cur);
-                cur++;
-                rem--;
-            }
-            Node16* node = &unkA0[e->key];
-            Endpoint* axis=(Endpoint*)unkAC;
-            int lower=node->f8,upper=node->f10;
-            Endpoint* q=axis+lower+1;Endpoint* end=axis+upper;
-            for (;q<end;q++) {
-                if (!(q->value & 1))
-                    clearBit(buf, q->handle);
-            }
-            scan = (Endpoint*)unkAC + node->f8 + 1;
-        }
-    }
-    while (scan->value < (unsigned int)scratch.tmp.bounds.low[0]) {
-        toggleBit(buf, scan->handle);
-        scan++;
-    }
-    while (scan->value < (unsigned int)scratch.tmp.bounds.high[0]) {
-        if (!(scan->value & 1))
-            toggleBit(buf, scan->handle);
-        scan++;
-    }
-
-    axisB8.search(scratch.tmp.bounds.low[1],scratch.tmp.bounds.high[1],scratch.ep[0],scratch.ep[2]);
-    axisC4.search(scratch.tmp.bounds.low[2],scratch.tmp.bounds.high[2],scratch.ep[1],scratch.ep[3]);
-    int* wp=buf;
-    Elem64* ausAnimationGroup = (Elem64*)unkA0;
-    wordEnd = buf + (unkA4 >> 5) + 1;
-    if(wp < wordEnd) {
-    Obj154* obj = callback.p;
-    do {
-        int word = *wp;
-        NodeTail154* g = (NodeTail154*)&ausAnimationGroup[2].maxPair;
-        while (word != 0) {
-            if (word & 0xf) {
-                if (word & 1) {
-                    if ((((*(int*)&scratch.ep[2] - g[-3].nextMinPair) | (g[-2].maxPair - *(int*)&scratch.ep[0])) & 0x80008000) == 0 && !(g[-2].handle & 1))
-                        obj->call4(g[-2].handle, 0);
-                }
-                if (word & 2) {
-                    if ((((*(int*)&scratch.ep[2] - g[-2].nextMinPair) | (g[-1].maxPair - *(int*)&scratch.ep[0])) & 0x80008000) == 0 && !(g[-1].handle & 1))
-                        obj->call4(g[-1].handle, 0);
-                }
-                if (word & 4) {
-                    if ((((*(int*)&scratch.ep[2] - g[-1].nextMinPair) | (g[0].maxPair - *(int*)&scratch.ep[0])) & 0x80008000) == 0 && !(g[0].handle & 1))
-                        obj->call4(g[0].handle, 0);
-                }
-                if (word & 8) {
-                    if ((((*(int*)&scratch.ep[2] - g[0].nextMinPair) | (g[1].maxPair - *(int*)&scratch.ep[0])) & 0x80008000) == 0 && !(g[1].handle & 1))
-                        obj->call4(g[1].handle, 0);
-                }
-            }
-            word = (int)((unsigned int)word >> 4);
-            g += 4;
-        }
-        ausAnimationGroup += 32;
-        ++wp;
-    }while(wp < wordEnd);
-
-    }
-    Router154* router2 = (Router154*)FUN_00c85750();
-    Alloc154* alloc2 = router2->m_pStreamAllocator;
-    if (!(cap & 0x80000000))
-        alloc2->ReleaseBlock(buf, (cap & 0x3fffffff) * 4);
-}
 
 __declspec(noinline) Entry* Axis154::LowerBoundEntry(Entry* first, Entry* last, int key) {
     while (last-first > 16) {
@@ -1975,27 +1051,8 @@ __declspec(noinline) Entry* Axis154::LowerBoundEntry(Entry* first, Entry* last, 
 }
 }  // namespace fnv_00d154a0
 
-// @fnv 0x00d11000
-static __declspec(noinline) unsigned int* FUN_00d11000(unsigned int* dst, int n)
-{
-    int i = n >> 4;
-    __m128 zero = _mm_setzero_ps();
-    if (i >= 0) {
-        unsigned int* p = dst;
-        do {
-            unsigned int* cur = p;
-            p = cur + 4;
-            _mm_store_ps((float*)cur, zero);
-            i--;
-        } while (i >= 0);
-        return p;
-    }
-    return dst;
-}
-
 unsigned int* volatile g_zeroDestination;
 volatile int g_zeroLength;
-unsigned int* CallZeroBlocks() { return FUN_00d11000(g_zeroDestination, g_zeroLength); }
 
 #include <xmmintrin.h>
 namespace fnv_00d159a0 {
@@ -2052,211 +1109,17 @@ struct S159a0_NodeArray {
 };
 void __cdecl FUN_00c908c0(S159a0_Alloc* alloc, S159a0_NodeArray* arr, int numElements, int sizeElem);
 
-struct S159a0_U16Array {
-    unsigned short* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-struct S159a0_Marker {
-    unsigned short m_usIndex;
-    unsigned short m_uiFilterValue;
-    S159a0_U16Array m_kMarkerIndices;
-};
-struct S159a0_Axis {
-    Endpoint* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    Endpoint* LowerBoundEntry(Endpoint* first, Endpoint* last, unsigned int value);
-};
 union __declspec(align(16)) S159a0_IntUnion64 {
     unsigned short u16[4];
     unsigned int u32[2];
-};
-union S159a0_QuadInt {
-    __m128 q;
-    unsigned int u[4];
 };
 struct __declspec(align(16)) S159a0_AabbInt {
     unsigned int m_kMinimumCorner[4];
     unsigned int m_kMaximumCorner[4];
 };
-struct S159a0_Aabb {
-    __m128 m_kMinimumCorner;
-    __m128 m_kMaximumCorner;
-};
 extern __m128 DAT_011b3790;
 extern __m128 DAT_011b3770;
 
-struct S159a0_Vec { __m128 m_vComponents; };
-
-inline void S159a0_convert(const __m128& in, const __m128& offset, const __m128& scale, const S159a0_Vec& minV, const S159a0_Vec& maxV, S159a0_IntUnion64& out)
-{
-    __m128 x = _mm_add_ps(offset, in);
-    x = _mm_mul_ps(x, scale);
-    x = _mm_min_ps(x, maxV.m_vComponents);
-    x = _mm_max_ps(x, minV.m_vComponents);
-    x = _mm_add_ps(x, DAT_011b3770);
-    S159a0_QuadInt u;
-    u.q = x;
-    out.u16[0] = (unsigned short)(u.u[0] >> 7);
-    out.u16[1] = (unsigned short)(u.u[1] >> 7);
-    out.u16[2] = (unsigned short)(u.u[2] >> 7);
-}
-
-inline void S159a0_flip(unsigned int* bits, int i) { int mask = 1 << (i & 31); int w = i >> 5; bits[w] ^= mask; }
-inline void S159a0_clear(unsigned int* bits, int i) { int mask = 1 << (i & 31); int w = i >> 5; bits[w] &= ~mask; }
-
-inline void S159a0_memClear16(void* dst, int numQuads)
-{
-    __m128 zero = _mm_setzero_ps();
-    __m128* d = (__m128*)dst;
-    for (int i = numQuads - 1; i >= 0; i--)
-        _mm_store_ps((float*)d++, zero);
-}
-
-struct S159a0_Sweep {
-    int unk00; int unk04; int unk08; int unk0c;
-    __m128 unk10; __m128 unk20; __m128 unk30;
-    __m128 m_kVectorAt40; __m128 m_kVectorAt50; __m128 m_vScale;
-    __m128 unk70; __m128 unk80; __m128 unk90;
-    S159a0_Node* m_kNodeCollection; int m_iNodeCount; int m_nodesCap;
-    S159a0_Axis m_kAxisEndPoints[3];
-    int m_iMarkerCount; int m_iMarkerCapacity; S159a0_Marker* m_pOverlappingMarkerInfo;
-    void FUN_00d13950(S159a0_NodeArray* nodes, PairArray* out);
-    __forceinline void querySingleAabbSub(unsigned int* handle, const unsigned int* bitField, const unsigned int* bitFieldEnd, const S159a0_Node& queryNode, S159a0_NodeArray& out);
-    void FUN_00d159a0(const S159a0_Aabb& aabb, PairArray& out);
-};
-
-inline void S159a0_test(S159a0_Node* n, int k, const S159a0_Node& q, S159a0_NodeArray& arr)
-{
-    if (!q.yzDisjoint(n[k]) && !(n[k].handle & 1))
-        arr.m_data[arr.m_iElementCount++] = &n[k];
-}
-
-__forceinline void S159a0_Sweep::querySingleAabbSub(unsigned int* handle, const unsigned int* bitField, const unsigned int* bitFieldEnd, const S159a0_Node& queryNode, S159a0_NodeArray& out)
-{
-    const unsigned int* b = bitField;
-    S159a0_Node* nodes = &m_kNodeCollection[0];
-    bitFieldEnd += (m_iNodeCount >> 5) + 1;
-    for (; b < bitFieldEnd; nodes += 32, b++) {
-        unsigned int bits = *b;
-        if (!bits) continue;
-        S159a0_Node* n = nodes;
-        do {
-            if (bits & 15) {
-                if (bits & 1) S159a0_test(n, 0, queryNode, out);
-                if (bits & 2) S159a0_test(n, 1, queryNode, out);
-                if (bits & 4) S159a0_test(n, 2, queryNode, out);
-                if (bits & 8) S159a0_test(n, 3, queryNode, out);
-            }
-            bits >>= 4;
-            n += 4;
-        } while (bits);
-    }
-}
-
-// @fnv 0x00d159a0
-void S159a0_Sweep::FUN_00d159a0(const S159a0_Aabb& aabb, PairArray& out)
-{
-    S159a0_NodeArray overlapping;
-    overlapping.m_data = 0;
-    overlapping.m_iElementCount = 0;
-    overlapping.m_iCapacityState = 0x80000000;
-    {
-        int n = m_iNodeCount;
-        S159a0_Router* r = (S159a0_Router*)FUN_00c85750();
-        if ((overlapping.m_iCapacityState & 0x3fffffff) < n)
-            FUN_00c908c0(r->m_aiEntries, &overlapping, n, 4);
-    }
-
-    int numNodes = m_iNodeCount;
-    int bitFieldSize = (numNodes >> 5) + 8;
-    unsigned int* b = 0;
-    unsigned int* bitField;
-    int bitFieldCap;
-    {
-        S159a0_Alloc& a = S159a0_stack();
-        if (bitFieldSize) {
-            int bytes = bitFieldSize * 4;
-            bitField = (unsigned int*)a.AllocateBufferWithSize(bytes);
-            bitFieldCap = bytes / 4;
-        } else {
-            bitField = 0;
-            bitFieldCap = 0;
-        }
-        if (!bitFieldCap) bitFieldCap = 0x80000000;
-    }
-    S159a0_memClear16(bitField, (numNodes >> 7) + 1);
-    S159a0_Vec clipMin;
-    clipMin.m_vComponents = _mm_setzero_ps();
-    S159a0_Vec clipMax;
-    clipMax.m_vComponents = DAT_011b3790;
-
-    S159a0_AabbInt aabbInt;
-    S159a0_IntUnion64 mi;
-    {
-        S159a0_IntUnion64 ma;
-        S159a0_convert(aabb.m_kMinimumCorner, m_kVectorAt40, m_vScale, clipMin, clipMax, mi);
-        S159a0_convert(aabb.m_kMaximumCorner, m_kVectorAt50, m_vScale, clipMin, clipMax, ma);
-        aabbInt.m_kMinimumCorner[0] = mi.u16[0] & 0xfffe;
-        aabbInt.m_kMinimumCorner[1] = mi.u16[1] & 0xfffe;
-        aabbInt.m_kMinimumCorner[2] = mi.u16[2] & 0xfffe;
-        aabbInt.m_kMaximumCorner[0] = ma.u16[0] | 1;
-        aabbInt.m_kMaximumCorner[1] = ma.u16[1] | 1;
-        aabbInt.m_kMaximumCorner[2] = ma.u16[2] | 1;
-    }
-
-    Endpoint* ep = m_kAxisEndPoints[0].m_data + 1;
-    if (m_iMarkerCount) {
-        int mk = (int)aabbInt.m_kMinimumCorner[0] >> (16 - m_iMarkerCapacity);
-        if (mk > 0) {
-            S159a0_Marker* m = &m_pOverlappingMarkerInfo[mk - 1];
-            S159a0_flip(bitField, m->m_usIndex);
-            unsigned short* o = m->m_kMarkerIndices.m_data;
-            for (int i = m->m_kMarkerIndices.m_iElementCount - 1; i >= 0; i--)
-                S159a0_flip(bitField, *o++);
-            S159a0_Node* node = &m_kNodeCollection[m->m_usIndex];
-            Endpoint* e = m_kAxisEndPoints[0].m_data + node->minX + 1;
-            Endpoint* end = m_kAxisEndPoints[0].m_data + node->maxX;
-            for (; e < end; e++)
-                if (!(e->value & 1)) S159a0_clear(bitField, e->handle);
-            ep = m_kAxisEndPoints[0].m_data + node->minX + 1;
-        }
-    }
-    while (ep->value < aabbInt.m_kMinimumCorner[0]) {
-        S159a0_flip(bitField, ep->handle);
-        ep++;
-    }
-    while (ep->value < aabbInt.m_kMaximumCorner[0]) {
-        if (!(ep->value & 1)) S159a0_flip(bitField, ep->handle);
-        ep++;
-    }
-
-    S159a0_Node qn;
-    {
-        S159a0_Axis& ax = m_kAxisEndPoints[1];
-        Endpoint* data = ax.m_data;
-        Endpoint* last = data + ax.m_iElementCount - 2;
-        qn.m_usValue00 = (unsigned short)(ax.LowerBoundEntry(data + 1, last, aabbInt.m_kMinimumCorner[1]) - data);
-        qn.m_usValue04 = (unsigned short)(ax.LowerBoundEntry(data + 1, last, aabbInt.m_kMaximumCorner[1]) - 1 - data);
-    }
-    {
-        S159a0_Axis& ax = m_kAxisEndPoints[2];
-        Endpoint* data = ax.m_data;
-        Endpoint* last = data + ax.m_iElementCount - 2;
-        qn.m_usValue02 = (unsigned short)(ax.LowerBoundEntry(data + 1, last, aabbInt.m_kMinimumCorner[2]) - data);
-        qn.m_usValue06 = (unsigned short)(ax.LowerBoundEntry(data + 1, last, aabbInt.m_kMaximumCorner[2]) - 1 - data);
-    }
-
-    querySingleAabbSub(b, bitField, bitField, qn, overlapping);
-
-    {
-        S159a0_Alloc& a = S159a0_stack();
-        if ((bitFieldCap & 0x80000000) == 0) a.ReturnMemory(bitField, (bitFieldCap & 0x3fffffff) * 4);
-    }
-    FUN_00d13950(&overlapping, &out);
-    overlapping.destroy();
-}
 }  // namespace fnv_00d159a0
 
 #include <xmmintrin.h>
@@ -2399,46 +1262,7 @@ struct S16c50_CastAabbInput {
     const char* m_pBroadPhaseAabbCache;
 };
 
-extern const double DAT_010c9300;
 extern const float DAT_0104a494, DAT_010162c0;
-
-static __forceinline void S16c50_memclear16(void* dest, int numBytes)
-{
-    S16c50_Vec4 zero; zero.setZero4();
-    S16c50_Vec4* d = (S16c50_Vec4*)dest;
-    for (numBytes = numBytes >> 4; numBytes >= 0; numBytes--) {
-        *(d++) = zero;
-    }
-}
-
-static __forceinline float S16c50_min2(float a, float b) { return a < b ? a : b; }
-
-template <class T> static inline void S16c50_swap(T& a, T& b) { T t = a; a = b; b = t; }
-
-static __forceinline int S16c50_getMinComponent(const S16c50_Vec4& v, float& m)
-{
-    if (v(0) < v(1)) {
-        if (v(0) < v(2)) { m = v(0); return 0; }
-    } else if (v(1) < v(2)) {
-        m = v(1); return 1;
-    }
-    m = v(2); return 2;
-}
-
-__declspec(noinline) int __cdecl FUN_00d19d10(const float* v, float* m)
-{
-    if (v[0] < v[1]) {
-        if (v[0] < v[2]) { *m = v[0]; return 0; }
-    } else if (v[1] < v[2]) {
-        *m = v[1]; return 1;
-    }
-    *m = v[2]; return 2;
-}
-
-static __forceinline void S16c50_calcCurDist(int axis, S16c50_Vec4& curDist, const S16c50_EndPoint* ep, const S16c50_Vec4& invDir, const S16c50_Vec4& start)
-{
-    curDist(axis) = ep->m_uiFilterValue * invDir(axis) - start(axis);
-}
 
 struct S16c50_Sweep {
     int unk00, unk04, unk08, unk0c;
@@ -2472,203 +1296,9 @@ struct S16c50_Sweep {
     void FUN_00d16c50(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const;
 };
 
-// @fnv 0x00d16c50
-void S16c50_Sweep::FUN_00d16c50(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const
-{
-    S16c50_Vec4 fromMin; fromMin.setSub4(input.m_vFrom, input.m_vHalfExtents);
-    S16c50_Vec4 fromMax; fromMax.setAdd4(input.m_vFrom, input.m_vHalfExtents);
-    __declspec(align(16)) unsigned int auiLowerBounds[4];
-    __declspec(align(16)) unsigned int auiUpperBounds[4];
-    convertVectorToInt(fromMin, auiLowerBounds);
-    convertVectorToInt(fromMax, auiUpperBounds);
-
-    S16c50_ByteArray bitFieldArray(m_kNodeCollection.GetLogicalSize() + 16);
-    S16c50_memclear16(bitFieldArray.begin(), m_kNodeCollection.GetLogicalSize());
-
-    const S16c50_Axis* axisArray = input.m_pBroadPhaseAabbCache ? (const S16c50_Axis*)input.m_pBroadPhaseAabbCache : &m_kAxisEndPoints[0];
-
-    const S16c50_EndPoint* enterCur[3];
-    const S16c50_EndPoint* exitCur[3];
-    {
-        unsigned char* bitField;
-        bitField = bitFieldArray.begin();
-        int mask = 1;
-        for (int i = 0; 3 > i; i++) {
-            const S16c50_Axis& axis = axisArray[i];
-            if (auiLowerBounds[i] < axis[axis.GetLogicalSize() >> 1].m_uiFilterValue) {
-                const S16c50_EndPoint* end = axis.begin() + axis.GetLogicalSize() - 4;
-                const S16c50_EndPoint* ep = &axis[1];
-                for (; ep < end; ep += 4) {
-                    if (ep[3].m_uiFilterValue > auiLowerBounds[i]) break;
-                    bitField[ep[0].m_usIndex] ^= mask;
-                    bitField[ep[1].m_usIndex] ^= mask;
-                    bitField[ep[2].m_usIndex] ^= mask;
-                    bitField[ep[3].m_usIndex] ^= mask;
-                }
-                for (; ep->m_uiFilterValue <= auiLowerBounds[i]; ep++) {
-                    bitField[ep->m_usIndex] ^= mask;
-                }
-                enterCur[i] = ep;
-                for (; ep->m_uiFilterValue <= auiUpperBounds[i]; ep++) {
-                    bitField[ep->m_usIndex] ^= mask & (ep->isMaxPoint() - 1);
-                }
-                exitCur[i] = ep;
-            } else {
-                const S16c50_EndPoint* start = axis.begin() + 4;
-                const S16c50_EndPoint* ep;
-                ep = &axis[axis.GetLogicalSize() - 2];
-                for (; ep >= start; ep -= 4) {
-                    if (ep[-3].m_uiFilterValue <= auiUpperBounds[i]) break;
-                    bitField[ep[0].m_usIndex] ^= mask;
-                    bitField[ep[-1].m_usIndex] ^= mask;
-                    bitField[ep[-2].m_usIndex] ^= mask;
-                    bitField[ep[-3].m_usIndex] ^= mask;
-                }
-                for (; ep->m_uiFilterValue > auiUpperBounds[i]; ep--) {
-                    bitField[ep->m_usIndex] ^= mask;
-                }
-                exitCur[i] = 1 + ep;
-                for (; ep->m_uiFilterValue > auiLowerBounds[i]; ep--) {
-                    bitField[ep->m_usIndex] ^= mask & (-ep->isMaxPoint());
-                }
-                enterCur[i] = ep + 1;
-            }
-            mask <<= 1;
-        }
-    }
-
-    float earliestHit = 1.0f;
-    {
-        const S16c50_Node* node = &m_kNodeCollection[0];
-        int numNodes = m_kNodeCollection.GetLogicalSize();
-        unsigned char* bf = bitFieldArray.begin();
-        const unsigned int* p = (const unsigned int*)bf;
-        const unsigned int* pEnd = p + (numNodes >> 2) + 1;
-        for (; p < pEnd; node += 4, p++) {
-            if (((*p + 0x01010101) & 0x08080808) == 0) continue;
-            const unsigned char* b = (const unsigned char*)p;
-            if (b[0] == 7 && !node[0].isMarker()) earliestHit = S16c50_min2(earliestHit, collector.ReleaseCollector(node[0].m_handle, 0));
-            if (b[1] == 7 && !node[1].isMarker()) earliestHit = S16c50_min2(earliestHit, collector.ReleaseCollector(node[1].m_handle, 0));
-            if (b[2] == 7 && !node[2].isMarker()) earliestHit = S16c50_min2(earliestHit, collector.ReleaseCollector(node[2].m_handle, 0));
-            if (b[3] == 7 && !node[3].isMarker()) earliestHit = S16c50_min2(earliestHit, collector.ReleaseCollector(node[3].m_handle, 0));
-        }
-    }
-
-    S16c50_Vec4 dir; dir.setSub4(input.m_vTo, input.m_vFrom);
-    S16c50_Vec4 invDir;
-    S16c50_Vec4 startDist;
-    S16c50_Vec4 endDist;
-    int step[3];
-    int flipEnter[3];
-    int flipExit[3];
-    for (int i = 0; i < 3; i++) {
-        float d = m_vScale(i) * dir(i);
-        float absD = fabsf(d);
-        if (d > 0.0) {
-            step[i] = 4;
-            flipEnter[i] = 0;
-            flipExit[i] = 1;
-        } else {
-            step[i] = -4;
-            S16c50_swap(enterCur[i], exitCur[i]);
-            S16c50_swap(fromMin(i), fromMax(i));
-            S16c50_swap(auiLowerBounds[i], auiUpperBounds[i]);
-            enterCur[i]--;
-            exitCur[i]--;
-            flipEnter[i] = 1;
-            flipExit[i] = 0;
-        }
-        float a = (fromMin(i) + m_kVectorAt40(i)) * m_vScale(i);
-        float lo = m_kVectorAt40(i);
-        float b = (input.m_vTo(i) + lo) * m_vScale(i);
-        if (absD < a * 1.1920928955078125e-07 || absD < b * 1.1920928955078125e-07) {
-            invDir(i) = 0.0f;
-            startDist(i) = -2.0f;
-            endDist(i) = -2.0f;
-        } else {
-            float inv = 1.0f / d;
-            invDir(i) = inv;
-            float s0 = (fromMin(i) + m_kVectorAt40(i)) * m_vScale(i);
-            float s1 = s0 - m_fValueAfterOverlappingMarkerInfo;
-            startDist(i) = inv * s1;
-            float e0 = (fromMax(i) + m_kVectorAt40(i)) * m_vScale(i);
-            float e1 = e0 - m_fValueAfterOverlappingMarkerInfo;
-            endDist(i) = inv * e1;
-        }
-    }
-
-    S16c50_Vec4 enterDist;
-    S16c50_Vec4 exitDist;
-    const S16c50_EndPoint* curEnter[3] = { enterCur[0], enterCur[1], enterCur[2] };
-    const S16c50_EndPoint* curExit[3] = { exitCur[0], exitCur[1], exitCur[2] };
-    enterDist(0) = curEnter[0]->m_uiFilterValue * invDir(0) - startDist(0);
-    enterDist(1) = curEnter[1]->m_uiFilterValue * invDir(1) - startDist(1);
-    enterDist(2) = curEnter[2]->m_uiFilterValue * invDir(2) - startDist(2);
-    exitDist(0) = curExit[0]->m_uiFilterValue * invDir(0) - endDist(0);
-    exitDist(1) = curExit[1]->m_uiFilterValue * invDir(1) - endDist(1);
-    exitDist(2) = curExit[2]->m_uiFilterValue * invDir(2) - endDist(2);
-
-    unsigned char* bitField = bitFieldArray.begin();
-    bitField[0] = 8;
-    float dummy;
-    float d2;
-    float d3;
-    float d4;
-    float d5;
-    int enterAxis = S16c50_getMinComponent(enterDist, dummy);
-    int exitAxis = S16c50_getMinComponent(exitDist, dummy);
-
-    while (1) {
-        if (exitDist(exitAxis) < enterDist(enterAxis)) {
-            if (exitDist(exitAxis) > earliestHit) break;
-            while (1) {
-                unsigned int nodeIndex = curExit[exitAxis]->m_usIndex;
-                int m = (curExit[exitAxis]->isMaxPoint() ^ flipExit[exitAxis]) << exitAxis;
-                bitField[nodeIndex] ^= m;
-                if (bitField[nodeIndex] >= 7) {
-                    if (!nodeIndex) {
-                        exitDist(exitAxis) = DAT_010162c0;
-                        exitAxis = FUN_00d19d10(&exitDist(0), &d2);
-                        break;
-                    }
-                    const S16c50_Node& node = m_kNodeCollection[nodeIndex];
-                    if (m && !node.isMarker()) {
-                        earliestHit = S16c50_min2(earliestHit, collector.ReleaseCollector(node.m_handle, 0));
-                    }
-                }
-                unsigned short value = curExit[exitAxis]->m_uiFilterValue;
-                curExit[exitAxis] = (const S16c50_EndPoint*)((const char*)curExit[exitAxis] + step[exitAxis]);
-                if (value == curExit[exitAxis]->m_uiFilterValue) continue;
-                S16c50_EndPoint ep = *curExit[exitAxis];
-                S16c50_calcCurDist(exitAxis, exitDist, &ep, invDir, endDist);
-                exitAxis = FUN_00d19d10(&exitDist(0), &d3);
-                break;
-            }
-        } else {
-            if (enterDist(enterAxis) > earliestHit) break;
-            while (1) {
-                unsigned int nodeIndex = curEnter[enterAxis]->m_usIndex;
-                bitField[nodeIndex] ^= (curEnter[enterAxis]->isMaxPoint() ^ flipEnter[enterAxis]) << enterAxis;
-                if (bitField[nodeIndex] > 8) {
-                    enterDist(enterAxis) = DAT_010162c0;
-                    enterAxis = FUN_00d19d10(&enterDist(0), &d4);
-                    break;
-                }
-                unsigned short value = curEnter[enterAxis]->m_uiFilterValue;
-                curEnter[enterAxis] = (const S16c50_EndPoint*)((const char*)curEnter[enterAxis] + step[enterAxis]);
-                if (value == curEnter[enterAxis]->m_uiFilterValue) continue;
-                S16c50_EndPoint ep = *curEnter[enterAxis];
-                S16c50_calcCurDist(enterAxis, enterDist, &ep, invDir, startDist);
-                enterAxis = FUN_00d19d10(&enterDist(0), &d5);
-                break;
-            }
-        }
-    }
-}
 }  // namespace fnv_00d16c50
 
 extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c7170;
 
 struct Vec4
 {
@@ -2687,74 +1317,6 @@ struct Vec4
         m_vComponents = _mm_sub_ps(_mm_add_ps(e, e), _mm_mul_ps(_mm_mul_ps(e, v.m_vComponents), e));
     }
 };
-
-struct SweepShiftPairs;
-
-struct SweepShift
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void shiftObjects(const Vec4& distance, Vec4& applied, SweepShiftPairs& pairs);
-
-    Vec4 m_10;
-    Vec4 m_20;
-    Vec4 m_30;
-    Vec4 m_lowOffset;
-    Vec4 m_lowRounded;
-    Vec4 m_lowScale;
-    Vec4 m_highOffset;
-    Vec4 m_highRounded;
-    Vec4 m_highScale;
-
-    void FUN_00d10f00(const Vec4& distance, Vec4& appliedOut, SweepShiftPairs& pairs);
-};
-
-// @fnv 0x00d10f00
-void SweepShift::FUN_00d10f00(const Vec4& distance, Vec4& appliedOut, SweepShiftPairs& pairs)
-{
-    Vec4 negated;
-    negated.setNeg4(distance);
-    Vec4 applied;
-    shiftObjects(negated, applied, pairs);
-
-    m_lowOffset.add4(applied);
-    {
-        const Vec4& one = (const Vec4&)DAT_010c7170;
-        Vec4 scale;
-        scale.setXYZW(m_lowScale, one);
-        Vec4 step;
-        step.setReciprocal4(scale);
-        m_lowRounded.setAdd4(step, m_lowOffset);
-    }
-    m_highOffset.add4(applied);
-    {
-        const Vec4& one = (const Vec4&)DAT_010c7170;
-        Vec4 scale;
-        scale.setXYZW(m_highScale, one);
-        Vec4 step;
-        step.setReciprocal4(scale);
-        m_highRounded.setAdd4(step, m_highOffset);
-    }
-    appliedOut.setNeg4(applied);
-}
 
 void __cdecl ResizeAudioStream(void* allocator,void* array,int elementSize);
 struct S4ef0Allocator {
@@ -3117,6 +1679,7 @@ __forceinline S4ef0TempBitField::S4ef0TempBitField(int size) {
 __forceinline S4ef0TempBitField::~S4ef0TempBitField(){S4ef0Lifo* lifo=static_cast<S4ef0Lifo*>(DAT_00d9b080(DAT_010f3170));lifo->m_pTop=data;if(data==lifo->m_pBase)lifo->Free(data);}
 }
 
+// pdb: hkp3AxisSweep::querySingleAabb | hkp3AxisSweep.obj | tesv_win, caller_sim, low
 void S4ef0Owner::FUN_00d14ef0(const S4ef0Aabb& aabb, S4ef0Results& pairsOut) const {
     int size=m_kNodeCollection.m_iElementCount;
     n991ee0::S4ef0TempBitField storage(size);
@@ -3209,8 +1772,6 @@ void S4ef0Owner::FUN_00d14ef0(const S4ef0Aabb& aabb, S4ef0Results& pairsOut) con
 
 inline void* __cdecl operator new(unsigned int, void* storage) { return storage; }
 
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 static const __m128 batchSweepBias={65536.0f,65536.0f,65536.0f,65536.0f};
 extern float DAT_011b3790[4];
 
@@ -3242,11 +1803,6 @@ struct SweepVector {
     __forceinline void mul(const SweepVector& a) {v=_mm_mul_ps(v,a.v);}
     __forceinline void add(const SweepVector& a) {v=_mm_add_ps(v,a.v);}
 };
-__forceinline void clearSweepQuads(void* storage,int chunks) {
- SweepVector zero;zero.v=_mm_setzero_ps();
- SweepVector* cursor=(SweepVector*)storage;
- while(--chunks>=0) *cursor++=zero;
-}
 union ShortResult {__m128 vector;unsigned short values[4];short signedValues[4];unsigned int pairs[2];__int64 wide;};
 __forceinline void convertSweepBound(const SweepVector& input,const SweepVector& offset,const SweepVector& scale,const SweepVector& min,const SweepVector& max,ShortResult& out) {
     SweepVector value;
@@ -3268,61 +1824,9 @@ struct __declspec(align(16)) QuantBatchAabb {
     unsigned char expandHighX,expandHighY,expandHighZ,shapeByte;
 };
 struct __declspec(align(16)) SweepLowShorts { unsigned short x,y,z,w; };
-__forceinline void quantizeSweepAabb(const SweepVector& offsetLow,const BatchAabb& box,const SweepVector& offsetHigh,const SweepVector& scale,QuantBatchAabb& out) {
-    SweepVector zero,upper;zero.v=_mm_setzero_ps();upper.v=_mm_load_ps(DAT_011b3790);
-    SweepVector magic;magic.v=batchSweepBias;
-    SweepVector lowValue,highValue;
-    lowValue.setAdd(box.low,offsetLow);lowValue.mul(scale);lowValue.setMin(lowValue,upper);lowValue.setMax(lowValue,zero);lowValue.add(magic);
-    ShortResult lower;
-    lower.values[0]=(unsigned short)(lowValue.v.m128_u32[0]>>7);
-    lower.values[1]=(unsigned short)(lowValue.v.m128_u32[1]>>7);
-    lower.values[2]=(unsigned short)(lowValue.v.m128_u32[2]>>7);
-    highValue.setAdd(box.high,offsetHigh);highValue.mul(scale);highValue.setMin(highValue,upper);highValue.setMax(highValue,zero);highValue.add(magic);
-    ShortResult upperResult;
-    upperResult.values[0]=(unsigned short)(highValue.v.m128_u32[0]>>7);
-    upperResult.values[1]=(unsigned short)(highValue.v.m128_u32[1]>>7);
-    upperResult.values[2]=(unsigned short)(highValue.v.m128_u32[2]>>7);
-    out.low[0]=lower.values[0]&0xfffe;
-    out.low[1]=lower.values[1]&0xfffe;
-    out.low[2]=lower.values[2]&0xfffe;
-    out.high[0]=upperResult.values[0]|1;
-    out.high[1]=upperResult.values[1]|1;
-    out.high[2]=upperResult.values[2]|1;
-}
 
-__forceinline void quantizeCombinedSweepAabb(const BatchAabb& box,const SweepVector& offsetLow,const SweepVector& offsetHigh,const SweepVector& scale,QuantBatchAabb& out) {
-    SweepVector zero,upper;zero.v=_mm_setzero_ps();upper.v=_mm_load_ps(DAT_011b3790);
-    SweepVector magic;magic.v=batchSweepBias;
-    SweepVector lowValue,highValue;
-    lowValue.setAdd(box.low,offsetLow);lowValue.mul(scale);lowValue.setMin(lowValue,upper);lowValue.setMax(lowValue,zero);lowValue.add(magic);
-    ShortResult lower;
-    lower.values[0]=(unsigned short)(lowValue.v.m128_u32[0]>>7);
-    lower.values[1]=(unsigned short)(lowValue.v.m128_u32[1]>>7);
-    lower.values[2]=(unsigned short)(lowValue.v.m128_u32[2]>>7);
-    highValue.setAdd(box.high,offsetHigh);highValue.mul(scale);highValue.setMin(highValue,upper);highValue.setMax(highValue,zero);highValue.add(magic);
-    ShortResult upperResult;
-    upperResult.values[0]=(unsigned short)(highValue.v.m128_u32[0]>>7);
-    upperResult.values[1]=(unsigned short)(highValue.v.m128_u32[1]>>7);
-    upperResult.values[2]=(unsigned short)(highValue.v.m128_u32[2]>>7);
-    out.low[0]=lower.values[0]&0xfffe;
-    out.low[1]=lower.values[1]&0xfffe;
-    out.low[2]=lower.values[2]&0xfffe;
-    out.high[0]=upperResult.values[0]|1;
-    out.high[1]=upperResult.values[1]|1;
-    out.high[2]=upperResult.values[2]|1;
-}
-
-void __fastcall ToggleBit(int index,void* storage) {
-    int wordIndex=index>>5;
-    ((unsigned int*)storage)[wordIndex] ^= 1 << (index&31);
-}
-void __fastcall FUN_00d10af0(int index,unsigned int* storage) {
-    int wordIndex=index>>5;
-    storage[wordIndex] &= ~(1 << (index&31));
-}
 struct Holder { void* p; int a; int b; BatchSweepAllocator* allocObj; void* f10; };
 
-struct BatchSweepKey { unsigned short val,idx; };
 struct SweepBatchNode;
 template<class T> __forceinline void destroySweepRange(T* p,int n) {for(int k=0;k<n;++k)p[k].~T();}
 template<class T> __forceinline void initializeSweepRange(T* p,int n) {for(int k=0;k<n;++k)::new(p+k) T;}
@@ -3372,8 +1876,6 @@ struct Arr:SweepStorageBase<SweepBatchNode*> {
  }
  __forceinline void clearAndFree() {Holder* holder=(Holder*)FUN_00c85750();clear(*holder->allocObj);}
 };
-struct BatchNodeArray:SweepStorageBase<SweepBatchNode> {};
-struct BatchMarker { unsigned short node,value; unsigned short* data; int size,capacity; };
 struct SortArr15 {
     Endpoint* data; int size; int cap;
     __declspec(noinline) void* LowerBoundEntry(void* begin, void* end, int thresh);
@@ -3390,344 +1892,7 @@ __declspec(noinline) void* SortArr15::LowerBoundEntry(void* begin,void* end,int 
  return first;
 }
 
-union PackedBatchBounds {
-    unsigned short values[4];
-    struct { unsigned int low,high; } packed;
-};
-struct In1 { SweepObjectHandle** f0; int count; };
-
-struct In2 { BatchAabb* base; int gate; };
-
-struct Sweep15 : public BroadPhaseBase {
-    int unk20; int unk24; int unk28; int unk2C;
-    int unk30; int unk34; int unk38; int unk3C;
-    SweepVector m_kVectorAt40;
-    SweepVector m_kVectorAt50;
-    SweepVector m_vScale;
-    int unk70; int unk74; int unk78; int unk7C;
-    int unk80; int unk84; int unk88; int unk8C;
-    int unk90; int unk94; int unk98; int unk9C;
-    BatchNodeArray arrA0;
-    SortArr15 axes[3];
-    int m_iMarkerCount;
-    int m_markerShift;
-    BatchMarker* m_pOverlappingMarkerInfo;
-
-    __forceinline void collectSweepCandidates(const BatchAabb& spl,Arr& local);
-    void FUN_00d18400(In1* p1, In2* p2, int p3);
-    int BuildBroadPhasePairs(void* a, int b, void* c, int d, int e, int f);
-};
-
 void __cdecl FUN_00c908c0(void* a, void* b, int c, int d);
 struct EndpointOrder { };
 void __cdecl FUN_00d19fa0(void* a, int b, int c, EndpointOrder d);
-__forceinline void sortSweepEndpoints(void* p,int count,EndpointOrder order) {
- if(count>1) FUN_00d19fa0(p,0,count-1,order);
-}
-void __cdecl FUN_00d9fcf0(void* a, int b, void* c);
 void __cdecl CollectNodePairs(void* a, void* b, int c, int d);
-
-__forceinline void Sweep15::collectSweepCandidates(const BatchAabb& spl,Arr& local)
-{
-        int capA4=arrA0.size;
-        int sz = (capA4 >> 5) + 8;
-        SweepBuffer<int> bitmap(sz);
-        
-        clearSweepQuads(bitmap.data,(capA4>>7)+1);
-        QuantBatchAabb quantized;
-        quantizeCombinedSweepAabb(spl,m_kVectorAt40,m_kVectorAt50,m_vScale,quantized);
-
-        Endpoint* cntBase = axes[0].data;
-        int listCount = m_iMarkerCount;
-        int listShift = m_markerShift;
-        BatchMarker* listData = m_pOverlappingMarkerInfo;
-        int* bits = (int*)bitmap.data;
-        unsigned short* scan = (unsigned short*)(cntBase + 1);
-        if (listCount != 0) {
-            int cnt = (int)quantized.low[0] >> (16 - listShift);
-            if (cnt > 0) {
-                BatchMarker* entry = listData + cnt - 1;
-                int w0 = entry->node;
-                ToggleBit(w0,bits);
-                int rem = entry->size - 1;
-                unsigned short* wp = entry->data;
-                while (rem >= 0) {
-                    ToggleBit(*wp++,bits);
-                    rem--;
-                }
-                SweepBatchNode* rec = arrA0.data + entry->node;
-                Endpoint* rangeBase=axes[0].data;Endpoint* s=rangeBase+rec->minX+1;Endpoint* end=rangeBase+rec->maxX;
-                while(s<end){
-                    if((s->value&1)==0){int w=s->handle;FUN_00d10af0(w,(unsigned int*)bits);}
-                    ++s;
-                }
-                scan=(unsigned short*)(axes[0].data+rec->minX+1);
-            }
-        }
-        while (*scan < (unsigned int)quantized.low[0]) {
-            int w = scan[1];
-            ToggleBit(w,bits);
-            scan += 2;
-        }
-        unsigned short scanValue=*scan;
-        while(scanValue < (unsigned int)quantized.high[0]) {
-            if(!(scanValue&1)) {
-                int w=scan[1];
-                ToggleBit(w,bits);
-            }
-            scan+=2;
-            scanValue=*scan;
-        }
-        SweepBatchNode sortBounds;
-        {
-            SortArr15* sa = &axes[1];
-            char* d = (char*)sa->data;
-            char* end = d + sa->size * 4 - 8;
-            char* r = (char*)sa->LowerBoundEntry(d + 4, end, quantized.low[1]);
-            sortBounds.minY = (unsigned short)((r - d) >> 2);
-            r = (char*)sa->LowerBoundEntry(d + 4, end, quantized.high[1]);
-            sortBounds.maxY = (unsigned short)(((r - d) - 4) >> 2);
-        }
-        {
-            SortArr15* sa = &axes[2];
-            char* d = (char*)sa->data;
-            char* end = d + sa->size * 4 - 8;
-            char* r = (char*)sa->LowerBoundEntry(d + 4, end, quantized.low[2]);
-            sortBounds.minZ = (unsigned short)((r - d) >> 2);
-            r = (char*)sa->LowerBoundEntry(d + 4, end, quantized.high[2]);
-            sortBounds.maxZ = (unsigned short)(((r - d) - 4) >> 2);
-        }
-        {
-            SweepBatchNode* group = arrA0.data;
-            int* bp=bits;
-            int* bitsEnd = bits + (arrA0.size >> 5) + 1;
-            for (; bp < bitsEnd; bp++) {
-                unsigned int word = *bp;
-                SweepBatchNode* rec = group;
-                while (word) {
-                    if(word & 15) {
-                        if(word & 1) {
-                            if(!rec[0].disjointYZ(sortBounds) && !rec[0].isMarker())
-                                ((SweepBatchNode**)local.data)[local.size++]=rec+0;
-                        }
-                        if(word & 2) {
-                            if(!rec[1].disjointYZ(sortBounds) && !rec[1].isMarker())
-                                ((SweepBatchNode**)local.data)[local.size++]=rec+1;
-                        }
-                        if(word & 4) {
-                            if(!rec[2].disjointYZ(sortBounds) && !rec[2].isMarker())
-                                ((SweepBatchNode**)local.data)[local.size++]=rec+2;
-                        }
-                        if(word & 8) {
-                            if(!rec[3].disjointYZ(sortBounds) && !rec[3].isMarker())
-                                ((SweepBatchNode**)local.data)[local.size++]=rec+3;
-                        }
-                    }
-                    word >>= 4;
-                    rec += 4;
-                }
-                group += 32;
-            }
-        }
-        {
-            Holder* h = (Holder*)FUN_00c85750();
-            BatchSweepAllocator* al = h->allocObj;
-            if ((bitmap.capacity & 0x80000000) == 0) al->ReturnMemory( bitmap.data, (bitmap.capacity & 0x3fffffff) * 4);
-        }
-    
-}
-
-// @fnv 0x00d18400
-void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
-{
-    Endpoint* ptrs[3];
-    BatchAabb spl;
-    In2* g = p2;
-    if (g->gate < 1) return;
-    In1* input = p1;
-    int capA4 = arrA0.size;
-    int savedN = input->count;
-    int two = savedN + savedN;
-    SweepBuffer<Endpoint> b1(two);
-    SweepBuffer<Endpoint> b2(two);
-    SweepBuffer<Endpoint> b3(two);
-    Arr local; local.data = 0; local.size = 0; local.capacity = (int)0x80000000;
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        if ((local.capacity & 0x3fffffff) < capA4)
-            FUN_00c908c0(h->allocObj, &local, capA4, 4);
-    }
-    {
-        BatchNodeArray& nodes=arrA0;
-        Holder* h = (Holder*)FUN_00c85750();
-        void* growArg = h->f10;
-        int need = nodes.size + savedN;
-        if ((nodes.capacity & 0x3fffffff) < need) {
-            int want = nodes.capacity & 0x3fffffff;
-            want += want;
-            if (need < want) need = want;
-            FUN_00c908c0(growArg, &nodes, need, 0x10);
-        }
-        nodes.size += savedN;
-    }
-    spl.low.v=_mm_set1_ps(DAT_0104da48);
-    spl.high.v=_mm_set1_ps(DAT_0104e148);
-    ptrs[0] = b1.data; ptrs[1] = b2.data; ptrs[2] = b3.data;
-    int i=0;
-    if(i<savedN) {
-
-        do {
-
-            spl.include(p2->base[i]);
-            QuantBatchAabb quantized;
-            quantizeSweepAabb(m_kVectorAt40,p2->base[i],m_kVectorAt50,m_vScale,quantized);
-            unsigned int* ca=quantized.low;unsigned int* db=quantized.high;
-            int destIdx=capA4+i;
-            SweepObjectHandle* val = p1->f0[i];
-            SweepBatchNode* rec = arrA0.data + destIdx;
-            rec->handle = val;
-            val->id = destIdx;
-            Endpoint* o1=ptrs[0]+i*2;
-            o1[0].value=(unsigned short)ca[0];o1[0].handle=(unsigned short)destIdx;
-            o1[1].value=(unsigned short)db[0];o1[1].handle=(unsigned short)destIdx;
-            Endpoint* o2=ptrs[1]+i*2;
-            o2[0].value=(unsigned short)ca[1];o2[0].handle=(unsigned short)destIdx;
-            o2[1].value=(unsigned short)db[1];o2[1].handle=(unsigned short)destIdx;
-            Endpoint* o3=ptrs[2]+i*2;
-            o3[0].value=(unsigned short)ca[2];o3[0].handle=(unsigned short)destIdx;
-            o3[1].value=(unsigned short)db[2];o3[1].handle=(unsigned short)destIdx;
-            (void)ptrs;
-
-
-            ++i;
-        } while(i<savedN);
-    }
-    arrA0.setSizeUnchecked(capA4);
-    collectSweepCandidates(spl,local);
-
-    {
-        BatchNodeArray& nodes=arrA0;
-        Holder* h = (Holder*)FUN_00c85750();
-        void* growArg = h->f10;
-        int need = nodes.size + savedN;
-        if ((nodes.capacity & 0x3fffffff) < need) {
-            int want = nodes.capacity & 0x3fffffff;
-            want += want;
-            if (need < want) need = want;
-            FUN_00c908c0(growArg, &nodes, need, 0x10);
-        }
-        nodes.size += savedN;
-    }
-    void* baseA0 = arrA0.data;
-    int outArr[3];
-    int endPointCount;
-    for (int i = 0; i < 3; i++) {
-        endPointCount=savedN+savedN;
-        int twoN=endPointCount;
-        sortSweepEndpoints(ptrs[i],twoN,EndpointOrder());
-    }
-    for (int i = 0; i < 3; i++) {
-        SortArr15* sa = axes + i;
-        outArr[i] = sa->InsertEndpoints(baseA0, i, ptrs[i], endPointCount);
-    }
-    axes[0].MergeSortedEndpoints(baseA0, outArr[0], b1.data, endPointCount);
-    axes[1].FUN_00d19e40(baseA0, outArr[1], b2.data, endPointCount);
-    axes[2].FUN_00d19ef0(baseA0, outArr[2], b3.data, endPointCount);
-    if(m_iMarkerCount) {
-        for(int i=0;i<m_iMarkerCount;++i) {
-            SweepBatchNode& node=arrA0.data[m_pOverlappingMarkerInfo[i].node];
-            node.maxY+=(unsigned short)(endPointCount);
-            node.maxZ+=(unsigned short)(endPointCount);
-        }
-    }
-    SweepBuffer<SweepBatchNode> sortedNew(savedN + 1);
-     
-    SweepBuffer<BatchSweepKey> newKeys(savedN + 4);
-     
-    SweepBuffer<BatchSweepKey> newScratch(savedN + 4);
-     
-    {
-        unsigned short* b = (unsigned short*)newKeys.data;
-        for (int i = 0; i < savedN; i++) {
-            b[i * 2 + 1] = (unsigned short)(capA4 + i);
-            b[i * 2] = arrA0.data[capA4+i].minX;
-        }
-        b[savedN * 2] = (unsigned short)0xffff;
-        b[savedN * 2 + 2] = (unsigned short)0xffff;
-        b[savedN * 2 + 4] = (unsigned short)0xffff;
-    }
-    FUN_00d9fcf0(newKeys.data, (savedN + 3) & 0xfffffffc, newScratch.data);
-    for(int i=0;i<savedN;++i) sortedNew[i]=arrA0.data[newKeys[i].idx];
-    ((SweepBatchNode*)sortedNew.data)[savedN].minX = (unsigned short)0xffff;
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((newScratch.capacity & (int)0x80000000) == 0) al->ReturnMemory( newScratch.data, (newScratch.capacity & 0x3fffffff) * 4);
-    }
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((newKeys.capacity & 0x80000000) == 0) al->ReturnMemory( newKeys.data, (newKeys.capacity & 0x3fffffff) * 4);
-    }
-    int cntC = local.size;
-    SweepBuffer<SweepBatchNode> sortedOld(cntC + 1);
-     
-    SweepBuffer<BatchSweepKey> oldKeys(cntC + 4);
-     
-    SweepBuffer<BatchSweepKey> oldScratch(cntC + 4);
-    SweepBatchNode* oldBase=arrA0.data;
-     
-    {
-        unsigned short* b = (unsigned short*)oldKeys.data;
-        for (int i = 0; i < cntC; i++) {
-            SweepBatchNode* rec = ((SweepBatchNode**)local.data)[i];
-            b[i * 2 + 1] = (unsigned short)(rec-oldBase);
-            b[i * 2] = rec->minX;
-        }
-        b[cntC * 2] = (unsigned short)0xffff;
-        b[cntC * 2 + 2] = (unsigned short)0xffff;
-        b[cntC * 2 + 4] = (unsigned short)0xffff;
-    }
-    FUN_00d9fcf0(oldKeys.data, (cntC + 3) & 0xfffffffc, oldScratch.data);
-    for(int i=0;i<cntC;++i) sortedOld[i]=arrA0.data[oldKeys[i].idx];
-    ((SweepBatchNode*)sortedOld.data)[cntC].minX = (unsigned short)0xffff;
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((oldScratch.capacity & (int)0x80000000) == 0) al->ReturnMemory( oldScratch.data, (oldScratch.capacity & 0x3fffffff) * 4);
-    }
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((oldKeys.capacity & (int)0x80000000) == 0) al->ReturnMemory( oldKeys.data, (oldKeys.capacity & 0x3fffffff) * 4);
-    }
-    CollectNodePairs(this, sortedNew.data, savedN, p3);
-    BuildBroadPhasePairs(sortedNew.data, savedN, sortedOld.data, cntC, 0, p3);
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((sortedOld.capacity & 0x80000000) == 0) al->ReturnMemory( sortedOld.data, (sortedOld.capacity & 0x3fffffff) * 16);
-    }
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((sortedNew.capacity & 0x80000000) == 0) al->ReturnMemory( sortedNew.data, (sortedNew.capacity & 0x3fffffff) * 16);
-    }
-    local.clearAndFree();
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((b3.capacity & 0x80000000) == 0) al->ReturnMemory( b3.data, (b3.capacity & 0x3fffffff) * 4);
-    }
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((b2.capacity & 0x80000000) == 0) al->ReturnMemory( b2.data, (b2.capacity & 0x3fffffff) * 4);
-    }
-    {
-        Holder* h = (Holder*)FUN_00c85750();
-        BatchSweepAllocator* al = h->allocObj;
-        if ((b1.capacity & 0x80000000) == 0) al->ReturnMemory( b1.data, (b1.capacity & 0x3fffffff) * 4);
-    }
-    return;
-}

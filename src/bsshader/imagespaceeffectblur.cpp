@@ -4,6 +4,8 @@
 
 // Initializes the blur effect's shader params, texture slots and effect param list entries from the manager's effects 45, 19 and 46.
 // @fnv 0x00c054c0
+// pdb: ImageSpaceEffectBloom::Setup | ImageSpaceEffectBloom.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apManager, apParam
 void ImageSpaceEffectFourTexturePass::Setup(ImageSpaceManager* manager, ImageSpaceEffectParam* param)
 {
     SetTextureArrayCount(3);

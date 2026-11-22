@@ -4,6 +4,7 @@
 
 extern "C" void __cdecl FUN_00d41860(int a, int b, int c, int d);
 // @fnv 0x00d418b0
+// pdb: hkBoxBoxAgent3::destroy | hkpBoxBoxAgent3.obj | tesv_win, objrun, medium
 void __cdecl ForwardToTarget(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int unused)
 {
     FUN_00d41860(aiArg1, aiArg2, aiArg3, aiArg4);
@@ -54,19 +55,21 @@ struct ResultData
 // @f3 0x009cc0e0 (community match, verified in this file)
 struct RResult
 {
-    void FUN_00a3b260(void* a, void* b, void* c);
-    void FUN_00a3b030(void* a, void* b, void* c);
+    void hkpGskCache_initTriangle(void* a, void* b, void* c);
+    void hkpGskCache_init(void* a, void* b, void* c);
 };
 
+// pdb: hkPredGskAgent3::create | hkpPredGskAgent3.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: input, entry, agentData
 void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, ResultData* result)
 {
     InputObject* pObject = input->unk00;
     void* table = pObject->vtable;
     InputRecord* record = *input->unk04;
     if (record->type == 4)
-        ((RResult*)result)->FUN_00a3b260(table, record, &input->unk10);
+        ((RResult*)result)->hkpGskCache_initTriangle(table, record, &input->unk10);
     else
-        ((RResult*)result)->FUN_00a3b030(table, record, &input->unk10);
+        ((RResult*)result)->hkpGskCache_init(table, record, &input->unk10);
     status[2] = 0;
     result->unk0B &= 0xEF;
     result->unk0C = 0;
@@ -78,12 +81,12 @@ void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, Resul
 
 // Stand-ins for the script handler functions whose addresses are stored in the
 // handler table (0xd417b0 .. 0xd40d80).  Only declared, never defined.
-extern "C" void __cdecl RemoveEntryById(int a, int b, int c, int d);
-extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
-extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
-extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_removePoint(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_commitPotential(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_createZombie(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskCylinderAgent3_create(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d40d80(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskCylinderAgent3_process(int a, int b, int c, int d);
 
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
 // 16 byte aligned, which is what makes the compiler emit the aligned frame
@@ -132,6 +135,8 @@ int FUN_009cc030(int, FUN_00d41830_table*, unsigned short);
 int FUN_009cc070(int, int, int, int);
 void FUN_009cc0c0(int, int, int, int);
 
+// pdb: hkPredGskCylinderAgent3::registerAgent3 | hkpPredGskCylinderAgent3.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: dispatcher
 void RegisterScriptHandlers(void* pScript)
 {
     HandlerTable tab;
@@ -186,7 +191,10 @@ struct S_00d417b0_Obj
 void __cdecl FUN_00dae340(S_00d417b0_Sub* sub, int index);
 
 // @fnv 0x00d417b0
-void __cdecl RemoveEntryById(int aiUnused, S_00d417b0_Obj* obj, short sId)
+// pdb: hkPredGskAgent3::removePoint | hkpPredGskAgent3.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: entry, agentData, idToRemove
+// pdb: hkPredGskAgent3::removePoint | hkpPredGskAgent3.obj | fnv360_0822_retail, caller_sim, high (was: RemoveEntryById)
+void __cdecl hkPredGskAgent3_removePoint(int aiUnused, S_00d417b0_Obj* obj, short sId)
 {
     S_00d417b0_Sub* sub = &obj->m_sub;
     for (int i = 0; i < sub->m_uiItemCount; i++)
@@ -221,7 +229,10 @@ struct Table
 
 // Scans table->slots for the first entry whose id is 0xffff and replaces it with value, stopping at table->count.
 // @fnv 0x00d417f0
-void __cdecl InsertSlotId(int aiUnused, Table* table, unsigned short ausId)
+// pdb: hkPredGskAgent3::commitPotential | hkpPredGskAgent3.obj | fnv360_0822_retail, objrun, high
+// pdb params: entry, agentData, idToCommit
+// pdb: hkPredGskAgent3::commitPotential | hkpPredGskAgent3.obj | fnv360_0822_retail, objrun, high (was: InsertSlotId)
+void __cdecl hkPredGskAgent3_commitPotential(int aiUnused, Table* table, unsigned short ausId)
 {
     int i;
     for (i = 0; i < table->count; i++)
@@ -255,7 +266,10 @@ struct FUN_00d41830_table
 
 // Scans the table's entries for one whose key02 matches key, clears its unk00 and unk01 bytes, and returns the matching index (or count if none).
 // @fnv 0x00d41830
-int __cdecl FindEntryByKey(int unused, FUN_00d41830_table* table, unsigned short key)
+// pdb: hkPredGskAgent3::createZombie | hkpPredGskAgent3.obj | fnv360_0822_retail, objrun, high
+// pdb params: entry, agentData, idToConvert
+// pdb: hkPredGskAgent3::createZombie | hkpPredGskAgent3.obj | fnv360_0822_retail, objrun, high (was: FindEntryByKey)
+int __cdecl hkPredGskAgent3_createZombie(int unused, FUN_00d41830_table* table, unsigned short key)
 {
     int i = 0;
     int iCount = table->count;
@@ -281,7 +295,7 @@ found:
 // FUN_00d41860 (0x00d41860, 67 bytes)
 //
 // The original routine
-//   * hands the record block at b+0x0C to ReleaseAllEntries,
+//   * hands the record block at b+0x0C to hkGskManifold_cleanup,
 //   * reads the three size bytes at b+0x0C, b+0x0D and b+0x0E,
 //   * combines them into  count = b[0x0C] + b[0x0D] + 4*b[0x0E],
 //   * scales that into an aligned block size  (2*count + 31) & ~0x0F,
@@ -293,15 +307,17 @@ found:
 // it, so the value is handed back to the caller from a symbol whose name
 // still contains the required tag "FUN_00d41860".
 
-extern "C" void __cdecl ReleaseAllEntries(void* p, int obj, int data);
+extern "C" void __cdecl hkGskManifold_cleanup(void* p, int obj, int data);
 
-// Calls ReleaseAllEntries on the record at b+0x0C, computes an aligned size from three bytes, clears byte 2 of a, and returns b plus that size.
+// Calls hkGskManifold_cleanup on the record at b+0x0C, computes an aligned size from three bytes, clears byte 2 of a, and returns b plus that size.
 // @fnv 0x00d41860
+// pdb: hkPredGskAgent3::cleanup | hkpPredGskAgent3.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: entry, agentData, mgr, constraintOwner
 extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int aData)
 {
     unsigned char* rec = (unsigned char*)apRecord + 0x0C;
 
-    ReleaseAllEntries(rec, aObj, aData);
+    hkGskManifold_cleanup(rec, aObj, aData);
 
     unsigned int count = rec[0] + rec[1] + rec[2] * 4;
 
@@ -732,10 +748,11 @@ __forceinline void hkGskManifold_init(const hkpGskManifold& manifold, const hkVe
 using namespace N009cc270;
 
 void __cdecl FUN_00a433d0(Request*, float, float, float, ResultData*, AlignedVec*, Output*);
-void __cdecl FUN_00a40940(Request*, unsigned char*, ResultData*, ResultData*, hkpGskManifold*, AlignedVec*, Output*);
+void __cdecl hkGskAgentUtil_processCollisionNoTim(Request*, unsigned char*, ResultData*, ResultData*, hkpGskManifold*, AlignedVec*, Output*);
 void __cdecl FUN_00a38200(hkpGskManifold*, hkpGskManifoldWork*, int, hkpProcessCollisionOutput*, void*);
 
-void* __cdecl FUN_00d41a30(Request* inputIn, unsigned char* entry, ResultData* agentData, AlignedVec* separatingNormalIn,
+// pdb: hkPredGskAgent3::process | hkpPredGskAgent3.obj | fnv360_0822_retail, objrun + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void* __cdecl hkPredGskAgent3_process(Request* inputIn, unsigned char* entry, ResultData* agentData, AlignedVec* separatingNormalIn,
                            Output* outputIn)
 {
     const hkpAgent3ProcessInput& input = *reinterpret_cast<const hkpAgent3ProcessInput*>(inputIn);
@@ -789,7 +806,7 @@ void* __cdecl FUN_00d41a30(Request* inputIn, unsigned char* entry, ResultData* a
     else
     {
     PROCESS_AT_T1:
-        FUN_00a40940(inputIn, entry, agentData, agentData, gskManifold, separatingNormalIn, outputIn);
+        hkGskAgentUtil_processCollisionNoTim(inputIn, entry, agentData, agentData, gskManifold, separatingNormalIn, outputIn);
     }
 
     entry[2] = gskManifold->m_numContactPoints;

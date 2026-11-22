@@ -2,7 +2,6 @@
 // with VC9 SP1 and /MT /O2 /GS /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
 #include "tesland_decls.h"
-int TruncateFloatToInt(float value);
 
 struct CacheLookup
 {
@@ -65,6 +64,8 @@ struct LandscapeSpecularView
                       unsigned char f, unsigned char g, unsigned char h, unsigned char i, unsigned char j);
 };
 // @fnv 0x00b66640
+// pdb: BSShaderPPLightingProperty::SetLandscapeSpecularExponents | BSShaderPPLightingProperty.obj | fnv360_0822_debug, call_gap_sim, medium
+// pdb params: aucDefSpec, aucSpec0, aucSpec1, aucSpec2, aucSpec3, aucSpec4, aucSpec5, aucSpec6, aucSpec7, aucSpec8
 void LandscapeSpecularView::FUN_00b66640(unsigned char a, unsigned char b, unsigned char c, unsigned char d,
                                          unsigned char e, unsigned char f, unsigned char g, unsigned char h,
                                          unsigned char i, unsigned char j)
@@ -85,7 +86,6 @@ void LandscapeSpecularView::FUN_00b66640(unsigned char a, unsigned char b, unsig
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* lpCriticalSection);
-extern bool DAT_0126f0d0;
 
 void __cdecl FUN_00aa1460(void* p, unsigned int s);
 
@@ -897,6 +897,7 @@ class MapIteration1973
         pos = 0;
     }
 };
+// pdb: NiXenonRenderer::PerformPrecache | NiXenonRenderer.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiDX9Renderer::PerformPrecache)
 void Mgr_e74120::FUN_00e74120()
 {
     EnterCriticalSection(&cs80);
@@ -1069,12 +1070,6 @@ struct CacheLock
 };
 extern CacheLock DAT_011c5f80;
 extern CacheListNode* DAT_011c5f58;
-extern unsigned int DAT_011f9ef4;
-struct CacheMemory
-{
-    void FUN_00aa4060(void*);
-};
-extern CacheMemory DAT_011f6238;
 struct CacheList
 {
     CacheListNode* head;
@@ -1225,6 +1220,8 @@ struct MyPool
 extern MyPool DAT_01090a78;
 extern int DAT_0116f440;
 
+// pdb: TallGrassShaderProperty::RemoveFromTerrainChunk | TallGrassShaderProperty.obj | fnv360_0822_retail, call_gap, low
+// pdb params: alTerrainChunkSeed
 void FUN_00b61370(const char* key)
 {
     TlsGuard guard;
@@ -1285,25 +1282,4 @@ void FUN_00b61370(const char* key)
 }
 
 
-void CacheMap::AdvanceToNextEntry(void*& position, unsigned& key, CacheBucket*& value)
-{
-    CacheMapNode* node = (CacheMapNode*)position;
-    key = node->key;
-    value = node->value;
-    if (node->next)
-    {
-        position = node->next;
-        return;
-    }
-    unsigned index = Hash(node->key) + 1;
-    for (; index < size; ++index)
-    {
-        if (buckets[index])
-        {
-            position = buckets[index];
-            return;
-        }
-    }
-    position = 0;
-}
 }  // namespace fnv_00b61370

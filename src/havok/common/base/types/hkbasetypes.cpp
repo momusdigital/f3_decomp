@@ -17,6 +17,8 @@ struct FUN_00ca9360_cls
 extern int DAT_00e35180;
 extern int DAT_00e35380;
 extern int DAT_00e35580;
+// pdb: hkUFloat8::operator= | hkBaseTypes.obj | fnv360_0822_retail, uconst, high
+// pdb params: fv
 FUN_00ca9360_cls* FUN_00ca9360_cls::FUN_00ca9360(const float* key)
 {
     FUN_00ca9360_cls* pResult = this;

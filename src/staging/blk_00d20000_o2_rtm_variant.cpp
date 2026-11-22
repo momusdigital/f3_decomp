@@ -5,48 +5,19 @@
 // src/staging/blk_00d20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include "../../include/layout_support.h"
-extern "C" void* __cdecl fopen(const char*, const char*);
-struct FUN_00d2be30
-{
-    int m_iWordAt00;
-    int m_iWordAt04;
-    void* m_8;
-    void SetFile(const char* a, const char* b);
-};
-extern "C" void __stdcall FUN_00d2f980(int);
-extern int DAT_010ce930;
-struct FUN_00d2f220_class
-{
-    int* p;
-    int __thiscall InitializeWithGlobal(int a);
-};
 void __cdecl FUN_00d365d0();
-void __cdecl FUN_00da6fd0(int);
-void __cdecl FUN_00d367b0(int pObject);
 extern "C" void __cdecl FUN_00d36b70();
-extern "C" void __cdecl FUN_00d34790();
 extern "C" void __cdecl QueryClosestPoints();
-extern "C" void __cdecl FUN_00d34810();
-void __cdecl FUN_00d36bb0(void** p);
-extern "C" void __cdecl FUN_00d36be0();
-extern "C" void __cdecl FUN_00d43dc0();
-extern "C" void __cdecl GetClosestPointsShapeCollection();
-extern "C" void __cdecl FUN_00d43b90();
-void __cdecl FUN_00d36c30(void* apObject);
+extern "C" void __cdecl hkpShapeCollectionAgent_staticGetClosestPoints();
+void __cdecl hkpListAgent_initAgentFunc(void* apObject);
 void CreateRetObj();
 void FUN_00d3d3e0();
 void FUN_00d3d8c0();
 void FUN_00daf8e0();
-void __cdecl FUN_00d3dbe0(void* apObject);
 void __cdecl CreateTargetAgent(void);
 void __cdecl QueryD3DCollector(void);
 void __cdecl FUN_00d3e110(void);
 void __cdecl FUN_00d3ac80(void);
-void FUN_00d3dc10(void* apObject);
-struct FUN_00db0920 {
-    void Init();
-};
-void* __cdecl InitAndGetOffset(void* apUnused1, void* apUnused2, void* apObject);
 struct CollisionAgentFunctionTable {
     void* a;
     void* b;
@@ -58,28 +29,13 @@ struct CollisionAgentFunctionTable {
 struct Agent {
     void FUN_00cfbbe0(CollisionAgentFunctionTable*, int, int);
 };
-void __cdecl FUN_00d2e680();
 void __cdecl FUN_00d2e970();
 void __cdecl FUN_00d2e9b0();
 void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2df50();
-void __cdecl FUN_00d312f0();
+void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl FUN_00d31110();
 void __cdecl FUN_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
-void __cdecl FUN_00d2dc70(Agent* pAgent);
-void ReplaceEntry(int pList, int pOldEntry, int pNewEntry, unsigned short usValue);
-struct FUN_00d27f50_Obj {
-    void __thiscall Insert(int a, int b, int c);
-    void __thiscall FUN_00d27f50(int param_1, int param_2);
-};
-struct FUN_00d27f70 {
-    int** m_ppIndices;
-    int m_iIndexCount;
-
-    FUN_00d27f70(int** indices, int numIndices);
-};
-struct FUN_00d27ff0_class {int** values; void __thiscall UnionFindMerge(int first, int second);};
 struct D28030FixedArray {
     int* m_data;
     int m_iElementCount;
@@ -104,14 +60,9 @@ struct D28030UnionFind {
 
     void Union(int i, int j);
 };
-struct LinkedIndexArray { int** entries; int count; void FUN_00d280e0(); };
 inline void* __cdecl operator new(unsigned int, void* p) { return p; }
-struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
-struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
 AllocationManager* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void*, IndexBuffer*, int);
-struct IndexRemapper { IndexStorage* entries; int length; void FUN_00d280e0(); void RemapIndices(IndexBuffer*); };
 struct hkMemAllocStub
 {
     virtual void v00();
@@ -139,7 +90,6 @@ struct hkMemCtxStub
     hkMemAllocStub& temp() { return *alloc; }
     void* heap() { return mem; }
 };
-hkMemCtxStub* GetMemCtx();
 void ArrayReserveImpl(void* mem, void* arr, int numElem, int elemSize);
 struct IntArrayStub
 {
@@ -162,72 +112,18 @@ struct IntArrayStub
         m_iElementCount = n;
     }
 };
-struct KeyArrayStub
-{
-    IntArrayStub* m_keys;
-    int m_iElementCount;
-
-    void BuildKeyOffsets(IntArrayStub* counts, IntArrayStub* out);
-};
 typedef void (__cdecl *D2F2C0Func)();
-struct D2F2C0AgentFuncs {
-    D2F2C0Func m_pCreateFunc;
-    D2F2C0Func m_pQueryPenetrationsFunc;
-    D2F2C0Func m_getClosestPointsFunc;
-    D2F2C0Func m_pLinearCastFunc;
-    bool m_bIsFlipped;
-    bool m_bIsPredictive;
-};
-class D2F2C0Dispatcher {
-public:
-    void registerCollisionAgent(D2F2C0AgentFuncs& f, int typeA, int typeB);
-};
-void __cdecl FUN_00d2fa00();
 void __cdecl FUN_00d2e970();
 void __cdecl FUN_00d2e9b0();
 void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2f9d0();
-void __cdecl FUN_00d312f0();
+void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl FUN_00d31110();
 void __cdecl FUN_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
-void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher);
-struct CallTarget_00d2f760 { int FUN_00d2f760(int, int, int, int); };
-struct SearchObject {
-    int FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
-};
-struct FnvCpu_FUN_00d31730_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
-struct FnvCpu_FUN_00d31730_CpuObject {
-    void FUN_00d315d0(void*, void*, unsigned int, FnvCpu_FUN_00d31730_CpuCallData*);
-    void FUN_00d31730(void*, void*, unsigned int, unsigned int);
-};
-extern "C" void __cdecl InitBlockPool(void* p);
-extern int DAT_010ced34;
-struct FUN_00d36b20_Class {
-    void* unk00;
-    unsigned short unk04;
-    unsigned short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-
-    FUN_00d36b20_Class* __thiscall FUN_00d36b20(int param1, int param2, int* param3, int param4);
-};
-struct FUN_00d36cc0_Obj {
-    void __thiscall FUN_00d368c0(int a1, int a2, int a3, int a4);
-    void __thiscall FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4);
-};
-struct FnvCpu_FUN_00d36ce0_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
-struct FnvCpu_FUN_00d36ce0_CpuObject {
-    void FUN_00d36940(void*, void*, unsigned int, FnvCpu_FUN_00d36ce0_CpuCallData*);
-    void FUN_00d36ce0(void*, void*, unsigned int, unsigned int);
-};
 extern float DAT_0104da48;
 class D37B90Collector {
 public:
@@ -237,20 +133,9 @@ public:
     float m_fEarlyOutDistance;
     int m_iFilter;
 };
-class D37B90Agent {
-public:
-    void FUN_00d37010(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
-    void FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter);
-};
 void __cdecl ReleaseHandles(int a1, int a2, int a3, int a4);
-void __cdecl FUN_00d39130(int a1, int a2, int a3, int a4, int a5);
-struct FnvCpu_FUN_00d3f480_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
-struct FnvCpu_FUN_00d3f480_CpuObject {
-    void FUN_00d3e850(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
-    void FUN_00d3f480(void*, void*, unsigned int, unsigned int);
-};
 extern float DAT_0104da48;
 struct S_00d3f4c0_Obj {
     virtual void vfn0();
@@ -258,72 +143,7 @@ struct S_00d3f4c0_Obj {
     int unk08;
     S_00d3f4c0_Obj(int a) : unk04(DAT_0104da48), unk08(a) {}
 };
-void* __cdecl FUN_00d3ebe0(void* a, void* b, void* c, S_00d3f4c0_Obj* o);
-void* __cdecl FUN_00d3f4c0(void* a, void* b, void* c, int iValue);
 void __cdecl FUN_00d3fce0(CollisionAgentFunctionTable*);
-void __cdecl FUN_00d3fd00(Agent* agent);
-struct FUN_00d3fd60_cls_Entry { unsigned short m_key; unsigned short m_uiFilterValue; };
-struct FUN_00d3fd60_cls
-{
-    unsigned char m_unk00;
-    unsigned char m_unk01;
-    FUN_00d3fd60_cls_Entry m_entries[7];
-    unsigned short m_key7;
-    unsigned char m_unk32;
-    unsigned char m_uiItemCount;
-    void __thiscall RemoveEntry(int index);
-};
-struct FUN_00d3fd60_cls_Ref
-{
-    unsigned char m_unk00;
-    unsigned char m_unk01;
-    unsigned char m_iObjectReferenceCount;
-};
-void* __cdecl RemoveEntryByKey(FUN_00d3fd60_cls_Ref* ref, FUN_00d3fd60_cls* table, unsigned short key);
-struct FUN_00d3fda0_entry {
-    unsigned short key00;
-    unsigned short val02;
-};
-struct FUN_00d3fda0_table {
-    unsigned short unk00;
-    FUN_00d3fda0_entry entries[7];
-    unsigned char unk1E;
-    unsigned char unk1F;
-    unsigned char unk20;
-    unsigned char count;
-};
-int __cdecl FindOrClaimEntry(int unused, FUN_00d3fda0_table* table, unsigned short value);
-struct D3FE10Agent {
-    unsigned short m_flags;
-    unsigned short m_iOwnerObjectOffset;
-};
-struct D3FE10Entry {
-    D3FE10Agent m_pAgents[8];
-    unsigned char unk20;
-    unsigned char m_numAgents;
-    unsigned short unk22;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-};
-struct D3FE10Header {
-    unsigned short unk00;
-    unsigned char m_iNumberOfEntries;
-};
-class D3FE10Manager {
-public:
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void unk10();
-    virtual void ResetAgent(unsigned short id, void* pkInfo);
-};
-D3FE10Entry* __cdecl ResetEntryAgents(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, D3FE10Manager* pkManager, void* pkInfo);
 template <class T> class hkArrayD27 {
 public:
     T& operator[](int i) { return m_data[i]; }
@@ -333,18 +153,7 @@ public:
     int m_iElementCount;
     int m_iCapacityState;
 };
-class hkUnionFindD27 {
-public:
-    int FindRoot(int i);
-
-    hkArrayD27<int>& m_pParentArray;
-};
 extern int DAT_010ce81c;
-struct SpawnedBuf { void* m_iWordAt00; unsigned char m_iWordAt04; int m_8; };
-struct Wrapper {
-    void ForwardToFunction(int,int,int,SpawnedBuf*);
-    void FUN_00d37bd0(int a,int b,int c,int d);
-};
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void FUN_00d3d3e0();
@@ -383,189 +192,6 @@ static __declspec(noinline) void InitFuncsA(AgentFuncsD3D* pkFuncs)
     pkFuncs->m_bB = false;
 }
 void (*g_apfnInitD3D[2])(AgentFuncsD3D*) = { InitFuncsA, InitFuncsB };
-class DispatcherD3D {
-public:
-    void RegisterAgent(AgentFuncsD3D* pkFuncs, int iA, int iB);
-};
-void __cdecl RegisterD3DAgents(DispatcherD3D* pkDispatcher);
-struct D27690_Atom {
-    unsigned short m_type;
-};
-struct D27690_ConstraintInfo {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-struct D27690_Modifier {
-    unsigned short m_type;
-    unsigned short unk02;
-    int unk04;
-    int unk08;
-    int unk0C;
-    unsigned short m_usModifierAtomSize;
-    unsigned short m_childResult;
-    D27690_Atom* m_pChildAtom;
-
-    void FUN_00d22090(D27690_ConstraintInfo* info, unsigned char* flags);
-};
-struct D27690_Entity {
-    int unk000; int unk004; int unk008; int unk00C;
-    int unk010; int unk014; int unk018; int unk01C;
-    int unk020; int unk024; int unk028; int unk02C;
-    int unk030; int unk034; int unk038; int unk03C;
-    int unk040; int unk044; int unk048; int unk04C;
-    int unk050; int unk054; int unk058; int unk05C;
-    int unk060; int unk064; int unk068; int unk06C;
-    int unk070; int unk074; int unk078; int unk07C;
-    int unk080; int unk084; int unk088; int unk08C;
-    int unk090; int unk094; int unk098; int unk09C;
-    int unk0A0; int unk0A4; int unk0A8; int unk0AC;
-    int unk0B0; int unk0B4; int unk0B8; int unk0BC;
-    int unk0C0; int unk0C4; int unk0C8; int unk0CC;
-    unsigned short unk0D0;
-    unsigned char unkD2;
-};
-struct D27690_Internal {
-    void* m_pHavokConstraint;
-    int unk04;
-    int unk08;
-    D27690_Atom* m_kBridgeAtoms;
-    unsigned short m_childResult;
-    unsigned short unk12;
-    unsigned short m_stats;
-};
-struct D27690_Instance {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D27690_Modifier* m_pConstraintModifier;
-    D27690_Entity* m_pEntityA;
-    D27690_Entity* m_pEntityB;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    D27690_Internal* m_pConstraintInternal;
-};
-struct D27690_Owner {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10();
-    virtual void v14();
-    virtual void checkReadOnly();
-
-    int unk04;
-    int unk08;
-    int m_iElementCount;
-
-    void FUN_00cb7480(void* unk, D27690_ConstraintInfo* info);
-};
-struct D27690_Allocator {
-    virtual void v00();
-    virtual void v04();
-    virtual void ReleaseBlock(void* p, int size);
-};
-extern unsigned short DAT_010cb7a8;
-void __cdecl FUN_00d27690(D27690_Instance* instance, D27690_Owner* owner, unsigned int modifierType);
-struct Base {
-    int unk4;
-    char m_8;
-    Base(int a, int b);
-    virtual void v0();
-};
-struct FUN_00d21930 : Base {
-    FUN_00d21930(int a, int b);
-    virtual void v0();
-};
-struct FUN_00d219e0_node
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    FUN_00d219e0_node* unk0C;
-};
-struct FUN_00d219e0_cls
-{
-    int unk00;
-    unsigned char unk04;
-    FUN_00d219e0_node* unk08;
-    int unk0C;
-    FUN_00d219e0_node* unk10;
-    int unk14;
-    void __thiscall SetLists(FUN_00d219e0_node* a, FUN_00d219e0_node* b);
-};
-extern int DAT_0101e594;
-struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
-extern "C" void __cdecl FUN_00401030(VtblStub_0101e594*);
-struct FUN_00d26210
-{
-    void* m_ppVirtualMethodTable;
-    FUN_00d26210(char construct);
-};
-struct PairEntry
-{
-	void* m_pCollisionAgent;
-	unsigned int m_link0;
-	unsigned int m_link1;
-	int m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
-};
-struct PairNode
-{
-	int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c;
-	int m_20, m_24, m_28, m_2c, m_30, m_34, m_38, m_3c;
-	int m_40, m_44, m_48, m_4c, m_50, m_54, m_58, m_5c;
-	int m_60, m_64, m_68, m_6c, m_70, m_74, m_78, m_7c;
-	int m_80, m_84, m_88, m_8c, m_90, m_94, m_98, m_9c;
-	int m_a0, m_a4, m_a8;
-	PairEntry* m_entries;
-	unsigned short m_iNumberOfEntries;
-	unsigned short m_pRayCursor;
-};
-void* __cdecl FindSharedEntryValue(PairNode* pNodeA, PairNode* pNodeB);
-struct FUN_00d277f0_node
-{
-    unsigned short unk00;
-    unsigned short unk02;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    FUN_00d277f0_node* unk14;
-};
-struct FUN_00d277f0_arg
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00d277f0_node* unk10;
-};
-FUN_00d277f0_node* __cdecl FUN_00d277f0(FUN_00d277f0_arg* a);
-struct FUN_00d61840_class {
-    int m_iWordAt00;
-    int __thiscall FUN_00d61c10(int a);
-    int __thiscall ReplaceChar(int a, int b, int c);
-};
-int __cdecl CallAndGetId(int a, FUN_00d61840_class* obj);
-struct PathHelper {
-    char* m_data;
-
-    void __thiscall FUN_00d61c10(const char* s);
-    void __thiscall ReplaceChar(char from, char to, int all);
-    void __thiscall FUN_00d62190(const char* from, const char* to, int all);
-    int __thiscall FUN_00d61560(const char* s);
-    void __thiscall RemoveFront(int count);
-};
-const char* __cdecl FUN_00d2b360(const char* path, PathHelper* aPathHelper);
-struct FnvCpu_FUN_00d2c7d0_CpuInterface {
-    virtual void Invoke(int value);
-};
-void __cdecl FUN_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object);
 class FUN_00d2c7e0 {
 public:
     virtual ~FUN_00d2c7e0();
@@ -578,69 +204,11 @@ public:
     static void* operator new(unsigned int, void* p) throw() { return p; }
     static void operator delete(void*, void*) throw() {}
 };
-void __cdecl ConstructObjD2C840(void* storage, int count);
-struct FUN_00d04350_Obj
-{
-    void __thiscall Create(int a, int b);
-};
-struct FUN_00d2cd80_Obj
-{
-    int unk00;
-    FUN_00d04350_Obj unk04;
-
-    FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80();
-};
-struct SubA { void FUN_00d87910(); };
-struct SubB { void Create(int a, int b); };
-struct C_d2cda0 {
-    int m_iWordAt00;
-    int unk04;
-    SubA a8;
-    int unk0C, unk10, unk14;
-    int m_18;
-    int unk1C;
-    char m_20;
-    char pad21[3];
-    SubB b24;
-    int m_28;
-    int m_2c;
-    C_d2cda0* FUN_00d2cda0();
-};
-struct FnvCpu_FUN_00d329b0_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
-struct FnvCpu_FUN_00d329b0_CpuObject {
-    void FUN_00d32170(void*, void*, unsigned int, FnvCpu_FUN_00d329b0_CpuCallData*);
-    void DispatchWithBound(void*, void*, unsigned int, unsigned int);
-};
-int __cdecl FUN_00d32ac0(int param_1, int param_2);
-void* __cdecl FUN_00d32ad0(int unused, char* p);
 extern int DAT_010ce81c;
-void __cdecl FUN_00d33b90(int b, int a, int c, SpawnedBuf* buffer);
-void __cdecl InitSpawnedBuffer(int a, int b, int c, int d);
-struct FUN_00d34aa0_Obj {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1C();
-
-    void __thiscall FUN_00d338e0(int a, int b, int c, int d);
-    virtual void __thiscall FUN_00d34aa0(int a, int b, int c, int d);
-};
-struct FnvCpu_FUN_00d34b00_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
-struct FnvCpu_FUN_00d34b00_CpuObject {
-    void FUN_00d33b70(void*, void*, unsigned int, FnvCpu_FUN_00d34b00_CpuCallData*);
-    void DispatchCpuCall(void*, void*, unsigned int, unsigned int);
-};
-void RemoveKeyFromTable(int, unsigned short* table, unsigned short key);
-void __cdecl InsertIntoSlotArray(void* unused, unsigned short* slots, unsigned short value);
-void FUN_00d39090();
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void FUN_00d3d3e0();
@@ -650,35 +218,6 @@ void CreateTargetAgent();
 void QueryD3DCollector();
 void FUN_00d3e110();
 void FUN_00d3ac80();
-struct FUN_00d390a0_Leaf {
-    char unk00[0x20];
-};
-struct FUN_00d390a0_Mid {
-    FUN_00d390a0_Leaf* m_pLeafNode;
-};
-struct FUN_00d390a0_Owner {
-    int unk00;
-    FUN_00d390a0_Mid* m_mid;
-};
-struct FUN_00d390a0_Flags {
-    char unk00;
-    char unk01;
-    unsigned char unk02;
-};
-struct FUN_00d390a0_Out {
-    unsigned short unk00;
-    unsigned short unk02;
-    unsigned short unk04;
-    unsigned short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-void __cdecl ComputeInverseLengths(void* a, void* b);
-char* __cdecl InitOutputDefaults(FUN_00d390a0_Owner* owner, FUN_00d390a0_Flags* flags, FUN_00d390a0_Out* out);
 struct D390Callback {
     virtual void method00();
     virtual void method04();
@@ -715,16 +254,6 @@ struct D3FD30Funcs {
     bool m_bB;
 };
 void __cdecl FUN_00d3fce0(D3FD30Funcs* pkFuncs);
-class D3FD30Dispatcher {
-public:
-    void AddSpawnEntry(D3FD30Funcs* pkFuncs, int iA, int iB);
-};
-void __cdecl DispatchFuncs(D3FD30Dispatcher* pkDispatcher);
-void FUN_00d3fde0();
-extern int DAT_0102e388;
-struct Foo00d24660 {
-    void FUN_00d24660();
-};
 class hkMemoryAllocatorD262 {
 public:
     virtual ~hkMemoryAllocatorD262() throw();
@@ -757,82 +286,18 @@ public:
 
     FUN_00d496d0* FUN_00d262e0(unsigned int uiFlags) throw();
 };
-void FUN_00da3510(void*, void*);
-void FUN_00d2d460(int, void* b, void* c);
+void hkAgent1nMachine_InvalidateTim(void*, void*);
 extern unsigned char DAT_011b4284;
-void __cdecl FUN_00d2f530(unsigned char* p);
 extern unsigned char DAT_011b4284;
-void __cdecl FUN_00d2f540(unsigned char value);
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
-extern "C" void __cdecl GetClosestPointsShapeCollection();
-struct D347D0Query {
-    const unsigned char* descriptor;
-    float bound;
-    unsigned int filter;
-};
+extern "C" void __cdecl hkpShapeCollectionAgent_staticGetClosestPoints();
 void __cdecl QueryClosestPoints(void* a, void* b, void* c, unsigned int filter);
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
-struct D34970Context {
-    void* pointer;
-    float maxDistance;
-    int option;
-};
-extern "C" void __cdecl FUN_00d339d0(int first, int second, int third, D34970Context* context);
-void __cdecl FUN_00d34970(int arg0, int arg1, int arg2, int arg3);
 extern int DAT_010ce81c;
-struct D34ac0Struct {
-    void* e;
-    unsigned char f;
-    void* g;
-};
-struct FUN_00d33c80_class {
-    void FUN_00d33c80(void* a, void* b, void* c, void* d);
-    void FUN_00d34ac0(void* a, void* b, void* c, void* d);
-};
-struct D3C380_Allocator {
-    virtual void v0();
-    virtual void* alloc(int size);
-};
-struct D3C380_Obj {
-    void** vt;
-    unsigned short w4;
-    unsigned short w6;
-    int i8;
-    unsigned short wC;
-};
-extern unsigned int DAT_010cefdc;
-D3C380_Obj* __cdecl CreateD3C380Obj(int a1, int a2, int a3, int a4);
 // CreateRetObj: builds a 0x20-byte record from the audio allocation pool.
-struct IAlloc
-{
-    virtual void* unk00();
-    virtual void* Alloc(int size);
-};
-struct SubBlock
-{
-    int d0, d1, d2, d3;
-};
-struct RetObj
-{
-    void* vtbl;             // 0x00
-    unsigned short f04;     // 0x20
-    unsigned short f06;     // 1
-    int f08;                // param 4
-    unsigned short f0c;     // 0xffff
-    unsigned short f0e;
-    SubBlock m10;
-};
-struct AllocMgr
-{
-    int unk00, unk04, unk08, unk0c;
-    IAlloc* allocator;
-};
-extern int DAT_010cf060;
-extern void __cdecl FUN_00cd7160(void* src, void* dst);
 void* __cdecl CreateRetObj(int a1, char** a2, int a3, int a4);
-extern int DAT_010cf0e4;
 struct D3E270_obj;
 struct D3E270_alloc {
     virtual void v00();
@@ -845,84 +310,11 @@ struct D3E270_obj {
     int f08;
     unsigned short f0c;
 };
-struct D3E270_mgr {
-    int r00;
-    int r04;
-    int r08;
-    int r0c;
-    D3E270_alloc* r10;
-};
-D3E270_obj* __cdecl FUN_00d3e270(int a1, int a2, int a3, int a4);
-struct D3FE70Info {
-    void* pkInfo;
-};
-D3FE10Entry* __cdecl FUN_00d3fe70(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, D3FE10Manager* pkManager, D3FE70Info kInfo);
 #include <xmmintrin.h>
 extern float DAT_01011d78;
 extern float DAT_01016248;
 extern float DAT_01017718;
-struct D212D0Seg {
-    __m128 a;
-    __m128 b;
-};
-struct D212D0Obj {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1C();
-    virtual void v20(char* hitOut, D212D0Seg* seg, void* p3);
-
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    __m128 row70;
-
-    unsigned char* FUN_00d212d0(unsigned char* out, D212D0Seg* seg, void* p3);
-};
 namespace sd21cc0 {
-
-class Target {
-public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual int Dispatch(int iArg0, int iArg1);
-};
-
-// @fnv 0x00d21cc0
-int FUN_00d21cc0(Target* pkTarget, int iArg0, int iArg1)
-{
-    return pkTarget->Dispatch(iArg0, iArg1);
-}
 
 }
 struct __declspec(align(16)) Vector4D22DC0 {
@@ -971,18 +363,8 @@ struct ShapeD22DC0 : public ReferencedD22DC0 {
     TransformD22DC0 m_kMotionTransform;
     int m_type;
 };
-struct FUN_00d22dc0 : public ShapeD22DC0 {
-    FUN_00d22dc0(const Vector4D22DC0& kA, const Vector4D22DC0& kB, float fRadius, int iA, int iB) throw();
-    virtual ~FUN_00d22dc0() throw();
-    Vector4D22DC0 m_kA;
-    Vector4D22DC0 m_kB;
-    float m_fBoundRadius;
-    int m_iA;
-    int m_iB;
-};
 struct E48 { int a[12]; };
 extern "C" void __cdecl FUN_00d06c30(void* self, int newCap, int elemSize);
-extern "C" void __cdecl CopyMemoryBackward(void* dst, const void* src, int size);
 struct hkSmallArrayE {
     E48* m_data;
     unsigned short m_iElementCount;
@@ -1023,38 +405,6 @@ struct S00d281b0_Router {
     unsigned int unk00, unk04, unk08;
     S00d281b0_Alloc* allocator;
     S00d281b0_Alloc& heap() { return *allocator; }
-};
-struct S00d281b0_IntArray {
-    int* data;
-    int count;
-};
-struct S00d281b0_Target {
-    S00d281b0_IntArray* indices;
-    int count;
-    int MoveLargestToFirst(S00d281b0_IntArray* values);
-};
-struct FUN_00d2acf0_base
-{
-    void** vtbl;
-    unsigned short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    FUN_00d2acf0_base(void* a1, int a2);
-};
-struct FUN_00d2acf0 : FUN_00d2acf0_base
-{
-    __m128 unk20;
-    __m128 unk30;
-    __m128 unk40;
-    float unk50;
-    float unk54;
-    int unk58;
-    unsigned char unk5c;
-
-    FUN_00d2acf0(void* a1, __m128* a2, __m128* a3, float a4, float a5, int a6);
 };
 extern __declspec(thread) unsigned int t_uiMemContextB110;
 inline unsigned int GetMemContextB110()
@@ -1120,51 +470,6 @@ struct BodyB110 {
     ShapeB110* getShape() const { return m_pCollisionShape; }
     ShapeB110* m_pCollisionShape;
 };
-struct InputB110 {
-    BodyB110* m_kCollisionBody;
-    int m_type;
-};
-class AgentB110 : public hkReferencedObjectB110 {
-public:
-    AgentB110(ShapeB110* pShape, const hkVector4B110& kA, const hkVector4B110& kB, float fA, float fB, void* pUser);
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    hkVector4B110 m_offset;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-};
-class AgentFactoryB110 {
-public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAgentData;
-    int unk14;
-    int unk18;
-    int unk1c;
-    hkVector4B110 m_kA;
-    hkVector4B110 m_kB;
-    hkVector4B110 m_offset;
-    float m_fCoefficientA;
-    float m_fB;
-
-    AgentB110* FUN_00d2b110(const InputB110* pA, const InputB110* pB);
-};
 extern __declspec(thread) unsigned int t_uiMemContextD2C9;
 inline unsigned int GetMemContextD2C9()
 {
@@ -1224,45 +529,13 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
-class AgentD2C9 : public hkReferencedObjectD2C9 {
-public:
-    AgentD2C9(int aiAgentType, int iOwner); // FUN_00d2c910
-
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4D2C9 m_v20;
-};
 struct RequestD2C9 {
     int* m_pName;
     int m_iKind;
     int GetName() const { return *m_pName; }
     int* GetNamePtr() const { return m_pName; }
 };
-struct CountD2C9 {
-    int unk00;
-    int m_iArrayLength;
-};
-class FactoryD2C9 {
-public:
-    AgentD2C9* FUN_00d2c9d0(RequestD2C9* req, CountD2C9* cnt);
-
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int m_iOwner;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4D2C9 m_v20;
-};
 extern float DAT_0104da48;
-extern int DAT_010ce80c;
-extern __m128 DAT_010c44d0;
 struct Vec { int x, y, z, w; };
 struct Src {
     int u[20];
@@ -1280,15 +553,6 @@ struct Q {
 void __cdecl FUN_00d2f0d0();
 typedef void (__cdecl *Fn)(int, int, Src*, Q*, Q*);
 void __cdecl FUN_00d2daf0(int a, int b, Src* c, int d, int e);
-struct CallbackState {
-    const int* m_pIntegerValue;
-    char m_cFlag;
-    int m_iValue;
-};
-struct Holder {
-    void FUN_00d315f0(int a, int b, int c, CallbackState* s);
-    void FUN_00d2f3f0(int a, int b, int c, int d);
-};
 extern "C" void _ReadWriteBarrier();
 struct ShapeD2F630 {
     int unk00;
@@ -1426,16 +690,6 @@ struct InputD2F630 {
     int unk10;
     int m_createPredictive;
 };
-void __cdecl FUN_00d2f630(const CdBodyD2F630& kA, const CdBodyD2F630& kB, const InputD2F630& kInput, CollectorD2F630& kCollector);
-struct FUN_00d32970_Collector {
-    void* vtable;
-    unsigned char flag;
-    unsigned int value;
-};
-struct FUN_00d32970_Agent {
-    void FUN_00d32150(void* a, void* b, void* c, FUN_00d32970_Collector* collector);
-    void FUN_00d32970(void* a1, void* a2, void* a3, unsigned int a4);
-};
 extern "C" __m128 DAT_010c4c00;
 extern "C" void _ReadWriteBarrier(void);
 class hkVector4 {
@@ -1467,100 +721,7 @@ struct Point {
         hkVector4::setNeg4(m_vHitNormal, m_vHitNormal, DAT_010c4c00);
     }
 };
-struct SubShapeId {
-    unsigned char m_kPointA : 4;
-    unsigned char m_kPointB : 4;
-};
-struct CastCollector {
-    Point* m_currentPoint;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    Point m_point000; Point m_point001; Point m_point002; Point m_point003;
-    Point m_point004; Point m_point005; Point m_point006; Point m_point007;
-    Point m_point008; Point m_point009; Point m_point010; Point m_point011;
-    Point m_point012; Point m_point013; Point m_point014; Point m_point015;
-    Point m_point016; Point m_point017; Point m_point018; Point m_point019;
-    Point m_point020; Point m_point021; Point m_point022; Point m_point023;
-    Point m_point024; Point m_point025; Point m_point026; Point m_point027;
-    Point m_point028; Point m_point029; Point m_point030; Point m_point031;
-    Point m_point032; Point m_point033; Point m_point034; Point m_point035;
-    Point m_point036; Point m_point037; Point m_point038; Point m_point039;
-    Point m_point040; Point m_point041; Point m_point042; Point m_point043;
-    Point m_point044; Point m_point045; Point m_point046; Point m_point047;
-    Point m_point048; Point m_point049; Point m_point050; Point m_point051;
-    Point m_point052; Point m_point053; Point m_point054; Point m_point055;
-    Point m_point056; Point m_point057; Point m_point058; Point m_point059;
-    Point m_point060; Point m_point061; Point m_point062; Point m_point063;
-    Point m_point064; Point m_point065; Point m_point066; Point m_point067;
-    Point m_point068; Point m_point069; Point m_point070; Point m_point071;
-    Point m_point072; Point m_point073; Point m_point074; Point m_point075;
-    Point m_point076; Point m_point077; Point m_point078; Point m_point079;
-    Point m_point080; Point m_point081; Point m_point082; Point m_point083;
-    Point m_point084; Point m_point085; Point m_point086; Point m_point087;
-    Point m_point088; Point m_point089; Point m_point090; Point m_point091;
-    Point m_point092; Point m_point093; Point m_point094; Point m_point095;
-    Point m_point096; Point m_point097; Point m_point098; Point m_point099;
-    Point m_point100; Point m_point101; Point m_point102; Point m_point103;
-    Point m_point104; Point m_point105; Point m_point106; Point m_point107;
-    Point m_point108; Point m_point109; Point m_point110; Point m_point111;
-    Point m_point112; Point m_point113; Point m_point114; Point m_point115;
-    Point m_point116; Point m_point117; Point m_point118; Point m_point119;
-    Point m_point120; Point m_point121; Point m_point122; Point m_point123;
-    Point m_point124; Point m_point125; Point m_point126; Point m_point127;
-    Point m_point128; Point m_point129; Point m_point130; Point m_point131;
-    Point m_point132; Point m_point133; Point m_point134; Point m_point135;
-    Point m_point136; Point m_point137; Point m_point138; Point m_point139;
-    Point m_point140; Point m_point141; Point m_point142; Point m_point143;
-    Point m_point144; Point m_point145; Point m_point146; Point m_point147;
-    Point m_point148; Point m_point149; Point m_point150; Point m_point151;
-    Point m_point152; Point m_point153; Point m_point154; Point m_point155;
-    Point m_point156; Point m_point157; Point m_point158; Point m_point159;
-    Point m_point160; Point m_point161; Point m_point162; Point m_point163;
-    Point m_point164; Point m_point165; Point m_point166; Point m_point167;
-    Point m_point168; Point m_point169; Point m_point170; Point m_point171;
-    Point m_point172; Point m_point173; Point m_point174; Point m_point175;
-    Point m_point176; Point m_point177; Point m_point178; Point m_point179;
-    Point m_point180; Point m_point181; Point m_point182; Point m_point183;
-    Point m_point184; Point m_point185; Point m_point186; Point m_point187;
-    Point m_point188; Point m_point189; Point m_point190; Point m_point191;
-    Point m_point192; Point m_point193; Point m_point194; Point m_point195;
-    Point m_point196; Point m_point197; Point m_point198; Point m_point199;
-    Point m_point200; Point m_point201; Point m_point202; Point m_point203;
-    Point m_point204; Point m_point205; Point m_point206; Point m_point207;
-    Point m_point208; Point m_point209; Point m_point210; Point m_point211;
-    Point m_point212; Point m_point213; Point m_point214; Point m_point215;
-    Point m_point216; Point m_point217; Point m_point218; Point m_point219;
-    Point m_point220; Point m_point221; Point m_point222; Point m_point223;
-    Point m_point224; Point m_point225; Point m_point226; Point m_point227;
-    Point m_point228; Point m_point229; Point m_point230; Point m_point231;
-    Point m_point232; Point m_point233; Point m_point234; Point m_point235;
-    Point m_point236; Point m_point237; Point m_point238; Point m_point239;
-    Point m_point240; Point m_point241; Point m_point242; Point m_point243;
-    Point m_point244; Point m_point245; Point m_point246; Point m_point247;
-    Point m_point248; Point m_point249; Point m_point250; Point m_point251;
-    Point m_point252; Point m_point253; Point m_point254; Point m_point255;
-    hkVector4 m_normal3020;
-    float m_dist3030;
-    int unk3034;
-    int unk3038;
-    int unk303C;
-    unsigned short m_uiShapeKeys[4];
-    unsigned char m_byte3048;
-    unsigned char m_byte3049;
-    SubShapeId m_byte304a;
-};
-class LinearCastAgent {
-public:
-    void FUN_00d33f40(int bodyB, int bodyA, int input, int collector);
-    void FUN_00d34c10(int bodyA, int bodyB, int input, int collector);
-};
-extern "C" void __cdecl FUN_00da3510(int, int);
-void __cdecl ForwardCall(int a1, int a2, int a3);
+extern "C" void __cdecl hkAgent1nMachine_InvalidateTim(int, int);
 struct D36B70_Heap
 {
     virtual void v0();
@@ -1588,21 +749,12 @@ struct FUN_00d36b20
 };
 FUN_00d36b20* FUN_00d36b70(int param1, int param2, int* param3, int param4);
 #include <xmmintrin.h>
-void __stdcall FUN_00d24650(int _param);
 class hkpCdBody;
 class CollisionAgentContext;
 // Explicit layout of the audited collector objects; table objects stay external.
 struct hkpCdBodyPairCollector {
     const void* unk00;
     unsigned char unk04;
-};
-struct hkpSymmetricAgentFlipBodyCollector : hkpCdBodyPairCollector {
-    hkpCdBodyPairCollector* unk08;
-};
-class hkpListAgent {
-public:
-    void FUN_00d36b00(const hkpCdBody&, const hkpCdBody&,
-                     const CollisionAgentContext&, hkpCdBodyPairCollector&);
 };
 template<class Agent> class hkpSymmetricAgent : public Agent {
 public:
@@ -1613,8 +765,6 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned int DAT_0126835c;
-extern char DAT_010ced28[];
-extern char DAT_010c41f8[];
 extern volatile float DAT_01012054;
 struct Body11
 {
@@ -1672,18 +822,6 @@ struct A1Rec
     int unk5C;
     int unk60;
     V4q unk70;
-};
-struct PRec
-{
-    int unk00;
-    int unk04;
-    void* unk08;
-    void* unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    Body11 unk20;
 };
 struct BroadPhaseHandle
 {
@@ -1815,58 +953,17 @@ public:
     int r18_04;
     int r18_08;
 };
-struct CF56Ret
-{
-    virtual void vfunc0(int a);
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int r18_00;
-    int r18_04;
-    int r18_08;
-};
-struct C85Ret
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-};
-void FUN_00c908c0(void* a, void* b, int c, int d);
-int FUN_00d35770(O1T* o1, int a2, int a3, int a4, int a5);
 static __forceinline int maxSize(int minimum, int value) {
     _ReadWriteBarrier();
     return value <= minimum ? minimum : value;
 }
 int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5);
-__declspec(noinline) void __cdecl FUN_00d36c30(void* apObject);
-__declspec(noinline) void __cdecl FUN_00d36bb0(CollisionAgentFunctionTable* f)
-{
-    f->a = (void*)(void (__cdecl*)())&FUN_00d36b70;
-    f->b = (void*)&FUN_00d34790;
-    f->c = (void*)(void (__cdecl*)())&QueryClosestPoints;
-    f->d = (void*)&FUN_00d34810;
-    f->e = 0;
-    f->f = 1;
-}
-void __cdecl FUN_00d36c60(void* p);
+__declspec(noinline) void __cdecl hkpListAgent_initAgentFunc(void* apObject);
 
 #include <xmmintrin.h>
 
 extern const __m128 DAT_010c71e0;
 extern const __m128 DAT_01017d10;
-
-extern "C" float __cdecl ClampedAcos(float x);
-
-struct hkStepInfo {
-    float m_uiStartTime;
-    float m_fEndTime;
-    float m_fTimeStep;
-    float m_fInverseDeltaTime;
-};
 
 struct SimdScalar {
     __m128 value;
@@ -1984,69 +1081,6 @@ struct hkpRigidBodyStub {
     }
 };
 
-struct hkOrientHingedBodyAction {
-    int unk00, unk04, unk08, unk0c, unk10, unk14;
-    hkpRigidBodyStub* m_pEntity;
-    int unk1c;
-    hkVecQ m_vHingeAxisLS;
-    hkVecQ m_forwardAxisLS;
-    hkVecQ m_targetForwardWS;
-    float m_fSpringStrength;
-    float m_fMotorDamping;
-    float m_fConeAngle;
-    bool m_bSlotEnabled;
-
-    void __thiscall FUN_00d2ad50(const hkStepInfo& stepInfo);
-};
-
-// @fnv 0x00d2ad50
-void hkOrientHingedBodyAction::FUN_00d2ad50(const hkStepInfo& stepInfo)
-{
-    if (m_bSlotEnabled)
-    {
-        hkpRigidBodyStub* rb = m_pEntity;
-
-        hkVecQ forwardWS;
-        __m128 forwardQuad = hkVecQ::rotated(rb->m_pMotionState.m_rotation, m_forwardAxisLS);
-        forwardWS.getQuad() = forwardQuad;
-
-        hkVecQ hingeWS;
-        __m128 hingeQuad = hkVecQ::rotated(rb->m_pMotionState.m_rotation, m_vHingeAxisLS);
-        _mm_store_ps(reinterpret_cast<float*>(&hingeWS), hingeQuad);
-
-        hkVecQ targetProj;
-        targetProj.setAddMul4(m_targetForwardWS, hingeQuad, -hkVecQ::dot(_mm_load_ps(reinterpret_cast<const float*>(&hingeQuad)), m_targetForwardWS.getQuad()));
-        targetProj.normalize3();
-
-        m_fConeAngle = ClampedAcos(hkVecQ::dot(targetProj.getQuad(), forwardQuad));
-
-        forwardWS.setCross(targetProj, forwardWS);
-
-        float rotMaj = forwardWS(forwardWS.getMajorAxis(targetProj));
-        float hingeMaj = hingeWS(hingeWS.getMajorAxis(targetProj));
-
-        if ((rotMaj < 0.0f) != (hingeMaj < 0.0f))
-        {
-            m_fConeAngle = -m_fConeAngle;
-        }
-
-        float dampFactor = m_fMotorDamping * stepInfo.m_fInverseDeltaTime;
-        __m128 dampS = _mm_load_ss(&dampFactor);
-        hkVecQ damping;
-        damping.getQuad() = rb->m_pMotionState.m_kAngularVelocity.getQuad();
-        damping.getQuad() = _mm_mul_ps(_mm_shuffle_ps(dampS, dampS, 0), damping.getQuad());
-
-        float strengthFactor = m_fSpringStrength * m_fConeAngle * stepInfo.m_fInverseDeltaTime;
-        __m128 strengthS = _mm_load_ss(&strengthFactor);
-        forwardWS = hingeWS;
-        forwardWS.getQuad() = _mm_mul_ps(_mm_shuffle_ps(strengthS, strengthS, 0), forwardWS.getQuad());
-
-        forwardWS.getQuad() = _mm_sub_ps(forwardWS.getQuad(), damping.getQuad());
-
-        rb->ApplyAngularImpulseToBodies(forwardWS);
-    }
-}
-
 namespace S00d386c0_N {
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; };
 extern "C" {
@@ -2063,9 +1097,6 @@ unsigned __int64 __rdtsc(void);
 void _ReadWriteBarrier(void);
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 }
-
-extern const char str_010ceed4[];
-extern const char str_010c41f8[];
 
 struct S00d386c0_TimerCommand
 {
@@ -2273,23 +1304,6 @@ struct S00d386c0_CdPointCollector
     virtual ~S00d386c0_CdPointCollector();
     virtual void AddCdPoint(const S00d386c0_CdPoint& event);
 };
-
-struct S00d386c0_TriangleCache
-{
-    float m_invEdgeLen0;
-    float m_invEdgeLen1;
-    float m_invEdgeLen2;
-    float m_fSecondCacheValue;
-};
-
-struct S00d386c0_TriangleResult
-{
-    S00d386c0_Vector4 m_kNearestPoint;
-    S00d386c0_PadSpu<float> distance;
-};
-
-int __cdecl FUN_00cd7850(const S00d386c0_Vector4& position, const S00d386c0_Vector4* vertices,
-    const S00d386c0_TriangleCache& cache, S00d386c0_TriangleResult& result, void* featureOutput);
 
 // @f3 0x009c7730 (community match, verified in this file)
 // 0x009c7730: hkpSphereTriangleAgent::staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
@@ -2579,7 +1593,7 @@ enum ClosestPointTriangleStatus
 void __cdecl FUN_0096fbc0(const hkVector4* tri, ClosestPointTriangleCache& cache);
 
 // closestPointTriangle
-ClosestPointTriangleStatus __cdecl FUN_00970580(const hkVector4& position, const hkVector4* tri,
+ClosestPointTriangleStatus __cdecl hkpCollideTriangleUtil_closestPointTriangle(const hkVector4& position, const hkVector4* tri,
                                                 const ClosestPointTriangleCache& cache,
                                                 ClosestPointTriangleResult& result);
 }  // namespace hkpCollideTriangleUtil
@@ -2627,7 +1641,7 @@ __forceinline hkpSphereTriangleAgent::ClosestPointResult hkpSphereTriangleAgent:
 
     hkpCollideTriangleUtil::ClosestPointTriangleResult cptr;
     hkpCollideTriangleUtil::ClosestPointTriangleStatus res =
-        hkpCollideTriangleUtil::FUN_00970580(posA, &triVertices[0], cache, cptr);
+        hkpCollideTriangleUtil::hkpCollideTriangleUtil_closestPointTriangle(posA, &triVertices[0], cache, cptr);
 
     const hkReal radiusSum = sphereA->getRadius() + triB->getRadius();
 
@@ -2648,6 +1662,8 @@ __forceinline hkpSphereTriangleAgent::ClosestPointResult hkpSphereTriangleAgent:
 }  // namespace f3m_009c7730
 
 // hkpSphereTriangleAgent::staticGetClosestPoints, under the name and parameter types the unit declares for it
+// pdb: hkpSphereTriangleAgent::staticGetClosestPoints | hkpSphereTriangleAgent.obj | fnv360_1110_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d386c0(const S00d386c0_CdBody& bodyA, const S00d386c0_CdBody& bodyB, const S00d386c0_CollisionInput& input, S00d386c0_CdPointCollector& collector)
 {
     namespace hk = f3m_009c7730;
@@ -2690,39 +1706,4 @@ void __cdecl FUN_00d386c0(const S00d386c0_CdBody& bodyA, const S00d386c0_CdBody&
             mStream.setEnd((char*)(h + 1));
         }
     }
-}
-
-
-struct S_00d3dca0_Fns {
-    void* fn0;
-    void* fn4;
-    void* fn8;
-    void* fnC;
-    char b10;
-    char b11;
-};
-struct S_00d3dca0_Obj {
-    void AddSpawnEntry(S_00d3dca0_Fns* f, int a, int b);
-};
-__declspec(noinline) void FUN_00d3dbe0(void* storage) {
-    S_00d3dca0_Fns* f = static_cast<S_00d3dca0_Fns*>(storage);
-    f->fn0 = reinterpret_cast<void*>(static_cast<void (*)()>(&CreateRetObj));
-    f->fn4 = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00d3d3e0));
-    f->fn8 = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00d3d8c0));
-    f->fnC = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00daf8e0));
-    f->b10 = 0;
-    f->b11 = 0;
-}
-// @fnv 0x00d3dca0
-void FUN_00d3dca0(S_00d3dca0_Obj* o)
-{
-    S_00d3dca0_Fns f;
-    f.b10 = 0;
-    f.b11 = 0;
-    FUN_00d3dc10(&f);
-    o->AddSpawnEntry(&f, 3, 1);
-    f.b10 = 0;
-    f.b11 = 0;
-    FUN_00d3dbe0(&f);
-    o->AddSpawnEntry(&f, 1, 3);
 }

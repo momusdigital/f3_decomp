@@ -14,6 +14,7 @@ struct FUN_00a5c200 : ::NiObject
     FUN_00a5c200();
 };
 // @fnv 0x00a5c200
+// pdb: NiObjectNET::NiObjectNET | NiObjectNET.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: NiStencilProperty::NiStencilProperty)
 FUN_00a5c200::FUN_00a5c200()
 {
     words[0] = (unsigned int)::DAT_0109b244;
@@ -42,6 +43,8 @@ struct S_00aa1420_Holder
 };
 
 // @fnv 0x00aa1420
+// pdb: D3DDevice_AddRef | device.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pDevice
 void __cdecl FUN_00aa1420(int arg)
 {
     int value;
@@ -85,6 +88,8 @@ class Manager
 }
 
 // @fnv 0x00aa1460
+// pdb: NiMemObject::operator delete | NiMemObject.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pvMem, stElementSize
 void FUN_00aa1460(void* memory, unsigned int size)
 {
     if (memory)

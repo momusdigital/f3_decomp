@@ -57,7 +57,7 @@ struct Self
     char d1[0x20];
     QT acc;
     Item* items;
-    bool FUN_00a394b0(QT* kValue);
+    bool NiBlendAccumTransformInterpolator_GetValue(QT* kValue);
 };
 extern double _DAT_010241b0;
 struct NiAVObject;
@@ -71,7 +71,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a39720_shell : public NiBlendAccumTransformInterpolator
 {
-    void FUN_00a39720(NiStream*);
+    void NiBlendAccumTransformInterpolator_SaveBinary(NiStream*);
 };
 struct FUN_00a37ec0_tgt
 {
@@ -79,11 +79,11 @@ struct FUN_00a37ec0_tgt
 };
 struct FUN_00a38b60_tgt
 {
-    void FUN_00a38b60(NiStream*);
+    void NiQuatTransform_SaveBinary(NiStream*);
 };
 struct FUN_00a59a90_tgt
 {
-    void ReadMatrixFromStream(NiStream*);
+    void NiMatrix3_SaveBinary(NiStream*);
 };
 struct NiObject;
 struct NiMemObject
@@ -188,17 +188,18 @@ struct Target395
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
     Transform395 accumulated;
     Item395* items;
-    void UpdateInterpolator(float, void*);
+    void NiBlendAccumTransformInterpolator_CalculateSingleValue(float, void*);
 };
 
 extern const AccumRotationMatrix DAT_011a9448;
 struct FUN_00a393c0_cls : NiBlendAccumTransformInterpolator
 {
     void FUN_00a36a90(unsigned char);
-    void FUN_00a393c0(unsigned char idx);
+    void NiBlendAccumTransformInterpolator_RemoveInterpInfo(unsigned char idx);
 };
 // @fnv 0x00a393c0
-void FUN_00a393c0_cls::FUN_00a393c0(unsigned char idx)
+// pdb: NiBlendAccumTransformInterpolator::RemoveInterpInfo | NiBlendAccumTransformInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+void FUN_00a393c0_cls::NiBlendAccumTransformInterpolator_RemoveInterpInfo(unsigned char idx)
 {
     if (m_ucInterpCount == 1 && idx == m_ucSingleIdx && !m_kAccumulatedTransform.IsMarkedInvalid())
     {

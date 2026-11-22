@@ -20,6 +20,8 @@ struct QSndMgr {
 };
 extern QSndMgr* DAT_011790c8;
 
+// pdb: InterfaceManager::PlayMenuSound | InterfaceManager.obj | fnv360_0822_retail, strset, low
+// pdb params: aeMenuSound
 void FUN_0061e7d0(int type)
 {
     QSnd snd;

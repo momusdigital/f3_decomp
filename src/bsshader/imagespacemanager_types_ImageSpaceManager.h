@@ -355,7 +355,7 @@ FNV_STATIC_ASSERT(offsetof(NiRect_float_, m_fMaximumV) == 12);
 class ImageSpaceManager
 {
   public:
-    void CreateMenuBackgroundGeometry();
+    void InitGeometry();
     static bool m_bHasEndOfFrameEffects;
     void BeginParamModifiers();
     void SetupEffects();
@@ -465,7 +465,7 @@ class ImageSpaceManager
     void FUN_00b8b360();
     bool FUN_00b8b390(unsigned int);
     void FUN_00b8b3f0();
-    void FUN_00b8b440(bool);
+    void ImageSpaceManager_ApplyCurrentParameterData(bool);
     void FUN_00b8b540(RgbaColor&);
     void ApplyTintColorParamModifier(RgbaColor&);
     void FUN_00b8b5c0(RgbaColor&);

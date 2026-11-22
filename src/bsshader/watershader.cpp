@@ -53,6 +53,7 @@ class WaterFixMemContext
 };
 extern NiPointer<NiShaderConstantMapEntry> DAT_01175220, DAT_01175224, DAT_01175228, DAT_0117522c, DAT_01175230, DAT_01175234, DAT_01175238, DAT_0117523c, DAT_01175240;
 
+// pdb: WaterShader::CreateConstantMaps | WaterShader.obj | fnv360_0822_retail, ustr, medium
 void WaterShader::UpdateShaderConstants()
 {
     WaterFixThreadState* threadState = reinterpret_cast<WaterFixThreadState*>(WaterShaderGetThreadState());
@@ -96,6 +97,7 @@ void WaterShader::UpdateShaderConstants()
 
 
 // @fnv 0x00b86bd0
+// pdb: WaterShader::WaterShader | WaterShader.obj | fnv360_0822_retail, call_seq, medium
 WaterShader::WaterShader()
 {
     m_iPassId = 13;
@@ -464,6 +466,7 @@ struct FUN_00b09370{
  void FUN_00b06570();
 };
 }
+// pdb: WaterShader::CreateShader | WaterShader.obj | fnv360_0822_retail, call_gap, medium
 BSShader* WaterShader::CreateShader(){
  using namespace Native1489;
  WaterThreadStateView* threadState=(WaterThreadStateView*)WaterShaderGetThreadState();
@@ -487,6 +490,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011ff498;
 
 // @fnv 0x00b827b0
+// pdb: NiXenonRenderer::GetRTTI | NiXenonRenderer.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiDX9Renderer::GetRTTI)
 GlobalObjectO2_00a7b610* __cdecl FUN_00b827b0()
 {
     return &g_011ff498;
@@ -501,6 +505,7 @@ struct FUN_00b86db0_shell
 
 // Calls FUN_00b824b0, then deletes this with size 0x250 when bit 0 of arg is set, and returns this.
 // @fnv 0x00b86db0
+// pdb: WaterShader::`scalar deleting destructor' | WaterShader.obj | fnv360_0822_retail, objrun, medium
 void* FUN_00b86db0_shell::FUN_00b86db0(int aiFlags)
 {
     extern void __cdecl FUN_00b824b0();
@@ -527,6 +532,8 @@ struct FUN_00b86b80_arg
 };
 // Reads the global mode and the inner object's flags and byte, calling FUN_00b98480 or _FUN_00b98070 depending on the mode and flag checks.
 // @fnv 0x00b86b80
+// pdb: WaterShader::PostGeometry | WaterShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void __stdcall FUN_00b86b80(FUN_00b86b80_arg* apArg)
 {
     FUN_00b86b80_inner* pInner = apArg->m_p;
@@ -738,6 +745,7 @@ struct Water112 : WaterShader
     bool InitWaterPasses();
 };
 // @fnv 0x00b83dd0
+// pdb: WaterShader::LoadStagesAndPasses | WaterShader.obj | fnv360_0822_retail, call_seq, medium
 bool Water112::InitWaterPasses()
 {
     for (int iPass = 0; iPass < 74; ++iPass)
@@ -1226,6 +1234,8 @@ struct MaterialShader
 };
 // Clears the five texture slots, then binds textures from the material properties (unless mode is 0x288/0x289) and calls v66.
 // @fnv 0x00b863a0
+// pdb: WaterShader::SetupGeometryTextures | WaterShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apState
 void MaterialShader::BindMaterialTextures(ShaderArgument* argument)
 {
     unsigned int mode = DAT_011f91e4;
@@ -1374,6 +1384,7 @@ class FUN_00b824b0 : public ShaderBaseB824B0
 
 // Destructor that nulls the water shader NiPointers and arrays and zeroes the global vertex and pixel constant arrays.
 // @fnv 0x00b824b0
+// pdb: WaterShader::~WaterShader | WaterShader.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00b824b0::~FUN_00b824b0()
 {
     m_spWaterVertexShader = 0;
@@ -1518,6 +1529,7 @@ inline void InitWaterVariant55(WaterShaderDesc& desc, const char* macro) {
     fnv_zlib_memset(&desc.kMacros[1].Definition, 0, 60);
 }
 
+// pdb: WaterShader::LoadShaders | WaterShader.obj | fnv360_0822_retail, ustr, medium
 void WaterShaderLoader::FUN_00b827c0()
 {
     WaterContext55 kScope(0x1d);
@@ -1622,6 +1634,7 @@ struct WaterShaderReleaser : WaterShader
 };
 
 // @fnv 0x00b861c0
+// pdb: BGSTerminal::ClearData | BGSTerminal.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void WaterShaderReleaser::FUN_00b861c0()
 {
     ReleaseBase();
@@ -2210,7 +2223,7 @@ struct WaterSetup
 
     WaterProgram* pixel;
 
-    void FUN_00b864d0(WaterRenderArg*);
+    void WaterShader_SetupGeometryConstants(WaterRenderArg*);
 };
 
 struct WaterFog
@@ -2362,10 +2375,11 @@ __forceinline void SetWaterAlpha(WaterMaterial* material, unsigned int mode)
 
 // Fills global water shader constants from the material, fog and lights, then calls Setup on the vertex and pixel WaterPrograms.
 // @fnv 0x00b864d0
-void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
+// pdb: WaterShader::SetupGeometryConstants | WaterShader.obj | fnv360_0822_retail, udata + bridge(udata|caller_sim), high
+void WaterSetup::WaterShader_SetupGeometryConstants(WaterRenderArg* arg)
 {
 
-    WaterSetup* volatile savedSetup = this;
+    WaterSetup* savedSetup = this;
 
     unsigned int mode = DAT_011f91e4;
 

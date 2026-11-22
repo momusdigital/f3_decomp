@@ -74,40 +74,6 @@ struct __declspec(align(16)) Transform
     Transform(void* apFirst, void* apSecond);
 };
 
-struct TargetObject
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void Apply(Transform* apTransform, float afAmount, void* apContext);
-};
-
-struct Holder
-{
-    TargetObject* m_pFlagTarget;
-    int unk04;
-    void* m_pData;
-};
-
-struct ValueSource
-{
-    int unk00;
-    int unk04;
-    float m_fAmount;
-};
-
-// Builds a Transform from the two holders' data and applies it to the first holder's target object with the value source's amount.
-// @fnv 0x00d2f710
-void __cdecl ApplyTransformToTarget(Holder* apFirst, Holder* apSecond, ValueSource* apValue, void* apContext)
-{
-    Transform kTransform(apSecond->m_pData, apFirst->m_pData);
-    apFirst->m_pFlagTarget->Apply(&kTransform, apValue->m_fAmount, apContext);
-}
-
 struct Allocator
 {
     virtual void* release();
@@ -139,28 +105,31 @@ void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
     pBuilt->FUN_00d2f980(arg4);
 }
 
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
+void __cdecl hkpBvTreeAgent_staticLinearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
 
-// Calls FUN_00d30f50, passing along all five arguments unchanged.
+// Calls hkpBvTreeAgent_staticLinearCast, passing along all five arguments unchanged.
 // @fnv 0x00d315a0
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
+// pdb: hkpBvTreeAgent::linearCast | hkpBvTreeAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpBvTreeAgent_linearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
 {
-    FUN_00d30f50(apFirst, apSecond, apThird, apFourth, apFifth);
+    hkpBvTreeAgent_staticLinearCast(apFirst, apSecond, apThird, apFourth, apFifth);
 }
 
 extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
+// pdb: hkpBvTreeAgent::getClosestPoints | hkpBvTreeAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d31110(arg0, arg1, arg2, arg3);
 }
 
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
+void __cdecl hkpBvTreeAgent_staticGetPenetrations(void* apA, void* apB, void* apC, void* apD);
 
 // @fnv 0x00d315f0
 void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD)
 {
-    FUN_00d312f0(apA, apB, apC, apD);
+    hkpBvTreeAgent_staticGetPenetrations(apA, apB, apC, apD);
 }
 
 struct D2FA00Allocator
@@ -241,11 +210,6 @@ D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const vo
     return new D2FA00ShapeAgent(mgr);
 }
 
-extern char str_010ce9a4[];
-extern char str_010ce9ac[];
-
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
-
 struct S_00d2f8f0_Elem
 {
     int unk00;
@@ -316,6 +280,8 @@ struct S_00d2f8f0_ArgF3
     char m_bFlag10;
 };
 
+// pdb: hkpBvTreeAgent::calcContentStatistics | hkpBvTreeAgent.obj | fnv360_0822_retail, ustr, high
+// pdb params: collector, cls
 void S_00d2f8f0::WriteToStream(S_00d2f8f0_Arg* apStream)
 {
     S_00d2f8f0_ArgF3* pStream = (S_00d2f8f0_ArgF3*)apStream;
@@ -386,12 +352,13 @@ class OwnerD2F5
     int unk04[2];
     hkArrayD2F5<EntryD2F5> m_entries;
 
-    void FUN_00d2f550(void* pArg);
+    void hkpBvTreeAgent_cleanup(void* pArg);
 };
 
 // Invokes vf1C on each non-null listener in m_entries with pArg, then deletes this object.
 // @fnv 0x00d2f550
-void OwnerD2F5::FUN_00d2f550(void* pArg)
+// pdb: hkpBvTreeAgent::cleanup | hkpBvTreeAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void OwnerD2F5::hkpBvTreeAgent_cleanup(void* pArg)
 {
     for (EntryD2F5 *it = m_entries.begin(), *itEnd = m_entries.end(); it != itEnd; ++it)
     {
@@ -402,45 +369,6 @@ void OwnerD2F5::FUN_00d2f550(void* pArg)
 }
 
 typedef void(__thiscall* TUpdateFn)(void* self, float, float, int);
-
-struct SUpdated
-{
-    TUpdateFn* vtable;
-};
-
-struct SElement
-{
-    int unk00;
-    int unk04;
-    SUpdated* unk08;
-};
-
-struct CUpdateList
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    SElement* unk0c;
-    int unk10;
-    void FUN_00d2f5e0(float a, float b, int c);
-};
-
-// Iterates the SElement array and calls the vtable slot 10 on each non-null SUpdated pointer with the given float and int arguments.
-// @fnv 0x00d2f5e0
-void CUpdateList::FUN_00d2f5e0(float a, float b, int c)
-{
-    int count = unk10;
-    SElement* p = unk0c;
-    SElement*& arr = unk0c;
-    SElement* end = arr + count;
-    for (; p != end; ++p)
-    {
-        if (p->unk08)
-        {
-            p->unk08->vtable[10](p->unk08, a, b, c);
-        }
-    }
-}
 
 class hkBoolR
 {
@@ -477,14 +405,6 @@ struct ShapeContainer
     virtual void v0c();
     virtual void v10();
     virtual const HkShape* GetShapeForKey(unsigned int key, ShapeBuffer& buffer) const;
-};
-
-struct ShapeCollection : HkShape
-{
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual const ShapeContainer* GetShapeContainer() const;
 };
 
 struct CdBody
@@ -701,8 +621,6 @@ struct CollisionAgent
     virtual void ProcessContactPoints(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
                                       ConstraintOwner& owner);
 };
-
-CollisionAgent* __cdecl FUN_00d107a0();
 
 struct CollisionAgentMapRecord
 {
@@ -1204,10 +1122,7 @@ struct S_00d30f50_LinearCastInput
     S_00d30f50_Dispatcher* m_pCollisionDispatcher;
 };
 
-void __cdecl FUN_00d2f690(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
-                          const S_00d30f50_LinearCastInput& input, S_00d30f50_Aabb& aabbOut);
-
-void __cdecl FUN_00d30f50(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
+void __cdecl hkpBvTreeAgent_staticLinearCast(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
                           const S_00d30f50_LinearCastInput& input, S_00d30f50_CdPointCollector& collector,
                           S_00d30f50_CdPointCollector* startCollector) throw();
 
@@ -1280,7 +1195,8 @@ static inline void S_00d30f50_Timer116(const char* name, unsigned int& t)
     }
 }
 
-void __cdecl FUN_00d30f50(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
+// pdb: hkpBvTreeAgent::staticLinearCast | hkpBvTreeAgent.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl hkpBvTreeAgent_staticLinearCast(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
                           const S_00d30f50_LinearCastInput& input, S_00d30f50_CdPointCollector& collector,
                           S_00d30f50_CdPointCollector* startCollector) throw()
 {
@@ -1455,9 +1371,9 @@ extern "C" void FUN_00d2e970();
 extern "C" void FUN_00d2e9b0();
 extern "C" void FUN_00d2e9f0();
 extern "C" void FUN_00d2f9d0();
-extern "C" void FUN_00d312f0();
+extern "C" void hkpBvTreeAgent_staticGetPenetrations();
 extern "C" void FUN_00d31110();
-extern "C" void FUN_00d30f50();
+extern "C" void hkpBvTreeAgent_staticLinearCast();
 extern "C" void FUN_00d2fa40();
 
 // Sets up three DescRecord entries with function pointers and flags, then passes each to self->FUN_00cfbbe0 with different index pairs.
@@ -1474,36 +1390,22 @@ void FUN_00d314e0(SpawnedObject* self)
     self->FUN_00cfbbe0(&desc, 8, -1);
 
     desc.fn0 = FUN_00d2f9d0;
-    desc.fn1 = FUN_00d312f0;
+    desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
     desc.fn2 = FUN_00d31110;
-    desc.fn3 = FUN_00d30f50;
+    desc.fn3 = hkpBvTreeAgent_staticLinearCast;
     desc.flagA = 0;
     desc.flagB = 1;
     self->FUN_00cfbbe0(&desc, -1, 8);
 
     desc.fn0 = FUN_00d2fa40;
-    desc.fn1 = FUN_00d312f0;
+    desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
     desc.fn2 = FUN_00d31110;
-    desc.fn3 = FUN_00d30f50;
+    desc.fn3 = hkpBvTreeAgent_staticLinearCast;
     desc.flagA = 0;
     desc.flagB = 1;
     self->FUN_00cfbbe0(&desc, 8, 8);
 }
 }  // namespace fnv_00d314e0
-
-extern "C" void __cdecl ApplyTransformToTarget(void*, void*, void*, void*);
-extern char str_010cea04[];
-extern char str_010ce7e0[];
-extern char str_010ce9f4[];
-extern char str_01076f38[];
-
-struct S00d31110_Stream
-{
-    char* m_kRayStart;
-    unsigned int* m_cur;
-    char* m_capEnd;
-    unsigned int* m_kRayEnd;
-};
 
 struct S00d31110_Shape;
 
@@ -1528,11 +1430,6 @@ struct S00d31110_Array
     int m_capFlags;
 };
 
-struct S00d31110_InplaceArray : S00d31110_Array
-{
-    unsigned int m_kStorage[128];
-};
-
 struct S00d31110_Shape
 {
     virtual void v00();
@@ -1553,63 +1450,7 @@ struct S00d31110_Shape
     int m_type;
 };
 
-struct S00d31110_Filter
-{
-    virtual void v00();
-    virtual const bool* IsCollisionEnabled(bool* result, void* input, S00d31110_Body* a, S00d31110_Body* b,
-                                           S00d31110_Shape* container, unsigned int key);
-};
-
-struct S00d31110_RefObj
-{
-    virtual void v00();
-    int unk04;
-    int unk08;
-};
-
-struct S00d31110_FilterHolder : S00d31110_RefObj, S00d31110_Filter
-{
-};
-
 typedef void(__cdecl* S00d31110_Func)(S00d31110_Body* a, S00d31110_Body* b, void* input, void* collector);
-
-struct S00d31110_FuncEntry
-{
-    S00d31110_Func m_func;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-};
-
-struct S00d31110_Dispatcher
-{
-    unsigned char m_types[0x9a8];
-    S00d31110_FuncEntry m_entries[1];
-};
-
-struct S00d31110_Input
-{
-    S00d31110_Dispatcher* m_pCollisionDispatcher;
-    int unk04;
-    int unk08;
-    S00d31110_FilterHolder* m_iFilter;
-};
-
-struct S00d31110_Aabb
-{
-    __declspec(align(16)) float m_kMinimumCorner[4];
-    float m_kMaximumCorner[4];
-};
-
-struct S00d31110_Free
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void deallocate(void* p, int size);
-};
 
 // Computes the AABB of bodyB, collects shape hits, and dispatches collision callbacks for each enabled child shape via the dispatcher.
 // @f3 0x009ba1b0 (community match, verified in this file)
@@ -1651,6 +1492,8 @@ struct CallbackEntry518 {Callback518 callback;int fields04,fields08,fields0c,fie
 struct Dispatcher518 {unsigned char types[0x9a8];CallbackEntry518 entries[1];};
 struct Input518 {Dispatcher518* dispatcher;float tolerance;Filter518* filter;};
 struct Heap518 {void FUN_008f6d90(void*,int,int);};
+// pdb: hkpBvTreeAgent::staticGetClosestPoints | hkpBvTreeAgent.obj | fnv360_0822_retail, call_seq, high
+// pdb params: bodyA, bodyB, input, collector
 extern "C" void __cdecl FUN_00d31110(void* apBodyA,void* apBodyB,void* apInput,void* collector)
 {
  TlsGetter518 getTls=TlsGetValue;

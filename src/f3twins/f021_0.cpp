@@ -48,6 +48,7 @@ extern char DAT_00ea3374;
 extern char DAT_00eaa918;
 
 struct C_0053a170 { void* vt; void* f4; void* FUN_0053a170(unsigned char f); };
+// pdb: NiTArray<TESModel *,NiTMallocInterface<TESModel *> >::`scalar deleting destructor' | TESScriptFunctions.obj | fnv360_0822_retail, vtable, medium
 void* C_0053a170::FUN_0053a170(unsigned char f)
 {
     vt = &DAT_00dd8f00;
@@ -57,6 +58,7 @@ void* C_0053a170::FUN_0053a170(unsigned char f)
 }
 
 struct C_005b4820 { void* vt; void* f4; void* FUN_005b4820(unsigned char f); };
+// pdb: NiTArray<NiAVObject *,NiTMallocInterface<NiAVObject *> >::`scalar deleting destructor' | BSTempEffectParticle.obj | fnv360_0822_retail, vtable, medium
 void* C_005b4820::FUN_005b4820(unsigned char f)
 {
     vt = &DAT_00dffc4c;
@@ -66,6 +68,7 @@ void* C_005b4820::FUN_005b4820(unsigned char f)
 }
 
 struct C_00617b40 { void* vt; void* f4; void* FUN_00617b40(unsigned char f); };
+// pdb: NiTArray<BGSMenuPacker::PackedMenu *,NiTMallocInterface<BGSMenuPacker::PackedMenu *> >::`scalar deleting destructor' | BGSMenuPacker.obj | fnv360_0822_retail, vtable, medium
 void* C_00617b40::FUN_00617b40(unsigned char f)
 {
     vt = &DAT_00e033c8;
@@ -75,6 +78,7 @@ void* C_00617b40::FUN_00617b40(unsigned char f)
 }
 
 struct C_007e6160 { void* vt; void* f4; void* FUN_007e6160(unsigned char f); };
+// pdb: NiTArray<Actor *,NiTMallocInterface<Actor *> >::`scalar deleting destructor' | DetailedActorPathHandler.obj | fnv360_0822_retail, vtable, medium
 void* C_007e6160::FUN_007e6160(unsigned char f)
 {
     vt = &DAT_00e1e9d8;
@@ -93,6 +97,7 @@ void* C_007fb670::FUN_007fb670(unsigned char f)
 }
 
 struct C_0082b470 { void* vt; void* f4; void* FUN_0082b470(unsigned char f); };
+// pdb: NiTLargeObjectArray<class BSFixedString>::`vector deleting destructor' | NiStream.obj | tesv_win, caller_sim, low
 void* C_0082b470::FUN_0082b470(unsigned char f)
 {
     vt = &DAT_00e211a4;
@@ -102,6 +107,7 @@ void* C_0082b470::FUN_0082b470(unsigned char f)
 }
 
 struct C_0082c2e0 { void* vt; void* f4; void* FUN_0082c2e0(unsigned char f); };
+// pdb: NiTStringPointerMap<NiObject * (__cdecl*)(void)>::`scalar deleting destructor' | NiStream.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: NiTLargeArray<class NiPointer<class NiObject>,class NiTNewInterface<class NiPointer<class NiObject> > >::`scalar deleting destructor')
 void* C_0082c2e0::FUN_0082c2e0(unsigned char f)
 {
     vt = &DAT_00e211c8;
@@ -138,6 +144,7 @@ void* C_0085cf50::FUN_0085cf50(unsigned char f)
 }
 
 struct C_008663c0 { void* vt; void* f4; void* FUN_008663c0(unsigned char f); };
+// pdb: NiTArray<class NiPointer<class NiMetricsOutputModule>,class NiTNewInterface<class NiPointer<class NiMetricsOutputModule> > >::`vector deleting destructor' | NiMetricsLayer.obj | tesv_win, vtable, medium
 void* C_008663c0::FUN_008663c0(unsigned char f)
 {
     vt = &DAT_00e26d58;
@@ -174,6 +181,7 @@ void* C_0087c8b0::FUN_0087c8b0(unsigned char f)
 }
 
 struct C_0087df30 { void* vt; void* f4; void* FUN_0087df30(unsigned char f); };
+// pdb: NiD3DShaderDeclaration::`scalar deleting destructor' | NiD3DShaderDeclaration.obj | fnv360_0822_retail, objrun, medium
 void* C_0087df30::FUN_0087df30(unsigned char f)
 {
     vt = &DAT_00e29690;
@@ -201,6 +209,7 @@ void* C_00881420::FUN_00881420(unsigned char f)
 }
 
 struct C_00886f00 { void* vt; void* f4; void* FUN_00886f00(unsigned char f); };
+// pdb: hkpRayHitCollector::`scalar deleting destructor' | BGSDecalManager.obj | fnv360_0822_debug, objrun_open, low
 void* C_00886f00::FUN_00886f00(unsigned char f)
 {
     vt = &DAT_00e2a414;
@@ -210,6 +219,7 @@ void* C_00886f00::FUN_00886f00(unsigned char f)
 }
 
 struct C_00888920 { void* vt; void* f4; void* FUN_00888920(unsigned char f); };
+// pdb: NiTArray<NiPointer<NiD3DTextureStage>,NiTNewInterface<NiPointer<NiD3DTextureStage> > >::`scalar deleting destructor' | NiD3DPass.obj | fnv360_0822_retail, caller_sim, low
 void* C_00888920::FUN_00888920(unsigned char f)
 {
     vt = &DAT_00e2a640;
@@ -228,6 +238,7 @@ void* C_00899810::FUN_00899810(unsigned char f)
 }
 
 struct C_00899f70 { void* vt; void* f4; void* FUN_00899f70(unsigned char f); };
+// pdb: NiStaticGeometryGroup::~NiStaticGeometryGroup | NiStaticGeometryGroup.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00899f70::FUN_00899f70(unsigned char f)
 {
     vt = &DAT_00e2bdc0;
@@ -246,6 +257,8 @@ void* C_0089a740::FUN_0089a740(unsigned char f)
 }
 
 struct C_008a8f80 { void* vt; void* f4; void* FUN_008a8f80(unsigned char f); };
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,char *>::AddHead | NiD3DShaderProgramFactory.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiTObjectArray<class NiPointer<class NiControllerSequence> >::`scalar deleting destructor')
+// pdb params: element
 void* C_008a8f80::FUN_008a8f80(unsigned char f)
 {
     vt = &DAT_00e2cdcc;
@@ -264,6 +277,7 @@ void* C_008af0f0::FUN_008af0f0(unsigned char f)
 }
 
 struct C_008bb4f0 { void* vt; void* f4; void* FUN_008bb4f0(unsigned char f); };
+// pdb: NiTArray<struct BSAnimNoteListener::BSAnimReceiverType *,class NiTMallocInterface<struct BSAnimNoteListener::BSAnimReceiverType *> >::`vector deleting destructor' | BSAnimNoteListener.obj | tesv_win, vtable, medium
 void* C_008bb4f0::FUN_008bb4f0(unsigned char f)
 {
     vt = &DAT_00e2e074;
@@ -273,6 +287,7 @@ void* C_008bb4f0::FUN_008bb4f0(unsigned char f)
 }
 
 struct C_008c1b40 { void* vt; void* f4; void* FUN_008c1b40(unsigned char f); };
+// pdb: NiTObjectArray<class NiPointer<class NiTransformController> >::`scalar deleting destructor' | NiSequence.obj | tesv_win, vtable, medium
 void* C_008c1b40::FUN_008c1b40(unsigned char f)
 {
     vt = &DAT_00e2eeb4;
@@ -282,6 +297,7 @@ void* C_008c1b40::FUN_008c1b40(unsigned char f)
 }
 
 struct C_008cda90 { void* vt; void* f4; void* FUN_008cda90(unsigned char f); };
+// pdb: NiTArray<NiTPrimitiveSet<NiNode *> *,NiTMallocInterface<NiTPrimitiveSet<NiNode *> *> >::`scalar deleting destructor' | NiBSBoneLODController.obj | fnv360_0822_retail, vtable, high
 void* C_008cda90::FUN_008cda90(unsigned char f)
 {
     vt = &DAT_00e30c8c;
@@ -291,6 +307,7 @@ void* C_008cda90::FUN_008cda90(unsigned char f)
 }
 
 struct C_008cdac0 { void* vt; void* f4; void* FUN_008cdac0(unsigned char f); };
+// pdb: NiTPrimitiveArray<class NiTPrimitiveSet<class NiBoneLODController::SkinInfo *> *>::`scalar deleting destructor' | NiBoneLODController.obj | tesv_win, vtable, medium
 void* C_008cdac0::FUN_008cdac0(unsigned char f)
 {
     vt = &DAT_00e30c94;
@@ -327,6 +344,7 @@ void* C_00945300::FUN_00945300(unsigned char f)
 }
 
 struct C_00ab70a0 { void* vt; void* f4; void* FUN_00ab70a0(unsigned char f); };
+// pdb: NiTArray<NiParticles *,NiTMallocInterface<NiParticles *> >::`scalar deleting destructor' | BSMasterParticleSystem.obj | fnv360_0822_retail, vtable, medium
 void* C_00ab70a0::FUN_00ab70a0(unsigned char f)
 {
     vt = &DAT_00e8b65c;
@@ -336,6 +354,7 @@ void* C_00ab70a0::FUN_00ab70a0(unsigned char f)
 }
 
 struct C_00ab7e10 { void* vt; void* f4; void* FUN_00ab7e10(unsigned char f); };
+// pdb: NiTArray<NiPointer<NiAVObject>,NiTMallocInterface<NiPointer<NiAVObject> > >::`scalar deleting destructor' | BSPSysArrayEmitter.obj | fnv360_0822_retail, vtable, medium
 void* C_00ab7e10::FUN_00ab7e10(unsigned char f)
 {
     vt = &DAT_00e8b840;
@@ -345,6 +364,7 @@ void* C_00ab7e10::FUN_00ab7e10(unsigned char f)
 }
 
 struct C_00abd5a0 { void* vt; void* f4; void* FUN_00abd5a0(unsigned char f); };
+// pdb: NiTObjectArray<class NiPointer<class NiGeometry> >::`vector deleting destructor' | NiPSysMeshEmitter.obj | tesv_win, vtable, medium
 void* C_00abd5a0::FUN_00abd5a0(unsigned char f)
 {
     vt = &DAT_00e8c328;
@@ -354,6 +374,7 @@ void* C_00abd5a0::FUN_00abd5a0(unsigned char f)
 }
 
 struct C_00abd5d0 { void* vt; void* f4; void* FUN_00abd5d0(unsigned char f); };
+// pdb: NiTArray<class NiPointer<class NiPSysMeshEmitter::NiSkinnedEmitterData>,class NiTNewInterface<class NiPointer<class NiPSysMeshEmitter::NiSkinnedEmitterData> > >::`vector deleting destructor' | NiPSysMeshEmitter.obj | tesv_win, vtable, medium
 void* C_00abd5d0::FUN_00abd5d0(unsigned char f)
 {
     vt = &DAT_00e8c330;
@@ -363,6 +384,7 @@ void* C_00abd5d0::FUN_00abd5d0(unsigned char f)
 }
 
 struct C_00ad0d30 { void* vt; void* f4; void* FUN_00ad0d30(unsigned char f); };
+// pdb: NiTPrimitiveArray<class NiTObjectArray<class NiPointer<class NiAVObject> > *>::`vector deleting destructor' | NiMeshPSysData.obj | tesv_win, vtable, medium
 void* C_00ad0d30::FUN_00ad0d30(unsigned char f)
 {
     vt = &DAT_00e8f700;
@@ -390,6 +412,7 @@ void* C_00b84b70::FUN_00b84b70(unsigned char f)
 }
 
 struct C_00bfcfb0 { void* vt; void* f4; void* FUN_00bfcfb0(unsigned char f); };
+// pdb: NiTArray<Tile *,NiTMallocInterface<Tile *> >::`scalar deleting destructor' | Menu.obj | fnv360_0822_retail, vtable, medium
 void* C_00bfcfb0::FUN_00bfcfb0(unsigned char f)
 {
     vt = &DAT_00eaa918;

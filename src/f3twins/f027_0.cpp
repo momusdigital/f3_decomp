@@ -66,120 +66,140 @@ extern S_00430ff0 DAT_0117915c;
 extern char ARG_00ea87fc;
 void __cdecl FUN_00d9a200();
 
+// pdb: `dynamic initializer for 'fMenuModeAnimBlend'' | Animation.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8a670()
 {
     DAT_0106de7c.FUN_00430ff0(&ARG_00dbe624, 0.0f);
     FUN_00c00d1f(FUN_00d87760);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fIniSunBrightness'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8ca20()
 {
     DAT_0106f7c4.FUN_00430ff0(&ARG_00dc1bf0, 0.0f);
     FUN_00c00d1f(FUN_00d87fc0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fIniSunBrightnessHDR'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8cd70()
 {
     DAT_0106fc64.FUN_00430ff0(&ARG_00dc1e60, 0.0f);
     FUN_00c00d1f(FUN_00d88100);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fLODNoiseMipBias'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::fLODNoiseMipBias'')
 void FUN_00c8d5e0()
 {
     DAT_0106f984.FUN_00430ff0(&ARG_00dc2408, 0.0f);
     FUN_00c00d1f(FUN_00d88390);
 }
 
+// pdb: `dynamic initializer for 'ATTENUATION_SETTINGS::fConstantValue'' | TESLight.obj | fnv360_0822_debug, ustr, high
 void FUN_00c95520()
 {
     DAT_01070744.FUN_00430ff0(&ARG_00dc83f4, 0.0f);
     FUN_00c00d1f(FUN_00d89a10);
 }
 
+// pdb: `dynamic initializer for 'BlendHit::fHitForceMin'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c9d370()
 {
     DAT_01072ce0.FUN_00575370(&ARG_00de7778, 0.0f);
     FUN_00c00d1f(FUN_00d8a430);
 }
 
+// pdb: `dynamic initializer for 'BlendHit::fHitForceMax'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c9d3a0()
 {
     DAT_01072bf8.FUN_00575370(&ARG_00de7784, 0.0f);
     FUN_00c00d1f(FUN_00d8a440);
 }
 
+// pdb: `dynamic initializer for 'BlendHit::fBlockForceMin'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c9d3d0()
 {
     DAT_01072c50.FUN_00575370(&ARG_00de7790, 0.0f);
     FUN_00c00d1f(FUN_00d8a450);
 }
 
+// pdb: `dynamic initializer for 'BlendHit::fBlockForceMax'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c9d400()
 {
     DAT_01072cd4.FUN_00575370(&ARG_00de779c, 0.0f);
     FUN_00c00d1f(FUN_00d8a460);
 }
 
+// pdb: `dynamic initializer for 'fHackingMinSkillVeryEasy'' | HackingMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce7dc0()
 {
     DAT_0107622c.FUN_00430ff0(&ARG_00e05424, 0.0f);
     FUN_00c00d1f(FUN_00d95a20);
 }
 
+// pdb: `dynamic initializer for 'fSurgerySkinVPos'' | SurgeryMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cea280()
 {
     DAT_01077378.FUN_00430ff0(&ARG_00e08974, 0.0f);
     FUN_00c00d1f(FUN_00d96160);
 }
 
+// pdb: `dynamic initializer for 'fScanlineFrequencyHUD'' | FOHUDEffectManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cea7d0()
 {
     DAT_010775a4.FUN_00430ff0(&ARG_00e08cf4, 0.0f);
     FUN_00c00d1f(FUN_00d96290);
 }
 
+// pdb: `dynamic initializer for 'fScanlineFrequencyMenus'' | FOHUDEffectManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cea860()
 {
     DAT_01077558.FUN_00430ff0(&ARG_00e08d54, 0.0f);
     FUN_00c00d1f(FUN_00d962c0);
 }
 
+// pdb: `dynamic initializer for 'fRaceSexMenuHPos'' | FORenderedMenuRaceSex.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceb540()
 {
     DAT_010778d8.FUN_00430ff0(&ARG_00e09620, 0.0f);
     FUN_00c00d1f(FUN_00d96570);
 }
 
+// pdb: `dynamic initializer for 'fRenderedTerminalHPos'' | FORenderedTerminal.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceb6b0()
 {
     DAT_01077934.FUN_00430ff0(&ARG_00e0977c, 0.0f);
     FUN_00c00d1f(FUN_00d96600);
 }
 
+// pdb: `dynamic initializer for 'fLODLandVerticalBias'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4a00()
 {
     DAT_0107a55c.FUN_00430ff0(&ARG_00e11a5c, 0.0f);
     FUN_00c00d1f(FUN_00d971a0);
 }
 
+// pdb: `dynamic initializer for 'fDBVoiceAttenuationIn2D'' | MobileObject.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf8890()
 {
     DAT_0107b8d0.FUN_00430ff0(&ARG_00e17cf4, 0.0f);
     FUN_00c00d1f(FUN_00d97910);
 }
 
+// pdb: `dynamic initializer for 'VATS::fVATSLightAngle'' | VATS.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc790()
 {
     DAT_0108d128.FUN_00430ff0(&ARG_00e1cedc, 0.0f);
     FUN_00c00d1f(FUN_00d97fc0);
 }
 
+// pdb: `dynamic initializer for 'bhkRagdollController::fVelocityDamping'' | bhkRagdollController.obj | fnv360_0822_debug, ustr, high
 void FUN_00d02230()
 {
     DAT_010f2cd8.FUN_00430ff0(&ARG_00e32d58, 0.0f);
     FUN_00c00d1f(FUN_00d98a80);
 }
 
+// pdb: `dynamic initializer for 'fAudioDebugDelay'' | BSAudioManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00d85800()
 {
     DAT_0117915c.FUN_00430ff0(&ARG_00ea87fc, 0.0f);

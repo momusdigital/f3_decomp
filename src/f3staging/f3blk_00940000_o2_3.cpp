@@ -145,7 +145,7 @@ struct Tracker
     virtual void vf0C(char* name);
 };
 struct VariantArray { char* data; int size; };
-int __cdecl FUN_009232c0(const char* a, const char* b);
+int __cdecl hkString_strCmp(const char* a, const char* b);
 char* __cdecl FUN_00923640(const char* name);
 
 static __declspec(noinline) void FUN_00943180(Variant* variant, NameEntry* table, Tracker* tracker)
@@ -161,7 +161,7 @@ static __declspec(noinline) void FUN_00943180(Variant* variant, NameEntry* table
             const char* currentName = *name;
             if (!currentName)
                 return;
-            if (FUN_009232c0(currentName, oldName) == 0)
+            if (hkString_strCmp(currentName, oldName) == 0)
             {
                 char* renamed = FUN_00923640(e->newName);
                 tracker->vf0C(renamed);
@@ -174,6 +174,8 @@ static __declspec(noinline) void FUN_00943180(Variant* variant, NameEntry* table
     }
 }
 
+// pdb: hkStatisticsCollector::addObjectMemory | hkStatisticsCollector.obj | fnv360_0822_debug, caller_sim, low
+// pdb params: cls, obj, flags
 static __declspec(noinline) void FUN_00943200(VariantArray* array, Tracker* tracker, Klass* klass, NameEntry* table)
 {
     Variant variant;

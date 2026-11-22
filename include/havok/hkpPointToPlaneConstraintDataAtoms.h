@@ -10,6 +10,8 @@
 class hkpPointToPlaneConstraintDataAtoms
 {
   public:
+    // The bytes up to the end of the last atom (Havok's hkGetByteOffsetInt(this, &m_vLinearConstraint + 1)).
+    int getSizeOfAllAtoms() const { return (int)((const char*)(&m_vLinearConstraint + 1) - (const char*)this); }
     hkpSetLocalTransformsConstraintAtom m_kTransforms;  // +0x0
     hkpLinConstraintAtom m_vLinearConstraint;           // +0x90
     char pad94[0xC];

@@ -55,12 +55,15 @@ struct FUN_00cfae50_cls
     int unk1c;
     unsigned char* m_20;
 
-    float InvokeSlotHandler(SlotRecord* a1, int a2);
+    float hkpWorldLinearCaster_addBroadPhaseHandle(SlotRecord* a1, int a2);
 };
 
 // Looks up a slot target, matches it via m_08, dispatches the handler from the m_20 table by code, and returns m_0c->m_04.
 // @f3 0x0098aaa0 (community match, verified in this file)
-float FUN_00cfae50_cls::InvokeSlotHandler(SlotRecord* pRecord, int a2)
+// pdb: hkpWorldLinearCaster::addBroadPhaseHandle | hkpWorldLinearCaster.obj | fnv360_0822_retail, vtable, high
+// pdb params: broadPhaseHandle, castIndex
+// pdb: hkpWorldLinearCaster::addBroadPhaseHandle | hkpWorldLinearCaster.obj | fnv360_0822_retail, vtable, high (was: InvokeSlotHandler)
+float FUN_00cfae50_cls::hkpWorldLinearCaster_addBroadPhaseHandle(SlotRecord* pRecord, int a2)
 {
     SlotTarget* pTarget = *(SlotTarget**)((int)pRecord + pRecord->m_05);
     int iSlotAddr = (int)pRecord + pRecord->m_05;

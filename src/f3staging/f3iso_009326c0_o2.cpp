@@ -19,6 +19,7 @@ extern Table* DAT_011693a8;
 extern int DAT_010f343c, DAT_00e37634;
 extern void* DAT_00e7c9c8[], *DAT_00e7cb68;
 struct BuiltinRegistry { void* vtable; unsigned short size,references; BuiltinRegistry* FUN_009326c0(); };
+// pdb: hkCreateBuiltInTypeRegistry | hkBuiltinTypeRegistry.obj | fnv360_0822_retail, uvref, low, conflict (skyrim: hkDefaultBuiltinTypeRegistry::init)
 BuiltinRegistry* BuiltinRegistry::FUN_009326c0() {
     references=1; vtable=&DAT_00e37634;
     NameRegistry* names=DAT_011693a0;

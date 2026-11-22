@@ -16,7 +16,7 @@ namespace Task2037 {
 extern const char DAT_00dd4034[];
 struct Heap{void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct File {int unk000;int unk004;int unk008;int unk00c;int unk010;int unk014;int unk018;int unk01c;char filename[0x23c];unsigned chunkSize;int unk260;int unk264;int unk268;int unk26c;int unk270;int unk274;int unk278;int unk27c;int unk280;int unk284;int unk288;int unk28c;int unk290;int unk294;char unk298;bool endian;
-int FUN_00448cc0();int FUN_004487d0();bool FUN_00447020();void FUN_00447d60(void*,unsigned);void FUN_00448800(void*);
+int TESFile_GetTESForm();int TESFile_GetTESChunk();bool TESFile_NextChunk();void FUN_00447d60(void*,unsigned);void FUN_00448800(void*);
 unsigned GetChunkSize(){return chunkSize;}bool IsEndianConversionRequired(){return endian;}const char* GetFilename(){return filename;}
 void Read(void* p,unsigned n){FUN_00447d60(p,n);}void Read(void* p){FUN_00448800(p);}
 };
@@ -121,6 +121,8 @@ inline char* AllocateZeroed(unsigned count,unsigned size){unsigned bytes=count*s
 void __cdecl FUN_00887da0(const char*,...);
 }
 // @fnv 0x005ab9f0
+// pdb: Script::Load | TESScript.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pFile
 bool ScriptLoader::FUN_005ab9f0(TESFile* originalFile)
 {
     using namespace Task2037;
@@ -134,10 +136,10 @@ bool ScriptLoader::FUN_005ab9f0(TESFile* originalFile)
     unsigned int editorID;
 
     Reference* referenceID;
-    if (file->FUN_00448cc0() != 0x11)
+    if (file->TESFile_GetTESForm() != 0x11)
         return false;
     ((Owner*)this)->FUN_00454410(file);
-    while (size = file->FUN_004487d0())
+    while (size = file->TESFile_GetTESChunk())
     {
         switch (size)
         {
@@ -193,7 +195,7 @@ bool ScriptLoader::FUN_005ab9f0(TESFile* originalFile)
         case 0x4d414e52:
             file->Read(&editorID);
         }
-        if (!file->FUN_00447020())
+        if (!file->TESFile_NextChunk())
             break;
     }
     if (!((Owner*)this)->data)

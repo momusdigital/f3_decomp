@@ -22,6 +22,7 @@ struct Obj
 unsigned __int64 g_freq;
 
 // @fnv 0x00dd8e20
+// pdb: hkWindowsSystemClock::getTicksPerSecond | hkSystemClock.obj | fnv360_0822_retail, vtable, medium
 unsigned __int64 Obj::FUN_00dd8e20()
 {
     if (g_freq != 0)

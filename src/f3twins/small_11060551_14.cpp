@@ -8,6 +8,8 @@ struct T_00b2b4e0 { void FUN_00b2b4e0(void*); };
 struct T_0083fb40 { void FUN_0083fb40(void*); };
 
 struct C_00b46e40 { void FUN_00b46e40(void*); };
+// pdb: VolumetricFogShaderProperty::LoadBinary | VolumetricFogShaderProperty.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiColorExtraData::LoadBinary)
+// pdb params: kStream
 void C_00b46e40::FUN_00b46e40(void* p)
 {
     ((T_00b2b420*)this)->FUN_00b2b420(p);
@@ -15,6 +17,8 @@ void C_00b46e40::FUN_00b46e40(void* p)
 }
 
 struct C_00b46e60 { void FUN_00b46e60(void*); };
+// pdb: VolumetricFogShaderProperty::SaveBinary | VolumetricFogShaderProperty.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: BSLightingShaderMaterialSnow::SaveBinary)
+// pdb params: kStream
 void C_00b46e60::FUN_00b46e60(void* p)
 {
     ((T_00b2b4e0*)this)->FUN_00b2b4e0(p);
@@ -28,6 +32,7 @@ void FUN_0089ec10(void*, int);
 void __fastcall FUN_00b55120(void*);
 
 struct C_00b48550 { void* FUN_00b48550(unsigned char); };
+// pdb: BeamShader::`scalar deleting destructor' | BeamShader.obj | fnv360_0822_retail, objopen_prop, medium
 void* C_00b48550::FUN_00b48550(unsigned char f)
 {
     FUN_00b48080(this);
@@ -36,6 +41,7 @@ void* C_00b48550::FUN_00b48550(unsigned char f)
 }
 
 struct C_00b55a30 { void* FUN_00b55a30(unsigned char); };
+// pdb: DebugShader::`scalar deleting destructor' | DebugShader.obj | fnv360_0822_retail, objrun, medium
 void* C_00b55a30::FUN_00b55a30(unsigned char f)
 {
     FUN_00b55120(this);
@@ -50,6 +56,7 @@ void __cdecl FUN_0089ec10(void*, unsigned int);
 void __fastcall FUN_00b562b0(void*);
 
 struct C_00b49040 { void* FUN_00b49040(unsigned char f); };
+// pdb: VolumetricFogShader::`scalar deleting destructor' | VolumetricFogShader.obj | fnv360_0822_retail, objrun_prop, low
 void* C_00b49040::FUN_00b49040(unsigned char f)
 {
     FUN_00b489e0(this);
@@ -58,6 +65,7 @@ void* C_00b49040::FUN_00b49040(unsigned char f)
 }
 
 struct C_00b56640 { void* FUN_00b56640(unsigned char f); };
+// pdb: SpeedTreeFrondShader::`scalar deleting destructor' | SpeedTreeFrondShader.obj | fnv360_0822_retail, objrun, medium
 void* C_00b56640::FUN_00b56640(unsigned char f)
 {
     FUN_00b562b0(this);
@@ -66,11 +74,3 @@ void* C_00b56640::FUN_00b56640(unsigned char f)
 }
 
 // ---- family f131
-
-void __cdecl FUN_00c16549(int);
-
-void FUN_00c063ec()
-{
-    FUN_00c16549(4);
-}
-

@@ -56,8 +56,10 @@ void __cdecl FUN_0092e830(void* memory) throw();
 void __cdecl FUN_0092e8f0(void* threadMemory) throw();
 void __cdecl FUN_0056b5b0(hkFileSystem* fs) throw();
 void __cdecl FUN_0056b560(hkReferencedObject* error) throw();
-void __cdecl FUN_0092e990() throw();
+void __cdecl hkBaseSystem_initSingletons() throw();
 
+// pdb: hkBaseSystem::init | hkBaseSystem.obj | fnv360_0822_retail, uvref, medium
+// pdb params: memoryRouter, errorReportFunction, errorReportObject
 int __cdecl FUN_0092eaa0(void* memoryManager, void* threadMemory, hkErrorReportFunction errorReportFunction, void* errorReportObject)
 {
     if (!DAT_010f3408) {
@@ -67,7 +69,7 @@ int __cdecl FUN_0092eaa0(void* memoryManager, void* threadMemory, hkErrorReportF
                 FUN_0092e8f0(threadMemory);
                 FUN_0056b5b0(new hkNativeFileSystem());
                 FUN_0056b560(new FUN_0092efd0(errorReportFunction, errorReportObject));
-                FUN_0092e990();
+                hkBaseSystem_initSingletons();
                 DAT_010f3404->v3();
                 DAT_010f3408 = true;
             } else {
@@ -197,6 +199,8 @@ public:
 
 }
 
+// pdb: bhkRigidBodyT::SetPosition | bhkRigidBodyT.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arPos
 void f3m_00925b30::Body::FUN_00925b30(const hkVector4& pos)
 {
     if (this && unk08)
@@ -254,7 +258,8 @@ struct MemberView {
     ClassView FUN_0093d810() const;
 };
 
-static __declspec(noinline) void FUN_0093cae0(Variant& obj, const char* name)
+// pdb: hkDataObjectNative::hasMember | hkDataObjectNative.obj | fnv360_0822_retail, caller_sim + bridge(caller_sim|vtable) + skyrim(caller_sim), high
+static __declspec(noinline) void hkDataObjectNative_hasMember(Variant& obj, const char* name)
 {
     MemberView field;
     field.FUN_0093d600(obj, name);
@@ -265,7 +270,7 @@ static __declspec(noinline) void FUN_0093cae0(Variant& obj, const char* name)
 
 __declspec(noinline) void __cdecl FUN_0093cb40(Variant& oldObj, Variant& newObj, Tracker& tracker)
 {
-    FUN_0093cae0(newObj, "contactBody");
+    hkDataObjectNative_hasMember(newObj, "contactBody");
 }
 
 }
@@ -1928,10 +1933,11 @@ class hkpAabbUtil
 			hkTransform m_endTransformInv;
 		};
 		__forceinline static void __cdecl sweepAabb(const hkMotionState* motionstate, hkReal tolerance, const hkAabb& aabbIn, hkAabb& aabbOut);
-		static void __cdecl FUN_00931eb0(const hkMotionState* motionstate, OffsetAabbInput& input);
+		static void __cdecl hkAabbUtil_initOffsetAabbInput(const hkMotionState* motionstate, OffsetAabbInput& input);
 		static void __cdecl sweepOffsetAabb(const OffsetAabbInput& input, const hkAabb& aabbIn, hkAabb& aabbOut);
 };
-void hkpAabbUtil::FUN_00931eb0(const hkMotionState* motionState, OffsetAabbInput& input)
+// pdb: hkAabbUtil::initOffsetAabbInput | hkAabbUtil.obj | fnv360_0822_retail, uconst + bridge(uconst|uconst) + skyrim(uconst), high
+void hkpAabbUtil::hkAabbUtil_initOffsetAabbInput(const hkMotionState* motionState, OffsetAabbInput& input)
 {
 	input.m_motionState = motionState;
 	input.m_endTransformInv.setInverse( motionState->getTransform() );
@@ -1965,7 +1971,6 @@ void hkpAabbUtil::FUN_00931eb0(const hkMotionState* motionState, OffsetAabbInput
 			for ( hkReal p = 1.0f; p < parts; p += 2.0f )
 			{
 				hkReal time = swept.getBaseTime() + p * partsInv * deltaTime;
-				;
 				hkTransform& t = input.m_transforms[input.m_numTransforms];
 				input.m_numTransforms = input.m_numTransforms + 1;
 				motionState->getSweptTransform()._approxTransformAt( time, t );

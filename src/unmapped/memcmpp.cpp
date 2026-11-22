@@ -13,6 +13,8 @@ struct FUN_00a3dd00_class
 };
 
 // @fnv 0x00a3dd00
+// pdb: NiMeshPSysData::IsEqual | NiMeshPSysData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiPathInterpolator::GetPathKeys)
+// pdb params: pkObject
 int FUN_00a3dd00_class::FUN_00a3dd00(int& a, int& b, char& c)
 {
     int result = 0;

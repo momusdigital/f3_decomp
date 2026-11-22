@@ -130,6 +130,8 @@ struct SViewQ
 };
 
 // @fnv 0x00e9ee60
+// pdb: NiUnionBV::NiUnionBV | NiUnionBV.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: kABV
 S* S::FUN_00e9ee60(void* pkOtherRaw)
 {
     SViewQ* pkOther = (SViewQ*)pkOtherRaw;

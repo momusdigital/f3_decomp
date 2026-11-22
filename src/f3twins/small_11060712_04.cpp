@@ -14,12 +14,13 @@ extern __declspec(thread) TLS004a8730 DAT_0117c29c;
 extern long DAT_0116d6bc;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-void __cdecl FUN_00454a40(unsigned*, void*);
-F004a8730* __cdecl FUN_00455190(unsigned);
+void __cdecl TESForm_AddCompileIndex(unsigned*, void*);
+F004a8730* __cdecl TESForm_GetFormByNumericID(unsigned);
 void __cdecl FUN_00887da0(const char*, ...);
 extern const char DAT_00dc54e8[]; extern const char DAT_00dc5488[]; extern const char DAT_00dc5430[]; extern const char DAT_00dc5398[]; extern const char DAT_00dc5300[];
-struct C004a8730 { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39(); virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54(); virtual void v55(); virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59(); virtual void v60(); virtual void v61(); virtual void v62(); virtual void v63(); virtual void v64(); virtual void v65(); virtual void v66(); virtual void v67(); virtual void v68(); virtual void v69(); virtual void v70(); virtual void v71(); virtual void v72(); virtual void v73(); virtual void v74(); virtual void v75(); virtual const char* v76(); int f04; unsigned flags; int f0c; char pad10[0x7c]; N004a8730 list; T1004a8730* f94; int Id() const { return f0c; } bool Flag3() const { return (flags >> 3) & 1; } void FUN_004b3430(); void* FUN_00455470(int); void FUN_00454240(int); void FUN_004a8730(); };
+struct C004a8730 { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39(); virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54(); virtual void v55(); virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59(); virtual void v60(); virtual void v61(); virtual void v62(); virtual void v63(); virtual void v64(); virtual void v65(); virtual void v66(); virtual void v67(); virtual void v68(); virtual void v69(); virtual void v70(); virtual void v71(); virtual void v72(); virtual void v73(); virtual void v74(); virtual void v75(); virtual const char* v76(); int f04; unsigned flags; int f0c; char pad10[0x7c]; N004a8730 list; T1004a8730* f94; int Id() const { return f0c; } bool Flag3() const { return (flags >> 3) & 1; } void FUN_004b3430(); void* TESForm_GetFile(int); void TESForm_SetInitialized(int); void FUN_004a8730(); };
 
+// pdb: BGSTerminal::InitItem | BGSTerminal.obj | fnv360_0822_retail, vtable, medium
 void C004a8730::FUN_004a8730()
 {
     if (Flag3())
@@ -27,8 +28,8 @@ void C004a8730::FUN_004a8730()
     FUN_004b3430();
     unsigned id = (unsigned)f94;
     if (id) {
-        FUN_00454a40(&id, FUN_00455470(-1));
-        f94 = dynamic_cast<T1004a8730*>(FUN_00455190(id));
+        TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+        f94 = dynamic_cast<T1004a8730*>(TESForm_GetFormByNumericID(id));
         if (!f94)
             FUN_00887da0(DAT_00dc54e8, id, v76(), Id());
     }
@@ -38,15 +39,15 @@ void C004a8730::FUN_004a8730()
             n = n->next;
             if (e->f6c) {
                 id = (unsigned)e->f6c;
-                FUN_00454a40(&id, FUN_00455470(-1));
-                e->f6c = dynamic_cast<T1004a8730*>(FUN_00455190(id));
+                TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+                e->f6c = dynamic_cast<T1004a8730*>(TESForm_GetFormByNumericID(id));
                 if (!e->f6c)
                     FUN_00887da0(DAT_00dc5488, id, idx, v76(), Id());
             }
             if (e->f70) {
                 id = (unsigned)e->f70;
-                FUN_00454a40(&id, FUN_00455470(-1));
-                e->f70 = dynamic_cast<T2004a8730*>(FUN_00455190(id));
+                TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+                e->f70 = dynamic_cast<T2004a8730*>(TESForm_GetFormByNumericID(id));
                 if (!e->f70)
                     FUN_00887da0(DAT_00dc5430, id, idx, v76(), Id());
             }
@@ -77,5 +78,5 @@ void C004a8730::FUN_004a8730()
             if (w)
                 FUN_00887da0(DAT_00dc5300, idx, v76(), Id());
     }
-    FUN_00454240(1);
+    TESForm_SetInitialized(1);
 }

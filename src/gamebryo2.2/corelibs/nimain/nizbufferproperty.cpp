@@ -2,6 +2,7 @@
 #include "f3_common.h"
 #include "nizbufferproperty_decls.h"
 // @fnv 0x00a9b480
+// pdb: NiAVObject::GetSortObject | NiAlphaAccumulator.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiAlphaAccumulator::NiAlphaAccumulator)
 NiAlphaProperty::NiAlphaProperty()
 {
     flag1 = 0;
@@ -13,7 +14,8 @@ NiAlphaProperty::NiAlphaProperty()
 extern char const* const g_011f4454_arg1;
 
 // @fnv 0x00a5fc80
-char const* const* __cdecl FUN_00a5fc80()
+// pdb: bhkHingeConstraint::GetRTTI | MissileProjectile.obj | fnv360_0822_retail, udata + bridge(vtable_prefix|vtable) + skyrim(udata), high
+char const* const* __cdecl bhkHingeConstraint_GetRTTI()
 {
     return &g_011f4454_arg1;
 }
@@ -21,12 +23,14 @@ char const* const* __cdecl FUN_00a5fc80()
 extern "C" void* g_011f5ecc;
 
 // @fnv 0x00a950d0
-void* __cdecl FUN_00a950d0()
+// pdb: NiMaterial::GetRTTI | NiMaterial.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+void* __cdecl NiMaterial_GetRTTI()
 {
     return &g_011f5ecc;
 }
 
 // @fnv 0x00a950e0
+// pdb: CombatProcedureHideFromTarget::GetType | CombatProcedureHideFromTarget.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_00a950e0()
 {
     return 9;
@@ -119,6 +123,8 @@ class A5F510FlagProperty : public A5F510Property
 };
 
 // @fnv 0x00a5f510
+// pdb: NiZBufferProperty::CreateClone | NiZBufferProperty.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kCloning
 A5F510Property* A5F510FlagProperty::FUN_00a5f510(CloningProcess& kCloning)
 {
     if (m_pkClonedTarget)
@@ -178,6 +184,8 @@ struct FUN_00a5f580_Obj
 };
 
 // @fnv 0x00a5f580
+// pdb: NiZBufferProperty::LoadBinary | NiZBufferProperty.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void FUN_00a5f580_Obj::ReadValue(FUN_00a5f580_Stream* pkStream)
 {
     FUN_00a5d7f0(pkStream);
@@ -231,6 +239,7 @@ class AlphaPropInit_cls
 };
 
 // @fnv 0x00a5fc10
+// pdb: NiSourceTexture::NiSourceTexture | NiSourceTexture.obj | fnv360_0721_beta, call_seq, high
 AlphaPropInit_cls* AlphaPropInit_cls::FUN_00a5fc10()
 {
     FUN_00a5c200();
@@ -303,6 +312,8 @@ struct S_00a5f640_Obj : Property284
 };
 // Appends the base properties, m_bZTest, m_bZWrite and the Test Function name selected from the f.c index to arr.
 // @fnv 0x00a5f640
+// pdb: NiZBufferProperty::GetViewerStrings | NiZBufferProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void S_00a5f640_Obj::AppendRenderStateProperties(S_00a5f640_Arr* arr)
 {
     AppendString(arr);
@@ -320,6 +331,7 @@ struct FnvCpu_FUN_00a5fc90_CpuObject
     char* FUN_00a5fc90();
 };
 // @fnv 0x00a5fc90
+// pdb: NiSourceTexture::GetFilename | NiSourceTexture.obj | fnv360_0721_beta, objrun, medium
 char* FnvCpu_FUN_00a5fc90_CpuObject::FUN_00a5fc90()
 {
     return reinterpret_cast<char*>(this) + 48;
@@ -328,6 +340,8 @@ char* FnvCpu_FUN_00a5fc90_CpuObject::FUN_00a5fc90()
 extern void FUN_00a47360();
 
 // @fnv 0x00a950c0
+// pdb: NiLight::LinkObject | NiLight.obj | fnv360_0721_retail, objrun, medium
+// pdb params: stream
 void FUN_00a950c0()
 {
     FUN_00a47360();

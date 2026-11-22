@@ -7,6 +7,7 @@ void FUN_0089ec10(void*, int);
 void __fastcall FUN_00ab4500(void*);
 
 struct C_00863020 { void* FUN_00863020(unsigned char); };
+// pdb: NiParticleMeshesData::`scalar deleting destructor' | NiParticleMeshesData.obj | fnv360_0822_retail, caller_sim, high
 void* C_00863020::FUN_00863020(unsigned char f)
 {
     FUN_00862de0(this);
@@ -15,6 +16,7 @@ void* C_00863020::FUN_00863020(unsigned char f)
 }
 
 struct C_00ab4b50 { void* FUN_00ab4b50(unsigned char); };
+// pdb: BSPortalGraph::`scalar deleting destructor' | BSPortalGraph.obj | fnv360_0822_retail, vtable, high
 void* C_00ab4b50::FUN_00ab4b50(unsigned char f)
 {
     FUN_00ab4500(this);
@@ -70,6 +72,7 @@ void __cdecl FUN_0089ec10(void*, unsigned int);
 void __fastcall FUN_00aafff0(void*);
 
 struct C_00889dd0 { void* FUN_00889dd0(unsigned char f); };
+// pdb: NiDX9IndexBufferManager::`scalar deleting destructor' | NiDX9IBManager.obj | tesv_win, objrun, medium
 void* C_00889dd0::FUN_00889dd0(unsigned char f)
 {
     FUN_008899e0(this);
@@ -78,6 +81,7 @@ void* C_00889dd0::FUN_00889dd0(unsigned char f)
 }
 
 struct C_00ab0070 { void* FUN_00ab0070(unsigned char f); };
+// pdb: NiBSBoneLODController::`scalar deleting destructor' | NiBSBoneLODController.obj | fnv360_0822_debug, vtable, high
 void* C_00ab0070::FUN_00ab0070(unsigned char f)
 {
     FUN_00aafff0(this);
@@ -92,6 +96,7 @@ void FUN_0089ec10(void*, int);
 void __fastcall FUN_008bfce0(void*);
 
 struct C_0089b1d0 { void* FUN_0089b1d0(unsigned char); };
+// pdb: NiDynamicGeometryGroup::`vector deleting destructor' | NiDynamicGeometryGroup.obj | tesv_win, objrun, medium
 void* C_0089b1d0::FUN_0089b1d0(unsigned char f)
 {
     FUN_0089aae0(this);
@@ -100,6 +105,7 @@ void* C_0089b1d0::FUN_0089b1d0(unsigned char f)
 }
 
 struct C_008c0190 { void* FUN_008c0190(unsigned char); };
+// pdb: NiUVController::`scalar deleting destructor' | NiUVController.obj | tesv_win, vtable_prefix, medium
 void* C_008c0190::FUN_008c0190(unsigned char f)
 {
     FUN_008bfce0(this);
@@ -131,6 +137,7 @@ void __cdecl FUN_008a7590(void);
 void __cdecl FUN_00c24b70(void);
 void __cdecl FUN_008a7660(void);
 
+// pdb: NiTCBPosKey::RegisterSupportedFunctions | NiTCBPosKey.obj | tesv_win, call_seq, medium
 void FUN_008a5ec0(int a, int b)
 {
     DAT_01092568[a][b] = (void*)FUN_008a5af0;
@@ -142,6 +149,7 @@ void FUN_008a5ec0(int a, int b)
     DAT_01092058[a][b] = (void*)FUN_008a5c70;
 }
 
+// pdb: NiStepPosKey::RegisterSupportedFunctions | NiStepPosKey.obj | tesv_win, call_seq, medium
 void FUN_008a7780(int a, int b)
 {
     DAT_01092568[a][b] = (void*)FUN_00727200;
@@ -160,6 +168,7 @@ void __cdecl FUN_0089ec10(void*, unsigned int);
 void __fastcall FUN_00ac5e40(void*);
 
 struct C_0090f780 { void* FUN_0090f780(unsigned char f); };
+// pdb: hkPackedNiTriStripsData::`scalar deleting destructor' | hkPackedNiTriStripsShape.obj | fnv360_1110_retail, objopen_prop, low
 void* C_0090f780::FUN_0090f780(unsigned char f)
 {
     FUN_0090f040(this);
@@ -168,6 +177,7 @@ void* C_0090f780::FUN_0090f780(unsigned char f)
 }
 
 struct C_00ad1960 { void* FUN_00ad1960(unsigned char f); };
+// pdb: NiPSysFieldModifier::`scalar deleting destructor' | NiPSysFieldModifier.obj | fnv360_0822_retail, objrun, medium
 void* C_00ad1960::FUN_00ad1960(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -187,6 +197,7 @@ int S_00a49500::FUN_00a49500(int a0, int a1)
 }
 
 struct S_00ae8580 { int pad; int FUN_00ae8580(); };
+// pdb: BSShaderAccumulator::ClearRenderPasses | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap_sim, low
 int S_00ae8580::FUN_00ae8580()
 {
     return ((T_00bd12d0*)((char*)this + 0xc))->FUN_00bd12d0();
@@ -200,6 +211,8 @@ struct O_00a76800 { void* FUN_00a76800(void*, int, int); };
 struct X_00a76ad0 { char pad[0x1c]; int f1c; };
 
 struct C_00a73d70 { void* FUN_00a73d70(void* a, X_00a73d70* b, X_00a73d70* c); };
+// pdb: hkpGroupCollisionFilter::isCollisionEnabled | hkpGroupCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b
 void* C_00a73d70::FUN_00a73d70(void* a, X_00a73d70* b, X_00a73d70* c)
 {
     ((O_00a73ad0*)((char*)this - 8))->FUN_00a73ad0(a, b->f1c, c->f1c);
@@ -207,6 +220,8 @@ void* C_00a73d70::FUN_00a73d70(void* a, X_00a73d70* b, X_00a73d70* c)
 }
 
 struct C_00a76ad0 { void* FUN_00a76ad0(void* a, X_00a76ad0* b, X_00a76ad0* c); };
+// pdb: hkpGroupFilter::isCollisionEnabled | hkpGroupFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b
 void* C_00a76ad0::FUN_00a76ad0(void* a, X_00a76ad0* b, X_00a76ad0* c)
 {
     ((O_00a76800*)((char*)this - 8))->FUN_00a76800(a, b->f1c, c->f1c);
@@ -221,6 +236,8 @@ struct S_00a76800 { void FUN_00a76800(void*, int, int); };
 struct P2_00a73e70 { char p[0x24]; int f; };
 struct P3_00a73e70 { char p[0x1c]; int f; };
 struct C_00a73e70 { void* FUN_00a73e70(void* a, P2_00a73e70* b, P3_00a73e70* c); };
+// pdb: hkpGroupCollisionFilter::isCollisionEnabled | hkpGroupCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: aInput, collidableB
 void* C_00a73e70::FUN_00a73e70(void* a, P2_00a73e70* b, P3_00a73e70* c)
 {
     ((S_00a73ad0*)((char*)this - 0x14))->FUN_00a73ad0(a, b->f, c->f);
@@ -230,6 +247,8 @@ void* C_00a73e70::FUN_00a73e70(void* a, P2_00a73e70* b, P3_00a73e70* c)
 struct P2_00a76b00 { char p[0x24]; int f; };
 struct P3_00a76b00 { char p[0x1c]; int f; };
 struct C_00a76b00 { void* FUN_00a76b00(void* a, P2_00a76b00* b, P3_00a76b00* c); };
+// pdb: hkpGroupFilter::isCollisionEnabled | hkpGroupFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: aInput, collidableB
 void* C_00a76b00::FUN_00a76b00(void* a, P2_00a76b00* b, P3_00a76b00* c)
 {
     ((S_00a76800*)((char*)this - 0x14))->FUN_00a76800(a, b->f, c->f);

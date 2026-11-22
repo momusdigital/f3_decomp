@@ -19,6 +19,7 @@ struct CtlrStandin
     CtlrStandin* FUN_00c31260();
 };
 // @fnv 0x00c31260
+// pdb: NiPSysModifierCtlr::NiPSysModifierCtlr | NiPSysModifierCtlr.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: NiSingleInterpController::NiSingleInterpController)
 CtlrStandin* CtlrStandin::FUN_00c31260()
 {
     ((NiTimeController_Call*)this)->SetControllerActive();
@@ -35,27 +36,10 @@ struct NiObject
 struct NiInterpolator : NiObject
 {
 };
-struct NiBoolInterpolator : NiInterpolator
-{
-    void SetBoolValue(bool);
-};
 struct NiPSysModifierBoolCtlr
 {
     void FUN_00c32c70(NiInterpolator*, unsigned short);
 };
-extern unsigned int DAT_011f404c;
-// @fnv 0x00c32c70
-void NiPSysModifierBoolCtlr::FUN_00c32c70(NiInterpolator* pkInterp, unsigned short usIndex)
-{
-    bool bValue;
-    NiBoolInterpolator* pkBoolInterp;
-    if (pkInterp == 0)
-        pkBoolInterp = 0;
-    else
-        pkBoolInterp = (NiBoolInterpolator*)pkInterp->DynamicCast(&DAT_011f404c);
-    ((void(__thiscall*)(NiPSysModifierBoolCtlr*, bool*))(*(void***)this)[60])(this, &bValue);
-    pkBoolInterp->SetBoolValue(bValue);
-}
 
 namespace fnv_00c32d30 {
 struct StrArr
@@ -215,7 +199,7 @@ class C32CB0Controller
     virtual void vfn0F0();
     virtual void SetManagerControlled(int fValue);
 
-    bool FUN_00a36250(float fTime);
+    bool NiTimeController_DontDoUpdate(float fTime);
     bool GetManagerControlled() const
     {
         return ((unsigned char)(m_usFlags >> 5) & 1) != 0;
@@ -239,13 +223,15 @@ class C32CB0Controller
 };
 
 // @fnv 0x00c32cb0
+// pdb: NiPSysModifierBoolCtlr::Update | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, objrun, medium
+// pdb params: UpdateData
 void C32CB0Controller::FUN_00c32cb0(const float& fTime)
 {
     if (GetManagerControlled())
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(fTime) && (!m_pkInterpolator || !m_pkInterpolator->IsChannelPosed()))
+    else if (NiTimeController_DontDoUpdate(fTime) && (!m_pkInterpolator || !m_pkInterpolator->IsChannelPosed()))
     {
         return;
     }

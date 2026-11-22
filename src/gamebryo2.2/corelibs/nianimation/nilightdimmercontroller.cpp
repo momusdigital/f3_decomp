@@ -5,7 +5,8 @@
 extern "C" char __stdcall FUN_00a57c10(void* a);
 
 // @fnv 0x00a4cf50
-char __stdcall FUN_00a4cf50(void* pThis)
+// pdb: NiAlphaAccumulator::IsEqual | NiAlphaAccumulator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+char __stdcall NiAlphaAccumulator_IsEqual(void* pThis)
 {
     return FUN_00a57c10(pThis) != 0;
 }
@@ -21,6 +22,8 @@ struct NiLightDimmerController
 };
 
 // @fnv 0x00a4cf70
+// pdb: NiLightDimmerController::GetTargetFloatValue | NiLightDimmerController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: fValue
 void NiLightDimmerController::GetLightDimmer(float& fValue)
 {
     NiLight* apTargetLight = *reinterpret_cast<NiLight**>(reinterpret_cast<char*>(this) + 0x2c);
@@ -28,16 +31,6 @@ void NiLightDimmerController::GetLightDimmer(float& fValue)
     {
         fValue = *reinterpret_cast<float*>(reinterpret_cast<char*>(apTargetLight) + 0xc4);
     }
-}
-
-struct GlobalObjectO2_00a7b610;
-
-extern GlobalObjectO2_00a7b610 g_011f3fa0;
-
-// @fnv 0x00a4cf90
-GlobalObjectO2_00a7b610* __cdecl FUN_00a4cf90()
-{
-    return &g_011f3fa0;
 }
 
 struct BSFadeNode
@@ -54,6 +47,7 @@ inline void* __cdecl operator new(unsigned int, void* p)
     return p;
 }
 // @fnv 0x00a4d0d0
+// pdb: NiLightDimmerController::CreateObject | NiLightDimmerController.obj | fnv360_0822_retail, objopen_prop, low
 void* FUN_00a4d0d0()
 {
     void* p = BSFadeNode::operator new(0x38);
@@ -79,18 +73,6 @@ template <typename T, typename A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00a576c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-char* __cdecl FUN_00a7d330(const char*);
-// @fnv 0x00a4d100
-void __stdcall FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
-{
-    FUN_00a576c0(pkStrings);
-    char* pszStr = FUN_00a7d330(*(const char**)&g_011f3fa0);
-    unsigned int uIdx = pkStrings->m_iElementCount;
-    if (uIdx >= pkStrings->m_pRayCursor)
-        pkStrings->SetSize(uIdx + pkStrings->m_grow);
-    pkStrings->SetAt(uIdx, pszStr);
-}
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 
@@ -101,6 +83,8 @@ struct FloatInterpOwner
 };
 
 // @fnv 0x00a4d080
+// pdb: NiLightDimmerController::CreateClone | NiLightDimmerController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kCloning
 void* FloatInterpOwner::CreateFloatInterpController(int arg)
 {
     NiFloatInterpController* obj = (NiFloatInterpController*)FUN_00aa13e0(0x38);
@@ -117,14 +101,7 @@ void* FloatInterpOwner::CreateFloatInterpController(int arg)
     return obj;
 }
 
-class NiRTTI;
-extern NiRTTI DAT_011f4a28;
 extern const float DAT_01096324;
-
-struct DynCastHelper
-{
-    DynCastHelper* DynamicCast(const GlobalObjectO2_00a7b610* pkRTTI);
-};
 
 class NiLightW
 {
@@ -216,20 +193,23 @@ class NiLightDimmerControllerW
     {
         return ((m_uiObjectFlags >> 5) & 1) != 0;
     }
-    bool FUN_00a36250(float fTime);
-    void UpdateDimmer(const float& fTime);
+    bool NiTimeController_DontDoUpdate(float fTime);
+    void NiLightDimmerController_Update(const float& fTime);
 };
 
 // @f3 0x008c6ee0 (community match, verified in this file)
 extern int DAT_0108f41c;
 void* __cdecl FUN_00424d50(const void* pkType, void* pkObject);
-void NiLightDimmerControllerW::UpdateDimmer(const float& fTime)
+// pdb: NiLightDimmerController::Update | NiLightDimmerController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: UpdateData
+// pdb: NiLightDimmerController::Update | NiLightDimmerController.obj | fnv360_0822_retail, caller_sim, high (was: UpdateDimmer)
+void NiLightDimmerControllerW::NiLightDimmerController_Update(const float& fTime)
 {
     if (GetManagerControlled())
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(fTime) && (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
+    else if (NiTimeController_DontDoUpdate(fTime) && (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
     }
@@ -253,6 +233,7 @@ void NiLightDimmerControllerW::UpdateDimmer(const float& fTime)
 extern void FUN_00a57c70();
 
 // @fnv 0x00a4cf40
+// pdb: BGSTerrainManager::ShowMinimumDetail | BGSTerrainManager.obj | fnv360_0822_retail, call_gap, low
 void FUN_00a4cf40()
 {
     FUN_00a57c70();
@@ -293,6 +274,7 @@ struct FUN_00a4d030_cls
 
 // Decrements m_pCounted's reference count and calls Release at zero, then runs BaseCleanup and calls FUN_00aa1460 when bit 0 is set.
 // @fnv 0x00a4d030
+// pdb: NiLightDimmerController::`scalar deleting destructor' | NiLightDimmerController.obj | fnv360_0822_retail, objopen_prop, low
 FUN_00a4d030_cls* FUN_00a4d030_cls::FUN_00a4d030(unsigned char acFlags)
 {
     *(volatile int*)&m_vptr = (int)&DAT_01098ccc;

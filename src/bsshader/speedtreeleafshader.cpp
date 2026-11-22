@@ -22,6 +22,7 @@ struct SpeedTreeLeafShaderColor
 };
 
 // @fnv 0x00bb2a00
+// pdb: SpeedTreeLeafShader::SpeedTreeLeafShader | SpeedTreeLeafShader.obj | fnv360_0822_retail, call_seq, medium
 SpeedTreeLeafShader::SpeedTreeLeafShader() : BSShader()
 {
     m_iPassId = 9;
@@ -34,6 +35,7 @@ SpeedTreeLeafShader::SpeedTreeLeafShader() : BSShader()
 
 // Creates the vertex shader constant map if absent and registers the leaf shader constants, including a conditional one when DAT_011F941E is set.
 // @fnv 0x00bb2d10
+// pdb: SpeedTreeLeafShader::CreateConstantMaps | SpeedTreeLeafShader.obj | fnv360_0822_retail, ustr, medium
 void SpeedTreeLeafShader::UpdateShaderConstants()
 {
     if (m_spSecondShaderConstantMap.m_pObject)
@@ -76,6 +78,7 @@ struct FUN_00bb2bb0_holder
 };
 void _delete(void*, unsigned int);
 // @fnv 0x00bb2bb0
+// pdb: SpeedTreeLeafShader::`scalar deleting destructor' | SpeedTreeLeafShader.obj | fnv360_0822_retail, objrun, high
 void* FUN_00bb2bb0_holder::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00bb1c10();
@@ -242,6 +245,7 @@ struct FUN_00bb1d40_t
 };
 
 // @fnv 0x00bb2c00
+// pdb: SpeedTreeLeafShader::CreateShader | SpeedTreeLeafShader.obj | fnv360_0822_retail, call_gap, medium
 SpeedTreeLeafShader* CreateSpeedTreeLeafShader()
 {
     NiD3DVertexDeclaration* pDecl = NiD3DVertexDeclaration::Create(DAT_011f9508, 4, 1);
@@ -250,7 +254,7 @@ SpeedTreeLeafShader* CreateSpeedTreeLeafShader()
     pDecl->SetEntry(2, 7, 5, 1, 0);
     pDecl->SetEntry8(0, 3, 8, 0x80000000, 3, 2, 0, 0);
     pDecl->Finalize();
-    SpeedTreeLeafShader* pLeafShader = new ((FadeTag*)0) SpeedTreeLeafShader;
+    SpeedTreeLeafShader* pLeafShader = new SpeedTreeLeafShader;
     ((LeafV*)pLeafShader)->Init19();
     ((LeafV*)pLeafShader)->Init79();
     ((FUN_00bb1d40_t*)pLeafShader)->CreatePasses();
@@ -265,6 +269,7 @@ struct FUN_00bb2be0_shell : LeafV
 };
 
 // @fnv 0x00bb2be0
+// pdb: SpeedTreeLeafShader::ReloadShaders | SpeedTreeLeafShader.obj | fnv360_0822_retail, caller_sim, medium
 void FUN_00bb2be0_shell::FUN_00bb2be0()
 {
     this->Init79();

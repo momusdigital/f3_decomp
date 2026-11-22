@@ -5,6 +5,7 @@
 #include "havok/hkpShape.h"
 
 // @fnv 0x00c9e3f0
+// pdb: hkPadSpu<hkpCollisionDispatcher *>::val | bhkSimpleShapePhantom.obj | fnv360_0822_debug, objrun_open, low
 int __stdcall FUN_00c9e3f0(void* p, int size)
 {
     return -1;
@@ -26,7 +27,6 @@ extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 
-extern const __m128 DAT_010c71d0;
 extern const __m128 DAT_010c44d0;
 
 namespace hkC9E5 {
@@ -161,28 +161,6 @@ class hkpShape : public hkReferencedObject
     unsigned int m_type;
 };
 
-// Computes the support point of the shape's AABB along kDirection and returns its dot product with kDirection.
-// @fnv 0x00c9e560
-float hkpShape::FUN_00c9e560(const hkVector4& kDirection) const
-{
-    hkTransform kLocalToWorld;
-    kLocalToWorld.setIdentity();
-    const float fTolerance = 0.0f;
-    hkAabb kAabb;
-    getAabb(kLocalToWorld, fTolerance, kAabb);
-
-    hkVector4 kTargetCenter;
-    kTargetCenter.setAdd4(kAabb.m_kMinimumCorner, kAabb.m_kMaximumCorner);
-    kTargetCenter.mul4(DAT_010c71d0);
-    hkVector4 kHalfExtent;
-    kHalfExtent.setSub4(kAabb.m_kMaximumCorner, kAabb.m_kMinimumCorner);
-    kHalfExtent.mul4(DAT_010c71d0);
-
-    hkVector4 kSupport;
-    kSupport.setFlipSign(kHalfExtent, kDirection);
-    kSupport.add4(kTargetCenter);
-    return kSupport.dot3(kDirection);
-}
 }
 
 // @f3twin 0x009a5e40 of 0x0090e7b0

@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <windows.h>
 // @fnv 0x00aa29e0
+// pdb: NiMessageBox::DefaultMessageBox | NiMessageBox.obj | tesv_win, hash, low
 int __cdecl FUN_00aa29e0(const char* pcText, const char* pcTitle)
 {
     MessageBoxA(NULL, pcText, pcTitle, MB_TOPMOST);

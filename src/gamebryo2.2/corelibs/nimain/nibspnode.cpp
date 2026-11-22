@@ -19,6 +19,8 @@ struct NiBSPNode : NiNode
 };
 
 // @fnv 0x00a9a710
+// pdb: NiBSPNode::LoadBinary | NiBSPNode.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 void NiBSPNode::FUN_00a9a710(NiStream& stream)
 {
     NiNode::LoadBinary(stream);
@@ -40,23 +42,14 @@ struct NiBSPNode : NiAVObject
 };
 
 // @fnv 0x00a9a840
+// pdb: LightEffect::Revert | LightEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, apLoadGameBuffer
 void __thiscall NiBSPNode::FUN_00a9a840(NiUpdateData& aUpdateData)
 {
     NiAVObject::UpdateWorldData(aUpdateData);
     FUN_00a9a760();
 }
 }  // namespace fnv_00a9a840
-
-struct GlobalObjectO2_00a7b610
-{
-};
-extern GlobalObjectO2_00a7b610 g_011f5f54;
-
-// @fnv 0x00a9adc0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a9adc0()
-{
-    return &g_011f5f54;
-}
 
 struct Unk_00a5e930
 {
@@ -69,6 +62,7 @@ struct FUN_00a9add0_shell
 };
 // Calls FUN_00a5e930 on this, deletes this with size 0xCC when bit 0 of a1 is set, and returns this.
 // @fnv 0x00a9add0
+// pdb: NiBSPNode::`scalar deleting destructor' | NiBSPNode.obj | tesv_win, vtable_prefix, medium
 void* FUN_00a9add0_shell::DestroyIfFlagged(unsigned int auiFlags)
 {
     ((Unk_00a5e930*)this)->FUN_00a5e930();
@@ -91,65 +85,23 @@ struct NiBSPNode : NiNode
 {
     char _pad_0x00[0xac];
     NiSphere m_pSphere;
-    void FUN_00a9a740(NiStream& stream);
+    void NiBSPNode_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00a9a740
-void NiBSPNode::FUN_00a9a740(NiStream& stream)
+// pdb: NiBSPNode::SaveBinary | NiBSPNode.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void NiBSPNode::NiBSPNode_SaveBinary(NiStream& stream)
 {
     NiNode::SaveBinary(stream);
     m_pSphere.SaveBinary(stream);
 }
 }  // namespace fnv_00a9a740
 
-struct StrArr
-{
-    unsigned int m_usSize;
-    unsigned int m_usMaxSize;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-struct FUN_00c51570_Class
-{
-    void* FUN_00a5ea70(void*);
-};
-struct FUN_00a69a60_Owner
-{
-    char* FUN_00a69a60(const char*);
-};
-char* __cdecl _FUN_00a7d330(GlobalObjectO2_00a7b610*);
-
-struct FUN_00a9acf0_shell : NiBSPNode
-{
-    void AppendPlaneNames(StrArr* apViewerStrings);
-};
-
-// @fnv 0x00a9acf0
-void FUN_00a9acf0_shell::AppendPlaneNames(StrArr* apViewerStrings)
-{
-    ((FUN_00c51570_Class*)this)->FUN_00a5ea70(apViewerStrings);
-    char* pName = _FUN_00a7d330(*(GlobalObjectO2_00a7b610**)&g_011f5f54);
-    unsigned int uiIndex = *(unsigned short*)((char*)apViewerStrings + 0xa);
-    if (uiIndex >= *(unsigned short*)((char*)apViewerStrings + 0x8))
-        apViewerStrings->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
-    apViewerStrings->SetAt(uiIndex, pName);
-    pName = ((FUN_00a69a60_Owner*)((char*)this + 0xac))->FUN_00a69a60("m_kModelPlane");
-    uiIndex = *(unsigned short*)((char*)apViewerStrings + 0xa);
-    if (uiIndex >= *(unsigned short*)((char*)apViewerStrings + 0x8))
-        apViewerStrings->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
-    apViewerStrings->SetAt(uiIndex, pName);
-    pName = ((FUN_00a69a60_Owner*)((char*)this + 0xbc))->FUN_00a69a60("m_kWorldPlane");
-    uiIndex = *(unsigned short*)((char*)apViewerStrings + 0xa);
-    if (uiIndex >= *(unsigned short*)((char*)apViewerStrings + 0x8))
-        apViewerStrings->SetSize(uiIndex + *(unsigned short*)((char*)apViewerStrings + 0xe));
-    apViewerStrings->SetAt(uiIndex, pName);
-}
-
 struct NiStream;
 
 struct FUN_00a59e00_shell
 {
-    void FUN_00a59e00(NiStream& stream);
+    void NiAVObject_Cull(NiStream& stream);
 };
 
 struct FUN_0049da80_shell
@@ -273,6 +225,7 @@ struct FUN_00a9ac10_shell
 };
 
 // @fnv 0x00a9ac10
+// pdb: NiBSPNode::OnVisible | NiBSPNode.obj | tesv_win, caller_sim, low
 void FUN_00a9ac10_shell::LoadFromStream(NiStream& stream)
 {
     BinaryDataRecord* data = stream.unk0c;
@@ -292,22 +245,22 @@ void FUN_00a9ac10_shell::LoadFromStream(NiStream& stream)
     {
         if (b != 0)
         {
-            b->FUN_00a59e00(stream);
+            b->NiAVObject_Cull(stream);
         }
         if (a != 0)
         {
-            a->FUN_00a59e00(stream);
+            a->NiAVObject_Cull(stream);
         }
     }
     else
     {
         if (a != 0)
         {
-            a->FUN_00a59e00(stream);
+            a->NiAVObject_Cull(stream);
         }
         if (b != 0)
         {
-            b->FUN_00a59e00(stream);
+            b->NiAVObject_Cull(stream);
         }
     }
 }
@@ -383,6 +336,7 @@ class A9ACB0Node : public A9ACB0Base
 
 // Returns true if IsEqual(pkObject) holds and this node's m_kBound equals the other node's m_kBound; otherwise false.
 // @fnv 0x00a9acb0
+// pdb: NiBSPNode::IsEqual | NiBSPNode.obj | tesv_win, caller_sim, low
 bool A9ACB0Node::IsEqualWithBound(A9ACB0Object* pkObject)
 {
     if (!IsEqual(pkObject))
@@ -422,6 +376,7 @@ struct NodeOwner
     void* FUN_00a9ae00(void* arg);
 };
 // @fnv 0x00a9ae00
+// pdb: NiRenderer::NiRenderer | NiRenderer.obj | fnv360_0822_debug, objopen_prop, low, conflict (skyrim: NiBSPNode::CreateObject)
 void* NodeOwner::FUN_00a9ae00(void* arg)
 {
     char* memory = (char*)FUN_00aa13e0(0xcc);
@@ -448,6 +403,8 @@ void* NodeOwner::FUN_00a9ae00(void* arg)
 __declspec(noreturn) void __cdecl ReadChildListFromStream();
 
 // @fnv 0x00a9a730
+// pdb: PlayerCharacter::AddTarget | PlayerCharacter.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCaster, apSpell, apActiveEffect, abAreaTarget
 void __cdecl FUN_00a9a730()
 {
     ReadChildListFromStream();
@@ -455,6 +412,8 @@ void __cdecl FUN_00a9a730()
 
 void __cdecl RegisterChildStreamables();
 // @fnv 0x00a93c40
+// pdb: Creature::Set3D | Creature.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: apObject, abTestProcessLevel
 void __cdecl FUN_00a93c40()
 {
     RegisterChildStreamables();
@@ -728,6 +687,8 @@ struct BSPNodeX
 
 // Applies the supplied matrix and translation to the node's model plane and passes them to each non-null child.
 // @fnv 0x00a9a860
+// pdb: NiBSPNode::ApplyTransform | NiBSPNode.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: mat, trn, bOnLeft
 void BSPNodeX::FUN_00a9a860(const ThreeByThreeMatrix& kMat, const NiPoint3& kTrn, bool bOnLeft)
 {
     if (bOnLeft)

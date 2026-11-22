@@ -169,7 +169,7 @@ extern "C" void __cdecl FUN_008dcae0(Skeleton*);
 extern "C" void __cdecl FUN_008dca30(Skeleton*);
 extern "C" void __cdecl FUN_008dcb80(Skeleton*,Transform48*);
 extern "C" void __cdecl FUN_009584b0(int,void*,void*,Transform48*);
-extern "C" void __cdecl FUN_00962a60(void*,void*,void*,Transform48*,int);
+extern "C" void __cdecl hkaSkeletonMapper_mapPose(void*,void*,void*,Transform48*,int);
 extern "C" void __cdecl FUN_009588d0(int,void*,Transform48*,Transform48*);
 struct Controller {
  int unk00;
@@ -342,10 +342,11 @@ struct Controller {
  int unk29c;
  int unk2a0;
  BlendData* blend;
- void FUN_008e6210(const Transform48* input);
+ void bhkRagdollController_UpdateRagdollRigidBodies(const Transform48* input);
 };
 inline void ApplyPose(Skeleton* const volatile& current, Transform48* pose, void* settings) { current->FUN_00961300(pose,settings); }
-void Controller::FUN_008e6210(const Transform48* input) {
+// pdb: bhkRagdollController::UpdateRagdollRigidBodies | bhkRagdollController.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Controller::bhkRagdollController_UpdateRagdollRigidBodies(const Transform48* input) {
  SkeletonData* data=skeleton->data;
  int count=data->count;
  ScratchTransforms outputStorage(count);
@@ -359,7 +360,7 @@ void Controller::FUN_008e6210(const Transform48* input) {
   FUN_009584b0(count,data->parents,data->poses,pose);
   void* poseTrack=*lookup->FUN_00956280();
   BlendData* currentBlend=blend;
-  FUN_00962a60(currentBlend->data,poseTrack,data->poses,pose,2);
+  hkaSkeletonMapper_mapPose(currentBlend->data,poseTrack,data->poses,pose,2);
   if(mode!=1) FUN_009588d0(count,data->parents,pose,output);
  } else {
   for(int i=0;i<count;++i) outputStorage[i]=input[i];
@@ -581,6 +582,8 @@ public:
     void FUN_008fe050(SourceObject* source);
 };
 
+// pdb: bhkTransformShape::Init | bhkTransformShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arInfo
 void TargetHolder::FUN_008fe050(SourceObject* source)
 {
     if (source != 0)
@@ -622,7 +625,7 @@ struct QuatLocal : VecLocal
 struct RotLocal
 {
     VecLocal c0,c1,c2;
-    void FUN_00924b40(const QuatLocal&);
+    void hkRotation_set(const QuatLocal&);
 };
 struct TransLocal
 {
@@ -854,6 +857,7 @@ inline TlsModeLocal& GetBlendMode()
 {
     return ((TlsLocal*)&g_tls)->mode;
 }
+// pdb: bhkBlendCollisionObject::hktoNiTransform | bhkBlendCollisionObject.obj | fnv360_0822_retail, objrun, medium
 void BlendLocal::FUN_008f3ae0()
 {
     SceneLocal* node = scene;
@@ -935,7 +939,7 @@ void BlendLocal::FUN_008f3ae0()
         blendedRotation.FUN_004e5c20();
         TransLocal output;
         output.position = forced ? blendedPosition : position;
-        output.rotation.FUN_00924b40(blendedRotation);
+        output.rotation.hkRotation_set(blendedRotation);
         FUN_0056ad20(&world, &output);
 
         if (tls->value == 0)
@@ -1260,6 +1264,8 @@ struct Controller
 
 }  // namespace R8e3570
 
+// pdb: bhkRagdollController::ExtractBipedSetupData | bhkRagdollController.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: arSetupData, arboneNameA
 bool R8e3570::Controller::FUN_008e3570(EffectOutput* pkOutput, EffectRequest* pkRequest)
 {
     SceneObject* pkMidObj;
@@ -1777,6 +1783,8 @@ const V& Angular(){return data?data->angular:DAT_01092a50;}
 void FUN_004e6280(const V*);void FUN_004e62c0(const V*);void FUN_004e60b0(const P*);float FUN_004e6160();
 void FUN_008ffac0(const P*,const Q*);
 };
+// pdb: bhkRigidBody::ApplyHardKeyframe | bhkRigidBody.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arPos, arRot, apSetPosLock
 void Entity::FUN_008ffac0(const P* pos,const Q* quat){
 Body* body=GetData()->body;
 if(!body || !body->userData)return;

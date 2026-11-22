@@ -5,7 +5,7 @@
 void __fastcall FUN_00c24b70(void*);
 void __fastcall FUN_006bd950(void*);
 void __fastcall FUN_006ccf20(void*);
-void __fastcall FUN_006d62a0(void*);
+void __fastcall BGSCellNumericIDArrayMap_Clear(void*);
 void __fastcall FUN_006dacd0(void*);
 void __fastcall FUN_007b65a0(void*);
 void __fastcall FUN_007e94e0(void*);
@@ -14,30 +14,37 @@ void __fastcall FUN_00be4650(void*);
 
 struct B_004c3330 { void* pad; virtual ~B_004c3330(); };
 struct D_004c3330 : B_004c3330 { virtual ~D_004c3330(); };
+// pdb: TESImageSpace::~TESImageSpace | TESImageSpace.obj | fnv360_0822_debug, objopen_prop, low
 D_004c3330::~D_004c3330() { FUN_00c24b70(this); }
 
 struct B_006ca9c0 { void* pad; virtual ~B_006ca9c0(); };
-struct D_006ca9c0 : B_006ca9c0 { virtual ~D_006ca9c0(); };
-D_006ca9c0::~D_006ca9c0() { FUN_006bd950(this); }
+struct BGSReconstructFormsMap : B_006ca9c0 { virtual ~BGSReconstructFormsMap(); }; // src: F3_EXE vtable 0x00e0e1c0 (old: D_006ca9c0)
+// pdb: BGSReconstructFormsMap::~BGSReconstructFormsMap | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, call_seq, medium
+BGSReconstructFormsMap::~BGSReconstructFormsMap() { FUN_006bd950(this); }
 
 struct B_006cd480 { void* pad; virtual ~B_006cd480(); };
 struct D_006cd480 : B_006cd480 { virtual ~D_006cd480(); };
+// pdb: BGSSaveLoadChangesMap::~BGSSaveLoadChangesMap | BGSSaveLoadChangesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006cd480::~D_006cd480() { FUN_006ccf20(this); }
 
 struct B_006d6760 { void* pad; virtual ~B_006d6760(); };
-struct D_006d6760 : B_006d6760 { virtual ~D_006d6760(); };
-D_006d6760::~D_006d6760() { FUN_006d62a0(this); }
+struct BGSCellNumericIDArrayMap : B_006d6760 { virtual ~BGSCellNumericIDArrayMap(); }; // src: F3_EXE vtable 0x00e0f608 (old: D_006d6760)
+// pdb: BGSCellNumericIDArrayMap::~BGSCellNumericIDArrayMap | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, call_seq, medium
+BGSCellNumericIDArrayMap::~BGSCellNumericIDArrayMap() { BGSCellNumericIDArrayMap_Clear(this); }
 
 struct B_006dc570 { void* pad; virtual ~B_006dc570(); };
 struct D_006dc570 : B_006dc570 { virtual ~D_006dc570(); };
+// pdb: ChangesMap::~ChangesMap | TESSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006dc570::~D_006dc570() { FUN_006dacd0(this); }
 
 struct B_007b6dc0 { void* pad; virtual ~B_007b6dc0(); };
-struct D_007b6dc0 : B_007b6dc0 { virtual ~D_007b6dc0(); };
-D_007b6dc0::~D_007b6dc0() { FUN_007b65a0(this); }
+struct CombatThreatMap : B_007b6dc0 { virtual ~CombatThreatMap(); }; // src: F3_EXE vtable 0x00e1b0a4 (old: D_007b6dc0)
+// pdb: CombatThreatMap::~CombatThreatMap | CombatThreatMap.obj | fnv360_0822_debug, call_seq, medium
+CombatThreatMap::~CombatThreatMap() { FUN_007b65a0(this); }
 
 struct B_007e96f0 { void* pad; virtual ~B_007e96f0(); };
 struct D_007e96f0 : B_007e96f0 { virtual ~D_007e96f0(); };
+// pdb: VirtualActorPathHandler::~VirtualActorPathHandler | VirtualActorPathHandler.obj | fnv360_0822_debug, call_seq, low
 D_007e96f0::~D_007e96f0() { FUN_007e94e0(this); }
 
 struct B_00952000 { void* pad; virtual ~B_00952000(); };
@@ -45,8 +52,9 @@ struct D_00952000 : B_00952000 { virtual ~D_00952000(); };
 D_00952000::~D_00952000() { FUN_008f7ef0(this); }
 
 struct B_00bdc4b0 { void* pad; virtual ~B_00bdc4b0(); };
-struct D_00bdc4b0 : B_00bdc4b0 { virtual ~D_00bdc4b0(); };
-D_00bdc4b0::~D_00bdc4b0() { FUN_00be4650(this); }
+struct BSFaceGenBinaryFile : B_00bdc4b0 { virtual ~BSFaceGenBinaryFile(); }; // src: F3_EXE vtable 0x00ea90ec (old: D_00bdc4b0)
+// pdb: BSFaceGenBinaryFile::~BSFaceGenBinaryFile | FanCtlFile.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: `anonymous namespace'::EndianPCM)
+BSFaceGenBinaryFile::~BSFaceGenBinaryFile() { FUN_00be4650(this); }
 
 // ---- family f042
 
@@ -70,6 +78,7 @@ void* C_00949260::FUN_00949260(unsigned char f)
 }
 
 struct C_0094afe0 { void* FUN_0094afe0(unsigned char f); };
+// pdb: bhkPrismaticConstraint::`scalar deleting destructor' | bhkCartTether.obj | tesv_win, vtable_prefix, medium
 void* C_0094afe0::FUN_0094afe0(unsigned char f)
 {
     FUN_0094af60(this);
@@ -78,6 +87,7 @@ void* C_0094afe0::FUN_0094afe0(unsigned char f)
 }
 
 struct C_0094b7e0 { void* FUN_0094b7e0(unsigned char f); };
+// pdb: bhkGenericConstraint::`scalar deleting destructor' | bhkFixedConstraint.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: hkConstraintCinfo::SetEntities)
 void* C_0094b7e0::FUN_0094b7e0(unsigned char f)
 {
     FUN_009dd850(this);
@@ -102,6 +112,7 @@ void* C_0094be70::FUN_0094be70(unsigned char f)
 }
 
 struct C_0094c610 { void* FUN_0094c610(unsigned char f); };
+// pdb: bhkConstraintChain::`scalar deleting destructor' | bhkBallSocketConstraintChain.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: hkBallSocketChainCinfo::~hkBallSocketChainCinfo)
 void* C_0094c610::FUN_0094c610(unsigned char f)
 {
     FUN_009e0c50(this);
@@ -126,6 +137,7 @@ void* C_0094f6b0::FUN_0094f6b0(unsigned char f)
 }
 
 struct C_00a9f3e0 { void* FUN_00a9f3e0(unsigned char f); };
+// pdb: BSMultiBound::`scalar deleting destructor' | BSMultiBound.obj | fnv360_0822_retail, vtable, high
 void* C_00a9f3e0::FUN_00a9f3e0(unsigned char f)
 {
     FUN_00a9f270(this);
@@ -139,26 +151,36 @@ void* C_00a9f3e0::FUN_00a9f3e0(unsigned char f)
 
 struct B_00424b50 { B_00424b50(void*); virtual void w(); };
 struct C_00424b50 : B_00424b50 { C_00424b50(void*); virtual void v(); };
+// pdb: std::bad_alloc::bad_alloc | lastError.obj | tesv_win, caller_sim, low
 C_00424b50::C_00424b50(void* a) : B_00424b50(a) {}
 
 struct B_004312a0 { B_004312a0(void*); virtual void w(); };
 struct C_004312a0 : B_004312a0 { C_004312a0(void*); virtual void v(); };
+// pdb: std::length_error::length_error | FanFgFile.obj | tesv_win, caller_sim, low
 C_004312a0::C_004312a0(void* a) : B_004312a0(a) {}
 
 struct B_009b7930 { B_009b7930(void*); virtual void w(); };
-struct C_009b7930 : B_009b7930 { C_009b7930(void*); virtual void v(); };
-C_009b7930::C_009b7930(void* a) : B_009b7930(a) {}
+struct hkpMoppAgent : B_009b7930 { hkpMoppAgent(void*); virtual void v(); }; // src: F3_EXE vtable 0x00e7eae8 (old: C_009b7930)
+// pdb: hkpMoppAgent::hkpMoppAgent | hkpMoppAgent.obj | fnv360_0822_debug, objrun_prop, high
+// pdb params: mgr
+hkpMoppAgent::hkpMoppAgent(void* a) : B_009b7930(a) {}
 
 struct B_00b8e660 { B_00b8e660(void*); virtual void w(); };
 struct C_00b8e660 : B_00b8e660 { C_00b8e660(void*); virtual void v(); };
+// pdb: TallGrassTriStrips::TallGrassTriStrips | TallGrassTriStrips.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkModelData
 C_00b8e660::C_00b8e660(void* a) : B_00b8e660(a) {}
 
 struct B_00b8e870 { B_00b8e870(void*); virtual void w(); };
 struct C_00b8e870 : B_00b8e870 { C_00b8e870(void*); virtual void v(); };
+// pdb: TallGrassTriShape::TallGrassTriShape | TallGrassTriShape.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkModelData
 C_00b8e870::C_00b8e870(void* a) : B_00b8e870(a) {}
 
 struct B_00ba3f80 { B_00ba3f80(void*); virtual void w(); };
 struct C_00ba3f80 : B_00ba3f80 { C_00ba3f80(void*); virtual void v(); };
+// pdb: IdvFileError::IdvFileError | SpeedTreeRT.obj | fnv360_0822_debug, objrun_sim, low
+// pdb params: __that
 C_00ba3f80::C_00ba3f80(void* a) : B_00ba3f80(a) {}
 
 struct B_00bbda00 { B_00bbda00(void*); virtual void w(); };
@@ -167,6 +189,7 @@ C_00bbda00::C_00bbda00(void* a) : B_00bbda00(a) {}
 
 struct B_00bc2e00 { B_00bc2e00(void*); virtual void w(); };
 struct C_00bc2e00 : B_00bc2e00 { C_00bc2e00(void*); virtual void v(); };
+// pdb: std::out_of_range::out_of_range | string.obj | tesv_win, caller_sim, low
 C_00bc2e00::C_00bc2e00(void* a) : B_00bc2e00(a) {}
 
 // ---- family f044
@@ -192,36 +215,45 @@ __declspec(noinline) void FUN_00429ea0()
     FUN_00429db0(DAT_0106ca70);
 }
 
-__declspec(noinline) void FUN_00454350()
+// pdb: TESForm::SaveNumericID | TESForm.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+__declspec(noinline) void TESForm_SaveNumericID()
 {
     FUN_006defa0(DAT_01079ca4);
 }
 
+// pdb: TESForm::LoadNumericID | TESForm.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: TESForm::LoadGameDataOLD)
+// pdb params: apNumericID, aiSize
 __declspec(noinline) void FUN_00454360()
 {
     FUN_006dcdd0(DAT_01079ca4);
 }
 
+// pdb: Interface::UpdateAllTimers | Interface.obj | fnv360_0822_retail, call_seq, medium
 __declspec(noinline) void FUN_0061a760()
 {
     FUN_0061e380(DAT_01075b24);
 }
 
+// pdb: BGSLoadGameBuffer::GetVersion | BGSLoadGameBuffer.obj | fnv360_0822_retail, vtable, medium
 __declspec(noinline) void FUN_006e0610()
 {
     FUN_006ce2b0(DAT_01079858);
 }
 
+// pdb: NiGlobalStringTable::RemoveUnusedStrings | NiGlobalStringTable.obj | fnv360_0721_beta, callee_sim, low
 __declspec(noinline) void FUN_00824160()
 {
     FUN_00824080(DAT_0108ec74);
 }
 
+// pdb: hkServerProcessHandler::getProcessName | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: Actor::`vector deleting destructor'`adjustor{28}')
+// pdb params: tag
 __declspec(noinline) void FUN_009ef280()
 {
     FUN_00a60f40(DAT_0116c490);
 }
 
+// pdb: BSShaderManager::GetSceneDepthRenderedTexture | BSShaderManager.obj | fnv360_0822_retail, call_seq, medium
 __declspec(noinline) void FUN_00ad5a00()
 {
     FUN_00b11470(DAT_0116ef9c);
@@ -238,41 +270,52 @@ extern char DAT_01178274;
 extern char DAT_01178275;
 extern char DAT_011786e4;
 
-void FUN_005539f0(char c)
+// pdb: TESIdleManager::SetUsedItemActivate | TESIdleManager.obj | fnv360_0822_debug, udata + bridge(udata|call_seq), high
+void TESIdleManager_SetUsedItemActivate(char c)
 {
     DAT_010721c0 = c;
 }
 
+// pdb: GarbageCollector::CanRunGarbageCollector | GarbageCollector.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: BSFaceGenManager::QFaceGenLockCount)
+// pdb params: abFlagSet
 void FUN_006e2d90(char c)
 {
     DAT_00f6dad0 = c;
 }
 
-void FUN_0076ceb0(char c)
+// pdb: PlayerCharacter::SetGodMode | PlayerCharacter.obj | fnv360_0721_beta, caller + bridge(caller|call_seq) + skyrim(objrun_prop), high
+void PlayerCharacter_SetGodMode(char c)
 {
     DAT_0107ba65 = c;
 }
 
+// pdb: hkpBvTreeAgent::getUseAabbCaching | hkpBvTreeAgent.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpBvTreeAgent::setUseAabbCaching)
 void FUN_009b7e50(char c)
 {
     DAT_01061950 = c;
 }
 
+// pdb: BSShaderProperty::PreviousTransform::SetFreeze | BSShaderProperty.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: abFreeze
 void FUN_00b2adb0(char c)
 {
     DAT_011761dc = c;
 }
 
-void FUN_00ba1460(char c)
+// pdb: CSpeedTreeRT::SetDropToBillboard | SpeedTreeRT.obj | fnv360_0822_retail, udata, high
+void CSpeedTreeRT_SetDropToBillboard(char c)
 {
     DAT_01178274 = c;
 }
 
-void FUN_00ba1930(char c)
+// pdb: CSpeedTreeRT::SetTextureFlip | SpeedTreeRT.obj | fnv360_0822_retail, udata, high
+void CSpeedTreeRT_SetTextureFlip(char c)
 {
     DAT_01178275 = c;
 }
 
+// pdb: ArchiveManager::SetRuntimeCollisions | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: abCheckRuntimeCollisions
 void FUN_00bc85d0(char c)
 {
     DAT_011786e4 = c;
@@ -307,48 +350,56 @@ extern O_0043b7f0 DAT_0116d144;
 extern char DAT_00e89744;
 void __cdecl FUN_00d99010();
 
+// pdb: `dynamic initializer for 'iAnimationClonePerLoop'' | Animation.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8a6a0()
 {
     DAT_0106deac.FUN_0043b7f0(&DAT_00dbe644, 5);
     FUN_00c00d1f(FUN_00d87770);
 }
 
+// pdb: `dynamic initializer for 'uLightExcessGeometryBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8b2a0()
 {
     DAT_0106e230.FUN_0043b7f0(&DAT_00dbf7bc, 5);
     FUN_00c00d1f(FUN_00d87b40);
 }
 
+// pdb: `dynamic initializer for 'uGridsToLoad'' | GridCell.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8be50()
 {
     DAT_0106e9c8.FUN_0043b7f0(&DAT_00dc0b80, 5);
     FUN_00c00d1f(FUN_00d87d70);
 }
 
+// pdb: `dynamic initializer for 'iMaxViewCasterPicksFuzzy'' | ViewCaster.obj | fnv360_0822_debug, ustr, high
 void FUN_00c9d200()
 {
     DAT_01072af0.FUN_0043b7f0(&DAT_00de7660, 5);
     FUN_00c00d1f(FUN_00d8a3c0);
 }
 
+// pdb: `dynamic initializer for 'iHWThread4'' | bhkWorld.obj | fnv360_0822_debug, ustr, high
 void FUN_00d01f00()
 {
     DAT_010f2ab0.FUN_0043b7f0(&DAT_00e327e8, 5);
     FUN_00c00d1f(FUN_00d98920);
 }
 
+// pdb: `dynamic initializer for 'iHWThread5'' | bhkWorld.obj | fnv360_0822_debug, ustr, high
 void FUN_00d01f20()
 {
     DAT_010f2abc.FUN_0043b7f0(&DAT_00e327fc, 5);
     FUN_00c00d1f(FUN_00d98930);
 }
 
+// pdb: `dynamic initializer for 'iHWThread6'' | bhkWorld.obj | fnv360_0822_debug, ustr, high
 void FUN_00d01f40()
 {
     DAT_010f2ac8.FUN_0043b7f0(&DAT_00e32810, 5);
     FUN_00c00d1f(FUN_00d98940);
 }
 
+// pdb: `dynamic initializer for 'iPostProcessMilliseconds'' | IOManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00d82a70()
 {
     DAT_0116d144.FUN_0043b7f0(&DAT_00e89744, 5);
@@ -361,18 +412,22 @@ void FUN_00d82a70()
 
 struct B_0049fcb0 { ~B_0049fcb0(); };
 struct D_0049fcb0 : B_0049fcb0 { ~D_0049fcb0(); void FUN_0049fb20(); };
+// pdb: TESRegionDataList::~TESRegionDataList | TESRegionDataList.obj | fnv360_0822_retail, call_dedup, medium
 D_0049fcb0::~D_0049fcb0() { FUN_0049fb20(); }
 
 struct B_004c1c90 { ~B_004c1c90(); };
 struct D_004c1c90 : B_004c1c90 { ~D_004c1c90(); void FUN_004c18d0(); };
+// pdb: ExteriorCellLoader::Release | ExteriorCellLoader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 D_004c1c90::~D_004c1c90() { FUN_004c18d0(); }
 
 struct B_005ac710 { ~B_005ac710(); };
 struct D_005ac710 : B_005ac710 { ~D_005ac710(); void FUN_006c8220(); };
+// pdb: PackageList::~PackageList | PackageList.obj | fnv360_0822_retail, call_seq, medium
 D_005ac710::~D_005ac710() { FUN_006c8220(); }
 
 struct B_005ae1d0 { ~B_005ae1d0(); };
 struct D_005ae1d0 : B_005ae1d0 { ~D_005ae1d0(); void FUN_005ae160(); };
+// pdb: BGSIdleCollection::`scalar deleting destructor' | Package.obj | fnv360_0822_debug, call_dedup, low, conflict (bridge: TESCondition::~TESCondition)
 D_005ae1d0::~D_005ae1d0() { FUN_005ae160(); }
 
 struct B_00640b20 { ~B_00640b20(); };
@@ -381,10 +436,12 @@ D_00640b20::~D_00640b20() { FUN_00640ac0(); }
 
 struct B_006c6e80 { ~B_006c6e80(); };
 struct D_006c6e80 : B_006c6e80 { ~D_006c6e80(); void FUN_006c6960(); };
+// pdb: Conversation::~Conversation | Conversation.obj | fnv360_0822_retail, call_gap, low
 D_006c6e80::~D_006c6e80() { FUN_006c6960(); }
 
 struct B_0076b220 { ~B_0076b220(); };
 struct D_0076b220 : B_0076b220 { ~D_0076b220(); void FUN_0076ac80(); };
+// pdb: ModifierList::~ModifierList | ModifierList.obj | fnv360_0721_beta, call_seq, medium
 D_0076b220::~D_0076b220() { FUN_0076ac80(); }
 
 // ---- family f048
@@ -399,6 +456,7 @@ void __fastcall FUN_00ab0350(void*);
 void __fastcall FUN_00aba0b0(void*);
 
 struct C_00898ad0 { void* FUN_00898ad0(unsigned char); };
+// pdb: NiD3DShaderProgramFactory::`scalar deleting destructor' | NiD3DShaderProgramFactory.obj | fnv360_0822_retail, caller_sim, low
 void* C_00898ad0::FUN_00898ad0(unsigned char f)
 {
     FUN_008989a0(this);
@@ -407,6 +465,7 @@ void* C_00898ad0::FUN_00898ad0(unsigned char f)
 }
 
 struct C_008be510 { void* FUN_008be510(unsigned char); };
+// pdb: BSGrabIKNote::`scalar deleting destructor' | BSGrabIKNote.obj | fnv360_0822_retail, objrun, high
 void* C_008be510::FUN_008be510(unsigned char f)
 {
     FUN_008be9e0(this);
@@ -415,6 +474,7 @@ void* C_008be510::FUN_008be510(unsigned char f)
 }
 
 struct C_008d1e00 { void* FUN_008d1e00(unsigned char); };
+// pdb: NiBSplineInterpolator::`scalar deleting destructor' | NiBSplineInterpolator.obj | fnv360_0822_retail, objrun, medium
 void* C_008d1e00::FUN_008d1e00(unsigned char f)
 {
     FUN_008d1ba0(this);
@@ -431,6 +491,7 @@ void* C_0092dc70::FUN_0092dc70(unsigned char f)
 }
 
 struct C_00aaa8f0 { void* FUN_00aaa8f0(unsigned char); };
+// pdb: BSWindModifier::`scalar deleting destructor' | BSWindModifier.obj | fnv360_0822_retail, vtable, medium
 void* C_00aaa8f0::FUN_00aaa8f0(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -439,6 +500,7 @@ void* C_00aaa8f0::FUN_00aaa8f0(unsigned char f)
 }
 
 struct C_00ab04c0 { void* FUN_00ab04c0(unsigned char); };
+// pdb: BSFurnitureMarker::`scalar deleting destructor' | BSFurnitureMarker.obj | fnv360_0822_debug, vtable, medium
 void* C_00ab04c0::FUN_00ab04c0(unsigned char f)
 {
     FUN_00ab0350(this);
@@ -447,6 +509,7 @@ void* C_00ab04c0::FUN_00ab04c0(unsigned char f)
 }
 
 struct C_00aba250 { void* FUN_00aba250(unsigned char); };
+// pdb: BSTextureData::`scalar deleting destructor' | BSTextureData.obj | fnv360_0822_debug, vtable, high
 void* C_00aba250::FUN_00aba250(unsigned char f)
 {
     FUN_00aba0b0(this);

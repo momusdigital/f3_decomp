@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00a53070
+// pdb: ActorPathHandler::NoPathUpdate | ActorPathHandler.obj | fnv360_0721_beta, vtable, medium
+// pdb params: afDeltaT
 int __stdcall FUN_00a53070(unsigned short usChannel)
 {
     return 5;
@@ -14,6 +16,8 @@ struct FUN_00a53080_shell
 };
 
 // @fnv 0x00a53080
+// pdb: NiBoolInterpolator::GetKeyCount | NiBoolInterpolator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usChannel
 int __thiscall FUN_00a53080_shell::GetThirdValue(int arg)
 {
     int* p = *(int**)((char*)this + 0x10);
@@ -28,6 +32,8 @@ struct FUN_00a53090_shell
 };
 
 // @fnv 0x00a53090
+// pdb: NiFloatInterpolator::GetKeyType | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, medium
+// pdb params: usChannel
 int __thiscall FUN_00a53090_shell::GetValueFromMember(void* apUnused)
 {
     void* p = *(void**)((char*)this + 0x10);
@@ -80,6 +86,7 @@ struct NiBoolInterpolator : HC1Base
     bool __thiscall FUN_00a3c5b0(NiStream*);
 };
 // @fnv 0x00a3c5b0
+// pdb: NiFloatInterpolator::CreateObject | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiBoolInterpolator::RegisterStreamables)
 bool __thiscall NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
 {
     if (!HC1Base::FUN_00aa0ad0(kStream))
@@ -127,14 +134,14 @@ struct FUN_00a531a0_shell
 };
 // Clears the NiPointer member and stores the given bool into m_bBoolValue.
 // @fnv 0x00a531a0
+// pdb: NiBoolInterpolator::SetPoseValue | NiBoolInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: bPoseValue
 void __thiscall FUN_00a531a0_shell::SetBoolValue(bool abValue)
 {
     m_spBoolData = 0;
     m_bBoolValue = abValue;
 }
 }  // namespace fnv_00a531a0
-
-void __cdecl FUN_00a537a0(float m_fStartTime, float m_fMaximumDistance);
 
 struct NiBoolData_shell
 {
@@ -149,6 +156,8 @@ struct NiBoolInterpolator_shell
 };
 
 // @fnv 0x00a531f0
+// pdb: NiBoolInterpolator::GuaranteeTimeRange | NiBoolInterpolator.obj | fnv360_1110_retail, objrun, medium
+// pdb params: fStartTime, fEndTime
 void NiBoolInterpolator_shell::FUN_00a531f0(float afArg1, float afArg2)
 {
     if (m_spBoolData)
@@ -171,6 +180,8 @@ struct FUN_00a530a0_shell
 extern unsigned char DAT_0109a914;
 
 // @fnv 0x00a530a0
+// pdb: NiBoolInterpolator::GetChannelPosed | NiBoolInterpolator.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: NiBoolInterpolator::GetKeyArray)
+// pdb params: usChannel
 unsigned char __thiscall FUN_00a530a0_shell::FUN_00a530a0(int unused)
 {
     if (unk10 != 0)
@@ -373,6 +384,8 @@ struct S_00a53680_Child : S_00a53680_Base
     void SaveToStream(S_00a53680_Stream* kStream);
 };
 // @fnv 0x00a53680
+// pdb: NiBoolInterpolator::SaveBinary | NiBoolInterpolator.obj | fnv360_0822_retail, objrun_sim, high
+// pdb params: kStream
 void S_00a53680_Child::SaveToStream(S_00a53680_Stream* kStream)
 {
     FUN_00a95ca0(kStream);
@@ -412,6 +425,8 @@ struct FUN_00a536d0_cls
 };
 
 // @fnv 0x00a536d0
+// pdb: NiBoolInterpolator::GetViewerStrings | NiBoolInterpolator.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a536d0_cls::FUN_00a536d0(FUN_00a536d0_arr* pArr)
 {
     FUN_00a536d0_self* self = reinterpret_cast<FUN_00a536d0_self*>(this);
@@ -533,6 +548,8 @@ class FUN_00a532d0 : public A32D0KeyBasedInterpolator
 
 // Constructor that initializes m_bFlag from the given flag and default-constructs the key array.
 // @fnv 0x00a532d0
+// pdb: NiBoolInterpolator::NiBoolInterpolator | NiBoolInterpolator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: bPoseValue
 FUN_00a532d0::FUN_00a532d0(bool bFlag) : m_bFlag(bFlag)
 {}
 
@@ -556,10 +573,13 @@ struct S_00a533c0_Class
     unsigned char unk0c;
     S_00a533c0_Data* unk10;
     unsigned char unk14;
-    bool __thiscall UpdateValue(float fValue, int iValue, unsigned char* pOut);
+    bool __thiscall NiBoolInterpolator_Update(float fValue, int iValue, unsigned char* pOut);
 };
 // @fnv 0x00a533c0
-bool __thiscall S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned char* pucOut)
+// pdb: NiBoolInterpolator::Update | NiBoolInterpolator.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: fTime, pkInterpTarget, bValue
+// pdb: NiBoolInterpolator::Update | NiBoolInterpolator.obj | fnv360_0822_retail, objrun_prop, high (was: UpdateValue)
+bool __thiscall S_00a533c0_Class::NiBoolInterpolator_Update(float fValue, int iValue, unsigned char* pucOut)
 {
     if (unk08 == fValue)
     {
@@ -593,14 +613,6 @@ bool __thiscall S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned
     *pucOut = (unk0c != 0);
     unk08 = fValue;
     return true;
-}
-
-void __cdecl FUN_00aa1000();
-
-// @fnv 0x00aa0ab0
-void __cdecl FUN_00aa0ab0()
-{
-    FUN_00aa1000();
 }
 
 class CloningProcessA535;
@@ -650,12 +662,13 @@ class NiBoolInterpA535 : public FUN_00a3ca10
     unsigned int m_uiLastKeyIndex;
 
     void CloneTo(NiBoolInterpA535* dest, CloningProcessA535& cloning);
-    NiBoolInterpA535* FUN_00a53590(CloningProcessA535& cloning);
+    NiBoolInterpA535* NiBoolInterpolator_CreateClone(CloningProcessA535& cloning);
 };
 
 // Allocates a new NiBoolInterpA535, copies this object into it via CloneTo, and returns the new instance.
 // @fnv 0x00a53590
-NiBoolInterpA535* NiBoolInterpA535::FUN_00a53590(CloningProcessA535& cloning)
+// pdb: NiBoolInterpolator::CreateClone | NiBoolInterpolator.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+NiBoolInterpA535* NiBoolInterpA535::NiBoolInterpolator_CreateClone(CloningProcessA535& cloning)
 {
     NiBoolInterpA535* p = new NiBoolInterpA535;
     CloneTo(p, cloning);
@@ -763,6 +776,8 @@ class NiBoolInterpolatorA536 : public NiKeyBasedInterpolator_LoadBinary_Helper
 
 // Calls base LoadBinary, reads m_bBoolValue from the underlying stream, then assigns m_spBoolData from FUN_00a64620().
 // @fnv 0x00a53600
+// pdb: NiBoolInterpolator::RegisterStreamables | NiBoolInterpolator.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiBoolInterpolator::LoadBinary)
+// pdb params: kStream
 void NiBoolInterpolatorA536::FUN_00a53600(NiStream& kStream)
 {
     NiKeyBasedInterpolator_LoadBinary_Helper::LoadBinary(kStream);
@@ -844,6 +859,7 @@ struct BInterp
 
 // Resolves the boolean data into m_bBoolValue, clearing m_spBoolData when keys are absent or all values are constant.
 // @fnv 0x00a530c0
+// pdb: NiBoolInterpolator::Collapse | NiBoolInterpolator.obj | fnv360_0822_retail, objopen_prop, low
 void BInterp::FinalizeBoolValue()
 {
     if (m_spBoolData)

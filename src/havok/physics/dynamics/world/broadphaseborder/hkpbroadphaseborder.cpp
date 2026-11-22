@@ -2,12 +2,6 @@
 // src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-// @fnv 0x00d0b5d0
-int __cdecl CompareByOffsetD4(const void* apFirst, const void* apSecond)
-{
-    return *(const char**)((const char*)apFirst + 0xd4) < *(const char**)((const char*)apSecond + 0xd4);
-}
-
 struct hkReferencedObject
 {
     void removeReference();
@@ -44,7 +38,7 @@ struct AllocatorOwner
     int unk10;
     Manager* manager;
     Item* entries[6];
-    void ReleaseEntries();
+    void hkpBroadPhaseBorder_deactivate();
 };
 // @f3 0x0098bcc0 (community match, verified in this file)
 struct ManagerStub : public Manager
@@ -54,7 +48,7 @@ struct ManagerStub : public Manager
 
 struct ItemStub : public Item
 {
-    void FUN_00989940(int* pValue);
+    void hkpPhantom_removePhantomOverlapListener(int* pValue);
     void FUN_009316f0();
 };
 
@@ -68,7 +62,9 @@ struct AllocatorOwnerBody
     Item* m_pEntries[6];
 };
 
-void AllocatorOwner::ReleaseEntries()
+// pdb: hkpBroadPhaseBorder::deactivate | hkpBroadPhaseBorder.obj | fnv360_0822_retail, vtable, high
+// pdb: hkpBroadPhaseBorder::deactivate | hkpBroadPhaseBorder.obj | fnv360_0822_retail, vtable, high (was: ReleaseEntries)
+void AllocatorOwner::hkpBroadPhaseBorder_deactivate()
 {
     AllocatorOwnerBody* pBody = (AllocatorOwnerBody*)this;
     if (pBody->m_pManager)
@@ -76,7 +72,7 @@ void AllocatorOwner::ReleaseEntries()
         ((ManagerStub*)pBody->m_pManager)->FUN_009078c0(pBody->m_pEntries, 6);
         for (int i = 0; i < 6; ++i)
         {
-            ((ItemStub*)pBody->m_pEntries[i])->FUN_00989940(&pBody->unk0C);
+            ((ItemStub*)pBody->m_pEntries[i])->hkpPhantom_removePhantomOverlapListener(&pBody->unk0C);
             ((ItemStub*)pBody->m_pEntries[i])->FUN_009316f0();
             pBody->m_pEntries[i] = 0;
         }
@@ -113,7 +109,7 @@ struct Dispatcher
     unsigned int unknown28;
     unsigned int unknown2c;
     int mode;
-    void DispatchItemByMode(DispatchItem* item);
+    void hkpBroadPhaseBorder_maxPositionExceededCallback(DispatchItem* item);
 };
 // Switches on mode: for modes 0 and 1 calls item->FUN_00ca8420(5,1,0); for mode 2, if item->owner equals owner, calls owner->ProcessTarget(&success, item).
 // @f3 0x0098bc40 (community match, verified in this file)
@@ -125,7 +121,7 @@ struct RestartDispatchOwner {
 struct RestartDispatchItem {
     unsigned int unk00, unk04;
     RestartDispatchOwner* owner;
-    void FUN_0090cbf0(unsigned char kind, unsigned char enabled, unsigned char flag);
+    void hkpRigidBody_setMotionType(unsigned char kind, unsigned char enabled, unsigned char flag);
 };
 struct RestartDispatchLayout {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -134,15 +130,18 @@ struct RestartDispatchLayout {
     int mode;
     void RestartDispatchItemByMode(RestartDispatchItem* item);
 };
-void Dispatcher::DispatchItemByMode(DispatchItem* item) {
+// pdb: hkpBroadPhaseBorder::maxPositionExceededCallback | hkpBroadPhaseBorder.obj | fnv360_0822_retail, vtable, high
+// pdb params: entity
+// pdb: hkpBroadPhaseBorder::maxPositionExceededCallback | hkpBroadPhaseBorder.obj | fnv360_0822_retail, vtable, high (was: DispatchItemByMode)
+void Dispatcher::hkpBroadPhaseBorder_maxPositionExceededCallback(DispatchItem* item) {
     RestartDispatchLayout* layout = reinterpret_cast<RestartDispatchLayout*>(this);
     RestartDispatchItem* target = reinterpret_cast<RestartDispatchItem*>(item);
     switch (layout->mode) {
     case 0:
-        target->FUN_0090cbf0(7, 1, 0);
+        target->hkpRigidBody_setMotionType(7, 1, 0);
         break;
     case 1:
-        target->FUN_0090cbf0(7, 1, 0);
+        target->hkpRigidBody_setMotionType(7, 1, 0);
         break;
     case 2:
         layout->owner->FUN_009037f0(reinterpret_cast<RestartDispatchItem**>(&item), target);
@@ -151,90 +150,10 @@ void Dispatcher::DispatchItemByMode(DispatchItem* item) {
 }
 
 
-template <typename T> inline void S_00e10760_swap(T& x, T& y)
-{
-    T t = x;
-    x = y;
-    y = t;
-}
 struct S_00e10760_Item;
 typedef bool (*S_00e10760_Less)(S_00e10760_Item* a, S_00e10760_Item* b);
 
-// Sorts the range [d, h] of pArr in place using a Hoare-partition quicksort with cmpLess, recursing on the left part and looping on the right.
-// @fnv 0x00e10760
-void FUN_00e10760(S_00e10760_Item** apItems, int aiLow, int aiHigh, S_00e10760_Less apLess)
-{
-    int i, iRight;
-    __declspec(align(16)) S_00e10760_Item* pPivot;
-begin:
-    iRight = aiHigh;
-    i = aiLow;
-    pPivot = apItems[(aiLow + aiHigh) >> 1];
-    do
-    {
-        while (apLess(apItems[i], pPivot))
-        {
-            i++;
-        }
-        while (apLess(pPivot, apItems[iRight]))
-        {
-            iRight--;
-        }
-        if (i <= iRight)
-        {
-            if (iRight != i)
-            {
-                S_00e10760_swap(apItems[iRight], apItems[i]);
-            }
-            iRight--;
-            i++;
-        }
-    } while (i <= iRight);
-    if (aiLow < iRight)
-    {
-        FUN_00e10760(apItems, aiLow, iRight, apLess);
-    }
-    if (i < aiHigh)
-    {
-        aiLow = i;
-        goto begin;
-    }
-}
-
-struct OwnerDest
-{
-    void FUN_00c91a70(void* p);
-    void ClearValue(void* p);
-};
-
-struct NodeHdr
-{
-    void FUN_00c905b0();
-};
-
-struct FUN_00d0b530_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    OwnerDest* m_0C;
-
-    void FUN_00d0b530(int unused);
-};
-
-// @fnv 0x00d0b530
-void FUN_00d0b530_cls::FUN_00d0b530(int unused)
-{
-    m_0C->FUN_00c91a70(((char*)this - 8) ? (void*)this : 0);
-    m_0C->ClearValue(((char*)this - 8) ? (void*)((char*)this + 8) : 0);
-    ((NodeHdr*)((char*)this - 8))->FUN_00c905b0();
-}
-
 struct D0B630Entity;
-
-int __cdecl CompareByOffsetD4(const void* a, const void* b);
-void __cdecl FUN_00e10760(D0B630Entity** data, int lo, int hi, int(__cdecl* cmp)(const void*, const void*));
-void __cdecl FUN_00c90740(D0B630Entity** objects, int numObjects, int strideInBytes);
 
 class D0B630Primary
 {
@@ -350,12 +269,6 @@ struct D0B6A0Collidable
     }
 };
 
-struct D0B6A0Event
-{
-    int unk00;
-    const D0B6A0Collidable* m_kCollidable;
-};
-
 struct D0B6A0EntityArray
 {
     D0B6A0Entity** m_data;
@@ -383,113 +296,15 @@ struct D0B6A0EntityArray
     }
 };
 
-class D0B6A0Primary
-{
-  public:
-    virtual void vfunc00();
-    virtual void vfunc04();
-    virtual void vfunc08();
-    virtual void entityAdded(D0B6A0Entity* entity);
-
-    int unk04;
-    int unk08;
-};
-
-class D0B6A0Secondary
-{
-  public:
-    virtual void HandleEvent(const D0B6A0Event& event);
-};
-
-class D0B6A0Collector : public D0B6A0Primary, public D0B6A0Secondary
-{
-  public:
-    virtual void HandleEvent(const D0B6A0Event& event);
-
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    bool m_deferAdds;
-    D0B6A0EntityArray m_deferredEntities;
-};
-
-// Handles an event: if the collidable's m_type is 1, gets its owner entity and either defers it into m_deferredEntities or calls entityAdded.
-// @fnv 0x00d0b6a0
-void D0B6A0Collector::HandleEvent(const D0B6A0Event& event)
-{
-    const D0B6A0Collidable* collidable = event.m_kCollidable;
-    if (collidable->m_type == 1)
-    {
-        D0B6A0Entity* entity = static_cast<D0B6A0Entity*>(collidable->getOwner());
-        if (entity)
-        {
-            if (m_deferAdds)
-            {
-                m_deferredEntities.AddBack(entity);
-                entity->RetainReference();
-            }
-            else
-            {
-                entityAdded(entity);
-            }
-        }
-    }
-}
-
 namespace fnv_00d0bb20 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 struct BSAudio;
 BSAudio* __cdecl FUN_00c85750();
 
-extern int DAT_010cd3c4;
-extern int DAT_010cd3b4;
-extern int DAT_010cd3a4;
-extern int DAT_010cd394;
 extern int DAT_010ccf7c;
 extern int DAT_010c925c;
 extern int DAT_010cb1c4;
 extern int DAT_0102e388;
-
-struct FUN_00d0bb20_cls
-{
-    int m_vptr00;
-    int unk04;
-    int m_vptr08;
-    int m_vptr0c;
-    int m_vptr10;
-    int unk14;
-    hkReferencedObject* m_entries[6];
-    int unk30;
-    int unk34;
-    void* m_pData;
-    int m_iArrayLength;
-    unsigned int m_uCapBits;
-
-    void Destroy();
-};
 
 static inline void ResetBaseVptrs(int* vptrs)
 {
@@ -499,44 +314,11 @@ static inline void ResetBaseVptrs(int* vptrs)
     vptrs[0] = (int)&DAT_0102e388;
 }
 
-// @fnv 0x00d0bb20
-void FUN_00d0bb20_cls::Destroy()
-{
-    m_vptr00 = (int)&DAT_010cd3c4;
-    m_vptr08 = (int)&DAT_010cd3b4;
-    m_vptr0c = (int)&DAT_010cd3a4;
-    m_vptr10 = (int)&DAT_010cd394;
-    hkReferencedObject** pEntry = m_entries;
-    int i = 6;
-    do
-    {
-        if (*pEntry != 0)
-        {
-            (*pEntry)->removeReference();
-            *pEntry = 0;
-        }
-        pEntry++;
-        i--;
-    } while (i != 0);
-    AudioHolder* pAudioHolder = (AudioHolder*)FUN_00c85750();
-    AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
-    m_iArrayLength = i;
-    unsigned int uiCapBits = m_uCapBits;
-    if ((uiCapBits & 0x80000000u) == 0)
-    {
-        pAudioAllocator->FreeArray(m_pData, (uiCapBits & 0x3fffffffu) * 4);
-    }
-    unsigned int* puiCap = &m_uCapBits;
-    m_pData = 0;
-    *puiCap = 0x80000000u;
-    m_vptr10 = (int)&DAT_010ccf7c;
-    m_vptr0c = (int)&DAT_010c925c;
-    m_vptr08 = (int)&DAT_010cb1c4;
-    m_vptr00 = (int)&DAT_0102e388;
-}
 }  // namespace fnv_00d0bb20
 
 // @fnv 0x00d0b520
+// pdb: hkpKeyframedRigidMotion::setMassInv | hkpKeyframedRigidMotion.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: mInv
 void __stdcall FUN_00d0b520(int)
 {}
 
@@ -650,23 +432,3 @@ struct FUN_00d0bbf0
 FUN_00d0bbf0::~FUN_00d0bbf0()
 {}
 }  // namespace fnv_00d0bbf0
-
-struct BorderDeletePrimary : D0B6A0Primary
-{
-    virtual void* FUN_00d0bbd0(unsigned int flags);
-};
-
-struct BorderDeleteSecondary
-{
-    virtual void* FUN_00d0bbd0(unsigned int flags);
-};
-
-struct BorderDelete : BorderDeletePrimary, BorderDeleteSecondary
-{
-    BorderDelete();
-// @fnv 0x00d0bbd0
-    virtual void* FUN_00d0bbd0(unsigned int flags);
-};
-
-BorderDelete::BorderDelete()
-{}

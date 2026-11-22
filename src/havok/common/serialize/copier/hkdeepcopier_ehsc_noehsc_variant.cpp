@@ -259,7 +259,7 @@ struct ObjCopier
     bool m_bStreamResult;
     ObjCopier(const StructLayout& layoutIn, const StructLayout& layoutOut, int flags);
     ~ObjCopier();
-    int FUN_00e04920(const void* dataIn, const ClassInfo& klassIn, void* dataOut, const ClassInfo& klassOut,
+    int hkObjectCopier_copyObject(const void* dataIn, const ClassInfo& klassIn, void* dataOut, const ClassInfo& klassOut,
                      RelocInfo& reloc);
 };
 
@@ -427,7 +427,8 @@ struct Record
 extern const StructureLayoutRules DAT_01061524;
 }
 
-void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassInIn, PtrMap* previousCopiesIn,
+// pdb: hkDeepCopier::deepCopy | hkDeepCopier.obj | fnv360_0822_retail, call_gap_sim + skyrim(call_seq), high
+void* hkDeepCopier_deepCopy(const void* dataIn, const ClassInfo& klassInIn, PtrMap* previousCopiesIn,
                    VtableClassReg* vtableClassRegistryIn, LoadedObjectReg* loadedObjectRegistryIn, int flags)
 {
     using namespace na85110;

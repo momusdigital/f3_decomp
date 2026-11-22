@@ -10,6 +10,8 @@ struct FUN_00cdd3f0_s
 };
 
 // @f3 0x00957b80 (community match, verified in this file)
+// pdb: hkaSkeletonUtils::unlockTranslations | hkaSkeletonUtils.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: skeleton
 void FUN_00cdd3f0(FUN_00cdd3f0_s* entries) {
     int count = entries->a[4];
     for (int index = 0; index < count; ++index)
@@ -22,6 +24,8 @@ extern int DAT_01268700;
 
 // Calls FUN_00cddad0 with a, b, the address of DAT_01268700, c and d.
 // @fnv 0x00cddcf0
+// pdb: hkaSkeletonUtils::transformLocalPoseToModelPose | hkaSkeletonUtils.obj | fnv360_0822_debug, caller, medium
+// pdb params: numTransforms, parentIndices, poseLocal, poseModelOut
 void __cdecl CallWithGlobal(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00cddad0(aiArg1, aiArg2, &DAT_01268700, aiArg3, aiArg4);
@@ -32,20 +36,13 @@ extern int DAT_01268700;
 
 // Calls FUN_00cddd20 with a, b, the address of DAT_01268700, c and d.
 // @fnv 0x00cddef0
-void FUN_00cddef0(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+// pdb: hkaSkeletonUtils::transformModelPoseToLocalPose | hkaSkeletonUtils.obj | fnv360_0822_retail, call_gap + skyrim(objrun), high
+void hkaSkeletonUtils_transformModelPoseToLocalPose(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00cddd20(apArg1, apArg2, &DAT_01268700, apArg3, apArg4);
 }
 
-extern "C" void __cdecl Atan2(float, float);
-
-// @fnv 0x00ce00f0
-void __cdecl FUN_00ce00f0(float afFirst, float afSecond)
-{
-    Atan2(afFirst, afSecond);
-}
-
-int __cdecl CompareStringsCaseInsensitive(const void* pKey, const void* pItem);
+int __cdecl hkString_strCasecmp(const void* pKey, const void* pItem);
 struct S_00cdd390_Entry
 {
     unsigned int m_uiTaggedItem;
@@ -70,7 +67,7 @@ struct S_00cdd390_Table
         return (void*)(m_pEntries[i].m_uiTaggedItem & ~1u);
     }
 };
-// Searches the table's entries for one matching pKey via pfnCompare (default CompareStringsCaseInsensitive) and returns its index, or -1 if none match.
+// Searches the table's entries for one matching pKey via pfnCompare (default hkString_strCasecmp) and returns its index, or -1 if none match.
 // @f3 0x00957b20 (community match, verified in this file)
 struct FindTableLayout
 {
@@ -81,12 +78,15 @@ struct FindTableLayout
     int m_iArrayLength;
 };
 
-short __cdecl FindIndexByKey(S_00cdd390_Table* pSearchEntries, const void* pKey, int(__cdecl* pfnCompare)(const void*, const void*))
+// pdb: hkaSkeletonUtils::findBoneWithName | hkaSkeletonUtils.obj | fnv360_0822_retail, call_seq, high
+// pdb params: skeleton, name, compare
+// pdb: hkaSkeletonUtils::findBoneWithName | hkaSkeletonUtils.obj | fnv360_0822_retail, call_seq, high (was: FindIndexByKey)
+short __cdecl hkaSkeletonUtils_findBoneWithName(S_00cdd390_Table* pSearchEntries, const void* pKey, int(__cdecl* pfnCompare)(const void*, const void*))
 {
     FindTableLayout* t = (FindTableLayout*)pSearchEntries;
     int iCount = t->m_iArrayLength;
     if (!pfnCompare)
-        pfnCompare = CompareStringsCaseInsensitive;
+        pfnCompare = hkString_strCasecmp;
     for (short i = 0; i < iCount; i++)
     {
         if (pfnCompare(pKey, *(const void* const*)t->m_ppEntries[i]) == 0)
@@ -96,7 +96,6 @@ short __cdecl FindIndexByKey(S_00cdd390_Table* pSearchEntries, const void* pKey,
 }
 
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 template <class T> struct Array
 {
     T* data;
@@ -107,29 +106,6 @@ template <class T> struct Array
         return data[index];
     }
 };
-struct Hierarchy
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    Array<short> parents;
-    void* nodes;
-    int count;
-};
-// Clears flags up to root, marks root, then sets each later node's flag from whether its parent is flagged, and finally sets root to finalValue.
-// @fnv 0x00cdd410
-void __cdecl MarkHierarchyDescendants(Hierarchy* hierarchy, int root, unsigned char* flags, unsigned char finalValue)
-{
-    if (root > 0)
-        fnv_zlib_memset(flags, 0, root);
-    flags[root] = 1;
-    for (int i = root + 1; i < hierarchy->count; ++i)
-    {
-        short& parent = hierarchy->parents[i];
-        flags[i] = (parent >= 0 && flags[parent] != 0) ? 1 : 0;
-    }
-    flags[root] = finalValue;
-}
 
 struct Sequence
 {
@@ -153,6 +129,8 @@ struct LimitStub
     int unk00, unk04, unk08, unk0c;
     int limit;
 };
+// pdb: hkaSkeletonUtils::unlockTranslations | hkaSkeletonUtils.obj | fnv360_0822_debug, objrun_sim, low
+// pdb params: skeleton
 bool* __cdecl AreSequenceValuesInRange(bool* pbInRange, FUN_00cdd3f0_s* limits, Sequence* sequence)
 {
     SequenceStub* seq = (SequenceStub*)sequence;
@@ -189,18 +167,11 @@ struct Logger
     virtual void v2();
     virtual void Report(int a, int code, void* msg, const char* file, int line);
 };
-extern Logger* DAT_01268360;
 struct Names
 {
     int pad[6];
     unsigned int* names;
     int count;
-};
-struct Track
-{
-    int pad[4];
-    short* out;
-    int cnt;
 };
 struct Src
 {
@@ -264,7 +235,10 @@ struct DstView958060
 };
 }
 
-int __cdecl MapTracksToBones(Names* namesIn, Src* srcIn, CmpFn cmp, Dst* dstIn)
+// pdb: hkaSkeletonUtils::bindByName | hkaSkeletonUtils.obj | fnv360_0822_retail, ustr, high
+// pdb params: skeleton, anim, compare, bindingOut
+// pdb: hkaSkeletonUtils::bindByName | hkaSkeletonUtils.obj | fnv360_0822_retail, ustr, high (was: MapTracksToBones)
+int __cdecl hkaSkeletonUtils_bindByName(Names* namesIn, Src* srcIn, CmpFn cmp, Dst* dstIn)
 {
     f3m_00958060::NamesView958060* names = reinterpret_cast<f3m_00958060::NamesView958060*>(namesIn);
     f3m_00958060::SrcView958060* src = reinterpret_cast<f3m_00958060::SrcView958060*>(srcIn);
@@ -369,6 +343,8 @@ struct FUN_00d27f50_Obj
     void FUN_00d27f50(int a, int b);
 };
 
+// pdb: hkaSkeletonUtils::getBoneChain | hkaSkeletonUtils.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: hkLifoAllocator::allocateFromNewSlab)
+// pdb params: skeleton, startBone, endBone, bonesInOut
 unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short asLimit, short asStart, ScanObj* obj)
 {
     int s = (unsigned short)asStart;
@@ -421,8 +397,6 @@ S_00cde450_Router* __cdecl FUN_00c85750();
 
 struct S_00cde450_ByteArr;
 struct S_00cde450_UShortArr;
-void __cdecl FUN_00ec61c0(void* dst, int value, int size);
-void __cdecl FUN_00c908c0(S_00cde450_Heap& h, S_00cde450_ByteArr* a, int n, int elemSize);
 void __cdecl ResizeAudioStream(S_00cde450_Heap& h, S_00cde450_UShortArr* a, int elemSize);
 
 struct S_00cde450_UShortArr
@@ -451,107 +425,18 @@ struct S_00cde450_ByteArr
     char* m_pTrailingData;
 };
 
-static __forceinline void S_00cde450_SetSize(S_00cde450_ByteArr& a, int n)
-{
-    int diff = n - a.m_iElementCount;
-    char* p = a.m_data + a.m_iElementCount;
-    if (diff <= 0)
-    {
-        a.m_iElementCount = n;
-        return;
-    }
-    FUN_00ec61c0(p, 0, diff);
-    a.m_iElementCount = n;
-}
-
-struct S_00cde450_Graph
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    unsigned short* parent;
-    int unk10;
-    int unk14;
-    int unk18;
-    int count;
-};
-
-// @fnv 0x00cde450
-void __cdecl CollectReachableNodes(S_00cde450_Graph* g, short asStartIndex, S_00cde450_UShortArr* pOutList,
-                                   bool abIncludeStart)
-{
-    int iNodeCount = g->count;
-    S_00cde450_ByteArr bits;
-    bits.m_data = 0;
-    bits.m_iElementCount = 0;
-    bits.m_cap = 0x80000000;
-    {
-        S_00cde450_Router* r = FUN_00c85750();
-        char* top = r->m_fMinimumV;
-        r->m_fMinimumV = top + ((iNodeCount + 0x7f) & ~0x7f);
-        bits.m_cap = iNodeCount | 0x80000000;
-        bits.m_data = top;
-        bits.m_pTrailingData = top;
-    }
-    int n = g->count;
-    {
-        S_00cde450_Heap& h = FUN_00c85750()->heap();
-        int c = bits.m_cap & 0x3fffffff;
-        if (c < n)
-            FUN_00c908c0(h, &bits, (n < c * 2) ? c * 2 : n, 1);
-    }
-    S_00cde450_SetSize(bits, n);
-
-    if (abIncludeStart)
-        pOutList->AddBack(asStartIndex);
-    bits.m_data[asStartIndex] = 1;
-    short i = (unsigned short)(asStartIndex + 1);
-    for (; i < g->count; i++)
-    {
-        short p = g->parent[i];
-        if (p != -1 && bits.m_data[p])
-        {
-            bits.m_data[i] = 1;
-            pOutList->AddBack(i);
-        }
-    }
-
-    char* pAllocBase = bits.m_pTrailingData;
-    if (pAllocBase == bits.m_data)
-        bits.m_iElementCount = 0;
-    FUN_00c85750()->m_fMinimumV = pAllocBase;
-    S_00cde450_Heap& h2 = FUN_00c85750()->heap();
-    bits.m_iElementCount = 0;
-    if ((bits.m_cap & 0x80000000) == 0)
-        h2.ReturnMemory(bits.m_data, bits.m_cap & 0x3fffffff);
-}
 }  // namespace fnv_00cde450
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 };
-extern "C" __m128 _mm_load_ss(const float* p);
 struct __declspec(align(16)) V4
 {
     __m128 q;
 };
-extern "C" void __cdecl FUN_00cde740(void* a, void* b, V4* v, void* c);
-// For each of count entries, calls FUN_00cde740 on 0x30-byte slots at idx[i]*0x30 offsets in b1, b2, b3, passing w as a float vector.
-// @fnv 0x00cdd550
-void __cdecl FUN_00cdd550(unsigned int count, const short* idx, char* b1, char* b2, float w, char* b3)
-{
-    V4 v;
-    v.q = _mm_load_ss(&w);
-    for (unsigned int i = 0; i < count; i++)
-    {
-        int off = idx[i] * 0x30;
-        FUN_00cde740(b1 + off, b2 + off, &v, b3 + off);
-    }
-}
 
 extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
@@ -629,52 +514,6 @@ __forceinline void hkVector4::SetTransformedPoint(const hkQsTransform& t, const 
 }
 
 typedef short hkInt16;
-
-struct hkaBone
-{
-    const char* m_name;
-    bool m_bLockTranslation;
-};
-
-struct hkaSkeleton
-{
-    void* vtbl;
-    int m_usMemSizeAndFlags;
-    const char* m_name;
-    short* m_kParentIndices;
-    int m_numParentIndices;
-    int m_parentCap;
-    hkaBone* m_kBones;
-    int m_iBoneCount;
-    int m_bonesCap;
-    hkQsTransform* m_kReferencePose;
-};
-
-// For each bone with m_bLockTranslation, sets poseModel translation from the reference pose, rotated and offset by the parent's transform when a parent exists.
-// @fnv 0x00cde1d0
-void __cdecl FUN_00cde1d0(const hkaSkeleton* skeleton, hkQsTransform* poseModel)
-{
-    const int numBones = skeleton->m_iBoneCount;
-    for (int i = 0; i < numBones; i++)
-    {
-        const short parent = skeleton->m_kParentIndices[i];
-        if (skeleton->m_kBones[i].m_bLockTranslation)
-        {
-            const hkVector4& refTranslation = skeleton->m_kReferencePose[i].m_vTranslation;
-            hkQsTransform& out = poseModel[i];
-            if (parent != -1)
-            {
-                const hkQsTransform& p = poseModel[parent];
-                out.m_vTranslation.SetRotatedDirection(p.m_rotation, refTranslation);
-                poseModel[i].m_vTranslation.add4(p.m_vTranslation);
-            }
-            else
-            {
-                poseModel[i].m_vTranslation.m_vComponents = refTranslation.m_vComponents;
-            }
-        }
-    }
-}
 
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" const __m128 DAT_010c44d0;
@@ -791,7 +630,7 @@ struct Property
         size = 0x30;
     }
 };
-extern "C" Property* __cdecl FindModifierConstraintAtom(HkEntity*, int);
+extern "C" Property* __cdecl hkpWorldConstraintUtil_findModifier(HkEntity*, int);
 extern "C" void __cdecl FUN_00d27960(HkEntity*, HkObj*, Property*);
 
 // Stores a Vec4 into a Property's vector field on an HkEntity, XORing it with DAT_010c44d0 when the entity's owner matches the given owner.
@@ -888,7 +727,10 @@ struct ModifierAtom
 
 }  // namespace smc_abd0
 
-void SetModifierConstraint(HkWorld* apWorld, int owner, HkObj* apObj, Vec4* apVec)
+// pdb: hkpResponseModifier::setSurfaceVelocity | hkpResponseModifier.obj | fnv360_0822_retail, ustr, high
+// pdb params: manager, body, constraintOwner, velWorld
+// pdb: hkpResponseModifier::setSurfaceVelocity | hkpResponseModifier.obj | fnv360_0822_retail, ustr, high (was: SetModifierConstraint)
+void hkpResponseModifier_setSurfaceVelocity(HkWorld* apWorld, int owner, HkObj* apObj, Vec4* apVec)
 {
     using namespace smc_abd0;
     HkEntity* e = apWorld->GetEntity();
@@ -901,7 +743,7 @@ void SetModifierConstraint(HkWorld* apWorld, int owner, HkObj* apObj, Vec4* apVe
         {
             t.setNeg4(t);
         }
-        ModifierAtom* p = reinterpret_cast<ModifierAtom*>(FindModifierConstraintAtom(e, 0x1a));
+        ModifierAtom* p = reinterpret_cast<ModifierAtom*>(hkpWorldConstraintUtil_findModifier(e, 0x1a));
         if (p)
         {
             p->vector = t;
@@ -917,25 +759,6 @@ void SetModifierConstraint(HkWorld* apWorld, int owner, HkObj* apObj, Vec4* apVe
 }
 
 
-struct S_00cdd600_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    short* m0c;
-};
-struct S_00cdd600_Bone
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    float scale[4];
-};
 extern __m128 DAT_010c7170;
 
 struct S_00cdd600_Out
@@ -946,15 +769,6 @@ struct S_00cdd600_Out
         return p;
     }
 };
-// Multiplies the scale vectors of a chain of bones starting at idx into r, then stores the result in out.
-// @fnv 0x00cdd600
-void __cdecl MultiplyBoneScales(S_00cdd600_Obj* obj, S_00cdd600_Bone* bones, int aiStartIndex, S_00cdd600_Out out)
-{
-    __m128 r = DAT_010c7170;
-    for (; aiStartIndex != -1; aiStartIndex = obj->m0c[aiStartIndex])
-        r = _mm_mul_ps(*(__m128*)bones[aiStartIndex].scale, r);
-    *out.val() = r;
-}
 
 extern "C"
 {
@@ -964,7 +778,6 @@ extern "C"
     void _mm_store_ss(float*, __m128);
     __m128 _mm_load_ps(const float*);
     __m128 _mm_rsqrt_ps(__m128);
-    __m128 _mm_set_ss(float);
     __m128 _mm_rsqrt_ss(__m128);
     __m128 _mm_mul_ss(__m128, __m128);
     __m128 _mm_sub_ss(__m128, __m128);
@@ -972,9 +785,6 @@ extern "C"
     __m128 _mm_andnot_ps(__m128, __m128);
     void _ReadWriteBarrier(void);
 }
-
-extern const __m128 DAT_010c71c0;
-extern const __m128 DAT_010c71d0;
 
 struct Simd
 {
@@ -1006,98 +816,6 @@ struct Vec
         m = _mm_mul_ps(factor.m, v.m);
     }
 };
-struct Item
-{
-    Vec translation;
-    Vec rot;
-    Vec scale;
-};
-
-// Normalizes the rot vectors of up to count Item entries in batches of four using SIMD, then handles any remaining items individually.
-// @fnv 0x00cdd660
-void FUN_00cdd660(Item* items, int count)
-{
-    int blocks = count / 4;
-    if ((unsigned int)blocks > 0)
-    {
-        float a[4];
-        float d3[4];
-        do
-        {
-            Simd sq0 = items[0].rot.lengthSquared();
-            _mm_store_ss(&a[0], sq0.m);
-            d3[0] = a[0];
-            Simd sq1 = items[1].rot.lengthSquared();
-            _mm_store_ss(&a[1], sq1.m);
-            d3[1] = a[1];
-            Simd sq2 = items[2].rot.lengthSquared();
-            _mm_store_ss(&a[2], sq2.m);
-            d3[2] = a[2];
-            Simd sq3 = items[3].rot.lengthSquared();
-            _mm_store_ss(&a[3], sq3.m);
-            d3[3] = a[3];
-
-            __m128 len = _mm_load_ps(d3);
-            __m128 x = _mm_rsqrt_ps(len);
-            __m128 r2 = _mm_mul_ps(x, len);
-            r2 = _mm_mul_ps(r2, x);
-            __m128 sub;
-            sub = _mm_sub_ps(DAT_010c71c0, r2);
-            __m128 j = _mm_mul_ps(DAT_010c71d0, x);
-            __m128 factor = _mm_mul_ps(sub, j);
-
-            Simd sc0;
-            sc0.m = factor;
-            items[0].rot.mul(sc0);
-            Simd sc1;
-            sc1.m = _mm_shuffle_ps(factor, factor, 0x55);
-            items[1].rot.mul(sc1);
-            Simd sc2;
-            sc2.m = _mm_shuffle_ps(factor, factor, 0xaa);
-            __m128 res2 = _mm_mul_ps(_mm_shuffle_ps(sc2.m, sc2.m, 0), items[2].rot.m);
-            Simd sc3;
-            sc3.m = _mm_shuffle_ps(factor, factor, 0xff);
-            items[2].rot.m = res2;
-            _ReadWriteBarrier();
-            items[3].rot.mul(sc3);
-            _ReadWriteBarrier();
-
-            items += 4;
-        } while (--blocks);
-    }
-
-    int iRemainder = count % 4;
-    if (iRemainder)
-    {
-        __m128 pObj = _mm_set_ss(0.0f);
-        __m128 three = _mm_set_ss(3.0f);
-        __m128 half = _mm_set_ss(0.5f);
-        __m128* p = &items->rot.m;
-        int remaining = iRemainder;
-        do
-        {
-            __m128 v;
-            v = *p;
-            __m128 d = _mm_mul_ps(v, v);
-            __m128 s = _mm_add_ps(d, _mm_shuffle_ps(d, d, 0x4e));
-            s = _mm_add_ps(s, _mm_shuffle_ps(s, s, 0xb1));
-
-            __m128 r = _mm_rsqrt_ss(s);
-            __m128 r2 = _mm_mul_ss(s, r);
-            r2 = _mm_mul_ss(r2, r);
-            __m128 j;
-            j = _mm_mul_ss(half, r);
-            __m128 sub = _mm_sub_ss(three, r2);
-            __m128 factor = _mm_mul_ss(j, sub);
-
-            __m128 zero = _mm_cmpeq_ss(s, pObj);
-            factor = _mm_andnot_ps(zero, factor);
-            __m128 d2 = _mm_shuffle_ps(factor, factor, 0x00);
-            *p = _mm_mul_ps(d2, v);
-            p = &(++items)->rot.m;
-        } while (--remaining);
-    }
-}
 
 extern "C" __m128 _mm_rcp_ps(__m128);
 extern "C" __m128 _mm_and_ps(__m128, __m128);

@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/nianimation/nibsplinecomppoint3interpolator.cpp: NiBSplineCompPoint3Interpolator, SplineEvaluationState (8 functions)
+// gamebryo2.2/corelibs/nianimation/nibsplinecomppoint3interpolator.cpp: NiBSplineCompPoint3Interpolator, SplineEvaluationState (6 functions)
 #include "f3_common.h"
 #include "nibsplinecomppoint3interpolator_decls.h"
 // Calls the base LoadBinary, then reads 8 bytes from the stream's input into the interpolator's data.
 // @fnv 0x00a51400
+// pdb: NiBSplineCompPoint3Interpolator::LoadBinary | NiBSplineCompPoint3Interpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiBSplineCompPoint3Interpolator::LoadBinary(NiStream& stream)
 {
     NiBSplinePoint3Interpolator::LoadBinary(stream);
@@ -11,12 +13,6 @@ void NiBSplineCompPoint3Interpolator::LoadBinary(NiStream& stream)
 }
 
 extern "C" void* g_011f4014;
-
-// @fnv 0x00a51270
-void* __cdecl FUN_00a51270()
-{
-    return &g_011f4014;
-}
 
 struct NiObject
 {
@@ -30,10 +26,11 @@ struct BaseFor51230
 struct OwnerFor51230 : BaseFor51230
 {
     float m_afOffsetAndHalfRange[2];
-    bool FUN_00a51230(NiObject* pkObject);
+    bool NiBSplineCompPoint3Interpolator_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a51230
-bool OwnerFor51230::FUN_00a51230(NiObject* pkObject)
+// pdb: NiBSplineCompPoint3Interpolator::IsEqual | NiBSplineCompPoint3Interpolator.obj | fnv360_0822_retail, objrun_prop + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+bool OwnerFor51230::NiBSplineCompPoint3Interpolator_IsEqual(NiObject* pkObject)
 {
     OwnerFor51230* pkDest;
     unsigned int iIndex;
@@ -60,18 +57,6 @@ struct StrArr
 };
 void __stdcall FUN_00a50960(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
-// Grows the string array if it is full, then appends the string returned by _FUN_00a7d330(g_011f4014) at the current size index.
-// @fnv 0x00a51480
-void __stdcall FUN_00a51480(StrArr* pkStrings)
-{
-    FUN_00a50960(pkStrings);
-    char* pszStr = _FUN_00a7d330((const char*)g_011f4014);
-    unsigned int uiSize = pkStrings->m_usSize;
-    unsigned int uiMax = pkStrings->m_usMax;
-    if (uiSize >= uiMax)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiSize, pszStr);
-}
 
 struct Vec3
 {
@@ -100,10 +85,13 @@ struct SplineEvaluationState
     float scale;
     float bias;
 
-    bool __thiscall EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out);
+    bool __thiscall NiBSplineCompPoint3Interpolator_Update(float time, unsigned int unused, Vec3* out);
 };
 // @fnv 0x00a51280
-bool SplineEvaluationState::EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out)
+// pdb: NiBSplineCompPoint3Interpolator::Update | NiBSplineCompPoint3Interpolator.obj | fnv360_0721_retail, objrun, high
+// pdb params: fTime, pkInterpTarget, kValue
+// pdb: NiBSplineCompPoint3Interpolator::Update | NiBSplineCompPoint3Interpolator.obj | fnv360_0721_retail, objrun, high (was: EvaluateSplineAtTime)
+bool SplineEvaluationState::NiBSplineCompPoint3Interpolator_Update(float time, unsigned int unused, Vec3* out)
 {
     if (lastTime == time)
     {
@@ -155,12 +143,13 @@ struct Point3InterpolatorStand
 
 struct FUN_00a51440_cls : public NiBSplineCompPoint3Interpolator
 {
-    void FUN_00a51440(NiStream& stream);
+    void NiBSplineCompPoint3Interpolator_SaveBinary(NiStream& stream);
 };
 
 // Loads the base point3 interpolator from the stream, then reads two floats into the array via the binary stream.
 // @fnv 0x00a51440
-void FUN_00a51440_cls::FUN_00a51440(NiStream& stream)
+// pdb: NiBSplineCompPoint3Interpolator::SaveBinary | NiBSplineCompPoint3Interpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void FUN_00a51440_cls::NiBSplineCompPoint3Interpolator_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<Point3InterpolatorStand*>(this)->LoadStream(stream);
 
@@ -210,12 +199,13 @@ class ObjA513 : public FUN_00a506c0
     float m_30;
 
     void CopyUnknownFields(ObjA513* dest, CloningProcessA513& cloning);
-    ObjA513* FUN_00a51360(CloningProcessA513& cloning);
+    ObjA513* NiBSplineCompPoint3Interpolator_CreateClone(CloningProcessA513& cloning);
 };
 
 // Allocates a new ObjA513, copies unknown fields via cloning, then overwrites m_2c and m_30 with the source values and returns the new object.
 // @fnv 0x00a51360
-ObjA513* ObjA513::FUN_00a51360(CloningProcessA513& cloning)
+// pdb: NiBSplineCompPoint3Interpolator::CreateClone | NiBSplineCompPoint3Interpolator.obj | fnv360_0721_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+ObjA513* ObjA513::NiBSplineCompPoint3Interpolator_CreateClone(CloningProcessA513& cloning)
 {
     ObjA513* pNew = new ObjA513;
     if (pNew)
@@ -233,11 +223,9 @@ ObjA513* ObjA513::FUN_00a51360(CloningProcessA513& cloning)
 }
 
 extern "C" void* g_011f4014;
-void* __cdecl FUN_00a51270();
 
 void __stdcall FUN_00a50960(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
-void __stdcall FUN_00a51480(StrArr* pkStrings);
 
 extern void* FUN_00aa13e0(unsigned int bytes) throw();
 
@@ -269,7 +257,9 @@ struct Comp4 : Base506
 };
 // Allocates and returns a new Comp4 instance on the heap.
 // @fnv 0x00a513c0
-void* __cdecl CreateComp4()
+// pdb: NiBSplineCompPoint3Interpolator::CreateObject | NiBSplineCompPoint3Interpolator.obj | fnv360_0822_retail, objrun, high
+// pdb: NiBSplineCompPoint3Interpolator::CreateObject | NiBSplineCompPoint3Interpolator.obj | fnv360_0822_retail, objrun, high (was: CreateComp4)
+void* __cdecl NiBSplineCompPoint3Interpolator_CreateObject()
 {
     return new Comp4();
 }

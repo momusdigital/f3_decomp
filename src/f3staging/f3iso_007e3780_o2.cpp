@@ -385,7 +385,7 @@ struct UpdateHandler {
 };
 float FUN_00477b20(const P3Update&);
 P3Update FUN_007b7bf0(UpdateActor*);
-P3Update FUN_007b9d70(UpdateActor*, P3Update);
+P3Update CombatUtilities_GetAngleToProjectedPoint(UpdateActor*, P3Update);
 }
 
 namespace ns_007e3780 {
@@ -394,6 +394,8 @@ struct HeadingHandler7e3780 : ::native2108::UpdateHandler {
     __declspec(noinline) void FUN_007e3780(float& headingOut, float& lookingOut);
 };
 
+// pdb: DetailedActorPathHandler::ComputeHeadingAndLooking | DetailedActorPathHandler.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arfHeading, arfLooking
 __declspec(noinline) void HeadingHandler7e3780::FUN_007e3780(float& headingOut, float& lookingOut)
 {
     using namespace ::native2108;
@@ -425,7 +427,7 @@ __declspec(noinline) void HeadingHandler7e3780::FUN_007e3780(float& headingOut, 
         if (distance2 < actor->FUN_006f9ec0() * actor->FUN_006f9ec0() * 0.25) {
             angle = actor->Heading(false);
         } else {
-            P3Update angles = FUN_007b9d70(actor, target);
+            P3Update angles = CombatUtilities_GetAngleToProjectedPoint(actor, target);
             if (!actor->special141)
                 looking = angles.x;
             if (actor->FUN_006f9ec0() >= 100.0) {

@@ -4,12 +4,6 @@
 
 extern "C" const void* g_012026a0;
 
-// @fnv 0x00c281f0
-const void* __cdecl FUN_00c281f0()
-{
-    return &g_012026a0;
-}
-
 struct NiBinaryStream
 {
     unsigned int _0;
@@ -40,6 +34,8 @@ struct NiPSysSphericalCollider : NiPSysCollider
     void FUN_00c28070(NiStream&);
 };
 // @fnv 0x00c28070
+// pdb: NiPSysSphericalCollider::LoadBinary | NiPSysSphericalCollider.obj | fnv360_0822_retail, uconst, high
+// pdb params: kStream
 void NiPSysSphericalCollider::FUN_00c28070(NiStream& kStream)
 {
     NiPSysCollider::LoadBinary(kStream);
@@ -71,6 +67,7 @@ struct NiPSysSphericalCollider : NiRefObject
 };
 // Releases m_ptr, runs the base destructor, and frees this with _delete when flags has bit 0 set; returns this.
 // @fnv 0x00c28200
+// pdb: NiPSysSphericalCollider::`scalar deleting destructor' | NiPSysSphericalCollider.obj | fnv360_0822_retail, objrun, medium
 void* NiPSysSphericalCollider::FUN_00c28200(unsigned int flags)
 {
     if (m_ptr)
@@ -91,7 +88,9 @@ struct Collider : BSFadeNode
     Collider* __thiscall FUN_00c28110(float, int, int, int, int, float);
 };
 // @fnv 0x00c282a0
-Collider* CreateCollider()
+// pdb: NiPSysSphericalCollider::CreateObject | NiPSysSphericalCollider.obj | fnv360_0822_retail, objrun, high
+// pdb: NiPSysSphericalCollider::CreateObject | NiPSysSphericalCollider.obj | fnv360_0822_retail, objrun, high (was: CreateCollider)
+Collider* NiPSysSphericalCollider_CreateObject()
 {
     Collider* p = (Collider*)BSFadeNode::operator new(0xb0);
     if (p)
@@ -146,6 +145,8 @@ struct NiPSysPlanarCollider : NiPSysCollider
 };
 
 // @fnv 0x00c29450
+// pdb: NiPSysPlanarCollider::ProcessClone | NiPSysPlanarCollider.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void NiPSysPlanarCollider::FUN_00c29450(CloningProcess& kCloning)
 {
     NiPSysCollider::ProcessClone(kCloning);
@@ -173,6 +174,8 @@ struct FUN_00c28250_shell : NiPSysSphericalCollider
     Collider* CloneCollider(CloningProcess& kCloning);
 };
 // @fnv 0x00c28250
+// pdb: NiPSysSphericalCollider::CreateClone | NiPSysSphericalCollider.obj | fnv360_0822_retail, objrun, high
+// pdb params: kCloning
 Collider* FUN_00c28250_shell::CloneCollider(CloningProcess& kCloning)
 {
     Collider* pkObject = (Collider*)BSFadeNode::operator new(0xb0);
@@ -296,6 +299,7 @@ struct UpdateCollider
 };
 // Recomputes the collider's center, scaled radius and squared radius from the node and owner world transforms when either has changed, then calls next->update().
 // @fnv 0x00c27f60
+// pdb: NiPSysSphericalCollider::SetResolveConstants | NiPSysSphericalCollider.obj | tesv_win, caller_sim, low
 void UpdateCollider::UpdateColliderTransform()
 {
     if (cachedNode != node->world || cachedOwner != owner->GetNode()->world)
@@ -362,14 +366,17 @@ struct SphericalColliderReader : NiPSysCollider
     {
         return *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x30);
     }
-    void FUN_00c32900(NiStream& stream);
-    void ReadSphericalCollider(NiStream& stream);
+    void NiPSysCollider_SaveBinary(NiStream& stream);
+    void NiPSysSphericalCollider_SaveBinary(NiStream& stream);
 };
 // Reads the base collider data, then reads the link id and radius float from the stream.
 // @fnv 0x00c280c0
-void SphericalColliderReader::ReadSphericalCollider(NiStream& stream)
+// pdb: NiPSysSphericalCollider::SaveBinary | NiPSysSphericalCollider.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
+// pdb: NiPSysSphericalCollider::SaveBinary | NiPSysSphericalCollider.obj | fnv360_0822_retail, caller_sim, high (was: ReadSphericalCollider)
+void SphericalColliderReader::NiPSysSphericalCollider_SaveBinary(NiStream& stream)
 {
-    FUN_00c32900(stream);
+    NiPSysCollider_SaveBinary(stream);
     StreamView& reader = reinterpret_cast<StreamView&>(stream);
     reader.ReadObject(linkId());
     reader.Input()->ReadFloat(radius());
@@ -487,11 +494,14 @@ struct NiPSysSphericalColliderX : NiPSysColliderBase
     float m_fSphereRadius;
     int unk38;
     NiPoint3 m_kPathOffset;
-    void ResolveSphericalCollision(float fInitialTime, NiPSysData* pkData, unsigned short usCurrentParticle);
+    void NiPSysSphericalCollider_Update(float fInitialTime, NiPSysData* pkData, unsigned short usCurrentParticle);
 };
 
 // @fnv 0x00c27e20
-void NiPSysSphericalColliderX::ResolveSphericalCollision(float fInitialTime, NiPSysData* pkData,
+// pdb: NiPSysSphericalCollider::Update | NiPSysSphericalCollider.obj | fnv360_0721_beta, objrun, high
+// pdb params: fTime, pkData, usCurParticle
+// pdb: NiPSysSphericalCollider::Update | NiPSysSphericalCollider.obj | fnv360_0721_beta, objrun, high (was: ResolveSphericalCollision)
+void NiPSysSphericalColliderX::NiPSysSphericalCollider_Update(float fInitialTime, NiPSysData* pkData,
                                                          unsigned short usCurrentParticle)
 {
     Point3ParameterData* pkCurrentParticle = &pkData->m_pkParticleInfo[usCurrentParticle];
@@ -553,6 +563,8 @@ struct ColliderInfo
     void FUN_00c282d0(StrArr* strings);
 };
 // @f3 0x00ac8790 (community match, verified in this file)
+// pdb: NiPSysSphericalCollider::GetViewerStrings | NiPSysSphericalCollider.obj | fnv360_0822_retail, ustr_rel, medium
+// pdb params: pkStrings
 void ColliderInfo::FUN_00c282d0(StrArr* strings)
 {
     AppendProperties(strings);
@@ -592,7 +604,7 @@ struct FUN_00c27ae0_obj
 
 struct FUN_00c27ae0_base
 {
-    bool FUN_00c326b0(FUN_00c27ae0_base* pkObject);
+    bool NiPSysCollider_IsEqual(FUN_00c27ae0_base* pkObject);
 };
 
 struct FUN_00c27ae0_cls : FUN_00c27ae0_base
@@ -610,14 +622,15 @@ struct FUN_00c27ae0_cls : FUN_00c27ae0_base
     int unk28;
     FUN_00c27ae0_obj* m_pkColliderObject;
     float m_fBoundRadius;
-    bool FUN_00c27ae0(FUN_00c27ae0_cls* pkObject);
+    bool NiPSysSphericalCollider_IsEqual(FUN_00c27ae0_cls* pkObject);
 };
 
 // Returns false if the base comparison, collider-object comparison, or bound-radius comparison fails.
 // @fnv 0x00c27ae0
-bool FUN_00c27ae0_cls::FUN_00c27ae0(FUN_00c27ae0_cls* pkObject)
+// pdb: NiPSysSphericalCollider::IsEqual | NiPSysSphericalCollider.obj | fnv360_0822_retail, objrun_prop + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+bool FUN_00c27ae0_cls::NiPSysSphericalCollider_IsEqual(FUN_00c27ae0_cls* pkObject)
 {
-    if (!FUN_00c326b0(pkObject))
+    if (!NiPSysCollider_IsEqual(pkObject))
         return false;
 
     FUN_00c27ae0_cls* pkDest = pkObject;
@@ -635,7 +648,6 @@ bool FUN_00c27ae0_cls::FUN_00c27ae0(FUN_00c27ae0_cls* pkObject)
 }
 
 #include <math.h>
-extern "C" float g_010be824;
 struct CollisionVector
 {
     float x, y, z;
@@ -695,6 +707,8 @@ struct SphereCollision
 // @f3 0x00ac7fb0 (community match, verified in this file)
 extern float FUN_00e8d74c;
 struct SphereCollisionCorrect : SphereCollision { SphereCollision* FUN_00ad1cb0(float, float&, CollisionParticles*, unsigned short); };
+// pdb: NiPSysSphericalCollider::Resolve | NiPSysSphericalCollider.obj | fnv360_0721_beta, objrun, medium
+// pdb params: fInitialTime, fCollisionTime, pkData, usCurParticle
 SphereCollision* SphereCollision::TestSphereCollision(float time, float& earliest, CollisionParticles* data,
                                                       unsigned short index)
 {
@@ -796,6 +810,7 @@ struct PlanarColliderUpdate
 };
 // Recomputes plane, center, rotation, and squared dimensions when the plane is zero or transforms differ, then updates the next collider.
 // @fnv 0x00c294b0
+// pdb: NiPSysPlanarCollider::SetResolveConstants | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun, medium
 void PlanarColliderUpdate::Update()
 {
     if (plane == NiPlane(NiPoint3_ZERO, 0.0f) ||
@@ -842,6 +857,8 @@ struct NiPSysColliderInit
 
 // Initializes collider fields, passes settings to the base initializer, sets a nonnegative radius, and initializes cached transforms.
 // @fnv 0x00c28110
+// pdb: NiPSysSphericalCollider::NiPSysSphericalCollider | NiPSysSphericalCollider.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: fBounce, bSpawnOnCollide, bDieOnCollide, pkSpawnModifier, pkColliderObj, fRadius
 Collider* Collider::FUN_00c28110(float fBounce, int bSpawnOnCollide, int bDieOnCollide, int pkSpawnModifier,
                                  int pkColliderObj, float fRadius)
 {

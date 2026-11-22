@@ -1,12 +1,6 @@
-// gamebryo2.2/corelibs/nimain/nishaderfactory.cpp: NiShaderFactory, NiRefObject (11 functions)
+// gamebryo2.2/corelibs/nimain/nishaderfactory.cpp: NiShaderFactory, NiRefObject (9 functions)
 #include "f3_common.h"
 #include "nishaderfactory_types.h"
-
-// @fnv 0x00a9fff0
-NiShaderFactory* __cdecl NiShaderFactory::GetInstance()
-{
-    return ms_pShaderFactory;
-}
 
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_00aa06c0
@@ -15,6 +9,7 @@ struct FUN_00aa06c0
     FUN_00aa06c0* FUN_00aa06c0_impl(unsigned int flags);
 };
 // @fnv 0x00aa06c0
+// pdb: BSTempEffectDebris::`scalar deleting destructor' | BSTempEffectDebris.obj | fnv360_0822_retail, vtable, high
 FUN_00aa06c0* FUN_00aa06c0::FUN_00aa06c0_impl(unsigned int flags)
 {
     FUN_00aa05a0();
@@ -104,17 +99,6 @@ struct NiD3DShaderProgram : public NiGPUProgram
     ShaderPassRenderer* m_pRenderState;
 };
 typedef char _sizecheck_NiD3DShaderProgram[sizeof(NiD3DShaderProgram) == 44 ? 1 : -1];
-struct FUN_00e89830_shell : public NiD3DShaderProgram
-{
-    void* FUN_00e89830();
-};
-
-extern char const* const g_0126f9ac_arg1;
-// @fnv 0x00e89830
-void* FUN_00e89830_shell::FUN_00e89830()
-{
-    return (void*)&g_0126f9ac_arg1;
-}
 
 struct NiFileHack
 {
@@ -122,6 +106,7 @@ struct NiFileHack
 };
 int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 // @fnv 0x00aa19e0
+// pdb: NiFile::ReadAndSwap | NiFile.obj | tesv_win, hash, low
 unsigned int __cdecl FUN_00aa19e0(NiFile* apFile, void* apBuffer, unsigned int auiSize, void* apArg4, void* apArg5)
 {
     if (auiSize <= 0)
@@ -160,12 +145,14 @@ struct NiGlobalConstantEntryStub
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 
 // @f3 0x0086ab60 (community match, verified in this file)
+// pdb: NiShaderFactory::RegisterGlobalShaderConstant | NiShaderFactory.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kKey, eType, uiDataSize, pvInitialData
 bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned int a2, unsigned int a3, unsigned int a4)
 {
     if (ShaderFactorySlot::Get() == 0)
         return false;
     NiShaderFactory* pkFactory = ShaderFactorySlot::Get();
-    NiFixedString kLocal;
+    NiGlobalStringTable::GlobalStringHandle kLocal;  // the key's handle; MATCH-PENDING (the real form is an NiFixedString)
     NiTMapItem<NiFixedString, NiGlobalConstantEntry*>* pkItem =
         pkFactory->m_kGlobalConstantEntryMap
             .m_ppkHashTable[(unsigned int)pkName->m_kHandle % pkFactory->m_kGlobalConstantEntryMap.m_uiHashSize];
@@ -198,8 +185,8 @@ bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned in
 
     char* pcHandle = pkName->m_kHandle;
     NiShaderFactory* pkMapOwner = ShaderFactorySlot::Get();
-    kLocal.m_kHandle = pcHandle;
-    ((ShaderConstantMap*)&pkMapOwner->m_kGlobalConstantEntryMap)->SetAt(&kLocal, pkNew);
+    kLocal = pcHandle;
+    ((ShaderConstantMap*)&pkMapOwner->m_kGlobalConstantEntryMap)->SetAt((NiFixedString*)&kLocal, pkNew);
 
     if (pcHandle != _EmptyFS)
         InterlockedDecrement((long*)(pcHandle - 8));
@@ -234,6 +221,8 @@ struct FUN_00e897d0 : public SpawnedArgBase
 
 // Constructs the object from a base argument and a1, zeroes eight fields, then calls Init(a1).
 // @fnv 0x00e897d0
+// pdb: NiD3DShaderProgram::NiD3DShaderProgram | NiD3DShaderProgram.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkRenderer, eType
 FUN_00e897d0::FUN_00e897d0(int a1, int aiArg) throw() : SpawnedArgBase(aiArg)
 {
     m_unk0C = 0;
@@ -338,6 +327,7 @@ struct FUN_00aa05a0 : public NiRefObject
 };
 
 // @fnv 0x00aa05a0
+// pdb: NiShaderFactory::~NiShaderFactory | NiShaderFactory.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00aa05a0::~FUN_00aa05a0() throw()
 {
     if (ms_pShaderFactory)
@@ -360,6 +350,8 @@ FUN_00aa05a0::~FUN_00aa05a0() throw()
 }
 
 // @fnv 0x00a38de0
+// pdb: BSMultiBoundRoom::CreateClone | BSMultiBoundRoom.obj | fnv360_0721_beta, vtable_prefix, low
+// pdb params: __formal
 int __stdcall FUN_00a38de0(int unk08)
 {
     return 0;
@@ -389,6 +381,7 @@ struct FUN_00aa0190_Obj
 };
 
 // @fnv 0x00aa0190
+// pdb: NiGlobalConstantEntry::~NiGlobalConstantEntry | NiShaderFactory.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall FUN_00aa0190_Obj::Destroy(int aiFlags)
 {
     void* saved = unk14;

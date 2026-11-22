@@ -20,6 +20,8 @@ struct Point3ParameterData
 
 // Compares every member of this object with kData and returns true only if all of them are equal.
 // @fnv 0x00c31e90
+// pdb: NiParticleInfo::IsEqual | NiParticleInfo.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kData
 bool __thiscall Point3ParameterData::Equals(const Point3ParameterData& kData)
 {
     if (m_kValue.x != kData.m_kValue.x || m_kValue.y != kData.m_kValue.y || m_kValue.z != kData.m_kValue.z ||
@@ -48,6 +50,7 @@ struct FUN_00c31e50_cls
 
 // Initializes the point from DAT_011f426c and sets the three floats and two shorts to zero.
 // @fnv 0x00c31e50
+// pdb: NiParticleInfo::NiParticleInfo | NiParticleInfo.obj | fnv360_0822_retail, call_seq, high
 FUN_00c31e50_cls::FUN_00c31e50_cls()
 {
     m_kValue = DAT_011f426c;
@@ -265,6 +268,8 @@ struct C31F10ParticleInfo
 
 // LoadBinary
 // @fnv 0x00c31f10
+// pdb: NiParticleInfo::LoadBinary | NiParticleInfo.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void C31F10ParticleInfo::FUN_00c31f10(C31F10Stream& kStream)
 {
     m_kValue.LoadBinary(kStream);

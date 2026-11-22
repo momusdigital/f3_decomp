@@ -5,6 +5,7 @@
 void __stdcall FUN_005187a0(void*);
 void __stdcall FUN_007f3a50(void*);
 
+// pdb: Script::InitItem | TESScript.obj | fnv360_0822_retail, vtable, medium
 void __fastcall FUN_00518a70(void* p)
 {
     FUN_005187a0(p);
@@ -22,6 +23,7 @@ void FUN_0089ec10(void*, int);
 void __fastcall FUN_00b35cd0(void*);
 
 struct C_005bae10 { void* FUN_005bae10(unsigned char); };
+// pdb: NavMesh::`scalar deleting destructor' | NavMesh.obj | fnv360_0822_retail, vtable, high
 void* C_005bae10::FUN_005bae10(unsigned char f)
 {
     FUN_005bab10(this);
@@ -30,6 +32,7 @@ void* C_005bae10::FUN_005bae10(unsigned char f)
 }
 
 struct C_00b35f20 { void* FUN_00b35f20(unsigned char); };
+// pdb: SpeedTreeShaderPPLightingProperty::`scalar deleting destructor' | SpeedTreeShaderProperty.obj | fnv360_0822_retail, caller_sim, low
 void* C_00b35f20::FUN_00b35f20(unsigned char f)
 {
     FUN_00b35cd0(this);
@@ -42,6 +45,7 @@ void* C_00b35f20::FUN_00b35f20(unsigned char f)
 extern void* DAT_010769ac;
 extern void* DAT_01091980;
 
+// pdb: Interface::IsInGameLoadingMenuOpen | Interface.obj | fnv360_0822_retail, call_gap, low
 bool FUN_0061a050()
 {
     return DAT_010769ac != 0;
@@ -57,9 +61,11 @@ bool FUN_0088d370()
 
 
 struct C_006e05d0 { virtual void v(); int a, b, c; C_006e05d0(); };
+// pdb: BGSLoadGameBuffer::BGSLoadGameBuffer | BGSLoadGameBuffer.obj | fnv360_0822_retail, call_seq, medium
 C_006e05d0::C_006e05d0() : a(0), b(0), c(0) {}
 
 struct C_00ae6990 { virtual void v(); int a, b, c; C_00ae6990(); };
+// pdb: BSShaderAccumulator::RenderPassList | BSShaderAccumulator.obj | tesv_win, objrun_open, low
 C_00ae6990::C_00ae6990() : a(0), b(0), c(0) {}
 
 // ---- family f104
@@ -67,10 +73,11 @@ C_00ae6990::C_00ae6990() : a(0), b(0), c(0) {}
 void FUN_00619210();
 void FUN_00619230();
 void FUN_00619250();
-void FUN_00a637c0();
+void hkInspectProcess_registerProcess();
 void FUN_00a63ef0();
 void FUN_00a647c0();
 
+// pdb: Main::OnIdle_DoInterfaceIdle | Main.obj | fnv360_0822_retail, caller_sim, low
 __declspec(noinline) void FUN_006e48f0()
 {
     FUN_00619210();
@@ -78,11 +85,12 @@ __declspec(noinline) void FUN_006e48f0()
     FUN_00619250();
 }
 
+// pdb: hkProcessRegisterUtil::registerAllCommonProcesses | hkProcessRegisterUtil.obj | fnv360_0822_retail, call_gap_sim, low
 __declspec(noinline) void FUN_009ef3c0()
 {
     FUN_00a647c0();
     FUN_00a63ef0();
-    FUN_00a637c0();
+    hkInspectProcess_registerProcess();
 }
 
 // ---- family f105
@@ -94,6 +102,7 @@ void __fastcall FUN_00ab5d80(void*);
 extern char DAT_00ea1288;
 
 struct C_006ef570 { void* FUN_006ef570(unsigned char); };
+// pdb: SceneGraph::`scalar deleting destructor' | SceneGraph.obj | fnv360_0822_retail, vtable, high
 void* C_006ef570::FUN_006ef570(unsigned char f)
 {
     *(void**)((char*)this + 0x0) = (void*)&DAT_00e12164;
@@ -118,12 +127,14 @@ extern P_0086ba60 DAT_01090a78;
 extern void* DAT_0107a79c;
 extern void* DAT_01177ccc;
 
+// pdb: TaskQueueInterface::Shutdown | TaskQueueInterface.obj | fnv360_0822_retail, call_gap_sim, low
 void FUN_006f0da0()
 {
     if (DAT_0107a79c) DAT_01090a78.FUN_0086ba60(DAT_0107a79c);
     DAT_0107a79c = 0;
 }
 
+// pdb: BoltShader::ClearSegmentIndexArray | BoltShader.obj | fnv360_0822_retail, udata, medium
 void FUN_00b42ce0()
 {
     if (DAT_01177ccc) DAT_01090a78.FUN_0086ba60(DAT_01177ccc);
@@ -135,12 +146,16 @@ void FUN_00b42ce0()
 
 
 struct C_0076b210 { void FUN_0076ac80(); void FUN_0076b210_(int); };
+// pdb: ModifierList::Revert | ModifierList.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLoadGameBuffer
 void C_0076b210::FUN_0076b210_(int)
 {
     FUN_0076ac80();
 }
 
 struct C_00b28170 { void FUN_00b275f0(); void FUN_00b28170_(int); };
+// pdb: ParticleShader::SetupPassConstants | ParticleShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: auiCurrentPass
 void C_00b28170::FUN_00b28170_(int)
 {
     FUN_00b275f0();
@@ -182,6 +197,7 @@ D_0085bf30::D_0085bf30() throw()
     FUN_0083f520(this);
     vp = (void*)&DAT_00e251f4;
 }
+// pdb: NiScreenGeometry::CreateObject | NiOldScreenSpace.obj | fnv360_0721_beta, objrun, medium
 __declspec(noinline) void* FUN_0085bf30()
 {
     return new D_0085bf30;

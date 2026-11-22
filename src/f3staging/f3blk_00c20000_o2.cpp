@@ -17,6 +17,8 @@ public:
 extern "C" void __stdcall FUN_00825b40(void*);
 extern "C" char* __cdecl FUN_00847b50(char*);
 
+// pdb: NiRenderTargetGroup::GetViewerStrings | NiRenderTargetGroup.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void __stdcall FUN_00c22390(void* p)
 {
     FUN_00825b40(p);
@@ -39,6 +41,7 @@ struct DispatchTransitionA233 {
     void FUN_00825830();
     void FUN_00c22400();
 };
+// pdb: NiShaderDeclaration::~NiShaderDeclaration | NiShaderDeclaration.obj | fnv360_0822_retail, objopen_prop, low
 void DispatchTransitionA233::FUN_00c22400() {
     dispatch=&DAT_00eb9d64;
     FUN_00825830();

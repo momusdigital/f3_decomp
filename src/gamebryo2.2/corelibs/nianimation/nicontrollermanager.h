@@ -52,7 +52,7 @@ template <class T, class Allocator> class NiTSet
 {
   public:
     T* m_pBase;
-    unsigned int m_uiElementCount, m_uiAllocatedCapacity;
+    unsigned int m_uiAlloced, m_uiUsed;  // src: FNV360_PDB NiTSet +0x4, +0x8 (old: m_uiElementCount, m_uiAllocatedCapacity)
 };
 template <class T> class NiTPrimitiveSet : public NiTSet<T, NiTMallocInterface<T> >
 {
@@ -93,11 +93,11 @@ class NiTimeController : public NiObject
         CLAMP,
         MAX_CYCLE_TYPES
     };
-    unsigned short m_uiObjectFlags;
+    unsigned short m_uFlags;  // src: FNV360_PDB +0x8 (old: m_uFlags)
     float m_fFrequency, m_fPhase, m_fLoKeyTime, m_fHiKeyTime;
     float m_fStartTime, m_fLastTime, m_fWeightAdjustedLastTime, m_fControllerTime;
     NiObjectNET* m_pkTarget;
-    NiPointer<NiTimeController> m_spNextController;
+    NiPointer<NiTimeController> m_spNext;  // src: FNV360_PDB +0x30 (old: m_spNextController)
     virtual void Update(NiUpdateData&);
 };
 class NiFixedString
@@ -151,13 +151,13 @@ class BSAnimNoteListener;
 class NiControllerManager : public NiTimeController
 {
   public:
-    NiTObjectArray<NiPointer<NiControllerSequence> > m_kSequences;
-    NiTPrimitiveSet<NiControllerSequence*> m_kPlayingSequences;
-    NiTStringPointerMap<NiControllerSequence*> m_kObjectMap;
-    BSAnimNoteListener* m_pAudioListener;
-    bool m_bUseCumulativeAnimation;
-    NewInterfaceSet<NiPointer<NiControllerSequence> > m_kSequenceSet;
-    NiPointer<NiAVObjectPalette> m_spControllerManager;
+    NiTObjectArray<NiPointer<NiControllerSequence> > m_kSequenceArray;  // src: FNV360_PDB +0x34 (old: m_kSequences)
+    NiTPrimitiveSet<NiControllerSequence*> m_kActiveSequences;  // src: FNV360_PDB +0x44 (old: m_kPlayingSequences)
+    NiTStringPointerMap<NiControllerSequence*> m_kStringMap;  // src: FNV360_PDB +0x50 (old: m_kObjectMap)
+    BSAnimNoteListener* pListener;  // src: FNV360_PDB +0x64 (old: m_pAudioListener)
+    bool m_bCumulative;  // src: FNV360_PDB +0x68 (old: m_bUseCumulativeAnimation)
+    NewInterfaceSet<NiPointer<NiControllerSequence> > m_kTempBlendSeqs;  // src: FNV360_PDB +0x6C (old: m_kSequenceSet)
+    NiPointer<NiAVObjectPalette> m_spObjectPalette;  // src: FNV360_PDB +0x78 (old: m_spControllerManager)
     virtual void Update(NiUpdateData&);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -169,11 +169,11 @@ FNV_STATIC_ASSERT(sizeof(NiTPrimitiveSet<NiControllerSequence*>) == 12);
 FNV_STATIC_ASSERT(sizeof(NiTStringPointerMap<NiControllerSequence*>) == 20);
 FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
 FNV_STATIC_ASSERT(sizeof(NiTimeController) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
+FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uFlags) == 8);
 FNV_STATIC_ASSERT(sizeof(NiControllerSequence) == 0x74);
 FNV_STATIC_ASSERT(offsetof(NiControllerSequence, m_eAnimationState) == 0x44);
 FNV_STATIC_ASSERT(sizeof(NiControllerManager) == 0x7c);
-FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_kPlayingSequences) == 0x44);
-FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_kSequenceSet) == 0x6c);
-FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_spControllerManager) == 0x78);
+FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_kActiveSequences) == 0x44);
+FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_kTempBlendSeqs) == 0x6c);
+FNV_STATIC_ASSERT(offsetof(NiControllerManager, m_spObjectPalette) == 0x78);
 #endif

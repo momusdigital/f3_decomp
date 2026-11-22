@@ -683,6 +683,8 @@ struct ScalarQuadA7B
     ScalarVec4A7B m_vLinearConstraint;
     ScalarVec4A7B m_vAngularConstraint;
 };
+// pdb: hkPoweredChain_ScanAndDisableMotors | hkpPoweredChainSolverUtil.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: info, modifiedConstraintIndex, modifiedCoordinateIndex, impulse, motorsState
 extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint, int* chosenAxis, float* chosenImpulse)
 {
     const ScalarQuadA7B* target = (const ScalarQuadA7B*)(chain->m_velocities + 1);

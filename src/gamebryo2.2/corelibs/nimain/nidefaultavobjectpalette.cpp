@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.cpp: NiDefaultAVObjectPalette, Map, PaletteOwner, PaletteShell and more (18 functions)
+// gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.cpp: NiDefaultAVObjectPalette, Map, PaletteOwner, PaletteShell and more (15 functions)
 #include "f3_common.h"
 #include "nidefaultavobjectpalette_types_NiDefaultAVObjectPalette.h"
 #include "nidefaultavobjectpalette_types_NiAVObject.h"
@@ -26,9 +26,9 @@ void AddObjectToPalette(NiAVObject* object, NiDefaultAVObjectPalette* palette)
         return;
 
     if (object->m_kName.m_kHandle)
-        palette->AddNamedAVObject(object->m_kName, object);
+        palette->SetAVObject(object->m_kName, object);
 
-    NiNode* node = object->GetNiNode();
+    NiNode* node = object->IsNode();
     if (node)
     {
         NiDefaultPaletteNodeChildren* children = (NiDefaultPaletteNodeChildren*)node;
@@ -37,18 +37,10 @@ void AddObjectToPalette(NiAVObject* object, NiDefaultAVObjectPalette* palette)
     }
 }
 
-// @fnv 0x00a6e960
-void NiDefaultAVObjectPalette::BuildPalette()
-{
-    if (m_pkScene)
-    {
-        m_kObjectMap.RemoveAll();
-        AddObjectToPalette(m_pkScene, this);
-    }
-}
-
 // Loads the scene object and a count-prefixed list of name/object pairs from the stream, registering each pair in the palette.
 // @fnv 0x00a6ea40
+// pdb: NiDefaultAVObjectPalette::LoadBinary | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 void NiDefaultAVObjectPalette::LoadBinary(NiStream& stream)
 {
     ((NiInterpolator*)this)->NiInterpolator::LoadBinary(stream);
@@ -67,13 +59,8 @@ void NiDefaultAVObjectPalette::LoadBinary(NiStream& stream)
             NiAVObject* object = (NiAVObject*)stream.DeserializeObject();
             if (string && object)
             {
-                NiFixedString name;
-                name.m_kHandle = NiGlobalStringTable::AddString(string);
-                AddNamedAVObject(name, object);
-                if (name.m_kHandle != EmptyFS.m_kHandle)
-                {
-                    InterlockedDecrement((volatile long*)(name.m_kHandle - 8));
-                }
+                NiFixedString name(string);
+                SetAVObject(name, object);
             }
             NiFree(string);
         } while (count > 0);
@@ -86,6 +73,7 @@ struct FUN_00a6e960_shell : public NiDefaultAVObjectPalette
 };
 
 // @fnv 0x00a6e960
+// pdb: NiDefaultAVObjectPalette::ResetAndFillFromScenegraph | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, call_gap, medium
 void FUN_00a6e960_shell::FUN_00a6e960()
 {
     if (m_pkScene)
@@ -136,24 +124,6 @@ struct MemoryManager
 };
 extern int DAT_0109ca08;
 extern int DAT_0109ca18;
-struct FUN_00a6eb20_Holder
-{
-    void* __thiscall DestroyHolder(unsigned int);
-};
-// Resets the two embedded maps, frees the pointer at offset 8, and optionally deallocates the object when flag bit 0 is set.
-// @fnv 0x00a6eb20
-void* __thiscall FUN_00a6eb20_Holder::DestroyHolder(unsigned int auiFlags)
-{
-    NiTFixedStringMap_NiAVObject___* p = (NiTFixedStringMap_NiAVObject___*)this;
-    *(void**)this = (void*)&DAT_0109ca18;
-    p->RemoveAll();
-    *(void**)this = (void*)&DAT_0109ca08;
-    p->RemoveAll();
-    NiFree(*(void**)((char*)this + 8));
-    if (auiFlags & 1)
-        ((MemoryManager*)&g_memoryManager)->Deallocate(this);
-    return this;
-}
 
 struct NodeChildrenView_cls
 {
@@ -203,6 +173,8 @@ struct NodeChildrenView_cls
 };
 
 // @fnv 0x00a6e870
+// pdb: RecurseAndAddObjectsToPalette | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObj3D, apPalette
 void __cdecl AddObjectToPaletteRecursive(NiAVObject* apObject, NiDefaultAVObjectPalette* apPalette)
 {
     if (apObject == 0)
@@ -210,8 +182,8 @@ void __cdecl AddObjectToPaletteRecursive(NiAVObject* apObject, NiDefaultAVObject
     if (apPalette == 0)
         return;
     if (apObject->m_kName.m_kHandle != 0)
-        apPalette->AddNamedAVObject(apObject->m_kName, apObject);
-    NodeChildrenView_cls* node = (NodeChildrenView_cls*)apObject->GetNiNode();
+        apPalette->SetAVObject(apObject->m_kName, apObject);
+    NodeChildrenView_cls* node = (NodeChildrenView_cls*)apObject->IsNode();
     if (node == 0)
         return;
     unsigned int i = 0;
@@ -277,6 +249,8 @@ struct S_00a6e8e0_Palette
 };
 
 // @fnv 0x00a6e8e0
+// pdb: RecurseAndRemoveObjectsFromPalette | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObj3D, apPalette
 void __cdecl FUN_00a6e8e0(S_00a6e8e0_Object* object, S_00a6e8e0_Palette* palette)
 {
     if (object == 0)
@@ -343,6 +317,8 @@ struct PaletteOwner
 };
 // Allocates a PaletteObject, initializes it via FUN_00aa1000 with argument, and returns it.
 // @fnv 0x00a6ef70
+// pdb: NiDefaultAVObjectPalette::CreateClone | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 PaletteObject* PaletteOwner::CreatePalette(void* argument)
 {
     PaletteObject* palette = new PaletteObject;
@@ -462,6 +438,7 @@ class FUN_00c1f550_cls : public BC1F550Emitter
 };
 
 // @fnv 0x00c1f550
+// pdb: NiPSysMeshEmitter::NiPSysMeshEmitter | NiPSysMeshEmitter.obj | fnv360_0822_retail, call_gap, high
 FUN_00c1f550_cls::FUN_00c1f550_cls() throw()
     : m_kGeometryEmitters(1, 2), m_kEmitterTypes(0, 1), m_eInitVelocityType(0), m_eEmissionType(0),
       m_kEmitterPoint(g_kC1F550Zero)
@@ -500,12 +477,17 @@ struct PaletteShell : public NiDefaultAVObjectPalette
 };
 
 // @fnv 0x00a6e5b0
+// pdb: NiDefaultAVObjectPalette::ProcessClone | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
 {
     ((NiObjectCloneBase*)this)->ProcessClone(kCloning);
 
-    NiFixedString kName;
-    NiObject*& pkClone = reinterpret_cast<NiObject*&>(kName.m_kHandle);
+    // The name handle and the clone pointer share one stack slot in the game's code; the slot is modelled as the
+    // handle (MATCH-PENDING: the real form, an NiFixedString in the loop, allocates a separate slot).
+    NiGlobalStringTable::GlobalStringHandle kNameHandle;
+    NiFixedString& kName = (NiFixedString&)kNameHandle;
+    NiObject*& pkClone = reinterpret_cast<NiObject*&>(kNameHandle);
     pkClone = 0;
     kCloning.m_pCloneMap->GetAt(this, pkClone);
     PaletteShell* pkDest = (PaletteShell*)pkClone;
@@ -521,27 +503,18 @@ void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
         void* pos = FirstPos(m_kObjectMap);
         while (pos)
         {
-            kName.m_kHandle = EmptyFS.m_kHandle;
+            kNameHandle = NiGlobalStringTable::NULL_STRING;
             NiAVObject* pkObj;
             m_kObjectMap.GetNext(pos, kName, pkObj);
             if (kName.m_kHandle && pkObj)
             {
                 NiObject* pkObjClone;
                 if (kCloning.m_pCloneMap->GetAt(pkObj, pkObjClone))
-                    pkDest->AddNamedAVObject(kName, (NiAVObject*)pkObjClone);
+                    pkDest->SetAVObject(kName, (NiAVObject*)pkObjClone);
             }
-            if (kName.m_kHandle != EmptyFS.m_kHandle)
-                InterlockedDecrement((volatile long*)(kName.m_kHandle - 8));
+            NiGlobalStringTable::DecRefCount(kNameHandle);
         }
     }
-}
-
-bool __stdcall FUN_00a84c70(void*);
-
-// @fnv 0x00a6e540
-bool __stdcall FUN_00a6e540(void* p)
-{
-    return FUN_00a84c70(p);
 }
 
 extern char* DAT_0109b220;
@@ -598,10 +571,11 @@ class FUN_00a6e7b0_class
     int unk04;
     PaletteMap m_map;
     bool FUN_00a88a50(FUN_00a6e7b0_class* other);
-    bool FUN_00a6e7b0(FUN_00a6e7b0_class* other);
+    bool NiDefaultAVObjectPalette_IsEqual(FUN_00a6e7b0_class* other);
 };
 // @fnv 0x00a6e7b0
-bool FUN_00a6e7b0_class::FUN_00a6e7b0(FUN_00a6e7b0_class* other)
+// pdb: NiDefaultAVObjectPalette::IsEqual | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool FUN_00a6e7b0_class::NiDefaultAVObjectPalette_IsEqual(FUN_00a6e7b0_class* other)
 {
     if (!FUN_00a88a50(other))
         return false;
@@ -639,7 +613,7 @@ struct MapNoAlias : NiTFixedStringMap_NiAVObject___
 };
 struct StreamSaveShell : public NiStream
 {
-    void FUN_00a64160(const char* pcString);
+    void NiStream_SaveCString(const char* pcString);
 };
 
 struct PaletteSaveShell : public NiDefaultAVObjectPalette
@@ -657,6 +631,8 @@ template <class T> void WriteBinaryArray(NiBinaryStream& kOstr, const T* pValue,
 }
 
 // @fnv 0x00a6e6c0
+// pdb: NiDefaultAVObjectPalette::SaveBinary | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void PaletteSaveShell::FUN_00a6e6c0(NiStream& kStream)
 {
     FUN_00a724d0(kStream);
@@ -673,21 +649,17 @@ void PaletteSaveShell::FUN_00a6e6c0(NiStream& kStream)
         while (pvPos)
         {
             NiFixedString kKey;
-            const char* pcKey;
-            kKey.m_kHandle = EmptyFS.m_kHandle;
             NiAVObject* pkObject;
             ((MapNoAlias&)m_kObjectMap).GetNext(pvPos, kKey, pkObject);
-            pcKey = kKey.m_kHandle;
-            ((StreamSaveShell&)kStream).FUN_00a64160(pcKey);
+            ((StreamSaveShell&)kStream).NiStream_SaveCString(kKey);
             ((NiStreamLinkObject)kStream.m_ppVirtualMethodTable[12])(&kStream, pkObject);
-            if (pcKey != EmptyFS.m_kHandle)
-                InterlockedDecrement((volatile long*)(pcKey - 8));
         }
     }
 }
 
 void __cdecl CreateVertexBufferSet();
 // @fnv 0x00aa1000
+// pdb: TESLeveledList::ClearDataComponent | TESLeveledList.obj | fnv360_0822_retail, vtable, medium
 void __cdecl FUN_00aa1000()
 {
     CreateVertexBufferSet();
@@ -778,6 +750,8 @@ struct NiDefaultAVObjectPaletteViewer : public NiDefaultAVObjectPalette
 };
 // Adds a formatted scene-name line and object-map keys to pkStrings, decrementing non-sentinel key handles.
 // @fnv 0x00a6ed90
+// pdb: NiDefaultAVObjectPalette::GetViewerStrings | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void NiDefaultAVObjectPaletteViewer::FUN_00a6ed90(ViewerStrings* pkStrings)
 {
     ((PaletteBaseViewer*)this)->GetViewerStrings(pkStrings);
@@ -997,6 +971,8 @@ public:
     void FUN_00838930(void*&,Key&,V&);
     void FUN_0085b720(const Key&,V);
 };
+// pdb: NiDefaultAVObjectPalette::LinkObject | NiDefaultAVObjectPalette.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void Palette::FUN_00a6eb60(void* apDest)
 {
     CloneBase(apDest);

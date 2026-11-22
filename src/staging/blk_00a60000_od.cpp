@@ -18,6 +18,7 @@ void __cdecl FUN_00a74d80(int);
 void __cdecl FUN_00a74d90(int);
 
 // @fnv 0x00a74da0
+// pdb: NiMaterial::_SDMInit | NiMaterial.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiProcessorSpecificCode::OptimizeMainEngineForProcessor)
 void __cdecl FUN_00a74da0()
 {
     if (DAT_011f4a54 == 0)
@@ -60,6 +61,7 @@ struct XfRSLocal {
 
 // Transforms count points from in to out by the 3x3 matrix in xf, then scales and translates each result.
 // @fnv 0x00a74bc0
+// pdb: NiProcessorSpecificCode::TransformPointsBasic | NiProcessor.obj | tesv_win, hash, low
 void FUN_00a74bc0(unsigned short count, Vec3Local* in, Vec3Local* out, XfRSLocal* xf)
 {
     XfRSLocal* pXf = xf;
@@ -81,6 +83,7 @@ struct A74CB0Matrix3 {
 };
 
 // @fnv 0x00a74cb0
+// pdb: NiProcessorSpecificCode::TransformVectorsBasic | NiProcessor.obj | tesv_win, hash, low
 void FUN_00a74cb0(unsigned short ausCount, const A74CB0Point3* pkIn, A74CB0Point3* pkOut, const A74CB0Matrix3* pkMatrix) {
     const A74CB0Matrix3* pkM = pkMatrix;
     for (unsigned int i = 0; i < ausCount; i++, pkIn++, pkOut++) {
@@ -98,6 +101,7 @@ extern int DAT_011f4a58;
 // @f3 0x0083e8b0 (community match, verified in this file)
 // 0x0083e8b0: CPU detection. Each cpuid query runs under its own structured handler; a fault leaves the
 // level at 0. Levels: 1 plain, 2 MMX, 3 CMOV, 4 MMX + CMOV, 5 with SSE, 6 extended (3DNow!-class) CPU.
+// pdb: NiProcessorSpecificCode::IdentifyProcessor | NiProcessor.obj | tesv_win, hash, low
 void FUN_00a74a10()
 {
     DAT_011f4a54 = 1;

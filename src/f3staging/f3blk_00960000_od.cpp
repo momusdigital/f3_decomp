@@ -242,7 +242,8 @@ extern const signed char DAT_00e7c778[4];
 static inline int __fastcall getNextModulo3(int i) { return DAT_00e7c778[i + 2]; }
 static inline int __fastcall getPrevModulo3(int i) { return DAT_00e7c778[i]; }
 
-ClosestPointTriangleStatus __cdecl FUN_00970580(
+// pdb: hkpCollideTriangleUtil::closestPointTriangle | hkpCollideTriangleUtil.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+ClosestPointTriangleStatus __cdecl hkpCollideTriangleUtil_closestPointTriangle(
     const Vec4& position,
     const Vec4* tri,
     const ClosestPointTriangleCache& cache,
@@ -351,6 +352,7 @@ __forceinline void S0096fee0_swap(T& a, T& b)
     b = t;
 }
 
+// pdb: hkpCollideTriangleUtil::calcTrianglePlaneDirections | hkpCollideTriangleUtil.obj | tesv_win, objrun, medium
 void __cdecl FUN_0096fee0(const Vec4* tri, const S0096fee0_TriCache& cache, S0096fee0_Matrix4& planeEquationsOut, Vec4& normalOut)
 {
     Vec4 E0;
@@ -412,6 +414,7 @@ static __forceinline void S0096de30_swap(T& a, T& b)
     b = t;
 }
 
+// pdb: hkCollideCapsuleUtil_calcTrianglePlaneDirections | hkpCollideCapsuleUtil.obj | tesv_win, objrun, medium
 static __declspec(noinline) void FUN_0096de30(const Vec4* tri, Vec4& plane, const S0096de30_Scales& s, S0096de30_Matrix4& m)
 {
     Vec4 e0;
@@ -977,6 +980,8 @@ static __forceinline void S977e_setRotatedDir(Vec4& out, const S977e_Rotation& r
     out(3) = 0.0f;
 }
 
+// pdb: hkSweptTransformUtil::warpTo | hkSweptTransformUtil.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: position, rotation, ms
 void __cdecl FUN_00977e70(const Vec4& position, const S977e_Quat& rotation, S977e_MotionState& ms)
 {
     S977e_SweptTransform& sweptTransform = ms.m_sweptTransform;
@@ -1119,12 +1124,17 @@ namespace f3m_0097df50 {
 namespace f3m_0097df50 {
 __declspec(dllimport) void* __stdcall FUN_00d9b080(unsigned long) throw();
 
-struct Command { const char* name; unsigned int ticks; unsigned int unk08; };
+struct Command { const char* name; unsigned int ticks; unsigned int unk08; 
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int time; __asm { rdtsc
+        mov time, eax } ticks = time; }
+};
 struct Stream { unsigned int unk00; Command* cursor; unsigned int unk08; Command* limit; };
 
 struct __declspec(align(16)) Vec4 {
     float x, y, z, w;
-    void FUN_008d2a00(const struct Rotation& r, const Vec4& v);
+    void hkVector4_setRotatedDir(const struct Rotation& r, const Vec4& v);
     __forceinline void setRotInv(const struct Rotation& r, const Vec4& d);
     __forceinline void setRotInvF(const struct Rotation& r, float dx, float dy, float dz);
     __forceinline void setTInvPos(const struct Transform& a, const Vec4& b);
@@ -1168,7 +1178,7 @@ struct TransformShape {
     Shape* child;
     unsigned int unk18, unk1c, unk20, unk24, unk28, unk2c;
     Transform xf;
-    Bool FUN_0097df50(const RayInput& input, RayOutput& out);
+    Bool hkpTransformShape_castRayImpl(const RayInput& input, RayOutput& out);
 };
 
 __forceinline void InvPos(Vec4& out, const Transform& a, const Vec4& b)
@@ -1227,19 +1237,15 @@ __forceinline void InvPos3(Vec4& out, const Transform& a, const Vec4& b)
     out.setRotInvF(a.r, b.x - a.t.x, b.y - a.t.y, b.z - a.t.z);
 }
 
-Bool TransformShape::FUN_0097df50(const RayInput& input, RayOutput& out)
+// pdb: hkpTransformShape::castRayImpl | hkpTransformShape.obj | fnv360_0822_retail, objopen_prop + bridge(caller_sim|vtable) + skyrim(caller_sim), high
+Bool TransformShape::hkpTransformShape_castRayImpl(const RayInput& input, RayOutput& out)
 {
-    int dead0 = out.keys[0];
+
     Stream* s = (Stream*)FUN_00d9b080(DAT_0116913c);
     Command* c = s->cursor;
     if (c < s->limit) {
         c->name = DAT_00e7d25c;
-        unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        c->ticks = ticks;
+        c->setTime();
         s->cursor = c + 1;
     }
     RayInput sub = input;
@@ -1250,19 +1256,14 @@ Bool TransformShape::FUN_0097df50(const RayInput& input, RayOutput& out)
     out.keyIndex--;
     if (hit.b) {
         Vec4 n = out.normal;
-        out.normal.FUN_008d2a00(xf.r, n);
+        out.normal.hkVector4_setRotatedDir(xf.r, n);
         out.keys[out.keyIndex] = 0;
     }
     Stream* s2 = (Stream*)FUN_00d9b080(DAT_0116913c);
     Command* c2 = s2->cursor;
     if (c2 < s2->limit) {
         c2->name = DAT_00e32798;
-        unsigned int ticks2;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks2], eax
-        }
-        c2->ticks = ticks2;
+        c2->setTime();
         s2->cursor = c2 + 1;
     }
     return hit;
@@ -1323,6 +1324,8 @@ public:
     float FUN_0097de00(const Vec4& direction) const;
 };
 
+// pdb: hkpTransformShape::getMaximumProjection | hkpTransformShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: direction
 float hkpTransformShape::FUN_0097de00(const Vec4& direction) const
 {
     Vec4 localDir;
@@ -1368,6 +1371,7 @@ struct Rotation : Matrix3
 };
 }
 
+// pdb: hkMatrix3::invertSymmetric | hkMatrix3.obj | tesv_win, call_seq, medium
 void f3m_0096cac0::Rotation::FUN_0096cac0()
 {
     Matrix3& m = *this;
@@ -1518,6 +1522,8 @@ struct State
     void FUN_0096c050(CtrlX* ctrl);
 };
 
+// pdb: bhkCharacterStateOnGround::Update | bhkCharacterStateOnGround.obj | fnv360_0721_beta, caller_sim, low
+// pdb params: arInput
 void State::FUN_0096c050(CtrlX* ctrl)
 {
     if (!((unsigned char)(ctrl->m294 >> 8) & 1) && !ctrl->b4a0)
@@ -2218,7 +2224,6 @@ class hkpInertiaTensorComputer
 };
 hkResult __cdecl hkpInertiaTensorComputer::FUN_009738d0(const hkReal* vertexIn, int striding, int numVertices, hkReal mass, hkpMassProperties& result)
 {
-	;
 	if ( numVertices <= 0 )
 	{
 		return HK_FAILURE;
@@ -3132,14 +3137,14 @@ class hkpInertiaTensorComputer
 		static void __cdecl shiftInertiaToCom(hkVector4& shift, hkReal mass, hkMatrix3& inertia);
 		static void __cdecl shiftInertiaFromCom(hkVector4& shift, hkReal mass, hkMatrix3& inertia);
 };
+// pdb: hkpInertiaTensorComputer::computeCylinderVolumeMassProperties | hkpInertiaTensorComputer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: startAxis, endAxis, radius, mass, result
 hkResult hkpInertiaTensorComputer::FUN_00975310(const hkVector4& startAxis, const hkVector4& endAxis, hkReal radius, hkReal mass, hkpMassProperties& result)
 {
-	;
 	if (mass <= 0.0f)
 	{
 		return HK_FAILURE;
 	}
-	;
 	if (radius <= 0.0f)
 	{
 		return HK_FAILURE;
@@ -3147,7 +3152,6 @@ hkResult hkpInertiaTensorComputer::FUN_00975310(const hkVector4& startAxis, cons
 	hkTransform capsuleToLocal;
 	hkVector4 axis; axis.setSub4(endAxis, startAxis);
 	hkReal height = axis.length3();
-	;
 	if (height > 0.0f)
 	{
 		axis.normalize3();
@@ -4072,13 +4076,13 @@ class hkpInertiaTensorComputer
 		static void __cdecl shiftInertiaToCom(hkVector4& shift, hkReal mass, hkMatrix3& inertia);
 		static void __cdecl shiftInertiaFromCom(hkVector4& shift, hkReal mass, hkMatrix3& inertia);
 };
+// pdb: hkpInertiaTensorComputer::computeCapsuleVolumeMassProperties | hkpInertiaTensorComputer.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: hkInertiaTensorComputer::computeCapsuleVolumeMassProperties)
+// pdb params: startAxis, endAxis, radius, mass, result
 hkResult hkpInertiaTensorComputer::FUN_00974950(const hkVector4& startAxis, const hkVector4& endAxis, hkReal radius, hkReal mass, hkpMassProperties& result)
 {
-	;
 	if (mass <= 0.0f) {
 		return HK_FAILURE;
 	}
-	;
 	if (radius <= 0.0f) {
 		return HK_FAILURE;
 	}
@@ -5819,6 +5823,8 @@ static __forceinline void hkSimulation_setRotation( hkpRigidBody* body, const hk
 	hkVector4 centerShift; centerShift._setRotatedDir( transform.getRotation(), body->getCenterOfMassLocal() );
 	transform.getTranslation().setSub4( body->getCenterOfMassInWorld(), centerShift );
 }
+// pdb: hkpSimulation::processAgentsOfEntities | hkpSimulation.obj | fnv360_0822_retail, objrun, medium
+// pdb params: entities, numEntities, processInput, processingFunction, findExtraContacts
 void hkpSimulation::FUN_0097fef0( hkpEntity** entities, int numEntities, const hkpProcessCollisionInput& processInput, AgentEntryProcessFunction processingFunction, FindContacts findExtraContacts )
 {
 	hkPointerMapBase<hkUlong> processedEntities( numEntities );
@@ -5827,16 +5833,12 @@ void hkpSimulation::FUN_0097fef0( hkpEntity** entities, int numEntities, const h
 	for ( int i = 0; i < numEntities; i++ )
 	{
 		hkpEntity* entity = entities[i];
-		;
 		hkpLinkedCollidable* lColl = entity->getLinkedCollidable();
-		;
-		;
 		processedEntities.insert( hkUlong(lColl), 0 );
 		for ( int c = 0; c < lColl->m_collisionEntries.getSize(); c++ )
 		{
 			hkpLinkedCollidable::CollisionEntry& cEntry = lColl->m_collisionEntries[c];
 			hkpLinkedCollidable* partner = cEntry.m_partner;
-			;
 			hkPointerMapBase<hkUlong>::Iterator it = processedEntities.findKey( hkUlong(partner) );
 			if ( processedEntities.isValid( it ) )
 			{
@@ -6912,7 +6914,7 @@ class hkaSkeletonMapper : public hkReferencedObject
 			REFERENCE_POSE,
 			CURRENT_POSE
 		};
-		void __cdecl FUN_00962a60(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpaceInOut, ConstraintSource source ) const;
+		void __cdecl hkaSkeletonMapper_mapPose(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpaceInOut, ConstraintSource source ) const;
 		void __cdecl mapPose(const hkaPose& poseAIn, hkaPose& poseBInOut, ConstraintSource source ) const;
 	public:
 		class hkaSkeletonMapperData m_mapping;
@@ -7070,7 +7072,8 @@ class hkLocalArray : public hkArray<T>
 		}
 		T* m_localMemory;
 };
-void hkaSkeletonMapper::FUN_00962a60( const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, ConstraintSource source ) const
+// pdb: hkaSkeletonMapper::mapPose | hkaSkeletonMapper.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void hkaSkeletonMapper::hkaSkeletonMapper_mapPose( const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, ConstraintSource source ) const
 {
 	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerBeginListCommand* h = reinterpret_cast<hkMonitorStream::TimerBeginListCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "L" "t" "MapPose"; h->m_nameOfFirstSplit = "S" "t" "init"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } };
 	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerCommand* h = reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "S" "t" "simpleMappings"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } };
@@ -7079,7 +7082,6 @@ void hkaSkeletonMapper::FUN_00962a60( const hkQsTransform* poseAModelSpace, cons
 		for ( int i = 0; i < numSimpleMappings; i++ )
 		{
 			const hkaSkeletonMapperData::SimpleMapping& simpleMapping = m_mapping.m_simpleMappings[i];
-			;
 			poseBModelSpace[simpleMapping.m_boneB].setMul( poseAModelSpace[simpleMapping.m_boneA], simpleMapping.m_aFromBTransform );
 		}
 	}
@@ -7093,7 +7095,6 @@ void hkaSkeletonMapper::FUN_00962a60( const hkQsTransform* poseAModelSpace, cons
 			const hkInt16 endBoneA = chainMapping.m_endBoneA;
 			const hkInt16 startBoneB = chainMapping.m_startBoneB;
 			const hkInt16 endBoneB = chainMapping.m_endBoneB;
-			;
 			poseBModelSpace[startBoneB].setMul( poseAModelSpace[startBoneA], chainMapping.m_startAFromBTransform );
 			hkLocalArray<hkInt16> chainBones( endBoneB - startBoneB + 1 );
 			hkaSkeletonUtils::getBoneChain( *m_mapping.m_skeletonB, startBoneB, endBoneB, chainBones );
@@ -7115,7 +7116,6 @@ void hkaSkeletonMapper::FUN_00962a60( const hkQsTransform* poseAModelSpace, cons
 				hkQuaternion rotationQuaternion; rotationQuaternion.setShortestRotation( currentDirection, desiredDirection );
 				hkQuaternion currentRot = poseBModelSpace[startBoneB].getRotation();
 				hkQuaternion temp; temp.setMul( rotationQuaternion, currentRot );
-				;
 				poseBModelSpace[startBoneB].setRotation( temp );
 			}
 			for ( int b = 1; b < chainBones.getSize() - 1; b++ )
@@ -7124,8 +7124,6 @@ void hkaSkeletonMapper::FUN_00962a60( const hkQsTransform* poseAModelSpace, cons
 				hkInt16 parentIdx = chainBones[b - 1];
 				const hkQsTransform& parentFromChild = originalPoseBLocalSpace[childIdx];
 				const hkQsTransform& modelFromParent = poseBModelSpace[parentIdx];
-				;
-				;
 				poseBModelSpace[childIdx].setMul( modelFromParent, parentFromChild );
 			}
 		}
@@ -7143,13 +7141,11 @@ void hkaSkeletonMapper::FUN_00962a60( const hkQsTransform* poseAModelSpace, cons
 				{
 					const hkQsTransform& parentFromChild = originalPoseBLocalSpace[childIdx];
 					const hkQsTransform& modelFromParent = poseBModelSpace[parentIdx];
-					;
 					poseBModelSpace[childIdx].setMul( modelFromParent, parentFromChild );
 				}
 				else
 				{	poseBModelSpace[childIdx] = originalPoseBLocalSpace[childIdx];
 				}
-				;
 			}
 		}
 	}
@@ -7171,7 +7167,7 @@ void hkaSkeletonMapper::FUN_00962a60( const hkQsTransform* poseAModelSpace, cons
 }  // namespace f3m_00962a60
 
 // @f3 0x00964cd0 (community match, verified in this file)
-// FUN_00964cd0: Havok 5.5.0 hkaSkeletonMapperUtils::createMapping (hkaAnimation): builds the two skeleton mappings
+// hkaSkeletonMapperUtils_createMapping: Havok 5.5.0 hkaSkeletonMapperUtils::createMapping (hkaAnimation): builds the two skeleton mappings
 // (A to B and B to A) from the user's simple mappings and chains, then by name or position matching and chain
 // detection, and lists the unmapped bones of each skeleton.
 // This file is built from the Havok 5.5.0 SDK's own headers: the function was compiled with the real headers and the
@@ -8557,7 +8553,7 @@ class hkaSkeletonMapperUtils
 				m_positionMatchTolerance(0.0f), m_autodetectSimple(true), m_autodetectChains(true)
 			{}
 		};
-		static void __cdecl FUN_00964cd0 (const Params& params, hkaSkeletonMapperData& aToB, hkaSkeletonMapperData& bToA);
+		static void __cdecl hkaSkeletonMapperUtils_createMapping (const Params& params, hkaSkeletonMapperData& aToB, hkaSkeletonMapperData& bToA);
 		static const struct hkaSkeletonMapperData::SimpleMapping* __cdecl findSimpleMapping(hkInt16 boneA, const hkaSkeletonMapperData& mapperdata );
 		static hkResult __cdecl lockTranslationsAutomatically (const hkaSkeletonMapperData& mapperData);
 };
@@ -8627,9 +8623,10 @@ struct Match
 	int m_indexA;
 	int m_indexB;
 };
-void hkaSkeletonMapperUtils::FUN_00964cd0( const Params& originalParams, hkaSkeletonMapperData& originalAToB, hkaSkeletonMapperData& originalBToA )
+// pdb: hkaSkeletonMapperUtils::createMapping | hkaSkeletonMapperUtils.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void hkaSkeletonMapperUtils::hkaSkeletonMapperUtils_createMapping( const Params& originalParams, hkaSkeletonMapperData& originalAToB, hkaSkeletonMapperData& originalBToA )
 {
-	hkError::getInstance().sectionBegin(0x54e4323e, "hkaSkeletonMapperUtils::createMapping");;
+	hkError::getInstance().sectionBegin(0x54e4323e, "hkaSkeletonMapperUtils::createMapping");
 	bool switchedOrder = false;
 	Params params( originalParams );
 	if ( originalParams.m_skeletonA->m_numBones > originalParams.m_skeletonB->m_numBones )
@@ -8967,7 +8964,7 @@ void hkaSkeletonMapperUtils::FUN_00964cd0( const Params& originalParams, hkaSkel
 	}
 	aToB.m_keepUnmappedLocal = true;
 	bToA.m_keepUnmappedLocal = true;
-	hkError::getInstance().sectionEnd();;
+	hkError::getInstance().sectionEnd();
 }
 
 }  // namespace f3m_00964cd0
@@ -11688,14 +11685,14 @@ struct hkGeometry
 	hkArray<hkVector4> m_vertices;
 	hkArray<Triangle> m_triangles;
 };
+// pdb: hkpInertiaTensorComputer::computeTriangleSurfaceMassProperties | hkpInertiaTensorComputer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: v0, v1, v2, mass, surfaceThickness, result
 hkResult hkpInertiaTensorComputer::FUN_00973c80(const hkVector4& v0, const hkVector4& v1, const hkVector4& v2, hkReal mass, hkReal surfaceThickness, hkpMassProperties& result)
 {
-	;
 	if (mass <= 0.0f)
 	{
 		return HK_FAILURE;
 	}
-	;
 	if (surfaceThickness < 0.0f)
 	{
 		return HK_FAILURE;
@@ -13285,11 +13282,11 @@ int hkpListShape::FUN_0097cd50( const hkpCollisionInput& collisionInput, const h
 
 // @f3 0x00977030 (community match, verified in this file)
 namespace f3m_00977030 {
-// FUN_00977030 = Havok 5.5.0 hkSweptTransformUtil::lerp2Ha (hkBase.lib, hkSweptTransformUtil.obj; the stock release
+// hkSweptTransformUtil_lerp2Ha = Havok 5.5.0 hkSweptTransformUtil::lerp2Ha (hkBase.lib, hkSweptTransformUtil.obj; the stock release
 // object is byte-exact against the game). No .cpp ships: the two statements are rebuilt from the library's line records
 // 24-27 (line 25 = inlined hkSweptTransform::getInterpolationValueHiAccuracy, line 26 = inlined _lerp2 of
 // hkSweptTransformUtil.inl); everything else is Havok 5.5.0 SDK header/.inl text, cut to one file with hktrim.py.
-// Target named FUN_00977030 (free function, the pack symbol).
+// Target named hkSweptTransformUtil_lerp2Ha (free function, the pack symbol).
 // sqrt / sqrtf: the CRT's <math.h>, which the pack unit includes.
 namespace f3m_00977030 {
 typedef float  hkReal;
@@ -13567,7 +13564,8 @@ void __cdecl hkSweptTransformUtil::_lerp2( const hkSweptTransform& sweptTrans, h
 	transformOut.getTranslation().sub4( centerShift );
 }
 
-void __cdecl FUN_00977030( const hkSweptTransform& sweptTrans, hkTime t, hkReal tAddOn, hkTransform& transformOut )
+// pdb: hkSweptTransformUtil::lerp2Ha | hkSweptTransformUtil.obj | fnv360_0822_debug, objrun + skyrim(call_gap), high
+void __cdecl hkSweptTransformUtil_lerp2Ha( const hkSweptTransform& sweptTrans, hkTime t, hkReal tAddOn, hkTransform& transformOut )
 {
 	hkReal r = sweptTrans.getInterpolationValueHiAccuracy( t, tAddOn );
 	hkSweptTransformUtil::_lerp2( sweptTrans, r, transformOut );

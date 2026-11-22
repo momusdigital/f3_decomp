@@ -36,6 +36,8 @@ struct FUN_00a75790_shell : public NiMaterialProperty
 
 // Loads a NiMaterialProperty from a stream, reading two colors and two or three floats depending on the stream version.
 // @fnv 0x00a75790
+// pdb: NiMaterialProperty::LoadBinary | NiMaterialProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void FUN_00a75790_shell::FUN_00a75790(NiStream* pkStream)
 {
     NiStream& stream = *pkStream;
@@ -70,6 +72,7 @@ void* __fastcall FUN_00a75650(void* pThis);
 extern void* DAT_011f4a64;
 
 // @fnv 0x00a759e0
+// pdb: NiMaterialProperty::_SDMInit | NiMaterialProperty.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiFogProperty::_SDMInit)
 void __cdecl FUN_00a759e0()
 {
     void* pMemory = BSFadeNode::operator new(0x4c);
@@ -97,6 +100,8 @@ struct FUN_00a75960_shell : public EqBase
     bool FUN_00a75960(NiObject* o);
 };
 // @fnv 0x00a75960
+// pdb: NiMaterialProperty::IsEqual | NiMaterialProperty.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiFogProperty::IsEqual)
+// pdb params: pObject
 bool FUN_00a75960_shell::FUN_00a75960(NiObject* apObject)
 {
     if (FUN_00a62140(apObject))
@@ -135,6 +140,7 @@ struct Holder
 };
 // If DAT_011f4a64 is set, decrements its reference count at offset 4 and calls f1() when it reaches zero, then clears DAT_011f4a64.
 // @fnv 0x00a75a40
+// pdb: NiMaterialProperty::_SDMShutdown | NiMaterialProperty.obj | fnv360_0822_retail, call_seq, medium
 void ReleaseGlobalHolder()
 {
     if (DAT_011f4a64)
@@ -185,6 +191,8 @@ class FUN_00a75730_cls : public BA75730Object
 };
 
 // @fnv 0x00a75730
+// pdb: NiMaterialProperty::CreateClone | NiMaterialProperty.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiFogProperty::CreateClone)
+// pdb params: kCloning
 BA75730Object* FUN_00a75730_cls::FUN_00a75730(BA75730Cloning& kCloning)
 {
     if (m_iArrayLength)
@@ -426,6 +434,8 @@ class FUN_00a758c0_cls : public BA758C0Property
 
 // Saves the base property, ambient and diffuse colors, shine, alpha and emit multiplier to the stream.
 // @fnv 0x00a758c0
+// pdb: NiMaterialProperty::SaveBinary | NiMaterialProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void FUN_00a758c0_cls::FUN_00a758c0(BA758C0Stream& kStream)
 {
     BA758C0Property::SaveBinary(kStream);
@@ -435,15 +445,6 @@ void FUN_00a758c0_cls::FUN_00a758c0(BA758C0Stream& kStream)
     BA758C0SaveBinary(kStream, m_fAlpha);
     BA758C0SaveBinary(kStream, m_fEmitMult);
 }
-
-struct NiRTTI
-{
-    const char* m_pcName;
-    const char* GetName() const
-    {
-        return m_pcName;
-    }
-};
 
 struct NiViewerStringsArray
 {
@@ -500,6 +501,8 @@ struct FUN_00a75a70_shell : public ViewerPropertyBase
 
 // Appends the RTTI name, spec, emit (external or local), shine, alpha and emit multiplier strings to the viewer strings array.
 // @fnv 0x00a75a70
+// pdb: NiMaterialProperty::GetViewerStrings | NiMaterialProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a75a70_shell::FUN_00a75a70(NiViewerStringsArray* pkStrings)
 {
     ViewerPropertyBase::GetViewerStrings(pkStrings);

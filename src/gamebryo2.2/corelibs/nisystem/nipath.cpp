@@ -5,6 +5,8 @@
 #include <string.h>
 // Converts forward slashes to backslashes, removes repeated backslashes after the first two characters, and returns whether either change occurred.
 // @fnv 0x00aa2a00
+// pdb: NiPath::Standardize | NiPath.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPath
 bool FUN_00aa2a00(char* path)
 {
     bool changed = false;
@@ -41,6 +43,8 @@ char* __cdecl FUN_00ec7750(char*, const char*);
 int __cdecl _strcpy_s(char*, unsigned int, const char*);
 // Replaces each backslash-dot-backslash sequence with a backslash by shifting the tail left, then rescans.
 // @fnv 0x00aa2a70
+// pdb: NiPath::RemoveSlashDotSlash | NiPath.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pcPath
 void __cdecl RemoveDotSlash(char* pcPath)
 {
     const char acSlashDotSlash[4] = "\\.\\";
@@ -62,6 +66,8 @@ char* __cdecl SkipPathPrefix(char*);
 
 // Runs path helpers, then removes each `\..` occurrence and its preceding path component.
 // @fnv 0x00aa2ac0
+// pdb: NiPath::RemoveDotDots | NiPath.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pcPath
 void __cdecl RemoveParentDirSegments(char* path)
 {
     FUN_00aa2a00(path);
@@ -122,6 +128,8 @@ void __cdecl RemoveParentDirSegments(char* pcPath);
 
 // Concatenates pcRelativeToHere, a backslash if needed, and pcRelativePath into pcAbsolutePath, normalises it via RemoveParentDirSegments, and returns its length.
 // @fnv 0x00aa2ba0
+// pdb: NiPath::ConvertToAbsolute | NiPath.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pcAbsolutePath, stAbsBytes, pcRelativePath, pcRelativeToHere
 size_t __cdecl BuildAbsolutePath(char* pcOutPath, size_t stOutSize, const char* pcRelativePath, const char* pcBasePath)
 {
     size_t stBaseLen = strlen(pcBasePath);

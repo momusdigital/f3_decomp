@@ -4,13 +4,6 @@
 
 extern "C"
 {
-    extern void* g_012026a8;
-}
-
-// @fnv 0x00c28400
-void* __cdecl FUN_00c28400()
-{
-    return &g_012026a8;
 }
 
 void __cdecl FUN_00a6d290();
@@ -23,6 +16,7 @@ struct NiPSysResetOnLoopCtlr
 
 // Calls FUN_00a6d290, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c28410
+// pdb: BSShaderTextureSet::`scalar deleting destructor' | TESObjectTREE.obj | fnv360_0822_retail, vtable, high
 NiPSysResetOnLoopCtlr* __thiscall NiPSysResetOnLoopCtlr::Destroy(unsigned int flags)
 {
     FUN_00a6d290();
@@ -63,33 +57,6 @@ bool __thiscall Cls_00c284f0::IsTargetOfType()
     return false;
 }
 
-struct StrArr
-{
-    unsigned char _pad0[8];
-    unsigned short _s8;
-    unsigned short _sA;
-    unsigned short _sC;
-    unsigned short _sE;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
-// Appends the string returned by _FUN_00a7d330(g_012026a8) to pkStrings, growing the array if the position is at or past its size.
-// @fnv 0x00c28520
-void __stdcall FUN_00c28520(StrArr* pkStrings)
-{
-    FUN_00a6d830(pkStrings);
-    char* pcString = _FUN_00a7d330(g_012026a8);
-    unsigned int uiPos = pkStrings->_sA;
-    unsigned int uiSize = pkStrings->_s8;
-    if (uiPos >= uiSize)
-    {
-        pkStrings->SetSize(uiPos + pkStrings->_sE);
-    }
-    pkStrings->SetAt(uiPos, pcString);
-}
-
 struct NiMemObject
 {
     static void* operator new(unsigned int size);
@@ -98,9 +65,6 @@ void __fastcall FUN_00a6d220(void* object);
 extern float DAT_01015f5c;
 extern int DAT_010be8e4;
 
-struct CloningProcess
-{
-};
 struct CloneableObj
 {
     void* vtable;
@@ -124,10 +88,13 @@ struct FUN_00c28430_Object : CloneableObj
 };
 struct FUN_00c28430_class : CloneableObj
 {
-    FUN_00c28430_Object* CreateCloneableObject(void* volatile argument);
+    FUN_00c28430_Object* NiPSysResetOnLoopCtlr_CreateClone(void* volatile argument);
 };
 // @fnv 0x00c28430
-FUN_00c28430_Object* FUN_00c28430_class::CreateCloneableObject(void* volatile argument)
+// pdb: NiPSysResetOnLoopCtlr::CreateClone | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kCloning
+// pdb: NiPSysResetOnLoopCtlr::CreateClone | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, caller_sim, high (was: CreateCloneableObject)
+FUN_00c28430_Object* FUN_00c28430_class::NiPSysResetOnLoopCtlr_CreateClone(void* volatile argument)
 {
     FUN_00c28430_Object* object = (FUN_00c28430_Object*)NiMemObject::operator new(0x38);
     if (object)
@@ -164,17 +131,19 @@ struct FUN_00c28490_shell
     char* unk2c;
     int unk30;
     float unk34;
-    char FUN_00a36250(float value);
+    char NiTimeController_DontDoUpdate(float value);
     void FUN_00c28490(float* p);
 };
-// Clears two flags, and if unk2c is set and FUN_00a36250(*p) returns 0, resets unk34 to unk28 and sets unk2c[0xd8] when unk34 exceeds unk28.
+// Clears two flags, and if unk2c is set and NiTimeController_DontDoUpdate(*p) returns 0, resets unk34 to unk28 and sets unk2c[0xd8] when unk34 exceeds unk28.
 // @fnv 0x00c28490
+// pdb: NiPSysResetOnLoopCtlr::Update | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, objrun, medium
+// pdb params: UpdateData
 void FUN_00c28490_shell::FUN_00c28490(float* pfValue)
 {
     flags &= 0xfff9;
     if (unk2c != 0)
     {
-        if (FUN_00a36250(*pfValue) == 0)
+        if (NiTimeController_DontDoUpdate(*pfValue) == 0)
         {
             if ((double)unk34 == _DAT_010241b0)
                 unk34 = unk28;
@@ -188,6 +157,8 @@ void FUN_00c28490_shell::FUN_00c28490(float* pfValue)
 void __cdecl FUN_00a6d0f0();
 
 // @fnv 0x00a2f8b0
+// pdb: TESBoundAnimObject::ReplaceModel | TESObject.obj | fnv360_0822_retail, vtable, low
+// pdb params: pfilename
 void __cdecl FUN_00a2f8b0()
 {
     FUN_00a6d0f0();
@@ -209,6 +180,8 @@ struct C27120Class : BaseHack
 };
 
 // @fnv 0x00c27120
+// pdb: BSBound::LinkObject | BSBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 void C27120Class::FUN_00c27120(NiStream& s)
 {
     FUN_00a6d730(s);
@@ -223,6 +196,8 @@ struct SubNiPSysResetOnLoopCtlr : NiPSysResetOnLoopCtlr
 };
 
 // @fnv 0x00c283e0
+// pdb: NiAlphaProperty::LinkObject | NiAlphaProperty.obj | fnv360_0822_retail, vtable, high
+// pdb params: kStream
 void SubNiPSysResetOnLoopCtlr::FUN_00c283e0(NiStream& stream)
 {
     FUN_00a6d5e0(stream);
@@ -230,6 +205,8 @@ void SubNiPSysResetOnLoopCtlr::FUN_00c283e0(NiStream& stream)
 
 void __cdecl FUN_00a6cc80();
 // @fnv 0x00c283f0
+// pdb: NiBillboardNode::RegisterStreamables | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void __cdecl FUN_00c283f0()
 {
     FUN_00a6cc80();

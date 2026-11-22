@@ -34,6 +34,8 @@ struct FUN_00a800c0_cls
     void FUN_00a800c0(void* value);
 };
 
+// pdb: hkpConvexPenetrationUtil::init | hkpConvexPenetrationUtil.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkPackfileData::removeExport)
+// pdb params: shapeA, shapeB, aTb, epsTolerance, pointsAinA, pointsBinB, simplex, simplexSize
 void FUN_00a800c0_cls::FUN_00a800c0(void* value)
 {
     for (int i = m_entries.m_size - 1; i >= 0; i--)
@@ -77,6 +79,8 @@ struct FUN_00a8f350 {
     FUN_00a8f350(int capacity, int a, int b);
     void FUN_00a8f110(int a, int b);
 };
+// pdb: hkMonitorStreamAnalyzer::hkMonitorStreamAnalyzer | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, uconst, low
+// pdb params: memorySize, numThreads, numSpus
 FUN_00a8f350::FUN_00a8f350(int capacity, int a, int b)
 {
     DAT_010660c0 = 16666.6f;
@@ -192,7 +196,8 @@ struct Logger { virtual void v0(); virtual void v1(); virtual void v2(); virtual
 extern Logger* DAT_010f3364;
 struct Obj { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual int GetKind() throw();
   int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkb0; int FUN_00959f80() throw(); int FUN_0095a000() throw(); int FUN_0095a020() throw(); };
-int FUN_00a90a10(Obj* o, int* a, int* b, int* c)
+// pdb: hkpConstraintUtils::getConstraintMotors | hkpConstraintUtils.obj | fnv360_0822_retail, ustr + skyrim(ustr), high
+int hkpConstraintUtils_getConstraintMotors(Obj* o, int* a, int* b, int* c)
 {
     switch (o->GetKind()) {
     case 2: *a = o->unkb0; *b = 0; *c = 0; return 0;
@@ -241,6 +246,8 @@ static inline void Indent(TextBuf& t, int n)
 {
     for (int k = 0; k < n; k++) t.Pad(' ');
 }
+// pdb: hkMonitorStreamAnalyzer::showCombinedThreadSummaryForSingleFrame | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, ustr, medium
+// pdb params: node, numThreads, numSpus, os, options
 void FUN_00a8ccf0(int a0, int rows, int cols, Stream* s, Info* info)
 {
     TextBuf t;
@@ -310,13 +317,13 @@ struct FUN_00a80eb0_Object {
     int __thiscall FUN_00a80eb0(int value, int fallback);
 };
 
-int __cdecl FUN_009232c0(int object, int value);
+int __cdecl hkString_strCmp(int object, int value);
 
 int __thiscall FUN_00a80eb0_Object::FUN_00a80eb0(int value, int fallback) {
     int index = 0;
     if (unk1C > 0) {
         do {
-            if (FUN_009232c0(unk18[index].Key(), value) == 0) {
+            if (hkString_strCmp(unk18[index].Key(), value) == 0) {
                 return unk18[index].Value();
             }
             ++index;
@@ -418,7 +425,8 @@ struct RectangleClip
     int unkdc;
     int unke0;
     bool dirty, unkE5, edge0, edge1, edge2, edge3;
-    inline void FUN_00a9de50(NiPoint3* out)
+    // pdb: BSOcclusionPlane::GetVertices | BSOcclusionPlane.obj | fnv360_0721_beta, call_seq + bridge(call_gap|caller), high
+    inline void BSOcclusionPlane_GetVertices(NiPoint3* out)
     {
         if (!dirty)
         {
@@ -437,17 +445,18 @@ struct RectangleClip
         dirty = false;
     }
     bool FUN_00a9e870(NiPoint3*, NiPoint3*, void*, void*);
-    bool FUN_00a9ea90(ClipVolume* volume, bool testCenter, NiPoint3 point);
+    bool BSOcclusionPlane_WithinFrustum(ClipVolume* volume, bool testCenter, NiPoint3 point);
 };
 inline NiPoint3 NiPoint3::operator-(const NiPoint3& other) const
 {
     return NiPoint3(x - other.x, y - other.y, z - other.z);
 }
 // @fnv 0x00c33cf0
-bool RectangleClip::FUN_00a9ea90(ClipVolume* volume, bool testCenter, NiPoint3 point)
+// pdb: BSOcclusionPlane::WithinFrustum | BSOcclusionPlane.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller), high
+bool RectangleClip::BSOcclusionPlane_WithinFrustum(ClipVolume* volume, bool testCenter, NiPoint3 point)
 {
     NiPoint3 corners[4];
-    FUN_00a9de50(corners);
+    BSOcclusionPlane_GetVertices(corners);
     int masks[4];
     masks[0] = masks[1] = masks[2] = masks[3] = 0;
     for (int plane = 0; plane < 6; plane++)
@@ -606,7 +615,7 @@ class NiMatrix3OB
 class NiOBBOB
 {
   public:
-    void FUN_00a9f590(NiPoint3OB* pkVerts);
+    void BSMultiBoundOBB_GetVertices(NiPoint3OB* pkVerts);
     int unk00;
     int unk04;
     int unk08;
@@ -616,7 +625,8 @@ class NiOBBOB
 };
 
 // Fallout 3: output the eight oriented-box corners.
-void NiOBBOB::FUN_00a9f590(NiPoint3OB* pkVerts)
+// pdb: BSMultiBoundOBB::GetVertices | BSMultiBoundOBB.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller), high
+void NiOBBOB::BSMultiBoundOBB_GetVertices(NiPoint3OB* pkVerts)
 {
     NiPoint3OB kX = NiPoint3OB::ZERO;
     NiPoint3OB kY = NiPoint3OB::ZERO;
@@ -711,6 +721,8 @@ struct A9DDE0_Obj {
     void FUN_00a9dde0(A9DDE0_Obj* dst, int unused);
 };
 
+// pdb: BSOcclusionPlane::CopyMembers | BSOcclusionPlane.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: pDest, arCloneData
 void A9DDE0_Obj::FUN_00a9dde0(A9DDE0_Obj* dst, int unused)
 {
     dst->pos = pos;
@@ -787,7 +799,8 @@ struct RectangleClip
     NiPoint3 cached[4];
     int unkd8, unkdc, unke0;
     bool dirty, unkE5, edge0, edge1, edge2, edge3;
-    inline void FUN_00a9de50(NiPoint3* out)
+    // pdb: BSOcclusionPlane::GetVertices | BSOcclusionPlane.obj | fnv360_0721_beta, call_seq + bridge(call_gap|caller), high
+    inline void BSOcclusionPlane_GetVertices(NiPoint3* out)
     {
         if (!dirty)
         {
@@ -807,10 +820,12 @@ struct RectangleClip
     unsigned char FUN_00a9e3b0(ClipVolume* volume);
 };
 // @fnv 0x00c34350
+// pdb: BSOcclusionPlane::WithinFrustumFullTest | BSOcclusionPlane.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aPlanes
 unsigned char RectangleClip::FUN_00a9e3b0(ClipVolume* volume)
 {
     NiPoint3 corners[4];
-    FUN_00a9de50(corners);
+    BSOcclusionPlane_GetVertices(corners);
     int masks[4];
     masks[0] = masks[1] = masks[2] = masks[3] = 0;
     unsigned char needsTest = 1;
@@ -885,7 +900,7 @@ struct OccShape
     int unk00, unk04, unk08;
     Pt3 kTargetCenter;
     float fScaleMultiplier, m_fGlyphExtent, m_fGlyphWidthInPixels;
-    void FUN_00a9f590(Pt3* m_pkDeltas)
+    void BSMultiBoundOBB_GetVertices(Pt3* m_pkDeltas)
     {
         Pt3 vX = Pt3::ms_kFirstPoint * fScaleMultiplier;
         Pt3 vY = Pt3::ms_kSecondPoint * m_fGlyphExtent;
@@ -903,11 +918,13 @@ struct OccShape
 };
 
 // @fnv 0x00c387f0
+// pdb: BSMultiBoundOBB::WithinFrustum | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aPlanes
 bool OccShape::FUN_00a9fe10(Frustum6* pkPlanes)
 {
     Pt3 kVerts[8];
     bool bFlat = (m_fGlyphWidthInPixels == 0.0);
-    FUN_00a9f590(kVerts);
+    BSMultiBoundOBB_GetVertices(kVerts);
     for (int i = 0; i < 6; i++)
     {
         if (bool(pkPlanes->m_uiActivePlaneMask & (1 << i)))
@@ -975,6 +992,8 @@ struct QFrustum
     unsigned int mask;
 };
 
+// pdb: BSOcclusionPlane::TestLineSegmentAllPlanes | BSOcclusionPlane.obj | fnv360_0822_retail, uconst, low, conflict (skyrim: BSOcclusionShape::TestLineSegment)
+// pdb params: akPoint0, akPoint1, akPlane0, akPlanes
 bool __stdcall FUN_00a9e870(QP3* a, QP3* b, QPlane* plane, QFrustum* vol)
 {
     QP3 dir = *b - *a;
@@ -1014,6 +1033,8 @@ struct __declspec(align(16)) Matrix6 {
  Matrix3 block00,block01,block10,block11;
  __forceinline void Apply(const Matrix6& v) { block00.Apply(v.block00);block01.Apply(v.block01);block10.Apply(v.block10);block11.Apply(v.block11); }
 };
+// pdb: hkMatrix6Sub | hkMatrix6.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aOut, b
 void FUN_00a98230(Matrix6* destination,const Matrix6* source) { destination->Apply(*source); }
 }
 }   // namespace f3m_00a98230
@@ -1044,33 +1065,6 @@ struct hkArray
     int m_capacityAndFlags;
 };
 
-struct FUN_00922cb0
-{
-    FUN_00922cb0() throw();
-
-    int unk00;
-    int unk04;
-    int unk08;
-};
-
-class hkPackfileData : public hkReferencedObject {
-public:
-    hkPackfileData();
-    virtual ~hkPackfileData();
-
-    void* m_topLevelObject;
-    char* m_name;
-    FUN_00922cb0 m_trackedObjects;
-    hkArray<void*> m_memory;
-    hkArray<void*> m_chunks;
-    hkArray<void*> m_destructors;
-    hkArray<void*> m_exports;
-};
-
-hkPackfileData::hkPackfileData()
-    : m_topLevelObject(0), m_name(0)
-{
-}
 }   // namespace f3m_00a80240
 
 // @f3 0x00a84ab0 (community match, verified in this file)
@@ -1121,7 +1115,7 @@ struct ErrBufA84 {
     void FUN_00943a60() throw();
 };
 
-int __cdecl FUN_009232c0(const char* a, const char* b) throw();
+int __cdecl hkString_strCmp(const char* a, const char* b) throw();
 int __cdecl FUN_00a83750(HkClassA84* cls, void* obj, BufWrapA84* wrap, XmlNodeA84* elem, XmlParserA84* parser, void* stream, RelocA84* reloc) throw();
 
 struct XmlReaderA84 {
@@ -1139,7 +1133,7 @@ int XmlReaderA84::FUN_00a84ab0(void* stream, BufStateA84* buf, HkClassA84* cls, 
     if (m_parser->nextNode(&elem, stream) == 0) {
         XmlNodeA84* startElem = (elem->m_type == 1) ? elem : 0;
         if (startElem) {
-            if (FUN_009232c0(startElem->m_name, "hkobject") == 0) {
+            if (hkString_strCmp(startElem->m_name, "hkobject") == 0) {
                 void* obj = wrap.FUN_00a84d20(cls->FUN_009b0760(), 16);
                 int sz = cls->FUN_009b0760();
                 wrap.m_state->m_size = (wrap.m_state->m_size + sz + 15) & ~15;
@@ -1183,6 +1177,8 @@ struct Entry{Info* info;int unk04,unk08;};struct EntryList{Entry* data;};
 struct FloatArray{float* data;int size,capacity;};
 void FUN_00a8d760(NodeArray&,Layout*,EntryList*,float*,FloatArray*);
 int FUN_00a8d480(Info*,int,int,int*,int,float,float);
+// pdb: hkMonitorStreamAnalyzer::reverseLookupNodeAtTgaSample | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: x, y, nodeList, input, frameInfos
 int FUN_00a8df20(int x,int y,NodeArray& img,Layout* lay,EntryList* list){
  int levels=img.GetLogicalSize();int pages=lay->pages;if(levels<1)return 0;
  int border=pages>1?0x20:0;if(x<border||x>=lay->height)return 0;
@@ -1234,6 +1230,7 @@ struct Packfile {
     void FUN_00a80110();
     void FUN_00a80290();
 };
+// pdb: hkPackfileData::~hkPackfileData | hkPackfileData.obj | fnv360_0822_retail, call_seq, high
 void Packfile::FUN_00a80290() {
     vtable=&DAT_00e87e80;
     FUN_00a80110();
@@ -1287,9 +1284,11 @@ struct QRectClip
     bool dirty, unkE5, edge0, edge1, edge2, edge3;
     bool unkEA;
     void FUN_00a9e0b0(QPt point, QFrustum* frustum);
-    void FUN_00a9de50(QPt* out);
+    void BSOcclusionPlane_GetVertices(QPt* out);
     bool FUN_00a9e7b0(QPt point);
 };
+// pdb: BSOcclusionPlane::ViewerOnCorrectSide | BSOcclusionPlane.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: akViewPoint
 bool QRectClip::FUN_00a9e7b0(QPt point)
 {
     if (unkEA)
@@ -1297,7 +1296,7 @@ bool QRectClip::FUN_00a9e7b0(QPt point)
     QFrustum frustum;
     FUN_00a9e0b0(point, &frustum);
     QPt verts[4];
-    FUN_00a9de50(verts);
+    BSOcclusionPlane_GetVertices(verts);
     QPlane plane(verts[0], verts[1], verts[2]);
     if (plane.ClassifyPoint(&point) != 2)
         return false;
@@ -1353,7 +1352,7 @@ struct Assembler:RefBase {
     Settings parameters;
     Assembler(const Settings&,CodeGenerator*,Mediator*);
     virtual ~Assembler() throw();
-    void FUN_00a867f0(const Settings&) throw();
+    void hkpMoppDefaultAssembler_updateParams(const Settings&) throw();
 };
 typedef char DirectionStride2046[(sizeof(Direction)==0x20)?1:-1];
 typedef char SettingsSize2046[(sizeof(Settings)==0x30)?1:-1];
@@ -1386,13 +1385,15 @@ __forceinline void SeedDirections() {
     DAT_0116ccc0[11].splitOffset=0.32f;
     DAT_0116ccc0[12].splitOffset=0.34f;
 }
+// pdb: hkpMoppDefaultAssembler::hkpMoppDefaultAssembler | hkpMoppDefaultAssembler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
+// pdb params: ap, code, mediator
 Assembler::Assembler(const Settings& settings,CodeGenerator* code,Mediator* source) {
     SeedDirections();
     for(int i=0;i<13;++i) {
         DAT_0116ccc0[i].vector.Normalize3();
         DAT_0116ccc0[i].index=i;
     }
-    FUN_00a867f0(settings);
+    hkpMoppDefaultAssembler_updateParams(settings);
     codeGenerator=code;
     mediator=source;
     nodeManager=0;
@@ -1418,7 +1419,7 @@ struct Reader {
     Reader(Stream* s);
     void FUN_00a49be0();
 };
-int __cdecl FUN_009232c0(const char* a, const char* b);
+int __cdecl hkString_strCmp(const char* a, const char* b);
 void __cdecl FUN_009236d0(void* buf, const char* fmt, ...);
 struct Parser {
     virtual void v0();
@@ -1461,7 +1462,7 @@ int Parser::FUN_00a81010(int a1, Doc* doc, Stream* s)
             if (open->type == 1)
             {
                 const char* en = end->name;
-                if (FUN_009232c0(open->name, en))
+                if (hkString_strCmp(open->name, en))
                 {
                     FUN_009236d0(err, "Expected tag to end '%s' but got '%s'", open->name, end->name);
                     r.FUN_00a49be0();
@@ -1509,14 +1510,15 @@ inline NiPoint3 operator*(float s,const NiPoint3& p){return NiPoint3(s*p.x,s*p.y
 const NiPoint3 NiPoint3_ZERO(0,0,0);
 struct ClipPlane {NiPoint3 normal;float constant;void FUN_00832fb0(const NiPoint3*,const NiPoint3*,const NiPoint3*);ClipPlane(const NiPoint3&a,const NiPoint3&b,const NiPoint3&c){FUN_00832fb0(&a,&b,&c);}float Distance(const NiPoint3&p)const{return normal.Dot(p)-constant;}};
 struct ClipMatrix {float entries[3][3];void GetColumn(unsigned col,NiPoint3&out)const{out.x=entries[col][0];out.y=entries[col][1];out.z=entries[col][2];}};
-struct SSNode {virtual void v0();virtual void v1();virtual const void* GetType();int unk04;NiPoint3 center;float extentX,extentY;ClipMatrix orientation;void FUN_00a9de50(NiPoint3*);bool FUN_00a9ea90(void*,int,NiPoint3);bool FUN_00a9eea0(void*,const NiPoint3&);__forceinline bool IsExactType(){if(!this)return false;return GetType()==&DAT_0116d9a0;}};
+struct SSNode {virtual void v0();virtual void v1();virtual const void* GetType();int unk04;NiPoint3 center;float extentX,extentY;ClipMatrix orientation;void BSOcclusionPlane_GetVertices(NiPoint3*);bool BSOcclusionPlane_WithinFrustum(void*,int,NiPoint3);bool BSOcclusionPlane_WithinFrustumDistFirst(void*,const NiPoint3&);__forceinline bool IsExactType(){if(!this)return false;return GetType()==&DAT_0116d9a0;}};
 inline float ClipAbs(float f){return (double)(float)fabs((double)f);}
 inline float DistanceFromFirst(void*data,int index,const NiPoint3&p){return ((ClipPlane*)data)[index].Distance(p);}
 // @fnv 0x00c344c0
-bool SSNode::FUN_00a9eea0(void* planes, const NiPoint3& point)
+// pdb: BSOcclusionPlane::WithinFrustumDistFirst | BSOcclusionPlane.obj | fnv360_0822_retail, udata + bridge(call_seq|call_gap), high
+bool SSNode::BSOcclusionPlane_WithinFrustumDistFirst(void* planes, const NiPoint3& point)
 {
     NiPoint3 verticesTmp[4];
-    FUN_00a9de50(verticesTmp);
+    BSOcclusionPlane_GetVertices(verticesTmp);
     ClipPlane plane3(verticesTmp[0], verticesTmp[1], verticesTmp[2]);
     float distance2 = plane3.Distance(point);
     NiPoint3 projected8 = point + (-distance2 * plane3.normal);
@@ -1537,7 +1539,7 @@ bool SSNode::FUN_00a9eea0(void* planes, const NiPoint3& point)
                 return false;
         }
     }
-    return FUN_00a9ea90(planes, 1, projected8);
+    return BSOcclusionPlane_WithinFrustum(planes, 1, projected8);
 }
 
 }
@@ -1615,11 +1617,11 @@ struct M_004b4500 : FUN_004b4600_Class
         };
         float entry[3][3];
     };
-    bool FUN_00475380(M_004b4500*);
+    bool NiMatrix3_Inverse(M_004b4500*);
     M_004b4500 Inverse()
     {
         M_004b4500 inverse;
-        if (!FUN_00475380(&inverse))
+        if (!NiMatrix3_Inverse(&inverse))
             inverse.FUN_004b4600();
         return inverse;
     }
@@ -1872,12 +1874,6 @@ struct MoppResults
     unsigned int* data;
     int count, capacity;
 };
-struct MoppMemoryRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    void* heap;
-};
-void* __cdecl FUN_00c85750();
 void __cdecl FUN_00901f10(MoppResults* array, int elementSize);
 struct MoppErrorSink
 {
@@ -1925,6 +1921,7 @@ static unsigned int readBig32(const unsigned char* p)
     return (readBig24(p) << 8) + p[3];
 }
 // @fnv 0x00e66290
+// pdb: hkpMoppFindAllVirtualMachine::queryOnTreeRight | hkpMoppFindAllVirtualMachine.obj | tesv_win, objopen_prop, low
 void MoppFindAllVM::FUN_00a9c7f0(const MoppQueryState* current, const unsigned char* program)
 {
     MoppQueryState local;
@@ -2277,6 +2274,7 @@ public:
     void FUN_00a8b1a0();
 };
 
+// pdb: hkDisplaySphere::buildGeometry | hkDisplaySphere.obj | fnv360_0822_retail, vtable, medium
 void IcosphereShape1561::FUN_00a8b1a0()
 {
     DisplayGeometry1561* created = new DisplayGeometry1561;
@@ -2356,6 +2354,7 @@ public:
     int FUN_00a88bf0(unsigned char flag);
 };
 
+// pdb: hkpMoppDefaultAssembler::`scalar deleting destructor' | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, vtable, high
 int FUN_00a88bf0_Class::FUN_00a88bf0(unsigned char flag)
 {
     FUN_00a86200();
@@ -2488,12 +2487,13 @@ struct A9F480_Object
     int unk20;
     A9F480_SubObject unk24;
 
-    void __thiscall FUN_00a9f480(int value);
+    void __thiscall BSMultiBoundOBB_LoadBinary(int value);
 };
 
 void __stdcall FUN_00aa0a90(int value);
 
-void __thiscall A9F480_Object::FUN_00a9f480(int value)
+// pdb: BSMultiBoundOBB::LoadBinary | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void __thiscall A9F480_Object::BSMultiBoundOBB_LoadBinary(int value)
 {
     FUN_00aa0a90(value);
     unk24.FUN_00823d00(value);
@@ -2566,6 +2566,7 @@ struct Owner {
     unsigned int firstPrimary, firstSecondary, secondPrimary, secondSecondary;
     int FUN_00a9dcb0();
 };
+// pdb: BSOcclusionPlane::GetJoinedPlaneType | BSOcclusionPlane.obj | fnv360_0822_retail, call_gap, low
 int Owner::FUN_00a9dcb0() {
     if (firstPrimary || secondPrimary) return 2;
     if (firstSecondary || secondSecondary) return 1;
@@ -2582,6 +2583,8 @@ struct Owner {
     void FUN_008258d0(const Owner* other);
     bool FUN_00a9f190(const Owner* other);
 };
+// pdb: BSMultiBound::IsEqual | BSMultiBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 bool Owner::FUN_00a9f190(const Owner* other) {
     FUN_008258d0(other);
     if (second == other->second && first == other->first) return true;
@@ -2612,6 +2615,8 @@ struct Obj : Base {
     void FUN_00a9f170(Stream* stream);
 };
 
+// pdb: BSMultiBound::SaveBinary | BSMultiBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 void Obj::FUN_00a9f170(Stream* stream)
 {
     FUN_0078c030(stream);
@@ -2740,6 +2745,8 @@ public:
     A8D060* __thiscall FUN_00a8d060(A8D060_Owner* owner, int value3, int value4);
 };
 
+// pdb: hkMonitorStreamAnalyzer::Node::Node | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: hkMonitorStreamAnalyzerPrintByTypeInfo::hkMonitorStreamAnalyzerPrintByTypeInfo)
+// pdb params: parent, name, type
 A8D060* __thiscall A8D060::FUN_00a8d060(A8D060_Owner* owner, int value3, int value4)
 {
     unk30.m_data = 0;
@@ -2798,6 +2805,8 @@ struct FUN_00a867c0_cls
     int FUN_00a867c0(FUN_00a867c0_Arg* arg);
 };
 
+// pdb: hkpMoppDefaultAssembler::assembleJumpChunkCommand | hkpMoppDefaultAssembler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: currentNode
 int FUN_00a867c0_cls::FUN_00a867c0(FUN_00a867c0_Arg* arg)
 {
     int value = arg->unk40;
@@ -2872,6 +2881,8 @@ struct Data : BaseData {
 };
 }
 
+// pdb: BSMultiBoundOBB::IsEqual | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 bool f3m_00a9f500::Data::FUN_00a9f500(const Data* other)
 {
     bool equal = FUN_00aa0b70(other);
@@ -2901,6 +2912,8 @@ struct Data : BaseData {
 };
 }
 
+// pdb: BSMultiBound::RegisterStreamables | BSMultiBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 bool f3m_00a9f140::Data::FUN_00a9f140(const void* other)
 {
     if (!FUN_008257d0(other))
@@ -2965,6 +2978,7 @@ struct D00a85020 {
     void FUN_00a84fe0();
     D00a85020* FUN_00a85020(unsigned int flags);
 };
+// pdb: hkMemoryStreamReader::`scalar deleting destructor' | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high
 D00a85020* D00a85020::FUN_00a85020(unsigned int flags)
 {
     FUN_00a84fe0();
@@ -2988,6 +3002,7 @@ struct D00a85e00 {
     void FUN_00a85c80();
     D00a85e00* FUN_00a85e00(unsigned int flags);
 };
+// pdb: hkpMoppCodeGenerator::`scalar deleting destructor' | hkpMoppCodeGenerator.obj | fnv360_0822_retail, vtable, high
 D00a85e00* D00a85e00::FUN_00a85e00(unsigned int flags)
 {
     FUN_00a85c80();
@@ -3011,6 +3026,7 @@ struct D00a8a290 {
     void FUN_00a89190();
     D00a8a290* FUN_00a8a290(unsigned int flags);
 };
+// pdb: hkpMoppDefaultSplitter::`scalar deleting destructor' | hkpMoppDefaultSplitter.obj | fnv360_0721_beta, vtable, high
 D00a8a290* D00a8a290::FUN_00a8a290(unsigned int flags)
 {
     FUN_00a89190();
@@ -3165,6 +3181,7 @@ struct A8639Owner {
     A8639Sub* unk10;
     int FUN_00a86390(int value);
 };
+// pdb: hkpMoppDefaultAssembler::addJumpChunk | hkpMoppDefaultAssembler.obj | tesv_win, objrun, medium
 int A8639Owner::FUN_00a86390(int value)
 {
     unk10->FUN_00a85f60(0xc, value);
@@ -3182,6 +3199,7 @@ struct A8268Obj {
     int unk08;
     A8268Obj* FUN_00a82680(int value);
 };
+// pdb: hkLifoAllocator::hkLifoAllocator | hkLifoAllocator.obj | tesv_win, hash, low
 A8268Obj* A8268Obj::FUN_00a82680(int value)
 {
     unk00 = 0;
@@ -3202,6 +3220,8 @@ struct A923Owner {
     A923List unk2c;
     void FUN_00a923a0(A923Item* item);
 };
+// pdb: hkPointerMap<hkpEntity *,int,hkContainerHeapAllocator>::insert | hkpConstraintChainUtil.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpConstraintChainInstance::insertEntityAtFront)
+// pdb params: key, val
 void A923Owner::FUN_00a923a0(A923Item* item)
 {
     unk2c.FUN_009b2b40(0, &item);
@@ -3266,6 +3286,8 @@ struct A9f1Owner {
     A9f1Target* unk0c;
     char FUN_00a9f1c0(int a);
 };
+// pdb: BSMultiBound::QPointWithin | BSMultiBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aPoint
 char A9f1Owner::FUN_00a9f1c0(int a)
 {
     A9f1Target* t = unk0c;
@@ -3316,9 +3338,10 @@ struct A9f4Obj {
     int unk00[9];
     A9f4Sub unk24;
     void FUN_00aa0ae0(int value);
-    void FUN_00a9f4c0(int value);
+    void BSMultiBoundOBB_SaveBinary(int value);
 };
-void A9f4Obj::FUN_00a9f4c0(int value)
+// pdb: BSMultiBoundOBB::SaveBinary | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void A9f4Obj::BSMultiBoundOBB_SaveBinary(int value)
 {
     FUN_00aa0ae0(value);
     unk24.FUN_00823d60(value);
@@ -3382,6 +3405,8 @@ struct A9784Obj {
     A9784Vec* unk18;
     void FUN_00a97840(A9784Vec* out);
 };
+// pdb: hkpConvexPieceShape::getFirstVertex | hkpConvexPieceShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: v
 void A9784Obj::FUN_00a97840(A9784Vec* out)
 {
     const A9784Vec* v = unk18;
@@ -3398,6 +3423,7 @@ namespace f3m_00a826d0 {
 namespace f3m_00a826d0 {
 struct A826dNode { int unk00[2]; A826dNode* unk08; };
 struct A826dList { A826dNode* head; };
+// pdb: hkLifoAllocator::isEmpty | hkLifoAllocator.obj | tesv_win, objrun_open, low
 int __stdcall FUN_00a826d0(A826dList* list)
 {
     int count = 0;
@@ -3491,6 +3517,7 @@ struct A85c8Obj {
     void* unk10;
     void FUN_00a85c80();
 };
+// pdb: hkpMoppCodeGenerator::~hkpMoppCodeGenerator | hkpMoppCodeGenerator.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void A85c8Obj::FUN_00a85c80()
 {
     vtable = DAT_00e885ec;
@@ -3515,6 +3542,7 @@ struct A8c9Obj {
     int unk10;
     void FUN_00a8c900();
 };
+// pdb: hkMonitorStreamAnalyzer::reset | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, call_gap, low
 void A8c9Obj::FUN_00a8c900()
 {
     unk10 = 0;
@@ -3554,6 +3582,7 @@ struct A9c32Obj {
     int capacityAndFlags;
     void FUN_00a9c320();
 };
+// pdb: hkpMoppKDopGeometriesVirtualMachine::~hkpMoppKDopGeometriesVirtualMachine | hkpMoppKDopGeometriesVirtualMachine.obj | fnv360_0822_retail, objrun_prop, low
 void A9c32Obj::FUN_00a9c320()
 {
     if (!(capacityAndFlags & 0x80000000)) {
@@ -3611,6 +3640,7 @@ struct A84feObj {
     int unk18;
     void FUN_00a84fe0();
 };
+// pdb: hkMemoryStreamReader::~hkMemoryStreamReader | hkMemoryStreamReader.obj | fnv360_0822_retail, call_seq, high
 void A84feObj::FUN_00a84fe0()
 {
     vtable = DAT_00e88590;
@@ -3644,6 +3674,7 @@ struct O00a801c0 {
     A00a801c0 arr;
     void FUN_00a801c0(P00a801c0 p);
 };
+// pdb: hkPackfileData::addExport | hkPackfileData.obj | tesv_win, objrun_sim, low
 void O00a801c0::FUN_00a801c0(P00a801c0 p)
 {
     arr.pushBack(p);
@@ -3674,6 +3705,7 @@ struct O00a80200 {
     A00a80200 arr;
     void FUN_00a80200(P00a80200 p);
 };
+// pdb: hkPackfileData::addImport | hkPackfileData.obj | tesv_win, objrun_sim, low
 void O00a80200::FUN_00a80200(P00a80200 p)
 {
     arr.pushBack(p);
@@ -3691,9 +3723,10 @@ struct C00a867f0Obj {
     float a0, a1, a2, a3;
     int i60;
     char b64;
-    void FUN_00a867f0(const C00a867f0Src* s);
+    void hkpMoppDefaultAssembler_updateParams(const C00a867f0Src* s);
 };
-void C00a867f0Obj::FUN_00a867f0(const C00a867f0Src* s)
+// pdb: hkpMoppDefaultAssembler::updateParams | hkpMoppDefaultAssembler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(callee_sim), high
+void C00a867f0Obj::hkpMoppDefaultAssembler_updateParams(const C00a867f0Src* s)
 {
     x = s->x;
     y = s->y;
@@ -3776,6 +3809,8 @@ struct A9f31Obj {
     void FUN_008258b0(A9f31Target* a, int b);
     void FUN_00a9f310(A9f31Target* a, int b);
 };
+// pdb: BSMultiBound::CopyMembers | BSMultiBound.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: pDest, arCloneData
 void A9f31Obj::FUN_00a9f310(A9f31Target* a, int b)
 {
     FUN_008258b0(a, b);
@@ -3911,6 +3946,8 @@ struct A9ea2Obj {
     void FUN_00a9dde0(FUN_00a9dcf0* item, int arg) throw();
     FUN_00a9dcf0* FUN_00a9ea20(int arg);
 };
+// pdb: BSOcclusionPlane::CreateClone | BSOcclusionPlane.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arCloneData
 FUN_00a9dcf0* A9ea2Obj::FUN_00a9ea20(int arg)
 {
     FUN_00a9dcf0* item = new FUN_00a9dcf0();
@@ -3935,6 +3972,8 @@ struct A9f40Obj {
     void FUN_00a9f310(FUN_00a9f1e0* item, int arg);
     FUN_00a9f1e0* FUN_00a9f400(int arg);
 };
+// pdb: BSMultiBound::CreateClone | BSMultiBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arCloneData
 FUN_00a9f1e0* A9f40Obj::FUN_00a9f400(int arg)
 {
     FUN_00a9f1e0* item = new FUN_00a9f1e0();
@@ -4069,6 +4108,7 @@ public:
     virtual ~FUN_00a9f270();
 };
 
+// pdb: BSMultiBound::~BSMultiBound | BSMultiBound.obj | fnv360_0822_retail, call_seq, medium
 FUN_00a9f270::~FUN_00a9f270()
 {
     m_spTransformData = 0;
@@ -4134,6 +4174,7 @@ struct FUN_00a9dcf0 : NiObject
 };
 
 // @fnv 0x00c335d0
+// pdb: BSOcclusionPlane::BSOcclusionPlane | BSOcclusionPlane.obj | fnv360_0822_retail, call_seq, medium
 FUN_00a9dcf0::FUN_00a9dcf0()
 {
     kTargetCenter = NiPoint3_ZERO;
@@ -4212,6 +4253,7 @@ class FUN_00a9f1e0 : public A43FF0Object
     NiPointer<Shape2378> pShape;
 };
 
+// pdb: BSMultiBound::BSMultiBound | BSMultiBound.obj | fnv360_0822_debug, call_seq, medium
 FUN_00a9f1e0::FUN_00a9f1e0(){m_uiBoundFlags=0;pShape=0;}
 }
 }   // namespace f3m_00a9f1e0
@@ -4232,6 +4274,8 @@ struct Owner {
     void FUN_0078c030(Stream&);
     void FUN_00a9f0e0(Stream&);
 };
+// pdb: BSMultiBound::LinkObject | BSMultiBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 void Owner::FUN_00a9f0e0(Stream& stream) {
     FUN_0078c030(stream);
     Object* replacement=stream.FUN_0082a280();
@@ -4264,6 +4308,7 @@ struct Owner {
     hkArray<Pair> pairs;
     void FUN_00a80080(int value);
 };
+// pdb: hkpWingedEdge::allocateVertex | hkpConvexPenetrationUtil.obj | fnv360_0822_debug, objrun_open, low
 void Owner::FUN_00a80080(int value)
 {
     for (int i = pairs.size - 1; i >= 0; --i)
@@ -4473,6 +4518,8 @@ struct FUN_00a8ad20 : FUN_009a4660 {
  FUN_00a8ad20(const Quaternion&,unsigned int,unsigned int);
  virtual ~FUN_00a8ad20();
 };
+// pdb: hkDisplaySphere::hkDisplaySphere | hkDisplaySphere.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: sphere, xRes, yRes
 FUN_00a8ad20::FUN_00a8ad20(const Quaternion& source,unsigned int first,unsigned int second):FUN_009a4660(1),value(source),value70(first),value74(second){}
 }
 }   // namespace f3m_00a8ad20
@@ -4529,6 +4576,8 @@ struct SettingS
 
 extern "C" void FUN_00401e50(char* dst, const char* src);
 
+// pdb: Setting::operator= | Setting.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apString
 SettingS* SettingS::FUN_00a9da90(const char* apString)
 {
     if (this)
@@ -4710,7 +4759,7 @@ void caller83310() {
 namespace f3m_00a9e540 {
 
 struct RectangleClip {
-    void FUN_00a9de50(NiPoint3* out);
+    void BSOcclusionPlane_GetVertices(NiPoint3* out);
     bool FUN_00a9e540(ClipVolume* volume);
 };
 
@@ -4730,9 +4779,11 @@ struct PlaneOrder32 {
     }
 };
 
+// pdb: BSOcclusionPlane::CompletelyWithinFrustum | BSOcclusionPlane.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aPlanes
 bool RectangleClip::FUN_00a9e540(ClipVolume* volume) {
     NiPoint3 corners[4];
-    FUN_00a9de50(corners);
+    BSOcclusionPlane_GetVertices(corners);
     for (int i = 0; i < 6; i++) {
         if (volume->mask & (1 << i)) {
             NiCamera& plane = volume->planes[i];
@@ -4750,7 +4801,7 @@ bool RectangleClip::FUN_00a9e540(ClipVolume* volume) {
 namespace f3m_00a9ff80 {
 
 struct BoxClip33 {
-    void FUN_00a9f590(NiPoint3* out);
+    void BSMultiBoundOBB_GetVertices(NiPoint3* out);
     bool FUN_00a9ff80(ClipVolume* volume);
 };
 
@@ -4770,9 +4821,11 @@ struct PlaneOrder33 {
     }
 };
 
+// pdb: BSMultiBoundOBB::CompletelyWithinFrustum | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aPlanes
 bool BoxClip33::FUN_00a9ff80(ClipVolume* volume) {
     NiPoint3 corners[8];
-    FUN_00a9f590(corners);
+    BSMultiBoundOBB_GetVertices(corners);
     for (int i = 0; i < 6; i++) {
         if (volume->mask & (1 << i)) {
             NiCamera& plane = volume->planes[i];
@@ -5110,6 +5163,8 @@ struct RcClip
     void GetCorners(RcPt* out);
 };
 
+// pdb: BSOcclusionPlane::GetFrustumPlanes | BSOcclusionPlane.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: akViewPoint, akPlanes
 void RcClip::FUN_00a9e0b0(RcPt point, RcFrustum* frustum)
 {
     if (!dirty && point == cachedPos)
@@ -5173,6 +5228,7 @@ struct FUN_00a97f50_cls {
     FUN_00a97f50_cls* FUN_00a97f50(int flags);
 };
 
+// pdb: hkpConvexPieceShape::`scalar deleting destructor' | hkpConvexPieceShape.obj | fnv360_0822_retail, vtable_prefix, high
 FUN_00a97f50_cls* FUN_00a97f50_cls::FUN_00a97f50(int flags) {
     void** sub = this ? &unk14 : 0;
     *sub = &DAT_00e35eec;
@@ -5408,13 +5464,6 @@ struct XOstream {
     void FUN_00943a60() throw();
 };
 
-struct XLogger {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void Log(int a, unsigned int h, const char* m, const char* f, int line) throw();
-};
-
 void __cdecl FUN_00923500(void* p, int v, int n) throw();
 
 }
@@ -5507,6 +5556,7 @@ struct Reader {
 };
 
 
+// pdb: hkXmlLexAnalyzer::_lexQuotedString | hkXmlLexAnalyzer.obj | tesv_win, objrun_open, low
 static __declspec(noinline) void FUN_00a80f00(int count, Reader* self, char* buf, int arg, Holder* h) {
     int i;
     for (i = 0; ; i = 0) {
@@ -5552,6 +5602,7 @@ struct Object {
 }
 
 // destructor body (called by the deleting wrapper 0xa65510)
+// pdb: hkMonitorStreamAnalyzer::Node::~Node | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, call_gap_sim, low
 void f3m_00a8d0f0::Object::FUN_00a8d0f0()
 {
     for (int i = 0; i < children.size; i++) {
@@ -5577,6 +5628,7 @@ struct Reader {
     virtual void v20();
 };
 
+// pdb: hkXmlLexAnalyzer::_lexIdentifier | hkXmlLexAnalyzer.obj | tesv_win, objrun_open, low
 static __declspec(noinline) void FUN_00a80f70(int count, Reader* self, char* buf, int arg, Holder* h) {
     int i;
     for (i = 0; ; i = 0) {
@@ -5653,7 +5705,7 @@ struct A832B0_Owner
     virtual void vf0c(A832B0_Obj** out, A832B0_Obj* item);
 };
 
-int __cdecl FUN_009232c0(int a, int b);
+int __cdecl hkString_strCmp(int a, int b);
 
 static __declspec(noinline) int FUN_00a832b0(A832B0_Owner* owner, A832B0_Obj* item, A832B0_Obj* other)
 {
@@ -5666,7 +5718,7 @@ static __declspec(noinline) int FUN_00a832b0(A832B0_Owner* owner, A832B0_Obj* it
     if (kind2) {
         int b = other->unk0c;
         int a = kind2->unk0c;
-        if (FUN_009232c0(a, b) != 0)
+        if (hkString_strCmp(a, b) != 0)
             result = 1;
     } else {
         result = 1;
@@ -5723,6 +5775,7 @@ struct FUN_00a85d20_Owner {
 void FUN_00cb1260(void* dst, const void* src, int bytes);
 void __cdecl FUN_00901e90(void* arr, int capacity, int stride);
 
+// pdb: hkpMoppCodeGenerator::compileCode | hkpMoppCodeGenerator.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00a85d20_Obj* FUN_00a85d20_Owner::FUN_00a85d20()
 {
     FUN_00a85d20_Heap* heap;
@@ -5776,6 +5829,8 @@ struct Obj7860 {
     Vec4_7860* FUN_00a97860(Vec4_7860* out);
 };
 
+// pdb: hkpConvexPieceShape::getCollisionSpheresImpl | hkpConvexPieceShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: sphereBuffer
 Vec4_7860* Obj7860::FUN_00a97860(Vec4_7860* out)
 {
     int i = 0;
@@ -5855,6 +5910,8 @@ class S00a9fb50_OBB
     S00a9fb50_Matrix3 m_kBasis;
 };
 
+// pdb: BSMultiBoundOBB::CheckBound | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aTargetBound
 int S00a9fb50_OBB::FUN_00a9fb50(const S00a9fb50_Bound& kBound)
 {
     NiPoint3 kCenter = kBound.m_kCenter;
@@ -6016,6 +6073,7 @@ struct DisplayGeometry1561
     GeometryArray1561<GeometryTriangle1561> triangles0c;
 };
 
+// pdb: _subdivideRecursive | hkDisplaySphere.obj | fnv360_0822_retail, call_dedup, low
 void FUN_00a8ad60(DisplayGeometry1561* geometry, int triangle, float radius, float detail)
 {
     if (detail == 0.0f)
@@ -6074,7 +6132,7 @@ namespace f3m_00a8d1f0 {
 
 __declspec(dllimport) void* __stdcall FUN_00d9b080(unsigned long) throw();
 extern unsigned long DAT_010f3170;
-int __cdecl FUN_009232c0(const char* a, const char* b);
+int __cdecl hkString_strCmp(const char* a, const char* b);
 
 struct S00a8d1f0_Pool {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -6124,10 +6182,10 @@ struct S00a8d1f0_Node {
 static __declspec(noinline) bool FUN_00a8c2f0(const char* name, int* index, S00a8d1f0_Node* owner)
 {
     if (*index < owner->children.m_size &&
-        FUN_009232c0(owner->children.m_data[*index]->name, name) == 0)
+        hkString_strCmp(owner->children.m_data[*index]->name, name) == 0)
         return true;
     for (int i = 0; i < owner->children.m_size; i++) {
-        if (FUN_009232c0(owner->children.m_data[i]->name, name) == 0) {
+        if (hkString_strCmp(owner->children.m_data[i]->name, name) == 0) {
             *index = i;
             return true;
         }
@@ -6135,6 +6193,7 @@ static __declspec(noinline) bool FUN_00a8c2f0(const char* name, int* index, S00a
     return false;
 }
 
+// pdb: mergeSubTree | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void __cdecl FUN_00a8d1f0(S00a8d1f0_Node* apDestNode, S00a8d1f0_Node* apSrcNode, int index, int aiSrcLevel, float afBlendAmount)
 {
     int lvl = index;
@@ -6215,6 +6274,8 @@ struct Setting {
     void FUN_00a9db40(StringArray* out);
 };
 
+// pdb: Setting::GetViewerStrings | Setting.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apStringsA
 void Setting::FUN_00a9db40(StringArray* out)
 {
     char buffer[256];
@@ -6268,7 +6329,8 @@ struct __declspec(align(16)) Matrix6 {
  G3 m0; G2 m1; G1 m2; G6 m3;
  __forceinline void add(const Matrix6& a) { m0.add(a.m0); m1.add(a.m1); m2.add(a.m2); m3.add(a.m3); }
 };
-void FUN_00a97fe0(Matrix6* d, const Matrix6* s) { d->add(*s); }
+// pdb: hkMatrix6Add | hkMatrix6.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void hkMatrix6Add(Matrix6* d, const Matrix6* s) { d->add(*s); }
 }
 }   // namespace f3m_00a97fe0
 
@@ -6312,6 +6374,7 @@ struct ByteArray
     void FUN_00a821d0(int index, const char* p, int numToInsert);
 };
 
+// pdb: hkParserBuffer::read | hkParserBuffer.obj | tesv_win, objopen_prop, low
 void ByteArray::FUN_00a821d0(int index, const char* p, int numToInsert)
 {
     const int newSize = m_size + numToInsert;
@@ -6343,6 +6406,7 @@ __forceinline void Mark(bool* unique, bool* flag)
     *flag = true;
 }
 
+// pdb: hkGeomConvexHullTester::findSameEdges | hkGeomConvexHullTester.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a8a550(bool* unique, Tri* a, Tri* b, bool* e0, bool* e1, bool* e2)
 {
     unsigned int a0 = *a->v0;
@@ -6389,6 +6453,7 @@ struct Stream
     virtual void v1c(int size);
     virtual void v20();
 };
+// pdb: hkXmlLexAnalyzer::_lexComment | hkXmlLexAnalyzer.obj | tesv_win, uconst, low
 static __declspec(noinline) void FUN_00a80dd0(Stream* s, char* buf, int size, int n)
 {
     const char end[] = "-->";
@@ -6496,6 +6561,8 @@ struct Base {
 };
 struct Secondary {void* table;Secondary():table(&DAT_00e35eec){}};
 struct FUN_00a97950:Base,Secondary {FUN_00a97950(float value);};
+// pdb: hkpConvexPieceShape::hkpConvexPieceShape | hkpConvexPieceShape.obj | fnv360_0822_retail, uvref, medium
+// pdb params: radius
 FUN_00a97950::FUN_00a97950(float value):Base(value){Base::table=&DAT_00e88e0c;Secondary::table=&DAT_00e88de8;}
 }
 }   // namespace f3m_00a97950
@@ -6527,6 +6594,7 @@ struct Records {
 Bool __cdecl FUN_00a8a620(void* a, void* c, void* d, float time);
 Bool __cdecl FUN_00a8a550(Record* lhs, Record* rhs, Bool& first, Bool& second, Bool& third);
 
+// pdb: hkGeomConvexHullTester::isValidPlanarHull | hkGeomConvexHullTester.obj | tesv_win, call_gap, low
 Bool __cdecl FUN_00a8a740(void* a, void* b, void* c, void* d, Records* items, float time)
 {
     Bool result(true);
@@ -6640,6 +6708,8 @@ public:
 
 void __cdecl FUN_00901f10(Ec8Vec* values, int bytes);
 
+// pdb: hkpMoppDefaultAssembler::calcTerminalIdsForChunks | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: currentNode, chunkId, currentId
 int Ec8Ctx::FUN_00a87cd0(Ec8Src* node, int group, int a3)
 {
     int g = node->m40;
@@ -6873,6 +6943,7 @@ struct PointArray { Point* data; int count; };
 struct PlaneArray { Plane* data; int count; };
 // Fake match: the result is a one-byte struct returned through a hidden pointer; the pointer is written out
 // as the first parameter (as in the earlier draft).
+// pdb: hkGeomConvexHullTester::checkPlaneEquations | hkGeomConvexHullTester.obj | tesv_win, call_seq, medium
 bool* FUN_00a8a620(bool* result, PointArray* first, PointArray* second, PlaneArray* planes, float epsilon)
 {
     *result = true;
@@ -7074,6 +7145,8 @@ struct Analyzer
     void FUN_00a8c900() throw();
 };
 
+// pdb: hkMonitorStreamAnalyzer::resetNumThreads | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, call_gap, low
+// pdb params: numThreads, numSpus
 void Analyzer::FUN_00a8f110(int numThreads, int numSpus)
 {
     m_frameInfos.setSize(numThreads + numSpus);
@@ -7206,7 +7279,7 @@ struct KWalker {
     KTbl* unk14;
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
     int unk30;
-    void FUN_00a883e0(KNode* n, KCtx* c2, KCtx* c3, int idx, KIntVec* out);
+    void hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(KNode* n, KCtx* c2, KCtx* c3, int idx, KIntVec* out);
     void FUN_00a863b0(int a, int b);
     void FUN_00a867c0(KNode* n);
     void FUN_00a87710(KNode* n, KCtx* c2, KCtx* c3);
@@ -7214,7 +7287,8 @@ struct KWalker {
     void FUN_00a87770(KNode* n, KCtx* c2, KCtx* c3, KRes* r);
 };
 
-void KWalker::FUN_00a883e0(KNode* n, KCtx* c2, KCtx* c3, int idx, KIntVec* out)
+// pdb: hkpMoppDefaultAssembler::assembleSubNodeIntoChunks | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap_sim|call_gap) + skyrim(call_gap_sim), high
+void KWalker::hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(KNode* n, KCtx* c2, KCtx* c3, int idx, KIntVec* out)
 {
     int cnt = n->unk40;
     if (cnt > 0 && !c3->unk04) {
@@ -7228,7 +7302,7 @@ void KWalker::FUN_00a883e0(KNode* n, KCtx* c2, KCtx* c3, int idx, KIntVec* out)
         vec.size = 0;
         c3->unk04 = 1;
         vec.cap = 0x80000000;
-        FUN_00a883e0(n, c2, c3, cnt, &vec);
+        hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(n, c2, c3, cnt, &vec);
         if (unk14->unk1c != 0) {
             int s = unk10->unk0c + 5;
             FUN_00a863b0(s + ((-s) & 3), vec.size);
@@ -7259,13 +7333,13 @@ void KWalker::FUN_00a883e0(KNode* n, KCtx* c2, KCtx* c3, int idx, KIntVec* out)
             KNode* right = n->unk74;
             KCtx a;
             a.FUN_00a88b90(c3, right, &unk30);
-            FUN_00a883e0(right, c3, &a, idx, out);
+            hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(right, c3, &a, idx, out);
         }
         {
             KNode* left = n->unk70;
             KCtx a;
             a.FUN_00a88b90(c3, left, &unk30);
-            FUN_00a883e0(left, c3, &a, idx, out);
+            hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(left, c3, &a, idx, out);
         }
         FUN_00a87770(n, c2, c3, &r);
     }
@@ -7744,6 +7818,7 @@ struct FUN_00a8d060 {
     }
     static void operator delete(void*) {}
 };
+// pdb: createNewNode | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: hkVersionPatchManager::findLastPatchIndexForUid)
 static __declspec(noinline) FUN_00a8d060* FUN_00a8d160(FUN_00a8d060* parent, const char* name, int extra, bool findExisting)
 {
     if (findExisting)
@@ -7751,7 +7826,7 @@ static __declspec(noinline) FUN_00a8d060* FUN_00a8d160(FUN_00a8d060* parent, con
         int i = 0;
         while (parent && name && i < parent->children.m_size)
         {
-            if (parent->children[i]->name && f3m_00a8d1f0::FUN_009232c0(parent->children[i]->name, name) == 0)
+            if (parent->children[i]->name && f3m_00a8d1f0::hkString_strCmp(parent->children[i]->name, name) == 0)
                 return parent->children[i];
             ++i;
         }
@@ -7768,9 +7843,9 @@ FUN_00a8d060* Caller(FUN_00a8d060* parent, const char* name, int extra, bool fin
 // @f3 0x00a80ba0 (community match, verified in this file)
 namespace f3m_00a80ba0 {
 void CopyIfNonEmpty(char* dst, const char* src, int n);
-int FUN_00cb10d0(const char* s);
-int FUN_00cb0fd0(const char* a, const char* b, unsigned int n);
-int FUN_00923410(const char* s);
+int hkString_strLen(const char* s);
+int hkString_strNcmp(const char* a, const char* b, unsigned int n);
+int hkString_atoi(const char* s);
 
 // Decodes XML character entities (&lt; &gt; &amp; &quot; &apos; and &#n;) from src into dst.
 // Returns the decoded length, or -1 on a malformed entity.
@@ -7795,7 +7870,7 @@ int FUN_00a80ba0(char* dst, const char* source)
                 int buf[3];
                 CopyIfNonEmpty((char*)buf, start + 1, len);
                 ((char*)buf)[len] = 0;
-                *out++ = (char)FUN_00923410((char*)buf);
+                *out++ = (char)hkString_atoi((char*)buf);
             } else {
                 const char* entities[6];
                 entities[0] = "<lt";
@@ -7808,7 +7883,7 @@ int FUN_00a80ba0(char* dst, const char* source)
                 for (i = 0; entities[i]; i++) {
                     char ch = entities[i][0];
                     const char* name = entities[i] + 1;
-                    if (FUN_00cb0fd0(start, name, FUN_00cb10d0(name)) == 0) {
+                    if (hkString_strNcmp(start, name, hkString_strLen(name)) == 0) {
                         *out++ = ch;
                         break;
                     }
@@ -7919,6 +7994,8 @@ static __declspec(noinline) void FUN_00a8d560(Info* info, int frame, ChildArray*
     local.FUN_00922cf0();
 }
 
+// pdb: hkMonitorStreamAnalyzer::writeStatisticsDetailsToTexture | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, uconst, low
+// pdb params: nodeList, input, frameInfos, texture, height, sampleInfo
 void FUN_00a8db20(NodeArray& nodes, Layout* lay, EntryList* list, int** texture, int* height, SampleInfo* sampleInfo)
 {
     int pages = lay->pages;
@@ -8002,7 +8079,7 @@ void FUN_00a8db20(NodeArray& nodes, Layout* lay, EntryList* list, int** texture,
 // 0x00a8e070: Havok 5.5.0 hkMonitorStreamAnalyzer::makeStatisticsTreeForSingleFrame (hkBase, hkMonitorStreamAnalyzer.cpp),
 // written from the SDK headers and the library's debug records. Callees carry the game's addresses:
 //   FUN_00a8d160 createNewNode (static helper of the same file), FUN_00a8d060 Node::Node, FUN_00a8c240 Node::setTimers,
-//   FUN_009232c0 hkString::strCmp, FUN_00901f10 hkArrayUtil::_reserveMore, FUN_00901e90 hkArrayUtil::_reserve,
+//   hkString_strCmp hkString::strCmp, FUN_00901f10 hkArrayUtil::_reserveMore, FUN_00901e90 hkArrayUtil::_reserve,
 //   FUN_008f6800 hkThreadMemory::onRowEmpty (the game's build passes the memory class too), FUN_008f6d90
 //   hkThreadMemory::deallocateChunk, FUN_00d9b080 TlsGetValue, DAT_010f3170 hkThreadMemory__s_threadMemoryInstance.
 namespace hk550_a8e070 {
@@ -8296,7 +8373,7 @@ __forceinline hkInplaceArray<T,N>::hkInplaceArray(int size)
 class hkString
 {
 	public:
-		static int FUN_009232c0( const char* s1, const char* s2 ) throw();
+		static int hkString_strCmp( const char* s1, const char* s2 ) throw();
 };
 
 class hkMonitorStream
@@ -8370,7 +8447,7 @@ static hkMonitorStreamAnalyzer::Node* FUN_00a8d160( hkMonitorStreamAnalyzer::Nod
 	{
 		for ( int c = 0; parent && name && c < parent->m_children.getSize(); c++ )
 		{
-			if ( parent->m_children[c]->m_name && hkString::FUN_009232c0( parent->m_children[c]->m_name, name ) == 0 )
+			if ( parent->m_children[c]->m_name && hkString::hkString_strCmp( parent->m_children[c]->m_name, name ) == 0 )
 			{
 				return parent->m_children[c];
 			}
@@ -8379,6 +8456,8 @@ static hkMonitorStreamAnalyzer::Node* FUN_00a8d160( hkMonitorStreamAnalyzer::Nod
 	return new hkMonitorStreamAnalyzer::Node( parent, name, type );
 }
 
+// pdb: hkMonitorStreamAnalyzer::makeStatisticsTreeForSingleFrame | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: frameStart, frameEnd, frameInfo, rootNodeName, reuseNodesIfPossible
 hkMonitorStreamAnalyzer::Node* hkMonitorStreamAnalyzer::FUN_00a8e070( const char* frameStart, const char* frameEnd, const hkMonitorStreamFrameInfo& frameInfo, const char* rootNodeName, hkBool reuseNodesIfPossible )
 {
 	const char* currentStreamPtr = frameStart;
@@ -8421,7 +8500,7 @@ hkMonitorStreamAnalyzer::Node* hkMonitorStreamAnalyzer::FUN_00a8e070( const char
 				const hkMonitorStream::TimerCommand& start = timerStack[ timerStack.getSize() - 1 ];
 				const hkMonitorStream::TimerCommand* com = reinterpret_cast<const hkMonitorStream::TimerCommand*>( currentStreamPtr );
 
-				if ( string[2] && hkString::FUN_009232c0( &start.m_commandAndMonitor[2], &string[2] ) )
+				if ( string[2] && hkString::hkString_strCmp( &start.m_commandAndMonitor[2], &string[2] ) )
 				{
 					return rootNode;
 				}
@@ -8666,6 +8745,8 @@ struct Walker
     int FUN_00a87ae0(Node* n, void* b, State* st);
 };
 
+// pdb: hkpMoppDefaultAssembler::assemblesubNode | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: currentNode, parentInfo, currentInfo
 int Walker::FUN_00a87ae0(Node* n, void* b, State* st)
 {
     State cc;
@@ -8748,6 +8829,7 @@ struct A80500Obj {
     void FUN_00a80290();
     void* FUN_00a80500(int flags);
 };
+// pdb: hkPackfileData::`scalar deleting destructor' | hkPackfileData.obj | fnv360_0822_retail, vtable_prefix, high
 void* A80500Obj::FUN_00a80500(int flags)
 {
     FUN_00a80290();
@@ -8773,6 +8855,7 @@ struct Obj { virtual void v0(); virtual void v1(); virtual void v2(); virtual vo
 volatile void* g_00a80530_in;
 volatile int g_00a80530_out;
 
+// pdb: getNumElementsInMember | hkDataObjectUtil.obj | fnv360_0822_retail, caller_sim, low
 static __declspec(noinline) int FUN_00a80530(Obj* o)
 {
     if (o->m())
@@ -8801,15 +8884,16 @@ struct RecBox
     RecEntry** unk30;
     int unk34;
 };
-int __cdecl FUN_009232c0(const char* a, const char* b);
+int __cdecl hkString_strCmp(const char* a, const char* b);
 
+// pdb: hkFindChildByName | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, call_gap_sim, low
 static __declspec(noinline) RecEntry* FUN_00a8c7a0(RecBox* box, const char* name, bool abFallbackToFirst)
 {
     int i = 0;
     while (i < box->unk34)
     {
         RecEntry** p = &box->unk30[i];
-        if (FUN_009232c0(name, (*p)->unk4c) == 0)
+        if (hkString_strCmp(name, (*p)->unk4c) == 0)
             return box->unk30[i];
         i++;
     }
@@ -8940,6 +9024,8 @@ struct MonitorAnalyzer {
     void FUN_00a8eee0(ReportStream& stream, int reportLevel);
 };
 
+// pdb: hkMonitorStreamAnalyzer::writeStatistics | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: outStream, reportLevel
 void MonitorAnalyzer::FUN_00a8eee0(ReportStream& stream, int reportLevel) {
     NodeArray nodes;
     for (int i = 0; i < frameInfos.size; ++i) {

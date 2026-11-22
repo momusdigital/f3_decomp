@@ -36,25 +36,10 @@ inline void FUN_00c9ea00__VirtualObject::FUN_00c9ea00__M7(void*, float, void*)
 
 double DAT_01011588 = 0.5;
 
-struct FUN_00c9ea00__Class
-{
-    void __thiscall FUN_00c9ea00(void*);
-};
-
-
-
-struct CpuObject
-{
-    char* FUN_00c9e810();
-};
-// @fnv 0x00c9e810
-char* CpuObject::FUN_00c9e810()
-{
-    return reinterpret_cast<char*>(this) + 176;
-}
-
 void FreeListenerArrays();
 // @fnv 0x00c9e820
+// pdb: NiKeyBasedInterpolator::LoadBinary | NiKeyBasedInterpolator.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: kStream
 void FUN_00c9e820()
 {
     FreeListenerArrays();
@@ -239,8 +224,6 @@ struct S00c9e830_Shape
 };
 
 extern "C" void __cdecl FUN_00cb5d00(S00c9e830_Owner* owner, void* object);
-extern "C" void __cdecl FUN_00d008c0(S00c9e830_Owner* owner, void* object);
-extern "C" void __cdecl QueryEntityIntoBuffer(S00c9e830_Owner* owner, void* object);
 
 struct S00c9e830_Obj
 {
@@ -251,7 +234,7 @@ struct S00c9e830_Obj
     S00c9e830_Shape* unk10;
 
     void NotifyListeners();
-    unsigned int FUN_00c9e830(S00c9e830_Shape* parameter);
+    unsigned int hkpShapePhantom_setShape(S00c9e830_Shape* parameter);
 };
 
 // Sets the object's shape to the given parameter, notifying listeners and the owner, or queues the operation if the owner is locked.
@@ -294,9 +277,10 @@ struct S00c9e830_Notifier
 {
     void FUN_009898a0();
 };
-extern "C" void __cdecl FUN_009889a0(void* owner, void* object);
-extern "C" void __cdecl FUN_00928190(void* owner, void* object);
-unsigned int S00c9e830_Obj::FUN_00c9e830(S00c9e830_Shape* apShape)
+extern "C" void __cdecl hkpWorldCallbackUtil_firePhantomShapeSet(void* owner, void* object);
+extern "C" void __cdecl hkpWorldOperationUtil_addPhantomBP(void* owner, void* object);
+// pdb: hkpShapePhantom::setShape | hkpShapePhantom.obj | fnv360_0822_retail, vtable_prefix + bridge(vtable_prefix|vtable) + skyrim(caller_sim), high
+unsigned int S00c9e830_Obj::hkpShapePhantom_setShape(S00c9e830_Shape* apShape)
 {
     S00c9e830_Operation operation;
 
@@ -323,13 +307,13 @@ unsigned int S00c9e830_Obj::FUN_00c9e830(S00c9e830_Shape* apShape)
     unk10 = apShape;
 
     if (unk08 != 0)
-        FUN_009889a0(unk08, this);
+        hkpWorldCallbackUtil_firePhantomShapeSet(unk08, this);
 
     reinterpret_cast<S00c9e830_Notifier*>(this)->FUN_009898a0();
 
     if (unk08 != 0)
     {
-        FUN_00928190(unk08, this);
+        hkpWorldOperationUtil_addPhantomBP(unk08, this);
         reinterpret_cast<S00c9e830_Queue*>(unk08)->unlock();
     }
 
@@ -444,11 +428,11 @@ class FUN_00c9e910_Class
     __m128 unkD0;
     __m128 unkE0;
 
-    void FUN_00d07ec0(void* value);
-    void FUN_00c9e910(int value);
+    void hkpPhantom_updateBroadPhase(void* value);
+    void hkpShapePhantom_setTransform(int value);
 };
 
-// Copies 16 floats from value into unkB0..unkE0; if unk08 is set, calls unk10's method with value and a scaled factor, then passes the result to FUN_00d07ec0.
+// Copies 16 floats from value into unkB0..unkE0; if unk08 is set, calls unk10's method with value and a scaled factor, then passes the result to hkpPhantom_updateBroadPhase.
 // @f3 0x0090dd40 (community match, verified in this file)
 struct W29Inner
 {
@@ -493,7 +477,8 @@ struct W29Sub
     void FUN_008fda60(int value);
 };
 
-void FUN_00c9e910_Class::FUN_00c9e910(int value)
+// pdb: hkpShapePhantom::setTransform | hkpShapePhantom.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap_sim) + skyrim(objrun), high
+void FUN_00c9e910_Class::hkpShapePhantom_setTransform(int value)
 {
     reinterpret_cast<W29Sub*>(&unkA0)->FUN_008fda60(value);
 
@@ -503,22 +488,11 @@ void FUN_00c9e910_Class::FUN_00c9e910(int value)
         FUN_00c9e910_Temporary temporary;
 
         unk10->FUN_00c9ea00__M7(reinterpret_cast<void*>(value), scaled, &temporary);
-        FUN_00d07ec0(&temporary);
+        hkpPhantom_updateBroadPhase(&temporary);
     }
 }
 
 
-struct FUN_00c9e990_Local
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
 struct FUN_00c9e990_Inner
 {
     int unk00;
@@ -629,10 +603,10 @@ struct FUN_00c9e990_cls
     int unkD8;
     int unkDC;
     __m128 unkE0;
-    void FUN_00c9e990(__m128* a, float b);
-    void FUN_00d07ec0(void* a1);
+    void hkpShapePhantom_setPosition(__m128* a, float b);
+    void hkpPhantom_updateBroadPhase(void* a1);
 };
-// Stores *a in unkE0 and, if m_08 is set, calls m_10->M7 with &unkB0, b plus half of m_08->unk78->unk08, and a local buffer, then FUN_00d07ec0 on it.
+// Stores *a in unkE0 and, if m_08 is set, calls m_10->M7 with &unkB0, b plus half of m_08->unk78->unk08, and a local buffer, then hkpPhantom_updateBroadPhase on it.
 // @f3 0x0090dda0 (community match, verified in this file)
 struct FUN_00989c00_stand
 {
@@ -649,7 +623,8 @@ struct __declspec(align(16)) FUN_00c9e990_LocalA
     int unk18;
     int unk1C;
 };
-void FUN_00c9e990_cls::FUN_00c9e990(__m128* a, float b)
+// pdb: hkpShapePhantom::setPosition | hkpShapePhantom.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_gap) + skyrim(call_gap_sim), high
+void FUN_00c9e990_cls::hkpShapePhantom_setPosition(__m128* a, float b)
 {
     float* src = (float*)a;
     float* dst = (float*)&unkD0;

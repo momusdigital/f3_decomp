@@ -12,6 +12,7 @@ struct Out { V4 a, b, c; };
 struct Stream { char pad[0xb8]; int numDecoded; };
 extern "C" void FUN_00a4e410(Out* o, int a4, int a5);
 static inline void cp(V4& d, const V4& s) { d.x = s.x; d.y = s.y; d.z = s.z; d.w = s.w; }
+// pdb: hkpGenericConstraintData::constrainToAngularW | hkpGenericConstraintData.obj | tesv_win, objrun, medium
 void __stdcall FUN_009de740(unsigned int** a0, int u1, int u2, V4* apStream, int a4, int a5)
 {
     Out out;
@@ -58,7 +59,8 @@ struct Dispatcher_x { unsigned char table[77][32]; Entry_x entries[256];
     __forceinline Penetrate_x get(int a,int b) const { return entries[table[a+13][b]].penetrate; }
 };
 struct Input_x { Dispatcher_x* dispatcher; };
-void FUN_009d29b0(const Body_x& a,const Body_x& b,const Input_x* volatile input,Collector_x& collector)
+// pdb: hkpMultiSphereAgent::staticGetPenetrations | hkpMultiSphereAgent.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void hkpMultiSphereAgent_staticGetPenetrations(const Body_x& a,const Body_x& b,const Input_x* volatile input,Collector_x& collector)
 {
     const Multi_x* multi=static_cast<const Multi_x*>(a.shape);
     Motion_x ms(*a.motion);
@@ -257,6 +259,8 @@ __forceinline void hkTimerEnd()
 struct RootBody : hkpCdBody {unsigned u10,u14,u18,flags;};
 struct __declspec(align(16)) hkpShapeBuffer {unsigned long m_data[128];};
 // @fnv 0x00d43b90
+// pdb: hkpShapeCollectionAgent::staticLinearCast | hkpShapeCollectionAgent.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void __cdecl FUN_009d1840(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const CollisionAgentContext* input, void* a4,
                           void* a5)
 {
@@ -668,7 +672,8 @@ __forceinline bool ComputeClosestPoints(const hkpCdBody& bodyA, const hkpCdBody&
 
 } // namespace N9c6780
 
-void __cdecl FUN_009c6780(const N9c6780::hkpCdBody& bodyA, const N9c6780::hkpCdBody& bodyB,
+// pdb: hkpSphereBoxAgent::staticGetClosestPoints | hkpSphereBoxAgent.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|ustr_rel) + skyrim(ustr_rel), high
+void __cdecl hkpSphereBoxAgent_staticGetClosestPoints(const N9c6780::hkpCdBody& bodyA, const N9c6780::hkpCdBody& bodyB,
                           const N9c6780::hkpCollisionInput& input, N9c6780::hkpCdPointCollector& collector)
 {
     using namespace N9c6780;
@@ -732,7 +737,7 @@ void Obj::FUN_009db1a0(float angle)
     out0.z = v.z;
     out0.w = v.w;
 
-    volatile float ry = row[1].x * v.z - row[1].z * v.x;
+    float ry = row[1].x * v.z - row[1].z * v.x;
     volatile float rz = row[1].y * v.x - row[1].x * v.y;
     out2.x = v.y * row[1].z - row[1].y * v.z;
     out2.y = ry;
@@ -750,7 +755,8 @@ out.z=bz+a.z;
 out.w=bw+a.w;
 }
 typedef void (__cdecl *Process867)(const Body_x&,const Body_x&,const Input_x&,void*,void*);
-void FUN_009d26b0(const Body_x& a,const Body_x& b,const Input_x* input,void* output,void* context)
+// pdb: hkpMultiSphereAgent::staticLinearCast | hkpMultiSphereAgent.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void hkpMultiSphereAgent_staticLinearCast(const Body_x& a,const Body_x& b,const Input_x* input,void* output,void* context)
 {
     const Multi_x* multi=static_cast<const Multi_x*>(a.shape);
     Motion_x ms(*a.motion);
@@ -784,6 +790,7 @@ void FUN_009d26b0(const Body_x& a,const Body_x& b,const Input_x* input,void* out
 #include <intrin.h>
 #include <math.h>
 
+#include "havok/hkMonitorStream.h"
 namespace NativeBox891 {
 extern unsigned long DAT_0116913c;
 extern const char DAT_00e7f1b8[],DAT_00e32798[];
@@ -793,6 +800,11 @@ struct S009c5c30_Ev {
     const char* id;
     unsigned int tick;
     unsigned int unk08;
+
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int ticks; __asm { rdtsc
+        mov ticks, eax } tick = ticks; }
 };
 
 struct S009c5c30_Tls {
@@ -849,19 +861,9 @@ struct S009c5c30_Cb {
     virtual void Slot1(void* a, void* b);
 };
 
-void FUN_009c5c30(S009c5c30_A* a, S009c5c30_B* b, unsigned int unk10, S009c5c30_Cb* cb) {
-    S009c5c30_Tls* tls = (S009c5c30_Tls*)DAT_00d9b080(DAT_0116913c);
-    S009c5c30_Ev* ev = tls->cur;
-    if (ev < tls->end) {
-        ev->id = DAT_00e7f1b8;
-        unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        ev->tick = ticks;
-        tls->cur = ev + 1;
-    }
+// pdb: hkpSphereBoxAgent::staticGetPenetrations | hkpSphereBoxAgent.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void hkpSphereBoxAgent_staticGetPenetrations(S009c5c30_A* a, S009c5c30_B* b, unsigned int unk10, S009c5c30_Cb* cb) {
+    HK_TIMER_BEGIN("SphereBox", HK_NULL);
 
     S009c5c30_Y* y = a->y;
     S009c5c30_Vec* pos = &a->q->pos;
@@ -900,18 +902,7 @@ void FUN_009c5c30(S009c5c30_A* a, S009c5c30_B* b, unsigned int unk10, S009c5c30_
         cb->Slot1(a, b);
     }
 
-    tls = (S009c5c30_Tls*)DAT_00d9b080(DAT_0116913c);
-    ev = tls->cur;
-    if (ev < tls->end) {
-        ev->id = DAT_00e32798;
-        unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        ev->tick = ticks;
-        tls->cur = ev + 1;
-    }
+    HK_TIMER_END();
 }
 
 }
@@ -1148,7 +1139,7 @@ struct hkpBoxBoxCollisionDetection
         m_keepRadiusB.setAdd4(radiusB, m_tolerance4);
     }
 
-    void FUN_00a3e820(hkpBoxBoxManifold& manifold) const;  // calcManifold
+    void hkpBoxBoxCollisionDetection_calcManifold(hkpBoxBoxManifold& manifold) const;  // calcManifold
 
     const hkpCdBody* m_bodyA;
     const hkpCdBody* m_bodyB;
@@ -1176,7 +1167,8 @@ struct hkpBoxBoxCollisionDetection
 
 }  // namespace f3m_009ca130
 
-void* __cdecl FUN_009ca130(const f3m_009ca130::hkpAgent3ProcessInput& input, f3m_009ca130::hkpAgentEntry* entry,
+// pdb: hkBoxBoxAgent3::process | hkpBoxBoxAgent3.obj | fnv360_0822_retail, objrun + bridge(caller_sim|caller_sim) + skyrim(caller_sim), high
+void* __cdecl hkBoxBoxAgent3_process(const f3m_009ca130::hkpAgent3ProcessInput& input, f3m_009ca130::hkpAgentEntry* entry,
                            void* agentData, f3m_009ca130::hkVector4* separatingNormalOut,
                            f3m_009ca130::hkpProcessCollisionOutput& output)
 {
@@ -1205,7 +1197,7 @@ void* __cdecl FUN_009ca130(const f3m_009ca130::hkpAgent3ProcessInput& input, f3m
                                              tolerance);
 
     hk::hkpBoxBoxManifold* manifold = static_cast<hk::hkpBoxBoxManifold*>(agentData);
-    detector.FUN_00a3e820(*manifold);
+    detector.hkpBoxBoxCollisionDetection_calcManifold(*manifold);
     entry->m_numContactPoints = manifold->m_numPoints;
 
     hk::hkTimerCommand("Et");
@@ -1437,7 +1429,7 @@ struct hkpBoxBoxCollisionDetection
         m_keepRadiusB.setAdd4(radiusB, m_tolerance4);
     }
 
-    void FUN_00a3e820(hkpBoxBoxManifold& manifold) const;  // calcManifold
+    void hkpBoxBoxCollisionDetection_calcManifold(hkpBoxBoxManifold& manifold) const;  // calcManifold
 
     const hkpCdBody* m_bodyA;
     const hkpCdBody* m_bodyB;
@@ -1479,13 +1471,14 @@ struct hkpCollisionAgent : hkReferencedObject
 struct hkpBoxBoxAgent : hkpCollisionAgent
 {
     // processCollision
-    void FUN_009ca610(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input,
+    void hkpBoxBoxAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input,
                       hkpProcessCollisionOutput& result);
 
     hkpBoxBoxManifold m_manifold;
 };
 
-void hkpBoxBoxAgent::FUN_009ca610(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpBoxBoxAgent::processCollision | hkpBoxBoxAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpBoxBoxAgent::hkpBoxBoxAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                   const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result)
 {
     hkTimerCommand(DAT_00e7f370);
@@ -1508,7 +1501,7 @@ void hkpBoxBoxAgent::FUN_009ca610(const hkpCdBody& bodyA, const hkpCdBody& bodyB
     hkpBoxBoxCollisionDetection detector(bodyA, bodyB, &input, m_contactMgr, &result, aTb, bodyA.getTransform(),
                                          radiusA, bodyB.getTransform(), radiusB, input.getTolerance());
 
-    detector.FUN_00a3e820(m_manifold);
+    detector.hkpBoxBoxCollisionDetection_calcManifold(m_manifold);
 
     hkTimerCommand("Et");
 }
@@ -1524,6 +1517,16 @@ namespace S009c2530_ns {
 __declspec(dllimport) void* __stdcall FUN_00d9b080(unsigned long) throw();
 
 struct S009c2530_Stream { char* m_start; char* m_cur; char* m_spare; char* m_end; };
+// hkMonitorStream::TimerCommand (class and member names: FNV360_PDB)
+struct S009c2530_TimerCommand
+{
+    const char* m_commandAndMonitor;
+    unsigned int m_time0;
+    unsigned int m_time1;
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int ticks; __asm { rdtsc
+        mov dword ptr[ticks], eax } m_time0 = ticks; }
+};
 
 struct hkTransform;
 
@@ -1671,7 +1674,8 @@ void __cdecl hkCollideCapsuleUtilCapsVsTri(const hkVector4* capsPoints, float ca
 }
 using namespace S009c2530_ns;
 
-S009c2530_AgentData* FUN_009c2530(const hkpAgent3ProcessInput& input, hkpAgentEntry* entry, S009c2530_AgentData* agentData,
+// pdb: hkCapsuleTriangleAgent3::process | hkpCapsuleTriangleAgent3.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+S009c2530_AgentData* hkCapsuleTriangleAgent3_process(const hkpAgent3ProcessInput& input, hkpAgentEntry* entry, S009c2530_AgentData* agentData,
                                   hkVector4* separatingNormal, hkpProcessCollisionOutput& output)
 {
     {
@@ -1679,14 +1683,10 @@ S009c2530_AgentData* FUN_009c2530(const hkpAgent3ProcessInput& input, hkpAgentEn
         char* cur = s->m_cur;
         if (cur < s->m_end)
         {
-            *(const char**)cur = "TtCapsTri3";
-            unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
-            *(unsigned int*)(cur + 4) = ticks;
-            s->m_cur = cur + 12;
+            S009c2530_TimerCommand* h = (S009c2530_TimerCommand*)cur;
+            h->m_commandAndMonitor = "TtCapsTri3";
+            h->setTime();
+            s->m_cur = (char*)(h + 1);
         }
     }
 
@@ -1774,14 +1774,10 @@ storeId:
         char* cur = s->m_cur;
         if (cur < s->m_end)
         {
-            *(const char**)cur = "Et";
-            unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
-            *(unsigned int*)(cur + 4) = ticks;
-            s->m_cur = cur + 12;
+            S009c2530_TimerCommand* h = (S009c2530_TimerCommand*)cur;
+            h->m_commandAndMonitor = "Et";
+            h->setTime();
+            s->m_cur = (char*)(h + 1);
         }
     }
     return agentData + 1;
@@ -1903,6 +1899,7 @@ struct hkpCollisionInput
 void __cdecl FUN_0096d120(const hkVector4* capsAPoints, float capsARadius, const hkVector4* capsBPoints, float capsBRadius,
                           hkContactPoint* points);
 
+// pdb: getThreeClosestPointsInl | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, objrun, medium
 static __declspec(noinline) void FUN_009c4bb0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                                               hkContactPoint* points)
 {
@@ -1943,7 +1940,7 @@ void S009c4bb0_caller()
 // match without that body in the file. It is defined below, before the namespace, under the project symbol map's own
 // name and parameter type for 0x009d5030 (FUN_00d49c20(d20base*, int)); the stand-in pointer type is the only change
 // to the SDK's body (the stride is cast back to int for the switch, and to the pointer type at the two calls).
-// The member is named FUN_009d5360 inside its class (the base class's virtual addTrianglesSubpart is not overridden
+// The member is named hkpStorageExtendedMeshShape_addTrianglesSubpart inside its class (the base class's virtual addTrianglesSubpart is not overridden
 // here, which changes no byte of the function).
 // This file is built from the Havok 5.5.0 SDK's own headers: the function was compiled with the real headers, and
 // the preprocessed source was cut down mechanically to the declarations the code needs (whole declarations by
@@ -3060,7 +3057,7 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 		hkpStorageExtendedMeshShape( hkReal radius = hkConvexShapeDefaultRadius, int numBitsForSubpartIndex = 12 );
 		hkpStorageExtendedMeshShape( const hkpExtendedMeshShape* mesh );
 		~hkpStorageExtendedMeshShape();
-		virtual void FUN_009d5360( const TrianglesSubpart& part );
+		virtual void hkpStorageExtendedMeshShape_addTrianglesSubpart( const TrianglesSubpart& part );
 		virtual void addShapesSubpart( const ShapesSubpart& part );
 	public:
 		hkpStorageExtendedMeshShape( hkFinishLoadedObjectFlag flag );
@@ -3098,9 +3095,9 @@ class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape
 		hkArray<struct MeshSubpartStorage*> m_meshstorage;
 		hkArray<struct ShapeSubpartStorage*> m_shapestorage;
 };
-void hkpStorageExtendedMeshShape::FUN_009d5360( const TrianglesSubpart& partIn )
+// pdb: hkpStorageExtendedMeshShape::addTrianglesSubpart | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, call_gap + bridge(call_gap|vtable) + skyrim(call_gap), high
+void hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape_addTrianglesSubpart( const TrianglesSubpart& partIn )
 {
-	;
 	TrianglesSubpart& part = *expandOneTriangleSubparts();
 	{
 		TrianglesSubpart temp;
@@ -3220,7 +3217,6 @@ void hkpStorageExtendedMeshShape::FUN_009d5360( const TrianglesSubpart& partIn )
 	}
 	if ( part.m_materialIndexBase )
 	{
-		;
 		if ( partIn.m_materialStriding == 0 )
 		{
 			store.m_materials.pushBack( *reinterpret_cast<const hkUint32*>( partIn.m_materialBase ) );
@@ -3241,8 +3237,6 @@ void hkpStorageExtendedMeshShape::FUN_009d5360( const TrianglesSubpart& partIn )
 		}
 		part.m_materialBase = reinterpret_cast<const hkpMeshMaterial*>( store.m_materials.begin() );
 	}
-	;
-	;
 	recalcAabbExtents();
 }
 
@@ -4161,6 +4155,7 @@ inline void __cdecl hkVector4Util::uncompressExpandedAabbUint32(const hkAabbUint
 
 using namespace S9ceea0_;
 
+// pdb: hkCollectionBvTreeAgent3_extractCachedAabbsOrRecalculate | hkpCollectionCollectionAgent3.obj | fnv360_0822_retail, call_gap, medium, conflict (bridge: hk1AxisSweep::collide)
 static int __cdecl FUN_009ceea0( const hkpCdBody* cdBody, const hkpShapeContainer* collection, const hkpProcessCollisionInput& input, hk1AxisSweep::AabbInt* aabbs, int aabbsCapacity )
 {
 	const int useContinuousPhysics = input.m_collisionQualityInfo->m_useContinuousPhysics;

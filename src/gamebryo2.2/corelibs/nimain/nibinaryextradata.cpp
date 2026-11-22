@@ -15,6 +15,7 @@ struct BSFadeNode
 extern int DAT_0102e394;
 
 // @fnv 0x00a7f8e0
+// pdb: NiBinaryExtraData::CreateObject | NiBinaryExtraData.obj | fnv360_0822_retail, caller_sim, medium
 void* __cdecl FUN_00a7f8e0()
 {
     void* p = BSFadeNode::operator new(0x14);
@@ -89,6 +90,8 @@ struct NiBinaryExtraData : NiExtraData
 
 // Calls FUN_00a7b4a0, reads m_uiSize from the stream, and if nonzero allocates m_pData and reads m_uiSize bytes into it.
 // @fnv 0x00a7f9a0
+// pdb: NiBinaryExtraData::LoadBinary | NiBinaryExtraData.obj | fnv360_0822_retail, vtable, high
+// pdb params: kStream
 void NiBinaryExtraData::FUN_00a7f9a0(NiStream& stream)
 {
     FUN_00a7b4a0(stream);
@@ -100,7 +103,7 @@ void NiBinaryExtraData::FUN_00a7f9a0(NiStream& stream)
 }
 
 namespace fnv_00a7fa20 {
-// FUN_00a7fa20 - NiBinaryExtraData::SaveBinary (vtable slot 22 of
+// NiBinaryExtraData_SaveBinary - NiBinaryExtraData::SaveBinary (vtable slot 22 of
 // NiBinaryExtraData, overriding NiExtraData::SaveBinary).
 //
 //   this  : the extra-data object
@@ -282,14 +285,15 @@ struct NiBinaryExtraData
     void* unk08;
     void* unk0c;         // the payload pointer
     unsigned int unk10;  // the payload size
-    void FUN_00a7b2c0(NiStreamLike* s);
-    void FUN_00a7fa20(NiStreamLike* s);
+    void NiExtraData_SaveBinary(NiStreamLike* s);
+    void NiBinaryExtraData_SaveBinary(NiStreamLike* s);
 };
 
 // @fnv 0x00a7fa20
-void NiBinaryExtraData::FUN_00a7fa20(NiStreamLike* apStream)
+// pdb: NiBinaryExtraData::SaveBinary | NiBinaryExtraData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void NiBinaryExtraData::NiBinaryExtraData_SaveBinary(NiStreamLike* apStream)
 {
-    this->FUN_00a7b2c0(apStream);
+    this->NiExtraData_SaveBinary(apStream);
     FadeNode* node = apStream->unk250;
     {
         int flag = 4;
@@ -337,6 +341,8 @@ void* __cdecl FUN_00a7d330(unsigned int v);
 void* __cdecl FUN_00a7d510(const char* fmt, void* v);
 
 // @fnv 0x00a7fa90
+// pdb: NiBinaryExtraData::GetViewerStrings | NiBinaryExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pStrings
 void FUN_00a7fa90_cls::FUN_00a7fa90(FUN_00a7fa90_obj* pObj)
 {
     FUN_00a7b580(pObj);
@@ -365,6 +371,8 @@ struct FUN_00a89ae0_shell
     bool FUN_00a89ae0(int);
 };
 // @fnv 0x00a89ae0
+// pdb: Character::LoadGame | Character.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: aiFlags, aiCurrentFlags
 bool FUN_00a89ae0_shell::FUN_00a89ae0(int a)
 {
     return ((FUN_00cb9c70_cls*)this)->Check(a);
@@ -372,6 +380,7 @@ bool FUN_00a89ae0_shell::FUN_00a89ae0(int a)
 
 extern void __cdecl FUN_00a7b3b0();
 // @fnv 0x00a9af00
+// pdb: PlayerCharacter::ForceReload | PlayerCharacter.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00a9af00()
 {
     FUN_00a7b3b0();
@@ -391,6 +400,8 @@ struct A7F870BinaryData
 
 // Returns true when pkOther is non-null, has the same m_uiSize, and its m_pByteBuffer matches this one via memcmp.
 // @fnv 0x00a7f870
+// pdb: NiBinaryExtraData::IsEqual | NiBinaryExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pObject
 bool A7F870BinaryData::IsEqual(const A7F870BinaryData* pkOther) const
 {
     if (!pkOther)
@@ -431,7 +442,7 @@ class A7F920BinaryExtraData : public A7F920ExtraData
     }
     virtual void vfunc00();
 
-    A7F920ExtraData* FUN_00a7f920(CloningProcess& kCloning);
+    A7F920ExtraData* NiBinaryExtraData_CreateClone(CloningProcess& kCloning);
 
     char* m_pByteBuffer;
     unsigned int m_uiSize;
@@ -439,7 +450,8 @@ class A7F920BinaryExtraData : public A7F920ExtraData
 
 // Creates a new A7F920BinaryExtraData, copies member data, and duplicates the byte buffer when m_uiSize is non-zero.
 // @fnv 0x00a7f920
-A7F920ExtraData* A7F920BinaryExtraData::FUN_00a7f920(CloningProcess& kCloning)
+// pdb: NiBinaryExtraData::CreateClone | NiBinaryExtraData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+A7F920ExtraData* A7F920BinaryExtraData::NiBinaryExtraData_CreateClone(CloningProcess& kCloning)
 {
     A7F920BinaryExtraData* pkClone = new A7F920BinaryExtraData;
     CopyMemberData(pkClone, kCloning);

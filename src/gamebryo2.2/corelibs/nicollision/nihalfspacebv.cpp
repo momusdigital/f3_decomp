@@ -21,6 +21,7 @@ void __cdecl FUN_00e9cc10(const NiBoundingVolume* kABV)
 }
 
 // @fnv 0x00e9e670
+// pdb: bhkCharacterStateSwimming::getType | bhkCharacterStateSwimming.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: BGSQueuedObjectInitialLoad::QUpdateType)
 int __cdecl FUN_00e9e670()
 {
     return 5;
@@ -45,6 +46,8 @@ struct FUN_00e9cb80_Holder
 };
 // Saves the bounding volume, sphere and color sub-objects to the stream in sequence.
 // @fnv 0x00e9cb80
+// pdb: NiHalfSpaceBV::SaveBinary | NiHalfSpaceBV.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00e9cb80_Holder::FUN_00e9cb80(NiStream& kStream)
 {
     ((NiBoundingVolume_SaveHelper*)this)->SaveBinary(kStream);
@@ -98,6 +101,7 @@ struct FUN_00e9e700_Helper
     NiBoundingVolume* FUN_00e9e680(const NiPoint3&, const NiPoint3&);
 };
 // @fnv 0x00e9e700
+// pdb: BGSPrimitiveLine::`scalar deleting destructor' | BGSPrimitive.obj | fnv360_0822_debug, objrun_open, low
 NiBoundingVolume* FUN_00e9e700()
 {
     FUN_00e9e700_Helper* p = (FUN_00e9e700_Helper*)g_memoryManager.Allocate(32);
@@ -118,6 +122,8 @@ struct D_00e9e980
 bool __cdecl CallConditionFunction(float, void*, void*, void*, void*);
 // Scans the pointer array in d up to m_cnt, calls CallConditionFunction on each element, and on success stores the index in m_found and returns true.
 // @fnv 0x00e9e980
+// pdb: NiUnionBV::UnionOtherTestIntersect | NiUnionBV.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: fTime, kABV0, kV0, kABV1, kV1
 bool __cdecl FUN_00e9e980(float afValue, D_00e9e980* pContainer, void* a, void* b, void* c)
 {
     unsigned int i = 0;
@@ -160,6 +166,8 @@ struct NiHalfSpaceBV : NiObject
 
 // Links the object to the stream, then loads the plane and center point from the stream.
 // @fnv 0x00e9cb50
+// pdb: NiHalfSpaceBV::LoadBinary | NiHalfSpaceBV.obj | fnv360_0822_debug, caller_sim, low
+// pdb params: kStream
 void NiHalfSpaceBV::FUN_00e9cb50(NiStream& stream)
 {
     NiObject::LinkObject(stream);
@@ -296,6 +304,8 @@ struct FUN_00e9e680
 };
 
 // @fnv 0x00e9e680
+// pdb: NiHalfSpaceBV::NiHalfSpaceBV | NiHalfSpaceBV.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kPoint, kNormal
 FUN_00e9e680::FUN_00e9e680(const Pt3_e9e& akPoint, const Pt3_e9e& kNormal) : m_kStartPoint(akPoint)
 {
     Plane_e9e m_kFogPlane;
@@ -345,6 +355,8 @@ CloneNode::~CloneNode()
 
 // Allocates a new CloneNode, initialises its member, copies this node's member and point into it, and returns it.
 // @fnv 0x00e9e730
+// pdb: NiHalfSpaceBV::NiHalfSpaceBV | NiHalfSpaceBV.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: WaterReflectionData::WaterReflectionData)
+// pdb params: kABV
 NiBoundingVolume* CloneNode::FUN_00e9e730()
 {
     CloneNode* clone = new CloneNode();
@@ -375,6 +387,8 @@ struct FUN_00e9e780_Virtual
 
 // Allocates a 0x20-byte helper, builds a NiBoundingVolume from two NiPoint3 constants, invokes Call(p) on it, and returns it.
 // @fnv 0x00e9e780
+// pdb: NiHalfSpaceBV::CreateFromStream | NiHalfSpaceBV.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: TESWaterReflections::RemoveReflectedObject)
+// pdb params: kStream
 NiBoundingVolume* __cdecl CreateBoundingVolumeAndCall(void* apArg)
 {
     FUN_00e9e700_Helper* helper = static_cast<FUN_00e9e700_Helper*>(g_memoryManager.Allocate(0x20));
@@ -425,6 +439,8 @@ class E9E7D0BoundingVolume
 
 // Formats "<pcName> = HALFSPACE_BV" into a newly allocated buffer and appends it to pkStrings.
 // @fnv 0x00e9e7d0
+// pdb: NiHalfSpaceBV::AddViewerStrings | NiHalfSpaceBV.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, pkStrings
 void E9E7D0BoundingVolume::AddHalfspaceName(const char* pcName, E9E7D0StrArray* pkStrings)
 {
     unsigned int uiLen = strlen(pcName) + 16;
@@ -615,6 +631,8 @@ struct Vec3
 };
 // Checks the sphere's signed plane distance against its radius, then tests whether motion over t reaches that threshold.
 // @fnv 0x00e9cd10
+// pdb: NiHalfSpaceBV::SetPlane | NiHalfSpaceBV.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: kPlane
 bool __cdecl FUN_00e9cd10(float afTime, HalfSpace* plane, Vec3* apStart, Sphere* sphere, Vec3* apEnd)
 {
     float dot = sphere->cy * plane->ny + sphere->cx * plane->nx + sphere->cz * plane->nz;

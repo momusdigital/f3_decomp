@@ -16,6 +16,8 @@ void FUN_008d40b0(S_008d40b0* p)
 
 typedef void (__fastcall *PF_008d5950)(void*);
 struct O_008d5950 { char pad[16]; void* m10; };
+// pdb: bhkWorld::RemoveObject | bhkWorld.obj | fnv360_0822_retail, objrun, low
+// pdb params: apCollision, __formal
 __declspec(noinline) void FUN_008d5950(O_008d5950* p)
 {
     void* t = p->m10;
@@ -28,6 +30,8 @@ struct O_008f9b90 { void FUN_008f9b90(void*); };
 
 struct A_008d5aa0 { char pad[0x10]; O_008f9b90* f10; };
 struct B_008d5aa0 { char pad[0xc]; void* fc; };
+// pdb: bhkWorld::GroupObject | bhkWorld.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: bhkWorld::KillHavokOnObject)
+// pdb params: apCollision, arData
 void FUN_008d5aa0(A_008d5aa0* a, B_008d5aa0* b)
 {
     O_008f9b90* o = a->f10;
@@ -41,6 +45,7 @@ extern T_008d61d0 DAT_00f79480;
 void __cdecl FUN_008d5790(int, void*, void*);
 
 struct S_008d61d0 { char p[8]; int f8; };
+// pdb: bhkWorld::StartBatchingAdds | bhkWorld.obj | tesv_win, objopen_prop, low
 void FUN_008d61d0(int a, S_008d61d0* b)
 {
     void* h = DAT_00f79480.a[b->f8];
@@ -53,6 +58,8 @@ struct X_008da1d0 { int FUN_0082a280(); };
 
 struct Y_008da1d0 { char p[0x30]; unsigned f; };
 struct C_008da1d0 { int a0; int a4; Y_008da1d0* y; void FUN_0084a750(X_008da1d0*); void FUN_008da000(int); void FUN_008da1d0_(X_008da1d0* a); };
+// pdb: bhkNiCollisionObject::LinkObject | bhkNiCollisionObject.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void C_008da1d0::FUN_008da1d0_(X_008da1d0* a)
 {
     FUN_0084a750(a);
@@ -81,6 +88,8 @@ void* C_008db3f0::FUN_008db3f0(unsigned char f)
 
 struct E_008db490 { float f[12]; };
 struct C_008db490 { char pad[0x1b4]; E_008db490 e[1]; void FUN_008db490(int i, float v); };
+// pdb: bhkRagdollController::SetGrabIKIntrpGain | bhkRagdollController.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: arArm, afGain
 void C_008db490::FUN_008db490(int i, float v)
 {
     e[i].f[0] = v;
@@ -91,6 +100,8 @@ void C_008db490::FUN_008db490(int i, float v)
 
 
 struct C_008db4b0 { void FUN_008db4b0(int i, int v); };
+// pdb: bhkRagdollController::SetGrabIKTarget | bhkRagdollController.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arArm, apTarget
 void C_008db4b0::FUN_008db4b0(int i, int v)
 {
     *(int*)((char*)this + (i * 3 + 27) * 16) = v;

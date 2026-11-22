@@ -59,19 +59,21 @@ class hkClassEnumItem
     int value;
     const char* name;
 };
-int __cdecl FUN_00cb10d0(const char*);
+int __cdecl hkString_strLen(const char*);
 // @fnv 0x00db7600
+// pdb: hkClassEnum::writeSignature | hkClassEnum.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: w
 void hkClassEnum::FUN_00db7600(hkStreamWriter* writer) const
 {
     hkOArchive archive(writer, false);
     const char* name = m_name;
-    archive.FUN_00d607b0(name, FUN_00cb10d0(name));
+    archive.FUN_00d607b0(name, hkString_strLen(name));
     int count = m_items.m_iElementCount;
     for (int i = 0; i < count; ++i)
     {
         const hkClassEnumItem& item = m_items.m_data[i];
         const char* itemName = item.name;
-        archive.FUN_00d607b0(itemName, FUN_00cb10d0(itemName));
+        archive.FUN_00d607b0(itemName, hkString_strLen(itemName));
         archive.WriteInt(item.value);
     }
     archive.WriteInt(count);

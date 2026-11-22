@@ -46,6 +46,7 @@ struct __declspec(align(8)) Key {
     void *FUN_0093d660();
 };
 void FUN_009234e0(void *, void *, int);
+// pdb: hkDataObjectNative::asInt | hkDataObjectNative.obj | tesv_win, caller_sim, low
 void FUN_00934030(void *a, void *b)
 {
     Key x, y, z;
@@ -183,6 +184,8 @@ public:
     hkVector4& FUN_00925970(hkVector4& p);
 };
 
+// pdb: bhkRigidBodyT::GetPosition | bhkRigidBodyT.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arPos
 hkVector4& Body::FUN_00925970(hkVector4& p)
 {
     if (this && unk08)

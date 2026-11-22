@@ -8,7 +8,7 @@ extern char DAT_01048858[], DAT_010c6084[], DAT_010c6078[], DAT_01029400[], DAT_
     DAT_010c6064[], DAT_010c605c[];
 struct S
 {
-    const char* FUN_00c8d4a0();
+    const char* bhkRigidBodyCinfo_GetQualityTypeString();
 };
 // @f3 0x008fec70 (community match, verified in this file)
 extern char DAT_00de30f8[], DAT_00e3480c[], DAT_00e34800[], DAT_00dc85c4[];
@@ -69,7 +69,8 @@ struct Layout432 {
     unsigned char unkD0, unkD1, unkD2;
     signed char kind;
 };
-const char* S::FUN_00c8d4a0() {
+// pdb: bhkRigidBodyCinfo::GetQualityTypeString | bhkRigidBody.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+const char* S::bhkRigidBodyCinfo_GetQualityTypeString() {
     int kind = reinterpret_cast<Layout432*>(this)->kind;
     const char* result = 0;
     switch (kind) {

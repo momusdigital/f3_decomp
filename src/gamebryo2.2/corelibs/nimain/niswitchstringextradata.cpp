@@ -6,12 +6,6 @@ struct NiRTTI;
 
 extern NiRTTI g_011f5eac;
 
-// @fnv 0x00a93740
-NiRTTI* __cdecl FUN_00a93740()
-{
-    return &g_011f5eac;
-}
-
 struct NiExtraData
 {
     void FUN_00a7b2e0();
@@ -25,7 +19,8 @@ struct BSFadeNode
 extern int DAT_0109ff64;
 
 // @fnv 0x00a93870
-void* __cdecl FUN_00a93870()
+// pdb: NiSwitchStringExtraData::CreateObject | NiSwitchStringExtraData.obj | fnv360_0822_retail, objrun + bridge(hash|objopen_prop), high
+void* __cdecl NiSwitchStringExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x18);
     if (p)
@@ -56,6 +51,7 @@ struct FUN_00a93750_shell
     void FUN_00a93750();
 };
 // @fnv 0x00a93750
+// pdb: NiSwitchStringExtraData::~NiSwitchStringExtraData | NiSwitchStringExtraData.obj | fnv360_0822_retail, objrun_prop, medium
 void FUN_00a93750_shell::FUN_00a93750()
 {
     m_pData = &DAT_0109ff64;
@@ -77,6 +73,7 @@ void __cdecl FUN_00a93750();
 
 // Calls FUN_00a93750, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a938b0
+// pdb: bhkPhantom::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_retail, vtable_prefix, high
 void* __thiscall NiSwitchStringExtraData::FUN_00a938b0(unsigned int flags)
 {
     FUN_00a93750();
@@ -99,6 +96,7 @@ struct S_00a918e0
     void* __thiscall FUN_00a918e0(unsigned int);
 };
 // @fnv 0x00a918e0
+// pdb: NiTArray<FaceGenUndo *,NiTMallocInterface<FaceGenUndo *> >::`scalar deleting destructor' | TESNPC.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall S_00a918e0::FUN_00a918e0(unsigned int auiFlags)
 {
     void* v = f4;
@@ -148,6 +146,8 @@ struct FUN_00a93a60_shell
 
 // Appends viewer strings for the base object, m_uiSize, each m_ppcValue[i] and m_iIndex to the given string array.
 // @f3 0x0085f840 (community match, verified in this file)
+// pdb: NiSwitchStringExtraData::GetViewerStrings | NiSwitchStringExtraData.obj | fnv360_0822_retail, strset, low
+// pdb params: pStrings
 void FUN_00a93a60_shell::FUN_00a93a60(StrArr* apViewerStrings)
 {
     reinterpret_cast<A89C70Base*>(this)->GetViewerStrings(apViewerStrings);
@@ -261,6 +261,8 @@ class A93680Strings
 };
 
 // @fnv 0x00a93680
+// pdb: NiSwitchStringExtraData::IsEqual | NiSwitchStringExtraData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pObject
 bool A93680Strings::Equals(A93680Strings* pkOther)
 {
     if (!pkOther)
@@ -294,14 +296,17 @@ struct StrListObj
     int m_iIndex;
 
     void FUN_00a7b330(StrListObj* dst, void* arg2);
-    void CopyStringList(StrListObj* dst, void* arg2);
+    void NiSwitchStringExtraData_CopyMembers(StrListObj* dst, void* arg2);
 };
 
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00ec65a6(void* dst, unsigned int size, void* src);
 
 // @fnv 0x00a937a0
-void StrListObj::CopyStringList(StrListObj* dst, void* arg2)
+// pdb: NiSwitchStringExtraData::CopyMembers | NiSwitchStringExtraData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pDest, kCloning
+// pdb: NiSwitchStringExtraData::CopyMembers | NiSwitchStringExtraData.obj | fnv360_0822_retail, caller_sim, high (was: CopyStringList)
+void StrListObj::NiSwitchStringExtraData_CopyMembers(StrListObj* dst, void* arg2)
 {
     FUN_00a7b330(dst, arg2);
     if (m_ppStrings == 0 || m_uiCount <= 0)
@@ -365,7 +370,7 @@ struct NiStreamView
     {
         return *reinterpret_cast<NiBinaryStreamView**>(reinterpret_cast<char*>(this) + 0x250);
     }
-    void FUN_00a64160(unsigned int linkId);
+    void NiStream_SaveCString(unsigned int linkId);
 };
 
 struct NiExtraDataView
@@ -376,7 +381,7 @@ struct NiExtraDataView
     unsigned int m_uiNumEntries;
     unsigned int* m_pLinkIds;
     unsigned int m_uiNumLinkIds;
-    void FUN_00a7b2c0(NiStreamView& kStream);
+    void NiExtraData_SaveBinary(NiStreamView& kStream);
     void LoadFromStream(NiStreamView& kStream);
 };
 
@@ -391,12 +396,14 @@ template <class T> __forceinline void ReadBinaryValue(NiStreamView& kStream, T& 
 }
 
 // @fnv 0x00a939d0
+// pdb: NiSwitchStringExtraData::SaveBinary | NiSwitchStringExtraData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiExtraDataView::LoadFromStream(NiStreamView& kStream)
 {
-    FUN_00a7b2c0(kStream);
+    NiExtraData_SaveBinary(kStream);
     ReadBinaryValue(kStream, m_uiNumEntries);
     for (unsigned int i = 0; i < m_uiNumEntries; ++i)
-        kStream.FUN_00a64160(m_pLinkIds[i]);
+        kStream.NiStream_SaveCString(m_pLinkIds[i]);
     ReadBinaryValue(kStream, m_uiNumLinkIds);
 }
 
@@ -423,13 +430,15 @@ struct SSE_Node : NiExtraData
 struct SSE_Owner : NiSwitchStringExtraData
 {
     SSE_Node* CreateNode(unsigned int);
-    void CopyStringList(SSE_Node*, unsigned int);
+    void NiSwitchStringExtraData_CopyMembers(SSE_Node*, unsigned int);
 };
 // @fnv 0x00a938d0
+// pdb: NiSwitchStringExtraData::CreateClone | NiSwitchStringExtraData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kCloning
 SSE_Node* SSE_Owner::CreateNode(unsigned int arg)
 {
     SSE_Node* obj = new SSE_Node;
-    CopyStringList(obj, arg);
+    NiSwitchStringExtraData_CopyMembers(obj, arg);
     return obj;
 }
 
@@ -468,7 +477,7 @@ class NiStreamA939
     int unk000[0x24c / 4];
     NiBinaryStreamA939* m_pUnderlyingStream;
 
-    void FUN_00a64ce0(NiObjectA939** ppkObject);
+    void NiStream_LoadCString(NiObjectA939** ppkObject);
 };
 
 class NiExtraDataA939
@@ -492,6 +501,8 @@ class LinkArrayExtraA939 : public NiExtraDataA939
 
 // Reads m_uiCount, allocates m_ppkObjects and loads each object via kStream, then reads m_uiValue1 from the underlying stream.
 // @fnv 0x00a93930
+// pdb: NiSwitchStringExtraData::LoadBinary | NiSwitchStringExtraData.obj | fnv360_0822_retail, caller_sim, medium, conflict (bridge: NiStringsExtraData::LoadBinary)
+// pdb params: kStream
 void LinkArrayExtraA939::FUN_00a93930(NiStreamA939& kStream)
 {
     FUN_00a7b4a0(kStream);
@@ -500,7 +511,7 @@ void LinkArrayExtraA939::FUN_00a93930(NiStreamA939& kStream)
     {
         m_ppkObjects = (NiObjectA939**)NiMalloc(m_uiCount * sizeof(NiObjectA939*));
         for (unsigned int i = 0; i < m_uiCount; i++)
-            kStream.FUN_00a64ce0(&m_ppkObjects[i]);
+            kStream.NiStream_LoadCString(&m_ppkObjects[i]);
     }
     else
     {

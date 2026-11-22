@@ -68,57 +68,6 @@ char FUN_00e8d230_shell::EnsureInitialized(int arg)
     return result;
 }
 
-extern char const* const g_01270918_arg1;
-
-// @fnv 0x00e8d360
-char const* const* __cdecl FUN_00e8d360()
-{
-    return &g_01270918_arg1;
-}
-
-extern int DAT_010efeb4;
-
-struct MemoryManager
-{
-    void* __thiscall _DeallocateAlias(void* p);
-};
-extern MemoryManager g_memoryManager;
-
-struct NiShaderInstanceDescriptor
-{
-    void* m_p;
-    void* __thiscall FUN_00e8d370(unsigned int mode);
-};
-
-// Sets m_p to the address of DAT_010efeb4 and, when mode has bit 0 set, deallocates this via g_memoryManager, then returns this.
-// @fnv 0x00e8d370
-void* __thiscall NiShaderInstanceDescriptor::FUN_00e8d370(unsigned int mode)
-{
-    m_p = &DAT_010efeb4;
-    if (mode & 1)
-        g_memoryManager._DeallocateAlias(this);
-    return this;
-}
-
-extern "C" void* g_01270918;
-
-// @fnv 0x00e8d530
-void* __cdecl FUN_00e8d530()
-{
-    return &g_01270918;
-}
-
-struct GlobalObjectO2_00a7b610
-{
-};
-extern GlobalObjectO2_00a7b610 g_0126f9d8;
-
-// @fnv 0x00e8d580
-GlobalObjectO2_00a7b610* __cdecl FUN_00e8d580()
-{
-    return &g_0126f9d8;
-}
-
 struct NodePoolView
 {
     void* __thiscall AddHead(void);
@@ -134,6 +83,8 @@ struct NiTPointerListBase_00e8b5f0
 
 // Allocates a node from the pool at this+8, links it before the current head, updates the tail when the list was empty, increments the count and returns the node.
 // @fnv 0x00e8b5f0
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,unsigned int>::AddHead | HackingMenu.obj | fnv360_0822_retail, call_gap, low
+// pdb params: element
 void* __thiscall NiTPointerListBase_00e8b5f0::InsertHead(void* arg)
 {
     NodePoolView* pool = (NodePoolView*)((char*)this + 8);
@@ -157,6 +108,8 @@ void* __thiscall NiTPointerListBase_00e8b5f0::InsertHead(void* arg)
 
 void __cdecl FUN_00e81470();
 // @fnv 0x00e8d340
+// pdb: bhkBallAndSocketConstraint::LoadBinary | bhkBallAndSocketConstraint.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: arStream
 void __cdecl FUN_00e8d340()
 {
     return FUN_00e81470();
@@ -178,6 +131,8 @@ struct NiConsoleShaderDeclaration_shellEx
 };
 
 // @fnv 0x00e8d410
+// pdb: NiXenonFragmentShader::CreateShaderDeclaration | NiXenonFragmentShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: uiMaxStreamEntryCount, uiStreamCount
 NiD3DVertexDeclaration* __thiscall NiConsoleShaderDeclaration_shellEx::FUN_00e8d410(unsigned int a, unsigned int b)
 {
     NiD3DVertexDeclaration* p = NiD3DVertexDeclaration::Create(NiRenderer::ms_pRenderer, a, b);
@@ -196,24 +151,7 @@ void __cdecl DispatchByIndex(void* a1, unsigned int auiArg2, unsigned int auiArg
     DAT_0126f738[*(int*)((char*)a1 + 0x134)]((char*)a1 + 0xF4, (char*)a1 + 0x118, auiArg2, auiArg3, auiArg4);
 }
 
-extern int EmptyFS;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-struct NiFragmentShaderInstanceDescriptor
-{
-    int _vtbl;
-    void* m_pDescriptorData;
-    void* __thiscall FUN_00e8d540(unsigned int);
-};
-// @fnv 0x00e8d540
-void* __thiscall NiFragmentShaderInstanceDescriptor::FUN_00e8d540(unsigned int flags)
-{
-    if ((int)m_pDescriptorData != EmptyFS)
-        InterlockedDecrement((long volatile*)((int)m_pDescriptorData - 8));
-    *(int*)this = (int)&DAT_010efeb4;
-    if (flags & 1)
-        g_memoryManager._DeallocateAlias(this);
-    return this;
-}
 
 struct NiRefObject;
 struct BSShaderBloodSplatter
@@ -246,65 +184,6 @@ bool __stdcall ProcessShaderParam(unsigned int a1, FUN_00e8d5f0_Param* pParam, v
         return true;
     }
     return true;
-}
-
-struct Rec24
-{
-    char pad[0x24];
-    unsigned short m24;
-};
-
-struct IShaderVt
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual int v11(unsigned short a);
-};
-
-struct Obj18
-{
-    void FUN_00e6fe30(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e);
-    void FUN_00e6fbb0(unsigned int a, unsigned int b);
-};
-
-struct FragHost
-{
-    char pad0[0x18];
-    Obj18* m18;
-    IShaderVt* m1c;
-    char pad1[0x18];
-    int m38;
-
-    int FUN_00e807d0(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f,
-                     unsigned int g, unsigned int h);
-    int FUN_00e8d260(unsigned int p1, unsigned int p2, Rec24* p3, unsigned int p4, unsigned int p5, unsigned int p6,
-                     unsigned int p7, unsigned int p8);
-};
-
-// @fnv 0x00e8d260
-int FragHost::FUN_00e8d260(unsigned int p1, unsigned int p2, Rec24* pRec, unsigned int p4, unsigned int p5,
-                           unsigned int p6, unsigned int p7, unsigned int p8)
-{
-    if (pRec != 0)
-    {
-        if (m38 == 0)
-        {
-            m18->FUN_00e6fe30(p2, p7, 1, 3, 1);
-        }
-        m1c->v11(pRec->m24);
-        m18->FUN_00e6fbb0(p7, 0);
-        return 0;
-    }
-    return FUN_00e807d0(p1, p2, 0, p4, p5, p6, p7, p8);
 }
 
 struct FUN_00e8d3a0_sub
@@ -368,6 +247,7 @@ struct S_00e8d590_Obj
 };
 void __cdecl FUN_00e804d0(S_00e8d590_Obj** out);
 // @fnv 0x00e8d590
+// pdb: SpeedTreeBranchShader::LoadStagesAndPasses | SpeedTreeBranchShader_Preset.obj | fnv360_0721_beta, objrun_prop, low
 bool __stdcall FUN_00e8d590(int* out)
 {
     S_00e8d590_Obj* obj = 0;
@@ -402,20 +282,6 @@ struct SubObj_e8db90
     {}
 };
 
-struct BaseObj_e8db90
-{
-    BaseObj_e8db90();
-    virtual void unk00();
-    unsigned int m_04;
-    unsigned int m_08;
-    unsigned int m_0c;
-    unsigned int m_10;
-    unsigned int m_14;
-    unsigned int m_18;
-    unsigned int m_1c;
-    unsigned int m_20;
-};
-
 struct FieldsMid_e8db90
 {
     unsigned char m_24;
@@ -439,29 +305,10 @@ struct FieldsMid_e8db90
     }
 };
 
-struct FUN_00e8db90 : BaseObj_e8db90, FieldsMid_e8db90
-{
-    virtual void unk00();
-    SubObj_e8db90 m_3c;
-    FUN_00e8db90(unsigned int a);
-};
-
-// @fnv 0x00e8db90
-FUN_00e8db90::FUN_00e8db90(unsigned int a)
-{
-    m_3c.m_inner.FUN_00ee8a10(a);
-}
-
-unsigned int __stdcall FUN_00e805b0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
-
-// @fnv 0x00e8d250
-unsigned int __stdcall FUN_00e8d250(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
-{
-    return FUN_00e805b0(a, b, c, d, e, f, g);
-}
-
 void __cdecl FUN_00e811d0();
 // @fnv 0x00e8d2e0
+// pdb: bhkCharacterProxy::IsEqual | bhkCharacterProxy.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: apObject
 void __cdecl FUN_00e8d2e0()
 {
     FUN_00e811d0();
@@ -470,6 +317,8 @@ void __cdecl FUN_00e8d2e0()
 extern int __cdecl PrepareShaderAndStreams();
 
 // @fnv 0x00e8d2f0
+// pdb: bhkOrientHingedBodyAction::CopyMembers | bhkOrientHingedBodyAction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apDest, arCloneData
 int __cdecl FUN_00e8d2f0()
 {
     return PrepareShaderAndStreams();
@@ -477,6 +326,8 @@ int __cdecl FUN_00e8d2f0()
 
 extern "C" void __cdecl FUN_00a8f3f0();
 // @fnv 0x00e8d300
+// pdb: bhkRagdollTemplate::CopyMembers | bhkRagdollTemplate.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pDest, arCloneData
 void __cdecl FUN_00e8d300()
 {
     FUN_00a8f3f0();
@@ -558,6 +409,8 @@ extern void* g_pD3DRenderer;
 
 // Returns the pass's vertex or pixel constant map for shader type 0, creating and registering it if absent.
 // @fnv 0x00e8dca0
+// pdb: NiXenonFragmentShader::CreateShaderConstantMap | NiXenonFragmentShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: uiPassId, uiProgramId
 NiD3DShaderConstantMap* __stdcall GetOrCreateShaderConstantMap(unsigned int auiShaderType, int eMapType)
 {
     if (auiShaderType >= 1)
@@ -585,20 +438,6 @@ NiD3DShaderConstantMap* __stdcall GetOrCreateShaderConstantMap(unsigned int auiS
         }
     }
     return pkMap;
-}
-
-struct ShaderStandIn
-{
-    unsigned int __thiscall FUN_00e81170(void*, void*, void*, void*, void*, void*, void*);
-};
-struct FUN_00bd16e0_shell : ShaderStandIn
-{
-    unsigned int __thiscall FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
-};
-// @fnv 0x00bd16e0
-unsigned int __thiscall FUN_00bd16e0_shell::FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
-{
-    return FUN_00e81170(a, b, c, d, e, f, g);
 }
 
 // Object cached in BSShaderBloodSplatter+0x30; receives SetNodeValue / RemoveNodeByKey as this.
@@ -646,6 +485,8 @@ BloodMap* __stdcall FUN_00e7f5d0(void);
 
 // Sets blood splatter node values and passes indexed array values to the view; returns false for an unsupported type or missing view.
 // @fnv 0x00e8d450
+// pdb: NiXenonFragmentShader::SetAlphaOverride | NiXenonFragmentShader.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: NiD3DDefaultShader::OpenNewPass)
+// pdb params: uiPassId, bAlphaBlend, bUsePreviousSrcBlendMode, eSrcBlendMode, bUsePreviousDestBlendMode, eDestBlendMode
 bool __stdcall SetBloodSplatter(unsigned int auiShaderType, bool abEnabled, bool bParam3, int aiIndex, bool bParam5,
                                 int aiSecondIndex)
 {
@@ -696,52 +537,7 @@ bool __stdcall SetBloodSplatter(unsigned int auiShaderType, bool abEnabled, bool
     return true;
 }
 
-extern unsigned int DAT_010eff44;
-extern void* DAT_0109b220;
 void operator delete(void* pvObject, unsigned int uiSize);
-
-struct ShaderObj
-{
-    volatile unsigned int m_vft0;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int m_vft3c;
-    void* volatile m_40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-
-    void FUN_00e806c0();
-    ShaderObj* Release(unsigned int uiFlags);
-};
-
-// Releases the device reference, calls FUN_00e806c0, and optionally deletes this when uiFlags has bit 0 set.
-// @fnv 0x00e8dbe0
-ShaderObj* ShaderObj::Release(unsigned int uiFlags)
-{
-    m_vft0 = (unsigned int)&DAT_010eff44;
-    void* pvDevice = m_40;
-    if (pvDevice != DAT_0109b220)
-        InterlockedDecrement((volatile long*)pvDevice - 2);
-    m_vft3c = (unsigned int)&DAT_010efeb4;
-    FUN_00e806c0();
-    if (uiFlags & 1)
-        operator delete(this, sizeof(ShaderObj));
-    return this;
-}
 
 class ShaderConstantEntryE8D
 {
@@ -932,6 +728,7 @@ struct ShaderView : ShaderBaseView
 
 // Iterates the global list, calls BindShaderInput for nonnull entries, then invokes the base class routine.
 // @fnv 0x00e8dc30
+// pdb: NiFragmentShaderInstanceDescriptor::`scalar deleting destructor' | NiXenonFragmentShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void ShaderView::FUN_00e8dc30(void* a, void* b, void* c, ShaderGeometry* geometry, void* e, void* f, void* g)
 {
     ShaderConstantList* pConstantList = reinterpret_cast<ShaderConstantList*>(DAT_0126f74c);
@@ -947,7 +744,6 @@ void ShaderView::FUN_00e8dc30(void* a, void* b, void* c, ShaderGeometry* geometr
     ShaderBaseView::FUN_00a8f3e0(a, b, c, geometry, e, f, g);
 }
 
-extern "C" void _ReadWriteBarrier();
 struct BinaryDataRecord
 {
     unsigned int field00;

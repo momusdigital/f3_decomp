@@ -25,6 +25,7 @@ extern int DAT_010a24b8;
 
 // Sets the vtable pointer to DAT_010a24b8 and, if fFree has bit 0 set, deallocates this via g_memoryManager, returning this.
 // @fnv 0x00aa1db0
+// pdb: InterfacedClass::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, high
 void* __thiscall NiBinaryStream::Destroy(unsigned int fFree)
 {
     *reinterpret_cast<void**>(this) = &DAT_010a24b8;
@@ -44,6 +45,7 @@ static void SwapPair(unsigned char* a, unsigned char* b)
 }
 // Reverses the byte order of each 8-byte block in buf, repeating for count blocks.
 // @fnv 0x00aa1d60
+// pdb: NiEndian::Swap64 | NiBinaryStream.obj | tesv_win, hash, low
 void __cdecl ReverseBytesInBlocks(void* pBuffer, unsigned int count)
 {
     if (count <= 0)
@@ -70,6 +72,7 @@ struct C00aa1d50
 };
 
 // @fnv 0x00aa1d50
+// pdb: BaseProcess::GetCurrentPackage | BaseProcess.obj | fnv360_0822_retail, vtable, medium
 int C00aa1d50::FUN_00aa1d50()
 {
     return m4;

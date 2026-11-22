@@ -1463,6 +1463,8 @@ class hkColor
 			GREY75 = 0xffc0c0c0,
 		};
 };
+// pdb: hkpRagdollDrawer::drawConstraint | hkpRagdollDrawer.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: constraint, displayHandler, id, tag
 void hkpRagdollDrawer::FUN_00a6d290(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int tag)
 {
 	hkpRagdollConstraintData* ragdoll = static_cast<hkpRagdollConstraintData*>(constraint->getData());

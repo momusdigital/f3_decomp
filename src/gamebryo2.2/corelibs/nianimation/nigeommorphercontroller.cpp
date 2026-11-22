@@ -5,6 +5,8 @@
 
 // Searches the morph targets for one whose name handle matches kID and returns its index, or INVALID_INDEX if none match.
 // @fnv 0x00a3aeb0
+// pdb: NiGeomMorpherController::GetInterpolatorIndexFx | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: arName
 unsigned short NiGeomMorpherController::GetTargetIndex(const NiFixedString& kID) const
 {
     for (unsigned short us = 0; us < GetNumTargets(); us++)
@@ -18,6 +20,8 @@ unsigned short NiGeomMorpherController::GetTargetIndex(const NiFixedString& kID)
 }
 
 // @fnv 0x00a3add0
+// pdb: NiGeomMorpherController::GetInterpolatorIndex | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pcID
 unsigned short NiGeomMorpherController::GetTargetIndex(const char* pcName) const
 {
     if (!pcName)
@@ -34,12 +38,15 @@ unsigned short NiGeomMorpherController::GetTargetIndex(const char* pcName) const
 }
 
 // @fnv 0x00a3bbf0
+// pdb: NiColorInterpolator::IsColorAValueSupported | NiColorInterpolator.obj | fnv360_0721_beta, objrun_open, low
 AnimationKey::KeyContent NiColorInterpolator::GetColorKeyContent(unsigned short) const
 {
     return AnimationKey::COLORKEY;
 }
 
 // @fnv 0x00a3bc00
+// pdb: NiQuaternionInterpolator::GetKeyCount | NiQuaternionInterpolator.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: usChannel
 unsigned int NiColorInterpolator::GetColorKeyCount(unsigned short) const
 {
     if (!m_spColorData.m_pObject)
@@ -49,6 +56,8 @@ unsigned int NiColorInterpolator::GetColorKeyCount(unsigned short) const
 }
 
 // @fnv 0x00a3bc10
+// pdb: NiQuaternionInterpolator::GetKeyType | NiQuaternionInterpolator.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: usChannel
 AnimationKey::KeyType NiColorInterpolator::GetColorKeyType(unsigned short) const
 {
     if (!m_spColorData.m_pObject)
@@ -58,6 +67,8 @@ AnimationKey::KeyType NiColorInterpolator::GetColorKeyType(unsigned short) const
 }
 
 // @fnv 0x00a3bc20
+// pdb: NiQuaternionInterpolator::GetKeyStride | NiQuaternionInterpolator.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: NiColorInterpolator::GetKeyArray)
+// pdb params: usChannel
 unsigned char NiColorInterpolator::GetColorKeySize(unsigned short) const
 {
     if (!m_spColorData.m_pObject)
@@ -75,7 +86,7 @@ bool NiColorInterpolator::IsColorConstant(unsigned short) const
     return m_kColorValue.FUN_004a4cc0(DAT_011a9430) ? false : true;
 }
 
-struct CloningProcess
+struct NiCloningProcess
 {
     void __dflt_ctor_closure();
     void* __vecDelDtor(unsigned int);
@@ -85,19 +96,20 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
+typedef char _sizecheck_NiCloningProcess[sizeof(NiCloningProcess) == 16 ? 1 : -1];
 struct FUN_00a3ba70_shell : public NiGeomMorpherController
 {
-    void FUN_00a3ba70(NiGeomMorpherController*, CloningProcess*);
+    void NiGeomMorpherController_CopyMembers(NiGeomMorpherController*, NiCloningProcess*);
 };
 
 extern bool DAT_011f3724;
 
 // Copies interpolator pointers and weights from this controller into pkDest, cloning each interpolator and updating reference counts.
 // @fnv 0x00a3ba70
-void FUN_00a3ba70_shell::FUN_00a3ba70(NiGeomMorpherController* pkDest, CloningProcess* kCloning)
+// pdb: NiGeomMorpherController::CopyMembers | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim + bridge(call_seq|caller_sim) + skyrim(caller_sim), high
+void FUN_00a3ba70_shell::NiGeomMorpherController_CopyMembers(NiGeomMorpherController* pkDest, NiCloningProcess* kCloning)
 {
-    NiInterpController::CopyMemberData(pkDest, *kCloning);
+    NiInterpController::CopyMembers(pkDest, *kCloning);
     pkDest->m_uiObjectFlags = m_uiObjectFlags;
     if (m_spMorphTargetData.m_pObject)
     {
@@ -132,6 +144,8 @@ void FUN_00a3ba70_shell::FUN_00a3ba70(NiGeomMorpherController* pkDest, CloningPr
 
 // Returns the name handle of the morph target at index us from the controller's NiMorphData.
 // @fnv 0x00a3a870
+// pdb: NiGeomMorpherController::GetInterpolatorID | NiGeomMorpherController.obj | fnv360_0721_beta, objrun, medium
+// pdb params: usIndex
 char* __fastcall GetMorphTargetName(NiGeomMorpherController* self, int, unsigned short ausIndex)
 {
     NiMorphData* md = *reinterpret_cast<NiMorphData**>(&self->m_spMorphTargetData);
@@ -149,6 +163,8 @@ struct FUN_00a3a8a0_t
     Item8* items;
 };
 // @fnv 0x00a3a8a0
+// pdb: NiGeomMorpherController::GetInterpolator | NiGeomMorpherController.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: usIndex
 void* __fastcall FUN_00a3a8a0(FUN_00a3a8a0_t* self, int unused, unsigned short idx)
 {
     return self->items[idx].p;
@@ -180,6 +196,7 @@ struct NiFloatInterpolator
 };
 // Reads the morph weight at usIndex from the controller's weight array (or 0.0f) and allocates a NiFloatInterpolator initialized with that value.
 // @fnv 0x00a3a900
+// pdb: NiGeomMorpherController::CreatePoseInterpolator | NiGeomMorpherController.obj | tesv_win, caller_sim, low
 NiInterpolator* __fastcall CreateMorphWeightInterpolator(NiGeomMorpherController* self, int, unsigned short usIndex)
 {
     float fValue = 0.0f;
@@ -247,7 +264,7 @@ struct GeomData
     virtual void s38();
     virtual void s39();
     virtual void s40();
-    void SetDirtyFlags(unsigned int);
+    void MarkAsChanged(unsigned int);
     int pad[8];
     int f24;
 };
@@ -266,40 +283,21 @@ struct FUN_00a3aba0_t
     bool need;
 };
 // @fnv 0x00a3aba0
+// pdb: NiGeomMorpherController::OnPreDisplay | NiGeomMorpherController.obj | tesv_win, caller_sim, low
 void __fastcall FUN_00a3aba0(FUN_00a3aba0_t* self, int)
 {
     if (self->tgt && self->need)
     {
         GeomData* pData = self->tgt->data;
-        pData->SetDirtyFlags(1);
+        pData->MarkAsChanged(1);
         if ((self->flags & 1) && pData->f24)
             pData->s40();
         self->need = false;
     }
 }
 
-struct FUN_00a3adc0_md
-{
-    char pad[8];
-    unsigned short count;
-};
-struct FUN_00a3adc0_t
-{
-    char pad[0x38];
-    FUN_00a3adc0_md* md;
-};
-// @fnv 0x00a3adc0
-unsigned short __fastcall FUN_00a3adc0(FUN_00a3adc0_t* self, int)
-{
-    if (self->md)
-        return self->md->count;
-    return 0;
-}
-
-struct CloningProcess;
-struct NiFloatData;
+struct NiCloningProcess;
 struct NiFloatInterpolator;
-struct TimedAnimationKey;
 struct NiStream;
 struct FUN_00a3ae50_shell : public NiGeomMorpherController
 {
@@ -309,15 +307,6 @@ struct FUN_00a3ae50_shell : public NiGeomMorpherController
 struct GlobalObjectO2_00a7b610
 {
     int pad;
-};
-extern GlobalObjectO2_00a7b610 g_011f3738;
-struct PoseInterpStub
-{
-    void SetFloatValue(float);
-};
-struct DynCastHelper
-{
-    DynCastHelper* DynamicCast(const GlobalObjectO2_00a7b610*);
 };
 // Reads a float from the morph data array at usIndex and passes it to the interpolator's SetFloatValue after a dynamic cast.
 // @f3 0x008b4e50 (community match, verified in this file)
@@ -349,6 +338,8 @@ struct Layout440 {
     unsigned int unk0020, unk0024, unk0028, unk002C, unk0030, unk0034, unk0038;
     Entry440* entries;
 };
+// pdb: NiGeomMorpherController::SynchronizePoseInterpolator | NiGeomMorpherController.obj | fnv360_0822_retail, objrun, low
+// pdb params: pkInterp, usIndex
 void FUN_00a3ae50_shell::FUN_00a3ae50(NiInterpolator* interpolator, unsigned short index) {
     float value = 0.0f;
     Entry440* entries = reinterpret_cast<Layout440*>(this)->entries;
@@ -365,6 +356,7 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f3728;
 // @fnv 0x00a3afd0
+// pdb: BSMultiBoundSphere::GetRTTI | BGSPrimitive.obj | fnv360_0822_retail, vtable_prefix, medium
 GlobalObjectO2_00a7b610* __cdecl FUN_00a3afd0()
 {
     return &g_011f3728;
@@ -390,6 +382,8 @@ struct FUN_00a3afe0_t
 };
 // Walks the RTTI base chain of self->tgt and returns true if it reaches g_011f4a48_arg1, otherwise false.
 // @fnv 0x00a3afe0
+// pdb: NiUVController::SetTarget | NiUVController.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiGeomMorpherController::TargetIsRequiredType)
+// pdb params: pkTarget
 bool __fastcall IsRTTIDerivedFrom(FUN_00a3afe0_t* self, int)
 {
     FUN_00a3afe0_tgt* pTgt = self->tgt;
@@ -459,11 +453,13 @@ struct MorphGeom
 
 struct FUN_00a3b010_shell : public NiGeomMorpherController
 {
-    MorphPoint3* GetMorphVertices();
+    MorphPoint3* NiGeomMorpherController_GetVertexData();
 };
 
 // @fnv 0x00a3b010
-MorphPoint3* FUN_00a3b010_shell::GetMorphVertices()
+// pdb: NiGeomMorpherController::GetVertexData | NiGeomMorpherController.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
+// pdb: NiGeomMorpherController::GetVertexData | NiGeomMorpherController.obj | fnv360_0822_retail, bridge_fnvpc, high (was: GetMorphVertices)
+MorphPoint3* FUN_00a3b010_shell::NiGeomMorpherController_GetVertexData()
 {
     MorphGeom* pkGeom = (MorphGeom*)m_pkTarget;
     if (!pkGeom)
@@ -487,12 +483,13 @@ extern float DAT_011a8538[5];
 struct FUN_00a3e680_shell
 {
     float SampleLength(int iA, int iB, float fT);
-    float FUN_00a3e680(int iA, int iB, float fT);
+    float NiPathInterpolator_PathLength(int iA, int iB, float fT);
 };
 
 // Samples SampleLength at five scaled points from DAT_011a854c, weights each by DAT_011a8538, sums them and multiplies by fT.
 // @fnv 0x00a3e680
-float FUN_00a3e680_shell::FUN_00a3e680(int iA, int iB, float fT)
+// pdb: NiPathInterpolator::PathLength | NiPathInterpolator.obj | fnv360_0822_retail, call_gap + skyrim(call_gap), high
+float FUN_00a3e680_shell::NiPathInterpolator_PathLength(int iA, int iB, float fT)
 {
     float fWeightedSum = 0.0f;
     for (int i = 0; i < 5; i++)
@@ -542,7 +539,7 @@ struct NiPoint3
 typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00a3aa10_shell : public NiGeomMorpherController
 {
-    void UpdateMorphWeights(float);
+    void NiGeomMorpherController_GenMorphInterp(float);
 };
 
 struct InterpV
@@ -662,7 +659,7 @@ struct TgtV
 };
 struct GeomData
 {
-    void SetDirtyFlags(unsigned int);
+    void MarkAsChanged(unsigned int);
 };
 struct GMItem
 {
@@ -710,11 +707,14 @@ struct GMSelf
     }
 };
 void* _fnv_zlib_memset(void*, int, unsigned int);
-void AddScaledPoints(NiPoint3*, float, NiPoint3*, int);
+void NiPoint3_PointsPlusEqualFloatTimesPoints(NiPoint3*, float, NiPoint3*, int);
 extern const float runtimeFloatSettingDefault166;
 
 // @fnv 0x00a3aa10
-void FUN_00a3aa10_shell::UpdateMorphWeights(float fTime)
+// pdb: NiGeomMorpherController::GenMorphInterp | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: fTime
+// pdb: NiGeomMorpherController::GenMorphInterp | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, high (was: UpdateMorphWeights)
+void FUN_00a3aa10_shell::NiGeomMorpherController_GenMorphInterp(float fTime)
 {
     GMSelf* self = (GMSelf*)this;
     bool bupdate;
@@ -754,13 +754,13 @@ void FUN_00a3aa10_shell::UpdateMorphWeights(float fTime)
             if (fFrac >= 0.001f || fFrac <= runtimeFloatSettingDefault166)
             {
                 NiPoint3* pkDeltaVerts = self->pkMorph->pTargets[uiIndex].pkVerts;
-                AddScaledPoints(pkVerts, fFrac, pkDeltaVerts, iVertexDataArraySize);
+                NiPoint3_PointsPlusEqualFloatTimesPoints(pkVerts, fFrac, pkDeltaVerts, iVertexDataArraySize);
                 bupdate = true;
             }
         }
     }
     if (bupdate && self->pkTarget->IsVis())
-        ((GeomData*)*(void**)((char*)self->pkTarget + 0xb8))->SetDirtyFlags(1);
+        ((GeomData*)*(void**)((char*)self->pkTarget + 0xb8))->MarkAsChanged(1);
 }
 }  // namespace fnv_00a3aa10
 
@@ -781,18 +781,19 @@ struct NiD3DShaderProgram
 struct FUN_00a3b5a0_shell : public NiGeomMorpherController
 {
     void ClearInterpolatorArray();
-    void LinkObject(NiStream& kStream);
     void FUN_00a3b5a0(NiStream& kStream);
 };
 
 // Links the object to the stream, reads morph data, sets per-target interpolators and key times depending on the stream version.
 // @fnv 0x00a3b5a0
+// pdb: NiGeomMorpherController::LinkObject | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00a3b5a0_shell::FUN_00a3b5a0(NiStream& kStream)
 {
     typedef void(__thiscall * SetInterpolatorType)(NiGeomMorpherController*, const char*, unsigned int);
     typedef void(__thiscall * SetTimeType)(NiGeomMorpherController*, float, float);
 
-    LinkObject(kStream);
+    NiInterpController::LinkObject(kStream);
 
     m_spMorphTargetData = static_cast<NiMorphData*>(kStream.GetLoadedObject());
 
@@ -1061,6 +1062,8 @@ class FUN_00a3a7a0_cls : public FUN_00a3a7a0_vtbase
 
 // Iterates over the list up to m_uiCount, gets each item via GetItem, and calls Apply(a1, a2) on non-null items.
 // @fnv 0x00a3a7a0
+// pdb: NiGeomMorpherController::GuaranteeTimeRange | NiGeomMorpherController.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fStartTime, fEndTime
 void FUN_00a3a7a0_cls::ApplyToAllItems(float afValue1, float afValue2)
 {
     for (unsigned int i = 0; i < m_pEntries->m_uiCount; ++i)
@@ -1161,6 +1164,8 @@ struct FUN_00a3a7f0_obj
 };
 
 // @fnv 0x00a3a7f0
+// pdb: NiGeomMorpherController::RegisterStreamables | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 bool __thiscall FUN_00a3a7f0_obj::LoadFromStream(NiStream* stream)
 {
     FUN_00a38fe0_shell* helper = reinterpret_cast<FUN_00a38fe0_shell*>(this);
@@ -1298,18 +1303,12 @@ struct MorpherCaller
     virtual NiInterpolator* GetInterpolator(unsigned int index) = 0;
 };
 
-struct TimeFlags
-{
-    unsigned char lowerBits : 5;
-    unsigned char updateAllowed : 1;
-    unsigned char upperBits : 2;
-};
 extern const float DAT_01096ce0;
 extern const float DAT_01015f5c;
 
 __forceinline unsigned char IsManaged(const NiTimeController* object)
 {
-    return (object->m_uiObjectFlags >> 5) & 1;
+    return (object->m_uFlags >> 5) & 1;
 }
 struct FUN_00a3a950_shell : NiGeomMorpherController
 {
@@ -1317,6 +1316,7 @@ struct FUN_00a3a950_shell : NiGeomMorpherController
 };
 
 // @fnv 0x00a3a950
+// pdb: NiGeomMorpherController::ResetTimeExtrema | NiGeomMorpherController.obj | fnv360_0822_retail, objrun_sim, medium
 void FUN_00a3a950_shell::UpdateKeyTimeRange()
 {
     if (!IsManaged(this))
@@ -1416,11 +1416,13 @@ struct MorpherController
     {
         return *reinterpret_cast<Geometry* const*>(reinterpret_cast<const char*>(this) + 0x2c);
     }
-    void UpdateGeometryBound();
+    void NiGeomMorpherController_CalculateMorphBound();
 };
 
 // @fnv 0x00a3abe0
-void MorpherController::UpdateGeometryBound()
+// pdb: NiGeomMorpherController::CalculateMorphBound | NiGeomMorpherController.obj | fnv360_0822_retail, objrun, high
+// pdb: NiGeomMorpherController::CalculateMorphBound | NiGeomMorpherController.obj | fnv360_0822_retail, objrun, high (was: UpdateGeometryBound)
+void MorpherController::NiGeomMorpherController_CalculateMorphBound()
 {
     NiBound morphBound;
     const unsigned int count = GetMorphData()->targetCount;
@@ -1490,12 +1492,13 @@ struct FUN_00a3acb0_cls
     FUN_00a3acb0_item* items;
     void FUN_00a6d0c0(void* p);
     unsigned int FUN_008d3ed0();
-    void FUN_00a3acb0(void* p);
+    void NiGeomMorpherController_ProcessClone(void* p);
 };
 
 // Calls FUN_00a6d0c0(p), then forwards p to Slot26 on each non-null item pointer in items up to FUN_008d3ed0().
 // @fnv 0x00a3acb0
-void FUN_00a3acb0_cls::FUN_00a3acb0(void* p)
+// pdb: NiGeomMorpherController::ProcessClone | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void FUN_00a3acb0_cls::NiGeomMorpherController_ProcessClone(void* p)
 {
     FUN_00a6d0c0(p);
     unsigned short i;
@@ -1528,8 +1531,8 @@ class A3AF10InterpController : public NiObject
     float m_fHiKeyTime;
     float m_fStartTime;
     float m_fLastTime;
-    float m_fWeightAdjustedLastTime;
-    float m_fControllerTime;
+    float m_fWeightedLastTime;
+    float m_fScaledTime;
     NiObjectNET* m_pkTarget;
     NiTimeController* m_pkNext;
 
@@ -1563,6 +1566,7 @@ class FUN_00a3af10 : public A3AF10InterpController
 
 // Releases the morph data pointer and destroys the interpolator item array, then frees its allocation cookie.
 // @fnv 0x00a3af10
+// pdb: NiGeomMorpherController::~NiGeomMorpherController | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00a3af10::~FUN_00a3af10() throw()
 {
     m_spMorphTargetData = 0;
@@ -1593,6 +1597,7 @@ struct FUN_00a3b530_cls
 };
 
 // @fnv 0x00a3b530
+// pdb: LoadedAreaBound::`scalar deleting destructor' | LoadedAreaBound.obj | fnv360_0822_retail, vtable, high
 FUN_00a3b530_cls* FUN_00a3b530_cls::FUN_00a3b530(unsigned char acFlags)
 {
     BaseCleanup();
@@ -1675,6 +1680,7 @@ struct FUN_00a3ba10_shell : public NiGeomMorpherController
 
 // Stores pkMorphData, calls FUN_00a3b460, and if bCanUpdate is set invokes the virtual method at vtable slot v59.
 // @fnv 0x00a3ba10
+// pdb: NiGeomMorpherController::SetMorphData | NiGeomMorpherController.obj | tesv_win, call_seq, medium
 void FUN_00a3ba10_shell::SetMorphData(NiMorphData* pkMorphData, bool bCanUpdate)
 {
     m_spMorphTargetData = pkMorphData;
@@ -1830,6 +1836,8 @@ struct FUN_00a3b080_cls
 
 // Applies a SetterArg to this object: sets flags and m_28, calls Sub_00a36250/Sub_00a3aa10, and attaches an object when m_2c and m_40 are set.
 // @fnv 0x00a3b080
+// pdb: NiGeomMorpherController::Update | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: UpdateData
 void FUN_00a3b080_cls::ApplySetterArg(SetterArg* a1)
 {
     if (m_38 == 0)
@@ -2006,7 +2014,8 @@ struct Obj_b10413F3 : public Base_b10413F3
         return FUN_0089eb90(size);
     }
 };
-Obj_b10413* __cdecl FUN_00a3b550()
+// pdb: NiGeomMorpherController::CreateObject | NiGeomMorpherController.obj | fnv360_0822_retail, objrun + bridge(caller_sim|objrun) + skyrim(caller_sim), high
+Obj_b10413* __cdecl NiGeomMorpherController_CreateObject()
 {
     return (Obj_b10413*)new Obj_b10413F3(0);
 }
@@ -2066,7 +2075,7 @@ class MorphController
   public:
     bool FUN_00c283f0(MorphObject* pkObject);  // NiInterpController::IsEqual
     unsigned int FUN_008d3ed0();               // GetNumTargets
-    bool FUN_00a3ad00(MorphObject* pkObject);
+    bool NiGeomMorpherController_IsEqual(MorphObject* pkObject);
 
     int unk00[14];
     MorphPointer<MorphObject> m_spMorphTargetData;  // +0x38
@@ -2074,7 +2083,8 @@ class MorphController
 };
 
 // @fnv 0x00a3ad00
-bool MorphController::FUN_00a3ad00(MorphObject* pkObject)
+// pdb: NiGeomMorpherController::IsEqual | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool MorphController::NiGeomMorpherController_IsEqual(MorphObject* pkObject)
 {
     if (!FUN_00c283f0(pkObject))
         return false;
@@ -2108,6 +2118,7 @@ struct C00a41590
 };
 
 // @fnv 0x00a41590
+// pdb: DoorTeleportData::GetTeleportPosition | TeleportData.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: NiMorphData::MorphTarget::GetName)
 int* C00a41590::FUN_00a41590()
 {
     return &m4;
@@ -2170,15 +2181,16 @@ class NiGeomMorpherControllerA3B : public a3bb::FUN_00a2f8c0
     bool m_bNeedsUpdate;
     bool m_bUpdateBounds;
 
-    void FUN_00a3ba70(NiGeomMorpherControllerA3B* pkClone, NiCloningProcessA3B& kCloning);
-    NiGeomMorpherControllerA3B* FUN_00a3bb80(NiCloningProcessA3B& kCloning);
+    void NiGeomMorpherController_CopyMembers(NiGeomMorpherControllerA3B* pkClone, NiCloningProcessA3B& kCloning);
+    NiGeomMorpherControllerA3B* NiGeomMorpherController_CreateClone(NiCloningProcessA3B& kCloning);
 };
-// Allocates a new NiGeomMorpherControllerA3B, calls FUN_00a3ba70 with it and kCloning, and returns it.
+// Allocates a new NiGeomMorpherControllerA3B, calls NiGeomMorpherController_CopyMembers with it and kCloning, and returns it.
 // @fnv 0x00a3bb80
-NiGeomMorpherControllerA3B* NiGeomMorpherControllerA3B::FUN_00a3bb80(NiCloningProcessA3B& kCloning)
+// pdb: NiGeomMorpherController::CreateClone | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+NiGeomMorpherControllerA3B* NiGeomMorpherControllerA3B::NiGeomMorpherController_CreateClone(NiCloningProcessA3B& kCloning)
 {
     NiGeomMorpherControllerA3B* pkClone = new NiGeomMorpherControllerA3B;
-    FUN_00a3ba70(pkClone, kCloning);
+    NiGeomMorpherController_CopyMembers(pkClone, kCloning);
     return pkClone;
 }
 
@@ -2237,11 +2249,12 @@ struct NiGMCShell_a3b350 : NiGeomMorpherController
             return m_spMorphTargetData.m_pObject->m_uiNumTargets;
         return 0;
     }
-    void FUN_00a3b350(NiStreamSV& stream);
+    void NiGeomMorpherController_SaveBinary(NiStreamSV& stream);
 };
 // Calls FUN_00c27120, then saves a value, morph target link, update flag, target count, and interpolator links and weights.
 // @fnv 0x00a3b350
-void NiGMCShell_a3b350::FUN_00a3b350(NiStreamSV& stream)
+// pdb: NiGeomMorpherController::SaveBinary | NiGeomMorpherController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiGMCShell_a3b350::NiGeomMorpherController_SaveBinary(NiStreamSV& stream)
 {
     reinterpret_cast<S00c27120*>(this)->FUN_00c27120(stream);
     stream.Save(m_uiObjectFlags);

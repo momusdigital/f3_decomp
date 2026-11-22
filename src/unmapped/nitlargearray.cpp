@@ -70,6 +70,7 @@ struct NiFixedStringArray
 
 // Assigns an empty NiFixedString to every element, then resets m_uiSize and m_uiESize to zero.
 // @fnv 0x00a637d0
+// pdb: NiTLargeArray<class BSFixedString,class NiTNewInterface<class BSFixedString> >::RemoveAll | NiStream.obj | tesv_win, call_gap, low
 void NiFixedStringArray::Clear()
 {
     for (unsigned int uiIndex = 0; uiIndex < m_uiSize; uiIndex++)

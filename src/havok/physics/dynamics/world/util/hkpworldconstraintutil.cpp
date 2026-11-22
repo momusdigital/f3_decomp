@@ -132,7 +132,10 @@ struct RP
     RRec* rec;                           /* 0x28 */
 };
 
-void DetachRecord(S_00d27820_P* pp)
+// pdb: hkpWorldConstraintUtil::removeConstraint | hkpWorldConstraintUtil.obj | fnv360_0822_retail, call_gap, high
+// pdb params: constraint
+// pdb: hkpWorldConstraintUtil::removeConstraint | hkpWorldConstraintUtil.obj | fnv360_0822_retail, call_gap, high (was: DetachRecord)
+void hkpWorldConstraintUtil_removeConstraint(S_00d27820_P* pp)
 {
     RP* p = (RP*)pp;
     RRec* pRec = p->rec;
@@ -344,7 +347,7 @@ struct hkpConstraintOwner
     int m_iMaxSchemaSize;
     int m_iSchemaByteSize;
 
-    void AccumulateStats(hkpConstraintInstance* constraint, GenericConstraintAtomScheme& delta);
+    void hkpConstraintOwner_addConstraintInfo(hkpConstraintInstance* constraint, GenericConstraintAtomScheme& delta);
 };
 
 struct hkpConstraintInstance
@@ -453,7 +456,7 @@ void __cdecl FUN_00d27960(hkpConstraintInstance* instance, hkpConstraintOwner& c
         GenericConstraintAtomScheme info;
         info.clear();
         int callbackRequest = ((hkpModifierConstraintAtomF3*)newModifier)->FUN_00d22090(info);
-        constraintOwner.AccumulateStats(instance, info);
+        constraintOwner.hkpConstraintOwner_addConstraintInfo(instance, info);
         ConstraintRuntimeInfo* internal = instanceData->m_pConstraintInternal;
         if (internal)
             internal->m_ucCallbackRequest |= (hkUint8)callbackRequest;
@@ -549,7 +552,7 @@ struct ByteArray
 struct Island
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, count;
-    void AccumulateStats(Constraint*, ConstraintInfo*);
+    void hkpConstraintOwner_addConstraintInfo(Constraint*, ConstraintInfo*);
 };
 struct Entity
 {
@@ -629,157 +632,6 @@ struct Constraint
     unsigned int uid;
     void FUN_00c90510();
 };
-void FUN_00cb5570(void*, Entity*, Entity*);
-unsigned char FUN_00d22120(Atom*, ConstraintInfo*, unsigned char*);
 extern unsigned short DAT_010cb7a8[];
-struct MemoryRouter
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    void* heap;
-};
-MemoryRouter* FUN_00c85750();
-void FUN_00c908c0(void*, ByteArray*, int, int);
-void ResizeAudioStream(void*, ConstraintArray*, int);
 void FUN_00cb1270(void*, const void*, int);
-// Initializes a ConstraintInternal entry, inserts it into the master entity's constraint array, allocates runtime memory, and registers the constraint as a slave.
-// @fnv 0x00d27ac0
-ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
-{
-    constraint->FUN_00c90510();
-    ConstraintInfo info;
-    constraint->data->GetConstraintInfo(&info);
-    ConstraintInternal entry;
-    entry.constraint = constraint;
-    entry.bodies[0] = constraint->bodies[0];
-    entry.bodies[1] = constraint->bodies[1];
-    if (constraint->atoms)
-    {
-        entry.atoms = constraint->atoms;
-        entry.atomSize = constraint->atoms->size;
-    }
-    else
-    {
-        entry.atoms = info.atoms;
-        entry.atomSize = info.atomSize;
-    }
-    entry.priority = constraint->priority;
-    if (entry.bodies[0]->motionType != 5 && entry.bodies[1]->motionType != 5 &&
-        entry.bodies[0]->island != entry.bodies[1]->island)
-        FUN_00cb5570(entry.bodies[0]->world, entry.bodies[0], entry.bodies[1]);
-    entry.masterIndex = entry.bodies[0]->motionType == 5;
-    Entity* master = entry.bodies[entry.masterIndex];
-    constraint->island = master->island;
-    ++constraint->island->count;
-    unsigned int atomType = entry.atoms->type;
-    entry.callbacks = 1;
-    entry.flags = 0;
-    if (atomType == 1)
-    {
-        entry.flags = 2;
-        unsigned char result;
-        if (*constraint->data->WantsRuntime(&result))
-            entry.flags |= 4;
-        entry.callbacks = constraint->GetInternal() == 0;
-    }
-    else if (atomType == 20)
-        entry.flags = 2;
-    unsigned char flags = 0;
-    if (constraint->atoms)
-        entry.flags |= FUN_00d22120(constraint->atoms, &info, &flags);
-    if (atomType == 22)
-    {
-        unsigned char combined = constraint->bodies[1]->responseFlags | constraint->bodies[0]->responseFlags;
-        combined -= combined & flags;
-        info.runtimeBytes += DAT_010cb7a8[combined & 7];
-    }
-    entry.unk16 = 0;
-    entry.unk18 = 0;
-    entry.unk14 = 0;
-    constraint->internal = &entry;
-    constraint->island->AccumulateStats(constraint, &info);
-    InternalArray& array = master->constraints;
-    unsigned short count = array.size;
-    int index = 0;
-    for (; index < (int)count; ++index)
-    {
-        ConstraintInternal& current = array.data[index];
-        if (entry.priority < current.priority)
-            break;
-        if (entry.priority > current.priority)
-            continue;
-        unsigned int incomingUid = entry.constraint->uid;
-        unsigned int currentUid = current.constraint->uid;
-        if (incomingUid < currentUid)
-            break;
-        if (incomingUid > currentUid)
-            continue;
-        Entity* other =
-            (Entity*)((unsigned int)current.bodies[0] ^ (unsigned int)current.bodies[1] ^ (unsigned int)master);
-        Entity* incoming =
-            (Entity*)((unsigned int)entry.bodies[0] ^ (unsigned int)entry.bodies[1] ^ (unsigned int)master);
-        if (incoming->uid < other->uid)
-            break;
-    }
-    int firstChanged = count < (array.capacity & 0x3fff) ? index : 0;
-    array.FUN_00d27f50(index, &entry);
-    for (int i = firstChanged; i < (int)array.size; ++i)
-    {
-        ConstraintInternal* changed = &array.data[i];
-        Constraint* owner = changed->constraint;
-        owner->internal = changed;
-    }
-    ConstraintInternal* internal = constraint->internal;
-    RuntimeInfo runtimeInfo;
-    internal->constraint->data->GetRuntimeInfo(constraint->wantRuntime, &runtimeInfo);
-    unsigned int runtimeSize = (runtimeInfo.size + 15) & ~15u;
-    runtimeInfo.size = runtimeSize;
-    internal->runtimeSize = (unsigned short)runtimeSize;
-    if (runtimeSize)
-    {
-        ByteArray& storage = master->runtime;
-        int oldSize = storage.size;
-        char* oldData = storage.data;
-        int newSize = oldSize + runtimeSize;
-        MemoryRouter* router = FUN_00c85750();
-        if ((int)(storage.capacity & 0x3fffffff) < newSize)
-            FUN_00c908c0(router->heap, &storage, newSize, 1);
-        storage.size = oldSize + runtimeInfo.size;
-        char* position = storage.data;
-        int displacement = storage.data - oldData;
-        int i = 0;
-        for (; i < index; ++i)
-        {
-            ConstraintInternal& current = array.data[i];
-            if (current.runtime)
-            {
-                current.runtime += displacement;
-                position = current.runtime + current.runtimeSize;
-            }
-        }
-        int tailSize = (int)storage.size - (int)(position + internal->runtimeSize - master->runtime.data);
-        FUN_00cb1270(position + internal->runtimeSize, position, tailSize);
-        displacement += internal->runtimeSize;
-        internal->runtime = position;
-        for (++i; i < (int)array.size; ++i)
-        {
-            ConstraintInternal& current = array.data[i];
-            char* oldRuntime = current.runtime;
-            current.runtime = oldRuntime ? oldRuntime + displacement : 0;
-        }
-    }
-    else
-        internal->runtime = 0;
-    ConstraintData* instanceData = internal->constraint->data;
-    instanceData->AddInstance(constraint, internal->runtime, internal->runtimeSize);
-    Entity* slave = internal->bodies[1 - internal->masterIndex];
-    internal->slaveIndex = (unsigned short)slave->slaves.size;
-    ConstraintArray& slaves = slave->slaves;
-    MemoryRouter* router = FUN_00c85750();
-    if (slaves.size == (int)(slaves.capacity & 0x3fffffff))
-        ResizeAudioStream(router->heap, &slaves, 4);
-    ConstraintPointer* insertion = slaves.data + slaves.size;
-    insertion->value = constraint;
-    ++slaves.size;
-    return insertion;
-}
 }  // namespace fnv_00d27ac0

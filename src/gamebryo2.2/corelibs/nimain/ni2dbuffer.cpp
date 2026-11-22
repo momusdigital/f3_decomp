@@ -4,6 +4,8 @@
 
 // Creates the renderer data if missing, then asks the renderer to create a depth-stencil surface for this buffer; returns false on failure.
 // @fnv 0x00a8f200
+// pdb: Ni2DBuffer::CreateRendererData | Ni2DBuffer.obj | fnv360_0822_retail, objrun, high
+// pdb params: kFormat, eMSAAPref
 bool Ni2DBuffer::CreateRendererData(const NiPixelFormat& format, MultiSamplePreference preference)
 {
     if (!rendererData)
@@ -23,6 +25,8 @@ bool __stdcall IsSameAs(NiObject* pkObject);
 
 bool __stdcall FUN_00a88a50(NiObject* pkObject);
 // @fnv 0x00a88a50
+// pdb: NiLightColorController::RegisterStreamables | NiLightColorController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 bool __stdcall FUN_00a88a50(NiObject* pkObject)
 {
     if (IsSameAs(pkObject))
@@ -64,6 +68,7 @@ struct Ni2DBufferStub : NiRefObject
 extern int DAT_0109f4dc;
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00a8f330
+// pdb: Ni2DBuffer::`scalar deleting destructor' | Ni2DBuffer.obj | tesv_win, vtable_prefix, medium
 Ni2DBufferStub* __fastcall DestroyNi2DBuffer(Ni2DBufferStub* self, int unused, unsigned char flags)
 {
     *(int**)self = &DAT_0109f4dc;
@@ -154,6 +159,8 @@ struct MyBuf
     bool CopyRectTo(MyBuf* pkDest, void* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY);
 };
 // @fnv 0x00a8f0a0
+// pdb: Ni2DBuffer::FastCopy | Ni2DBuffer.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkDest, pkSrcRect, uiDestX, uiDestY
 bool MyBuf::CopyRectTo(MyBuf* pkDest, void* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY)
 {
     NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;
@@ -245,6 +252,8 @@ struct Fake
 };
 // If this, the renderer and pkDest all have a renderer pointer, forwards to the renderer's copy call with the rects and preference; otherwise returns false.
 // @fnv 0x00a8f0f0
+// pdb: Ni2DBuffer::Copy | Ni2DBuffer.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkDest, pkSrcRect, pkDestRect, ePref
 bool Fake::CopySurface(Fake* pkDest, void* pkSrcRect, void* pkDestRect, int ePref)
 {
     HackRenderer* pkRenderer = (HackRenderer*)NiRenderer::ms_pRenderer;
@@ -275,6 +284,8 @@ extern char const* const g_011f603c_arg1;
 char* _FUN_00a7d330(char const*);
 // Calls the base handler, obtains a string from g_011f603c_arg1, grows pkStrings if full, then stores the string at index _size.
 // @fnv 0x00a8f380
+// pdb: NiBoolTimelineInterpolator::GetViewerStrings | NiBoolTimelineInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void FakeBuffer::AppendString(StrArr* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);

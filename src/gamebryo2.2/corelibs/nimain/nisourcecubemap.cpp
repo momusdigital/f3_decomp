@@ -10,18 +10,10 @@ extern "C"
 }
 
 // @fnv 0x00a60850
-bool __stdcall FUN_00a60850(NiStream& kStream)
+// pdb: NiTransformController::IsEqual | NiTransformController.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+bool __stdcall NiTransformController_IsEqual(NiStream& kStream)
 {
     return AttachToListener(&kStream);
-}
-
-struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4454;
-
-// @fnv 0x00a60cb0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a60cb0()
-{
-    return &g_011f4454;
 }
 
 struct NiSourceTexture
@@ -39,32 +31,18 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
-// @fnv 0x00a60f30
-NiSourceCubeMap* __cdecl CreateNiSourceCubeMap()
-{
-    void* p = BSFadeNode::operator new(0x4c);
-    if (p)
-    {
-        NiSourceCubeMap* n = static_cast<NiSourceCubeMap*>(p);
-        n->NiSourceTexture::NiSourceTexture();
-        *(unsigned int*)(n) = 0x0109babc;
-        *(unsigned int*)((char*)n + 0x48) = 0;
-        return n;
-    }
-    return 0;
-}
-
 struct NiObject;
 
 struct NiSourceCubeMapShell : NiSourceCubeMap
 {
     bool __thiscall FUN_00a5fae0(NiObject*);
-    bool __thiscall FUN_00a60880(NiObject* pkObject);
+    bool __thiscall NiSourceCubeMap_IsEqual(NiObject* pkObject);
 };
 
 // Calls FUN_00a5fae0 on pkObject, then compares four fields of this and pkObject and returns true only if all match.
 // @fnv 0x00a60880
-bool __thiscall NiSourceCubeMapShell::FUN_00a60880(NiObject* pkObject)
+// pdb: NiSourceCubeMap::IsEqual | NiSourceCubeMap.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+bool __thiscall NiSourceCubeMapShell::NiSourceCubeMap_IsEqual(NiObject* pkObject)
 {
     if (FUN_00a5fae0(pkObject))
     {
@@ -197,35 +175,6 @@ bool __thiscall Thunk60800::CreateCubeOrRelease()
         *(DelObj**)((char*)this + 0x44) = 0;
     }
     return true;
-}
-
-struct StrArr
-{
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-struct Base60770
-{
-    void GetFileStrings(StrArr*);
-};
-char* __cdecl _FUN_00a7d330(char*);
-struct Host61480 : Base60770
-{
-    void AppendGlobalString(StrArr*);
-};
-// @fnv 0x00a61480
-void Host61480::AppendGlobalString(StrArr* pkStrings)
-{
-    GetFileStrings(pkStrings);
-    char* psz = _FUN_00a7d330(*(char**)&g_011f4454);
-    unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 0xa);
-    unsigned int uiCap = *(unsigned short*)((char*)pkStrings + 8);
-    if (uiSize >= uiCap)
-    {
-        unsigned int uiGrow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(uiSize + uiGrow);
-    }
-    pkStrings->SetAt(uiSize, psz);
 }
 
 namespace fnv_00a60ba0 {
@@ -381,6 +330,8 @@ class NiSourceCubeMap2 : public NiSourceTexture2
 };
 
 // @fnv 0x00a60ba0
+// pdb: NiSourceCubeMap::LinkObject | NiSourceCubeMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void NiSourceCubeMap2::FUN_00a60ba0(NiStream& kStream)
 {
     if (kStream.m_uiNifVersion < 0x0A030006)
@@ -589,6 +540,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00a60f60
+// pdb: NiSourceCubeMap::Create | NiSourceCubeMap.obj | fnv360_0721_beta, call_gap, medium
+// pdb params: kFilename, apkRenderer, kPrefs
 SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner, unsigned int* pVals)
 {
     void* mem = FUN_00aa13e0(0x4c);
@@ -717,7 +670,8 @@ struct SpawnedObject : FUN_00a5fc10_cls
 };
 
 // @fnv 0x00a61040
-SpawnedObject* __cdecl FUN_00a61040(char** ppName, int aValue, NiRenderer* pRenderer, int* pVec)
+// pdb: NiSourceCubeMap::Create | NiSourceCubeMap.obj | fnv360_0822_retail, call_gap + bridge(hash|objrun) + skyrim(caller_sim), high
+SpawnedObject* __cdecl NiSourceCubeMap_Create(char** ppName, int aValue, NiRenderer* pRenderer, int* pVec)
 {
     SpawnedObject* p = new SpawnedObject();
     p->m_18 = pVec[0];
@@ -898,6 +852,8 @@ struct CubeRenderer
 };
 
 // @fnv 0x00a61120
+// pdb: NiSourceCubeMap::Create | NiSourceCubeMap.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pcPosXFilename, pcNegXFilename, pcPosYFilename, pcNegYFilename, pcPosZFilename, pcNegZFilename, apkRenderer, kName, kPrefs
 NiCubeMap* __cdecl CreateCubeMap(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, CubeRenderer* pkRenderer,
                                  int iUnused, const TextureFormatPreferences* pkPrefs)
 {
@@ -1170,6 +1126,8 @@ struct CubeMapLoader : CubeTexBase
 };
 
 // @fnv 0x00a612a0
+// pdb: NiSourceCubeMap::LoadBinary | NiSourceCubeMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
 {
     if (kStream.m_uiNifVersion < 0x0A030006)
@@ -1213,6 +1171,8 @@ void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
 void __cdecl FUN_00a60600();
 
 // @fnv 0x00a60870
+// pdb: Interface::SetGunScopeVisible | Interface.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abVisibleFlag
 void __cdecl FUN_00a60870()
 {
     FUN_00a60600();
@@ -1260,10 +1220,12 @@ struct ShaderPass_a60
     NiPointer<NiGPUProgram> m_spShaderProgram;
     int unk40;
     void* m_pvDefines;
-    void EnsureProgramCreated();
+    void NiSourceCubeMap_LoadPixelDataFromFile();
 };
 // @fnv 0x00a608c0
-void ShaderPass_a60::EnsureProgramCreated()
+// pdb: NiSourceCubeMap::LoadPixelDataFromFile | NiSourceCubeMap.obj | fnv360_0822_retail, caller_sim, high
+// pdb: NiSourceCubeMap::LoadPixelDataFromFile | NiSourceCubeMap.obj | fnv360_0822_retail, caller_sim, high (was: EnsureProgramCreated)
+void ShaderPass_a60::NiSourceCubeMap_LoadPixelDataFromFile()
 {
     if (m_spShaderProgram == 0 && m_pcProgramName != DAT_0109b220)
     {
@@ -1330,6 +1292,8 @@ struct S00a60cc0_Target
 
 // Loads six resources by name via a loader and manager, storing the created refs and calling FUN_00a60940 on success.
 // @fnv 0x00a60cc0
+// pdb: NiSourceCubeMap::LoadFromFiles | NiSourceCubeMap.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: pcPosXFilename, pcNegXFilename, pcPosYFilename, pcNegYFilename, pcPosZFilename, pcNegZFilename, kPath
 void S00a60cc0_Target::LoadResources(char* apName0, char* apName1, char* apName2, char* apName3, char* apName4,
                                      char* apName5, S00a60cc0_Loader* apLoader)
 {
@@ -1407,6 +1371,7 @@ struct CubeCleanup
 
 // Releases pixels, calls FUN_00a5fca0, and calls FUN_00aa1460 with this and sizeof(CubeCleanup) when flags & 1.
 // @fnv 0x00a61250
+// pdb: NiSourceCubeMap::`scalar deleting destructor' | NiSourceCubeMap.obj | fnv360_0822_retail, objrun, high
 void* CubeCleanup::FUN_00a61250(unsigned int flags)
 {
     vtable = &DAT_0109babc;
@@ -1522,6 +1487,8 @@ struct CubeHost
 };
 // Allocates a Pixels object with six faces, copies each level from the six inputs, then releases their references.
 // @fnv 0x00a60940
+// pdb: NiSourceCubeMap::LoadFromPixelData | NiSourceCubeMap.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkPosXRaw, pkNegXRaw, pkPosYRaw, pkNegYRaw, pkPosZRaw, pkNegZRaw
 void CubeHost::FUN_00a60940(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* e, Pixels* f)
 {
     void* storage = FUN_00aa13e0(sizeof(Pixels));

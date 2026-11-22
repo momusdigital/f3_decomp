@@ -649,6 +649,8 @@ struct Camera
 };
 // For each selected face, selects the cube face, may update and cull the scene, then calls the image-space manager for supported faces.
 // @fnv 0x00bd7bb0
+// pdb: BSCubeMapCamera::ClickCubeMapWithMask | BSCubeMapCamera.obj | fnv360_1110_retail, caller_sim, medium
+// pdb params: aiFace
 void Camera::FUN_00bd7bb0(int aiFace)
 {
     UpdateData updateData;

@@ -27,6 +27,8 @@ struct OtherBase { virtual void g(); };
 struct ArrayX { int* data; int size; unsigned capacity; ArrayX():data(0),size(0),capacity(0x80000000) {} };
 struct Result : Base, OtherBase { ArrayX items; const Keys* keys; Result(void*,Container*,const Keys&); };
 extern void __cdecl build(void*, Bounds&, OtherBase*);
+// pdb: hkpRemoveTerminalsMoppModifier::hkpRemoveTerminalsMoppModifier | hkpRemoveTerminalsMoppModifier.obj | fnv360_0822_retail, objrun, high
+// pdb params: moppCode, shapeContainer, shapesToRemove
 Result::Result(void* code, Container* container, const Keys& k) {
  if (k.size != 0) {
   Bounds a;
@@ -106,7 +108,7 @@ struct Owner
 
 extern V4 DAT_01092a50;
 
-void FUN_00970190(const V4* point, const V4* a, const V4* b, const V4* c, float* out);
+void hkpCollideTriangleUtil_calcBarycentricCoordinates(const V4* point, const V4* a, const V4* b, const V4* c, float* out);
 
 struct This
 {
@@ -120,6 +122,8 @@ struct This
     void FUN_00a7e460(Owner* owner, Node* node, Out* out);
 };
 
+// pdb: hkpConvexPenetrationUtil::convertResultToFeature | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: polytope, nearestTriangle, output
 void This::FUN_00a7e460(Owner* owner, Node* node, Out* out)
 {
     float bary[3];
@@ -132,7 +136,7 @@ void This::FUN_00a7e460(Owner* owner, Node* node, Out* out)
         this->unk68[1] = node->unk20->a;
         this->unk68[2] = node->unk30->a;
 
-        FUN_00970190(&DAT_01092a50, &this->unk68[0], &this->unk68[1], &this->unk68[2], bary);
+        hkpCollideTriangleUtil_calcBarycentricCoordinates(&DAT_01092a50, &this->unk68[0], &this->unk68[1], &this->unk68[2], bary);
 
         if (!(bary[0] < 0.0f) && !(bary[1] < 0.0f) && !(bary[2] < 0.0f))
             break;
@@ -324,8 +328,8 @@ struct ScalarQ
 struct __declspec(align(16)) VecQ
 {
     float x, y, z, w;
-    void FUN_008d28e0(const TransformQ*, const VecQ*);
-    void FUN_008d2a00(const MatrixQ*, const VecQ*);
+    void hkVector4_setTransformedPos(const TransformQ*, const VecQ*);
+    void hkVector4_setRotatedDir(const MatrixQ*, const VecQ*);
     void setMul(float scale, const VecQ& a)
     {
         x = scale * a.x;
@@ -462,20 +466,22 @@ struct HingeQ
     void FUN_00a6a750(int);
     void FUN_00a6c820(ConstraintQ*, HandlerQ*, int);
 };
+// pdb: hkpRagdollLimitsDrawer::drawConstraint | hkpRagdollLimitsDrawer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: constraint, displayHandler, id, tag
 void HingeQ::FUN_00a6c820(ConstraintQ* constraint, HandlerQ* handler, int tag)
 {
     DataQ* data = constraint->data;
     primitive.FUN_00a8f460(handler);
     TransformQ worldA, worldB;
     FUN_00a6aa20(constraint, &worldA, &worldB);
-    pivotB.FUN_008d28e0(&worldA, &DAT_01092a50);
-    pivotA.FUN_008d28e0(&worldB, &DAT_01092a50);
+    pivotB.hkVector4_setTransformedPos(&worldA, &DAT_01092a50);
+    pivotA.hkVector4_setTransformedPos(&worldB, &DAT_01092a50);
     FUN_00a6a7b0(tag);
     FUN_00a6a750(tag);
     VecQ axisA, axisB;
     const MatrixQ* rb = &data->rotB;
-    axisA.FUN_008d2a00(&rotationB, &rb->getColumn(0));
-    axisB.FUN_008d2a00(&rotationB, &rb->getColumn(2));
+    axisA.hkVector4_setRotatedDir(&rotationB, &rb->getColumn(0));
+    axisB.hkVector4_setRotatedDir(&rotationB, &rb->getColumn(2));
     handler->line(&pivotA, &pivotB, 0xffff0000, tag);
     {
         VecQ positive, negative;
@@ -497,7 +503,7 @@ void HingeQ::FUN_00a6c820(ConstraintQ* constraint, HandlerQ* handler, int tag)
         to.setAddMul(from, axisB, (float)(length * 0.5));
         handler->line(&from, &to, 0xffffff00, tag);
         VecQ normal;
-        normal.FUN_008d2a00(&rotationA, &data->rotA.c);
+        normal.hkVector4_setRotatedDir(&rotationA, &data->rotA.c);
         normal.normalize();
         from.set(pivotA);
         to.setAddMul(from, normal, (float)(length * 0.5));
@@ -538,8 +544,8 @@ struct __declspec(align(16)) S00a6ec10_Vec4
     S00a6ec10_Vec4() {}
     S00a6ec10_Vec4(const S00a6ec10_Vec4& v) { x = v.x; y = v.y; z = v.z; w = v.w; }
     void operator=(const S00a6ec10_Vec4& v) { x = v.x; y = v.y; z = v.z; w = v.w; }
-    void FUN_008d28e0(const struct S00a6ec10_Transform& t, const S00a6ec10_Vec4& p);
-    void FUN_008d2a00(const struct S00a6ec10_Rotation& r, const S00a6ec10_Vec4& d);
+    void hkVector4_setTransformedPos(const struct S00a6ec10_Transform& t, const S00a6ec10_Vec4& p);
+    void hkVector4_setRotatedDir(const struct S00a6ec10_Rotation& r, const S00a6ec10_Vec4& d);
 };
 
 struct __declspec(align(16)) S00a6ec10_Rotation
@@ -666,6 +672,8 @@ struct __declspec(align(16)) S00a6ec10_Viewer
     void FUN_00a6ec10(S00a6ec10_Input* input, S00a6ec10_Display* display, int id);
 };
 
+// pdb: hkpLimitedHingeDrawer::drawConstraint | hkpLimitedHingeDrawer.obj | fnv360_0822_retail, call_gap, low
+// pdb params: constraint, displayHandler, id, tag
 void S00a6ec10_Viewer::FUN_00a6ec10(S00a6ec10_Input* input, S00a6ec10_Display* display, int id)
 {
     S00a6ec10_Constraint* data = input->constraint;
@@ -674,15 +682,15 @@ void S00a6ec10_Viewer::FUN_00a6ec10(S00a6ec10_Input* input, S00a6ec10_Display* d
     S00a6ec10_Transform transA;
     S00a6ec10_Transform transB;
     FUN_00a6aa20(input, transA, transB);
-    pivotA.FUN_008d28e0(transA, data->pivot90);
-    pivotB.FUN_008d28e0(transB, data->pivot50);
+    pivotA.hkVector4_setTransformedPos(transA, data->pivot90);
+    pivotB.hkVector4_setTransformedPos(transB, data->pivot50);
     FUN_00a6a7b0(id);
     FUN_00a6a750(id);
 
     S00a6ec10_Vec4 perp;
     S00a6ec10_Vec4 axis;
-    axis.FUN_008d2a00(rotA, data->axis60);
-    perp.FUN_008d2a00(rotA, data->perp80);
+    axis.hkVector4_setRotatedDir(rotA, data->axis60);
+    perp.hkVector4_setRotatedDir(rotA, data->perp80);
 
     display->displayLine(pivotB, pivotA, 0xffff0000, id);
 
@@ -717,7 +725,7 @@ void S00a6ec10_Viewer::FUN_00a6ec10(S00a6ec10_Input* input, S00a6ec10_Display* d
         end.setAddMul4(start, perp, (float)(scale * 0.5));
         display->displayLine(start, end, 0xffffff00, id);
         S00a6ec10_Vec4 dir;
-        dir.FUN_008d2a00(rotB, data->dir40);
+        dir.hkVector4_setRotatedDir(rotB, data->dir40);
         dir.normalize3();
         start = pivotB;
         end.setAddMul4(start, dir, (float)(scale * 0.5));
@@ -741,8 +749,8 @@ struct ScalarQ
 struct __declspec(align(16)) Vec {
  float x,y,z,w;
  __forceinline void fill(const float& value) {x=value;y=value;z=value;w=value;}
- void FUN_008d2a00(const Rotation*,const Vec*);
- void FUN_008d28e0(const Transform*,const Vec*);
+ void hkVector4_setRotatedDir(const Rotation*,const Vec*);
+ void hkVector4_setTransformedPos(const Transform*,const Vec*);
  const float& operator()(int i) const { return (&x)[i]; }
  void set(float a,float b,float c,float d) {x=a;y=b;z=c;w=d;}
  __forceinline void setCross(const Vec& a1,const Vec& a2)
@@ -870,26 +878,28 @@ void FUN_00a6c270(P1*,Renderer*,int);
 void FUN_00a6aa20(P1*,Transform*,Transform*);
 void FUN_00a6a750(int);
 };
+// pdb: hkpConstraintChainDrawer::drawConstraint | hkpConstraintChainDrawer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: constraint, displayHandler, id, tag
 void This::FUN_00a6c270(P1* p1,Renderer* renderer,int tag) {
  Mat* mat=p1->mat;
  // Fake match: the const copy of the handler and the two named rotation references below only steer product operand order.
  Renderer* const rend=renderer;
  Vec* anchor;
  mC0.FUN_00a8f460(rend);
- { Transform a,b;FUN_00a6aa20(p1,&a,&b);(anchor=&m50)->FUN_008d28e0(&a,&DAT_01092a50);m40.FUN_008d28e0(&b,&DAT_01092a50); }
+ { Transform a,b;FUN_00a6aa20(p1,&a,&b);(anchor=&m50)->hkVector4_setTransformedPos(&a,&DAT_01092a50);m40.hkVector4_setTransformedPos(&b,&DAT_01092a50); }
  FUN_00a6a750(tag);
  const Rotation& rA=m60;
  const Rotation& rB=m90;
  const Rotation& b=mat->rotationB;
- Vec t80;t80.FUN_008d2a00(&rB,&b.getColumn(0));
- Vec t70;crossNorm(t70,b.getColumn(0),b.getColumn(1));t70.FUN_008d2a00(&rB,&t70);
- Vec t60;t60.FUN_008d2a00(&rB,&b.getColumn(1));
+ Vec t80;t80.hkVector4_setRotatedDir(&rB,&b.getColumn(0));
+ Vec t70;crossNorm(t70,b.getColumn(0),b.getColumn(1));t70.hkVector4_setRotatedDir(&rB,&t70);
+ Vec t60;t60.hkVector4_setRotatedDir(&rB,&b.getColumn(1));
  // Fake match: the volatile view below makes the rotation address live in a stack slot, as the original has it.
  const Rotation* aHome=&mat->rotationA;
  const Rotation& a=*aHome;
  Vec temp;temp.setCross(a.col1,a.col0);temp.normalize();
- Vec t90;t90.FUN_008d2a00(&rA,&temp);
- Vec tc0;tc0.FUN_008d2a00(&rA,&(*(const Rotation* volatile*)&aHome)->col0);
+ Vec t90;t90.hkVector4_setRotatedDir(&rA,&temp);
+ Vec tc0;tc0.hkVector4_setRotatedDir(&rA,&(*(const Rotation* volatile*)&aHome)->col0);
  mC0.FUN_00a8f9c0(anchor,&t80,&t70,0xff008000,size,tag);
  mC0.FUN_00a8f9c0(&m40,&tc0,&t90,FUN_00921850(255,255,0,255),size,tag);
  mD0.FUN_00a6ba40(mat->angle,DAT_00dbe1e0,24,&t80,anchor);
@@ -959,7 +969,7 @@ struct __declspec(align(16)) Vec4 {
     __forceinline void Scale(const float& s) {float r=s;x*=r;y*=r;z*=r;w*=r;}
     __forceinline const float& operator()(int index) const {return (&x)[index];}
     __forceinline float& operator()(int index) {return (&x)[index];}
-    void FUN_008d28e0(const Transform& transform,const Vec4& source) throw();
+    void hkVector4_setTransformedPos(const Transform& transform,const Vec4& source) throw();
     __forceinline float Dot3(const Vec4& a) const {return (*this)(0)*a(0)+(*this)(1)*a(1)+(*this)(2)*a(2);}
     __forceinline float LengthSquared3() const {return Dot3(*this);}
     __forceinline float Length3() const {return static_cast<float>(sqrt(LengthSquared3()));}
@@ -978,7 +988,7 @@ struct __declspec(align(16)) Transform {
     }
     __forceinline void SetIdentity() {SetIdentityRotation();translation.SetZero();}
     Transform& FUN_008fda60(const Transform& source) throw();
-    void FUN_009251b0(const Transform& parent,const Transform& local) throw();
+    void hkTransform_setMul(const Transform& parent,const Transform& local) throw();
 };
 struct __declspec(align(16)) Aabb {Vec4 minimum,maximum;};
 struct __declspec(align(16)) Sphere {
@@ -1265,6 +1275,8 @@ struct Registry {unsigned int unk00,unk04;Array<Handler> entries;};
 extern Registry* DAT_0116c4a0;
 
 
+// pdb: hkpShapeDisplayBuilder::buildShapeDisplay | hkpShapeDisplayBuilder.obj | fnv360_0822_retail, objrun, medium
+// pdb params: shape, transform, displayGeometries
 void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<DisplayObject*>& output)
 {
     switch (shape->type)
@@ -1339,9 +1351,9 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
     {
         const SegmentShape* cylinder = static_cast<const SegmentShape*>(shape);
         Vec4 first;
-        first.FUN_008d28e0(parent,cylinder->second);
+        first.hkVector4_setTransformedPos(parent,cylinder->second);
         Vec4 second;
-        second.FUN_008d28e0(parent,cylinder->first);
+        second.hkVector4_setTransformedPos(parent,cylinder->first);
         DisplayCylinder* display = new (AllocateRef<DisplayCylinder>()) DisplayCylinder(first,second,
                                                                                       cylinder->FUN_009e5240(),9,1);
         display->transform.FUN_008fda60(parent);
@@ -1359,7 +1371,7 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
             {
                 Vec4& vertex = geometry->vertices.ExpandOne();
                 vertex = ray.start;
-                vertex.FUN_008d28e0(parent,vertex);
+                vertex.hkVector4_setTransformedPos(parent,vertex);
             }
             {
                 Vec4& vertex = geometry->vertices.ExpandOne();
@@ -1370,7 +1382,7 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
             {
                 Vec4& vertex = geometry->vertices.ExpandOne();
                 vertex = ray.end;
-                vertex.FUN_008d28e0(parent,vertex);
+                vertex.hkVector4_setTransformedPos(parent,vertex);
             }
             Triangle& triangle = geometry->triangles.ExpandOne();
             triangle.Set(base,base+1,base+2);
@@ -1393,7 +1405,7 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
         local.SetIdentityRotation();
         local.translation = translated->translation;
         Transform combined;
-        combined.FUN_009251b0(parent,local);
+        combined.hkTransform_setMul(parent,local);
         FUN_00a65740(translated->child,combined,output);
         return;
     }
@@ -1401,7 +1413,7 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
     {
         const ConvexTransformShape* transformed = static_cast<const ConvexTransformShape*>(shape);
         Transform combined;
-        combined.FUN_009251b0(parent,transformed->local);
+        combined.hkTransform_setMul(parent,transformed->local);
         FUN_00a65740(transformed->child,combined,output);
         return;
     }
@@ -1409,7 +1421,7 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
     {
         const TransformShape* transformed = static_cast<const TransformShape*>(shape);
         Transform combined;
-        combined.FUN_009251b0(parent,transformed->local);
+        combined.hkTransform_setMul(parent,transformed->local);
         FUN_00a65740(transformed->child,combined,output);
         return;
     }
@@ -1456,9 +1468,9 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
         const TriangleShape* triangle = static_cast<const TriangleShape*>(shape);
         Geometry* geometry = FUN_00a65650(output)->geometry;
         const int firstVertex = geometry->vertices.size;
-        geometry->vertices.ExpandOne().FUN_008d28e0(parent,triangle->vertices[0]);
-        geometry->vertices.ExpandOne().FUN_008d28e0(parent,triangle->vertices[1]);
-        geometry->vertices.ExpandOne().FUN_008d28e0(parent,triangle->vertices[2]);
+        geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,triangle->vertices[0]);
+        geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,triangle->vertices[1]);
+        geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,triangle->vertices[2]);
 
         Triangle& base = geometry->triangles.ExpandOne();
         base.Set(firstVertex,firstVertex+1,firstVertex+2);
@@ -1472,9 +1484,9 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
             firstExtruded.SetAdd(triangle->GetVertex(0),triangle->GetExtrusion());
             secondExtruded.SetAdd(triangle->GetVertex(1),triangle->GetExtrusion());
             thirdExtruded.SetAdd(triangle->GetVertex(2),triangle->GetExtrusion());
-            geometry->vertices.ExpandOne().FUN_008d28e0(parent,firstExtruded);
-            geometry->vertices.ExpandOne().FUN_008d28e0(parent,secondExtruded);
-            geometry->vertices.ExpandOne().FUN_008d28e0(parent,thirdExtruded);
+            geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,firstExtruded);
+            geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,secondExtruded);
+            geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,thirdExtruded);
 
             Triangle* sides = geometry->triangles.ExpandBy(7);
             sides[0].Set(firstVertex+3,firstVertex+1,firstVertex);
@@ -1498,7 +1510,7 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
         transformed.Init();
         transformed.Resize(count);
         for (int i=0;i<count;++i)
-            transformed.data[i].FUN_008d28e0(parent,source[i]);
+            transformed.data[i].hkVector4_setTransformedPos(parent,source[i]);
 
         Geometry* geometry = new Geometry;
         StridedVertices input;
@@ -1528,7 +1540,7 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
 
             const Vec4* vertex = triangle->vertices;
             for (int vertexIndex=0;vertexIndex<3;++vertexIndex)
-                geometry->vertices.ExpandOne().FUN_008d28e0(parent,vertex[vertexIndex]);
+                geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,vertex[vertexIndex]);
         }
 
         DisplayMesh* display = new (AllocateRef<DisplayMesh>()) DisplayMesh(geometry);
@@ -1561,10 +1573,10 @@ void Builder::FUN_00a65740(const Shape* shape,const Transform& parent,Array<Disp
                 fourth.Mul(scale);
 
                 const int firstVertex = geometry->vertices.size;
-                geometry->vertices.ExpandOne().FUN_008d28e0(parent,first);
-                geometry->vertices.ExpandOne().FUN_008d28e0(parent,second);
-                geometry->vertices.ExpandOne().FUN_008d28e0(parent,third);
-                geometry->vertices.ExpandOne().FUN_008d28e0(parent,fourth);
+                geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,first);
+                geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,second);
+                geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,third);
+                geometry->vertices.ExpandOne().hkVector4_setTransformedPos(parent,fourth);
 
                 if (heightfield->GetTriangleFlip().value)
                 {
@@ -2500,9 +2512,10 @@ extern "C" __forceinline void __cdecl hkPoweredChain_ComputeConstraintMatrix_Nex
 		}
 	}
 }
+// pdb: hkPoweredChain_BuildConstraintMatrixAndLuDecomposition | hkpPoweredChainSolverUtil.obj | fnv360_1110_retail, objrun, medium
+// pdb params: numConstraints, cfm, motorsState, j, jAng, va, accumsBase, triples, bufferSize
 void __cdecl FUN_00a7bcf0( int numConstraints, const hkpCfmParam& cfm, hkp3dAngularMotorSolverInfo* motorsState, hkp1Lin2AngJacobian* __restrict j, hkp2AngJacobian* __restrict jAng, hkpVelocityAccumulatorOffset* __restrict va, const hkpVelocityAccumulator* accumsBase, hkpConstraintChainMatrix6Triple* triples, int bufferSize )
 {
-	;
 	hkMatrix6 mtxPrevOffdiag; mtxPrevOffdiag.setZero();
 	hkMatrix6* triplePrevUpper = &mtxPrevOffdiag;
 	int row;
@@ -5133,7 +5146,7 @@ class hkpReorientAction : public hkpUnaryAction
 			const hkVector4& upAxis,
 			hkReal strength = 1.0f,
 			hkReal damping = 0.1f );
-		void FUN_00a73380( const hkStepInfo& stepInfo );
+		void hkpReorientAction_applyAction( const hkStepInfo& stepInfo );
 		virtual hkpAction* clone( const hkArray<hkpEntity*>& newEntities, const hkArray<hkpPhantom*>& newPhantoms ) const;
 	public:
 		hkVector4 m_rotationAxis;
@@ -5143,7 +5156,8 @@ class hkpReorientAction : public hkpUnaryAction
 	public:
 		hkpReorientAction( class hkFinishLoadedObjectFlag flag ) : hkpUnaryAction(flag) {}
 };
-void hkpReorientAction::FUN_00a73380( const hkStepInfo& stepInfo )
+// pdb: hkpReorientAction::applyAction | hkpReorientAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpReorientAction::hkpReorientAction_applyAction( const hkStepInfo& stepInfo )
 {
 	hkpRigidBody* rb = getRigidBody();
 	hkVector4 bodyUpAxis; bodyUpAxis.setRotatedDir( rb->getRotation(), m_upAxis );
@@ -6625,6 +6639,8 @@ static hkDisplayConvex* _createConvexDisplayFromPlanes( const hkArray<hkVector4>
 	return new hkDisplayConvex(outputGeom);
 }
 
+// pdb: hkpConvexRadiusBuilder::buildShapeDisplay | hkpConvexRadiusBuilder.obj | fnv360_0822_debug, objrun_prop, medium
+// pdb params: shape, transform, displayGeometries
 void hkpConvexRadiusBuilder::FUN_00a694a0(		const hkpShape* shape,
 												const hkTransform& transform,
 												hkArray<hkDisplayGeometry*>& displayGeometries)
@@ -6815,7 +6831,6 @@ void hkpConvexRadiusBuilder::FUN_00a694a0(		const hkpShape* shape,
 				}
 				else
 				{
-					;
 				}
 			}
 			break;
@@ -6847,7 +6862,6 @@ void hkpConvexRadiusBuilder::FUN_00a694a0(		const hkpShape* shape,
 				}
 				else
 				{
-					;
 				}
 			}
 			break;
@@ -8451,6 +8465,8 @@ static __forceinline hkReal calcTargetVelocity( const hkp2AngJacobian& jac, cons
 {
 	return calcTargetVelocityImpl( jac, mA, mB, solverInfo, tau, damping );
 }
+// pdb: hkPoweredChain_ScanAndEnableMotors | hkpPoweredChainSolverUtil.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: info, modifiedConstraintIndex, modifiedCoordinateIndex, impulse, motorsState
 void __cdecl FUN_00a7b270( const hkpChainSolverInfo& info, int& modifiedConstraintIndex, int& modifiedCoordinateIndex, hkReal& impulse, hkp3dAngularMotorSolverInfo* motorsState )
 {
 	const hkVector8* g = info.m_gTempBuffer + 1;
@@ -9429,6 +9445,7 @@ static __forceinline hkReal calcTargetVelocity( const hkp2AngJacobian& jac, cons
 {
 	return calcTargetVelocityImpl( jac, mA, mB, solverInfo, tau, damping );
 }
+// pdb: hkPoweredChain_CalculateVelocities | hkpPoweredChainSolverUtil.obj | tesv_win, objrun, medium
 void __cdecl FUN_00a7a4c0( const hkpChainSolverInfo& info, hkVector8* velocities )
 {
 	hkp1Lin2AngJacobian* j = info.m_j;

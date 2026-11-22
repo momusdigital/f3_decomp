@@ -45,6 +45,7 @@ void FUN_00cffaf0()
     DAT_0108dd08 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | NiBSplineTransformInterpolator.obj | tesv_win, udata, high
 void FUN_00d00140()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -57,6 +58,7 @@ void FUN_00d01a00()
     DAT_0109282c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | NiBSplineCompTransformInterpolator.obj | tesv_win, objrun_open, low
 void FUN_00d01ab0()
 {
     float s = (float)sqrt(DAT_00db36a0);

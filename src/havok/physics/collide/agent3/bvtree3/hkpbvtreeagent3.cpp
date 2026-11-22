@@ -2,48 +2,17 @@
 // src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl InitAndReturnTail(void*, void*, void*);
 void __fastcall FUN_00d2d890(void* self, int, void*, int);
 void __fastcall CallWithValueSource(void* self, int, int, int);
 void __fastcall FUN_00d2d430(void* self, int, int, int);
 void __fastcall FUN_00d2d480(void* self, int, int, int);
-// @fnv 0x00d2d9d0
-void FUN_00d2d9d0(void* pObject)
-{
-    *(void**)pObject = (void*)&InitAndReturnTail;
-    *(void**)((char*)pObject + 0x2c) = (void*)&FUN_00d2d890;
-    *(int*)((char*)pObject + 0x28) = 0;
-    *(int*)((char*)pObject + 8) = 0;
-    *(int*)((char*)pObject + 0xc) = 0;
-    *(int*)((char*)pObject + 0x10) = 0;
-    *(int*)((char*)pObject + 0x14) = 0;
-    *(void**)((char*)pObject + 0x18) = (void*)&CallWithValueSource;
-    *(void**)((char*)pObject + 0x1c) = (void*)&FUN_00d2d430;
-    *(int*)((char*)pObject + 0x20) = 0xd2d460;
-    *(void**)((char*)pObject + 0x24) = (void*)&FUN_00d2d480;
-    *(int*)((char*)pObject + 4) = 0xda6dc0;
-    *(char*)((char*)pObject + 0x30) = 1;
-}
 
-extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
+extern "C" void __cdecl hkAgent1nMachine_WarpTime(void*, float, float, int);
 // @fnv 0x00d2d480
+// pdb: hkBvTreeAgent3::warpTime | hkpBvTreeAgent3.obj | tesv_win, objrun_sim, low
 void __cdecl FUN_00d2d480(void*, void* target, float first, float second, int flags)
 {
-    FUN_00da35f0(target, first, second, flags);
-}
-
-struct Interface
-{
-    virtual void f0();
-    virtual void f1();
-    virtual void f2();
-    virtual void f3();
-    virtual void f4();
-};
-// @fnv 0x00d2d4b0
-void FUN_00d2d4b0(Interface** a)
-{
-    (*a)->f4();
+    hkAgent1nMachine_WarpTime(target, first, second, flags);
 }
 
 struct LessU32
@@ -57,6 +26,8 @@ struct LessU32
 
 // Partitions pArr[d..h] around a middle pivot using cmpLess, swapping out-of-order elements, then recurses on the left part and loops on the right.
 // @fnv 0x00d2da70
+// pdb: hkAlgorithm::quickSortRecursive<unsigned int,hkAlgorithm::less<unsigned int> > | hkpBvTreeAgent3.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pArr, d, h, cmpLess
 extern "C" void __cdecl QuickSortRange(unsigned* auiArray, int aiLow, int aiHigh, LessU32 aComparator)
 {
 setpoint:
@@ -111,9 +82,7 @@ struct CallBuf
     int unk1c;
 };
 
-void __cdecl FUN_00da48e0(void* a, void* b);
-
-// Calls f4 on the ValueSource, fills a CallBuf with the arguments and result, then passes it to FUN_00da48e0 with p2.
+// Calls f4 on the ValueSource, fills a CallBuf with the arguments and result, then passes it to hkAgent1nMachine_UpdateShapeCollectionFilter with p2.
 // @f3 0x009b4bd0 (community match, verified in this file)
 struct SourceDispatch {
     void* unk00;
@@ -124,6 +93,7 @@ struct SourceDispatch {
     int (__thiscall* GetValue)(ValueSource*);
 };
 void __cdecl FUN_00a2b420(void*, CallBuf*);
+// pdb: hkBvTreeAgent3::updateFilter | hkpBvTreeAgent3.obj | tesv_win, objrun_prop, low
 void __cdecl CallWithValueSource(void* unused, void* target, int arg0, ValueSource** source, int arg1, int arg2, int arg3)
 {
     int result = (*(SourceDispatch**)*source)->GetValue(*source);
@@ -192,7 +162,6 @@ struct Agent
 };
 
 extern "C" void __cdecl FUN_00d97250(int, int, void*);
-extern "C" void __cdecl FUN_00da3510(int, int);
 
 // Calls p->f6 with the type name hkBvTreeAgent3, then FUN_00d97250 with a2, a3 and p, then p->f7().
 // @f3 0x009b4b50 (community match, verified in this file)
@@ -214,11 +183,6 @@ void __cdecl FUN_00d2d430(int a1, int a2, int a3, Agent* pAgent)
     p->v5();
 }
 
-
-void __cdecl FUN_00d2d460(int a, int b, int c)
-{
-    FUN_00da3510(b, c);
-}
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -265,154 +229,13 @@ struct __declspec(align(16)) S00d2d890_Local
     {}
     void FUN_00cb21e0(void* a);
 };
-struct S00d2d890_Hits
-{
-    int q000;
-    int q001;
-    int q002;
-    int q003;
-    int q004;
-    int q005;
-    int q006;
-    int q007;
-    int q008;
-    int q009;
-    int q00a;
-    int q00b;
-    int q00c;
-    int q00d;
-    int q00e;
-    int q00f;
-    int q010;
-    int q011;
-    int q012;
-    int q013;
-    int q014;
-    int q015;
-    int q016;
-    int q017;
-    int q018;
-    int q019;
-    int q01a;
-    int q01b;
-    int q01c;
-    int q01d;
-    int q01e;
-    int q01f;
-    int q020;
-    int q021;
-    int q022;
-    int q023;
-    int q024;
-    int q025;
-    int q026;
-    int q027;
-    int q028;
-    int q029;
-    int q02a;
-    int q02b;
-    int q02c;
-    int q02d;
-    int q02e;
-    int q02f;
-    int q030;
-    int q031;
-    int q032;
-    int q033;
-    int q034;
-    int q035;
-    int q036;
-    int q037;
-    int q038;
-    int q039;
-    int q03a;
-    int q03b;
-    int q03c;
-    int q03d;
-    int q03e;
-    int q03f;
-    int q040;
-    int q041;
-    int q042;
-    int q043;
-    int q044;
-    int q045;
-    int q046;
-    int q047;
-    int q048;
-    int q049;
-    int q04a;
-    int q04b;
-    int q04c;
-    int q04d;
-    int q04e;
-    int q04f;
-    int q050;
-    int q051;
-    int q052;
-    int q053;
-    int q054;
-    int q055;
-    int q056;
-    int q057;
-    int q058;
-    int q059;
-    int q05a;
-    int q05b;
-    int q05c;
-    int q05d;
-    int q05e;
-    int q05f;
-    int q060;
-    int q061;
-    int q062;
-    int q063;
-    int q064;
-    int q065;
-    int q066;
-    int q067;
-    int q068;
-    int q069;
-    int q06a;
-    int q06b;
-    int q06c;
-    int q06d;
-    int q06e;
-    int q06f;
-    int q070;
-    int q071;
-    int q072;
-    int q073;
-    int q074;
-    int q075;
-    int q076;
-    int q077;
-    int q078;
-    int q079;
-    int q07a;
-    int q07b;
-    int q07c;
-    int q07d;
-    int q07e;
-    int q07f;
-};
 struct S00d2d890_Rec3
 {
     const char* name;
     unsigned int stamp;
     unsigned int unk08;
 };
-struct S00d2d890_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-};
-char** FUN_00c85750();
 int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
-int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
-int FUN_00da4aa0(int a, void* b, int c, char* d, int e);
 
 // Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns child + 0x10.
 // @f3 0x009b5700 (community match, verified in this file)
@@ -443,6 +266,8 @@ struct S00d2d890_TMem
     char* m_end;
 };
 
+// pdb: hkBvTreeAgent3::process | hkpBvTreeAgent3.obj | fnv360_0822_retail, strset, low
+// pdb params: input, entry, agentData, separatingNormal, output
 char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
 {
     volatile unsigned int tb;
@@ -503,10 +328,6 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
 }
 
 
-struct FUN_00cfbd60_Obj
-{
-    void AddEntry(void* a1, int a2, int a3);
-};
 __declspec(noinline) void FUN_00d2d9d0(void* pObject);
 
 struct __declspec(align(16)) S_00d2da20_AgentFuncs
@@ -538,12 +359,3 @@ struct __declspec(align(16)) S_00d2da20_AgentFuncs
         unk28 = 0;
     }
 };
-
-// Builds an S_00d2da20_AgentFuncs with FUN_00d2d9d0, then passes it to target->AddEntry with -1 and 8.
-// @fnv 0x00d2da20
-void FUN_00d2da20(FUN_00cfbd60_Obj* target)
-{
-    S_00d2da20_AgentFuncs agentFuncs;
-    FUN_00d2d9d0(&agentFuncs);
-    target->AddEntry(&agentFuncs, -1, 8);
-}

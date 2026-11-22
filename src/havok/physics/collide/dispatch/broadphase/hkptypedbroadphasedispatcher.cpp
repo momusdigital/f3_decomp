@@ -29,6 +29,8 @@ struct Dispatcher
 
 // For each of n pairs, looks up a handler by the pair's two body types and calls Process on it.
 // @fnv 0x00cf70f0
+// pdb: hkpTypedBroadPhaseDispatcher::removePairs | hkpTypedBroadPhaseDispatcher.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: deletedPairs, numDeletedPairs
 void Dispatcher::DispatchPairs(Pair* pairs, int aiCount)
 {
     while (--aiCount >= 0)
@@ -77,6 +79,8 @@ struct DispatcherCF7080
 
 // Iterates over collision pairs, filters them with filter->IsCollisionEnabled, and forwards accepted pairs to the handler for each type combination.
 // @fnv 0x00cf7080
+// pdb: hkpTypedBroadPhaseDispatcher::addPairs | hkpTypedBroadPhaseDispatcher.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: newPairs, numNewPairs, filter
 void DispatcherCF7080::FUN_00cf7080(PairCF7080* pairs, int numPairs, const FilterCF7080* filter)
 {
     while (--numPairs >= 0)
@@ -387,6 +391,8 @@ inline hkUint64 orderedKey(const hkpBroadPhaseHandlePair& pair)
 
 }  // namespace f3m_00984d00
 
+// pdb: hkpTypedBroadPhaseDispatcher::removeDuplicates | hkpTypedBroadPhaseDispatcher.obj | fnv360_0822_retail, caller, medium
+// pdb params: newPairs, delPairs
 void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
 {
     using namespace f3m_00984d00;

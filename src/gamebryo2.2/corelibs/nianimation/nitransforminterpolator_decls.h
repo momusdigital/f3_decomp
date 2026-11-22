@@ -83,14 +83,14 @@ template <class T> class TransformDataPointer
 class NiTransformInterpolator : public NiKeyBasedInterpolator
 {
   public:
-    NiQuatTransform m_kDefaultTransform;
-    TransformDataPointer<NiTransformData> m_spTransformData;
-    unsigned short m_usLastRotationKeyIndex;
-    unsigned short m_usLastPositionKeyIndex;
-    unsigned short m_usLastScaleKeyIndex;
+    NiQuatTransform m_kTransformValue;  // src: FNV360_PDB +0xC (old: m_kDefaultTransform)
+    TransformDataPointer<NiTransformData> m_spData;  // src: FNV360_PDB +0x2C (old: m_spTransformData)
+    unsigned short m_usLastTransIdx;  // src: FNV360_PDB +0x30 (old: m_usLastRotationKeyIndex)
+    unsigned short m_usLastRotIdx;  // src: FNV360_PDB +0x32 (old: m_usLastPositionKeyIndex)
+    unsigned short m_usLastScaleIdx;  // src: FNV360_PDB +0x34 (old: m_usLastScaleKeyIndex)
     unsigned char m_padding36[2];
-    NiPoint3 m_kDefaultTranslation;
-    bool m_bPoseValid;
+    NiPoint3 m_origTranslate;  // src: FNV360_PDB +0x38 (old: m_kDefaultTranslation)
+    bool bPose;  // src: FNV360_PDB +0x44 (old: m_bPoseValid)
     unsigned char m_padding45[3];
 
     NiTransformInterpolator(NiQuatTransform);

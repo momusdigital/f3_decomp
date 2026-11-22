@@ -6,47 +6,12 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpDashpotAction.h"
 #include <xmmintrin.h>
-extern float DAT_0101e2bc;
-extern float DAT_01013ea4;
-extern int DAT_010d0994;
-struct FUN_00cf4d80_shell { void FUN_00cf4d80(int entityA, int entityB, int name); };
-struct FUN_00d4d980_Class : hkpDashpotAction { FUN_00d4d980_Class* FUN_00d4d980(int entityA, int entityB, int name); };
 // FUN_00d4d9d0 - hkpDashpotAction clone-style factory (Havok)
 __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 unsigned long g_tlsIdx = 0;
-__declspec(noinline) void* FUN_00c85750() {
-	unsigned long idx = g_tlsIdx;
-	return TlsGetValue(idx);
-}
-class DashHeap1 {
-public:
-	virtual void unk00();
-	virtual void* allocate(int size);
-};
-struct DashRouter1 {
-	void* u00;
-	void* u04;
-	void* u08;
-	void* u0c;
-	DashHeap1* u10;
-};
-class FUN_00d4d980_class {
-public:
-	void* FUN_00d4d980(hkpEntity* entityA, hkpEntity* entityB, hkUlong userData);
-};
-__declspec(noinline) void* FUN_00d4d980_class::FUN_00d4d980(hkpEntity* entityA, hkpEntity* entityB, hkUlong userData) {
-	return this;
-}
-class hkpDashpotActionX : public hkpDashpotAction {
-public:
-	hkpAction* FUN_00d4d9d0(const hkArray<hkpEntity*>& newEntities, const hkArray<hkpEntity*>& removedEntities);
-};
 
 #include <xmmintrin.h>
 extern "C" void _ReadWriteBarrier(void);
-extern unsigned long DAT_0126835c;
-extern double DAT_010d09b8;
-extern float DAT_01012054;
 
 namespace DashpotApplyDetail {
 
@@ -238,7 +203,7 @@ struct S00d4da60_DashpotAction
     void* unk48;
     void* unk4C;
     DashpotApplyVector m_fContactImpulse;
-    void __thiscall FUN_00d4da60(S00d4da60_StepRef stepInfo);
+    void __thiscall hkpDashpotAction_applyAction(S00d4da60_StepRef stepInfo);
 };
 
 // @f3 0x009da680 (community match, verified in this file)
@@ -256,7 +221,7 @@ struct __declspec(align(16)) ScalarVector55 {
         struct { float x,y,z,w; };
         float components[4];
     };
-    void FUN_008d28e0(const Transform55*,const ScalarVector55*);
+    void hkVector4_setTransformedPos(const Transform55*,const ScalarVector55*);
     void SubA(const ScalarVector55& a,const ScalarVector55& b){x=a.x-b.x;y=a.y-b.y;z=a.z-b.z;w=a.w-b.w;}
     void SubB(const ScalarVector55& a,const ScalarVector55& b){x=a.x-b.x;y=a.y-b.y;z=a.z-b.z;w=a.w-b.w;}
     void MulA(float s,const ScalarVector55& b){for(int i=0;i<4;i++)components[i]=b.components[i]*s;}
@@ -384,7 +349,8 @@ struct Entity55
 };
 struct Scratch55 {ScalarVector55 pointB,pointA,opposite;};
 }
-void ::DashpotApplyDetail::S00d4da60_DashpotAction::FUN_00d4da60(::DashpotApplyDetail::S00d4da60_StepRef stepInfo) {
+// pdb: hkpDashpotAction::applyAction | hkpDashpotAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void ::DashpotApplyDetail::S00d4da60_DashpotAction::hkpDashpotAction_applyAction(::DashpotApplyDetail::S00d4da60_StepRef stepInfo) {
     using namespace dp_009da680;
     volatile unsigned int tick;
     {
@@ -403,8 +369,8 @@ void ::DashpotApplyDetail::S00d4da60_DashpotAction::FUN_00d4da60(::DashpotApplyD
     Entity55* entityB=(Entity55*)m_pEntityB;
     ScalarVector55 relativeVel;
     Scratch55 scratch;
-    scratch.pointA.FUN_008d28e0(&entityA->m_kMotionTransform,(const ScalarVector55*)&m_kPoint[0]);
-    scratch.pointB.FUN_008d28e0(&entityB->m_kMotionTransform,(const ScalarVector55*)&m_kPoint[1]);
+    scratch.pointA.hkVector4_setTransformedPos(&entityA->m_kMotionTransform,(const ScalarVector55*)&m_kPoint[0]);
+    scratch.pointB.hkVector4_setTransformedPos(&entityB->m_kMotionTransform,(const ScalarVector55*)&m_kPoint[1]);
     scratch.opposite.SubA(scratch.pointA,scratch.pointB);
     relativeVel.SubB(entityA->m_kTranslationalVelocity,entityB->m_kTranslationalVelocity);
     ScalarVector55* impulse=(ScalarVector55*)&m_fContactImpulse;

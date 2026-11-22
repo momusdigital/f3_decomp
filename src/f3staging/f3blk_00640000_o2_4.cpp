@@ -18,6 +18,8 @@ struct Holder6 {
 
 extern Holder6* DAT_010762b4;
 
+// pdb: HUDMainMenu::ResetHUDOpacity | HUDMainMenu.obj | fnv360_0822_debug, caller, medium
+// pdb params: afHUDOpacity
 void __cdecl FUN_006477e0(float value)
 {
     if (!DAT_010762b4) return;
@@ -110,6 +112,8 @@ class LevelGamepadView
 };
 
 // @fnv 0x00785ed0
+// pdb: LevelUpMenu::DoGamepad | LevelUpMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiButton, afValue
 bool LevelGamepadView::FUN_00654e20(int aiButtonCode, float afValue)
 {
     bool bHandled = false;

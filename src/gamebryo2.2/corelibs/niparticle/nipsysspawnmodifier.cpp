@@ -3,6 +3,8 @@
 
 // Calls the base NiPSysModifier::LoadBinary, then loads eight values from kStream via a helper.
 // @fnv 0x00c247f0
+// pdb: NiPSysSpawnModifier::LoadBinary | NiPSysSpawnModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiPSysSpawnModifier::LoadBinary(NiStream& kStream)
 {
     NiPSysModifier::LoadBinary(kStream);
@@ -16,13 +18,8 @@ void NiPSysSpawnModifier::LoadBinary(NiStream& kStream)
     ReadBinaryValue(kStream, m_fLifeSpanVariation);
 }
 
-// @fnv 0x00c2d6d0
-void NiPSysBoundUpdateModifier::LinkObject(NiStream& kStream)
-{
-    NiPSysModifier::LinkObject(kStream);
-}
-
 // @fnv 0x00c2d6e0
+// pdb: NiPSysBoundUpdateModifier::`scalar deleting destructor' | NiPSysBoundUpdateModifier.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiPSysBoundUpdateModifier::IsEqual)
 bool NiPSysBoundUpdateModifier::IsEqual(NiObject* pkObject)
 {
     if (!NiPSysModifier::IsEqual(pkObject))
@@ -33,18 +30,13 @@ bool NiPSysBoundUpdateModifier::IsEqual(NiObject* pkObject)
 }
 
 // @fnv 0x00c2d710
+// pdb: NiBSplineData::GetRTTI | NiBSplineData.obj | fnv360_0822_retail, udata, high
 const NiRTTI* NiPSysBoundUpdateModifier::GetRTTI() const
 {
     return &ms_kRTTI;
 }
 
 extern "C" const NiRTTI g_01202550;
-
-// @fnv 0x00c23ce0
-const NiRTTI* __cdecl FUN_00c23ce0()
-{
-    return &g_01202550;
-}
 
 extern "C" void __cdecl __Dummy_00b6fef0(void*, int);
 void __cdecl FUN_00c31750();
@@ -55,6 +47,7 @@ struct FUN_00c23cf0_shell
 };
 
 // @fnv 0x00c23cf0
+// pdb: NiBlendBoolInterpolator::`scalar deleting destructor' | NiBlendBoolInterpolator.obj | fnv360_0822_retail, objrun, medium
 FUN_00c23cf0_shell* __thiscall FUN_00c23cf0_shell::FUN_00c23cf0(int param)
 {
     FUN_00c31750();
@@ -79,6 +72,8 @@ struct FUN_00c23b70_shell : NiObject
 };
 // Compares this object with pkObject: checks IsEqual and that eight stored values match, returning true only if all are equal.
 // @fnv 0x00c23b70
+// pdb: NiPSysSpawnModifier::IsEqual | NiPSysSpawnModifier.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkObject
 bool __thiscall FUN_00c23b70_shell::FUN_00c23b70(NiObject* pkObject)
 {
     FUN_00c23b70_shell* pkDest = static_cast<FUN_00c23b70_shell*>(pkObject);
@@ -132,6 +127,8 @@ char* __cdecl FUN_00a7d550(char const* name, float value);
 
 // Appends formatted spawn-setting name/value strings to the StrArr, growing it when full.
 // @f3 0x00ac44a0 (community match, verified in this file)
+// pdb: NiPSysSpawnModifier::GetViewerStrings | NiPSysSpawnModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void __thiscall FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
 {
     Base00c319e0::FUN_00c319e0(strings);
@@ -237,6 +234,7 @@ struct FUN_00c23d10_cls
 };
 
 // @fnv 0x00c23d10
+// pdb: NiPSysSpawnModifier::CreateClone | NiPSysSpawnModifier.obj | tesv_win, caller_sim, low
 FUN_00c23d10_cls* FUN_00c23d10_cls::Clone(int aiArg)
 {
     FUN_00c23d10_cls* pkNew = (FUN_00c23d10_cls*)FUN_00aa13e0(0x34);
@@ -304,12 +302,13 @@ template <class T> __forceinline void StreamSaveBinary(SaveStream& stream, const
 struct SpawnModifier : NiPSysSpawnModifier
 {
     void __thiscall FUN_00c31950(SaveStream& stream);
-    void __thiscall FUN_00c24920(SaveStream& stream);
+    void __thiscall NiPSysSpawnModifier_SaveBinary(SaveStream& stream);
 };
 
 // Saves the SpawnModifier fields to the stream after calling the base class save routine.
 // @fnv 0x00c24920
-void SpawnModifier::FUN_00c24920(SaveStream& stream)
+// pdb: NiPSysSpawnModifier::SaveBinary | NiPSysSpawnModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+void SpawnModifier::NiPSysSpawnModifier_SaveBinary(SaveStream& stream)
 {
     FUN_00c31950(stream);
     StreamSaveBinary(stream, m_usSpawnGenerationCount);
@@ -330,6 +329,7 @@ struct FUN_00c23c00_shell
 
 // Copies 9 floats from the object into fTimeSinceScaleStart, then adds each element of fDelta2 to the corresponding element.
 // @fnv 0x00c23c00
+// pdb: NiMatrix3::operator+ | NiPSysSpawnModifier.obj | tesv_win, hash, low
 void FUN_00c23c00_shell::AddDelta(float* afOut, float* afDelta)
 {
     memcpy(afOut, (float*)this, 9 * sizeof(float));
@@ -351,6 +351,7 @@ struct FUN_00c23c70_shell
 
 // Copies the 36-byte object into dst, then subtracts each element of sub from the first 9 floats in dst.
 // @fnv 0x00c23c70
+// pdb: NiMatrix3::operator- | NiPSysSpawnModifier.obj | tesv_win, hash, low
 void FUN_00c23c70_shell::SubtractFrom(float* dst, const float* sub)
 {
     memcpy(dst, this, 36);
@@ -528,6 +529,7 @@ inline float RandomFloat0To1()
 }
 
 // @fnv 0x00c23db0
+// pdb: NiPSysSpawnModifier::SpawnParticles | NiPSysSpawnModifier.obj | tesv_win, caller_sim, low
 void SpawnModifierX::FUN_00c23db0(float afTime, float fTime, unsigned short usOldIndex, ParticleSystemX* pkSystem)
 {
     PSysDataX* pkData = pkSystem->m_spGeometryData;
@@ -807,6 +809,7 @@ struct SpawnWorker : NiPSysSpawnModifier
 };
 
 // @fnv 0x00c23ee0
+// pdb: NiPSysSpawnModifier::SpawnParticle | NiPSysSpawnModifier.obj | tesv_win, caller_sim, low
 void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short usOldIndex, PSys* pkOldPSystem)
 {
     Pt3 kMotionVelocity;

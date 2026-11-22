@@ -2,40 +2,16 @@
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct CallTarget_00e5c370
-{
-    int InsertAndDelete(int, int, int, int, int);
-};
 struct SearchObject
 {
     int FUN_00e5c420(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
-// @fnv 0x00e5c420
-int SearchObject::FUN_00e5c420(unsigned int auiParam0, unsigned int auiParam1, unsigned int auiParam2,
-                               unsigned int auiParam3)
-{
-    unsigned int callResult0 =
-        (unsigned int)((CallTarget_00e5c370*)this)
-            ->InsertAndDelete((int)auiParam0, (int)auiParam1, (int)0u, (int)auiParam2, (int)auiParam3);
-    return (int)callResult0;
-}
 
 namespace fnv_00e5c440 {
-struct CallTarget_00e5c420
-{
-    int FUN_00e5c420(int, int, int, int);
-};
 struct SearchObject
 {
     int FUN_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2);
 };
-// @fnv 0x00e5c440
-int SearchObject::FUN_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2)
-{
-    unsigned int callResult0 =
-        (unsigned int)((CallTarget_00e5c420*)this)->FUN_00e5c420((int)arg0, (int)arg1, (int)arg2, (int)1u);
-    return (int)callResult0;
-}
 }  // namespace fnv_00e5c440
 
 struct AudioAllocator
@@ -46,58 +22,6 @@ struct AudioAllocator
     virtual void v0c();
     virtual void v10();
 };
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-AudioHolder* __cdecl FUN_00c85750() throw();
-
-struct DispatchTarget
-{
-    void CallWithFlag(void* aValue, int aZero, void* aOut);
-};
-
-struct OutObject
-{
-    void FUN_00c90510();
-};
-
-struct FUN_00e5c460_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    DispatchTarget m_38;
-
-    void FUN_00e5c460(OutObject* a1);
-};
-
-// Gets an AudioHolder, passes its allocator to m_38.CallWithFlag, then calls FUN_00c90510 on a1.
-// @fnv 0x00e5c460
-void FUN_00e5c460_cls::FUN_00e5c460(OutObject* pOutObject)
-{
-    AudioHolder* pHolder = FUN_00c85750();
-    void* pValue = pHolder->m_pAllocator;
-    m_38.CallWithFlag(pValue, 0, &pOutObject);
-    pOutObject->FUN_00c90510();
-}
 
 #include <xmmintrin.h>
 __declspec(align(16)) struct XfOut_cls
@@ -136,7 +60,7 @@ struct XfScene_cls
     int unk34;
     char** m_38;
     int m_3c;
-    void AddReferencedObject(XfScene_cls* other);
+    void hkpConstraintChainInstance_addEntity(XfScene_cls* other);
 };
 
 static char* XfSelectRec(char* rec)
@@ -153,7 +77,8 @@ struct FUN_008d2970_cls
 {
     void FUN_008d2970(const __m128* m, const __m128* v);
 };
-void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
+// pdb: hkpConstraintChainUtil::addConstraintToBallSocketChain | hkpConstraintChainUtil.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void hkpConstraintChainUtil_addConstraintToBallSocketChain(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
 {
     XfSub_cls* sub = a1->m_0c;
     char** arr = *reinterpret_cast<char***>(reinterpret_cast<char*>(a1) + 0x2c);
@@ -164,7 +89,7 @@ void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
     ((FUN_008d2970_cls*)&outs[0])->FUN_008d2970((const __m128*)(p1 + 0xe0), a3);
     ((FUN_008d2970_cls*)&outs[1])->FUN_008d2970((const __m128*)(p2 + 0xe0), a3);
     sub->Push(&outs[0], &outs[1]);
-    a1->AddReferencedObject(a2);
+    a1->hkpConstraintChainInstance_addEntity(a2);
 }
 
 
@@ -194,65 +119,6 @@ struct __declspec(align(16)) RelativeOrientationData
     void FUN_00c74ac0(char* a, char* b);
 };
 
-struct Callee
-{
-    int unk00;
-    void FUN_00e3b850(void* p1, void* p2, void* p3, int a4, int a5, int a6);
-};
-
-struct Owner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    Callee* m_0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    void** m_38;
-    int m_3c;
-    void AddReferencedObject(char* a);
-};
-
-// Computes relative orientation between two objects and applies it via a Callee, then adds a reference to a2.
-// @fnv 0x00e5b440
-void ApplyRelativeOrientation(Owner* a1, char* a2, const __m128* a3, int a4, int a5, int a6)
-{
-    Callee* pCallee = a1->m_0c;
-    char* e1;
-    char* e2;
-    {
-        char* p = (char*)a1->m_38[a1->m_3c - 1] + 0x10;
-        e1 = (*(unsigned char*)(p + 0x18) == 1) ? p + (signed char)p[0x10] : 0;
-    }
-    {
-        char* p = a2 + 0x10;
-        e2 = (*(unsigned char*)(p + 0x18) == 1) ? p + (signed char)p[0x10] : 0;
-    }
-    // The two transformed points form one adjacent pair consumed by the callback.
-    struct LocalPoints
-    {
-        FUN_00c7f690_cls first;
-        FUN_00c7f690_cls second;
-    } points;
-    points.first.FUN_00c7f690((const __m128*)(e1 + 0xf0), a3);
-    points.second.FUN_00c7f690((const __m128*)(e2 + 0xf0), a3);
-    // Helper writes the quaternion at offset 0; original also stores arguments at 0x20/24/28.
-    RelativeOrientationData relativeOrientation;
-    relativeOrientation.FUN_00c74ac0(e2 + 0x160, e1 + 0x160);
-    relativeOrientation.argument4 = a4;
-    relativeOrientation.argument5 = a5;
-    relativeOrientation.argument6 = a6;
-    pCallee->FUN_00e3b850(&points.first, &points.second, (void*)&relativeOrientation, a4, a5, a6);
-    a1->AddReferencedObject(a2);
-}
 }  // namespace fnv_00e5b440
 
 // FUN_00e5b8f0: __cdecl, 317 bytes
@@ -324,11 +190,9 @@ struct ListB
     unsigned int unk34;
     unsigned int* m_38;
     unsigned int m_3c;
-    void AddReferencedObject(unsigned int key);
+    void hkpConstraintChainInstance_addEntity(unsigned int key);
     void FUN_00e5c460(unsigned int key);
 };
-
-int FUN_00e5ad40(KeyOwnerA* a, Tmp16* p, Tmp16* q);
 
 // Returns 1 if FUN_00e5ad40 is nonzero or no key matches; else matches a1's m_14/m_18 to a2's list ends, calls a3 helpers, updates a2 and returns 0.
 // @f3 0x00a91590 (community match, verified in this file)
@@ -378,7 +242,7 @@ struct S_00a91590_Owner
     unsigned int unk10;
     unsigned int unk14;
     S_00a91590_PairList m_18;
-    void FUN_009e15b0(S_00a91590_Vec* a, S_00a91590_Vec* b);
+    void hkpBallSocketChainData_addConstraintInfoInBodySpace(S_00a91590_Vec* a, S_00a91590_Vec* b);
 };
 
 struct S_00a91590_List
@@ -417,8 +281,10 @@ struct __declspec(align(16)) S_00a91590_Pair
     S_00a91590_Vec hi;
 };
 
-int FUN_00a908d0(S_00a91590_Key* a, S_00a91590_Vec* lo, S_00a91590_Vec* hi);
+int hkpConstraintUtils_getConstraintPivots(S_00a91590_Key* a, S_00a91590_Vec* lo, S_00a91590_Vec* hi);
 
+// pdb: hkpConstraintChainUtil::addConstraintToChain | hkpConstraintChainUtil.obj | fnv360_0721_beta, objrun, medium
+// pdb params: newChildInstance, chainInstance, chainData
 int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
 {
     S_00a91590_Vec lo;
@@ -428,7 +294,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
     S_00a91590_Owner* k3 = reinterpret_cast<S_00a91590_Owner*>(a3);
     S_00a91590_ObjArray& list = k2->m_2c;
 
-    if (FUN_00a908d0(k1, &lo, &hi) != 0)
+    if (hkpConstraintUtils_getConstraintPivots(k1, &lo, &hi) != 0)
     {
         return 1;
     }
@@ -439,13 +305,13 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
     S_00a91590_Entity* last = list.m_data[list.m_size - 1];
     if (last == k1->m_14)
     {
-        k3->FUN_009e15b0(&lo, &hi);
+        k3->hkpBallSocketChainData_addConstraintInfoInBodySpace(&lo, &hi);
         k2->FUN_00a50b70(k1->m_18);
         return 0;
     }
     if (last == k1->m_18)
     {
-        k3->FUN_009e15b0(&hi, &lo);
+        k3->hkpBallSocketChainData_addConstraintInfoInBodySpace(&hi, &lo);
         k2->FUN_00a50b70(k1->m_14);
         return 0;
     }

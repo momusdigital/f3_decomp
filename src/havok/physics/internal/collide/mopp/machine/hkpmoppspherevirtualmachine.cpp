@@ -46,6 +46,8 @@ __forceinline void reportBadCommand() {
     DAT_01268360->Report(3, 0x1298feddu, reinterpret_cast<char*>(buffer), ".\\Collide\\Mopp\\Machine\\hkpMoppSphereVirtualMachine.cpp", 292);
     stream.FUN_00cc00e0();
 }
+// pdb: hkpMoppSphereVirtualMachine::querySphereOnTree | hkpMoppSphereVirtualMachine.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: query, PC
 void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
     MoppState local;
     if (!DAT_0126efbb) { DAT_0126efbb = FUN_00a284b0(4); if (!DAT_0126efbb) return; }
@@ -270,6 +272,8 @@ struct xSphereMachine : MoppMachine {
 };
 
 // @fnv 0x00e64f00
+// pdb: hkpMoppSphereVirtualMachine::querySphere | hkpMoppSphereVirtualMachine.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: code, sphere, primitiveResults
 void xSphereMachine::FUN_00e64f00(const xMoppCode* code, const xSphere& sphere, HitArray* out)
 {
     const unsigned char* program = code->data;

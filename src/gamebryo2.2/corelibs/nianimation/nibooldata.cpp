@@ -3,6 +3,8 @@
 #include "nibooldata_decls.h"
 
 // @fnv 0x00a53a50
+// pdb: NiBoolData::LoadBinary | NiBoolData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiBoolData::LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
@@ -22,6 +24,8 @@ void NiBoolData::LoadBinary(NiStream& stream)
 
 // Replaces the stored key array: frees the old keys, then stores the new keys, count, key type and key size, or clears them when keys is null or numKeys is zero.
 // @fnv 0x00a538b0
+// pdb: NiBoolData::ReplaceAnim | NiBoolData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void NiBoolData::SetColorKeys(BooleanKey* keys, unsigned int numKeys, AnimationKey::KeyType eKeyType)
 {
     if (m_pKeyArray)
@@ -52,6 +56,8 @@ struct StandIn_00a537a0
     void FUN_00a537a0(float m_fStartTime, float m_fMaximumDistance);
 };
 // @fnv 0x00a537a0
+// pdb: NiBoolData::GuaranteeKeysAtStartAndEnd | NiBoolData.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: fStartTime, fEndTime
 void StandIn_00a537a0::FUN_00a537a0(float m_fStartTime, float m_fMaximumDistance)
 {
     void* pkKeys = m_pKeyArray;
@@ -91,6 +97,8 @@ struct FUN_00a53ba0_shell
 };
 
 // @fnv 0x00a53ba0
+// pdb: NiBoolData::GetViewerStrings | NiBoolData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pStrings
 void FUN_00a53ba0_shell::FUN_00a53ba0(StrArr* apViewerStrings)
 {
     AppendCameraPathEntries(apViewerStrings);
@@ -132,6 +140,7 @@ class FUN_00a53830_cls
 
 // Compares this object with other via IsSameAs, count, type and stride, then element-wise using DAT_011f3b58[m_uiType]; returns true if all match.
 // @fnv 0x00a53830
+// pdb: NiBoolData::~NiBoolData | NiBoolData.obj | fnv360_1110_retail, objrun, low, conflict (skyrim: NiTextKeyExtraData::IsEqual)
 bool FUN_00a53830_cls::Equals(FUN_00a53830_cls* other)
 {
     if (!IsSameAs(other))
@@ -194,6 +203,8 @@ struct NiBoolDataSaver
     void SaveBoolData(NiStream&);
 };
 // @fnv 0x00a53b20
+// pdb: NiBoolData::SaveBinary | NiBoolData.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: kStream
 void NiBoolDataSaver::SaveBoolData(NiStream& stream)
 {
     FUN_00a89af0(stream);
@@ -205,22 +216,23 @@ void NiBoolDataSaver::SaveBoolData(NiStream& stream)
     }
 }
 
-void __cdecl FUN_00a3d630(unsigned int mode, AnimationKey::KeyType type, BooleanKey* sourceKeys,
+void __cdecl NiAnimationKey_CopySequence(unsigned int mode, AnimationKey::KeyType type, BooleanKey* sourceKeys,
                           unsigned int sourceCount, float startTime, float endTime, BooleanKey** outputKeys,
                           unsigned int* outputCount);
 
 struct FUN_00a53910_shell : NiBoolData
 {
-    void __thiscall FUN_00a5d510(NiBoolData*& clone);
-    void __thiscall FUN_00a53910(float startTime, float endTime, NiPointer<NiBoolData>& output);
+    void __thiscall NiObject_CreateDeepCopy(NiBoolData*& clone);
+    void __thiscall NiBoolData_GetSequenceData(float startTime, float endTime, NiPointer<NiBoolData>& output);
 };
 
 // Clones this NiBoolData, processes its keys with the requested time range when present, and assigns the result to output.
 // @fnv 0x00a53910
-void FUN_00a53910_shell::FUN_00a53910(float startTime, float endTime, NiPointer<NiBoolData>& output)
+// pdb: NiBoolData::GetSequenceData | NiBoolData.obj | fnv360_0822_retail, caller_sim + bridge(call_seq|caller_sim) + skyrim(caller_sim), high
+void FUN_00a53910_shell::NiBoolData_GetSequenceData(float startTime, float endTime, NiPointer<NiBoolData>& output)
 {
     NiBoolData* original = 0;
-    FUN_00a5d510(original);
+    NiObject_CreateDeepCopy(original);
 
     NiBoolData* copy = original;
     if (copy != 0)
@@ -230,7 +242,7 @@ void FUN_00a53910_shell::FUN_00a53910(float startTime, float endTime, NiPointer<
     {
         BooleanKey* keys = 0;
         unsigned int count = 0;
-        FUN_00a3d630(5, m_eRequestType, m_pKeyArray, m_uiNumKeys, startTime, endTime, &keys, &count);
+        NiAnimationKey_CopySequence(5, m_eRequestType, m_pKeyArray, m_uiNumKeys, startTime, endTime, &keys, &count);
         copy->SetColorKeys(keys, count, m_eRequestType);
     }
 

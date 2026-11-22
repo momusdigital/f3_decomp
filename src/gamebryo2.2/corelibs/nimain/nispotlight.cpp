@@ -5,13 +5,6 @@
 struct GlobalObjectO2_00a7b610
 {
 };
-extern GlobalObjectO2_00a7b610 g_011f5ec4;
-
-// @fnv 0x00a94d50
-GlobalObjectO2_00a7b610* __cdecl FUN_00a94d50()
-{
-    return &g_011f5ec4;
-}
 
 struct NiSpotLight;
 
@@ -25,6 +18,7 @@ struct NiSpotLightShell
 
 // Calls _FUN_00a72010, then if flags has bit 1 set calls __Dummy_00b6fef0 on this with size 0x114, and returns this.
 // @fnv 0x00a94d60
+// pdb: NiSpotLight::`scalar deleting destructor' | NiSpotLight.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 NiSpotLightShell* __thiscall NiSpotLightShell::FUN_00a94d60(unsigned int flags)
 {
     _FUN_00a72010();
@@ -40,6 +34,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a94e20
+// pdb: NiSpotLight::CreateObject | NiSpotLight.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: NiSpotLight::UpdateWorldData)
 void* __cdecl FUN_00a94e20()
 {
     void* p = BSFadeNode::operator new(0x114);
@@ -67,6 +62,8 @@ struct NiSpotLight
 
 // Calls the base NiPointLight comparison, then checks that the spot light's three float fields match the other object's.
 // @fnv 0x00a94c80
+// pdb: NiSpotLight::IsEqual | NiSpotLight.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pObject
 bool __thiscall NiSpotLight::IsEqual(NiObject* pObject)
 {
     NiSpotLight* pOther = (NiSpotLight*)pObject;
@@ -91,6 +88,8 @@ struct S_00a94d90
 };
 // Calls the base update, copies three floats from offsets 0x68/0x74/0x80 to 0xFC/0x100/0x104, and increments the counter at 0xA8.
 // @fnv 0x00a94d90
+// pdb: NiSpotLight::CreateClone | NiSpotLight.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: kCloning
 void __thiscall S_00a94d90::FUN_00a94d90(NiUpdateData& UpdateData)
 {
     ((C_00a7d7a0*)this)->FUN_00a7d7a0(UpdateData);
@@ -134,6 +133,8 @@ struct FUN_00a94f70_shell : NiSpotLightShell
 // @f3 0x00860220 (community match, verified in this file)
 extern GlobalObjectO2_00a7b610 g_011f4884;
 
+// pdb: NiSpotLight::GetViewerStrings | NiSpotLight.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a94f70_shell::AppendViewerStrings(StrArr* strings)
 {
     char* value;
@@ -276,6 +277,7 @@ struct FUN_00a94ce0 : S_00a94ce0_Mid
 };
 // Initializes the object: sets unk9d to 4, unk110 to 1.0f, and unk108 and unk10c to 0.0f.
 // @fnv 0x00a94ce0
+// pdb: NiSpotLight::NiSpotLight | NiSpotLight.obj | fnv360_0822_retail, caller_sim, low
 FUN_00a94ce0::FUN_00a94ce0()
 {
     unk9d = 4;
@@ -358,7 +360,7 @@ struct FUN_00a94e40_cls
     float m_f010c;
     float m_f0110;
     void __thiscall SaveToStream(FUN_00a94e40_arg* a);
-    void __thiscall FUN_00a94e40(FUN_00a94e40_arg* a);
+    void __thiscall NiSpotLight_LoadBinary(FUN_00a94e40_arg* a);
 };
 
 struct StreamCb
@@ -521,7 +523,8 @@ struct FUN_00a94e40_arg
 };
 
 // @fnv 0x00a94e40
-void __thiscall FUN_00a94e40_cls::FUN_00a94e40(FUN_00a94e40_arg* apArg)
+// pdb: NiSpotLight::LoadBinary | NiSpotLight.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void __thiscall FUN_00a94e40_cls::NiSpotLight_LoadBinary(FUN_00a94e40_arg* apArg)
 {
     SaveToStream(apArg);
     StreamCb* s = apArg->m_024c;
@@ -571,11 +574,14 @@ struct LightBaseSerialization
 };
 struct LightSerialization
 {
-    void WriteSpotLightData(NiStreamArg* stream);
+    void NiSpotLight_SaveBinary(NiStreamArg* stream);
 };
 // Calls the base light serialization, then writes m_f0108, m_f010c and m_f0110 to the stream's writer, accumulating byte counts.
 // @fnv 0x00a94ee0
-void LightSerialization::WriteSpotLightData(NiStreamArg* stream)
+// pdb: NiSpotLight::SaveBinary | NiSpotLight.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
+// pdb: NiSpotLight::SaveBinary | NiSpotLight.obj | fnv360_0822_retail, caller_sim, high (was: WriteSpotLightData)
+void LightSerialization::NiSpotLight_SaveBinary(NiStreamArg* stream)
 {
     ((LightBaseSerialization*)this)->SavePointLight(stream);
     NiSpotLight* spot = (NiSpotLight*)this;
@@ -672,6 +678,8 @@ class BA94DD0FadeNode
 };
 
 // @fnv 0x00a94dd0
+// pdb: NiSpotLight::CreateClone | NiSpotLight.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: NiSpotLight::CreateObject)
+// pdb params: kCloning
 BA94DD0FadeNode* BA94DD0FadeNode::Clone(BA94DD0CloningProcess& kCloning)
 {
     BA94DD0FadeNode* pkClone = new BA94DD0FadeNode;
@@ -684,6 +692,8 @@ class NiStream;
 extern "C" void __cdecl FUN_00a9b360(void* thisPtr, NiStream& stream);
 
 // @fnv 0x00a94c60
+// pdb: ModifierList::Revert | ModifierList.obj | fnv360_0721_beta, caller_sim, low
+// pdb params: apLoadGameBuffer
 void __cdecl FUN_00a94c60(void* thisPtr, NiStream& stream)
 {
     FUN_00a9b360(thisPtr, stream);
@@ -692,6 +702,7 @@ void __cdecl FUN_00a94c60(void* thisPtr, NiStream& stream)
 extern "C" void __cdecl _FUN_00a75c10();
 
 // @fnv 0x00a94c70
+// pdb: time | PlayerCharacter.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00a94c70()
 {
     _FUN_00a75c10();

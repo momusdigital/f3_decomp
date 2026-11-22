@@ -4,6 +4,8 @@
 #include <new>
 
 // @fnv 0x00bc06c0
+// pdb: ImageSpaceEffectVATSScan::Setup | ImageSpaceEffectVATSScan.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apManager, apParam
 void ImageSpaceEffectMultiTexture::Setup(ImageSpaceManager* manager, ImageSpaceEffectParam* params)
 {
     SetTextureArrayCount(1);
@@ -41,6 +43,7 @@ struct Unknown
     void* DestroyIfFlagged(unsigned int);
 };
 // @fnv 0x00bc06a0
+// pdb: ExtraReflectedRefs::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, medium
 void* Unknown::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00bc0360();
@@ -56,6 +59,7 @@ class FUN_00bc0600 : public ImageSpaceEffect
 };
 
 // @fnv 0x00bc0600
+// pdb: ImageSpaceEffectVATSScan::ImageSpaceEffectVATSScan | ImageSpaceEffectVATSScan.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00bc0600::FUN_00bc0600()
 {
     RgbaColor kWhiteColor;

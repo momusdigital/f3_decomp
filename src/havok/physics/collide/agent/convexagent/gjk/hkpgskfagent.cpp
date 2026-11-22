@@ -3,7 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 void __cdecl FUN_00dacc00();
-void __cdecl TestGsk();
+void __cdecl hkpGskBaseAgent_staticGetPenetrations();
 void __cdecl FUN_00dac450();
 void __cdecl FUN_00daf8e0();
 
@@ -19,17 +19,19 @@ struct FUN_00dacc70_vt
 
 // Assigns four function pointers to the object's vtable slots and clears its two byte fields.
 // @fnv 0x00dacc70
+// pdb: hkpGskfAgent::initAgentFunc | hkpGskfAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: af
 void __cdecl InitVtable(FUN_00dacc70_vt* p)
 {
     p->m_pVirtualFunction0 = (void (*)())FUN_00dacc00;
-    p->m_pVirtualFunction1 = (void (*)())TestGsk;
+    p->m_pVirtualFunction1 = (void (*)())hkpGskBaseAgent_staticGetPenetrations;
     p->m_pVirtualFunction2 = (void (*)())FUN_00dac450;
     p->m_pVirtualFunction3 = (void (*)())FUN_00daf8e0;
     p->b0 = 0;
     p->b1 = 0;
 }
 
-void __cdecl ReleaseAllEntries(void*, void*, void*);
+void __cdecl hkGskManifold_cleanup(void*, void*, void*);
 
 struct FUN_00dacaf0_vt
 {
@@ -46,11 +48,13 @@ struct FUN_00dacaf0
     void cleanup(void* arg);
 };
 
-// Calls ReleaseAllEntries with field30, field8 and arg, then invokes the virtual destructor on this with flag 1.
+// Calls hkGskManifold_cleanup with field30, field8 and arg, then invokes the virtual destructor on this with flag 1.
 // @fnv 0x00dacaf0
+// pdb: hkpGskfAgent::cleanup | hkpGskfAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: constraintOwner
 void FUN_00dacaf0::cleanup(void* arg)
 {
-    ReleaseAllEntries(&field30[0], field8, arg);
+    hkGskManifold_cleanup(&field30[0], field8, arg);
     vt->dtor(this, 1);
 }
 
@@ -97,11 +101,14 @@ struct FUN_00dacb60_class
 
     Potential m_potentials[256];
 
-    void __thiscall AddPotential(unsigned short value);
+    void __thiscall hkpGskfAgent_commitPotential(unsigned short value);
 };
 
 // @fnv 0x00dacb60
-void __thiscall FUN_00dacb60_class::AddPotential(unsigned short value)
+// pdb: hkpGskfAgent::commitPotential | hkpGskfAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: idToCommit
+// pdb: hkpGskfAgent::commitPotential | hkpGskfAgent.obj | fnv360_0822_retail, vtable, high (was: AddPotential)
+void __thiscall FUN_00dacb60_class::hkpGskfAgent_commitPotential(unsigned short value)
 {
     int count = m_uiItemCount;
     int i;
@@ -135,6 +142,8 @@ struct FUN_00dacbd0 : FUN_00dabf10
 
 // Initializes the derived object: sets its vtable pointer to DAT_010d5224 and clears m_i0 after the base constructor runs.
 // @fnv 0x00dacbd0
+// pdb: hkpGskfAgent::hkpGskfAgent | hkpGskfAgent.obj | fnv360_0822_retail, call_gap, high
+// pdb params: bodyA, bodyB, mgr
 FUN_00dacbd0::FUN_00dacbd0(int a, int b, int c) : FUN_00dabf10(a, b, c)
 {
     m_pVtbl = &DAT_010d5224;
@@ -159,11 +168,14 @@ class hkObjDACB
     unsigned char unk33;
     hkSlotDACB m_slots[8];
 
-    void ClearSlotById(short id);
+    void hkpGskfAgent_createZombie(short id);
 };
 
 // @fnv 0x00dacba0
-void hkObjDACB::ClearSlotById(short id)
+// pdb: hkpGskfAgent::createZombie | hkpGskfAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: idTobecomeZombie
+// pdb: hkpGskfAgent::createZombie | hkpGskfAgent.obj | fnv360_0822_retail, vtable, high (was: ClearSlotById)
+void hkObjDACB::hkpGskfAgent_createZombie(short id)
 {
     for (int i = 0; i < m_numSlots; i++)
     {
@@ -233,7 +245,7 @@ struct Drecv
     int unk2c;
     int f30;
 
-    void FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4);
+    void hkpGskfAgent_processCollisionNoTim(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4);
 };
 
 void ProcessCollision(Dtask* task, int* ctx1, int* ctx2, int* node, int* a5, int* a6, int a7);
@@ -249,7 +261,8 @@ struct Drecv_task
     Dsub sub;
 };
 
-void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4)
+// pdb: hkpGskfAgent::processCollisionNoTim | hkpGskfAgent.obj | fnv360_0822_retail, call_seq + bridge(call_seq|caller_sim) + skyrim(call_seq), high
+void Drecv::hkpGskfAgent_processCollisionNoTim(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4)
 {
     Dctx ctx;
     Drecv_task res;
@@ -318,19 +331,3 @@ FUN_00dabf10* __cdecl FUN_00dacc00(int a, int b, int unused, int c)
 __declspec(noinline) void __cdecl InitVtable(FUN_00dacc70_vt* p);
 
 typedef FUN_00dacc70_vt D41FD0AgentFuncs;
-
-struct D41FD0CollisionDispatcher
-{
-    void registerCollisionAgent(D41FD0AgentFuncs& funcs, int a, int b);
-};
-
-// Builds an agent function table with b0 and b1 zeroed and InitVtable, and registers it with the dispatcher for the pair 0x12, 0x12.
-// @fnv 0x00dacca0
-void __cdecl FUN_00dacca0(D41FD0CollisionDispatcher* dispatcher)
-{
-    D41FD0AgentFuncs funcs;
-    funcs.b0 = 0;
-    funcs.b1 = 0;
-    InitVtable(&funcs);
-    dispatcher->registerCollisionAgent(funcs, 0x12, 0x12);
-}

@@ -35,31 +35,7 @@ InitObject* InitObject::FUN_00d97010()
 
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* apSection);
 
-struct FUN_00d97060_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pSection;
-
-    void FUN_00d97060();
-};
-
-// @fnv 0x00d97060
-void FUN_00d97060_cls::FUN_00d97060()
-{
-    LeaveCriticalSection(m_pSection);
-}
-
 // FUN_00d97070: thiscall, one stack parameter, /MT /O2 /GS /EHsc /Gy
-
-struct SubObj
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    void Reset();
-};
 
 class Spawned
 {
@@ -86,29 +62,6 @@ struct Holder
 
 Holder* FUN_00c85750();
 
-class Owner
-{
-  public:
-    unsigned int unk00;
-    unsigned int unk04;
-    SubObj m_08;
-    Spawned* m_10;
-    void FUN_00d97070(void* a1);
-};
-
-// @fnv 0x00d97070
-void Owner::FUN_00d97070(void* apArg)
-{
-    if (m_10 == 0)
-    {
-        Holder* h = FUN_00c85750();
-        Obj* obj = h->m_10;
-        Spawned* s = obj->v04(0x18);
-        m_10 = (s != 0) ? s->Init(apArg) : s;
-        m_08.Reset();
-    }
-}
-
 namespace fnv_00d97100 {
 struct CpuAllocator
 {
@@ -125,25 +78,6 @@ struct CpuAllocatorHolder
     CpuAllocator* allocator;
 };
 CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00d970c0();
-    CpuObject* FUN_00d97100(unsigned int flags);
-};
-// Calls FUN_00d970c0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
-// @fnv 0x00d97100
-CpuObject* CpuObject::FUN_00d97100(unsigned int flags)
-{
-    FUN_00d970c0();
-    if (flags & 1)
-    {
-        CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00d97100
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* apSection);
@@ -166,7 +100,6 @@ void FUN_00d97050_cls::FUN_00d97050()
 }
 
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* apSection);
-extern char DAT_0102e388[];
 
 struct FUN_00d970c0_cls
 {
@@ -179,13 +112,6 @@ struct FUN_00d970c0_cls
     void FUN_00d970c0(void*, void*);
 };
 
-struct FreeAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
 // Deletes the critical section m_pCs, frees it via the holder's allocator, clears m_pCs, and sets the vtable pointer to DAT_0102e388.
 // @f3 0x0066afb0 (community match, verified in this file)
 struct Obj66AFB0_fit
@@ -193,6 +119,8 @@ struct Obj66AFB0_fit
     float FUN_00becf40(int aiKey);
 };
 
+// pdb: RaceSexMenu::MenuOption::GetRange | RaceSexMenu.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiLow, aiHigh
 void FUN_00d970c0_cls::FUN_00d970c0(void* apArg1, void* apArg2)
 {
     if (m_vptr)

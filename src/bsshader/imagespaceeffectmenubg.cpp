@@ -3,6 +3,8 @@
 #include "imagespaceeffectmenubg_decls.h"
 
 // @fnv 0x00c04730
+// pdb: ImageSpaceEffectMenuBG::Setup | ImageSpaceEffectMenuBG.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apManager, apParam
 void ImageSpaceEffectMenuBackground::Setup(ImageSpaceManager* manager, ImageSpaceEffectParam* parameters)
 {
     SetTextureArrayCount(1);

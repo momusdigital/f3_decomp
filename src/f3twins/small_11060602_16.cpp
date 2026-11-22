@@ -10,6 +10,7 @@ struct SP_00b57be0 { RC_00b57be0* p; ~SP_00b57be0(); };
 struct Base_00b57be0 { virtual ~Base_00b57be0(); char pad[0x88]; };
 struct D_00b57be0 : Base_00b57be0 { SP_00b57be0 a1[30]; SP_00b57be0 a2[10]; virtual ~D_00b57be0(); };
 extern R_00b57be0* DAT_011780f0[30];
+// pdb: SpeedTreeBranchShader::~SpeedTreeBranchShader | SpeedTreeBranchShader.obj | fnv360_0822_retail, objrun, high
 D_00b57be0::~D_00b57be0()
 {
     for (int i = 0; i < 30; i++) {

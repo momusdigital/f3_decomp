@@ -25,6 +25,7 @@ struct F0042dba0_Str
     unsigned int m_uiCapacity;
 };
 
+// pdb: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::~basic_string<char,std::char_traits<char>,std::allocator<char> > | TESObject.obj | fnv360_0822_retail, call_gap, low
 F0042dba0_Str* __fastcall FUN_0042dba0(F0042dba0_Str* p)
 {
     if (p->m_uiCapacity >= 0x10)

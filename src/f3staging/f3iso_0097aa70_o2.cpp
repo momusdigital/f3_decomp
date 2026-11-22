@@ -30,6 +30,8 @@ struct Saver {
     void FUN_008fbbb0(Object*);
 };
 Saver* FUN_0097a820(unsigned);
+// pdb: bhkConstraintManager::SaveBinary | bhkConstraintManager.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arStream, apData
 void FUN_0097aa70(Stream& stream,Object* object) {
     unsigned type=object->saveType();
     Saver* saver=FUN_0097a820(type);

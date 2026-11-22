@@ -5,7 +5,8 @@
 extern char const* const g_011f3ee8_arg1;
 
 // @fnv 0x00a43f70
-char const* const* __cdecl FUN_00a43f70()
+// pdb: BSShaderTextureSet::GetRTTI | TESObjectTREE.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objopen_prop), high
+char const* const* __cdecl BSShaderTextureSet_GetRTTI()
 {
     return &g_011f3ee8_arg1;
 }
@@ -13,6 +14,7 @@ char const* const* __cdecl FUN_00a43f70()
 extern int g_011f3ee8;
 
 // @fnv 0x00a43f80
+// pdb: NiObject::GetRTTI | ImageSpaceModifierInstance.obj | fnv360_0822_retail, vtable, medium
 int* __cdecl FUN_00a43f80()
 {
     return &g_011f3ee8;
@@ -28,6 +30,7 @@ struct BSLookIKNote
 
 // Calls FUN_00a44830, then if flags has bit 0 set frees this with _delete, and returns this.
 // @fnv 0x00a43f90
+// pdb: NiFloatData::`scalar deleting destructor' | TESImageSpaceModifier.obj | fnv360_0822_retail, vtable, high
 void* __thiscall BSLookIKNote::Destroy(unsigned int flags)
 {
     FUN_00a44830();
@@ -53,7 +56,9 @@ struct BSLookIKNote
 };
 
 // @fnv 0x00a43fb0
-BSLookIKNote* __cdecl CreateLookIKNote()
+// pdb: BSLookIKNote::CreateObject | BSLookIKNote.obj | fnv360_0822_retail, objrun, high
+// pdb: BSLookIKNote::CreateObject | BSLookIKNote.obj | fnv360_0822_retail, objrun, high (was: CreateLookIKNote)
+BSLookIKNote* __cdecl BSLookIKNote_CreateObject()
 {
     BSLookIKNote* pNote = static_cast<BSLookIKNote*>(BSLookIKNote::operator new(0x18));
     if (pNote)
@@ -88,6 +93,8 @@ struct FUN_00a43f30_shell : BSLookIKNote
 
 // Returns true if IsEqual(apObject) passes and the float and eState fields match those of apObject cast to BSLookIKNote.
 // @fnv 0x00a43f30
+// pdb: BSLookIKNote::IsEqual | BSLookIKNote.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: BSGrabIKNote::IsEqual)
+// pdb params: apObject
 bool FUN_00a43f30_shell::IsLookIKNoteEqual(NiObject* apObject)
 {
     if (IsEqual(apObject))
@@ -282,7 +289,7 @@ struct S_00a44130_Stream
 
 struct S_00a44130_Base
 {
-    void ReadBinaryFields(S_00a44130_Stream& kStream);
+    void BSAnimNote_LoadBinary(S_00a44130_Stream& kStream);
 };
 
 struct S_00a44130_Note : S_00a44130_Base
@@ -293,14 +300,15 @@ struct S_00a44130_Note : S_00a44130_Base
     int unkC;
     int m_10;
     int m_14;
-    void FUN_00a44130(S_00a44130_Stream& kStream);
+    void BSLookIKNote_LoadBinary(S_00a44130_Stream& kStream);
 };
 
 // Calls the base save, then writes m_10 and m_14 to the stream as binary values.
 // @fnv 0x00a44130
-void S_00a44130_Note::FUN_00a44130(S_00a44130_Stream& kStream)
+// pdb: BSLookIKNote::LoadBinary | BSLookIKNote.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(objrun_prop), high
+void S_00a44130_Note::BSLookIKNote_LoadBinary(S_00a44130_Stream& kStream)
 {
-    S_00a44130_Base::ReadBinaryFields(kStream);
+    S_00a44130_Base::BSAnimNote_LoadBinary(kStream);
     S_00a44130_StreamSaveBinary(*kStream.m_pBackingStream, m_10);
     S_00a44130_StreamSaveBinary(*kStream.m_pBackingStream, m_14);
 }
@@ -484,7 +492,7 @@ struct S_00a44190_Base
     int unk04;
     int unk08;
     int unk0C;
-    void FUN_00a44a90(S_00a44190_Stream& kStream);
+    void BSAnimNote_SaveBinary(S_00a44190_Stream& kStream);
 };
 struct S_00a44190 : S_00a44190_Base
 {
@@ -494,9 +502,11 @@ struct S_00a44190 : S_00a44190_Base
 };
 // Calls the base class save routine, then serializes the two float members unk10 and unk14 to the stream.
 // @fnv 0x00a44190
+// pdb: BSLookIKNote::SaveBinary | BSLookIKNote.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arStream
 void S_00a44190::FUN_00a44190(S_00a44190_Stream& kStream)
 {
-    S_00a44190_Base::FUN_00a44a90(kStream);
+    S_00a44190_Base::BSAnimNote_SaveBinary(kStream);
     S_00a44190_SaveBinary(kStream, unk10);
     S_00a44190_SaveBinary(kStream, unk14);
 }
@@ -533,13 +543,14 @@ class A43FF0Interp : public A43FF0Mid
     virtual ~A43FF0Interp();
 
     void CopyMemberData(A43FF0Interp* pkDest, void* pvCloning);
-    A43FF0Interp* FUN_00a43ff0(void* pvCloning);
+    A43FF0Interp* BSLookIKNote_CreateClone(void* pvCloning);
 
     void* m_pUserData;
 };
 
 // @fnv 0x00a43ff0
-A43FF0Interp* A43FF0Interp::FUN_00a43ff0(void* pvCloning)
+// pdb: BSLookIKNote::CreateClone | BSLookIKNote.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+A43FF0Interp* A43FF0Interp::BSLookIKNote_CreateClone(void* pvCloning)
 {
     A43FF0Interp* pkClone = new A43FF0Interp;
     CopyMemberData(pkClone, pvCloning);
@@ -592,7 +603,7 @@ class TextKeyHandlerBase
 class LookIKKeyHandler : public TextKeyHandlerBase
 {
   public:
-    bool ParseLookIKKey(TimedTextEntry* pkKey);
+    bool BSLookIKNote_ParseTextKey(TimedTextEntry* pkKey);
 
     float m_fValue;
     int m_iMode;
@@ -600,7 +611,10 @@ class LookIKKeyHandler : public TextKeyHandlerBase
 
 // Parses a "LookIK" text key: reads a 4-char float value into m_fValue and sets m_iMode to 1 for Start or 2 for Stop.
 // @fnv 0x00a44050
-bool LookIKKeyHandler::ParseLookIKKey(TimedTextEntry* pkKey)
+// pdb: BSLookIKNote::ParseTextKey | BSLookIKNote.obj | fnv360_0822_retail, ustr, high
+// pdb params: apTextKey
+// pdb: BSLookIKNote::ParseTextKey | BSLookIKNote.obj | fnv360_0822_retail, ustr, high (was: ParseLookIKKey)
+bool LookIKKeyHandler::BSLookIKNote_ParseTextKey(TimedTextEntry* pkKey)
 {
     bool bResult = ParseKey(pkKey);
     const char* pcText = pkKey->m_kText;
@@ -678,6 +692,8 @@ inline void S_Push(S_00a441f0_arg* p, char* s)
 }
 
 // @fnv 0x00a441f0
+// pdb: BSLookIKNote::GetViewerStrings | BSLookIKNote.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apStrings
 void S_00a441f0_cls::AppendFormattedFields(S_00a441f0_arg* p)
 {
     FUN_00a44bf0(p);

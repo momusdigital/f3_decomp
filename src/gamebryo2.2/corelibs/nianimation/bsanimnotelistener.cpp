@@ -52,12 +52,13 @@ struct FUN_00a32290_Cls
     int m_10;
     FUN_00a32290_Elem* m_14;
 
-    void FUN_00a32290(float a1, float a2, float a3);
+    void NiControllerSequence_SetInterpsWeightAndTime(float a1, float a2, float a3);
 };
 
 // For each element, writes a3 (and a1/a2) into the node's child slot or its m_20, and resets the node's m_24/m_28/m_2c to DAT_01015f5c.
 // @fnv 0x00a32290
-void FUN_00a32290_Cls::FUN_00a32290(float afValue1, float afValue2, float afValue3)
+// pdb: NiControllerSequence::SetInterpsWeightAndTime | NiControllerSequence.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_seq) + skyrim(call_seq), high
+void FUN_00a32290_Cls::NiControllerSequence_SetInterpsWeightAndTime(float afValue1, float afValue2, float afValue3)
 {
     for (unsigned int uiIndex = 0; uiIndex < m_0c; ++uiIndex)
     {

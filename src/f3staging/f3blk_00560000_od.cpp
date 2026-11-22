@@ -10,9 +10,9 @@ namespace f3m_00565710 {
 struct File10 {
     int unk000, unk004, unk008, unk00c, unk010, unk014, unk018, unk01c, unk020, unk024, unk028, unk02c, unk030, unk034, unk038, unk03c, unk040, unk044, unk048, unk04c, unk050, unk054, unk058, unk05c, unk060, unk064, unk068, unk06c, unk070, unk074, unk078, unk07c, unk080, unk084, unk088, unk08c, unk090, unk094, unk098, unk09c, unk0a0, unk0a4, unk0a8, unk0ac, unk0b0, unk0b4, unk0b8, unk0bc, unk0c0, unk0c4, unk0c8, unk0cc, unk0d0, unk0d4, unk0d8, unk0dc, unk0e0, unk0e4, unk0e8, unk0ec, unk0f0, unk0f4, unk0f8, unk0fc, unk100, unk104, unk108, unk10c, unk110, unk114, unk118, unk11c, unk120, unk124, unk128, unk12c, unk130, unk134, unk138, unk13c, unk140, unk144, unk148, unk14c, unk150, unk154, unk158, unk15c, unk160, unk164, unk168, unk16c, unk170, unk174, unk178, unk17c, unk180, unk184, unk188, unk18c, unk190, unk194, unk198, unk19c, unk1a0, unk1a4, unk1a8, unk1ac, unk1b0, unk1b4, unk1b8, unk1bc, unk1c0, unk1c4, unk1c8, unk1cc, unk1d0, unk1d4, unk1d8, unk1dc, unk1e0, unk1e4, unk1e8, unk1ec, unk1f0, unk1f4, unk1f8, unk1fc, unk200, unk204, unk208, unk20c, unk210, unk214, unk218, unk21c, unk220, unk224, unk228, unk22c, unk230, unk234, unk238, unk23c, unk240, unk244, unk248, unk24c, unk250, unk254, unk258;
     unsigned int chunkSize;
-    unsigned char FUN_00448cc0();
-    int FUN_004487d0();
-    bool FUN_00447020();
+    unsigned char TESFile_GetTESForm();
+    int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     void FUN_00447d60(void* buf, unsigned int size);
     void FUN_00448800(void* out);
 };
@@ -34,7 +34,7 @@ struct QuestInfo10 {
 };
 struct FullName10 { void* vtbl; int unk04, unk08; };
 void __cdecl FUN_00456560(FullName10* name, File10* file);
-void __cdecl FUN_00454a40(unsigned int* id, void* file);
+void __cdecl TESForm_AddCompileIndex(unsigned int* id, void* file);
 struct TopicDefault10 {
     void* pTopic;
     int unk;
@@ -136,21 +136,23 @@ struct TESTopic10 : FormBase10, FullName10 {
     int topicFlags;
     unsigned int GetFormID() { return formID; }
     void FUN_00454410(File10* file);
-    void* FUN_00455470(int index);
+    void* TESForm_GetFile(int index);
     QuestInfo10* FUN_00565120(unsigned int quest, bool create);
-    void FUN_00454240(bool state);
+    void TESForm_SetInitialized(bool state);
     bool FUN_00565710(File10* pFile);
 };
 
+// pdb: TESTopic::Load | TESTopic.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pFile
 bool TESTopic10::FUN_00565710(File10* pFile)
 {
-    if (pFile->FUN_00448cc0() != 0x45)
+    if (pFile->TESFile_GetTESForm() != 0x45)
         return false;
 
     FUN_00454410(pFile);
 
     int chunkid;
-    while ((chunkid = pFile->FUN_004487d0()) != 0)
+    while ((chunkid = pFile->TESFile_GetTESChunk()) != 0)
     {
         switch (chunkid)
         {
@@ -169,7 +171,7 @@ bool TESTopic10::FUN_00565710(File10* pFile)
         case 0x49545351: {
             unsigned int uiChunkType = 0;
             pFile->FUN_00448800(&uiChunkType);
-            FUN_00454a40(&uiChunkType, FUN_00455470(-1));
+            TESForm_AddCompileIndex(&uiChunkType, TESForm_GetFile(-1));
             QuestInfo10* pQuestInfo = FUN_00565120(uiChunkType, false);
             if (pQuestInfo)
             {
@@ -189,7 +191,7 @@ bool TESTopic10::FUN_00565710(File10* pFile)
             pFile->FUN_00448800(&topicFlags);
             break;
         }
-        if (!pFile->FUN_00447020())
+        if (!pFile->TESFile_NextChunk())
             break;
     }
 
@@ -208,7 +210,7 @@ bool TESTopic10::FUN_00565710(File10* pFile)
         }
     }
 
-    FUN_00454240(false);
+    TESForm_SetInitialized(false);
     g_loadingTopic10 = this;
     return true;
 }
@@ -222,14 +224,14 @@ bool TESTopic10::FUN_00565710(File10* pFile)
 namespace n560060 {
 struct Form { int vtbl; int unk04; int unk08; unsigned int refID; };
 struct Node { Form* item; Node* next; };
-struct Model { int unk00, unk04, unk08, unk0c, unk10, unk14; void FUN_00457d90(unsigned int t1, unsigned int t2); void FUN_00457b20(unsigned int t); };
+struct Model { int unk00, unk04, unk08, unk0c, unk10, unk14; void FUN_00457d90(unsigned int t1, unsigned int t2); void TESModel_SaveFlags(unsigned int t); };
 struct Icon { int unk00, unk04, unk08; void FUN_0045b8e0(unsigned int t); };
 struct Desc { int unk00, unk04, unk08; void FUN_00456390(); };
-struct Name { int unk00, unk04; void FUN_004537a0(); };
-struct Sizes { int unk00, unk04, unk08, unk0c, unk10; void FUN_0045aa10(); };
+struct Name { int unk00, unk04; void TESDescription_Save(); };
+struct Sizes { int unk00, unk04, unk08, unk0c, unk10; void TESSpellList_Save(); };
 struct Flags40 { int unk00, unk04, unk08, unk0c; void FUN_00459a10(); };
 struct RaceData { unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20; void FUN_0055f040(); };
-struct Skills { int unk00, unk04, unk08; void FUN_00451690(char* out); };
+struct Skills { int unk00, unk04, unk08; void TESAttributes_Save(char* out); };
 struct FaceCoeffs { std::vector<float> coeffs; unsigned int count; unsigned int stride; };
 struct Heap { void* FUN_0086b930(unsigned int size); void FUN_0086ba60(void* p); };
 extern Heap DAT_01090a78;
@@ -285,12 +287,13 @@ struct TESRace {
     void FUN_00560060();
 };
 
+// pdb: TESRace::Save | TESRace.obj | fnv360_0822_retail, vtable, medium
 void TESRace::FUN_00560060()
 {
     FUN_004547d0();
     desc18.FUN_00456390();
-    name24.FUN_004537a0();
-    sizes2c.FUN_0045aa10();
+    name24.TESDescription_Save();
+    sizes2c.TESSpellList_Save();
     flags40.FUN_00459a10();
     if (DAT_0106dd0e)
         data50.FUN_0055f040();
@@ -318,8 +321,8 @@ void TESRace::FUN_00560060()
     FUN_00455710('MANP', unka0);
     FUN_00455710('MANU', unka4);
     char* attr = (char*)_alloca(14);
-    skills74.FUN_00451690(attr);
-    skills80.FUN_00451690(attr + 7);
+    skills74.TESAttributes_Save(attr);
+    skills80.TESAttributes_Save(attr + 7);
     FUN_00455560('RTTA', attr, 2);
     FUN_004554f0('0MAN');
     for (unsigned int sex = 0; sex < 2; sex++) {
@@ -330,7 +333,7 @@ void TESRace::FUN_00560060()
         for (unsigned int i = 0; i < 8; i++) {
             FUN_00454890('XDNI', i);
             models[sex][i].FUN_00457d90('LDOM', 'TDOM');
-            models[sex][i].FUN_00457b20('DDOM');
+            models[sex][i].TESModel_SaveFlags('DDOM');
             icons[sex][i].FUN_0045b8e0('NOCI');
         }
     }
@@ -345,7 +348,7 @@ void TESRace::FUN_00560060()
             FUN_00454890('XDNI', i);
             bodyIcons[sex][i].FUN_0045b8e0('NOCI');
             bodyModels[sex][i].FUN_00457d90('LDOM', 'TDOM');
-            bodyModels[sex][i].FUN_00457b20('DDOM');
+            bodyModels[sex][i].TESModel_SaveFlags('DDOM');
         }
         FUN_00454890('XDNI', i);
         bodyModel[sex].FUN_00457d90('LDOM', 'TDOM');
@@ -615,12 +618,12 @@ struct File {
     unsigned int unk290;
     unsigned int unk294;
     unsigned char unk298, swapped299;
-    int FUN_00448cc0();
-    int FUN_004487d0();
-    bool FUN_00447020();
+    int TESFile_GetTESForm();
+    int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     void FUN_00447d60(void* pBuf, unsigned int uiSize);
     void FUN_00448800(void* pOut);
-    void FUN_00448830(void* pOut);
+    void TESFile_GetChunkData(void* pOut);
     unsigned int GetSize() { return subrecordSize25c; }
     bool IsSwapped() { return swapped299 != 0; }
 };
@@ -741,12 +744,12 @@ struct Node { void* item; Node* next; };
 
 void __cdecl FUN_00456560(FullName* pName, File* pFile);
 void __cdecl FUN_00453570(Description* pDesc, File* pFile);
-void __cdecl FUN_00454a40(unsigned int* pID, File* pFile);
-TESForm* __cdecl FUN_00455190(unsigned int id);
+void __cdecl TESForm_AddCompileIndex(unsigned int* pID, File* pFile);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 void __cdecl FUN_00887da0(const char* pFormat, ...);
 bool __cdecl FUN_0045b840(int chunk);
 bool __cdecl FUN_00457b40(int chunk);
-void __cdecl FUN_0045bab0(Icon* pIcon, File* pFile);
+void __cdecl TESTexture_LoadTextureChunk(Icon* pIcon, File* pFile);
 void __cdecl FUN_00458210(Model* pModel, File* pFile);
 
 extern unsigned int DAT_01071fe4;
@@ -785,12 +788,14 @@ struct Race : FormBase, FullName, Description, SpellList, Reaction {
 
     unsigned int GetFormID() const { return formID; }
     void FUN_00454410(File* pFile);
-    void FUN_00454d10(File* pFile, void* pData, unsigned int uiSize);
+    void TESForm_LoadData(File* pFile, void* pData, unsigned int uiSize);
     void FUN_0055ff20(TESHair* pHair);
     void FUN_0055ff70(TESEyes* pEyes);
     bool FUN_00561fb0(File* pFile);
 };
 
+// pdb: TESRace::Load | TESRace.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Race::FUN_00561fb0(File* pFile)
 {
     int iSex = 0;
@@ -800,13 +805,13 @@ bool Race::FUN_00561fb0(File* pFile)
     int iType;
     int iSym;
 
-    if (pFile->FUN_00448cc0() != 0xc)
+    if (pFile->TESFile_GetTESForm() != 0xc)
         return false;
 
     FUN_00454410(pFile);
 
     int iChunk;
-    while ((iChunk = pFile->FUN_004487d0()) != 0) {
+    while ((iChunk = pFile->TESFile_GetTESChunk()) != 0) {
         switch (iChunk) {
         case 'DIDE': {
             char* pID = (char*)_alloca(pFile->GetSize());
@@ -842,7 +847,7 @@ bool Race::FUN_00561fb0(File* pFile)
             break;
         }
         case 'ATAD':
-            FUN_00454d10(pFile, &data, sizeof(data));
+            TESForm_LoadData(pFile, &data, sizeof(data));
             break;
         case 'MANO': {
             unsigned int id = 0;
@@ -926,7 +931,7 @@ bool Race::FUN_00561fb0(File* pFile)
             break;
         case 'MANS':
             if (pFile->GetSize() >= 2)
-                pFile->FUN_00448830(&unk4b8);
+                pFile->TESFile_GetChunkData(&unk4b8);
             break;
         case 'MANH': {
             unsigned int uiSize = pFile->GetSize();
@@ -940,8 +945,8 @@ bool Race::FUN_00561fb0(File* pFile)
             for (unsigned int i = 0; i < uiCount; i++) {
                 if (pFile->IsSwapped())
                     Swap(pIDs[i].id);
-                FUN_00454a40(&pIDs[i].id, pFile);
-                TESHair* pHair = dynamic_cast<TESHair*>(FUN_00455190(pIDs[i].id));
+                TESForm_AddCompileIndex(&pIDs[i].id, pFile);
+                TESHair* pHair = dynamic_cast<TESHair*>(TESForm_GetFormByNumericID(pIDs[i].id));
                 if (pHair)
                     FUN_0055ff20(pHair);
                 else
@@ -962,8 +967,8 @@ bool Race::FUN_00561fb0(File* pFile)
             for (unsigned int i = 0; i < uiCount; i++) {
                 if (pFile->IsSwapped())
                     Swap(pIDs[i].id);
-                FUN_00454a40(&pIDs[i].id, pFile);
-                TESEyes* pEyes = dynamic_cast<TESEyes*>(FUN_00455190(pIDs[i].id));
+                TESForm_AddCompileIndex(&pIDs[i].id, pFile);
+                TESEyes* pEyes = dynamic_cast<TESEyes*>(TESForm_GetFormByNumericID(pIDs[i].id));
                 if (pEyes)
                     FUN_0055ff70(pEyes);
                 else
@@ -1038,14 +1043,14 @@ bool Race::FUN_00561fb0(File* pFile)
                 int iSub = (bNew && iIndex > 1) ? 1 : 0;
                 if (iIndex - iSub < 8 && iIndex - iSub != 1) {
                     if (FUN_0045b840(iChunk))
-                        FUN_0045bab0(&icons[iSex][iIndex - iSub], pFile);
+                        TESTexture_LoadTextureChunk(&icons[iSex][iIndex - iSub], pFile);
                     else if (FUN_00457b40(iChunk))
                         FUN_00458210(&models[iSex][iIndex - iSub], pFile);
                 }
             } else {
                 if (iIndex < 3) {
                     if (FUN_0045b840(iChunk))
-                        FUN_0045bab0(&bodyIcons[iSex][iIndex], pFile);
+                        TESTexture_LoadTextureChunk(&bodyIcons[iSex][iIndex], pFile);
                     else if (FUN_00457b40(iChunk))
                         FUN_00458210(&bodyModels[iSex][iIndex], pFile);
                 }
@@ -1061,7 +1066,7 @@ bool Race::FUN_00561fb0(File* pFile)
             }
             Swap(data.flags);
         }
-        if (!pFile->FUN_00447020())
+        if (!pFile->TESFile_NextChunk())
             break;
     }
     return true;

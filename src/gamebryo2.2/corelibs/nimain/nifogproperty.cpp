@@ -12,7 +12,8 @@ extern Obj00a9a120* DAT_011f5f3c;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // If the global object exists, decrements its reference count, calls its virtual f1 when the count reaches zero, and clears the global pointer.
 // @fnv 0x00a9a120
-void FUN_00a9a120()
+// pdb: NiFogProperty::_SDMShutdown | NiFogProperty.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_dedup) + skyrim(call_gap_sim), high
+void NiFogProperty__SDMShutdown()
 {
     if (DAT_011f5f3c)
     {
@@ -51,6 +52,7 @@ struct FUN_00a99ed0 : NiProperty
     FUN_00a99ed0();
 };
 // @fnv 0x00a99ed0
+// pdb: NiFogProperty::NiFogProperty | BSFogProperty.obj | fnv360_0822_retail, call_seq, medium
 FUN_00a99ed0::FUN_00a99ed0()
 {
     m_uiObjectFlags = 0;
@@ -71,6 +73,8 @@ char* __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string of strlen(pcPrefix)+20 bytes and formats pcPrefix with the name of the given fog function.
 // @fnv 0x00a99e50
+// pdb: NiFogProperty::GetViewerString | NiFogProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eFunc
 char* FormatFogFunction(const char* pcPrefix, FogFunction eFunc)
 {
     char* pcString;
@@ -123,6 +127,8 @@ void* __cdecl operator new(unsigned int, void* p)
 }
 
 // @fnv 0x00a99f60
+// pdb: NiFogProperty::CreateClone | NiFogProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void* MyClass::FUN_00a99f60(int arg)
 {
     if (this->m_0c != 0)
@@ -174,6 +180,7 @@ struct NiFogProperty : NiProperty
 
 // Allocates memory for a NiFogProperty and constructs it in place, returning the new object or null on allocation failure.
 // @fnv 0x00a99fd0
+// pdb: NiFogProperty::CreateObject | NiFogProperty.obj | fnv360_0822_retail, objrun, medium
 NiFogProperty* __cdecl CreateNiFogProperty()
 {
     void* memory = FUN_00aa13e0(sizeof(NiFogProperty));
@@ -204,6 +211,8 @@ struct A9a030Fog : FUN_00a99ed0
 };
 
 // @fnv 0x00a9a030
+// pdb: NiFogProperty::IsEqual | NiFogProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkObject
 bool __thiscall A9a030Fog::FUN_00a9a030(FUN_00a99ed0* other)
 {
     EqBase* base = reinterpret_cast<EqBase*>(this);
@@ -290,6 +299,8 @@ static __forceinline void QStreamRead(Reader* pReader, void* value, unsigned int
 {
     pReader->position += pReader->read(pReader, value, bytes, &uiSize, 1);
 }
+// pdb: NiFogProperty::LoadBinary | NiFogProperty.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void NiPropertyData::LoadPropertyData(LoadStream* stream)
 {
     FUN_00825c70(stream);
@@ -392,6 +403,8 @@ struct FogViewer : PropertyBase
 };
 
 // @fnv 0x00a9a2a0
+// pdb: NiFogProperty::GetViewerStrings | NiFogProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FogViewer::FUN_00a9a2a0(ViewerStrings* pViewerStrings)
 {
     GetViewerStringsBase(pViewerStrings);
@@ -465,12 +478,13 @@ class SaverA9A2 : public FUN_00a5d7b0_helper
     float m_f1C;
     NiColorA9A2 m_kFogTint;
 
-    void FUN_00a9a230(NiStreamA9A2& kStream);
+    void NiFogProperty_SaveBinary(NiStreamA9A2& kStream);
 };
 
 // Calls FUN_00a5d7b0, reads m_us18 and m_f1C, then calls m_kFogTint.FUN_00a69780 with kStream.
 // @fnv 0x00a9a230
-void SaverA9A2::FUN_00a9a230(NiStreamA9A2& kStream)
+// pdb: NiFogProperty::SaveBinary | NiFogProperty.obj | fnv360_0721_beta, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+void SaverA9A2::NiFogProperty_SaveBinary(NiStreamA9A2& kStream)
 {
     FUN_00a5d7b0(kStream);
     ReadBinaryValue(kStream, m_us18);
@@ -510,6 +524,7 @@ template <class T> struct PtrRef
 };
 // Allocates a NiFogProperty and assigns it to DAT_011f5f3c through a reference-counting smart pointer.
 // @fnv 0x00a9a090
+// pdb: NiFogProperty::_SDMInit | NiFogProperty.obj | fnv360_0721_beta, objrun, medium
 void FUN_00a9a090()
 {
     PtrRef<Obj00a9a120> r(DAT_011f5f3c);

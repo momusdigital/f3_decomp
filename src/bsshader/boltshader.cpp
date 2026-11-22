@@ -4,6 +4,7 @@
 
 // Creates a shader declaration, configures its entries via vfn_08c/vfn_094, builds a BoltShader from it, and runs its setup calls before returning it.
 // @fnv 0x00bc10e0
+// pdb: BoltShader::CreateShader | BoltShader.obj | fnv360_0822_retail, call_gap, medium
 BSShader* BoltShader::CreateShader()
 {
     BoltShader* shader = 0;
@@ -39,7 +40,9 @@ void __fastcall ConfigurePassRenderStates(char* pThis);
 
 // Ensures the NiD3DPass pointer at pThis+0x168 is set, then calls ConfigurePassRenderStates(pThis) and returns true.
 // @fnv 0x00bc1570
-bool __fastcall EnsurePassAndUpdate(char* pThis)
+// pdb: BoltShader::LoadStagesAndPasses | BoltShader.obj | fnv360_0822_retail, objrun, high
+// pdb: BoltShader::LoadStagesAndPasses | BoltShader.obj | fnv360_0822_retail, objrun, high (was: EnsurePassAndUpdate)
+bool __fastcall BoltShader_LoadStagesAndPasses(char* pThis)
 {
     NiPointer<NiD3DPass>& pass = *(NiPointer<NiD3DPass>*)(pThis + 0x168);
     if (!pass.m_pObject)
@@ -56,6 +59,7 @@ struct X
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00bc0f80, then if f has bit 1 set calls _delete on this with size 0x194, and returns this.
 // @fnv 0x00bc1540
+// pdb: BoltShader::`scalar deleting destructor' | BoltShader.obj | fnv360_0822_retail, objrun, high
 void* X::DestroyIfFlagged(unsigned int auiFlags)
 {
     FUN_00bc0f80();
@@ -214,6 +218,7 @@ struct FUN_00bc1210_t
 };
 // Copies the pass from this+0x168, creates a stage if it has none, assigns two refs from this+0x18c/0x190, then sets a series of render states.
 // @fnv 0x00bc1210
+// pdb: BoltShader::PresetStages | BoltShader.obj | fnv360_0822_retail, objrun, medium
 void FUN_00bc1210_t::ConfigurePassRenderStates()
 {
     OMPassPtr spRenderPass;
@@ -297,6 +302,7 @@ extern int fnv_particle_shader_renderer_level;
 
 // Creates the vertex and pixel shader constant maps if missing and registers their entries, caching a bolt-data entry count in DAT_01201f50.
 // @fnv 0x00bc1950
+// pdb: BoltShader::CreateConstantMaps | BoltShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bc1950_shell::InitShaderConstantMaps()
 {
     char* self = (char*)this;
@@ -439,6 +445,8 @@ void __cdecl FUN_00b57e30(Obj_bc18d0* pkObj, int a2, int a3);
 extern int DAT_01177cd4;
 void __cdecl FUN_00ade300(Obj_bc18d0* pkObj, int a2, int a3);
 
+// pdb: BoltShader::Start | BoltShader.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apNode, abStartFromPoint
 Prop_bc18d0* __cdecl FUN_00bc18d0(Obj_bc18d0* pkNode)
 {
     if (pkNode)
@@ -604,6 +612,8 @@ extern Fn1470Ref* DAT_01201f58;
 
 // Calls Slot3c for each matching result; when the counter is nonpositive, releases and clears the global reference and resets the counter.
 // @f3 0x00b43510 (community match, verified in this file)
+// pdb: BoltShader::Stop | BoltShader.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apNode, apProp
 void __cdecl FUN_00bc1470(Fn1470Owner* pOwner, Fn1470Result* pWanted)
 {
     if (pOwner == 0 || pWanted == 0)
@@ -952,6 +962,7 @@ inline unsigned int GetSegmentCount()
 
 // Returns the cached object or creates one from repeated quad vertex and index data and stores it in the cache.
 // @fnv 0x00bc15a0
+// pdb: BoltShader::GetBoltGeometry | BoltShader.obj | fnv360_0822_retail, call_dedup, low
 Obj_bc18d0* FUN_00bc15a0()
 {
     if (CachedShape())

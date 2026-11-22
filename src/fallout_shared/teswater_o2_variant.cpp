@@ -5,21 +5,6 @@
 #include "teswater_decls.h"
 #include "teswater_work.h"
 
-extern int DAT_0109cb9c;
-void __fastcall FUN_00a5a390(void* p);
-
-struct FUN_00a6fae0_Class
-{
-    void __thiscall FUN_00a6fae0();
-};
-
-// @fnv 0x00a6fae0
-void __thiscall FUN_00a6fae0_Class::FUN_00a6fae0()
-{
-    *(int*)this = (int)&DAT_0109cb9c;
-    FUN_00a5a390(this);
-}
-
 // Lazily create the shader property for this geometry, picking the shader type by whether the geometry is skinned.
 
 class B9F30MemoryManager
@@ -209,6 +194,8 @@ class B9F30Owner
 };
 
 // @fnv 0x00b69f30
+// pdb: WaterShaderProperty::GetWaterPass | WaterShaderProperty.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeometry
 B9F30Property* B9F30Owner::FUN_00b69f30(B9F30Geometry* pkGeometry)
 {
     if (!m_pkProperty)

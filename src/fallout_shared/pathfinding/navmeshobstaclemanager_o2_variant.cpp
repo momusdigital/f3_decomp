@@ -34,6 +34,7 @@ struct ArrayHolder : ArrayHolderBase
 };
 
 // @fnv 0x00b61890
+// pdb: TallGrassShaderProperty::GetCachedGeometryMap | TallGrassShaderProperty.obj | fnv360_0721_beta, caller, medium
 ArrayHolder* __cdecl FUN_00b61890()
 {
     static ArrayHolder obj;

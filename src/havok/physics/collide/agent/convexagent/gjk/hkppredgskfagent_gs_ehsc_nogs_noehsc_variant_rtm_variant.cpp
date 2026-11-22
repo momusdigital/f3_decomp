@@ -26,7 +26,7 @@ struct __declspec(align(16)) FUN_00d41f00_Local
     unsigned char unk32;
     unsigned char unk33;
 };
-void __cdecl FUN_00d41ec0(FUN_00d41f00_Local* p);
+void __cdecl hkPredGskAgent3_initAgentFunc(FUN_00d41f00_Local* p);
 class SpawnedObject
 {
 public:

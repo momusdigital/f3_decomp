@@ -11,6 +11,7 @@ extern char DAT_009ce2f0;
 extern char DAT_009bab00;
 
 struct S_009d1020 { void* vt; void* f4; int f8; int fc; int f10; int f14; void* f18; void* f1c; void* f20; void* f24; int f28; void* f2c; char b30; };
+// pdb: hkpCollectionCollectionAgent3::initAgentFunc | hkpCollectionCollectionAgent3.obj | tesv_win, call_seq, medium
 void FUN_009d1020(S_009d1020* p)
 {
     p->vt = &DAT_009bad20;
@@ -43,15 +44,16 @@ extern GO_009d7850 O_0116a934;
 struct C_009d7850
 {
     void* m_vft;
-    void FUN_00a4a9b0(int);
+    void hkPackfileWriter_addSection(int);
     void FUN_00a4a9f0(GO_009d7850*, int);
     C_009d7850();
 };
+// pdb: hkBinaryPackfileWriter::hkBinaryPackfileWriter | hkBinaryPackfileWriter.obj | fnv360_0822_retail, caller_sim, high
 __declspec(noinline) C_009d7850::C_009d7850()
 {
     FUN_00a4aa20();
     m_vft = &DAT_00e80090;
-    FUN_00a4a9b0(DAT_01062b58);
+    hkPackfileWriter_addSection(DAT_01062b58);
     FUN_00a4a9f0(&O_0116a994, DAT_01065194);
     FUN_00a4a9f0(&O_011693b0, DAT_01065194);
     FUN_00a4a9f0(&O_0116a964, DAT_01065194);
@@ -62,6 +64,7 @@ __declspec(noinline) C_009d7850::C_009d7850()
 
 
 
+// pdb: hkpBallSocketChainData::getType | hkpBallSocketChainData.obj | fnv360_0822_retail, objrun_open, low
 int FUN_009e1510()
 {
     return 0x65;
@@ -76,9 +79,10 @@ struct S_009e2f60
     char pad[0x20];
     char a[0x10];
     char b[0x10];
-    void FUN_009e2f60(int a1, float f, int c);
+    void hkpPlaneShape_getAabbImpl(int a1, float f, int c);
 };
-void S_009e2f60::FUN_009e2f60(int a1, float f, int c)
+// pdb: hkpPlaneShape::getAabbImpl | hkpPlaneShape.obj | fnv360_0822_retail, objrun + bridge(hash|vtable) + skyrim(objrun), high
+void S_009e2f60::hkpPlaneShape_getAabbImpl(int a1, float f, int c)
 {
     FUN_009a7a80(a1, b, a, f, c);
 }
@@ -126,6 +130,8 @@ struct Viewer_009f6920 : public Base_009f6920
     volatile int m_34;
     volatile int m_38;
 };
+// pdb: hkpRigidBodyCentreOfMassViewer::hkpRigidBodyCentreOfMassViewer | hkpRigidBodyCentreOfMassViewer.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: contexts
 __declspec(noinline) Viewer_009f6920::Viewer_009f6920(ViewerArg_009f6920* arg) : Base_009f6920(arg)
 {
     m_vtbl28 = &DAT_00dcd094;
@@ -153,8 +159,9 @@ void FUN_00a07700(void** p)
 
 struct T_009227d0 { int __thiscall FUN_009227d0(int, int); };
 
-struct S_00a4df50 { int pad; int __thiscall FUN_00a4df50(int); };
-int S_00a4df50::FUN_00a4df50(int a)
+struct S_00a4df50 { int pad; int __thiscall hkEntitySelectorListed_isEntityOk(int); };
+// pdb: `anonymous namespace'::hkEntitySelectorListed::isEntityOk | hkpSaveContactPointsUtil.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int S_00a4df50::hkEntitySelectorListed_isEntityOk(int a)
 {
     return ((T_009227d0*)((char*)this + 4))->FUN_009227d0(a, 0);
 }
@@ -164,6 +171,7 @@ int S_00a4df50::FUN_00a4df50(int a)
 struct S_00a64ae0 { void FUN_00922680(); };
 
 struct C_00a64ae0 { void FUN_00a64ae0_(); };
+// pdb: hkStreamStatisticsCollector::endSnapshot | hkStreamStatisticsCollector.obj | fnv360_0822_retail, call_seq, medium
 void C_00a64ae0::FUN_00a64ae0_()
 {
     ((S_00a64ae0*)((char*)this + 0x1c))->FUN_00922680();
@@ -174,6 +182,7 @@ void C_00a64ae0::FUN_00a64ae0_()
 
 
 struct C_00a6b1d0 { char* FUN_00a6b1d0(); };
+// pdb: hkDisplayPlane::getPerpToNormal | hkDisplayPlane.obj | fnv360_0822_retail, objrun_open, low
 char* C_00a6b1d0::FUN_00a6b1d0()
 {
     return (char*)this + 128;
@@ -183,6 +192,8 @@ char* C_00a6b1d0::FUN_00a6b1d0()
 
 
 
+// pdb: hkpDisableEntityCollisionFilter::isCollisionEnabled | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: aInput, shape, bContainer, bKey
 void __stdcall FUN_00a73f50(char* a, int b, int c, int d, int e)
 {
     *a = 1;
@@ -208,6 +219,8 @@ static inline void Swap_00a85720(unsigned char& a, unsigned char& b)
     a = t;
     b = u;
 }
+// pdb: hkpSaveContactPointsEndianUtil::swapEndianType | hkpSaveContactPointsEndianUtil.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: entry
 void FUN_00a85720(unsigned char* p)
 {
     Swap_00a85720(p[4], p[7]);
@@ -222,6 +235,7 @@ void __fastcall FUN_00aadf30(void*);
 void __cdecl FUN_0089ec10(void*, unsigned int);
 
 struct C_00aae100 { void* FUN_00aae100(unsigned char f); };
+// pdb: BSPortalSharedNode::`scalar deleting destructor' | BSPortal.obj | fnv360_0822_retail, vtable, high
 void* C_00aae100::FUN_00aae100(unsigned char f)
 {
     FUN_00aadf30(this);
@@ -235,6 +249,8 @@ struct T_0078c030 { void FUN_0078c030(int); };
 struct T_00aaf610 { void FUN_00aaf610(int); };
 
 struct C_00aaf700 { char pad[0x34]; int m34; void FUN_00aaf700(int); };
+// pdb: NiBSBoneLODController::PostLinkObject | NiBSBoneLODController.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void C_00aaf700::FUN_00aaf700(int a)
 {
     ((T_0078c030*)this)->FUN_0078c030(a);
@@ -247,7 +263,8 @@ void C_00aaf700::FUN_00aaf700(int a)
 
 struct O_00ac5340 { void FUN_00ac5340(int); };
 
-void __stdcall FUN_00ab5ef0(O_00ac5340* o, int v)
+// pdb: BSPSysStripUpdateModifier::Initialize | BSPSysStripUpdateModifier.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_prop), high
+void __stdcall BSPSysStripUpdateModifier_Initialize(O_00ac5340* o, int v)
 {
     o->FUN_00ac5340(v);
 }
@@ -258,8 +275,9 @@ void __stdcall FUN_00ab5ef0(O_00ac5340* o, int v)
 
 void __fastcall FUN_00863b50(void*);
 void __cdecl FUN_0089ec10(void*, unsigned int);
-struct C_00ab7c70 { virtual ~C_00ab7c70(); char p[20 - 4]; static void operator delete(void* q, unsigned int s) { FUN_0089ec10(q, s); } };
-C_00ab7c70::~C_00ab7c70() { FUN_00863b50(this); }
+// pdb: BSWArray::`scalar deleting destructor' | BSWArray.obj | fnv360_0822_debug, vtable, high
+struct BSWArray { virtual ~BSWArray(); char p[20 - 4]; static void operator delete(void* q, unsigned int s) { FUN_0089ec10(q, s); } }; // src: F3_EXE vtable 0x00e8b7a4 (old: C_00ab7c70)
+BSWArray::~BSWArray() { FUN_00863b50(this); }
 
 // ---- family f346
 
@@ -267,6 +285,7 @@ void __fastcall FUN_00ac5e40(void*);
 void FUN_0089ec10(void*, int);
 
 struct C_00ac1b00 { void* FUN_00ac1b00(unsigned char); };
+// pdb: NiPSysEmitter::`scalar deleting destructor' | NiPSysEmitter.obj | fnv360_0822_retail, objopen_prop, low
 void* C_00ac1b00::FUN_00ac1b00(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -280,6 +299,7 @@ void __fastcall FUN_00ac5e40(void*);
 void FUN_0089ec10(void*, int);
 
 struct C_00aca7e0 { void* FUN_00aca7e0(unsigned char); };
+// pdb: NiPSysGrowFadeModifier::`scalar deleting destructor' | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, objrun, medium
 void* C_00aca7e0::FUN_00aca7e0(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -306,6 +326,7 @@ void __fastcall FUN_00ac5e40(void*);
 void __cdecl FUN_0089ec10(void*, unsigned int);
 
 struct C_00acf450 { void* FUN_00acf450(unsigned char f); };
+// pdb: NiPSysAgeDeathModifier::`scalar deleting destructor' | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, objrun, medium
 void* C_00acf450::FUN_00acf450(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -319,6 +340,7 @@ void __fastcall FUN_00ad3ea0(void*);
 void FUN_0089ec10(void*, int);
 
 struct C_00ad4ff0 { void* FUN_00ad4ff0(unsigned char); };
+// pdb: DistantLODShaderProperty::CachedGeometry::`scalar deleting destructor' | DistantLODShaderProperty.obj | fnv360_0822_retail, objopen_prop, low
 void* C_00ad4ff0::FUN_00ad4ff0(unsigned char f)
 {
     FUN_00ad3ea0(this);
@@ -331,6 +353,7 @@ void* C_00ad4ff0::FUN_00ad4ff0(unsigned char f)
 struct O_00b22530 { int FUN_00b22530(); };
 extern char* DAT_0116ef9c;
 
+// pdb: BSShaderManager::ReturnSceneDepthTexture | BSShaderManager.obj | fnv360_0822_retail, call_gap, medium
 int FUN_00ada4c0()
 {
     return ((O_00b22530*)(DAT_0116ef9c + 0x204))->FUN_00b22530();
@@ -342,6 +365,7 @@ void __fastcall FUN_00ae9de0(void*);
 void FUN_0089ec10(void*, int);
 
 struct C_00aea940 { void* FUN_00aea940(unsigned char); };
+// pdb: BSShaderPPLightingProperty::TextureEffectData::`scalar deleting destructor' | BSShaderPPLightingProperty.obj | fnv360_0822_retail, objrun, medium
 void* C_00aea940::FUN_00aea940(unsigned char f)
 {
     FUN_00ae9de0(this);
@@ -366,6 +390,7 @@ extern float DAT_01178188;
 extern float DAT_011736d4;
 extern float DAT_011736d8;
 
+// pdb: ShadowLightShader::UpdateFarNear | ShadowLightShader.obj | fnv360_0822_retail, objrun_prop, medium
 void FUN_00afb5f0()
 {
     DAT_011736d4 = 1.0f / DAT_01178188;
@@ -382,6 +407,8 @@ extern const double DAT_00de7d20;
 extern float DAT_011735e8;
 
 struct P_00afbc20 { char pad[0xe4]; int e4; };
+// pdb: ShadowLightShader::SetupGeometryConstants_RefractionTime | ShadowLightShader.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pprop
 __declspec(noinline) void __stdcall FUN_00afbc20(P_00afbc20* p)
 {
     if (DAT_01174994->m8)
@@ -393,6 +420,8 @@ __declspec(noinline) void __stdcall FUN_00afbc20(P_00afbc20* p)
 
 
 struct S_00afc6f0 { char pad[0x60]; int a; char b; void __thiscall FUN_00afc6f0(int, char); };
+// pdb: BSShader::SetCurrentPass | ShadowLightShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aPass, aFirstPass
 void S_00afc6f0::FUN_00afc6f0(int x, char y)
 {
     a = x;
@@ -405,8 +434,9 @@ void S_00afc6f0::FUN_00afc6f0(int x, char y)
 
 struct A_00afd030 { char p[0xbc]; int f; };
 struct B_00afd030 { char p[0x20]; unsigned f; };
-struct C_00afd030 { char p[0x6c]; int f6c, f70, f74, f78; int FUN_00afd030_(A_00afd030* a, B_00afd030* b); };
-int C_00afd030::FUN_00afd030_(A_00afd030* a, B_00afd030* b)
+struct C_00afd030 { char p[0x6c]; int f6c, f70, f74, f78; int ShadowLightShader_GetShaderDecl(A_00afd030* a, B_00afd030* b); };
+// pdb: ShadowLightShader::GetShaderDecl | ShadowLightShader.obj | fnv360_0721_beta, objrun + bridge(hash|objrun), high
+int C_00afd030::ShadowLightShader_GetShaderDecl(A_00afd030* a, B_00afd030* b)
 {
     if (a->f) return f70;
     if (b && (b->f & 0x1000) > 0) return f74;
@@ -420,6 +450,7 @@ void __fastcall FUN_00afc720(void*);
 void FUN_0089ec10(void*, int);
 
 struct C_00aff7e0 { void* FUN_00aff7e0(unsigned char); };
+// pdb: ShadowLightShader::`scalar deleting destructor' | ShadowLightShader.obj | fnv360_0822_retail, objrun_prop, low
 void* C_00aff7e0::FUN_00aff7e0(unsigned char f)
 {
     FUN_00afc720(this);
@@ -433,6 +464,7 @@ void __fastcall FUN_00b038c0(void*);
 void FUN_0089ec10(void*, int);
 
 struct C_00b03a10 { void* FUN_00b03a10(unsigned char); };
+// pdb: BSShaderBloodSplatterProperty::`scalar deleting destructor' | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, objrun, medium
 void* C_00b03a10::FUN_00b03a10(unsigned char f)
 {
     FUN_00b038c0(this);
@@ -445,6 +477,8 @@ void* C_00b03a10::FUN_00b03a10(unsigned char f)
 struct P_0086bae0 { void* FUN_0086bae0(int, unsigned int); };
 extern P_0086bae0 DAT_01090a78;
 
+// pdb: BSSimpleArray<DetailedActorPathHandler::ActorAvoidanceData,1024>::_Reallocate | DetailedActorPathHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuffer, aiNewSizeInItem
 void* __stdcall FUN_00b09c90(int a, unsigned int n)
 {
     return DAT_01090a78.FUN_0086bae0(a, n * 8);
@@ -476,6 +510,8 @@ __declspec(noinline) void FUN_00b0e120(int a)
 struct E_00ae7440 { void FUN_00ae7440(); int f0; int f4; int f8; int fc; unsigned int f10; };
 
 struct C_00b0f540 { E_00ae7440 e[5]; int f64; void FUN_00b0f540(int a); };
+// pdb: BSBatchRenderer::PassGroup::Clear | BSBatchRenderer.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abReportNotEmpty
 void C_00b0f540::FUN_00b0f540(int a)
 {
     for (int i = 0; i < 5; i++) {

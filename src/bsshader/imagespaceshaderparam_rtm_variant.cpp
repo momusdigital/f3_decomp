@@ -236,6 +236,8 @@ struct ImageSpaceEffectFourTexturePass
 };
 
 // @fnv 0x00ba4270
+// pdb: ImageSpaceEffectBlur::UpdateParams | ImageSpaceEffectBlur.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pParam
 bool ImageSpaceEffectFourTexturePass::FUN_00ba4270(int a1)
 {
     float m_fGlyphWidthInPixels = (float)unk28.GetAt(2)->GetTexture()->GetRenderedWidth();

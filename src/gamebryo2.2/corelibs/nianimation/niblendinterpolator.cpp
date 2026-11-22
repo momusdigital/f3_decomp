@@ -5,6 +5,7 @@
 #include "niblendinterpolator_types_NiCloningProcess.h"
 
 // @fnv 0x00a371f0
+// pdb: NiBlendInterpolator::InterpArrayItem::operator= | NiBlendInterpolator.obj | tesv_win, objrun_open, low
 NiBlendInterpolator__InterpArrayItem& NiBlendInterpolator__InterpArrayItem::operator=(
     const NiBlendInterpolator__InterpArrayItem& source)
 {
@@ -27,6 +28,8 @@ NiBlendInterpolator__InterpArrayItem& NiBlendInterpolator__InterpArrayItem::oper
 
 // Finds the first two active interpolator items and normalizes their weights by priority, ease spinner, threshold and flags.
 // @fnv 0x00a36bd0
+// pdb: NiBlendInterpolator::RemoveInterpInfo | NiBlendInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiBlendInterpolator::ComputeNormalizedWeightsFor2)
+// pdb params: ucIndex
 void NiBlendInterpolator::UpdatePriorityData()
 {
     NiBlendInterpolator__InterpArrayItem* pFirstItem = 0;
@@ -118,6 +121,8 @@ void NiBlendInterpolator::UpdatePriorityData()
 }
 
 // @fnv 0x00a36970
+// pdb: NiBlendInterpolator::AddInterpInfo | NiBlendInterpolator.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkInterpolator, fWeight, cPriority, fEaseSpinner
 unsigned char NiBlendInterpolator::AddInterpolatorItem(NiInterpolator* interpolator, float weight, char priority,
                                                        float easeSpinner)
 {
@@ -175,6 +180,8 @@ unsigned char NiBlendInterpolator::AddInterpolatorItem(NiInterpolator* interpola
 
 // Removes the interpolator at index, releases it, recomputes high/next-high priorities and single-interpolator state, and invalidates cached weights.
 // @fnv 0x00a36a90
+// pdb: NiBlendInterpolator::AddInterpInfo | NiBlendInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiBlendInterpolator::RemoveInterpInfo)
+// pdb params: pkInterpolator, fWeight, cPriority, fEaseSpinner
 void NiBlendInterpolator::RemoveInterpolatorAt(unsigned char index)
 {
     NiBlendInterpolator__InterpArrayItem& item = m_pInterpArray[index];
@@ -238,6 +245,8 @@ void NiBlendInterpolator::RemoveInterpolatorAt(unsigned char index)
 }
 
 // @fnv 0x00a36e80
+// pdb: NiBlendInterpolator::ProcessClone | NiBlendInterpolator.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kCloning
 void NiBlendInterpolator::ProcessClone(CloningProcess& aCloneProcess)
 {
     NiObject::ProcessClone(aCloneProcess);
@@ -284,6 +293,7 @@ struct InterpArrayItem_Temp
 
 // Sets the vtable pointer, destroys each element of the array at offset 0x14, frees it, then calls FUN_00a57010.
 // @fnv 0x00a37170
+// pdb: NiBlendInterpolator::~NiBlendInterpolator | NiBlendInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
 void __fastcall DestroyInterpolatorArray(NiBlendInterpolator* pThis, int)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_0109697c;
@@ -342,6 +352,7 @@ struct NiBlendInterpolator_Layout
 
 // Recomputes per-item normalized blend weights from weights, ease spinners and priorities, applying the weight threshold and optional single-winner selection.
 // @fnv 0x00a37260
+// pdb: NiBlendInterpolator::ComputeNormalizedWeights | NiBlendInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
 void FUN_00a37260_shell::UpdateNormalizedWeights()
 {
     NiBlendInterpolator_Layout* pThis = reinterpret_cast<NiBlendInterpolator_Layout*>(this);
@@ -472,6 +483,7 @@ void FUN_00a37260_shell::UpdateNormalizedWeights()
 
 extern const char* const g_011f371c_arg1;
 // @fnv 0x00a36960
+// pdb: BSCullingProcess::GetRTTI | BGSDecalManager.obj | fnv360_0822_retail, vtable, medium
 const char* const* __cdecl FUN_00a36960()
 {
     return &g_011f371c_arg1;
@@ -545,7 +557,9 @@ struct BlendInterpS : InterpS
     InterpS* m_pSingleInterpolator;
 };
 // @fnv 0x00a36dc0
-void __fastcall CollapseAllInterps(BlendInterpS* self, int)
+// pdb: NiBlendInterpolator::Collapse | NiBlendInterpolator.obj | fnv360_0721_beta, objrun, high
+// pdb: NiBlendInterpolator::Collapse | NiBlendInterpolator.obj | fnv360_0721_beta, objrun, high (was: CollapseAllInterps)
+void __fastcall NiBlendInterpolator_Collapse(BlendInterpS* self, int)
 {
     if (self->m_ucInterpCount == 1)
     {
@@ -635,7 +649,8 @@ struct BlendInterpS : InterpS
     InterpS* m_pSingleInterpolator;
 };
 // @fnv 0x00a36e10
-void __fastcall FUN_00a36e10(BlendInterpS* self, int, float m_fStartTime, float m_fMaximumDistance)
+// pdb: NiBlendInterpolator::GuaranteeTimeRange | NiBlendInterpolator.obj | fnv360_0721_beta, objrun + bridge(vtable|objrun) + skyrim(objrun_sim), high
+void __fastcall NiBlendInterpolator_GuaranteeTimeRange(BlendInterpS* self, int, float m_fStartTime, float m_fMaximumDistance)
 {
     if (self->m_ucInterpCount == 1)
     {
@@ -833,6 +848,7 @@ struct FUN_00a370a0_obj
     int field0;
 };
 // @fnv 0x00a370a0
+// pdb: BGSUnloadedFormBuffer::BGSUnloadedFormBuffer | BGSUnloadedFormBuffer.obj | fnv360_0822_retail, call_gap, low
 FUN_00a370a0_obj* __fastcall FUN_00a370a0(FUN_00a370a0_obj* self, int)
 {
     self->field0 = 0;
@@ -883,6 +899,8 @@ class FUN_00a36f10_cls
 
 // Compares peer pointers (both null or equal via v23) and the four value fields against another instance, returning true only if all match.
 // @fnv 0x00a36f10
+// pdb: NiBlendInterpolator::InterpArrayItem::IsEqual | NiBlendInterpolator.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kDest
 bool FUN_00a36f10_cls::Equals(FUN_00a36f10_cls* other)
 {
     if (m_pPeer != 0 && other->m_pPeer == 0)
@@ -940,6 +958,8 @@ struct InterpItem
 };
 // Writes the interpolator, weight, normalizedWeight, priority and easeSpinner to the stream via its writer, accumulating byte counts.
 // @fnv 0x00a378d0
+// pdb: NiBlendInterpolator::InterpArrayItem::SaveBinary | NiBlendInterpolator.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
 void InterpItem::WriteToStream(StreamS* stream)
 {
     stream->WriteInterpolator(interpolator);
@@ -1152,6 +1172,8 @@ struct LoadInterpItem
 };
 
 // @fnv 0x00a377b0
+// pdb: NiBlendInterpolator::InterpArrayItem::LoadBinary | NiBlendInterpolator.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: kStream
 void LoadInterpItem::LoadFromStream(LoadStream* stream)
 {
     NiInterpolator* pInterpolator = (NiInterpolator*)stream->GetLoadedObject();
@@ -1244,6 +1266,8 @@ class BlendSerializer : public NiBlendInterpolator
 };
 // Appends viewer strings for the blend interpolator's fields and, for each array entry with a linked interpolator, its priority, weights and interpolator strings.
 // @fnv 0x00a38080
+// pdb: NiBlendInterpolator::GetViewerStrings | NiBlendInterpolator.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void BlendSerializer::FUN_00a38080(NiStream* stream)
 {
     this->NiInterpolator::GetViewerStrings((NiViewerStringsArray*)stream);
@@ -1602,6 +1626,7 @@ FUN_00a37670_NiBlendInterpolator::~FUN_00a37670_NiBlendInterpolator()
     m_ucInterpCount = 0;
 }
 
+// pdb: ImageSpaceModifierInstanceForm::`scalar deleting destructor' | ImageSpaceModifierInstance.obj | fnv360_0822_retail, vtable, high
 void FUN_00a37670_NiBlendInterpolator::operator delete(void* p, unsigned int n)
 {
     ::operator delete(p, n);

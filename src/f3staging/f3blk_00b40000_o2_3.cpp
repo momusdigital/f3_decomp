@@ -158,6 +158,8 @@ struct PassProperty1534 {
     void FUN_00b504d0(unsigned int pass);
 };
 
+// pdb: ParallaxShader::InitPass | ParallaxShader.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: auiCurrentPass
 void PassProperty1534::FUN_00b504d0(unsigned int pass)
 {
     program28=defaultProgram6C;

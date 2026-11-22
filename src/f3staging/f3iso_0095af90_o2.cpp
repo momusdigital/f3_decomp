@@ -173,7 +173,8 @@ enum { TYPE_MODIFIER_IGNORE_CONSTRAINT = 0x1b };
 // the constraint instance and the constraint owner.
 void __cdecl FUN_009a9400(f3repair_0095af90_native::hkpConstraintInstance*, f3repair_0095af90_native::hkpConstraintOwner&, int);
 
-void __cdecl FUN_0095af90(f3repair_0095af90_native::hkpConstraintInstance* instance, f3repair_0095af90_native::hkpConstraintOwner& constraintOwner)
+// pdb: hkpResponseModifier::enableConstraint | hkpResponseModifier.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpResponseModifier_enableConstraint(f3repair_0095af90_native::hkpConstraintInstance* instance, f3repair_0095af90_native::hkpConstraintOwner& constraintOwner)
 {
     using namespace f3repair_0095af90_native;
 

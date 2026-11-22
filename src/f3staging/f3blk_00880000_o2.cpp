@@ -21,6 +21,8 @@ struct Destination8 {
     Buffer8* buffer1c;
 };
 struct Owner8 { void FUN_0089e520(Buffer8*); void FUN_0089ae90(Destination8*); };
+// pdb: NiDynamicGeometryGroup::AddObject | NiDynamicGeometryGroup.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkScreenTexture
 void Owner8::FUN_0089ae90(Destination8* destination) {
     if (!destination->buffer1c) {
         Buffer8* ptr = (Buffer8*)DAT_01090a78.FUN_0086b930(0x54);
@@ -326,6 +328,7 @@ struct Owner21 {
     Object21* second;
     void FUN_00881db0();
 };
+// pdb: NiDX9AdapterDesc::~NiDX9AdapterDesc | NiDX9SystemDesc.obj | tesv_win, call_gap, low
 void Owner21::FUN_00881db0() {
     for(unsigned int i=0; i<count; ++i) {
         Item21* item = items[i];
@@ -585,6 +588,8 @@ extern unsigned char DAT_0108f20c;
 Object24* __cdecl FUN_00424d50(const void*,Object24*);
 Data24* __cdecl FUN_0087bfe0(Object24*,void*);
 struct Owner24 { unsigned int unk00,unk04,unk08; void* stream; bool FUN_0088ba60(Object24*,void*,void*); };
+// pdb: NiXenonTextureManager::PrecacheTexture | NiXenonTextureManager.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiDX9Renderer::PrecacheTexture)
+// pdb params: pkIm, bForceLoad, bLocked
 bool Owner24::FUN_0088ba60(Object24* object, void* unused1, void* unused2) {
     if(!object) return false;
     Render24* renderer = *(Render24* volatile*)&DAT_0108f048;
@@ -743,6 +748,7 @@ struct DynamicGroupData
 
 // Iterates the set and chip maps and stream arrays, destroys entries, updates vtables, clears a matching global pointer, and calls FUN_0089e500.
 // @fnv 0x00e95880
+// pdb: NiDynamicGeometryGroup::~NiDynamicGeometryGroup | NiDynamicGeometryGroup.obj | fnv360_0822_retail, caller_sim, high
 void DynamicGroupData::FUN_0089aae0()
 {
     vtable = &DAT_00e2bf00;
@@ -814,6 +820,8 @@ struct FUN_00880240_Info {
 };
 
 // @fnv 0x00e77eb0
+// pdb: NiD3DShaderDeclaration::Pack_UnsignedShortToUnsignedByte | NiXenonShaderDeclaration.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kParams
 unsigned int FUN_00880240(FUN_00880240_Info* pkInfo)
 {
     unsigned int uiSize = 0;
@@ -876,12 +884,16 @@ unsigned int FUN_00880240(FUN_00880240_Info* pkInfo)
 // @f3 0x00882800 (community match, verified in this file)
 namespace f3m_00882800 {
 namespace f3m_00882800 { extern int DAT_0109181c; }
+// pdb: Menu::OnXMLDataChange | MenuManager.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiDX92DBufferData::GetRTTI)
+// pdb params: aiTrait
 int* __cdecl FUN_00882800() { return &f3m_00882800::DAT_0109181c; }
 }   // namespace f3m_00882800
 
 // @f3 0x00886790 (community match, verified in this file)
 namespace f3m_00886790 {
 struct O886790 { char pad[0x20]; unsigned char value; void FUN_00886790(unsigned char v); };
+// pdb: NiD3DShader::SetUsesNiRenderState | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_sim, low, conflict (bridge: BSShader::SetCurrentPass)
+// pdb params: bUses
 void O886790::FUN_00886790(unsigned char v) { value = v; }
 }   // namespace f3m_00886790
 
@@ -895,6 +907,7 @@ struct O {
 };
 extern O* DAT_01091a18;
 }
+// pdb: NiTArray<NiPointer<NiD3DTextureStage>,NiTNewInterface<NiPointer<NiD3DTextureStage> > >::`scalar deleting destructor' | NiD3DPass.obj | fnv360_0822_debug, objrun_open, low
 void __cdecl FUN_0088ee40() { delete f3m_0088ee40::DAT_01091a18; }
 
 // @f3 0x0089a050 (community match, verified in this file)
@@ -942,6 +955,7 @@ struct FUN_0089a050 {
     int unk30;
     FUN_0089a050();
 };
+// pdb: NiVBSet::NiVBSet | NiStaticGeometryGroup.obj | tesv_win, call_seq, medium
 FUN_0089a050::FUN_0089a050()
 {
     unk0c = DAT_00f777c0;
@@ -961,6 +975,8 @@ FUN_0089a050::FUN_0089a050()
 // @f3 0x00899740 (community match, verified in this file)
 namespace f3m_00899740 {
 struct P899740 { char pad[8]; unsigned int f8; char pad2[8]; int f14; int f18; };
+// pdb: NiVBSet::DetermineUsageAndPool | NiVBSet.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: pkSet
 void __cdecl FUN_00899740(P899740* p) { p->f14 = 8; p->f18 = 1; if (p->f8 & 0x80000000) p->f14 = 0x18; }
 }   // namespace f3m_00899740
 
@@ -968,6 +984,7 @@ void __cdecl FUN_00899740(P899740* p) { p->f14 = 8; p->f18 = 1; if (p->f8 & 0x80
 namespace f3m_0089feb0 {
 namespace f3m_0089feb0 { extern int (__stdcall* DAT_00d9b1b8)(void* h); }
 struct O89feb0 { char pad[0x1c]; int f1c; char pad2[4]; void* h; int FUN_0089feb0(); };
+// pdb: NiThread::SystemSuspend | NiThread_Xenon.obj | fnv360_0822_retail, call_seq, medium
 int O89feb0::FUN_0089feb0() { if (!h) return -1; int r = f3m_0089feb0::DAT_00d9b1b8(h); if (r != -1) f1c = 1; return r; }
 }   // namespace f3m_0089feb0
 
@@ -1001,6 +1018,8 @@ struct Object {
     void FUN_00862990(NameArray*);
     void FUN_0088cf60(NameArray*);
 };
+// pdb: NiXenonPersistentSrcTextureRendererData::GetViewerStrings | NiXenonPersistentSrcTextureRendererData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void Object::FUN_0088cf60(NameArray* names) {
     FUN_00862990(names);
     void* value=FUN_00847b50(DAT_0109195c);
@@ -1019,6 +1038,8 @@ void* __cdecl FUN_0089e810(unsigned int);
 int __cdecl FUN_00c007fc(char*, unsigned int, const char*);
 struct FUN_008969d0_shell { void* m_vtbl; unsigned int value04; unsigned int type08; unsigned int unk0c; char* m_pcName; void FUN_008969d0(const char*); };
 // @fnv 0x00be0920
+// pdb: NiD3DShaderProgram::SetShaderProgramName | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pszName
 void FUN_008969d0_shell::FUN_008969d0(const char* pszName)
 {
     if (!pszName || strcmp(pszName, "") == 0)
@@ -1077,6 +1098,7 @@ struct FUN_00a2e460_cls
 
 // Frees each stored value in the hash table when nodes are owned, then releases the table and resets the vtable pointers.
 // @fnv 0x00a2e460
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,NiPointer<NiShaderLibrary> >,NiPointer<NiShaderLibrary> >::~NiTStringTemplateMap<NiTPointerMap<char const *,NiPointer<NiShaderLibrary> >,NiPointer<NiShaderLibrary> > | NiD3DShaderFactory.obj | fnv360_0721_beta, objrun_open, low
 void FUN_00a2e460_cls::FUN_0089b8d0()
 {
     m_ppVirtualMethodTable = &DAT_00e2c070;
@@ -1155,8 +1177,9 @@ unsigned int unk24;
 unsigned int unk28;
 unsigned int unk2c;
 unsigned int unk30;
-~Value301(){FUN_00899a00();}void FUN_00899a00();static void operator delete(void*p,unsigned int size){FUN_0089ec10(p,size);}};struct Node301{unsigned int unk00;};struct Map301{void*vtable;unsigned int size;Node301**buckets;__forceinline Node301* First(){for(unsigned int i=0;i<size;++i)if(buckets[i])return buckets[i];return 0;}void FUN_0089a5d0(Node301*&,unsigned int&,Value301* volatile&);void FUN_00899cf0(unsigned int);};struct Owner301{unsigned int unk00,unk04,unk08;Map301 map;void FUN_00899e20();};
-void Owner301::FUN_00899e20(){Node301*position=map.First();while(position){unsigned int key;Value301* volatile value;map.FUN_0089a5d0(position,key,value);map.FUN_00899cf0(key);Value301*current=value;if(current){current->FUN_00899a00();FUN_0089ec10(current,sizeof(Value301));}}}
+~Value301(){FUN_00899a00();}void FUN_00899a00();static void operator delete(void*p,unsigned int size){FUN_0089ec10(p,size);}};struct Node301{unsigned int unk00;};struct Map301{void*vtable;unsigned int size;Node301**buckets;__forceinline Node301* First(){for(unsigned int i=0;i<size;++i)if(buckets[i])return buckets[i];return 0;}void FUN_0089a5d0(Node301*&,unsigned int&,Value301* volatile&);void FUN_00899cf0(unsigned int);};struct Owner301{unsigned int unk00,unk04,unk08;Map301 map;void NiStaticGeometryGroup_Purge();};
+// pdb: NiStaticGeometryGroup::Purge | NiStaticGeometryGroup.obj | fnv360_0822_retail, call_gap + skyrim(objrun_prop), high
+void Owner301::NiStaticGeometryGroup_Purge(){Node301*position=map.First();while(position){unsigned int key;Value301* volatile value;map.FUN_0089a5d0(position,key,value);map.FUN_00899cf0(key);Value301*current=value;if(current){current->FUN_00899a00();FUN_0089ec10(current,sizeof(Value301));}}}
 }
 }   // namespace f3m_00899e20
 
@@ -1222,6 +1245,8 @@ struct FUN_00886df0 : FUN_0088bb70, FieldsMid_e8db90
 };
 
 // @fnv 0x00e8db90
+// pdb: NiXenonFragmentShader::NiXenonFragmentShader | NiXenonFragmentShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkDesc
 FUN_00886df0::FUN_00886df0(unsigned int a)
 {
     m_3c.m_inner.FUN_00c22460(a);
@@ -1514,6 +1539,8 @@ struct NiD3DShaderConstantMap : NiShaderConstantMap {
     void FUN_00890b70(unsigned int) throw();
     NiD3DShaderConstantMap(unsigned int,unsigned int) throw();
 };
+// pdb: NiD3DShaderConstantMap::NiD3DShaderConstantMap | NiXenonFragmentShader.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pkRenderer, eType
 NiD3DShaderConstantMap::NiD3DShaderConstantMap(unsigned int device,unsigned int type) throw() : NiShaderConstantMap(type),modified(true),unk30(0),unk34(0),unk38(0),unk3c(0),unk40(0) { FUN_00890b70(device);first.FUN_008a8a50(); }
 }
 }   // namespace f3m_00886f30
@@ -1561,6 +1588,7 @@ struct Owner881 {
     ~Owner881();
 };
 
+// pdb: NiDX9DeviceDesc::DisplayFormatInfo::~DisplayFormatInfo | NiDX9SystemDesc.obj | tesv_win, call_seq, medium
 Owner881::~Owner881()
 {
     void* pos = m_map.GetFirstPos();
@@ -1581,6 +1609,7 @@ void* FUN_00887780(unsigned);
 struct Array {void* table;void* data;unsigned short capacity,count,used,grow;__forceinline Array(unsigned cap){table=&DAT_00e2a640;capacity=cap;grow=4;count=0;used=0;if((unsigned short)cap>0)data=FUN_00887780((unsigned short)cap);else data=0;}};
 struct DerivedArray:Array {__forceinline DerivedArray(unsigned cap):Array(cap){table=&DAT_00e2a65c;}};
 struct FUN_00888b40 {void* table;bool flag;int unk08,unk0c,unk10;int a,b,c;DerivedArray array;int d,e,f,g,h,i,j;bool flag4c;int k,l,m,n;bool flag60,flag61;int o;FUN_00888b40();};
+// pdb: NiD3DPass::NiD3DPass | NiD3DPass.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: NiD3DPass::InitializePools)
 FUN_00888b40::FUN_00888b40():table(&DAT_00e2a648),a(0),b(0),c(0),array(DAT_00f7661c),d(0),e(0),f(0),g(0),h(0),i(0),j(0),flag4c(false),k(0),l(0),m(0),n(0),flag60(false),flag61(false),o(0){flag=false;}
 
 }
@@ -1603,9 +1632,10 @@ struct Buffer {
  int unk28;
  bool writable;
  bool FUN_0089edd0();
- unsigned FUN_0089f040(const char*,unsigned);
+ unsigned NiFile_FileWrite(const char*,unsigned);
 };
-unsigned Buffer::FUN_0089f040(const char* source,unsigned count) {
+// pdb: NiFile::FileWrite | NiFile_Xenon.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(objrun), high
+unsigned Buffer::NiFile_FileWrite(const char* source,unsigned count) {
  if(writable) {
  unsigned done=0;
  unsigned available=capacity-position;
@@ -1644,6 +1674,8 @@ struct Stream {
  void FUN_0089edd0();
  unsigned int FUN_0089ef80(char*,unsigned int);
 };
+// pdb: NiFile::Seek | NiFile_Xenon.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiFile::FileRead)
+// pdb params: iOffset, iWhence
 unsigned int Stream::FUN_0089ef80(char* dest,unsigned int size) {
  if(enabled) {
 
@@ -1688,6 +1720,7 @@ bool __cdecl FUN_00897bf0(void* object);
 struct QueryAdapterA73 {
     void FUN_0089de80();
 };
+// pdb: NiD3DVertexShader::RecreateRendererData | NiD3DVertexShader.obj | fnv360_0721_beta, objopen_prop, low
 void QueryAdapterA73::FUN_0089de80() {
     FUN_00897bf0(this);
 }
@@ -1697,6 +1730,8 @@ void QueryAdapterA73::FUN_0089de80() {
 extern int DAT_00f76620;
 namespace f3m_00888360 {
 
+// pdb: NiD3DPass::SetMaxSimultaneousTextures | NiD3DPass.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: uiMaxSimultaneousTextures
 void FUN_00888360(int value)
 {
     DAT_00f76620 = value;
@@ -1707,6 +1742,8 @@ void FUN_00888360(int value)
 extern unsigned int DAT_00f76624;
 namespace f3m_00888370 {
 
+// pdb: NiD3DPass::SetMaxSamplers | NiD3DPass.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: uiMaxSamplers
 void FUN_00888370(unsigned int value)
 {
     DAT_00f76624 = value;
@@ -1723,6 +1760,7 @@ struct X0089f9e0
     void*& FUN_0089f9e0();
 };
 
+// pdb: BSNiAllocator::BSNiAllocator | BSNiAllocator.obj | fnv360_0822_retail, call_seq, high
 void*& X0089f9e0::FUN_0089f9e0()
 {
     return *(void**)this = &DAT_00e2c578;
@@ -1733,6 +1771,8 @@ void*& X0089f9e0::FUN_0089f9e0()
 extern unsigned int DAT_00f7661c;
 namespace f3m_00888350 {
 
+// pdb: NiD3DPass::SetMaxTextureBlendStages | NiD3DPass.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: uiMaxTextureBlendStages
 void FUN_00888350(unsigned int value)
 {
     DAT_00f7661c = value;
@@ -1772,6 +1812,7 @@ struct Object89dff0
     void FUN_0089dff0();
 };
 
+// pdb: NiD3DPixelShader::RecreateRendererData | NiD3DPixelShader.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiD3DVertexShader::RecreateRendererData)
 void Object89dff0::FUN_0089dff0()
 {
     FUN_00897ba0(this);
@@ -1792,6 +1833,8 @@ struct PointerList {
     ListNode* m_head;
     void* FUN_00897ca0(ListNode** pos);
 };
+// pdb: NiD3DShaderProgramFactory::GetFirstProgramDirectory | NiD3DShaderProgramFactory.obj | fnv360_1110_retail, objrun, medium
+// pdb params: kIter
 void* PointerList::FUN_00897ca0(ListNode** pos) {
     ListNode* node = m_head;
     *pos = node;
@@ -1821,6 +1864,8 @@ struct Renderer {
     int m_mid[395];
     void* m_hwnd;
 };
+// pdb: NiD3DShaderProgramFactory::SetD3DRenderer | NiD3DShaderProgramFactory.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkD3DRenderer
 void __cdecl FUN_00897c30(Renderer* renderer) {
     g_renderer_00897c30 = renderer;
     if (renderer) {
@@ -1870,6 +1915,8 @@ struct Device {
 int __cdecl FUN_008669a0(int a, int b, int c);
 int __cdecl FUN_00866530(int a, unsigned int* b, int* c);
 bool __cdecl FUN_00893d10(void* data, int offset, int a, int b, int p2, int p3, int p4, int p5, int p6, int p7, int p8, int p9, int p10);
+// pdb: NiD3DShaderConstantMap::SetObjectConstant | NiD3DShaderConstantMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkShaderProgram, pkEntry, pkGeometry, pkSkin, pkPartition, pkBuffData, pkState, pkEffects, kWorld, kWorldBound, uiPass
 int __stdcall FUN_00894a80(Device* device, Obj* obj, int p2, int p3, int p4, int p5, int p6, int p7, int p8, int p9, int p10)
 {
     int result = 0;
@@ -1961,6 +2008,7 @@ struct TextureInfo {
     bool FUN_00884620(BaseTex* texture);
 };
 
+// pdb: NiDX9TextureData::InitializeFromD3DTexture | NiDX9TextureData.obj | tesv_win, caller_sim, low
 bool TextureInfo::FUN_00884620(BaseTex* texture)
 {
     levelCount = texture->GetLevelCount();

@@ -10,6 +10,7 @@ struct FUN_0086cb90_Obj {
     void FUN_0086cb00(unsigned int value);
     FUN_0086cb90_Obj* FUN_0086cb90(unsigned int value);
 };
+// pdb: ScrapHeapManager::ScrapHeapManager | ScrapHeap.obj | fnv360_0822_debug, objrun, low
 FUN_0086cb90_Obj* FUN_0086cb90_Obj::FUN_0086cb90(unsigned int value)
 {
     unsigned int high = value;
@@ -27,9 +28,10 @@ class CleanupObject237 { public: void FUN_0082b560(); };
 class CleanupContext237 {
 public:
     void FUN_0085ac70(CleanupObject237* object);
-    void FUN_00862c60(CleanupObject237* object);
+    void NiParticleMeshesData_LoadBinary(CleanupObject237* object);
 };
-void CleanupContext237::FUN_00862c60(CleanupObject237* object) {
+// pdb: NiParticleMeshesData::LoadBinary | NiParticleMeshesData.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void CleanupContext237::NiParticleMeshesData_LoadBinary(CleanupObject237* object) {
     FUN_0085ac70(object);
     object->FUN_0082b560();
 }
@@ -199,6 +201,7 @@ public:
     int m_i120;
 };
 
+// pdb: MemoryManager::MemoryManager | MemoryManager.obj | tesv_win, ustr, medium
 FUN_0086c000::FUN_0086c000()
     : m_s02(0), m_s04(0), m_i08(0), m_map(0x25), m_i114(0), m_b118(true), m_b119(true), m_i11c(0), m_i120(0)
 {
@@ -676,6 +679,8 @@ struct Owner726 {
     Block726 block;
     int FUN_0086e6c0(int value);
 };
+// pdb: NiXenonRenderer::FindClosestPixelFormat | NiXenonRenderer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: kFmtPrefs
 int Owner726::FUN_0086e6c0(int value)
 {
     return FUN_008843d0(value, &block);
@@ -747,6 +752,7 @@ public:
     int FUN_00878e30(unsigned int uiWidth, unsigned int uiHeight);
 };
 
+// pdb: NiDX9Renderer::Recreate | NiDX9Renderer.obj | tesv_win, ustr, medium
 int FUN_00878e30_Renderer::FUN_00878e30(unsigned int uiWidth, unsigned int uiHeight)
 {
     FUN_00878e30_Slot* pkSlot = m_pkAdapterList->GetSlot(0);
@@ -791,6 +797,8 @@ struct StreamCopyInfo {
 void* __cdecl FUN_00c00610(void*, int, unsigned int);
 
 // @fnv 0x00e77010
+// pdb: NiD3DShaderDeclaration::Pack_FloatToShort | NiXenonShaderDeclaration.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiD3DShaderDeclaration::Pack_LongToShort)
+// pdb params: kParams
 unsigned int __cdecl FUN_0087f0c0(StreamCopyInfo* stream)
 {
     unsigned int bytesWritten = 0;
@@ -1164,6 +1172,7 @@ static inline bool TexIsPowerOfTwo(unsigned int x)
     return (x & (x - 1)) == 0;
 }
 
+// pdb: NiDX9SourceTextureData::CreateSurf | NiDX9SourceTextureData.obj | tesv_win, ustr, medium
 bool TexData::FUN_0087b170(TexInput* input)
 {
     unsigned int format = FUN_00881ef0(&this->unk14);
@@ -1240,6 +1249,7 @@ struct TexData {
 const char* FUN_0088ae00(long hr);
 void FUN_00c24b70(const char* fmt, ...);
 static inline bool TexIsPowerOfTwo(unsigned int x) { if (x == 0) return false; return (x & (x - 1)) == 0; }
+// pdb: NiDX9SourceTextureData::CreateSurfFromRendererData | NiDX9SourceTextureData.obj | tesv_win, call_gap, low
 bool TexData::FUN_0087b3f0(TexInput* input, unsigned int format)
 {
     if ((!TexIsPowerOfTwo(this->width) || !TexIsPowerOfTwo(this->height)) && !(this->renderer->Flags() & 8))
@@ -1287,6 +1297,8 @@ struct QStream {
     unsigned int unk28;
     unsigned char* destination;
 };
+// pdb: NiD3DShaderDeclaration::Pack_UnsignedShortToShort | NiXenonShaderDeclaration.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kParams
 unsigned int __cdecl FUN_0087f5e0(QStream* stream)
 {
     unsigned int total = 0;
@@ -1334,11 +1346,14 @@ unsigned int __cdecl FUN_0087f5e0(QStream* stream)
 
 // @f3 0x008665c0 (community match, verified in this file)
 namespace f3m_008665c0 {
+// pdb: NiShaderConstantMap::AddEntry | NiShaderConstantMap.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pszKey, uiFlags, uiExtra, uiShaderRegister, uiRegisterCount, pszVariableName, uiDataSize, uiDataStride, pvDataSource, bCopyData
 int __stdcall FUN_008665c0(int a, int b, int c, int d) { return 0x30; }
 }   // namespace f3m_008665c0
 
 // @f3 0x0086cdd0 (community match, verified in this file)
 namespace f3m_0086cdd0 {
+// pdb: BSReadWriteLock::UnlockRead | BSReadWriteLock.obj | fnv360_0721_beta, caller, low
 namespace f3m_0086cdd0 { extern long (__stdcall* DAT_00d9b064)(long*); struct O { long count; long FUN_0086cdd0(); }; long O::FUN_0086cdd0() { return DAT_00d9b064(&count); } }
 }   // namespace f3m_0086cdd0
 
@@ -1350,6 +1365,8 @@ int __stdcall FUN_0086d0f0(int* p, int unused) { return p[-1]; }
 // @f3 0x0086ba50 (community match, verified in this file)
 namespace f3m_0086ba50 {
 struct H86ba50 { void* FUN_0086b930(unsigned int n); void* FUN_0086ba50(unsigned int a, int b, int c, int d); };
+// pdb: MemoryManager::Allocate | MemoryManager.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: aSize, apFile, aiLine, apFunction
 void* H86ba50::FUN_0086ba50(unsigned int a, int b, int c, int d) { return FUN_0086b930(a); }
 }   // namespace f3m_0086ba50
 
@@ -1362,12 +1379,15 @@ void H86d3c0::FUN_0086d3c0(void* a, int b) { FUN_0086e220(a); }
 // @f3 0x0086b8b0 (community match, verified in this file)
 namespace f3m_0086b8b0 {
 void __cdecl FUN_00c064b8(int a);
+// pdb: OriginalFree | MemoryManager.obj | tesv_win, objopen_prop, low
 void __stdcall FUN_0086b8b0(int a, int b) { FUN_00c064b8(a); }
 }   // namespace f3m_0086b8b0
 
 // @f3 0x0086c3d0 (community match, verified in this file)
 extern unsigned char DAT_01090bbc[];
 namespace f3m_0086c3d0 {
+// pdb: BSCoreMessage::DisableContextMessages | BSCoreMessage.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: BSCoreMessage::Error)
+// pdb params: aWarningContext
 void __stdcall FUN_0086c3d0(int index) { DAT_01090bbc[index] = 1; }
 }   // namespace f3m_0086c3d0
 
@@ -1380,12 +1400,15 @@ void __cdecl FUN_0086ce50(unsigned int code) { ExitThread(code); }
 // @f3 0x0086b8a0 (community match, verified in this file)
 namespace f3m_0086b8a0 {
 int __cdecl FUN_00c063f5(int a);
+// pdb: BSMap<unsigned long,ScrapHeap *>::DeleteItem | MemoryManager.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pkItem
 int __stdcall FUN_0086b8a0(int a, int b) { return FUN_00c063f5(a); }
 }   // namespace f3m_0086b8a0
 
 // @f3 0x0086c5d0 (community match, verified in this file)
 namespace f3m_0086c5d0 {
 struct O86c5d0 { int unk0; int unk4; int unk8; int unkc; void FUN_0086c5d0(int a); };
+// pdb: ScrapHeapManager::ScrapHeapManager | ScrapHeap.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: BSCoreMessage::GetWarningContextName)
 void O86c5d0::FUN_0086c5d0(int a) { unk4 = unk0; unkc = 0; }
 }   // namespace f3m_0086c5d0
 
@@ -1397,6 +1420,7 @@ int __stdcall FUN_0086d5b0(int* p, int unused) { return p[-1] & 0xfffffff; }
 // @f3 0x0086e590 (community match, verified in this file)
 namespace f3m_0086e590 {
 struct O86e590 { int unk0; int unk4; void FUN_0086e590(int v, int u); };
+// pdb: AbstractHeap::ShouldTrySmallBlockPools | AbstractHeap.obj | tesv_win, objrun_open, low
 void O86e590::FUN_0086e590(int v, int u) { unk4 = v; unk0 = 0; }
 }   // namespace f3m_0086e590
 
@@ -1434,6 +1458,7 @@ struct Heap { void* FUN_0086b930(unsigned int size); void FUN_0086ba60(void* mem
 extern Heap DAT_01090a78;
 struct Pool { void FUN_0086d770(); };
 extern Pool* DAT_01090fe0[129];
+// pdb: MemoryPool::SortFreeBlockList | MemoryPool.obj | fnv360_0822_debug, objrun_open, low
 void FUN_0086d9a0()
 {
     for (unsigned int i = 0; i < 129; i++) {
@@ -1448,11 +1473,14 @@ void FUN_0086d9a0()
 
 // @f3 0x0086d510 (community match, verified in this file)
 namespace f3m_0086d510 {
+// pdb: MemoryHeap::GetCalculatedMemoryUsed | MemoryHeap.obj | tesv_win, objrun_open, low
 namespace f3m_0086d510 { extern int (__stdcall* DAT_00d9b150)(void* p, unsigned int size, unsigned int type); int __stdcall FUN_0086d510(void* p) { return DAT_00d9b150(p, 0, 0x8000); } }
 }   // namespace f3m_0086d510
 
 // @f3 0x0086ce30 (community match, verified in this file)
 namespace f3m_0086ce30 {
+// pdb: BSThread::SetThreadProcessor | BSThread_Xenon.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: BSThread::SetThreadPriority)
+// pdb params: aiThread
 namespace f3m_0086ce30 { extern int (__stdcall* DAT_00d9b164)(void* h, int a); struct O { char pad[0x1c]; void* h; void FUN_0086ce30(int a); }; void O::FUN_0086ce30(int a) { if (h) DAT_00d9b164(h, a); } }
 }   // namespace f3m_0086ce30
 
@@ -1495,11 +1523,14 @@ FUN_0086bbc0::~FUN_0086bbc0() { if (buf) f3m_0086bbc0::DAT_01090a78.FUN_0086ba60
 // @f3 0x0086c440 (community match, verified in this file)
 namespace f3m_0086c440 {
 struct O86c440 { int a0; int a4; char pad[0x9c0]; int a9c8; O86c440* FUN_0086c440(); };
+// pdb: BSRandom::UnsignedInt | BGSDestructibleObjectForm.obj | fnv360_0822_debug, call_seq, low
 O86c440* O86c440::FUN_0086c440() { a0 = 1; a4 = 0; a9c8 = 0x271; return this; }
 }   // namespace f3m_0086c440
 
 // @f3 0x00873b50 (community match, verified in this file)
 namespace f3m_00873b50 {
+// pdb: NiXenonRenderer::SetMipmapSkipLevel | NiXenonRenderer.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: NiAdditionalGeometryData::NiAGDDataBlock::AllocateBuffer)
+// pdb params: uiSkip
 namespace f3m_00873b50 { struct Heap { void* FUN_0086b930(unsigned int n); }; extern Heap DAT_01090a78; void* __stdcall FUN_00873b50(unsigned int n) { if (n) return DAT_01090a78.FUN_0086b930(n); return 0; } }
 }   // namespace f3m_00873b50
 
@@ -1508,6 +1539,8 @@ namespace f3m_0086c4b0 {
 namespace batch14_01 {
 extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();extern unsigned DAT_00f754d4[2];
 struct Generator {unsigned unk00,unk04;unsigned state[624];unsigned index;void FUN_0086c460(unsigned);unsigned FUN_0086c4b0(unsigned);};
+// pdb: BSRandom::UnsignedInt | BSRandom.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: TESIdleForm::RemoveChildAtIndex)
+// pdb params: aiMax
 unsigned Generator::FUN_0086c4b0(unsigned maximum){if(!maximum)return 0;if(index>=624){if(index==625)FUN_0086c460(GetTickCount());unsigned k;for(k=0;k<227;++k){unsigned value=(state[k]&0x80000000)|(state[k+1]&0x7fffffff);state[k]=state[k+397]^(value>>1)^DAT_00f754d4[value&1];}for(;k<623;++k){unsigned value=(state[k]&0x80000000)|(state[k+1]&0x7fffffff);state[k]=state[k-227]^(value>>1)^DAT_00f754d4[value&1];}unsigned value=(state[623]&0x80000000)|(state[0]&0x7fffffff);state[623]=state[396]^(value>>1)^DAT_00f754d4[value&1];index=0;}unsigned result=state[index++];if(maximum==-1u||maximum==0x7fff)return result&maximum;return result%maximum;}
 }
 }   // namespace f3m_0086c4b0
@@ -1515,12 +1548,14 @@ unsigned Generator::FUN_0086c4b0(unsigned maximum){if(!maximum)return 0;if(index
 // @f3 0x0086c5e0 (community match, verified in this file)
 namespace f3m_0086c5e0 {
 struct O86c5e0 { char pad[0x200]; int a200, a204; char pad2[0x18]; int a220, a224; O86c5e0* FUN_0086c5e0(); };
+// pdb: ScrapHeapManager::ScrapHeapManager | ScrapHeap.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: ScrapHeapManager::ShrinkBuffer)
 O86c5e0* O86c5e0::FUN_0086c5e0() { a200 = 0; a204 = 0; a220 = 0; a224 = 0; return this; }
 }   // namespace f3m_0086c5e0
 
 // @f3 0x0086d670 (community match, verified in this file)
 namespace f3m_0086d670 {
 namespace f3m_0086d670 { extern int DAT_01090fe0[0x81]; extern int DAT_01090be0[0x100]; }
+// pdb: `anonymous namespace'::SetupZeroReturns | MemoryManager.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_0086d670() { using namespace f3m_0086d670; for (int i = 0; i < 0x81; i++) DAT_01090fe0[i] = 0; for (int i = 0; i < 0x100; i++) DAT_01090be0[i] = 0; }
 }   // namespace f3m_0086d670
 
@@ -1583,6 +1618,8 @@ int O86cff0::FUN_0086cff0(unsigned int p) { if (p > lo && p < lo + size) return 
 // @f3 0x0086c1f0 (community match, verified in this file)
 namespace f3m_0086c1f0 {
 struct O86c1f0 { unsigned char a0; char pad[3]; float a4, a8, ac; int a10, a14; unsigned char a18, a19; void FUN_0086c1f0(int p); };
+// pdb: BSTimer::Init | BSTimer.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiTime
 void O86c1f0::FUN_0086c1f0(int p) { a4 = 0.0f; a8 = 0.0f; a0 = 0; ac = 0.0f; a10 = 0; a14 = p; a19 = 0; a18 = 0; }
 }   // namespace f3m_0086c1f0
 
@@ -1590,6 +1627,7 @@ void O86c1f0::FUN_0086c1f0(int p) { a4 = 0.0f; a8 = 0.0f; a0 = 0; ac = 0.0f; a10
 namespace f3m_0086cde0 {
 namespace f3m_0086cde0 { extern long (__stdcall* DAT_00d9b06c)(long* p, long a, long b); }
 struct O86cde0 { volatile long count; int a4; void FUN_0086cde0(); };
+// pdb: BSReadWriteLock::UnlockWrite | BSReadWriteLock.obj | fnv360_0721_beta, call_seq, medium
 void O86cde0::FUN_0086cde0() { count -= 1; if (count == 0x80000000) { long v = count; f3m_0086cde0::DAT_00d9b06c((long*)&count, 0, v); a4 = 0; } }
 }   // namespace f3m_0086cde0
 
@@ -1597,6 +1635,7 @@ void O86cde0::FUN_0086cde0() { count -= 1; if (count == 0x80000000) { long v = c
 namespace f3m_0086c370 {
 namespace f3m_0086c370 { extern unsigned long (__stdcall* DAT_00d9b090)(); }
 struct O86c370 { unsigned char cnt; char pad[0xf]; unsigned long a10, a14; void FUN_0086c370(); };
+// pdb: BSTimer::Enable | BSTimer.obj | fnv360_0822_retail, caller, medium
 void O86c370::FUN_0086c370() { if (cnt) { cnt = cnt - 1; if (cnt == 0) { unsigned long t = f3m_0086c370::DAT_00d9b090(); a10 = t - a10; a14 = t - a14; } } }
 }   // namespace f3m_0086c370
 
@@ -1604,6 +1643,7 @@ void O86c370::FUN_0086c370() { if (cnt) { cnt = cnt - 1; if (cnt == 0) { unsigne
 namespace f3m_0086c3a0 {
 namespace f3m_0086c3a0 { extern unsigned long (__stdcall* DAT_00d9b090)(); }
 struct O86c3a0 { unsigned char cnt; char pad[0xf]; unsigned long a10, a14; void FUN_0086c3a0(); };
+// pdb: BSTimer::Disable | BSTimer.obj | fnv360_0822_retail, call_gap, medium
 void O86c3a0::FUN_0086c3a0() { if (cnt++ == 0) { unsigned long t = f3m_0086c3a0::DAT_00d9b090(); a10 = t - a10; a14 = t - a14; } }
 }   // namespace f3m_0086c3a0
 
@@ -1623,12 +1663,14 @@ int __stdcall FUN_0086d0c0(O86d0c0* p, int unused) { if (!p) return 0; int v = 0
 namespace f3m_0086ce60 {
 namespace f3m_0086ce60 { extern void (__stdcall* DAT_00d9b094)(void* p); }
 class FUN_0086ce60 { public: virtual ~FUN_0086ce60(); char cs[0x18]; int a1c, a20, a24, a28; unsigned char b2c; FUN_0086ce60(); };
+// pdb: BSThread::BSThread | BSThread_Xenon.obj | fnv360_0822_retail, call_gap, low
 FUN_0086ce60::FUN_0086ce60() { f3m_0086ce60::DAT_00d9b094(cs); a1c = 0; a20 = 0; a24 = 0; a28 = 0; b2c = 0; }
 }   // namespace f3m_0086ce60
 
 // @f3 0x0086cbc0 (community match, verified in this file)
 namespace f3m_0086cbc0 {
 namespace f3m_0086cbc0 { struct Heap { void FUN_0086ba60(void* p); }; extern Heap DAT_01090a78; struct O { ~O(); static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); } }; extern O* DAT_01090bdc; }
+// pdb: ScrapHeapManager::Shutdown | ScrapHeap.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_0086cbc0() { delete f3m_0086cbc0::DAT_01090bdc; f3m_0086cbc0::DAT_01090bdc = 0; }
 }   // namespace f3m_0086cbc0
 
@@ -1638,6 +1680,7 @@ void* __cdecl FUN_0089eb90(unsigned int n) throw();
 struct B008603e0 { virtual ~B008603e0(); virtual void v4(); int pad[5]; B008603e0() throw(); };
 struct D008603e0 : B008603e0 { unsigned short value; virtual ~D008603e0(); static void* operator new(unsigned int n) throw() { return FUN_0089eb90(n); } D008603e0() throw(); };
 D008603e0::D008603e0() throw() { value = 0; }
+// pdb: NiSpecularProperty::CreateObject | NiSpecularProperty.obj | fnv360_1110_retail, objopen_prop, low
 D008603e0* __cdecl FUN_008603e0() { return new D008603e0(); }
 }   // namespace f3m_008603e0
 
@@ -1647,6 +1690,7 @@ void* __cdecl FUN_0089eb90(unsigned int n) throw();
 struct B00864bb0 { virtual ~B00864bb0(); virtual void v4(); int pad[5]; B00864bb0() throw(); };
 struct D00864bb0 : B00864bb0 { unsigned short value; virtual ~D00864bb0(); static void* operator new(unsigned int n) throw() { return FUN_0089eb90(n); } D00864bb0() throw(); };
 D00864bb0::D00864bb0() throw() { value = 0; }
+// pdb: NiDitherProperty::CreateObject | NiDitherProperty.obj | fnv360_0721_retail, objopen_prop, medium
 D00864bb0* __cdecl FUN_00864bb0() { return new D00864bb0(); }
 }   // namespace f3m_00864bb0
 
@@ -1686,6 +1730,8 @@ struct ByteVertexConversion {
 
 };
 // @fnv 0x00e77770
+// pdb: NiD3DShaderDeclaration::Pack_UnsignedByteToShort | NiXenonShaderDeclaration.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kParams
 unsigned int __cdecl FUN_0087f970(ByteVertexConversion* info) {
 
     unsigned int written = 0;
@@ -1791,6 +1837,8 @@ struct FUN_0087f7a0_Info {
 };
 
 // @fnv 0x00e77590
+// pdb: NiD3DShaderDeclaration::Pack_ByteToShort | NiXenonShaderDeclaration.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kParams
 unsigned int FUN_0087f7a0(FUN_0087f7a0_Info* pkInfo)
 {
     unsigned int uiTotal = 0;
@@ -1863,7 +1911,8 @@ struct NormalizedStream {
     unsigned char* dest;
 };
 // @fnv 0x00e79b40
-unsigned __cdecl FUN_0087d880(NormalizedStream* pStream) {
+// pdb: NiD3DShaderDeclaration::Pack_UnsignedByteToFloat | NiD3DShaderDeclaration.obj | fnv360_0822_retail, objrun + skyrim(objrun_open), high
+unsigned __cdecl NiD3DShaderDeclaration_Pack_UnsignedByteToFloat(NormalizedStream* pStream) {
     unsigned a = 0;
     unsigned char* src = pStream->source;
     unsigned short* indices = pStream->indices;
@@ -1928,6 +1977,8 @@ struct Pool86c9a0 {
     Lock86c9a0 lock;
     void FUN_0086c9a0(void* p, unsigned int size);
 };
+// pdb: ScrapHeapManager::ReleaseBuffer | ScrapHeap.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apBuffer, aiCommittedSize
 void Pool86c9a0::FUN_0086c9a0(void* p, unsigned int size)
 {
     if (count >= 0x40)
@@ -1969,6 +2020,7 @@ void* __cdecl FUN_0089eb90(unsigned int n) throw();
 struct B860800 { virtual ~B860800(); virtual void v4(); int pad[5]; B860800() throw(); };
 struct D860800 : B860800 { unsigned short w18; char pad2[2]; int a1c; virtual ~D860800(); static void* operator new(unsigned int n) throw() { return FUN_0089eb90(n); } D860800() throw(); };
 D860800::D860800() throw() { a1c = -1; w18 = 1; }
+// pdb: NiShadeProperty::CreateObject | NiShadeProperty.obj | fnv360_0822_retail, objopen_prop, low
 D860800* __cdecl FUN_00860800() { return new D860800(); }
 }   // namespace f3m_00860800
 
@@ -1990,9 +2042,10 @@ struct Owner {
     int unk24;
     int unk28;
     unsigned char active;
-    void FUN_0086cf00();
+    void BSThread_Close();
 };
-void Owner::FUN_0086cf00() {
+// pdb: BSThread::Close | BSThread_Xenon.obj | fnv360_0822_retail, objrun + bridge(call_gap|objopen_prop), high
+void Owner::BSThread_Close() {
     if (handle) {
         active = 0;
         fnv_EnterCriticalSection(&unk04);
@@ -2006,6 +2059,8 @@ void Owner::FUN_0086cf00() {
 // @f3 0x00866530 (community match, verified in this file)
 namespace f3m_00866530 {
 namespace format_1616 {
+// pdb: NiShaderConstantMap::LookUpObjectMappingType | NiShaderConstantMap.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiMappingID, uiRegCount, uiFloatCount
 unsigned int __cdecl FUN_00866530(unsigned int format,unsigned int* components,unsigned int* bytes) {
     *components=1;
     *bytes=4;
@@ -2046,6 +2101,8 @@ struct MemoryPool {
     void FUN_0086daf0(FreeBlock*);
 };
 
+// pdb: VirtualAlloc | virtualallocate.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: AbstractHeap::RemoveBlockFromFreeList)
+// pdb params: lpAddress, dwSize, flAllocationType, flProtect
 void MemoryPool::FUN_0086db90(FreeBin* bin,FreeBlock* block) {
     FreeBlock* next=block->next;
     FreeBlock* previous=block->previous;
@@ -2145,6 +2202,8 @@ struct Object {
     void FUN_0083c5c0(NameArray*);
     void FUN_00865cb0(NameArray*);
 };
+// pdb: NiAmbientLight::GetViewerStrings | NiAmbientLight.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pStrings
 void Object::FUN_00865cb0(NameArray* names) {
     FUN_0083c5c0(names);
     void* value=FUN_00847b50(DAT_01090974);
@@ -2178,6 +2237,8 @@ struct Object {
     void FUN_0085b3a0(NameArray*);
     void FUN_00863040(NameArray*);
 };
+// pdb: NiParticleMeshesData::GetViewerStrings | NiParticleMeshesData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void Object::FUN_00863040(NameArray* names) {
     FUN_0085b3a0(names);
     void* value=FUN_00847b50(DAT_01090900);
@@ -2217,6 +2278,8 @@ struct Object {
     void FUN_00845ca0(NameArray*);
     void FUN_00864ef0(NameArray*);
 };
+// pdb: NiColorExtraData::GetViewerStrings | NiColorExtraData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void Object::FUN_00864ef0(NameArray* names) {
     FUN_00845ca0(names);
     void* handle=FUN_00847b50(DAT_01090950);
@@ -2388,6 +2451,7 @@ void AbstractHeapX::FUN_0086df90(HeapStatsX* stats, bool full)
 // @f3 0x0086c600 (community match, verified in this file)
 namespace f3m_0086c600 {
 namespace f3m_0086c600 { struct Heap { void* FUN_0086b930(unsigned int n); }; extern Heap DAT_01090a78; struct O { char pad[0x200]; int a200, a204; char pad2[0x18]; int a220, a224; char pad3[0x18]; static void* operator new(unsigned int n) { return DAT_01090a78.FUN_0086b930(n); } O() { a200 = 0; a204 = 0; a220 = 0; a224 = 0; } }; extern O* DAT_01090bdc; }
+// pdb: ScrapHeapManager::Init | ScrapHeap.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_0086c600() { f3m_0086c600::DAT_01090bdc = new f3m_0086c600::O(); }
 }   // namespace f3m_0086c600
 
@@ -2487,6 +2551,7 @@ struct AbstractHeapBlockInfo { void* vtable;
 
  int FUN_0086e150(IMemoryManagerFile*,bool); };
 // @fnv 0x00aaa430
+// pdb: AbstractHeap::BaseFree | AbstractHeap.obj | tesv_win, objopen_prop, low
 int AbstractHeapBlockInfo::FUN_0086e150(IMemoryManagerFile* file, bool full)
 {
     if (!file)
@@ -2548,6 +2613,8 @@ struct FUN_00a9acf0_shell
 };
 
 // @fnv 0x00a9acf0
+// pdb: NiBSPNode::GetViewerStrings | NiBSPNode.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a9acf0_shell::FUN_008656a0(StrArr* apViewerStrings)
 {
     ((FUN_00c51570_Class*)this)->FUN_0082ee90(apViewerStrings);
@@ -3003,6 +3070,8 @@ struct Object {
     void FUN_00845ca0(NameArray*);
     void FUN_00864ab0(NameArray*);
 };
+// pdb: NiFloatExtraData::GetViewerStrings | NiFloatExtraData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void Object::FUN_00864ab0(NameArray* names) {
     FUN_00845ca0(names);
     void* handle=FUN_00847b50(DAT_0109093c);
@@ -3047,6 +3116,8 @@ struct Object {
     void FUN_00825cd0(NameArray*);
     void FUN_00865b30(NameArray*);
 };
+// pdb: NiCullingProperty::GetViewerStrings | NiCullingProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Object::FUN_00865b30(NameArray* names) {
     FUN_00825cd0(names);
     names->Append(FUN_00847b50(DAT_01090968));
@@ -3060,6 +3131,7 @@ void Object::FUN_00865b30(NameArray* names) {
 namespace f3m_0086cf40 {
 namespace f3m_0086cf40 { extern void (__stdcall* DAT_00d9b09c)(void* cs); extern void (__stdcall* DAT_00d9b0a4)(void* h); extern void (__stdcall* DAT_00d9b0a0)(void* cs); extern void (__stdcall* DAT_00d9b098)(void* cs); extern char DAT_00e27f48; }
 struct O86cf40 { void* vt; char cs[0x18]; void* h; int a20, a24, a28; unsigned char b2c; void FUN_0086cf40(); };
+// pdb: LoadingMenuThread::~LoadingMenuThread | LoadingMenu.obj | fnv360_0822_debug, call_seq, low
 void O86cf40::FUN_0086cf40() { using namespace f3m_0086cf40; vt = &DAT_00e27f48; if (h) { b2c = 0; DAT_00d9b09c(cs); DAT_00d9b0a4(h); h = 0; DAT_00d9b0a0(cs); } DAT_00d9b098(cs); }
 }   // namespace f3m_0086cf40
 
@@ -3107,6 +3179,7 @@ struct AbstractHeap {
  void FUN_0086dc60();
 };
 // @fnv 0x00aa8ea0
+// pdb: AbstractHeap::DeleteHeap | AbstractHeap.obj | tesv_win, objrun_open, low
 void AbstractHeap::FUN_0086dc60()
 {
     for (int i = 0; i < 0x400; ++i)
@@ -3205,7 +3278,7 @@ struct Manager {
  int unk0f8;
  int unk0fc;
  Heap* defaultHeap;
- Heap* FUN_0086b7d0(void*);
+ Heap* MemoryManager_GetHeapForPointer(void*);
  void FUN_0086ba60(void* p);
 };
 void Manager::FUN_0086ba60(void* p) {
@@ -3214,7 +3287,7 @@ void Manager::FUN_0086ba60(void* p) {
  if (!defaultHeap) { FUN_00c064b8(p); return; }
  Pool* pool = DAT_01090be0[(unsigned int)p >> 24];
  if (pool && pool->FUN_0086b870(p)) { pool->FUN_0086d930(p); return; }
- Heap* heap = FUN_0086b7d0(p);
+ Heap* heap = MemoryManager_GetHeapForPointer(p);
  if (heap) heap->Free(p,0);
  else FUN_00c064b8(p);
 }
@@ -3280,6 +3353,7 @@ struct FUN_0086d160 : HeapBlockBase
 };
 
 // @fnv 0x00aa7400
+// pdb: ZeroOverheadHeap::ZeroOverheadHeap | ZeroOverheadHeap.obj | tesv_win, call_gap, low
 FUN_0086d160::FUN_0086d160(unsigned int a, unsigned int b) : m_04(a), m_08(b), m_14(0)
 {
     m_0c = DAT_01090a78.FUN_0086b8a0(a, 1);
@@ -3362,8 +3436,10 @@ virtual void v6();
 virtual void v7();
 virtual void v8();
 virtual unsigned int Query(unsigned int,int);
-};unsigned int __cdecl FUN_00c067da(unsigned int);struct Owner302{Region302* FUN_0086b7d0(unsigned int);Region302* FUN_0086b820(unsigned int);unsigned int FUN_0086b8c0(unsigned int);};
-unsigned int Owner302::FUN_0086b8c0(unsigned int address){Cache302*cached=DAT_01090be0[address>>24];if(cached&&address>=cached->base&&address<cached->base+cached->length)return cached->value;Region302*region=FUN_0086b7d0(address);if(!region)region=FUN_0086b820(address);if(region)return region->Query(address,0);return FUN_00c067da(address);}
+};unsigned int __cdecl FUN_00c067da(unsigned int);struct Owner302{Region302* MemoryManager_GetHeapForPointer(unsigned int);Region302* MemoryManager_GetHeapForPhysicalPointer(unsigned int);unsigned int FUN_0086b8c0(unsigned int);};
+// pdb: MemoryManager::Size | MemoryManager.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apPtr
+unsigned int Owner302::FUN_0086b8c0(unsigned int address){Cache302*cached=DAT_01090be0[address>>24];if(cached&&address>=cached->base&&address<cached->base+cached->length)return cached->value;Region302*region=MemoryManager_GetHeapForPointer(address);if(!region)region=MemoryManager_GetHeapForPhysicalPointer(address);if(region)return region->Query(address,0);return FUN_00c067da(address);}
 }
 }   // namespace f3m_0086b8c0
 
@@ -3475,6 +3551,7 @@ struct NiPointerProperty
 };
 extern NiPointerProperty DAT_01090970;
 // @fnv 0x00a8f5b0
+// pdb: NiCullingProperty::_SDMInit | NiCullingProperty.obj | fnv360_0822_retail, call_gap, medium
 void __cdecl FUN_00865a10()
 {
     NiPropertyMem* allocated = static_cast<NiPropertyMem*>(FUN_0089eb90(sizeof(NiPropertyMem)));
@@ -3500,7 +3577,8 @@ extern "C" __declspec(dllimport) void* __stdcall VirtualAlloc(void*, unsigned in
 namespace task0858 {
 struct MemoryManager { int FUN_006e2080(unsigned int,int,bool*); };
 extern MemoryManager DAT_01090a78;
-char* __stdcall FUN_0086c6a0(unsigned int initialSize) {
+// pdb: ScrapHeapManager::AllocateBuffer | ScrapHeap.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+char* __stdcall ScrapHeapManager_AllocateBuffer(unsigned int initialSize) {
  char* buffer=(char*)VirtualAlloc(0,0x400000u,0x2000u,4);
  int memoryPass=0;
  while(!(bool)(int)(VirtualAlloc(buffer,initialSize,0x1000u,4)!=0)) {
@@ -3773,6 +3851,8 @@ struct RandomState {
     unsigned int index;
     void FUN_0086c460(unsigned int seed);
 };
+// pdb: BSRandom::Seed | BSRandom.obj | fnv360_0822_retail, uconst, low
+// pdb params: aiSeed
 void RandomState::FUN_0086c460(unsigned int seed) {
     state[0]=seed;
     for(index=1;index<624;++index) state[index]=state[index-1]*69069u;
@@ -3783,6 +3863,8 @@ void RandomState::FUN_0086c460(unsigned int seed) {
 // @f3 0x00876e00 (community match, verified in this file)
 namespace f3m_00876e00 {
 namespace Cast336{struct Type336{const char*name;Type336*parent;};extern Type336 DAT_0108f41c;struct Object336{virtual void v0();virtual void v4();virtual Type336* Type();__forceinline bool IsKind(Type336*wanted){Type336*type=Type();while(type){if(type==wanted)return true;type=type->parent;}return false;}Object336* As(){return IsKind(&DAT_0108f41c)?this:0;}};struct Manager336{void FUN_008841c0(Object336*);};struct Owner336{unsigned int unk000,unk004,unk008,unk00c,unk010,unk014,unk018,unk01c,unk020,unk024,unk028,unk02c,unk030,unk034,unk038,unk03c,unk040,unk044,unk048,unk04c,unk050,unk054,unk058,unk05c,unk060,unk064,unk068,unk06c,unk070,unk074,unk078,unk07c,unk080,unk084,unk088,unk08c,unk090,unk094,unk098,unk09c,unk0a0,unk0a4,unk0a8,unk0ac,unk0b0,unk0b4,unk0b8,unk0bc,unk0c0,unk0c4,unk0c8,unk0cc,unk0d0,unk0d4,unk0d8,unk0dc,unk0e0,unk0e4,unk0e8,unk0ec,unk0f0,unk0f4,unk0f8,unk0fc,unk100,unk104,unk108,unk10c,unk110,unk114,unk118,unk11c,unk120,unk124,unk128,unk12c,unk130,unk134,unk138,unk13c,unk140,unk144,unk148,unk14c,unk150,unk154,unk158,unk15c,unk160,unk164,unk168,unk16c,unk170,unk174,unk178,unk17c,unk180,unk184,unk188,unk18c,unk190,unk194,unk198,unk19c,unk1a0,unk1a4,unk1a8,unk1ac,unk1b0,unk1b4,unk1b8,unk1bc,unk1c0,unk1c4,unk1c8,unk1cc,unk1d0,unk1d4,unk1d8,unk1dc,unk1e0,unk1e4,unk1e8,unk1ec,unk1f0,unk1f4,unk1f8,unk1fc,unk200,unk204,unk208,unk20c,unk210,unk214,unk218,unk21c,unk220,unk224,unk228,unk22c,unk230,unk234,unk238,unk23c,unk240,unk244,unk248,unk24c,unk250,unk254,unk258,unk25c,unk260,unk264,unk268,unk26c,unk270,unk274,unk278,unk27c,unk280,unk284,unk288,unk28c,unk290,unk294,unk298,unk29c,unk2a0,unk2a4,unk2a8,unk2ac,unk2b0,unk2b4,unk2b8,unk2bc,unk2c0,unk2c4,unk2c8,unk2cc,unk2d0,unk2d4,unk2d8,unk2dc,unk2e0,unk2e4,unk2e8,unk2ec,unk2f0,unk2f4,unk2f8,unk2fc,unk300,unk304,unk308,unk30c,unk310,unk314,unk318,unk31c,unk320,unk324,unk328,unk32c,unk330,unk334,unk338,unk33c,unk340,unk344,unk348,unk34c,unk350,unk354,unk358,unk35c,unk360,unk364,unk368,unk36c,unk370,unk374,unk378,unk37c,unk380,unk384,unk388,unk38c,unk390,unk394,unk398,unk39c,unk3a0,unk3a4,unk3a8,unk3ac,unk3b0,unk3b4,unk3b8,unk3bc,unk3c0,unk3c4,unk3c8,unk3cc,unk3d0,unk3d4,unk3d8,unk3dc,unk3e0,unk3e4,unk3e8,unk3ec,unk3f0,unk3f4,unk3f8,unk3fc,unk400,unk404,unk408,unk40c,unk410,unk414,unk418,unk41c,unk420,unk424,unk428,unk42c,unk430,unk434,unk438,unk43c,unk440,unk444,unk448,unk44c,unk450,unk454,unk458,unk45c,unk460,unk464,unk468,unk46c,unk470,unk474,unk478,unk47c,unk480,unk484,unk488,unk48c,unk490,unk494,unk498,unk49c,unk4a0,unk4a4,unk4a8,unk4ac,unk4b0,unk4b4,unk4b8,unk4bc,unk4c0,unk4c4,unk4c8,unk4cc,unk4d0,unk4d4,unk4d8,unk4dc,unk4e0,unk4e4,unk4e8,unk4ec,unk4f0,unk4f4,unk4f8,unk4fc,unk500,unk504,unk508,unk50c,unk510,unk514,unk518,unk51c,unk520,unk524,unk528,unk52c,unk530,unk534,unk538,unk53c,unk540,unk544,unk548,unk54c,unk550,unk554,unk558,unk55c,unk560,unk564,unk568,unk56c,unk570,unk574,unk578,unk57c,unk580,unk584,unk588,unk58c,unk590,unk594,unk598,unk59c,unk5a0,unk5a4,unk5a8,unk5ac,unk5b0,unk5b4,unk5b8,unk5bc,unk5c0,unk5c4,unk5c8,unk5cc,unk5d0,unk5d4,unk5d8,unk5dc,unk5e0,unk5e4,unk5e8,unk5ec,unk5f0,unk5f4,unk5f8,unk5fc,unk600,unk604,unk608,unk60c,unk610,unk614,unk618,unk61c,unk620,unk624,unk628,unk62c,unk630,unk634,unk638,unk63c,unk640,unk644,unk648,unk64c,unk650,unk654,unk658,unk65c,unk660,unk664,unk668,unk66c,unk670,unk674,unk678,unk67c,unk680,unk684,unk688,unk68c,unk690,unk694,unk698,unk69c,unk6a0,unk6a4,unk6a8,unk6ac,unk6b0,unk6b4,unk6b8,unk6bc,unk6c0,unk6c4,unk6c8,unk6cc,unk6d0,unk6d4,unk6d8,unk6dc,unk6e0,unk6e4,unk6e8,unk6ec,unk6f0,unk6f4,unk6f8,unk6fc,unk700,unk704,unk708,unk70c,unk710,unk714,unk718,unk71c,unk720,unk724,unk728,unk72c,unk730,unk734,unk738,unk73c,unk740,unk744,unk748,unk74c,unk750,unk754,unk758,unk75c,unk760,unk764,unk768,unk76c,unk770,unk774,unk778,unk77c,unk780,unk784,unk788,unk78c,unk790,unk794,unk798,unk79c,unk7a0,unk7a4,unk7a8,unk7ac,unk7b0,unk7b4,unk7b8,unk7bc,unk7c0,unk7c4,unk7c8,unk7cc,unk7d0,unk7d4,unk7d8,unk7dc,unk7e0,unk7e4,unk7e8,unk7ec,unk7f0,unk7f4,unk7f8,unk7fc,unk800,unk804,unk808,unk80c,unk810,unk814,unk818,unk81c,unk820,unk824,unk828,unk82c,unk830,unk834,unk838,unk83c,unk840,unk844,unk848,unk84c,unk850,unk854,unk858,unk85c,unk860,unk864,unk868,unk86c,unk870,unk874,unk878,unk87c,unk880,unk884,unk888,unk88c,unk890,unk894,unk898,unk89c,unk8a0,unk8a4,unk8a8,unk8ac,unk8b0,unk8b4,unk8b8,unk8bc,unk8c0,unk8c4;Manager336*manager;void FUN_00876e00(Object336*);};
+// pdb: NiXenonRenderer::IsCopySurfaceValid | NiXenonRenderer.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkDest
 void Owner336::FUN_00876e00(Object336*object){if(object){Object336*cast=object->As();if(cast)manager->FUN_008841c0(cast);}}
 }
 }   // namespace f3m_00876e00
@@ -3834,6 +3916,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volat
                                                                            long comparand);
 
 // @fnv 0x00aa5ff0
+// pdb: BSReadWriteLock::LockForRead | BSReadWriteLock.obj | fnv360_0721_beta, call_seq, medium
 void __thiscall FUN_0086cbf0_Class::FUN_0086cbf0()
 {
     unsigned long threadId = GetCurrentThreadId();
@@ -4450,6 +4533,8 @@ struct ShaderList895 {
     ShaderPool895 pool;
     void FUN_0087a160(void* shader);
 };
+// pdb: NiXenonRenderer::RegisterD3DShader | NiXenonRenderer.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pkD3DShader
 void ShaderList895::FUN_0087a160(void* shader)
 {
     ShaderNode895* node = pool.FUN_00423640();
@@ -4476,9 +4561,10 @@ struct TimeScale901 {
     float scaledValue;
     unsigned int unk10, unk14;
     bool useGlobal;
-    void FUN_0086c220(float mult, bool now);
+    void BSTimer_SetGlobalTimeMultiplier(float mult, bool now);
 };
-void TimeScale901::FUN_0086c220(float mult, bool now)
+// pdb: BSTimer::SetGlobalTimeMultiplier | BSTimer.obj | fnv360_0822_retail, call_dedup + bridge(call_gap|call_gap) + skyrim(objrun_prop), high
+void TimeScale901::BSTimer_SetGlobalTimeMultiplier(float mult, bool now)
 {
     bool global = useGlobal;
     if (global) {
@@ -4568,9 +4654,10 @@ struct Allocator {
  int unk10c;
  int unk110;
  Pool** pools;
- Pool* FUN_0086b820(void*);
+ Pool* MemoryManager_GetHeapForPhysicalPointer(void*);
 };
-Pool* Allocator::FUN_0086b820(void* memory) {
+// pdb: MemoryManager::GetHeapForPhysicalPointer | MemoryManager.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+Pool* Allocator::MemoryManager_GetHeapForPhysicalPointer(void* memory) {
  Pool* found=0;
  for(unsigned short i=0;i<count && !found;i++) {
   if(pools[i]->Contains(memory)) found=pools[i];
@@ -4585,6 +4672,7 @@ namespace f3m_0086d4c0 {
 extern "C" __declspec(dllimport) void* __stdcall VirtualAlloc(void*, unsigned long, unsigned long, unsigned long);
 extern "C" __declspec(dllimport) int __stdcall VirtualFree(void*, unsigned long, unsigned long);
 struct Reservation { void* FUN_0086d4c0(unsigned int, unsigned int); };
+// pdb: MemoryHeap::TotalSize | MemoryHeap.obj | tesv_win, objopen_prop, low
 void* Reservation::FUN_0086d4c0(unsigned int reserveSize, unsigned int commitSize) {
  void* p=VirtualAlloc(0,reserveSize,0x2000,4);
  if(p) {
@@ -4607,6 +4695,7 @@ struct FUN_0086ccf0_c {
     unsigned long owner;
     bool FUN_0086ccf0();
 };
+// pdb: BSReadWriteLock::TryLockForRead | BSReadWriteLock.obj | fnv360_0822_retail, call_gap, low
 bool FUN_0086ccf0_c::FUN_0086ccf0()
 {
     if (owner == GetCurrentThreadId()) {
@@ -4640,10 +4729,11 @@ struct FUN_00aa45a0_Class
     unsigned short m_uiItemCount;
     unsigned int m_unknown;
     FUN_00aa45a0_vt** m_items;
-    FUN_00aa45a0_vt* __thiscall FUN_0086b7d0(int arg);
+    FUN_00aa45a0_vt* __thiscall MemoryManager_GetHeapForPointer(int arg);
 };
 // @fnv 0x00aa45a0
-FUN_00aa45a0_vt* FUN_00aa45a0_Class::FUN_0086b7d0(int arg)
+// pdb: MemoryManager::GetHeapForPointer | MemoryManager.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+FUN_00aa45a0_vt* FUN_00aa45a0_Class::MemoryManager_GetHeapForPointer(int arg)
 {
     for (unsigned short i = 0; i < m_uiItemCount; ++i)
     {
@@ -4663,6 +4753,7 @@ struct VirtualHeap967 {
     unsigned int unk00, unk04, unk08, unk0c, granularity;
     unsigned int FUN_0086d570(char*, unsigned int, unsigned int);
 };
+// pdb: UnitTestMemoryHeap::QSmallBlockList | MemoryHeap.obj | tesv_win, objrun_open, low
 unsigned int VirtualHeap967::FUN_0086d570(char* base, unsigned int extent, unsigned int size)
 {
     size &= ~(granularity - 1);
@@ -4701,6 +4792,7 @@ struct Reservation {
  unsigned int size;
  void FUN_0086d630();
 };
+// pdb: MemoryPool::PlatformReserveHeap | MemoryPool.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: AbstractHeap::PointerInHeap)
 void Reservation::FUN_0086d630() {
  unsigned int i=1;
  while(memory==0) {
@@ -4724,6 +4816,7 @@ unsigned int Memory::FUN_0086d530(void* base,unsigned int offset,unsigned int si
 namespace f3m_0086c140 {
 union PerformanceCounter {__int64 QuadPart;};
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(PerformanceCounter*);
+// pdb: BSPrecisionTimer::GetTimer | BSPrecisionTimer.obj | fnv360_0822_retail, call_gap, medium
 unsigned __int64 FUN_0086c140(){
  PerformanceCounter counter;counter.QuadPart=0;
  QueryPerformanceCounter(&counter);
@@ -4762,6 +4855,8 @@ struct Pool86d930 {
     void FUN_0086d930(Page86d930* page);
 };
 
+// pdb: MemoryPool::Free | MemoryPool.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apPointer
 void Pool86d930::FUN_0086d930(Page86d930* page) {
     if (page) {
         lock.FUN_00409a80(str_00e28034);
@@ -4779,6 +4874,7 @@ void Pool86d930::FUN_0086d930(Page86d930* page) {
 // @f3 0x0086bc50 (community match, verified in this file)
 namespace f3m_0086bc50 {
 namespace f3m_0086bc50 { struct Heap { void FUN_0086ba60(void* p); }; extern Heap DAT_01090a78; }
+// pdb: MemoryManager::GetPoolStats | MemoryManager.obj | tesv_win, objrun_open, low
 class FUN_0086bc50 { public: virtual ~FUN_0086bc50(); int unk4; void* buf; static void operator delete(void* p) { f3m_0086bc50::DAT_01090a78.FUN_0086ba60(p); } };
 FUN_0086bc50::~FUN_0086bc50() { if (buf) f3m_0086bc50::DAT_01090a78.FUN_0086ba60(buf); }
 }   // namespace f3m_0086bc50
@@ -4810,6 +4906,8 @@ struct Obj87e360 {
     NiTPrimArray87e360<void*> arr;
     Obj87e360();
 };
+// pdb: NiTPrimitiveArray<NiD3DShaderDeclaration::NiPackerEntry *>::NiTPrimitiveArray<NiD3DShaderDeclaration::NiPackerEntry *> | NiD3DShaderDeclaration.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: NiD3DShaderDeclaration::NiPackerEntry::NiPackerEntry)
+// pdb params: uiMaxSize, uiGrowBy
 Obj87e360::Obj87e360()
 {
     type = 0x11;
@@ -4823,7 +4921,8 @@ extern "C" __declspec(dllimport) void* __stdcall VirtualAlloc(void*,unsigned lon
 namespace Task0874 {
 struct Manager {int FUN_006e2080(int,int,bool*);};
 extern Manager DAT_01090a78;
-void __stdcall FUN_0086c640(char* buffer,unsigned int size,unsigned int additional) {
+// pdb: ScrapHeapManager::ExpandBuffer | ScrapHeap.obj | fnv360_0822_retail, call_seq + bridge(caller|call_gap) + skyrim(callee_sim), high
+void __stdcall ScrapHeapManager_ExpandBuffer(char* buffer,unsigned int size,unsigned int additional) {
  int pass=0;
  while(!VirtualAlloc(buffer+size,additional,0x1000,4)) {
   bool allow=true;
@@ -5117,6 +5216,8 @@ struct Owner {
     bool allocationComplete;
     void FUN_0086bf10(unsigned int,unsigned int,unsigned int);
 };
+// pdb: MemoryManager::AddPool | MemoryManager.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiBlockSize, aiPoolSize, apDesc
 void Owner::FUN_0086bf10(unsigned int bytes,unsigned int second,unsigned int third) {
     ContextScope scope(3);
     if(bytes<8)return;
@@ -5165,6 +5266,7 @@ struct MemoryHeap : AbstractHeap {
     MemoryHeap(unsigned int,unsigned int,unsigned int,bool);
     void FUN_0086da70();
 };
+// pdb: MemoryHeap::MemoryHeap | MemoryHeap.obj | tesv_win, callee_sim, low
 MemoryHeap::MemoryHeap(unsigned int first,unsigned int second,unsigned int third,bool value) : AbstractHeap(first,second,third,0x10000),option(value) { initialized=false;FUN_0086da70(); }
 }
 }   // namespace f3m_0086d2d0
@@ -5195,6 +5297,7 @@ struct Owner86cf90 {
     Owner86cf90* FUN_0086cf90(unsigned int flags);
 };
 
+// pdb: BSThread::`scalar deleting destructor' | BSThread_Xenon.obj | fnv360_0822_retail, objrun_open, low
 Owner86cf90* Owner86cf90::FUN_0086cf90(unsigned int flags) {
     table = &DAT_00e27f48;
     if (handle) {
@@ -5236,6 +5339,7 @@ struct Owner86d770 {
     void FUN_0086d770();
 };
 
+// pdb: MemoryPool::~MemoryPool | MemoryPool.obj | fnv360_0822_retail, objrun_prop, low
 void Owner86d770::FUN_0086d770() {
     void* address = unk04;
     if (address) {
@@ -5420,6 +5524,8 @@ struct FUN_0086cb00_Obj {
     void FUN_0086cb00(unsigned int size);
 };
 
+// pdb: ScrapHeap::Init | ScrapHeap.obj | fnv360_0822_debug, caller_sim, low
+// pdb params: aiInitialSize
 void FUN_0086cb00_Obj::FUN_0086cb00(unsigned int size) {
     if (!DAT_01090bdc) DAT_01090bdc = new Manager86cb00;
     char* block = DAT_01090bdc->FUN_0086c840(&size);
@@ -5713,6 +5819,7 @@ extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long*,long,long);
 struct Lock1337 { volatile unsigned int state; unsigned long owner; bool FUN_0086cd60(); };
 // @fnv 0x00aa6220
+// pdb: BSReadWriteLock::TryLockForWriteAndReserve | BSReadWriteLock.obj | fnv360_0822_retail, call_dedup, low
 bool Lock1337::FUN_0086cd60()
 {
     bool bLocked = false;
@@ -5750,6 +5857,7 @@ bool Lock1337::FUN_0086cd60()
 namespace f3m_0086e5a0 {
 extern "C" __declspec(dllimport) void* __stdcall LoadLibraryA(const char*);
 extern "C" __declspec(dllimport) void* __stdcall GetProcAddress(void*,const char*);
+// pdb: NiDX9Renderer::CreateDirect3D9 | NiDX9Renderer.obj | tesv_win, call_seq, medium
 namespace Batch5Dll{typedef void*(__stdcall*Create)(unsigned);extern void* DAT_010912f0;extern void*DAT_010912f4;extern Create DAT_010912f8;extern const char DAT_00e280a8[],DAT_00e28098[],DAT_00e280d8[],DAT_00e280b4[];void __cdecl FUN_00c24b70(const char*,...);int __cdecl FUN_0086e5a0(){int result=0;if(DAT_010912f4==0){Create create=DAT_010912f8;if(!create){DAT_010912f0=LoadLibraryA(DAT_00e280a8);if(!DAT_010912f0)goto failed;create=DAT_010912f8=(Create)GetProcAddress(DAT_010912f0,DAT_00e28098);if(!create)goto failed;}DAT_010912f4=create(32);if(!DAT_010912f4){failed:FUN_00c24b70(DAT_00e280d8);result=-1;}else FUN_00c24b70(DAT_00e280b4);}return result;}}
 }   // namespace f3m_0086e5a0
 
@@ -5769,10 +5877,11 @@ struct ScrapHeap {
     char* m_top;
     char* m_end;
     ScrapBlock* m_last;
-    void FUN_0086c7b0(void* memory);
+    void ScrapHeap_Deallocate(void* memory);
 };
 
-void ScrapHeap::FUN_0086c7b0(void* memory)
+// pdb: ScrapHeap::Deallocate | ScrapHeap.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+void ScrapHeap::ScrapHeap_Deallocate(void* memory)
 {
     if (!memory)
         return;
@@ -5830,6 +5939,8 @@ struct Thread86ce90 {
     void FUN_0086ce90(unsigned int stackSize, int unused);
 };
 
+// pdb: BSThread::Initialize | BSThread_Xenon.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeStackSize, apName, bSuspend
 void Thread86ce90::FUN_0086ce90(unsigned int stackSize, int unused) {
     if (!thread) {
         parentThread = GetCurrentThread();
@@ -5873,6 +5984,7 @@ int unk20;
 int unk24;
 int unk28;
 int unk2c;
+// pdb: AbstractHeap::InitHeap | AbstractHeap.obj | tesv_win, call_seq, medium
 void* allocation;int unk34;int unk38;int unk3c;int unk40;char buffer[0x2000];char* cursor;Counters counts;int unk2050;int unk2054;Slot slots[16];void FUN_0086da70();};void Owner::FUN_0086da70(){allocation=table->open(this,unk14,unk1c);if(!allocation)FUN_00c06b0d(0);cursor=buffer+0x1ff8;char** dataCursor=&slots[0].data;for(int i=0;i<16;++i,dataCursor=reinterpret_cast<char**>(reinterpret_cast<char*>(dataCursor)+sizeof(Slot))){*dataCursor=buffer+i*0x200;Slot* record=reinterpret_cast<Slot*>(reinterpret_cast<char*>(dataCursor)-offsetof(Slot,data));record->count=0;}FUN_00c00610(buffer,0,0x2000);memset(&counts,0,sizeof(counts));}}
 }   // namespace f3m_0086da70
 
@@ -6167,20 +6279,22 @@ public:
     unsigned int cachedBytes;
     unsigned int unk208,unk20C,unk210,unk214,unk218,unk21C;
     RecursiveLock lock;
-    void* FUN_0086c6a0(unsigned int bytes) throw();
-    void FUN_0086c640(void* memory,unsigned int oldBytes,unsigned int additionalBytes) throw();
+    void* ScrapHeapManager_AllocateBuffer(unsigned int bytes) throw();
+    void ScrapHeapManager_ExpandBuffer(void* memory,unsigned int oldBytes,unsigned int additionalBytes) throw();
     void* FUN_0086c840(unsigned int* bytes);
 };
 }
 
+// pdb: ScrapHeapManager::RequestBuffer | ScrapHeap.obj | fnv360_0822_retail, ustr, medium
+// pdb params: ariRequestedInitialSize
 void* CacheAllocateFast::Cache::FUN_0086c840(unsigned int* bytes)
 {
     if(count==0)
-        return FUN_0086c6a0(*bytes);
+        return ScrapHeapManager_AllocateBuffer(*bytes);
     lock.FUN_00409a80(DAT_00e27ed8);
     if(count==0)
     {
-        void* memory=FUN_0086c6a0(*bytes);
+        void* memory=ScrapHeapManager_AllocateBuffer(*bytes);
         lock.Unlock();
         return memory;
     }
@@ -6210,7 +6324,7 @@ void* CacheAllocateFast::Cache::FUN_0086c840(unsigned int* bytes)
     cachedBytes-=entries[largestIndex].bytes;
     if(largestIndex<count)
         entries[largestIndex]=entries[count];
-    FUN_0086c640(memory,largestBytes,*bytes-largestBytes);
+    ScrapHeapManager_ExpandBuffer(memory,largestBytes,*bytes-largestBytes);
     lock.Unlock();
     return memory;
 }
@@ -6252,6 +6366,8 @@ struct Owner {
     Link* head; Link* tail; unsigned size;
     void FUN_0086b610(Source* source);
 };
+// pdb: NiBackToFrontAccumulator::RegisterObjectArray | NiBackToFrontAccumulator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kArray
 void Owner::FUN_0086b610(Source* source)
 {
     unsigned count = source->count;
@@ -6296,6 +6412,8 @@ struct Pool86d690 {
     void FUN_0086d630();
     Pool86d690(unsigned int a, unsigned int sz, int o);
 };
+// pdb: MemoryPool::MemoryPool | MemoryPool.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiBlockSize, aiPoolSize, apDesc
 Pool86d690::Pool86d690(unsigned int a, unsigned int sz, int o)
 {
     const int configuredOwner = *(volatile int*)&o;
@@ -6350,6 +6468,7 @@ struct Owner {
     __forceinline FUN_0086cb70* Create() { return new FUN_0086cb70; }
     FUN_0086cb70* FUN_0086bcb0();
 };
+// pdb: MemoryManager::GetThreadScrapHeap | MemoryManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_0086cb70* Owner::FUN_0086bcb0()
 {
     unsigned int thread = GetCurrentThreadId();
@@ -6399,6 +6518,7 @@ struct Owner {
     void* FUN_0086d240(unsigned, int);
 };
 
+// pdb: ZeroOverheadHeap::Allocate | ZeroOverheadHeap.obj | tesv_win, objrun_open, low
 void* Owner::FUN_0086d240(unsigned size, int unused) {
     unsigned available = bytes;
     if (!available)
@@ -6474,6 +6594,7 @@ struct FUN_0086bd50 {
     void** m_ap2;
     ~FUN_0086bd50();
 };
+// pdb: MemoryManager::~MemoryManager | MemoryManager.obj | fnv360_0822_retail, caller_sim, low
 FUN_0086bd50::~FUN_0086bd50()
 {
     FUN_0086bbe0* const pkMap = &m_map;
@@ -6557,6 +6678,8 @@ struct Pool {
     }
     void* FUN_0086d7d0();
 };
+// pdb: MemoryPool::Allocate | MemoryPool.obj | fnv360_0822_retail, ustr, medium
+// pdb params: requested
 void* Pool::FUN_0086d7d0()
 {
     Lock* lk = &m_lock;
@@ -6863,7 +6986,7 @@ void FUN_0085b8c0();
 void FUN_0088bcc0();
 void FUN_00882980();
 void FUN_00884eb0(void* p);
-void FUN_0082a370(void (*f)());
+void NiStream_UnregisterLoader(void (*f)());
 void FUN_00e24890();
 void FUN_008626b0();
 extern ZMgr g_mgr;
@@ -7539,6 +7662,7 @@ struct FUN_0087a310 : ZBase {
     void FUN_00873c60();
 };
 
+// pdb: NiDX9Renderer::~NiDX9Renderer | NiDX9Renderer.obj | tesv_win, caller_sim, low
 FUN_0087a310::~FUN_0087a310() throw()
 {
     if (m288) {
@@ -7665,7 +7789,7 @@ FUN_0087a310::~FUN_0087a310() throw()
     FUN_0089e890(ma90);
     this->FUN_00873bf0();
     this->FUN_00873c60();
-    FUN_0082a370(FUN_00e24890);
+    NiStream_UnregisterLoader(FUN_00e24890);
     FUN_008626b0();
 }
 
@@ -7673,7 +7797,7 @@ FUN_0087a310::~FUN_0087a310() throw()
 namespace f3m_0086c710 {
 namespace f3m_0086c710 {
 struct VmMgr86c710 {
-    void __thiscall FUN_0086c640(void* base, unsigned int oldSize, unsigned int addSize);
+    void __thiscall ScrapHeapManager_ExpandBuffer(void* base, unsigned int oldSize, unsigned int addSize);
 };
 VmMgr86c710* __cdecl FUN_006e1cd0();
 
@@ -7688,10 +7812,11 @@ struct Arena86c710 {
     char* end;
     Hdr86c710* lastHdr;
 
-    void* FUN_0086c710(unsigned int size, unsigned int align);
+    void* ScrapHeap_Allocate(unsigned int size, unsigned int align);
 };
 
-void* Arena86c710::FUN_0086c710(unsigned int size, unsigned int align) {
+// pdb: ScrapHeap::Allocate | ScrapHeap.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void* Arena86c710::ScrapHeap_Allocate(unsigned int size, unsigned int align) {
     char* c = cur;
     char* payload = c + 8;
     Hdr86c710* hdr;
@@ -7713,7 +7838,7 @@ void* Arena86c710::FUN_0086c710(unsigned int size, unsigned int align) {
                 totalCap *= 2;
                 addCap = totalCap - curCap;
             }
-            FUN_006e1cd0()->FUN_0086c640(base, curCap, addCap);
+            FUN_006e1cd0()->ScrapHeapManager_ExpandBuffer(base, curCap, addCap);
             end += addCap;
         }
     }
@@ -7880,6 +8005,7 @@ Recycler():unk200(0),unk204(0),unk220(0),unk224(0){} void* operator new(unsigned
 struct Heap {void* FUN_0086b930(unsigned);};extern Heap DAT_01090a78;
 void* Recycler::operator new(unsigned size){return DAT_01090a78.FUN_0086b930(size);}
 struct Object {char* first;int count;char* last;void FUN_0086caa0();};
+// pdb: ScrapHeap::~ScrapHeap | ScrapHeap.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: TESObjectREFR::AddMasterParticleAddonNodes)
 void Object::FUN_0086caa0(){if(!DAT_01090bdc)DAT_01090bdc=new Recycler;DAT_01090bdc->FUN_0086c9a0(first,last-first);first=0;count=0;}
 }
 }   // namespace f3m_0086caa0
@@ -7905,6 +8031,7 @@ struct ScrapHeapManager86ca30 {
     Lock86ca30 lock;
     void FUN_0086ca30();
 };
+// pdb: ScrapHeapManager::FreeAllBuffers | ScrapHeap.obj | fnv360_0822_retail, ustr, medium
 void ScrapHeapManager86ca30::FUN_0086ca30()
 {
     if (count == 0)
@@ -7939,6 +8066,8 @@ struct Timer86c280 {
     void FUN_0086c280(unsigned int currentTime);
 };
 
+// pdb: BSTimer::Update | BSTimer.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiTime
 void Timer86c280::FUN_0086c280(unsigned int currentTime)
 {
     unsigned int adjustedTime = currentTime - pauseOffset14;
@@ -8043,6 +8172,8 @@ int lock;
 unsigned int FUN_0086e080(Stream*);
 __forceinline Node*& head(unsigned int bytes) { int index=bytes/stride-1; if(index>=1024) return overflow; return buckets[index].head; }
 };
+// pdb: VirtualFree | virtualfree.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: lpAddress, dwSize, dwFreeType
 unsigned int Owner::FUN_0086e080(Stream* stream) {
  if(!stream) return 0;
  DAT_00d9b09c(&lock);
@@ -8070,6 +8201,8 @@ struct Heap {
     void* FUN_0086bae0(void* oldBlock, unsigned newSize);
 };
 extern void FUN_00c06546(void* oldBlock, unsigned newSize);
+// pdb: MemoryManager::Reallocate | MemoryManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apMem, apMem, aSize, aSize, apFileName, aiLine, apFunction
 void* Heap::FUN_0086bae0(void* oldBlock, unsigned newSize)
 {
     void* result = 0;
@@ -8100,6 +8233,7 @@ struct FUN_0086cc50_c {
     unsigned long owner;
     void FUN_0086cc50();
 };
+// pdb: BSReadWriteLock::LockForWrite | BSReadWriteLock.obj | fnv360_0822_retail, call_gap, medium
 void FUN_0086cc50_c::FUN_0086cc50()
 {
     unsigned long tid = GetCurrentThreadId();
@@ -8466,6 +8600,7 @@ struct Object {
     void FUN_00825830();
     void FUN_0086b120();
 };
+// pdb: NiLODData::~NiLODData | NiLODData.obj | fnv360_0822_retail, objrun_prop, medium
 void Object::FUN_0086b120()
 {
     table = &DAT_00e27b64;
@@ -8478,6 +8613,7 @@ void Object::FUN_0086b120()
 extern char DAT_00e27ebc;
 namespace f3m_0086c3e0 {
 struct X86c3e0 { void* vptr; void*& FUN_0086c3e0(); };
+// pdb: BSCoreMessage::BSCoreMessage | BSCoreMessage.obj | fnv360_0721_beta, objrun_open, low
 void*& X86c3e0::FUN_0086c3e0() { return *(void**)this = &DAT_00e27ebc; }
 }   // namespace f3m_0086c3e0
 
@@ -8493,6 +8629,7 @@ struct Owner
     void FUN_00865d20();
 };
 
+// pdb: NiAlphaAccumulator::~NiAlphaAccumulator | NiAlphaAccumulator.obj | fnv360_0822_retail, call_gap, high
 void Owner::FUN_00865d20()
 {
     *(int*)this = (int)&FUN_00e26cac;
@@ -8515,6 +8652,8 @@ void FUN_008662f0()
 
 // @f3 0x0086c400 (community match, verified in this file)
 namespace f3m_0086c400 {
+// pdb: BSCoreMessage::Warning | BSCoreMessage.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: BSCoreMessage::Message)
+// pdb params: apMessage
 int __stdcall FUN_0086c400(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)
 {
     return 0;
@@ -8548,6 +8687,8 @@ struct AddressRange {
     int FUN_0086d470(unsigned int address);
 };
 
+// pdb: MemoryPool::RemovePoolAsBlockSize | MemoryPool.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: aiSize
 int AddressRange::FUN_0086d470(unsigned int address)
 {
     return address >= start && address < start + size;
@@ -8572,6 +8713,8 @@ struct Obj {
     void FUN_0086d440(Stream* stream, int value);
     bool Flag() const { return *((const char*)this + 0x20f0) != 0; }
 };
+// pdb: MemoryPool::AddPoolAsBlockSize | MemoryPool.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: MemoryHeap::Deallocate)
+// pdb params: aiSize
 void Obj::FUN_0086d440(Stream* stream, int value) {
     if (!Flag()) FUN_0086e150(stream, value);
     else WriteZero(stream);
@@ -8596,6 +8739,8 @@ struct Obj {
     void FUN_0086d410(Stream* stream);
     bool Flag() const { return *((const char*)this + 0x20f0) != 0; }
 };
+// pdb: MemoryPool::PlatformDecommitPage | MemoryPool.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: BSListBase<OEI::IO::IO_Request *>::`scalar deleting destructor')
+// pdb params: auiPageIndex, apPageAddress
 void Obj::FUN_0086d410(Stream* stream) {
     if (!Flag()) FUN_0086e080(stream);
     else WriteZero(stream);

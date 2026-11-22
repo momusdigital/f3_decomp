@@ -15,8 +15,6 @@ struct hkQuaternionD4DB
     __m128 m_vec;
 };
 
-extern const __m128 DAT_010c71b0;
-
 class FUN_00cf4d80
 {
   public:
@@ -46,6 +44,8 @@ class FUN_00d4dbe0 : public FUN_00cf4d80
 };
 
 // @f3 0x009da8b0 (community match, verified in this file)
+// pdb: hkpAngularDashpotAction::hkpAngularDashpotAction | hkpAngularDashpotAction.obj | fnv360_0822_retail, call_seq, high
+// pdb params: entityA, entityB, userData
 FUN_00d4dbe0::FUN_00d4dbe0(void* pkEntityA, void* pkEntityB, unsigned long ulUserData) throw()
     : FUN_00cf4d80(pkEntityA, pkEntityB, ulUserData), m_fSpringStrength(0.1f), m_fMotorDamping(0.01f)
 {
@@ -88,18 +88,6 @@ struct __declspec(align(16)) hkVector4D4DC
     }
 };
 
-struct hkpEntityPairD4DC
-{
-    void* m_pEntityA;
-    void* m_pEntityB;
-};
-
-struct hkpConstraintInputD4DC
-{
-    hkpEntityPairD4DC* m_pair;
-    int m_type;
-};
-
 class hkReferencedObjectD4DC
 {
   public:
@@ -136,37 +124,4 @@ class FUN_00d4dbe0 : public hkReferencedObjectD4DC
     virtual ~FUN_00d4dbe0() throw();
 };
 
-class hkpConstraintTemplateD4DC
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int m_ulUserData;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4D4DC m_kAxisEndPoints;
-    float m_kMinimumCorner;
-    float m_kMaximumCorner;
-
-    FUN_00d4dbe0* FUN_00d4dc30(const hkpConstraintInputD4DC& kA, const hkpConstraintInputD4DC& kB);
-};
-
-// Returns null unless kA.m_type is 2 and kB.m_type is 0; otherwise creates a FUN_00d4dbe0 from kA's entity pair and copies axis end points and min/max corners.
-// @fnv 0x00d4dc30
-FUN_00d4dbe0* hkpConstraintTemplateD4DC::FUN_00d4dc30(const hkpConstraintInputD4DC& kA,
-                                                      const hkpConstraintInputD4DC& kB)
-{
-    if (kA.m_type != 2)
-        return 0;
-    if (kB.m_type != 0)
-        return 0;
-    FUN_00d4dbe0* pkResult = new FUN_00d4dbe0(kA.m_pair->m_pEntityA, kA.m_pair->m_pEntityB, m_ulUserData);
-    pkResult->m_kAxisEndPoints = m_kAxisEndPoints;
-    pkResult->m_kMinimumCorner = m_kMinimumCorner;
-    pkResult->m_kMaximumCorner = m_kMaximumCorner;
-    return pkResult;
-}
 }  // namespace fnv_00d4dc30

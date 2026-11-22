@@ -1268,6 +1268,7 @@ void FUN_00d7e2e0()
     DAT_01062a50 = DAT_01063b44;
 }
 
+// pdb: `dynamic initializer for 'hkpTriggerVolume_EventInfoClass_Members'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void FUN_00d7e6e0()
 {
     DAT_01063500 = DAT_01063488;
@@ -1288,6 +1289,7 @@ void FUN_00d7f360()
     DAT_01063a88 = DAT_01063a68;
 }
 
+// pdb: `dynamic initializer for 'hkpCollisionFilterClass_Members'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void FUN_00d7f790()
 {
     DAT_01063c10 = DAT_01063b44;
@@ -1303,11 +1305,13 @@ void FUN_00d7fae0()
     DAT_01063e30 = DAT_01063d54;
 }
 
+// pdb: `dynamic initializer for 'hkpShapeCollectionClass_Members'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void FUN_00d7fc20()
 {
     DAT_01063e78 = DAT_01063e68;
 }
 
+// pdb: `dynamic initializer for 'hkpBvTreeShapeClass_Members'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void FUN_00d7fcd0()
 {
     DAT_01063f84 = DAT_01063f78;
@@ -1328,6 +1332,7 @@ void FUN_00d80ad0()
     DAT_01064670 = DAT_01064618;
 }
 
+// pdb: `dynamic initializer for 'hkpPointToPathConstraintData::Members'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void FUN_00d80f70()
 {
     DAT_010647c0 = DAT_01064798;

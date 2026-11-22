@@ -9,12 +9,15 @@ struct FUN_00d87210_class
 };
 
 // @fnv 0x00d87210
+// pdb: hkClassMemberAccessor::asPointer | hkClassMemberAccessor.obj | tesv_win, objrun, medium
 char* __thiscall FUN_00d87210_class::FUN_00d87210(int index)
 {
     return m_p + index * 4;
 }
 
 // @fnv 0x00d87220
+// pdb: hkClassMemberAccessor::asPointer | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, low, conflict (skyrim: hkClassMemberAccessor::asCstring)
+// pdb params: index
 char* __fastcall FUN_00d87220(char* self, int edx, int index)
 {
     return *(char**)self + index * 4;
@@ -32,6 +35,8 @@ char* __thiscall FUN_00d87260_cls::FUN_00d87260(int a)
 }
 
 // @fnv 0x00d87290
+// pdb: hkClassMemberAccessor::asSimpleArray | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun, low
+// pdb params: index
 const void* __fastcall FUN_00d87290(const void* pThis, int, int index)
 {
     return (const char*)(*(const char**)pThis) + index * 8;
@@ -43,12 +48,15 @@ struct FUN_00d872a0_t
 };
 
 // @fnv 0x00d872a0
+// pdb: hkClassMemberAccessor::asVariant | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, low, conflict (skyrim: hkClassMemberAccessor::asHomogeneousArray)
+// pdb params: index
 void* __thiscall FUN_00d872a0_t::FUN_00d872a0(int arg)
 {
     return (char*)*(void**)this + 8 * arg;
 }
 
 // @fnv 0x00d872c0
+// pdb: hkClassMemberAccessor::asHalf | hkClassMemberAccessor.obj | tesv_win, objrun_sim, low
 int __fastcall FUN_00d872c0(int* self, int edx, int offset)
 {
     int base = *self;
@@ -61,18 +69,23 @@ struct FUN_00d87300_class
 };
 
 // @fnv 0x00d87300
+// pdb: hkClassMemberAccessor::asVector4 | hkClassMemberAccessor.obj | tesv_win, objrun, medium
 int* FUN_00d87300_class::FUN_00d87300(int index)
 {
     return *(int**)this + index * 4;
 }
 
 // @fnv 0x00d87310
+// pdb: hkClassMemberAccessor::asMatrix3 | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: index
 void* __fastcall FUN_00d87310(void* self, int, int index)
 {
     return (char*)*(void**)self + index * 3 * 16;
 }
 
 // @fnv 0x00d87350
+// pdb: hkClassMemberAccessor::asHomogeneousArray | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, low, conflict (skyrim: hkClassMemberAccessor::asSimpleArray)
+// pdb params: index
 int __fastcall FUN_00d87350(int* self, int, int idx)
 {
     int base = *self;
@@ -85,6 +98,8 @@ struct IntArrayView
     int* FUN_00d87270(int index);
 };
 // @fnv 0x00d87270
+// pdb: hkClassMemberAccessor::asStringPtr | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: index
 int* IntArrayView::FUN_00d87270(int index)
 {
     return data + index;
@@ -97,33 +112,11 @@ struct FUN_00d87280_class
 };
 
 // @fnv 0x00d87280
+// pdb: hkClassMemberAccessor::asReal | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: index
 int* __thiscall FUN_00d87280_class::FUN_00d87280(int index)
 {
     return m_p + index;
-}
-
-struct FUN_00d872b0_class
-{
-    int* data;
-    int* FUN_00d872b0(int index);
-};
-
-// @fnv 0x00d872b0
-int* FUN_00d872b0_class::FUN_00d872b0(int index)
-{
-    return &data[index];
-}
-
-struct FUN_00d872d0_class
-{
-    char* m_p;
-    char* __thiscall FUN_00d872d0(int index);
-};
-
-// @fnv 0x00d872d0
-char* __thiscall FUN_00d872d0_class::FUN_00d872d0(int index)
-{
-    return m_p + index * 2;
 }
 
 struct CpuObject
@@ -132,20 +125,10 @@ struct CpuObject
     int FUN_00d872e0(int amount);
 };
 // @fnv 0x00d872e0
+// pdb: hkClassMemberAccessor::asInt8 | hkClassMemberAccessor.obj | tesv_win, objrun_sim, low
 int CpuObject::FUN_00d872e0(int amount)
 {
     return value + amount;
-}
-
-struct FUN_00d87360_class
-{
-    char* m_p;
-    char* FUN_00d87360(int index);
-};
-// @fnv 0x00d87360
-char* FUN_00d87360_class::FUN_00d87360(int index)
-{
-    return m_p + index * 8;
 }
 
 struct Pair
@@ -156,6 +139,8 @@ struct Pair
 };
 
 // @fnv 0x00d873d0
+// pdb: TESRegionPoint::TESRegionPoint | TESRegionPoint.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: AStarNode<struct BSPathSmootherPOVNode,struct BSPathSmootherPOVLink>::QHeuristic)
+// pdb params: aNP2
 Pair& Pair::FUN_00d873d0(const Pair& other)
 {
     first = other.first;
@@ -178,6 +163,8 @@ struct D871A0Buffer
 
 // Appends the array's data buffer with its size and flags to this buffer, then returns this buffer.
 // @fnv 0x00d871a0
+// pdb: hkClassMemberAccessor::hkClassMemberAccessor | hkClassMemberAccessor.obj | fnv360_0822_debug, call_gap, low
+// pdb params: var, memberName
 D871A0Buffer& D871A0Buffer::FUN_00d871a0(const D871A0Array& apArray, int flags)
 {
     append(apArray.m_data, apArray.m_iElementCount, flags);
@@ -207,6 +194,8 @@ struct D87240Array
 };
 
 // @fnv 0x00d87240
+// pdb: hkClassMemberAccessor::asCstring | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: index
 char& D87240Array::FUN_00d87240(int i)
 {
     return m_data[i];
@@ -234,6 +223,7 @@ struct FUN_00d872f0_class
 };
 
 // @fnv 0x00d872f0
+// pdb: hkClassMemberAccessor::asUint8 | hkClassMemberAccessor.obj | tesv_win, objrun, medium
 int __thiscall FUN_00d872f0_class::FUN_00d872f0(int offset)
 {
     return m_uiFilterValue + offset;
@@ -257,22 +247,11 @@ struct FUN_00d87330_class
 };
 
 // @fnv 0x00d87330
+// pdb: hkClassMemberAccessor::asRotation | hkClassMemberAccessor.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: index
 char* FUN_00d87330_class::FUN_00d87330(int index)
 {
     return m_p + index * 0x30;
-}
-
-struct FUN_00d87340_cls
-{
-    Pair* m_p;
-
-    Pair* FUN_00d87340(int index);
-};
-
-// @fnv 0x00d87340
-Pair* FUN_00d87340_cls::FUN_00d87340(int index)
-{
-    return m_p + index;
 }
 
 struct FnvCpu_FUN_00d871f0_CpuObject
@@ -281,6 +260,7 @@ struct FnvCpu_FUN_00d871f0_CpuObject
     int FUN_00d871f0();
 };
 // @fnv 0x00d871f0
+// pdb: hkClassMemberAccessor::getAddress | hkClassMemberAccessor.obj | tesv_win, objrun, medium
 int FnvCpu_FUN_00d871f0_CpuObject::FUN_00d871f0()
 {
     return value;
@@ -293,6 +273,7 @@ struct FUN_00d87200_cls
 };
 
 // @fnv 0x00d87200
+// pdb: keyFromPair | hkpTypedBroadPhaseDispatcher.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkThread::getHandle)
 void* FUN_00d87200_cls::FUN_00d87200()
 {
     return m_data;
@@ -306,6 +287,7 @@ struct D87370Obj
 };
 
 // @fnv 0x00d87370
+// pdb: hkClass::getParent | hkClass.obj | fnv360_0822_retail, call_gap, high
 int __thiscall D87370Obj::FUN_00d87370()
 {
     return unk04;
@@ -325,6 +307,7 @@ int* StringMemberAccessor::FUN_00d87230(int index)
 
 // @f3twin 0x0093d7f0 of 0x004a2280
 struct F3Twin_0093d7f0 : public Pair { Pair& F3_FUN_0093d7f0(const Pair& other) ; };
+// pdb: hkClassAccessor::hkClassAccessor | hkClassMemberAccessor.obj | tesv_win, objrun, medium
 Pair& F3Twin_0093d7f0::F3_FUN_0093d7f0(const Pair& other) 
 {
     first = other.first;

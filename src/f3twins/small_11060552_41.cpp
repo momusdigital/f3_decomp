@@ -8,6 +8,7 @@ extern S_00bce3e0 DAT_010f2bbc;
 extern char DAT_00e3200c;
 void __cdecl FUN_00d988d0(void);
 
+// pdb: `dynamic initializer for 'sOnExit'' | bhkWorld.obj | fnv360_0822_debug, objrun, medium
 void FUN_00d01fd0()
 {
     DAT_010f2bbc.FUN_00bce3e0(1);

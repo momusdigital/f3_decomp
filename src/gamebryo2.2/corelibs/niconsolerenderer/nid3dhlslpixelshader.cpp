@@ -1,63 +1,6 @@
 #include "f3_common.h"
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct BaseFake
-{
-    char _b[0x38];
-    void __thiscall FUN_00e898c0();
-};
-struct CT
-{
-    virtual void __stdcall F0();
-    virtual void __stdcall F1();
-    virtual void __stdcall Release();
-};
-struct FUN_00e96cd0_shell : BaseFake
-{
-    CT* m_pShaderConstantTable;
-    void __thiscall ReleaseAndReset();
-};
-// @fnv 0x00e96cd0
-void __thiscall FUN_00e96cd0_shell::ReleaseAndReset()
-{
-    if (m_pShaderConstantTable)
-    {
-        m_pShaderConstantTable->Release();
-        m_pShaderConstantTable = 0;
-    }
-    FUN_00e898c0();
-}
-
-struct _D3DXCONSTANTTABLE_DESC
-{
-    const char* Creator;
-    unsigned long Version;
-    unsigned int Constants;
-};
-struct FakeConstantTable00e96d10
-{
-    virtual long __stdcall F0();
-    virtual long __stdcall F1();
-    virtual long __stdcall F2();
-    virtual long __stdcall F3();
-    virtual long __stdcall F4();
-    virtual long __stdcall GetDesc(_D3DXCONSTANTTABLE_DESC* pDesc);
-};
-struct NiD3DHLSLPixelShader
-{
-    char _pad00[0x38];
-    FakeConstantTable00e96d10* m_pShaderConstantTable;
-    unsigned int FUN_00e96d10();
-};
-// @fnv 0x00e96d10
-unsigned int NiD3DHLSLPixelShader::FUN_00e96d10()
-{
-    _D3DXCONSTANTTABLE_DESC kDesc;
-    if (!m_pShaderConstantTable)
-        return 0;
-    return m_pShaderConstantTable->GetDesc(&kDesc) < 0 ? 0 : kDesc.Constants;
-}
-
 struct FUN_00e96d40_Class
 {
     char _pad00[0x38];
@@ -85,6 +28,8 @@ typedef unsigned int(__thiscall* FNC_F20)(void*, void*, unsigned int, unsigned i
 typedef long(__thiscall* FNC_F18)(void*, void*, unsigned int, unsigned int*, unsigned int&);
 
 // @fnv 0x00e96d40
+// pdb: NiD3DHLSLVertexShader::GetVariableName | NiD3DHLSLVertexShader.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: uiIndex
 unsigned int FUN_00e96d40_Class::FUN_00e96d40(unsigned int a)
 {
     FUN_00e96d40_Out out;
@@ -109,6 +54,8 @@ struct FUN_00e96d00_Class
     void __thiscall FUN_00e96d00();
 };
 // @fnv 0x00e96d00
+// pdb: hkBallAndSocketConstraintCinfo::GetViewerStrings | bhkBallAndSocketConstraint.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apStrings
 void __thiscall FUN_00e96d00_Class::FUN_00e96d00()
 {
     ((FUN_00e898d0_shell*)this)->FUN_00e898d0();

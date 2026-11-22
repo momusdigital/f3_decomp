@@ -100,6 +100,8 @@ extern FakeDevice* DAT_0126fa28;
 int __cdecl FUN_00aa0020(int, int, const char*, long);
 // Creates a vertex shader via DAT_0126fa28; on failure logs an error with the HRESULT and returns 0, otherwise returns the shader pointer.
 // @fnv 0x00e98890
+// pdb: NiD3DShaderProgramCreator::CreateVertexShader | NiD3DShaderProgramCreator_Xenon.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pvCode, __formal, __formal, __formal, __formal, __formal
 void* __stdcall CreateVertexShaderChecked(void* pShaderBytecode, void* pUnused, unsigned int uiUnused, void* pUnused2,
                                           unsigned int uiUnused2, unsigned int uiUnused3)
 {
@@ -135,6 +137,8 @@ struct PixelShaderDevice : FakeDevice
 
 // Creates a pixel shader from pvCode via DAT_0126fa28, logging an error and returning 0 on failure.
 // @fnv 0x00e988d0
+// pdb: NiD3DShaderProgramCreator::CreatePixelShader | NiD3DShaderProgramCreator_Xenon.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pvCode
 GeometryRelatedType* __stdcall FUN_00e988d0(void* pvShaderCode)
 {
     GeometryRelatedType* hShader;

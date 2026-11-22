@@ -124,6 +124,8 @@ static RawF3* AllocF3(unsigned int uiSize)
     return pkObject;
 }
 
+// pdb: hkpRagdollConstraintData::setMotorsActive | hkpRagdollConstraintData.obj | fnv360_0822_debug, call_gap, low, conflict (skyrim: hkpConstraintDataCloningUtil::cloneIfCanHaveMotors)
+// pdb params: instance, toBeEnabled
 Object858* __cdecl FUN_00d858f0(Object858* pkSource)
 {
     switch (((ObjectView858*)pkSource)->GetType())
@@ -163,10 +165,6 @@ Object858* __cdecl FUN_00d858f0(Object858* pkSource)
 }
 
 
-struct hkRefObj858
-{
-    void removeReference();
-};
 struct Heap858b
 {
     int unk00;
@@ -178,20 +176,6 @@ struct Heap858b
     {
         return *m_pHeapAllocator;
     }
-};
-template <class T> __forceinline T* AllocA(unsigned int uiSize)
-{
-    Object858* p = (Object858*)((Heap858b*)FUN_00c85750())->heap().Allocate(uiSize);
-    p->usSize = (unsigned short)uiSize;
-    return (T*)p;
-}
-struct Node858 : Object858
-{
-    int unk10;
-    int unk14;
-    Object858* pkChild;
-    float unk1c;
-    Object858* FUN_00cdf6d0();
 };
 struct Breakable858 : Object858
 {
@@ -231,105 +215,3 @@ struct Breakable858 : Object858
         m_bRevertBackVelocityOnBreak = b;
     }
 };
-struct Kind3Shape858
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v0a();
-    virtual void v0b();
-    virtual void v0c();
-    virtual hkRefObj858* GetChildShape();
-};
-struct Kind3Result858
-{
-    void FUN_00dee6f0(Kind3Shape858* pkChild);
-};
-struct Raw858b
-{
-    Breakable858* FUN_00d4df30(Object858* pkChild);
-    Node858* FUN_00cdf710(Object858* pkChild);
-};
-Object858* __cdecl FUN_00d85360(Object858* pkSource);
-Object858* __cdecl FUN_00d853a0(Object858* pkSource);
-Object858* __cdecl FUN_00d853f0(Object858* pkSource);
-Object858* __cdecl CloneShape(Object858* pkSource);
-Object858* __cdecl CloneAllocatedObject(Object858* pkSource);
-Object858* __cdecl CloneStub(Object858* pkSource);
-Object858* __cdecl FUN_00d85530(Object858* pkSource);
-Object858* __cdecl CloneWithInit(Object858* pkSource);
-Object858* __cdecl CloneDataBlock(Object858* pkSource);
-Object858* __cdecl CloneWithCopiedPayload(Object858* pkSource);
-Object858* __cdecl FUN_00d85660(Object858* pkSource);
-Object858* __cdecl CloneWithAllocatedCopy(Object858* pkSource);
-
-// Dispatches on pkSource->GetType() to clone the object, recursively cloning child nodes and copying breakable properties.
-// @fnv 0x00d85700
-Object858* __cdecl FUN_00d85700(Object858* pkSource)
-{
-    switch (pkSource->GetType())
-    {
-    case 0:
-        return FUN_00d85360(pkSource);
-    case 1:
-        return FUN_00d853a0(pkSource);
-    case 2:
-        return FUN_00d853f0(pkSource);
-    case 3: {
-        Object858* pkResult = CloneShape(pkSource);
-        Kind3Shape858* pkChild = (Kind3Shape858*)((Node858*)pkSource)->pkChild;
-        hkRefObj858* pkShape = pkChild->GetChildShape();
-        ((Kind3Result858*)pkResult)->FUN_00dee6f0(pkChild);
-        pkShape->removeReference();
-        return pkResult;
-    }
-    case 6:
-        return CloneAllocatedObject(pkSource);
-    case 7:
-        return CloneStub(pkSource);
-    case 8:
-        return FUN_00d85530(pkSource);
-    case 9:
-        return CloneWithInit(pkSource);
-    case 14:
-        return CloneDataBlock(pkSource);
-    case 15:
-        return CloneWithCopiedPayload(pkSource);
-    case 18:
-        return FUN_00d85660(pkSource);
-    case 19:
-        return CloneWithAllocatedCopy(pkSource);
-    case 12: {
-        Breakable858* pkOld = (Breakable858*)pkSource;
-        Object858* pkChild = FUN_00d85700(pkOld->GetBreakableObject());
-        if (!pkChild)
-            return 0;
-        Breakable858* pkNew = AllocA<Raw858b>(0x28)->FUN_00d4df30(pkChild);
-        ((hkRefObj858*)pkChild)->removeReference();
-        pkNew->m_fBreakingStrength = pkOld->m_fBreakingStrength;
-        pkNew->m_bRemoveWhenBroken = pkOld->m_bRemoveWhenBroken;
-        pkNew->m_bRevertBackVelocityOnBreak = pkOld->m_bRevertBackVelocityOnBreak;
-        pkNew->iValue = pkOld->iValue;
-        return pkNew;
-    }
-    case 13: {
-        Node858* pkNode = (Node858*)pkSource;
-        Object858* pkChild = FUN_00d85700(pkNode->FUN_00cdf6d0());
-        if (!pkChild)
-            return 0;
-        Node858* pkClone = AllocA<Raw858b>(0x20)->FUN_00cdf710(pkChild);
-        ((hkRefObj858*)pkChild)->removeReference();
-        pkClone->unk1c = pkNode->unk1c;
-        pkClone->iValue = pkNode->iValue;
-        return pkClone;
-    }
-    }
-    return 0;
-}

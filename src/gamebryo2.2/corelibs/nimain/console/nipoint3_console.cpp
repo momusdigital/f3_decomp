@@ -19,6 +19,7 @@ extern void* DAT_011f4aa8;
 
 // Normalizes each of count NiPoint3 vectors spaced by stride bytes, scaling by the reciprocal of its length via a lookup table.
 // @fnv 0x00a7e960
+// pdb: NiPoint3::UnitizeVectors | NiPoint3_Win32.obj | tesv_win, call_seq, medium
 void NormalizePoints(NiPoint3* pElementBuffer, unsigned int count, unsigned int stride)
 {
     for (unsigned int i = 0; i < count; ++i)

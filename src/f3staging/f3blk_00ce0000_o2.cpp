@@ -12,6 +12,7 @@ extern FUN_006ed270_Stand g_settings;
 extern char g_d973b0;
 void FUN_00ec658f(void* p);
 
+// pdb: `dynamic initializer for 'sBasePathS'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4f80() {
     g_settings.FUN_006ed270("sBasePath", ".\\");
     FUN_00ec658f(&g_d973b0);
@@ -29,6 +30,7 @@ extern Obj DAT_0107bd18;
 void __cdecl FUN_00d97950();
 }
 
+// pdb: `dynamic initializer for 'ConflictingPick'' | PlayerCharacter.obj | fnv360_0822_retail, objopen_prop, medium
 void __cdecl FUN_00cf9440()
 {
     f3m_00cf9440::DAT_0107bd18.FUN_007fbb00(0, 8);
@@ -52,6 +54,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f66100;
 void __cdecl FUN_00d94b40();
 
+// pdb: `dynamic initializer for 'fUpdateInterval'' | BSTreeNode.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00ce02f0()
 {
     DAT_00f66100.Setting::Setting();
@@ -72,6 +75,7 @@ extern Setting DAT_01075d54;
 void __cdecl FUN_00d959c0();
 }
 
+// pdb: `dynamic initializer for 'iConsoleFont'' | MenuConsole.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6ef0()
 {
     f3m_00ce6ef0::DAT_01075d54.FUN_0043b7f0("iConsoleFont:Menu", 2);
@@ -91,6 +95,7 @@ extern Setting DAT_0107a254;
 void __cdecl FUN_00d97370();
 }
 
+// pdb: `dynamic initializer for 'iDebugTextTopBottomOffset'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4e90()
 {
     f3m_00cf4e90::DAT_0107a254.FUN_0043b7f0("iDebugTextTopBottomOffset:Display", 10);
@@ -134,6 +139,7 @@ extern Setting DAT_01075d44;
 void __cdecl FUN_00d959f0();
 }
 
+// pdb: `dynamic initializer for 'iConsoleLineSpacing'' | MenuConsole.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6f50()
 {
     f3m_00ce6f50::DAT_01075d44.FUN_0043b7f0("iConsoleLineSpacing:Menu", 35);
@@ -157,6 +163,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f6dddc;
 void __cdecl FUN_00d97440();
 
+// pdb: `dynamic initializer for 'pYesText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf4fa0()
 {
     DAT_00f6dddc.Setting::Setting();
@@ -177,6 +184,7 @@ extern Setting DAT_0107bd4c;
 void __cdecl FUN_00d97ad0();
 }
 
+// pdb: `dynamic initializer for 'iJoystickLookUpDown'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf8e10()
 {
     f3m_00cf8e10::DAT_0107bd4c.FUN_0043b7f0("iJoystickLookUpDown:Controls", 6);
@@ -196,6 +204,7 @@ extern Setting DAT_01079f04;
 void __cdecl FUN_00d96ba0();
 }
 
+// pdb: `dynamic initializer for 'BGSMoviePlayer::sMainMenuMovieIntro'' | BGSMoviePlayer.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf3f00()
 {
     f3m_00cf3f00::DAT_01079f04.FUN_0043b7f0("sMainMenuMovieIntro:General", "");
@@ -254,6 +263,7 @@ extern Setting DAT_010758f8;
 void __cdecl FUN_00d956e0();
 }
 
+// pdb: `dynamic initializer for 'uTerrainTextureFadeTime'' | BGSTerrainNode.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce61f0()
 {
     f3m_00ce61f0::DAT_010758f8.FUN_0043b7f0("uTerrainTextureFadeTime:TerrainManager", 1000u);
@@ -273,6 +283,7 @@ extern Setting DAT_0107a3b0;
 void __cdecl FUN_00d96fb0();
 }
 
+// pdb: `dynamic initializer for 'sUnessentialFileCacheList'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4620()
 {
     f3m_00cf4620::DAT_0107a3b0.FUN_0043b7f0("sUnessentialFileCacheList:General", "Data\\Fallout - Meshes.bsa, Data\\Fallout - Textures.bsa");
@@ -292,6 +303,7 @@ extern Setting DAT_01075bdc;
 void __cdecl FUN_00d95820();
 }
 
+// pdb: `dynamic initializer for 'iXenonMenuStickDeadZone'' | InterfaceManager.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00ce69e0()
 {
     f3m_00ce69e0::DAT_01075bdc.FUN_0043b7f0("iXenonMenuStickDeadZone:Controls", 20000);
@@ -315,6 +327,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f660f4;
 void __cdecl FUN_00d94b30();
 
+// pdb: `dynamic initializer for 'iNumGroups'' | BSTreeNode.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00ce0290()
 {
     DAT_00f660f4.Setting::Setting();
@@ -368,6 +381,7 @@ struct DebugTextStandIn { void FUN_0043b7f0(const char* name, const char* value)
 extern DebugTextStandIn DAT_0107a38c;
 void __cdecl FUN_00d97350();
 
+// pdb: `dynamic initializer for 'sDebugText'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4e50()
 {
     DAT_0107a38c.FUN_0043b7f0("sDebugText:Display", "VATS");
@@ -459,6 +473,7 @@ extern Setting DAT_0107bc54;
 void __cdecl FUN_00d97a00();
 }
 
+// pdb: `dynamic initializer for 'sTrackProgressPath'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf8be0()
 {
     f3m_00cf8be0::DAT_0107bc54.FUN_0043b7f0("sTrackProgressPath:GamePlay", "\\\\vault2\\Fallout\\LevelData\\");
@@ -541,6 +556,7 @@ extern Setting DAT_0107bc90;
 void __cdecl FUN_00d979c0();
 }
 
+// pdb: `dynamic initializer for 'iActorsDismemberedPerFrame'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf8b60()
 {
     f3m_00cf8b60::DAT_0107bc90.FUN_0043b7f0("iActorsDismemberedPerFrame:GamePlay", 2);
@@ -638,6 +654,7 @@ extern Setting DAT_01075c50;
 void __cdecl FUN_00d95900();
 }
 
+// pdb: `dynamic initializer for 'iSafeZoneX'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6c50()
 {
     f3m_00ce6c50::DAT_01075c50.FUN_0043b7f0("iSafeZoneX:Interface", 15);
@@ -657,6 +674,7 @@ extern Setting DAT_0107a1b4;
 void __cdecl FUN_00d97160();
 }
 
+// pdb: `dynamic initializer for 'sCameraPathDir'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4980()
 {
     f3m_00cf4980::DAT_0107a1b4.FUN_0043b7f0("sDirectoryName:CameraPath", "TestCameraPath");
@@ -840,6 +858,7 @@ extern Setting DAT_01075d34;
 void __cdecl FUN_00d959e0();
 }
 
+// pdb: `dynamic initializer for 'iConsoleTextYPos'' | MenuConsole.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6f30()
 {
     f3m_00ce6f30::DAT_01075d34.FUN_0043b7f0("iConsoleTextYPos:Menu", 940);
@@ -898,6 +917,7 @@ extern Setting DAT_0107a500;
 void __cdecl FUN_00d970a0();
 }
 
+// pdb: `dynamic initializer for 'sStartingCellX'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4800()
 {
     f3m_00cf4800::DAT_0107a500.FUN_0043b7f0("sStartingCellX:General", "");
@@ -932,6 +952,7 @@ extern Setting DAT_010769e0;
 void __cdecl FUN_00d95ba0();
 }
 
+// pdb: `dynamic initializer for 'LoadingMenu::sTitleMusic'' | LoadingMenu.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce87a0()
 {
     f3m_00ce87a0::DAT_010769e0.FUN_0043b7f0("sTitleMusic:Loading", "MainTitle");
@@ -951,6 +972,7 @@ extern Setting DAT_01079b20;
 void __cdecl FUN_00d96b10();
 }
 
+// pdb: `dynamic initializer for 'sSaveGameSafeMarkerID'' | BGSSaveLoadManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf3280()
 {
     f3m_00cf3280::DAT_01079b20.FUN_0043b7f0("sSaveGameSafeMarkerID:SaveGame", "32D4");
@@ -1081,6 +1103,7 @@ extern Setting DAT_0107a528;
 void __cdecl FUN_00d972a0();
 }
 
+// pdb: `dynamic initializer for 'sCopyProtectionMessage'' | Main.obj | tesv_win, ustr, medium
 void __cdecl FUN_00cf4ce0()
 {
     f3m_00cf4ce0::DAT_0107a528.FUN_0043b7f0("sCopyProtectionMessage:CopyProtectionStrings", "Unable to find a CD-ROM/DVD drive on this computer.");
@@ -1100,6 +1123,7 @@ extern Setting DAT_0107adcc;
 void __cdecl FUN_00d97640();
 }
 
+// pdb: `dynamic initializer for 'iDetectionPicks'' | Actor.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf6070()
 {
     f3m_00cf6070::DAT_0107adcc.FUN_0043b7f0("iDetectionPicks:GamePlay", 21);
@@ -1228,6 +1252,7 @@ namespace f3m_00ce8ad0 {
 namespace f3m_00ce8ad0 {
 int __cdecl FUN_0041cdf0(int index);
 
+// pdb: `dynamic initializer for 'LockPickMenu::ciMinSkillRequiredA'' | LockPickMenu.obj | fnv360_0822_retail, objrun_prop, low
 void __cdecl FUN_00ce8ad0()
 {
     DAT_01076b5c = FUN_0041cdf0(0);
@@ -1307,6 +1332,7 @@ extern Setting DAT_01077188;
 void __cdecl FUN_00d95f60();
 }
 
+// pdb: `dynamic initializer for 'sCharGenQuest'' | StartMenu.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'sCharGenQuest_G'')
 void __cdecl FUN_00ce9bb0()
 {
     f3m_00ce9bb0::DAT_01077188.FUN_0043b7f0("sCharGenQuest:General", "00014E85");
@@ -1437,6 +1463,7 @@ extern Setting DAT_0107a534;
 void __cdecl FUN_00d97380();
 }
 
+// pdb: `dynamic initializer for 'iDebugTextLeftRightOffset'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4eb0()
 {
     f3m_00cf4eb0::DAT_0107a534.FUN_0043b7f0("iDebugTextLeftRightOffset:Display", 10);
@@ -1591,6 +1618,7 @@ extern Setting DAT_01079ee4;
 void __cdecl FUN_00d96bb0();
 }
 
+// pdb: `dynamic initializer for 'BGSMoviePlayer::sIntroMovie'' | BGSMoviePlayer.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf3f20()
 {
     f3m_00cf3f20::DAT_01079ee4.FUN_0043b7f0("sIntroMovie:General", "");
@@ -1610,6 +1638,7 @@ extern Setting DAT_0107a1f0;
 void __cdecl FUN_00d97090();
 }
 
+// pdb: `dynamic initializer for 'sStartingWorld'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf47e0()
 {
     f3m_00cf47e0::DAT_0107a1f0.FUN_0043b7f0("sStartingWorld:General", "");
@@ -1683,6 +1712,7 @@ extern Setting DAT_01075c74;
 void __cdecl FUN_00d95920();
 }
 
+// pdb: `dynamic initializer for 'iSafeZoneXWide'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6c90()
 {
     f3m_00ce6c90::DAT_01075c74.FUN_0043b7f0("iSafeZoneXWide:Interface", 15);
@@ -1724,6 +1754,7 @@ extern Obj DAT_0107a26c;
 void __cdecl FUN_00db3438();
 void __cdecl FUN_00d970b0();
 }
+// pdb: `dynamic initializer for 'sStartingCellY'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4820()
 {
     f3m_00cf4820::DAT_0107a26c.FUN_0043b7f0(0xe118a8, f3m_00cf4820::FUN_00db3438);
@@ -1767,6 +1798,7 @@ extern Setting DAT_0107bb24;
 extern const char DAT_00e18f44[];
 void __cdecl FUN_00d97ca0();
 }
+// pdb: `dynamic initializer for 'iXenonVertLookAccel'' | PlayerCharacter.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00cf92f0()
 {
     f3m_00cf92f0::DAT_0107bb24.FUN_0043b7f0(f3m_00cf92f0::DAT_00e18f44, 2u);
@@ -1782,6 +1814,7 @@ extern const char DAT_00e11e24[];
 extern const char DAT_00e11e40[];
 void __cdecl FUN_00d97320();
 }
+// pdb: `dynamic initializer for 'sArchiveInvalidationFile'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4df0()
 {
     f3m_00cf4df0::DAT_0107a308.FUN_0043b7f0(f3m_00cf4df0::DAT_00e11e24, f3m_00cf4df0::DAT_00e11e40);
@@ -1811,6 +1844,7 @@ extern Obj DAT_01075d28;
 extern char DAT_00e04530;
 void __cdecl FUN_00d959b0();
 }
+// pdb: `dynamic initializer for 'iConsoleVisibleLines'' | MenuConsole.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6ed0()
 {
     f3m_00ce6ed0::DAT_01075d28.FUN_0043b7f0(&f3m_00ce6ed0::DAT_00e04530, 15);
@@ -1874,6 +1908,7 @@ extern Obj DAT_0107a510;
 void __cdecl FUN_00db3438();
 void __cdecl FUN_00d97000();
 }
+// pdb: `dynamic initializer for 'sTestFile4'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf46c0()
 {
     f3m_00cf46c0::DAT_0107a510.FUN_0043b7f0(0xe117b4, f3m_00cf46c0::FUN_00db3438);
@@ -1920,6 +1955,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f660d0;
 void __cdecl FUN_00d94b00();
 
+// pdb: `dynamic initializer for 'iCollFreq'' | BSTreeNode.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00ce0170()
 {
     DAT_00f660d0.Setting::Setting();
@@ -1944,6 +1980,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f660dc;
 void __cdecl FUN_00d94b10();
 
+// pdb: `dynamic initializer for 'iLowDamp'' | BSTreeNode.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00ce01d0()
 {
     DAT_00f660dc.Setting::Setting();
@@ -1961,6 +1998,7 @@ extern Obj DAT_0107a398;
 void __cdecl FUN_00db3438();
 void __cdecl FUN_00d97030();
 
+// pdb: `dynamic initializer for 'sTestFile7'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4720()
 {
     DAT_0107a398.FUN_0043b7f0(0xe117f0, FUN_00db3438);
@@ -1999,6 +2037,7 @@ extern Setting DAT_00f6de0c;
 void __cdecl FUN_00d97480();
 }
 
+// pdb: `dynamic initializer for 'pRetryText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf5120()
 {
     using namespace f3m_00cf5120;
@@ -2054,6 +2093,7 @@ extern char DAT_00e11d24[];
 extern char DAT_00e11d54[];
 void __cdecl FUN_00d972c0();
 }
+// pdb: `dynamic initializer for 'sCopyProtectionMessage2'' | Main.obj | tesv_win, ustr, medium
 void __cdecl FUN_00cf4d20()
 {
     f3m_00cf4d20::DAT_0107a260.FUN_0043b7f0(f3m_00cf4d20::DAT_00e11d24, f3m_00cf4d20::DAT_00e11d54);
@@ -2108,6 +2148,7 @@ extern char DAT_00e11840[];
 void __cdecl FUN_00db3438();
 void __cdecl FUN_00d97070();
 }
+// pdb: `dynamic initializer for 'sStartingCell'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf47a0()
 {
     f3m_00cf47a0::DAT_0107a3dc.FUN_0043b7f0(f3m_00cf47a0::DAT_00e11840, f3m_00cf47a0::FUN_00db3438);
@@ -2123,6 +2164,7 @@ extern Setting_c6cb0 DAT_01075c38;
 extern "C" void FUN_00c00d1f(void (*fn)());
 void __cdecl FUN_00d95930();
 
+// pdb: `dynamic initializer for 'iSafeZoneYWide'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6cb0()
 {
     DAT_01075c38.FUN_0043b7f0("iSafeZoneYWide:Interface", 15);
@@ -2233,6 +2275,7 @@ extern InitTarget DAT_0107b028;
 void __cdecl FUN_00d97770();
 }
 
+// pdb: `dynamic initializer for 'iAIThread1HWThread'' | AILinearTaskThreadManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: AILinearTaskThreadManager::`dynamic initializer for 'iAIThread1HWThread'')
 void __cdecl FUN_00cf69c0()
 {
     using namespace f3m_00cf69c0;
@@ -2310,6 +2353,7 @@ extern Setting DAT_00f6de18;
 void __cdecl FUN_00d97490();
 }
 
+// pdb: `dynamic initializer for 'pIgnoreText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf5180()
 {
     f3m_00cf5180::DAT_00f6de18.Setting::Setting();
@@ -2444,6 +2488,7 @@ extern InitTarget DAT_01077a50;
 void __cdecl FUN_00d966f0();
 }
 
+// pdb: `dynamic initializer for 'iVATSDistortMaxInterval'' | FOVATSEffectManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cebb30()
 {
     f3m_00cebb30::DAT_01077a50.FUN_0043b7f0(f3m_00cebb30::DAT_00e09a04, 0x1194);
@@ -2585,6 +2630,7 @@ extern InitTarget DAT_01073cf8;
 void __cdecl FUN_00d94a20();
 }
 
+// pdb: `dynamic initializer for 'BSTreeManager::iCanopyShadowScale'' | BSTreeManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce0020()
 {
     f3m_00ce0020::DAT_01073cf8.FUN_0043b7f0(f3m_00ce0020::DAT_00dfcc14, 0x200);
@@ -2606,6 +2652,7 @@ extern InitTarget DAT_0107a4bc;
 void __cdecl FUN_00d97040();
 }
 
+// pdb: `dynamic initializer for 'sTestFile8'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4740()
 {
     f3m_00cf4740::DAT_0107a4bc.FUN_0043b7f0(f3m_00cf4740::DAT_00e11804, f3m_00cf4740::DAT_00db3438);
@@ -2741,6 +2788,7 @@ extern InitTarget DAT_0107a294;
 void __cdecl FUN_00d96fd0();
 }
 
+// pdb: `dynamic initializer for 'sTestFile1'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4660()
 {
     f3m_00cf4660::DAT_0107a294.FUN_0043b7f0(f3m_00cf4660::DAT_00e11768, f3m_00cf4660::DAT_00e1177c);
@@ -2914,6 +2962,7 @@ extern InitTarget DAT_0107a134;
 void __cdecl FUN_00d97050();
 }
 
+// pdb: `dynamic initializer for 'sTestFile9'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4760()
 {
     f3m_00cf4760::DAT_0107a134.FUN_0043b7f0(f3m_00cf4760::DAT_00e11818, f3m_00cf4760::DAT_00db3438);
@@ -2934,6 +2983,7 @@ extern InitTarget DAT_0107934c;
 void __cdecl FUN_00d968f0();
 }
 
+// pdb: `dynamic initializer for 'iRadioUpdateInterval'' | FalloutRadio.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf1c20()
 {
     f3m_00cf1c20::DAT_0107934c.FUN_0043b7f0(f3m_00cf1c20::DAT_00e0c9fc, 75);
@@ -2954,6 +3004,7 @@ extern InitTarget DAT_0107c078;
 void __cdecl FUN_00d97cf0();
 }
 
+// pdb: `dynamic initializer for 'iLowProcessingMilliseconds'' | ProcessLists.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf97c0()
 {
     f3m_00cf97c0::DAT_0107c078.FUN_0043b7f0(f3m_00cf97c0::DAT_00e19518, 2);
@@ -3012,6 +3063,7 @@ extern InitTarget DAT_0107bd00;
 void __cdecl FUN_00d97c90();
 }
 
+// pdb: `dynamic initializer for 'iXenonHorizLookAccel'' | PlayerCharacter.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00cf92d0()
 {
     f3m_00cf92d0::DAT_0107bd00.FUN_0043b7f0(f3m_00cf92d0::DAT_00e18f24, 2);
@@ -3033,6 +3085,7 @@ extern InitTarget DAT_0107a380;
 void __cdecl FUN_00d96ff0();
 }
 
+// pdb: `dynamic initializer for 'sTestFile3'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf46a0()
 {
     f3m_00cf46a0::DAT_0107a380.FUN_0043b7f0(f3m_00cf46a0::DAT_00e117a0, f3m_00cf46a0::DAT_00db3438);
@@ -3053,6 +3106,7 @@ extern InitTarget DAT_0107bd0c;
 void __cdecl FUN_00d97c20();
 }
 
+// pdb: `dynamic initializer for 'iHoursToSleep'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf91b0()
 {
     f3m_00cf91b0::DAT_0107bd0c.FUN_0043b7f0(f3m_00cf91b0::DAT_00e18e5c, 3);
@@ -3129,6 +3183,7 @@ extern Setting DAT_00f6ddf4;
 void __cdecl FUN_00d97460();
 }
 
+// pdb: `dynamic initializer for 'pYesToAllText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf5060()
 {
     f3m_00cf5060::DAT_00f6ddf4.Setting::Setting();
@@ -3226,6 +3281,7 @@ extern InitTarget DAT_0107a230;
 void __cdecl FUN_00d96fe0();
 }
 
+// pdb: `dynamic initializer for 'sTestFile2'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4680()
 {
     f3m_00cf4680::DAT_0107a230.FUN_0043b7f0(f3m_00cf4680::DAT_00e1178c, f3m_00cf4680::DAT_00db3438);
@@ -3406,6 +3462,7 @@ extern Setting DAT_00f6de30;
 void __cdecl FUN_00d974b0();
 }
 
+// pdb: `dynamic initializer for 'pContinueText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf5240()
 {
     f3m_00cf5240::DAT_00f6de30.Setting::Setting();
@@ -3503,6 +3560,7 @@ extern InitTarget DAT_0107a2a0;
 void __cdecl FUN_00d972b0();
 }
 
+// pdb: `dynamic initializer for 'sCopyProtectionTitle2'' | Main.obj | tesv_win, ustr, medium
 void __cdecl FUN_00cf4d00()
 {
     f3m_00cf4d00::DAT_0107a2a0.FUN_0043b7f0(f3m_00cf4d00::DAT_00e11ce0, f3m_00cf4d00::DAT_00e11d0c);
@@ -3524,6 +3582,7 @@ extern InitTarget DAT_01077a38;
 void __cdecl FUN_00d967c0();
 }
 
+// pdb: `dynamic initializer for 'sVATSScanlinesTexture'' | FOVATSEffectManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cebd90()
 {
     f3m_00cebd90::DAT_01077a38.FUN_0043b7f0(f3m_00cebd90::DAT_00e09b44, f3m_00cebd90::DAT_00e09544);
@@ -3697,6 +3756,7 @@ extern InitTarget DAT_0107a2d4;
 void __cdecl FUN_00d97010();
 }
 
+// pdb: `dynamic initializer for 'sTestFile5'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf46e0()
 {
     f3m_00cf46e0::DAT_0107a2d4.FUN_0043b7f0(f3m_00cf46e0::DAT_00e117c8, f3m_00cf46e0::DAT_00db3438);
@@ -3815,6 +3875,7 @@ extern InitTarget DAT_0107a23c;
 void __cdecl FUN_00d96fc0();
 }
 
+// pdb: `dynamic initializer for 'sMasterArchiveList'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4640()
 {
     f3m_00cf4640::DAT_0107a23c.FUN_0043b7f0(f3m_00cf4640::DAT_00e11704, f3m_00cf4640::DAT_00e11720);
@@ -3835,6 +3896,7 @@ extern InitTarget DAT_0108ebd8;
 void __cdecl FUN_00d98250();
 }
 
+// pdb: `dynamic initializer for 'iIntroSequencePriority'' | MoviePlayer.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cffcc0()
 {
     f3m_00cffcc0::DAT_0108ebd8.FUN_0043b7f0(f3m_00cffcc0::DAT_00e20248, 3);
@@ -3855,6 +3917,7 @@ extern InitTarget DAT_0107a78c;
 void __cdecl FUN_00d974f0();
 }
 
+// pdb: `dynamic initializer for 'iNumBitsForFullySeen'' | SeenData.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf59b0()
 {
     f3m_00cf59b0::DAT_0107a78c.FUN_0043b7f0(f3m_00cf59b0::DAT_00e12570, 248);
@@ -3928,6 +3991,7 @@ extern InitTarget DAT_0107acec;
 void __cdecl FUN_00d97650();
 }
 
+// pdb: `dynamic initializer for 'iDetectionHighNumPicks'' | Actor.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf6090()
 {
     f3m_00cf6090::DAT_0107acec.FUN_0043b7f0(f3m_00cf6090::DAT_00e134f0, 40);
@@ -3987,6 +4051,7 @@ extern InitTarget DAT_0107a480;
 void __cdecl FUN_00d97020();
 }
 
+// pdb: `dynamic initializer for 'sTestFile6'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4700()
 {
     f3m_00cf4700::DAT_0107a480.FUN_0043b7f0(f3m_00cf4700::DAT_00e117dc, f3m_00cf4700::DAT_00db3438);
@@ -4084,6 +4149,7 @@ extern InitTarget DAT_0107a4ec;
 void __cdecl FUN_00d96fa0();
 }
 
+// pdb: `dynamic initializer for 'sEssentialFileCacheList'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4600()
 {
     f3m_00cf4600::DAT_0107a4ec.FUN_0043b7f0(f3m_00cf4600::DAT_00e1151c, f3m_00cf4600::DAT_00e11540);
@@ -4142,6 +4208,7 @@ extern InitTarget DAT_01075c68;
 void __cdecl FUN_00d95910();
 }
 
+// pdb: `dynamic initializer for 'iSafeZoneY'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6c70()
 {
     f3m_00ce6c70::DAT_01075c68.FUN_0043b7f0(f3m_00ce6c70::DAT_00e03e18, 15);
@@ -4177,6 +4244,7 @@ extern InitTarget DAT_0107a710;
 void __cdecl FUN_00d974d0();
 }
 
+// pdb: ScreenShot::`dynamic initializer for 'siniBaseName'' | ScreenShot.obj | tesv_win, ustr, medium
 void __cdecl FUN_00cf5920()
 {
     f3m_00cf5920::DAT_0107a710.FUN_0043b7f0(f3m_00cf5920::DAT_00e124e0, f3m_00cf5920::DAT_00e124fc);
@@ -4253,6 +4321,7 @@ extern Setting DAT_00f6dde8;
 void __cdecl FUN_00d97450();
 }
 
+// pdb: `dynamic initializer for 'pNoText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf5000()
 {
     f3m_00cf5000::DAT_00f6dde8.Setting::Setting();
@@ -4478,6 +4547,7 @@ extern InitTarget DAT_01077704;
 void __cdecl FUN_00d96550();
 }
 
+// pdb: `dynamic initializer for 'sInterfaceScanlinesTexture'' | FORenderedMenu.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ceb340()
 {
     f3m_00ceb340::DAT_01077704.FUN_0043b7f0(f3m_00ceb340::DAT_00e09524, f3m_00ceb340::DAT_00e09544);
@@ -4703,6 +4773,7 @@ extern InitTarget DAT_0107a3c8;
 void __cdecl FUN_00d97060();
 }
 
+// pdb: `dynamic initializer for 'sTestFile10'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4780()
 {
     f3m_00cf4780::DAT_0107a3c8.FUN_0043b7f0(f3m_00cf4780::DAT_00e1182c, f3m_00cf4780::DAT_00db3438);
@@ -4723,6 +4794,7 @@ extern InitTarget DAT_0107bca0;
 void __cdecl FUN_00d97ab0();
 }
 
+// pdb: `dynamic initializer for 'iJoystickMoveFrontBack'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf8dd0()
 {
     f3m_00cf8dd0::DAT_0107bca0.FUN_0043b7f0(f3m_00cf8dd0::DAT_00e18ba0, 2);
@@ -4743,6 +4815,7 @@ extern InitTarget DAT_01075d1c;
 void __cdecl FUN_00d959a0();
 }
 
+// pdb: `dynamic initializer for 'iConsoleHistorySize'' | MenuConsole.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce6eb0()
 {
     f3m_00ce6eb0::DAT_01075d1c.FUN_0043b7f0(f3m_00ce6eb0::DAT_00e04514, 50);
@@ -4889,6 +4962,7 @@ extern InitTarget DAT_01076a10;
 void __cdecl FUN_00d95bd0();
 }
 
+// pdb: `dynamic initializer for 'LoadingMenu::iMaxScreens_MainMenu'' | LoadingMenu.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce8800()
 {
     f3m_00ce8800::DAT_01076a10.FUN_0043b7f0(f3m_00ce8800::DAT_00e064a0, 20);
@@ -5024,6 +5098,7 @@ extern InitTarget DAT_01076a60;
 void __cdecl FUN_00d95bb0();
 }
 
+// pdb: `dynamic initializer for 'LoadingMenu::sInitialSound'' | LoadingMenu.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ce87c0()
 {
     f3m_00ce87c0::DAT_01076a60.FUN_0043b7f0(f3m_00ce87c0::DAT_00e06440, f3m_00ce87c0::DAT_00e06458);
@@ -5138,6 +5213,7 @@ extern Setting DAT_00f660e8;
 void __cdecl FUN_00d94b20();
 }
 
+// pdb: `dynamic initializer for 'iHighDamp'' | BSTreeNode.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00ce0230()
 {
     f3m_00ce0230::DAT_00f660e8.Setting::Setting();
@@ -5197,6 +5273,7 @@ extern InitTarget DAT_0107a278;
 void __cdecl FUN_00d97290();
 }
 
+// pdb: `dynamic initializer for 'sCopyProtectionTitle'' | Main.obj | tesv_win, ustr, medium
 void __cdecl FUN_00cf4cc0()
 {
     f3m_00cf4cc0::DAT_0107a278.FUN_0043b7f0(f3m_00cf4cc0::DAT_00e11c38, f3m_00cf4cc0::DAT_00e11c64);
@@ -5287,6 +5364,7 @@ extern Setting DAT_00f6de24;
 void __cdecl FUN_00d974a0();
 }
 
+// pdb: `dynamic initializer for 'pOKText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf51e0()
 {
     f3m_00cf51e0::DAT_00f6de24.Setting::Setting();
@@ -5307,6 +5385,7 @@ extern InitTarget DAT_01077818;
 void __cdecl FUN_00d96540();
 }
 
+// pdb: `dynamic initializer for 'iDefaultDistortMaxInterval'' | FORenderedMenu.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00ceb320()
 {
     f3m_00ceb320::DAT_01077818.FUN_0043b7f0(f3m_00ceb320::DAT_00e09504, 0x1194);
@@ -5327,6 +5406,7 @@ extern InitTarget DAT_0107938c;
 void __cdecl FUN_00d96900();
 }
 
+// pdb: `dynamic initializer for 'iRadioStationTimeout'' | FalloutRadio.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf1c40()
 {
     f3m_00cf1c40::DAT_0107938c.FUN_0043b7f0(f3m_00cf1c40::DAT_00e0ca18, 0x3e8);
@@ -5385,6 +5465,7 @@ extern InitTarget DAT_0108ebcc;
 void __cdecl FUN_00d98240();
 }
 
+// pdb: `dynamic initializer for 'iPreloadSizeLimit'' | MoviePlayer.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cffca0()
 {
     f3m_00cffca0::DAT_0108ebcc.FUN_0043b7f0(f3m_00cffca0::DAT_00e2022c, 0x1900000);
@@ -5405,6 +5486,7 @@ extern InitTarget DAT_0107bad0;
 void __cdecl FUN_00d97ae0();
 }
 
+// pdb: `dynamic initializer for 'iJoystickLookLeftRight'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf8e30()
 {
     f3m_00cf8e30::DAT_0107bad0.FUN_0043b7f0(f3m_00cf8e30::DAT_00e18c00, 3);
@@ -5571,6 +5653,7 @@ extern Setting DAT_00f6de00;
 void __cdecl FUN_00d97470();
 }
 
+// pdb: `dynamic initializer for 'pAbortText'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00cf50c0()
 {
     f3m_00cf50c0::DAT_00f6de00.Setting::Setting();
@@ -5592,6 +5675,7 @@ extern InitTarget DAT_01079ef4;
 void __cdecl FUN_00d96b90();
 }
 
+// pdb: `dynamic initializer for 'BGSMoviePlayer::sIntroSequence'' | BGSMoviePlayer.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf3ee0()
 {
     f3m_00cf3ee0::DAT_01079ef4.FUN_0043b7f0(f3m_00cf3ee0::DAT_00e10db8, f3m_00cf3ee0::DAT_00db3438);
@@ -5650,6 +5734,7 @@ extern InitTarget DAT_0107912c;
 void __cdecl FUN_00d96870();
 }
 
+// pdb: `dynamic initializer for 'FalloutAudio::iMusicTransitionInMS'' | FalloutAudio.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cf1a10()
 {
     f3m_00cf1a10::DAT_0107912c.FUN_0043b7f0(f3m_00cf1a10::DAT_00e0c828, 0x3e8);
@@ -5708,6 +5793,7 @@ extern InitTarget DAT_0107a474;
 void __cdecl FUN_00d97150();
 }
 
+// pdb: `dynamic initializer for 'iCameraPathFPS'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4960()
 {
     f3m_00cf4960::DAT_0107a474.FUN_0043b7f0(f3m_00cf4960::DAT_00e119d8, 60);
@@ -5838,6 +5924,7 @@ extern Obj_cf2350 DAT_010796a8;
 extern const char DAT_00e0d35c[];
 void __cdecl FUN_00d96ad0();
 
+// pdb: `dynamic initializer for 'ImpactMixer::iMaxImpactSoundCount'' | ImpactMixer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `anonymous namespace'::`dynamic initializer for 'NPCFootPool'')
 void __cdecl FUN_00cf2350()
 {
     DAT_010796a8.FUN_0043b7f0(DAT_00e0d35c, 0x20);
@@ -5859,6 +5946,7 @@ extern InitTarget DAT_0107a4a4;
 void __cdecl FUN_00d97140();
 }
 
+// pdb: `dynamic initializer for 'sCameraPathNif'' | Main.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00cf4940()
 {
     f3m_00cf4940::DAT_0107a4a4.FUN_0043b7f0(f3m_00cf4940::DAT_00e119b4, f3m_00cf4940::DAT_00e119c4);
@@ -5917,6 +6005,7 @@ extern InitTarget DAT_0107bbc4;
 void __cdecl FUN_00d979e0();
 }
 
+// pdb: `dynamic initializer for 'iDifficultySetting_G'' | PlayerCharacter.obj | tesv_win, ustr, medium
 void __cdecl FUN_00cf8ba0()
 {
     f3m_00cf8ba0::DAT_0107bbc4.FUN_006f00a0(f3m_00cf8ba0::DAT_00e18a08, 2);
@@ -5965,6 +6054,7 @@ extern Setting DAT_01079608;
 extern char DAT_00e0d0ec[];
 void __cdecl FUN_00d96970();
 }
+// pdb: `dynamic initializer for 'ImpactMixer::iCollisionSoundTimeDelta'' | ImpactMixer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'iCollisionSoundTimeDelta'')
 void __cdecl FUN_00cf1f40()
 {
     f3m_00cf1f40::DAT_01079608.FUN_0043b7f0(f3m_00cf1f40::DAT_00e0d0ec, 0x14d);
@@ -6211,6 +6301,7 @@ struct Obj {
 extern Obj DAT_01074378;
 }
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSTempEffectDebris.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00ce3aa0() {
     f3_00ce3aa0::DAT_01074378.FUN_008a8440();
 }
@@ -6360,6 +6451,7 @@ struct CleanupB_00cef240 {
     void FUN_008a8440();
 };
 extern CleanupB_00cef240 DAT_0107862d;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | MagicHitEffect.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cef240()
 {
     DAT_0107862d.FUN_008a8440();
@@ -6470,6 +6562,7 @@ void __cdecl FUN_00ce5870(){DAT_010756dc.FUN_008a8440();}
 // @f3 0x00ce84f0 (community match, verified in this file)
 struct StaticCleanupA232 { void FUN_008a8440(); };
 extern StaticCleanupA232 DAT_01076964;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | LoadingMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00ce84f0() { DAT_01076964.FUN_008a8440(); }
 
 // @f3 0x00ce3e50 (community match, verified in this file)
@@ -6480,6 +6573,7 @@ struct Obj {
 extern Obj DAT_01074450;
 }
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSTempEffectParticle.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00ce3e50() {
     f3_00ce3e50::DAT_01074450.FUN_008a8440();
 }
@@ -6600,6 +6694,7 @@ void __cdecl FUN_00cf1d60() {
 // @f3 0x00cef7f0 (community match, verified in this file)
 struct StaticCleanupA272 { void FUN_008a8440(); };
 extern StaticCleanupA272 DAT_0107879c;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | MagicShaderHitEffect.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00cef7f0() { DAT_0107879c.FUN_008a8440(); }
 
 // @f3 0x00ce38d0 (community match, verified in this file)
@@ -6678,6 +6773,7 @@ struct CleanupB_00cf1a00 {
     void FUN_008a8440();
 };
 extern CleanupB_00cf1a00 DAT_0107919c;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cf1a00()
 {
     DAT_0107919c.FUN_008a8440();
@@ -6710,6 +6806,7 @@ void __cdecl FUN_00ce0510() {
 // @f3 0x00ce4020 (community match, verified in this file)
 struct CleanupObject { void FUN_008a8440(); };
 extern CleanupObject DAT_010744c4;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSTempEffectSimpleDecal.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00ce4020() { DAT_010744c4.FUN_008a8440(); }
 
 // @f3 0x00cf7220 (community match, verified in this file)
@@ -6727,6 +6824,7 @@ void __cdecl FUN_00cf7220() {
 // @f3 0x00cf5570 (community match, verified in this file)
 struct StaticCleanupA306 { void FUN_008a8440(); };
 extern StaticCleanupA306 DAT_0107a680;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | SceneGraph.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00cf5570() { DAT_0107a680.FUN_008a8440(); }
 
 // @f3 0x00cf9600 (community match, verified in this file)
@@ -6737,6 +6835,7 @@ struct Obj {
 extern Obj DAT_0107c010;
 }
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | ProcessLists.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00cf9600() {
     f3_00cf9600::DAT_0107c010.FUN_008a8440();
 }
@@ -6771,6 +6870,7 @@ struct Obj {
 extern Obj DAT_01076b44;
 }
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | LockPickMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00ce8aa0() {
     f3_00ce8aa0::DAT_01076b44.FUN_008a8440();
 }
@@ -6813,6 +6913,7 @@ struct CleanupB_00ce8060 {
     void FUN_008a8440();
 };
 extern CleanupB_00ce8060 DAT_010762bd;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | HUDMainMenu.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00ce8060()
 {
     DAT_010762bd.FUN_008a8440();
@@ -6911,6 +7012,7 @@ struct Obj01074188
 
 extern Obj01074188 DAT_01074188;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSTECreateTask.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00ce3620()
 {
     DAT_01074188.FUN_008a8440();
@@ -6937,6 +7039,7 @@ struct Obj01074395
 
 extern Obj01074395 DAT_01074395;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSTempEffectGeometryDecal.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00ce3c80()
 {
     DAT_01074395.FUN_008a8440();
@@ -7015,6 +7118,7 @@ struct Obj01075c90
 
 extern Obj01075c90 DAT_01075c90;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void FUN_00ce69a0()
 {
     DAT_01075c90.FUN_008a8440();
@@ -7083,6 +7187,7 @@ namespace f3m_00ce4030 {
 
 void __cdecl FUN_00d951f0();
 
+// pdb: `dynamic initializer for 'BSTempEffectSimpleDecal::spPreloadedDecalTextureSets'' | BSTempEffectSimpleDecal.obj | fnv360_0822_retail, objopen_prop, low
 void __cdecl FUN_00ce4030() {
     atexit(FUN_00d951f0);
 }
@@ -7109,6 +7214,7 @@ void __cdecl FUN_00cf7690() {
 #include <stdlib.h>
 namespace f3m_00cffde0 {
 void FUN_00d98280();
+// pdb: `dynamic initializer for 'NiAlphaProperty::ms_spDefault'' | NiAlphaProperty.obj | tesv_win, objrun_open, low
 void FUN_00cffde0() { atexit(FUN_00d98280); }
 }   // namespace f3m_00cffde0
 
@@ -7308,6 +7414,7 @@ struct Obj01077298
 
 extern Obj01077298 DAT_01077298;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cea000()
 {
     DAT_01077298.FUN_008a8440();
@@ -7334,6 +7441,7 @@ struct Obj010774b8
 
 extern Obj010774b8 DAT_010774b8;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | VATSMenu.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cea5f0()
 {
     DAT_010774b8.FUN_008a8440();
@@ -7647,6 +7755,7 @@ struct Obj01078730
 
 extern Obj01078730 DAT_01078730;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | MagicModelHitEffect.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cef620()
 {
     DAT_01078730.FUN_008a8440();
@@ -8323,6 +8432,7 @@ struct Obj0107b228
 
 extern Obj0107b228 DAT_0107b228;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSDoorHavokController.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cf7070()
 {
     DAT_0107b228.FUN_008a8440();
@@ -8336,6 +8446,7 @@ struct Obj0107b32c
 
 extern Obj0107b32c DAT_0107b32c;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSPlayerDistanceCheckController.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cf7470()
 {
     DAT_0107b32c.FUN_008a8440();
@@ -8349,6 +8460,7 @@ struct Obj0107b544
 
 extern Obj0107b544 DAT_0107b544;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cf7bf0()
 {
     DAT_0107b544.FUN_008a8440();
@@ -8631,6 +8743,7 @@ struct Obj0108ed84
 
 extern Obj0108ed84 DAT_0108ed84;
 
+// pdb: `dynamic initializer for 'NiMainSDMObject'' | NiObject.obj | fnv360_0822_retail, caller_sim, high
 void FUN_00cffd70()
 {
     DAT_0108ed84.FUN_00854b50();
@@ -8644,6 +8757,7 @@ struct Obj0108ef00
 
 extern Obj0108ef00 DAT_0108ef00;
 
+// pdb: `dynamic initializer for 'NiTexture::RendererData::ms_kReplacementFormat'' | NiTexture.obj | fnv360_0822_retail, caller_sim, high
 void FUN_00cffea0()
 {
     DAT_0108ef00.FUN_008474b0();
@@ -8686,6 +8800,7 @@ namespace f3m_00ce8ac0 {
 
 void __cdecl FUN_00d95c70();
 
+// pdb: `dynamic initializer for 'LockPickMenu::sp3DCamera'' | LockPickMenu.obj | fnv360_0822_retail, objopen_prop, low
 void __cdecl FUN_00ce8ac0() {
     atexit(FUN_00d95c70);
 }
@@ -8774,6 +8889,7 @@ namespace f3m_00ce8ab0 {
 
 void __cdecl FUN_00d95c40();
 
+// pdb: `dynamic initializer for 'LockPickMenu::spLockModel'' | LockPickMenu.obj | fnv360_0822_retail, objopen_prop, low
 void __cdecl FUN_00ce8ab0() {
     atexit(FUN_00d95c40);
 }

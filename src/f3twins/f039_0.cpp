@@ -7,10 +7,13 @@ struct P_0086ba60 { void FUN_0086ba60(void*); };
 extern P_0086ba60 DAT_01090a78;
 
 struct B_0082a910 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0082a910() throw() { FUN_006bd950(); FUN_0089e890(t); } };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,char const *,unsigned short>::`scalar deleting destructor' | NiStream.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: NiTPointerMap<char const *,unsigned short>::`scalar deleting destructor')
 struct D_0082a910 : B_0082a910 { D_0082a910(); __forceinline virtual ~D_0082a910() throw() { FUN_006bd950(); } static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 D_0082a910::D_0082a910() {}
 
 struct B_0086aab0 { unsigned h; void** t; void FUN_00838790(); virtual ~B_0086aab0() throw() { FUN_00838790(); FUN_0089e890(t); } };
+// pdb: NiShaderFactory::GetGlobalShaderConstantEntry | NiShaderFactory.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kKey
 struct D_0086aab0 : B_0086aab0 { D_0086aab0(); __forceinline virtual ~D_0086aab0() throw() { FUN_00838790(); } static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 D_0086aab0::D_0086aab0() {}
 
@@ -19,14 +22,17 @@ struct D_00881030 : B_00881030 { D_00881030(); __forceinline virtual ~D_00881030
 D_00881030::D_00881030() {}
 
 struct B_00898210 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00898210() throw() { FUN_006bd950(); FUN_0089e890(t); } };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,char const *,NiD3DVertexShader *>::`scalar deleting destructor' | NiD3DShaderProgramFactory.obj | fnv360_0721_beta, objrun_open, low
 struct D_00898210 : B_00898210 { D_00898210(); __forceinline virtual ~D_00898210() throw() { FUN_006bd950(); } static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 D_00898210::D_00898210() {}
 
 struct B_008982b0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_008982b0() throw() { FUN_006bd950(); FUN_0089e890(t); } };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,char const *,NiD3DPixelShader *>::`scalar deleting destructor' | NiD3DShaderProgramFactory.obj | fnv360_0721_beta, objrun_open, low
 struct D_008982b0 : B_008982b0 { D_008982b0(); __forceinline virtual ~D_008982b0() throw() { FUN_006bd950(); } static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 D_008982b0::D_008982b0() {}
 
 struct B_00899de0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00899de0() throw() { FUN_006bd950(); FUN_0089e890(t); } };
+// pdb: NiTPointerMap<char const *,NiObject * (__cdecl*)(void)>::NewItem | NiStream.obj | fnv360_0822_debug, objopen_prop, low
 struct D_00899de0 : B_00899de0 { D_00899de0(); __forceinline virtual ~D_00899de0() throw() { FUN_006bd950(); } static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 D_00899de0::D_00899de0() {}
 
@@ -39,9 +45,11 @@ struct D_0089a700 : B_0089a700 { D_0089a700(); __forceinline virtual ~D_0089a700
 D_0089a700::D_0089a700() {}
 
 struct B_0089b980 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0089b980() throw() { FUN_006bd950(); FUN_0089e890(t); } };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,char const *,NiShader *>::`scalar deleting destructor' | NiD3DShaderFactory.obj | fnv360_0721_beta, objrun_open, low
 struct D_0089b980 : B_0089b980 { D_0089b980(); __forceinline virtual ~D_0089b980() throw() { FUN_006bd950(); } static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 D_0089b980::D_0089b980() {}
 
 struct B_0089ba20 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0089ba20() throw() { FUN_006bd950(); FUN_0089e890(t); } };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,char const *,NiPointer<NiShaderLibrary> >::`scalar deleting destructor' | NiD3DShaderFactory.obj | fnv360_0721_beta, objrun_open, low
 struct D_0089ba20 : B_0089ba20 { D_0089ba20(); __forceinline virtual ~D_0089ba20() throw() { FUN_006bd950(); } static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 D_0089ba20::D_0089ba20() {}

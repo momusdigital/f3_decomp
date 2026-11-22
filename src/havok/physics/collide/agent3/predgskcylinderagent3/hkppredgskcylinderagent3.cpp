@@ -26,10 +26,12 @@ struct FNVFlags
     unsigned char unknownA;
     unsigned char flags;
 };
-extern "C" int __cdecl DispatchInputRecord(FNVPair*, int, FNVFlags*);
 // @f3 0x009cb230 (community match, verified in this file)
 int FUN_009cc0e0(FNVPair*,int,FNVFlags*);
-int __cdecl ConvertPairFlags(FNVPair* pair, int mode, FNVFlags* result)
+// pdb: hkPredGskCylinderAgent3::create | hkpPredGskCylinderAgent3.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: input, entry, agentData
+// pdb: hkPredGskCylinderAgent3::create | hkpPredGskCylinderAgent3.obj | fnv360_0822_retail, caller_sim, high (was: ConvertPairFlags)
+int __cdecl hkPredGskCylinderAgent3_create(FNVPair* pair, int mode, FNVFlags* result)
 {
     int converted = FUN_009cc0e0(pair, mode, result);
     result->flags &= 0xF0;
@@ -55,18 +57,7 @@ struct Allocator
     virtual Node* allocate(unsigned int size);
 };
 
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* allocator;
-};
-
-extern "C" Manager* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00d41930(void*, void*, void*, void*);
-extern double DAT_010cf218;
 
 struct Node
 {
@@ -205,7 +196,9 @@ struct LocalSource70
     int unk6c;
 };
 
-float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* apFlags)
+// pdb: separatingDistanceUsingCapsuleRepresentations | hkpPredGskCylinderAgent3.obj | fnv360_0822_retail, caller_sim, high
+// pdb: separatingDistanceUsingCapsuleRepresentations | hkpPredGskCylinderAgent3.obj | fnv360_0822_retail, caller_sim, high (was: ComputeExtendedResult)
+float __cdecl separatingDistanceUsingCapsuleRepresentations(LocalSource* source, void* apArg, FNVFlags* apFlags)
 {
     LocalSource70 local_source;
     ((LocalSource*)&local_source)->CopyBase(source);
@@ -337,30 +330,8 @@ void D40AF0Caller(D40AF0State* s, D40AF0Mask* m)
     FUN_00d40af0(s, m);
 }
 
-void __fastcall FUN_00c905b0(void* selfVal);
-
-// For k in 0..1, if vals[k] is non-null, calls FUN_00c905b0 on **slots[k] and then stores vals[k] into *slots[k].
-// @fnv 0x00d409d0
-static __declspec(noinline) void FUN_00d409d0(void** apValues, void** slots)
-{
-    for (int k = 0; k < 2; k++)
-    {
-        if (apValues[k] != 0)
-        {
-            void* obj = slots[k];
-            FUN_00c905b0(*(void**)*(void**)obj);
-            *(void**)slots[k] = apValues[k];
-        }
-    }
-}
-
 void** volatile g_d409d0_vals;
 void** volatile g_d409d0_slots;
-
-void d409d0_probe_caller(void)
-{
-    FUN_00d409d0(g_d409d0_vals, g_d409d0_slots);
-}
 
 inline void* operator new(unsigned int, void* p) throw()
 {
@@ -378,27 +349,6 @@ struct D40A10Holder
     {
         return *allocator;
     }
-};
-
-struct D40A10Shape
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    float unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    float unk20;
-    float unk24;
-    float unk28;
-    float unk2c;
-    float unk30;
-    float unk34;
-    float unk38;
-    float unk3c;
-    float FUN_00d571a0();
 };
 
 struct D40A10Node
@@ -424,38 +374,3 @@ struct D40A10Entry
         m_data = data;
     }
 };
-
-// For i in 0..1: if a[i] is set, builds a node via FUN_00d22590 into out[i], saves the object's old record in b[i] and replaces it with out[i]; else b[i] = 0.
-// @fnv 0x00d40a10
-static __declspec(noinline) void FUN_00d40a10(int* a, FNVTypeRecord** apRecords, FNVObject** apObjects,
-                                              D40A10Entry* out)
-{
-    FNVObject**& list = apObjects;
-    D40A10Entry*& dst = out;
-    for (int i = 0; i < 2; ++dst, ++i)
-    {
-        if (a[i] != 0)
-        {
-            D40A10Shape* shape = (D40A10Shape*)list[i]->record->unknown0;
-            D40A10Node* node = (D40A10Node*)((D40A10Holder*)FUN_00c85750())->heap().allocate(0x40);
-            node->unk04 = 0x40;
-            float t = shape->unk10;
-            float val = t + shape->FUN_00d571a0() + DAT_010cf218;
-            D40A10Node* pResult = node->FUN_00d22590(&shape->unk20, &shape->unk30, val);
-            new (dst) D40A10Entry(list[i]->record, list[i]->record->unknown8);
-            dst->m_node = pResult;
-            dst->m_uiEdgeIndex = -1;
-            apRecords[i] = list[i]->record;
-            list[i]->record = (FNVTypeRecord*)dst;
-        }
-        else
-        {
-            apRecords[i] = 0;
-        }
-    }
-}
-
-void D40A10Caller(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out)
-{
-    FUN_00d40a10(a, b, objs, out);
-}

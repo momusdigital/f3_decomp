@@ -803,6 +803,8 @@ class FUN_00b7c750_cls
 };
 
 // @fnv 0x00b7c750
+// pdb: ShadowLightShader::SetupGeometryOpt_WorldViewProj | ShadowLightShader.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeometry, aWorld
 long FUN_00b7c750_cls::FUN_00b7c750(unsigned int uiUnused, unsigned int auiCameraValue)
 {
     m_pkAccumulationCamera->FUN_00e6fbb0(auiCameraValue, 0);

@@ -56,7 +56,7 @@ struct Owner
     InterfaceB* second;
     int selectorA;
     int selectorB;
-    void FUN_00d426b0(int);
+    void hkpPhantomAgent_cleanup(int);
 };
 // If selectorA or selectorB equals 0x1D, dispatches argA/argB to first or second respectively, then calls First(1).
 // @f3 0x009cd100 (community match, verified in this file)
@@ -74,7 +74,8 @@ struct DispatchF3
     virtual void s24();
     virtual void Dispatch(int, int);
 };
-void Owner::FUN_00d426b0(int)
+// pdb: hkpPhantomAgent::cleanup | hkpPhantomAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Owner::hkpPhantomAgent_cleanup(int)
 {
     if (selectorA == 0x1D)
         ((DispatchF3*)first)->Dispatch(argA, argB);
@@ -128,7 +129,7 @@ struct __declspec(novtable) S_00d42790_Agent : S_00d42790_RefObj
     {}
 };
 
-struct FUN_00d42790 : S_00d42790_Agent
+struct hkpPhantomAgent : S_00d42790_Agent // src: F3_EXE vtable 0x00e7f3a0 (old: FUN_00d42790)
 {
     const S_00d42790_CdBody* m_pBodyA;
     const S_00d42790_CdBody* m_pBodyB;
@@ -137,13 +138,15 @@ struct FUN_00d42790 : S_00d42790_Agent
     int m_iAgentTypeA;
     int m_iAgentTypeB;
 
-    FUN_00d42790(const S_00d42790_CdBody& bodyA, const S_00d42790_CdBody& bodyB, void* mgr);
+    hkpPhantomAgent(const S_00d42790_CdBody& bodyA, const S_00d42790_CdBody& bodyB, void* mgr);
     virtual void v00();
 };
 
 // Stores the root bodies and shape types of two collision bodies in a new agent.
 // @fnv 0x00d42790
-FUN_00d42790::FUN_00d42790(const S_00d42790_CdBody& bodyA, const S_00d42790_CdBody& bodyB, void* mgr)
+// pdb: hkpPhantomAgent::hkpPhantomAgent | hkpPhantomAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, contactMgr
+hkpPhantomAgent::hkpPhantomAgent(const S_00d42790_CdBody& bodyA, const S_00d42790_CdBody& bodyB, void* mgr)
     : S_00d42790_Agent(mgr)
 {
     m_pBodyA = bodyA.getRootCdBody();
@@ -160,7 +163,10 @@ struct Dispatch
 
 // Forwards apFirst and apSecond to apDispatch->V04 and returns its result.
 // @fnv 0x00d42710
-int __stdcall DispatchToV04(void* apFirst, void* apSecond, void* apThird, Dispatch* apDispatch)
+// pdb: hkpPhantomAgent::getPenetrations | hkpPhantomAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpPhantomAgent::getPenetrations | hkpPhantomAgent.obj | fnv360_0822_retail, vtable, high (was: DispatchToV04)
+int __stdcall hkpPhantomAgent_getPenetrations(void* apFirst, void* apSecond, void* apThird, Dispatch* apDispatch)
 {
     return apDispatch->V04(apFirst, apSecond);
 }
@@ -172,13 +178,17 @@ struct FUN_00d42730_obj
 };
 
 // @fnv 0x00d42730
-int __cdecl CallVirtualMethod(int a1, int a2, int aiUnused, FUN_00d42730_obj* apObj)
+// pdb: hkpPhantomAgent::staticGetPenetrations | hkpPhantomAgent.obj | fnv360_0822_retail, objrun, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpPhantomAgent::staticGetPenetrations | hkpPhantomAgent.obj | fnv360_0822_retail, objrun, high (was: CallVirtualMethod)
+int __cdecl hkpPhantomAgent_staticGetPenetrations(int a1, int a2, int aiUnused, FUN_00d42730_obj* apObj)
 {
     return apObj->v1(a1, a2);
 }
 
 // @fnv 0x00d42700
-void __stdcall FUN_00d42700(int, int, int, int)
+// pdb: hkpPhantomAgent::processCollision | hkpPhantomAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpPhantomAgent_processCollision(int, int, int, int)
 {}
 
 // @fnv 0x00d42750
@@ -186,5 +196,6 @@ void __stdcall FUN_00d42750(int, int, int, int)
 {}
 
 // @fnv 0x00d42770
-void __stdcall FUN_00d42770(int, int, int, int, int)
+// pdb: hkpPhantomAgent::linearCast | hkpPhantomAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpPhantomAgent_linearCast(int, int, int, int, int)
 {}

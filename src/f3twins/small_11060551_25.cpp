@@ -5,6 +5,8 @@
 struct P_00548740 { void FUN_00548740(int, int); };
 extern P_00548740 DAT_01090a78;
 
+// pdb: BSSimpleArray<FootIK_DATA::FootIK_Leg_DATA,1024>::_Reallocate | BGSRagdoll.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuffer, aiNewSizeInItem
 void __stdcall FUN_00548740(int a, int n)
 {
     DAT_01090a78.FUN_00548740(a, n * 56);

@@ -7,6 +7,7 @@ NiFixedString NiTextureEffect::ms_kTextureEffectNames[4];
 
 // Initializes the four NiFixedString entries with the strings ProjectedLight, ProjectedShadow, EnvironmentMap and FogMap, releasing the previous handles.
 // @fnv 0x00a927e0
+// pdb: NiTextureEffect::_SDMInit | NiTextureEffect.obj | fnv360_0822_retail, ustr, medium
 void NiTextureEffect::InitializePoint3()
 {
     char* pcOld = ms_kTextureEffectNames[0].m_kHandle;
@@ -44,12 +45,6 @@ void NiTextureEffect::InitializePoint3()
 
 extern int g_011f5e94;
 
-// @fnv 0x00a927d0
-int* __cdecl FUN_00a927d0()
-{
-    return &g_011f5e94;
-}
-
 extern long DAT_011f5ea0;
 extern long DAT_011f5ea4;
 extern long DAT_011f5ea8;
@@ -60,6 +55,7 @@ struct FUN_00a928b0_shell : NiTextureEffect
 };
 
 // @fnv 0x00a928b0
+// pdb: NiTextureEffect::_SDMShutdown | NiTextureEffect.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00a928b0_shell::ClearFixedStrings()
 {
     NiFixedString* arr = ms_kTextureEffectNames;
@@ -128,6 +124,8 @@ struct FUN_00a92a30_shell : NiTextureEffect
     bool FUN_00a92a30(NiStream&);
 };
 // @fnv 0x00a92a30
+// pdb: NiTextureEffect::RegisterStreamables | NiTextureEffect.obj | fnv360_0721_beta, objrun, low
+// pdb params: kStream
 bool FUN_00a92a30_shell::FUN_00a92a30(NiStream& kStream)
 {
     if (!((FUN_00a6ff10_holder*)this)->FUN_00a6ff10(kStream))
@@ -163,6 +161,8 @@ struct FUN_00a929d0_Holder : NiDynamicEffect
 };
 // Links the stream's object to m_pObject, releasing the previous object and incrementing the new one's reference count.
 // @fnv 0x00a929d0
+// pdb: NiTextureEffect::LinkObject | NiTextureEffect.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kStream
 void FUN_00a929d0_Holder::FUN_00a929d0(NiStream& kStream)
 {
     NiDynamicEffect::LinkObject(kStream);
@@ -228,6 +228,7 @@ struct FUN_00a92710_cls : FUN_00a92710_base
 
 // Calls the base Init, sets the vtable pointer, copies a matrix into m_mat1 and m_mat2, zeroes several floats and ints, and initialises m_sub1 and m_sub2.
 // @fnv 0x00a92710
+// pdb: NiTextureEffect::NiTextureEffect | NiTextureEffect.obj | fnv360_0822_retail, caller_sim, medium
 void* FUN_00a92710_cls::FUN_00a92710()
 {
     FUN_00a92710_base* base = reinterpret_cast<FUN_00a92710_base*>(this);
@@ -326,6 +327,7 @@ struct TextureEffectMatch
 };
 
 // @fnv 0x00a92bd0
+// pdb: NiTextureEffect::`scalar deleting destructor' | NiTextureEffect.obj | fnv360_0721_beta, objrun, low
 TextureEffectMatch* TextureEffectMatch::FUN_00a92bd0(unsigned int flags)
 {
     m_ppVirtualMethodTable = reinterpret_cast<void**>(&DAT_0109fd0c);
@@ -354,6 +356,8 @@ struct SearchObject
     int FUN_00a92ef0(unsigned int arg0);
 };
 // @fnv 0x00a92ef0
+// pdb: AbsorbEffect::FinishInitLoadGame | AbsorbEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 int SearchObject::FUN_00a92ef0(unsigned int arg0)
 {
     unsigned int callResult0 = (unsigned int)((CallTarget_00a68c60*)this)->FUN_00a68c60((int)arg0);
@@ -756,6 +760,8 @@ struct TexEffectSaver : NiDynamicEffectStub
 
 // Saves the dynamic effect base, model projection matrix and translation, texture settings, source texture link, clipping flag and model plane to the stream.
 // @fnv 0x00a932f0
+// pdb: NiTextureEffect::SaveBinary | NiTextureEffect.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void TexEffectSaver::FUN_00a932f0(NiStream& kStream)
 {
     NiDynamicEffectStub::SaveBinary(kStream);
@@ -776,6 +782,7 @@ struct NiMemObject
     static void* __cdecl operator new(unsigned int size);
 };
 // @fnv 0x00a929b0
+// pdb: NiTextureEffect::CreateObject | NiTextureEffect.obj | fnv360_0721_beta, objrun_prop, low
 void* __cdecl FUN_00a929b0()
 {
     FUN_00a92710_cls* obj = (FUN_00a92710_cls*)NiMemObject::operator new(0x15c);
@@ -879,6 +886,7 @@ struct TextureEffectCandidate
 };
 // Copies this candidate into dest via FUN_00a68d40, then copies the texture reference (with refcount add/release), matrix, vectors and trailing fields.
 // @fnv 0x00a92f10
+// pdb: NiTextureEffect::UpdateProjection | NiTextureEffect.obj | fnv360_0721_beta, objrun, low, conflict (bridge: NiTextureEffect::CopyMembers)
 void TextureEffectCandidate::CopyTo(TextureEffectCandidate* dest, void* context)
 {
     FUN_00a68d40(dest, context);
@@ -961,6 +969,8 @@ struct TextureEffectViewer : DynamicEffectViewer
     void AppendToStrings(StrArr& strings);
 };
 // @f3 0x0085f1d0 (community match, verified in this file)
+// pdb: NiTextureEffect::GetViewerStrings | NiTextureEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void TextureEffectViewer::AppendToStrings(StrArr& strings)
 {
     FUN_00a69140(strings);
@@ -1038,6 +1048,8 @@ struct TextureProjection
 
 // Builds worldProjection and projectionTranslation from coordGenType, computes the world plane normal and constant, and increments revision.
 // @fnv 0x00a92c40
+// pdb: NiTextureEffect::CopyMembers | NiTextureEffect.obj | fnv360_0721_beta, objrun, medium
+// pdb params: pDest, kCloning
 void TextureProjection::UpdateWorldProjection()
 {
     float y;
@@ -1149,6 +1161,8 @@ struct TexEffectLoader : NiDynamicEffectL
     void FUN_00a93140(NiStreamL& kStream);
 };
 // @fnv 0x00a93140
+// pdb: NiTextureEffect::LoadBinary | NiTextureEffect.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void TexEffectLoader::FUN_00a93140(NiStreamL& kStream)
 {
     NiDynamicEffectL::LoadBinary(kStream);
@@ -1288,6 +1302,8 @@ class NiTextureEffectA93
 };
 // Allocates a new a93::FUN_00a92710 object, copies this NiTextureEffectA93 into it via CopyTo, and returns the new object.
 // @fnv 0x00a930f0
+// pdb: NiTextureEffect::CreateClone | NiTextureEffect.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kCloning
 a93::FUN_00a92710* NiTextureEffectA93::Clone(NiCloningProcessA93& kCloning)
 {
     a93::FUN_00a92710* pkObject = new a93::FUN_00a92710;
@@ -1300,6 +1316,8 @@ extern "C" void* __cdecl _NiMalloc(unsigned int);
 int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 
 // @fnv 0x00a92a60
+// pdb: NiTextureEffect::GetViewerString | NiTextureEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pPrefix, eMode
 char* __cdecl FUN_00a92a60(const char* pPrefix, unsigned int eMode)
 {
     unsigned int uiLen = strlen(pPrefix) + 0x19;
@@ -1330,6 +1348,8 @@ extern "C"
 }
 // Allocates a buffer and formats pPrefix with a projection mode name selected by eMode into it.
 // @fnv 0x00a92b00
+// pdb: NiTextureEffect::GetViewerString | NiTextureEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pPrefix, eMode
 char* __cdecl BuildProjectionModeString(const char* pPrefix, int eMode)
 {
     unsigned int uiLen = strlen(pPrefix) + 25;

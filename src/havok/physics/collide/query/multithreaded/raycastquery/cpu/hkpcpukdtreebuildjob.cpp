@@ -5,25 +5,10 @@
 #include <xmmintrin.h>
 #include <windows.h>
 extern DWORD DAT_0126835c;
-extern "C" void _ReadWriteBarrier(void);
-unsigned __int64 __cdecl __rdtsc(void);
 struct __declspec(align(8)) ScratchWord
 {
     DWORD unk00;
     DWORD value;
-};
-struct TraceRecord
-{
-    const char* m_pTag;
-    DWORD m_dwTime;
-    DWORD unk08;
-};
-struct TraceBuffer
-{
-    DWORD unk00;
-    TraceRecord* m_pCurrent;
-    DWORD unk08;
-    TraceRecord* m_pRecordEnd;
 };
 struct ArgStruct
 {
@@ -46,47 +31,12 @@ struct ArgStruct
     int m_3c;
     int m_40;
 };
-struct Head
-{
-    int m_20;
-    int m_24;
-    unsigned short s0;
-    unsigned short s1;
-    unsigned short s2;
-    unsigned short s3;
-    unsigned short s4;
-    unsigned short s5;
-    unsigned short s6;
-    unsigned short s7;
-};
-struct Vec16
-{
-    float f0;
-    float f1;
-    float f2;
-    float f3;
-};
 struct __declspec(align(16)) VecA
 {
     float x;
     float y;
     float z;
     float w;
-};
-extern float DAT_012684d0[4];
-struct InElem
-{
-    DWORD* m_20ptr;
-    DWORD m_24;
-    DWORD m_28;
-    Vec16 m_2cvec;
-    DWORD m_3c;
-    VecA m_40vec;
-    DWORD unk30;
-    DWORD unk34;
-    DWORD unk38;
-    DWORD unk3c;
-    VecA initialVector;
 };
 struct OutElem
 {
@@ -128,43 +78,6 @@ struct OutElem
         m_50 = 0;
     }
 };
-__forceinline void FillChild(OutElem& out, const InElem& in, ArgStruct* arg, int child, int count, int offset,
-                             ScratchWord* scratch, int rem)
-{
-    out.m_14 = arg->m_14;
-    __m128 vector = *(const __m128*)&in.m_40vec;
-    if (child)
-        (&out - 1)->m_58 = count;
-    out.m_2c = in.m_20ptr[0];
-    out.m_30 = in.m_20ptr[1];
-    out.m_28 = in.m_24;
-    out.m_54 = in.m_28;
-    out.m_34 = *(DWORD*)&in.m_2cvec.f0;
-    out.m_38 = *(DWORD*)&in.m_2cvec.f1;
-    out.m_10 = arg->m_10;
-    out.m_24 = arg->m_2c;
-    if (child == 1)
-        scratch->value = rem;
-    _mm_store_ps(&out.m_40vec.x, vector);
-    int* pointer = arg->m_30;
-    if (child)
-    {
-        if (pointer)
-            pointer += child;
-        else
-            pointer = 0;
-    }
-    if (child == 0)
-    {
-        out.m_20 = arg->m_28 + offset * 8;
-        out.m_50 = pointer;
-    }
-    else
-    {
-        out.m_50 = pointer;
-        out.m_20 = arg->m_28 + offset * 8;
-    }
-}
 struct Ctx
 {
     int FUN_00d04400(void* p);
@@ -172,8 +85,6 @@ struct Ctx
     void FUN_00d04420(int h);
     int ProcessCallback(ArgStruct* a, ArgStruct* b, int z);
 };
-extern "C" void __cdecl MixChannels(Head* a1, char* a2, int a3, int a4, int a5, int a6, DWORD* a7);
-extern "C" void __cdecl FUN_00df37b0(Head* a1, char* a2, int a3, int a4, void* a5, int* a6, unsigned short* a7);
 struct ContextHandle
 {
     Ctx* object;
@@ -194,217 +105,8 @@ struct ArgHandle
         return object;
     }
 };
-// If arg->m_38 < 8 calls MixChannels, else calls FUN_00df37b0 and queues four child elements on ctx, with trace records around it and a final ProcessCallback call.
-// @fnv 0x00df7e20
-int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
-{
-    ScratchWord scratch;
-    TraceBuffer* pTraceBuf = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    TraceRecord* pTraceRec = pTraceBuf->m_pCurrent;
-    if (pTraceRec < pTraceBuf->m_pRecordEnd)
-    {
-        pTraceRec->m_pTag = "TtCpuKdTreeBuildFastDistributed";
-        _ReadWriteBarrier();
-        *(volatile DWORD*)&scratch.value = (DWORD)__rdtsc();
-        pTraceRec->m_dwTime = *(volatile DWORD*)&scratch.value;
-        pTraceBuf->m_pCurrent = pTraceRec + 1;
-    }
-    ArgStruct* arg = input;
-    int zero;
-    Head head;
-    head.m_20 = arg->m_20;
-    head.m_24 = arg->m_24;
-    int result;
-    if (8 > arg->m_38)
-    {
-        MixChannels(&head, arg->m_28, arg->m_2c, arg->m_3c, arg->m_38, arg->m_40, &scratch.value);
-        result = 0;
-        int* p30 = arg->m_30;
-        if (p30 != 0)
-        {
-            p30[0] = (int)scratch.value;
-            p30[1] = (int)scratch.value;
-            p30[2] = (int)scratch.value;
-            p30[3] = (int)scratch.value;
-        }
-    }
-    else
-    {
-        InElem in[4];
-        __m128 initial = _mm_load_ps(DAT_012684d0);
-        struct Pair
-        {
-            void* x;
-            void* y;
-        };
-        Pair pairs[4];
-        head.s2 = 0;
-        head.s1 = 0;
-        head.s0 = 0;
-        head.s6 = -1;
-        head.s5 = -1;
-        head.s4 = -1;
-        in[0].m_20ptr = (DWORD*)&pairs[0];
-        in[1].m_20ptr = (DWORD*)&pairs[1];
-        in[2].m_20ptr = (DWORD*)&pairs[2];
-        in[3].m_20ptr = (DWORD*)&pairs[3];
-        in[0].m_28 = -1;
-        _mm_store_ps(&in[0].initialVector.x, initial);
-        in[1].m_28 = -1;
-        _mm_store_ps(&in[1].initialVector.x, initial);
-        in[2].m_28 = -1;
-        _mm_store_ps(&in[2].initialVector.x, initial);
-        in[3].m_28 = -1;
-        _mm_store_ps(&in[3].initialVector.x, initial);
-        FUN_00df37b0(&head, arg->m_28, arg->m_3c, arg->m_38, &in[0].m_20ptr, arg->m_34, &head.s0);
-        OutElem out[4];
-        result = 0;
-        int iQuarter = arg->m_40 / 4;
-        int iCumulative = 8;
-        FillChild(out[0], in[0], arg, 0, iQuarter, iCumulative, &scratch, 0);
-        int rem = iQuarter & 1;
-        arg->m_34[0] += rem + iQuarter;
-        iCumulative += arg->m_34[0];
-        FillChild(out[1], in[1], arg, 1, iQuarter, iCumulative, &scratch, rem);
-        arg->m_34[1] += rem + iQuarter;
-        iCumulative += arg->m_34[1];
-        FillChild(out[2], in[2], arg, 2, iQuarter, iCumulative, &scratch, 0);
-        arg->m_34[2] += scratch.value + iQuarter;
-        iCumulative += arg->m_34[2];
-        FillChild(out[3], in[3], arg, 3, iQuarter, iCumulative, &scratch, 0);
-        arg->m_34[3] += scratch.value + iQuarter;
-        out[3].m_58 = arg->m_40 - iQuarter * 3;
-        *arg->m_14 = 4;
-        struct BigBuf
-        {
-            void* unk000;
-            DWORD unk004;
-            DWORD unk008;
-            DWORD unk00c;
-            DWORD unk010;
-            DWORD unk014;
-            DWORD unk018;
-            DWORD unk01c;
-            DWORD unk020;
-            DWORD unk024;
-            DWORD unk028;
-            DWORD unk02c;
-            DWORD unk030;
-            DWORD unk034;
-            DWORD unk038;
-            DWORD unk03c;
-            DWORD unk040;
-            DWORD unk044;
-            DWORD unk048;
-            DWORD unk04c;
-            DWORD unk050;
-            DWORD unk054;
-            DWORD unk058;
-            DWORD unk05c;
-            DWORD unk060;
-            DWORD unk064;
-            DWORD unk068;
-            DWORD unk06c;
-            DWORD unk070;
-            DWORD unk074;
-            DWORD unk078;
-            DWORD unk07c;
-            DWORD unk080;
-            DWORD unk084;
-            DWORD unk088;
-            DWORD unk08c;
-            DWORD unk090;
-            DWORD unk094;
-            DWORD unk098;
-            DWORD unk09c;
-            DWORD unk0a0;
-            DWORD unk0a4;
-            DWORD unk0a8;
-            DWORD unk0ac;
-            DWORD unk0b0;
-            DWORD unk0b4;
-            DWORD unk0b8;
-            DWORD unk0bc;
-            DWORD unk0c0;
-            DWORD unk0c4;
-            DWORD unk0c8;
-            DWORD unk0cc;
-            DWORD unk0d0;
-            DWORD unk0d4;
-            DWORD unk0d8;
-            DWORD unk0dc;
-            DWORD unk0e0;
-            DWORD unk0e4;
-            DWORD unk0e8;
-            DWORD unk0ec;
-            DWORD unk0f0;
-            DWORD unk0f4;
-            DWORD unk0f8;
-            DWORD unk0fc;
-            DWORD unk100;
-            DWORD unk104;
-            DWORD unk108;
-            DWORD unk10c;
-            DWORD unk110;
-            DWORD unk114;
-            DWORD unk118;
-            DWORD unk11c;
-            DWORD unk120;
-            DWORD unk124;
-            DWORD unk128;
-            DWORD unk12c;
-            DWORD unk130;
-            DWORD unk134;
-            DWORD unk138;
-            DWORD unk13c;
-            DWORD unk140;
-            DWORD unk144;
-            DWORD unk148;
-            DWORD unk14c;
-            DWORD unk150;
-            DWORD unk154;
-            DWORD unk158;
-            DWORD unk15c;
-            DWORD unk160;
-            DWORD unk164;
-            DWORD unk168;
-            DWORD unk16c;
-        } buf;
-        int h = ctx->FUN_00d04400(&buf);
-        ctx->InsertItemAndNotify(h, &out[0], result);
-        ctx->InsertItemAndNotify(h, &out[1], result);
-        ctx->InsertItemAndNotify(h, &out[2], result);
-        ctx->InsertItemAndNotify(h, &out[3], result);
-        ctx->FUN_00d04420(h);
-        (void)buf;
-    }
-    zero = ctx->ProcessCallback(arg, arg, result);
-    TraceBuffer* pTraceBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    if (pTraceBuf2->m_pCurrent < pTraceBuf2->m_pRecordEnd)
-    {
-        TraceRecord* pTraceRec2 = pTraceBuf2->m_pCurrent;
-        pTraceRec2->m_pTag = "Et";
-        _ReadWriteBarrier();
-        *(volatile DWORD*)&scratch.value = (DWORD)__rdtsc();
-        pTraceRec2->m_dwTime = *(volatile DWORD*)&scratch.value;
-        pTraceBuf2->m_pCurrent = pTraceRec2 + 1;
-    }
-    return zero;
-}
 
 extern unsigned long DAT_0126835c;
-extern char str_010cc5c4;
-extern char str_010d3ea4;
-extern char str_010d3eb8;
-extern char str_01076f38;
-
-struct S00d947e0_Tls
-{
-    int unk00;
-    char* unk04;
-    int unk08;
-    char* unk0C;
-};
 
 struct S00d947e0_Obj
 {
@@ -578,9 +280,6 @@ static __forceinline void S00d947e0_memClear16(int* p, int n)
     }
 }
 
-void __cdecl FUN_00d8d030(void* a, int b, int c, int d);
-void __cdecl FUN_00df0680(void* a, int b, int c, int d);
-
 // Writes profiler records, clears a buffer, calls FUN_00d8d030, queues an S00d947e0_Cmd via a2->FUN_00d04b50, calls FUN_00df0680, then calls a2->ProcessCallback.
 // @f3 0x00a23820 (community match, verified in this file)
 // 0x00a23820 - hkCpuSolveConstraintsJob (Havok thread pool): monitor-stream timer begin, solver
@@ -719,11 +418,13 @@ struct P2PQueueApi
     int finishJobAndGetNextJob( int threadType, const void* oldJob, P2PJobEntry& jobOut, void* params = 0, int wait = 0 );
 };
 
+// pdb: hkCpuSolveConstraintsJob | hkpCpuSolveConstraintsJobs.obj | fnv360_0822_retail, strset, low
+// pdb params: tl, jobQueue, jobInOut
 void __cdecl FUN_00d947e0( S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e0_Data* apData )
 {
     extern void* (__stdcall* DAT_00d9b080)( unsigned long );
     void __cdecl FUN_00a14ee0( void* info, void* schemas, void* accumulators, void* temp );
-    void __cdecl FUN_00a79670( void* info, void* solverTemp, void* schemas, void* accumulators );
+    void __cdecl hkExportImpulsesAndRhs( void* info, void* solverTemp, void* schemas, void* accumulators );
     extern const char DAT_00e7d35c[];
     extern const char DAT_00e855d8[];
     extern const char DAT_00e855ec[];
@@ -783,7 +484,7 @@ void __cdecl FUN_00d947e0( S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947
         }
     }
 
-    FUN_00a79670( (char*)( (P2PThreadFields*)a1 )->m_world + 0x1a0, pHeader->m_solverTempBase, pHeader->m_schemasBase,
+    hkExportImpulsesAndRhs( (char*)( (P2PThreadFields*)a1 )->m_world + 0x1a0, pHeader->m_solverTempBase, pHeader->m_schemasBase,
                   pHeader->m_accumulatorsBase );
 
     {

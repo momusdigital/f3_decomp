@@ -187,6 +187,7 @@ struct FnvCpu_FUN_00cdf530_CpuObject
 };
 
 // @fnv 0x00cdf090
+// pdb: hkpRagdollConstraintData::isValid | hkpRagdollConstraintData.obj | tesv_win, objopen_prop, low
 hkBool hkpRagdollConstraintData::FUN_00cdf090() const
 {
     hkBool valid = true;

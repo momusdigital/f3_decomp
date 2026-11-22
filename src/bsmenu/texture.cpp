@@ -36,6 +36,8 @@ class B6B610Wrapper
 
 // Builds a geometry via FUN_00a7fc00 and, if it succeeds, allocates and returns a B6B610Wrapper for it; otherwise returns 0.
 // @fnv 0x00b6b610
+// pdb: BSRenderedTexture::Create | BSRenderedTexture.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aName, aiWidth, aiHeight, arPrefs, aeMultiSamplePreference, abDepthBuffer, apSharedDepthBuffer, apAliasTex, uiAliasOffset
 B6B610Wrapper* __cdecl CreateWrapperFromGeometry(void* apArg1, void* apArg2, void* apArg3, void* apArg4, void* apArg5,
                                                  void* apArg6, void* apArg7, void* apArg8, void* apArg9)
 {

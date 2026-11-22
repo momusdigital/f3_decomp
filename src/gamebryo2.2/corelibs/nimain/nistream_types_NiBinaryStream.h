@@ -1,6 +1,6 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
-#ifndef FNV_NIBINARYSTREAM_H
-#define FNV_NIBINARYSTREAM_H
+#ifndef FNV_NISTREAM_TYPES_NIBINARYSTREAM_LOCAL_H
+#define FNV_NISTREAM_TYPES_NIBINARYSTREAM_LOCAL_H
 #include "layout_support.h"
 class NiBinaryStream;
 #pragma pack(push, 4)

@@ -5,6 +5,8 @@
 struct P_008e3050 { void FUN_008e3050(int); };
 extern P_008e3050 DAT_01090a78;
 
+// pdb: BSSimpleArray<FootIK_DATA::FootIK_Leg_DATA,1024>::_Allocate | BGSRagdoll.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 void __stdcall FUN_008e3050(int n)
 {
     DAT_01090a78.FUN_008e3050(n * 56);
@@ -14,6 +16,7 @@ void __stdcall FUN_008e3050(int n)
 
 
 
+// pdb: bhkCachingShapePhantom::QCinfoSize | bhkCharacterController.obj | fnv360_0721_beta, objrun, medium
 __declspec(noinline) int FUN_008e8b00()
 {
     return 96;
@@ -23,6 +26,7 @@ __declspec(noinline) int FUN_008e8b00()
 
 
 
+// pdb: bhkCharacterProxy::QCinfoSize | bhkCharacterController.obj | fnv360_0822_retail, objrun_open, low
 int FUN_008e8c70()
 {
     return 0x80;
@@ -41,6 +45,7 @@ extern int DAT_010f32a0;
 void __fastcall FUN_008f7c10(void*);
 
 struct C_008e8e40 { void* vt; int f4; int f8; int fc; int f10; char b14; void* FUN_008e8e40(); };
+// pdb: bhkSimpleShapePhantom::bhkSimpleShapePhantom | bhkCharacterController.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_008e8e40::FUN_008e8e40()
 {
     FUN_008f7c10(this);
@@ -65,6 +70,7 @@ struct R_008e91a0 { int m0; int m4; };
 R_008e91a0* __fastcall FUN_0091dd50(void*);
 
 struct P_008e91a0 { char pad[8]; void* m8; };
+// pdb: bhkCharacterController::UpdateState | bhkCharacterController.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void __fastcall FUN_008e91a0(P_008e91a0* p)
 {
     if (p)

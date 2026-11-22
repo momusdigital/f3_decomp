@@ -78,8 +78,8 @@ struct D10800Collidable
     int unk0C;
     int unk10;
     int unk14;
-    short unk18;
-    signed char m_iAutoRemoveLevel;
+        short unk18;
+    unsigned short m_objectQualityType;  // +0x1A m_broadPhaseHandle.m_objectQualityType
 };
 
 struct D10800TypedHandle
@@ -217,6 +217,8 @@ struct D10800Input
 
 void __cdecl FUN_00cc0f40(D10800Collidable* collA, D10800Collidable* collB, D10800Input* input);
 
+struct D10800InputReal;
+// hkpWorld
 struct D10800World
 {
     int unk00;
@@ -244,9 +246,9 @@ struct D10800World
     int unk58;
     int unk5C;
     int unk60;
-    int unk64;
+        int unk64;
     int unk68;
-    int unk6C;
+    D10800InputReal* m_collisionInput;  // +0x6C
     int unk70;
     int unk74;
     D10800Input* m_pCollisionInput;
@@ -257,7 +259,7 @@ struct D10800Listener
     int unk00;
     D10800World* m_pOwningWorld;
 
-    void DispatchCollisionPair(D10800HandlePair& pair);
+    void hkpEntityEntityBroadPhaseListener_addCollisionPair(D10800HandlePair& pair);
 };
 
 // Resolves both handles to collidables, looks up a quality index from the dispatcher grid, and if nonzero stores its data in input and calls FUN_00cc0f40.
@@ -271,21 +273,24 @@ struct D10800InputReal
     int m_pCollisionQualityInfo;
 };
 
-void __cdecl FUN_00944650(D10800Collidable* collA, D10800Collidable* collB, D10800InputReal* input);
+void __cdecl hkpWorldAgentUtil_addAgent(D10800Collidable* collA, D10800Collidable* collB, D10800InputReal* input);
 
-void D10800Listener::DispatchCollisionPair(D10800HandlePair& pair)
+// pdb: hkpEntityEntityBroadPhaseListener::addCollisionPair | hkpEntityEntityBroadPhaseListener.obj | fnv360_0822_retail, vtable, high
+// pdb params: pair
+// pdb: hkpEntityEntityBroadPhaseListener::addCollisionPair | hkpEntityEntityBroadPhaseListener.obj | fnv360_0822_retail, vtable, high (was: DispatchCollisionPair)
+void D10800Listener::hkpEntityEntityBroadPhaseListener_addCollisionPair(D10800HandlePair& pair)
 {
     D10800Collidable* pCollA = pair.m_kPointA->getOwner();
     D10800Collidable* pCollB = pair.m_kPointB->getOwner();
-    D10800InputReal* pInput = *(D10800InputReal**)((char*)m_pOwningWorld + 0x6c);
+    D10800InputReal* pInput = m_pOwningWorld->m_collisionInput;
     D10800Dispatcher* pDispatcher = pInput->m_pCollisionDispatcher;
-    unsigned short uiA = *(unsigned short*)((char*)pCollA + 0x1a);
-    unsigned short uiB = *(unsigned short*)((char*)pCollB + 0x1a);
+    unsigned short uiA = pCollA->m_objectQualityType;
+    unsigned short uiB = pCollB->m_objectQualityType;
     signed char cQuality = (signed char)pDispatcher->m_aucByteGrid[uiA][uiB];
     if (cQuality)
     {
         pInput->m_pCollisionQualityInfo = pDispatcher->m_pCollisionQualityInfo[cQuality].m_data;
-        FUN_00944650(pCollA, pCollB, pInput);
+        hkpWorldAgentUtil_addAgent(pCollA, pCollB, pInput);
     }
 }
 
@@ -313,20 +318,23 @@ struct D10860HandlePair
 
 struct D10860Agent;
 
-D10860Agent* __cdecl FindEntryValue(const D10860Collidable* collA, const D10860Collidable* collB);
-void __cdecl FUN_00cc10b0(D10860Agent* agent);
+D10860Agent* __cdecl hkAgentNnMachine_FindAgent(const D10860Collidable* collA, const D10860Collidable* collB);
+void __cdecl hkpWorldAgentUtil_removeAgent(D10860Agent* agent);
 
 struct D10860Listener
 {
-    void ProcessHandlePair(D10860HandlePair& pair);
+    void hkpEntityEntityBroadPhaseListener_removeCollisionPair(D10860HandlePair& pair);
 };
 
 // @fnv 0x00d10860
-void D10860Listener::ProcessHandlePair(D10860HandlePair& pair)
+// pdb: hkpEntityEntityBroadPhaseListener::removeCollisionPair | hkpEntityEntityBroadPhaseListener.obj | fnv360_0822_retail, vtable, high
+// pdb params: pair
+// pdb: hkpEntityEntityBroadPhaseListener::removeCollisionPair | hkpEntityEntityBroadPhaseListener.obj | fnv360_0822_retail, vtable, high (was: ProcessHandlePair)
+void D10860Listener::hkpEntityEntityBroadPhaseListener_removeCollisionPair(D10860HandlePair& pair)
 {
     D10860Collidable* collA = pair.m_kPointA->getOwner();
     D10860Collidable* collB = pair.m_kPointB->getOwner();
-    D10860Agent* agent = FindEntryValue(collA, collB);
+    D10860Agent* agent = hkAgentNnMachine_FindAgent(collA, collB);
     if (agent)
-        FUN_00cc10b0(agent);
+        hkpWorldAgentUtil_removeAgent(agent);
 }

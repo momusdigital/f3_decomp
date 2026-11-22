@@ -14,7 +14,7 @@ struct Node;
 struct Options;
 
 void __cdecl FUN_00943960(Stream&, const char* format, ...);
-int __cdecl FUN_009232c0(const char* lhs, const char* rhs);
+int __cdecl hkString_strCmp(const char* lhs, const char* rhs);
 void __cdecl FUN_00923500(void* dst, int value, int count);
 void __cdecl FUN_00901e90(void* array, int capacity, int elementSize);
 void __cdecl FUN_00a8d350(Node* sum, Node* frame);
@@ -131,7 +131,7 @@ struct HkBool {
 
 static __declspec(noinline) Node* FUN_00a8c7a0(Node* root, const char* name, HkBool useFirstChild) {
     for (int i = 0; i < root->children.getSize(); ++i) {
-        if (!FUN_009232c0(name, root->children[i]->name))
+        if (!hkString_strCmp(name, root->children[i]->name))
             return root->children[i];
     }
     if (useFirstChild.value && root->children.getSize() > 0)
@@ -145,12 +145,14 @@ static __declspec(noinline) Node* FUN_00a8c800(Node* root, const char* name, con
         if (root->children[i] == previous) break;
     }
     for (++i; i < root->children.getSize(); ++i) {
-        if (!FUN_009232c0(name, root->children[i]->name))
+        if (!hkString_strCmp(name, root->children[i]->name))
             return root->children[i];
     }
     return 0;
 }
 
+// pdb: hkMonitorStreamAnalyzer::writeStatisticsDetails | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, ustr, medium
+// pdb params: outstream, nodes, numThreads, numSpus, reportLevel, nodeIdForFrameOverview, showMultithreadedSummary
 void __cdecl FUN_00a8e7b0(Stream& stream, NodeArray* pArray, int aiThreadCount, int aiSpuCount, int flags, const char* key, bool combineThreads)
 {
     FUN_00943960(stream, "Havok version: %s\n", "Havok-5.5.0-r1");

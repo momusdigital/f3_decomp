@@ -73,6 +73,8 @@ public:
     NiPointer<NiRefObject> object88;
 };
 
+// pdb: ShadowLightShader::ShadowLightShader | ShadowLightShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl, apSkinnedShaderDecl, apModelSpaceNormShaderDecl, apSplatTexturingShaderDecl
 RenderPass::RenderPass(NiRefObject* first, NiRefObject* second, NiRefObject* third, NiRefObject* fourth)
 {
     mode = 1;

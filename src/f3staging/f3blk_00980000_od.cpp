@@ -225,6 +225,7 @@ namespace f3m_00990ab0
     };
 }
 
+// pdb: hkp3AxisSweep::updateNodesAfterInsert | hkp3AxisSweep.obj | tesv_win, objrun_prop, low
 extern "C" void __stdcall FUN_00990ab0(f3m_00990ab0::BpNode* nodes, int numNodes, f3m_00990ab0::BpNode& newNode)
 {
     using namespace f3m_00990ab0;
@@ -597,10 +598,11 @@ class hkpContinuousSimulation
 {
 public:
     void FUN_0098c830(const hkpProcessCollisionOutput& output, const hkpAgentNnEntry& entry);
-    void FUN_0098e4c0(hkpEntity** entities, int numEntities, hkpProcessCollisionInput& input);
+    void collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(hkpEntity** entities, int numEntities, hkpProcessCollisionInput& input);
 };
 
-void hkpContinuousSimulation::FUN_0098e4c0(hkpEntity** entities, int numEntities, hkpProcessCollisionInput& input)
+// pdb: hkpContinuousSimulation::collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly | hkpContinuousSimulation.obj | fnv360_0822_retail, objrun_prop + bridge(ustr_rel|vtable), high
+void hkpContinuousSimulation::collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(hkpEntity** entities, int numEntities, hkpProcessCollisionInput& input)
 {
     hkpSimulationIsland* island = entities[0]->m_simulationIsland;
     int n = island->m_numEntities;
@@ -2182,6 +2184,8 @@ class hkpWorld : public hkReferencedObject
 		__forceinline void	allowCriticalOperations(hkBool allow);
 		explicit hkpWorld( hkFinishLoadedObjectFlag flag );
 };
+// pdb: hkpBroadPhaseBorder::hkpBroadPhaseBorder | hkpBroadPhaseBorder.obj | fnv360_0822_retail, call_gap, low
+// pdb params: world, type, postponeAndSortCallbacks
 FUN_0098bd20::FUN_0098bd20( hkpWorld* world, hkpWorldCinfo::BroadPhaseBorderBehaviour type )
 {
 	m_world = world;
@@ -2447,10 +2451,11 @@ struct S16c50_Sweep {
         intsOut[2] = out.u16[2];
         intsOut[3] = out.u16[3];
     }
-    void FUN_00995490(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const;
+    void hkp3AxisSweep_castAabb(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const;
 };
 
-void S16c50_Sweep::FUN_00995490(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const
+// pdb: hkp3AxisSweep::castAabb | hkp3AxisSweep.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+void S16c50_Sweep::hkp3AxisSweep_castAabb(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const
 {
     S16c50_Vec4 fromMin; fromMin.setSub4(input.m_vFrom, input.m_vHalfExtents);
     S16c50_Vec4 fromMax; fromMax.setAdd4(input.m_vFrom, input.m_vHalfExtents);
@@ -2943,6 +2948,7 @@ __forceinline void hkp3AxisSweep::collect(hkpBroadPhaseHandle* object, int nodeI
     }
 }
 
+// pdb: hkp3AxisSweep::addObject | hkp3AxisSweep.obj | tesv_win, objrun_prop, low
 void hkp3AxisSweep::FUN_00994260(hkpBroadPhaseHandle* object, const hkAabbUint32& aabb, hkArray<hkpBroadPhaseHandlePair>& newPairsOut)
 {
     hkAabbUint32 a;
@@ -4522,6 +4528,8 @@ default:
 break;
 }
 }
+// pdb: hkAgentNnMachine_ProcessAgent | hkpAgentNnMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: entry, input, output, mgr
 void __cdecl FUN_00999610(hkpAgentNnEntry*entry,const hkpProcessCollisionInput&input,hkpProcessCollisionOutput&output,hkpContactMgr*mgr)
 {
 int numTim=0;
@@ -6097,7 +6105,6 @@ void hkpMultiThreadedSimulation::FUN_00981af0( const hkArray<hkpAgentNnEntry*>& 
 	if ( m_world->m_processToisMultithreaded && m_jobQueue.m_data->m_dontReleaseSpus )
 	{
 		int maxEntriesPerAgentNnEntryTask = m_world->m_maxEntriesPerToiCollideTask;
-		;
 		const hkArray<hkpAgentNnEntry*>& entriesOnPpu = entries;
 		__declspec(align(16)) unsigned char jobWorkspace[sizeof(hkpAgentNnEntryJob) + sizeof(hkpPostCollideJob) + sizeof(hkpMtThreadStructure)];
         hkpAgentNnEntryJob& agentEntryJob = *new (jobWorkspace) hkpAgentNnEntryJob( collisionInput.m_stepInfo, entriesOnPpu.begin(), entriesOnPpu.getSize(), maxEntriesPerAgentNnEntryTask, forceManifoldQualityType );
@@ -6107,7 +6114,6 @@ void hkpMultiThreadedSimulation::FUN_00981af0( const hkArray<hkpAgentNnEntry*>& 
 			agentEntryJob.m_header = hkpAgentSectorHeader::allocate( numTasks, maxEntriesPerAgentNnEntryTask );
 			m_jobQueue.addJob( jobWorkspace, hkJobQueue::JOB_LOW_PRIORITY, hkJobQueue::JOB_TYPE_CPU );
 		}
-		;
 		m_world->unmarkForWrite();
 		m_world->markForRead();
 		processNextJob( hkJobQueue::THREAD_TYPE_CPU_MASTER );
@@ -9490,6 +9496,7 @@ static inline void removeReferenceFrom( hkReferencedObject* obj ) {
 	obj->removeReference();
 }
 hkBool islandLess( const hkWorldOperation::BiggestOperation& a, const hkWorldOperation::BiggestOperation& b );
+// pdb: hkpWorldOperationQueue::executeAllPending | hkpWorldOperationQueue.obj | tesv_win, call_seq, medium
 void hkpWorldOperationQueue::FUN_00983680() {
 	hkArray<hkWorldOperation::BiggestOperation> stolenPending;
 	stolenPending.swap( m_pending );

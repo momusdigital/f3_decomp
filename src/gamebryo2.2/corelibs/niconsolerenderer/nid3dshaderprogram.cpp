@@ -1,23 +1,11 @@
 #include "f3_common.h"
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl _delete(void*, unsigned int);
-
 struct NiD3DShaderProgram
 {
     void FUN_00e89840();
     void* DestroyIfFlagged(unsigned int flags);
 };
-
-// Calls FUN_00e89840, then deletes this with size 0x2c when flags has bit 1 set, and returns this.
-// @fnv 0x00e898a0
-void* NiD3DShaderProgram::DestroyIfFlagged(unsigned int flags)
-{
-    FUN_00e89840();
-    if (flags & 1)
-        _delete(this, 0x2c);
-    return this;
-}
 
 struct NiTMapBase
 {
@@ -55,6 +43,8 @@ struct Program
 extern Program* DAT_0126fa10;
 // If the global Program and its map exist, gets the device's name and removes that entry from the map.
 // @fnv 0x00e93790
+// pdb: NiD3DShaderProgramFactory::ReleasePixelShader | NiD3DShaderProgramFactory.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiD3DShaderProgramFactory::ReleaseVertexShader)
+// pdb params: pkShader
 void RemoveDeviceFromMap(Direct3DDeviceInterface* pkD3DDevice)
 {
     if (!DAT_0126fa10)
@@ -85,6 +75,7 @@ struct ComObj
 };
 // Sets the vtable, frees the two pointers at offsets 0x3C and 0x40, releases and clears the ComObj at 0x44, then calls FUN_00e89b70.
 // @fnv 0x00e971d0
+// pdb: NiD3DHLSLPixelShader::~NiD3DHLSLPixelShader | NiD3DHLSLPixelShader.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiD3DHLSLVertexShader::~NiD3DHLSLVertexShader)
 void S::FUN_00e971d0()
 {
     void* v1 = *(void**)((char*)this + 0x3C);

@@ -26,6 +26,8 @@ template <class T, class M> class NiTPrimitiveArray : public StrArr
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > NiTPrimitiveArray_char;
 
 // @fnv 0x00a576c0
+// pdb: NiTextureTransformController::GetViewerStrings | NiTextureTransformController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void __stdcall FUN_00a576c0(NiTPrimitiveArray_char* pkStrings)
 {
     FUN_00a390a0(pkStrings);
@@ -68,18 +70,7 @@ struct NiObject
 {
     NiObject* DynamicCast(const NiRTTI*);
 };
-struct GlobalObjectO2_00a7b610
-{
-};
-extern GlobalObjectO2_00a7b610 g_011f3738;
 struct NiInterpolator : NiObject
-{
-};
-struct PoseInterpStub
-{
-    void SetFloatValue(float);
-};
-struct NiFloatInterpolator : PoseInterpStub
 {
 };
 struct NiSingleInterpController : NiObject
@@ -149,20 +140,6 @@ struct NiFloatInterpController : NiSingleInterpController
 {
     void SetInterpolatorValue(NiInterpolator*, unsigned short);
 };
-// Casts pkInterp to a NiFloatInterpolator, reads the controller value via GetValue and passes it to the interpolator's SetFloatValue.
-// @fnv 0x00a57670
-void NiFloatInterpController::SetInterpolatorValue(NiInterpolator* pkInterp, unsigned short usIndex)
-{
-    NiFloatInterpolator* pkFloatInterp;
-    float fValue;
-    if (!pkInterp)
-        pkFloatInterp = 0;
-    else
-        pkFloatInterp =
-            reinterpret_cast<NiFloatInterpolator*>(pkInterp->DynamicCast(reinterpret_cast<const NiRTTI*>(&g_011f3738)));
-    GetValue(&fValue);
-    pkFloatInterp->SetFloatValue(fValue);
-}
 }  // namespace fnv_00a57670
 
 struct NiStream;
@@ -175,6 +152,8 @@ struct FUN_00a57630 : NiSingleInterpController
     void LinkObject(NiStream&);
 };
 // @fnv 0x00a57630
+// pdb: Interface::PlayMenuSound | Interface.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundIndex
 void FUN_00a57630::LinkObject(NiStream& kStream)
 {
     NiSingleInterpController::LinkObject(kStream);
@@ -193,6 +172,7 @@ struct FUN_00a57c70 : NiSingleInterpController
     void LoadBinary(NiStream&);
 };
 // @fnv 0x00a57c70
+// pdb: Interface::DrawLockpickMenu3D | Interface.obj | fnv360_0822_retail, caller_sim, low
 void FUN_00a57c70::LoadBinary(NiStream& kStream)
 {
     NiSingleInterpController::LoadBinary(kStream);

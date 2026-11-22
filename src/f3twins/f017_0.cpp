@@ -193,372 +193,434 @@ extern const char DAT_00ea9024;
 extern S_00430ff0 DAT_01179414;
 void __cdecl FUN_00d9a360(void);
 
+// pdb: `dynamic initializer for 'fAlphReduce'' | TES.obj | fnv360_0822_debug, ustr, high
 void FUN_00c85d50()
 {
     DAT_0106cbc4.FUN_00430ff0(&DAT_00db90cc, 1.0f);
     atexit(FUN_00d86cb0);
 }
 
+// pdb: `dynamic initializer for 'fAnimationMult'' | Animation.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8a610()
 {
     DAT_0106de60.FUN_00430ff0(&DAT_00dbe5e8, 1.0f);
     atexit(FUN_00d87740);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fIniSISpecularMult'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8ca80()
 {
     DAT_0106f838.FUN_00430ff0(&DAT_00dc1c28, 1.0f);
     atexit(FUN_00d87fe0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fIniSIEmmisiveMult'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8cab0()
 {
     DAT_0106fba4.FUN_00430ff0(&DAT_00dc1c44, 1.0f);
     atexit(FUN_00d87ff0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fSunlightDimmer'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8cc50()
 {
     DAT_0106f698.FUN_00430ff0(&DAT_00dc1d88, 1.0f);
     atexit(FUN_00d880a0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fIniSISpecularMultHDR'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8cdd0()
 {
     DAT_0106f978.FUN_00430ff0(&DAT_00dc1ea0, 1.0f);
     atexit(FUN_00d88120);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fIniSIEmmisiveMultHDR'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8ce00()
 {
     DAT_0106f9c0.FUN_00430ff0(&DAT_00dc1ec0, 1.0f);
     atexit(FUN_00d88130);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fEmissiveHDRMult'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8ce90()
 {
     DAT_0106fbb0.FUN_00430ff0(&DAT_00dc1f24, 1.0f);
     atexit(FUN_00d88160);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fUpperLUMClamp'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8cf20()
 {
     DAT_0106fbf0.FUN_00430ff0(&DAT_00dc1f7c, 1.0f);
     atexit(FUN_00d88190);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fEmissiveHDRMultInterior'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8d060()
 {
     DAT_0106fa78.FUN_00430ff0(&DAT_00dc207c, 1.0f);
     atexit(FUN_00d88200);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fUpperLUMClampInterior'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8d090()
 {
     DAT_0106f670.FUN_00430ff0(&DAT_00dc20a4, 1.0f);
     atexit(FUN_00d88210);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fTargetLUMInterior'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8d0c0()
 {
     DAT_0106f8e8.FUN_00430ff0(&DAT_00dc20cc, 1.0f);
     atexit(FUN_00d88220);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fGamma'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::fGamma'')
 void FUN_00c8d840()
 {
     DAT_0106f6d0.FUN_004913e0(&DAT_00dc2628, 1.0f);
     atexit(FUN_00d88460);
 }
 
+// pdb: `dynamic initializer for 'Renderer::fShadowFadeTime'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::fShadowFadeTime'')
 void FUN_00c8d8b0()
 {
     DAT_0106f880.FUN_00430ff0(&DAT_00dc2674, 1.0f);
     atexit(FUN_00d88490);
 }
 
+// pdb: `dynamic initializer for 'ATTENUATION_SETTINGS::fLinearRadiusMult'' | TESLight.obj | fnv360_0822_debug, ustr, high
 void FUN_00c95570()
 {
     DAT_010706f8.FUN_00430ff0(&DAT_00dc8438, 1.0f);
     atexit(FUN_00d89a30);
 }
 
+// pdb: `dynamic initializer for 'ATTENUATION_SETTINGS::fQuadraticRadiusMult'' | TESLight.obj | fnv360_0822_debug, ustr, high
 void FUN_00c955a0()
 {
     DAT_010707a4.FUN_00430ff0(&DAT_00dc845c, 1.0f);
     atexit(FUN_00d89a40);
 }
 
+// pdb: `dynamic initializer for 'BlendHit::fGetUpTime'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c9d2b0()
 {
     DAT_01072c5c.FUN_00575370(&DAT_00de7730, 1.0f);
     atexit(FUN_00d8a3f0);
 }
 
+// pdb: `dynamic initializer for 'fPopUpBackgroundOpacity'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ccab20()
 {
     DAT_010732d8.FUN_00430ff0(&DAT_00df4098, 1.0f);
     atexit(FUN_00d90ac0);
 }
 
+// pdb: `dynamic initializer for 'BSTreeManager::fTreeLODExponent'' | BSTreeManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cdfed0()
 {
     DAT_01073c50.FUN_00430ff0(&DAT_00dfcb44, 1.0f);
     atexit(FUN_00d949b0);
 }
 
+// pdb: `dynamic initializer for 'BSTreeManager::fCanopyShadowGrassMult'' | BSTreeManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce0040()
 {
     DAT_01073cc8.FUN_00430ff0(&DAT_00dfcc34, 1.0f);
     atexit(FUN_00d94a30);
 }
 
+// pdb: `dynamic initializer for 'fObstacleUpdateDeltaWhenMoving'' | NavMeshObstacleManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00ce4bf0()
 {
     DAT_010746cc.FUN_00430ff0(&DAT_00e01da0, 1.0f);
     atexit(FUN_00d95300);
 }
 
+// pdb: `dynamic initializer for 'fHudOpacity'' | HUDMainMenu.obj | fnv360_0822_debug, ustr, low
 void FUN_00ce80d0()
 {
     DAT_01076354.FUN_004913e0(&DAT_00e05ec4, 1.0f);
     atexit(FUN_00d95b20);
 }
 
+// pdb: `dynamic initializer for 'fObjectLODMin'' | StartMenu.obj | fnv360_0822_debug, ustr, high
 void FUN_00ce9c30()
 {
     DAT_010770f0.FUN_00430ff0(&DAT_00e08354, 1.0f);
     atexit(FUN_00d95f90);
 }
 
+// pdb: `dynamic initializer for 'fItemLODMin'' | StartMenu.obj | fnv360_0822_debug, ustr, high
 void FUN_00ce9cc0()
 {
     DAT_01077178.FUN_00430ff0(&DAT_00e08394, 1.0f);
     atexit(FUN_00d95fc0);
 }
 
+// pdb: `dynamic initializer for 'fBlurIntensityPipboy'' | FOPipboyManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceab10()
 {
     DAT_01077618.FUN_00430ff0(&DAT_00e08f3c, 1.0f);
     atexit(FUN_00d96320);
 }
 
+// pdb: `dynamic initializer for 'fScreenLightPulseModifier'' | FORenderedMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceb140()
 {
     DAT_010777c8.FUN_00430ff0(&DAT_00e09398, 1.0f);
     atexit(FUN_00d964a0);
 }
 
+// pdb: `dynamic initializer for 'fDefaultDistortHorizontalScale'' | FORenderedMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceb2c0()
 {
     DAT_0107778c.FUN_00430ff0(&DAT_00e094c0, 1.0f);
     atexit(FUN_00d96520);
 }
 
+// pdb: `dynamic initializer for 'fTermScreenLightColorR'' | FORenderedTerminal.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceb7c0()
 {
     DAT_01077910.FUN_00430ff0(&DAT_00e0986c, 1.0f);
     atexit(FUN_00d96660);
 }
 
+// pdb: `dynamic initializer for 'fTermScreenLightColorG'' | FORenderedTerminal.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceb7f0()
 {
     DAT_0107796c.FUN_00430ff0(&DAT_00e09890, 1.0f);
     atexit(FUN_00d96670);
 }
 
+// pdb: `dynamic initializer for 'fTermScreenLightColorB'' | FORenderedTerminal.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ceb820()
 {
     DAT_01077900.FUN_00430ff0(&DAT_00e098b4, 1.0f);
     atexit(FUN_00d96680);
 }
 
+// pdb: `dynamic initializer for 'fVATSDistortHorizontalScale'' | FOVATSEffectManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cebad0()
 {
     DAT_01077a8c.FUN_00430ff0(&DAT_00e099cc, 1.0f);
     atexit(FUN_00d966d0);
 }
 
+// pdb: `dynamic initializer for 'FalloutAudio::fRegionLoopFadeOutTime'' | FalloutAudio.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `anonymous namespace'::`dynamic initializer for 'fRegionLoopFadeOutTime'')
 void FUN_00cf17d0()
 {
     DAT_0107906c.FUN_00430ff0(&DAT_00e0c6cc, 1.0f);
     atexit(FUN_00d96850);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutObjectMultComplex'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4b10()
 {
     DAT_0107a2c8.FUN_00430ff0(&DAT_00e11b10, 1.0f);
     atexit(FUN_00d97200);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutItemMultComplex'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4b40()
 {
     DAT_0107a1c0.FUN_00430ff0(&DAT_00e11b34, 1.0f);
     atexit(FUN_00d97210);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutActorMultComplex'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4b70()
 {
     DAT_0107a40c.FUN_00430ff0(&DAT_00e11b54, 1.0f);
     atexit(FUN_00d97220);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutObjectMultCity'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4ba0()
 {
     DAT_0107a314.FUN_00430ff0(&DAT_00e11b74, 1.0f);
     atexit(FUN_00d97230);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutItemMultCity'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4bd0()
 {
     DAT_0107a4c8.FUN_00430ff0(&DAT_00e11b94, 1.0f);
     atexit(FUN_00d97240);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutActorMultCity'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4c00()
 {
     DAT_0107a418.FUN_00430ff0(&DAT_00e11bb0, 1.0f);
     atexit(FUN_00d97250);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutObjectMultInterior'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4c30()
 {
     DAT_0107a144.FUN_00430ff0(&DAT_00e11bd0, 1.0f);
     atexit(FUN_00d97260);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutItemMultInterior'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4c60()
 {
     DAT_0107a450.FUN_00430ff0(&DAT_00e11bf4, 1.0f);
     atexit(FUN_00d97270);
 }
 
+// pdb: `dynamic initializer for 'fLODFadeOutActorMultInterior'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4c90()
 {
     DAT_0107a35c.FUN_00430ff0(&DAT_00e11c14, 1.0f);
     atexit(FUN_00d97280);
 }
 
+// pdb: `dynamic initializer for 'fMinBloodDamage'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf5ff0()
 {
     DAT_0107ad38.FUN_00430ff0(&DAT_00e13484, 1.0f);
     atexit(FUN_00d97610);
 }
 
+// pdb: `dynamic initializer for 'fUpdateDelaySecondsMin'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf6190()
 {
     DAT_0107add8.FUN_00430ff0(&DAT_00e135e0, 1.0f);
     atexit(FUN_00d976d0);
 }
 
+// pdb: `dynamic initializer for 'fQuadrupedPitchMult'' | MobileObject.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf88e0()
 {
     DAT_0107b850.FUN_00430ff0(&DAT_00e17d3c, 1.0f);
     atexit(FUN_00d97930);
 }
 
+// pdb: `dynamic initializer for 'fCameraCasterPlayerSize'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf8c30()
 {
     DAT_0107bc48.FUN_00430ff0(&DAT_00e18a8c, 1.0f);
     atexit(FUN_00d97a20);
 }
 
+// pdb: `dynamic initializer for 'fUFOCamSpeedMult'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf8c60()
 {
     DAT_0107bb90.FUN_00430ff0(&DAT_00e18aac, 1.0f);
     atexit(FUN_00d97a30);
 }
 
+// pdb: `dynamic initializer for 'fMaxAnalogRunSpeed'' | XControls.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'fMagnetismStrafeBaseSpeed'')
 void FUN_00cf8da0()
 {
     DAT_0107bba0.FUN_00430ff0(&DAT_00e18b84, 1.0f);
     atexit(FUN_00d97aa0);
 }
 
+// pdb: `dynamic initializer for 'fMagnetismHeadingMult'' | PlayerCharacter_Combat.obj | tesv_win, objrun_open, low
 void FUN_00cf8e80()
 {
     DAT_0107bda0.FUN_00430ff0(&DAT_00e18c40, 1.0f);
     atexit(FUN_00d97b00);
 }
 
+// pdb: `dynamic initializer for 'fMagnetismLookingMult'' | PlayerCharacter_Combat.obj | tesv_win, objrun_open, low
 void FUN_00cf8eb0()
 {
     DAT_0107bb08.FUN_00430ff0(&DAT_00e18c60, 1.0f);
     atexit(FUN_00d97b10);
 }
 
+// pdb: `dynamic initializer for 'fLowPerfNPCTargetLOSTimer'' | CombatState.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfadf0()
 {
     DAT_0108caac.FUN_00430ff0(&DAT_00e1afa0, 1.0f);
     atexit(FUN_00d97ea0);
 }
 
+// pdb: `dynamic initializer for 'VATS::fVatsLightColorR'' | VATS.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc820()
 {
     DAT_0108d038.FUN_00430ff0(&DAT_00e1cf28, 1.0f);
     atexit(FUN_00d97ff0);
 }
 
+// pdb: `dynamic initializer for 'VATS::fVatsLightColorG'' | VATS.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc850()
 {
     DAT_0108d0e4.FUN_00430ff0(&DAT_00e1cf40, 1.0f);
     atexit(FUN_00d98000);
 }
 
+// pdb: `dynamic initializer for 'VATS::fVatsLightColorB'' | VATS.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc880()
 {
     DAT_0108d0f4.FUN_00430ff0(&DAT_00e1cf58, 1.0f);
     atexit(FUN_00d98010);
 }
 
+// pdb: `dynamic initializer for 'bhkRagdollController::fAccelerationGain'' | bhkRagdollController.obj | fnv360_0822_debug, ustr, high
 void FUN_00d02260()
 {
     DAT_010f2ce4.FUN_00430ff0(&DAT_00e32d78, 1.0f);
     atexit(FUN_00d98a90);
 }
 
+// pdb: `dynamic initializer for 'bhkRagdollController::fSnapMaxAngularDistance'' | bhkRagdollController.obj | fnv360_0822_debug, ustr, high
 void FUN_00d02410()
 {
     DAT_010f2d50.FUN_00430ff0(&DAT_00e32ea4, 1.0f);
     atexit(FUN_00d98b20);
 }
 
+// pdb: `dynamic initializer for 'bhkRagdollController::fAngleMaxEase'' | bhkRagdollController.obj | fnv360_0822_debug, ustr, high
 void FUN_00d024d0()
 {
     DAT_010f2d80.FUN_00430ff0(&DAT_00e32f10, 1.0f);
     atexit(FUN_00d98b60);
 }
 
+// pdb: `dynamic initializer for 'bhkRagdollController::fFootPlantedGain'' | bhkRagdollController.obj | fnv360_0822_debug, ustr, high
 void FUN_00d025f0()
 {
     DAT_010f2dc8.FUN_00430ff0(&DAT_00e32fac, 1.0f);
     atexit(FUN_00d98bc0);
 }
 
+// pdb: `dynamic initializer for 'BSSceneGraph::fNoLODFarDistancePct'' | BSSceneGraph.obj | fnv360_0822_debug, ustr, high
 void FUN_00d82dc0()
 {
     DAT_0116d9d8.FUN_00430ff0(&DAT_00e8ab8c, 1.0f);
     atexit(FUN_00d990f0);
 }
 
+// pdb: `dynamic initializer for 'fMasterVolumeDefault'' | BSAudioManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'fDefaultMasterVolume'')
 void FUN_00d856c0()
 {
     DAT_01179108.FUN_004913e0(&DAT_00ea8734, 1.0f);
     atexit(FUN_00d9a2a0);
 }
 
+// pdb: `dynamic initializer for 'fEffectsVolumeDefault'' | BSAudioManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'sMissingAssetSoundFile'')
 void FUN_00d85750()
 {
     DAT_0117912c.FUN_004913e0(&DAT_00ea8788, 1.0f);
     atexit(FUN_00d9a2d0);
 }
 
+// pdb: `dynamic initializer for 'fDialogueFadeSecondsOut'' | BSAudioManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00d85890()
 {
     DAT_01179180.FUN_00430ff0(&DAT_00ea8850, 1.0f);
     atexit(FUN_00d9a230);
 }
 
+// pdb: `dynamic initializer for 'fFilterdBAttenuation'' | BSXenonGameSound.obj | fnv360_0822_debug, ustr, medium
 void FUN_00d85a40()
 {
     DAT_01179414.FUN_00430ff0(&DAT_00ea9024, 1.0f);

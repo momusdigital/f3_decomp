@@ -6,7 +6,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_011f3f68;
-void* __cdecl FUN_00a3dab0();
+void* __cdecl bhkSerializable_GetRTTI();
 struct FUN_00a3dae0_shell
 {
     void* __thiscall FUN_00a3dae0(short idx);
@@ -43,7 +43,7 @@ struct FUN_00a3dac0_shell
 };
 struct FUN_00a3ddf0_shell
 {
-    void* __thiscall FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
+    void* __thiscall NiPathInterpolator_GenPathInterp(void* pData, int i1, int i2, float fTime);
 };
 extern void* DAT_011f3ca8[];
 void __cdecl FUN_00a3dd40();
@@ -288,8 +288,8 @@ struct FUN_00a3dba0_Class
     virtual void vfDC()
     {}
 
-    float* __thiscall FUN_00a3ca80(int index, int mode);
-    float* __thiscall FUN_00a3ca80(int index);
+    float* __thiscall NiKeyBasedInterpolator_GetKeyAt(int index, int mode);
+    float* __thiscall NiKeyBasedInterpolator_GetKeyAt(int index);
 };
 struct FUN_00a3dba0_Class1 : FUN_00a3dba0_Class
 {
@@ -315,7 +315,7 @@ struct Source
     {
         return *reinterpret_cast<Stream**>(reinterpret_cast<char*>(this) + 0x24c);
     }
-    void __thiscall FUN_00a645b0();
+    void __thiscall NiStream_ReadLinkID();
 };
 void __stdcall FUN_00aa0ac0(Source*);
 struct PathData
@@ -704,8 +704,8 @@ static __forceinline MyPosKey* GetKey(MyPosKey* pkKeys, unsigned int uiIndex, un
 }
 struct PathInterpExt : public NiPathInterp
 {
-    void __thiscall FUN_00a3ea60(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
-    void FindKeyPair(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
+    void __thiscall NiPathInterpolator_GetPercentLoc(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
+    void NiPathInterpolator_GetLoc(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
 };
 static const float kNegMax = -3.402823466e+38f;
 class NiPoint3
@@ -821,7 +821,7 @@ class InterpolatorE6F0 : public NiRefObjectE6F0
 class ControllerE6F0
 {
   public:
-    ControllerE6F0* FUN_00a3e6f0(float fA, float fB);
+    ControllerE6F0* NiPathInterpolator_GetSequenceInterpolator(float fA, float fB);
     ControllerE6F0* CreateCopy(float fA, float fB);
 
     int unk00;
@@ -835,7 +835,8 @@ class ControllerE6F0
 };
 
 // @fnv 0x00a3e6f0
-ControllerE6F0* ControllerE6F0::FUN_00a3e6f0(float fA, float fB)
+// pdb: NiPathInterpolator::GetSequenceInterpolator | NiPathInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun_sim) + skyrim(caller_sim), high
+ControllerE6F0* ControllerE6F0::NiPathInterpolator_GetSequenceInterpolator(float fA, float fB)
 {
     ControllerE6F0* pkCopy = CreateCopy(fA, fB);
     if (m_spInterp.m_pObject)

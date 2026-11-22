@@ -6,8 +6,8 @@
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void ProcessEntryPair();
-void FUN_00da44d0(int, int, void*);
-void FUN_00da48e0(int b, int a);
+void hkAgent1nMachine_VisitAllAgents(int, int, void*);
+void hkAgent1nMachine_UpdateShapeCollectionFilter(int b, int a);
 typedef unsigned int BlockPoolsize_t;
 struct BlockPoolAllocator {
     virtual void unk00();
@@ -1734,7 +1734,7 @@ struct CollisionAgentContext
 {
     char* m_pCollisionDispatcher;
 };
-void FUN_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input);
+void hkAgent1nMachine_InvalidateTim(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input);
 typedef void (__cdecl *Da35FuncPtr)(void* entry, void* payload, float fa, float fb, void* holder);
 struct Da35Stream {
     int m_iElementCount;
@@ -1742,7 +1742,7 @@ struct Da35Stream {
     int unk08;
     int unk0C;
 };
-void __cdecl FUN_00da35f0(Da35Stream*** container, float fa, float fb, void** holder);
+void __cdecl hkAgent1nMachine_WarpTime(Da35Stream*** container, float fa, float fb, void** holder);
 static void* __cdecl Da35Search(Da35Stream*** container, int key1, int key2, void** out)
 {
     Da35Stream** streams = *container;
@@ -1798,7 +1798,7 @@ __forceinline BlockPoolHeap& fullHeap()
 {
     return static_cast<BlockPoolHeap&>(FUN_00c85750().heap());
 }
-void FUN_00da42b0(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_00da40e0_ContactMgr* mgr, S_00da40e0_ConstraintOwner& owner);
+void hkAgent1nMachine_Destroy(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_00da40e0_ContactMgr* mgr, S_00da40e0_ConstraintOwner& owner);
 #include <string.h>
 struct StreamAllocator : BlockPoolAllocator {
     virtual void ReleaseBlock(void*, int);
@@ -1819,7 +1819,7 @@ __forceinline static void streamCopy(void* dst, const void* src, int count) {
 }
 void __cdecl FUN_00d2cc70(void*, const void*, unsigned int);
 typedef unsigned char* (__cdecl *StreamTransform)(void*, unsigned char*, unsigned char*);
-void FUN_00da44d0(int array_arg, int header_arg, void* callback);
+void hkAgent1nMachine_VisitAllAgents(int array_arg, int header_arg, void* callback);
 
 typedef float hkReal;
 typedef unsigned char hkUchar;
@@ -2721,7 +2721,7 @@ return HK_CONTACT_PAIR_NO_CONFLICT;
 }
 return HK_CONTACT_PAIR_REJECT_NEW;}
 // @f3 0x00a2a7c0 (community match, verified in this file)
-extern hkResult __cdecl FUN_00a7f7b0(const hkTransform&,const hkpConvexShape*,const hkpConvexShape**,int,const hkTransform&,hkContactPoint**);
+extern hkResult __cdecl hkCalcMultiPenetrationDepth(const hkTransform&,const hkpConvexShape*,const hkpConvexShape**,int,const hkTransform&,hkContactPoint**);
 extern "C" void* (__stdcall* DAT_00fdf044)(unsigned long);
 extern hkThreadLocalData<StringCursor*> g_pMonitorStream;
 inline StringCursor& zMonitorStream() { return *static_cast<StringCursor*>(DAT_00fdf044(g_pMonitorStream.m_slotID)); }
@@ -2876,7 +2876,7 @@ const hkpConvexShape*shape1=static_cast<const hkpConvexShape*>(shapeCollection->
 if(!input.m_pRayCastInput->m_pCollisionDispatcher->hasAlternateType(shape1->getType(),static_cast<CollisionShapeType>(1))){break;}
 const hkpConvexShape*shapesB[2]={shape0,shape1};
 hkContactPoint*points[2]={&ref0->m_vContactPoint->m_kPoint,&ref1->m_vContactPoint->m_kPoint};
-FUN_00a7f7b0(input.m_pBodyA->getTransform(),shapeA,shapesB,2,input.m_kTransform,points);
+hkCalcMultiPenetrationDepth(input.m_pBodyA->getTransform(),shapeA,shapesB,2,input.m_kTransform,points);
 }
 conflictContacts[p1]=conflictContacts[--numConflictContacts];
 conflictContacts[p0]=conflictContacts[--numConflictContacts];

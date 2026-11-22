@@ -4,28 +4,7 @@
 
 #include "havok/hkpBvShape.h"
 
-extern int DAT_010c6fb0;
 extern int DAT_010c6fd0;
-struct DDCC60World
-{
-    void __thiscall removeReference();
-};
-struct FUN_00c9d8c0
-{
-    int* vtbl;
-    DDCC60World* m_pContainedShape;
-    FUN_00c9d8c0* __thiscall doWork(int flags);
-};
-// @fnv 0x00c9d8c0
-FUN_00c9d8c0* __thiscall FUN_00c9d8c0::doWork(int flags)
-{
-    DDCC60World* pOldWorld = m_pContainedShape;
-    vtbl = (int*)&DAT_010c6fd0;
-    if (pOldWorld)
-        pOldWorld->removeReference();
-    vtbl = (int*)&DAT_010c6fb0;
-    return this;
-}
 
 struct FUN_00c9d970_shape
 {
@@ -44,88 +23,23 @@ struct FUN_00c9d970_class
     unsigned char padding[0x10];
     FUN_00c9d970_shape* shape;
 
-    void DispatchShapeMethod7(int, float, void*);
+    void hkpBvShape_getAabbImpl(int, float, void*);
 };
 
 // @fnv 0x00c9d970
-void FUN_00c9d970_class::DispatchShapeMethod7(int value, float currentTime, void* queryFilter)
+// pdb: hkpBvShape::getAabbImpl | hkpBvShape.obj | fnv360_0822_retail, objrun, high
+// pdb params: localToWorld, tolerance, out
+// pdb: hkpBvShape::getAabbImpl | hkpBvShape.obj | fnv360_0822_retail, objrun, high (was: DispatchShapeMethod7)
+void FUN_00c9d970_class::hkpBvShape_getAabbImpl(int value, float currentTime, void* queryFilter)
 {
     shape->method7(value, currentTime, queryFilter);
 }
 
-struct FUN_00c9d930StandIn
-{
-    void FUN_00c9d930();
-};
-
-struct MemoryManagerStandIn
-{
-    virtual void Function0() = 0;
-    virtual void Function1() = 0;
-    virtual void Free(void* object, unsigned short flags) = 0;
-};
-
-struct hkpBvShapeStandIn
-{
-    hkpBvShapeStandIn* Destroy(int flags);
-};
-
-void* _D1A0E0GetMemoryRouter();
-
-// Calls FUN_00c9d930 on this, then if flags has bit 0 set, frees this through the memory router's manager using the object flags at offset 4, and returns this.
-// @fnv 0x00c9db30
-hkpBvShapeStandIn* hkpBvShapeStandIn::Destroy(int flags)
-{
-    reinterpret_cast<FUN_00c9d930StandIn*>(this)->FUN_00c9d930();
-
-    if (flags & 1)
-    {
-        void* router = _D1A0E0GetMemoryRouter();
-        unsigned short objectFlags = *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 4);
-        void* manager = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(router) + 0x10);
-
-        reinterpret_cast<MemoryManagerStandIn*>(manager)->Free(this, objectFlags);
-    }
-
-    return this;
-}
-
 // @fnv 0x00c9d8b0
+// pdb: std::basic_streambuf<char,std::char_traits<char> >::_Lock | algs.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: std::basic_streambuf<char,struct std::char_traits<char> >::overflow)
 int __stdcall FUN_00c9d8b0(int a1)
 {
     return -1;
-}
-
-extern int DAT_010c6fec;
-extern int DAT_01268910;
-
-struct C9D8F0Callback
-{
-    virtual void method0();
-    virtual void method1();
-    virtual void method2();
-    virtual void method3(void* context, void* childShape, int flags);
-};
-
-struct C9D8F0Shape
-{
-    void* vtable;
-    int field04;
-    int field08;
-    int field0c;
-    int field10;
-    int field14;
-    void* m_pContainedShape;
-
-    void FUN_00c90360(C9D8F0Callback* callback, void* typeInfo);
-    void NotifyCallback(C9D8F0Callback* callback, int flags);
-};
-
-// @fnv 0x00c9d8f0
-void C9D8F0Shape::NotifyCallback(C9D8F0Callback* callback, int flags)
-{
-    callback->method3(&DAT_010c6fec, m_pContainedShape, 0);
-    FUN_00c90360(callback, &DAT_01268910);
 }
 
 struct hkpBvShapeContainerView : hkpBvShape
@@ -134,40 +48,13 @@ struct hkpBvShapeContainerView : hkpBvShape
 };
 
 // @fnv 0x00c9d920
+// pdb: NonActorMagicTarget::GetActiveEffectList | NonActorMagicTarget.obj | fnv360_0822_retail, vtable, medium
 hkpSingleShapeContainer* hkpBvShapeContainerView::FUN_00c9d920()
 {
     return &m_pContainedShape;
 }
 
-extern int DAT_010c6ff8;
 extern int DAT_010c6fd0;
-struct Shape_00c9d990;
-void __fastcall FUN_00c90510(Shape_00c9d990*);
-struct FUN_00c9d990
-{
-    void* vtable;
-    unsigned short memoryFlags;
-    unsigned short referenceCount;
-    unsigned int userData;
-    unsigned int type;
-    Shape_00c9d990* boundingVolume;
-    void* containerVtable;
-    Shape_00c9d990* child;
-    FUN_00c9d990(Shape_00c9d990* bounds, Shape_00c9d990* childShape);
-};
-// @fnv 0x00c9d990
-FUN_00c9d990::FUN_00c9d990(Shape_00c9d990* apBoundingVolume, Shape_00c9d990* childShape)
-{
-    referenceCount = 1;
-    boundingVolume = apBoundingVolume;
-    userData = 0;
-    type = 27;
-    vtable = &DAT_010c6ff8;
-    containerVtable = &DAT_010c6fd0;
-    child = childShape;
-    FUN_00c90510(childShape);
-    FUN_00c90510(boundingVolume);
-}
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -237,6 +124,8 @@ struct Rs_c9d9e0_Self
 
 // Wraps m_pChildAtom->V20 in timer records and a counter increment/decrement on o; zeroes o->unk00[counter + 8] afterwards if *ret is nonzero; returns ret.
 // @fnv 0x00c9d9e0
+// pdb: hkpBvShape::castRayImpl | hkpBvShape.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: input, results
 char* Rs_c9d9e0_Self::FUN_00c9d9e0(char* ret, int a, Rs_c9d9e0_Input* o)
 {
     static_cast<Rs_c9d9e0_Stream*>(TlsGetValue(DAT_0126835c))->timer(str_010c7024);
@@ -397,13 +286,10 @@ __forceinline void FUN_00c9da80_cls::FUN_00c9da80(const void* pkInput, const hkp
 
 
 }
+// pdb: hkpBvShape::castRayWithCollectorImpl | hkpBvShape.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: input, cdBody, collector
 void FUN_00c9da80_cls::FUN_00c9da80(const void* input,const hkpCdBody_c9da80& parent,void* collector)const{reinterpret_cast<const Native1441::FUN_00c9da80_cls*>(this)->FUN_00c9da80(input,reinterpret_cast<const Native1441::hkpCdBody_c9da80&>(parent),collector);}
 
-
-struct BvShapeReference
-{
-    void __thiscall FUN_00c905b0() throw();
-};
 
 extern int DAT_0102e388;
 
@@ -429,6 +315,7 @@ struct C9D930View
     FUN_009316f0_cls* unk18;
     FUN_009316f0_cls* unk1c;
 };
+// pdb: hkpBinaryAction::~hkpBinaryAction | hkpBinaryAction.obj | fnv360_0822_retail, call_seq, high
 void BvShapeReleaseView::FUN_00c9d930()
 {
     C9D930View* self = (C9D930View*)this;

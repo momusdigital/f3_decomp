@@ -9,6 +9,7 @@ struct NiD3DPass
     static void __cdecl CreateD3DPass(NiPointer<NiD3DPass>&);
 };
 // @fnv 0x00be08e0
+// pdb: BSShader::RecreateRendererData | BSShader.obj | fnv360_0822_debug, objrun_open, low
 bool __fastcall FUN_00be08e0(char* self, int)
 {
     NiD3DPass::CreateD3DPass(*(NiPointer<NiD3DPass>*)(self + 0x5c));
@@ -98,6 +99,8 @@ struct FUN_00be08f0 : PassBase
 
 // Constructs a PassBase-derived object in mode 2 and initialises its extra field to zero.
 // @fnv 0x00be08f0
+// pdb: NiD3DPixelShader::NiD3DPixelShader | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_debug, call_gap, low
+// pdb params: pkRenderer
 FUN_00be08f0::FUN_00be08f0(void* owner) : PassBase(owner, 2), unk2c(0)
 {}
 
@@ -111,6 +114,7 @@ struct FNVNiD3DPassStandIn
 
 // Calls FUN_00be0f10, then if bit 0 of flags is set calls FUN_00aa1460 on this with size 0x6c, and returns this.
 // @fnv 0x00be2290
+// pdb: MagicShaderHitEffect::`scalar deleting destructor' | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSParticleShaderGeometryEmitter::~BSParticleShaderGeometryEmitter)
 void* __thiscall FNVNiD3DPassStandIn::FUN_00be2290(unsigned int flags)
 {
     FUN_00be0f10();
@@ -300,6 +304,7 @@ extern unsigned int DAT_011fc85c;
 extern unsigned int DAT_011fd454;
 extern unsigned int DAT_011fc874;
 // @fnv 0x00bea040
+// pdb: ShadowLightShader::PresetLandscape_1x | ShadowLightShader_Preset_1x.obj | fnv360_0822_retail, objrun_prop, medium
 void InitDefaultShaderPasses()
 {
     ShaderPassPointer pass;
@@ -657,6 +662,7 @@ struct C0
 };
 
 // @fnv 0x00be0b10
+// pdb: BGSLightingTemplate::GetDataDirectionalXY | BGSLightingTemplate.obj | fnv360_0721_beta, call_seq, low
 int __thiscall C0::FUN_00be0b10()
 {
     return *(int*)((char*)this + 0x2c);

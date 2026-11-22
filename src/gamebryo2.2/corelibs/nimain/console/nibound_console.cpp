@@ -19,6 +19,7 @@ struct NiAGDDataBlock
 
 // Allocates a 16-byte NiAGDDataBlock, initialises its fields to zero, sets its vtable, and returns it (or null on failure).
 // @fnv 0x00a7f650
+// pdb: BSPackedAdditionalGeometryData::CreateAGDDataBlock | BSPackedAdditionalGeometryData.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSPackedAdditionalGeometryData::LoadBinary)
 NiAGDDataBlock* __cdecl CreateNiAGDDataBlock()
 {
     NiAGDDataBlock* pDataBlock = (NiAGDDataBlock*)g_memoryManager.Allocate(0x10);
@@ -150,6 +151,8 @@ struct BSPackedAdditionalGeometryData
 };
 // If pvBuffer is null and _12 is set, substitutes _8/_4; then, unless _13 is set, calls Call130 on the renderer with the buffer and size.
 // @fnv 0x00a7f570
+// pdb: BSPackedAdditionalGeometryData::NiBSPackedAGDDataBlock::ProtectBuffer | BSPackedAdditionalGeometryData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pvBuffer, uiBufferSize
 void BSPackedAdditionalGeometryData::NiBSPackedAGDDataBlock::FUN_00a7f570(void* pvBuffer, unsigned int uiBufferSize)
 {
     if (!pvBuffer && _12)
@@ -254,6 +257,8 @@ struct BlockHolder
     void __thiscall FUN_00a7f5b0(void* pvBuffer, unsigned int uiBufferSize);
 };
 // @fnv 0x00a7f5b0
+// pdb: BSPackedAdditionalGeometryData::NiBSPackedAGDDataBlock::UnprotectBuffer | BSPackedAdditionalGeometryData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pvBuffer, uiBufferSize
 void __thiscall BlockHolder::FUN_00a7f5b0(void* pvBuffer, unsigned int uiBufferSize)
 {
     if (!pvBuffer && mc)
@@ -270,19 +275,20 @@ void __thiscall BlockHolder::FUN_00a7f5b0(void* pvBuffer, unsigned int uiBufferS
 namespace fnv_00a7f620 {
 struct NiAdditionalGeometryData
 {
-    bool __thiscall FUN_00a727f0(const NiAdditionalGeometryData*);
+    bool __thiscall NiAdditionalGeometryData_IsEqual(const NiAdditionalGeometryData*);
     char _pad_0[0x2c];
     unsigned int m_uiShaderDeclarationIndex;
     unsigned int m_uiUnknownValue;
 };
 struct BSPackedAdditionalGeometryData : NiAdditionalGeometryData
 {
-    bool __thiscall FUN_00a7f620(const NiAdditionalGeometryData* pkObject);
+    bool __thiscall BSPackedAdditionalGeometryData_IsEqual(const NiAdditionalGeometryData* pkObject);
 };
 // @fnv 0x00a7f620
-bool __thiscall BSPackedAdditionalGeometryData::FUN_00a7f620(const NiAdditionalGeometryData* pkObject)
+// pdb: BSPackedAdditionalGeometryData::IsEqual | BSPackedAdditionalGeometryData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objopen_prop), high
+bool __thiscall BSPackedAdditionalGeometryData::BSPackedAdditionalGeometryData_IsEqual(const NiAdditionalGeometryData* pkObject)
 {
-    if (FUN_00a727f0(pkObject) && m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
+    if (NiAdditionalGeometryData_IsEqual(pkObject) && m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
         m_uiUnknownValue == pkObject->m_uiUnknownValue)
         return true;
     return false;
@@ -348,6 +354,8 @@ struct Bound88
 };
 
 // @fnv 0x00a7ee30
+// pdb: NiBound::ComputeFromData | NiBound_Xenon.obj | fnv360_0822_debug, caller, medium
+// pdb params: iQuantity, pkData
 void Bound88::ComputeBoundingSphere(int count, const Vec88* points)
 {
 
@@ -528,6 +536,7 @@ struct Sphere
 
 // Sets this sphere to the other when it contains this; otherwise adjusts center and radius to enclose both.
 // @fnv 0x00a7f3f0
+// pdb: NiAVObject::CreateBoundIfNone | TESObjectCELL.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: NiBound::Merge)
 void Sphere::FUN_00a7f3f0(const Sphere& other)
 {
     NiPt3 vDelta = center - other.center;

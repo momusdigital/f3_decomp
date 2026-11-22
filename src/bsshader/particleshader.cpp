@@ -4,6 +4,7 @@
 
 // Returns the cached particle count, computing it from the renderer level (26, or 78 when level >= 2) if not yet set.
 // @fnv 0x00ba52d0
+// pdb: ParticleShader::GetNumParticles | ParticleShader.obj | fnv360_0822_retail, call_seq, medium
 unsigned int ParticleShader::GetShaderParticleCount()
 {
     register unsigned int count = fnv_particle_shader_particle_count;
@@ -16,6 +17,7 @@ unsigned int ParticleShader::GetShaderParticleCount()
 }
 
 // @fnv 0x00ba58b0
+// pdb: ParticleShader::CreateShader | ParticleShader.obj | fnv360_0822_retail, call_gap, medium
 BSShader* ParticleShader::CreateShader()
 {
     NiD3DVertexDeclaration* d = NiD3DVertexDeclaration::Create(DAT_011f9508, 5, 1);
@@ -41,6 +43,7 @@ struct NiD3DPass
 
 // Assigns a NiD3DPass pointer, releasing the old pass when its refcount at offset 0x64 drops to zero and incrementing the new pass's refcount.
 // @fnv 0x00ba53c0
+// pdb: NiD3DTextureStage::ReturnStageToPool | NiD3DTextureStage.obj | fnv360_0721_beta, call_dedup, low
 void* __fastcall AssignNiD3DPass(void* pThis, int, void* param)
 {
     NiD3DPass** ppThis = (NiD3DPass**)pThis;
@@ -66,7 +69,8 @@ void* __fastcall AssignNiD3DPass(void* pThis, int, void* param)
 extern "C" void* g_012003f8;
 
 // @fnv 0x00ba5730
-void* __cdecl FUN_00ba5730()
+// pdb: NiDX9TextureBufferData::GetRTTI | NiDX92DBufferData.obj | tesv_win, udata, high
+void* __cdecl NiDX9TextureBufferData_GetRTTI()
 {
     return &g_012003f8;
 }
@@ -92,6 +96,7 @@ struct FUN_00ba52f0_shell
 };
 // Calls the virtual function at vtable slot 74 twice, passing _a and then _b.
 // @fnv 0x00ba52f0
+// pdb: ParticleShader::ClearPassStages | ParticleShader.obj | fnv360_0822_retail, objrun, low
 void __thiscall FUN_00ba52f0_shell::FUN_00ba52f0()
 {
     typedef void(__thiscall * Fn)(FUN_00ba52f0_shell*, void*);
@@ -248,6 +253,7 @@ struct FUN_00ba5740 : BaseCleanup
 
 // Releases the global ComTarget, frees slot70 through g_memoryManager, and releases the four reference slots.
 // @fnv 0x00ba5740
+// pdb: ParticleShader::~ParticleShader | ParticleShader.obj | fnv360_0822_retail, objrun, medium
 FUN_00ba5740::~FUN_00ba5740()
 {
     if (DAT_012003f4)
@@ -421,6 +427,7 @@ struct ShaderState
 };
 // Creates the field34 ConstantMap with predefined and added constants if absent, then creates field30 if absent.
 // @fnv 0x00ba69f0
+// pdb: ParticleShader::CreateConstantMaps | ParticleShader.obj | fnv360_0822_retail, ustr, medium
 void ShaderState::InitConstantMaps()
 {
     if (!field34.ptr)
@@ -790,6 +797,8 @@ void __cdecl FUN_00b57e30(NiObject*, int, int);
 void __cdecl FUN_00ade300(NiObject*, int, int);
 extern int DAT_01176174;
 
+// pdb: ParticleShader::Start | ParticleShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRoot, apObject
 NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
 {
     if (apObject)
@@ -1111,6 +1120,7 @@ template <class T> struct NiPtr
 };
 // Builds and caches a Q64_Top containing repeated quad geometry with vertices, UVs, and a renderer.
 // @fnv 0x00ba64e0
+// pdb: ParticleShader::GetParticleGeometry | ParticleShader.obj | fnv360_0822_retail, call_dedup, low
 NiObject* __cdecl FUN_00ba64e0()
 {
     if (!DAT_011f91c0)
@@ -1359,6 +1369,8 @@ class FUN_00ba53f0 : public ShaderBase
 };
 // Initializes a particle shader with a vertex declaration, sets up particle arrays based on renderer level, and zeroes out matrix rows.
 // @fnv 0x00ba53f0
+// pdb: ParticleShader::ParticleShader | ParticleShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl
 FUN_00ba53f0::FUN_00ba53f0(NiD3DVertexDeclaration* apVertexDeclaration)
 {
     unk68 = 14;

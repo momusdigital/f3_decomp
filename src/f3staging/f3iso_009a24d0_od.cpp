@@ -8,6 +8,8 @@
 // @f3 0x009a24d0 (community match, verified in this file)
 namespace f3m_009a24d0 {
 struct __declspec(align(16)) SegmentVec4 { float x,y,z,w; };
+// pdb: hkpCapsuleShape::closestPointLineSeg | hkpCapsuleShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: A, B, B2, pt
 __declspec(noinline) void FUN_009a24d0(const float* a, const float* b, const float* c, float* out)
 {
     SegmentVec4 n;

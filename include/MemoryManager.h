@@ -23,4 +23,5 @@ class MemoryManager
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(MemoryManager) == 0x12C);
 FNV_STATIC_ASSERT(offsetof(MemoryManager, m_bPoolAllocationEnabled) == 0x129);
+extern MemoryManager g_memoryManager;  // the heap (MemoryManager::s_Instance, FNV360_PDB)
 #endif

@@ -4,6 +4,8 @@
 #include "shadowscenenode_local.h"
 
 // @fnv 0x00b5eeb0
+// pdb: ShadowSceneNode::AddObject | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject
 void ShadowSceneNode::AddObject(NiAVObject* apObject)
 {
     if (!apObject)
@@ -15,7 +17,9 @@ void ShadowSceneNode::AddObject(NiAVObject* apObject)
 
 // Releases each shadow light's texture, clears the shadow light list, and resets the shadow counts to zero.
 // @fnv 0x00b5c3c0
-void ShadowSceneNode::UpdateShadowLights()
+// pdb: ShadowSceneNode::RemoveAllShadowLights | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, high
+// pdb: ShadowSceneNode::RemoveAllShadowLights | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, high (was: UpdateShadowLights)
+void ShadowSceneNode::RemoveAllShadowLights()
 {
     ShadowListItem* item = shadowLights.head;
     while (item)
@@ -41,6 +45,8 @@ void ShadowSceneNode::UpdateShadowLights()
 }
 
 // @fnv 0x00b5b4d0
+// pdb: ShadowSceneNode::GetLuminanceAtPoint | ShadowSceneNode.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apPoint, inumberlights, afAmbientLum, afDirectionalLum, apIgnore
 float ShadowSceneNode::CalculateLightingAtPoint(NiPoint3 point, int& count, float& ambient, float& diffuse,
                                                 NiLight* ignore)
 {
@@ -98,6 +104,7 @@ struct List_00b5ac20
 
 // Returns the item at the given index from the list at pThis+0xb4, or null if the index is out of range.
 // @fnv 0x00b5ac20
+// pdb: AIProcess::GetDoNoDamage | AIProcess_MiddleHigh.obj | tesv_win, objrun_open, low
 void* __fastcall GetListItemAt(char* pThis, int, unsigned int index)
 {
     List_00b5ac20* list = (List_00b5ac20*)(pThis + 0xb4);
@@ -134,6 +141,8 @@ void __fastcall AssignRefObject(char* pThis, int, NiRefObject* pObj)
 
 // Assigns pObj to the reference-counted pointer at pThis+0x128, releasing the old object and retaining the new one.
 // @fnv 0x00b5af30
+// pdb: ShadowSceneLight::SetShadowScene | ShadowSceneNode.obj | fnv360_0721_beta, call_gap_sim, low
+// pdb params: apAVObj
 void __fastcall FUN_00b5af30(char* pThis, int, NiRefObject* pObj)
 {
     NiRefObject*& pRef = *(NiRefObject**)(pThis + 0x128);
@@ -166,6 +175,7 @@ static inline char*& GetNextLight(ShadowLightNode*& pkIter)
 }
 
 // @fnv 0x00b5b060
+// pdb: ShadowSceneNode::DisableAllShadowLights | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: Actor::UpdateSceneGraph)
 void __fastcall FUN_00b5b060(char* pThis, int)
 {
     ShadowLightNode* pkIter = *(ShadowLightNode**)(pThis + 0xC0);
@@ -204,6 +214,8 @@ void __cdecl FUN_00b5b0e0(void* pObj);
 
 // Iterates the children of pNode, calling FUN_00b5b0e0 on geometry children and recursing into node children.
 // @fnv 0x00b5b150
+// pdb: ShadowSceneNode::RemoveObjectRecurse | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: AIProcess::SetWardState)
+// pdb params: apNode
 void __fastcall ProcessNodeChildren(void* pThis, int, void* pNode)
 {
     for (unsigned int i = 0; i < *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pNode) + 0xa6); ++i)
@@ -245,6 +257,7 @@ struct ArrayLike
 
 // Grows the array's capacity if it is full, then increments m_uiSize and returns the index of the newly appended slot.
 // @fnv 0x00b5c360
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::AddUninitialized | PathSmootherPOV.obj | fnv360_0822_retail, call_seq, low
 unsigned int __fastcall FUN_00b5c360(ArrayLike* pThis)
 {
     if (pThis->m_uiSize == pThis->m_uiCapacity)
@@ -304,6 +317,7 @@ struct FUN_00b5ac60_self
 
 // Walks the linked list from self->head and counts nodes whose item is non-null and whose id is not 0xff.
 // @fnv 0x00b5ac60
+// pdb: ShadowSceneNode::GetActiveLightCount | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: AIProcess::GetBleedoutRate)
 int __fastcall FUN_00b5ac60(FUN_00b5ac60_self* self, int unused)
 {
     int count = 0;
@@ -334,6 +348,8 @@ struct FUN_00b5ade0_arr
 };
 // Removes the element at index, shifting the tail down, or reallocates a smaller buffer when shrinking and the count is low enough.
 // @fnv 0x00b5ade0
+// pdb: BSSimpleArray<ItemChange *,1024>::Remove | PlayerCharacter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiIndex, abShrink
 void __fastcall FUN_00b5ade0(FUN_00b5ade0_arr* self, int, unsigned index, bool shrink)
 {
     if (shrink)
@@ -378,6 +394,8 @@ struct FUN_00b5aea0_self
 
 // Copies up to n elements from the end of the buffer into the gap at start, then reduces count by n.
 // @fnv 0x00b5aea0
+// pdb: BSSimpleArray<Actor *,1024>::RemoveFast | CombatTargetMap.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiIndex, aiHowMany
 void FUN_00b5aea0_self::RemoveRange(unsigned int start, unsigned int n)
 {
     unsigned int m = count - start - n;
@@ -385,33 +403,6 @@ void FUN_00b5aea0_self::RemoveRange(unsigned int start, unsigned int n)
         m = n;
     FUN_00cb9930(data + start, data + (count - m), m);
     count -= n;
-}
-
-struct FUN_00b5af80_self
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void Release(void* obj);
-    void* obj;
-    int a;
-    int b;
-    void FUN_00b5af80(bool destroy);
-};
-
-// If obj is set, releases it when destroy is true (clearing obj and b), then resets a to 0.
-// @fnv 0x00b5af80
-void FUN_00b5af80_self::FUN_00b5af80(bool destroy)
-{
-    if (obj)
-    {
-        if (destroy)
-        {
-            Release(obj);
-            obj = 0;
-            b = 0;
-        }
-        a = 0;
-    }
 }
 
 struct NiAVObjectVirt
@@ -429,6 +420,8 @@ struct FUN_00b5b150_Struct
 
 // If apObject is non-null, gets its node via vfunc3 and, when that node exists, passes it to ProcessNodeChildren on thisptr.
 // @fnv 0x00b5b1c0
+// pdb: ShadowSceneNode::RemoveObject | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: Actor::SetWardState)
+// pdb params: apObject
 void __fastcall FUN_00b5b1c0(ShadowSceneNode* thisptr, int, NiAVObject* apObject)
 {
     if (apObject)
@@ -458,6 +451,8 @@ struct FUN_00b5b4a0_self
 
 // Walks the linked list from self->head and returns the first item whose key equals key, or null if none matches.
 // @fnv 0x00b5b4a0
+// pdb: ShadowSceneNode::GetLight | ShadowSceneNode.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apLight
 FUN_00b5b4a0_item* __fastcall FUN_00b5b4a0(FUN_00b5b4a0_self* self, int unused, int key)
 {
     FUN_00b5b4a0_node* n = self->head;
@@ -472,12 +467,11 @@ FUN_00b5b4a0_item* __fastcall FUN_00b5b4a0(FUN_00b5b4a0_self* self, int unused, 
     return 0;
 }
 
-struct FUN_00b9dcb0_stub;
 struct FUN_00b5c450_item
 {
     unsigned char pad[0xf8];
     int key;
-    void SetShadowEnabled(int v);
+    void ShadowSceneLight_SetCastShadow(int v);
 };
 struct FUN_00b5c450_node
 {
@@ -491,8 +485,10 @@ struct FUN_00b5c450_self
     FUN_00b5c450_node* head;
 };
 
-// Walks the linked list from self->head and, for the first item whose key matches, calls SetShadowEnabled with flag.
+// Walks the linked list from self->head and, for the first item whose key matches, calls ShadowSceneLight_SetCastShadow with flag.
 // @fnv 0x00b5c450
+// pdb: ShadowSceneNode::SetLightCastShadows | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: Actor::CanAddActiveEffect)
+// pdb params: apLight, abCastShadows
 void __fastcall CallItemMethodByKey(FUN_00b5c450_self* self, int unused, int key, int flag)
 {
     FUN_00b5c450_node* n = self->head;
@@ -503,7 +499,7 @@ void __fastcall CallItemMethodByKey(FUN_00b5c450_self* self, int unused, int key
         FUN_00b5c450_item* it = *pp;
         if (it && it->key == key)
         {
-            it->SetShadowEnabled(flag);
+            it->ShadowSceneLight_SetCastShadow(flag);
             return;
         }
     }
@@ -545,6 +541,8 @@ struct PosD
     bool _Call_439090(const V3D*);
 };
 // @fnv 0x00b5d930
+// pdb: ShadowSceneNode::UpdateQueuedDynamicLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: Actor::CheckAreaEffectAgainstWard)
+// pdb params: apSSLight
 void __fastcall FUN_00b5d930(OwnerD* self, int, LightD* l)
 {
     if (l->f_f4 && l->f_fc && !l->f_ec)
@@ -581,6 +579,8 @@ struct FUN_00b5ddb0_self
 };
 
 // @fnv 0x00b5ddb0
+// pdb: ShadowSceneNode::UpdateLighting | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: CastPowerItem::SaveGame)
+// pdb params: abForceFull, abAddLights
 void FUN_00b5ddb0_self::FUN_00b5ddb0(bool a, bool b)
 {
     if (a)
@@ -606,13 +606,16 @@ struct GlobalObjectO2_00a7b610
 GlobalObjectO2_00a7b610 g_011f9e80;
 
 // @fnv 0x00b5e590
-GlobalObjectO2_00a7b610* FUN_00b5e590()
+// pdb: NiBSPNode::GetRTTI | NiBSPNode.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(objrun_open), high
+GlobalObjectO2_00a7b610* NiBSPNode_GetRTTI()
 {
     return &g_011f9e80;
 }
 
 void* __cdecl FUN_00ec7230(void*, const void*, unsigned int);
 // @fnv 0x00cb9930
+// pdb: BSSimpleArray<BGSBodyPart *,1024>::_MoveItems | HitData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apDestAddr, apSrcAddr, aiCount
 void __fastcall FUN_00cb9930(void* self, int, unsigned* dst, unsigned* src, unsigned count)
 {
     if (count > 0)
@@ -630,13 +633,9 @@ void __fastcall FUN_00cb9930(void* self, int, unsigned* dst, unsigned* src, unsi
     }
 }
 
-struct CloningProcess;
 struct NiDirectionalLight;
-struct NiDynamicEffect;
 struct NiLight;
 struct NiNode;
-struct NiStream;
-struct NiUpdateData;
 struct FUN_00b5aac0_shell : public ShadowSceneNode
 {
     void FUN_00b5aac0(NiDirectionalLight*);
@@ -684,6 +683,8 @@ struct GlobalObjectO2_00b9fda0 : public BSFadeNode
 extern NiColor DAT_011f4998;
 
 // @fnv 0x00b5aac0
+// pdb: ShadowSceneNode::SetSunLight | ShadowSceneNode.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apLight
 void FUN_00b5aac0_shell::FUN_00b5aac0(NiDirectionalLight* apLight)
 {
     if (*(GlobalObjectO2_00b9fda0**)((char*)this + 0xe0))
@@ -780,6 +781,8 @@ struct FUN_00b5ac90_t
     void FUN_00b5ac90(SSCamera* pkCamera);
 };
 // @fnv 0x00b5ac90
+// pdb: ShadowSceneNode::UpdateOcclusionPlaneVisibility | ShadowSceneNode.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apCamera
 void FUN_00b5ac90_t::FUN_00b5ac90(SSCamera* pkCamera)
 {
     if (pOwner)
@@ -905,10 +908,6 @@ struct Nd5 : AV5
     unsigned short maxSize;
     unsigned short count;
 };
-struct SW5
-{
-    AV5* FUN_00b5aa40();
-};
 struct DynCastHelper
 {
     NiObject* DynamicCast(const void*);
@@ -927,6 +926,8 @@ extern char DAT_0109054c;
 void* __cdecl FUN_00424d50(const void* apType, void* apObj);
 bool FUN_00ae1c90(AV5* apObject, void* apArg1, void* apArg2, bool c);
 
+// pdb: ShadowSceneNode::UpdateQueuedObjectLightingList | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject, apSceneNode, apLightList, abActiveLightsOnly
 bool CheckBoundAndChildren(AV5* apObject, void* apArg1, void* apArg2, bool c)
 {
     if (!apObject)
@@ -1047,6 +1048,8 @@ struct ShadowSceneNodeS : FUN_00c51570_Class
 };
 
 // @fnv 0x00b5c7d0
+// pdb: ShadowSceneNode::GetViewerStrings | ShadowSceneNode.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void ShadowSceneNodeS::AppendLightStats(StrArr* pkStrings)
 {
     FUN_00c51570_Class::FUN_00a5ea70(pkStrings);
@@ -1126,7 +1129,7 @@ struct FUN_00b9dcb0_Class
     char pad_ed[0x1f];
     TexturePtr m_spShadowTexture;
 
-    void __thiscall SetShadowEnabled(bool bEnable);
+    void __thiscall ShadowSceneLight_SetCastShadow(bool bEnable);
 };
 
 // @f3 0x00b20030 (community match, verified in this file)
@@ -1152,7 +1155,10 @@ struct AutoMemContextFixed
     }
 };
 
-void FUN_00b9dcb0_Class::SetShadowEnabled(bool bEnable)
+// pdb: ShadowSceneLight::SetCastShadow | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, high
+// pdb params: abCastShadow
+// pdb: ShadowSceneLight::SetCastShadow | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, high (was: SetShadowEnabled)
+void FUN_00b9dcb0_Class::ShadowSceneLight_SetCastShadow(bool bEnable)
 {
     AutoMemContextFixed memContext(0x20);
 
@@ -1235,6 +1241,8 @@ struct FUN_00b9dda0_Class
 };
 
 // @fnv 0x00b9dda0
+// pdb: ShadowSceneLight::SetLight | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: NiDirectionalLight::NiDirectionalLight)
+// pdb params: apLight
 void FUN_00b9dda0_Class::FUN_00b9dda0(NiLight* apLight)
 {
     m_spLight = apLight;
@@ -1269,6 +1277,8 @@ class FUN_00b5a930_cls
 
 // Scans m_ppItems from start to m_uiCount, returning the first index whose item satisfies pred, or -1 if none match.
 // @fnv 0x00b5a930
+// pdb: BSSimpleArray<BGSBodyPart *,1024>::Find<BGSBodyPart *> | HitData.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: CombatGroup::IsTarget)
+// pdb params: aValue, aiStartIndex, apFunc
 int FUN_00b5a930_cls::FindFirstMatch(void* apContext, unsigned int start, FUN_00b5a930_pred apPredicate)
 {
     if (start < m_uiCount)
@@ -1417,6 +1427,7 @@ struct S_Cls
     S_Item* FUN_00b5afc0();
 };
 // @fnv 0x00b5afc0
+// pdb: ShadowSceneNode::GetFirstShadowLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
 S_Item* S_Cls::FUN_00b5afc0()
 {
     S_Node* node = m_pHead;
@@ -1570,6 +1581,7 @@ class FUN_00b5b010_cls
 };
 // Pops nodes from the m_pHead list and returns the first item whose m_uiF8 is nonzero, or the last popped item.
 // @fnv 0x00b5b010
+// pdb: ShadowSceneNode::GetNextShadowLight | ShadowSceneNode.obj | fnv360_0822_retail, caller, medium
 FUN_00b5b010_item* FUN_00b5b010_cls::FUN_00b5b010()
 {
     FUN_00b5b010_item* item = 0;
@@ -1611,6 +1623,7 @@ static inline ShadowSceneLight*& GetNextLightStandIn(LightNodeStandIn*& pkIter)
 }
 
 // @fnv 0x00b5b1f0
+// pdb: ShadowSceneNode::ReleaseAllShadowMaps | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
 void __fastcall FUN_00b5b1f0(ShadowSceneNode* pThis, int)
 {
     LightNodeStandIn* pLightNode = (LightNodeStandIn*)pThis->shadowLights.head;
@@ -1660,6 +1673,8 @@ struct ShadowProcessor
 };
 typedef unsigned char(__thiscall* TestCallback)(void*, char*);
 // @f3 0x00ae2490 (community match, verified in this file)
+// pdb: ShadowSceneNode::UpdateMultiboundVisibility | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apMultibound, akViewPoint, akCuller
 void ShadowProcessor::ProcessTargetIfEligible(SearchObject* source, ProcessArgs args, char* target)
 {
     char* subobject = *(char**)((char*)source + 0xac);
@@ -1839,6 +1854,8 @@ struct SSN_b5
 };
 
 // @f3 0x00ae32a0 (community match, verified in this file)
+// pdb: ShadowSceneNode::AddAllLightsFromNode_Recurse | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNode, afDefaultRadius
 int SSN_b5::FUN_00b5ca70(Node_b5* node, float time)
 {
     int count = 0;
@@ -2118,135 +2135,6 @@ inline ShadowLight* const& GetNext(LightNode*& pos)
     ShadowLight* const& item = pos->m_pInventoryEntryData;
     pos = pos->m_pNext;
     return item;
-}
-
-struct RenderHelper
-{
-    int unk00;
-    void SetTarget(int a, int b);
-};
-extern RenderHelper g_renderHelper;
-extern ShadowLight* g_pCurrentShadowLight;
-
-struct ShadowSceneNodeX
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    LightNode* m_pShadowHead;
-    LightNode* m_pShadowTail;
-    unsigned int m_uiShadowCount;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    int unke0;
-    int unke4;
-    int unke8;
-    int unkec;
-    int unkf0;
-    int unkf4;
-    int unkf8;
-    int unkfc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    RefPtr<ShadowRenderTarget> m_spReferencedObject;
-    void FUN_00b5b880(int arg);
-};
-
-// @fnv 0x00b5b880
-void ShadowSceneNodeX::FUN_00b5b880(int arg)
-{
-    AutoMemContext ctx(0x20);
-    if (!m_spReferencedObject)
-    {
-        m_spReferencedObject = new ShadowRenderTarget(0);
-    }
-    m_spReferencedObject->unk114 = 0;
-    if (m_uiShadowCount)
-    {
-        int n = 0;
-        LightNode* pos = m_pShadowHead;
-        while (pos)
-        {
-            ShadowLight* light = GetNext(pos);
-            if (light && light->m_pLight)
-            {
-                if (!(light->m_pLight->m_uiObjectFlags & 1))
-                {
-                    UpdateData data;
-                    light->m_pLight->Update(data);
-                    if (light->m_usIndex != 0xff)
-                    {
-                        g_pCurrentShadowLight = light;
-                        light->Render(arg, n);
-                        n++;
-                    }
-                }
-                else
-                {
-                    light->Deactivate();
-                }
-            }
-        }
-        for (int i = n + 0x11; i < 0x15; i++)
-            g_renderHelper.SetTarget(1, i);
-    }
-    m_spReferencedObject->sp130 = 0;
 }
 
 struct SPData
@@ -2580,6 +2468,8 @@ struct SPShader
 };
 
 // @fnv 0x00b5ba80
+// pdb: ShadowSceneNode::BuildSharedCompoundFrustum | ShadowSceneNode.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apCamera, apPortal
 void SPShader::FUN_00b5ba80(int aiPass, SPPass* apPass)
 {
     SPRenderer* pRenderer = apPass->pOwner->pRenderer;
@@ -2791,6 +2681,8 @@ struct GlobalLockF3
     }
 };
 extern GlobalLockF3 DAT_0116fc80;
+// pdb: ShadowSceneNode::RemoveLight | ShadowSceneNode.obj | fnv360_0822_retail, caller, medium
+// pdb params: apSSLight
 void BoundOwner_t::AddBound(BoundRef_t* pkBound)
 {
     if (!pkBound->m_pObject)
@@ -3035,6 +2927,7 @@ class MultiBoundManagerB5D
 // @f3 0x00ae39b0 (community match, verified in this file)
 typedef long (__stdcall * CompareExchangeFn)(long volatile*, long, long);
 extern void* DAT_00d9b06c;
+// pdb: ShadowSceneNode::RemoveAllLights | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
 void MultiBoundManagerB5D::FUN_00b5d180()
 {
     NiTListItemB5D<NiPointerB5D<BSMultiBoundB5D> >* pkPos = m_kBounds.m_pkHead;
@@ -3258,6 +3151,8 @@ struct Shell_b5d270
 
 // If pObj is non-null, appends it to m_kList via FUN_00a5a310.
 // @fnv 0x00b5d270
+// pdb: ShadowSceneNode::UpdateLight | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BGSSaveGameBuffer::SaveFormID)
+// pdb params: apSSLight
 void Shell_b5d270::FUN_00b5d270(Obj_b5d270* pObj)
 {
     if (pObj)
@@ -3776,6 +3671,7 @@ struct FUN_00b5e0f0 : Base
     FUN_00b5e0f0();
 };
 // @fnv 0x00b5e0f0
+// pdb: ShadowSceneNode::ShadowSceneNode | ShadowSceneNode.obj | fnv360_0822_retail, ustr, high
 FUN_00b5e0f0::FUN_00b5e0f0() : Base(0)
 {
     AssignFixedString(Fixed("shadow scene node"));
@@ -4012,6 +3908,8 @@ class MultiBoundManagerB5E
 
 // Scans m_kBounds for a bound whose m_pvOwner equals pvOwner and removes the first match via RemoveBound.
 // @fnv 0x00b5edf0
+// pdb: ShadowSceneNode::RemoveShadowLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apObject
 void MultiBoundManagerB5E::RemoveBoundByOwner(void* pvOwner)
 {
     if (!pvOwner)
@@ -4087,259 +3985,13 @@ struct InterfaceArray
         data[size++] = value;
     }
 };
-struct WorldContext : hkReferencedObject, InterfacePart
-{
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    WorldContext();
-    void SetWorld(void*);
-};
-struct Process : hkReferencedObject
-{
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    Process(InterfaceArray&, int);
-    void SetValue(int);
-};
-void FUN_00cd1ed0();
-struct Root
-{
-    virtual void f0();
-    virtual void f1();
-    virtual void f2();
-    virtual void f3();
-    virtual void f4();
-    virtual void f5();
-    virtual void f6();
-    virtual void f7();
-    virtual void f8();
-    virtual void f9();
-    virtual void f10();
-    virtual void f11();
-    virtual void f12();
-    virtual void f13();
-    virtual void f14();
-    virtual void f15();
-    virtual void f16();
-    virtual void f17();
-    virtual void f18();
-    virtual void f19();
-    virtual void f20();
-    virtual void f21();
-    virtual void f22();
-    virtual void f23();
-    virtual void f24();
-    virtual void f25();
-    virtual void f26();
-    virtual void f27();
-    virtual void f28();
-    virtual void f29();
-    virtual void f30();
-    virtual void f31();
-    virtual void f32();
-    virtual void f33();
-    virtual void f34();
-    virtual void f35();
-    virtual void f36();
-    virtual void* GetWorld();
-    int unk04, unk08, unk0c;
-    Process* process;
-    void SetProcessEnabled(bool);
-};
-// Creates and stores a Process with a WorldContext when enable is true, or releases and clears process when false.
-// @fnv 0x00c6a640
-void Root::SetProcessEnabled(bool enable)
-{
-    AutoMemContext context(16);
-    if (enable)
-    {
-        if (!process)
-        {
-            InterfaceArray array;
-            FUN_00cd1ed0();
-            WorldContext* item = new WorldContext;
-            item->SetWorld(GetWorld());
-            array.AddBack(item);
-            process = new Process(array, 0);
-            process->SetValue(0x61a9);
-        }
-    }
-    else
-    {
-        if (process)
-        {
-            GetWorld();
-            process->removeReference();
-            process = 0;
-        }
-    }
-}
-
-struct FUN_00b5b0e0_Node
-{
-    FUN_00b5b0e0_Node* unk00;
-    FUN_00b5b0e0_Node* unk04;
-    void* unk08;
-};
 
 class LightingElem;
-
-class FUN_00b5b0e0_Prop
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    unsigned int m_uiShaderType;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    FUN_00b5b0e0_Node* m_pkHead;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    LightingElem* GetNext(void** pos);
-};
 
 class LightingElem
 {
   public:
     void FUN_00ba01a0(void* arg1, int arg2);
-};
-
-struct FUN_00b5b0e0_Inner
-{
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    FUN_00b5b0e0_Prop* m_pProp;
-};
-
-struct FUN_00b5b0e0_Scene
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    FUN_00b5b0e0_Inner m_kInner;
 };
 
 // Validates the prop's shader type and iterates its lighting elements, calling FUN_00ba01a0 on each with pv and 0.
@@ -4397,6 +4049,8 @@ struct DrainOwner {
  NullableCandidate candidate;
  __forceinline DrainCandidate* Candidate(){DrainCandidate* value=candidate.Get();if(!value)value=candidate.value;unsigned valid=ValidCandidate(value);return valid?value:0;}
 };
+// pdb: ShadowSceneNode::RemoveGeometryFromPropertyLights | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeom
 void __cdecl FUN_00b5b0e0(void* argument) {
  DrainOwner* owner=static_cast<DrainOwner*>(argument);
  if(owner) {
@@ -4907,6 +4561,8 @@ struct NodeTarget
 };
 
 // @fnv 0x00b5d040
+// pdb: ShadowSceneNode::RemoveQueuedLight | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSSLight, akIter
 void NodeTarget::RemoveLightFromNode(void** object, void* apLight)
 {
 
@@ -4962,6 +4618,8 @@ void NodeTarget::RemoveLightFromNode(void** object, void* apLight)
 void FUN_00e74d40();
 
 // @fnv 0x00b5c7c0
+// pdb: NiSequenceStreamHelper::LoadBinary | NiSequenceStreamHelper.obj | fnv360_0822_retail, call_gap, low
+// pdb params: stream
 void FUN_00b5c7c0()
 {
     FUN_00e74d40();
@@ -5286,7 +4944,8 @@ bool __cdecl CheckBoundAndChildren(Obj5* obj, S5_C* a2, Obj5** b, bool c);
 
 // With flag set, filters child candidates by the object's bound, sorts matches, and calls CheckBoundAndChildren; otherwise dispatches based on Predicate().
 // @fnv 0x00b5dac0
-bool __cdecl FUN_00b5dac0(Obj5* obj, S5_C* apList, bool a3, bool abTestBound)
+// pdb: ShadowSceneNode::UpdateQueuedObjectLightingStart | ShadowSceneNode.obj | fnv360_0721_retail, udata + bridge(call_dedup|call_dedup), high
+bool __cdecl ShadowSceneNode_UpdateQueuedObjectLightingStart(Obj5* obj, S5_C* apList, bool a3, bool abTestBound)
 {
     if (obj == 0)
         return true;
@@ -5472,512 +5131,6 @@ template <class T> struct LocalLink
     LocalLink* prev;
     T* item;
 };
-template <class T> T* const& nextItem(LocalLink<T>*& p)
-{
-    T* const& item = p->item;
-    p = p->next;
-    return item;
-}
-struct LocalObject
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19c;
-    unsigned int unk1a0;
-    unsigned int unk1a4;
-    unsigned int unk1a8;
-    unsigned int unk1ac;
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int unk1dc;
-    unsigned int unk1e0;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned int unk1ec;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    unsigned int unk1fc;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20c;
-    LocalArray geometryLinks;
-    LocalArray lightLinks;
-};
-struct LocalLightData
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    LocalArray objects;
-};
-struct LocalLight
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    LocalLightData* data;
-};
-struct LocalGeometry
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    LocalLink<LocalLight>* lights;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    LocalArray objects;
-};
-struct LocalContext
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    LocalLink<LocalGeometry>* geometries;
-};
-struct LocalTarget
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> > listA, listB, listC, listD, listE;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19c;
-    unsigned int unk1a0;
-    unsigned int unk1a4;
-    unsigned int unk1a8;
-    unsigned int unk1ac;
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int unk1dc;
-    LocalContext* context;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned int unk1ec;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    bool dirty;
-    void FUN_00b5ddf0(LocalContext*);
-};
-// When the context changes, clears five lists, removes geometry and light references from old-context objects, then stores the new context.
-// @fnv 0x00b5ddf0
-void LocalTarget::FUN_00b5ddf0(LocalContext* apContext)
-{
-    if (apContext != context)
-    {
-        DAT_011f9ea0.FUN_0040fbf0(0);
-        DAT_011f9ec0.FUN_0040fbf0(0);
-        dirty = false;
-        listA.RemoveAll();
-        listB.RemoveAll();
-        listC.RemoveAll();
-        listD.RemoveAll();
-        listE.RemoveAll();
-        if (context)
-        {
-            LocalLink<LocalGeometry>* geometryPos = context->geometries;
-            while (geometryPos)
-            {
-                LocalGeometry* geometry = nextItem(geometryPos);
-                if (geometry)
-                {
-                    for (unsigned i = 0; i < geometry->objects.count; i++)
-                    {
-                        LocalObject* obj = (LocalObject*)geometry->objects.data[i];
-                        unsigned index = obj->geometryLinks.find(geometry);
-                        if (index != ~0u)
-                            obj->geometryLinks.FUN_00b5ade0(index, true);
-                    }
-                    geometry->objects.clear();
-                    LocalLink<LocalLight>* lightPos = geometry->lights;
-                    while (lightPos)
-                    {
-                        LocalLight* light = nextItem(lightPos);
-                        if (light)
-                        {
-                            int n = (int)light->data->objects.count;
-                            for (int j = 0; j < n; j++)
-                            {
-                                LocalArray* links = &((LocalObject*)light->data->objects.data[j])->lightLinks;
-                                unsigned index = links->find(light);
-                                if (index != ~0u)
-                                    links->remove(index);
-                            }
-                            light->data->objects.clear();
-                        }
-                    }
-                }
-            }
-        }
-        dirty = true;
-        DAT_011f9ea0.unlock();
-        DAT_011f9ec0.unlock();
-        ((FUN_00b5ddb0_self*)this)->FUN_00b5d180();
-    }
-    context = apContext;
-}
 }  // namespace fnv_00b5ddf0
 
 namespace fnv_00b5b260 {
@@ -6903,6 +6056,8 @@ class S5c6e0_Owner
 };
 
 // @fnv 0x00b5c6e0
+// pdb: BSPortalGraph::AddRoomToAccumList | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apRoom
 void S5c6e0_Owner::FUN_00b5c6e0(NiRefObject* pkObject)
 {
     if (!m_kList.FindPos(pkObject))
@@ -6927,11 +6082,9 @@ extern NiRTTIStub g_kPointLightRTTI;  // 0x011f4a98
 class NiLightObj : public NiObject
 {
   public:
-    virtual const NiRTTIStub* GetRTTI() const;
-
     bool IsExactKindOf(const NiRTTIStub* pkRTTI) const
     {
-        return GetRTTI() == pkRTTI;
+        return (const NiRTTIStub*)GetRTTI() == pkRTTI;
     }
     static bool IsExactKindOf(const NiRTTIStub* pkRTTI, const NiLightObj* pkObject)
     {
@@ -7317,7 +6470,7 @@ struct LightEx : public NiRefObject
     }
     void FUN_00b9bb10(float, int);
     void FUN_00b5af30(void* key);
-    void SetShadowEnabled(bool);
+    void ShadowSceneLight_SetCastShadow(bool);
 };
 
 struct ActiveLightList : public NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiRefObject> >
@@ -7340,39 +6493,6 @@ void ActiveLightList::FUN_00a5a310(const NiPointer<NiRefObject>& element)
     m_kItemCount.m_uiCount++;
 }
 
-struct ShadowSceneNode_Self : public ShadowSceneNode
-{
-    ActiveLightList m_activeLights;  // at offset 0xe4
-    LightEx* FUN_00b5cbd0(void* key);
-};
-
-// Finds a shadow light matching key in shadowLights, clears its flag and returns it, or creates a new LightEx, adds it to m_activeLights, and returns it.
-// @fnv 0x00b5cbd0
-LightEx* ShadowSceneNode_Self::FUN_00b5cbd0(void* key)
-{
-    ShadowListItem* pos = shadowLights.head;
-    while (pos)
-    {
-        ShadowSceneLight* const& ref = pos->light;
-        pos = pos->next;
-        LightEx* light = (LightEx*)ref;
-        if (light && *(void**)((char*)light + 0x128) == key)
-        {
-            ShadowLightFlags* flags = *(ShadowLightFlags**)((char*)light + 0xf8);
-            flags->flags &= 0xfffffffe;
-            light->FUN_00b9bb10(1.0f, 0);
-            return light;
-        }
-    }
-
-    DAT_011f9ea0.Lock(0);
-    LightEx* light = new LightEx;
-    light->FUN_00b5af30(key);
-    light->SetShadowEnabled(true);
-    m_activeLights.FUN_00a5a310(NiPointer<NiRefObject>(light));
-    DAT_011f9ea0.Unlock();
-    return light;
-}
 }  // namespace fnv_00b5cbd0
 
 extern unsigned int DAT_011c16bc;
@@ -7468,7 +6588,7 @@ class S00b5cd00_Param
     long m_iObjectReferenceCount;
 
     void FUN_00b9dda0(S00b5cd00_Light* light);
-    void SetShadowEnabled(bool value);
+    void ShadowSceneLight_SetCastShadow(bool value);
 };
 
 // Reference-taking argument wrapper: the constructor adds a reference; the caller drops it after the call.
@@ -7548,13 +6668,15 @@ class S00b5cd00_Owner
 };
 
 // @fnv 0x00b5cd00
+// pdb: ShadowSceneNode::AddQueuedShadowLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLight
 S00b5cd00_Param* S00b5cd00_Owner::FUN_00b5cd00(S00b5cd00_Param* param)
 {
     reinterpret_cast<unsigned char*>(param)[0xFC] = 1;
     S00b5cd00_Light* light = new S00b5cd00_Light;
     light->m_flags &= ~1u;
     param->FUN_00b9dda0(light);
-    param->SetShadowEnabled(true);
+    param->ShadowSceneLight_SetCastShadow(true);
     reinterpret_cast<unsigned char*>(param)[0xED] = 0;
     m_kNode.FUN_00a5a310(param);
     if (InterlockedDecrement(&param->m_iObjectReferenceCount) == 0)
@@ -7705,12 +6827,13 @@ struct SSN_cand
     void* m_spD8;
     void* m_spDC;
 
-    void FUN_00b5cde0(MyShadowSceneLight* a2);
+    void ShadowSceneNode_SortShadowLights(MyShadowSceneLight* a2);
 };
 
 // Reorders shadow light list nodes by comparing m_fD8 and m_fDC against thresholds and DAT_011ad834, moving nodes before m_pD0 or m_pD4.
 // @fnv 0x00b5cde0
-void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
+// pdb: ShadowSceneNode::SortShadowLights | ShadowSceneNode.obj | fnv360_0721_beta, udata, high
+void SSN_cand::ShadowSceneNode_SortShadowLights(MyShadowSceneLight* apLight)
 {
     MyShadowList* pShadowList = &shadowLights;
 
@@ -7812,7 +6935,6 @@ struct S00b5d9f0_Lock
 };
 
 extern S00b5d9f0_Lock DAT_011f9ec0;
-extern int DAT_011f9ec4;
 
 class S00b5d9f0_Obj
 {
@@ -7950,6 +7072,8 @@ struct List2844 {
   ++alloc.count; tail=node;
  }
 };
+// pdb: ShadowSceneNode::UpdateObjectLighting | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, abActiveLightsOnly
 void S00b5d9f0_Owner::FUN_00b5d9f0(S00b5d9f0_Obj* obj,unsigned char flag) {
  if(!obj) return;
  DAT_0116fca0.FUN_00409a80(0);
@@ -7964,8 +7088,6 @@ void S00b5d9f0_Owner::FUN_00b5d9f0(S00b5d9f0_Obj* obj,unsigned char flag) {
 
 namespace fnv_00b5e870 {
 extern "C" void _ReadWriteBarrier();
-extern "C" void _ReadBarrier();
-extern "C" void _WriteBarrier();
 
 void* operator new(unsigned int, void* p)
 {
@@ -7975,8 +7097,6 @@ void* operator new(unsigned int, void* p)
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* Addend);
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* Addend);
-
-class NiCullingProcess;
 
 struct Obj4
 {
@@ -9101,7 +8221,7 @@ class Self
 
     void FUN_00b5d270(Item* item);
 
-    unsigned int FUN_00a5dbe0(void* p);
+    unsigned int NiNode_OnVisible(void* p);
 
     unsigned int FUN_00b5e870(ParamObj* arg);
 };
@@ -9176,7 +8296,7 @@ __declspec(noinline) void Self::RemoveLightFromNode(RefPtr_b9fcc0& value, void*&
         m_listB4.FUN_00b9efa0(position);
 }
 
-// Processes entries in m_listB4, updates globals from arg and m_134, and returns a value derived from m_134 or FUN_00a5dbe0.
+// Processes entries in m_listB4, updates globals from arg and m_134, and returns a value derived from m_134 or NiNode_OnVisible.
 // @fnv 0x00b5e870
 unsigned int Self::FUN_00b5e870(ParamObj* arg)
 
@@ -9235,7 +8355,7 @@ unsigned int Self::FUN_00b5e870(ParamObj* arg)
     if (DAT_011f91c0 == 0)
     {
 
-        return FUN_00a5dbe0(arg);
+        return NiNode_OnVisible(arg);
     }
 
     if (1 == DAT_011f91a7)
@@ -9405,8 +8525,6 @@ struct S00b5eca0_Mgr
     void* FUN_00b6d120();
     S00b5eca0_Tex* ActivatePending();
 };
-class NiRenderer;
-extern NiRenderer* DAT_011f9508;
 struct S00b5eca0_Settings
 {
     int unk00;
@@ -9552,6 +8670,8 @@ struct S00b5eca0_Node : public ShadowSceneNode
 extern void* DAT_0116ef98;
 extern void* DAT_0116f2f8;
 
+// pdb: ShadowSceneNode::AddQueuedLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLight
 ShadowSceneLight* S00b5eca0_Node::FUN_00b5eca0(ShadowSceneLight* pkLight)
 {
     S00b5eca0_Light* pkL = (S00b5eca0_Light*)pkLight;
@@ -9662,7 +8782,7 @@ struct CullObject
     unsigned int unk28;
     unsigned int unk2c;
     unsigned int flags;
-    void FUN_00a59e00(CullProcess*);
+    void NiAVObject_Cull(CullProcess*);
 };
 struct CullEntry;
 struct CullLightNode
@@ -10065,12 +9185,14 @@ struct SceneCull
     bool special;
     CullManager* manager;
     void FUN_00b5e870(CullProcess*);
-    void FUN_00a5dbe0(CullProcess*);
+    void NiNode_OnVisible(CullProcess*);
     void FUN_00b5ba80(void*, CullEntry*);
     void FUN_00b5f9b0(CullProcess* process);
 };
 // Culls scene objects and lights by iterating group lists and calling Cull on visible entries, using a saved flags buffer to track state changes.
 // @fnv 0x00b5f9b0
+// pdb: ShadowSceneNode::OnVisible | ShadowSceneNode.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arCuller
 void SceneCull::FUN_00b5f9b0(CullProcess* process)
 {
     FUN_00b5e870(process);
@@ -10135,12 +9257,12 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
             {
                 CullObject* object = children[i];
                 if (object)
-                    object->FUN_00a59e00(process);
+                    object->NiAVObject_Cull(process);
             }
         }
         else
         {
-            FUN_00a5dbe0(process);
+            NiNode_OnVisible(process);
             CullGroupList* list = &manager->groups30;
             if (process->mode == 1 || process->mode == 3)
                 list = &manager->groups20;
@@ -10173,7 +9295,7 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
             if (object && !pSavedFlags[i])
             {
                 object->flags &= ~1;
-                object->FUN_00a59e00(process);
+                object->NiAVObject_Cull(process);
             }
         }
         {
@@ -10185,7 +9307,7 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
     }
     else
     {
-        FUN_00a5dbe0(process);
+        NiNode_OnVisible(process);
     }
 }
 }  // namespace fnv_00b5f9b0
@@ -10447,6 +9569,8 @@ struct FUN_00b9dae0_cls
 };
 // Uses defLight when l is null, returns true for matching RTTI, otherwise compares an adjusted distance with l->radius.
 // @fnv 0x00b9dae0
+// pdb: ShadowSceneLight::BoundWithinLightRadius | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apBound, apLight, afRadiusScale
 bool FUN_00b9dae0_cls::FUN_00b9dae0(NiPoint3* apPoint, LightObj* apLight, float scale)
 {
     if (!apLight)
@@ -10998,6 +10122,8 @@ extern OwnerD* DAT_011f91c8;
 
 // Updates p's arrays using entries from m_1e0 or m_a0, adding or removing entries based on virtual checks.
 // @fnv 0x00b5d300
+// pdb: ShadowSceneNode::UpdateQueuedLight | ShadowSceneNode.obj | fnv360_0822_retail, caller, low, conflict (skyrim: Actor::CheckWardPower)
+// pdb params: apSSLight
 void OwnerD::FUN_00b5d300(LightD* apLight)
 {
     LightData* ld = apLight->m_f8;
@@ -11205,10 +10331,6 @@ inline void AddBlend(NiPoint3& a, const Product& b)
     a.y = a.y + b.y;
     a.z = a.z + b.z;
 }
-struct Factor
-{
-    float f;
-};
 struct BlendColor
 {
     float x, y, z;
@@ -11467,6 +10589,8 @@ __declspec(noinline) BlendLight* BlendOwner::GetListItemAt(unsigned index)
 }
 // Computes a blended light position from point and normal, storing the result and returning whether any lights were used.
 // @fnv 0x00b5bca0
+// pdb: ShadowSceneNode::GetAverageLightPos | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aTargetCenter, aTargetDir, aLoc
 unsigned BlendOwner::FUN_00b5bca0(const NiPoint3& point, const NiPoint3& normal, NiPoint3& result)
 {
     BlendData* mainData = mainLight->data;
@@ -11859,6 +10983,7 @@ FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk1E0) == 0x1e0);
 
 // Destroys the shadow scene object, clearing its node, light, texture, and list references.
 // @fnv 0x00b5e5a0
+// pdb: ShadowSceneNode::~ShadowSceneNode | ShadowSceneNode.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00b5e5a0::~FUN_00b5e5a0()
 {
     ShadowSceneNode* node = ((ShadowSceneNode**)&DAT_011f91c8)[unk120];

@@ -1,116 +1,136 @@
-// gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (64 functions)
+// gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (59 functions)
 #include "nistream_cpp_decls.h"
+#include "NiGlobalStringTable.h"
 
 // @fnv 0x00A634E0
+// pdb: NiStream::GetGroupFromID | NiStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiID
 NiObjectGroup* NiStream::GetObjectGroup(unsigned int groupID)
 {
-    return m_kObjectGroups.m_pBase[groupID];
+    return m_kGroups.m_pBase[groupID];
 }
 
 // @fnv 0x00A63430
+// pdb: NiStream::GetObjectFromLinkID | NiStream.obj | fnv360_0822_retail, call_seq, high
 NiObject* NiStream::GetLoadedObject()
 {
-    unsigned int linkIndex = StreamObjectIndex;
-    StreamObjectIndex = linkIndex + 1;
-    unsigned int linkID = m_kSecondFollowingStreamField.m_pBase[linkIndex];
+    unsigned int linkIndex = m_uiLinkIndex;
+    m_uiLinkIndex = linkIndex + 1;
+    unsigned int linkID = m_kLinkIDs.m_pBase[linkIndex];
     if (linkID == 0xFFFFFFFF)
         return 0;
-    return m_kThirdFollowingStreamField.m_pBase[linkID].m_pObject;
+    return m_kObjects.m_pBase[linkID].m_pObject;
 }
 
 // @fnv 0x00A64700
+// pdb: NiStream::SetNumberOfLinkIDs | NiStream.obj | fnv360_0822_retail, caller, high
+// pdb params: uiLinks
 void NiStream::SetLinkIDCount(unsigned int numberOfLinkIDs)
 {
-    NiStreamLinkIDSet& linkIDBlocks = (NiStreamLinkIDSet&)m_kSecondUnsignedIntSet;
-    if (linkIDBlocks.m_uiAllocatedCapacity == linkIDBlocks.m_uiElementCount)
+    NiStreamLinkIDSet& linkIDBlocks = (NiStreamLinkIDSet&)m_kLinkIDBlocks;
+    if (linkIDBlocks.m_uiUsed == linkIDBlocks.m_uiAlloced)
     {
-        unsigned int allocationCount = linkIDBlocks.m_uiElementCount;
+        unsigned int allocationCount = linkIDBlocks.m_uiAlloced;
         if (allocationCount > 0)
             allocationCount *= 2;
         else
             allocationCount = 1;
         linkIDBlocks.Realloc(allocationCount);
     }
-    linkIDBlocks.m_pBase[linkIDBlocks.m_uiAllocatedCapacity] = numberOfLinkIDs;
-    ++linkIDBlocks.m_uiAllocatedCapacity;
+    linkIDBlocks.m_pBase[linkIDBlocks.m_uiUsed] = numberOfLinkIDs;
+    ++linkIDBlocks.m_uiUsed;
 }
 
 // @fnv 0x00A635B0
+// pdb: NiStream::RegisterObjects | NiStream.obj | fnv360_0822_retail, vtable, high
 void NiStream::RegisterObjects()
 {
-    for (unsigned int index = 0; index < m_kTopLevelObjects.m_uiSize; ++index)
+    for (unsigned int index = 0; index < m_kTopObjects.m_uiSize; ++index)
     {
-        NiStreamableObject* object = (NiStreamableObject*)m_kTopLevelObjects.m_pBase[index].m_pObject;
-        object->RegisterStreamables(this);
+        NiObject* pkObject = m_kTopObjects.m_pBase[index].m_pObject;
+        pkObject->RegisterStreamables(*this);
     }
 }
 
 // @fnv 0x00A63380
+// pdb: NiStream::Save | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb params: pkOstr
 bool NiStream::Save(NiBinaryStream* stream)
 {
-    m_pBackingStream = stream;
+    m_pkOstr = stream;
     typedef bool(__thiscall * SaveFunction)(NiStream*);
     bool result = ((SaveFunction*)m_ppVirtualMethodTable)[16](this);
-    m_pBackingStream = 0;
+    m_pkOstr = 0;
     return result;
 }
 
 // @fnv 0x00A633D0
+// pdb: TESEffectShader::StopParticleShader | TESEffectShader.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BGSProcedureFleeExecState::SetFleeSucceeded)
+// pdb params: apTargetObject, apProp
 void NiStream::GetTexture(const char* textureName, NiPointer<NiTexture>& texture)
 {
     fnv_NiStreamGetTexture(textureName, texture);
 }
 
 // @fnv 0x00A636F0
+// pdb: NiStream::SetFilePath | NiStream.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pcFilePath
 void NiStream::SetStreamPath(const char* path)
 {
     if (path != 0 && path[0] != '\0')
     {
-        char* destination = m_acFilePathBuffer;
+        char* destination = m_acFilePath;
         fnv_CopyFilePath(destination, 0x104, path, 0x103);
         fnv_StandardizeFilePath(destination);
     }
     else
     {
-        m_acFilePathBuffer[0] = '\0';
+        m_acFilePath[0] = '\0';
     }
 }
 
 // @fnv 0x00A63330
+// pdb: NiStream::Load | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb params: pkIstr
 bool NiStream::Load(NiBinaryStream* stream)
 {
     typedef bool(__thiscall * StreamReadyFunction)(NiBinaryStream*);
     if (!((StreamReadyFunction*)stream->m_ppVirtualMethodTable)[1](stream))
     {
-        m_pUnderlyingStream = 0;
+        m_pkIstr = 0;
         return false;
     }
-    m_pUnderlyingStream = stream;
+    m_pkIstr = stream;
     bool result = ((NiStreamVirtualView*)this)->Load();
-    m_pUnderlyingStream = 0;
+    m_pkIstr = 0;
     return result;
 }
 
 // @fnv 0x00A644F0
+// pdb: NiStream::RemoveAllObjects | NiStream.obj | fnv360_0822_retail, call_gap, high
 void NiStream::ClearTopLevelObjects()
 {
     fnv_EnterCriticalSection(&fnv_NiStreamCriticalSection);
-    ((NiStreamTopObjects&)m_kTopLevelObjects).RemoveAll();
-    ((NiStreamFixedStrings&)m_kStringTable).RemoveAll();
-    for (unsigned int index = 0; index < ObjectSerializationStream.m_uiSize; ++index)
-        ObjectSerializationStream.m_pBase[index] = 0;
-    ObjectSerializationStream.m_uiSize = 0;
-    ObjectSerializationStream.m_uiESize = 0;
+    ((NiStreamTopObjects&)m_kTopObjects).RemoveAll();
+    ((NiStreamFixedStrings&)m_kFixedStrings).RemoveAll();
+    for (unsigned int index = 0; index < m_kObjectSizes.m_uiSize; ++index)
+        m_kObjectSizes.m_pBase[index] = 0;
+    m_kObjectSizes.m_uiSize = 0;
+    m_kObjectSizes.m_uiESize = 0;
     fnv_LeaveCriticalSection(&fnv_NiStreamCriticalSection);
 }
 
 // @fnv 0x00A64920
+// pdb: NiStream::RegisterPostProcessFunction | NiStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pfnFunc
 void NiStream::RegisterPostProcess(NiStreamPostProcess function)
 {
     DAT_011f4788->AddPostProcess(function);
 }
 
 // @fnv 0x00A64900
+// pdb: NiStream::RegisterLoader | NiStream.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcName, pfnFunc
 int NiStream::RegisterObjectLoader(const char* name, NiObject*(__cdecl* loader)())
 {
     DAT_011f4784->SetAt(name, (NiShader*)loader);
@@ -118,11 +138,13 @@ int NiStream::RegisterObjectLoader(const char* name, NiObject*(__cdecl* loader)(
 }
 
 // @fnv 0x00A636B0
+// pdb: NiStream::GetNextSearchPath | NiStream.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pcPath, uiStringLen
 bool NiStream::GetLastLoadedFilePath(char* buffer, unsigned int size)
 {
     if (DAT_011f4780)
     {
-        fnv_CopyFilePath(buffer, 0x104, m_acFilePathBuffer, 0x103);
+        fnv_CopyFilePath(buffer, 0x104, m_acFilePath, 0x103);
         DAT_011f4780 = false;
         return true;
     }
@@ -130,6 +152,8 @@ bool NiStream::GetLastLoadedFilePath(char* buffer, unsigned int size)
 }
 
 // @fnv 0x00A632F0
+// pdb: NiStream::Load | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb params: pcBuffer, iBufferSize
 bool NiStream::Load(char* buffer, int size)
 {
     NiStreamMemoryBuffer stream;
@@ -141,6 +165,8 @@ bool NiStream::Load(char* buffer, int size)
 }
 
 // @fnv 0x00A635E0
+// pdb: NiStream::Save | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb params: pcBuffer, iBufferSize
 bool NiStream::Save(char*& buffer, int& size)
 {
     NiStreamMemoryBuffer stream;
@@ -148,52 +174,58 @@ bool NiStream::Save(char*& buffer, int& size)
     typedef bool(__thiscall * SaveFunction)(NiStream*, NiBinaryStream*);
     bool result = ((SaveFunction*)m_ppVirtualMethodTable)[4](this, &stream);
     size = stream.m_uiLogicalSize;
-    buffer = stream.FUN_00aa2d60();
+    buffer = stream.NiMemStream_Str();
     stream.NiMemStreamDestructor();
     return result;
 }
 
 // @fnv 0x00A64620
+// pdb: NiStream::ResolveLinkID | NiStream.obj | fnv360_0822_retail, call_seq, medium
 NiObject* NiStream::DeserializeObject()
 {
     unsigned int linkID;
-    NiStreamReadUInt(m_pUnderlyingStream, linkID);
+    NiStreamReadUInt(m_pkIstr, linkID);
     if (linkID == 0xFFFFFFFF)
         return 0;
-    return m_kThirdFollowingStreamField.m_pBase[linkID].m_pObject;
+    return m_kObjects.m_pBase[linkID].m_pObject;
 }
 
 // @fnv 0x00A64550
+// pdb: NiStream::ChangeObject | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb params: pkNewObject
 void NiStream::ChangeObject(NiObject* object)
 {
     NiObject* pointer = object;
     if (object)
         object->IncRefCount();
-    ((NiStreamTopObjects&)m_kThirdFollowingStreamField)
-        .FUN_00cc1a10(StreamThreadContext, reinterpret_cast<const NiPointer<NiObject>&>(pointer));
+    ((NiStreamTopObjects&)m_kObjects)
+        .FUN_00cc1a10(m_uiLoad, reinterpret_cast<const NiPointer<NiObject>&>(pointer));
     if (object)
         object->DecRefCount();
 }
 
 // @fnv 0x00A63D80
+// pdb: NiStream::SaveTopLevelObjects | NiStream.obj | fnv360_0822_retail, vtable, high
 void NiStream::SaveTopLevelObjects()
 {
-    unsigned int count = m_kTopLevelObjects.m_uiSize;
-    NiStreamWriteUInt(m_pBackingStream, count);
+    unsigned int count = m_kTopObjects.m_uiSize;
+    NiStreamWriteUInt(m_pkOstr, count);
     for (unsigned int index = 0; index < count; ++index)
     {
         typedef void(__thiscall * SaveLinkIDFunction)(NiStream*, const NiObject*);
-        ((SaveLinkIDFunction*)m_ppVirtualMethodTable)[12](this, m_kTopLevelObjects.m_pBase[index].m_pObject);
+        ((SaveLinkIDFunction*)m_ppVirtualMethodTable)[12](this, m_kTopObjects.m_pBase[index].m_pObject);
     }
 }
 
 // @fnv 0x00A66370
+// pdb: NiStream::InsertObject | NiStream.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pkObject
 void NiStream::InsertObject(NiObject* object)
 {
     NiObject* pointer = object;
     if (object)
         object->IncRefCount();
-    NiStreamTopObjects& objects = (NiStreamTopObjects&)m_kTopLevelObjects;
+    NiStreamTopObjects& objects = (NiStreamTopObjects&)m_kTopObjects;
     unsigned int index = objects.m_uiSize;
     if (index >= objects.m_uiMaxSize)
         objects.FUN_00a64fe0(index + objects.m_uiGrowBy);
@@ -318,7 +350,6 @@ class hkBaseSystemC68
                             void* pvErrorReportObject);
     static bool s_bInitialized;
 };
-void __cdecl HavokErrorReportC68(const char* pcMessage, void* pvObject);
 
 class hkReferencedObjectC68
 {
@@ -414,289 +445,12 @@ class bhkSingletonC68
 
 class NiObject;
 typedef NiObject*(__cdecl* CreateFunctionC68)();
-class NiStreamC68
-{
-  public:
-    static void __cdecl RegisterObjectLoader(const char* pcName, CreateFunctionC68 pfnCreate);
-};
-
-class bhkBoxShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkConvexListShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkConvexSweepShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkConvexTransformShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkConvexVerticesShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkCylinderShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkExtendedMeshShapeData
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkExtendedMeshShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkMultiSphereShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkNiTriStripsShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkPackedNiTriStripsShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class hkPackedNiTriStripsData
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkPlaneShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkSphereShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkTriangleShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkMoppBvTreeShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkTransformShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkCapsuleShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkListShape
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkBallAndSocketConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkBallSocketConstraintChain
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkHingeConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkHingeLimitsConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkFixedConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkLimitedHingeConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkPrismaticConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkRagdollConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkRagdollLimitsConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkStiffSpringConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkWheelConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkBreakableConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkMalleableConstraint
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkAngularDashpotAction
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkDashpotAction
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkLiquidAction
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkMouseSpringAction
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkMotorAction
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkOrientHingedBodyAction
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkSpringAction
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkAabbPhantom
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkCollisionObject
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkPCollisionObject
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkSPCollisionObject
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkBlendCollisionObject
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkBlendController
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkRigidBody
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkRigidBodyT
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkSimpleShapePhantom
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkCachingShapePhantom
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkExtraData
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkRagdollTemplate
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkRagdollTemplateData
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-class bhkPoseArray
-{
-  public:
-    static NiObject* __cdecl CreateObject();
-};
-
-void __cdecl InitializeSelectionMasks();
 
 extern hkMemorySystemC68* g_pkMemorySystemC68;
-extern bhkWorldListenerC68* g_pkWorldListenerC68;
-extern bhkSingletonC68* g_pkSingletonC68;
-extern char g_acMemorySystemBufferC68[];
 inline hkMemorySystemC68& GetMemorySystemC68()
 {
     return *g_pkMemorySystemC68;
 }
-extern char g_acStackBufferC68[0x60000];
 
 // Initializes the Havok physics system, sets up memory router and stack, registers Havok object loaders, and creates the world listener and singleton.
 // @f3 0x008d5000 (community match, verified in this file)
@@ -987,7 +741,9 @@ extern const char DAT_00e321f0[];
 extern "C" NiObject* __cdecl FUN_00944990();
 extern const char DAT_00e321e0[];
 
-void InitHavokPhysics() {
+// pdb: bhkWorld::InitSystem | bhkWorld.obj | fnv360_0822_retail, ustr, high
+// pdb: bhkWorld::InitSystem | bhkWorld.obj | fnv360_0822_retail, ustr, high (was: InitHavokPhysics)
+void bhkWorld_InitSystem() {
     DAT_01169108.a=DAT_010f2a90.value;
     DAT_01169108.b=DAT_010f2a9c.value;
     DAT_01169108.c=DAT_010f2aa8.value;
@@ -1072,16 +828,13 @@ void InitHavokPhysics() {
 }
 
 
-struct NiGlobalStringTable
-{
-    static char* __cdecl AddString(char const*);
-};
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 extern char* EmptyFS;
 extern char* DAT_011f3ec0;
 extern char* DAT_011f3ec4;
 
 // @fnv 0x00a42230
+// pdb: NiActorManager::_SDMShutdown | NiActorManager.obj | fnv360_0822_retail, call_seq, medium
 void __cdecl ClearGlobalStrings()
 {
     char* old = DAT_011f3ec0;
@@ -1159,7 +912,7 @@ struct S_00a48070_Obj
     int unkD4;
     int unkD8;
     int unkDC;
-    char m_acInputFilePath[0x104];
+    char m_acFileName[0x104];  // src: FNV360_PDB +0xE0 (old: m_acInputFilePath)
     int unk1E4;
     int unk1E8;
     int unk1EC;
@@ -1277,8 +1030,8 @@ struct S_00a48070_Obj
     int unk3AC;
     int unk3B0;
     int unk3B4;
-    unsigned int m_uiNativeThreadId;
-    char m_acSecondPathBuffer[0x104];
+    unsigned int m_uiLastError;  // src: FNV360_PDB +0x3B8 (old: m_uiNativeThreadId)
+    char m_acLastErrorMessage[0x104];  // src: FNV360_PDB +0x3BC (old: m_acSecondPathBuffer)
     char m_acLastPath[0x104];
     void FUN_00a66150();
     void FUN_00a65300();
@@ -1294,6 +1047,8 @@ struct S_00a48070_Ref
 void GetGPUProgram(S_00a48070_Obj* obj, int a, S_00a48070_Ref** b, void* c);
 // Initializes obj, releases and clears p3 when OpenFile returns false, otherwise calls GetGPUProgram, then finalizes obj.
 // @fnv 0x00a48070
+// pdb: NiSequence::CreateFromKFFile | NiSequence.obj | fnv360_0721_beta, call_seq, high
+// pdb params: pcSequenceFile, uiIndex, aspSequence, pcSequenceName
 void CreateOrReleaseRef(const char* apPath, int p2, S_00a48070_Ref** ppRef, void* p4)
 {
     S_00a48070_Obj obj;
@@ -1350,6 +1105,8 @@ void* FUN_00a48110()
 void __cdecl FUN_00a61c50(NiObject* pkObject, void* pvArg);
 
 // @fnv 0x00a633b0
+// pdb: NiStream::SetTexture | NiStream.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkTexture
 void __stdcall FUN_00a633b0(const NiObject* pkObject)
 {
     FUN_00a61c50((NiObject*)pkObject, 0);
@@ -1369,6 +1126,8 @@ struct FUN_00a633f0_shell
 };
 
 // @fnv 0x00a633f0
+// pdb: NiStream::GetStringID | NiStream.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSFixedString::operator!)
+// pdb params: kString
 int FUN_00a633f0_shell::FindIndex(int* pVal)
 {
     int v = *pVal;
@@ -1393,14 +1152,15 @@ int FUN_00a633f0_shell::FindIndex(int* pVal)
 
 struct FUN_00a63460_shell : public NiStream
 {
-    unsigned int FUN_00a63460();
+    unsigned int NiStream_GetNumberOfLinkIDs();
 };
 
 // @fnv 0x00a63460
-unsigned int FUN_00a63460_shell::FUN_00a63460()
+// pdb: NiStream::GetNumberOfLinkIDs | NiStream.obj | fnv360_0822_retail, call_seq + bridge(hash|call_seq) + skyrim(call_seq), high
+unsigned int FUN_00a63460_shell::NiStream_GetNumberOfLinkIDs()
 {
-    unsigned int idx = (*(unsigned int*)((char*)this + 0x270))++;
-    return (*(unsigned int**)((char*)this + 0x264))[idx];
+    unsigned int idx = m_uiLinkBlockIndex++;
+    return m_kLinkIDBlocks.m_pBase[idx];
 }
 
 struct ShaderBufferRecord;
@@ -1416,7 +1176,8 @@ struct FUN_00a63480_holder
 };
 
 // @fnv 0x00a63480
-unsigned int __fastcall FUN_00a63480(FUN_00a63480_holder* self, int, const char* name)
+// pdb: NiStream::GetLinkIDFromObject | NiStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+unsigned int __fastcall NiStream_GetLinkIDFromObject(FUN_00a63480_holder* self, int, const char* name)
 {
     if (!name)
         return 0xffffffff;
@@ -1434,6 +1195,8 @@ struct NiTStringPointerMap
 extern NiTStringPointerMap* DAT_011f4784;
 // Looks up a function pointer in DAT_011f4784 by name and calls it, returning the result or 0 if not found.
 // @fnv 0x00a634b0
+// pdb: NiStream::CreateObjectByRTTI | NiStream.obj | fnv360_0822_retail, udata, medium, conflict (skyrim: )
+// pdb params: pcRTTI
 void* InvokeNamedFunction(const char* name)
 {
     void*(__cdecl * fn)();
@@ -1445,6 +1208,8 @@ void* InvokeNamedFunction(const char* name)
 
 // Searches the array at pThis+0xcc for val and returns its index, or 0 if not found.
 // @fnv 0x00a634f0
+// pdb: NiPoint3::SaveBinary | BSDecalPVExtraData.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiColorA::SaveBinary)
+// pdb params: stream, pkValues, uiNumValues
 unsigned int __fastcall FUN_00a634f0(char* pThis, int, int aiValue)
 {
     unsigned int count = *(unsigned short*)(pThis + 0xd2);
@@ -1465,6 +1230,8 @@ struct NiTMapBase
 extern void* DAT_011f4784;
 
 // @fnv 0x00a63520
+// pdb: Interface::AddToEnterStack | Interface.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiID, abForceRemoval
 void __cdecl FUN_00a63520(const char* apKey)
 {
     NiTMapBase* map = reinterpret_cast<NiTMapBase*>(DAT_011f4784);
@@ -1507,6 +1274,8 @@ typedef void (*S_00a63540_PostProcess)(void*);
 extern S_00a63540_Array<S_00a63540_PostProcess>* DAT_011f4788;
 // Removes the given post-process callback from the global post-process array by finding and removing the matching entry.
 // @fnv 0x00a63540
+// pdb: NiStream::UnregisterPostProcessFunction | NiStream.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pfnFunc
 void RemovePostProcess(S_00a63540_PostProcess apPostProcess)
 {
     for (unsigned int ui = 0; ui < DAT_011f4788->GetSize(); ui++)
@@ -1526,6 +1295,8 @@ extern long __cdecl FUN_00eca6d3(const char* text);
 
 // Copies text into a 16-byte buffer, splits it on '.' with strtok_s, and packs each token's FUN_00eca6d3 value into a 32-bit integer.
 // @fnv 0x00a63630
+// pdb: NiStream::GetVersionFromString | NiStream.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pcVersionString
 unsigned int __cdecl FUN_00a63630(const char* text)
 {
     char buffer[16];
@@ -1600,6 +1371,8 @@ template <class T> class NiTLargeArrayA637
 
 // Stores element at uiIndex in m_pBase, growing m_uiSize if needed and adjusting m_uiESize when the slot's emptiness changes.
 // @fnv 0x00a63730
+// pdb: NiTLargeArray<NiFixedString,NiTNewInterface<NiFixedString> >::SetAt | NiStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiIndex, element
 template <class T> void NiTLargeArrayA637<T>::FUN_00a63730(unsigned int uiIndex, const T& element) throw()
 {
     if (uiIndex >= m_uiSize)
@@ -1666,6 +1439,7 @@ struct FUN_00a63910 : S_00a63910_Map
 
 // Frees the m_key strings of all hash table items when m_bCopy is set, then defers to the base class destructor.
 // @fnv 0x00a63910
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,NiD3DPixelShader *>,NiD3DPixelShader *>::~NiTStringTemplateMap<NiTPointerMap<char const *,NiD3DPixelShader *>,NiD3DPixelShader *> | NiD3DShaderProgramFactory.obj | fnv360_0721_beta, objrun_open, low
 FUN_00a63910::~FUN_00a63910() throw()
 {
     if (m_bCopy)
@@ -1750,7 +1524,7 @@ struct S_00a63be0_Stream
     int unkD4;
     int unkD8;
     int unkDC;
-    char m_acInputFilePath[0x104];
+    char m_acFileName[0x104];  // src: FNV360_PDB +0xE0 (old: m_acInputFilePath)
     int unk1E4;
     int unk1E8;
     int unk1EC;
@@ -1868,27 +1642,29 @@ struct S_00a63be0_Stream
     int unk3AC;
     int unk3B0;
     int unk3B4;
-    unsigned int m_uiNativeThreadId;
-    char m_acSecondPathBuffer[0x104];
+    unsigned int m_uiLastError;  // src: FNV360_PDB +0x3B8 (old: m_uiNativeThreadId)
+    char m_acLastErrorMessage[0x104];  // src: FNV360_PDB +0x3BC (old: m_acSecondPathBuffer)
     char m_acLastPath[0x104];
     bool OpenFile(const char* name);
 };
-// Copies name into m_acInputFilePath, calls FUN_00aa2a00, attempts to get a file, and calls LoadFile if it is good.
+// Copies name into m_acFileName, calls FUN_00aa2a00, attempts to get a file, and calls LoadFile if it is good.
 // @fnv 0x00a63be0
+// pdb: NiStream::Load | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb params: pcFileName
 bool S_00a63be0_Stream::OpenFile(const char* apFilePath)
 {
-    strcpy_s(m_acInputFilePath, 0x104, apFilePath);
-    FUN_00aa2a00(m_acInputFilePath);
-    if (m_acInputFilePath && m_acInputFilePath[0])
+    strcpy_s(m_acFileName, 0x104, apFilePath);
+    FUN_00aa2a00(m_acFileName);
+    if (m_acFileName && m_acFileName[0])
     {
-        strncpy_s(m_acLastPath, 0x104, m_acInputFilePath, 0x103);
+        strncpy_s(m_acLastPath, 0x104, m_acFileName, 0x103);
         FUN_00aa2a00(m_acLastPath);
     }
     else
     {
         m_acLastPath[0] = 0;
     }
-    S_00a63be0_File* f = S_00a63be0_File::GetFile(m_acInputFilePath, 0, 0x8000);
+    S_00a63be0_File* f = S_00a63be0_File::GetFile(m_acFileName, 0, 0x8000);
     if (f && f->IsGood())
     {
         bool b = LoadFile(f);
@@ -1896,8 +1672,8 @@ bool S_00a63be0_Stream::OpenFile(const char* apFilePath)
         return b;
     }
     delete f;
-    m_uiNativeThreadId = 1;
-    strcpy_s(m_acSecondPathBuffer, 0x104, "Cannot open file.");
+    m_uiLastError = 1;
+    strcpy_s(m_acLastErrorMessage, 0x104, "Cannot open file.");
     return false;
 }
 
@@ -1923,6 +1699,8 @@ struct ThisObj
 };
 // Clears bit 0x10, sets mask 0xE in m_flags, then recurses on each non-null element in the f3() holder.
 // @fnv 0x00a63cb0
+// pdb: NiStream::SetSelectiveUpdateFlagsTTTFRecursive | NiStream.obj | fnv360_0721_beta, caller, medium
+// pdb params: pkAVObject
 void ThisObj::SetFlagsRecursively(Arg* apArg)
 {
     apArg->m_flags = (apArg->m_flags & ~0x10) | 0xE;
@@ -2091,6 +1869,7 @@ struct Receiver
 };
 // Iterates the Item array and calls SetFlagsRecursively on items whose Query() chain reaches g_011f4280 and whose unk18 is zero.
 // @fnv 0x00a63d10
+// pdb: NiStream::SetSelectiveUpdateFlagsForOldVersions | NiStream.obj | fnv360_0822_retail, call_gap, medium
 void __thiscall Receiver::FUN_00a63d10()
 {
     if (unk0d8 >= 0x401000cU)
@@ -2309,12 +2088,13 @@ struct Loader
     int unk24c;
     BinaryStream* m_pDataStream;
 
-    int FUN_00a63df0();
+    int NiStream_PreSaveObjectSizeTable();
 };
 
 // Reads m_uiSkipCount binary values from m_pDataStream and returns the stream position captured before the reads.
 // @fnv 0x00a63df0
-int Loader::FUN_00a63df0()
+// pdb: NiStream::PreSaveObjectSizeTable | NiStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int Loader::NiStream_PreSaveObjectSizeTable()
 {
     int iPosition = m_pDataStream->GetPosition();
     int iSkipped = 0;
@@ -2375,21 +2155,24 @@ class NiStreamA63E
     unsigned int m_uiLinkCount;
     int unk214, unk218, unk21C, unk220, unk224, unk228, unk22C, unk230, unk234, unk238, unk23C;
     int unk240, unk244, unk248, unk24C;
-    NiBinaryStreamA63E* m_pBackingStream;
+    NiBinaryStreamA63E* m_pkOstr;  // src: FNV360_PDB +0x250 (old: m_pBackingStream)
 
-    bool SaveLinkIDs(unsigned int uiStartPos);
+    bool NiStream_SaveObjectSizeTable(unsigned int uiStartPos);
 };
 
 // Seeks the backing stream back to uiStartPos and writes each link ID from m_puiLinkIDs to the stream.
 // @fnv 0x00a63e60
-bool NiStreamA63E::SaveLinkIDs(unsigned int uiStartPos)
+// pdb: NiStream::SaveObjectSizeTable | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb params: uiStartOffset
+// pdb: NiStream::SaveObjectSizeTable | NiStream.obj | fnv360_0822_retail, vtable, high (was: SaveLinkIDs)
+bool NiStreamA63E::NiStream_SaveObjectSizeTable(unsigned int uiStartPos)
 {
-    unsigned int uiDelta = m_pBackingStream->GetPosition() - uiStartPos;
-    m_pBackingStream->Seek(-(int)uiDelta);
+    unsigned int uiDelta = m_pkOstr->GetPosition() - uiStartPos;
+    m_pkOstr->Seek(-(int)uiDelta);
     for (unsigned int i = 0; i < m_uiLinkCount; i++)
     {
         unsigned int uiLinkID = m_puiLinkIDs[i];
-        NiStreamSaveBinaryA63E(*m_pBackingStream, uiLinkID);
+        NiStreamSaveBinaryA63E(*m_pkOstr, uiLinkID);
     }
     return true;
 }
@@ -2412,7 +2195,7 @@ struct NiFixedString
 typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct FUN_00a63ee0_shell : public NiStream
 {
-    void FUN_00a63ee0();
+    void NiStream_SaveFixedStringTable();
 };
 
 extern char* _EmptyFS;
@@ -2451,7 +2234,8 @@ inline unsigned int GetSize_a63ee0(const char* self)
 
 // Writes the string array size, max length, and each string's length and data to the binary stream at offset 0x250.
 // @fnv 0x00a63ee0
-void FUN_00a63ee0_shell::FUN_00a63ee0()
+// pdb: NiStream::SaveFixedStringTable | NiStream.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_gap) + skyrim(call_seq), high
+void FUN_00a63ee0_shell::NiStream_SaveFixedStringTable()
 {
     char* self = (char*)this;
     SaveBinary_a63ee0(**(BinStream_a63ee0**)(self + 0x250), GetSize_a63ee0(self));
@@ -2509,29 +2293,30 @@ class NiStreamLoadStandIn
     virtual bool Load(NiFile* file);
 
     char pad004[0xdc];
-    char m_acInputFilePath[0x104];
+    char m_acFileName[0x104];  // src: FNV360_PDB +0xE0 (old: m_acInputFilePath)
     char pad1e4[0x2dc];
     char m_acPath[0x104];
 
-    bool FUN_00a640b0(const char* name);
+    bool NiStream_Save(const char* name);
 };
 
 // Copies and standardizes the input file path, opens it read-only via NiFile::GetFile, and delegates to Load if the file is valid.
 // @fnv 0x00a640b0
-bool NiStreamLoadStandIn::FUN_00a640b0(const char* name)
+// pdb: NiStream::Save | NiStream.obj | fnv360_0822_retail, objrun + bridge(vtable|caller_sim) + skyrim(vtable), high
+bool NiStreamLoadStandIn::NiStream_Save(const char* name)
 {
-    strcpy_s(m_acInputFilePath, 0x104, name);
-    _fnv_StandardizeFilePath(m_acInputFilePath);
-    if (m_acInputFilePath && m_acInputFilePath[0])
+    strcpy_s(m_acFileName, 0x104, name);
+    _fnv_StandardizeFilePath(m_acFileName);
+    if (m_acFileName && m_acFileName[0])
     {
-        _fnv_CopyFilePath(m_acPath, 0x104, m_acInputFilePath, 0x103);
+        _fnv_CopyFilePath(m_acPath, 0x104, m_acFileName, 0x103);
         _fnv_StandardizeFilePath(m_acPath);
     }
     else
     {
         m_acPath[0] = 0;
     }
-    NiFile* file = NiFile::GetFile(m_acInputFilePath, NiFile::READ_ONLY, 0x8000);
+    NiFile* file = NiFile::GetFile(m_acFileName, NiFile::READ_ONLY, 0x8000);
     if (file)
     {
         if (*file)
@@ -2708,7 +2493,7 @@ struct FUN_00a64160_cls
     int unk248;
     int unk24C;
     NiStreamW* m_250;
-    void FUN_00a64160(const char* str);
+    void NiStream_SaveCString(const char* str);
 };
 
 static __forceinline void S_Save(NiStreamW* o, const void* v, unsigned int n, unsigned int elem)
@@ -2719,7 +2504,8 @@ static __forceinline void S_Save(NiStreamW* o, const void* v, unsigned int n, un
 
 // Writes the length of str and, if non-zero, the string bytes to m_250 via S_Save.
 // @fnv 0x00a64160
-void FUN_00a64160_cls::FUN_00a64160(const char* apString)
+// pdb: NiStream::SaveCString | NiStream.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void FUN_00a64160_cls::NiStream_SaveCString(const char* apString)
 {
     unsigned int len;
     if (apString != 0)
@@ -2889,12 +2675,15 @@ struct FUN_00a641f0_cls
     int unk24C;
     NiStreamW* m_250;
     unsigned int GetObjectLinkId(void* p);
-    void WriteObjectLink(void* a1);
+    void NiStream_SaveFixedString(void* a1);
 };
 
 // Writes four bytes: DAT_0109bc30 if the argument's first pointer matches DAT_0109b220, otherwise its object link ID.
 // @fnv 0x00a641f0
-void FUN_00a641f0_cls::WriteObjectLink(void* apObject)
+// pdb: NiStream::SaveFixedString | NiStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kString
+// pdb: NiStream::SaveFixedString | NiStream.obj | fnv360_0822_retail, call_seq, high (was: WriteObjectLink)
+void FUN_00a641f0_cls::NiStream_SaveFixedString(void* apObject)
 {
     unsigned int id;
     if (*(void**)apObject == DAT_0109b220)
@@ -3082,12 +2871,13 @@ class FUN_00a645b0_cls
     NiStreamLoader* m_pStreamLoader;
     unsigned int unk0250;
     U32Array m_ppData;
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 
 // Reads a 4-byte value from m_pStreamLoader, grows m_ppData if full, and appends the value to m_ppData.
 // @fnv 0x00a645b0
-void FUN_00a645b0_cls::FUN_00a645b0()
+// pdb: NiStream::ReadLinkID | NiStream.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void FUN_00a645b0_cls::NiStream_ReadLinkID()
 {
     unsigned int value;
     NiStreamLoader* loader = m_pStreamLoader;
@@ -3327,17 +3117,18 @@ struct S_00a64670_Foo : S_00a64670_Base
     int unk260;
     S_00a64670_Array unk264;
 
-    void FUN_00a645b0();
-    void FUN_00a64670();
+    void NiStream_ReadLinkID();
+    void NiStream_ReadMultipleLinkIDs();
 };
 
 inline void ReadStreamCount(S_00a64670_Ctx* ctx, int* output, int size)
 {
     ctx->unk04 += ctx->unk08(ctx, output, size, &size, 1);
 }
-// Reads a count, appends it to the array, then calls FUN_00a645b0 once per count.
+// Reads a count, appends it to the array, then calls NiStream_ReadLinkID once per count.
 // @fnv 0x00a64670
-void S_00a64670_Foo::FUN_00a64670()
+// pdb: NiStream::ReadMultipleLinkIDs | NiStream.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void S_00a64670_Foo::NiStream_ReadMultipleLinkIDs()
 {
     unsigned int count;
     S_00a64670_Ctx* ctx = unk24c;
@@ -3352,7 +3143,7 @@ void S_00a64670_Foo::FUN_00a64670()
     if (limit > 0)
         do
         {
-            FUN_00a645b0();
+            NiStream_ReadLinkID();
             limit = *(volatile unsigned int*)&count;
             ++i;
         } while (i < limit);
@@ -3542,11 +3333,13 @@ struct LinkLoader
     unsigned int unk244;
     unsigned int unk248;
     BinaryInput* input;
-    bool ReadLinks();
+    bool NiStream_LoadObjectSizeTable();
 };
 // Reads linkCount 4-byte values from input into the links array and returns true.
 // @fnv 0x00a64740
-bool LinkLoader::ReadLinks()
+// pdb: NiStream::LoadObjectSizeTable | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb: NiStream::LoadObjectSizeTable | NiStream.obj | fnv360_0822_retail, vtable, high (was: ReadLinks)
+bool LinkLoader::NiStream_LoadObjectSizeTable()
 {
     links.FUN_00864280(linkCount);
     for (unsigned int index = 0; index < linkCount; ++index)
@@ -3651,23 +3444,24 @@ struct QGroupArray
 };
 // Reads the group count from the stream, resizes the group array, and allocates NiObjectGroup instances for each group.
 // @fnv 0x00a647f0
+// pdb: NiStream::LoadObjectGroups | NiStream.obj | fnv360_0822_retail, caller, medium
 void FUN_00a647f0_shell::LoadGroups()
 {
     unsigned int uiNumGroups;
-    QLoadB(**(QBinStream**)((char*)this + 0x24c), uiNumGroups);
+    QLoadB(*(QBinStream*)m_pkIstr, uiNumGroups);
     uiNumGroups++;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0xc8))->SetSize(uiNumGroups);
+    ((NiTPrimitiveArray_ImageSpaceTexture___*)&m_kGroups)->SetSize(uiNumGroups);
     {
         int iNull = 0;
-        ((NiTPrimitiveArray_int___*)((char*)this + 0xc8))->SetAt(0, iNull);
+        ((NiTPrimitiveArray_int___*)&m_kGroups)->SetAt(0, iNull);
     }
     for (unsigned int uiRenderPassIndex = 1; uiRenderPassIndex < uiNumGroups; uiRenderPassIndex++)
     {
         unsigned int uiSize;
-        QLoadB(**(QBinStream**)((char*)this + 0x24c), uiSize);
+        QLoadB(*(QBinStream*)m_pkIstr, uiSize);
         void* pvMem = BSFadeNode::operator new(sizeof(NiObjectGroup));
         NiObjectGroup* pkGroup = pvMem ? ((QGroupCtor*)pvMem)->FUN_00a8a620(uiSize) : 0;
-        ((QGroupArray*)((char*)this + 0xc8))->SetAt(uiRenderPassIndex, pkGroup);
+        ((QGroupArray*)&m_kGroups)->SetAt(uiRenderPassIndex, pkGroup);
     }
 }
 }  // namespace fnv_00a647f0
@@ -3705,7 +3499,7 @@ struct NiBinaryStreamStandIn
         unsigned int uiSize = sizeof(T);
         return BinaryWrite(pArray, sizeof(T) * ItemUpdateArray, &uiSize, 1);
     }
-    void AdvanceChars(const char* pcLine);
+    void NiBinaryStream_PutS(const char* pcLine);
 };
 
 extern unsigned int g_uiNifMaxVersion_011a9b0c;
@@ -3723,38 +3517,40 @@ struct NiStreamImpl
     char pad1e5[0x1f8 - 0x1e5];
     unsigned int m_uiNumObjects;
     char pad1fc[0x250 - 0x1fc];
-    NiBinaryStreamStandIn* m_pBackingStream;
+    NiBinaryStreamStandIn* m_pkOstr;  // src: FNV360_PDB +0x250 (old: m_pBackingStream)
 
-    void WriteHeader();
+    void NiStream_SaveHeader();
 };
 
 // Writes the NIF header (version, endianness, object count, and optional creator/export info) to the backing stream.
 // @fnv 0x00a64940
-void NiStreamImpl::WriteHeader()
+// pdb: NiStream::SaveHeader | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb: NiStream::SaveHeader | NiStream.obj | fnv360_0822_retail, vtable, high (was: WriteHeader)
+void NiStreamImpl::NiStream_SaveHeader()
 {
-    m_pBackingStream->SetEndianSwap(false);
-    m_pBackingStream->AdvanceChars("Gamebryo File Format, Version 20.2.0.7\n");
-    m_pBackingStream->Write(&g_uiNifMaxVersion_011a9b0c);
-    m_pBackingStream->Write(&m_bLittleEndian);
-    m_pBackingStream->Write(&g_uiNifMaxUserVersion_011a9b10);
+    m_pkOstr->SetEndianSwap(false);
+    m_pkOstr->NiBinaryStream_PutS("Gamebryo File Format, Version 20.2.0.7\n");
+    m_pkOstr->Write(&g_uiNifMaxVersion_011a9b0c);
+    m_pkOstr->Write(&m_bLittleEndian);
+    m_pkOstr->Write(&g_uiNifMaxUserVersion_011a9b10);
     {
         unsigned int uiObjects = m_uiNumObjects;
-        m_pBackingStream->Write(&uiObjects);
+        m_pkOstr->Write(&uiObjects);
     }
     if (g_uiNifMaxUserVersion_011a9b10)
     {
-        m_pBackingStream->Write(&m_uiBSVersion);
+        m_pkOstr->Write(&m_uiBSVersion);
         unsigned char ucLength = (unsigned char)(strlen(m_acCreator) + 1);
-        m_pBackingStream->Write(&ucLength);
-        m_pBackingStream->Write(m_acCreator, ucLength);
+        m_pkOstr->Write(&ucLength);
+        m_pkOstr->Write(m_acCreator, ucLength);
         ucLength = (unsigned char)(strlen(m_acExportInfo1) + 1);
-        m_pBackingStream->Write(&ucLength);
-        m_pBackingStream->Write(m_acExportInfo1, ucLength);
+        m_pkOstr->Write(&ucLength);
+        m_pkOstr->Write(m_acExportInfo1, ucLength);
         ucLength = (unsigned char)(strlen(m_acExportInfo2) + 1);
-        m_pBackingStream->Write(&ucLength);
-        m_pBackingStream->Write(m_acExportInfo2, ucLength);
+        m_pkOstr->Write(&ucLength);
+        m_pkOstr->Write(m_acExportInfo2, ucLength);
     }
-    m_pBackingStream->SetEndianSwap(m_bLittleEndian ^ true);
+    m_pkOstr->SetEndianSwap(m_bLittleEndian ^ true);
 }
 
 namespace fnv_00a64b80 {
@@ -3869,7 +3665,7 @@ class ImageSpaceShaderParam
 class ImageSpaceShaderW
 {
   public:
-    void UpdateTextureSwapList();
+    void NiStream_UpdateObjectGroups();
     unsigned int FindTexture(ImageSpaceTexture* pkTexture) const
     {
         for (unsigned int k = 0; k < m_kTextureSwapList.m_usSize; k++)
@@ -4008,7 +3804,9 @@ class ImageSpaceShaderW
 
 // Rebuilds m_kTextureSwapList from shader params and accumulates GetCount into each texture's m_uiValueBeforeCount.
 // @fnv 0x00a64b80
-void ImageSpaceShaderW::UpdateTextureSwapList()
+// pdb: NiStream::UpdateObjectGroups | NiStream.obj | fnv360_0822_retail, call_seq, high
+// pdb: NiStream::UpdateObjectGroups | NiStream.obj | fnv360_0822_retail, call_seq, high (was: UpdateTextureSwapList)
+void ImageSpaceShaderW::NiStream_UpdateObjectGroups()
 {
     m_kTextureSwapList.SetSize(1);
     m_kTextureSwapList.SetAt(0, 0);
@@ -4048,26 +3846,27 @@ void ImageSpaceShaderW::UpdateTextureSwapList()
 extern int _fnv_NiStreamCriticalSection;
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-struct StreamHack
+struct StreamHack : NiStream
 {
     void Clear();
 };
 // Locks the critical section, removes all top objects, zeroes four fields, and unlocks the section.
 // @fnv 0x00a64ca0
+// pdb: NiStream::FreeLoadData | NiStream.obj | fnv360_0822_retail, call_seq, high
 void StreamHack::Clear()
 {
     EnterCriticalSection(&_fnv_NiStreamCriticalSection);
-    ((NiStreamTopObjects*)((char*)this + 0x1EC))->RemoveAll();
-    *(unsigned int*)((char*)this + 0x25C) = 0;
-    *(unsigned int*)((char*)this + 0x26C) = 0;
-    *(unsigned int*)((char*)this + 0x260) = 0;
-    *(unsigned int*)((char*)this + 0x270) = 0;
+    ((NiStreamTopObjects*)&m_kObjects)->RemoveAll();
+    m_kLinkIDs.m_uiUsed = 0;
+    m_kLinkIDBlocks.m_uiUsed = 0;
+    m_uiLinkIndex = 0;
+    m_uiLinkBlockIndex = 0;
     LeaveCriticalSection(&_fnv_NiStreamCriticalSection);
 }
 
 struct FUN_00a64ce0_shell : public NiStream
 {
-    void FUN_00a64ce0(char**);
+    void NiStream_LoadCString(char**);
 };
 
 void* __cdecl _NiMalloc(size_t);
@@ -4088,14 +3887,15 @@ struct LocalBinaryStream
 
 // Reads a length-prefixed null-terminated string from the stream into pcString, allocating memory when the length is positive.
 // @fnv 0x00a64ce0
-void FUN_00a64ce0_shell::FUN_00a64ce0(char** ppString)
+// pdb: NiStream::LoadCString | NiStream.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void FUN_00a64ce0_shell::NiStream_LoadCString(char** ppString)
 {
     int iStringLength;
-    (*(LocalBinaryStream**)((char*)this + 0x24c))->Read(&iStringLength, 4, 4);
+    ((LocalBinaryStream*)m_pkIstr)->Read(&iStringLength, 4, 4);
     if (iStringLength > 0)
     {
         *ppString = (char*)_NiMalloc(iStringLength + 1);
-        (*(LocalBinaryStream**)((char*)this + 0x24c))->Read(*ppString, iStringLength, 1);
+        ((LocalBinaryStream*)m_pkIstr)->Read(*ppString, iStringLength, 1);
         (*ppString)[iStringLength] = 0;
     }
     else
@@ -4105,7 +3905,7 @@ void FUN_00a64ce0_shell::FUN_00a64ce0(char** ppString)
 }
 
 // ---------------------------------------------------------------------------
-// FUN_00a64d80 - read a length-prefixed block out of a NiStream.
+// NiStream_LoadRTTIString - read a length-prefixed block out of a NiStream.
 //
 // The function is a member of the game's stream object; the low level buffer
 // it works on sits at +0x24c.  The buffer keeps its read cursor at +0x04 and
@@ -4283,11 +4083,12 @@ class FnvNiStream
     unsigned int unk244;               // +0x244
     unsigned int unk248;               // +0x248
     FnvStreamBuffer* m_pBinaryStream;  // +0x24c
-    void FUN_00a64d80(unsigned int param);
+    void NiStream_LoadRTTIString(unsigned int param);
 };
 
 // @fnv 0x00a64d80
-void FnvNiStream::FUN_00a64d80(unsigned int param)
+// pdb: NiStream::LoadRTTIString | NiStream.obj | fnv360_0822_retail, call_gap + bridge(hash|call_gap) + skyrim(call_seq), high
+void FnvNiStream::NiStream_LoadRTTIString(unsigned int param)
 {
     unsigned int count;
     FnvStreamBuffer* s = m_pBinaryStream;
@@ -4365,12 +4166,13 @@ class Cls_a64ea0
     unsigned int unk220, unk224, unk228, unk22C, unk230, unk234, unk238, unk23C;
     unsigned int unk240, unk244, unk248;
     StreamIO* m_stream;
-    void FUN_00a64ea0(char** target);
+    void NiStream_LoadCStringAsFixedString(char** target);
 };
 
 // Reads a length-prefixed string into *target, using allocated storage for lengths >= 0x400 and a stack buffer for positive smaller lengths.
 // @fnv 0x00a64ea0
-void Cls_a64ea0::FUN_00a64ea0(char** apString)
+// pdb: NiStream::LoadCStringAsFixedString | NiStream.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_gap) + skyrim(call_gap), high
+void Cls_a64ea0::NiStream_LoadCStringAsFixedString(char** apString)
 {
     unsigned int len;
     char buf[0x400];
@@ -4502,6 +4304,8 @@ struct S_00a64fe0_LargeArray
 
 // Resizes the large array to uiMaxSize, copying existing elements, zeroing new slots, and freeing the old buffer.
 // @fnv 0x00a64fe0
+// pdb: NiTLargeArray<NiPointer<NiObject>,NiTNewInterface<NiPointer<NiObject> > >::SetSize | BSStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiMaxSize
 void S_00a64fe0_LargeArray::FUN_00a64fe0(unsigned int uiMaxSize)
 {
     if (uiMaxSize == m_uiMaxSize)
@@ -4559,10 +4363,6 @@ struct Map
     char pad[4];
     void* a;
 };
-struct Bk
-{
-    void* vt;
-};
 struct FUN_00a65300_holder
 {
     void* vt;
@@ -4595,6 +4395,7 @@ struct FUN_00a65300_holder
 };
 // Calls Del(1) on three members, clears top-level objects and the map, and passes stored pointers to cleanup routines.
 // @fnv 0x00a65300
+// pdb: NiStream::~NiStream | NiStream.obj | fnv360_0822_retail, caller, high
 void __fastcall FUN_00a65300(FUN_00a65300_holder* s)
 {
     s->vt = &DAT_0109bdcc;
@@ -4681,85 +4482,87 @@ struct NiStreamImpl
     char m_acExportInfo1[0x40];
     char m_acExportInfo2[0x40];
     char pad0c8[0xd8 - 0xc8];
-    unsigned int m_uiNifVersion;
-    unsigned int StreamFileInfo;
+    unsigned int m_uiNifFileVersion;  // src: FNV360_PDB +0xD8 (old: m_uiNifVersion)
+    unsigned int m_uiNifFileUserDefinedVersion;  // src: FNV360_PDB +0xDC (old: StreamFileInfo)
     char pad0e0[0x1e5 - 0xe0];
     unsigned char m_ucEndian;
     char pad1e6[0x1ec - 0x1e6];
-    NiTopObjects m_kTopLevelObjects;
+    NiTopObjects m_kTopObjects;  // src: FNV360_PDB +0x21C (old: m_kTopLevelObjects)
     char pad1ed[0x24c - 0x1ed];
-    NiBinaryStreamStandIn* m_pUnderlyingStream;
+    NiBinaryStreamStandIn* m_pkIstr;  // src: FNV360_PDB +0x24C (old: m_pUnderlyingStream)
     char pad250[0x3b8 - 0x250];
-    unsigned int m_uiNativeThreadId;
-    char m_acSecondPathBuffer[0x104];
+    unsigned int m_uiLastError;  // src: FNV360_PDB +0x3B8 (old: m_uiNativeThreadId)
+    char m_acLastErrorMessage[0x104];  // src: FNV360_PDB +0x3BC (old: m_acSecondPathBuffer)
 
-    bool ReadNifHeader();
+    bool NiStream_LoadHeader();
 };
 
-// Reads and validates the NIF file header from m_pUnderlyingStream, storing version, endian, and object count, returning false on any validation failure.
+// Reads and validates the NIF file header from m_pkIstr, storing version, endian, and object count, returning false on any validation failure.
 // @fnv 0x00a65400
-bool NiStreamImpl::ReadNifHeader()
+// pdb: NiStream::LoadHeader | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb: NiStream::LoadHeader | NiStream.obj | fnv360_0822_retail, vtable, high (was: ReadNifHeader)
+bool NiStreamImpl::NiStream_LoadHeader()
 {
     char acBuffer[0x80];
-    m_pUnderlyingStream->ReadLine(acBuffer, 0x80);
+    m_pkIstr->ReadLine(acBuffer, 0x80);
     if (!strstr(acBuffer, "File Format"))
     {
-        m_uiNativeThreadId = 2;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "Not a NIF file");
+        m_uiLastError = 2;
+        strcpy_s(m_acLastErrorMessage, 0x104, "Not a NIF file");
         return false;
     }
-    m_pUnderlyingStream->SetEndianSwap(false);
-    m_pUnderlyingStream->Read(&m_uiNifVersion);
-    if (m_uiNifVersion < g_uiNifMinVersion_011a9b08)
+    m_pkIstr->SetEndianSwap(false);
+    m_pkIstr->Read(&m_uiNifFileVersion);
+    if (m_uiNifFileVersion < g_uiNifMinVersion_011a9b08)
     {
-        m_uiNativeThreadId = 3;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "NIF version is too old.");
+        m_uiLastError = 3;
+        strcpy_s(m_acLastErrorMessage, 0x104, "NIF version is too old.");
         return false;
     }
-    if (m_uiNifVersion > g_uiNifMaxVersion_011a9b0c)
+    if (m_uiNifFileVersion > g_uiNifMaxVersion_011a9b0c)
     {
-        m_uiNativeThreadId = 4;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "Unknown NIF version.");
+        m_uiLastError = 4;
+        strcpy_s(m_acLastErrorMessage, 0x104, "Unknown NIF version.");
         return false;
     }
     m_ucEndian = 1;
-    if (m_uiNifVersion >= 0x14000003)
+    if (m_uiNifFileVersion >= 0x14000003)
         FUN_00a643b0(*this, m_ucEndian);
     if (m_ucEndian != 1 && FUN_00aa1d40())
     {
-        m_uiNativeThreadId = 6;
-        FUN_00404d80(m_acSecondPathBuffer, 0x104, "Endian mismatch.");
+        m_uiLastError = 6;
+        FUN_00404d80(m_acLastErrorMessage, 0x104, "Endian mismatch.");
         return false;
     }
-    if (m_uiNifVersion >= 0xa000108)
+    if (m_uiNifFileVersion >= 0xa000108)
     {
-        FUN_00a26df0(*this, StreamFileInfo);
-        if (m_uiNifVersion == 0xa000165)
-            StreamFileInfo = 1;
+        FUN_00a26df0(*this, m_uiNifFileUserDefinedVersion);
+        if (m_uiNifFileVersion == 0xa000165)
+            m_uiNifFileUserDefinedVersion = 1;
     }
-    if (StreamFileInfo < g_uiNifMinUserVersion_011f478c)
+    if (m_uiNifFileUserDefinedVersion < g_uiNifMinUserVersion_011f478c)
     {
-        m_uiNativeThreadId = 3;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "NIF user defined version is too old.");
+        m_uiLastError = 3;
+        strcpy_s(m_acLastErrorMessage, 0x104, "NIF user defined version is too old.");
         return false;
     }
-    if (StreamFileInfo > g_uiNifMaxUserVersion_011a9b10)
+    if (m_uiNifFileUserDefinedVersion > g_uiNifMaxUserVersion_011a9b10)
     {
-        m_uiNativeThreadId = 4;
-        FUN_00404d80(m_acSecondPathBuffer, 0x104, "Unknown NIF user defined version.");
+        m_uiLastError = 4;
+        FUN_00404d80(m_acLastErrorMessage, 0x104, "Unknown NIF user defined version.");
         return false;
     }
     unsigned int uiObjects;
     FUN_00a26df0(*this, uiObjects);
-    m_kTopLevelObjects.FUN_00a64fe0(uiObjects);
+    m_kTopObjects.FUN_00a64fe0(uiObjects);
     m_uiBSVersion = 0;
-    if (m_uiNifVersion > 0xa000100 && (m_uiNifVersion <= 0xa000108 || StreamFileInfo))
+    if (m_uiNifFileVersion > 0xa000100 && (m_uiNifFileVersion <= 0xa000108 || m_uiNifFileUserDefinedVersion))
     {
-        if (m_uiNifVersion > 0xa000101)
+        if (m_uiNifFileVersion > 0xa000101)
         {
             FUN_00a26df0(*this, m_uiBSVersion);
-            if (m_uiNifVersion == 0xa000102)
-                m_uiNifVersion = 0xa000101;
+            if (m_uiNifFileVersion == 0xa000102)
+                m_uiNifFileVersion = 0xa000101;
         }
         unsigned char ucLength;
         FUN_00a643b0(*this, ucLength);
@@ -4770,12 +4573,12 @@ bool NiStreamImpl::ReadNifHeader()
         FUN_00a471d0(*this, m_acExportInfo2, ucLength);
         if (m_uiBSVersion < 0x15)
         {
-            m_uiNativeThreadId = 3;
-            FUN_00404d80(m_acSecondPathBuffer, 0x104, "NIF BSversion is too old");
+            m_uiLastError = 3;
+            FUN_00404d80(m_acLastErrorMessage, 0x104, "NIF BSversion is too old");
             return false;
         }
     }
-    m_pUnderlyingStream->SetEndianSwap(m_ucEndian != 1);
+    m_pkIstr->SetEndianSwap(m_ucEndian != 1);
     return true;
 }
 }  // namespace fnv_00a65400
@@ -4962,7 +4765,7 @@ class ObjectLoadStream
     ObjectReferenceArray topObjects;
     unsigned int unk234, unk238, unk23c, unk240, unk244, unk248;
     ReadStream* input;
-    void LoadTopObjects();
+    void NiStream_LoadTopLevelObjects();
     ReadObject* GetLoadedObject(unsigned int id)
     {
         return id == 0xffffffff ? 0 : objects[id];
@@ -4970,7 +4773,9 @@ class ObjectLoadStream
 };
 // Reads a count and object IDs from input, populates topObjects with ObjectReference entries, and removes references from loaded objects.
 // @fnv 0x00a65720
-void ObjectLoadStream::LoadTopObjects()
+// pdb: NiStream::LoadTopLevelObjects | NiStream.obj | fnv360_0822_retail, vtable, high
+// pdb: NiStream::LoadTopLevelObjects | NiStream.obj | fnv360_0822_retail, vtable, high (was: LoadTopObjects)
+void ObjectLoadStream::NiStream_LoadTopLevelObjects()
 {
     unsigned int count;
     LoadValue(input, count);
@@ -5085,7 +4890,7 @@ struct NiStreamRt
     int unk084, unk088, unk08c, unk090, unk094, unk098, unk09c, unk0a0;
     int unk0a4, unk0a8, unk0ac, unk0b0, unk0b4, unk0b8, unk0bc, unk0c0;
     int unk0c4, unk0c8, unk0cc, unk0d0, unk0d4;
-    unsigned int m_uiNifVersion;
+    unsigned int m_uiNifFileVersion;  // src: FNV360_PDB +0xD8 (old: m_uiNifVersion)
     int unk0dc, unk0e0, unk0e4, unk0e8, unk0ec, unk0f0, unk0f4, unk0f8;
     int unk0fc, unk100, unk104, unk108, unk10c, unk110, unk114, unk118;
     int unk11c, unk120, unk124, unk128, unk12c, unk130, unk134, unk138;
@@ -5095,11 +4900,11 @@ struct NiStreamRt
     int unk19c, unk1a0, unk1a4, unk1a8, unk1ac, unk1b0, unk1b4, unk1b8;
     int unk1bc, unk1c0, unk1c4, unk1c8, unk1cc, unk1d0, unk1d4, unk1d8;
     int unk1dc, unk1e0, unk1e4, unk1e8;
-    NiObjectArrayRt m_kThirdFollowingStreamField;
+    NiObjectArrayRt m_kObjects;  // src: FNV360_PDB +0x1EC (old: m_kThirdFollowingStreamField)
     int unk1f8, unk1fc, unk200, unk204, unk208, unk20c, unk210, unk214;
     int unk218, unk21c, unk220, unk224, unk228, unk22c, unk230, unk234;
     int unk238, unk23c, unk240, unk244, unk248;
-    NiBinaryStreamRt* m_pUnderlyingStream;
+    NiBinaryStreamRt* m_pkIstr;  // src: FNV360_PDB +0x24C (old: m_pUnderlyingStream)
     int unk250, unk254, unk258, unk25c, unk260, unk264, unk268, unk26c;
     int unk270, unk274, unk278, unk27c, unk280, unk284, unk288, unk28c;
     int unk290, unk294, unk298, unk29c, unk2a0, unk2a4, unk2a8, unk2ac;
@@ -5112,48 +4917,48 @@ struct NiStreamRt
     int unk370, unk374, unk378, unk37c, unk380, unk384, unk388, unk38c;
     int unk390, unk394, unk398, unk39c, unk3a0, unk3a4, unk3a8, unk3ac;
     int unk3b0, unk3b4;
-    unsigned int m_uiNativeThreadId;
-    char m_acSecondPathBuffer[0x104];
+    unsigned int m_uiLastError;  // src: FNV360_PDB +0x3B8 (old: m_uiNativeThreadId)
+    char m_acLastErrorMessage[0x104];  // src: FNV360_PDB +0x3BC (old: m_acSecondPathBuffer)
 
     bool LoadRTTIAndObjects();
 };
 
-// Reads RTTI class names and object indices from m_pUnderlyingStream, resolves create functions, and instantiates objects into m_kThirdFollowingStreamField.
+// Reads RTTI class names and object indices from m_pkIstr, resolves create functions, and instantiates objects into m_kObjects.
 // @fnv 0x00a65800
 bool NiStreamRt::LoadRTTIAndObjects()
 {
     unsigned short usNumRTTI;
-    m_pUnderlyingStream->Read(&usNumRTTI);
+    m_pkIstr->Read(&usNumRTTI);
     CreateFunction* ppkCreate = (CreateFunction*)FUN_00aa1070(usNumRTTI * sizeof(CreateFunction));
     for (unsigned int i = 0; i < usNumRTTI; i++)
     {
         char acClassName[256];
         unsigned int uiLength;
-        m_pUnderlyingStream->Read(&uiLength);
-        m_pUnderlyingStream->Read(acClassName, uiLength);
+        m_pkIstr->Read(&uiLength);
+        m_pkIstr->Read(acClassName, uiLength);
         acClassName[uiLength] = 0;
-        if (m_uiNifVersion < 0x14010001 && strcmp(acClassName, "NiControllerManager") == 0)
+        if (m_uiNifFileVersion < 0x14010001 && strcmp(acClassName, "NiControllerManager") == 0)
         {
-            m_uiNativeThreadId = 3;
-            strcpy_s(m_acSecondPathBuffer, 0x104, "Older files may not contain animation data. Reexport required.");
+            m_uiLastError = 3;
+            strcpy_s(m_acLastErrorMessage, 0x104, "Older files may not contain animation data. Reexport required.");
             return false;
         }
         if (!g_pkLoaders_011f4784->FUN_00a53c30(acClassName, ppkCreate[i]))
         {
-            m_uiNativeThreadId = 5;
-            strcpy_s(m_acSecondPathBuffer, 0x104, acClassName);
-            strcat_s(m_acSecondPathBuffer, 0x104, ": cannot find create function.");
+            m_uiLastError = 5;
+            strcpy_s(m_acLastErrorMessage, 0x104, acClassName);
+            strcat_s(m_acLastErrorMessage, 0x104, ": cannot find create function.");
             ppkCreate[i] = 0;
         }
         if (acClassName[0] == 'b' && acClassName[1] == 'h' && strcmp(acClassName, "bhkConvexListShape") == 0)
             ppkCreate[i] = 0;
     }
-    for (unsigned int j = 0; j < m_kThirdFollowingStreamField.GetSize(); j++)
+    for (unsigned int j = 0; j < m_kObjects.GetSize(); j++)
     {
         bool bFailed = false;
         unsigned short usIndex;
-        m_pUnderlyingStream->Read(&usIndex);
-        if (m_uiNifVersion >= 0x14020005 && (usIndex & 0x8000))
+        m_pkIstr->Read(&usIndex);
+        if (m_uiNifFileVersion >= 0x14020005 && (usIndex & 0x8000))
         {
             usIndex &= 0x7fff;
             bFailed = true;
@@ -5168,12 +4973,12 @@ bool NiStreamRt::LoadRTTIAndObjects()
                 FUN_00aa10f0(ppkCreate);
                 return false;
             }
-            m_kThirdFollowingStreamField.FUN_00cc1a10(j, 0);
+            m_kObjects.FUN_00cc1a10(j, 0);
         }
         else
         {
             NiPointerRt<NiObjectRt> spRetainedObject = ppkCreate[usIndex]();
-            m_kThirdFollowingStreamField.FUN_00cc1a10(j, spRetainedObject);
+            m_kObjects.FUN_00cc1a10(j, spRetainedObject);
         }
     }
     FUN_00aa10f0(ppkCreate);
@@ -5419,6 +5224,7 @@ class StreamEx
 
 // Reads a count and string lengths from m_spIStream, allocates a buffer, loads each string into m_kFixedStringTable via FUN_00a63730, and frees the buffer.
 // @fnv 0x00a65b00
+// pdb: NiStream::LoadFixedStringTable | NiStream.obj | fnv360_0822_retail, call_gap, medium
 bool StreamEx::LoadFixedStrings()
 {
     unsigned int ItemUpdateArray;
@@ -5547,9 +5353,9 @@ struct NiStreamLs
     virtual bool LoadObjectSizeTable();
 
     char pad004[0xd8 - 4];
-    unsigned int m_uiNifVersion;
+    unsigned int m_uiNifFileVersion;  // src: FNV360_PDB +0xD8 (old: m_uiNifVersion)
     char pad0dc[0x1ec - 0xdc];
-    NiObjectArrayLs m_kThirdFollowingStreamField;
+    NiObjectArrayLs m_kObjects;  // src: FNV360_PDB +0x1EC (old: m_kThirdFollowingStreamField)
     char pad1f8[0x208 - 0x1f8];
     unsigned int* m_puiObjectSizes;
     char pad20c[0x220 - 0x20c];
@@ -5557,7 +5363,7 @@ struct NiStreamLs
     int unk224;
     unsigned int m_uiTopObjects;
     char pad22c[0x24c - 0x22c];
-    NiBinaryStreamLs* m_pUnderlyingStream;
+    NiBinaryStreamLs* m_pkIstr;  // src: FNV360_PDB +0x24C (old: m_pUnderlyingStream)
     char pad250[0x25c - 0x250];
     int unk25c;
     int unk260;
@@ -5565,11 +5371,11 @@ struct NiStreamLs
     int unk26c;
     int unk270;
     char pad274[0x28c - 0x274];
-    int m_eStreamThreadStatus;
+    int m_eBackgroundLoadStatus;  // src: FNV360_PDB +0x28C (old: m_eStreamThreadStatus)
     int pad290;
-    unsigned int StreamThreadContext;
-    unsigned int m_uiBackgroundLoadState;
-    unsigned int BackgroundLoadThreadInfo;
+    unsigned int m_uiLoad;  // src: FNV360_PDB +0x294 (old: StreamThreadContext)
+    unsigned int m_uiLink;  // src: FNV360_PDB +0x298 (old: m_uiBackgroundLoadState)
+    unsigned int m_uiPostLink;  // src: FNV360_PDB +0x29C (old: BackgroundLoadThreadInfo)
     NiSemaphoreLs* m_pkSemaphore;
 
     void FUN_00a644f0();
@@ -5578,50 +5384,51 @@ struct NiStreamLs
     void LoadGroups();
     void Clear();
     void FUN_00a63d10();
-    bool FUN_00a65c60();
+    bool NiStream_LoadStream();
 };
 
 // Loads a NIF stream by reading the header, objects, and top-level links, then runs post-process functions and cleans up.
 // @fnv 0x00a65c60
-bool NiStreamLs::FUN_00a65c60()
+// pdb: NiStream::LoadStream | NiStream.obj | fnv360_0822_retail, call_gap + bridge(vtable|call_gap) + skyrim(vtable), high
+bool NiStreamLs::NiStream_LoadStream()
 {
     if (!LoadHeader())
         return false;
-    BackgroundLoadThreadInfo = 0;
-    m_uiBackgroundLoadState = 0;
-    StreamThreadContext = 0;
+    m_uiPostLink = 0;
+    m_uiLink = 0;
+    m_uiLoad = 0;
     FUN_00a644f0();
-    bool bRTTI = m_uiNifVersion >= 0x05000001;
+    bool bRTTI = m_uiNifFileVersion >= 0x05000001;
     if (bRTTI && !LoadRTTIAndObjects())
         return false;
-    if (m_uiNifVersion >= 0x14020005 && !LoadObjectSizeTable())
+    if (m_uiNifFileVersion >= 0x14020005 && !LoadObjectSizeTable())
         return false;
-    if (m_uiNifVersion >= 0x14010001 && !LoadFixedStrings())
+    if (m_uiNifFileVersion >= 0x14010001 && !LoadFixedStrings())
         return false;
-    if (m_uiNifVersion >= 0x05000006)
+    if (m_uiNifFileVersion >= 0x05000006)
         LoadGroups();
 
-    unsigned int uiObjects = m_kThirdFollowingStreamField.m_uiSize;
-    for (; StreamThreadContext < uiObjects; StreamThreadContext++)
+    unsigned int uiObjects = m_kObjects.m_uiSize;
+    for (; m_uiLoad < uiObjects; m_uiLoad++)
     {
-        if (m_eStreamThreadStatus == 2)
+        if (m_eBackgroundLoadStatus == 2)
             goto abort;
-        if (m_eStreamThreadStatus == 3)
+        if (m_eBackgroundLoadStatus == 3)
         {
-            m_eStreamThreadStatus = 4;
+            m_eBackgroundLoadStatus = 4;
             m_pkSemaphore->FUN_00aa3040();
         }
         if (bRTTI)
         {
-            NiObjectLs* pkObject = m_kThirdFollowingStreamField.m_pBase[StreamThreadContext];
+            NiObjectLs* pkObject = m_kObjects.m_pBase[m_uiLoad];
             if (pkObject)
             {
                 pkObject->LoadBinary(*this);
             }
             else
             {
-                m_pUnderlyingStream->GetPosition();
-                m_pUnderlyingStream->Seek(m_puiObjectSizes[StreamThreadContext]);
+                m_pkIstr->GetPosition();
+                m_pkIstr->Seek(m_puiObjectSizes[m_uiLoad]);
             }
         }
         else if (!LoadObject())
@@ -5631,33 +5438,33 @@ bool NiStreamLs::FUN_00a65c60()
         }
     }
     LoadTopLevelObjects();
-    for (; m_uiBackgroundLoadState < uiObjects; m_uiBackgroundLoadState++)
+    for (; m_uiLink < uiObjects; m_uiLink++)
     {
-        if (m_eStreamThreadStatus == 3)
+        if (m_eBackgroundLoadStatus == 3)
         {
-            m_eStreamThreadStatus = 4;
+            m_eBackgroundLoadStatus = 4;
             m_pkSemaphore->FUN_00aa3040();
         }
-        NiObjectLs* pkObject = m_kThirdFollowingStreamField.m_pBase[m_uiBackgroundLoadState];
+        NiObjectLs* pkObject = m_kObjects.m_pBase[m_uiLink];
         if (pkObject)
             pkObject->LinkObject(*this);
     }
-    for (; BackgroundLoadThreadInfo < uiObjects; BackgroundLoadThreadInfo++)
+    for (; m_uiPostLink < uiObjects; m_uiPostLink++)
     {
-        if (m_eStreamThreadStatus == 3)
+        if (m_eBackgroundLoadStatus == 3)
         {
-            m_eStreamThreadStatus = 4;
+            m_eBackgroundLoadStatus = 4;
             m_pkSemaphore->FUN_00aa3040();
         }
-        NiObjectLs* pkObject = m_kThirdFollowingStreamField.m_pBase[BackgroundLoadThreadInfo];
+        NiObjectLs* pkObject = m_kObjects.m_pBase[m_uiPostLink];
         if (pkObject)
             pkObject->PostLinkObject(*this);
     }
-    if (m_eStreamThreadStatus == 2)
+    if (m_eBackgroundLoadStatus == 2)
         goto abort;
-    if (m_eStreamThreadStatus == 3)
+    if (m_eBackgroundLoadStatus == 3)
     {
-        m_eStreamThreadStatus = 4;
+        m_eBackgroundLoadStatus = 4;
         m_pkSemaphore->FUN_00aa3040();
     }
     if (g_pkPostProcessFunctions_011f4788->m_usESize > 0)
@@ -5676,11 +5483,11 @@ bool NiStreamLs::FUN_00a65c60()
             }
         }
     }
-    if (m_eStreamThreadStatus == 2)
+    if (m_eBackgroundLoadStatus == 2)
     {
     abort:
         EnterCriticalSection(g_kCleanupCriticalSection_011f4800);
-        m_kThirdFollowingStreamField.FUN_00a64250();
+        m_kObjects.FUN_00a64250();
         unk25c = 0;
         unk26c = 0;
         unk260 = 0;
@@ -5690,7 +5497,7 @@ bool NiStreamLs::FUN_00a65c60()
     }
     FUN_00a63d10();
     EnterCriticalSection(g_kCleanupCriticalSection_011f4800);
-    m_kThirdFollowingStreamField.FUN_00a64250();
+    m_kObjects.FUN_00a64250();
     unk25c = 0;
     unk26c = 0;
     unk260 = 0;
@@ -5754,6 +5561,8 @@ struct S_00a65f80_Array
 };
 
 // @fnv 0x00a65f80
+// pdb: NiTLargeArray<NiFixedString,NiTNewInterface<NiFixedString> >::AddFirstEmpty | NiStream.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: element
 unsigned int S_00a65f80_Array::FUN_00a65f80(const S_00a65f80_FixedString& element)
 {
     if (element == S_00a65f80_FixedString())
@@ -5786,6 +5595,7 @@ struct FUN_00a66030_obj
 };
 // Calls the object's cleanup method and, when the low bit of flags is set, deallocates the object through g_memoryManager, then returns the object pointer.
 // @fnv 0x00a66030
+// pdb: NiTStringTemplateMap<NiTMap<char const *,Setting *>,Setting *>::`scalar deleting destructor' | EffectItem.obj | fnv360_0822_retail, vtable, high
 FUN_00a66030_obj* __fastcall FUN_00a66030(FUN_00a66030_obj* apThis, int, unsigned int flags)
 {
     apThis->DestroyMap();
@@ -5825,6 +5635,7 @@ struct Holder66070
 };
 // Saves mem, sets vf to DAT_0109bd4c, calls FUN_00a644a0 with the saved pointer, and conditionally calls _DeallocateAlias on this.
 // @fnv 0x00a66070
+// pdb: NiTArray<BGSCameraPath *,NiTMallocInterface<BGSCameraPath *> >::`scalar deleting destructor' | BGSCameraPathManager.obj | fnv360_0822_retail, vtable, medium
 void* Holder66070::FUN_00a66070(unsigned int flags)
 {
     void* tmp = mem;
@@ -5923,7 +5734,8 @@ extern bool DAT_011f4780;
 
 // Allocates a global A660A0Map and NiUnionBV, and sets the DAT_011f4780 flag to true.
 // @fnv 0x00a660a0
-void __cdecl FUN_00a660a0()
+// pdb: NiStream::_SDMInit | NiStream.obj | fnv360_0822_retail, call_gap + bridge(uvref|call_dedup) + skyrim(uvref), high
+void __cdecl NiStream__SDMInit()
 {
     DAT_011f4784 = new A660A0Map;
     DAT_011f4788 = new NiUnionBV;
@@ -5931,15 +5743,9 @@ void __cdecl FUN_00a660a0()
 }
 }  // namespace fnv_00a660a0
 
-extern int DAT_01081ef0;
 extern int DAT_0109bc64;
 extern int DAT_0109bd54;
-extern int DAT_0109bd90;
 extern int DAT_0109bdcc;
-extern int DAT_0109bf6c;
-extern int DAT_0109bf74;
-extern unsigned int DAT_011a9b0c;
-extern unsigned int DAT_011a9b10;
 extern bool DAT_011f4780;
 void* __cdecl _NiMalloc(unsigned int uiSize);
 void* __cdecl _fnv_zlib_memset(void* pDst, int iValue, unsigned int uiSize);
@@ -6015,16 +5821,16 @@ struct LargeArray_a66150 : VPtr_a66150
 struct Set_a66150
 {
     unsigned int* m_pBase;
-    unsigned int m_uiElementCount;
-    unsigned int m_uiAllocatedCapacity;
+    unsigned int m_uiAlloced;  // src: FNV360_PDB +0x4 (old: m_uiElementCount)
+    unsigned int m_uiUsed;  // src: FNV360_PDB +0x8 (old: m_uiAllocatedCapacity)
     Set_a66150(unsigned int uiInitialSize)
     {
         if (uiInitialSize > 0)
             m_pBase = (unsigned int*)_NiMalloc(sizeof(unsigned int) * uiInitialSize);
         else
             m_pBase = 0;
-        m_uiElementCount = uiInitialSize;
-        m_uiAllocatedCapacity = 0;
+        m_uiAlloced = uiInitialSize;
+        m_uiUsed = 0;
     }
 };
 
@@ -6061,49 +5867,49 @@ struct Affinity_a66150
 
 struct ErrorInfo_a66150
 {
-    unsigned int m_uiNativeThreadId;
-    char m_acSecondPathBuffer[260];
+    unsigned int m_uiLastError;  // src: FNV360_PDB +0x3B8 (old: m_uiNativeThreadId)
+    char m_acLastErrorMessage[260];  // src: FNV360_PDB +0x3BC (old: m_acSecondPathBuffer)
     ErrorInfo_a66150()
     {
-        m_uiNativeThreadId = 0;
-        m_acSecondPathBuffer[0] = 0;
+        m_uiLastError = 0;
+        m_acLastErrorMessage[0] = 0;
     }
 };
 
 struct FUN_00a66150 : VPtr_a66150
 {
-    StreamHeader_a66150 m_kHeader;                   // +0x04
-    SmallArray_a66150 m_kObjectGroups;               // +0xc8
-    unsigned int m_uiNifVersion;                     // +0xd8
-    unsigned int StreamFileInfo;                     // +0xdc
-    char m_acInputFilePath[260];                     // +0xe0
-    bool m_bFirstStreamFlag;                         // +0x1e4
-    bool m_bSecondStreamFlag;                        // +0x1e5
+    StreamHeader_a66150 m_BSStreamHeader;                   // +0x04  // src: FNV360_PDB +0x4 (old: m_kHeader)
+    SmallArray_a66150 m_kGroups;               // +0xc8  // src: FNV360_PDB +0xC8 (old: m_kObjectGroups)
+    unsigned int m_uiNifFileVersion;                     // +0xd8  // src: FNV360_PDB +0xD8 (old: m_uiNifVersion)
+    unsigned int m_uiNifFileUserDefinedVersion;                     // +0xdc  // src: FNV360_PDB +0xDC (old: StreamFileInfo)
+    char m_acFileName[260];                     // +0xe0  // src: FNV360_PDB +0xE0 (old: m_acInputFilePath)
+    bool m_bSaveLittleEndian;                         // +0x1e4  // src: FNV360_PDB +0x1E4 (old: m_bFirstStreamFlag)
+    bool m_bSourceIsLittleEndian;                        // +0x1e5  // src: FNV360_PDB +0x1E5 (old: m_bSecondStreamFlag)
     unsigned int m_uiUnk1E8;                         // +0x1e8
-    LargeArray_a66150 m_kThirdFollowingStreamField;  // +0x1ec
-    LargeArray_a66150 ObjectSerializationStream;     // +0x204
-    LargeArray_a66150 m_kTopLevelObjects;            // +0x21c
-    LargeArray_a66150 m_kStringTable;                // +0x234
-    void* m_pUnderlyingStream;                       // +0x24c
-    void* m_pBackingStream;                          // +0x250
-    Set_a66150 m_kSecondFollowingStreamField;        // +0x254
-    unsigned int StreamObjectIndex;                  // +0x260
-    Set_a66150 m_kSecondUnsignedIntSet;              // +0x264
-    unsigned int m_uiObjectIndexCount;               // +0x270
-    Map_a66150 m_kObjectToIndexMap;                  // +0x274
-    unsigned short m_usAVObjectFlags;                // +0x284
-    unsigned short m_usTimeControllerFlags;          // +0x286
-    unsigned short m_usPropertyFlags;                // +0x288
-    unsigned int m_eStreamThreadStatus;              // +0x28c
-    bool m_bThreadActive;                            // +0x290
+    LargeArray_a66150 m_kObjects;  // +0x1ec  // src: FNV360_PDB +0x1EC (old: m_kThirdFollowingStreamField)
+    LargeArray_a66150 m_kObjectSizes;     // +0x204  // src: FNV360_PDB +0x204 (old: ObjectSerializationStream)
+    LargeArray_a66150 m_kTopObjects;            // +0x21c  // src: FNV360_PDB +0x21C (old: m_kTopLevelObjects)
+    LargeArray_a66150 m_kFixedStrings;                // +0x234  // src: FNV360_PDB +0x234 (old: m_kStringTable)
+    void* m_pkIstr;                       // +0x24c  // src: FNV360_PDB +0x24C (old: m_pUnderlyingStream)
+    void* m_pkOstr;                          // +0x250  // src: FNV360_PDB +0x250 (old: m_pBackingStream)
+    Set_a66150 m_kLinkIDs;        // +0x254  // src: FNV360_PDB +0x254 (old: m_kSecondFollowingStreamField)
+    unsigned int m_uiLinkIndex;                  // +0x260  // src: FNV360_PDB +0x260 (old: StreamObjectIndex)
+    Set_a66150 m_kLinkIDBlocks;              // +0x264  // src: FNV360_PDB +0x264 (old: m_kSecondUnsignedIntSet)
+    unsigned int m_uiLinkBlockIndex;               // +0x270  // src: FNV360_PDB +0x270 (old: m_uiObjectIndexCount)
+    Map_a66150 m_kRegisterMap;                  // +0x274  // src: FNV360_PDB +0x274 (old: m_kObjectToIndexMap)
+    unsigned short m_usNiAVObjectFlags;                // +0x284  // src: FNV360_PDB +0x284 (old: m_usAVObjectFlags)
+    unsigned short m_usNiTimeControllerFlags;          // +0x286  // src: FNV360_PDB +0x286 (old: m_usTimeControllerFlags)
+    unsigned short m_usNiPropertyFlags;                // +0x288  // src: FNV360_PDB +0x288 (old: m_usPropertyFlags)
+    unsigned int m_eBackgroundLoadStatus;              // +0x28c  // src: FNV360_PDB +0x28C (old: m_eStreamThreadStatus)
+    bool m_bBackgroundLoadExitStatus;                            // +0x290  // src: FNV360_PDB +0x290 (old: m_bThreadActive)
     unsigned int m_uiUnk294;
     unsigned int m_uiUnk298;
     unsigned int m_uiUnk29C;
-    void* m_pBackgroundLoadThread;               // +0x2a0
-    void* BackgroundLoadTask;                    // +0x2a4
-    unsigned int m_eThreadPriority;              // +0x2a8
-    Affinity_a66150 m_kBackgroundLoadSemaphore;  // +0x2ac
-    char m_acLoadPath[260];                      // +0x2b4
+    void* m_pkThread;               // +0x2a0  // src: FNV360_PDB +0x2A0 (old: m_pBackgroundLoadThread)
+    void* m_pkBGLoadProc;                    // +0x2a4  // src: FNV360_PDB +0x2A4 (old: BackgroundLoadTask)
+    unsigned int m_ePriority;              // +0x2a8  // src: FNV360_PDB +0x2A8 (old: m_eThreadPriority)
+    Affinity_a66150 m_kAffinity;  // +0x2ac  // src: FNV360_PDB +0x2AC (old: m_kBackgroundLoadSemaphore)
+    char m_acLastLoadedRTTI[260];                      // +0x2b4  // src: FNV360_PDB +0x2B4 (old: m_acLoadPath)
     ErrorInfo_a66150 m_kError;                   // +0x3b8
     FUN_00a66150();
 };
@@ -6117,26 +5923,27 @@ extern int DAT_00e211f8;
 extern int FUN_00f72bd4;
 extern int FUN_00f72bd8;
 
+// pdb: NiStream::NiStream | NiStream.obj | fnv360_0822_retail, call_seq, high
 FUN_00a66150::FUN_00a66150()
-    : VPtr_a66150(&DAT_0109bdcc), m_kObjectGroups(&DAT_00e2113c, 0, 1),
-      m_kThirdFollowingStreamField(&DAT_00e213a4, 0, 1024), ObjectSerializationStream(&DAT_00e10604, 0, 1),
-      m_kTopLevelObjects(&DAT_00e213a4, 0, 1), m_kStringTable(&DAT_00e211f8, 0, 128), m_kSecondFollowingStreamField(0),
-      m_kSecondUnsignedIntSet(0), m_kObjectToIndexMap(37), m_pBackgroundLoadThread(0), BackgroundLoadTask(0),
-      m_eThreadPriority(2)
+    : VPtr_a66150(&DAT_0109bdcc), m_kGroups(&DAT_00e2113c, 0, 1),
+      m_kObjects(&DAT_00e213a4, 0, 1024), m_kObjectSizes(&DAT_00e10604, 0, 1),
+      m_kTopObjects(&DAT_00e213a4, 0, 1), m_kFixedStrings(&DAT_00e211f8, 0, 128), m_kLinkIDs(0),
+      m_kLinkIDBlocks(0), m_kRegisterMap(37), m_pkThread(0), m_pkBGLoadProc(0),
+      m_ePriority(2)
 {
-    m_pUnderlyingStream = 0;
-    m_pBackingStream = 0;
-    m_uiNifVersion = FUN_00f72bd4;
-    StreamFileInfo = FUN_00f72bd8;
-    m_bFirstStreamFlag = true;
-    m_bSecondStreamFlag = true;
-    m_acInputFilePath[0] = 0;
-    StreamObjectIndex = 0;
-    m_uiObjectIndexCount = 0;
+    m_pkIstr = 0;
+    m_pkOstr = 0;
+    m_uiNifFileVersion = FUN_00f72bd4;
+    m_uiNifFileUserDefinedVersion = FUN_00f72bd8;
+    m_bSaveLittleEndian = true;
+    m_bSourceIsLittleEndian = true;
+    m_acFileName[0] = 0;
+    m_uiLinkIndex = 0;
+    m_uiLinkBlockIndex = 0;
     DAT_011f4780 = true;
-    m_eStreamThreadStatus = 0;
-    m_kError.m_uiNativeThreadId = 0;
-    m_kError.m_acSecondPathBuffer[0] = 0;
+    m_eBackgroundLoadStatus = 0;
+    m_kError.m_uiLastError = 0;
+    m_kError.m_acLastErrorMessage[0] = 0;
 }
 
 
@@ -6147,6 +5954,7 @@ struct FUN_00a66350_obj
 };
 // Calls the NiStream destructor alias and deallocates the object via g_memoryManager when the low bit of flags is set.
 // @fnv 0x00a66350
+// pdb: SettingT<GameSettingCollection>::`scalar deleting destructor' | EffectItem.obj | fnv360_0822_retail, vtable, high
 FUN_00a66350_obj* __fastcall NiStreamDtor(FUN_00a66350_obj* apStream, int, unsigned int flags)
 {
     apStream->_NiStreamDtorAlias();
@@ -6358,6 +6166,8 @@ struct StreamMatch
 
 // Adds object to linkMap and objects array, incrementing its reference count, then decrements it and returns true.
 // @fnv 0x00a663e0
+// pdb: NiStream::RegisterSaveObject | NiStream.obj | fnv360_0822_retail, call_dedup, high
+// pdb params: pkObject
 bool StreamMatch::AddObject(RefCountedObj* object)
 {
     RefCountedObj* obj = object;
@@ -6564,12 +6374,13 @@ struct S_00a66480
         }
         return -1;
     }
-    bool FUN_00a66480(const S_00a66480_Str& str);
+    bool NiStream_RegisterFixedString(const S_00a66480_Str& str);
 };
 
 // Adds str to names if Find(str) returns -1, then returns true.
 // @fnv 0x00a66480
-bool S_00a66480::FUN_00a66480(const S_00a66480_Str& str)
+// pdb: NiStream::RegisterFixedString | NiStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool S_00a66480::NiStream_RegisterFixedString(const S_00a66480_Str& str)
 {
     if (Find(str) == -1)
         names.FUN_00a65f80(str);
@@ -6865,12 +6676,13 @@ struct NiStreamLoader
     unsigned int unk3b4;
     unsigned int error;
     char errorMessage[260];
-    void FUN_00a64d80(char*);
-    bool FUN_00a664e0();
+    void NiStream_LoadRTTIString(char*);
+    bool NiStream_LoadObject();
 };
 // Looks up a class factory by name, creates and ref-counts a NiObject, adds it to topObjects, and calls load on it.
 // @fnv 0x00a664e0
-bool NiStreamLoader::FUN_00a664e0()
+// pdb: NiStream::LoadObject | NiStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool NiStreamLoader::NiStream_LoadObject()
 {
     char className[256];
     union Creation
@@ -6878,7 +6690,7 @@ bool NiStreamLoader::FUN_00a664e0()
         NiObject*(__cdecl* factory)();
         NiPointer instance;
     } creation;
-    FUN_00a64d80(className);
+    NiStream_LoadRTTIString(className);
     if (!DAT_011f4784->GetAt(className, creation.factory))
     {
         error = 5;
@@ -7078,15 +6890,17 @@ struct RtStream
     unsigned int m_uiMaxObjects;
     unsigned int m_uiNumObjects;
     char pad1fc[0x250 - 0x1fc];
-    RtBinaryStream* m_pBackingStream;
+    RtBinaryStream* m_pkOstr;  // src: FNV360_PDB +0x250 (old: m_pBackingStream)
 
-    void FUN_00a64160(const char* pcString);
-    void WriteRTTIHeader();
+    void NiStream_SaveCString(const char* pcString);
+    void NiStream_SaveRTTI();
 };
 
 // Writes the RTTI name table and per-object RTTI IDs (with clone flag) to the backing stream.
 // @fnv 0x00a665f0
-void RtStream::WriteRTTIHeader()
+// pdb: NiStream::SaveRTTI | NiStream.obj | fnv360_0822_retail, call_seq, high
+// pdb: NiStream::SaveRTTI | NiStream.obj | fnv360_0822_retail, call_seq, high (was: WriteRTTIHeader)
+void RtStream::NiStream_SaveRTTI()
 {
     RtStringMap kRTTIMap;
     unsigned int i;
@@ -7109,9 +6923,9 @@ void RtStream::WriteRTTIHeader()
         ppcRTTINames[usID] = pcName;
     }
 
-    m_pBackingStream->Write(&usNumRTTI);
+    m_pkOstr->Write(&usNumRTTI);
     for (i = 0; i < usNumRTTI; i++)
-        FUN_00a64160(ppcRTTINames[i]);
+        NiStream_SaveCString(ppcRTTINames[i]);
     FUN_00aa10f0(ppcRTTINames);
 
     for (i = 0; i < m_uiNumObjects; i++)
@@ -7121,7 +6935,7 @@ void RtStream::WriteRTTIHeader()
         kRTTIMap.GetAt(pkObject->GetStreamableRTTI()->m_pcName, usID);
         if (pkObject->IsCloned())
             usID |= 0x8000;
-        m_pBackingStream->Write(&usID);
+        m_pkOstr->Write(&usID);
     }
 
     kRTTIMap.FUN_00a63910();
@@ -7136,7 +6950,7 @@ struct NiMemObject
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a66850_shell : public NiStream
 {
-    bool FUN_00a66850();
+    bool NiStream_SaveStream();
 };
 
 class TESForm;
@@ -7246,38 +7060,39 @@ struct VStream
     virtual void v20();
     virtual unsigned int GetStartingOffset();
     virtual void BackPatch(unsigned int);
-    void WriteRTTIHeader();
-    void FUN_00a63ee0();
-    void UpdateTextureSwapList();
+    void NiStream_SaveRTTI();
+    void NiStream_SaveFixedStringTable();
+    void NiStream_UpdateObjectGroups();
     void WriteData();
 };
 
 // Registers save objects, writes the header and each object's binary data, records per-object sizes, then back-patches and clears the object lists.
 // @fnv 0x00a66850
-bool FUN_00a66850_shell::FUN_00a66850()
+// pdb: NiStream::SaveStream | NiStream.obj | fnv360_0822_retail, call_gap + bridge(vtable|call_dedup) + skyrim(vtable), high
+bool FUN_00a66850_shell::NiStream_SaveStream()
 {
     VStream* pkThis = (VStream*)this;
     pkThis->RegisterSaveObjects();
-    SizeArray& kObjectSizes = *(SizeArray*)((char*)this + 0x204);
-    kObjectSizes.SetSize(*(unsigned int*)((char*)this + 0x1f8));
+    SizeArray& kObjectSizes = *(SizeArray*)&m_kObjectSizes;
+    kObjectSizes.SetSize(m_kObjects.m_uiSize);
     pkThis->SaveHeader();
-    pkThis->WriteRTTIHeader();
+    pkThis->NiStream_SaveRTTI();
     unsigned int uiStartingOffset = pkThis->GetStartingOffset();
-    pkThis->FUN_00a63ee0();
-    pkThis->UpdateTextureSwapList();
+    pkThis->NiStream_SaveFixedStringTable();
+    pkThis->NiStream_UpdateObjectGroups();
     pkThis->WriteData();
-    for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 0x1f8); i++)
+    for (unsigned int i = 0; i < m_kObjects.m_uiSize; i++)
     {
-        VObject* pkObject = (*(VObject***)((char*)this + 0x1f0))[i];
-        unsigned int uiStartInBytes = (*(VBinStream**)((char*)this + 0x250))->GetPosition();
+        VObject* pkObject = (VObject*)m_kObjects.m_pBase[i].m_pObject;
+        unsigned int uiStartInBytes = ((VBinStream*)m_pkOstr)->GetPosition();
         pkObject->SaveBinary(this);
-        unsigned int uiSizeInBytes = (*(VBinStream**)((char*)this + 0x250))->GetPosition() - uiStartInBytes;
+        unsigned int uiSizeInBytes = ((VBinStream*)m_pkOstr)->GetPosition() - uiStartInBytes;
         kObjectSizes.SetAt(i, (TESForm*)uiSizeInBytes);
     }
     pkThis->SaveTopLevelObjects();
     pkThis->BackPatch(uiStartingOffset);
-    ((NiStreamTopObjects*)((char*)this + 0x1ec))->RemoveAll();
-    ((NiTMapBaseStub*)((char*)this + 0x274))->RemoveAll();
+    ((NiStreamTopObjects*)&m_kObjects)->RemoveAll();
+    ((NiTMapBaseStub*)&m_kRegisterMap)->RemoveAll();
     return true;
 }
 }  // namespace fnv_00a66850
@@ -7294,19 +7109,26 @@ struct NiBinaryStream
 
 struct NiMemStream : NiBinaryStream
 {
-    void* m_pBinaryStream;
-    char m_bSome;
-    char m_bSome2;
+    unsigned int unk04;
+    void* unk08;
+    void* unk0C;
+    char* m_pBuffer;  // src: FNV360_PDB +0x10 (old: m_pBinaryStream)
+    unsigned int m_uiPos;  // src: FNV360_PDB +0x14
+    unsigned int m_uiEnd;  // src: FNV360_PDB +0x18
+    unsigned int m_uiAllocSize;  // src: FNV360_PDB +0x1C
+    bool m_bUserMemory;  // src: FNV360_PDB +0x20 (old: m_bSome)
+    bool m_bFreeze;  // src: FNV360_PDB +0x21 (old: m_bSome2)
     void NiMemStreamDestructor();
 };
 
 // Sets the vtable pointer, frees the buffer at offset 0x10 if the flags at 0x20 and 0x21 are clear, and calls the NiBinaryStream destructor.
 // @fnv 0x00aa2d30
+// pdb: NiMemStream::~NiMemStream | NiMemStream.obj | fnv360_0822_retail, call_seq, medium
 void NiMemStream::NiMemStreamDestructor()
 {
     *(void**)this = &DAT_010a256c;
-    if (!((char*)this)[0x20] && !((char*)this)[0x21])
-        NiFreeAlias(*(void**)((char*)this + 0x10));
+    if (!m_bUserMemory && !m_bFreeze)
+        NiFreeAlias(m_pBuffer);
     NiBinaryStream::~NiBinaryStream();
 }
 }  // namespace fnv_00aa2d30
@@ -7317,10 +7139,6 @@ struct NiMemObject
     char _pad_0[1];
 };
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
-struct FUN_00c68050_shell : public NiStream
-{
-    void RegisterThread();
-};
 
 struct CRITICAL_SECTION
 {
@@ -7357,20 +7175,6 @@ struct hkMemoryAllocator
     virtual void* AllocateMemoryBlock(int size);
 };
 
-struct hkMemorySystem
-{
-    static hkMemorySystem* __cdecl GetMonitorStream();
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void InitializeThreadRouter(NineIntegerRecord* router, const char* name, Flag flag);
-};
-
-struct PointerCallback
-{
-    static void __cdecl HandlePointer(void*);
-};
-
 struct NineIntegerRecord
 {
     void* m_stackStart;
@@ -7379,20 +7183,6 @@ struct NineIntegerRecord
     char _pad_0c[4];
     hkMemoryAllocator* m_pThreadAllocator;
     char _pad_14[16];
-};
-
-struct AudioTlsState
-{
-    unsigned int m_uiMemoryContextId;
-    NineIntegerRecord m_router;
-    void* m_pStackBuffer;
-};
-
-struct TaskManager
-{
-    CRITICAL_SECTION m_cs;
-    AudioTlsState m_threads[16];
-    int m_uiNumThreads;
 };
 
 struct TLSData
@@ -7416,41 +7206,7 @@ struct MemContextScope
     }
 };
 
-// Registers the calling thread in the task manager by allocating a 0x5000 stack and initializing its memory router under a critical section.
-// @fnv 0x00c68050
-void FUN_00c68050_shell::RegisterThread()
-{
-    TaskManager* pThis = reinterpret_cast<TaskManager*>(this);
-    EnterCriticalSection(&pThis->m_cs);
-    if (pThis->m_uiNumThreads < 16)
-    {
-        MemContextScope scope(16);
-        AudioTlsState* thread = &pThis->m_threads[pThis->m_uiNumThreads];
-        hkMemorySystem::GetMonitorStream()->InitializeThreadRouter(&thread->m_router, "bhkTaskletThread", Flag(1));
-        NineIntegerRecord& router = thread->m_router;
-        PointerCallback::HandlePointer(&router);
-        void* pStack = thread->m_router.m_pThreadAllocator->AllocateMemoryBlock(0x5000);
-        thread->m_pStackBuffer = pStack;
-        router.m_stackCurrent = pStack;
-        router.m_stackStart = pStack;
-        router.m_stackEnd = (char*)pStack + 0x5000;
-        thread->m_uiMemoryContextId = GetCurrentThreadId();
-        pThis->m_uiNumThreads++;
-    }
-    LeaveCriticalSection(&pThis->m_cs);
-}
 }  // namespace fnv_00c68050
-
-struct GlobalObjectO2_00c67fe0
-{
-    void RegisterThread();
-};
-extern GlobalObjectO2_00c67fe0 g_01267830;
-// @fnv 0x00c681b0
-void FUN_00c681b0()
-{
-    g_01267830.RegisterThread();
-}
 
 #include <xmmintrin.h>
 // ---------------------------------------------------------------------------
@@ -7466,10 +7222,6 @@ void FUN_00c681b0()
 //  their loads to the top of the constructor (exactly like the original).
 // ---------------------------------------------------------------------------
 
-extern int FNV_vtbl_010c3c44;         // bhkWorldCinfo's type table
-extern unsigned char FNV_b_011afe5c;  // 3
-extern float FNV_f_01267b38;          // runtime initialised (.bss)
-
 union FNV_const_bits
 {
     unsigned int u;
@@ -7482,87 +7234,6 @@ static const FNV_const_bits FNV_k_0101e2bc = {0x3DCCCCCDu};  // 0.1f
 static const FNV_const_bits FNV_k_0104da48 = {0x7F7FFFEEu};
 static const FNV_const_bits FNV_k_unused = {0x00000000u};
 
-struct FNV_bhkBaseCinfo
-{
-    int* m_vtbl;                   // +0x00
-    int unk04;                     // +0x04
-    int unk08;                     // +0x08
-    int unk0c;                     // +0x0c
-    __m128 m_vec;                  // +0x10
-    int unk20;                     // +0x20
-    volatile float m_f24;          // +0x24
-    unsigned char m_b28;           // +0x28
-    unsigned char m_b29;           // +0x29
-    unsigned short unk2a;          // +0x2a
-    int unk2c;                     // +0x2c
-    int unk30;                     // +0x30
-    int unk34;                     // +0x34
-    int unk38;                     // +0x38
-    int unk3c;                     // +0x3c
-    int unk40;                     // +0x40
-    int unk44;                     // +0x44
-    int unk48;                     // +0x48
-    int unk4c;                     // +0x4c
-    int unk50;                     // +0x50
-    volatile float m_f54;          // +0x54
-    int unk58;                     // +0x58
-    int unk5c;                     // +0x5c
-    int unk60;                     // +0x60
-    int unk64;                     // +0x64
-    volatile float m_f68;          // +0x68
-    int unk6c;                     // +0x6c
-    int unk70;                     // +0x70
-    int unk74;                     // +0x74
-    int unk78;                     // +0x78
-    int unk7c;                     // +0x7c
-    int unk80;                     // +0x80
-    int unk84;                     // +0x84
-    int unk88;                     // +0x88
-    int unk8c;                     // +0x8c
-    int unk90;                     // +0x90
-    int unk94;                     // +0x94
-    int unk98;                     // +0x98
-    int unk9c;                     // +0x9c
-    int unkA0;                     // +0xa0
-    unsigned short unkA4;          // +0xa4
-    unsigned char unkA6;           // +0xa6
-    volatile unsigned char m_ba7;  // +0xa7
-    int unkA8;                     // +0xa8
-    int unkAC;                     // +0xac
-    int unkB0;                     // +0xb0
-    int unkB4;                     // +0xb4
-    int unkB8;                     // +0xb8
-    int unkBC;                     // +0xbc
-    int unkC0;                     // +0xc0
-    int unkC4;                     // +0xc4
-    int unkC8;                     // +0xc8
-    int unkCC;                     // +0xcc
-    unsigned char unkD0;           // +0xd0
-    unsigned char m_bd1;           // +0xd1
-
-    FNV_bhkBaseCinfo();
-};
-
-struct FUN_00c681c0_bhkWorldCinfo : public FNV_bhkBaseCinfo
-{
-    FUN_00c681c0_bhkWorldCinfo();
-};
-
-// Constructs a bhkWorldCinfo by initializing the vtable, scalar fields, and a vector with constant values.
-// @fnv 0x00c681c0
-FUN_00c681c0_bhkWorldCinfo::FUN_00c681c0_bhkWorldCinfo() : FNV_bhkBaseCinfo()
-{
-    m_vtbl = &FNV_vtbl_010c3c44;
-    m_b29 = 0;
-    m_f54 = FNV_k_0101e2bc.f;
-    m_f24 = FNV_k_0104da48.f;
-    m_vec = _mm_setr_ps(FNV_k_01011d78.f, FNV_k_011afed4.f, FNV_k_01011d78.f, FNV_k_01011d78.f);
-    m_bd1 = FNV_b_011afe5c;
-    m_ba7 = 0;
-    m_b28 = 3;
-    m_f68 = FNV_f_01267b38;
-}
-
 struct Thing
 {
     int unk00;
@@ -7572,7 +7243,7 @@ struct Thing
 
 struct Stream
 {
-    void FUN_00a63460();
+    void NiStream_GetNumberOfLinkIDs();
     Thing* FUN_00a63430();
 };
 
@@ -7657,6 +7328,8 @@ struct FUN_00c89860_clsF3
 {
     void FUN_008f7ec0(Stream* apStream);
 };
+// pdb: bhkConstraint::RegisterStreamables | bhkConstraint.obj | fnv360_0822_debug, objrun, low, conflict (bridge: bhkConstraint::LinkObject)
+// pdb params: arStream
 void FUN_00c89860_cls::FUN_00c89860(Stream* apStream)
 {
     ((StreamF3*)apStream)->FUN_0082a2b0();
@@ -7756,7 +7429,7 @@ struct S_00ca76b0_Stream
 {
     int unk00;
     unsigned int unk04;
-    unsigned int FUN_00a63460();
+    unsigned int NiStream_GetNumberOfLinkIDs();
     S_00ca76b0_Obj* FUN_00a63430();
 };
 
@@ -7814,13 +7487,15 @@ struct S_00ca76b0_Cls
 
 // Reads a count and objects from s, conditionally prepares the holder array, fills entries, and calls FUN_00c84cc0.
 // @f3 0x00912f50 (community match, verified in this file)
+// pdb: bhkNiTriStripsShape::LinkObject | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: bhkRigidBody::LinkObject)
+// pdb params: arStream
 void S_00ca76b0_Cls::FUN_00ca76b0(S_00ca76b0_Stream* apStream)
 {
     char flag;
     S_00ca76b0_Holder* h = vfn_b4(&flag);
     if (h)
     {
-        unsigned int count = apStream->FUN_00a63460();
+        unsigned int count = apStream->NiStream_GetNumberOfLinkIDs();
         if (apStream->unk04 < 2)
         {
             S_00ca76b0_Arr* arr = &h->arr;
@@ -7866,106 +7541,6 @@ struct HeapContextGuard
         g_uiHeapContext = m_uiOld;
     }
 };
-
-struct LinkStream : NiStream
-{
-    unsigned int GetLinkID();
-    NiObject* GetLoadedObject();
-};
-
-struct ExtraBase
-{
-    void LinkObject(NiStream& stream);
-};
-
-struct LinkedHolder : ExtraBase
-{
-    void AddLinked(NiObject* pObj);
-    void LinkObjects(NiStream& stream);
-};
-
-// Links the holder's own object and then adds each loaded object from the link stream as a linked object.
-// @fnv 0x00cc21f0
-void LinkedHolder::LinkObjects(NiStream& stream)
-{
-    HeapContextGuard guard(0x10);
-    ExtraBase::LinkObject(stream);
-    unsigned int ItemUpdateArray = ((LinkStream&)stream).GetLinkID();
-    for (unsigned int i = 0; i < ItemUpdateArray; i++)
-    {
-        NiObject* pObj = ((LinkStream&)stream).GetLoadedObject();
-        if (pObj)
-            AddLinked(pObj);
-    }
-}
-
-struct S_00cc4870_Stream
-{
-    int FUN_00a63460();
-    int FUN_00a63430();
-};
-struct S_00cc4870
-{
-    virtual void vfn_00();
-    virtual void vfn_04();
-    virtual void vfn_08();
-    virtual void vfn_0c();
-    virtual void vfn_10();
-    virtual void vfn_14();
-    virtual void vfn_18();
-    virtual void vfn_1c();
-    virtual void vfn_20();
-    virtual void vfn_24();
-    virtual void vfn_28();
-    virtual void vfn_2c();
-    virtual void vfn_30();
-    virtual void vfn_34();
-    virtual void vfn_38();
-    virtual void vfn_3c();
-    virtual void vfn_40();
-    virtual void vfn_44();
-    virtual void vfn_48();
-    virtual void vfn_4c();
-    virtual void vfn_50();
-    virtual void vfn_54();
-    virtual void vfn_58();
-    virtual void vfn_5c();
-    virtual void vfn_60();
-    virtual void vfn_64();
-    virtual void vfn_68();
-    virtual void vfn_6c();
-    virtual void vfn_70();
-    virtual void vfn_74();
-    virtual void vfn_78();
-    virtual void vfn_7c();
-    virtual void vfn_80();
-    virtual void vfn_84();
-    virtual void vfn_88();
-    virtual void vfn_8c();
-    virtual void vfn_90();
-    virtual void vfn_94();
-    virtual void vfn_98();
-    virtual void vfn_9c();
-    virtual void vfn_a0();
-    virtual void vfn_a4();
-    virtual void vfn_a8();
-    virtual void vfn_ac();
-    virtual void vfn_b0();
-    virtual void vfn_b4(char* out);
-    void FUN_00c89860(S_00cc4870_Stream* stream);
-    void FUN_00cc4870(S_00cc4870_Stream* stream);
-};
-// Calls vfn_b4 and FUN_00c89860, then calls FUN_00a63460 once and FUN_00a63430 twice.
-// @fnv 0x00cc4870
-void S_00cc4870::FUN_00cc4870(S_00cc4870_Stream* stream)
-{
-    char tmp;
-    vfn_b4(&tmp);
-    FUN_00c89860(stream);
-    stream->FUN_00a63460();
-    stream->FUN_00a63430();
-    stream->FUN_00a63430();
-}
 
 namespace fnv_00a64df0 {
 #include <windows.h>
@@ -8182,11 +7757,12 @@ class FUN_00a64df0_Stream
     unsigned int unk244;
     unsigned int unk248;
     BinaryStream* input;
-    void __thiscall FUN_00a64df0(NiFixedString& result);
+    void __thiscall NiStream_LoadFixedString(NiFixedString& result);
 };
 
 // @fnv 0x00a64df0
-void FUN_00a64df0_Stream::FUN_00a64df0(NiFixedString& result)
+// pdb: NiStream::LoadFixedString | NiStream.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_gap) + skyrim(call_gap), high
+void FUN_00a64df0_Stream::NiStream_LoadFixedString(NiFixedString& result)
 {
     unsigned int id;
     input->Read(&id, 4);
@@ -8237,6 +7813,7 @@ FUN_00c68150::~FUN_00c68150()
 
 // Stores object at index, extends m_uiSize to index + 1 when needed, and adjusts m_uiESize based on the slot and object.
 // @fnv 0x00cc1a10
+// pdb: NiRefObject::IncRefCount | ExtraDataCell.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: NiTLargeArray<class NiPointer<class NiObject>,class NiTNewInterface<class NiPointer<class NiObject> > >::SetAt)
 void NiStreamTopObjects::FUN_00cc1a10(unsigned int index, const NiPointer<NiObject>& object)
 {
     if (index >= m_uiSize)

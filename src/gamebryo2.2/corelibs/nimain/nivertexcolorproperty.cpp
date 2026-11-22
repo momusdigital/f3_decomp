@@ -47,6 +47,8 @@ struct NiVertexColorProperty : EqBase
     bool IsVertexColorPropertyEqual(NiObject*);
 };
 // @fnv 0x00a5f090
+// pdb: NiCullingProperty::IsEqual | NiCullingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkObject
 bool NiVertexColorProperty::IsVertexColorPropertyEqual(NiObject* pkObject)
 {
     NiVertexColorProperty* pkVC;
@@ -93,6 +95,8 @@ struct FUN_00a5f3a0_shell : NiVertexColorProperty
 struct NiArr;
 struct FUN_00a81600_cls { void AppendString(NiArr* strings); };
 
+// pdb: NiVertexColorProperty::GetViewerStrings | NiVertexColorProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a5f3a0_shell::AppendVertexColorProperties(StrArr* strings)
 {
     reinterpret_cast<FUN_00a81600_cls*>(this)->AppendString(reinterpret_cast<NiArr*>(strings));
@@ -159,6 +163,8 @@ struct FUN_00a5f210_cls
 };
 
 // @fnv 0x00a5f210
+// pdb: NiVertexColorProperty::CreateClone | NiVertexColorProperty.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kCloning
 void* FUN_00a5f210_cls::FUN_00a5f210(unsigned int a1)
 {
     if (m_0c != 0)
@@ -182,6 +188,8 @@ int __cdecl FUN_00a305b0(char* buffer, unsigned int size, const char* format, ..
 
 // Allocates a buffer and formats name with a lighting enum value (LIGHTING_E, LIGHTING_E_A_D, or UNKNOWN) into it, returning the buffer.
 // @fnv 0x00a5f160
+// pdb: NiVertexColorProperty::GetViewerString | NiVertexColorProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eMode
 char* __cdecl BuildLightingEnumString(const char* name, unsigned int value)
 {
     unsigned int size = strlen(name) + 0x1a;
@@ -206,6 +214,8 @@ int _NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string of uiLen + 0x1a bytes and formats pcPrefix with a source name selected by eMode into it, returning the string.
 // @fnv 0x00a5f0d0
+// pdb: NiVertexColorProperty::GetViewerString | NiVertexColorProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eMode
 char* BuildSourceString(const char* pcPrefix, int eMode)
 {
     char* pcString;
@@ -443,6 +453,8 @@ struct Prop
     void ReadFromStream(Stream* s);
 };
 // @fnv 0x00a5f2b0
+// pdb: NiVertexColorProperty::LoadBinary | NiVertexColorProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void Prop::ReadFromStream(Stream* apStream)
 {
     FUN_00a5d7f0(apStream);

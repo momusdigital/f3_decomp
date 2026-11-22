@@ -8,6 +8,7 @@ extern int DAT_01268108;
 extern "C" __declspec(dllimport) void __stdcall free(void*);
 
 // @fnv 0x00c85750
+// pdb: `dynamic atexit destructor for 'iMaxGrassTypesPerTexture'' | TESLand.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00c85750()
 {
     free((void*)DAT_01268108);
@@ -35,18 +36,6 @@ FUN_00cc00e0::~FUN_00cc00e0()
     vtbl = (void*)&_DAT_0102e388;
 }
 
-struct hkReferencedObjectStandIn
-{
-    void RetainReference();
-    void removeReference();
-};
-struct DDCC60WorldStandIn
-{
-    int m_uiStandInValue;
-    int m_iValueAfterStandIn;
-    hkReferencedObjectStandIn* m_ref;
-    void FUN_00cc0480(hkReferencedObjectStandIn* pNew);
-};
 // @f3 0x007d7a60 (community match, verified in this file)
 namespace f3m_007d7a60 {
 struct Listener_7d7a60
@@ -69,6 +58,7 @@ struct World_7d7a60
     void FUN_007ab580();
 };
 
+// pdb: CombatProcedureHideFromTarget::Shutdown | CombatProcedureHideFromTarget.obj | fnv360_0822_retail, vtable, medium
 void World_7d7a60::FUN_007d7a60()
 {
     m_broadPhase->m_listener->FUN_006f8ce0();
@@ -77,34 +67,6 @@ void World_7d7a60::FUN_007d7a60()
 }
 }   // namespace f3m_007d7a60
 
-
-struct FUN_00cc0680
-{
-    int tell();
-};
-
-// @fnv 0x00cc0680
-int FUN_00cc0680::tell()
-{
-    char* p = *(char**)(this + 8);
-    int n = *(int*)(p + 0xc) - 1;
-    return *(int*)(p + 4) + *(int*)(p + 0) * n;
-}
-
-struct FUN_00cc07f0_Router
-{
-    virtual void Slot0();
-    virtual void Slot1();
-    virtual void Free(void*, unsigned short);
-};
-
-struct FUN_00cc07f0_MemoryRouter
-{
-    unsigned char padding[0x10];
-    FUN_00cc07f0_Router* pRouter;
-};
-
-extern FUN_00cc07f0_MemoryRouter* _D1A0E0GetMemoryRouter();
 
 struct FUN_00cc07f0_StandIn
 {
@@ -117,20 +79,6 @@ struct FUN_00cc07f0_StandIn
 
     FUN_00cc07f0_StandIn* FUN_00cc07f0(unsigned int deletingFlag);
 };
-
-FUN_00cc07f0_StandIn* FUN_00cc07f0_StandIn::FUN_00cc07f0(unsigned int deletingFlag)
-{
-    FUN_00cc0780();
-
-    if (deletingFlag & 1)
-    {
-        FUN_00cc07f0_MemoryRouter* memoryRouter = _D1A0E0GetMemoryRouter();
-        unsigned short size = m_nSize;
-        memoryRouter->pRouter->Free(this, size);
-    }
-
-    return this;
-}
 
 struct CpuInterface
 {
@@ -154,7 +102,7 @@ void CpuObject::FUN_00cc0460()
     target->Invoke();
 }
 
-// FUN_00cc0470 : the stub family - load a sub-object out of `this` and tail-jump to
+// hkOstream_write : the stub family - load a sub-object out of `this` and tail-jump to
 // one of its virtuals (vtable offset 0x10).
 struct Sub_00cc0470
 {
@@ -170,11 +118,12 @@ struct Own_00cc0470
     int u00;
     int u04;
     Sub_00cc0470* m_sub;
-    void __thiscall FUN_00cc0470(void* a);
+    void __thiscall hkOstream_write(void* a);
 };
 
 // @fnv 0x00cc0470
-void __thiscall Own_00cc0470::FUN_00cc0470(void* a)
+// pdb: hkOstream::write | hkOStream.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+void __thiscall Own_00cc0470::hkOstream_write(void* a)
 {
     m_sub->v10(a);
 }
@@ -182,6 +131,7 @@ void __thiscall Own_00cc0470::FUN_00cc0470(void* a)
 extern int g_unk01268560;
 
 // @fnv 0x00cc04c0
+// pdb: hkpConstraintData::isBuildJacobianCallbackRequired | bhkMalleableConstraint.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: bhkMalleableConstraint::GetRTTI)
 int* __cdecl FUN_00cc04c0()
 {
     return &g_unk01268560;
@@ -190,35 +140,17 @@ int* __cdecl FUN_00cc04c0()
 extern int DAT_01268ad8;
 
 // @fnv 0x00cc0770
+// pdb: bhkRigidBodyT::GetRTTI | bhkRigidBodyT.obj | fnv360_0822_retail, objrun_prop, low
 int __cdecl FUN_00cc0770()
 {
     return reinterpret_cast<int>(&DAT_01268ad8);
 }
 
 // @fnv 0x00e3b490
-void __stdcall FUN_00e3b490(bool* p)
+// pdb: hkOffsetOnlyStreamWriter::isOk | hkOffsetOnlyStreamWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkOffsetOnlyStreamWriter_isOk(bool* p)
 {
     *p = true;
-}
-
-struct FUN_00cc04a0_Slots
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0C(const char* name, void* value, int flags);
-};
-struct FUN_00cc04a0_Cls
-{
-    int unk00;
-    int unk04;
-    void* unk08;
-    void RegisterWriter(FUN_00cc04a0_Slots* target, int unused);
-};
-// @fnv 0x00cc04a0
-void FUN_00cc04a0_Cls::RegisterWriter(FUN_00cc04a0_Slots* apSlots, int unused)
-{
-    apSlots->slot0C("writer", unk08, 0);
 }
 
 class hkMemoryAllocatorCC06
@@ -276,15 +208,6 @@ class FUN_00cc06f0 : public hkRefObjCC06
     int unk10;
 
     FUN_00cc06f0(void* owner, int flag) throw();
-};
-
-class FUN_00cc0630 : public hkRefObjCC06
-{
-  public:
-    FUN_00cc06f0* m_pChildAtom;
-
-    FUN_00cc0630(void* owner);
-    virtual ~FUN_00cc0630();
 };
 
 // @f3 0x0074a440 (community match, verified in this file)
@@ -824,6 +747,8 @@ struct Owner {
  void* result;
  bool FUN_0074a440(void*);
 };
+// pdb: LowProcess::SetTargetForPackage | LowProcess.obj | fnv360_1110_retail, objrun, medium
+// pdb params: apActor
 bool Owner::FUN_0074a440(void* input){
  unsigned mode=table->mode(this);
  Table* dispatch=table;
@@ -881,12 +806,6 @@ class FUN_00d46be0_class
     }
 };
 
-struct FUN_00d1df70
-{
-    void FUN_00c90510() throw();
-    void removeReference() throw();
-};
-
 class hkReferencedObjectCC06
 {
   public:
@@ -916,15 +835,6 @@ class hkStreamCC06 : public hkReferencedObjectCC06
     hkStreamCC06* DestroyStream(unsigned int uiFlags) throw();
 };
 
-// Destroys the stream object and, when bit 0 of uiFlags is set, frees its memory via operator delete; returns this.
-// @fnv 0x00cc0690
-hkStreamCC06* hkStreamCC06::DestroyStream(unsigned int uiFlags) throw()
-{
-    this->hkStreamCC06::~hkStreamCC06();
-    if (uiFlags & 1)
-        hkStreamCC06::operator delete(this);
-    return this;
-}
 }  // namespace fnv_00cc0690
 
 namespace fnv_00cc06f0 {
@@ -1003,14 +913,6 @@ class FUN_00cc06f0 : public hkRefObjCC06
     virtual ~FUN_00cc06f0() throw();
 };
 
-// Stores the buffer and its size, reserves one extra char, and appends a terminating null byte.
-// @fnv 0x00cc06f0
-FUN_00cc06f0::FUN_00cc06f0(hkArrayCC06<char>* buffer, int flags) throw()
-    : m_buffer(buffer), m_kRayStart(buffer->m_iElementCount), m_flags(flags)
-{
-    buffer->reserve(buffer->m_iElementCount + 1);
-    m_buffer->m_data[m_buffer->m_iElementCount] = 0;
-}
 }  // namespace fnv_00cc06f0
 
 class hkMemoryAllocatorCC07
@@ -1153,24 +1055,6 @@ class hkRefObjD60B
     static void operator delete(void* p);
 };
 
-class FUN_00d60b40 : public hkRefObjD60B
-{
-  public:
-    FUN_00cc06f0* m_pChildAtom;
-    char m_flag;
-
-    FUN_00d60b40(void* owner, char flag) throw();
-    virtual ~FUN_00d60b40();
-};
-
-// Sets m_flag and assigns m_pChildAtom to a new FUN_00cc06f0 constructed with owner and 1.
-// @fnv 0x00d60b40
-FUN_00d60b40::FUN_00d60b40(void* owner, char flag) throw()
-{
-    m_flag = flag;
-    m_pChildAtom = new FUN_00cc06f0(owner, 1);
-}
-
 struct NiBinaryStream;
 typedef unsigned int(__cdecl* NiBinaryReadFn)(NiBinaryStream* stream, void* buffer, unsigned int bytes,
                                               unsigned int* componentSizes, unsigned int numComponents);
@@ -1225,7 +1109,6 @@ struct HavokError
     virtual void v08();
     virtual int Warning(int type, int id, const char* desc, const char* file, int line);
 };
-extern HavokError* DAT_01268360;
 
 struct BoolType
 {
@@ -1329,6 +1212,8 @@ struct FUN_008f7f40_cls
     void __thiscall FUN_008f7f40(NiStream& stream);
 };
 
+// pdb: bhkMoppBvTreeShape::LoadCInfo | bhkMoppBvTreeShape.obj | fnv360_0822_retail, ustr, medium
+// pdb params: arStream
 unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
 {
     unsigned int size = slotA8();
@@ -1366,8 +1251,9 @@ unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
 
 
 // @f3twin 0x009d88f0 of 0x00902310
-struct F3Twin_009d88f0 : public CpuObject { void F3_FUN_009d88f0() ; };
-void F3Twin_009d88f0::F3_FUN_009d88f0() 
+struct F3Twin_009d88f0 : public CpuObject { void hkSubStreamWriter_flush() ; };
+// pdb: hkSubStreamWriter::flush | hkBinaryPackfileWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void F3Twin_009d88f0::hkSubStreamWriter_flush() 
 {
     target->Invoke();
 }

@@ -30,6 +30,7 @@ Derived::Derived()
 
 void* __cdecl FUN_00c00fcc(void*, void*, unsigned int);
 
+// pdb: NiStrcat | NiKFMTool.obj | tesv_win, call_dedup, low
 void* FUN_00824560(void* a, void* b, unsigned int n)
 {
     FUN_00c00fcc(a, b, n);
@@ -41,6 +42,8 @@ void* FUN_00824560(void* a, void* b, unsigned int n)
 
 
 struct S_0082a710 { int x; int a; short b; };
+// pdb: NiTMapBase<DFALL<NiTMapItem<bhkRigidBody *,unsigned short> >,bhkRigidBody *,unsigned short>::SetValue | LoadedAreaBound.obj | fnv360_0822_retail, vtable, high
+// pdb params: pkItem, key, val
 __declspec(noinline) void __stdcall FUN_0082a710(S_0082a710* p, int a, short b)
 {
     p->a = a;
@@ -51,7 +54,8 @@ __declspec(noinline) void __stdcall FUN_0082a710(S_0082a710* p, int a, short b)
 
 extern int DAT_0108f280;
 
-void __stdcall FUN_00830d10(int v)
+// pdb: NiGeometryData::SetGroup | NiGeometryData.obj | fnv360_0822_retail, udata + bridge(vtable|objrun_prop), high
+void __stdcall NiGeometryData_SetGroup(int v)
 {
     DAT_0108f280 = v;
 }
@@ -62,10 +66,11 @@ void __stdcall FUN_00830d10(int v)
 
 void* __cdecl FUN_0089eb90(unsigned int);
 struct B_008540e0 { B_008540e0() throw(); virtual void w(); int p[2]; };
-struct C_008540e0 : B_008540e0 { virtual void w(); static void* operator new(unsigned int s) { return FUN_0089eb90(s); } };
-C_008540e0* FUN_008540e0()
+struct NiVertWeightsExtraData : B_008540e0 { virtual void w(); static void* operator new(unsigned int s) { return FUN_0089eb90(s); } }; // src: F3_EXE vtable 0x00e2468c (old: C_008540e0)
+// pdb: NiVertWeightsExtraData::CreateObject | NiVertWeightsExtraData.obj | fnv360_0822_retail, objrun + bridge(hash|objopen_prop), high
+NiVertWeightsExtraData* NiVertWeightsExtraData_CreateObject()
 {
-    return new C_008540e0;
+    return new NiVertWeightsExtraData;
 }
 
 // ---- family f200
@@ -73,6 +78,7 @@ C_008540e0* FUN_008540e0()
 
 
 struct C_0085a2d0 { char FUN_0085a2d0(); };
+// pdb: NiShader::IsInitialized | NiShader.obj | fnv360_0721_beta, objrun_open, low
 char C_0085a2d0::FUN_0085a2d0()
 {
     return *((char*)this + 16);
@@ -112,6 +118,7 @@ D_008604c0::D_008604c0() throw()
     vp = (void*)&DAT_00e25c34;
     f = 0;
 }
+// pdb: NiSortAdjustNode::CreateObject | NiSortAdjustNode.obj | fnv360_0822_retail, objrun_prop, medium
 __declspec(noinline) void* FUN_008604c0()
 {
     return new D_008604c0;

@@ -77,35 +77,16 @@ struct SecondBase
     {}
 };
 
-struct FUN_00ddc0b0 : FirstBase, SecondBase
-{
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    PtrArrayMember m_kFirst;
-    ArrayMember m_kSecond;
-    ArrayMember m_kThird;
-
-    virtual ~FUN_00ddc0b0() throw();
-};
-
-// Destructor of a container holding three array members, which are freed by their own destructors.
-// @fnv 0x00ddc0b0
-FUN_00ddc0b0::~FUN_00ddc0b0() throw()
-{}
-
 extern int DAT_01269cd8;
 
 // @fnv 0x00ddc820
+// pdb: hkpShapeDisplayViewer::getProcessTag | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_00ddc820()
 {
     return DAT_01269cd8;
 }
 
 #include <windows.h>
-extern DWORD DAT_0126835c;
 struct TlsBuf
 {
     int* m_pCurrent;
@@ -133,12 +114,6 @@ __forceinline Singleton* GetSingleton()
 }
 void __cdecl ResizeAudioStream(Allocator* ctx, void* pVec, int elem);
 void __cdecl FUN_00c908c0(Allocator* ctx, void* pVec, int sz, int elem);
-struct IntVec
-{
-    int* m_pData;
-    int m_iArrayLength;
-    int m_iCapacity;
-};
 struct SrcArr
 {
     int* m_pData;
@@ -192,7 +167,6 @@ struct ObjA
         return i <= m_iArrayLength;
     }
 };
-void __cdecl ProcessRecords(int a, int b, ObjA* o);
 struct Sub8
 {
     int m_00;
@@ -222,10 +196,6 @@ struct Vec3
         return m_pData[m_iArrayLength++];
     }
 };
-extern char DAT_010c9368;
-extern char DAT_0102e388;
-extern char DAT_010d6ae8;
-extern char DAT_0126c830;
 struct CharVec
 {
     char* m_pData;
@@ -273,8 +243,8 @@ struct SObj
 void __cdecl FUN_00e0bd40(SObj* s, MiniStr* ms, int a, int b, Vec3* v3, void* g, Vec4* v4);
 struct Stream
 {
-    void FUN_00d60960(int total);
-    void FUN_00d605d0(int a);
+    void hkOArchive_write32u(int total);
+    void hkOArchive_write8u(int a);
     void WriteInt(int a);
     void FUN_00d607b0(int a, int b);
 };
@@ -574,6 +544,8 @@ struct OArchive
 
 using namespace N63f10;
 
+// pdb: hkStatisticsProcess::step | hkStatisticsProcess.obj | fnv360_0822_retail, vtable, medium
+// pdb params: frameTimeInMs
 void ThisCls::WriteToStream(int aiUnused)
 {
     if (m_0c == 0)
@@ -754,25 +726,9 @@ struct Sbf00_Arr24
             pAllocator->FreeArray(m_pData, (uCapacity & 0x3fffffff) * 24);
     }
 };
-struct Sbf00_B2
-{
-    void* m_pVtbl;
-    unsigned char m_bFlag;
-};
-struct Sbf00_Alloc
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void* AllocArray(int* apBytes);
-    virtual void FreeArray(void* apMemory, unsigned int auiCapacity);
-};
 extern int DAT_010d1508;
 extern int DAT_010d7e48;
 extern int DAT_010d7e28;
-extern int DAT_0126c860;
-extern double DAT_01017b70;
-unsigned __int64 __cdecl FUN_00d60580();
 void __cdecl FUN_00e0bd40(Sbf00_Ctx* a1, Sbf00_Name* a2, int a3, int a4, Sbf00_Sub* a5, void* a6, Sbf00_Arr24* a7);
 struct SbfRef
 {
@@ -817,59 +773,6 @@ struct SbfBytes
     SbfBytes() : m_pData(0), m_iArrayLength(0), m_uCapacity(0x80000000)
     {}
 };
-struct FUN_00ddbf00 : SbfBases
-{
-    SbfPtrs m_kFirst;
-    SbfBytes m_kSecond;
-    SbfBytes m_kThird;
-    FUN_00ddbf00(PtrArrayMember* pSource);
-};
-// Copies pointer elements from pSource into m_kFirst, growing its backing array when the source count exceeds capacity.
-// @fnv 0x00ddbf00
-FUN_00ddbf00::FUN_00ddbf00(PtrArrayMember* pSource)
-{
-    FUN_00ddbf00* pThis = this;
-    ArrayMember* pSecond = (ArrayMember*)&m_kSecond;
-    Sbf00_Ctx kCtx;
-    kCtx.m_kSub.InitHeading();
-    kCtx.m_kSub.unk00 = 0;
-    kCtx.m_kSub.unk0c = 0;
-    kCtx.m_kSub.unk04 = 0;
-    kCtx.m_kSub.unk08 = 1;
-    {
-        kCtx.m_f24 = (float)(DAT_01017b70 / (double)FUN_00d60580());
-    }
-    kCtx.m_f28 = 1.0f;
-    Sbf00_Arr24 kArr;
-    kArr.m_pData = 0;
-    kArr.m_iArrayLength = 0;
-    kArr.m_uCapacity = 0x80000000;
-    kCtx.FUN_00cc06f0(pSecond, 1);
-    {
-        Sbf00_Name kName;
-        kName.FUN_00dc1680(&DAT_010d6ae8);
-        FUN_00e0bd40(&kCtx, &kName, 1, 0, &kCtx.m_kSub, &DAT_0126c860, &kArr);
-    }
-    kCtx.FUN_00cc0780();
-    kArr.Free();
-    Sbf00_Alloc* pAlloc = (Sbf00_Alloc*)FUN_00c85750()->m_pAllocator;
-    unsigned int uCap = pThis->m_kFirst.m_uCapacity;
-    int iCap = uCap & 0x3fffffff;
-    if (iCap < pSource->m_iArrayLength)
-    {
-        if ((uCap & 0x80000000) == 0)
-            pAlloc->FreeArray(pThis->m_kFirst.m_ppData, iCap * 4);
-        int iBytes = pSource->m_iArrayLength * 4;
-        pThis->m_kFirst.m_ppData = (void**)pAlloc->AllocArray(&iBytes);
-        pThis->m_kFirst.m_uCapacity = iBytes / 4;
-    }
-    int n = pSource->m_iArrayLength;
-    void** pDst = pThis->m_kFirst.m_ppData;
-    pThis->m_kFirst.m_iArrayLength = n;
-    void** pSrc = pSource->m_ppData;
-    for (int i = 0; i < n; i++)
-        pDst[i] = pSrc[i];
-}
 
 namespace fnv_00ddc870 {
 struct FixedAllocator
@@ -892,54 +795,4 @@ struct AllocHolder
 
 AllocHolder* FUN_00c85750();
 
-struct ElemSub
-{
-    int unk00;
-    int unk04;
-    void Release();
-};
-
-struct Elem
-{
-    int unk00;
-    int unk04;
-    ElemSub m_08;
-};
-
-struct FUN_00ddc870_cls
-{
-    Elem* m_pItems;
-    int m_iArrayLength;
-    unsigned int m_uCapBits;
-
-    void FUN_00ddc870();
-};
-
-// @fnv 0x00ddc870
-void FUN_00ddc870_cls::FUN_00ddc870()
-{
-    AllocHolder* holder = FUN_00c85750();
-    FixedAllocator* alloc = holder->m_pAllocator;
-    int iCount = m_iArrayLength;
-    Elem* pItems = *(Elem* volatile*)&m_pItems;
-    if (iCount > 0)
-    {
-        ElemSub* s = &pItems->m_08;
-        int n = iCount;
-        do
-        {
-            s->Release();
-            s = (ElemSub*)((char*)s + 16);
-        } while (--n != 0);
-    }
-
-    m_iArrayLength = 0;
-    unsigned int cap = m_uCapBits;
-    if ((cap & 0x80000000u) == 0)
-    {
-        alloc->FreeArray(m_pItems, (cap & 0x3fffffffu) * 16);
-    }
-    m_uCapBits = 0x80000000u;
-    m_pItems = 0;
-}
 }  // namespace fnv_00ddc870

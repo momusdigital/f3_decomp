@@ -17,6 +17,7 @@ extern ParameterList57 DAT_00f5a5a4;
 extern ParameterList57 DAT_00f5a5ac;
 extern ParameterList57 DAT_00f5a5b4;
 extern ParameterList57 DAT_00f5a5bc;
+// pdb: `dynamic initializer for 'BGSEntryPoint::EntryPoints'' | BGSEntryPoint.obj | fnv360_0721_beta, udata, high
 void __cdecl FUN_00c99510() {
     DAT_00f5a5d0[0].parameters=DAT_00f5a58c;
     DAT_00f5a5d0[1].parameters=DAT_00f5a58c;
@@ -68,6 +69,7 @@ extern const char DAT_00dbf4e4[];
 extern void __cdecl FUN_00d879d0();
 extern void __cdecl FUN_00c00d1f(void (*callback)());
 
+// pdb: `dynamic initializer for 'uGeometryCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8afc0() {
     DAT_0106e120.FUN_0043b7f0(DAT_00dbf4e4, 1000);
     FUN_00c00d1f(FUN_00d879d0);
@@ -84,6 +86,7 @@ struct FUN_0043b7f0_Obj
 
 void __cdecl FUN_00c00d1f(void* handler);
 
+// pdb: `dynamic initializer for 'BGSDecalManager::iMaxSkinDecals'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8a990()
 {
     DAT_0106dfc0.FUN_0043b7f0("uMaxSkinDecals:Decals", 0x18);
@@ -102,6 +105,7 @@ extern const char DAT_00dbf4c8[];
 void __cdecl FUN_00d879c0();
 void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'uEmittersCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8afa0() {
     DAT_0106e12c.FUN_0043b7f0(DAT_00dbf4c8, 0x32);
     FUN_00c00d1f(FUN_00d879c0);
@@ -120,6 +124,7 @@ typedef void (__cdecl *FUN_00c00d1f_Callback)();
 void __cdecl FUN_00c00d1f(FUN_00c00d1f_Callback callback);
 void __cdecl FUN_00d87b50();
 
+// pdb: `dynamic initializer for 'uDecalCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b2c0() {
     DAT_0106e084.FUN_0043b7f0("uDecalCountInterior:BudgetCaps", 500);
     FUN_00c00d1f(FUN_00d87b50);
@@ -132,6 +137,7 @@ extern const char DAT_00dbf584[];
 namespace f3m_00c8b080 {
 void __cdecl FUN_00d87a30();
 
+// pdb: `dynamic initializer for 'uLightCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b080() {
     DAT_0106e210.FUN_0043b7f0(DAT_00dbf584, 10);
     FUN_00c00d1f(FUN_00d87a30);
@@ -149,6 +155,7 @@ struct FUN_005752c0_Obj {
 
 extern FUN_005752c0_Obj DAT_01072c74;
 
+// pdb: `dynamic initializer for 'BlendDefault::LUpperArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d7f0() {
     DAT_01072c74.FUN_005752c0("sLUpperArm:DEFAULT", "1.0, 1.0");
     FUN_00c00d1f(FUN_00d8a650);
@@ -165,6 +172,7 @@ extern const char DAT_00dbf450[];
 extern void __cdecl FUN_00d87980();
 extern void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'uActorRefCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8af20() {
     DAT_0106e108.FUN_0043b7f0(DAT_00dbf450, 0x14);
     FUN_00c00d1f(FUN_00d87980);
@@ -180,6 +188,7 @@ extern int DAT_0106e9cc;
 extern void __cdecl FUN_00d86c50();
 extern void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'iExteriorBufferSize'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c85c80() {
     int value = DAT_0106e9cc;
     int result = (value + 2) * value + 1;
@@ -198,6 +207,7 @@ extern const char DAT_00db9494[];
 extern void __cdecl FUN_00d86e60();
 extern void __cdecl FUN_00c00d1f(void (*callback)());
 
+// pdb: `dynamic initializer for 'sSysUtil_DiscEject'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c862f0()
 {
     DAT_0106cc00.FUN_0043b7f0(DAT_00db9494, DAT_00db9388);
@@ -215,6 +225,7 @@ extern const char DAT_00de7abc[];
 extern void __cdecl FUN_00d8a720();
 extern void __cdecl FUN_00c00d1f(void (*callback)());
 
+// pdb: `dynamic initializer for 'BlendDefault::Shield'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d990()
 {
     DAT_01072b1c.FUN_005752c0(DAT_00de7abc, DAT_00de77d4);
@@ -226,6 +237,7 @@ extern FUN_0043b7f0_Obj DAT_0106cb3c;
 extern int DAT_00d86c90;
 namespace f3m_00c85d10 {
 void __cdecl FUN_00c00d1f(void* handler);
+// pdb: `dynamic initializer for 'sLerpCloseColor'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c85d10() {
     DAT_0106cb3c.FUN_0043b7f0("sLerpCloseColor:Weather", (int)"255,255,255,255");
     FUN_00c00d1f(&DAT_00d86c90);
@@ -242,6 +254,7 @@ struct FUN_0043b7f0_Obj {
 extern void __cdecl FUN_00d87aa0();
 void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'uAnimatedObjectsCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b160() {
     DAT_0106e050.FUN_0043b7f0(DAT_00dbf658, 0x32);
     FUN_00c00d1f(FUN_00d87aa0);
@@ -260,6 +273,7 @@ struct FUN_0043b7f0_Obj
 
 void __cdecl FUN_00c00d1f(void* handler);
 
+// pdb: `dynamic initializer for 'uGeometryMemoryBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b020()
 {
     DAT_0106e24c.FUN_0043b7f0("uGeometryMemory:BudgetCaps", 0x500000);
@@ -277,6 +291,7 @@ struct FUN_005752c0_Obj {
 };
 extern void __cdecl FUN_00d8a480();
 extern void __cdecl FUN_00c00d1f(void (__cdecl*)());
+// pdb: `dynamic initializer for 'BlendHit::sHitStart'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d450() {
     DAT_01072cb0.FUN_005752c0("sHitStart:HIT", "Bip01 Spine1");
     FUN_00c00d1f(FUN_00d8a480);
@@ -293,6 +308,7 @@ extern FUN_0106e594_Obj DAT_0106e594;
 extern void __cdecl FUN_00c00d1f(void (__cdecl *callback)());
 extern void __cdecl FUN_00d87d20();
 
+// pdb: `dynamic initializer for 'messageHandler'' | Defines.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00c8b9b0() {
     DAT_0106e594.FUN_00aa5c40(1);
     FUN_00c00d1f(FUN_00d87d20);
@@ -304,6 +320,7 @@ namespace f3m_00c8b180 {
 
 extern void __cdecl FUN_00d87ab0();
 
+// pdb: `dynamic initializer for 'uParticlesCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b180()
 {
     DAT_0106e21c.FUN_0043b7f0("uParticlesCountInterior:BudgetCaps", 5000);
@@ -320,6 +337,7 @@ extern Setting DAT_01072dd0;
 extern const char DAT_00de788c[], DAT_00dbfbdc[];
 void FUN_00d8a530();
 void __cdecl FUN_00c00d1f(void (__cdecl* callback)());
+// pdb: `dynamic initializer for 'BlendHitQuad::sHitSpot'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d5b0() {
     DAT_01072dd0.FUN_005752c0(DAT_00de788c, DAT_00dbfbdc);
     FUN_00c00d1f(FUN_00d8a530);
@@ -336,6 +354,7 @@ extern const char DAT_00dc1a84[];
 
 void __cdecl FUN_00d88570();
 
+// pdb: `dynamic initializer for 'Renderer::iWaterReflectWidth'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iWaterReflectWidth'')
 void __cdecl FUN_00c8c850() {
     DAT_0106fc90.FUN_00491570(DAT_00dc1a84, 0x200);
     FUN_00c00d1f(FUN_00d88570);
@@ -355,6 +374,7 @@ extern const char DAT_00de7a8c[];
 void __cdecl FUN_00d8a6f0();
 void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'BlendDefault::RCalf'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d930() {
     DAT_01072c80.FUN_005752c0(DAT_00de77d4, DAT_00de7a8c);
     FUN_00c00d1f(FUN_00d8a6f0);
@@ -368,6 +388,7 @@ extern Setting DAT_0106cbb4;
 extern const char DAT_00db9388[], DAT_00db9420[];
 void FUN_00d86e30();
 void __cdecl FUN_00c00d1f(void (__cdecl* callback)());
+// pdb: `dynamic initializer for 'sSysUtil_GameDataCorrupt'' | TES.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86290() {
     DAT_0106cbb4.FUN_0043b7f0(DAT_00db9420, DAT_00db9388);
     FUN_00c00d1f(FUN_00d86e30);
@@ -381,6 +402,7 @@ extern Setting DAT_0106e114;
 extern const char DAT_00dbf77c[];
 void FUN_00d87b20();
 void __cdecl FUN_00c00d1f(void (__cdecl* callback)());
+// pdb: `dynamic initializer for 'uWaterMemoryBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8b260() {
     DAT_0106e114.FUN_0043b7f0(DAT_00dbf77c, 0xa00000u);
     FUN_00c00d1f(FUN_00d87b20);
@@ -398,6 +420,7 @@ void __cdecl FUN_00d86e90();
 extern const char DAT_00db94e4[];
 extern const char DAT_00db9388[];
 
+// pdb: `dynamic initializer for 'sDPad'' | TES.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'sSysUtil_AwardsInstalling'')
 void __cdecl FUN_00c86350()
 {
     DAT_0106cc7c.FUN_0043b7f0(DAT_00db94e4, DAT_00db9388);
@@ -416,6 +439,7 @@ extern Setting DAT_0106fccc;
 void __cdecl FUN_00d88440();
 extern const char DAT_00dc25f4[];
 
+// pdb: `dynamic initializer for 'BSRenderer::iLastHDRSetting'' | BSRenderer.obj | tesv_win, ustr, medium
 void __cdecl FUN_00c8d800()
 {
     DAT_0106fccc.FUN_0043b7f0(DAT_00dc25f4, -1);
@@ -2917,6 +2941,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f4933c;
 void __cdecl FUN_00d86ed0();
 
+// pdb: `dynamic initializer for 'fDebrisMinExtent'' | TES.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00c85f00()
 {
     DAT_00f4933c.Setting::Setting();
@@ -2942,6 +2967,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f49348;
 void __cdecl FUN_00d86ee0();
 
+// pdb: `dynamic initializer for 'fDebrisMaxVelocity'' | TES.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00c85f60()
 {
     DAT_00f49348.Setting::Setting();
@@ -2967,6 +2993,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f49354;
 void __cdecl FUN_00d86ef0();
 
+// pdb: `dynamic initializer for 'fFadeToBlackFadeSeconds'' | TES.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00c86130()
 {
     DAT_00f49354.Setting::Setting();
@@ -2992,6 +3019,7 @@ struct Setting : Cleanup {
 extern Setting DAT_00f49360;
 void __cdecl FUN_00d86f00();
 
+// pdb: `dynamic initializer for 'fCharacterControllerMultipleStepSpeed'' | TES.obj | fnv360_0822_debug, objrun, medium
 void __cdecl FUN_00c86190()
 {
     DAT_00f49360.Setting::Setting();
@@ -3985,6 +4013,7 @@ void __cdecl FUN_00d89c60();
 extern const char DAT_00dccd80[];
 extern const char DAT_00dccda4[];
 
+// pdb: `dynamic initializer for 'TESObjectLAND::sDefaultLandNormalTexture'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c970c0()
 {
     DAT_01071468.FUN_0043b7f0(DAT_00dccd80, DAT_00dccda4);
@@ -4104,6 +4133,7 @@ void __cdecl FUN_00d87a10();
 extern const char DAT_00dbf550[];
 extern const char DAT_01400000[];
 
+// pdb: `dynamic initializer for 'uTextureMemoryBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b040()
 {
     DAT_0106e1ec.FUN_0043b7f0(DAT_00dbf550, DAT_01400000);
@@ -13321,6 +13351,7 @@ struct FUN_0043b7f0_Obj {
 extern void __cdecl FUN_00d899e0();
 extern void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'ATTENUATION_SETTINGS::eQuadraticMethod'' | TESLight.obj | fnv360_0822_debug, ustr, high
 void FUN_00c954a0() {
     DAT_010707b4.FUN_0043b7f0("uQuadraticMethod:bLightAttenuation", 2);
     FUN_00c00d1f(FUN_00d899e0);
@@ -13334,6 +13365,7 @@ extern Setting DAT_0106cccc;
 void __cdecl FUN_00d86c40();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iInteriorBufferSize'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c85c60()
 {
     f3m_00c85c60::DAT_0106cccc.FUN_0043b7f0("uInterior Cell Buffer:General", 3u);
@@ -13347,6 +13379,7 @@ extern Setting DAT_0106cb28;
 void __cdecl FUN_00d86d30();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iEntityBatchRemoveRate'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c85eb0()
 {
     f3m_00c85eb0::DAT_0106cb28.FUN_0043b7f0("iEntityBatchRemoveRate:HAVOK", 100);
@@ -13360,6 +13393,7 @@ extern Setting DAT_0106df70;
 void __cdecl FUN_00d877e0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BGSDecalManager::iMaxDecalsPerFrame'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8a930()
 {
     f3m_00c8a930::DAT_0106df70.FUN_00491570("iMaxDecalsPerFrame:Display", 10);
@@ -13373,6 +13407,7 @@ extern Setting DAT_0106df48;
 void __cdecl FUN_00d877f0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BGSDecalManager::iMaxSkinDecalsPerFrame'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8a950()
 {
     f3m_00c8a950::DAT_0106df48.FUN_00491570("iMaxSkinDecalsPerFrame:Display", 3);
@@ -13386,6 +13421,7 @@ extern Setting DAT_0106df7c;
 void __cdecl FUN_00d87820();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BGSDecalManager::iMaxSkinDecalPerActor'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8a9b0()
 {
     f3m_00c8a9b0::DAT_0106df7c.FUN_0043b7f0("uMaxSkinDecalPerActor:Decals", 3u);
@@ -13399,6 +13435,7 @@ extern Setting DAT_0106e184;
 void __cdecl FUN_00d87990();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uActiveRefCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8af40()
 {
     f3m_00c8af40::DAT_0106e184.FUN_0043b7f0("uActiveRefCount:BudgetCaps", 100u);
@@ -13412,6 +13449,7 @@ extern Setting DAT_0106e2a0;
 void __cdecl FUN_00d879a0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uAnimatedObjectsCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8af60()
 {
     f3m_00c8af60::DAT_0106e2a0.FUN_0043b7f0("uAnimatedObjectsCount:BudgetCaps", 50u);
@@ -13425,6 +13463,7 @@ extern Setting DAT_0106e0d8;
 void __cdecl FUN_00d879f0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uWaterCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b000()
 {
     f3m_00c8b000::DAT_0106e0d8.FUN_0043b7f0("uWaterCount:BudgetCaps", 10u);
@@ -13438,6 +13477,7 @@ extern Setting DAT_0106e148;
 void __cdecl FUN_00d87a40();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uLightExcessGeometryBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b0a0()
 {
     f3m_00c8b0a0::DAT_0106e148.FUN_0043b7f0("uLightExcessGeometry:BudgetCaps", 100u);
@@ -13451,6 +13491,7 @@ extern Setting DAT_0106e274;
 void __cdecl FUN_00d87a80();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uActorRefCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b120()
 {
     f3m_00c8b120::DAT_0106e274.FUN_0043b7f0("uActorRefCountInterior:BudgetCaps", 20u);
@@ -13464,6 +13505,7 @@ extern Setting DAT_0106e13c;
 void __cdecl FUN_00d87a90();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uActiveRefCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b140()
 {
     f3m_00c8b140::DAT_0106e13c.FUN_0043b7f0("uActiveRefCountInterior:BudgetCaps", 100u);
@@ -13477,6 +13519,7 @@ extern Setting DAT_0106e19c;
 void __cdecl FUN_00d87ac0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uEmittersCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b1a0()
 {
     f3m_00c8b1a0::DAT_0106e19c.FUN_0043b7f0("uEmittersCountInterior:BudgetCaps", 50u);
@@ -13490,6 +13533,7 @@ extern Setting DAT_0106e16c;
 void __cdecl FUN_00d87af0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uWaterCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b200()
 {
     f3m_00c8b200::DAT_0106e16c.FUN_0043b7f0("uWaterCountInterior:BudgetCaps", 10u);
@@ -13503,6 +13547,7 @@ extern Setting DAT_0106e258;
 void __cdecl FUN_00d87b30();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uLightCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b280()
 {
     f3m_00c8b280::DAT_0106e258.FUN_0043b7f0("uLightCountInterior:BudgetCaps", 10u);
@@ -13516,6 +13561,7 @@ extern Setting DAT_0106fa48;
 void __cdecl FUN_00d88540();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iShadowMode'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iShadowMode'')
 void __cdecl FUN_00c8c6d0()
 {
     f3m_00c8c6d0::DAT_0106fa48.FUN_00491570("iShadowMode:Display", 3);
@@ -13529,6 +13575,7 @@ extern Setting DAT_0106f760;
 void __cdecl FUN_00d87f60();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iIniBlendType'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c8c930()
 {
     f3m_00c8c930::DAT_0106f760.FUN_0043b7f0("iBlendType:BlurShader", 2);
@@ -13542,6 +13589,7 @@ extern Setting DAT_0106f6c4;
 void __cdecl FUN_00d880b0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iIniBlendTypeHDR'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c8cca0()
 {
     f3m_00c8cca0::DAT_0106f6c4.FUN_0043b7f0("iBlendType:BlurShaderHDR", 2);
@@ -13555,6 +13603,7 @@ extern Setting DAT_0106f8bc;
 void __cdecl FUN_00d880c0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iIniBlurPassesHDR'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c8ccc0()
 {
     f3m_00c8ccc0::DAT_0106f8bc.FUN_0043b7f0("iNumBlurpasses:BlurShaderHDR", 2);
@@ -13568,6 +13617,7 @@ extern Setting DAT_0106f808;
 void __cdecl FUN_00d88630();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iActorShadowCountExt'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c8d640()
 {
     f3m_00c8d640::DAT_0106f808.FUN_00491570("iActorShadowCountExt:Display", 2);
@@ -13581,6 +13631,7 @@ extern Setting DAT_0106fecc;
 void __cdecl FUN_00d88cc0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::uMaxExteriorWaterReflections'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8edd0()
 {
     f3m_00c8edd0::DAT_0106fecc.FUN_0043b7f0("uMaxExteriorWaterReflections:Water", 2u);
@@ -13594,6 +13645,7 @@ extern Setting DAT_0106fd88;
 void __cdecl FUN_00d88d30();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::iAnimFPS'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8eee0()
 {
     f3m_00c8eee0::DAT_0106fd88.FUN_0043b7f0("uSurfaceFPS:Water", 12u);
@@ -13607,6 +13659,7 @@ extern Setting DAT_01071450;
 void __cdecl FUN_00d89bc0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iMaxGrassTypesPerTexture'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c96f70()
 {
     f3m_00c96f70::DAT_01071450.FUN_0043b7f0("iMaxGrassTypesPerTexure:Grass", 2);
@@ -13620,6 +13673,7 @@ extern Setting DAT_01071490;
 void __cdecl FUN_00d89bd0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iGrassDensityEvalSize'' | TESLand.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c96f90()
 {
     f3m_00c96f90::DAT_01071490.FUN_0043b7f0("iGrassDensityEvalSize:Grass", 2);
@@ -13633,6 +13687,7 @@ extern Setting DAT_01071840;
 void __cdecl FUN_00d89e70();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iMinGrassSize'' | TESTerrainLODManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c97b80()
 {
     f3m_00c97b80::DAT_01071840.FUN_0043b7f0("iMinGrassSize:Grass", 80);
@@ -13646,6 +13701,7 @@ extern Setting DAT_01072aac;
 void __cdecl FUN_00d8a3d0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iMaxViewCasterPicksHavok'' | ViewCaster.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c9d220()
 {
     f3m_00c9d220::DAT_01072aac.FUN_0043b7f0("iMaxViewCasterPicksHavok:Interface", 10);
@@ -13659,6 +13715,7 @@ extern Setting DAT_01072acc;
 void __cdecl FUN_00d8a3e0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iMaxViewCasterPicksGamebryo'' | ViewCaster.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c9d240()
 {
     f3m_00c9d240::DAT_01072acc.FUN_0043b7f0("iMaxViewCasterPicksGamebryo:Interface", 10);
@@ -13672,6 +13729,7 @@ extern Setting DAT_0106cb0c;
 void __cdecl FUN_00d86c80();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sEnvReduceColor'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c85cf0()
 {
     f3m_00c85cf0::DAT_0106cb0c.FUN_0043b7f0("sEnvReduceColor:Weather", "255,255,255,255");
@@ -13685,6 +13743,7 @@ extern Setting DAT_0106cca0;
 void __cdecl FUN_00d86ca0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sBumpFadeColor'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c85d30()
 {
     f3m_00c85d30::DAT_0106cca0.FUN_0043b7f0("sBumpFadeColor:Weather", "255,255,255,255");
@@ -13698,6 +13757,7 @@ extern Setting DAT_0106cb90;
 void __cdecl FUN_00d86de0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sLanguage'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c861f0()
 {
     f3m_00c861f0::DAT_0106cb90.FUN_0043b7f0("sLanguage:General", "ENGLISH");
@@ -13711,6 +13771,7 @@ extern Setting DAT_0106cb60;
 void __cdecl FUN_00d86df0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sFailureMessage'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c86210()
 {
     f3m_00c86210::DAT_0106cb60.FUN_0043b7f0("sFailureMessage:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13724,6 +13785,7 @@ extern Setting DAT_0106ccdc;
 void __cdecl FUN_00d86e00();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sSysUtil_Retry'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c86230()
 {
     f3m_00c86230::DAT_0106ccdc.FUN_0043b7f0("sSysUtil_Retry:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13737,6 +13799,7 @@ extern Setting DAT_0106cd3c;
 void __cdecl FUN_00d86e10();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sSysUtil_AutoSaveWarning'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c86250()
 {
     f3m_00c86250::DAT_0106cd3c.FUN_0043b7f0("sSysUtil_AutoSaveWarning:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13750,6 +13813,7 @@ extern Setting DAT_0106cb78;
 void __cdecl FUN_00d86e20();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sSysUtil_GameDataInsufficientSpace'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c86270()
 {
     f3m_00c86270::DAT_0106cb78.FUN_0043b7f0("sSysUtil_GameDataInsufficientSpace:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13763,6 +13827,7 @@ extern Setting DAT_0106ccbc;
 void __cdecl FUN_00d86e40();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sSysUtil_SaveDataCreateNew'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c862b0()
 {
     f3m_00c862b0::DAT_0106ccbc.FUN_0043b7f0("sSysUtil_SaveDataCreateNew:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13776,6 +13841,7 @@ extern Setting DAT_0106cb84;
 void __cdecl FUN_00d86e50();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sSysUtil_SaveDataInsufficientSpace'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c862d0()
 {
     f3m_00c862d0::DAT_0106cb84.FUN_0043b7f0("sSysUtil_SaveDataInsufficientSpace:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13789,6 +13855,7 @@ extern Setting DAT_0106cd04;
 void __cdecl FUN_00d86e70();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sSysUtil_DirtyDisc'' | TES.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c86310()
 {
     f3m_00c86310::DAT_0106cd04.FUN_0043b7f0("sSysUtil_DirtyDisc:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13802,6 +13869,7 @@ extern Setting DAT_0106cd10;
 void __cdecl FUN_00d86e80();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sThumbstick'' | TES.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'sSysUtil_AwardsLoading'')
 void __cdecl FUN_00c86330()
 {
     f3m_00c86330::DAT_0106cd10.FUN_0043b7f0("sThumbstick:LANGUAGE", "No Default string.  Must be loaded from INIFile");
@@ -13815,6 +13883,7 @@ extern Setting DAT_0106ceb0;
 void __cdecl FUN_00d86f20();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sLocalMasterPath'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c865d0()
 {
     f3m_00c865d0::DAT_0106ceb0.FUN_0043b7f0("sLocalMasterPath:General", "Data\\");
@@ -13828,6 +13897,7 @@ extern Setting DAT_0106ce0c;
 void __cdecl FUN_00d86f30();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sLocalSavePath'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c865f0()
 {
     f3m_00c865f0::DAT_0106ce0c.FUN_0043b7f0("sLocalSavePath:General", "Saves\\");
@@ -13841,6 +13911,7 @@ extern Setting DAT_0106cea4;
 void __cdecl FUN_00d86f50();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sMasterMismatch'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c86630()
 {
     f3m_00c86630::DAT_0106cea4.FUN_0043b7f0("sMasterMismatchWarning:GeneralWarnings", "One of the files that \"%s\" is dependent on has changed since the last save.");
@@ -13854,6 +13925,7 @@ extern Setting DAT_0106cec8;
 void __cdecl FUN_00d86f60();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sGMMismatch'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c86650()
 {
     f3m_00c86650::DAT_0106cec8.FUN_0043b7f0("sGeneralMasterMismatchWarning:GeneralWarnings", "One or more plugins could not find the correct versions of the master files they depend on. Errors may occur during load or game play. Check the \"Warnings.txt\" file for more information.\r\n");
@@ -13867,6 +13939,7 @@ extern Setting DAT_0106e0e4;
 void __cdecl FUN_00d87970();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uRefCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8af00()
 {
     f3m_00c8af00::DAT_0106e0e4.FUN_0043b7f0("uRefCount:BudgetCaps", 700u);
@@ -13880,6 +13953,7 @@ extern Setting DAT_0106e1cc;
 void __cdecl FUN_00d879b0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uParticlesCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8af80()
 {
     f3m_00c8af80::DAT_0106e1cc.FUN_0043b7f0("uParticlesCount:BudgetCaps", 5000u);
@@ -13893,6 +13967,7 @@ extern Setting DAT_0106e0b4;
 void __cdecl FUN_00d879e0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uTriangleCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8afe0()
 {
     f3m_00c8afe0::DAT_0106e0b4.FUN_0043b7f0("uTriangleCount:BudgetCaps", 100000u);
@@ -13906,6 +13981,7 @@ extern Setting DAT_0106e2bc;
 void __cdecl FUN_00d87a20();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uWaterMemoryBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b060()
 {
     f3m_00c8b060::DAT_0106e2bc.FUN_0043b7f0("uWaterMemory:BudgetCaps", 5242880u);
@@ -13919,6 +13995,7 @@ extern Setting DAT_0106e268;
 void __cdecl FUN_00d87a50();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uDecalCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b0c0()
 {
     f3m_00c8b0c0::DAT_0106e268.FUN_0043b7f0("uDecalCount:BudgetCaps", 500u);
@@ -13932,6 +14009,7 @@ extern Setting DAT_0106e06c;
 void __cdecl FUN_00d87a60();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uHavokTriCountBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b0e0()
 {
     f3m_00c8b0e0::DAT_0106e06c.FUN_0043b7f0("uHavokTriCount:BudgetCaps", 5000u);
@@ -13945,6 +14023,7 @@ extern Setting DAT_0106e024;
 void __cdecl FUN_00d87ad0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uGeometryCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b1c0()
 {
     f3m_00c8b1c0::DAT_0106e024.FUN_0043b7f0("uGeometryCountInterior:BudgetCaps", 1000u);
@@ -13958,6 +14037,7 @@ extern Setting DAT_0106e154;
 void __cdecl FUN_00d87ae0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uTriangleCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b1e0()
 {
     f3m_00c8b1e0::DAT_0106e154.FUN_0043b7f0("uTriangleCountInterior:BudgetCaps", 100000u);
@@ -13971,6 +14051,7 @@ extern Setting DAT_0106e2ec;
 void __cdecl FUN_00d87b00();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uGeometryMemoryBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b220()
 {
     f3m_00c8b220::DAT_0106e2ec.FUN_0043b7f0("uGeometryMemoryInterior:BudgetCaps", 10485760u);
@@ -13984,6 +14065,7 @@ extern Setting DAT_0106e2cc;
 void __cdecl FUN_00d87b10();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uTextureMemoryBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b240()
 {
     f3m_00c8b240::DAT_0106e2cc.FUN_0043b7f0("uTextureMemoryInterior:BudgetCaps", 104857600u);
@@ -13997,6 +14079,7 @@ extern Setting DAT_0106e060;
 void __cdecl FUN_00d87b60();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uHavokTriCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b2e0()
 {
     f3m_00c8b2e0::DAT_0106e060.FUN_0043b7f0("uHavokTriCountInterior:BudgetCaps", 5000u);
@@ -14010,6 +14093,7 @@ extern Setting DAT_0106e1b4;
 void __cdecl FUN_00d87c50();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uLoadedAreaNonActorMemoryBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b5a0()
 {
     f3m_00c8b5a0::DAT_0106e1b4.FUN_0043b7f0("uLoadedAreaNonActorMemoryBudgetCap:BudgetCaps", 185597952u);
@@ -14023,6 +14107,7 @@ extern Setting DAT_0106e178;
 void __cdecl FUN_00d87c60();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uWastelandLODBudgetAdjustment'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b5c0()
 {
     f3m_00c8b5c0::DAT_0106e178.FUN_0043b7f0("uWastelandLODBudgetAdjustment:BudgetCaps", 20971520u);
@@ -14036,6 +14121,7 @@ extern Setting DAT_0106e280;
 void __cdecl FUN_00d87c70();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uCityLODBudgetAdjustment'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b5e0()
 {
     f3m_00c8b5e0::DAT_0106e280.FUN_0043b7f0("uCityLODBudgetAdjustment:BudgetCaps", 5242880u);
@@ -14049,6 +14135,7 @@ extern Setting DAT_0106e0a8;
 void __cdecl FUN_00d87c80();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'uActorMemoryBudgetCap'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b600()
 {
     f3m_00c8b600::DAT_0106e0a8.FUN_0043b7f0("uActorMemoryBudgetCap:BudgetCaps", 10485760u);
@@ -14062,6 +14149,7 @@ extern Setting DAT_0106f6b4;
 void __cdecl FUN_00d88510();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iINIScreenHeight'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iINIScreenHeight'')
 void __cdecl FUN_00c8c570()
 {
     f3m_00c8c570::DAT_0106f6b4.FUN_00491570("iSize H:Display", 480);
@@ -14075,6 +14163,7 @@ extern Setting DAT_0106fb98;
 void __cdecl FUN_00d88580();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iWaterReflectHeight'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iWaterReflectHeight'')
 void __cdecl FUN_00c8c870()
 {
     f3m_00c8c870::DAT_0106fb98.FUN_00491570("iWaterReflectHeight:Water", 512);
@@ -14088,6 +14177,7 @@ extern Setting DAT_0106f930;
 void __cdecl FUN_00d87f90();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iIniBlurTexSize'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c8c9a0()
 {
     f3m_00c8c9a0::DAT_0106f930.FUN_0043b7f0("iBlurTexSize:BlurShader", 256);
@@ -14101,6 +14191,7 @@ extern Setting DAT_0106fa3c;
 void __cdecl FUN_00d88650();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::iShadowMapResolution'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'iShadowMapResolution'')
 void __cdecl FUN_00c8d6c0()
 {
     f3m_00c8d6c0::DAT_0106fa3c.FUN_00491570("iShadowMapResolution:Display", 256);
@@ -14114,6 +14205,7 @@ extern Setting DAT_0106f7e4;
 void __cdecl FUN_00d88680();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'Renderer::sD3DDevice'' | Renderer.obj | fnv360_0822_debug, objrun, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bDirectionalMaterial'')
 void __cdecl FUN_00c8d900()
 {
     f3m_00c8d900::DAT_0106f7e4.FUN_00491570("sD3DDevice:Display", "");
@@ -14127,6 +14219,7 @@ extern Setting DAT_0106fe14;
 void __cdecl FUN_00d88d40();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::iNearWaterRadius'' | TESWater.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c8ef00()
 {
     f3m_00c8ef00::DAT_0106fe14.FUN_0043b7f0("uNearWaterRadius:Water", 1000u);
@@ -14140,6 +14233,7 @@ extern Setting DAT_0106ff6c;
 void __cdecl FUN_00d88da0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'sSurfaceTexture'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8f0d0()
 {
     f3m_00c8f0d0::DAT_0106ff6c.FUN_0043b7f0("sSurfaceTexture:Water", "water");
@@ -14153,6 +14247,7 @@ extern Setting DAT_01071474;
 void __cdecl FUN_00d89c00();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'iLandBorder1G'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c97000()
 {
     f3m_00c97000::DAT_01071474.FUN_0043b7f0("iLandBorder1G:Landscape", 255);
@@ -14166,6 +14261,7 @@ extern Setting DAT_010714d4;
 void __cdecl FUN_00d89c50();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESObjectLAND::sDefaultLandDiffuseTexture'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c970a0()
 {
     f3m_00c970a0::DAT_010714d4.FUN_0043b7f0("sDefaultLandDiffuseTexture:Landscape", "DirtWasteland01.dds");
@@ -14179,6 +14275,7 @@ extern Setting DAT_01071884;
 void __cdecl FUN_00d89ea0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESWaterForm::iWaterNoiseResolution'' | TESWaterForm.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c97db0()
 {
     f3m_00c97db0::DAT_01071884.FUN_0043b7f0("iWaterNoiseResolution:Water", 256);
@@ -14192,6 +14289,7 @@ extern Setting DAT_010724b4;
 void __cdecl FUN_00d8a160();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESResponse::sFileTypeGame'' | TESResponse.obj | fnv360_0822_debug, objrun_open, low
 void __cdecl FUN_00c9b650()
 {
     f3m_00c9b650::DAT_010724b4.FUN_0043b7f0("sFileTypeGame:Voice", "mp3");
@@ -14205,6 +14303,7 @@ extern Setting DAT_010724d0;
 void __cdecl FUN_00d8a170();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESResponse::sFileTypeSource'' | TESResponse.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c9b670()
 {
     f3m_00c9b670::DAT_010724d0.FUN_0043b7f0("sFileTypeSource:Voice", "wav");
@@ -14218,6 +14317,7 @@ extern Setting DAT_01072498;
 void __cdecl FUN_00d8a180();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESResponse::sFileTypeLip'' | TESResponse.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c9b690()
 {
     f3m_00c9b690::DAT_01072498.FUN_0043b7f0("sFileTypeLip:Voice", "lip");
@@ -14231,6 +14331,7 @@ extern Setting DAT_01072470;
 void __cdecl FUN_00d8a190();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'TESResponse::sFileTypeLTF'' | TESResponse.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c9b6b0()
 {
     f3m_00c9b6b0::DAT_01072470.FUN_0043b7f0("sFileTypeLTF:Voice", "ltf");
@@ -14244,6 +14345,7 @@ extern Setting DAT_01072d40;
 void __cdecl FUN_00d8a470();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::sHitSpot'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d430()
 {
     f3m_00c9d430::DAT_01072d40.FUN_005752c0("sHitSpot:HIT", "Bip01 Spine2");
@@ -14257,6 +14359,7 @@ extern Setting DAT_01072ca4;
 void __cdecl FUN_00d8a490();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::RHand'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d470()
 {
     f3m_00c9d470::DAT_01072ca4.FUN_005752c0("sRHand:HIT", "1.0, 1.0");
@@ -14270,6 +14373,7 @@ extern Setting DAT_01072d1c;
 void __cdecl FUN_00d8a4a0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::RForeArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d490()
 {
     f3m_00c9d490::DAT_01072d1c.FUN_005752c0("sRForeArm:HIT", "1.0, 1.0");
@@ -14283,6 +14387,7 @@ extern Setting DAT_01072bec;
 void __cdecl FUN_00d8a4c0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::LHand'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d4d0()
 {
     f3m_00c9d4d0::DAT_01072bec.FUN_005752c0("sLHand:HIT", "1.0, 1.0");
@@ -14296,6 +14401,7 @@ extern Setting DAT_01072c10;
 void __cdecl FUN_00d8a4d0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::LForeArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d4f0()
 {
     f3m_00c9d4f0::DAT_01072c10.FUN_005752c0("sLForeArm:HIT", "1.0, 1.0");
@@ -14309,6 +14415,7 @@ extern Setting DAT_01072d58;
 void __cdecl FUN_00d8a4e0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::LUpperArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d510()
 {
     f3m_00c9d510::DAT_01072d58.FUN_005752c0("sLUpperArm:HIT", "0.2, 0.5");
@@ -14322,6 +14429,7 @@ extern Setting DAT_01072b40;
 void __cdecl FUN_00d8a4f0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::Spine2'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d530()
 {
     f3m_00c9d530::DAT_01072b40.FUN_005752c0("sSpine2:HIT", "0.5, 0.7");
@@ -14335,6 +14443,7 @@ extern Setting DAT_01072b34;
 void __cdecl FUN_00d8a500();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::Spine1'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d550()
 {
     f3m_00c9d550::DAT_01072b34.FUN_005752c0("sSpine1:HIT", "0.6, 0.8");
@@ -14348,6 +14457,7 @@ extern Setting DAT_01072bd4;
 void __cdecl FUN_00d8a510();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::Body'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d570()
 {
     f3m_00c9d570::DAT_01072bd4.FUN_005752c0("sBody:HIT", "1.0, 1.0");
@@ -14361,6 +14471,7 @@ extern Setting DAT_01072d88;
 void __cdecl FUN_00d8a520();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHit::Head'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d590()
 {
     f3m_00c9d590::DAT_01072d88.FUN_005752c0("sHead:HIT", "0.4, 0.6");
@@ -14374,6 +14485,7 @@ extern Setting DAT_01072d10;
 void __cdecl FUN_00d8a540();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::sHitStart'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d5d0()
 {
     f3m_00c9d5d0::DAT_01072d10.FUN_005752c0("sHitStart:QUADHIT", "Bip01 Head");
@@ -14391,6 +14503,7 @@ void __cdecl FUN_00d8a620();
 extern const char DAT_00de79a0[];
 extern const char DAT_00de77d4[];
 
+// pdb: `dynamic initializer for 'BlendDefault::Body'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d790()
 {
     DAT_01072c28.FUN_005752c0(DAT_00de79a0, DAT_00de77d4);
@@ -14406,6 +14519,7 @@ extern Setting DAT_01072cec;
 void __cdecl FUN_00d8a550();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::RCalf'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d5f0()
 {
     f3m_00c9d5f0::DAT_01072cec.FUN_005752c0("sRCalf:QUADHIT", "1.0, 1.0");
@@ -14419,6 +14533,7 @@ extern Setting DAT_01072b74;
 void __cdecl FUN_00d8a560();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::RThigh'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d610()
 {
     f3m_00c9d610::DAT_01072b74.FUN_005752c0("sRThigh:QUADHIT", "1.0, 1.0");
@@ -14432,6 +14547,7 @@ extern Setting DAT_01072c34;
 void __cdecl FUN_00d8a570();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::RForeArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d630()
 {
     f3m_00c9d630::DAT_01072c34.FUN_005752c0("sRForeArm:QUADHIT", "1.0, 1.0");
@@ -14445,6 +14561,7 @@ extern Setting DAT_01072b64;
 void __cdecl FUN_00d8a580();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::RUpperArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d650()
 {
     f3m_00c9d650::DAT_01072b64.FUN_005752c0("sRUpperArm:QUADHIT", "1.0, 1.0");
@@ -14458,6 +14575,7 @@ extern Setting DAT_01072ddc;
 void __cdecl FUN_00d8a590();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::LCalf'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d670()
 {
     f3m_00c9d670::DAT_01072ddc.FUN_005752c0("sLCalf:QUADHIT", "1.0, 1.0");
@@ -14471,6 +14589,7 @@ extern Setting DAT_01072dac;
 void __cdecl FUN_00d8a5a0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::LThigh'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d690()
 {
     f3m_00c9d690::DAT_01072dac.FUN_005752c0("sLThigh:QUADHIT", "1.0, 1.0");
@@ -14484,6 +14603,7 @@ extern Setting DAT_01072cbc;
 void __cdecl FUN_00d8a5b0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::LForeArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d6b0()
 {
     f3m_00c9d6b0::DAT_01072cbc.FUN_005752c0("sLForeArm:QUADHIT", "1.0, 1.0");
@@ -14497,6 +14617,7 @@ extern Setting DAT_01072ba4;
 void __cdecl FUN_00d8a5c0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::LUpperArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d6d0()
 {
     f3m_00c9d6d0::DAT_01072ba4.FUN_005752c0("sLUpperArm:QUADHIT", "1.0, 1.0");
@@ -14510,6 +14631,7 @@ extern Setting DAT_01072bbc;
 void __cdecl FUN_00d8a5e0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::Spine1'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d710()
 {
     f3m_00c9d710::DAT_01072bbc.FUN_005752c0("sSpine1:QUADHIT", "1.0, 1.0");
@@ -14523,6 +14645,7 @@ extern Setting DAT_01072d94;
 void __cdecl FUN_00d8a5f0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendHitQuad::Body'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d730()
 {
     f3m_00c9d730::DAT_01072d94.FUN_005752c0("sBody:QUADHIT", "1.0, 1.0");
@@ -14536,6 +14659,7 @@ extern Setting DAT_01072c1c;
 void __cdecl FUN_00d8a610();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::Head'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d770()
 {
     f3m_00c9d770::DAT_01072c1c.FUN_005752c0("sHead:DEFAULT", "1.0, 1.0");
@@ -14549,6 +14673,7 @@ extern Setting DAT_01072c8c;
 void __cdecl FUN_00d8a630();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::Spine1'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d7b0()
 {
     f3m_00c9d7b0::DAT_01072c8c.FUN_005752c0("sSpine1:DEFAULT", "1.0, 1.0");
@@ -14562,6 +14687,7 @@ extern Setting DAT_01072be0;
 void __cdecl FUN_00d8a640();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::Spine2'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d7d0()
 {
     f3m_00c9d7d0::DAT_01072be0.FUN_005752c0("sSpine2:DEFAULT", "1.0, 1.0");
@@ -14575,6 +14701,7 @@ extern Setting DAT_01072cf8;
 void __cdecl FUN_00d8a670();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::LHand'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d830()
 {
     f3m_00c9d830::DAT_01072cf8.FUN_005752c0("sLHand:DEFAULT", "1.0, 1.0");
@@ -14588,6 +14715,7 @@ extern Setting DAT_01072b28;
 void __cdecl FUN_00d8a680();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::LThigh'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d850()
 {
     f3m_00c9d850::DAT_01072b28.FUN_005752c0("sLThigh:DEFAULT", "1.0, 1.0");
@@ -14601,6 +14729,7 @@ extern Setting DAT_01072cc8;
 void __cdecl FUN_00d8a690();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::LCalf'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d870()
 {
     f3m_00c9d870::DAT_01072cc8.FUN_005752c0("sLCalf:DEFAULT", "1.0, 1.0");
@@ -14614,6 +14743,7 @@ extern Setting DAT_01072d7c;
 void __cdecl FUN_00d8a6a0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::LFoot'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d890()
 {
     f3m_00c9d890::DAT_01072d7c.FUN_005752c0("sLFoot:DEFAULT", "1.0, 1.0");
@@ -14627,6 +14757,7 @@ extern Setting DAT_01072da0;
 void __cdecl FUN_00d8a6c0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::RForeArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d8d0()
 {
     f3m_00c9d8d0::DAT_01072da0.FUN_005752c0("sRForeArm:DEFAULT", "1.0, 1.0");
@@ -14640,6 +14771,7 @@ extern Setting DAT_01072c98;
 void __cdecl FUN_00d8a6e0();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::RThigh'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d910()
 {
     f3m_00c9d910::DAT_01072c98.FUN_005752c0("sRThigh:DEFAULT", "1.0, 1.0");
@@ -14653,6 +14785,7 @@ extern Setting DAT_01072b8c;
 void __cdecl FUN_00d8a700();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::RFoot'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d950()
 {
     f3m_00c9d950::DAT_01072b8c.FUN_005752c0("sRFoot:DEFAULT", "1.0, 1.0");
@@ -14666,6 +14799,7 @@ extern Setting DAT_01072c40;
 void __cdecl FUN_00d8a710();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::Tail'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d970()
 {
     f3m_00c9d970::DAT_01072c40.FUN_005752c0("sTail:DEFAULT", "1.0, 1.0");
@@ -14679,6 +14813,7 @@ extern Setting DAT_01072bc8;
 void __cdecl FUN_00d8a730();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::Quiver'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d9b0()
 {
     f3m_00c9d9b0::DAT_01072bc8.FUN_005752c0("sQuiver:DEFAULT", "1.0, 1.0");
@@ -14692,6 +14827,7 @@ extern Setting DAT_01072b58;
 void __cdecl FUN_00d8a740();   // atexit destructor of the setting
 }
 
+// pdb: `dynamic initializer for 'BlendDefault::PonyTail'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d9d0()
 {
     f3m_00c9d9d0::DAT_01072b58.FUN_005752c0("sPonyTail:DEFAULT", "1.0, 1.0");
@@ -14708,6 +14844,7 @@ struct FUN_005752c0_Obj {
 extern void __cdecl FUN_00c00d1f(void (__cdecl *callback)());
 extern void __cdecl DAT_00d8a6b0();
 
+// pdb: `dynamic initializer for 'BlendDefault::RUpperArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d8b0() {
     DAT_01072bb0.FUN_005752c0("sRUpperArm:DEFAULT", "1.0, 1.0");
     FUN_00c00d1f(DAT_00d8a6b0);
@@ -14719,6 +14856,7 @@ extern FUN_0043b7f0_Obj DAT_0106e190;
 extern const char DAT_00dbf5f0[];
 namespace f3m_00c8b100 {
 namespace Task2397 { void __cdecl FUN_00d87a70(); }
+// pdb: `dynamic initializer for 'uRefCountBudgetCapInterior'' | BGSSceneInfo.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8b100() {
     DAT_0106e190.FUN_0043b7f0(DAT_00dbf5f0, 1000);
     FUN_00c00d1f(Task2397::FUN_00d87a70);
@@ -14732,6 +14870,7 @@ struct FUN_005752c0_obj {
 extern FUN_005752c0_obj DAT_01072d34;
 extern const char DAT_00de7944[], DAT_00de77d4[];
 void __cdecl FUN_00d8a5d0();
+// pdb: `dynamic initializer for 'BlendHitQuad::Spine2'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d6f0() {
     DAT_01072d34.FUN_005752c0(DAT_00de7944, DAT_00de77d4);
     FUN_00c00d1f(FUN_00d8a5d0);
@@ -14744,6 +14883,7 @@ extern Setting DAT_0106f900;
 extern const char DAT_00dc1840[];
 void __cdecl FUN_00d88500();
 int __cdecl FUN_00c00d1f(void(__cdecl*)());
+// pdb: `dynamic initializer for 'Renderer::iINIScreenWidth'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iINIScreenWidth'')
 void __cdecl FUN_00c8c550(){DAT_0106f900.FUN_00491570(DAT_00dc1840,640);FUN_00c00d1f(FUN_00d88500);}
 }
 
@@ -14760,6 +14900,7 @@ extern const char DAT_00de7974[];
 extern const char DAT_00de7984[];
 void __cdecl FUN_00d8a600();
 extern "C" int __cdecl atexit(void (__cdecl*)());
+// pdb: `dynamic initializer for 'BlendHitQuad::Head'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d750() {
     new (&DAT_01072c68) FUN_005752c0(DAT_00de7974, DAT_00de7984);
     atexit(FUN_00d8a600);
@@ -14772,6 +14913,7 @@ extern Setting DAT_01072b80;
 extern const char DAT_00de7a60[],DAT_00de7a70[];
 void __cdecl FUN_00d8a6d0();
 int __cdecl FUN_00c00d1f(void(__cdecl*)());
+// pdb: `dynamic initializer for 'BlendDefault::RHand'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d8f0(){DAT_01072b80.FUN_005752c0(DAT_00de7a60,DAT_00de7a70);FUN_00c00d1f(FUN_00d8a6d0);}
 }
 
@@ -14779,10 +14921,11 @@ void __cdecl FUN_00c9d8f0(){DAT_01072b80.FUN_005752c0(DAT_00de7a60,DAT_00de7a70)
 extern char DAT_010706ed;
 namespace f3m_00c955d0 {
 
-extern int FUN_004b0c30();
+extern int GetAttenuationSettings();
 
+// pdb: `dynamic initializer for 'bAttenuationInitialized'' | TESLight.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00c955d0() {
-    DAT_010706ed = FUN_004b0c30();
+    DAT_010706ed = GetAttenuationSettings();
 }
 }   // namespace f3m_00c955d0
 
@@ -14795,6 +14938,7 @@ extern const char DAT_00dbebdc[];
 extern void __cdecl FUN_00d87800();
 extern void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'BGSDecalManager::iMaxDecals'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c8a970()
 {
     DAT_0106df0c.FUN_00491570(DAT_00dbebdc, 0x64);
@@ -14814,6 +14958,7 @@ struct FUN_005752c0_Obj {
 extern void __cdecl FUN_00d8a660();
 extern void __cdecl FUN_00c00d1f(void (*callback)());
 
+// pdb: `dynamic initializer for 'BlendDefault::LForeArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d810() {
     DAT_01072d28.FUN_005752c0(DAT_00de79e4, DAT_00de77d4);
     FUN_00c00d1f(FUN_00d8a660);
@@ -14831,6 +14976,7 @@ typedef void (__cdecl* AtExitCallback)();
 void __cdecl FUN_00c00d1f(AtExitCallback callback);
 void __cdecl FUN_00d89bf0();
 
+// pdb: `dynamic initializer for 'iLandBorder1R'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00c96fe0()
 {
     DAT_01071400.FUN_0043b7f0("iLandBorder1R:Landscape", 0xff);
@@ -14849,6 +14995,7 @@ typedef void (__cdecl* AtExitCallback)();
 void __cdecl FUN_00c00d1f(AtExitCallback callback);
 void __cdecl FUN_00d8a4b0();
 
+// pdb: `dynamic initializer for 'BlendHit::RUpperArm'' | XBlendSettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00c9d4b0()
 {
     DAT_01072d4c.FUN_005752c0("sRUpperArm:HIT", "0.2, 0.5");
@@ -15244,6 +15391,7 @@ void FUN_00c998f0()
 // @f3 0x00c8f340 (community match, verified in this file)
 struct CleanupObjectC8f340 { void FUN_008a8440(); };
 extern CleanupObjectC8f340 DAT_01070068;
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSAnimGroupSequence.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00c8f340(){DAT_01070068.FUN_008a8440();}
 
 // @f3 0x00c8abb0 (community match, verified in this file)
@@ -15678,6 +15826,7 @@ namespace f3m_00c8ee70 {
 
 void __cdecl FUN_00d88980();
 
+// pdb: `dynamic initializer for 'TimerRenderWater'' | TESWater1.obj | tesv_win, objrun, medium
 void __cdecl FUN_00c8ee70()
 {
     atexit(FUN_00d88980);
@@ -15792,6 +15941,7 @@ struct Target
 
 extern Target DAT_010700e0;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BGSAddonNode.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00c8f580()
 {
     DAT_010700e0.FUN_008a8440();
@@ -15804,6 +15954,7 @@ namespace close_00c99500 {
 struct Object { void FUN_008a8440(); };
 extern Object DAT_01071e28;
 }
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BGSEntryPoint.obj | fnv360_0721_beta, objrun_open, low
 void FUN_00c99500()
 {
     close_00c99500::DAT_01071e28.FUN_008a8440();
@@ -16066,6 +16217,7 @@ struct Obj01071380
 
 extern Obj01071380 DAT_01071380;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | TESImageSpaceModifier.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00c96d10()
 {
     DAT_01071380.FUN_008a8440();
@@ -16274,6 +16426,7 @@ struct Obj01072448
 
 extern Obj01072448 DAT_01072448;
 
+// pdb: `dynamic initializer for 'NiParticleSDMObject'' | Main.obj | tesv_win, objopen_prop, low
 void FUN_00c9b2b0()
 {
     DAT_01072448.FUN_007fbee0();
@@ -16758,6 +16911,7 @@ struct Owner
 
 extern Owner DAT_0106e30d;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | Defines.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00c8b830()
 {
     DAT_0106e30d.FUN_008a8440();

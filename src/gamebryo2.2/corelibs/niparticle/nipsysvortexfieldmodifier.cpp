@@ -5,7 +5,8 @@
 extern "C" void* g_01202688;
 
 // @fnv 0x00c26810
-void* __cdecl FUN_00c26810()
+// pdb: BSAnimNotes::GetRTTI | BSAnimNote.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+void* __cdecl BSAnimNotes_GetRTTI()
 {
     return &g_01202688;
 }
@@ -22,10 +23,11 @@ struct NiPSysFieldModifier
 struct NiPSysVortexFieldModifier : NiPSysFieldModifier
 {
     NiColor m_kFogTint;
-    void FUN_00c267d0(NiStream& stream);
+    void NiBlendQuaternionInterpolator_SaveBinary(NiStream& stream);
 };
 // @fnv 0x00c267d0
-void NiPSysVortexFieldModifier::FUN_00c267d0(NiStream& stream)
+// pdb: NiBlendQuaternionInterpolator::SaveBinary | NiBlendQuaternionInterpolator.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void NiPSysVortexFieldModifier::NiBlendQuaternionInterpolator_SaveBinary(NiStream& stream)
 {
     NiPSysFieldModifier::LoadBinary(stream);
     ((NiColor*)((char*)this + 0x30))->LoadBinary(stream);
@@ -41,6 +43,7 @@ struct FUN_00c26920_shell
 
 // Calls FUN_00c31750, then deletes this with size 0x3c when bit 0 of a is set, and returns this.
 // @fnv 0x00c26920
+// pdb: NiD3DHLSLVertexShader::`scalar deleting destructor' | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0721_beta, objopen_prop, low
 FUN_00c26920_shell* __thiscall FUN_00c26920_shell::DestroyIfFlagged(int a)
 {
     FUN_00c31750();
@@ -83,6 +86,8 @@ struct NiPSysAirFieldModifier_00c2c110 : NiPSysModifier
 };
 // Calls NiPSysModifier::ProcessClone, then remaps the object at offset 0x18 through the clone map, falling back to the original pointer.
 // @fnv 0x00c2c110
+// pdb: NiPSysAirFieldModifier::ProcessClone | NiPSysAirFieldModifier.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kCloning
 void NiPSysAirFieldModifier_00c2c110::FUN_00c2c110(CloningProcess& aCloneProcess)
 {
     NiPSysModifier::ProcessClone(aCloneProcess);
@@ -132,6 +137,8 @@ struct FUN_00c27060_shell : C27A30Base
 };
 
 // @fnv 0x00c27060
+// pdb: NiPSysVortexFieldModifier::GetViewerStrings | NiPSysVortexFieldModifier.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkStrings
 void FUN_00c27060_shell::AppendNameAndDirection(StrArr* pkStrings)
 {
     FUN_00c322b0(pkStrings);
@@ -179,12 +186,13 @@ struct CloneHost
     char _pad_0[0x30];
     CloneVec3 m_30;
     void FUN_00c32020(CloneItem* pItem, int a);
-    CloneItem* FUN_00c26940(int a);
+    CloneItem* NiPSysVortexFieldModifier_CreateClone(int a);
 };
 
 // Allocates a CloneItem, passes it with a to FUN_00c32020, copies m_30 into the item's m_30, and returns it.
 // @fnv 0x00c26940
-CloneItem* CloneHost::FUN_00c26940(int a)
+// pdb: NiPSysVortexFieldModifier::CreateClone | NiPSysVortexFieldModifier.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+CloneItem* CloneHost::NiPSysVortexFieldModifier_CreateClone(int a)
 {
     CloneItem* pItem = new CloneItem;
     this->FUN_00c32020(pItem, a);
@@ -230,6 +238,8 @@ struct Pt_c268
 extern const Pt_c268 _NiPoint3_ZERO;
 
 // @fnv 0x00c26820
+// pdb: NiPSysVortexFieldModifier::VortexDirection | NiPSysVortexFieldModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kVortexPos, kDirection, kParticle
 Pt_c268 __stdcall FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
 {
     Pt_c268 vDifference = point - origin;
@@ -375,6 +385,8 @@ struct VortexModifier
 
 // For each active particle with nonzero time delta, adds a scaled vector to its velocity when distance is at most m_fDistanceLimit squared.
 // @fnv 0x00c269b0
+// pdb: NiPSysVortexFieldModifier::UpdateNoAttenuation | NiPSysVortexFieldModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkData
 void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
 {
     NiTransform kField = m_pkFieldObject->m_kWorldSpaceTransform;
@@ -540,6 +552,8 @@ struct ForceOwner
 };
 // Computes the force on each particle in list from node10's transform and m_dir, scaled by age, and adds it to each particle's velocity.
 // @fnv 0x00c26c00
+// pdb: NiPSysVortexFieldModifier::UpdateNoAttenuationNoDist | NiPSysVortexFieldModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkData
 void ForceOwner::FUN_00c26c00(float delta, ParticleList* list)
 {
     NiTransform transformB;
@@ -658,6 +672,8 @@ struct AirField
 };
 // Updates each particle's velocity along the normalized axis, with distance falloff above nearDistance and a time-based scale.
 // @fnv 0x00c2c170
+// pdb: NiPSysDragModifier::Update | NiPSysDragModifier.obj | fnv360_0721_beta, objrun, medium
+// pdb params: fTime, pkData
 void AirField::FUN_00c2c170(float time, const AirParticles* apParticles)
 {
     if (!(magnitude > 0.0f))

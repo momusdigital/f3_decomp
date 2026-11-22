@@ -26,13 +26,13 @@ extern Allocator006d32f0 g_allocator006d32f0;
 
 class Manager006d32f0 {
 public:
-    bool FUN_0043be40(unsigned int auiID);
+    bool TESDataHandler_IsFormIDCreated(unsigned int auiID);
 };
 extern Manager006d32f0* g_manager006d32f0;
 
 class RefManager006d32f0 {
 public:
-    void FUN_006cef40(FUN_007bc0b0* apRef);
+    void BGSSaveLoadGame_ClearForm(FUN_007bc0b0* apRef);
 };
 extern RefManager006d32f0* g_refManager006d32f0;
 
@@ -107,7 +107,8 @@ public:
     virtual void vf61();
     virtual void vf62();
     virtual void vf63();
-    virtual bool vf100();
+    // pdb: TESForm::IsActor (slot 64; F3 TESForm vtable 78 slots = FNV360_PDB TESForm 78, Actor's slot 64 returns true)
+    virtual bool IsActor();
     virtual void vf65();
     virtual void vf66();
     virtual void vf67();
@@ -118,9 +119,9 @@ public:
     virtual void vf72();
     virtual void vf73();
     virtual void vf128(unsigned int auiID, int ai1);
-    int FUN_004a68f0();
-    void FUN_004e8670(FUN_007bc0b0* apForm);
-    void FUN_004e6b20(int ai1);
+    int BGSProjectile_GetProjectileRefFormType();
+    void TESObjectREFR_SetObjectReference(FUN_007bc0b0* apForm);
+    void TESObjectREFR_SetRefPersists(int ai1);
     unsigned char unk04;
     int unk08;
     int unk0C;
@@ -202,18 +203,19 @@ struct CreatedRef006d32f0 {
     unsigned char unk2C;
 };
 
-FUN_007bc0b0* FUN_00455190(unsigned int auiID);
+FUN_007bc0b0* TESForm_GetFormByNumericID(unsigned int auiID);
 FUN_007bc0b0* FUN_00c0050a(void* ap0, int ai1, void* ap2, void* ap3, int ai4);
-FUN_007bc0b0* FUN_004f9a10(int aeType, int ai1);
+FUN_007bc0b0* TESObjectREFR_CreateReference(int aeType, int ai1);
 void FUN_006cd570(const char* apFormat, ...);
 
-FUN_007bc0b0* FUN_006d32f0(unsigned int auiRefID, CreatedRef006d32f0* apCreated, FUN_007bc0b0* apRef)
+// pdb: BGSSaveLoadInitialData::CreateReference | BGSSaveLoadInitialData.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(call_gap), high
+FUN_007bc0b0* BGSSaveLoadInitialData_CreateReference(unsigned int auiRefID, CreatedRef006d32f0* apCreated, FUN_007bc0b0* apRef)
 {
     if (!apRef)
-        apRef = FUN_00455190(auiRefID);
-    if (g_manager006d32f0->FUN_0043be40(apCreated->unk04))
+        apRef = TESForm_GetFormByNumericID(auiRefID);
+    if (g_manager006d32f0->TESDataHandler_IsFormIDCreated(apCreated->unk04))
         apCreated->unk04 = 0;
-    FUN_007bc0b0* form = FUN_00c0050a(FUN_00455190(apCreated->unk04), 0, &DAT_f46078, &DAT_f460fc, 0);
+    FUN_007bc0b0* form = FUN_00c0050a(TESForm_GetFormByNumericID(apCreated->unk04), 0, &DAT_f46078, &DAT_f460fc, 0);
     if (!form) {
         FUN_006cd570("SAVELOAD: Bound object %08X no longer exists.  Reference %08X will not be created.",
                      apCreated->unk04, auiRefID);
@@ -221,8 +223,8 @@ FUN_007bc0b0* FUN_006d32f0(unsigned int auiRefID, CreatedRef006d32f0* apCreated,
     }
     if (apRef) {
         if (!(apRef->vfF0() && (apRef->unk1C == form ||
-                               (apRef->vf100() && apRef->unk40.FUN_0040d2d0() == form)))) {
-            g_refManager006d32f0->FUN_006cef40(apRef);
+                               (apRef->IsActor() && apRef->unk40.FUN_0040d2d0() == form)))) {
+            g_refManager006d32f0->BGSSaveLoadGame_ClearForm(apRef);
             apRef = 0;
         }
     }
@@ -233,15 +235,15 @@ FUN_007bc0b0* FUN_006d32f0(unsigned int auiRefID, CreatedRef006d32f0* apCreated,
         switch (form->unk04) {
         case 0x2b: refType = 0x3c; break;
         case 0x2a: refType = 0x3b; break;
-        case 0x33: refType = form->FUN_004a68f0(); break;
+        case 0x33: refType = form->BGSProjectile_GetProjectileRefFormType(); break;
         case 0x51: newRef = new FUN_007bc0b0; break;
         }
         if (flags & 4)
             refType = 0x16;
         if (flags & 3) {
             if (!newRef)
-                newRef = FUN_004f9a10(refType, 1);
-            newRef->FUN_004e8670(form);
+                newRef = TESObjectREFR_CreateReference(refType, 1);
+            newRef->TESObjectREFR_SetObjectReference(form);
             newRef->vf128(auiRefID, 1);
             apRef = newRef;
         } else {
@@ -251,7 +253,7 @@ FUN_007bc0b0* FUN_006d32f0(unsigned int auiRefID, CreatedRef006d32f0* apCreated,
         }
     }
     if (flags & 2)
-        apRef->FUN_004e6b20(1);
+        apRef->TESObjectREFR_SetRefPersists(1);
     if (apRef)
         apRef->unk08 |= 0x200000;
 done:
@@ -264,7 +266,7 @@ namespace f3m_006cef40 {
 namespace N6CEF40 {
 struct TypeInfo6ce { const char* name; int unk04; int unk08; };
 extern TypeInfo6ce DAT_00f4a74c[];
-struct Data6ce { unsigned int FUN_0043bd80(int flag); };
+struct Data6ce { unsigned int TESDataHandler_GetNextID(int flag); };
 extern Data6ce* DAT_0106cdcc;
 void FUN_006cd570(const char* format, ...);
 struct Form6ce {
@@ -346,7 +348,8 @@ struct Form6ce {
     unsigned char typeID; char unk05, unk06, unk07; int unk08; unsigned int refID;
 };
 inline const char* TypeName6ce(unsigned char type) { return type < 0x67 ? DAT_00f4a74c[type].name : ""; }
-void __stdcall FUN_006cef40(Form6ce* form) {
+// pdb: BGSSaveLoadGame::ClearForm | BGSSaveLoadGame.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq) + skyrim(callee_sim), high
+void __stdcall BGSSaveLoadGame_ClearForm(Form6ce* form) {
     if (!form) return;
     int type = form->typeID;
     switch (type) {
@@ -354,12 +357,12 @@ void __stdcall FUN_006cef40(Form6ce* form) {
         form->vfn010(1);
         break;
     case 4: case 17: case 18: case 42: case 43: case 57: case 66: case 67:
-        form->SetRefID(DAT_0106cdcc->FUN_0043bd80(1));
+        form->SetRefID(DAT_0106cdcc->TESDataHandler_GetNextID(1));
         break;
     default:
         FUN_006cd570("FORMS: Form %08X with form type %i %s was re-numbered by BGSSaveLoadGame::ClearForm()", form->refID,
                      type, TypeName6ce(type));
-        form->SetRefID(DAT_0106cdcc->FUN_0043bd80(1));
+        form->SetRefID(DAT_0106cdcc->TESDataHandler_GetNextID(1));
         break;
     }
 }

@@ -1,19 +1,27 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkpConvexListShape.h"
 
+// The hkpShapeContainer subobject of hkpConvexListShape (its second Fallout 3 vtable sits at +0x14): +0x30 and +0x34
+// are the shape's m_childShapes.m_data and m_size (+0x44 and +0x48 of the shape).
 struct FUN_00d5e2e0_Class
 {
+    char unk00[0x30];
+    void* m_childShapesData;
+    int m_childShapesSize;
     int GetNextKey(int key);
 };
 
 // @fnv 0x00d5e2e0
+// pdb: hkpConvexListShape::getNextKey | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: oldKey
 int FUN_00d5e2e0_Class::GetNextKey(int key)
 {
     ++key;
-    if (key >= *(int*)((char*)this + 0x34))
+    if (key >= m_childShapesSize)
         key = -1;
     return key;
 }
@@ -53,6 +61,7 @@ struct SumContainer {
     SumElement** items;
     int count;
 };
+// pdb: hkpConvexListShape::getNumCollisionSpheresImpl | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
 int __fastcall SumVirtualResults(void* self) {
     SumContainer* container = static_cast<SumContainer*>(self);
     int total = 0;
@@ -63,49 +72,14 @@ int __fastcall SumVirtualResults(void* self) {
 
 
 // @fnv 0x00d5e2f0
+// pdb: hkpConvexListShape::getChildShape | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: key, buffer
 int __fastcall FUN_00d5e2f0(char* self, int edx, int key, int pad)
 {
     return ((int*)((int*)self)[0xc])[key];
 }
 
 void __cdecl FUN_00d5e7c0();
-
-struct FUN_00d5e850_Allocator
-{
-    virtual void slot0();
-    virtual void slot1();
-    virtual void deallocate(void* object, unsigned short size);
-};
-
-struct FUN_00d5e850_MemoryRouter
-{
-    unsigned char padding[0x10];
-    FUN_00d5e850_Allocator* allocator;
-};
-
-FUN_00d5e850_MemoryRouter* _D1A0E0GetMemoryRouter();
-
-struct FUN_00d5e850_Class
-{
-    void* vtable;
-    unsigned short field_04;
-    FUN_00d5e850_Class* Destroy(int flags);
-};
-
-// Calls FUN_00d5e7c0, then if flags has bit 1 set, frees this via the memory router's allocator using field_04 as size, and returns this.
-// @fnv 0x00d5e850
-FUN_00d5e850_Class* FUN_00d5e850_Class::Destroy(int flags)
-{
-    FUN_00d5e7c0();
-
-    if (flags & 1)
-    {
-        FUN_00d5e850_MemoryRouter* router = _D1A0E0GetMemoryRouter();
-        router->allocator->deallocate(this, field_04);
-    }
-
-    return this;
-}
 
 struct FUN_00d5e0f0_cls
 {
@@ -119,61 +93,25 @@ struct FUN_00d5e0f0_cls
 };
 
 // @fnv 0x00d5e0f0
+// pdb: hkpConvexPieceShape::getContainer | hkpConvexPieceShape.obj | fnv360_0822_retail, objrun_open, low
 char* FUN_00d5e0f0_cls::FUN_00d5e0f0()
 {
     return this != 0 ? (char*)this + 0x14 : 0;
 }
 
 // @fnv 0x00d5e0d0
-int __cdecl FUN_00d5e0d0()
+// pdb: hkpPhysicsSystemWithContacts::clone | hkpPhysicsSystemWithContacts.obj | fnv360_0822_retail, vtable + skyrim(vtable), high
+int __cdecl hkpPhysicsSystemWithContacts_clone()
 {
     return 0;
 }
 
 // @fnv 0x00d5e0e0
+// pdb: hkpConvexListShape::getCollisionFilterInfo | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: key
 int __stdcall FUN_00d5e0e0(int)
 {
     return 0;
-}
-
-class hkTargetD5E1
-{
-  public:
-    virtual void V0();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual void V4();
-    virtual void V5();
-    virtual void V6();
-    virtual void V7();
-    virtual void V8();
-    virtual void V9();
-    virtual void V10();
-    virtual void V11();
-    virtual void V12();
-    virtual void run(void* a);
-};
-
-struct hkHolderD5E1
-{
-    hkTargetD5E1* m_target;
-};
-
-class hkObjD5E1
-{
-  public:
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
-    int unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40;
-    hkHolderD5E1* m_holder;
-
-    void FUN_00d5e180(void* a);
-};
-
-// @fnv 0x00d5e180
-void hkObjD5E1::FUN_00d5e180(void* a)
-{
-    m_holder->m_target->run(a);
 }
 
 struct FUN_00d5e1c0_Shape
@@ -218,6 +156,8 @@ struct StandInShape
     virtual void WriteElements(void* destination);
 };
 
+// pdb: hkpConvexListShape::getCollisionSpheresImpl | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: sphereBuffer
 void* __thiscall FUN_00d5e1c0_Collection::WriteToBuffer(void* destination)
 {
     char* cursor = (char*)destination;
@@ -250,6 +190,7 @@ struct FUN_00d5e2d0_cls
     int FUN_00d5e2d0();
 };
 // @fnv 0x00d5e2d0
+// pdb: ActorMover::GetPreferredMoveMode | ActorMover.obj | fnv360_0822_retail, vtable, medium
 int FUN_00d5e2d0_cls::FUN_00d5e2d0()
 {
     return unk34;
@@ -265,38 +206,6 @@ struct BSAudio
 };
 
 BSAudio* FUN_00c85750();
-void FUN_00c908c0(void* allocator, void* arrayPtr, int newCapacity, int elementSize);
-void __fastcall FUN_00c90510(hkpConvexShape* shape);
-
-struct ConvexList : hkpConvexListShape
-{
-    void SetChildren(hkpConvexShape** children, int numChildren);
-};
-
-// @fnv 0x00d5e6e0
-void ConvexList::SetChildren(hkpConvexShape** children, int numChildren)
-{
-    hkArray<hkpConvexShape*>* pChildrenArray = &m_kChildShapes;
-    BSAudio* audio = FUN_00c85750();
-    void* allocator = audio->allocator;
-    int iCapacity = pChildrenArray->m_iCapacityState & 0x3fffffff;
-    if (iCapacity < numChildren)
-    {
-        iCapacity *= 2;
-        if (numChildren >= iCapacity)
-        {
-            iCapacity = numChildren;
-        }
-        FUN_00c908c0(allocator, pChildrenArray, iCapacity, sizeof(hkpConvexShape*));
-    }
-    pChildrenArray->m_iElementCount = numChildren;
-    m_fSphereRadius = children[0]->m_fSphereRadius;
-    for (int i = 0; i < numChildren; i++)
-    {
-        pChildrenArray->m_data[i] = children[i];
-        FUN_00c90510(children[i]);
-    }
-}
 
 struct ShapeOutD5E
 {
@@ -367,6 +276,8 @@ struct ShapeChildSlotD5E
     virtual void childData(const int* keys, int numKeys, ShapeOutD5E* out);
 };
 
+// pdb: hkpConvexListShape::convertVertexIdsToVerticesImpl | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: ids, numIds, verticesOut
 void ShapeListD5E::GetChildData(const unsigned short* keys, int numKeys, ShapeOutD5E* out)
 {
     for (int i = 0; i < numKeys; i++)
@@ -395,7 +306,6 @@ extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ps1(const float* p);
 
-extern const __m128 DAT_010c71d0;
 static const float DAT_0104da48 = 3.40282e+38f;
 static const float DAT_0104e148 = -3.40282e+38f;
 
@@ -459,8 +369,6 @@ struct hkAabbD5E3
     }
 };
 
-extern hkTransformD5E3 DAT_01268370;
-
 template <class T> struct hkArrayD5E3
 {
     T* m_data;
@@ -519,33 +427,6 @@ class hkpConvexListShapeD5E3 : public hkpShapeD5E3
     hkArrayD5E3<const hkpShapeD5E3*> m_kChildShapes;
 };
 
-// Stores bUseCachedAabb and, when true, computes m_kAabbCenter and m_kAabbHalfExtents from the union of child shape AABBs.
-// @fnv 0x00d5e210
-void hkpConvexListShapeD5E3::UpdateCachedAabb(bool bUseCachedAabb)
-{
-    m_bUseCachedAabb = bUseCachedAabb;
-    if (bUseCachedAabb)
-    {
-        hkAabbD5E3 kAabb;
-        kAabb.m_kMinimumCorner.SetAllComponents(DAT_0104da48);
-        kAabb.m_kMaximumCorner.SetAllComponents(DAT_0104e148);
-        for (int i = 0; i < m_kChildShapes.GetLogicalSize(); i++)
-        {
-            hkAabbD5E3 kChildAabb;
-            m_kChildShapes[i]->getAabb(DAT_01268370, 0.0f, kChildAabb);
-            kAabb.includeAabb(kChildAabb);
-        }
-        hkVector4D5E3 kTargetCenter;
-        kTargetCenter.setAdd4(kAabb.m_kMinimumCorner, kAabb.m_kMaximumCorner);
-        kTargetCenter.mul4(DAT_010c71d0);
-        m_kAabbCenter = kTargetCenter;
-        hkVector4D5E3 m_kPoint2;
-        m_kPoint2.setSub4(kAabb.m_kMaximumCorner, kAabb.m_kMinimumCorner);
-        m_kPoint2.mul4(DAT_010c71d0);
-        m_kAabbHalfExtents = m_kPoint2;
-    }
-}
-
 namespace fnv_00d5e3c0 {
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -589,9 +470,6 @@ struct hkAabbD5E3
         m_kMaximumCorner.setMax4(m_kMaximumCorner, kOther.m_kMaximumCorner);
     }
 };
-
-void __cdecl FUN_00d26230(const hkTransformD5E3& kLocalToWorld, const hkVector4D5E3& m_kPoint2,
-                          const hkVector4D5E3& kTargetCenter, float fExtraRadius, hkAabbD5E3& kAabbOut);
 
 template <class T> struct hkArrayD5E3
 {
@@ -651,25 +529,6 @@ class hkpConvexListShapeD5E3 : public hkpShapeD5E3
     hkArrayD5E3<const hkpShapeD5E3*> m_kChildShapes;
 };
 
-// Computes the world-space AABB of a convex list shape, using cached extents when available or merging child shape AABBs otherwise.
-// @fnv 0x00d5e3c0
-void hkpConvexListShapeD5E3::FUN_00d5e3c0(const hkTransformD5E3& kLocalToWorld, float fTolerance,
-                                          hkAabbD5E3& kOut) const
-{
-    if (m_bUseCachedAabb)
-    {
-        FUN_00d26230(kLocalToWorld, m_kAabbHalfExtents, m_kAabbCenter, m_fSphereRadius + fTolerance, kOut);
-        return;
-    }
-
-    m_kChildShapes[0]->getAabb(kLocalToWorld, fTolerance, kOut);
-    hkAabbD5E3 kTemp;
-    for (int i = 1; i < m_kChildShapes.GetLogicalSize(); i++)
-    {
-        m_kChildShapes[i]->getAabb(kLocalToWorld, fTolerance, kTemp);
-        kOut.includeAabb(kTemp);
-    }
-}
 }  // namespace fnv_00d5e3c0
 
 template <class T> struct hkArrayD5E7
@@ -719,26 +578,6 @@ class hkContainerD5E7
     float m_vScale;
     int unk1C[10];
 };
-
-class FUN_00d5e750 : public hkShapeD5E7, public hkContainerD5E7
-{
-  public:
-    FUN_00d5e750(void* a, void* b) throw();
-    virtual ~FUN_00d5e750() throw();
-
-    void SetChildren(void* a, void* b) throw();
-    void UpdateCachedAabb(int flag) throw();
-
-    hkArrayD5E7<int> m_ppData;
-};
-
-// @fnv 0x00d5e750
-FUN_00d5e750::FUN_00d5e750(void* a, void* b) throw() : hkShapeD5E7(0x16)
-{
-    m_vScale = 1.0f;
-    SetChildren(a, b);
-    UpdateCachedAabb(1);
-}
 
 namespace fnv_00d5e7c0 {
 struct hkAllocatorD5E7
@@ -829,75 +668,6 @@ FUN_00d5e7c0::~FUN_00d5e7c0() throw()
 }
 }  // namespace fnv_00d5e7c0
 
-extern int _FUN_00d06f80(void*, int);
-extern int DAT_01268940;
-extern const char str_010cc3a4[];
-
-struct S00d5e480_Visitor
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void visit(int, void*, int);
-    virtual void slot10();
-    virtual void visitArray(int, const char*, void*, int, int);
-
-    int unk04;
-    int unk08;
-    int unk0c;
-    char field10;
-};
-
-struct S00d5e480_Class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    void** children;
-    int count;
-    int capacity;
-
-    void FUN_00c90360(S00d5e480_Visitor*, int*);
-    void FUN_00d5e480(S00d5e480_Visitor*, int);
-};
-
-// @fnv 0x00d5e480
-void S00d5e480_Class::FUN_00d5e480(S00d5e480_Visitor* visitor, int)
-{
-    if (!(capacity & 0x80000000) || visitor->field10 != 0)
-    {
-        void** childArray = children;
-        int allocationSize = (capacity & 0x3fffffff) * 4;
-        int allocated = _FUN_00d06f80(childArray, allocationSize);
-        visitor->visitArray(3, str_010cc3a4, children, count * 4, allocated);
-    }
-
-    {
-        int index = 0;
-        while (index < count)
-        {
-            visitor->visit(0, children[index], 0);
-            ++index;
-        }
-    }
-
-    FUN_00c90360(visitor, &DAT_01268940);
-}
-
 #include <windows.h>
 extern "C" void _ReadWriteBarrier(void);
 
@@ -944,7 +714,7 @@ struct Node
     virtual void v14();
     virtual void v18();
     virtual void v1C();
-    virtual bool* FUN_00d5e500(bool* __restrict result, void* other, State* st);
+    virtual bool* hkpConvexListShape_castRayImpl(bool* __restrict result, void* other, State* st);
     DWORD unk04, unk08, unk0C, unk10;
     Coll coll;
 };
@@ -955,29 +725,20 @@ struct __declspec(align(16)) Buf
 
 // Recursively searches coll children for a match, records the selected id in st->slots, and sets *result to whether one was found.
 // @fnv 0x00d5e500
-bool* Node::FUN_00d5e500(bool* __restrict result, void* other, State* st)
+// pdb: hkpConvexListShape::castRayImpl | hkpConvexListShape.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+bool* Node::hkpConvexListShape_castRayImpl(bool* __restrict result, void* other, State* st)
 {
     Buf buf;
     struct F
     {
         bool a, b, c, d;
     } found;
-    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = pBuf->m_pCur;
-        volatile DWORD ticks;
-        pRec->m_pName = "TtrcCxList";
-        _ReadWriteBarrier();
-        ticks = (DWORD)__rdtsc();
-        pRec->m_iTick = ticks;
-        pBuf->m_pCur = pRec + 1;
-    }
+    HK_TIMER_BEGIN("rcCxList", HK_NULL);
     st->depth++;
     int iSelected = -1;
     for (int id = coll.First(); id != -1; id = coll.Next(id))
     {
-        coll.Get(id, &buf)->FUN_00d5e500(&found.d, other, st);
+        coll.Get(id, &buf)->hkpConvexListShape_castRayImpl(&found.d, other, st);
         if (found.d)
             iSelected = id;
     }
@@ -985,17 +746,7 @@ bool* Node::FUN_00d5e500(bool* __restrict result, void* other, State* st)
     if (iSelected != -1)
         st->slots[st->depth] = iSelected;
     *result = iSelected != -1;
-    pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = pBuf->m_pCur;
-        volatile DWORD ticks;
-        pRec->m_pName = "Et";
-        _ReadWriteBarrier();
-        ticks = (DWORD)__rdtsc();
-        pRec->m_iTick = ticks;
-        pBuf->m_pCur = pRec + 1;
-    }
+    HK_TIMER_END();
     return result;
 }
 
@@ -1107,6 +858,8 @@ struct hkpShapeRayF3
     virtual void v0C();
     virtual void castRayWithCollector(const ShapeRayCastQuery& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector) const;
 };
+// pdb: hkpConvexListShape::castRayWithCollectorImpl | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: input, cdBody, collector
 void FUN_00d5e600_Class::FUN_00d5e600(const ShapeRayCastQuery& input, const hkpCdBody& cdBody,
                                       hkpRayHitCollector& collector) const
 {
@@ -1204,25 +957,6 @@ struct hkVector4q
     {
         reinterpret_cast<int*>(&m_vComponents)[3] = value | 0x3f000000;
     }
-};
-
-class ConvexChildShape : public hkpConvexShape
-{
-  public:
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1C();
-    virtual void vf20();
-    virtual void vf24();
-    virtual void vf28();
-    virtual void vf2C();
-    virtual void vf30();
-    virtual void vf34();
-    virtual void GetSupportPoint(const hkVector4q& direction, hkVector4q& supportingVertex) const;
 };
 
 struct ConvexListShapeQ : hkpConvexListShape

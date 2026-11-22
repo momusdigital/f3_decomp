@@ -30,13 +30,6 @@ struct __declspec(align(16)) FinishedObject
     int unk3c;
     FinishedObject(FinishFlag);
 };
-// @fnv 0x00e005f0
-void* __cdecl FUN_00e005f0()
-{
-    FinishFlag finish = {0};
-    FinishedObject object(finish);
-    return object.vtable;
-}
 
 // Havok type-registration helper: construct the class in finish-loading mode (flag 0) on the stack,
 // then return its static registration data.
@@ -75,6 +68,7 @@ struct __declspec(align(16)) S_00e00cd0_Obj
 };
 
 // @fnv 0x00e00cd0
+// pdb: getVtablehkpFastMeshShape | hkpCollidehkpMeshShapeReflections.obj | tesv_win, hash, low
 const char* __cdecl FUN_00e00cd0()
 {
     hkFinishLoadedObjectFlagX flag;
@@ -119,19 +113,6 @@ struct __declspec(align(16)) hkObjectE01710
     {}
 };
 
-// @fnv 0x00e01710
-void* FUN_00e01710()
-{
-    union
-    {
-        hkObjectE01710* pAligned;
-        __declspec(align(16)) unsigned int auiStorage[sizeof(hkObjectE01710) / sizeof(unsigned int)];
-    } u;
-    FinishingFlag flag;
-    new (u.auiStorage) hkObjectE01710(flag);
-    return *(void**)u.auiStorage;
-}
-
 namespace fnv_00e01eb0 {
 struct FinishFlag
 {
@@ -160,14 +141,6 @@ struct __declspec(align(16)) FinishObject
     {}
 };
 
-// @fnv 0x00e01eb0
-void* __cdecl FUN_00e01eb0()
-{
-    FinishFlag f;
-    f.m_bFinishing = 0;
-    FinishObject o(f);
-    return *(void**)&o;
-}
 }  // namespace fnv_00e01eb0
 
 // RTTI identifies hkpNullCollisionFilter. The finish constructor installs its
@@ -204,13 +177,6 @@ struct __declspec(align(16)) FilterStorage402
     unsigned unk18, unk1c;
     unsigned filterType;
 };
-// @fnv 0x00e00a60
-unsigned FUN_00e00a60()
-{
-    FilterStorage402 storage;
-    new (&storage) FUN_00e00a80(FinishLoadedFlag402(0));
-    return *reinterpret_cast<unsigned*>(&storage);
-}
 
 class __declspec(align(16)) S00e000e0_Object
 {
@@ -242,16 +208,6 @@ class __declspec(align(16)) S00e000e0_Object
     int unk5C;
 };
 
-// Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
-// @fnv 0x00e000e0
-const void* __cdecl FUN_00e000e0()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e000e0_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
-
 struct Handle_e00290
 {
     int m_v;
@@ -261,8 +217,6 @@ struct FUN_00e00290_sub
     void FUN_00cb0a70(Handle_e00290 kHandle);
     int m_00;
 };
-extern int DAT_010cc040;
-extern int DAT_010d79e8;
 struct SmallArray_e00290
 {
     void* m_pData;
@@ -291,18 +245,6 @@ struct __declspec(align(16)) FUN_00e00290_obj
     int unk48;
     int unk4C;
 };
-// @fnv 0x00e00290
-int* __cdecl FUN_00e00290()
-{
-    Handle_e00290 kHandle = {0};
-    FUN_00e00290_obj kObj;
-    kObj.m_pVtbl = &DAT_010cc040;
-    kObj.m_kArray.m_pData = 0;
-    kObj.m_kArray.m_usSize = 0;
-    kObj.m_kArray.m_usCapacityAndFlags = 0x8000;
-    kObj.m_kSub.FUN_00cb0a70(kHandle);
-    return &DAT_010d79e8;
-}
 
 class __declspec(align(16)) S00e003b0_Object
 {
@@ -402,15 +344,6 @@ class __declspec(align(16)) S00e003b0_Object
     int unk16C;
 };
 
-// @fnv 0x00e003b0
-const void* __cdecl FUN_00e003b0()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e003b0_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
-
 class __declspec(align(16)) S00e004d0_Object
 {
   public:
@@ -474,6 +407,7 @@ class __declspec(align(16)) S00e004d0_Object
 };
 
 // @fnv 0x00e004d0
+// pdb: getVtablehkpAabbPhantom | hkpDynamicsReflections.obj | tesv_win, hash, low
 const void* __cdecl FUN_00e004d0()
 {
     FinishingFlag flag;
@@ -499,16 +433,6 @@ class __declspec(align(16)) S00e006b0_Object
     int unk28;
     int unk2C;
 };
-
-// Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
-// @fnv 0x00e006b0
-const void* __cdecl FUN_00e006b0()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e006b0_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
 
 class __declspec(align(16)) S00e00b80_Object
 {
@@ -580,15 +504,6 @@ class __declspec(align(16)) S00e00b80_Object
     int unkFC;
 };
 
-// @fnv 0x00e00b80
-const void* __cdecl FUN_00e00b80()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e00b80_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
-
 class __declspec(align(16)) S00e00f90_Object
 {
   public:
@@ -606,16 +521,6 @@ class __declspec(align(16)) S00e00f90_Object
     int unk28;
     int unk2C;
 };
-
-// Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
-// @fnv 0x00e00f90
-const void* __cdecl FUN_00e00f90()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e00f90_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
 
 class __declspec(align(16)) S00e01230_Object
 {
@@ -639,15 +544,6 @@ class __declspec(align(16)) S00e01230_Object
     int unk3C;
 };
 
-// @fnv 0x00e01230
-const void* __cdecl FUN_00e01230()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e01230_Object kObject(flag);
-    return *reinterpret_cast<const void**>(&kObject);
-}
-
 struct FinishLoadedObjectFlag
 {
     int m_bFinishing;
@@ -667,14 +563,6 @@ struct __declspec(align(16)) LoadedObject
     LoadedObject(FinishLoadedObjectFlag flag) : m_pHeadNode(flag), m_iSecondInteger(flag), m_third(flag)
     {}
 };
-// @fnv 0x00e01830
-const void* FUN_00e01830()
-{
-    FinishLoadedObjectFlag flag;
-    flag.m_bFinishing = 0;
-    LoadedObject object(flag);
-    return *reinterpret_cast<const void**>(&object);
-}
 
 class __declspec(align(16)) S00e01e50_Object
 {
@@ -690,16 +578,6 @@ class __declspec(align(16)) S00e01e50_Object
     int unk1C;
 };
 
-// Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
-// @fnv 0x00e01e50
-const void* __cdecl FUN_00e01e50()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e01e50_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
-
 class __declspec(align(16)) S00e020f0_Object
 {
   public:
@@ -714,16 +592,6 @@ class __declspec(align(16)) S00e020f0_Object
     int unk1C;
 };
 
-// Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
-// @fnv 0x00e020f0
-const void* __cdecl FUN_00e020f0()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e020f0_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
-
 struct Handle_e02180
 {
     int m_v;
@@ -733,7 +601,6 @@ struct FUN_00e02180_sub
     void FUN_00cb0a70(Handle_e02180 kHandle);
     int m_00;
 };
-extern int DAT_010e9ccc;
 struct __declspec(align(16)) FUN_00e02180_obj
 {
     int* m_pVtbl;
@@ -749,18 +616,6 @@ struct __declspec(align(16)) FUN_00e02180_obj
     int unk28;
     int unk2C;
 };
-// @fnv 0x00e02180
-int* __cdecl FUN_00e02180()
-{
-    Handle_e02180 kHandle = {0};
-    FUN_00e02180_obj kObj;
-    kObj.m_pVtbl = &DAT_010e9ccc;
-    kObj.m_kSub08.FUN_00cb0a70(kHandle);
-    kObj.m_kSub10.FUN_00cb0a70(kHandle);
-    kObj.m_kSub14.FUN_00cb0a70(kHandle);
-    kObj.m_kSub18.FUN_00cb0a70(kHandle);
-    return kObj.m_pVtbl;
-}
 
 class __declspec(align(16)) S00e02730_Object
 {
@@ -776,68 +631,12 @@ class __declspec(align(16)) S00e02730_Object
     int unk1C;
 };
 
-// Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
-// @fnv 0x00e02730
-const void* __cdecl FUN_00e02730()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e02730_Object kObject(flag);
-    return kObject.m_ppVirtualMethodTable;
-}
-
 #include <xmmintrin.h>
-struct S_00e11530_Node
-{
-    S_00e11530_Node* next;
-    int unk04;
-    int unk08;
-    int unk0c;
-    __m128 bounds;
-};
-
-struct S_00e11530_Owner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    S_00e11530_Node* unk14;
-
-    __m128* FUN_00e11530(__m128* out);
-};
-
-// @fnv 0x00e11530
-__m128* S_00e11530_Owner::FUN_00e11530(__m128* out)
-{
-    S_00e11530_Node* node = unk14;
-    __m128 value = unk14->bounds;
-    out[0] = value;
-    out[1] = value;
-    if (node)
-    {
-        __m128 fTargetUpperBound = value;
-        __m128 fMinimumInputValue = value;
-        do
-        {
-            value = node->bounds;
-            node = node->next;
-            fTargetUpperBound = _mm_min_ps(fTargetUpperBound, value);
-            fMinimumInputValue = _mm_max_ps(fMinimumInputValue, value);
-        } while (node);
-        out[0] = fTargetUpperBound;
-        out[1] = fMinimumInputValue;
-    }
-    return out;
-}
 
 struct VecQ
 {
     float x, y, z, w;
 };
-
-extern VecQ DAT_012683a0;
 
 struct __declspec(align(16)) TransformQ
 {
@@ -850,24 +649,6 @@ struct __declspec(align(16)) RotationQ
     float m_col[12];
 };
 
-struct ShapeQ
-{
-    void FUN_00e11a90(const TransformQ* t);
-    void FUN_00e11b40(const RotationQ* r);
-};
-
-// @fnv 0x00e11b40
-void ShapeQ::FUN_00e11b40(const RotationQ* r)
-{
-    TransformQ t;
-    t.m_vTranslation = DAT_012683a0;
-    *(__m128*)&t.m_rot[0] = *(const __m128*)&r->m_col[0];
-    *(__m128*)&t.m_rot[4] = *(const __m128*)&r->m_col[4];
-    *(__m128*)&t.m_rot[8] = *(const __m128*)&r->m_col[8];
-    FUN_00e11a90(&t);
-}
-
-extern unsigned __int64 g_unk01268370[6];
 struct __declspec(align(16)) Rot
 {
     unsigned __int64 d[6];
@@ -879,28 +660,6 @@ struct __declspec(align(16)) Transform
     float r2[4];
     float t[4];
 };
-struct Owner
-{
-    void FUN_00e11a90(const Transform* xf);
-    void FUN_00e11ca0(const __m128* src);
-};
-// @fnv 0x00e11ca0
-void Owner::FUN_00e11ca0(const __m128* src)
-{
-    Rot rot;
-    rot.d[0] = g_unk01268370[0];
-    rot.d[1] = g_unk01268370[1];
-    rot.d[2] = g_unk01268370[2];
-    rot.d[3] = g_unk01268370[3];
-    rot.d[4] = g_unk01268370[4];
-    rot.d[5] = g_unk01268370[5];
-    Transform xf;
-    *(__m128*)xf.r0 = *(__m128*)&rot.d[0];
-    *(__m128*)xf.r1 = *(__m128*)&rot.d[2];
-    *(__m128*)xf.r2 = *(__m128*)&rot.d[4];
-    *(__m128*)xf.t = *src;
-    FUN_00e11a90(&xf);
-}
 
 struct S00e00d70_Arg
 {
@@ -938,14 +697,6 @@ struct __declspec(align(16)) S00e00d70_Object
     void FUN_00d57b20(S00e00d70_Arg arg);
 };
 
-// @fnv 0x00e00d70
-int __cdecl FUN_00e00d70()
-{
-    S00e00d70_Object object;
-    object.FUN_00d57b20(S00e00d70_Arg(0));
-    return (int)object.first;
-}
-
 namespace N {
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -954,9 +705,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C"
 {
     N::__m128 _mm_load_ps(const float*);
-    N::__m128 _mm_load_ss(const float*);
-    N::__m128 _mm_set_ss(float);
-    N::__m128 _mm_set1_ps(float);
     N::__m128 _mm_shuffle_ps(N::__m128, N::__m128, int);
     N::__m128 _mm_mul_ps(N::__m128, N::__m128);
     N::__m128 _mm_add_ps(N::__m128, N::__m128);
@@ -975,14 +723,6 @@ struct __declspec(align(16)) Vector4f
                                          N::_mm_load_ps(v)));
     }
 };
-inline float maxScore(float a, float b)
-{
-    return a > b ? a : b;
-}
-inline N::__m128 scaleNormal(const Vector4f& n, const N::__m128& s)
-{
-    return N::_mm_mul_ps(N::_mm_shuffle_ps(s, s, 0), N::_mm_load_ps(n.v));
-}
 struct Vertex
 {
     Vertex* next;
@@ -1005,17 +745,6 @@ struct Vertex
         handle44 = a.handle44;
     }
 };
-inline bool vertexLess(const Vertex* a, const Vertex* b)
-{
-    for (int i = 0; i < 3; ++i)
-    {
-        if (b->position.v[i] < a->position.v[i])
-            return false;
-        if (b->position.v[i] > a->position.v[i])
-            return true;
-    }
-    return false;
-}
 struct VertexTriple
 {
     Vertex* values[3];
@@ -1068,22 +797,6 @@ struct EdgeNode
         unk40 = a.unk40;
     }
 };
-struct EdgeMesh
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    EdgeNode* head;
-    int count;
-};
 struct EdgeRef
 {
     EdgeNode* node;
@@ -1134,8 +847,6 @@ struct EdgeMemory
 EdgeMemory* FUN_00c85750();
 void FUN_00c908c0(void*, void*, int, int);
 void ResizeAudioStream(void*, void*, int);
-float FUN_00e13870(EdgeNode*, int);
-float ClampedAcos(float);
 template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int needed, int elementSize)
 {
     int available = array.capacity & 0x3fffffff;
@@ -1194,134 +905,6 @@ struct EdgePool
         return item;
     }
 };
-struct PointerSlotArray
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    void* slots[1];
-};
-extern PointerSlotArray* DAT_0126ebe8;
-extern int DAT_0126ebec;
-extern int DAT_0126ebf0;
-inline void registerEdge(EdgeNode* node, int tag)
-{
-    if (!(DAT_0126ebf0 & 1))
-    {
-        DAT_0126ebf0 |= 1;
-        DAT_0126ebe8 = 0;
-        DAT_0126ebec = 0;
-    }
-    node->edges[tag] = (unsigned int)DAT_0126ebe8 + DAT_0126ebec;
-    if (DAT_0126ebe8)
-        DAT_0126ebe8->slots[DAT_0126ebec] = (void*)((unsigned int)node + tag);
-}
-struct EdgeProcessor
-{
-    int unk00;
-    int unk04;
-    EdgePool vertices;
-    EdgePool edges;
-    void FUN_00e11910(EdgeNode*);
-    void FUN_00e195c0(float threshold, float distance, const EdgeMesh* mesh);
-};
-// @fnv 0x00e195c0
-void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh* mesh)
-{
-    EdgeArray<EdgeRef> refs;
-    EdgeArray<float> scores;
-    {
-        int required = mesh->count * 3;
-        EdgeMemory* memory = FUN_00c85750();
-        memory->allocator->reserve(refs, required, 8);
-    }
-    {
-        int required = mesh->count * 3;
-        EdgeMemory* memory = FUN_00c85750();
-        memory->allocator->reserve(scores, required, 4);
-    }
-    for (EdgeNode* node = mesh->head; node; node = node->next)
-    {
-        int edge = 0;
-        do
-        {
-            EdgeRef current(node, edge);
-            Vertex* second = current.second();
-            Vertex* first = current.first();
-            if (!(vertexLess(second, first) && (node->edges[edge] & ~3u)))
-                if ((node->edges[edge] & ~3u) && FUN_00e13870(node, edge) > 0.0f)
-                {
-                    refs.grow(8);
-                    EdgeRef* ref = (EdgeRef*)refs.data + refs.size;
-                    if (ref)
-                    {
-                        ref->node = node;
-                        ref->index = edge;
-                    }
-                    ++refs.size;
-                    scores.grow(4);
-                    ((float*)scores.data)[scores.size++] = 0.0f;
-                }
-        } while (++edge < 3);
-    }
-    for (int index = 0; index < refs.size; ++index)
-    {
-        EdgeRef ref = ((EdgeRef*)refs.data)[index];
-        EdgeNode* adjacent = (EdgeNode*)(ref.node->edges[ref.index] & ~3u);
-        N::__m128 product = N::_mm_mul_ps(N::_mm_load_ps(ref.node->normal.v), N::_mm_load_ps(adjacent->normal.v));
-        N::__m128 y = N::_mm_shuffle_ps(product, product, 0x55);
-        N::__m128 z = N::_mm_shuffle_ps(product, product, 0xaa);
-        y = N::_mm_add_ss(y, product);
-        z = N::_mm_add_ss(z, y);
-        ((float*)scores.data)[index] = ClampedAcos(N::_mm_cvtss_f32(z));
-    }
-    float maximum = 0.0f;
-    for (int index = 0; index < refs.size; ++index)
-    {
-        float score = ((float*)scores.data)[index];
-        maximum = maxScore(score, maximum);
-    }
-    for (int index = 0; index < refs.size; ++index)
-        ((float*)scores.data)[index] /= maximum;
-    for (int index = 0; index < refs.size; ++index)
-    {
-        if (((float*)scores.data)[index] > threshold)
-        {
-            EdgeRef ref = ((EdgeRef*)refs.data)[index];
-            Vertex* first = ref.node->vertices[ref.index];
-            __declspec(align(16)) Vector4f a = first->position;
-
-            N::__m128 p = scaleNormal(first->normal, N::_mm_set_ss(distance));
-            Vertex* second = ref.node->vertices[(9 >> (2 * ref.index)) & 3];
-            __declspec(align(16)) Vector4f b = second->position;
-            N::__m128 q = scaleNormal(second->normal, N::_mm_set_ss(distance));
-            N::_mm_store_ps(a.v, N::_mm_add_ps(p, N::_mm_load_ps(a.v)));
-            N::_mm_store_ps(b.v, N::_mm_add_ps(q, N::_mm_load_ps(b.v)));
-            Vertex* va = vertices.allocate(Vertex());
-            Vertex* vb = vertices.allocate(Vertex());
-            N::_mm_store_ps(va->position.v, N::_mm_load_ps(a.v));
-            N::_mm_store_ps(vb->position.v, N::_mm_load_ps(b.v));
-            EdgeNode* edge = edges.allocate(EdgeNode());
-            edge->vertices[0] = va;
-            edge->vertices[1] = vb;
-            edge->vertices[2] = va;
-            FUN_00e11910(edge);
-            registerEdge(edge, 0);
-            registerEdge(edge, 1);
-            registerEdge(edge, 2);
-        }
-    }
-    {
-        EdgeMemory* memory = FUN_00c85750();
-        memory->allocator->clear(scores, 4);
-    }
-    {
-        EdgeMemory* memory = FUN_00c85750();
-        memory->allocator->clear(refs, 8);
-    }
-}
 
 struct LoadedName_E001F0
 {
@@ -1351,15 +934,6 @@ class __declspec(align(16)) ChainAction_E001F0 : public ChainActionBase_E001F0
     void* constraintInstance;
 };
 
-// @fnv 0x00e001f0
-const void* __cdecl FUN_00e001f0()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    ChainAction_E001F0 kObject(flag);
-    return *reinterpret_cast<const void**>(&kObject);
-}
-
 struct S00e01490_Member
 {
     S00e01490_Member(FinishingFlag flag);
@@ -1385,15 +959,6 @@ class __declspec(align(16)) S00e01490_Object
     S00e01490_Member m_kMember;
 };
 
-// @fnv 0x00e01490
-const void* __cdecl FUN_00e01490()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e01490_Object kObject(flag);
-    return *reinterpret_cast<const void**>(&kObject);
-}
-
 struct SceneFinishString
 {
     void* m_ptr;
@@ -1416,15 +981,6 @@ struct __declspec(align(16)) SceneFinishObject
     SceneFinishObject(FinishFlag flag) : m_member08(flag), m_member0C(flag)
     {}
 };
-
-// @fnv 0x00e01c60
-void* __cdecl FUN_00e01c60()
-{
-    FinishFlag f;
-    f.value = 0;
-    SceneFinishObject o(f);
-    return *(void**)&o;
-}
 
 struct S00e01d10_Member
 {
@@ -1451,15 +1007,6 @@ class __declspec(align(16)) S00e01d10_Object
     int unk2C;
 };
 
-// @fnv 0x00e01d10
-const void* __cdecl FUN_00e01d10()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e01d10_Object kObject(flag);
-    return *reinterpret_cast<const void**>(&kObject);
-}
-
 struct S00e022a0_Member
 {
     S00e022a0_Member(FinishingFlag flag);  // FUN_00cb0a70
@@ -1480,12 +1027,3 @@ class __declspec(align(16)) S00e022a0_Object
     int unk18;
     int unk1C;
 };
-
-// @fnv 0x00e022a0
-const void* __cdecl FUN_00e022a0()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00e022a0_Object kObject(flag);
-    return *reinterpret_cast<const void**>(&kObject);
-}

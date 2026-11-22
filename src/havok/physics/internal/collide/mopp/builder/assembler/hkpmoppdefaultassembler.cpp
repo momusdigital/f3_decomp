@@ -2,23 +2,29 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl GrowBuffer();
+extern "C" void __cdecl hkpMoppCodeGenerator_resize();
 
+// hkpMoppCodeGenerator: the code buffer is filled from its end backwards (New Vegas Xbox 360 PDB names).
 struct FUN_00e06780_class
 {
+    int unk00, unk04;
+    int m_size;           // +0x08
+    int m_pos;            // +0x0C
+    char* m_code;         // +0x10
     void __thiscall AppendChar(char b);
 };
 
-// Writes character b at the current write position, advances the offset, and calls GrowBuffer when the offset reaches the capacity.
+// Writes character b at the current write position, advances the offset, and calls hkpMoppCodeGenerator_resize when the offset reaches the capacity.
 // @fnv 0x00e06780
+// pdb: hkpMoppCodeGenerator::addCode | hkpMoppDefaultAssembler.obj | tesv_win, call_dedup, low
 void __thiscall FUN_00e06780_class::AppendChar(char acValue)
 {
-    char* p = *(char**)((char*)this + 0x10) - *(int*)((char*)this + 0xc);
-    int base = *(int*)((char*)this + 8);
+        char* p = m_code - m_pos;
+    int base = m_size;
     *(p + base - 1) = acValue;
-    ++*(int*)((char*)this + 0xc);
-    if (*(int*)((char*)this + 0xc) >= *(int*)((char*)this + 8))
-        GrowBuffer();
+    ++m_pos;
+    if (m_pos >= m_size)
+        hkpMoppCodeGenerator_resize();
 }
 
 struct S_00e066f0_Src
@@ -62,6 +68,8 @@ struct S_00e066f0
 };
 
 // @fnv 0x00e066f0
+// pdb: hkpMoppAssemblerNodeInfo::updateOffsetAndSpread | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: node
 void S_00e066f0::CopyOffsets(const S_00e066f0_Src* src)
 {
     m_iElementCount = src->m_kRayEnd - src->m_pRayStart;
@@ -100,6 +108,7 @@ struct FUN_00e06730_cls
 };
 
 // @fnv 0x00e06730
+// pdb: hkpMoppAssemblerCutInfo::calcPossibleCutPlanes | hkpMoppDefaultAssembler.obj | tesv_win, call_gap, low
 void FUN_00e06730_cls::AlignRanges()
 {
     int iShift0 = m_iShift;
@@ -129,22 +138,25 @@ struct ByteSink
     int m_iUsed;
     char* m_pBuffer;
 
-    void GrowBuffer();
+    void hkpMoppCodeGenerator_resize();
 
     void PutByte(char acValue)
     {
         m_pBuffer[m_uiLogicalSize - m_iUsed - 1] = acValue;
         m_iUsed++;
         if (m_iUsed >= m_uiLogicalSize)
-            GrowBuffer();
+            hkpMoppCodeGenerator_resize();
     }
 
-    void PutBytePair(char acFirst, char acSecond);
+    void hkpMoppCodeGenerator_addCommand8(char acFirst, char acSecond);
 };
 
 // Writes acSecond then acFirst to the sink via PutByte, in that order.
 // @fnv 0x00e067b0
-void ByteSink::PutBytePair(char acFirst, char acSecond)
+// pdb: hkpMoppCodeGenerator::addCommand8 | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap, high
+// pdb params: code, param
+// pdb: hkpMoppCodeGenerator::addCommand8 | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap, high (was: PutBytePair)
+void ByteSink::hkpMoppCodeGenerator_addCommand8(char acFirst, char acSecond)
 {
     PutByte(acSecond);
     PutByte(acFirst);
@@ -162,20 +174,22 @@ struct BufferWriter
 };
 // Writes the low three bytes of value into the buffer from the end, advancing position and flushing when it reaches capacity.
 // @fnv 0x00e06920
+// pdb: hkpMoppCodeGenerator::addParam24 | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: param
 void BufferWriter::WriteInt24(int value)
 {
     data[capacity - position - 1] = (unsigned char)value;
     ++position;
     if (position >= capacity)
-        ((FlushFunction)GrowBuffer)(this);
+        ((FlushFunction)hkpMoppCodeGenerator_resize)(this);
     data[capacity - position - 1] = (unsigned char)(value >> 8);
     ++position;
     if (position >= capacity)
-        ((FlushFunction)GrowBuffer)(this);
+        ((FlushFunction)hkpMoppCodeGenerator_resize)(this);
     data[capacity - position - 1] = (unsigned char)(value >> 16);
     ++position;
     if (position >= capacity)
-        ((FlushFunction)GrowBuffer)(this);
+        ((FlushFunction)hkpMoppCodeGenerator_resize)(this);
 }
 
 struct S_00e06aa0_Pool
@@ -253,7 +267,7 @@ struct S_00e06aa0
     int unk6C;
     int unk70;
     bool m_enabled;
-    void FUN_00e06aa0(S_00e06aa0_Item* item);
+    void hkpMoppDefaultAssembler_releaseNode(S_00e06aa0_Item* item);
 };
 // If the item is not flagged and this object is enabled, frees the item's two pointers through the pool and nulls them.
 // @f3 0x00a86210 (community match, verified in this file)
@@ -286,7 +300,8 @@ struct R2_Obj
     int unk60;
     bool m_enabled;
 };
-void S_00e06aa0::FUN_00e06aa0(S_00e06aa0_Item* item)
+// pdb: hkpMoppDefaultAssembler::releaseNode | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_gap) + skyrim(call_gap), high
+void S_00e06aa0::hkpMoppDefaultAssembler_releaseNode(S_00e06aa0_Item* item)
 {
     if (!item->m_flag && ((R2_Obj*)this)->m_enabled)
     {
@@ -319,6 +334,8 @@ struct Node
 };
 // Walks the linked list from node, marking each node's unk39 flag until one is already set or the list ends.
 // @fnv 0x00e06b20
+// pdb: hkpMoppDefaultAssembler::fixScale | hkpMoppDefaultAssembler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: currentNode
 void __stdcall FUN_00e06b20(Node* node)
 {
     while (node)
@@ -350,6 +367,8 @@ struct Limits
 };
 // Copies second->unk34 into third->unk34, then compares unk38/unk24 thresholds and may overwrite third->unk34 with first->unk24.
 // @fnv 0x00e06b50
+// pdb: hkpMoppDefaultAssembler::calcReoffset | hkpMoppDefaultAssembler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: currentNode, parentInfo, currentInfo
 void __stdcall AdjustLimits(Limits* first, Limits* second, Limits* third)
 {
     third->unk34 = second->unk34;
@@ -374,29 +393,6 @@ void __stdcall AdjustLimits(Limits* first, Limits* second, Limits* third)
         third->unk34 = first->unk24;
 }
 
-struct E06C20Writer
-{
-    void FUN_00e069a0(int size, void* data);
-};
-
-struct E06C20Object
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    E06C20Writer* m_pStreamWriter;
-
-    int FUN_00e06c20(void* data);
-};
-
-// @fnv 0x00e06c20
-int E06C20Object::FUN_00e06c20(void* data)
-{
-    m_pStreamWriter->FUN_00e069a0(0x70, data);
-    return 5;
-}
-
 namespace fnv_00e06db0 {
 struct Node
 {
@@ -413,6 +409,8 @@ struct FUN_00e06db0_class
 
 // If *flag is set, calls WriteOp(0, c->m_40) when c->m_44 is 0 and b->m_44 is nonzero; otherwise when c->m_44 is 0 and c->m_40 is set.
 // @fnv 0x00e06db0
+// pdb: hkpMoppDefaultAssembler::checkAndAddProperties | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: currentNode, parentInfo, currentInfo
 void FUN_00e06db0_class::FUN_00e06db0(int* piFlag, Node* pNodeB, Node* pNodeC)
 {
     if (*piFlag)
@@ -457,6 +455,7 @@ template <class T> inline T S_00e07040_Min(T a, T b)
 {
     return a < b ? a : b;
 }
+// pdb: hkpMoppDefaultAssembler::calcRescaleBits | hkpMoppDefaultAssembler.obj | tesv_win, hash, low
 int __stdcall FUN_00e07040(S_00e07040_A* a, S_00e07040_B* b)
 {
     int n = b->unk08 - 8;
@@ -498,6 +497,8 @@ struct E07510Solver
 
 // If the input's m_type is 1, calls FUN_00e07070 with b, c and d, then always calls AdjustLimits with a, b and c.
 // @fnv 0x00e07510
+// pdb: hkpMoppDefaultAssembler::calcReoffset | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: hkpMoppDefaultAssembler::initTopDown)
+// pdb params: currentNode, parentInfo, currentInfo
 void E07510Solver::FUN_00e07510(E07510Input* pInput, void* b, void* c, void* d)
 {
     if (pInput->m_type == 1)
@@ -527,9 +528,9 @@ struct S_e07c50
     int unk24;
     int m_uiItemCount;
     void FUN_00e06b20(S_e07c50_Item* item);
-    void FUN_00e06e00(S_e07c50_Item* item, int b, int c);
-    void FUN_00e07550(S_e07c50_Item* item, int c);
-    int FUN_00e07c50(S_e07c50_Item* item, int b, int c);
+    void hkpMoppDefaultAssembler_addTerminals(S_e07c50_Item* item, int b, int c);
+    void hkpMoppDefaultAssembler_addCut(S_e07c50_Item* item, int c);
+    int hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(S_e07c50_Item* item, int b, int c);
 };
 struct S_e07c50_Item
 {
@@ -562,13 +563,14 @@ struct S_e07c50_Item
     int m_kRayEnd;
 };
 // @fnv 0x00e07c50
-int S_e07c50::FUN_00e07c50(S_e07c50_Item* item, int b, int c)
+// pdb: hkpMoppDefaultAssembler::assembleCutAndTerminalCommand | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, caller + bridge(call_gap_sim|call_gap) + skyrim(call_gap), high
+int S_e07c50::hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(S_e07c50_Item* item, int b, int c)
 {
     FUN_00e06b20(item);
     m_uiItemCount++;
     int start = m_buf->m_iElementCount;
-    FUN_00e06e00(item, b, c);
-    FUN_00e07550(item, c);
+    hkpMoppDefaultAssembler_addTerminals(item, b, c);
+    hkpMoppDefaultAssembler_addCut(item, c);
     item->m_kRayEnd = m_buf->m_iElementCount;
     int r = m_buf->m_iElementCount - start;
     item->m_flag38 = 1;
@@ -612,99 +614,8 @@ struct CheckResult
         return value;
     }
 };
-struct Tracker
-{
-    int unk00, unk04, unk08, count;
-};
 void __stdcall FUN_00e06b20(Node*);
 void __stdcall FUN_00e07510(Node*, void*, State*, MergeInfo*);
-struct TreeOptimizer
-{
-    int unk00, unk04, unk08, unk0C;
-    Tracker* tracker;
-    int unk14, threshold, unk1C, unk20, limit, count, unk2C;
-    float config30, config34, config38, config3C, config40, config44, config48, config4C, config50, config54, config58,
-        config5C, config60, config64, config68, config6C;
-    int period;
-    CheckResult FUN_00e06af0(Node*, State*);
-    int FUN_00e07c50(Node*, void*, State*);
-    void FUN_00e06aa0(Node*);
-    int FUN_00e07ca0(Node*, void*, State*, MergeInfo*);
-    int OptimizeTree(Node*, void*, State*);
-};
-// Recursively optimizes a node tree, retrying with a reduced threshold, merging child results and returning a combined score or -1.
-// @fnv 0x00e08040
-int TreeOptimizer::OptimizeTree(Node* node, void* context, State* state)
-{
-    if (node->complete)
-        return 3;
-    if (state->depth <= threshold && state->depth % period == 0 && !state->retrying)
-    {
-        state->retrying = true;
-        int result = -1;
-        int savedThreshold = threshold;
-        while (!node->complete)
-        {
-            int previousCount = tracker->count;
-            State stateCopy = *state;
-            result = OptimizeTree(node, context, &stateCopy);
-            if (count > limit)
-                break;
-            if (previousCount == tracker->count)
-            {
-                if (threshold < 0)
-                    break;
-                threshold -= period;
-            }
-        }
-        threshold = savedThreshold;
-        state->retrying = false;
-        return result;
-    }
-    if (node->leaf)
-    {
-        FUN_00e06b20(node);
-        if (FUN_00e06af0(node, state))
-            return FUN_00e07c50(node, context, state);
-    }
-    else
-    {
-        MergeInfo info;
-        info.changed = false;
-        info.index = -1;
-        FUN_00e07510(node, context, state, &info);
-        int score = -1;
-        {
-
-            Node* rightChild = node->right;
-            if (rightChild)
-            {
-                State stateCopy;
-                stateCopy.FUN_00e095d0(state, rightChild, &config30);
-                score = OptimizeTree(rightChild, state, &stateCopy);
-                if (score >= 0)
-                    FUN_00e06aa0(rightChild);
-            }
-            Node* leftChild = node->left;
-            if (leftChild)
-            {
-                State stateCopy;
-                stateCopy.FUN_00e095d0(state, leftChild, &config30);
-                int leftResult = OptimizeTree(leftChild, state, &stateCopy);
-                if (leftResult >= 0)
-                {
-                    FUN_00e06aa0(leftChild);
-                    if (score >= 0 && FUN_00e06af0(node, state))
-                    {
-                        ++count;
-                        return FUN_00e07ca0(node, context, state, &info) + leftResult + score;
-                    }
-                }
-            }
-        }
-    }
-    return -1;
-}
 }  // namespace fnv_00e08040
 
 struct Allocator
@@ -729,17 +640,6 @@ struct FUN_00e09640_class
     void __thiscall DestroyAudioBuffer();
     FUN_00e09640_class* __thiscall FUN_00e09640(int flags);
 };
-// @fnv 0x00e09640
-FUN_00e09640_class* __thiscall FUN_00e09640_class::FUN_00e09640(int flags)
-{
-    DestroyAudioBuffer();
-    if (flags & 1)
-    {
-        Router* router = FUN_00c85750();
-        router->allocator->ReleaseBlock(this, unk04);
-    }
-    return this;
-}
 
 struct FUN_00e06800_cls
 {
@@ -750,11 +650,12 @@ struct FUN_00e06800_cls
     char* m_buf;
 
     void __thiscall Flush();
-    void __thiscall FUN_00e06800(char a, int v);
+    void __thiscall hkpMoppCodeGenerator_addCommand16(char a, int v);
 };
 
 // @fnv 0x00e06800
-void __thiscall FUN_00e06800_cls::FUN_00e06800(char acByte, int aiValue)
+// pdb: hkpMoppCodeGenerator::addCommand16 | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __thiscall FUN_00e06800_cls::hkpMoppCodeGenerator_addCommand16(char acByte, int aiValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
@@ -787,6 +688,7 @@ struct FUN_00e06880_cls
 
 // Writes the low three bytes of v and then a into the buffer from the end, flushing whenever the buffer fills.
 // @fnv 0x00e06880
+// pdb: hkpMoppCodeGenerator::addCommand24 | hkpMoppDefaultAssembler.obj | tesv_win, hash, low
 void __thiscall FUN_00e06880_cls::FUN_00e06880(char acTrailingByte, int aiValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
@@ -824,6 +726,8 @@ struct FUN_00e069a0_cls
 
 // Writes the four bytes of v and then a into m_buf from the end backwards, flushing whenever the buffer fills.
 // @fnv 0x00e069a0
+// pdb: hkpMoppCodeGenerator::addCommand24 | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: hkpMoppCodeGenerator::addCommand32)
+// pdb params: code, param
 void __thiscall FUN_00e069a0_cls::FUN_00e069a0(char a, unsigned int auValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)auValue;
@@ -854,7 +758,7 @@ void __thiscall FUN_00e069a0_cls::FUN_00e069a0(char a, unsigned int auValue)
 
 struct FUN_00e06490_cls
 {
-    void __thiscall GrowBuffer();
+    void __thiscall hkpMoppCodeGenerator_resize();
 };
 
 struct FUN_00e06a60_cls
@@ -869,6 +773,8 @@ struct FUN_00e06a60_cls
 };
 
 // @fnv 0x00e06a60
+// pdb: hkpMoppCodeGenerator::pad | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: size
 void __thiscall FUN_00e06a60_cls::FillWithPattern(int count)
 {
     if (count <= 0)
@@ -881,7 +787,7 @@ void __thiscall FUN_00e06a60_cls::FillWithPattern(int count)
         unk0c++;
         if (unk0c >= unk08)
         {
-            ((FUN_00e06490_cls*)this)->GrowBuffer();
+            ((FUN_00e06490_cls*)this)->hkpMoppCodeGenerator_resize();
         }
         n--;
     } while (n != 0);
@@ -929,11 +835,6 @@ struct FUN_00e06780_actor
 // no data members, so the flag field lives in the derived stand-in.
 struct FUN_00e06780_owner : public FUN_00e06780_class
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
     int unk14;
     int unk18;  // +0x18
     char* __thiscall FUN_00e06af0(char* out, FUN_00e06780_actor* actor, int* value);
@@ -941,6 +842,8 @@ struct FUN_00e06780_owner : public FUN_00e06780_class
 
 // Writes 1 to out if actor->unk08 is below 0x16 or *value exceeds this->unk18, otherwise writes 0, and returns out.
 // @fnv 0x00e06af0
+// pdb: hkpMoppDefaultAssembler::shouldAssemble | hkpMoppDefaultAssembler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: currentNode, currentInfo
 char* FUN_00e06780_owner::FUN_00e06af0(char* pResult, FUN_00e06780_actor* actor, int* piValue)
 {
     if (actor->unk08 < 0x16)
@@ -968,7 +871,7 @@ struct Stream
     int unk0c;
     char* unk10;
 
-    void GrowBuffer();
+    void hkpMoppCodeGenerator_resize();
 
     void AppendChar(char b)
     {
@@ -976,11 +879,11 @@ struct Stream
         unk0c++;
         if (unk0c >= unk08)
         {
-            GrowBuffer();
+            hkpMoppCodeGenerator_resize();
         }
     }
 
-    void FUN_00e06800(int a, int b);
+    void hkpMoppCodeGenerator_addCommand16(int a, int b);
 };
 
 struct FUN_00e06c40_class
@@ -992,15 +895,17 @@ struct FUN_00e06c40_class
 };
 
 // @fnv 0x00e06c40
+// pdb: hkpMoppDefaultAssembler::addDataOffset | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, medium, conflict (bridge: copyCodeAndEmbedTerminals)
+// pdb params: offset, numTerminals
 int __thiscall FUN_00e06c40_class::FUN_00e06c40(int a1, int a2)
 {
     m_stream->AppendChar((char)a2);
     m_stream->AppendChar((char)(a2 >> 8));
-    m_stream->FUN_00e06800(0xd, a1);
+    m_stream->hkpMoppCodeGenerator_addCommand16(0xd, a1);
     return 5;
 }
 
-extern "C" void __cdecl GrowBuffer();
+extern "C" void __cdecl hkpMoppCodeGenerator_resize();
 
 struct Sink
 {
@@ -1044,6 +949,8 @@ class FUN_00e06cb0_cls
 
 // Writes four bytes of the packet (m_b10, m_b0c, m_b08, m_b04) into the sink buffer, flushing when it fills.
 // @fnv 0x00e06cb0
+// pdb: hkpMoppDefaultAssembler::addRescale | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: cmd
 void __thiscall FUN_00e06cb0_cls::WritePacket(const Pkt* p)
 {
     {
@@ -1094,8 +1001,8 @@ struct S_00e06e00_Buf
     int unk8;
     int unkC;
     int unk10;
-    void PutBytePair(int tag, unsigned int v);
-    void FUN_00e06800(int tag, unsigned int v);
+    void hkpMoppCodeGenerator_addCommand8(int tag, unsigned int v);
+    void hkpMoppCodeGenerator_addCommand16(int tag, unsigned int v);
     void FUN_00e06880(int tag, unsigned int v);
     void FUN_00e069a0(int tag, unsigned int v);
 };
@@ -1165,12 +1072,13 @@ struct S_00e06e00_Cls
     int unk8;
     int unkC;
     S_00e06e00_Buf* unk10;
-    int FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c);
+    int hkpMoppDefaultAssembler_addTerminals(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c);
     void WriteOp(int idx, S_00e06e00_Item* item);
 };
 
 // @fnv 0x00e06e00
-int S_00e06e00_Cls::FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c)
+// pdb: hkpMoppDefaultAssembler::addTerminals | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap_sim + bridge(call_seq|objrun) + skyrim(call_seq), high
+int S_00e06e00_Cls::hkpMoppDefaultAssembler_addTerminals(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c)
 {
     int start = unk10->unkC;
     unsigned int v = *a->unk60 - c->unk34;
@@ -1181,16 +1089,16 @@ int S_00e06e00_Cls::FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_
         buf->unkC++;
         if (buf->unkC >= buf->unk8)
         {
-            GrowBuffer();
+            hkpMoppCodeGenerator_resize();
         }
     }
     else if (v < 0x100)
     {
-        buf->PutBytePair(0x50, v);
+        buf->hkpMoppCodeGenerator_addCommand8(0x50, v);
     }
     else if (v < 0x10000)
     {
-        buf->FUN_00e06800(0x51, v);
+        buf->hkpMoppCodeGenerator_addCommand16(0x51, v);
     }
     else if (v < (unsigned int)&DAT_01000000)
     {
@@ -1222,7 +1130,10 @@ extern const double g_thresholdB;
 
 // Compares the x, y and z components of a Vec3 against g_thresholdA and g_thresholdB and returns a code from 0 to 12 identifying the region.
 // @fnv 0x00e06f20
-int __stdcall ClassifyVec3Region(const Vec3* pVec)
+// pdb: hkpMoppDefaultAssembler::getSplitCode | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, caller, high
+// pdb params: norm
+// pdb: hkpMoppDefaultAssembler::getSplitCode | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, caller, high (was: ClassifyVec3Region)
+int __stdcall hkpMoppDefaultAssembler_getSplitCode(const Vec3* pVec)
 {
     int r;
     if ((double)pVec->x > g_thresholdA)
@@ -1311,6 +1222,8 @@ struct S_00e07070_Result
 extern "C" int __stdcall FUN_00e07040(S_00e07070_Object* a, S_00e07070_Object* b);
 
 // @fnv 0x00e07070
+// pdb: hkpMoppDefaultAssembler::recalcRescale | hkpMoppDefaultAssembler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: parent, info, cmd
 void __stdcall FUN_00e07070(S_00e07070_Object* a, S_00e07070_Object* b, S_00e07070_Result* out)
 {
     int n = FUN_00e07040(a, b);
@@ -1357,13 +1270,13 @@ struct S_00e07680_Writer
     int m_pos;
     unsigned char* m_buf;
     void AppendChar(int b);
-    void GrowBuffer();
+    void hkpMoppCodeGenerator_resize();
     __forceinline void put(unsigned char b)
     {
         m_buf[m_cap - m_pos - 1] = b;
         m_pos++;
         if (m_pos >= m_cap)
-            GrowBuffer();
+            hkpMoppCodeGenerator_resize();
     }
 };
 struct S_00e07680
@@ -1374,11 +1287,12 @@ struct S_00e07680
     int unkc;
     S_00e07680_Writer* w;
     void WriteOffsetDelta(int);
-    void FUN_00e07680(int a1, int a2, int a3, int a4, int a5);
+    void hkpMoppDefaultAssembler_addSplit(int a1, int a2, int a3, int a4, int a5);
 };
 
 // @fnv 0x00e07680
-void S_00e07680::FUN_00e07680(int a1, int a2, int a3, int a4, int a5)
+// pdb: hkpMoppDefaultAssembler::addSplit | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_gap) + skyrim(call_seq), high
+void S_00e07680::hkpMoppDefaultAssembler_addSplit(int a1, int a2, int a3, int a4, int a5)
 {
     int e = w->m_pos;
     int d = e - a5;
@@ -1460,30 +1374,32 @@ struct Handler
     int unk00, unk04, unk08, unk0c;
     Entry* unk10;
     void __thiscall FUN_00e06b20(Entry*);
-    int __thiscall ClassifyVec3Region(int);
-    void __thiscall FUN_00e07880(Entry*, Entry*, Entry**, Entry**);
-    void __thiscall FUN_00e07680(Entry*, Entry*, int, int, int);
+    int __thiscall hkpMoppDefaultAssembler_getSplitCode(int);
+    void __thiscall hkpMoppDefaultAssembler_findPlanes(Entry*, Entry*, Entry**, Entry**);
+    void __thiscall hkpMoppDefaultAssembler_addSplit(Entry*, Entry*, int, int, int);
     void __thiscall WriteSize(int);
     void __thiscall FUN_00e06db0(Entry*, Entry*, Entry*);
-    void __thiscall FUN_00e07550(Entry*, Entry*);
+    void __thiscall hkpMoppDefaultAssembler_addCut(Entry*, Entry*);
     void __thiscall WritePacket(char*);
     int __thiscall FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
 };
 // @fnv 0x00e07ca0
+// pdb: hkpMoppDefaultAssembler::assembleNonTerminalCommand | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: currentNode, parentInfo, currentInfo, rescaleCommandInfo
 int __thiscall Handler::FUN_00e07ca0(Entry* first, Entry* second, Entry* third, char* flag)
 {
     Entry* originalFirst = first;
     FUN_00e06b20(originalFirst);
     int previous = unk10->unk0c;
-    int value = ClassifyVec3Region(originalFirst->unk60);
+    int value = hkpMoppDefaultAssembler_getSplitCode(originalFirst->unk60);
     Entry* originalThird = third;
-    FUN_00e07880(originalFirst, originalThird, &first, &third);
-    FUN_00e07680(third, first, value, originalFirst->unk70->unk5c, originalFirst->unk74->unk5c);
+    hkpMoppDefaultAssembler_findPlanes(originalFirst, originalThird, &first, &third);
+    hkpMoppDefaultAssembler_addSplit(third, first, value, originalFirst->unk70->unk5c, originalFirst->unk74->unk5c);
     int difference = originalThird->unk34 - second->unk34;
     if (difference != 0)
         WriteSize(difference);
     FUN_00e06db0(originalFirst, second, originalThird);
-    FUN_00e07550(originalFirst, originalThird);
+    hkpMoppDefaultAssembler_addCut(originalFirst, originalThird);
     if (*flag)
         WritePacket(flag);
     originalFirst->unk5c = unk10->unk0c;
@@ -1491,7 +1407,7 @@ int __thiscall Handler::FUN_00e07ca0(Entry* first, Entry* second, Entry* third, 
     return unk10->unk0c - previous;
 }
 
-extern int __cdecl FUN_00cbfef0(float f);
+extern int __cdecl hkMath_hkFloatToInt(float f);
 
 struct S_00e07da0_Bounds
 {
@@ -1598,10 +1514,10 @@ struct S_00e07da0_Tree
     float unk54;
 
     void BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* parent, S_00e07da0_Region* region);
-    void ComputeNodeBounds(S_00e07da0_Node* node, S_00e07da0_Region* region);
+    void hkpMoppDefaultAssembler_calcTermCut(S_00e07da0_Node* node, S_00e07da0_Region* region);
     void FUN_00e07070(S_00e07da0_Region* parent, S_00e07da0_Region* region, S_00e07da0_Result* out);
-    int ClassifyVec3Region(void* p);
-    void FUN_00e07880(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
+    int hkpMoppDefaultAssembler_getSplitCode(void* p);
+    void hkpMoppDefaultAssembler_findPlanes(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
 };
 
 // Recursively builds a region for node from parent and region, merging child bounds and states into node->info.
@@ -1707,14 +1623,16 @@ struct Tree
     int unk40;
     float unk44;
 
-    void ComputeNodeBounds(Node* node, Region* region);
+    void hkpMoppDefaultAssembler_calcTermCut(Node* node, Region* region);
     void Solve(Region* parent, Region* region, Result* out);
-    int ClassifyVec3Region(void* p);
+    int hkpMoppDefaultAssembler_getSplitCode(void* p);
     void EdgeRange(Node* node, Region* region, int* lo, int* hi);
 };
 }
-extern int __cdecl FUN_00cbfef0(float);
+extern int __cdecl hkMath_hkFloatToInt(float);
 
+// pdb: hkpMoppDefaultAssembler::preCalcCutPositions | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap, low
+// pdb params: currentNode, parentInfo, currentInfo
 void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* pNode, S_00e07da0_Region* pParent, S_00e07da0_Region* pRegion)
 {
     n_a87830::Tree* self = (n_a87830::Tree*)this;
@@ -1729,7 +1647,7 @@ void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* pNode, S_00e07da0_Region* pPa
     if (node->b4 != 0)
     {
         region->AlignRanges();
-        self->ComputeNodeBounds(node, region);
+        self->hkpMoppDefaultAssembler_calcTermCut(node, region);
         return;
     }
 
@@ -1737,7 +1655,7 @@ void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* pNode, S_00e07da0_Region* pPa
     if (info->b2 == 1)
         self->Solve(parent, region, &out);
     region->AlignRanges();
-    int axis = self->ClassifyVec3Region(node->unk60);
+    int axis = self->hkpMoppDefaultAssembler_getSplitCode(node->unk60);
     {
         int lo, hi;
         self->EdgeRange(node, region, &lo, &hi);
@@ -1752,7 +1670,7 @@ void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* pNode, S_00e07da0_Region* pPa
     {
         float sc = self->unk3C;
         float* ps = &sc;
-        FUN_00cbfef0(self->unk44 * *ps);
+        hkMath_hkFloatToInt(self->unk44 * *ps);
         info->mins[k] = 0;
         info->maxs[k] = 0x7fffffff;
     }
@@ -1848,53 +1766,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-struct BSAudio;
-
-extern int DAT_010ea5dc;
-extern int DAT_0102e388;
-
-struct FUN_00e09450_cls
-{
-    int m_vptr00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    void* m_pData;
-    int m_iArrayLength;
-    unsigned int m_uCapBits;
-
-    void DestroyAudioBuffer();
-};
-
-// @fnv 0x00e09450
-void FUN_00e09450_cls::DestroyAudioBuffer()
-{
-    m_vptr00 = (int)&DAT_010ea5dc;
-    AudioHolder* pAudioHolder = (AudioHolder*)FUN_00c85750();
-    AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
-    m_iArrayLength = 0;
-    unsigned int uCapacityBits = m_uCapBits;
-    if ((uCapacityBits & 0x80000000u) == 0)
-    {
-        pAudioAllocator->FreeArray(m_pData, (uCapacityBits & 0x3fffffffu) * 32);
-    }
-    m_pData = 0;
-    m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&DAT_0102e388;
-}
-
 int __cdecl FUN_00cbfe20(float v);
 
 struct FUN_00e094a0_floatpair
@@ -1928,6 +1799,8 @@ struct FUN_00e094a0_cls
 };
 
 // @fnv 0x00e094a0
+// pdb: hkpMoppAssemblerNodeInfo::updateExtents | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: node, codeInfo
 void FUN_00e094a0_cls::BuildScaledRanges(FUN_00e094a0_floatset* pFloatSet, float* pValues)
 {
     int best = 0;
@@ -1970,6 +1843,7 @@ struct FUN_00e09540_Self
 };
 
 // @fnv 0x00e09540
+// pdb: hkpMoppAssemblerNodeInfo::calcMaxExtentsSignificantBits | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, low
 void FUN_00e09540_Self::FUN_00e09540()
 {
     int size = this->unk10 - this->unk0c;
@@ -2038,6 +1912,8 @@ class FUN_00e095d0_cls
 };
 
 // @fnv 0x00e095d0
+// pdb: hkpMoppAssemblerNodeInfo::hkpMoppAssemblerNodeInfo | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: parentInfo, node, codeInfo
 FUN_00e095d0_cls* FUN_00e095d0_cls::FUN_00e095d0(FUN_00e095d0_cls* pSource, unsigned int a2, unsigned int a3)
 {
     *this = *pSource;
@@ -2073,6 +1949,8 @@ class E6BC0Encoder
 
 // Writes iValue to the writer using a byte, short or int opcode chosen by the value's magnitude, offset from iOpcode.
 // @fnv 0x00e06bc0
+// pdb: hkpMoppCodeGenerator::addCode | hkpMoppDefaultAssembler.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: hkpMoppDefaultAssembler::addProperty)
+// pdb params: code
 void E6BC0Encoder::WriteOp(int iBaseOpcode, int iValue)
 {
     E6BC0Writer* pkWriter = m_pkWriter;
@@ -2098,15 +1976,17 @@ struct FUN_00e06ed0_Class
 
 // Computes the difference between the buffer's field at offset 12 and iTarget, then writes it with a width code (5-8) chosen by its magnitude if positive.
 // @fnv 0x00e06ed0
+// pdb: hkpMoppDefaultAssembler::addJump | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: jumpPos
 void FUN_00e06ed0_Class::WriteOffsetDelta(int iTargetValue)
 {
     int iOffset = ((int*)m_pStreamWriter)[3] - iTargetValue;
     if (iOffset > 0)
     {
         if (iOffset < 0xff)
-            m_pStreamWriter->PutBytePair(5, iOffset);
+            m_pStreamWriter->hkpMoppCodeGenerator_addCommand8(5, iOffset);
         else if (iOffset < 0xffff)
-            m_pStreamWriter->FUN_00e06800(6, iOffset);
+            m_pStreamWriter->hkpMoppCodeGenerator_addCommand16(6, iOffset);
         else if (iOffset < 0xffffff)
             m_pStreamWriter->FUN_00e06880(7, iOffset);
         else
@@ -2114,7 +1994,7 @@ void FUN_00e06ed0_Class::WriteOffsetDelta(int iTargetValue)
     }
 }
 
-extern int __cdecl FUN_00cbfef0(float f);
+extern int __cdecl hkMath_hkFloatToInt(float f);
 
 struct Node07400
 {
@@ -2169,11 +2049,14 @@ struct Tree07400
     int unk5C;
     float m_afMaxCount[3];
 
-    void ComputeNodeBounds(Node07400* node, Region07400* region);
+    void hkpMoppDefaultAssembler_calcTermCut(Node07400* node, Region07400* region);
 };
 
 // @f3 0x00a86eb0 (community match, verified in this file)
-void Tree07400::ComputeNodeBounds(Node07400* node, Region07400* region)
+// pdb: hkpMoppDefaultAssembler::calcTermCut | hkpMoppDefaultAssembler.obj | fnv360_0822_debug, call_gap_sim, high
+// pdb params: currentNode, currentInfo
+// pdb: hkpMoppDefaultAssembler::calcTermCut | hkpMoppDefaultAssembler.obj | fnv360_0822_debug, call_gap_sim, high (was: ComputeNodeBounds)
+void Tree07400::hkpMoppDefaultAssembler_calcTermCut(Node07400* node, Region07400* region)
 {
     Node07400* pNode = *(Node07400* volatile*)&node;
     Region07400* pRegion = *(Region07400* volatile*)&region;
@@ -2188,7 +2071,7 @@ void Tree07400::ComputeNodeBounds(Node07400* node, Region07400* region)
         if (fExtent < fMaxCount)
             fCount = Min07400(fCount, fMaxCount);
         float fScale = *(float*)((char*)this + 0x3c);
-        int iMargin = FUN_00cbfef0(fScale * fCount);
+        int iMargin = hkMath_hkFloatToInt(fScale * fCount);
         int iHi = region->ranges[i].hi;
         pNode->mins[i] = region->ranges[i].lo - iMargin;
         pNode->maxs[i] = iHi + iMargin + 1;
@@ -2247,11 +2130,12 @@ struct FUN_00e07550_cls
     int unk08;
     int unk0c;
     BufWriter* m_10;
-    void __thiscall FUN_00e07550(Arg1Flags* a1, Arg2Layout* a2);
+    void __thiscall hkpMoppDefaultAssembler_addCut(Arg1Flags* a1, Arg2Layout* a2);
 };
 
 // @fnv 0x00e07550
-void FUN_00e07550_cls::FUN_00e07550(Arg1Flags* apFlags, Arg2Layout* apLayout)
+// pdb: hkpMoppDefaultAssembler::addCut | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap_sim + bridge(call_seq|call_gap_sim) + skyrim(call_seq), high
+void FUN_00e07550_cls::hkpMoppDefaultAssembler_addCut(Arg1Flags* apFlags, Arg2Layout* apLayout)
 {
     int i = 0;
     int* pHighValue = &apLayout->m_0c[0].m_ucHighNibble;
@@ -2280,8 +2164,6 @@ void FUN_00e07550_cls::FUN_00e07550(Arg1Flags* apFlags, Arg2Layout* apLayout)
         pBaseValue++;
     }
 }
-
-extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 
 struct KdNode;
 struct KdCtx;
@@ -2425,6 +2307,8 @@ struct NativeTree1921
     int __thiscall FUN_00a86af0(KdCtx*,KdCtx*);
     void __thiscall FUN_00a86b20(KdCtx*,KdCtx*,S_00e07070_Result*);
 };
+// pdb: hkpMoppDefaultAssembler::preCalcScale | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, call_gap, low
+// pdb params: currentNode, parentInfo, currentInfo
 int __thiscall MyTree::Recurse(KdNode* apNode, KdCtx* a, KdCtx* c)
 {
     NativeTree1921* tree = reinterpret_cast<NativeTree1921*>(this);
@@ -2553,7 +2437,8 @@ static __forceinline void SetVecF3(FUN_00e07b90_vector* v, float x, float y, flo
     v->z = z;
     v->w = w;
 }
-void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result)
+// pdb: hkpMoppDefaultAssembler::getScaleInfo | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpMoppDefaultAssembler_getScaleInfo(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result)
 {
     SetVecF3(result, bounds->minimumX, bounds->minimumY, bounds->minimumZ, 0.0f);
     float fLargestExtent = 0.0f;
@@ -2569,58 +2454,6 @@ void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vect
     result->w = 65536.0 * (254.0 / fLargestExtent);
 }
 
-
-struct S_00e07d60_Info
-{
-    float x;
-    float y;
-    float z;
-    __m128 v;
-    int i;
-    char b;
-};
-
-struct S_00e07d60
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    float x;
-    float y;
-    float z;
-    __m128 v;
-    int i;
-    char b;
-    void FUN_00e07d60(const S_00e07d60_Info& info);
-};
-
-// @fnv 0x00e07d60
-void S_00e07d60::FUN_00e07d60(const S_00e07d60_Info& info)
-{
-    x = info.x;
-    y = info.y;
-    z = info.z;
-    v = info.v;
-    i = info.i;
-    b = info.b;
-}
 
 namespace e083 {
 struct Alloc;
@@ -2643,10 +2476,6 @@ struct PairArray
     int m_iElementCount;
     int m_iCapacityState;
 };
-struct SrcW
-{
-    PairArray* p;
-};
 }
 
 void __cdecl ResizeAudioStream(e083::Alloc* a, void* arr, int elemSize);
@@ -2668,11 +2497,6 @@ static __declspec(noinline) void FUN_00e08320(e083::PairArray* srcp, e083::PairA
         out->b = src->m_data[i].b;
         out->a = src->m_data[i].a + delta;
     }
-}
-
-void e08320_caller(e083::SrcW sw, e083::PairArray* dst, int delta)
-{
-    FUN_00e08320(sw.p, dst, delta);
 }
 
 struct BvAllocator
@@ -2840,7 +2664,7 @@ struct BvRange
     int unk10;
 };
 
-void __stdcall FUN_00e07c50(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
+void __stdcall hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
 void* __cdecl FUN_00cb1260(void*, const void*, int);
 static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source, int adjustment)
 {
@@ -2941,7 +2765,7 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
 
     if (node->m_isLeaf)
     {
-        FUN_00e07c50(node, parent, stack);
+        hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(node, parent, stack);
         const int& index = node->m_info->m_uiEdgeIndex;
         refs->AddBack(*FUN_00c85750(), index);
         return;
@@ -3104,7 +2928,7 @@ struct P154Tree
     P154Settings* settings;
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
     int scale30, scale34, scale38;
-    void FUN_00e07c50(P154Node*, P154Region*, P154Region*);
+    void hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(P154Node*, P154Region*, P154Region*);
     void FUN_00e07510(P154Node*, P154Region*, P154Region*, P154Result*);
     void FUN_00e07ca0(P154Node*, P154Region*, P154Region*, P154Result*);
     __forceinline int getCost(P154Array& a, int size)
@@ -3116,112 +2940,6 @@ struct P154Tree
     }
     int FUN_00e084f0(P154Node*, P154Region*, P154Region*, P154Array*);
 };
-// Recursively sizes node's children via writer->count with optional metric costs, collapses the costlier child while size reaches limit minus base, returns size.
-// @fnv 0x00e084f0
-int P154Tree::FUN_00e084f0(P154Node* node, P154Region* parent, P154Region* region, P154Array* output)
-{
-    int size;
-    if (settings->metric)
-        region->context = parent->context;
-    if (node->leaf)
-    {
-        if (settings->metric)
-            region->context = *node->values;
-        int start = writer->count;
-        FUN_00e07c50(node, parent, region);
-        int leafSize = writer->count - start;
-        output->append(*node->values);
-        int value = *node->values;
-        int result = leafSize;
-        if (settings->metric)
-            result += settings->metric->cost(&value, 1);
-        return result;
-    }
-    else
-    {
-        P154Result info;
-        info.valid = false;
-        info.value = -1;
-        FUN_00e07510(node, parent, region, &info);
-        region->context = parent->context;
-        P154Array lowValues;
-        P154Node* low = node->low;
-        P154Region child = *region;
-        child.CopyOffsets(low);
-        child.BuildScaledRanges(low, reinterpret_cast<float*>(&scale30));
-        child.depth = region->depth + 1;
-        child.leaf = false;
-        child.FUN_00e09540();
-        int lowSize = writer->count;
-        FUN_00e084f0(low, region, &child, &lowValues);
-        lowSize = writer->count - lowSize;
-        int lowCost = getCost(lowValues, lowSize);
-        P154Array highValues;
-        P154Node* high = node->high;
-        child = *region;
-        child.CopyOffsets(high);
-        child.BuildScaledRanges(high, reinterpret_cast<float*>(&scale30));
-        child.depth = region->depth + 1;
-        child.leaf = false;
-        child.FUN_00e09540();
-        int highSize = writer->count;
-        FUN_00e084f0(high, region, &child, &highValues);
-        highSize = writer->count - highSize;
-        int highCost = getCost(highValues, highSize);
-        int splitSize = writer->count;
-        FUN_00e07ca0(node, parent, region, &info);
-        splitSize = writer->count - splitSize;
-        P154Array merged;
-        merged.insert(lowValues.data, 0, lowValues.count);
-        merged.insert(highValues.data, merged.count, highValues.count);
-        size = highSize + splitSize + lowSize;
-        if (settings->metric && merged.count)
-            size += settings->metric->cost(merged.data, merged.count);
-        bool highRemoved = false, lowRemoved = false;
-        while (size >= settings->limit - settings->base)
-        {
-            int index = settings->pairs.count;
-            P154Pair& pair = settings->pairs.grow();
-            P154Node* selected;
-            int oldSize, cost;
-            if (highCost > lowCost)
-            {
-                selected = node->high;
-                cost = highCost;
-                oldSize = highSize;
-                highCost = 5;
-                highRemoved = true;
-                size = lowRemoved ? splitSize + 10 : splitSize + lowCost + 5;
-            }
-            else
-            {
-                selected = node->low;
-                cost = lowCost;
-                oldSize = lowSize;
-                lowCost = 5;
-                lowRemoved = true;
-                size = highRemoved ? splitSize + 10 : splitSize + highCost + 5;
-            }
-            pair.second = settings->base + cost + 5;
-            selected->index = index;
-            writer->count += 5 - oldSize;
-            P154Node* lowChild = node->low;
-            if (lowRemoved)
-                lowChild->offset += 5 - oldSize;
-            node->high->offset += 5 - oldSize;
-            node->offset += 5 - oldSize;
-        }
-        output->count = 0;
-        if (!lowRemoved)
-            output->insert(lowValues.data, 0, lowValues.count);
-        if (!highRemoved)
-            output->insert(highValues.data, output->count, highValues.count);
-        merged.clear();
-        highValues.clear();
-        lowValues.clear();
-    }
-    return size;
-}
 
 namespace fnv_00e08240 {
 struct PairEntry
@@ -3256,16 +2974,6 @@ struct SlotPair
     int unk08;
     int unk0C;
     int m_10;
-};
-
-struct Ctx
-{
-    int unk00;
-    PairList m_kNode;
-    int unk10;
-    int unk14;
-    int unk18;
-    int m_1c;
 };
 
 struct Node
@@ -3306,108 +3014,9 @@ struct Node
     Node* m_74;
 };
 
-struct FUN_00e08240_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    Ctx* m_14;
-    int FUN_00e08240(Node* a1, int a2, int a3);
-};
-
-// Recursively visits a1's m_74 and m_70 children, setting m_24/m_28 and, when m_04 is set, appending a pair entry to the context list; returns an index.
-// @fnv 0x00e08240
-int FUN_00e08240_cls::FUN_00e08240(Node* apNode, int a2, int aiIndex)
-{
-    int* pIndex = &aiIndex;
-    int idx = aiIndex;
-    volatile int* pv = &aiIndex;
-    *pv = idx;
-    int hi = apNode->m_40;
-    apNode->m_38 = 0;
-    if (hi >= 0)
-    {
-        idx = 0;
-    }
-    else
-    {
-        hi = a2;
-    }
-    if (this->m_14->m_1c != 0)
-    {
-        apNode->m_24 = idx;
-    }
-    if (apNode->m_04 != 0)
-    {
-        if (this->m_14->m_1c != 0)
-        {
-            SlotPair* slot = apNode->m_60;
-            slot->m_10 = slot->m_00;
-            PairList* list = &this->m_14->m_kNode;
-            AllocHolder* holder = FUN_00c85750();
-            if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffff))
-            {
-                ResizeAudioStream(holder->m_pAllocator, list, 8);
-            }
-            PairEntry* e = &list->m_data[list->m_uiItemCount];
-            list->m_uiItemCount++;
-            hi = (hi * 256) | idx;
-            e->m_iSecondInteger = (void*)hi;
-            e->m_pHeadNode = (void*)apNode->m_60->m_00;
-            apNode->m_60->m_00 = idx;
-            idx++;
-        }
-    }
-    else
-    {
-        Node* f = apNode->m_74;
-        int r = this->FUN_00e08240(f, hi, idx);
-        Node* g = apNode->m_70;
-        idx = this->FUN_00e08240(g, hi, r);
-    }
-    if (this->m_14->m_1c != 0)
-    {
-        apNode->m_24 = 0;
-        apNode->m_28 = idx;
-    }
-    if (apNode->m_40 < 0)
-    {
-        return idx;
-    }
-    return aiIndex;
-}
 }  // namespace fnv_00e08240
 
 namespace fnv_00e08470 {
-struct S_00e08470_Context
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    char unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    void* unk5c;
-};
 
 struct S_00e08470_Entry
 {
@@ -3431,65 +3040,9 @@ struct S_00e08470_Holder
     void* unk10;
 };
 
-struct S_00e08470_Data
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    void* unk0c;
-    S_00e08470_Holder* unk10;
-    S_00e08470_Vector unk14;
-
-    void __thiscall FUN_00e06480();
-};
-
 extern "C" S_00e08470_Holder* __cdecl FUN_00c85750();
 extern "C" void __cdecl ResizeAudioStream(void*, S_00e08470_Vector*, int);
 
-struct S_00e08470_Class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_00e08470_Data* unk10;
-
-    void __thiscall FUN_00e06c20(int);
-    int __thiscall FUN_00e08470(S_00e08470_Context*);
-};
-
-// Calls FUN_00e06c20 with context->unk40, records the new pointer and unk40 in a vector entry, and returns its difference from the old pointer.
-// @fnv 0x00e08470
-int __thiscall S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
-{
-    void* saved = this->unk10->unk0c;
-
-    this->FUN_00e06c20(context->unk40);
-
-    void* current = this->unk10->unk0c;
-
-    context->unk5c = current;
-    context->unk38 = 1;
-
-    S_00e08470_Vector* vector = (S_00e08470_Vector*)((char*)this->unk10 + 0x14);
-
-    S_00e08470_Holder* holder = FUN_00c85750();
-
-    if (vector->unk04 == (vector->unk08 & 0x3fffffff))
-    {
-        ResizeAudioStream(holder->unk10, vector, 8);
-    }
-
-    S_00e08470_Entry* entry = vector->unk00 + vector->unk04;
-    ++vector->unk04;
-
-    entry->unk04 = context->unk40;
-    entry->unk00 = current;
-
-    this->unk10->FUN_00e06480();
-
-    return (unsigned int)current - (unsigned int)saved;
-}
 }  // namespace fnv_00e08470
 
 struct CodeCopySource : FUN_00e065f0
@@ -3534,6 +3087,7 @@ struct BvScratch
             FreeSlow(p);
     }
 };
+// pdb: copyCodeAndEmbedTerminals | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, low, conflict (skyrim: hkReferencedObject::addReference)
 static __declspec(noinline) int FUN_00e08380(BvTree* tree, CodeCopySource* source, BvArray<int>* refs,
                                              FUN_00e065f0* destination)
 {
@@ -3701,7 +3255,7 @@ struct Tree : public FUN_00e09640_class
     virtual void vf08() throw();
     virtual void vf0c() throw();
     virtual void vf10() throw();
-    virtual void FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3);
+    virtual void hkpMoppDefaultAssembler_assemble(S_00e07da0_Node* node, int arg2, int arg3);
     virtual void vf18(S_00e07da0_Node* node, void* p) throw();
 
     int unk08;
@@ -3746,7 +3300,7 @@ typedef void(__thiscall* Vf18Fn)(Tree*, S_00e07da0_Node*, void*) throw();
 // Sets up MyBounds and MyRegion state for node, then writes node data into streams via m_pAssemblerHelper if present, else calls OptimizeTree.
 // @f3 0x00a88610 (community match, verified in this file)
 // Game function 00a88610 = hkpMoppDefaultAssembler::assemble (Havok 5.5.0, hkpInternal.lib, hkpMoppDefaultAssembler.obj),
-// defined under the unit's stand-in symbol Tree::FUN_00e08cc0, with the file-static function it calls,
+// defined under the unit's stand-in symbol Tree::hkpMoppDefaultAssembler_assemble, with the file-static function it calls,
 // copyCodeAndEmbedTerminals (FUN_00a882d0). The call at +0x3d7 passes that function's second parameter in esi:
 // a static function whose callers are all in its file gets its own register convention, so its body is here.
 //
@@ -3757,7 +3311,7 @@ typedef void(__thiscall* Vf18Fn)(Tree*, S_00e07da0_Node*, void*) throw();
 // Callees are named by game address (the SDK name is in the comment beside each).
 // The unit is compiled with /EHsc, the library was not, so the callees declared here carry throw(). The match
 // needs it on seven of them: the code generator's constructor and destructor, FUN_00a87db0, FUN_00a87cd0,
-// FUN_00a883e0, FUN_00a863b0 and the static FUN_00a882d0 (each is called while a local with a destructor lives).
+// hkpMoppDefaultAssembler_assembleSubNodeIntoChunks, FUN_00a863b0 and the static FUN_00a882d0 (each is called while a local with a destructor lives).
 
 typedef float  hkReal;
 typedef signed char		hkInt8;
@@ -4413,7 +3967,7 @@ class hkpMoppDefaultAssembler : public hkpMoppAssembler
 
 		int FUN_00a87db0(hkpMoppTreeNode* node, const hkpMoppAssemblerNodeInfo& parentInfo, hkpMoppAssemblerNodeInfo& currentInfo, hkArray<unsigned int>& chunkPrims) throw();	// calcChunkPoints
 		int FUN_00a87cd0(hkpMoppTreeNode* node, int chunkId, int idx) throw();	// calcTerminalIdsForChunks
-		void FUN_00a883e0(hkpMoppTreeNode* node, const hkpMoppAssemblerNodeInfo& parentInfo, hkpMoppAssemblerNodeInfo& currentInfo, int chunkId, hkArray<unsigned int>& terminals) throw();	// assembleSubNodeIntoChunks
+		void hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(hkpMoppTreeNode* node, const hkpMoppAssemblerNodeInfo& parentInfo, hkpMoppAssemblerNodeInfo& currentInfo, int chunkId, hkArray<unsigned int>& terminals) throw();	// assembleSubNodeIntoChunks
 
 	protected:
 		friend struct Tree;	// the unit's stand-in class, under whose symbol assemble() is defined below
@@ -4475,7 +4029,8 @@ static int FUN_00a882d0(hkpMoppCompilerChunkInfo* chunkInfo, hkpMoppCodeGenerato
 
 // ---- hkpMoppDefaultAssembler::assemble(rootNode, mgr, minAssembledElems) ----
 
-void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
+// pdb: hkpMoppDefaultAssembler::assemble | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Tree::hkpMoppDefaultAssembler_assemble(S_00e07da0_Node* node, int arg2, int arg3)
 {
 	hkpMoppDefaultAssembler* const self = reinterpret_cast<hkpMoppDefaultAssembler*>(this);
 	hkpMoppTreeNode* const rootNode = reinterpret_cast<hkpMoppTreeNode*>(node);
@@ -4546,7 +4101,7 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
 			hkArray<unsigned int> rootTerminals;
 			hkpMoppCodeGenerator rootChunkCode( 0x100000 );
 			self->m_code = &rootChunkCode;
-			self->FUN_00a883e0( rootNode, parentInfo, currentInfo, rootNode->m_assemblerData.m_chunkId, rootTerminals );
+			self->hkpMoppDefaultAssembler_assembleSubNodeIntoChunks( rootNode, parentInfo, currentInfo, rootNode->m_assemblerData.m_chunkId, rootTerminals );
 
 			if ( self->m_chunkInfo->m_compressor )
 			{

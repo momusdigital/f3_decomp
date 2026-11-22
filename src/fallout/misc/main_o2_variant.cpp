@@ -13,6 +13,7 @@ struct FUN_00b65660_StandIn
     void FUN_00b65660();
 };
 // @fnv 0x00b65660
+// pdb: BSShaderAccumulator::ClearRenderedGeometryCache | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap, low
 void FUN_00b65660_StandIn::FUN_00b65660()
 {
     BSBatchRenderer__PassList* p = (BSBatchRenderer__PassList*)((char*)this + 0xa0);

@@ -5,6 +5,7 @@
 
 
 struct C_008db4d0 { char pad1[0x181]; char m181; char pad2[0x12]; int m194; void FUN_008db4d0(); };
+// pdb: bhkRagdollController::ForceHeadTrack | bhkRagdollController.obj | fnv360_0822_retail, call_gap_sim, medium
 void C_008db4d0::FUN_008db4d0()
 {
     if (m194 == 0)
@@ -24,6 +25,8 @@ struct S_008db4f0
     struct E { float a; float b; char rest[0x48]; } e[16];
     void FUN_008db4f0(int i, float a, float b);
 };
+// pdb: bhkRagdollController::SetLookIKDeadZone | bhkRagdollController.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aeBone, afHeadingMax, afPitchMax
 void S_008db4f0::FUN_008db4f0(int i, float a, float b)
 {
     e[i].a = a;
@@ -35,6 +38,7 @@ void S_008db4f0::FUN_008db4f0(int i, float a, float b)
 struct G_0086b930 { char* FUN_0086b930(int); };
 extern G_0086b930 DAT_01090a78;
 
+// pdb: bhkRigidBodyT::SetLocalPos | bhkWorld.obj | tesv_win, objrun_prop, low
 void* __cdecl FUN_008dba50(int n)
 {
     char* p = DAT_01090a78.FUN_0086b930(n + 16);
@@ -49,6 +53,7 @@ void* __cdecl FUN_008dba50(int n)
 
 
 struct C_008dbd20 { int pad1[2]; int* m8; int pad2[5]; int* m20; int FUN_008dbd20(int); };
+// pdb: hkaRagdollInstance::getRigidBodyOfBone | hkbRagdollDriver.obj | tesv_win, hash, low
 int C_008dbd20::FUN_008dbd20(int i)
 {
     int j = m20[i];

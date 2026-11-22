@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/nimain/nicamera.cpp: NiCamera, ComparableCamera, CamLook, ScreenCamera and more (20 functions)
+// gamebryo2.2/corelibs/nimain/nicamera.cpp: NiCamera, ComparableCamera, CamLook, ScreenCamera and more (16 functions)
 #include "f3_common.h"
 #include "fnv_a3d_camera.h"
 
 // @fnv 0x00A711B0
+// pdb: Animation::UpdateMovement | Animation.obj | fnv360_0822_retail, call_seq, high
+// pdb params: apRef
 void NiCamera::UpdateWorldData(NiUpdateData& update)
 {
     NiAVObject::UpdateWorldData(update);
@@ -10,6 +12,8 @@ void NiCamera::UpdateWorldData(NiUpdateData& update)
 }
 
 // @fnv 0x00A6FAF0
+// pdb: NiCamera::SetViewFrustum | NiCamera.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kFrustum
 void NiCamera::UpdateViewFrustum(const NiFrustum& frustum)
 {
     m_kViewFrustum.m_fNearPlane = frustum.m_fNearPlane;
@@ -27,6 +31,8 @@ void NiCamera::UpdateViewFrustum(const NiFrustum& frustum)
 }
 
 // @fnv 0x00A711D0
+// pdb: NiCamera::LinkObject | NiCamera.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiCamera::LinkObject(NiStream& stream)
 {
     NiAVObject::LinkObject(stream);
@@ -81,6 +87,8 @@ void NiCamera::LinkObject(NiStream& stream)
 #undef FNV_READ_SCALAR
 
 // @fnv 0x00A703A0
+// pdb: NiCamera::ViewPointToRay | NiCamera.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: fVx, fVy, kOrigin, kDir
 void NiCamera::ScreenPointToRay(float x, float y, NiPoint3& origin, NiPoint3& direction)
 {
     if (m_kViewFrustum.m_bOrthographic)
@@ -155,6 +163,7 @@ void NiCamera::ScreenPointToRay(float x, float y, NiPoint3& origin, NiPoint3& di
 }
 
 // @fnv 0x00A70B40
+// pdb: NiAVObject::CreateBoundIfNone | TESObjectCELL.obj | fnv360_0822_retail, call_seq, low
 void NiCamera::UpdateWorldBound()
 {
     if (!m_kWorldBound)
@@ -169,11 +178,6 @@ void NiCamera::UpdateWorldBound()
 }
 
 #pragma optimize("", off)
-// @fnv 0x0045BBE0
-const NiFrustum& NiCamera::GetViewFrustum() const
-{
-    return m_kViewFrustum;
-}
 #pragma optimize("", on)
 
 extern int DAT_0109cb9c;
@@ -185,6 +189,7 @@ struct NiMemObject
 };
 
 // @fnv 0x00a70050
+// pdb: NiCamera::`scalar deleting destructor' | NiCamera.obj | tesv_win, vtable_prefix, medium
 void* __fastcall DestroyCamera(int* pThis, int, unsigned int flags)
 {
     *pThis = (int)&DAT_0109cb9c;
@@ -195,11 +200,6 @@ void* __fastcall DestroyCamera(int* pThis, int, unsigned int flags)
 }
 
 extern const char* const g_011f5e6c_arg1;
-// @fnv 0x00a70040
-const char* const* __cdecl FUN_00a70040()
-{
-    return &g_011f5e6c_arg1;
-}
 
 struct CloningProcess
 {
@@ -212,10 +212,6 @@ struct CloningProcess
     char _pad_d[3];
 };
 typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
-struct FUN_00a713e0_shell : public NiCamera
-{
-    NiObject* FUN_00a713e0(CloningProcess*);
-};
 
 struct BSFadeNode
 {
@@ -228,13 +224,14 @@ struct FUN_00a712f0 : BSFadeNode
 };
 struct CamStub
 {
-    void FUN_00a70f60(void*, CloningProcess*);
+    void NiCamera_CopyMembers(void*, CloningProcess*);
 };
 // @fnv 0x00a713e0
-void* __fastcall FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
+// pdb: NiCamera::CreateClone | NiCamera.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void* __fastcall NiCamera_CreateClone(CamStub* self, int edx, CloningProcess* kCloning)
 {
     FUN_00a712f0* pkObject = new FUN_00a712f0();
-    self->FUN_00a70f60(pkObject, kCloning);
+    self->NiCamera_CopyMembers(pkObject, kCloning);
     return pkObject;
 }
 
@@ -249,6 +246,7 @@ struct FUN_00a712f0 : BSFadeNode
     char body[0x114];
 };
 // @fnv 0x00a71430
+// pdb: NiCamera::CreateObject | NiCamera.obj | fnv360_0822_retail, caller_sim, low
 FUN_00a712f0* FUN_00a71430()
 {
     return new FUN_00a712f0();
@@ -294,6 +292,8 @@ struct FUN_00a71920_shell
 };
 
 // @f3 0x0083bd00 (community match, verified in this file)
+// pdb: NiCamera::GetViewerStrings | NiCamera.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a71920_shell::FUN_00a71920(StrArr* strings)
 {
     reinterpret_cast<FUN_00a5ea70_t*>(this)->FUN_00a5ad00(strings);
@@ -371,105 +371,18 @@ void FUN_00a71920_shell::FUN_00a71920(StrArr* strings)
 }
 
 
-extern double DAT_01011588;
-
-class FUN_00a6fb90_cls
-{
-  public:
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6C;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7C;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8C;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9C;
-    unsigned int unkA0;
-    unsigned int unkA4;
-    unsigned int unkA8;
-    unsigned int unkAC;
-    unsigned int unkB0;
-    unsigned int unkB4;
-    unsigned int unkB8;
-    unsigned int unkBC;
-    unsigned int unkC0;
-    unsigned int unkC4;
-    unsigned int unkC8;
-    unsigned int unkCC;
-    unsigned int unkD0;
-    unsigned int unkD4;
-    unsigned int unkD8;
-    float m_fLeftBound;
-    float m_fRightBound;
-    float m_fTopBound;
-    float m_fBottomBound;
-    void FUN_00a6fb90(float scale, unsigned char flag);
-};
-
-// Recomputes the four float members from the current pair, scaled by scale and DAT_01011588, swapping which pair is updated based on flag.
-// @fnv 0x00a6fb90
-void FUN_00a6fb90_cls::FUN_00a6fb90(float scale, unsigned char flag)
-{
-    if (flag != 0)
-    {
-        float d = m_fRightBound - m_fLeftBound;
-        float tc = (float)((d / scale) * DAT_01011588);
-        float fSum = (float)((m_fBottomBound + m_fTopBound) * DAT_01011588);
-        m_fTopBound = fSum + tc;
-        m_fBottomBound = fSum - tc;
-    }
-    else
-    {
-        float d = m_fTopBound - m_fBottomBound;
-        float tc = (float)((d * scale) * DAT_01011588);
-        float fSum = (float)((m_fRightBound + m_fLeftBound) * DAT_01011588);
-        m_fRightBound = fSum + tc;
-        m_fLeftBound = fSum - tc;
-    }
-}
-
 struct ComparableCamera : NiCamera
 {
-    bool FUN_00a5a260(NiObject*);
+    bool NiAVObject_IsEqual(NiObject*);
     bool IsEqualTo(NiObject* other);
 };
 // @fnv 0x00a6ff20
+// pdb: NiCamera::IsEqual | NiCamera.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: pkObject
 bool ComparableCamera::IsEqualTo(NiObject* other)
 {
     NiCamera* camera = (NiCamera*)other;
-    if (FUN_00a5a260(other) && m_kViewFrustum.m_fLeftBound == camera->m_kViewFrustum.m_fLeftBound &&
+    if (NiAVObject_IsEqual(other) && m_kViewFrustum.m_fLeftBound == camera->m_kViewFrustum.m_fLeftBound &&
         m_kViewFrustum.m_fRightBound == camera->m_kViewFrustum.m_fRightBound &&
         m_kViewFrustum.m_fTopBound == camera->m_kViewFrustum.m_fTopBound &&
         m_kViewFrustum.m_fBottomBound == camera->m_kViewFrustum.m_fBottomBound &&
@@ -567,6 +480,8 @@ struct CamLook : public NiCamera
 };
 
 // @fnv 0x00a701b0
+// pdb: NiCamera::LookAtWorldPoint | NiCamera.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: kWorldPt, kWorldUp
 bool CamLook::SetLookAt(const CamPoint& point, const CamPoint& worldUp)
 {
     CamPoint dir = GetWorldTranslate() - point;
@@ -596,6 +511,8 @@ struct ScreenCamera : public NiCamera
 };
 
 // @fnv 0x00a6fc50
+// pdb: NiCamera::WorldPtToScreenPt | NiCamera.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: kPt, fBx, fBy, fZeroTolerance
 bool ScreenCamera::ProjectToScreen(const NiPoint3& kPt, float& fBx, float& fBy, float fZeroTolerance) const
 {
     float fW = kPt.x * m_afWorldToCamera[3][0] + kPt.y * m_afWorldToCamera[3][1] + kPt.z * m_afWorldToCamera[3][2] +
@@ -634,6 +551,7 @@ class FUN_00a6ff10_StandIn
 };
 
 // @fnv 0x00a6ff10
+// pdb: FOPipboyManager::ReInitialize | FOPipboyManager.obj | fnv360_0822_retail, call_gap, low
 bool FUN_00a6ff10_StandIn::FUN_00a6ff10(NiStream& stream)
 {
     return FUN_00a59f00(stream);
@@ -641,8 +559,8 @@ bool FUN_00a6ff10_StandIn::FUN_00a6ff10(NiStream& stream)
 
 struct NiStreamTail
 {
-    void FUN_00a645b0();
-    void FUN_00a64670();
+    void NiStream_ReadLinkID();
+    void NiStream_ReadMultipleLinkIDs();
 };
 
 struct NiCameraHack : NiCamera
@@ -675,6 +593,8 @@ inline void ReadBinaryValue(NiStream& stream, bool& value)
 
 // Reads camera frustum, port, and trailing values from a NiStream, handling NIF version differences for flags and orthographic projection.
 // @fnv 0x00a71450
+// pdb: NiCamera::LoadBinary | NiCamera.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void NiCameraHack::FUN_00a71450(NiStream& stream)
 {
     NiAVObject::LoadBinary(stream);
@@ -708,16 +628,16 @@ void NiCameraHack::FUN_00a71450(NiStream& stream)
     ReadBinaryValue(stream, m_kPort.m_fMaximumV);
     ReadBinaryValue(stream, m_fTrailingValue);
 
-    reinterpret_cast<NiStreamTail*>(&stream)->FUN_00a645b0();
-    reinterpret_cast<NiStreamTail*>(&stream)->FUN_00a64670();
+    reinterpret_cast<NiStreamTail*>(&stream)->NiStream_ReadLinkID();
+    reinterpret_cast<NiStreamTail*>(&stream)->NiStream_ReadMultipleLinkIDs();
 
     if (stream.m_uiNifVersion >= 0x04010004)
     {
-        reinterpret_cast<NiStreamTail*>(&stream)->FUN_00a64670();
+        reinterpret_cast<NiStreamTail*>(&stream)->NiStream_ReadMultipleLinkIDs();
         if (stream.m_uiNifVersion >= 0x0A000107)
         {
             if (stream.m_uiNifVersion < 0x0A00010F)
-                reinterpret_cast<NiStreamTail*>(&stream)->FUN_00a64670();
+                reinterpret_cast<NiStreamTail*>(&stream)->NiStream_ReadMultipleLinkIDs();
         }
     }
 }
@@ -735,6 +655,8 @@ struct FUN_00a6fdb0_t : public NiCamera
 
 // Projects a world-space point into camera/screen space using m_afWorldToCamera and m_kPort, writing the result to fBx, fBy, fBz.
 // @fnv 0x00a6fdb0
+// pdb: NiCamera::WorldPtToScreenPt3 | NiCamera.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: kPt, fBx, fBy, fBz, fZeroTolerance
 bool FUN_00a6fdb0_t::ProjectPointToScreen(const NiPoint3& kPt, float& fBx, float& fBy, float& fBz,
                                           float fZeroTolerance) const
 {
@@ -761,177 +683,6 @@ bool FUN_00a6fdb0_t::ProjectPointToScreen(const NiPoint3& kPt, float& fBx, float
         fBz = fZ * fInvW;
     }
     return bResult;
-}
-
-struct CrossPoint : NiPoint3
-{
-    __declspec(noalias) NiPoint3 CrossProduct(const NiPoint3& vector) const;
-};
-
-inline NiPoint3 Scaled(float radius, const NiPoint3& unit)
-{
-    NiPoint3 result;
-    result.x = radius * unit.x;
-    result.y = radius * unit.y;
-    result.z = radius * unit.z;
-    return result;
-}
-
-__forceinline NiPoint3 Added(const NiPoint3& a, const NiPoint3& b)
-{
-    NiPoint3 result;
-    result.x = a.x + b.x;
-    result.y = a.y + b.y;
-    result.z = a.z + b.z;
-    return result;
-}
-
-__forceinline void ClampBounds(float& lower, float& upper, float minimum, float maximum)
-{
-    if (lower < minimum)
-    {
-        lower = minimum;
-        if (upper < minimum)
-            upper = minimum;
-        else if (upper > maximum)
-            upper = maximum;
-    }
-    else if (upper > maximum)
-    {
-        upper = maximum;
-        if (lower > maximum)
-            lower = maximum;
-    }
-}
-
-__forceinline void FullBound(NiPoint3& lo, NiPoint3& hi)
-{
-    lo.y = -1.0f;
-    lo.x = -1.0f;
-    hi.y = 1.0f;
-    hi.x = 1.0f;
-}
-
-struct CameraBoundMatcher : public NiCamera
-{
-    void FUN_00a705f0(const NiBound& bound, NiPoint3& kMinBoundsCur, NiPoint3& kMaxPoint, float fTolerance);
-};
-
-// @fnv 0x00a705f0
-void CameraBoundMatcher::FUN_00a705f0(const NiBound& bound, NiPoint3& kMinPoint, NiPoint3& kMaxPoint, float fTolerance)
-{
-    NiPoint3 kTargetCenter = bound.m_kCenter;
-    float fRadius = bound.m_fBoundRadius;
-    NiPoint3 kScratch;
-    kScratch.x = kTargetCenter.x - m_kWorldSpaceTransform.m_kTranslation.x;
-    kScratch.y = kTargetCenter.y - m_kWorldSpaceTransform.m_kTranslation.y;
-    kScratch.z = kTargetCenter.z - m_kWorldSpaceTransform.m_kTranslation.z;
-    float fInv = 1.0f / (m_kViewFrustum.m_fFarPlane - m_kViewFrustum.m_fNearPlane);
-    NiPoint3 kCol0;
-    kCol0.x = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[0][0];
-    kCol0.y = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[1][0];
-    kCol0.z = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[2][0];
-    float m_fProjectionDepth = kCol0.x * kScratch.x + kCol0.y * kScratch.y + kCol0.z * kScratch.z;
-    m_fProjectionDepth = m_fProjectionDepth - m_kViewFrustum.m_fNearPlane;
-    if (m_kViewFrustum.m_bOrthographic)
-    {
-        kMinPoint.z = 0.0f;
-        kMaxPoint.z = 0.0f;
-    }
-    else
-    {
-        kMinPoint.z = float(m_fProjectionDepth - fRadius) * fInv;
-        kMaxPoint.z = float(m_fProjectionDepth + fRadius) * fInv;
-    }
-    {
-        NiPoint3 kRel;
-        kRel.x = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[0][1];
-        kRel.y = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[1][1];
-        kRel.z = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[2][1];
-        NiPoint3 kCross = Scaled(fRadius, ((const CrossPoint&)kScratch).CrossProduct(kRel));
-        NiPoint3 kPt;
-        kPt.x = kTargetCenter.x - kCross.x;
-        kPt.y = kTargetCenter.y - kCross.y;
-        kPt.z = kTargetCenter.z - kCross.z;
-        float fW = kPt.x * m_afWorldToCamera[3][0] + (double)(kPt.y * m_afWorldToCamera[3][1]) +
-                   (double)(kPt.z * m_afWorldToCamera[3][2]) + m_afWorldToCamera[3][3];
-        if (fW > fTolerance)
-        {
-        }
-        else
-        {
-            FullBound(kMinPoint, kMaxPoint);
-            ClampBounds(kMinPoint.z, kMaxPoint.z, 0.0f, 1.0f);
-            return;
-        }
-        float coordinateX = kPt.x;
-        float coordinateZ = kPt.z;
-        kMinPoint.x = (coordinateX * m_afWorldToCamera[0][0] + kPt.y * m_afWorldToCamera[0][1] +
-                       coordinateZ * m_afWorldToCamera[0][2] + m_afWorldToCamera[0][3]) /
-                      fW;
-        NiPoint3 kPositive = Added(kTargetCenter, kCross);
-        float fWMax = kPositive.x * m_afWorldToCamera[3][0] + kPositive.y * m_afWorldToCamera[3][1] +
-                      kPositive.z * m_afWorldToCamera[3][2] + m_afWorldToCamera[3][3];
-        if (fWMax > fTolerance)
-        {
-        }
-        else
-        {
-            FullBound(kMinPoint, kMaxPoint);
-            ClampBounds(kMinPoint.z, kMaxPoint.z, 0.0f, 1.0f);
-            return;
-        }
-        kMaxPoint.x = (kPositive.x * m_afWorldToCamera[0][0] + kPositive.y * m_afWorldToCamera[0][1] +
-                       kPositive.z * m_afWorldToCamera[0][2] + m_afWorldToCamera[0][3]) /
-                      fWMax;
-    }
-    {
-        NiPoint3 kRel;
-        kRel.x = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[0][2];
-        kRel.y = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[1][2];
-        kRel.z = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[2][2];
-        NiPoint3 kCross = Scaled(fRadius, ((const CrossPoint&)kRel).CrossProduct(kScratch));
-        NiPoint3 kPt;
-        kPt.x = kTargetCenter.x - kCross.x;
-        kPt.y = kTargetCenter.y - kCross.y;
-        kPt.z = kTargetCenter.z - kCross.z;
-        float fW = kPt.x * m_afWorldToCamera[3][0] + kPt.y * m_afWorldToCamera[3][1] + kPt.z * m_afWorldToCamera[3][2] +
-                   m_afWorldToCamera[3][3];
-        if (fW > fTolerance)
-        {
-        }
-        else
-        {
-            FullBound(kMinPoint, kMaxPoint);
-            ClampBounds(kMinPoint.z, kMaxPoint.z, 0.0f, 1.0f);
-            return;
-        }
-        kMinPoint.y = ((double)(kPt.x * m_afWorldToCamera[1][0]) + (double)(kPt.y * m_afWorldToCamera[1][1]) +
-                       kPt.z * m_afWorldToCamera[1][2] + m_afWorldToCamera[1][3]) /
-                      fW;
-        NiPoint3 kPositive;
-        kPositive.x = kTargetCenter.x + kCross.x;
-        kPositive.y = kTargetCenter.y + kCross.y;
-        kPositive.z = kTargetCenter.z + kCross.z;
-        float fWMax = kPositive.x * m_afWorldToCamera[3][0] + kPositive.y * m_afWorldToCamera[3][1] +
-                      kPositive.z * m_afWorldToCamera[3][2] + m_afWorldToCamera[3][3];
-        if (fWMax > fTolerance)
-        {
-        }
-        else
-        {
-            FullBound(kMinPoint, kMaxPoint);
-            ClampBounds(kMinPoint.z, kMaxPoint.z, 0.0f, 1.0f);
-            return;
-        }
-        kMaxPoint.y = (kPositive.x * m_afWorldToCamera[1][0] + kPositive.y * m_afWorldToCamera[1][1] +
-                       kPositive.z * m_afWorldToCamera[1][2] + m_afWorldToCamera[1][3]) /
-                      fWMax;
-    }
-    ClampBounds(kMinPoint.x, kMaxPoint.x, -1.0f, 1.0f);
-    ClampBounds(kMinPoint.y, kMaxPoint.y, -1.0f, 1.0f);
-
-    ClampBounds(kMinPoint.z, kMaxPoint.z, 0.0f, 1.0f);
 }
 
 struct CameraVector
@@ -980,7 +731,7 @@ class S00a70ba0_Cam : public NiAVObject
     float m_fMinNearPlaneDist, m_fMaxFarNearRatio;
     NiRect<float> m_kPort;
     float m_fTrailingValue;
-    void UpdateWorldToCamera();
+    void NiCamera_WorldToCameraMatrix();
     void Right(float& x, float& y, float& z) const
     {
         x = m_kWorldSpaceTransform.m_kOrientation.m_afEntries[0][2];
@@ -1012,7 +763,9 @@ class S00a70ba0_Cam : public NiAVObject
 
 // Computes the m_afWorldToCamera matrix from the camera orientation, translation, and view frustum for orthographic or perspective projection.
 // @fnv 0x00a70ba0
-void S00a70ba0_Cam::UpdateWorldToCamera()
+// pdb: NiCamera::WorldToCameraMatrix | NiCamera.obj | fnv360_0822_retail, call_gap, high
+// pdb: NiCamera::WorldToCameraMatrix | NiCamera.obj | fnv360_0822_retail, call_gap, high (was: UpdateWorldToCamera)
+void S00a70ba0_Cam::NiCamera_WorldToCameraMatrix()
 {
     CameraVector kWorldPosition;
     Rotation().GetCol(0, kWorldPosition);
@@ -1098,12 +851,13 @@ union FUN_00a70f60_FloatBits
 
 struct FUN_00a70f60_Obj
 {
-    void __thiscall FUN_00a70f60(NiCamera* destination, int second);
+    void __thiscall NiCamera_CopyMembers(NiCamera* destination, int second);
 };
 
 // Copies NiCamera state from source to destination via base copy, memcpy, and field assignments.
 // @fnv 0x00a70f60
-void __thiscall FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
+// pdb: NiCamera::CopyMembers | NiCamera.obj | fnv360_0822_retail, caller_sim + bridge(hash|call_dedup) + skyrim(caller_sim), high
+void __thiscall FUN_00a70f60_Obj::NiCamera_CopyMembers(NiCamera* destination, int second)
 {
     NiCamera* source = reinterpret_cast<NiCamera*>(this);
 
@@ -1144,6 +898,8 @@ struct CameraWindowRay : NiCamera
 };
 // Maps screen coordinates to a view-space ray using the camera port and view frustum, returning false if the point is outside the port.
 // @fnv 0x00a71080
+// pdb: NiPick::NiPick | NiPick.obj | fnv360_0822_retail, call_gap, low
+// pdb params: uiResultsInitialSize, uiResultsGrowBy
 bool CameraWindowRay::MapScreenToRay(long aiScreenX, long aiScreenY, NiPoint3& origin, NiPoint3& direction,
                                      const NiRenderTargetGroup* apRenderTargetGroup)
 {
@@ -1228,6 +984,8 @@ struct NiCamera_Candidate : public NiCamera
 
 // Saves the camera's AV object data, view frustum, port, and link ID to the binary stream via SerializeValue calls.
 // @fnv 0x00a716c0
+// pdb: NiCamera::SaveBinary | NiCamera.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void NiCamera_Candidate::FUN_00a716c0(NiStream& kStream)
 {
     ((NiAVObjectHelper*)this)->SaveBinaryAV(kStream);
@@ -1274,6 +1032,8 @@ struct NiRectFloat
 
 // Formats the rect's four float bounds into a newly allocated string prefixed by pPrefix.
 // @fnv 0x00a71020
+// pdb: NiRect<float>::GetViewerString | NiCamera.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pPrefix
 char* NiRectFloat::ToString(const char* pPrefix) const
 {
     char* pString;
@@ -1431,6 +1191,7 @@ class FUN_00a712f0_Camera : public NiAVObjectA71
 
 // Initialises the camera's view frustum, port, near/far limits and trailing value, then calls UpdateWorldData, UpdateWorldFrustum and UpdateCameras.
 // @fnv 0x00a712f0
+// pdb: NiCamera::NiCamera | NiCamera.obj | fnv360_0822_retail, call_dedup, low
 FUN_00a712f0_Camera::FUN_00a712f0_Camera() : m_kViewFrustum(false)
 {
     m_kViewFrustum.m_bOrthographic = false;
@@ -1631,6 +1392,8 @@ class NiCameraV7 : public NiAVObjectV7
 
 // Projects a bound onto the camera's forward axis to set the view frustum near/far planes, then updates world data and bound.
 // @fnv 0x00a70080
+// pdb: NiCamera::FitNearAndFarToBound | NiCamera.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: kBound
 bool NiCameraV7::FUN_00a70080(const NiBoundV7& bound)
 {
     NiPoint3V7 kWDir = GetWorldTranslation();

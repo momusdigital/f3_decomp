@@ -119,11 +119,13 @@ extern S_007bb010 DAT_0117a610;
 extern const char DAT_00eb9fec;
 extern S_007bb010 DAT_0117a618;
 
+// pdb: `dynamic initializer for 'NiGPUProgram::ms_RTTI'' | NiGPUProgram.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d865e0()
 {
     DAT_0117a610.FUN_007bb010(&DAT_00eb9fc8, 0);
 }
 
+// pdb: `dynamic initializer for 'NiMaterialNode::ms_RTTI'' | NiMaterialNode.obj | fnv360_0822_retail, ustr, medium
 void FUN_00d86600()
 {
     DAT_0117a618.FUN_007bb010(&DAT_00eb9fec, 0);

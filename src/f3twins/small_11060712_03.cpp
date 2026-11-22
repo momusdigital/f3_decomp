@@ -3,7 +3,7 @@
 // ---- family s020
 
 extern bool DAT_0106dd0e;
-int __cdecl FUN_004548c0(int, void*, int);
+int __cdecl TESForm___AddChunkData(int, void*, int);
 #include <stdlib.h>
 struct S00405e90 { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual int v9(); int pad[26]; unsigned f6c; void FUN_00405e90(); };
 
@@ -11,7 +11,7 @@ void S00405e90::FUN_00405e90()
 {
     if (DAT_0106dd0e)
         f6c = _byteswap_ulong(f6c);
-    FUN_004548c0(v9(), &f6c, 8);
+    TESForm___AddChunkData(v9(), &f6c, 8);
     if (DAT_0106dd0e)
         f6c = _byteswap_ulong(f6c);
 }
@@ -30,6 +30,8 @@ extern M004a54b0* DAT_0106ca70;
 struct A004a54b0 { char pad[0xd1]; bool fd1; };
 struct C004a54b0 { void* FUN_004b2df0(A004a54b0*, int); void* FUN_004a54b0(A004a54b0*, int); };
 
+// pdb: BGSExplosion::Clone3D | BGSExplosion.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pRequester, deepCopy
 void* C004a54b0::FUN_004a54b0(A004a54b0* a, int b)
 {
     void* r = 0;
@@ -49,16 +51,18 @@ struct R004a7000 { virtual void v0(); virtual void v1(); virtual void v2(); virt
 struct L004a7000 { int a[7]; L004a7000(float); ~L004a7000(); };
 struct Y004a7000 { R004a7000* FUN_008257a0(L004a7000*); };
 struct A004a7000;
-struct G004a7000 { bool FUN_0043be40(int); };
+struct G004a7000 { bool TESDataHandler_IsFormIDCreated(int); };
 extern G004a7000* DAT_0106cdcc;
 struct H004a7000 { char pad[0x244]; unsigned f244; bool Bit1() const { return (f244 >> 1) & 1; } };
 extern H004a7000* DAT_01079858;
-struct K004a7000 { R004a7000* FUN_00474b30(void*); };
+struct K004a7000 { R004a7000* BSClonePools_RequestClone(void*); };
 K004a7000* __cdecl FUN_00474ba0(int);
 struct C004a7000 { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39(); virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54(); virtual void v55(); virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59(); virtual void v60(); virtual void v61(); virtual void v62(); virtual void v63(); virtual void v64(); virtual void v65(); virtual void v66(); virtual void v67(); virtual void v68(); virtual void v69(); virtual void v70(); virtual void v71(); virtual void v72(); virtual void v73(); virtual void v74(); virtual void v75(); virtual void v76(); virtual void v77(); virtual void v78(); virtual void v79(); virtual void v80(); virtual void v81(); virtual void v82(); virtual void v83(); virtual void v84(); virtual void v85(); virtual void v86(); virtual void v87(); virtual void v88(); virtual void v89(); virtual void v90(); virtual void v91(); virtual void v92(); virtual void* v93(A004a7000*); char pad[0x5c]; unsigned f60; R004a7000* FUN_004b2df0(A004a7000*, int); void FUN_004b2830(A004a7000*); R004a7000* FUN_004a7000(A004a7000*, int); };
 struct E004a7000 { int f0; int f4; C004a7000* f8; };
 struct A004a7000 { int f0; int f4; int f8; int f0c; char pad[0x12c]; E004a7000* f13c; int Id() const { return f0c; } C004a7000* F8() const { return f13c->f8; } };
 
+// pdb: BGSProjectile::Clone3D | BGSProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pRequester, deepCopy
 R004a7000* C004a7000::FUN_004a7000(A004a7000* a, int b)
 {
     R004a7000* r = 0;
@@ -71,8 +75,8 @@ R004a7000* C004a7000::FUN_004a7000(A004a7000* a, int b)
                 r = y->FUN_008257a0(&l);
         } else {
             void* z = v93(a);
-            if (z && DAT_0106cdcc->FUN_0043be40(a->Id()) && !DAT_01079858->Bit1())
-                r = FUN_00474ba0(1)->FUN_00474b30(z);
+            if (z && DAT_0106cdcc->TESDataHandler_IsFormIDCreated(a->Id()) && !DAT_01079858->Bit1())
+                r = FUN_00474ba0(1)->BSClonePools_RequestClone(z);
             if (!r) {
                 r = FUN_004b2df0(a, b);
                 if (z)

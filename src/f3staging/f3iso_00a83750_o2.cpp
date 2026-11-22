@@ -78,9 +78,6 @@ static __declspec(noinline) void FUN_00a82b80(Parser34* parser, void* stream) {
         token = 0;
     }
 }
-void Parser34::Skip(void* stream) {
-    FUN_00a82b80(this, stream);
-}
 }
 namespace f3m_00a82e90 {
 namespace b1821 {
@@ -214,7 +211,7 @@ struct A832B0_Owner
     virtual void vf0c(A832B0_Obj** out, A832B0_Obj* item);
 };
 
-int __cdecl FUN_009232c0(int a, int b);
+int __cdecl hkString_strCmp(int a, int b);
 
 static __declspec(noinline) int FUN_00a832b0(A832B0_Owner* owner, A832B0_Obj* item, A832B0_Obj* other)
 {
@@ -227,7 +224,7 @@ static __declspec(noinline) int FUN_00a832b0(A832B0_Owner* owner, A832B0_Obj* it
     if (kind2) {
         int b = other->unk0c;
         int a = kind2->unk0c;
-        if (FUN_009232c0(a, b) != 0)
+        if (hkString_strCmp(a, b) != 0)
             result = 1;
     } else {
         result = 1;

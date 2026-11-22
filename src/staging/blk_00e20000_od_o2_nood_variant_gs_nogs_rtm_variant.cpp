@@ -41,32 +41,11 @@ struct Face {
     int unk4c;
     __declspec(noinline) Vertex* ComputePlane();
 };
-extern float DAT_01011d78;
-extern float DAT_01017718;
 extern float DAT_01016248;
 static __forceinline __m128 dot3(__m128 a, __m128 b) {
     __m128 v = _mm_mul_ps(a,b);
     return _mm_add_ss(_mm_shuffle_ps(v,v,0xaa), _mm_add_ss(_mm_shuffle_ps(v,v,0x55),v));
 }
-Vertex* Face::ComputePlane() {
-    Vertex* first = edges[0].vertex;
-    __m128 a = _mm_sub_ps(first->position,edges[1].vertex->position);
-    __m128 b = _mm_sub_ps(edges[1].vertex->position,edges[2].vertex->position);
-    __m128 n = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a,a,0xc9),_mm_shuffle_ps(b,b,0xd2)),_mm_mul_ps(_mm_shuffle_ps(a,a,0xd2),_mm_shuffle_ps(b,b,0xc9)));
-    __m128 len = dot3(n,n);
-    __m128 inv = _mm_rsqrt_ss(len);
-    __m128 scale = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248),inv), _mm_sub_ss(_mm_set_ss(DAT_01017718), _mm_mul_ss(_mm_mul_ss(len,inv),inv)));
-    scale = _mm_andnot_ps(_mm_cmpeq_ss(len,_mm_set_ss(DAT_01011d78)), scale);
-    normal = n;
-    _ReadWriteBarrier();
-    normal = _mm_mul_ps(n,_mm_shuffle_ps(scale,scale,0));
-    float d;
-    _mm_store_ss(&d,dot3(normal,first->position));
-    distance = d;
-    return first;
-}
-struct InitEntry { int vertexOffset; int faceOffset; int edgeOffset; };
-extern InitEntry DAT_010ed0f0[];
 struct Hull {
     int unk00; int unk04; int unk08; int unk0c;
     int faceCount; int unk14; int unk18; int unk1c;
@@ -75,12 +54,6 @@ struct Hull {
     Face faces[4];
     void FUN_00e2d440();
 };
-struct E29Src { int idx[4]; int n; };
-struct E29SrcList { E29Src* data; int count; };
-struct E29Item { __m128 a; __m128 b; char flag20; int val24; };
-struct E29Out1 { E29Item item; void* ptr30; int one34; int zero38; char unk3c; char flag3d; };
-struct E29Out2 { E29Item items[4]; int count; char flagC4; void* ptrs[4]; int unkD8; int unkDC; int zeros[4]; int unkF0; };
-void FUN_00e29a10(E29SrcList* src, const __m128* posA, const __m128* posB, char* base, E29Out1* out1, int* outCount1, E29Out2* out2, int* outCount2);
 inline void* operator new(unsigned int, void* p) { return p; }
 struct Router_e3a1 {
     int unk00, unk04, unk08, unk0C;
@@ -106,22 +79,9 @@ template <class T> struct hkArray_e3a1 {
         m_iElementCount++;
     }
 };
-struct Track_e3a1 {
-    int unk00, unk04;
-    int m_numKeys;
-    int m_pRayCursor;
-    hkArray_e3a1<Key_e3a1> m_keys;
-    void FUN_00e3a1e0(int numKeys);
-};
 extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern int DAT_010dbacc, DAT_010dbad8, DAT_010dbae4, DAT_010dbaf8;
 extern int DAT_010ccfac, DAT_010ccfa0, DAT_010ccf8c, DAT_010c3bb8;
-extern void* DAT_011b3830[];
-void __cdecl FUN_00d1bb50(void*, void*, void*, void*, void*, void*, void*, void*, void*, int) throw();
-void __cdecl FUN_00d1d490(void*, void*, int, void*, void*, void*) throw();
 typedef __m128 FourFloatVector;
 __forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v.m128_f32[0]=x; v.m128_f32[1]=y; v.m128_f32[2]=z; v.m128_f32[3]=w; return v; }
 struct RaySource {
@@ -129,14 +89,6 @@ struct RaySource {
     unsigned char enable; unsigned char unk21; unsigned short unk22;
     unsigned filter;
     unsigned unk28, unk2c;
-};
-struct RayBatch {
-    RaySource rays[4];
-    unsigned type;
-    unsigned char flag; unsigned char unkc5; unsigned short unkc6;
-    void* filters[4];
-    unsigned unkd8, unkdc;
-    void* hits[4];
 };
 struct LocalRay {
     FourFloatVector from, to;
@@ -177,17 +129,8 @@ ray.mode=m;         return r;
         unk50 = 0; unk54 = 0; unk60 = 0; ray.hit = 0;
     }
 };
-struct Bundle {
-    FourFloatVector fromX, fromY, fromZ, toX, toY, toZ;
-    void* dispatch;
-};
-struct FractionValues { float x,y,z,w; };
-struct FractionArg { FourFloatVector* ptr; };
-struct Owner { unsigned unk00, unk04, unk08, unk0c; void* context; };
-void __cdecl FUN_00e2b510(Owner* owner, RayBatch* input, int mode, FourFloatVector& fractions);
 extern "C" void _ReadWriteBarrier(void);
 extern DWORD DAT_0126835c;
-unsigned __int64 __cdecl __rdtsc(void);
 struct ProfRec
 {
     const char* m_pName;
@@ -282,46 +225,6 @@ __forceinline void InitJob(AutoJob& j)
     j.m_i64 = 0;
     j.m_i68 = 0;
 }
-struct JobSource
-{
-    DWORD unk00, unk04, unk08, unk0C;
-    JobTarget* m_p10;
-    int m_i14;
-    int unk18;
-    int m_i1C;
-    int unk20;
-    int m_i24;
-    int unk28;
-    int m_i2C;
-    int unk30;
-    int m_i34;
-    int m_i38;
-    int m_i3C;
-    int m_i40;
-};
-class JobQueue
-{
-public:
-    void AddObjectCopy(AutoJob* pJob, int iFlag);
-};
-class JobWaiter
-{
-public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void Start(JobQueue* m_pPrimaryTaskProcessor, int iType);
-    virtual void Wait();
-};
-struct SplitOut
-{
-    int unk00, unk04, unk08, unk0C;
-};
-struct SplitResult
-{
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
-};
-void __cdecl FUN_00e29b80(int a, int b, int n, void* p1, void* p2, void* p3, SplitResult* pOut);
 __forceinline void ProfMark(const char* pName)
 {
     ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
@@ -388,11 +291,7 @@ template <class T> __forceinline void ArrClearFree(ScrapArr<T>& arr)
     arr.m_pData = 0;
     arr.m_uiCap = 0x80000000;
 }
-void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pSrc, JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 namespace SplineMax {
-struct Vec { __m128 value; };
-struct Points { Vec* data; int count; int capacity; };
 }
 
 typedef ::__m128 S2d6c0_Simd;
@@ -418,9 +317,6 @@ extern "C" double __cdecl sqrt(double) throw();
 
 using ::DAT_01016248;
 extern float DAT_0104da48;
-extern const float DAT_0104da4c;
-extern float DAT_0102295c;
-extern double DAT_01012060;
 
 struct S2d6c0_Vector
 {
@@ -471,6 +367,8 @@ struct S2d6c0_Vector_a99740
     __forceinline void normalize3() {float len=dot3(*this); float inv; if(len!=0.0f) inv=1.0f/(float)sqrt(len); else inv=0.0f; m_vComponents.m128_f32[0] *= inv; m_vComponents.m128_f32[1] = *(volatile float*)&m_vComponents.m128_f32[1] * inv; m_vComponents.m128_f32[2] = *(volatile float*)&m_vComponents.m128_f32[2] * inv; m_vComponents.m128_f32[3] *= inv;}
 };
 struct S2d6c0_Vector;
+// pdb: hkpWingedEdge::find2ClosestMultiTriangles | hkpWingedEdge.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: hkWingedEdge::find2ClosestMultiTriangles)
+// pdb params: we0, we1, directionOut, nearestTriangle0, nearestTriangle1
 extern "C" void __cdecl FUN_00e2d6c0(::Hull* a, ::Hull* b, ::S2d6c0_Vector* outIn,
                           ::Face** pa, ::Face** pb)
 {

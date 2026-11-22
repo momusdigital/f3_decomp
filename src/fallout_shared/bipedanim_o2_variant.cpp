@@ -11,11 +11,12 @@ struct NiShader
 };
 struct Holder
 {
-    bool FUN_00a5ba40(NiTexture* pkTex);
-    bool FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex);
+    bool NiObjectNET_InsertExtraData(NiTexture* pkTex);
+    bool NiObjectNET_AddExtraData(const NiFixedString& kName, NiTexture* pkTex);
 };
 // @fnv 0x00a5bc40
-bool Holder::FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex)
+// pdb: NiObjectNET::AddExtraData | NiObjectNET.obj | fnv360_0822_debug, objrun + bridge(call_gap|caller) + skyrim(caller_sim), high
+bool Holder::NiObjectNET_AddExtraData(const NiFixedString& kName, NiTexture* pkTex)
 {
     if ((int)kName.data == EmptyFS)
         return false;
@@ -30,7 +31,7 @@ bool Holder::FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex)
         if (kName.data != ((NiShader*)pkTex)->GetFilename().data)
             return false;
     }
-    return FUN_00a5ba40(pkTex);
+    return NiObjectNET_InsertExtraData(pkTex);
 }
 
 struct FUN_00b553d0_PropertyLayout
@@ -101,6 +102,8 @@ struct FUN_00b553d0_NodeLayout
 };
 
 // @fnv 0x00b553d0
+// pdb: BSShaderManager::SetEmittanceRecurse | BSShaderManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, aColor
 void __cdecl FUN_00b553d0(NiGeometry* pObject, NiPoint3* pValue)
 {
     if (pObject == 0)
@@ -201,44 +204,3 @@ struct BackpackName
     }
     ~BackpackName();
 };
-
-SceneNode* FUN_00c4b310(SceneNode* root, const char* name, int flag);
-SceneNode* FUN_00c4b470(SceneNode* root, BackpackName* name, int flag);
-struct AttachInfo
-{
-    void* m_data;
-};
-
-void FUN_00c88a40(void* a1, AttachInfo a2, SceneNode* obj, SceneNode* parent, bool a4);
-
-static __forceinline SceneNode* FindAttachParent(SceneNode* obj, SceneNode* root)
-{
-    SceneNode* p = obj ? obj->GetParent() : 0;
-    while (p)
-    {
-        NiController* c = p->m_controller;
-        if (c && (!c->GetTarget() || p->m_controller->GetTarget()->unk10 != 0))
-            break;
-        if (p == root)
-            break;
-        p = p->GetParent();
-    }
-    if (p == root)
-        return 0;
-    return p;
-}
-
-// @fnv 0x00c89050
-void __stdcall FUN_00c89050(void* a1, AttachInfo a2, SceneNode* root, bool a4)
-{
-    SceneNode* obj = FUN_00c4b310(root, "Weapon", 0);
-    SceneNode* parent = FindAttachParent(obj, root);
-    if (obj && parent)
-        FUN_00c88a40(a1, a2, obj, parent, a4);
-
-    static BackpackName kBackpack("Backpack");
-    obj = FUN_00c4b470(root, &kBackpack, 0);
-    parent = FindAttachParent(obj, root);
-    if (obj && parent)
-        FUN_00c88a40(a1, a2, obj, parent, a4);
-}

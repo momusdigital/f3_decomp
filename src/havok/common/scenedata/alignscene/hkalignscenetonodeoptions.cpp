@@ -21,6 +21,8 @@ struct FUN_00e4a540_cls
 };
 
 // @fnv 0x00e4a540
+// pdb: BGSSaveLoadGame::QueueSubBuffer | BGSSaveLoadGame.obj | fnv360_0721_retail, call_seq, low
+// pdb params: aeType, apLoadFormBuffer, apParentForm
 void FUN_00e4a540_cls::FUN_00e4a540()
 {
     m_14->Run();
@@ -73,32 +75,6 @@ class hkReferencedObjectE4AF
         FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkReferencedObjectE4AF*>(p)->m_usMemSizeAndFlags);
     }
 };
-
-class hkAlignSceneToNodeOptionsE4AF : public hkReferencedObjectE4AF
-{
-  public:
-    hkBool m_bOption1;
-    hkBool m_bOption2;
-    hkBool m_bOption3;
-    hkBool m_bOption4;
-    hkBool m_bOption5;
-    hkBool m_bOption6;
-    hkBool m_bOption7;
-    hkInt32 m_iOptionValue;
-    FUN_00cb0c00_class m_kNodeName;
-
-    hkAlignSceneToNodeOptionsE4AF* FUN_00e4afa0(unsigned int uiFlags) throw();
-};
-
-// Destroys the object and, when uiFlags has bit 0 set, frees its memory via operator delete; returns this.
-// @fnv 0x00e4afa0
-hkAlignSceneToNodeOptionsE4AF* hkAlignSceneToNodeOptionsE4AF::FUN_00e4afa0(unsigned int uiFlags) throw()
-{
-    this->hkAlignSceneToNodeOptionsE4AF::~hkAlignSceneToNodeOptionsE4AF();
-    if (uiFlags & 1)
-        hkAlignSceneToNodeOptionsE4AF::operator delete(this);
-    return this;
-}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -158,17 +134,6 @@ struct Matrix4E4
     }
     void FUN_00de8e50(const Matrix4E4& m) throw();
 };
-struct MatArrE4
-{
-    Matrix4E4* m_data;
-    int m_iElementCount;
-    int m_cap;
-};
-struct PoseE4
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
-    MatArrE4 m_mats;
-};
 template <class T, int N> struct InplaceArrE4
 {
     T* m_data;
@@ -201,26 +166,3 @@ template <class T, int N> struct InplaceArrE4
         release();
     }
 };
-struct NodeOpsE4
-{
-    int FUN_00e4a540(void* pSrc, InplaceArrE4<PoseE4*, 32>& arr) throw();
-    int FUN_00e4a5a0(void* volatile pSrc, Matrix4E4* pOut, int iIndex);
-};
-// Initializes pOut, then passes one indexed matrix from each gathered pose to FUN_00de8e50; returns 1 when gathering returns nonzero.
-// @fnv 0x00e4a5a0
-int NodeOpsE4::FUN_00e4a5a0(void* volatile pSrc, Matrix4E4* pOut, int iIndex)
-{
-    InplaceArrE4<PoseE4*, 32> arr;
-    void* source = pSrc;
-    if (FUN_00e4a540(source, arr))
-        return 1;
-    pOut->setIdentity();
-    for (int i = 0; i < arr.GetLogicalSize(); i++)
-    {
-        PoseE4* p = arr[i];
-        int n = p->m_mats.m_iElementCount;
-        int idx = (iIndex < n) ? iIndex : n - 1;
-        pOut->FUN_00de8e50(p->m_mats.m_data[idx]);
-    }
-    return 0;
-}

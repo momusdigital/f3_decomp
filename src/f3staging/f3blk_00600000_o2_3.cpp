@@ -46,6 +46,7 @@ namespace N61C8C0 {struct Tile{float FUN_00becf40(unsigned);};struct Manager{boo
  int unknown90;
  int unknown94;
  int unknown98;
- Tile*tile;void FUN_006210c0();};extern Manager*DAT_01075b24;void FUN_0061b070(int,int);void FUN_0061b370(int,int,int);void FUN_0061b570(int,int);}
-void FUN_0061c8c0(){using namespace N61C8C0;if(N61C8C0::DAT_01075b24&&N61C8C0::DAT_01075b24->enabled){int mode=(int)N61C8C0::DAT_01075b24->tile->FUN_00becf40(0x1771);if(!mode){N61C8C0::DAT_01075b24->FUN_006210c0();mode=1003;}switch(mode){case 1023:FUN_0061b070(1,0);break;case 1002:case 1035:FUN_0061b370(1,0,1);break;case 1003:FUN_0061b570(1,0);break;}}}
+ Tile*tile;void FUN_006210c0();};extern Manager*DAT_01075b24;void Interface_SetMapMenuVisible(int,int);void FUN_0061b370(int,int,int);void Interface_SetStatsMenuVisible(int,int);}
+// pdb: Interface::ShowMenus | Interface.obj | fnv360_0822_retail, objrun, medium
+void FUN_0061c8c0(){using namespace N61C8C0;if(N61C8C0::DAT_01075b24&&N61C8C0::DAT_01075b24->enabled){int mode=(int)N61C8C0::DAT_01075b24->tile->FUN_00becf40(0x1771);if(!mode){N61C8C0::DAT_01075b24->FUN_006210c0();mode=1003;}switch(mode){case 1023:Interface_SetMapMenuVisible(1,0);break;case 1002:case 1035:FUN_0061b370(1,0,1);break;case 1003:Interface_SetStatsMenuVisible(1,0);break;}}}
 }   // namespace f3m_0061c8c0

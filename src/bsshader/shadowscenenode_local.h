@@ -423,7 +423,7 @@ class ShadowSceneNode
     ShadowSceneLight* ambientLight;
     void AddObject(NiAVObject*);
     void RemoveSceneObject(NiAVObject*, bool);
-    void UpdateShadowLights();
+    void RemoveAllShadowLights();
     float CalculateLightingAtPoint(NiPoint3, int&, float&, float&, NiLight*);
 };
 #endif

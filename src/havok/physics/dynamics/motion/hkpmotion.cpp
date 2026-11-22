@@ -6,35 +6,38 @@
 
 extern "C" void __cdecl SetMotionState(void*, void*);
 
-struct FUN_00c86400_Class
+struct FUN_00c86400_Class : public hkpMotion
 {
     void __thiscall FUN_00c86400(void* a);
 };
 
 // @fnv 0x00c86400
+// pdb: hkpMotion::setTransform | hkpMotion.obj | tesv_win, objrun, medium
 void __thiscall FUN_00c86400_Class::FUN_00c86400(void* a)
 {
-    SetMotionState(a, (char*)this + 0x10);
+    SetMotionState(a, &m_kMotionState);
 }
 
-struct FUN_00c86420_Class
+struct FUN_00c86420_Class : public hkpMotion
 {
     void __thiscall FUN_00c86420(char a);
 };
 // @fnv 0x00c86420
+// pdb: hkpMotion::setDeactivationClass | hkpMotion.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: deactivationClass
 void __thiscall FUN_00c86420_Class::FUN_00c86420(char a)
 {
-    ((char*)this)[0xbe] = a;
+    m_kMotionState.m_uiDeactivationClass = a;
 }
 
-struct FUN_00c86480_Class
+struct FUN_00c86480_Class : public hkpMotion
 {
     void __thiscall FUN_00c86480(float v);
 };
 // @fnv 0x00c86480
 void __thiscall FUN_00c86480_Class::FUN_00c86480(float v)
 {
-    *(float*)((char*)this + 0xcc) = v;
+    m_kInertiaAndMassInv.w = v;
 }
 
 struct FUN_00c86330_Class
@@ -44,6 +47,8 @@ struct FUN_00c86330_Class
 
 // Computes the inverse of mass (0 if mass is 0) and passes it to the virtual function at vtable slot 4.
 // @fnv 0x00c86330
+// pdb: hkpMotion::setMass | hkpMotion.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: mass
 void __thiscall FUN_00c86330_Class::FUN_00c86330(float mass)
 {
     float invMass;
@@ -61,40 +66,44 @@ void __thiscall FUN_00c86330_Class::FUN_00c86330(float mass)
 }
 
 extern "C" void __cdecl FUN_00cf20d0(void*, void*);
-struct FUN_00c863a0_Class
+struct FUN_00c863a0_Class : public hkpMotion
 {
     void __thiscall FUN_00c863a0(void* a);
 };
 // @fnv 0x00c863a0
+// pdb: hkpMotion::setPosition | hkpMotion.obj | tesv_win, objrun, medium
 void __thiscall FUN_00c863a0_Class::FUN_00c863a0(void* a)
 {
-    FUN_00cf20d0(a, (char*)this + 0x10);
+    FUN_00cf20d0(a, &m_kMotionState);
 }
 
 extern "C" void __cdecl FUN_00cf2160(void*, void*);
 
-struct FUN_00c863c0_Class
+struct FUN_00c863c0_Class : public hkpMotion
 {
     void __thiscall FUN_00c863c0(void* a);
 };
 
 // @fnv 0x00c863c0
+// pdb: hkpMotion::setRotation | hkpMotion.obj | tesv_win, caller_sim, low
 void __thiscall FUN_00c863c0_Class::FUN_00c863c0(void* a)
 {
-    FUN_00cf2160(a, (char*)this + 0x10);
+    FUN_00cf2160(a, &m_kMotionState);
 }
 
 extern void __cdecl FUN_00cf1f80(void*, void*, void*);
 
-struct FUN_00c863e0_Class
+struct FUN_00c863e0_Class : public hkpMotion
 {
     void __thiscall FUN_00c863e0(void* param1, void* param2);
 };
 
 // @fnv 0x00c863e0
+// pdb: hkpMotion::setPositionAndRotation | hkpMotion.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: position, rotation
 void FUN_00c863e0_Class::FUN_00c863e0(void* pFirst, void* pSecond)
 {
-    FUN_00cf1f80(pFirst, pSecond, static_cast<void*>(reinterpret_cast<char*>(this) + 0x10));
+    FUN_00cf1f80(pFirst, pSecond, &m_kMotionState);
 }
 
 struct FUN_00cf22d0_Class
@@ -111,6 +120,8 @@ struct FUN_00c86490_Class
 };
 
 // @fnv 0x00c86490
+// pdb: hkpMotion::approxTransformAt | hkpMotion.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: time, transformOut
 void FUN_00c86490_Class::SweepTransform(float value, void* result)
 {
     sweptTransform.Evaluate(value, result);
@@ -118,6 +129,7 @@ void FUN_00c86490_Class::SweepTransform(float value, void* result)
 
 int __cdecl ApplyDelta(int, int);
 // @fnv 0x00c86380
+// pdb: hkpMotion::setCenterOfMassInLocal | hkpMotion.obj | tesv_win, objrun, medium
 int __fastcall FUN_00c86380(unsigned int registerArg0, unsigned int registerArg1, unsigned int arg0)
 {
     unsigned int callResult0 = (unsigned int)ApplyDelta((int)arg0, (int)(registerArg0 + 16u));
@@ -199,15 +211,6 @@ class hkpMotionC864F : public hkReferencedObjectC864F
     hkVector4C864F m_kAngularVelocity;
 };
 
-// Adds kImpulse scaled by the w component of m_kInertiaAndMassInv to m_kTranslationalVelocity.
-// @fnv 0x00c864f0
-void hkpMotionC864F::ApplyImpulse(const hkVector4C864F& kImpulse)
-{
-    hkVector4C864F kDeltaLin;
-    kDeltaLin.setMul4(m_kInertiaAndMassInv.getSimdAt3(), kImpulse);
-    m_kTranslationalVelocity.add4(kDeltaLin);
-}
-
 namespace fnv_00c86530 {
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -241,11 +244,6 @@ struct hkVector4C865
     }
 };
 
-struct hkQuaternionC865
-{
-    hkVector4C865 m_vec;
-};
-
 class hkHalfC865
 {
   public:
@@ -257,22 +255,6 @@ class hkHalfC865
     }
 
     short m_uiFilterValue;
-};
-
-struct hkMotionStateC865
-{
-    void FUN_00cf2410(const hkVector4C865& kPosition, const hkQuaternionC865& kRotationBasis);
-
-    hkVector4C865 m_kMotionTransform[4];
-    hkVector4C865 m_kSweptTransform[5];
-    hkVector4C865 m_kDeltaAngle;
-    float m_fObjectRadius;
-    float m_fLinearDamping;
-    float m_fAngularDamping;
-    unsigned char m_fSurfaceFriction;
-    unsigned char m_fRestitution;
-    unsigned char m_uiDeactivationClass;
-    unsigned char unkAF;
 };
 
 class hkBaseObjectC865
@@ -292,56 +274,6 @@ class hkReferencedObjectC865 : public hkBaseObjectC865
     short m_sReferenceCount;
 };
 
-class FUN_00c86530 : public hkReferencedObjectC865
-{
-  public:
-    FUN_00c86530(const hkVector4C865& kPosition, const hkQuaternionC865& kRotationBasis,
-                 bool bWantDeactivation) throw();
-    virtual ~FUN_00c86530() throw();
-
-    unsigned char m_type;
-    unsigned char m_ucDeactivationIntegrateCounter;
-    unsigned short m_ausDeactivationNumInactiveFrames[2];
-    unsigned short unk0E;
-    hkMotionStateC865 m_kMotionState;
-    hkVector4C865 m_kInertiaAndMassInv;
-    hkVector4C865 m_kTranslationalVelocity;
-    hkVector4C865 m_kAngularVelocity;
-    hkVector4C865 m_akDeactivationReferencePositions[2];
-    unsigned int m_auiDeactivationReferenceOrientations[2];
-    void* m_pSavedMotion;
-    unsigned short m_savedMotionSize;
-    hkHalfC865 m_fGravityFactor;
-};
-
-// Constructor: zeroes velocities, damping and deactivation data, sets up m_kMotionState from position and rotation, and sets the gravity factor to 1.0.
-// @fnv 0x00c86530
-FUN_00c86530::FUN_00c86530(const hkVector4C865& kPosition, const hkQuaternionC865& kRotationBasis,
-                           bool bWantDeactivation) throw()
-{
-    hkVector4C865 kZero;
-    kZero.setZero4();
-    m_kTranslationalVelocity = kZero;
-    m_kAngularVelocity = kZero;
-    m_kMotionState.FUN_00cf2410(kPosition, kRotationBasis);
-    m_kMotionState.m_fAngularDamping = m_kMotionState.m_fLinearDamping = 0.0f;
-    m_type = 0;
-    if (bWantDeactivation)
-    {
-        m_ucDeactivationIntegrateCounter = static_cast<unsigned char>(0xf & static_cast<int>(kPosition(0)));
-    }
-    else
-    {
-        m_ucDeactivationIntegrateCounter = 0xff;
-    }
-    m_ausDeactivationNumInactiveFrames[0] = 0;
-    m_ausDeactivationNumInactiveFrames[1] = 0;
-    m_akDeactivationReferencePositions[0] = kZero;
-    m_akDeactivationReferencePositions[1] = kZero;
-    m_auiDeactivationReferenceOrientations[0] = 0;
-    m_auiDeactivationReferenceOrientations[1] = 0;
-    m_fGravityFactor = 1.0f;
-}
 }  // namespace fnv_00c86530
 
 namespace fnv_00c86610 {
@@ -350,59 +282,17 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
-struct Motion_00c86660
-{
-    void __thiscall FUN_00c86660(void* a);
-};
-struct Motion_00c86610
-{
-    Motion_00c86610();
-    void __thiscall FUN_00c86610(Motion_00c86610* dst);
-};
-// Copies the embedded Motion_00c86660 member and the two __m128 blocks plus one byte from this to dst.
-// @fnv 0x00c86610
-void __thiscall Motion_00c86610::FUN_00c86610(Motion_00c86610* apDest)
-{
-    ((Motion_00c86660*)((char*)apDest + 0x10))->FUN_00c86660((char*)this + 0x10);
-    *(__m128*)((char*)apDest + 0xd0) = *(__m128*)((char*)this + 0xd0);
-    *(__m128*)((char*)apDest + 0xe0) = *(__m128*)((char*)this + 0xe0);
-    ((unsigned char*)apDest + 9)[0] = ((unsigned char*)this + 9)[0];
-}
 }  // namespace fnv_00c86610
-
-struct FUN_00c864b0_Class
-{
-    void __thiscall FUN_00c864b0(const float* a);
-};
-// @fnv 0x00c864b0
-void __thiscall FUN_00c864b0_Class::FUN_00c864b0(const float* apVector)
-{
-    __m128 v = *(const __m128*)apVector;
-    *((__m128*)(this + 0xd0)) = v;
-}
-
-struct FUN_00c864d0_Class
-{
-    char m_e0[0xe0];
-    __m128 m_f0e0;
-    void __thiscall CopyFrom(__m128* v);
-};
-// @fnv 0x00c864d0
-void __thiscall FUN_00c864d0_Class::CopyFrom(__m128* apSource)
-{
-    m_f0e0 = *apSource;
-}
-
-extern "C" void _mm_store_ss(float*, __m128);
 
 struct MotionMassView : hkpMotionC864F
 {
-    float FUN_00c86430();
+    float hkpMotion_getMass();
 };
 
 // Reads the inverse-mass component from m_kInertiaAndMassInv, returns 0.0f if it is zero, otherwise returns its reciprocal as the mass.
 // @f3 0x008f8410 (community match, verified in this file)
-float MotionMassView::FUN_00c86430()
+// pdb: hkpMotion::getMass | hkpMotion.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_seq) + skyrim(call_seq), high
+float MotionMassView::hkpMotion_getMass()
 {
     float invMass = m_kInertiaAndMassInv.m_vComponents.m128_f32[3];
     if (invMass == 0.0f)

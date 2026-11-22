@@ -54,6 +54,8 @@ struct StandIn_C74FB0
 };
 
 // @fnv 0x00c74fb0
+// pdb: RagdollFeedbackData::Compare | bhkRagdollController.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: arData
 bool StandIn_C74FB0::FUN_00c74fb0(const StandIn_C74FB0& other) const
 {
     bool diff = false;

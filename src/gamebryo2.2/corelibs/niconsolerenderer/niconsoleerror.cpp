@@ -3,6 +3,8 @@
 
 // Maps an HRESULT or D3D error code to its string name, returning "UNKNOWN!" for unrecognized codes.
 // @fnv 0x00e89d50
+// pdb: NiXenonErrorString | NiXenonError.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: NiDX9ErrorString)
+// pdb params: uiErrorCode
 const char* GetHResultName(unsigned int uiResult)
 {
     switch (uiResult)

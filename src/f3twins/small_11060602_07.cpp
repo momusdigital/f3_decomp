@@ -10,6 +10,8 @@ struct S_00a768b0
 {
     int FUN_00a768b0(int a1, A_00a768b0* a2, int a3, V_00a768b0* a4, int a5);
 };
+// pdb: hkpGroupFilter::isCollisionEnabled | hkpGroupFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: aInput, bShape, bContainer, bKey
 int S_00a768b0::FUN_00a768b0(int a1, A_00a768b0* a2, int a3, V_00a768b0* a4, int a5)
 {
     ((F_00a768b0*)((char*)this - 0x10))->FUN_00a76800(a1, a2->f20, a4->Call(a5));
@@ -34,6 +36,7 @@ N_00acf8b0::N_00acf8b0() throw()
     vp = (void*)&DAT_00e8f2ec;
 }
 struct O_00acf8b0 { void FUN_00ad2420(N_00acf8b0*, int); N_00acf8b0* FUN_00acf8b0(int); };
+// pdb: NiPSysAirFieldSpreadCtlr::CreateClone | NiPSysAirFieldSpreadCtlr.obj | tesv_win, caller_sim, low
 N_00acf8b0* O_00acf8b0::FUN_00acf8b0(int a)
 {
     N_00acf8b0* p = new N_00acf8b0;
@@ -68,8 +71,9 @@ void* C_00ae8a10::FUN_00ae8a10(unsigned f)
 
 extern int DAT_0116efb0;
 
-struct S_00afb500 { void** vt; void FUN_00b6d010(); void FUN_00b64220(); void FUN_00b65960(); void FUN_00b693a0(); void FUN_00b69860(); void FUN_00b69ec0(); void FUN_00b6a8f0(); void FUN_00b6af40(); void FUN_00b6b8c0(); void FUN_00b6cc10(); void FUN_00b78590(); void FUN_00b6dcc0(); void FUN_00b72650(); void FUN_00b7ae40(); void FUN_00b7b590(); void FUN_00b7de40(); void FUN_00b7e740(); void FUN_00b82f60(); void FUN_00b83700(); void FUN_00b83b60(); void FUN_00b83ea0(); void FUN_00b82b20(); void FUN_00b84280(); void FUN_00b6bfe0(); void FUN_00afb500(); };
-void S_00afb500::FUN_00afb500()
+struct S_00afb500 { void** vt; void FUN_00b6d010(); void FUN_00b64220(); void FUN_00b65960(); void FUN_00b693a0(); void FUN_00b69860(); void FUN_00b69ec0(); void FUN_00b6a8f0(); void FUN_00b6af40(); void FUN_00b6b8c0(); void FUN_00b6cc10(); void FUN_00b78590(); void FUN_00b6dcc0(); void FUN_00b72650(); void FUN_00b7ae40(); void FUN_00b7b590(); void FUN_00b7de40(); void FUN_00b7e740(); void FUN_00b82f60(); void FUN_00b83700(); void FUN_00b83b60(); void FUN_00b83ea0(); void FUN_00b82b20(); void FUN_00b84280(); void FUN_00b6bfe0(); void ShadowLightShader_ReloadShaders(); };
+// pdb: ShadowLightShader::ReloadShaders | ShadowLightShader.obj | fnv360_0822_retail, objrun + bridge(hash|objrun_prop), high
+void S_00afb500::ShadowLightShader_ReloadShaders()
 {
     ((void (__thiscall *)(void*))vt[0x144 / 4])(this);
     FUN_00b6d010();
@@ -108,6 +112,8 @@ extern G_00afbba0* DAT_01174988;
 extern char DAT_01174a08[64];
 void __cdecl FUN_00bffa60(void*, const void*, unsigned);
 
+// pdb: ShadowLightShader::UpdatePipelineZOnlyTexEffect | ShadowLightShader.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apGeometry, apBSSProp, apPass
 void __stdcall FUN_00afbba0(void* p)
 {
     if (DAT_01174988->v && p) {

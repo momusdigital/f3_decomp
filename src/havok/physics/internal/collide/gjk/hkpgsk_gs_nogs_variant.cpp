@@ -47,9 +47,6 @@ struct __declspec(align(16)) SegmentClosestResult
     Vector pointA, pointB;
     float distanceSquared;
 };
-extern void __cdecl FUN_00d22e40(const Vector*, const Vector*, const Vector*, const Vector*, SegmentClosestResult*);
-extern const signed char DAT_010cb440[];
-extern const float DAT_0104da48;
 struct Simplex
 {
     int countA, countB, unk08, unk0c;
@@ -59,7 +56,7 @@ struct Simplex
     Vector verticesB[4];
     Vector supportB[4];
     int FUN_00da8500(const Vector*, const Vector*, int);
-    void FUN_00da98f0();
+    void hkpGsk_reduceDimensionExtended();
 };
 // @f3 0x00a30ca0 (community match, verified in this file)
 extern const signed char DAT_00e7c778[];
@@ -77,7 +74,7 @@ struct SimplexView_a30ca0
     Vector verticesB[4];
     Vector supportB[4];
     int FUN_00a2ee70(const Vector*, const Vector*, int);
-    __forceinline void FUN_00da98f0()
+    __forceinline void hkpGsk_reduceDimensionExtended()
     {
     if (countB == 3)
     {
@@ -139,9 +136,10 @@ struct SimplexView_a30ca0
 };
 }
 
-void Simplex::FUN_00da98f0()
+// pdb: hkpGsk::reduceDimensionExtended | hkpGsk.obj | fnv360_0822_retail, objrun + bridge(udata|objrun) + skyrim(udata), high
+void Simplex::hkpGsk_reduceDimensionExtended()
 {
-    reinterpret_cast<f3m_00a30ca0::SimplexView_a30ca0*>(this)->FUN_00da98f0();
+    reinterpret_cast<f3m_00a30ca0::SimplexView_a30ca0*>(this)->hkpGsk_reduceDimensionExtended();
 }
 
 
@@ -240,7 +238,8 @@ struct Collision_workspace
 };
 
 // @f3 0x00a345e0 (community match, verified in this file)
-int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, Collision_vector* out2)
+// pdb: hkpGsk::getClosestPoint | hkpGsk.obj | fnv360_0822_retail, caller + bridge(call_seq|call_gap) + skyrim(call_seq), high
+int hkpGsk_getClosestPoint(Collision_ctx* self, Collision_in* in, Collision_vector* out, Collision_vector* out2)
 {
     struct Collision_shape_view
     {
@@ -340,33 +339,9 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
 }
 
 
-struct Result
-{
-    __m128 v;
-};
 // @fnv 0x00da8350
-static __declspec(noinline) Result
-    FUN_00da8350(const __m128* pkPoint, const __m128* pkOrigin, const __m128* pkNormal, __m128* pkNormalOut)
-{
-
-    __m128 kDelta = _mm_sub_ps(*pkPoint, *pkOrigin);
-    __m128 kNormal = *pkNormal;
-    *pkNormalOut = kNormal;
-    __m128 kProduct = _mm_mul_ps(kNormal, kDelta);
-    __m128 kY = _mm_shuffle_ps(kProduct, kProduct, 0x55);
-    __m128 kZ = _mm_shuffle_ps(kProduct, kProduct, 0xaa);
-    kY = _mm_add_ss(kY, kProduct);
-    kZ = _mm_add_ss(kZ, kY);
-    Result r;
-    r.v = kZ;
-    return r;
-}
 __m128* volatile gP;
 __m128* volatile gO;
 __m128* volatile gN;
 __m128* volatile gOut;
 __m128* volatile gD;
-void Caller()
-{
-    *gD = FUN_00da8350(gP, gO, gN, gOut).v;
-}

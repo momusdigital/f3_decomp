@@ -9,7 +9,8 @@
 
 // @f3 0x005a2430 (community match, verified in this file)
 namespace f3m_005a2430 {
-int FUN_005a2430(int code, char ch)
+// pdb: ActorValue::ToActorValue | ActorValue.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+int ActorValue_ToActorValue(int code, char ch)
 {
     switch (code) {
     case 0:

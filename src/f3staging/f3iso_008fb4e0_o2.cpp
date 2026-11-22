@@ -42,6 +42,8 @@ struct FUN_008fb470
 typedef char VerifyResourceObject44[(sizeof(FUN_008fb470) == 44) ? 1 : -1];
 }
 
+// pdb: WeaponObject::CreateWeaponObject | WeaponObject.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aOwnerFilter, apOwner3d, apObject, abDefaultKeyframed
 void* __cdecl FUN_008fb4e0(int first, int second, int resourceId, int finalArgument)
 {
     S8fb4e0_::FUN_008fb470* result = 0;

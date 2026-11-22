@@ -14,6 +14,7 @@ struct FUN_00cad480_Proxy
     virtual void v04();
     virtual void v08(void* arg);
 };
+// pdb: hkpCharacterProxy::fireContactRemoved | hkpCharacterProxy.obj | tesv_win, call_dedup, low
 void __thiscall FUN_00cad480_Class::FUN_00cad480(void* arg)
 {
     int count = *(int*)((char*)this + 0x84);
@@ -76,6 +77,8 @@ struct ReverseNotifyListener {
     virtual void Notify(void* first, void* second);
 };
 
+// pdb: hkpCharacterProxy::fireContactAdded | hkpCharacterProxy.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: hkpCharacterProxy::fireConstraintsProcessed)
+// pdb params: point
 void S_00cad440::FUN_00cad440(void* first, void* second)
 {
     for (int index = unk84 - 1; index >= 0; --index)
@@ -131,69 +134,6 @@ struct CAD4C0Owner {
     void FUN_00cad4c0(void* data);
 };
 
-// Calls notify(this, data) on each listener in reverse order, from the last index down to zero.
-// @fnv 0x00cad4c0
-void CAD4C0Owner::FUN_00cad4c0(void* data)
-{
-    for (int i = m_numListeners - 1; i >= 0; i--)
-        m_kListeners[i]->notify(this, data);
-}
-
-struct FUN_00cad6f0_class
-{
-    int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
-    int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
-    int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
-    int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
-    void** items;
-    volatile int itemCount;
-    void __thiscall RemoveItem(void* item);
-};
-// Finds item in items, decrements itemCount, and moves the last entry into the removed slot.
-// @fnv 0x00cad6f0
-void FUN_00cad6f0_class::RemoveItem(void* item)
-{
-    int index = 0;
-    int count = itemCount;
-    if (count <= 0)
-        goto notFound;
-    void** entry = items;
-    do
-    {
-        if (*entry == item)
-            goto found;
-        ++index;
-        ++entry;
-    } while (index < count);
-notFound:
-    index = -1;
-found:
-    --itemCount;
-    int newCount = itemCount;
-    if (newCount != index)
-    {
-        void** entry2 = items;
-        entry2[index] = entry2[newCount];
-    }
-}
-
-struct FUN_00cade20_Class
-{
-    void __thiscall FUN_00cade20(int, int, int, int, int, int);
-};
-
-struct FUN_00cafbd0_Class
-{
-    void __thiscall FUN_00cafbd0(int first, int second, int third, int fourth);
-};
-
-// Forwards the four arguments to FUN_00cade20 with two trailing zero arguments.
-// @fnv 0x00cafbd0
-void __thiscall FUN_00cafbd0_Class::FUN_00cafbd0(int first, int second, int third, int fourth)
-{
-    ((FUN_00cade20_Class*)this)->FUN_00cade20(first, second, third, fourth, 0, 0);
-}
-
 struct FNVAllocator {
     virtual void Release();
     virtual void* Allocate(unsigned int bytes);
@@ -218,12 +158,11 @@ struct FNVBuffers {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
-void __cdecl FUN_00d06cb0(FNVArray*, unsigned int);
 struct FNVOwner {
     FNVBuffers*& Buffers() {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
     }
-    void FUN_00c9c5b0(int value);
+    void hkpEntity_addEntityListener(int value);
 };
 // Ensures the buffers exist, stores value into the first empty element slot or appends it, growing the array when full.
 // @f3 0x0090b880 (community match, verified in this file)
@@ -232,7 +171,8 @@ extern DWORD DAT_010f3170;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 void* __stdcall FUN_008f6800(int, int);
 void __cdecl FUN_0098a9f0(FNVArray*, unsigned int);
-void FNVOwner::FUN_00c9c5b0(int value) {
+// pdb: hkpEntity::addEntityListener | hkpEntity.obj | fnv360_0822_retail, call_seq + bridge(call_gap_sim|call_seq) + skyrim(objrun), high
+void FNVOwner::hkpEntity_addEntityListener(int value) {
     FNVBuffers*& buffers = *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0xcc);
     if (buffers == 0) {
         char* pool = static_cast<char*>(TlsGetValue(DAT_010f3170));
@@ -302,18 +242,6 @@ struct FUN_00cac120_cls {
     static void operator delete(void* apMemory) throw();
 };
 
-// Calls FUN_00cadb00, then if bit 0 of acFlags is set frees this through the allocator from FUN_00c85750 using m_uSize, and returns this.
-// @fnv 0x00cac120
-FUN_00cac120_cls* FUN_00cac120_cls::FUN_00cac120(unsigned char acFlags)
-{
-    FUN_00cadb00();
-    if (acFlags & 1) {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
-    }
-    return this;
-}
 }  // namespace fnv_00cac120
 
 extern __declspec(thread) int g_tlsMemContext;
@@ -328,74 +256,6 @@ struct S_00cac150_Scope {
         g_tlsMemContext = m_oldContext;
     }
 };
-
-struct S_00cac150_Item1 {
-    void FUN_00c9c670(void* arg);
-};
-
-struct S_00cac150_Item2 {
-    void RemoveListener(void* arg);
-};
-
-struct S_00cac150 {
-    int unk00;
-    int unk04;
-    int m_arg1;
-    int m_arg2;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    S_00cac150_Item1** m_items1;
-    int m_count1;
-    int unk94;
-    S_00cac150_Item2** m_items2;
-    int m_count2;
-
-    void ClearItems();
-};
-
-// Runs each item's callback with m_arg1/m_arg2, then resets m_count1 and m_count2 to zero.
-// @fnv 0x00cac150
-void S_00cac150::ClearItems() {
-    S_00cac150_Scope scope(16);
-    for (int i = 0; i < m_count1; ++i) {
-        m_items1[i]->FUN_00c9c670(&m_arg1);
-    }
-    m_count1 = 0;
-
-    for (int i = 0; i < m_count2; ++i) {
-        m_items2[i]->RemoveListener(&m_arg2);
-    }
-    m_count2 = 0;
-}
 
 struct CpuScalar {
     unsigned int unk00;
@@ -423,6 +283,7 @@ struct CpuObject {
     unsigned int FUN_00cac910();
 };
 // @fnv 0x00cac910
+// pdb: hkpCharacterProxy::getPosition | hkpCharacterProxy.obj | tesv_win, call_seq, medium
 unsigned int CpuObject::FUN_00cac910()
 {
     return value->value + 48u;
@@ -446,11 +307,6 @@ struct FUN_00cacf10_cls {
     int FUN_00cacf10(void* arg);
 };
 
-struct ArgminState {
-    volatile float best;
-    volatile int idx;
-};
-
 // @f3 0x0091e630 (community match, verified in this file)
 struct ArgminLocal {
     volatile float best;
@@ -458,9 +314,11 @@ struct ArgminLocal {
 };
 
 struct Stub_00921660 {
-    float FUN_00921660(void* a, void* b);
+    float hkpCharacterProxy_surfaceDistance(void* a, void* b);
 };
 
+// pdb: hkpCharacterProxy::findSurface | hkpCharacterProxy.obj | fnv360_0822_debug, callee_sim, low, conflict (skyrim: hkpCharacterProxy::fireContactAdded)
+// pdb params: info
 int FUN_00cacf10_cls::FUN_00cacf10(void* arg) {
     ArgminLocal s;
     s.best = DAT_0101e2bc;
@@ -470,7 +328,7 @@ int FUN_00cacf10_cls::FUN_00cacf10(void* arg) {
         return -1;
     }
     do {
-        float d = ((Stub_00921660*)this)->FUN_00921660(arg, (void*)(m_74 + i * 0x40));
+        float d = ((Stub_00921660*)this)->hkpCharacterProxy_surfaceDistance(arg, (void*)(m_74 + i * 0x40));
         if (d < s.best) {
             s.best = d;
             s.idx = i;
@@ -615,6 +473,8 @@ struct BhkProxyLayout {
     volatile int m_idcount;
 };
 
+// pdb: hkpCharacterProxy::entityRemovedCallback | hkpCharacterProxy.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: entity
 void BhkProxy::RemoveTarget(BhkTarget* pTarget)
 {
     BhkProxyLayout* self = reinterpret_cast<BhkProxyLayout*>(this);
@@ -657,94 +517,6 @@ void BhkProxy::RemoveTarget(BhkTarget* pTarget)
 }
 
 
-struct FUN_00cad900_arg {
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05(int code, const char* name, int a, int b, int c);
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned char flag10;
-};
-
-extern "C" int __cdecl FUN_00d06f80(int ptr, int size);
-extern "C" char str_010c8444[];
-extern "C" char str_010c8450[];
-extern "C" char str_010c8460[];
-
-struct FUN_00cad900_cls {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6c;
-    unsigned int unk70;
-    int m74;
-    int m78;
-    int m7c;
-    int m80;
-    int m84;
-    int m88;
-    int m8c;
-    int m90;
-    int m94;
-    int m98;
-    int m9c;
-    int ma0;
-
-    void FUN_00cad900(FUN_00cad900_arg* a1, int a2);
-};
-
-// @fnv 0x00cad900
-void FUN_00cad900_cls::FUN_00cad900(FUN_00cad900_arg* apReporter, int aiUnused) {
-    if ((m7c & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m74;
-        int r = FUN_00d06f80(p, (m7c & 0x3fffffff) * 0x70);
-        apReporter->v05(3, (const char*)str_010c8460, m74, m78 * 0x70, r);
-    }
-    if ((m94 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m8c;
-        int r = FUN_00d06f80(p, (m94 & 0x3fffffff) * 4);
-        apReporter->v05(3, (const char*)str_010c8450, m8c, m90 * 4, r);
-    }
-    if ((ma0 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m98;
-        int r = FUN_00d06f80(p, (ma0 & 0x3fffffff) * 4);
-        apReporter->v05(3, (const char*)str_010c8460, m98, m9c * 4, r);
-    }
-    if ((m88 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
-        int p = m80;
-        int r = FUN_00d06f80(p, (m88 & 0x3fffffff) * 4);
-        apReporter->v05(3, (const char*)str_010c8444, m80, m84 * 4, r);
-    }
-}
-
 namespace fnv_00cada30 {
 struct AllocHolder {
     int unk00;
@@ -763,116 +535,7 @@ struct PtrList {
 AllocHolder* FUN_00c85750();
 void ResizeAudioStream(void* allocator, PtrList* list, unsigned int elemSize);
 
-struct FUN_00cada30_cls {
-    int unk00;
-
-    void AppendPointer(void* value);
-};
-
-// Appends value to the pointer list at this+0x80, growing it via ResizeAudioStream when full, then increments the count.
-// @fnv 0x00cada30
-void FUN_00cada30_cls::AppendPointer(void* value)
-{
-    PtrList* list = (PtrList*)((char*)this + 0x80);
-    AllocHolder* pAllocHolder = FUN_00c85750();
-    if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu)) {
-        ResizeAudioStream(pAllocHolder->m_pAllocator, list, 4);
-    }
-    void** slot = &list->m_data[list->m_uiItemCount];
-    *slot = value;
-    if (slot == 0) {
-        ResizeAudioStream(pAllocHolder->m_pAllocator, list, 4);
-    }
-    list->m_uiItemCount++;
-}
 }  // namespace fnv_00cada30
-
-extern char str_0102f13c[];
-extern char DAT_0104e3d0[];
-extern char DAT_010c84a4[];
-extern char DAT_010c8488[];
-extern char DAT_010c8470[];
-
-struct FUN_00cad500_Class
-{
-    void __thiscall FUN_00cad500(void* arg);
-};
-
-struct FUN_00cada70_cls
-{
-    void* m_vtbl;
-    unsigned char unk04[2];
-    unsigned short m_06;
-    void* m_08;
-    void* m_0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int m_30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6c;
-    unsigned int unk70;
-    unsigned int m_74;
-    unsigned int m_78;
-    unsigned int m_7c;
-    unsigned int m_80;
-    unsigned int m_84;
-    unsigned int m_88;
-    unsigned int m_8c;
-    unsigned int m_90;
-    unsigned int m_94;
-    unsigned int m_98;
-    unsigned int m_9c;
-    unsigned int m_a0;
-
-    FUN_00cada70_cls* Construct(void* a1);
-};
-
-// Initialises the object's vtable, pointers and numeric fields, then calls FUN_00cad500 with a1 and returns this.
-// @fnv 0x00cada70
-FUN_00cada70_cls* FUN_00cada70_cls::Construct(void* a1)
-{
-    *(unsigned short volatile*)&m_06 = 1;
-    *(void* volatile*)&m_08 = str_0102f13c;
-    *(void* volatile*)&m_0c = DAT_0104e3d0;
-    *(void* volatile*)&m_vtbl = DAT_010c84a4;
-    *(void* volatile*)&m_08 = DAT_010c8488;
-    *(void* volatile*)&m_0c = DAT_010c8470;
-    *(unsigned int volatile*)&m_30 = 0;
-    *(unsigned int volatile*)&m_74 = 0;
-    *(unsigned int volatile*)&m_78 = 0;
-    *(unsigned int volatile*)&m_7c = 0x80000000u;
-    *(unsigned int volatile*)&m_88 = 0x80000000u;
-    *(unsigned int volatile*)&m_80 = 0;
-    *(unsigned int volatile*)&m_84 = 0;
-    *(unsigned int volatile*)&m_94 = 0x80000000u;
-    *(unsigned int volatile*)&m_8c = 0;
-    *(unsigned int volatile*)&m_90 = 0;
-    *(unsigned int volatile*)&m_a0 = 0x80000000u;
-    FUN_00cad500_Class* self = (FUN_00cad500_Class*)this;
-    m_98 = 0;
-    m_9c = 0;
-    self->FUN_00cad500(a1);
-    return this;
-}
 
 extern float DAT_0104da48;
 struct __declspec(align(16)) Vec289 {float x,y,z,w;};
@@ -911,22 +574,11 @@ public:
  virtual void AddCdPoint(const void*);
  virtual void reset() {contacts.count=0;limit=DAT_0104da48;}
 };
-struct Query289 {
- __declspec(nothrow) void FUN_00cade20(void*,void*,hkpCdPointCollector*,hkpCdPointCollector*,unsigned,unsigned) throw();
- void CollectAllContactPoints(void*,void*);
-};
-// Runs a collision query between a and b, gathering all contact points into two hkpAllCdPointCollector instances.
-// @fnv 0x00cafad0
-void Query289::CollectAllContactPoints(void* a,void* b) {
- hkpAllCdPointCollector c2,c1;
- FUN_00cade20(a,b,&c2,&c1,0,0);
-}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 
 extern float DAT_0104da4c;
@@ -940,11 +592,6 @@ struct S00cacaa0_Base {
     S00cacaa0_Vec v20;
     S00cacaa0_Vec v30;
     S00cacaa0_Vec v40;
-};
-
-struct S00cacaa0_Src : S00cacaa0_Base {
-    unsigned int unk50; unsigned int unk54; unsigned int unk58; unsigned int unk5c; unsigned int unk60; unsigned int unk64; unsigned int unk68; unsigned int unk6c;
-    unsigned int f70;
 };
 
 struct S00cacaa0_Input : S00cacaa0_Base {
@@ -966,118 +613,6 @@ struct S00cacaa0_Coll {
 
 typedef void (__cdecl *S00cacaa0_Fn)(S00cacaa0_Coll* a, S00cacaa0_Coll* b, S00cacaa0_Input* in, void* c, void* d);
 
-struct S00cacaa0_Entry {
-    S00cacaa0_Fn m_fn;
-    unsigned int unk04, unk08, unk0c, unk10;
-};
-
-struct S00cacaa0_Disp {
-    unsigned int unk000; unsigned int unk004; unsigned int unk008; unsigned int unk00c; unsigned int unk010; unsigned int unk014; unsigned int unk018; unsigned int unk01c; unsigned int unk020; unsigned int unk024; unsigned int unk028; unsigned int unk02c; unsigned int unk030; unsigned int unk034; unsigned int unk038; unsigned int unk03c; unsigned int unk040; unsigned int unk044; unsigned int unk048; unsigned int unk04c; unsigned int unk050; unsigned int unk054; unsigned int unk058; unsigned int unk05c; unsigned int unk060; unsigned int unk064; unsigned int unk068; unsigned int unk06c; unsigned int unk070; unsigned int unk074; unsigned int unk078; unsigned int unk07c; unsigned int unk080; unsigned int unk084; unsigned int unk088; unsigned int unk08c; unsigned int unk090; unsigned int unk094; unsigned int unk098; unsigned int unk09c; unsigned int unk0a0; unsigned int unk0a4; unsigned int unk0a8; unsigned int unk0ac; unsigned int unk0b0; unsigned int unk0b4; unsigned int unk0b8; unsigned int unk0bc; unsigned int unk0c0; unsigned int unk0c4; unsigned int unk0c8; unsigned int unk0cc; unsigned int unk0d0; unsigned int unk0d4; unsigned int unk0d8; unsigned int unk0dc; unsigned int unk0e0; unsigned int unk0e4; unsigned int unk0e8; unsigned int unk0ec; unsigned int unk0f0; unsigned int unk0f4; unsigned int unk0f8; unsigned int unk0fc; unsigned int unk100; unsigned int unk104; unsigned int unk108; unsigned int unk10c; unsigned int unk110; unsigned int unk114; unsigned int unk118; unsigned int unk11c; unsigned int unk120; unsigned int unk124; unsigned int unk128; unsigned int unk12c; unsigned int unk130; unsigned int unk134; unsigned int unk138; unsigned int unk13c; unsigned int unk140; unsigned int unk144; unsigned int unk148; unsigned int unk14c; unsigned int unk150; unsigned int unk154; unsigned int unk158; unsigned int unk15c; unsigned int unk160; unsigned int unk164; unsigned int unk168; unsigned int unk16c; unsigned int unk170; unsigned int unk174; unsigned int unk178; unsigned int unk17c; unsigned int unk180; unsigned int unk184; unsigned int unk188; unsigned int unk18c; unsigned int unk190; unsigned int unk194; unsigned int unk198; unsigned int unk19c;
-    unsigned char m_table[64][32];
-};
-
-struct S00cacaa0_World {
-    unsigned int unk00; unsigned int unk04; unsigned int unk08; unsigned int unk0c; unsigned int unk10; unsigned int unk14; unsigned int unk18; unsigned int unk1c; unsigned int unk20; unsigned int unk24; unsigned int unk28; unsigned int unk2c; unsigned int unk30; unsigned int unk34; unsigned int unk38; unsigned int unk3c; unsigned int unk40; unsigned int unk44; unsigned int unk48; unsigned int unk4c; unsigned int unk50; unsigned int unk54; unsigned int unk58; unsigned int unk5c; unsigned int unk60; unsigned int unk64; unsigned int unk68; unsigned int unk6c; unsigned int unk70; unsigned int unk74;
-    S00cacaa0_Src* m_src;
-    unsigned int unk7c;
-    S00cacaa0_Disp* m_disp;
-    void FUN_00c92430(S00cacaa0_Coll* a, float* b, void* c, void* d);
-};
-
-struct S00cacaa0_Agent {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14(S00cacaa0_Coll* a, S00cacaa0_Coll* b, S00cacaa0_Input* in, void* c, void* d);
-};
-
-struct S00cacaa0_Pair {
-    S00cacaa0_Agent* m_pCollisionAgent;
-    S00cacaa0_Coll* m_coll;
-};
-
-struct S00cacaa0_Arr {
-    void* m_data;
-    int m_iElementCount;
-};
-
-struct S00cacaa0_Phantom {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual int v14();
-    unsigned int unk04;
-    S00cacaa0_World* m_pOwningWorld;
-    unsigned int unk0c;
-    S00cacaa0_Coll m_coll;
-    unsigned int unk014; unsigned int unk018; unsigned int unk01c; unsigned int unk020; unsigned int unk024; unsigned int unk028; unsigned int unk02c; unsigned int unk030; unsigned int unk034; unsigned int unk038; unsigned int unk03c; unsigned int unk040; unsigned int unk044; unsigned int unk048; unsigned int unk04c; unsigned int unk050; unsigned int unk054; unsigned int unk058; unsigned int unk05c; unsigned int unk060; unsigned int unk064; unsigned int unk068; unsigned int unk06c; unsigned int unk070; unsigned int unk074; unsigned int unk078; unsigned int unk07c; unsigned int unk080; unsigned int unk084; unsigned int unk088; unsigned int unk08c; unsigned int unk090; unsigned int unk094; unsigned int unk098; unsigned int unk09c; unsigned int unk0a0; unsigned int unk0a4; unsigned int unk0a8; unsigned int unk0ac; unsigned int unk0b0; unsigned int unk0b4; unsigned int unk0b8; unsigned int unk0bc; unsigned int unk0c0; unsigned int unk0c4; unsigned int unk0c8; unsigned int unk0cc; unsigned int unk0d0; unsigned int unk0d4; unsigned int unk0d8; unsigned int unk0dc; unsigned int unk0e0; unsigned int unk0e4; unsigned int unk0e8; unsigned int unk0ec; unsigned int unk0f0; unsigned int unk0f4; unsigned int unk0f8; unsigned int unk0fc; unsigned int unk100; unsigned int unk104; unsigned int unk108; unsigned int unk10c; unsigned int unk110; unsigned int unk114; unsigned int unk118; unsigned int unk11c; unsigned int unk120; unsigned int unk124; unsigned int unk128; unsigned int unk12c; unsigned int unk130; unsigned int unk134; unsigned int unk138; unsigned int unk13c; unsigned int unk140; unsigned int unk144; unsigned int unk148; unsigned int unk14c; unsigned int unk150; unsigned int unk154; unsigned int unk158; unsigned int unk15c;
-    S00cacaa0_Arr m_aiIndexedValues;
-};
-
-struct S00cacaa0_cls {
-    unsigned int unk00; unsigned int unk04; unsigned int unk08; unsigned int unk0c; unsigned int unk10; unsigned int unk14; unsigned int unk18; unsigned int unk1c;
-    S00cacaa0_Vec m_v20;
-    S00cacaa0_Phantom* m_pPhantom;
-    void FUN_00cacaa0(bool flag, float* a2, void* a3, void* a4);
-};
-
-// With flag set calls the world's FUN_00c92430; otherwise builds an input and dispatches it to each indexed entry via the dispatch table or collision agents.
-// @fnv 0x00cacaa0
-void S00cacaa0_cls::FUN_00cacaa0(bool flag, float* a2, void* a3, void* a4)
-{
-    S00cacaa0_Phantom* pPhantom = m_pPhantom;
-    S00cacaa0_World* world = pPhantom->m_pOwningWorld;
-    S00cacaa0_Coll* coll = &pPhantom->m_coll;
-    if (flag) {
-        world->FUN_00c92430(coll, a2, a3, a4);
-        return;
-    }
-
-    S00cacaa0_Input in;
-    S00cacaa0_Src* src = world->m_src;
-    in.f00 = src->f00;
-    in.f04 = src->f04;
-    in.f08 = src->f08;
-    in.f0c = src->f0c;
-    in.f10 = src->f10;
-    in.f14 = src->f14;
-    in.v20.m_vComponents = src->v20.m_vComponents;
-    in.v30.m_vComponents = src->v30.m_vComponents;
-    in.v40.m_vComponents = src->v40.m_vComponents;
-    in.f68 = src->f70;
-    __m128 v = m_v20.m_vComponents;
-    in.v50.m_vComponents = v;
-    __m128 vSquared = _mm_mul_ps(v, v);
-    __m128 t = _mm_add_ss(_mm_shuffle_ps(vSquared, vSquared, 0x55), vSquared);
-    t = _mm_add_ss(_mm_shuffle_ps(vSquared, vSquared, 0xaa), t);
-    t = _mm_sqrt_ss(t);
-    float norm;
-    _mm_store_ss(&norm, t);
-    in.f64 = norm;
-    *(float*)&in.f08 = a2[5];
-    in.f60 = a2[4];
-
-    if (pPhantom->v14() == 1) {
-        S00cacaa0_Arr& arr = m_pPhantom->m_aiIndexedValues;
-        S00cacaa0_Disp* disp = world->m_disp;
-        for (int i = arr.m_iElementCount - 1; i >= 0; --i) {
-            S00cacaa0_Coll* const& other = ((S00cacaa0_Coll**)arr.m_data)[i];
-            unsigned char k = disp->m_table[coll->m_pCollisionShape->m_type][other->m_pCollisionShape->m_type];
-            ((S00cacaa0_Entry*)((char*)disp + 0x9ac))[k].m_fn(coll, other, &in, a3, a4);
-        }
-    } else {
-        S00cacaa0_Arr& arr = m_pPhantom->m_aiIndexedValues;
-        for (int i = arr.m_iElementCount - 1; i >= 0; --i) {
-            S00cacaa0_Pair& p = ((S00cacaa0_Pair*)arr.m_data)[i];
-            p.m_pCollisionAgent->v14(coll, p.m_coll, &in, a3, a4);
-        }
-    }
-}
-
 namespace fnv_00cacf80 {
 union __declspec(intrin_type) __declspec(align(16)) __m128 {struct {float x,y,z,w;};};
 extern "C" {
@@ -1092,7 +627,6 @@ __m128 _mm_sub_ps(__m128,__m128);
 __m128 _mm_add_ss(__m128,__m128);
 }
 
-static float readStep(const float* p,int i){return p[i];}
 struct FloatMatrix3;
 struct __declspec(align(16)) Vec4 {
     union {__m128 quad;struct {float x,y,z,w;};};
@@ -1272,8 +806,6 @@ struct ContactListener {
     virtual void Post(ContactSolver*,Vec4*,Vec4*);
 };
 struct Output {Vec4 impulse,location;ShapeData* body;unsigned int unk24,unk28,unk2c;};
-struct Response {Vec4 impulse,location;};
-struct Work {Vec4 point,normal;float factor,velocityScale,velocity,mass;ShapeData* body;};
 template<class T> struct ArrayBase {T* data;int size;unsigned int capacityFlags;T& operator[](int i) {return data[i];}};
 template<class T> struct Array: ArrayBase<T> {};
 struct ContactSolver {
@@ -1308,101 +840,6 @@ struct ContactSolver {
     ContactListener*& listenerAt(int i) {return listeners[i];}
     void FUN_00cacf80(const float*,const Vec4*,Output**,int);
 };
-extern float DAT_010c8440;
-static __m128 cross(__m128 a,__m128 b) {
-    __m128 ayzx=_mm_shuffle_ps(a,a,0xc9);
-    __m128 bzxy=_mm_shuffle_ps(b,b,0xd2);
-    __m128 azxy=_mm_shuffle_ps(a,a,0xd2);
-    __m128 byzx=_mm_shuffle_ps(b,b,0xc9);
-    return _mm_sub_ps(_mm_mul_ps(ayzx,bzxy),_mm_mul_ps(azxy,byzx));
-}
-static float laneW(const Vec4& v) {float result;_mm_store_ss(&result,_mm_shuffle_ps(v.load(),v.load(),0xff));return result;}
-static float dot(__m128 a,__m128 b) {
-    __m128 t=_mm_mul_ps(a,b);
-    __m128 y=_mm_shuffle_ps(t,t,0x55);
-    __m128 z=_mm_shuffle_ps(t,t,0xaa);
-    float result; _mm_store_ss(&result,_mm_add_ss(z,_mm_add_ss(y,t))); return result;
-}
-static __m128 scale(__m128 a,float s) {__m128 v=_mm_load_ss(&s);return _mm_mul_ps(_mm_shuffle_ps(v,v,0),a);}
-static __m128 scaleAccel(__m128 a,float s) {__m128 v=_mm_load_ss(&s);return _mm_mul_ps(_mm_shuffle_ps(v,v,0),a);}
-static __m128 scaleExtra(__m128 a,float s) {__m128 v=_mm_load_ss(&s);return _mm_mul_ps(_mm_shuffle_ps(v,v,0),a);}
-// Iterates active contacts, computes impulse responses using body inertia and correction, notifies listeners, and applies or collects results.
-// @fnv 0x00cacf80
-void ContactSolver::FUN_00cacf80(const float* step,const Vec4* acceleration,Output** output,int outputCapacity) {
-    Work work;
-    work.velocityScale=readStep(step,2);
-    Output* destination=0;
-    bool collect=output!=0;
-    int count=contacts.size;
-    if(collect) {
-        if(outputCapacity<count)count=outputCapacity;
-        destination=*output;
-    }
-    for(int index=0;index<count;++index) {
-        ShapeData* body=reinterpret_cast<ShapeData*>(reinterpret_cast<char*>(contacts[index].shape)+contacts[index].shape->childOffset);
-        if(body->hasProperty(0x1300)) {
-            PropertyValue value=body->getProperty(0x1300);
-            for(int c=listenerCount-1;c>=0;--c)
-                if(listenerAt(c))listenerAt(c)->Begin(this,value.get(),&contacts[index]);
-        }
-        ContactShape* shape=contacts[index].shape;
-        if(shape->active!=1)continue;
-        body=reinterpret_cast<ShapeData*>(reinterpret_cast<char*>(shape)+shape->childOffset);
-        if(!body || body->motion.kind==5 || body->motion.kind==4)continue;
-        work.point.set(contacts[index].position.load());
-        work.point.w=contacts[index].normalAndDepth.w;
-        work.normal.set(contacts[index].normalAndDepth.load());
-        work.body=body;
-        Motion* motion=&body->motion;
-        Vec4 surfaceVec;
-        surfaceVec.setSub4(work.point,motion->reference);
-        surfaceVec.setCross(motion->angular,surfaceVec);
-        surfaceVec.add4(motion->translation);
-        surfaceVec.sub4(localOrigin);
-        float velocity=surfaceVec.dot3(work.normal);
-        work.velocity=velocity;
-        float impulse=(float)(-velocity*0.9f);
-        if(work.point.w<0.0f)impulse=(float)(work.point.w*readStep(step,3)*0.4f+impulse);
-        Response response;
-        response.location.set(work.point.load());
-        response.impulse.set(_mm_setzero_ps());
-        __m128 normal=work.normal.load();
-        if(impulse<0.0f) {
-            FloatMatrix3 inertia;
-            ((void (__thiscall*)(Motion*,FloatMatrix3*))motion->vtable[10])(motion,&inertia);
-            Vec4 torque,transformed;
-            torque.set(cross(_mm_sub_ps(work.point.load(),body->motion.reference.load()),work.normal.load()));
-            transformed.FUN_00c7f750(&inertia,&torque);
-            float mass=dot(transformed.load(),torque.load());
-            work.mass=mass;
-            mass+=laneW(body->motion.inertiaAndMass);
-            work.mass=mass;
-            work.factor=impulse/work.mass;
-            float cutoff=-minSpeed*readStep(step,2);
-            if(work.factor<cutoff)work.factor=cutoff;
-            normal=work.normal.load();
-            response.impulse.set(scale(normal,work.factor));
-        }else {
-            work.factor=0.0f;
-            work.mass=laneW(body->motion.inertiaAndMass);
-        }
-        float incoming=dot(scaleAccel(acceleration->load(),readStep(step,2)),normal);
-        if(work.velocity<0.0f)incoming-=work.velocity;
-        if(DAT_010c8440>incoming)response.impulse.set(_mm_add_ps(scaleExtra(normal,incoming*correctionScale),response.impulse.load()));
-        for(int c=listenerCount-1;c>=0;--c)
-            if(listenerAt(c))listenerAt(c)->Post(this,&work.point,&response.impulse);
-        if(collect) {
-            destination->body=body;
-            destination->location.set(response.location.load());
-            destination->impulse.set(response.impulse.load());
-            ++destination;
-        }else {
-            body->FUN_00c9c1d0();
-            ((void (__thiscall*)(Motion*,const Vec4*,const Vec4*))motion->vtable[20])(motion,&response.impulse,&response.location);
-        }
-    }
-    if(collect && destination-*output<outputCapacity)destination->body=0;
-}
 }  // namespace fnv_00cacf80
 
 struct HkEntity289 {
@@ -1533,6 +970,7 @@ template <> HkArray289<HkPhantom289*>::~HkArray289() throw()
     }
 }
 
+// pdb: hkpCharacterProxy::~hkpCharacterProxy | hkpCharacterProxy.obj | fnv360_0822_retail, call_seq, medium
 FUN_00cadb00::~FUN_00cadb00()
 {
     for (int i = 0; i < m_kActorEntries.m_iElementCount; i++) {
@@ -1616,19 +1054,6 @@ struct S_Collector : S_CdBase {
     S_Collector() throw() { m_kHits.m_iElementCount = 0; }
     virtual ~S_Collector() throw() {}
 };
-
-struct S00cafbf0_Obj {
-    void FUN_00cade20(int, int, S_Collector*, S_Collector*, int, int) throw();
-    void FUN_00cafbf0(int a, int b, int c, int d) throw();
-};
-
-// Creates two S_Collector objects and passes them with a, b, c and d to FUN_00cade20.
-// @fnv 0x00cafbf0
-void S00cafbf0_Obj::FUN_00cafbf0(int a, int b, int c, int d) throw() {
-    S_Collector first;
-    S_Collector second;
-    FUN_00cade20(a, b, &first, &second, c, d);
-}
 
 // fires added/removed notifications and keeps entity/phantom listeners attached to the touched objects.
 
@@ -1770,225 +1195,7 @@ template <class T> struct S_00caf4d0_LocalArray : S_00caf4d0_Array<T> {
     }
 };
 
-struct S_00caf4d0_Collector {
-    void* m_vt;
-    float m_fEarlyOutDistance;
-    int unk08;
-    int unk0C;
-    S_00caf4d0_Array<S_00caf4d0_Point> m_kHits; // 0x10
-};
-
-struct S_00caf4d0_EntityListener { virtual void elUnk00(); };
-struct S_00caf4d0_PhantomListener { virtual void plUnk00(); };
-struct S_00caf4d0_TrackerBase { virtual void tbUnk00(); int unk04; };
-
-struct S_00caf4d0_Entity {
-    void FUN_00c9c5b0(S_00caf4d0_EntityListener* l) throw();
-    void FUN_00c9c670(S_00caf4d0_EntityListener* l) throw();
-};
-struct S_00caf4d0_Phantom {
-    void AddItem(S_00caf4d0_PhantomListener* l) throw();
-    void RemoveListener(S_00caf4d0_PhantomListener* l) throw();
-};
-
 extern float DAT_0104da48;
-extern const float g_011dd8bc_arg1;
-
-static inline S_00caf4d0_Entity* getRigidBody_caf(const S_00caf4d0_Collidable* c) throw()
-{
-    if (c->m_type == 1)
-        return (S_00caf4d0_Entity*)c->getOwner();
-    return 0;
-}
-static inline S_00caf4d0_Phantom* getPhantom_caf(const S_00caf4d0_Collidable* c) throw()
-{
-    if (c->m_type == 2)
-        return (S_00caf4d0_Phantom*)c->getOwner();
-    return 0;
-}
-
-struct S_00caf4d0_Tracker : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, S_00caf4d0_PhantomListener {
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    float unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    S_00caf4d0_Array<S_00caf4d0_Point> m_kPoints;      // 0x74
-    S_00caf4d0_Array<void*> m_kListeners;              // 0x80
-    S_00caf4d0_Array<S_00caf4d0_Entity*> m_kActorEntries;  // 0x8c
-    S_00caf4d0_Array<S_00caf4d0_Phantom*> m_kPhantoms; // 0x98
-
-    float FUN_00cafd90(const S_00caf4d0_Point* a, const S_00caf4d0_Point* b) throw();
-    void FUN_00cad4c0(const S_00caf4d0_Point* p) throw();
-    void FUN_00cad480(const S_00caf4d0_Point* p) throw();
-    int FUN_00cacf10(const S_00caf4d0_Point* p) throw();
-
-    void FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw();
-};
-
-// Merges input and extra hit points into m_kPoints, deduplicates close points, and updates entity/phantom listener lists.
-// @fnv 0x00caf4d0
-void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw()
-{
-    if (!keepListeners)
-    {
-        for (int i = 0; i < m_kActorEntries.GetLogicalSize(); i++)
-            m_kActorEntries[i]->FUN_00c9c670(this);
-        for (int i = 0; i < m_kPhantoms.GetLogicalSize(); i++)
-            m_kPhantoms[i]->RemoveListener(this);
-    }
-
-    float minDistance = DAT_0104da48;
-    m_kActorEntries.clear();
-    m_kPhantoms.clear();
-
-    S_00caf4d0_LocalArray<S_00caf4d0_Point> hits(input->m_kHits.GetLogicalSize());
-    hits.m_iElementCount = input->m_kHits.GetLogicalSize();
-    for (int i = 0; i < hits.GetLogicalSize(); i++)
-    {
-        S_00caf4d0_Point& p = hits[i];
-        p = input->m_kHits[i];
-        if (p.getDistance() < minDistance)
-            minDistance = p.getDistance();
-    }
-
-    for (int j = m_kPoints.GetLogicalSize() - 1; j >= 0; j--)
-    {
-        S_00caf4d0_Point& old = m_kPoints[j];
-        float best = 1.1f;
-        int bestIndex = -1;
-        for (int k = 0; k < hits.GetLogicalSize(); k++)
-        {
-            float d = FUN_00cafd90(&hits[k], &old);
-            if (d < best)
-            {
-                best = d;
-                bestIndex = k;
-            }
-        }
-        if (bestIndex >= 0)
-        {
-            S_00caf4d0_Point& hit = hits[bestIndex];
-            if (hit.m_pCollidableB != old.m_pCollidableB)
-            {
-                FUN_00cad4c0(&old);
-                FUN_00cad480(&hit);
-            }
-            old = hit;
-            hits.removeAt(bestIndex);
-        }
-        else
-        {
-            FUN_00cad4c0(&m_kPoints[j]);
-            m_kPoints.removeAt(j);
-        }
-    }
-
-    for (int k = 0; k < hits.GetLogicalSize(); k++)
-    {
-        S_00caf4d0_Point& hit = hits[k];
-        if (hit.getDistance() == minDistance)
-        {
-            int index = FUN_00cacf10(&hit);
-            if (index >= 0)
-            {
-                S_00caf4d0_Point& old = m_kPoints[index];
-                if (hit.m_pCollidableB != old.m_pCollidableB)
-                {
-                    FUN_00cad4c0(&old);
-                    FUN_00cad480(&hit);
-                }
-                old = hit;
-            }
-            else
-            {
-                FUN_00cad480(&hit);
-                m_kPoints.AddBack(hit);
-            }
-        }
-    }
-
-    if (extra->m_kHits.GetLogicalSize() > 0)
-    {
-        const S_00caf4d0_Point& hit = extra->m_kHits[0];
-        if (FUN_00cacf10(&hit) == -1)
-        {
-            FUN_00cad480(&hit);
-            m_kPoints.AddBack(hit);
-        }
-    }
-
-    for (int i = m_kPoints.GetLogicalSize() - 1; i > 0; i--)
-    {
-        for (int j = i - 1; j >= 0; j--)
-        {
-            S_00caf4d0_Array<S_00caf4d0_Point>& pts = m_kPoints;
-            if (FUN_00cafd90(&pts[i], &pts[j]) < 0.1f)
-            {
-                FUN_00cad4c0(&m_kPoints[i]);
-                m_kPoints.m_iElementCount--;
-                if (m_kPoints.m_iElementCount != i)
-                    memCpy8(&m_kPoints[i], &m_kPoints[m_kPoints.m_iElementCount], sizeof(S_00caf4d0_Point) / 8);
-                break;
-            }
-        }
-    }
-
-    for (int i = 0; i < m_kPoints.GetLogicalSize(); i++)
-    {
-        if (m_kPoints[i].m_pCollidableB->m_type == 1)
-        {
-            S_00caf4d0_Entity* entity = getRigidBody_caf(m_kPoints[i].m_pCollidableB);
-            if (entity && m_kActorEntries.indexOf(entity) == -1)
-            {
-                if (!keepListeners)
-                    entity->FUN_00c9c5b0(this);
-                m_kActorEntries.AddBack(entity);
-            }
-        }
-        if (m_kPoints[i].m_pCollidableB->m_type == 2)
-        {
-            S_00caf4d0_Phantom* phantom = getPhantom_caf(m_kPoints[i].m_pCollidableB);
-            if (phantom && m_kPhantoms.indexOf(phantom) == -1)
-            {
-                if (!keepListeners)
-                    phantom->AddItem(this);
-                m_kPhantoms.AddBack(phantom);
-            }
-        }
-    }
-}
-
-struct ContactQuery {
-    void FUN_00cae900(void*, unsigned, S_Collector*) throw();
-    void FUN_00cafd00(void*, unsigned);
-};
-// Creates a local S_Collector and calls FUN_00cae900 with a, b and the collector.
-// @fnv 0x00cafd00
-void ContactQuery::FUN_00cafd00(void* a, unsigned b) {
-    S_Collector collector;
-    FUN_00cae900(a,b,&collector);
-}
 
 struct CadColl {
     int unk00;
@@ -2002,22 +1209,6 @@ struct CadColl {
     int unk14;
     unsigned char m_type;
     void* getOwner() const throw() { return (void*)((char*)this + m_iOwnerOffset); }
-};
-static inline S_00caf4d0_Phantom* getPhantom_cad(const CadColl* c) throw()
-{
-    if (c->m_type == 2)
-        return (S_00caf4d0_Phantom*)c->getOwner();
-    return 0;
-}
-struct CadPoint {
-    S_00caf4d0_Vector4 m_vContactPosition;
-    S_00caf4d0_Vector4 m_vSeparatingNormal;
-    int m_pCollidableA;
-    int m_uiShapeKeyA;
-    int m_kContactPointB[8];
-    CadColl* m_pCollidableB;
-    int m_uiShapeKeyB;
-    int m_kContactPointC[8];
 };
 
 struct CadPhantomListener {
@@ -2049,51 +1240,6 @@ struct CadPtrArray {
             m_data[index] = m_data[m_iElementCount];
     }
 };
-struct Cad820Cls : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, CadPhantomListener {
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    float unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    S_00caf4d0_Array<CadPoint> m_kPoints;
-    S_00caf4d0_Array<void*> m_kListeners;
-    S_00caf4d0_Array<S_00caf4d0_Entity*> m_kActorEntries;
-    CadPtrArray m_kPhantoms;
-
-    void FUN_00cad820(CadPhantom* phantom) throw();
-};
-// Calls phantom->RemoveListener(this), removes m_kPoints entries whose collidable B belongs to the phantom, and removes phantom from m_kPhantoms.
-// @fnv 0x00cad820
-void Cad820Cls::FUN_00cad820(CadPhantom* phantom) throw()
-{
-    phantom->RemoveListener(this);
-    for (int i = m_kPoints.GetLogicalSize() - 1; i >= 0; --i)
-    {
-        if (getPhantom_cad(m_kPoints[i].m_pCollidableB) == (S_00caf4d0_Phantom*)phantom)
-            m_kPoints.removeAt(i);
-    }
-    m_kPhantoms.removeAt(m_kPhantoms.indexOf(phantom));
-}
 
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_setzero_ps(void);
@@ -2117,10 +1263,6 @@ struct S00cafd90_Info {
 
 struct S00cafd90_Body;
 
-struct S00cafd90_Conv {
-    __declspec(noalias) void FUN_00ca0c40(S00cafd90_Body* body, __m128* out);
-};
-
 struct S00cafd90_Body {
     int unk00;
     int unk04;
@@ -2139,52 +1281,6 @@ struct S00cafd90_Body {
     int unk44;
     S00cafd90_Info* unk48;
 };
-
-extern double DAT_0101ffa0;
-extern double DAT_01020758;
-
-static __forceinline S00cafd90_Conv* S00cafd90_ConvOf(S00cafd90_Body* b)
-{
-    S00cafd90_Info* info = b->unk48;
-    if (info->unk18 != 1)
-        return 0;
-    return (S00cafd90_Conv*)((char*)info + info->unk10);
-}
-
-static __forceinline S00cafd90_Vec S00cafd90_Pos(S00cafd90_Body* b)
-{
-    S00cafd90_Vec r;
-    r.m_vComponents = _mm_setzero_ps();
-    if (S00cafd90_Conv* c = S00cafd90_ConvOf(b))
-        c->FUN_00ca0c40(b, &r.m_vComponents);
-    return r;
-}
-
-static __forceinline float S00cafd90_Dot3(__m128 a, __m128 b)
-{
-    __m128 prod = _mm_mul_ps(a, b);
-    __m128 s1 = _mm_add_ss(_mm_shuffle_ps(prod, prod, 0x55), prod);
-    __m128 s2 = _mm_add_ss(_mm_shuffle_ps(prod, prod, 0xaa), s1);
-    float r;
-    _mm_store_ss(&r, s2);
-    return r;
-}
-
-// Returns |pa-pb|^2 * DAT_0101ffa0 + unk60^2 * (1 - dot of the unk10 vectors) * DAT_01020758 + the squared difference of their w components.
-// @fnv 0x00cafd90
-float FUN_00cacf10_cls::FUN_00cafd90(void* a_, void* b_)
-{
-    S00cafd90_Body* a = (S00cafd90_Body*)a_;
-    S00cafd90_Body* b = (S00cafd90_Body*)b_;
-    float t = 1.0f - S00cafd90_Dot3(a->unk10.m_vComponents, b->unk10.m_vComponents);
-    float c = *(float*)&unk60 * *(float*)&unk60 * t;
-    float dw = a->unk10.m_vComponents.m128_f32[3] - b->unk10.m_vComponents.m128_f32[3];
-    dw = dw * dw;
-    S00cafd90_Vec vPosA = S00cafd90_Pos(a);
-    S00cafd90_Vec vPosB = S00cafd90_Pos(b);
-    float e = S00cafd90_Dot3(_mm_sub_ps(vPosA.m_vComponents, vPosB.m_vComponents), _mm_sub_ps(vPosA.m_vComponents, vPosB.m_vComponents));
-    return e * DAT_0101ffa0 + c * DAT_01020758 + dw;
-}
 
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ss(const float* p);
@@ -2324,17 +1420,6 @@ public:
     __forceinline const S00cacd60_Vec& getCenterOfMassInWorld() const { return getRigidMotion()->GetMotionState()->getSweptTransform().m_vCenterOfMass1; }
     void FUN_00ca0c40(const S00cacd60_Vec& p, S00cacd60_Vec& vel) const;
 };
-__forceinline S00cacd60_Body* S00cacd60_GetRigidBody(const S00cacd60_Collidable* c) {
-    if (c->getType() == 1) {
-        return static_cast<S00cacd60_Body*>(c->getOwner());
-    }
-    return 0;
-}
-__forceinline void S00cacd60_getVelocity(const S00cacd60_MotionState& ms, S00cacd60_Vec& linearVelOut, S00cacd60_Vec& angularVelOut) {
-    linearVelOut.setSub4(ms.getSweptTransform().m_vCenterOfMass1, ms.getSweptTransform().m_vCenterOfMass0);
-    linearVelOut.mul4(ms.getSweptTransform().getInvDeltaTime());
-    angularVelOut.setMul4(ms.getSweptTransform().getInvDeltaTime(), ms.m_kDeltaAngle);
-}
 struct S00cacd60_Contact {
     S00cacd60_Vec m_vContactPosition;
     S00cacd60_Vec m_vSeparatingNormal;
@@ -2342,115 +1427,7 @@ struct S00cacd60_Contact {
     __forceinline const S00cacd60_Vec& getNormal() const { return m_vSeparatingNormal; }
     __forceinline const S00cacd60_Vec& getSeparatingNormal() const { return m_vSeparatingNormal; }
 };
-struct S00cacd60_Hit {
-    S00cacd60_Contact m_kPoint;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    const S00cacd60_Collidable* m_pRootCollidableB;
-};
-struct S00cacd60_Surface {
-    S00cacd60_Vec m_kTriangleNormal;
-    S00cacd60_Vec m_fVelocity;
-    float m_fStaticFriction;
-    float m_fExtraUpStaticFriction;
-    float m_fExtraDownStaticFriction;
-    float m_fDynamicFriction;
-    int m_priority;
-};
-class S00cacd60_Proxy {
-public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    float m_dynamicFriction34;
-    float m_staticFriction38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    float m_extraUp50;
-    float m_extraDown54;
-    float m_fKeepDistance;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    float m_fPenetrationRecoverySpeed;
-    void FUN_00cacd60(const S00cacd60_Hit& hit, S00cacd60_Surface& surface, float timeTravelled) const;
-};
-// Populates a Surface with friction, velocity and priority from a Hit and the proxy's friction and penetration recovery fields.
-// @fnv 0x00cacd60
-void S00cacd60_Proxy::FUN_00cacd60(const S00cacd60_Hit& hit, S00cacd60_Surface& surface, float timeTravelled) const {
-    surface.m_kTriangleNormal = hit.m_kPoint.getSeparatingNormal();
-    surface.m_kTriangleNormal(3) -= static_cast<S00cacd60_Real>(m_fKeepDistance);
-    surface.m_fStaticFriction = m_staticFriction38;
-    surface.m_fDynamicFriction = m_dynamicFriction34;
-    surface.m_fExtraUpStaticFriction = m_extraUp50;
-    surface.m_fExtraDownStaticFriction = m_extraDown54;
-    surface.m_fVelocity.setZero4();
-    surface.m_priority = 0;
-    S00cacd60_Body* body = S00cacd60_GetRigidBody(hit.m_pRootCollidableB);
-    if (body) {
-        if (body->isFixedOrKeyframed()) {
-            body->FUN_00ca0c40(hit.m_kPoint.getPosition(), surface.m_fVelocity);
-        } else {
-            S00cacd60_Vec linear;
-            S00cacd60_Vec angular;
-            S00cacd60_getVelocity(*body->getRigidMotion()->GetMotionState(), linear, angular);
-            S00cacd60_Vec r;
-            r.setSub4(hit.m_kPoint.getPosition(), body->getCenterOfMassInWorld());
-            surface.m_fVelocity.setCross(angular, r);
-            surface.m_fVelocity.add4(linear);
-        }
-        surface.m_kTriangleNormal(3) -= surface.m_fVelocity.dot3(surface.m_kTriangleNormal) * timeTravelled;
-        if (body->getMotionType() == S00cacd60_FIXED) {
-            surface.m_priority = 2;
-        }
-        if (body->getMotionType() == S00cacd60_KEYFRAMED) {
-            surface.m_priority = 1;
-        }
-    }
-    if (surface.m_kTriangleNormal(3) < -1.1920928955078125e-07) {
-        surface.m_fVelocity.addMul4(S00cacd60_SimdReal(-surface.m_kTriangleNormal(3) * m_fPenetrationRecoverySpeed), hit.m_kPoint.getNormal());
-        surface.m_kTriangleNormal(3) = 0.0f;
-    }
-}
 
-extern "C" __m128 _mm_load_ps(const float*);
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_set_ss(float);
@@ -2481,119 +1458,13 @@ struct ContactBuffer {
     unsigned int capacityFlags;
 };
 
-extern float DAT_01013ea4;
-
-static __forceinline __m128 Set1(float w) { __m128 r = _mm_load_ss(&w); return _mm_shuffle_ps(r, r, 0); }
-
-static __forceinline __m128 NormalizeSafe(__m128 projected)
-{
-    __m128 squares = _mm_mul_ps(projected, projected);
-    __m128 sum = _mm_add_ss(_mm_shuffle_ps(squares, squares, 0xaa), _mm_add_ss(_mm_shuffle_ps(squares, squares, 0x55), squares));
-    __m128 rs = _mm_rsqrt_ss(sum);
-    __m128 mask = _mm_cmpeq_ss(sum, _mm_set_ss(0.0f));
-    __m128 t = _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(sum, rs), rs));
-    __m128 refined = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), rs), t);
-    refined = _mm_andnot_ps(mask, refined);
-    return _mm_mul_ps(_mm_shuffle_ps(refined, refined, 0), projected);
-}
-
-// If dot(normal at index, planev) is between DAT_01013ea4 and maximumDistance, appends a copy with a re-projected, normalized normal and returns 1, else 0.
-// @fnv 0x00cadca0
-__declspec(noinline) static unsigned char FUN_00cadca0(ContactBuffer* buffer, unsigned int index, float maximumDistance, const __m128& planev)
-{
-    __m128 scaled = _mm_mul_ps(buffer->entries[index].normal, planev);
-    float depth;
-    _mm_store_ss(&depth, _mm_add_ss(_mm_shuffle_ps(scaled, scaled, 0xaa), _mm_add_ss(_mm_shuffle_ps(scaled, scaled, 0x55), scaled)));
-    if (DAT_01013ea4 < depth && maximumDistance > depth)
-    {
-        S_00caf4d0_Router* router = GetRouter37();
-        if (buffer->count == (buffer->capacityFlags & 0x3fffffffu))
-            ResizeAudioStream(router->heap(), buffer, 64);
-        Contact& destination = buffer->entries[buffer->count++];
-        const Contact& original = buffer->entries[index];
-        destination.normal = original.normal;
-        destination.tangent = original.tangent;
-        destination.distance = original.distance;
-        destination.friction = original.friction;
-        destination.restitution = original.restitution;
-        destination.bias = original.bias;
-        destination.identifier = original.identifier;
-
-        __m128 projected = _mm_add_ps(_mm_mul_ps(planev, Set1(-depth)), destination.normal);
-        destination.normal = NormalizeSafe(projected);
-        return 1;
-    }
-    return 0;
-}
-
 volatile unsigned g_i; ContactBuffer* volatile g_b; volatile float g_d; const __m128* volatile g_p; volatile int g_o;
-void CallTarget_cadca0() { ContactBuffer* b=g_b; unsigned i=g_i; float d=g_d; const __m128* p=g_p; g_o=FUN_00cadca0(b,i,d,*p); g_o=FUN_00cadca0(b,i,d,*p); }
 
-static __forceinline __m128 CaccSplat(float value) { __m128 scalar = _mm_load_ss(&value); return _mm_shuffle_ps(scalar, scalar, 0); }
 extern "C" void _mm_store_ps(float*, __m128);
 
 __declspec(align(16)) struct S_V4 { float x, y, z, w; };
 
 template<class T> struct S_Pad { T* p; T* val() const { return p; } };
-struct S_Inner { int unk0; int unk4; int unk8; float m0c; S_V4 m10; };
-struct S_B { int unk0; int unk4; int unk8; int unkc; S_Inner* m10; };
-struct S_A { S_V4 v; float m10; float m14; float m18; float m1c; float m20; };
-
-extern const S_V4 DAT_010ec7f0;
-
-static inline float Mn(float a, float b) { return a < b ? a : b; }
-static inline float Mx(float a, float b) { return a > b ? a : b; }
-static __forceinline __m128 Dot3(__m128 x, __m128 y) {
-    __m128 p = _mm_mul_ps(x, y);
-    return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
-}
-struct S_00cacc50 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    float m58;
-    float FUN_00cacc50(const S_A& a, S_B* b, S_Pad<S_V4> c, S_Pad<S_V4> d);
-};
-
-// Computes a clamped scalar parameter from a dot product and length, then blends two vectors and returns the scaled result.
-// @fnv 0x00cacc50
-float S_00cacc50::FUN_00cacc50(const S_A& a, S_B* b, S_Pad<S_V4> c, S_Pad<S_V4> d) {
-    const S_A* ap = &a;
-    __m128 v = _mm_load_ps(&ap->v.x);
-    S_Inner* q = b->m10;
-    float qc = q->m0c;
-    float f58 = m58;
-    float len;
-    float fDot;
-    _mm_store_ss(&len, _mm_sqrt_ss(Dot3(v, v)));
-    _mm_store_ss(&fDot, Dot3(_mm_load_ps(&q->m10.x), v));
-    float t1 = fDot / len;
-    float u = f58 / -t1;
-    float r = qc - u / len;
-    r = Mx(0.0f, Mn(r, 1.0f));
-    __m128 t = CaccSplat(r);
-    _mm_store_ps(&d.val()->x, _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(&DAT_010ec7f0.x), t), _mm_load_ps(&d.val()->x)), _mm_mul_ps(_mm_load_ps(&c.val()->x), t)));
-    return ap->m20 * r;
-}
 
 #include <math.h>
 extern "C" void _ReadWriteBarrier(void);
@@ -2605,10 +1476,6 @@ extern "C" __m128 _mm_mul_ss(__m128, __m128);
 extern "C" __m128 _mm_sub_ss(__m128, __m128);
 extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 extern "C" __m128 _mm_setzero_ps(void);
-
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
 
 struct S_00cad500_V4 {
     float x, y, z, w;
@@ -2766,7 +1633,7 @@ struct S_00cad500_RefStub
 {
     void FUN_009316e0();
     void FUN_009316f0();
-    void FUN_00931740(int id, S_00cad500_Pair p);
+    void hkpWorldObject_addProperty(int id, S_00cad500_Pair p);
 };
 struct S_00cad500_E1Stub
 {
@@ -2774,11 +1641,11 @@ struct S_00cad500_E1Stub
 };
 struct S_00cad500_E2Stub
 {
-    void FUN_009898e0(void* p);
+    void hkpPhantom_removePhantomListener(void* p);
 };
 struct S_00cad500_ThisStub
 {
-    void FUN_0091dd70(S_00cad500_Src* a);
+    void hkpCharacterProxy_setPosition(S_00cad500_Src* a);
 };
 
 void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
@@ -2826,7 +1693,7 @@ void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
     m_40.w = m_40.w * inv;
     _ReadWriteBarrier();
     if (m_30->m_08 != 0) {
-        reinterpret_cast<S_00cad500_ThisStub*>(this)->FUN_0091dd70(apSrc);
+        reinterpret_cast<S_00cad500_ThisStub*>(this)->hkpCharacterProxy_setPosition(apSrc);
     }
     int i = 0;
     m_20.w = 0.0f;
@@ -2839,7 +1706,7 @@ void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
     }
     m_90 = 0;
     for (int j = 0; j < m_9c; j++) {
-        reinterpret_cast<S_00cad500_E2Stub*>(m_98[j])->FUN_009898e0(&unk0C);
+        reinterpret_cast<S_00cad500_E2Stub*>(m_98[j])->hkpPhantom_removePhantomListener(&unk0C);
     }
     m_9c = 0;
     m_78 = 0;
@@ -2848,7 +1715,7 @@ void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
             return;
         }
     }
-    reinterpret_cast<S_00cad500_RefStub*>(m_30)->FUN_00931740(0x1300, S_00cad500_Pair(this, 0));
+    reinterpret_cast<S_00cad500_RefStub*>(m_30)->hkpWorldObject_addProperty(0x1300, S_00cad500_Pair(this, 0));
 }
 
 
@@ -2977,55 +1844,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" void _mm_store_ps(float* p, __m128 a);
 }
 
-struct CharProxy_ca0c40 {
-    sse_ca0c40::__m128 unk000;
-    sse_ca0c40::__m128 unk010;
-    sse_ca0c40::__m128 unk020;
-    sse_ca0c40::__m128 unk030;
-    sse_ca0c40::__m128 unk040;
-    sse_ca0c40::__m128 unk050;
-    sse_ca0c40::__m128 unk060;
-    sse_ca0c40::__m128 unk070;
-    sse_ca0c40::__m128 unk080;
-    sse_ca0c40::__m128 unk090;
-    sse_ca0c40::__m128 unk0a0;
-    sse_ca0c40::__m128 unk0b0;
-    sse_ca0c40::__m128 unk0c0;
-    sse_ca0c40::__m128 unk0d0;
-    sse_ca0c40::__m128 unk0e0;
-    sse_ca0c40::__m128 unk0f0;
-    sse_ca0c40::__m128 unk100;
-    sse_ca0c40::__m128 unk110;
-    sse_ca0c40::__m128 unk120;
-    sse_ca0c40::__m128 unk130;
-    sse_ca0c40::__m128 m_140;
-    sse_ca0c40::__m128 unk150;
-    sse_ca0c40::__m128 unk160;
-    sse_ca0c40::__m128 unk170;
-    sse_ca0c40::__m128 unk180;
-    sse_ca0c40::__m128 unk190;
-    sse_ca0c40::__m128 unk1a0;
-    sse_ca0c40::__m128 m_1b0;
-    sse_ca0c40::__m128 m_1c0;
-
-    sse_ca0c40::__m128* FUN_00ca0c40(const sse_ca0c40::__m128* a, sse_ca0c40::__m128* out);
-};
-
-// Stores m_1b0 plus the cross product of m_1c0 with (*a - m_140) in out and returns out.
-// @fnv 0x00ca0c40
-sse_ca0c40::__m128* CharProxy_ca0c40::FUN_00ca0c40(const sse_ca0c40::__m128* a, sse_ca0c40::__m128* out) {
-    sse_ca0c40::__m128 d = sse_ca0c40::_mm_sub_ps(*a, m_140);
-    sse_ca0c40::__m128 b = m_1c0;
-    sse_ca0c40::__m128 t1 = sse_ca0c40::_mm_mul_ps(sse_ca0c40::_mm_shuffle_ps(b, b, 0xc9), sse_ca0c40::_mm_shuffle_ps(d, d, 0xd2));
-    sse_ca0c40::__m128 vTerm2 = sse_ca0c40::_mm_mul_ps(sse_ca0c40::_mm_shuffle_ps(b, b, 0xd2), sse_ca0c40::_mm_shuffle_ps(d, d, 0xc9));
-    sse_ca0c40::__m128 c;
-    c = sse_ca0c40::_mm_sub_ps(t1, vTerm2);
-    sse_ca0c40::_mm_store_ps((float*)out, c);
-    sse_ca0c40::_mm_store_ps((float*)out, sse_ca0c40::_mm_add_ps(m_1b0, c));
-    return out;
-}
-
-struct S00cae900_Listeners { void FUN_00cad440(void*, void*); };
 static const float DAT_010c851c = -0.08f;
 extern const __m128 DAT_01017d10;
 typedef unsigned long DWORD;
@@ -3111,15 +1929,6 @@ public:
     }
     S00cae900_Quad m_vComponents;
 };
-
-__forceinline int S00cae900_Vec::equals3(const S00cae900_Vec& v, S00cae900_Real epsilon) const {
-    S00cae900_Vec t;
-    t.setSub4(*this, v);
-    t.setAbs4(t);
-    S00cae900_Vec epsilon_v;
-    epsilon_v.setAll3(epsilon);
-    return t.compareLessThanEqual4(epsilon_v).allAreSet(S00cae900_Comparison::MASK_XYZ);
-}
 
 // hkBool
 class S00cae900_Bool {
@@ -3337,32 +2146,8 @@ struct S00cae900_SurfaceInfo {
     S00cae900_Vec m_vSurfaceVelocity;
     float m_fSurfaceDistance;
 };
-class S00cae900_Collector;
-struct S00cae900_RootPoint {
-    S00cae900_Vec m_vContactPosition;
-    S00cae900_Vec m_vHitNormal;
-    S00cae900_Vec r20;
-    S00cae900_Vec r30;
-    S00cae900_Vec r40;
-    S00cae900_Vec r50;
-    S00cae900_Vec r60;
-};
 
 extern "C" void __cdecl FUN_00d24360(const S00cae900_SolverInput& input, S00cae900_SolverOutput& output);
-
-static bool FUN_00cadca0(float maxSlopeCos, const S00cae900_Vec& up, int index, S00cae900_Array<S00cae900_ConstraintInfo>& surfaceConstraintsInOut)
-{
-    const float surfaceVerticalComponent = surfaceConstraintsInOut[index].m_kTriangleNormal.dot3(up);
-    if (surfaceVerticalComponent > 0.01f && surfaceVerticalComponent < maxSlopeCos)
-    {
-        S00cae900_ConstraintInfo& newConstraint = surfaceConstraintsInOut.AllocatePair();
-        newConstraint = surfaceConstraintsInOut[index];
-        newConstraint.m_kTriangleNormal.addMul4(-surfaceVerticalComponent, up);
-        newConstraint.m_kTriangleNormal.normalize3();
-        return true;
-    }
-    return false;
-}
 
 class S00cae900_PadPtr {
 public:
@@ -3395,155 +2180,6 @@ public:
     S00cae900_PadPtr m_pRayCursor;
     S00cae900_PadPtr m_pCurrentCommand;
 };
-__forceinline void S00cae900_timer(const char* name) {
-    S00cae900_Monitor& mStream = S00cae900_Monitor::GetMonitorStream();
-    if (mStream.memoryAvailable()) {
-        S00cae900_Monitor::CommandTimingEntry* h = reinterpret_cast<S00cae900_Monitor::CommandTimingEntry*>(mStream.GetStreamEnd());
-        h->m_pCommandName = name;
-        h->setTime();
-        mStream.setEnd(reinterpret_cast<char*>(h + 1));
-    }
-}
-
-// hkpCharacterProxy
-class S00cae900_Proxy {
-public:
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void GetSurfaceConstraintInfo(const S00cae900_RootPoint& hit, S00cae900_ConstraintInfo& surface, float timeTravelled) const;
-    S00cae900_Vec m_fVelocity;
-    S00cae900_Vec m_vCurrentPosition;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    S00cae900_Vec m_vStart;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int m_uiUserPlanes;
-    float m_fMaxCharacterSpeedForSolver;
-    int unk6c;
-    int unk70;
-    S00cae900_Array<S00cae900_RootPoint> m_kContactManifold;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    float m_fMaximumSlopeAngle;
-    int unka8;
-    int unkac;
-    bool m_bRefreshManifoldInCheckSupport;
-    void FUN_00cae7f0(S00cae900_Collector& collector);
-    void FUN_00cae900(const S00cae900_Vec& direction, S00cae900_SurfaceInfo& ground, S00cae900_Collector& startPointCollector);
-};
-
-// @fnv 0x00cae900
-void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_SurfaceInfo& ground, S00cae900_Collector& startPointCollector)
-{
-    S00cae900_timer("TtcheckSupport");
-    if (m_bRefreshManifoldInCheckSupport)
-    {
-        FUN_00cae7f0(startPointCollector);
-    }
-    S00cae900_LocalArray<S00cae900_ConstraintInfo> surfaceConstraints(m_kContactManifold.GetLogicalSize() + m_uiUserPlanes + 10);
-    surfaceConstraints.setSizeUnchecked(m_kContactManifold.GetLogicalSize());
-    for (int i = 0; i < m_kContactManifold.GetLogicalSize(); i++)
-    {
-        GetSurfaceConstraintInfo(m_kContactManifold[i], surfaceConstraints[i], 0.0f);
-        FUN_00cadca0(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
-    }
-    if (surfaceConstraints.getCapacity() - surfaceConstraints.GetLogicalSize() < m_uiUserPlanes)
-    {
-        surfaceConstraints.reserve(surfaceConstraints.GetLogicalSize() + m_uiUserPlanes);
-    }
-    S00cae900_LocalArray<S00cae900_Interaction> surfaceConstraintInteractions(surfaceConstraints.GetLogicalSize() + m_uiUserPlanes);
-    S00cae900_LocalArray<S00cae900_Vec> actualSurfaceVelocities(surfaceConstraints.GetLogicalSize() + m_uiUserPlanes);
-
-    S00cae900_SolverInput input;
-    S00cae900_SolverOutput output;
-    input.m_vContactPosition.setZero4();
-    input.m_ppConstraints = surfaceConstraints.begin();
-    input.m_iConstraintCount = surfaceConstraints.GetLogicalSize();
-    input.m_fVelocity = direction;
-    input.m_fTimeStep = 1.0f / 60.0f;
-    input.m_fConstraintParameter = 1.0f / 60.0f;
-    input.m_vFourthInputVector = m_vStart;
-    input.m_vThirdInputVector.SetAllComponents(m_fMaxCharacterSpeedForSolver);
-    output.m_pPlaneStatuses = surfaceConstraintInteractions.begin();
-    reinterpret_cast<S00cae900_Listeners*>(this)->FUN_00cad440(&m_kContactManifold, &input);
-
-    actualSurfaceVelocities.SetSizeAndGrow(input.m_iConstraintCount);
-    surfaceConstraintInteractions.SetSizeAndGrow(input.m_iConstraintCount);
-    surfaceConstraints.SetSizeAndGrow(input.m_iConstraintCount);
-    for (int j = 0; j < input.m_iConstraintCount; j++)
-    {
-        actualSurfaceVelocities[j] = surfaceConstraints[j].m_fVelocity;
-        surfaceConstraints[j].m_fVelocity.setZero4();
-    }
-    FUN_00d24360(input, output);
-
-    ground.m_vSurfaceVelocity.setZero4();
-    ground.m_vNormal.setZero4();
-    if (output.m_fVelocity.equals3(direction, 1e-3f))
-    {
-        ground.m_eSupportedState = S00cae900_SurfaceInfo::UNSUPPORTED;
-    }
-    else if (output.m_fVelocity.lengthSquared3() < 0.001f)
-    {
-        ground.m_eSupportedState = S00cae900_SurfaceInfo::SUPPORTED;
-    }
-    else
-    {
-        output.m_fVelocity.normalize3();
-        const float angleSin = output.m_fVelocity.dot3(direction);
-        float cosSqr = 1.0f - angleSin * angleSin;
-        if (cosSqr < m_fMaximumSlopeAngle * m_fMaximumSlopeAngle)
-        {
-            ground.m_eSupportedState = S00cae900_SurfaceInfo::SLIDING;
-        }
-        else
-        {
-            ground.m_eSupportedState = S00cae900_SurfaceInfo::SUPPORTED;
-        }
-    }
-    if (ground.m_eSupportedState != S00cae900_SurfaceInfo::UNSUPPORTED)
-    {
-        int numTouching = 0;
-        for (int k = 0; k < input.m_iConstraintCount; k++)
-        {
-            if (surfaceConstraintInteractions[k].m_ucByte0 && surfaceConstraints[k].m_kTriangleNormal.dot3(direction) < DAT_010c851c)
-            {
-                ground.m_vNormal.add4(surfaceConstraints[k].m_kTriangleNormal);
-                ground.m_vSurfaceVelocity.m_vComponents = _mm_add_ps(ground.m_vSurfaceVelocity.m_vComponents, actualSurfaceVelocities[k].m_vComponents);
-                numTouching++;
-            }
-        }
-        if (numTouching > 0)
-        {
-            ground.m_vNormal.normalize3();
-            ground.m_vSurfaceVelocity.mul4(1.0f / numTouching);
-        }
-        else
-        {
-            ground.m_eSupportedState = S00cae900_SurfaceInfo::UNSUPPORTED;
-        }
-    }
-    ground.m_fSurfaceDistance = 0.0f;
-    S00cae900_timer("Et");
-    actualSurfaceVelocities.destruct();
-    surfaceConstraintInteractions.destruct();
-    surfaceConstraints.destruct();
-}
 
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
@@ -3803,37 +2439,8 @@ struct S00caefd0_SolverOutput {
     float m_fTimeStep;
     S00caefd0_Interaction* m_pPlaneStatuses;
 };
-struct S00caefd0_SurfaceInfo {
-    S00caefd0_Bool m_bSliding;
-    S00caefd0_Bool m_bSupported;
-    S00caefd0_Vec m_vNormal;
-    S00caefd0_Vec m_vSurfaceVelocity;
-};
-struct S00caefd0_RootPoint {
-    S00caefd0_Vec m_vContactPosition;
-    S00caefd0_Vec m_vHitNormal;
-    S00caefd0_Vec r20;
-    S00caefd0_Vec r30;
-    S00caefd0_Vec r40;
-    S00caefd0_Vec r50;
-    S00caefd0_Vec r60;
-};
 
 void __cdecl FUN_00d24360(const S00caefd0_SolverInput& input, S00caefd0_SolverOutput& output);
-
-static bool FUN_00cadca0(float maxSlopeCos, const S00caefd0_Vec& up, int index, S00caefd0_Array<S00caefd0_ConstraintInfo>& surfaceConstraintsInOut)
-{
-    const float surfaceVerticalComponent = surfaceConstraintsInOut[index].m_kTriangleNormal.dot3(up);
-    if (surfaceVerticalComponent > 0.01f && surfaceVerticalComponent < maxSlopeCos)
-    {
-        S00caefd0_ConstraintInfo& newConstraint = surfaceConstraintsInOut.AllocatePair();
-        newConstraint = surfaceConstraintsInOut[index];
-        newConstraint.m_kTriangleNormal.addMul4(-surfaceVerticalComponent, up);
-        newConstraint.m_kTriangleNormal.normalize3();
-        return true;
-    }
-    return false;
-}
 
 class S00caefd0_PadPtr {
 public:
@@ -3866,115 +2473,3 @@ public:
     S00caefd0_PadPtr m_pRayCursor;
     S00caefd0_PadPtr m_pCurrentCommand;
 };
-__forceinline void S00caefd0_timer(const char* name) {
-    S00caefd0_Monitor& mStream = S00caefd0_Monitor::GetMonitorStream();
-    if (mStream.memoryAvailable()) {
-        S00caefd0_Monitor::CommandTimingEntry* h = reinterpret_cast<S00caefd0_Monitor::CommandTimingEntry*>(mStream.GetStreamEnd());
-        h->m_pCommandName = name;
-        h->setTime();
-        mStream.setEnd(reinterpret_cast<char*>(h + 1));
-    }
-}
-
-// hkpCharacterProxy
-class S00caefd0_Proxy {
-public:
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void GetSurfaceConstraintInfo(const S00caefd0_RootPoint& hit, S00caefd0_ConstraintInfo& surface, float timeTravelled) const;
-    S00caefd0_Vec m_fVelocity;
-    S00caefd0_Vec m_vCurrentPosition;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    S00caefd0_Vec m_vStart;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int m_uiUserPlanes;
-    float m_fMaxCharacterSpeedForSolver;
-    int unk6c;
-    int unk70;
-    S00caefd0_Array<S00caefd0_RootPoint> m_kContactManifold;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    float m_fMaximumSlopeAngle;
-    void FUN_00cad440(void* manifold, void* input);
-    void FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_SurfaceInfo& ground) const;
-};
-
-// @fnv 0x00caefd0
-void S00caefd0_Proxy::FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_SurfaceInfo& ground) const
-{
-    S00caefd0_timer("TtcheckSupport");
-    S00caefd0_LocalArray<S00caefd0_ConstraintInfo> surfaceConstraints(m_kContactManifold.GetLogicalSize() + m_uiUserPlanes + 10);
-    surfaceConstraints.setSizeUnchecked(m_kContactManifold.GetLogicalSize());
-    for (int i = 0; i < m_kContactManifold.GetLogicalSize(); i++)
-    {
-        GetSurfaceConstraintInfo(m_kContactManifold[i], surfaceConstraints[i], 0.0f);
-        FUN_00cadca0(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
-    }
-    if (surfaceConstraints.getCapacity() - surfaceConstraints.GetLogicalSize() < m_uiUserPlanes)
-    {
-        surfaceConstraints.reserve(surfaceConstraints.GetLogicalSize() + m_uiUserPlanes);
-    }
-    S00caefd0_LocalArray<S00caefd0_Interaction> surfaceConstraintInteractions(surfaceConstraints.GetLogicalSize() + m_uiUserPlanes);
-    surfaceConstraintInteractions.SetSizeAndGrow(surfaceConstraints.GetLogicalSize() + m_uiUserPlanes);
-
-    S00caefd0_SolverInput input;
-    S00caefd0_SolverOutput output;
-    input.m_vContactPosition.setZero4();
-    input.m_ppConstraints = surfaceConstraints.begin();
-    input.m_iConstraintCount = m_kContactManifold.GetLogicalSize();
-    input.m_fVelocity.setAdd4(m_fVelocity, direction);
-    input.m_fTimeStep = kInvSixtySV;
-    input.m_fConstraintParameter = kInvSixtySV;
-    input.m_vFourthInputVector = m_vStart;
-    input.m_vThirdInputVector.SetAllComponents(m_fMaxCharacterSpeedForSolver);
-    output.m_pPlaneStatuses = surfaceConstraintInteractions.begin();
-    const_cast<S00caefd0_Proxy*>(this)->FUN_00cad440(const_cast<S00caefd0_Array<S00caefd0_RootPoint>*>(&m_kContactManifold), &input);
-    FUN_00d24360(input, output);
-
-    output.m_fVelocity.sub4(m_fVelocity);
-    const float projectedVelocity = output.m_fVelocity.dot3(direction);
-    ground.m_bSliding = projectedVelocity < 0.99f;
-    S00caefd0_Vec outputSlidingVelocity;
-    outputSlidingVelocity.setAddMul4(output.m_fVelocity, direction, -projectedVelocity);
-    ground.m_bSupported = outputSlidingVelocity.lengthSquared3() > 0.01f;
-    ground.m_vSurfaceVelocity.setZero4();
-    ground.m_vNormal.setZero4();
-    int numTouching = 0;
-    for (int j = 0; j < input.m_iConstraintCount; j++)
-    {
-        if (surfaceConstraintInteractions[j].m_ucByte0 && surfaceConstraints[j].m_kTriangleNormal.dot3(direction) < kMinSurfaceDotSV)
-        {
-            ground.m_vNormal.add4(surfaceConstraints[j].m_kTriangleNormal);
-            ground.m_vSurfaceVelocity.add4(surfaceConstraints[j].m_fVelocity);
-            numTouching++;
-        }
-    }
-    if (numTouching > 0)
-    {
-        ground.m_vNormal.normalize3();
-        ground.m_vSurfaceVelocity.mul4(1.0f / numTouching);
-    }
-    else
-    {
-        ground.m_bSliding = false;
-    }
-    S00caefd0_timer("Et");
-    surfaceConstraintInteractions.destruct();
-    surfaceConstraints.destruct();
-}

@@ -50,6 +50,7 @@ void FUN_00d98040()
     FUN_0089e890(p);
 }
 
+// pdb: `anonymous namespace'::`dynamic atexit destructor for 'ms_kOutputs'' | NiMetricsLayer.obj | tesv_win, udata, high
 void FUN_00d98680()
 {
     void* p = DAT_00f75264;
@@ -70,11 +71,13 @@ void FUN_00d99aa0()
 
 void __fastcall FUN_0082e4f0(void*);
 void __cdecl FUN_0089ec10(void*, unsigned int);
+// pdb: BSTempNode::`scalar deleting destructor' | TES.obj | fnv360_0822_retail, vtable, high
 struct C_00432f20 { virtual ~C_00432f20(); char p[176 - 4]; static void operator delete(void* q, unsigned int s) { FUN_0089ec10(q, s); } };
 C_00432f20::~C_00432f20() { FUN_0082e4f0(this); }
 
 void __fastcall FUN_0082e4f0(void*);
 void __cdecl FUN_0089ec10(void*, unsigned int);
+// pdb: NiSortAdjustNode::`scalar deleting destructor' | NiSortAdjustNode.obj | fnv360_0822_retail, objrun, medium
 struct C_00860540 { virtual ~C_00860540(); char p[176 - 4]; static void operator delete(void* q, unsigned int s) { FUN_0089ec10(q, s); } };
 C_00860540::~C_00860540() { FUN_0082e4f0(this); }
 
@@ -84,6 +87,7 @@ extern char DAT_00dbde08;
 extern char DAT_00e10b04;
 
 struct C_0045adb0 { void* vp; int a, b, c, d; void* FUN_0045adb0(); };
+// pdb: TESSpellList::TESSpellList | TESSpellList.obj | fnv360_0822_retail, call_seq, medium
 void* C_0045adb0::FUN_0045adb0()
 {
     vp = (void*)&DAT_00dbde08;
@@ -95,6 +99,7 @@ void* C_0045adb0::FUN_0045adb0()
 }
 
 struct C_006e1460 { void* vp; int a, b, c, d; void* FUN_006e1460(); };
+// pdb: BGSSaveGameBuffer::BGSSaveGameBuffer | BGSSaveGameBuffer.obj | fnv360_0822_retail, call_seq, high
 void* C_006e1460::FUN_006e1460()
 {
     vp = (void*)&DAT_00e10b04;
@@ -110,11 +115,13 @@ void* C_006e1460::FUN_006e1460()
 extern void* DAT_01071a50;
 extern void* DAT_0116ef58;
 
+// pdb: BGSTextureSet::ClearNullTextureSet | BGSTextureSet.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: BGSTextureSet::GetNullTextureSet)
 void FUN_0050c9d0()
 {
     DAT_01071a50 = 0;
 }
 
+// pdb: BSShaderManager::ResetNextAvailableShadowMapAccumulator | BSShaderManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSParticleShader::SetFOVAdjust)
 void FUN_00ad5a40()
 {
     DAT_0116ef58 = 0;

@@ -28,6 +28,8 @@ struct Sub7a7ba0 {
 };
 extern Sub7a7ba0* DAT_0108c988;
 
+// pdb: BGSSaveLoadGlobalData::FinishLoadGlobalDataRange | BGSSaveLoadGlobalData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiStart, aiEnd
 bool __cdecl FUN_006d1320(unsigned int type, Buffer446* buffer)
 {
     switch (type) {

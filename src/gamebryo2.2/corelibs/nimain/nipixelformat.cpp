@@ -95,6 +95,7 @@ FNV_STATIC_ASSERT(sizeof(NiPixelFormat) == 0x44);
 
 // Initializes the pixel format to an 8-bit palettized format with an index component and three empty components.
 // @fnv 0x00a7cca0
+// pdb: NiPixelFormat::NiPixelFormat | NiPixelFormat.obj | fnv360_0822_retail, callee_sim, medium
 NiPixelFormat::NiPixelFormat()
 {
     m_ucBitsPerPixel = 8;
@@ -140,6 +141,8 @@ struct NiPixelFormatMasks : public NiPixelFormat
 };
 
 // @fnv 0x00a7cd20
+// pdb: NiPixelFormat::CreateFromRGBAMasks | NiPixelFormat.obj | fnv360_0822_retail, objrun, medium
+// pdb params: ucBitsPerPixel, uiMaskRed, uiMaskGreen, uiMaskBlue, uiMaskAlpha
 NiPixelFormatMasks NiPixelFormatMasks::CreateFromMasks(unsigned char ucBitsPerPixel, unsigned int uiRedMask,
                                                        unsigned int uiGreenMask, unsigned int uiBlueMask,
                                                        unsigned int uiAlphaMask)
@@ -394,6 +397,8 @@ class PixelFormatReader : public NiPixelFormat
     void ReadFromStream(PixelStream& stream);
 };
 // @fnv 0x00a7ced0
+// pdb: NiPixelFormat::LoadBinary | NiPixelFormat.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void PixelFormatReader::ReadFromStream(PixelStream& stream)
 {
     if (stream.version < 0x0A030003)
@@ -453,6 +458,8 @@ extern const NiPixelFormat kBUMPLUMA32;
 
 // Stores the format, bits per pixel, and renderer hint, then maps the format and color masks to a NiPixelFormat constant or marks it unknown.
 // @fnv 0x00a7c9f0
+// pdb: NiPixelFormat::ConvertOldPixelFormat | NiPixelFormat.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: eFormat, ucBPP, auiColorMasks
 void PixelFormatReader::FUN_00a7c9f0(Format eFormat, unsigned char ucBitsPerPixel, unsigned int* apuiMasks)
 {
     m_ucBitsPerPixel = ucBitsPerPixel;

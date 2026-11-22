@@ -9,6 +9,8 @@ void __cdecl FUN_00c16621(int);
 void __cdecl FUN_00c16549(int);
 void __cdecl FUN_00c064b8(void*);
 
+// pdb: type_info::_Type_info_dtor | typname.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: __tzset)
+// pdb params: _This
 void __cdecl FUN_00c0c6d0(TI* _This)
 {
     FUN_00c16621(14);
@@ -137,6 +139,7 @@ static __declspec(noinline) int __cdecl FUN_00c1d010(TMS* tb)
     }
 }
 
+// pdb: _isindst | tzset.obj | tesv_win, hash, low
 int __cdecl FUN_00c1d20d(TMS* tb)
 {
     int r;
@@ -226,6 +229,8 @@ static __declspec(noinline) _RTTIBaseClassDescriptor* FUN_00c003b6(PVOID pComple
     }
     return NULL;
 }
+// pdb: __RTDynamicCast | rtti.obj | fnv360_0822_retail, ustr, high
+// pdb params: inptr, VfDelta, SrcType, TargetType, isReference
 extern "C" PVOID __cdecl FUN_00c0050a(PVOID inptr, LONG VfDelta, PVOID SrcType, PVOID TargetType, BOOL isReference)
 {
     PVOID pResult;

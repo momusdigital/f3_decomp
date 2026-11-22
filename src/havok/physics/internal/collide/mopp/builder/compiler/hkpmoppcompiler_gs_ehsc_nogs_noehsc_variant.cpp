@@ -322,7 +322,7 @@ struct hkpMoppDefaultSplitter
     {
         FUN_00e09bd0();
     }
-    int FUN_00e0a550(PrimitiveSource*, hkpMoppCostFunction*, hkpMoppDefaultAssembler*, int*, ScratchLayout*) throw();
+    int hkpMoppDefaultSplitter_buildTree(PrimitiveSource*, hkpMoppCostFunction*, hkpMoppDefaultAssembler*, int*, ScratchLayout*) throw();
 };
 struct EncodedReference
 {
@@ -412,6 +412,8 @@ class Cost: public hkReferencedObject {public: float axis,plane,primitive,split,
 class Splitter: public hkReferencedObject {public: int unk08,unk0c,unk10,unk14,unk18,unk1c; Cost* cost; Assembler* assembler; PrimitiveSource* source; int unk2c,unk30,unk34,treeDepth; Splitter() throw(); virtual ~Splitter() throw(); const void* FUN_00a89b30(PrimitiveSource*,Cost*,Assembler*,int*,ScratchLayout*) throw();};
 __forceinline void RemoveReference(hkReferencedObject* object) {if(object->memSizeAndFlags) {--object->referenceCount;if(!object->referenceCount)delete object;}}
 }
+// pdb: hkpMoppCompiler::compile | hkpMoppCompiler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: mediator, buffer, bufferSize
 hkpMoppCode* MoppBuilder::FUN_00dd4cb0(PrimitiveSource* source,void* buffer,int bufferSize) throw() {
  int primitiveCount=source->count()+extraPrimitives;
  NativeMopp::Generator generator(primitiveCount*12);

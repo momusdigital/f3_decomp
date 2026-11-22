@@ -38,14 +38,6 @@ struct S_d2f5a0_Array
         return m_data + m_iElementCount;
     }
 };
-struct S_d2f5a0
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    S_d2f5a0_Array m_aiIndexedValues;
-    void FUN_00d2f5a0(int a);
-};
 struct __declspec(align(16)) Transform
 {
     float m_f00;
@@ -67,30 +59,6 @@ struct __declspec(align(16)) Transform
 
     Transform(void* apFirst, void* apSecond);
 };
-struct TargetObject
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void Apply(Transform* apTransform, float afAmount, void* apContext);
-};
-struct Holder
-{
-    TargetObject* m_pFlagTarget;
-    int unk04;
-    void* m_pData;
-};
-struct ValueSource
-{
-    int unk00;
-    int unk04;
-    float m_fAmount;
-};
-void __cdecl ApplyTransformToTarget(Holder* apFirst, Holder* apSecond, ValueSource* apValue, void* apContext);
 struct Allocator
 {
     virtual void* release();
@@ -104,26 +72,9 @@ struct Global
     int unk0c;
     Allocator* allocator;
 };
-struct Built
-{
-    int field00;
-    short field04;
-    int field08;
-    void __thiscall FUN_00d2f980(int);
-};
 extern "C" Global* __cdecl FUN_00c85750();
-void __cdecl FUN_00d2f9d0(int arg1, int arg2, int arg3, int arg4);
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
-// @fnv 0x00d315d0
-extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
-{
-    FUN_00d31110(arg0, arg1, arg2, arg3);
-}
 
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
-void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD);
+void __cdecl hkpBvTreeAgent_staticGetPenetrations(void* apA, void* apB, void* apC, void* apD);
 struct D2FA00Allocator
 {
     virtual void unk00();
@@ -188,10 +139,6 @@ class D2FA00ShapeAgent : public D2FA00Agent
     {}
     virtual ~D2FA00ShapeAgent();
 };
-D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const void* input, void* mgr);
-extern char str_010ce9a4[];
-extern char str_010ce9ac[];
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
 struct S_00d2f8f0_Elem
 {
     int unk00;
@@ -212,51 +159,6 @@ struct S_00d2f8f0_Array
         return m_pEntries + m_iArrayLength;
     }
 };
-struct S_00d2f8f0_ArgVtbl
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void(__thiscall* unk0c)(void*, char*, int, int);
-    void* unk10;
-    void(__thiscall* unk14)(void*, int, char*, void*, int, void*);
-};
-struct S_00d2f8f0_Arg
-{
-    S_00d2f8f0_ArgVtbl* m_pVtbl;
-    int unk04;
-    int unk08;
-    int unk0c;
-    char m_bFlag10;
-};
-struct S_00d2f8f0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00d2f8f0_Array m_aiIndexedValues;
-    int m_iFlags;
-
-    void WriteToStream(S_00d2f8f0_Arg* apStream, int aiUnused);
-};
-class ListenerD2F5
-{
-  public:
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1C(void* pArg);
-};
-struct EntryD2F5
-{
-    int unk00;
-    int unk04;
-    ListenerD2F5* m_pkListener;
-};
 template <class T> class hkArrayD2F5
 {
   public:
@@ -272,16 +174,6 @@ template <class T> class hkArrayD2F5
     {
         return m_data + m_iElementCount;
     }
-};
-class OwnerD2F5
-{
-  public:
-    virtual ~OwnerD2F5();
-
-    int unk04[2];
-    hkArrayD2F5<EntryD2F5> m_entries;
-
-    void FUN_00d2f550(void* pArg);
 };
 
 #include <windows.h>
@@ -301,10 +193,6 @@ struct S312_Split
         volatile DWORD t = (DWORD)__rdtsc();
         m_uiStartTicks = t;
     }
-};
-struct S312_Cmd : S312_Split
-{
-    const char* m_pHeadNode;
 };
 struct S312_Stream
 {
@@ -339,11 +227,6 @@ struct S312_Body
         m_pCollisionShape = s;
         m_uiCollisionShapeKey = k;
     }
-};
-struct S312_Aabb
-{
-    float m_kMinimumCorner[4];
-    float m_kMaximumCorner[4];
 };
 
 struct S312_Container
@@ -396,22 +279,6 @@ struct S312_InplaceArray : S312_Array
         ClearAndRelease((S312_Alloc&)fnvc_adapt::FUN_00c85750().heap());
     }
 };
-struct S312_BvTree
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual S312_Container* GetShapeContainer();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void GetAabbHits(S312_Aabb* aabb, S312_Array* hits);
-};
 struct S312_Input;
 struct S312_Filter
 {
@@ -430,11 +297,6 @@ struct S312_Input
     unsigned char* m_pCollisionDispatcher;
     DWORD unk04, unk08;
     S312_FilterHolder* m_iFilter;
-};
-struct S312_Collector
-{
-    DWORD unk0;
-    bool m_fHitDistance;
 };
 
 inline void S312_dealloc(S312_Alloc* al, int* p, int n)
@@ -643,7 +505,8 @@ struct Collector {virtual void slot00();Bool earlyOut;};
 
 }
 
-void __cdecl FUN_00d312f0(void* apA,void* apB,void* apC,void* apD){
+// pdb: hkpBvTreeAgent::staticGetPenetrations | hkpBvTreeAgent.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl hkpBvTreeAgent_staticGetPenetrations(void* apA,void* apB,void* apC,void* apD){
 
  using namespace NativeBv312;
 

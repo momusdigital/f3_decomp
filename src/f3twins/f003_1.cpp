@@ -12,6 +12,7 @@ void __fastcall FUN_00bfce40(void*);
 void __fastcall FUN_00bfd0f0(void*);
 
 struct C_00bf1b70 { void* FUN_00bf1b70(unsigned char f); };
+// pdb: Tile3D::`scalar deleting destructor' | Tile.obj | fnv360_0822_retail, objrun, medium
 void* C_00bf1b70::FUN_00bf1b70(unsigned char f)
 {
     FUN_00bfe0e0(this);
@@ -20,6 +21,7 @@ void* C_00bf1b70::FUN_00bf1b70(unsigned char f)
 }
 
 struct C_00bfcf10 { void* FUN_00bfcf10(unsigned char f); };
+// pdb: NiTPointerMap<char const *,XMLStorage *>::`scalar deleting destructor' | Menu.obj | fnv360_0822_debug, vtable, medium
 void* C_00bfcf10::FUN_00bfcf10(unsigned char f)
 {
     FUN_00bfccb0(this);
@@ -28,6 +30,7 @@ void* C_00bfcf10::FUN_00bfcf10(unsigned char f)
 }
 
 struct C_00bfcf30 { void* FUN_00bfcf30(unsigned char f); };
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,XMLStorage *>,XMLStorage *>::`scalar deleting destructor' | Menu.obj | fnv360_0822_retail, vtable, medium
 void* C_00bfcf30::FUN_00bfcf30(unsigned char f)
 {
     FUN_00bfcd20(this);
@@ -36,6 +39,7 @@ void* C_00bfcf30::FUN_00bfcf30(unsigned char f)
 }
 
 struct C_00bfcf90 { void* FUN_00bfcf90(unsigned char f); };
+// pdb: NiTPointerMap<char const *,Tile::BuildStorage *>::`scalar deleting destructor' | Menu.obj | fnv360_0822_debug, vtable, medium
 void* C_00bfcf90::FUN_00bfcf90(unsigned char f)
 {
     FUN_00bfcdd0(this);
@@ -44,6 +48,7 @@ void* C_00bfcf90::FUN_00bfcf90(unsigned char f)
 }
 
 struct C_00bfd0d0 { void* FUN_00bfd0d0(unsigned char f); };
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,Tile::BuildStorage *>,Tile::BuildStorage *>::`scalar deleting destructor' | Menu.obj | fnv360_0822_retail, vtable, medium
 void* C_00bfd0d0::FUN_00bfd0d0(unsigned char f)
 {
     FUN_00bfce40(this);
@@ -52,6 +57,7 @@ void* C_00bfd0d0::FUN_00bfd0d0(unsigned char f)
 }
 
 struct C_00bfd230 { void* FUN_00bfd230(unsigned char f); };
+// pdb: Menu::`scalar deleting destructor' | Menu.obj | fnv360_0822_retail, vtable, medium
 void* C_00bfd230::FUN_00bfd230(unsigned char f)
 {
     FUN_00bfd0f0(this);

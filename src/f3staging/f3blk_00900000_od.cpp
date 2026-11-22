@@ -14,7 +14,7 @@ struct __declspec(align(16)) Vec4 {
     float x, y, z, w;
     Vec4() {}
     Vec4(float a, float b, float c, float d) { x = a; y = b; z = c; w = d; }
-    void FUN_008d28e0(const Matrix& m, const Vec4& v);
+    void hkVector4_setTransformedPos(const Matrix& m, const Vec4& v);
 };
 struct __declspec(align(16)) Matrix { float m[16]; };
 struct Bounds { Vec4 min; Vec4 max; };
@@ -111,8 +111,8 @@ void Object::FUN_00900260(Bounds* out)
     }
     Vec4 a(-0.001f, -0.001f, -0.001f, 0.0f);
     Vec4 b(0.001f, 0.001f, 0.001f, 0.0f);
-    out->min.FUN_008d28e0(m, a);
-    out->max.FUN_008d28e0(m, b);
+    out->min.hkVector4_setTransformedPos(m, a);
+    out->max.hkVector4_setTransformedPos(m, b);
 }
 }
 }   // namespace f3m_00900260
@@ -196,7 +196,7 @@ struct __declspec(align(16)) Vec4 {
     inline Vec4& operator=(const Vec4& b) { x=b.x;y=b.y;z=b.z;w=b.w;return *this; }
 };
 struct __declspec(align(16)) AlignedVec4 : Vec4 {};
-struct ThreadCheck { unsigned id; unsigned short marked; unsigned short unk06; void FUN_0098b5f0(); };
+struct ThreadCheck { unsigned id; unsigned short marked; unsigned short unk06; void hkMultiThreadCheck_disableChecks(); };
 struct ObjectVtableCtor {
     void (__thiscall* vf00)(ObjectCtor*,int);
     void (__thiscall* vf04)(ObjectCtor*);
@@ -601,7 +601,7 @@ extern ErrorCtor* DAT_010f3364;
 extern unsigned char DAT_010f3230;
 extern void FUN_00990690(float,float);
 extern void* FUN_00990580();
-extern void __cdecl FUN_00902620(WorldCtor*,ObjectCtor*);
+extern void __cdecl hkWorld_setupContactMgrFactories(WorldCtor*,ObjectCtor*);
 extern ObjectCtor* (__cdecl* DAT_01060de0)(Vec4*,Vec4*,int);
 extern const char DAT_00e34e6c[], DAT_00e34e90[], DAT_00e34eb0[], DAT_00e34e54[];
 extern int DAT_00e34e10;
@@ -737,6 +737,8 @@ __forceinline ManifoldCtor* makeManifold(ManifoldCtor* memory) {
     if(memory) {memory->tolerance=0.01f;memory->count=20;result=memory;}
     return result;
 }
+// pdb: hkpWorld::hkpWorld | hkpWorld.obj | fnv360_0822_retail, ustr, high
+// pdb params: info, sdkversion
 WorldCtor* WorldCtor::FUN_00904ea0(WorldInfoCtor* info,int version) {
     references=1;
     vtable=&DAT_00e34e10;
@@ -925,7 +927,7 @@ WorldCtor* WorldCtor::FUN_00904ea0(WorldInfoCtor* info,int version) {
     in->scale.w=0.0f; in->offset.w=0.0f; in->extent.w=0.0f;
     broadphase->vtable->vf68(broadphase,&in->offset,&in->extent,&in->scale);
     }
-    FUN_00902620(this,dispatcher);
+    hkWorld_setupContactMgrFactories(this,dispatcher);
     if(DAT_010f3230) info->simulationType=3;
     minIsland=0;
     simulationType=info->simulationType;
@@ -983,7 +985,7 @@ WorldCtor* WorldCtor::FUN_00904ea0(WorldInfoCtor* info,int version) {
     } else broadphaseBorder=0;
     kdTree=allocObject<ObjectCtor,0x15>(0x10)->FUN_0098b900();
     kdTree->vtable->vf0c(kdTree,this);
-    if(info->simulationType!=3) threadCheck.FUN_0098b5f0();
+    if(info->simulationType!=3) threadCheck.hkMultiThreadCheck_disableChecks();
     jobs=(ObjectCtor*)new JobsCtor();
     return this;
 }

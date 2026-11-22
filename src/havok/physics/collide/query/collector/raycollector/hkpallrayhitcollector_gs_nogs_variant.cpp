@@ -95,6 +95,8 @@ static __forceinline void swapItem(Item& a, Item& b)
     copyItem(a, t);
 }
 
+// pdb: hkAlgorithm::quickSortRecursive<hkpWorldRayCastOutput,hkAlgorithm::less<hkpWorldRayCastOutput> > | hkpAllRayHitCollector.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pArr, d, h, cmpLess
 void __cdecl FUN_00c852c0(Item* arr, int low, int high, int a4)
 {
     int i = low;

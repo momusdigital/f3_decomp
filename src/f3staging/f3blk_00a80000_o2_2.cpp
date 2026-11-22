@@ -98,7 +98,7 @@ struct SSNode
     NiPoint3 cache[4];
     int unkd8, unkdc, unke0;
     bool dirty;
-    void FUN_00a9de50(NiPoint3* out);
+    void BSOcclusionPlane_GetVertices(NiPoint3* out);
     bool FUN_00c33cf0(void*, int, NiPoint3);
     bool FUN_00c344c0(void*, const NiPoint3&);
     inline bool IsExactType()
@@ -109,7 +109,8 @@ struct SSNode
     }
 };
 
-void SSNode::FUN_00a9de50(NiPoint3* out)
+// pdb: BSOcclusionPlane::GetVertices | BSOcclusionPlane.obj | fnv360_0721_beta, call_seq + bridge(call_gap|caller), high
+void SSNode::BSOcclusionPlane_GetVertices(NiPoint3* out)
     {
         if (!dirty)
             memmove(out, cache, 48);
@@ -240,6 +241,7 @@ static __forceinline bool AllNear4(const hkVector4& a, const hkVector4& b, const
     return (mask & 0xf) == 0xf;
 }
 
+// pdb: hkGeomConvexHullTester::isValidNonPlanarHull | hkGeomConvexHullTester.obj | tesv_win, call_gap, low
 hkBool FUN_00a8a830(const void* a, const HullEdges* edges, const HullVertexArray* verts, const void* c,
                     const HullFaceArray* faces, float tolerance)
 {
@@ -357,6 +359,8 @@ struct Box {
     }
     void FUN_00a9fa20(Plane*) const;
 };
+// pdb: BSMultiBoundOBB::GetPlanes | BSMultiBoundOBB.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apPlanes
 void Box::FUN_00a9fa20(Plane* planes) const {
     Point axis;
     Axis(0,axis);
@@ -407,7 +411,8 @@ struct ConstraintInstance {
 };
 __forceinline void Copy(Vec4* d, const Vec4& s) { d->x = s.x; d->y = s.y; d->z = s.z; d->w = s.w; }
 }
-int __cdecl FUN_00a908d0(wa908d0::ConstraintInstance* inst, wa908d0::Vec4* pivotA, wa908d0::Vec4* pivotB)
+// pdb: hkpConstraintUtils::getConstraintPivots | hkpConstraintUtils.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+int __cdecl hkpConstraintUtils_getConstraintPivots(wa908d0::ConstraintInstance* inst, wa908d0::Vec4* pivotA, wa908d0::Vec4* pivotB)
 {
     wa908d0::ConstraintData* d = inst->data;
     switch (d->getType()) {
@@ -559,6 +564,7 @@ struct __declspec(align(16)) State {
 };
 }
 
+// pdb: hkMoppUsingFloatAabbVirtualMachine_querySphereOptimized | hkpMoppMachine.obj | tesv_win, objrun_open, low
 void FUN_00a92f00(C925* context,
                  const V925* input, void* output, void* work) {
     Query40::State state;
@@ -638,6 +644,8 @@ struct S00a8f6c0_Drawer
     void FUN_00a8f6c0(const S00a8f6c0_Vector4& center, const S00a8f6c0_Matrix3& rotation, float size, int color, int tag);
 };
 
+// pdb: hkpPrimitiveDrawer::displayOrientedPoint | hkpPrimitiveDrawer.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: position, rot, size, color, id, tag
 void S00a8f6c0_Drawer::FUN_00a8f6c0(const S00a8f6c0_Vector4& center, const S00a8f6c0_Matrix3& rotation, float size, int color, int tag)
 {
     S00a8f6c0_Vector4 col0 = rotation.col0;
@@ -706,6 +714,7 @@ public:
     float m_d;
     void FUN_00a98f70();
 };
+// pdb: hkpWingedEdge::Triangle::calculateTriangleData | hkpWingedEdge.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: hkWingedEdge::Triangle::calculateTriangleData)
 void PlaneT::FUN_00a98f70()
 {
  QVec e0; e0.setSub3(*m_v0, *m_v1); QVec e1; e1.setSub3(*m_v1, *m_v2);
@@ -747,6 +756,7 @@ struct SegA92 { int pad00, pad04, pad08, pad0c; VecA92 m_vTo; const unsigned cha
 __forceinline void setZeroA92(VecA92& v) { v.w = 0.0f; v.z = 0.0f; v.y = 0.0f; v.x = 0.0f; }
 __forceinline void setAllA92(VecA92& v, float a) { v.x = a; v.y = a; v.z = a; v.w = a; }
 
+// pdb: hkMoppUsingFloatAabbVirtualMachine_querySphere | hkpMoppMachine.obj | tesv_win, objrun_open, low
 void FUN_00a92e00(SegA92* seg, const VecA92* to, unsigned int input, unsigned int output) {
     Q92 q;
     q.m_vm.m_invLength = 1.0f / seg->m_vTo.w;
@@ -819,6 +829,8 @@ struct Shape
     int count;
     void FUN_00a97990(const Transform&, float, Box&);
 };
+// pdb: hkpConvexPieceShape::getAabbImpl | hkpConvexPieceShape.obj | fnv360_0822_retail, objrun, medium
+// pdb params: localToWorld, tolerance, out
 void Shape::FUN_00a97990(const Transform& transform, float tolerance, Box& out)
 {
     out.min.SetAll(3.40282e38f);
@@ -965,6 +977,8 @@ struct hkpPrimitiveDrawer
                       int color, hkReal scale, int tag);
 };
 
+// pdb: hkpPrimitiveDrawer::displayArrow | hkpPrimitiveDrawer.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: startPos, arrowDirection, perpDirection, color, scale, id, tag
 void hkpPrimitiveDrawer::FUN_00a8f9c0(const hkVector4& startPos, const hkVector4& arrowDirection,
                                       const hkVector4& perpDirection, int color, hkReal scale, int tag)
 {
@@ -1059,6 +1073,8 @@ struct __declspec(align(16)) Vector6
     Vector4 linear, angular;
 };
 // out = matrix * vector for a 6x6 matrix made of four 3x3 blocks and a pair of vectors.
+// pdb: hkMatrix6SetMulV | hkMatrix6.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: out, a, b
 void __cdecl FUN_00a98580(Vector6* out, const Matrix6* matrix, const Vector6* vector)
 {
     Vector4 first, second;
@@ -1301,7 +1317,8 @@ static __declspec(noinline) void FUN_00a99b30(const ConvexShape* shapeA, const C
 
 using namespace N00a99d10;
 
-void __cdecl FUN_00a99d10(const ConvexShape* shapeA, const ConvexShape* shapeB, const hkTransform& aTb, hkVector4& pointAinA,
+// pdb: hkpCvxCvxDistByHeuristicSampling | hkpCvxCvxDistByHeuristicSampling.obj | fnv360_0822_retail, call_gap + bridge(call_seq|callee_sim) + skyrim(call_seq), high
+void __cdecl hkpCvxCvxDistByHeuristicSampling(const ConvexShape* shapeA, const ConvexShape* shapeB, const hkTransform& aTb, hkVector4& pointAinA,
                           hkVector4& pointBinB, SampleOutput& out)
 {
     SampleResult result;
@@ -1392,7 +1409,7 @@ struct __declspec(align(16)) Vec
     inline void SetAdd4(const Vec& a, const Vec& b) { x = a.x + b.x; y = a.y + b.y; z = a.z + b.z; w = a.w + b.w; }
     inline void SetSub4(const Vec& a, const Vec& b) { x = a.x - b.x; y = a.y - b.y; z = a.z - b.z; w = a.w - b.w; }
     inline Vec& operator=(const Vec& b) { x = b.x; y = b.y; z = b.z; w = b.w; return *this; }
-    void FUN_008d2a00(const Matrix*, const Vec*);
+    void hkVector4_setRotatedDir(const Matrix*, const Vec*);
 };
 struct __declspec(align(16)) Matrix
 {
@@ -1416,6 +1433,8 @@ struct Sweep
     Callback* callback;
     void FUN_00a8f470(const Vec*, Vec*, Vec*, float, float, float, int, void*, void*);
 };
+// pdb: hkpPrimitiveDrawer::drawSemiCircle | hkpPrimitiveDrawer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: center, normal, startPerp, thetaMin, thetaMax, radius, numSegments, color, id, tag
 void Sweep::FUN_00a8f470(const Vec* center, Vec* axis, Vec* direction, float start, float end,
                          float radius, int count, void* context, void* output)
 {
@@ -1426,7 +1445,7 @@ void Sweep::FUN_00a8f470(const Vec* center, Vec* axis, Vec* direction, float sta
     matrix.FUN_00924c60(axis, start);
     Vec point;
     point.SetMul4(radius, *direction);
-    point.FUN_008d2a00(&matrix, &point);
+    point.hkVector4_setRotatedDir(&matrix, &point);
     point.SetAdd4(*center, point);
     matrix.FUN_00924c60(axis, step);
     if (count > 0)
@@ -1435,7 +1454,7 @@ void Sweep::FUN_00a8f470(const Vec* center, Vec* axis, Vec* direction, float sta
         {
             Vec next;
             next.SetSub4(point, *center);
-            next.FUN_008d2a00(&matrix, &next);
+            next.hkVector4_setRotatedDir(&matrix, &next);
             next.SetAdd4(*center, next);
             callback->v20(&point, &next, context, output);
             point = next;
@@ -1861,6 +1880,8 @@ public:
     const hkpMoppCode* m_code;
 };
 
+// pdb: hkpMoppEarlyExitObbVirtualMachine::generateQueryFromNode | hkpMoppEarlyExitObbVirtualMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: extent, BvToWorld, radius, query
 void hkpMoppObbVirtualMachine::FUN_00a9a9a0(const hkVector4& extent, const hkTransform& BvToWorld, const hkReal& radius, hkpMoppObbVirtualMachineQuery& query)
 {
     const hkTransform& transform = BvToWorld;
@@ -1985,6 +2006,7 @@ void __cdecl FUN_00a5c3d0(bool*, const Config*, void*, void*, Vector*, bool*, Ar
 bool* __cdecl FUN_00a8a740(bool*, Array<Vector>*, void*, void*, Array<Vector>*, Array<Pair>*, float);
 bool* __cdecl FUN_00a8a830(bool*, Array<Vector>*, void*, void*, Array<Vector>*, Array<Pair>*, float);
 
+// pdb: hkGeomConvexHullTester::isValidHull | hkGeomConvexHullTester.obj | tesv_win, call_gap_sim, low
 bool* __cdecl FUN_00a8aae0(bool* output, const Config* config, const Vector* input, int count,
                             void* first, void* second)
 {
@@ -2032,7 +2054,7 @@ bool* __cdecl FUN_00a8aae0(bool* output, const Config* config, const Vector* inp
 // @f3 0x00a91000 (community match, verified in this file)
 namespace f3m_00a91000 {
 struct Callee {
-    void FUN_00a715a0(void* p1, void* p2, void* p3, int a4, int a5, int a6);
+    void hkpPoweredChainData_addConstraintInfoInBodySpace(void* p1, void* p2, void* p3, int a4, int a5, int a6);
 };
 
 struct Owner {
@@ -2080,7 +2102,8 @@ struct RelativeOrientationData {
     void FUN_008db610(void* a1, void* a2);
 };
 
-void FUN_00a91000(Owner* a1, char* a2, const void* a3, int a4, int a5, int a6)
+// pdb: hkpConstraintChainUtil::addConstraintToPoweredChain | hkpConstraintChainUtil.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void hkpConstraintChainUtil_addConstraintToPoweredChain(Owner* a1, char* a2, const void* a3, int a4, int a5, int a6)
 {
     Callee* pCallee = a1->m_0c;
     char* e1;
@@ -2101,7 +2124,7 @@ void FUN_00a91000(Owner* a1, char* a2, const void* a3, int a4, int a5, int a6)
     relativeOrientation.argument4 = a4;
     relativeOrientation.argument5 = a5;
     relativeOrientation.argument6 = a6;
-    pCallee->FUN_00a715a0(&points.first, &points.second, (void*)&relativeOrientation, a4, a5, a6);
+    pCallee->hkpPoweredChainData_addConstraintInfoInBodySpace(&points.first, &points.second, (void*)&relativeOrientation, a4, a5, a6);
     a1->FUN_00a50b70(a2);
 }
 }   // namespace f3m_00a91000
@@ -2126,6 +2149,7 @@ struct __declspec(align(16)) State925 {
  M925 blocks[8]; M925 absolute[8];
  void FUN_00a942b0(Out925*,const unsigned char*,const Pair925*);
 };
+// pdb: hkMoppUsingFloatAabbVirtualMachine_queryPlanesOptimized | hkpMoppMachine.obj | tesv_win, objopen_prop, low
 void FUN_00a929b0(C925* context,In925* input,void* output,void* work) {
  const unsigned char* program=context->unk20;
  State925 state;
@@ -2224,6 +2248,8 @@ struct Hull {
     Face faces[100];
     int FUN_00a991d0(int count, Edge* first, Vertex* tip);
 };
+// pdb: hkpWingedEdge::patchInBoundaryToPointOfViewExpansion | hkpWingedEdge.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkWingedEdge::patchInBoundaryToPointOfViewExpansion)
+// pdb params: chainLength, edgeChain, pointOfView
 int Hull::FUN_00a991d0(int count, Edge* first, Vertex* tip)
 {
     Face* staged[100];
@@ -2411,6 +2437,8 @@ struct hkpWingedEdge
     Triangle* FUN_00a995d0(Triangle* triangleOnNearestPlane);
 };
 
+// pdb: hkpWingedEdge::findTriangleNearestOrigin | hkpWingedEdge.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: hkWingedEdge::findTriangleNearestOrigin)
+// pdb params: triangleOnNearestPlane
 Triangle* hkpWingedEdge::FUN_00a995d0(Triangle* triangleOnNearestPlane)
 {
     FUN_00a99ae0();

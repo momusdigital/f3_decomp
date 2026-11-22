@@ -21,6 +21,7 @@ extern int _fnv_particle_shader_renderer_level;
 extern unsigned int DAT_012007b8;
 
 // @fnv 0x00bb6030
+// pdb: BSDistantTreeShader::GetMaxInstances | BSDistantTreeShader.obj | fnv360_0721_beta, call_seq, medium
 unsigned int __cdecl FUN_00bb6030()
 {
     if (!DAT_012007b8)

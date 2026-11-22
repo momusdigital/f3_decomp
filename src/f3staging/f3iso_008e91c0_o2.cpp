@@ -38,7 +38,7 @@ struct ActionObj {
     void* m_pEntity;
 };
 struct FUN_00cac980_Holder {
-    void* __thiscall FUN_00cac980();
+    void* __thiscall hkpCharacterProxy_getShapePhantom();
 };
 struct FUN_00cac910_shell : FUN_00cac980_Holder {
     const SavedPosition& __thiscall FUN_00cac910();
@@ -75,7 +75,7 @@ struct HostClass : NiObject {
         }
         return *result;
     }
-    bool __thiscall FUN_008e91c0(ArgClass* a1, int a2);
+    bool __thiscall bhkCharacterController_SetShape(ArgClass* a1, int a2);
 };
 
 
@@ -84,7 +84,8 @@ struct ProxyView_c9da80 { void* __thiscall FUN_0091ddd0(); };
 struct ProxyPosView { const SavedPosition& __thiscall FUN_0091dd60(); };
 struct WorldRemoveView { void __thiscall FUN_009028d0(void* phantom); };
 struct WorldAddView { void __thiscall FUN_00903980(void* phantom); };
-bool __thiscall HostClass::FUN_008e91c0(ArgClass* a1, int aiUnused) {
+// pdb: bhkCharacterController::SetShape | bhkCharacterController.obj | fnv360_0721_beta, call_seq + bridge(call_gap|call_gap), high
+bool __thiscall HostClass::bhkCharacterController_SetShape(ArgClass* a1, int aiUnused) {
     if (this) {
         FUN_00cac910_shell* obj = unk08;
         if (obj) {

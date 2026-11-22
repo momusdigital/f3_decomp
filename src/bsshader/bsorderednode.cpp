@@ -3,6 +3,8 @@
 #include "bsorderednode_decls.h"
 // Calls NiNode::LoadBinary, loads bound from the stream, and reads staticBound when stream.version > 23, otherwise sets it to true.
 // @fnv 0x00bc2e80
+// pdb: BSOrderedNode::LoadBinary | BSOrderedNode.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void BSOrderedNode::LoadBinary(NiStream& stream)
 {
     NiNode::LoadBinary(stream);
@@ -31,6 +33,8 @@ struct NiBound
 };
 // Returns true when this NiBound differs from b, i.e. the negation of operator==.
 // @fnv 0x00a926b0
+// pdb: NiColorA::operator!= | BGSPrimitive.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: NiBound::operator!=)
+// pdb params: c
 bool NiBound::FUN_00a926b0(const NiBound& b)
 {
     return !(*this == b);
@@ -124,7 +128,7 @@ class DummyNode
     unsigned char unk9c[0x10];  // +0x9c
     BoundSphere bound;          // +0xac
     bool staticBound;           // +0xbc
-    void FUN_00a5dbe0(NiCullingProcess* culling);
+    void NiNode_OnVisible(NiCullingProcess* culling);
     void UpdateCullingBound(NiCullingProcess* culling);
 };
 
@@ -132,6 +136,8 @@ class DummyNode
 NiBound g_defaultBound;
 
 // @fnv 0x00bc2d70
+// pdb: BSOrderedNode::OnVisible | BSOrderedNode.obj | fnv360_0721_beta, caller_sim, low
+// pdb params: arCuller
 void DummyNode::UpdateCullingBound(NiCullingProcess* culling)
 {
     DummyAccum* accum = culling->pAccumulator;
@@ -154,7 +160,7 @@ void DummyNode::UpdateCullingBound(NiCullingProcess* culling)
         accum->RenderBound(*b, 0);
     }
 
-    FUN_00a5dbe0(culling);
+    NiNode_OnVisible(culling);
     accum->DispatchBatchRenderer();
 }
 
@@ -186,6 +192,8 @@ class FUN_00bc2e00_cls
 
 // Allocates a SpawnedObject, initialises it via CopyTailFields with arg, and returns the new object.
 // @fnv 0x00bc2e00
+// pdb: BSOrderedNode::CreateClone | BSOrderedNode.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kCloning
 SpawnedObject* FUN_00bc2e00_cls::CreateSpawnedObject(void* arg)
 {
     SpawnedObject* obj = 0;
@@ -238,6 +246,8 @@ struct FUN_00bc2ee0_cls : NiNode
 
 // Calls the base loader, loads the bound sphere from the stream, then reads one byte into staticBound.
 // @fnv 0x00bc2ee0
+// pdb: BSOrderedNode::SaveBinary | BSOrderedNode.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kStream
 void FUN_00bc2ee0_cls::LoadBoundSphereAndStaticBound(NiStream& aStream)
 {
     FUN_00a5e880(aStream);
@@ -344,6 +354,8 @@ __forceinline void S_00bc2f30_Add(S_00bc2f30_Arr* a, char* s)
     a->FUN_0096ae90(i, s);
 }
 // @fnv 0x00bc2f30
+// pdb: BSOrderedNode::GetViewerStrings | BSOrderedNode.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void S_00bc2f30_Cls::AppendAlphaSortBound(S_00bc2f30_Arr* a)
 {
     FUN_00a5ea70(a);

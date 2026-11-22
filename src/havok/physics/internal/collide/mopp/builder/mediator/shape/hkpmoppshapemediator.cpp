@@ -3,7 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd51f0
-int __stdcall ReadIntField(const void* a, int* piValue)
+// pdb: hkpMoppShapeMediator::getPrimitiveProperties | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable, high
+// pdb params: primitiveIn, cid
+// pdb: hkpMoppShapeMediator::getPrimitiveProperties | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable, high (was: ReadIntField)
+int __stdcall hkpMoppShapeMediator_getPrimitiveProperties(const void* a, int* piValue)
 {
     *piValue = *(const int*)((const char*)a + 4);
     return 1;
@@ -20,7 +23,8 @@ struct FUN_00dd5260_T
 
 // Copies the five-int struct pointed to by pSrc into the struct pointed to by pDst.
 // @fnv 0x00dd5260
-void __stdcall FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst)
+// pdb: hkpMoppShapeMediator::splitPrimitive | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpMoppShapeMediator_splitPrimitive(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst)
 {
     *pDst = *pSrc;
 }
@@ -48,12 +52,15 @@ struct FUN_00dd5210_Object
     int unk04;
     FUN_00dd5210_Interface* unk08;
     int unk0c;
-    void FillRecords(FUN_00dd5210_Record* records);
+    void hkpMoppShapeMediator_getPrimitives(FUN_00dd5210_Record* records);
 };
 
 // Fills count records with successive values from unk08, starting at GetValue() and advancing via UseValue().
 // @fnv 0x00dd5210
-void FUN_00dd5210_Object::FillRecords(FUN_00dd5210_Record* records)
+// pdb: hkpMoppShapeMediator::getPrimitives | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable, high
+// pdb params: primitives
+// pdb: hkpMoppShapeMediator::getPrimitives | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable, high (was: FillRecords)
+void FUN_00dd5210_Object::hkpMoppShapeMediator_getPrimitives(FUN_00dd5210_Record* records)
 {
     int count = unk0c;
     int value = unk08->GetValue();
@@ -95,6 +102,8 @@ class FUN_00dd52a0_cls : public SpawnedBase
 
 // Sets m_flag06 to 1, destroys the base, stores src in m_src08, stores src->Second() in m_result0c and returns this.
 // @fnv 0x00dd52a0
+// pdb: hkpMoppShapeMediator::hkpMoppShapeMediator | hkpMoppShapeMediator.obj | fnv360_0822_retail, uvref, high
+// pdb params: shapeArray
 FUN_00dd52a0_cls* FUN_00dd52a0_cls::InitFromSource(SpawnedSource* pSource)
 {
     m_flag06 = 1;
@@ -104,54 +113,17 @@ FUN_00dd52a0_cls* FUN_00dd52a0_cls::InitFromSource(SpawnedSource* pSource)
     return this;
 }
 
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
-CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00dd51d0();
-    CpuObject* FUN_00dd55a0(unsigned int flags);
-};
-// @fnv 0x00dd55a0
-CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
-{
-    FUN_00dd51d0();
-    if (flags & 1)
-    {
-        CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
-
-// @fnv 0x00dd51e0
-void __stdcall FUN_00dd51e0(int, int)
-{}
-
 struct FnvCpu_FUN_00dd5290_CpuObject
 {
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
     int value;
-    int FUN_00dd5290();
+    int hkMemoryStreamReader_tell();
 };
 // @fnv 0x00dd5290
-int FnvCpu_FUN_00dd5290_CpuObject::FUN_00dd5290()
+// pdb: hkMemoryStreamReader::tell | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int FnvCpu_FUN_00dd5290_CpuObject::hkMemoryStreamReader_tell()
 {
     return value;
 }
@@ -222,12 +194,15 @@ struct ProjectionShape
     int unk04;
     hkpShapeContainer* m_container;
 
-    void ComputeProjectionRange(const hkVector4& direction, int unused, ProjectionSample* samples, int numSamples,
+    void hkpMoppShapeMediator_projectPrimitives(const hkVector4& direction, int unused, ProjectionSample* samples, int numSamples,
                                 hkReal* minOut, hkReal* maxOut);
 };
 
 // @f3 0x00a54c10 (community match, verified in this file)
-void ProjectionShape::ComputeProjectionRange(const hkVector4& direction, int unused, ProjectionSample* samples,
+// pdb: hkpMoppShapeMediator::projectPrimitives | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable, high
+// pdb params: direction, directionIndex, primitives, numPrimitives, absMinOut, absMaxOut
+// pdb: hkpMoppShapeMediator::projectPrimitives | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable, high (was: ComputeProjectionRange)
+void ProjectionShape::hkpMoppShapeMediator_projectPrimitives(const hkVector4& direction, int unused, ProjectionSample* samples,
                                              int numSamples, hkReal* minOut, hkReal* maxOut)
 {
     hkpShapeBuffer buffer;

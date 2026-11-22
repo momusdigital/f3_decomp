@@ -10,6 +10,8 @@ struct NiObject
 extern "C" char __stdcall FUN_00a7b3d0(NiObject*);
 
 // @fnv 0x00a89b00
+// pdb: NiLightDimmerController::IsEqual | NiLightDimmerController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkObject
 char __stdcall FUN_00a89b00(NiObject* pObject)
 {
     char b = FUN_00a7b3d0(pObject);
@@ -19,57 +21,16 @@ char __stdcall FUN_00a89b00(NiObject* pObject)
 extern "C" void* g_011f5b78;
 
 // @fnv 0x00a89b20
+// pdb: NiGeometry::GetRTTI | NiGeometry.obj | fnv360_0822_retail, objrun_open, low
 void* __cdecl FUN_00a89b20()
 {
     return &g_011f5b78;
 }
 
-struct NiExtraData
-{
-    void FUN_00a7b2e0(void);
-};
-
 struct BSFadeNode
 {
     static void* operator new(unsigned int);
 };
-
-extern void* DAT_0109ee9c;
-
-// @fnv 0x00a89b80
-void* __cdecl CreateNiExtraData()
-{
-    NiExtraData* p = (NiExtraData*)BSFadeNode::operator new(0xc);
-    if (p)
-    {
-        p->FUN_00a7b2e0();
-        *reinterpret_cast<void**>(p) = &DAT_0109ee9c;
-    }
-    else
-    {
-        p = 0;
-    }
-    return p;
-}
-
-struct NiVertWeightsExtraData : NiExtraData
-{
-    void* FUN_00a89bb0(unsigned int);
-};
-struct FUN_00a7b300_shell
-{
-    void FUN_00a7b300();
-};
-void __cdecl _delete(void*, unsigned int);
-// @fnv 0x00a89bb0
-void* NiVertWeightsExtraData::FUN_00a89bb0(unsigned int flags)
-{
-    *(void**)this = (void*)&DAT_0109ee9c;
-    ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
-    if (flags & 1)
-        _delete(this, 12);
-    return this;
-}
 
 struct A89C70RTTI
 {
@@ -124,39 +85,13 @@ struct A89C70Object : A89C70Base
 
 // Calls the base GetViewerStrings, then adds the RTTI name string to the string array.
 // @fnv 0x00a89c70
+// pdb: NiBSplineCompColorInterpolator::GetViewerStrings | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void A89C70Object::FUN_00a89c70(A89C70StringArray* pkStrings)
 {
     A89C70Base::GetViewerStrings(pkStrings);
     char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
-}
-
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-
-struct FUN_00a89b30_cls
-{
-    void* m_vtbl;
-    unsigned int unk04;
-    unsigned int unk08;
-    void FUN_00a7b330(void* obj, unsigned int a1);
-    void* FUN_00a89b30(unsigned int a1);
-};
-
-// @fnv 0x00a89b30
-void* FUN_00a89b30_cls::FUN_00a89b30(unsigned int a1)
-{
-    FUN_00a89b30_cls* p = (FUN_00a89b30_cls*)FUN_00aa13e0(0xc);
-    if (p != 0)
-    {
-        ((NiExtraData*)p)->FUN_00a7b2e0();
-        p->m_vtbl = (void*)&DAT_0109ee9c;
-    }
-    else
-    {
-        p = 0;
-    }
-    this->FUN_00a7b330(p, a1);
-    return p;
 }
 
 struct S_00a89be0_Bin
@@ -191,6 +126,8 @@ static __forceinline void LoadU32(S_00a89be0_Stream* s, unsigned int* v, unsigne
 }
 
 // @fnv 0x00a89be0
+// pdb: NiVertWeightsExtraData::LoadBinary | NiVertWeightsExtraData.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void __stdcall FUN_00a89be0(S_00a89be0_Stream* s)
 {
     if (s->m_uiFormatVersion < 0x5000010)

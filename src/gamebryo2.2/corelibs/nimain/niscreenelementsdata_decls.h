@@ -42,7 +42,7 @@ FNV_STATIC_ASSERT(offsetof(NiBound, m_iRadius) == 12);
 class NiGeometryData : public NiObject
 {
   public:
-    void SetDirtyFlags(unsigned int);
+    void MarkAsChanged(unsigned int);
     // Unnamed PC texture-set accessor; see manifest binding.
     NiPoint2* FUN_00a66960(unsigned short);
     NiPoint3* GetVertices()

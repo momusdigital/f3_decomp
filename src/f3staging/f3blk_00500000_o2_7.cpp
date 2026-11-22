@@ -6,6 +6,8 @@
 
 // @f3 0x00509780 (community match, verified in this file)
 namespace f3m_00509780 {
+// pdb: BSEndian | EffectSetting.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: apData, __formal
 unsigned __cdecl FUN_00509780(unsigned type) {unsigned result=4;switch(type) {
 case 0:case 10:case 19:result=0;break;
 case 2:case 18:result=1;break;

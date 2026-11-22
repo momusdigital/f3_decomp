@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/nitrishape.cpp: NiTriShape (16 functions)
+// gamebryo2.2/corelibs/nimain/nitrishape.cpp: NiTriShape (11 functions)
 #include "f3_common.h"
 #include "nitrishape_decls.h"
 
@@ -19,6 +19,7 @@ struct FUN_00a74530_DelHelper : NiMemObject
 
 // Calls FUN_00a89760 on pThis, frees pThis with operator delete when flags has bit 0 set, and returns pThis.
 // @fnv 0x00a74530
+// pdb: NiTriStrips::`vector deleting destructor' | NiTriStrips.obj | tesv_win, vtable_prefix, medium
 void* __fastcall DestroyNiTriShape(void* pThis, int, unsigned int flags)
 {
     FUN_00a89760(pThis);
@@ -29,7 +30,13 @@ void* __fastcall DestroyNiTriShape(void* pThis, int, unsigned int flags)
 
 struct CloningProcess;
 struct NiObject;
-struct NiRenderer;
+struct NiRenderer
+{
+    unsigned char unk000[0x200];
+    int m_eFrameState;  // src: FNV360_PDB +0x200
+    unsigned char unk204[4];
+    bool m_bRenderTargetGroupActive;  // src: FNV360_PDB +0x208
+};
 struct blob16
 {
     char b[16];
@@ -58,11 +65,13 @@ void FUN_00a80610();
 
 // Calls FUN_00a80610 on this, then if the renderer's state at offset 0x200 is 1 or 2 and byte 0x208 is 1, invokes renderer vtable slot 0x1b4 with this.
 // @fnv 0x00a74600
+// pdb: NiTriShape::OnlyRenderImmediate | NiTriShape.obj | fnv360_0822_debug, vtable, medium
+// pdb params: apkRenderer
 void FUN_00a74600_shell::FUN_00a74600(NiRenderer* apkRenderer)
 {
     ((void(__thiscall*)(NiTriShape*, NiRenderer*))FUN_00a80610)(this, apkRenderer);
-    int state = *(int*)((char*)apkRenderer + 0x200);
-    if ((state == 1 || state == 2) && *((char*)apkRenderer + 0x208) == 1)
+    int state = apkRenderer->m_eFrameState;
+    if ((state == 1 || state == 2) && apkRenderer->m_bRenderTargetGroupActive == 1)
     {
         ((void(__thiscall*)(NiRenderer*, NiTriShape*))(*(void***)apkRenderer)[0x1b4 / 4])(apkRenderer, this);
     }
@@ -74,14 +83,6 @@ struct NiTriStrips
     virtual ~NiTriStrips();
     char pad[0xc0];
 };
-struct FUN_00a744a0 : NiTriStrips
-{
-    FUN_00a744a0();
-    virtual ~FUN_00a744a0();
-};
-// @fnv 0x00a744a0
-FUN_00a744a0::FUN_00a744a0()
-{}
 
 namespace fnv_00a744d0 {
 struct BSFadeNode
@@ -110,7 +111,8 @@ NiTriStrips* __cdecl CreateNiTriShapeX()
 
 extern const char g_011f5b34_arg1[];
 // @fnv 0x00a74520
-const char* __cdecl FUN_00a74520()
+// pdb: NiGeometryData::GetRTTI | NiGeometryData.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(objrun), high
+const char* __cdecl NiGeometryData_GetRTTI()
 {
     return g_011f5b34_arg1;
 }
@@ -200,8 +202,8 @@ struct TriListHelper
 void FUN_00a74560_shell::GetTriangleVertices(unsigned short ausTriangleIndex, NiPoint3** pkP0, NiPoint3** pkP1,
                                              NiPoint3** pkP2)
 {
-    NiTriShapeData* pkModelData = *(NiTriShapeData**)((char*)this + 0xb8);
-    NiPoint3* pkVertex = *(NiPoint3**)((char*)pkModelData + 0x20);
+    NiTriShapeData* pkModelData = m_spModelData;
+    NiPoint3* pkVertex = (NiPoint3*)pkModelData->m_pkVertex;
     unsigned short* pusTriList = ((TriListHelper*)pkModelData)->GetTriangleList();
     unsigned short usIndexOffset = ausTriangleIndex * 3;
     *pkP0 = &pkVertex[pusTriList[usIndexOffset++]];
@@ -234,6 +236,8 @@ struct FUN_00a74640
     NiTriStrips* Clone(CloningProcess& kCloning);
 };
 // @fnv 0x00a74640
+// pdb: NiTriShape::CreateClone | NiTriShape.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: kCloning
 NiTriStrips* FUN_00a74640::Clone(CloningProcess& kCloning)
 {
     NiTriStrips* pkClone = new NiTriShapeX;
@@ -253,6 +257,8 @@ struct FUN_00a89720 : FUN_00a804e0
     virtual ~FUN_00a89720();
 };
 // @fnv 0x00a89720
+// pdb: NiTriStrips::NiTriStrips | NiTriStrips.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pkModelData
 FUN_00a89720::FUN_00a89720(void* a) : FUN_00a804e0(a)
 {}
 
@@ -266,12 +272,14 @@ struct FUN_00a745c0_This
 };
 // Calls FUN_00a80610 on the renderer, then if renderer state at 0x200 is 1 or 2 and byte at 0x208 is 1, invokes vtable slot 107 with this.
 // @fnv 0x00a745c0
+// pdb: NiTriShape::RenderImmediate | NiTriShape.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apkRenderer
 void __thiscall FUN_00a745c0_This::FUN_00a745c0(void* apkRenderer)
 {
-    void* pkRenderer = apkRenderer;
+    NiRenderer* pkRenderer = (NiRenderer*)apkRenderer;
     ((FUN_00a80610_This*)this)->FUN_00a80610(pkRenderer);
-    if ((*(int*)((char*)pkRenderer + 0x200) == 1 || *(int*)((char*)pkRenderer + 0x200) == 2) &&
-        *(char*)((char*)pkRenderer + 0x208) == 1)
+    if ((pkRenderer->m_eFrameState == 1 || pkRenderer->m_eFrameState == 2) &&
+        pkRenderer->m_bRenderTargetGroupActive == 1)
     {
         ((void(__thiscall**)(void*, void*))(*(void***)pkRenderer))[107](pkRenderer, this);
     }
@@ -280,6 +288,12 @@ void __thiscall FUN_00a745c0_This::FUN_00a745c0(void* apkRenderer)
 namespace fnv_00a74690 {
 struct StrArr
 {
+    void* unk00;
+    char** m_pBase;  // src: FNV360_PDB NiTPrimitiveArray +0x4
+    unsigned short m_usMaxSize;  // src: FNV360_PDB +0x8
+    unsigned short m_usSize;  // src: FNV360_PDB +0xA
+    unsigned short m_usESize;  // src: FNV360_PDB +0xC
+    unsigned short m_usGrowBy;  // src: FNV360_PDB +0xE
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
@@ -295,46 +309,28 @@ struct FUN_00a74690_shell : BaseA
 };
 // Calls the base handler, resolves g_011f5b34_arg1 to a string, grows pkStrings if its index reached the size, then stores the string at that index.
 // @fnv 0x00a74690
+// pdb: NiLightDimmerController::GetViewerStrings | NiLightDimmerController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void FUN_00a74690_shell::FUN_00a74690(StrArr* pkStrings)
 {
     FUN_00a897c0(pkStrings);
     char* pStr = FUN_00a7d330(g_011f5b34_arg1);
-    unsigned int uiIndex = *(unsigned short*)((char*)pkStrings + 0xa);
-    if (uiIndex >= *(unsigned short*)((char*)pkStrings + 8))
-        pkStrings->SetSize(uiIndex + *(unsigned short*)((char*)pkStrings + 0xe));
+    unsigned int uiIndex = pkStrings->m_usSize;
+    if (uiIndex >= pkStrings->m_usMaxSize)
+        pkStrings->SetSize(uiIndex + pkStrings->m_usGrowBy);
     pkStrings->SetAt(uiIndex, pStr);
 }
 }  // namespace fnv_00a74690
 
-struct FUN_00a74480 : public NiTriBasedGeom
-{
-    explicit FUN_00a74480(NiTriBasedGeomData* geometry);
-    virtual ~FUN_00a74480();
-};
-// @fnv 0x00a74480
-FUN_00a74480::FUN_00a74480(NiTriBasedGeomData* geometry) : NiTriBasedGeom(geometry)
-{}
-
 extern void __cdecl FUN_00a9b140();
-
-// @fnv 0x00a744c0
-void __cdecl FUN_00a744c0()
-{
-    FUN_00a9b140();
-}
 
 void FUN_00a9b190();
 // @fnv 0x00a74500
+// pdb: MagicModelHitEffect::InitLoadGame | MagicModelHitEffect.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apLoadGameBuffer
 void FUN_00a74500()
 {
     FUN_00a9b190();
-}
-
-void FUN_00a89770();
-// @fnv 0x00a74510
-void FUN_00a74510()
-{
-    FUN_00a89770();
 }
 
 class NiStream;
@@ -342,15 +338,9 @@ class NiStream;
 void FUN_00a74780(NiStream& stream);
 
 // @fnv 0x00a98eb0
+// pdb: PlayerCharacter::CastAbility | PlayerCharacter.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, abLoadCast
 void FUN_00a98eb0(NiStream& stream)
 {
     FUN_00a74780(stream);
-}
-
-void __cdecl FUN_00a9b1a0();
-
-// @fnv 0x00a71d10
-void __cdecl FUN_00a71d10()
-{
-    FUN_00a9b1a0();
 }

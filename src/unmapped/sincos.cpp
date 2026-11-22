@@ -98,6 +98,8 @@ class BB7290Owner
 
 // Writes position, angle and scale into entry iIndex of the array, storing cos and sin of the angle.
 // @fnv 0x00bb7290
+// pdb: BSDistantTreeShaderProperty::SetInstance | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiInstance, afX, afY, afZ, afRotZ, afScale
 void BB7290Owner::SetEntry(int iIndex, float fX, float fY, float fZ, float fAngleDifference, float fScale)
 {
     m_pkEntryArray[iIndex].m_fVectorY = fX;
@@ -153,6 +155,8 @@ struct BhkCharListener
 
 // Copies the input vector, computes cosine and sine-based values, and assigns constants and zeroes to fields.
 // @f3 0x008daef0 (community match, verified in this file)
+// pdb: hkpCharacterContext::hkpCharacterContext | hkpCharacterContext.obj | fnv360_0721_beta, call_seq, low
+// pdb params: Manager, initialState
 BhkCharListener* BhkCharListener::Init(const void* pPos, float fAngleDifference, float fRadius)
 {
     m_vtbl = &FNV_bhkCharacterListener_vftable;
@@ -203,7 +207,10 @@ inline float ClampMax(float afValue)
 
 // Fills the 31-entry SkyEntry table with cos/sin values for angles stepped 12 degrees from -PI to PI, adjusted by afA and afB.
 // @fnv 0x00d10890
-void UpdateSkyEntries(float afA, float afB)
+// pdb: hkpWeldingUtility::initWeldingTable | hkpWeldingUtility.obj | fnv360_0822_retail, call_gap, high
+// pdb params: edgeNormalSnapDeltaAngle, triangleNormalSnapDeltaAngle
+// pdb: hkpWeldingUtility::initWeldingTable | hkpWeldingUtility.obj | fnv360_0822_retail, call_gap, high (was: UpdateSkyEntries)
+void hkpWeldingUtility_initWeldingTable(float afA, float afB)
 {
     for (int i = 0; i < 31; i++)
     {

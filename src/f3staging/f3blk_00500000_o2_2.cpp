@@ -198,12 +198,13 @@ int unk50;
 int unk54;
 int unk58;
 int unk5c;
-Ref* base; Record* FUN_00766020(); };
+Ref* base; Record* MobileObject_GetCurrentPackage(); };
 void FUN_006195d0(const char*, ...);
-bool __cdecl FUN_00511510(Ref* ref, int arg2, int arg3, double* result) {
+// pdb: Script::GetCurrentAIProcedureConditionFunction | TESConditionFunctions.obj | fnv360_0822_retail, caller_sim + skyrim(objrun), high
+bool __cdecl Script_GetCurrentAIProcedureConditionFunction(Ref* ref, int arg2, int arg3, double* result) {
 *result=0.0;
-if(ref && ref->v64() && ref->base && ref->FUN_00766020()) {
-Record* record=ref->FUN_00766020();
+if(ref && ref->v64() && ref->base && ref->MobileObject_GetCurrentPackage()) {
+Record* record=ref->MobileObject_GetCurrentPackage();
 Ref* base=ref->base;
 int group=record->group;
 int kind=g_categories[group][base->v159()];
@@ -299,6 +300,8 @@ struct Target {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;Model
 bool Bit5(){return (flags>>5)&1;}
 void FUN_00507cd0(int,int);
 };
+// pdb: BGSCameraShot::InitCamera | BGSCameraShot.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apTargetRef, aeZoom
 void Target::FUN_00507cd0(int arg,int type){
  if ((model.length==0xffff?strlen(model.text):model.length)!=0) scene=DAT_0106ca70->FUN_00429eb0(model.Get(),0,1,1,0,0);
  Scene* camera;
@@ -337,6 +340,7 @@ void Target::FUN_00507cd0(int arg,int type){
 // @f3 0x00504f60 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_00504f60 {
+// pdb: TESWorldSpace::InitializeData | TESWorldSpace.obj | fnv360_0822_retail, vtable, medium
 namespace G1365{extern float DAT_00dcfc60;}struct Reference1365{virtual void v0();virtual void Destroy();long references04;};struct Ref1365{Reference1365* object;void Clear(){Reference1365* previous=object;if(previous){if(!InterlockedDecrement(&previous->references04))previous->Destroy();object=0;}}};struct Map1365{virtual void Clear();unsigned int count04;void* buckets08;};struct World1365{unsigned int value00;unsigned int value04;unsigned int value08;unsigned int value0C;unsigned int value10;unsigned int value14;unsigned int value18;unsigned int value1C;unsigned int value20;unsigned int value24;unsigned int value28;unsigned int value2C;unsigned int value30;unsigned int value34;unsigned int value38;unsigned int value3C;unsigned int value40;unsigned int value44;unsigned int value48;unsigned char flags4C,unk4D;unsigned short parentFlags4E;unsigned int value50;unsigned int value54;unsigned int value58;unsigned int value5C;unsigned int value60;unsigned int value64;unsigned int value68;Ref1365 reference6C;unsigned int value70;unsigned int value74;unsigned int value78;float value7C;unsigned int value80;unsigned int value84;unsigned int value88;unsigned int value8C;float value90;float value94;float value98;unsigned int value9C;unsigned int valueA0;unsigned int valueA4;unsigned int valueA8;unsigned int valueAC;unsigned int valueB0;unsigned int valueB4;unsigned int valueB8;unsigned int valueBC;unsigned int valueC0;unsigned int valueC4;float valueC8;float valueCC;unsigned int valueD0;Map1365 mapD4;Map1365 mapE0;bool FUN_004543f0();void FUN_005042a0();void FUN_00504f60();};void World1365::FUN_00504f60(){value70=0;valueD0=0;flags4C=0;parentFlags4E=0;if(!FUN_004543f0())flags4C|=1;value7C=0.f;value40=0;value44=0;value90=1.f;value74=0;value78=0;value94=0.f;value98=0.f;FUN_005042a0();valueC8=G1365::DAT_00dcfc60;value9C=0;value48=0;valueCC=0.f;reference6C.Clear();mapD4.Clear();mapE0.Clear();}
 }   // namespace f3m_00504f60
 
@@ -347,6 +351,8 @@ namespace Remove173{
 extern CRITICAL_SECTION DAT_01071c00;
 struct List173{void FUN_00421610(void**);};
 extern List173 DAT_01071bbc,DAT_01071bac,DAT_01071bf0,DAT_01071bc8;
+// pdb: Script::RemoveDelayedScriptActionReference | TESScript.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apRef
 void __cdecl FUN_00519040(void* item){if(item){EnterCriticalSection(&DAT_01071c00);DAT_01071bbc.FUN_00421610(&item);DAT_01071bac.FUN_00421610(&item);DAT_01071bf0.FUN_00421610(&item);DAT_01071bc8.FUN_00421610(&item);LeaveCriticalSection(&DAT_01071c00);}}
 }
 }   // namespace f3m_00519040

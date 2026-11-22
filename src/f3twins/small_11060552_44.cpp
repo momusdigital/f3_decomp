@@ -5,6 +5,7 @@
 extern int DAT_00e7e640;
 extern bool DAT_01061525;
 
+// pdb: `dynamic initializer for 'hkpExtendedMeshShape_TrianglesSubpartClass_Members'' | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00d7de00()
 {
     DAT_01061525 = DAT_00e7e640 == 1;
@@ -15,6 +16,7 @@ __declspec(noinline) void FUN_00d7de00()
 int __cdecl FUN_00921850(int, int, int, int);
 extern int DAT_011697f4;
 
+// pdb: `dynamic initializer for 'HK_DEFAULT_SWEPT_TRANSFORM_COLOR_T0'' | hkpSweptTransformDisplayViewer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void FUN_00d7e450()
 {
     DAT_011697f4 = FUN_00921850(200, 200, 255, 80);
@@ -25,6 +27,7 @@ void FUN_00d7e450()
 int __cdecl FUN_00921850(int, int, int, int);
 extern int DAT_011697f0;
 
+// pdb: `dynamic initializer for 'HK_DEFAULT_SWEPT_TRANSFORM_COLOR_T0'' | hkpSweptTransformDisplayViewer.obj | fnv360_0822_debug, objrun_prop, low, conflict (bridge: `dynamic initializer for 'HK_DEFAULT_SWEPT_TRANSFORM_COLOR_T1'')
 void FUN_00d7e470()
 {
     DAT_011697f0 = FUN_00921850(200, 255, 200, 150);

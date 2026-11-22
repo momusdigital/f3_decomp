@@ -18,24 +18,28 @@ extern S_00491570 DAT_0116f2dc;
 extern char DAT_00e947bc;
 void __cdecl FUN_00d99750();
 
+// pdb: `dynamic initializer for 'TESWaterSystem::iNearWaterPoints'' | TESWater.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'TESWaterReflections::ExplosionsList'')
 void FUN_00c8ef20()
 {
     DAT_0106fe94.FUN_0043b7f0(&DAT_00dc32f4, 8);
     FUN_00c00d1f(FUN_00d88d50);
 }
 
+// pdb: `dynamic initializer for 'bhkWorld::iMinNumSubSteps'' | bhkWorld.obj | fnv360_0822_debug, ustr, high
 void FUN_00d02030()
 {
     DAT_010f2bcc.FUN_0043b7f0(&DAT_00e3284c, 8);
     FUN_00c00d1f(FUN_00d98960);
 }
 
+// pdb: `dynamic initializer for 'iDistantLODGroupWidth'' | DistantLODShaderProperty.obj | fnv360_0822_debug, ustr, medium
 void FUN_00d83a90()
 {
     DAT_0116ef24.FUN_0043b7f0(&DAT_00e8ff48, 8);
     FUN_00c00d1f(FUN_00d992c0);
 }
 
+// pdb: `dynamic initializer for 'iMaxAnisotropy'' | BSShaderManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00d83af0()
 {
     DAT_0116f2dc.FUN_00491570(&DAT_00e947bc, 8);
@@ -48,16 +52,21 @@ void __fastcall FUN_005ac770(void*);
 void __fastcall FUN_004ab970(void*);
 void __fastcall FUN_007fb8f0(void*);
 
+// pdb: TESAIForm::AddPackage | TESAIForm.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apPack
 __declspec(noinline) void __fastcall FUN_00450b60(char* p)
 {
     FUN_005ac770(p + 24);
 }
 
+// pdb: TESEffectShader::InitializeData | TESEffectShader.obj | fnv360_0822_retail, vtable, medium
 __declspec(noinline) void __fastcall FUN_004ac1b0(char* p)
 {
     FUN_004ab970(p + 24);
 }
 
+// pdb: NiPick::ClearResultsArray | NiPick.obj | fnv360_0822_retail, call_gap, low
+// pdb params: bDeallocateRecords
 __declspec(noinline) void __fastcall FUN_007fb9f0(char* p)
 {
     FUN_007fb8f0(p + 24);
@@ -71,6 +80,7 @@ void __fastcall FUN_00ab5d80(void*);
 void __fastcall FUN_00b39bb0(void*);
 
 struct C_006014f0 { void* FUN_006014f0(unsigned char); };
+// pdb: PathingRequest::`scalar deleting destructor' | PathingRequest.obj | fnv360_0822_retail, vtable_prefix, high
 void* C_006014f0::FUN_006014f0(unsigned char f)
 {
     FUN_00600ff0(this);
@@ -79,6 +89,7 @@ void* C_006014f0::FUN_006014f0(unsigned char f)
 }
 
 struct C_00aab2d0 { void* FUN_00aab2d0(unsigned char); };
+// pdb: BSBlastNode::`scalar deleting destructor' | BSBlastNode.obj | fnv360_0822_retail, vtable, high
 void* C_00aab2d0::FUN_00aab2d0(unsigned char f)
 {
     FUN_00ab5d80(this);
@@ -87,6 +98,7 @@ void* C_00aab2d0::FUN_00aab2d0(unsigned char f)
 }
 
 struct C_00b39ee0 { void* FUN_00b39ee0(unsigned char); };
+// pdb: TileShaderProperty::`scalar deleting destructor' | TileShaderProperty.obj | fnv360_0822_retail, objopen_prop, medium
 void* C_00b39ee0::FUN_00b39ee0(unsigned char f)
 {
     FUN_00b39bb0(this);
@@ -102,6 +114,7 @@ void __fastcall FUN_00aa2220(void*);
 void __fastcall FUN_00b54360(void*);
 
 struct C_00602270 { void* FUN_00602270(unsigned char f); };
+// pdb: PathingRequestCover::`scalar deleting destructor' | PathingRequestCover.obj | fnv360_0822_retail, vtable, medium
 void* C_00602270::FUN_00602270(unsigned char f)
 {
     FUN_00600ff0(this);
@@ -110,6 +123,7 @@ void* C_00602270::FUN_00602270(unsigned char f)
 }
 
 struct C_00aa2530 { void* FUN_00aa2530(unsigned char f); };
+// pdb: BSMultiBoundRoom::`scalar deleting destructor' | BSMultiBoundRoom.obj | fnv360_0822_retail, vtable_prefix, medium
 void* C_00aa2530::FUN_00aa2530(unsigned char f)
 {
     FUN_00aa2220(this);
@@ -118,6 +132,7 @@ void* C_00aa2530::FUN_00aa2530(unsigned char f)
 }
 
 struct C_00b54b00 { void* FUN_00b54b00(unsigned char f); };
+// pdb: HairShader::`scalar deleting destructor' | HairShader.obj | fnv360_0822_retail, objrun, medium
 void* C_00b54b00::FUN_00b54b00(unsigned char f)
 {
     FUN_00b54360(this);
@@ -134,16 +149,21 @@ extern S_00899cf0* DAT_0108f104;
 struct S_00b1cdf0 { void FUN_00b1cdf0(int); };
 extern S_00b1cdf0* DAT_0116ef9c;
 
+// pdb: LevelUpMenu::UpdateSkillsFunc | LevelUpMenu.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apTile, aeIndex
 void FUN_006557a0(int a)
 {
     DAT_010768ec->FUN_006551a0(a);
 }
 
-void FUN_0082a370(int a)
+// pdb: NiStream::UnregisterLoader | NiStream.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void NiStream_UnregisterLoader(int a)
 {
     DAT_0108f104->FUN_00899cf0(a);
 }
 
+// pdb: BSShaderManager::SetImageSpaceParameters | BSShaderManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apParamData
 void FUN_00ad5900(int a)
 {
     DAT_0116ef9c->FUN_00b1cdf0(a);
@@ -156,6 +176,7 @@ extern V_obj* DAT_0108ebbc;
 extern V_obj* DAT_01072f90;
 extern V_obj* DAT_0109082c;
 
+// pdb: BGSMoviePlayer::Destroy | BGSMoviePlayer.obj | fnv360_0822_retail, call_gap, low
 __declspec(noinline) void FUN_006e2360()
 {
     delete DAT_0108ebbc;
@@ -168,6 +189,7 @@ __declspec(noinline) void FUN_006e4010()
     DAT_01072f90 = 0;
 }
 
+// pdb: NiMaterial::_SDMShutdown | NiMaterial.obj | fnv360_0822_retail, call_seq, medium
 __declspec(noinline) void FUN_0085b610()
 {
     delete DAT_0109082c;
@@ -190,6 +212,7 @@ extern char DAT_00e7ba74;
 extern int DAT_01169268;
 
 struct S_0076b430 { void* v; int a, b, c, d; void __thiscall FUN_008f7c10(void); void* __thiscall FUN_0076b430(void); };
+// pdb: bhkSphereShape::bhkSphereShape | PlayerCharacter.obj | fnv360_0822_retail, call_gap, low
 void* S_0076b430::FUN_0076b430(void)
 {
     this->FUN_008f7c10();
@@ -207,6 +230,7 @@ void* S_0076b430::FUN_0076b430(void)
 }
 
 struct S_009140d0 { void* v; int a, b, c, d; void __thiscall FUN_008f7c10(void); void* __thiscall FUN_009140d0(void); };
+// pdb: bhkBoxShape::bhkBoxShape | bhkBoxShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* S_009140d0::FUN_009140d0(void)
 {
     this->FUN_008f7c10();
@@ -224,6 +248,7 @@ void* S_009140d0::FUN_009140d0(void)
 }
 
 struct S_009522d0 { void* v; int a, b, c, d; void __thiscall FUN_008f7c10(void); void* __thiscall FUN_009522d0(void); };
+// pdb: bhkConvexListShape::bhkConvexListShape | bhkConvexListShape.obj | fnv360_0822_retail, objrun, medium
 void* S_009522d0::FUN_009522d0(void)
 {
     this->FUN_008f7c10();
@@ -246,16 +271,22 @@ void __cdecl FUN_007971b0(int, int);
 void __cdecl FUN_00797ee0(int, int);
 void __cdecl FUN_00829350(int, int);
 
+// pdb: CombatActionMove::Execute | CombatActions.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCombatController, aiActionValue
 void __stdcall FUN_00797e90(int a, int b)
 {
     FUN_007971b0(a, b);
 }
 
+// pdb: CombatActionMove::CheckIdentical | CombatActions.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCombatController, aiActionValue
 void __stdcall FUN_00798310(int a, int b)
 {
     FUN_00797ee0(a, b);
 }
 
+// pdb: NiStream::GetTexture | NiStream.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pcURL, arTexture
 void __stdcall FUN_0082a130(int a, int b)
 {
     FUN_00829350(a, b);
@@ -265,8 +296,9 @@ void __stdcall FUN_0082a130(int a, int b)
 
 
 
-struct C_0083b590 { void FUN_00833110(int); void FUN_0083af80(); void FUN_0083b590_(int); };
-void C_0083b590::FUN_0083b590_(int a)
+struct C_0083b590 { void FUN_00833110(int); void FUN_0083af80(); void NiCamera_UpdateWorldData(int); };
+// pdb: NiCamera::UpdateWorldData | NiCamera.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void C_0083b590::NiCamera_UpdateWorldData(int a)
 {
     FUN_00833110(a);
     FUN_0083af80();

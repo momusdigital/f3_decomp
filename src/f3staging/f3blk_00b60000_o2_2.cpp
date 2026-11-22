@@ -91,6 +91,7 @@ static void Set(A* a, int x, int y)
     a->f30->FUN_008905a0(x, y, 1);
 }
 
+// pdb: ShadowLightShader::PresetFogPasses_1x | ShadowLightShader_Preset_1x.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: ShadowLightShader::PresetAmbientPasses_1x)
 void FUN_00b6cc10()
 {
     APtr a;
@@ -473,6 +474,7 @@ extern int DAT_01173354, DAT_01172774, DAT_01171b94;
 
 // Configures four global render objects by adding a stage if needed, setting pixel/vertex shaders, render states, and associated global values.
 // @fnv 0x00be9920
+// pdb: ShadowLightShader::PresetFogPasses_1x | ShadowLightShader_Preset_1x.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void __cdecl FUN_00b6b8c0()
 {
     SPtr pRendObj;
@@ -1033,6 +1035,7 @@ extern unsigned int DAT_01172bf0, DAT_01172010, DAT_01172bf4, DAT_01172014;
 
 // Configures two graphics systems: sets materials and manager entries, and for version < 4 creates and registers four temporary resources per system.
 // @fnv 0x00be7420
+// pdb: ShadowLightShader::PresetZOnlyPasses_1x | ShadowLightShader_Preset_1x.obj | fnv360_0822_retail, objrun_prop, low
 void __cdecl FUN_00b693a0()
 {
     ScopedSystem system;

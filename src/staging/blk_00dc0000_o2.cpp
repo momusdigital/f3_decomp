@@ -1,4 +1,4 @@
-// staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (96 functions)
+// staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (52 functions)
 #include "f3_common.h"
 #include <windows.h>
 // src/staging/blk_00dc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -13,6 +13,8 @@ struct FUN_00dd4b10_struct
 
 // Copies six consecutive unsigned ints from p into this at offsets 8 through 28.
 // @fnv 0x00dd4b10
+// pdb: hkpMoppCompiler::setSplitParams | hkpMoppCompiler.obj | fnv360_0822_retail, call_gap, high
+// pdb params: sp
 void __thiscall FUN_00dd4b10_struct::AssignFromSource(const void* pSource)
 {
     const unsigned int* src = (const unsigned int*)pSource;
@@ -45,6 +47,8 @@ struct FUN_00dd4b40_Class
 
 // Copies six unsigned ints from the array p into fields m_20 through m_34.
 // @fnv 0x00dd4b40
+// pdb: hkpMoppCompiler::setCostParams | hkpMoppCompiler.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: sp
 void __thiscall FUN_00dd4b40_Class::SetValues(const unsigned int* auiValues)
 {
     m_20 = auiValues[0];
@@ -72,6 +76,8 @@ struct FUN_00dd5170_class
 
 // Copies six consecutive ints from the pointed-to array into fields c through h.
 // @fnv 0x00dd5170
+// pdb: hkpMoppCostFunction::updateParams | hkpMoppCostFunction.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bp
 void __thiscall FUN_00dd5170_class::CopySixInts(const int* pSource)
 {
     c = pSource[0];
@@ -80,26 +86,6 @@ void __thiscall FUN_00dd5170_class::CopySixInts(const int* pSource)
     f = pSource[3];
     g = pSource[4];
     h = pSource[5];
-}
-
-struct FUN_00dd8c20_class
-{
-    int m_field;
-    int SumListValues();
-};
-
-// @fnv 0x00dd8c20
-int FUN_00dd8c20_class::SumListValues()
-{
-    int total = 0;
-    void* current = *(void**)((char*)this + 0xa8);
-    void* end = (char*)this + 0xa4;
-    while (current != end)
-    {
-        total += *(int*)((char*)current + 0xc);
-        current = *(void**)((char*)current + 4);
-    }
-    return total;
 }
 
 template <class K, class V, class O> class HashEntryTable
@@ -111,19 +97,7 @@ template <class K> struct KeyMarker
 {
 };
 
-struct FUN_00ddf050_cls
-{
-    void ClearContainer();
-};
-
-// @fnv 0x00ddf050
-void FUN_00ddf050_cls::ClearContainer()
-{
-    ((HashEntryTable<unsigned long, unsigned long, KeyMarker<unsigned long> >*)((char*)this + 0x20))->clear();
-    *(unsigned long*)((char*)this + 0x18) = 0;
-}
-
-extern "C" void __cdecl FUN_00d51760(int* p1, int* p2);
+extern "C" void __cdecl hkpConstraintConstructionKit_computeConstraintInfo(int* p1, int* p2);
 struct FUN_00dd0420_Class
 {
     int m_00;
@@ -136,8 +110,10 @@ struct FUN_00dd0420_Class
     int m_1c;
     FUN_00dd0420_Class* __thiscall FUN_00dd0420(int arg);
 };
-// If arg is nonzero, zeroes m_00/m_08/m_0c, sets m_04 to 0x10, calls FUN_00d51760 on m_1c and this, then sets m_00 to m_04; returns this.
+// If arg is nonzero, zeroes m_00/m_08/m_0c, sets m_04 to 0x10, calls hkpConstraintConstructionKit_computeConstraintInfo on m_1c and this, then sets m_00 to m_04; returns this.
 // @fnv 0x00dd0420
+// pdb: hkpGenericConstraintDataScheme::hkpGenericConstraintDataScheme | hkpGenericConstraintScheme.obj | fnv360_0822_retail, call_seq, high
+// pdb params: f
 FUN_00dd0420_Class* __thiscall FUN_00dd0420_Class::FUN_00dd0420(int aiFlag)
 {
     if (aiFlag)
@@ -146,7 +122,7 @@ FUN_00dd0420_Class* __thiscall FUN_00dd0420_Class::FUN_00dd0420(int aiFlag)
         m_08 = 0;
         m_0c = 0;
         m_04 = 0x10;
-        FUN_00d51760(&m_1c, (int*)this);
+        hkpConstraintConstructionKit_computeConstraintInfo(&m_1c, (int*)this);
         m_00 = m_04;
     }
     return this;
@@ -154,30 +130,14 @@ FUN_00dd0420_Class* __thiscall FUN_00dd0420_Class::FUN_00dd0420(int aiFlag)
 
 struct FUN_00dd4b70_class
 {
-    void __thiscall FUN_00dd4b70(unsigned char value);
+    void __thiscall hkpMoppCompiler_enableInterleavedBuilding(unsigned char value);
 };
 // @fnv 0x00dd4b70
-void __thiscall FUN_00dd4b70_class::FUN_00dd4b70(unsigned char value)
+// pdb: hkpMoppCompiler::enableInterleavedBuilding | hkpMoppCompiler.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void __thiscall FUN_00dd4b70_class::hkpMoppCompiler_enableInterleavedBuilding(unsigned char value)
 {
     *(unsigned char*)(this + 0x1c) = value;
     *(unsigned char*)(this + 0x64) = value;
-}
-
-extern int DAT_0102e388;
-
-struct FUN_00dd51d0_class
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    void FUN_00dd51d0();
-};
-
-// @fnv 0x00dd51d0
-void FUN_00dd51d0_class::FUN_00dd51d0()
-{
-    m_08 = 0;
-    m_00 = (int)&DAT_0102e388;
 }
 
 struct FUN_00ddfb70_cls
@@ -188,40 +148,13 @@ struct FUN_00ddfb70_cls
 };
 
 // @fnv 0x00ddfb70
+// pdb: hkpShapeDisplayBuilder::hkpShapeDisplayBuilderEnvironment::hkpShapeDisplayBuilderEnvironment | hkpShapeDisplayBuilder.obj | fnv360_0822_retail, call_dedup, low
 FUN_00ddfb70_cls* FUN_00ddfb70_cls::FUN_00ddfb70()
 {
     m_00 = 8;
     m_04 = 8;
     return this;
 }
-
-struct FUN_00dccb70_Class
-{
-    void SetTableValue(int arg1, unsigned short value);
-};
-
-// @fnv 0x00dccb70
-void FUN_00dccb70_Class::SetTableValue(int uiKey, unsigned short value)
-{
-    unsigned char* p = (unsigned char*)this;
-    unsigned int shift = *(unsigned int*)(p + 0x30);
-    unsigned int mask = 0xFFFFFFFFu >> shift;
-    unsigned int uiIndex = (unsigned int)uiKey >> (32 - shift);
-    unsigned int base = *(unsigned int*)(*(unsigned int*)(p + 0x34) + uiIndex * 56 + 0x34);
-    unsigned int slot = (mask & (unsigned int)uiKey) + base;
-    unsigned short* table = (unsigned short*)*(unsigned int*)(p + 0x40);
-    table[slot] = value;
-}
-
-struct CountArray
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    void __thiscall EnsureCapacity(void* p, int n);
-};
-
-void* __cdecl _D1A0E0GetMemoryRouter();
 
 struct FUN_00dc9e70_Class
 {
@@ -240,7 +173,6 @@ struct FUN_00dc9e70_Class
 extern "C" void _ReadWriteBarrier();
 struct Heap543 {void* FUN_008f6d90(void*,unsigned int,int);};
 namespace Globals543 {extern int DAT_00e84ed4,DAT_00e84ec4,DAT_00e84eb4,DAT_00dcc494;extern unsigned long DAT_010f3170;extern Heap543* (__stdcall* const DAT_00d9b080)(unsigned long);}
-struct Header543 {void* primary;unsigned int unk04;void* secondary;};
 struct Capacity543 {unsigned int count:30;unsigned int flags:2;};
 struct View543 {
     void* primary;unsigned int unk04;void* secondary;void* data;int count,capacity;
@@ -251,6 +183,7 @@ struct View543 {
         return heap->FUN_008f6d90(data,allocation*4,23);
     }
 };
+// pdb: hkpRemoveTerminalsMoppModifier::~hkpRemoveTerminalsMoppModifier | hkpRemoveTerminalsMoppModifier.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2)
 FUN_00dc9e70_Class* FUN_00dc9e70_Class::FUN_00dc9e70(){
     View543* self=reinterpret_cast<View543*>(this);
     self->primary=&Globals543::DAT_00e84ed4;self->secondary=&Globals543::DAT_00e84ec4;
@@ -277,34 +210,12 @@ struct FUN_00dcc5a0_class
     FUN_00dcc5a0_class* FUN_00dcc5a0(int arg);
 };
 // @fnv 0x00dcc5a0
+// pdb: hkIstream::operator>> | hkIStream.obj | fnv360_0822_retail, objrun, medium
+// pdb params: c
 FUN_00dcc5a0_class* FUN_00dcc5a0_class::FUN_00dcc5a0(int arg)
 {
     m_08->v4(arg, 1);
     return this;
-}
-
-struct FUN_00cb0a70
-{
-    void __thiscall m(int);
-};
-// @fnv 0x00dccae0
-void __cdecl FUN_00dccae0(void* a, void* iValue)
-{
-    if (a)
-        ((FUN_00cb0a70*)((char*)a + 4))->m((int)iValue);
-}
-
-struct S_00d49310_Lock
-{
-    ~S_00d49310_Lock();
-};
-
-// @fnv 0x00dccb10
-void __cdecl FUN_00dccb10(char* p)
-{
-    p += 4;
-    S_00d49310_Lock* lock = reinterpret_cast<S_00d49310_Lock*>(p);
-    lock->S_00d49310_Lock::~S_00d49310_Lock();
 }
 
 extern int DAT_010d77b4[];
@@ -317,6 +228,7 @@ struct FUN_00dcd4b0_Class
 };
 
 // @fnv 0x00dcd4b0
+// pdb: CIdvCamera::`scalar deleting destructor' | Camera.obj | fnv360_0822_retail, vtable, medium
 FUN_00dcd4b0_Class* __thiscall FUN_00dcd4b0_Class::InitializeAndMaybeFree(int flags)
 {
     m_ppVirtualMethodTable = DAT_010d77b4;
@@ -337,6 +249,8 @@ struct FUN_00dda6b0_Class
 
 // Writes the three consecutive unsigned ints pointed to by p to the stream via writeInt32.
 // @fnv 0x00dda6b0
+// pdb: hkDisplaySerializeOStream::writeTriangle | hkDisplaySerializeOStream.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: ti
 void __thiscall FUN_00dda6b0_Class::WriteUInt32Triple(const unsigned int* auiValues)
 {
     ((DDA7C0OStream*)this)->writeInt32(auiValues[0]);
@@ -348,15 +262,6 @@ struct D2B3D0Map
 {
     void clear();
 };
-struct FUN_00ddf030_Class
-{
-    void __thiscall FUN_00ddf030(int arg);
-};
-// @fnv 0x00ddf030
-void __thiscall FUN_00ddf030_Class::FUN_00ddf030(int arg)
-{
-    ((D2B3D0Map*)((char*)this + 0x20))->clear();
-}
 
 namespace fnv_00ddf040 {
 struct D2B3D0Map
@@ -386,6 +291,8 @@ struct FUN_00ddfb80_s
 
 // Initialises the object: sets field at offset 6 to 1, assigns the vtable, copies two pointers from src, and zeroes the field at offset 16.
 // @fnv 0x00ddfb80
+// pdb: hkpShapeDisplayBuilder::hkpShapeDisplayBuilder | hkpShapeDisplayBuilder.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: env
 FUN_00ddfb80_s* __fastcall FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* src)
 {
     *(unsigned short*)((char*)self + 6) = 1;
@@ -398,6 +305,8 @@ FUN_00ddfb80_s* __fastcall FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* s
 
 // FUN_00dc1660: __stdcall identity on its single stack parameter.
 // @fnv 0x00dc1660
+// pdb: hkpConstraintData::getSolverResults | hkpConstraintData.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: runtime
 int __stdcall FUN_00dc1660(int a1)
 {
     return a1;
@@ -412,20 +321,11 @@ struct FUN_00dc1670_cls
 };
 
 // @fnv 0x00dc1670
+// pdb: hkStructureLayout::hkStructureLayout | hkStructureLayout.obj | fnv360_0822_retail, call_seq, high
 FUN_00dc1670_cls* FUN_00dc1670_cls::FUN_00dc1670()
 {
     this->m_00 = DAT_011b7b88;
     return this;
-}
-
-void __stdcall FUN_00dd8fe0(float* out, int a, int b);
-
-// @fnv 0x00dc5bb0
-float FUN_00dc5bb0()
-{
-    float value;
-    FUN_00dd8fe0(&value, 4, 1);
-    return value;
 }
 
 struct ArrayBlock
@@ -445,35 +345,6 @@ struct AllocatorState
 };
 extern "C" AllocatorState* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00c908c0(void*, ArrayBlock*, int, int);
-struct ArrayHost
-{
-    int unk00, unk04, unk08;
-    ArrayBlock array;
-    void ResizeArray(int desired);
-};
-// Grows the array's capacity to at least desired if needed, zero-fills the new elements, and sets the size to desired.
-// @fnv 0x00dc9bd0
-void ArrayHost::ResizeArray(int desired)
-{
-    ArrayBlock* values = &array;
-    void* pool = FUN_00c85750()->GetPool();
-    int capacity = values->reservedAndFlags & 0x3fffffff;
-    if (capacity < desired)
-    {
-        int nextCapacity = capacity * 2;
-        if (desired >= nextCapacity)
-            nextCapacity = desired;
-        FUN_00c908c0(pool, values, nextCapacity, 4);
-    }
-    int extra = desired - values->size;
-    unsigned int* next = values->values + values->size;
-    while (extra > 0)
-    {
-        *next++ = 0;
-        --extra;
-    }
-    values->size = desired;
-}
 
 namespace fnv_00dc9e20 {
 struct AllocatorIface
@@ -497,42 +368,6 @@ struct AllocHolder
 AllocHolder* FUN_00c85750();
 void FUN_00c908c0(AllocatorIface* alloc, void* arr, unsigned int newCap, int elemSize);
 
-struct DwordArray
-{
-    unsigned int* m_pBuffer;
-    unsigned int m_uiLogicalSize;
-    unsigned int m_iReserved;
-};
-
-class FUN_00dc9e20_cls
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    DwordArray m_aiIndexedValues;
-
-    void ReserveDwordArray(int count);
-};
-
-// Grows the DwordArray member to hold at least count elements, doubling capacity or using count if larger.
-// @fnv 0x00dc9e20
-void FUN_00dc9e20_cls::ReserveDwordArray(int count)
-{
-    DwordArray* arr = &m_aiIndexedValues;
-    AllocHolder* holder = FUN_00c85750();
-    AllocatorIface* alloc = holder->m_pAllocator;
-    int cap = arr->m_iReserved & 0x3fffffff;
-    if (cap < count)
-    {
-        int newCap = cap * 2;
-        if (count >= newCap)
-        {
-            newCap = count;
-        }
-        FUN_00c908c0(alloc, arr, (unsigned int)newCap, 4);
-    }
-}
 }  // namespace fnv_00dc9e20
 
 struct FUN_00dcc180_Interface
@@ -554,6 +389,7 @@ struct FUN_00dcc180_Class
 
 // If unk08 is set, forwards value to its virtual method; otherwise writes 0 to *value and returns value.
 // @fnv 0x00dcc180
+// pdb: hkIstream::isOk | hkIStream.obj | tesv_win, hash, low
 unsigned char* __thiscall FUN_00dcc180_Class::FUN_00dcc180(unsigned char* pucValue)
 {
     if (unk08)
@@ -582,6 +418,8 @@ struct FUN_00dcc660_cls
 };
 
 // @fnv 0x00dcc660
+// pdb: hkIstream::read | hkIStream.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: buf, nbytes
 void FUN_00dcc660_cls::FUN_00dcc660(int a)
 {
     m_pFlagTarget->Forward(a);
@@ -610,6 +448,7 @@ extern FUN_00dcc670_Manager* DAT_01268364;
 
 // Sets unk06 to 1, unk00 to &DAT_010d7540, and unk08 to the result of DAT_01268364->FUN_00dcc670_v3(value), then returns this.
 // @fnv 0x00dcc670
+// pdb: hkIstream::hkIstream | hkIStream.obj | tesv_win, call_gap, low
 int* __thiscall FUN_00dcc670_Class::InitFromValue(int* value)
 {
     int* local_value = value;
@@ -648,28 +487,6 @@ struct SpawnedBlob
     void* Init(int a1, int a2, int a3);
 };
 
-struct FUN_00dcc6a0_cls
-{
-    void* m_vptr;
-    unsigned short m_w04;
-    unsigned short m_w06;
-    void* m_p08;
-
-    FUN_00dcc6a0_cls* FUN_00dcc6a0(int a1, int a2);
-};
-
-// Sets m_w06 to 1 and the vtable, allocates a 0x1c-byte blob via the allocator, stores its Init result in m_p08, and returns this.
-// @fnv 0x00dcc6a0
-FUN_00dcc6a0_cls* FUN_00dcc6a0_cls::FUN_00dcc6a0(int a1, int a2)
-{
-    m_w06 = 1;
-    m_vptr = DAT_010d7540;
-    AllocHolder* holder = FUN_00c85750();
-    SpawnedBlob* blob = (SpawnedBlob*)holder->m_pAllocator->Alloc(0x1c);
-    blob->m_w04 = 0x1c;
-    m_p08 = blob->Init(a1, a2, 2);
-    return this;
-}
 }  // namespace fnv_00dcc6a0
 
 namespace fnv_00dcc6f0 {
@@ -700,28 +517,6 @@ struct SpawnedBlob
     void* Init(int a1, int a2);
 };
 
-struct FUN_00dcc6f0_cls
-{
-    void* m_vptr;
-    unsigned short m_w04;
-    unsigned short m_w06;
-    void* m_p08;
-
-    FUN_00dcc6f0_cls* FUN_00dcc6f0(int a1);
-};
-
-// Sets m_w06 to 1 and the vtable, allocates a 0x14-byte blob via the allocator, sets its m_w04 to 0x14, stores blob->Init(a1, 2) in m_p08 and returns this.
-// @fnv 0x00dcc6f0
-FUN_00dcc6f0_cls* FUN_00dcc6f0_cls::FUN_00dcc6f0(int a1)
-{
-    m_w06 = 1;
-    m_vptr = DAT_010d7540;
-    AllocHolder* holder = FUN_00c85750();
-    SpawnedBlob* blob = (SpawnedBlob*)holder->m_pAllocator->Alloc(0x14);
-    blob->m_w04 = 0x14;
-    m_p08 = blob->Init(a1, 2);
-    return this;
-}
 }  // namespace fnv_00dcc6f0
 
 namespace fnv_00dcc9c0 {
@@ -765,30 +560,12 @@ struct S_00dcc9c0_StringBuf
     }
 };
 
-struct S_00dcc9c0_Target
-{
-    void __thiscall FUN_00cb0c10(const char* name) throw();
-};
-
-struct S_00dcc9c0_Class
-{
-    void __thiscall ReadToken(S_00dcc9c0_StringBuf* buf) throw();
-    S_00dcc9c0_Class* __thiscall FUN_00dcc9c0(S_00dcc9c0_Target* target) throw();
-};
-
-// @fnv 0x00dcc9c0
-S_00dcc9c0_Class* S_00dcc9c0_Class::FUN_00dcc9c0(S_00dcc9c0_Target* target) throw()
-{
-    S_00dcc9c0_StringBuf buf;
-    this->ReadToken(&buf);
-    target->FUN_00cb0c10(buf.m_data);
-    return this;
-}
 }  // namespace fnv_00dcc9c0
 
 extern int g_unk01269bb4;
 
 // @fnv 0x00dccb00
+// pdb: getVtablehkpTransformShape | hkpCollideReflections.obj | tesv_win, objrun_open, low
 int* __cdecl FUN_00dccb00()
 {
     return &g_unk01269bb4;
@@ -818,24 +595,6 @@ struct FnvCpu_FUN_00dcd480_CpuAllocatorHolder
     FnvCpu_FUN_00dcd480_CpuAllocator* allocator;
 };
 FnvCpu_FUN_00dcd480_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00dcd480_CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00d4bd60();
-    FnvCpu_FUN_00dcd480_CpuObject* FUN_00dcd480(unsigned int flags);
-};
-// @fnv 0x00dcd480
-FnvCpu_FUN_00dcd480_CpuObject* FnvCpu_FUN_00dcd480_CpuObject::FUN_00dcd480(unsigned int flags)
-{
-    FUN_00d4bd60();
-    if (flags & 1)
-    {
-        FnvCpu_FUN_00dcd480_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00dcd480
 
 struct FUN_00dced30_cls
@@ -844,6 +603,7 @@ struct FUN_00dced30_cls
 };
 
 // @fnv 0x00dced30
+// pdb: cleanupLoadedObjecthkpConstraintChainInstanceAction | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00dced30(FUN_00dced30_cls* pObject)
 {
     pObject->m_v00(0);
@@ -852,38 +612,10 @@ void __cdecl FUN_00dced30(FUN_00dced30_cls* pObject)
 extern int DAT_01269c44;
 
 // @fnv 0x00dced40
+// pdb: getVtablehkpRemoveTerminalsMoppModifier | hkpRemoveTerminalsMoppModifierClass.obj | fnv360_0822_retail, objrun_open, low
 int __cdecl FUN_00dced40()
 {
     return reinterpret_cast<int>(&DAT_01269c44);
-}
-
-struct FUN_00d4dfc0_class
-{
-    void __thiscall FUN_00d4dfc0(unsigned int value);
-};
-
-// @fnv 0x00dced50
-void __cdecl FUN_00dced50(FUN_00d4dfc0_class* object, unsigned int value)
-{
-    if (object)
-        object->FUN_00d4dfc0(value);
-}
-
-struct S_00dd4bb0_Class
-{
-    unsigned char unk00;
-    unsigned char unk01;
-    unsigned char unk02;
-    unsigned char unk03;
-    unsigned char unk04;
-    unsigned int GetPackedValue();
-};
-
-// Combines bytes unk01 through unk04 into a single 32-bit value, shifting each successive byte left by 8 bits.
-// @fnv 0x00dd4bb0
-unsigned int S_00dd4bb0_Class::GetPackedValue()
-{
-    return (((unk01 << 8) + unk02 << 8) + unk03 << 8) + unk04;
 }
 
 extern float DAT_0101e2bc;
@@ -903,6 +635,8 @@ struct FUN_00dd50f0_cls
 
 // Initialises the object's fields to defaults, then overrides m_00 and m_08 depending on mode (0 or 1), and returns this.
 // @fnv 0x00dd50f0
+// pdb: hkpMoppSplitter::hkpMoppSplitParams::hkpMoppSplitParams | hkpMoppSplitter.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: meshType
 FUN_00dd50f0_cls* FUN_00dd50f0_cls::FUN_00dd50f0(int mode)
 {
     m_00 = DAT_0101e2bc;
@@ -941,6 +675,8 @@ struct FUN_00dd5150_cls
 };
 
 // @fnv 0x00dd5150
+// pdb: hkpMoppCostFunction::hkpMoppSplitCostParams::hkpMoppSplitCostParams | hkpMoppCostFunction.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: __formal
 void* FUN_00dd5150_cls::FUN_00dd5150(int aiUnused)
 {
     this->m_f00 = 1.0f;
@@ -971,6 +707,8 @@ struct FUN_00dd51a0
 };
 
 // @fnv 0x00dd51a0
+// pdb: hkpMoppCostFunction::hkpMoppCostFunction | hkpMoppCostFunction.obj | fnv360_0822_retail, uvref, high
+// pdb params: bp
 FUN_00dd51a0::FUN_00dd51a0(const int* data)
 {
     enabled06 = 1;
@@ -986,165 +724,12 @@ unsigned char* __cdecl LessThan(unsigned char* output, const unsigned int* left,
     return output;
 }
 
-// CompareLessThan: compares two unsigned values and writes the 0/1 result into a
-// byte out-parameter; the out pointer is also returned (so it lives in eax).
-// @fnv 0x00dd70f0
-unsigned char* __cdecl CompareLessThan(unsigned char* pResult, unsigned int left, unsigned int right)
-{
-    *pResult = (unsigned char)(left < right);
-    return pResult;
-}
-
-// Constructor for the object handled by FUN_00dd7110.
-//
-// The class holds a run of scalar members; every one of them is zeroed by the
-// constructor except m_iUninitialised08, which is left for the caller to fill
-// in later.  The ten members cleared through the initialiser list are stored
-// first (in declaration order), the two cleared in the constructor body are
-// stored afterwards.
-struct FUN_00dd7110_cls
-{
-    int m_i00;
-    int m_i04;
-    int m_i08;
-    int m_i0c;
-    int m_i10;
-    int m_i14;
-    int m_i18;
-    int m_i1c;
-    int m_i20;
-    int m_i24;
-    int m_i28;
-    int m_i2c;
-    int m_i30;
-    FUN_00dd7110_cls();
-};
-
-// @fnv 0x00dd7110
-FUN_00dd7110_cls::FUN_00dd7110_cls()
-    : m_i00(0), m_i0c(0), m_i10(0), m_i14(0), m_i18(0), m_i20(0), m_i24(0), m_i28(0), m_i2c(0), m_i30(0)
-{
-    m_i04 = 0;
-    m_i1c = 0;
-}
-
-struct FUN_00dd8bc0_Node
-{
-    int m_00;
-    FUN_00dd8bc0_Node* m_next;
-    int m_08;
-    int m_0c;
-    unsigned char* m_pRayStart;
-    unsigned char* m_kRayEnd;
-};
-
-struct FUN_00dd8bc0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    FUN_00dd8bc0_Node m_kNode;
-    void FUN_00dd83a0();
-    unsigned int GetUsedMemory();
-};
-
-// @fnv 0x00dd8bc0
-unsigned int FUN_00dd8bc0_cls::GetUsedMemory()
-{
-    unsigned int used = 0;
-    FUN_00dd83a0();
-    FUN_00dd8bc0_Node* node = m_kNode.m_next;
-    if (node != &m_kNode)
-    {
-        do
-        {
-            unsigned char* cur = node->m_pRayStart;
-            unsigned char* last = node->m_kRayEnd;
-            last -= 0x10;
-            if (cur != last)
-            {
-                do
-                {
-                    unsigned int size = *(unsigned int*)(cur + 4);
-                    unsigned char flags = (unsigned char)(size >> 1);
-                    if (flags & 1)
-                    {
-                        used += size & 0xfffffffc;
-                    }
-                    cur += size & 0xfffffffc;
-                } while (cur != last);
-            }
-            node = node->m_next;
-        } while (node != &m_kNode);
-    }
-    return used;
-}
-
 struct S_00dd8cf0_Ret
 {
     bool v;
     S_00dd8cf0_Ret()
     {}
 };
-struct S_00dd8cf0
-{
-    bool __thiscall IsValidChunk(int v);
-    S_00dd8cf0_Ret __thiscall AllMatch(const int* arr, int n);
-};
-// Returns true only if IsValidChunk accepts every element of arr; stops at the first element it rejects.
-// @fnv 0x00dd8cf0
-S_00dd8cf0_Ret __thiscall S_00dd8cf0::AllMatch(const int* pValues, int iCount)
-{
-    S_00dd8cf0_Ret r;
-    for (int i = 0; i < iCount; i++)
-    {
-        if (!IsValidChunk(pValues[i]))
-        {
-            r.v = false;
-            return r;
-        }
-    }
-    r.v = true;
-    return r;
-}
 
 extern int DAT_010d7c34;
 
@@ -1284,21 +869,6 @@ struct AllocHolder
 extern "C" AllocHolder* FUN_00c85750();
 extern "C" void ResizeAudioStream(void* pAllocator, RecArray* pArray, int iElementSize);
 
-// Grows the array via the allocator when full, writes uiValue at the count index, and increments the count.
-// @fnv 0x00dd8db0
-void AppendToRecArray(unsigned int uiValue, unsigned int uiUnused, RecArray* pArray)
-{
-    AllocHolder* pHolder = FUN_00c85750();
-
-    if (pArray->m_uiCount == (pArray->m_uiCapacity & 0x3fffffff))
-    {
-        ResizeAudioStream(pHolder->m_pAllocator, pArray, 4);
-    }
-
-    unsigned int* pSlot = (unsigned int*)((unsigned int)pArray->m_pData + *(volatile int*)&pArray->m_uiCount * 4);
-    *pSlot = uiValue;
-    pArray->m_uiCount++;
-}
 }  // namespace fnv_00dd8db0
 
 namespace fnv_00dd8fa0 {
@@ -1327,21 +897,7 @@ struct S_00dd8fa0_Caller
 };
 
 extern "C" S_00dd8fa0_Caller* __cdecl FUN_00c85750();
-extern "C" S_00dd8fa0_Vtable DAT_010d7c58;
 
-// Gets a caller, calls its object's vtable method with 8, then sets m_04 to 8, m_06 to 1 and the vtable to DAT_010d7c58.
-// @fnv 0x00dd8fa0
-void __cdecl FUN_00dd8fa0()
-{
-    S_00dd8fa0_Caller* caller = FUN_00c85750();
-    S_00dd8fa0_S* object = caller->unk10;
-
-    object = object->vtable->method(object, 8);
-
-    object->m_04 = 8;
-    object->m_06 = 1;
-    object->vtable = &DAT_010d7c58;
-}
 }  // namespace fnv_00dd8fa0
 
 namespace fnv_00dd9160 {
@@ -1369,6 +925,8 @@ struct FUN_00dd9160_Class
 
 // Sets unk06 to 1, unk00 to &UNK_010d7c80, stores flag in unk0c and the result of DAT_01268364->vfn3(arg) in unk08, then returns this.
 // @fnv 0x00dd9160
+// pdb: hkIArchive::hkIArchive | hkIArchive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: filename, bs
 FUN_00dd9160_Class* FUN_00dd9160_Class::FUN_00dd9160(unsigned int arg, unsigned char flag)
 {
     unk06 = 1;
@@ -1424,33 +982,6 @@ class DD91A0ReferencedObject
     short m_sReferenceCount;
 };
 
-class DD91A0Shape : public DD91A0ReferencedObject
-{
-  public:
-    DD91A0Shape(int a, int b, int type) throw();
-
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-
-class FUN_00dd91a0 : public DD91A0ReferencedObject
-{
-  public:
-    FUN_00dd91a0(int a, int b, unsigned char flag);
-
-    DD91A0Shape* m_pCollisionShape;
-    unsigned char m_flag;
-};
-
-// @fnv 0x00dd91a0
-FUN_00dd91a0::FUN_00dd91a0(int a, int b, unsigned char flag)
-{
-    m_flag = flag;
-    m_pCollisionShape = new DD91A0Shape(a, b, 2);
-}
 }  // namespace fnv_00dd91a0
 
 namespace fnv_00ddc160 {
@@ -1494,77 +1025,7 @@ class DDC160ReferencedObject
     static void operator delete(void* p);
 };
 
-class DDC160Interface
-{
-  public:
-    virtual void unk00();
-};
-
-class DDC160Impl : public DDC160ReferencedObject, public DDC160Interface
-{
-  public:
-    DDC160Impl(void* pvInfo) throw();
-
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-};
-
-// @fnv 0x00ddc160
-DDC160Interface* __cdecl CreateImpl(void* pvInfo)
-{
-    return new DDC160Impl(pvInfo);
-}
 }  // namespace fnv_00ddc160
-
-struct FUN_00ddfbb0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int m_10;
-    void FUN_00ddfbb0();
-};
-
-// @fnv 0x00ddfbb0
-void FUN_00ddfbb0_cls::FUN_00ddfbb0()
-{
-    m_10 = 0;
-}
-
-void __cdecl FUN_00c90510();
-
-struct FUN_00dcc130_Class
-{
-    int* m_vtbl;
-    unsigned short unk04;
-    unsigned short enabled06;
-    int unk08;
-    int* __thiscall FUN_00dcc130(int* value);
-};
-
-// Sets enabled06 to 1, installs the vtable, stores value in unk08, calls FUN_00c90510, and returns this.
-// @fnv 0x00dcc130
-int* FUN_00dcc130_Class::FUN_00dcc130(int* value)
-{
-    enabled06 = 1;
-    m_vtbl = &DAT_010d7540;
-    unk08 = (int)value;
-    FUN_00c90510();
-    return (int*)this;
-}
 
 struct S_00dcc740_Cls
 {
@@ -1583,7 +1044,8 @@ extern "C" void ReadIniLine(void);
 
 // Stand-in for the unit's integer parser: its body is not this function's code, it only makes
 // the compiler reproduce the original custom convention (stream on the stack, sign flag in eax).
-static __declspec(noinline) unsigned short FUN_00dcc240(IniTokenStream* stream, unsigned char* negative)
+// pdb: readInteger64 | hkIStream.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) unsigned short readInteger64(IniTokenStream* stream, unsigned char* negative)
 {
     *negative = 0;
     ReadIniLine();
@@ -1591,45 +1053,17 @@ static __declspec(noinline) unsigned short FUN_00dcc240(IniTokenStream* stream, 
 }
 
 // @fnv 0x00dcc740
+// pdb: hkIstream::operator>> | hkIStream.obj | tesv_win, objrun_sim, low
 S_00dcc740_Cls* S_00dcc740_Cls::ReadSignedShort(unsigned short* out)
 {
     unsigned char flag;
-    short r = (short)FUN_00dcc240((IniTokenStream*)m_08, &flag);
+    short r = (short)readInteger64((IniTokenStream*)m_08, &flag);
     *out = flag != 0 ? (unsigned short)(-r) : (unsigned short)r;
     return this;
 }
 
 extern void(__stdcall* DAT_00fdf05c)(int*);
 extern void(__stdcall* DAT_00fdf100)(int*);
-
-struct Lock_dd9
-{
-    int unk;
-    int unkCur;
-    int unkValue;
-    int unk0c;
-    int uNewnk;
-    int uTmpnk;
-    int* m_pkCriticalSection;
-    int FindEntry(int iKey);
-    int InvokeRecord(int iIndex, int iArg);
-    int FUN_00dd9330(int iKey, int iArg);
-};
-
-// @fnv 0x00dd9330
-int Lock_dd9::FUN_00dd9330(int iKey, int iArg)
-{
-    int* pkCS = m_pkCriticalSection;
-    DAT_00fdf05c(pkCS);
-    int iIndex = FindEntry(iKey);
-    int iResult;
-    if (iIndex < 0)
-        iResult = 0;
-    else
-        iResult = InvokeRecord(iIndex, iArg);
-    DAT_00fdf100(pkCS);
-    return iResult;
-}
 
 extern int DAT_010d7db8;
 
@@ -1652,6 +1086,8 @@ struct FUN_00dda690 : Base_00d60b40
 };
 
 // @fnv 0x00dda690
+// pdb: hkDisplaySerializeOStream::hkDisplaySerializeOStream | hkDisplaySerializeOStream.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: buf
 FUN_00dda690::FUN_00dda690(int a)
 {
     FUN_00d60b40(a, 0);
@@ -1674,21 +1110,23 @@ struct S_00dcc790_Class
     S_00dcc790_Class* __thiscall ReadSignedValue(unsigned short* result);
 };
 
-extern "C" void __cdecl SkipWhitespace(void);
+extern "C" void __cdecl eatWhiteSpace(void);
 
-static __declspec(noinline) unsigned short FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader)
+// pdb: readInteger64 | hkIStream.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) unsigned short readInteger64(unsigned char* ok, S_00dcc240_Reader* reader)
 {
     *ok = 0;
-    SkipWhitespace();
+    eatWhiteSpace();
     return reader->unk08;
 }
 
-// Reads a 16-bit value via FUN_00dcc240 and stores it negated into result when ok is set, otherwise as-is; returns this.
+// Reads a 16-bit value via readInteger64 and stores it negated into result when ok is set, otherwise as-is; returns this.
 // @fnv 0x00dcc790
+// pdb: hkIstream::operator>> | hkIStream.obj | tesv_win, objrun_sim, low
 S_00dcc790_Class* __thiscall S_00dcc790_Class::ReadSignedValue(unsigned short* result)
 {
     unsigned char ok;
-    unsigned short value = FUN_00dcc240(&ok, m_08);
+    unsigned short value = readInteger64(&ok, m_08);
 
     *result = ok ? (unsigned short)-(int)value : value;
     return this;
@@ -1728,6 +1166,8 @@ static __declspec(noinline) FNVInt64 S_00dcc8a0_ParseInt(S_00dcc8a0_Handle h, un
 
 // Parses an integer from the handle's reader, negates it if the sign flag is set, stores it in out and returns this.
 // @fnv 0x00dcc8a0
+// pdb: readInteger<unsigned short> | hkIStream.obj | fnv360_0822_debug, objrun_sim, low, conflict (skyrim: hkIstream::operator>>)
+// pdb params: reader, tOut
 FUN_00dcc8a0_Class* FUN_00dcc8a0_Class::ParseSignedInt(FNVInt64* out)
 {
     unsigned char neg;
@@ -1774,12 +1214,6 @@ class hkOwnerDCB1
     hkRefDCB1 GetEntryRef(int iIndex) const;
 };
 
-// @fnv 0x00dcb1a0
-hkRefDCB1 hkOwnerDCB1::GetEntryRef(int iIndex) const
-{
-    return hkRefDCB1(this, m_table->m_entries[iIndex].m_uiFilterValue);
-}
-
 struct S_00dcc600_Inner
 {
     int __thiscall ReadChar();
@@ -1805,12 +1239,15 @@ struct S_00dcc600_Class
     int m_04;
     S_00dcc600_Inner* m_08;
 
-    int __thiscall ReadUntilValue(unsigned char* buffer, int length, signed char value);
+    int __thiscall hkIstream_getline(unsigned char* buffer, int length, signed char value);
 };
 
 // Resets the stream, then reads bytes into buffer until the value or end is hit, returning the index or -1.
 // @fnv 0x00dcc600
-int S_00dcc600_Class::ReadUntilValue(unsigned char* buffer, int length, signed char value)
+// pdb: hkIstream::getline | hkIStream.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: str, maxlen, delim
+// pdb: hkIstream::getline | hkIStream.obj | fnv360_0822_retail, caller_sim, high (was: ReadUntilValue)
+int S_00dcc600_Class::hkIstream_getline(unsigned char* buffer, int length, signed char value)
 {
     S_00dcc600_Reset(this->m_08);
 
@@ -1836,18 +1273,6 @@ int S_00dcc600_Class::ReadUntilValue(unsigned char* buffer, int length, signed c
     return -1;
 }
 
-// @fnv 0x00dccb20
-void __cdecl FUN_00dccb20()
-{}
-
-// @fnv 0x00dccb40
-void __cdecl FUN_00dccb40()
-{}
-
-// @fnv 0x00dd4b00
-void __cdecl FUN_00dd4b00()
-{}
-
 struct Bool388
 {
     unsigned char value;
@@ -1864,54 +1289,9 @@ struct Block388
         return reinterpret_cast<const unsigned char*>(&sizeAndFlags)[0];
     }
 };
-struct Allocator388
-{
-    unsigned int unk00, unk04, unk08;
-    Block388* lower;
-    Bool388 ValidateBlock(Block388* block);
-};
-// @fnv 0x00dd8ca0
-Bool388 Allocator388::ValidateBlock(Block388* block)
-{
-    Bool388 result;
-    unsigned char one = 1;
-    if ((reinterpret_cast<unsigned int>(block) & 15) != 0)
-    {
-        result.value = 0;
-        return result;
-    }
-    unsigned int header = block->sizeAndFlags;
-    if ((static_cast<unsigned char>(header >> 1) & one) != 0)
-    {
-        result.value = 0;
-        return result;
-    }
-    if (reinterpret_cast<unsigned int>(block) < reinterpret_cast<unsigned int>(lower))
-    {
-        result.value = 0;
-        return result;
-    }
-    Block388* next = reinterpret_cast<Block388*>(reinterpret_cast<char*>(block) + (header & ~3u));
-    if ((next->Flags() & one) != 0)
-    {
-        result.value = 0;
-        return result;
-    }
-    if ((static_cast<unsigned char>(next->sizeAndFlags >> 1) & one) == 0)
-    {
-        result.value = 0;
-        return result;
-    }
-    if ((block->Flags() & one) == 0)
-    {
-        result.value = 0;
-        return result;
-    }
-    result.value = one;
-    return result;
-}
 
 // @fnv 0x00dd8fd0
+// pdb: byteswap | hkIArchive.obj | fnv360_0822_retail, objrun_open, low
 static __declspec(noinline) void FUN_00dd8fd0(unsigned char* a, unsigned char* b)
 {
     unsigned char t = *a;
@@ -1981,55 +1361,6 @@ template <class T> class hkArrayDDFB
     }
 };
 
-class hkOwnerDDFB
-{
-  public:
-    int unk00;
-    int unk04;
-    hkArrayDDFB<hkPairDDFB> m_pairs;
-
-    void AddPairIfKeyAbsent(void* object, void* key);
-};
-
-// Scans m_pairs for an entry whose m_key equals key and returns if found; otherwise appends a new hkPairDDFB(object, key).
-// @fnv 0x00ddfbc0
-void hkOwnerDDFB::AddPairIfKeyAbsent(void* object, void* key)
-{
-    for (int i = 0; i < m_pairs.m_iElementCount; i++)
-    {
-        if (m_pairs.m_data[i].m_key == key)
-            return;
-    }
-    m_pairs.AddBack(hkPairDDFB(object, key));
-}
-
-struct S_00dcb0b0_Target
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-};
-
-struct S_00dcb0b0_Class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00dcb0b0_Target* unk0C;
-
-    void __thiscall CallTargetV6();
-};
-
-// @fnv 0x00dcb0b0
-void S_00dcb0b0_Class::CallTargetV6()
-{
-    unk0C->v6();
-}
-
 struct stub_cls
 {
     int unk00;
@@ -2066,13 +1397,15 @@ class FUN_00dcc5c0_cls
 };
 
 // @fnv 0x00dcc5c0
+// pdb: hkIstream::operator>> | hkIStream.obj | fnv360_0822_retail, objrun, high
+// pdb params: f
 FUN_00dcc5c0_cls* __thiscall FUN_00dcc5c0_cls::GetFloatValue(float* out)
 {
     *out = FUN_00dcc3b0(m_08);
     return this;
 }
 
-// ReadSignedInt: thiscall member returning this; parses an int through FUN_00dcc240
+// ReadSignedInt: thiscall member returning this; parses an int through readInteger64
 // (per-TU private convention: stream on the stack, sign-flag address in EAX),
 // negates it when the flag byte is set, and stores it through the int* argument.
 struct S_00dcc7e0_Stream
@@ -2085,7 +1418,8 @@ extern "C" void ReadIniLine(void);
 // Stand-in for the unit's integer parser (int flavour): its body is not this
 // function's code, it only makes the compiler reproduce the original custom
 // convention (stream on the stack, sign flag in eax).
-static __declspec(noinline) int FUN_00dcc240(S_00dcc7e0_Stream* stream, unsigned char* negative)
+// pdb: readInteger64 | hkIStream.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) int readInteger64(S_00dcc7e0_Stream* stream, unsigned char* negative)
 {
     *negative = 0;
     ReadIniLine();
@@ -2101,12 +1435,13 @@ struct FUN_00dcc7e0_Class
     FUN_00dcc7e0_Class* __thiscall ReadSignedInt(int* out);
 };
 
-// Reads a signed integer from the stream at m_08 via FUN_00dcc240, applies the sign flag, stores the result in out, and returns this.
+// Reads a signed integer from the stream at m_08 via readInteger64, applies the sign flag, stores the result in out, and returns this.
 // @fnv 0x00dcc7e0
+// pdb: hkIstream::operator>> | hkIStream.obj | tesv_win, objrun_sim, low
 FUN_00dcc7e0_Class* FUN_00dcc7e0_Class::ReadSignedInt(int* out)
 {
     unsigned char flag;
-    int value = FUN_00dcc240((S_00dcc7e0_Stream*)m_08, &flag);
+    int value = readInteger64((S_00dcc7e0_Stream*)m_08, &flag);
     *out = flag != 0 ? -value : value;
     return this;
 }
@@ -2145,6 +1480,8 @@ static __declspec(noinline) FNVInt64 S_dcc860_ParseInt(S_dcc860_Handle h, unsign
 
 // Parses a signed 64-bit integer from the reader handle, applies the sign, stores it in out, and returns this.
 // @fnv 0x00dcc860
+// pdb: readInteger<short> | hkIStream.obj | fnv360_0822_debug, objrun_sim, low, conflict (skyrim: hkIstream::operator>>)
+// pdb params: reader, tOut
 FUN_00dcc860_Class* FUN_00dcc860_Class::ReadInt64(FNVInt64* out)
 {
     unsigned char neg;
@@ -2153,90 +1490,6 @@ FUN_00dcc860_Class* FUN_00dcc860_Class::ReadInt64(FNVInt64* out)
         value = -value;
     *out = value;
     return this;
-}
-
-struct S00dcd1b0_Pool
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void ReturnMemory(void* p, int size);
-};
-
-struct S00dcd1b0_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    char* m_34;
-    int m_38;
-    int unk3C;
-    ArrayBlock m_40;
-    unsigned char m_4c;
-    void FUN_00dcd1b0(int value);
-};
-
-// Sets m_4c to value; if value is 6, frees the m_40 array block, otherwise computes cumulative offsets and resizes the block to fit total.
-// @fnv 0x00dcd1b0
-void S00dcd1b0_Obj::FUN_00dcd1b0(int value)
-{
-    int total;
-
-    m_4c = (unsigned char)value;
-    if (value != 6)
-    {
-        total = 0;
-        for (int i = 0; i < m_38; i++)
-        {
-            *(int*)(m_34 + i * 0x38 + 0x34) = total;
-            total += *(int*)(m_34 + i * 0x38 + 0x1c);
-        }
-
-        ArrayBlock* block = &m_40;
-        AllocatorState* allocator = FUN_00c85750();
-        if ((int)(block->reservedAndFlags & 0x3fffffff) < total)
-        {
-            FUN_00c908c0(allocator->GetPool(), block, total, 2);
-        }
-
-        allocator = FUN_00c85750();
-        void* pool = allocator->GetPool();
-        int capacity = (int)(block->reservedAndFlags & 0x3fffffff);
-        if (capacity < total)
-        {
-            int newSize = capacity + capacity;
-            if (total >= newSize)
-            {
-                newSize = total;
-            }
-            FUN_00c908c0(pool, block, newSize, 2);
-        }
-        block->size = total;
-    }
-    else
-    {
-        S00dcd1b0_Pool* pool = reinterpret_cast<S00dcd1b0_Pool*>(FUN_00c85750()->GetPool());
-        total = 0;
-        m_40.size = total;
-        int flags = (int)m_40.reservedAndFlags;
-        if (!(flags & 0x80000000))
-        {
-            pool->ReturnMemory(m_40.values, (flags & 0x3fffffff) * 2);
-        }
-        m_40.values = 0;
-        m_40.reservedAndFlags = 0x80000000;
-    }
 }
 
 struct S00dcd270_Rec
@@ -2265,57 +1518,6 @@ struct S00dcd270_Arr
     int m_cap;
 };
 extern "C" void __cdecl ResizeAudioStream(void*, S00dcd270_Arr*, int);
-extern char DAT_01267e30;
-struct S00dcd270_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    S00dcd270_Arr arr;
-    S00dcd270_Rec* AddRecord(const S00dcd270_Rec* a0);
-};
-
-// Grows the arr buffer if needed, initializes a new slot, copies a0 into it, and returns a pointer to the added record.
-// @fnv 0x00dcd270
-S00dcd270_Rec* S00dcd270_cls::AddRecord(const S00dcd270_Rec* apRecord)
-{
-    S00dcd270_Arr* a = &arr;
-    AllocatorState* h = FUN_00c85750();
-    if (a->m_iElementCount == (a->m_cap & 0x3fffffff))
-        ResizeAudioStream(h->GetPool(), a, 0x38);
-    S00dcd270_Rec* r = &a->m_data[a->m_iElementCount];
-    if (r)
-    {
-        r->unk11 = 1;
-        r->unk24 = 0;
-        r->unk2c = 0;
-        r->unk30 = 1;
-        r->unk28 = 0;
-        r->unk20 = 0;
-        r->unk34 = -1;
-        r->unk18 = 0;
-    }
-    r = &a->m_data[a->m_iElementCount];
-    a->m_iElementCount++;
-    *r = *apRecord;
-    if (r->unk20 == 0)
-    {
-        r->unk30 = 1;
-        r->unk28 = &DAT_01267e30;
-        r->unk20 = &DAT_01267e30;
-    }
-    return r;
-}
 
 class hkBoolDD8
 {
@@ -2366,42 +1568,6 @@ struct MemChunkDD8
         return (const MemChunkDD8*)((const char*)in - PAYLOAD_OFFSET);
     }
 };
-class hkLargeBlockAllocatorDD8
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    const MemChunkDD8* m_pMemoryChunk;
-    bool IsValidChunk(const void* in) const;
-};
-// Validates a chunk: 16-aligned, not below m_pMemoryChunk, in use, size >= 16, next chunk's pinuse set, and any free previous chunk's size matches.
-// @fnv 0x00dd8c40
-bool hkLargeBlockAllocatorDD8::IsValidChunk(const void* in) const
-{
-    const MemChunkDD8* p = MemChunkDD8::toChunk(in);
-    if (((unsigned int)in & 15) != 0)
-        return false;
-    if (p < m_pMemoryChunk)
-        return false;
-    if (!p->isInuse())
-        return false;
-    unsigned int size = p->getChunkSize();
-    if (size < 16)
-        return false;
-    if (!p->chunkPlusOffset(size)->isPinuse())
-        return false;
-    if (!p->isPinuse())
-    {
-        unsigned int prevSize = p->m_uiPreviousChunkSize;
-        const MemChunkDD8* prev = p->chunkMinusOffset(prevSize);
-        if (prev->isInuse())
-            return false;
-        if (prev->getChunkSize() != prevSize)
-            return false;
-    }
-    return true;
-}
 
 extern "C" int FUN_00d86940();
 
@@ -2412,28 +1578,6 @@ int FUN_00dc1be0()
     if (r != 0)
         return r;
     return 1;
-}
-
-struct S_00dc6fc0_Target
-{
-    virtual void v00();
-    virtual int v01();
-};
-
-struct S_00dc6fc0_Class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00dc6fc0_Target* m_0c;
-
-    int __thiscall FUN_00dc6fc0();
-};
-
-// @fnv 0x00dc6fc0
-int S_00dc6fc0_Class::FUN_00dc6fc0()
-{
-    return m_0c->v01() ^ 0x20;
 }
 
 struct TokenReader
@@ -2451,7 +1595,9 @@ struct TokenReader
 
 // Reads 64-byte chunks from stream, skipping whitespace until a non-space character is found, then resets and skips to that position.
 // @fnv 0x00dcc1b0
-static __declspec(noinline) void SkipWhitespace(TokenReader* stream)
+// pdb: eatWhiteSpace | hkIStream.obj | fnv360_0822_retail, call_seq, high
+// pdb: eatWhiteSpace | hkIStream.obj | fnv360_0822_retail, call_seq, high (was: SkipWhitespace)
+static __declspec(noinline) void eatWhiteSpace(TokenReader* stream)
 {
     int buffer[16];
     stream->prepare(64);
@@ -2478,7 +1624,7 @@ static __declspec(noinline) void SkipWhitespace(TokenReader* stream)
 extern TokenReader* volatile inputStream;
 void MatchCaller()
 {
-    SkipWhitespace(inputStream);
+    eatWhiteSpace(inputStream);
 }
 
 struct CpuOpaque;
@@ -2488,11 +1634,6 @@ CpuOpaque* __cdecl FUN_00dccb50()
 {
     return &DAT_01269c14;
 }
-
-struct RefObj
-{
-    void __thiscall FUN_00c905b0();
-};
 
 inline void memCpy4_d061(void* dst, const void* src, int nbytes)
 {
@@ -2516,37 +1657,6 @@ template <class T> struct hkArray_d061
             memCpy4_d061(m_data + index, m_data + m_iElementCount, sizeof(T));
     }
 };
-
-struct FUN_00dceb90_Class
-{
-    void* vftable;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    hkArray_d061<RefObj*> m_refs;
-    void RemoveRef(int index);
-};
-
-// Calls FUN_00c905b0 on the RefObj at index, then removes that slot from m_refs.
-// @fnv 0x00dceb90
-void FUN_00dceb90_Class::RemoveRef(int index)
-{
-    m_refs[index]->FUN_00c905b0();
-    m_refs.removeAt(index);
-}
 
 #include <math.h>
 struct SubB
@@ -2600,6 +1710,8 @@ __forceinline float Clamp(const float& value, const float& hi, const float& lo)
 
 // Switches on a->m08: modes 1 to 3 fill six floats in out from a and b; mode 4 calls the function pointer stored in a.
 // @fnv 0x00dcfff0
+// pdb: hkCalcMotorData | hkpMotorBuildJacobian.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: someMotor, input, output
 void __cdecl FUN_00dcfff0(ObjA* a, ObjB* b, float* out)
 {
     float s0, s4, s8, sC, s10, t18;
@@ -2674,7 +1786,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 #ifndef _INCLUDED_MM2
 extern "C"
 {
-    __m128 _mm_setzero_ps();
     __m128 _mm_cmplt_ps(__m128, __m128);
     __m128 _mm_cmple_ps(__m128, __m128);
     __m128 _mm_and_ps(__m128, __m128);
@@ -2687,22 +1798,6 @@ extern "C"
 }
 #endif
 
-extern __m128 DAT_010c7170;
-
-static __forceinline __m128 choose(__m128 mask, __m128 yes, __m128 no)
-{
-    return _mm_or_ps(_mm_andnot_ps(mask, no), _mm_and_ps(mask, yes));
-}
-static __forceinline __m128 sum4(__m128 v)
-{
-    __m128 pair = _mm_add_ps(_mm_shuffle_ps(v, v, 0x4e), v);
-    return _mm_add_ps(_mm_shuffle_ps(pair, pair, 0xb1), pair);
-}
-static __forceinline __m128 dot4(__m128 a, __m128 b)
-{
-    return sum4(_mm_mul_ps(a, b));
-}
-
 struct OW
 {
     const __m128* p;
@@ -2710,67 +1805,12 @@ struct OW
     {}
 };
 // @fnv 0x00dd3120
-static __declspec(noinline) int FUN_00dd3120(const __m128* self, OW other, const __m128* a)
-{
-    __m128 k = DAT_010c7170;
-    __m128 av = *a;
-    __m128 zero = _mm_setzero_ps();
-    __m128 m = _mm_cmplt_ps(*self, *other.p);
-    __m128 t0 = _mm_and_ps(m, av);
-    __m128 s2 = dot4(choose(av, k, zero), k);
-    __m128 y3 = dot4(choose(t0, k, zero), k);
-    __m128 b = _mm_shuffle_ps(y3, y3, 0);
-    __m128 c = _mm_shuffle_ps(s2, s2, 0);
-    b = _mm_add_ps(b, b);
-    return _mm_movemask_ps(_mm_cmple_ps(c, b));
-}
 volatile int g_s, g_a, g_o, g_r;
-void mask_test_caller()
-{
-    OW o((const __m128*)g_o);
-    g_r = FUN_00dd3120((const __m128*)g_s, o, (const __m128*)g_a);
-}
 
 // Converts four unsigned bytes from src to floats stored in dst[0] through dst[3].
 // @fnv 0x00dd31d0
-static __declspec(noinline) void CopyFloatsFromBytes(float* dst, const unsigned char* src)
-{
-    dst[0] = src[0];
-    dst[1] = src[1];
-    dst[2] = src[2];
-    dst[3] = src[3];
-}
 unsigned char volatile g_src[4];
 float volatile g_dst[4];
-void caller()
-{
-    CopyFloatsFromBytes((float*)g_dst, (const unsigned char*)g_src);
-}
-
-struct BEStoreTarget
-{
-    unsigned char m_00;
-    unsigned char m_01;
-    unsigned char m_02;
-    unsigned char m_03;
-    unsigned char m_04;
-};
-
-extern "C" unsigned int be_store_value(void);
-
-// @fnv 0x00dd4bd0
-static __declspec(noinline) void StoreBigEndian(BEStoreTarget* self, unsigned int value)
-{
-    self->m_01 = (unsigned char)(value >> 24);
-    self->m_02 = (unsigned char)(value >> 16);
-    self->m_03 = (unsigned char)(value >> 8);
-    self->m_04 = (unsigned char)value;
-}
-
-void be_store_caller(BEStoreTarget* self)
-{
-    StoreBigEndian(self, be_store_value());
-}
 
 // Looks up the table entry for i with FUN_00dcb2b0 and calls its forward method with the owner's context value.
 // @fnv 0x00dcb460
@@ -2813,17 +1853,6 @@ struct Table
         return entries[i].target;
     }
 };
-struct Owner
-{
-    int a, b, c;
-    Table* table;
-    int context;
-    void FUN_00dcb460(unsigned int);
-};
-void Owner::FUN_00dcb460(unsigned int i)
-{
-    table->entryAt(table->FUN_00dcb2b0(i))->forward(context);
-}
 
 #include <stdlib.h>
 // Text reader: read the next number as a double.
@@ -2861,6 +1890,8 @@ class DCC5E0Reader
 };
 
 // @fnv 0x00dcc5e0
+// pdb: hkIstream::operator>> | hkIStream.obj | fnv360_0822_retail, objrun, high
+// pdb params: d
 DCC5E0Reader& DCC5E0Reader::ReadDouble(double& rdValue)
 {
     rdValue = DCC5E0ReadNumber(m_pDataStream);
@@ -2868,117 +1899,6 @@ DCC5E0Reader& DCC5E0Reader::ReadDouble(double& rdValue)
 }
 
 // Adjustor thunk: the secondary-base (+0x10) vtable entry for an override defined on the derived class.
-
-class DD470Primary
-{
-  public:
-    virtual void FUN_00dcd470();
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-
-class DD470Secondary
-{
-  public:
-    virtual void FUN_00dcd470();
-};
-
-class DD470Derived : public DD470Primary, public DD470Secondary
-{
-  public:
-    DD470Derived();
-// @fnv 0x00dcd470
-    virtual void FUN_00dcd470();
-};
-
-DD470Derived::DD470Derived()
-{}
-
-// Stand-in for the class owning this function.
-//   +0x0c : int*   array of packed triples
-//   +0x18 : CRITICAL_SECTION*  shared lock
-class FUN_00dd9240_cls
-{
-  public:
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int* m_pEntryData;
-    int m_unk10;
-    int m_unk14;
-    CRITICAL_SECTION* m_pCrit;
-
-    int FUN_00dd9240(int index);
-};
-
-// Reads the entry at index from m_pEntryData under m_pCrit, clears the lowest bit, and returns the result.
-// @fnv 0x00dd9240
-int FUN_00dd9240_cls::FUN_00dd9240(int index)
-{
-    EnterCriticalSection(this->m_pCrit);
-    int value = this->m_pEntryData[index * 3] & 0xfffffffe;
-    LeaveCriticalSection(this->m_pCrit);
-    return value;
-}
-
-int __cdecl FUN_00cb0fa0(unsigned int entry, unsigned int flag);
-
-// Stand-in for the class owning this function.
-//   +0x0c : int*   array of 12-byte records (first dword = flagged pointer)
-//   +0x10 : int    record count
-//   +0x18 : CRITICAL_SECTION*  shared lock
-class FUN_00dd9270_cls
-{
-  public:
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int* m_pEntryData;
-    int m_uiItemCount;
-    int m_unk14;
-    CRITICAL_SECTION* m_pCrit;
-
-    int FindEntry(unsigned int flag);
-};
-
-// Under m_pCrit, returns the first index whose entry makes FUN_00cb0fa0(entry, flag) return 0 (or is null with flag 0), else -1.
-// @fnv 0x00dd9270
-int FUN_00dd9270_cls::FindEntry(unsigned int flag)
-{
-    EnterCriticalSection(this->m_pCrit);
-    int index = 0;
-    if (this->m_uiItemCount > 0)
-    {
-        for (;;)
-        {
-            unsigned int entry = (unsigned int)this->m_pEntryData[index * 3] & 0xfffffffe;
-            int result;
-            if (entry != 0)
-            {
-                if (flag == 0)
-                    goto next;
-                result = FUN_00cb0fa0(entry, flag);
-            }
-            else
-            {
-                result = (flag != 0) ? -1 : 0;
-            }
-            if (result == 0)
-                goto found;
-        next:
-            index++;
-            if (index >= this->m_uiItemCount)
-                break;
-        }
-    }
-    LeaveCriticalSection(this->m_pCrit);
-    return -1;
-
-found:
-    LeaveCriticalSection(this->m_pCrit);
-    return index;
-}
 
 // Stand-in for the class owning this function.
 //   +0x0c : record*  array of 12-byte records
@@ -3028,6 +1948,8 @@ struct FUN_00dd92f0_rec20
     int unk10;
 };
 
+// pdb: hkProcessFactory::createProcess | hkProcessFactory.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: tag, contexts
 int FUN_00dd92f0_cls::InvokeRecord(int index, int arg)
 {
     FUN_00dd92f0_lockobj* lock = reinterpret_cast<FUN_00dd92f0_lockobj*>(this->m_pCrit);
@@ -3042,52 +1964,9 @@ int FUN_00dd92f0_cls::InvokeRecord(int index, int arg)
 
 
 namespace fnv_00dd9d20 {
-extern int DAT_010d7da8;
-extern int DAT_010d7d54;
-extern int DAT_010d7cfc;
 
 extern "C" void* __cdecl FUN_00c85750();
 
-struct FUN_00dd9d20_Target
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08(void* a, int b);
-};
-
-struct FUN_00dd9d20_Object
-{
-    void* unk00;
-    int unk04;
-    void* unk08;
-    int unk0C;
-    void* unk10;
-
-    void __thiscall FUN_00dd9d20();
-};
-
-// Sets unk00 and unk08 to data pointers, and if unk10 is set deletes that critical section and frees it via vf08 of the object at offset 0x10 of FUN_00c85750().
-// @fnv 0x00dd9d20
-void __thiscall FUN_00dd9d20_Object::FUN_00dd9d20()
-{
-    void* criticalSection = unk10;
-
-    unk00 = reinterpret_cast<void*>(&DAT_010d7da8);
-    unk08 = reinterpret_cast<void*>(&DAT_010d7d54);
-
-    if (criticalSection != 0)
-    {
-        DeleteCriticalSection(static_cast<LPCRITICAL_SECTION>(criticalSection));
-
-        void* audio = FUN_00c85750();
-        FUN_00dd9d20_Target* target = *reinterpret_cast<FUN_00dd9d20_Target**>(reinterpret_cast<char*>(audio) + 0x10);
-
-        target->vf08(criticalSection, 0x18);
-    }
-
-    unk08 = reinterpret_cast<void*>(&DAT_010d7cfc);
-    unk00 = reinterpret_cast<void*>(&DAT_0102e388);
-}
 }  // namespace fnv_00dd9d20
 
 double FUN_00ecdf2d(const char* s, char** end);
@@ -3100,7 +1979,7 @@ static float FUN_00dcc3b0(TokenReader* stream)
         int w[64];
     };
     Buf256 buf;
-    SkipWhitespace(stream);
+    eatWhiteSpace(stream);
     int n = 0;
     stream->prepare(255);
     int len = stream->read(buf.w, 255);
@@ -3165,7 +2044,7 @@ struct TokenStream
 extern "C" void _ReadWriteBarrier(void);
 void __cdecl ResizeAudioStream(int alloc, TokenBuffer* buf, int n);
 namespace TokenParsing {
-static __declspec(noinline) void SkipWhitespace(TokenStream* stream)
+static __declspec(noinline) void eatWhiteSpace(TokenStream* stream)
 {
     unsigned __int64 storage[8];
     char* buffer = reinterpret_cast<char*>(storage);
@@ -3212,7 +2091,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
     const int one = 1;
     owner->FUN_00d61cc0();
     TokenBuffer* buf = owner->FUN_00d61470();
-    TokenParsing::SkipWhitespace(m_08);
+    TokenParsing::eatWhiteSpace(m_08);
     m_08->v07(one);
     int c = m_08->ReadChar();
     if (c != -1)
@@ -3251,6 +2130,8 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
 }  // namespace fnv_00dcc8e0
 
 // @fnv 0x00dccb60
+// pdb: hkpConstrainedSystemFilter::constraintRemovedCallback | hkpConstrainedSystemFilter.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: constraint
 void __stdcall FUN_00dccb60(int value)
 {}
 
@@ -3399,48 +2280,6 @@ class S00dd0ff0_Jacobian
     }
 };
 
-struct S00dd0ff0_Triple
-{
-    float m_lower;
-    float m_diag;
-    float m_upper;
-};
-
-inline float S00dd0ff0_max2(float a, float b)
-{
-    return (a > b) ? a : b;
-}
-
-// Factors a tridiagonal system by computing diagonal and off-diagonal terms from Jacobians and velocity accumulators, storing results in triple.
-// @fnv 0x00dd0ff0
-static __declspec(noinline) void FactorTridiagonal(int numConstraints, float cfm, S00dd0ff0_Jacobian* jac,
-                                                   S00dd0ff0_AccumulatorOffset* accumsOffsets,
-                                                   const S00dd0ff0_VelocityAccumulator* accumsBase,
-                                                   S00dd0ff0_Triple* triple, int bufferSize)
-{
-    float prevNonDiag = 0.0f;
-    float prevUpper = 0.0f;
-    for (int row = 0; row < numConstraints; row++)
-    {
-        float diag = jac[row].getDiag(accumsOffsets[row].getAccumulator(accumsBase),
-                                      accumsOffsets[row + 1].getAccumulator(accumsBase)) +
-                     cfm;
-        float nonDiag = 0.0f;
-        if (row < numConstraints - 1)
-        {
-            nonDiag = jac[row].getNonDiagDifferentObjects_With2ndBodyFromFirstObject(
-                accumsOffsets[row + 1].getAccumulator(accumsBase), jac[row + 1]);
-        }
-        triple[row].m_lower = prevNonDiag;
-        triple[row].m_diag = diag - prevNonDiag * prevUpper;
-        float& d = triple[row].m_diag;
-        d = S00dd0ff0_max2(d, 1.192092896e-07F);
-        triple[row].m_upper = nonDiag / triple[row].m_diag;
-        prevNonDiag = nonDiag;
-        prevUpper = triple[row].m_upper;
-    }
-}
-
 volatile int g_S00dd0ff0_n;
 volatile float g_S00dd0ff0_cfm;
 volatile int g_S00dd0ff0_jac;
@@ -3448,30 +2287,6 @@ volatile int g_S00dd0ff0_offs;
 volatile int g_S00dd0ff0_base;
 volatile int g_S00dd0ff0_triple;
 volatile int g_S00dd0ff0_size;
-void S00dd0ff0_Caller()
-{
-    FactorTridiagonal(g_S00dd0ff0_n, g_S00dd0ff0_cfm, (S00dd0ff0_Jacobian*)g_S00dd0ff0_jac,
-                      (S00dd0ff0_AccumulatorOffset*)g_S00dd0ff0_offs,
-                      (const S00dd0ff0_VelocityAccumulator*)g_S00dd0ff0_base, (S00dd0ff0_Triple*)g_S00dd0ff0_triple,
-                      g_S00dd0ff0_size);
-}
-
-struct S_00dd1180_Hdr
-{
-    union
-    {
-        float f00;
-        struct
-        {
-            unsigned char type;
-            unsigned char unk01;
-            unsigned short n;
-        };
-    };
-    unsigned int size;
-    float f08;
-    float f0c;
-};
 
 // Writes a type 0x1d header and n triples of floats into the buffer at *pp, copies n+1 pointers, and advances *pp by the block size.
 // @f3 0x00a520c0 (community match, verified in this file)
@@ -3662,6 +2477,8 @@ static __forceinline void factorTridiagonal(int numConstraints, float cfm, Jacob
 
 // The output record, the offset array and the accumulator base arrive as the pack's untyped parameters and are
 // read through the classes above. The record's cursor is read through the parameter each time, as the image does.
+// pdb: hkStiffSpringChainBuildJacobian | hkpChainBuildJacobian.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: numConstraints, tau, damping, cfm, accumulators, accumBase, jacobiansEnd, in, out
 void FUN_00dd1180(int n, float a, float b, float c, char** src, int stride, int u1, int u2, char** pp)
 {
     chn520c0::AccumulatorOffset* accumulators = (chn520c0::AccumulatorOffset*)src;

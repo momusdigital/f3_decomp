@@ -152,9 +152,9 @@ class BSShaderManager
         OBJECT_1 = 1
     };
     static void GetTexture(const char*, bool, NiPointer<NiTexture>&, bool, bool);
-    static void BuildTexturePath(char*, const char*, const char*, bool);
+    static void GetModifiedTextureFilename(char*, const char*, const char*, bool);
     static void SetFOV(float);
-    static char* GetRenderModeName();
+    static char* GetShaderLevelString();
     static void SetRenderMode(unsigned int);
     static void UpdateObjectTypeRecurse(NiAVObject*, bool, bool);
     static void SetObjectTypeRecursively(NiAVObject*, eObjectType, bool, bool);
@@ -752,7 +752,7 @@ inline bool IsExactB(Shader* s, RTTIStub* r)
     return b;
 }
 Shader* __cdecl FUN_00b55560(void*);
-void __cdecl UpdateShaderProperty(AVObj* obj, bool a1, bool a2, bool a3);
+void __cdecl BSShaderManager_PrepareGeometry(AVObj* obj, bool a1, bool a2, bool a3);
 void* __cdecl NiMalloc(unsigned int);
 extern "C" unsigned int __cdecl strlen(const char*);
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
@@ -1043,7 +1043,8 @@ extern const char str_00e945c0[];
 extern const char str_00e945a8[];
 extern const char str_00e94584[];
 
-void FUN_00b55bb0()
+// pdb: BSShaderManager::GenerateNormalizationCubeMap | BSShaderManager.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void BSShaderManager_GenerateNormalizationCubeMap()
 {
 
     NiPixelData* faceData;

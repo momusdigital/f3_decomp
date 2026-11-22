@@ -24,6 +24,7 @@ void __fastcall FUN_00ae9c40(void*);
 void __fastcall FUN_00beb270(void*);
 
 struct C_004e9470 { void* FUN_004e9470(unsigned char); };
+// pdb: bhkPCollisionObject::`scalar deleting destructor' | BSTreeNode.obj | fnv360_0822_retail, vtable_prefix, medium
 void* C_004e9470::FUN_004e9470(unsigned char f)
 {
     FUN_008da650(this);
@@ -32,6 +33,7 @@ void* C_004e9470::FUN_004e9470(unsigned char f)
 }
 
 struct C_0059fa60 { void* FUN_0059fa60(unsigned char); };
+// pdb: bhkTransformShape::`scalar deleting destructor' | BSTreeNode.obj | fnv360_0822_retail, vtable_prefix, high
 void* C_0059fa60::FUN_0059fa60(unsigned char f)
 {
     FUN_008fd900(this);
@@ -40,6 +42,7 @@ void* C_0059fa60::FUN_0059fa60(unsigned char f)
 }
 
 struct C_0059fb30 { void* FUN_0059fb30(unsigned char); };
+// pdb: bhkCapsuleShape::`scalar deleting destructor' | BSTreeNode.obj | fnv360_0822_retail, vtable_prefix, high
 void* C_0059fb30::FUN_0059fb30(unsigned char f)
 {
     FUN_0091cf90(this);
@@ -48,6 +51,7 @@ void* C_0059fb30::FUN_0059fb30(unsigned char f)
 }
 
 struct C_0085fc10 { void* FUN_0085fc10(unsigned char); };
+// pdb: NiStringsExtraData::`scalar deleting destructor' | NiStringsExtraData.obj | fnv360_0822_retail, objrun, high
 void* C_0085fc10::FUN_0085fc10(unsigned char f)
 {
     FUN_0085fad0(this);
@@ -56,6 +60,7 @@ void* C_0085fc10::FUN_0085fc10(unsigned char f)
 }
 
 struct C_008c1040 { void* FUN_008c1040(unsigned char); };
+// pdb: NiTextKeyExtraData::`scalar deleting destructor' | NiTextKeyExtraData.obj | fnv360_0822_retail, caller_sim, high
 void* C_008c1040::FUN_008c1040(unsigned char f)
 {
     FUN_008c0ec0(this);
@@ -64,6 +69,7 @@ void* C_008c1040::FUN_008c1040(unsigned char f)
 }
 
 struct C_008e9000 { void* FUN_008e9000(unsigned char); };
+// pdb: bhkShapeCollection::`scalar deleting destructor' | bhkCharacterController.obj | fnv360_0822_retail, caller_sim, low
 void* C_008e9000::FUN_008e9000(unsigned char f)
 {
     FUN_0096ab10(this);
@@ -80,6 +86,7 @@ void* C_008e90d0::FUN_008e90d0(unsigned char f)
 }
 
 struct C_009111d0 { void* FUN_009111d0(unsigned char); };
+// pdb: bhkBvTreeShape::AddbhkShapeRef | bhkBvTreeShape.obj | tesv_win, objrun_open, low
 void* C_009111d0::FUN_009111d0(unsigned char f)
 {
     FUN_00911110(this);
@@ -104,6 +111,7 @@ void* C_0094d4c0::FUN_0094d4c0(unsigned char f)
 }
 
 struct C_0094df10 { void* FUN_0094df10(unsigned char); };
+// pdb: hkScaledMoppBvTreeShape::`scalar deleting destructor' | bhkMoppBvTreeShape.obj | tesv_win, objrun_open, low
 void* C_0094df10::FUN_0094df10(unsigned char f)
 {
     FUN_0094de30(this);
@@ -152,6 +160,7 @@ void* C_00952380::FUN_00952380(unsigned char f)
 }
 
 struct C_00970d20 { void* FUN_00970d20(unsigned char); };
+// pdb: bhkCharControllerShape::`scalar deleting destructor' | bhkCharControllerShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_00970d20::FUN_00970d20(unsigned char f)
 {
     FUN_00950910(this);
@@ -160,6 +169,7 @@ void* C_00970d20::FUN_00970d20(unsigned char f)
 }
 
 struct C_00aea920 { void* FUN_00aea920(unsigned char); };
+// pdb: BSShaderPPLightingProperty::TangentSpaceData::`scalar deleting destructor' | BSShaderPPLightingProperty.obj | fnv360_0822_retail, caller_sim, medium
 void* C_00aea920::FUN_00aea920(unsigned char f)
 {
     FUN_00ae9c40(this);
@@ -168,6 +178,7 @@ void* C_00aea920::FUN_00aea920(unsigned char f)
 }
 
 struct C_00beb820 { void* FUN_00beb820(unsigned char); };
+// pdb: Tile::Extra::`scalar deleting destructor' | Tile.obj | fnv360_0822_retail, vtable, medium
 void* C_00beb820::FUN_00beb820(unsigned char f)
 {
     FUN_00beb270(this);

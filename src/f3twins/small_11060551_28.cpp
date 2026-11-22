@@ -5,6 +5,7 @@
 struct P_00619130 { void FUN_00619130(int); };
 extern P_00619130 DAT_01090a78;
 
+// pdb: BSInstanceRendering::~BSInstanceRendering | BSInstanceRendering.obj | fnv360_0822_retail, call_gap, low
 void __fastcall FUN_00619130(int* q)
 {
     DAT_01090a78.FUN_00619130(*q);

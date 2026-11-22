@@ -62,11 +62,12 @@ struct S00a67410
     char _pad34[6];
     unsigned char m_bModifierActive;  // +0x3a
 
-    void FUN_00a67410(BSFaceGenMorphData* outData);
+    void NiGeometryData_GetVerticesIterator(BSFaceGenMorphData* outData);
 };
 
 // @fnv 0x00a67410
-void S00a67410::FUN_00a67410(BSFaceGenMorphData* outData)
+// pdb: NiGeometryData::GetVerticesIterator | NiGeometryData.obj | fnv360_0822_retail, call_gap + bridge(call_dedup|call_gap_sim) + skyrim(call_gap), high
+void S00a67410::NiGeometryData_GetVerticesIterator(BSFaceGenMorphData* outData)
 {
     if (!m_bModifierActive)
         return;
@@ -137,6 +138,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long 
 extern unsigned int DAT_0106e5a4;
 extern PoolAllocatorBase<unsigned int>::LinkedListEntry* DAT_0106e588;
 
+// pdb: NiDynamicEffect::DetachAllUnaffectedNodes | NiDynamicEffect.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00a68e30_shell::FUN_00a68e30()
 {
     while (m_uiCount)
@@ -206,6 +208,7 @@ class A72720StreamSet
 };
 
 // @fnv 0x00a72720
+// pdb: NiAdditionalGeometryData::GetDataStream | NiAdditionalGeometryData.obj | tesv_win, call_seq, medium
 bool A72720StreamSet::FUN_00a72720(unsigned int uiIndex, char** ppcData, void** ppvStream,
                                    unsigned short* pusVertexCount, int* piFormat, int* piStride, int* piUsage)
 {

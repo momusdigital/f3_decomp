@@ -14,11 +14,14 @@ extern "C" __declspec(dllimport) unsigned __stdcall IMP_00d9b40c(unsigned);
 extern "C" __declspec(dllimport) unsigned __stdcall IMP_00d9b364(unsigned);
 extern "C" __declspec(dllimport) unsigned __stdcall IMP_00d9b18c(unsigned);
 
+// pdb: __WSAFDIsSet | sockapi.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: select)
+// pdb params: fd, set
 __declspec(noinline) unsigned __stdcall FUN_00c2092e(unsigned a)
 {
     return IMP_00d9b338(a);
 }
 
+// pdb: ioctlsocket | WSOCK32.dll | tesv_win, objrun_open, low
 __declspec(noinline) unsigned __stdcall FUN_00c21cb0(unsigned a)
 {
     return IMP_00d9b02c(a);
@@ -29,6 +32,8 @@ __declspec(noinline) unsigned __stdcall FUN_00c21cb6(unsigned a)
     return IMP_00d9b034(a);
 }
 
+// pdb: XShowAchievementsUI | uiapithunk.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: dwUserIndex
 __declspec(noinline) unsigned __stdcall FUN_00c21cbc(unsigned a)
 {
     return IMP_00d9b408(a);
@@ -64,6 +69,7 @@ __declspec(noinline) unsigned __stdcall FUN_00c21ce0(unsigned a)
     return IMP_00d9b364(a);
 }
 
+// pdb: RtlUnwind | KERNEL32.dll | tesv_win, call_seq, medium
 __declspec(noinline) unsigned __stdcall FUN_00c21d34(unsigned a)
 {
     return IMP_00d9b18c(a);

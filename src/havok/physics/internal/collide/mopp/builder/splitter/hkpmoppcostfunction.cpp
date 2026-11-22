@@ -24,6 +24,8 @@ struct BufferRequirements
 };
 // Computes a byte size from the provider's count plus additionalCount, using a fixed capacity of 4096 when fixedCapacity is set.
 // @fnv 0x00dd4b80
+// pdb: hkpMoppCompiler::calculateRequiredBufferSize | hkpMoppCompiler.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: mediator
 int BufferRequirements::ComputeRequiredSize(CountProvider* provider)
 {
     int count = provider->GetCount() + additionalCount;

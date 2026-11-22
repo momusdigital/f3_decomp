@@ -1,4 +1,4 @@
-// bsshader/bsshaderbloodsplatter.cpp: BSShaderBloodSplatter, BloodShader (17 functions)
+// bsshader/bsshaderbloodsplatter.cpp: BSShaderBloodSplatter, BloodShader (16 functions)
 #include "f3_common.h"
 #include "bsshaderbloodsplatter_types_BSShaderBloodSplatter.h"
 #include "bsshaderbloodsplatter_types_BSShaderManager.h"
@@ -20,6 +20,7 @@ struct SplatterFloat4
 };
 
 // @fnv 0x00b80e70
+// pdb: VolumetricFogShader::CreateShader | VolumetricFogShader.obj | fnv360_0822_retail, call_gap, medium
 BSShader* BSShaderBloodSplatter::CreateShader()
 {
     NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create(g_pkRenderer, 2, 1);
@@ -40,6 +41,7 @@ BSShader* BSShaderBloodSplatter::CreateShader()
 }
 
 // @fnv 0x00b80d30
+// pdb: BSShaderBloodSplatter::BSShaderBloodSplatter | BSShaderBloodSplatter.obj | fnv360_0822_retail, ustr, medium
 BSShaderBloodSplatter::BSShaderBloodSplatter() : BSShader()
 {
     SplatterFloat4 values = {g_splatterDefaultFirst, g_splatterDefaultFirst, 0.0f, g_splatterDefaultSecond};
@@ -53,6 +55,7 @@ BSShaderBloodSplatter::BSShaderBloodSplatter() : BSShader()
 
 // Configures two NiD3DPass objects with two texture stages each, render states, vertex and pixel shaders, and returns true.
 // @fnv 0x00b807d0
+// pdb: BSShaderBloodSplatter::LoadStagesAndPasses | BSShaderBloodSplatter.obj | fnv360_0822_debug, call_seq, medium
 bool BSShaderBloodSplatter::ConfigureShaderPass()
 {
     NiD3DPass::CreateD3DPass(spRenderPass[0]);
@@ -102,6 +105,7 @@ struct SplatterShaderInfo
     _D3DXMACRO macros[9];
 };
 // @fnv 0x00b80090
+// pdb: BSShaderBloodSplatter::LoadShaders | BSShaderBloodSplatter.obj | fnv360_0822_retail, ustr, medium
 void BSShaderBloodSplatter::InitializeShaderData()
 {
     SplatterShaderInfo vertex;
@@ -147,6 +151,8 @@ void BSShaderBloodSplatter::FUN_00b81110(unsigned int value)
 }
 
 // @fnv 0x00b805d0
+// pdb: BSShaderBloodSplatter::InitPass | BSShaderBloodSplatter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: auiCurrentPass
 void BSShaderBloodSplatter::FUN_00b805d0(unsigned int pass)
 {
     switch (pass)
@@ -162,6 +168,8 @@ void BSShaderBloodSplatter::FUN_00b805d0(unsigned int pass)
 
 // Assigns value to the NiRefObject pointer at offset 0x44, releasing the old reference and incrementing the new one's ref count.
 // @fnv 0x00b80600
+// pdb: NiD3DPass::SetSrcDestBlendRenderState | BSShaderBloodSplatter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: auiSrcValue, auiDestValue, abSave
 void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 {
     NiRefObject** ppSlot = reinterpret_cast<NiRefObject**>(reinterpret_cast<char*>(this) + 0x44);
@@ -182,6 +190,8 @@ struct FUN_00b807c0_shell
 };
 
 // @fnv 0x00b807c0
+// pdb: BSShader::GetShaderDecl | BSShaderBloodSplatter.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: apGeometry, apProperty
 int __thiscall FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x28);
@@ -190,7 +200,8 @@ int __thiscall FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
 extern int g_011fedc8;
 
 // @fnv 0x00b807b0
-int* __cdecl FUN_00b807b0()
+// pdb: NiAccumulator::GetRTTI | NiAccumulator.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+int* __cdecl NiAccumulator_GetRTTI()
 {
     return &g_011fedc8;
 }
@@ -201,6 +212,7 @@ struct FUN_00b80380_shell
 };
 // Calls the virtual function at vtable slot 74 on this for each of the two pointers stored at this+0x6c and this+0x70.
 // @fnv 0x00b80380
+// pdb: BSShaderBloodSplatter::ClearPassStages | BSShaderBloodSplatter.obj | fnv360_0721_beta, objrun_open, low
 void FUN_00b80380_shell::FUN_00b80380()
 {
     typedef void(__thiscall * Fn)(void*, void*);
@@ -213,18 +225,6 @@ void FUN_00b80380_shell::FUN_00b80380()
         f(this, a);
         ++p;
     } while (--n != 0);
-}
-
-struct FUN_00b80b20_shell : BSShaderBloodSplatter
-{
-    bool FUN_00b80b20();
-};
-
-// @fnv 0x00b80b20
-bool FUN_00b80b20_shell::FUN_00b80b20()
-{
-    InitializeShaderData();
-    return ConfigureShaderPass();
 }
 
 void __cdecl _delete(void*, unsigned int);
@@ -287,6 +287,8 @@ struct Camera_00b803b0
 };
 
 // @fnv 0x00b803b0
+// pdb: BSShaderBloodSplatter::ComputeScreenSpaceLightLoc | BSShaderBloodSplatter.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apCamera
 void __cdecl FUN_00b803b0(Camera_00b803b0* pkCamera)
 {
     DAT_011fed90 = 0.0f;
@@ -404,6 +406,7 @@ template <class T> struct NiPointerS
 
 // Lazily creates the two NiD3DShaderConstantMap objects stored at offsets 0x30 and 0x34 and registers their shader constant entries.
 // @fnv 0x00b80f50
+// pdb: BSShaderBloodSplatter::CreateConstantMaps | BSShaderBloodSplatter.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b80f50_shell::CreateShaderConstantMaps()
 {
     NiPointerS<NiD3DShaderConstantMap>& pAlphaMap = *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x30);
@@ -510,6 +513,7 @@ struct FUN_00b80650 : ShaderBase
 };
 // Releases the two pass, vertex-shader and pixel-shader references and the white-flash texture, clearing each pointer.
 // @fnv 0x00b80650
+// pdb: BSShaderBloodSplatter::~BSShaderBloodSplatter | BSShaderBloodSplatter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00b80650::~FUN_00b80650()
 {
     for (unsigned int i = 0; i < 2; ++i)
@@ -765,6 +769,8 @@ class FUN_00b80b30_cls
 
 // Fills the pass items' m_u08 from the sub's m_arr60 and calls ApplyPairToState with sub->v51(), branching on DAT_011f91e4, then calls v108().
 // @fnv 0x00b80b30
+// pdb: ImageSpaceShaderRestoreEDRAM::SetupGeometryTextures | ImageSpaceManager.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apState
 void FUN_00b80b30_cls::InitPassItems(FUN_00b80b30_arg* apArg)
 {
     FUN_00b80b30_sub* sub = apArg->m_pSub;
@@ -964,6 +970,8 @@ struct BloodShader
 };
 // Computes a scaled value from the render input's object, applies the pixel and vertex constant maps to the current geometry with the bound and transform.
 // @fnv 0x00b80c20
+// pdb: BSShaderBloodSplatter::SetupGeometryConstants | BSShaderBloodSplatter.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: apState
 void BloodShader::ApplyBloodShader(RenderInput* input)
 {
     GeomStub* geom = *DAT_011f91e0;

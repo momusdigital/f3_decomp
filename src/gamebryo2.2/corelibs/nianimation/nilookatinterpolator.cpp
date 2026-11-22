@@ -10,9 +10,21 @@ void* __cdecl FUN_00a4be10()
     return &g_011f3f90;
 }
 
+class NiAVObject;
+struct NiFixedString
+{
+    void* p;
+};
 struct NiLookAtInterpolator
 {
     virtual ~NiLookAtInterpolator();
+    unsigned int m_uiRefCount;  // src: FNV360_PDB NiRefObject +0x4
+    float m_fLastTime;  // src: FNV360_PDB NiInterpolator +0x8
+    unsigned short m_uFlags;  // src: FNV360_PDB +0xC
+    NiAVObject* m_pkLookAt;  // src: FNV360_PDB +0x10
+    NiFixedString m_kLookAtName;  // src: FNV360_PDB +0x14
+    float m_kTransformValue[8];  // src: FNV360_PDB +0x18 (NiQuatTransform)
+    void* m_aspInterpolators[3];  // src: FNV360_PDB +0x38
     void* __thiscall FUN_00a4c5c0(unsigned int flags);
 };
 
@@ -20,6 +32,7 @@ extern "C" void __cdecl FUN_00a4be20();
 extern "C" void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 
 // @fnv 0x00a4c5c0
+// pdb: PathingSolution::`scalar deleting destructor' | PathingSolution.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall NiLookAtInterpolator::FUN_00a4c5c0(unsigned int flags)
 {
     FUN_00a4be20();
@@ -30,11 +43,6 @@ void* __thiscall NiLookAtInterpolator::FUN_00a4c5c0(unsigned int flags)
     return this;
 }
 
-class NiAVObject;
-struct NiFixedString
-{
-    void* p;
-};
 struct NiAVObjectPalette
 {
     virtual void v0(), v1(), v2(), v3(), v4(), v5(), v6(), v7(), v8(), v9(), v10(), v11(), v12(), v13(), v14(), v15(),
@@ -42,19 +50,19 @@ struct NiAVObjectPalette
         v32(), v33(), v34();
     virtual NiAVObject* FindAVObject(NiFixedString&);
 };
-struct Holder_00a4b8d0
+struct Holder_00a4b8d0 : NiLookAtInterpolator
 {
     bool ResolveTargetObject(NiAVObjectPalette* pkPalette);
 };
 // @fnv 0x00a4b8d0
 bool Holder_00a4b8d0::ResolveTargetObject(NiAVObjectPalette* pkPalette)
 {
-    if (*(NiAVObject**)((char*)this + 0x10))
+    if (m_pkLookAt)
         return true;
-    NiAVObject* pkTarget = pkPalette->FindAVObject(*(NiFixedString*)((char*)this + 0x14));
+    NiAVObject* pkTarget = pkPalette->FindAVObject(m_kLookAtName);
     if (pkTarget)
     {
-        *(NiAVObject**)((char*)this + 0x10) = pkTarget;
+        m_pkLookAt = pkTarget;
         return true;
     }
     return false;
@@ -73,11 +81,13 @@ struct NiObject
 {
     virtual void ProcessClone(CloningProcess&);
 };
-struct Host_00a4bb80
+struct Host_00a4bb80 : NiLookAtInterpolator
 {
     void __thiscall FUN_00a4bb80(CloningProcess&);
 };
 // @fnv 0x00a4bb80
+// pdb: NiLookAtInterpolator::ProcessClone | NiLookAtInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void __thiscall Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
 {
     bool bCloned;
@@ -87,11 +97,11 @@ void __thiscall Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
     pkClone = 0;
     kCloning.m_pCloneMap->GetAt((char const*)this, (ShaderBufferRecord*&)pkClone);
     pkDest = (NiLookAtInterpolator*)pkClone;
-    bCloned = kCloning.m_pCloneMap->GetAt((char const*)*(void**)((char*)this + 0x10), (ShaderBufferRecord*&)pkClone);
+    bCloned = kCloning.m_pCloneMap->GetAt((char const*)m_pkLookAt, (ShaderBufferRecord*&)pkClone);
     if (bCloned)
-        *(void**)((char*)pkDest + 0x10) = pkClone;
+        pkDest->m_pkLookAt = (NiAVObject*)pkClone;
     else
-        *(void**)((char*)pkDest + 0x10) = *(void**)((char*)this + 0x10);
+        pkDest->m_pkLookAt = m_pkLookAt;
 }
 
 struct NiStream
@@ -135,26 +145,27 @@ struct BaseInterp
 {
     bool __thiscall FUN_00a81fe0(NiStream*);
 };
-struct MyInterp
+struct MyInterp : NiLookAtInterpolator
 {
-    bool __thiscall FUN_00a4bbe0(NiStream*);
+    bool __thiscall NiLookAtInterpolator_RegisterStreamables(NiStream*);
 };
 // @fnv 0x00a4bbe0
-bool __thiscall MyInterp::FUN_00a4bbe0(NiStream* kStream)
+// pdb: NiLookAtInterpolator::RegisterStreamables | NiLookAtInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool __thiscall MyInterp::NiLookAtInterpolator_RegisterStreamables(NiStream* kStream)
 {
     unsigned int ui;
     if (!((BaseInterp*)this)->FUN_00a81fe0(kStream))
         return false;
     for (ui = 0; ui < 3; ++ui)
     {
-        ObjType* pkObj = ((ObjType**)((char*)this + 0x38))[ui];
+        ObjType* pkObj = (ObjType*)m_aspInterpolators[ui];
         if (pkObj)
         {
             if (!pkObj->RegisterStreamables(kStream))
                 return false;
         }
     }
-    kStream->Register((void*)((char*)this + 0x14));
+    kStream->Register((void*)&m_kLookAtName);
     return true;
 }
 
@@ -164,7 +175,8 @@ struct BSFadeNode
     void* __thiscall FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00a4c5a0
-void* __cdecl FUN_00a4c5a0()
+// pdb: NiLookAtInterpolator::CreateObject | NiLookAtInterpolator.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+void* __cdecl NiLookAtInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x44);
     if (p)
@@ -223,7 +235,7 @@ struct FUN_00a4b900_V
     virtual void v46();
     virtual void v47();
 };
-struct FUN_00a4b900_Holder
+struct FUN_00a4b900_Holder : NiLookAtInterpolator
 {
     void FUN_00a4b900();
 };
@@ -232,7 +244,7 @@ struct FUN_00a4b900_Holder
 void FUN_00a4b900_Holder::FUN_00a4b900()
 {
     unsigned int ui;
-    FUN_00a4b900_V** pp = (FUN_00a4b900_V**)((char*)this + 0x38);
+    FUN_00a4b900_V** pp = (FUN_00a4b900_V**)m_aspInterpolators;
     for (ui = 3; ui > 0; --ui)
     {
         FUN_00a4b900_V* p = *pp;
@@ -295,18 +307,19 @@ struct FakeInterp
     virtual void v48();
     virtual void SetActiveTimeRange(float, float);
 };
-struct Holder
+struct Holder : NiLookAtInterpolator
 {
     void __thiscall FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
 };
 // Calls the two-float virtual method on each of the three FakeInterp pointers stored at offset 0x38, skipping null entries.
 // @fnv 0x00a4b9f0
+// pdb: NiLookAtInterpolator::Collapse | NiLookAtInterpolator.obj | fnv360_0822_retail, objrun_open, low
 void __thiscall Holder::FUN_00a4b9f0(float afValue1, float afValue2)
 {
     unsigned int ui;
     for (ui = 0; ui < 3; ui++)
     {
-        FakeInterp* p = ((FakeInterp**)((char*)this + 0x38))[ui];
+        FakeInterp* p = (FakeInterp*)m_aspInterpolators[ui];
         if (p)
             p->SetActiveTimeRange(afValue1, afValue2);
     }
@@ -543,11 +556,12 @@ class A4BC40Data : public A4BC40Base
     A4BC40Transform m_kTransform;
     A4BC40Object* m_ppKeyData[3];
 
-    bool FUN_00a4bc40(A4BC40Object* pkObject);
+    bool NiLookAtInterpolator_IsEqual(A4BC40Object* pkObject);
 };
 
 // @fnv 0x00a4bc40
-bool A4BC40Data::FUN_00a4bc40(A4BC40Object* pkObject)
+// pdb: NiLookAtInterpolator::IsEqual | NiLookAtInterpolator.obj | fnv360_0721_beta, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool A4BC40Data::NiLookAtInterpolator_IsEqual(A4BC40Object* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -582,6 +596,8 @@ struct Builder
     BSFadeNode* CreateFadeNode(unsigned int);
 };
 // @fnv 0x00a4c5e0
+// pdb: NiLookAtInterpolator::CreateClone | NiLookAtInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: kCloning
 BSFadeNode* Builder::CreateFadeNode(unsigned int flags)
 {
     BSFadeNode* allocated = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x44));
@@ -666,6 +682,8 @@ struct FUN_00a4c780_cls
 };
 
 // @f3 0x008c66c0 (community match, verified in this file)
+// pdb: NiLookAtInterpolator::GetViewerStrings | NiLookAtInterpolator.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a4c780_cls::FUN_00a4c780(Arg_b9286* a)
 {
     FUN_00a570b0(a);
@@ -994,12 +1012,13 @@ class C630Blend : public C630Interpolator
     C630Transform m_kTransform;
     C630Pointer<C630RefObject> m_akReferencedObjects[3];
 
-    void FUN_00a4c630(C630Stream& kStream);
+    void NiLookAtInterpolator_LoadBinary(C630Stream& kStream);
 };
 
 // Loads the blend from the stream: base interpolator data, flags, target, name (version-dependent), transform, and three ref objects.
 // @fnv 0x00a4c630
-void C630Blend::FUN_00a4c630(C630Stream& kStream)
+// pdb: NiLookAtInterpolator::LoadBinary | NiLookAtInterpolator.obj | fnv360_0721_beta, objrun + bridge(vtable|caller_sim) + skyrim(objrun), high
+void C630Blend::NiLookAtInterpolator_LoadBinary(C630Stream& kStream)
 {
     C630Interpolator::LoadBinary(kStream);
 
@@ -1196,14 +1215,14 @@ struct Stream341
     unsigned int unk248;
     unsigned int unk24c;
     BinaryOutput341* output;
-    void WriteObjectLink(const void* name);
+    void NiStream_SaveFixedString(const void* name);
 };
 struct Transform341
 {
     float translationX, translationY, translationZ;
     float rotationW, rotationX, rotationY, rotationZ;
     float scale;
-    void FUN_00a38b60(Stream341*);
+    void NiQuatTransform_SaveBinary(Stream341*);
 };
 struct Interpolator341
 {
@@ -1223,13 +1242,15 @@ struct LookAt341 : Interpolator341
 };
 // Serializes the LookAt's flags, target link, target name, transform and three interpolator links to the stream.
 // @fnv 0x00a4c700
+// pdb: NiLookAtInterpolator::SaveBinary | NiLookAtInterpolator.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kStream
 void LookAt341::SaveToStream(Stream341* stream)
 {
     FUN_00a724d0(stream);
     SaveBinary341(*stream->output, flags);
     stream->SaveLink(target);
-    stream->WriteObjectLink(&targetName);
-    transform.FUN_00a38b60(stream);
+    stream->NiStream_SaveFixedString(&targetName);
+    transform.NiQuatTransform_SaveBinary(stream);
     for (unsigned int i = 0; i < 3; ++i)
         stream->SaveLink(interpolators[i]);
 }
@@ -1338,12 +1359,13 @@ struct S_00a4ba30_Cls
     int unk34;
     S_00a4ba30_Ptr unk38[3];
     S_00a4ba30_Cls* __thiscall FUN_00a57050(float a, float b);
-    S_00a4ba30_Cls* __thiscall FUN_00a4ba30(float a, float b);
+    S_00a4ba30_Cls* __thiscall NiLookAtInterpolator_GetSequenceInterpolator(float a, float b);
 };
 
 // Calls FUN_00a57050 with the two floats, then assigns each non-null unk38[i] entry's v50 result to the corresponding entry in r.
 // @fnv 0x00a4ba30
-S_00a4ba30_Cls* __thiscall S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
+// pdb: NiLookAtInterpolator::GetSequenceInterpolator | NiLookAtInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_open) + skyrim(caller_sim), high
+S_00a4ba30_Cls* __thiscall S_00a4ba30_Cls::NiLookAtInterpolator_GetSequenceInterpolator(float a, float b)
 {
     S_00a4ba30_Cls* pResult = FUN_00a57050(a, b);
     for (int i = 0; i < 3; i++)
@@ -1442,6 +1464,8 @@ struct FUN_00a4bcf0 : public NiInterpolator
 };
 
 // @fnv 0x00a4bcf0
+// pdb: NiLookAtInterpolator::NiLookAtInterpolator | NiLookAtInterpolator.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: pkLookAt, eAxis, bFlip
 FUN_00a4bcf0::FUN_00a4bcf0(unsigned int pkLookAt, unsigned int eAxis, bool bFlip)
     : m_uiObjectFlags(0), m_pkLookAt(pkLookAt), m_fScale(DAT_01096b8c)
 {
@@ -1673,6 +1697,8 @@ struct LookAt
 };
 // Computes the look-at transform for a node by calculating world position, orientation toward target, and optional roll/scale, storing the result in output.
 // @fnv 0x00a4bec0
+// pdb: NiLookAtInterpolator::Update | NiLookAtInterpolator.obj | fnv360_0822_retail, uconst, high
+// pdb params: fTime, pkInterpTarget, kValue
 bool LookAt::Update(float time, LookNode* apNode, LookTransform& apTransform)
 {
     if (!target)
@@ -1800,7 +1826,7 @@ struct S_00a4c4b0_Ref
     virtual void vf0();
     virtual void vf1();
     long m_refs;
-    S_00a4c4b0_Ref* FUN_00a5d680();
+    S_00a4c4b0_Ref* NiObject_Clone();
 };
 struct S_00a4c4b0_Ptr
 {
@@ -1884,7 +1910,7 @@ void __thiscall S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cl
     for (int i = 0; i < 3; i++)
     {
         if (m_ptr[i].m_p)
-            dest->m_ptr[i] = m_ptr[i].m_p->FUN_00a5d680();
+            dest->m_ptr[i] = m_ptr[i].m_p->NiObject_Clone();
     }
 }
 }  // namespace fnv_00a4c4b0

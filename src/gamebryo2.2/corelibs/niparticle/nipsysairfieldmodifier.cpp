@@ -4,12 +4,6 @@
 
 extern "C" void* g_012027a8;
 
-// @fnv 0x00c2f590
-void* __cdecl FUN_00c2f590()
-{
-    return &g_012027a8;
-}
-
 void __cdecl FUN_00c31750(void);
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 
@@ -20,6 +14,7 @@ struct NiPSysAirFieldModifier
 
 // Calls FUN_00c31750, then if flags has bit 1 set calls __Dummy_00b6fef0 on this with 0x68, and returns this.
 // @fnv 0x00c2f5a0
+// pdb: NiPSysAirFieldModifier::`scalar deleting destructor' | NiPSysAirFieldModifier.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall NiPSysAirFieldModifier::Destroy(unsigned int flags)
 {
     void* p = this;
@@ -47,9 +42,11 @@ struct BSFadeNode
 struct AirTmp : NiPSysFieldModifier
 {
     AirTmp* __thiscall FUN_00c2f5c0();
-    void __thiscall FUN_00c2f500(void*);
+    void __thiscall NiPSysAirFieldModifier_SetDirection(void*);
 };
 // @fnv 0x00c2fad0
+// pdb: NiPSysAirFieldModifier::CreateClone | NiPSysAirFieldModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kCloning
 NiObject* __thiscall NiPSysFieldModifier::Clone(CloningProcess& kCloning)
 {
     AirTmp* pkObject;
@@ -59,7 +56,7 @@ NiObject* __thiscall NiPSysFieldModifier::Clone(CloningProcess& kCloning)
     else
         pkObject = 0;
     FUN_00c32020(pkObject, kCloning);
-    pkObject->FUN_00c2f500((char*)this + 0x40);
+    pkObject->NiPSysAirFieldModifier_SetDirection((char*)this + 0x40);
     return (NiObject*)pkObject;
 }
 
@@ -69,6 +66,7 @@ struct A51BF0Base
 };
 
 // @fnv 0x00c2f630
+// pdb: NiPSysAirFieldModifier::CreateObject | NiPSysAirFieldModifier.obj | fnv360_0822_retail, caller_sim, medium
 void* __cdecl CreateAirTmp()
 {
     AirTmp* p = (AirTmp*)A51BF0Base::operator new(0x68);
@@ -92,7 +90,8 @@ struct TmpVec3
 };
 // Copies three ints from param into this+0x40 and this+0x4c, calls FUN_004a0c10, and replaces the vector with DAT_011a946c/70/74 if it equals DAT_011f426c/70/74.
 // @fnv 0x00c2f500
-void AirTmp::FUN_00c2f500(void* pSource)
+// pdb: NiPSysAirFieldModifier::SetDirection | NiPSysAirFieldModifier.obj | fnv360_0822_retail, call_seq + bridge(hash|call_seq) + skyrim(call_seq), high
+void AirTmp::NiPSysAirFieldModifier_SetDirection(void* pSource)
 {
     int* p = (int*)pSource;
     int* a = (int*)((char*)this + 0x40);
@@ -143,6 +142,7 @@ struct FUN_00c2fb10_cls
 };
 
 // @fnv 0x00c2fb10
+// pdb: NiPSysAirFieldModifier::IsEqual | NiPSysAirFieldModifier.obj | tesv_win, hash, low
 bool FUN_00c2fb10_cls::FUN_00c2fb10(void* other)
 {
     FUN_00c2fb10_cls* p = (FUN_00c2fb10_cls*)other;
@@ -370,12 +370,13 @@ struct NiPSysGravityFieldModifier : NiPSysFieldModifierBase
     bool m_b62;
     float m_f64;
 
-    void FUN_00c302a0(NiStream& stream);
+    void NiPSysAirFieldModifier_SaveBinary(NiStream& stream);
 };
 
 // Saves the base field modifier, a color, m_f58, m_f5C, the three bools m_b60-m_b62 and m_f64 to the stream.
 // @fnv 0x00c302a0
-void NiPSysGravityFieldModifier::FUN_00c302a0(NiStream& stream)
+// pdb: NiPSysAirFieldModifier::SaveBinary | NiPSysAirFieldModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiPSysGravityFieldModifier::NiPSysAirFieldModifier_SaveBinary(NiStream& stream)
 {
     NiPSysFieldModifierBase::SaveBinary(stream);
     m_kFogTint.SaveBinary(stream);
@@ -444,6 +445,7 @@ class FUN_00c2f5c0_cls : public BC2F5C0Modifier
 
 // Initialises the modifier: sets direction to -unit Z, resets the point to zero, and sets the float to FLT_MAX.
 // @fnv 0x00c2f5c0
+// pdb: NiPSysAirFieldModifier::NiPSysAirFieldModifier | NiPSysAirFieldModifier.obj | fnv360_0822_retail, caller_sim, high
 FUN_00c2f5c0_cls::FUN_00c2f5c0_cls() throw()
 {
     SetDirection(-g_kC2F5C0UnitZ);
@@ -453,105 +455,15 @@ FUN_00c2f5c0_cls::FUN_00c2f5c0_cls() throw()
 
 extern "C" void* g_012027a8;
 
-struct ViewerStrings
-{
-    int unk00;
-    int unk04;
-    unsigned short m_08;
-    unsigned short m_0a;
-    unsigned short m_0c;
-    unsigned short m_0e;
-};
-
-struct ViewerSub
-{
-    int unk00;
-    int unk04;
-    int unk08;
-
-    void* FUN_00a59af0(const char* name);
-};
-
-void* __cdecl FUN_00a7d330(void* g);
-void* __cdecl FUN_00a7d550(const char* name, float value);
-void* __cdecl FUN_00a7d370(const char* name, bool value);
-
-struct FUN_00c303c0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    ViewerSub m_40;
-    ViewerSub m_4c;
-    float m_58;
-    float m_5c;
-    bool m_60;
-    bool m_61;
-    bool m_62;
-    float m_64;
-
-    void FUN_00c322b0(ViewerStrings* s);
-    void FUN_0096ad30(unsigned int newSize);
-    void FUN_0096ae90(unsigned int index, void** value);
-    void BuildViewerStrings(ViewerStrings* s);
-};
-
-static void AddViewerString(ViewerStrings* s, void* value)
-{
-    FUN_00c303c0_cls* arr = reinterpret_cast<FUN_00c303c0_cls*>(s);
-    unsigned int count = s->m_0a;
-    if (count >= s->m_08)
-    {
-        arr->FUN_0096ad30(count + s->m_0e);
-    }
-    arr->FUN_0096ae90(count, &value);
-}
-
-// @fnv 0x00c303c0
-void FUN_00c303c0_cls::BuildViewerStrings(ViewerStrings* s)
-{
-    FUN_00c322b0(s);
-    void* v = FUN_00a7d330(g_012027a8);
-    AddViewerString(s, v);
-    v = m_40.FUN_00a59af0("Direction");
-    AddViewerString(s, v);
-    v = m_4c.FUN_00a59af0("Unit Direction");
-    AddViewerString(s, v);
-    v = FUN_00a7d550("AirFriction", m_58);
-    AddViewerString(s, v);
-    v = FUN_00a7d550("Inherit Velocity", m_5c);
-    AddViewerString(s, v);
-    v = FUN_00a7d370("Inherit Rotation", m_60);
-    AddViewerString(s, v);
-    v = FUN_00a7d370("Component Only", m_61);
-    AddViewerString(s, v);
-    v = FUN_00a7d370("Enable Spread", m_62);
-    AddViewerString(s, v);
-    v = FUN_00a7d550("Spread", m_64);
-    AddViewerString(s, v);
-}
-
 struct AirFieldModifier
 {
     void __thiscall FUN_00c2e520(NiStream& stream);
-    void __thiscall FUN_00c2f4e0(NiStream& stream);
+    void __thiscall NiStrnicmp(NiStream& stream);
 };
 
 // @fnv 0x00c2f4e0
-void __thiscall AirFieldModifier::FUN_00c2f4e0(NiStream& stream)
+// pdb: NiStrnicmp | NiSystem.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_dedup) + skyrim(caller_sim), high
+void __thiscall AirFieldModifier::NiStrnicmp(NiStream& stream)
 {
     FUN_00c2e520(stream);
 }
@@ -770,7 +682,7 @@ struct Cls_00c2f650
     char unk63;
     float unk64;
 
-    void UpdateParticleAirFriction(float fTime, NiPSysData* pkData);
+    void NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpread(float fTime, NiPSysData* pkData);
 };
 
 inline void* operator new(unsigned int, void* pv)
@@ -780,7 +692,10 @@ inline void* operator new(unsigned int, void* pv)
 
 // For particles within the squared distance limit, adds an air-friction-scaled field velocity over elapsed time when relative velocity points against it.
 // @fnv 0x00c2f650
-void Cls_00c2f650::UpdateParticleAirFriction(float fTime, NiPSysData* pkData)
+// pdb: NiPSysAirFieldModifier::UpdateNoAttenuationNoInheritNoSpread | NiPSysAirFieldModifier.obj | fnv360_0822_retail, objrun, high
+// pdb params: fTime, pkData
+// pdb: NiPSysAirFieldModifier::UpdateNoAttenuationNoInheritNoSpread | NiPSysAirFieldModifier.obj | fnv360_0822_retail, objrun, high (was: UpdateParticleAirFriction)
+void Cls_00c2f650::NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpread(float fTime, NiPSysData* pkData)
 {
     if (m_fInfluence == 0.0f)
         return;
@@ -887,15 +802,16 @@ struct S00c30170_Obj : AirTmp
     bool m_62;
     float m_64;
     void __thiscall LoadFromStream(NiStream*);
-    void __thiscall FUN_00c30170(NiStream* stream);
+    void __thiscall NiPSysAirFieldModifier_LoadBinary(NiStream* stream);
 };
-// Calls LoadFromStream, reads m_40, applies FUN_00c2f500 to it, then reads m_58, m_5c, m_60, m_61, m_62, and m_64.
+// Calls LoadFromStream, reads m_40, applies NiPSysAirFieldModifier_SetDirection to it, then reads m_58, m_5c, m_60, m_61, m_62, and m_64.
 // @fnv 0x00c30170
-void __thiscall S00c30170_Obj::FUN_00c30170(NiStream* stream)
+// pdb: NiPSysAirFieldModifier::LoadBinary | NiPSysAirFieldModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void __thiscall S00c30170_Obj::NiPSysAirFieldModifier_LoadBinary(NiStream* stream)
 {
     LoadFromStream(stream);
     m_40.FUN_00a59be0(stream);
-    FUN_00c2f500(&m_40);
+    NiPSysAirFieldModifier_SetDirection(&m_40);
     ReadBinaryValue(stream, m_58);
     ReadBinaryValue(stream, m_5c);
     unsigned char b;
@@ -941,12 +857,15 @@ struct S00c2f8d0_Mod
     char unk63;
     float unk64;
 
-    void UpdateAirFriction(float fTime, NiPSysData* pkData);
+    void NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpreadNoMaxDistance(float fTime, NiPSysData* pkData);
 };
 
 // When influence is nonzero, transforms the field direction and adjusts particle velocities using air friction and the time delta.
 // @fnv 0x00c2f8d0
-void S00c2f8d0_Mod::UpdateAirFriction(float fTime, NiPSysData* pkData)
+// pdb: NiPSysAirFieldModifier::UpdateNoAttenuationNoInheritNoSpreadNoMaxDistance | NiPSysAirFieldModifier.obj | fnv360_0822_retail, objrun, high
+// pdb params: fTime, pkData
+// pdb: NiPSysAirFieldModifier::UpdateNoAttenuationNoInheritNoSpreadNoMaxDistance | NiPSysAirFieldModifier.obj | fnv360_0822_retail, objrun, high (was: UpdateAirFriction)
+void S00c2f8d0_Mod::NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpreadNoMaxDistance(float fTime, NiPSysData* pkData)
 {
     if (m_fInfluence == 0.0f)
         return;
@@ -1099,22 +1018,23 @@ struct AirModifier
     bool unk61;
     bool enableSpread;
     float spread;
-    void UpdateParticleAirFriction(float, AirParticles*);
-    void UpdateAirFriction(float, AirParticles*);
-    void FUN_00c2fb40(float, AirParticles*);
+    void NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpread(float, AirParticles*);
+    void NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpreadNoMaxDistance(float, AirParticles*);
+    void NiPSysAirFieldModifier_Update(float, AirParticles*);
 };
 // Updates particle velocities using the field direction and magnitude, with optional spread, distance limiting, attenuation, and inherited velocity.
 // @fnv 0x00c2fb40
-void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
+// pdb: NiPSysAirFieldModifier::Update | NiPSysAirFieldModifier.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(udata), high
+void AirModifier::NiPSysAirFieldModifier_Update(float time, AirParticles* apParticles)
 {
     if (apParticles->count == 0 || !source)
         return;
     if (attenuation == 0.0f && inheritVelocity == 0.0f && !enableSpread)
     {
         if (useMaxDistance)
-            UpdateParticleAirFriction(time, apParticles);
+            NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpread(time, apParticles);
         else
-            UpdateAirFriction(time, apParticles);
+            NiPSysAirFieldModifier_UpdateNoAttenuationNoInheritNoSpreadNoMaxDistance(time, apParticles);
         return;
     }
     AirTransform sourceWorld = source->world;

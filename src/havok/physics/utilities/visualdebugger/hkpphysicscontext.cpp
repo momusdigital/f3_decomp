@@ -3,24 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 void __cdecl FUN_00d6ad40();
-void __cdecl FUN_00d6a850();
-void __cdecl RegisterCenterOfMass();
-void __cdecl RegisterConstraintsProcessFactory();
-void __cdecl RegisterConvexRadius();
-void __cdecl RegisterContactPointsActive();
-void __cdecl RegisterContactPointsInactive();
-void __cdecl DispatchStateHandler();
-void __cdecl RegisterToiCounter();
-void __cdecl RegisterInertiaTensors();
-void __cdecl RegisterMousePicking();
-void __cdecl RegisterPhantomsProcess();
-void __cdecl RegisterShapesProcess();
-void __cdecl FUN_00d651c0();
-void __cdecl RegisterSweptTransformsTask();
-void __cdecl FUN_00d63da0();
-void __cdecl InitWorldMemory();
-void __cdecl RegisterSnapshotCommands();
-void __cdecl RegisterWeldingViewer();
 
 // @f3 0x009542b0 (community match, verified in this file)
 void __cdecl FUN_00d6ad40();
@@ -29,7 +11,7 @@ void __cdecl FUN_009f6a60();
 void __cdecl FUN_009f6290();
 void __cdecl FUN_009f57c0();
 void __cdecl FUN_009f5260();
-void __cdecl FUN_009f51a0();
+void __cdecl hkpInactiveContactPointViewer_registerViewer();
 void __cdecl FUN_009f5090();
 void __cdecl FUN_009f4250();
 void __cdecl FUN_009f3b60();
@@ -38,9 +20,10 @@ void __cdecl FUN_009f2850();
 void __cdecl FUN_009f1710();
 void __cdecl FUN_009f1170();
 void __cdecl FUN_009f05f0();
-void __cdecl FUN_009ef920();
+void __cdecl hkpWorldMemoryViewer_registerViewer();
 void __cdecl FUN_009ef4e0();
 
+// pdb: hkpPhysicsContext::registerAllPhysicsProcesses | hkpPhysicsContext.obj | fnv360_0822_retail, call_gap_sim, low
 void __cdecl FUN_00cd1ed0()
 {
     FUN_00d6ad40();
@@ -49,7 +32,7 @@ void __cdecl FUN_00cd1ed0()
     FUN_009f6290();
     FUN_009f57c0();
     FUN_009f5260();
-    FUN_009f51a0();
+    hkpInactiveContactPointViewer_registerViewer();
     FUN_009f5090();
     FUN_009f4250();
     FUN_009f3b60();
@@ -58,7 +41,7 @@ void __cdecl FUN_00cd1ed0()
     FUN_009f1710();
     FUN_009f1170();
     FUN_009f05f0();
-    FUN_009ef920();
+    hkpWorldMemoryViewer_registerViewer();
     FUN_009ef4e0();
 }
 
@@ -72,6 +55,8 @@ struct FUN_00cd1f60_cls
     void FUN_00cd1f60(int);
 };
 // @fnv 0x00cd1f60
+// pdb: hkpPhysicsContext::entityRemovedCallback | hkpPhysicsContext.obj | fnv360_0822_debug, objrun, medium
+// pdb params: entity
 void FUN_00cd1f60_cls::FUN_00cd1f60(int value)
 {
     Owner* owner = *(Owner**)((char*)this - 0x50);
@@ -122,6 +107,8 @@ struct CD1FA0Object : CD1FA0Primary, CD1FA0Listener
 };
 
 // @fnv 0x00cd1fa0
+// pdb: hkpPhysicsContext::phantomRemovedCallback | hkpPhysicsContext.obj | fnv360_0822_retail, vtable, medium
+// pdb params: phantom
 void CD1FA0Object::FUN_00cd1fa0(int value)
 {
     if (m_target)
@@ -150,23 +137,7 @@ struct Owner
 {
     void UntrackObject(Event* e);
 };
-struct Sub
-{
-    void DispatchEventToOwner(Event* e);
-};
 
-// If the event's object exists and its GetType() is not 11, forwards the event to the owner stored before this sub-object.
-// @fnv 0x00cd1ff0
-void Sub::DispatchEventToOwner(Event* pEvent)
-{
-    Owner* owner = *(Owner**)((char*)this - 0x58);
-    if (owner)
-    {
-        Obj* o = pEvent->obj;
-        if (o && o->GetType() != 11)
-            (*(Owner**)((char*)this - 0x58))->UntrackObject(pEvent);
-    }
-}
 }  // namespace fnv_00cd1ff0
 
 namespace fnv_00cd2020 {
@@ -174,7 +145,6 @@ struct GlobalObjectO2_00d472a0
 {
     int x;
 };
-extern GlobalObjectO2_00d472a0 g_012690d4;
 struct FUN_00cd12b0_cls
 {
     void AddElementAndNotify(int value, const void* category, const char* name, int flags);
@@ -213,15 +183,6 @@ struct Context
 struct Owner : Prefix, Context
 {
 };
-// Forwards value to the owner object's AddElementAndNotify with the Actions category and zero flags, if an owner exists.
-// @fnv 0x00cd2020
-void Context::FUN_00cd2020(int value)
-{
-    Owner* object = reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - sizeof(Prefix));
-    FUN_00cd12b0_cls* target = object->owner;
-    if (target)
-        target->AddElementAndNotify(value, &g_012690d4, "Actions", 0);
-}
 }  // namespace fnv_00cd2020
 
 struct FUN_00cd10a0_Class
@@ -234,6 +195,8 @@ struct FUN_00cd2040_Class
 };
 // Reads a pointer stored at this-0x5c and, if non-null, forwards value to its UntrackObject method.
 // @fnv 0x00cd2040
+// pdb: hkpPhysicsContext::actionRemovedCallback | hkpPhysicsContext.obj | fnv360_0822_retail, vtable, medium
+// pdb params: action
 void FUN_00cd2040_Class::ForwardToTarget(int value)
 {
     FUN_00cd10a0_Class* target = *(FUN_00cd10a0_Class**)((char*)this - 0x5c);
@@ -276,6 +239,8 @@ struct FUN_00cd2460_class : Prefix, Secondary
 {
 };
 // @fnv 0x00cd2460
+// pdb: hkpPhysicsContext::worldDeletedCallback | hkpPhysicsContext.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: world
 int __thiscall Secondary::FUN_00cd2460(int value)
 {
     return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->FUN_00cd2260(value);
@@ -297,142 +262,9 @@ struct PointerArray
     int count;
     int capacity;
 };
-struct Candidate
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    PointerArray items;
-    void* FindOrAddPointer(void* value);
-};
-// Searches items for value and returns its index; if absent, appends value to items and returns the new slot pointer.
-// @fnv 0x00cd2470
-void* Candidate::FindOrAddPointer(void* value)
-{
-    PointerArray* array = &items;
-    register int index = 0;
-    int count = array->count;
-    if (count > 0)
-    {
-        void** ppEntry = array->data;
-        do
-        {
-            if (*ppEntry == value)
-                goto found;
-            ++index;
-            ++ppEntry;
-        } while (index < count);
-    }
-    goto append;
-found:
-    if (index >= 0)
-        return (void*)index;
-append:
-    AllocatorState* state = FUN_00c85750();
-    if (array->count == (array->capacity & 0x3fffffff))
-        ResizeAudioStream(state->allocator, array, 4);
-    void** slot = array->data + array->count;
-    *slot = value;
-    ++array->count;
-    return slot;
-}
 
 namespace fnv_00cd27f0 {
-struct Device
-{
-    virtual void slot00() = 0;
-    virtual void slot04() = 0;
-    virtual void slot08() = 0;
-    virtual void slot0c() = 0;
-    virtual void Release(void* handle, unsigned int bytes) = 0;
-};
-struct Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Device* device;
-};
 extern void* __cdecl FUN_00c85750();
-struct FUN_00cd27f0
-{
-    virtual void v0() = 0;
-    int unk04;
-    int buffer2;
-    int unk0c;
-    int count2;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int buffer1;
-    volatile int unk30;
-    int count1;
-    virtual ~FUN_00cd27f0();
-};
-// @fnv 0x00cd27f0
-FUN_00cd27f0::~FUN_00cd27f0()
-{
-    Holder* holder = (Holder*)FUN_00c85750();
-    Device* device = holder->device;
-    int count = count1;
-    unk30 = 0;
-    if ((unsigned int)count & 0x80000000)
-        goto skipFirstRelease;
-    {
-        unsigned int bytes = (count & 0x3fffffff) * 4;
-        device->Release((void*)buffer1, bytes);
-    }
-skipFirstRelease:
-    buffer1 = 0;
-    count1 = 0x80000000;
-    holder = (Holder*)FUN_00c85750();
-    device = holder->device;
-    int secondCount = count2;
-    unk0c = 0;
-    if ((unsigned int)secondCount & 0x80000000)
-        goto skipSecondRelease;
-    {
-        unsigned int bytes = (secondCount & 0x3fffffff) * 4;
-        device->Release((void*)buffer2, bytes);
-    }
-skipSecondRelease:
-    buffer2 = 0;
-    count2 = 0x80000000;
-}
 }  // namespace fnv_00cd27f0
 
 namespace fnv_00cd2900 {
@@ -451,29 +283,9 @@ struct Manager
     DeleteInterface* iface;
 };
 Manager* __cdecl FUN_00c85750();
-struct FUN_00cd2900_owner
-{
-    int unk00;
-    unsigned short unk04;
-    void FUN_00cd2690();
-    void* DestroyIfFlagged(unsigned flags);
-};
-// Calls FUN_00cd2690, and if bit 0 of flags is set, deletes this via the manager's deleteObject interface, then returns this.
-// @fnv 0x00cd2900
-void* FUN_00cd2900_owner::DestroyIfFlagged(unsigned flags)
-{
-    FUN_00cd2690();
-    if (flags & 1)
-    {
-        Manager* manager = FUN_00c85750();
-        manager->iface->deleteObject(this, unk04);
-    }
-    return this;
-}
 }  // namespace fnv_00cd2900
 
 class GlobalObjectO2_00d472a0;
-extern GlobalObjectO2_00d472a0 g_012688c8;
 class Handler
 {
   public:
@@ -497,79 +309,6 @@ struct Container
     } prefix;
     Receiver receiver;
 };
-// Recovers the enclosing Container from this, and if its handler is set, forwards input, a global, "Entities" and input+0x10 to the handler.
-// @fnv 0x00cd1f30
-void Receiver::DispatchEntityPayload(void* input)
-{
-    Container* owner = reinterpret_cast<Container*>(reinterpret_cast<char*>(this) - sizeof(Container::Prefix));
-    Handler* handler = owner->prefix.handler;
-    if (handler)
-        handler->AddElementAndNotify(input, &g_012688c8, "Entities", reinterpret_cast<char*>(input) + 0x10);
-}
-
-struct CD1F70Stats
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int m_childStats;
-};
-
-extern const char g_CD1F70Parent[];
-
-struct CD1F70Collection
-{
-    void AddStat(CD1F70Stats* stats, const char* parent, const char* name, int* childStats);
-};
-
-class CD1F70Primary
-{
-  public:
-    virtual void unk00();
-
-    CD1F70Collection* m_kPhantoms;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-};
-
-class CD1F70Secondary
-{
-  public:
-    virtual void CollectPhantoms(CD1F70Stats* stats);
-};
-
-class CD1F70World : public CD1F70Primary, public CD1F70Secondary
-{
-  public:
-    virtual void CollectPhantoms(CD1F70Stats* stats);
-};
-
-// If the collection pointer is set, forwards stats to its child-stats collector under the "Phantoms" name.
-// @fnv 0x00cd1f70
-void CD1F70World::CollectPhantoms(CD1F70Stats* stats)
-{
-    if (m_kPhantoms)
-        m_kPhantoms->AddStat(stats, g_CD1F70Parent, "Phantoms", &stats->m_childStats);
-}
 
 struct CD1FB0Collector
 {
@@ -631,13 +370,13 @@ class CD1FB0Primary
 class CD1FB0Secondary
 {
   public:
-    virtual void CollectConstraints(CD1FB0Stats* stats);
+    virtual void hkpPhysicsContext_constraintAddedCallback(CD1FB0Stats* stats);
 };
 
 class CD1FB0World : public CD1FB0Primary, public CD1FB0Secondary
 {
   public:
-    virtual void CollectConstraints(CD1FB0Stats* stats);
+    virtual void hkpPhysicsContext_constraintAddedCallback(CD1FB0Stats* stats);
 };
 
 // @f3 0x00954370 (community match, verified in this file)
@@ -654,7 +393,10 @@ struct ConstraintCollectionSlot4
     void FUN_00953550(CD1FB0Stats* stats, const char* parent, const char* name);
 };
 const char g_CD1FB0ConstraintsName[] = "Constraints";
-void CD1FB0World::CollectConstraints(CD1FB0Stats* stats)
+// pdb: hkpPhysicsContext::constraintAddedCallback | hkpPhysicsContext.obj | fnv360_0822_retail, ustr_rel, high
+// pdb params: constraint
+// pdb: hkpPhysicsContext::constraintAddedCallback | hkpPhysicsContext.obj | fnv360_0822_retail, ustr_rel, high (was: CollectConstraints)
+void CD1FB0World::hkpPhysicsContext_constraintAddedCallback(CD1FB0Stats* stats)
 {
     if (m_ppConstraints)
     {
@@ -966,6 +708,8 @@ struct ListenerWorldView
     CD2210Array<CD2210Listener*> m_kListeners;
 
 };
+// pdb: hkpPhysicsContext::removeWorldAddedListener | hkpPhysicsContext.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: cb
 void CD2210World::RemoveListener(CD2210Listener* listener)
 {
     ListenerWorldView* world = reinterpret_cast<ListenerWorldView*>(this);
@@ -1082,6 +826,8 @@ class WorldView954 : public CD2260Primary, public CD2260Interface
     void FUN_00cd2260(CD2260Object* object);
 };
 
+// pdb: hkpPhysicsContext::removeWorld | hkpPhysicsContext.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: oldWorld
 void CD2260World::FUN_00cd2260(CD2260Object* object)
 {
     WorldView954* view = reinterpret_cast<WorldView954*>(this);
@@ -1151,9 +897,6 @@ struct CD22Owner
     void AddElementAndNotify(CD22Elem* e, const char* d, const char* s, int z);
 };
 
-extern char DAT_01269104[];
-extern char str_010cb20c[];
-
 struct CD22Object
 {
     int unk00;
@@ -1201,6 +944,8 @@ struct RefTable
     short refs;
 };
 
+// pdb: hkpPhysicsContext::addForInspection | hkpPhysicsContext.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: w
 void CD22Object::RegisterWithRegistry(CD22Registry* reg)
 {
     if (m_0c == 0)
@@ -1274,6 +1019,8 @@ struct FUN_00cd24d0_cls
 
 // If m_04 was set, calls FUN_00cd2080 on each of m_68 entries in m_64, stores value in m_04, then calls RegisterWithRegistry on each entry when value is nonzero.
 // @fnv 0x00cd24d0
+// pdb: hkpPhysicsContext::setOwner | hkpPhysicsContext.obj | fnv360_0822_retail, vtable, medium
+// pdb params: vdb
 void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
 {
     if (m_04 != 0)
@@ -1294,11 +1041,6 @@ void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
         }
     }
 }
-
-struct FUN_00c93a60_cls
-{
-    void FUN_00c93a60(void* param);
-};
 
 struct Sink
 {
@@ -1366,6 +1108,8 @@ struct RItem
 };
 void __cdecl FUN_00901f10(void* array, int elementSize);
 
+// pdb: hkpPhysicsContext::addWorld | hkpPhysicsContext.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: newWorld
 void FUN_00cd2530_cls::AddItem(int pItem)
 {
     RCls* self = (RCls*)this;
@@ -1425,6 +1169,7 @@ struct FUN_00cd2870_cls
 };
 
 // @fnv 0x00cd2870
+// pdb: CTreeEngine::`scalar deleting destructor' | TreeEngine.obj | fnv360_0822_retail, vtable, medium
 FUN_00cd2870_cls* FUN_00cd2870_cls::FUN_00cd2870(unsigned int aFlags)
 {
     BaseRelease();
@@ -1444,11 +1189,12 @@ extern const CD2890Class g_CD2890WorldClass;
 
 struct CD2890World
 {
-    virtual const CD2890Class* FUN_00cd2890() const;
+    virtual const CD2890Class* bhkExtendedMeshShapeData_GetRTTI() const;
 };
 
 // @fnv 0x00cd2890
-const CD2890Class* CD2890World::FUN_00cd2890() const
+// pdb: bhkExtendedMeshShapeData::GetRTTI | bhkExtendedMeshShape.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+const CD2890Class* CD2890World::bhkExtendedMeshShapeData_GetRTTI() const
 {
     return &g_CD2890WorldClass;
 }
@@ -1582,6 +1328,7 @@ struct FUN_00cd25d0 : hkReferencedObject,
 
 // Constructs the object; the base classes and member arrays are initialized by their own constructors.
 // @f3 0x00954890 (community match, verified in this file)
+// pdb: hkpPhysicsContext::hkpPhysicsContext | hkpPhysicsContext.obj | fnv360_0822_debug, objrun_open, low
 FUN_00cd25d0::FUN_00cd25d0() : m_84(m_84)
 {}
 
@@ -1652,14 +1399,6 @@ class hkReferencedObjectD269
     short m_sReferenceCount;
 };
 
-class BaseD269_08
-{
-  public:
-    virtual ~BaseD269_08() throw();
-    int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28;
-    int unk2C, unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C;
-};
-
 class ListenerD269_58
 {
   public:
@@ -1690,43 +1429,6 @@ class ListenerD269_68
     virtual ~ListenerD269_68() throw()
     {}
 };
-
-class ElementD269
-{
-  public:
-    virtual ~ElementD269() throw();
-    int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
-    int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
-    int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C;
-    int unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
-    int unkC0, unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC, unkE0, unkE4, unkE8, unkEC;
-};
-
-class FUN_00cd2690 : public hkReferencedObjectD269,
-                     public BaseD269_08,
-                     public ListenerD269_58,
-                     public ListenerD269_5C,
-                     public ListenerD269_60,
-                     public ListenerD269_64,
-                     public ListenerD269_68
-{
-  public:
-    virtual ~FUN_00cd2690() throw();
-
-    void FUN_00cd2260(void* pkObject);
-
-    hkArrayD269<void*> m_kTrackedObjects;
-    hkArrayD269<ElementD269> m_elements;
-    hkArrayD269<void*> m_kListeners;
-};
-
-// Destructor that iterates m_kTrackedObjects in reverse and calls FUN_00cd2260 on each element.
-// @fnv 0x00cd2690
-FUN_00cd2690::~FUN_00cd2690() throw()
-{
-    for (int i = m_kTrackedObjects.GetLogicalSize() - 1; i >= 0; i--)
-        FUN_00cd2260(m_kTrackedObjects[i]);
-}
 
 struct Block8CD2A
 {
@@ -1772,37 +1474,6 @@ struct ValueCD2A
     ValueCD2A() : m_kPointA(0), m_kPointB(0)
     {}
 };
-
-struct EntryCD2A
-{
-    int m_key;
-    int m_unk04;
-    ValueCD2A m_uiFilterValue;
-};
-
-class OwnerCD2A
-{
-  public:
-    int unk00[0x78 / 4];
-    hkArrayCD2A<EntryCD2A> m_entries;
-
-    ValueCD2A FUN_00cd2a50(int iKey);
-};
-
-// @fnv 0x00cd2a50
-ValueCD2A OwnerCD2A::FUN_00cd2a50(int iKey)
-{
-    for (int i = 0; i < m_entries.GetLogicalSize(); i++)
-    {
-        if (m_entries[i].m_key == iKey)
-        {
-            EntryCD2A kEntry = m_entries[i];
-            m_entries.removeAtAndCopy(i);
-            return kEntry.m_uiFilterValue;
-        }
-    }
-    return ValueCD2A();
-}
 
 struct FUN_00cd1e70
 {
@@ -1864,56 +1535,6 @@ struct ThunkOwner : PrimaryBase, SecondaryBase
 
 ThunkOwner::ThunkOwner()
 {}
-
-// FUN_00cd28b0: MSVC this-adjusting thunk.
-//
-// The original is 8 bytes:  sub ecx, 0x5c ; jmp 0x00cd2900
-// That is the adjustor thunk MSVC emits for a virtual function that a
-// derived class overrides for a SECONDARY base: calling through the
-// secondary base's vftable passes the base subobject's `this`, so the
-// thunk walks it back to the derived object and tail-jumps to the shared
-// override.
-//
-// To make the compiler produce exactly that symbol we need
-//   * two bases that both declare the same virtual (so the derived class
-//     overrides one function for both of them -> one adjustor per base),
-//   * the second base placed at offset 0x5c (the first base is padded to
-//     0x5c bytes),
-//   * the override DECLARED ONLY, so that the thunk is the single defined
-//     function symbol carrying the name FUN_00cd28b0,
-//   * a defined key function in the derived class, so that its vftable
-//     (which references the thunk) is emitted in this translation unit.
-struct AdjBase1
-{
-    AdjBase1();
-    virtual void FUN_00cd28b0();
-    char pad[0x58];  // vptr + 0x58 -> size 0x5c, so AdjBase2 lands at +0x5c
-};
-
-struct AdjBase2
-{
-    AdjBase2();
-// @fnv 0x00cd28b0
-    virtual void FUN_00cd28b0();
-};
-
-struct AdjOwner : AdjBase1, AdjBase2
-{
-    AdjOwner();
-    virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00cd28b0();    // the shared override - declared only
-};
-
-AdjOwner::AdjOwner()
-{}
-void AdjOwner::key_fn()
-{}
-
-AdjOwner* make_adj_owner()
-{
-    static AdjOwner o;
-    return &o;
-}
 
 namespace fnv_00cd28c0 {
 // sub ecx,0x60; jmp DestroyIfFlagged == MSVC adjustor thunk (second base's vtable slot, this moved back by sizeof(PrimaryBase)=0x60).
@@ -2032,68 +1653,3 @@ struct CD28E0Object : CD28E0Primary, CD28E0Secondary
 
 CD28E0Object::CD28E0Object()
 {}
-
-// sub ecx,0x68; jmp target == MSVC adjustor thunk for a secondary base slot.
-struct CD28F0Primary
-{
-    virtual void FUN_00cd28f0();
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-};
-
-struct CD28F0Secondary
-{
-    virtual void FUN_00cd28f0();
-};
-
-struct CD28F0Derived : CD28F0Primary, CD28F0Secondary
-{
-    CD28F0Derived();
-// @fnv 0x00cd28f0
-    virtual void FUN_00cd28f0();
-};
-
-CD28F0Derived::CD28F0Derived()
-{}
-
-struct FUN_00cd1eb0_StandIn
-{
-    int unk00;
-    int __thiscall FUN_00cd1eb0(int param);
-};
-
-extern void __cdecl FUN_00401030(void* ptr);
-
-// @fnv 0x00cd1eb0
-int __thiscall FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
-{
-    unk00 = 0x010cb1e4;
-    if (aiFlags & 1)
-    {
-        FUN_00401030(this);
-    }
-    return (int)this;
-}

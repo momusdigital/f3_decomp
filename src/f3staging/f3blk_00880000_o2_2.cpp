@@ -206,6 +206,8 @@ struct Owner12 {
     unsigned int levels;
     bool FUN_0088a240();
 };
+// pdb: XGOffsetResourceAddress | header.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiDX9SourceCubeMapData::CreateCubeMap)
+// pdb params: pResource, pBaseAddress
 bool Owner12::FUN_0088a240() {
     D3DFORMAT textureFormat = format;
     IDirect3DDevice9* device = renderer->device;

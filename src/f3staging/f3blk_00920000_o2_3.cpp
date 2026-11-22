@@ -87,6 +87,8 @@ struct Derived : Base {
     int unk50[0x1c];
     int unkc0;
 };
+// pdb: ahkpCharacterProxy::ahkpCharacterProxy | bhkCharacterProxy.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arInfo
 Derived::Derived(void* info) : Base(info)
 {
     unkc0 = 0;
@@ -104,7 +106,7 @@ namespace f3m_0092ded0 {
 struct S {float value; S(float f):value(f){}};
 struct U {float x,y,z,w;};
 struct __declspec(align(16)) V { float x,y,z,w;
- void FUN_008d28e0(void*,const V*);
+ void hkVector4_setTransformedPos(void*,const V*);
  void FUN_008d2a80(const void*,const V*);
  void copy(const U&a){x=a.x;y=a.y;z=a.z;w=a.w;}
  void sub(const V&a,const V&b){x=a.x-b.x;y=a.y-b.y;z=a.z-b.z;w=a.w-b.w;}
@@ -116,7 +118,7 @@ struct __declspec(align(16)) V { float x,y,z,w;
  void neg(){x=-x;y=-y;z=-z;w=-w;}
 };
 struct __declspec(align(16)) M { V a,b,c;
- void FUN_0096c880(const V*);
+ void hkMatrix3_setCrossSkewSymmetric(const V*);
  void FUN_0096ce80(const M*,const M*);
  void FUN_0096cca0(const M*);
  int FUN_0096c8f0(float);
@@ -248,7 +250,7 @@ struct Body {
  int unkc4;
  int unkc8;
  int unkcc;
- Motion motion; Motion* FUN_0090cdf0(); void FUN_0090b500(); void FUN_00917120(const V*,V*);
+ Motion motion; Motion* hkpRigidBody_getStoredDynamicMotion(); void FUN_0090b500(); void FUN_00917120(const V*,V*);
 };
 struct Step {float start,end,dt,invDt;};
 struct Action {
@@ -258,19 +260,20 @@ struct Action {
  int unk0c;
  int unk10;
  int unk14;
- Body* body; int unk1c; V mouse,grab; float damping,elasticity,maxForce,tau; int unk50; void (__cdecl **callbacks)(Action*,const Step&,const V&); int count; void FUN_0092ded0(const Step&);
+ Body* body; int unk1c; V mouse,grab; float damping,elasticity,maxForce,tau; int unk50; void (__cdecl **callbacks)(Action*,const Step&,const V&); int count; void hkpMouseSpringAction_applyAction(const Step&);
 };
-void Action::FUN_0092ded0(const Step& step){
+// pdb: hkpMouseSpringAction::applyAction | hkpMouseSpringAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Action::hkpMouseSpringAction_applyAction(const Step& step){
  V impulse,ang,lin,spring,world,r,delta;
  M K,cross,temp,inertia,temp2;
  float scalar,len,maxImpulse;
  Body* rb=body;
- world.FUN_008d28e0((char*)rb+0xe0,&mouse);
+ world.hkVector4_setTransformedPos((char*)rb+0xe0,&mouse);
  delta.sub(world,grab);
- Motion* motion=rb->FUN_0090cdf0()?rb->FUN_0090cdf0():&rb->motion;
+ Motion* motion=rb->hkpRigidBody_getStoredDynamicMotion()?rb->hkpRigidBody_getStoredDynamicMotion():&rb->motion;
  scalar=motion->invMass;
  r.sub(world,*(V*)((char*)rb+0x130));
- cross.FUN_0096c880(&r);
+ cross.hkMatrix3_setCrossSkewSymmetric(&r);
  motion->inertia(&inertia);
  K.diagonal(scalar);
  temp.FUN_0096ce80(&cross,&inertia);
@@ -2004,6 +2007,8 @@ extern "C"
 	void __cdecl hkAgentNnMachine_AppendTrack( hkpAgentNnTrack& track, hkpAgentNnTrack& appendee);
 }
 
+// pdb: hkpWorldOperationUtil::setRigidBodyMotionType | hkpWorldOperationUtil.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: body, newState, initialActivationState, collisionFilterUpdateMode
 void hkpWorldOperationUtil::FUN_00929670( hkpRigidBody* body, hkpMotion::MotionType newState, hkpEntityActivation initialActivationState, hkpUpdateCollisionFilterOnEntityMode collisionFilterUpdateMode)
 {
 	hkpMotion::MotionType oldState = body->getMotionType();

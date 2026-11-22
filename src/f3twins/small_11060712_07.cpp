@@ -10,9 +10,9 @@ struct TESFile {
     unsigned int m_uiChunkSize;
     char pad260[0x39];
     bool m_bSwap;
-    int FUN_00448cc0();
-    unsigned int FUN_004487d0();
-    bool FUN_00447020();
+    int TESFile_GetTESForm();
+    unsigned int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     bool FUN_00447d60(void* p, unsigned int size);
     bool FUN_00448800(void* p);
     unsigned int GetChunkSize() { return m_uiChunkSize; }
@@ -60,13 +60,15 @@ struct Ragdoll : TESForm, TESModel {
 }
 
 
+// pdb: BGSRagdoll::Load | BGSRagdoll.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool n_00549bb0::Ragdoll::FUN_00549bb0(TESFile* file)
 {
-    if (file->FUN_00448cc0() != 0x63)
+    if (file->TESFile_GetTESForm() != 0x63)
         return false;
     FUN_00454410(file);
     int chunk;
-    while ((chunk = file->FUN_004487d0()) != 0)
+    while ((chunk = file->TESFile_GetTESChunk()) != 0)
     {
         switch (chunk)
         {
@@ -136,7 +138,7 @@ bool n_00549bb0::Ragdoll::FUN_00549bb0(TESFile* file)
             break;
         }
         }
-        if (!file->FUN_00447020())
+        if (!file->TESFile_NextChunk())
             break;
     }
     return true;
@@ -170,6 +172,8 @@ struct Pool_00571500 { void Free(Node_00571500*); };
 extern Pool_00571500 DAT_01090a78;
 static inline bool Kind_00571500(Sub_00571500* s) { unsigned k = s->flags & 0x7f; return k == 0xc || k == 0x16 || k == 0x18; }
 struct List_00571500 { int a; Node_00571500* head; void Remove(Obj_00571500*); };
+// pdb: TESTrapListener::phantomRemovedCallback | TESTrapListener.obj | fnv360_0822_retail, vtable, high
+// pdb params: apPhantom
 void List_00571500::Remove(Obj_00571500* o)
 {
     Sub_00571500* key = &o->sub;
@@ -286,6 +290,7 @@ void* FUN_00ad1020();
 extern bool DAT_0116ebc8;
 extern DWORD DAT_0116ebd4;
 
+// pdb: NiParticleSDM::Init | NiParticleSDM.obj | fnv360_0822_retail, strset, low
 void FUN_00aba820()
 {
     if (DAT_0116ebc8)
@@ -358,6 +363,7 @@ void FUN_0089f820(void*, void*);
 void FUN_00aba820();
 void FUN_00aba5f0();
 struct C_00abab70 { void* FUN_00abab70(); };
+// pdb: NiAnimationSDM::NiAnimationSDM | NiAnimationSDM.obj | tesv_win, objopen_prop, low
 void* C_00abab70::FUN_00abab70()
 {
     int count = DAT_0116ebcc;

@@ -55,14 +55,15 @@ struct FUN_00ca9440_cls
     unsigned int m_5c;
     HKPCloseNode* m_60;
 
-    void FUN_00ca9440(HKPCloseNode* node, FUN_00ca9440_src* src);
+    void hkpClosestRayHitCollector_addRayHit(HKPCloseNode* node, FUN_00ca9440_src* src);
 };
 
 // @f3 0x00924050 (community match, verified in this file)
 struct LinkedEntry;
 int __cdecl CollectValuesReversed(int* dst, int size, LinkedEntry* src);
 
-void FUN_00ca9440_cls::FUN_00ca9440(HKPCloseNode* node, FUN_00ca9440_src* src)
+// pdb: hkpClosestRayHitCollector::addRayHit | hkpClosestRayHitCollector.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void FUN_00ca9440_cls::hkpClosestRayHitCollector_addRayHit(HKPCloseNode* node, FUN_00ca9440_src* src)
 {
     if (src->m_10 < m_20)
     {

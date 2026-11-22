@@ -25,6 +25,8 @@ struct NiPSysBombModifier : NiPSysModifier
     void FUN_00c2e610(CloningProcess&);
 };
 // @fnv 0x00c2e610
+// pdb: NiPSysBombModifier::ProcessClone | NiPSysBombModifier.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: kCloning
 void NiPSysBombModifier::FUN_00c2e610(CloningProcess& kCloning)
 {
     bool bFound;
@@ -92,6 +94,8 @@ struct BombMod : NiPSysBombModifier
 };
 
 // @fnv 0x00c2eaf0
+// pdb: NiPSysBombModifier::IsEqual | NiPSysBombModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkObject
 bool BombMod::FUN_00c2eaf0(NiObject* pkObject)
 {
     if (!FUN_00c31830(pkObject))
@@ -207,6 +211,8 @@ struct BombMod : BombModBase
 
 // Appends the base strings plus the bomb object name, axis, decay, deltaV, decay type and symmetry type to pkStrings.
 // @fnv 0x00c2ed00
+// pdb: NiPSysBombModifier::GetViewerStrings | NiPSysBombModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void BombMod::AppendToStrings(StrArr* pkStrings)
 {
     FUN_00c319e0(pkStrings);
@@ -389,7 +395,7 @@ struct ParticleStream
     int unk244;
     int unk248;
     BinaryInput* input;
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 struct PointReader
 {
@@ -411,14 +417,15 @@ struct BombLoader
     DecayType decayType;
     SymmetryType symmetryType;
     void FUN_00c318b0(ParticleStream&);
-    void FUN_00c2eb80(ParticleStream& stream);
+    void NiPSysBombModifier_LoadBinary(ParticleStream& stream);
 };
 // Loads the base data, then reads axis, decay, delta, decayType and symmetryType from the stream's input.
 // @fnv 0x00c2eb80
-void BombLoader::FUN_00c2eb80(ParticleStream& stream)
+// pdb: NiPSysBombModifier::LoadBinary | NiPSysBombModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void BombLoader::NiPSysBombModifier_LoadBinary(ParticleStream& stream)
 {
     FUN_00c318b0(stream);
-    stream.FUN_00a645b0();
+    stream.NiStream_ReadLinkID();
     axis.LoadBinary(stream);
     stream.input->ReadFloat(decay);
     stream.input->ReadFloat(delta);
@@ -653,7 +660,7 @@ class NiPSysModifierC2E
 class NiPSysEmitterC2E : public NiPSysModifierC2E
 {
   public:
-    void FUN_00c2ec40(NiStreamC2E& kStream);
+    void NiPSysBombModifier_SaveBinary(NiStreamC2E& kStream);
 
     void* m_pkTarget;
     NiColorC2E m_kFogTint;
@@ -665,7 +672,8 @@ class NiPSysEmitterC2E : public NiPSysModifierC2E
 
 // Saves the modifier base, the target link ID, the color, and the four float values to the stream.
 // @fnv 0x00c2ec40
-void NiPSysEmitterC2E::FUN_00c2ec40(NiStreamC2E& kStream)
+// pdb: NiPSysBombModifier::SaveBinary | NiPSysBombModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void NiPSysEmitterC2E::NiPSysBombModifier_SaveBinary(NiStreamC2E& kStream)
 {
     NiPSysModifierC2E::SaveBinary(kStream);
     kStream.SaveLinkID(m_pkTarget);
@@ -720,11 +728,12 @@ struct C2E570_Modifier : C2E570_Base
         m_34 = 0;
     }
     void FUN_00c31780(C2E570_Modifier* clone, int arg);
-    C2E570_Modifier* FUN_00c2e570(int arg);
+    C2E570_Modifier* NiPSysBombModifier_CreateClone(int arg);
 };
 // Creates a new modifier, calls FUN_00c31780 on it, copies m_1C, m_20, m_24, m_28, m_2C, m_30, and m_34, then returns it.
 // @fnv 0x00c2e570
-C2E570_Modifier* C2E570_Modifier::FUN_00c2e570(int arg)
+// pdb: NiPSysBombModifier::CreateClone | NiPSysBombModifier.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+C2E570_Modifier* C2E570_Modifier::NiPSysBombModifier_CreateClone(int arg)
 {
     C2E570_Modifier* clone = new C2E570_Modifier;
     FUN_00c31780(clone, arg);
@@ -909,12 +918,13 @@ struct NiPSysModifierStandIn
 
 struct BombModShell : BombMod
 {
-    void FUN_00c2e670(float fTime, NiPSysData* pkData);
+    void NiPSysBombModifier_Update(float fTime, NiPSysData* pkData);
 };
 
 // Applies velocity impulses to particles based on bomb direction, symmetry type, and distance decay over the elapsed time step.
 // @fnv 0x00c2e670
-void BombModShell::FUN_00c2e670(float fTime, NiPSysData* pkData)
+// pdb: NiPSysBombModifier::Update | NiPSysBombModifier.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+void BombModShell::NiPSysBombModifier_Update(float fTime, NiPSysData* pkData)
 {
     Point3ParameterData* pkInfo;
     (void)pkInfo;

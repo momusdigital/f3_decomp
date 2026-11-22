@@ -19,10 +19,12 @@ void __cdecl FUN_006d2050();
 void __cdecl FUN_0061d130(int a);
 void __cdecl FUN_0048c590(int a);
 void __cdecl FUN_005a1d60(int a);
-void __cdecl FUN_006c3820(int a);
+void __cdecl FalloutRadio_Revert(int a);
 void __cdecl FUN_00c24b70(int a);
 void __cdecl FUN_006cd570(const char* fmt, ...);
 
+// pdb: BGSSaveLoadGlobalData::RevertGlobalDataRange | BGSSaveLoadGlobalData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiStart, aiEnd, abFullRevert
 bool __cdecl FUN_006d2250(unsigned int type, int data, bool flag)
 {
     switch (type) {
@@ -55,7 +57,7 @@ bool __cdecl FUN_006d2250(unsigned int type, int data, bool flag)
         FUN_005a1d60(data);
         return true;
     case 10:
-        FUN_006c3820(data);
+        FalloutRadio_Revert(data);
         return true;
     case 11:
         FUN_00c24b70(data);

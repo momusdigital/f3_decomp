@@ -9,6 +9,8 @@ class GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_01201f84;
 
 // @fnv 0x00bc2bc0
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,char const *,NiD3DVertexShader *>::ClearValue | NiD3DShaderProgramFactory.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __formal
 GlobalObjectO2_00a7b610* __cdecl FUN_00bc2bc0()
 {
     return &g_01201f84;
@@ -20,6 +22,8 @@ struct FUN_00bc2b20_shell
 };
 
 // @fnv 0x00bc2b20
+// pdb: BSFadeNodeCuller::Process | BSFadeNodeCuller.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCamera, apScene, apVisibleSet
 void __thiscall FUN_00bc2b20_shell::FUN_00bc2b20(int a, int b, int c)
 {
     *(int*)((char*)this + 0xc) = a;
@@ -88,6 +92,8 @@ struct FUN_00bc2b30_cls
 };
 
 // @fnv 0x00bc2b30
+// pdb: BSFadeNodeCuller::Process | BSFadeNodeCuller.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 void FUN_00bc2b30_cls::FUN_00bc2b30(SpawnedSource* apSource)
 {
     SpawnedObject* pTarget = apSource->GetTarget();
@@ -103,9 +109,9 @@ void FUN_00bc2b30_cls::FUN_00bc2b30(SpawnedSource* apSource)
     {
         SpawnedBound* pBound = pTarget->GetBoundingVolume();
         SpawnedPlane* pPlane = &m_kPlaneArray[uCount];
-        volatile float fDot = pPlane->m_fNy * pBound->m_fVectorZ + pPlane->m_fNx * pBound->m_fVectorY +
+        float fDot = pPlane->m_fNy * pBound->m_fVectorZ + pPlane->m_fNx * pBound->m_fVectorY +
                               pPlane->m_fNz * pBound->m_fScalarPart;
-        volatile float fDist = fDot - pPlane->m_fD;
+        float fDist = fDot - pPlane->m_fD;
         if (fDist <= -pBound->m_fBoundRadius)
         {
             break;

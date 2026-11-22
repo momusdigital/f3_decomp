@@ -5,7 +5,7 @@
 
 #include "niskinpartition_decls.h"
 const void* g_011f5b1c;
-const void* __cdecl FUN_00a820d0();
+const void* __cdecl NiDirectionalLight_GetRTTI();
 void __stdcall FUN_00a82600(int a, int b, float c);
 struct Holder
 {
@@ -74,7 +74,7 @@ struct C082d30
     unsigned int f4;
     unsigned int f8;
     void FUN_00a82710(unsigned int);
-    void AppendMatchingIndices(int, int*, unsigned int);
+    void NiSkinPartition_TriangleSet_AddTriangles(int, int*, unsigned int);
 };
 struct Dummy13
 {
@@ -89,11 +89,11 @@ struct MyCls
     int _40;
     int _44;
     void _Call_a5d3a0();
-    void FUN_00a853c0(int);
+    void NiSkinData_ComputeBoneBounds(int);
     MyCls* InitFromData(int, int, const Dummy13&, int);
 };
 extern int DAT_0109e574;
-int __cdecl FUN_00a853c0();
+int __cdecl NiSkinData_ComputeBoneBounds();
 void* __cdecl _NiMalloc(unsigned int);
 void __cdecl _NiFree(void*);
 struct FUN_00a826b0_shell
@@ -287,7 +287,7 @@ struct ItemSet
     unsigned int m_u4;
     unsigned int m_uiItemCount;
 };
-int __cdecl FindMatchingItem(ItemSet* set, const unsigned short* a2, const void* a3, unsigned char* flags,
+int __cdecl NiSkinPartition_AssignTriangle(ItemSet* set, const unsigned short* a2, const void* a3, unsigned char* flags,
                              unsigned char key);
 // FUN_00a833a0 : constructor of a three-dword value object; zeroes all members.
 struct FUN_00a833a0_cls
@@ -565,9 +565,9 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(unsigned int, SkinItems*) throw();
-    bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
+    __declspec(nothrow) void NiSkinPartition_CreateInitialBoneSets(SkinGeom*, void*, SkinItems*, int*) throw();
+    __declspec(nothrow) void NiSkinPartition_MergeBoneSets(unsigned int, SkinItems*) throw();
+    bool NiSkinPartition_MakeBoneSets(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 template <class T> class SkinTArray
 {
@@ -712,7 +712,7 @@ struct Skp_00a828d0_cls : NiSkinPartition::Partition
 {
     unsigned short* SplitTriangles(GeomData* pkData, void* pkSet);
     void ExpandTriangles(void* pkSet, void* pkSource, unsigned short* pusRemap);
-    void PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet, Skp_00a828d0_grp* pkGroups,
+    void NiSkinPartition_Partition_Create(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet, Skp_00a828d0_grp* pkGroups,
                           bool bWeights, bool bZeroPalette, unsigned char ucBonesPerVertex, unsigned int uiBones);
 };
 void* __cdecl AllocBlock(unsigned int uiSize);
@@ -1180,6 +1180,8 @@ struct LBSkinPartition : LBObject
 };
 
 // @fnv 0x00a83c30
+// pdb: NiSkinPartition::LoadBinary | NiSkinPartition.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void LBSkinPartition::FUN_00a83c30(LBStream& arStream)
 {
     LBObject::LoadBinary(arStream);

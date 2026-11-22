@@ -15,6 +15,8 @@ __declspec(noinline) void FUN_0061df10(int n)
 
 extern int DAT_01079540[];
 
+// pdb: ImpactMixer::SetAltMaterialSoundName | ImpactMixer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiMat, apAltName
 void FUN_006c4470(unsigned int i, int v)
 {
     DAT_01079540[i] = v;
@@ -24,6 +26,8 @@ void FUN_006c4470(unsigned int i, int v)
 
 struct C_007527c0 { void FUN_006f8d60(); };
 
+// pdb: MiddleHighProcess::DidPathingFail | MiddleHighProcess.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apActor
 void __stdcall FUN_007527c0(C_007527c0* p)
 {
     p->FUN_006f8d60();

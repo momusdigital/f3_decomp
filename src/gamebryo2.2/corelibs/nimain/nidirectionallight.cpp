@@ -2,6 +2,8 @@
 #include "f3_common.h"
 #include "nidirectionallight_decls.h"
 // @fnv 0x00a71ec0
+// pdb: NiLight::CopyMembers | NiLight.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pDest, kCloning
 void NiDirectionalLight::CopyMemberData(NiDirectionalLight* pDest, CloningProcess& process)
 {
     NiLight::CopyMemberData(pDest, process);
@@ -25,6 +27,7 @@ struct Vec3_00a75c20
 
 // Calls FUN_00a71f60, sets the vtable to &DAT_0109d7b4, stores Vec3(1,0,0) at pThis+0xf0 and byte 3 at pThis+0x9d, then returns pThis.
 // @fnv 0x00a75c20
+// pdb: NiDirectionalLight::NiDirectionalLight | NiDirectionalLight.obj | fnv360_0822_retail, call_seq, high
 void* __fastcall FUN_00a75c20(char* pObject)
 {
     FUN_00a71f60(pObject);
@@ -37,7 +40,7 @@ void* __fastcall FUN_00a75c20(char* pObject)
 
 struct FUN_00a75c70_shell : public NiDirectionalLight
 {
-    void* FUN_00a75c70();
+    void* NiCullingProcess_GetRTTI();
 };
 
 struct GlobalObjectO2_00a7b610
@@ -48,7 +51,8 @@ struct GlobalObjectO2_00a7b610
 GlobalObjectO2_00a7b610 g_011f4a68;
 
 // @fnv 0x00a75c70
-void* FUN_00a75c70_shell::FUN_00a75c70()
+// pdb: NiCullingProcess::GetRTTI | NiCullingProcess.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+void* FUN_00a75c70_shell::NiCullingProcess_GetRTTI()
 {
     return &g_011f4a68;
 }
@@ -63,6 +67,7 @@ extern "C" void __cdecl __Dummy_00b6fef0(void* p, int n);
 
 // Calls FUN_00a72010, then if bit 0 of n is set calls __Dummy_00b6fef0 on this with 0xfc, and returns this.
 // @fnv 0x00a75c80
+// pdb: BSOcclusionPlane::`scalar deleting destructor' | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 NiDirectionalLight* __thiscall NiDirectionalLightShell::FUN_00a75c80(int aiFlags)
 {
     FUN_00a72010();
@@ -94,6 +99,7 @@ struct NiAVObject
 
 // Calls NiAVObject::UpdateWorldData, copies three floats from offsets 0x68/0x74/0x80 to 0xf0/0xf4/0xf8, and increments the int at 0xa8.
 // @fnv 0x00a75cb0
+// pdb: NiDirectionalLight::`scalar deleting destructor' | NiDirectionalLight.obj | fnv360_0721_retail, objrun, low, conflict (skyrim: NiDirectionalLight::UpdateWorldData)
 void FUN_00a75cb0_shell::FUN_00a75cb0(NiUpdateData* UpdateData)
 {
     ((NiAVObject*)this)->UpdateWorldData(*UpdateData);
@@ -134,6 +140,8 @@ struct LightDerived : BaseLight
     void FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
 // @fnv 0x00a75d70
+// pdb: NiColorExtraDataController::GetViewerStrings | NiColorExtraDataController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void LightDerived::FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* apArray)
 {
     AppendEffectProperties(apArray);
@@ -151,6 +159,7 @@ inline void* operator new(unsigned int, void* memory) throw()
     return memory;
 }
 // @fnv 0x00a75d50
+// pdb: NiDirectionalLight::CreateObject | NiDirectionalLight.obj | fnv360_0822_retail, caller_sim, low
 NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 {
     return new (FUN_00aa13e0(sizeof(NiDirectionalLight))) NiDirectionalLight;
@@ -168,6 +177,8 @@ struct FUN_00a75cf0_impl : public NiDirectionalLight
 
 // Allocates a NiDirectionalLight, initializes it via FUN_00a75c20, copies member data and m_kWorldDir from the source, and returns the new object.
 // @fnv 0x00a75cf0
+// pdb: NiDirectionalLight::CreateClone | NiDirectionalLight.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 NiObject* FUN_00a75cf0_impl::FUN_00a75cf0(CloningProcess* kCloning)
 {
     NiDirectionalLight* pkObject = (NiDirectionalLight*)FUN_00aa13e0(sizeof(NiDirectionalLight));

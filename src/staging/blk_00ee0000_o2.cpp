@@ -14,6 +14,7 @@ struct FUN_00ee88b0
 };
 
 // @fnv 0x00ee88b0
+// pdb: NiFloatInterpController::NiFloatInterpController | NiFloatInterpController.obj | tesv_win, uvref, medium
 FUN_00ee88b0::FUN_00ee88b0()
 {
     _Call_a5d3a0();
@@ -33,6 +34,8 @@ struct FUN_00ee8a10
 
 // Copy constructor: shares src's string buffer with interlocked refcount increment/decrement and copies the remaining fields.
 // @fnv 0x00ee8a10
+// pdb: NiMaterialDescriptor::operator= | NiMaterialDescriptor.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kDescriptor
 FUN_00ee8a10::FUN_00ee8a10(const FUN_00ee8a10& src)
 {
     const char* newStr = src.m_pString;
@@ -92,6 +95,7 @@ struct FUN_00ee89f0
 };
 
 // @fnv 0x00ee89f0
+// pdb: NiMaterialDescriptor::NiMaterialDescriptor | NiMaterialDescriptor.obj | fnv360_0822_retail, call_seq, medium
 FUN_00ee89f0::FUN_00ee89f0()
 {
     m_pString = _EmptyFS;
@@ -131,6 +135,7 @@ void FUN_00eea650_stand_in::FUN_00eea650(const FUN_00ee8a10& aSource)
 __declspec(dllimport) int __stdcall gethostname(char* name, int namelen);
 
 // @fnv 0x00ee6d8c
+// pdb: D3DXPlaneTransform | d3dx9_42.dll | tesv_win, objrun_open, low
 int __stdcall FUN_00ee6d8c(char* name, int namelen)
 {
     return gethostname(name, namelen);
@@ -140,6 +145,7 @@ int __stdcall FUN_00ee6d8c(char* name, int namelen)
 extern "C" __declspec(dllimport) int __stdcall listen(unsigned int s, int backlog);
 
 // @fnv 0x00ee6d92
+// pdb: D3DXMatrixTranspose | d3dx9_42.dll | tesv_win, objrun_open, low
 int __stdcall FUN_00ee6d92(unsigned int s, int backlog)
 {
     return listen(s, backlog);
@@ -149,6 +155,7 @@ int __stdcall FUN_00ee6d92(unsigned int s, int backlog)
 extern "C" __declspec(dllimport) int __stdcall bind(unsigned int s, const void* name, int namelen);
 
 // @fnv 0x00ee6d98
+// pdb: D3DXMatrixInverse | d3dx9_42.dll | tesv_win, objrun_open, low
 int __stdcall FUN_00ee6d98(unsigned int s, const void* name, int namelen)
 {
     return bind(s, name, namelen);
@@ -175,6 +182,7 @@ char* __stdcall FUN_00ee6da4(unsigned int addr)
 __declspec(dllimport) unsigned short __stdcall ntohs(unsigned short netshort);
 
 // @fnv 0x00ee6daa
+// pdb: D3DXLoadSurfaceFromSurface | d3dx9_42.dll | tesv_win, objrun_open, low
 unsigned short __stdcall FUN_00ee6daa(unsigned short netshort)
 {
     return ntohs(netshort);
@@ -184,16 +192,17 @@ unsigned short __stdcall FUN_00ee6daa(unsigned short netshort)
 extern "C" __declspec(dllimport) unsigned int __stdcall accept(unsigned int s, void* addr, int* addrlen);
 
 // @fnv 0x00ee6db0
+// pdb: D3DXGetPixelShaderProfile | d3dx9shader.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: D3DXVec3Normalize)
+// pdb params: pDevice
 int __stdcall FUN_00ee6db0(unsigned int s, void* addr, int* addrlen)
 {
     return accept(s, addr, addrlen);
 }
 
-extern "C" int __cdecl __WSAFDIsSet(unsigned long, void*);
-
 extern void(__cdecl* const FUN_00DF3880)();
 
 // @fnv 0x00ee6db6
+// pdb: D3DXMatrixMultiplyTranspose | d3dx9_42.dll | tesv_win, objrun_open, low
 void __cdecl FUN_00ee6db6()
 {
 
@@ -203,6 +212,7 @@ void __cdecl FUN_00ee6db6()
 extern "C" void(__cdecl* DAT_00fdf37c)();
 
 // @fnv 0x00ee6dbc
+// pdb: D3DXVec3TransformCoord | d3dx9_42.dll | tesv_win, objrun_open, low
 void __cdecl FUN_00ee6dbc()
 {
     DAT_00fdf37c();
@@ -211,6 +221,7 @@ void __cdecl FUN_00ee6dbc()
 extern "C" __declspec(dllimport) void __cdecl ImportedFunction();
 
 // @fnv 0x00ee6dc2
+// pdb: D3DXCreateTextureFromFileExA | d3dx9_42.dll | tesv_win, objrun_open, low
 void __cdecl FUN_00ee6dc2()
 {
     ImportedFunction();
@@ -223,6 +234,7 @@ extern "C" __declspec(dllimport) D3DXPLANE* __stdcall D3DXPlaneTransform(D3DXPLA
                                                                          const D3DXMATRIX* matrix);
 
 // @fnv 0x00ee6dc8
+// pdb: D3DXCreateVolumeTextureFromFileInMemory | d3dx9_42.dll | tesv_win, call_gap, low
 D3DXPLANE* __stdcall FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
 {
     return D3DXPlaneTransform(output, plane, matrix);
@@ -231,6 +243,7 @@ D3DXPLANE* __stdcall FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, con
 extern "C" __declspec(dllimport) void* __stdcall D3DXPlaneNormalize(void* pout, const void* pp);
 
 // @fnv 0x00ee6dce
+// pdb: D3DXCreateCubeTextureFromFileInMemory | d3dx9_42.dll | tesv_win, call_gap, low
 void* __stdcall FUN_00ee6dce(void* pout, const void* pp)
 {
     return D3DXPlaneNormalize(pout, pp);
@@ -240,6 +253,7 @@ typedef void(__cdecl* PFN_D3DXMatrixInverse)(void);
 extern "C" PFN_D3DXMatrixInverse __imp__D3DXMatrixInverse;
 
 // @fnv 0x00ee6dda
+// pdb: D3DXGetImageInfoFromFileInMemory | d3dx9_42.dll | tesv_win, call_gap, low
 void __cdecl FUN_00ee6dda()
 {
     __imp__D3DXMatrixInverse();
@@ -249,6 +263,8 @@ void __cdecl FUN_00ee6dda()
 extern "C" __declspec(dllimport) void* __stdcall D3DXMatrixMultiply(void* pOut, const void* pM1, const void* pM2);
 
 // @fnv 0x00ee6de0
+// pdb: D3DXCreateBuffer | cbuffer.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: cBytes, ppBuffer
 void* __stdcall FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
 {
     return D3DXMatrixMultiply(pOut, pM1, pM2);
@@ -272,6 +288,8 @@ int __stdcall FUN_00ee6de6(void* pDestSurface, const void* pDestPalette, const v
 extern "C" __declspec(dllimport) void* __stdcall D3DXVec3Normalize(void* pOut, const void* pV);
 
 // @fnv 0x00ee6dec
+// pdb: D3DXGetShaderConstantTable | d3dx9shader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pFunction, ppConstantTable
 void* __stdcall FUN_00ee6dec(void* pOut, const void* pV)
 {
     return D3DXVec3Normalize(pOut, pV);
@@ -306,6 +324,8 @@ extern "C" __declspec(dllimport) D3DXMATRIX* __stdcall D3DXMatrixMultiplyTranspo
                                                                                    const D3DXMATRIX* second);
 
 // @fnv 0x00ee6dfe
+// pdb: D3DXAssembleShaderFromFileA | d3dx9shader.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pSrcFile, pDefines, pInclude, Flags, ppShader, ppErrorMsgs
 D3DXMATRIX* __stdcall FUN_00ee6dfe(D3DXMATRIX* output, const D3DXMATRIX* first, const D3DXMATRIX* second)
 {
     return D3DXMatrixMultiplyTranspose(output, first, second);
@@ -325,6 +345,7 @@ extern "C" __declspec(dllimport) long __stdcall DirectInput8Create(void* hinst, 
                                                                    const void* riidltf, void** ppvOut, void* punkOuter);
 
 // @fnv 0x00ee7f10
+// pdb: WSAAsyncSelect | WSOCK32.dll | tesv_win, call_seq, medium
 long __stdcall FUN_00ee7f10(void* hinst, unsigned long dwVersion, const void* riidltf, void** ppvOut, void* punkOuter)
 {
     return DirectInput8Create(hinst, dwVersion, riidltf, ppvOut, punkOuter);
@@ -335,6 +356,8 @@ extern "C" __declspec(dllimport) long __stdcall DirectSoundCreate8(const void* p
                                                                    void* pUnkOuter);
 
 // @fnv 0x00ee81e0
+// pdb: XNetStartup | xnetapi.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: WSAStartup)
+// pdb params: pxnsp
 long __stdcall FUN_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOuter)
 {
     return DirectSoundCreate8(pcGuidDevice, ppDS8, pUnkOuter);
@@ -344,6 +367,8 @@ long __stdcall FUN_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOu
 extern "C" __declspec(dllimport) int __cdecl ov_clear(void* vf);
 
 // @fnv 0x00ee81e6
+// pdb: XNetGetTitleXnAddr | xnetapi.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: gethostname)
+// pdb params: pxna
 int __cdecl FUN_00ee81e6(void* vf)
 {
     return ov_clear(vf);
@@ -353,6 +378,8 @@ int __cdecl FUN_00ee81e6(void* vf)
 extern "C" __declspec(dllimport) __int64 __cdecl ov_pcm_total(void* vf, int i);
 
 // @fnv 0x00ee81ec
+// pdb: XNetGetTitleXnAddr | xnetapi.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: listen)
+// pdb params: pxna
 __int64 __cdecl FUN_00ee81ec(void* vf, int i)
 {
     return ov_pcm_total(vf, i);
@@ -362,6 +389,8 @@ __int64 __cdecl FUN_00ee81ec(void* vf, int i)
 extern "C" __declspec(dllimport) int __cdecl ov_seekable(void* vf);
 
 // @fnv 0x00ee81f2
+// pdb: listen | sockapi.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: bind)
+// pdb params: s, backlog
 int __cdecl FUN_00ee81f2(void* vf)
 {
     return ov_seekable(vf);
@@ -371,6 +400,8 @@ int __cdecl FUN_00ee81f2(void* vf)
 extern "C" __declspec(dllimport) void* __cdecl ov_info(void* vf, int link);
 
 // @fnv 0x00ee81f8
+// pdb: bind | sockapi.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: setsockopt)
+// pdb params: s, name, namelen
 void* __cdecl FUN_00ee81f8(void* vf, int link)
 {
     return ov_info(vf, link);
@@ -379,6 +410,7 @@ void* __cdecl FUN_00ee81f8(void* vf, int link)
 extern "C" void(__cdecl* const FUN_00fdf438)();
 
 // @fnv 0x00ee81fe
+// pdb: inet_ntoa | WSOCK32.dll | tesv_win, call_gap, low
 __declspec(noreturn) void __cdecl FUN_00ee81fe()
 {
     typedef void(__cdecl * noreturn_func_t)();
@@ -391,6 +423,7 @@ extern "C" __declspec(dllimport) int __cdecl ov_read(void* vf, char* buffer, int
                                                      int sgned, int* bitstream);
 
 // @fnv 0x00ee8204
+// pdb: ntohs | WSOCK32.dll | tesv_win, call_gap, low
 int __cdecl FUN_00ee8204(void* vf, char* buffer, int length, int bigendianp, int word, int sgned, int* bitstream)
 {
     return ov_read(vf, buffer, length, bigendianp, word, sgned, bitstream);
@@ -399,6 +432,7 @@ int __cdecl FUN_00ee8204(void* vf, char* buffer, int length, int bigendianp, int
 extern "C" void (*DAT_00fdf398)();
 
 // @fnv 0x00ee820a
+// pdb: accept | WSOCK32.dll | tesv_win, call_gap, low
 void __cdecl FUN_00ee820a()
 {
     DAT_00fdf398();
@@ -408,24 +442,11 @@ extern "C" __declspec(dllimport) void __stdcall RtlUnwind(void* TargetFrame, voi
                                                           void* ReturnValue);
 
 // @fnv 0x00ee8210
+// pdb: __WSAFDIsSet | WSOCK32.dll | tesv_win, call_gap, low
 void __stdcall FUN_00ee8210(void* TargetFrame, void* TargetIp, void* ExceptionRecord, void* ReturnValue)
 {
     RtlUnwind(TargetFrame, TargetIp, ExceptionRecord, ReturnValue);
 }
-
-struct FUN_00ee88d0_base
-{
-    virtual ~FUN_00ee88d0_base();
-};
-
-struct FUN_00ee88d0_cls : FUN_00ee88d0_base
-{
-    virtual ~FUN_00ee88d0_cls();
-};
-
-// @fnv 0x00ee88d0
-FUN_00ee88d0_cls::~FUN_00ee88d0_cls()
-{}
 
 class FUN_00eea550_cls
 {
@@ -444,6 +465,8 @@ class FUN_00eea550_cls
 };
 
 // @fnv 0x00eea550
+// pdb: TESRegionPointList::SetDistanceInsideAtMax | TESRegionPointList.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiDistance
 void FUN_00eea550_cls::FUN_00eea550(int value)
 {
     m_20 = value;
@@ -464,6 +487,7 @@ struct CpuObject
     void FUN_00eea560(int value);
 };
 // @fnv 0x00eea560
+// pdb: TESActorBaseData::QTemplateForm | TESActorBaseData.obj | fnv360_0721_beta, objrun, low
 void CpuObject::FUN_00eea560(int value)
 {
     this->value = value;
@@ -485,11 +509,6 @@ struct CpuObject
     int value;
     void FUN_00eea570(int value);
 };
-// @fnv 0x00eea570
-void CpuObject::FUN_00eea570(int value)
-{
-    this->value = value;
-}
 }  // namespace fnv_00eea570
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
@@ -563,23 +582,6 @@ void FixedStringHolder::FUN_00eea690(const char** source)
     }
 }
 
-class FUN_00eea4f0_cls
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-
-    int* FUN_00eea4f0();
-};
-
-// @fnv 0x00eea4f0
-int* FUN_00eea4f0_cls::FUN_00eea4f0()
-{
-    return &unk0C;
-}
-
 struct FUN_00eea500_Holder
 {
     int unk00;
@@ -591,6 +593,7 @@ struct FUN_00eea500_Holder
 };
 
 // @fnv 0x00eea500
+// pdb: DoorTeleportData::GetTeleportRotation | TeleportData.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: NiMaterialResource::GetDefaultValue)
 int* FUN_00eea500_Holder::FUN_00eea500()
 {
     return &unk10;
@@ -601,6 +604,7 @@ struct FnvCpu_FUN_00eea520_CpuObject
     char* FUN_00eea520();
 };
 // @fnv 0x00eea520
+// pdb: NiMaterialResource::GetDefaultValue | NiMaterialResource.obj | fnv360_0822_retail, call_gap, low
 char* FnvCpu_FUN_00eea520_CpuObject::FUN_00eea520()
 {
     return reinterpret_cast<char*>(this) + 24;
@@ -670,6 +674,8 @@ class FUN_00ee8850_C
 
 // Returns a base value from m_usValue0 or m_usValue2 shifted left by 16, plus the sum of FUN_00eea4e0 over all m_ppItems.
 // @fnv 0x00ee8850
+// pdb: NiFragmentMaterial::GetProgramVersion | NiFragmentMaterial.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: eType
 unsigned int FUN_00ee8850_C::GetTotalValue(int iType)
 {
     unsigned int uiResult = 0;
@@ -692,6 +698,7 @@ unsigned int FUN_00ee8850_C::GetTotalValue(int iType)
 }
 
 // @fnv 0x00eea4e0
+// pdb: NiMaterialNodeLibrary::GetVersion | NiMaterialNodeLibrary.obj | fnv360_0822_retail, call_seq, medium
 unsigned short __fastcall FUN_00eea4e0(char* self, int edx)
 {
     return *reinterpret_cast<unsigned short*>(self + 0x18);
@@ -703,6 +710,7 @@ extern "C" __declspec(dllimport) D3DXVECTOR4* __stdcall D3DXVec4Transform(D3DXVE
                                                                           const D3DXMATRIX* matrix);
 
 // @fnv 0x00ee6e34
+// pdb: recv | WSOCK32.dll | tesv_win, objrun, medium
 D3DXVECTOR4* __stdcall FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)
 {
     return D3DXVec4Transform(output, input, matrix);

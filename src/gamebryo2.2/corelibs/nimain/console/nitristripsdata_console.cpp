@@ -55,15 +55,17 @@ class S_00a8ab40_NiTriStripsData
     unsigned short* m_pusStripLengths;  // 0x48
     unsigned short* m_pusStripLists;    // 0x4c
 
-    void EnsureNormals(int aiNumVertices);
+    void NiGeometryData_CreateNormals(int aiNumVertices);
     void FUN_00a67090(int aiNumVertices);
-    void GenerateNormals();
+    void NiTriStripsData_CalculateNormals();
 };
 
 // @fnv 0x00a8ab40
-void S_00a8ab40_NiTriStripsData::GenerateNormals()
+// pdb: NiTriStripsData::CalculateNormals | NiTriStripsData_Xenon.obj | fnv360_0822_retail, caller_sim, high
+// pdb: NiTriStripsData::CalculateNormals | NiTriStripsData_Xenon.obj | fnv360_0822_retail, caller_sim, high (was: GenerateNormals)
+void S_00a8ab40_NiTriStripsData::NiTriStripsData_CalculateNormals()
 {
-    EnsureNormals(1);
+    NiGeometryData_CreateNormals(1);
 
     unsigned short* pusStripList = m_pusStripLists;
     for (unsigned short usStrip = 0; usStrip < m_usStrips; usStrip++)

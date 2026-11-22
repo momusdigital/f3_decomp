@@ -22,13 +22,6 @@ extern "C"
     void _mm_store_ss(float*, __m128);
 }
 
-struct VecArray
-{
-    __m128* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
 struct MemAllocator;
 
 struct MemRouter
@@ -45,74 +38,6 @@ struct MemRouter
 };
 
 void* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
-
-static __forceinline float distanceSquared(__m128 a, __m128 b)
-{
-    __m128 v = _mm_sub_ps(a, b);
-    __m128 d = _mm_mul_ps(v, v);
-    __m128 yx = _mm_add_ss(_mm_shuffle_ps(d, d, 0x55), d);
-    float r;
-    _mm_store_ss(&r, _mm_add_ss(_mm_shuffle_ps(d, d, 0xaa), yx));
-    return r;
-}
-
-// @fnv 0x00dd68d0
-void __cdecl FUN_00dd68d0(float tol, VecArray* arr, int* outCount)
-{
-    __m128* cur = arr->m_data;
-    int rem = arr->m_iElementCount - 1;
-    __m128* out = arr->m_data;
-    if (rem >= 0)
-    {
-        __m128* last = out - 1;
-        while (rem >= 0)
-        {
-            __m128* lim = last;
-            bool dup = false;
-            for (; lim >= arr->m_data; --lim)
-            {
-                if (lim->m128_f32[0] < cur->m128_f32[0] - (double)0.01f)
-                    break;
-                if (distanceSquared(*lim, *cur) < tol)
-                {
-                    dup = true;
-                    break;
-                }
-            }
-            if (!dup)
-            {
-                __m128* dst = out;
-                out++;
-                last++;
-                *dst = *cur;
-            }
-            else
-            {
-                for (int t = rem - 1; t >= 0; --t)
-                {
-                    if (!(distanceSquared(*lim, cur[1]) < tol))
-                        break;
-                    ++cur;
-                    --rem;
-                }
-            }
-            ++cur;
-            --rem;
-        }
-    }
-    *outCount = (int)(out - arr->m_data);
-    int count = *outCount;
-    MemAllocator& alloc = ((MemRouter*)FUN_00c85750())->heap();
-    int cap = arr->m_iCapacityState & 0x3fffffff;
-    if (cap < count)
-    {
-        int cap2 = cap * 2;
-        int newCap = (count < cap2) ? cap2 : count;
-        FUN_00c908c0(&alloc, arr, newCap, 16);
-    }
-    arr->m_iElementCount = count;
-}
 
 namespace fnv_00dd6a10 {
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -223,46 +148,6 @@ typedef Arr_00dd6a10<Plane> PlaneArray;
 typedef Arr_00dd6a10<Triangle> TriangleArray;
 typedef Arr_00dd6a10<Edge> EdgeArray;
 
-char* __cdecl FUN_00dd66d0(char* flag, Plane* plane, PlaneArray* vertices, int a, int b, Triangle* tri,
-                           TriangleArray* out);
-void __cdecl FUN_00dd62e0(PlaneArray* vertices, int i1, int i2, int i3, Plane* out);
-
-// @fnv 0x00dd6a10
-void __cdecl FUN_00dd6a10(Edge* edgeIn, PlaneArray* vertices, EdgeArray* visited, PlaneArray* planes)
-{
-    Edge* edge = edgeIn;
-    EdgeArray*& vr = visited;
-    if (vr->findEdge(*edge) != -1)
-        return;
-    vr->AddBack(*edge);
-
-    TriangleArray neighbours;
-    neighbours.data = 0;
-    neighbours.size = 0;
-    neighbours.capacity = 0x80000000;
-    char flag;
-    if (*FUN_00dd66d0(&flag, &edge->plane, vertices, edge->a, edge->b, edge->tri, &neighbours))
-    {
-        planes->pushBackPlain(neighbours.data[0].plane);
-
-        for (int i = 0; i < neighbours.size; i++)
-        {
-            Edge e1;
-            e1.a = neighbours.data[i].v0;
-            e1.b = neighbours.data[i].v2;
-            e1.tri = &neighbours.data[i];
-            FUN_00dd62e0(vertices, e1.tri->v0, e1.tri->v2, e1.tri->v1, &e1.plane);
-            FUN_00dd6a10(&e1, vertices, vr, planes);
-            Edge e2;
-            e2.a = neighbours.data[i].v1;
-            e2.b = neighbours.data[i].v2;
-            e2.tri = &neighbours.data[i];
-            FUN_00dd62e0(vertices, e2.tri->v1, e2.tri->v2, e2.tri->v0, &e2.plane);
-            FUN_00dd6a10(&e2, vertices, vr, planes);
-        }
-    }
-    neighbours.clearAndFree();
-}
 }  // namespace fnv_00dd6a10
 
 struct FinishingFlag
@@ -290,6 +175,7 @@ class __declspec(align(16)) S00dced70_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dced70
+// pdb: getVtablehkpBreakableConstraintData | hkpDynamicsReflections.obj | tesv_win, caller_sim, low
 const void* __cdecl FUN_00dced70()
 {
     FinishingFlag flag;
@@ -308,16 +194,6 @@ struct __declspec(align(16)) FUN_00dd1f00
     FUN_00dd1f00(const FUN_00dd1f00& o);
 };
 
-// @fnv 0x00dd1f00
-FUN_00dd1f00::FUN_00dd1f00(const FUN_00dd1f00& o)
-{
-    unk00 = o.unk00;
-    unk10 = o.unk10;
-    unk14 = o.unk14;
-    unk18 = o.unk18;
-    unk1c = o.unk1c;
-}
-
 namespace fnv_00dd62e0 {
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -331,26 +207,7 @@ extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" float _mm_cvtss_f32(__m128);
 extern "C" void _mm_store_ss(float*, __m128);
 extern const __m128 DAT_010c44d0;
-struct VectorArray
-{
-    __m128* field_00;
-};
 
-// @fnv 0x00dd62e0
-void __cdecl FUN_00dd62e0(VectorArray* self, int a, int b, int c, __m128* out)
-{
-    const __m128& x = self->field_00[b];
-    const __m128& y = self->field_00[a];
-    __m128& cross = *out;
-    cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(x, x, 0xd2), _mm_shuffle_ps(y, y, 0xc9)),
-                       _mm_mul_ps(_mm_shuffle_ps(x, x, 0xc9), _mm_shuffle_ps(y, y, 0xd2)));
-    __m128 product = _mm_mul_ps(self->field_00[c], cross);
-    float dot;
-    _mm_store_ss(&dot, _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa),
-                                  _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product)));
-    if (dot > 0.0f)
-        *out = _mm_xor_ps(cross, DAT_010c44d0);
-}
 }  // namespace fnv_00dd62e0
 
 struct Pair_00dd6c10
@@ -489,7 +346,6 @@ static __forceinline bool gt_00dd6c10(const float& a, const float& b)
 {
     return a > b;
 }
-extern float DAT_0104e148;
 extern const float DAT_010c8440 = -1.1920929e-07f;
 
 extern "C" __m128 _mm_load_ss(const float*);
@@ -564,7 +420,6 @@ extern "C" void _ReadWriteBarrier();
 
 int __cdecl FUN_00a57240(const __m128*, VecArr_00dd6c10*, int, int, PlanePoint*, PlanePoint*);
 extern float DAT_00de731c;
-extern const double DAT_00e012a0;
 extern void* (__stdcall* DAT_00d9b080)(unsigned long);
 extern unsigned long DAT_010f3170;
 

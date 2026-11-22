@@ -14,7 +14,7 @@ class NiInterpolator;
 class NiInterpolator : public NiObject
 {
   public:
-    virtual bool UpdateTransform(float time, NiObjectNET* target, NiQuatTransform& value);
+    virtual bool NiPathInterpolator_Update(float time, NiObjectNET* target, NiQuatTransform& value);
     virtual bool UpdateColorA(float time, NiObjectNET* target, RgbaColor& value);
     virtual bool UpdatePoint3(float time, NiObjectNET* target, NiPoint3& value);
     virtual bool UpdateQuaternion(float time, NiObjectNET* target, NiQuaternion& value);

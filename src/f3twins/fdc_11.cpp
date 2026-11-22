@@ -2024,6 +2024,7 @@ void FUN_00cfc480()
     DAT_0108cfc4 = FUN_008a4550();
 }
 
+// pdb: `anonymous namespace'::`dynamic initializer for 'projectileLock'' | Projectile.obj | tesv_win, objrun_open, low
 void FUN_00cfc490()
 {
     DAT_0108cffc = FUN_008a48e0();

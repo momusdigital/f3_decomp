@@ -974,7 +974,7 @@ class NiSkinInstance : public NiObject
 };
 const NiFixedString& FUN_004ab220();
 NiAVObject* FUN_004ade00(NiNode*, const NiFixedString&);
-void FUN_004add50(char*, const char*, unsigned int);
+void TESFurniture_GetMarkerEnabled(char*, const char*, unsigned int);
 int FUN_00404dc0(const char*, const char*);
 extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
@@ -1069,7 +1069,7 @@ class bhkCollisionObject
 bool HandleUnparentedObjectNode(NiNode*);
 void SetCollisionRefFlag(NiNode*, bool);
 void FUN_00c6a2e0(NiNode*, bool, bool);
-void FUN_00c6a350(NiNode*, int, bool, bool, bool);
+void bhkWorld_SetMotion(NiNode*, int, bool, bool, bool);
 class NiTexture : public NiObject
 {
 };
@@ -1238,7 +1238,7 @@ class NiTimeController
 class BSShaderManager
 {
   public:
-    static void BuildTexturePath(char*, const char*, const char*, bool);
+    static void GetModifiedTextureFilename(char*, const char*, const char*, bool);
 };
 extern "C" const char kMeshesFolder[];
 class Animation

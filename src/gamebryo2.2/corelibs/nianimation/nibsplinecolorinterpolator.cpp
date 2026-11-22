@@ -9,6 +9,8 @@ struct NiBSplineColorInterpolator
 };
 
 // @fnv 0x00a51a20
+// pdb: NiBSplineColorInterpolator::GetControlHandle | NiBSplineColorInterpolator.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: usChannel
 unsigned int NiBSplineColorInterpolator::FUN_00a51a20(unsigned short usChannel)
 {
     if (usChannel)
@@ -17,12 +19,6 @@ unsigned int NiBSplineColorInterpolator::FUN_00a51a20(unsigned short usChannel)
 }
 
 extern char const* const g_011f4024_arg1;
-
-// @fnv 0x00a51aa0
-char const* const* __cdecl FUN_00a51aa0()
-{
-    return &g_011f4024_arg1;
-}
 
 struct BSFadeNode
 {
@@ -45,6 +41,7 @@ struct Obj34
     char _tail[0x4];
 };
 // @fnv 0x00a51c60
+// pdb: NiBSplineColorInterpolator::CreateObject | NiBSplineColorInterpolator.obj | fnv360_0822_retail, objrun, medium
 void* FUN_00a51c60()
 {
     Obj34* p = (Obj34*)BSFadeNode::operator new(52);
@@ -122,6 +119,8 @@ struct A51BF0Property : A51BF0Base
 };
 
 // @fnv 0x00a51bf0
+// pdb: NiBSplineColorInterpolator::CreateClone | NiBSplineColorInterpolator.obj | fnv360_0721_retail, objrun, medium, conflict (bridge: NiBSplinePoint3Interpolator::CreateClone)
+// pdb params: kCloning
 A51BF0Base* A51BF0Property::FUN_00a51bf0(A51BF0CloningProcess& kCloning)
 {
     A51BF0Property* pkClone = new A51BF0Property;
@@ -299,7 +298,8 @@ struct NiColorA_SaveHelper
     void SaveBinary(NiStream*);
 };
 // @fnv 0x00a51ca0
-void __fastcall FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
+// pdb: NiBSplineColorInterpolator::SaveBinary | NiBSplineColorInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void __fastcall NiBSplineColorInterpolator_SaveBinary(Obj34* self, void* unused, NiStream* stream)
 {
     ((FUN_00a58160_shell*)self)->SaveToStream(stream);
     ((NiColorA_SaveHelper*)&self->f1)->SaveBinary(stream);
@@ -311,8 +311,6 @@ void __fastcall FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
 }
 
 extern char const* const g_011f4024_arg1;
-char* __cdecl FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
 template <class T> struct NiTMallocInterface
 {
 };
@@ -328,41 +326,6 @@ template <class T, class I> struct NiTPrimitiveArray
     void SetAt(unsigned int, T&);
 };
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > StringArray;
-struct Base
-{
-    void FUN_00a58200(StringArray*);
-};
-struct Owner : Base
-{
-    void* unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    unsigned int value2c;
-    void AppendColorACPHandleStrings(StringArray*);
-};
-// @fnv 0x00a51d80
-void Owner::AppendColorACPHandleStrings(StringArray* array)
-{
-    FUN_00a58200(array);
-    char* value = FUN_00a7d330(g_011f4024_arg1);
-    unsigned int index = array->size;
-    if (index >= array->capacity)
-        array->SetSize(index + array->growth);
-    array->SetAt(index, value);
-    value = FUN_00a7d510("m_kColorACPHandle", value2c);
-    index = array->size;
-    if (index >= array->capacity)
-        array->SetSize(index + array->growth);
-    array->SetAt(index, value);
-}
 
 struct S_00a50610_Obj
 {
@@ -428,6 +391,8 @@ struct S_00a50610_Obj
 
 // Returns true when flag is zero and the value returned by vfnE0(0) is not greater than zero; otherwise returns false.
 // @fnv 0x00a50610
+// pdb: NiBSplinePoint3Interpolator::GetChannelPosed | NiBSplinePoint3Interpolator.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: usChannel
 bool S_00a50610_Obj::FUN_00a50610(unsigned short flag)
 {
     if (0 == flag)
@@ -465,6 +430,8 @@ struct FUN_00a51a40_cls
 };
 
 // @fnv 0x00a51a40
+// pdb: NiBSplineColorInterpolator::SetControlHandle | NiBSplineColorInterpolator.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: kControlHandle, usChannel
 void FUN_00a51a40_cls::SetValueIfFlagClear(unsigned int value, unsigned short flag)
 {
     if (flag == 0)
@@ -511,6 +478,8 @@ struct FnvBSplineColorInterpolator
 };
 
 // @fnv 0x00a51b10
+// pdb: NiBSplineColorInterpolator::Update | NiBSplineColorInterpolator.obj | fnv360_0721_retail, objrun, medium
+// pdb params: fTime, pkInterpTarget, kValue
 bool FnvBSplineColorInterpolator::EvaluateColorAtTime(float fTime, float fUnused, FnvColor4* pColorOut)
 {
     // The colour is already the one of this time stamp.
@@ -560,13 +529,14 @@ struct FUN_00a51cf0_cls
     unsigned int unk28;
     unsigned int m_2c;
 
-    bool FUN_00a57e90(FUN_00a51cf0_cls* other);
+    bool NiBSplineInterpolator_IsEqual(FUN_00a51cf0_cls* other);
     bool FUN_00a51cf0(FUN_00a51cf0_cls* other);
 };
 // @fnv 0x00a51cf0
+// pdb: NiBSplineColorInterpolator::IsEqual | NiBSplineColorInterpolator.obj | tesv_win, hash, low
 bool FUN_00a51cf0_cls::FUN_00a51cf0(FUN_00a51cf0_cls* other)
 {
-    if (!FUN_00a57e90(other))
+    if (!NiBSplineInterpolator_IsEqual(other))
     {
         return false;
     }
@@ -579,6 +549,8 @@ bool FUN_00a51cf0_cls::FUN_00a51cf0(FUN_00a51cf0_cls* other)
 }
 
 // @fnv 0x00a51a00
+// pdb: NiBSplineColorInterpolator::GetDimension | NiBSplineColorInterpolator.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: usChannel
 unsigned int __stdcall FUN_00a51a00(unsigned short usValue)
 {
     return (0 == usValue) ? 4 : 0;
@@ -603,12 +575,13 @@ struct A51D30ColorLoader
 
 struct A51D30Loader : FnvBSplineColorInterpolator
 {
-    void __thiscall FUN_00a51d30(NiStream* stream);
+    void __thiscall NiBSplineColorInterpolator_LoadBinary(NiStream* stream);
 };
 
 // Loads spline data from a NiStream by calling base and color loader functions, then reading a key value into m_iKey.
 // @fnv 0x00a51d30
-void A51D30Loader::FUN_00a51d30(NiStream* stream)
+// pdb: NiBSplineColorInterpolator::LoadBinary | NiBSplineColorInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void A51D30Loader::NiBSplineColorInterpolator_LoadBinary(NiStream* stream)
 {
     reinterpret_cast<A51D30BaseLoader*>(this)->FUN_00a58080(*stream);
     reinterpret_cast<A51D30ColorLoader*>(&m_kDiffuseColor)->FUN_00a69800(stream);

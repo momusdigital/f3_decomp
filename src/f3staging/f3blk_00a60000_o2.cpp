@@ -38,6 +38,8 @@ struct Owner417 {
     Display417 display;
     void FUN_00a6a750(int id);
 };
+// pdb: hkpConstraintDrawer::drawPivots | hkpConstraintDrawer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: id, tag
 void Owner417::FUN_00a6a750(int id) {
     display.FUN_00a8f6c0(&first, &firstFrame, DAT_00dbea4c, 0xffff0000, id);
     display.FUN_00a8f6c0(&second, &secondFrame, DAT_00dbea4c, 0xffffffff, id);
@@ -67,6 +69,8 @@ struct Holder_b0065 {
     int FUN_00a632e0(int id);
 };
 
+// pdb: hkInspectProcess::removeTopLevelObject | hkInspectProcess.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: ptr
 int Holder_b0065::FUN_00a632e0(int id) {
     m_sub->FUN_009ee8f0(9);
     m_sub->FUN_009ee560(0x22);
@@ -151,6 +155,7 @@ struct Cls {
     void FUN_00a6b0c0();
 };
 
+// pdb: hkDisplaySemiCircle::buildGeometry | hkDisplaySemiCircle.obj | fnv360_0822_retail, vtable, medium
 void Cls::FUN_00a6b0c0()
 {
     Grid* g = new Grid;
@@ -186,7 +191,7 @@ void Cls::FUN_00a6b0c0()
 
 // @f3 0x00a741b0 (community match, verified in this file)
 namespace f3m_00a741b0 {
-// FUN_00a741b0 - EntityShape::AddActor(Actor*)
+// hkpDisableEntityCollisionFilter_addEntityToFilter - EntityShape::AddActor(Actor*)
 // this+0x30 : listener object (address only)
 // this+0x34 : hkArray<Actor*>  { data, size, capacityAndFlags }
 
@@ -248,10 +253,11 @@ struct EntityShape
     int m_kListener;              // +0x30
     ActorEntryArray m_kActorEntries;  // +0x34
 
-    SmallBool FUN_00a741b0(ActorRef* apActor);
+    SmallBool hkpDisableEntityCollisionFilter_addEntityToFilter(ActorRef* apActor);
 };
 
-SmallBool EntityShape::FUN_00a741b0(ActorRef* apActor)
+// pdb: hkpDisableEntityCollisionFilter::addEntityToFilter | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, caller_sim + skyrim(objrun_prop), high
+SmallBool EntityShape::hkpDisableEntityCollisionFilter_addEntityToFilter(ActorRef* apActor)
 {
     if (!apActor)
         return false;
@@ -317,6 +323,8 @@ struct Owner62 {
 
 int __cdecl FUN_009233f0(int a);
 
+// pdb: hkServerDebugDisplayHandler::display3dText | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: text, pos, color, id, tag
 bool Owner62::FUN_00a62030(int id, const Vec62* v, int a3, int a4)
 {
     m_other->FUN_00908a00();
@@ -400,6 +408,8 @@ public:
     void FUN_00a67020(BoxEdgeArray1557* output);
 };
 
+// pdb: hkDisplayAABB::getWireframeGeometry | hkDisplayAABB.obj | fnv360_0822_retail, vtable, medium
+// pdb params: lines, a
 void BoxShape1557::FUN_00a67020(BoxEdgeArray1557* output)
 {
     int capacity = output->capacityAndFlags08 & 0x3fffffff;
@@ -563,6 +573,7 @@ public:
     void FUN_00a67460();
 };
 
+// pdb: hkDisplayAABB::buildGeometry | hkDisplayAABB.obj | fnv360_0822_retail, vtable, medium
 void BoxShape1558::FUN_00a67460()
 {
     geometry08 = new DisplayGeometry1558;
@@ -719,7 +730,7 @@ struct GeometryVector1560
         z = newZ;
         w = 0.0f;
     }
-    void FUN_008d28e0(const GeometryTransform1560* transform, const GeometryVector1560* source);
+    void hkVector4_setTransformedPos(const GeometryTransform1560* transform, const GeometryVector1560* source);
 };
 
 struct GeometryTransform1560
@@ -770,6 +781,7 @@ public:
     void FUN_00a67f80();
 };
 
+// pdb: hkDisplayBox::buildGeometry | hkDisplayBox.obj | fnv360_0822_retail, vtable, medium
 void BoxShape1560::FUN_00a67f80()
 {
     geometry08 = new DisplayGeometry1560;
@@ -807,7 +819,7 @@ void BoxShape1560::FUN_00a67f80()
     }
     for (int i = 0; i < geometry08->vertices00.size04; ++i)
     {
-        geometry08->vertices00.At(i).FUN_008d28e0(&transform10, &geometry08->vertices00.At(i));
+        geometry08->vertices00.At(i).hkVector4_setTransformedPos(&transform10, &geometry08->vertices00.At(i));
     }
     {
         GeometryTriangle1560& triangle = geometry08->triangles0c.ExpandOne();
@@ -940,6 +952,8 @@ struct PairShape : ShapeBase, ShapeListener
     void FUN_00a70950(ActorRef* a, ActorRef* b);
 };
 
+// pdb: hkpCharacterProxy::entityRemovedCallback | hkpCharacterProxy.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: entity
 void PairShape::FUN_00a70950(ActorRef* a, ActorRef* b)
 {
     ActorRef* hi;
@@ -1033,6 +1047,7 @@ struct Cd60Owner {
     int FUN_00a7cd60(Cd60Src* a1, Cd60Ctx* a2);
 };
 
+// pdb: hkpBroadPhaseJob::popJobTask | hkpDynamicsJobs.obj | tesv_win, objopen_prop, low
 int Cd60Owner::FUN_00a7cd60(Cd60Src* a1, Cd60Ctx* a2)
 {
     Cd60Sub* sub = this->sub;
@@ -1117,6 +1132,8 @@ struct FUN_00a64b10 : Prim417, Sub417 {
     FUN_00a64b10(unsigned int a);
 };
 
+// pdb: hkStreamStatisticsCollector::hkStreamStatisticsCollector | hkStreamStatisticsCollector.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: vtblReg, memSize
 FUN_00a64b10::FUN_00a64b10(unsigned int a)
 {
     Thing417* p = &thing;
@@ -1161,6 +1178,8 @@ int unk44;
 Pred* registry;};
 struct Archive {void FUN_009ee8f0(unsigned);void FUN_009ee560(unsigned char);void FUN_009ee930(unsigned __int64);};
 struct Owner {int unk00,unk04,unk08,unk0c,unk10;Archive* archive;int unk18,unk1c,unk20,unk24,unk28;Context* context;int FUN_00a630b0(void*,const Item*);};
+// pdb: hkInspectProcess::addTopLevelObject | hkInspectProcess.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: ptr, klass, tag
 int Owner::FUN_00a630b0(void* object,const Item* info){
  archive->FUN_009ee8f0(17);
  const Item* actual=info;
@@ -1203,6 +1222,7 @@ struct Path417 {
     const unsigned short* unk00;
 };
 
+// pdb: _FindMemberItem | hkInspectProcess.obj | fnv360_0822_retail, call_gap, medium
 static __declspec(noinline) char* FUN_00a631e0(Member417* member, char* data, const Path417* path, int type, int aiIndex)
 {
     const Path417** val;
@@ -1368,6 +1388,7 @@ struct Stream419 {
     void FUN_00a64c90(const char* a1, unsigned int a2, unsigned char a3, unsigned int a4, int a5);
 };
 
+// pdb: _newCommand | hkStreamStatisticsCollector.obj | fnv360_0822_retail, objrun, low, conflict (bridge: hkStreamStatisticsCollector::addChunk)
 void Stream419::FUN_00a64c90(const char* a1, unsigned int a2, unsigned char a3, unsigned int a4, int a5) {
     int masked = (int)(unk10 & 0x3fffffff);
     if (masked <= unk0C + 0x46) return;
@@ -1463,6 +1484,8 @@ public:
     void FUN_00a6ada0(ScalarVectorArray* vertices);
     void FUN_00a6afc0(ScalarVectorArray* destination);
 };
+// pdb: hkDisplaySemiCircle::getWireframeGeometry | hkDisplaySemiCircle.obj | fnv360_0822_retail, vtable, medium
+// pdb params: lines, a
 void GeometryEdges::FUN_00a6afc0(ScalarVectorArray* destination)
 {
     ScalarVectorArray temporary = {0, 0, 0x80000000u};
@@ -1547,6 +1570,8 @@ struct StatisticsOwner
     void FUN_00a774b0(StatisticsCollector* collector);
 };
 
+// pdb: hkpConvexPieceMeshShape::calcContentStatistics | hkpConvexPieceMeshShape.obj | fnv360_0822_retail, ustr, medium
+// pdb params: collector, cls
 void StatisticsOwner::FUN_00a774b0(StatisticsCollector* collector)
 {
     collector->beginObject(str_00e87e1c, 1, this);
@@ -1612,6 +1637,8 @@ struct Owner {
     void FUN_00a994b0();
     void FUN_00a7fc60(const Vector*,const Vector*,const Vector*);
 };
+// pdb: hkpWingedEdge::init | hkpConvexPenetrationUtil.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: hkWingedEdge::init)
+// pdb params: AinA, BinB, simplex
 void Owner::FUN_00a7fc60(const Vector* a,const Vector* b,const Vector* c) {
     type=4;
     groups[0].Set(a[0],b[0],c[0]);
@@ -1677,6 +1704,8 @@ struct Sub {
 struct Owner {
     FilterResult FUN_00a76b30(Table** dispatcher, Node* initial, int unusedBody, Obj* container, int shapeKey);
 };
+// pdb: hkpGroupFilter::isCollisionEnabled | hkpGroupFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, a, b, bContainer, bKey
 FilterResult Owner::FUN_00a76b30(Table** dispatcher, Node* initial, int, Obj* container, int shapeKey)
 {
     int filterB = container->vf4(shapeKey);
@@ -1777,6 +1806,7 @@ public:
             bucket->Push((na6f6f0::FreeNode*)p);
     }
 };
+// pdb: hkpSerializedTrack1nInfo::~hkpSerializedTrack1nInfo | hkpSerializedAgentNnEntry.obj | fnv360_0822_retail, call_dedup, low
 FUN_00a6f6f0::~FUN_00a6f6f0() throw()
 {
     bool locked = ((unsigned)m_leaves.capAndFlags >> 30) & 1;
@@ -1824,6 +1854,8 @@ struct Ca6aa20 {
     na6aa20::Rot rotA;
     void FUN_00a6aa20(na6aa20::Pair* pair, na6aa20::Transform* a, na6aa20::Transform* b);
 };
+// pdb: hkpConstraintDrawer::updateCommonParameters | hkpConstraintDrawer.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: constraint, refLocalToWorld, attLocalToWorld
 void Ca6aa20::FUN_00a6aa20(na6aa20::Pair* pair, na6aa20::Transform* a, na6aa20::Transform* b)
 {
     na6aa20::Body* bodyA = pair->bodyA;
@@ -1884,6 +1916,7 @@ struct FUN_00a703b0 : RefObj {
     virtual ~FUN_00a703b0() throw();
 };
 
+// pdb: hkpPoweredChainMapper::~hkpPoweredChainMapper | hkpPoweredChainMapper.obj | fnv360_0822_retail, call_seq, high
 FUN_00a703b0::~FUN_00a703b0() throw()
 {
     for (int i = 0; i < entries.size; i++) {
@@ -1930,6 +1963,8 @@ struct Me {
 struct Outer : First, Me {};
 }
 
+// pdb: hkStreamStatisticsCollector::_startObject | hkStreamStatisticsCollector.obj | fnv360_0822_retail, objrun, medium
+// pdb params: name, object, size
 void f3m_00a64d70::Me::FUN_00a64d70(const char* name, unsigned int mask, Timer* timer)
 {
     int masked = (int)(unk10 & 0x3fffffff);
@@ -1982,6 +2017,7 @@ struct A62320Pool {
     void FUN_008f6d90(A62320Obj* obj, int value, int category);
 };
 
+// pdb: hkServerDebugDisplayHandler::`scalar deleting destructor' | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, vtable, medium
 A62320Obj* A62320Obj::FUN_00a62320(unsigned char flag)
 {
     FUN_00a622e0();
@@ -2016,6 +2052,7 @@ struct Class_a61590 {
     int FUN_00a61590(unsigned char flag);
 };
 
+// pdb: hkProcessFactory::`scalar deleting destructor' | hkProcessFactory.obj | fnv360_0822_retail, vtable, high
 int Class_a61590::FUN_00a61590(unsigned char flag) {
     FUN_00a61170();
     if (flag & 1) {
@@ -2053,6 +2090,8 @@ struct Owner60 {
     Other60* other;
     int FUN_00a60f80(SlotEntry* entry);
 };
+// pdb: hkProcessFactory::getProcessId | hkProcessFactory.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: name
 int Owner60::FUN_00a60f80(SlotEntry* entry)
 {
     other->FUN_00908a00();
@@ -2095,6 +2134,8 @@ struct FUN_00a64ac0_cls {
     unsigned int unk28;
     void FUN_00a64ac0(int value);
 };
+// pdb: hkStreamStatisticsCollector::beginSnapshot | hkStreamStatisticsCollector.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: statisticClasses
 void FUN_00a64ac0_cls::FUN_00a64ac0(int value)
 {
     sub1c.ResetEntries();
@@ -2119,6 +2160,7 @@ struct AdjDerived417 {
     AdjDerived417* FUN_00a63c00(int flags);
 };
 
+// pdb: hkInspectProcess::`scalar deleting destructor' | hkInspectProcess.obj | fnv360_0822_retail, vtable, medium
 AdjDerived417* AdjDerived417::FUN_00a63c00(int flags) {
     FUN_00a633f0();
     if (flags & 1) {
@@ -2134,6 +2176,8 @@ namespace f3m_00a797b0 {
 namespace f3m_00a797b0 {
 struct Vec4 { float x,y,z,w; void Clear() { x=y=z=w=0.0f; } };
 struct State { Vec4 original[3], filtered[3], otherOriginal[3], otherFiltered[3]; };
+// pdb: hkPoweredChain_DisableMotorInMatrixRow_NextConstraint | hkpPoweredChainSolverUtil.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: motorsState, mtxNextOffdiag
 void FUN_00a797b0(const unsigned char* flags, State* state) {
     if (!*flags) return;
     if (*flags & 3) { state->filtered[0].Clear(); state->otherFiltered[0].Clear(); }
@@ -2152,6 +2196,7 @@ extern __declspec(dllimport) Heap* __stdcall FUN_00d9b080(unsigned int index);
 struct FUN_00a63060 {
     virtual ~FUN_00a63060() throw();
     unsigned short allocationSize,unk06;
+    // pdb: hkDisplaySerializeIStream::`scalar deleting destructor' | hkDisplaySerializeIStream.obj | fnv360_0822_retail, vtable, medium
     static void operator delete(void* memory) throw(){
         Heap* heap=FUN_00d9b080(DAT_010f3170);
         heap->FUN_008f6d90(memory,((FUN_00a63060*)memory)->allocationSize,13);
@@ -2178,6 +2223,8 @@ struct Obj {
     void* FUN_00a63c30(int arg);
 };
 
+// pdb: hkStatisticsProcess::create | hkStatisticsProcess.obj | fnv360_0822_retail, objrun, medium
+// pdb params: contexts
 void* __cdecl FUN_00a63eb0(int arg1) {
     MemCtx* ctx = (MemCtx*)DAT_00d9b080(DAT_010f3170);
     Obj* obj = (Obj*)ctx->FUN_008f6d30(0x44, 0x35);
@@ -2246,6 +2293,7 @@ struct Constraint : Base {
     Vec4 pivot;
     Constraint();
 };
+// pdb: hkDisplayPlane::hkDisplayPlane | hkDisplayPlane.obj | fnv360_0822_retail, objrun_prop, medium
 Constraint::Constraint() : Base(7)
 {
     vptr = DAT_00e87080;
@@ -2278,6 +2326,8 @@ struct FUN_00a732b0_Obj {
 extern void FUN_00e83a7c();
 void __stdcall FUN_009ae990(void* a, int b);
 
+// pdb: hkpReorientAction::hkpReorientAction | hkpReorientAction.obj | fnv360_0822_retail, call_seq, high
+// pdb params: body, rotationAxis, upAxis, strength, damping
 FUN_00a732b0_Obj* __thiscall FUN_00a732b0_Obj::FUN_00a732b0(
     void* a, const Vector417* b, const Vector417* c, float d, float e)
 {
@@ -2325,6 +2375,8 @@ struct Owner {
     hkReferencedObject* shape;
     void FUN_00a60dd0(hkReferencedObject* newShape);
 };
+// pdb: hkIArchive::setStreamReader | hkIArchive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: newBuf
 void Owner::FUN_00a60dd0(hkReferencedObject* newShape)
 {
     newShape->addReference();
@@ -2369,6 +2421,7 @@ struct Object {
 };
 }
 
+// pdb: hkMonitorStreamAnalyzer::Node::`scalar deleting destructor' | hkStreamStatisticsCollector.obj | fnv360_0822_retail, call_seq, medium
 f3m_00a65510::Object* f3m_00a65510::Object::FUN_00a65510(unsigned int flags)
 {
     FUN_00a8d0f0();
@@ -2507,6 +2560,7 @@ public:
     ~FUN_00a622e0();
 };
 
+// pdb: hkServerDebugDisplayHandler::~hkServerDebugDisplayHandler | hkServerDebugDisplayHandler.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 FUN_00a622e0::~FUN_00a622e0()
 {
     if (member)
@@ -2554,6 +2608,7 @@ struct D00a628d0 {
     void FUN_009ee850();
     D00a628d0* FUN_00a628d0(unsigned int flags);
 };
+// pdb: hkDisplaySerializeOStream::`scalar deleting destructor' | hkDisplaySerializeOStream.obj | fnv360_0822_retail, vtable, medium
 D00a628d0* D00a628d0::FUN_00a628d0(unsigned int flags)
 {
     FUN_009ee850();
@@ -2577,6 +2632,7 @@ struct D00a644e0 {
     void FUN_00a63e10();
     D00a644e0* FUN_00a644e0(unsigned int flags);
 };
+// pdb: hkStatisticsProcess::`scalar deleting destructor' | hkStatisticsProcess.obj | fnv360_0822_retail, vtable, medium
 D00a644e0* D00a644e0::FUN_00a644e0(unsigned int flags)
 {
     FUN_00a63e10();
@@ -2600,6 +2656,7 @@ struct D00a64810 {
     void FUN_00a64750();
     D00a64810* FUN_00a64810(unsigned int flags);
 };
+// pdb: hkDebugDisplayProcess::`scalar deleting destructor' | hkDebugDisplayProcess.obj | fnv360_0822_retail, vtable, medium
 D00a64810* D00a64810::FUN_00a64810(unsigned int flags)
 {
     FUN_00a64750();
@@ -2623,6 +2680,7 @@ struct D00a649a0 {
     void FUN_00a64860();
     D00a649a0* FUN_00a649a0(unsigned int flags);
 };
+// pdb: hkpWorldViewerBase::`scalar deleting destructor' | hkpWorldViewerBase.obj | fnv360_0822_retail, vtable, medium
 D00a649a0* D00a649a0::FUN_00a649a0(unsigned int flags)
 {
     FUN_00a64860();
@@ -2646,6 +2704,7 @@ struct D00a65570 {
     void FUN_00a64b90();
     D00a65570* FUN_00a65570(unsigned int flags);
 };
+// pdb: hkStreamStatisticsCollector::`scalar deleting destructor' | hkStreamStatisticsCollector.obj | fnv360_0822_retail, vtable_prefix, high
 D00a65570* D00a65570::FUN_00a65570(unsigned int flags)
 {
     FUN_00a64b90();
@@ -2669,6 +2728,7 @@ struct D00a66e90 {
     unsigned short referenceCount;
     D00a66e90* FUN_00a66e90(unsigned int flags);
 };
+// pdb: hkpShapeDisplayBuilder::`scalar deleting destructor' | hkpShapeDisplayBuilder.obj | fnv360_0822_debug, objrun_open, low
 D00a66e90* D00a66e90::FUN_00a66e90(unsigned int flags)
 {
     vtable = DAT_00dcc494;
@@ -2692,6 +2752,7 @@ struct D00a6b9a0 {
     void FUN_00a28830();
     D00a6b9a0* FUN_00a6b9a0(unsigned int flags);
 };
+// pdb: hkDisplaySphere::`scalar deleting destructor' | hkDisplaySphere.obj | fnv360_0822_retail, vtable, medium
 D00a6b9a0* D00a6b9a0::FUN_00a6b9a0(unsigned int flags)
 {
     FUN_00a28830();
@@ -2740,6 +2801,7 @@ struct ActorRef {
     ListenerLists* m_pListenerList;
     ListenerArray* FUN_00a70a70();
 };
+// pdb: hkpEntity::getEntityListeners | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: hkpWorldObject::getProperty)
 ListenerArray* ActorRef::FUN_00a70a70()
 {
     if (!m_pListenerList)
@@ -2777,6 +2839,8 @@ struct Setup {
     CriticalSection* lock;
     int FUN_00a61d20(int a, int b, int c);
 };
+// pdb: hkServerDebugDisplayHandler::displayGeometry | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: hkServerDebugDisplayHandler::displayLine)
+// pdb params: geometries, color, id, tag
 int Setup::FUN_00a61d20(int a, int b, int c)
 {
     lock->FUN_00908a00();
@@ -2807,6 +2871,8 @@ struct Constraint {
     int type;
     void FUN_00a6ac00(float tau, float minLimit, float maxLimit, int type, const Vec4& pivotA, const Vec4& pivotB, const Vec4& axisB);
 };
+// pdb: hkDisplaySemiCircle::setParameters | hkDisplaySemiCircle.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: radius, thetaMin, thetaMax, numSegments, center, normal, startPerp
 void Constraint::FUN_00a6ac00(float t, float lo, float hi, int k, const Vec4& a, const Vec4& b, const Vec4& c)
 {
     pivotA = a;
@@ -2829,6 +2895,7 @@ struct FUN_009a1c00 {
     int unk00;
     FUN_009a1c00(P00a6f330Flag flag) throw();
 };
+// pdb: finishLoadedObjecthkpSimpleContactConstraintAtom | hkpConstraintSolverReflections.obj | tesv_win, objrun_prop, low
 void FUN_00a6f330(void* p)
 {
     P00a6f330Flag flag;
@@ -2851,6 +2918,8 @@ struct Collector {
     int count;
     void FUN_00a7e220(const Contact& contact);
 };
+// pdb: hkpConvexPenetrationUtil::addPointToSimplex | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, objrun, medium
+// pdb params: p
 void Collector::FUN_00a7e220(const Contact& contact)
 {
     int i = count;
@@ -2879,6 +2948,8 @@ struct FUN_00a63380 : F00a63780Base0, F00a63780Base8 {
         return p;
     }
 };
+// pdb: hkInspectProcess::create | hkInspectProcess.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: contexts
 F00a63780Base8* FUN_00a63780(void* arg)
 {
     return new FUN_00a63380(arg);
@@ -2901,6 +2972,7 @@ struct Pool60c60 {
     Object60c60* FUN_008f6d30(int a, int b);
 };
 
+// pdb: hkSystemClockcreate | hkSystemClock.obj | fnv360_0822_retail, uvref, medium
 void __cdecl FUN_00a60c60()
 {
     Pool60c60* pool = static_cast<Pool60c60*>(
@@ -2950,6 +3022,7 @@ public:
     f3m_00a77010::ReferencedObject* second;
 };
 
+// pdb: hkpConvexPieceMeshShape::~hkpConvexPieceMeshShape | hkpConvexPieceMeshShape.obj | fnv360_0822_retail, call_seq, medium
 FUN_00a77010::~FUN_00a77010()
 {
     second->removeReference();
@@ -2985,6 +3058,8 @@ struct FUN_00a686c0_Class {
     FUN_00a686c0_Class* __thiscall FUN_00a686c0(int first, int second);
 };
 
+// pdb: hkpContactPointViewer::hkpContactPointViewer | hkpContactPointViewer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: contexts, color
 FUN_00a686c0_Class* __thiscall FUN_00a686c0_Class::FUN_00a686c0(int first, int second) {
     this->FUN_00a648d0(first);
 
@@ -3011,6 +3086,8 @@ struct A67B10Object {
     int* FUN_00a67b10(int value);
 };
 
+// pdb: hkDisplayConvex::hkDisplayConvex | hkDisplayConvex.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: geom
 int* A67B10Object::FUN_00a67b10(int value)
 {
     FUN_009a4660(6);
@@ -3044,6 +3121,8 @@ struct DispatchView {
     void FUN_00a646d0(void* value);
 };
 
+// pdb: hkDebugDisplayProcess::sendMemStatsDump | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: data, length
 void DispatchView::FUN_00a646d0(void* value) {
     DispatchTarget* target = *reinterpret_cast<DispatchTarget**>(
         reinterpret_cast<char*>(this) - 8);
@@ -3072,6 +3151,7 @@ struct FUN_00a63350_Owner {
     void FUN_00a632e0(unsigned int a);
 };
 
+// pdb: myTrackedObjectCallback | hkInspectProcess.obj | fnv360_0822_retail, caller_sim, medium
 void __cdecl FUN_00a63350(unsigned int a, unsigned int b, char flag,
                           FUN_00a63350_Owner* owner) {
     if (flag != 0) {
@@ -3108,6 +3188,8 @@ struct Target00a64550 { Table00a64550* volatile table; };
 struct View00a64550 {
     void FUN_00a64550(unsigned int a, unsigned int b, unsigned int c, unsigned int setting);
 };
+// pdb: hkDebugDisplayProcess::displayGeometry | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: geometries, transform, color, id, tag
 void View00a64550::FUN_00a64550(unsigned int a, unsigned int b, unsigned int c, unsigned int setting) {
     Target00a64550* target = *reinterpret_cast<Target00a64550**>(reinterpret_cast<char*>(this) - 8);
     Table00a64550* table = target->table;
@@ -3149,6 +3231,8 @@ struct HostA64690 {
     unsigned unk04;
     RelayA64690 relay;
 };
+// pdb: hkDebugDisplayProcess::displayText | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: text, color, id, tag
 void RelayA64690::FUN_00a64690(void* first, void* second, unsigned last) {
     HostA64690* host = reinterpret_cast<HostA64690*>(reinterpret_cast<char*>(this) - offsetof(HostA64690, relay));
     TargetA64690* target = host->target;
@@ -3171,6 +3255,7 @@ struct State00a64af0 {
     Member00a64af0 member;
     void FUN_00a64af0();
 };
+// pdb: hkStreamStatisticsCollector::reset | hkStreamStatisticsCollector.obj | fnv360_0822_retail, call_seq, medium
 void State00a64af0::FUN_00a64af0() {
     member.FUN_00922680();
     value = 0;
@@ -3215,6 +3300,8 @@ public:
     Vector4 unk70;
     FUN_00a66fa0(const Vector4* a, const Vector4* b);
 };
+// pdb: hkDisplayAABB::hkDisplayAABB | hkDisplayAABB.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: min, max
 FUN_00a66fa0::FUN_00a66fa0(const Vector4* a, const Vector4* b) : FUN_009a4660(3)
 {
     unk60 = *a;
@@ -3292,17 +3379,9 @@ struct V6e0 {
 void V6e0::v0() {}
 void V6e0::v1() {}
 void V6e0::v2() {}
-void V6e0::v3() {}
-void V6e0::v4() {}
-void V6e0::v5() {}
-void V6e0::v6() {}
 void V6e0::v7() {}
 void V6e0::v8() {}
-void V6e0::v9() {}
 void V6e0::v10() {}
-void V6e0::v11() {}
-void V6e0::v12() {}
-void V6e0::v13() {}
 void V6e0::v14() {}
 void V6e0::v15() {}
 
@@ -3322,6 +3401,7 @@ FNV_STATIC_ASSERT(offsetof(Enc6e0, unk00) == 0x00);
 FNV_STATIC_ASSERT(offsetof(Enc6e0, unk04) == 0x04);
 FNV_STATIC_ASSERT(offsetof(Enc6e0, sub08) == 0x08);
 
+// pdb: hkDebugDisplayProcess::holdImmediate | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
 void Sub6e0::FUN_00a646e0()
 {
     // &this->unk00 is (int*)this; two ints back is this-8 == the enclosing.
@@ -3342,6 +3422,7 @@ struct Obj61220 {
     void __thiscall FUN_00a610a0();
 };
 
+// pdb: hkProcessFactorycreate | hkProcessFactory.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00a61220()
 {
     Alloc61220* allocator = (Alloc61220*)DAT_00fdf044(DAT_010f3170);
@@ -3402,6 +3483,8 @@ struct DD99D0DisplayHandler
 
 // Writes a display command with three vectors, three floats, and a text string to m_pDisplayStream under m_pSynchronizationLock.
 // @fnv 0x00dd99d0
+// pdb: hkServerDebugDisplayHandler::updateCamera | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: from, to, up, nearPlane, farPlane, fov, name
 int DD99D0DisplayHandler::FUN_00a61c30(const void* apVector1, const void* apVector2, const void* apVector3,
                                               float x, float y, float z, const char* text)
 {
@@ -3444,6 +3527,8 @@ struct S_a64570 {
 };
 
 // variant d: the thunk returns the callee's result
+// pdb: hkDebugDisplayProcess::displayGeometry | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: geometries, color, id, tag
 int S_a64570::FUN_00a64570(int a, int b, int c)
 {
     Target_a64570* target = *(Target_a64570**)((char*)this - 8);
@@ -3486,6 +3571,7 @@ public:
 };
 // Constructor: stores a and b in m_iA and m_iB, sets m_fCoefficientA to -1e6, m_fB from DAT_00e19cbc and m_type to 4.
 // @fnv 0x00e48390
+// pdb: hkpCallbackConstraintMotor::hkpCallbackConstraintMotor | hkpCallbackConstraintMotor.obj | tesv_win, objrun_open, low
 Owner::Owner(int a, int b)
 {
     m_iA = a;
@@ -3516,6 +3602,7 @@ struct TlsContext {
 struct Owner {
     void __thiscall FUN_00a763b0();
 };
+// pdb: hkpCallbackConstraintMotor::clone | hkpCallbackConstraintMotor.obj | tesv_win, vtable, medium
 void __thiscall Owner::FUN_00a763b0() {
     Owner* owner = this;
     TlsContext* context = (TlsContext*)DAT_00d9b080(DAT_010f3170);
@@ -3542,6 +3629,8 @@ struct FUN_00a60e10 {
     unsigned char unk0C;
     FUN_00a60e10(FUN_00a60e10_Other* other, unsigned char flag);
 };
+// pdb: hkIArchive::hkIArchive | hkIArchive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: sb, bs
 FUN_00a60e10::FUN_00a60e10(FUN_00a60e10_Other* other, unsigned char flag)
 {
     unk06 = 1;
@@ -3561,7 +3650,7 @@ struct Sub71730 {
     int unk04;
     int unk08;
     int unk0c;
-    void __thiscall FUN_009a1a00(int value);
+    void __thiscall hkpBridgeConstraintAtom_init(int value);
 };
 struct Obj71730 {
     void* vtbl;
@@ -3571,14 +3660,16 @@ struct Obj71730 {
     Sub71730 sub;
     Obj71730* __thiscall FUN_00a71730(int unused);
 };
+// pdb: hkpPoweredChainData::hkpPoweredChainData | hkpPoweredChainData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: f
 Obj71730* __thiscall Obj71730::FUN_00a71730(int unused)
 {
     (void)unused;
     Sub71730* s = &sub;
     word06 = 1;
     vtbl = (void*)&DAT_00e87b68;
-    s->FUN_009a1a00(s->unk08);
-    s->FUN_009a1a00((int)this);
+    s->hkpBridgeConstraintAtom_init(s->unk08);
+    s->hkpBridgeConstraintAtom_init((int)this);
     return this;
 }
 }   // namespace f3m_00a71730
@@ -3626,6 +3717,8 @@ struct Owner60e80 {
     Other60e80* other;
     void __thiscall FUN_00a60e80();
 };
+// pdb: hkIArchive::hkIArchive | hkIArchive.obj | fnv360_0822_retail, objrun, low
+// pdb params: mem, memSize, byteswap
 void __thiscall Owner60e80::FUN_00a60e80()
 {
     Other60e80* other = this->other;
@@ -3686,6 +3779,8 @@ struct A6B470StandIn {
     void FUN_00a6b470(float* a, float* b, float* c, float* d);
 };
 
+// pdb: hkDisplayPlane::setParameters | hkDisplayPlane.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: normal, perpToNormal, center, extent
 void A6B470StandIn::FUN_00a6b470(float* a, float* b, float* c, float* d)
 {
     unk60 = a[0];
@@ -3748,6 +3843,7 @@ struct FUN_00a6bb10 : FUN_009a4660 {
  FUN_00a6bb10();
  virtual ~FUN_00a6bb10();
 };
+// pdb: hkDisplayCone::hkDisplayCone | hkDisplayCone.obj | fnv360_0822_retail, objrun, medium
 FUN_00a6bb10::FUN_00a6bb10():FUN_009a4660(4),value84(0.0f),value88(0.0f){
  flags=0;
  first.x=first.y=first.z=first.w=0.0f;
@@ -3792,6 +3888,7 @@ struct Owner : FUN_009a4660 {
  int unk9C;
  Owner();
 };
+// pdb: hkDisplaySemiCircle::hkDisplaySemiCircle | hkDisplaySemiCircle.obj | fnv360_0822_retail, objrun, medium
 Owner::Owner():FUN_009a4660(5) {
  f90=0.0f;f94=0.0f;f98=0.0f;
  unk9C=0;
@@ -3864,6 +3961,7 @@ struct Obj {
     RefObj* child;
     void FUN_00a74870();
 };
+// pdb: hkpPointToPathConstraintData::~hkpPointToPathConstraintData | hkpPointToPathConstraintData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void Obj::FUN_00a74870()
 {
     table = &DAT_00e84950;
@@ -3898,6 +3996,7 @@ struct Obj {
     RefObj* child;
     void FUN_00a745b0(RefObj* o);
 };
+// pdb: hkpPointToPathConstraintData::~hkpPointToPathConstraintData | hkpPointToPathConstraintData.obj | fnv360_0822_debug, objopen_prop, low
 void Obj::FUN_00a745b0(RefObj* o)
 {
     if (o)
@@ -3967,6 +4066,7 @@ struct FUN_00a6a700 {
     FUN_00a8f450 member;
     FUN_00a6a700();
 };
+// pdb: hkpConstraintDrawer::hkpConstraintDrawer | hkpConstraintDrawer.obj | fnv360_0822_retail, caller, medium
 FUN_00a6a700::FUN_00a6a700()
 {
     c = 0.5f;
@@ -3999,6 +4099,8 @@ public:
     void* FUN_00a64630(void* a, void* b, void* c);
 };
 
+// pdb: hkDebugDisplayProcess::displayPoint | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: position, color, id, tag
 void* C00a64630Outer::FUN_00a64630(void* a, void* b, void* c) {
     C00a64630* obj = *(C00a64630**)((char*)this - 8);
     return obj->v7(a, b, *(void**)DAT_0116c49c);
@@ -4014,6 +4116,8 @@ struct Obj66f60 {
     Float4_66f60 secondVec;
     void __thiscall FUN_00a66f60(Float4_66f60* first, Float4_66f60* second);
 };
+// pdb: hkDisplayAABB::setExtents | hkDisplayAABB.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: min, max
 void __thiscall Obj66f60::FUN_00a66f60(Float4_66f60* first, Float4_66f60* second)
 {
     firstVec.x = first->x;
@@ -4147,13 +4251,14 @@ extern "C" void _ReadWriteBarrier();
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct Allocator00a70c70 { void FUN_008f6d90(void* data, unsigned int bytes, unsigned int category); };
 struct State00a70c70 {
-    void* volatile table;
+    void* table;
     unsigned int unk04, unk08, unk0c, unk10, unk14;
     void* data;
     unsigned int count;
     int capacityFlags;
     void FUN_00a70c70();
 };
+// pdb: hkpStiffSpringChainData::~hkpStiffSpringChainData | hkpStiffSpringChainData.obj | fnv360_0822_retail, call_seq, high
 void State00a70c70::FUN_00a70c70() {
     table = &DAT_00e87b30;
     _ReadWriteBarrier();
@@ -4180,6 +4285,7 @@ struct State00a60ec0 {
     unsigned char flag;
     State00a60ec0* FUN_00a60ec0(void* first, void* second, unsigned char value);
 };
+// pdb: hkIArchive::~hkIArchive | hkIArchive.obj | fnv360_0822_retail, objrun, medium
 State00a60ec0* State00a60ec0::FUN_00a60ec0(void* first, void* second, unsigned char value) {
     refs = 1;
     table = &DAT_00e86c40;
@@ -4231,6 +4337,8 @@ struct Shape7de0 {
     void FUN_00a67de0(const float* a_pValues, int a_iId);
 };
 
+// pdb: hkDisplayBox::setParameters | hkDisplayBox.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: halfExtents, t
 void Shape7de0::FUN_00a67de0(const float* a_pValues, int a_iId) {
     kBounds.fMin[0] = a_pValues[0];
     kBounds.fMin[1] = a_pValues[1];
@@ -4258,7 +4366,7 @@ struct SubRecord_a70c30 {
     int u04;
     void* p08;
 
-    void FUN_009a1a00(void* pValue);
+    void hkpBridgeConstraintAtom_init(void* pValue);
 };
 
 struct FUN_00a70c30 {
@@ -4274,20 +4382,22 @@ struct FUN_00a70c30 {
     FUN_00a70c30(int completionFlag);
 };
 
+// pdb: hkpStiffSpringChainData::hkpStiffSpringChainData | hkpStiffSpringChainData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: f
 FUN_00a70c30::FUN_00a70c30(int completionFlag)
 {
     SubRecord_a70c30* pSub = &m_sub;
 
     m_usReadyFlag = 1;
     m_ppVftable = &FUN_00e87b30;
-    pSub->FUN_009a1a00(pSub->p08);
+    pSub->hkpBridgeConstraintAtom_init(pSub->p08);
 
     int iZero = 0;
     m_i18 = iZero;
     m_i1C = iZero;
     m_ui20 = 0x80000000;
 
-    pSub->FUN_009a1a00(this);
+    pSub->hkpBridgeConstraintAtom_init(this);
 }
 }   // namespace f3m_00a70c30
 
@@ -4327,6 +4437,7 @@ struct ObjA742c0 {
     void FUN_00a742c0();
 };
 
+// pdb: hkpConstrainedSystemFilter::~hkpConstrainedSystemFilter | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, call_seq, high
 void ObjA742c0::FUN_00a742c0()
 {
     FUN_00a742c0_Ref* ref = f34;
@@ -4366,6 +4477,7 @@ struct Obj {
     int capFlags;
     Obj* FUN_00a66ed0(unsigned int flags);
 };
+// pdb: hkpUserConvexRadiusBuilder::`scalar deleting destructor' | hkpConvexRadiusBuilder.obj | fnv360_0822_retail, vtable, medium
 Obj* Obj::FUN_00a66ed0(unsigned int flags) {
     if ((capFlags & 0x80000000) == 0) {
         int cap = capFlags & 0x3fffffff;
@@ -4458,6 +4570,7 @@ struct FUN_00a760c0 : VftInit {
     FUN_00a760c0();
 };
 
+// pdb: hkpLinearParametricCurve::hkpLinearParametricCurve | hkpLinearParametricCurve.obj | fnv360_0822_retail, objrun_open, low
 FUN_00a760c0::FUN_00a760c0() : m_f08(0.01f), m_b0c(0) {
     m_v10.set(0.0f, 1.0f, 0.0f, 0.0f);
 }
@@ -4590,6 +4703,7 @@ public:
     Atoms atoms;
     hkpRotationalConstraintData();
 };
+// pdb: hkpRotationalConstraintData::setInBodySpace | hkpRotationalConstraintData.obj | tesv_win, objopen_prop, low
 hkpRotationalConstraintData::hkpRotationalConstraintData() {}
 }   // namespace f3m_00a711c0
 
@@ -4628,9 +4742,10 @@ __forceinline Entry& Array::ExpandOne() {
 struct Owner {
     int unk00,unk04,unk08,unk0c,unk10,unk14;
     Array entries;
-    void FUN_00a715a0(const Vector4& a,const Vector4& b,const Vector4& c,RefObject* x,RefObject* y,RefObject* z);
+    void hkpPoweredChainData_addConstraintInfoInBodySpace(const Vector4& a,const Vector4& b,const Vector4& c,RefObject* x,RefObject* y,RefObject* z);
 };
-void Owner::FUN_00a715a0(const Vector4& a,const Vector4& b,const Vector4& c,RefObject* x,RefObject* y,RefObject* z) {
+// pdb: hkpPoweredChainData::addConstraintInfoInBodySpace | hkpPoweredChainData.obj | fnv360_0822_retail, caller + skyrim(call_seq), high
+void Owner::hkpPoweredChainData_addConstraintInfoInBodySpace(const Vector4& a,const Vector4& b,const Vector4& c,RefObject* x,RefObject* y,RefObject* z) {
     entries.ExpandOne().Set(a,b,c,x,y,z);
 }
 }
@@ -4754,6 +4869,7 @@ struct Obj657 {                       // +00 handler, +04/+06 words, +08/+0C zer
     Obj657* FUN_008f6d30(unsigned int a, unsigned int b);  // thiscall member returning the object
 };
 
+// pdb: hkpUserShapeDisplayBuildercreate | hkpShapeDisplayBuilder.obj | fnv360_0822_retail, uvref, medium
 Obj657* __cdecl FUN_00a65700(void) {
     Obj657* p = (Obj657*)DAT_00d9b080(DAT_010f3170);
     Obj657* q = p->FUN_008f6d30(0x14, 0x15);
@@ -4788,6 +4904,7 @@ struct Dst66 {                            // +00 slot, floats at +0x60 .. +0x7c
     Dst66* FUN_00a66ff0();                // thiscall, returns the object (ret)
 };
 
+// pdb: hkDisplayAABB::hkDisplayAABB | hkDisplayAABB.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 Dst66* Dst66::FUN_00a66ff0() {
     FUN_009a4660(3);
 
@@ -4844,6 +4961,7 @@ struct State00a64860 {
     Ref00a64860* reference;
     void FUN_00a64860();
 };
+// pdb: hkpWorldViewerBase::~hkpWorldViewerBase | hkpWorldViewerBase.obj | fnv360_0822_retail, call_seq, medium
 void State00a64860::FUN_00a64860() {
     table0 = &DAT_00e86eb8;
     table8 = &DAT_00e86e98;
@@ -4927,10 +5045,11 @@ public:
     int unk34;
     unsigned int unk38;
 
-    void FUN_00a72b10(Archive* ar);
+    void hkpSimpleMeshShape_calcContentStatistics(Archive* ar);
 };
 
-void StorageMesh::FUN_00a72b10(Archive* ar)
+// pdb: hkpSimpleMeshShape::calcContentStatistics | hkpSimpleMeshShape.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void StorageMesh::hkpSimpleMeshShape_calcContentStatistics(Archive* ar)
 {
     ar->vf04(DAT_00e87bb4, 1, this);
     if (!(unk20 & 0x80000000))
@@ -5009,6 +5128,7 @@ struct Class_a633f0 : public hkBaseObject {
     void FUN_00a633f0();
 };
 
+// pdb: hkInspectProcess::~hkInspectProcess | hkInspectProcess.obj | fnv360_0822_retail, call_seq, medium
 void Class_a633f0::FUN_00a633f0() {
     Object_a633f0* object = object2C;
     *(int*)this = 0xe86dac;
@@ -5092,6 +5212,7 @@ struct Outer {
     Outer* FUN_00a610a0();
 };
 
+// pdb: hkProcessFactory::hkProcessFactory | hkProcessFactory.obj | fnv360_0822_retail, objopen_prop, low
 Outer* Outer::FUN_00a610a0()
 {
     referenceCount = 1;
@@ -5148,6 +5269,8 @@ public:
     void FUN_00a72a30(int index, void* output);
 };
 
+// pdb: hkpSimpleMeshShape::getChildShape | hkpSimpleMeshShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: key, buffer
 void C00a72a30::FUN_00a72a30(int index, void* output)
 {
     int i = index;
@@ -5291,6 +5414,7 @@ struct QMesh60
     QBool60 FUN_00a60990();
 };
 
+// pdb: hkGeomHull::isValidTopology | hkGeomHull.obj | tesv_win, objrun_open, low
 QBool60 QMesh60::FUN_00a60990()
 {
     QBool60 result = true;
@@ -5328,6 +5452,8 @@ struct Flag {char value;Flag(bool v):value(v){}Flag(const Flag& other):value(oth
 struct Item {virtual void destroy(int);short managed,refs;Item* FUN_009a90b0(void*,unsigned);};
 struct Allocator {Item* FUN_008f6d30(unsigned,int);};extern void* (__stdcall* DAT_00d9b080)(unsigned long);extern unsigned long DAT_010f3170;extern char DAT_00e86d58;
 struct Object {void* vtable;int unk04;Item* item;void FUN_009ee7e0(Item*,Flag);Object* FUN_00a62560(void*);};
+// pdb: hkDisplaySerializeOStream::hkDisplaySerializeOStream | hkDisplaySerializeOStream.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: writer
 Object* Object::FUN_00a62560(void* source){Allocator* allocator=(Allocator*)DAT_00d9b080(DAT_010f3170);Item* created=allocator->FUN_008f6d30(0x1c,0x1a);created->managed=0x1c;created=created->FUN_009a90b0(source,0x2000);FUN_009ee7e0(created,Flag(false));vtable=&DAT_00e86d58;Item* current=item;if(current->managed&&--current->refs==0)current->destroy(1);return this;}
 }
 
@@ -5338,8 +5464,9 @@ namespace f3m_00a762d0 {
 namespace Copy308 {
 struct Heap {void FUN_008f6d90(void*,unsigned,int);void* FUN_008f6d30(unsigned,int);};extern Heap* (__stdcall* DAT_00d9b080)(unsigned);extern unsigned DAT_010f3170;
 struct Array {int* data;int count;unsigned capacity;};struct Owner {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28;Array array;};
-struct Object {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14;Owner* owner;void FUN_00a762d0(Array*);};
-void Object::FUN_00a762d0(Array* out){Array* source=&owner->array;int capacity=out->capacity&0x3fffffff;if(capacity<source->count){if(!(out->capacity&0x80000000)){Heap* heap=(Heap*)TlsGetValue(DAT_010f3170);heap->FUN_008f6d90(out->data,capacity*4,0x17);}Heap* heap=(Heap*)TlsGetValue(DAT_010f3170);out->data=(int*)heap->FUN_008f6d30(source->count*4,0x17);out->capacity=(out->capacity&0x40000000)|source->count;}int count=source->count;out->count=count;int* dest=out->data;int* src=source->data;for(int i=0;i<count;++i)dest[i]=src[i];}
+struct Object {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14;Owner* owner;void hkpConstraintChainInstanceAction_getEntities(Array*);};
+// pdb: hkpConstraintChainInstanceAction::getEntities | hkpConstraintChainInstanceAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Object::hkpConstraintChainInstanceAction_getEntities(Array* out){Array* source=&owner->array;int capacity=out->capacity&0x3fffffff;if(capacity<source->count){if(!(out->capacity&0x80000000)){Heap* heap=(Heap*)TlsGetValue(DAT_010f3170);heap->FUN_008f6d90(out->data,capacity*4,0x17);}Heap* heap=(Heap*)TlsGetValue(DAT_010f3170);out->data=(int*)heap->FUN_008f6d30(source->count*4,0x17);out->capacity=(out->capacity&0x40000000)|source->count;}int count=source->count;out->count=count;int* dest=out->data;int* src=source->data;for(int i=0;i<count;++i)dest[i]=src[i];}
 }
 
 
@@ -5436,7 +5563,7 @@ struct BridgeAtom : Atom
     int m_04;
     int m_08;
     BridgeAtom() : Atom(1) {}
-    void FUN_009a1a00(ConstraintData* data);
+    void hkpBridgeConstraintAtom_init(ConstraintData* data);
 };
 
 struct ConstraintData : ConstraintBase
@@ -5452,19 +5579,20 @@ struct ConstraintData : ConstraintBase
     Transform m_transformB;
 };
 
-struct FUN_00a74790 : ConstraintData
+struct NiDynamicEffect_GetRTTI : ConstraintData
 {
-    FUN_00a74790();
+    NiDynamicEffect_GetRTTI();
 };
 
-FUN_00a74790::FUN_00a74790()
+// pdb: hkpPointToPathConstraintData::hkpPointToPathConstraintData | hkpPointToPathConstraintData.obj | fnv360_0721_beta, caller_sim, medium
+NiDynamicEffect_GetRTTI::NiDynamicEffect_GetRTTI()
 {
     m_child = 0;
     m_1c = 0.0f;
     m_20 = true;
     m_transformA.setIdentity();
     m_transformB.setIdentity();
-    m_bridge.FUN_009a1a00(this);
+    m_bridge.hkpBridgeConstraintAtom_init(this);
 }
 
 }
@@ -5475,6 +5603,8 @@ namespace Small515 {
 struct FUN_009a4660 {virtual ~FUN_009a4660(); int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; FUN_009a4660(int);};
 struct Vector {float x,y,z,w;};
 struct FUN_00a6baa0:FUN_009a4660 {Vector first,second;int flags;float value84,value88;virtual ~FUN_00a6baa0();FUN_00a6baa0(float,float,int,const Vector&,const Vector&);};
+// pdb: hkDisplayCone::hkDisplayCone | hkDisplayCone.obj | fnv360_0822_retail, objrun, medium
+// pdb params: coneAngle, coneHeight, numSegments, coneAxis, startPos
 FUN_00a6baa0::FUN_00a6baa0(float a,float b,int n,const Vector& p,const Vector& q):FUN_009a4660(4),first(q),second(p),flags(n),value84(a),value88(b){}
 }
 }   // namespace f3m_00a6baa0
@@ -5488,6 +5618,7 @@ extern void* (__stdcall* const DAT_00d9b080)(DWORD);
 struct Heap{void FUN_008f6d90(void*,unsigned,int);};
 struct Other{void FUN_00922cf0();};
 struct Owner {void* table;unsigned short size,refs;void* secondaryTable;unsigned secondaryState;char* data;int count;int capacity;Other other;void FUN_00a64b90();};
+// pdb: hkStreamStatisticsCollector::~hkStreamStatisticsCollector | hkStreamStatisticsCollector.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_00a64b90(){
  table=&DAT_00e86f08;secondaryTable=&DAT_00e86ee8;
  other.FUN_00922cf0();
@@ -5518,6 +5649,7 @@ struct Curve
     int count;
     void FUN_00a752b0(float t, Vec4* out);
 };
+// pdb: hkpLinearParametricCurve::getPoint | hkpLinearParametricCurve.obj | tesv_win, objopen_prop, low
 void Curve::FUN_00a752b0(float t, Vec4* out)
 {
     int i = t < 0.0f ? 0 : FUN_00954d20(t);
@@ -5566,6 +5698,7 @@ struct Owner {
  unsigned capacity;
  void FUN_00a71760();
 };
+// pdb: hkpPoweredChainData::~hkpPoweredChainData | hkpPoweredChainData.obj | fnv360_0822_retail, call_seq, high
 void Owner::FUN_00a71760() {
  table=&DAT_00e87b68;
  for(int i=0;i<count;++i) {
@@ -5642,6 +5775,7 @@ struct Mesh
     void FUN_00a60890(Edge* start);
 };
 
+// pdb: hkGeomHull::visitAllNextAndMirrorEdges | hkGeomHull.obj | tesv_win, objrun_open, low
 void Mesh::FUN_00a60890(Edge* start)
 {
     Edge* base = edges;
@@ -5736,6 +5870,8 @@ struct Builder {
  unsigned unk00,unk04; Geometry* geometry;
  void FUN_00a67b30(Array<Vec4>& out);
 };
+// pdb: hkDisplayConvex::getWireframeGeometry | hkDisplayConvex.obj | fnv360_0822_retail, vtable, medium
+// pdb params: lines, a
 void Builder::FUN_00a67b30(Array<Vec4>& out) {
  if(geometry) {
   for(int i=geometry->triangles.size-1;i>=0;--i) {
@@ -5776,6 +5912,7 @@ struct Array2 {
  void Clear(){unsigned cap=capacity;if(!(cap&0x80000000u)){int n=capacity&0x3fffffff;Heap* heap=DAT_00d9b080(DAT_010f3170);heap->FUN_008f6d90(data,n*sizeof(QVec),0x17);}}
 };
 struct Shape { const Array* FUN_009e7930(); void FUN_009e8020(Array2* points); };
+// pdb: _addBoundingPlanes | hkpConvexRadiusBuilder.obj | fnv360_0822_debug, objrun, low, conflict (bridge: _getPlaneToSurfaceDistance)
 static __declspec(noinline) float FUN_00a68fc0(Shape* shape) {
  const Array* planes=shape->FUN_009e7930();
  Array2 points;
@@ -5838,6 +5975,7 @@ public:
     FUN_00a6f6f0 m_f4;
     virtual ~FUN_00a6f800() throw();
 };
+// pdb: hkpSerializedAgentNnEntry::~hkpSerializedAgentNnEntry | hkpSerializedAgentNnEntry.obj | fnv360_0822_retail, call_seq, high
 FUN_00a6f800::~FUN_00a6f800() throw()
 {
     if (m_08)
@@ -5863,7 +6001,7 @@ static __forceinline ThreadMemory* Memory() throw() {
     return static_cast<ThreadMemory*>(TlsGetValue(DAT_010f3170));
 }
 
-int __cdecl FUN_009232c0(const char* first, const char* second) throw();
+int __cdecl hkString_strCmp(const char* first, const char* second) throw();
 int __cdecl FUN_009233f0(const char* string) throw();
 void* __cdecl FUN_009234e0(void* destination, const void* source, unsigned int count) throw();
 void __cdecl FUN_00901e90(void* array, int capacity, int stride) throw();
@@ -5997,6 +6135,8 @@ struct Registry {
     int FUN_00a61250(const char* name, void* value) throw();
 };
 
+// pdb: hkProcessFactory::registerProcess | hkProcessFactory.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: hkpWorld::hkpWorld)
+// pdb params: viewerName, creationFunction
 int Registry::FUN_00a61250(const char* name, void* value) throw() {
     lock->FUN_00908a00();
     Record* record = 0;
@@ -6004,7 +6144,7 @@ int Registry::FUN_00a61250(const char* name, void* value) throw() {
     for (; i < records.size; ++i) {
         const char* key = records.data[i].key.data;
 
-        if (FUN_009232c0(key, name) == 0) {
+        if (hkString_strCmp(key, name) == 0) {
             record = &records.data[i];
             break;
         }
@@ -6045,6 +6185,8 @@ struct Owner60 {
 };
 }
 
+// pdb: hkProcessFactory::createProcess | hkProcessFactory.obj | fnv360_0822_debug, caller_sim, low
+// pdb params: processName, contexts
 int Owner60::FUN_00a61050(SlotEntry* entry, int param) {
     Other60* edi = other;
     edi->FUN_00908a00();
@@ -6115,6 +6257,7 @@ struct hkQuaternion {
 using namespace f3w_a71350;
 
 struct QuaternionView { const hkQuaternion* value; };
+// pdb: estimateAngleToLs | hkpPoweredChainData.obj | fnv360_0822_retail, objrun_prop, medium
 static __declspec(noinline) void FUN_00a71350(QuaternionView fromPtr, const hkQuaternion& to, hkVector4& angleOut)
 {
     angleOut.setCross(fromPtr.value->m_vec, to.m_vec);
@@ -6134,6 +6277,8 @@ void estimate_angle_caller_a71350(const hkQuaternion& from, const hkQuaternion& 
 
 // @f3 0x00a76f80 (community match, verified in this file)
 namespace f3m_00a76f80 {
+// pdb: hkpConvexPieceMeshShape::vertexIsSet | hkpConvexPieceMeshShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: stream, key
 bool* __stdcall FUN_00a76f80(bool* pbResult, const int* bits, unsigned int bitIndex)
 {
     unsigned int wordIndex = bitIndex / 31;
@@ -6171,6 +6316,8 @@ struct Target {
     Target* __thiscall FUN_00a76fc0(Addr04* second, Addr04* first, float f);
 };
 
+// pdb: hkpConvexPieceMeshShape::hkpConvexPieceMeshShape | hkpConvexPieceMeshShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: inputMesh, convexPieceStream, radius
 Target* __thiscall Target::FUN_00a76fc0(Addr04* second, Addr04* first, float f)
 {
     FUN_0099f010(8);
@@ -6237,6 +6384,7 @@ namespace f3m_00a71520 {
 // field store is the second shift: the entry also does xor al,al / shl al,cl and ors that in, so the source
 // ORs a literal zero into the field position. A literal zero survives the shift because the count is a
 // runtime value in CL, which this compiler will not fold, and that is why the redundant or survives too.
+// pdb: hk1dAngularVelocityMotorCommitJacobianInMotorInfo | hkpPoweredChainData.obj | fnv360_0822_retail, objrun_sim, low, conflict (skyrim: hkpPoweredChainData::enableMotor)
 void __cdecl FUN_00a71520(void* pOwner, unsigned int uiOffset, unsigned int uiBit)
 {
     unsigned int uiIndex = *(unsigned int*)(*(unsigned int*)((char*)pOwner + 0x0c) + 0x1c);
@@ -6268,6 +6416,8 @@ struct Owner {
     unsigned int count;
     void FUN_00a70b40(bool on, SizeOut* out);
 };
+// pdb: hkpStiffSpringChainData::getRuntimeInfo | hkpStiffSpringChainData.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: wantRuntime, infoOut
 void Owner::FUN_00a70b40(bool on, SizeOut* out)
 {
     if (on) {
@@ -6286,7 +6436,7 @@ void Owner::FUN_00a70b40(bool on, SizeOut* out)
 namespace f3m_00a71080 {
 namespace na71080 {
 struct Part {
-    void FUN_00924b40(void* p);
+    void hkRotation_set(void* p);
 };
 struct Owner {
     int unk00;
@@ -6312,10 +6462,12 @@ struct Owner {
     Part part50;
     void FUN_00a71080(void* a, void* b);
 };
+// pdb: hkpRotationalConstraintData::setInWorldSpace | hkpRotationalConstraintData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: bodyARotation, bodyBRotation
 void Owner::FUN_00a71080(void* a, void* b)
 {
-    part20.FUN_00924b40(a);
-    part50.FUN_00924b40(b);
+    part20.hkRotation_set(a);
+    part50.hkRotation_set(b);
 }
 }
 }   // namespace f3m_00a71080
@@ -6349,6 +6501,8 @@ struct Track
     void FUN_00a70b70(const float first[4], const float second[4], float time);
 };
 
+// pdb: hkpStiffSpringChainData::addConstraintInfoInBodySpace | hkpStiffSpringChainData.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pivotInA, pivotInB, springLength
 void Track::FUN_00a70b70(const float first[4], const float second[4], float time)
 {
     DynArray& arr = keys;
@@ -6380,10 +6534,11 @@ struct State00a71050 {
     unsigned int count;
     int capacityFlags;
     void FUN_00a70c70();
-    void __thiscall FUN_00924b40(unsigned int a);
+    void __thiscall hkRotation_set(unsigned int a);
     State00a71050* FUN_00a71050(unsigned int flags);
     void __stdcall FUN_00a71080(unsigned int a);
 };
+// pdb: hkpStiffSpringChainData::`scalar deleting destructor' | hkpStiffSpringChainData.obj | fnv360_0822_retail, vtable_prefix, high
 State00a71050* State00a71050::FUN_00a71050(unsigned int flags)
 {
     FUN_00a70c70();
@@ -6392,11 +6547,6 @@ State00a71050* State00a71050::FUN_00a71050(unsigned int flags)
         allocator->FUN_008f6d90(this, unk04, 0x2c);
     }
     return this;
-}
-void __stdcall State00a71050::FUN_00a71080(unsigned int a)
-{
-    ((State00a71050*)((unsigned char*)this + 0x20))->FUN_00924b40(a);
-    ((State00a71050*)((unsigned char*)this + 0x50))->FUN_00924b40(a);
 }
 }
 }   // namespace f3m_00a71050
@@ -6419,6 +6569,8 @@ struct S00a71500_Node {
     void FUN_00a71500(int unused, S00a71500_Out* out);
 };
 
+// pdb: hkpPoweredChainData::getRuntimeInfo | hkpPoweredChainData.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: wantRuntime, infoOut
 void S00a71500_Node::FUN_00a71500(int unused, S00a71500_Out* out)
 {
     int n = count;
@@ -6436,6 +6588,7 @@ struct W614Dtor {
     __declspec(noinline) void FUN_00a71760();
     void* FUN_00a72140(unsigned int flags);
 };
+// pdb: hkpPoweredChainData::`scalar deleting destructor' | hkpPoweredChainData.obj | fnv360_0822_retail, vtable_prefix, high
 void* W614Dtor::FUN_00a72140(unsigned int flags) {
     FUN_00a71760();
     if (flags & 1) {
@@ -6458,6 +6611,7 @@ struct Obj {
     void FUN_00a60e80();
     Obj* FUN_00a60f10(unsigned int flags);
 };
+// pdb: hkIArchive::`scalar deleting destructor' | hkIArchive.obj | fnv360_0822_retail, vtable, high
 Obj* Obj::FUN_00a60f10(unsigned int flags)
 {
     FUN_00a60e80();
@@ -6531,6 +6685,8 @@ public:
     PtrArray first; Array second; Array third;
     FUN_00a63c30(PtrArray* source);
 };
+// pdb: hkStatisticsProcess::hkStatisticsProcess | hkStatisticsProcess.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: contexts
 FUN_00a63c30::FUN_00a63c30(PtrArray* source) {
     vtbl = &DAT_00e86de8;
     vtbl2 = &DAT_00e86dc8;
@@ -6573,6 +6729,8 @@ struct Obj {
     Lock* lock;
     int FUN_00a60f40(int index);
 };
+// pdb: hkProcessFactory::getProcessName | hkProcessFactory.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: id
 int Obj::FUN_00a60f40(int index) {
     lock->FUN_00908a00();
     int value = entries[index].value;
@@ -6587,6 +6745,7 @@ namespace f3m_00a7e040 {
 struct Obj {
     void FUN_00a7e040();
 };
+// pdb: hkpConvexPenetrationUtil::codeBegin | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, objrun_open, low
 void Obj::FUN_00a7e040()
 {
 }

@@ -53,7 +53,7 @@ class __declspec(novtable) NiBackToFrontAccumulator : public NiObject
     NiBackToFrontAccumulator();
     virtual ~NiBackToFrontAccumulator();
     void FUN_00a5d3d0();
-    void QuickSort(int, int);
+    void SortObjectsByDepth(int, int);
     float GetPivotValue(int, int);
 
     // NiObject contributes the vfptr and reference count at offsets 0 and 4.

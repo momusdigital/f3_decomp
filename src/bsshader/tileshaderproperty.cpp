@@ -5,6 +5,8 @@
 extern "C" void* g_012007d8;
 
 // @fnv 0x00bb7d60
+// pdb: NiD3DVertexShader::SetUsage | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: NiD3DShaderProgram::SetCreator)
+// pdb params: uiUsage
 void* __cdecl FUN_00bb7d60()
 {
     return &g_012007d8;
@@ -39,6 +41,8 @@ struct TallGrassShader
                                                          unsigned int, unsigned int);
 };
 // @fnv 0x00bb7a60
+// pdb: TileShaderProperty::GetRenderPasses | TileShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
 BSShaderProperty::ShaderPassList* TallGrassShader::SetupGeometryGroup(NiGeometry* apGeometry, unsigned int auiValue1,
                                                                       unsigned int auiValue2, unsigned int auiValue3,
                                                                       unsigned int auiValue4, unsigned int auiValue5)
@@ -80,6 +84,8 @@ struct TileShaderProperty
 };
 // Replaces m_pkTile with apTexture, releasing the old texture and incrementing the new one's reference count when they differ.
 // @fnv 0x00bb7a10
+// pdb: TileShaderProperty::SetTileTexture | TileShaderProperty.obj | fnv360_0822_debug, call_gap, low
+// pdb params: apTexture
 void TileShaderProperty::FUN_00bb7a10(NiTexture* apTexture)
 {
     if (m_pkTile != apTexture)
@@ -154,6 +160,8 @@ struct FnvTileShaderProperty
 };
 
 // @fnv 0x00bb7ac0
+// pdb: TileShaderProperty::CopyMembers | TileShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pDest, arCloneData
 void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag)
 {
     FUN_00ba8b10(dst, flag);
@@ -202,6 +210,8 @@ struct TileCloneSource
 };
 // Allocates a TilePropertyClone with false, initializes it via CopyTileShaderProperty with flag, and returns it.
 // @fnv 0x00bb7e70
+// pdb: TileShaderProperty::CreateClone | TileShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arCloneData
 TilePropertyClone* TileCloneSource::CreateTilePropertyClone(int flag)
 {
     TilePropertyClone* result = new TilePropertyClone(false);
@@ -313,6 +323,8 @@ struct FUN_00bb7c30 : FUN_00ba8e50
 
 // Initializes the object's texture pointers, color, float fields, flags and integer fields to their default values.
 // @f3 0x00b39a70 (community match, verified in this file)
+// pdb: TileShaderProperty::TileShaderProperty | TileShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abUseTexturingProperty
 FUN_00bb7c30::FUN_00bb7c30(bool bFlag)
 {
     m_spTexture = 0;
@@ -507,7 +519,7 @@ struct NiStreamStub
     int unk244;
     int unk248;
     NiBinStream* m_pBackingStream;
-    void FUN_00a64ce0(unsigned int* out);
+    void NiStream_LoadCString(unsigned int* out);
 };
 struct FUN_sub94
 {
@@ -563,14 +575,16 @@ struct FUN_00bb7b60_cls
     void FUN_00ba92c0(NiStreamStub* a1);
     void FUN_00bb7b60(NiStreamStub* a1);
 };
-// Calls FUN_00ba92c0, saves m_8c to the backing stream, reads a value via FUN_00a64ce0, and passes it to m_94 and FUN_00aa10f0.
+// Calls FUN_00ba92c0, saves m_8c to the backing stream, reads a value via NiStream_LoadCString, and passes it to m_94 and FUN_00aa10f0.
 // @fnv 0x00bb7b60
+// pdb: TileShaderProperty::LoadBinary | TileShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void FUN_00bb7b60_cls::FUN_00bb7b60(NiStreamStub* a1)
 {
     FUN_00ba92c0(a1);
     SaveBin(*a1->m_pBackingStream, m_8c);
     unsigned int v = 0;
-    a1->FUN_00a64ce0(&v);
+    a1->NiStream_LoadCString(&v);
     m_94.FUN_004037f0(v, 0);
     FUN_00aa10f0(v);
 }
@@ -745,7 +759,7 @@ struct NiStreamStub
     int unk248;
     int unk24c;
     NiBinStream* m_pBackingStream;
-    void FUN_00a64160(int a1);
+    void NiStream_SaveCString(int a1);
 };
 
 struct FUN_00bb7be0_cls
@@ -797,13 +811,15 @@ template <class T> inline void SaveBin(NiBinStream& kStream, const T& val)
     unsigned int uiSize = sizeof(T);
     kStream.BinaryWrite(&val, sizeof(T), &uiSize, 1);
 }
-// Calls FUN_00ba9380, writes m_8c to the backing stream via SaveBin, and calls a1->FUN_00a64160 with m_94.
+// Calls FUN_00ba9380, writes m_8c to the backing stream via SaveBin, and calls a1->NiStream_SaveCString with m_94.
 // @fnv 0x00bb7be0
+// pdb: TileShaderProperty::SaveBinary | TileShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void FUN_00bb7be0_cls::FUN_00bb7be0(NiStreamStub* a1)
 {
     FUN_00ba9380(a1);
     SaveBin(*a1->m_pBackingStream, m_8c);
-    a1->FUN_00a64160(m_94);
+    a1->NiStream_SaveCString(m_94);
 }
 }  // namespace fnv_00bb7be0
 
@@ -891,6 +907,7 @@ class FUN_00bb7d70 : public ShaderBase_bb7d
 
 // Destructor for FUN_00bb7d70 that releases the m_spTexture0 reference.
 // @fnv 0x00bb7d70
+// pdb: TileShaderProperty::~TileShaderProperty | TileShaderProperty.obj | fnv360_0822_retail, objrun_open, low
 FUN_00bb7d70::~FUN_00bb7d70()
 {
     m_spTexture0 = 0;

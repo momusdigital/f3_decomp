@@ -33,6 +33,8 @@ struct Light {
     int mode; float first[13]; int count; float second[13]; float scale; int x,y; float third[13];
     void FUN_00baea20(Parser*);
 };
+// pdb: CLightingEngine::Parse | LightingEngine.obj | fnv360_0822_retail, ustr, medium
+// pdb params: cFile
 void Light::FUN_00baea20(Parser* p) {
     int token=p->FUN_00ba92d0();
     do {

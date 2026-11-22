@@ -416,6 +416,8 @@ struct FUN_00b66ad0_cls
 };
 
 // @fnv 0x00b66ad0
+// pdb: BSShaderPPLightingProperty::LoadTextureSet | BSShaderPPLightingProperty.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apcfilename, apTextureSet
 void FUN_00b66ad0_cls::FUN_00b66ad0(int a1, FnvTarget* target)
 {
     if (target == 0)

@@ -8,7 +8,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5ef8;
 
 // @fnv 0x00a976f0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a976f0()
+// pdb: NiTextureEffect::GetRTTI | NiTextureEffect.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+GlobalObjectO2_00a7b610* __cdecl NiTextureEffect_GetRTTI()
 {
     return &g_011f5ef8;
 }
@@ -46,6 +47,7 @@ struct NiRangeLODData
 extern "C" void* __cdecl _memmove(void* dst, const void* src, unsigned int size);
 
 // @fnv 0x00a97ba0
+// pdb: NiRangeLODData::CreateObject | NiRangeLODData.obj | fnv360_0721_beta, objrun, low, conflict (bridge: NiRangeLODData::CopyMembers)
 void NiRangeLODData::CopyTo(NiRangeLODData* pkDest, CloningProcess* kCloning)
 {
     pkDest->m_kCenter = this->m_kCenter;
@@ -59,6 +61,8 @@ void __cdecl NiFreeAlias(void* ptr);
 
 // Reallocates the range array to uiNumRanges entries, copying the overlapping existing ranges and freeing the old buffer.
 // @fnv 0x00a978a0
+// pdb: NiRangeLODData::SetNumRanges | NiRangeLODData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiNumRanges
 void NiRangeLODData::SetRangeCount(unsigned int uiNumRanges)
 {
     if (uiNumRanges != m_uiRangeCount)
@@ -96,6 +100,8 @@ struct FakeLOD
     bool Equals(NiObject* pkObject);
 };
 // @fnv 0x00a97690
+// pdb: NiRangeLODData::IsEqual | NiRangeLODData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkObject
 bool FakeLOD::Equals(NiObject* pkObject)
 {
     if (m_uiRangeCount != ((FakeLOD*)pkObject)->m_uiRangeCount)
@@ -124,6 +130,7 @@ struct StandIn
 };
 // Calls the base initializer, installs the vtable, resets m_kCenter to zero and clears two fields, then returns this.
 // @fnv 0x00a97700
+// pdb: NiRangeLODData::NiRangeLODData | NiRangeLODData.obj | fnv360_0822_retail, call_gap, medium
 StandIn* StandIn::InitializeRangeLODData()
 {
     ((BaseCall*)this)->FUN_00aa09a0();
@@ -147,6 +154,7 @@ struct FUN_00a97740_shell : NiRangeLODData
 };
 // Restores the base vtable, frees the stored pointer, runs base cleanup, and optionally deletes the object when flag bit 0 is set.
 // @fnv 0x00a97740
+// pdb: NiRangeLODData::`scalar deleting destructor' | NiRangeLODData.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall FUN_00a97740_shell::DestroyRangeLODData(unsigned int auiFlags)
 {
     void* pk = m_pRanges;
@@ -169,6 +177,7 @@ struct Base00aa09a0
 extern int DAT_010a073c;
 extern NiPoint3 _NiPoint3_ZERO;
 // @fnv 0x00a97c00
+// pdb: NiRangeLODData::Duplicate | NiRangeLODData.obj | fnv360_0721_beta, objrun, low, conflict (bridge: NiRangeLODData::CreateObject)
 NiRangeLODData* CreateRangeLODData()
 {
     NiRangeLODData* p = (NiRangeLODData*)BSFadeNode::operator new(0x28);
@@ -185,6 +194,8 @@ NiRangeLODData* CreateRangeLODData()
 }
 
 // @fnv 0x00a97c50
+// pdb: NiRangeLODData::GetLODLevel | NiRangeLODData.obj | fnv360_0721_beta, objrun, low, conflict (bridge: NiRangeLODData::Duplicate)
+// pdb params: pkCamera, pkLOD
 NiRangeLODData* __fastcall CopyRangeLODData(NiRangeLODData* self, int)
 {
     NiRangeLODData* pkData = (NiRangeLODData*)BSFadeNode::operator new(0x28);
@@ -211,6 +222,8 @@ struct RangeSelector : NiRangeLODData
     int SelectLODRange(int rank);
 };
 // @fnv 0x00a979e0
+// pdb: NiRangeLODData::GetLODIndex | NiRangeLODData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: iLODLevel
 int RangeSelector::SelectLODRange(int rank)
 {
     if (rank <= 0)
@@ -276,6 +289,8 @@ class BA97CE0Controller : public BA97CE0Object
 };
 
 // @fnv 0x00a97ce0
+// pdb: NiRangeLODData::CreateClone | NiRangeLODData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kCloning
 BA97CE0Object* BA97CE0Controller::FUN_00a97ce0(BA97CE0Cloning& kCloning)
 {
     BA97CE0Controller* pkClone = new BA97CE0Controller;
@@ -511,6 +526,8 @@ class A97E20RangeLODData : public A97E20LODData
 };
 
 // @fnv 0x00a97e20
+// pdb: NiRangeLODData::LoadBinary | NiRangeLODData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void A97E20RangeLODData::FUN_00a97e20(A97E20Stream& kStream)
 {
     A97E20LODData::LoadBinary(kStream);
@@ -542,6 +559,8 @@ class FUN_00aa09a0 : public A09A0Object
 };
 
 // @fnv 0x00aa09a0
+// pdb: NiParticles::LoadBinary | NiParticles.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: stream
 FUN_00aa09a0::FUN_00aa09a0()
 {}
 
@@ -766,6 +785,8 @@ class D60Data : public D60Base
 
 // Saves the base data, color, key count and each key's time and value to the stream.
 // @fnv 0x00a97d60
+// pdb: NiRangeLODData::SaveBinary | NiRangeLODData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kStream
 void D60Data::FUN_00a97d60(D60Stream& kStream)
 {
     D60Base::SaveBinary(kStream);
@@ -856,6 +877,8 @@ struct A97EF0RangeLODData
 
 // Appends formatted strings for m_kCenter, m_kWorldCenter, and each range entry to pkStrings.
 // @fnv 0x00a97ef0
+// pdb: NiRangeLODData::GetViewerStrings | NiRangeLODData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void A97EF0RangeLODData::FUN_00a97ef0(A97EF0Strings* pkStrings)
 {
     pkStrings->Add(A97EF0GetViewerString(DAT_011f5ef8));
@@ -972,6 +995,8 @@ struct WorldRangeLODData
 
 // Transforms m_kCenter into m_kWorldCenter and scales each range's near and far planes by the LOD object's world scale.
 // @fnv 0x00a97780
+// pdb: NiRangeLODData::UpdateWorldData | NiRangeLODData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkLOD
 void WorldRangeLODData::FUN_00a97780(const LODObject* pkLOD)
 {
     const WTransform& kWorld = pkLOD->m_kWorldSpaceTransform;
@@ -1087,6 +1112,8 @@ struct S_P3
 };
 // Computes a scaled absolute dot product and returns the first index whose lower bound is at most it and upper bound is greater.
 // @fnv 0x00a97910
+// pdb: NiRangeLODData::GetLODIndex | NiRangeLODData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: iLODLevel
 int S_00a97910::FindRangeIndex(S_00a97910_Object* object, float unused)
 {
     S_P3 vOffset;

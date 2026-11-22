@@ -3,6 +3,8 @@
 #include "niextradatacontroller_decls.h"
 
 // @fnv 0x00a571a0
+// pdb: NiPSysModifierCtlr::LoadBinary | NiPSysModifierCtlr.obj | fnv360_0822_retail, call_gap, high
+// pdb params: kStream
 void NiPSysModifierCtlr::LoadBinary(NiStream& stream)
 {
     NiSingleInterpController::LoadBinary(stream);
@@ -23,6 +25,11 @@ struct NiObjectNET : NiObject
 };
 struct NiExtraDataController : NiObjectNET
 {
+    unsigned char unk04[0x2c - 0x4];
+    void* m_pkTarget;  // src: FNV360_PDB NiTimeController +0x2C
+    unsigned char unk30[0x38 - 0x30];
+    const char* m_kExtraDataName;  // src: FNV360_PDB +0x38 (NiFixedString)
+    void* m_spExtraData;  // src: FNV360_PDB +0x3C
     void FUN_00a57400(NiStream& kStream);
 };
 
@@ -30,7 +37,7 @@ struct NiExtraDataController : NiObjectNET
 void NiExtraDataController::FUN_00a57400(NiStream& kStream)
 {
     NiObjectNET::LinkObject(kStream);
-    if (*(int*)((char*)this + 0x2C))
+    if (m_pkTarget)
         NiObjectNET::RefreshExtraData();
 }
 
@@ -50,17 +57,19 @@ struct StreamVTable
     virtual void f7();
     virtual void f8(void*);
 };
-struct FUN_00a57100_Caller
+struct FUN_00a57100_Caller : NiExtraDataController
 {
     bool FUN_00a57100(NiStream&);
 };
 // Calls the base RegisterInterpolatorStreamables on kStream; if it succeeds, calls kStream's f8 on this+0x38 and returns true, otherwise false.
 // @fnv 0x00a57100
+// pdb: NiExtraDataController::RegisterStreamables | NiExtraDataController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 bool FUN_00a57100_Caller::FUN_00a57100(NiStream& kStream)
 {
     if (!((BaseFake*)this)->RegisterInterpolatorStreamables(kStream))
         return false;
-    ((StreamVTable*)&kStream)->f8((void*)((char*)this + 0x38));
+    ((StreamVTable*)&kStream)->f8((void*)&m_kExtraDataName);
     return true;
 }
 
@@ -69,29 +78,35 @@ struct NiTimeController : NiObjectNET
 {
     virtual void SetTarget(NiObjectNET*);
 };
-struct FakeController : NiTimeController
-{
-    void FUN_00a57330(NiObjectNET*);
-};
 struct RefObj
 {
     virtual void f0();
     virtual void DeleteThis();
     long ref;
 };
+struct FakeController : NiTimeController
+{
+    unsigned char unk04[0x2c - 0x4];
+    void* m_pkTarget;  // src: FNV360_PDB NiTimeController +0x2C
+    unsigned char unk30[0x3c - 0x30];
+    RefObj* m_spExtraData;  // src: FNV360_PDB NiExtraDataController +0x3C
+    void FUN_00a57330(NiObjectNET*);
+};
 // Releases the object at offset 0x3c, calls NiTimeController::SetTarget, and refreshes extra data if offset 0x2c is set.
 // @fnv 0x00a57330
+// pdb: NiExtraDataController::SetTarget | NiExtraDataController.obj | fnv360_0721_beta, objrun, medium
+// pdb params: pkTarget
 void FakeController::FUN_00a57330(NiObjectNET* pkTarget)
 {
-    RefObj* p = *(RefObj**)((char*)this + 0x3c);
+    RefObj* p = m_spExtraData;
     if (p)
     {
         if (InterlockedDecrement(&p->ref) == 0)
             p->DeleteThis();
-        *(RefObj**)((char*)this + 0x3c) = 0;
+        m_spExtraData = 0;
     }
     NiTimeController::SetTarget(pkTarget);
-    if (*(void**)((char*)this + 0x2c))
+    if (m_pkTarget)
         RefreshExtraData();
 }
 
@@ -123,6 +138,8 @@ struct FUN_00a57420_Shell : public NiExtraDataController
 };
 
 // @fnv 0x00a57420
+// pdb: NiExtraDataController::GetViewerStrings | NiExtraDataController.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a57420_Shell::FUN_00a57420(NiTPrimitiveArray<char*>* strings)
 {
     StrArr* array = strings;
@@ -136,7 +153,7 @@ void FUN_00a57420_Shell::FUN_00a57420(NiTPrimitiveArray<char*>* strings)
         array->SetSize(index + array->m_usGrowBy);
     array->SetAt(index, value);
 
-    char const* pcExtraDataName = *reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0x38);
+    char const* pcExtraDataName = m_kExtraDataName;
     value = FUN_00a7d5e0("Extra Data Name", pcExtraDataName);
 
     index = array->m_usSize;
@@ -169,6 +186,8 @@ struct FUN_00a57150_cls
 };
 
 // @fnv 0x00a57150
+// pdb: NiExtraDataController::ProcessClone | NiExtraDataController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void FUN_00a57150_cls::FUN_00a57150(void* arg)
 {
     void* src = arg;
@@ -253,6 +272,8 @@ struct S_00a571e0_Cls : S_00a571e0_Base
 };
 // Compares base fields, the unk3c child pointer (presence and IsEqual), and unk38 against another instance, returning true only if all match.
 // @fnv 0x00a571e0
+// pdb: NiExtraDataController::IsEqual | NiExtraDataController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 unsigned char S_00a571e0_Cls::IsEquivalent(S_00a571e0_Cls* apOther)
 {
     if (!IsCompatibleWith(apOther))
@@ -311,6 +332,8 @@ static __forceinline bool HasTargetType(TargetCandidate* arg)
     return false;
 }
 // @fnv 0x00a57380
+// pdb: NiExtraDataController::InterpTargetIsCorrectType | NiExtraDataController.obj | fnv360_0721_beta, objrun, low
+// pdb params: pkTarget
 bool TargetController::HasMatchingItem(TargetCandidate* pCandidate)
 {
     if (!HasTargetType(pCandidate))

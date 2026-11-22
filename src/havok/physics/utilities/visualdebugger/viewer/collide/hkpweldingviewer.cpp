@@ -10,7 +10,9 @@ extern int DAT_01269cd0;
 extern int DAT_01268fbc;
 void* __cdecl FUN_00d62e20();
 // @fnv 0x00d62e60
-void __cdecl RegisterWeldingViewer()
+// pdb: hkpVehicleViewer::registerViewer | hkpVehicleViewer.obj | fnv360_0822_debug, udata, high
+// pdb: hkpVehicleViewer::registerViewer | hkpVehicleViewer.obj | fnv360_0822_debug, udata, high (was: RegisterWeldingViewer)
+void __cdecl hkpVehicleViewer_registerViewer()
 {
     void* result = ((FUN_00dd9380_class*)DAT_01269cd0)->FUN_00dd9380("WeldingViewer", (void*)&FUN_00d62e20);
     DAT_01268fbc = (int)result;
@@ -41,6 +43,8 @@ struct S_00d62650_D : S_00d62650_B1, S_00d62650_B2, S_00d62650_B3
 
 // Calls FUN_00c93920 on arg, passing this as the argument.
 // @fnv 0x00d62650
+// pdb: hkpSimulationIslandViewer::worldAddedCallback | hkpSimulationIslandViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void S_00d62650_D::DispatchToArg(S_00d62650_Arg* arg)
 {
     arg->FUN_00c93920(this);
@@ -67,98 +71,19 @@ struct HKConstraint
 
 // Passes a pointer to unk08 to the list's add method, or null when the adjusted this pointer is zero.
 // @fnv 0x00d62680
+// pdb: hkpSimulationIslandViewer::worldRemovedCallback | hkpSimulationIslandViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void HKConstraint::FUN_00d62680(HKWorldList* pWorldList)
 {
     pWorldList->IsEntityAdded(((char*)this - 0x20) ? (void*)&unk08 : (void*)0);
 }
 
-struct S_00d626b0_Item
-{
-    void FUN_00c93920(void* apSub);
-};
-
-struct S_00d626b0_Owner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    S_00d626b0_Item** m_6c;
-    int m_70;
-};
-
-struct S_00d626b0_A
-{
-    virtual void a0();
-    int unk04;
-};
-struct S_00d626b0_B
-{
-    virtual void b0();
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-};
-struct S_00d626b0_C
-{
-    virtual void c0();
-    S_00d626b0_Owner* m_24;
-};
-struct S_00d626b0_R : S_00d626b0_A, S_00d626b0_B, S_00d626b0_C
-{
-    S_00d626b0_R(int a) throw();
-};
 struct S_00d626b0_S
 {
     virtual void s0();
     S_00d626b0_S() throw()
     {}
 };
-
-struct FUN_00d626b0 : S_00d626b0_R, S_00d626b0_S
-{
-    FUN_00d626b0(int a) throw();
-    virtual void a0();
-    virtual void b0();
-    virtual void c0();
-    virtual void s0();
-};
-
-// If the owner pointer m_24 is set, calls FUN_00c93920 on each of its m_70 items, passing this object.
-// @fnv 0x00d626b0
-FUN_00d626b0::FUN_00d626b0(int aiArg) throw() : S_00d626b0_R(aiArg)
-{
-    if (m_24)
-    {
-        for (int i = 0; i < m_24->m_70; i++)
-            m_24->m_6c[i]->FUN_00c93920((S_00d626b0_S*)this);
-    }
-}
 
 class D62720Listener
 {
@@ -257,6 +182,7 @@ struct FUN_008f6d90_obj
     void FUN_008f6d90(void* p, unsigned int n, int tag);
 };
 
+// pdb: hkpConstraintViewer::~hkpConstraintViewer | hkpConstraintViewer.obj | fnv360_0822_retail, call_seq, medium
 FUN_00d62720::~FUN_00d62720() throw()
 {
     if (m_pOwningWorld)
@@ -281,21 +207,6 @@ done:
 // world: it asks the world manager's pool for a 0x2c byte block, stamps the
 // block size into the record header and then runs the record's constructor.
 struct Viewer;
-
-struct Pool
-{
-    virtual void dummy0();
-    virtual Viewer* alloc0x2c(int n);
-};
-
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Pool* unk10;
-};
 
 struct Viewer
 {
@@ -324,6 +235,8 @@ struct R1_Viewer
     void* __thiscall FUN_009ef7a0(void* arg);
 };
 
+// pdb: hkpWorldMemoryViewer::create | hkpWorldMemoryViewer.obj | fnv360_0822_debug, objrun, medium
+// pdb params: contexts
 void* __cdecl FUN_00d62e20_impl(void* arg)
 {
     R1_Heap* heap = (R1_Heap*)TlsGetValue(DAT_010f3170);
@@ -337,6 +250,7 @@ void* __cdecl FUN_00d62e20_impl(void* arg)
 extern int g_D62E80Value;
 
 // @fnv 0x00d62e80
+// pdb: Interface::GetDetectionLevel | Interface.obj | fnv360_0822_retail, call_gap, low
 int __cdecl FUN_00d62e80()
 {
     return g_D62E80Value;
@@ -373,73 +287,7 @@ struct FUN_00d62ec0_cls
     static void operator delete(void* apMemory) throw();
 };
 
-// Calls FUN_00d62720, then if acFlags bit 0 is set frees this via the audio allocator with m_uSize and returns this.
-// @fnv 0x00d62ec0
-FUN_00d62ec0_cls* FUN_00d62ec0_cls::Destroy(unsigned char acFlags)
-{
-    FUN_00d62720();
-    if (acFlags & 1)
-    {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
-    }
-    return this;
-}
 }  // namespace fnv_00d62ec0
-
-// FUN_00d62e90 : MSVC this-adjusting thunk  (sub ecx, 0x20 ; jmp <impl>)
-struct A1_00d62e90
-{
-    A1_00d62e90();
-    virtual void FUN_00d62e90();
-    char pad[0x1c];
-};
-struct A2_00d62e90
-{
-    A2_00d62e90();
-    virtual void FUN_00d62e90();
-};
-struct Own_00d62e90 : A1_00d62e90, A2_00d62e90
-{
-    Own_00d62e90();
-    virtual void key_fn();
-// @fnv 0x00d62e90
-    void FUN_00d62e90();
-};
-Own_00d62e90::Own_00d62e90()
-{}
-void Own_00d62e90::key_fn()
-{}
-Own_00d62e90* make_00d62e90()
-{
-    static Own_00d62e90 o;
-    return &o;
-}
-
-struct D62EA0Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d62ea0();
-
-    int unk04;
-};
-
-struct D62EA0Secondary
-{
-    virtual void FUN_00d62ea0();
-};
-
-struct D62EA0Object : D62EA0Primary, D62EA0Secondary
-{
-    D62EA0Object();
-
-// @fnv 0x00d62ea0
-    virtual void FUN_00d62ea0();
-};
-
-D62EA0Object::D62EA0Object()
-{}
 
 // FUN_00d62eb0 : MSVC this-adjusting thunk  (sub ecx, 0x28 ; jmp <impl>)
 struct A1_00d62eb0

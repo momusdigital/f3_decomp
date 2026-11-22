@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr.cpp: NiPSysAirFieldAirFrictionCtlr, StandIn, NiPSysModifierActiveCtlr (13 functions)
+// gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr.cpp: NiPSysAirFieldAirFrictionCtlr, StandIn, NiPSysModifierActiveCtlr (12 functions)
 #include "f3_common.h"
 #include "nipsysmodifieractivectlr_decls.h"
 
 // @fnv 0x00c32de0
+// pdb: NiLinFloatKey::Equal | NiLinFloatKey.obj | fnv360_0822_retail, objrun_open, high
+// pdb params: key0, key1
 void NiPSysAirFieldAirFrictionCtlr::CopyMemberData(NiPSysAirFieldAirFrictionCtlr* destination, CloningProcess& cloning)
 {
     NiPSysModifierCtlr::CopyMemberData(destination, cloning);
@@ -48,6 +50,8 @@ struct Wrap_00a532d0
 
 // Reads a bool via virtual call at offset 0xf0, allocates a 0x18-byte BSFadeNode, and constructs it with that bool, returning null on allocation failure.
 // @fnv 0x00c32b80
+// pdb: NiBoolInterpController::CreatePoseInterpolator | NiBoolInterpController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: usIndex
 void* __fastcall FUN_00c32b80(void* pThis, int, unsigned short usUnused)
 {
     bool bValue;
@@ -70,6 +74,8 @@ struct FUN_00c29d50_shell
 };
 
 // @fnv 0x00c29d50
+// pdb: NiPSysModifierActiveCtlr::GetTargetBoolValue | NiPSysModifierActiveCtlr.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bValue
 void __thiscall FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
 {
     *pOut = *(char*)(*(int*)((char*)this + 0x3c) + 0x14);
@@ -78,15 +84,10 @@ void __thiscall FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026d0;
 
-// @fnv 0x00c29d40
-GlobalObjectO2_00a7b610* __cdecl FUN_00c29d40()
-{
-    return &g_012026d0;
-}
-
 extern char const* const g_012026d0_arg1;
 
 // @fnv 0x00c32be0
+// pdb: NiBoolInterpController::GetRTTI | NiBoolInterpController.obj | fnv360_0822_retail, objrun_open, medium
 const char* __cdecl FUN_00c32be0()
 {
     return reinterpret_cast<const char*>(&g_012026d0_arg1);
@@ -96,7 +97,7 @@ struct NiObjectNET;
 struct NiPSysModifier;
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
+    bool NiPSysModifierCtlr_InterpTargetIsCorrectType(NiObjectNET*);
 };
 struct PsStandIn
 {
@@ -107,10 +108,11 @@ struct StandIn
     bool FUN_00c29dd0(NiObjectNET*);
 };
 // @fnv 0x00c29dd0
+// pdb: NiPSysPlanarCollider::`scalar deleting destructor' | NiPSysPlanarCollider.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiPSysModifierActiveCtlr::InterpTargetIsCorrectType)
 bool StandIn::FUN_00c29dd0(NiObjectNET* pkTarget)
 {
     NiPSysModifier* pkModifier;
-    if (!((BaseStandIn*)this)->IsTargetParticleSystem(pkTarget))
+    if (!((BaseStandIn*)this)->NiPSysModifierCtlr_InterpTargetIsCorrectType(pkTarget))
         return false;
     pkModifier = ((PsStandIn*)pkTarget)->FUN_00c1b0f0((void*)((char*)this + 0x38));
     return pkModifier;
@@ -240,6 +242,8 @@ struct FNV_C29D60_Owner
 };
 
 // @fnv 0x00c29d60
+// pdb: NiPSysModifierActiveCtlr::SetTargetBoolValue | NiPSysModifierActiveCtlr.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bValue
 void FNV_C29D60_Owner::FUN_00c29d60(unsigned int nValue)
 {
     if (this->unk3c->unk14 != (unsigned char)nValue)
@@ -282,11 +286,12 @@ class C29D80Object : public C29D80Base
     virtual ~C29D80Object();
 
     void CopyMemberData(C29D80Object* pkDest, void* pvCloning);
-    C29D80Object* FUN_00c29d80(void* pvCloning);
+    C29D80Object* NiPSysModifierActiveCtlr_CreateClone(void* pvCloning);
 };
 
 // @fnv 0x00c29d80
-C29D80Object* C29D80Object::FUN_00c29d80(void* pvCloning)
+// pdb: NiPSysModifierActiveCtlr::CreateClone | NiPSysModifierActiveCtlr.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+C29D80Object* C29D80Object::NiPSysModifierActiveCtlr_CreateClone(void* pvCloning)
 {
     C29D80Object* pkClone = new C29D80Object;
     CopyMemberData(pkClone, pvCloning);
@@ -296,6 +301,8 @@ C29D80Object* C29D80Object::FUN_00c29d80(void* pvCloning)
 extern "C" void __cdecl jmp_0xc32bf0();
 
 // @fnv 0x00c29d30
+// pdb: NiInterpolator::CopyMembers | NiInterpolator.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pkDest, kCloning
 void FUN_00c29d30()
 {
     jmp_0xc32bf0();
@@ -326,7 +333,7 @@ struct ArgStandIn
 class FUN_00c32bf0_cls
 {
   public:
-    void FUN_00c32bf0(ArgStandIn* arg);
+    void NiPSysModifierBoolCtlr_LinkObject(ArgStandIn* arg);
     void FUN_00a57630(ArgStandIn* arg);
 
     char unk00[0x34];
@@ -335,7 +342,8 @@ class FUN_00c32bf0_cls
 
 // Calls FUN_00a57630, allocates an object using the returned pointer, and replaces m_34 while updating reference counts.
 // @fnv 0x00c32bf0
-void FUN_00c32bf0_cls::FUN_00c32bf0(ArgStandIn* arg)
+// pdb: NiPSysModifierBoolCtlr::LinkObject | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void FUN_00c32bf0_cls::NiPSysModifierBoolCtlr_LinkObject(ArgStandIn* arg)
 {
     FUN_00a57630(arg);
     if (arg->m_d8 >= 0xa010068)

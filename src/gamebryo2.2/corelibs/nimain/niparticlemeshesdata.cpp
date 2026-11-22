@@ -2,15 +2,6 @@
 // src/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5f0c;
-
-// @fnv 0x00a98b00
-GlobalObjectO2_00a7b610* __cdecl FUN_00a98b00()
-{
-    return &g_011f5f0c;
-}
-
 struct NiStream
 {
     void ResetStreamState();
@@ -24,6 +15,8 @@ struct NiParticleMeshesData : NiParticlesData
     void FUN_00a98a10(NiStream&);
 };
 // @fnv 0x00a98a10
+// pdb: BSMultiBound::LoadBinary | BSMultiBound.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 void NiParticleMeshesData::FUN_00a98a10(NiStream& stream)
 {
     NiParticlesData::LoadBinary(stream);
@@ -102,11 +95,12 @@ struct FUN_00a98a30_This
     unsigned short m50;
     char _p2[0x1E];
     Helper00a98a30* p70;
-    void FUN_00a98a30(unsigned short);
+    void NiParticleMeshesData_SetActiveVertexCount(unsigned short);
 };
 // Calls Target on p70 for each index from usActive up to m50, then clamps m50 to the smaller of usActive and m8.
 // @fnv 0x00a98a30
-void FUN_00a98a30_This::FUN_00a98a30(unsigned short usActive)
+// pdb: NiParticleMeshesData::SetActiveVertexCount | NiParticleMeshesData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun_open) + skyrim(objrun_open), high
+void FUN_00a98a30_This::NiParticleMeshesData_SetActiveVertexCount(unsigned short usActive)
 {
     unsigned short i;
     for (i = usActive; i < m50; ++i)
@@ -148,11 +142,12 @@ struct FakeNode
 };
 struct FUN_00a98a80_Holder : NiLinesData
 {
-    bool FUN_00a98a80(NiStream&);
+    bool NiParticleMeshesData_RegisterStreamables(NiStream&);
 };
 // Registers the base NiLinesData streamables, then registers the streamables of the node at offset 0x70; returns false if the base call fails.
 // @fnv 0x00a98a80
-bool FUN_00a98a80_Holder::FUN_00a98a80(NiStream& kStream)
+// pdb: NiParticleMeshesData::RegisterStreamables | NiParticleMeshesData.obj | fnv360_0822_retail, objrun + bridge(vtable|objopen_prop) + skyrim(caller_sim), high
+bool FUN_00a98a80_Holder::NiParticleMeshesData_RegisterStreamables(NiStream& kStream)
 {
     if (!NiLinesData::RegisterStreamables(kStream))
         return 0;
@@ -163,7 +158,7 @@ bool FUN_00a98a80_Holder::FUN_00a98a80(NiStream& kStream)
 struct NiNode;
 struct FUN_00a97290_holder
 {
-    void FUN_00a97290(NiStream&);
+    void NiParticlesData_SaveBinary(NiStream&);
 };
 struct FakeStream
 {
@@ -183,13 +178,14 @@ struct FakeStream
 };
 struct FUN_00a98ab0_shell : NiParticleMeshesData
 {
-    void FUN_00a98ab0(NiStream&);
+    void NiParticleMeshesData_SaveBinary(NiStream&);
 };
 // @fnv 0x00a98ab0
-void FUN_00a98ab0_shell::FUN_00a98ab0(NiStream& kStream)
+// pdb: NiParticleMeshesData::SaveBinary | NiParticleMeshesData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objopen_prop) + skyrim(caller_sim), high
+void FUN_00a98ab0_shell::NiParticleMeshesData_SaveBinary(NiStream& kStream)
 {
     NiNode* pkNode;
-    ((FUN_00a97290_holder*)this)->FUN_00a97290(kStream);
+    ((FUN_00a97290_holder*)this)->NiParticlesData_SaveBinary(kStream);
     pkNode = *(NiNode**)((char*)this + 0x70);
     ((FakeStream*)&kStream)->f12(pkNode);
 }
@@ -223,20 +219,23 @@ struct MeshNode
 };
 struct HookBase
 {
-    bool FUN_00a96a30(void*);
+    bool NiParticlesData_IsEqual(void*);
 };
 struct Holder
 {
     char _pad[0x70];
     MeshNode* m_pMeshNode;
-    bool IsMeshNodeEqual(void* pkObject);
+    bool NiParticleMeshesData_IsEqual(void* pkObject);
 };
 // Checks the base hook against pkObject, then compares this holder's mesh node with the other holder's mesh node via IsEqual.
 // @fnv 0x00a98ad0
-bool Holder::IsMeshNodeEqual(void* pkObject)
+// pdb: NiParticleMeshesData::IsEqual | NiParticleMeshesData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
+// pdb: NiParticleMeshesData::IsEqual | NiParticleMeshesData.obj | fnv360_0822_retail, caller_sim, high (was: IsMeshNodeEqual)
+bool Holder::NiParticleMeshesData_IsEqual(void* pkObject)
 {
     Holder* pkPart = (Holder*)pkObject;
-    if (!((HookBase*)this)->FUN_00a96a30(pkObject))
+    if (!((HookBase*)this)->NiParticlesData_IsEqual(pkObject))
         return false;
     MeshNode* mine = m_pMeshNode;
     MeshNode* other = pkPart->m_pMeshNode;
@@ -264,11 +263,12 @@ struct Holder00a98d60
 {
     char _pad[0x70];
     FakeObj543* m_sp;
-    void FUN_00a98d60(NiStream&);
+    void NiParticleMeshesData_LinkObject(NiStream&);
 };
 // Links the object to kStream, then swaps m_sp to the stream's object, releasing the old one and retaining the new one.
 // @fnv 0x00a98d60
-void Holder00a98d60::FUN_00a98d60(NiStream& kStream)
+// pdb: NiParticleMeshesData::LinkObject | NiParticleMeshesData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun), high
+void Holder00a98d60::NiParticleMeshesData_LinkObject(NiStream& kStream)
 {
     ((NiLinesData*)this)->LinkObject(kStream);
     FakeObj543* pkNew = ((StreamHelper543*)&kStream)->GetLoadedObject();
@@ -295,6 +295,7 @@ struct Unk98dc0
 };
 // Calls FUN_00a98b90 on this, frees this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00a98dc0
+// pdb: BSAnimGroupSequence::`scalar deleting destructor' | Animation.obj | fnv360_0822_retail, vtable, high
 void* Unk98dc0::DestroyIfFlagged(unsigned int flags)
 {
     ((Unk98b90*)this)->FUN_00a98b90();
@@ -444,6 +445,7 @@ class FUN_00a98b10 : public A98B10Base
 
 // Initializes the object by allocating a new A98B10Node with zero children and setting the flag to false.
 // @fnv 0x00a98b10
+// pdb: NiParticleMeshesData::NiParticleMeshesData | NiParticleMeshesData.obj | fnv360_0822_retail, objrun, medium
 FUN_00a98b10::FUN_00a98b10() throw()
 {
     m_spRootNode = new A98B10Node(0);
@@ -571,11 +573,14 @@ struct A98BF0ParticleMeshesData : A98BF0ParticlesData
     int unk6C;
     A98BF0Node* m_pMeshNode;
 
-    void RemoveParticleMesh(unsigned short usParticle);
+    void NiParticleMeshesData_RemoveParticle(unsigned short usParticle);
 };
 
 // @fnv 0x00a98bf0
-void A98BF0ParticleMeshesData::RemoveParticleMesh(unsigned short usParticle)
+// pdb: NiParticleMeshesData::RemoveParticle | NiParticleMeshesData.obj | fnv360_0822_retail, objrun, high
+// pdb params: usParticle
+// pdb: NiParticleMeshesData::RemoveParticle | NiParticleMeshesData.obj | fnv360_0822_retail, objrun, high (was: RemoveParticleMesh)
+void A98BF0ParticleMeshesData::NiParticleMeshesData_RemoveParticle(unsigned short usParticle)
 {
     unsigned short usFinalIndex = m_usActiveVertices - 1;
     if (usParticle == usFinalIndex)
@@ -716,11 +721,13 @@ struct FUN_00a98c90_shell
     int unk6C;
     MeshNode_a98* m_pkParticleMeshes;
 
-    void UpdateParticleMeshes();
+    void NiParticleMeshesData_UpdateParticles();
 };
 
 // @fnv 0x00a98c90
-void FUN_00a98c90_shell::UpdateParticleMeshes()
+// pdb: NiParticleMeshesData::UpdateParticles | NiParticleMeshesData.obj | fnv360_0822_retail, call_seq, high
+// pdb: NiParticleMeshesData::UpdateParticles | NiParticleMeshesData.obj | fnv360_0822_retail, call_seq, high (was: UpdateParticleMeshes)
+void FUN_00a98c90_shell::NiParticleMeshesData_UpdateParticles()
 {
     for (unsigned int i = 0; i < m_usActiveVertices; i++)
     {
@@ -745,37 +752,12 @@ inline void* __cdecl operator new(unsigned int, void* where)
 }
 // Allocates a 0x78-byte object, constructs it, sets the bool at offset 0x40 to true, and returns it.
 // @fnv 0x00a98d30
-FUN_00a98b10* __cdecl FUN_00a98d30()
+// pdb: NiParticleMeshesData::CreateObject | NiParticleMeshesData.obj | fnv360_0822_retail, objrun + bridge(hash|objrun) + skyrim(caller_sim), high
+FUN_00a98b10* __cdecl NiParticleMeshesData_CreateObject()
 {
     FUN_00a98b10* pObject = new (NiMemObject::operator new(0x78)) FUN_00a98b10();
     *(bool*)&pObject->unk40 = true;
     return pObject;
-}
-
-struct FUN_0096ad30_This
-{
-    int unk00;
-    int unk04;
-    unsigned short m_pRayCursor;
-    unsigned short m_uiItemCount;
-    unsigned short m_unk0C;
-    unsigned short m_growth;
-    void FUN_0096ad30(unsigned int);
-    void FUN_0096ae90(unsigned int, void*);
-};
-void __stdcall FUN_00a97420(void*);
-void* __cdecl FUN_00a7d330(void*);
-// Calls FUN_00a97420 on p, fetches an item via FUN_00a7d330, grows the container if count reaches capacity, then stores the item at index count.
-// @fnv 0x00a98de0
-void __stdcall FUN_00a98de0(FUN_0096ad30_This* pContainer)
-{
-    FUN_00a97420(pContainer);
-    void* item = FUN_00a7d330(*(void**)&g_011f5f0c);
-    unsigned int count = pContainer->m_uiItemCount;
-    unsigned int capacity = pContainer->m_pRayCursor;
-    if (count >= capacity)
-        pContainer->FUN_0096ad30((unsigned int)pContainer->m_growth + count);
-    pContainer->FUN_0096ae90(count, &item);
 }
 
 #include <windows.h>
@@ -849,6 +831,7 @@ struct FUN_00a98b90 : S_00a98b90_Base
     virtual ~FUN_00a98b90() throw();
 };
 // @fnv 0x00a98b90
+// pdb: NiParticleMeshesData::~NiParticleMeshesData | NiParticleMeshesData.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00a98b90::~FUN_00a98b90() throw()
 {
     unk70 = 0;

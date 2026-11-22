@@ -5,7 +5,8 @@
 extern void* g_011ff8d8;
 
 // @fnv 0x00b887b0
-void* __cdecl FUN_00b887b0()
+// pdb: NiShaderDeclaration::GetRTTI | NiD3DShaderDeclaration.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+void* __cdecl NiShaderDeclaration_GetRTTI()
 {
     return &g_011ff8d8;
 }
@@ -19,6 +20,8 @@ struct NiPropertyState
 };
 
 // @fnv 0x00b8a1a0
+// pdb: SkyShader::PostGeometry | SkyShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void __stdcall FUN_00b8a1a0(const NiPropertyState* apState)
 {
     void* pkSkyProp = apState->m_spProperties[3];
@@ -39,6 +42,7 @@ struct S
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00b88670, then frees this with _delete when bit 0 of a1 is set, and returns this.
 // @fnv 0x00b8a360
+// pdb: NiAmbientLight::`scalar deleting destructor' | NiAmbientLight.obj | fnv360_1110_retail, objrun, high
 void* S::DestroyIfFlagged(unsigned int auiFlags)
 {
     FUN_00b88670();
@@ -126,10 +130,12 @@ struct Struct00b884b0
     virtual void vattach(void*);
     char _pad[104];
     void* m_aiIndexedValues[11];
-    void AttachAll();
+    void SkyShader_ClearPassStages();
 };
 // @fnv 0x00b884b0
-void Struct00b884b0::AttachAll()
+// pdb: SkyShader::ClearPassStages | SkyShader.obj | fnv360_0822_retail, objrun_sim, high
+// pdb: SkyShader::ClearPassStages | SkyShader.obj | fnv360_0822_retail, objrun_sim, high (was: AttachAll)
+void Struct00b884b0::SkyShader_ClearPassStages()
 {
     void** p = m_aiIndexedValues;
     int n = 11;
@@ -258,6 +264,7 @@ struct FUN_00b88670 : ShaderBase
 
 // Releases the shader's 11 pass pointers, 11 pixel shaders and 8 vertex shaders by assigning null to each NiPointer slot.
 // @fnv 0x00b88670
+// pdb: SkyShader::~SkyShader | SkyShader.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00b88670::~FUN_00b88670()
 {
     unsigned int i;
@@ -396,6 +403,8 @@ struct Holder_Stand
 };
 
 // @fnv 0x00b89cc0
+// pdb: ImageSpaceShader::PostGeometry | ImageSpaceShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apState
 void __stdcall FUN_00b89cc0(Holder_Stand* apHolder)
 {
     Mgr_Stand* mgr = DAT_0126f74c;
@@ -508,6 +517,7 @@ struct FUN_00b8a1f0 : ShaderBase
 
 // Initializes the shader: sets m_uiPassCount to 11, resets the global colors to g_kDefaultColor, and sets unk24 to true.
 // @fnv 0x00b8a1f0
+// pdb: SkyShader::SkyShader | SkyShader.obj | fnv360_0822_retail, call_seq, medium
 FUN_00b8a1f0::FUN_00b8a1f0()
 {
     m_uiPassCount = 11;
@@ -663,6 +673,7 @@ struct SpawnedObject
 };
 
 // @fnv 0x00b8a390
+// pdb: SkyShader::CreateShader | SkyShader.obj | fnv360_0822_retail, call_gap, medium
 SpawnedObject* __cdecl FUN_00b8a390()
 {
     SpawnedMgr* mgr = (SpawnedMgr*)FUN_00e76700(g_011f9508, 3, 1);
@@ -1127,6 +1138,7 @@ static __forceinline void SetBlend(ClusterObj* cp, int source, int dest)
 
 // Creates each shader pass object if missing, configures its properties and blend modes, then assigns its pixel and vertex shaders; returns true.
 // @fnv 0x00b887c0
+// pdb: SkyShader::LoadStagesAndPasses | SkyShader.obj | fnv360_0822_retail, call_seq, medium
 bool ShaderPassBuilder::InitPasses()
 
 {
@@ -1591,6 +1603,7 @@ struct ConstantMapOwner
 };
 // Creates the pixel and vertex NiD3DShaderConstantMap objects if missing and registers their shader constants.
 // @fnv 0x00b8a480
+// pdb: SkyShader::CreateConstantMaps | SkyShader.obj | fnv360_0822_retail, ustr, medium
 void ConstantMapOwner::CreateShaderConstantMaps()
 {
     if (!pixelConstants.object)
@@ -1796,6 +1809,8 @@ struct Shell_b899a0
 };
 // Allocates a 4-vertex quad shape with two triangles, sets its bound to origin with radius 1000, and stores it in rspOut.
 // @fnv 0x00b899a0
+// pdb: SkyShader::CreateSkyQuad | SkyShader.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aspTriShape
 void __cdecl FUN_00b899a0(ShapePtr_b899a0& rspOut)
 {
     Pt3_b899a0* pkVerts = (Pt3_b899a0*)DAT_011f6238.FUN_00aa3e40(0x30);
@@ -1835,6 +1850,7 @@ struct Shader447
     bool FUN_00b89960();
 };
 // @fnv 0x00b89960
+// pdb: TESLoadScreen::Save | TESLoadScreen.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 bool Shader447::FUN_00b89960()
 {
     FUN_00b874f0();
@@ -2454,6 +2470,7 @@ struct SkyShader
 };
 // Requests vertex and pixel shader objects for sky shader variants and stores the returned pointers in member fields.
 // @fnv 0x00b874f0
+// pdb: SkyShader::LoadShaders | SkyShader.obj | fnv360_0822_retail, ustr, medium
 void SkyShader::FUN_00b874f0()
 {
     char compiledName[260];

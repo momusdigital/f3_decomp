@@ -12,6 +12,8 @@ struct FUN_00d21a30_class
 };
 
 // @fnv 0x00d21a30
+// pdb: hkpConstraintData::addInstance | hkpConstraintData.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: constraint, runtime, sizeOfRuntime
 void __thiscall FUN_00d21a30_class::FUN_00d21a30(int a, int pBuffer, int uiLength)
 {
     if (pBuffer)
@@ -19,6 +21,8 @@ void __thiscall FUN_00d21a30_class::FUN_00d21a30(int a, int pBuffer, int uiLengt
 }
 
 // @fnv 0x00d21a50
+// pdb: LockFreeMap<MobileObject *,NiPointer<LipTask> >::CopyKey | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aKey
 int __stdcall FUN_00d21a50(int a)
 {
     return a;
@@ -96,6 +100,8 @@ inline void addAngularFriction(GenericConstraintAtomScheme* out, int schema, int
 }
 // Fills a GenericConstraintAtomScheme with solver schema sizes, result counts, and temps by walking the hkpConstraintAtom array.
 // @f3 0x009a1770 (community match, verified in this file)
+// pdb: hkpConstraintData::getConstraintInfoUtil | hkpConstraintData.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: atoms, sizeOfAllAtoms, infoOut
 void __cdecl FUN_00d21a60(const hkpConstraintAtom* atoms, int sizeOfAllAtoms, GenericConstraintAtomScheme* info)
 {
     info->atoms = atoms;

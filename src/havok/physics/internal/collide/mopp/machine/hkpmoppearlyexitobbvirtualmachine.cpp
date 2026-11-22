@@ -30,6 +30,8 @@ struct S_00e647e0_Stubs {
 };
 extern char DAT_0116d0a0;
 char __cdecl FUN_00a284b0(int key);
+// pdb: hkpMoppEarlyExitObbVirtualMachine::queryObb | hkpMoppEarlyExitObbVirtualMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: code, BvToWorld, extent, radius
 hkBool S_00e647e0::SetupAndProcessShape(S_00e647e0_Input* input, const void* b, const void* c, const void* d) {
     if (!DAT_0116d0a0) {
         DAT_0116d0a0 = FUN_00a284b0(4);

@@ -113,11 +113,12 @@ class FUN_00a370a0 : public NiBlendInterpolator__InterpArrayItem
 class NiBlendInterpolatorW : public NiBlendInterpolator
 {
   public:
-    bool FUN_00a37690();
+    bool NiBlendInterpolator_ReallocateArrays();
 };
 
 // @fnv 0x00a37690
-bool NiBlendInterpolatorW::FUN_00a37690()
+// pdb: NiBlendInterpolator::ReallocateArrays | NiBlendInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+bool NiBlendInterpolatorW::NiBlendInterpolator_ReallocateArrays()
 {
     if (DAT_011a83ff == 0)
         return false;

@@ -8,7 +8,7 @@
 #include "layout_support.h"
 class NiStream;
 class NiAVObject;
-class CloningProcess;
+class NiCloningProcess;
 class ThreeByThreeMatrix;
 class NiPSysCollider;
 class NiPSysColliderManager;
@@ -33,7 +33,7 @@ class NiPSysCollider : public NiObject
     NiPSysColliderManager* m_pColliderManager;     // +0x24, 4 bytes
     NiPointer<NiPSysCollider> m_spNextController;  // +0x28, 4 bytes
     // const NiRTTI* __cdecl NiPSysCollider::*()
-    // void __cdecl NiPSysCollider::*(NiPSysCollider*, CloningProcess&)
+    // void __cdecl NiPSysCollider::*(NiPSysCollider*, NiCloningProcess&)
     // void __cdecl NiPSysCollider::*(NiStream&)
     // void __cdecl NiPSysCollider::*(NiStream&)
     // bool __cdecl NiPSysCollider::*(NiStream&)
@@ -52,29 +52,13 @@ class NiPSysCollider : public NiObject
     // NiPSysCollider* __cdecl NiPSysCollider::*()
     // void __cdecl NiPSysCollider::*(NiPSysCollider*)
     // void __cdecl NiPSysCollider::*(NiPSysColliderManager*)
-    // void __cdecl NiPSysCollider::*(CloningProcess&)
+    // void __cdecl NiPSysCollider::*(NiCloningProcess&)
     // NiPSysCollider
     // void __cdecl NiPSysCollider::*()
     // NiPSysCollider& __cdecl NiPSysCollider::*(const NiPSysCollider&)
     // void __cdecl NiPSysCollider::*()
-    void CreateVertexBufferSet(NiPSysCollider*, CloningProcess&);
-    virtual void vfn_08();
-    virtual void vfn_0c();
-    virtual void vfn_10();
+    void CreateVertexBufferSet(NiPSysCollider*, NiCloningProcess&);
     virtual void LoadBinary(NiStream&);
-    virtual void vfn_18();
-    virtual void vfn_1c();
-    virtual void vfn_20();
-    virtual void vfn_24();
-    virtual void vfn_28();
-    virtual void vfn_2c();
-    virtual void vfn_30();
-    virtual void vfn_34();
-    virtual void vfn_38();
-    virtual void vfn_3c();
-    virtual void vfn_40();
-    virtual void vfn_44();
-    virtual NiPSysCollider* Clone(CloningProcess&);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPSysCollider) == 44);
@@ -227,10 +211,10 @@ class NiPSysPlanarCollider : public NiPSysCollider
     NiTransform m_kFirstTransform;   // +0xB0, 64 bytes
     NiTransform m_kSecondTransform;  // +0xF0, 64 bytes
     virtual void LoadBinary(NiStream&);
-    void CopyMemberData(NiPSysPlanarCollider*, CloningProcess&);
+    void CopyMemberData(NiPSysPlanarCollider*, NiCloningProcess&);
     // const NiRTTI* __cdecl NiPSysPlanarCollider::*()
-    // NiObject* __cdecl NiPSysPlanarCollider::*(CloningProcess&)
-    // void __cdecl NiPSysPlanarCollider::*(NiPSysPlanarCollider*, CloningProcess&)
+    // NiObject* __cdecl NiPSysPlanarCollider::*(NiCloningProcess&)
+    // void __cdecl NiPSysPlanarCollider::*(NiPSysPlanarCollider*, NiCloningProcess&)
     // void __cdecl NiPSysPlanarCollider::*(NiStream&)
     // void __cdecl NiPSysPlanarCollider::*(NiStream&)
     // bool __cdecl NiPSysPlanarCollider::*(NiStream&)
@@ -252,7 +236,7 @@ class NiPSysPlanarCollider : public NiPSysCollider
     // void __cdecl NiPSysPlanarCollider::*(const NiPoint3&)
     // const NiPoint3& __cdecl NiPSysPlanarCollider::*()
     // void __cdecl NiPSysPlanarCollider::*(const NiPoint3&)
-    // void __cdecl NiPSysPlanarCollider::*(CloningProcess&)
+    // void __cdecl NiPSysPlanarCollider::*(NiCloningProcess&)
     // void __cdecl NiPSysPlanarCollider::*()
     // NiPSysPlanarCollider& __cdecl NiPSysPlanarCollider::*(const NiPSysPlanarCollider&)
     // void __cdecl NiPSysPlanarCollider::*()

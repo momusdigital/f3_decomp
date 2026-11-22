@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/niparticle/nipsyscollider.cpp: NiPSysCollider, NiPSysColliderStandin (9 functions)
+// gamebryo2.2/corelibs/niparticle/nipsyscollider.cpp: NiPSysCollider, NiPSysColliderStandin (8 functions)
 #include "f3_common.h"
 #include "nipsyscollider_decls.h"
 
 // @fnv 0x00C32840
+// pdb: NiPSysCollider::LoadBinary | NiPSysCollider.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
 void NiPSysCollider::LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
@@ -19,6 +21,8 @@ void NiPSysCollider::LoadBinary(NiStream& stream)
 }
 
 // @fnv 0x00C32580
+// pdb: NiPSysCollider::ProcessClone | NiPSysCollider.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kCloning
 void NiPSysCollider::ProcessClone(CloningProcess& cloning)
 {
     NiObject::ProcessClone(cloning);
@@ -45,6 +49,8 @@ void NiPSysCollider::ProcessClone(CloningProcess& cloning)
 }
 
 // @fnv 0x00C32610
+// pdb: NiPSysCollider::LinkObject | NiPSysCollider.obj | fnv360_0822_retail, objrun, high
+// pdb params: kStream
 void NiPSysCollider::LinkObject(NiStream& stream)
 {
     NiObject::LinkObject(stream);
@@ -60,18 +66,6 @@ void NiPSysCollider::LinkObject(NiStream& stream)
         if (next)
             next->IncRefCount();
     }
-}
-
-struct FUN_00c327e0_shell : public NiPSysCollider
-{
-    void* FUN_00c327e0();
-};
-
-extern const char* const g_012026a0_arg1;
-// @fnv 0x00c327e0
-void* FUN_00c327e0_shell::FUN_00c327e0()
-{
-    return (void*)&g_012026a0_arg1;
 }
 
 struct StrArr
@@ -180,6 +174,8 @@ struct FUN_00c329c0_object
 // @f3 0x00ad2220 (community match, verified in this file)
 extern int DAT_0126b708;
 
+// pdb: NiPSysCollider::GetViewerStrings | NiPSysCollider.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00c329c0_object::AppendProperties(StrArr* arr)
 {
     char* value;
@@ -288,6 +284,8 @@ struct FUN_00c32450_shell : public NiPSysCollider
 
 // Forwards the four arguments to the collider's m_pObject target and returns its result, or 0 if there is no target or it returns 0.
 // @fnv 0x00c32450
+// pdb: NiPSysCollider::Resolve | NiPSysCollider.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: fInitialTime, fCollisionTime, pkData, usCurParticle
 unsigned int FUN_00c32450_shell::FUN_00c32450(float param1, unsigned int param2, unsigned int param3,
                                               unsigned int param4)
 {
@@ -305,7 +303,7 @@ unsigned int FUN_00c32450_shell::FUN_00c32450(float param1, unsigned int param2,
 }
 
 // Stand-ins for the classes the pack header only forward-declares.
-// Field offsets follow the offsets used by FUN_00c32490's machine code.
+// Field offsets follow the offsets used by NiPSysCollider_Update's machine code.
 
 class NiPSysData : public NiObject
 {
@@ -368,12 +366,13 @@ class NiPSysColliderManager : public NiObject
 
 struct FUN_00c32490_shell : public NiPSysCollider
 {
-    void FUN_00c32490(float fTime, NiPSysData* pkData, unsigned int uiIndex);
+    void NiPSysCollider_Update(float fTime, NiPSysData* pkData, unsigned int uiIndex);
 };
 
 // Writes a vertex position for the particle at uiIndex, runs the spawn modifier when both pointers are set, and calls the data update if a flag is set.
 // @fnv 0x00c32490
-void FUN_00c32490_shell::FUN_00c32490(float fTime, NiPSysData* pkData, unsigned int uiIndex)
+// pdb: NiPSysCollider::Update | NiPSysCollider.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objopen_prop), high
+void FUN_00c32490_shell::NiPSysCollider_Update(float fTime, NiPSysData* pkData, unsigned int uiIndex)
 {
     pkData->m_pkVertex[(unsigned short)uiIndex] = m_kCollisionPosition;
 
@@ -495,11 +494,12 @@ class C326B0Modifier : public C326B0Object
     C326B0Object* m_pkSecond;
     C326B0Object* m_pkThird;
 
-    bool FUN_00c326b0(C326B0Object* pkObject);
+    bool NiPSysCollider_IsEqual(C326B0Object* pkObject);
 };
 
 // @fnv 0x00c326b0
-bool C326B0Modifier::FUN_00c326b0(C326B0Object* pkObject)
+// pdb: NiPSysCollider::IsEqual | NiPSysCollider.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool C326B0Modifier::NiPSysCollider_IsEqual(C326B0Object* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -531,8 +531,6 @@ bool C326B0Modifier::FUN_00c326b0(C326B0Object* pkObject)
     return true;
 }
 
-extern int DAT_01098ccc;
-
 struct c327f0_Counted
 {
     virtual void v00();
@@ -561,6 +559,7 @@ struct FUN_00c327f0_cls
 };
 
 // @fnv 0x00c327f0
+// pdb: NiPSysCollider::`scalar deleting destructor' | NiPSysCollider.obj | fnv360_0822_retail, objrun, medium
 FUN_00c327f0_cls* FUN_00c327f0_cls::FUN_00c327f0(unsigned char acFlags)
 {
     c327f0_Counted* pCounted = *(c327f0_Counted* volatile*)&m_pCounted;
@@ -799,13 +798,14 @@ class C32900Controller : public C32900Base
     C32900Object* m_pkSecond;
     C32900Object* m_pkThird;
 
-    void FUN_00c32900(C32900Stream& kStream);
+    void NiPSysCollider_SaveBinary(C32900Stream& kStream);
 };
 
 // SaveBinary
 // Saves the base data, type, two flags and the three object link IDs to the stream.
 // @fnv 0x00c32900
-void C32900Controller::FUN_00c32900(C32900Stream& kStream)
+// pdb: NiPSysCollider::SaveBinary | NiPSysCollider.obj | fnv360_0822_retail, call_seq + bridge(vtable|objrun) + skyrim(call_seq), high
+void C32900Controller::NiPSysCollider_SaveBinary(C32900Stream& kStream)
 {
     C32900Base::SaveBinary(kStream);
     C32900SaveBinary(kStream, m_iType);
@@ -854,6 +854,8 @@ class FUN_00c32780 : public FUN_00a5d3a0
 };
 
 // @fnv 0x00c32780
+// pdb: NiPSysCollider::NiPSysCollider | NiPSysCollider.obj | fnv360_0822_retail, call_seq, high
+// pdb params: fBounce, bSpawnOnCollide, bDieOnCollide, pkSpawnModifier
 FUN_00c32780::FUN_00c32780(float bounce, bool spawn, bool die, NiPSysSpawnModifier* spawnMod)
     : m_fBounceFactor(bounce), m_bSpawnOnCollision(spawn), m_bDieOnCollision(die), m_pSpawnModifier(spawnMod),
       m_kCollisionPosition(NiPoint3::ZERO), m_fSpawnRate(0.0f), m_pColliderManager(0)

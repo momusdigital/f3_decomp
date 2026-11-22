@@ -3,6 +3,7 @@
 #include "bsshadersdm_decls.h"
 
 // @fnv 0x00bc2940
+// pdb: BSShaderSDM::InitSDM | BSShaderSDM.obj | fnv360_0822_retail, call_gap, medium
 void BSShaderInitializer::InitializeMultiBounds()
 {
     if (!DAT_01201f70)
@@ -17,7 +18,10 @@ void __stdcall FUN_00bc2660(float, float);
 void __stdcall FUN_00bc1cc0(float, float);
 // Calls FUN_00bc2660 with a and b when flag is false, otherwise calls FUN_00bc1cc0 with a and c.
 // @fnv 0x00bc28b0
-void __stdcall DispatchFloatPair(float afFirst, float afSecond, float afThird, bool abUseThird)
+// pdb: BoltShaderProperty::UpdateBolt | BoltShaderProperty.obj | fnv360_0721_beta, objrun, high
+// pdb params: afTimeDelta, afDesiredBoltDistance, afSpeed, abCleanup
+// pdb: BoltShaderProperty::UpdateBolt | BoltShaderProperty.obj | fnv360_0721_beta, objrun, high (was: DispatchFloatPair)
+void __stdcall BoltShaderProperty_UpdateBolt(float afFirst, float afSecond, float afThird, bool abUseThird)
 {
     if (!abUseThird)
     {
@@ -45,6 +49,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_01201f68;
 // @fnv 0x00bc28f0
+// pdb: bhkAabbPhantom::GetViewerStrings | bhkAabbPhantom.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apStrings
 void __stdcall FUN_00bc28f0(StrArr* pStrArr)
 {
     WriteToSettingArray(pStrArr);

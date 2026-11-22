@@ -21,18 +21,21 @@ extern O_0043b7f0 DAT_0116eef4;
 extern char DAT_00e8fdd8;
 void __cdecl FUN_00d99280();
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMinVeryEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cd5bc0()
 {
     DAT_01073320.FUN_0043b7f0(&DAT_00df7db8, 400);
     FUN_00c00d1f(FUN_00d90ae0);
 }
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMaxVeryEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cd5c60()
 {
     DAT_01073338.FUN_0043b7f0(&DAT_00df7e3c, 400);
     FUN_00c00d1f(FUN_00d90b30);
 }
 
+// pdb: `dynamic initializer for 'BSFadeNode::iMinNearDistance'' | BSFadeNode.obj | fnv360_0822_debug, ustr, high
 void FUN_00d83a10()
 {
     DAT_0116eef4.FUN_0043b7f0(&DAT_00e8fdd8, 400);

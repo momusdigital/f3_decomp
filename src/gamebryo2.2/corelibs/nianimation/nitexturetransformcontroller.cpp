@@ -5,51 +5,52 @@
 
 // Builds and caches a controller ID string from the transform member, formatting it as "%d-%d-<member>".
 // @fnv 0x00a46300
+// pdb: NiTextureTransformController::GetCtlrID | NiTextureTransformController.obj | fnv360_0822_retail, ustr, medium
 const char* NiTextureTransformController::GetControllerID()
 {
-    char* pCachedID = m_pCachedControllerID;
+    char* pCachedID = m_pcCtlrID;
     if (pCachedID)
         return pCachedID;
 
-    m_pCachedControllerID = (char*)_NiMalloc(0x32);
-    switch (m_eTransformMember)
+    m_pcCtlrID = (char*)_NiMalloc(0x32);
+    switch (m_eMember)
     {
     case NiTextureTransformController__TransformMember_TT_TRANSLATE_U:
-        NiSprintf(m_pCachedControllerID, 0x32, "%d-%d-TT_TRANSLATE_U", m_bIsBumpMap, m_uiTextureMapIndex);
+        NiSprintf(m_pcCtlrID, 0x32, "%d-%d-TT_TRANSLATE_U", m_bShaderMap, m_uiMapIndex);
         break;
     case NiTextureTransformController__TransformMember_TT_TRANSLATE_V:
-        NiSprintf(m_pCachedControllerID, 0x32, "%d-%d-TT_TRANSLATE_V", m_bIsBumpMap, m_uiTextureMapIndex);
+        NiSprintf(m_pcCtlrID, 0x32, "%d-%d-TT_TRANSLATE_V", m_bShaderMap, m_uiMapIndex);
         break;
     case NiTextureTransformController__TransformMember_TT_ROTATE:
-        NiSprintf(m_pCachedControllerID, 0x32, "%d-%d-TT_ROTATE", m_bIsBumpMap, m_uiTextureMapIndex);
+        NiSprintf(m_pcCtlrID, 0x32, "%d-%d-TT_ROTATE", m_bShaderMap, m_uiMapIndex);
         break;
     case NiTextureTransformController__TransformMember_TT_SCALE_U:
-        NiSprintf(m_pCachedControllerID, 0x32, "%d-%d-TT_SCALE_U", m_bIsBumpMap, m_uiTextureMapIndex);
+        NiSprintf(m_pcCtlrID, 0x32, "%d-%d-TT_SCALE_U", m_bShaderMap, m_uiMapIndex);
         break;
     case NiTextureTransformController__TransformMember_TT_SCALE_V:
-        NiSprintf(m_pCachedControllerID, 0x32, "%d-%d-TT_SCALE_V", m_bIsBumpMap, m_uiTextureMapIndex);
+        NiSprintf(m_pcCtlrID, 0x32, "%d-%d-TT_SCALE_V", m_bShaderMap, m_uiMapIndex);
         break;
     }
-    return m_pCachedControllerID;
+    return m_pcCtlrID;  // src: FNV360_PDB +0x4C (old: m_pCachedControllerID)
 }
 
 // @fnv 0x00a46740
 NiTextureTransformController::NiTextureTransformController(NiObjectNET* property, NiTexturingProperty__Map* map,
                                                            NiTextureTransformController__TransformMember member) throw()
-    : m_eTransformMember(member)
+    : m_eMember(member)
 {
-    m_pCachedControllerID = 0;
-    m_uiLastKeyIndex = 0;
-    m_bIsBumpMap = false;
-    m_uiTextureMapIndex = 0;
+    m_pcCtlrID = 0;
+    m_uiLastIdx = 0;
+    m_bShaderMap = false;
+    m_uiMapIndex = 0;
     if (m_pkTarget != property)
-        m_pTaskMap = 0;
+        m_pkMap = 0;
     NiTimeController::SetTarget(property);
-    m_pTaskMap = map;
+    m_pkMap = map;
     if (!map)
     {
-        NiFree(m_pCachedControllerID);
-        m_pCachedControllerID = 0;
+        NiFree(m_pcCtlrID);
+        m_pcCtlrID = 0;
         return;
     }
     TexturePropertyLayout* prop = (TexturePropertyLayout*)m_pkTarget;
@@ -59,10 +60,10 @@ NiTextureTransformController::NiTextureTransformController(NiObjectNET* property
     {
         if (prop->maps[uiIndex] == map)
         {
-            m_bIsBumpMap = false;
-            m_uiTextureMapIndex = uiIndex;
-            NiFree(m_pCachedControllerID);
-            m_pCachedControllerID = 0;
+            m_bShaderMap = false;
+            m_uiMapIndex = uiIndex;
+            NiFree(m_pcCtlrID);
+            m_pcCtlrID = 0;
             IsTextureMapValid();
             return;
         }
@@ -73,20 +74,20 @@ NiTextureTransformController::NiTextureTransformController(NiObjectNET* property
     {
         if (prop->GetGeometryShaderObject(uiIndex) == map)
         {
-            m_bIsBumpMap = true;
-            m_uiTextureMapIndex = uiIndex;
-            NiFree(m_pCachedControllerID);
-            m_pCachedControllerID = 0;
-            if (!m_pTaskMap && m_pkTarget)
+            m_bShaderMap = true;
+            m_uiMapIndex = uiIndex;
+            NiFree(m_pcCtlrID);
+            m_pcCtlrID = 0;
+            if (!m_pkMap && m_pkTarget)
             {
                 TexturePropertyLayout* p = (TexturePropertyLayout*)m_pkTarget;
-                if (m_bIsBumpMap)
+                if (m_bShaderMap)
                 {
-                    NiTexturingProperty__Map* pMap = p->GetGeometryShaderObject(m_uiTextureMapIndex);
-                    m_pTaskMap = pMap;
+                    NiTexturingProperty__Map* pMap = p->GetGeometryShaderObject(m_uiMapIndex);
+                    m_pkMap = pMap;
                 }
                 else
-                    m_pTaskMap = p->maps[m_uiTextureMapIndex];
+                    m_pkMap = p->maps[m_uiMapIndex];
             }
             return;
         }
@@ -94,41 +95,43 @@ NiTextureTransformController::NiTextureTransformController(NiObjectNET* property
 }
 
 // @fnv 0x00a46490
+// pdb: NiTextureTransformController::Update | NiTextureTransformController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: UpdateData
 void NiTextureTransformController::Update(NiUpdateData* data) throw()
 {
-    if (((unsigned char)(m_uiObjectFlags >> 5)) & 1)
-        m_fControllerTime = DAT_01096324;
+    if (((unsigned char)(m_uFlags >> 5)) & 1)
+        m_fScaledTime = DAT_01096324;
     else if (AdvanceController(data->fTime))
     {
-        if (!m_spControllerInterpolator.m_pObject || !m_spControllerInterpolator.m_pObject->Unk_35())
+        if (!m_spInterpolator.m_pObject || !m_spInterpolator.m_pObject->Unk_35())
             return;
     }
-    if (!m_spControllerInterpolator.m_pObject)
+    if (!m_spInterpolator.m_pObject)
         return;
     float value;
-    if (!m_spControllerInterpolator.m_pObject->Unk_27(m_fControllerTime, m_pkTarget, value))
+    if (!m_spInterpolator.m_pObject->Unk_27(m_fScaledTime, m_pkTarget, value))
         return;
     if (!IsTextureMapValid())
         return;
-    TextureMapTransform* transform = m_pTaskMap->transform;
+    TextureMapTransform* transform = m_pkMap->transform;
     if (!transform)
     {
         void* memory = g_memoryManager.Allocate(sizeof(TextureMapTransform));
         transform = memory ? new (memory) TextureMapTransform(NiPoint2(0, 0), 0, NiPoint2(1, 1),
                                                              NiPoint2(DAT_01016248, DAT_01016248), 2)
                            : 0;
-        m_pTaskMap->transform = transform;
+        m_pkMap->transform = transform;
     }
-    switch (m_eTransformMember)
+    switch (m_eMember)
     {
     case NiTextureTransformController__TransformMember_TT_TRANSLATE_U: {
-        NiPoint2 p = transform->translate;
+        NiPoint2 p = transform->m_kTranslate;
         p.x = value;
         transform->UpdateFromPair(p);
         break;
     }
     case NiTextureTransformController__TransformMember_TT_TRANSLATE_V: {
-        NiPoint2 p = transform->translate;
+        NiPoint2 p = transform->m_kTranslate;
         p.y = value;
         transform->UpdateFromPair(p);
         break;
@@ -137,13 +140,13 @@ void NiTextureTransformController::Update(NiUpdateData* data) throw()
         transform->SetValue(value);
         break;
     case NiTextureTransformController__TransformMember_TT_SCALE_U: {
-        NiPoint2 p = transform->scale;
+        NiPoint2 p = transform->m_kScale;
         p.x = value;
         transform->FUN_00a462b0(p);
         break;
     }
     case NiTextureTransformController__TransformMember_TT_SCALE_V: {
-        NiPoint2 p = transform->scale;
+        NiPoint2 p = transform->m_kScale;
         p.y = value;
         transform->FUN_00a462b0(p);
         break;
@@ -165,31 +168,39 @@ void* FUN_00a46480_shell::FUN_00a46480()
     return &g_011f3f20;
 }
 
+struct Target_00a46410
+{
+    unsigned char unk00[0xa];
+    unsigned short unk0A;
+};
 struct FUN_00a46410_shell
 {
-    void* m_0x2c;
+    unsigned char unk00[0x2c];
+    Target_00a46410* m_pkTarget;  // src: FNV360_PDB NiTimeController +0x2C (old: m_0x2c)
     unsigned int __thiscall FUN_00a46410();
 };
 
 // @fnv 0x00a46410
 unsigned int __thiscall FUN_00a46410_shell::FUN_00a46410()
 {
-    void* p = *(void**)((char*)this + 0x2c);
+    Target_00a46410* p = m_pkTarget;
     if (!p)
         return 0;
-    return *(unsigned short*)((char*)p + 0xa);
+    return p->unk0A;
 }
 
-struct FUN_00a461a0_shell : public NiTimeController
+struct FUN_00a461a0_shell : public NiTextureTransformController
 {
     void __thiscall FUN_00a461a0(NiObjectNET* target);
 };
 
 // @fnv 0x00a461a0
+// pdb: NiTextureTransformController::SetTarget | NiTextureTransformController.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: pkTarget
 void __thiscall FUN_00a461a0_shell::FUN_00a461a0(NiObjectNET* target)
 {
-    if (*(NiObjectNET**)((char*)this + 0x2c) != target)
-        *(int*)((char*)this + 0x3c) = 0;
+    if (m_pkTarget != target)
+        m_pkMap = 0;
     NiTimeController::SetTarget(target);
 }
 
@@ -200,12 +211,14 @@ struct FUN_00a461e0_shell : public NiTextureTransformController
 };
 // Returns true if pkObject passes FUN_00a57c10 and its four fields match the expected values.
 // @fnv 0x00a461e0
+// pdb: NiTextureTransformController::IsEqual | NiTextureTransformController.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: NiFlipController::IsEqual)
+// pdb params: pkObject
 bool FUN_00a461e0_shell::FUN_00a461e0(NiObject* pkObject)
 {
     NiTextureTransformController* pkCtrl = (NiTextureTransformController*)pkObject;
-    if (FUN_00a57c10(pkObject) && pkCtrl->m_uiLastKeyIndex == m_uiLastKeyIndex &&
-        pkCtrl->m_bIsBumpMap == m_bIsBumpMap && pkCtrl->m_uiTextureMapIndex == m_uiTextureMapIndex &&
-        pkCtrl->m_eTransformMember == m_eTransformMember)
+    if (FUN_00a57c10(pkObject) && pkCtrl->m_uiLastIdx == m_uiLastIdx &&
+        pkCtrl->m_bShaderMap == m_bShaderMap && pkCtrl->m_uiMapIndex == m_uiMapIndex &&
+        pkCtrl->m_eMember == m_eMember)
         return true;
     return false;
 }
@@ -220,6 +233,8 @@ struct S00a46220
 };
 // Sets m_flag if it was already set or the two floats differ from p[0] and p[1], then copies both floats from p into m_f0 and m_f1.
 // @fnv 0x00a46220
+// pdb: NiTextureTransform::SetTranslate | NiTextureTransformController.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: kTranslate
 void S00a46220::UpdateFromPair(float* afPair)
 {
     m_flag = (m_flag || m_f0 != afPair[0] || m_f1 != afPair[1]);
@@ -242,6 +257,8 @@ struct C462b0
 };
 // Sets m_1c if the stored m_0c differs from p, then copies p into m_0c.
 // @fnv 0x00a462b0
+// pdb: NiTextureTransform::SetScale | NiTextureTransformController.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: kScale
 void __thiscall C462b0::FUN_00a462b0(S462b0* p)
 {
     m_1c = m_1c || m_0c.x != p->x || m_0c.y != p->y;
@@ -286,11 +303,13 @@ inline void* __cdecl operator new(unsigned int, void* p)
 }
 inline void __cdecl operator delete(void*, void*)
 {}
-struct FUN_00a468f0_shell
+struct FUN_00a468f0_shell : NiTextureTransformController
 {
     NiTextureTransformController* __thiscall Clone(CloningProcess& kCloning);
 };
 // @fnv 0x00a468f0
+// pdb: NiTextKeyExtraData::CreateClone | NiTextKeyExtraData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: kCloning
 NiTextureTransformController* __thiscall FUN_00a468f0_shell::Clone(CloningProcess& kCloning)
 {
     NiTextureTransformController* pkObject;
@@ -300,10 +319,10 @@ NiTextureTransformController* __thiscall FUN_00a468f0_shell::Clone(CloningProces
     else
         pkObject = 0;
     ((NiAlphaController*)this)->CopyMemberData((NiAlphaController*)pkObject, kCloning);
-    *(unsigned int*)((char*)pkObject + 0x38) = *(unsigned int*)((char*)this + 0x38);
-    *(unsigned char*)((char*)pkObject + 0x40) = *(unsigned char*)((char*)this + 0x40);
-    *(unsigned int*)((char*)pkObject + 0x44) = *(unsigned int*)((char*)this + 0x44);
-    *(unsigned int*)((char*)pkObject + 0x48) = *(unsigned int*)((char*)this + 0x48);
+    pkObject->m_uiLastIdx = m_uiLastIdx;
+    pkObject->m_bShaderMap = m_bShaderMap;
+    pkObject->m_uiMapIndex = m_uiMapIndex;
+    pkObject->m_eMember = m_eMember;
     return pkObject;
 }
 
@@ -357,6 +376,8 @@ struct NiNIFImageReader
 };
 // Copies two fields each from s, t and u, stores f and d, calls UpdateMatrix on this, and returns this.
 // @fnv 0x00a88eb0
+// pdb: NiTextureTransform::NiTextureTransform | NiTextureTransform.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kTranslate, fRotate, kScale, kCenter, eMethod
 NiNIFImageReader* NiNIFImageReader::InitFromInputs(const NiNIFImageReader* apSource, float afValue,
                                                    const NiNIFImageReader* apSecond, const NiNIFImageReader* apThird,
                                                    NiNIFImageReader* d)
@@ -383,31 +404,31 @@ void FUN_00a46660_shell::GetTextureTransformValue(float& value)
     NiPoint2 kPoint;
     if (IsTextureMapValid())
     {
-        TextureMapTransform* transform = m_pTaskMap->transform;
+        TextureMapTransform* transform = m_pkMap->transform;
         if (!transform)
         {
             value = 0.0f;
             return;
         }
-        switch (m_eTransformMember)
+        switch (m_eMember)
         {
         case NiTextureTransformController__TransformMember_TT_TRANSLATE_U:
-            kPoint = *(NiPoint2*)transform;
+            kPoint = transform->m_kTranslate;
             value = kPoint.x;
             break;
         case NiTextureTransformController__TransformMember_TT_TRANSLATE_V:
-            kPoint = *(NiPoint2*)transform;
+            kPoint = transform->m_kTranslate;
             value = kPoint.y;
             break;
         case NiTextureTransformController__TransformMember_TT_ROTATE:
-            value = *(float*)((char*)transform + 8);
+            value = transform->m_fRotate;
             break;
         case NiTextureTransformController__TransformMember_TT_SCALE_U:
-            kPoint = *(NiPoint2*)((char*)transform + 12);
+            kPoint = transform->m_kScale;
             value = kPoint.x;
             break;
         case NiTextureTransformController__TransformMember_TT_SCALE_V:
-            kPoint = *(NiPoint2*)((char*)transform + 12);
+            kPoint = transform->m_kScale;
             value = kPoint.y;
             break;
         }
@@ -483,6 +504,8 @@ struct FUN_00a46a30_Cls
 };
 
 // @fnv 0x00a46a30
+// pdb: NiTextureTransformController::SaveBinary | NiTextureTransformController.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kStream
 void __thiscall FUN_00a46a30_Cls::WriteToStream(NiStreamStandInW* pkStream)
 {
     FUN_00a57c00(pkStream);
@@ -521,6 +544,7 @@ struct TextureTransformOwner : InterpolationControllerBase
 
 // Destroys the object and, if the first bit of flags is set, frees its memory with FUN_00aa1460.
 // @fnv 0x00a46890
+// pdb: bhkBlendController::`scalar deleting destructor' | bhkBlendController.obj | fnv360_0822_retail, caller_sim, low
 void* TextureTransformOwner::FUN_00a46890(unsigned int flags)
 {
     this->TextureTransformOwner::~TextureTransformOwner();
@@ -533,20 +557,21 @@ struct S7 : NiTextureTransformController
 {
     bool GetTaskMap();
 };
-// Returns true if m_pTaskMap is set, otherwise resolves it from the target TexturePropertyLayout and returns whether it was found.
+// Returns true if m_pkMap is set, otherwise resolves it from the target TexturePropertyLayout and returns whether it was found.
 // @fnv 0x00a46420
+// pdb: NiTextureTransformController::SetInternalMap | NiTextureTransformController.obj | fnv360_0822_retail, call_gap, medium
 bool S7::GetTaskMap()
 {
-    if (m_pTaskMap)
+    if (m_pkMap)
         return true;
     TexturePropertyLayout* p = reinterpret_cast<TexturePropertyLayout*>(m_pkTarget);
     if (!p)
         return false;
-    if (m_bIsBumpMap)
-        m_pTaskMap = p->GetGeometryShaderObject(m_uiTextureMapIndex);
+    if (m_bShaderMap)
+        m_pkMap = p->GetGeometryShaderObject(m_uiMapIndex);
     else
-        m_pTaskMap = p->maps[m_uiTextureMapIndex];
-    return m_pTaskMap ? true : false;
+        m_pkMap = p->maps[m_uiMapIndex];
+    return m_pkMap ? true : false;
 }
 
 struct S00a46970_BinStream
@@ -729,25 +754,27 @@ struct S00a46970_Base
 };
 struct S00a46970_StreamFix
 {
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 struct S00a46970_Ctlr : public NiTextureTransformController
 {
     void FUN_00a46970(S00a46970_Stream& kStream);
 };
 // @fnv 0x00a46970
+// pdb: NiTextureTransformController::LoadBinary | NiTextureTransformController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void S00a46970_Ctlr::FUN_00a46970(S00a46970_Stream& kStream)
 {
     reinterpret_cast<S00a46970_Base*>(this)->FUN_00a57c70(kStream);
     bool bShaderMap;
     S00a46970_StreamLoadBinary(kStream, bShaderMap);
-    m_bIsBumpMap = bShaderMap != 0;
-    S00a46970_StreamLoadBinary(kStream, m_uiTextureMapIndex);
+    m_bShaderMap = bShaderMap != 0;
+    S00a46970_StreamLoadBinary(kStream, m_uiMapIndex);
     unsigned int uiMember;
     S00a46970_StreamLoadBinary(kStream, uiMember);
-    m_eTransformMember = (NiTextureTransformController__TransformMember)uiMember;
+    m_eMember = (NiTextureTransformController__TransformMember)uiMember;
     if (kStream.m_uiNifVersion < 0x0a010068)
-        reinterpret_cast<S00a46970_StreamFix*>(&kStream)->FUN_00a645b0();
+        reinterpret_cast<S00a46970_StreamFix*>(&kStream)->NiStream_ReadLinkID();
 }
 
 // @fnv 0x00a46950

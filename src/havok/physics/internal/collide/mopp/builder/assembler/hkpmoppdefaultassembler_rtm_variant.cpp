@@ -4,73 +4,7 @@
 #include "f3_common.h"
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl GrowBuffer();
-struct FUN_00e06780_class
-{
-    void __thiscall AppendChar(char b);
-};
-struct S_00e066f0_Src
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int m_pRayStart;
-    int m_kRayEnd;
-    int m_uiItemCount;
-    int m_offsets[8];
-};
-struct S_00e066f0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int m_iElementCount;
-    int m_uiItemCount;
-    int m_entries[8];
-
-    void CopyOffsets(const S_00e066f0_Src* src);
-};
-struct AlignRange
-{
-    volatile int m_iMinControlPoint;
-    volatile int m_iMaxControlPoint;
-};
-struct FUN_00e06730_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    AlignRange m_akRange[3];
-    volatile int m_iShift;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    volatile int m_aiAlignedMin[3];
-    volatile int m_aiAlignedMax[3];
-    void AlignRanges();
-};
+extern "C" void __cdecl hkpMoppCodeGenerator_resize();
 struct ByteSink
 {
     int unk00;
@@ -79,243 +13,24 @@ struct ByteSink
     int m_iUsed;
     char* m_pBuffer;
 
-    void GrowBuffer();
+    void hkpMoppCodeGenerator_resize();
 
     void PutByte(char acValue)
     {
         m_pBuffer[m_uiLogicalSize - m_iUsed - 1] = acValue;
         m_iUsed++;
         if (m_iUsed >= m_uiLogicalSize)
-            GrowBuffer();
+            hkpMoppCodeGenerator_resize();
     }
 
-    void PutBytePair(char acFirst, char acSecond);
+    void hkpMoppCodeGenerator_addCommand8(char acFirst, char acSecond);
 };
 typedef void(__thiscall* FlushFunction)(void*);
-struct BufferWriter
-{
-    int unknown00;
-    int unknown04;
-    int capacity;
-    int position;
-    unsigned char* data;
-    void WriteInt24(int value);
-};
-struct S_00e06aa0_Pool
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void Free(void* p);
-};
-struct S_00e06aa0_Item
-{
-    int unk00;
-    bool m_flag;
-    char unk05;
-    char unk06;
-    char unk07;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    void* m_p70;
-    void* m_p74;
-};
-struct S_00e06aa0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00e06aa0_Pool* m_kNodePool;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    bool m_enabled;
-    void FUN_00e06aa0(S_00e06aa0_Item* item);
-};
-struct Node
-{
-    Node* next;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    char unk38;
-    char unk39;
-};
-void __stdcall FUN_00e06b20(Node* node);
-struct Limits
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-};
-void __stdcall AdjustLimits(Limits* first, Limits* second, Limits* third);
-struct E06C20Writer
-{
-    void FUN_00e069a0(int size, void* data);
-};
-struct E06C20Object
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    E06C20Writer* m_pStreamWriter;
-
-    int FUN_00e06c20(void* data);
-};
-struct S_00e07040_A
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-};
-struct S_00e07040_B
-{
-    int unk00;
-    int unk04;
-    int unk08;
-};
 template <class T> inline T S_00e07040_Max(T a, T b)
 {
     return a > b ? a : b;
 }
-int __stdcall FUN_00e07040(S_00e07040_A* a, S_00e07040_B* b)
-{
-    int n = b->unk08 - 8;
-    if (n <= 0)
-        n = 0;
-    int r = a->unk24 - n;
-    if (r > a->unk24)
-        r = a->unk24;
-    return r;
-}
-struct E07510Input
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    unsigned char unk38;
-    unsigned char unk39;
-    unsigned char m_type;
-};
-struct E07510Solver
-{
-    void FUN_00e07070(void* b, void* c, void* d);
-    void AdjustLimits(E07510Input* a, void* b, void* c);
-    void FUN_00e07510(E07510Input* a, void* b, void* c, void* d);
-};
-struct S_e07c50_Buf
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int m_iElementCount;
-};
 struct S_e07c50_Item;
-struct S_e07c50
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_e07c50_Buf* m_buf;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int m_uiItemCount;
-    void FUN_00e06b20(S_e07c50_Item* item);
-    void FUN_00e06e00(S_e07c50_Item* item, int b, int c);
-    void FUN_00e07550(S_e07c50_Item* item, int c);
-    int FUN_00e07c50(S_e07c50_Item* item, int b, int c);
-};
 struct S_e07c50_Item
 {
     int unk0;
@@ -368,53 +83,6 @@ struct FUN_00e09640_class
     void __thiscall DestroyAudioBuffer();
     FUN_00e09640_class* __thiscall FUN_00e09640(int flags);
 };
-struct FUN_00e06800_cls
-{
-    int unk00;
-    int unk04;
-    int m_cap;
-    int m_uiItemCount;
-    char* m_buf;
-
-    void __thiscall Flush();
-    void __thiscall FUN_00e06800(char a, int v);
-};
-struct FUN_00e06880_cls
-{
-    int unk00;
-    int unk04;
-    int m_cap;
-    int m_uiItemCount;
-    char* m_buf;
-
-    void __thiscall Flush();
-    void __thiscall FUN_00e06880(char a, int v);
-};
-struct FUN_00e069a0_cls
-{
-    int unk00;
-    int unk04;
-    int m_cap;
-    int m_uiItemCount;
-    char* m_buf;
-
-    void __thiscall Flush();
-    void __thiscall FUN_00e069a0(char a, unsigned int v);
-};
-struct FUN_00e06490_cls
-{
-    void __thiscall GrowBuffer();
-};
-struct FUN_00e06a60_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-
-    void __thiscall FillWithPattern(int count);
-};
 // FUN_00e06af0 - a small __thiscall member that fills in a result flag.
 //
 // The original code is exactly:
@@ -445,25 +113,8 @@ struct FUN_00e06a60_cls
 // plain assignments MSVC 2008 keeps the two stores as real branches
 // instead of folding them into a single conditional store.
 // The "actor" the first flag argument points at.
-struct FUN_00e06780_actor
-{
-    int unk00;
-    int unk04;
-    int unk08;
-};
 // The class the member belongs to.  The unit's FUN_00e06780_class carries
 // no data members, so the flag field lives in the derived stand-in.
-struct FUN_00e06780_owner : public FUN_00e06780_class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;  // +0x18
-    char* __thiscall FUN_00e06af0(char* out, FUN_00e06780_actor* actor, int* value);
-};
 struct Stream
 {
     int unk00;
@@ -472,7 +123,7 @@ struct Stream
     int unk0c;
     char* unk10;
 
-    void GrowBuffer();
+    void hkpMoppCodeGenerator_resize();
 
     void AppendChar(char b)
     {
@@ -480,170 +131,13 @@ struct Stream
         unk0c++;
         if (unk0c >= unk08)
         {
-            GrowBuffer();
+            hkpMoppCodeGenerator_resize();
         }
     }
 
-    void FUN_00e06800(int a, int b);
+    void hkpMoppCodeGenerator_addCommand16(int a, int b);
 };
-struct FUN_00e06c40_class
-{
-    char pad[0x10];
-    Stream* m_stream;
-
-    int __thiscall FUN_00e06c40(int a1, int a2);
-};
-extern "C" void __cdecl GrowBuffer();
-struct Sink
-{
-    int unk00;
-    int unk04;
-    int m_iCap;
-    int m_iArrayLength;
-    int m_iEnd;
-    void __thiscall Flush();
-};
-struct Pkt
-{
-    int unk00;
-    char m_b04;
-    char unk05;
-    char unk06;
-    char unk07;
-    char m_b08;
-    char unk09;
-    char unk0a;
-    char unk0b;
-    char m_b0c;
-    char unk0d;
-    char unk0e;
-    char unk0f;
-    char m_b10;
-};
-class FUN_00e06cb0_cls
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Sink* m_pSink;
-
-    void __thiscall WritePacket(const Pkt* p);
-};
-extern char DAT_01000000;
-struct S_00e06e00_Item
-{
-    int unk0;
-};
-struct S_00e06e00_Buf
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    void PutBytePair(int tag, unsigned int v);
-    void FUN_00e06800(int tag, unsigned int v);
-    void FUN_00e06880(int tag, unsigned int v);
-    void FUN_00e069a0(int tag, unsigned int v);
-};
-struct S_00e06e00_A0
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    S_00e06e00_Item* unk30[12];
-    unsigned int* unk60;
-};
-struct S_00e06e00_A1
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44[16];
-};
-struct S_00e06e00_A2
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    unsigned int unk34;
-};
-struct S_00e06e00_Cls
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00e06e00_Buf* unk10;
-    int FUN_00e06e00(S_00e06e00_A0* a, S_00e06e00_A1* b, S_00e06e00_A2* c);
-    void WriteOp(int idx, S_00e06e00_Item* item);
-};
-struct Vec3
-{
-    float x;
-    float y;
-    float z;
-};
-extern const double g_thresholdA;
-extern const double g_thresholdB;
-int __stdcall ClassifyVec3Region(const Vec3* pVec);
-struct S_00e07070_Pair
-{
-    int unk00;
-    int unk04;
-};
-struct S_00e07070_Object
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00e07070_Pair r[3];
-    int m_24;
-    int v[3];
-};
-struct S_00e07070_Result
-{
-    char ok;
-    int count;
-    int q[3];
-};
-extern "C" int __stdcall FUN_00e07040(S_00e07070_Object* a, S_00e07070_Object* b);
-void __stdcall FUN_00e07070(S_00e07070_Object* a, S_00e07070_Object* b, S_00e07070_Result* out);
+extern "C" void __cdecl hkpMoppCodeGenerator_resize();
 struct S_00e07680_Writer
 {
     int unk0;
@@ -652,73 +146,16 @@ struct S_00e07680_Writer
     int m_pos;
     unsigned char* m_buf;
     void AppendChar(int b);
-    void GrowBuffer();
+    void hkpMoppCodeGenerator_resize();
     __forceinline void put(unsigned char b)
     {
         m_buf[m_cap - m_pos - 1] = b;
         m_pos++;
         if (m_pos >= m_cap)
-            GrowBuffer();
+            hkpMoppCodeGenerator_resize();
     }
 };
-struct S_00e07680
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
-    S_00e07680_Writer* w;
-    void WriteOffsetDelta(int);
-    void FUN_00e07680(int a1, int a2, int a3, int a4, int a5);
-};
-struct Entry
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    unsigned char unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    Entry* unk70;
-    Entry* unk74;
-};
-struct Handler
-{
-    int unk00, unk04, unk08, unk0c;
-    Entry* unk10;
-    void __thiscall FUN_00e06b20(Entry*);
-    int __thiscall ClassifyVec3Region(int);
-    void __thiscall FUN_00e07880(Entry*, Entry*, Entry**, Entry**);
-    void __thiscall FUN_00e07680(Entry*, Entry*, int, int, int);
-    void __thiscall WriteSize(int);
-    void __thiscall FUN_00e06db0(Entry*, Entry*, Entry*);
-    void __thiscall FUN_00e07550(Entry*, Entry*);
-    void __thiscall WritePacket(char*);
-    int __thiscall FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
-};
-extern int __cdecl FUN_00cbfef0(float f);
+extern int __cdecl hkMath_hkFloatToInt(float f);
 struct S_00e07da0_Bounds
 {
     int unk0;
@@ -748,14 +185,6 @@ struct S_00e07da0_Region : S_00e07da0_Bounds
 
     void BuildScaledRanges(struct S_00e07da0_Node* node, void* p);
     void FUN_00e09540();
-};
-struct S_00e07da0_Result
-{
-    bool valid;
-    int value;
-    int unk8;
-    int unkC;
-    int unk10;
 };
 struct S_00e07da0_Info
 {
@@ -793,37 +222,6 @@ struct S_00e07da0_Node
     S_00e07da0_Node* child70;
     S_00e07da0_Node* child74;
 };
-struct S_00e07da0_Tree
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    float unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    float unk54;
-
-    void BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* parent, S_00e07da0_Region* region);
-    void ComputeNodeBounds(S_00e07da0_Node* node, S_00e07da0_Region* region);
-    void FUN_00e07070(S_00e07da0_Region* parent, S_00e07da0_Region* region, S_00e07da0_Result* out);
-    int ClassifyVec3Region(void* p);
-    void FUN_00e07880(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
-};
 struct AudioAllocator
 {
     virtual void v00();
@@ -840,60 +238,7 @@ struct AudioHolder
     int unk0c;
     AudioAllocator* m_pAllocator;
 };
-struct BSAudio;
-extern int DAT_010ea5dc;
-extern int DAT_0102e388;
-struct FUN_00e09450_cls
-{
-    int m_vptr00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    void* m_pData;
-    int m_iArrayLength;
-    unsigned int m_uCapBits;
-
-    void DestroyAudioBuffer();
-};
 int __cdecl FUN_00cbfe20(float v);
-struct FUN_00e094a0_floatpair
-{
-    float lo;
-    float hi;
-};
-struct FUN_00e094a0_intpair
-{
-    int lo;
-    int hi;
-};
-struct FUN_00e094a0_floatset
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    FUN_00e094a0_floatpair pairs[3];
-};
-struct FUN_00e094a0_cls
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    FUN_00e094a0_intpair m_0c[3];
-
-    void BuildScaledRanges(FUN_00e094a0_floatset* a1, float* a2);
-};
 // FUN_00e09540 - compute the level of an object from its bounding box.
 //
 // this : the object
@@ -903,19 +248,6 @@ struct FUN_00e094a0_cls
 // The largest of the three axis extents is taken, the number of bits it
 // needs is counted and the level is derived from that; the result is
 // clamped to 0x18.
-struct FUN_00e09540_Self
-{
-    void* unk00;
-    int unk04;
-    int unk08;  // the level
-    int unk0c;  // x min
-    int unk10;  // x max
-    int unk14;  // y min
-    int unk18;  // y max
-    int unk1c;  // z min
-    int unk20;  // z max
-    void FUN_00e09540();
-};
 class FUN_00e095d0_cls
 {
   public:
@@ -947,34 +279,7 @@ class FUN_00e095d0_cls
     void __thiscall FUN_00e09540();
 };
 // Emit an opcode with an immediate, choosing the byte, short or int form (and its opcode offset) by value range.
-class E6BC0Writer
-{
-  public:
-    void WriteByteOp(int iOpcode, int iValue);
-    void WriteShortOp(int iOpcode, int iValue);
-    void WriteIntOp(int iOpcode, int iValue);
-};
-class E6BC0Encoder
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    E6BC0Writer* m_pkWriter;
-
-    void WriteOp(int iOpcode, int iValue);
-};
-struct FUN_00e06ed0_Class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_00e06e00_Buf* m_pStreamWriter;
-    void WriteOffsetDelta(int iTarget);
-};
-extern int __cdecl FUN_00cbfef0(float f);
+extern int __cdecl hkMath_hkFloatToInt(float f);
 struct Node07400
 {
     int unk00;
@@ -1016,35 +321,10 @@ template <class T> inline T Max07400(T a, T b)
 {
     return a > b ? a : b;
 }
-struct Tree07400
-{
-    int unk00[15];
-    float m_fScale;
-    int unk40[6];
-    float m_fMinCount;
-    int unk5C;
-    float m_afMaxCount[3];
-
-    void ComputeNodeBounds(Node07400* node, Region07400* region);
-};
-struct Arg1Flags
-{
-    unsigned char unk00[0x3b];
-    unsigned char m_3b[3];
-};
 struct Pair
 {
     int m_ucLowNibble;
     int m_ucHighNibble;
-};
-struct Arg2Layout
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    Pair m_0c[3];
-    int m_24;
-    int m_28[3];
 };
 struct BufWriter
 {
@@ -1065,16 +345,6 @@ inline void EmitByte(BufWriter* w, unsigned char v)
         w->Flush();
     }
 }
-struct FUN_00e07550_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    BufWriter* m_10;
-    void __thiscall FUN_00e07550(Arg1Flags* a1, Arg2Layout* a2);
-};
-extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 struct KdNode;
 struct KdCtx;
 struct KdCtx
@@ -1139,88 +409,7 @@ struct KdNode
     int unk6c;
     KdNode* ch[2];
 };
-struct MyTree
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int lim;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    float f3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    float f58;
-    int unk5c;
-    float f60[3];
-
-    int __thiscall FUN_00e07040(KdCtx* a, KdCtx* c);
-    void __thiscall FUN_00e07070(KdCtx* a, KdCtx* c, S_00e07070_Result* o);
-    int __thiscall Recurse(KdNode* n, KdCtx* a, KdCtx* c);
-};
 #include <xmmintrin.h>
-extern double _gModifierZero;
-struct FUN_00e07b90_bounds
-{
-    float unk00, unk04, unk08, minimumX, maximumX, minimumY, maximumY, minimumZ, maximumZ;
-};
-struct FUN_00e07b90_vector
-{
-    float x, y, z, w;
-};
-void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
-struct S_00e07d60_Info
-{
-    float x;
-    float y;
-    float z;
-    __m128 v;
-    int i;
-    char b;
-};
-struct S_00e07d60
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    float x;
-    float y;
-    float z;
-    __m128 v;
-    int i;
-    char b;
-    void FUN_00e07d60(const S_00e07d60_Info& info);
-};
 namespace e083 {
 struct Alloc;
 struct Router
@@ -1242,14 +431,9 @@ struct PairArray
     int m_iElementCount;
     int m_iCapacityState;
 };
-struct SrcW
-{
-    PairArray* p;
-};
 }
 void __cdecl ResizeAudioStream(e083::Alloc* a, void* arr, int elemSize);
 static void FUN_00e08320(e083::PairArray* srcp, e083::PairArray* dst, int delta);
-void e08320_caller(e083::SrcW sw, e083::PairArray* dst, int delta);
 struct BvAllocator
 {
     virtual void v0();
@@ -1399,16 +583,7 @@ struct BvNode
     BvNode* m_fMinimumU;
     BvNode* m_fMaximumU;
 };
-struct BvRange
-{
-    bool m_valid;
-    int m_uiEdgeIndex;
-    int unk08;
-    int unk0c;
-    int unk10;
-};
-void __stdcall FUN_00e07c50(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
-void* __cdecl FUN_00cb1260(void*, const void*, int);
+void __stdcall hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
 static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source, int adjustment)
 {
     for (int i = 0; i < source->m_iElementCount; ++i)
@@ -1423,28 +598,6 @@ static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source
     }
 }
 static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, FUN_00e065f0* destination);
-struct BvBuilder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00e065f0* m_pStreamWriter;
-    BvTree* m_iValueAt40;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int m_info30;
-
-    void FUN_00e06c40(int offset, int count);
-    void FUN_00e08470(BvNode* node);
-    void FUN_00e07510(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, BvRange* range);
-    void FUN_00e07ca0(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, BvRange* range);
-    void FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, int depth, BvArray<int>* refs);
-};
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -1585,7 +738,7 @@ struct P154Tree
     P154Settings* settings;
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
     int scale30, scale34, scale38;
-    void FUN_00e07c50(P154Node*, P154Region*, P154Region*);
+    void hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(P154Node*, P154Region*, P154Region*);
     void FUN_00e07510(P154Node*, P154Region*, P154Region*, P154Result*);
     void FUN_00e07ca0(P154Node*, P154Region*, P154Region*, P154Result*);
     __forceinline int getCost(P154Array& a, int size)
@@ -1601,7 +754,6 @@ struct CodeCopySource : FUN_00e065f0
 {
 };
 static int FUN_00e08380(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
-int copy_code_caller(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct ObjectWriter
 {
@@ -1728,7 +880,7 @@ struct Tree : public FUN_00e09640_class
     virtual void vf08() throw();
     virtual void vf0c() throw();
     virtual void vf10() throw();
-    virtual void FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3);
+    virtual void hkpMoppDefaultAssembler_assemble(S_00e07da0_Node* node, int arg2, int arg3);
     virtual void vf18(S_00e07da0_Node* node, void* p) throw();
 
     int unk08;
@@ -1777,8 +929,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C"
 {
     __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_set_ps(float, float, float, float);
-    __m128 _mm_set_ps1(float);
     __m128 _mm_mul_ps(__m128, __m128);
     __m128 _mm_add_ps(__m128, __m128);
     __m128 _mm_add_ss(__m128, __m128);
@@ -1851,10 +1001,9 @@ union hkVector4Copy
     E078Quad m_q;
 };
 
-hkReal FUN_00cbfd80(hkReal f);
-int FUN_00cbfef0(hkReal f);
+hkReal hkMath_hkFloor(hkReal f);
+int hkMath_hkFloatToInt(hkReal f);
 int FUN_00cbfe20(hkReal f);
-extern "C" const double DAT_010ea5c0;
 
 struct QuantNode
 {
@@ -1918,12 +1067,12 @@ struct KdQuantizer
     int unk2c;
     hkVector4Unaligned m_vRayOrigins;
 
-    void FUN_00e07880(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut);
+    void hkpMoppDefaultAssembler_findPlanes(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut);
 };
 
 static __forceinline int toCell(hkReal scale, double x)
 {
-    return FUN_00cbfef0(FUN_00cbfd80(x * scale));
+    return hkMath_hkFloatToInt(hkMath_hkFloor(x * scale));
 }
 
 static __forceinline int clampIndex(int i)
@@ -1948,7 +1097,8 @@ extern int __cdecl FUN_00954c40(float);
 static __forceinline int QuantizeCellNative(float scale,double x) {
     return FUN_00954d20(FUN_00954ba0(float(x*scale)));
 }
-void KdQuantizer::FUN_00e07880(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut)
+// pdb: hkpMoppDefaultAssembler::findPlanes | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, uconst + bridge(uconst|uconst) + skyrim(uconst), high
+void KdQuantizer::hkpMoppDefaultAssembler_findPlanes(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut)
 {
     const hkReal* n = &node->m_vHitNormal->m_vComponents.m128_f32[0];
     int numNonZero;

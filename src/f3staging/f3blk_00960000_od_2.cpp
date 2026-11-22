@@ -165,6 +165,7 @@ __forceinline void hkVector4::setRotatedDir(const hkQuaternion& quat, const hkVe
 }
 
 // Rotates 'rotation' so that it no longer twists about twistAxis.
+// pdb: hkRemoveTwist | hkaPoseMatchingUtility.obj | tesv_win, call_seq, medium
 static void FUN_009604c0(const hkVector4& twistAxis, hkQuaternion& rotation)
 {
     hkVector4 perp;

@@ -26,116 +26,140 @@ extern int DAT_0116c49c;
 extern int DAT_0116f3e0;
 extern int DAT_011798b0;
 
+// pdb: TES::GetExteriorBufferSize | TES.obj | fnv360_0822_retail, call_gap, low
 int FUN_00433530()
 {
     return DAT_0106cb70;
 }
 
+// pdb: TESWaterSystem::GetWaterRoot | TESWater.obj | fnv360_0822_retail, call_gap, low
 int FUN_00494140()
 {
     return DAT_0106ff08;
 }
 
+// pdb: TESLevCharacter::GetMaxLevelDifference | TESLevCharacter.obj | fnv360_0822_retail, vtable, medium
 int FUN_004af1b0()
 {
     return DAT_00f4e534;
 }
 
-int FUN_00840c30()
+// pdb: NiImageConverter::GetImageConverter | NiImageConverter.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_seq) + skyrim(call_seq), high
+int NiImageConverter_GetImageConverter()
 {
     return DAT_0108f47c;
 }
 
+// pdb: D3DDevice_ReleaseThreadOwnership | device.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pDevice
 int FUN_0086a880()
 {
     return DAT_01090a4c;
 }
 
+// pdb: NiXenonRenderer::GetMaxFogValue | NiXenonRenderer.obj | fnv360_0822_retail, objrun_open, low
 int FUN_00871c90()
 {
     return DAT_01091728;
 }
 
+// pdb: GFxSpriteDef::GetResourceTypeCode | GFxSprite.obj | tesv_win, objrun_open, low
 int FUN_00932740()
 {
     return DAT_011693a0;
 }
 
+// pdb: hkServerProcessHandler::getProcessTag | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkRemoteObjectProcess::getProcessTag)
 int FUN_009ef240()
 {
     return DAT_011697d8;
 }
 
+// pdb: hkpVehicleViewer::getProcessTag | hkpVehicleViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f0610()
 {
     return DAT_011697e8;
 }
 
+// pdb: hkpSimulationIslandViewer::getProcessTag | hkpSimulationIslandViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f2260()
 {
     return DAT_011697f8;
 }
 
+// pdb: hkpToiContactPointViewer::getProcessTag | hkpToiContactPointViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f4b60()
 {
     return DAT_0116981c;
 }
 
+// pdb: hkpInactiveContactPointViewer::getProcessTag | hkpInactiveContactPointViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f51c0()
 {
     return DAT_01169820;
 }
 
+// pdb: hkpActiveContactPointViewer::getProcessTag | hkpActiveContactPointViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f5280()
 {
     return DAT_01169824;
 }
 
+// pdb: hkpConvexRadiusViewer::getProcessTag | hkpConvexRadiusViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f5ab0()
 {
     return DAT_01169828;
 }
 
+// pdb: hkpConstraintViewer::getProcessTag | hkpConstraintViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f6340()
 {
     return DAT_01169834;
 }
 
+// pdb: hkpRigidBodyCentreOfMassViewer::getProcessTag | hkpRigidBodyCentreOfMassViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_009f6a80()
 {
     return DAT_01169838;
 }
 
+// pdb: hkpMidphaseViewer::getProcessTag | hkpMidphaseViewer.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkpWorld::staticClass)
 int FUN_009f74b0()
 {
     return DAT_0116983c;
 }
 
+// pdb: hkpBroadphaseViewer::getProcessTag | hkpBroadphaseViewer.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkpWorldCinfo::staticClass)
 int FUN_009f7aa0()
 {
     return DAT_01169840;
 }
 
+// pdb: hkInspectProcess::getProcessTag | hkInspectProcess.obj | fnv360_0822_retail, vtable, medium
 int FUN_00a63be0()
 {
     return DAT_0116c494;
 }
 
+// pdb: hkStatisticsProcess::getProcessTag | hkStatisticsProcess.obj | fnv360_0822_retail, vtable, medium
 int FUN_00a644c0()
 {
     return DAT_0116c498;
 }
 
+// pdb: hkDebugDisplayProcess::getProcessTag | hkDebugDisplayProcess.obj | fnv360_0822_retail, vtable, medium
 int FUN_00a647e0()
 {
     return DAT_0116c49c;
 }
 
+// pdb: BSShaderManager::GetCurrentAccumulator | BSShaderManager.obj | fnv360_0822_retail, call_gap_sim, medium
 int FUN_00ad5a60()
 {
     return DAT_0116f3e0;
 }
 
+// pdb: std::locale::_Getgloballocale | locale0.obj | fnv360_0721_beta, objrun, low
 int FUN_00bff1d7()
 {
     return DAT_011798b0;

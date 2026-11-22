@@ -5,6 +5,8 @@
 void FUN_00def570();
 
 // @fnv 0x00df0680
+// pdb: hkBallSocketChainCinfo::GetViewerStrings | bhkBallSocketConstraintChain.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apStrings
 void __cdecl FUN_00df0680()
 {
     FUN_00def570();

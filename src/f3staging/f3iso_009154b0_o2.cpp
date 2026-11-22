@@ -90,6 +90,8 @@ extern const char DAT_010f32f8;
 extern const float DAT_00db7260;
 void* __cdecl FUN_007235f0(void* object);
 
+// pdb: bhkBlendController::DoHit | bhkBlendController.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, afTime, abQuad
 void __cdecl FUN_009154b0(S9154_Object* object, float middle, bool alternate)
 {
     if (!object)

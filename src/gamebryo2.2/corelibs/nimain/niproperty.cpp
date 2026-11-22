@@ -3,6 +3,8 @@
 #include "niproperty_decls.h"
 
 // @fnv 0x00a5d7f0
+// pdb: NiProperty::LoadBinary | NiProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 void NiProperty::LoadBinary(NiStream& stream)
 {
     NiObjectNET::LoadBinary(stream);
@@ -108,6 +110,8 @@ struct PropHack00a5d7c0
     void UpdateControllerChain(NiUpdateData& UpdateData);
 };
 // @fnv 0x00a5d7c0
+// pdb: NiProperty::Update | NiProperty.obj | fnv360_0822_retail, vtable, medium
+// pdb params: UpdateData
 void PropHack00a5d7c0::UpdateControllerChain(NiUpdateData& UpdateData)
 {
     NiTimeController* pkControl = m_pControllers;
@@ -149,6 +153,8 @@ extern char const* const g_011f4408_arg1;
 char* __cdecl _FUN_00a7d330(char const*);
 // Appends the string returned by _FUN_00a7d330(g_011f4408_arg1) to pkStrings, growing the array if it is full.
 // @fnv 0x00a5d850
+// pdb: NiSourceCubeMap::GetViewerStrings | NiSourceCubeMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void FUN_00a62a40_this::AppendString(StrArr* pkStrings)
 {
     FUN_00a5ca80(pkStrings);

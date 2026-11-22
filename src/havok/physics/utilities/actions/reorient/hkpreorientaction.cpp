@@ -123,6 +123,8 @@ __forceinline void* operator new(unsigned int uiSize, E445NewF3*)
     pkObj->m_usMemSizeAndFlags = (hkUint16)uiSize;
     return pkObj;
 }
+// pdb: hkpReorientAction::clone | hkpReorientAction.obj | fnv360_0822_retail, vtable, high
+// pdb params: newEntities, newPhantoms
 FUN_00e444f0* hkpReorientActionE445::Clone(const hkArrayE445<hkpEntity*>& newEntities,
                                            const hkArrayE445<hkpPhantom*>& newPhantoms) const
 {

@@ -2,6 +2,8 @@
 #include "nipixelformat_decls.h"
 
 // @fnv 0x00a76540
+// pdb: NiPixelFormat::operator== | NiXenonRenderState.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kOther
 bool NiPixelFormat::operator==(const NiPixelFormat& other) const
 {
     if (other.m_eFormat != m_eFormat ||
@@ -26,6 +28,8 @@ bool NiPixelFormat::operator==(const NiPixelFormat& other) const
 }
 
 // @fnv 0x00a765c0
+// pdb: NiPixelFormat::operator!= | NiXenonRenderer.obj | fnv360_0721_beta, call_seq, high
+// pdb params: kOther
 bool NiPixelFormat::operator!=(const NiPixelFormat& other) const
 {
     if (other.m_eFormat != m_eFormat ||
@@ -50,6 +54,8 @@ bool NiPixelFormat::operator!=(const NiPixelFormat& other) const
 }
 
 // @fnv 0x00a62230
+// pdb: NiPixelFormat::GetShift | NiTexture.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: eComp
 unsigned char NiPixelFormat::GetPixelBitData(Component component) const
 {
     unsigned char bits = 0;

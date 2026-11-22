@@ -14,6 +14,7 @@ class NiRTTI
 class NiGeometry;
 class NiBound;
 class NiTransform;
+class NiTimeController;
 class CloningProcess;
 class NiGeometryData;
 class NiCollisionObject
@@ -121,7 +122,7 @@ class NiObject
     virtual NiObject* Clone(CloningProcess& process);
     virtual void Slot19();
     virtual void Slot20();
-    virtual void Slot21();
+    virtual bool RegisterStreamables(NiStream& kStream);
     virtual void Slot22();
     virtual void Slot23();
     virtual void Slot24();
@@ -203,21 +204,29 @@ class NiProperty
 class NiPropertyState
 {
   public:
-    NiPointer<NiProperty> m_kProperties[8];
+    NiPointer<NiProperty> m_aspProps[7];  // src: FNV360_PDB +0x0 (old: m_kProperties)
     NiPropertyState& operator=(const NiPropertyState& other);
 };
 class NiPropertyNode
 {
   public:
-    NiPropertyNode* m_pkNext;
-    unsigned int m_uiPad;
-    NiPointer<NiProperty> m_pkProperty;
+    NiPropertyNode* m_pkNext;  // src: FNV360_PDB +0x0
+    NiPropertyNode* m_pkPrev;  // src: FNV360_PDB +0x4 (old: m_uiPad)
+    NiPointer<NiProperty> m_element;  // src: FNV360_PDB +0x8 (old: m_pkProperty)
     static NiPointer<NiProperty>& GetNext(NiPropertyNode*& pos)
     {
-        NiPointer<NiProperty>& value = pos->m_pkProperty;
+        NiPointer<NiProperty>& value = pos->m_element;
         pos = pos->m_pkNext;
         return value;
     }
+};
+// NiTPointerList<NiPointer<NiProperty> >: NiTListBase's head, tail and allocator count.
+template <class TItem> class NiTPointerList
+{
+  public:
+    TItem* m_pkHead;  // src: FNV360_PDB +0x0
+    TItem* m_pkTail;  // src: FNV360_PDB +0x4
+    unsigned int m_uiCount;  // src: FNV360_PDB +0x8 (m_kAllocator.m_uiCount)
 };
 extern unsigned int DAT_011f42a4;
 extern unsigned int DAT_011f42a0;
@@ -365,18 +374,26 @@ class NiAVObject
     void FUN_00a5ac90(NiAVObject*, CloningProcess&);
     void FUN_00a5abe0(NiAVObject*, void*, CloningProcess&);
     void AssignCollisionObject(NiCollisionObject*);
-    unsigned char m_pad18[0x14];
-    void* m_pParentNode;
+    unsigned int m_uiRefCount;  // src: FNV360_PDB +0x4 (old: m_pad18)
+    NiFixedString m_kName;  // src: FNV360_PDB +0x8 (old: m_pad18)
+    NiTimeController* m_spControllers;  // src: FNV360_PDB +0xC (old: m_pad18)
+    unsigned char unk10[0x8];
+    void* m_pkParent;  // src: FNV360_PDB +0x18 (old: m_pParentNode)
     NiPointer<NiCollisionObject> m_spCollisionObject;
-    NiBound* m_worldBound;
-    unsigned char m_kProperties[0xc];
-    unsigned int m_flags;
-    NiTransform m_kLocalTransform;
-    NiTransform m_worldTransform;
-    unsigned char m_uiContentCount[0x1c];
+    NiBound* m_kWorldBound;  // src: FNV360_PDB +0x20 (old: m_worldBound)
+    NiTPointerList<NiPropertyNode> m_kPropertyList;  // src: FNV360_PDB +0x24 (old: m_kProperties)
+    unsigned int m_uFlags;  // src: FNV360_PDB +0x30 (old: m_flags)
+    NiTransform m_kLocal;  // src: FNV360_PDB +0x34 (old: m_kLocalTransform)
+    NiTransform m_kWorld;  // src: FNV360_PDB +0x68 (old: m_worldTransform)
 };
 class NiGeometryData : public NiObject
 {
+  public:
+    unsigned short m_usVertices;  // src: FNV360_PDB +0x8
+    unsigned short m_usID;  // src: FNV360_PDB +0xA
+    unsigned short m_usDataFlags;  // src: FNV360_PDB +0xC
+    unsigned short m_usDirtyFlags;  // src: FNV360_PDB +0xE
+    NiBound m_kBound;  // src: FNV360_PDB +0x10
 };
 template <> NiPointer<NiAVObject>& NiPointer<NiAVObject>::operator=(NiAVObject*);
 class NiMemObject
@@ -510,37 +527,38 @@ struct NiGeometryProperties
 class NiGeometry : public NiAVObject
 {
   public:
-    NiPointer<NiGeometryData> m_spGeometryData;
-    NiPointer<NiObject> m_spSkinningInstance;
-    NiD3DShaderInterface* m_shader;
+    NiPropertyState m_PropertyState;  // src: FNV360_PDB +0x9C (old: NiAVObject::m_uiContentCount)
+    NiPointer<NiGeometryData> m_spModelData;  // src: FNV360_PDB +0xB8 (old: m_spGeometryData)
+    NiPointer<NiObject> m_spSkinInstance;  // src: FNV360_PDB +0xBC (old: m_spSkinningInstance)
+    NiD3DShaderInterface* m_spShader;  // src: FNV360_PDB +0xC0 (old: m_shader)
     void SetSelectiveUpdateFlags(bool&, bool, bool&);
     virtual void UpdateWorldBound();
     const NiBound& GetBoundingVolume() const
     {
-        if (m_worldBound)
-            return *m_worldBound;
+        if (m_kWorldBound)
+            return *m_kWorldBound;
         return DAT_011f4288;
     }
     bool GetFlag19() const
     {
-        return ((const NiFlags*)&m_flags)->GetBit(19);
+        return ((const NiFlags*)&m_uFlags)->GetBit(19);
     }
     bool GetFlag13() const
     {
-        return ((const NiFlags*)&m_flags)->GetBit(13);
+        return ((const NiFlags*)&m_uFlags)->GetBit(13);
     }
     bool GetFlag22() const
     {
-        return (m_flags >> 22) & 1;
+        return (m_uFlags >> 22) & 1;
     }
     void SetFlag22(bool value)
     {
-        unsigned int flags = m_flags;
+        unsigned int flags = m_uFlags;
         if (value)
             flags |= 0x400000;
         else
             flags &= ~0x400000;
-        m_flags = flags;
+        m_uFlags = flags;
     }
     NiGeometry* CopyMemberData();
     void UpdatePropertyControllers(NiGeometryProperties&);

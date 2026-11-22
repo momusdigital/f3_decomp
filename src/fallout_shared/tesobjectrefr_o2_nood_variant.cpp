@@ -4,13 +4,6 @@
 // to their real unit once identified.
 
 #include "tesobjectrefr_decls.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -82,9 +75,6 @@ class GlobalObjectO2_00a7b610
         return m_pcName;
     }
 };
-extern GlobalObjectO2_00a7b610 g_01268224;
-
-char* FUN_00a7d330(const char* pcText);
 
 struct NiPoint3
 {
@@ -113,41 +103,9 @@ struct hkRotation
 {
     hkVector4 m_kColumn0, m_kColumn1, m_kColumn2;
 };
-struct hkTransform
-{
-    hkRotation m_rotation;
-    hkVector4 m_vTranslation;
-};
 
 void FUN_00624b10(ThreeByThreeMatrix* pkOut, const hkRotation* pkIn);
 void FUN_00458620(NiPoint3* pkOut, const hkVector4* pkIn);
-
-class bhkViewerObject
-{
-  public:
-    void FUN_00c9f480(NiViewerStringsArray* pkStrings);
-    void FUN_00c9ec00(hkTransform& kTransform);
-    void FUN_00c9ed30(NiViewerStringsArray* pkStrings);
-};
-
-// @fnv 0x00c9ed30
-void bhkViewerObject::FUN_00c9ed30(NiViewerStringsArray* pkStrings)
-{
-    MemContextGuard kGuard(16);
-
-    FUN_00c9f480(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_01268224.GetName()));
-
-    hkTransform kTransform;
-    FUN_00c9ec00(kTransform);
-
-    NiTransform kNiTransform;
-    FUN_00624b10(&kNiTransform.m_kOrientation, &kTransform.m_rotation);
-    FUN_00458620(&kNiTransform.m_kTranslation, &kTransform.m_vTranslation);
-
-    pkStrings->Add(kNiTransform.m_kOrientation.ToString("Rot"));
-    pkStrings->Add(kNiTransform.m_kTranslation.FUN_00a59af0("Trans"));
-}
 
 namespace fnv_00cb3650 {
 struct FUN_00a5ecb0;
@@ -179,16 +137,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
     int m128_i32[4];
 } __m128;
 typedef __m128 Vec4;
-struct Rot
-{
-    Vec4 rows[3];
-    void FUN_00cb2d90(const void* src);
-};
-struct HavokTransform
-{
-    Rot basis;
-    Vec4 position;
-};
 extern volatile unsigned int DAT_0126fd98;
 struct StringHeader
 {
@@ -196,11 +144,8 @@ struct StringHeader
     unsigned int length;
 };
 extern StringHeader* DAT_0109b220;
-extern const char g_012683c8_arg0[];
 __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 StringHeader* __cdecl FUN_00a5b690(const char*);
-void* __cdecl FUN_00aa13e0(unsigned int);
-void __cdecl FUN_00aa1400(void*);
 void __cdecl FUN_00624b10(void*, void*);
 void __cdecl FUN_00458620(void*, void*);
 
@@ -273,81 +218,6 @@ struct FUN_00a5ecb0 : BSFadeNode
     void FUN_00a59c60(InitArgs&);
     void AssignFixedString(const FixedString&);
 };
-struct ArgObj
-{
-    virtual void d00();
-    virtual void d01();
-    virtual void d02();
-    virtual void d03();
-    virtual void d04();
-    virtual void d05();
-    virtual void d06();
-    virtual void d07();
-    virtual void d08();
-    virtual void d09();
-    virtual void d10();
-    virtual void d11();
-    virtual void d12();
-    virtual void d13();
-    virtual void d14();
-    virtual void d15();
-    virtual void d16();
-    virtual void d17();
-    virtual void d18();
-    virtual void d19();
-    virtual void d20();
-    virtual void d21();
-    virtual void d22();
-    virtual void d23();
-    virtual void d24();
-    virtual void d25();
-    virtual void d26();
-    virtual void d27();
-    virtual void d28();
-    virtual void d29();
-    virtual void d30();
-    virtual void d31();
-    virtual void d32();
-    virtual void d33();
-    virtual void d34();
-    virtual void d35();
-    virtual void d36();
-    virtual void d37();
-    virtual void d38();
-    virtual void d39();
-    virtual void d40();
-    virtual void d41();
-    virtual void d42();
-    virtual void d43();
-    virtual void d44();
-    virtual void d45();
-    virtual void d46();
-    virtual void d47();
-    virtual void d48();
-    virtual void d49();
-    virtual void d50();
-    virtual void d51();
-    virtual void d52();
-    virtual void d53();
-    virtual void d54();
-    virtual void Vdc(Body*, int);
-    int f4;
-    void* f8;
-};
-struct Owner
-{
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    Vec4 rotation;
-    Vec4 vec30;
-    void FUN_00c8d2f0(Body*);
-    void FUN_00cb3650(ArgObj* arg);
-};
 
 static __forceinline Body* NewNode()
 {
@@ -356,44 +226,6 @@ static __forceinline Body* NewNode()
 static __forceinline void SetNameStr(Body* b, const char* s)
 {
     b->AssignFixedString(FixedString(s));
-}
-// @fnv 0x00cb3650
-void Owner::FUN_00cb3650(ArgObj* arg)
-{
-    TlsScope scope(0x10);
-    Body* body = 0;
-    if (arg)
-    {
-        if (arg->f8 == 0)
-            body = (Body*)arg;
-        else
-        {
-            body = new Body(0);
-            arg->Vdc(body, 1);
-            InitArgs ia;
-            ia.time = 0.0f;
-            ia.flag0 = 0;
-            ia.flag1 = 0;
-            ia.flag2 = 0;
-            ia.flag3 = 0;
-            ia.flag4 = 0;
-            body->FUN_00a59c60(ia);
-        }
-    }
-    else
-        body = new Body(0);
-    {
-        body->AssignFixedString(FixedString(g_012683c8_arg0));
-        HavokTransform hk;
-        hk.basis.FUN_00cb2d90(&rotation);
-        hk.position = vec30;
-        NiTransform t;
-        FUN_00624b10(&t.m_kOrientation, &hk.basis);
-        FUN_00458620(&t.m_kTranslation, &hk.position);
-        body->f34 = t.m_kOrientation;
-        body->position = t.m_kTranslation;
-        FUN_00c8d2f0(body);
-    }
 }
 }  // namespace fnv_00cb3650
 
@@ -432,6 +264,8 @@ struct FUN_00c9f830_Pair {
     __m128 v1;
 };
 
+// pdb: bhkAabbPhantom::CopyCinfo | bhkAabbPhantom.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arInfo
 void Obj_00c9f830::FUN_00c9f830(Arg_00c9f830* arg)
 {
     reinterpret_cast<FUN_008f9940_Stand*>(this)->FUN_008f9940(arg);
@@ -452,62 +286,16 @@ void Obj_00c9f830::FUN_00c9f830(Arg_00c9f830* arg)
 }
 
 
-extern __m128 DAT_01267e30;
-extern __m128 DAT_010c71b0;
-
-void __stdcall FUN_00cb31a0_sub_a(__m128* p);
-
-struct FUN_00cb31a0_cls
-{
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
-    __m128 m_20;
-    __m128 m_30;
-    __m128 m_40;
-
-    void Sub_b(__m128* p);
-    void Sub_c(FUN_00cb31a0_cls* p);
-    void FUN_00cb31a0(FUN_00cb31a0_cls* src);
-};
-
-// @fnv 0x00cb31a0
-void FUN_00cb31a0_cls::FUN_00cb31a0(FUN_00cb31a0_cls* src)
-{
-    m_30 = src->m_30;
-    m_20 = src->m_40;
-    src->m_30 = DAT_01267e30;
-    src->m_40 = DAT_010c71b0;
-    FUN_00cb31a0_sub_a(&src->m_30);
-    Sub_b(&src->m_40);
-    Sub_c(src);
-}
-
 struct Sub
 {
     unsigned int m_00;
 };
 struct Arg;
 
-struct Cls
-{
-    char pad[0x20];
-    Sub m_20;
-    void FUN_00c8d130(__m128* out);
-    Arg* FUN_00cb3200(Arg* arg);
-};
-
 struct Arg
 {
     void FUN_00c74ac0(__m128* out, Sub* sub);
 };
-
-// @fnv 0x00cb3200
-Arg* Cls::FUN_00cb3200(Arg* arg)
-{
-    __m128 buf;
-    FUN_00c8d130(&buf);
-    arg->FUN_00c74ac0(&buf, &m_20);
-    return arg;
-}
 
 struct S00cb3250_Query
 {
@@ -519,7 +307,7 @@ class S00cb3250_Object
 {
   public:
     void FUN_00c8d1a0(S00cb3250_Query* pQuery);
-    void FUN_00cb3250(int iArg);
+    void bhkRigidBodyT_SetRotation(int iArg);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -532,100 +320,13 @@ class S00cb3250_Object
 };
 
 // @f3 0x00925880 (community match, verified in this file)
-void S00cb3250_Object::FUN_00cb3250(int iArg)
+// pdb: bhkRigidBodyT::SetRotation | bhkRigidBodyT.obj | fnv360_0822_retail, objrun + skyrim(objrun_open), high
+void S00cb3250_Object::bhkRigidBodyT_SetRotation(int iArg)
 {
     S00cb3250_Query kQuery(iArg, &m_kOwner);
     FUN_00c8d1a0(&kQuery);
 }
 
-
-struct RotationResult
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    __m128 translation;
-    void FUN_00cb2d90(const __m128*);
-};
-struct ShapeFrame
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6c();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7c();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8c();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual void v9c();
-    virtual void va0();
-    virtual void va4();
-    virtual void va8();
-    virtual void vac();
-    virtual void vb0();
-    virtual void vb4();
-    virtual void vb8();
-    virtual void vbc();
-    virtual void vc0();
-    virtual void vc4();
-    virtual void vc8();
-    virtual void vcc();
-    virtual void vd0();
-    virtual void GetTranslation(__m128*);
-    virtual void GetRotation(__m128*);
-    RotationResult* FUN_00cb3310(RotationResult*);
-};
-// @fnv 0x00cb3310
-RotationResult* ShapeFrame::FUN_00cb3310(RotationResult* result)
-{
-    __m128 rotation;
-    GetTranslation(&result->translation);
-    GetRotation(&rotation);
-    result->FUN_00cb2d90(&rotation);
-    return result;
-}
-
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 extern unsigned long DAT_0126fd98;
 
@@ -851,19 +552,6 @@ struct F9_Mat
     void FUN_00cb2fc0();
 };
 
-struct F9_Arg
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    float m[16];
-};
-
 struct F9_Obj
 {
     int unk00;
@@ -972,75 +660,6 @@ struct F9_Obj
     {}
 };
 
-struct F9_Owner
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void add(F9_Obj* o);
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void post(F9_Arg* a);
-    void FUN_00c9f050(F9_Arg* arg);
-};
-
-// @fnv 0x00c9f050
-void F9_Owner::FUN_00c9f050(F9_Arg* arg)
-{
-    F9_Scope scope;
-    F9_Mat mat;
-    mat.c0 = _mm_setr_ps(arg->m[0], arg->m[1], arg->m[2], arg->m[3]);
-    mat.c1 = _mm_setr_ps(arg->m[4], arg->m[5], arg->m[6], arg->m[7]);
-    mat.c2 = _mm_setr_ps(arg->m[8], arg->m[9], arg->m[10], arg->m[11]);
-    mat.c3 = _mm_setr_ps(arg->m[12], arg->m[13], arg->m[14], arg->m[15]);
-    mat.FUN_00cb2fc0();
-    F9_Obj* o = new F9_Obj(arg->unk04, &mat, arg->unk00);
-    add(o);
-    o->FUN_00c905b0();
-    post(arg);
-}
-
 class NiGlobalStringTable
 {
   public:
@@ -1058,533 +677,8 @@ class NiFixedString
     ~NiFixedString();
 };
 
-class NiAVObject
-{
-  public:
-    void SetName(const NiFixedString& kName);
-};
-
-class NiNode
-{
-  public:
-    virtual void v000();
-    virtual void v004();
-    virtual void v008();
-    virtual void v00C();
-    virtual void v010();
-    virtual void v014();
-    virtual void v018();
-    virtual void v01C();
-    virtual void v020();
-    virtual void v024();
-    virtual void v028();
-    virtual void v02C();
-    virtual void v030();
-    virtual void v034();
-    virtual void v038();
-    virtual void v03C();
-    virtual void v040();
-    virtual void v044();
-    virtual void v048();
-    virtual void v04C();
-    virtual void v050();
-    virtual void v054();
-    virtual void v058();
-    virtual void v05C();
-    virtual void v060();
-    virtual void v064();
-    virtual void v068();
-    virtual void v06C();
-    virtual void v070();
-    virtual void v074();
-    virtual void v078();
-    virtual void v07C();
-    virtual void v080();
-    virtual void v084();
-    virtual void v088();
-    virtual void v08C();
-    virtual void v090();
-    virtual void v094();
-    virtual void v098();
-    virtual void v09C();
-    virtual void v0A0();
-    virtual void v0A4();
-    virtual void v0A8();
-    virtual void v0AC();
-    virtual void v0B0();
-    virtual void v0B4();
-    virtual void v0B8();
-    virtual void v0BC();
-    virtual void v0C0();
-    virtual void v0C4();
-    virtual void v0C8();
-    virtual void v0CC();
-    virtual void v0D0();
-    virtual void v0D4();
-    virtual void v0D8();
-    virtual void AttachChildInAvailableSlot(NiAVObject* pkChild, bool abFirstAvailableSlot);
-};
-
-struct PositionSource
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4 m_vContactPosition;
-};
-
-extern const char str_010c40a0[];
-NiAVObject* __cdecl FUN_00c55920(const NiPoint3* pkPosition, int iFlags);
-
-struct PositionOwner
-{
-    int unk00;
-    int unk04;
-    PositionSource* m_pkSource;
-    void FUN_00ca02b0(NiNode* pkParent, int iUnused);
-};
-
-// @fnv 0x00ca02b0
-void PositionOwner::FUN_00ca02b0(NiNode* pkParent, int iUnused)
-{
-    MemContextGuard kGuard(16);
-    hkVector4 kPosition;
-    kPosition.m_vComponents = (this && m_pkSource) ? m_pkSource->m_vContactPosition.m_vComponents : DAT_01267e30;
-    NiPoint3 kPoint;
-    FUN_00458620(&kPoint, &kPosition);
-    kPoint.x *= 2.0;
-    kPoint.y *= 2.0;
-    kPoint.z *= 2.0;
-    NiAVObject* pkMarker = FUN_00c55920(&kPoint, 0);
-    if (pkMarker)
-    {
-        static NiFixedString kName(str_010c40a0);
-        pkMarker->SetName(kName);
-        pkParent->AttachChildInAvailableSlot(pkMarker, true);
-    }
-}
-
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_setzero_ps();
-
-struct Vec16Helper
-{
-    void FUN_00c7f700(char* a, void* b);
-};
-
-struct Obj08
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    __m128 m_20;
-    void FUN_00cac920(__m128* v);
-    void FUN_00cac110();
-};
-
-struct Obj570
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-};
-
-struct Obj594
-{
-    int unk00;
-    int unk04;
-    char* m_08;
-};
-
-class MotionObject
-{
-  public:
-    int unk0000;
-    int unk0004;
-    Obj08* m_08;
-    int unk000C;
-    int unk0010;
-    int unk0014;
-    int unk0018;
-    int unk001C;
-    int unk0020;
-    int unk0024;
-    int unk0028;
-    int unk002C;
-    int unk0030;
-    int unk0034;
-    int unk0038;
-    int unk003C;
-    int unk0040;
-    int unk0044;
-    int unk0048;
-    int unk004C;
-    int unk0050;
-    int unk0054;
-    int unk0058;
-    int unk005C;
-    int unk0060;
-    int unk0064;
-    int unk0068;
-    int unk006C;
-    int unk0070;
-    int unk0074;
-    int unk0078;
-    int unk007C;
-    int unk0080;
-    int unk0084;
-    int unk0088;
-    int unk008C;
-    int unk0090;
-    int unk0094;
-    int unk0098;
-    int unk009C;
-    int unk00A0;
-    int unk00A4;
-    int unk00A8;
-    int unk00AC;
-    int unk00B0;
-    int unk00B4;
-    int unk00B8;
-    int unk00BC;
-    int unk00C0;
-    int unk00C4;
-    int unk00C8;
-    int unk00CC;
-    int unk00D0;
-    int unk00D4;
-    int unk00D8;
-    int unk00DC;
-    int unk00E0;
-    int unk00E4;
-    int unk00E8;
-    int unk00EC;
-    int unk00F0;
-    int unk00F4;
-    int unk00F8;
-    int unk00FC;
-    int unk0100;
-    int unk0104;
-    int unk0108;
-    int unk010C;
-    int unk0110;
-    int unk0114;
-    int unk0118;
-    int unk011C;
-    int unk0120;
-    int unk0124;
-    int unk0128;
-    int unk012C;
-    int unk0130;
-    int unk0134;
-    int unk0138;
-    int unk013C;
-    int unk0140;
-    int unk0144;
-    int unk0148;
-    int unk014C;
-    int unk0150;
-    int unk0154;
-    int unk0158;
-    int unk015C;
-    int unk0160;
-    int unk0164;
-    int unk0168;
-    int unk016C;
-    int unk0170;
-    int unk0174;
-    int unk0178;
-    int unk017C;
-    int unk0180;
-    int unk0184;
-    int unk0188;
-    int unk018C;
-    int unk0190;
-    int unk0194;
-    int unk0198;
-    int unk019C;
-    int unk01A0;
-    int unk01A4;
-    int unk01A8;
-    int unk01AC;
-    int unk01B0;
-    int unk01B4;
-    int unk01B8;
-    int unk01BC;
-    int unk01C0;
-    int unk01C4;
-    int unk01C8;
-    int unk01CC;
-    int unk01D0;
-    int unk01D4;
-    int unk01D8;
-    int unk01DC;
-    int unk01E0;
-    int unk01E4;
-    int unk01E8;
-    int unk01EC;
-    int unk01F0;
-    int unk01F4;
-    int unk01F8;
-    int unk01FC;
-    int unk0200;
-    int unk0204;
-    int unk0208;
-    int unk020C;
-    int unk0210;
-    int unk0214;
-    int unk0218;
-    int unk021C;
-    int unk0220;
-    int unk0224;
-    int unk0228;
-    int unk022C;
-    int unk0230;
-    int unk0234;
-    int unk0238;
-    int unk023C;
-    int unk0240;
-    int unk0244;
-    int unk0248;
-    int unk024C;
-    int unk0250;
-    int unk0254;
-    int unk0258;
-    int unk025C;
-    int unk0260;
-    int unk0264;
-    int unk0268;
-    int unk026C;
-    int unk0270;
-    int unk0274;
-    int unk0278;
-    int unk027C;
-    int unk0280;
-    int unk0284;
-    int unk0288;
-    int unk028C;
-    int unk0290;
-    int unk0294;
-    int unk0298;
-    int unk029C;
-    int unk02A0;
-    int unk02A4;
-    int unk02A8;
-    int unk02AC;
-    int unk02B0;
-    int unk02B4;
-    int unk02B8;
-    int unk02BC;
-    int unk02C0;
-    int unk02C4;
-    int unk02C8;
-    int unk02CC;
-    int unk02D0;
-    int unk02D4;
-    int unk02D8;
-    int unk02DC;
-    int unk02E0;
-    int unk02E4;
-    int unk02E8;
-    int unk02EC;
-    int unk02F0;
-    int unk02F4;
-    int unk02F8;
-    int unk02FC;
-    int unk0300;
-    int unk0304;
-    int unk0308;
-    int unk030C;
-    int unk0310;
-    int unk0314;
-    int unk0318;
-    int unk031C;
-    int unk0320;
-    int unk0324;
-    int unk0328;
-    int unk032C;
-    int unk0330;
-    int unk0334;
-    int unk0338;
-    int unk033C;
-    int unk0340;
-    int unk0344;
-    int unk0348;
-    int unk034C;
-    int unk0350;
-    int unk0354;
-    int unk0358;
-    int unk035C;
-    int unk0360;
-    int unk0364;
-    int unk0368;
-    int unk036C;
-    int unk0370;
-    int unk0374;
-    int unk0378;
-    int unk037C;
-    int unk0380;
-    int unk0384;
-    int unk0388;
-    int unk038C;
-    int unk0390;
-    int unk0394;
-    int unk0398;
-    int unk039C;
-    int unk03A0;
-    int unk03A4;
-    int unk03A8;
-    int unk03AC;
-    int unk03B0;
-    int unk03B4;
-    int unk03B8;
-    int unk03BC;
-    int unk03C0;
-    int unk03C4;
-    int unk03C8;
-    int unk03CC;
-    int unk03D0;
-    int unk03D4;
-    int unk03D8;
-    int unk03DC;
-    int unk03E0;
-    int unk03E4;
-    int unk03E8;
-    int unk03EC;
-    int unk03F0;
-    int unk03F4;
-    int unk03F8;
-    int unk03FC;
-    int unk0400;
-    int unk0404;
-    int unk0408;
-    int unk040C;
-    int unk0410;
-    int unk0414;
-    int unk0418;
-    int unk041C;
-    int unk0420;
-    int unk0424;
-    int unk0428;
-    int unk042C;
-    int unk0430;
-    int unk0434;
-    int unk0438;
-    int unk043C;
-    int unk0440;
-    int unk0444;
-    int unk0448;
-    int unk044C;
-    int unk0450;
-    int unk0454;
-    int unk0458;
-    int unk045C;
-    int unk0460;
-    int unk0464;
-    int unk0468;
-    int unk046C;
-    int unk0470;
-    int unk0474;
-    int unk0478;
-    int unk047C;
-    int unk0480;
-    int unk0484;
-    int unk0488;
-    int unk048C;
-    int unk0490;
-    int unk0494;
-    int unk0498;
-    int unk049C;
-    int unk04A0;
-    int unk04A4;
-    int unk04A8;
-    int unk04AC;
-    int unk04B0;
-    int unk04B4;
-    int unk04B8;
-    int unk04BC;
-    int unk04C0;
-    int unk04C4;
-    int unk04C8;
-    int unk04CC;
-    int unk04D0;
-    int unk04D4;
-    int unk04D8;
-    int unk04DC;
-    int unk04E0;
-    int unk04E4;
-    int unk04E8;
-    int unk04EC;
-    int unk04F0;
-    int unk04F4;
-    int unk04F8;
-    int unk04FC;
-    int unk0500;
-    int unk0504;
-    int unk0508;
-    int unk050C;
-    int unk0510;
-    int unk0514;
-    int unk0518;
-    int unk051C;
-    int unk0520;
-    int unk0524;
-    int unk0528;
-    int unk052C;
-    int unk0530;
-    int unk0534;
-    int unk0538;
-    int unk053C;
-    int unk0540;
-    int unk0544;
-    int unk0548;
-    int unk054C;
-    int unk0550;
-    int unk0554;
-    int unk0558;
-    int unk055C;
-    int unk0560;
-    int unk0564;
-    int unk0568;
-    int unk056C;
-    Obj570 m_570;
-    Obj594* m_594;
-    void FUN_00cac110();
-    void FUN_00c6e390(__m128* v);
-};
-
-// @fnv 0x00c6e390
-void MotionObject::FUN_00c6e390(__m128* v)
-{
-    __m128 t;
-    char* base = (m_594 != 0) ? (char*)m_594->m_08 : (char*)0;
-    ((Vec16Helper*)&t)->FUN_00c7f700(base + 0xb0, (char*)&m_570);
-    __m128 s = _mm_add_ps(*v, t);
-    Obj08* object = m_08;
-    if (object != 0)
-    {
-        FUN_00cac110();
-        object->FUN_00cac920(&s);
-        object->m_20 = _mm_setzero_ps();
-        FUN_00cac110();
-    }
-}
 
 extern "C" __m128 _mm_setzero_ps(void);
 
@@ -1822,28 +916,6 @@ struct C9FA20_Data
         m_30 = _mm_setzero_ps();
     }
 };
-struct C9FA20_Owner
-{
-    int unk00;
-    int unk04;
-    int m_08;
-    C9FA20_Data* m_pData;
-    void FUN_00c9f830(C9FA20_Data* data);
-    C9FA20_Data* FUN_00c9fa20(bool* created);
-};
-// @fnv 0x00c9fa20
-C9FA20_Data* C9FA20_Owner::FUN_00c9fa20(bool* created)
-{
-    C9FA20_TlsGuard guard;
-    *created = m_pData == 0;
-    if (*created)
-    {
-        m_pData = new C9FA20_Data;
-        if (m_08)
-            FUN_00c9f830(m_pData);
-    }
-    return m_pData;
-}
 
 namespace N {
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -1946,104 +1018,6 @@ __forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat
     setAdd4(ret, ret);
 }
 
-struct PhantomDataDAD
-{
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int m_unk0C;
-    int m_unk10;
-    int m_unk14;
-    int m_unk18;
-    int m_unk1C;
-    int m_unk20;
-    int m_unk24;
-    int m_unk28;
-    int m_unk2C;
-    hkVector4DAD m_v30;
-    hkVector4DAD m_v40;
-};
-
-class BhkWrapperBaseDAD
-{
-  public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6c();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7c();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8c();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual void v9c();
-    virtual void va0();
-    virtual void ReleaseData(int iToken);
-    virtual void va8();
-    virtual void vac();
-    virtual void vb0();
-    virtual PhantomDataDAD* GetData(int* piToken);
-
-    int m_unk04;
-    int m_unk08;
-    int m_unk0C;
-    int m_unk10;
-    int m_unk14;
-    int m_unk18;
-    int m_unk1C;
-};
-
-class BhkWrapperDAD : public BhkWrapperBaseDAD
-{
-  public:
-    void FUN_00c8d960(int a);
-    void FUN_00cb3150(int a);
-
-    hkVector4DAD m_v20;
-    hkVector4DAD m_v30;
-};
-
-// @fnv 0x00cb3150
-void BhkWrapperDAD::FUN_00cb3150(int a)
-{
-    int iToken;
-    PhantomDataDAD* pkData = GetData(&iToken);
-    pkData->m_v30 = m_v30;
-    pkData->m_v40 = m_v20;
-    FUN_00c8d960(a);
-    ReleaseData(iToken);
-}
-
 namespace center_of_mass {
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
@@ -2057,108 +1031,6 @@ class OffsetVector : public hkVector4
     }
 };
 
-struct WorldObject
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6C;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7C;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8C;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9C;
-    unsigned int unkA0;
-    unsigned int unkA4;
-    unsigned int unkA8;
-    unsigned int unkAC;
-    unsigned int unkB0;
-    unsigned int unkB4;
-    unsigned int unkB8;
-    unsigned int unkBC;
-    unsigned int unkC0;
-    unsigned int unkC4;
-    unsigned int unkC8;
-    unsigned int unkCC;
-    unsigned int unkD0;
-    unsigned int unkD4;
-    unsigned int unkD8;
-    unsigned int unkDC;
-    unsigned int unkE0;
-    unsigned int unkE4;
-    unsigned int unkE8;
-    unsigned int unkEC;
-    hkRotation rotation;
-};
-
-class PositionBase
-{
-  public:
-    virtual ~PositionBase();
-    unsigned int unk04;
-    WorldObject* worldObject;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-};
-
-class Position : public PositionBase
-{
-  public:
-    OffsetVector& GetVec(OffsetVector& out);
-    OffsetVector& FUN_00cb32a0(OffsetVector& out);
-    hkVector4 localTranslation;
-};
-
-// @fnv 0x00cb32a0
-OffsetVector& Position::FUN_00cb32a0(OffsetVector& out)
-{
-    GetVec(out);
-    if (this && worldObject)
-    {
-        OffsetVector offset;
-        offset.FUN_00c7f750(worldObject->rotation, localTranslation);
-        out.setSub4(out, offset);
-    }
-    return out;
-}
 }
 
 namespace position_cb3 {
@@ -2172,10 +1044,8 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 
 extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
 extern __m128 DAT_010c44d0;
 extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
 
 class hkQuaternionCB3;
 
@@ -2272,23 +1142,6 @@ class hkQuaternionCB3
     }
 };
 
-__forceinline void hkVector4CB3::SetRotatedDirection(const hkQuaternionCB3& quat, const hkVector4CB3& direction)
-{
-    hkVector4CB3 qreal;
-    qreal.m_vComponents = position_cb3::_mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, 0xFF);
-    hkVector4CB3 q2minus1;
-    q2minus1.setMul4(qreal, qreal);
-    q2minus1.m_vComponents = position_cb3::_mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
-    hkVector4CB3 ret;
-    ret.setMul4(direction, q2minus1);
-    __m128 imagDotDir = quat.m_vec.dot3(direction);
-    ret.addMul4(imagDotDir, quat.m_vec);
-    hkVector4CB3 imagCrossDir;
-    imagCrossDir.setCross(quat.m_vec, direction);
-    ret.addMul4(imagCrossDir, qreal);
-    setAdd4(ret, ret);
-}
-
 __forceinline void hkVector4CB3::setRotatedInverseDir(const hkQuaternionCB3& quat, const hkVector4CB3& direction)
 {
     hkVector4CB3 qreal;
@@ -2306,103 +1159,4 @@ __forceinline void hkVector4CB3::setRotatedInverseDir(const hkQuaternionCB3& qua
     setAdd4(ret, ret);
 }
 
-extern const hkVector4CB3 g_vZeroCB3;
-
-class hkReferencedObjectCB3
-{
-  public:
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1c();
-    virtual void vf20();
-    virtual void vf24();
-    virtual void vf28();
-    virtual void vf2c();
-    virtual void vf30();
-    virtual void vf34();
-    virtual void vf38();
-    virtual void vf3c();
-    virtual void vf40();
-    virtual void vf44();
-    virtual void vf48();
-    virtual void vf4c();
-    virtual void vf50();
-    virtual void vf54();
-    virtual void vf58();
-    virtual void vf5c();
-    virtual void vf60();
-    virtual void vf64();
-    virtual void vf68();
-    virtual void vf6c();
-    virtual void vf70();
-    virtual void vf74();
-    virtual void vf78();
-    virtual void vf7c();
-    virtual void vf80();
-    virtual void vf84();
-    virtual void vf88();
-    virtual void vf8c();
-    virtual void vf90();
-    virtual void vf94();
-    virtual void vf98();
-    virtual void vf9c();
-    virtual void vfa0();
-    virtual void vfa4();
-    virtual void vfa8();
-    virtual void vfac();
-    virtual void vfb0();
-    virtual void vfb4();
-    virtual void vfb8();
-    virtual void vfbc();
-    virtual void vfc0();
-    virtual void vfc4();
-    virtual void vfc8();
-    virtual void vfcc();
-    virtual void vfd0();
-    virtual void vfd4();
-    virtual void getRotation(hkQuaternionCB3& kRotationOut) const;
-
-    int unk04;
-    void* m_pOwningWorld;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-};
-
-class hkpEntityCB3 : public hkReferencedObjectCB3
-{
-  public:
-    hkVector4CB3 m_vCenterOfMassLocal;
-
-    void getPosition(hkVector4CB3& kPositionOut) const;
-    hkVector4CB3& FUN_00cb3370(hkVector4CB3& kOut) const;
-};
-
-// @fnv 0x00cb3370
-hkVector4CB3& hkpEntityCB3::FUN_00cb3370(hkVector4CB3& kOut) const
-{
-    if (this && m_pOwningWorld)
-    {
-        hkQuaternionCB3 kRotationBasis;
-        getRotation(kRotationBasis);
-        hkVector4CB3 kIntersectionOffset;
-        kIntersectionOffset.SetRotatedDirection(kRotationBasis, m_vCenterOfMassLocal);
-        getPosition(kOut);
-        kOut.m_vComponents = position_cb3::_mm_sub_ps(kOut.m_vComponents, kIntersectionOffset.m_vComponents);
-        return kOut;
-    }
-    kOut = g_vZeroCB3;
-    return kOut;
-}
 }

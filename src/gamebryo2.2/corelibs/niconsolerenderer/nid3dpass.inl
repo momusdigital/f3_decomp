@@ -62,6 +62,8 @@ extern ObjectPool<D3DRenderStateGroup, NiTNewInterface<D3DRenderStateGroup> >* D
 extern ObjectPool<D3DRenderStateGroup::NiD3DRenderStateEntry, NiTNewInterface<D3DRenderStateGroup::NiD3DRenderStateEntry> >* DAT_0126f71c;
 
 // @fnv 0x00e7f6b0
+// pdb: NiD3DRenderStateGroup::ReleaseRenderStateGroup | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkGroup
 void D3DRenderStateGroup::ReleaseRenderStateGroup(D3DRenderStateGroup* group)
 {
     if (!group)

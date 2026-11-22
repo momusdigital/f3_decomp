@@ -23,51 +23,71 @@ extern const char DAT_00e947e8;
 struct S_00bd0750 { bool __thiscall FUN_00aa5580(char*, unsigned int, const char*); bool __thiscall FUN_00bd0750(char*, unsigned int); };
 extern const char DAT_00ea8594;
 
+// pdb: QueuedModel::GetDescription | ModelLoader.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDescription, aiBufferSize
 bool S_004243f0::FUN_004243f0(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00db77a4);
 }
 
+// pdb: QueuedTreeBillboard::GetDescription | ModelLoader.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: QueuedHelmet::PostProcess)
+// pdb params: apDescription, aiBufferSize
 bool S_004244a0::FUN_004244a0(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00db77ac);
 }
 
+// pdb: QueuedTreeModel::GetDescription | ModelLoader.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDescription, aiBufferSize
 bool S_004244f0::FUN_004244f0(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00db77bc);
 }
 
+// pdb: QueuedKF::GetDescription | ModelLoader.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDescription, aiBufferSize
 bool S_00424510::FUN_00424510(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00db77f8);
 }
 
+// pdb: QueuedAnimIdle::GetDescription | ModelLoader.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDescription, aiBufferSize
 bool S_00424530::FUN_00424530(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00db77fc);
 }
 
+// pdb: QueuedReplacementKF::GetDescription | ModelLoader.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDescription, aiBufferSize
 bool S_00424550::FUN_00424550(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00db7808);
 }
 
+// pdb: SkyTask::GetDescription | SkyTextureManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDescription, aiBufferSize
 bool S_0057e8e0::FUN_0057e8e0(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00de7fb4);
 }
 
+// pdb: LipTask::GetDescription | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDescription, aiBufferSize
 bool S_00748e00::FUN_00748e00(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00e15c9c);
 }
 
+// pdb: GrassLoadTask::GetDescription | TallGrassShaderProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apDescription, aiBufferSize
 bool S_00ade3a0::FUN_00ade3a0(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00e947e8);
 }
 
+// pdb: AudioLoadTask::GetDescription | BSAudioManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apDescription, aiBufferSize
 bool S_00bd0750::FUN_00bd0750(char* a, unsigned int b)
 {
     return this->FUN_00aa5580(a, b, &DAT_00ea8594);

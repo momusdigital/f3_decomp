@@ -44,6 +44,8 @@ struct FUN_00b60640 : QBase
 };
 
 // @fnv 0x00b60640
+// pdb: GrassLoadTask::GrassLoadTask | TallGrassShaderProperty.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apName
 FUN_00b60640::FUN_00b60640(char const* filename) : QBase(2)
 {
     FUN_00c3cee0(filename);

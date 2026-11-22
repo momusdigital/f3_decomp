@@ -90,7 +90,7 @@ void S00cb2550_caller(S00cb2550_Quat* q, const S00cb2550_Rot& r);
 __declspec(align(16)) struct FUN_00cb2450_cls
 {
     __m128 m_00;
-    void FUN_00cb2450(__m128* v, float a1);
+    void hkQuaternion_setAxisAngle(__m128* v, float a1);
 };
 struct LFrame
 {
@@ -104,7 +104,8 @@ struct LFrame
 static inline float QuatSin9240d0(float r) { return (float)sin(r); }
 static inline float QuatCos9240d0(float r) { return (float)cos(r); }
 
-void FUN_00cb2450_cls::FUN_00cb2450(__m128* v, float a1)
+// pdb: hkQuaternion::setAxisAngle | hkQuaternion.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void FUN_00cb2450_cls::hkQuaternion_setAxisAngle(__m128* v, float a1)
 {
     float halfAngle = a1 * 0.5;
     float s = QuatSin9240d0(halfAngle);

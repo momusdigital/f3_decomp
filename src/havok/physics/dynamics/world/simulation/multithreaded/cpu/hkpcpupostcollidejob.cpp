@@ -94,6 +94,8 @@ struct TlsObject
 // Accumulates shape data into a shared Accum under a lock, logs timing events, and optionally calls a target class method.
 // @f3 0x00a22490 (community match, verified in this file)
 int __stdcall FUN_00a21830(Worker*, Caller*, Caller*, Worker**, int);
+// pdb: hkCpuPostCollideJob | hkpCpuPostCollideJob.obj | fnv360_0822_retail, ustr, high
+// pdb params: tl, jobQueue, nextJobOut
 int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCaller)
 {
     TlsObject* tls = (TlsObject*)tlsGetValue();

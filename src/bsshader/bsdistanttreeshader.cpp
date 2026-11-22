@@ -5,6 +5,8 @@
 extern int g_012007bc;
 
 // @fnv 0x00bb6490
+// pdb: NiD3DShaderProgram::SetCode | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: uiSize, pvCode
 int* __cdecl FUN_00bb6490()
 {
     return &g_012007bc;
@@ -22,6 +24,7 @@ struct Unknown_00bb62b0
 };
 // Stores m_6c or m_70 into DAT_0126f74c based on a, then replaces the GPU program pointer at offset 0x28 with m_80.
 // @fnv 0x00bb62b0
+// pdb: BSDistantTreeShader::ClearPassStages | BSDistantTreeShader.obj | fnv360_0721_beta, objrun, medium
 NiPointer_NiGPUProgram_& Unknown_00bb62b0::FUN_00bb62b0(int a)
 {
     switch (a)
@@ -47,6 +50,8 @@ struct S_00bb6b60_b
     S_00bb6b60_a* m_C;
 };
 // @fnv 0x00bb6b60
+// pdb: BSDistantTreeShader::PostGeometry | BSDistantTreeShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void __stdcall FUN_00bb6b60(S_00bb6b60_b* p)
 {
     S_00bb6b60_a* pFlagHolder = p->m_C;
@@ -62,6 +67,8 @@ struct Struct00bb6e00
 };
 // Calls FUN_00bb6300, then deletes this with size 0xfc when flags has bit 0 set, and returns this.
 // @fnv 0x00bb6e00
+// pdb: NiPointLight::LoadBinary | NiPointLight.obj | fnv360_0822_debug, objrun, medium
+// pdb params: stream
 void* Struct00bb6e00::FUN_00bb6e00(unsigned int flags)
 {
     FUN_00bb6300();
@@ -121,6 +128,7 @@ struct ShPtr
 };
 
 // @fnv 0x00bb6060
+// pdb: BSDistantTreeShader::LoadShaders | BSDistantTreeShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bb6060_shell::FUN_00bb6060()
 {
     char tempName[260];
@@ -223,6 +231,7 @@ struct FUN_00bb6300 : TreeShaderBase
 };
 // Releases the shader's pass, vertex, pixel and declaration references, frees the instances buffer, and clears the declaration pointer.
 // @fnv 0x00bb6300
+// pdb: BSDistantTreeShader::~BSDistantTreeShader | BSDistantTreeShader.obj | fnv360_0721_beta, objrun, medium
 FUN_00bb6300::~FUN_00bb6300()
 {
     for (unsigned int i = 0; i < 2; ++i)
@@ -347,6 +356,8 @@ struct BB6B90ParticleShader
 };
 
 // @fnv 0x00bb6b90
+// pdb: BSDistantTreeShader::SetupGeometryConstants_Instances | BSDistantTreeShader.obj | fnv360_0822_retail, uconst, low
+// pdb params: apState
 void BB6B90ParticleShader::CopyParticlesFromSource(BB6B90ParticleSource* source)
 {
     BB6B90ParticleData* data = source->m_pUserData;
@@ -462,6 +473,8 @@ struct FUN_00bb6c30 : public DTShaderBase
 
 // Initializes the shader: stores the declaration, sets a value to 25, and allocates the instance array sized by GetMaxCount().
 // @fnv 0x00bb6c30
+// pdb: BSDistantTreeShader::BSDistantTreeShader | BSDistantTreeShader.obj | fnv360_0822_retail, udata, high
+// pdb params: apDecl
 FUN_00bb6c30::FUN_00bb6c30(NiD3DVertexDeclaration* pDecl)
 {
     m_iPassId = 25;
@@ -667,6 +680,7 @@ struct FUN_00bb6c30
     void FUN_00bb64a0();
 };
 // @fnv 0x00bb6e30
+// pdb: BSShaderBloodSplatter::CreateShader | BSShaderBloodSplatter.obj | fnv360_0822_retail, call_gap, medium
 FUN_00bb6c30* CreateTreeShader()
 {
     TreeVertexDecl* declaration = FUN_00e76700(DAT_011f9508, 4, true);
@@ -1147,6 +1161,8 @@ struct ZTree
 };
 // Sets the tree's fog and ambient/directional light colors from the current fog, sky, or scene light, depending on DAT_011f91b8.
 // @fnv 0x00bb6700
+// pdb: BSDistantTreeShader::SetupPassConstants | BSDistantTreeShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: auiCurrentPass
 void ZTree::UpdateLighting(int arg)
 {
     ZFog* fog = FUN_00b55520(DAT_011f91c4);
@@ -1234,6 +1250,7 @@ struct This
 
 // Creates the two Obj instances if missing and, for the second, registers the WorldViewProjTranspose, fog, instances and light shader parameters.
 // @fnv 0x00bb6f40
+// pdb: BSDistantTreeShader::CreateConstantMaps | BSDistantTreeShader.obj | fnv360_0822_retail, ustr, medium
 void This::InitShaderParams()
 {
     if (this->m_30 == 0)
@@ -1340,6 +1357,7 @@ struct BSDistantTreeShaderPasses : public BSDistantTreeShader
 
 // Creates two D3D passes, configures a beam texture stage for each, and assigns the tree vertex and pixel shader variants to the pass data.
 // @fnv 0x00bb64a0
+// pdb: BSDistantTreeShader::LoadStagesAndPasses | BSDistantTreeShader.obj | fnv360_0822_debug, call_seq, low
 bool BSDistantTreeShaderPasses::FUN_00bb64a0()
 {
     NiD3DPass::CreateD3DPass(spRenderPass[0]);
@@ -1371,6 +1389,7 @@ struct FUN_00bb66b0
 };
 
 // @fnv 0x00bb66b0
+// pdb: TESLoadScreen::ClearData | TESLoadScreen.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void FUN_00bb66b0::Call()
 {
     FUN_00bb6060();

@@ -21,6 +21,8 @@ struct ShapeData
 
 // Resets the three fields, forwards each ref's value at offset 0x10 to FUN_00d738f0, then calls FUN_00d74a20 and returns this.
 // @fnv 0x00d74b20
+// pdb: _SharedShapeData::_SharedShapeData | hkpTransformCollapseUtil.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: rigidBodies
 ShapeData* ShapeData::FUN_00d74b20(ShapeRefArray* refs)
 {
     m_kPointA = 0;
@@ -41,6 +43,8 @@ struct FUN_00d74980_Class
 
 // Scans the refs array in groups of three and returns the third entry of the first group whose first or second entry equals value, otherwise 0.
 // @fnv 0x00d74980
+// pdb: hkMatrix4::operator() | hkMathUtil.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: r, c
 int FUN_00d74980_Class::FindMappedValue(int value)
 {
     for (int i = 0; i < count; ++i)
@@ -70,20 +74,6 @@ struct FUN_00d74420_Context
 };
 
 int FUN_00d739f0(int a1, int a2, FUN_00d74420_Context* ctx, int a3);
-
-// @fnv 0x00d74420
-int RunContextOperation(int aiArg1, int aiArg2, int aiArg3, int* piOut)
-{
-    FUN_00d74420_Context ctx;
-    ctx.m_kPointA = 0;
-    ctx.m_kPointB = 0;
-    ctx.m_iThirdValue = 0x80000000;
-    ctx.FUN_00d738f0(aiArg1);
-    ctx.FUN_00d74a20();
-    *piOut = FUN_00d739f0(aiArg1, aiArg2, &ctx, aiArg3);
-    ctx.FUN_00d74aa0();
-    return 0;
-}
 
 class hkMemoryAllocatorD748
 {
@@ -154,25 +144,11 @@ class hkpEntityD748;
 
 int __cdecl RemapCollisionShapes(hkArrayD748<hkpEntityD748*>& kEntities, int iA, int iB) throw();
 
-// Appends pkEntity to a local hkArrayD748 and forwards it with iA and iB to RemapCollisionShapes, returning its result.
-// @fnv 0x00d748d0
-int __cdecl FUN_00d748d0(hkpEntityD748* pkEntity, int iA, int iB) throw()
-{
-    hkArrayD748<hkpEntityD748*> kEntities;
-    kEntities.AddBack(pkEntity);
-    return RemapCollisionShapes(kEntities, iA, iB);
-}
-
 struct D749Entry
 {
     int m_key0;
     int m_uiFilterValue;
     int m_key1;
-};
-
-struct FUN_00c90510_Obj
-{
-    void FUN_00c90510();
 };
 
 struct hkReferencedObject
@@ -199,6 +175,8 @@ struct ShpObjA057 {
     int type;                           // [12]
 };
 
+// pdb: _SharedShapeData::findShapeDataIndex | hkpTransformCollapseUtil.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: shape
 int D749Table::SetEntryValue(int key, int value)
 {
     int i = 0;
@@ -286,49 +264,6 @@ struct Cache_d74480
     int count;
     int capacity;
     void SetEntryValue(Shp_d74480* source, Shp_d74480* replacement);
-};
-struct ChildInfo_d74480
-{
-    Shp_d74480* shape;
-    int unk04;
-    int unk08;
-    int unk0c;
-};
-struct Cont_d74480
-{
-    virtual void unk00();
-    virtual int count();
-    int unk04;
-};
-struct List_d74480 : Shp_d74480
-{
-    Cont_d74480 container;
-    ChildInfo_d74480* children;
-};
-struct Convex_d74480 : Shp_d74480
-{
-    float radius;
-    int unk14;
-    Shp_d74480* child;
-    int unk1c;
-    __m128 translation;
-};
-struct Xform_d74480 : Shp_d74480
-{
-    int unk10;
-    Shp_d74480* child;
-    int unk18;
-    int unk1c;
-    __m128 unk20;
-    __m128 transform;
-};
-extern int DAT_010d0e5c;
-extern __m128 DAT_010c4c10;
-struct Arr_d74480
-{
-    Shp_d74480** data;
-    int size;
-    int capacity;
 };
 Shp_d74480* __cdecl FUN_00d739f0(Shp_d74480*, void*, Cache_d74480*, void*);
 
@@ -788,6 +723,8 @@ hkReferencedObject* __cdecl ProcessShape(hkReferencedObject* shape, void* contex
 
 // Remaps each collision shape in refs via ProcessShape, storing results back into the entries and releasing the old references.
 // @f3 0x00a05580 (community match, verified in this file)
+// pdb: hkpTransformCollapseUtil::collapseTransforms | hkpTransformCollapseUtil.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: rigidBodies, options, resultsOut
 int __cdecl RemapCollisionShapes(hkShapeEntryArrayD748* refs, void* context, hkShapeOutputD748* out)
 {
     out->FUN_00d73400();
@@ -868,6 +805,7 @@ static __forceinline void PushBackShapeD737(hkArrayD748<const hkpShapeD737*>* a,
     a->m_iElementCount++;
 }
 
+// pdb: _getShapeChildren | hkpTransformCollapseUtil.obj | fnv360_0721_beta, objrun_prop, low
 static __declspec(noinline) void FUN_00d737d0(const hkpShapeD737* shape, hkArrayD748<const hkpShapeD737*>* out)
 {
     switch (shape->m_type)
@@ -1177,66 +1115,6 @@ struct hkpTransformShape : hkpShape
         return m_kMotionTransform;
     }
 };
-
-// Applies a transform to a shape, collapsing identity results to the child shape or creating a new transform/convex shape wrapper.
-// @fnv 0x00d73590
-const hkpShape* __cdecl FUN_00d73590(const hkpShape* shape, const hkTransform& transform) throw()
-{
-    if (transform.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
-    {
-        shape->FUN_00c90510();
-        return shape;
-    }
-
-    switch (shape->getType())
-    {
-    case HK_SHAPE_TRANSFORM: {
-        const hkpTransformShape* pTransformShape = static_cast<const hkpTransformShape*>(shape);
-        hkTransform combined;
-        combined.SetProduct(transform, pTransformShape->getTransform());
-        if (combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
-        {
-            const hkpShape* child = pTransformShape->GetShapeForKey();
-            child->FUN_00c90510();
-            return child;
-        }
-        return new hkpTransformShape(pTransformShape->GetShapeForKey(), combined);
-    }
-    case HK_SHAPE_CONVEX_TRANSFORM: {
-        const hkpConvexTransformShape* cts = static_cast<const hkpConvexTransformShape*>(shape);
-        hkTransform combined;
-        combined.SetProduct(transform, cts->getTransform());
-        if (combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
-        {
-            const hkpShape* child = cts->GetShapeForKey();
-            child->FUN_00c90510();
-            return child;
-        }
-        return new hkpConvexTransformShape(cts->GetShapeForKey(), combined);
-    }
-    case HK_SHAPE_CONVEX_TRANSLATE: {
-        if (transform.getRotation().IsEqualWithinTolerance(hkTransform::GetIdentityTransform().getRotation(), 0.001f))
-        {
-            const hkpConvexTranslateShape* cts = static_cast<const hkpConvexTranslateShape*>(shape);
-            hkTransform local;
-            local.getRotation().setIdentity();
-            local.setTranslation(cts->getTranslation());
-            hkTransform combined;
-            combined.SetProduct(transform, local);
-            if (combined.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f))
-            {
-                const hkpShape* child = cts->GetShapeForKey();
-                child->FUN_00c90510();
-                return child;
-            }
-            return new hkpConvexTranslateShape(cts->GetShapeForKey(), cts->getTranslation());
-        }
-        break;
-    }
-    }
-
-    return new hkpTransformShape(shape, transform);
-}
 
 template <class T> class hkArrayD74
 {

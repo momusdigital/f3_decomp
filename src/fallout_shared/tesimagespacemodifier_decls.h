@@ -260,7 +260,7 @@ class ImageSpaceManager
     void RaiseBlurRadius(float);
     void FUN_00b8afb0(float);
     void FUN_00b8af40(float);
-    void FUN_00b8af90(float);
+    void ImageSpaceManager_ApplyMotionBlurStrengthParamModifierWeather(float);
     void AddDoubleVision(float);
     void SetRadialBlurParameters(float, float, float, float, float, const NiPoint2&);
     void FUN_00b8b760(float, float, float, float, float, const NiBound&);

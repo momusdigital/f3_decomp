@@ -2,16 +2,6 @@
 // src/gamebryo2.2/corelibs/nianimation/nirotdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nirotdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct NiRTTI;
-
-extern const NiRTTI g_011f3f50;
-
-// @fnv 0x00a48150
-const NiRTTI* __cdecl FUN_00a48150()
-{
-    return &g_011f3f50;
-}
-
 class AnimationKey
 {
   public:
@@ -40,6 +30,8 @@ extern void(__cdecl* DAT_011f38d0[])(TimedRotationKey*);
 
 // Releases the current key array, then stores the new key pointer, count and interpolation type, or clears them when no keys are given.
 // @fnv 0x00a48220
+// pdb: NiRotData::ReplaceAnim | NiRotData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void NiRotData::FUN_00a48220(TimedRotationKey* pkKeys, unsigned int uiNumKeys, AnimationKey::KeyType eInterpType)
 {
     if (m_pKeyArray)
@@ -74,6 +66,7 @@ struct Struct00a47ba0
     void* FUN_00a47ba0(unsigned int);
 };
 // @fnv 0x00a47ba0
+// pdb: NiTArray<unsigned int,NiTMallocInterface<unsigned int> >::`scalar deleting destructor' | TESFile.obj | fnv360_0822_retail, vtable, medium
 void* Struct00a47ba0::FUN_00a47ba0(unsigned int auiFlags)
 {
     void* p = _4;
@@ -101,6 +94,7 @@ struct StandIn
     void* FUN_00a481e0(unsigned int);
 };
 // @fnv 0x00a481e0
+// pdb: NiRotData::`scalar deleting destructor' | NiRotData.obj | fnv360_0822_retail, objopen_prop, high
 void* StandIn::FUN_00a481e0(unsigned int auiFlags)
 {
     TimedRotationKey* pk = m_pKeyArray;
@@ -126,6 +120,7 @@ struct TimedRotationKey
 
 // Reads the rotation key data stored at offset 0x40 of the NiRotData and writes its key, count, key size and key array to the output pointers, or zeros if absent.
 // @fnv 0x00a49d00
+// pdb: NiPathController::GetPathData | NiPathController.obj | tesv_win, call_seq, medium
 void __fastcall GetRotKeyData(NiRotData* pThis, int, TimedRotationKey** ppkKeysOut, int* piKeyOut, int* piCountOut,
                               unsigned char* pKeySize)
 {
@@ -207,6 +202,8 @@ struct SelfStub
 };
 // Calls FUN_00b702b0 with the given arguments, then invokes v52 on the same char pointer.
 // @fnv 0x00b665d0
+// pdb: BSShaderPPLightingProperty::CopyMembers | BSShaderPPLightingProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pDest, arCloneData
 void SelfStub::FUN_00b665d0(char* a, void* b)
 {
     FUN_00b702b0(a, b);
@@ -272,6 +269,8 @@ struct S00b66600
 void __fastcall FUN_00b70290(S00b66600*, int, int);
 // Calls FUN_00b70290 with the two int arguments, then invokes the virtual method v52 on the object with the second argument.
 // @fnv 0x00b66600
+// pdb: BSShaderPPLightingProperty::IsEqual | BSShaderPPLightingProperty.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: pkObject
 void __fastcall FUN_00b66600(S00b66600* p, int aiFirst, int aiSecond)
 {
     FUN_00b70290(p, aiFirst, aiSecond);
@@ -291,11 +290,12 @@ struct FUN_00a48160_shell
     TimedRotationKey* m_pKeyArray;
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
-    bool FUN_00a48160(void* pkObject);
+    bool NiRotData_IsEqual(void* pkObject);
 };
 
 // @fnv 0x00a48160
-bool FUN_00a48160_shell::FUN_00a48160(void* pkObject)
+// pdb: NiRotData::IsEqual | NiRotData.obj | fnv360_0822_retail, objrun_open + bridge(vtable|objopen_prop) + skyrim(udata), high
+bool FUN_00a48160_shell::NiRotData_IsEqual(void* pkObject)
 {
     FUN_00a48160_shell* pkData = (FUN_00a48160_shell*)pkObject;
     if (!((A46BB0Object*)this)->IsEqual((A46BB0Object*)pkObject))
@@ -316,56 +316,6 @@ bool FUN_00a48160_shell::FUN_00a48160(void* pkObject)
             return false;
     }
     return true;
-}
-
-struct StrArr
-{
-    unsigned char _00[8];
-    unsigned short m_uiCapacity;
-    unsigned short m_uiSize;
-    unsigned char _0C[2];
-    unsigned short m_uiGrowSize;
-
-    void SetSize(unsigned int uiSize);
-    void SetAt(unsigned int uiIndex, char*& rString);
-};
-
-struct NiRTTIAccess
-{
-    void* m_pIntegerData;
-};
-
-void* __cdecl _FUN_00a7d330(void* pObject);
-char* __cdecl FUN_00a7d510(char const* pName, unsigned int uiValue);
-void __stdcall AppendCameraPathEntries(StrArr* apViewerStrings);
-
-struct FUN_00a484c0_shell
-{
-    void* _00[2];
-    unsigned int m_uiNumKeys;
-
-    void AppendNumKeysToStringArray(StrArr* apViewerStrings);
-};
-
-// @fnv 0x00a484c0
-void FUN_00a484c0_shell::AppendNumKeysToStringArray(StrArr* apViewerStrings)
-{
-    AppendCameraPathEntries(apViewerStrings);
-
-    char* pString =
-        static_cast<char*>(_FUN_00a7d330(reinterpret_cast<const NiRTTIAccess*>(&g_011f3f50)->m_pIntegerData));
-
-    unsigned int uiSize = apViewerStrings->m_uiSize;
-    if (uiSize >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(uiSize + apViewerStrings->m_uiGrowSize);
-    apViewerStrings->SetAt(uiSize, pString);
-
-    pString = FUN_00a7d510("m_uiNumKeys", m_uiNumKeys);
-
-    uiSize = apViewerStrings->m_uiSize;
-    if (uiSize >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(uiSize + apViewerStrings->m_uiGrowSize);
-    apViewerStrings->SetAt(uiSize, pString);
 }
 
 struct FUN_00b66620_cls
@@ -889,6 +839,8 @@ struct RotDataLink_cls : public NiObject2
 
 // Loads the object header, key count, request type, and key array from the stream using the key link function table.
 // @fnv 0x00a48440
+// pdb: NiRotData::SaveBinary | NiRotData.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: kStream
 void RotDataLink_cls::FUN_00a48440(NiStream2& kStream)
 {
     NiObject2::FUN_00a89af0(kStream);
@@ -916,21 +868,23 @@ struct A48280Obj
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
 
-    void FUN_00a5d510(A48280Obj** pObject);
+    void NiObject_CreateDeepCopy(A48280Obj** pObject);
     void FUN_00a48220(TimedRotationKey* pkKeys, unsigned int uiNumKeys, AnimationKey::KeyType eType);
     void CopyTo(float fTime, float fDuration, A48280Obj** ppRival);
 };
 
-void __cdecl FUN_00a3d630(int a1, int a2, void* a3, unsigned int a4, float a5, float a6, TimedRotationKey** a7,
+void __cdecl NiAnimationKey_CopySequence(int a1, int a2, void* a3, unsigned int a4, float a5, float a6, TimedRotationKey** a7,
                           unsigned int* a8);
 
 // Obtains an object, fills its keys using the current key data and time arguments, then assigns it to ppRival with reference counting.
 // @fnv 0x00a48280
+// pdb: NiRotData::GetSequenceData | NiRotData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fStartTime, fEndTime, aspRotData
 void A48280Obj::CopyTo(float fTime, float fDuration, A48280Obj** ppRival)
 {
     A48280Obj* pNew = 0;
 
-    FUN_00a5d510(&pNew);
+    NiObject_CreateDeepCopy(&pNew);
 
     A48280Obj* pCopy = pNew;
     if (pCopy != 0)
@@ -940,7 +894,7 @@ void A48280Obj::CopyTo(float fTime, float fDuration, A48280Obj** ppRival)
     {
         TimedRotationKey* pKeys = 0;
         unsigned int uiNumKeys = 0;
-        FUN_00a3d630(2, m_eRequestType, m_pKeyArray, m_uiNumKeys, fTime, fDuration, &pKeys, &uiNumKeys);
+        NiAnimationKey_CopySequence(2, m_eRequestType, m_pKeyArray, m_uiNumKeys, fTime, fDuration, &pKeys, &uiNumKeys);
         pCopy->FUN_00a48220(pKeys, uiNumKeys, (AnimationKey::KeyType)m_eRequestType);
     }
 

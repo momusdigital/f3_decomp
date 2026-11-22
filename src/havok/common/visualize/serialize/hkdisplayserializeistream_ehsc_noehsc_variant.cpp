@@ -52,7 +52,7 @@ struct FUN_00ddacd0_shell
 {
     void __thiscall FUN_00dd8fe0(void* output, int elementSize, int count);
     void __thiscall FUN_00ddac60(void* output);
-    void __thiscall FUN_00ddac00(void* output);
+    void __thiscall hkDisplaySerializeIStream_readTriangle(void* output);
     void __thiscall FUN_00ddacd0(ArrayPair* arrays);
 };
 struct AudioAllocator
@@ -392,6 +392,8 @@ struct StreamS
     float readFloat() { float f; FUN_00a60ca0(&f,4,1); return f; }
     void FUN_00a62ad0(DisplayS*& out);
 };
+// pdb: hkDisplaySerializeIStream::readDisplayGeometry | hkDisplaySerializeIStream.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dg
 void hkDisplaySerializeIStreamQ::FUN_00ddada0(hkDisplayGeometryQ*& geometry)
 {
     StreamS* self=(StreamS*)this;

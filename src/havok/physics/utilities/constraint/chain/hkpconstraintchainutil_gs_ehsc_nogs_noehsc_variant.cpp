@@ -92,7 +92,7 @@ struct XfScene_cls
     int unk34;
     char** m_38;
     int m_3c;
-    void AddReferencedObject(XfScene_cls* other);
+    void hkpConstraintChainInstance_addEntity(XfScene_cls* other);
 };
 static char* XfSelectRec(char* rec)
 {
@@ -102,7 +102,7 @@ static char* XfSelectRec(char* rec)
     }
     return 0;
 }
-void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3);
+void hkpConstraintChainUtil_addConstraintToBallSocketChain(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3);
 // FUN_00e5b8f0: __cdecl, 317 bytes
 // Two 16-byte keys are filled by FUN_00e5ad40; the sorted-list tail is compared against
 // the owner's keys; the matching branch hands a 32-byte pair to a sub-object or holder.
@@ -165,7 +165,7 @@ struct ListB
     unsigned int unk34;
     unsigned int* m_38;
     unsigned int m_3c;
-    void AddReferencedObject(unsigned int key);
+    void hkpConstraintChainInstance_addEntity(unsigned int key);
     void FUN_00e5c460(unsigned int key);
 };
 int FUN_00e5ad40(KeyOwnerA* a, Tmp16* p, Tmp16* q);
@@ -391,7 +391,7 @@ struct FUN_00dd0530 : Edge
     {
         return allocateObject(size);
     }
-    void AddReferencedObject(Node*);
+    void hkpConstraintChainInstance_addEntity(Node*);
 };
 
 struct Stream
@@ -561,10 +561,10 @@ struct ResultF3 : Edge {
 struct FUN_00a50bd0 : ResultF3 {
  FUN_00a50bd0(FUN_00e3b8f0*);
 };
-struct ChainF3 { void __thiscall FUN_00a715a0(const ScalarV4*,const ScalarV4*,const ScalarV4*,Body*,Body*,Body*); };
+struct ChainF3 { void __thiscall hkpPoweredChainData_addConstraintInfoInBodySpace(const ScalarV4*,const ScalarV4*,const ScalarV4*,Body*,Body*,Body*); };
 struct StreamF3 { int unk00,unk04,unk08; void __thiscall FUN_00923070(void*,int); void __thiscall FUN_00943710(const char*); void __thiscall FUN_00943a60(); };
-int __cdecl FUN_00a908d0(const Edge*,ScalarV4&,ScalarV4&);
-void __cdecl FUN_00a90a10(const void*,Body*&,Body*&,Body*&);
+int __cdecl hkpConstraintUtils_getConstraintPivots(const Edge*,ScalarV4&,ScalarV4&);
+void __cdecl hkpConstraintUtils_getConstraintMotors(const void*,Body*&,Body*&,Body*&);
 __forceinline void RefObject::FUN_00c905b0() const {
  RefObject* self=const_cast<RefObject*>(this);
  if(self->sizeFlags) { --reinterpret_cast<short&>(self->refs); if(!self->refs) delete self; }
@@ -580,7 +580,8 @@ __declspec(noinline) void ScalarV4::FUN_008db720(const ScalarV4* a,const ScalarV
  x-=scale*a->x; y-=scale*a->y; z-=scale*a->z; w-=scale*a->w;
  w=a->x*b->x+b->y*a->y+a->z*b->z+a->w*b->w;
 }
-FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
+// pdb: hkpConstraintChainUtil::buildPoweredChain | hkpConstraintChainUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+FUN_00dd0530* __cdecl hkpConstraintChainUtil_buildPoweredChain(Edges& edges, ByteFlag clone)
 {
     TLSF3 get=FUN_00d9b080;
     FUN_00e3b8f0* chain = ::new(objectF3(0x40,get)) FUN_00e3b8f0;
@@ -604,7 +605,7 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
         };
         ScalarV4 first;
         ScalarV4 second;
-        if (FUN_00a908d0(edges[i], first, second) == 1)
+        if (hkpConstraintUtils_getConstraintPivots(edges[i], first, second) == 1)
         {
             validationStream.FUN_00923070(buffer, 512);
             validationStream.FUN_00943710(str_00e88ca0);
@@ -630,7 +631,7 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
         }
         ScalarV4 rotation;
         rotation.FUN_008db720(&((ScalarNode*)edges[i]->getA())->position, &((ScalarNode*)edges[i]->getB())->position);
-        FUN_00a90a10(edges[i]->data, a, b, c);
+        hkpConstraintUtils_getConstraintMotors(edges[i]->data, a, b, c);
         if (!a)
         {
             StreamF3 validationStream;
@@ -652,7 +653,7 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
             b = b->v0c();
             c = c->v0c();
         }
-        ((ChainF3*)chain)->FUN_00a715a0(&first, &second, &rotation, a, b, c);
+        ((ChainF3*)chain)->hkpPoweredChainData_addConstraintInfoInBodySpace(&first, &second, &rotation, a, b, c);
         if (edges[i]->getA() == result->nodes.back())
         {
             chain->records[chain->count - 1].reversed = 1;
@@ -1000,7 +1001,7 @@ struct S5ba30_ConstraintInstance
     }
 };
 
-void __cdecl CollectConnectedNodesAndEdges(const S5ba30_Array<S5ba30_ConstraintInstance*>& allConstraints,
+void __cdecl hkpConstraintChainUtil_getAdjointEntities(const S5ba30_Array<S5ba30_ConstraintInstance*>& allConstraints,
                                            const S5ba30_Entity* entity, S5ba30_Array<S5ba30_Entity*>& entitiesOut,
                                            S5ba30_Array<S5ba30_ConstraintInstance*>& constraintsOut);
 
@@ -1104,7 +1105,8 @@ static __forceinline void initializeSeed(OldArray<S5ba30_EntityInfo>& records, i
     records[index].m_pHavokConstraint=0;
     records[index].m_fClosestPointDistanceSquared=0;
 }
-S5ba30_Result __cdecl FUN_00e5ba30(const S5ba30_Array<S5ba30_ConstraintInstance*>& allConstraints,
+// pdb: hkpConstraintChainUtil::findConstraintLinkBetweenEntities | hkpConstraintChainUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+S5ba30_Result __cdecl hkpConstraintChainUtil_findConstraintLinkBetweenEntities(const S5ba30_Array<S5ba30_ConstraintInstance*>& allConstraints,
                                    S5ba30_Entity* entityA, S5ba30_Entity* entityB,
                                    S5ba30_Array<S5ba30_Entity*>& entitiesOut,
                                    S5ba30_Array<S5ba30_ConstraintInstance*>& constraintsOut)
@@ -1181,7 +1183,7 @@ S5ba30_Result __cdecl FUN_00e5ba30(const S5ba30_Array<S5ba30_ConstraintInstance*
 
         adjEntities.clear();
         adjConstraints.clear();
-        CollectConnectedNodesAndEdges(allConstraints, entity, reinterpret_cast<S5ba30_Array<S5ba30_Entity*>&>(adjEntities), reinterpret_cast<S5ba30_Array<S5ba30_ConstraintInstance*>&>(adjConstraints));
+        hkpConstraintChainUtil_getAdjointEntities(allConstraints, entity, reinterpret_cast<S5ba30_Array<S5ba30_Entity*>&>(adjEntities), reinterpret_cast<S5ba30_Array<S5ba30_ConstraintInstance*>&>(adjConstraints));
 
         for (int a = 0; a < adjEntities.GetLogicalSize() && !done; a++)
         {

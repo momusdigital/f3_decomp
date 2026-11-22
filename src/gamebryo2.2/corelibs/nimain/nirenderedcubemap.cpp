@@ -8,6 +8,7 @@ struct FUN_00ee8220_shell
 };
 
 // @fnv 0x00ee8220
+// pdb: NiRenderedCubeMap::GetWidth | NiRenderedCubeMap.obj | fnv360_0822_retail, objrun_open, low
 void* __thiscall FUN_00ee8220_shell::FUN_00ee8220()
 {
     void* p = *(void**)(this + 0x4C);
@@ -20,18 +21,11 @@ struct FUN_00ee8230_shell
 };
 
 // @fnv 0x00ee8230
+// pdb: NiRenderedCubeMap::GetHeight | NiRenderedCubeMap.obj | fnv360_0822_retail, objrun_open, low
 int __thiscall FUN_00ee8230_shell::FUN_00ee8230()
 {
     int* p = *(int**)((char*)this + 0x4c);
     return *(int*)((char*)p + 0xc);
-}
-
-extern "C" void* DAT_012708e4;
-
-// @fnv 0x00ee82a0
-void* __cdecl FUN_00ee82a0()
-{
-    return &DAT_012708e4;
 }
 
 void __cdecl operator delete(void* p, size_t size);
@@ -47,6 +41,7 @@ struct NiRenderedCubeMap_shell : NiRenderedCubeMap
 };
 // Calls FUN_00ee82b0, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00ee8440
+// pdb: NiPSysBoxEmitter::`scalar deleting destructor' | NiPSysBoxEmitter.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall NiRenderedCubeMap_shell::FUN_00ee8440(unsigned int flags)
 {
     FUN_00ee82b0();
@@ -109,6 +104,7 @@ struct FUN_00ee8240 : Mid_ee8240
 };
 // Constructor for FUN_00ee8240 that sets the vtable pointer and zero-initializes m_i4C through m_i60 plus m_i48.
 // @fnv 0x00ee8240
+// pdb: NiRenderedCubeMap::NiRenderedCubeMap | NiRenderedCubeMap.obj | fnv360_0822_retail, call_gap, high
 FUN_00ee8240::FUN_00ee8240() throw()
 {
     m_pVtbl = &DAT_0110102c;
@@ -156,11 +152,12 @@ struct Obj
     Ref* ref60;
     Ref* end64;
     void FUN_00ee82b0();
-    void FUN_00a5f800();
+    void NiTexture_RemoveTextureFromList();
     void DestroyFogProperty();
 };
-// Releases the six Ref pointers and item24, resets the vtable to DAT_0109b944, then calls FUN_00a5f800 and DestroyFogProperty.
+// Releases the six Ref pointers and item24, resets the vtable to DAT_0109b944, then calls NiTexture_RemoveTextureFromList and DestroyFogProperty.
 // @fnv 0x00ee82b0
+// pdb: NiRenderedTexture::~NiRenderedTexture | NiRenderedTexture.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiRenderedCubeMap::~NiRenderedCubeMap)
 void Obj::FUN_00ee82b0()
 {
     Ref** next = &end64;
@@ -178,7 +175,7 @@ void Obj::FUN_00ee82b0()
     *(int*)this = (int)&DAT_0109b944;
     if (item24)
         delete item24;
-    FUN_00a5f800();
+    NiTexture_RemoveTextureFromList();
     DestroyFogProperty();
 }
 
@@ -264,7 +261,7 @@ struct S_00ee8330_CubeMap
     int unk48;
     S_00ee8330_Ptr<S_00ee8330_Buffer> m_kFaceBuffers[6];
 
-    static S_00ee8330_CubeMap* FUN_00ee8330(unsigned int uiSize, S_00ee8330_Renderer* pkRenderer,
+    static S_00ee8330_CubeMap* NiRenderedCubeMap_Create(unsigned int uiSize, S_00ee8330_Renderer* pkRenderer,
                                             S_00ee8330_FormatPrefs& kPrefs);
 };
 
@@ -357,7 +354,8 @@ struct S_00ee8330_Renderer
 
 // Allocates a cube map, creates six face buffers, copies three globals into fields, and calls the renderer to create renderer data.
 // @fnv 0x00ee8330
-S_00ee8330_CubeMap* S_00ee8330_CubeMap::FUN_00ee8330(unsigned int uiFaceSize, S_00ee8330_Renderer* pkRenderer,
+// pdb: NiRenderedCubeMap::Create | NiRenderedCubeMap.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_seq) + skyrim(caller_sim), high
+S_00ee8330_CubeMap* S_00ee8330_CubeMap::NiRenderedCubeMap_Create(unsigned int uiFaceSize, S_00ee8330_Renderer* pkRenderer,
                                                      S_00ee8330_FormatPrefs& kPrefs)
 {
     if (!pkRenderer || !S_00ee8330_IsPowerOf2(uiFaceSize))

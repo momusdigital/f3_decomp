@@ -23,6 +23,7 @@ BSShader* VolumetricFogShader::CreateShader()
 }
 
 // @fnv 0x00bc5a80
+// pdb: VolumetricFogShader::CreateConstantMaps | VolumetricFogShader.obj | fnv360_0822_retail, ustr, medium
 void VolumetricFogShader::UpdateShaderConstants()
 {
     if (!m_spFirstShaderConstantMap.m_pObject)

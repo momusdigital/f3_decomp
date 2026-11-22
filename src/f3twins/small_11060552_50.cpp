@@ -90,6 +90,7 @@ void FUN_00d84d40()
 struct V_00d84dd0 { float x, y, z, w; };
 extern V_00d84dd0 DAT_01176e90[];
 
+// pdb: `dynamic initializer for 'ISQRT_ADDITIVE_CONSTANT'' | Lighting30Shader.obj | fnv360_0822_debug, objrun_open, low
 void FUN_00d84dd0()
 {
     V_00d84dd0* p = DAT_01176e90;
@@ -126,6 +127,7 @@ void FUN_00d84e00()
 extern char DAT_01067b4e;
 extern char DAT_01177d70;
 
+// pdb: `dynamic initializer for 'VolumetricFogShader::bUseSinglePass'' | VolumetricFogShader.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00d85050()
 {
     DAT_01177d70 = DAT_01067b4e;
@@ -136,6 +138,7 @@ struct V4 { float a, b, c, d; };
 
 extern V4 DAT_01177de8[16];
 
+// pdb: `dynamic initializer for 'BSShaderNoLighting::pFogPropA'' | BSShaderNoLighting.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d850a0()
 {
     V4* p = DAT_01177de8;

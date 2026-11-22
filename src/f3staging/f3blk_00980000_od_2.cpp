@@ -247,7 +247,7 @@ struct __declspec(align(16)) hkpWorld
     int unk174, unk178, unk17c, unk180, unk184, unk188, unk18c;
     hkpWorldDynamicsStepInfo m_dynamicsStepInfo;
 
-    void FUN_009023e0();
+    void hkpWorld_checkDeterminism();
 };
 
 struct __declspec(align(16)) hkpIntegrateJob
@@ -275,7 +275,7 @@ struct hkJobQueue
     int unk20, unk24, unk28, unk2c;
 
     void FUN_00a21500(int numJobs);
-    void FUN_00a216a0(const hkpIntegrateJob& job, int priority, int affinity);  // addJob
+    void hkJobQueue_addJob(const hkpIntegrateJob& job, int priority, int affinity);  // addJob
 };
 
 struct hkJobQueueFlags
@@ -348,7 +348,7 @@ void hkpMultiThreadedSimulation::FUN_00981e50(float physicsDeltaTime)
 
     m_world->m_maintenanceMgr->performMaintenanceVf14(m_world, physicsStepInfo);
     FUN_00927c80(m_world);
-    m_world->FUN_009023e0();
+    m_world->hkpWorld_checkDeterminism();
     FUN_00a0b770();
 
     {
@@ -386,13 +386,13 @@ void hkpMultiThreadedSimulation::FUN_00981e50(float physicsDeltaTime)
         }
         hkpIntegrateJob job(numActiveIslands);
         m_jobQueue.FUN_00a21500(numActiveIslands);
-        m_jobQueue.FUN_00a216a0(job, 1, 0);
+        m_jobQueue.hkJobQueue_addJob(job, 1, 0);
     }
 
     m_world->m_dynamicsStepInfo.m_solverInfo.incrementDeactivationFlags();
     m_numActiveIslandsAtPartitioning = m_world->m_numActiveSimulationIslands;
     m_numInactiveIslandsAtPartitioning = m_world->m_numInactiveSimulationIslands;
-    m_world->FUN_009023e0();
+    m_world->hkpWorld_checkDeterminism();
 
     hkMonitorStream::timerCommand("Et");
 }
@@ -824,7 +824,7 @@ struct hkpWorld
     int unk134, unk138, unk13c, unk140, unk144, unk148, unk14c;
     hkArray<void*> m_worldPostCollideListeners;
 
-    void FUN_009023e0();
+    void hkpWorld_checkDeterminism();
     void FUN_00902550();   // internal_executePendingOperations
 
     __forceinline void unlockAndAttemptToExecutePendingOperations()
@@ -911,19 +911,19 @@ public:
     virtual void vf18();
 
     void FUN_0098c830(const hkpProcessCollisionOutput& output, const hkpAgentNnEntry& entry);   // addToiEvent
-    void FUN_009826e0();   // stepEndSt
+    void hkpMultiThreadedSimulation_finishMtStep();   // stepEndSt
 };
 
 hkBool FUN_00981ac0(const hkpSimulationIsland* a, const hkpSimulationIsland* b);   // island ordering
 void FUN_00990430(hkpSimulationIsland** pArr, int d, int h, hkBool (*cmpLess)(const hkpSimulationIsland*, const hkpSimulationIsland*));   // hkAlgorithm::quickSortRecursive
 void FUN_00984d00(hkArray<hkpBroadPhaseHandlePair>* added, hkArray<hkpBroadPhaseHandlePair>* removed);   // removeDuplicatesFromLists
-void FUN_00981db0(hkArray<hkpBroadPhaseHandlePair>* pairs);   // sortPairList
-hkpSimulationIsland* FUN_00927940(hkpWorld* world, hkpSimulationIsland* a, hkpSimulationIsland* b);   // internalMergeTwoIslands
-hkpAgentNnEntry* FUN_00944650(hkpCollidable* a, hkpCollidable* b, hkpProcessCollisionInput* input);   // addAgent
+void sortPairList(hkArray<hkpBroadPhaseHandlePair>* pairs);   // sortPairList
+hkpSimulationIsland* hkpWorldOperationUtil_internalMergeTwoIslands(hkpWorld* world, hkpSimulationIsland* a, hkpSimulationIsland* b);   // internalMergeTwoIslands
+hkpAgentNnEntry* hkpWorldAgentUtil_addAgent(hkpCollidable* a, hkpCollidable* b, hkpProcessCollisionInput* input);   // addAgent
 void FUN_00999610(hkpAgentNnEntry* entry, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& output, hkpContactMgr* mgr);   // hkAgentNnMachine_ProcessAgent
 hkpAgentNnEntry* FUN_00998710(const hkpCollidable* a, const hkpCollidable* b);   // hkAgentNnMachine_FindAgent
 void FUN_009447d0(hkpAgentNnEntry* entry);   // removeAgent
-void FUN_009893f0(hkpWorld* world, const hkStepInfo& stepInfo);   // firePostCollideCallback
+void hkpWorldCallbackUtil_firePostCollideCallback(hkpWorld* world, const hkStepInfo& stepInfo);   // firePostCollideCallback
 
 namespace hkAlgorithm
 {
@@ -947,7 +947,8 @@ extern const char DAT_00e7d2c8[];   // "TtPostCollideCB"
 using namespace f3m_009826e0;
 
 // hkpMultiThreadedSimulation::stepEndSt
-void hkpMultiThreadedSimulation::FUN_009826e0()
+// pdb: hkpMultiThreadedSimulation::finishMtStep | hkpMultithreadedSimulation.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void hkpMultiThreadedSimulation::hkpMultiThreadedSimulation_finishMtStep()
 {
     hkMonitorStream::timerCommand(DAT_00e7d300);
 
@@ -962,7 +963,7 @@ void hkpMultiThreadedSimulation::FUN_009826e0()
             m_world->m_activeSimulationIslands[i]->m_storageIndex = (unsigned short)i;
         }
     }
-    m_world->FUN_009023e0();
+    m_world->hkpWorld_checkDeterminism();
 
     if (m_removedCrossIslandPairs.getSize() + m_addedCrossIslandPairs.getSize())
     {
@@ -970,8 +971,8 @@ void hkpMultiThreadedSimulation::FUN_009826e0()
         FUN_00984d00(&m_addedCrossIslandPairs, &m_removedCrossIslandPairs);
 
         hkMonitorStream::timerCommand(DAT_00e7d490);
-        FUN_00981db0(&m_addedCrossIslandPairs);
-        FUN_00981db0(&m_removedCrossIslandPairs);
+        sortPairList(&m_addedCrossIslandPairs);
+        sortPairList(&m_removedCrossIslandPairs);
 
         hkMonitorStream::timerCommand(DAT_00e7d484);
         {
@@ -985,7 +986,7 @@ void hkpMultiThreadedSimulation::FUN_009826e0()
                 hkpSimulationIsland* island = islandA;
                 if (islandA != islandB)
                 {
-                    island = FUN_00927940(m_world, islandA, islandB);
+                    island = hkpWorldOperationUtil_internalMergeTwoIslands(m_world, islandA, islandB);
                 }
                 processOutput.m_constraintOwner = island;
 
@@ -998,7 +999,7 @@ void hkpMultiThreadedSimulation::FUN_009826e0()
                 }
                 input->m_createPredictiveAgents = dispatcher->getCollisionQualityInfo(qualityIndex)->m_useContinuousPhysics;
 
-                hkpAgentNnEntry* entry = FUN_00944650(collA, collB, input);
+                hkpAgentNnEntry* entry = hkpWorldAgentUtil_addAgent(collA, collB, input);
                 if (entry == 0)
                 {
                     continue;
@@ -1049,11 +1050,11 @@ void hkpMultiThreadedSimulation::FUN_009826e0()
     {
         hkMonitorStream::timerCommand(DAT_00e7d2c8);
         hkStepInfo stepInfo(m_currentPsiTime - m_physicsDeltaTime, m_currentPsiTime);
-        FUN_009893f0(m_world, stepInfo);
+        hkpWorldCallbackUtil_firePostCollideCallback(m_world, stepInfo);
         hkMonitorStream::timerCommand("Et");
     }
 
-    m_world->FUN_009023e0();
+    m_world->hkpWorld_checkDeterminism();
     hkMonitorStream::timerCommand("Et");
 
     vf18();

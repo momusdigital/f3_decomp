@@ -220,14 +220,14 @@ virtual void slot0bc();
 virtual void slot0c0();
 virtual void Update(Actor*,int);
 };
-struct Extra53 {void FUN_0040b6f0(int);};
-struct Container53 {Extra53* FUN_0047e280(TESForm*,int);};
+struct Extra53 {void ExtraDataList_SetCanNotWear(int);};
+struct Container53 {Extra53* InventoryChanges_WearingObject(TESForm*,int);};
 Container53* __cdecl FUN_0047e090(TESObjectREFR*);
 bool __cdecl FUN_00517950(void*,void*,void*,TESObjectREFR*,void*,void*,void*,TESForm**,int*,int*);
-void __cdecl FUN_00514560(TESObjectREFR*,TESForm*,int,double*);
-const char* __cdecl FUN_004526e0(TESForm*);
+void __cdecl Script_GetItemCountConditionFunction(TESObjectREFR*,TESForm*,int,double*);
+const char* __cdecl TESFullName_GetFullName(TESForm*);
 void __cdecl FUN_0061b850(const char*,int,const char*,const char*,float);
-void __cdecl FUN_0061b500();
+void __cdecl Interface_UpdateInventory();
 extern Actor* DAT_0107a104;
 extern const char* DAT_00f62da8;
 extern const char* DAT_00f62d78;
@@ -281,6 +281,8 @@ struct FUN_006c8220 {
 struct ListForm53 { int unk00,unk04,unk08,unk0c,unk10,unk14; FUN_006c8220 list; FUN_006c8220* GetList() { return &list; } };
 inline unsigned char GetFormType53(TESForm* form) { return form->type; }
 template<> __forceinline BSStringT<char>::BSStringT():pString(0),sLen(0),sMaxLen(0) {}
+// pdb: Script::RemoveItemFunction | TESScriptFunctions.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apParameters, apCompiledParams, apRefObject, apContainer, apScript, apScriptLocals, afReturnValue, auiOffset
 bool __cdecl FUN_0053a480(void* p1,void* p2,TESObjectREFR* thisObj,void* p4,void* p5,void* p6,double* result,void* p8) {
  TESForm* pRemoveForm=0;
  TESBoundObject* pObject=0;
@@ -321,7 +323,7 @@ bool __cdecl FUN_0053a480(void* p1,void* p2,TESObjectREFR* thisObj,void* p4,void
     {
      double dRemove=iRemove;
      double dCount=dRemove;
-     FUN_00514560(thisObj,pObject,0,&dCount);
+     Script_GetItemCountConditionFunction(thisObj,pObject,0,&dCount);
      if(dCount<dRemove)
       iRemove=(int)dCount;
     }
@@ -329,9 +331,9 @@ bool __cdecl FUN_0053a480(void* p1,void* p2,TESObjectREFR* thisObj,void* p4,void
     if(pActor->FUN_004e84e0(pObject)) {
      Container53* pContainer=FUN_0047e090(thisObj);
      if(pContainer) {
-      pExtra=pContainer->FUN_0047e280(pObject,0);
+      pExtra=pContainer->InventoryChanges_WearingObject(pObject,0);
       if(pExtra)
-       pExtra->FUN_0040b6f0(0);
+       pExtra->ExtraDataList_SetCanNotWear(0);
      }
     }
     if(iRemove>0) {
@@ -343,9 +345,9 @@ bool __cdecl FUN_0053a480(void* p1,void* p2,TESObjectREFR* thisObj,void* p4,void
       if(!iNoMessage) {
        BSStringT<char> sMessage;
        if(iRemove>1)
-        sMessage.PrintfString("%i %s%s %s",iRemove,FUN_004526e0(pObject),DAT_00f62d78,DAT_00f62da8);
+        sMessage.PrintfString("%i %s%s %s",iRemove,TESFullName_GetFullName(pObject),DAT_00f62d78,DAT_00f62da8);
        else
-        sMessage.PrintfString("%s %s",FUN_004526e0(pObject),DAT_00f62da8);
+        sMessage.PrintfString("%s %s",TESFullName_GetFullName(pObject),DAT_00f62da8);
        switch(GetFormType53(pObject)) {
        case 0x19:case 0x1e:case 0x1f:case 0x28:case 0x29:case 0x2e:case 0x2f:case 0x32:
         FUN_0061b850(sMessage.pString,0,DAT_00dc0c78,iNoMessage ? 0:DAT_0107a104->FUN_006f7c80(pObject,0,0),2.0f);
@@ -355,7 +357,7 @@ bool __cdecl FUN_0053a480(void* p1,void* p2,TESObjectREFR* thisObj,void* p4,void
         break;
        }
       }
-      FUN_0061b500();
+      Interface_UpdateInventory();
      }
      else if(bEquipped && pActor->process60 && pActor->StateReady()) {
       pActor->process60->Update(pActor,0);

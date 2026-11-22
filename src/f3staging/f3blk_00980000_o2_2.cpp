@@ -36,13 +36,6 @@ static __declspec(noinline) void FUN_00987ce0(CFF9B0SmallArray& cleanupArray)
     }
 }
 
-// Callers so the file-static helper is emitted with its register calling convention.
-void CFF9B0CleanupListeners(CFF9B0SmallArray* a, CFF9B0SmallArray* b)
-{
-    FUN_00987ce0(*a);
-    FUN_00987ce0(*b);
-}
-
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -109,6 +102,8 @@ struct ListenerOwner
 };
 // Sets event->m_pObservedSource to owner, calls callback on each non-null listener in reverse with timers, then calls FUN_00987ce0 to remove null entries.
 // @fnv 0x00988180
+// pdb: hkpEntityCallbackUtil::fireContactPointAddedInternal | hkpEntityCallbackUtil.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: entity, event
 void __cdecl FUN_00988180(ListenerOwner* owner, ListenerEvent* event)
 {
     CFF9B0SmallArray& kListeners = owner->m_kListeners;
@@ -117,8 +112,8 @@ void __cdecl FUN_00988180(ListenerOwner* owner, ListenerEvent* event)
     {
         if (kListeners.m_data[i] != 0)
         {
-            volatile unsigned int t1;
-            volatile unsigned int uiTimerEnd;
+            unsigned int t1;
+            unsigned int uiTimerEnd;
             TimerWriteV(DAT_00e7d880, t1);
             ((ContactListener*)kListeners.m_data[i])->callback(event);
             TimerWriteV(DAT_00e32798, uiTimerEnd);
@@ -142,6 +137,7 @@ struct PtrArray_00989760 {
     }
 };
 
+// pdb: hkpPhantom::removeNullPhantomListeners | hkpPhantom.obj | tesv_win, call_seq, medium
 static __declspec(noinline) void FUN_00989760(PtrArray_00989760* arr)
 {
     for (int i = arr->m_size - 1; i >= 0; i--)
@@ -319,10 +315,10 @@ struct Sectors {
 };
 struct Track { unsigned m_iBytesUsedInLastSector; Sectors m_kSectors; };
 struct PreviousBodies { Body a,b; Transform ta,tb; };
-void __cdecl FUN_00976cd0(const Swept&,float,Transform&);
+void __cdecl hkSweptTransformUtil_lerp2(const Swept&,float,Transform&);
 static __forceinline void fillPrevious(const Query& current,PreviousBodies& b,Query& previous) {
-    FUN_00976cd0(current.m_pBodyA->GetMotionState()->getSweptTransform(),current.m_pRayCastInput->m_pStepInfo.m_uiStartTime,b.ta);
-    FUN_00976cd0(current.m_pBodyB->GetMotionState()->getSweptTransform(),current.m_pRayCastInput->m_pStepInfo.m_uiStartTime,b.tb);
+    hkSweptTransformUtil_lerp2(current.m_pBodyA->GetMotionState()->getSweptTransform(),current.m_pRayCastInput->m_pStepInfo.m_uiStartTime,b.ta);
+    hkSweptTransformUtil_lerp2(current.m_pBodyB->GetMotionState()->getSweptTransform(),current.m_pRayCastInput->m_pStepInfo.m_uiStartTime,b.tb);
     previous.m_pBodyA=&b.a;
     previous.m_pBodyB=&b.b;
     previous.m_pContactManager=current.m_pContactManager;
@@ -432,7 +428,8 @@ extern unsigned long DAT_0116913c;
 extern const char DAT_00e7ddac[];
 struct Monitor { char *start,*end,*capacity,*limit; };
 
-void __cdecl FUN_00999b70(void* owner,Track& track,const Input& context) {
+// pdb: hkAgentNnMachine_ProcessTrack | hkpAgentNnMachine.obj | fnv360_0822_retail, call_gap + bridge(call_gap_sim|call_dedup) + skyrim(call_gap_sim), high
+void __cdecl hkAgentNnMachine_ProcessTrack(void* owner,Track& track,const Input& context) {
     int skipped=0;
     Output result(owner);
     for(int index=0;index<track.m_kSectors.GetLogicalSize();) {
@@ -466,12 +463,12 @@ void __cdecl FUN_00999b70(void* owner,Track& track,const Input& context) {
 
 // @f3 0x009841b0 (community match, verified in this file)
 namespace f3m_009841b0 {
-// FUN_009841b0 = Havok 5.5.0 hkpSimpleWorldRayCaster::addBroadPhaseHandle (protected virtual, hkpCollide.lib, hkpSimpleWorldRayCaster.obj;
+// hkpSimpleWorldRayCaster_addBroadPhaseHandle = Havok 5.5.0 hkpSimpleWorldRayCaster::addBroadPhaseHandle (protected virtual, hkpCollide.lib, hkpSimpleWorldRayCaster.obj;
 // ?addBroadPhaseHandle@hkpSimpleWorldRayCaster@@MAEMPBVhkpBroadPhaseHandle@@H@Z). The stock release object is byte-identical to the game.
 // No .cpp ships: the body is RECONSTRUCTED from the hybrid object's line records 19-41 and locals (col, shape; block: trans),
 // on the SDK's verbatim headers and inline bodies (hkFpuVector4.inl, hkMatrix3/hkTransform .inl, hkpCdBody.inl,
 // hkpTypedBroadPhaseHandle.inl, hkpCollidable.inl, hkpShape.inl), cut with hktrim.py.
-// Target named FUN_009841b0 (the pack symbol): the member is renamed in the class, in its base and at the definition.
+// Target named hkpSimpleWorldRayCaster_addBroadPhaseHandle (the pack symbol): the member is renamed in the class, in its base and at the definition.
 namespace f3m_009841b0 {
 typedef float  hkReal;
 typedef signed char		hkInt8;
@@ -918,7 +915,7 @@ class hkpBroadPhaseCastCollector
 {
 	public:
 		virtual ~hkpBroadPhaseCastCollector() { }
-		virtual	hkReal FUN_009841b0( const hkpBroadPhaseHandle* broadphaseHandle, int castIndex ) = 0;
+		virtual	hkReal hkpSimpleWorldRayCaster_addBroadPhaseHandle( const hkpBroadPhaseHandle* broadphaseHandle, int castIndex ) = 0;
 };
 
 class hkpRayShapeCollectionFilter;
@@ -950,7 +947,7 @@ class hkpSimpleWorldRayCaster : public hkpBroadPhaseCastCollector
 	public:
 		~hkpSimpleWorldRayCaster(){}
 	protected:
-		virtual	hkReal FUN_009841b0( const hkpBroadPhaseHandle* broadPhaseHandle, int castIndex );
+		virtual	hkReal hkpSimpleWorldRayCaster_addBroadPhaseHandle( const hkpBroadPhaseHandle* broadPhaseHandle, int castIndex );
 	protected:
 		const hkpWorldRayCastInput*   m_input;
 		const hkpRayCollidableFilter* m_filter;
@@ -972,7 +969,8 @@ class hkpRayCollidableFilter
 		virtual hkBool isCollisionEnabled( const hkpWorldRayCastInput& a, const hkpCollidable& collidableB ) const = 0;
 };
 
-hkReal hkpSimpleWorldRayCaster::FUN_009841b0( const hkpBroadPhaseHandle* broadPhaseHandle, int castIndex )
+// pdb: hkpSimpleWorldRayCaster::addBroadPhaseHandle | hkpSimpleWorldRayCaster.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+hkReal hkpSimpleWorldRayCaster::hkpSimpleWorldRayCaster_addBroadPhaseHandle( const hkpBroadPhaseHandle* broadPhaseHandle, int castIndex )
 {
 	const hkpCollidable* col = static_cast<hkpCollidable*>( static_cast<const hkpTypedBroadPhaseHandle*>(broadPhaseHandle)->getOwner() );
 	const hkpShape* shape = col->getShape();
@@ -1653,6 +1651,8 @@ __forceinline void hkp3AxisSweep::addNodePair( const hkpBpNode* n0, const hkpBpN
 	}
 }
 
+// pdb: hkp3AxisSweep::queryBatchAabbSub | hkp3AxisSweep.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: bitFieldOfQueryNodes, pairsOut, addMode
 void hkp3AxisSweep::FUN_00996690( hkUint32* bitFieldOfQueryNodes, hkArray<hkpBroadPhaseHandlePair>& pairsOut, hkBool addMode ) const
 {
 	hkInplaceArray<BpInt,256> openQueryNodes;

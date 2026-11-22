@@ -128,7 +128,8 @@ struct Saver40_Layout_004f9a10 : SaverSized148_Layout_004f9a10
     Saver40_Layout_004f9a10(void* pvParam);
 };
 
-CF4840Saver* __cdecl FUN_004f9a10(unsigned int uiType, void* pvParam)
+// pdb: TESObjectREFR::CreateReference | TESObjectREFR.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+CF4840Saver* __cdecl TESObjectREFR_CreateReference(unsigned int uiType, void* pvParam)
 {
     F4A30AllocTagScope kScope(0x31);
     CF4840Saver* pkResult = 0;

@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d60b90
+// pdb: hkpWorldViewerBase::getConsumableCommands | hkpWeldingViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: commands, numCommands
 void __stdcall ClearTwoInts(int* piFirst, int* piSecond)
 {
     *piFirst = 0;
@@ -12,6 +14,7 @@ void __stdcall ClearTwoInts(int* piFirst, int* piSecond)
 extern int g_D67960Value;
 
 // @fnv 0x00d67960
+// pdb: ShadowSceneLight::GetFrustumPlanes | ShadowLightShader.obj | fnv360_0822_debug, objrun_open, low
 int __cdecl FUN_00d67960()
 {
     return g_D67960Value;
@@ -208,7 +211,9 @@ extern S_00d67e10_Registry* g_00d67e10_registry;
 extern int g_00d67e10_toiCounterId;
 
 // @fnv 0x00d67e10
-void RegisterToiCounter()
+// pdb: hkpActiveContactPointViewer::registerViewer | hkpActiveContactPointViewer.obj | fnv360_0822_debug, udata, high
+// pdb: hkpActiveContactPointViewer::registerViewer | hkpActiveContactPointViewer.obj | fnv360_0822_debug, udata, high (was: RegisterToiCounter)
+void hkpActiveContactPointViewer_registerViewer()
 {
     g_00d67e10_toiCounterId = g_00d67e10_registry->Register("TOI counter", AllocateToiCountViewer);
 }
@@ -220,35 +225,6 @@ struct AudioHeap
 {
     char pad[0x10];
     void* heap;
-};
-
-struct ItemList
-{
-    char pad[0x6c];
-    void** items;
-    int count;
-};
-
-struct BaseP
-{
-    virtual void p0();
-    int p4;
-};
-struct BaseQ
-{
-    virtual void q0();
-    char q[0x14];
-};
-struct BaseC
-{
-    virtual void c0();
-    ItemList* list;
-    __declspec(nothrow) void Remove(void* item);
-};
-
-struct Base0 : BaseP, BaseQ, BaseC
-{
-    ~Base0();
 };
 
 struct Iface1
@@ -284,167 +260,6 @@ struct Member : MemberBase
     }
 };
 
-struct FUN_00d67fa0 : Base0, Iface1, Iface2, Iface3
-{
-    Member member;
-    ~FUN_00d67fa0();
-    virtual void p0();
-};
-
-// Destructor that removes every item in the list from the owning container before base destruction.
-// @fnv 0x00d67fa0
-FUN_00d67fa0::~FUN_00d67fa0()
-{
-    for (int i = 0; list && i < list->count; ++i)
-        Remove(list->items[i]);
-}
-
-struct Point3
-{
-    float x;
-    float y;
-    float z;
-};
-struct EntryListNode
-{
-    void** entries;
-    int count;
-};
-struct Node
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    EntryListNode entries;
-};
-struct Query
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Point3 direction;
-    int unk1c;
-    Node* direct;
-    int unk24;
-    Node** groups;
-    int groupCount;
-};
-struct BaseHelper
-{
-    void FUN_00d68030(void* entry, int mode);
-};
-int __cdecl FUN_00d679c0(float* direction);
-struct Context
-{
-    void ProcessQuery(Query* query);
-};
-// Computes a mode from the query direction, then dispatches each group entry and each direct entry to FUN_00d68030 with that mode.
-// @fnv 0x00d68130
-void Context::ProcessQuery(Query* query)
-{
-    int mode = FUN_00d679c0(&query->direction.x);
-    for (int groupIndex = 0; groupIndex < query->groupCount; ++groupIndex)
-    {
-        EntryListNode* list = &query->groups[groupIndex]->entries;
-        for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-            ((BaseHelper*)((char*)this - 0x2c))->FUN_00d68030(list->entries[entryIndex], mode);
-    }
-    EntryListNode* list = &query->direct->entries;
-    for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-        ((BaseHelper*)((char*)this - 0x2c))->FUN_00d68030(list->entries[entryIndex], mode);
-}
-
-struct FUN_00d67970_helper
-{
-    void __thiscall c93920(void* value);
-    void __thiscall c93a20(void* value);
-};
-
-struct FUN_00d67970_class
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-
-    void __thiscall FUN_00d67970(FUN_00d67970_helper* helper);
-};
-
-// Passes pointers to this object's unk0c and unk08 fields to the helper's c93920 and c93a20 methods, or null if the base pointer is null.
-// @fnv 0x00d67970
-void __thiscall FUN_00d67970_class::FUN_00d67970(FUN_00d67970_helper* helper)
-{
-    void* base = reinterpret_cast<char*>(this) - 0x20;
-    void* value;
-
-    if (base)
-        value = &unk0c;
-    else
-        value = 0;
-
-    helper->c93920(value);
-
-    if (base)
-        value = &unk08;
-    else
-        value = 0;
-
-    helper->c93a20(value);
-}
-
-struct OwnerBinding
-{
-    void Bind(void* owner);
-};
-
-struct SubLink
-{
-    int unk00;
-    void Attach(int* p);
-};
-
-struct FUN_00d67b90_cls
-{
-    int unk00;
-    SubLink m_sub;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-
-    void BindAndAttach(int* arg);
-};
-
-// @fnv 0x00d67b90
-void FUN_00d67b90_cls::BindAndAttach(int* arg)
-{
-    FUN_00d67b90_cls* owner = ((char*)this - 0x30) != 0 ? this : 0;
-    ((OwnerBinding*)arg)->Bind(owner);
-    m_sub.Attach(arg);
-}
-
 struct ListItem;
 
 struct ItemVisitor
@@ -472,6 +287,7 @@ struct FUN_00d67bf0_cls
 
 // Iterates the node's items up to its count, passing each to m_visitor.v1, stopping early if the node becomes null.
 // @fnv 0x00d67bf0
+// pdb: hkpToiContactPointViewer::init | hkpToiContactPointViewer.obj | fnv360_0822_retail, vtable, medium
 void FUN_00d67bf0_cls::VisitItems()
 {
     int i = 0;
@@ -628,7 +444,6 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
 }
 
 #include <xmmintrin.h>
-extern const __m128 DAT_01017d10;
 
 __declspec(align(16)) struct SquaredLanes
 {
@@ -637,28 +452,6 @@ __declspec(align(16)) struct SquaredLanes
     float m_uiZ;
     float m_w;
 };
-
-// Finds the index of the largest squared component of a vector and returns it offset by 3 if the original component is positive.
-// @fnv 0x00d679c0
-int __cdecl FUN_00d679c0(const __m128* apVector)
-{
-    __m128 vSquared = _mm_and_ps(_mm_mul_ps(*apVector, *apVector), DAT_01017d10);
-    SquaredLanes lanes;
-    _mm_store_ps((float*)&lanes, vSquared);
-
-    int idx;
-    if (lanes.m_uiX < lanes.m_uiY)
-    {
-        idx = (lanes.m_uiZ > lanes.m_uiY) ? 2 : 1;
-    }
-    else
-    {
-        idx = (lanes.m_uiZ > lanes.m_uiX) ? 2 : 0;
-    }
-
-    int positive = ((const float*)apVector)[idx] > 0.0f ? 1 : 0;
-    return idx + positive * 3;
-}
 
 struct PtrMapEntryObj
 {
@@ -747,6 +540,8 @@ struct Registry {
 };
 }
 
+// pdb: hkVtableClassRegistry::merge | hkVtableClassRegistry.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: mergeFrom
 void FUN_00d67da0_cls::FUN_00d67da0(void* other)
 {
     f3m_009b03a0::Registry* self = (f3m_009b03a0::Registry*)this;
@@ -810,97 +605,6 @@ struct BSAudioValue
     BSAudioValue(const BSAudioValue& other) : m_flags(other.m_flags)
     {}
 };
-
-struct BSAudioNotifier
-{
-    virtual void v0();
-    virtual int v1();
-};
-
-struct ContactEntry
-{
-    int unk00;
-    unsigned int m_flags;
-};
-
-struct ContactTable
-{
-    ContactEntry* m_entries;
-    int m_iElementCount;
-    int m_pRayCursor;
-    int Find(const void* key);
-};
-
-struct ContactViewer
-{
-    int unk00;
-    int unk04;
-    BSAudioNotifier m_notifier;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int m_18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    ContactTable m_table;
-
-    void FUN_00d68030(void* entry, int mode);
-};
-
-extern void __cdecl FUN_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
-                                 float value, BSAudioValue flags);
-
-// @fnv 0x00d68030
-void ContactViewer::FUN_00d68030(void* entry, int mode)
-{
-    unsigned int index = m_table.Find(entry);
-    if ((int)index > m_table.m_pRayCursor)
-        return;
-    unsigned int flags = m_table.m_entries[index].m_flags;
-    unsigned int tag = flags >> 0x18;
-    BSAudioString name;
-    if (tag != 0)
-        name.Format("%d(%d)", flags & 0xffffff, tag);
-    else
-        name.Format("%d", flags & 0xffffff);
-    FUN_00d67a50(m_18, m_notifier.v1(), entry, mode, name.m_data, 0xff800000u, 0.1f, BSAudioValue());
-    m_table.m_entries[index].m_flags = flags & 0xffffff;
-    name.Release();
-}
-
-struct D681E0Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d681e0();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-
-struct D681E0Secondary
-{
-    virtual void FUN_00d681e0();
-};
-
-struct D681E0Object : D681E0Primary, D681E0Secondary
-{
-    D681E0Object();
-
-// @fnv 0x00d681e0
-    virtual void FUN_00d681e0();
-};
-
-D681E0Object::D681E0Object()
-{}
 
 // FUN_00d68200: thiscall adjustor thunk (sub ecx,0x28; jmp FUN_00d68230).
 // Written as multiple inheritance: the primary base is 0x28 bytes (vptr + 9 ints),
@@ -981,8 +685,6 @@ namespace fnv_00d67c30 {
 struct Holder;
 
 extern "C" Holder* __cdecl FUN_00c85750();
-extern "C" char DAT_01000001;
-extern "C" char DAT_00ffffff;
 
 struct Entry
 {
@@ -990,26 +692,9 @@ struct Entry
     unsigned int m_flags;
 };
 
-struct Table
-{
-    Entry* m_entries;
-    int unk04;
-
-    int FindIndex(int aKey);
-    void Attach(int aOwner, int aKey, int aTag);
-};
-
 struct Item
 {
     void Apply(int aValue);
-};
-
-struct ArgBlock
-{
-    int unk00;
-    int m_items[2];
-    int unk0c;
-    int unk10;
 };
 
 struct Holder
@@ -1021,108 +706,4 @@ struct Holder
     int m_10;
 };
 
-struct FUN_00d67c30_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    Table m_0c;
-    int m_14;
-
-    void FUN_00d67c30(ArgBlock* a1);
-};
-
-// For each of two items in a1->m_items, increments the high/low counters in the table entry or attaches a new entry and applies the item.
-// @fnv 0x00d67c30
-void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
-{
-    if (apBlock->unk10 > 0)
-    {
-        return;
-    }
-    Table* t = &m_0c;
-    int* p = apBlock->m_items;
-    int n = 2;
-    do
-    {
-        Item* item = (Item*)*p;
-        int idx = t->FindIndex((int)item);
-        if (idx <= m_14)
-        {
-            unsigned int* pFlags = &t->m_entries[idx].m_flags;
-            unsigned int uiFlags = *pFlags;
-            unsigned int uiHigh = (uiFlags >> 0x18) + 1;
-            if (uiHigh >= 0xff)
-            {
-                uiHigh = 0xff;
-            }
-            unsigned int uiLow = (uiFlags & (unsigned int)&DAT_00ffffff) + 1;
-            if (uiLow >= (unsigned int)&DAT_00ffffff)
-            {
-                uiLow = (unsigned int)&DAT_00ffffff;
-            }
-            *pFlags = (uiHigh << 0x18) | uiLow;
-        }
-        else
-        {
-            Holder* h = FUN_00c85750();
-            t->Attach(h->m_10, (int)item, (int)&DAT_01000001);
-            char* owner = ((char*)this - 0x28) != 0 ? (char*)this + 8 : 0;
-            item->Apply((int)owner);
-        }
-        p++;
-    } while (--n != 0);
-}
 }  // namespace fnv_00d67c30
-
-struct ToiCountPrimaryInterface : PrimaryBase
-{
-    virtual void FUN_00d681f0();
-};
-
-struct ToiCountProcessInterface
-{
-    virtual void FUN_00d681f0();
-};
-
-struct ToiCountProcessAdjustor : ToiCountPrimaryInterface, ToiCountProcessInterface
-{
-    ToiCountProcessAdjustor();
-// @fnv 0x00d681f0
-    virtual void FUN_00d681f0();
-};
-
-ToiCountProcessAdjustor::ToiCountProcessAdjustor()
-{}
-
-// MSVC adjustor thunk: the primary base occupies 0x2c bytes; both bases declare the virtual,
-// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
-struct ToiCountThunkPrimary
-{
-    virtual void FUN_00d68210();
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-};
-
-struct ToiCountThunkSecondary
-{
-    virtual void FUN_00d68210();
-};
-
-struct ToiCountThunkObject : ToiCountThunkPrimary, ToiCountThunkSecondary
-{
-    ToiCountThunkObject();
-// @fnv 0x00d68210
-    virtual void FUN_00d68210();
-};
-
-ToiCountThunkObject::ToiCountThunkObject()
-{}

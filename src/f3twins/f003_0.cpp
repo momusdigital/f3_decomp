@@ -506,6 +506,7 @@ void __fastcall FUN_00beb650(void*);
 void __fastcall FUN_00bf1a20(void*);
 
 struct C_00408d90 { void* FUN_00408d90(unsigned char f); };
+// pdb: SpellItem::`scalar deleting destructor' | SpellItem.obj | fnv360_0822_retail, vtable_prefix, medium
 void* C_00408d90::FUN_00408d90(unsigned char f)
 {
     FUN_00408d00(this);
@@ -514,6 +515,7 @@ void* C_00408d90::FUN_00408d90(unsigned char f)
 }
 
 struct C_00421ad0 { void* FUN_00421ad0(unsigned char f); };
+// pdb: ExtraEnableStateChildren::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* C_00421ad0::FUN_00421ad0(unsigned char f)
 {
     FUN_00420270(this);
@@ -522,6 +524,7 @@ void* C_00421ad0::FUN_00421ad0(unsigned char f)
 }
 
 struct C_00421b30 { void* FUN_00421b30(unsigned char f); };
+// pdb: ExtraActivateRef::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* C_00421b30::FUN_00421b30(unsigned char f)
 {
     FUN_00420450(this);
@@ -530,6 +533,7 @@ void* C_00421b30::FUN_00421b30(unsigned char f)
 }
 
 struct C_00421f90 { void* FUN_00421f90(unsigned char f); };
+// pdb: ExtraDroppedItemList::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* C_00421f90::FUN_00421f90(unsigned char f)
 {
     FUN_00420f60(this);
@@ -538,6 +542,7 @@ void* C_00421f90::FUN_00421f90(unsigned char f)
 }
 
 struct C_00422090 { void* FUN_00422090(unsigned char f); };
+// pdb: ExtraFactionChanges::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_retail, vtable, high
 void* C_00422090::FUN_00422090(unsigned char f)
 {
     FUN_00421090(this);
@@ -546,6 +551,7 @@ void* C_00422090::FUN_00422090(unsigned char f)
 }
 
 struct C_004220b0 { void* FUN_004220b0(unsigned char f); };
+// pdb: ExtraSayTopicInfoOnceADay::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_retail, vtable, high
 void* C_004220b0::FUN_004220b0(unsigned char f)
 {
     FUN_004213c0(this);
@@ -554,6 +560,7 @@ void* C_004220b0::FUN_004220b0(unsigned char f)
 }
 
 struct C_004221b0 { void* FUN_004221b0(unsigned char f); };
+// pdb: ExtraWaterZoneMap::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_retail, vtable, medium
 void* C_004221b0::FUN_004221b0(unsigned char f)
 {
     FUN_00422160(this);
@@ -562,6 +569,7 @@ void* C_004221b0::FUN_004221b0(unsigned char f)
 }
 
 struct C_00422360 { void* FUN_00422360(unsigned char f); };
+// pdb: ExtraLight::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* C_00422360::FUN_00422360(unsigned char f)
 {
     FUN_00421910(this);
@@ -570,6 +578,7 @@ void* C_00422360::FUN_00422360(unsigned char f)
 }
 
 struct C_00422380 { void* FUN_00422380(unsigned char f); };
+// pdb: ExtraGuardedRefData::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* C_00422380::FUN_00422380(unsigned char f)
 {
     FUN_00421a10(this);
@@ -578,6 +587,7 @@ void* C_00422380::FUN_00422380(unsigned char f)
 }
 
 struct C_00422400 { void* FUN_00422400(unsigned char f); };
+// pdb: ExtraDecalRefs::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, medium
 void* C_00422400::FUN_00422400(unsigned char f)
 {
     FUN_00421b50(this);
@@ -586,6 +596,7 @@ void* C_00422400::FUN_00422400(unsigned char f)
 }
 
 struct C_00422580 { void* FUN_00422580(unsigned char f); };
+// pdb: ExtraFriendHits::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, medium
 void* C_00422580::FUN_00422580(unsigned char f)
 {
     FUN_00422010(this);
@@ -594,6 +605,7 @@ void* C_00422580::FUN_00422580(unsigned char f)
 }
 
 struct C_004226e0 { void* FUN_004226e0(unsigned char f); };
+// pdb: ExtraDismemberedLimbs::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_retail, vtable, high
 void* C_004226e0::FUN_004226e0(unsigned char f)
 {
     FUN_00422610(this);
@@ -602,6 +614,7 @@ void* C_004226e0::FUN_004226e0(unsigned char f)
 }
 
 struct C_00424690 { void* FUN_00424690(unsigned char f); };
+// pdb: QueuedModel::`scalar deleting destructor' | ModelLoader.obj | tesv_win, objopen_prop, low
 void* C_00424690::FUN_00424690(unsigned char f)
 {
     FUN_0047fd30(this);
@@ -610,6 +623,7 @@ void* C_00424690::FUN_00424690(unsigned char f)
 }
 
 struct C_00424fc0 { void* FUN_00424fc0(unsigned char f); };
+// pdb: BSStream::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, high
 void* C_00424fc0::FUN_00424fc0(unsigned char f)
 {
     FUN_00424f20(this);
@@ -618,6 +632,7 @@ void* C_00424fc0::FUN_00424fc0(unsigned char f)
 }
 
 struct C_00427910 { void* FUN_00427910(unsigned char f); };
+// pdb: AttachDistant3DTask::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00427910::FUN_00427910(unsigned char f)
 {
     FUN_00424d90(this);
@@ -626,6 +641,7 @@ void* C_00427910::FUN_00427910(unsigned char f)
 }
 
 struct C_00427b60 { void* FUN_00427b60(unsigned char f); };
+// pdb: QueuedTexture::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00427b60::FUN_00427b60(unsigned char f)
 {
     FUN_00425990(this);
@@ -634,6 +650,7 @@ void* C_00427b60::FUN_00427b60(unsigned char f)
 }
 
 struct C_00427fa0 { void* FUN_00427fa0(unsigned char f); };
+// pdb: QueuedTreeBillboard::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_debug, vtable, medium
 void* C_00427fa0::FUN_00427fa0(unsigned char f)
 {
     FUN_00425f00(this);
@@ -642,6 +659,7 @@ void* C_00427fa0::FUN_00427fa0(unsigned char f)
 }
 
 struct C_00428000 { void* FUN_00428000(unsigned char f); };
+// pdb: QueuedAnimIdle::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00428000::FUN_00428000(unsigned char f)
 {
     FUN_004261d0(this);
@@ -650,6 +668,7 @@ void* C_00428000::FUN_00428000(unsigned char f)
 }
 
 struct C_00428090 { void* FUN_00428090(unsigned char f); };
+// pdb: QueuedHead::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00428090::FUN_00428090(unsigned char f)
 {
     FUN_00426370(this);
@@ -658,6 +677,7 @@ void* C_00428090::FUN_00428090(unsigned char f)
 }
 
 struct C_004285f0 { void* FUN_004285f0(unsigned char f); };
+// pdb: QueuedFileLoad::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: QueuedTempEffect::~QueuedTempEffect)
 void* C_004285f0::FUN_004285f0(unsigned char f)
 {
     FUN_00426d10(this);
@@ -666,6 +686,7 @@ void* C_004285f0::FUN_004285f0(unsigned char f)
 }
 
 struct C_00428610 { void* FUN_00428610(unsigned char f); };
+// pdb: QueuedFaceGenFile::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: QueuedTempEffect::QueueMe)
 void* C_00428610::FUN_00428610(unsigned char f)
 {
     FUN_00426fc0(this);
@@ -674,6 +695,7 @@ void* C_00428610::FUN_00428610(unsigned char f)
 }
 
 struct C_0042c190 { void* FUN_0042c190(unsigned char f); };
+// pdb: QueuedHelmet::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_0042c190::FUN_0042c190(unsigned char f)
 {
     FUN_0042c0f0(this);
@@ -682,6 +704,7 @@ void* C_0042c190::FUN_0042c190(unsigned char f)
 }
 
 struct C_0042c2e0 { void* FUN_0042c2e0(unsigned char f); };
+// pdb: QueuedReference::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_0042c2e0::FUN_0042c2e0(unsigned char f)
 {
     FUN_00428100(this);
@@ -690,6 +713,7 @@ void* C_0042c2e0::FUN_0042c2e0(unsigned char f)
 }
 
 struct C_0042c300 { void* FUN_0042c300(unsigned char f); };
+// pdb: QueuedCharacter::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_0042c300::FUN_0042c300(unsigned char f)
 {
     FUN_00428370(this);
@@ -706,6 +730,7 @@ void* C_0042dbd0::FUN_0042dbd0(unsigned char f)
 }
 
 struct C_00431200 { void* FUN_00431200(unsigned char f); };
+// pdb: SettingT<INISettingCollection>::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, high
 void* C_00431200::FUN_00431200(unsigned char f)
 {
     FUN_004310a0(this);
@@ -714,6 +739,7 @@ void* C_00431200::FUN_00431200(unsigned char f)
 }
 
 struct C_00431a80 { void* FUN_00431a80(unsigned char f); };
+// pdb: LockFreeQueue<NiPointer<QueuedReference> >::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_debug, vtable, medium
 void* C_00431a80::FUN_00431a80(unsigned char f)
 {
     FUN_00431620(this);
@@ -722,6 +748,7 @@ void* C_00431a80::FUN_00431a80(unsigned char f)
 }
 
 struct C_00431aa0 { void* FUN_00431aa0(unsigned char f); };
+// pdb: LockFreeQueue<NiPointer<AttachDistant3DTask> >::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_debug, vtable, high
 void* C_00431aa0::FUN_00431aa0(unsigned char f)
 {
     FUN_00431690(this);
@@ -730,6 +757,7 @@ void* C_00431aa0::FUN_00431aa0(unsigned char f)
 }
 
 struct C_00431ac0 { void* FUN_00431ac0(unsigned char f); };
+// pdb: LockFreeMap<AnimIdle *,NiPointer<QueuedAnimIdle> >::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00431ac0::FUN_00431ac0(unsigned char f)
 {
     FUN_00431700(this);
@@ -738,6 +766,7 @@ void* C_00431ac0::FUN_00431ac0(unsigned char f)
 }
 
 struct C_00431ae0 { void* FUN_00431ae0(unsigned char f); };
+// pdb: LockFreeMap<Animation *,NiPointer<QueuedReplacementKFList> >::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00431ae0::FUN_00431ae0(unsigned char f)
 {
     FUN_00431780(this);
@@ -746,6 +775,7 @@ void* C_00431ae0::FUN_00431ae0(unsigned char f)
 }
 
 struct C_00431b00 { void* FUN_00431b00(unsigned char f); };
+// pdb: LockFreeMap<TESObjectREFR *,NiPointer<QueuedHelmet> >::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00431b00::FUN_00431b00(unsigned char f)
 {
     FUN_00431800(this);
@@ -754,6 +784,7 @@ void* C_00431b00::FUN_00431b00(unsigned char f)
 }
 
 struct C_00431b20 { void* FUN_00431b20(unsigned char f); };
+// pdb: LockFreeMap<char const *,Model *>::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00431b20::FUN_00431b20(unsigned char f)
 {
     FUN_00431880(this);
@@ -762,6 +793,7 @@ void* C_00431b20::FUN_00431b20(unsigned char f)
 }
 
 struct C_00431b40 { void* FUN_00431b40(unsigned char f); };
+// pdb: LockFreeMap<char const *,KFModel *>::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00431b40::FUN_00431b40(unsigned char f)
 {
     FUN_00431900(this);
@@ -770,6 +802,7 @@ void* C_00431b40::FUN_00431b40(unsigned char f)
 }
 
 struct C_00431b60 { void* FUN_00431b60(unsigned char f); };
+// pdb: LockFreeMap<BSFileEntry *,NiPointer<QueuedTexture> >::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00431b60::FUN_00431b60(unsigned char f)
 {
     FUN_00431980(this);
@@ -778,6 +811,7 @@ void* C_00431b60::FUN_00431b60(unsigned char f)
 }
 
 struct C_00431b80 { void* FUN_00431b80(unsigned char f); };
+// pdb: LockFreeMap<char const *,LoadedFile *>::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00431b80::FUN_00431b80(unsigned char f)
 {
     FUN_00431a00(this);
@@ -786,6 +820,7 @@ void* C_00431b80::FUN_00431b80(unsigned char f)
 }
 
 struct C_00432030 { void* FUN_00432030(unsigned char f); };
+// pdb: ThreadSpecificInterfaceManager<LockFreeMap<char const *,LoadedFile *>::LockFreeMapInterface>::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_debug, objrun_open, low
 void* C_00432030::FUN_00432030(unsigned char f)
 {
     FUN_00431d70(this);
@@ -794,6 +829,7 @@ void* C_00432030::FUN_00432030(unsigned char f)
 }
 
 struct C_004320d0 { void* FUN_004320d0(unsigned char f); };
+// pdb: LockFreeMap<TESObjectREFR *,NiPointer<QueuedReference> >::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_004320d0::FUN_004320d0(unsigned char f)
 {
     FUN_00432050(this);
@@ -826,6 +862,7 @@ void* C_0043bac0::FUN_0043bac0(unsigned char f)
 }
 
 struct C_00447c50 { void* FUN_00447c50(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,TESFile *>::`scalar deleting destructor' | TESFile.obj | fnv360_0822_debug, vtable, high
 void* C_00447c50::FUN_00447c50(unsigned char f)
 {
     FUN_00447b20(this);
@@ -834,6 +871,7 @@ void* C_00447c50::FUN_00447c50(unsigned char f)
 }
 
 struct C_00447c70 { void* FUN_00447c70(unsigned char f); };
+// pdb: NiTMap<unsigned int,TESFile *>::`scalar deleting destructor' | TESFile.obj | fnv360_0822_debug, vtable, high
 void* C_00447c70::FUN_00447c70(unsigned char f)
 {
     FUN_00447be0(this);
@@ -842,6 +880,7 @@ void* C_00447c70::FUN_00447c70(unsigned char f)
 }
 
 struct C_0044bdf0 { void* FUN_0044bdf0(unsigned char f); };
+// pdb: NiTMap<TESObjectREFR *,unsigned int>::`scalar deleting destructor' | BGSDestructibleObjectForm.obj | fnv360_0822_debug, vtable, medium
 void* C_0044bdf0::FUN_0044bdf0(unsigned char f)
 {
     FUN_0044bb20(this);
@@ -850,6 +889,7 @@ void* C_0044bdf0::FUN_0044bdf0(unsigned char f)
 }
 
 struct C_00451850 { void* FUN_00451850(unsigned char f); };
+// pdb: BGSTextureModel::`scalar deleting destructor' | TESRace.obj | fnv360_0822_retail, vtable, medium
 void* C_00451850::FUN_00451850(unsigned char f)
 {
     FUN_00458160(this);
@@ -858,6 +898,7 @@ void* C_00451850::FUN_00451850(unsigned char f)
 }
 
 struct C_00455a30 { void* FUN_00455a30(unsigned char f); };
+// pdb: NiTMap<char const *,TESForm *>::`scalar deleting destructor' | TESForm.obj | fnv360_0822_debug, vtable, medium
 void* C_00455a30::FUN_00455a30(unsigned char f)
 {
     FUN_004558b0(this);
@@ -866,6 +907,7 @@ void* C_00455a30::FUN_00455a30(unsigned char f)
 }
 
 struct C_00455a50 { void* FUN_00455a50(unsigned char f); };
+// pdb: NiTStringTemplateMap<NiTMap<char const *,TESForm *>,TESForm *>::`scalar deleting destructor' | TESForm.obj | fnv360_0822_retail, vtable, medium
 void* C_00455a50::FUN_00455a50(unsigned char f)
 {
     FUN_00455920(this);
@@ -874,6 +916,7 @@ void* C_00455a50::FUN_00455a50(unsigned char f)
 }
 
 struct C_00455c10 { void* FUN_00455c10(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,TESForm *>::`scalar deleting destructor' | TESForm.obj | fnv360_0822_debug, vtable, medium
 void* C_00455c10::FUN_00455c10(unsigned char f)
 {
     FUN_00455ba0(this);
@@ -882,6 +925,7 @@ void* C_00455c10::FUN_00455c10(unsigned char f)
 }
 
 struct C_00455c30 { void* FUN_00455c30(unsigned char f); };
+// pdb: TESForm::`scalar deleting destructor' | TESForm.obj | fnv360_0822_retail, vtable, medium
 void* C_00455c30::FUN_00455c30(unsigned char f)
 {
     FUN_00455a70(this);
@@ -890,6 +934,7 @@ void* C_00455c30::FUN_00455c30(unsigned char f)
 }
 
 struct C_00459310 { void* FUN_00459310(unsigned char f); };
+// pdb: BSMap<int,TEX_SWAP *>::`scalar deleting destructor' | TESModelTextureSwap.obj | fnv360_0822_debug, vtable, medium
 void* C_00459310::FUN_00459310(unsigned char f)
 {
     FUN_00458dd0(this);
@@ -898,6 +943,7 @@ void* C_00459310::FUN_00459310(unsigned char f)
 }
 
 struct C_004595f0 { void* FUN_004595f0(unsigned char f); };
+// pdb: TESModelTextureSwap::`scalar deleting destructor' | TESModelTextureSwap.obj | fnv360_0822_debug, vtable, medium
 void* C_004595f0::FUN_004595f0(unsigned char f)
 {
     FUN_00459580(this);
@@ -906,6 +952,7 @@ void* C_004595f0::FUN_004595f0(unsigned char f)
 }
 
 struct C_0045c960 { void* FUN_0045c960(unsigned char f); };
+// pdb: AnimSequenceSingle::`scalar deleting destructor' | Animation.obj | fnv360_0822_retail, vtable, medium
 void* C_0045c960::FUN_0045c960(unsigned char f)
 {
     FUN_0045c240(this);
@@ -914,6 +961,7 @@ void* C_0045c960::FUN_0045c960(unsigned char f)
 }
 
 struct C_004605e0 { void* FUN_004605e0(unsigned char f); };
+// pdb: NiTPointerMap<unsigned short,AnimSequenceBase *>::`scalar deleting destructor' | Animation.obj | fnv360_0822_debug, vtable, medium
 void* C_004605e0::FUN_004605e0(unsigned char f)
 {
     FUN_00460570(this);
@@ -922,6 +970,7 @@ void* C_004605e0::FUN_004605e0(unsigned char f)
 }
 
 struct C_00464cd0 { void* FUN_00464cd0(unsigned char f); };
+// pdb: AnimSequenceMultiple::`scalar deleting destructor' | Animation.obj | fnv360_0822_retail, vtable, medium
 void* C_00464cd0::FUN_00464cd0(unsigned char f)
 {
     FUN_00464240(this);
@@ -930,6 +979,7 @@ void* C_00464cd0::FUN_00464cd0(unsigned char f)
 }
 
 struct C_00465590 { void* FUN_00465590(unsigned char f); };
+// pdb: BSSimpleArray<BSSimpleArray<NiPoint3,1024>,1024>::`scalar deleting destructor' | BGSAutoWater.obj | fnv360_0822_retail, vtable, medium
 void* C_00465590::FUN_00465590(unsigned char f)
 {
     FUN_004654e0(this);
@@ -938,6 +988,7 @@ void* C_00465590::FUN_00465590(unsigned char f)
 }
 
 struct C_00469210 { void* FUN_00469210(unsigned char f); };
+// pdb: BSCullingProcess::`scalar deleting destructor' | BGSDecalManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00469210::FUN_00469210(unsigned char f)
 {
     FUN_00469140(this);
@@ -946,6 +997,7 @@ void* C_00469210::FUN_00469210(unsigned char f)
 }
 
 struct C_0046b540 { void* FUN_0046b540(unsigned char f); };
+// pdb: hkpAllRayHitCollector::`scalar deleting destructor' | BGSDecalManager.obj | fnv360_0822_retail, vtable, medium
 void* C_0046b540::FUN_0046b540(unsigned char f)
 {
     FUN_0046a920(this);
@@ -954,6 +1006,7 @@ void* C_0046b540::FUN_0046b540(unsigned char f)
 }
 
 struct C_0046df40 { void* FUN_0046df40(unsigned char f); };
+// pdb: BGSPrimitive::`scalar deleting destructor' | BGSPrimitive.obj | fnv360_0822_retail, vtable, high
 void* C_0046df40::FUN_0046df40(unsigned char f)
 {
     FUN_0046da70(this);
@@ -962,6 +1015,7 @@ void* C_0046df40::FUN_0046df40(unsigned char f)
 }
 
 struct C_0046f360 { void* FUN_0046f360(unsigned char f); };
+// pdb: NiTMap<int,int>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_debug, vtable, high
 void* C_0046f360::FUN_0046f360(unsigned char f)
 {
     FUN_0046e9b0(this);
@@ -970,6 +1024,7 @@ void* C_0046f360::FUN_0046f360(unsigned char f)
 }
 
 struct C_0046f380 { void* FUN_0046f380(unsigned char f); };
+// pdb: NiTMap<NiTexture *,bool>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_debug, vtable, high
 void* C_0046f380::FUN_0046f380(unsigned char f)
 {
     FUN_0046ea40(this);
@@ -978,6 +1033,7 @@ void* C_0046f380::FUN_0046f380(unsigned char f)
 }
 
 struct C_0046f3a0 { void* FUN_0046f3a0(unsigned char f); };
+// pdb: NiTMap<TESActorBase *,bool>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: NiParticleSystem::GetMaxNumParticles)
 void* C_0046f3a0::FUN_0046f3a0(unsigned char f)
 {
     FUN_0046eb10(this);
@@ -986,6 +1042,7 @@ void* C_0046f3a0::FUN_0046f3a0(unsigned char f)
 }
 
 struct C_0046f3c0 { void* FUN_0046f3c0(unsigned char f); };
+// pdb: NiTMap<ShadowSceneLight *,int>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_debug, vtable, medium
 void* C_0046f3c0::FUN_0046f3c0(unsigned char f)
 {
     FUN_0046eba0(this);
@@ -994,6 +1051,7 @@ void* C_0046f3c0::FUN_0046f3c0(unsigned char f)
 }
 
 struct C_0046f3e0 { void* FUN_0046f3e0(unsigned char f); };
+// pdb: NiTMap<NiTexture *,TEX_USER_DATA *>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_debug, vtable, high
 void* C_0046f3e0::FUN_0046f3e0(unsigned char f)
 {
     FUN_0046ec30(this);
@@ -1002,6 +1060,7 @@ void* C_0046f3e0::FUN_0046f3e0(unsigned char f)
 }
 
 struct C_0046f400 { void* FUN_0046f400(unsigned char f); };
+// pdb: NiTMap<TESObjectCELL *,bool>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_debug, vtable, medium
 void* C_0046f400::FUN_0046f400(unsigned char f)
 {
     FUN_0046ecc0(this);
@@ -1010,6 +1069,7 @@ void* C_0046f400::FUN_0046f400(unsigned char f)
 }
 
 struct C_00471260 { void* FUN_00471260(unsigned char f); };
+// pdb: NiTPointerMap<NiObject *,NiObject *>::`scalar deleting destructor' | BipedAnim.obj | fnv360_0822_debug, vtable, medium
 void* C_00471260::FUN_00471260(unsigned char f)
 {
     FUN_00471130(this);
@@ -1018,6 +1078,7 @@ void* C_00471260::FUN_00471260(unsigned char f)
 }
 
 struct C_00471280 { void* FUN_00471280(unsigned char f); };
+// pdb: NiTPointerMap<NiObject *,bool>::`scalar deleting destructor' | BipedAnim.obj | fnv360_0822_debug, vtable, medium
 void* C_00471280::FUN_00471280(unsigned char f)
 {
     FUN_004711a0(this);
@@ -1026,6 +1087,7 @@ void* C_00471280::FUN_00471280(unsigned char f)
 }
 
 struct C_00474a50 { void* FUN_00474a50(unsigned char f); };
+// pdb: BSAnimNoteReceiver::`scalar deleting destructor' | BSAnimNoteReceiver.obj | fnv360_0822_retail, vtable, high
 void* C_00474a50::FUN_00474a50(unsigned char f)
 {
     FUN_004749a0(this);
@@ -1034,6 +1096,7 @@ void* C_00474a50::FUN_00474a50(unsigned char f)
 }
 
 struct C_00479be0 { void* FUN_00479be0(unsigned char f); };
+// pdb: NiTMap<unsigned int,VertexDist>::`scalar deleting destructor' | GlobalFunc.obj | fnv360_0822_debug, vtable, medium
 void* C_00479be0::FUN_00479be0(unsigned char f)
 {
     FUN_00479a90(this);
@@ -1042,6 +1105,7 @@ void* C_00479be0::FUN_00479be0(unsigned char f)
 }
 
 struct C_0047bc70 { void* FUN_0047bc70(unsigned char f); };
+// pdb: GridCellArray::`scalar deleting destructor' | GridCell.obj | fnv360_0822_retail, vtable, high
 void* C_0047bc70::FUN_0047bc70(unsigned char f)
 {
     FUN_0047bbc0(this);
@@ -1050,6 +1114,7 @@ void* C_0047bc70::FUN_0047bc70(unsigned char f)
 }
 
 struct C_00486f30 { void* FUN_00486f30(unsigned char f); };
+// pdb: NiTMap<TESObject *,bool>::`scalar deleting destructor' | InventoryChanges.obj | fnv360_0822_debug, vtable, medium
 void* C_00486f30::FUN_00486f30(unsigned char f)
 {
     FUN_0047fc80(this);
@@ -1058,6 +1123,7 @@ void* C_00486f30::FUN_00486f30(unsigned char f)
 }
 
 struct C_00491550 { void* FUN_00491550(unsigned char f); };
+// pdb: SettingT<INIPrefSettingCollection>::`scalar deleting destructor' | Renderer.obj | fnv360_0822_retail, vtable, high
 void* C_00491550::FUN_00491550(unsigned char f)
 {
     FUN_00491490(this);
@@ -1066,6 +1132,7 @@ void* C_00491550::FUN_00491550(unsigned char f)
 }
 
 struct C_00496860 { void* FUN_00496860(unsigned char f); };
+// pdb: NiTPointerMap<TESObjectREFR *,TESObjectREFR *>::`scalar deleting destructor' | TESWater.obj | fnv360_0822_debug, vtable, medium
 void* C_00496860::FUN_00496860(unsigned char f)
 {
     FUN_00494d50(this);
@@ -1074,6 +1141,7 @@ void* C_00496860::FUN_00496860(unsigned char f)
 }
 
 struct C_00496880 { void* FUN_00496880(unsigned char f); };
+// pdb: NiTPointerMap<TESWaterForm *,bool>::`scalar deleting destructor' | TESWater.obj | fnv360_0822_debug, vtable, medium
 void* C_00496880::FUN_00496880(unsigned char f)
 {
     FUN_00494de0(this);
@@ -1082,6 +1150,7 @@ void* C_00496880::FUN_00496880(unsigned char f)
 }
 
 struct C_004968a0 { void* FUN_004968a0(unsigned char f); };
+// pdb: NiTPointerMap<TESObjectREFR *,WadingWaterData *>::`scalar deleting destructor' | TESWater.obj | fnv360_0822_debug, vtable, medium
 void* C_004968a0::FUN_004968a0(unsigned char f)
 {
     FUN_00494e70(this);
@@ -1090,6 +1159,7 @@ void* C_004968a0::FUN_004968a0(unsigned char f)
 }
 
 struct C_00496aa0 { void* FUN_00496aa0(unsigned char f); };
+// pdb: ImageSpaceEffectParam::`scalar deleting destructor' | TESWater.obj | fnv360_0822_debug, vtable, high
 void* C_00496aa0::FUN_00496aa0(unsigned char f)
 {
     FUN_00496a20(this);
@@ -1098,6 +1168,7 @@ void* C_00496aa0::FUN_00496aa0(unsigned char f)
 }
 
 struct C_0049e890 { void* FUN_0049e890(unsigned char f); };
+// pdb: TESRegion::`scalar deleting destructor' | TESRegion.obj | fnv360_0822_retail, vtable, medium
 void* C_0049e890::FUN_0049e890(unsigned char f)
 {
     FUN_0049e3a0(this);
@@ -1106,6 +1177,7 @@ void* C_0049e890::FUN_0049e890(unsigned char f)
 }
 
 struct C_0049eeb0 { void* FUN_0049eeb0(unsigned char f); };
+// pdb: TESRegionDataGrass::`vector deleting destructor' | TESRegionDataGrass.obj | tesv_win, vtable, medium
 void* C_0049eeb0::FUN_0049eeb0(unsigned char f)
 {
     FUN_0049ead0(this);
@@ -1114,6 +1186,7 @@ void* C_0049eeb0::FUN_0049eeb0(unsigned char f)
 }
 
 struct C_0049f640 { void* FUN_0049f640(unsigned char f); };
+// pdb: TESRegionDataLandscape::`scalar deleting destructor' | TESRegionDataLandscape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_0049f640::FUN_0049f640(unsigned char f)
 {
     FUN_0049f0f0(this);
@@ -1122,6 +1195,8 @@ void* C_0049f640::FUN_0049f640(unsigned char f)
 }
 
 struct C_004a0600 { void* FUN_004a0600(unsigned char f); };
+// pdb: TESRegionDataMap::GetMapName | TESRegionDataMap.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: TESRegionDataMap::`scalar deleting destructor')
+// pdb params: aMapName
 void* C_004a0600::FUN_004a0600(unsigned char f)
 {
     FUN_004a0510(this);
@@ -1130,6 +1205,7 @@ void* C_004a0600::FUN_004a0600(unsigned char f)
 }
 
 struct C_004a0e10 { void* FUN_004a0e10(unsigned char f); };
+// pdb: TESRegionDataSound::`scalar deleting destructor' | TESRegionDataSound.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_004a0e10::FUN_004a0e10(unsigned char f)
 {
     FUN_004a0da0(this);
@@ -1138,6 +1214,7 @@ void* C_004a0e10::FUN_004a0e10(unsigned char f)
 }
 
 struct C_004a0ef0 { void* FUN_004a0ef0(unsigned char f); };
+// pdb: TESRegionDataWeather::`scalar deleting destructor' | TESRegionDataWeather.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_004a0ef0::FUN_004a0ef0(unsigned char f)
 {
     FUN_004a0e90(this);
@@ -1146,6 +1223,7 @@ void* C_004a0ef0::FUN_004a0ef0(unsigned char f)
 }
 
 struct C_004a1b80 { void* FUN_004a1b80(unsigned char f); };
+// pdb: TESRegionGrassObjectList::`scalar deleting destructor' | TESRegionGrassObjectList.obj | fnv360_0822_debug, vtable, high
 void* C_004a1b80::FUN_004a1b80(unsigned char f)
 {
     FUN_004a1950(this);
@@ -1154,6 +1232,7 @@ void* C_004a1b80::FUN_004a1b80(unsigned char f)
 }
 
 struct C_004a2140 { void* FUN_004a2140(unsigned char f); };
+// pdb: TESRegionList::`scalar deleting destructor' | TESRegionList.obj | fnv360_0822_retail, vtable, high
 void* C_004a2140::FUN_004a2140(unsigned char f)
 {
     FUN_004a2090(this);
@@ -1162,6 +1241,7 @@ void* C_004a2140::FUN_004a2140(unsigned char f)
 }
 
 struct C_004a3a70 { void* FUN_004a3a70(unsigned char f); };
+// pdb: BGSAddonNode::`scalar deleting destructor' | BGSAddonNode.obj | fnv360_0822_retail, vtable, high
 void* C_004a3a70::FUN_004a3a70(unsigned char f)
 {
     FUN_004a3410(this);
@@ -1170,6 +1250,7 @@ void* C_004a3a70::FUN_004a3a70(unsigned char f)
 }
 
 struct C_004a4170 { void* FUN_004a4170(unsigned char f); };
+// pdb: BGSConstructibleObject::`scalar deleting destructor' | BGSConstructibleObject.obj | fnv360_0822_retail, vtable, medium
 void* C_004a4170::FUN_004a4170(unsigned char f)
 {
     FUN_004a3af0(this);
@@ -1178,6 +1259,7 @@ void* C_004a4170::FUN_004a4170(unsigned char f)
 }
 
 struct C_004a48c0 { void* FUN_004a48c0(unsigned char f); };
+// pdb: BGSDebris::`scalar deleting destructor' | BGSDebris.obj | fnv360_0822_debug, objrun_sim, low
 void* C_004a48c0::FUN_004a48c0(unsigned char f)
 {
     FUN_004a47c0(this);
@@ -1186,6 +1268,7 @@ void* C_004a48c0::FUN_004a48c0(unsigned char f)
 }
 
 struct C_004a56d0 { void* FUN_004a56d0(unsigned char f); };
+// pdb: BGSExplosion::`scalar deleting destructor' | BGSExplosion.obj | fnv360_0822_retail, vtable, medium
 void* C_004a56d0::FUN_004a56d0(unsigned char f)
 {
     FUN_004a53f0(this);
@@ -1194,6 +1277,8 @@ void* C_004a56d0::FUN_004a56d0(unsigned char f)
 }
 
 struct C_004a5bf0 { void* FUN_004a5bf0(unsigned char f); };
+// pdb: BGSPlaceableWater::EnableUnderwaterFoggingPass | BGSPlaceableWater.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: abValue
 void* C_004a5bf0::FUN_004a5bf0(unsigned char f)
 {
     FUN_004a5a90(this);
@@ -1202,6 +1287,7 @@ void* C_004a5bf0::FUN_004a5bf0(unsigned char f)
 }
 
 struct C_004a5fe0 { void* FUN_004a5fe0(unsigned char f); };
+// pdb: BGSPlaceableWater::`scalar deleting destructor' | BGSPlaceableWater.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_004a5fe0::FUN_004a5fe0(unsigned char f)
 {
     FUN_004a5c10(this);
@@ -1210,6 +1296,7 @@ void* C_004a5fe0::FUN_004a5fe0(unsigned char f)
 }
 
 struct C_004a7290 { void* FUN_004a7290(unsigned char f); };
+// pdb: BGSProjectile::`scalar deleting destructor' | BGSProjectile.obj | fnv360_0822_retail, vtable, high
 void* C_004a7290::FUN_004a7290(unsigned char f)
 {
     FUN_004a6f10(this);
@@ -1218,6 +1305,7 @@ void* C_004a7290::FUN_004a7290(unsigned char f)
 }
 
 struct C_004a75b0 { void* FUN_004a75b0(unsigned char f); };
+// pdb: BGSStaticCollection::`scalar deleting destructor' | BGSStaticCollection.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: ConcreteFormFactory<class BGSStaticCollection,36>::~ConcreteFormFactory<class BGSStaticCollection,36>)
 void* C_004a75b0::FUN_004a75b0(unsigned char f)
 {
     FUN_004a7530(this);
@@ -1226,6 +1314,7 @@ void* C_004a75b0::FUN_004a75b0(unsigned char f)
 }
 
 struct C_004a7df0 { void* FUN_004a7df0(unsigned char f); };
+// pdb: BGSTalkingActivator::`scalar deleting destructor' | BGSTalkingActivator.obj | fnv360_0822_retail, vtable, medium
 void* C_004a7df0::FUN_004a7df0(unsigned char f)
 {
     FUN_004a75d0(this);
@@ -1234,6 +1323,7 @@ void* C_004a7df0::FUN_004a7df0(unsigned char f)
 }
 
 struct C_004a9da0 { void* FUN_004a9da0(unsigned char f); };
+// pdb: BGSTerminal::`scalar deleting destructor' | BGSTerminal.obj | fnv360_0822_retail, vtable, medium
 void* C_004a9da0::FUN_004a9da0(unsigned char f)
 {
     FUN_004a9d00(this);
@@ -1242,6 +1332,7 @@ void* C_004a9da0::FUN_004a9da0(unsigned char f)
 }
 
 struct C_004aae90 { void* FUN_004aae90(unsigned char f); };
+// pdb: TESAmmo::`scalar deleting destructor' | TESAmmo.obj | fnv360_0822_retail, vtable, medium
 void* C_004aae90::FUN_004aae90(unsigned char f)
 {
     FUN_004aaa00(this);
@@ -1250,6 +1341,7 @@ void* C_004aae90::FUN_004aae90(unsigned char f)
 }
 
 struct C_004ac190 { void* FUN_004ac190(unsigned char f); };
+// pdb: TESEffectShader::`scalar deleting destructor' | TESEffectShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_004ac190::FUN_004ac190(unsigned char f)
 {
     FUN_004ab6c0(this);
@@ -1258,6 +1350,7 @@ void* C_004ac190::FUN_004ac190(unsigned char f)
 }
 
 struct C_004ad6f0 { void* FUN_004ad6f0(unsigned char f); };
+// pdb: TESFlora::`scalar deleting destructor' | TESFlora.obj | fnv360_0822_debug, objrun_prop, low
 void* C_004ad6f0::FUN_004ad6f0(unsigned char f)
 {
     FUN_004ad320(this);
@@ -1266,6 +1359,7 @@ void* C_004ad6f0::FUN_004ad6f0(unsigned char f)
 }
 
 struct C_004ae220 { void* FUN_004ae220(unsigned char f); };
+// pdb: TESFurniture::`scalar deleting destructor' | TESFurniture.obj | fnv360_0822_retail, vtable, medium
 void* C_004ae220::FUN_004ae220(unsigned char f)
 {
     FUN_004ad9f0(this);
@@ -1274,6 +1368,7 @@ void* C_004ae220::FUN_004ae220(unsigned char f)
 }
 
 struct C_004aeb40 { void* FUN_004aeb40(unsigned char f); };
+// pdb: TESGrass::`scalar deleting destructor' | TESGrass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_004aeb40::FUN_004aeb40(unsigned char f)
 {
     FUN_004ae2c0(this);
@@ -1282,6 +1377,7 @@ void* C_004aeb40::FUN_004aeb40(unsigned char f)
 }
 
 struct C_004aece0 { void* FUN_004aece0(unsigned char f); };
+// pdb: TESKey::`scalar deleting destructor' | TESKey.obj | fnv360_0822_retail, vtable, medium
 void* C_004aece0::FUN_004aece0(unsigned char f)
 {
     FUN_004aec20(this);
@@ -1290,6 +1386,7 @@ void* C_004aece0::FUN_004aece0(unsigned char f)
 }
 
 struct C_004af1d0 { void* FUN_004af1d0(unsigned char f); };
+// pdb: TESLevCharacter::`scalar deleting destructor' | TESLevCharacter.obj | fnv360_0822_retail, vtable, medium
 void* C_004af1d0::FUN_004af1d0(unsigned char f)
 {
     FUN_004aed90(this);
@@ -1298,6 +1395,7 @@ void* C_004af1d0::FUN_004af1d0(unsigned char f)
 }
 
 struct C_004af6a0 { void* FUN_004af6a0(unsigned char f); };
+// pdb: TESLevCreature::`scalar deleting destructor' | TESLevCreature.obj | fnv360_0822_retail, vtable, medium
 void* C_004af6a0::FUN_004af6a0(unsigned char f)
 {
     FUN_004af280(this);
@@ -1306,6 +1404,8 @@ void* C_004af6a0::FUN_004af6a0(unsigned char f)
 }
 
 struct C_004afa70 { void* FUN_004afa70(unsigned char f); };
+// pdb: TESLevItem::Revert | TESLevItem.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: TESLevItem::`scalar deleting destructor')
+// pdb params: apLoadGameBuffer
 void* C_004afa70::FUN_004afa70(unsigned char f)
 {
     FUN_004af730(this);
@@ -1314,6 +1414,7 @@ void* C_004afa70::FUN_004afa70(unsigned char f)
 }
 
 struct C_004afe80 { void* FUN_004afe80(unsigned char f); };
+// pdb: TESLevSpell::`scalar deleting destructor' | TESLevSpell.obj | fnv360_0822_debug, objrun_open, low
 void* C_004afe80::FUN_004afe80(unsigned char f)
 {
     FUN_004afb10(this);
@@ -1322,6 +1423,7 @@ void* C_004afe80::FUN_004afe80(unsigned char f)
 }
 
 struct C_004b2080 { void* FUN_004b2080(unsigned char f); };
+// pdb: TESObjectLIGH::`scalar deleting destructor' | TESLight.obj | fnv360_0822_retail, vtable, medium
 void* C_004b2080::FUN_004b2080(unsigned char f)
 {
     FUN_004b1b50(this);
@@ -1330,6 +1432,7 @@ void* C_004b2080::FUN_004b2080(unsigned char f)
 }
 
 struct C_004b4010 { void* FUN_004b4010(unsigned char f); };
+// pdb: TESObjectACTI::`scalar deleting destructor' | TESObjectACTI.obj | fnv360_0822_retail, vtable, medium
 void* C_004b4010::FUN_004b4010(unsigned char f)
 {
     FUN_004b3e60(this);
@@ -1338,6 +1441,7 @@ void* C_004b4010::FUN_004b4010(unsigned char f)
 }
 
 struct C_004b43e0 { void* FUN_004b43e0(unsigned char f); };
+// pdb: TESObjectANIO::`scalar deleting destructor' | TESObjectANIO.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_004b43e0::FUN_004b43e0(unsigned char f)
 {
     FUN_004b40a0(this);
@@ -1346,6 +1450,7 @@ void* C_004b43e0::FUN_004b43e0(unsigned char f)
 }
 
 struct C_004b4760 { void* FUN_004b4760(unsigned char f); };
+// pdb: TESObjectARMA::`scalar deleting destructor' | TESObjectARMA.obj | fnv360_0822_retail, vtable, medium
 void* C_004b4760::FUN_004b4760(unsigned char f)
 {
     FUN_004b4400(this);
@@ -1354,6 +1459,7 @@ void* C_004b4760::FUN_004b4760(unsigned char f)
 }
 
 struct C_004b5a20 { void* FUN_004b5a20(unsigned char f); };
+// pdb: TESObjectARMO::`scalar deleting destructor' | TESObjectARMO.obj | fnv360_0822_retail, vtable, medium
 void* C_004b5a20::FUN_004b5a20(unsigned char f)
 {
     FUN_004b5730(this);
@@ -1362,6 +1468,7 @@ void* C_004b5a20::FUN_004b5a20(unsigned char f)
 }
 
 struct C_004b65b0 { void* FUN_004b65b0(unsigned char f); };
+// pdb: TESObjectBOOK::`scalar deleting destructor' | TESObjectBOOK.obj | fnv360_0822_retail, vtable, medium
 void* C_004b65b0::FUN_004b65b0(unsigned char f)
 {
     FUN_004b6100(this);
@@ -1370,6 +1477,7 @@ void* C_004b65b0::FUN_004b65b0(unsigned char f)
 }
 
 struct C_004b6ea0 { void* FUN_004b6ea0(unsigned char f); };
+// pdb: TESObjectCLOT::`scalar deleting destructor' | TESObjectCLOT.obj | fnv360_0822_retail, vtable, medium
 void* C_004b6ea0::FUN_004b6ea0(unsigned char f)
 {
     FUN_004b6c80(this);
@@ -1378,6 +1486,7 @@ void* C_004b6ea0::FUN_004b6ea0(unsigned char f)
 }
 
 struct C_004b7be0 { void* FUN_004b7be0(unsigned char f); };
+// pdb: TESObjectCONT::`scalar deleting destructor' | TESObjectCONT.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: IFadeDoneCallback::~IFadeDoneCallback)
 void* C_004b7be0::FUN_004b7be0(unsigned char f)
 {
     FUN_004b79e0(this);
@@ -1386,6 +1495,7 @@ void* C_004b7be0::FUN_004b7be0(unsigned char f)
 }
 
 struct C_004b8b80 { void* FUN_004b8b80(unsigned char f); };
+// pdb: NiTPointerMap<int,bool>::`scalar deleting destructor' | TESObjectDOOR.obj | fnv360_0822_debug, vtable, medium
 void* C_004b8b80::FUN_004b8b80(unsigned char f)
 {
     FUN_004b8480(this);
@@ -1394,6 +1504,7 @@ void* C_004b8b80::FUN_004b8b80(unsigned char f)
 }
 
 struct C_004b91a0 { void* FUN_004b91a0(unsigned char f); };
+// pdb: TESObjectDOOR::`scalar deleting destructor' | TESObjectDOOR.obj | fnv360_0822_retail, vtable, medium
 void* C_004b91a0::FUN_004b91a0(unsigned char f)
 {
     FUN_004b8ba0(this);
@@ -1402,6 +1513,7 @@ void* C_004b91a0::FUN_004b91a0(unsigned char f)
 }
 
 struct C_004ba0e0 { void* FUN_004ba0e0(unsigned char f); };
+// pdb: TESObjectMISC::`scalar deleting destructor' | TESObjectMISC.obj | fnv360_0822_retail, vtable, medium
 void* C_004ba0e0::FUN_004ba0e0(unsigned char f)
 {
     FUN_004b9e50(this);
@@ -1410,6 +1522,7 @@ void* C_004ba0e0::FUN_004ba0e0(unsigned char f)
 }
 
 struct C_004ba3a0 { void* FUN_004ba3a0(unsigned char f); };
+// pdb: TESObjectSTAT::`scalar deleting destructor' | TESObjectSTAT.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: TESObjectSTAT::SetIsSkyObject)
 void* C_004ba3a0::FUN_004ba3a0(unsigned char f)
 {
     FUN_004ba170(this);
@@ -1418,6 +1531,7 @@ void* C_004ba3a0::FUN_004ba3a0(unsigned char f)
 }
 
 struct C_004bb1f0 { void* FUN_004bb1f0(unsigned char f); };
+// pdb: TESObjectTREE::`scalar deleting destructor' | TESObjectTREE.obj | fnv360_0822_retail, vtable, medium
 void* C_004bb1f0::FUN_004bb1f0(unsigned char f)
 {
     FUN_004baef0(this);
@@ -1426,6 +1540,7 @@ void* C_004bb1f0::FUN_004bb1f0(unsigned char f)
 }
 
 struct C_004bf790 { void* FUN_004bf790(unsigned char f); };
+// pdb: TESObjectWEAP::`scalar deleting destructor' | TESObjectWEAP.obj | fnv360_0822_retail, vtable, medium
 void* C_004bf790::FUN_004bf790(unsigned char f)
 {
     FUN_004bf2a0(this);
@@ -1434,6 +1549,7 @@ void* C_004bf790::FUN_004bf790(unsigned char f)
 }
 
 struct C_004c0ae0 { void* FUN_004c0ae0(unsigned char f); };
+// pdb: NiTMap<unsigned int,TESObjectREFR *>::`scalar deleting destructor' | BGSLoadedReferenceCollection.obj | fnv360_0822_debug, vtable, medium
 void* C_004c0ae0::FUN_004c0ae0(unsigned char f)
 {
     FUN_004c08a0(this);
@@ -1442,6 +1558,7 @@ void* C_004c0ae0::FUN_004c0ae0(unsigned char f)
 }
 
 struct C_004c0b50 { void* FUN_004c0b50(unsigned char f); };
+// pdb: LoadedReferenceMap::`scalar deleting destructor' | BGSLoadedReferenceCollection.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: ExteriorCellLoaderTask::Finish)
 void* C_004c0b50::FUN_004c0b50(unsigned char f)
 {
     FUN_004c0950(this);
@@ -1450,6 +1567,7 @@ void* C_004c0b50::FUN_004c0b50(unsigned char f)
 }
 
 struct C_004c1c70 { void* FUN_004c1c70(unsigned char f); };
+// pdb: LockFreeMap<unsigned int,NiPointer<ExteriorCellLoaderTask> >::`scalar deleting destructor' | ExteriorCellLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_004c1c70::FUN_004c1c70(unsigned char f)
 {
     FUN_004c1bf0(this);
@@ -1458,6 +1576,7 @@ void* C_004c1c70::FUN_004c1c70(unsigned char f)
 }
 
 struct C_004c3220 { void* FUN_004c3220(unsigned char f); };
+// pdb: TESClimate::`scalar deleting destructor' | TESClimate.obj | fnv360_0822_retail, vtable, medium
 void* C_004c3220::FUN_004c3220(unsigned char f)
 {
     FUN_004c2cd0(this);
@@ -1466,6 +1585,7 @@ void* C_004c3220::FUN_004c3220(unsigned char f)
 }
 
 struct C_004c3770 { void* FUN_004c3770(unsigned char f); };
+// pdb: TESImageSpace::`scalar deleting destructor' | TESImageSpace.obj | fnv360_0822_debug, objrun_open, low
 void* C_004c3770::FUN_004c3770(unsigned char f)
 {
     FUN_004c3330(this);
@@ -1474,6 +1594,7 @@ void* C_004c3770::FUN_004c3770(unsigned char f)
 }
 
 struct C_004c8da0 { void* FUN_004c8da0(unsigned char f); };
+// pdb: TESImageSpaceModifier::`scalar deleting destructor' | TESImageSpaceModifier.obj | fnv360_0822_retail, vtable, medium
 void* C_004c8da0::FUN_004c8da0(unsigned char f)
 {
     FUN_004c8c50(this);
@@ -1482,6 +1603,7 @@ void* C_004c8da0::FUN_004c8da0(unsigned char f)
 }
 
 struct C_004d0b60 { void* FUN_004d0b60(unsigned char f); };
+// pdb: TESObjectLAND::`scalar deleting destructor' | TESLand.obj | fnv360_0822_retail, vtable, medium
 void* C_004d0b60::FUN_004d0b60(unsigned char f)
 {
     FUN_004d0330(this);
@@ -1490,6 +1612,7 @@ void* C_004d0b60::FUN_004d0b60(unsigned char f)
 }
 
 struct C_004d2f90 { void* FUN_004d2f90(unsigned char f); };
+// pdb: TESLandTexture::`scalar deleting destructor' | TESLandTexture.obj | fnv360_0822_debug, objrun_sim, low
 void* C_004d2f90::FUN_004d2f90(unsigned char f)
 {
     FUN_004d2d20(this);
@@ -1498,6 +1621,7 @@ void* C_004d2f90::FUN_004d2f90(unsigned char f)
 }
 
 struct C_004d9210 { void* FUN_004d9210(unsigned char f); };
+// pdb: BSScrapMap<TESObjectREFR *,bool>::`scalar deleting destructor' | TESObjectCELL.obj | fnv360_0822_retail, vtable, high
 void* C_004d9210::FUN_004d9210(unsigned char f)
 {
     FUN_004d8fb0(this);
@@ -1506,6 +1630,7 @@ void* C_004d9210::FUN_004d9210(unsigned char f)
 }
 
 struct C_004ddcf0 { void* FUN_004ddcf0(unsigned char f); };
+// pdb: NiTMap<TESObjectREFR *,NiNode *>::`scalar deleting destructor' | TESObjectCELL.obj | fnv360_0822_debug, vtable, medium
 void* C_004ddcf0::FUN_004ddcf0(unsigned char f)
 {
     FUN_004d8c00(this);
@@ -1514,6 +1639,7 @@ void* C_004ddcf0::FUN_004ddcf0(unsigned char f)
 }
 
 struct C_004ddd10 { void* FUN_004ddd10(unsigned char f); };
+// pdb: NiTMap<TESForm *,TESObjectREFR *>::`scalar deleting destructor' | TESObjectCELL.obj | fnv360_0822_debug, vtable, medium
 void* C_004ddd10::FUN_004ddd10(unsigned char f)
 {
     FUN_004d8c90(this);
@@ -1522,6 +1648,7 @@ void* C_004ddd10::FUN_004ddd10(unsigned char f)
 }
 
 struct C_004ddd30 { void* FUN_004ddd30(unsigned char f); };
+// pdb: NiTMap<TESObjectREFR *,NiPointer<BSMultiBoundNode> >::`scalar deleting destructor' | TESObjectCELL.obj | fnv360_0822_debug, vtable, medium
 void* C_004ddd30::FUN_004ddd30(unsigned char f)
 {
     FUN_004d8d40(this);
@@ -1530,6 +1657,7 @@ void* C_004ddd30::FUN_004ddd30(unsigned char f)
 }
 
 struct C_004ddd50 { void* FUN_004ddd50(unsigned char f); };
+// pdb: NiTMap<TESObjectREFR *,TESObjectREFR *>::`scalar deleting destructor' | TESObjectCELL.obj | fnv360_0822_debug, vtable, medium
 void* C_004ddd50::FUN_004ddd50(unsigned char f)
 {
     FUN_004d8dd0(this);
@@ -1538,6 +1666,7 @@ void* C_004ddd50::FUN_004ddd50(unsigned char f)
 }
 
 struct C_004ddd70 { void* FUN_004ddd70(unsigned char f); };
+// pdb: NiTMap<NiAVObject *,TESObjectCELL::QUEUED_ATTACH>::`scalar deleting destructor' | TESObjectCELL.obj | fnv360_0822_debug, vtable, medium
 void* C_004ddd70::FUN_004ddd70(unsigned char f)
 {
     FUN_004d8e60(this);
@@ -1546,6 +1675,7 @@ void* C_004ddd70::FUN_004ddd70(unsigned char f)
 }
 
 struct C_004e52b0 { void* FUN_004e52b0(unsigned char f); };
+// pdb: TESObjectCELL::`scalar deleting destructor' | TESObjectCELL.obj | fnv360_0822_retail, vtable, medium
 void* C_004e52b0::FUN_004e52b0(unsigned char f)
 {
     FUN_004e2fc0(this);
@@ -1554,6 +1684,7 @@ void* C_004e52b0::FUN_004e52b0(unsigned char f)
 }
 
 struct C_004e5f20 { void* FUN_004e5f20(unsigned char f); };
+// pdb: ExtraAnimNoteReceiver::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_debug, vtable, high
 void* C_004e5f20::FUN_004e5f20(unsigned char f)
 {
     FUN_004e5ec0(this);
@@ -1562,6 +1693,7 @@ void* C_004e5f20::FUN_004e5f20(unsigned char f)
 }
 
 struct C_004f40d0 { void* FUN_004f40d0(unsigned char f); };
+// pdb: NiTPointerMap<TESObjectREFR *,bool>::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_debug, vtable, medium
 void* C_004f40d0::FUN_004f40d0(unsigned char f)
 {
     FUN_004f05d0(this);
@@ -1570,6 +1702,7 @@ void* C_004f40d0::FUN_004f40d0(unsigned char f)
 }
 
 struct C_004f99f0 { void* FUN_004f99f0(unsigned char f); };
+// pdb: TESObjectREFR::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_retail, vtable, medium
 void* C_004f99f0::FUN_004f99f0(unsigned char f)
 {
     FUN_004f6570(this);
@@ -1578,6 +1711,7 @@ void* C_004f99f0::FUN_004f99f0(unsigned char f)
 }
 
 struct C_004ff3c0 { void* FUN_004ff3c0(unsigned char f); };
+// pdb: TESWaterForm::`scalar deleting destructor' | TESWaterForm.obj | fnv360_0822_retail, vtable, medium
 void* C_004ff3c0::FUN_004ff3c0(unsigned char f)
 {
     FUN_004ff120(this);
@@ -1586,6 +1720,7 @@ void* C_004ff3c0::FUN_004ff3c0(unsigned char f)
 }
 
 struct C_005007d0 { void* FUN_005007d0(unsigned char f); };
+// pdb: TESWeather::`scalar deleting destructor' | TESWeather.obj | fnv360_0822_retail, vtable, medium
 void* C_005007d0::FUN_005007d0(unsigned char f)
 {
     FUN_00500730(this);
@@ -1594,6 +1729,7 @@ void* C_005007d0::FUN_005007d0(unsigned char f)
 }
 
 struct C_00504d00 { void* FUN_00504d00(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,BSSimpleList<TESObjectREFR *> *>::`scalar deleting destructor' | TESWorldSpace.obj | fnv360_0822_debug, vtable, high
 void* C_00504d00::FUN_00504d00(unsigned char f)
 {
     FUN_00502b60(this);
@@ -1602,6 +1738,7 @@ void* C_00504d00::FUN_00504d00(unsigned char f)
 }
 
 struct C_00504d20 { void* FUN_00504d20(unsigned char f); };
+// pdb: NiTMap<TESFile *,TESWorldSpace::OFFSET_DATA *>::`scalar deleting destructor' | TESWorldSpace.obj | fnv360_0822_debug, vtable, high
 void* C_00504d20::FUN_00504d20(unsigned char f)
 {
     FUN_00502bf0(this);
@@ -1610,6 +1747,7 @@ void* C_00504d20::FUN_00504d20(unsigned char f)
 }
 
 struct C_00504d40 { void* FUN_00504d40(unsigned char f); };
+// pdb: NiTPointerMap<int,TESObjectCELL *>::`scalar deleting destructor' | TESWorldSpace.obj | fnv360_0822_debug, vtable, high
 void* C_00504d40::FUN_00504d40(unsigned char f)
 {
     FUN_00504c90(this);
@@ -1618,6 +1756,7 @@ void* C_00504d40::FUN_00504d40(unsigned char f)
 }
 
 struct C_00505c20 { void* FUN_00505c20(unsigned char f); };
+// pdb: TESWorldSpace::`scalar deleting destructor' | TESWorldSpace.obj | fnv360_0822_retail, vtable, medium
 void* C_00505c20::FUN_00505c20(unsigned char f)
 {
     FUN_00504d60(this);
@@ -1626,6 +1765,7 @@ void* C_00505c20::FUN_00505c20(unsigned char f)
 }
 
 struct C_00506e40 { void* FUN_00506e40(unsigned char f); };
+// pdb: BGSCameraPath::`scalar deleting destructor' | BGSCameraPath.obj | fnv360_0822_retail, vtable, medium
 void* C_00506e40::FUN_00506e40(unsigned char f)
 {
     FUN_005069d0(this);
@@ -1634,6 +1774,7 @@ void* C_00506e40::FUN_00506e40(unsigned char f)
 }
 
 struct C_00508b30 { void* FUN_00508b30(unsigned char f); };
+// pdb: BGSCameraShot::`scalar deleting destructor' | BGSCameraShot.obj | fnv360_0822_retail, vtable, medium
 void* C_00508b30::FUN_00508b30(unsigned char f)
 {
     FUN_00508520(this);
@@ -1642,6 +1783,7 @@ void* C_00508b30::FUN_00508b30(unsigned char f)
 }
 
 struct C_005095b0 { void* FUN_005095b0(unsigned char f); };
+// pdb: BGSImpactData::`scalar deleting destructor' | BGSImpactData.obj | fnv360_0822_debug, objrun_open, low
 void* C_005095b0::FUN_005095b0(unsigned char f)
 {
     FUN_00508f00(this);
@@ -1650,6 +1792,7 @@ void* C_005095b0::FUN_005095b0(unsigned char f)
 }
 
 struct C_0050a090 { void* FUN_0050a090(unsigned char f); };
+// pdb: BSMap<BGSImpactData *,BGSImpactData *>::`scalar deleting destructor' | BGSImpactDataSet.obj | fnv360_0822_debug, vtable, medium
 void* C_0050a090::FUN_0050a090(unsigned char f)
 {
     FUN_0050a020(this);
@@ -1658,6 +1801,7 @@ void* C_0050a090::FUN_0050a090(unsigned char f)
 }
 
 struct C_0050ab80 { void* FUN_0050ab80(unsigned char f); };
+// pdb: BGSListForm::`scalar deleting destructor' | BGSListForm.obj | fnv360_0822_debug, objrun_open, low
 void* C_0050ab80::FUN_0050ab80(unsigned char f)
 {
     FUN_0050a930(this);
@@ -1666,6 +1810,7 @@ void* C_0050ab80::FUN_0050ab80(unsigned char f)
 }
 
 struct C_0050b030 { void* FUN_0050b030(unsigned char f); };
+// pdb: BGSMenuIcon::`scalar deleting destructor' | BGSMenuIcon.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_0050b030::FUN_0050b030(unsigned char f)
 {
     FUN_0050adc0(this);
@@ -1674,6 +1819,7 @@ void* C_0050b030::FUN_0050b030(unsigned char f)
 }
 
 struct C_0050b980 { void* FUN_0050b980(unsigned char f); };
+// pdb: BGSMessage::`scalar deleting destructor' | BGSMessage.obj | fnv360_0822_retail, vtable, medium
 void* C_0050b980::FUN_0050b980(unsigned char f)
 {
     FUN_0050b8e0(this);
@@ -1682,6 +1828,7 @@ void* C_0050b980::FUN_0050b980(unsigned char f)
 }
 
 struct C_0050c050 { void* FUN_0050c050(unsigned char f); };
+// pdb: MESSAGEBOX_BUTTON::~MESSAGEBOX_BUTTON | BGSMessage.obj | fnv360_0822_debug, objrun_open, low
 void* C_0050c050::FUN_0050c050(unsigned char f)
 {
     FUN_0050be40(this);
@@ -1690,6 +1837,7 @@ void* C_0050c050::FUN_0050c050(unsigned char f)
 }
 
 struct C_0050c610 { void* FUN_0050c610(unsigned char f); };
+// pdb: BGSTextureSet::`scalar deleting destructor' | BGSTextureSet.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: BGSRadiationStage::`scalar deleting destructor')
 void* C_0050c610::FUN_0050c610(unsigned char f)
 {
     FUN_0050c5b0(this);
@@ -1698,6 +1846,7 @@ void* C_0050c610::FUN_0050c610(unsigned char f)
 }
 
 struct C_00515e70 { void* FUN_00515e70(unsigned char f); };
+// pdb: TESGlobal::`scalar deleting destructor' | TESGlobal.obj | fnv360_0822_debug, objrun_open, low
 void* C_00515e70::FUN_00515e70(unsigned char f)
 {
     FUN_00515df0(this);
@@ -1706,6 +1855,7 @@ void* C_00515e70::FUN_00515e70(unsigned char f)
 }
 
 struct C_00516540 { void* FUN_00516540(unsigned char f); };
+// pdb: TESLoadScreen::`scalar deleting destructor' | TESLoadScreen.obj | fnv360_0822_retail, vtable, medium
 void* C_00516540::FUN_00516540(unsigned char f)
 {
     FUN_00516480(this);
@@ -1714,6 +1864,7 @@ void* C_00516540::FUN_00516540(unsigned char f)
 }
 
 struct C_00519a00 { void* FUN_00519a00(unsigned char f); };
+// pdb: Script::`scalar deleting destructor' | TESScript.obj | fnv360_0822_retail, vtable, medium
 void* C_00519a00::FUN_00519a00(unsigned char f)
 {
     FUN_00519960(this);
@@ -1722,6 +1873,7 @@ void* C_00519a00::FUN_00519a00(unsigned char f)
 }
 
 struct C_0051e140 { void* FUN_0051e140(unsigned char f); };
+// pdb: TileRect::`scalar deleting destructor' | TESScriptFunctions.obj | fnv360_0822_debug, caller_sim, medium
 void* C_0051e140::FUN_0051e140(unsigned char f)
 {
     FUN_0051e0b0(this);
@@ -1730,6 +1882,7 @@ void* C_0051e140::FUN_0051e140(unsigned char f)
 }
 
 struct C_0053dce0 { void* FUN_0053dce0(unsigned char f); };
+// pdb: Tile::`scalar deleting destructor' | TESScriptFunctions.obj | fnv360_0721_retail, objrun, medium
 void* C_0053dce0::FUN_0053dce0(unsigned char f)
 {
     FUN_00bf1040(this);
@@ -1738,6 +1891,7 @@ void* C_0053dce0::FUN_0053dce0(unsigned char f)
 }
 
 struct C_0053dd20 { void* FUN_0053dd20(unsigned char f); };
+// pdb: TileMenu::`scalar deleting destructor' | TESScriptFunctions.obj | fnv360_0721_retail, objrun, medium
 void* C_0053dd20::FUN_0053dd20(unsigned char f)
 {
     FUN_00bfc1b0(this);
@@ -1746,6 +1900,7 @@ void* C_0053dd20::FUN_0053dd20(unsigned char f)
 }
 
 struct C_00541d00 { void* FUN_00541d00(unsigned char f); };
+// pdb: TESModelPSA::`scalar deleting destructor' | BGSBodyPart.obj | fnv360_1110_debug, objrun_open, low
 void* C_00541d00::FUN_00541d00(unsigned char f)
 {
     FUN_00541b90(this);
@@ -1754,6 +1909,7 @@ void* C_00541d00::FUN_00541d00(unsigned char f)
 }
 
 struct C_00543400 { void* FUN_00543400(unsigned char f); };
+// pdb: NiTMap<NiAVObject *,bool>::~NiTMap<NiAVObject *,bool> | BGSBodyPartData.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: BGSBodyPartData::`scalar deleting destructor')
 void* C_00543400::FUN_00543400(unsigned char f)
 {
     FUN_005431b0(this);
@@ -1762,6 +1918,7 @@ void* C_00543400::FUN_00543400(unsigned char f)
 }
 
 struct C_00543fb0 { void* FUN_00543fb0(unsigned char f); };
+// pdb: BGSEntryPointFunctionDataActivateChoice::`scalar deleting destructor' | BGSEntryPointFunction.obj | fnv360_0822_debug, vtable, medium
 void* C_00543fb0::FUN_00543fb0(unsigned char f)
 {
     FUN_00543f40(this);
@@ -1770,6 +1927,7 @@ void* C_00543fb0::FUN_00543fb0(unsigned char f)
 }
 
 struct C_00544c90 { void* FUN_00544c90(unsigned char f); };
+// pdb: BGSHeadPart::`scalar deleting destructor' | BGSHeadPart.obj | fnv360_0822_retail, vtable, medium
 void* C_00544c90::FUN_00544c90(unsigned char f)
 {
     FUN_00544a10(this);
@@ -1778,6 +1936,7 @@ void* C_00544c90::FUN_00544c90(unsigned char f)
 }
 
 struct C_00545080 { void* FUN_00545080(unsigned char f); };
+// pdb: BGSIdleMarker::`scalar deleting destructor' | BGSIdleMarker.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_00545080::FUN_00545080(unsigned char f)
 {
     FUN_00544d20(this);
@@ -1786,6 +1945,7 @@ void* C_00545080::FUN_00545080(unsigned char f)
 }
 
 struct C_00547320 { void* FUN_00547320(unsigned char f); };
+// pdb: BGSEntryPointPerkEntry::`scalar deleting destructor' | BGSPerk.obj | fnv360_0822_debug, vtable, medium
 void* C_00547320::FUN_00547320(unsigned char f)
 {
     FUN_00547240(this);
@@ -1794,6 +1954,7 @@ void* C_00547320::FUN_00547320(unsigned char f)
 }
 
 struct C_00547770 { void* FUN_00547770(unsigned char f); };
+// pdb: BGSPerk::`scalar deleting destructor' | BGSPerk.obj | fnv360_0822_retail, vtable, medium
 void* C_00547770::FUN_00547770(unsigned char f)
 {
     FUN_00547340(this);
@@ -1802,6 +1963,7 @@ void* C_00547770::FUN_00547770(unsigned char f)
 }
 
 struct C_00547bc0 { void* FUN_00547bc0(unsigned char f); };
+// pdb: BGSQuestObjective::`scalar deleting destructor' | BGSQuestObjective.obj | fnv360_0822_debug, vtable, medium
 void* C_00547bc0::FUN_00547bc0(unsigned char f)
 {
     FUN_00547b30(this);
@@ -1810,6 +1972,7 @@ void* C_00547bc0::FUN_00547bc0(unsigned char f)
 }
 
 struct C_0054a060 { void* FUN_0054a060(unsigned char f); };
+// pdb: BGSRagdoll::`scalar deleting destructor' | BGSRagdoll.obj | fnv360_0822_retail, vtable, medium
 void* C_0054a060::FUN_0054a060(unsigned char f)
 {
     FUN_00549a90(this);
@@ -1818,6 +1981,7 @@ void* C_0054a060::FUN_0054a060(unsigned char f)
 }
 
 struct C_0054a2f0 { void* FUN_0054a2f0(unsigned char f); };
+// pdb: BGSVoiceType::`scalar deleting destructor' | BGSVoiceType.obj | fnv360_0822_debug, objrun_open, low
 void* C_0054a2f0::FUN_0054a2f0(unsigned char f)
 {
     FUN_0054a270(this);
@@ -1826,6 +1990,7 @@ void* C_0054a2f0::FUN_0054a2f0(unsigned char f)
 }
 
 struct C_0054db90 { void* FUN_0054db90(unsigned char f); };
+// pdb: TESClass::`scalar deleting destructor' | TESClass.obj | fnv360_0822_retail, vtable, medium
 void* C_0054db90::FUN_0054db90(unsigned char f)
 {
     FUN_0054da20(this);
@@ -1834,6 +1999,7 @@ void* C_0054db90::FUN_0054db90(unsigned char f)
 }
 
 struct C_005505e0 { void* FUN_005505e0(unsigned char f); };
+// pdb: TESActorBase::`scalar deleting destructor' | TESCreature.obj | fnv360_0822_retail, vtable, medium
 void* C_005505e0::FUN_005505e0(unsigned char f)
 {
     FUN_00550480(this);
@@ -1842,6 +2008,7 @@ void* C_005505e0::FUN_005505e0(unsigned char f)
 }
 
 struct C_00550930 { void* FUN_00550930(unsigned char f); };
+// pdb: TESCreature::`scalar deleting destructor' | TESCreature.obj | fnv360_0822_retail, vtable, medium
 void* C_00550930::FUN_00550930(unsigned char f)
 {
     FUN_00550600(this);
@@ -1850,6 +2017,8 @@ void* C_00550930::FUN_00550930(unsigned char f)
 }
 
 struct C_005512c0 { void* FUN_005512c0(unsigned char f); };
+// pdb: TESFaction::GetRankName | TESFaction.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: aiRank, aiSex
 void* C_005512c0::FUN_005512c0(unsigned char f)
 {
     FUN_00551190(this);
@@ -1858,6 +2027,7 @@ void* C_005512c0::FUN_005512c0(unsigned char f)
 }
 
 struct C_00552290 { void* FUN_00552290(unsigned char f); };
+// pdb: TESFaction::`scalar deleting destructor' | TESFaction.obj | fnv360_0822_retail, vtable, medium
 void* C_00552290::FUN_00552290(unsigned char f)
 {
     FUN_005521e0(this);
@@ -1866,6 +2036,7 @@ void* C_00552290::FUN_00552290(unsigned char f)
 }
 
 struct C_005526d0 { void* FUN_005526d0(unsigned char f); };
+// pdb: TESHair::`scalar deleting destructor' | TESHair.obj | fnv360_0822_retail, vtable, medium
 void* C_005526d0::FUN_005526d0(unsigned char f)
 {
     FUN_00552570(this);
@@ -1874,6 +2045,7 @@ void* C_005526d0::FUN_005526d0(unsigned char f)
 }
 
 struct C_005538a0 { void* FUN_005538a0(unsigned char f); };
+// pdb: TESIdleForm::`scalar deleting destructor' | TESIdleForm.obj | fnv360_0822_retail, vtable, medium
 void* C_005538a0::FUN_005538a0(unsigned char f)
 {
     FUN_005533f0(this);
@@ -1882,6 +2054,7 @@ void* C_005538a0::FUN_005538a0(unsigned char f)
 }
 
 struct C_005540e0 { void* FUN_005540e0(unsigned char f); };
+// pdb: NiTMap<char const *,IDLE_ANIM_ROOT *>::`scalar deleting destructor' | TESIdleManager.obj | fnv360_0822_debug, vtable, high
 void* C_005540e0::FUN_005540e0(unsigned char f)
 {
     FUN_00553ea0(this);
@@ -1890,6 +2063,7 @@ void* C_005540e0::FUN_005540e0(unsigned char f)
 }
 
 struct C_00554100 { void* FUN_00554100(unsigned char f); };
+// pdb: NiTStringTemplateMap<NiTMap<char const *,IDLE_ANIM_ROOT *>,IDLE_ANIM_ROOT *>::`scalar deleting destructor' | TESIdleManager.obj | fnv360_0822_retail, vtable, high
 void* C_00554100::FUN_00554100(unsigned char f)
 {
     FUN_00553f10(this);
@@ -1898,6 +2072,7 @@ void* C_00554100::FUN_00554100(unsigned char f)
 }
 
 struct C_00557fb0 { void* FUN_00557fb0(unsigned char f); };
+// pdb: BSScrapArray<BGSHeadPart *,1024>::`scalar deleting destructor' | TESNPC.obj | fnv360_0822_debug, vtable, medium
 void* C_00557fb0::FUN_00557fb0(unsigned char f)
 {
     FUN_00557e80(this);
@@ -1906,6 +2081,7 @@ void* C_00557fb0::FUN_00557fb0(unsigned char f)
 }
 
 struct C_0055a160 { void* FUN_0055a160(unsigned char f); };
+// pdb: TESNPC::`scalar deleting destructor' | TESNPC.obj | fnv360_0822_retail, vtable, medium
 void* C_0055a160::FUN_0055a160(unsigned char f)
 {
     FUN_00559e50(this);
@@ -1914,6 +2090,7 @@ void* C_0055a160::FUN_0055a160(unsigned char f)
 }
 
 struct C_0055e450 { void* FUN_0055e450(unsigned char f); };
+// pdb: TESQuest::`scalar deleting destructor' | TESQuest.obj | fnv360_0822_retail, vtable, medium
 void* C_0055e450::FUN_0055e450(unsigned char f)
 {
     FUN_0055e330(this);
@@ -1922,6 +2099,7 @@ void* C_0055e450::FUN_0055e450(unsigned char f)
 }
 
 struct C_00561510 { void* FUN_00561510(unsigned char f); };
+// pdb: TESRace::`scalar deleting destructor' | TESRace.obj | fnv360_0822_retail, vtable, medium
 void* C_00561510::FUN_00561510(unsigned char f)
 {
     FUN_00561300(this);
@@ -1938,6 +2116,7 @@ void* C_00563aa0::FUN_00563aa0(unsigned char f)
 }
 
 struct C_00565950 { void* FUN_00565950(unsigned char f); };
+// pdb: TESTopic::`scalar deleting destructor' | TESTopic.obj | fnv360_0822_retail, vtable, medium
 void* C_00565950::FUN_00565950(unsigned char f)
 {
     FUN_00565570(this);
@@ -1946,6 +2125,8 @@ void* C_00565950::FUN_00565950(unsigned char f)
 }
 
 struct C_005678b0 { void* FUN_005678b0(unsigned char f); };
+// pdb: TESTopicInfo::CheckCondition | TESTopicInfo.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: TESTopicInfoEvent::~TESTopicInfoEvent)
+// pdb params: apQuest, apActionRef, apTargetRef
 void* C_005678b0::FUN_005678b0(unsigned char f)
 {
     FUN_00567810(this);
@@ -1954,6 +2135,7 @@ void* C_005678b0::FUN_005678b0(unsigned char f)
 }
 
 struct C_00567cf0 { void* FUN_00567cf0(unsigned char f); };
+// pdb: NiTMap<TESObjectREFR *,int>::`scalar deleting destructor' | BGSAcousticSpaceListener.obj | fnv360_0822_debug, vtable, medium
 void* C_00567cf0::FUN_00567cf0(unsigned char f)
 {
     FUN_00567b20(this);
@@ -1962,6 +2144,7 @@ void* C_00567cf0::FUN_00567cf0(unsigned char f)
 }
 
 struct C_00567e10 { void* FUN_00567e10(unsigned char f); };
+// pdb: BGSAcousticSpaceListener::`scalar deleting destructor' | BGSAcousticSpaceListener.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: TrapTargetEntry::`scalar deleting destructor')
 void* C_00567e10::FUN_00567e10(unsigned char f)
 {
     FUN_00567db0(this);
@@ -1970,6 +2153,7 @@ void* C_00567e10::FUN_00567e10(unsigned char f)
 }
 
 struct C_0056ac40 { void* FUN_0056ac40(unsigned char f); };
+// pdb: FOCollisionListener::`scalar deleting destructor' | FOCollisionListener.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: DecalCaster::GetCollision)
 void* C_0056ac40::FUN_0056ac40(unsigned char f)
 {
     FUN_0056abd0(this);
@@ -1978,6 +2162,8 @@ void* C_0056ac40::FUN_0056ac40(unsigned char f)
 }
 
 struct C_00571080 { void* FUN_00571080(unsigned char f); };
+// pdb: BSPointerListBase<TriggerEntry::TriggerEvent *>::DeleteItem | TESTrapListener.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkItem
 void* C_00571080::FUN_00571080(unsigned char f)
 {
     FUN_00571010(this);
@@ -1986,6 +2172,7 @@ void* C_00571080::FUN_00571080(unsigned char f)
 }
 
 struct C_00571bc0 { void* FUN_00571bc0(unsigned char f); };
+// pdb: TESTrapListener::`scalar deleting destructor' | TESTrapListener.obj | fnv360_0822_retail, vtable, high
 void* C_00571bc0::FUN_00571bc0(unsigned char f)
 {
     FUN_00571b30(this);
@@ -1994,6 +2181,8 @@ void* C_00571bc0::FUN_00571bc0(unsigned char f)
 }
 
 struct C_00574040 { void* FUN_00574040(unsigned char f); };
+// pdb: CameraCaster::SetPlayerGroup | CameraCaster.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: TESWaterListener::`scalar deleting destructor')
+// pdb params: aiGroup
 void* C_00574040::FUN_00574040(unsigned char f)
 {
     FUN_00573a40(this);
@@ -2002,6 +2191,7 @@ void* C_00574040::FUN_00574040(unsigned char f)
 }
 
 struct C_005754e0 { void* FUN_005754e0(unsigned char f); };
+// pdb: SettingT<BlendSettingCollection>::`scalar deleting destructor' | XBlendSettings.obj | fnv360_0822_retail, vtable, medium
 void* C_005754e0::FUN_005754e0(unsigned char f)
 {
     FUN_00575420(this);
@@ -2010,6 +2200,7 @@ void* C_005754e0::FUN_005754e0(unsigned char f)
 }
 
 struct C_00575dd0 { void* FUN_00575dd0(unsigned char f); };
+// pdb: Atmosphere::`scalar deleting destructor' | Atmosphere.obj | fnv360_0822_retail, vtable, high
 void* C_00575dd0::FUN_00575dd0(unsigned char f)
 {
     FUN_00575630(this);
@@ -2018,6 +2209,7 @@ void* C_00575dd0::FUN_00575dd0(unsigned char f)
 }
 
 struct C_00576260 { void* FUN_00576260(unsigned char f); };
+// pdb: Clouds::`scalar deleting destructor' | Clouds.obj | fnv360_0822_retail, vtable, high
 void* C_00576260::FUN_00576260(unsigned char f)
 {
     FUN_005761d0(this);
@@ -2026,6 +2218,7 @@ void* C_00576260::FUN_00576260(unsigned char f)
 }
 
 struct C_00577f00 { void* FUN_00577f00(unsigned char f); };
+// pdb: Moon::`scalar deleting destructor' | Moon.obj | fnv360_0822_retail, vtable, high
 void* C_00577f00::FUN_00577f00(unsigned char f)
 {
     FUN_005772f0(this);
@@ -2034,6 +2227,7 @@ void* C_00577f00::FUN_00577f00(unsigned char f)
 }
 
 struct C_00578230 { void* FUN_00578230(unsigned char f); };
+// pdb: Precipitation::`scalar deleting destructor' | Precipitation.obj | fnv360_0822_retail, vtable, high
 void* C_00578230::FUN_00578230(unsigned char f)
 {
     FUN_005780a0(this);
@@ -2042,6 +2236,7 @@ void* C_00578230::FUN_00578230(unsigned char f)
 }
 
 struct C_0057c210 { void* FUN_0057c210(unsigned char f); };
+// pdb: Sky::`scalar deleting destructor' | Sky.obj | fnv360_0822_retail, vtable, high
 void* C_0057c210::FUN_0057c210(unsigned char f)
 {
     FUN_0057b550(this);
@@ -2050,6 +2245,7 @@ void* C_0057c210::FUN_0057c210(unsigned char f)
 }
 
 struct C_0057e850 { void* FUN_0057e850(unsigned char f); };
+// pdb: SkyObject::`scalar deleting destructor' | SkyObject.obj | fnv360_0822_retail, vtable, high
 void* C_0057e850::FUN_0057e850(unsigned char f)
 {
     FUN_0057e6e0(this);
@@ -2058,6 +2254,7 @@ void* C_0057e850::FUN_0057e850(unsigned char f)
 }
 
 struct C_0057ef00 { void* FUN_0057ef00(unsigned char f); };
+// pdb: Stars::`scalar deleting destructor' | Stars.obj | fnv360_0822_retail, vtable, high
 void* C_0057ef00::FUN_0057ef00(unsigned char f)
 {
     FUN_0057eb20(this);
@@ -2066,6 +2263,7 @@ void* C_0057ef00::FUN_0057ef00(unsigned char f)
 }
 
 struct C_00580030 { void* FUN_00580030(unsigned char f); };
+// pdb: Sun::`scalar deleting destructor' | Sun.obj | fnv360_0822_retail, vtable, high
 void* C_00580030::FUN_00580030(unsigned char f)
 {
     FUN_0057f2b0(this);
@@ -2074,6 +2272,7 @@ void* C_00580030::FUN_00580030(unsigned char f)
 }
 
 struct C_0058a710 { void* FUN_0058a710(unsigned char f); };
+// pdb: BSFaceGenKeyframeMultiple::`scalar deleting destructor' | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
 void* C_0058a710::FUN_0058a710(unsigned char f)
 {
     FUN_0058a380(this);
@@ -2082,6 +2281,7 @@ void* C_0058a710::FUN_0058a710(unsigned char f)
 }
 
 struct C_0058b960 { void* FUN_0058b960(unsigned char f); };
+// pdb: NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> >::`scalar deleting destructor' | BSFaceGenManager.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: BSFaceGenManager::~BSFaceGenManager)
 void* C_0058b960::FUN_0058b960(unsigned char f)
 {
     FUN_0058b800(this);
@@ -2090,6 +2290,7 @@ void* C_0058b960::FUN_0058b960(unsigned char f)
 }
 
 struct C_0058b980 { void* FUN_0058b980(unsigned char f); };
+// pdb: NiTStringTemplateMap<NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> >,NiPointer<BSFaceGenModelMap::Entry> >::`scalar deleting destructor' | BSFaceGenManager.obj | fnv360_0822_retail, vtable, medium
 void* C_0058b980::FUN_0058b980(unsigned char f)
 {
     FUN_0058b870(this);
@@ -2098,6 +2299,7 @@ void* C_0058b980::FUN_0058b980(unsigned char f)
 }
 
 struct C_0058d0b0 { void* FUN_0058d0b0(unsigned char f); };
+// pdb: BSFaceGenModelMap::`scalar deleting destructor' | BSFaceGenManager.obj | fnv360_0822_debug, vtable, medium
 void* C_0058d0b0::FUN_0058d0b0(unsigned char f)
 {
     FUN_0058c7f0(this);
@@ -2106,6 +2308,7 @@ void* C_0058d0b0::FUN_0058d0b0(unsigned char f)
 }
 
 struct C_0059b200 { void* FUN_0059b200(unsigned char f); };
+// pdb: NiTPointerMap<TESObjectTREE *,NiPointer<BSTreeModel> *>::`scalar deleting destructor' | BSTreeManager.obj | fnv360_0822_debug, vtable, medium
 void* C_0059b200::FUN_0059b200(unsigned char f)
 {
     FUN_0059b190(this);
@@ -2114,6 +2317,7 @@ void* C_0059b200::FUN_0059b200(unsigned char f)
 }
 
 struct C_0059c3b0 { void* FUN_0059c3b0(unsigned char f); };
+// pdb: LockFreeMap<TESObjectREFR *,BSTreeNode *>::`scalar deleting destructor' | BSTreeManager.obj | fnv360_0822_retail, vtable, medium
 void* C_0059c3b0::FUN_0059c3b0(unsigned char f)
 {
     FUN_0059c330(this);
@@ -2122,6 +2326,7 @@ void* C_0059c3b0::FUN_0059c3b0(unsigned char f)
 }
 
 struct C_005a2eb0 { void* FUN_005a2eb0(unsigned char f); };
+// pdb: ActorValueInfo::`scalar deleting destructor' | ActorValue.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: ActorValue::~ActorValue)
 void* C_005a2eb0::FUN_005a2eb0(unsigned char f)
 {
     FUN_005a29e0(this);
@@ -2130,6 +2335,7 @@ void* C_005a2eb0::FUN_005a2eb0(unsigned char f)
 }
 
 struct C_005a9b20 { void* FUN_005a9b20(unsigned char f); };
+// pdb: TESPackage::`scalar deleting destructor' | Package.obj | fnv360_0822_retail, vtable, medium
 void* C_005a9b20::FUN_005a9b20(unsigned char f)
 {
     FUN_005a84f0(this);
@@ -2138,6 +2344,7 @@ void* C_005a9b20::FUN_005a9b20(unsigned char f)
 }
 
 struct C_005a9ff0 { void* FUN_005a9ff0(unsigned char f); };
+// pdb: TESAmbushPackageData::`scalar deleting destructor' | PackageDataAmbush.obj | fnv360_0822_debug, vtable, medium
 void* C_005a9ff0::FUN_005a9ff0(unsigned char f)
 {
     FUN_005a9f80(this);
@@ -2146,6 +2353,7 @@ void* C_005a9ff0::FUN_005a9ff0(unsigned char f)
 }
 
 struct C_005aa600 { void* FUN_005aa600(unsigned char f); };
+// pdb: TESDialoguePackageData::`scalar deleting destructor' | PackageDataDialogue.obj | fnv360_0822_debug, vtable, medium
 void* C_005aa600::FUN_005aa600(unsigned char f)
 {
     FUN_005aa590(this);
@@ -2154,6 +2362,7 @@ void* C_005aa600::FUN_005aa600(unsigned char f)
 }
 
 struct C_005aa7e0 { void* FUN_005aa7e0(unsigned char f); };
+// pdb: TESEatPackageData::`scalar deleting destructor' | PackageDataEat.obj | fnv360_0822_debug, vtable, medium
 void* C_005aa7e0::FUN_005aa7e0(unsigned char f)
 {
     FUN_005aa770(this);
@@ -2162,6 +2371,7 @@ void* C_005aa7e0::FUN_005aa7e0(unsigned char f)
 }
 
 struct C_005aaaa0 { void* FUN_005aaaa0(unsigned char f); };
+// pdb: TESEscortPackageData::`scalar deleting destructor' | PackageDataEscort.obj | fnv360_0822_debug, vtable, medium
 void* C_005aaaa0::FUN_005aaaa0(unsigned char f)
 {
     FUN_005aaa30(this);
@@ -2170,6 +2380,7 @@ void* C_005aaaa0::FUN_005aaaa0(unsigned char f)
 }
 
 struct C_005aada0 { void* FUN_005aada0(unsigned char f); };
+// pdb: TESFollowPackageData::`scalar deleting destructor' | PackageDataFollow.obj | fnv360_0822_debug, vtable, medium
 void* C_005aada0::FUN_005aada0(unsigned char f)
 {
     FUN_005aad30(this);
@@ -2178,6 +2389,7 @@ void* C_005aada0::FUN_005aada0(unsigned char f)
 }
 
 struct C_005abd20 { void* FUN_005abd20(unsigned char f); };
+// pdb: TESUseWeaponPackageData::`scalar deleting destructor' | PackageDataUseWeapon.obj | fnv360_0822_retail, vtable, medium
 void* C_005abd20::FUN_005abd20(unsigned char f)
 {
     FUN_005abc90(this);
@@ -2202,6 +2414,7 @@ void* C_005af850::FUN_005af850(unsigned char f)
 }
 
 struct C_005b9400 { void* FUN_005b9400(unsigned char f); };
+// pdb: NiTMap<unsigned short,NiPointer<ObstacleData> >::`scalar deleting destructor' | NavMesh.obj | fnv360_0822_debug, vtable, medium
 void* C_005b9400::FUN_005b9400(unsigned char f)
 {
     FUN_005b9390(this);
@@ -2210,6 +2423,7 @@ void* C_005b9400::FUN_005b9400(unsigned char f)
 }
 
 struct C_005b9420 { void* FUN_005b9420(unsigned char f); };
+// pdb: NiTMap<unsigned short,NavMeshPOVData>::`scalar deleting destructor' | NavMesh.obj | fnv360_0822_debug, vtable, medium
 void* C_005b9420::FUN_005b9420(unsigned char f)
 {
     FUN_005b8f90(this);
@@ -2218,6 +2432,7 @@ void* C_005b9420::FUN_005b9420(unsigned char f)
 }
 
 struct C_005c5990 { void* FUN_005c5990(unsigned char f); };
+// pdb: BSSimpleArray<BSSimpleArray<NavMeshPOV *,1024>,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 void* C_005c5990::FUN_005c5990(unsigned char f)
 {
     FUN_005c56d0(this);
@@ -2226,6 +2441,7 @@ void* C_005c5990::FUN_005c5990(unsigned char f)
 }
 
 struct C_005c5a50 { void* FUN_005c5a50(unsigned char f); };
+// pdb: BSSimpleArray<BSSimpleArray<FastNavMeshVertHandle,1024>,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 void* C_005c5a50::FUN_005c5a50(unsigned char f)
 {
     FUN_005c5860(this);
@@ -2234,6 +2450,7 @@ void* C_005c5a50::FUN_005c5a50(unsigned char f)
 }
 
 struct C_005c5cd0 { void* FUN_005c5cd0(unsigned char f); };
+// pdb: BSScrapArray<AStarNode<NavMeshPOVSearchNode,NavMeshPOVSearchLink> *,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_debug, vtable, medium
 void* C_005c5cd0::FUN_005c5cd0(unsigned char f)
 {
     FUN_005c5bd0(this);
@@ -2242,6 +2459,7 @@ void* C_005c5cd0::FUN_005c5cd0(unsigned char f)
 }
 
 struct C_005c6300 { void* FUN_005c6300(unsigned char f); };
+// pdb: NavMeshPOVSearch::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 void* C_005c6300::FUN_005c6300(unsigned char f)
 {
     FUN_005c5d70(this);
@@ -2250,6 +2468,7 @@ void* C_005c6300::FUN_005c6300(unsigned char f)
 }
 
 struct C_005c9000 { void* FUN_005c9000(unsigned char f); };
+// pdb: NiTMap<NavMesh *,NiPointer<NiNode> >::`scalar deleting destructor' | NavMeshRender.obj | fnv360_0822_debug, vtable, medium
 void* C_005c9000::FUN_005c9000(unsigned char f)
 {
     FUN_005c8a70(this);
@@ -2258,6 +2477,7 @@ void* C_005c9000::FUN_005c9000(unsigned char f)
 }
 
 struct C_005cc910 { void* FUN_005cc910(unsigned char f); };
+// pdb: BSScrapArray<AStarNode<NavMeshSearchNode,NavMeshSearchLink> *,1024>::`scalar deleting destructor' | NavMeshSearch.obj | fnv360_0822_debug, vtable, medium
 void* C_005cc910::FUN_005cc910(unsigned char f)
 {
     FUN_005cc7e0(this);
@@ -2266,6 +2486,7 @@ void* C_005cc910::FUN_005cc910(unsigned char f)
 }
 
 struct C_005cc930 { void* FUN_005cc930(unsigned char f); };
+// pdb: NavMeshSearch::`scalar deleting destructor' | NavMeshSearch.obj | fnv360_0822_debug, vtable, medium
 void* C_005cc930::FUN_005cc930(unsigned char f)
 {
     FUN_005cc4f0(this);
@@ -2274,6 +2495,7 @@ void* C_005cc930::FUN_005cc930(unsigned char f)
 }
 
 struct C_005cf900 { void* FUN_005cf900(unsigned char f); };
+// pdb: NavMeshSearchLOS::`scalar deleting destructor' | NavMeshSearchLOS.obj | fnv360_0822_retail, vtable, high
 void* C_005cf900::FUN_005cf900(unsigned char f)
 {
     FUN_005cf880(this);
@@ -2282,6 +2504,7 @@ void* C_005cf900::FUN_005cf900(unsigned char f)
 }
 
 struct C_005d0490 { void* FUN_005d0490(unsigned char f); };
+// pdb: BSScrapArray<NavMeshSearchNode,1024>::`scalar deleting destructor' | NavMeshSearchMaxCost.obj | fnv360_0822_debug, vtable, medium
 void* C_005d0490::FUN_005d0490(unsigned char f)
 {
     FUN_005d0260(this);
@@ -2290,6 +2513,7 @@ void* C_005d0490::FUN_005d0490(unsigned char f)
 }
 
 struct C_005d04b0 { void* FUN_005d04b0(unsigned char f); };
+// pdb: BSScrapArray<NavMeshSearchLink,1024>::`scalar deleting destructor' | NavMeshSearchMaxCost.obj | fnv360_0822_debug, vtable, medium
 void* C_005d04b0::FUN_005d04b0(unsigned char f)
 {
     FUN_005d0360(this);
@@ -2298,6 +2522,7 @@ void* C_005d04b0::FUN_005d04b0(unsigned char f)
 }
 
 struct C_005d0df0 { void* FUN_005d0df0(unsigned char f); };
+// pdb: BSSimpleArray<PathingLocation,1024>::`scalar deleting destructor' | NavMeshSearchMultipleGoals.obj | fnv360_0822_debug, vtable, medium
 void* C_005d0df0::FUN_005d0df0(unsigned char f)
 {
     FUN_005d0d90(this);
@@ -2306,6 +2531,7 @@ void* C_005d0df0::FUN_005d0df0(unsigned char f)
 }
 
 struct C_005d3f10 { void* FUN_005d3f10(unsigned char f); };
+// pdb: BSScrapArray<AStarNode<PathSmootherPOVNode,PathSmootherPOVLink> *,1024>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_debug, vtable, medium
 void* C_005d3f10::FUN_005d3f10(unsigned char f)
 {
     FUN_005d3de0(this);
@@ -2314,6 +2540,7 @@ void* C_005d3f10::FUN_005d3f10(unsigned char f)
 }
 
 struct C_005d4b90 { void* FUN_005d4b90(unsigned char f); };
+// pdb: PathSmootherPOVSearch::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 void* C_005d4b90::FUN_005d4b90(unsigned char f)
 {
     FUN_005d4080(this);
@@ -2322,6 +2549,7 @@ void* C_005d4b90::FUN_005d4b90(unsigned char f)
 }
 
 struct C_005da170 { void* FUN_005da170(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,NavMeshInfo *>::`scalar deleting destructor' | NavMeshInfoMap.obj | fnv360_0822_debug, vtable, medium
 void* C_005da170::FUN_005da170(unsigned char f)
 {
     FUN_005d9cb0(this);
@@ -2330,6 +2558,7 @@ void* C_005da170::FUN_005da170(unsigned char f)
 }
 
 struct C_005da190 { void* FUN_005da190(unsigned char f); };
+// pdb: NiTMap<unsigned int,NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *> *>::`scalar deleting destructor' | NavMeshInfoMap.obj | fnv360_0822_debug, vtable, medium
 void* C_005da190::FUN_005da190(unsigned char f)
 {
     FUN_005d9d40(this);
@@ -2338,6 +2567,7 @@ void* C_005da190::FUN_005da190(unsigned char f)
 }
 
 struct C_005da1b0 { void* FUN_005da1b0(unsigned char f); };
+// pdb: NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *>::`scalar deleting destructor' | NavMeshInfoMap.obj | fnv360_0822_debug, vtable, medium
 void* C_005da1b0::FUN_005da1b0(unsigned char f)
 {
     FUN_005da100(this);
@@ -2346,6 +2576,7 @@ void* C_005da1b0::FUN_005da1b0(unsigned char f)
 }
 
 struct C_005da2a0 { void* FUN_005da2a0(unsigned char f); };
+// pdb: NavMeshInfoMap::`scalar deleting destructor' | NavMeshInfoMap.obj | fnv360_0822_retail, vtable, medium
 void* C_005da2a0::FUN_005da2a0(unsigned char f)
 {
     FUN_005d9e90(this);
@@ -2354,6 +2585,7 @@ void* C_005da2a0::FUN_005da2a0(unsigned char f)
 }
 
 struct C_005dbeb0 { void* FUN_005dbeb0(unsigned char f); };
+// pdb: BSScrapArray<AStarNode<NavMeshInfo const *,TESObjectREFR *> *,1024>::`scalar deleting destructor' | NavMeshInfoSearch.obj | fnv360_0822_debug, vtable, medium
 void* C_005dbeb0::FUN_005dbeb0(unsigned char f)
 {
     FUN_005dbe20(this);
@@ -2362,6 +2594,7 @@ void* C_005dbeb0::FUN_005dbeb0(unsigned char f)
 }
 
 struct C_005dbed0 { void* FUN_005dbed0(unsigned char f); };
+// pdb: NavMeshInfoSearch::`scalar deleting destructor' | NavMeshInfoSearch.obj | fnv360_0822_debug, vtable, medium
 void* C_005dbed0::FUN_005dbed0(unsigned char f)
 {
     FUN_005dbbb0(this);
@@ -2370,6 +2603,7 @@ void* C_005dbed0::FUN_005dbed0(unsigned char f)
 }
 
 struct C_005e02a0 { void* FUN_005e02a0(unsigned char f); };
+// pdb: BSScrapArray<NavMeshObstacleVertex *,1024>::`scalar deleting destructor' | NavMeshObstacleCutter.obj | fnv360_0822_debug, vtable, medium
 void* C_005e02a0::FUN_005e02a0(unsigned char f)
 {
     FUN_005dff70(this);
@@ -2378,6 +2612,7 @@ void* C_005e02a0::FUN_005e02a0(unsigned char f)
 }
 
 struct C_005e0310 { void* FUN_005e0310(unsigned char f); };
+// pdb: BSScrapArray<NavMeshObstacleEdge *,1024>::`scalar deleting destructor' | NavMeshObstacleCutter.obj | fnv360_0822_debug, vtable, medium
 void* C_005e0310::FUN_005e0310(unsigned char f)
 {
     FUN_005e0120(this);
@@ -2386,6 +2621,7 @@ void* C_005e0310::FUN_005e0310(unsigned char f)
 }
 
 struct C_005e5fd0 { void* FUN_005e5fd0(unsigned char f); };
+// pdb: NiTMap<unsigned int,NiPointer<ReferenceObstacleArray> >::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_debug, vtable, medium
 void* C_005e5fd0::FUN_005e5fd0(unsigned char f)
 {
     FUN_005e4db0(this);
@@ -2394,6 +2630,7 @@ void* C_005e5fd0::FUN_005e5fd0(unsigned char f)
 }
 
 struct C_005e5ff0 { void* FUN_005e5ff0(unsigned char f); };
+// pdb: NiTMap<bhkRigidBody *,NiPointer<ObstacleData> >::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_debug, vtable, medium
 void* C_005e5ff0::FUN_005e5ff0(unsigned char f)
 {
     FUN_005e4eb0(this);
@@ -2402,6 +2639,7 @@ void* C_005e5ff0::FUN_005e5ff0(unsigned char f)
 }
 
 struct C_005e6010 { void* FUN_005e6010(unsigned char f); };
+// pdb: NiTMap<unsigned int,ObstacleTaskData *>::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_debug, vtable, medium
 void* C_005e6010::FUN_005e6010(unsigned char f)
 {
     FUN_005e4f40(this);
@@ -2410,6 +2648,7 @@ void* C_005e6010::FUN_005e6010(unsigned char f)
 }
 
 struct C_005e62d0 { void* FUN_005e62d0(unsigned char f); };
+// pdb: BSScrapArray<TESObjectCELL *,1024>::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_debug, vtable, medium
 void* C_005e62d0::FUN_005e62d0(unsigned char f)
 {
     FUN_005e61a0(this);
@@ -2418,6 +2657,7 @@ void* C_005e62d0::FUN_005e62d0(unsigned char f)
 }
 
 struct C_005e7730 { void* FUN_005e7730(unsigned char f); };
+// pdb: BSScrapArray<NavMeshPtr,1024>::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_retail, vtable, medium
 void* C_005e7730::FUN_005e7730(unsigned char f)
 {
     FUN_005e7680(this);
@@ -2426,6 +2666,7 @@ void* C_005e7730::FUN_005e7730(unsigned char f)
 }
 
 struct C_005e95e0 { void* FUN_005e95e0(unsigned char f); };
+// pdb: LockFreeQueue<bhkRigidBody *>::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_debug, vtable, medium
 void* C_005e95e0::FUN_005e95e0(unsigned char f)
 {
     FUN_005e9570(this);
@@ -2434,6 +2675,7 @@ void* C_005e95e0::FUN_005e95e0(unsigned char f)
 }
 
 struct C_005e9c60 { void* FUN_005e9c60(unsigned char f); };
+// pdb: BSXenonTaskletData::`scalar deleting destructor' | NavMeshObstacleTask.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: BSWin32TaskletData::`vector deleting destructor')
 void* C_005e9c60::FUN_005e9c60(unsigned char f)
 {
     FUN_00bce490(this);
@@ -2442,6 +2684,7 @@ void* C_005e9c60::FUN_005e9c60(unsigned char f)
 }
 
 struct C_005ea8c0 { void* FUN_005ea8c0(unsigned char f); };
+// pdb: BSSimpleArray<ObstacleTaskNavMeshOperation,1024>::`scalar deleting destructor' | NavMeshObstacleTask.obj | fnv360_0822_retail, vtable, medium
 void* C_005ea8c0::FUN_005ea8c0(unsigned char f)
 {
     FUN_005ea860(this);
@@ -2450,6 +2693,7 @@ void* C_005ea8c0::FUN_005ea8c0(unsigned char f)
 }
 
 struct C_005eaa30 { void* FUN_005eaa30(unsigned char f); };
+// pdb: ObstacleTaskData::`scalar deleting destructor' | NavMeshObstacleTask.obj | fnv360_0822_retail, vtable, high
 void* C_005eaa30::FUN_005eaa30(unsigned char f)
 {
     FUN_005ea970(this);
@@ -2458,6 +2702,7 @@ void* C_005eaa30::FUN_005eaa30(unsigned char f)
 }
 
 struct C_005ebc90 { void* FUN_005ebc90(unsigned char f); };
+// pdb: BSScrapArray<NavMeshInfo const *,1024>::`scalar deleting destructor' | PathBuilder.obj | fnv360_0822_debug, vtable, medium
 void* C_005ebc90::FUN_005ebc90(unsigned char f)
 {
     FUN_005eb550(this);
@@ -2466,6 +2711,7 @@ void* C_005ebc90::FUN_005ebc90(unsigned char f)
 }
 
 struct C_005ebcb0 { void* FUN_005ebcb0(unsigned char f); };
+// pdb: BSScrapArray<TESObjectREFR *,1024>::`scalar deleting destructor' | PathBuilder.obj | fnv360_0822_debug, vtable, medium
 void* C_005ebcb0::FUN_005ebcb0(unsigned char f)
 {
     FUN_005eb680(this);
@@ -2474,6 +2720,7 @@ void* C_005ebcb0::FUN_005ebcb0(unsigned char f)
 }
 
 struct C_005ebd20 { void* FUN_005ebd20(unsigned char f); };
+// pdb: BSScrapArray<bool,1024>::`scalar deleting destructor' | PathBuilder.obj | fnv360_0822_debug, vtable, medium
 void* C_005ebd20::FUN_005ebd20(unsigned char f)
 {
     FUN_005eb840(this);
@@ -2482,6 +2729,7 @@ void* C_005ebd20::FUN_005ebd20(unsigned char f)
 }
 
 struct C_005ebd40 { void* FUN_005ebd40(unsigned char f); };
+// pdb: BSScrapArray<PathBuilder::VirtualNodeSegment,1024>::`scalar deleting destructor' | PathBuilder.obj | fnv360_0822_debug, vtable, medium
 void* C_005ebd40::FUN_005ebd40(unsigned char f)
 {
     FUN_005eb9c0(this);
@@ -2490,6 +2738,7 @@ void* C_005ebd40::FUN_005ebd40(unsigned char f)
 }
 
 struct C_005ebdb0 { void* FUN_005ebdb0(unsigned char f); };
+// pdb: BSScrapArray<FastNavMeshTriHandle,1024>::`scalar deleting destructor' | PathBuilder.obj | fnv360_0822_debug, vtable, medium
 void* C_005ebdb0::FUN_005ebdb0(unsigned char f)
 {
     FUN_005ebb20(this);
@@ -2498,6 +2747,7 @@ void* C_005ebdb0::FUN_005ebdb0(unsigned char f)
 }
 
 struct C_005ebdd0 { void* FUN_005ebdd0(unsigned char f); };
+// pdb: BSScrapArray<int,1024>::`scalar deleting destructor' | PathBuilder.obj | fnv360_0822_debug, vtable, medium
 void* C_005ebdd0::FUN_005ebdd0(unsigned char f)
 {
     FUN_005ebbb0(this);
@@ -2506,6 +2756,7 @@ void* C_005ebdd0::FUN_005ebdd0(unsigned char f)
 }
 
 struct C_005f39d0 { void* FUN_005f39d0(unsigned char f); };
+// pdb: BSScrapArray<PathingNode *,1024>::`scalar deleting destructor' | Pathfind.obj | fnv360_0822_debug, vtable, medium
 void* C_005f39d0::FUN_005f39d0(unsigned char f)
 {
     FUN_005f3690(this);
@@ -2514,6 +2765,7 @@ void* C_005f39d0::FUN_005f39d0(unsigned char f)
 }
 
 struct C_005f3ae0 { void* FUN_005f3ae0(unsigned char f); };
+// pdb: BSScrapArray<float,1024>::`scalar deleting destructor' | Pathfind.obj | fnv360_0822_debug, vtable, medium
 void* C_005f3ae0::FUN_005f3ae0(unsigned char f)
 {
     FUN_005f37b0(this);
@@ -2522,6 +2774,7 @@ void* C_005f3ae0::FUN_005f3ae0(unsigned char f)
 }
 
 struct C_005f3b50 { void* FUN_005f3b50(unsigned char f); };
+// pdb: BSScrapArray<CrossedTriangle,1024>::`scalar deleting destructor' | Pathfind.obj | fnv360_0822_debug, vtable, medium
 void* C_005f3b50::FUN_005f3b50(unsigned char f)
 {
     FUN_005f38c0(this);
@@ -2530,6 +2783,7 @@ void* C_005f3b50::FUN_005f3b50(unsigned char f)
 }
 
 struct C_005f4530 { void* FUN_005f4530(unsigned char f); };
+// pdb: BSSimpleArray<PathingCoverLocation,1024>::`scalar deleting destructor' | Pathfind.obj | fnv360_0822_debug, vtable, medium
 void* C_005f4530::FUN_005f4530(unsigned char f)
 {
     FUN_005f4240(this);
@@ -2538,6 +2792,7 @@ void* C_005f4530::FUN_005f4530(unsigned char f)
 }
 
 struct C_00600050 { void* FUN_00600050(unsigned char f); };
+// pdb: NiTMap<unsigned int,unsigned int>::`scalar deleting destructor' | PathingLOSMap.obj | fnv360_0822_debug, vtable, medium
 void* C_00600050::FUN_00600050(unsigned char f)
 {
     FUN_005fffa0(this);
@@ -2546,6 +2801,7 @@ void* C_00600050::FUN_00600050(unsigned char f)
 }
 
 struct C_006062b0 { void* FUN_006062b0(unsigned char f); };
+// pdb: BSSimpleArray<VirtualPathingNode,1024>::`scalar deleting destructor' | PathingSolution.obj | fnv360_0822_retail, vtable, medium
 void* C_006062b0::FUN_006062b0(unsigned char f)
 {
     FUN_00605f80(this);
@@ -2554,6 +2810,7 @@ void* C_006062b0::FUN_006062b0(unsigned char f)
 }
 
 struct C_006062d0 { void* FUN_006062d0(unsigned char f); };
+// pdb: BSSimpleArray<PathingNode,1024>::`scalar deleting destructor' | PathingSolution.obj | fnv360_0822_retail, vtable, medium
 void* C_006062d0::FUN_006062d0(unsigned char f)
 {
     FUN_006060b0(this);
@@ -2562,6 +2819,7 @@ void* C_006062d0::FUN_006062d0(unsigned char f)
 }
 
 struct C_00607660 { void* FUN_00607660(unsigned char f); };
+// pdb: BSTStaticFreeList<ActorPathingMessage,256>::`scalar deleting destructor' | PathManager.obj | fnv360_0721_beta, vtable, medium
 void* C_00607660::FUN_00607660(unsigned char f)
 {
     FUN_00607570(this);
@@ -2570,6 +2828,7 @@ void* C_00607660::FUN_00607660(unsigned char f)
 }
 
 struct C_00607680 { void* FUN_00607680(unsigned char f); };
+// pdb: BSTStaticFreeList<PathingMessage,256>::`scalar deleting destructor' | PathManager.obj | fnv360_0721_beta, vtable, medium
 void* C_00607680::FUN_00607680(unsigned char f)
 {
     FUN_006075e0(this);
@@ -2578,6 +2837,7 @@ void* C_00607680::FUN_00607680(unsigned char f)
 }
 
 struct C_00609070 { void* FUN_00609070(unsigned char f); };
+// pdb: LockFreeMap<PathingRequest *,PathingTaskData *>::`scalar deleting destructor' | PathManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00609070::FUN_00609070(unsigned char f)
 {
     FUN_00608ff0(this);
@@ -2586,6 +2846,7 @@ void* C_00609070::FUN_00609070(unsigned char f)
 }
 
 struct C_0060b200 { void* FUN_0060b200(unsigned char f); };
+// pdb: BSScrapArray<PathSmoother::PathEdge *,1024>::`scalar deleting destructor' | PathSmoother.obj | fnv360_0822_debug, vtable, medium
 void* C_0060b200::FUN_0060b200(unsigned char f)
 {
     FUN_0060aba0(this);
@@ -2594,6 +2855,7 @@ void* C_0060b200::FUN_0060b200(unsigned char f)
 }
 
 struct C_0060b270 { void* FUN_0060b270(unsigned char f); };
+// pdb: BSScrapArray<PathSmoother::UniqueVert *,1024>::`scalar deleting destructor' | PathSmoother.obj | fnv360_0822_debug, vtable, medium
 void* C_0060b270::FUN_0060b270(unsigned char f)
 {
     FUN_0060ad00(this);
@@ -2602,6 +2864,7 @@ void* C_0060b270::FUN_0060b270(unsigned char f)
 }
 
 struct C_0060b2e0 { void* FUN_0060b2e0(unsigned char f); };
+// pdb: BSScrapArray<PathSmoother::BoundsEdge *,1024>::`scalar deleting destructor' | PathSmoother.obj | fnv360_0822_debug, vtable, medium
 void* C_0060b2e0::FUN_0060b2e0(unsigned char f)
 {
     FUN_0060ae60(this);
@@ -2610,6 +2873,7 @@ void* C_0060b2e0::FUN_0060b2e0(unsigned char f)
 }
 
 struct C_0060b350 { void* FUN_0060b350(unsigned char f); };
+// pdb: BSScrapArray<PathSmoother::AvoidNode,1024>::`scalar deleting destructor' | PathSmoother.obj | fnv360_0822_debug, vtable, medium
 void* C_0060b350::FUN_0060b350(unsigned char f)
 {
     FUN_0060b120(this);
@@ -2618,6 +2882,7 @@ void* C_0060b350::FUN_0060b350(unsigned char f)
 }
 
 struct C_0060ba60 { void* FUN_0060ba60(unsigned char f); };
+// pdb: BSScrapArray<PathingLocation,1024>::`scalar deleting destructor' | PathSmoother.obj | fnv360_0822_debug, vtable, medium
 void* C_0060ba60::FUN_0060ba60(unsigned char f)
 {
     FUN_0060b940(this);
@@ -2626,6 +2891,7 @@ void* C_0060ba60::FUN_0060ba60(unsigned char f)
 }
 
 struct C_0060f150 { void* FUN_0060f150(unsigned char f); };
+// pdb: BSScrapArray<AStarNode<ParentSpaceNode,TeleportLink> *,1024>::`scalar deleting destructor' | TeleportDoorSearch.obj | fnv360_0822_debug, vtable, medium
 void* C_0060f150::FUN_0060f150(unsigned char f)
 {
     FUN_0060f0c0(this);
@@ -2634,6 +2900,7 @@ void* C_0060f150::FUN_0060f150(unsigned char f)
 }
 
 struct C_0060f640 { void* FUN_0060f640(unsigned char f); };
+// pdb: TeleportDoorSearch::`scalar deleting destructor' | TeleportDoorSearch.obj | fnv360_0822_debug, vtable, high
 void* C_0060f640::FUN_0060f640(unsigned char f)
 {
     FUN_0060f1f0(this);
@@ -2642,6 +2909,7 @@ void* C_0060f640::FUN_0060f640(unsigned char f)
 }
 
 struct C_006110f0 { void* FUN_006110f0(unsigned char f); };
+// pdb: BGSDistantObjectBlockLoadTask::`scalar deleting destructor' | BGSDistantObjectBlock.obj | fnv360_0822_retail, vtable, medium
 void* C_006110f0::FUN_006110f0(unsigned char f)
 {
     FUN_00610730(this);
@@ -2650,6 +2918,7 @@ void* C_006110f0::FUN_006110f0(unsigned char f)
 }
 
 struct C_006120b0 { void* FUN_006120b0(unsigned char f); };
+// pdb: BSMap<unsigned int,BGSDistantTreeBlock::InstanceData *>::`scalar deleting destructor' | BGSDistantTreeBlock.obj | fnv360_0822_debug, vtable, medium
 void* C_006120b0::FUN_006120b0(unsigned char f)
 {
     FUN_00611f70(this);
@@ -2658,6 +2927,7 @@ void* C_006120b0::FUN_006120b0(unsigned char f)
 }
 
 struct C_00614ce0 { void* FUN_00614ce0(unsigned char f); };
+// pdb: BGSTerrainChunkLoadTask::`scalar deleting destructor' | BGSTerrainChunk.obj | fnv360_0822_retail, vtable, medium
 void* C_00614ce0::FUN_00614ce0(unsigned char f)
 {
     FUN_00613f20(this);
@@ -2666,6 +2936,7 @@ void* C_00614ce0::FUN_00614ce0(unsigned char f)
 }
 
 struct C_0061ca50 { void* FUN_0061ca50(unsigned char f); };
+// pdb: FORenderedTerminal::`scalar deleting destructor' | Interface.obj | fnv360_0721_retail, objrun, medium
 void* C_0061ca50::FUN_0061ca50(unsigned char f)
 {
     FUN_0061b9e0(this);
@@ -2674,6 +2945,7 @@ void* C_0061ca50::FUN_0061ca50(unsigned char f)
 }
 
 struct C_00625d10 { void* FUN_00625d10(unsigned char f); };
+// pdb: TileImage::`scalar deleting destructor' | InterfaceManager.obj | fnv360_0822_retail, objrun, low
 void* C_00625d10::FUN_00625d10(unsigned char f)
 {
     FUN_00625c30(this);
@@ -2682,6 +2954,7 @@ void* C_00625d10::FUN_00625d10(unsigned char f)
 }
 
 struct C_0062dc60 { void* FUN_0062dc60(unsigned char f); };
+// pdb: StatsMenu::NamedEffectsList::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_debug, vtable, medium
 void* C_0062dc60::FUN_0062dc60(unsigned char f)
 {
     FUN_0062dba0(this);
@@ -2690,6 +2963,7 @@ void* C_0062dc60::FUN_0062dc60(unsigned char f)
 }
 
 struct C_0062dc80 { void* FUN_0062dc80(unsigned char f); };
+// pdb: StatsMenu::StatusEffectList::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_debug, vtable, medium
 void* C_0062dc80::FUN_0062dc80(unsigned char f)
 {
     FUN_0062dc00(this);
@@ -2706,6 +2980,7 @@ void* C_0062ddb0::FUN_0062ddb0(unsigned char f)
 }
 
 struct C_0062e1b0 { void* FUN_0062e1b0(unsigned char f); };
+// pdb: SurgeryMenu::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_retail, vtable, medium
 void* C_0062e1b0::FUN_0062e1b0(unsigned char f)
 {
     FUN_0062e040(this);
@@ -2714,6 +2989,7 @@ void* C_0062e1b0::FUN_0062e1b0(unsigned char f)
 }
 
 struct C_00630dd0 { void* FUN_00630dd0(unsigned char f); };
+// pdb: SPECIALBookMenu::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00630dd0::FUN_00630dd0(unsigned char f)
 {
     FUN_00630cb0(this);
@@ -2722,6 +2998,7 @@ void* C_00630dd0::FUN_00630dd0(unsigned char f)
 }
 
 struct C_00631110 { void* FUN_00631110(unsigned char f); };
+// pdb: ListBox<enum ActorValue::Index>::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_debug, vtable, medium
 void* C_00631110::FUN_00631110(unsigned char f)
 {
     FUN_00630df0(this);
@@ -2730,6 +3007,7 @@ void* C_00631110::FUN_00631110(unsigned char f)
 }
 
 struct C_00631130 { void* FUN_00631130(unsigned char f); };
+// pdb: ListBox<PerkRankData *>::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_debug, vtable, medium
 void* C_00631130::FUN_00631130(unsigned char f)
 {
     FUN_00630e90(this);
@@ -2738,6 +3016,7 @@ void* C_00631130::FUN_00631130(unsigned char f)
 }
 
 struct C_00631150 { void* FUN_00631150(unsigned char f); };
+// pdb: ListBox<enum MiscStatManager::MiscStatID>::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_debug, vtable, medium
 void* C_00631150::FUN_00631150(unsigned char f)
 {
     FUN_00630f30(this);
@@ -2746,6 +3025,7 @@ void* C_00631150::FUN_00631150(unsigned char f)
 }
 
 struct C_00631170 { void* FUN_00631170(unsigned char f); };
+// pdb: ListBox<StatsMenu::StatusEffect *>::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_debug, vtable, medium
 void* C_00631170::FUN_00631170(unsigned char f)
 {
     FUN_00630fd0(this);
@@ -2754,6 +3034,7 @@ void* C_00631170::FUN_00631170(unsigned char f)
 }
 
 struct C_00631190 { void* FUN_00631190(unsigned char f); };
+// pdb: ListBox<unsigned int>::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_debug, vtable, medium
 void* C_00631190::FUN_00631190(unsigned char f)
 {
     FUN_00631070(this);
@@ -2762,6 +3043,7 @@ void* C_00631190::FUN_00631190(unsigned char f)
 }
 
 struct C_006314e0 { void* FUN_006314e0(unsigned char f); };
+// pdb: StatsMenu::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_retail, vtable, medium
 void* C_006314e0::FUN_006314e0(unsigned char f)
 {
     FUN_006313b0(this);
@@ -2770,6 +3052,7 @@ void* C_006314e0::FUN_006314e0(unsigned char f)
 }
 
 struct C_006315a0 { void* FUN_006315a0(unsigned char f); };
+// pdb: VATSMenu::`scalar deleting destructor' | MenuManager.obj | fnv360_0822_retail, vtable, medium
 void* C_006315a0::FUN_006315a0(unsigned char f)
 {
     FUN_00694e70(this);
@@ -2778,6 +3061,7 @@ void* C_006315a0::FUN_006315a0(unsigned char f)
 }
 
 struct C_00633d50 { void* FUN_00633d50(unsigned char f); };
+// pdb: ListBox<ItemChange *>::`scalar deleting destructor' | BarterMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_00633d50::FUN_00633d50(unsigned char f)
 {
     FUN_00633cb0(this);
@@ -2786,6 +3070,7 @@ void* C_00633d50::FUN_00633d50(unsigned char f)
 }
 
 struct C_006365a0 { void* FUN_006365a0(unsigned char f); };
+// pdb: CharGenMenu::`scalar deleting destructor' | CharGenMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_006365a0::FUN_006365a0(unsigned char f)
 {
     FUN_00636530(this);
@@ -2794,6 +3079,7 @@ void* C_006365a0::FUN_006365a0(unsigned char f)
 }
 
 struct C_006382e0 { void* FUN_006382e0(unsigned char f); };
+// pdb: ListBox<TERMINAL_MENU_ITEM *>::`scalar deleting destructor' | ComputersMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_006382e0::FUN_006382e0(unsigned char f)
 {
     FUN_00638070(this);
@@ -2802,6 +3088,7 @@ void* C_006382e0::FUN_006382e0(unsigned char f)
 }
 
 struct C_006398a0 { void* FUN_006398a0(unsigned char f); };
+// pdb: ComputersMenu::`scalar deleting destructor' | ComputersMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_006398a0::FUN_006398a0(unsigned char f)
 {
     FUN_00639770(this);
@@ -2810,6 +3097,7 @@ void* C_006398a0::FUN_006398a0(unsigned char f)
 }
 
 struct C_0063b0b0 { void* FUN_0063b0b0(unsigned char f); };
+// pdb: ContainerMenu::`scalar deleting destructor' | ContainerMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_0063b0b0::FUN_0063b0b0(unsigned char f)
 {
     FUN_0063b020(this);
@@ -2818,6 +3106,7 @@ void* C_0063b0b0::FUN_0063b0b0(unsigned char f)
 }
 
 struct C_0063c2a0 { void* FUN_0063c2a0(unsigned char f); };
+// pdb: CreditsMenu::`scalar deleting destructor' | CreditsMenu.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkbStateMachine::generate)
 void* C_0063c2a0::FUN_0063c2a0(unsigned char f)
 {
     FUN_0063c090(this);
@@ -2826,6 +3115,7 @@ void* C_0063c2a0::FUN_0063c2a0(unsigned char f)
 }
 
 struct C_0063e230 { void* FUN_0063e230(unsigned char f); };
+// pdb: ListBox<int>::`scalar deleting destructor' | DialogMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_0063e230::FUN_0063e230(unsigned char f)
 {
     FUN_0063dfc0(this);
@@ -2834,6 +3124,7 @@ void* C_0063e230::FUN_0063e230(unsigned char f)
 }
 
 struct C_0063e710 { void* FUN_0063e710(unsigned char f); };
+// pdb: DialogMenu::`scalar deleting destructor' | DialogMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_0063e710::FUN_0063e710(unsigned char f)
 {
     FUN_0063e350(this);
@@ -2842,6 +3133,7 @@ void* C_0063e710::FUN_0063e710(unsigned char f)
 }
 
 struct C_00643760 { void* FUN_00643760(unsigned char f); };
+// pdb: HackingMenu::`scalar deleting destructor' | HackingMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00643760::FUN_00643760(unsigned char f)
 {
     FUN_006421e0(this);
@@ -2850,6 +3142,7 @@ void* C_00643760::FUN_00643760(unsigned char f)
 }
 
 struct C_0064ddf0 { void* FUN_0064ddf0(unsigned char f); };
+// pdb: HUDMainMenu::`scalar deleting destructor' | HUDMainMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_0064ddf0::FUN_0064ddf0(unsigned char f)
 {
     FUN_00649c10(this);
@@ -2858,6 +3151,7 @@ void* C_0064ddf0::FUN_0064ddf0(unsigned char f)
 }
 
 struct C_006539a0 { void* FUN_006539a0(unsigned char f); };
+// pdb: InventoryMenu::`scalar deleting destructor' | InventoryMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_006539a0::FUN_006539a0(unsigned char f)
 {
     FUN_00653910(this);
@@ -2866,6 +3160,7 @@ void* C_006539a0::FUN_006539a0(unsigned char f)
 }
 
 struct C_00656a10 { void* FUN_00656a10(unsigned char f); };
+// pdb: ListBox<BGSPerk *>::`scalar deleting destructor' | LevelUpMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_00656a10::FUN_00656a10(unsigned char f)
 {
     FUN_00656760(this);
@@ -2874,6 +3169,7 @@ void* C_00656a10::FUN_00656a10(unsigned char f)
 }
 
 struct C_00656c10 { void* FUN_00656c10(unsigned char f); };
+// pdb: LevelUpMenu::`scalar deleting destructor' | LevelUpMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00656c10::FUN_00656c10(unsigned char f)
 {
     FUN_00656b80(this);
@@ -2882,6 +3178,7 @@ void* C_00656c10::FUN_00656c10(unsigned char f)
 }
 
 struct C_00658f20 { void* FUN_00658f20(unsigned char f); };
+// pdb: LoadingMenu::`scalar deleting destructor' | LoadingMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00658f20::FUN_00658f20(unsigned char f)
 {
     FUN_00658590(this);
@@ -2890,6 +3187,7 @@ void* C_00658f20::FUN_00658f20(unsigned char f)
 }
 
 struct C_0065a900 { void* FUN_0065a900(unsigned char f); };
+// pdb: LockPickMenu::`scalar deleting destructor' | LockPickMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_0065a900::FUN_0065a900(unsigned char f)
 {
     FUN_0065a270(this);
@@ -2898,6 +3196,7 @@ void* C_0065a900::FUN_0065a900(unsigned char f)
 }
 
 struct C_006639d0 { void* FUN_006639d0(unsigned char f); };
+// pdb: ListBox<BGSNote *>::`scalar deleting destructor' | MapMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_006639d0::FUN_006639d0(unsigned char f)
 {
     FUN_00662d40(this);
@@ -2906,6 +3205,7 @@ void* C_006639d0::FUN_006639d0(unsigned char f)
 }
 
 struct C_006639f0 { void* FUN_006639f0(unsigned char f); };
+// pdb: ListBox<TESObjectREFR *>::`scalar deleting destructor' | MapMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_006639f0::FUN_006639f0(unsigned char f)
 {
     FUN_00663170(this);
@@ -2914,6 +3214,7 @@ void* C_006639f0::FUN_006639f0(unsigned char f)
 }
 
 struct C_00663a10 { void* FUN_00663a10(unsigned char f); };
+// pdb: ListBox<BGSQuestObjective *>::`scalar deleting destructor' | MapMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_00663a10::FUN_00663a10(unsigned char f)
 {
     FUN_006635a0(this);
@@ -2922,6 +3223,7 @@ void* C_00663a10::FUN_00663a10(unsigned char f)
 }
 
 struct C_006649c0 { void* FUN_006649c0(unsigned char f); };
+// pdb: ListBox<TESQuest *>::`scalar deleting destructor' | MapMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_006649c0::FUN_006649c0(unsigned char f)
 {
     FUN_00664750(this);
@@ -2930,6 +3232,7 @@ void* C_006649c0::FUN_006649c0(unsigned char f)
 }
 
 struct C_00666de0 { void* FUN_00666de0(unsigned char f); };
+// pdb: MapMenu::`scalar deleting destructor' | MapMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00666de0::FUN_00666de0(unsigned char f)
 {
     FUN_00666ca0(this);
@@ -2938,6 +3241,7 @@ void* C_00666de0::FUN_00666de0(unsigned char f)
 }
 
 struct C_00668e20 { void* FUN_00668e20(unsigned char f); };
+// pdb: MessageMenu::`scalar deleting destructor' | MessageMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00668e20::FUN_00668e20(unsigned char f)
 {
     FUN_00668bb0(this);
@@ -2946,6 +3250,7 @@ void* C_00668e20::FUN_00668e20(unsigned char f)
 }
 
 struct C_0066b8d0 { void* FUN_0066b8d0(unsigned char f); };
+// pdb: FORenderedMenuRaceSex::`scalar deleting destructor' | RaceSexMenu.obj | fnv360_0822_retail, objrun, medium
 void* C_0066b8d0::FUN_0066b8d0(unsigned char f)
 {
     FUN_0069bb30(this);
@@ -2954,6 +3259,7 @@ void* C_0066b8d0::FUN_0066b8d0(unsigned char f)
 }
 
 struct C_0066cf70 { void* FUN_0066cf70(unsigned char f); };
+// pdb: RaceSexMenu::`scalar deleting destructor' | RaceSexMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_0066cf70::FUN_0066cf70(unsigned char f)
 {
     FUN_0066cc10(this);
@@ -2962,6 +3268,7 @@ void* C_0066cf70::FUN_0066cf70(unsigned char f)
 }
 
 struct C_00673030 { void* FUN_00673030(unsigned char f); };
+// pdb: RepairMenu::`scalar deleting destructor' | RepairMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00673030::FUN_00673030(unsigned char f)
 {
     FUN_006729a0(this);
@@ -2970,6 +3277,7 @@ void* C_00673030::FUN_00673030(unsigned char f)
 }
 
 struct C_00674440 { void* FUN_00674440(unsigned char f); };
+// pdb: RepairServicesMenu::`scalar deleting destructor' | RepairServicesMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00674440::FUN_00674440(unsigned char f)
 {
     FUN_006743d0(this);
@@ -2978,6 +3286,7 @@ void* C_00674440::FUN_00674440(unsigned char f)
 }
 
 struct C_0067eaa0 { void* FUN_0067eaa0(unsigned char f); };
+// pdb: ListBox<BGSSaveLoadFileEntry *>::`scalar deleting destructor' | StartMenu.obj | fnv360_0822_debug, vtable, medium
 void* C_0067eaa0::FUN_0067eaa0(unsigned char f)
 {
     FUN_0067e7d0(this);
@@ -2986,6 +3295,7 @@ void* C_0067eaa0::FUN_0067eaa0(unsigned char f)
 }
 
 struct C_00680560 { void* FUN_00680560(unsigned char f); };
+// pdb: StartMenu::`scalar deleting destructor' | StartMenu.obj | fnv360_0822_retail, vtable, medium
 void* C_00680560::FUN_00680560(unsigned char f)
 {
     FUN_0067f3f0(this);
@@ -2994,6 +3304,7 @@ void* C_00680560::FUN_00680560(unsigned char f)
 }
 
 struct C_006987d0 { void* FUN_006987d0(unsigned char f); };
+// pdb: FOPipboyManager::`scalar deleting destructor' | FOPipboyManager.obj | fnv360_0822_retail, objrun, medium
 void* C_006987d0::FUN_006987d0(unsigned char f)
 {
     FUN_006976b0(this);
@@ -3010,6 +3321,7 @@ void* C_0069b1e0::FUN_0069b1e0(unsigned char f)
 }
 
 struct C_006a03b0 { void* FUN_006a03b0(unsigned char f); };
+// pdb: NiTMap<unsigned int,IDebugTextPage *>::`scalar deleting destructor' | DebugTextManager.obj | fnv360_0822_debug, vtable, medium
 void* C_006a03b0::FUN_006a03b0(unsigned char f)
 {
     FUN_006a0300(this);
@@ -3018,6 +3330,7 @@ void* C_006a03b0::FUN_006a03b0(unsigned char f)
 }
 
 struct C_006a0e40 { void* FUN_006a0e40(unsigned char f); };
+// pdb: AbsorbEffect::`scalar deleting destructor' | AbsorbEffect.obj | fnv360_0822_retail, objrun, low
 void* C_006a0e40::FUN_006a0e40(unsigned char f)
 {
     FUN_006a0600(this);
@@ -3026,6 +3339,7 @@ void* C_006a0e40::FUN_006a0e40(unsigned char f)
 }
 
 struct C_006a4b00 { void* FUN_006a4b00(unsigned char f); };
+// pdb: BoundItemEffect::`scalar deleting destructor' | BoundItemEffect.obj | fnv360_0822_retail, objrun, medium
 void* C_006a4b00::FUN_006a4b00(unsigned char f)
 {
     FUN_006a4010(this);
@@ -3034,6 +3348,7 @@ void* C_006a4b00::FUN_006a4b00(unsigned char f)
 }
 
 struct C_006a6260 { void* FUN_006a6260(unsigned char f); };
+// pdb: VampirismEffect::`scalar deleting destructor' | VampirismEffect.obj | fnv360_0721_retail, vtable, medium
 void* C_006a6260::FUN_006a6260(unsigned char f)
 {
     FUN_006a2740(this);
@@ -3042,6 +3357,7 @@ void* C_006a6260::FUN_006a6260(unsigned char f)
 }
 
 struct C_006a7910 { void* FUN_006a7910(unsigned char f); };
+// pdb: DisintegrateWeaponEffect::`scalar deleting destructor' | DisintegrateWeaponEffect.obj | fnv360_0822_debug, objrun_open, low
 void* C_006a7910::FUN_006a7910(unsigned char f)
 {
     FUN_006a7890(this);
@@ -3050,6 +3366,7 @@ void* C_006a7910::FUN_006a7910(unsigned char f)
 }
 
 struct C_006a8af0 { void* FUN_006a8af0(unsigned char f); };
+// pdb: LightEffect::`scalar deleting destructor' | LightEffect.obj | fnv360_0822_retail, objrun, medium
 void* C_006a8af0::FUN_006a8af0(unsigned char f)
 {
     FUN_006a84c0(this);
@@ -3058,6 +3375,7 @@ void* C_006a8af0::FUN_006a8af0(unsigned char f)
 }
 
 struct C_006a9e20 { void* FUN_006a9e20(unsigned char f); };
+// pdb: MagicBallProjectile::`scalar deleting destructor' | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
 void* C_006a9e20::FUN_006a9e20(unsigned char f)
 {
     FUN_006a9000(this);
@@ -3066,6 +3384,7 @@ void* C_006a9e20::FUN_006a9e20(unsigned char f)
 }
 
 struct C_006ad1d0 { void* FUN_006ad1d0(unsigned char f); };
+// pdb: MagicBoltProjectile::`scalar deleting destructor' | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
 void* C_006ad1d0::FUN_006ad1d0(unsigned char f)
 {
     FUN_006ace30(this);
@@ -3074,6 +3393,7 @@ void* C_006ad1d0::FUN_006ad1d0(unsigned char f)
 }
 
 struct C_006b1260 { void* FUN_006b1260(unsigned char f); };
+// pdb: MagicFogProjectile::`scalar deleting destructor' | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
 void* C_006b1260::FUN_006b1260(unsigned char f)
 {
     FUN_006b0900(this);
@@ -3082,6 +3402,7 @@ void* C_006b1260::FUN_006b1260(unsigned char f)
 }
 
 struct C_006b40f0 { void* FUN_006b40f0(unsigned char f); };
+// pdb: MagicSprayProjectile::`scalar deleting destructor' | MagicSprayProjectile.obj | fnv360_0822_retail, vtable, medium
 void* C_006b40f0::FUN_006b40f0(unsigned char f)
 {
     FUN_006b3fa0(this);
@@ -3090,6 +3411,7 @@ void* C_006b40f0::FUN_006b40f0(unsigned char f)
 }
 
 struct C_006b8bb0 { void* FUN_006b8bb0(unsigned char f); };
+// pdb: NonActorMagicCaster::`scalar deleting destructor' | NonActorMagicCaster.obj | fnv360_0822_retail, vtable, high
 void* C_006b8bb0::FUN_006b8bb0(unsigned char f)
 {
     FUN_006b8b20(this);
@@ -3098,6 +3420,7 @@ void* C_006b8bb0::FUN_006b8bb0(unsigned char f)
 }
 
 struct C_006b8d90 { void* FUN_006b8d90(unsigned char f); };
+// pdb: NonActorMagicTarget::`scalar deleting destructor' | NonActorMagicTarget.obj | fnv360_0822_debug, vtable, high
 void* C_006b8d90::FUN_006b8d90(unsigned char f)
 {
     FUN_006b8ca0(this);
@@ -3106,6 +3429,7 @@ void* C_006b8d90::FUN_006b8d90(unsigned char f)
 }
 
 struct C_006ba390 { void* FUN_006ba390(unsigned char f); };
+// pdb: ShieldEffect::`scalar deleting destructor' | ShieldEffect.obj | fnv360_0822_debug, objrun_open, low
 void* C_006ba390::FUN_006ba390(unsigned char f)
 {
     FUN_006ba260(this);
@@ -3114,6 +3438,7 @@ void* C_006ba390::FUN_006ba390(unsigned char f)
 }
 
 struct C_006baa90 { void* FUN_006baa90(unsigned char f); };
+// pdb: SummonCreatureEffect::`scalar deleting destructor' | SummonCreatureEffect.obj | fnv360_0822_debug, objrun_sim, low
 void* C_006baa90::FUN_006baa90(unsigned char f)
 {
     FUN_006ba760(this);
@@ -3122,6 +3447,7 @@ void* C_006baa90::FUN_006baa90(unsigned char f)
 }
 
 struct C_006bbe60 { void* FUN_006bbe60(unsigned char f); };
+// pdb: TelekinesisEffect::`scalar deleting destructor' | TelekinesisEffect.obj | fnv360_0822_retail, objrun, medium
 void* C_006bbe60::FUN_006bbe60(unsigned char f)
 {
     FUN_006bb880(this);
@@ -3130,6 +3456,7 @@ void* C_006bbe60::FUN_006bbe60(unsigned char f)
 }
 
 struct C_006be760 { void* FUN_006be760(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,BSSoundHandle *>::`scalar deleting destructor' | FalloutAudio.obj | fnv360_0822_debug, vtable, medium
 void* C_006be760::FUN_006be760(unsigned char f)
 {
     FUN_006bdd80(this);
@@ -3138,6 +3465,7 @@ void* C_006be760::FUN_006be760(unsigned char f)
 }
 
 struct C_006c0be0 { void* FUN_006c0be0(unsigned char f); };
+// pdb: StreamingVoiceContext::`scalar deleting destructor' | FalloutAudioMedia.obj | fnv360_0822_debug, objrun_open, low
 void* C_006c0be0::FUN_006c0be0(unsigned char f)
 {
     FUN_006c09c0(this);
@@ -3146,6 +3474,7 @@ void* C_006c0be0::FUN_006c0be0(unsigned char f)
 }
 
 struct C_006c6530 { void* FUN_006c6530(unsigned char f); };
+// pdb: NiTPointerMap<int,unsigned int>::`scalar deleting destructor' | ImpactMixer.obj | fnv360_0822_debug, vtable, medium
 void* C_006c6530::FUN_006c6530(unsigned char f)
 {
     FUN_006c6480(this);
@@ -3154,6 +3483,7 @@ void* C_006c6530::FUN_006c6530(unsigned char f)
 }
 
 struct C_006cae20 { void* FUN_006cae20(unsigned char f); };
+// pdb: NiTMap<unsigned int,ReconstructFormData>::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006cae20::FUN_006cae20(unsigned char f)
 {
     FUN_006ca500(this);
@@ -3162,6 +3492,7 @@ void* C_006cae20::FUN_006cae20(unsigned char f)
 }
 
 struct C_006cae40 { void* FUN_006cae40(unsigned char f); };
+// pdb: NiTMap<unsigned int,BGSReconstructFormsMap *>::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006cae40::FUN_006cae40(unsigned char f)
 {
     FUN_006ca590(this);
@@ -3170,6 +3501,7 @@ void* C_006cae40::FUN_006cae40(unsigned char f)
 }
 
 struct C_006cae60 { void* FUN_006cae60(unsigned char f); };
+// pdb: NiTMap<unsigned int,BGSReconstructCellsMap *>::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006cae60::FUN_006cae60(unsigned char f)
 {
     FUN_006ca620(this);
@@ -3178,6 +3510,7 @@ void* C_006cae60::FUN_006cae60(unsigned char f)
 }
 
 struct C_006cae80 { void* FUN_006cae80(unsigned char f); };
+// pdb: NiTMap<unsigned int,BGSReconstructCellSubBlocksMap *>::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006cae80::FUN_006cae80(unsigned char f)
 {
     FUN_006ca6b0(this);
@@ -3186,6 +3519,7 @@ void* C_006cae80::FUN_006cae80(unsigned char f)
 }
 
 struct C_006caea0 { void* FUN_006caea0(unsigned char f); };
+// pdb: NiTMap<unsigned int,BGSReconstructCellBlocksMap *>::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: BGSConstructFormsMap::~BGSConstructFormsMap)
 void* C_006caea0::FUN_006caea0(unsigned char f)
 {
     FUN_006ca740(this);
@@ -3194,6 +3528,7 @@ void* C_006caea0::FUN_006caea0(unsigned char f)
 }
 
 struct C_006cb140 { void* FUN_006cb140(unsigned char f); };
+// pdb: BGSReconstructFormsMap::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: BGSConstructCellSubBlocksMap::~BGSConstructCellSubBlocksMap)
 void* C_006cb140::FUN_006cb140(unsigned char f)
 {
     FUN_006ca9c0(this);
@@ -3202,6 +3537,7 @@ void* C_006cb140::FUN_006cb140(unsigned char f)
 }
 
 struct C_006cb1b0 { void* FUN_006cb1b0(unsigned char f); };
+// pdb: BGSReconstructCellsMap::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BGSConstructCellBlocksMap::~BGSConstructCellBlocksMap)
 void* C_006cb1b0::FUN_006cb1b0(unsigned char f)
 {
     FUN_006caa20(this);
@@ -3210,6 +3546,7 @@ void* C_006cb1b0::FUN_006cb1b0(unsigned char f)
 }
 
 struct C_006cb3c0 { void* FUN_006cb3c0(unsigned char f); };
+// pdb: BGSReconstructCellSubBlocksMap::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_retail, vtable, medium
 void* C_006cb3c0::FUN_006cb3c0(unsigned char f)
 {
     FUN_006caae0(this);
@@ -3218,6 +3555,7 @@ void* C_006cb3c0::FUN_006cb3c0(unsigned char f)
 }
 
 struct C_006cb5d0 { void* FUN_006cb5d0(unsigned char f); };
+// pdb: BGSReconstructCellBlocksMap::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_retail, vtable, medium
 void* C_006cb5d0::FUN_006cb5d0(unsigned char f)
 {
     FUN_006caba0(this);
@@ -3226,6 +3564,7 @@ void* C_006cb5d0::FUN_006cb5d0(unsigned char f)
 }
 
 struct C_006cb8b0 { void* FUN_006cb8b0(unsigned char f); };
+// pdb: BGSReconstructWorldSpacesMap::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BGSConstructWorldSpacesMap::~BGSConstructWorldSpacesMap)
 void* C_006cb8b0::FUN_006cb8b0(unsigned char f)
 {
     FUN_006cac60(this);
@@ -3234,6 +3573,7 @@ void* C_006cb8b0::FUN_006cb8b0(unsigned char f)
 }
 
 struct C_006cbaa0 { void* FUN_006cbaa0(unsigned char f); };
+// pdb: BGSReconstructFormsInFileMap::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_retail, vtable, medium
 void* C_006cbaa0::FUN_006cbaa0(unsigned char f)
 {
     FUN_006cad20(this);
@@ -3242,6 +3582,7 @@ void* C_006cbaa0::FUN_006cbaa0(unsigned char f)
 }
 
 struct C_006cc340 { void* FUN_006cc340(unsigned char f); };
+// pdb: BGSOffsetDataArray::`scalar deleting destructor' | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, objrun_open, low
 void* C_006cc340::FUN_006cc340(unsigned char f)
 {
     FUN_006caf60(this);
@@ -3250,6 +3591,7 @@ void* C_006cc340::FUN_006cc340(unsigned char f)
 }
 
 struct C_006cd4e0 { void* FUN_006cd4e0(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,BGSFormChanges *>::`scalar deleting destructor' | BGSSaveLoadChangesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006cd4e0::FUN_006cd4e0(unsigned char f)
 {
     FUN_006cd3d0(this);
@@ -3258,6 +3600,7 @@ void* C_006cd4e0::FUN_006cd4e0(unsigned char f)
 }
 
 struct C_006cd550 { void* FUN_006cd550(unsigned char f); };
+// pdb: BGSSaveLoadChangesMap::`scalar deleting destructor' | BGSSaveLoadChangesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006cd550::FUN_006cd550(unsigned char f)
 {
     FUN_006cd480(this);
@@ -3266,6 +3609,7 @@ void* C_006cd550::FUN_006cd550(unsigned char f)
 }
 
 struct C_006cfa30 { void* FUN_006cfa30(unsigned char f); };
+// pdb: NiTMap<unsigned int,Actor *>::`scalar deleting destructor' | BGSSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006cfa30::FUN_006cfa30(unsigned char f)
 {
     FUN_006cf100(this);
@@ -3274,6 +3618,7 @@ void* C_006cfa30::FUN_006cfa30(unsigned char f)
 }
 
 struct C_006d1da0 { void* FUN_006d1da0(unsigned char f); };
+// pdb: NiTMap<TESGlobal *,bool>::`scalar deleting destructor' | BGSSaveLoadGlobalData.obj | fnv360_0822_debug, vtable, medium
 void* C_006d1da0::FUN_006d1da0(unsigned char f)
 {
     FUN_006d1ba0(this);
@@ -3282,6 +3627,7 @@ void* C_006d1da0::FUN_006d1da0(unsigned char f)
 }
 
 struct C_006d69b0 { void* FUN_006d69b0(unsigned char f); };
+// pdb: NiTMap<unsigned int,BSSimpleArray<unsigned int,1024> *>::`scalar deleting destructor' | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006d69b0::FUN_006d69b0(unsigned char f)
 {
     FUN_006d6510(this);
@@ -3290,6 +3636,7 @@ void* C_006d69b0::FUN_006d69b0(unsigned char f)
 }
 
 struct C_006d69d0 { void* FUN_006d69d0(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,unsigned int>::`scalar deleting destructor' | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006d69d0::FUN_006d69d0(unsigned char f)
 {
     FUN_006d65a0(this);
@@ -3298,6 +3645,7 @@ void* C_006d69d0::FUN_006d69d0(unsigned char f)
 }
 
 struct C_006d69f0 { void* FUN_006d69f0(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,BGSCellNumericIDArrayMap *>::`scalar deleting destructor' | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006d69f0::FUN_006d69f0(unsigned char f)
 {
     FUN_006d6630(this);
@@ -3306,6 +3654,7 @@ void* C_006d69f0::FUN_006d69f0(unsigned char f)
 }
 
 struct C_006d6a60 { void* FUN_006d6a60(unsigned char f); };
+// pdb: BGSCellNumericIDArrayMap::`scalar deleting destructor' | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, vtable, medium
 void* C_006d6a60::FUN_006d6a60(unsigned char f)
 {
     FUN_006d6760(this);
@@ -3314,6 +3663,7 @@ void* C_006d6a60::FUN_006d6a60(unsigned char f)
 }
 
 struct C_006d7dc0 { void* FUN_006d7dc0(unsigned char f); };
+// pdb: NiTMap<enum ENUM_FORM_ID,BSSimpleList<SavedFormData *> *>::`scalar deleting destructor' | BGSSaveLoadStructs.obj | fnv360_0822_debug, vtable, high
 void* C_006d7dc0::FUN_006d7dc0(unsigned char f)
 {
     FUN_006d6f60(this);
@@ -3322,6 +3672,7 @@ void* C_006d7dc0::FUN_006d7dc0(unsigned char f)
 }
 
 struct C_006d7de0 { void* FUN_006d7de0(unsigned char f); };
+// pdb: BGSSaveLoadStatsMap::`scalar deleting destructor' | BGSSaveLoadStructs.obj | fnv360_0822_retail, vtable, high
 void* C_006d7de0::FUN_006d7de0(unsigned char f)
 {
     FUN_006d7010(this);
@@ -3330,6 +3681,7 @@ void* C_006d7de0::FUN_006d7de0(unsigned char f)
 }
 
 struct C_006dacb0 { void* FUN_006dacb0(unsigned char f); };
+// pdb: SaveGameFile::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_retail, objrun, medium
 void* C_006dacb0::FUN_006dacb0(unsigned char f)
 {
     FUN_00bcd9b0(this);
@@ -3338,6 +3690,7 @@ void* C_006dacb0::FUN_006dacb0(unsigned char f)
 }
 
 struct C_006dd760 { void* FUN_006dd760(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,ChangeData *>::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006dd760::FUN_006dd760(unsigned char f)
 {
     FUN_006dc060(this);
@@ -3346,6 +3699,7 @@ void* C_006dd760::FUN_006dd760(unsigned char f)
 }
 
 struct C_006dd780 { void* FUN_006dd780(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,BSSimpleList<unsigned int> *>::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006dd780::FUN_006dd780(unsigned char f)
 {
     FUN_006dc0f0(this);
@@ -3354,6 +3708,7 @@ void* C_006dd780::FUN_006dd780(unsigned char f)
 }
 
 struct C_006dd7a0 { void* FUN_006dd7a0(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,BSSimpleList<ExteriorCellReferenceData *> *>::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006dd7a0::FUN_006dd7a0(unsigned char f)
 {
     FUN_006dc180(this);
@@ -3362,6 +3717,7 @@ void* C_006dd7a0::FUN_006dd7a0(unsigned char f)
 }
 
 struct C_006dd7c0 { void* FUN_006dd7c0(unsigned char f); };
+// pdb: NiTPointerMap<unsigned int,void *>::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006dd7c0::FUN_006dd7c0(unsigned char f)
 {
     FUN_006dc210(this);
@@ -3370,6 +3726,7 @@ void* C_006dd7c0::FUN_006dd7c0(unsigned char f)
 }
 
 struct C_006dd7e0 { void* FUN_006dd7e0(unsigned char f); };
+// pdb: NiTPointerMap<unsigned char,BSSimpleList<LoadFormHeader *> *>::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006dd7e0::FUN_006dd7e0(unsigned char f)
 {
     FUN_006dd6f0(this);
@@ -3378,6 +3735,7 @@ void* C_006dd7e0::FUN_006dd7e0(unsigned char f)
 }
 
 struct C_006dd800 { void* FUN_006dd800(unsigned char f); };
+// pdb: NiTMap<unsigned int,BSSimpleList<ExpiredCellData *> *>::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006dd800::FUN_006dd800(unsigned char f)
 {
     FUN_006dc2c0(this);
@@ -3386,6 +3744,7 @@ void* C_006dd800::FUN_006dd800(unsigned char f)
 }
 
 struct C_006dd850 { void* FUN_006dd850(unsigned char f); };
+// pdb: ChangesMap::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_debug, vtable, medium
 void* C_006dd850::FUN_006dd850(unsigned char f)
 {
     FUN_006dc570(this);
@@ -3394,6 +3753,7 @@ void* C_006dd850::FUN_006dd850(unsigned char f)
 }
 
 struct C_006dd870 { void* FUN_006dd870(unsigned char f); };
+// pdb: InteriorCellNewReferencesMap::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_retail, vtable, medium
 void* C_006dd870::FUN_006dd870(unsigned char f)
 {
     FUN_006dc5d0(this);
@@ -3402,6 +3762,7 @@ void* C_006dd870::FUN_006dd870(unsigned char f)
 }
 
 struct C_006dd890 { void* FUN_006dd890(unsigned char f); };
+// pdb: ExteriorCellNewReferencesMap::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_retail, vtable, medium
 void* C_006dd890::FUN_006dd890(unsigned char f)
 {
     FUN_006dc6b0(this);
@@ -3410,6 +3771,7 @@ void* C_006dd890::FUN_006dd890(unsigned char f)
 }
 
 struct C_006dd8b0 { void* FUN_006dd8b0(unsigned char f); };
+// pdb: NumericIDBufferMap::`scalar deleting destructor' | TESSaveLoadGame.obj | fnv360_0822_retail, vtable, medium
 void* C_006dd8b0::FUN_006dd8b0(unsigned char f)
 {
     FUN_006dc7b0(this);
@@ -3418,6 +3780,7 @@ void* C_006dd8b0::FUN_006dd8b0(unsigned char f)
 }
 
 struct C_006e1290 { void* FUN_006e1290(unsigned char f); };
+// pdb: NiTMap<TESForm *,BGSLoadGameSubBuffer>::`scalar deleting destructor' | BGSLoadGameSubBuffer.obj | fnv360_0822_debug, vtable, medium
 void* C_006e1290::FUN_006e1290(unsigned char f)
 {
     FUN_006e0ea0(this);
@@ -3426,6 +3789,7 @@ void* C_006e1290::FUN_006e1290(unsigned char f)
 }
 
 struct C_006e5060 { void* FUN_006e5060(unsigned char f); };
+// pdb: BSFadeNodeCuller::`scalar deleting destructor' | Main.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSTSingletonSDMBase<struct BSTSDMTraits<struct MovementControllerSetDescriptions,struct BSTSingletonSDMOpStaticBuffer<struct MovementControllerSetDescriptions> > >::~BSTSingletonSDMBase<struct BSTSDMTraits<struct MovementControllerSetDescriptions,struct BSTSingletonSDMOpStaticBuffer<struct MovementControllerSetDescriptions> > >)
 void* C_006e5060::FUN_006e5060(unsigned char f)
 {
     FUN_008337f0(this);
@@ -3434,6 +3798,7 @@ void* C_006e5060::FUN_006e5060(unsigned char f)
 }
 
 struct C_006e8650 { void* FUN_006e8650(unsigned char f); };
+// pdb: BSTCommonScrapHeapMessageQueue<BSPackedTask>::`scalar deleting destructor' | Main.obj | fnv360_0822_retail, vtable, high
 void* C_006e8650::FUN_006e8650(unsigned char f)
 {
     FUN_006e84f0(this);
@@ -3442,6 +3807,7 @@ void* C_006e8650::FUN_006e8650(unsigned char f)
 }
 
 struct C_006ed3e0 { void* FUN_006ed3e0(unsigned char f); };
+// pdb: SettingT<RegSettingCollection>::`scalar deleting destructor' | Main.obj | fnv360_0822_retail, vtable, high
 void* C_006ed3e0::FUN_006ed3e0(unsigned char f)
 {
     FUN_006ed320(this);
@@ -3450,6 +3816,7 @@ void* C_006ed3e0::FUN_006ed3e0(unsigned char f)
 }
 
 struct C_006ef3d0 { void* FUN_006ef3d0(unsigned char f); };
+// pdb: MemoryManagerFile::`scalar deleting destructor' | MemoryManagerFile.obj | fnv360_0822_debug, vtable, high
 void* C_006ef3d0::FUN_006ef3d0(unsigned char f)
 {
     FUN_006ef260(this);
@@ -3458,6 +3825,7 @@ void* C_006ef3d0::FUN_006ef3d0(unsigned char f)
 }
 
 struct C_006f0b50 { void* FUN_006f0b50(unsigned char f); };
+// pdb: IntSeenData::`scalar deleting destructor' | SeenData.obj | fnv360_0822_debug, vtable, medium
 void* C_006f0b50::FUN_006f0b50(unsigned char f)
 {
     FUN_006f0640(this);
@@ -3466,6 +3834,7 @@ void* C_006f0b50::FUN_006f0b50(unsigned char f)
 }
 
 struct C_006f1060 { void* FUN_006f1060(unsigned char f); };
+// pdb: BSScrapArray<NiPointer<NiAVObject>,1024>::`scalar deleting destructor' | TaskQueueInterface.obj | fnv360_0822_retail, vtable, medium
 void* C_006f1060::FUN_006f1060(unsigned char f)
 {
     FUN_006f0f50(this);
@@ -3474,6 +3843,7 @@ void* C_006f1060::FUN_006f1060(unsigned char f)
 }
 
 struct C_007116e0 { void* FUN_007116e0(unsigned char f); };
+// pdb: Actor::`scalar deleting destructor' | Actor.obj | fnv360_0822_retail, vtable_prefix, high
 void* C_007116e0::FUN_007116e0(unsigned char f)
 {
     FUN_0070c9b0(this);
@@ -3482,6 +3852,7 @@ void* C_007116e0::FUN_007116e0(unsigned char f)
 }
 
 struct C_00725ca0 { void* FUN_00725ca0(unsigned char f); };
+// pdb: BSTStaticFreeList<MobileObjectMessage,4096>::`scalar deleting destructor' | AITaskManager.obj | fnv360_0721_beta, vtable, medium
 void* C_00725ca0::FUN_00725ca0(unsigned char f)
 {
     FUN_00725c30(this);
@@ -3490,6 +3861,7 @@ void* C_00725ca0::FUN_00725ca0(unsigned char f)
 }
 
 struct C_00725e90 { void* FUN_00725e90(unsigned char f); };
+// pdb: BSTCommonLLMessageQueue<MobileObjectMessage>::`scalar deleting destructor' | AITaskManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00725e90::FUN_00725e90(unsigned char f)
 {
     FUN_00725cc0(this);
@@ -3498,6 +3870,7 @@ void* C_00725e90::FUN_00725e90(unsigned char f)
 }
 
 struct C_00728cf0 { void* FUN_00728cf0(unsigned char f); };
+// pdb: Character::`scalar deleting destructor' | Character.obj | fnv360_0822_retail, vtable_prefix, high
 void* C_00728cf0::FUN_00728cf0(unsigned char f)
 {
     FUN_00728140(this);
@@ -3506,6 +3879,7 @@ void* C_00728cf0::FUN_00728cf0(unsigned char f)
 }
 
 struct C_0073a6c0 { void* FUN_0073a6c0(unsigned char f); };
+// pdb: BSTCommonLLMessageQueue<ActorPathingMessage>::`scalar deleting destructor' | HighProcess.obj | fnv360_0822_retail, vtable, medium
 void* C_0073a6c0::FUN_0073a6c0(unsigned char f)
 {
     FUN_0073a4d0(this);
@@ -3514,6 +3888,7 @@ void* C_0073a6c0::FUN_0073a6c0(unsigned char f)
 }
 
 struct C_00745cf0 { void* FUN_00745cf0(unsigned char f); };
+// pdb: HighProcess::`scalar deleting destructor' | HighProcess.obj | fnv360_0822_debug, caller_sim, medium
 void* C_00745cf0::FUN_00745cf0(unsigned char f)
 {
     FUN_00743580(this);
@@ -3522,6 +3897,7 @@ void* C_00745cf0::FUN_00745cf0(unsigned char f)
 }
 
 struct C_00748e70 { void* FUN_00748e70(unsigned char f); };
+// pdb: LipTask::`scalar deleting destructor' | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00748e70::FUN_00748e70(unsigned char f)
 {
     FUN_00aa53c0(this);
@@ -3530,6 +3906,7 @@ void* C_00748e70::FUN_00748e70(unsigned char f)
 }
 
 struct C_00749b60 { void* FUN_00749b60(unsigned char f); };
+// pdb: LockFreeMap<MobileObject *,NiPointer<LipTask> >::`scalar deleting destructor' | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00749b60::FUN_00749b60(unsigned char f)
 {
     FUN_00749ae0(this);
@@ -3538,6 +3915,7 @@ void* C_00749b60::FUN_00749b60(unsigned char f)
 }
 
 struct C_0074fff0 { void* FUN_0074fff0(unsigned char f); };
+// pdb: NiTMap<LowProcess *,LP_LOCK_DATA>::`scalar deleting destructor' | LowProcess.obj | fnv360_0822_debug, vtable, medium
 void* C_0074fff0::FUN_0074fff0(unsigned char f)
 {
     FUN_0074e360(this);
@@ -3546,6 +3924,7 @@ void* C_0074fff0::FUN_0074fff0(unsigned char f)
 }
 
 struct C_00763770 { void* FUN_00763770(unsigned char f); };
+// pdb: MiddleLowProcess::`scalar deleting destructor' | MiddleLowProcess.obj | fnv360_0822_debug, objrun_open, low
 void* C_00763770::FUN_00763770(unsigned char f)
 {
     FUN_00762d80(this);
@@ -3562,6 +3941,7 @@ void* C_007641a0::FUN_007641a0(unsigned char f)
 }
 
 struct C_007665d0 { void* FUN_007665d0(unsigned char f); };
+// pdb: MobileObject::`scalar deleting destructor' | MobileObject.obj | fnv360_0822_retail, vtable, medium
 void* C_007665d0::FUN_007665d0(unsigned char f)
 {
     FUN_00764da0(this);
@@ -3570,6 +3950,7 @@ void* C_007665d0::FUN_007665d0(unsigned char f)
 }
 
 struct C_00786540 { void* FUN_00786540(unsigned char f); };
+// pdb: PlayerCharacter::`scalar deleting destructor' | PlayerCharacter.obj | fnv360_0822_retail, vtable_prefix, high
 void* C_00786540::FUN_00786540(unsigned char f)
 {
     FUN_00781910(this);
@@ -3578,6 +3959,7 @@ void* C_00786540::FUN_00786540(unsigned char f)
 }
 
 struct C_00792bd0 { void* FUN_00792bd0(unsigned char f); };
+// pdb: BSScrapArray<Animation *,1024>::`scalar deleting destructor' | ProcessLists.obj | fnv360_0822_debug, vtable, medium
 void* C_00792bd0::FUN_00792bd0(unsigned char f)
 {
     FUN_00792910(this);
@@ -3586,6 +3968,7 @@ void* C_00792bd0::FUN_00792bd0(unsigned char f)
 }
 
 struct C_00792bf0 { void* FUN_00792bf0(unsigned char f); };
+// pdb: BSScrapArray<Actor *,1024>::`scalar deleting destructor' | ProcessLists.obj | fnv360_0822_debug, vtable, medium
 void* C_00792bf0::FUN_00792bf0(unsigned char f)
 {
     FUN_00792a10(this);
@@ -3594,6 +3977,7 @@ void* C_00792bf0::FUN_00792bf0(unsigned char f)
 }
 
 struct C_00792c60 { void* FUN_00792c60(unsigned char f); };
+// pdb: BSScrapArray<EffectTaskData,1024>::`scalar deleting destructor' | ProcessLists.obj | fnv360_0822_debug, vtable, medium
 void* C_00792c60::FUN_00792c60(unsigned char f)
 {
     FUN_00792ad0(this);
@@ -3602,6 +3986,7 @@ void* C_00792c60::FUN_00792c60(unsigned char f)
 }
 
 struct C_007957d0 { void* FUN_007957d0(unsigned char f); };
+// pdb: ContinuousBeamProjectile::`scalar deleting destructor' | ContinuousBeamProjectile.obj | fnv360_0822_retail, vtable, medium
 void* C_007957d0::FUN_007957d0(unsigned char f)
 {
     FUN_00794c80(this);
@@ -3610,6 +3995,7 @@ void* C_007957d0::FUN_007957d0(unsigned char f)
 }
 
 struct C_00799c60 { void* FUN_00799c60(unsigned char f); };
+// pdb: CombatPlanner::`scalar deleting destructor' | CombatController.obj | fnv360_0822_debug, vtable, medium
 void* C_00799c60::FUN_00799c60(unsigned char f)
 {
     FUN_00799bd0(this);
@@ -3618,6 +4004,7 @@ void* C_00799c60::FUN_00799c60(unsigned char f)
 }
 
 struct C_0079afc0 { void* FUN_0079afc0(unsigned char f); };
+// pdb: CombatController::`scalar deleting destructor' | CombatController.obj | fnv360_0822_retail, vtable, medium
 void* C_0079afc0::FUN_0079afc0(unsigned char f)
 {
     FUN_0079a6b0(this);
@@ -3626,6 +4013,7 @@ void* C_0079afc0::FUN_0079afc0(unsigned char f)
 }
 
 struct C_0079cb60 { void* FUN_0079cb60(unsigned char f); };
+// pdb: CombatCoverMap::`scalar deleting destructor' | CombatCoverMap.obj | fnv360_0822_retail, vtable, medium
 void* C_0079cb60::FUN_0079cb60(unsigned char f)
 {
     FUN_0079c890(this);
@@ -3634,6 +4022,7 @@ void* C_0079cb60::FUN_0079cb60(unsigned char f)
 }
 
 struct C_007a8b00 { void* FUN_007a8b00(unsigned char f); };
+// pdb: NiTMap<Actor *,__int64>::`scalar deleting destructor' | CombatManager.obj | fnv360_0822_debug, vtable, medium
 void* C_007a8b00::FUN_007a8b00(unsigned char f)
 {
     FUN_007a8a70(this);
@@ -3642,6 +4031,7 @@ void* C_007a8b00::FUN_007a8b00(unsigned char f)
 }
 
 struct C_007aa0b0 { void* FUN_007aa0b0(unsigned char f); };
+// pdb: BSScrapArray<CombatPlanNode *,1024>::`scalar deleting destructor' | CombatPlanner.obj | fnv360_0822_debug, vtable, medium
 void* C_007aa0b0::FUN_007aa0b0(unsigned char f)
 {
     FUN_007a9ed0(this);
@@ -3650,6 +4040,7 @@ void* C_007aa0b0::FUN_007aa0b0(unsigned char f)
 }
 
 struct C_007aa120 { void* FUN_007aa120(unsigned char f); };
+// pdb: BSScrapArray<CombatPlanLink *,1024>::`scalar deleting destructor' | CombatPlanner.obj | fnv360_0822_debug, vtable, medium
 void* C_007aa120::FUN_007aa120(unsigned char f)
 {
     FUN_007a9f90(this);
@@ -3658,6 +4049,7 @@ void* C_007aa120::FUN_007aa120(unsigned char f)
 }
 
 struct C_007aa300 { void* FUN_007aa300(unsigned char f); };
+// pdb: BSScrapArray<AStarNode<CombatPlanNode *,CombatPlanLink *> *,1024>::`scalar deleting destructor' | CombatPlanner.obj | fnv360_0822_debug, vtable, medium
 void* C_007aa300::FUN_007aa300(unsigned char f)
 {
     FUN_007aa270(this);
@@ -3666,6 +4058,7 @@ void* C_007aa300::FUN_007aa300(unsigned char f)
 }
 
 struct C_007b5c30 { void* FUN_007b5c30(unsigned char f); };
+// pdb: NiTMap<Actor *,CombatTargetData *>::`scalar deleting destructor' | CombatTargetMap.obj | fnv360_0822_debug, vtable, medium
 void* C_007b5c30::FUN_007b5c30(unsigned char f)
 {
     FUN_007b5b80(this);
@@ -3674,6 +4067,7 @@ void* C_007b5c30::FUN_007b5c30(unsigned char f)
 }
 
 struct C_007b6040 { void* FUN_007b6040(unsigned char f); };
+// pdb: CombatTargetMap::`scalar deleting destructor' | CombatTargetMap.obj | fnv360_0822_retail, vtable, medium
 void* C_007b6040::FUN_007b6040(unsigned char f)
 {
     FUN_007b5e70(this);
@@ -3682,6 +4076,7 @@ void* C_007b6040::FUN_007b6040(unsigned char f)
 }
 
 struct C_007b7230 { void* FUN_007b7230(unsigned char f); };
+// pdb: NiTMap<unsigned int,CombatThreat *>::`scalar deleting destructor' | CombatThreatMap.obj | fnv360_0822_debug, vtable, medium
 void* C_007b7230::FUN_007b7230(unsigned char f)
 {
     FUN_007b69f0(this);
@@ -3690,6 +4085,7 @@ void* C_007b7230::FUN_007b7230(unsigned char f)
 }
 
 struct C_007b72e0 { void* FUN_007b72e0(unsigned char f); };
+// pdb: CombatThreatMap::`scalar deleting destructor' | CombatThreatMap.obj | fnv360_0822_debug, vtable, medium
 void* C_007b72e0::FUN_007b72e0(unsigned char f)
 {
     FUN_007b6dc0(this);
@@ -3698,6 +4094,7 @@ void* C_007b72e0::FUN_007b72e0(unsigned char f)
 }
 
 struct C_007bdb00 { void* FUN_007bdb00(unsigned char f); };
+// pdb: Explosion::`scalar deleting destructor' | Explosion.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkpFixedBufferCdPointCollector::reset)
 void* C_007bdb00::FUN_007bdb00(unsigned char f)
 {
     FUN_007bd5f0(this);
@@ -3706,6 +4103,7 @@ void* C_007bdb00::FUN_007bdb00(unsigned char f)
 }
 
 struct C_007c1de0 { void* FUN_007c1de0(unsigned char f); };
+// pdb: Projectile::`scalar deleting destructor' | Projectile.obj | fnv360_0822_retail, vtable, low
 void* C_007c1de0::FUN_007c1de0(unsigned char f)
 {
     FUN_007cbe80(this);
@@ -3714,6 +4112,7 @@ void* C_007c1de0::FUN_007c1de0(unsigned char f)
 }
 
 struct C_007c4e80 { void* FUN_007c4e80(unsigned char f); };
+// pdb: MissileProjectile::`scalar deleting destructor' | MissileProjectile.obj | fnv360_0822_retail, vtable, medium
 void* C_007c4e80::FUN_007c4e80(unsigned char f)
 {
     FUN_007c4610(this);
@@ -3722,6 +4121,7 @@ void* C_007c4e80::FUN_007c4e80(unsigned char f)
 }
 
 struct C_007db0f0 { void* FUN_007db0f0(unsigned char f); };
+// pdb: CombatProcedureMove::`scalar deleting destructor' | CombatProcedureMove.obj | fnv360_0822_retail, vtable, medium
 void* C_007db0f0::FUN_007db0f0(unsigned char f)
 {
     FUN_007dab20(this);
@@ -3730,6 +4130,7 @@ void* C_007db0f0::FUN_007db0f0(unsigned char f)
 }
 
 struct C_007e03a0 { void* FUN_007e03a0(unsigned char f); };
+// pdb: ActorMover::`scalar deleting destructor' | ActorMover.obj | fnv360_0822_retail, vtable, medium
 void* C_007e03a0::FUN_007e03a0(unsigned char f)
 {
     FUN_007dfab0(this);
@@ -3738,6 +4139,7 @@ void* C_007e03a0::FUN_007e03a0(unsigned char f)
 }
 
 struct C_007e10f0 { void* FUN_007e10f0(unsigned char f); };
+// pdb: ActorPathHandler::`scalar deleting destructor' | ActorPathHandler.obj | fnv360_0822_retail, vtable, medium
 void* C_007e10f0::FUN_007e10f0(unsigned char f)
 {
     FUN_007e1060(this);
@@ -3746,6 +4148,7 @@ void* C_007e10f0::FUN_007e10f0(unsigned char f)
 }
 
 struct C_007e61e0 { void* FUN_007e61e0(unsigned char f); };
+// pdb: DetailedActorPathHandler::`scalar deleting destructor' | DetailedActorPathHandler.obj | fnv360_0822_retail, vtable, medium
 void* C_007e61e0::FUN_007e61e0(unsigned char f)
 {
     FUN_007e55c0(this);
@@ -3754,6 +4157,7 @@ void* C_007e61e0::FUN_007e61e0(unsigned char f)
 }
 
 struct C_007e9b90 { void* FUN_007e9b90(unsigned char f); };
+// pdb: VirtualActorPathHandler::`scalar deleting destructor' | VirtualActorPathHandler.obj | fnv360_0822_debug, vtable, medium
 void* C_007e9b90::FUN_007e9b90(unsigned char f)
 {
     FUN_007e96f0(this);
@@ -3762,6 +4166,7 @@ void* C_007e9b90::FUN_007e9b90(unsigned char f)
 }
 
 struct C_007eac70 { void* FUN_007eac70(unsigned char f); };
+// pdb: AlarmPackage::`scalar deleting destructor' | AlarmPackage.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: BGSStoryEventManager::AddEvent<class BGSCrimeGoldEvent>)
 void* C_007eac70::FUN_007eac70(unsigned char f)
 {
     FUN_007ea900(this);
@@ -3770,6 +4175,7 @@ void* C_007eac70::FUN_007eac70(unsigned char f)
 }
 
 struct C_007ec000 { void* FUN_007ec000(unsigned char f); };
+// pdb: DialoguePackage::`scalar deleting destructor' | DialoguePackage.obj | fnv360_0822_retail, vtable, medium
 void* C_007ec000::FUN_007ec000(unsigned char f)
 {
     FUN_007ebf60(this);
@@ -3778,6 +4184,7 @@ void* C_007ec000::FUN_007ec000(unsigned char f)
 }
 
 struct C_007ecbe0 { void* FUN_007ecbe0(unsigned char f); };
+// pdb: EscortActorPackageData::`scalar deleting destructor' | EscortPackage.obj | fnv360_0822_debug, vtable, medium
 void* C_007ecbe0::FUN_007ecbe0(unsigned char f)
 {
     FUN_007eca90(this);
@@ -3786,6 +4193,7 @@ void* C_007ecbe0::FUN_007ecbe0(unsigned char f)
 }
 
 struct C_007eda70 { void* FUN_007eda70(unsigned char f); };
+// pdb: GuardPackageData::`scalar deleting destructor' | GuardPackage.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: FleePackage::`scalar deleting destructor')
 void* C_007eda70::FUN_007eda70(unsigned char f)
 {
     FUN_007ed590(this);
@@ -3794,6 +4202,7 @@ void* C_007eda70::FUN_007eda70(unsigned char f)
 }
 
 struct C_007eeb20 { void* FUN_007eeb20(unsigned char f); };
+// pdb: PatrolActorPackageData::`scalar deleting destructor' | PatrolPackage.obj | fnv360_0822_retail, vtable, medium
 void* C_007eeb20::FUN_007eeb20(unsigned char f)
 {
     FUN_007ee840(this);
@@ -3802,6 +4211,7 @@ void* C_007eeb20::FUN_007eeb20(unsigned char f)
 }
 
 struct C_007f0120 { void* FUN_007f0120(unsigned char f); };
+// pdb: SandBoxActorPackageData::`scalar deleting destructor' | SandBoxPackage.obj | fnv360_0822_retail, vtable, medium
 void* C_007f0120::FUN_007f0120(unsigned char f)
 {
     FUN_007efe50(this);
@@ -3818,6 +4228,7 @@ void* C_007f1020::FUN_007f1020(unsigned char f)
 }
 
 struct C_007f2a00 { void* FUN_007f2a00(unsigned char f); };
+// pdb: BSSimpleArray<SpectatorThreatInfo,1024>::`scalar deleting destructor' | SpectatorPackage.obj | fnv360_0822_retail, vtable, medium
 void* C_007f2a00::FUN_007f2a00(unsigned char f)
 {
     FUN_007f2900(this);
@@ -3826,6 +4237,7 @@ void* C_007f2a00::FUN_007f2a00(unsigned char f)
 }
 
 struct C_007f2f70 { void* FUN_007f2f70(unsigned char f); };
+// pdb: SpectatorPackage::`scalar deleting destructor' | SpectatorPackage.obj | fnv360_0822_retail, vtable, medium
 void* C_007f2f70::FUN_007f2f70(unsigned char f)
 {
     FUN_007f2b00(this);
@@ -3834,6 +4246,7 @@ void* C_007f2f70::FUN_007f2f70(unsigned char f)
 }
 
 struct C_007f35c0 { void* FUN_007f35c0(unsigned char f); };
+// pdb: TrespassPackage::`scalar deleting destructor' | TrespassPackage.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_007f35c0::FUN_007f35c0(unsigned char f)
 {
     FUN_007f3200(this);
@@ -3842,6 +4255,7 @@ void* C_007f35c0::FUN_007f35c0(unsigned char f)
 }
 
 struct C_007f9fa0 { void* FUN_007f9fa0(unsigned char f); };
+// pdb: NiTMap<char const *,char *>::`scalar deleting destructor' | MoviePlayer_Xenon.obj | fnv360_0822_debug, vtable, medium
 void* C_007f9fa0::FUN_007f9fa0(unsigned char f)
 {
     FUN_007f9e60(this);
@@ -3850,6 +4264,7 @@ void* C_007f9fa0::FUN_007f9fa0(unsigned char f)
 }
 
 struct C_007f9fc0 { void* FUN_007f9fc0(unsigned char f); };
+// pdb: NiTStringTemplateMap<NiTMap<char const *,char *>,char *>::`scalar deleting destructor' | MoviePlayer_Xenon.obj | fnv360_0822_retail, vtable, medium
 void* C_007f9fc0::FUN_007f9fc0(unsigned char f)
 {
     FUN_007f9ed0(this);
@@ -3858,6 +4273,8 @@ void* C_007f9fc0::FUN_007f9fc0(unsigned char f)
 }
 
 struct C_007fafd0 { void* FUN_007fafd0(unsigned char f); };
+// pdb: BinkAlloc | MoviePlayer.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: MoviePlayer::`scalar deleting destructor')
+// pdb params: num_bytes
 void* C_007fafd0::FUN_007fafd0(unsigned char f)
 {
     FUN_007faf40(this);
@@ -3866,6 +4283,7 @@ void* C_007fafd0::FUN_007fafd0(unsigned char f)
 }
 
 struct C_007fbbb0 { void* FUN_007fbbb0(unsigned char f); };
+// pdb: NiPick::Results::`scalar deleting destructor' | NiPick.obj | fnv360_0822_debug, objopen_prop, low
 void* C_007fbbb0::FUN_007fbbb0(unsigned char f)
 {
     FUN_007fba70(this);
@@ -3890,6 +4308,7 @@ void* C_0081a040::FUN_0081a040(unsigned char f)
 }
 
 struct C_0082ce40 { void* FUN_0082ce40(unsigned char f); };
+// pdb: NiTStringTemplateMap<class NiTPointerMap<char const *,class NiObject * (__cdecl*)(void)>,class NiObject * (__cdecl*)(void)>::`scalar deleting destructor' | NiStream.obj | tesv_win, vtable, medium
 void* C_0082ce40::FUN_0082ce40(unsigned char f)
 {
     FUN_0082a6a0(this);
@@ -3898,6 +4317,7 @@ void* C_0082ce40::FUN_0082ce40(unsigned char f)
 }
 
 struct C_0082ce60 { void* FUN_0082ce60(unsigned char f); };
+// pdb: NiTStringPointerMap<unsigned short>::`scalar deleting destructor' | NiStream.obj | tesv_win, vtable, medium
 void* C_0082ce60::FUN_0082ce60(unsigned char f)
 {
     FUN_0082a780(this);
@@ -3906,6 +4326,7 @@ void* C_0082ce60::FUN_0082ce60(unsigned char f)
 }
 
 struct C_0082d130 { void* FUN_0082d130(unsigned char f); };
+// pdb: NiStream::`scalar deleting destructor' | NiStream.obj | fnv360_0721_beta, objrun, high
 void* C_0082d130::FUN_0082d130(unsigned char f)
 {
     FUN_0082c310(this);
@@ -3938,6 +4359,7 @@ void* C_0086d2b0::FUN_0086d2b0(unsigned char f)
 }
 
 struct C_0086d4a0 { void* FUN_0086d4a0(unsigned char f); };
+// pdb: MemoryHeap::Size | MemoryHeap.obj | tesv_win, objrun_open, low
 void* C_0086d4a0::FUN_0086d4a0(unsigned char f)
 {
     FUN_0086d350(this);
@@ -3946,6 +4368,8 @@ void* C_0086d4a0::FUN_0086d4a0(unsigned char f)
 }
 
 struct C_00889310 { void* FUN_00889310(unsigned char f); };
+// pdb: D3DDevice_GetSamplerState_MaxMipLevel | state.obj | fnv360_1110_debug, objrun_open, low, conflict (skyrim: NiGeometryBufferData::`scalar deleting destructor')
+// pdb params: pDevice, Sampler
 void* C_00889310::FUN_00889310(unsigned char f)
 {
     FUN_00889290(this);
@@ -3954,6 +4378,8 @@ void* C_00889310::FUN_00889310(unsigned char f)
 }
 
 struct C_0088eb40 { void* FUN_0088eb40(unsigned char f); };
+// pdb: NiTPrimitiveSet<NiD3DPass *>::NiTPrimitiveSet<NiD3DPass *> | NiD3DPass.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: uiInitialSize
 void* C_0088eb40::FUN_0088eb40(unsigned char f)
 {
     FUN_0088ebb0(this);
@@ -3962,6 +4388,7 @@ void* C_0088eb40::FUN_0088eb40(unsigned char f)
 }
 
 struct C_0088f960 { void* FUN_0088f960(unsigned char f); };
+// pdb: NiXenonErrorShader::~NiXenonErrorShader | NiXenonErrorShader.obj | fnv360_0822_debug, objrun_open, low
 void* C_0088f960::FUN_0088f960(unsigned char f)
 {
     FUN_0088fdc0(this);
@@ -3970,6 +4397,7 @@ void* C_0088f960::FUN_0088f960(unsigned char f)
 }
 
 struct C_008901b0 { void* FUN_008901b0(unsigned char f); };
+// pdb: NiTPoolContainer<NiD3DRenderStateGroup::NiD3DRSEntry,NiTNewInterface<NiD3DRenderStateGroup::NiD3DRSEntry> >::`scalar deleting destructor' | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
 void* C_008901b0::FUN_008901b0(unsigned char f)
 {
     FUN_008901d0(this);
@@ -4002,6 +4430,8 @@ void* C_00898390::FUN_00898390(unsigned char f)
 }
 
 struct C_0089b9c0 { void* FUN_0089b9c0(unsigned char f); };
+// pdb: NiD3DShaderFactory::AddProgramDirectory | NiD3DShaderFactory.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pacDirectory
 void* C_0089b9c0::FUN_0089b9c0(unsigned char f)
 {
     FUN_0089b800(this);
@@ -4010,6 +4440,8 @@ void* C_0089b9c0::FUN_0089b9c0(unsigned char f)
 }
 
 struct C_0089be60 { void* FUN_0089be60(unsigned char f); };
+// pdb: NiD3DShaderFactory::RemoveProgramDirectory | NiD3DShaderFactory.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pacDirectory
 void* C_0089be60::FUN_0089be60(unsigned char f)
 {
     FUN_0089b8d0(this);
@@ -4018,6 +4450,7 @@ void* C_0089be60::FUN_0089be60(unsigned char f)
 }
 
 struct C_008a8750 { void* FUN_008a8750(unsigned char f); };
+// pdb: NiInterpController::`scalar deleting destructor' | NiInterpController.obj | fnv360_0822_debug, objrun_open, low
 void* C_008a8750::FUN_008a8750(unsigned char f)
 {
     FUN_008a8640(this);
@@ -4026,6 +4459,7 @@ void* C_008a8750::FUN_008a8750(unsigned char f)
 }
 
 struct C_008dbbe0 { void* FUN_008dbbe0(unsigned char f); };
+// pdb: BSTSingletonSDMBase<struct BSTSDMTraits<class bhkCollisionFilter,struct BSTSingletonSDMOpStaticBuffer<class bhkCollisionFilter> > >::InitSDM | bhkWorld.obj | tesv_win, objrun_open, low
 void* C_008dbbe0::FUN_008dbbe0(unsigned char f)
 {
     FUN_008dbaa0(this);
@@ -4034,6 +4468,7 @@ void* C_008dbbe0::FUN_008dbbe0(unsigned char f)
 }
 
 struct C_008dbc40 { void* FUN_008dbc40(unsigned char f); };
+// pdb: BSTSingletonSDMBase<struct BSTSDMTraits<class bhkBipedOrientationController,struct BSTSingletonSDMOpStaticBuffer<class bhkBipedOrientationController> > >::InitSDM | bhkWorld.obj | tesv_win, objrun_open, low
 void* C_008dbc40::FUN_008dbc40(unsigned char f)
 {
     FUN_008dbb30(this);
@@ -4042,6 +4477,8 @@ void* C_008dbc40::FUN_008dbc40(unsigned char f)
 }
 
 struct C_008e3030 { void* FUN_008e3030(unsigned char f); };
+// pdb: BSSimpleArray<char const *,1024>::_Allocate | BGSRagdoll.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: bhkRagdollController::`vector deleting destructor')
+// pdb params: aiSizeInItem
 void* C_008e3030::FUN_008e3030(unsigned char f)
 {
     FUN_008dcf00(this);
@@ -4050,6 +4487,7 @@ void* C_008e3030::FUN_008e3030(unsigned char f)
 }
 
 struct C_008f17a0 { void* FUN_008f17a0(unsigned char f); };
+// pdb: bhkTrapListener::`scalar deleting destructor' | TESTrapListener.obj | fnv360_0822_debug, caller_sim, low
 void* C_008f17a0::FUN_008f17a0(unsigned char f)
 {
     FUN_004ddfc0(this);
@@ -4058,6 +4496,7 @@ void* C_008f17a0::FUN_008f17a0(unsigned char f)
 }
 
 struct C_0092f5f0 { void* FUN_0092f5f0(unsigned char f); };
+// pdb: hkpCharacterRigidBody::removeListener | hkpCharacterRigidBody.obj | tesv_win, objrun_open, low
 void* C_0092f5f0::FUN_0092f5f0(unsigned char f)
 {
     FUN_0092f540(this);
@@ -4074,6 +4513,7 @@ void* C_0094cc70::FUN_0094cc70(unsigned char f)
 }
 
 struct C_00aa2800 { void* FUN_00aa2800(unsigned char f); };
+// pdb: BSTaskManagerThread<__int64>::`scalar deleting destructor' | IOManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00aa2800::FUN_00aa2800(unsigned char f)
 {
     FUN_00aa6560(this);
@@ -4082,6 +4522,7 @@ void* C_00aa2800::FUN_00aa2800(unsigned char f)
 }
 
 struct C_00aa2d50 { void* FUN_00aa2d50(unsigned char f); };
+// pdb: LockFreePriorityQueue<NiPointer<IOTask> >::`scalar deleting destructor' | IOManager.obj | fnv360_0822_retail, vtable, high
 void* C_00aa2d50::FUN_00aa2d50(unsigned char f)
 {
     FUN_00aa2d10(this);
@@ -4090,6 +4531,7 @@ void* C_00aa2d50::FUN_00aa2d50(unsigned char f)
 }
 
 struct C_00aa48e0 { void* FUN_00aa48e0(unsigned char f); };
+// pdb: LockFreeMap<__int64,NiPointer<BSTask<__int64> > >::`scalar deleting destructor' | IOManager.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: IOManager::OnRequestQueuedCB)
 void* C_00aa48e0::FUN_00aa48e0(unsigned char f)
 {
     FUN_00aa4780(this);
@@ -4098,6 +4540,7 @@ void* C_00aa48e0::FUN_00aa48e0(unsigned char f)
 }
 
 struct C_00aa4900 { void* FUN_00aa4900(unsigned char f); };
+// pdb: BSTaskManager<__int64>::`scalar deleting destructor' | IOManager.obj | fnv360_0822_retail, vtable, medium
 void* C_00aa4900::FUN_00aa4900(unsigned char f)
 {
     FUN_00aa4800(this);
@@ -4106,6 +4549,7 @@ void* C_00aa4900::FUN_00aa4900(unsigned char f)
 }
 
 struct C_00aa4fe0 { void* FUN_00aa4fe0(unsigned char f); };
+// pdb: LockFreeQueue<NiPointer<IOTask> >::`scalar deleting destructor' | IOManager.obj | fnv360_0822_debug, vtable, high
 void* C_00aa4fe0::FUN_00aa4fe0(unsigned char f)
 {
     FUN_00aa4f70(this);
@@ -4114,6 +4558,7 @@ void* C_00aa4fe0::FUN_00aa4fe0(unsigned char f)
 }
 
 struct C_00aa50b0 { void* FUN_00aa50b0(unsigned char f); };
+// pdb: IOManager::`scalar deleting destructor' | IOManager.obj | fnv360_0822_debug, vtable, high
 void* C_00aa50b0::FUN_00aa50b0(unsigned char f)
 {
     FUN_00aa4920(this);
@@ -4122,6 +4567,7 @@ void* C_00aa50b0::FUN_00aa50b0(unsigned char f)
 }
 
 struct C_00aa5770 { void* FUN_00aa5770(unsigned char f); };
+// pdb: QueuedReplacementKFList::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void* C_00aa5770::FUN_00aa5770(unsigned char f)
 {
     FUN_00aa51a0(this);
@@ -4130,6 +4576,7 @@ void* C_00aa5770::FUN_00aa5770(unsigned char f)
 }
 
 struct C_00aa5e50 { void* FUN_00aa5e50(unsigned char f); };
+// pdb: MessageHandler::`scalar deleting destructor' | MessageHandler.obj | fnv360_0822_retail, vtable, high
 void* C_00aa5e50::FUN_00aa5e50(unsigned char f)
 {
     FUN_00aa5c70(this);
@@ -4162,6 +4609,7 @@ void* C_00ade830::FUN_00ade830(unsigned char f)
 }
 
 struct C_00adf2a0 { void* FUN_00adf2a0(unsigned char f); };
+// pdb: NiTStringPointerMap<NiPointer<TallGrassShaderProperty::CachedGeometry> >::`scalar deleting destructor' | TallGrassShaderProperty.obj | fnv360_0721_beta, objrun, low
 void* C_00adf2a0::FUN_00adf2a0(unsigned char f)
 {
     FUN_00ade9e0(this);
@@ -4170,6 +4618,7 @@ void* C_00adf2a0::FUN_00adf2a0(unsigned char f)
 }
 
 struct C_00ae6a80 { void* FUN_00ae6a80(unsigned char f); };
+// pdb: TES::ParticleObjectCache::ParticleObjectCache | TES.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: ShadowSceneNode::UpdateDynamicLight)
 void* C_00ae6a80::FUN_00ae6a80(unsigned char f)
 {
     FUN_00ae69d0(this);
@@ -4186,6 +4635,8 @@ void* C_00b02340::FUN_00b02340(unsigned char f)
 }
 
 struct C_00b02700 { void* FUN_00b02700(unsigned char f); };
+// pdb: NiTPointerMap<char const *,ShaderBufferEntry *>::DeleteItem | ShaderBuffer.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkItem
 void* C_00b02700::FUN_00b02700(unsigned char f)
 {
     FUN_00b022b0(this);
@@ -4194,6 +4645,7 @@ void* C_00b02700::FUN_00b02700(unsigned char f)
 }
 
 struct C_00b0ac00 { void* FUN_00b0ac00(unsigned char f); };
+// pdb: ImageSpaceEffectWaterDisplacement::`scalar deleting destructor' | ImageSpaceEffectWaterDisplacement.obj | fnv360_0822_debug, objrun_open, low
 void* C_00b0ac00::FUN_00b0ac00(unsigned char f)
 {
     FUN_00b09e10(this);
@@ -4202,6 +4654,7 @@ void* C_00b0ac00::FUN_00b0ac00(unsigned char f)
 }
 
 struct C_00b0b140 { void* FUN_00b0b140(unsigned char f); };
+// pdb: ImageSpaceEffectWaterFFT::`scalar deleting destructor' | ImageSpaceEffectWaterFFT.obj | fnv360_0822_retail, objrun, medium
 void* C_00b0b140::FUN_00b0b140(unsigned char f)
 {
     FUN_00b0aca0(this);
@@ -4210,6 +4663,7 @@ void* C_00b0b140::FUN_00b0b140(unsigned char f)
 }
 
 struct C_00b0cc80 { void* FUN_00b0cc80(unsigned char f); };
+// pdb: ImageSpaceEffectNoise::`scalar deleting destructor' | ImageSpaceEffectNoise.obj | fnv360_0822_retail, objrun, medium
 void* C_00b0cc80::FUN_00b0cc80(unsigned char f)
 {
     FUN_00b0c7a0(this);
@@ -4218,6 +4672,7 @@ void* C_00b0cc80::FUN_00b0cc80(unsigned char f)
 }
 
 struct C_00b22a00 { void* FUN_00b22a00(unsigned char f); };
+// pdb: ImageSpaceEffect::`scalar deleting destructor' | ImageSpaceEffect.obj | fnv360_0822_debug, objopen_prop, low
 void* C_00b22a00::FUN_00b22a00(unsigned char f)
 {
     FUN_00b22630(this);
@@ -4226,6 +4681,7 @@ void* C_00b22a00::FUN_00b22a00(unsigned char f)
 }
 
 struct C_00b23150 { void* FUN_00b23150(unsigned char f); };
+// pdb: ImageSpaceEffectBlur::`scalar deleting destructor' | ImageSpaceEffectBlur.obj | fnv360_0822_retail, objrun, medium
 void* C_00b23150::FUN_00b23150(unsigned char f)
 {
     FUN_00b22cb0(this);
@@ -4234,6 +4690,7 @@ void* C_00b23150::FUN_00b23150(unsigned char f)
 }
 
 struct C_00b233d0 { void* FUN_00b233d0(unsigned char f); };
+// pdb: ImageSpaceEffectFullScreenBlur::`scalar deleting destructor' | ImageSpaceEffectBlur.obj | fnv360_0822_retail, objrun, medium
 void* C_00b233d0::FUN_00b233d0(unsigned char f)
 {
     FUN_00b22f80(this);
@@ -4242,6 +4699,7 @@ void* C_00b233d0::FUN_00b233d0(unsigned char f)
 }
 
 struct C_00b23e00 { void* FUN_00b23e00(unsigned char f); };
+// pdb: ImageSpaceShaderParam::`scalar deleting destructor' | ImageSpaceShaderParam.obj | fnv360_0822_debug, objrun_open, low
 void* C_00b23e00::FUN_00b23e00(unsigned char f)
 {
     FUN_00b23d00(this);
@@ -4258,6 +4716,7 @@ void* C_00b2c3e0::FUN_00b2c3e0(unsigned char f)
 }
 
 struct C_00b2f740 { void* FUN_00b2f740(unsigned char f); };
+// pdb: ImageSpaceEffectHDR::`scalar deleting destructor' | ImageSpaceEffectHDR.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00b2f740::FUN_00b2f740(unsigned char f)
 {
     FUN_00b2f6a0(this);
@@ -4266,6 +4725,8 @@ void* C_00b2f740::FUN_00b2f740(unsigned char f)
 }
 
 struct C_00b3a9b0 { void* FUN_00b3a9b0(unsigned char f); };
+// pdb: BSFogProperty::CopyMembers | BSFogProperty.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: ImageSpaceEffectInterface::`scalar deleting destructor')
+// pdb params: pDest, arCloneData
 void* C_00b3a9b0::FUN_00b3a9b0(unsigned char f)
 {
     FUN_00b3a480(this);
@@ -4274,6 +4735,7 @@ void* C_00b3a9b0::FUN_00b3a9b0(unsigned char f)
 }
 
 struct C_00b3b200 { void* FUN_00b3b200(unsigned char f); };
+// pdb: ImageSpaceEffectTV::`scalar deleting destructor' | ImageSpaceEffectTV.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00b3b200::FUN_00b3b200(unsigned char f)
 {
     FUN_00b3af20(this);
@@ -4282,6 +4744,7 @@ void* C_00b3b200::FUN_00b3b200(unsigned char f)
 }
 
 struct C_00b3b8a0 { void* FUN_00b3b8a0(unsigned char f); };
+// pdb: ImageSpaceEffectVATSScan::`scalar deleting destructor' | ImageSpaceEffectVATSScan.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00b3b8a0::FUN_00b3b8a0(unsigned char f)
 {
     FUN_00b3b600(this);
@@ -4290,6 +4753,7 @@ void* C_00b3b8a0::FUN_00b3b8a0(unsigned char f)
 }
 
 struct C_00b45490 { void* FUN_00b45490(unsigned char f); };
+// pdb: ImageSpaceEffectRadialBlur::`scalar deleting destructor' | ImageSpaceEffectRadialBlur.obj | fnv360_0721_beta, objrun, medium
 void* C_00b45490::FUN_00b45490(unsigned char f)
 {
     FUN_00b44ca0(this);
@@ -4298,6 +4762,7 @@ void* C_00b45490::FUN_00b45490(unsigned char f)
 }
 
 struct C_00b45710 { void* FUN_00b45710(unsigned char f); };
+// pdb: ImageSpaceEffectDepthRadialBlur::`scalar deleting destructor' | ImageSpaceEffectRadialBlur.obj | fnv360_0721_beta, objrun, medium
 void* C_00b45710::FUN_00b45710(unsigned char f)
 {
     FUN_00b45190(this);
@@ -4306,6 +4771,7 @@ void* C_00b45710::FUN_00b45710(unsigned char f)
 }
 
 struct C_00b5b620 { void* FUN_00b5b620(unsigned char f); };
+// pdb: ImageSpaceEffectRefraction::`scalar deleting destructor' | ImageSpaceEffectRefraction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00b5b620::FUN_00b5b620(unsigned char f)
 {
     FUN_00b5b380(this);
@@ -4330,6 +4796,7 @@ void* C_00b856b0::FUN_00b856b0(unsigned char f)
 }
 
 struct C_00b85ea0 { void* FUN_00b85ea0(unsigned char f); };
+// pdb: ImageSpaceEffectSunbeams::`scalar deleting destructor' | ImageSpaceEffectSunbeams.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00b85ea0::FUN_00b85ea0(unsigned char f)
 {
     FUN_00b85d20(this);
@@ -4338,6 +4805,7 @@ void* C_00b85ea0::FUN_00b85ea0(unsigned char f)
 }
 
 struct C_00b86f00 { void* FUN_00b86f00(unsigned char f); };
+// pdb: ImageSpaceShader::`scalar deleting destructor' | ImageSpaceShader.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: ImageSpaceEffectGetHit::`scalar deleting destructor')
 void* C_00b86f00::FUN_00b86f00(unsigned char f)
 {
     FUN_00b86bf0(this);
@@ -4346,6 +4814,7 @@ void* C_00b86f00::FUN_00b86f00(unsigned char f)
 }
 
 struct C_00b871b0 { void* FUN_00b871b0(unsigned char f); };
+// pdb: ImageSpaceEffectMenuBG::`scalar deleting destructor' | ImageSpaceEffectMenuBG.obj | fnv360_0721_beta, objopen_prop, low
 void* C_00b871b0::FUN_00b871b0(unsigned char f)
 {
     FUN_00b870b0(this);
@@ -4354,6 +4823,7 @@ void* C_00b871b0::FUN_00b871b0(unsigned char f)
 }
 
 struct C_00b87520 { void* FUN_00b87520(unsigned char f); };
+// pdb: ImageSpaceEffectMenuBG::`scalar deleting destructor' | ImageSpaceEffectMenuBG.obj | fnv360_0822_debug, objrun_open, low
 void* C_00b87520::FUN_00b87520(unsigned char f)
 {
     FUN_00b87350(this);
@@ -4370,6 +4840,7 @@ void* C_00b87c00::FUN_00b87c00(unsigned char f)
 }
 
 struct C_00b87f40 { void* FUN_00b87f40(unsigned char f); };
+// pdb: ImageSpaceEffectBloom::`scalar deleting destructor' | ImageSpaceEffectBloom.obj | fnv360_0822_retail, objrun, medium
 void* C_00b87f40::FUN_00b87f40(unsigned char f)
 {
     FUN_00b87cf0(this);
@@ -4386,6 +4857,7 @@ void* C_00b88200::FUN_00b88200(unsigned char f)
 }
 
 struct C_00bcae40 { void* FUN_00bcae40(unsigned char f); };
+// pdb: ArchiveFile::`scalar deleting destructor' | Archive.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00bcae40::FUN_00bcae40(unsigned char f)
 {
     FUN_00bc9ce0(this);
@@ -4394,6 +4866,7 @@ void* C_00bcae40::FUN_00bcae40(unsigned char f)
 }
 
 struct C_00bce570 { void* FUN_00bce570(unsigned char f); };
+// pdb: BSSearchPath::`scalar deleting destructor' | BSSearchPath.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_00bce570::FUN_00bce570(unsigned char f)
 {
     FUN_0089fca0(this);
@@ -4410,6 +4883,7 @@ void* C_00bcf4e0::FUN_00bcf4e0(unsigned char f)
 }
 
 struct C_00bd0d60 { void* FUN_00bd0d60(unsigned char f); };
+// pdb: BSAudioManager::`scalar deleting destructor' | BSAudioManager.obj | fnv360_0822_debug, objrun_open, low
 void* C_00bd0d60::FUN_00bd0d60(unsigned char f)
 {
     FUN_00bd0ae0(this);
@@ -4418,6 +4892,7 @@ void* C_00bd0d60::FUN_00bd0d60(unsigned char f)
 }
 
 struct C_00bd0dc0 { void* FUN_00bd0dc0(unsigned char f); };
+// pdb: BSAudioManagerThread::`scalar deleting destructor' | BSAudioManager.obj | fnv360_0822_debug, objrun_open, low
 void* C_00bd0dc0::FUN_00bd0dc0(unsigned char f)
 {
     FUN_00bd0b70(this);
@@ -4426,6 +4901,7 @@ void* C_00bd0dc0::FUN_00bd0dc0(unsigned char f)
 }
 
 struct C_00bd0e20 { void* FUN_00bd0e20(unsigned char f); };
+// pdb: BSAudioManagerThread::~BSAudioManagerThread | BSAudioManager.obj | fnv360_0822_debug, objrun_open, low
 void* C_00bd0e20::FUN_00bd0e20(unsigned char f)
 {
     FUN_00bd0cb0(this);
@@ -4450,6 +4926,7 @@ void* C_00bd8390::FUN_00bd8390(unsigned char f)
 }
 
 struct C_00bdc490 { void* FUN_00bdc490(unsigned char f); };
+// pdb: FutBinaryFileC::`scalar deleting destructor' | FanCtlFile.obj | fnv360_0822_retail, vtable, medium
 void* C_00bdc490::FUN_00bdc490(unsigned char f)
 {
     FUN_00bdc3f0(this);
@@ -4458,6 +4935,7 @@ void* C_00bdc490::FUN_00bdc490(unsigned char f)
 }
 
 struct C_00bdc510 { void* FUN_00bdc510(unsigned char f); };
+// pdb: BSFaceGenBinaryFile::`scalar deleting destructor' | FanCtlFile.obj | fnv360_0822_debug, vtable, medium
 void* C_00bdc510::FUN_00bdc510(unsigned char f)
 {
     FUN_00bdc4b0(this);
@@ -4466,6 +4944,7 @@ void* C_00bdc510::FUN_00bdc510(unsigned char f)
 }
 
 struct C_00beb740 { void* FUN_00beb740(unsigned char f); };
+// pdb: NiTPointerMap<char const *,int>::`scalar deleting destructor' | Tile.obj | fnv360_0822_debug, vtable, medium
 void* C_00beb740::FUN_00beb740(unsigned char f)
 {
     FUN_00beb530(this);
@@ -4474,6 +4953,7 @@ void* C_00beb740::FUN_00beb740(unsigned char f)
 }
 
 struct C_00beb760 { void* FUN_00beb760(unsigned char f); };
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,int>,int>::`scalar deleting destructor' | Tile.obj | fnv360_0822_retail, vtable, medium
 void* C_00beb760::FUN_00beb760(unsigned char f)
 {
     FUN_00beb5a0(this);
@@ -4482,6 +4962,7 @@ void* C_00beb760::FUN_00beb760(unsigned char f)
 }
 
 struct C_00bebb70 { void* FUN_00bebb70(unsigned char f); };
+// pdb: NiTPointerMap<Tile::Value *,Tile::Reaction *>::`scalar deleting destructor' | Tile.obj | fnv360_0822_debug, vtable, medium
 void* C_00bebb70::FUN_00bebb70(unsigned char f)
 {
     FUN_00beb4a0(this);
@@ -4490,6 +4971,7 @@ void* C_00bebb70::FUN_00bebb70(unsigned char f)
 }
 
 struct C_00bebb90 { void* FUN_00bebb90(unsigned char f); };
+// pdb: NiTPointerMap<int,int>::`scalar deleting destructor' | Tile.obj | fnv360_0822_debug, vtable, medium
 void* C_00bebb90::FUN_00bebb90(unsigned char f)
 {
     FUN_00beb650(this);

@@ -150,6 +150,8 @@ struct FUN_00996140 {
     FUN_00996140(const int* low, const int* high, int count);
 };
 
+// pdb: hkp3AxisSweep::hkp3AxisSweep | hkp3AxisSweep.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: worldMin, worldMax, numMarkers
 FUN_00996140::FUN_00996140(const int* low, const int* high, int count)
     : lowBound(low), highBound(high)
 {

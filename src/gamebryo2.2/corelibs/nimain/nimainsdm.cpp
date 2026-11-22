@@ -17,6 +17,7 @@ template <class T> struct PoolAllocatorBase
     };
     static LinkedListEntry* ms_pFreeList;
 };
+// pdb: NiTAbstractPoolAllocator<unsigned int>::_SDMShutdown | NiMainSDM.obj | fnv360_0822_retail, call_seq, high
 void FUN_00a8a200()
 {
     void* p = DAT_011c5f54;
@@ -43,6 +44,7 @@ extern void* DAT_011f6034;
 extern void* DAT_011f6038;
 // Walks the linked list starting at DAT_011f6034, deallocating each node, then clears DAT_011f6038 and DAT_011f6034.
 // @fnv 0x00a8a240
+// pdb: NiTAbstractPoolAllocatorSingleThread<unsigned int>::_SDMShutdown | NiMainSDM.obj | fnv360_0822_retail, call_seq, high
 void FreeMemoryList()
 {
     void* pCurrent = DAT_011f6034;
@@ -76,9 +78,9 @@ struct FUN_00a928b0_shell
 };
 
 void __cdecl FUN_00a5b660();
-void __cdecl FUN_00a5cf60();
+void __cdecl NiAlphaProperty__SDMShutdown();
 void __cdecl ReleasePendingTable();
-void __cdecl FUN_00a62ae0();
+void __cdecl NiRenderer__SDMShutdown();
 void __cdecl FUN_00a632b0();
 void __cdecl ReleaseGlobalStrings();
 void __cdecl FUN_00a6f4d0();
@@ -91,8 +93,8 @@ void __cdecl FUN_00a8f620();
 void __cdecl FUN_00a8fcc0();
 void __cdecl ResetStreamLinkIDSet();
 void __cdecl DestroyGlobalPool();
-void __cdecl FUN_00a9a120();
-void __cdecl FUN_00a9bb60();
+void __cdecl NiFogProperty__SDMShutdown();
+void __cdecl NiMetricsLayer__SDMShutdown();
 void __cdecl DestroyPairArrays();
 
 extern char DAT_011f5b80;
@@ -167,6 +169,7 @@ extern char const* const g_011f5f74_arg0;
 extern char const* const DAT_0109f0a0;
 
 // @fnv 0x00a8a280
+// pdb: NiMainSDM::Shutdown | NiMainSDM.obj | fnv360_0822_retail, strset, low
 void __cdecl FUN_00a8a280()
 {
     if (DAT_011f5b80)
@@ -253,17 +256,17 @@ void __cdecl FUN_00a8a280()
 
         DestroyPairArrays();
         FUN_00a928b0_shell::ClearFixedStrings();
-        FUN_00a5cf60();
-        FUN_00a9a120();
+        NiAlphaProperty__SDMShutdown();
+        NiFogProperty__SDMShutdown();
         ReleaseGlobalHolder();
-        FUN_00a9bb60();
+        NiMetricsLayer__SDMShutdown();
         FUN_00a81590();
         FUN_00a6f4d0();
         ReleaseGlobalStrings();
         FUN_00a8f620();
         FUN_00a76b30();
         FUN_00a632b0();
-        FUN_00a62ae0();
+        NiRenderer__SDMShutdown();
         DestroyGlobalPool();
         ReleasePendingTable();
         FreeGlobalAlias();
@@ -287,23 +290,23 @@ extern Vector3 DAT_011f426c;
 extern Vector3 DAT_011f4288;
 extern float DAT_011f4294;
 void __cdecl FUN_00a5b630();
-void __cdecl InitTrigTables();
+void __cdecl CreateSinTable();
 void __cdecl FUN_00a9c2a0();
 void __cdecl FUN_00a927e0();
-void __cdecl FUN_00a5cef0();
+void __cdecl NiAlphaProperty__SDMInit();
 void __cdecl FUN_00a9a090();
 void __cdecl FUN_00a759e0();
 void __cdecl FUN_00a29680();
-void __cdecl FUN_00a81520();
+void __cdecl NiShadeProperty__SDMInit();
 void __cdecl FUN_00a9ba80();
 void __cdecl FUN_00a6f450();
 void __cdecl FUN_00a6b410();
 void __cdecl CreateCullingProperty();
-void __cdecl CreateImageConverter();
-void __cdecl FUN_00a660a0();
+void __cdecl NiImageConverter__SDMInit();
+void __cdecl NiStream__SDMInit();
 void __cdecl FUN_00a7f740();
 void __cdecl FUN_00a73e20();
-void __cdecl CreateNiAlphaAccumulator();
+void __cdecl NiAlphaAccumulator_CreateObject();
 void __cdecl CreateNiAlphaProperty();
 void __cdecl FUN_00a9b330();
 void __cdecl CreateProperty();
@@ -311,7 +314,7 @@ void __cdecl FUN_00a9b150();
 void __cdecl FUN_00a96600();
 void __cdecl FUN_00a7e770();
 void __cdecl FUN_00a7f8e0();
-void __cdecl FUN_00a9af90();
+void __cdecl NiBooleanExtraData_CreateObject();
 void __cdecl CreateNiParticleObject();
 void __cdecl FUN_00a71430();
 void __cdecl FUN_00a5f030();
@@ -320,7 +323,7 @@ void __cdecl FUN_00a6f000();
 void __cdecl CreateNiDirectionalLight();
 void __cdecl FUN_00a9a640();
 void __cdecl FUN_00a7b380();
-void __cdecl FUN_00a9a480();
+void __cdecl NiFloatExtraData_CreateObject();
 void __cdecl FUN_00a89190();
 void __cdecl CreateNiFogProperty();
 void __cdecl FUN_00a99cd0();
@@ -331,9 +334,9 @@ void __cdecl CreateNiPairHolder();
 void __cdecl FUN_00a756d0();
 void __cdecl FUN_00a8b220();
 void __cdecl FUN_00a98e70();
-void __cdecl FUN_00a98d30();
+void __cdecl NiParticleMeshesData_CreateObject();
 void __cdecl FUN_00a982d0();
-void __cdecl CreateSpawnedPixelData();
+void __cdecl NiPixelData_CreateObject();
 void __cdecl FUN_00a7d6e0();
 void __cdecl CreateRangeLODData();
 void __cdecl CreateObj_a96();
@@ -343,8 +346,8 @@ void __cdecl CreateBA87920Object();
 void __cdecl FUN_00a958b0();
 void __cdecl FUN_00a814e0();
 void __cdecl FUN_00a84d30();
-void __cdecl FUN_00a866f0();
-void __cdecl FUN_00a6c8a0();
+void __cdecl NiSkinInstance_CreateObject();
+void __cdecl BSDismemberSkinInstance_CreateObject();
 void __cdecl FUN_00a81fb0();
 void __cdecl FUN_00a952a0();
 void __cdecl CreateA5FC10Stub();
@@ -352,10 +355,10 @@ void __cdecl CreateNiSourceCubeMap();
 void __cdecl FUN_00a95160();
 void __cdecl FUN_00a94e20();
 void __cdecl FUN_00a6f410();
-void __cdecl FUN_00a74230();
+void __cdecl NiStringExtraData_CreateObject();
 void __cdecl FUN_00a94930();
 void __cdecl CreateSwitchNode();
-void __cdecl FUN_00a93870();
+void __cdecl NiSwitchStringExtraData_CreateObject();
 void __cdecl FUN_00a929b0();
 void __cdecl CreateTexturingProperty();
 void __cdecl CreateNiTriShapeX();
@@ -375,7 +378,7 @@ void __cdecl FUN_00a8ffc0();
 void __cdecl FUN_00a91290();
 void __cdecl FUN_00a62110();
 void __cdecl FUN_00a7e930();
-void __cdecl FUN_00a8fd80();
+void __cdecl NiSingleShaderMaterialLibrary__SDMInit();
 void __cdecl CreateSdmDerived();
 void __cdecl FUN_00a74da0();
 extern const char DAT_0109df08;
@@ -456,31 +459,32 @@ extern const char DAT_0109ef48;
 void __cdecl FUN_00a64900(const void*, void(__cdecl*)());
 // Runs one-time initialization guarded by DAT_011f5b80: calls setup routines, resets DAT_011f4294/DAT_011f4288, and registers many handlers via FUN_00a64900.
 // @fnv 0x00a89cc0
+// pdb: NiMainSDM::Init | NiMainSDM.obj | fnv360_0822_retail, strset, low
 void __cdecl InitializeGameSystems()
 {
     if (DAT_011f5b80 == 0)
     {
         DAT_011f5b80 = 1;
         FUN_00a5b630();
-        InitTrigTables();
+        CreateSinTable();
         FUN_00a9c2a0();
         FUN_00a927e0();
-        FUN_00a5cef0();
+        NiAlphaProperty__SDMInit();
         FUN_00a9a090();
         FUN_00a759e0();
         FUN_00a29680();
-        FUN_00a81520();
+        NiShadeProperty__SDMInit();
         FUN_00a9ba80();
         FUN_00a6f450();
         FUN_00a6b410();
         CreateCullingProperty();
         DAT_011f4294 = 0.0f;
         DAT_011f4288 = DAT_011f426c;
-        CreateImageConverter();
-        FUN_00a660a0();
+        NiImageConverter__SDMInit();
+        NiStream__SDMInit();
         FUN_00a64900(&DAT_0109df08, FUN_00a7f740);
         FUN_00a64900(&DAT_0109d378, FUN_00a73e20);
-        FUN_00a64900(&DAT_0109f220, CreateNiAlphaAccumulator);
+        FUN_00a64900(&DAT_0109f220, NiAlphaAccumulator_CreateObject);
         FUN_00a64900(&DAT_0109b4e0, CreateNiAlphaProperty);
         FUN_00a64900(&DAT_0109f210, FUN_00a9b330);
         FUN_00a64900(&DAT_0109f1fc, CreateProperty);
@@ -488,17 +492,17 @@ void __cdecl InitializeGameSystems()
         FUN_00a64900(&DAT_0109f1c8, FUN_00a96600);
         FUN_00a64900(&DAT_0109dec4, FUN_00a7e770);
         FUN_00a64900(&DAT_0109df58, FUN_00a7f8e0);
-        FUN_00a64900(&DAT_0109f1b4, FUN_00a9af90);
+        FUN_00a64900(&DAT_0109f1b4, NiBooleanExtraData_CreateObject);
         FUN_00a64900(&DAT_0109f1a8, CreateNiParticleObject);
         FUN_00a64900(&DAT_0109cd04, FUN_00a71430);
-        FUN_00a64900(&DAT_0109f190, CreateNiAlphaAccumulator);
+        FUN_00a64900(&DAT_0109f190, NiAlphaAccumulator_CreateObject);
         FUN_00a64900(&DAT_0109b0f8, FUN_00a5f030);
         FUN_00a64900(&DAT_0109ed6c, FUN_00a89490);
         FUN_00a64900(&DAT_0109ca34, FUN_00a6f000);
         FUN_00a64900(&DAT_0109d890, CreateNiDirectionalLight);
         FUN_00a64900(&DAT_0109f17c, FUN_00a9a640);
         FUN_00a64900(&DAT_0109dab0, FUN_00a7b380);
-        FUN_00a64900(&DAT_0109f168, FUN_00a9a480);
+        FUN_00a64900(&DAT_0109f168, NiFloatExtraData_CreateObject);
         FUN_00a64900(&DAT_0109ecb0, FUN_00a89190);
         FUN_00a64900(&DAT_0109f158, CreateNiFogProperty);
         FUN_00a64900(&DAT_0109f144, FUN_00a99cd0);
@@ -510,11 +514,11 @@ void __cdecl InitializeGameSystems()
         FUN_00a64900(&DAT_0109b6b8, FUN_00a5f030);
         FUN_00a64900(&DAT_0109f10c, FUN_00a8b220);
         FUN_00a64900(&DAT_0109f0f8, FUN_00a98e70);
-        FUN_00a64900(&DAT_0109f0e0, FUN_00a98d30);
+        FUN_00a64900(&DAT_0109f0e0, NiParticleMeshesData_CreateObject);
         FUN_00a64900(&DAT_0109f0d4, FUN_00a9b150);
         FUN_00a64900(&DAT_0109f0c4, FUN_00a96600);
         FUN_00a64900(&DAT_0109f0a0, FUN_00a982d0);
-        FUN_00a64900(&DAT_0109dc94, CreateSpawnedPixelData);
+        FUN_00a64900(&DAT_0109dc94, NiPixelData_CreateObject);
         FUN_00a64900(&DAT_0109de0c, FUN_00a7d6e0);
         FUN_00a64900(&DAT_0109f090, CreateRangeLODData);
         FUN_00a64900(&DAT_0109f07c, FUN_00a9b150);
@@ -525,8 +529,8 @@ void __cdecl InitializeGameSystems()
         FUN_00a64900(&DAT_0109f044, FUN_00a958b0);
         FUN_00a64900(&DAT_0109e314, FUN_00a814e0);
         FUN_00a64900(&DAT_0109e6a0, FUN_00a84d30);
-        FUN_00a64900(&DAT_0109e6ec, FUN_00a866f0);
-        FUN_00a64900(&DAT_0109c808, FUN_00a6c8a0);
+        FUN_00a64900(&DAT_0109e6ec, NiSkinInstance_CreateObject);
+        FUN_00a64900(&DAT_0109c808, BSDismemberSkinInstance_CreateObject);
         FUN_00a64900(&DAT_0109e560, FUN_00a81fb0);
         FUN_00a64900(&DAT_0109f030, FUN_00a952a0);
         FUN_00a64900(&DAT_0109baa4, CreateA5FC10Stub);
@@ -534,10 +538,10 @@ void __cdecl InitializeGameSystems()
         FUN_00a64900(&DAT_0109f01c, FUN_00a95160);
         FUN_00a64900(&DAT_0109f010, FUN_00a94e20);
         FUN_00a64900(&DAT_0109cb84, FUN_00a6f410);
-        FUN_00a64900(&DAT_0109d43c, FUN_00a74230);
+        FUN_00a64900(&DAT_0109d43c, NiStringExtraData_CreateObject);
         FUN_00a64900(&DAT_0109effc, FUN_00a94930);
         FUN_00a64900(&DAT_0109efec, CreateSwitchNode);
-        FUN_00a64900(&DAT_0109efd4, FUN_00a93870);
+        FUN_00a64900(&DAT_0109efd4, NiSwitchStringExtraData_CreateObject);
         FUN_00a64900(&DAT_0109efc4, FUN_00a929b0);
         FUN_00a64900(&DAT_0109c7a0, CreateTexturingProperty);
         FUN_00a64900(&DAT_0109d548, CreateNiTriShapeX);
@@ -558,7 +562,7 @@ void __cdecl InitializeGameSystems()
         FUN_00a62110();
         FUN_00a7e930();
         FUN_00a29680();
-        FUN_00a8fd80();
+        NiSingleShaderMaterialLibrary__SDMInit();
         CreateSdmDerived();
         FUN_00a74da0();
     }

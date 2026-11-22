@@ -187,6 +187,8 @@ struct ColorContainer
 };
 // Saves the four colors and the extra vector to the stream, writing the vector as 12 bytes through the buffer's write function.
 // @fnv 0x00eae630
+// pdb: NiBox::SaveBinary | NiBox.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: stream
 void ColorContainer::FUN_00eae630(NiStream* stream)
 {
     firstColor.SaveBinary(*stream);
@@ -241,6 +243,8 @@ struct FUN_00eae5d0_cls : ColorContainer
 };
 
 // @fnv 0x00eae5d0
+// pdb: NiBox::LoadBinary | NiBox.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: stream
 void FUN_00eae5d0_cls::WriteToStream(NiStream* stream)
 {
     ((NiColorWriter*)&firstColor)->WriteColor(*stream);

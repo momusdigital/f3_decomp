@@ -10,7 +10,8 @@ extern const char DAT_00e7d0b8[],DAT_00e7d0a4[],DAT_00e7d088[],DAT_00e7d074[];
 extern const char DAT_00e7d060[],DAT_00e7d048[],DAT_00e7d030[],DAT_00e0398c[];
 namespace f3m_0097a770 {
 namespace creator_names_1617 {
-const char* __cdecl FUN_0097a770(unsigned int kind) {
+// pdb: bhkConstraintManager::GetTypeName | bhkConstraintManager.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+const char* __cdecl bhkConstraintManager_GetTypeName(unsigned int kind) {
     switch(kind) {
     case 0: return DAT_00e7d118;
     case 1: return DAT_00e7d104;
@@ -47,6 +48,7 @@ struct S {
     float u90, u94, u98, u9c;
 };
 
+// pdb: hkSweptTransformUtil::warpToPosition | hkSweptTransformUtil.obj | tesv_win, objrun, medium
 void FUN_00978100(float* a, S* s)
 {
     s->u9c = 0.0f;
@@ -198,6 +200,8 @@ __forceinline void rotatePoints(const hkMatrix3& t, const hkVector4* vectorsIn, 
 }
 }  // namespace hkVector4Util
 
+// pdb: hk1dAngularBilateralConstraintBuildJacobian | hkp1dBilateralConstraintBuildJacobian.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: hkMatrix3_setMulMat3Mat3)
+// pdb params: info, in, out
 void __cdecl FUN_0096cd80(hkMatrix3* THIS, const hkMatrix3& aTb, const hkMatrix3& bTc)
 {
     hkVector4Util::rotatePoints(aTb, &bTc.getColumn(0), 3, &THIS->getColumn(0));

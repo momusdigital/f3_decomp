@@ -75,7 +75,7 @@ class NiStream
     virtual void vfn_1c();
     virtual void vfn_20();
     virtual void vfn_24();
-    virtual void RegisterObject(NiObject*);
+    virtual void hkPackfileWriter_notDuplicateMetaData(NiObject*);
     char pad[0xd4];
     unsigned int version;
     char pad2[0x170];

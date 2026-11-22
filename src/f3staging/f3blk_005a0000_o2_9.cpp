@@ -9,5 +9,7 @@
 
 // @f3 0x005a23d0 (community match, verified in this file)
 namespace f3m_005a23d0 {
+// pdb: TESObjectWEAP::GetAttackSound | TESObjectWEAP.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: ActorValue::IsResistance)
+// pdb params: bModSound
 bool FUN_005a23d0(unsigned value){bool result=false;switch(value){case 18:case 19:case 20:case 52:case 58:case 59:case 60:case 61:result=true;break;}return result;}
 }   // namespace f3m_005a23d0

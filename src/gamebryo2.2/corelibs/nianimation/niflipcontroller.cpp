@@ -2,27 +2,11 @@
 // src/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct FUN_00a4f300_shell
-{
-    void* GetEntryAt(int idx);
-};
-
-// @fnv 0x00a4f300
-void* FUN_00a4f300_shell::GetEntryAt(int uiIndex)
-{
-    unsigned short size = *(unsigned short*)((char*)this + 0x42);
-    if ((unsigned int)uiIndex < size)
-    {
-        void** arr = *(void***)((char*)this + 0x3C);
-        return arr[uiIndex];
-    }
-    return 0;
-}
-
 extern "C" const void* g_011f3fd4;
 
 // @fnv 0x00a4f5d0
-const void* __cdecl FUN_00a4f5d0()
+// pdb: bhkTriSampledHeightFieldBvTreeShape::GetRTTI | CellMopp.obj | fnv360_0822_retail, udata + bridge(vtable_prefix|vtable), high
+const void* __cdecl bhkTriSampledHeightFieldBvTreeShape_GetRTTI()
 {
     return &g_011f3fd4;
 }
@@ -32,8 +16,24 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
+
+// NiFlipController's members at their PC offsets (FNV360_PDB names; NiFloatInterpController ends at +0x38).
+struct FlipTextureArray_00a4f320
+{
+    void* unk00;
+    void** m_pBase;  // src: FNV360_PDB NiTArray +0x4
+    unsigned short m_usMaxSize;  // src: FNV360_PDB NiTArray +0x8
+    unsigned short m_usSize;  // src: FNV360_PDB NiTArray +0xA
+    unsigned short m_usESize;  // src: FNV360_PDB NiTArray +0xC
+    unsigned short m_usGrowBy;  // src: FNV360_PDB NiTArray +0xE
+};
 struct NiFlipController
 {
+    unsigned char unk00[0x38];
+    FlipTextureArray_00a4f320 m_kTextures;  // src: FNV360_PDB +0x38
+    unsigned int m_uiIndex;  // src: FNV360_PDB +0x48
+    unsigned int m_uiAffectedMap;  // src: FNV360_PDB +0x4C
+    char* m_pcCtlrID;  // src: FNV360_PDB +0x50
     void* __thiscall FUN_00a4f820();
 };
 
@@ -48,21 +48,22 @@ void* __cdecl CreateNiFlipController()
 
 void* __cdecl _NiMalloc(unsigned int);
 int __cdecl _NiSprintf(char*, unsigned int, const char*, ...);
-struct FUN_00a4f320_Holder
+struct FUN_00a4f320_Holder : NiFlipController
 {
     const char* __thiscall GetFormattedValue();
 };
 // Returns the cached string at offset 0x50, lazily formatting the integer at offset 0x4c into a 15-byte buffer with "%d" if it is null.
 // @fnv 0x00a4f320
+// pdb: NiFlipController::GetCtlrID | NiFlipController.obj | fnv360_0822_retail, caller_sim, low
 const char* __thiscall FUN_00a4f320_Holder::GetFormattedValue()
 {
-    char* pcFormattedValue = *(char**)((char*)this + 0x50);
+    char* pcFormattedValue = m_pcCtlrID;
     if (!pcFormattedValue)
     {
         pcFormattedValue = (char*)_NiMalloc(15);
-        *(char**)((char*)this + 0x50) = pcFormattedValue;
-        _NiSprintf(pcFormattedValue, 15, "%d", *(unsigned int*)((char*)this + 0x4c));
-        pcFormattedValue = *(char**)((char*)this + 0x50);
+        m_pcCtlrID = pcFormattedValue;
+        _NiSprintf(pcFormattedValue, 15, "%d", m_uiAffectedMap);
+        pcFormattedValue = m_pcCtlrID;
     }
     return pcFormattedValue;
 }
@@ -81,6 +82,8 @@ struct NiObjectNET
 };
 // Walks pkTarget's NiRTTI base chain and returns true if it reaches g_011f49a4, false for a null target or RTTI.
 // @fnv 0x00a4f5e0
+// pdb: NiFlipController::InterpTargetIsCorrectType | NiFlipController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkTarget
 bool __stdcall FUN_00a4f5e0(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
@@ -108,6 +111,7 @@ struct Proxy880
 };
 // Calls FUN_00a4f570 on this, then if bit 0 of a1 is set frees this with _delete and returns this.
 // @fnv 0x00a4f880
+// pdb: PathingLOSGridMap::`scalar deleting destructor' | PathingLOSGridMap.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall Proxy880::DestroyIfFlagged(unsigned int auiFlags)
 {
     ((Proxy570*)this)->FUN_00a4f570();
@@ -123,13 +127,13 @@ struct NiAlphaController
 {
     void __thiscall CopyMemberData(NiAlphaController*, CloningProcess&);
 };
-struct FlipCopy : NiAlphaController
+struct FlipCopy : NiFlipController
 {
     void __thiscall FUN_00a4f8a0(void*, unsigned int);
     void* GetSrc(unsigned int i)
     {
-        unsigned short cnt = *(unsigned short*)((char*)this + 0x42);
-        void** arr = *(void***)((char*)this + 0x3c);
+        unsigned short cnt = m_kTextures.m_usSize;
+        void** arr = m_kTextures.m_pBase;
         if (i < cnt)
             return arr[i];
         return 0;
@@ -138,11 +142,13 @@ struct FlipCopy : NiAlphaController
 };
 // Calls the base copy, copies the int at offset 0x4c to dst, then copies each source entry via GetSrc and FUN_00a4f8a0.
 // @fnv 0x00a4f920
+// pdb: NiFlipController::CopyMembers | NiFlipController.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pkDest, kCloning
 void __thiscall FlipCopy::FUN_00a4f920(NiAlphaController* dst, CloningProcess& proc)
 {
-    NiAlphaController::CopyMemberData(dst, proc);
-    *(int*)((char*)dst + 0x4c) = *(int*)((char*)this + 0x4c);
-    for (unsigned int i = 0; i < *(unsigned short*)((char*)this + 0x42); ++i)
+    ((NiAlphaController*)this)->CopyMemberData(dst, proc);
+    ((FlipCopy*)dst)->m_uiAffectedMap = m_uiAffectedMap;
+    for (unsigned int i = 0; i < m_kTextures.m_usSize; ++i)
     {
         void* e = ((FlipCopy*)this)->GetSrc(i);
         ((FlipCopy*)dst)->FUN_00a4f8a0(e, i);
@@ -157,6 +163,8 @@ struct FUN_00a40520 : BSFadeNode
     __declspec(nothrow) FUN_00a40520(bool, float, unsigned char);
 };
 // @fnv 0x00a4f2c0
+// pdb: NiFlipController::CreateBlendInterpolator | NiFlipController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: usIndex, bManagerControlled, bAccumulateAnimations, fWeightThreshold, ucArraySize
 FUN_00a40520* __stdcall FUN_00a4f2c0(unsigned short usIndex, bool bManagerControlled, bool bAccumulateAnimations,
                                      float fWeightThreshold, unsigned char ucArraySize)
 {
@@ -195,21 +203,23 @@ struct BaseA
 {
     bool __thiscall FUN_00a57780(NiStream&);
 };
-struct ProxyFlip : BaseA
+struct ProxyFlip : NiFlipController
 {
     bool __thiscall FUN_00a4f350(NiStream& kStream);
 };
 // @fnv 0x00a4f350
+// pdb: NiFlipController::RegisterStreamables | NiFlipController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 bool ProxyFlip::FUN_00a4f350(NiStream& kStream)
 {
-    if (!FUN_00a57780(kStream))
+    if (!((BaseA*)this)->FUN_00a57780(kStream))
         return false;
-    unsigned int uiSize = *(unsigned short*)((char*)this + 0x42);
+    unsigned int uiSize = m_kTextures.m_usSize;
     unsigned int uiIndex;
     NiTexture* pkTexture;
     for (uiIndex = 0; uiIndex < uiSize; ++uiIndex)
     {
-        pkTexture = (*(NiTexture***)((char*)this + 0x3C))[uiIndex];
+        pkTexture = (NiTexture*)m_kTextures.m_pBase[uiIndex];
         if (pkTexture)
             pkTexture->RegisterStreamables(kStream);
     }
@@ -232,6 +242,8 @@ struct FUN_00a4fa20_shell : FlipCopy
 
 // Allocates a NiFlipController, initialises it via FUN_00a4f820, copies from kCloning via FUN_00a4f920, and returns it as a NiObject.
 // @fnv 0x00a4fa20
+// pdb: NiFlipController::CreateClone | NiFlipController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void* FUN_00a4fa20_shell::CreateFlipController(CloningProcess& kCloning)
 {
     NiFlipController* pkObject = (NiFlipController*)A51BF0Base::operator new(0x54);
@@ -269,6 +281,8 @@ struct FUN_00a4f270_cls
 };
 
 // @fnv 0x00a4f270
+// pdb: NiFlipController::GetTargetFloatValue | NiFlipController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: fValue
 void FUN_00a4f270_cls::GetFloatValue(float* pfOut)
 {
     *pfOut = (float)m_48;
@@ -303,6 +317,8 @@ struct FUN_00a4f290_class
 
 // Returns 0 if FUN_00a57c10 fails, otherwise returns whether unk4c equals param->unk4c.
 // @fnv 0x00a4f290
+// pdb: NiFlipController::IsEqual | NiFlipController.obj | fnv360_0822_retail, objopen_prop, low, conflict (bridge: NiLightDimmerController::IsEqual)
+// pdb params: pkObject
 unsigned char FUN_00a4f290_class::FUN_00a4f290(FUN_00a4f290_class* param)
 {
     if (!FUN_00a57c10(param))
@@ -342,31 +358,38 @@ struct FNVWriter
         written += result;
     }
 };
+struct FNVStreamData
+{
+    unsigned char unk000[0x250];
+    FNVWriter* m_pkOstr;  // src: FNV360_PDB NiStream +0x250
+};
 struct FNVBaseController
 {
     void __thiscall FUN_00a57c00(FNVStream*);
 };
-struct FNVFlipController : FNVBaseController
+struct FNVFlipController : NiFlipController
 {
     void __thiscall SaveToStream(FNVStream*);
 };
 // Calls the base save, writes the field at 0x4c and a count, then saves each of the count objects from the array at 0x3c via the stream.
 // @fnv 0x00a4f4e0
+// pdb: NiFlipController::SaveBinary | NiFlipController.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: kStream
 void __thiscall FNVFlipController::SaveToStream(FNVStream* stream)
 {
-    FUN_00a57c00(stream);
-    FNVWriter* writer = *(FNVWriter**)((char*)stream + 0x250);
-    writer->SaveResult((char*)this + 0x4c);
+    ((FNVBaseController*)this)->FUN_00a57c00(stream);
+    FNVWriter* writer = ((FNVStreamData*)stream)->m_pkOstr;
+    writer->SaveResult(&m_uiAffectedMap);
 
-    unsigned int count = *(unsigned short*)((char*)this + 0x42);
-    writer = *(FNVWriter**)((char*)stream + 0x250);
+    unsigned int count = m_kTextures.m_usSize;
+    writer = ((FNVStreamData*)stream)->m_pkOstr;
     {
         unsigned int bytes = 4;
         writer->written += writer->Write(writer, &count, 4, &bytes, 1);
     }
     for (unsigned int i = 0; i < count; ++i)
     {
-        void* object = (*(void***)((char*)this + 0x3c))[i];
+        void* object = m_kTextures.m_pBase[i];
         stream->SaveLink(object);
     }
 }
@@ -447,24 +470,6 @@ FUN_00a4f820::FUN_00a4f820() : m_kNames(1, 1)
 void* FUN_00aa1070(unsigned int uiSize);
 void* FUN_00ec61c0(void* pDest, int iValue, int iCount);
 
-struct FUN_00a6d220
-{
-    FUN_00a6d220();
-    virtual void v00();
-    int unk;
-    int unkCur;
-    int unk0c;
-    int unkValue;
-    int uNewnk;
-    int uTmpnk;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-};
-
 struct MapBase_a4d
 {
     MapBase_a4d(unsigned int uiHashSize = 37)
@@ -497,13 +502,6 @@ struct Map_a4d : MapMid_a4d
     virtual void v00();
 };
 
-struct FUN_00a4da20_cls : FUN_00a6d220
-{
-    FUN_00a4da20_cls();
-    virtual void v00();
-    Map_a4d kMap;
-};
-
 // Default constructor for a class that embeds a Map_a4d, which initialises its hash table with the default size.
 // @f3 0x006cb0f0 (community match, verified in this file)
 extern char DAT_00e0e018;
@@ -520,6 +518,7 @@ struct Map
     Map* __thiscall FUN_006cb0f0();
 };
 
+// pdb: BGSReconstructFormsMap::BGSReconstructFormsMap | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_retail, call_dedup, low
 Map* Map::FUN_006cb0f0()
 {
     m_pVtable = &DAT_00e0e018;
@@ -680,6 +679,8 @@ struct NiFlipControllerF
 
 // Advances the flip controller's interpolator and applies the resulting texture index to the target's affected map or shader map.
 // @fnv 0x00a4f3a0
+// pdb: NiFlipController::Update | NiFlipController.obj | fnv360_0822_retail, objrun, medium
+// pdb params: UpdateData
 void NiFlipControllerF::UpdateFlipController(NiUpdateDataF& kUpdate)
 {
     if (GetManagerControlled())
@@ -823,7 +824,7 @@ struct NiStream
     unsigned int m_d8;
     char m_dc[0x170];
     StreamIo* m_io;
-    unsigned int __thiscall FUN_00a64670();
+    unsigned int __thiscall NiStream_ReadMultipleLinkIDs();
 };
 
 struct MemoryManager
@@ -969,7 +970,7 @@ void __thiscall CtrlA4F610::LoadFromStream(NiStream* stream)
         float fStep;
         stream->m_io->Read4(&fStart);
         stream->m_io->Read4(&fStep);
-        unsigned int count = stream->FUN_00a64670();
+        unsigned int count = stream->NiStream_ReadMultipleLinkIDs();
         NiFloatData* data = new NiFloatData();
         if (count > 0)
         {
@@ -1004,7 +1005,7 @@ void __thiscall CtrlA4F610::LoadFromStream(NiStream* stream)
     }
     else
     {
-        stream->FUN_00a64670();
+        stream->NiStream_ReadMultipleLinkIDs();
     }
 }
 
@@ -1048,6 +1049,8 @@ struct FUN_00a4f8a0_Obj
 
 // Grows the array if needed, increments the reference count of p, stores a copy of p in the array slot, then decrements the count and releases if zero.
 // @fnv 0x00a4f8a0
+// pdb: NiFlipController::AttachTexture | NiFlipController.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiNode::CopyMembers)
+// pdb params: pkTexture, uiIndex
 void __thiscall FlipCopy::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
 {
     FUN_00a4f8a0_Obj* pObj = (FUN_00a4f8a0_Obj*)this;
@@ -1079,7 +1082,7 @@ void __thiscall FlipCopy::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
 
 struct A4F990Stream
 {
-    unsigned int __thiscall FUN_00a63460() throw();
+    unsigned int __thiscall NiStream_GetNumberOfLinkIDs() throw();
     F570RefObject* __thiscall FUN_00a63430() throw();
 };
 
@@ -1116,12 +1119,14 @@ struct A4F990Flip : A4F990Base
 
 // Calls FUN_00a57630, then, when unk2C is nonnull, reads a count and stores that many F570RefObject pointers in m_kTextureSwapList.
 // @fnv 0x00a4f990
+// pdb: NiFlipController::LinkObject | NiFlipController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void A4F990Flip::FUN_00a4f990(A4F990Stream& kStream) throw()
 {
     FUN_00a57630(kStream);
     if (unk2C)
     {
-        unsigned int uiSize = kStream.FUN_00a63460();
+        unsigned int uiSize = kStream.NiStream_GetNumberOfLinkIDs();
         m_kTextureSwapList.FUN_0060bef0(uiSize);
         for (unsigned int i = 0; i < uiSize; i++)
         {

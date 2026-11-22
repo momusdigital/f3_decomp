@@ -12,6 +12,7 @@ extern int DAT_0109917c;
 extern int EmptyFS;
 
 // @fnv 0x00a4ecd0
+// pdb: NiFloatsExtraDataPoint3Controller::CreateObject | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, objrun, medium
 int* __cdecl FUN_00a4ecd0()
 {
     int* p = (int*)BSFadeNode::operator new(0x48);
@@ -38,6 +39,8 @@ struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
     NiFloatsExtraDataPoint3Controller* FUN_00a4ec80(void* proc);
 };
 // @fnv 0x00a4ec80
+// pdb: NiFloatsExtraDataPoint3Controller::CreateClone | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, objrun_sim, high
+// pdb params: kCloning
 NiFloatsExtraDataPoint3Controller* NiFloatsExtraDataPoint3Controller::FUN_00a4ec80(void* proc)
 {
     NiFloatsExtraDataPoint3Controller* p = (NiFloatsExtraDataPoint3Controller*)BSFadeNode::operator new(0x48);
@@ -73,6 +76,8 @@ struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
     void FUN_00a4ee90(NiStream&);
 };
 // @fnv 0x00a4ee90
+// pdb: NiFloatsExtraDataPoint3Controller::LoadBinary | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void NiFloatsExtraDataPoint3Controller::FUN_00a4ee90(NiStream& stream)
 {
     NiPSysModifierCtlr::LoadBinary(stream);
@@ -83,9 +88,6 @@ void NiFloatsExtraDataPoint3Controller::FUN_00a4ee90(NiStream& stream)
 }  // namespace fnv_00a4ee90
 
 struct NiRTTI;
-struct NiObject {
-    NiObject* DynamicCast(const NiRTTI*);
-};
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3f70;
 struct ExtraStub {
@@ -94,81 +96,11 @@ struct ExtraStub {
 struct Vec12 {
     float x, y, z;
 };
-struct Holder00 {
-    void FUN_00a494b0(Vec12);
-};
-struct FUN_00a4ed50_shell : NiFloatsExtraDataPoint3Controller {
-    void SetInterpolatorPoint3(NiObject* pkInterp, unsigned short usIndex);
-};
-// @fnv 0x00a4ed50
-void FUN_00a4ed50_shell::SetInterpolatorPoint3(NiObject* pkInterp, unsigned short usIndex)
-{
-    NiObject* pkFloatInterp;
-    ExtraStub* pkFloatsED;
-    Vec12 kPt;
-    if (!pkInterp) {
-        pkFloatInterp = 0;
-    } else {
-        pkFloatInterp = pkInterp->DynamicCast((const NiRTTI*)&g_011f3f70);
-    }
-    pkFloatsED = (ExtraStub*)*(int*)((char*)this + 0x3c);
-    kPt.x = pkFloatsED->GetValueAt(m_iFloatsExtraDataIndex);
-    kPt.y = pkFloatsED->GetValueAt(m_iFloatsExtraDataIndex + 1);
-    kPt.z = pkFloatsED->GetValueAt(m_iFloatsExtraDataIndex + 2);
-    ((Holder00*)pkFloatInterp)->FUN_00a494b0(kPt);
-}
-
-struct StrArr {
-    void* m_data;
-    void* m_reserved;
-    unsigned short m_pRayCursor;
-    unsigned short m_iElementCount;
-    unsigned short m_ucUnknownByte;
-    unsigned short m_growth;
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
-};
-
-struct Base57420 {
-    unsigned char pad[0x3d];
-    void FUN_00a57420(StrArr* strings);
-};
 
 extern void* g_011f3fc4;
 
 char* __cdecl _FUN_00a7d330(void* value);
 char* __cdecl FUN_00a7d4d0(char const* name, int value);
-
-struct FUN_00a4eed0_shell : Base57420 {
-    int m_iFloatsExtraDataIndex;
-
-    void FUN_00a4eed0(StrArr* strings);
-};
-
-// @fnv 0x00a4eed0
-void FUN_00a4eed0_shell::FUN_00a4eed0(StrArr* strings)
-{
-    Base57420::FUN_00a57420(strings);
-
-    {
-        char* value = _FUN_00a7d330(g_011f3fc4);
-        unsigned int index = strings->m_iElementCount;
-        unsigned int capacity = strings->m_pRayCursor;
-        if (index >= capacity)
-            strings->SetSize(index + strings->m_growth);
-        strings->SetAt(index, value);
-    }
-
-    {
-        char* value = FUN_00a7d4d0("m_iFloatsExtraDataIndex",
-                                    m_iFloatsExtraDataIndex);
-        unsigned int index = strings->m_iElementCount;
-        unsigned int capacity = strings->m_pRayCursor;
-        if (index >= capacity)
-            strings->SetSize(index + strings->m_growth);
-        strings->SetAt(index, value);
-    }
-}
 
 int* __fastcall InitTimeController(int*);
 extern int DAT_0109917c;
@@ -202,12 +134,15 @@ struct FUN_00a4eb50_cls {
     ExtraStub* m_3c;
     int m_40;
 
-    int BuildAndDispatchVec12(int unused);
+    int NiFloatsExtraDataPoint3Controller_CreatePoseInterpolator(int unused);
 };
 
 // Reads three values from the stub at m_40, packs them into a Vec12, allocates a 0x20-byte sink and passes the vector to it.
 // @fnv 0x00a4eb50
-int FUN_00a4eb50_cls::BuildAndDispatchVec12(int unused)
+// pdb: NiFloatsExtraDataPoint3Controller::CreatePoseInterpolator | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: usIndex
+// pdb: NiFloatsExtraDataPoint3Controller::CreatePoseInterpolator | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, objrun_prop, high (was: BuildAndDispatchVec12)
+int FUN_00a4eb50_cls::NiFloatsExtraDataPoint3Controller_CreatePoseInterpolator(int unused)
 {
     ExtraStub* stub = m_3c;
     Vec12 v;
@@ -251,6 +186,7 @@ struct FUN_00a4ed10_cls {
 };
 
 // @fnv 0x00a4ed10
+// pdb: NiFloatsExtraDataPoint3Controller::`scalar deleting destructor' | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, objrun, high
 FUN_00a4ed10_cls* FUN_00a4ed10_cls::Destroy(unsigned char acFlags)
 {
     *(void* volatile*)this = (void*)&DAT_0109917c;
@@ -289,7 +225,6 @@ public:
     virtual void v34();
     virtual bool AlwaysUpdate();
 };
-struct FUN_00a36250_t { bool FUN_00a36250(float); };
 
 class Ctlr4edd {
 public:
@@ -305,16 +240,18 @@ public:
     int m_38;
     NiFloatsExtraData* m_pkFloatsData;
     int m_iFloatsExtraDataIndex;
-    bool FUN_00a36250(float);
+    bool NiTimeController_DontDoUpdate(float);
     void UpdateController(const float& fTime);
 };
 
 // @fnv 0x00a4edd0
+// pdb: NiFloatsExtraDataPoint3Controller::Update | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: UpdateData
 void Ctlr4edd::UpdateController(const float& fTime)
 {
     if (GetMC())
         m_fControllerTime = DAT_01096324;
-    else if (FUN_00a36250(fTime)
+    else if (NiTimeController_DontDoUpdate(fTime)
         && (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
         return;
 
@@ -346,9 +283,6 @@ struct IDirect3DVertexBuffer9 {
 };
 
 extern unsigned int DAT_011bf558;
-extern const float DAT_010718c0;
-extern const double DAT_0101e568;
-extern const char DAT_010efe14[];
 
 struct RenderBuffer {
     unsigned unk00, unk04, unk08, unk0c;
@@ -427,6 +361,8 @@ struct VertexRenderer {
 };
 
 // @fnv 0x00e8c820
+// pdb: NiXenonVertexBufferManager::PackSkinnedVB | NiXenonVBManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: NiDX9VertexBufferManager::PackSkinnedVB)
+// pdb params: pkData, pkSkin, pkPartition, usDirtyFlags, pakVertexElements, pkOldVBChip, pvLockedBuff
 VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigned unused, VertexData* data, unsigned flags, VertexBufferLockInfo* existing, char* option)
 {
     unsigned vertexCount;

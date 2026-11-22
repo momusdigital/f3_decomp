@@ -76,7 +76,7 @@ struct S9ed140_Bool {
 };
 struct S9ed140_Normal {
     float x, y, z, w;
-    void FUN_008d2a00(const S9ed140_Rot& r, const S9ed140_Normal& v);
+    void hkVector4_setRotatedDir(const S9ed140_Rot& r, const S9ed140_Normal& v);
 };
 struct S9ed140_RayOutput {
     S9ed140_Normal normal;
@@ -98,11 +98,12 @@ struct S9ed140_TransformShape {
     S9ed140_Shape* child;
     unsigned int unk1c;
     S9ed140_Transform transform;
-    S9ed140_Bool FUN_009ed140(const S9ed140_RayInput& input, S9ed140_RayOutput& results);
+    S9ed140_Bool hkpConvexTransformShape_castRayImpl(const S9ed140_RayInput& input, S9ed140_RayOutput& results);
 };
 }
 namespace f3m_009ed140 {
-S9ed140_Bool S9ed140_TransformShape::FUN_009ed140(const S9ed140_RayInput& input, S9ed140_RayOutput& results)
+// pdb: hkpConvexTransformShape::castRayImpl | hkpConvexTransformShape.obj | fnv360_0822_retail, objopen_prop + bridge(caller_sim|vtable) + skyrim(caller_sim), high
+S9ed140_Bool S9ed140_TransformShape::hkpConvexTransformShape_castRayImpl(const S9ed140_RayInput& input, S9ed140_RayOutput& results)
 {
     S9ed140_Mon* mon = (S9ed140_Mon*)TlsGetValue(DAT_0116913c);
     unsigned int* pos = mon->pos;
@@ -124,7 +125,7 @@ S9ed140_Bool S9ed140_TransformShape::FUN_009ed140(const S9ed140_RayInput& input,
     results.keyIndex -= 1;
     if (hit) {
         S9ed140_Normal old = results.normal;
-        results.normal.FUN_008d2a00(transform.rot, old);
+        results.normal.hkVector4_setRotatedDir(transform.rot, old);
         results.keys[results.keyIndex] = 0;
     }
     S9ed140_Mon* mon2 = (S9ed140_Mon*)TlsGetValue(DAT_0116913c);
@@ -1100,10 +1101,11 @@ struct PlaneShape {
     Vec4 plane;
     Vec4 center;
     Vec4 halfExtents;
-    Bool8 FUN_009e2f90(const RayInput& input, RayOutput& results);
+    Bool8 hkpPlaneShape_castRayImpl(const RayInput& input, RayOutput& results);
 };
 
-Bool8 PlaneShape::FUN_009e2f90(const RayInput& input, RayOutput& results)
+// pdb: hkpPlaneShape::castRayImpl | hkpPlaneShape.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+Bool8 PlaneShape::hkpPlaneShape_castRayImpl(const RayInput& input, RayOutput& results)
 {
     TimeBlock timer(::DAT_00e80608);
     float f = plane.dot4xyz1(input.from);
@@ -1255,8 +1257,9 @@ struct __declspec(align(16)) V4_9e3220 { float x, y, z, w; };
 struct M44_9e3220 { float m[16]; };
 struct B8_9e3220 { V4_9e3220 a; V4_9e3220 b; };
 
-struct Xf_9e3220 { void FUN_008d28e0(const M44_9e3220* m, const V4_9e3220* v); };
+struct Xf_9e3220 { void hkVector4_setTransformedPos(const M44_9e3220* m, const V4_9e3220* v); };
 
+// pdb: hkVector4::setTransformedPos | hkVector4.obj | tesv_win, objopen_prop, low
 static __declspec(noinline) void FUN_009e3220(V3_9e3220* a, V3_9e3220* b,
                                               const M44_9e3220* m, B8_9e3220* out)
 {
@@ -1266,7 +1269,7 @@ static __declspec(noinline) void FUN_009e3220(V3_9e3220* a, V3_9e3220* b,
     p.z = a->z * b->z;
     p.w = 0.0f;
     V4_9e3220 r;
-    ((Xf_9e3220*)&r)->FUN_008d28e0(m, &p);
+    ((Xf_9e3220*)&r)->hkVector4_setTransformedPos(m, &p);
     out->a.x = out->a.x < r.x ? out->a.x : r.x;
     out->a.y = out->a.y < r.y ? out->a.y : r.y;
     out->a.z = out->a.z < r.z ? out->a.z : r.z;
@@ -1529,6 +1532,7 @@ static hkSphere makeSphere2( const hkVector4& pA, const hkVector4& pB, const hkR
     return hkSphere( pr, radius + radiusEpsilon );
 }
 hkSphere makeSphere3( const hkVector4& pA, const hkVector4& pB, const hkVector4& pC, const hkReal radiusEpsilon );
+// pdb: makeSphere | hkGeometryUtility.obj | tesv_win, call_gap, low
 static hkSphere FUN_009ea810( const hkVector4& pA, const hkVector4& pB, const hkVector4& pC, const hkVector4& pD, const hkReal radiusEpsilon )
 {
     hkVector4 b; b.setSub4( pB, pA );
@@ -1619,7 +1623,7 @@ namespace n9e3540
         void SetAll(float value) { x = value; y = value; z = value; w = value; }
         void Min(const Vec4& o) { if (!(x < o.x)) x = o.x; if (!(y < o.y)) y = o.y; if (!(z < o.z)) z = o.z; if (!(w < o.w)) w = o.w; }
         void Max(const Vec4& o) { if (!(x > o.x)) x = o.x; if (!(y > o.y)) y = o.y; if (!(z > o.z)) z = o.z; if (!(w > o.w)) w = o.w; }
-        void FUN_008d28e0(const Transform* transform, const Vec4* vector);
+        void hkVector4_setTransformedPos(const Transform* transform, const Vec4* vector);
     };
     struct Aabb { Vec4 minimum, maximum; };
     struct Transform { Vec4 rotation[3], position; };
@@ -1647,7 +1651,7 @@ namespace n9e3540
     {
         Vec4 scaled(vertex[0] * scale->x, vertex[1] * scale->y, vertex[2] * scale->z, 0.0f);
         Vec4 point;
-        point.FUN_008d28e0(transform, &scaled);
+        point.hkVector4_setTransformedPos(transform, &scaled);
         output->minimum.Min(point);
         output->maximum.Max(point);
     }
@@ -1658,6 +1662,7 @@ namespace n9e3540
         return reinterpret_cast<const float*>(reinterpret_cast<const char*>(part.base) + indices[corner] * part.scale);
     }
 
+    // pdb: hkpExtendedMeshShape::calcAabbExtents | hkpExtendedMeshShape.obj | tesv_win, objopen_prop, low
     static __declspec(noinline) void FUN_009e3540(unkBox& box, unkHelper* subpart, unkHolder* factors)
     {
         Aabb* accum = reinterpret_cast<Aabb*>(&box);

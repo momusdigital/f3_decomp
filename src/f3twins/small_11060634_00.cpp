@@ -5,6 +5,7 @@
 typedef void (__thiscall *PF_00c01f76)(void*);
 void __stdcall FUN_00c0073b(void*, unsigned, int, PF_00c01f76);
 
+// pdb: std::vector<FffModeTexS,std::allocator<FffModeTexS> >::clear | BSFaceGenModel.obj | fnv360_0822_debug, call_gap, low, conflict (skyrim: `eh vector constructor iterator')
 void __stdcall FUN_00c01f76(void* p, unsigned size, int count, PF_00c01f76 ctor, PF_00c01f76 dtor)
 {
     int ok = 0;
@@ -29,6 +30,8 @@ void* __cdecl FUN_00c12da8();
 void* __cdecl FUN_00c12b08(char*, char*, int, void*);
 void __cdecl FUN_00c07bfa(void*);
 
+// pdb: _fsopen | fopen.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: file, mode, shflag
 void* __cdecl FUN_00c03e07(char* file, char* mode, int shflag)
 {
     void* r = 0;
@@ -74,6 +77,7 @@ typedef void (__thiscall *PF_00c04e6b)(void*, void*);
 typedef void (__thiscall *PD_00c04e6b)(void*);
 void __stdcall FUN_00c0073b(void*, unsigned, int, PD_00c04e6b);
 
+// pdb: `eh vector copy constructor iterator' | ehvccctr.obj | tesv_win, hash, low
 void __stdcall FUN_00c04e6b(void* dst, void* src, unsigned size, int count, PF_00c04e6b ctor, PD_00c04e6b dtor)
 {
     int ok = 0;
@@ -98,6 +102,7 @@ void __cdecl FUN_00c16621(int);
 void __cdecl FUN_00c16549(int);
 void* __cdecl FUN_00c16e6e(unsigned);
 
+// pdb: V6_HeapAlloc | malloc.obj | tesv_win, hash, low
 void* __cdecl FUN_00c063a6(unsigned size)
 {
     void* r = 0;
@@ -120,6 +125,8 @@ void __cdecl FUN_00c07b90(void*);
 void __cdecl FUN_00c07bfa(void*);
 unsigned __cdecl FUN_00c06b99(void*, unsigned, unsigned, void*);
 
+// pdb: fwrite | fwrite.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: buffer, size, count, stream
 unsigned __cdecl FUN_00c06cf8(void* buf, unsigned size, unsigned count, void* f)
 {
     unsigned r;
@@ -149,6 +156,8 @@ void __cdecl FUN_00c07bfa(void*);
 void* __cdecl FUN_00c00610(void*, int, unsigned);
 unsigned __cdecl FUN_00c06d7a(void*, unsigned, unsigned, unsigned, void*);
 
+// pdb: fread_s | fread.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: OEI::IO::add_work_item_to_queue_and_wait)
+// pdb params: buffer, bufferSize, elementSize, count, stream
 unsigned __cdecl FUN_00c06f80(void* buf, unsigned bufsize, unsigned size, unsigned count, void* f)
 {
     unsigned r = 0;
@@ -178,6 +187,8 @@ void __cdecl FUN_00c07b90(void*);
 void __cdecl FUN_00c07bfa(void*);
 int __cdecl FUN_00c07031(void*, long, int);
 
+// pdb: fseek | fseek.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: stream, offset, whence
 int __cdecl FUN_00c070b8(void* f, long off, int whence)
 {
     int r;
@@ -210,6 +221,8 @@ void __cdecl FUN_00c07b90(void*);
 void __cdecl FUN_00c07bfa(void*);
 int __cdecl FUN_00c0713d(void*);
 
+// pdb: ftell | ftell.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: stream
 int __cdecl FUN_00c072d5(void* f)
 {
     int r;
@@ -234,6 +247,8 @@ void __cdecl FUN_00c16621(int);
 void __cdecl FUN_00c16549(int);
 int __cdecl FUN_00c0737a(int, int, int);
 
+// pdb: XMemFree | AppMemory_Xenon.obj | fnv360_0822_debug, objopen_prop, low, conflict (skyrim: _getcwd)
+// pdb params: pAddress, dwAllocAttributes
 int __cdecl FUN_00c074af(int a, int b)
 {
     int r;
@@ -253,6 +268,8 @@ void __cdecl FUN_00c07bfa(void*);
 int __cdecl FUN_00c07983(int);
 int __cdecl FUN_00c07941(void*);
 
+// pdb: fflush | fflush.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: stream
 int __cdecl FUN_00c07a5d(void* f)
 {
     int r;
@@ -275,6 +292,8 @@ void __cdecl FUN_00c07b90(void*);
 void __cdecl FUN_00c07bfa(void*);
 int __cdecl FUN_00c0825b(int, void*);
 
+// pdb: ungetc | ungetc.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: ch, stream
 int __cdecl FUN_00c08379(int c, void* f)
 {
     int r;
@@ -306,6 +325,8 @@ void __cdecl FUN_00c12adc(F_00c083eb*);
 void* __cdecl FUN_00c0ab3f(unsigned);
 extern int DAT_01179b5c;
 
+// pdb: setvbuf | setvbuf.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: str, buffer, type, size
 int __cdecl FUN_00c083eb(F_00c083eb* str, char* buffer, int mode, unsigned size)
 {
     int r = 0;
@@ -364,6 +385,7 @@ int __cdecl FUN_00c083eb(F_00c083eb* str, char* buffer, int mode, unsigned size)
 
 extern "C" void __stdcall __ArrayUnwind(void*, unsigned, int, void (__thiscall *)(void*));
 
+// pdb: TESCondition::~TESCondition | TESCondition.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: `vector destructor iterator')
 void __stdcall FUN_00c00799(void* ptr, unsigned size, int count, void (__thiscall *pDtor)(void*))
 {
     int success = 0;
@@ -387,6 +409,8 @@ void __cdecl FUN_00c068dc();
 void __cdecl FUN_00c068e5();
 int __cdecl FUN_00c00bfb(int);
 
+// pdb: _onexit | onexit.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: func
 int __cdecl FUN_00c00ce3(int a)
 {
     int r;

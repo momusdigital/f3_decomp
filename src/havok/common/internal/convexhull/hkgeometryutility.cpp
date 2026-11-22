@@ -45,55 +45,6 @@ void __cdecl InitAndSetB(void* a1, int a2)
     a.FinishA();
 }
 
-struct FUN_00d5a630_ctxA
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-
-    void InitA();
-    int FindB(void* a1, void* b);
-    void SetB(int zero, int a2);
-    void SetF(float f, int zero);
-    void SetC(int a3);
-    void FinishA();
-};
-
-struct FUN_00d5a630_ctxB
-{
-    unsigned char m_00;
-    unsigned char unk01;
-    unsigned short unk02;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-
-    void InitB();
-};
-
-extern float DAT_0106ea1c;
-
-// Initialises two context objects, sets a flag, looks up a1 in the first context and, if found, applies a2 and a3 and a float constant before finishing.
-// @fnv 0x00d5a630
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3)
-{
-    FUN_00d5a630_ctxB b;
-    FUN_00d5a630_ctxA a;
-
-    a.InitA();
-    b.InitB();
-    b.m_00 = 1;
-    if (a.FindB(a1, &b) != -1)
-    {
-        a.SetB(0, a2);
-        a.SetF(DAT_0106ea1c, 0);
-        a.SetC(a3);
-    }
-    a.FinishA();
-}
-
 struct S_00d5a6b0_Elem
 {
     float x;
@@ -110,6 +61,8 @@ struct S_00d5a6b0_Array
 
 // Subtracts val from the w component of every element in the array.
 // @fnv 0x00d5a6b0
+// pdb: hkGeometryUtility::expandPlanes | hkGeometryUtility.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: planeEquations, byDistance
 void SubtractFromW(S_00d5a6b0_Array* pArray, float val)
 {
     for (int i = 0; i < pArray->m_iElementCount; ++i)
@@ -202,6 +155,8 @@ extern unsigned long DAT_010f3170;
 void __cdecl FUN_00a57ba0(const void* shape, D5C110VertexArray& vertices);
 void __cdecl FUN_009ec800(const D5C110StridedVertices& strided, D5C110Geometry& out, int flag);
 
+// pdb: hkGeometryUtility::createGeometryFromPlaneEquations | hkGeometryUtility.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: planeEquationsIn, geometryOut
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry)
 {
     D5C110VertexArray vertices;
@@ -235,6 +190,8 @@ struct D5C110VertexArray;
 void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
 
 // @fnv 0x00d5a6a0
+// pdb: NiPSysResetOnLoopCtlr::LinkObject | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
 void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices)
 {
     ProcessArg(shape, vertices);
@@ -249,6 +206,7 @@ struct S00d5ad60_cls
 
 // Returns whether the absolute difference between m_f00 and *other is less than threshold.
 // @fnv 0x00d5ad60
+// pdb: approxEquals | hkGeometryUtility.obj | tesv_win, hash, low
 static __declspec(noinline) unsigned char FUN_00d5ad60(S00d5ad60_cls* self, float* other, float threshold)
 {
     float d = *other - self->m_f00;
@@ -277,6 +235,7 @@ extern float DAT_01011d78;
 // @f3 0x009e9300 (community match, verified in this file)
 #include <math.h>
 
+// pdb: isMultOfXYorZ | hkGeometryUtility.obj | tesv_win, call_gap, low
 static __declspec(noinline) int FUN_00d5ad90(const float* pVec, float fTol)
 {
     __m128 v;
@@ -330,10 +289,6 @@ struct __declspec(align(16)) S00d5c060_Result
     unsigned int unk0C;
 };
 
-char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
-char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
-void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
-
 // Allocates a buffer, copies vertex coordinates from src->m_pData into it, and passes it to FUN_00d5beb0 to produce a result.
 // @f3 0x009eb6d0 (community match, verified in this file)
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
@@ -344,6 +299,7 @@ struct HeapD5C0F3
     void FUN_008f6f90(void* p);
 };
 void FUN_009eab50(S00d5c060_Result* out, char* data, int count, int flags, float scale);
+// pdb: hkGeometryUtility::createMinBoundingSphere | hkGeometryUtility.obj | tesv_win, call_gap_sim, low
 S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
 {
     S00d5c060_Result result;
@@ -614,114 +570,16 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
 }  // namespace fnv_00d5d270
 
 extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
 extern "C" void _mm_store_ss(float*, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
-
-extern const float DAT_01012054;
 
 struct __declspec(align(16)) Vec4
 {
     float x, y, z, w;
 };
-
-struct MyPoint
-{
-    __m128 v;
-};
-
-// FUN_00d5bb10, FUN_00d5bb80 and FUN_00d5bce0 are stand-ins: the real 2-, 3- and 4-point sphere builders live
-// elsewhere. Their bodies only keep the static calling sequence the original uses; FUN_00d5beb0 is the function compared.
-static __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, float t)
-{
-    res->x = 0.0f;
-    Vec4 a = *p0;
-    res->y = a.x + t + (float)(int)p1;
-    res->w = a.y;
-    return res;
-}
-
-static __declspec(noinline) Vec4* FUN_00d5bb80(Vec4* res, Vec4* p0, Vec4* p1, Vec4* p2, float t)
-{
-    res->x = 0.0f;
-    Vec4 a = *p0;
-    res->y = a.x + t + (float)(int)p1 + (float)(int)p2;
-    res->w = a.y;
-    return res;
-}
-
-static __declspec(noinline) Vec4* FUN_00d5bce0(Vec4* res, Vec4* p0, Vec4* p1, Vec4* p2, Vec4* p3, float t)
-{
-    res->x = 0.0f;
-    Vec4 a = *p0;
-    res->y = a.x + t + (float)(int)p1 + (float)(int)p2 + (float)(int)p3;
-    res->w = a.y;
-    return res;
-}
-
-// Moves points whose XYZ distance from out exceeds out[3] to the front, then recurses on the preceding points.
-// @fnv 0x00d5beb0
-__m128* __cdecl FUN_00d5beb0(__m128* apResult, MyPoint* apPoints, int count, int depth, float t)
-{
-    Vec4 rTempA;
-    Vec4 rTempB;
-    Vec4 rTempC;
-
-    switch (depth)
-    {
-    case 0:
-        *(__m128*)&rTempA = _mm_setzero_ps();
-        ((float*)&rTempA)[3] = DAT_01012054;
-        *apResult = *(__m128*)&rTempA;
-        break;
-    case 1:
-        *(__m128*)&rTempA = apPoints[-1].v;
-        ((float*)&rTempA)[3] = t;
-        *apResult = *(__m128*)&rTempA;
-        break;
-    case 2:
-        *apResult = *(__m128*)FUN_00d5bb10(&rTempA, (Vec4*)&apPoints[-1], (Vec4*)&apPoints[-2], t);
-        break;
-    case 3:
-        *apResult =
-            *(__m128*)FUN_00d5bb80(&rTempB, (Vec4*)&apPoints[-1], (Vec4*)&apPoints[-2], (Vec4*)&apPoints[-3], t);
-        break;
-    default:
-        *apResult = *(__m128*)FUN_00d5bce0(&rTempC, (Vec4*)&apPoints[-1], (Vec4*)&apPoints[-2], (Vec4*)&apPoints[-3],
-                                           (Vec4*)&apPoints[-4], t);
-        return apResult;
-    }
-
-    for (int i = 0; i < count; ++i)
-    {
-        __m128 rDiff = _mm_sub_ps(apPoints[i].v, *apResult);
-        __m128 rSq = _mm_mul_ps(rDiff, rDiff);
-        __m128 rShuf1 = _mm_shuffle_ps(rSq, rSq, 0x55);
-        __m128 rShuf2 = _mm_shuffle_ps(rSq, rSq, 0xaa);
-        __m128 sum = _mm_add_ss(rShuf1, rSq);
-        sum = _mm_add_ss(rShuf2, sum);
-        float dist;
-        _mm_store_ss(&dist, _mm_sqrt_ss(sum));
-
-        if (dist > ((const float*)apResult)[3])
-        {
-            for (int iSwap = i; iSwap > 0; --iSwap)
-            {
-                rTempA = *(Vec4*)&apPoints[iSwap];
-                apPoints[iSwap].v = apPoints[iSwap - 1].v;
-                apPoints[iSwap - 1].v = *(__m128*)&rTempA;
-            }
-
-            *apResult = *FUN_00d5beb0((__m128*)&rTempB, apPoints + 1, i, depth + 1, t);
-        }
-    }
-
-    return apResult;
-}
 
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
@@ -1078,6 +936,7 @@ static __declspec(noinline) void FUN_009e9c60(const Vec* axes, Vec* direction, f
 
 }
 
+// pdb: lineMinimize | hkGeometryUtility.obj | tesv_win, objrun_sim, low
 static __declspec(noinline) float FUN_00d5b640(const float* apVertices, int numVertices, int aiStride,
                                                const ObbAxis* axes, float afStep, ObbAxis* direction, int maxIter)
 {
@@ -1767,6 +1626,7 @@ static __declspec(noinline) float LineSearch(const float* data, int count, int s
 }
 }
 
+// pdb: doSteepestDescent | hkGeometryUtility.obj | tesv_win, objrun_prop, low
 static float FUN_00d5b990(const float* data, int count, int stride, const Axis* apInitialAxes, Axis* apResultAxes,
                           int aiMaxIterations)
 {

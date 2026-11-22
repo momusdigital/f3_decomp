@@ -624,6 +624,8 @@ extern HudParam DAT_01202410;
 
 // Rebuilds the HUD NiScreenElements from RecEntry rectangles when DAT_011ae5d4 is set, then renders them through the HudOwner and ScreenSink.
 // @fnv 0x00bb7530
+// pdb: ImageSpaceShaderMenuUnpack::Render | ImageSpaceShaderMenuUnpack.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apGeometry, apRenderer, apParam, abEndFrame
 void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* apHudParam, int aiUnk2)
 {
     ColorA color(0.0f, 1.0f, 1.0f, 0.0f);

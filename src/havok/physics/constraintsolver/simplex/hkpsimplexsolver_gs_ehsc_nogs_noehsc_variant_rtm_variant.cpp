@@ -234,6 +234,7 @@ extern void ScalarMotionReport();
 
 __declspec(noinline) void __cdecl FUN_009a5680(ScalarMotionState& info) { info.m_iActivePlaneCount--; ScalarMotionReport(); }
 
+// pdb: hkSimplexSolverSolve | hkpSimplexSolver.obj | tesv_win, call_gap_sim, low
 extern "C" void __cdecl FUN_00d24360(const ScalarMotionInput& input, ScalarMotionOutput& output)
 {
     ScalarMotionState info;

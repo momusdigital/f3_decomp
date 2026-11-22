@@ -36,10 +36,12 @@ struct FUN_009d5cb0 : unkB1, unkB2 {
     FUN_009d5cb0(const FUN_009d5cb0& s);
     virtual void v0();
     virtual void w0();
-    void FUN_009d5360(unkElem*);
+    void hkpStorageExtendedMeshShape_addTrianglesSubpart(unkElem*);
     void FUN_009d5910(unkElem*);
     void FUN_009e37e0();
 };
+// pdb: hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, call_dedup, high
+// pdb params: mesh
 FUN_009d5cb0::FUN_009d5cb0(const FUN_009d5cb0& s) : unkB1(s.unkb0, s.unk18)
 {
     int i = 0;
@@ -48,7 +50,7 @@ FUN_009d5cb0::FUN_009d5cb0(const FUN_009d5cb0& s) : unkB1(s.unkb0, s.unk18)
     unk20 = s.unk20; unk24 = s.unk24; unk28 = s.unk28; unk2c = s.unk2c;
     unk08 = s.unk08;
     unk14 = s.unk14;
-    for (; i < s.unk54; i++) FUN_009d5360(&s.unk50[i]);
+    for (; i < s.unk54; i++) hkpStorageExtendedMeshShape_addTrianglesSubpart(&s.unk50[i]);
     for (i = 0; i < s.unk5c; i++) FUN_009d5910(&s.unk58[i]);
     int cap = unk68 & 0x3fffffff;
     if (cap < s.unk64) {
@@ -159,6 +161,8 @@ struct Dispatcher {
     void FUN_009d9510(Result* result, void* arg);
 };
 
+// pdb: hkpCachingShapePhantom::getPenetrations | hkpCachingShapePhantom.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collector, input
 void Dispatcher::FUN_009d9510(Result* result, void* arg)
 {
     if (!arg)
@@ -287,7 +291,8 @@ struct Entry {
 struct ObjsArg { Obj** p; };
 struct OutArg { Entry* p; };
 
-static __declspec(noinline) void FUN_009cb0c0(int* a, Rec** apRecords, ObjsArg objs, OutArg out)
+// pdb: replaceCylindersWithCapsulesInCdBodies | hkpPredGskCylinderAgent3.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) void replaceCylindersWithCapsulesInCdBodies(int* a, Rec** apRecords, ObjsArg objs, OutArg out)
 {
     for (int i = 0; i < 2; ++i)
     {
@@ -337,7 +342,7 @@ void caller_of_FUN_009cb0c0()
     Entry out[2];
     ObjsArg oa; oa.p = objs;
     OutArg ou; ou.p = out;
-    FUN_009cb0c0(a, recs, oa, ou);
+    replaceCylindersWithCapsulesInCdBodies(a, recs, oa, ou);
     g_out = out;
 }
 }   // namespace f3m_009cb0c0
@@ -392,9 +397,10 @@ struct Builder9dfbc0 {
     Geom9dfbc0* geom;
     char pad08[0x10];
     bool dirty;
-    int FUN_009dfbc0(const Vec9dfbc0& v);
+    int hkpConstraintConstructionKit_setPivotA(const Vec9dfbc0& v);
 };
-int Builder9dfbc0::FUN_009dfbc0(const Vec9dfbc0& v)
+// pdb: hkpConstraintConstructionKit::setPivotA | hkpConstraintConstructionKit.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(call_seq), high
+int Builder9dfbc0::hkpConstraintConstructionKit_setPivotA(const Vec9dfbc0& v)
 {
     geom->flags.PushBack(1);
     int idx = geom->verts.size;
@@ -427,7 +433,8 @@ public:
     Derived4080(int a, int b, int c, int d) throw() : Base4080(b, a, c, d) {}
     virtual void v0();
 };
-Base4080* __cdecl FUN_009d4080(int a, int b, int c, int d) { return new Derived4080(a, b, c, d); }
+// pdb: hkpBvAgent::createShapeBvAgent | hkpBvAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Base4080* __cdecl hkpBvAgent_createShapeBvAgent(int a, int b, int c, int d) { return new Derived4080(a, b, c, d); }
 }
 
 // @f3 0x009ce2a0 (community match, verified in this file)
@@ -442,7 +449,8 @@ struct Object009ce2a0 {
     virtual void f5();
 };
 void __cdecl FUN_00a26d90(unsigned int a, unsigned int b, Object009ce2a0* object);
-void __cdecl FUN_009ce2a0(unsigned int unused, unsigned int a, unsigned int b, Object009ce2a0* object) {
+// pdb: hkpCollectionCollectionAgent3::calcStatistics | hkpCollectionCollectionAgent3.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpCollectionCollectionAgent3_calcStatistics(unsigned int unused, unsigned int a, unsigned int b, Object009ce2a0* object) {
     object->f4(DAT_00e7f478);
     FUN_00a26d90(a, b, object);
     object->f5();
@@ -464,6 +472,7 @@ struct Obj9dac20 {
     n9dac20::Inner* inner;
     void* FUN_009dac20(void* out);
 };
+// pdb: hkpBreakableConstraintData::isValid | hkpBreakableConstraintData.obj | fnv360_0822_debug, objrun_open, low
 void* Obj9dac20::FUN_009dac20(void* out)
 {
     inner->Get(out);
@@ -474,14 +483,14 @@ void* Obj9dac20::FUN_009dac20(void* out)
 // @f3 0x009c00e0 (community match, verified in this file)
 namespace f3m_009c00e0 {
 namespace task0789 {
-void FUN_009bfd60();
-void FUN_009c0090();
+void hkpMultiRayConvexAgent_staticGetPenetrations();
+void hkpMultiRayConvexAgent_createConvexMultiRayAgent();
 void FUN_009c0170();
 void FUN_009c01b0();
 void FUN_009c1960();
-void FUN_009c0050();
+void hkpMultiRayConvexAgent_createMultiRayConvexAgent();
 
-void FUN_009bf990();
+void hkpMultiRayConvexAgent_staticGetClosestPoints();
 void FUN_00a3ab70();
 struct Conversion
 {
@@ -497,19 +506,21 @@ struct Registry
     void FUN_00985b30(Conversion*, int, int);
 };
 // @fnv 0x00d2e760
+// pdb: hkpMultiRayConvexAgent::registerAgent | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dispatcher
 void FUN_009c00e0(Registry* registry)
 {
     Conversion conversionEntry;
-    conversionEntry.convert = FUN_009c0090;
+    conversionEntry.convert = hkpMultiRayConvexAgent_createConvexMultiRayAgent;
     conversionEntry.create = FUN_009c0170;
     conversionEntry.copy = FUN_009c01b0;
     conversionEntry.destroy = FUN_009c1960;
     conversionEntry.enabled = true;
     conversionEntry.supported = true;
     registry->FUN_00985b30(&conversionEntry, 1, 23);
-    conversionEntry.convert = FUN_009c0050;
-    conversionEntry.create = (void (*)())FUN_009bfd60;
-    conversionEntry.copy = FUN_009bf990;
+    conversionEntry.convert = hkpMultiRayConvexAgent_createMultiRayConvexAgent;
+    conversionEntry.create = (void (*)())hkpMultiRayConvexAgent_staticGetPenetrations;
+    conversionEntry.copy = hkpMultiRayConvexAgent_staticGetClosestPoints;
     conversionEntry.destroy = FUN_00a3ab70;
     conversionEntry.enabled = false;
     conversionEntry.supported = true;
@@ -522,11 +533,11 @@ void FUN_009c00e0(Registry* registry)
 // @f3 0x009d40d0 (community match, verified in this file)
 namespace f3m_009d40d0 {
 namespace Task0790 {
-void FUN_009d4080();
+void hkpBvAgent_createShapeBvAgent();
 void FUN_009d4160();
 void FUN_009d41a0();
 void FUN_009d41e0();
-void FUN_009d35d0();
+void hkpBvAgent_createBvShapeAgent();
 void FUN_009d3f20();
 void FUN_009d3c40();
 void FUN_009d3950();
@@ -536,17 +547,19 @@ struct Conversion {
 };
 struct Registry {void FUN_00985b30(Conversion*,int,int);};
 // @fnv 0x009d40d0
+// pdb: hkpBvAgent::registerAgent | hkpBvAgent.obj | fnv360_0822_retail, objrun, medium, conflict (skyrim: hkpMultiSphereAgent::registerAgent)
+// pdb params: dispatcher
 void FUN_009d40d0(Registry* registry)
 {
     Conversion conversionEntry;
-    conversionEntry.convert = FUN_009d4080;
+    conversionEntry.convert = hkpBvAgent_createShapeBvAgent;
     conversionEntry.create = FUN_009d4160;
     conversionEntry.copy = FUN_009d41a0;
     conversionEntry.destroy = FUN_009d41e0;
     conversionEntry.enabled = true;
     conversionEntry.supported = true;
     registry->FUN_00985b30(&conversionEntry, -1, 26);
-    conversionEntry.convert = FUN_009d35d0;
+    conversionEntry.convert = hkpBvAgent_createBvShapeAgent;
     conversionEntry.create = (void (*)())FUN_009d3f20;
     conversionEntry.copy = FUN_009d3c40;
     conversionEntry.destroy = FUN_009d3950;
@@ -586,7 +599,8 @@ struct FUN_009bffd0 {
     }
 };
 }
-n9c0050::FUN_009bffd0* __cdecl FUN_009c0050(int a, int b, int c, int d)
+// pdb: hkpMultiRayConvexAgent::createMultiRayConvexAgent | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, objrun + bridge(caller_sim|caller_sim) + skyrim(objrun), high
+n9c0050::FUN_009bffd0* __cdecl hkpMultiRayConvexAgent_createMultiRayConvexAgent(int a, int b, int c, int d)
 {
     return new n9c0050::FUN_009bffd0(a, b, c, d);
 }
@@ -595,28 +609,30 @@ n9c0050::FUN_009bffd0* __cdecl FUN_009c0050(int a, int b, int c, int d)
 // @f3 0x009d1fd0 (community match, verified in this file)
 namespace f3m_009d1fd0 {
 namespace task0791 {
-void FUN_009d1f80();
+void hkpShapeCollectionAgent_createListBAgent();
 void FUN_009be600();
 void FUN_009be640();
 void FUN_009be680();
-void FUN_009d1f40();
+void hkpShapeCollectionAgent_createListAAgent();
 void FUN_009d1aa0();
 void FUN_009d1620();
 void FUN_009d1840();
 struct Conversion { void (*convert)(); void (*create)(); void (*copy)(); void (*destroy)(); bool enabled,supported; };
 struct Registry { void FUN_00985b30(Conversion*,int,int); };
 // @fnv 0x00d2e760
+// pdb: hkpShapeCollectionAgent::registerAgent | hkpShapeCollectionAgent.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: dispatcher
 void FUN_009d1fd0(Registry* registry)
 {
     Conversion conversionEntry;
-    conversionEntry.convert = FUN_009d1f80;
+    conversionEntry.convert = hkpShapeCollectionAgent_createListBAgent;
     conversionEntry.create = FUN_009be600;
     conversionEntry.copy = FUN_009be640;
     conversionEntry.destroy = FUN_009be680;
     conversionEntry.enabled = true;
     conversionEntry.supported = true;
     registry->FUN_00985b30(&conversionEntry, -1, 8);
-    conversionEntry.convert = FUN_009d1f40;
+    conversionEntry.convert = hkpShapeCollectionAgent_createListAAgent;
     conversionEntry.create = (void (*)())FUN_009d1aa0;
     conversionEntry.copy = FUN_009d1620;
     conversionEntry.destroy = FUN_009d1840;
@@ -631,25 +647,27 @@ void FUN_009d1fd0(Registry* registry)
 // @f3 0x009c9010 (community match, verified in this file)
 namespace f3m_009c9010 {
 namespace task0793 {
-void FUN_009c80a0(); void FUN_009c90e0(); void FUN_009c9600(); void FUN_009c1960();
-void FUN_009c8030(); void FUN_009c80e0(); void FUN_009c8b90(); void FUN_00a3ab70();
+void hkpSphereCapsuleAgent_createCapsuleSphereAgent(); void FUN_009c90e0(); void FUN_009c9600(); void FUN_009c1960();
+void hkpSphereCapsuleAgent_createSphereCapsuleAgent(); void FUN_009c80e0(); void hkpSphereCapsuleAgent_staticGetClosestPoints(); void FUN_00a3ab70();
 struct AgentFunctions {
  void (*create)(); void (*getPenetrations)(); void (*getClosestPoints)(); void (*linearCast)();
  bool flipped; bool predictive;
 };
 struct Registry { void FUN_00985b30(AgentFunctions*, int, int); };
+// pdb: hkpSphereCapsuleAgent::registerAgent | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dispatcher
 void FUN_009c9010(Registry* registry) {
  AgentFunctions entry;
- entry.create=FUN_009c80a0;
+ entry.create=hkpSphereCapsuleAgent_createCapsuleSphereAgent;
  entry.getPenetrations=FUN_009c90e0;
  entry.getClosestPoints=FUN_009c9600;
  entry.linearCast=FUN_009c1960;
  entry.flipped=true;
  entry.predictive=false;
  registry->FUN_00985b30(&entry,6,2);
- entry.create=FUN_009c8030;
+ entry.create=hkpSphereCapsuleAgent_createSphereCapsuleAgent;
  entry.getPenetrations=FUN_009c80e0;
- entry.getClosestPoints=FUN_009c8b90;
+ entry.getClosestPoints=hkpSphereCapsuleAgent_staticGetClosestPoints;
  entry.linearCast=FUN_00a3ab70;
  entry.flipped=false;
  entry.predictive=false;
@@ -661,14 +679,14 @@ void FUN_009c9010(Registry* registry) {
 // @f3 0x009c6bf0 (community match, verified in this file)
 namespace f3m_009c6bf0 {
 namespace task0794 {
-void FUN_009c5c30();
-void FUN_009c5bb0();
+void hkpSphereBoxAgent_staticGetPenetrations();
+void hkpSphereBoxAgent_createBoxSphereAgent();
 void FUN_009c6cc0();
 void FUN_009c6d40();
 void FUN_009c1960();
-void FUN_009c5bf0();
+void hkpSphereBoxAgent_createSphereBoxAgent();
 
-void FUN_009c6780();
+void hkpSphereBoxAgent_staticGetClosestPoints();
 void FUN_00a3ab70();
 struct Conversion
 {
@@ -684,19 +702,21 @@ struct Registry
     void FUN_00985b30(Conversion*, int, int);
 };
 // @fnv 0x00d2e760
+// pdb: hkpSphereBoxAgent::registerAgent | hkpSphereBoxAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dispatcher
 void FUN_009c6bf0(Registry* registry)
 {
     Conversion conversionEntry;
-    conversionEntry.convert = FUN_009c5bb0;
+    conversionEntry.convert = hkpSphereBoxAgent_createBoxSphereAgent;
     conversionEntry.create = FUN_009c6cc0;
     conversionEntry.copy = FUN_009c6d40;
     conversionEntry.destroy = FUN_009c1960;
     conversionEntry.enabled = true;
     conversionEntry.supported = false;
     registry->FUN_00985b30(&conversionEntry, 5, 2);
-    conversionEntry.convert = FUN_009c5bf0;
-    conversionEntry.create = (void (*)())FUN_009c5c30;
-    conversionEntry.copy = FUN_009c6780;
+    conversionEntry.convert = hkpSphereBoxAgent_createSphereBoxAgent;
+    conversionEntry.create = (void (*)())hkpSphereBoxAgent_staticGetPenetrations;
+    conversionEntry.copy = hkpSphereBoxAgent_staticGetClosestPoints;
     conversionEntry.destroy = FUN_00a3ab70;
     conversionEntry.enabled = false;
     conversionEntry.supported = false;
@@ -709,15 +729,15 @@ void FUN_009c6bf0(Registry* registry)
 // @f3 0x009d2e40 (community match, verified in this file)
 namespace f3m_009d2e40 {
 namespace task0795 {
-void FUN_009d29b0();
-void FUN_009d2df0();
+void hkpMultiSphereAgent_staticGetPenetrations();
+void hkpMultiSphereAgent_createListBAgent();
 void FUN_009d2ed0();
 void FUN_009d2f10();
 void FUN_009d2f50();
-void FUN_009d2db0();
+void hkpMultiSphereAgent_createListAAgent();
 
-void FUN_009d23c0();
-void FUN_009d26b0();
+void hkpMultiSphereAgent_staticGetClosestPoints();
+void hkpMultiSphereAgent_staticLinearCast();
 struct Conversion
 {
     void (*convert)();
@@ -732,20 +752,22 @@ struct Registry
     void FUN_00985b30(Conversion*, int, int);
 };
 // @fnv 0x00d2e760
+// pdb: hkpMultiSphereAgent::registerAgent | hkpMultiSphereAgent.obj | fnv360_0822_retail, objrun, medium, conflict (skyrim: hkpTransformAgent::registerAgent)
+// pdb params: dispatcher
 void FUN_009d2e40(Registry* registry)
 {
     Conversion conversionEntry;
-    conversionEntry.convert = FUN_009d2df0;
+    conversionEntry.convert = hkpMultiSphereAgent_createListBAgent;
     conversionEntry.create = FUN_009d2ed0;
     conversionEntry.copy = FUN_009d2f10;
     conversionEntry.destroy = FUN_009d2f50;
     conversionEntry.enabled = true;
     conversionEntry.supported = true;
     registry->FUN_00985b30(&conversionEntry, -1, 20);
-    conversionEntry.convert = FUN_009d2db0;
-    conversionEntry.create = (void (*)())FUN_009d29b0;
-    conversionEntry.copy = FUN_009d23c0;
-    conversionEntry.destroy = FUN_009d26b0;
+    conversionEntry.convert = hkpMultiSphereAgent_createListAAgent;
+    conversionEntry.create = (void (*)())hkpMultiSphereAgent_staticGetPenetrations;
+    conversionEntry.copy = hkpMultiSphereAgent_staticGetClosestPoints;
+    conversionEntry.destroy = hkpMultiSphereAgent_staticLinearCast;
     conversionEntry.enabled = false;
     conversionEntry.supported = true;
     registry->FUN_00985b30(&conversionEntry, 20, -1);
@@ -757,21 +779,23 @@ void FUN_009d2e40(Registry* registry)
 // @f3 0x009c18d0 (community match, verified in this file)
 namespace f3m_009c18d0 {
 namespace task0799 {
-void FUN_009c09c0();
+void hkpMultiSphereTriangleAgent_createTriangleMultiSphereAgent();
 void FUN_009c1aa0();
 void FUN_009c1f90();
 void FUN_009c1960();
 void FUN_009c0910();
-void FUN_009c0d40();
-void FUN_009c14a0();
+void hkpMultiSphereTriangleAgent_staticGetPenetrations();
+void hkpMultiSphereTriangleAgent_staticGetClosestPoints();
 void FUN_00a3ab70();
 struct Conversion { void (*convert)(); void (*create)(); void (*copy)(); void (*destroy)(); bool enabled,supported; };
 struct Registry { void FUN_00985b30(Conversion*,int,int); };
 // @fnv 0x00d2e760
+// pdb: hkpMultiSphereTriangleAgent::registerAgent | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: dispatcher
 void FUN_009c18d0(Registry* registry)
 {
     Conversion conversionEntry;
-    conversionEntry.convert = FUN_009c09c0;
+    conversionEntry.convert = hkpMultiSphereTriangleAgent_createTriangleMultiSphereAgent;
     conversionEntry.create = FUN_009c1aa0;
     conversionEntry.copy = FUN_009c1f90;
     conversionEntry.destroy = FUN_009c1960;
@@ -779,8 +803,8 @@ void FUN_009c18d0(Registry* registry)
     conversionEntry.supported = false;
     registry->FUN_00985b30(&conversionEntry, 4, 20);
     conversionEntry.convert = FUN_009c0910;
-    conversionEntry.create = (void (*)())FUN_009c0d40;
-    conversionEntry.copy = FUN_009c14a0;
+    conversionEntry.create = (void (*)())hkpMultiSphereTriangleAgent_staticGetPenetrations;
+    conversionEntry.copy = hkpMultiSphereTriangleAgent_staticGetClosestPoints;
     conversionEntry.destroy = FUN_00a3ab70;
     conversionEntry.enabled = false;
     conversionEntry.supported = false;
@@ -816,6 +840,8 @@ struct Dispatcher {
     void FUN_00985b30(AgentFuncs*, int typeA, int typeB);
 };
 }
+// pdb: hkpTransformAgent::registerAgent | hkpTransformAgent.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: hkpBvAgent::registerAgent)
+// pdb params: dispatcher
 void __cdecl FUN_009cdc20(task0792::Dispatcher* dispatcher)
 {
     task0792::AgentFuncs funcs;
@@ -852,6 +878,7 @@ struct Obj {
     void FUN_009a5e50();
     Obj* FUN_009d4f80(unsigned int flags);
 };
+// pdb: hkpStorageSampledHeightFieldShape::`scalar deleting destructor' | hkpStorageSampledHeightFieldShapeClass.obj | fnv360_0822_retail, vtable_prefix, high
 Obj* Obj::FUN_009d4f80(unsigned int flags) {
     if ((capFlags & 0x80000000u) == 0) {
         int cap = capFlags & 0x3fffffff;
@@ -1000,7 +1027,8 @@ struct Obj {
     Obj* FUN_009d2b40(int a, int b, int c, int d);  // constructor
 };
 }
-n9d2db0::Obj* FUN_009d2db0(int a, int b, int c, int d) {
+// pdb: hkpMultiSphereAgent::createListAAgent | hkpMultiSphereAgent.obj | fnv360_0822_debug, objrun + bridge(caller_sim|caller_sim) + skyrim(objrun), high
+n9d2db0::Obj* hkpMultiSphereAgent_createListAAgent(int a, int b, int c, int d) {
     n9d2db0::Alloc* al = n9d2db0::FUN_00d9b080(DAT_010f3170);
     n9d2db0::Obj* o = (n9d2db0::Obj*)al->FUN_008f6d30(0x38, 0x1f);
     o->memSize = 0x38;
@@ -1014,6 +1042,7 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 namespace Delete346{
 extern unsigned long DAT_010f3170;struct Heap346{void FUN_008f6d90(void*,unsigned int,int);};
 struct Owner346{void*vtable;unsigned short memory,refs;void FUN_009d6380();Owner346* FUN_009d6ca0(unsigned int);};
+// pdb: hkpStorageMeshShape::`scalar deleting destructor' | hkpStorageMeshShape.obj | fnv360_0822_retail, vtable_prefix, high
 Owner346* Owner346::FUN_009d6ca0(unsigned int flags){FUN_009d6380();if(flags&1){Heap346*heap=(Heap346*)TlsGetValue(DAT_010f3170);heap->FUN_008f6d90(this,memory,39);}return this;}
 }
 }   // namespace f3m_009d6ca0
@@ -1029,6 +1058,7 @@ FUN_009d5050::FUN_009d5050(int x) {}
 namespace f3m_009d5070 {
 class B_009d5070 { public: virtual void v0(); unsigned short w4; unsigned short w6; B_009d5070() { w6 = 1; } };
 class FUN_009d5070 : public B_009d5070 { public: FUN_009d5070(int x); virtual void v0(); };
+// pdb: hkpStorageExtendedMeshShape::ShapeSubpartStorage::ShapeSubpartStorage | hkpStorageExtendedMeshShape.obj | tesv_win, objrun_sim, low
 FUN_009d5070::FUN_009d5070(int x) {}
 }   // namespace f3m_009d5070
 
@@ -1040,18 +1070,21 @@ struct Entry { Fn create,penetrations,closest,cast; bool flipped,predictive; };
 struct Dispatcher { void FUN_00985b30(Entry&,int,int); };
 void FUN_009c4030(void**);
 void FUN_009c2a70(); void FUN_009c3cc0(); void FUN_009c3590(); void FUN_00a3ab70();
-__declspec(noinline) void FUN_009c4000(void* p) {
+// pdb: hkpCapsuleTriangleAgent::initAgentFunc | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, objrun + bridge(call_gap|objrun) + skyrim(call_seq), high
+__declspec(noinline) void hkpCapsuleTriangleAgent_initAgentFunc(void* p) {
  Entry* s=(Entry*)p;
  s->create=FUN_009c2a70; s->penetrations=FUN_009c3cc0; s->closest=FUN_009c3590; s->cast=FUN_00a3ab70;
  s->flipped=0; s->predictive=0;
 }
+// pdb: hkpCapsuleTriangleAgent::registerAgent | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dispatcher
 void FUN_009c4060(Dispatcher* obj) {
  Entry s;
  s.flipped=0; s.predictive=0;
  FUN_009c4030((void**)&s);
  obj->FUN_00985b30(s,4,6);
  s.flipped=0; s.predictive=0;
- FUN_009c4000(&s);
+ hkpCapsuleTriangleAgent_initAgentFunc(&s);
  obj->FUN_00985b30(s,6,4);
 }
 }
@@ -1070,6 +1103,8 @@ __declspec(noinline) void FUN_009c79e0(void* p) {
  s->create=FUN_009c6ee0;s->penetrations=FUN_009c7130;s->closest=FUN_009c7730;s->linear=FUN_00a3ab70;
  s->flipped=0;s->predictive=0;
 }
+// pdb: hkpSphereTriangleAgent::registerAgent2 | hkpSphereTriangleAgent.obj | fnv360_1110_retail, objrun, low, conflict (bridge: hkpSphereSphereAgent::registerAgent2)
+// pdb params: dispatcher
 void FUN_009c7aa0(Dispatcher* obj) {
  Entry s;s.flipped=0;s.predictive=0;
  FUN_009c7a10((void**)&s);
@@ -1127,24 +1162,29 @@ n9c0910::Obj* __cdecl FUN_009c0910(void* unused, n9c0910::Source* src, void* unu
 // @f3 0x009d6200 (community match, verified in this file)
 namespace f3m_009d6200 {
 struct X_009d6200 { int FUN_009d5090(int k); };
+// pdb: hkEnum<enum hkpMeshShape::MeshShapeMaterialIndexStridingType,signed char>::operator= | hkpStorageMeshShape.obj | fnv360_0822_debug, objopen_prop, low, conflict (skyrim: finishLoadedObjecthkpStorageExtendedMeshShape)
+// pdb params: e
 int __cdecl FUN_009d6200(X_009d6200* x) { int r = 1; if (x) r = x->FUN_009d5090(r); return r; }
 }   // namespace f3m_009d6200
 
 // @f3 0x009d6cd0 (community match, verified in this file)
 namespace f3m_009d6cd0 {
 struct X_009d6cd0 { int FUN_009d6320(int k); };
+// pdb: finishLoadedObjecthkpStorageMeshShapeSubpartStorage | hkpCollidehkpMeshShapeReflections.obj | tesv_win, objrun_prop, low
 int __cdecl FUN_009d6cd0(X_009d6cd0* x) { int r = 1; if (x) r = x->FUN_009d6320(r); return r; }
 }   // namespace f3m_009d6cd0
 
 // @f3 0x009d6d20 (community match, verified in this file)
 namespace f3m_009d6d20 {
 struct X_009d6d20 { int FUN_009d6930(int k); };
+// pdb: finishLoadedObjecthkpStorageMeshShape | hkpCollidehkpMeshShapeReflections.obj | tesv_win, caller_sim, low
 int __cdecl FUN_009d6d20(X_009d6d20* x) { int r = 1; if (x) r = x->FUN_009d6930(r); return r; }
 }   // namespace f3m_009d6d20
 
 // @f3 0x009d6160 (community match, verified in this file)
 namespace f3m_009d6160 {
 struct X_9d6160 { int FUN_009d5050(int k); };
+// pdb: finishLoadedObjecthkpExtendedMeshShapeShapesSubpart | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objrun_open, low
 int __cdecl FUN_009d6160(X_9d6160* x) { int r = 1; if (x) r = x->FUN_009d5050(r); return r; }
 }   // namespace f3m_009d6160
 
@@ -1162,17 +1202,20 @@ struct Entry {Fn create,penetrations,closest,linear; bool flipped,predictive;};
 struct Dispatcher {void FUN_00985c10(Entry&,int,int);};
 void FUN_009c4030(void**);
 void FUN_009c2a70();void FUN_009c3cc0();void FUN_009c3590();void FUN_00a3ab70();
-__declspec(noinline) void FUN_009c4000(void* p) {
+// pdb: hkpCapsuleTriangleAgent::initAgentFunc | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, objrun + bridge(call_gap|objrun) + skyrim(call_seq), high
+__declspec(noinline) void hkpCapsuleTriangleAgent_initAgentFunc(void* p) {
  Entry* s=(Entry*)p;
  s->create=FUN_009c2a70;s->penetrations=FUN_009c3cc0;s->closest=FUN_009c3590;s->linear=FUN_00a3ab70;
  s->flipped=0;s->predictive=0;
 }
+// pdb: hkpCapsuleTriangleAgent::registerAgent2 | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dispatcher
 void FUN_009c40c0(Dispatcher* obj) {
  Entry s;s.flipped=0;s.predictive=0;
  FUN_009c4030((void**)&s);
  obj->FUN_00985c10(s,4,6);
  s.flipped=0;s.predictive=0;
- FUN_009c4000(&s);
+ hkpCapsuleTriangleAgent_initAgentFunc(&s);
  obj->FUN_00985c10(s,6,4);
 }
 }
@@ -1192,6 +1235,8 @@ __declspec(noinline) void FUN_009c79e0(void* p) {
  s->closest=FUN_009c7730; s->cast=FUN_00a3ab70;
  s->flipped=0; s->predictive=0;
 }
+// pdb: hkpSphereTriangleAgent::registerAgent | hkpSphereTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dispatcher
 void __cdecl FUN_009c7a40(Dispatcher* obj) {
  AgentFuncs s;
  s.flipped=0; s.predictive=0;
@@ -1227,6 +1272,7 @@ struct FUN_009dad50_Owner {
 extern void FUN_00e7a84c();
 extern void FUN_00dcc494();
 
+// pdb: hkpBreakableConstraintData::~hkpBreakableConstraintData | hkpBreakableConstraintData.obj | fnv360_0822_retail, objrun, medium
 void FUN_009dad50_Owner::FUN_009dad50()
 {
     FUN_009dad50_Target* target = (FUN_009dad50_Target*)unk18;
@@ -1290,6 +1336,7 @@ struct FUN_009d6ef0 : n9d6ef0::RefObj {
     n9d6ef0::Array<n9d6ef0::Entity*> arr;
     virtual ~FUN_009d6ef0() throw();
 };
+// pdb: hkResource::getContents<hkRootLevelContainer> | hkpHavokSnapshot.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: hkLoader::~hkLoader)
 FUN_009d6ef0::~FUN_009d6ef0() throw()
 {
     for (int i = 0; i < arr.size; i++) {
@@ -1369,6 +1416,7 @@ int unk94;
 int unk98;
 int unk9c;
 short unka0;bool enabled;char unka3;int unka4,unka8,unkac;short unkb0;bool disabled;void FUN_009dd230(Arg*,bool);};
+// pdb: hkpPrismaticConstraintData::setMotorActive | hkpPrismaticConstraintData.obj | tesv_win, objrun_sim, low
 void Object::FUN_009dd230(Arg* a,bool b){enabled=b;disabled=!b;if(a){Link* p=a->link;if(p){Floats* f=p->values;if(f){f->x=0.0f;f->y=0.0f;f->z=0.0f;f->w=0.0f;}}}}
 }
 }   // namespace f3m_009dd230
@@ -1386,6 +1434,8 @@ namespace task1000 {
 struct Funcs{void* p1;void* p2;void* p3;void* p4;unsigned char b1,b2;};
 void __cdecl FUN_009caf40(Funcs*);
 struct Registry{void FUN_00985b30(const Funcs&,int,int);};
+// pdb: hkpBoxBoxAgent::registerAgent | hkpBoxBoxAgent.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: dispatcher
 void __cdecl FUN_009caf70(Registry* p){Funcs f;f.b1=0;f.b2=0;FUN_009caf40(&f);p->FUN_00985b30(f,5,5);}
 }
 }   // namespace f3m_009caf70
@@ -1396,6 +1446,7 @@ namespace task0999 {
 struct Funcs {void* p1; void* p2; void* p3; void* p4; unsigned char b1,b2;};
 void __cdecl FUN_009c9f80(Funcs*);
 struct Registry { void FUN_00985c10(const Funcs&,int,int); };
+// pdb: hkpSphereSphereAgent::registerAgent2 | hkpSphereSphereAgent.obj | tesv_win, caller_sim, low
 void __cdecl FUN_009c9fd0(Registry* r) {Funcs f; f.b1=0; f.b2=0; FUN_009c9f80(&f); r->FUN_00985c10(f,2,2);}
 }
 }   // namespace f3m_009c9fd0
@@ -1406,6 +1457,7 @@ namespace task1048 {
 extern void* DAT_00e7ff4c;void __cdecl FUN_00401010(void*);
 struct Member{void FUN_00922cf0();};
 struct Object{void* table;int unk04,unk08,unk0c;Member member;Object* FUN_009d76f0(unsigned char);};
+// pdb: GSwitchFormatter::`vector deleting destructor' | GMsgFormat.obj | tesv_win, hash, low
 Object* Object::FUN_009d76f0(unsigned char flags){member.FUN_00922cf0();table=&DAT_00e7ff4c;if(flags&1)FUN_00401010(this);return this;}
 }
 }   // namespace f3m_009d76f0
@@ -1434,6 +1486,7 @@ struct Target {
     void* FUN_009df2a0(unsigned int flags);
 };
 
+// pdb: hkpGenericConstraintData::`scalar deleting destructor' | hkpGenericConstraintData.obj | fnv360_0822_retail, vtable_prefix, high
 void* Target::FUN_009df2a0(unsigned int flags)
 {
     FUN_009ddf00();
@@ -1532,6 +1585,7 @@ struct __declspec(novtable) FUN_009d6c00 : n9d6c00::RefObj, n9d6c00::Listener {
     n9d6c00::Array<short> shorts;
     virtual ~FUN_009d6c00() throw();
 };
+// pdb: hkpMeshShape::~hkpMeshShape | hkpStorageMeshShape.obj | fnv360_0822_retail, call_seq, high
 FUN_009d6c00::~FUN_009d6c00() throw()
 {
 }
@@ -1543,7 +1597,8 @@ extern unsigned int DAT_010f3170;
 extern void* (__stdcall *DAT_00d9b080)(unsigned long);
 struct Heap { void* FUN_008f6d30(int,int); };
 struct Item { virtual void Slot(); short size,refs; int value; unsigned short a,b,c; Item(int v):value(v),a(0xffff),b(0xffff),c(0xffff){} };
-Item* __cdecl FUN_009c4740(int a,int b,int c,int value) {
+// pdb: hkpCapsuleCapsuleAgent::createCapsuleCapsuleAgent | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Item* __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent(int a,int b,int c,int value) {
  Heap* heap=(Heap*)DAT_00d9b080(DAT_010f3170);
  Item* p=(Item*)heap->FUN_008f6d30(0x14,0x1f);
  p->size=0x14; p->refs=1;
@@ -1577,6 +1632,8 @@ struct C9dd9b0 {
     void FUN_008fc3f0(FUN_009de610* obj, int b);
     void FUN_009dd9b0(FUN_009de610* obj, int b);
 };
+// pdb: hkGenericConstraintCinfo::CloneData | bhkGenericConstraint.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apData, arCloneData
 void C9dd9b0::FUN_009dd9b0(FUN_009de610* obj, int b)
 {
     if (!obj)
@@ -1588,6 +1645,7 @@ void C9dd9b0::FUN_009dd9b0(FUN_009de610* obj, int b)
 namespace f3m_009d60c0 {
 namespace f3m_009d60c0 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O009d60c0 { char pad[4]; unsigned short w; void FUN_009d5ef0(); O009d60c0* FUN_009d60c0(unsigned int flags); };
+// pdb: hkpStorageExtendedMeshShape::MeshSubpartStorage::`scalar deleting destructor' | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, vtable, high
 O009d60c0* O009d60c0::FUN_009d60c0(unsigned int flags) { FUN_009d5ef0(); if (flags & 1) { f3m_009d60c0::T* t = (f3m_009d60c0::T*)f3m_009d60c0::DAT_00d9b080(f3m_009d60c0::DAT_010f3170); t->FUN_008f6d90(this, w, 0x25); } return this; }
 }   // namespace f3m_009d60c0
 
@@ -1595,6 +1653,7 @@ O009d60c0* O009d60c0::FUN_009d60c0(unsigned int flags) { FUN_009d5ef0(); if (fla
 namespace f3m_009d60f0 {
 namespace f3m_009d60f0 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O009d60f0 { char pad[4]; unsigned short w; void FUN_009d6000(); O009d60f0* FUN_009d60f0(unsigned int flags); };
+// pdb: hkpStorageExtendedMeshShape::ShapeSubpartStorage::`scalar deleting destructor' | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, vtable, high
 O009d60f0* O009d60f0::FUN_009d60f0(unsigned int flags) { FUN_009d6000(); if (flags & 1) { f3m_009d60f0::T* t = (f3m_009d60f0::T*)f3m_009d60f0::DAT_00d9b080(f3m_009d60f0::DAT_010f3170); t->FUN_008f6d90(this, w, 0x25); } return this; }
 }   // namespace f3m_009d60f0
 
@@ -1602,6 +1661,7 @@ O009d60f0* O009d60f0::FUN_009d60f0(unsigned int flags) { FUN_009d6000(); if (fla
 namespace f3m_009d6130 {
 namespace f3m_009d6130 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O009d6130 { char pad[4]; unsigned short w; void FUN_009d51f0(); O009d6130* FUN_009d6130(unsigned int flags); };
+// pdb: hkpStorageExtendedMeshShape::`scalar deleting destructor' | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, vtable_prefix, high
 O009d6130* O009d6130::FUN_009d6130(unsigned int flags) { FUN_009d51f0(); if (flags & 1) { f3m_009d6130::T* t = (f3m_009d6130::T*)f3m_009d6130::DAT_00d9b080(f3m_009d6130::DAT_010f3170); t->FUN_008f6d90(this, w, 0x27); } return this; }
 }   // namespace f3m_009d6130
 
@@ -1609,6 +1669,7 @@ O009d6130* O009d6130::FUN_009d6130(unsigned int flags) { FUN_009d51f0(); if (fla
 namespace f3m_009d7300 {
 namespace f3m_009d7300 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O009d7300 { char pad[4]; unsigned short w; void FUN_009d8e80(); O009d7300* FUN_009d7300(unsigned int flags); };
+// pdb: hkpPhysicsData::`scalar deleting destructor' | hkpPhysicsDataClass.obj | fnv360_0822_retail, vtable, high
 O009d7300* O009d7300::FUN_009d7300(unsigned int flags) { FUN_009d8e80(); if (flags & 1) { f3m_009d7300::T* t = (f3m_009d7300::T*)f3m_009d7300::DAT_00d9b080(f3m_009d7300::DAT_010f3170); t->FUN_008f6d90(this, w, 0xd); } return this; }
 }   // namespace f3m_009d7300
 
@@ -1616,6 +1677,7 @@ O009d7300* O009d7300::FUN_009d7300(unsigned int flags) { FUN_009d8e80(); if (fla
 namespace f3m_009d9470 {
 namespace f3m_009d9470 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O009d9470 { char pad[4]; unsigned short w; void FUN_00a4e240(); O009d9470* FUN_009d9470(unsigned int flags); };
+// pdb: hkpPhysicsSystemWithContacts::`scalar deleting destructor' | hkpPhysicsData.obj | fnv360_0822_retail, vtable, high
 O009d9470* O009d9470::FUN_009d9470(unsigned int flags) { FUN_00a4e240(); if (flags & 1) { f3m_009d9470::T* t = (f3m_009d9470::T*)f3m_009d9470::DAT_00d9b080(f3m_009d9470::DAT_010f3170); t->FUN_008f6d90(this, w, 0x2f); } return this; }
 }   // namespace f3m_009d9470
 
@@ -1623,6 +1685,7 @@ O009d9470* O009d9470::FUN_009d9470(unsigned int flags) { FUN_00a4e240(); if (fla
 namespace f3m_009d9e20 {
 namespace f3m_009d9e20 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O009d9e20 { char pad[4]; unsigned short w; void FUN_009d98c0(); O009d9e20* FUN_009d9e20(unsigned int flags); };
+// pdb: hkpCachingShapePhantom::`scalar deleting destructor' | hkpCachingShapePhantom.obj | fnv360_0822_retail, vtable_prefix, high
 O009d9e20* O009d9e20::FUN_009d9e20(unsigned int flags) { FUN_009d98c0(); if (flags & 1) { f3m_009d9e20::T* t = (f3m_009d9e20::T*)f3m_009d9e20::DAT_00d9b080(f3m_009d9e20::DAT_010f3170); t->FUN_008f6d90(this, w, 0x31); } return this; }
 }   // namespace f3m_009d9e20
 
@@ -1630,6 +1693,7 @@ O009d9e20* O009d9e20::FUN_009d9e20(unsigned int flags) { FUN_009d98c0(); if (fla
 namespace f3m_009dd800 {
 namespace f3m_009dd800 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O009dd800 { char pad[4]; unsigned short w; void FUN_009dd1f0(); O009dd800* FUN_009dd800(unsigned int flags); };
+// pdb: hkpPrismaticConstraintData::`scalar deleting destructor' | hkpPrismaticConstraintData.obj | fnv360_0822_retail, vtable_prefix, medium
 O009dd800* O009dd800::FUN_009dd800(unsigned int flags) { FUN_009dd1f0(); if (flags & 1) { f3m_009dd800::T* t = (f3m_009dd800::T*)f3m_009dd800::DAT_00d9b080(f3m_009dd800::DAT_010f3170); t->FUN_008f6d90(this, w, 0x2c); } return this; }
 }   // namespace f3m_009dd800
 
@@ -1658,7 +1722,8 @@ public:
     }
     static void operator delete(void* p);
 };
-Obj_009c97e0* __cdecl FUN_009c97e0(int, int, int, int a) {
+// pdb: hkpSphereSphereAgent::createSphereSphereAgent | hkpSphereSphereAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Obj_009c97e0* __cdecl hkpSphereSphereAgent_createSphereSphereAgent(int, int, int, int a) {
     return new Obj_009c97e0(a);
 }
 }   // namespace f3m_009c97e0
@@ -1688,7 +1753,8 @@ public:
     }
     static void operator delete(void* p);
 };
-Obj_009c80a0* __cdecl FUN_009c80a0(int, int, int, int a) {
+// pdb: hkpSphereCapsuleAgent::createCapsuleSphereAgent | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Obj_009c80a0* __cdecl hkpSphereCapsuleAgent_createCapsuleSphereAgent(int, int, int, int a) {
     return new Obj_009c80a0(a);
 }
 }   // namespace f3m_009c80a0
@@ -1718,7 +1784,8 @@ public:
     }
     static void operator delete(void* p);
 };
-Obj_009c8030* __cdecl FUN_009c8030(int, int, int, int a) {
+// pdb: hkpSphereCapsuleAgent::createSphereCapsuleAgent | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Obj_009c8030* __cdecl hkpSphereCapsuleAgent_createSphereCapsuleAgent(int, int, int, int a) {
     return new Obj_009c8030(a);
 }
 }   // namespace f3m_009c8030
@@ -1748,7 +1815,8 @@ public:
     }
     static void operator delete(void* p);
 };
-Obj_009c5bf0* __cdecl FUN_009c5bf0(int, int, int, int a) {
+// pdb: hkpSphereBoxAgent::createSphereBoxAgent | hkpSphereBoxAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Obj_009c5bf0* __cdecl hkpSphereBoxAgent_createSphereBoxAgent(int, int, int, int a) {
     return new Obj_009c5bf0(a);
 }
 }   // namespace f3m_009c5bf0
@@ -1778,7 +1846,8 @@ public:
     }
     static void operator delete(void* p);
 };
-Obj_009c5bb0* __cdecl FUN_009c5bb0(int, int, int, int a) {
+// pdb: hkpSphereBoxAgent::createBoxSphereAgent | hkpSphereBoxAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Obj_009c5bb0* __cdecl hkpSphereBoxAgent_createBoxSphereAgent(int, int, int, int a) {
     return new Obj_009c5bb0(a);
 }
 }   // namespace f3m_009c5bb0
@@ -1834,6 +1903,8 @@ struct RFHolder {
     void FUN_009dac50(RFObj* p);
 };
 
+// pdb: hkpBreakableConstraintData::SetWrappedConstraintData | hkpBreakableConstraintData.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: apData
 void RFHolder::FUN_009dac50(RFObj* p)
 {
     if (p != 0 && p->unk04 != 0)
@@ -1926,14 +1997,15 @@ struct Owner {
     float unk58;
     unsigned char unk5c;
     unsigned char unk5d;
-    Obj* FUN_009da010(SrcA* a, SrcB* b);
+    Obj* hkpSpringAction_clone(SrcA* a, SrcB* b);
 };
 
 struct Pool {
     Obj* Alloc(unsigned int size, int tag);
 };
 
-Obj* Owner::FUN_009da010(SrcA* a, SrcB* b)
+// pdb: hkpSpringAction::clone | hkpSpringAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+Obj* Owner::hkpSpringAction_clone(SrcA* a, SrcB* b)
 {
     if (a->unk04 != 2) {
         return 0;
@@ -2007,7 +2079,8 @@ struct Heap {
     Rec* FUN_008f6d30(unsigned int size, int tag);
 };
 
-Rec* FUN_009cd250(Node* a1, Node* a2, int a3, int a4) {
+// pdb: hkpPhantomAgent::createPhantomAgent | hkpPhantomAgent.obj | fnv360_0822_debug, objrun + skyrim(objrun), high
+Rec* hkpPhantomAgent_createPhantomAgent(Node* a1, Node* a2, int a3, int a4) {
     Heap* heap = (Heap*)TlsGetValue(DAT_010f3170);
     Rec* rec = heap->FUN_008f6d30(0x24, 0x1f);
     rec->unk04 = 0x24;
@@ -2313,12 +2386,13 @@ struct S_00d45970_BvAgent
     S_00d45970_BvAgentBase* m_pBoundingVolumeAgent;
     S_00d45970_Agent* m_pAgent;
 
-    void FUN_009d3da0(const S_00d45970_CdBody& bodyA, const S_00d45970_CdBody& bodyB, const S_00d45970_Input& input,
+    void hkpBvAgent_getPenetrations(const S_00d45970_CdBody& bodyA, const S_00d45970_CdBody& bodyB, const S_00d45970_Input& input,
                          S_00d45970_CollectorBase& result);
 };
 
 // @fnv 0x00d45970
-void S_00d45970_BvAgent::FUN_009d3da0(const S_00d45970_CdBody& bodyA, const S_00d45970_CdBody& bodyB,
+// pdb: hkpBvAgent::getPenetrations | hkpBvAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void S_00d45970_BvAgent::hkpBvAgent_getPenetrations(const S_00d45970_CdBody& bodyA, const S_00d45970_CdBody& bodyB,
                                          const S_00d45970_Input& input, S_00d45970_CollectorBase& result)
 {
     {
@@ -2420,6 +2494,7 @@ public:
 }
 struct FUN_009c5770 : n9c5770::RefObj {
     static void* operator new(unsigned int n);
+    // pdb: HavokStreambufFactory::`scalar deleting destructor' | HavokStream.obj | fnv360_0822_retail, vtable, high
     static void operator delete(void* p) {
         FUN_009c5770* o = static_cast<FUN_009c5770*>(p);
         n9c5770::Heap* h = n9c5770::FUN_00d9b080(DAT_010f3170);
@@ -2444,6 +2519,7 @@ public:
 }
 struct FUN_009d7720 : n9d7720::Base {
     static void* operator new(unsigned int n);
+    // pdb: hkPackfileWriter::`scalar deleting destructor' | hkPackfileWriter.obj | fnv360_0822_retail, vtable, high
     static void operator delete(void* p) {
         FUN_009d7720* o = static_cast<FUN_009d7720*>(p);
         n9d7720::Heap* h = n9d7720::FUN_00d9b080(DAT_010f3170);
@@ -2468,6 +2544,7 @@ public:
 }
 struct FUN_009d8980 : n9d8980::Base {
     static void* operator new(unsigned int n);
+    // pdb: hkBinaryPackfileWriter::`scalar deleting destructor' | hkBinaryPackfileWriter.obj | fnv360_0822_retail, vtable, high
     static void operator delete(void* p) {
         FUN_009d8980* o = static_cast<FUN_009d8980*>(p);
         n9d8980::Heap* h = n9d8980::FUN_00d9b080(DAT_010f3170);
@@ -2509,7 +2586,7 @@ struct Ctx
     void FUN_009d7a40(FUN_009d89b0* o);
     void FUN_009d7fd0(FUN_009d89b0* o);
     void FUN_009d7bc0(FUN_009d89b0* o, void* p);
-    int FUN_009d87c0(Poly* pPoly, void* a2);
+    int hkBinaryPackfileWriter_save(Poly* pPoly, void* a2);
 };
 
 struct Arg { void* unk00; unsigned int unk04; unsigned int unk08; void* unk0c; };
@@ -2520,7 +2597,8 @@ struct Arr {void* data;int size;unsigned cap;};struct Data {Arr a,b,c,d;int tail
 struct Header {unsigned magic1,magic2;void* source;unsigned version;unsigned arg4;void* object;unsigned u18,u1c,u20,u24;unsigned guid[4];unsigned u38,u3c;};
 static __declspec(noinline) void FUN_009d7ac0(Vt* o,void* raw,void* stream,void* object){Arg*a=(Arg*)raw;Header h;FUN_00923500(&h,-1,64);h.magic1=0x57e0e057;h.magic2=0x10c0c010;h.source=a->unk00;h.version=5;*(unsigned char*)&h.guid[0]=0;FUN_009234e0(&h.arg4,&a->unk04,4);h.object=object;FUN_00923500(&h.u38,-1,8);if(a->unk0c)FUN_009233d0(h.guid,a->unk0c,16);else FUN_00a4a570(h.guid,16);Data data;data.a.data=0;data.a.size=0;data.a.cap=0x80000000;data.b.data=0;data.b.size=0;data.b.cap=0x80000000;data.c.data=0;data.c.size=0;data.c.cap=0x80000000;data.d.data=0;data.d.size=0;data.d.cap=0x80000000;data.tail=0;o->v3(stream,&h,&DAT_0116c41c,&data);data.FUN_009b2fd0();}
 
-int Ctx::FUN_009d87c0(Poly* pPoly, void* a2)
+// pdb: hkBinaryPackfileWriter::save | hkBinaryPackfileWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int Ctx::hkBinaryPackfileWriter_save(Poly* pPoly, void* a2)
 {
     FUN_009d89b0 obj(a2);
     Writer writer;
@@ -2694,6 +2772,8 @@ DetailArray1292 details;
 virtual ~FUN_009d9880() throw();
 FUN_009d9880(int,int,int) throw();
 };
+// pdb: hkpCachingShapePhantom::hkpCachingShapePhantom | hkpCachingShapePhantom.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: shape, transform, collisionFilterInfo
 FUN_009d9880::FUN_009d9880(int a,int b,int c) throw():FUN_0090de70(a,b) {unk2c=c;}
 }   // namespace f3m_009d9880
 
@@ -2721,6 +2801,7 @@ struct hkBaseObject { virtual ~hkBaseObject() throw(); };
 struct hkReferencedObject : hkBaseObject { unsigned short memorySizeAndFlags,referenceCount;__forceinline hkReferencedObject() throw():referenceCount(1){} };
 struct hkpConstraintData : hkReferencedObject { unsigned int userData;__forceinline hkpConstraintData() throw():userData(0){} };
 struct hkpPrismaticConstraintData : hkpConstraintData { Atoms atoms;hkpPrismaticConstraintData() throw(); };
+// pdb: hkpPrismaticConstraintData::hkpPrismaticConstraintData | hkpPrismaticConstraintData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 hkpPrismaticConstraintData::hkpPrismaticConstraintData() throw() {
  atoms.transforms.a.SetIdentity();atoms.transforms.b.SetIdentity();
  const float range=3.40282e38f;
@@ -2734,7 +2815,8 @@ hkpPrismaticConstraintData::hkpPrismaticConstraintData() throw() {
 
 // @f3 0x009d46a0 (community match, verified in this file)
 namespace f3m_009d46a0 {
-const char* __cdecl FUN_009d46a0(int shapeType) {
+// pdb: hkGetShapeTypeName | hkpShapeType.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+const char* __cdecl hkGetShapeTypeName(int shapeType) {
  switch(shapeType) {
   case 0: return "HK_SHAPE_INVALID";
   case -1: return "HK_SHAPE_ALL";
@@ -2796,7 +2878,8 @@ public:
     Derivedc0090(int a, int b, int c, int d) throw() : Basec0090(b, a, c, d) {}
     virtual void v0();
 };
-Basec0090* __cdecl FUN_009c0090(int a, int b, int c, int d) { return new Derivedc0090(a, b, c, d); }
+// pdb: hkpMultiRayConvexAgent::createConvexMultiRayAgent | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, objrun + bridge(caller_sim|uvref) + skyrim(objrun), high
+Basec0090* __cdecl hkpMultiRayConvexAgent_createConvexMultiRayAgent(int a, int b, int c, int d) { return new Derivedc0090(a, b, c, d); }
 }
 
 // @f3 0x009d1f80 (community match, verified in this file)
@@ -2821,7 +2904,8 @@ public:
     Derivedd1f80(int a, int b, int c, int d) throw() : Based1f80(b, a, c, d) {}
     virtual void v0();
 };
-Based1f80* __cdecl FUN_009d1f80(int a, int b, int c, int d) { return new Derivedd1f80(a, b, c, d); }
+// pdb: hkpShapeCollectionAgent::createListBAgent | hkpShapeCollectionAgent.obj | fnv360_0822_debug, objrun + bridge(caller_sim|caller_sim) + skyrim(caller_sim), high
+Based1f80* __cdecl hkpShapeCollectionAgent_createListBAgent(int a, int b, int c, int d) { return new Derivedd1f80(a, b, c, d); }
 }
 
 // @f3 0x009d2df0 (community match, verified in this file)
@@ -2846,7 +2930,8 @@ public:
     Derivedd2df0(int a, int b, int c, int d) throw() : Based2df0(b, a, c, d) {}
     virtual void v0();
 };
-Based2df0* __cdecl FUN_009d2df0(int a, int b, int c, int d) { return new Derivedd2df0(a, b, c, d); }
+// pdb: hkpMultiSphereAgent::createListBAgent | hkpMultiSphereAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Based2df0* __cdecl hkpMultiSphereAgent_createListBAgent(int a, int b, int c, int d) { return new Derivedd2df0(a, b, c, d); }
 }
 
 // @f3 0x009dc0f0 (community match, verified in this file)
@@ -2930,7 +3015,8 @@ public:
 }
 using namespace f3m_009c6f70;
 
-Obj_6f70* __cdecl FUN_009c6f70(Src_6f70* src, int a2, int a3, int x)
+// pdb: hkpSphereTriangleAgent::createTriangleSphereAgent | hkpSphereTriangleAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+Obj_6f70* __cdecl hkpSphereTriangleAgent_createTriangleSphereAgent(Src_6f70* src, int a2, int a3, int x)
 {
     return new Obj_6f70(src, x);
 }
@@ -2943,6 +3029,7 @@ extern int DAT_00e7ff3c,DAT_00dcc494;extern unsigned long DAT_010f3170;extern vo
 struct Memory {void FUN_008f6d90(void*,int,int);};
 struct Ref {virtual void Destroy(unsigned int);unsigned short size;short refs;void Release(){if(size){--refs;if(!refs)Destroy(1);}}};
 struct Owner {int* table;int unk04;Ref* ref;Ref** data;int count;int capacity;void FUN_009d8e80();};
+// pdb: hkpPhysicsData::~hkpPhysicsData | hkpPhysicsData.obj | fnv360_0822_retail, call_seq, high
 void Owner::FUN_009d8e80(){table=&DAT_00e7ff3c;if(ref)ref->Release();for(int i=0;i<count;++i)data[i]->Release();if(!(capacity&0x80000000)){int n=capacity&0x3fffffff;Memory* memory=(Memory*)DAT_00d9b080(DAT_010f3170);memory->FUN_008f6d90(data,n*4,0x17);}table=&DAT_00dcc494;}
 }
 }   // namespace f3m_009d8e80
@@ -2985,6 +3072,7 @@ struct Owner_da40 {
 }
 using namespace f3m_009dda40;
 
+// pdb: hkFixedConstraintCinfo::CreateData | bhkFixedConstraint.obj | fnv360_0822_retail, caller_sim, low
 int Owner_da40::FUN_009dda40()
 {
     if (!obj)
@@ -3005,6 +3093,8 @@ void MarkerContext::FUN_009df580(){--depth;MarkerArray* array=&owner->markers;if
 // @f3 0x009ddac0 (community match, verified in this file)
 #include <cstddef>
 namespace f3m_009ddac0 {
+// pdb: bhkFixedConstraint::CreateCinfo | bhkFixedConstraint.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: arCreated
 namespace Task9dda{struct Heap{void*FUN_0086b930(unsigned);};extern Heap DAT_01090a78;extern int DAT_00e7ae04;struct Serializable{int value;int refs;};struct Object{void*methods;Serializable base;int unk0c;int unk10;Object(){base.value=0;unk0c=0;unk10=0;base.refs=1;methods=&DAT_00e7ae04;}static void*operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static Serializable* Create(){Object*p=new Object;return p?&p->base:0;}static Object*From(Serializable*p){return p?(Object*)((char*)p - offsetof(Object,base)):0;}};struct Owner{int unk00;int unk04;int active;Serializable*cached;void FUN_008fc420(Object*);Serializable*FUN_009ddac0(bool*);};Serializable* Owner::FUN_009ddac0(bool*created){if(!cached){cached=Object::Create();if(active)FUN_008fc420(Object::From(cached));*created=true;}else *created=false;return cached;}}
 }   // namespace f3m_009ddac0
 
@@ -3130,10 +3220,11 @@ struct Object {
     float unk58;
     float unk5C;
 
-    Node* __thiscall FUN_009da5d0(Source* source, Check* check);
+    Node* __thiscall hkpDashpotAction_clone(Source* source, Check* check);
 };
 
-Node* __thiscall Object::FUN_009da5d0(Source* source, Check* check)
+// pdb: hkpDashpotAction::clone | hkpDashpotAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+Node* __thiscall Object::hkpDashpotAction_clone(Source* source, Check* check)
 {
     if (source->count != 2)
         return 0;
@@ -3174,7 +3265,8 @@ Node* __thiscall Object::FUN_009da5d0(Source* source, Check* check)
 namespace f3m_009d35d0 {
 namespace t9d35d0 {
 struct Node { int unk00; short unk04; void FUN_009d3530(int,int,int,int); };
-void __cdecl FUN_009d35d0(int a1,int a2,int a3,int a4) {
+// pdb: hkpBvAgent::createBvShapeAgent | hkpBvAgent.obj | fnv360_0822_debug, objrun + bridge(caller_sim|caller_sim) + skyrim(objrun), high
+void __cdecl hkpBvAgent_createBvShapeAgent(int a1,int a2,int a3,int a4) {
     f3m_009cb0c0::Holder* h=(f3m_009cb0c0::Holder*)f3m_009cb0c0::TlsGetValue(DAT_010f3170);
     Node* node=(Node*)h->FUN_008f6d30(0x14,0x1f);
     node->unk04=0x14;
@@ -3191,6 +3283,8 @@ struct hkReferencedObject:hkBaseObject {unsigned short memoryFlags;short refCoun
 struct FUN_00d50c90:hkReferencedObject {FUN_00d50c90(FinishLoaded flag):hkReferencedObject(flag){}virtual ~FUN_00d50c90(){}};
 struct BridgeAtom {unsigned short type,unk02;void* function;FUN_00d50c90* owner;BridgeAtom(FinishLoaded){FUN_00d21ce0(owner);}void FUN_00d21ce0(FUN_00d50c90*) throw();};
 struct hkpBreakableConstraintData:FUN_00d50c90 {FUN_00d50c90* child; BridgeAtom bridge;hkpBreakableConstraintData(FinishLoaded flag);virtual ~hkpBreakableConstraintData();};
+// pdb: hkpBreakableConstraintData::hkpBreakableConstraintData | hkpBreakableConstraintData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: f
 hkpBreakableConstraintData::hkpBreakableConstraintData(FinishLoaded flag):FUN_00d50c90(flag),bridge(flag){bridge.FUN_00d21ce0(this);}
 }   // namespace f3m_009dad20
 
@@ -3198,8 +3292,9 @@ hkpBreakableConstraintData::hkpBreakableConstraintData(FinishLoaded flag):FUN_00
 namespace f3m_009cd430 {
 namespace transform_agent_serializer {
 struct Serializer {virtual void v00();virtual void Begin(const char*,int,void*);virtual void v08();virtual void Child(const char*,int,void*);virtual void v10();virtual void v14();virtual void Finish();};
-struct Owner {unsigned int unk00,unk04,unk08;void* child;void FUN_009cd430(Serializer*);};
-void Owner::FUN_009cd430(Serializer* serializer){serializer->Begin("TransformAgent",8,this);serializer->Child("ChildAgent",8,child);serializer->Finish();}
+struct Owner {unsigned int unk00,unk04,unk08;void* child;void hkpTransformAgent_calcContentStatistics(Serializer*);};
+// pdb: hkpTransformAgent::calcContentStatistics | hkpTransformAgent.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void Owner::hkpTransformAgent_calcContentStatistics(Serializer* serializer){serializer->Begin("TransformAgent",8,this);serializer->Child("ChildAgent",8,child);serializer->Finish();}
 }
 }   // namespace f3m_009cd430
 
@@ -3227,6 +3322,7 @@ struct Agent {
     void* FUN_009c0880(unsigned int flags);
 };
 
+// pdb: hkpMultiRayConvexAgent::`scalar deleting destructor' | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, vtable, high
 void* Agent::FUN_009c0880(unsigned int flags)
 {
     if ((m_capacityAndFlags & 0x80000000) == 0) {
@@ -3273,6 +3369,7 @@ struct Obj {
     void FUN_009deff0();
 };
 
+// pdb: hkpGenericConstraintDataScheme::~hkpGenericConstraintDataScheme | hkpGenericConstraintData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void Obj::FUN_009deff0()
 {
     void* (__stdcall *get)(unsigned long) = TlsGetValue;
@@ -3325,6 +3422,8 @@ struct Node {
     float rot[4];    // 0x10
 };
 
+// pdb: hkpSphereTriangleAgent::createSphereTriangleAgent | hkpSphereTriangleAgent.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: bodyA, bodyB, input, mgr
 void* FUN_009c6ee0(int a, void* b, int c, int d)
 {
     f3m_009cb0c0::Holder* holder = (f3m_009cb0c0::Holder*)TlsGetValue(DAT_010f3170);
@@ -3344,6 +3443,7 @@ void* FUN_009c6ee0(int a, void* b, int c, int d)
 // @f3 0x009d3320 (community match, verified in this file)
 namespace f3m_009d3320 {
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
+// pdb: hkpMultiSphereAgent::`scalar deleting destructor' | hkpMultiSphereAgent.obj | fnv360_0822_retail, vtable, high
 namespace Delete391{extern unsigned long DAT_010f3170;extern int DAT_00dcc494;struct Heap{void FUN_008f6d90(void*,unsigned int,int);};struct Entry{unsigned int key,value;};struct Array{Entry*data;unsigned int size,capacityFlags;void Free(){if(!(capacityFlags&0x80000000)){unsigned int capacity=capacityFlags&0x3fffffff;Heap*heap=(Heap*)TlsGetValue(DAT_010f3170);heap->FUN_008f6d90(data,capacity*8,23);}}};struct Owner{void*vtable;unsigned short memory,refs;unsigned int unk08;Array array;Owner*FUN_009d3320(unsigned int);};Owner*Owner::FUN_009d3320(unsigned int flags){array.Free();vtable=&DAT_00dcc494;if(flags&1){Heap*heap=(Heap*)TlsGetValue(DAT_010f3170);heap->FUN_008f6d90(this,memory,31);}return this;}}
 }   // namespace f3m_009d3320
 
@@ -3353,7 +3453,8 @@ namespace prefixed_constraint_factory {
 extern unsigned int DAT_010f3170;extern "C" void* (__stdcall* DAT_00d9b080)(unsigned int);
 struct Heap {void* FUN_008f6d30(unsigned int,int);};
 struct Object {void* vtable;unsigned short allocationBytes,refCount;unsigned int unk08;unsigned int unk0c;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34; Object* FUN_009d1db0(void*,void*,void*,int);};
-Object* __cdecl FUN_009d1f40(void* a,void* b,void* c,int d){Heap* heap=(Heap*)DAT_00d9b080(DAT_010f3170);Object* memory=(Object*)heap->FUN_008f6d30(sizeof(Object),31);memory->allocationBytes=sizeof(Object);return memory->FUN_009d1db0(a,b,c,d);}
+// pdb: hkpShapeCollectionAgent::createListAAgent | hkpShapeCollectionAgent.obj | fnv360_0822_debug, objrun + bridge(caller_sim|caller_sim) + skyrim(objrun), high
+Object* __cdecl hkpShapeCollectionAgent_createListAAgent(void* a,void* b,void* c,int d){Heap* heap=(Heap*)DAT_00d9b080(DAT_010f3170);Object* memory=(Object*)heap->FUN_008f6d30(sizeof(Object),31);memory->allocationBytes=sizeof(Object);return memory->FUN_009d1db0(a,b,c,d);}
 }
 }   // namespace f3m_009d1f40
 
@@ -3366,6 +3467,8 @@ struct FUN_00d50c90:hkReferencedObject {FUN_00d50c90(FinishLoaded flag):hkRefere
 struct BridgeAtom {unsigned short type,unk02;void* function;FUN_00d50c90* owner;BridgeAtom(FinishLoaded){FUN_00d21ce0(owner);}void FUN_00d21ce0(FUN_00d50c90*) throw();};
 struct FUN_00dd0420_Class {unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;FUN_00dd0420_Class* FUN_00dd0420(int) throw();};
 struct hkpGenericConstraintData:FUN_00d50c90 {FUN_00d50c90* child; BridgeAtom bridge;FUN_00dd0420_Class scheme;hkpGenericConstraintData(FinishLoaded flag);virtual ~hkpGenericConstraintData();};
+// pdb: hkpGenericConstraintData::hkpGenericConstraintData | hkpGenericConstraintData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: f
 hkpGenericConstraintData::hkpGenericConstraintData(FinishLoaded flag):FUN_00d50c90(flag),bridge(flag){scheme.FUN_00dd0420(flag.finishing);bridge.FUN_00d21ce0(this);}
 }   // namespace f3m_009ddec0
 
@@ -3424,6 +3527,7 @@ Header* Header::FUN_009dcd80(unsigned int flags){bool release=(flags&1)!=0;vtabl
 namespace f3m_009d6270 {
 struct S9e4a80 { int FUN_009e4a80(int); };
 
+// pdb: finishLoadedObjecthkbStateMachine | hkbBehaviorReflections.obj | tesv_win, caller_sim, low
 int FUN_009d6270(S9e4a80* p)
 {
     int result = 1;
@@ -3461,6 +3565,7 @@ struct hkpStiffSpringConstraintData : hkpConstraintData {
     LocalTranslationsAtom translations; SpringAtom spring;
     hkpStiffSpringConstraintData();
 };
+// pdb: hkpStiffSpringConstraintData::hkpStiffSpringConstraintData | hkpStiffSpringConstraintData.obj | tesv_win, objrun_open, low
 hkpStiffSpringConstraintData::hkpStiffSpringConstraintData() {
     translations.first.Zero(); translations.second.Zero(); spring.length=0.0f;
 }
@@ -3495,6 +3600,7 @@ struct Owner {
     int FUN_009d7020(int* a0, int a1, int a2, int a3);
 };
 
+// pdb: hkLoader::load | hkLoader.obj | tesv_win, caller_sim, low
 int Owner::FUN_009d7020(int* a0, int a1, int a2, int a3)
 {
     Val v;
@@ -3566,6 +3672,7 @@ struct Obj
     void FUN_009d8a20();
 };
 
+// pdb: hkBinaryPackfileWriter::SaveContext::~SaveContext | hkBinaryPackfileWriter.obj | fnv360_0822_retail, call_gap, high
 void Obj::FUN_009d8a20()
 {
     int n = unk44;
@@ -3612,6 +3719,8 @@ struct Blk {
     void* FUN_00dabf10(int a, int b, int c);
 };
 
+// pdb: hkpPredGskfAgent::createPredGskfAgent | hkpPredGskfAgent.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: bodyA, bodyB, input, mgr
 void* FUN_009cc850(int a, int b, int d, int flag)
 {
     if (flag)
@@ -3732,6 +3841,7 @@ struct FUN_009d5e10_Object {
     FUN_009d5e10_Object* FUN_009d5e10(FUN_009d5e10_Object* source);
 };
 
+// pdb: hkpExtendedMeshShape::TrianglesSubpart::operator= | hkpStorageExtendedMeshShape.obj | tesv_win, call_gap_sim, low
 FUN_009d5e10_Object* FUN_009d5e10_Object::FUN_009d5e10(FUN_009d5e10_Object* source)
 {
     unk00 = source->unk00;
@@ -3814,10 +3924,11 @@ struct Shape_009da900 {
     float unk30;
     float unk34;
 
-    void* FUN_009da900(Arg1_009da900* first, Arg2_009da900* second);
+    void* hkpAngularDashpotAction_clone(Arg1_009da900* first, Arg2_009da900* second);
 };
 
-void* Shape_009da900::FUN_009da900(Arg1_009da900* first,
+// pdb: hkpAngularDashpotAction::clone | hkpAngularDashpotAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void* Shape_009da900::hkpAngularDashpotAction_clone(Arg1_009da900* first,
                                   Arg2_009da900* second)
 {
     if (first->kind != 2) return 0;
@@ -3861,7 +3972,8 @@ struct FUN_00a45d60 {
     int count38;
     FUN_00a45d60(FinishFlag) throw();
 };
-void __cdecl FUN_009d6d80(void* memory) {
+// pdb: finishLoadedObjecthkpMeshShape | hkpMeshShapeClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+void __cdecl finishLoadedObjecthkpMeshShape(void* memory) {
     FinishFlag flag;
     new (memory) FUN_00a45d60(flag);
 }
@@ -3942,6 +4054,7 @@ struct F3C50Object {
     int __thiscall FUN_009dfc50(float* values);
 };
 
+// pdb: hkpConstraintConstructionKit::setPivotB | hkpConstraintConstructionKit.obj | tesv_win, call_seq, medium
 int __thiscall F3C50Object::FUN_009dfc50(float* values)
 {
     F3C50Object* self = this;
@@ -3986,6 +4099,8 @@ extern RuntimeService* DAT_010f3438;
 namespace f3m_009d7110 {
 struct RuntimeService{virtual void slot0();virtual void slot4();virtual void slot8();virtual void* GetContext();};
 struct RuntimeOwner{int FUN_009d70c0(void* key,void* context,unsigned int bytes);int FUN_009d7110(void* key);};
+// pdb: hkpPhysicsData::operator delete | hkpPhysicsDataClass.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkLoader::load)
+// pdb params: p
 int RuntimeOwner::FUN_009d7110(void* key){return FUN_009d70c0(key,DAT_010f3438->GetContext(),DAT_011693ac);}
 }   // namespace f3m_009d7110
 
@@ -4005,6 +4120,7 @@ public:
     int FUN_009d5070(int);
 };
 
+// pdb: finishLoadedObjecthkpStorageExtendedMeshShapeShapeSubpartStorage | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objrun_prop, low
 int FUN_009d61b0(void* self)
 {
     int result = 1;
@@ -4373,6 +4489,7 @@ struct Builder9df7f0 {
     bool unk13[8];
     int FUN_009df7f0(const Vec9df7f0& v, int type);
 };
+// pdb: hkpConstraintConstructionKit::setLinearDofB | hkpConstraintConstructionKit.obj | tesv_win, objrun_sim, low
 int Builder9df7f0::FUN_009df7f0(const Vec9df7f0& v, int type)
 {
     geom->flags.PushBack(4);
@@ -4553,6 +4670,7 @@ struct Owner {
     }
     void FUN_009d98c0();
 };
+// pdb: hkpCachingShapePhantom::~hkpCachingShapePhantom | hkpCachingShapePhantom.obj | fnv360_0822_retail, call_seq, high
 void Owner::FUN_009d98c0() {
     vtable = &DAT_00e801dc;
     Visit();
@@ -4610,6 +4728,7 @@ struct Owner {
     void* vtbl; int unk04; Arr<int> a08; Arr<char> a14; Arr<int> a20; Arr<short> a2c;
     void FUN_009d6000();
 };
+// pdb: hkpStorageExtendedMeshShape::ShapeSubpartStorage::~ShapeSubpartStorage | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_009d6000()
 {
     vtbl = (void*)&DAT_00e7fa54;
@@ -4661,7 +4780,8 @@ struct Obj : Base {
     virtual ~Obj();
 };
 }
-n9c09c0::Obj* __cdecl FUN_009c09c0(n9c09c0::Source* src, void* unused, void* unused2, int v) {
+// pdb: hkpMultiSphereTriangleAgent::createTriangleMultiSphereAgent | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, uvref + bridge(uvref|uvref) + skyrim(uvref), high
+n9c09c0::Obj* __cdecl hkpMultiSphereTriangleAgent_createTriangleMultiSphereAgent(n9c09c0::Source* src, void* unused, void* unused2, int v) {
     return new n9c09c0::Obj(src, v);
 }
 }
@@ -4692,6 +4812,7 @@ struct Storage:RefObject {
     Array<unsigned short> materialIndices16;
     virtual ~Storage();
 };
+// pdb: hkpStorageMeshShape::SubpartStorage::~SubpartStorage | hkpStorageMeshShape.obj | fnv360_0822_retail, call_seq, high
 Storage::~Storage(){}
 }
 
@@ -4740,6 +4861,7 @@ struct FUN_009d5ef0 : hkBaseObject {
     virtual ~FUN_009d5ef0() throw();
 };
 
+// pdb: hkpStorageExtendedMeshShape::MeshSubpartStorage::~MeshSubpartStorage | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, call_seq, medium
 FUN_009d5ef0::~FUN_009d5ef0() throw()
 {
 }
@@ -4773,6 +4895,8 @@ struct Owner {
     bool dirty;
     int FUN_009df980(const Vec*);
 };
+// pdb: hkpConstraintConstructionKit::setAngularBasisA | hkpConstraintConstructionKit.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: dofBasis
 int Owner::FUN_009df980(const Vec* source) {
     Array<unsigned>& commands=storage->commands;
     commands.Ensure();
@@ -4829,6 +4953,7 @@ struct Owner {
     bool dirty;
     int FUN_009dfaa0(const Vec*);
 };
+// pdb: hkpConstraintConstructionKit::setAngularBasisB | hkpConstraintConstructionKit.obj | tesv_win, objrun_sim, low
 int Owner::FUN_009dfaa0(const Vec* source) {
     Array<unsigned>& commands=storage->commands;
     commands.Ensure();
@@ -4867,6 +4992,7 @@ struct Vec4 {
     }
 };
 float __cdecl FUN_00954db0(float first, float second);
+// pdb: calcDeltaAngleAroundAxis | hkpGenericConstraintData.obj | fnv360_0822_retail, objrun_prop, medium
 float __fastcall FUN_009ddc20(int index, const Vec4* vectors)
 {
     const int first=static_cast<const volatile int&>(DAT_01062d90[index]);
@@ -4918,6 +5044,8 @@ struct Owner {
     Owner* FUN_009da340(void* source, const Vec4* direction, float first, float second);
 };
 
+// pdb: hkpMotorAction::hkpMotorAction | hkpMotorAction.obj | fnv360_0822_retail, call_seq, high
+// pdb params: body, axis, spinRate, gain
 Owner* Owner::FUN_009da340(void* source, const Vec4* direction, float first, float second)
 {
     FUN_009ae990(source, 0);
@@ -5003,6 +5131,8 @@ int unk0b4;
 int unk0b8;
 int unk0bc;
 void FUN_009e4a80(int);};
+// pdb: hkpStorageMeshShape::SubpartStorage::operator delete | hkpStorageMeshShape.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: getVtablehkbStateMachine)
+// pdb params: p
 int FUN_009d62a0(){Holder h;h.FUN_009e4a80(W().x);return h.unk000;}
 }
 }   // namespace f3m_009d62a0
@@ -5017,6 +5147,8 @@ struct Parameter {__declspec(align(16)) int* table;float scale;int unk08;int unk
  Parameter(const Vector& v,void* p):table(&DAT_00e7e9c8),scale(DAT_00de6e60),position(v),object(p){}
 };
 void FUN_009cd860(void*,void*,Transform*,Parameter*,Parameter*);
+// pdb: hkpSymmetricAgentLinearCast<hkpTransformAgent>::staticLinearCast | hkpTransformAgent.obj | fnv360_0822_retail, objrun, high
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void FUN_009cdeb0(void* first,void* second,const Transform* input,void* a,void* b){
  Transform inverted=*input;inverted.rows[5].x=-input->rows[5].x;inverted.rows[5].y=-input->rows[5].y;inverted.rows[5].z=-input->rows[5].z;inverted.rows[5].w=-input->rows[5].w;
  Parameter pa(input->rows[5],a);
@@ -5027,6 +5159,7 @@ void FUN_009cdeb0(void* first,void* second,const Transform* input,void* a,void* 
 
 // @f3 0x009dfe30 (community match, verified in this file)
 namespace f3m_009dfe30 {
+// pdb: hkpConstraintConstructionKit::setAngularLimit | hkpConstraintConstructionKit.obj | tesv_win, objrun_open, low
 namespace Command426{struct __declspec(align(16)) Vector{float x,y,z,w;Vector(float a,float b,float c,float d):x(a),y(b),z(c),w(d){}Vector&operator=(const Vector&v){x=v.x;y=v.y;z=v.z;w=v.w;return *this;}};template<class T>struct Array{T*data;unsigned int size,capacityFlags;__forceinline void Push(const T&value);};void __cdecl FUN_00901f10(void*,unsigned int);template<class T>__forceinline void Array<T>::Push(const T&value){if(size==(capacityFlags&0x3fffffff))FUN_00901f10(this,sizeof(T));data[size++]=value;}struct Storage{unsigned int unk00,bytes,firstCount,secondCount;Array<Vector>vectors;Array<unsigned int>commands;};struct Owner{unsigned int unk00;Storage*storage;unsigned int FUN_009dfe30(unsigned char,float,float);};unsigned int Owner::FUN_009dfe30(unsigned char kind,float x,float y){storage->commands.Push(17);storage->commands.Push(kind);unsigned int index=storage->vectors.size;storage->vectors.Push(Vector(x,y,0,0));Storage*target=storage;target->bytes+=48;++target->firstCount;++target->secondCount;return index;}}
 
 }   // namespace f3m_009dfe30
@@ -5061,6 +5194,8 @@ struct __declspec(align(16)) BIG
 
 extern "C" void __cdecl FUN_009d3950(int, int, BIG*, RCC*, RCC*);
 
+// pdb: hkpSymmetricAgentLinearCast<hkpBvAgent>::staticLinearCast | hkpBvAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void FUN_009d41e0(int a1, int a2, BIG* src, int p4, int p5)
 {
     BIG buf = *src;
@@ -5121,13 +5256,15 @@ unsigned unk48;
 unsigned unk4c;
 Vec v;unsigned unk60,unk64,unk68,unk6c;};
 struct Q {void* vtable;float scalar;unsigned unk08,unk0c;Vec v;int filter;unsigned unk24,unk28,unk2c;};
-void FUN_009d26b0(int,int,Input*,Q*,Q*);
+void hkpMultiSphereAgent_staticLinearCast(int,int,Input*,Q*,Q*);
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiSphereAgent>::staticLinearCast | hkpMultiSphereAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void FUN_009d2f50(int a,int b,Input* p,int d,int e){
 Input copy=*p;
 copy.v.x=-p->v.x;copy.v.y=-p->v.y;copy.v.z=-p->v.z;copy.v.w=-p->v.w;
 Q qa;qa.scalar=DAT_00de6e60;qa.vtable=&DAT_00e7e9c8;qa.v=p->v;qa.filter=d;
-if(e){Q qb;qb.vtable=&DAT_00e7e9c8;qb.scalar=DAT_00de6e60;qb.v=p->v;qb.filter=e;FUN_009d26b0(b,a,&copy,&qa,&qb);}
-else FUN_009d26b0(b,a,&copy,&qa,0);
+if(e){Q qb;qb.vtable=&DAT_00e7e9c8;qb.scalar=DAT_00de6e60;qb.v=p->v;qb.filter=e;hkpMultiSphereAgent_staticLinearCast(b,a,&copy,&qa,&qb);}
+else hkpMultiSphereAgent_staticLinearCast(b,a,&copy,&qa,0);
 }
 }
 }   // namespace f3m_009d2f50
@@ -5196,6 +5333,8 @@ struct C9ce1b0 {
     void FUN_009cd7f0(int a, int b, const n9ce1b0::Body* body, n9ce1b0::Filter* f1, n9ce1b0::Filter* f2);
     void FUN_009ce1b0(int a, int b, const n9ce1b0::Body* body, void* p1, void* p2);
 };
+// pdb: hkpSymmetricAgent<hkpTransformAgent>::linearCast | hkpTransformAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void C9ce1b0::FUN_009ce1b0(int a, int b, const n9ce1b0::Body* body, void* p1, void* p2)
 {
     n9ce1b0::Body c = *body;
@@ -5252,6 +5391,7 @@ struct FaceSubdivision {
     int triangleCount;
 };
 extern "C" void __cdecl FUN_00a4e410(FaceTriangle*,void*,void*);
+// pdb: hkpGenericConstraintData::constrainAllAngularW | hkpGenericConstraintData.obj | tesv_win, objrun, medium
 void __stdcall FUN_009de870(void*,void*,void*,FaceSubdivision* shape,void* arg5,void* arg6)
 {
     FaceTriangle first(shape->a,shape->c,shape->e);
@@ -5327,6 +5467,8 @@ extern const float DAT_00de6e60;
 
 void __cdecl FUN_00a3ab70(int,int,Input*,Record*,Record*);
 
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiRayConvexAgent>::staticLinearCast | hkpMultiRayConvexAgent.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void __cdecl FUN_009c1960(int a2,int a1,const Input* input,int value,int optional) {
 
     Input local=*input;
@@ -5413,6 +5555,8 @@ void __cdecl FUN_00a4e900(const Quad* q, Owner* owner, void* out);
 
 // NOTE: check this with --flags /MT,/O2,/GS,/EHsc,/Gy. The pack's listed
 // /Od /Oy- flags compile it to 270 bytes; they cannot reproduce the target.
+// pdb: hkpGenericConstraintData::setLinearFrictionW | hkpGenericConstraintData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: currentCommand, currentData, scheme, vars, in, out
 void __stdcall FUN_009dde10(int** pos, Vec4** vp, void* unused, Mat* mat,
                             Owner* owner, void* out)
 {
@@ -5460,7 +5604,8 @@ struct Context { int unk00,unk04,unk08, offset; };
 struct Indirect { Context* context; };
 struct CallbackData { Params* params; int index; Matrix* matrix; Wrapper* source; };
 typedef void (__cdecl *Callback)(CallbackData*,Indirect*,void*,int);
-void __cdecl FUN_009d23c0(Wrapper* source, Indirect* ind, void* table, int arg) {
+// pdb: hkpMultiSphereAgent::staticGetClosestPoints | hkpMultiSphereAgent.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void __cdecl hkpMultiSphereAgent_staticGetClosestPoints(Wrapper* source, Indirect* ind, void* table, int arg) {
     InputData* data=source->data;
     Matrix matrix; matrix.FUN_009cdcb0(source->transform);
     Params params; params.FUN_00970f60(0.0f);
@@ -5587,6 +5732,7 @@ public:
     FUN_009d9880* FUN_009d9960();
 };
 
+// pdb: hkpCachingShapePhantom::clone | hkpCachingShapePhantom.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_009d9880* FUN_009d9880::FUN_009d9960()
 {
     void* storage = FUN_009d9880::operator new(sizeof(FUN_009d9880));
@@ -5623,6 +5769,8 @@ struct ConstraintState {
 };
 void __cdecl FUN_00a4fb30(ConstraintPacket*, int*, int);
 
+// pdb: hkpGenericConstraintData::setLinearLimitW | hkpGenericConstraintData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: currentCommand, currentData, scheme, vars, in, out
 void __stdcall FUN_009dec70(int** commands, float** values, void* scheme,
                           ConstraintState* state, int* configuration, int index)
 {
@@ -5662,6 +5810,8 @@ struct Caster {
     void FUN_009d37b0(void* a, void* b, Xform* t, CollectorBase* c1, CollectorBase* c2);
     void FUN_009d44e0(void* a, void* b, const Xform& t, void* c, void* d);
 };
+// pdb: hkpSymmetricAgent<hkpBvAgent>::linearCast | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void Caster::FUN_009d44e0(void* a, void* b, const Xform& t, void* c, void* d) {
     Xform copy = t;
     copy.pos.x = -t.pos.x;
@@ -5770,7 +5920,7 @@ struct ClosestPointTriangleResult
 };
 
 void __cdecl FUN_0096fbc0(const hkVector4* triangle, ClosestPointTriangleCache& cache);
-void __cdecl FUN_00970580(const hkVector4& position, const hkVector4* triangle,
+void __cdecl hkpCollideTriangleUtil_closestPointTriangle(const hkVector4& position, const hkVector4* triangle,
                           const ClosestPointTriangleCache& cache, ClosestPointTriangleResult& result);
 
 // Same as transformPoints; the c0y copy keeps the original operand order.
@@ -5821,7 +5971,8 @@ static FNV_FORCEINLINE void transformPoints(const hkTransform& t, const hkVector
     } while (--i >= 0);
 }
 
-void __cdecl FUN_009c0d40(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input,
+// pdb: hkpMultiSphereTriangleAgent::staticGetPenetrations | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, objrun + bridge(caller_sim|objrun) + skyrim(caller_sim), high
+void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input,
                           hkpCdBodyPairCollector& collector)
 {
     const hkpTriangleShape* triangleShape = static_cast<const hkpTriangleShape*>(bodyB.shape);
@@ -5842,7 +5993,7 @@ void __cdecl FUN_009c0d40(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const 
         float triRadius = triangleShape->radius;
         float radiusSum = localSpheres[i].m_quad.w + triRadius;
         ClosestPointTriangleResult result;
-        FUN_00970580(worldSpheres[i], &worldVertices[0], cache, result);
+        hkpCollideTriangleUtil_closestPointTriangle(worldSpheres[i], &worldVertices[0], cache, result);
         if (result.distance < radiusSum)
         {
             collector.addCdBodyPair(bodyA, bodyB);
@@ -5901,6 +6052,7 @@ struct Base9e4990 {
 
 
 static inline void Rel(RefObj* p) { if (p->unk04 != 0) { if (--p->ref == 0) p->Release(1); } }
+// pdb: hkpStorageExtendedMeshShape::~hkpStorageExtendedMeshShape | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, call_seq, medium
 void Obj::FUN_009d51f0() {
     this->vtable = DAT_00e7fa88;
     this->vtable2 = DAT_00e7fa64;
@@ -6011,6 +6163,7 @@ __forceinline int QDispatcher::getNewCollisionAgent(const QCdBody& a, const QCdB
     return f(a, b, in, mgr);
 }
 
+// pdb: hkpCachingShapePhantom::addOverlappingCollidable | hkpCachingShapePhantom.obj | tesv_win, objopen_prop, low
 void QSelf::FUN_009d96f0(const QCdBody* a)
 {
     if (a->m_shape != 0 && FUN_0091a520(a) == 0)
@@ -6137,6 +6290,8 @@ public:
 };
 
 // @fnv 0x00d34c10
+// pdb: hkpSymmetricAgentLinearCast<hkpTransformAgent>::processCollision | hkpTransformAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void LinearCastAgent::FUN_009ce030(int bodyA, int bodyB, int input, int collectorRaw) {
     CastCollector& collector = *(CastCollector*)collectorRaw;
     float saved_dist = collector.m_dist3030;
@@ -6255,14 +6410,16 @@ struct ShapeSubpartStorage {
 struct StorageExtendedMesh {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc, unkc0, unkc4, unkc8;
     Array<ShapeSubpartStorage*> subpartStorage;
-    ShapeSubpart* FUN_009e4c20();
+    ShapeSubpart* hkpExtendedMeshShape_expandOneShapesSubparts();
     void FUN_009e37e0();
     void FUN_009d5910(const ShapeSubpart* input);
 };
 
+// pdb: hkpStorageExtendedMeshShape::addShapesSubpart | hkpStorageExtendedMeshShape.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: partIn
 void StorageExtendedMesh::FUN_009d5910(const ShapeSubpart* input)
 {
-    ShapeSubpart* part = FUN_009e4c20();
+    ShapeSubpart* part = hkpExtendedMeshShape_expandOneShapesSubparts();
     ThreadAllocator* allocator = DAT_00d9b080(DAT_010f3170);
     ShapeSubpartStorage* storage = static_cast<ShapeSubpartStorage*>(allocator->FUN_008f6d30(sizeof(ShapeSubpartStorage), 0x25));
     storage->sizeAndFlags = sizeof(ShapeSubpartStorage);
@@ -6357,6 +6514,8 @@ struct AnglePool { Vec4 basis0,basis1,basis2,basis3,basis4,basis5,basis6,basis7,
 struct __declspec(align(16)) SolverInfo { Vec4 jacobian; float f0,f1,out,scale; };
 float __fastcall FUN_009ddc20(int index, AnglePool* pool);
 void __cdecl FUN_009f90f0(SolverInfo*,void*,void*);
+// pdb: hkpGenericConstraintData::setAngularLimitW | hkpGenericConstraintData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: currentCommand, currentData, scheme, vars, in, out
 void __stdcall FUN_009ded20(int** stream, AngleRecord** cursor, int unused, AnglePool* pool, void* a, void* b) {
  SolverInfo info;
  ++*stream;
@@ -6399,8 +6558,10 @@ struct Collector : CollectorBase {
 };
 struct Owner {
     void FUN_009d3230(void* a, void* b, const Transform* t, void* c, void* d);
-    void FUN_009d2540(void* b, void* a, const Transform* t, const Collector* c, const Collector* d);
+    void hkpMultiSphereAgent_linearCast(void* b, void* a, const Transform* t, const Collector* c, const Collector* d);
 };
+// pdb: hkpSymmetricAgent<hkpMultiSphereAgent>::linearCast | hkpMultiSphereAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void Owner::FUN_009d3230(void* a, void* b, const Transform* t, void* c, void* d) {
     Transform m = *t;
     m.v.x = -t->v.x;
@@ -6410,9 +6571,9 @@ void Owner::FUN_009d3230(void* a, void* b, const Transform* t, void* c, void* d)
     Collector c1(t->v, c);
     if (d) {
         Collector c2(t->v, d);
-        FUN_009d2540(b, a, &m, &c1, &c2);
+        hkpMultiSphereAgent_linearCast(b, a, &m, &c1, &c2);
     } else {
-        FUN_009d2540(b, a, &m, &c1, 0);
+        hkpMultiSphereAgent_linearCast(b, a, &m, &c1, 0);
     }
 }
 }
@@ -6575,6 +6736,8 @@ struct FUN_009d2b40:AgentBase {
     virtual void Slot0();InlineArray agents;
     FUN_009d2b40(const Body*,const Body&,const Input&,void*);
 };
+// pdb: hkpMultiSphereAgent::hkpMultiSphereAgent | hkpMultiSphereAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, input, mgr
 FUN_009d2b40::FUN_009d2b40(const Body* first,const Body& second,const Input& input,void* manager):AgentBase(manager),agents() {
     InlineArray* entries=&agents;
     const Body* source=first;
@@ -6647,10 +6810,11 @@ struct List_x {
     int unk08;
     ChildEntry_x* entries;
     int count;
-    void FUN_009d20a0(const Body_x& a,int b,int c,int d);
+    void hkpMultiSphereAgent_processCollision(const Body_x& a,int b,int c,int d);
 };
 
-void List_x::FUN_009d20a0(const Body_x& a,int b,int c,int d)
+// pdb: hkpMultiSphereAgent::processCollision | hkpMultiSphereAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void List_x::hkpMultiSphereAgent_processCollision(const Body_x& a,int b,int c,int d)
 {
     const Multi_x* multi=static_cast<const Multi_x*>(a.shape);
     Motion_x ms(*a.motion);
@@ -6694,7 +6858,7 @@ struct __declspec(align(16)) hkVector4
         w = v.w;
         return *this;
     }
-    void FUN_008d28e0(const struct hkTransform* t, const hkVector4* v);
+    void hkVector4_setTransformedPos(const struct hkTransform* t, const hkVector4* v);
 };
 
 struct hkMatrix3
@@ -6791,7 +6955,7 @@ void __cdecl FUN_00a4e410(PacketD9DD* packet, InputD9DD* input, void* output);
 
 struct InterpreterD9DD
 {
-    void FUN_009ddf50(hkpGenericConstraintDataScheme* scheme, const InputD9DD* input, void* output);
+    void hkpGenericConstraintData_hatchScheme(hkpGenericConstraintDataScheme* scheme, const InputD9DD* input, void* output);
     void FUN_009ddb70(int**, hkVector4**, hkpGenericConstraintDataScheme*, StateD9DD*, InputD9DD*, void*);
     void FUN_009de6a0(int**, hkVector4**, hkpGenericConstraintDataScheme*, StateD9DD*, InputD9DD*, void*);
     void FUN_009de740(int**, hkVector4**, hkpGenericConstraintDataScheme*, StateD9DD*, InputD9DD*, void*);
@@ -7077,7 +7241,8 @@ void InterpreterD9DD::FUN_009dde10(int** commands, hkVector4** data, hkpGenericC
     ++state->count;
 }
 
-void InterpreterD9DD::FUN_009ddf50(hkpGenericConstraintDataScheme* scheme, const InputD9DD* input, void* output)
+// pdb: hkpGenericConstraintData::hatchScheme | hkpGenericConstraintData.obj | fnv360_0822_retail, objrun_prop + bridge(caller_sim|call_seq) + skyrim(caller_sim), high
+void InterpreterD9DD::hkpGenericConstraintData_hatchScheme(hkpGenericConstraintDataScheme* scheme, const InputD9DD* input, void* output)
 {
     InputD9DD localInput = *input;
     StateD9DD state;
@@ -7161,11 +7326,11 @@ void InterpreterD9DD::FUN_009ddf50(hkpGenericConstraintDataScheme* scheme, const
             FUN_009dde10(&command, &data, scheme, &state, &localInput, output);
             break;
         case 1:
-            state.pivotA.FUN_008d28e0(state.transformA, data);
+            state.pivotA.hkVector4_setTransformedPos(state.transformA, data);
             ++data;
             break;
         case 2:
-            state.pivotB.FUN_008d28e0(state.transformB, data);
+            state.pivotB.hkVector4_setTransformedPos(state.transformB, data);
             ++data;
             break;
         case 22: {
@@ -7229,6 +7394,7 @@ struct Owner009df8b0 {
     int FUN_009df8b0(const Vec4009df8b0* v, unsigned int idx);
 };
 
+// pdb: hkpConstraintConstructionKit::setLinearDofWorld | hkpConstraintConstructionKit.obj | tesv_win, objrun_sim, low
 int Owner009df8b0::FUN_009df8b0(const Vec4009df8b0* v, unsigned int idx) {
     inner->flags.PushBack(5);
     inner->flags.PushBack(idx);
@@ -7278,6 +7444,7 @@ struct F3Result_9dabd0
     int iCount14;
 };
 
+// pdb: hkpBreakableConstraintData::isValid | hkpBreakableConstraintData.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpBreakableConstraintData::getConstraintInfo)
 void __fastcall FUN_009dabd0(F3Owner_9dabd0* pThis, int iUnused, F3Result_9dabd0* pResult)
 {
     pThis->pWriter18->v2c(pResult);
@@ -7291,6 +7458,8 @@ void __fastcall FUN_009dabd0(F3Owner_9dabd0* pThis, int iUnused, F3Result_9dabd0
 namespace f3m_009d9ea0 {
 namespace Spring337 {
 struct __declspec(align(16)) Vec{float x,y,z,w;void FUN_008d2970(const void*,const Vec&);__forceinline void sub(const Vec&a,const Vec&b){x=a.x-b.x;y=a.y-b.y;z=a.z-b.z;w=a.w-b.w;}__forceinline float length(){float square=x*x+y*y+z*z;return (float)sqrt(square);}};
+// pdb: hkpSpringAction::setPositionsInWorldSpace | hkpSpringAction.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pivotA, pivotB
 struct Entity{int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; int unkdc; Vec transform;};struct Owner{int unk00,unk04,unk08,unk0c,unk10,unk14;Entity* a;Entity* b;int unk20,unk24,unk28,unk2c;Vec pivotA,pivotB;float rest;void FUN_009d9ea0(const Vec&,const Vec&);};void Owner::FUN_009d9ea0(const Vec& x,const Vec& y){Entity* first=a;Entity* second=b;pivotA.FUN_008d2970(&first->transform,x);pivotB.FUN_008d2970(&second->transform,y);Vec diff;diff.sub(x,y);rest=diff.length();}
 }
 }   // namespace f3m_009d9ea0
@@ -7349,6 +7518,7 @@ struct Builder
     int FUN_009df730(const Vec4& v, int slot);
 };
 
+// pdb: hkpConstraintConstructionKit::setLinearDofA | hkpConstraintConstructionKit.obj | tesv_win, objrun_sim, low
 int Builder::FUN_009df730(const Vec4& v, int slot)
 {
     geom->commands.PushBack(3);
@@ -7422,6 +7592,8 @@ struct Grid : Shape {
     Grid(Source* src);
 };
 
+// pdb: hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldShape | hkpStorageSampledHeightFieldShape.obj | fnv360_0822_retail, call_dedup, high
+// pdb params: hf
 Grid::Grid(Source* src)
 {
     width = src->width;
@@ -7443,7 +7615,7 @@ Grid::Grid(Source* src)
 namespace f3m_009d7250 {
 namespace Small521 {
 struct Entry {const char* name;unsigned unk04,value,unk0c; __forceinline const char* GetName() const { return name; }};
-int __cdecl FUN_009232c0(const char*,const char*);
+int __cdecl hkString_strCmp(const char*,const char*);
 struct Table {
     Entry* entries;
     int count;
@@ -7461,10 +7633,12 @@ struct Table {
     }
     unsigned FUN_009d7250(const char*,unsigned);
 };
+// pdb: hkRootLevelContainer::findObjectByName | hkRootLevelContainer.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: objectName, prevObject
 unsigned Table::FUN_009d7250(const char* name,unsigned previous){
     int i=Start(previous);
     for(;i<count;++i){
-        if(FUN_009232c0(name,entries[i].GetName())==0)return entries[i].value;
+        if(hkString_strCmp(name,entries[i].GetName())==0)return entries[i].value;
     }
     return 0;
 }
@@ -7614,7 +7788,8 @@ using namespace f3m_009c9d60;
 
 #include <math.h>
 
-void __cdecl FUN_009c9d60(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
+// pdb: hkpSphereSphereAgent::staticGetClosestPoints | hkpSphereSphereAgent.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|ustr_rel) + skyrim(ustr_rel), high
+void __cdecl hkpSphereSphereAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                           hkpCdPointCollector& collector)
 {
     union
@@ -7624,7 +7799,7 @@ void __cdecl FUN_009c9d60(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const 
     } reusable;
     union
     {
-        volatile unsigned int tick;
+        unsigned int tick;
         float distance;
     } scratch;
     timerCommand("TtSphereSphere", const_cast<unsigned int&>(scratch.tick));
@@ -7843,10 +8018,11 @@ struct Action {
     float springStrength;
     float damping;
 
-    void FUN_009da980(const Input& input);
+    void hkpAngularDashpotAction_applyAction(const Input& input);
 };
 
-void Action::FUN_009da980(const Input& input)
+// pdb: hkpAngularDashpotAction::applyAction | hkpAngularDashpotAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Action::hkpAngularDashpotAction_applyAction(const Input& input)
 {
     float weight = static_cast<float>(input.stepTime * DAT_00db8b00);
     Body* a = bodyA;
@@ -7926,6 +8102,7 @@ struct Holder
 {
     hkReferencedObject* m_object;
 };
+// pdb: convertCylinderCacheToCapsuleCache | hkpPredGskCylinderAgent3.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: restoreOriginalShapesInCdBodies)
 static __declspec(noinline) void FUN_009cb070(Holder*** slots, Holder** replacements)
 {
     for (int i = 0; i < 2; ++i)
@@ -8065,16 +8242,18 @@ using namespace f3m_009c7ed0;
 
 struct hkpSymmetricAgentStandIn
 {
-    void FUN_009c7b80(const void* bodyA, const void* bodyB, const void* input, hkpProcessCollisionOutput* result);
+    void hkpSphereTriangleAgent_processCollision(const void* bodyA, const void* bodyB, const void* input, hkpProcessCollisionOutput* result);
     void FUN_009c7ed0(const void* bodyA, const void* bodyB, const void* input, hkpProcessCollisionOutput* result);
 };
 
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereTriangleAgent>::processCollision | hkpSphereTriangleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void hkpSymmetricAgentStandIn::FUN_009c7ed0(const void* bodyA, const void* bodyB, const void* input,
                                             hkpProcessCollisionOutput* result)
 {
     hkpProcessCdPoint* p = result->m_firstFreeContactPoint;
     float toi = result->m_toi.m_time;
-    FUN_009c7b80(bodyB, bodyA, input, result);
+    hkpSphereTriangleAgent_processCollision(bodyB, bodyA, input, result);
     for (; p < result->m_firstFreeContactPoint; p++)
     {
         p->m_contact.flip();
@@ -8116,10 +8295,12 @@ namespace f3m_009daca0 {
 namespace Build330 {
 struct Flag330 { unsigned char value; Flag330(unsigned char v) : value(v) {} Flag330(const Flag330& rhs) : value(rhs.value) {} };
 struct Bounds330 { unsigned short first; unsigned short unk02; unsigned short second; unsigned short unk06; };
-struct Parent330 { virtual void v0(); virtual void v4(); virtual void v8(); virtual void vc(); virtual void v10(); virtual void GetBounds(Flag330, Bounds330*); unsigned short memory; short refs; };
-struct Handle330 { unsigned short marker; unsigned short unk02; unsigned int unk04; unsigned int unk08; void FUN_009a1a00(void*); };
+struct Parent330 { virtual void v0(); virtual void v4(); virtual void v8(); virtual void vc(); virtual void v10(); virtual void NiGeometryData_GetNormalsIterator(Flag330, Bounds330*); unsigned short memory; short refs; };
+struct Handle330 { unsigned short marker; unsigned short unk02; unsigned int unk04; unsigned int unk08; void hkpBridgeConstraintAtom_init(void*); };
 struct Owner330 { void* vtable; unsigned short memory; short refs; unsigned int unk08; Handle330 handle; Parent330* parent; unsigned short first; unsigned short second; float value; unsigned char flag24; unsigned char flag25; unsigned char unk26; unsigned char unk27; unsigned int unk28; Owner330* FUN_009daca0(Parent330* input); };
-Owner330* Owner330::FUN_009daca0(Parent330* input) { Parent330* supplied = input; (void)static_cast<Parent330* const volatile&>(input); const double threshold = static_cast<const volatile float&>(DAT_00db8ea4); refs=1; unk08=0; vtable=&DAT_00e7a84c; unsigned short* marker=&handle.marker; static_cast<volatile unsigned short&>(*marker)=1; static_cast<volatile float&>(value)=static_cast<float>(threshold); parent=supplied; flag24=0; unk28=0; static_cast<volatile unsigned char&>(flag25)=0; Parent330* child=static_cast<Parent330* const volatile&>(parent); if(child->memory) ++child->refs; Bounds330 bounds; Bounds330* boundsPtr=&bounds; parent->GetBounds(Flag330(1), boundsPtr); first=bounds.first; second=bounds.second; handle.FUN_009a1a00(this); return this; }
+// pdb: hkpBreakableConstraintData::hkpBreakableConstraintData | hkpBreakableConstraintData.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: constraintData
+Owner330* Owner330::FUN_009daca0(Parent330* input) { Parent330* supplied = input; (void)static_cast<Parent330* const volatile&>(input); const double threshold = static_cast<const volatile float&>(DAT_00db8ea4); refs=1; unk08=0; vtable=&DAT_00e7a84c; unsigned short* marker=&handle.marker; static_cast<volatile unsigned short&>(*marker)=1; static_cast<volatile float&>(value)=static_cast<float>(threshold); parent=supplied; flag24=0; unk28=0; static_cast<volatile unsigned char&>(flag25)=0; Parent330* child=static_cast<Parent330* const volatile&>(parent); if(child->memory) ++child->refs; Bounds330 bounds; Bounds330* boundsPtr=&bounds; parent->NiGeometryData_GetNormalsIterator(Flag330(1), boundsPtr); first=bounds.first; second=bounds.second; handle.hkpBridgeConstraintAtom_init(this); return this; }
 }
 }   // namespace f3m_009daca0
 
@@ -8131,6 +8312,7 @@ struct CleanupObject9d78c0 {
  void FUN_00a4ab20();
  void FUN_009d78c0();
 };
+// pdb: hkBinaryPackfileWriter::~hkBinaryPackfileWriter | hkBinaryPackfileWriter.obj | fnv360_0822_retail, objrun, medium
 void CleanupObject9d78c0::FUN_009d78c0(){table=DAT_00e80090;FUN_00a4ab20();}
 }   // namespace f3m_009d78c0
 
@@ -8187,14 +8369,16 @@ struct Slot7Collector
 };
 struct Slot7Agent
 {
-    void FUN_009d20a0(void* a, void* b, void* c, Slot7Collector* collector);
+    void hkpMultiSphereAgent_processCollision(void* a, void* b, void* c, Slot7Collector* collector);
     void FUN_009d30d0(void* a, void* b, void* c, Slot7Collector* collector);
 };
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiSphereAgent>::processCollision | hkpMultiSphereAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void Slot7Agent::FUN_009d30d0(void* a, void* b, void* c, Slot7Collector* collector)
 {
     Slot7RootCdPoint* current = collector->end;
     float previous = collector->tail.m_distance;
-    FUN_009d20a0(b, a, c, collector);
+    hkpMultiSphereAgent_processCollision(b, a, c, collector);
     while (current < collector->end)
     {
         current->m_contact.flip();
@@ -8284,14 +8468,16 @@ struct Slot7Collector
 };
 struct Slot7Agent
 {
-    void FUN_009c1ae0(void* a, void* b, void* c, Slot7Collector* collector);
+    void hkpMultiSphereTriangleAgent_processCollision(void* a, void* b, void* c, Slot7Collector* collector);
     void FUN_009c1fd0(void* a, void* b, void* c, Slot7Collector* collector);
 };
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiSphereTriangleAgent>::processCollision | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void Slot7Agent::FUN_009c1fd0(void* a, void* b, void* c, Slot7Collector* collector)
 {
     Slot7RootCdPoint* current = collector->end;
     float previous = collector->tail.m_distance;
-    FUN_009c1ae0(b, a, c, collector);
+    hkpMultiSphereTriangleAgent_processCollision(b, a, c, collector);
     while (current < collector->end)
     {
         current->m_contact.flip();
@@ -8384,6 +8570,8 @@ struct Slot7Agent
     void FUN_009d3610(void* a, void* b, void* c, Slot7Collector* collector);
     void FUN_009d4380(void* a, void* b, void* c, Slot7Collector* collector);
 };
+// pdb: hkpSymmetricAgentLinearCast<hkpBvAgent>::processCollision | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void Slot7Agent::FUN_009d4380(void* a, void* b, void* c, Slot7Collector* collector)
 {
     Slot7RootCdPoint* current = collector->end;
@@ -8478,14 +8666,16 @@ struct Slot7Collector
 };
 struct Slot7Agent
 {
-    void FUN_009c4120(void* a, void* b, void* c, Slot7Collector* collector);
+    void hkpCapsuleTriangleAgent_processCollision(void* a, void* b, void* c, Slot7Collector* collector);
     void FUN_009c45e0(void* a, void* b, void* c, Slot7Collector* collector);
 };
+// pdb: hkpSymmetricAgentLinearCast<hkpCapsuleTriangleAgent>::processCollision | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void Slot7Agent::FUN_009c45e0(void* a, void* b, void* c, Slot7Collector* collector)
 {
     Slot7RootCdPoint* current = collector->end;
     float previous = collector->tail.m_distance;
-    FUN_009c4120(b, a, c, collector);
+    hkpCapsuleTriangleAgent_processCollision(b, a, c, collector);
     while (current < collector->end)
     {
         current->m_contact.flip();
@@ -8575,14 +8765,16 @@ struct Slot7Collector
 };
 struct Slot7Agent
 {
-    void FUN_009c5e70(void* a, void* b, void* c, Slot7Collector* collector);
+    void hkpSphereBoxAgent_processCollision(void* a, void* b, void* c, Slot7Collector* collector);
     void FUN_009c6d80(void* a, void* b, void* c, Slot7Collector* collector);
 };
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereBoxAgent>::processCollision | hkpSphereBoxAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void Slot7Agent::FUN_009c6d80(void* a, void* b, void* c, Slot7Collector* collector)
 {
     Slot7RootCdPoint* current = collector->end;
     float previous = collector->tail.m_distance;
-    FUN_009c5e70(b, a, c, collector);
+    hkpSphereBoxAgent_processCollision(b, a, c, collector);
     while (current < collector->end)
     {
         current->m_contact.flip();
@@ -8672,14 +8864,16 @@ struct Slot7Collector
 };
 struct Slot7Agent
 {
-    void FUN_009c9120(void* a, void* b, void* c, Slot7Collector* collector);
+    void hkpSphereCapsuleAgent_processCollision(void* a, void* b, void* c, Slot7Collector* collector);
     void FUN_009c9640(void* a, void* b, void* c, Slot7Collector* collector);
 };
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereCapsuleAgent>::processCollision | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, result
 void Slot7Agent::FUN_009c9640(void* a, void* b, void* c, Slot7Collector* collector)
 {
     Slot7RootCdPoint* current = collector->end;
     float previous = collector->tail.m_distance;
-    FUN_009c9120(b, a, c, collector);
+    hkpSphereCapsuleAgent_processCollision(b, a, c, collector);
     while (current < collector->end)
     {
         current->m_contact.flip();
@@ -8887,7 +9081,7 @@ struct ClosestPointTriangleResult
 };
 
 // closestPointTriangle
-void __cdecl FUN_00970580(const hkVector4& position, const hkVector4* triangle, const ClosestPointTriangleCache& cache,
+void __cdecl hkpCollideTriangleUtil_closestPointTriangle(const hkVector4& position, const hkVector4* triangle, const ClosestPointTriangleCache& cache,
                           ClosestPointTriangleResult& result);
 }  // namespace hkpCollideTriangleUtil
 
@@ -8897,7 +9091,7 @@ struct hkpMultiSphereTriangleAgent
 {
     virtual ~hkpMultiSphereTriangleAgent();
 
-    void FUN_009c0a30(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
+    void hkpMultiSphereTriangleAgent_getPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                       hkpCdBodyPairCollector& collector);
 
     hkUint16 m_memSizeAndFlags;
@@ -8906,7 +9100,8 @@ struct hkpMultiSphereTriangleAgent
     hkpCollideTriangleUtil::ClosestPointTriangleCache m_closestPointTriangleCache;
 };
 
-void hkpMultiSphereTriangleAgent::FUN_009c0a30(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpMultiSphereTriangleAgent::getPenetrations | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpMultiSphereTriangleAgent::hkpMultiSphereTriangleAgent_getPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                                const hkpCollisionInput& input, hkpCdBodyPairCollector& collector)
 {
     const hkpMultiSphereShape* msA = static_cast<const hkpMultiSphereShape*>(bodyA.getShape());
@@ -8925,7 +9120,7 @@ void hkpMultiSphereTriangleAgent::FUN_009c0a30(const hkpCdBody& bodyA, const hkp
         hkReal radiusSum = localSpheres[i](3);
         radiusSum += triB->getRadius();
         hkpCollideTriangleUtil::ClosestPointTriangleResult cpr;
-        hkpCollideTriangleUtil::FUN_00970580(worldSpheres[i], &triVertices[0], m_closestPointTriangleCache, cpr);
+        hkpCollideTriangleUtil::hkpCollideTriangleUtil_closestPointTriangle(worldSpheres[i], &triVertices[0], m_closestPointTriangleCache, cpr);
         if (cpr.distance < radiusSum)
         {
             collector.addCdBodyPair(bodyA, bodyB);
@@ -9185,7 +9380,7 @@ struct hkpBoxBoxCollisionDetection
         m_keepRadiusB.setAdd4(radiusB, m_tolerance4);
     }
 
-    hkBool FUN_00a3e510(hkContactPoint& contact) const;  // calculateClosestPoint
+    hkBool hkpBoxBoxCollisionDetection_calculateClosestPoint(hkContactPoint& contact) const;  // calculateClosestPoint
 
     const hkpCdBody* m_bodyA;
     const hkpCdBody* m_bodyB;
@@ -9211,7 +9406,8 @@ struct hkpBoxBoxCollisionDetection
     hkVector4 m_unk120;
 };
 
-void __cdecl FUN_009ca8f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
+// pdb: hkpBoxBoxAgent::staticGetClosestPoints | hkpBoxBoxAgent.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl hkpBoxBoxAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                           hkpCdPointCollector& collector)
 {
     hkTimerCommand(DAT_00e7f370);
@@ -9236,7 +9432,7 @@ void __cdecl FUN_009ca8f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const 
 
     hkpCdPoint event(bodyA, bodyB);
 
-    hkBool hasPoint = detector.FUN_00a3e510(event.m_contact);
+    hkBool hasPoint = detector.hkpBoxBoxCollisionDetection_calculateClosestPoint(event.m_contact);
     if (hasPoint)
     {
         collector.addCdPoint(event);
@@ -9580,7 +9776,7 @@ struct hkpSphereBoxAgent
                                                 const hkpCollisionInput& input, hkContactPoint& contactOut);
 
     // getClosestPoints
-    void FUN_009c6310(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
+    void hkpSphereBoxAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                       hkpCdPointCollector& collector);
 };
 
@@ -9664,7 +9860,8 @@ __forceinline hkBool hkpSphereBoxAgent::getClosestPoint(const hkpCdBody& bodyA, 
     return true;
 }
 
-void hkpSphereBoxAgent::FUN_009c6310(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpSphereBoxAgent::getClosestPoints | hkpSphereBoxAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpSphereBoxAgent::hkpSphereBoxAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                      const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     hkTimerCommand("TtSphereBox");
@@ -11001,6 +11198,8 @@ public:
     hkpBreakableListener* m_listener;
 };
 
+// pdb: hkpBreakableConstraintData::setBroken | hkpBreakableConstraintData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: instance, broken, currentForce
 void hkpBreakableConstraintData::FUN_009dad90(const hkpConstraintQueryIn& in)
 {
     hkpSolverResults* results = static_cast<hkpSolverResults*>(in.m_constraintRuntime.val());
@@ -12345,7 +12544,7 @@ class hkpSphereCapsuleAgent : public hkpIterativeLinearCastAgent
     public:
 		static void __cdecl registerAgent(hkpCollisionDispatcher* dispatcher);
         // processCollision (virtual inline in the SDK header)
-        void FUN_009c9120(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
+        void hkpSphereCapsuleAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
 		virtual void getClosestPoints( const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& pointDetails);
 		virtual void getPenetrations(const  hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector );
 		virtual void cleanup(hkpConstraintOwner& info);
@@ -12609,9 +12808,9 @@ __forceinline hkpSphereCapsuleAgent::ClosestPointResult hkpSphereCapsuleAgent::g
 	cpoint.setDistance( dist - radiusSum );
 	return ST_CP_HIT;
 }
-void hkpSphereCapsuleAgent::FUN_009c9120( const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result )
+// pdb: hkpSphereCapsuleAgent::processCollision | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpSphereCapsuleAgent::hkpSphereCapsuleAgent_processCollision( const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result )
 {
-	;
 	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerCommand* h = reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "T" "t" "SphereCapsule"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } };
 	hkpProcessCdPoint& point = *result.reserveContactPoints( 1 );
 	if ( getClosestPointInl( bodyA, bodyB, input, point.m_contact ) != ST_CP_MISS )
@@ -12865,6 +13064,8 @@ struct hkpCapsuleTriangleCache3
 namespace hkCapsuleTriangleAgent3 {
 
 // sepNormal
+// pdb: hkCapsuleTriangleAgent3::sepNormal | hkpCapsuleTriangleAgent3.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: input, entry, agentData, separatingNormalOut
 void __cdecl FUN_009c2240(const hkpAgent3Input& input, hkpAgentEntry* entry, hkpAgentData* agentData,
                           hkVector4& separatingNormalOut)
 {
@@ -13236,6 +13437,8 @@ struct QSymAgent
     void FUN_009c0630(void* a, void* b, void* c, QGskOut* out);
 };
 
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiRayConvexAgent>::processCollision | hkpMultiRayConvexAgent.obj | fnv360_0822_debug, objrun, high
+// pdb params: bodyA, bodyB, input, result
 void QSymAgent::FUN_009c0630(void* a, void* b, void* c, QGskOut* out)
 {
     float oldDist = out->unk3030;
@@ -13572,7 +13775,7 @@ enum ClosestPointTriangleStatus
 };
 
 // closestPointTriangle
-ClosestPointTriangleStatus __cdecl FUN_00970580(const hkVector4& position, const hkVector4* tri,
+ClosestPointTriangleStatus __cdecl hkpCollideTriangleUtil_closestPointTriangle(const hkVector4& position, const hkVector4* tri,
                                                 const ClosestPointTriangleCache& cache,
                                                 ClosestPointTriangleResult& result);
 }  // namespace hkpCollideTriangleUtil
@@ -13580,13 +13783,14 @@ ClosestPointTriangleStatus __cdecl FUN_00970580(const hkVector4& position, const
 struct hkpMultiSphereTriangleAgent : hkpIterativeLinearCastAgent
 {
     // getClosestPoints
-    void FUN_009c1070(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
+    void hkpMultiSphereTriangleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                       hkpCdPointCollector& collector);
 
     hkpCollideTriangleUtil::ClosestPointTriangleCache m_closestPointTriangleCache;
 };
 
-void hkpMultiSphereTriangleAgent::FUN_009c1070(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpMultiSphereTriangleAgent::getClosestPoints | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpMultiSphereTriangleAgent::hkpMultiSphereTriangleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                                const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     hkTimerCommand("TtMultiSphereTriangle");
@@ -13612,7 +13816,7 @@ void hkpMultiSphereTriangleAgent::FUN_009c1070(const hkpCdBody& bodyA, const hkp
         const hkReal radiusSum = sphereRadius + triB->getRadius();
 
         hkpCollideTriangleUtil::ClosestPointTriangleResult cpResult;
-        hkpCollideTriangleUtil::FUN_00970580(sphere, &triVertices[0], m_closestPointTriangleCache, cpResult);
+        hkpCollideTriangleUtil::hkpCollideTriangleUtil_closestPointTriangle(sphere, &triVertices[0], m_closestPointTriangleCache, cpResult);
 
         if (cpResult.distance < radiusSum + input.getTolerance())
         {
@@ -13941,7 +14145,7 @@ enum ClosestPointTriangleStatus
 void __cdecl FUN_0096fbc0(const hkVector4* tri, ClosestPointTriangleCache& cache);
 
 // closestPointTriangle
-ClosestPointTriangleStatus __cdecl FUN_00970580(const hkVector4& position, const hkVector4* tri,
+ClosestPointTriangleStatus __cdecl hkpCollideTriangleUtil_closestPointTriangle(const hkVector4& position, const hkVector4* tri,
                                                 const ClosestPointTriangleCache& cache,
                                                 ClosestPointTriangleResult& result);
 }  // namespace hkpCollideTriangleUtil
@@ -13949,13 +14153,14 @@ ClosestPointTriangleStatus __cdecl FUN_00970580(const hkVector4& position, const
 struct hkpMultiSphereTriangleAgent : hkpIterativeLinearCastAgent
 {
     // staticGetClosestPoints
-    static void __cdecl FUN_009c14a0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
+    static void __cdecl hkpMultiSphereTriangleAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                                      hkpCdPointCollector& collector);
 
     hkpCollideTriangleUtil::ClosestPointTriangleCache m_closestPointTriangleCache;
 };
 
-void __cdecl hkpMultiSphereTriangleAgent::FUN_009c14a0(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpMultiSphereTriangleAgent::staticGetClosestPoints | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|ustr_rel) + skyrim(ustr_rel), high
+void __cdecl hkpMultiSphereTriangleAgent::hkpMultiSphereTriangleAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                                        const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     {
@@ -13993,7 +14198,7 @@ void __cdecl hkpMultiSphereTriangleAgent::FUN_009c14a0(const hkpCdBody& bodyA, c
         const hkReal radiusSum = sphereRadius + triB->getRadius();
 
         hkpCollideTriangleUtil::ClosestPointTriangleResult cptr;
-        hkpCollideTriangleUtil::FUN_00970580(sphere, &triVertices[0], closestPointTriangleCache, cptr);
+        hkpCollideTriangleUtil::hkpCollideTriangleUtil_closestPointTriangle(sphere, &triVertices[0], closestPointTriangleCache, cptr);
 
         if (cptr.distance < radiusSum + input.getTolerance())
         {
@@ -14361,21 +14566,22 @@ struct ClosestPointTriangleResult
 };
 
 // closestPointTriangle
-void __cdecl FUN_00970580(const hkVector4& position, const hkVector4* tri, const ClosestPointTriangleCache& cache,
+void __cdecl hkpCollideTriangleUtil_closestPointTriangle(const hkVector4& position, const hkVector4* tri, const ClosestPointTriangleCache& cache,
                           ClosestPointTriangleResult& result);
 }  // namespace hkpCollideTriangleUtil
 
 struct hkpMultiSphereTriangleAgent : hkpIterativeLinearCastAgent
 {
     // processCollision
-    void FUN_009c1ae0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input,
+    void hkpMultiSphereTriangleAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input,
                       hkpProcessCollisionOutput& result);
 
     hkpCollideTriangleUtil::ClosestPointTriangleCache m_closestPointTriangleCache;
     hkContactPointId m_contactPointId[hkpMultiSphereShape::MAX_SPHERES];
 };
 
-void hkpMultiSphereTriangleAgent::FUN_009c1ae0(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpMultiSphereTriangleAgent::processCollision | hkpMultiSphereTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpMultiSphereTriangleAgent::hkpMultiSphereTriangleAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                                const hkpProcessCollisionInput& input,
                                                hkpProcessCollisionOutput& result)
 {
@@ -14401,7 +14607,7 @@ void hkpMultiSphereTriangleAgent::FUN_009c1ae0(const hkpCdBody& bodyA, const hkp
         const hkReal radiusSum = sphereRadius + triB->getRadius();
 
         hkpCollideTriangleUtil::ClosestPointTriangleResult cpResult;
-        hkpCollideTriangleUtil::FUN_00970580(*sphere, &triVertices[0], m_closestPointTriangleCache, cpResult);
+        hkpCollideTriangleUtil::hkpCollideTriangleUtil_closestPointTriangle(*sphere, &triVertices[0], m_closestPointTriangleCache, cpResult);
 
         if (cpResult.distance < radiusSum + input.getTolerance())
         {
@@ -14466,6 +14672,8 @@ struct P2 { int unk00; float unk04; };
 
 extern "C" void FUN_0096e450(V4* a, float ra, V4* b, float rb, int a5, float a6, int a7, int a8);
 
+// pdb: hkpCapsuleTriangleAgent::getClosestPointsPublic | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, cache, searchManifold, points
 void FUN_009c2b90(Wrap* a, Wrap* b, P2* p2, int p3, int p4, int p5)
 {
     Shape* sa = a->shape;
@@ -14795,6 +15003,8 @@ __forceinline hkpCapsuleTriangleAgent::ClosestPointResult hkpCapsuleTriangleAgen
     return ST_CP_MISS;
 }
 
+// pdb: hkpCapsuleTriangleAgent::getClosestPoint | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, cache, cpoint
 hkpCapsuleTriangleAgent::ClosestPointResult __cdecl hkpCapsuleTriangleAgent::FUN_009c2e20(
     const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
     hkpCollideTriangleUtil::PointTriangleDistanceCache& cache, hkContactPoint& cpoint)
@@ -15193,7 +15403,7 @@ struct hkpSphereBoxAgent : hkpIterativeLinearCastAgent
                                                 const hkpCollisionInput& input, hkContactPoint& contactOut);
 
     // processCollision
-    void FUN_009c5e70(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input,
+    void hkpSphereBoxAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input,
                       hkpProcessCollisionOutput& result);
 
     hkContactPointId m_contactPointId;
@@ -15279,7 +15489,8 @@ __forceinline hkBool hkpSphereBoxAgent::getClosestPoint(const hkpCdBody& bodyA, 
     return true;
 }
 
-void hkpSphereBoxAgent::FUN_009c5e70(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpSphereBoxAgent::processCollision | hkpSphereBoxAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpSphereBoxAgent::hkpSphereBoxAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                      const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result)
 {
     hkTimerCommand("TtSphereBox");
@@ -15597,7 +15808,7 @@ struct hkpSphereCapsuleAgent
                                                                const hkpCollisionInput& input, hkContactPoint& cpoint);
 
     // getClosestPoint
-    static ClosestPointResult __cdecl FUN_009c8340(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+    static ClosestPointResult __cdecl hkpSphereCapsuleAgent_getClosestPoint(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                                    const hkpCollisionInput& input, hkContactPoint& cpoint);
 };
 
@@ -15648,7 +15859,8 @@ __forceinline hkpSphereCapsuleAgent::ClosestPointResult hkpSphereCapsuleAgent::g
     return ST_CP_HIT;
 }
 
-hkpSphereCapsuleAgent::ClosestPointResult __cdecl hkpSphereCapsuleAgent::FUN_009c8340(
+// pdb: hkpSphereCapsuleAgent::getClosestPoint | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+hkpSphereCapsuleAgent::ClosestPointResult __cdecl hkpSphereCapsuleAgent::hkpSphereCapsuleAgent_getClosestPoint(
     const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkContactPoint& cpoint)
 {
     return getClosestPointInl(bodyA, bodyB, input, cpoint);
@@ -16006,7 +16218,7 @@ struct hkpSphereCapsuleAgent
                                                                const hkpCollisionInput& input, hkContactPoint& cpoint);
 
     // staticGetClosestPoints
-    static void __cdecl FUN_009c8b90(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
+    static void __cdecl hkpSphereCapsuleAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input,
                                      hkpCdPointCollector& collector);
 };
 
@@ -16057,7 +16269,8 @@ __forceinline hkpSphereCapsuleAgent::ClosestPointResult hkpSphereCapsuleAgent::g
     return ST_CP_HIT;
 }
 
-void __cdecl hkpSphereCapsuleAgent::FUN_009c8b90(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpSphereCapsuleAgent::staticGetClosestPoints | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|objrun) + skyrim(ustr_rel), high
+void __cdecl hkpSphereCapsuleAgent::hkpSphereCapsuleAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                                  const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     {
@@ -16118,6 +16331,8 @@ struct __declspec(align(16)) AgentFuncs {
 void __cdecl FUN_009ca480(AgentFuncs*);
 struct Dispatcher { void FUN_00985cb0(AgentFuncs*, int, int); };
 }
+// pdb: hkBoxBoxAgent3::registerAgent3 | hkpBoxBoxAgent3.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: dispatcher
 void __cdecl FUN_009ca4c0(task0912::Dispatcher* target)
 {
     task0912::AgentFuncs funcs;
@@ -16170,9 +16385,10 @@ struct ShapeCollectionAgent {
     int unk00[3];
     KeyAgent* agents;
     int numAgents;
-    void FUN_009d1540(const CdBody* a, void* b, void* c, void* d);
+    void hkpShapeCollectionAgent_getClosestPoints(const CdBody* a, void* b, void* c, void* d);
 };
-void ShapeCollectionAgent::FUN_009d1540(const CdBody* a, void* b, void* c, void* d)
+// pdb: hkpShapeCollectionAgent::getClosestPoints | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void ShapeCollectionAgent::hkpShapeCollectionAgent_getClosestPoints(const CdBody* a, void* b, void* c, void* d)
 {
     TimerMark(str_00e7f4f8);
     Container* container = a->shape->GetContainer();
@@ -16343,12 +16559,13 @@ struct hkpMultiSphereAgent
     KeyAgentPair* m_agents;
     int m_numAgents;
 
-    void FUN_009d2540(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpLinearCastCollisionInput& input,
+    void hkpMultiSphereAgent_linearCast(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpLinearCastCollisionInput& input,
                       hkpCdPointCollector& collector, hkpCdPointCollector* startCollector);
 };
 }
 
-void f3m_009d2540::hkpMultiSphereAgent::FUN_009d2540(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// pdb: hkpMultiSphereAgent::linearCast | hkpMultiSphereAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void f3m_009d2540::hkpMultiSphereAgent::hkpMultiSphereAgent_linearCast(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                                      const hkpLinearCastCollisionInput& input,
                                                      hkpCdPointCollector& collector,
                                                      hkpCdPointCollector* startCollector)
@@ -16378,7 +16595,7 @@ namespace f3m_009d9f40 {
 
 namespace f3m_009d9f40 {
 struct Transform;
-struct __declspec(align(16)) Vector { float x, y, z, w; void FUN_008d28e0(const Transform* t, const Vector* v); };
+struct __declspec(align(16)) Vector { float x, y, z, w; void hkVector4_setTransformedPos(const Transform* t, const Vector* v); };
 struct Point4 { float x, y, z, w; void Set(const Point4& p) { x = p.x; y = p.y; z = p.z; w = p.w; } };
 struct Node {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
@@ -16396,9 +16613,10 @@ struct Link {
     Point4 localA;
     Point4 localB;
     float distance;
-    void FUN_009d9f40(const Point4* a, const Point4* b);
+    void hkpSpringAction_setPositionsInBodySpace(const Point4* a, const Point4* b);
 };
-void Link::FUN_009d9f40(const Point4* a, const Point4* b)
+// pdb: hkpSpringAction::setPositionsInBodySpace | hkpSpringAction.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void Link::hkpSpringAction_setPositionsInBodySpace(const Point4* a, const Point4* b)
 {
     Node* na = nodeA;
     Node* nb = nodeB;
@@ -16406,8 +16624,8 @@ void Link::FUN_009d9f40(const Point4* a, const Point4* b)
     localB.Set(*b);
     Vector wa;
     Vector wb;
-    wa.FUN_008d28e0(na->World(), (const Vector*)a);
-    wb.FUN_008d28e0(nb->World(), (const Vector*)b);
+    wa.hkVector4_setTransformedPos(na->World(), (const Vector*)a);
+    wb.hkVector4_setTransformedPos(nb->World(), (const Vector*)b);
     Point4 d;
     d.x = wa.x - wb.x;
     d.y = wa.y - wb.y;
@@ -16480,11 +16698,12 @@ struct hkpWheelConstraintData
     int unkac[9];
     hkRotation m_rotationA;
     hkRotation m_rotationB;
-    hkBool FUN_009dbf00() const;
+    hkBool hkpWheelConstraintData_isValid() const;
 };
 }
 
-f3m_009dbf00::hkBool f3m_009dbf00::hkpWheelConstraintData::FUN_009dbf00() const
+// pdb: hkpWheelConstraintData::isValid | hkpWheelConstraintData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+f3m_009dbf00::hkBool f3m_009dbf00::hkpWheelConstraintData::hkpWheelConstraintData_isValid() const
 {
     hkTransform t1(m_rotationA, DAT_01092a50);
     hkTransform t2(m_rotationB, DAT_01092a50);
@@ -16540,6 +16759,7 @@ struct Builder {
     int FUN_009dfd50(bool flag, float x, float y);
 };
 
+// pdb: hkpConstraintConstructionKit::setLinearLimit | hkpConstraintConstructionKit.obj | tesv_win, objrun_open, low
 int Builder::FUN_009dfd50(bool flag, float x, float y)
 {
     m_geometry->m_commands.pushBack(0x10);
@@ -16606,6 +16826,7 @@ static __forceinline void transformPoints(const Transform& tr,const Vec4* in,int
     int i=n-1;
     do { out[i].transformed(local,in[i]); } while (--i>=0);
 }
+// pdb: getClosestPointInternal | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, objrun, medium
 static __declspec(noinline) int FUN_009c4e40(const CdBody& a,const CdBody& b,const CollisionInput& input,Contact* contact) {
     const CapsuleShape* capsA=a.getShape();
     const CapsuleShape* capsB=b.getShape();
@@ -16633,6 +16854,8 @@ struct Rec9cb050
 
 void __cdecl FUN_00a36820(Rec9cb050* src, int c, int a);
 
+// pdb: hkPredGskAgent3::destroy | hkpPredGskAgent3.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: resetGskManifold)
+// pdb params: entry, agentData, mgr, constraintOwner, dispatcher
 static __declspec(noinline) void FUN_009cb050(Rec9cb050* src, int c, int a, Rec9cb050* dst)
 {
     FUN_00a36820(src, c, a);
@@ -16705,6 +16928,8 @@ struct FUN_009d6340 : Base9d6340
     virtual ~FUN_009d6340();
 };
 
+// pdb: hkpStorageMeshShape::hkpStorageMeshShape | hkpStorageMeshShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: radius, numbits
 FUN_009d6340::FUN_009d6340(float a, int b) : Base9d6340(a, b)
 {
 }
@@ -17146,10 +17371,11 @@ public:
 class hkpSphereSphereAgent
 {
 public:
-    void FUN_009c9b60(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector);
+    void hkpSphereSphereAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector);
 };
 
-void hkpSphereSphereAgent::FUN_009c9b60(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
+// pdb: hkpSphereSphereAgent::getClosestPoints | hkpSphereSphereAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpSphereSphereAgent::hkpSphereSphereAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();
@@ -17409,7 +17635,8 @@ public:
     int m_work[28];
 };
 
-void __cdecl FUN_009cac30(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector)
+// pdb: hkpBoxBoxAgent::staticGetPenetrations | hkpBoxBoxAgent.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl hkpBoxBoxAgent_staticGetPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();
@@ -17482,6 +17709,8 @@ struct S {
     void FUN_009cafa0();
 };
 
+// pdb: hkpProcessCollisionOutput::commitContactPoints | hkpHeightFieldAgent.obj | fnv360_0822_debug, call_gap, low, conflict (skyrim: hkpBoxBoxCollisionDetection::initWorkVariables)
+// pdb params: numberOfPoints
 void S::FUN_009cafa0()
 {
     p = v;
@@ -17515,6 +17744,7 @@ struct Obj {
     Tail tail;
     Obj* FUN_009d6320(int flag);
 };
+// pdb: hkpStorageMeshShape::SubpartStorage::SubpartStorage | hkpStorageMeshShape.obj | tesv_win, objrun, medium
 Obj* Obj::FUN_009d6320(int flag) {
     unk06 = 1;
     vptr = (void*)0x00e7fd3c;

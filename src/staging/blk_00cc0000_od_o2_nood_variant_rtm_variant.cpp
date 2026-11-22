@@ -73,15 +73,6 @@ struct TransformObj
 
     TransformObj();
 };
-struct TransformOwner
-{
-    int unk00;
-    TransformObj* m_pSource;
-
-    void ReleaseObject(TransformObj* pkObj, int iArg);
-    void FUN_00cc85b0(TransformObj* pkObj, int iArg);
-};
-bool __stdcall FUN_00c84ec0(void* key);
 struct Cd2Target
 {
     virtual void v00();
@@ -235,24 +226,6 @@ struct __declspec(align(16)) PoseVector {
     }
 };
 struct PoseQuaternion {PoseVector vector; void FUN_00c66320(const PoseQuaternion&,const PoseQuaternion&);};
-extern "C" unsigned int __security_cookie;
-extern "C" void __fastcall __security_check_cookie(unsigned int);
-struct QuaternionProduct {__m128 quad;};
-__declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a,const PoseQuaternion& b) {
-    unsigned int cookie=__security_cookie;
-    PoseVector cross;cross.cross(a.vector,b.vector);
-    __m128 aw=_mm_shuffle_ps(a.vector.value,a.vector.value,0xff);
-    __m128 bw=_mm_shuffle_ps(b.vector.value,b.vector.value,0xff);
-    __m128 xyz=_mm_add_ps(_mm_add_ps(_mm_mul_ps(aw,b.vector.value),cross.value),_mm_mul_ps(bw,a.vector.value));
-    __m128 product=_mm_mul_ps(a.vector.value,b.vector.value);
-    __m128 sum=_mm_add_ss(_mm_shuffle_ps(product,product,0x55),product);
-    sum=_mm_add_ss(_mm_shuffle_ps(product,product,0xaa),sum);
-    __m128 real=_mm_sub_ps(product,_mm_shuffle_ps(sum,sum,0));
-    QuaternionProduct result;
-    result.quad=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,real),0xc4);
-    vector.value=result.quad;
-    __security_check_cookie(cookie);
-}
 struct PoseTransform {
     PoseVector translation;
     PoseQuaternion rotation;
@@ -369,108 +342,8 @@ struct FUN_00d4f2a0 {
         return p;
     }
 };
-struct FUN_00cc5f30_cls {
-    int unk00;
-    FUN_00d4f2a0* m_pSrc;
-
-    void FUN_00cc5f30(FUN_00d4f2a0* dst, int a2);
-    void ReleaseObject(FUN_00d4f2a0* dst, int a2);
-};
-struct S_00ccbce0_Source
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    __m128 unk80;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    int unkE0;
-    float unkE4;
-};
-struct S_00ccbce0_Ref
-{
-    virtual void FUN_00ccbce0_ref0();
-    virtual void FUN_00ccbce0_ref1();
-
-    LONG unk04;
-};
-struct S_00ccbce0_Output
-{
-    int unk00;
-    S_00ccbce0_Ref* unk04;
-    float unk08;
-    int unk0c;
-    __m128 unk10;
-};
-struct S_00ccbce0_Owner
-{
-    int unk00;
-    int unk04;
-    S_00ccbce0_Source* unk08;
-    int unk0c;
-    int unk10;
-    S_00ccbce0_Ref* unk14;
-
-    void __thiscall FUN_00c84e20(S_00ccbce0_Output* value);
-    void __thiscall FUN_00ccbce0(S_00ccbce0_Output* value);
-};
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 union hkVec4 { __m128 m_vComponents; char m_bytes[16]; };
-struct BytePair { char a; char b; };
-struct EntityCinfo {
-    int unk00, unk04, unk08, unk0C;
-    float m_vContactPosition[4];
-    float m_rotation[4];
-    float unk30, unk34, unk38;
-    char unk3C, unk3D;
-};
 struct EntityObj {
     int unk00;
     unsigned short m_usMemSizeAndFlags;
@@ -490,355 +363,6 @@ struct EntityObj {
     void SetPivots(const hkVector4& position,const hkVector4& rotation);
     void removeReference();
 };
-struct EntityOwner {
-    virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
-    virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
-    virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
-    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
-    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
-    virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
-    virtual void v32(); virtual void v33(); virtual void v34();
-    virtual void HandleNode(EntityObj* obj);
-    virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
-    virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43();
-    virtual void v44(); virtual void v45(); virtual void v46();
-    virtual int AddCinfo(EntityCinfo* info);
-    int FUN_00cc3050(EntityCinfo* info);
-};
-class S_00cd3c20_Obj
-{
-public:
-    void FUN_00c6cba0();
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int unk2b4;
-    int unk2b8;
-    int unk2bc;
-    int unk2c0;
-    int unk2c4;
-    int unk2c8;
-    int unk2cc;
-    int unk2d0;
-    int unk2d4;
-    int unk2d8;
-    int unk2dc;
-    int unk2e0;
-    int unk2e4;
-    int unk2e8;
-    int unk2ec;
-    int unk2f0;
-    int unk2f4;
-    int unk2f8;
-    int unk2fc;
-    int unk300;
-    int unk304;
-    int unk308;
-    int unk30c;
-    int unk310;
-    int unk314;
-    int unk318;
-    int unk31c;
-    int unk320;
-    int unk324;
-    int unk328;
-    int unk32c;
-    int unk330;
-    int unk334;
-    int unk338;
-    int unk33c;
-    int unk340;
-    int unk344;
-    int unk348;
-    int unk34c;
-    int unk350;
-    int unk354;
-    int unk358;
-    int unk35c;
-    int unk360;
-    int unk364;
-    int unk368;
-    int unk36c;
-    int unk370;
-    int unk374;
-    int unk378;
-    int unk37c;
-    int unk380;
-    int unk384;
-    int unk388;
-    int unk38c;
-    int unk390;
-    int unk394;
-    int unk398;
-    int unk39c;
-    int unk3a0;
-    int unk3a4;
-    int unk3a8;
-    int unk3ac;
-    int unk3b0;
-    int unk3b4;
-    int unk3b8;
-    int unk3bc;
-    int unk3c0;
-    int unk3c4;
-    int unk3c8;
-    int unk3cc;
-    int unk3d0;
-    int unk3d4;
-    int unk3d8;
-    int unk3dc;
-    int unk3e0;
-    int unk3e4;
-    int unk3e8;
-    int unk3ec;
-    int unk3f0;
-    int unk3f4;
-    int unk3f8;
-    int unk3fc;
-    int unk400;
-    int unk404;
-    int unk408;
-    int unk40c;
-    int unk410;
-    int unk414;
-    int unk418;
-    int unk41c;
-    int unk420;
-    int unk424;
-    int unk428;
-    int unk42c;
-    int unk430;
-    int unk434;
-    int unk438;
-    int unk43c;
-    int unk440;
-    int unk444;
-    int unk448;
-    int unk44c;
-    int unk450;
-    int unk454;
-    int unk458;
-    int unk45c;
-    int unk460;
-    int unk464;
-    int unk468;
-    int unk46c;
-    int unk470;
-    int unk474;
-    int unk478;
-    int unk47c;
-    int unk480;
-    int unk484;
-    int unk488;
-    int unk48c;
-    int unk490;
-    int unk494;
-    int unk498;
-    int unk49c;
-    int unk4a0;
-    int unk4a4;
-    int unk4a8;
-    int unk4ac;
-    int unk4b0;
-    int unk4b4;
-    int unk4b8;
-    int unk4bc;
-    int unk4c0;
-    int unk4c4;
-    int unk4c8;
-    int unk4cc;
-    int unk4d0;
-    int unk4d4;
-    int unk4d8;
-    int unk4dc;
-    int unk4e0;
-    int unk4e4;
-    int unk4e8;
-    int unk4ec;
-    __m128 unk4f0;
-    int unk500;
-    int unk504;
-    int unk508;
-    int unk50c;
-    int unk510;
-    float unk514;
-    int unk518;
-    int unk51c;
-    int unk520;
-};
-void __stdcall FUN_00cd3c20(S_00cd3c20_Obj* obj);
 struct ShapeVector
 {
     hkVec4 m_v;
@@ -940,7 +464,6 @@ struct ShapeOwner
     virtual void finish(struct IntegerBlock18* pkInfo);
     void FUN_00cc3710(IntegerBlock18* pkInfo);
 };
-struct S00cc4610_Ref { void __thiscall FUN_00c905b0(); };
 struct S00cc4610_Out {
     int unk00; unsigned short m_iElementCount; unsigned short unk06; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
     __m128 q20;
@@ -955,106 +478,13 @@ struct S00cc4610_Out {
         return p;
     }
 };
-struct S00cc4610_In {
-    int unk00; int m_04; int m_08; int unk0C;
-    float m_10; float m_14; float m_18; float m_1c; float m_20; float m_24;
-};
 struct S00cc4610_Scope {
     int saved;
     S00cc4610_Scope() { saved = tls_memContext; tls_memContext = 0x10; }
     ~S00cc4610_Scope() { tls_memContext = saved; }
 };
 static inline void s00cc4610_copy(__m128& d, const __m128& s) { d = s; }
-struct S00cc4610_Self {
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35(S00cc4610_Out* o);
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47(S00cc4610_In* i);
-    void FUN_00cc4610(S00cc4610_In* in);
-};
-struct Cc7Bool { char value; };
-struct Cc7Local {
-    void* constraint;
-    void* scheme;
-    int stiffnessReference, dampingReference;
-    Cc7Bool linearA[3], linearB[3];
-    Cc7Bool angularA, angularB, pivotA, pivotB;
-    void InitFromHelper(void* source);
-    void FUN_00d52000(void* out);
-    void FUN_00d51c30(void* tmp);
-    void* FUN_00d520a0(void* out);
-    void* FUN_00d51d40(void* tmp);
-    void AddBridgeAtoms();
-    void AppendEntryAndAdvance();
-    void FUN_00d52ae0(float value);
-    void FUN_00d52ba0();
-    void AppendZeroItem();
-};
 struct __declspec(align(16)) Cc7Vector { unsigned char lanes[16]; };
-struct Cc7Tmp {
-    Cc7Vector column0, column1, column2;
-    Cc7Vector translation;
-    void FUN_00cb22f0(void* base, void* arg);
-};
-extern const float g_011c5c70_arg1;
-struct Cc7Owner {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    void* m04;
-    void* m08;
-    char* m0c;
-    char* m10;
-    void* m14;
-    void* m18;
-    void FUN_00cc7fe0(void* arg);
-};
 extern "C" void _ReadWriteBarrier();
 struct TypeHeader { unsigned int unk00, unk04, unk08, typeCode; };
 struct TypeAttributes { unsigned int attributes; };
@@ -1066,27 +496,13 @@ struct ScratchGeometry {
     unsigned char useA, useB, specialShape, useD, useE;
     void FUN_00d54de0();
 };
-struct LunaAction {
-    unsigned int id;
-    ObjectType* source;
-    void* result;
-    float defaultValue;
-    ScratchGeometry scratch;
-};
-struct LunaArgument {
-    int unk00, unk04;
-    ObjectType* value;
-    int unk0c;
-};
-struct LunaTarget { unsigned int FUN_00cca360(LunaArgument* argument); };
-extern void* __cdecl FUN_00d54cd0(const void*, ScratchGeometry*, unsigned int);
+extern void* __cdecl hkpMoppUtility_buildCode(const void*, ScratchGeometry*, unsigned int);
 union Quaternion525 {
     __m128 value;
     char bytes[16]; // the real xmmintrin __m128 also overlays __int8 m128_i8[16]
     Quaternion525() {}
     Quaternion525& operator=(const Quaternion525& other) { value=other.value; return *this; }
 };
-struct RotationSource525 { unsigned int unk00,unk04,unk08,unk0c; Quaternion525 rotation; };
 struct StringArray525 : NiTObjectArray<char*> {
     void FUN_0096ad30(unsigned int);
     void FUN_0096ae90(unsigned int,char* const&);
@@ -1101,18 +517,9 @@ public:
     float x,y,z;
     char* FUN_00a59af0(const char*);
 };
-extern void* DAT_01268670;
-extern const char DAT_0101c29c[];
-extern const char DAT_010ca6a4[];
 char* __cdecl FUN_00a7d330(void*);
 char* __cdecl FUN_00a7d550(const char*,float);
 void __cdecl FUN_00458620(PositionText525*,const Quaternion525*);
-struct RotationOwner525 {
-    unsigned int unk00,unk04;
-    RotationSource525* source;
-    void FUN_00d54ed0(StringArray525*);
-    void FUN_00ccb810(StringArray525*);
-};
 struct TlsState { int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int unk2b4; };
 extern __declspec(thread) TlsState g_tlsState;
 class MemoryManager { public: void* Allocate(unsigned int size); };
@@ -1159,7 +566,6 @@ inline void* AllocAligned(unsigned int size)
 }
 struct Vec { float x,y,z; };
 struct Mat { float xx,xy,xz,yx,yy,yz,zx,zy,zz; };
-struct NodeTransform { Mat rotation; Vec translation; float scale; };
 union __declspec(align(16)) Transform { struct { __m128 a,b,c,d; }; char bytes[64]; };
 struct TLSData {
 int unk000;
@@ -1433,75 +839,12 @@ int unka8;
 ConvexShapeNode(unsigned short); static void* operator new(unsigned int); void SetParentObject(const struct Name&); };
 extern char* emptyString;
 struct Name { char* value; static char* InternString(const char*); Name(const char* s):value(InternString(s)){} ~Name(){if(value!=emptyString) InterlockedDecrement(reinterpret_cast<volatile long*>(value)-2);} };
-struct Target {
-virtual void slot0();
-virtual void slot1();
-virtual void slot2();
-virtual void slot3();
-virtual void slot4();
-virtual void slot5();
-virtual void slot6();
-virtual void slot7();
-virtual void slot8();
-virtual void slot9();
-virtual void slot10();
-virtual void slot11();
-virtual void slot12();
-virtual void slot13();
-virtual void slot14();
-virtual void slot15();
-virtual void slot16();
-virtual void slot17();
-virtual void slot18();
-virtual void slot19();
-virtual void slot20();
-virtual void slot21();
-virtual void slot22();
-virtual void slot23();
-virtual void slot24();
-virtual void slot25();
-virtual void slot26();
-virtual void slot27();
-virtual void slot28();
-virtual void slot29();
-virtual void slot30();
-virtual void slot31();
-virtual void slot32();
-virtual void slot33();
-virtual void slot34();
-virtual void slot35();
-virtual void slot36();
-virtual void slot37();
-virtual void slot38();
-virtual void slot39();
-virtual void slot40();
-virtual void slot41();
-virtual void slot42();
-virtual void slot43();
-virtual void slot44();
-virtual void slot45();
-virtual void slot46();
-virtual void slot47();
-virtual void slot48();
-virtual void slot49();
-virtual void slot50();
-virtual void slot51();
-virtual void slot52();
-virtual void finish(ConvexShapeNode*,void*); };
-struct Owner { int unk00,unk04; Target* target; };
-struct Body { int unk00,unk04,unk08,unk0c,unk10,unk14; Owner* owner; int unk1c; Transform transform; };
-extern Transform identity;
-extern const char nodeName[];
-void FUN_00624b10(Mat*,Transform*);
 void FUN_00458620(Vec*,__m128*);
-struct Subject { int unk00,unk04; Body* body; void FUN_00ccf150(ConvexShapeNode*,void*); };
 extern "C" {
 __m128 _mm_set_ps1(float);
 __m128 _mm_min_ps(__m128, __m128);
 __m128 _mm_max_ps(__m128, __m128);
 }
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 struct BoundsVector : hkVector4
 {
     __forceinline const __m128& Get() const { return m_vComponents; }
@@ -1515,12 +858,6 @@ struct BoundsVector : hkVector4
         m_vComponents = _mm_max_ps(a.Get(), b.Get());
     }
 };
-struct BoundsEntry
-{
-    BoundsVector translation;
-    BoundsVector rotation;
-    BoundsVector scale;
-};
 struct BoundsBox
 {
     BoundsVector m_kMinimumCorner;
@@ -1530,17 +867,6 @@ struct BoundsBox
         m_kMinimumCorner.Min(m_kMinimumCorner, point);
         m_kMaximumCorner.Max(m_kMaximumCorner, point);
     }
-};
-class BoundsOwner
-{
-public:
-    SkeletonData* m_pSub;
-    int unk04;
-    int unk08;
-    int unk0c;
-    BoundsEntry* m_pEntries;
-    void FUN_00cda340();
-    void FUN_00cda610(BoundsBox* out);
 };
 extern __declspec(thread) int DAT_tls_field;
 struct S00cc2530_ScopedHeap306 {
@@ -1662,57 +988,6 @@ t[1]=_mm_setr_ps(src->m[4],src->m[5],src->m[6],src->m[7]);
 t[2]=_mm_setr_ps(src->m[8],src->m[9],src->m[10],src->m[11]);
 t[3]=_mm_setr_ps(src->m[12],src->m[13],src->m[14],src->m[15]);
 return t;}
-struct S00cc2530_Owner306 {
- virtual void slot00();
- virtual void slot04();
- virtual void slot08();
- virtual void slot0c();
- virtual void slot10();
- virtual void slot14();
- virtual void slot18();
- virtual void slot1c();
- virtual void slot20();
- virtual void slot24();
- virtual void slot28();
- virtual void slot2c();
- virtual void slot30();
- virtual void slot34();
- virtual void slot38();
- virtual void slot3c();
- virtual void slot40();
- virtual void slot44();
- virtual void slot48();
- virtual void slot4c();
- virtual void slot50();
- virtual void slot54();
- virtual void slot58();
- virtual void slot5c();
- virtual void slot60();
- virtual void slot64();
- virtual void slot68();
- virtual void slot6c();
- virtual void slot70();
- virtual void slot74();
- virtual void slot78();
- virtual void slot7c();
- virtual void slot80();
- virtual void slot84();
- virtual void slot88();
- virtual void Set(S00cc2530_FUN_00d4ce10*);
- virtual void slot90();
- virtual void slot94();
- virtual void slot98();
- virtual void slot9c();
- virtual void slota0();
- virtual void slota4();
- virtual void slota8();
- virtual void slotac();
- virtual void slotb0();
- virtual void slotb4();
- virtual void slotb8();
- virtual void OnSource(S00cc2530_Source306*);
- void FUN_00cc2530(S00cc2530_Source306*);
-};
 struct SourceGeometry {
     unsigned int type;
     unsigned int owner;
@@ -1732,7 +1007,7 @@ struct InitializePathingRequestFromPosition {
 struct RefCountedObject {
     void FUN_00c905b0();
 };
-namespace fnvc_adapt { extern SourceGeometry* __cdecl FUN_00d54cd0(const void* attributes,
+namespace fnvc_adapt { extern SourceGeometry* __cdecl hkpMoppUtility_buildCode(const void* attributes,
                                               ScratchGeometry* scratch,
                                               unsigned int options); }
 extern int DAT_0102e368;
@@ -1966,8 +1241,6 @@ struct TlsFlagGuard {
     TlsFlagGuard() { unsigned int index = DAT_0126fd98; m_blk = reinterpret_cast<ThreadTlsBlock**>(__readfsdword(0x2c))[index]; m_saved = m_blk->m_2b4; m_blk->m_2b4 = 0x10; }
     ~TlsFlagGuard() { m_blk->m_2b4 = m_saved; }
 };
-extern unsigned int DAT_01268694;
-extern float DAT_010c72bc;
 struct NameArr {
     virtual ~NameArr();
     void* m_pBase;
@@ -1988,23 +1261,8 @@ struct __declspec(align(16)) Blk {
     float z0;
     float z1, z2;
 };
-struct TagObj {
-    float x, y, z;
-    unsigned int FUN_00a59af0(const char* s);
-};
 unsigned int __cdecl FUN_00a7d330(unsigned int v);
 namespace fnvc_adapt { unsigned int __cdecl FUN_00a7d550(const char* s, float f); }
-void __cdecl FUN_004a3970(TagObj* t, const __m128* v);
-extern const char g_011d3e74_arg1[];
-extern const char str_010ca918[];
-extern const char str_010ca914[];
-class NamedShape {
-public:
-    unsigned int unk00;
-    void WriteLimitedHingeData(Blk* b);
-    void FUN_00c9fc50(NameArr* arr);
-    void FUN_00ccd960(NameArr* arr);
-};
 static void AddName(NameArr* arr, const unsigned int& v) {
     unsigned int n = arr->m_usSize;
     if (n >= arr->m_usMaxSize) {
@@ -2057,18 +1315,6 @@ struct ContactArray {
             memCpyOneAligned<sizeof(AlignedPairData)>(m_data + index, m_data + m_iElementCount);
     }
 };
-struct ContactManifold {
-    void* m_ppVirtualMethodTable;
-    int m_usMemSizeAndFlags;
-    int unk08;
-    int unk0C;
-    ContactArray m_kPoints;
-    int unk1C;
-    AlignedPairData m_kStorage[8];
-    ContactManifold* m_other;
-
-    void FUN_00cd3080();
-};
 extern "C" __m128 _mm_setzero_ps();
 extern float DAT_011b153c;
 union hkVecQ3E
@@ -2077,25 +1323,6 @@ union hkVecQ3E
     char m_bytes[16];
     __forceinline hkVecQ3E() {}
     __forceinline hkVecQ3E(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
-};
-struct ShapeInfo_SI
-{
-    int unk00;
-    float m_fBoundRadius;
-    int unk08;
-    int unk0C;
-    float m_f10;
-    float m_f14;
-    float m_f18;
-    float m_f1C;
-    float m_f20;
-    float m_f24;
-    float m_f28;
-    float m_f2C;
-    float m_f30;
-    float m_f34;
-    float m_f38;
-    float m_f3C;
 };
 struct hkReferencedObject
 {
@@ -2151,83 +1378,6 @@ struct ShapeObj_SI : hkpConvexShape
     }
     virtual ~ShapeObj_SI();
 };
-struct ShapeOwner_SI
-{
-    virtual void vf00();
-    virtual void vf01();
-    virtual void vf02();
-    virtual void vf03();
-    virtual void vf04();
-    virtual void vf05();
-    virtual void vf06();
-    virtual void vf07();
-    virtual void vf08();
-    virtual void vf09();
-    virtual void vf10();
-    virtual void vf11();
-    virtual void vf12();
-    virtual void vf13();
-    virtual void vf14();
-    virtual void vf15();
-    virtual void vf16();
-    virtual void vf17();
-    virtual void vf18();
-    virtual void vf19();
-    virtual void vf20();
-    virtual void vf21();
-    virtual void vf22();
-    virtual void vf23();
-    virtual void vf24();
-    virtual void vf25();
-    virtual void vf26();
-    virtual void vf27();
-    virtual void vf28();
-    virtual void vf29();
-    virtual void vf30();
-    virtual void vf31();
-    virtual void vf32();
-    virtual void vf33();
-    virtual void vf34();
-    virtual void addObject(hkReferencedObject* pkObj);
-    virtual void vf36();
-    virtual void vf37();
-    virtual void vf38();
-    virtual void vf39();
-    virtual void vf40();
-    virtual void vf41();
-    virtual void vf42();
-    virtual void vf43();
-    virtual void vf44();
-    virtual void vf45();
-    virtual void vf46();
-    virtual void finish(ShapeInfo_SI* pkInfo);
-    void FUN_00ccaee0(ShapeInfo_SI* pkInfo);
-};
-struct ParamSrc {
- int unk00, unk04, unk08, unk0c;
- float m_10, m_14, m_18, m_1c;
- float m_20, m_24, m_28, m_2c;
- float m_30;
-};
-class CylinderInitOwner {
-public:
- virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
- virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
- virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
- virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
- virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
- virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
- virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
- virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
- virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35();
- virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
- virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43();
- virtual void v44(); virtual void v45(); virtual void v46();
- virtual void v47(ParamSrc*);
- void __thiscall CreateAndDispatchObject(const __m128& lo, const __m128& hi, float f);
- void __thiscall FUN_00ccd8c0(ParamSrc*);
-};
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 void* __cdecl FUN_00aa13e0(unsigned);
 void __cdecl FreeStorage(void*);
 using ::MemoryManager;
@@ -2264,19 +1414,6 @@ struct Geometry {
         return index>=triangleCount;
 
     }
-
-};
-struct ExtendedMeshInput {
-
-    unsigned unk00;
-
-    Geometry* geometry;
-
-    float scale;
-
-    unsigned unk0C;
-
-    __m128 transform;
 
 };
 struct MeshPart {
@@ -2378,189 +1515,6 @@ struct __declspec(align(16)) ExtendedMeshStoredVector {
     hkVec4 lanes;
     __forceinline ExtendedMeshStoredVector& operator=(__m128 v) { _mm_store_ps(reinterpret_cast<float*>(&lanes.m_bytes[0]),v);return *this; }
     __forceinline operator const __m128&() const { return *reinterpret_cast<const __m128*>(&lanes.m_bytes[0]); }
-};
-struct Result {
-
-    Mesh* mesh;
-
-    unsigned unk04;
-
-    float scale;
-
-    unsigned unk0C;
-
-    ExtendedMeshStoredVector transform;
-
-    Result(Mesh*);
-
-    ~Result();
-
-};
-struct ExtendedMeshBuilder {
-
-virtual void Slot00();
-
-virtual void Slot04();
-
-virtual void Slot08();
-
-virtual void Slot0C();
-
-virtual void Slot10();
-
-virtual void Slot14();
-
-virtual void Slot18();
-
-virtual void Slot1C();
-
-virtual void Slot20();
-
-virtual void Slot24();
-
-virtual void Slot28();
-
-virtual void Slot2C();
-
-virtual void Slot30();
-
-virtual void Slot34();
-
-virtual void Slot38();
-
-virtual void Slot3C();
-
-virtual void Slot40();
-
-virtual void Slot44();
-
-virtual void Slot48();
-
-virtual void Slot4C();
-
-virtual void Slot50();
-
-virtual void Slot54();
-
-virtual void Slot58();
-
-virtual void Slot5C();
-
-virtual void Slot60();
-
-virtual void Slot64();
-
-virtual void Slot68();
-
-virtual void Slot6C();
-
-virtual void Slot70();
-
-virtual void Slot74();
-
-virtual void Slot78();
-
-virtual void Slot7C();
-
-virtual void Slot80();
-
-virtual void Slot84();
-
-virtual void Slot88();
-
-virtual void Slot8C();
-
-virtual void Slot90();
-
-virtual void Slot94();
-
-virtual void Slot98();
-
-virtual void Slot9C();
-
-virtual void SlotA0();
-
-virtual void SlotA4();
-
-virtual void SlotA8();
-
-virtual void SlotAC();
-
-    virtual void Apply(Result*);
-
-    void FUN_00ccc980(ExtendedMeshInput*);
-
-};
-void* __cdecl NiMalloc(unsigned);
-__declspec(noinline) void IndexArray::Resize(unsigned requested) {
-
-    if(requested==capacity) return;
-
-    if(requested<size) {
-
-        for(unsigned short i=(unsigned short)requested;i<size;++i) {
-
-            if(data[i]) {data[i]=0;--used;}
-
-        }
-
-        size=(unsigned short)requested;
-
-    }
-
-    unsigned short* old=data;
-
-    capacity=(unsigned short)requested;
-
-    if(requested>0) {
-
-        data=(unsigned short*)NiMalloc((unsigned short)requested*2);
-
-        for(unsigned short i=0;i<size;++i) data[i]=old[i];
-
-        for(unsigned short i=size;i<capacity;++i) data[i]=0;
-
-    } else data=0;
-
-    FreeStorage(old);
-
-}
-struct FUN_00ccea00Block
-{
-    __m128 m_v0;
-    __m128 m_v1;
-    __m128 m_v2;
-    __m128 m_v3;
-};
-struct FUN_00ccea00Inner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    FUN_00ccea00Block m_20;
-};
-struct FUN_00ccea00Out
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00ccea00Block m_10;
-};
-extern FUN_00ccea00Block DAT_01268370;
-struct FUN_00ccea00Holder
-{
-    int unk00;
-    int unk04;
-    FUN_00ccea00Inner* m_08;
-
-    void FUN_00c9fb70(FUN_00ccea00Out* out);
-    void FUN_00ccea00(FUN_00ccea00Out* out);
 };
 
 struct ThreadBlock {
@@ -2777,32 +1731,6 @@ public:
         heap->Release(memory,motion->allocatedBytes);
     }
 };
-struct MotionScale {int unk00,unk04,unk08,unk0c;float factor;};
-class MotionOwner {
-public:
-    int unk00;
-    FUN_00d4edc0* motion;
-    void ReleaseObject(FUN_00d4edc0* output,MotionScale* scale);
-    void FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale);
-};
-// @fnv 0x00cc51e0
-void MotionOwner::FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale) {
-    AllocationTypeScope allocation(0x10);
-    FUN_00d4edc0* source=motion;
-    if(!output)output=new FUN_00d4edc0;
-    output->state50.quad=source->state50.quad;
-    output->state90.quad=source->state90.quad;
-    output->valueA4=source->valueA4;
-    output->valueA8=source->valueA8;
-    output->valueB0=source->valueB0;
-    output->valueB4=source->valueB4;
-    float factor=scale->factor;
-    if(factor!=1.0f) {
-        output->state50.Mul(SimdReal(factor));
-        output->state90.Mul(SimdReal(factor));
-    }
-    ReleaseObject(output,scale);
-}
 
 extern "C" __m128 _mm_load_ss(const float*);
 struct BlockAllocator {
@@ -2979,26 +1907,10 @@ void CloneOwner513::FUN_00cc7600(FUN_00d4fe80* output_, CloneData513* data_)
 extern "C" __m128 _mm_load_ss(float const*_A);
 
 
-struct S00cc96b0_ScaleObject {
-    int unk00, unk04, unk08, unk0c;
-    int unk10, unk14, unk18, unk1c;
-    __m128 vector20;
-    __m128 vector30;
-};
-
 __forceinline void scale(__m128& v, float f)
 {
     __m128 q = _mm_load_ss(&f);
     v = _mm_mul_ps(_mm_shuffle_ps(q, q, 0), v);
-}
-
-// @fnv 0x00cc96b0
-void __cdecl FUN_00cc96b0(float value, S00cc96b0_ScaleObject* object)
-{
-    if (object && value != 1.0f) {
-        scale(object->vector20, value);
-        scale(object->vector30, value);
-    }
 }
 
 extern "C" __m128 _mm_load_ss(const float*);
@@ -3013,69 +1925,6 @@ struct RefObjStandIn
     void DecRefCount() { if (InterlockedDecrement(&m_uiRefCount) == 0) DeleteThis(); }
 };
 
-struct QuadHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    __m128 m_vComponents;
-};
-
-struct ScaleArg
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    float unk10;
-};
-
-struct TargetArg
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    NiPointer<RefObjStandIn> unk14;
-};
-
-class ScaledNode
-{
-public:
-    virtual void v00(), v04(), v08(), v0c(), v10(), v14(), v18(), v1c();
-    virtual void v20(), v24(), v28(), v2c(), v30(), v34(), v38(), v3c();
-    virtual void v40(), v44(), v48(), v4c(), v50(), v54(), v58(), v5c();
-    virtual void v60(), v64(), v68(), v6c(), v70(), v74(), v78(), v7c();
-    virtual void v80(), v84(), v88(), v8c(), v90(), v94(), v98(), v9c();
-    virtual void va0(), va4(), va8(), vac(), vb0();
-    virtual QuadHolder* vb4(bool* pbFlag);
-
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    NiPointer<RefObjStandIn> unk14;
-
-    void FUN_00c84df0(TargetArg* pkTarget, ScaleArg* pkArg);
-    void FUN_00ccbf00(TargetArg* pkTarget, ScaleArg* pkArg);
-};
-
-// @fnv 0x00ccbf00
-void ScaledNode::FUN_00ccbf00(TargetArg* pkTarget, ScaleArg* pkArg)
-{
-    TargetArg* pkDst = *(TargetArg* volatile*)&pkTarget;
-    ScaleArg* volatile pkScale = pkArg;
-    bool bFlag;
-    QuadHolder* pkQuad = vb4(&bFlag);
-    float fScale = pkArg->unk10;
-    __m128 x = _mm_load_ss(&fScale);
-    pkQuad->m_vComponents = _mm_mul_ps(_mm_shuffle_ps(x, x, 0), pkQuad->m_vComponents);
-    pkDst->unk14 = unk14;
-    FUN_00c84df0(pkDst, pkScale);
-}
-
 extern "C" {
 __m128 _mm_sub_ss(__m128,__m128);
 __m128 _mm_load_ss(const float*);
@@ -3084,7 +1933,6 @@ void _ReadBarrier();
 void _ReadWriteBarrier();
 }
 struct Motion;
-struct FUN_00c6cba0_class { void FUN_00c6cba0(); };
 struct MotionVtable {
 void* slot00;
 void* slot04;
@@ -3456,77 +2304,6 @@ extern "C" void __cdecl FUN_00d6aef0(Step*, __m128*);
 
 extern __m128 DAT_010c7160;
 extern float DAT_01011d78;
-__forceinline void transferScalar(float& destination, float source) {
-    *static_cast<volatile float*>(&destination)=source;
-}
-// @fnv 0x00cd3cb0
-void __stdcall FUN_00cd3cb0(Motion* object) {
-    float b,z;
-    Step scale;
-    StoredVector amount;
-    _mm_store_ss(&b,object->vec4f0);
-    scale.surfaceVelocity = object->vec4d0;
-    StoredVector cv;
-    scale.up = object->vec4c0;
-    scale.normal = object->vec4c0;
-    if (b < -100000000.0f) {
-        (*(0 + object->vec4f0.m128_f32)) = 0.0f;
-        scale.oldVelocity = object->vec4f0;
-        scale.time = 1.0f;
-        _mm_store_ss(&b,_mm_shuffle_ps(object->vec510,object->vec510,0xaa));
-        transferScalar(z,b);
-        _mm_store_ss(&b,object->vec510);
-        transferScalar(b,b);
-        _mm_store_ss(((0)[&scale.gravity.m128_f32]),_mm_shuffle_ps(object->vec510,object->vec510,0x55));
-        scale.gravity = _mm_setr_ps(scale.gravity.m128_f32[0],b,z,0.0f);
-        scale.limit = 100000.0f;
-        scale.basis = object->vec4a0;
-        FUN_00d6aef0(&scale,&object->vec4f0);
-    } else {
-        *static_cast<volatile float*>(&scale.time)=object->value534;
-        scale.oldVelocity = object->vec4f0;
-        _mm_store_ss(&z,_mm_shuffle_ps(object->vec510,object->vec510,0xaa));
-        transferScalar(b,z);
-        _mm_store_ss(&z,object->vec510);
-        transferScalar(z,z);
-        _mm_store_ss(((&scale.gravity.m128_f32)[0]),_mm_shuffle_ps(object->vec510,object->vec510,0x55));
-        scale.gravity = _mm_setr_ps((((scale.gravity.m128_f32)[(0)])),z,b,0.0f);
-        scale.limit = 100000.0f;
-        scale.basis = object->vec4a0;
-        FUN_00d6aef0(&scale,&object->vec4f0);
-        b = object->value54c;
-        if (b > 0.0f) {
-            __m128 normal=object->vec4c0;
-            __m128 n=_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&normal)),object->vec4f0);
-            __m128 v=_mm_add_ss(_mm_shuffle_ps(n,n,0x55),n);
-            __m128 product;
-            __m128 idx=_mm_add_ss(_mm_shuffle_ps(n,n,0xaa),v);
-            _ReadBarrier();
-            product = _mm_sub_ss(DAT_010c7160,idx);
-                    object->vec4f0=_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(product,product,0),normal),object->vec4f0);
-            _ReadWriteBarrier();
-            normal=object->vec4c0;
-            n=_mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&normal)),scale.oldVelocity);
-            v=_mm_add_ss(_mm_shuffle_ps(n,n,0x55),n);
-            idx=_mm_add_ss(_mm_shuffle_ps(n,n,0xaa),v);
-            object->vec4f0=_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(idx,idx,0),normal),object->vec4f0);
-        }
-        __m128 y;
-        object->SubtractVectors(reinterpret_cast<__m128*>(&amount));
-        y = amount;
-        _mm_store_ss(&z,_mm_shuffle_ps(y,y,0xaa));
-        if (z > object->value53c) {
-            object->vtable->getTransform(object);
-            cv = object->vtable->getTransform(object)->b;
-            object->vtable->getTransform(object);
-            __m128 pForm=_mm_load_ss(&b);
-            transferScalar(z,object->value4e8);
-            __m128 q=_mm_load_ss(&z);
-            object->vec4f0 = _mm_add_ps(_mm_mul_ps(_mm_mul_ps(_mm_shuffle_ps(pForm,pForm,0),cv),_mm_shuffle_ps(q,q,0)),object->vec4f0);
-        }
-    }
-    if (11 != object->state) reinterpret_cast<FUN_00c6cba0_class*>(object)->FUN_00c6cba0();
-}
 
 extern "C" void _ReadBarrier(void);
 #pragma intrinsic(_ReadBarrier)
@@ -3537,8 +2314,6 @@ extern "C" __m128 _mm_sub_ss(__m128 _A, __m128 _B);
 
 
 
-extern float DAT_011b0140;
-extern float DAT_01267bbc;
 extern float DAT_01011d78;
 extern __m128 DAT_010c7160;
 
@@ -3578,8 +2353,6 @@ struct S00cd3fb0_MotionParams {
     float unk6c;
     S00cd3fb0_hkVector4 m_v70;
 };
-
-extern void __cdecl IntegrateMotion(S00cd3fb0_MotionParams* params, S00cd3fb0_hkVector4* velocity);
 
 class S00cd3fb0_MotionObject;
 struct S00cd3fb0_MotionVtable {
@@ -3622,10 +2395,6 @@ struct S00cd3fb0_MotionVtable {
     void* slot90;
     S00cd3fb0_MotionTransform* (__thiscall *GetResult)(S00cd3fb0_MotionObject*);
 };
-struct S00cd3fb0_FUN_00c70550_class { float FUN_00c70550(); };
-struct S00cd3fb0_FUN_00c6cba0_class { void FUN_00c6cba0(); };
-struct S00cd3fb0_FUN_00c6e2e0_cls { void FUN_00c6e2e0(); };
-struct S00cd3fb0_FUN_00c6e300_class { void SubtractVectors(__m128*); };
 extern void __cdecl FUN_00d6aef0(S00cd3fb0_MotionParams*, S00cd3fb0_hkVector4*);
 
 class S00cd3fb0_MotionObject {
@@ -4020,77 +2789,7 @@ public:
     void GetAudioPosition(S00cd3fb0_hkVector4* out);
 };
 
-struct S00cd3fb0_MotionContext {
-    unsigned int unk00;
-    unsigned int unk04;
-    float m_vScale;
-    void FUN_00cd3fb0(S00cd3fb0_MotionObject* object);
-};
-
 struct S00cd3fb0_MotionScalarLane { __m128 value; __forceinline S00cd3fb0_MotionScalarLane(float v) { value = _mm_load_ss(&v); } __forceinline S00cd3fb0_MotionScalarLane(S00cd3fb0_RealValue v) { value=_mm_load_ss(&v.value); } __forceinline __m128 broadcast() const { return _mm_shuffle_ps(value,value,0); } };
-// @fnv 0x00cd3fb0
-void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
-{
-    if ((unsigned char)(object->m_flags >> 8) & 1) {
-        object->m_uiContentCount = 0;
-        const_cast<volatile unsigned int&>(object->m_flags) |= 0x80;
-    }
-    if (object->m_uiContentCount == 11 && object->m_factor > 1.0f && ((S00cd3fb0_FUN_00c70550_class*)object)->FUN_00c70550() < 0.10000000149011612) {
-        object->m_uiContentCount = 0;
-        object->m_bSlotEnabled = 1;
-        __m128 v;
-        ((S00cd3fb0_FUN_00c6e300_class*)object)->SubtractVectors(&v);
-        object->m_v620.m_vComponents = v;
-    }
-    if (object->m_uiContentCount != 11) {
-        if (object->m_uiContentCount != 1) {
-            object->m_factor = 0.0f;
-            ((S00cd3fb0_FUN_00c6cba0_class*)object)->FUN_00c6cba0();
-            return;
-        }
-        object->m_uiContentCount = 11;
-    }
-    if (object->m_uiCommandId > 0.0f) {
-        S00cd3fb0_MotionParams params;
-        params.m_factor = (object->m_flags & 0x1800) ? 1.0f : object->m_uiCommandId * DAT_011b0140 + DAT_01267bbc;
-        params.m_v10 = object->m_v4d0;
-        params.m_vScale = m_vScale;
-        params.m_vHitNormal = object->m_vHitNormal;
-        params.m_normal2 = object->m_vHitNormal;
-        params.m_v70 = object->m_v4a0;
-        params.m_fVelocity = object->m_fVelocity;
-        {
-            float x = object->getX510();
-            __m128 source = object->m_v510.m_vComponents;
-            _ReadBarrier();
-            _mm_store_ss(&params.m_v50.m_vComponents.m128_f32[0], _mm_shuffle_ps(source,source,0x55));
-            params.m_v50.set(params.m_v50.m_vComponents.m128_f32[0],x,DAT_01011d78,DAT_01011d78);
-        }
-        S00cd3fb0_hkVector4* vel = &object->m_fVelocity;
-        FUN_00d6aef0(&params, vel);
-        __m128 normal = object->m_vHitNormal.m_vComponents;
-        __m128 product = _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&normal)),object->m_fVelocity.m_vComponents);
-        __m128 sum = _mm_add_ss(_mm_shuffle_ps(product,product,0x55),product);
-        __m128 dot = _mm_add_ss(_mm_shuffle_ps(product,product,0xaa),sum);
-        __m128 neg = _mm_sub_ss(DAT_010c7160,dot);
-        vel->m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(neg,neg,0),normal),vel->m_vComponents);
-        normal = object->m_vHitNormal.m_vComponents;
-        product = _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&normal)),params.m_fVelocity.m_vComponents);
-        sum = _mm_add_ss(_mm_shuffle_ps(product,product,0x55),product);
-        dot = _mm_add_ss(_mm_shuffle_ps(product,product,0xaa),sum);
-        vel->m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(dot,dot,0),normal),vel->m_vComponents);
-    }
-    object->vtable->GetResult(object);
-    __m128 dir = object->vtable->GetResult(object)->m_direction.m_vComponents;
-    object->vtable->GetResult(object);
-    S00cd3fb0_MotionScalarLane s1(object->scale54c());
-    __m128 a = s1.broadcast();
-    S00cd3fb0_MotionScalarLane s2(object->scale4e8());
-    __m128 result = _mm_mul_ps(a,dir);
-    result = _mm_mul_ps(result,s2.broadcast());
-    object->m_fVelocity.m_vComponents = _mm_add_ps(result,object->m_fVelocity.m_vComponents);
-    ((S00cd3fb0_FUN_00c6e2e0_cls*)object)->FUN_00c6e2e0();
-}
 
 extern "C" {
 void _ReadWriteBarrier();
@@ -4117,7 +2816,7 @@ struct MotionData {
     __m128 orientation;
     __m128 direction;
 };
-struct ProxyHolder { const char* FUN_00cac950(); };
+struct ProxyHolder { const char* hkpCharacterProxy_getLinearVelocity(); };
 struct MotionController;
 struct MotionListener {
     virtual void slot00();
@@ -4130,7 +2829,7 @@ struct MotionListener {
     virtual void slot07();
     virtual void update(MotionController* controller);
 };
-struct ListenerTable { MotionListener* FUN_00cbc510(unsigned int index); };
+struct ListenerTable { MotionListener* hkpCharacterStateManager_getState(unsigned int index); };
 struct MotionVTable {
     void* slot00;
     void* slot01;
@@ -4513,91 +3212,11 @@ struct MotionController {
     const void* FUN_00c89720();
     void SubtractVectors(__m128* result);
 };
-extern float DAT_01267e30;
 extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
 void __cdecl FUN_00458620(__m128* result, const __m128* vector);
 
 union __declspec(align(16)) GsVec4 { __m128 v; float f[4]; char c[16]; };
 
-
-static __forceinline __m128 splatFloat(const float* f) {
-    __m128 v = _mm_load_ss(f);
-    return _mm_shuffle_ps(v, v, 0);
-}
-
-
-
-__forceinline __m128 invLength(__m128 value)
-{
-    __m128 squared = _mm_mul_ps(value, value);
-    __m128 partial = _mm_add_ss(_mm_shuffle_ps(squared, squared, 0x55), squared);
-    __m128 sum = partial;
-    sum = _mm_add_ss(_mm_shuffle_ps(squared, squared, 0xaa), partial);
-    __m128 reciprocal = _mm_rsqrt_ss(sum);
-    __m128 correction = _mm_mul_ss(_mm_mul_ss(sum, reciprocal), reciprocal);
-    __m128 zeroMask = _mm_cmpeq_ss(sum, _mm_set_ss(DAT_01011d78));
-    correction = _mm_sub_ss(_mm_set_ss(DAT_01017718), correction);
-    reciprocal = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), reciprocal), correction);
-    reciprocal = _mm_andnot_ps(zeroMask, reciprocal);
-    return reciprocal;
-}
-
-// @fnv 0x00cd4280
-void __stdcall FUN_00cd4280(MotionController* controller)
-{
-    if (controller->state != 11 && (controller->state == 0 || controller->state == 3)) {
-        controller->FUN_00c6cba0();
-        return;
-    }
-    controller->flags |= 0x2000; _ReadWriteBarrier();
-    controller->vtable->getMotionData(controller);
-    GsVec4 reciprocal;
-    {
-        __m128 direction = controller->vtable->getMotionData(controller)->direction;
-        controller->vtable->getMotionData(controller);
-        struct { float s; float scale; } tmp;
-        tmp.scale = controller->directionScale;
-        __m128 scaleVec = _mm_set_ps1(tmp.scale);
-        tmp.scale = (float)fabs(controller->acceleration);
-        double absAccel = tmp.scale;
-        direction = _mm_mul_ps(scaleVec, direction);
-        reciprocal.v = invLength(direction);
-        __m128 squared = _mm_mul_ps(direction, direction);
-        __m128 length = _mm_add_ss(_mm_shuffle_ps(squared, squared, 0x55), squared);
-        length = _mm_add_ss(_mm_shuffle_ps(squared, squared, 0xaa), length);
-        reciprocal.v = _mm_shuffle_ps(reciprocal.v, reciprocal.v, 0);
-        length = _mm_mul_ss(length, reciprocal.v);
-        _mm_store_ss(&tmp.s, length); float magnitude = -(float)sqrt((float)((tmp.s + tmp.s) * absAccel));
-        __m128 norm = _mm_mul_ps(reciprocal.v, direction);
-        direction = _mm_mul_ps(splatFloat(&magnitude), norm);
-        ProxyHolder* proxy = controller->proxy;
-        const float* reference = &DAT_01267e30;
-        __m128 dir;
-        if (proxy) {
-            controller->FUN_00c89720();
-            reference = reinterpret_cast<const float*>(proxy->FUN_00cac950());
-            controller->FUN_00c89720();
-            dir = direction;
-        } else {
-            dir = direction;
-        }
-        direction = _mm_load_ps(reference);
-        direction.m128_f32[2] = 0.0f;
-        controller->velocity = _mm_add_ps(_mm_load_ps(direction.m128_f32), dir);
-    }
-    {
-        __m128 outBuf;
-        controller->SubtractVectors(&reciprocal.v);
-        FUN_00458620(&outBuf, &reciprocal.v);
-        controller->heading = outBuf.m128_f32[2];
-    }
-    controller->state = 2;
-    controller->FUN_00c6cba0();
-    controller->flags &= 0xfffdfeff; _ReadWriteBarrier();
-    controller->listeners->FUN_00cbc510(controller->listenerIndex)->update(controller);
-}
 
 extern "C" __m128 _mm_load_ss(const float*);
 
@@ -4644,32 +3263,9 @@ public:
     int unk30; int unk34; int unk38; int unk3c;
     CCEAE0Vector m_40;
 
-    void FUN_00c84df0(void* a1, CCEAE0Arg* a2);
+    void bhkShape_CopyMembers(void* a1, CCEAE0Arg* a2);
     void FUN_00cceae0(void* a1, CCEAE0Arg* a2);
 };
-
-// @fnv 0x00cceae0
-void CCEAE0Node::FUN_00cceae0(void* a1, CCEAE0Arg* a2)
-{
-    bool flag;
-    CCEAE0Node* p = v45(&flag);
-    CCEAE0Node* q = p->m_08 ? p->m_08->m_08 : 0;
-    float f = a2->m_10;
-    if (f != 1.0f) {
-        hkVec4 s;
-        s.m_vComponents = _mm_load_ss(&f);
-        s.m_vComponents = _mm_shuffle_ps(s.m_vComponents, s.m_vComponents, 0);
-        *reinterpret_cast<__m128*>(&p->m_40) = _mm_mul_ps(s.m_vComponents, *reinterpret_cast<__m128*>(&p->m_40));
-    } else if (!q || q->v52(a2)) {
-        goto done;
-    }
-    {
-        CCEAE0Node* r = q->v18(a2);
-        p->m_08 = r ? r->m_08 : 0;
-    }
-done:
-    FUN_00c84df0(a1, a2);
-}
 
 template<class T> struct NativeArray {
     T* data;int size,capacity;
@@ -4755,30 +3351,6 @@ public:
     void FUN_00c66320(const NQuaternion&,const NQuaternion&);
     void FUN_005611c0();
 };
-__forceinline void NVector::SetRotatedDirection(const NQuaternion& q,const NVector& a) {
-    NVector half;half.quad()=DAT_010c71e0;
-    NVector real;real.splatFrom(q.m_vec,3);
-    NVector scale;scale.triple(half,real,real);
-    NVector accum;accum.setMul4(a,scale);
-    NVector dot;dot.quad()=q.imag().dot3(a).bitsValue();
-    dot.broadcast(0);
-    accum.addMul4(dot,q.imag());
-    NVector cp;cp.cross(q.imag(),a);
-    accum.addMul4(real,cp);
-    setAdd4(accum,accum);
-}
-__forceinline void NVector::inverseRotate(const NQuaternion& q,const NVector& a) {
-    NVector half;half.quad()=DAT_010c71e0;
-    NVector real;real.splatFrom(q.m_vec,3);
-    NVector scale;scale.triple(half,real,real);
-    NVector accum;accum.setMul4(a,scale);
-    NVector dot;dot.quad()=q.imag().dot3(a).bitsValue();
-    dot.broadcast(0);
-    accum.addMul4(dot,q.imag());
-    NVector cp;cp.cross(a,q.imag());
-    accum.addMul4(real,cp);
-    setAdd4(accum,accum);
-}
 static __forceinline ::__m128 reciprocalValue(::__m128 a) {::__m128 seed=_mm_rcp_ps(a);::__m128 error=_mm_mul_ps(_mm_mul_ps(a,seed),seed);return _mm_sub_ps(_mm_add_ps(seed,seed),error);}
 struct NTransform {
     NVector m_vTranslation;
@@ -4800,15 +3372,8 @@ struct NTransform {
         m_vScale.xyzZero(inv);
     }
 };
-__forceinline void NVector::_setTransformedPos(const NTransform& a,const NVector& b) {
-    NVector v(b);v.mul4(a.m_vScale);SetRotatedDirection(a.m_rotation,v);add4(a.m_vTranslation);
-}
 struct NativeBool {char value;NativeBool(){}NativeBool(bool a):value(a){}operator bool() const {return value!=0;}NativeBool& operator=(bool a){value=a;return *this;}};
 
-extern "C" ::__m128 _mm_cmple_ps(::__m128,::__m128);
-extern "C" int _mm_movemask_ps(::__m128);
-template<class T> static __forceinline T valueMax(T a,T b) {return a>b?a:b;}
-template<class T> static __forceinline T valueMin(T a,T b) {return a<b?a:b;}
 struct NativePose {
     void* skeleton;NativeArray<NTransform> locals,transforms;NativeArray<unsigned> flags;
     bool modelSync,localSync;
@@ -4819,16 +3384,6 @@ struct NativePose {
         return FUN_00cda180(i);
     }
 };
-struct NativeInput {
-    NTransform desired;
-    NTransform world;
-    bool enabled;
-    void* query;
-    float blend, rise, fall, speed0, speed1, decay;
-    unsigned filter;
-    bool useFilter;
-};
-struct NativeOutput { float error; bool active; };
 struct NativeSetup {
     short bone0,bone1,bone2,twist0,twist1;
     NVector axis;
@@ -4839,84 +3394,13 @@ struct NativeSetup {
     NativeSetup() {FUN_00c74ed0();}
     void FUN_00c74ed0();
 };
-NativeBool FUN_00cdbae0(const NativeSetup&,NativePose&);
-struct NativeSettings {
-    void* skeleton;
-    short bone0,bone1,bone2;
-    NVector axis,localPoint,direction,plane;
-    float offset,minDistance,maxDistance,lowerLimit,upperLimit,gain,limit,unk7c,unk80;
-    bool lock;
-
-};
-struct NativeSolver {
-    int unk00,unk04,unk08,unk0c;
-    NativeSettings settings;
-    float weight,correction;
-    NVector oldNormal;
-    float previous;
-    NativeBool cached;
-    NVector cachePoint,cacheTarget,drift;
-    bool RayCast(const NativeInput&,const NVector&,const NVector&,float&,NVector&) const;
-    bool FUN_00cd8a50(const NativeInput&,const NVector&,const NVector&,NVector&,NVector&) const;
-};
-
-extern const float  DAT_01017d00;
-extern const ::__m128 DAT_01017d10;
-__declspec(noinline) bool NativeSolver::FUN_00cd8a50(const NativeInput& a,const NVector& foot,const NVector& toe,NVector& projected,NVector& normal) const {
-    float above=settings.unk7c, below=settings.unk80;
-    float span=above+below;
-    float fraction0=::DAT_0104da48,fraction1=::DAT_0104da48;
-    NVector start,end,n0,n1;
-    start.setAddMul4(foot,settings.direction,above);
-    end.setAddMul4(foot,settings.direction,-below);
-    bool hit0=RayCast(a,start,end,fraction0,n0),hit1=false;
-    ::__m128 delta=_mm_and_ps(_mm_sub_ps(toe.quad(),foot.quad()),DAT_01017d10);
-    ::__m128 epsilonVector=_mm_set_ps1(DAT_01017d00);
-    if ((_mm_movemask_ps(_mm_cmple_ps(delta,epsilonVector))&7)!=7) {
-        start.setAddMul4(toe,settings.direction,above);
-        end.setAddMul4(toe,settings.direction,-below);
-        hit1=RayCast(a,start,end,fraction1,n1);
-        if (hit1) {
-            float up=n1.dot3(settings.direction);
-            if(up<=0.0f)hit1=false;
-            else {
-                NVector position,ray;
-                ray.setSub4(end,start);position.setAddMul4(start,ray,fraction1);
-                float planeHeight=-float(position.dot3(n1));
-                start.setAddMul4(foot,settings.direction,above);
-                float height=start.dot3(n1);
-                fraction1=-(planeHeight+height)/(-span*up);
-            }
-        }
-    }
-    if(!hit0&&!hit1)return false;
-    if(hit0&&fraction0<=fraction1) {normal=n0;fraction1=fraction0;}
-    else normal=n1;
-    projected.setAddMul4(foot,settings.direction,-(fraction1*span-above));
-    return true;
-}
 
 static __forceinline ::__m128 rawDot(::__m128 a,::__m128 b) {
     ::__m128 p=_mm_mul_ps(a,b);
     ::__m128 y=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);
     return _mm_add_ss(_mm_shuffle_ps(p,p,0xaa),y);
 }
-static __forceinline void rotateFront(NVector& out,const NQuaternion& quat,const NVector& dir) {
-    const ::__m128& q=quat.m_vec.quad();
-    ::__m128 a=dir.quad();
-    ::__m128 cross=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(q,q,0xc9),_mm_shuffle_ps(a,a,0xd2)),_mm_mul_ps(_mm_shuffle_ps(q,q,0xd2),_mm_shuffle_ps(a,a,0xc9)));
-    ::__m128 r=_mm_shuffle_ps(q,q,0xff);
-    ::__m128 h=_mm_add_ps(_mm_mul_ps(r,r),DAT_010c71e0);
-    ::__m128 result=_mm_mul_ps(a,h);
-    ::__m128 dot=rawDot(q,a);
-    result=_mm_add_ps(result,_mm_mul_ps(_mm_shuffle_ps(dot,dot,0),q));
-    result=_mm_add_ps(result,_mm_mul_ps(cross,r));
-    out.quad()=_mm_add_ps(result,result);
-}
 extern "C" ::__m128 _mm_rsqrt_ps(::__m128);
-extern "C" ::__m128 _mm_sqrt_ps(::__m128);
-extern "C" ::__m128 _mm_cmpgt_ps(::__m128,::__m128);
-extern "C" ::__m128 _mm_cmplt_ps(::__m128,::__m128);
 static const ::__m128 quaternionUnit={{0.0f,0.0f,0.0f,1.0f}};
 static const ::__m128 quaternionOne={{1.0f,1.0f,1.0f,1.0f}};
 static const ::__m128 quaternionHalf={{0.5f,0.5f,0.5f,0.5f}};
@@ -4926,203 +3410,8 @@ static const ::__m128 opposedLimit={{-0.99999f,-0.99999f,-0.99999f,-0.99999f}};
 static const ::__m128 correctionLimit={{-0.999f,-0.999f,-0.999f,-0.999f}};
 static const ::__m128 axisFirst={{1.0f,0.0f,0.0f,0.0f}};
 static const ::__m128 axisSecond={{0.0f,1.0f,0.0f,0.0f}};
-static __forceinline ::__m128 inverseRoot(::__m128 value) {
-    ::__m128 r=_mm_rsqrt_ps(value);
-    return _mm_mul_ps(_mm_mul_ps(quaternionHalf,r),_mm_sub_ps(quaternionThree,_mm_mul_ps(_mm_mul_ps(value,r),r)));
-}
-static __forceinline ::__m128 normalizedQuaternion(::__m128 value) {
-    ::__m128 p=_mm_mul_ps(value,value);
-    ::__m128 sum=_mm_add_ps(p,_mm_shuffle_ps(p,p,0x4e));
-    sum=_mm_add_ps(sum,_mm_shuffle_ps(sum,sum,0xb1));
-    return _mm_mul_ps(value,inverseRoot(sum));
-}
-inline void NQuaternion::FUN_00cd9d10(const NVector& from,const NVector& to) {
-    ::__m128 dot=rawDot(from.quad(),to.quad());
-    dot=_mm_shuffle_ps(dot,dot,0);
-    if (_mm_movemask_ps(_mm_cmpgt_ps(dot,parallelLimit))) m_vec.quad()=quaternionUnit;
-    else if (_mm_movemask_ps(_mm_cmplt_ps(dot,opposedLimit))) {
-        NVector axis;
-        float x=from.quad().m128_f32[0];
-        if(x> -0.5f && x<0.5f)axis.quad()=axisFirst;
-        else axis.quad()=axisSecond;
-        NVector perpendicular;perpendicular.cross(from,axis);
-        perpendicular(3)=0.0f;
-        m_vec.quad()=normalizedQuaternion(perpendicular.quad());
-    } else {
-        ::__m128 halfAngle=_mm_mul_ps(quaternionHalf,_mm_add_ps(quaternionOne,dot));
-        ::__m128 invCosine=inverseRoot(halfAngle);
-        NVector cross;cross.cross(from,to);
-        ::__m128 factor=_mm_mul_ps(quaternionHalf,invCosine);
-        if(_mm_movemask_ps(_mm_cmplt_ps(dot,correctionLimit))) {
-            ::__m128 length=rawDot(cross.quad(),cross.quad());
-            length=_mm_shuffle_ps(length,length,0);
-            factor=_mm_mul_ps(_mm_sqrt_ps(_mm_sub_ps(halfAngle,dot)),inverseRoot(length));
-        }
-        ::__m128 imaginary=_mm_mul_ps(cross.quad(),factor);
-        ::__m128 real=_mm_mul_ps(halfAngle,invCosine);
-        m_vec.quad()=_mm_shuffle_ps(imaginary,_mm_unpackhi_ps(imaginary,real),0xc4);
-    }
-}
 
-__declspec(noinline) void NQuaternion::FUN_00c66320(const NQuaternion& a,const NQuaternion& b) {
-    ::__m128 av=a.m_vec.quad(),bv=b.m_vec.quad();
-    ::__m128 cp=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2)),_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9)));
-    ::__m128 xyz=_mm_add_ps(_mm_add_ps(cp,_mm_mul_ps(_mm_shuffle_ps(av,av,0xff),bv)),_mm_mul_ps(_mm_shuffle_ps(bv,bv,0xff),av));
-    ::__m128 p=_mm_mul_ps(av,bv);::__m128 dot=rawDot(av,bv);
-    ::__m128 w=_mm_sub_ps(p,_mm_shuffle_ps(dot,dot,0));
-    m_vec.quad()=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,w),0xc4);
-}
-
-static __forceinline float scalarDotValue(::__m128 a,::__m128 b) {float f;(::_mm_store_ss)(&f,rawDot(a,b));return f;}
 static __forceinline void scalarDotStore(float& f,::__m128 a,::__m128 b){(::_mm_store_ss)(&f,rawDot(a,b));}
-
-// @fnv 0x00cd8d90
-extern "C" void __fastcall FUN_00cd8d90(NativeSolver* self,void*,const NativeInput& a,NativeOutput& out,NativePose& pose) {
-    const NTransform& world=a.world;
-    NTransform inverse;
-    inverse.SetConjugate(world);
-    NVector localDirection;
-    rotateFront(localDirection,inverse.getRotation(),self->settings.direction);
-    out.active=true;
-    float initialDistance=a.desired.getTranslation().dot3(self->settings.plane);
-    const NQuaternion& originalRotation=a.desired.getRotation();
-    NQuaternion inputRotation=pose.get(self->settings.bone2).getRotation();
-    NTransform base(pose.get(self->settings.bone2));
-    NVector target;
-    const NVector& position=base.getTranslation();target._setTransformedPos(world,position);
-    bool enabled=a.enabled;
-    NVector savedNormal;
-    NVector point;
-    float adjustment,actual;
-
-    if (!enabled) {
-        out.active=false;
-        savedNormal=self->oldNormal;
-        point.setAddMul4(base.getTranslation(),localDirection,self->previous);
-        actual=float(target.dot3(self->settings.direction))+self->previous-initialDistance;
-        adjustment=actual;
-        out.error=0.0f;
-
-        self->cached=false;
-    } else {
-        const bool wasCached=self->cached;
-        NVector normal;
-        if (self->settings.lock) {
-            self->cached=false;
-            if (initialDistance<self->settings.minDistance) {
-                if (wasCached) {
-                    target=self->cachePoint;
-                    base.m_vTranslation._setTransformedPos(inverse,target);
-                } else {
-                    self->cachePoint=target;
-                    NVector local;
-                    local._setTransformedPos(base,self->settings.localPoint);
-                    self->cacheTarget._setTransformedPos(world,local);
-                }
-                self->cached=true;
-            }
-        }
-        NVector local;
-        local._setTransformedPos(base,self->settings.localPoint);
-        NVector rayPoint;
-        if (self->settings.lock && self->cached) rayPoint=self->cacheTarget;
-        else rayPoint._setTransformedPos(world,local);
-        bool hit=self->FUN_00cd8a50(a,target,rayPoint,normal,savedNormal);
-        if (!hit) {
-            out.active=false;
-            enabled=false;
-            savedNormal=self->oldNormal;
-            point.setAddMul4(base.getTranslation(),localDirection,self->previous);
-            actual=float(target.dot3(self->settings.direction))+self->previous-initialDistance;
-            adjustment=actual;
-            out.error=0.0f;
-    
-            self->cached=false;
-        } else {
-            if (self->cached) {
-                target=normal;
-                self->cachePoint=normal;
-                base.m_vTranslation._setTransformedPos(inverse,normal);
-                NVector local;
-                local._setTransformedPos(base,self->settings.localPoint);
-                self->cacheTarget._setTransformedPos(world,local);
-            }
-            out.active=true;
-            actual=normal.dot3(self->settings.direction);
-            float distance=scalarDotValue(self->settings.direction.quad(),a.world.m_vTranslation.quad());out.error=actual-(self->settings.offset+distance);
-            savedNormal(3)=0.0f;
-const NVector& offset=self->drift;
-            NVector perpendicular;
-            perpendicular.setAddMul4(normal,self->settings.direction,-actual);
-            float speed=1.0f-(initialDistance-self->settings.minDistance)/(self->settings.maxDistance-self->settings.minDistance);
-            speed=valueMax<float>(0.0f,speed);
-            speed=valueMin<float>(1.0f,speed);
-            speed=speed*a.speed0+(1.0f-speed)*a.speed1;
-            if (self->weight==0.0f) adjustment=actual;
-            else {
-                const float rate=self->correction>actual?a.fall:a.rise;
-                const float factor=rate*speed;
-                adjustment=(actual-self->correction)*factor+self->correction;
-            }
-            if (self->settings.lock) {
-                if (self->cached) self->drift.setZero4();
-                else {
-                    if (wasCached) {
-                        NVector delta;delta.setSub4(self->cachePoint,perpendicular);self->drift=delta;self->drift.subMul4(self->settings.direction.dot3(delta),self->settings.direction);
-                    }
-                    perpendicular.add4(offset);
-                    self->drift.mul4(1.0f-a.decay);
-                }
-            }
-            NVector movedWorld,movedLocal;
-            movedWorld.setAddMul4(perpendicular,self->settings.direction,adjustment);
-            movedLocal._setTransformedPos(inverse,movedWorld);
-            point.setAddMul4(movedLocal,localDirection,initialDistance-self->settings.offset);
-            const float low=self->settings.lowerLimit, high=self->settings.upperLimit;
-            float projection=point.dot3(self->settings.plane);
-            if (projection>low) point.addMul4(low-projection,self->settings.plane);
-            if (high>projection) {
-                out.active=false;
-                enabled=false;
-                savedNormal=self->oldNormal;
-                point.setAddMul4(base.getTranslation(),localDirection,self->previous);
-                adjustment=float(target.dot3(self->settings.direction))+self->previous-initialDistance;
-                out.error=0.0f;
-            }
-            NVector delta;
-            delta.setSub4(point,base.getTranslation());
-            self->previous=delta.dot3(self->settings.plane);
-
-        }
-    }
-    const float requested=enabled?1.0f:0.0f;
-    self->weight+=(requested-self->weight)*a.blend;
-    if (self->weight<0.01f) self->weight=0.0f;
-    if (self->weight>0.0f) {
-        {
-            NativeSetup setup;
-            setup.bone0=self->settings.bone0;setup.bone1=self->settings.bone1;setup.bone2=self->settings.bone2;
-            setup.axis=self->settings.axis;setup.point=point;
-            setup.limit=self->settings.limit;setup.gain=self->settings.gain;
-            setup.weight=self->weight;setup.weight2=self->weight;setup.weight3=self->weight;
-            FUN_00cdbae0(setup,pose);
-        }
-        {
-            const NVector& desiredUp=savedNormal;
-            NVector localUp,localNormal;
-            localUp.SetRotatedDirection(inverse.getRotation(),self->settings.direction);
-            localNormal.SetRotatedDirection(inverse.getRotation(),desiredUp);
-            NQuaternion rotation,combined,interpolated;
-            rotation.FUN_00cd9d10(localUp,localNormal);
-            combined.FUN_00c66320(rotation,originalRotation);
-            interpolated.m_vec.setInterpolate4(originalRotation.m_vec,combined.m_vec,self->weight);
-            interpolated.FUN_005611c0();
-            pose.FUN_00cdad80(self->settings.bone2,1).SetBodyOrientation(interpolated);
-        }
-    } else out.error=0.0f;
-    self->oldNormal=savedNormal;
-    self->correction=adjustment;
-}
 
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
@@ -5138,11 +3427,9 @@ void _mm_store_ss(float*,::__m128);
 }
 extern "C" ::__m128 _mm_set_ss(float);
 extern "C" ::__m128 _mm_set_ps1(float);
-extern "C" DWORD DAT_0126835c;
 extern "C" unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _ReadBarrier(void);
-extern "C" void _WriteBarrier(void);
 extern "C" double __cdecl sqrt(double);
 
 extern "C" const ::__m128 DAT_010c71b0; // (0,0,0,1)
@@ -5179,14 +3466,6 @@ struct ProfRec2
 __forceinline void setTime() { TimerLayer1(m_iTick); }
 };
 
-struct ProfBuf
-{
-    DWORD unk00;
-    char* m_pCur;
-    DWORD unk08;
-    char* m_pRecordEnd;
-};
-
 struct hkQsTransform;
 
 static __forceinline unsigned __int64 GetTickCounter()
@@ -5218,20 +3497,11 @@ struct hkQuaternion
 __forceinline void copyRotation(const hkQuaternion& q) {*(QuadWords*)&m_vec=*(const QuadWords*)&q.m_vec;}
     void FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1);
     __declspec(noalias) void FUN_005611c0();
-    void FUN_00cb2450(const IkVector4& axis, float angle);
+    void hkQuaternion_setAxisAngle(const IkVector4& axis, float angle);
     void FUN_00cdb910(float gain, const IkVector4& from, const IkVector4& to);
     void FUN_00c74ac0(const hkQuaternion& q0, const hkQuaternion& q1);
     void FUN_00cb2850(const hkQuaternion& q0, const hkQuaternion& q1, float t);
 };
-
-float __cdecl ClampedAcos(float x);
-
-static __forceinline ::__m128 Dot3(::__m128 a, ::__m128 b)
-{
-    ::__m128 x2 = _mm_mul_ps(a, b);
-    ::__m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
-    return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), s);
-}
 
 struct VectorComponentValue
 {
@@ -5286,34 +3556,6 @@ public:
  __forceinline void operator=(const ::__m128& x){quad=x;}
  __forceinline operator const ::__m128&()const{return quad;}
 };
-static __forceinline ::__m128 RotatedDir(const ::__m128& q,const ::__m128& v) {
-MathQuad rotation(q);
-MathQuad scalar; scalar.component<0xff>(rotation);
-
-MathQuad input(v);
-MathQuad bias(DAT_010c71e0);
-MathQuad factor; factor.sumProduct(bias,scalar,scalar);
-MathQuad value; value.product(input,factor);
-DotValue wrapped(v);MathQuad projection(Dot3S(rotation.m_vComponents,(::__m128)wrapped).m_vValue); projection.component<0>(projection);
-value.accumulate(projection,rotation);
-MathQuad perpendicular; perpendicular.m_vComponents=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(rotation.m_vComponents,rotation.m_vComponents,0xc9),_mm_shuffle_ps(input.m_vComponents,input.m_vComponents,0xd2)),_mm_mul_ps(_mm_shuffle_ps(input.m_vComponents,input.m_vComponents,0xc9),_mm_shuffle_ps(rotation.m_vComponents,rotation.m_vComponents,0xd2)));
-value.accumulate(scalar,perpendicular);
-value.doubleValue(value);
-return value.m_vComponents;
-}
-static __forceinline ::__m128 TargetRotation(const ::__m128& q, const ::__m128& v)
-{
-    MathQuad rotation(q), input(v), bias(DAT_010c71e0);
-    MathQuad scalar; scalar.component<0xff>(rotation);
-    MathQuad factor; factor.sumProduct(bias,scalar,scalar);
-    MathQuad value; value.product(input,factor);
-    MathQuad projection(rotation.dotted(input).m_vValue); projection.component<0>(projection);
-    value.accumulate(projection,rotation);
-    MathQuad perpendicular; perpendicular.crossed(rotation,input);
-    value.accumulate(scalar,perpendicular);
-    MathQuad result; result.doubleValue(value);
-    return result.m_vComponents;
-}
 struct HingeScalar {
 private: ::__m128 quad;
 public:
@@ -5335,19 +3577,6 @@ struct HingeVector {
  __forceinline void splat(const HingeVector& a) {quad=_mm_shuffle_ps(a.quad,a.quad,0xff);}
  __forceinline void broadcast() {quad=_mm_shuffle_ps(quad,quad,0);}
 };
-static __forceinline ::__m128 HingeRotation(const ::__m128& q,const ::__m128& v) {
-const HingeVector& rotation=*(const HingeVector*)&q;const HingeVector& input=*(const HingeVector*)&v;
-HingeVector bias(DAT_010c71e0);
-HingeVector w;w.splat(rotation);
-HingeVector factor;factor.addMul(bias,w,w);
-HingeVector value;value.mul(input,factor);
-HingeVector projection(rotation.dot(input));projection.broadcast();
-value.accum(projection,rotation);
-HingeVector cross;cross.cross(rotation,input);
-value.accum(w,cross);
-HingeVector out;out.plus(value,value);
-return out.quad;
-}
 static __forceinline ::__m128 ForwardDot(const ::__m128& a,const ::__m128& b) { const ::__m128 x=_mm_mul_ps(b,a); const ::__m128 xy=_mm_add_ss(_mm_shuffle_ps(x,x,0x55),x); const ::__m128 z=_mm_shuffle_ps(x,x,0xaa); return _mm_add_ss(z,xy); }
 static __forceinline ::__m128 RotateForward(const ::__m128& q, const ::__m128& v)
 {
@@ -5419,77 +3648,9 @@ static __forceinline ::__m128 RotatedInverseDir(const ::__m128& q, const ::__m12
     return _mm_add_ps(c.m_vComponents, c.m_vComponents);
 }
 
-static __forceinline ::__m128 Normalized3(const ::__m128& v)
-{
-    const ::__m128 lenSq = Dot3S(v, v).m_vValue;
-    ::__m128 r = _mm_rsqrt_ss(lenSq);
-    ::__m128 inv = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), r),
-                            _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(lenSq, r), r)));
-    inv = _mm_andnot_ps(_mm_cmpeq_ss(lenSq, _mm_set_ss(0.0f)), inv);
-    return _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), v);
-}
-
-static __forceinline ::__m128 Normalized3Approx(const ::__m128& v)
-{
-    const ::__m128 lenSq = Dot3S(v, v).m_vValue;
-    ::__m128 r = _mm_rsqrt_ss(lenSq);
-    return _mm_mul_ps(_mm_shuffle_ps(r, r, 0), v);
-}
-
-static __forceinline float ToReal(::__m128 x)
-{
-    float f; (_mm_store_ss)(&f,x); return f;
-}
-
-static __forceinline float Sqrt(float x)
-{
-    return (float)sqrt(x);
-}
-
-template <typename T> static __forceinline T Min2(T a, T b) { return b < a ? b : a; }
-template <typename T> static __forceinline T Max2(T a, T b) { return a > b ? a : b; }
-
-
-__declspec(noinline) void MultiplyQuaternions(const hkQuaternion& q0,const hkQuaternion& q1,hkQuaternion& out)
-{
-    const ::__m128 a=q0.m_vec.m_vComponents;
-    const ::__m128 dots=Dot3S(q0.m_vec.m_vComponents,q1.m_vec.m_vComponents).m_vValue;
-    const ::__m128 b=q1.m_vec.m_vComponents;
-    IkVector4 cross;
-    cross.m_vComponents=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(b,b,0xd2),_mm_shuffle_ps(a,a,0xc9)),_mm_mul_ps(_mm_shuffle_ps(b,b,0xc9),_mm_shuffle_ps(a,a,0xd2)));
-    const ::__m128 aw=_mm_shuffle_ps(a,a,0xff);
-    const ::__m128 bw=_mm_shuffle_ps(b,b,0xff);
-    IkVector4 vec;
-    vec.m_vComponents=_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(aw,aw,0),b),cross.m_vComponents);
-    vec.m_vComponents=_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(bw,bw,0),a),vec.m_vComponents);
-    const ::__m128 mul=_mm_mul_ps(b,a);
-    const ::__m128 real=_mm_sub_ps(mul,_mm_shuffle_ps(dots,dots,0));
-    const ::__m128 high=_mm_unpackhi_ps(vec.m_vComponents,real);
-    out.m_vec.m_vComponents=_mm_shuffle_ps(vec.m_vComponents,high,0xc4);
-}
-
-__declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1)
-{ MultiplyQuaternions(q0,q1,*this); }
-
 extern "C" {
 ::__m128 _mm_rsqrt_ps(::__m128);::__m128 _mm_cmpeq_ps(::__m128,::__m128);
 ::__m128 _mm_unpacklo_ps(::__m128,::__m128);::__m128 _mm_movelh_ps(::__m128,::__m128);
-}
-__declspec(noinline) void hkQuaternion::FUN_005611c0(){const ::__m128 half=_mm_set_ps1(0.5f),three=_mm_set_ps1(3.0f),zero=_mm_setzero_ps();
-
- const ::__m128 input=m_vec.m_vComponents;
- const ::__m128 x=_mm_shuffle_ps(input,input,0);
- const ::__m128 y=_mm_shuffle_ps(input,input,0x55);
- const ::__m128 z=_mm_shuffle_ps(input,input,0xaa);
- const ::__m128 w=_mm_shuffle_ps(input,input,0xff);
- const ::__m128 length=_mm_add_ps(_mm_add_ps(_mm_mul_ps(x,x),_mm_mul_ps(z,z)),_mm_add_ps(_mm_mul_ps(y,y),_mm_mul_ps(w,w)));
- const ::__m128 mask=_mm_cmpeq_ps(length,zero);
- const ::__m128 root=_mm_rsqrt_ps(length);
- const ::__m128 correction=_mm_sub_ps(three,_mm_mul_ps(_mm_mul_ps(length,root),root));
- const ::__m128 scale=_mm_andnot_ps(mask,_mm_mul_ps(_mm_mul_ps(half,root),correction));
- const ::__m128 lower=_mm_unpacklo_ps(_mm_mul_ps(x,scale),_mm_mul_ps(y,scale));
- const ::__m128 upper=_mm_unpacklo_ps(_mm_mul_ps(z,scale),_mm_mul_ps(w,scale));
- m_vec.m_vComponents=_mm_movelh_ps(lower,upper);
 }
 
 struct hkQsTransform
@@ -5734,32 +3895,6 @@ struct hkaPoseTyped
     }
 };
 
-struct hkaTwoJointsIkSetup
-{
-    short m_sFirstJointIndex;
-    short m_sSecondJointIndex;
-    short m_sThirdJointIndex;
-    short m_sFourthJointIndex;
-    short m_sFifthJointIndex;
-    short unk0A;
-    int unk0C;
-    IkVector4 m_vHingeAxisLS;
-    float m_fFirstIkParameter;
-    float m_fSecondIkParameter;
-    float m_fThirdIkParameter;
-    float m_fFourthIkParameter;
-    float m_fFifthIkParameter;
-    int unk34;
-    int unk38;
-    int unk3C;
-    IkVector4 m_vFirstIkVector;
-    hkQuaternion m_qFirstIkRotation;
-    IkVector4 m_vSecondIkVector;
-    hkQuaternion m_qSecondIkRotation;
-    bool m_bFirstIkOption;
-    bool m_bSecondIkOption;
-};
-
 struct hkBool
 {
     char m_cBooleanValue;
@@ -5767,214 +3902,4 @@ struct hkBool
 };
 
 
-extern "C" double __cdecl acos(double);
 extern "C" double __cdecl fabs(double);
-extern "C" const float DAT_0102b3c8;
-__declspec(noinline) float __cdecl ClampedAcos(float x)
-{
-    if ((float)fabs(x)>=1.0f) return x<0.0f ? DAT_0102b3c8 : 0.0f;
-    return (float)acos(x);
-}
-// @fnv 0x00cdbae0
-extern "C" hkBool __cdecl FUN_00cdbae0(const hkaTwoJointsIkSetup& setup, SkeletonPoseData& pose)
-{
-IkVector4 secondTwist;
-    {
-        ProfBuf* pBuf;
-        pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-        if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-        {
-            ProfRec2* firstMSRW;
-            firstMSRW = (ProfRec2*)pBuf->m_pCur;
-            firstMSRW->m_pName = "LtTWOJOINTSOLVER";
-            firstMSRW->m_pName2 = "StINIT";
-            firstMSRW->setTime();
-            pBuf->m_pCur = (char*)(firstMSRW + 1);
-        }
-    }
-
-    if (!setup.m_bFirstIkOption && !setup.m_bSecondIkOption) return hkBool(true);
-    {
-        hkQsTransform val;
-        val.setIdentity();
-        hkQsTransform secondPos;
-        secondPos.setIdentity();
-
-        if (setup.m_sFourthJointIndex >= 0)
-        {
-            const hkQsTransform& oldRot = pose.getBoneModelSpace(setup.m_sFourthJointIndex);
-            const hkQsTransform& twistMS = pose.getBoneModelSpace(setup.m_sFirstJointIndex);
-            val.setRelativeContext(twistMS,oldRot);
-        }
-
-        if (setup.m_sFifthJointIndex >= 0)
-        {
-            const hkQsTransform& oldRot = pose.getBoneModelSpace(setup.m_sFifthJointIndex);
-            const hkQsTransform& twistMS = pose.getBoneModelSpace(setup.m_sSecondJointIndex);
-            secondPos.setRelativeContext(twistMS,oldRot);
-        }
-
-        if (setup.m_bFirstIkOption)
-        {
-            IkVector4 ptr;
-            {
-                {
-                    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-                    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-                    {
-                        ProfRec* firstMSRW;
-                        firstMSRW = (ProfRec*)pBuf->m_pCur;
-                        firstMSRW->m_pName = "StFIXLENGTH";
-                        firstMSRW->setTime();
-                        pBuf->m_pCur = (char*)(1 + firstMSRW);
-                    }
-                }
-
-                const hkQsTransform& x = pose.getBoneModelSpace(setup.m_sFirstJointIndex);
-                const hkQsTransform& currentCos = pose.getBoneModelSpace(setup.m_sSecondJointIndex);
-                const hkQsTransform& endPos2 = pose.getBoneModelSpace(setup.m_sThirdJointIndex);
-
-                if (0 == setup.m_bSecondIkOption)
-                {
-                    ptr = setup.m_vFirstIkVector;
-                    secondTwist.FUN_00c7f7a0(endPos2, setup.m_vSecondIkVector);
-                }
-                else
-                {
-                    ::__m128 q = RotatedInverseDir(setup.m_qSecondIkRotation.m_vec.m_vComponents, setup.m_vSecondIkVector.m_vComponents);
-                    q = TargetRotation(setup.m_qFirstIkRotation.m_vec.m_vComponents, q);
-                    ptr.m_vComponents = _mm_sub_ps(setup.m_vFirstIkVector.m_vComponents, q);
-                    secondTwist = endPos2.m_vTranslation;
-                }
-
-                float cosTheta;
-                float a;
-                {
-                    const ::__m128 h2 = currentCos.m_vTranslation.m_vComponents;
-                    const ::__m128 endPosMS = x.m_vTranslation.m_vComponents;
-                    IkVector4 firstToSecond; firstToSecond.m_vComponents = _mm_sub_ps(h2, endPosMS);
-                    IkVector4 secondToEnd; secondToEnd.m_vComponents = _mm_sub_ps(secondTwist.m_vComponents, h2);
-                    IkVector4 firstToTarget; firstToTarget.m_vComponents = _mm_sub_ps(ptr.m_vComponents, endPosMS);
-
-                    hkQuaternion firstPos;firstPos.copyRotation(pose.getBoneModelSpace(setup.m_sSecondJointIndex).m_rotation);
-                    firstPos.FUN_005611c0();
-                    const ::__m128 hingeAxis = HingeRotation(firstPos.m_vec.m_vComponents,setup.m_vHingeAxisLS.m_vComponents);
-
-                    
-                    const VectorComponentValue secondMSDot={Dot3(firstToSecond.m_vComponents,hingeAxis)}; const float secondMS=ToReal(secondMSDot.m_vValue);
-                    const ::__m128 h1 = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&secondMS),_mm_load_ss(&secondMS),0), hingeAxis);
-                    IkVector4 f2sProj; f2sProj.m_vComponents = _mm_sub_ps(firstToSecond.m_vComponents, h1);
-                    const VectorComponentValue pRecDot={Dot3(secondToEnd.m_vComponents,hingeAxis)}; const float pRec=ToReal(pRecDot.m_vValue);
-                    const ::__m128 firstMS2 = _mm_mul_ps(_mm_set_ps1(pRec), hingeAxis);
-                    IkVector4 s2eProj; s2eProj.m_vComponents = _mm_sub_ps(secondToEnd.m_vComponents, firstMS2);
-                    const ::__m128 endTargetMS = _mm_sub_ps(h1, firstMS2);
-                    float oldRot2;
-                    const ::__m128 squaredOffset=_mm_mul_ps(endTargetMS,endTargetMS);
-                     
-                     const float minLimit=setup.m_fSecondIkParameter;
-const ::__m128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
-                    const ::__m128 sz=_mm_shuffle_ps(squaredOffset,squaredOffset,0xaa);
-                    const ::__m128 xy=_mm_add_ss(sy,squaredOffset);
-                    (_mm_store_ss)(&oldRot2,_mm_add_ss(sz,xy));
-
-                    const float hingeLenSq = ToReal(Dot3(firstToTarget.m_vComponents, firstToTarget.m_vComponents)) - oldRot2;
-                    const float hingeAxis2 = ToReal(Dot3(f2sProj.m_vComponents, f2sProj.m_vComponents));
-                    const float secondMSRW = ToReal(Dot3(s2eProj.m_vComponents, s2eProj.m_vComponents));
-                    cosTheta = Max2(setup.m_fFirstIkParameter, Min2((float)((hingeLenSq - hingeAxis2 - secondMSRW) / (-2.0 * Sqrt(hingeAxis2) * Sqrt(secondMSRW))),minLimit));
-
-                    const ::__m128 y = _mm_xor_ps(Normalized3(f2sProj.m_vComponents), DAT_010c4c00);
-                    const ::__m128 d1 = Normalized3(s2eProj.m_vComponents);
-                    (_mm_store_ss)(&a, Dot3(y, d1));
-                }
-                {
-                    hkQsTransform& secondRot = pose.FUN_00cdad80(setup.m_sSecondJointIndex, 1);
-                    IkVector4 pForm;
-                    const hkQuaternion fromDir = secondRot.m_rotation; 
-                    pForm.m_vComponents = Normalized3Approx(RotatedDir(fromDir.m_vec.m_vComponents, setup.m_vHingeAxisLS.m_vComponents));
-
-                    float firstMS;
-                    firstMS = ClampedAcos(cosTheta) - ClampedAcos(a);
-                    firstMS = setup.m_fFourthIkParameter * firstMS;
-                    hkQuaternion s2eN;
-                    s2eN.FUN_00cb2450(pForm, firstMS);
-                    secondRot.m_rotation.FUN_00c66320(s2eN, fromDir);
-                    secondRot.m_rotation.FUN_005611c0();
-                }
-            }
-
-                {
-                    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-                    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-                    {
-                        ProfRec* firstMSRW;
-                        firstMSRW = (ProfRec*)pBuf->m_pCur;
-                        firstMSRW->m_pName = "StFIXDIRECTION";
-                        firstMSRW->setTime();
-                        pBuf->m_pCur = (char*)(1 + firstMSRW);
-                    }
-                }
-            {
-
-                IkVector4 endMS;
-                const hkQsTransform& b = pose.getBoneModelSpace(setup.m_sFirstJointIndex);
-                if (setup.m_bSecondIkOption)
-                {
-                    endMS = pose.getBoneModelSpace(setup.m_sThirdJointIndex).m_vTranslation;
-                }
-                else
-                {
-                    endMS.FUN_00c7f7a0(pose.getBoneModelSpace(setup.m_sThirdJointIndex), setup.m_vSecondIkVector);
-                }
-
-IkVector4 jointMS; jointMS.m_vComponents = Normalized3(_mm_sub_ps(endMS.m_vComponents, b.m_vTranslation.m_vComponents));
-hkQuaternion kIter;
-{ IkVector4 desired; desired.m_vComponents = Normalized3(_mm_sub_ps(ptr.m_vComponents, b.m_vTranslation.m_vComponents));
-kIter.FUN_00cdb910(setup.m_fThirdIkParameter, jointMS, desired); }
-
-                hkQsTransform& firstTwist = pose.FUN_00cdad80(setup.m_sFirstJointIndex, 1);
-                const hkQuaternion d2 = firstTwist.m_rotation;
-                firstTwist.m_rotation.FUN_00c66320(kIter, d2);
-                firstTwist.m_rotation.FUN_005611c0();
-            }
-            }
-
-        if (setup.m_bSecondIkOption)
-        {
-            hkQuaternion hd;
-            hd.FUN_00c74ac0(setup.m_qFirstIkRotation, setup.m_qSecondIkRotation);
-            const hkQsTransform& endPos2 = pose.getBoneModelSpace(setup.m_sThirdJointIndex);
-            hkQsTransform j;
-            j = endPos2;
-            j.m_rotation.FUN_00cb2850(endPos2.m_rotation, hd, setup.m_fFifthIkParameter);
-            pose.setBoneModelSpace(setup.m_sThirdJointIndex, j);
-        }
-
-        if (setup.m_sFourthJointIndex >= 0)
-        {
-            hkQsTransform oldRot;
-            oldRot.setMulFirst(pose.getBoneModelSpace(setup.m_sFirstJointIndex),val);
-            ((hkaPoseTyped&)pose).setBoneModelSpace(setup.m_sFourthJointIndex, oldRot);
-        }
-
-        if (setup.m_sFifthJointIndex >= 0)
-        {
-            hkQsTransform oldRot;
-            oldRot.setMulContext(pose.getBoneModelSpace(setup.m_sSecondJointIndex), secondPos);
-            pose.setBoneModelSpace(setup.m_sFifthJointIndex, oldRot,true);
-        }
-    }
-
-    {
-        ProfBuf* pBuf;
-        pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-        if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-        {
-            ProfRec* firstMSRW;
-            firstMSRW = (ProfRec*)pBuf->m_pCur;
-            firstMSRW->m_pName = "lt";
-            firstMSRW->setTime();
-            pBuf->m_pCur = (char*)(firstMSRW + 1);
-        }
-    }
-    return hkBool(true);
-}

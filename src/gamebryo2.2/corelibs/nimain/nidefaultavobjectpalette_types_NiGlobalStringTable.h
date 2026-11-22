@@ -1,10 +1,11 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
-#ifndef FNV_NIGLOBALSTRINGTABLE_H
-#define FNV_NIGLOBALSTRINGTABLE_H
+#ifndef FNV_NIDEFAULTAVOBJECTPALETTE_TYPES_NIGLOBALSTRINGTABLE_LOCAL_H
+#define FNV_NIDEFAULTAVOBJECTPALETTE_TYPES_NIGLOBALSTRINGTABLE_LOCAL_H
 #include "f3_common.h"
 #include "layout_support.h"
 #include "_RTL_CRITICAL_SECTION.h"
 #include "layout_support.h"
+#include "NiGlobalStringTable.h"
 class NiCriticalSection;
 class NiGlobalStringTable;
 class NiTPrimitiveArray_char___;
@@ -42,40 +43,4 @@ FNV_STATIC_ASSERT(sizeof(NiCriticalSection) == 128);
 FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_kCriticalSection) == 0);
 FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_ulThreadOwner) == 28);
 FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_uiLockCount) == 32);
-#pragma pack(push, 4)
-class NiGlobalStringTable
-{
-  public:
-    static char* AddString(const char*);
-    NiTPrimitiveArray_char___ m_kHashArray[513];  // +0x0, 8208 bytes
-    unsigned char layoutPadding2010[112];
-    NiCriticalSection m_kCriticalSection;  // +0x2080, 128 bytes
-    // char* __cdecl NiGlobalStringTable::*(const char*)
-    // void __cdecl NiGlobalStringTable::*(char*&)
-    // void __cdecl NiGlobalStringTable::*(char*&)
-    // const char* __cdecl NiGlobalStringTable::*(char*&)
-    // unsigned int __cdecl NiGlobalStringTable::*(char*&)
-    // unsigned int __cdecl NiGlobalStringTable::*(char*&)
-    // bool __cdecl NiGlobalStringTable::*(char*&)
-    // void __cdecl NiGlobalStringTable::*()
-    // void __cdecl NiGlobalStringTable::*()
-    // void __cdecl NiGlobalStringTable::*()
-    // unsigned int __cdecl NiGlobalStringTable::*(unsigned int)
-    // unsigned int __cdecl NiGlobalStringTable::*()
-    // unsigned int __cdecl NiGlobalStringTable::*()
-    // char* __cdecl NiGlobalStringTable::*(const char*, unsigned int)
-    // void __cdecl NiGlobalStringTable::*(char*&, unsigned int)
-    // void __cdecl NiGlobalStringTable::*(char*&)
-    // void __cdecl NiGlobalStringTable::*()
-    // char* __cdecl NiGlobalStringTable::*(char*&)
-    // unsigned int __cdecl NiGlobalStringTable::*(const char*, unsigned int)
-    // NiGlobalStringTable
-    // void __cdecl NiGlobalStringTable::*()
-    // NiGlobalStringTable& __cdecl NiGlobalStringTable::*(const NiGlobalStringTable&)
-    // void* __cdecl NiGlobalStringTable::*(unsigned int)
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGlobalStringTable) == 8448);
-FNV_STATIC_ASSERT(offsetof(NiGlobalStringTable, m_kHashArray) == 0);
-FNV_STATIC_ASSERT(offsetof(NiGlobalStringTable, m_kCriticalSection) == 8320);
 #endif

@@ -633,12 +633,14 @@ void FUN_00c85890()
     DAT_0106ca84 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | TES.obj | tesv_win, objrun_open, low
 void FUN_00c85aa0()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0106cb58 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | TESDataHandler.obj | tesv_win, objrun_open, low
 void FUN_00c86420()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -825,6 +827,7 @@ void FUN_00c8ac30()
     DAT_0106e094 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BipedAnim.obj | tesv_win, objrun_open, low
 void FUN_00c8b660()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -837,6 +840,7 @@ void FUN_00c8b6b0()
     DAT_0106e320 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | Defines.obj | tesv_win, objrun_open, low
 void FUN_00c8b930()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -849,12 +853,14 @@ void FUN_00c8b980()
     DAT_0106e58c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: HavokWorldProps::`dynamic initializer for 'fGravitySC'' | GlobalFunc.obj | fnv360_0822_debug, objopen_prop, low
 void FUN_00c8ba00()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0106e8ac = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | GridCell.obj | tesv_win, objrun_open, low
 void FUN_00c8bc70()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -867,6 +873,7 @@ void FUN_00c8bcc0()
     DAT_0106e9c0 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | LipSynchAnim.obj | tesv_win, objrun_open, low
 void FUN_00c8be90()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -915,12 +922,14 @@ void FUN_00c8e970()
     DAT_0106fdc4 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BGSDecalNode.obj | tesv_win, objrun_open, low
 void FUN_00c8f140()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_01070004 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSAnimGroupSequence.obj | tesv_win, objrun_open, low
 void FUN_00c8f1c0()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1215,6 +1224,7 @@ void FUN_00c96bb0()
     DAT_01070c20 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | TESLand.obj | tesv_win, objrun_open, low
 void FUN_00c96d60()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1245,18 +1255,21 @@ void FUN_00c97590()
     DAT_010716b8 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BGSGrassManager.obj | tesv_win, objrun_open, low
 void FUN_00c978c0()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_01071794 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | TESWaterForm.obj | tesv_win, objrun_open, low
 void FUN_00c97c20()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0107186c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | TESWorldSpace.obj | tesv_win, objrun_open, low
 void FUN_00c97df0()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1575,6 +1588,7 @@ void FUN_00c9c2a0()
     DAT_01072788 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | FOCollisionListener.obj | tesv_win, objrun_open, low
 void FUN_00c9c320()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1587,6 +1601,7 @@ void FUN_00c9c370()
     DAT_010727cc = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | HavokStream.obj | tesv_win, objrun_open, low
 void FUN_00c9c550()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1743,6 +1758,7 @@ void FUN_00cdf110()
     DAT_010739dc = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSFaceGenManager.obj | tesv_win, objrun_open, low
 void FUN_00cdf180()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1755,12 +1771,14 @@ void FUN_00cdf1d0()
     DAT_01073a3c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSFaceGenModel.obj | tesv_win, objrun_open, low
 void FUN_00cdf5e0()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_01073b68 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSFaceGenMorphData.obj | tesv_win, objrun_open, low
 void FUN_00cdf650()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1773,6 +1791,7 @@ void FUN_00cdf6a0()
     DAT_01073b88 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSFaceGenNiNode.obj | tesv_win, objrun_open, low
 void FUN_00cdf770()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -1881,30 +1900,35 @@ void FUN_00ce38a0()
     DAT_0107430c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSTempEffectDebris.obj | tesv_win, objrun_open, low
 void FUN_00ce3920()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_01074338 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSTempEffectGeometryDecal.obj | tesv_win, objrun_open, low
 void FUN_00ce3b00()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_010743a8 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSTempEffectParticle.obj | tesv_win, objrun_open, low
 void FUN_00ce3cd0()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_01074410 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSTempEffectSimpleDecal.obj | tesv_win, objrun_open, low
 void FUN_00ce3ea0()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_01074488 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | NavMesh_LoadSave.obj | tesv_win, objrun_open, low
 void FUN_00ce4080()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -2043,6 +2067,7 @@ void FUN_00ce4980()
     DAT_01074654 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | NavMeshObstacleManager.obj | tesv_win, objrun_open, low
 void FUN_00ce4a10()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -2217,6 +2242,7 @@ void FUN_00ce5c00()
     DAT_010757c0 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BGSTerrainManager.obj | tesv_win, objrun_open, low
 void FUN_00ce5cb0()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -2229,6 +2255,7 @@ void FUN_00ce5e70()
     DAT_0107584c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BGSTerrainNode.obj | tesv_win, objrun_open, low
 void FUN_00ce5f50()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -2997,24 +3024,28 @@ void FUN_00cf4360()
     DAT_0107a178 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | MemoryLevelManager.obj | tesv_win, objrun_open, low
 void FUN_00cf53f0()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0107a63c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | SceneGraph.obj | tesv_win, objrun_open, low
 void FUN_00cf55c0()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0107a6ac = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | ScreenShot.obj | tesv_win, objrun_open, low
 void FUN_00cf5790()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0107a724 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | SeenData.obj | tesv_win, objrun_open, low
 void FUN_00cf5980()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -3093,6 +3124,7 @@ void FUN_00cf7250()
     DAT_0107b2a8 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | BSPlayerDistanceCheckController.obj | tesv_win, objrun_open, low
 void FUN_00cf72f0()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -3219,18 +3251,21 @@ void FUN_00cf9e10()
     DAT_0108c69c = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | CombatCoverMap.obj | tesv_win, objrun_open, low
 void FUN_00cfa040()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0108c718 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | CombatDialogueManager.obj | tesv_win, objrun_open, low
 void FUN_00cfa290()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0108c7bc = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | CombatGroup.obj | tesv_win, objrun_open, low
 void FUN_00cfa460()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -3285,12 +3320,14 @@ void FUN_00cfae40()
     DAT_0108cad4 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | CombatThreatMap.obj | tesv_win, objrun_open, low
 void FUN_00cfb010()
 {
     float s = (float)sqrt(DAT_00db36a0);
     DAT_0108cb44 = (float)(DAT_00db3698 * (DAT_00db36a8 / (s * DAT_00db36a0)));
 }
 
+// pdb: `dynamic initializer for 'ISQRT_FACTOR'' | CombatUtilities.obj | tesv_win, objrun_open, low
 void FUN_00cfb1e0()
 {
     float s = (float)sqrt(DAT_00db36a0);

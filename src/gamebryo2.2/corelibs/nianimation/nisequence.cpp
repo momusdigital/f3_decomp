@@ -7,6 +7,7 @@
 extern "C" void* g_011f3f48;
 
 // @fnv 0x00a47a10
+// pdb: bhkWorldObject::GetRTTI | TESObjectREFR.obj | fnv360_0822_retail, objrun, medium
 void* __cdecl FUN_00a47a10()
 {
     return &g_011f3f48;
@@ -20,6 +21,7 @@ struct S
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00a478f0, then if bit 0 of flag is set deletes this with size 0x34, and returns this.
 // @fnv 0x00a47cc0
+// pdb: NiSkinInstance::`scalar deleting destructor' | BSTempEffectGeometryDecal.obj | fnv360_0822_retail, vtable_prefix, high
 void* __thiscall S::DestroyIfFlagged(unsigned int uiFlags)
 {
     FUN_00a478f0();
@@ -95,6 +97,8 @@ struct S_00a47ae0_Obj : S_00a47ae0_Base
     void CopyFromSource(S_00a47ae0_Src* src) throw();
 };
 // @fnv 0x00a47ae0
+// pdb: NiPathInterpolator::LinkObject | NiPathInterpolator.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiSequence::LinkObject)
+// pdb params: kStream
 void S_00a47ae0_Obj::CopyFromSource(S_00a47ae0_Src* pSource) throw()
 {
     FUN_00a89af0(pSource);
@@ -139,6 +143,8 @@ struct FUN_00a47470_cls
 
 // Sets the RefObject at aiIndex in m_ppItems, adjusting m_uCount and m_uSentinelCount, and ref-counts the old and new values.
 // @fnv 0x00a47470
+// pdb: NiTArray<NiPointer<bhkRigidBody>,NiTNewInterface<NiPointer<bhkRigidBody> > >::SetAt | CellMopp.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiIndex, element
 void FUN_00a47470_cls::SetItem(unsigned int aiIndex, RefObject** appValue)
 {
     if ((DAT_011f3f44 & 1) == 0)
@@ -269,6 +275,8 @@ struct AHSeqOwner
 
 // Copies pcName into m_kNames, stores pkSeq at the same index in m_kSeqs, and returns that index.
 // @fnv 0x00a47a20
+// pdb: NiPointer<NiTimeController>::operator= | BSShaderProperty.obj | fnv360_0721_beta, call_gap, low
+// pdb params: ptr
 unsigned int AHSeqOwner::AddSeq(const char* pcName, S_00a47ae0_Rc* pkSeq)
 {
     unsigned int uiIndex = m_kNames.GetSize();

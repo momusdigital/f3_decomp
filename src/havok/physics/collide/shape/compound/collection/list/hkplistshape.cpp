@@ -4,49 +4,59 @@
 
 #include "havok/hkpListShape.h"
 
+// hkpListShape::ChildInfo (New Vegas Xbox 360 PDB layout, 16 bytes)
+struct ListShapeChildInfoF3
+{
+    const void* m_shape;
+    unsigned int m_collisionFilterInfo;
+    int m_shapeSize;
+    int m_numChildShapes;
+};
+
+// hkpListShape: m_childInfo (an hkArray<ChildInfo>) at +0x18
 struct hkPListShape
 {
+    int unk00, unk04, unk08, unk0C, unk10, unk14;
+    ListShapeChildInfoF3* m_childInfo;  // +0x18 m_childInfo.m_data
     void __thiscall SetChildShape(int index, void* shape);
 };
 // @fnv 0x00cf50a0
+// pdb: hkpListShape::setCollisionFilterInfo | hkpListShape.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: index, filterInfo
 void __thiscall hkPListShape::SetChildShape(int index, void* shape)
 {
-    *(void**)((char*)*(int*)((char*)this + 0x18) + (index << 4) + 4) = shape;
+    m_childInfo[index].m_collisionFilterInfo = (unsigned int)shape;
 }
 
+// The hkpShapeContainer subobject of hkpListShape (at +0x10): +8 is hkpListShape::m_childInfo.m_data.
 struct FUN_00cf5070_class
 {
+    int unk00, unk04;
+    ListShapeChildInfoF3* m_childInfo;
     void* GetShapeAt(int index, void* buffer);
 };
 
 // @fnv 0x00cf5070
+// pdb: hkpListShape::getCollisionFilterInfo | hkpListShape.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpListShape::getChildShape)
+// pdb params: key
 void* FUN_00cf5070_class::GetShapeAt(int index, void* buffer)
 {
-    void** shapes = *(void***)((char*)this + 8);
-    return *(void**)((char*)shapes + (index << 4));
+    return (void*)m_childInfo[index].m_shape;
 }
 
+// The hkpShapeContainer subobject of hkpListShape, as above.
 struct hkPListShape2
 {
+    int unk00, unk04;
+    ListShapeChildInfoF3* m_childInfo;
     int __thiscall GetElementAt(int index);
 };
 
 // @fnv 0x00cf5080
+// pdb: hkpListShape::getCollisionFilterInfo | hkpListShape.obj | tesv_win, objrun_open, low
 int hkPListShape2::GetElementAt(int index)
 {
-    return *(int*)(*(int*)((char*)this + 8) + (index << 4) + 4);
-}
-
-struct S_00cf5880
-{
-    int unk0;
-    void FindNextEnabledChild(int a);
-    void FUN_00cf5880();
-};
-// @fnv 0x00cf5880
-void S_00cf5880::FUN_00cf5880()
-{
-    FindNextEnabledChild(-1);
+    return (int)m_childInfo[index].m_collisionFilterInfo;
 }
 
 struct __declspec(align(16)) BufAligned32
@@ -61,27 +71,7 @@ struct __declspec(align(16)) BufAligned32
     int unk1C;
 };
 
-struct FUN_00cf4fb0_Obj
-{
-    void FUN_00cf4fb0(void* a1);
-};
-
-struct FUN_00cf5420_class
-{
-    void FUN_00cf5420();
-};
-
-// @fnv 0x00cf5420
-void FUN_00cf5420_class::FUN_00cf5420()
-{
-    BufAligned32 bufAligned;
-    FUN_00cf4fb0_Obj* obj = (FUN_00cf4fb0_Obj*)this;
-    obj->FUN_00cf4fb0(&bufAligned);
-}
-
 class hkClassCF54;
-
-extern const hkClassCF54 DAT_01269198;
 
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
@@ -171,6 +161,8 @@ class Collector {
 };
 }
 
+// pdb: hkpListShape::getAabbImpl | hkpListShape.obj | fnv360_0822_retail, objrun, medium
+// pdb params: localToWorld, tolerance, out
 void hkObjCF54::AddChildObjectsToCollector(hkStatisticsCollectorCF54* pkCollector) const throw()
 {
     n97da20::Collector* c = (n97da20::Collector*)pkCollector;
@@ -227,14 +219,6 @@ class hkLevel1CF56 : public hkLevel0CF56, public hkIfaceCF56
     }
 };
 
-class FUN_00cf56f0 : public hkLevel1CF56
-{
-  public:
-    FUN_00cf56f0(hkFinishFlagCF56 flag) throw();
-    virtual ~FUN_00cf56f0() throw();
-    virtual void i0();
-};
-
 // @f3 0x006139a0 (community match, verified in this file)
 namespace Clear98 {
 struct Value {unsigned unk00,unk04;unsigned state;};
@@ -289,6 +273,7 @@ struct Triple {unsigned unk00,unk04,unk08,unk0c;Object* first;Object* second;Obj
 struct Node {Triple* item;Node* next;};
 extern Node DAT_01075804;
 }
+// pdb: BGSTerrainChunk::ResetMultiBoundResults | BGSTerrainChunk.obj | fnv360_0822_retail, call_seq, low
 void __cdecl FUN_006139a0(){
  using namespace Clear98;
  for(Node* node=&DAT_01075804;node;node=node->next){
@@ -332,18 +317,6 @@ struct hkListShapeCF58
     int FindNextEnabledChild(int oldKey) const;
 };
 
-// Scans child indices after oldKey up to m_childInfoSize and returns the first enabled one, or -1 if none.
-// @fnv 0x00cf5840
-int hkListShapeCF58::FindNextEnabledChild(int oldKey) const
-{
-    for (int i = oldKey + 1; i < m_childInfoSize; i++)
-    {
-        if (isChildEnabled(i))
-            return i;
-    }
-    return -1;
-}
-
 struct FnvCpu_FUN_00cf5890_CpuAllocator
 {
     virtual void slot00();
@@ -359,25 +332,6 @@ struct FnvCpu_FUN_00cf5890_CpuAllocatorHolder
     FnvCpu_FUN_00cf5890_CpuAllocator* allocator;
 };
 FnvCpu_FUN_00cf5890_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00cf5890_CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00cf5750();
-    FnvCpu_FUN_00cf5890_CpuObject* Destroy(unsigned int flags);
-};
-// Calls FUN_00cf5750, then if flags has bit 0 set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
-// @fnv 0x00cf5890
-FnvCpu_FUN_00cf5890_CpuObject* FnvCpu_FUN_00cf5890_CpuObject::Destroy(unsigned int flags)
-{
-    FUN_00cf5750();
-    if (flags & 1)
-    {
-        FnvCpu_FUN_00cf5890_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
-        pAllocatorHolder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 
 class hkMemoryAllocatorCF56;
 
@@ -421,57 +375,6 @@ template <class T> class hkArrayCF56
         }
     }
 };
-
-struct hkVector4CF56
-{
-    float x, y, z, w;
-};
-
-class ShapeBaseCF56
-{
-  public:
-    virtual void vfn_00();
-    int unk04, unk08, unk0C;
-};
-
-class ListenerBaseCF56
-{
-  public:
-    virtual void vfn_10();
-    int unk14;
-};
-
-class FUN_00d21410 : public ShapeBaseCF56, public ListenerBaseCF56
-{
-  public:
-    FUN_00d21410(int iType, int iFlags) throw();
-};
-
-class FUN_00cf5640 : public FUN_00d21410
-{
-  public:
-    hkArrayCF56<hkVector4CF56> m_kPoints;
-    short m_flags24;
-    short m_flags26;
-    int unk28, unk2C, unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C;
-    int m_aiIds[8];
-
-    FUN_00cf5640(int iA, int iB, int iC) throw();
-    FUN_00cf5640(int iA, int iB) throw();   // 0x0097dab0 (2 stack parameters)
-    void FUN_00cf54d0(int iA, int iB, int iZero, int iC) throw();
-};
-
-// Constructs a shape by reserving 4 points, calling FUN_00cf54d0 with iA, iB, 0, iC, and initializing m_aiIds to -1 and flags to 0.
-// @fnv 0x00cf5640
-FUN_00cf5640::FUN_00cf5640(int iA, int iB, int iC) throw() : FUN_00d21410(9, 0)
-{
-    m_kPoints.reserve(4);
-    FUN_00cf54d0(iA, iB, 0, iC);
-    for (int i = 0; i < 8; i++)
-        m_aiIds[i] = -1;
-    m_flags26 = 0;
-    m_flags24 = 0;
-}
 
 struct Stream_cf50c0
 {
@@ -550,54 +453,6 @@ struct ShapeRouter
     }
 };
 void __cdecl FUN_00c908c0(void* allocator, void* array, int capacity, int elementSize);
-void __cdecl FUN_00c90670(void* data, int count, int elementSize);
-
-struct ListShapeCF54 : public hkpListShape
-{
-    void FUN_00cf5420();
-    void FUN_00cf54d0(int* shapes, int count, int* shapeData, int flag);
-};
-
-// Copies shape and filter data into m_kChildInfoList, growing capacity as needed, then calls FUN_00cf5420.
-// @fnv 0x00cf54d0
-void ListShapeCF54::FUN_00cf54d0(int* shapes, int count, int* shapeData, int flag)
-{
-    hkArray<hkpListShapeChildInfo>& children = m_kChildInfoList;
-    ShapeAlloc& heap = reinterpret_cast<ShapeRouter*>(FUN_00c85750())->heap();
-    int capacity = children.m_iCapacityState & 0x3fffffff;
-    if (capacity < count)
-    {
-        int increasedCapacity = capacity * 2;
-        if (count >= increasedCapacity)
-            increasedCapacity = count;
-        FUN_00c908c0(&heap, &children, increasedCapacity, 16);
-    }
-    children.m_iElementCount = count;
-    if (count > 0)
-    {
-        int* current = shapes;
-        int offset = 0;
-        volatile int difference = (int)shapeData - (int)shapes;
-        int remaining = count;
-        do
-        {
-            int shape = *current;
-            if (shape)
-            {
-                *(int*)((char*)children.m_data + offset) = shape;
-                int filter = shapeData ? *(int*)((char*)current + difference) : 0;
-                *(int*)((char*)children.m_data + offset + 4) = filter;
-                *(int*)((char*)this->m_kChildInfoList.m_data + offset + 12) = count;
-                *(int*)((char*)this->m_kChildInfoList.m_data + offset + 8) = 0;
-            }
-            ++current;
-            offset += 16;
-        } while (--remaining);
-    }
-    if (flag == 1)
-        FUN_00c90670(children.m_data, this->m_kChildInfoList.m_iElementCount, 16);
-    FUN_00cf5420();
-}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -610,8 +465,6 @@ extern "C"
     __m128 _mm_cmple_ps(__m128 a, __m128 b);
     int _mm_movemask_ps(__m128 a);
     __m128 _mm_load_ps1(const float* p);
-    __m128 _mm_set1_ps(float a);
-    __m128 _mm_set_ps1(float a);
     __m128 _mm_xor_ps(__m128 a, __m128 b);
     __m128 _mm_min_ps(__m128 a, __m128 b);
     __m128 _mm_max_ps(__m128 a, __m128 b);
@@ -644,91 +497,11 @@ struct hkVector4q
     }
 };
 
-extern const hkVector4q DAT_01267e30;  // HK_QUADREAL_MINUS1
-extern const float DAT_010cc3b0;       // HK_REAL_MAX
-extern const hkVector4q DAT_010c44d0;  // sign mask
-
-__forceinline void hkVector4q::setNeg4(const hkVector4q& v)
-{
-    m_vComponents = _mm_xor_ps(v.m_vComponents, DAT_010c44d0.m_vComponents);
-}
-
-struct hkAabbq
-{
-    hkVector4q m_kMinimumCorner;
-    hkVector4q m_kMaximumCorner;
-};
-
-class hkpShapeq
-{
-  public:
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void getAabb(const hkTransform& localToWorld, float tolerance, hkAabbq& out) const;
-};
-
-struct hkpListShapeChildInfoq
-{
-    hkpShapeq* m_pCollisionShape;
-    unsigned int m_uiCollisionFilterData;
-    int m_iShapeKey;
-    int m_iChildShapeCount;
-};
-
-class hkpListShapeq
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_usMemSizeAndFlags;
-    unsigned int m_sReferenceCount;
-    unsigned int m_ulUserData;
-    unsigned int m_type;
-    unsigned int unk14;
-    hkArray<hkpListShapeChildInfoq> m_kChildInfoList;
-    unsigned short m_flags;
-    unsigned short m_usNumDisabledChildren;
-    unsigned int unk28;
-    unsigned int unk2C;
-    hkVector4q m_kAabbHalfExtents;
-    hkVector4q m_kAabbCenter;
-
-    void FUN_00cf5420();
-    void FUN_00cf5590(const hkTransform& localToWorld, float tolerance, hkAabbq& out);
-};
-
-// Computes the combined AABB of all child shapes by querying each child's AABB and merging the min and max corners.
-// @fnv 0x00cf5590
-void hkpListShapeq::FUN_00cf5590(const hkTransform& localToWorld, float tolerance, hkAabbq& out)
-{
-    if (m_kAabbHalfExtents.compareLessThanEqual4(DAT_01267e30) == 15)
-    {
-        FUN_00cf5420();
-    }
-
-    out.m_kMinimumCorner.m_vComponents = _mm_set_ps1(1.70141001e+38f);
-    out.m_kMaximumCorner.setNeg4(out.m_kMinimumCorner);
-
-    for (int i = 0; i < m_kChildInfoList.m_iElementCount; i++)
-    {
-        hkAabbq childAabb;
-        const hkpShapeq* childShape = m_kChildInfoList.m_data[i].m_pCollisionShape;
-        childShape->getAabb(localToWorld, tolerance, childAabb);
-        out.m_kMinimumCorner.setMin4(out.m_kMinimumCorner, childAabb.m_kMinimumCorner);
-        out.m_kMaximumCorner.setMax4(out.m_kMaximumCorner, childAabb.m_kMaximumCorner);
-    }
-}
-
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <string.h>
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
-extern const char str_010cc398[];
 extern const char str_010c41f8[];
 
 struct S00cf5140_Bool
@@ -876,6 +649,8 @@ struct S00cf5140_ContainerVtbl
     virtual unsigned int isChildEnabled(unsigned int index) const;
 };
 
+// pdb: hkpListShape::castRayWithCollectorImpl | hkpListShape.obj | fnv360_0822_retail, objrun, low
+// pdb params: input, cdBody, collector
 S00cf5140_Bool S00cf5140_Obj::FUN_00cf5140(const S00cf5140_Input& input, S00cf5140_Output& results) const
 {
     ((S00cf5140_Stream*)TlsGetValue(DAT_0126835c))->timerBegin("TtrcList");
@@ -980,11 +755,6 @@ struct hkMemoryRouterCF5
 
 extern "C" hkMemoryRouterCF5* __cdecl FUN_00c85750() throw();
 
-struct hkRefCF5
-{
-    void FUN_00c905b0() throw();
-};
-
 template <class T> class hkArrayCF5
 {
   public:
@@ -1018,20 +788,6 @@ class hkBaseObjectCF5
     {}
 };
 
-class hkReferencedObjectCF5 : public hkBaseObjectCF5
-{
-  public:
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class hkpShapeCF5 : public hkReferencedObjectCF5
-{
-  public:
-    unsigned int m_ulUserData;
-    int m_type;
-};
-
 class hkpShapeContainerCF5
 {
   public:
@@ -1039,107 +795,4 @@ class hkpShapeContainerCF5
     {}
 };
 
-class hkpShapeCollectionCF5 : public hkpShapeCF5, public hkpShapeContainerCF5
-{
-  public:
-    bool m_bDisableWelding;
-    unsigned char m_eCollectionType;
-};
-
-struct hkpListShapeChildInfoCF5
-{
-    hkRefCF5* m_pCollisionShape;
-    unsigned int m_uiCollisionFilterData;
-    int m_iShapeKey;
-    int m_iChildShapeCount;
-};
-
-class FUN_00cf5750 : public hkpShapeCollectionCF5
-{
-  public:
-    hkArrayCF5<hkpListShapeChildInfoCF5> m_kChildInfoList;
-
-    virtual ~FUN_00cf5750();
-};
-
-// Destructor that calls FUN_00c905b0 on each child's m_pCollisionShape in m_kChildInfoList.
-// @fnv 0x00cf5750
-FUN_00cf5750::~FUN_00cf5750()
-{
-    for (int i = 0; i < m_kChildInfoList.m_iElementCount; i++)
-    {
-        hkpListShapeChildInfoCF5& info = m_kChildInfoList[i];
-        info.m_pCollisionShape->FUN_00c905b0();
-    }
-}
 }  // namespace fnv_00cf5750
-
-struct hkpRayHitCollector;
-
-struct hkpCdBody
-{
-    const hkpShape* m_pCollisionShape;
-    hkUint32 m_uiCollisionShapeKey;
-    const void* m_kMotionState;
-    const hkpCdBody* m_parent;
-};
-
-struct S00cf52c0_ShapeIface : public S00cf5140_ShapeIface
-{
-    virtual void castRayWithCollector(const S00cf5140_Input& input, const hkpCdBody& cdBody,
-                                      hkpRayHitCollector& collector) const;
-};
-
-struct S00cf52c0_Obj : public S00cf5140_Obj
-{
-    void FUN_00cf52c0(const S00cf5140_Input& input, const hkpCdBody& cdBody, hkpRayHitCollector& collector) const;
-};
-
-// Iterates enabled children, optionally filtering via m_pRayShapeCollectionFilter, and casts a ray on each child's collision shape into the collector.
-// @fnv 0x00cf52c0
-void S00cf52c0_Obj::FUN_00cf52c0(const S00cf5140_Input& input, const hkpCdBody& cdBody,
-                                 hkpRayHitCollector& collector) const
-{
-    hkpCdBody child;
-    ((S00cf5140_Stream*)TlsGetValue(DAT_0126835c))->timerBegin("TtrcList");
-
-    if (!input.m_pRayShapeCollectionFilter)
-    {
-        for (unsigned int i = 0; (int)i < m_kChildInfoList.m_iElementCount; i++)
-        {
-            if (isChildEnabled(i))
-            {
-                child.m_pCollisionShape =
-                    reinterpret_cast<const hkpShape*>(m_kChildInfoList.m_data[i].m_pCollisionShape);
-                child.m_parent = &cdBody;
-                child.m_kMotionState = cdBody.m_kMotionState;
-                child.m_uiCollisionShapeKey = i;
-                reinterpret_cast<const S00cf52c0_ShapeIface*>(child.m_pCollisionShape)
-                    ->castRayWithCollector(input, child, collector);
-            }
-        }
-    }
-    else
-    {
-        for (unsigned int i = 0; (int)i < m_kChildInfoList.m_iElementCount; i++)
-        {
-            if (isChildEnabled(i))
-            {
-                if (input.m_pRayShapeCollectionFilter
-                        ->IsCollisionEnabled(input, *this, *reinterpret_cast<const S00cf5140_Container*>(&pad10), i)
-                        .m_cBooleanValue)
-                {
-                    child.m_pCollisionShape =
-                        reinterpret_cast<const hkpShape*>(m_kChildInfoList.m_data[i].m_pCollisionShape);
-                    child.m_parent = &cdBody;
-                    child.m_kMotionState = cdBody.m_kMotionState;
-                    child.m_uiCollisionShapeKey = i;
-                    reinterpret_cast<const S00cf52c0_ShapeIface*>(child.m_pCollisionShape)
-                        ->castRayWithCollector(input, child, collector);
-                }
-            }
-        }
-    }
-
-    ((S00cf5140_Stream*)TlsGetValue(DAT_0126835c))->timerEnd();
-}

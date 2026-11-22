@@ -1,4 +1,4 @@
-// staging/blk_00c20000_o2.cpp: NiPSysParticle, NiPSysBoxEmitter, Host, NiPSysBoxEmitterWrapper and more (45 functions)
+// staging/blk_00c20000_o2.cpp: NiPSysParticle, NiPSysBoxEmitter, Host, NiPSysBoxEmitterWrapper and more (41 functions)
 #include "f3_common.h"
 #include <windows.h>
 // src/staging/blk_00c20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -231,19 +231,6 @@ struct FUN_00c32d80
     void FUN_00c32d80_Ctor();
 };
 
-// @fnv 0x00c2b720
-void* __cdecl FUN_00c2b720()
-{
-    BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(0x40);
-    if (node)
-    {
-        FUN_00c32d80* obj = (FUN_00c32d80*)node;
-        obj->FUN_00c32d80_Ctor();
-        node->m_vftable = (void*)0x010bfa54;
-        return node;
-    }
-    return 0;
-}
 }  // namespace fnv_00c2b720
 
 namespace fnv_00c2b870 {
@@ -393,6 +380,7 @@ struct FUN_00c31ff0
 
 // Allocates a 0x40-byte FUN_00c31ff0, calls Init, sets its vtbl and initializes m_30, m_34, m_38 and m_3c; returns null on allocation failure.
 // @fnv 0x00c2c7b0
+// pdb: NiPSysDragFieldModifier::CreateObject | NiPSysDragFieldModifier.obj | tesv_win, caller_sim, low
 FUN_00c31ff0* __cdecl FUN_00c2c7b0()
 {
     FUN_00c31ff0* p = (FUN_00c31ff0*)BSFadeNode::operator new(0x40);
@@ -429,6 +417,8 @@ struct NiPSysParticle
     void FUN_00c32020(NiPSysParticle* dst, CloningProcess* proc);
 };
 // @fnv 0x00c32020
+// pdb: NiPSysFieldModifier::CopyMembers | NiPSysFieldModifier.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pkDest, kCloning
 void NiPSysParticle::FUN_00c32020(NiPSysParticle* dst, CloningProcess* proc)
 {
     ((NiPSysModifier*)this)->CopyMemberData((NiPSysModifier*)dst, *proc);
@@ -498,6 +488,7 @@ extern int DAT_010be604;
 
 // Allocates a 0x3c-byte object, runs its constructor, sets its vtable and initializes three fields at offsets 0x30-0x38, returning the object or null.
 // @fnv 0x00c26790
+// pdb: NiPSysVortexFieldModifier::CreateObject | NiPSysVortexFieldModifier.obj | fnv360_0822_debug, objrun_open, low
 FUN_00c31ff0* __cdecl FUN_00c26790()
 {
     FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x3c);
@@ -520,6 +511,8 @@ struct NiPSysBoxEmitter
 };
 
 // @fnv 0x00c21f60
+// pdb: NiPSysEmitter::CopyMembers | NiPSysEmitter.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkDest, kCloning
 void NiPSysBoxEmitter::CopyTo(NiPSysModifier* pkDest, CloningProcess& kProcess)
 {
     CopyMemberData(pkDest, kProcess);
@@ -547,6 +540,7 @@ struct FUN_00c22ad0_object : A51BF0Base
 };
 
 // @fnv 0x00c22ad0
+// pdb: NiPSysBombModifier::CreateObject | NiPSysBombModifier.obj | fnv360_0822_retail, objopen_prop, low
 A51BF0Base* FUN_00c22ad0()
 {
     FUN_00c22ad0_object* object = static_cast<FUN_00c22ad0_object*>(A51BF0Base::operator new(0x40));
@@ -596,6 +590,7 @@ struct FUN_00c24c90
 extern int DAT_010be514;
 // Allocates a 0x90-byte FUN_00c24c90, runs its constructor, sets the vtable to DAT_010be514 and clears m_7c, returning the object or null.
 // @fnv 0x00c25ca0
+// pdb: BSStripPSysData::CreateObject | BSStripPSysData.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00c24c90* __cdecl CreateFUN_00c24c90()
 {
     FUN_00c24c90* p = (FUN_00c24c90*)A51BF0Base::operator new(0x90);
@@ -755,6 +750,7 @@ struct FUN_00c22a80_cls : FUN_00c22a80_base
 
 // Calls InitBase, sets the vtable pointer and initialises the object's fields to zero, one and the DAT_011a946c/9470/9474 values, then returns this.
 // @fnv 0x00c22a80
+// pdb: NiPSysBombModifier::NiPSysBombModifier | NiPSysBombModifier.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiPSysGravityModifier::NiPSysGravityModifier)
 FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
 {
     InitBase();
@@ -906,30 +902,6 @@ ParticleObjectFactoryType* CreateParticleObjectFactory()
 
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
 
-struct FUN_00c31720_This
-{
-    void FUN_00c31720();
-};
-
-// @fnv 0x00c2a2b0
-void* __cdecl FUN_00c2a2b0()
-{
-    void* pObject = FUN_00aa13e0(0x2c);
-    if (pObject != NULL)
-    {
-        ((FUN_00c31720_This*)pObject)->FUN_00c31720();
-        float zero = 0.0f;
-        *(float*)((char*)pObject + 0x18) = zero;
-        *(float*)((char*)pObject + 0x20) = zero;
-        *(short*)((char*)pObject + 0x1c) = 0;
-        *(float*)((char*)pObject + 0x28) = zero;
-        *(int*)pObject = 0x10bf0bc;
-        *(short*)((char*)pObject + 0x24) = 0;
-        return pObject;
-    }
-    return NULL;
-}
-
 extern int DAT_010bf654;
 
 struct ParticleEmitterAllocation : FUN_00c32d80
@@ -996,6 +968,7 @@ void __cdecl FUN_00c31750();
 void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
 // @fnv 0x00c2e550
+// pdb: ImageSpaceModifierInstanceRB::`scalar deleting destructor' | ImageSpaceModifierInstance.obj | fnv360_0822_retail, vtable, medium
 unsigned int __thiscall FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
 {
     FUN_00c31750();
@@ -1010,56 +983,6 @@ extern "C" char* DAT_0109b220;
 extern "C" void* DAT_010c08ac;
 extern "C" void(__stdcall* DAT_00fdf1c0)(void*);
 extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
-
-struct NiStringBaseHelper
-{
-    void FUN_00a38e00();
-};
-
-struct FUN_00c31440_cls
-{
-    void* vptr;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    char* m_38;
-    int m_3c;
-
-    FUN_00c31440_cls* AssignString(char** src);
-};
-
-// @fnv 0x00c31440
-FUN_00c31440_cls* FUN_00c31440_cls::AssignString(char** src)
-{
-    reinterpret_cast<NiStringBaseHelper*>(this)->FUN_00a38e00();
-    vptr = (void*)&DAT_010c08ac;
-    *(char* volatile*)&m_38 = DAT_0109b220;
-    m_3c = 0;
-    char* edi = *src;
-    if (m_38 != edi)
-    {
-        if (edi != DAT_0109b220)
-        {
-            DAT_00fdf1c0(edi - 8);
-        }
-        if (m_38 != DAT_0109b220)
-        {
-            DAT_00fdf1c4(m_38 - 8);
-        }
-        m_38 = edi;
-    }
-    return this;
-}
 
 // Factory: allocates a 0x40-byte object, runs the FUN_00c32d80 base constructor and
 // installs this type's vtable (same pattern as ParticleObjectFactoryType / CreateParticleObjectFactory).
@@ -1120,20 +1043,10 @@ PSysFactoryObjectB52* __cdecl CreatePSysFactoryObjectB52()
 extern bool __cdecl IsEquivalentTo(int param1, int param2);
 
 // @fnv 0x00c32df0
+// pdb: TESModelTextureSwap::InitializeDataComponent | TESModelTextureSwap.obj | fnv360_0822_retail, vtable, medium
 bool __cdecl FUN_00c32df0(int param1, int param2)
 {
     return IsEquivalentTo(param1, param2);
-}
-
-struct NiPSysBoxEmitterWrapper : NiPSysBoxEmitter
-{
-    void FUN_00c31b10(NiPSysModifier* destination, CloningProcess& process);
-};
-
-// @fnv 0x00c31b10
-void NiPSysBoxEmitterWrapper::FUN_00c31b10(NiPSysModifier* destination, CloningProcess& process)
-{
-    CopyTo(destination, process);
 }
 
 struct TrailVector
@@ -1190,11 +1103,14 @@ struct TrailSystem
     int unk74, unk78;
     TrailBuffer* buffers;
     unsigned short maxCount;
-    void AddTrailPoint(unsigned short index, float unused);
+    void BSStripPSysData_UpdatePoints(unsigned short index, float unused);
 };
 // Adds a new trail record at the particle's current position, updating the ring buffer's count, first, and next indices.
 // @fnv 0x00c26120
-void TrailSystem::AddTrailPoint(unsigned short index, float unused)
+// pdb: BSStripPSysData::UpdatePoints | BSStripPSysData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: ausParticle, afTime
+// pdb: BSStripPSysData::UpdatePoints | BSStripPSysData.obj | fnv360_0822_retail, call_seq, high (was: AddTrailPoint)
+void TrailSystem::BSStripPSysData_UpdatePoints(unsigned short index, float unused)
 {
     if (particles[index].age > particles[index].lifetime)
         return;
@@ -1279,6 +1195,7 @@ struct PositionState : NiObject_Helper
 };
 // Sets the vtable pointer, decrements the name string's refcount unless it is DAT_0109b220, then calls FUN_00a5d3d0.
 // @fnv 0x00c31750
+// pdb: NiPSysModifier::~NiPSysModifier | NiPSysModifier.obj | fnv360_0822_retail, call_seq, medium
 void PositionState::FUN_00c31750()
 {
     vtable = &DAT_010c09cc;
@@ -1324,6 +1241,7 @@ struct Host_data
 
 // Sets m_vptr, releases m_pData's header (unless DAT_0109b220), drops m_pEntryObject's refcount and destroys it at zero, then calls FUN_00a6d290.
 // @fnv 0x00c312a0
+// pdb: NiPSysModifierCtlr::~NiPSysModifierCtlr | NiPSysModifierCtlr.obj | fnv360_0822_retail, call_seq, high
 void Host_data::FUN_00c312a0()
 {
     Host_data* self = this;

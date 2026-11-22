@@ -7,7 +7,8 @@
 extern void* DAT_011f6044;
 
 // @fnv 0x00aa0000
-void FUN_00aa0000()
+// pdb: NiShaderFactory::ReleaseAllShaders | NiShaderFactory.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void NiShaderFactory_ReleaseAllShaders()
 {
     if (DAT_011f6044)
         ((void(__thiscall*)(void*)) * (void**)(*(char**)DAT_011f6044 + 0x20))(DAT_011f6044);
@@ -23,6 +24,7 @@ struct MemoryManager
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00aa1980
+// pdb: NiSystemDesc::ShutdownSystemDesc | NiSystemDesc.obj | fnv360_0721_retail, udata, medium
 void FUN_00aa1980()
 {
     g_memoryManager.Deallocate(DAT_011f6078);
@@ -35,6 +37,7 @@ class NiFileHack : public NiFile
 };
 
 // @fnv 0x00aa19a0
+// pdb: LoadGameDataFromFileFunction | BGSSaveLoadDefines.obj | tesv_win, objrun_open, low
 unsigned int __cdecl ReadFileData(NiFileHack* apFile, void* buffer, unsigned int size)
 {
     return apFile->FileRead(buffer, size);
@@ -46,6 +49,8 @@ extern int DAT_011f6114;
 extern "C" void __cdecl FUN_00aa2060(int a, int b);
 
 // @fnv 0x00aa2060
+// pdb: NiStaticDataManager::SetRootLibrary | NiStaticDataManager.obj | fnv360_0822_retail, udata, high
+// pdb params: pfnInit, pfnShutdown
 extern "C" void __cdecl FUN_00aa2060(int aiFirst, int aiSecond)
 {
     DAT_011f6110 = aiFirst;
@@ -80,6 +85,8 @@ struct FUN_00aa1010_s
     void ResizeAndCopy(unsigned int uiNewSize, const void* pData);
 };
 // @fnv 0x00aa1010
+// pdb: NiGlobalConstantEntry::SetData | NiGlobalConstantEntry.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: uiDataSize, pvDataSource
 void FUN_00aa1010_s::ResizeAndCopy(unsigned int uiNewSize, const void* pData)
 {
     if (*(unsigned int*)((char*)this + 0x10) < uiNewSize)
@@ -116,6 +123,7 @@ struct FUN_00aa2ff0_s
 };
 
 // @fnv 0x00aa2ff0
+// pdb: NiMemStream::NiMemStream | NiMemStream.obj | fnv360_0822_retail, call_seq, medium
 FUN_00aa2ff0_s* FUN_00aa2ff0_s::FUN_00aa2ff0()
 {
     FUN_00aa1d10();
@@ -145,6 +153,7 @@ struct NiTFixedStringMap_NiAVObject___
 };
 
 // @fnv 0x00aa02b0
+// pdb: NiTMapBase<DFALL<NiTMapItem<NiTexture *,bool> >,NiTexture *,bool>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_retail, vtable, high
 void* NiTFixedStringMap_NiAVObject___::Destroy(int flags)
 {
     m_pVtable = &DAT_010a2138;
@@ -197,11 +206,11 @@ extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(long long
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(long long*);
 extern unsigned char DAT_011ac222;
 extern long long DAT_011f6068;
-extern long long DAT_011f606c;
 extern long long DAT_011f6070;
 
 // Initializes the performance frequency and start counter once, then returns the seconds elapsed since that start counter.
 // @fnv 0x00aa12f0
+// pdb: NiGetCurrentTimeInSec | NiSystem.obj | tesv_win, hash, low
 float GetElapsedSeconds()
 {
     long long currentCounter;
@@ -223,6 +232,8 @@ struct FUN_00aa21d0_s
     FUN_00aa21d0_s* FUN_00aa21d0(void* v);
 };
 // @fnv 0x00aa21d0
+// pdb: NiInitOptions::NiInitOptions | NiInitOptions.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkAllocator
 FUN_00aa21d0_s* FUN_00aa21d0_s::FUN_00aa21d0(void* v)
 {
     m_p = v;
@@ -248,6 +259,7 @@ class HashTableBase
 };
 // Looks up the node whose key matches *key in its bucket, unlinks and destroys it, decrements count, and returns whether it was found.
 // @fnv 0x00aa0250
+// pdb: NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString,NiMaterial *> >,NiMaterial *>::`scalar deleting destructor' | NiMaterial.obj | fnv360_0721_beta, objrun, low
 bool HashTableBase::FUN_00aa0250(const unsigned int* key)
 {
     unsigned int value = *key;
@@ -278,20 +290,6 @@ bool HashTableBase::FUN_00aa0250(const unsigned int* key)
     return false;
 }
 
-struct FUN_00aa09c0_base
-{
-    virtual ~FUN_00aa09c0_base();
-};
-
-struct FUN_00aa09c0_cls : FUN_00aa09c0_base
-{
-    virtual ~FUN_00aa09c0_cls();
-};
-
-// @fnv 0x00aa09c0
-FUN_00aa09c0_cls::~FUN_00aa09c0_cls()
-{}
-
 struct FUN_00aa0ff0_cls
 {
     int unk00;
@@ -302,6 +300,8 @@ struct FUN_00aa0ff0_cls
 };
 
 // @fnv 0x00aa0ff0
+// pdb: StatsMenu::HealingOption::DefaultTargetConditionCallback | MenuManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aHO
 unsigned char FUN_00aa0ff0_cls::FUN_00aa0ff0()
 {
     if (m_08 != 0)
@@ -318,6 +318,8 @@ extern "C" DeviceInterface** DAT_011f6080;
 
 // Defaults value to 1 if zero, then dispatches command 4 with the adjusted value through the device interface.
 // @fnv 0x00aa13e0
+// pdb: NiMemObject::operator new | NiMemObject.obj | fnv360_0822_retail, caller, medium
+// pdb params: stSizeInBytes
 void __cdecl FUN_00aa13e0(int value)
 {
     if (!value)
@@ -345,39 +347,7 @@ void __cdecl FUN_00aa19c0(void* object, void* buffer, unsigned int size)
 
 extern int DAT_010a24b8;
 
-struct FUN_00aa1d10_cls
-{
-    void* m_pVTable;
-    int m_iValue04;
-    int m_iValue08;
-    int m_iValue0c;
-
-    FUN_00aa1d10_cls();
-};
-
-// @fnv 0x00aa1d10
-FUN_00aa1d10_cls::FUN_00aa1d10_cls()
-{
-    m_pVTable = (void*)&DAT_010a24b8;
-    m_iValue08 = 0;
-    m_iValue0c = 0;
-    m_iValue04 = 0;
-}
-
 extern int DAT_010a24b8;
-
-struct FUN_00aa1d30_cls
-{
-    int m_vptr00;
-
-    void FUN_00aa1d30();
-};
-
-// @fnv 0x00aa1d30
-void FUN_00aa1d30_cls::FUN_00aa1d30()
-{
-    m_vptr00 = (int)&DAT_010a24b8;
-}
 
 class FUN_00aa1fd0_cls
 {
@@ -386,12 +356,15 @@ class FUN_00aa1fd0_cls
     int m_04;
     unsigned int unk08;
     int(__cdecl* m_0c)(FUN_00aa1fd0_cls* self, char* s, int a, int* out, int b);
-    unsigned int AdvanceChars(char* s);
+    unsigned int NiBinaryStream_PutS(char* s);
 };
 
 // Advances through the string, calling m_0c per character, accumulating its result into m_04, and returns the number of successfully consumed characters.
 // @fnv 0x00aa1fd0
-unsigned int FUN_00aa1fd0_cls::AdvanceChars(char* s)
+// pdb: NiBinaryStream::PutS | NiBinaryStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pBuffer
+// pdb: NiBinaryStream::PutS | NiBinaryStream.obj | fnv360_0822_retail, call_seq, high (was: AdvanceChars)
+unsigned int FUN_00aa1fd0_cls::NiBinaryStream_PutS(char* s)
 {
     unsigned int count = 0;
     if (*s != 0)
@@ -446,6 +419,7 @@ extern FUN_00aa2020_Holder* DAT_011f6080;
 
 // Allocates a 4-byte holder, stores the impl obtained from DAT_011f6118 into it, then calls the impl's method.
 // @fnv 0x00aa2020
+// pdb: NiMemManager::_SDMInit | NiMemManager.obj | fnv360_0721_retail, call_seq, high
 extern "C" void __cdecl InitHolder()
 {
     DAT_011f6080 = DAT_011f6238.FUN_00aa3e40(4);
@@ -494,7 +468,8 @@ struct FUN_00aa4060_shell
     void __thiscall FUN_00aa4060(void* arg);
 };
 // @fnv 0x00aa2170
-void __cdecl FUN_00aa2170()
+// pdb: NiStaticDataManager::Shutdown | NiStaticDataManager.obj | fnv360_0822_retail, call_gap + bridge(call_gap_sim|call_gap_sim) + skyrim(caller_sim), high
+void __cdecl NiStaticDataManager_Shutdown()
 {
     for (unsigned int i = 0; i < DAT_011f6108; ++i)
     {
@@ -538,6 +513,7 @@ class FUN_00aa21e0_cls
 };
 
 // @fnv 0x00aa21e0
+// pdb: NiInitOptions::~NiInitOptions | NiInitOptions.obj | fnv360_0822_retail, call_seq, high
 void FUN_00aa21e0_cls::FUN_00aa21e0()
 {
     if (m_bEnableState)
@@ -569,16 +545,6 @@ void FUN_00aa21e0_cls::FUN_00aa21e0()
 // literal-content check masks every relocated slot of that table, so the
 // number of slots does not have to match the original's fourteen.
 // ---------------------------------------------------------------------------
-
-struct FUN_00aa2230_BSNiAllocator
-{
-    virtual void m_virtual0();
-    FUN_00aa2230_BSNiAllocator();
-};
-
-// @fnv 0x00aa2230
-FUN_00aa2230_BSNiAllocator::FUN_00aa2230_BSNiAllocator()
-{}
 
 extern char DAT_010a2554[];
 
@@ -660,6 +626,7 @@ struct FUN_00aa24d0
 };
 
 // @fnv 0x00aa24d0
+// pdb: NiSearchPath::NiSearchPath | NiSearchPath.obj | fnv360_0721_beta, call_seq, high
 FUN_00aa24d0::FUN_00aa24d0()
 {
     unk00 = DAT_010a2554;
@@ -735,11 +702,12 @@ struct FUN_00aa2d60_cls
     int unk1C;
     unsigned char unk20;
     unsigned char m_21;
-    void* FUN_00aa2d60();
+    void* NiMemStream_Str();
 };
 
 // @fnv 0x00aa2d60
-void* FUN_00aa2d60_cls::FUN_00aa2d60()
+// pdb: NiMemStream::Str | NiMemStream.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void* FUN_00aa2d60_cls::NiMemStream_Str()
 {
     m_21 = 1;
     return m_10;
@@ -769,6 +737,8 @@ struct FUN_00aa2fb0 : S_00aa2fb0_Base
 };
 
 // @fnv 0x00aa2fb0
+// pdb: NiMemStream::NiMemStream | NiMemStream.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pBuffer, uiSize
 FUN_00aa2fb0::FUN_00aa2fb0(void* a, unsigned int b) : unk10(a), unk14(0), unk1c(b), unk20(1), unk21(0)
 {
     unk18 = b;
@@ -803,9 +773,6 @@ struct S_00aa36f0_State
     unsigned char unk05;
 };
 
-void __cdecl SwapIntPairs(void* a, void* b);
-void __cdecl FreeAllocatorBlock(unsigned int value);
-
 struct S_00aa36f0_Foo
 {
     volatile unsigned int unk00;
@@ -824,6 +791,8 @@ struct S_00aa36f0_Foo
 // @f3 0x008a0ea0 (community match, verified in this file)
 void __cdecl FUN_0089e930(unsigned int value);
 
+// pdb: NiFixedAllocator::DoDeallocate | NiSmallObjectAllocator.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: p
 void S_00aa36f0_Foo::WriteBufferByte(unsigned char* buffer)
 {
     S_00aa36f0_State* state = unk18;
@@ -930,6 +899,7 @@ class FUN_00aa0390 : public NiRefObjectAA3
 
 // Initializes the three pointers to null and default-constructs the string map; the base NiRefObject constructor runs first.
 // @fnv 0x00aa0390
+// pdb: NiShaderFactory::NiShaderFactory | NiShaderFactory.obj | fnv360_0822_retail, objrun, medium
 FUN_00aa0390::FUN_00aa0390() throw() : m_pkFirst(0), m_pkSecond(0), m_pkThird(0)
 {}
 
@@ -940,7 +910,10 @@ static const char kForwardSlash = 0x2f;
 
 // Converts forward slashes to backslashes in pcPath in place and collapses repeated separators, then null-terminates.
 // @fnv 0x00aa1380
-void __cdecl NormalizePathSeparators(char* pcPath)
+// pdb: NiStandardizeFilePath | NiSystem.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pcTempPath
+// pdb: NiStandardizeFilePath | NiSystem.obj | fnv360_0822_retail, call_seq, high (was: NormalizePathSeparators)
+void __cdecl NiStandardizeFilePath(char* pcPath)
 {
     if (!pcPath)
         return;
@@ -984,6 +957,7 @@ struct FUN_00aa14b0_Obj
 };
 
 // @fnv 0x00aa14b0
+// pdb: NiFile::NiFile | NiFile_Win32.obj | tesv_win, caller_sim, low
 unsigned int* FUN_00aa14b0_Obj::Reset()
 {
     FUN_00aa1d10();
@@ -1017,6 +991,8 @@ inline void Swap4(char* data, int count)
     }
 }
 // @fnv 0x00aa1de0
+// pdb: NiBinaryStream::DoByteSwap | NiBinaryStream.obj | fnv360_0721_beta, objrun, medium
+// pdb params: pvData, uiTotalBytes, puiComponentSizes, uiNumComponents
 void __cdecl SwapBufferBySizes(char* buffer, unsigned int length, const unsigned int* sizes, unsigned int count)
 {
     char* data = buffer;
@@ -1067,6 +1043,8 @@ class FileNameComponents
 };
 
 // @fnv 0x00aa2820
+// pdb: NiFilename::Makepath | NiFilename.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pcStr, stStrLen
 bool FileNameComponents::BuildFullPath(char* pcOutPath, unsigned int uiBufferSize)
 {
     if (!pcOutPath)
@@ -1189,6 +1167,8 @@ class FUN_00aa00d0 : public NiRefObjectAA3
     void* m_pResource;
 };
 // @fnv 0x00aa00d0
+// pdb: NiGlobalConstantEntry::NiGlobalConstantEntry | NiShaderFactory.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pcKey, eType, uiDataSize, pvDataSource
 FUN_00aa00d0::FUN_00aa00d0(const char* pcName, unsigned int uiValue, unsigned int uiSize, const void* pvData) throw()
     : m_uiCurrentValue(0), m_uiSize(0), m_pResource(0)
 {
@@ -1200,6 +1180,8 @@ FUN_00aa00d0::FUN_00aa00d0(const char* pcName, unsigned int uiValue, unsigned in
 extern "C" void __cdecl FUN_00a81fe0();
 
 // @fnv 0x00aa0ad0
+// pdb: TESForm::AddChunkArray | TESForm.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeChunkID, apData, aiCount
 void __cdecl FUN_00aa0ad0()
 {
     FUN_00a81fe0();
@@ -1260,7 +1242,8 @@ void __cdecl FUN_00aa10f0(void* buffer);
 
 // If size is non-zero, copies data to a temporary buffer, calls SwapBufferBySizes on it, returns state->FUN_00aa1810(buffer, size) and frees the buffer; else 0.
 // @fnv 0x00aa1ad0
-unsigned int __cdecl FUN_00aa1ad0(ProcessingState* state, const void* data, unsigned int size, void* optionA,
+// pdb: NiFile::WriteAndSwap | NiFile.obj | fnv360_0822_retail, caller_sim + skyrim(objrun_prop), high
+unsigned int __cdecl NiFile_WriteAndSwap(ProcessingState* state, const void* data, unsigned int size, void* optionA,
                                   void* optionB)
 {
     if (size <= 0u)
@@ -1463,7 +1446,8 @@ void __cdecl FUN_00aa3050();
 }
 // Sets TLS unk2b4 to 15, selects or allocates the object stored in DAT_011f6118, runs FUN_00aa3050 and the init callbacks, restores unk2b4 and sets DAT_011f610c.
 // @fnv 0x00aa20b0
-void __cdecl FUN_00aa20b0(void* value)
+// pdb: NiStaticDataManager::Init | NiStaticDataManager.obj | fnv360_0822_retail, call_gap + bridge(call_gap_sim|call_gap_sim) + skyrim(caller_sim), high
+void __cdecl NiStaticDataManager_Init(void* value)
 {
     int oldState = s_tlsData.unk2b4;
     s_tlsData.unk2b4 = 15;
@@ -1509,6 +1493,8 @@ class ThreadSuspendForward : public FUN_00aa2710_cls
 };
 
 // @fnv 0x00aa3040
+// pdb: BackUpPackage::InitLoadGame | BackUpPackage.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 unsigned int ThreadSuspendForward::FUN_00aa3040()
 {
     return SuspendThreadHandle();
@@ -1537,6 +1523,7 @@ extern void* _DAT_011f6078;
 
 // Allocates 8 bytes from the memory manager, stores the processor count and performance frequency, and sets the global pointer to the block.
 // @fnv 0x00aa1920
+// pdb: NiSystemDesc::InitSystemDesc | NiSystemDesc.obj | fnv360_0721_retail, call_seq, high
 void __cdecl FUN_00aa1920()
 {
     unsigned int* p = (unsigned int*)((Heap*)&_g_memoryManager)->Allocate(8);

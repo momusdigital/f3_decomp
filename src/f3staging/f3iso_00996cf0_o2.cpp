@@ -107,10 +107,11 @@ struct Sweep {
     int m_d0;
     int m_d4;
     Sub* m_d8;
-    void FUN_00996cf0();
+    void hkp3AxisSweep_defragment();
 };
 
-void Sweep::FUN_00996cf0()
+// pdb: hkp3AxisSweep::defragment | hkp3AxisSweep.obj | fnv360_0822_retail, objrun_prop + skyrim(objrun_prop), high
+void Sweep::hkp3AxisSweep_defragment()
 {
     void* (__stdcall* tls)(unsigned long) = DAT_00d9b080;
     int n = m_kNodeCollection.GetLogicalSize();

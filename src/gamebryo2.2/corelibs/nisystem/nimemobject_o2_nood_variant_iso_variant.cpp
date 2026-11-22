@@ -7,7 +7,8 @@
 #include "nimemobject_decls.h"
 
 // @fnv 0x00a5c230
-void* __cdecl FUN_00a5c230()
+// pdb: SceneGraph::GetRTTI | SceneGraph.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(udata), high
+void* __cdecl SceneGraph_GetRTTI()
 {
     return static_cast<void*>(&DAT_011f4304[0]);
 }

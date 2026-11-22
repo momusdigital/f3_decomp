@@ -4,48 +4,8 @@
 
 #include "havok/hkpSimpleShapePhantom.h"
 
-struct FUN_00d1f9c0_Memory
-{
-    virtual void FUN_00d1f9c0_a();
-    virtual void FUN_00d1f9c0_b();
-    virtual void FUN_00d1f9c0_free(void* object, unsigned short size);
-};
-
-struct FUN_00d1f9c0_Router
-{
-    unsigned char pad[0x10];
-    FUN_00d1f9c0_Memory* memory;
-};
-
-FUN_00d1f9c0_Router* _D1A0E0GetMemoryRouter();
-
-struct FUN_00d1f9c0_StandIn
-{
-    void* vtable;
-    unsigned short size;
-
-    void FUN_00d1f780();
-    void* FUN_00d1f9c0(unsigned int flags);
-};
-
-// Calls FUN_00d1f780, then if flags has bit 1 set frees this through the memory router's free with this->size, and returns this.
-// @fnv 0x00d1f9c0
-void* FUN_00d1f9c0_StandIn::FUN_00d1f9c0(unsigned int flags)
-{
-    this->FUN_00d1f780();
-
-    if (flags & 1)
-    {
-        FUN_00d1f9c0_Router* router = _D1A0E0GetMemoryRouter();
-        FUN_00d1f9c0_Memory* memory = router->memory;
-        unsigned short size = this->size;
-        memory->FUN_00d1f9c0_free(this, size);
-    }
-
-    return this;
-}
-
 // @fnv 0x00d1f220
+// pdb: hkpSphereShape::getNumCollisionSpheresImpl | hkpSphereShape.obj | fnv360_0822_retail, objrun_open, low
 int FUN_00d1f220()
 {
     return 1;
@@ -64,40 +24,6 @@ struct DetailLess
         return a->key < b->key;
     }
 };
-// Sorts the range [lo, hi] of a ShapeDetail pointer array in place by key using a quicksort partition loop and recursion.
-// @fnv 0x00cf2ed0
-void __cdecl QuickSortShapeDetails(ShapeDetail** apItems, int lo, int hi, DetailLess aComparator)
-{
-    for (;;)
-    {
-        int i = lo;
-        int iRight = hi;
-        AlignedShapePtr pivot = apItems[(lo + hi) >> 1];
-        do
-        {
-            while (aComparator(apItems[i], pivot))
-                ++i;
-            while (aComparator(pivot, apItems[iRight]))
-                --iRight;
-            if (iRight >= i)
-            {
-                if (iRight != i)
-                {
-                    ShapeDetail* pTemp = apItems[iRight];
-                    apItems[iRight] = apItems[i];
-                    apItems[i] = pTemp;
-                }
-                --iRight;
-                ++i;
-            }
-        } while (i <= iRight);
-        if (lo < iRight)
-            QuickSortShapeDetails(apItems, lo, iRight, aComparator);
-        if (i >= hi)
-            break;
-        lo = i;
-    }
-}
 
 struct hkBoolXd1f230
 {
@@ -115,114 +41,6 @@ template <class T> class hkArrayXd1f230
     int m_iElementCount;
     int m_iCapacityState;
 };
-
-class hkObjXd1f230
-{
-  public:
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    hkArrayXd1f230<void*> m_items;
-
-    hkBoolXd1f230 Contains(void* pv) const;
-};
-
-// Returns true if the pointer pv is found in the m_items array, otherwise false.
-// @fnv 0x00d1f230
-hkBoolXd1f230 hkObjXd1f230::Contains(void* apItem) const
-{
-    for (int i = 0; i < m_items.m_iElementCount; i++)
-    {
-        if (m_items.m_data[i] == apItem)
-            return true;
-    }
-    return false;
-}
 
 struct hkBoolD1F5
 {
@@ -289,6 +107,8 @@ class hkpSimpleShapePhantomD1F5 : public FUN_00ca9520_class
 };
 
 // @f3 0x0099e780 (community match, verified in this file)
+// pdb: hkpSimpleShapePhantom::removeOverlappingCollidable | hkpSimpleShapePhantom.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: collidable
 void hkpSimpleShapePhantomD1F5::FUN_00d1f5a0(hkpCollidableD1F5* pkCollidable) throw()
 {
     char* self = reinterpret_cast<char*>(this);
@@ -315,8 +135,6 @@ void hkpSimpleShapePhantomD1F5::FUN_00d1f5a0(hkpCollidableD1F5* pkCollidable) th
 
 
 class hkClassD1F6;
-
-extern const hkClassD1F6 DAT_0126902c;
 
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
@@ -468,62 +286,14 @@ class hkObjD1F6 : public hkpShapeD1F6
     void CollectStatistics(hkStatisticsCollectorD1F6* pkCollector, const hkClassD1F6* pkClass) const throw();
 };
 
-// Calls the base shape's statistics collector with DAT_0126902c, then adds the m_overlaps array to pkCollector as "OverlapPtr".
-// @fnv 0x00d1f620
-void hkObjD1F6::CollectStatistics(hkStatisticsCollectorD1F6* pkCollector, const hkClassD1F6* pkClass) const throw()
-{
-    WritePhantomLists(pkCollector, &DAT_0126902c);
-    pkCollector->addArray("OverlapPtr", m_overlaps);
-}
-
 struct CollisionMemoryRouter
 {
     int unk00, unk04, unk08, unk0c;
     void* allocator;
 };
-extern "C" int __stdcall FUN_00ca94c0(void* object);
 extern "C" CollisionMemoryRouter* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
-
-struct FUN_00d1f690_Member : hkpSimpleShapePhantom
-{
-    void AddCollisionDetail(void* object);
-};
-
-// If the object's first pointer is non-null and FUN_00ca94c0 returns 0, appends the object to the collision detail array, growing it when full, and sets a flag.
-// @fnv 0x00d1f690
-void FUN_00d1f690_Member::AddCollisionDetail(void* object)
-{
-    if (*reinterpret_cast<void**>(object) != 0)
-    {
-        if (FUN_00ca94c0(object) == 0)
-        {
-            hkArray<hkpSimpleShapePhantomCollisionDetail>* details = &m_kCollisionDetails;
-            CollisionMemoryRouter* router = FUN_00c85750();
-            if (details->m_iElementCount == (details->m_iCapacityState & 0x3fffffff))
-            {
-                ResizeAudioStream(router->allocator, details, 4);
-            }
-            void** slot = reinterpret_cast<void**>(details->m_data) + details->m_iElementCount;
-            ++details->m_iElementCount;
-            *slot = object;
-            m_bOrderDirty = 1;
-        }
-    }
-}
 
 namespace fnv_00d1f6f0 {
-struct hkLessD1F6
-{
-};
-
-void __cdecl QuickSortShapeDetails(void** pArr, int iStart, int iEnd, hkLessD1F6 kCmp);
-
-inline void quickSortD1F6(void** pArr, int iSize, hkLessD1F6 kCmp)
-{
-    if (iSize > 1)
-        QuickSortShapeDetails(pArr, 0, iSize - 1, kCmp);
-}
 
 struct hkObjD1F6
 {
@@ -622,16 +392,6 @@ struct hkObjD1F6
     void SortAndClearFlag();
 };
 
-// If m_16c is set, sorts the m_160 array of m_164 elements with quickSortD1F6 and clears m_16c.
-// @fnv 0x00d1f6f0
-void hkObjD1F6::SortAndClearFlag()
-{
-    if (m_16c)
-    {
-        quickSortD1F6(m_160, m_164, hkLessD1F6());
-        m_16c = 0;
-    }
-}
 }  // namespace fnv_00d1f6f0
 
 namespace fnv_00d1f7e0 {
@@ -796,17 +556,6 @@ class FUN_00d1f730 : public hkpWorldObjectD1F7
 
 typedef char fnv_check_d1f7e0[(sizeof(FUN_00d1f730) == 0x170) ? 1 : -1];
 
-// @fnv 0x00d1f7e0
-hkpWorldObjectD1F7* FUN_00d1f730::ClonePhantom() const throw()
-{
-    const hkpCollidableD1F7* pkCollidable = getCollidable();
-    FUN_00d1f730* pkPhantom =
-        new FUN_00d1f730(pkCollidable->getShape(), getTransform(), pkCollidable->GetFilterInfoForKey());
-    pkPhantom->m_kPhantomOverlapListeners = m_kPhantomOverlapListeners;
-    pkPhantom->m_kPhantomListeners = m_kPhantomListeners;
-    pkPhantom->CopyEntriesFrom(this);
-    return pkPhantom;
-}
 }  // namespace fnv_00d1f7e0
 
 struct hkpShapeD1F
@@ -1248,12 +997,13 @@ struct WorldD1F
     int unk05C;
     int unk060;
     int unk064;
-    int unk068;
-    int unk06C;
+        int unk068;
+    hkpCollisionInputD1F* m_collisionInput;  // +0x6C (the Fallout 3 hkpWorld's)
     int unk070;
     int unk074;
     hkpCollisionInputD1F* m_pCollisionInput;
 };
+// hkpSimpleShapePhantom, at its Fallout 3 offsets: the collision details array at +0x150.
 class PhantomD1F
 {
   public:
@@ -1337,21 +1087,19 @@ class PhantomD1F
     int unk140;
     int unk144;
     int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    hkArrayD1F<hkpCdBodyD1F*> m_overlaps;
+        int unk14C;
+    hkArrayD1F<hkpCdBodyD1F*> m_collisionDetails;  // +0x150
     void DispatchOverlaps(void* collector, const hkpCollisionInputD1F* input);
 };
 // @f3 0x0099e7f0 (community match, verified in this file)
+// pdb: hkpSimpleShapePhantom::getClosestPoints | hkpSimpleShapePhantom.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collector, input
 void PhantomD1F::DispatchOverlaps(void* collector, const hkpCollisionInputD1F* apCollisionInput)
 {
     if (!apCollisionInput)
-        apCollisionInput = *(const hkpCollisionInputD1F**)((char*)m_pOwningWorld + 0x6c);
+        apCollisionInput = m_pOwningWorld->m_collisionInput;
     hkpCollisionDispatcherD1F* dispatcher = apCollisionInput->m_pCollisionDispatcher;
-    hkArrayD1F<hkpCdBodyD1F*>& overlaps = *(hkArrayD1F<hkpCdBodyD1F*>*)((char*)this + 0x150);
+    hkArrayD1F<hkpCdBodyD1F*>& overlaps = m_collisionDetails;
     for (int i = overlaps.GetLogicalSize() - 1; i >= 0; i--)
     {
         hkpCdBodyD1F*& pOtherBody = overlaps[i];
@@ -1507,46 +1255,14 @@ struct FUN_00d1f520_Input
 {
     FUN_00d1f520_Dispatcher* m_pCollisionDispatcher;
 };
-struct FUN_00d1f520_World
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    FUN_00d1f520_Input* m_pCollisionInput;
-};
 struct FUN_00d1f520_Phantom : public hkpSimpleShapePhantom
 {
     void QueryPenetrations(FUN_00d1f520_Collector& collector, const FUN_00d1f520_Input* input);
 };
 // Iterates collision details and calls the dispatcher's agent2 penetration query function, breaking early when the collector reports a hit distance.
 // @f3 0x0099e870 (community match, verified in this file)
+// pdb: hkpSimpleShapePhantom::getPenetrations | hkpSimpleShapePhantom.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collector, input
 void FUN_00d1f520_Phantom::QueryPenetrations(FUN_00d1f520_Collector& collector, const FUN_00d1f520_Input* input)
 {
     if (!input)
@@ -1581,25 +1297,6 @@ void FUN_00d1f520_Phantom::QueryPenetrations(FUN_00d1f520_Collector& collector, 
 
 
 #include <xmmintrin.h>
-struct FUN_00d1f450_Obj
-{
-    void FUN_00d1f270(int* a, int b, int c, int d);
-    void FUN_00d1f450(int* source, int a, int b, int c);
-};
-
-// Copies 12 floats from source to this at float index 0x2C using SSE, then calls FUN_00d1f270 with source plus 0x30 bytes and a, b, c.
-// @fnv 0x00d1f450
-void FUN_00d1f450_Obj::FUN_00d1f450(int* source, int a, int b, int c)
-{
-    float* destination = reinterpret_cast<float*>(this) + 0x2C;
-    float* vectors = reinterpret_cast<float*>(source);
-
-    _mm_store_ps(destination + 0, _mm_load_ps(vectors + 0));
-    _mm_store_ps(destination + 4, _mm_load_ps(vectors + 4));
-    _mm_store_ps(destination + 8, _mm_load_ps(vectors + 8));
-
-    this->FUN_00d1f270(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30), a, b, c);
-}
 
 namespace fnv_00d1f960 {
 // @fnv 0x00d1f960
@@ -1624,25 +1321,4 @@ struct Router
     }
 };
 Router* FUN_00c85750();
-struct C : hkpSimpleShapePhantom
-{
-    void FUN_00d1f960();
-    void FUN_00c9e820();
-};
-void C::FUN_00d1f960()
-{
-    if (m_kCollisionDetails.m_iElementCount == 0)
-    {
-        Alloc& allocator = FUN_00c85750()->getHeap();
-        int flags = m_kCollisionDetails.m_iCapacityState;
-        m_kCollisionDetails.m_iElementCount = 0;
-        if ((flags & 0x80000000) == 0)
-        {
-            allocator.ReturnMemory(m_kCollisionDetails.m_data, (flags & 0x3fffffff) * 4);
-        }
-        m_kCollisionDetails.m_data = 0;
-        m_kCollisionDetails.m_iCapacityState = 0x80000000;
-    }
-    FUN_00c9e820();
-}
 }  // namespace fnv_00d1f960

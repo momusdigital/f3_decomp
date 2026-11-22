@@ -37,18 +37,21 @@ void FUN_00c84f60()
     DAT_0106c984 = 0;
 }
 
+// pdb: `dynamic initializer for 'GetNextIDLock'' | TESDataHandler.obj | tesv_win, objrun_open, low
 void FUN_00c867b0()
 {
     DAT_0106ce80 = 0;
     DAT_0106ce84 = 0;
 }
 
+// pdb: `dynamic initializer for 'NiTAbstractPoolAllocator<unsigned int>::ms_kSpinLock'' | Defines.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00c8b9d0()
 {
     DAT_0106e5a0 = 0;
     DAT_0106e5a4 = 0;
 }
 
+// pdb: Movement::Constants::`dynamic initializer for 'fSmallAngleS'' | LipSynchAnim.obj | tesv_win, objrun_open, low
 void FUN_00c8c020()
 {
     DAT_0106ea80 = 0;
@@ -61,6 +64,7 @@ void FUN_00c97510()
     DAT_010715c4 = 0;
 }
 
+// pdb: bhkConvert::`dynamic initializer for 'fHk2BSScaleSC'' | InterfaceManager.obj | fnv360_0822_debug, objrun_open, low
 void FUN_00ce67f0()
 {
     DAT_01075a80 = 0;
@@ -73,6 +77,7 @@ void FUN_00cf4330()
     DAT_01079fe4 = 0;
 }
 
+// pdb: `dynamic initializer for 'NiAVObject::PropertyStateCrit'' | NiAVObject.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cffe10()
 {
     DAT_0108ede0 = 0;
@@ -91,6 +96,7 @@ void FUN_00d015b0()
     DAT_010926e4 = 0;
 }
 
+// pdb: `dynamic initializer for 'bhkNiCollisionObject::KeyframeCrit'' | bhkNiCollisionObject.obj | fnv360_0822_debug, objrun, medium
 void FUN_00d020e0()
 {
     DAT_010f2c40 = 0;
@@ -103,12 +109,14 @@ void FUN_00d82c30()
     DAT_0116d744 = 0;
 }
 
+// pdb: `dynamic initializer for 'ShadowSceneNode::SSNLightQueueCrit'' | ShadowSceneNode.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d83df0()
 {
     DAT_0116fc80 = 0;
     DAT_0116fc84 = 0;
 }
 
+// pdb: `dynamic initializer for 'ShadowSceneNode::SSNObjectQueueCrit'' | ShadowSceneNode.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d83e00()
 {
     DAT_0116fca0 = 0;

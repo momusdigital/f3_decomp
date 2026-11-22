@@ -360,6 +360,8 @@ struct RayCaster
     hkBool FUN_00918e70(hkpWorld* world, const hkVector4& from, const hkVector4& to, hkVector4& outPos, hkVector4& outNormal);
 };
 
+// pdb: bhkRagdollPenetrationUtil::castRay | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: phantomIn, fromWS, toWS, hitPointWS, hitNormalWS
 hkBool RayCaster::FUN_00918e70(hkpWorld* world, const hkVector4& from, const hkVector4& to, hkVector4& outPos, hkVector4& outNormal)
 {
     bool found = false;

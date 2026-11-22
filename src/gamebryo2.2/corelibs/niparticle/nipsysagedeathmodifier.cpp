@@ -5,31 +5,32 @@
 struct NiRTTI;
 extern NiRTTI g_01202798;
 
-// @fnv 0x00c2efe0
-const NiRTTI* __cdecl FUN_00c2efe0()
-{
-    return &g_01202798;
-}
-
 extern "C" const void* g_012027a0;
 
 // @fnv 0x00c2f3d0
-const void* __cdecl FUN_00c2f3d0()
+// pdb: NiBoneLODController::GetRTTI | NiBoneLODController.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(objrun), high
+const void* __cdecl NiBoneLODController_GetRTTI()
 {
     return &g_012027a0;
 }
 
+struct AirField_00c2f3e0
+{
+    unsigned char unk00[0x64];
+    float m_fSpread;  // src: FNV360_PDB NiPSysAirFieldModifier +0x64
+};
 struct NiPSysAirFieldSpreadCtlr
 {
+    unsigned char unk00[0x3c];
+    AirField_00c2f3e0* m_pkModifier;  // src: FNV360_PDB NiPSysModifierCtlr +0x3C
     void __thiscall FUN_00c2f3e0(float& fValue);
 };
 
 // @fnv 0x00c2f3e0
+// pdb: NiPSysAirFieldSpreadCtlr::GetTargetFloatValue | NiPSysAirFieldSpreadCtlr.obj | tesv_win, objrun_open, low
 void __thiscall NiPSysAirFieldSpreadCtlr::FUN_00c2f3e0(float& fValue)
 {
-    unsigned char* base = reinterpret_cast<unsigned char*>(this);
-    int* ptr = reinterpret_cast<int*>(*(reinterpret_cast<int*>(base + 0x3c)));
-    fValue = *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(ptr) + 0x64);
+    fValue = m_pkModifier->m_fSpread;
 }
 
 struct NiStream
@@ -52,6 +53,8 @@ struct NiPSysAgeDeathModifier : NiPSysModifier
 };
 
 // @fnv 0x00c2ef60
+// pdb: NiStreamLoadEnum<enum NiPSysBombModifier::DecayType> | NiPSysBombModifier.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiPSysAgeDeathModifier::LinkObject)
+// pdb params: kStream, value
 void NiPSysAgeDeathModifier::FUN_00c2ef60(NiStream& kStream)
 {
     NiPSysModifier::LinkObject(kStream);
@@ -119,6 +122,8 @@ struct NiPSysAgeDeathModifier : NiPSysModifier
 };
 // Calls the base ProcessClone, looks up the clone in the cloning map, and remaps the spawn modifier pointer to its cloned counterpart.
 // @fnv 0x00c2f1a0
+// pdb: NiPSysAgeDeathModifier::ProcessClone | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kCloning
 void __thiscall NiPSysAgeDeathModifier::FUN_00c2f1a0(CloningProcess& kCloning)
 {
     bool bFound;
@@ -146,26 +151,9 @@ struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
 };
-struct FUN_00c32d80
-{
-    FUN_00c32d80();
-};
-extern int DAT_010c03cc;
 inline void* __cdecl operator new(unsigned int, void* p)
 {
     return p;
-}
-// @fnv 0x00c2f3a0
-FUN_00c32d80* __cdecl FUN_00c2f3a0()
-{
-    FUN_00c32d80* p = (FUN_00c32d80*)BSFadeNode::operator new(0x40);
-    if (p)
-    {
-        new (p) FUN_00c32d80();
-        *(int*)p = (int)&DAT_010c03cc;
-        return p;
-    }
-    return 0;
 }
 
 struct StrArr
@@ -181,6 +169,11 @@ char* __cdecl FUN_00a7d330(char*);
 char* __cdecl FUN_00a7d370(char const*, bool);
 char* __cdecl FUN_00a7d5e0(char const*, char const*);
 extern char const* const g_011d1f8c_arg1;
+struct SpawnModifier_00c2f2c0
+{
+    unsigned char unk00[0x8];
+    const char* m_kName;  // src: FNV360_PDB NiPSysModifier +0x8
+};
 struct FUN_00c2f2c0_shell : Base00c319e0
 {
     char _pad[0x18];
@@ -189,6 +182,8 @@ struct FUN_00c2f2c0_shell : Base00c319e0
     void FUN_00c2f2c0(StrArr* pkStrings);
 };
 // @f3 0x00acf720 (community match, verified in this file)
+// pdb: NiPSysAgeDeathModifier::GetViewerStrings | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00c2f2c0_shell::FUN_00c2f2c0(StrArr* pkStrings)
 {
     FUN_00c319e0(pkStrings);
@@ -203,7 +198,7 @@ void FUN_00c2f2c0_shell::FUN_00c2f2c0(StrArr* pkStrings)
         pkStrings->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
     pkStrings->SetAt(uiIndex, pcString);
     char const* pcModifierName =
-        m_pSpawnModifier ? *(char const**)((char*)m_pSpawnModifier + 8) : (char const*)&g_011d1f8c_arg1;
+        m_pSpawnModifier ? ((SpawnModifier_00c2f2c0*)m_pSpawnModifier)->m_kName : (char const*)&g_011d1f8c_arg1;
     pcString = FUN_00a7d5e0("Spawn Modifier", pcModifierName);
     uiIndex = ((unsigned short*)pkStrings)[5];
     if (uiIndex >= ((unsigned short*)pkStrings)[4])
@@ -223,11 +218,12 @@ struct NiPSysAgeDeathModifierClone : NiPSysPositionModifier
     bool m_bHasString;
     NiPSysSpawnModifier* m_pSpawnModifier;
     void CopyMemberData(NiPSysModifier*, CloningProcess&);
-    NiPSysAgeDeathModifierClone* FUN_00c2f150(CloningProcess& kCloning);
+    NiPSysAgeDeathModifierClone* NiPSysAgeDeathModifier_CreateClone(CloningProcess& kCloning);
 };
 extern int DAT_010c0304;
 // @fnv 0x00c2f150
-NiPSysAgeDeathModifierClone* NiPSysAgeDeathModifierClone::FUN_00c2f150(CloningProcess& kCloning)
+// pdb: NiPSysAgeDeathModifier::CreateClone | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+NiPSysAgeDeathModifierClone* NiPSysAgeDeathModifierClone::NiPSysAgeDeathModifier_CreateClone(CloningProcess& kCloning)
 {
     NiPSysAgeDeathModifierClone* pkObject = (NiPSysAgeDeathModifierClone*)BSFadeNode::operator new(0x20);
     if (pkObject)
@@ -316,6 +312,8 @@ class BC2EF80Emitter : public BC2EF80Modifier
 };
 
 // @fnv 0x00c2ef80
+// pdb: NiPSysAgeDeathModifier::IsEqual | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkObject
 bool BC2EF80Emitter::FUN_00c2ef80(BC2EF80Object* pkObject)
 {
     if (!ModifierIsEqual(pkObject))
@@ -472,6 +470,8 @@ struct AgeDeath
 };
 // Advances each particle's age by the elapsed time and removes particles whose age exceeds their lifespan, optionally spawning on death.
 // @fnv 0x00c2f010
+// pdb: NiPSysAgeDeathModifier::Update | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkData
 void AgeDeath::UpdateAges(float time, ParticleSystem* particles)
 {
     if (spawnOnDeath && spawn)
@@ -536,11 +536,12 @@ struct NiPSysModifier_c2f200
 struct NiPSysAgeDeathModifier_c2f200 : NiPSysModifier_c2f200
 {
     bool m_bHasString;
-    void FUN_00c2f200(NiStream_c2f200& kStream);
+    void NiPSysAgeDeathModifier_LoadBinary(NiStream_c2f200& kStream);
 };
 
 // @fnv 0x00c2f200
-void NiPSysAgeDeathModifier_c2f200::FUN_00c2f200(NiStream_c2f200& kStream)
+// pdb: NiPSysAgeDeathModifier::LoadBinary | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiPSysAgeDeathModifier_c2f200::NiPSysAgeDeathModifier_LoadBinary(NiStream_c2f200& kStream)
 {
     NiPSysModifier_c2f200::LoadBinary(kStream);
     unsigned char ucFlag;
@@ -571,11 +572,14 @@ struct NiPSysModifierSaveBase
 };
 struct FUN_00c2f260_shell
 {
-    void SaveAgeDeathModifier(NiStream* stream);
+    void NiPSysAgeDeathModifier_SaveBinary(NiStream* stream);
 };
 // Calls the base modifier save, writes the spawn-on-death flag to the stream's binary output, then writes the spawn modifier link.
 // @fnv 0x00c2f260
-void FUN_00c2f260_shell::SaveAgeDeathModifier(NiStream* stream)
+// pdb: NiPSysAgeDeathModifier::SaveBinary | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, objrun, high
+// pdb params: kStream
+// pdb: NiPSysAgeDeathModifier::SaveBinary | NiPSysAgeDeathModifier.obj | fnv360_0822_retail, objrun, high (was: SaveAgeDeathModifier)
+void FUN_00c2f260_shell::NiPSysAgeDeathModifier_SaveBinary(NiStream* stream)
 {
     reinterpret_cast<NiPSysModifierSaveBase*>(this)->FUN_00c31950(stream);
     NiPSysAgeDeathModifierClone* modifier = reinterpret_cast<NiPSysAgeDeathModifierClone*>(this);
@@ -605,6 +609,7 @@ double g_01012070 = 1.0;
 
 // Clamps fValue to [0,1] and stores it into the target's unk64 field.
 // @fnv 0x00c2f3f0
+// pdb: NiPSysAirFieldSpreadCtlr::SetTargetFloatValue | NiPSysAirFieldSpreadCtlr.obj | tesv_win, hash, low
 void __thiscall NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
 {
     FUN_00c2f3f0Target* target = this->unk3c;
@@ -622,33 +627,11 @@ void __thiscall NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
     target->unk64 = fClamped;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
-struct Host2f440
-{
-    void FUN_00c32de0(FUN_00c32d80* obj, int arg);
-    FUN_00c32d80* CreateAndInit(int arg);
-};
-// Allocates a 0x40-byte object, constructs it with a vtable, initializes it via FUN_00c32de0 with arg, and returns it (or null on allocation failure).
-// @fnv 0x00c2f440
-FUN_00c32d80* Host2f440::CreateAndInit(int arg)
-{
-    FUN_00c32d80* p = (FUN_00c32d80*)FUN_00aa13e0(0x40);
-    if (p)
-    {
-        new (p) FUN_00c32d80;
-        *(int**)p = &DAT_010c03cc;
-    }
-    else
-    {
-        p = 0;
-    }
-    FUN_00c32de0(p, arg);
-    return p;
-}
-
 void __cdecl FUN_00c31670();
 
 // @fnv 0x00c28b60
+// pdb: NiAlphaAccumulator::LoadBinary | NiAlphaAccumulator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void __cdecl FUN_00c28b60()
 {
     FUN_00c31670();

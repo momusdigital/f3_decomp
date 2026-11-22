@@ -11,6 +11,7 @@ extern "C" void __cdecl __Dummy_00b6fef0(NiD3DShaderConstantMap* p, unsigned int
 
 // Calls FUN_00e87690, then if bit 0 of flags is set calls __Dummy_00b6fef0 on this with 0x44, and returns this.
 // @fnv 0x00b7e410
+// pdb: BSMultiTargetTreadTransfController::`scalar deleting destructor' | BSMultiTargetTreadTransfController.obj | fnv360_0721_beta, objrun, high
 void* __thiscall NiD3DShaderConstantMap::Destroy(unsigned int flags)
 {
     FUN_00e87690();
@@ -29,18 +30,11 @@ struct FUN_00e80610_shell
 };
 
 // @fnv 0x00e80610
+// pdb: NiD3DShader::ResetPasses | NiD3DShader.obj | fnv360_0822_retail, objrun_sim, low
 void __thiscall FUN_00e80610_shell::FUN_00e80610()
 {
     DAT_0126f74c = 0;
     *(int*)((char*)this + 0x38) = 0;
-}
-
-extern "C" const char* const g_0126f554_arg1;
-
-// @fnv 0x00e7c680
-const char* const* __cdecl FUN_00e7c680()
-{
-    return &g_0126f554_arg1;
 }
 
 struct NiD3DShader
@@ -50,6 +44,7 @@ struct NiD3DShader
 };
 void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00e7c690
+// pdb: NiFloatController::`vector deleting destructor' | NiRollController.obj | tesv_win, vtable_prefix, medium
 void* NiD3DShader::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00e806c0();

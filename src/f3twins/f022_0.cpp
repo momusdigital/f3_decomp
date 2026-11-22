@@ -85,18 +85,21 @@ void FUN_00c8b8f0()
     FUN_00c00d1f(FUN_00d87cc0);
 }
 
+// pdb: `dynamic initializer for 'BSRenderer::SuspendCriticalSection'' | BSRenderer.obj | tesv_win, objrun_open, low
 void FUN_00c8d9d0()
 {
     IMP_00d9b094(&DAT_0106fc34);
     FUN_00c00d1f(FUN_00d87e00);
 }
 
+// pdb: `dynamic initializer for 'TESWorldSpace::PersistentDataCritSection'' | TESWorldSpace.obj | fnv360_0822_debug, objrun, medium
 void FUN_00c97f20()
 {
     IMP_00d9b094(&DAT_010718f8);
     FUN_00c00d1f(FUN_00d89eb0);
 }
 
+// pdb: `dynamic initializer for 'Script::ScriptRefListCrit'' | TESScript.obj | tesv_win, objrun_open, low
 void FUN_00c98b90()
 {
     IMP_00d9b094(&DAT_01071c00);
@@ -205,6 +208,7 @@ void FUN_00cffd50()
     FUN_00c00d1f(FUN_00d98270);
 }
 
+// pdb: `dynamic initializer for 'NiTexture::ms_kTextureListCriticalSection'' | NiTexture.obj | fnv360_0822_retail, objrun, high
 void FUN_00cffe40()
 {
     IMP_00d9b094(&DAT_0108ee80);
@@ -223,18 +227,21 @@ void FUN_00d00020()
     FUN_00c00d1f(FUN_00d98380);
 }
 
+// pdb: `dynamic initializer for 'NiPalette::ms_kPaletteListCriticalSection'' | NiPalette.obj | tesv_win, objrun_open, low
 void FUN_00d00770()
 {
     IMP_00d9b094(&DAT_01090680);
     FUN_00c00d1f(FUN_00d984a0);
 }
 
+// pdb: `dynamic initializer for 'NiMetricsLayer::ms_kMutex'' | NiMetricsLayer.obj | tesv_win, objopen_prop, low
 void FUN_00d00cf0()
 {
     IMP_00d9b094(&DAT_01090a14);
     FUN_00c00d1f(FUN_00d98640);
 }
 
+// pdb: `dynamic initializer for 'NiDX9AdditionalDepthStencilBufferData::ms_kAddDSListCriticalSection'' | NiDX92DBufferData.obj | tesv_win, objrun, medium
 void FUN_00d00f50()
 {
     IMP_00d9b094(&DAT_01091880);

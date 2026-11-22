@@ -4,12 +4,6 @@
 
 extern "C" void* g_011f5ebc;
 
-// @fnv 0x00a94820
-void* __cdecl FUN_00a94820()
-{
-    return &g_011f5ebc;
-}
-
 struct NiExtraData
 {
     void __thiscall FUN_00a7b2e0(void);
@@ -23,6 +17,7 @@ struct BSFadeNode
 extern int DAT_010a0134;
 
 // @fnv 0x00a94930
+// pdb: NiStringsExtraData::CreateObject | NiStringsExtraData.obj | fnv360_0822_retail, objrun, medium
 void* __cdecl FUN_00a94930()
 {
     void* p = BSFadeNode::operator new(0x14);
@@ -50,6 +45,7 @@ struct NiStringsExtraData
     void __thiscall FUN_00a7b300();
 };
 // @fnv 0x00a94830
+// pdb: NiStringsExtraData::~NiStringsExtraData | NiStringsExtraData.obj | fnv360_0822_retail, objrun, medium
 void __thiscall NiStringsExtraData::FreeStrings()
 {
     m_vtbl = &DAT_010a0134;
@@ -70,6 +66,7 @@ struct NiStringsExtraData : NiExtraData
 };
 // Calls FreeStrings, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a94970
+// pdb: NiBinaryExtraData::`scalar deleting destructor' | TESLand.obj | fnv360_0822_debug, vtable, high
 void* __thiscall NiStringsExtraData::FUN_00a94970(unsigned int flags)
 {
     FreeStrings();
@@ -87,7 +84,7 @@ struct FUN_00a94880_shell
     unsigned int m_uiSize;
     char** m_ppcValue;
 
-    void __thiscall CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning);
+    void __thiscall NiStringsExtraData_CopyMembers(NiStringsExtraData* pDest, void* pCloning);
 };
 
 struct NiExtraDataFUN_00a7b330_shell
@@ -100,7 +97,10 @@ int __cdecl _strcpy_s(char*, unsigned int, const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
 
 // @fnv 0x00a94880
-void __thiscall FUN_00a94880_shell::CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning)
+// pdb: NiStringsExtraData::CopyMembers | NiStringsExtraData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pDest, kCloning
+// pdb: NiStringsExtraData::CopyMembers | NiStringsExtraData.obj | fnv360_0822_retail, caller_sim, high (was: CopyStringsExtraData)
+void __thiscall FUN_00a94880_shell::NiStringsExtraData_CopyMembers(NiStringsExtraData* pDest, void* pCloning)
 {
     unsigned int i;
     unsigned int uiLen;
@@ -158,7 +158,7 @@ struct S_00a94a50_Stream
         unk1f8, unk1fc, unk200, unk204, unk208, unk20c, unk210, unk214, unk218, unk21c, unk220, unk224, unk228, unk22c,
         unk230, unk234, unk238, unk23c, unk240, unk244, unk248;
     S_00a94a50_Bin* m_pBin;
-    void FUN_00a64ce0(void** str);
+    void NiStream_LoadCString(void** str);
 };
 
 void* __cdecl FUN_00aa1070(unsigned int size);
@@ -180,6 +180,8 @@ struct S_00a94a50 : NiStringsExtraData
 };
 
 // @fnv 0x00a94a50
+// pdb: NiStringsExtraData::LoadBinary | NiStringsExtraData.obj | fnv360_0822_retail, caller_sim, medium, conflict (bridge: NiSwitchStringExtraData::LoadBinary)
+// pdb params: kStream
 void S_00a94a50::LoadStringArray(S_00a94a50_Stream* s)
 {
     FUN_00a7b4a0(s);
@@ -190,7 +192,7 @@ void S_00a94a50::LoadStringArray(S_00a94a50_Stream* s)
         for (unsigned int i = 0; i < m_uiItemCount; i++)
         {
             m_ppData[i] = 0;
-            s->FUN_00a64ce0(&m_ppData[i]);
+            s->NiStream_LoadCString(&m_ppData[i]);
         }
     }
     else
@@ -244,6 +246,8 @@ struct StringsExtraDataViewer : ExtraDataViewerBase
 
 // Appends the base viewer strings, the m_uiSize value and one formatted string per m_ppcValue entry to the viewer string array.
 // @f3 0x0085fd80 (community match, verified in this file)
+// pdb: NiStringsExtraData::GetViewerStrings | NiStringsExtraData.obj | fnv360_0822_retail, ustr_rel, low, conflict (skyrim: BGSAttachTechniquesUtil::ProcessAttachTechniques)
+// pdb params: pStrings
 void StringsExtraDataViewer::FUN_00a94ae0(ViewerStringArray* pViewerStrings)
 {
     ExtraDataViewerBase::GetViewerStrings(pViewerStrings);
@@ -303,15 +307,16 @@ struct CloneObject
 
 struct CloneSource
 {
-    void CopyStringsExtraData(CloneObject* pDest, void* pCloning);
-    CloneObject* FUN_00a94990(void* pCloning);
+    void NiStringsExtraData_CopyMembers(CloneObject* pDest, void* pCloning);
+    CloneObject* NiStringsExtraData_CreateClone(void* pCloning);
 };
 
 // @fnv 0x00a94990
-CloneObject* CloneSource::FUN_00a94990(void* pCloning)
+// pdb: NiStringsExtraData::CreateClone | NiStringsExtraData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objopen_prop) + skyrim(caller_sim), high
+CloneObject* CloneSource::NiStringsExtraData_CreateClone(void* pCloning)
 {
     CloneObject* p = new CloneObject;
-    CopyStringsExtraData(p, pCloning);
+    NiStringsExtraData_CopyMembers(p, pCloning);
     return p;
 }
 
@@ -525,14 +530,15 @@ class NiExtraDataA949
 class NiStringsExtraDataA949 : public NiExtraDataA949
 {
   public:
-    void FUN_00a949f0(NiStreamA949& kStream);
+    void NiStringsExtraData_SaveBinary(NiStreamA949& kStream);
 
     unsigned int m_uiSize;
     char** m_ppcValue;
 };
 
 // @fnv 0x00a949f0
-void NiStringsExtraDataA949::FUN_00a949f0(NiStreamA949& kStream)
+// pdb: NiStringsExtraData::SaveBinary | NiStringsExtraData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_open) + skyrim(caller_sim), high
+void NiStringsExtraDataA949::NiStringsExtraData_SaveBinary(NiStreamA949& kStream)
 {
     NiExtraDataA949::SaveBinary(kStream);
     A949SaveBinary(kStream, m_uiSize);
@@ -556,6 +562,8 @@ class StrsExtraA947
 
 // Compares two StrsExtraA947 objects for equality by checking m_uiSize and each m_ppcValue string via strcmp.
 // @fnv 0x00a94760
+// pdb: NiStringsExtraData::IsEqual | NiStringsExtraData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pObject
 bool StrsExtraA947::IsEqual(StrsExtraA947* pkObject)
 {
     if (!pkObject)

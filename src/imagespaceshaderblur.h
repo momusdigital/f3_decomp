@@ -9,6 +9,7 @@ class ImageSpaceBlurShader : public ImageSpaceEffectShader
     virtual void SetupShader();
 };
 // @fnv 0x00b8e330
+// pdb: ImageSpaceShaderBrightPassBlur3::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceBlurShader::SetupShader()
 {
     BSShaderManager::BSShaderMacro vertexShader;
@@ -54,11 +55,13 @@ class ImageSpaceShaderVariant4 : public ImageSpaceEffectShader
     virtual void SetupShader();
 };
 // @fnv 0x00b8e460
+// pdb: ImageSpaceShaderBrightPassBlur3::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderVariant4::ImageSpaceShaderVariant4()
 {
     pTextures.SetSize(3);
 }
 // @fnv 0x00b8e4d0
+// pdb: ImageSpaceShaderBrightPassBlur5::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderVariant4::SetupShader()
 {
     BSShaderManager::BSShaderMacro vertexShader;
@@ -104,11 +107,13 @@ class ImageSpaceShaderVariant5 : public ImageSpaceEffectShader
     virtual void SetupShader();
 };
 // @fnv 0x00b8e600
+// pdb: ImageSpaceShaderBrightPassBlur5::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderVariant5::ImageSpaceShaderVariant5()
 {
     pTextures.SetSize(3);
 }
 // @fnv 0x00b8e670
+// pdb: ImageSpaceShaderBrightPassBlur7::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderVariant5::SetupShader()
 {
     BSShaderManager::BSShaderMacro vertexShader;
@@ -154,11 +159,13 @@ class ImageSpaceShaderVariant6 : public ImageSpaceEffectShader
     virtual void SetupShader();
 };
 // @fnv 0x00b8e7a0
+// pdb: ImageSpaceShaderBrightPassBlur7::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderVariant6::ImageSpaceShaderVariant6()
 {
     pTextures.SetSize(3);
 }
 // @fnv 0x00b8e810
+// pdb: ImageSpaceShaderBrightPassBlur9::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderVariant6::SetupShader()
 {
     BSShaderManager::BSShaderMacro vertexShader;
@@ -204,11 +211,13 @@ class ImageSpaceShaderVariant1 : public ImageSpaceEffectShader
     virtual void SetupShader();
 };
 // @fnv 0x00b8e940
+// pdb: ImageSpaceShaderBrightPassBlur9::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderVariant1::ImageSpaceShaderVariant1()
 {
     pTextures.SetSize(3);
 }
 // @fnv 0x00b8e9b0
+// pdb: ImageSpaceShaderBrightPassBlur11::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderVariant1::SetupShader()
 {
     BSShaderManager::BSShaderMacro vertexShader;
@@ -254,11 +263,13 @@ class ImageSpaceShaderVariant2 : public ImageSpaceEffectShader
     virtual void SetupShader();
 };
 // @fnv 0x00b8eae0
+// pdb: ImageSpaceShaderBrightPassBlur11::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderVariant2::ImageSpaceShaderVariant2()
 {
     pTextures.SetSize(3);
 }
 // @fnv 0x00b8eb50
+// pdb: ImageSpaceShaderBrightPassBlur13::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderVariant2::SetupShader()
 {
     BSShaderManager::BSShaderMacro vertexShader;
@@ -304,11 +315,13 @@ class ImageSpaceShaderVariant3 : public ImageSpaceEffectShader
     virtual void SetupShader();
 };
 // @fnv 0x00b8ec80
+// pdb: ImageSpaceShaderBrightPassBlur13::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderVariant3::ImageSpaceShaderVariant3()
 {
     pTextures.SetSize(3);
 }
 // @fnv 0x00b8ecf0
+// pdb: ImageSpaceShaderBrightPassBlur15::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderVariant3::SetupShader()
 {
     BSShaderManager::BSShaderMacro vertexShader;

@@ -36,6 +36,7 @@ struct Menu {
     void FUN_0067ac00();
 };
 
+// pdb: ListBox<StartMenu::Option *>::Synchronize | StartMenu.obj | fnv360_0822_retail, call_seq, medium
 void Menu::FUN_0067eac0()
 {
     unk20 = 0.0f;

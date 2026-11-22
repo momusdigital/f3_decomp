@@ -57,51 +57,6 @@ void Obj::SetEntries(const hkVector4* aVecA, const hkVector4* aVecB, const hkVec
     m_iThirdValue = 0;
 }
 
-struct FUN_00df9c40_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    __m128* unk60;
-    __m128* unk64;
-    __m128* unk68;
-    int unk6C;
-
-    void PushVectorTriple(const __m128* src);
-};
-
-// Stores the three __m128 values from src into the arrays at unk68, unk60 and unk64 at index unk6C, then increments unk6C.
-// @fnv 0x00df9c40
-void FUN_00df9c40_Obj::PushVectorTriple(const __m128* src)
-{
-    int idx = this->unk6C;
-    this->unk68[idx] = src[0];
-    this->unk60[idx] = src[1];
-    this->unk64[idx] = src[2];
-    this->unk6C = idx + 1;
-}
-
 extern "C"
 {
     __m128 _mm_sub_ps(__m128, __m128);
@@ -153,111 +108,8 @@ struct Mid
     Mid()
     {}
 };
-__forceinline void scalarDots(const S00cd7530_Vec& Q, const S00cd7530_Vec& R, float& QQ, float& RR, float& QR)
-{
-    QQ = Q.dot3(Q);
-    _mm_store_ss(&RR, R.dot3(R).m_vValue);
-    QR = R.dot3(Q);
-}
-// Computes barycentric coordinates of a point relative to a triangle defined by three vertices and stores the result in a float array.
-// @fnv 0x00cd7530
-void FUN_00cd7530(P pos, P t0, Mid t1, __int64 packedTail)
-{
-    union
-    {
-        __int64 pair;
-        struct
-        {
-            const S00cd7530_Vec* t2;
-            float* result;
-        } v;
-    } tail;
-    tail.pair = packedTail;
-    S00cd7530_Vec Q;
-    Q.setSub4((*t0.p), *t1.p);
-    S00cd7530_Vec R;
-    R.setSub4((*tail.v.t2), *t1.p);
-    float QQ, RR, QR;
-    scalarDots(Q, R, QQ, RR, QR);
-
-    const float QQRR = QQ * RR;
-    const float QRQR = QR * QR;
-    const float Det = QQRR - QRQR;
-    if (Det > 0.0f)
-    {
-        const float invDet = 1.0f / Det;
-        S00cd7530_Vec relPos;
-        relPos.setSub4(*t1.p, (*pos.p));
-        const float sq = relPos.dot3(Q);
-        const float sr = relPos.dot3(R);
-        const float q = sr * QR - RR * sq;
-        const float r = sq * QR - QQ * sr;
-        tail.v.result[0] = invDet * q;
-        tail.v.result[1] = invDet * (Det - q - r);
-        tail.v.result[2] = invDet * r;
-    }
-    else
-    {
-        S00cd7530_Vec S;
-        S.setSub4((*t0.p), (*tail.v.t2));
-        const float SS = S.dot3(S);
-        if (QQ >= RR)
-        {
-            if (SS >= QQ)
-            {
-                tail.v.result[1] = 0.0f;
-                if (SS > 0.0f)
-                {
-                    S00cd7530_Vec relPos;
-                    relPos.setSub4((*pos.p), (*tail.v.t2));
-                    const float t = relPos.dot3(S) / SS;
-                    tail.v.result[0] = t;
-                    tail.v.result[2] = 1.0f - t;
-                }
-                else
-                {
-                    tail.v.result[0] = 0.0f;
-                    tail.v.result[2] = 0.0f;
-                }
-            }
-            else
-            {
-                S00cd7530_Vec relPos;
-                relPos.setSub4((*pos.p), *t1.p);
-                const float t = relPos.dot3(Q) / QQ;
-                tail.v.result[0] = t;
-                tail.v.result[1] = 1.0f - t;
-                tail.v.result[2] = 0.0f;
-            }
-        }
-        else
-        {
-            if (SS >= RR)
-            {
-                S00cd7530_Vec relPos;
-                relPos.setSub4((*pos.p), (*tail.v.t2));
-                const float t = relPos.dot3(S) / SS;
-                tail.v.result[0] = t;
-                tail.v.result[1] = 0.0f;
-                tail.v.result[2] = 1.0f - t;
-            }
-            else
-            {
-                S00cd7530_Vec relPos;
-                relPos.setSub4((*pos.p), *t1.p);
-                const S00cd7530_SimdReal dot = relPos.dot3(R);
-                tail.v.result[0] = 0.0f;
-                const float t = float(dot) / RR;
-                tail.v.result[2] = t;
-                tail.v.result[1] = 1.0f - t;
-            }
-        }
-    }
-}
 
 extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern const double DAT_01032980;
-extern const double DAT_010dbb40;
 
 struct S00dfa940_Entry
 {
@@ -326,6 +178,8 @@ struct S00dfa940_Solver
 
 // Loops building simplex entries until FUN_00df9fe0/FUN_00df9c90 give a result; on result 3 retries up to 0x14 times, adding an offset to m_30; returns status.
 // @f3 0x00a7f4f0 (community match, verified in this file)
+// pdb: hkpConvexPenetrationUtil::calculatePenetrationDepth | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: output
 int S00dfa940_Solver::FUN_00dfa940(int a1)
 {
     S00dfa940_Simplex simplex;
@@ -509,7 +363,10 @@ __forceinline S_00dfaac0_Penetration::S_00dfaac0_Penetration(int a, int b, const
     unk6C = g;
 }
 
-int __cdecl TestPenetration(int a, int b, const S_00dfaac0_Transform& t, float f, int c, int d, int e, int g, int out)
+// pdb: hkCalculatePenetrationDepth | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, ustr, high
+// pdb params: shapeA, shapeB, btoa, epsTol, pointsAinA, pointsBinB, simplex, simplexSize, output
+// pdb: hkCalculatePenetrationDepth | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, ustr, high (was: TestPenetration)
+int __cdecl hkCalculatePenetrationDepth(int a, int b, const S_00dfaac0_Transform& t, float f, int c, int d, int e, int g, int out)
 {
     S_00dfaac0_MonitorStream::GetMonitorStream().timer("TtPenetration");
     S_00dfaac0_Penetration pen(a, b, t, f, c, d, e, g);
@@ -524,12 +381,8 @@ int __cdecl TestPenetration(int a, int b, const S_00dfaac0_Transform& t, float f
 }
 
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 extern "C"
 {
-    void** FUN_00c85750();
-    void FUN_00e2d6c0(void*, void*, void*, void*, void*);
 
     __m128 _mm_mul_ps(__m128, __m128);
     __m128 _mm_add_ps(__m128, __m128);
@@ -537,8 +390,6 @@ extern "C"
     __m128 _mm_xor_ps(__m128, __m128);
     __m128 _mm_set_ps1(float);
 }
-
-extern "C" const __m128 DAT_010c44d0;
 
 struct Arg1
 {
@@ -560,12 +411,6 @@ struct OutItem
 {
     hkVector4 point;
     hkVector4 direction;
-};
-
-struct NormalSplats
-{
-    __m128 x;
-    __m128 z;
 };
 
 struct LocalStruct70
@@ -659,118 +504,3 @@ struct WorkArray
         return data;
     }
 };
-
-// @fnv 0x00dfaba0
-int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int count, const hkTransform* arg4,
-                 OutItem** arg5)
-{
-    WorkArray storage;
-    void** tls = FUN_00c85750();
-    storage.data = (Item*)*tls;
-    *tls = (char*)(Item*)storage.data + ((count * sizeof(Item) + 127) & ~127);
-    Item* buffer = storage.begin();
-
-    LocalStruct70 local_s;
-    hkVector4 out_vec;
-
-    {
-        int arr[2];
-        int workId = 0;
-        for (int i = 0; i < count; ++i)
-        {
-            Item* item = &storage[workId];
-            item->m_arg2_copy = arg2[i];
-            item->m_arg5 = arg5[i];
-            item->init(arg1, arg2[i], *arg4, 0.0001f, item->m_vec70, item->m_vecB0, item->m_vecF0, 0);
-
-            if (item->FUN_00df9fe0(&local_s, arr) == 1)
-            {
-                count--;
-            }
-            else
-            {
-                Item* p = item;
-                ++workId;
-                p->m_obj.SetEntries(p->m_vec70, p->m_vecB0, p->m_vecF0);
-            }
-        }
-
-        if (count > 2)
-        {
-            count = 2;
-        }
-        else if (count < 2)
-        {
-            *FUN_00c85750() = buffer;
-            return 1;
-        }
-
-        arr[0] = 0;
-        arr[1] = 0;
-
-        bool flag;
-        do
-        {
-            FUN_00e2d6c0(&buffer[0].m_obj, &buffer[1].m_obj, &out_vec, &buffer[0].m_field2ff0, &buffer[1].m_field2ff0);
-            flag = false;
-            Item* pItem = buffer;
-            for (int i = 0; i < count; ++i, ++pItem)
-            {
-                if (arr[i] == 2 || pItem->m_obj.m_num < 55)
-                {
-                    continue;
-                }
-                Entry* entry = pItem->m_obj.allocEntry();
-                pItem->FUN_00df9b50(pItem->m_field2ff0, entry);
-                if (pItem->FUN_00df9c90(pItem->m_obj, pItem->m_field2ff0, entry, &arr[i]) == 1)
-                {
-                    if (arr[i] == 3)
-                    {
-                        *FUN_00c85750() = buffer;
-                        return 1;
-                    }
-                }
-                else
-                {
-                    flag = true;
-                }
-            }
-        } while (flag);
-    }
-
-    float neg_w = -out_vec.w;
-    hkVector4 neg_vec_v;
-    neg_vec_v = out_vec;
-    __m128 neg_vec = _mm_xor_ps(*(__m128*)&neg_vec_v, DAT_010c44d0);
-    float f10 = arg1->float10;
-
-    Item* pItem = buffer;
-    for (int i = 0; i < count; ++i, ++pItem)
-    {
-        pItem->FUN_00df9d90(&pItem->m_obj, pItem->m_field2ff0, &local_s);
-
-        __m128 normal_y;
-        __m128 normal_x, normal_z;
-        normal_y = _mm_shuffle_ps(neg_vec, neg_vec, 0x55);
-        normal_z = _mm_shuffle_ps(neg_vec, neg_vec, 0xAA);
-        normal_x = _mm_shuffle_ps(neg_vec, neg_vec, 0x00);
-        *(__m128*)&pItem->m_arg5->direction =
-            _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_load_ps((const float*)&normal_y), *(__m128*)&transform->m_rotation[1]),
-                                  _mm_mul_ps(normal_x, *(__m128*)&transform->m_rotation[0])),
-                       _mm_mul_ps(_mm_load_ps((const float*)&normal_z), *(__m128*)&transform->m_rotation[2]));
-
-        __m128 pt_y = _mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0x55),
-                                 *(__m128*)&transform->m_rotation[1]);
-        __m128 pt_x = _mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0x00),
-                                 *(__m128*)&transform->m_rotation[0]);
-        __m128 pt_z = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(*(__m128*)&local_s.m_v1, *(__m128*)&local_s.m_v1, 0xAA),
-                                            *(__m128*)&transform->m_rotation[2]),
-                                 *(__m128*)&transform->m_vTranslation);
-        float w = neg_w - f10 - pItem->m_arg2_copy->getRadius();
-        *(__m128*)&pItem->m_arg5->point = _mm_add_ps(_mm_add_ps(pt_y, pt_x), pt_z);
-        pItem->m_arg5->direction.w = w;
-    }
-
-    *FUN_00c85750() = buffer;
-    return 0;
-}

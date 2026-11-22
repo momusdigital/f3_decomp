@@ -70,6 +70,8 @@ struct UnkBoard : NiNode
     void FUN_00a7da80(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a7da80
+// pdb: NiBillboardNode::UpdateSelectedDownwardPass | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: UpdateData, uFlags
 void UnkBoard::FUN_00a7da80(NiUpdateData& a, unsigned int b)
 {
     *(float*)((char*)this + 0xB0) = a.m_fTime;
@@ -84,40 +86,22 @@ struct NiUpdateData
 };
 struct BaseNode
 {
-    void FUN_00a5e1f0(NiUpdateData&, unsigned int);
+    void NiNode_UpdateRigidDownwardPass(NiUpdateData&, unsigned int);
 };
 struct StandIn
 {
     void FUN_00a7dab0(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a7dab0
+// pdb: NiBillboardNode::UpdateRigidDownwardPass | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: UpdateData, uFlags
 void StandIn::FUN_00a7dab0(NiUpdateData& UpdateData, unsigned int uFlags)
 {
     *(float*)((char*)this + 0xb0) = UpdateData.m_fTime;
-    ((BaseNode*)this)->FUN_00a5e1f0(UpdateData, uFlags);
+    ((BaseNode*)this)->NiNode_UpdateRigidDownwardPass(UpdateData, uFlags);
     ((void(__thiscall**)(void*)) * (void***)this)[47](this);
 }
 }  // namespace fnv_00a7dab0
-
-class NiCullingProcess;
-struct DummyNode
-{
-    void FUN_00a5dbe0(NiCullingProcess*);
-};
-struct FUN_00a7de40_shell
-{
-    void FUN_00a7de40(NiCullingProcess*);
-};
-struct FUN_00a7e610_shell : NiBillboardNode
-{
-    void FUN_00a7e610(NiCullingProcess* process);
-};
-// @fnv 0x00a7e610
-void FUN_00a7e610_shell::FUN_00a7e610(NiCullingProcess* process)
-{
-    ((FUN_00a7de40_shell*)this)->FUN_00a7de40(*(NiCullingProcess**)((char*)process + 0xc));
-    ((DummyNode*)this)->FUN_00a5dbe0(process);
-}
 
 struct NiAVObject
 {
@@ -203,6 +187,8 @@ struct NiNode
     void FUN_00a7dae0(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a7dae0
+// pdb: NiBillboardNode::UpdateDownwardPass | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: UpdateData, uFlags
 void NiNode::FUN_00a7dae0(NiUpdateData& UpdateData, unsigned int uFlags)
 {
     m_uiCommandId = UpdateData.m_fTime;
@@ -226,6 +212,8 @@ struct MyNode
     unsigned char FUN_00a7db30(NiObject* pkObject);
 };
 // @fnv 0x00a7db30
+// pdb: NiBillboardNode::IsEqual | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkObject
 unsigned char MyNode::FUN_00a7db30(NiObject* pkObject)
 {
     NiBillboardNode* pkNode = (NiBillboardNode*)pkObject;
@@ -254,10 +242,11 @@ struct StandIn
 {
     char _pad[172];
     short m_field;
-    void FUN_00a7e850(NiStream&);
+    void NiBillboardNode_SaveBinary(NiStream&);
 };
 // @fnv 0x00a7e850
-void StandIn::FUN_00a7e850(NiStream& kStream)
+// pdb: NiBillboardNode::SaveBinary | NiBillboardNode.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_open), high
+void StandIn::NiBillboardNode_SaveBinary(NiStream& kStream)
 {
     ((NiNodeBase*)this)->FUN_00a5e880(kStream);
     NiBinaryStream* __restrict pkOstr = kStream.m_pBackingStream;
@@ -342,6 +331,7 @@ struct NiCameraStandIn
 };
 
 // @fnv 0x00a7dc40
+// pdb: NiBillboardNode::RotateToCenter | NiBillboardNode.obj | tesv_win, call_gap, low
 bool __stdcall FUN_00a7dc40(NiCameraStandIn* pkCamera, const NiPoint3& kPos, NiPoint3& kWorldPosition, NiPoint3& kUp,
                             NiPoint3& kRight)
 {
@@ -426,6 +416,8 @@ class Prop
 };
 
 // @fnv 0x00a7e7b0
+// pdb: NiBillboardNode::LoadBinary | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void Prop::FUN_00a7e7b0(NiStreamImpl& stream)
 {
     FUN_00a5dd40(stream);
@@ -584,6 +576,7 @@ class NiNodeA7E
 };
 
 // @f3 0x00848ef0 (community match, verified in this file)
+// pdb: NiBillboardNode::UpdateWorldBound | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
 void NiNodeA7E::FUN_00a7e630()
 {
     if (!m_usChildCount)
@@ -640,6 +633,8 @@ struct PropTarget : Prop
 };
 
 // @fnv 0x00a7e890
+// pdb: NiBillboardNode::GetViewerStrings | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 void PropTarget::FUN_00a7e890(StrArr* array)
 {
     ((FUN_00a5ea70_t*)this)->FUN_00a5ea70(array);
@@ -654,6 +649,8 @@ void* __cdecl FUN_00aa1070(unsigned int size);
 int __cdecl FUN_00a305b0(char* buffer, unsigned int size, const char* format, ...);
 
 // @fnv 0x00a7db60
+// pdb: NiBillboardNode::GetViewerString | NiBillboardNode.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eMode
 char* __cdecl FUN_00a7db60(const char* name, int type)
 {
     unsigned int size = strlen(name) + 0x16;
@@ -858,10 +855,11 @@ struct BoardObject
     float time;
     __declspec(noalias) bool FUN_00a7dc40(const BoardObject*, const BoardVector&, BoardVector&, BoardVector&,
                                           BoardVector&);
-    void FUN_00a7de40(const BoardObject*);
+    void NiBillboardNode_RotateToCamera(const BoardObject*);
 };
 // @f3 0x00848700 (community match, verified in this file)
-void BoardObject::FUN_00a7de40(const BoardObject* camera)
+// pdb: NiBillboardNode::RotateToCamera | NiBillboardNode.obj | fnv360_0822_retail, uconst + bridge(uconst|uconst) + skyrim(uconst), high
+void BoardObject::NiBillboardNode_RotateToCamera(const BoardObject* camera)
 {
     CompositionResult composition;
     BillboardResults results;
@@ -1065,6 +1063,8 @@ struct BillboardCloneSource : StandIn
 };
 
 // @fnv 0x00a7e710
+// pdb: NiBillboardNode::CreateClone | NiBillboardNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kCloning
 BillboardClone* BillboardCloneSource::FUN_00a7e710(void* context)
 {
     void* storage = FUN_00aa13e0(sizeof(BillboardClone));

@@ -1,8 +1,10 @@
-// bsshader/bsshadernolighting.cpp: BSShaderNoLighting, ShaderDispatcher, LightingShader, TechniqueShader and more (21 functions)
+// bsshader/bsshadernolighting.cpp: BSShaderNoLighting, ShaderDispatcher, LightingShader, TechniqueShader and more (20 functions)
 #include "f3_common.h"
 #include "bsshadernolighting_local.h"
 
 // @fnv 0x00bc7720
+// pdb: BSShaderNoLighting::GetShaderDecl | BSShaderNoLighting.obj | fnv360_0822_retail, objrun, high
+// pdb params: apGeometry, apProperty
 NiD3DShaderDeclaration* BSShaderNoLighting::SelectVertexDeclaration(NiGeometry* pkGeometry,
                                                                     BSShaderProperty* pkShaderProperty)
 {
@@ -60,6 +62,7 @@ NiD3DShaderDeclaration* BSShaderNoLighting::SelectVertexDeclaration(NiGeometry* 
 
 // Builds the vertex and pixel shader configs for the no-lighting shader set and assigns each compiled shader to its slot.
 // @fnv 0x00bc5c40
+// pdb: BSShaderNoLighting::LoadShaders | BSShaderNoLighting.obj | fnv360_0822_retail, ustr, medium
 void BSShaderNoLighting::InitializeShaderData()
 {
     BSNoLightingShaderConfig vertexConfigs[28];
@@ -323,6 +326,7 @@ void BSShaderNoLighting::InitializeShaderData()
 
 // Builds twelve vertex declarations from DAT_011f9508, constructs a BSShaderNoLighting from them, initializes it and returns it.
 // @f3 0x00b4ca30 (community match, verified in this file)
+// pdb: BSShaderNoLighting::CreateShader | BSShaderNoLighting.obj | fnv360_0822_retail, call_gap_sim, low
 BSShader* BSShaderNoLighting::CreateShader()
 {
     NiD3DVertexDeclaration* pDecl0 = NiD3DVertexDeclaration::Create(DAT_011f9508, 2, 1);
@@ -408,6 +412,8 @@ BSShader* BSShaderNoLighting::CreateShader()
 
 // Initializes the shader: sets a field to 22, assigns twelve shader arguments via AssignShader, copies DAT_011a9be0 into DAT_01202010 and clears a field.
 // @fnv 0x00bc8f80
+// pdb: BSShaderNoLighting::BSShaderNoLighting | BSShaderNoLighting.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apDecl, apDeclVC, apDeclTexVC, apDeclN, apDeclVCN, apDeclTexVCN, apSkinDecl, apSkinDeclVC, apSkinDeclTexVC, apSkinDeclN, apSkinDeclVCN, apSkinDeclTexVCN
 BSShaderNoLighting::BSShaderNoLighting(NiD3DVertexDeclaration* apShader0, NiD3DVertexDeclaration* apShader1,
                                        NiD3DVertexDeclaration* apShader2, NiD3DVertexDeclaration* apShader3,
                                        NiD3DVertexDeclaration* apShader4, NiD3DVertexDeclaration* apShader5,
@@ -433,6 +439,8 @@ BSShaderNoLighting::BSShaderNoLighting(NiD3DVertexDeclaration* apShader0, NiD3DV
 }
 
 // @fnv 0x00bc9a50
+// pdb: BSShaderNoLighting::SetupGeometryConstants | BSShaderNoLighting.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apState
 void BSShaderNoLighting::PrepareShaderPass(const NiPropertyState* properties)
 {
     int pass = DAT_011f91e4;
@@ -508,15 +516,6 @@ void BSShaderNoLighting::PrepareShaderPass(const NiPropertyState* properties)
         m_pRenderState->SetWireframeProperty(wire);
 }
 
-struct NiColor
-{
-    float r, g, b;
-};
-
-extern NiColor DAT_011a9b7c;
-extern NiColor DAT_011f4998;
-extern bool DAT_011F941E;
-
 // @f3 0x00b4a680 (community match, verified in this file)
 struct Color489 {
     float r, g, b;
@@ -532,6 +531,8 @@ extern float DAT_01177dbc,DAT_01177db0,DAT_01177db4,DAT_01177db8;
 extern bool DAT_0116f20e;
 extern Color489 DAT_0108f450,DAT_00f731bc;
 }
+// pdb: BSShaderNoLighting::SetupGeometryConstants_MaterialColor | BSShaderNoLighting.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pprop, pmaterialProperty
 void __fastcall UpdateMaterialColor(void*,int,char* material,char* shader) {
     Globals489::DAT_01177dbc=*reinterpret_cast<float*>(material+0x28)<1.0f?*reinterpret_cast<float*>(material+0x28):1.0f;
     Color489* source=*reinterpret_cast<Color489**>(shader+0x34);
@@ -565,6 +566,8 @@ struct Mat3x3_00bc8e00
 
 // Builds an identity 3x3 matrix, replaces it with the matrix at p3+0x20 when reachable, and copies it into the DAT_01201fe0..DAT_01202008 globals.
 // @fnv 0x00bc8e00
+// pdb: BSShaderNoLighting::SetupGeometryConstants_TextureTransform | BSShaderNoLighting.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apState
 void __stdcall UpdateGlobalMatrix(void* pObject)
 {
     Mat3x3_00bc8e00 mat;
@@ -617,6 +620,8 @@ struct DummyRenderer
 
 // If arg3 is non-null, calls FUN_00e6fe30 then invokes renderer vtable slot 0x78 with fields from this_ptr, arg2 and arg3, returning 0.
 // @fnv 0x00bc8f20
+// pdb: BSShaderNoLighting::SetupBoneMatrices | BSShaderNoLighting.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: apGeometry, apSkin, apPartition, apBuffData, apState, apEffects, aWorld, aWorldBound
 int __fastcall FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char* arg3, int arg4, int arg5,
                             int arg6, int arg7, int arg8)
 {
@@ -651,6 +656,7 @@ struct FUN_00bc6940_obj
 
 // Calls the function pointer at offset 0x128 on self once for each of the 30 ints in self->vals.
 // @fnv 0x00bc6940
+// pdb: BSShaderNoLighting::ClearPassStages | BSShaderNoLighting.obj | fnv360_0822_retail, objrun_open, medium
 void __fastcall CallHandlerForEachValue(FUN_00bc6940_obj* self)
 {
     for (int i = 0; i < 30; i++)
@@ -687,6 +693,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_01202040;
 
 // @fnv 0x00bc7710
+// pdb: NiMultiTargetTransformController::SetInterpolator | NiMultiTargetTransformController.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkInterpolator, usIndex
 GlobalObjectO2_00a7b610* __cdecl FUN_00bc7710()
 {
     return &g_01202040;
@@ -699,6 +707,7 @@ struct FUN_00bc9390_obj
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 // @fnv 0x00bc9390
+// pdb: BSShaderNoLighting::`scalar deleting destructor' | BSShaderNoLighting.obj | fnv360_0822_retail, objrun, high
 FUN_00bc9390_obj* __fastcall FUN_00bc9390(FUN_00bc9390_obj* self, int unused, unsigned int flags)
 {
     self->DestroyShaderNoLighting();
@@ -769,6 +778,7 @@ struct FUN_00bc7100_t
 };
 // If DAT_011f91e4 is in [0x2d8,0x2ef], enables pPass and writes DAT_011f9618 and the plane normal/distance into DAT_01202148 and DAT_01202158.
 // @fnv 0x00bc7100
+// pdb: BSShaderNoLighting::SetupGeometryConstants_WaterFog | BSShaderNoLighting.obj | fnv360_0822_retail, call_gap, medium
 void FUN_00bc7100_t::FUN_00bc7100()
 {
     if (DAT_011f91e4 >= 0x2d8 && DAT_011f91e4 <= 0x2ef)
@@ -823,6 +833,8 @@ void __cdecl UpdateRendererStateCount(unsigned int, unsigned int);
 
 // Checks flag bits on owner's target and other objects and calls the corresponding flag update functions when bits are set or clear.
 // @fnv 0x00bc8d90
+// pdb: BSShaderNoLighting::PostGeometry | BSShaderNoLighting.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void __stdcall UpdateFlagStates(FNVFlagOwner* owner)
 {
     FNVFlagTarget* target = owner->m_pFlagTarget;
@@ -865,6 +877,8 @@ struct ShaderDispatcher
 };
 // Checks the shader's flags18 bit 0 and DAT_011f91e4 mode; if unset and mode is 74-81, calls FUN_00b97fa0 and AddToTwoCounters, otherwise FUN_00be1ff0.
 // @fnv 0x00bc8ed0
+// pdb: BSShaderNoLighting::SetupGeometryAlphaBlending | BSShaderNoLighting.obj | fnv360_1110_retail, objrun_prop, low
+// pdb params: apState
 void ShaderDispatcher::DispatchShaderProperty(ShaderPropertyFlags** property)
 {
     unsigned int mode = DAT_011f91e4;
@@ -957,7 +971,6 @@ struct ShaderStagePointer
 };
 void AssignStageFromPool(ShaderStagePointer*);
 void ConfigureBeamStage(ShaderStage*, unsigned int, unsigned int, unsigned int, bool);
-extern unsigned int DAT_011f9534;
 struct ShaderPass
 {
     unsigned int unk00;
@@ -1124,6 +1137,7 @@ struct LightingShader
 };
 // Creates each shader pass in the lighting shader, optionally adding a new stage and assigning vertex and pixel shaders.
 // @fnv 0x00bc77e0
+// pdb: BSShaderNoLighting::LoadStagesAndPasses | BSShaderNoLighting.obj | fnv360_0822_retail, call_seq, medium
 bool LightingShader::FUN_00bc77e0()
 {
     FUN_00e804d0(&pass6c);
@@ -1419,6 +1433,7 @@ __forceinline BSShaderNoLighting::~BSShaderNoLighting()
 
 // Calls the BSShaderNoLighting destructor on shader, releasing its pass, vertex and pixel shader pointers.
 // @fnv 0x00bc7220
+// pdb: BSShaderNoLighting::~BSShaderNoLighting | BSShaderNoLighting.obj | fnv360_0822_retail, objrun_prop, medium
 void __fastcall DestroyShaderNoLighting(BSShaderNoLighting* shader)
 {
     shader->BSShaderNoLighting::~BSShaderNoLighting();
@@ -1589,25 +1604,6 @@ void TechniqueShader::SetPass(unsigned int uiTechnique)
 }
 
 
-struct Texture
-{
-    void SetClamp(unsigned int);
-};
-struct F860Pass
-{
-    bool Apply(bool);
-};
-struct BSShaderNoLightingShell : BSShaderNoLighting
-{
-    void FUN_00bc8d30();
-};
-// @fnv 0x00bc8d30
-void BSShaderNoLightingShell::FUN_00bc8d30()
-{
-    InitializeShaderData();
-    FUN_00bc77e0();
-}
-
 namespace NoLightingConsts {
 extern "C" unsigned int DAT_01202158;
 extern "C" unsigned int DAT_01202148;
@@ -1675,6 +1671,7 @@ class NoLightingShaderBuild
 };
 // Lazily creates and populates the m30 and m34 ConstMap objects with shader constant values and stores their indices in m170-m180.
 // @fnv 0x00bc9cc0
+// pdb: BSShaderNoLighting::CreateConstantMaps | BSShaderNoLighting.obj | fnv360_0822_retail, ustr, medium
 void NoLightingShaderBuild::FUN_00bc9cc0()
 {
     if (!m30)

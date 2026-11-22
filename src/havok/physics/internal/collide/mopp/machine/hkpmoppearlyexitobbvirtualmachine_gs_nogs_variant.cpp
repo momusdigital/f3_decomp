@@ -106,6 +106,8 @@ public:
 }
 
 // @f3 0x00a9a300 (community match, verified in this file)
+// pdb: hkpMoppEarlyExitObbVirtualMachine::queryOBBOnTree | hkpMoppEarlyExitObbVirtualMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: query, PC
 void S00e63f10::hkpMoppEarlyExitObbVirtualMachine::FUN_00e63f10(const CollisionShapeRecord* query, const unsigned char* PC)
 {
     CollisionShapeRecord newQuery;

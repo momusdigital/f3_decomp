@@ -1,8 +1,8 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/dynamics/world/util/hkpworldcallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldcallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" unsigned long _tls_index;
 struct AudioTlsState
 {
     unsigned unk0;
@@ -194,106 +194,6 @@ struct ScopedContext
         threadData.m_uiMemoryContext = previous;
     }
 };
-struct Metadata
-{
-    int unk00, unk04, unk08, unk0C, unk10;
-    unsigned char flags;
-};
-struct Reference
-{
-    int unk00, unk04, unk08;
-    Metadata* metadata;
-    void FUN_00c905b0();
-};
-struct World
-{
-    void FUN_00c95800(Reference**, unsigned);
-};
-void* FUN_00ec61c0(void*, int, unsigned);
-struct Owner
-{
-    virtual void method0();
-    virtual void method1();
-    virtual void method2();
-    virtual void method3();
-    virtual void method4();
-    virtual void method5();
-    virtual void method6();
-    virtual void method7();
-    virtual void method8();
-    virtual void method9();
-    virtual void method10();
-    virtual void method11();
-    virtual void method12();
-    virtual void method13();
-    virtual void method14();
-    virtual void method15();
-    virtual void method16();
-    virtual void method17();
-    virtual void method18();
-    virtual void method19();
-    virtual void method20();
-    virtual void method21();
-    virtual void method22();
-    virtual void method23();
-    virtual void method24();
-    virtual void method25();
-    virtual void method26();
-    virtual void method27();
-    virtual void method28();
-    virtual void method29();
-    virtual void method30();
-    virtual void method31();
-    virtual void method32();
-    virtual void method33();
-    virtual void method34();
-    virtual void method35();
-    virtual void method36();
-    virtual World* GetWorld();
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    Reference** references;
-    unsigned count;
-    void ClearReferences();
-};
-// @fnv 0x00c67bc0
-void Owner::ClearReferences()
-{
-    ScopedContext scope(16);
-    if (count > 0)
-    {
-        if (count >= 200)
-            count = 200;
-        World* world = GetWorld();
-        if (world)
-        {
-            world->FUN_00c95800(references, count);
-            for (unsigned i = 0; i < count; ++i)
-            {
-                Reference* reference = references[i];
-                if (reference)
-                {
-                    Metadata* metadata = reference->metadata;
-                    if (metadata)
-                        metadata->flags &= ~32;
-                }
-                references[i]->FUN_00c905b0();
-            }
-            FUN_00ec61c0(references, 0, count * 4);
-            count = 0;
-        }
-    }
-}
 
 struct D00370Array
 {
@@ -314,6 +214,7 @@ struct D00370Array
 
 // Iterates cleanupArray backwards and removes every null element via removeAtAndCopy.
 // @f3 0x00988440 (community match, verified in this file)
+// pdb: worldCallbackUtil_cleanupNullPointers | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_seq, high
 static __declspec(noinline) void FUN_00d00370(D00370Array& array)
 {
     for (int index = array.m_iElementCount - 1; index >= 0; --index)
@@ -366,11 +267,6 @@ static __declspec(noinline) void RemoveZeroEntries(FNV_SmallArray_00d00320* pArr
             }
         }
     }
-}
-
-void KeepAlive_00d00320(FNV_SmallArray_00d00320* pArray)
-{
-    RemoveZeroEntries(pArray);
 }
 
 extern "C" void _ReadWriteBarrier();
@@ -1066,12 +962,6 @@ struct ListenerBase
     virtual void OnEvent(void* apParam);
 };
 
-struct ListenerList
-{
-    ListenerBase** m_ppItems;
-    int m_iArrayLength;
-};
-
 struct ListenerOwner
 {
     DWORD unk0000, unk0004, unk0008, unk000C, unk0010, unk0014, unk0018, unk001C;
@@ -1160,184 +1050,6 @@ struct D00CA0MonitorStream
         return m_kRayEnd < m_pCurrentCommand;
     }
 };
-
-extern DWORD g_D00CA0TlsIndex;
-
-__forceinline D00CA0MonitorStream& D00CA0GetMonitorStream()
-{
-    return *(D00CA0MonitorStream*)TlsGetValue(g_D00CA0TlsIndex);
-}
-
-__forceinline void D00CA0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D00CA0MonitorStream& mStream = D00CA0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D00CA0TimerCommand* h = (D00CA0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D00CA0Listener
-{
-    virtual void entityCallback(void* entity);
-};
-
-struct D00CA0ListenerArray
-{
-    D00CA0Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D00CA0CleanupNullPointers(D00CA0ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D00CA0World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    D00CA0ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D00CA0TimerEntityCb[];
-extern const char g_D00CA0TimerEnd[];
-
-// Invokes entityCallback on each non-null listener in the world's entity listener array, then removes null entries.
-// @fnv 0x00d00ca0
-void __cdecl FUN_00d00ca0(D00CA0World* world, void* entity)
-{
-    D00CA0ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D00CA0TimerBegin(g_D00CA0TimerEntityCb, beginTicks);
-            listeners.m_data[i]->entityCallback(entity);
-            D00CA0TimerBegin(g_D00CA0TimerEnd, endTicks);
-        }
-    }
-    D00CA0CleanupNullPointers(listeners);
-}
 
 namespace fnv_00d00d40 {
 extern "C" void _ReadWriteBarrier();
@@ -1558,186 +1270,6 @@ struct D00DE0MonitorStream
     }
 };
 
-extern DWORD g_D00DE0TlsIndex;
-
-__forceinline D00DE0MonitorStream& D00DE0GetMonitorStream()
-{
-    return *(D00DE0MonitorStream*)TlsGetValue(g_D00DE0TlsIndex);
-}
-
-__forceinline void D00DE0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D00DE0MonitorStream& mStream = D00DE0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D00DE0TimerCommand* h = (D00DE0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D00DE0Listener
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void entityCallback(void* entity);
-};
-
-struct D00DE0ListenerArray
-{
-    D00DE0Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D00DE0CleanupNullPointers(D00DE0ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D00DE0World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    D00DE0ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D00DE0TimerEntityCb[];
-extern const char g_D00DE0TimerEnd[];
-
-// Invokes entityCallback on each non-null listener in the world's entity listener array, then removes null entries.
-// @fnv 0x00d00de0
-void __cdecl FUN_00d00de0(D00DE0World* world, void* entity)
-{
-    D00DE0ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D00DE0TimerBegin(g_D00DE0TimerEntityCb, beginTicks);
-            listeners.m_data[i]->entityCallback(entity);
-            D00DE0TimerBegin(g_D00DE0TimerEnd, endTicks);
-        }
-    }
-    D00DE0CleanupNullPointers(listeners);
-}
-
 struct D00E80TimerCommand
 {
     const char* m_pCommandName;
@@ -1765,25 +1297,6 @@ struct D00E80MonitorStream
     }
 };
 
-extern DWORD g_D00E80TlsIndex;
-
-__forceinline D00E80MonitorStream& D00E80GetMonitorStream()
-{
-    return *(D00E80MonitorStream*)TlsGetValue(g_D00E80TlsIndex);
-}
-
-__forceinline void D00E80TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D00E80MonitorStream& mStream = D00E80GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D00E80TimerCommand* h = (D00E80TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
 struct D00E80World;
 
 struct D00E80Listener
@@ -1797,28 +1310,6 @@ struct D00E80ListenerArray
     D00E80Listener** m_data;
     int m_iElementCount;
     int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D00E80CleanupNullPointers(D00E80ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D00E80TickPair
-{
-    volatile unsigned int m_uiBegin;
-    volatile unsigned int m_uiEndTick;
 };
 
 struct D00E80World
@@ -1908,27 +1399,6 @@ struct D00E80World
     int unk148;
     D00E80ListenerArray m_kEntityListenerArray;
 };
-
-extern const char g_D00E80TimerActionCb[];
-extern const char g_D00E80TimerEnd[];
-
-// Iterates the world's entity listener array in reverse, calling each non-null listener's actionCallback with the world, then compacts out null entries.
-// @fnv 0x00d00e80
-void __cdecl FUN_00d00e80(D00E80World* world)
-{
-    D00E80TickPair kTicks;
-    D00E80ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            D00E80TimerBegin(g_D00E80TimerActionCb, kTicks.m_uiBegin);
-            listeners.m_data[i]->actionCallback(world);
-            D00E80TimerBegin(g_D00E80TimerEnd, kTicks.m_uiEndTick);
-        }
-    }
-    D00E80CleanupNullPointers(listeners);
-}
 
 namespace fnv_00d00f30 {
 extern "C" void _ReadWriteBarrier();
@@ -2494,25 +1964,6 @@ struct D014F0MonitorStream
     }
 };
 
-extern DWORD g_D014F0TlsIndex;
-
-__forceinline D014F0MonitorStream& D014F0GetMonitorStream()
-{
-    return *(D014F0MonitorStream*)TlsGetValue(g_D014F0TlsIndex);
-}
-
-__forceinline void D014F0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D014F0MonitorStream& mStream = D014F0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D014F0TimerCommand* h = (D014F0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
 struct D014F0World;
 
 struct D014F0Listener
@@ -2526,28 +1977,6 @@ struct D014F0ListenerArray
     D014F0Listener** m_data;
     int m_iElementCount;
     int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D014F0CleanupNullPointers(D014F0ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D014F0TickPair
-{
-    volatile unsigned int m_uiBegin;
-    volatile unsigned int m_uiEndTick;
 };
 
 struct D014F0World
@@ -2650,27 +2079,6 @@ struct D014F0World
     D014F0ListenerArray m_kEntityListenerArray;
 };
 
-extern const char g_D014F0TimerCollisionAddedCb[];
-extern const char g_D014F0TimerEnd[];
-
-// Iterates the world's entity listener array, invoking collisionAddedCallback on each non-null listener with timing markers, then removes null entries.
-// @fnv 0x00d014f0
-void __cdecl FUN_00d014f0(D014F0World* world, void* pvEvent)
-{
-    D014F0TickPair kTicks;
-    D014F0ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            D014F0TimerBegin(g_D014F0TimerCollisionAddedCb, kTicks.m_uiBegin);
-            listeners.m_data[i]->collisionAddedCallback(world, pvEvent);
-            D014F0TimerBegin(g_D014F0TimerEnd, kTicks.m_uiEndTick);
-        }
-    }
-    D014F0CleanupNullPointers(listeners);
-}
-
 struct D015A0TimerCommand
 {
     const char* m_pCommandName;
@@ -2705,17 +2113,6 @@ __forceinline D015A0MonitorStream& D015A0GetMonitorStream()
     return *(D015A0MonitorStream*)TlsGetValue(g_D015A0TlsIndex);
 }
 
-__forceinline void D015A0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D015A0MonitorStream& mStream = D015A0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D015A0TimerCommand* h = (D015A0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
 
 struct D015A0Listener
 {
@@ -2835,9 +2232,7 @@ struct D015A0World
     int unk150;
     int unk154;
     int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
+    D015A0ListenerArray m_islandPostIntegrateListeners;  // +0x15C
     int unk168;
     int unk16C;
     int unk170;
@@ -2849,8 +2244,6 @@ struct D015A0World
     D015A0ListenerArray m_kContactListeners;
 };
 
-extern const char g_D015A0TimerContactCb[];
-extern const char g_D015A0TimerEnd[];
 
 // Invokes contactCallback on each non-null listener in world->m_kContactListeners, then removes null entries from the array.
 // @f3 0x009894a0 (community match, verified in this file)
@@ -2869,18 +2262,17 @@ static __declspec(noinline) void D015A0CleanupNullPointers(D015A0ListenerArray* 
     }
 }
 
-void __cdecl FUN_00d015a0(D015A0World* world, void* apFirst, void* pkSecond)
+// pdb: hkpWorldCallbackUtil::fireIslandPostIntegrateCallback | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void __cdecl hkpWorldCallbackUtil_fireIslandPostIntegrateCallback(D015A0World* world, void* apFirst, void* pkSecond)
 {
-    volatile unsigned int ticks1;
-    volatile unsigned int ticks2;
-    D015A0ListenerArray* listeners = reinterpret_cast<D015A0ListenerArray*>(reinterpret_cast<char*>(world) + 0x15c);
+    D015A0ListenerArray* listeners = &world->m_islandPostIntegrateListeners;
     for (int i = listeners->m_iElementCount - 1; i >= 0; i--)
     {
         if (listeners->m_data[i])
         {
-            D015A0TimerBegin(g_D015A0TimerContactCb, ticks1);
+            HK_TIMER_BEGIN("postIntCb", HK_NULL);
             listeners->m_data[i]->contactCallback(apFirst, pkSecond);
-            D015A0TimerBegin(g_D015A0TimerEnd, ticks2);
+            HK_TIMER_END();
         }
     }
     D015A0CleanupNullPointers(listeners);
@@ -2913,182 +2305,6 @@ struct D01650MonitorStream
         return m_kRayEnd < m_pCurrentCommand;
     }
 };
-
-extern DWORD g_D01650TlsIndex;
-
-__forceinline D01650MonitorStream& D01650GetMonitorStream()
-{
-    return *(D01650MonitorStream*)TlsGetValue(g_D01650TlsIndex);
-}
-
-__forceinline void D01650TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D01650MonitorStream& mStream = D01650GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D01650TimerCommand* h = (D01650TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D01650Listener
-{
-    virtual void unk00();
-    virtual void collisionAddedCallback(void* pvEvent, void* pvContext);
-};
-
-struct D01650ListenerArray
-{
-    D01650Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D01650CleanupNullPointers(D01650ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D01650World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    D01650ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D01650TimerCollisionAddedCb[];
-extern const char g_D01650TimerEnd[];
-
-// Invokes collisionAddedCallback on each non-null listener in the array, then removes null entries.
-// @fnv 0x00d01650
-void __cdecl FUN_00d01650(D01650World* world, void* pvEvent, void* pvContext)
-{
-    D01650ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D01650TimerBegin(g_D01650TimerCollisionAddedCb, beginTicks);
-            listeners.m_data[i]->collisionAddedCallback(pvEvent, pvContext);
-            D01650TimerBegin(g_D01650TimerEnd, endTicks);
-        }
-    }
-    D01650CleanupNullPointers(listeners);
-}
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
@@ -3202,171 +2418,6 @@ struct D017B0MonitorStream
     }
 };
 
-extern DWORD g_D017B0TlsIndex;
-
-__forceinline D017B0MonitorStream& D017B0GetMonitorStream()
-{
-    return *(D017B0MonitorStream*)TlsGetValue(g_D017B0TlsIndex);
-}
-
-__forceinline void D017B0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D017B0MonitorStream& mStream = D017B0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D017B0TimerCommand* h = (D017B0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D017B0Listener
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void EntityRemovedCallback(void* entity);
-};
-
-struct D017B0ListenerArray
-{
-    D017B0Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D017B0CleanupNullPointers(D017B0ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D017B0World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    D017B0ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D017B0TimerEntityRemovedCb[];
-extern const char g_D017B0TimerEnd[];
-
-// Invokes EntityRemovedCallback on each non-null listener in the world's entity listener array, then removes null entries.
-// @fnv 0x00d017b0
-void __cdecl NotifyEntityRemoved(D017B0World* world, void* entity)
-{
-    D017B0ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D017B0TimerBegin(g_D017B0TimerEntityRemovedCb, beginTicks);
-            listeners.m_data[i]->EntityRemovedCallback(entity);
-            D017B0TimerBegin(g_D017B0TimerEnd, endTicks);
-        }
-    }
-    D017B0CleanupNullPointers(listeners);
-}
-
 struct D019B0TimerCommand
 {
     const char* m_pCommandName;
@@ -3393,198 +2444,6 @@ struct D019B0MonitorStream
         return m_kRayEnd < m_pCurrentCommand;
     }
 };
-
-extern DWORD g_D019B0TlsIndex;
-
-__forceinline D019B0MonitorStream& D019B0GetMonitorStream()
-{
-    return *(D019B0MonitorStream*)TlsGetValue(g_D019B0TlsIndex);
-}
-
-__forceinline void D019B0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D019B0MonitorStream& mStream = D019B0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D019B0TimerCommand* h = (D019B0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D019B0Listener
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void unk10();
-    virtual void unk14();
-    virtual void shapeSetCallback(void* entity);
-};
-
-struct D019B0ListenerArray
-{
-    D019B0Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D019B0CleanupNullPointers(D019B0ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D019B0World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    D019B0ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D019B0TimerSetShapeCb[];
-extern const char g_D019B0TimerEnd[];
-
-struct D019B0Event
-{
-    int unk00;
-    int unk04;
-    int m_result;
-};
-
-// Invokes shapeSetCallback on each non-null entity listener in the world's listener array, then removes any null entries.
-// @fnv 0x00d019b0
-void __cdecl NotifyShapeSetListeners(D019B0World* world, D019B0Event* event)
-{
-    event->m_result = 0;
-    D019B0ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D019B0TimerBegin(g_D019B0TimerSetShapeCb, beginTicks);
-            listeners.m_data[i]->shapeSetCallback(event);
-            D019B0TimerBegin(g_D019B0TimerEnd, endTicks);
-        }
-    }
-    D019B0CleanupNullPointers(listeners);
-}
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -3683,156 +2542,6 @@ struct D005A0MonitorStream
     }
 };
 
-extern DWORD g_D005A0TlsIndex;
-
-__forceinline D005A0MonitorStream& D005A0GetMonitorStream()
-{
-    return *(D005A0MonitorStream*)TlsGetValue(g_D005A0TlsIndex);
-}
-
-__forceinline void D005A0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D005A0MonitorStream& mStream = D005A0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D005A0TimerCommand* h = (D005A0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D005A0Listener
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void EntityRemovedCallback(void* entity);
-};
-
-struct D005A0ListenerArray
-{
-    D005A0Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D005A0CleanupNullPointers(D005A0ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D005A0World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    D005A0ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D005A0TimerEntityAddedCb[];
-extern const char g_D005A0TimerEnd[];
-
-// Iterates the world's entity listener array, calling EntityRemovedCallback on each non-null listener, then removes null entries.
-// @fnv 0x00d005a0
-void __cdecl FUN_00d005a0(D005A0World* world, void* entity)
-{
-    D005A0ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D005A0TimerBegin(g_D005A0TimerEntityAddedCb, beginTicks);
-            listeners.m_data[i]->EntityRemovedCallback(entity);
-            D005A0TimerBegin(g_D005A0TimerEnd, endTicks);
-        }
-    }
-    D005A0CleanupNullPointers(listeners);
-}
-
 struct D00640TimerCommand
 {
     const char* m_pCommandName;
@@ -3859,157 +2568,6 @@ struct D00640MonitorStream
         return m_kRayEnd < m_pCurrentCommand;
     }
 };
-
-extern DWORD g_D00640TlsIndex;
-
-__forceinline D00640MonitorStream& D00640GetMonitorStream()
-{
-    return *(D00640MonitorStream*)TlsGetValue(g_D00640TlsIndex);
-}
-
-__forceinline void D00640TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D00640MonitorStream& mStream = D00640GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D00640TimerCommand* h = (D00640TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D00640Listener
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void shapeSetCallback(void* entity);
-};
-
-struct D00640ListenerArray
-{
-    D00640Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D00640CleanupNullPointers(D00640ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D00640World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    D00640ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D00640TimerSetShapeCb[];
-extern const char g_D00640TimerEnd[];
-
-// Iterates the entity listener array, calls shapeSetCallback on each non-null listener, then compacts out null entries.
-// @fnv 0x00d00640
-void __cdecl NotifyShapeSet(D00640World* world, void* entity)
-{
-    D00640ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D00640TimerBegin(g_D00640TimerSetShapeCb, beginTicks);
-            listeners.m_data[i]->shapeSetCallback(entity);
-            D00640TimerBegin(g_D00640TimerEnd, endTicks);
-        }
-    }
-    D00640CleanupNullPointers(listeners);
-}
 
 struct D00820TimerCommand
 {
@@ -4038,159 +2596,6 @@ struct D00820MonitorStream
     }
 };
 
-extern DWORD g_D00820TlsIndex;
-
-__forceinline D00820MonitorStream& D00820GetMonitorStream()
-{
-    return *(D00820MonitorStream*)TlsGetValue(g_D00820TlsIndex);
-}
-
-__forceinline void D00820TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D00820MonitorStream& mStream = D00820GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D00820TimerCommand* h = (D00820TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D00820Listener
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void entityCallback(void* entity);
-};
-
-struct D00820ListenerArray
-{
-    D00820Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D00820CleanupNullPointers(D00820ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D00820World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    D00820ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D00820TimerSetShapeCb[];
-extern const char g_D00820TimerEnd[];
-
-// Iterates the world's entity listener array, calls entityCallback on each non-null listener with the entity, then removes null entries.
-// @fnv 0x00d00820
-void __cdecl FUN_00d00820(D00820World* world, void* entity)
-{
-    D00820ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D00820TimerBegin(g_D00820TimerSetShapeCb, beginTicks);
-            listeners.m_data[i]->entityCallback(entity);
-            D00820TimerBegin(g_D00820TimerEnd, endTicks);
-        }
-    }
-    D00820CleanupNullPointers(listeners);
-}
-
 struct D008C0TimerCommand
 {
     const char* m_pCommandName;
@@ -4217,160 +2622,6 @@ struct D008C0MonitorStream
         return m_kRayEnd < m_pCurrentCommand;
     }
 };
-
-extern DWORD g_D008C0TlsIndex;
-
-__forceinline D008C0MonitorStream& D008C0GetMonitorStream()
-{
-    return *(D008C0MonitorStream*)TlsGetValue(g_D008C0TlsIndex);
-}
-
-__forceinline void D008C0TimerBegin(const char* name, volatile unsigned int& ticks)
-{
-    D008C0MonitorStream& mStream = D008C0GetMonitorStream();
-    if (mStream.memoryAvailable())
-    {
-        D008C0TimerCommand* h = (D008C0TimerCommand*)mStream.m_kRayEnd;
-        h->m_pCommandName = name;
-        h->setTime(ticks);
-        mStream.m_kRayEnd = (char*)(h + 1);
-    }
-}
-
-struct D008C0Listener
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void shapeSetCallback(void* entity);
-};
-
-struct D008C0ListenerArray
-{
-    D008C0Listener** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-
-// array to it in a register, which is what the target's codegen depends on.
-static __declspec(noinline) void D008C0CleanupNullPointers(D008C0ListenerArray& listeners)
-{
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] == 0)
-        {
-            listeners.m_iElementCount--;
-            int* dst = (int*)&listeners.m_data[i];
-            int* src = dst + 1;
-            for (int n = (listeners.m_iElementCount - i) * 4; n > 0; n -= 4)
-                *dst++ = *src++;
-        }
-    }
-}
-
-struct D008C0World
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    D008C0ListenerArray m_kEntityListenerArray;
-};
-
-extern const char g_D008C0TimerSetShapeCb[];
-extern const char g_D008C0TimerEnd[];
-
-// Iterates the world's entity listener array in reverse, invoking shapeSetCallback on each non-null listener, then compacts the array to remove null entries.
-// @fnv 0x00d008c0
-void __cdecl FUN_00d008c0(D008C0World* world, void* entity)
-{
-    D008C0ListenerArray& listeners = world->m_kEntityListenerArray;
-    for (int i = listeners.m_iElementCount - 1; i >= 0; i--)
-    {
-        if (listeners.m_data[i] != 0)
-        {
-            volatile unsigned int beginTicks;
-            volatile unsigned int endTicks;
-            D008C0TimerBegin(g_D008C0TimerSetShapeCb, beginTicks);
-            listeners.m_data[i]->shapeSetCallback(entity);
-            D008C0TimerBegin(g_D008C0TimerEnd, endTicks);
-        }
-    }
-    D008C0CleanupNullPointers(listeners);
-}
 
 extern "C" void _ReadWriteBarrier(void);
 extern DWORD DAT_0126835c;
@@ -4933,48 +3184,6 @@ void __cdecl FUN_00d01900(WorldD* world, RemovedEvent& event)
 }
 
 extern void*(__stdcall* DAT_00fdf044)(unsigned long);
-struct ProfRecQ
-{
-    const char* m_pName;
-    unsigned long m_iTick;
-    unsigned long unk08;
-};
-struct ProfBufQ
-{
-    unsigned long unk00;
-    ProfRecQ* m_pCur;
-    unsigned long unk08;
-    ProfRecQ* m_pRecordEnd;
-};
-class ListenerObjQ
-{
-  public:
-    virtual void v00(void);
-    virtual void v01(void);
-    virtual void v02(void);
-    virtual void v03(void);
-    virtual void v04(void);
-    virtual void v05(unsigned long a1);
-};
-struct ListenerArrayQ
-{
-    ListenerObjQ** m_ppItems;
-    unsigned long m_uiItemCount;
-};
-struct ListenerOwnerQ
-{
-    unsigned long unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
-    unsigned long unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
-    unsigned long unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
-    unsigned long unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
-    unsigned long unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
-    unsigned long unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
-    unsigned long unkC0, unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC;
-    unsigned long unkE0, unkE4, unkE8, unkEC, unkF0, unkF4, unkF8, unkFC;
-    unsigned long unk100, unk104, unk108, unk10C, unk110, unk114, unk118, unk11C;
-    unsigned long unk120, unk124, unk128, unk12C, unk130, unk134, unk138, unk13C;
-    ListenerArrayQ m_kListeners;
-};
 // Iterates pOwner's listener array, profiling each call to v05(a2), then calls FUN_00d00370 on the array.
 // @f3 0x00908a00 (community match, verified in this file)
 #include <windows.h>
@@ -5035,6 +3244,7 @@ struct S_00908a00
     void FUN_00908a00();
 };
 
+// pdb: hkpMultiThreadedSimulation::addToiEventWithCriticalSectionLock | hkpMultithreadedSimulation.obj | tesv_win, call_gap, low
 void S_00908a00::FUN_00908a00()
 {
     if (DAT_00d9b108(this) == 0)
@@ -5067,21 +3277,6 @@ struct S00d01850_Out
     int unk00, unk04, unk08;
     DWORD unk0C;
     DWORD m_i10;
-};
-class S00d01850_Item
-{
-  public:
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void vtbl10(S00d01850_Out*);
-    virtual void v5();
-};
-struct S00d01850_ItemList
-{
-    S00d01850_Item** m_ppItems;
-    int m_iArrayLength;
 };
 struct S00d01850_Owner
 {
@@ -5294,8 +3489,6 @@ struct FUN_00d01850_Owner
     D00370Array m_kNode;
 };
 extern DWORD DAT_0116913c;
-extern const char DAT_00e7d880[];
-extern const char DAT_00e32798[];
 namespace task1515 { extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long); struct Item { virtual void callback(S00d01850_Out*); }; }
 __declspec(noinline) static void FUN_00988440(D00370Array& cleanupArray)
 {
@@ -5309,44 +3502,20 @@ __declspec(noinline) static void FUN_00988440(D00370Array& cleanupArray)
         }
     }
 }
+// pdb: hkpWorldCallbackUtil::fireContactPointAdded | hkpWorldCallbackUtil.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: world, event
 void __cdecl FUN_00d01850(S00d01850_Owner* pOwner, S00d01850_Out* pOut)
 {
-    volatile DWORD t1;
-    volatile DWORD t2;
-    volatile DWORD& rT2 = t2;
     FUN_00d01850_Owner* owner = (FUN_00d01850_Owner*)pOwner;
     D00370Array* pCallbacks = &owner->m_kNode;
     pOut->unk0C = 0;
-    int i = pCallbacks->m_iElementCount - 1;
-    if (i >= 0)
+    for (int i = pCallbacks->m_iElementCount - 1; i >= 0; --i)
     {
-        
-        for (; i >= 0; --i)
+        if (pCallbacks->m_data[i] != 0)
         {
-            if (pCallbacks->m_data[i] != 0)
-            {
-                ProfBuf* pBuf = (ProfBuf*)task1515::TlsGetValue(DAT_0116913c);
-                if (pBuf->cur < pBuf->end)
-                {
-                    ProfRec* pRec = pBuf->cur;
-                    pRec->name = DAT_00e7d880;
-                    _ReadWriteBarrier();
-                    t1 = (DWORD)__rdtsc();
-                    pRec->tick = t1;
-                    pBuf->cur = pRec + 1;
-                }
-                ((task1515::Item*)pCallbacks->m_data[i])->callback(pOut);
-                ProfBuf* pBuf2 = (ProfBuf*)task1515::TlsGetValue(DAT_0116913c);
-                if (pBuf2->cur < pBuf2->end)
-                {
-                    ProfRec* pRec2 = pBuf2->cur;
-                    pRec2->name = DAT_00e32798;
-                    _ReadWriteBarrier();
-                    rT2 = (DWORD)__rdtsc();
-                    pRec2->tick = rT2;
-                    pBuf2->cur = pRec2 + 1;
-                }
-            }
+            HK_TIMER_BEGIN("cpAddCb", HK_NULL);
+            ((task1515::Item*)pCallbacks->m_data[i])->callback(pOut);
+            HK_TIMER_END();
         }
     }
     FUN_00988440(*pCallbacks);

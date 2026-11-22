@@ -689,6 +689,8 @@ static void spawnBuildJacobiansJobs( const hkpDynamicsJob& dynamicsJob, const hk
 	newJobCreated.m_jobThreadType = hkJobQueue::JOB_TYPE_HINT_SPU;
 }
 
+// pdb: hkpJobQueueUtils::finishIntegrateJob | hkpDynamicsJobQueueUtils.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: queue, data, jobIn, newJobCreated
 hkJobQueue::JobCreationStatus __cdecl hkpJobQueueUtils::FUN_00a256c0( hkJobQueue& queue, hkJobQueue::DynamicData* data, const hkJobQueue::JobQueueEntry& jobIn, hkJobQueue::JobQueueEntryInput& newJobCreated )
 {
 	int numJobsToFinish = 1;

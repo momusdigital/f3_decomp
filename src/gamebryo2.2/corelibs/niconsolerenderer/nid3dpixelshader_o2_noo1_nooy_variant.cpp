@@ -80,7 +80,7 @@ class NiD3DPixelShader : public NiD3DShaderProgram
     GeometryRelatedType* m_pD3DPixelShader;
 };
 struct NiD3DPixelShader;
-void __cdecl FUN_00e92f30(NiD3DPixelShader*);
+void __cdecl NiD3DShaderProgramFactory_RecreatePixelShader(NiD3DPixelShader*);
 struct FUN_00e898d0_shell : NiD3DPixelShader
 {
     void FUN_00e898d0();
@@ -3757,6 +3757,7 @@ struct S_00e89970 : NiD3DPixelShader
 };
 
 // @fnv 0x00e89970
+// pdb: NiD3DVertexShader::~NiD3DVertexShader | NiD3DVertexShader.obj | fnv360_0721_beta, objopen_prop, low
 void S_00e89970::FUN_00e89970()
 {
     *reinterpret_cast<void**>(this) = (void*)DAT_010ef7d4;

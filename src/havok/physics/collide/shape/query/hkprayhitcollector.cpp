@@ -12,6 +12,7 @@ struct LinkedEntry
 
 // Walks the linked list from head, stores each node's value into output in reverse order up to capacity-1, then writes -1 and returns the count written plus one.
 // @fnv 0x00cf0860
+// pdb: hkpRayHitCollector::shapeKeysFromCdBody | hkpRayHitCollector.obj | tesv_win, call_seq, medium
 int CollectValuesReversed(int* paiValues, int capacity, LinkedEntry* head)
 {
     LinkedEntry* entries[8];

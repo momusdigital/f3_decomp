@@ -24,6 +24,7 @@ struct S00962a40_Owner
     S00962a40_Member m_kMember;  // +0x08
 };
 
+// pdb: hkaSkeletonMapper::~hkaSkeletonMapper | hkaSkeletonMapper.obj | tesv_win, callee_sim, low
 void __fastcall FUN_00962a40(S00962a40_Owner* pThis, int)
 {
     pThis->m_pVTable = &DAT_00e7c424;

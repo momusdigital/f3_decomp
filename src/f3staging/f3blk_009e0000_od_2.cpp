@@ -83,6 +83,7 @@ struct hkpTransformShape
     hkVector4* FUN_009ed8b0(hkVector4* out) const;
 };
 
+// pdb: hkpConvexTransformShape::getCollisionSpheresImpl | hkpConvexTransformShape.obj | tesv_win, objrun_open, low
 hkVector4* hkpTransformShape::FUN_009ed8b0(hkVector4* out) const
 {
     const hkVector4* in = m_childShape->v28(out);
@@ -165,6 +166,7 @@ protected:
     hkVector4 m_pos; // the w part is the radius
 };
 
+// pdb: makeSphere | hkGeometryUtility.obj | tesv_win, call_gap_sim, low
 static hkSphere FUN_009ea460(const hkVector4& p0, const hkVector4& p1, hkReal extraRadius)
 {
     hkVector4 diff;
@@ -393,6 +395,7 @@ static __forceinline hkResult buildJacobianFromConeLimitAtom(const hkpConeLimitC
     return HK_SUCCESS;
 }
 
+// pdb: buildJacobianFromStabilizedConeLimitAtom | hkpBuildJacobianFromAtoms.obj | fnv360_0822_retail, objrun, medium
 static hkResult FUN_009fa490(const hkpConeLimitConstraintAtom& atom, const hkpConstraintQueryIn& in,
                              const hkTransform& baseA, const hkTransform& baseB,
                              hkp1dAngularLimitInfo& info, hkpConstraintQueryOut& out)
@@ -521,6 +524,7 @@ namespace hkVector4Util
     }
 }
 
+// pdb: setLocalTransform | hkpBuildJacobianFromAtoms.obj | fnv360_0721_beta, objopen_prop, low
 static void FUN_009f7fb0(const hkTransform& a, const hkTransform& b, hkTransform& out)
 {
     hkVector4Util::rotatePoints(a.getRotation(), &b.getColumn(0), 4, &out.getColumn(0));
@@ -603,6 +607,7 @@ struct S009f9eb0_Info
     hkReal m_tau;
 };
 
+// pdb: buildJacobianFromAngLimitAtom | hkpBuildJacobianFromAtoms.obj | fnv360_0822_retail, objrun, medium
 static __declspec(noinline) int FUN_009f9eb0(const S009f9eb0_Atom* pAtom, const S009f9eb0_QueryIn* pIn,
     const S009f9eb0_Rotation* pA, const S009f9eb0_Rotation* pB, S009f9eb0_Info* pInfo)
 {
@@ -695,8 +700,8 @@ struct __declspec(align(16)) hkVector4 {
         }
         mul4(inv);
     }
-    void FUN_008d2a00(const struct hkRotation& r, const hkVector4& v);
-    void FUN_008d28e0(const struct hkTransform& t, const hkVector4& v);
+    void hkVector4_setRotatedDir(const struct hkRotation& r, const hkVector4& v);
+    void hkVector4_setTransformedPos(const struct hkTransform& t, const hkVector4& v);
 };
 
 struct hkRotation {
@@ -720,7 +725,7 @@ struct hkTransform {
     hkRotation m_rotation;
     hkVector4 m_translation;
     hkTransform(const hkRotation& r, const hkVector4& t) : m_rotation(r), m_translation(t) {}
-    void FUN_00925110(const hkTransform& t);
+    void hkTransform_setInverse(const hkTransform& t);
 };
 
 struct hkStridedVertices {
@@ -789,6 +794,7 @@ struct hkLocalVecBuffer {
     hkVector4& operator[](int i) { return m_data[i]; }
 };
 
+// pdb: getIsBoxGeometry | hkGeometryUtility.obj | tesv_win, uconst, low
 bool FUN_009eb8c0(const hkVecArray& points, hkVector4& halfExtents, hkTransform& out, float tolerance)
 {
     hkVector4 sphere;
@@ -870,7 +876,7 @@ bool FUN_009eb8c0(const hkVecArray& points, hkVector4& halfExtents, hkTransform&
     rot.FUN_0096c8f0(0.01f);
 
     for (int i = 0; i < 8; i++)
-        buf[i].FUN_008d2a00(rot, buf[i]);
+        buf[i].hkVector4_setRotatedDir(rot, buf[i]);
 
     float minX;
     float maxX;
@@ -919,21 +925,21 @@ bool FUN_009eb8c0(const hkVecArray& points, hkVector4& halfExtents, hkTransform&
     center.mul4(-1.0f);
 
     hkTransform T(rot, center);
-    out.FUN_00925110(T);
+    out.hkTransform_setInverse(T);
 
     if (FUN_009e9300(rot.m_col0, tolerance) && FUN_009e9300(rot.m_col1, tolerance)
         && FUN_009e9300(rot.m_col2, tolerance)) {
-        halfExtents.FUN_008d2a00(out.m_rotation, halfExtents);
+        halfExtents.hkVector4_setRotatedDir(out.m_rotation, halfExtents);
         halfExtents(3) = 0.0f;
         halfExtents.setAbs4(halfExtents);
         rot.setIdentity();
         out.m_rotation = rot;
     }
-    T.FUN_00925110(out);
+    T.hkTransform_setInverse(out);
 
     for (int i = 0; i < points.m_size; i++) {
         hkVector4 t;
-        t.FUN_008d28e0(T, points.m_data[i]);
+        t.hkVector4_setTransformedPos(T, points.m_data[i]);
         for (int k = 0; k < 3; k++) {
             if (fabs((&t.x)[k]) > (&halfExtents.x)[k] * 1.001f) {
                     return false;

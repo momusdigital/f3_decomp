@@ -4,6 +4,7 @@
 
 // Calls the base NiD3DShader::Initialize, then invokes vfn_75, vfn_77 and vfn_76, returning false if the base call fails.
 // @fnv 0x00be0870
+// pdb: BSShader::Initialize | BSShader.obj | fnv360_0822_retail, call_gap, medium
 bool BSShader::Initialize()
 {
     if (!reinterpret_cast<NiD3DShader*>(this)->Initialize())
@@ -15,6 +16,7 @@ bool BSShader::Initialize()
 }
 
 // @fnv 0x00bd5a60
+// pdb: DistantLODShader::CreateConstantMaps | DistantLODShader.obj | fnv360_0822_retail, ustr, medium
 void DistantLODShader::UpdateShaderConstants()
 {
     if (m_spSecondShaderConstantMap.m_pObject == 0)
@@ -102,6 +104,7 @@ struct LodShaderBase
 };
 // Releases the objects in setA when field28 is set, releases the objects in setB, then calls FUN_00e814b0 on the shader.
 // @fnv 0x00bd4ed0
+// pdb: DistantLODShader::RecreateRendererData | DistantLODShader.obj | fnv360_0822_retail, objrun_prop, medium
 void __fastcall ReleaseLodObjects(LodShaderBase* shader, int)
 {
     int i;
@@ -151,6 +154,7 @@ struct S_00bd58f0
 };
 // Calls FUN_00bd5330, then if bit 0 of flags is set deletes this with size 0x100, and returns this.
 // @fnv 0x00bd58f0
+// pdb: NiDX9VertexBufferManager::`vector deleting destructor' | NiDX9VBManager.obj | tesv_win, objrun_prop, low
 void* __thiscall S_00bd58f0::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00bd5330();
@@ -348,6 +352,7 @@ extern void* DAT_011f9508;
 extern unsigned int _data_011c16bc;
 
 // @fnv 0x00bd5920
+// pdb: DistantLODShader::CreateShader | DistantLODShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00bd5670* FUN_00bd5920()
 {
     NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create((NiRenderer*)DAT_011f9508, 4, 1);
@@ -475,6 +480,7 @@ struct BSShaderStandin
 };
 
 // @fnv 0x00bd5320
+// pdb: DistantLODShader::ClearPassStages | DistantLODShader.obj | fnv360_0822_retail, objrun, medium
 void BSShaderStandin::FUN_00bd5320()
 {
     vfn_74(field6c);
@@ -538,6 +544,7 @@ struct FUN_00bd5330 : FUN_00be0f10
     virtual ~FUN_00bd5330();
 };
 // @fnv 0x00bd5330
+// pdb: DistantLODShader::~DistantLODShader | DistantLODShader.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00bd5330::~FUN_00bd5330()
 {
     for (unsigned int i = 0; i < 4; ++i)
@@ -850,6 +857,7 @@ extern "C" int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
 extern const char str_010bc23c[], str_010b8ba0[], str_010b8bc4[], str_010b8b7c[], str_010b8b74[];
 // Builds shader records and calls shader routines for the selected branch, using vs_1_1 or vs_2_0.
 // @fnv 0x00bd4f30
+// pdb: DistantLODShader::LoadShaders | DistantLODShader.obj | fnv360_0822_retail, ustr, medium
 void LodCompiler::CompileDistanceLodShaders()
 {
     ShaderRecord pix[2], vert[4];
@@ -1015,6 +1023,8 @@ struct FUN_00bd5670_c : BaseShader_00be2200
 
 // Initializes the shader by releasing map references, setting the declaration, and allocating instance data based on DAT_011f91c0.
 // @fnv 0x00bd5670
+// pdb: DistantLODShader::DistantLODShader | DistantLODShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl
 FUN_00bd5670_c::FUN_00bd5670_c(NiRefObject* apDeclaration)
 {
     m_field68 = 7;

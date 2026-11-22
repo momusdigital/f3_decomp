@@ -262,6 +262,8 @@ virtual void v270();
  }
  bool FUN_0072eb80(Actor*,unsigned);
 };
+// pdb: HighProcess::CheckIfHasObject | HighProcess.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apActor, ainumb
 bool Owner::FUN_0072eb80(Actor*actor,unsigned group) {
  State*state=GetState();
  _ReadWriteBarrier();
@@ -432,7 +434,7 @@ int unk50;
 int unk54;
 int unk58;
 int unk5c;
-Owner* current;bool FUN_00774b50();};extern Global* DAT_0107a104;struct Table {
+Owner* current;bool PlayerCharacter_IsPipboyActive();};extern Global* DAT_0107a104;struct Table {
 void* unk000;
 void* unk004;
 void* unk008;
@@ -681,6 +683,7 @@ void* unk3d0;
 void* unk3d4;
 void* unk3d8;
 void* unk3dc;
-int (__thiscall *state)(Owner*);};struct Owner {Table* table;Reference* ReferenceValue(){return table->reference(this);}int State(){return table->state(this);}bool FUN_00731b60();};bool Owner::FUN_00731b60(){Reference* p=ReferenceValue();switch(State()+1){case 3:case 6:if(p){Extra* extra=p->extra;if(extra){switch(extra->sub->FUN_0054bef0()){case 0xa7:case 0xb2:return false;}}}case 0:case 4:case 5:case 7:case 8:if(p&&p->kind!=0xff)return false;break;default:return false;}Global* g=DAT_0107a104;if(this==g->current){if(g->FUN_00774b50())return false;}else if(p){R2* r=p->connection->Get();_ReadWriteBarrier();if(r&&r->FUN_00552a30())return false;}return true;}}
+// pdb: HighProcess::CanAttack | HighProcess.obj | fnv360_0822_retail, caller_sim, low
+int (__thiscall *state)(Owner*);};struct Owner {Table* table;Reference* ReferenceValue(){return table->reference(this);}int State(){return table->state(this);}bool FUN_00731b60();};bool Owner::FUN_00731b60(){Reference* p=ReferenceValue();switch(State()+1){case 3:case 6:if(p){Extra* extra=p->extra;if(extra){switch(extra->sub->FUN_0054bef0()){case 0xa7:case 0xb2:return false;}}}case 0:case 4:case 5:case 7:case 8:if(p&&p->kind!=0xff)return false;break;default:return false;}Global* g=DAT_0107a104;if(this==g->current){if(g->PlayerCharacter_IsPipboyActive())return false;}else if(p){R2* r=p->connection->Get();_ReadWriteBarrier();if(r&&r->FUN_00552a30())return false;}return true;}}
 
 }   // namespace f3m_00731b60

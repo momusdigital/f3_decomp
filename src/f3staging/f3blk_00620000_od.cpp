@@ -169,6 +169,7 @@ struct Credits {
 template<> inline BSStringT<char>::BSStringT(){pString=0;sLen=0;sMaxLen=0;}
 template<> inline BSStringT<char>::~BSStringT(){if(pString)DAT_01090a78.FUN_0086ba60(pString);pString=0;sMaxLen=0;sLen=0;}
 inline void releaseCredits(char* p) { DAT_01090a78.FUN_0086ba60(p); }
+// pdb: CreditsMenu::InitCreditsRoot | CreditsMenu.obj | fnv360_0822_retail, call_gap, low
 void Credits::FUN_0063c810() {
  FileCredits file(DAT_00e04f58,0,0x2800,0);
  StreamCredits& stream=file;
@@ -495,7 +496,7 @@ public:
 
     const char* FUN_004e9a10();
 
-    TESForm* FUN_004f26c0();
+    TESForm* TESObjectREFR_GetOwner();
 
     bool FUN_004e7210();
 
@@ -503,9 +504,9 @@ public:
 
     bool FUN_004e6e30(int index, int checkOccupancy);
 
-    DebugLock* FUN_004e75f0();
+    DebugLock* TESObjectREFR_GetLock();
 
-    DebugTeleport* FUN_004e74a0();
+    DebugTeleport* TESObjectREFR_GetTeleport();
 
     unsigned int FUN_004e8030();
     __forceinline DebugFurniture* GetBaseObject() const { return baseObject; }
@@ -1269,9 +1270,9 @@ struct DebugDelta {
     float x, y, z;
 };
 struct DebugFurniture {
-    bool FUN_004add50(int index);
+    bool TESFurniture_GetMarkerEnabled(int index);
     void FUN_004ae080(DebugDelta* delta, unsigned int marker, float playerContext);
-    float FUN_004ae130(unsigned int marker);
+    float TESFurniture_GetMarkerHeadingOffset(unsigned int marker);
 };
 struct DebugPlayer {
     float FUN_004e6d80();
@@ -1495,6 +1496,7 @@ struct DebugInterfaceManager {
     TESObjectREFR* selectedReference;
     void FUN_006242f0();
 };
+// pdb: InterfaceManager::DisplayCurrentPickRef | InterfaceManager.obj | fnv360_0721_beta, ustr, low, conflict (skyrim: Console::DisplayRef)
 void DebugInterfaceManager::FUN_006242f0()
 {
     int headingRow;
@@ -1543,9 +1545,9 @@ void DebugInterfaceManager::FUN_006242f0()
                 }
             }
 
-            if (selectedReference->FUN_004f26c0()) {
-                FUN_00403a00(&message, "Owner name '%s' (%08x)", selectedReference->FUN_004f26c0()->GetEditorName(),
-                             selectedReference->FUN_004f26c0()->GetFormID());
+            if (selectedReference->TESObjectREFR_GetOwner()) {
+                FUN_00403a00(&message, "Owner name '%s' (%08x)", selectedReference->TESObjectREFR_GetOwner()->GetEditorName(),
+                             selectedReference->TESObjectREFR_GetOwner()->GetFormID());
                 FUN_00bfb7c0(true)->FUN_00bfb050(message.GetText(), DAT_00dd90a8, (float)row, 2, -1, -1.0f, 0, 0);
                 row += lineHeight;
             }
@@ -1583,7 +1585,7 @@ void DebugInterfaceManager::FUN_006242f0()
                 while (selectedReference->FUN_004ec140(markerNumber, &marker)) {
                     DebugFurniture* furniture = selectedReference->GetBaseObject();
                     int markerId = (int)marker.GetIndex();
-                    if (furniture->FUN_004add50(markerNumber)) {
+                    if (furniture->TESFurniture_GetMarkerEnabled(markerNumber)) {
                         DebugDelta delta;
                         furniture->FUN_004ae080(&delta, marker.GetIndex(), reinterpret_cast<DebugPlayer*>(DAT_0107a104)->FUN_004e6d80());
                         const char* used = selectedReference->FUN_004e6e30(markerNumber, 1) ? "USED" : "UNUSED";
@@ -1591,7 +1593,7 @@ void DebugInterfaceManager::FUN_006242f0()
                         FUN_00403a00(&message, "%s Marker %d Delta %0.2f,%0.2f,%0.2f (%d deg) %s",
                                      sit ? "Sit" : "Sleep", markerId,
                                      (double)delta.x, (double)delta.y, (double)delta.z,
-                                     (int)(furniture->FUN_004ae130(markerId) * DAT_00dcd110),
+                                     (int)(furniture->TESFurniture_GetMarkerHeadingOffset(markerId) * DAT_00dcd110),
                                      used);
                     } else {
                         bool sit = FUN_004add90(markerId);
@@ -1603,8 +1605,8 @@ void DebugInterfaceManager::FUN_006242f0()
                 }
             }
 
-            if (selectedReference->FUN_004e75f0()) {
-                DebugLock* lock = selectedReference->FUN_004e75f0();
+            if (selectedReference->TESObjectREFR_GetLock()) {
+                DebugLock* lock = selectedReference->TESObjectREFR_GetLock();
                 FUN_00403a00(&message, "Lock '%s' %s.",
                              reinterpret_cast<LockLabel**>(&DAT_00f47c7c)[lock->FUN_0041ece0(selectedReference)]->GetName(),
                              (lock->flags & 1) ? "Locked" : "Unlocked");
@@ -1617,8 +1619,8 @@ void DebugInterfaceManager::FUN_006242f0()
                 }
             }
 
-            if (selectedReference->FUN_004e74a0()) {
-                DebugTeleport* teleport = selectedReference->FUN_004e74a0();
+            if (selectedReference->TESObjectREFR_GetTeleport()) {
+                DebugTeleport* teleport = selectedReference->TESObjectREFR_GetTeleport();
                 DebugCell* cell = teleport->FUN_00423840();
                 TESObjectREFR* door = teleport->FUN_004237e0();
                 const char* cellName;

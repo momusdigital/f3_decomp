@@ -4,6 +4,7 @@
 extern "C" const char* const g_011f444c_arg1;
 
 // @fnv 0x00a5fc00
+// pdb: bhkConstraint::GetRTTI | MissileProjectile.obj | fnv360_0822_retail, objrun_open, low
 const char* const* __cdecl FUN_00a5fc00()
 {
     return &g_011f444c_arg1;
@@ -21,6 +22,7 @@ struct Helper
 bool __cdecl AreFloatsEqual(Helper const*, Helper const*);
 // Returns false if AreFloatsEqual(a, b) is false, otherwise returns the result of a->_4.FUN_004a4cc0(b->_4).
 // @fnv 0x00a299c0
+// pdb: NiColorKey::Equal | NiColorKey.obj | tesv_win, hash, low
 bool __cdecl CompareHelpers(Helper const* apLeft, Helper const* apRight)
 {
     if (!AreFloatsEqual(apLeft, apRight))
@@ -39,16 +41,17 @@ struct NiTexture
     int _28[2];
     void* Destroy(unsigned int);
 };
-void __fastcall FUN_00a5f800(void*);
+void __fastcall NiTexture_RemoveTextureFromList(void*);
 void __fastcall DestroyFogProperty(void*);
 void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109b944;
 // @fnv 0x00a60120
+// pdb: NiTexture::`scalar deleting destructor' | NiSourceTexture.obj | tesv_win, vtable_prefix, medium
 void* NiTexture::Destroy(unsigned int flags)
 {
     *(void**)this = (void*)&DAT_0109b944;
     delete m_pTextureRendererData;
-    FUN_00a5f800(this);
+    NiTexture_RemoveTextureFromList(this);
     DestroyFogProperty(this);
     if (flags & 1)
         _delete(this, 0x30);

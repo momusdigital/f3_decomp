@@ -13,6 +13,8 @@ extern float DAT_0116f3f0;
 extern float DAT_0108f04c;
 extern float DAT_0108f050;
 
+// pdb: ShadowLightShader::SetupGeometryConstants_HighDetailRange | ShadowLightShader.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: apGeometry
 void __stdcall FUN_00afbc50(int)
 {
     if (DAT_01174998->v) {

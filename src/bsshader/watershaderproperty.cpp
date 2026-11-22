@@ -30,6 +30,8 @@ struct B6AB20Object
 
 // Creates a cloning process with hash size 0x101 and runs Process on pkTarget with it.
 // @fnv 0x00b6ab20
+// pdb: WaterShaderProperty::Copy | WaterShaderProperty.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: pDest
 void B6AB20Object::CloneToTarget(void* pkTarget)
 {
     B6AB20CloningProcess kCloning(0x101);
@@ -144,6 +146,7 @@ struct FUN_00b6abb0 : CmBase
 
 // Initialises the object's fields to their default values: flags, floats, counters and the two integer fields set to 0x11 and 0xe.
 // @f3 0x00aedf60 (community match, verified in this file)
+// pdb: WaterShaderProperty::WaterShaderProperty | WaterShaderProperty.obj | fnv360_0822_retail, uconst, low
 FUN_00b6abb0::FUN_00b6abb0()
 {
     m_sp148 = 0;

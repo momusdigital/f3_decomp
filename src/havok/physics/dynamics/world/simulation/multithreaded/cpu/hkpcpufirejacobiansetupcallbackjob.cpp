@@ -348,10 +348,13 @@ struct JobQueueReply_v1 {
     void Reply(int a, S_00d94c40_Job* b, S_00d94c40_Job* c, int d, int e);
 };
 extern DWORD DAT_010f3170;
-extern void __cdecl FUN_00a26440(S_00d94c40_Data* data, S_00d94c40_Input* input, S_00d94c40_Node* node);
+extern void __cdecl hkSimpleContactConstraintData_fireCallbacks(S_00d94c40_Data* data, S_00d94c40_Input* input, S_00d94c40_Node* node);
 extern void __cdecl FUN_00e0811c();
 
-void __cdecl ExecuteConstraintCallbacks(S_00d94c40_Context* context, S_00d94c40_JobQueue* jobQueue, S_00d94c40_Job* job)
+// pdb: hkpSingleThreadedJobsOnIsland::cpuFireJacobianSetupCallbackJob | hkpCpuFireJacobianSetupCallbackJob.obj | fnv360_0822_retail, ustr, high
+// pdb params: tl, jobQueue, jobInOut
+// pdb: hkpSingleThreadedJobsOnIsland::cpuFireJacobianSetupCallbackJob | hkpCpuFireJacobianSetupCallbackJob.obj | fnv360_0822_retail, ustr, high (was: ExecuteConstraintCallbacks)
+void __cdecl hkpSingleThreadedJobsOnIsland_cpuFireJacobianSetupCallbackJob(S_00d94c40_Context* context, S_00d94c40_JobQueue* jobQueue, S_00d94c40_Job* job)
 {
     S_00d94c40_Input* input = (S_00d94c40_Input*)((char*)context + 0x80);
     S_00d94c40_TaskData* taskData = ((JobAt8_v1*)job)->m_taskData;
@@ -375,7 +378,7 @@ void __cdecl ExecuteConstraintCallbacks(S_00d94c40_Context* context, S_00d94c40_
                 {
                     node = node->m_next;
                 }
-                FUN_00a26440(data, input, node);
+                hkSimpleContactConstraintData_fireCallbacks(data, input, node);
             }
             if (pConstraint->m_callbackFlags & 4)
             {

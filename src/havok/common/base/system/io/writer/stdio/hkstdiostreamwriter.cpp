@@ -3,7 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d2bef0
-void __stdcall FUN_00d2bef0(char* p)
+// pdb: hkStdioStreamReader::seekTellSupported | hkStdioStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkStdioStreamReader_seekTellSupported(char* p)
 {
     *p = 1;
 }
@@ -18,34 +19,27 @@ struct FUN_00d2bf00_class
 };
 
 // @fnv 0x00d2bf00
+// pdb: hkStdioStreamWriter::seek | hkStdioStreamWriter.obj | fnv360_0822_retail, vtable, high
+// pdb params: offset, whence
 bool FUN_00d2bf00_class::Seek(long offset, int whence)
 {
     return _fseek(m8, offset, whence) != 0;
 }
 
 extern int DAT_010ce6f4;
-extern int DAT_0102e388;
-
-struct FUN_00d2bfb0_class
-{
-    int* vtbl;
-    void FUN_00d2bfb0();
-    void __thiscall FUN_00d2be50();
-};
-
-// @fnv 0x00d2bfb0
-void __thiscall FUN_00d2bfb0_class::FUN_00d2bfb0()
-{
-    vtbl = &DAT_010ce6f4;
-    FUN_00d2be50();
-    vtbl = &DAT_0102e388;
-}
 
 void __cdecl FUN_00ecda70(void*);
 // @fnv 0x00d2bec0
-void __fastcall FUN_00d2bec0(void* self, int)
+// pdb: hkStdioStreamWriter::flush | hkStdioStreamWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+// hkStdioStreamWriter: m_handle (the FILE*) at +0x08 (New Vegas Xbox 360 PDB).
+struct StdioWriterD2BE
 {
-    void* p = *(void**)((char*)self + 8);
+    int unk00, unk04;
+    void* m_handle;
+};
+void __fastcall hkStdioStreamWriter_flush(StdioWriterD2BE* self, int)
+{
+    void* p = self->m_handle;
     if (p)
         FUN_00ecda70(p);
 }
@@ -55,10 +49,11 @@ struct FUN_00d2bf20_class
 {
     char m0[8];
     void* m8;
-    long FUN_00d2bf20();
+    long hkStdioStreamWriter_tell();
 };
 // @fnv 0x00d2bf20
-long FUN_00d2bf20_class::FUN_00d2bf20()
+// pdb: hkStdioStreamWriter::tell | hkStdioStreamWriter.obj | fnv360_0822_retail, vtable + skyrim(vtable), high
+long FUN_00d2bf20_class::hkStdioStreamWriter_tell()
 {
     return _ftell(m8);
 }
@@ -75,6 +70,8 @@ struct FUN_00d2bf30
 extern void* __cdecl FUN_00ecdf44();
 // Sets the vtable and flags, then stores a pointer into the block returned by FUN_00ecdf44, offset by 0x40 when mode is 2 and 0x20 otherwise.
 // @fnv 0x00d2bf30
+// pdb: hkStdioStreamWriter::hkStdioStreamWriter | hkStdioStreamWriter.obj | fnv360_0822_debug, objrun_sim, low
+// pdb params: s
 FUN_00d2bf30::FUN_00d2bf30(int mode)
 {
     unk06 = 1;
@@ -109,6 +106,8 @@ struct Candidate : FUN_00d2be30
 };
 // Sets flags to 1, installs the vtable, clears file, marks opened, and if fileName is non-null calls SetFile with DAT_0106e798 as mode; returns this.
 // @fnv 0x00d2bf70
+// pdb: hkStdioStreamWriter::hkStdioStreamWriter | hkStdioStreamWriter.obj | fnv360_0822_debug, callee_sim, medium
+// pdb params: nameIn
 void* Candidate::OpenFile(const char* fileName)
 {
     flags = 1;
@@ -133,6 +132,8 @@ struct FUN_00d2be80_cls
 
 // Reads n bytes from m8 into p via FUN_00ecb086; if the read returns <= 0, calls FUN_00d2be50, and returns the byte count (0 when m8 is null).
 // @fnv 0x00d2be80
+// pdb: hkStdioStreamWriter::write | hkStdioStreamWriter.obj | fnv360_0822_retail, vtable, high
+// pdb params: buf, nbytes
 int FUN_00d2be80_cls::ReadBytes(char* apBuffer, int aiCount)
 {
     void* stream = m8;
@@ -153,18 +154,21 @@ struct FUN_00d2bed0_cls
     int unk00;
     int unk04;
     int m_08;
-    unsigned char* GetFlagAsByte(unsigned char* out);
+    unsigned char* hkStdioStreamWriter_isOk(unsigned char* out);
 };
 
 // @fnv 0x00d2bed0
-unsigned char* FUN_00d2bed0_cls::GetFlagAsByte(unsigned char* out)
+// pdb: hkStdioStreamWriter::isOk | hkStdioStreamWriter.obj | fnv360_0822_retail, vtable, high
+// pdb: hkStdioStreamWriter::isOk | hkStdioStreamWriter.obj | fnv360_0822_retail, vtable, high (was: GetFlagAsByte)
+unsigned char* FUN_00d2bed0_cls::hkStdioStreamWriter_isOk(unsigned char* out)
 {
     *out = m_08 != 0;
     return out;
 }
 
 // @fnv 0x00d2bee0
-void __stdcall FUN_00d2bee0(unsigned char* output)
+// pdb: hkStdioStreamReader::markSupported | hkStdioStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkStdioStreamReader_markSupported(unsigned char* output)
 {
     *output = 1;
 }
@@ -199,12 +203,3 @@ struct S_00d2bfd0_RefObj
         S_00d2bfd0_Router::GetMonitorStream().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
-struct FUN_00d2bfd0 : S_00d2bfd0_RefObj
-{
-    FUN_00d2bfd0();
-    virtual ~FUN_00d2bfd0();
-};
-// Default constructor for FUN_00d2bfd0; its body is empty.
-// @fnv 0x00d2bfd0
-FUN_00d2bfd0::FUN_00d2bfd0()
-{}

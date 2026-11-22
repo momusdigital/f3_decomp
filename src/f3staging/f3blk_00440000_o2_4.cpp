@@ -8,6 +8,8 @@
 
 // @f3 0x004566c0 (community match, verified in this file)
 namespace f3m_004566c0 {
+// pdb: TESHealthForm::GetFormAsHealthForm | TESHealthForm.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apForm
 void* FUN_004566c0(void* obj)
 {
     void* result = 0;

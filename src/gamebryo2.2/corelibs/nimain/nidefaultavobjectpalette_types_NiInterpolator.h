@@ -1,6 +1,6 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
-#ifndef FNV_NIINTERPOLATOR_H
-#define FNV_NIINTERPOLATOR_H
+#ifndef FNV_NIDEFAULTAVOBJECTPALETTE_TYPES_NIINTERPOLATOR_LOCAL_H
+#define FNV_NIDEFAULTAVOBJECTPALETTE_TYPES_NIINTERPOLATOR_LOCAL_H
 #include "f3_common.h"
 #include "layout_support.h"
 #include "NiObjectNET.h"

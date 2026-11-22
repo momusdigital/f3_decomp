@@ -5,6 +5,7 @@
 #include "havok/hkpAabbPhantom.h"
 
 // @fnv 0x00cf2460
+// pdb: hkpAabbPhantom::getType | hkpAabbPhantom.obj | fnv360_0822_retail, objrun_open, low
 int __cdecl FUN_00cf2460()
 {
     return 0;
@@ -161,6 +162,8 @@ struct AabbPhantomLayout
     hkArray<void*> m_ppOverlappingCollidables;
 };
 
+// pdb: hkpAabbPhantom::removeOverlappingCollidable | hkpAabbPhantom.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collidable
 void FUN_00cf2a60_t::FUN_00cf2a60(hkpCollidable* collidable)
 {
     AabbPhantomLayout* self = (AabbPhantomLayout*)this;
@@ -194,8 +197,6 @@ search_done:
 
 
 class hkClassCF2A;
-
-extern const hkClassCF2A DAT_0126902c;
 
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
@@ -242,8 +243,6 @@ class hkStatisticsCollectorCF2A
     }
 };
 
-class hkpCollidableCF2A;
-
 class FUN_00d08130
 {
   public:
@@ -254,36 +253,6 @@ class FUN_00d08130
 
     void WritePhantomLists(hkStatisticsCollectorCF2A* pkCollector, const hkClassCF2A* pkClass) const throw();
 };
-
-struct hkVector4CF2A
-{
-    hkReal x, y, z, w;
-};
-
-struct hkAabbCF2A
-{
-    hkVector4CF2A m_kMinimumCorner;
-    hkVector4CF2A m_kMaximumCorner;
-};
-
-class hkpAabbPhantomCF2A : public FUN_00d08130
-{
-  public:
-    hkAabbCF2A m_kBounds;
-    hkArrayCF2A<hkpCollidableCF2A*> m_ppOverlappingCollidables;
-    char m_padDC[0x4];
-
-    void AddToStatisticsCollector(hkStatisticsCollectorCF2A* pkCollector, const hkClassCF2A* pkClass) const throw();
-};
-
-// Adds the collidable pointer array and the base class data to the statistics collector.
-// @fnv 0x00cf2ae0
-void hkpAabbPhantomCF2A::AddToStatisticsCollector(hkStatisticsCollectorCF2A* pkCollector,
-                                                  const hkClassCF2A* pkClass) const throw()
-{
-    pkCollector->addArray("OvrlpCollPtr", m_ppOverlappingCollidables);
-    WritePhantomLists(pkCollector, &DAT_0126902c);
-}
 
 class hkMemoryAllocatorCF2C;
 
@@ -391,100 +360,6 @@ class hkPhantomCF2C
     int FUN_00ca94c0(void* p);
     void AddOverlap(void* p);
 };
-
-// @fnv 0x00cf2b50
-void hkPhantomCF2C::AddOverlap(void* pOverlap)
-{
-    if (FUN_00ca94c0(pOverlap) == 0)
-    {
-        m_overlaps.AddBack(pOverlap);
-        m_dirty = true;
-    }
-}
-
-struct hkLessCF2B
-{
-};
-
-void __cdecl QuickSortShapeDetails(void** pArr, int iStart, int iEnd, hkLessCF2B kCmp);
-
-inline void quickSortCF2B(void** pArr, int iSize, hkLessCF2B kCmp)
-{
-    if (iSize > 1)
-        QuickSortShapeDetails(pArr, 0, iSize - 1, kCmp);
-}
-
-struct hkObjCF2B
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    void** m_d0;
-    int m_d4;
-    int m_d8;
-    char m_dc;
-    void SortIfDirty();
-};
-
-// If the dirty flag m_dc is set, sorts the m_d0 array of m_d4 elements with quickSortCF2B and clears m_dc.
-// @fnv 0x00cf2bb0
-void hkObjCF2B::SortIfDirty()
-{
-    if (m_dc)
-    {
-        quickSortCF2B(m_d0, m_d4, hkLessCF2B());
-        m_dc = 0;
-    }
-}
 
 namespace fnv_00cf2bf0 {
 class hkMemoryAllocatorCF2B
@@ -698,14 +573,6 @@ class hkPhantomCF2C
     void ClearOverlapsIfEmpty();
 };
 
-// If the overlaps array is empty, frees it via the heap allocator, then calls FreeListenerArrays.
-// @fnv 0x00cf2c50
-void hkPhantomCF2C::ClearOverlapsIfEmpty()
-{
-    if (m_overlaps.m_iElementCount == 0)
-        m_overlaps.ClearAndRelease();
-    FreeListenerArrays();
-}
 }  // namespace fnv_00cf2c50
 
 namespace fnv_00cf2d50 {
@@ -862,15 +729,6 @@ class FUN_00cf2cb0 : public hkpWorldObjectCF2D
 
 typedef char fnv_check_cf2d50[(sizeof(FUN_00cf2cb0) == 0xe0) ? 1 : -1];
 
-// @fnv 0x00cf2d50
-hkpWorldObjectCF2D* FUN_00cf2cb0::FUN_00cf2d50() const throw()
-{
-    FUN_00cf2cb0* pkPhantom = new FUN_00cf2cb0(m_kBounds, getCollidable()->GetFilterInfoForKey());
-    pkPhantom->m_kPhantomOverlapListeners = m_kPhantomOverlapListeners;
-    pkPhantom->m_kPhantomListeners = m_kPhantomListeners;
-    pkPhantom->CopyEntriesFrom(this);
-    return pkPhantom;
-}
 }  // namespace fnv_00cf2d50
 
 namespace fnv_00cf2f60 {
@@ -911,15 +769,6 @@ class FUN_00cf2bf0
     FUN_00cf2bf0* DestroyAndFree(unsigned int uiFlags) throw();
 };
 
-// Runs the destructor, then frees the object via operator delete when uiFlags has bit 0 set, and returns this.
-// @fnv 0x00cf2f60
-FUN_00cf2bf0* FUN_00cf2bf0::DestroyAndFree(unsigned int uiFlags) throw()
-{
-    this->FUN_00cf2bf0::~FUN_00cf2bf0();
-    if (uiFlags & 1)
-        FUN_00cf2bf0::operator delete(this);
-    return this;
-}
 }  // namespace fnv_00cf2f60
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -927,44 +776,12 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned long DAT_0126835c;
-
-struct StringCursor
-{
-    void* m_kRayStart;
-    char* m_commandPtr;
-    void* m_auiShapeKeys;
-    char* m_endPtr;
-};
 
 struct DummyBool
 {
     char m_cBooleanValue;
-};
-
-struct WorldRayCastInput
-{
-    hkVector4 m_vFrom;
-    hkVector4 m_vTo;
-    hkBool m_bEnableShapeCollectionFilter;
-    char m_pad21;
-    char m_pad22;
-    char m_pad23;
-    hkUint32 m_uiFilterInfo;
 };
 
 struct __declspec(align(16)) ShapeRayCastQuery
@@ -1024,216 +841,6 @@ struct DummyCollidable
     const hkTransform* m_pMotionState;
     DummyCollidable* m_parent;
 };
-
-struct DummyWorld
-{
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int m_unk0c;
-    int m_unk10;
-    int m_unk14;
-    int m_unk18;
-    int m_unk1c;
-    int m_unk20;
-    int m_unk24;
-    int m_unk28;
-    int m_unk2c;
-    int m_unk30;
-    int m_unk34;
-    int m_unk38;
-    int m_unk3c;
-    int m_unk40;
-    int m_unk44;
-    int m_unk48;
-    int m_unk4c;
-    int m_unk50;
-    int m_unk54;
-    int m_unk58;
-    int m_unk5c;
-    int m_unk60;
-    int m_unk64;
-    int m_unk68;
-    int m_unk6c;
-    int m_unk70;
-    int m_unk74;
-    int m_unk78;
-    char* m_pCollisionFilter;
-};
-
-static inline void setRotatedInverseDir(hkVector4& out, const hkRotation& r, const __m128& b)
-{
-    __m128 c0 = *(const __m128*)&r.m_kColumn0;
-    __m128 c1 = *(const __m128*)&r.m_kColumn1;
-    __m128 c2 = *(const __m128*)&r.m_kColumn2;
-    __m128 tmp = _mm_unpacklo_ps(c0, c1);
-    __m128 ctmp = _mm_unpackhi_ps(c0, c1);
-    c0 = _mm_movelh_ps(tmp, c2);
-    c1 = _mm_movehl_ps(c0, tmp);
-    c1 = _mm_shuffle_ps(c1, c2, 0xd4);
-    c2 = _mm_shuffle_ps(ctmp, c2, 0xe4);
-    __m128 b0 = _mm_shuffle_ps(b, b, 0x00);
-    __m128 r0 = _mm_mul_ps(c0, b0);
-    __m128 b1 = _mm_shuffle_ps(b, b, 0x55);
-    __m128 r1 = _mm_mul_ps(c1, b1);
-    __m128 b2 = _mm_shuffle_ps(b, b, 0xaa);
-    __m128 r2 = _mm_mul_ps(c2, b2);
-    *(__m128*)&out = _mm_add_ps(_mm_add_ps(r0, r1), r2);
-}
-
-static inline void SetTransformedPosition(hkVector4& out, const hkTransform* t, const hkVector4& in)
-{
-    __m128 d = _mm_sub_ps(*(const __m128*)&in, *(const __m128*)&t->m_vTranslation);
-    setRotatedInverseDir(out, t->m_rotation, d);
-}
-
-class Phantom_00cf26b0 : public hkpAabbPhantom
-{
-  public:
-    void FUN_00cf26b0(const WorldRayCastInput& input, WorldRayCastOutput& output) const;
-};
-
-// Performs a ray cast against overlapping collidables, transforming ray endpoints into local space and recording the hit root collidable.
-// @fnv 0x00cf26b0
-void Phantom_00cf26b0::FUN_00cf26b0(const WorldRayCastInput& input, WorldRayCastOutput& output) const
-{
-    StringCursor* pTlsCursor = (StringCursor*)TlsGetValue(DAT_0126835c);
-    char* cmd = pTlsCursor->m_commandPtr;
-    if (cmd < pTlsCursor->m_endPtr)
-    {
-        *(const char**)cmd = "TtrcPhantom";
-        _ReadWriteBarrier();
-        volatile hkUint32 time = (hkUint32)__rdtsc();
-        *(hkUint32*)(cmd + 4) = time;
-        cmd += 12;
-        pTlsCursor->m_commandPtr = cmd;
-    }
-
-    ShapeRayCastQuery shapeQuery;
-    shapeQuery.m_pRayShapeCollectionFilter = 0;
-    shapeQuery.m_uiFilterInfo = input.m_uiFilterInfo;
-    if (input.m_bEnableShapeCollectionFilter)
-    {
-        char* filter = ((DummyWorld*)m_pOwningWorld)->m_pCollisionFilter;
-        shapeQuery.m_pRayShapeCollectionFilter = filter ? filter + 0x10 : 0;
-    }
-    else
-    {
-        shapeQuery.m_pRayShapeCollectionFilter = 0;
-    }
-
-    const DummyCollidable* const* ppCollidables = (const DummyCollidable* const*)m_ppOverlappingCollidables.m_data;
-    for (int i = m_ppOverlappingCollidables.m_iElementCount - 1; i >= 0; i--)
-    {
-        DummyShape* shape = (*ppCollidables)->m_pCollisionShape;
-        if (shape)
-        {
-            const hkTransform* pMotionState = (*ppCollidables)->m_pMotionState;
-            SetTransformedPosition(shapeQuery.m_vFrom, pMotionState, input.m_vFrom);
-            SetTransformedPosition(shapeQuery.m_vTo, pMotionState, input.m_vTo);
-            DummyBool hit = shape->RayCast(shapeQuery, output);
-            if (hit.m_cBooleanValue)
-            {
-                output.m_pRootCollidable = *ppCollidables;
-            }
-        }
-        ppCollidables++;
-    }
-
-    if (output.m_pRootCollidable)
-    {
-        output.m_vHitNormal.FUN_00c7f700(output.m_pRootCollidable->m_pMotionState, &output.m_vHitNormal);
-    }
-
-    StringCursor* hit = (StringCursor*)TlsGetValue(DAT_0126835c);
-    char* cmd2 = hit->m_commandPtr;
-    if (cmd2 < hit->m_endPtr)
-    {
-        *(const char**)cmd2 = "Et";
-        _ReadWriteBarrier();
-        volatile hkUint32 time2 = (hkUint32)__rdtsc();
-        *(hkUint32*)(cmd2 + 4) = time2;
-        cmd2 += 12;
-        hit->m_commandPtr = cmd2;
-    }
-}
-
-struct FnvCpu_FUN_00cf2470_CpuData0
-{
-    __m128 field00;
-    __m128 field10;
-};
-struct FnvCpu_FUN_00cf2470_CpuObject
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6c;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7c;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8c;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9c;
-    unsigned int unka0;
-    unsigned int unka4;
-    unsigned int unka8;
-    unsigned int unkac;
-    __m128 fieldb0;
-    __m128 fieldc0;
-    void FUN_00cf2470(FnvCpu_FUN_00cf2470_CpuData0* input0);
-};
-// @fnv 0x00cf2470
-void FnvCpu_FUN_00cf2470_CpuObject::FUN_00cf2470(FnvCpu_FUN_00cf2470_CpuData0* input0)
-{
-    input0->field00 = this->fieldb0;
-    input0->field10 = this->fieldc0;
-}
-
-struct PhantomBounds
-{
-    void __thiscall FUN_00d07ec0(hkAabb* bounds);
-    void __thiscall FUN_00cf24a0(const hkAabb& source);
-};
-// Copies the minimum and maximum corners from source into the embedded hkAabb at offset 0xb0, then calls FUN_00d07ec0 on it.
-// @fnv 0x00cf24a0
-void PhantomBounds::FUN_00cf24a0(const hkAabb& source)
-{
-    hkAabb* target = reinterpret_cast<hkAabb*>(reinterpret_cast<char*>(this) + 0xb0);
-    _mm_store_ps(&target->m_kMinimumCorner.x, _mm_load_ps(&source.m_kMinimumCorner.x));
-    _mm_store_ps(&target->m_kMaximumCorner.x, _mm_load_ps(&source.m_kMaximumCorner.x));
-    FUN_00d07ec0(target);
-}
 
 template <class T> struct Array_cf2c
 {

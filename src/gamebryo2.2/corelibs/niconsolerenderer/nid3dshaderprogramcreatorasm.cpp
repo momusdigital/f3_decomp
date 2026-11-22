@@ -45,6 +45,8 @@ struct NiD3DShaderProgramCreatorAsm
 };
 // Gets the shader handle from pkPixelShader, retrieves its code, and if both exist passes the code to pkPixelShader->f32 and returns true.
 // @fnv 0x00e97940
+// pdb: NiD3DShaderProgramCreatorAsm::RecreatePixelShader | NiD3DShaderProgramCreatorAsm.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkPixelShader
 bool NiD3DShaderProgramCreatorAsm::FUN_00e97940(NiD3DPixelShader* pkPixelShader)
 {
     GeometryRelatedType* hShader;
@@ -106,6 +108,8 @@ struct PixelShaderCreator
 };
 // Gets the pixel shader, creates a program from its data, stores it on the interface and returns whether creation succeeded.
 // @fnv 0x00e978d0
+// pdb: NiD3DShaderProgramCreatorAsm::RecreateVertexShader | NiD3DShaderProgramCreatorAsm.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkVertexShader
 bool PixelShaderCreator::CreateShaderProgram(PixelShaderInterface* shader)
 {
     GeometryRelatedType* pixel = shader->GetPixelShader();
@@ -215,6 +219,8 @@ struct VertexShaderCreatorAsm
 };
 
 // @fnv 0x00e97980
+// pdb: NiD3DShaderProgramCreatorAsm::CreateVertexShaderFromFile | NiD3DShaderProgramCreatorAsm.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pcFileName, pcShaderName, __formal, __formal, hDecl, uiUsage, bSoftwareVP, bRecoverable
 NiD3DVertexShader* VertexShaderCreatorAsm::FUN_00e97980(const char* pcFileName, const char* pcShaderName,
                                                         const char* pcEntryPoint, int iArg, void* hDecl,
                                                         unsigned int uiUsage, bool bSoftwareVP, int bRecoverable)
@@ -342,6 +348,8 @@ struct ShaderCreatorAsmStub
 
 // Creates a NiD3DPixelShaderStub, loads its shader code, creates the handle, sets name/file/code/creator/handle, and returns it or 0 on failure.
 // @fnv 0x00e97c60
+// pdb: NiD3DShaderProgramCreatorAsm::CreatePixelShaderFromFile | NiD3DShaderProgramCreatorAsm.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pcFileName, pcShaderName, __formal, __formal, bRecoverable
 NiD3DPixelShaderStub* ShaderCreatorAsmStub::FUN_00e97c60(const char* pcFileName, const char* pcShaderName,
                                                          const char* pcEntryPoint, const char* pcShaderTarget,
                                                          int iFlags)
@@ -444,6 +452,8 @@ struct Creator
     Pixel* FUN_00e97d80(void*, void*, void*, int, int, int);
 };
 // @fnv 0x00e97d80
+// pdb: NiD3DShaderProgramCreatorAsm::CreatePixelShaderFromBuffer | NiD3DShaderProgramCreatorAsm.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pvBuffer, uiBufferSize, pcShaderName, __formal, __formal, bRecoverable
 Pixel* Creator::FUN_00e97d80(void* a, void* b, void* apShaderName, int d, int e, int f)
 {
     Pixel* shader = new Pixel;
@@ -501,6 +511,8 @@ struct VertexShaderCreatorHLSL
 
 // Creates a NiD3DVertexShader, loads its shader code, builds the shader handle, and sets its name, code, creator, usage and declaration.
 // @fnv 0x00e97af0
+// pdb: NiD3DShaderProgramCreatorAsm::CreateVertexShaderFromBuffer | NiD3DShaderProgramCreatorAsm.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pvBuffer, uiBufferSize, pcShaderName, __formal, __formal, hDecl, uiUsage, bSoftwareVP, bRecoverable
 NiD3DVertexShader* VertexShaderCreatorHLSL::FUN_00e97af0(const char* pcFileName, const char* pcEntryPoint,
                                                          const char* pcShaderName, const char* pcShaderTarget,
                                                          const char* pcDefines, void* hDecl, unsigned int uiUsage,

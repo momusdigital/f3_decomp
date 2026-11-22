@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp: NiD3DPass, Node, MyCls, Shader and more (53 functions)
+// gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp: NiD3DPass, Node, MyCls, Shader and more (46 functions)
 #include "f3_common.h"
 #include "nid3dpass_types_NiD3DPass.h"
 #include "nid3dpass_types_NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____.h"
@@ -6,6 +6,8 @@
 
 // Stores renderer in DAT_0126f710 and, if non-null, copies the pointer at offset 0x8b8 into DAT_0126f714, otherwise clears DAT_0126f714.
 // @fnv 0x00e7eea0
+// pdb: NiD3DRenderStateGroup::SetD3DRenderer | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkD3DRenderer
 void NiD3DPass::SetActiveRenderer(void* renderer)
 {
     DAT_0126f710 = renderer;
@@ -17,6 +19,7 @@ void NiD3DPass::SetActiveRenderer(void* renderer)
 
 // Releases every NiPointer slot in the array, decrementing each object's refcount and returning it to the pool at zero, then resets the size fields.
 // @fnv 0x00e7fc30
+// pdb: NiTArray<NiPointer<NiD3DTextureStage>,NiTNewInterface<NiPointer<NiD3DTextureStage> > >::RemoveAll | NiD3DPass.obj | fnv360_0822_retail, call_seq, medium
 void NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____ ::RemoveAll()
 {
     NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____* array = this;
@@ -69,6 +72,8 @@ NiD3DPass* NiD3DPass::SetD3DDevice(unsigned int count)
 }
 
 // @fnv 0x00e804d0
+// pdb: NiD3DPass::CreateNewPass | NiD3DPass.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: aspD3DPass
 void NiD3DPass::CreateD3DPass(NiPointer<NiD3DPass>& output)
 {
     NiD3DPass* pass = DAT_0126f72c->Get();
@@ -93,6 +98,8 @@ void NiD3DPass::CreateD3DPass(NiPointer<NiD3DPass>& output)
 }
 
 // @fnv 0x00e80190
+// pdb: NiPointer<NiD3DPass>::operator= | ShadowLightShader.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: pObject
 void NiD3DPass::DestroyPass()
 {
     if (!m_bHasBeenApplied)
@@ -181,7 +188,10 @@ struct Self_00e7f000
 
 // Searches list1 then list2 for a node whose key matches, sets foundInSecond to indicate which list matched, and returns the node or null.
 // @fnv 0x00e7f000
-Node_00e7f000* __fastcall FindNodeByKey(Self_00e7f000* self, int, int key, bool& foundInSecond)
+// pdb: NiD3DRenderStateGroup::FindRenderStateEntry | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiState, bInSaveList
+// pdb: NiD3DRenderStateGroup::FindRenderStateEntry | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, high (was: FindNodeByKey)
+Node_00e7f000* __fastcall NiD3DRenderStateGroup_FindRenderStateEntry(Self_00e7f000* self, int, int key, bool& foundInSecond)
 {
     for (Node_00e7f000* pNode = self->list1; pNode; pNode = pNode->next)
     {
@@ -212,6 +222,8 @@ extern MemoryManager g_memoryManager;
 
 // Releases each NiPointer element in the array, returning objects whose refcount drops to zero to the pool, then deallocates the array block.
 // @fnv 0x00e7fcd0
+// pdb: NiTNewInterface<NiPointer<NiD3DTextureStage> >::Deallocate | NiD3DPass.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pArray
 void __cdecl FreePointerArray(NiPointer<BeamStage>* pkElement)
 {
     if (pkElement)
@@ -235,24 +247,6 @@ void __cdecl FreePointerArray(NiPointer<BeamStage>* pkElement)
 
 void* __cdecl FUN_00c1d790(unsigned int);
 extern int DAT_010ef35c;
-extern int DAT_010ef378;
-
-// @fnv 0x00e80020
-void* __fastcall FUN_00e80020(void* pThis, int, unsigned int uiMaxSize, unsigned int uiGrowBy)
-{
-    *(int**)pThis = &DAT_010ef35c;
-    unsigned short usMaxSize = (unsigned short)uiMaxSize;
-    *(unsigned short*)((char*)pThis + 0x8) = usMaxSize;
-    *(unsigned short*)((char*)pThis + 0xe) = (unsigned short)uiGrowBy;
-    *(unsigned short*)((char*)pThis + 0xa) = 0;
-    *(unsigned short*)((char*)pThis + 0xc) = 0;
-    if (usMaxSize > 0)
-        *(void**)((char*)pThis + 4) = FUN_00c1d790(usMaxSize);
-    else
-        *(void**)((char*)pThis + 4) = 0;
-    *(int**)pThis = &DAT_010ef378;
-    return pThis;
-}
 
 class NiMemObject
 {
@@ -265,6 +259,7 @@ void __cdecl FUN_00aa1490(void* pMem, size_t stElementSize);
 
 // Destroys an array of 0x68-byte elements, calling FUN_00e7fea0 on each and freeing the base block when flags has bit 1 set.
 // @fnv 0x00e80080
+// pdb: NiD3DPass::`vector deleting destructor' | NiD3DPass.obj | fnv360_0822_retail, caller_sim, low
 void* __fastcall FUN_00e80080(char* pThis, int, unsigned int flags)
 {
     if (flags & 2)
@@ -303,6 +298,8 @@ extern unsigned int* _DAT_0126f72c;
 
 // Allocates a 0x18-byte block, zeroes its first four words, sets words 4 and 5 to 8, and stores it in _DAT_0126f72c (or stores null on failure).
 // @fnv 0x00e80150
+// pdb: NiTArray<NiPointer<NiD3DTextureStage>,NiTNewInterface<NiPointer<NiD3DTextureStage> > >::GetAt | NiD3DPass.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: uiIndex
 void __cdecl FUN_00e80150()
 {
     unsigned int* p = (unsigned int*)g_memoryManager.Allocate(0x18);
@@ -329,6 +326,8 @@ extern NiTexture* DAT_011f9510;
 extern NiTexture* DAT_011f9518;
 // Returns the NiTexture at index idx from the array at obj+0xb0, falling back to a default texture based on the flag at obj+0x20.
 // @fnv 0x00c03230
+// pdb: ShadowLightShader::GetNormalMap | ShadowLightShader_Update_1x.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: apProp, aiIndex
 NiTexture* __stdcall GetTextureByIndex(char* apObject, int aiIndex)
 {
     NiTexture* pTexture = (*(NiTexture***)(apObject + 0xb0))[aiIndex];
@@ -341,17 +340,6 @@ NiTexture* __stdcall GetTextureByIndex(char* apObject, int aiIndex)
     return pTexture;
 }
 
-struct GlobalObjectO2_00a7b610
-{
-    int x;
-};
-extern GlobalObjectO2_00a7b610 g_0126f5c4;
-// @fnv 0x00e7d9c0
-GlobalObjectO2_00a7b610* __cdecl FUN_00e7d9c0()
-{
-    return &g_0126f5c4;
-}
-
 namespace fnv_00e7e7a0 {
 struct MemoryManager
 {
@@ -360,6 +348,7 @@ struct MemoryManager
 extern MemoryManager g_memoryManager;
 void __fastcall FUN_00e7ec60(void*);
 // @fnv 0x00e7e7a0
+// pdb: ExtraContainerChanges::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* __fastcall FUN_00e7e7a0(void* self, int edx, unsigned int flags)
 {
     FUN_00e7ec60(self);
@@ -378,6 +367,7 @@ extern MemoryManager g_memoryManager;
 void __fastcall FUN_00e7f070(void*);
 // Calls FUN_00e7f070 on self, then deallocates self via g_memoryManager when flags has bit 1 set, and returns self.
 // @fnv 0x00e7f050
+// pdb: ExtraRagDollData::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* __fastcall FUN_00e7f050(void* self, int edx, unsigned int flags)
 {
     FUN_00e7f070(self);
@@ -395,6 +385,7 @@ struct MemoryManager
 extern MemoryManager g_memoryManager;
 void __cdecl FUN_00aa1490(void* pMem, unsigned int stElementSize);
 // @fnv 0x00e7f070
+// pdb: NiTPoolContainer<NiD3DRenderStateGroup::NiD3DRSEntry,NiTNewInterface<NiD3DRenderStateGroup::NiD3DRSEntry> >::~NiTPoolContainer<NiD3DRenderStateGroup::NiD3DRSEntry,NiTNewInterface<NiD3DRenderStateGroup::NiD3DRSEntry> > | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
 void __fastcall FUN_00e7f070(void* apList)
 {
     FUN_00aa1490(*(void**)apList, 0x10);
@@ -414,6 +405,8 @@ struct PassLike
     void* m_p;
 };
 // @fnv 0x00e7f7d0
+// pdb: NiD3DPass::PostProcessRenderingPass | NiD3DPass.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: uiPass
 unsigned int __fastcall FUN_00e7f7d0(PassLike* self, int edx, unsigned int uiPass)
 {
     if (self->m_p)
@@ -422,25 +415,10 @@ unsigned int __fastcall FUN_00e7f7d0(PassLike* self, int edx, unsigned int uiPas
 }
 
 extern int DAT_011bf558;
-// @fnv 0x00e7f830
-void __cdecl FUN_00e7f830(int v)
-{
-    DAT_011bf558 = v;
-}
 
 extern int DAT_011bf55c;
-// @fnv 0x00e7f840
-void __cdecl FUN_00e7f840(int v)
-{
-    DAT_011bf55c = v;
-}
 
 extern int DAT_011bf560;
-// @fnv 0x00e7f850
-void __cdecl FUN_00e7f850(int v)
-{
-    DAT_011bf560 = v;
-}
 
 namespace fnv_00e7f900 {
 struct MemoryManager
@@ -450,6 +428,7 @@ struct MemoryManager
 extern MemoryManager g_memoryManager;
 void __fastcall DestroyNode(void*);
 // @fnv 0x00e7f900
+// pdb: ExtraMultiBound::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_retail, vtable, medium
 void* __fastcall FUN_00e7f900(void* self, int edx, unsigned int flags)
 {
     DestroyNode(self);
@@ -464,6 +443,8 @@ extern int DAT_0126f724;
 extern int DAT_0126f728;
 
 // @fnv 0x00e7f920
+// pdb: NiD3DTextureStage::SetD3DRenderer | NiD3DTextureStage.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkD3DRenderer
 void __cdecl FUN_00e7f920(int pObject)
 {
     DAT_0126f724 = pObject;
@@ -502,49 +483,6 @@ void __cdecl FUN_00e7f920(int pObject)
 }
 
 extern int DAT_011bf558;
-struct SubArr
-{
-    char d[0x10];
-    void FUN_00e80020(unsigned int, unsigned int);
-};
-struct FUN_00e800f0
-{
-    virtual ~FUN_00e800f0();
-    bool b4;
-    int pad8[3];
-    int f14, f18, f1c;
-    SubArr sub;
-    int f30, f34, f38, f3c, f40, f44, f48;
-    char b4c;
-    int f50, f54, f58, f5c;
-    char b60, b61;
-    int f64;
-    FUN_00e800f0();
-};
-// @fnv 0x00e800f0
-FUN_00e800f0::FUN_00e800f0()
-{
-    f14 = 0;
-    f18 = 0;
-    f1c = 0;
-    sub.FUN_00e80020(DAT_011bf558, 4);
-    f30 = 0;
-    f34 = 0;
-    f38 = 0;
-    f3c = 0;
-    f40 = 0;
-    f44 = 0;
-    f48 = 0;
-    b4c = 0;
-    f50 = 0;
-    f54 = 0;
-    f58 = 0;
-    f5c = 0;
-    b60 = 0;
-    b61 = 0;
-    f64 = 0;
-    b4 = 0;
-}
 
 extern "C" int __cdecl AllocatePoolItem();
 
@@ -629,6 +567,7 @@ struct Dummy00e7dc40
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00e7dbc0, then if bit 0 of flags is set frees this with _delete, and returns this.
 // @fnv 0x00e7dc40
+// pdb: MagicHitEffect::`scalar deleting destructor' | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
 void* Dummy00e7dc40::FUN_00e7dc40(unsigned int flags)
 {
     FUN_00e7dbc0();
@@ -651,6 +590,7 @@ struct Outer_00e7ddf0
 };
 // Calls GetSlotValue with key 11 and returns the resulting pointer if it succeeds, otherwise returns m4.
 // @fnv 0x00e7ddf0
+// pdb: NiShader::NiShaderInstanceDescriptor::`scalar deleting destructor' | NiXenonFragmentShader.obj | fnv360_0721_beta, objrun_sim, low
 void* Outer_00e7ddf0::FUN_00e7ddf0()
 {
     void* pResult = 0;
@@ -771,6 +711,8 @@ struct FUN_00e89060_shell
 };
 
 // @fnv 0x00e89060
+// pdb: D3DDevice_SetSamplerState_MaxAnisotropy | state.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: pDevice, Sampler, Value
 bool FUN_00e89060_shell::GetSlotValue(int index, int* apiOut, bool* apbFlag)
 {
     if ((unsigned short)DAT_0126f958[index] < 8)
@@ -804,6 +746,8 @@ struct DummyStruct
     unsigned char FUN_00e7f7f0(unsigned int, unsigned int);
 };
 // @fnv 0x00e7f7f0
+// pdb: NiD3DPass::CheckFreeStages | NiD3DPass.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: uiStages, uiTextures
 unsigned char DummyStruct::FUN_00e7f7f0(unsigned int a1, unsigned int a2)
 {
     if (DAT_011bf558 < a1 + m14)
@@ -910,6 +854,8 @@ struct TexArray_e7fd20
 
 // Resizes the array to uiMaxSize: releases entries above the new size, reallocates the base, copies existing entries and clears the rest.
 // @fnv 0x00e7fd20
+// pdb: NiTArray<NiPointer<NiD3DTextureStage>,NiTNewInterface<NiPointer<NiD3DTextureStage> > >::SetSize | NiD3DPass.obj | fnv360_1110_retail, objrun, medium
+// pdb params: uiMaxSize
 void TexArray_e7fd20::FUN_00e7fd20(unsigned int uiMaxSize)
 {
     if (uiMaxSize == m_usMaxSize)
@@ -952,6 +898,8 @@ extern int DAT_0126f6c4;
 extern int DAT_0126f6c8;
 
 // @f3 0x00888420 (community match, verified in this file)
+// pdb: NiD3DPass::SetD3DRenderer | NiD3DPass.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkD3DRenderer
 void FUN_00e7e8d0(int pObject)
 {
     DAT_0126f6c4 = pObject;
@@ -1299,6 +1247,7 @@ extern NiDSBListNode* __fastcall NiDSBPoolAddHead(void* pPool);
 
 // Sets up the object's vtable and fields, then under a critical section allocates a list node, links it into the global list and returns this.
 // @fnv 0x00e7d940
+// pdb: NiDX9AdditionalDepthStencilBufferData::NiDX9AdditionalDepthStencilBufferData | NiDX92DBufferData.obj | tesv_win, call_gap, low
 void* NiDSBObject::InitializeAndRegister()
 {
     m_vtbl = &DAT_0101dce4;
@@ -1328,94 +1277,6 @@ extern int DAT_011bf558;
 extern int DAT_011bf560;
 extern int DAT_0126f6c8;
 
-class DispatchObject
-{
-  public:
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v0a();
-    virtual void v0b();
-    virtual void v0c();
-    virtual void v0d();
-    virtual void v0e();
-    virtual void v0f();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v1a();
-    virtual void v1b();
-    virtual void v1c();
-    virtual void v1d();
-    virtual void v1e();
-    virtual void v1f();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v2a();
-    virtual void v2b();
-    virtual void v2c();
-    virtual void v2d();
-    virtual void v2e();
-    virtual void v2f();
-    virtual void v30(int a, int b, int c, int d);
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v_dc(int a, int b);
-};
-
-// For each index from start up to DAT_011bf558, calls v_dc and v30 with fixed arguments; then calls v_dc for remaining indices up to DAT_011bf560.
-// @fnv 0x00e7dd50
-void __cdecl FUN_00e7dd50(int start)
-{
-    unsigned int i = (unsigned int)start;
-    if (i < (unsigned int)DAT_011bf558)
-    {
-        do
-        {
-            DispatchObject* obj = (DispatchObject*)DAT_0126f6c8;
-            obj->v_dc((int)i, 0);
-            obj = (DispatchObject*)DAT_0126f6c8;
-            obj->v30((int)i, 1, 1, 0);
-            obj = (DispatchObject*)DAT_0126f6c8;
-            obj->v30((int)i, 4, 1, 0);
-            obj = (DispatchObject*)DAT_0126f6c8;
-            obj->v30((int)i, 0x18, 0, 0);
-        } while (++i < (unsigned int)DAT_011bf558);
-    }
-    while (i < (unsigned int)DAT_011bf560)
-    {
-        DispatchObject* obj = (DispatchObject*)DAT_0126f6c8;
-        obj->v_dc((int)i, 0);
-        ++i;
-    }
-}
-
 struct E7DE90State
 {
     void FUN_00e890c0(unsigned int uiStage, unsigned int uiValue, unsigned int uiExtra, bool bFlag);
@@ -1443,6 +1304,7 @@ class E7DE90Owner
 
 // Looks up the pair at uiIndex and passes its first and second values to the state object as stages 1 and 2.
 // @fnv 0x00e7de90
+// pdb: NiD3DTextureStage::ReturnStageToPool | NiD3DTextureStage.obj | fnv360_0822_retail, call_dedup, low
 void E7DE90Owner::ApplyPairToState(unsigned int uiPairIndex)
 {
     E7DE90Pair kPair = g_aE7DE90Pairs[uiPairIndex];
@@ -1746,6 +1608,8 @@ class F860Shader
 };
 
 // @fnv 0x00e7f860
+// pdb: NiD3DPass::SetupRenderingPass | NiD3DPass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkGeometry, pkSkin, pkBuffData, pkState, pkEffects, kWorld, kWorldBound, uiPass
 unsigned int F860Shader::RenderShader(void* pvGeometry, void* pvSkin, void* pvPartition, void* pvRendererData,
                                       void* pvProperties, void* pvEffects, void* pvWorld, void* pvBound)
 {
@@ -1860,6 +1724,7 @@ struct FUN_00e7fea0
 };
 
 // @fnv 0x00e7fea0
+// pdb: NiD3DPass::~NiD3DPass | NiD3DPass.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00e7fea0::~FUN_00e7fea0()
 {
     ReleaseRenderStateGroup_e7fea0(m_pRenderStateGroup);
@@ -4786,6 +4651,7 @@ struct DepthBufferData
 };
 // Recreates the depth stencil surface on the given D3D device, releasing the old surface and updating pixelFormat from the new surface description.
 // @fnv 0x00e7cf50
+// pdb: NiDX9AdditionalDepthStencilBufferData::Recreate | NiDX92DBufferData.obj | tesv_win, ustr, medium
 bool DepthBufferData::FUN_00e7cf50(D3DDevice_cf50* device)
 {
     if (surface)

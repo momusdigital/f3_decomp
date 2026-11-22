@@ -213,6 +213,8 @@ class FUN_00e98f20
 };
 
 // @fnv 0x00e98f20
+// pdb: NiPick::NiPick | NiPick.obj | fnv360_0721_beta, caller, medium
+// pdb params: uiResultsInitialSize, uiResultsGrowBy
 FUN_00e98f20::FUN_00e98f20(unsigned int a, unsigned int b) : m_pReference(0), m_sub(a, b)
 {
     unk00 = 0;

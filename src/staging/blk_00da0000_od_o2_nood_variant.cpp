@@ -39,6 +39,8 @@ class ScratchOwner
 };
 
 // @fnv 0x00da7020
+// pdb: hkBvTreeAgent3::registerAgent3 | hkpBvTreeAgent3.obj | fnv360_0822_retail, objrun, medium
+// pdb params: dispatcher
 void __cdecl FUN_00da7020(ScratchOwner* owner)
 {
     __declspec(align(16)) ScratchBlock s;
@@ -123,6 +125,7 @@ public:
     {}
 };
 
+// pdb: getVtablehkpSerializedAgentNnEntry | hkpUtilitiesReflections.obj | tesv_win, objrun_prop, low
 const void* __cdecl FUN_00da0780()
 {
     FinishingFlag flag;
@@ -179,14 +182,6 @@ class __declspec(align(16)) S00da07d0_Object
     int unk6C;
 };
 
-// @fnv 0x00da07d0
-const void* __cdecl FUN_00da07d0()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00da07d0_Object kObject(flag);
-    return *reinterpret_cast<const void**>(&kObject);
-}
 }  // namespace fnv_00da07d0
 
 #include <xmmintrin.h>
@@ -202,19 +197,6 @@ __declspec(align(16)) struct FUN_00da7180_cls
 
     FUN_00da7180_cls* FUN_00da7180(const FUN_00da7180_cls* src);
 };
-
-// @fnv 0x00da7180
-FUN_00da7180_cls* FUN_00da7180_cls::FUN_00da7180(const FUN_00da7180_cls* src)
-{
-    _mm_store_ps((float*)&m_v00, _mm_load_ps((const float*)&src->m_v00));
-    _mm_store_ps((float*)&m_v10, _mm_load_ps((const float*)&src->m_v10));
-    m_f20 = src->m_f20;
-    m_i24 = src->m_i24;
-    m_f28 = src->m_f28;
-    m_i2C = src->m_i2C;
-    m_i30 = src->m_i30;
-    return this;
-}
 
 namespace fnv_00db7c40 {
 struct FinishingFlag
@@ -255,12 +237,4 @@ class __declspec(align(16)) S00db7c40_Object
     int unk4C;
 };
 
-// @fnv 0x00db7c40
-const void* __cdecl FUN_00db7c40()
-{
-    FinishingFlag flag;
-    flag.m_bFinishing = 0;
-    S00db7c40_Object kObject(flag);
-    return *reinterpret_cast<const void**>(&kObject);
-}
 }  // namespace fnv_00db7c40

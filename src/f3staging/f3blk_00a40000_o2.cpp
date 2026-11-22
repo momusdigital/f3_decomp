@@ -53,10 +53,11 @@ struct MeshShape_5c90 {
     MeshSubpart_5c90* m_subparts;
     int m_subpartsSize;
     int m_subpartsCapacityAndFlags;
-    void FUN_00a45c90(hkStatisticsCollector* collector) const;
+    void hkpMeshShape_calcContentStatistics(hkStatisticsCollector* collector) const;
 };
 
-void MeshShape_5c90::FUN_00a45c90(hkStatisticsCollector* collector) const
+// pdb: hkpMeshShape::calcContentStatistics | hkpMeshShape.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void MeshShape_5c90::hkpMeshShape_calcContentStatistics(hkStatisticsCollector* collector) const
 {
     collector->beginObject(DAT_00e80638, 1, this);
     if (!(m_subpartsCapacityAndFlags & 0x80000000)) {
@@ -79,6 +80,7 @@ struct FUN_00a530e0 {
     unsigned int eighth;
     FUN_00a530e0(const FUN_00a530e0& other);
 };
+// pdb: hkpMoppLongRayVirtualMachine::QueryInt::operator= | hkpMoppLongRayVirtualMachine.obj | tesv_win, objopen_prop, low
 FUN_00a530e0::FUN_00a530e0(const FUN_00a530e0& other) {
     first = other.first;
     second = other.second;
@@ -113,7 +115,7 @@ struct Count399 {
     unsigned int unk10;
     int count;
 };
-int __cdecl FUN_009232c0(const Record399* record, const void* key);
+int __cdecl hkString_strCmp(const Record399* record, const void* key);
 struct Search399 {
     unsigned int unk00;
     unsigned int unk04;
@@ -128,7 +130,7 @@ struct Search399 {
 };
 int Search399::FUN_00a46010(const void* key) {
     for (int index = 0; index < context->count; ++index) {
-        if (FUN_009232c0(&records[index], key) == 0)
+        if (hkString_strCmp(&records[index], key) == 0)
             return index;
     }
     return -1;
@@ -151,6 +153,8 @@ struct Cls_00a4def0 {
     Cls_00a4def0* FUN_00a4def0(void** items, int count);
 };
 
+// pdb: `anonymous namespace'::hkEntitySelectorListed::hkEntitySelectorListed | hkpSaveContactPointsUtil.obj | fnv360_0822_retail, uvref, high
+// pdb params: entities, numEntities
 Cls_00a4def0* Cls_00a4def0::FUN_00a4def0(void** items, int count)
 {
     *(void**)this = &DAT_00e86b14;
@@ -196,6 +200,7 @@ struct Hull {
 };
 extern void __cdecl FUN_00a5bbb0(Hull*,int,int,void*,Flag*);
 extern void __cdecl FUN_00a5e880(void*,Hull*,Hull*,Hull*);
+// pdb: hkGeomConvexHullBuilder::buildConvexSubHull | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a5f4b0(void* context,Hull* points,int first,int last,Hull* out) {
  int i=first;
  int end=last+1;
@@ -295,10 +300,11 @@ struct Class_a4ae40
     int unk8c;
     int unk90;
     void FUN_00a4ac50(int a1, int a2, int a3, int a4, int extra);
-    void FUN_00a4ae40(int a1, int a2, int a3, int a4);
+    void hkPackfileWriter_setContentsWithRegistry(int a1, int a2, int a3, int a4);
 };
 
-void Class_a4ae40::FUN_00a4ae40(int a1, int a2, int a3, int a4)
+// pdb: hkPackfileWriter::setContentsWithRegistry | hkPackfileWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Class_a4ae40::hkPackfileWriter_setContentsWithRegistry(int a1, int a2, int a3, int a4)
 {
     FUN_00a4ac50(a1, a2, a3, a4, DAT_01065190);
     unk8c = hashTable.FUN_009227d0(a1, -1);
@@ -314,6 +320,7 @@ struct Owner1177 {
  unsigned short* first10; unsigned short* middle14; unsigned short* last18;
  void FUN_00a59730();
 };
+// pdb: hkGeomConvexHullBuilder::PlaneAndPoints::sort | hkGeomConvexHullBuilder.obj | tesv_win, hash, low
 void Owner1177::FUN_00a59730() {
  if(*first10>*middle14) Swap1177(first10,middle14);
  if(*middle14>*last18) Swap1177(middle14,last18);
@@ -449,6 +456,7 @@ struct Inplace64 : Array<Sample> {
     Sample storage[64];
 };
 
+// pdb: hkGeomConvexHullBuilder::removeCoPlanarNeighbours | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a5de20(Vec4* obj, Vec4** base, Vec4* vec, unsigned short* idx, Vec3* a, Vec3* b, Array<Sample>* samples)
 {
     Vec4* verts = *base;
@@ -510,6 +518,7 @@ struct FUN_00a4ab20:Base {
  Map16 fourthMap;
  virtual ~FUN_00a4ab20() throw();
 };
+// pdb: hkPackfileWriter::~hkPackfileWriter | hkPackfileWriter.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00a4ab20::~FUN_00a4ab20() throw(){
  for(int i=0;i<pendingObjects.size;++i){void* object=pendingObjects.data[i];Heap* heap=GetHeap();heap->FUN_008f6f90(object);}
 }
@@ -539,6 +548,7 @@ struct NodeList : Array<Node*> {
 typedef Allocator* (__stdcall *TlsGet_x)(unsigned int);
 extern TlsGet_x g_tls_get_value;
 
+// pdb: hkGeomConvexHullBuilder::isValidEdgeCheck | hkGeomConvexHullBuilder.obj | tesv_win, call_dedup, low
 bool* __cdecl FUN_00a5e110(bool* out, Ctx* ctx, Node* first, unsigned int tag)
 {
     Node* nodes = ctx->nodes;
@@ -608,6 +618,7 @@ struct Array {
     int capacityAndFlags;
 };
 void __cdecl FUN_00901e90(Array*, int capacity, int elementSize);
+// pdb: hkGeomConvexHullBuilder::removeFlaggedVertices | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a59d00(Array* array)
 {
     Vec4* read = array->data;
@@ -716,7 +727,7 @@ struct ContactPoints {
 };
 
 struct System {
-    void FUN_00a4e1f0(ContactPoints* obj) throw();
+    void hkpPhysicsSystemWithContacts_addContact(ContactPoints* obj) throw();
 };
 
 int __cdecl FUN_00a4cdf0(void* input, void* agentEntry, void* collisionInput, ContactPoints* out) throw();
@@ -725,7 +736,8 @@ int __cdecl FUN_00a4cdf0(void* input, void* agentEntry, void* collisionInput, Co
 
 using namespace f3m_00a4d550;
 
-void __cdecl FUN_00a4d550(void* input, Entity** entities, int numEntities, System* out)
+// pdb: hkpSaveContactPointsUtil::saveContactPoints | hkpSaveContactPointsUtil.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void __cdecl hkpSaveContactPointsUtil_saveContactPoints(void* input, Entity** entities, int numEntities, System* out)
 {
     World* world = entities[0]->m_world;
     PointerMap set(numEntities);
@@ -737,7 +749,7 @@ void __cdecl FUN_00a4d550(void* input, Entity** entities, int numEntities, Syste
             if (!set.isValid(set.FUN_00922790(entry.m_partner))) {
                 ContactPoints* obj = new ContactPoints();
                 if (FUN_00a4cdf0(input, entry.m_agentEntry, world->getCollisionInput(), obj) == 0)
-                    out->FUN_00a4e1f0(obj);
+                    out->hkpPhysicsSystemWithContacts_addContact(obj);
                 obj->removeReference();
             }
         }
@@ -926,6 +938,7 @@ void FUN_00901e90(void* arr, int newcap, int elem);
 void FUN_00a600a0(Ent_cf* data, int lo, int hi, void* cmp);
 void FUN_00a58ad0();
 
+// pdb: hkGeomConvexHullBuilder::findWeightedNeighbours | hkGeomConvexHullBuilder.obj | tesv_win, caller_sim, low
 void FUN_00a5e610(void* a1, Src_cf* s, void* a3, unsigned short a4, Seed_cf* seed, void* a6, void* a7, EntArray_cf* out)
 {
     if (s->unk08 == 1)
@@ -963,7 +976,7 @@ void FUN_00a5e610(void* a1, Src_cf* s, void* a3, unsigned short a4, Seed_cf* see
 
 // @f3 0x00a49730 (community match, verified in this file)
 namespace f3m_00a49730 {
-int __cdecl FUN_009232c0(const char* a, const char* b);
+int __cdecl hkString_strCmp(const char* a, const char* b);
 
 struct XmlElement_9730;
 struct XmlNode_9730 {
@@ -981,8 +994,8 @@ struct XmlElement_9730 : XmlNode_9730 {
 
 static __declspec(noinline) bool FUN_00a48420(const char* className)
 {
-    if (className && FUN_009232c0(className, "hkClass") && FUN_009232c0(className, "hkClassMember")
-        && FUN_009232c0(className, "hkClassEnum") && FUN_009232c0(className, "hkClassEnumItem"))
+    if (className && hkString_strCmp(className, "hkClass") && hkString_strCmp(className, "hkClassMember")
+        && hkString_strCmp(className, "hkClassEnum") && hkString_strCmp(className, "hkClassEnumItem"))
         return true;
     return false;
 }
@@ -1004,18 +1017,19 @@ struct XmlReader_9730 {
     int FUN_00a49730(XmlNode_9730** node, void* stream);
 };
 
+// pdb: _newNode | hkStreamStatisticsCollector.obj | fnv360_0822_retail, caller_sim, low
 int XmlReader_9730::FUN_00a49730(XmlNode_9730** node, void* stream)
 {
     int result = FUN_00a81960(node, stream);
     if (result == 0 && m_stop == 0) {
         if (XmlElement_9730* element = (*node)->asElement()) {
             const char* className = element->FUN_00a80eb0("class", 0);
-            if (!(m_depth > 0) && (FUN_009232c0(element->cString(), "hkobject") || FUN_00a48420(className))) {
-                if (m_readObjects && !FUN_009232c0(element->cString(), "hkobject") && FUN_00a48420(className))
+            if (!(m_depth > 0) && (hkString_strCmp(element->cString(), "hkobject") || FUN_00a48420(className))) {
+                if (m_readObjects && !hkString_strCmp(element->cString(), "hkobject") && FUN_00a48420(className))
                     result = FUN_00a49670(element, node, stream);
             } else {
                 m_depth++;
-                if (!FUN_009232c0(element->cString(), "hkparam") && !FUN_009232c0("attributes", element->FUN_00a80eb0("name", 0))) {
+                if (!hkString_strCmp(element->cString(), "hkparam") && !hkString_strCmp("attributes", element->FUN_00a80eb0("name", 0))) {
                     m_depth--;
                     result = FUN_00a49670(element, node, stream);
                 }
@@ -1043,6 +1057,7 @@ struct Array { Vec4* data; int size; };
 struct Bounds { Vec4 minimum, maximum; };
 __forceinline float MinValue(float a, float b) { return a < b ? a : b; }
 __forceinline float MaxValue(float a, float b) { return a > b ? a : b; }
+// pdb: hkGeomConvexHullBuilder::getAabb | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a58b30(const Array* array, Bounds* bounds)
 {
     if (array->size <= 0)
@@ -1262,6 +1277,7 @@ struct TriList {
     int m_size;
 };
 
+// pdb: hkGeomConvexHullBuilder::removeUnusedVertices | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a5d5d0(TriList* tris, VertArray* verts)
 {
     for (int i = 0; i < tris->m_size; i++)
@@ -1334,6 +1350,7 @@ struct Owner_00a46000 {
     Elem48* unk20;
     Elem48* FUN_00a46000(int index);
 };
+// pdb: hkbCharacter::setPoseLocalInternal | hkbCharacter.obj | tesv_win, objrun_open, low
 Elem48* Owner_00a46000::FUN_00a46000(int index)
 {
     return &unk20[index];
@@ -1370,6 +1387,7 @@ void A494d0::FUN_00a494d0(int arg1, int arg2, int arg3)
 // @f3 0x00a4b860 (community match, verified in this file)
 namespace f3m_00a4b860 {
 void __fastcall FUN_00a4b800(int value);
+// pdb: hkArrayBase<hkPackfileWriter::PendingWrite>::hkArrayBase<hkPackfileWriter::PendingWrite> | hkPackfileWriter.obj | fnv360_0822_debug, objrun_open, low
 void __cdecl FUN_00a4b860() {
     FUN_00a4b800(1);
 }
@@ -1474,6 +1492,8 @@ void __thiscall A45c30Object::FUN_00a45c30(const A45c30Element* source)
 extern double DAT_00e20408;
 namespace f3m_00a4e360 {
 
+// pdb: hkpVelocityAccumulator::hkpVelocityAccumulator | hkpBuildJacobianFromAtoms.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: hkInitHeader)
+// pdb params: __that
 void __cdecl FUN_00a4e360(float* param_1, float* param_2, unsigned int* param_3) {
     float* p = *(float**)param_3;
 
@@ -1513,6 +1533,7 @@ struct Owner {
     PointerArray items;
     ~Owner() throw();
 };
+// pdb: hkPlatformObjectWriter::Cache::~Cache | hkPlatformObjectWriter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 Owner::~Owner() throw() {
     for (int i=0; i<items.size; ++i) {
         void* item = items.data[i];
@@ -1569,6 +1590,7 @@ struct Obj {
     Obj* FUN_00a559a0(unsigned int flags);
 };
 
+// pdb: hkpMoppCachedShapeMediator::`scalar deleting destructor' | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable, high
 Obj* Obj::FUN_00a559a0(unsigned int flags)
 {
     FUN_00a558b0();
@@ -1613,7 +1635,7 @@ void* Grid::FUN_00a460a0()
 // @f3 0x00a484b0 (community match, verified in this file)
 namespace f3m_00a484b0 {
 
-int __cdecl FUN_00923410(const char* text);
+int __cdecl hkString_atoi(const char* text);
 const char* __cdecl FUN_00923640(const char* text);
 
 struct XmlElement {
@@ -1624,7 +1646,7 @@ static __declspec(noinline) int FUN_00a484b0(int* classVersion, XmlElement* elem
 {
     const char* text = element->FUN_00a80eb0("classversion", 0);
     if (text) {
-        int version = FUN_00923410(text);
+        int version = hkString_atoi(text);
         *classVersion = version;
         if (version != 1) {
             if (version < 2 || version > 5)
@@ -1664,6 +1686,7 @@ struct Obj {
     Obj* FUN_00a4cb40(unsigned int flags);
 };
 
+// pdb: hkPlatformObjectWriter::`scalar deleting destructor' | hkPlatformObjectWriter.obj | fnv360_0822_retail, vtable, high
 Obj* Obj::FUN_00a4cb40(unsigned int flags)
 {
     FUN_00a4c9c0();
@@ -1795,6 +1818,7 @@ struct D00a45e40 {
     void FUN_009d6c00();
     D00a45e40* FUN_00a45e40(unsigned int flags);
 };
+// pdb: hkpMeshShape::`scalar deleting destructor' | hkpMeshShape.obj | fnv360_0822_retail, vtable_prefix, high
 D00a45e40* D00a45e40::FUN_00a45e40(unsigned int flags)
 {
     FUN_009d6c00();
@@ -1841,6 +1865,7 @@ struct D00a4a510 {
     void FUN_00a49be0();
     D00a4a510* FUN_00a4a510(unsigned int flags);
 };
+// pdb: hkIstream::`scalar deleting destructor' | hkIStream.obj | fnv360_0822_retail, vtable, high
 D00a4a510* D00a4a510::FUN_00a4a510(unsigned int flags)
 {
     FUN_00a49be0();
@@ -1864,6 +1889,7 @@ struct D00a54f10 {
     void FUN_00a54b10();
     D00a54f10* FUN_00a54f10(unsigned int flags);
 };
+// pdb: hkpMoppShapeMediator::`scalar deleting destructor' | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable, high
 D00a54f10* D00a54f10::FUN_00a54f10(unsigned int flags)
 {
     FUN_00a54b10();
@@ -1933,6 +1959,7 @@ struct D00a54ad0 {
     unsigned short referenceCount;
     D00a54ad0* FUN_00a54ad0(unsigned int flags);
 };
+// pdb: hkpMoppCostFunction::`scalar deleting destructor' | hkpMoppCostFunction.obj | fnv360_0721_beta, vtable, medium
 D00a54ad0* D00a54ad0::FUN_00a54ad0(unsigned int flags)
 {
     vtable = DAT_00dcc494;
@@ -2021,6 +2048,8 @@ struct Action : Mid {
     float strength;
     Action(float strength, void* entity);
 };
+// pdb: hkpMeshShape::hkpMeshShape | hkpMeshShape.obj | fnv360_0822_retail, call_gap, high
+// pdb params: radius, numBitsForSubpartIndex
 Action::Action(float s, void* e)
 {
     scale.set(1.0f, 1.0f, 1.0f, 1.0f);
@@ -2158,6 +2187,7 @@ struct A5677Owner {
     A5677Target* unk18;
     void FUN_00a56770();
 };
+// pdb: hkpConvexTranslateShape::getNumCollisionSpheresImpl | hkpConvexTranslateShape.obj | fnv360_0822_retail, objrun_open, low
 void A5677Owner::FUN_00a56770()
 {
     unk18->V09();
@@ -2278,6 +2308,7 @@ void FUN_00a45470(void* p)
 namespace f3m_00a498a0 {
 namespace f3m_00a498a0 {
 int FUN_009b2df0(int a, int b, int c);
+// pdb: hkMapBase<unsigned __int64,unsigned __int64,hkMapOperations<unsigned __int64> >::clear | hkMap.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 int FUN_00a498a0(int a, int b, int c, int d)
 {
     return FUN_009b2df0(a, d, b);
@@ -2294,6 +2325,7 @@ struct A4593Obj {
     float unk20, unk24, unk28, unk2c;
     void FUN_00a45930(const A4593Vec* v);
 };
+// pdb: hkpMeshShape::setScaling | hkpMeshShape.obj | tesv_win, objrun_sim, low
 void A4593Obj::FUN_00a45930(const A4593Vec* v)
 {
     unk20 = v->x;
@@ -2335,9 +2367,10 @@ struct A4a9Obj {
     int unk00[39];
     A4a9Sub unk9c;
     int FUN_00a4a7b0(int b);
-    int FUN_00a4a9c0(int a, int b);
+    int hkPackfileWriter_setSectionForPointer(int a, int b);
 };
-int A4a9Obj::FUN_00a4a9c0(int a, int b)
+// pdb: hkPackfileWriter::setSectionForPointer | hkPackfileWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int A4a9Obj::hkPackfileWriter_setSectionForPointer(int a, int b)
 {
     return unk9c.FUN_00922710(a, FUN_00a4a7b0(b));
 }
@@ -2348,6 +2381,8 @@ int A4a9Obj::FUN_00a4a9c0(int a, int b)
 namespace f3m_00a4a570 {
 namespace f3m_00a4a570 {
 int FUN_00923280(char* buf, int size, const char* fmt, int major, int minor, int patch, const char* tag);
+// pdb: hkPackfileWriter::getCurrentVersion | hkPackfileWriter.obj | fnv360_0822_retail, ustr, medium
+// pdb params: buf, bufLen
 int FUN_00a4a570(char* buf, int size)
 {
     return FUN_00923280(buf, size, "Havok-%i.%i.%i-%s", 5, 5, 0, "r1");
@@ -2378,6 +2413,7 @@ namespace f3m_00a58b00 {
 namespace f3m_00a58b00 {
 struct A58bBool { char m_bool; A58bBool(bool b) { m_bool = b; } };
 struct A58bItem { int unk00[4]; float unk10; };
+// pdb: weightedLineLess | hkGeomConvexHullBuilder.obj | tesv_win, hash, low
 A58bBool FUN_00a58b00(const A58bItem* a, const A58bItem* b)
 {
     return a->unk10 < b->unk10;
@@ -2410,6 +2446,7 @@ struct A49beObj {
     A49beRef* unk08;
     void FUN_00a49be0();
 };
+// pdb: hkIstream::~hkIstream | hkIStream.obj | tesv_win, caller, medium
 void A49beObj::FUN_00a49be0()
 {
     vtable = DAT_00e86594;
@@ -2473,6 +2510,8 @@ struct O00a56a00 {
     float unk20, unk24, unk28, unk2c;
     void FUN_00a56a00(V00a56a00* v);
 };
+// pdb: hkpConvexTranslateShape::getCentreImpl | hkpConvexTranslateShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: centreOut
 void O00a56a00::FUN_00a56a00(V00a56a00* v)
 {
     unk18->Vx(v);
@@ -2509,6 +2548,8 @@ struct O00a56a40 {
     float unk20, unk24, unk28, unk2c;
     void FUN_00a56a40(V00a56a40* v);
 };
+// pdb: hkpConvexTranslateShape::getFirstVertex | hkpConvexTranslateShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: v
 void O00a56a40::FUN_00a56a40(V00a56a40* v)
 {
     unk18->Vx(v);
@@ -2536,6 +2577,8 @@ struct O5678 {
     void* unk18;
     void FUN_00a56780(S5678* s);
 };
+// pdb: hkpConvexTranslateShape::calcContentStatistics | hkpConvexTranslateShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: collector, cls
 void O5678::FUN_00a56780(S5678* s)
 {
     s->V04("CvxTranslate", 1, this);
@@ -2599,9 +2642,10 @@ struct C00a546b0Obj {
     float a0, a1, a2, a3;
     int i60;
     char b64;
-    void FUN_00a546b0(const C00a546b0Src* s);
+    void hkpMoppCompiler_setAssemblerParams(const C00a546b0Src* s);
 };
-void C00a546b0Obj::FUN_00a546b0(const C00a546b0Src* s)
+// pdb: hkpMoppCompiler::setAssemblerParams | hkpMoppCompiler.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_seq) + skyrim(call_seq), high
+void C00a546b0Obj::hkpMoppCompiler_setAssemblerParams(const C00a546b0Src* s)
 {
     x = s->x;
     y = s->y;
@@ -2636,9 +2680,10 @@ struct A4e1Array {
 struct A4e1Obj {
     int unk00[17];
     A4e1Array unk44;
-    void FUN_00a4e1f0(A4e1Ref* r);
+    void hkpPhysicsSystemWithContacts_addContact(A4e1Ref* r);
 };
-void A4e1Obj::FUN_00a4e1f0(A4e1Ref* r)
+// pdb: hkpPhysicsSystemWithContacts::addContact | hkpPhysicsSystemWithContacts.obj | fnv360_0822_retail, call_gap + skyrim(call_gap), high
+void A4e1Obj::hkpPhysicsSystemWithContacts_addContact(A4e1Ref* r)
 {
     if (r) {
         if (r->memSizeAndFlags != 0)
@@ -2676,6 +2721,8 @@ struct A4a31Obj {
     FUN_00a84f70* unk08;
     A4a31Obj* FUN_00a4a310(int a, int b);
 };
+// pdb: hkIstream::hkIstream | hkIStream.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: mem, memSize
 A4a31Obj* A4a31Obj::FUN_00a4a310(int a, int b)
 {
     referenceCount = 1;
@@ -2713,6 +2760,7 @@ struct A558Obj {
     int unk14;
     void FUN_00a558b0();
 };
+// pdb: hkpMoppCachedShapeMediator::~hkpMoppCachedShapeMediator | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, call_seq, high
 void A558Obj::FUN_00a558b0()
 {
     vtable = DAT_00e86bc8;
@@ -2759,7 +2807,7 @@ int A4717Obj::FUN_00a47170(A4717Src* src, int index, int c)
 // @f3 0x00a45f70 (community match, verified in this file)
 namespace f3m_00a45f70 {
 namespace f3m_00a45f70 {
-int FUN_009232c0(const char* a, const char* b);
+int hkString_strCmp(const char* a, const char* b);
 struct A45f7Class {
     const char* FUN_009b0490();
     int FUN_00a45f70();
@@ -2767,8 +2815,8 @@ struct A45f7Class {
 int A45f7Class::FUN_00a45f70()
 {
     const char* name = FUN_009b0490();
-    if (FUN_009232c0(name, "hkClass") && FUN_009232c0(name, "hkClassMember") &&
-        FUN_009232c0(name, "hkClassEnum") && FUN_009232c0(name, "hkClassEnumItem"))
+    if (hkString_strCmp(name, "hkClass") && hkString_strCmp(name, "hkClassMember") &&
+        hkString_strCmp(name, "hkClassEnum") && hkString_strCmp(name, "hkClassEnumItem"))
         return 1;
     return 0;
 }
@@ -2897,6 +2945,7 @@ namespace f3m_00a58a60 {
 namespace f3m_00a58a60 {
 struct A58a6Bool { char m_bool; A58a6Bool(bool b) { m_bool = b; } };
 struct A58a6Vec { float x, y, z; };
+// pdb: hkGeomConvexHullBuilder::vectorLessAndMergeCoordinates | hkGeomConvexHullBuilder.obj | tesv_win, hash, low
 A58a6Bool FUN_00a58a60(const A58a6Vec* a, const A58a6Vec* b)
 {
     if (a->x < b->x)
@@ -3032,6 +3081,7 @@ struct A4e24Obj {
     void FUN_0098a0e0();
     void FUN_00a4e240();
 };
+// pdb: hkpPhysicsSystemWithContacts::~hkpPhysicsSystemWithContacts | hkpPhysicsSystemWithContacts.obj | fnv360_0822_retail, call_seq, high
 void A4e24Obj::FUN_00a4e240()
 {
     vtable = DAT_00e8014c;
@@ -3150,6 +3200,8 @@ struct FUN_00a45d60 : Collection2385
     virtual ~FUN_00a45d60();
 };
 
+// pdb: hkpMeshShape::hkpMeshShape | hkpMeshShape.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: flag
 FUN_00a45d60::FUN_00a45d60(int finishing) : Collection2385(finishing)
 {
     if (finishing)
@@ -3193,6 +3245,8 @@ float f48;
 float f4c;
 };
 struct Cursor { Record* record; };
+// pdb: hk1dLinearVelocityMotorCommitJacobian | hkpMotorBuildJacobian.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: info, in, jac, out
 void FUN_00a50a80(Vector* v, Scale* s, Dest* dest, Cursor* cursor) {
  dest->f0c=s->f08*v->f00;
  Record* r=cursor->record;
@@ -3329,6 +3383,8 @@ void __thiscall Obj46670::FUN_00a46670(int param)
 // @f3 0x00a4e3c0 (community match, verified in this file)
 extern double DAT_010c9300;
 namespace f3m_00a4e3c0 {
+// pdb: hkSetCenterOfMassBuildJacobian | hkp1dBilateralConstraintBuildJacobian.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: hkAddVelocityBuildJacobian)
+// pdb params: angToLinVelA, angToLinVelB, out
 void __cdecl FUN_00a4e3c0(float* src, int middle, int** out)
 {
     float* dst = (float*)*out;
@@ -3356,6 +3412,8 @@ struct Obj4e1b0 {
     int count;
     void __thiscall FUN_00a4e1b0(int index);
 };
+// pdb: hkArrayBase<hkpSerializedSubTrack1nInfo *>::_clearAndDeallocate | hkpSaveContactPointsUtil.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: alloc
 void __thiscall Obj4e1b0::FUN_00a4e1b0(int index)
 {
     Entry4e1b0* entry = array[index];
@@ -3704,6 +3762,7 @@ struct Options { void* primary; void* alternate; Selector* selector; };
 struct Params { unsigned int unk00,unk04,unk08; float threshold; };
 void __cdecl FUN_00a59e30(void*, Params*, float, void*, void*, void*, void*, Array*) throw();
 
+// pdb: hkGeomConvexHullBuilder::validateNeighbours | hkGeomConvexHullBuilder.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_00a5dfc0(Params* params, void* arg2, void* arg3, unsigned short key,
                           const Options* options, void* arg6, void* arg7, Array* first, Array* second)
 {
@@ -3740,7 +3799,7 @@ extern const char DAT_00e86298[];
 extern const char DAT_00e44a74[];
 namespace f3m_00a461e0 {
 namespace f3m_00a461e0 {
-int __cdecl FUN_009232c0(const char*,const char*) throw();
+int __cdecl hkString_strCmp(const char*,const char*) throw();
 void __cdecl FUN_00901f10(void*,int) throw();
 template<class T> struct Array {
     T* data;
@@ -3778,7 +3837,7 @@ struct Reader {
 };
 void Reader::FUN_00a461e0(Array<Item>& output)
 {
-    if(header->fileVersion<4 && FUN_009232c0(GetVersion(),DAT_00e862a8)!=0) {
+    if(header->fileVersion<4 && hkString_strCmp(GetVersion(),DAT_00e862a8)!=0) {
         int index=FindSection(DAT_00e86298);
         if(index<0) return;
         int bytes=sections[index].localFixupsOffset;
@@ -3810,7 +3869,7 @@ void Reader::FUN_00a461e0(Array<Item>& output)
                     int destinationSection=fixups[i+1];
                     int destinationOffset=fixups[i+2];
                     const char* name=(const char*)Resolve(destinationSection,destinationOffset);
-                    if(FUN_009232c0(name,DAT_00e44a74)==0) {
+                    if(hkString_strCmp(name,DAT_00e44a74)==0) {
                         void* object=data+sourceOffset;
                         Item& slot=output.ExpandOne();
                         slot.object=object;
@@ -3968,6 +4027,7 @@ struct Other {
 struct This {
     int FUN_00a4a620();
 };
+// pdb: hkPackfileWriter::addExport | hkPackfileWriter.obj | tesv_win, vtable, medium
 int This::FUN_00a4a620()
 {
     return reinterpret_cast<Other*>((char*)this + 0x2c)->FUN_00922710();
@@ -3982,6 +4042,8 @@ struct Other {
 struct This {
     int FUN_00a4b870();
 };
+// pdb: hkMemoryAllocator::_bufFree<char *> | hkPackfileWriter.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: p, numElem
 int This::FUN_00a4b870()
 {
     return reinterpret_cast<Other*>((void*)-1)->FUN_00a4b800();
@@ -4035,6 +4097,8 @@ FNV_STATIC_ASSERT(offsetof(Own, m_sub) == 0x18);
 FNV_STATIC_ASSERT(offsetof(Own, unk1c) == 0x1c);
 FNV_STATIC_ASSERT(offsetof(Own, m_trans) == 0x20);
 
+// pdb: hkpConvexTranslateShape::getSupportingVertexImpl | hkpConvexTranslateShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: direction, supportingVertexOut
 void __thiscall Own::FUN_00a568d0(float* a, V4* b)
 {
     m_sub->Vx(a, b);
@@ -4476,6 +4540,8 @@ struct B1Obj {
     B1Array unk24;
     int FUN_00a46520(B1Stream* s, void* buf);
 };
+// pdb: hkxAttributeHolder::hkxAttributeHolder | hkxAttributeHolder.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: other
 int B1Obj::FUN_00a46520(B1Stream* s, void* buf)
 {
     if (buf == 0) {
@@ -4740,6 +4806,7 @@ struct Owner : ReferencedObject {
  void** data; int size; int capacityAndFlags;
  void FUN_00a46620(void* value);
 };
+// pdb: hkbCharacter::setPoseLocalMemory | hkbCharacter.obj | tesv_win, caller_sim, low
 void Owner::FUN_00a46620(void* value) {
  int count = size;
  int i = 0;
@@ -4748,7 +4815,7 @@ void Owner::FUN_00a46620(void* value) {
 
   do {
    if (*cursor == value) {
-    volatile int* n = &size;
+    int* n = &size;
     --*n;
     int last = *n;
     void** a = *(void** volatile*)&data;
@@ -5242,6 +5309,8 @@ struct Translated45 {
     Vector45 translation;
     float FUN_00a567d0(Vector45* direction) const;
 };
+// pdb: hkpConvexTranslateShape::getMaximumProjection | hkpConvexTranslateShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: direction
 float Translated45::FUN_00a567d0(Vector45* direction) const {
     float support = shape->Support(direction);
     return translation.Dot(*direction) + support;
@@ -5365,6 +5434,7 @@ Flag __cdecl FUN_00a5e290(Face* face, int other, Flag first, PointList* out);
 
 
 
+// pdb: hkGeomConvexHullBuilder::findWrapping | hkGeomConvexHullBuilder.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_00a5e720(Face* left, Face* right, VertexList* verts, PointList* out)
 
 {
@@ -5918,6 +5988,7 @@ struct FUN_00a4aa20 : ns_00a4aa20::Base {
   FUN_00a4aa20() throw();
 };
 
+// pdb: hkPackfileWriter::hkPackfileWriter | hkPackfileWriter.obj | fnv360_0822_retail, call_seq, high
 FUN_00a4aa20::FUN_00a4aa20() throw()
     : firstMap(ns_00a4aa20::Flag(false)),
       secondMap(ns_00a4aa20::Flag(false)),
@@ -6601,6 +6672,8 @@ struct Sub50 {
 
 extern void* (__stdcall* DAT_00d9b080)(unsigned long);
 
+// pdb: hkpConstraintChainInstance::hkpConstraintChainInstance | hkpConstraintChainInstance.obj | fnv360_0822_retail, call_gap, high
+// pdb params: data
 FUN_00a50bd0::FUN_00a50bd0(Ref50* r) : Base97(1)
 {
     ref = r;
@@ -6808,7 +6881,8 @@ struct TokStreamReader
 
 
 
-static __declspec(noinline) void SkipWhitespace(TokStreamReader* reader)
+// pdb: eatWhiteSpace | hkIStream.obj | fnv360_0822_retail, call_seq, high (was: SkipWhitespace)
+static __declspec(noinline) void eatWhiteSpace(TokStreamReader* reader)
 {
     char buf[64];
     int n;
@@ -6854,7 +6928,7 @@ TokIstream& TokIstream::FUN_00a4a360(TokString& str)
 
     buf.reserve(64);
 
-    SkipWhitespace(m_streamReader);
+    eatWhiteSpace(m_streamReader);
 
     m_streamReader->setMark(1);
 
@@ -7062,6 +7136,7 @@ __forceinline float Baseline(const Array<Candidate>* first,const Array<Candidate
     return MinValue(first->data[0].score,second->data[0].score);
 }
 
+// pdb: hkGeomConvexHullBuilder::addWrappingLines | hkGeomConvexHullBuilder.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_00a5a1f0(const float& threshold,PairInfo* pair,Array<Candidate>* first,Array<Candidate>* second,Array<Result>* output)
 {
     float base=Baseline(first,second);
@@ -7297,7 +7372,8 @@ __forceinline SweepPair* collideOneT<false>(const SweepBounds* bounds, const Swe
 
 // Sweep-and-prune of two lists sorted on the first axis: writes the overlapping key pairs into the buffer, counts
 // the pairs that did not fit, and returns the number written. The caller clears the skipped counter.
-int __cdecl FUN_00a450c0(const SweepBounds* apBoundsA, int aiCountA, const SweepBounds* apBoundsB, int aiCountB,
+// pdb: hk1AxisSweep::collide | hk1AxisSweep.obj | fnv360_0822_retail, call_gap_sim + skyrim(call_gap_sim), high
+int __cdecl hk1AxisSweep_collide(const SweepBounds* apBoundsA, int aiCountA, const SweepBounds* apBoundsB, int aiCountB,
                          SweepPair* __restrict pairs, int capacity, int& skipped)
 {
     SweepPair* out = pairs;
@@ -7328,6 +7404,8 @@ int __cdecl FUN_00a450c0(const SweepBounds* apBoundsA, int aiCountA, const Sweep
 
 // @f3 0x00a523f0 (community match, verified in this file)
 namespace f3m_00a523f0 {
+// pdb: hkJacobianPoweredChainSchema_getLinearJacobians | hkpJacobianChainSchemas.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: schema
 void* FUN_00a523f0(void* p)
 {
     return (char*)p + 0x20;
@@ -7356,6 +7434,7 @@ struct Pairs {
 };
 }
 
+// pdb: hkGeomConvexHullBuilder::isValidWrapping | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 Flag __cdecl FUN_00a5e290(f3m_00a5e290::Context* ctx, int otherCount, Flag forward, f3m_00a5e290::Pairs* pairs)
 {
     Node* nodes = ctx->nodes;
@@ -7817,6 +7896,8 @@ struct ConvexTranslateShape {
     void FUN_00a56910(const unsigned short* ids, int numIds, void* verticesOut);
 };
 
+// pdb: hkpConvexTranslateShape::convertVertexIdsToVerticesImpl | hkpConvexTranslateShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: ids, numIds, verticesOut
 void ConvexTranslateShape::FUN_00a56910(const unsigned short* ids, int numIds, void* verticesOut) {
     childShape->ConvertVertexIdsToVertices(ids, numIds, verticesOut);
     Vec4* base = (Vec4*)verticesOut;
@@ -7902,6 +7983,7 @@ __forceinline void Evaluate(const Edge* edges, const Edge* a, const Edge* c, con
     }
     result.word = 1;
 }
+// pdb: hkGeomConvexHullBuilder::PlaneAndPoints::findPair | hkGeomConvexHullBuilder.obj | tesv_win, call_gap, low
 hkBool __cdecl FUN_00a58840(const Edge* edges, const Edge* a, const Edge* b, const Edge* c, const Edge* d)
 {
     bool first = SameStartDifferentEnd(edges, a, b);
@@ -8720,9 +8802,9 @@ extern void* DAT_010f3364;
 extern void* DAT_011693ac;
 extern const char* DAT_01065098[];
 
-extern __declspec(nothrow) int __cdecl FUN_009232c0(const char*, const char*) throw();
+extern __declspec(nothrow) int __cdecl hkString_strCmp(const char*, const char*) throw();
 extern __declspec(nothrow) char* __cdecl FUN_00923640(const char*) throw();
-extern __declspec(nothrow) int __cdecl FUN_00923410(const char*) throw();
+extern __declspec(nothrow) int __cdecl hkString_atoi(const char*) throw();
 extern __declspec(nothrow) void __cdecl FUN_009234e0(void*, const void*, int) throw();
 extern __declspec(nothrow) int __cdecl FUN_009233f0(const char*) throw();
 extern __declspec(nothrow) int __cdecl FUN_009232f0(const char*, const char*, int) throw();
@@ -9020,8 +9102,8 @@ static __declspec(noinline) bool FUN_00a483d0(const char* s) throw()
 
 static __declspec(noinline) bool FUN_00a48420(const char* className) throw()
 {
-    if (className && FUN_009232c0(className, "hkClass") && FUN_009232c0(className, "hkClassMember")
-        && FUN_009232c0(className, "hkClassEnum") && FUN_009232c0(className, "hkClassEnumItem"))
+    if (className && hkString_strCmp(className, "hkClass") && hkString_strCmp(className, "hkClassMember")
+        && hkString_strCmp(className, "hkClassEnum") && hkString_strCmp(className, "hkClassEnumItem"))
         return true;
     return false;
 }
@@ -9030,7 +9112,7 @@ static __declspec(noinline) int FUN_00a484b0(int* classVersion, Node* element, c
 {
     const char* text = element->FUN_00a80eb0("classversion", 0);
     if (text) {
-        int version = FUN_00923410(text);
+        int version = hkString_atoi(text);
         *classVersion = version;
         if (version != 1) {
             if (version < 2 || version > 5)
@@ -9096,7 +9178,7 @@ int Owner::FUN_00a48970(void* input, void* out) throw()
     while (result == 0) {
         Node* element = node->element();
         if (element) {
-            if (FUN_009232c0(element->cString(), DAT_00e86404) == 0) {
+            if (hkString_strCmp(element->cString(), DAT_00e86404) == 0) {
                 const char* type = element->FUN_00a80eb0(DAT_00e3be04, 0);
                 value = FUN_00a48550(type, &output, &classMap, &globalRefs, version, getType());
                 const char* name = element->FUN_00a80eb0(DAT_00e40028, 0);
@@ -9118,7 +9200,7 @@ int Owner::FUN_00a48970(void* input, void* out) throw()
                 if (reader.FUN_00a84ab0(&stream, &buffer, value, &references) != 0)
                     return 1;
                 void* current;
-                if (FUN_009232c0(((String*)value)->FUN_009b0490(), DAT_00e44a74) == 0) {
+                if (hkString_strCmp(((String*)value)->FUN_009b0490(), DAT_00e44a74) == 0) {
                     references.FUN_009b2eb0(buffer.data);
                     String* declaredClass = (String*)buffer.data;
                     void* declared = FUN_00a48550(declaredClass->FUN_009b0490(), &output, &classMap, &globalRefs, version, getType());
@@ -9137,7 +9219,7 @@ int Owner::FUN_00a48970(void* input, void* out) throw()
                     context->FUN_00a801c0(exported, current);
                 localNames.FUN_009b0e60(objectName, current);
                 FUN_00a48780(objectName, current, &references, &localNames, &futureMap);
-                if (FUN_009232c0(((String*)value)->FUN_009b0490(), DAT_00e44a74) == 0) {
+                if (hkString_strCmp(((String*)value)->FUN_009b0490(), DAT_00e44a74) == 0) {
                     const char* className = ((String*)current)->FUN_009b0490();
                     classMap.FUN_009b0e60(className, current);
                 } else if (FUN_00a48420(((String*)value)->FUN_009b0490())) {
@@ -9148,11 +9230,11 @@ int Owner::FUN_00a48970(void* input, void* out) throw()
                         root->setContentsWithName(fix.object, ((String*)value)->FUN_009b0490());
                 }
                 references.clear();
-            } else if (FUN_009232c0(element->cString(), DAT_00e86484) == 0) {
+            } else if (hkString_strCmp(element->cString(), DAT_00e86484) == 0) {
                 const char* section = element->FUN_00a80eb0(DAT_00e40028, DAT_00e86280);
                 void* cls = getType();
                 if (FUN_00a483d0((const char*)cls)) {
-                    parser.flag24 = FUN_009232c0(section, DAT_00e862b8) == 0;
+                    parser.flag24 = hkString_strCmp(section, DAT_00e862b8) == 0;
                     parser.flag28 += parser.flag24 ? -1 : 1;
                 }
                 int foundSection;
@@ -9166,7 +9248,7 @@ int Owner::FUN_00a48970(void* input, void* out) throw()
                     strings.append(copy);
                     globalNames.FUN_009b0e60(strings.back(), (void*)idx);
                 }
-            } else if (FUN_009232c0(element->cString(), DAT_00e86478) == 0) {
+            } else if (hkString_strCmp(element->cString(), DAT_00e86478) == 0) {
                 void* text = 0;
                 FUN_00a484b0(&version, element, (const char**)&text);
                 setVersion(text);
@@ -9227,6 +9309,7 @@ int Owner::FUN_00a48970(void* input, void* out) throw()
 namespace f3m_00a58130 {
 // claim clm_afd0a48ec0144141b4fe -- FUN_00a58130 at 0x00a58130, 64 bytes
 
+// pdb: hkGeomConvexHullBuilder::getPseudoAngle | hkGeomConvexHullBuilder.obj | tesv_win, hash, low
 float FUN_00a58130(float a, float b)
 {
     float r;
@@ -9244,6 +9327,7 @@ float FUN_00a58130(float a, float b)
 
 // @f3 0x00a58170 (community match, verified in this file)
 namespace f3m_00a58170 {
+// pdb: hkGeomConvexHullBuilder::drawPlane | hkGeomConvexHullBuilder.obj | tesv_win, objrun_open, low
 void FUN_00a58170()
 {
 }

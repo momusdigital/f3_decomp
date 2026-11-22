@@ -13,51 +13,62 @@ extern unsigned char DAT_01178190;
 extern unsigned char DAT_01178275;
 extern unsigned char DAT_01179580;
 
+// pdb: Interface::GetInventoryMenuVisible | Interface.obj | fnv360_0822_retail, call_seq, medium
 unsigned char FUN_00619a80()
 {
     return DAT_011797c5;
 }
 
+// pdb: Interface::GetLoadingMenuVisible | Interface.obj | fnv360_0822_retail, call_gap, low
 unsigned char FUN_0061a040()
 {
     return DAT_011797ca;
 }
 
+// pdb: Interface::IsWideScreen | Interface.obj | fnv360_0822_retail, call_dedup, low
 unsigned char FUN_0061a9d0()
 {
     return DAT_0106f623;
 }
 
+// pdb: Interface::GetIsVATSRescanning | Interface.obj | fnv360_0822_retail, call_seq, low
 unsigned char FUN_0061ab40()
 {
     return DAT_0107744c;
 }
 
+// pdb: PlayerCharacter::IsVanityMode | PlayerCharacter.obj | fnv360_0822_retail, call_gap, low
 unsigned char FUN_0076cc10()
 {
     return DAT_0107ba5b;
 }
 
+// pdb: PlayerCharacter::IsGodMode | PlayerCharacter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 unsigned char FUN_0076cec0()
 {
     return DAT_0107ba65;
 }
 
+// pdb: NiBinaryStream::GetEndianMatchHint | NiBinaryStream.obj | fnv360_0822_retail, call_gap_sim, medium
 unsigned char FUN_0089f4f0()
 {
     return DAT_01091cec;
 }
 
+// pdb: ImageSpaceEffectSunbeams::IsActive | ImageSpaceEffectSunbeams.obj | fnv360_0822_retail, objrun_prop, low
 unsigned char FUN_00b85df0()
 {
     return DAT_01178190;
 }
 
+// pdb: CSpeedTreeRT::GetTextureFlip | SpeedTreeRT.obj | fnv360_0721_beta, call_seq, low
 unsigned char FUN_00ba1920()
 {
     return DAT_01178275;
 }
 
+// pdb: std::_Tree_val<std::_Tmap_traits<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,0> >::_Color | algs.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Pnode
 unsigned char FUN_00be7470()
 {
     return DAT_01179580;

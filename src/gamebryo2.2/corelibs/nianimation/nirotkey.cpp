@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nianimation/nirotkey.cpp: TimedRotationKey (5 functions)
+// gamebryo2.2/corelibs/nianimation/nirotkey.cpp: TimedRotationKey (4 functions)
 #include "f3_common.h"
 #include "nirotkey_decls.h"
 
@@ -8,6 +8,8 @@
     reinterpret_cast<const TimedRotationKey*>(reinterpret_cast<const char*>(keys) + (index) * (size))
 
 // @fnv 0x00a28740
+// pdb: NiRotKey::GenInterp | NiRotKey.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: fTime, pkKeys, eType, uiNumKeys, uiLastIdx, ucSize
 NiQuaternion __cdecl TimedRotationKey::InterpolatePosition(float fTime, TimedRotationKey* pkKeys,
                                                            AnimationKey::KeyType eType, unsigned int uiNumKeys,
                                                            unsigned int& ruiLastIndex, unsigned char ucKeySize)
@@ -57,35 +59,21 @@ NiQuaternion __cdecl TimedRotationKey::InterpolatePosition(float fTime, TimedRot
     }
 }
 
-// 22-byte covered span: ctor thunk (11 B) + 5 B int3 padding + 6 B static-address accessor.
-void FUN_00a3ca30();
-
 // Compares the four floats of pThis with those of q and returns 1 only if all four are exactly equal.
 // @fnv 0x00a92660
+// pdb: NiColorA::operator== | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: c
 int __fastcall FUN_00a92660(const float* pThis, int, const float* q)
 {
     return pThis[0] == q[0] && pThis[1] == q[1] && pThis[2] == q[2] && pThis[3] == q[3];
 }
 
 void __cdecl FUN_00a57010();
-extern void* _DAT_01097054;
-
-struct FUN_00a3ca30_shell
-{
-    void* m;
-    void FUN_00a3ca30();
-};
-
-// @fnv 0x00a3ca30
-void FUN_00a3ca30_shell::FUN_00a3ca30()
-{
-    m = &_DAT_01097054;
-    FUN_00a57010();
-}
 
 extern void* _DAT_011f3740;
 
 // @fnv 0x00a3ca40
+// pdb: BSMultiBoundOBB::GetRTTI | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 void* __cdecl FUN_00a3ca40()
 {
     return &_DAT_011f3740;
@@ -112,16 +100,18 @@ class FUN_00a3e9a0_cls
     float* m_20;
     float m_24;
 
-    float FUN_00a3e680(unsigned int a, unsigned int b, float c);
-    float GetAccumulatedValue();
+    float NiPathInterpolator_PathLength(unsigned int a, unsigned int b, float c);
+    float NiPathInterpolator_GetTotalPathLength();
 };
 
 void __cdecl FUN_00aa10f0(float* p);
 void* __cdecl FUN_00aa1070(unsigned int n);
 
-// If m_24 is negative, allocates a float array sized from m_18->m_08, fills running sums via FUN_00a3e680, stores the last value in m_24, and returns m_24.
+// If m_24 is negative, allocates a float array sized from m_18->m_08, fills running sums via NiPathInterpolator_PathLength, stores the last value in m_24, and returns m_24.
 // @fnv 0x00a3e9a0
-float FUN_00a3e9a0_cls::GetAccumulatedValue()
+// pdb: NiPathInterpolator::GetTotalPathLength | NiPathInterpolator.obj | fnv360_0822_retail, call_seq, high
+// pdb: NiPathInterpolator::GetTotalPathLength | NiPathInterpolator.obj | fnv360_0822_retail, call_seq, high (was: GetAccumulatedValue)
+float FUN_00a3e9a0_cls::NiPathInterpolator_GetTotalPathLength()
 {
     if (m_24 < 0.0f)
     {
@@ -136,7 +126,7 @@ float FUN_00a3e9a0_cls::GetAccumulatedValue()
         {
             do
             {
-                volatile float t = FUN_00a3e680(uiIndex, uiIndex + 1, 1.0f);
+                volatile float t = NiPathInterpolator_PathLength(uiIndex, uiIndex + 1, 1.0f);
                 float* p = m_20;
                 p[uiIndex + 1] = p[uiIndex] + t;
                 uiIndex = uiIndex + 1;

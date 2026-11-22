@@ -14,6 +14,8 @@ struct FUN_00cfca20
 };
 
 // @fnv 0x00cfca20
+// pdb: hkpReportContactMgr::Factory::Factory | hkpReportContactMgr.obj | fnv360_0822_retail, uvref, high
+// pdb params: mgr
 FUN_00cfca20::FUN_00cfca20(void* data)
 {
     m_flag = 1;
@@ -31,35 +33,6 @@ struct FUN_00cfcc30_class
     void FUN_00cfc590();
     FUN_00cfcc30_class* FUN_00cfcc30(unsigned char flags);
 };
-
-struct FUN_00cfcc30_manager
-{
-    virtual void FUN_00cfcc30_virtual_0();
-    virtual void FUN_00cfcc30_virtual_1();
-    virtual void FUN_00cfcc30_virtual_2(FUN_00cfcc30_class* object, unsigned short flag);
-};
-
-struct FUN_00cfcc30_router
-{
-    unsigned char m_auiShapeKeys[0x10];
-    FUN_00cfcc30_manager* m_manager;
-};
-
-FUN_00cfcc30_router* _D1A0E0GetMemoryRouter();
-
-// @fnv 0x00cfcc30
-FUN_00cfcc30_class* FUN_00cfcc30_class::FUN_00cfcc30(unsigned char flags)
-{
-    FUN_00cfc590();
-
-    if (flags & 1)
-    {
-        FUN_00cfcc30_router* router = _D1A0E0GetMemoryRouter();
-        router->m_manager->FUN_00cfcc30_virtual_2(this, m_flag);
-    }
-
-    return this;
-}
 
 struct GameNode
 {
@@ -96,59 +69,6 @@ struct InputRecord
     }
 };
 
-struct Descriptor
-{
-    int type;
-    GameNode* primary;
-    GameNode* secondary;
-    void* tertiary;
-    int control;
-    void* data50;
-    void* data18;
-    unsigned char option0;
-    unsigned char option1;
-    unsigned char option2;
-    void* data04;
-    void* output;
-    void* data2c;
-    int result0;
-    int result1;
-};
-
-void __cdecl FUN_00d00ca0(void* payload, Descriptor* descriptor);
-void __cdecl FUN_00cfff00(GameNode* node, int* index);
-
-// @fnv 0x00cfc960
-void __stdcall ProcessInputRecord(InputRecord* record, void* output, unsigned int unused)
-{
-    Descriptor descriptor;
-    descriptor.type = 2;
-    descriptor.tertiary = record->tertiary;
-    descriptor.secondary = record->secondary;
-    descriptor.primary = record->primary;
-    descriptor.control = 0;
-    descriptor.data50 = record->member50();
-    descriptor.data18 = record->member18();
-    descriptor.option0 = 0;
-    descriptor.option1 = 0;
-    descriptor.option2 = 0;
-    descriptor.data04 = &record->member04;
-    descriptor.output = &output;
-    descriptor.data2c = record->member2c();
-    descriptor.result0 = 0;
-    descriptor.result1 = 0;
-
-    FUN_00d00ca0(record->primary->payload, &descriptor);
-
-    descriptor.type = 0;
-    if (record->primary->activityFlag() != 0)
-        FUN_00cfff00(record->primary, &descriptor.type);
-
-    descriptor.type = 1;
-    if (record->secondary->activityFlag() != 0)
-        FUN_00cfff00(record->secondary, &descriptor.type);
-}
-
 struct CFCA90Shape
 {
     int m_type, m_flags, m_uiContentCount, m_kSmartReference;
@@ -169,19 +89,21 @@ struct CFCA90Work
     CFCA90Object* m_pOwnerObject;
 };
 void __cdecl NotifyShapeSetListeners(void*, void*);
-void __cdecl FUN_00d00270(void*, void*);
 struct CFCA90Object
 {
     int m_type, m_uiContentCount, m_flags;
     void* m_controller;
     int m_pOwnerObject, m_detail;
     unsigned short m_remainingCount, m_ucUnknownByte;
-    void ProcessShapePair(CFCA90Shape*, CFCA90Shape*, void*, CFCA90Range*);
+    void hkpReportContactMgr_processContactImpl(CFCA90Shape*, CFCA90Shape*, void*, CFCA90Range*);
 };
 // @f3 0x00986af0 (community match, verified in this file)
-void __cdecl FUN_00988390(void*, void*);
+void __cdecl hkpEntityCallbackUtil_fireContactProcessInternal(void*, void*);
 
-void CFCA90Object::ProcessShapePair(CFCA90Shape* shapeA, CFCA90Shape* shapeB, void* unusedInput, CFCA90Range* range)
+// pdb: hkpReportContactMgr::processContactImpl | hkpReportContactMgr.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
+// pdb params: a, b, input, collisionData
+// pdb: hkpReportContactMgr::processContactImpl | hkpReportContactMgr.obj | fnv360_0822_retail, bridge_fnvpc, high (was: ProcessShapePair)
+void CFCA90Object::hkpReportContactMgr_processContactImpl(CFCA90Shape* shapeA, CFCA90Shape* shapeB, void* unusedInput, CFCA90Range* range)
 {
     if (m_remainingCount-- != 0)
         return;
@@ -201,9 +123,9 @@ void CFCA90Object::ProcessShapePair(CFCA90Shape* shapeA, CFCA90Shape* shapeB, vo
         work.m_scratchIndices[iIndex] = 0;
     NotifyShapeSetListeners(m_controller, &work);
     if (*(unsigned short*)(partA + 0x1f4))
-        FUN_00988390(partA, &work);
+        hkpEntityCallbackUtil_fireContactProcessInternal(partA, &work);
     if (*(unsigned short*)(partB + 0x1f4))
-        FUN_00988390(partB, &work);
+        hkpEntityCallbackUtil_fireContactProcessInternal(partB, &work);
 }
 
 
@@ -239,26 +161,6 @@ struct ContactEvent
     ContactDispatcher* m_pCollisionDispatcher;
     void* m_arg1;
 };
-// Fills a ContactEvent with the dispatcher and two contact records, then calls FUN_00d01900 and optionally FUN_00d001c0 on each record.
-// @fnv 0x00cfc860
-void ContactDispatcher::DispatchContact(void* arg1, void* arg2)
-{
-    ContactRecord* first = m_pHeadNode;
-    void* collidable = first->m_kCollidable;
-    ContactEvent data;
-    data.m_eventType = 0xffff;
-    data.m_arg2 = arg2;
-    ContactRecord* second = m_iSecondInteger;
-    data.m_pCollisionDispatcher = this;
-    data.m_pHeadNode = first;
-    data.m_iSecondInteger = second;
-    data.m_arg1 = arg1;
-    FUN_00d01900(collidable, &data);
-    if (*(unsigned short*)((char*)first + 0x204) != 0)
-        FUN_00d001c0(first, &data);
-    if (*(unsigned short*)((char*)second + 0x204) != 0)
-        FUN_00d001c0(second, &data);
-}
 
 struct Entity
 {
@@ -416,13 +318,16 @@ struct Owner
     World* world;
     Entity* a;
     Entity* b;
-    void NotifyContact(unsigned short flags, unsigned int state);
+    void hkpReportContactMgr_removeContactPointImpl(unsigned short flags, unsigned int state);
 };
 // Builds a Contact from the owner's entities and state, calls FUN_00d01900 on the world, then calls FUN_00d001c0 on each active entity.
 // @f3 0x00986960 (community match, verified in this file)
-void __cdecl FUN_00988d10(World* world, Contact* eventData);
-void __cdecl FUN_009882e0(Entity* entity, Contact* eventData);
-void Owner::NotifyContact(unsigned short flags, unsigned int state)
+void __cdecl hkpWorldCallbackUtil_fireContactPointRemoved(World* world, Contact* eventData);
+void __cdecl hkpEntityCallbackUtil_fireContactPointRemovedInternal(Entity* entity, Contact* eventData);
+// pdb: hkpReportContactMgr::removeContactPointImpl | hkpReportContactMgr.obj | fnv360_0822_retail, objrun_open, high
+// pdb params: cpId, info
+// pdb: hkpReportContactMgr::removeContactPointImpl | hkpReportContactMgr.obj | fnv360_0822_retail, objrun_open, high (was: NotifyContact)
+void Owner::hkpReportContactMgr_removeContactPointImpl(unsigned short flags, unsigned int state)
 {
     Entity* const entityA = a;
     Entity* const entityB = b;
@@ -433,11 +338,11 @@ void Owner::NotifyContact(unsigned short flags, unsigned int state)
     contact.entityB = entityB;
     contact.owner = this;
     contact.state = state;
-    FUN_00988d10(world, &contact);
+    hkpWorldCallbackUtil_fireContactPointRemoved(world, &contact);
     if (*(unsigned short*)&entityA->unk1f4 != 0)
-        FUN_009882e0(entityA, &contact);
+        hkpEntityCallbackUtil_fireContactPointRemovedInternal(entityA, &contact);
     if (*(unsigned short*)&entityB->unk1f4 != 0)
-        FUN_009882e0(entityB, &contact);
+        hkpEntityCallbackUtil_fireContactPointRemovedInternal(entityB, &contact);
 }
 
 
@@ -470,7 +375,6 @@ struct S_Cfca40_Router
         return *m_manager;
     }
 };
-S_Cfca40_Router* FUN_00c85750();
 struct S_Cfca40_Element
 {
     void* m_ppVirtualMethodTable;
@@ -483,7 +387,7 @@ struct S_Cfca40_Factory
     unsigned short m_reserved;
     unsigned short m_flags;
     void* m_iValueAtOffset0C;
-    void CreateElement(S_Cfca40_AdjustedSource* first, S_Cfca40_AdjustedSource* second,
+    void hkpReportContactMgr_Factory_createContactMgr(S_Cfca40_AdjustedSource* first, S_Cfca40_AdjustedSource* second,
                        S_Cfca40_AdjustedSource* unused);
 };
 // @f3 0x00986aa0 (community match, verified in this file)
@@ -493,7 +397,10 @@ struct S_Cfca40_TlsHeap
 {
     void* Allocate(unsigned int bytes, unsigned int tag);
 };
-void S_Cfca40_Factory::CreateElement(S_Cfca40_AdjustedSource* apFirstSource, S_Cfca40_AdjustedSource* apSecondSource,
+// pdb: hkpReportContactMgr::Factory::createContactMgr | hkpReportContactMgr.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b, env
+// pdb: hkpReportContactMgr::Factory::createContactMgr | hkpReportContactMgr.obj | fnv360_0822_retail, vtable, high (was: CreateElement)
+void S_Cfca40_Factory::hkpReportContactMgr_Factory_createContactMgr(S_Cfca40_AdjustedSource* apFirstSource, S_Cfca40_AdjustedSource* apSecondSource,
                                      S_Cfca40_AdjustedSource* unused)
 {
     void* firstData = apFirstSource->GetAdjustedData();
@@ -687,65 +594,6 @@ struct hkpSimpleConstraintContactMgr
     unsigned int FUN_00cfc5f0(const hkpCdBody& a, const hkpCdBody& b, const GskAgentInput& input,
                               WorldOperationEntry& output, const ConvexFeaturePairCache* contactCache, hkContactPoint& cp);
 };
-
-// Computes projected velocity at the contact point, dispatches a ContactPointProcessingData event, and removes the contact point if the result code is 1.
-// @fnv 0x00cfc5f0
-unsigned int hkpSimpleConstraintContactMgr::FUN_00cfc5f0(const hkpCdBody& a, const hkpCdBody& b,
-                                                         const GskAgentInput& input, WorldOperationEntry& output,
-                                                         const ConvexFeaturePairCache* contactCache, hkContactPoint& cp)
-{
-    hkpRigidBody* rbA = m_pEntityA;
-    hkpRigidBody* rbB = m_pEntityB;
-
-    float fProjectedVelocity;
-    {
-        __m128 point = cp.m_vContactPosition.m_vComponents;
-        __m128 comA = rbA->m_centerOfMassWorld.m_vComponents;
-        __m128 offsetA = _mm_sub_ps(point, comA);
-        __m128 angularA = rbA->m_kAngularVelocity.m_vComponents;
-        __m128 angularB = rbB->m_centerOfMassWorld.m_vComponents;
-        __m128 offsetB = _mm_sub_ps(point, angularB);
-        angularB = rbB->m_kAngularVelocity.m_vComponents;
-        __m128 firstB = _mm_shuffle_ps(offsetB, offsetB, 0xc9);
-        __m128 secondB = _mm_shuffle_ps(angularB, angularB, 0xd2);
-        __m128 thirdB = _mm_shuffle_ps(offsetB, offsetB, 0xd2);
-        __m128 fourthB = _mm_shuffle_ps(angularB, angularB, 0xc9);
-        firstB = _mm_mul_ps(firstB, secondB);
-        thirdB = _mm_mul_ps(thirdB, fourthB);
-        hkVector4 vVelocityB;
-        vVelocityB.m_vComponents = _mm_add_ps(_mm_sub_ps(thirdB, firstB), rbB->m_kTranslationalVelocity.m_vComponents);
-        __m128 firstA = _mm_shuffle_ps(angularA, angularA, 0xc9);
-        __m128 secondA = _mm_shuffle_ps(offsetA, offsetA, 0xd2);
-        __m128 thirdA = _mm_shuffle_ps(angularA, angularA, 0xd2);
-        __m128 fourthA = _mm_shuffle_ps(offsetA, offsetA, 0xc9);
-        firstA = _mm_mul_ps(firstA, secondA);
-        thirdA = _mm_mul_ps(thirdA, fourthA);
-        hkVector4 vVelocityA;
-        vVelocityA.m_vComponents = _mm_add_ps(_mm_sub_ps(firstA, thirdA), rbA->m_kTranslationalVelocity.m_vComponents);
-        hkVector4 vDeltaVelocity;
-        vDeltaVelocity.setSub4(vVelocityB, vVelocityA);
-        fProjectedVelocity = vDeltaVelocity.dot3(cp.getNormal());
-    }
-
-    ContactPointProcessingData event(0, this, &input, &output, &a, &b, &cp, contactCache, 0, fProjectedVelocity);
-    FUN_00d01850(m_pOwningWorld, event);
-
-    if (rbA->m_contactListenersSize != 0)
-    {
-        FUN_00d00110(rbA, event);
-    }
-    if (rbB->m_contactListenersSize != 0)
-    {
-        FUN_00d00110(rbB, event);
-    }
-    if (event.m_iResultCode == 1)
-    {
-        removeContactPoint(0, output.m_pConstraintOwner);
-        return 0xffff;
-    }
-    m_nextProcessCollideDelay = event.m_nextProcessCollideDelay;
-    return 0;
-}
 
 struct Word
 {
@@ -949,6 +797,8 @@ struct CollisionOwner
 // @f3 0x009867e0 (community match, verified in this file)
 void FUN_00988bb0(int a, void* b);
 void FUN_00988180(void* a, void* b);
+// pdb: hkpReportContactMgr::addContactPointImpl | hkpReportContactMgr.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpReportContactMgr::addToiImpl)
+// pdb params: a, b, input, output, contactCache, pcp
 int CollisionOwner::FUN_00cfc760(Word a1, int a2, int a3, CollisionStateData* apStateData, float a5, int a6, int a7,
                                  CollisionBody* apBody, CollisionStateData* apOutState)
 {

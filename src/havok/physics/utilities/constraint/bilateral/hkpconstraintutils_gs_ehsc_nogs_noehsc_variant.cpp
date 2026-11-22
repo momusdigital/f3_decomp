@@ -136,7 +136,7 @@ inline void* hkAlloc(int size)
     p->m_usMemSizeAndFlags = (unsigned short)size;
     return p;
 }
-Instance* __cdecl CloneInstanceFromSource(Instance* src);
+Instance* __cdecl hkpConstraintUtils_convertToLimits(Instance* src);
 class FnvSink
 {
   public:
@@ -204,7 +204,7 @@ struct Ent
     int unk190, unk194, unk198, unk19c, unk1a0, unk1a4, unk1a8, unk1ac;
     __m128 unk1b0;
     __m128 unk1c0;
-    void FUN_00ca8800(__m128* v);
+    void hkpRigidBody_setPosition(__m128* v);
     void OnTrigger(int arg);
     void FUN_00561800(void* p);
 };
@@ -331,7 +331,7 @@ union PivotScratch
     } blended;
 };
 
-int FUN_00a908d0(FnvHolder* holder, __m128* a, __m128* b);
+int hkpConstraintUtils_getConstraintPivots(FnvHolder* holder, __m128* a, __m128* b);
 
 static __forceinline bool* FUN_00e5af80_impl_a90b30(bool* out, FnvHolder2_a90b30* holder, float tolerance, float blend)
 {
@@ -339,7 +339,7 @@ static __forceinline bool* FUN_00e5af80_impl_a90b30(bool* out, FnvHolder2_a90b30
     PivotWork_a90b30 pivots;
     char buffer[512];
 
-    if (FUN_00a908d0(holder, &pivots.localA, &pivots.localB) == 0)
+    if (hkpConstraintUtils_getConstraintPivots(holder, &pivots.localA, &pivots.localB) == 0)
     {
         const float y = pivots.localA.m128_f32[1];
         const float x = pivots.localA.m128_f32[0];
@@ -390,7 +390,8 @@ static __forceinline bool* FUN_00e5af80_impl_a90b30(bool* out, FnvHolder2_a90b30
     return out;
 }
 
-bool* FUN_00e5af80(bool* out, FnvHolder2* holder, float tolerance, float blend)
+// pdb: hkpConstraintUtils::checkAndFixConstraint | hkpConstraintUtils.obj | fnv360_0822_retail, ustr + skyrim(ustr), high
+bool* hkpConstraintUtils_checkAndFixConstraint(bool* out, FnvHolder2* holder, float tolerance, float blend)
 {
     return FUN_00e5af80_impl_a90b30(reinterpret_cast<bool*>(out), reinterpret_cast<FnvHolder2_a90b30*>(holder), tolerance, blend);
 }

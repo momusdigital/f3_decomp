@@ -4,26 +4,32 @@
 
 
 
+// pdb: finishLoadedObjecthkBaseObject | hkReferencedObject.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00901df0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkBaseObject | hkReferencedObject.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00901e00()
 {
 }
 
-__declspec(noinline) void FUN_009023e0()
+// pdb: hkpWorld::checkDeterminism | hkpWorld.obj | fnv360_0822_retail, call_gap_sim + skyrim(call_gap_sim), high
+__declspec(noinline) void hkpWorld_checkDeterminism()
 {
 }
 
+// pdb: hkpWorld::checkAccessGetActiveSimulationIslands | hkpWorld.obj | tesv_win, objrun_sim, low
 __declspec(noinline) void FUN_00902490()
 {
 }
 
+// pdb: hkpWorld::lockReadOnly | hkpWorld.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_009025a0()
 {
 }
 
+// pdb: hkpWorld::unlockReadOnly | hkpWorld.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_009025b0()
 {
 }
@@ -36,26 +42,32 @@ __declspec(noinline) void FUN_0092e7f0()
 {
 }
 
+// pdb: showHavokBuild | hkBaseSystem.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_0092e8e0()
 {
 }
 
+// pdb: hkpWorldObject::markForWriteImpl | hkpWorldObject.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00931710()
 {
 }
 
+// pdb: hkpWorldObject::checkReadWrite | hkpWorldObject.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00931720()
 {
 }
 
+// pdb: hkpWorldObject::checkReadOnly | hkpWorldObject.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00931730()
 {
 }
 
+// pdb: hkDataArrayNative::getType | hkDataObjectNative.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00932830()
 {
 }
 
+// pdb: hkDataArrayNative::getSize | hkDataObjectNative.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00932fb0()
 {
 }
@@ -64,6 +76,8 @@ __declspec(noinline) void FUN_009330e0()
 {
 }
 
+// pdb: hkDataObjectNative::getNextMember | hkDataObjectNative.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: it
 __declspec(noinline) void FUN_00933990()
 {
 }
@@ -104,38 +118,52 @@ __declspec(noinline) void FUN_0093c230()
 {
 }
 
+// pdb: hkNullAgent3::destroy | hkpCollisionDispatcher.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: entry, agentData, mgr, constraintOwner, dispatcher
 __declspec(noinline) void FUN_009850a0()
 {
 }
 
+// pdb: hkpSimulationIsland::isValid | hkpSimulationIsland.obj | fnv360_0822_retail, objrun_prop, low
 __declspec(noinline) void FUN_0098ad40()
 {
 }
 
-__declspec(noinline) void FUN_0098adb0()
+// pdb: hkpSimulationIsland::markForWrite | hkpSimulationIsland.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_gap) + skyrim(call_seq), high
+__declspec(noinline) void hkpSimulationIsland_markForWrite()
 {
 }
 
+// pdb: hkMultiThreadCheck::accessCheckWithParent | hkMultiThreadCheck.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: parentLock, parentType, lock, type
 __declspec(noinline) void FUN_0098b5e0()
 {
 }
 
+// pdb: hkpNullAgent::staticGetClosestPoints | hkpNullAgent.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: bodyA, bodyB, input, collector
 __declspec(noinline) void FUN_00990550()
 {
 }
 
+// pdb: hkpNullAgent::staticGetPenetrations | hkpNullAgent.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: bodyA, bodyB, input, collector
 __declspec(noinline) void FUN_00990560()
 {
 }
 
+// pdb: hkpNullAgent::staticLinearCast | hkpNullAgent.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: bodyA, bodyB, input, collector, startCollector
 __declspec(noinline) void FUN_00990570()
 {
 }
 
+// pdb: hkp3AxisSweep::checkConsistency | hkp3AxisSweep.obj | tesv_win, objrun_sim, low
 __declspec(noinline) void FUN_00990e80()
 {
 }
 
+// pdb: hkaDetectRagdollPenetration::BonePenetration::~BonePenetration | hkaDetectRagdollPenetration.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_009a0f20()
 {
 }
@@ -144,38 +172,48 @@ __declspec(noinline) void FUN_009b2ea0()
 {
 }
 
+// pdb: hkCapsuleTriangleAgent3::createZombie | hkpCapsuleTriangleAgent3.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: entry, agentData, idToConvert
 __declspec(noinline) void FUN_009c2190()
 {
 }
 
-__declspec(noinline) void FUN_009ca080()
+// pdb: hkBoxBoxAgent3::createZombie | hkpBoxBoxAgent3.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+__declspec(noinline) void hkBoxBoxAgent3_createZombie()
 {
 }
 
-__declspec(noinline) void FUN_009cd1b0()
+// pdb: hkpPhantomAgent::staticGetClosestPoints | hkpPhantomAgent.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+__declspec(noinline) void hkpPhantomAgent_staticGetClosestPoints()
 {
 }
 
-__declspec(noinline) void FUN_009cd1d0()
+// pdb: hkpPhantomAgent::staticLinearCast | hkpPhantomAgent.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+__declspec(noinline) void hkpPhantomAgent_staticLinearCast()
 {
 }
 
+// pdb: hkArrayBase<hkpStorageMeshShape::SubpartStorage *>::clear | hkpStorageMeshShape.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: cleanupLoadedObjecthkbIntVariableSequencedDataSample)
 __declspec(noinline) void FUN_009d6250()
 {
 }
 
+// pdb: cleanupLoadedObjecthkbStateMachineTimeInterval | hkbBehaviorReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_009d6260()
 {
 }
 
+// pdb: cleanupLoadedObjecthkbBlendCurveUtils | hkbBehaviorReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_009d62c0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkbCompiledExpressionSetToken | hkbBehaviorReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_009d62d0()
 {
 }
 
+// pdb: finishLoadedObjecthkbDefaultMessageLog | hkbBehaviorReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_009d62e0()
 {
 }
@@ -184,22 +222,28 @@ __declspec(noinline) void FUN_009d6d70()
 {
 }
 
+// pdb: hkpPhysicsSystem::getUserData | hkpPhysicsData.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_009d8ae0()
 {
 }
 
+// pdb: hkpPhysicsSystem::setUserData | hkpPhysicsData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: d
 __declspec(noinline) void FUN_009d8af0()
 {
 }
 
+// pdb: finishLoadedObjecthkpProperty | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_009f7b10()
 {
 }
 
+// pdb: finishLoadedObjecthkpEntitySpuCollisionCallback | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_009f7b20()
 {
 }
 
+// pdb: hkpGravityGun::staticClass | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a06730()
 {
 }
@@ -208,38 +252,47 @@ __declspec(noinline) void FUN_00a06740()
 {
 }
 
+// pdb: finishLoadedObjecthkpSerializedTrack1nInfo | hkpSerializedAgentNnEntryClass.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpMountedBallGun::staticClass)
 __declspec(noinline) void FUN_00a06820()
 {
 }
 
+// pdb: finishLoadedObjecthkpSerializedSubTrack1nInfo | hkpSerializedAgentNnEntryClass.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a06830()
 {
 }
 
+// pdb: finishLoadedObjecthkpSerializedTrack1nInfo | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a06870()
 {
 }
 
+// pdb: finishLoadedObjecthkpSerializedSubTrack1nInfo | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a06880()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpSerializedDisplayRbTransformsDisplayTransformPair | hkpSerializedDisplayRbTransformsClass.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a06920()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpPoweredChainMapperTarget | hkpPoweredChainMapperClass.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a069a0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpPoweredChainMapperLinkInfo | hkpPoweredChainMapperClass.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a069b0()
 {
 }
 
+// pdb: hkArrayBase<hkpConstraintChainInstance *>::getCapacity | hkpPoweredChainMapperClass.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a069c0()
 {
 }
 
+// pdb: hkArrayBase<hkpConstraintChainInstance *>::clear | hkpPoweredChainMapperClass.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a06a90()
 {
 }
@@ -248,10 +301,12 @@ __declspec(noinline) void FUN_00a06aa0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpPoweredChainMapperLinkInfo | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a06b20()
 {
 }
 
+// pdb: hkpBallSocketChainData::staticClass | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a06c50()
 {
 }
@@ -260,22 +315,28 @@ __declspec(noinline) void FUN_00a06c60()
 {
 }
 
+// pdb: hkpStiffSpringChainData::operator new | hkpStiffSpringChainDataClass.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __formal, p
 __declspec(noinline) void FUN_00a06c80()
 {
 }
 
+// pdb: hkpStiffSpringChainData::ConstraintInfo::staticClass | hkpStiffSpringChainDataClass.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a06cc0()
 {
 }
 
+// pdb: hkpRagdollLimitsData::staticClass | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a06ce0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpStiffSpringChainDataConstraintInfo | hkpDynamicsReflections.obj | tesv_win, objopen_prop, low
 __declspec(noinline) void FUN_00a06d20()
 {
 }
 
+// pdb: hkpStiffSpringChainData::staticClass | hkpStiffSpringChainDataClass.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a06d80()
 {
 }
@@ -284,18 +345,22 @@ __declspec(noinline) void FUN_00a06dd0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpRagdollLimitsDataAtoms | hkpRagdollLimitsDataClass.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a06e90()
 {
 }
 
+// pdb: finishLoadedObjecthkpRagdollLimitsDataAtoms | hkpRagdollLimitsDataClass.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a06eb0()
 {
 }
 
+// pdb: finishLoadedObjecthkpHingeLimitsDataAtoms | hkpDynamicsReflections.obj | tesv_win, objopen_prop, low
 __declspec(noinline) void FUN_00a06ef0()
 {
 }
 
+// pdb: finishLoadedObjecthkpRagdollLimitsDataAtoms | hkpDynamicsReflections.obj | tesv_win, objopen_prop, low
 __declspec(noinline) void FUN_00a06f10()
 {
 }
@@ -304,6 +369,7 @@ __declspec(noinline) void FUN_00a06f60()
 {
 }
 
+// pdb: finishLoadedObjecthkpRagdollConstraintDataAtoms | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a06f80()
 {
 }
@@ -316,10 +382,13 @@ __declspec(noinline) void FUN_00a06ff0()
 {
 }
 
+// pdb: hkpPoweredChainData::operator new | hkpPoweredChainDataClass.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __formal, p
 __declspec(noinline) void FUN_00a07030()
 {
 }
 
+// pdb: hkpPoweredChainData::ConstraintInfo::staticClass | hkpPoweredChainDataClass.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a07040()
 {
 }
@@ -328,6 +397,7 @@ __declspec(noinline) void FUN_00a07050()
 {
 }
 
+// pdb: hkpPoweredChainData::ConstraintInfo::staticClass | hkpDynamicshkpPoweredChainDataReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a07070()
 {
 }
@@ -336,6 +406,7 @@ __declspec(noinline) void FUN_00a070b0()
 {
 }
 
+// pdb: hkpPoweredChainData::staticClass | hkpPoweredChainDataClass.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a07110()
 {
 }
@@ -360,18 +431,23 @@ __declspec(noinline) void FUN_00a071e0()
 {
 }
 
+// pdb: hkpGenericConstraintData::staticClass | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a07200()
 {
 }
 
+// pdb: hkpBallSocketChainData::operator new | hkpBallSocketChainDataClass.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __formal, p
 __declspec(noinline) void FUN_00a07240()
 {
 }
 
+// pdb: hkpBallSocketChainData::ConstraintInfo::staticClass | hkpBallSocketChainDataClass.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: cleanupLoadedObjecthkpGenericConstraintDataSchemeConstraintInfo)
 __declspec(noinline) void FUN_00a07260()
 {
 }
 
+// pdb: hkpGenericConstraintDataScheme::ConstraintInfo::staticClass | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a072a0()
 {
 }
@@ -384,14 +460,17 @@ __declspec(noinline) void FUN_00a07340()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpSimpleMeshShapeTriangle | hkpSimpleMeshShapeClass.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a07360()
 {
 }
 
+// pdb: hkArrayBase<hkpSimpleMeshShape::Triangle>::getCapacity | hkpSimpleMeshShapeClass.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a073a0()
 {
 }
 
+// pdb: hkpRagdollLimitsData::Atoms::staticClass | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a073b0()
 {
 }
@@ -400,22 +479,27 @@ __declspec(noinline) void FUN_00a073c0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpMultiRayShapeRay | hkpMultiRayShapeClass.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: cleanupLoadedObjecthkpCdBody)
 __declspec(noinline) void FUN_00a07510()
 {
 }
 
+// pdb: hkpMultiRayShape::Ray::staticClass | hkpMultiRayShapeClass.obj | fnv360_0721_beta, objopen_prop, low, conflict (skyrim: cleanupLoadedObjecthkpCollidableBoundingVolumeData)
 __declspec(noinline) void FUN_00a07520()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpAgent1nSector | hkpCollideReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a075d0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpBroadPhaseHandle | hkpCollideReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a075e0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpMeshMaterial | hkpCollideReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a07640()
 {
 }
@@ -424,26 +508,34 @@ __declspec(noinline) void FUN_00a07690()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpMoppCodeReindexedTerminal | hkpInternalReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a076a0()
 {
 }
 
+// pdb: hkpMoppCodeReindexedTerminal::staticClass | hkpInternalReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a076b0()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpMoppCodeCodeInfo | hkpInternalReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a076c0()
 {
 }
 
+// pdb: hkpMoppCode::CodeInfo::staticClass | hkpInternalReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a076d0()
 {
 }
 
+// pdb: hkpConvexPieceStreamData::operator new | hkpConvexPieceStreamDataClass.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpMoppBvTreeShape::staticClass)
+// pdb params: __formal, p
 __declspec(noinline) void FUN_00a076e0()
 {
 }
 
+// pdb: hkpConstraintSolverSetup::shutdownSolver | hkpConstraintSolverSetup.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: s
 __declspec(noinline) void FUN_00a0a5c0()
 {
 }
@@ -452,26 +544,32 @@ __declspec(noinline) void FUN_00a0b770()
 {
 }
 
+// pdb: hkDebugPrintfAccumulators | hkpSolver.obj | fnv360_0822_retail, objrun, medium
 __declspec(noinline) void FUN_00a0b780()
 {
 }
 
+// pdb: uploadOpenJobsVariable | hkpDynamicsJobQueueUtils.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a25240()
 {
 }
 
+// pdb: hkBsdNetworkQuit | hkBsdSocket.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a28ab0()
 {
 }
 
+// pdb: hkpAgent1nSector::getEndOfCapacity | hkpAgent1nMachine.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a2a2b0()
 {
 }
 
+// pdb: hkpAgent1nSector::getCapacity | hkpAgent1nMachine.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a2a2c0()
 {
 }
 
+// pdb: hkpGsk::codeBegin | hkpGsk.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a2e9b0()
 {
 }
@@ -480,18 +578,23 @@ __declspec(noinline) void FUN_00a4c750()
 {
 }
 
+// pdb: hkArrayBase<hkContactPoint>::begin | hkpSaveContactPointsUtil.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a4cb70()
 {
 }
 
+// pdb: hkLoadVelocityAccumulators | hkp1dBilateralConstraintBuildJacobian.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: in
 __declspec(noinline) void FUN_00a4e400()
 {
 }
 
+// pdb: hkpMoppCompiler::~hkpMoppCompiler | hkpMoppCompiler.obj | fnv360_0822_retail, callee_sim, low
 __declspec(noinline) void FUN_00a545a0()
 {
 }
 
+// pdb: hkGeomConvexHullBuilder::printEdges | hkGeomConvexHullBuilder.obj | tesv_win, objrun, medium
 __declspec(noinline) void FUN_00a58cd0()
 {
 }
@@ -500,18 +603,22 @@ __declspec(noinline) void FUN_00a64a10()
 {
 }
 
+// pdb: hkDisplayConvex::buildGeometry | hkDisplayConvex.obj | fnv360_0822_retail, vtable, medium
 __declspec(noinline) void FUN_00a67b00()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpConstraintAtom | hkpConstraintSolverReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a6f300()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpSetupStabilizationAtom | hkpConstraintSolverReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a6f310()
 {
 }
 
+// pdb: cleanupLoadedObjecthkpBridgeConstraintAtom | hkpConstraintSolverReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a6f320()
 {
 }
@@ -628,18 +735,23 @@ __declspec(noinline) void FUN_00a6f500()
 {
 }
 
+// pdb: hkArrayBase<hkpSerializedAgentNnEntry *>::getSize | hkpSaveContactPointsUtil.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a6f550()
 {
 }
 
+// pdb: hkAddByteOffsetConst<hkpAgentEntry> | hkpSaveContactPointsUtil.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: base, offset
 __declspec(noinline) void FUN_00a6f560()
 {
 }
 
+// pdb: hkArrayBase<hkpSerializedSubTrack1nInfo *>::getCapacity | hkpSaveContactPointsUtil.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a6f570()
 {
 }
 
+// pdb: hkArrayBase<hkContactPoint>::getCapacity | hkpSaveContactPointsUtil.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a6f580()
 {
 }
@@ -732,6 +844,7 @@ __declspec(noinline) void FUN_00a6f6e0()
 {
 }
 
+// pdb: hkArrayBase<hkpSerializedSubTrack1nInfo *>::clear | hkpSaveContactPointsUtil.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00a6f8b0()
 {
 }
@@ -760,10 +873,12 @@ __declspec(noinline) void FUN_00a73260()
 {
 }
 
+// pdb: __lvx | hkpPoweredChainSolverUtil.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a79680()
 {
 }
 
+// pdb: hkpConvexPenetrationUtil::codeEnd | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00a7e0b0()
 {
 }
@@ -780,6 +895,7 @@ __declspec(noinline) void FUN_00a8bd40()
 {
 }
 
+// pdb: hkVersionPatchManager::getPatches | hkVersionPatchManager.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00a8d050()
 {
 }
@@ -804,14 +920,18 @@ __declspec(noinline) void FUN_00a923e0()
 {
 }
 
+// pdb: hkpWingedEdge::codeBegin | hkpWingedEdge.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkWingedEdge::codeBegin)
 __declspec(noinline) void FUN_00a98f50()
 {
 }
 
+// pdb: hkpWingedEdge::codeEnd | hkpWingedEdge.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkWingedEdge::codeEnd)
 __declspec(noinline) void FUN_00a98f60()
 {
 }
 
+// pdb: hkpMoppEarlyExitObbVirtualMachine::addHit | hkpMoppEarlyExitObbVirtualMachine.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: id, properties
 __declspec(noinline) void FUN_00a9a2b0()
 {
 }
@@ -840,18 +960,22 @@ __declspec(noinline) void FUN_00a9d920()
 {
 }
 
+// pdb: _fpclear | _fpinit_.obj | tesv_win, call_seq, medium
 __declspec(noinline) void FUN_00c159eb()
 {
 }
 
+// pdb: TESFullName::ClearDataComponent | TESFullName.obj | fnv360_0721_beta, vtable_prefix, medium
 __declspec(noinline) void FUN_00c24b70()
 {
 }
 
+// pdb: `dynamic atexit destructor for 'Script::ScriptRefListCrit'' | TESScript.obj | fnv360_0721_retail, objrun_open, low
 __declspec(noinline) void FUN_00d89f60()
 {
 }
 
+// pdb: `LockPickMenu::DoIdle'::`2'::`dynamic atexit destructor for 'lockpickSound'' | LockPickMenu.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00d95c30()
 {
 }
@@ -864,10 +988,12 @@ __declspec(noinline) void FUN_00d967f0()
 {
 }
 
+// pdb: `dynamic atexit destructor for 'FalloutRadio::PipboyVoiceHndl'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00d96890()
 {
 }
 
+// pdb: `dynamic atexit destructor for 'FalloutRadio::PipboyStaticHndl'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00d968a0()
 {
 }

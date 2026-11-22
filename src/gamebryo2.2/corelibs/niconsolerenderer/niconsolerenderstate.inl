@@ -14,6 +14,8 @@ public:
  NiExtraData* GetExtraData(const NiFixedString& key);
 };
 // @fnv 0x00a5bdd0
+// pdb: NiObjectNET::GetExtraData | NiObjectNET.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kKey
 NiExtraData* NiAVObject::GetExtraData(const NiFixedString& key) {
  if (key.value == EmptyFS.value) return 0;
  EnterCriticalSection(&g_NiObjectNETExtraDataLock);

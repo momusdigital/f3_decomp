@@ -8,23 +8,6 @@ struct hkReferencedObject
     void removeReference();
 };
 
-struct FUN_00e04eb0_class
-{
-    char _pad[0x10];
-    hkReferencedObject* m_p;
-    void FUN_00e04eb0(hkReferencedObject* p);
-};
-
-// @fnv 0x00e04eb0
-void FUN_00e04eb0_class::FUN_00e04eb0(hkReferencedObject* apObject)
-{
-    if (apObject)
-        apObject->RetainReference();
-    if (m_p)
-        m_p->removeReference();
-    m_p = apObject;
-}
-
 namespace fnv_00e04ee0 {
 struct hkReferencedObject
 {
@@ -32,41 +15,7 @@ struct hkReferencedObject
     void removeReference();
 };
 
-struct FUN_00e04ee0_class
-{
-    void __thiscall FUN_00e04ee0(hkReferencedObject* p);
-    char _pad[0x14];
-    hkReferencedObject* m_p;
-};
-
-// @fnv 0x00e04ee0
-void __thiscall FUN_00e04ee0_class::FUN_00e04ee0(hkReferencedObject* apObject)
-{
-    if (apObject)
-        apObject->RetainReference();
-    if (m_p)
-        m_p->removeReference();
-    m_p = apObject;
-}
 }  // namespace fnv_00e04ee0
-
-struct D481D0Class
-{
-    const char* getName() const;
-};
-
-struct FUN_00e04ea0_class
-{
-    char _pad[0xc];
-    D481D0Class* p;
-    const char* FUN_00e04ea0();
-};
-
-// @fnv 0x00e04ea0
-const char* FUN_00e04ea0_class::FUN_00e04ea0()
-{
-    return p->getName();
-}
 
 struct FUN_00e05090_class;
 
@@ -80,35 +29,12 @@ struct FUN_00e05090_manager
     virtual void FUN_00e05090_free(FUN_00e05090_class* pObject, unsigned short resourceId);
 };
 
-struct FUN_00e05090_router
-{
-    char _pad[0x10];
-    FUN_00e05090_manager* m_pManager;
-};
-
-extern FUN_00e05090_router* _D1A0E0GetMemoryRouter();
-
 struct FUN_00e05090_class
 {
     virtual FUN_00e05090_class* FUN_00e05090(int flags);
     unsigned short m_resourceId;
     void ReleaseResource();
 };
-
-FUN_00e05090_class* FUN_00e05090_class::FUN_00e05090(int flags)
-{
-    ReleaseResource();
-
-    if (flags & 1)
-    {
-        FUN_00e05090_router* pRouter = _D1A0E0GetMemoryRouter();
-        pRouter->m_pManager->FUN_00e05090_free(this, m_resourceId);
-    }
-
-    return this;
-}
-
-int __cdecl FUN_00cb0fa0(int, int);
 
 struct hkBoolD46D
 {
@@ -128,81 +54,14 @@ class FUN_00d46d40_s
     hkBoolD46D FUN_00d46d80(FUN_00d46d40_s* pkNode);
 };
 
-// @fnv 0x00d46d80
-hkBoolD46D FUN_00d46d40_s::FUN_00d46d80(FUN_00d46d40_s* pkNode)
-{
-    while (pkNode)
-    {
-        if (FUN_00cb0fa0((int)pkNode->FUN_00d46d40(), (int)FUN_00d46d40()) == 0)
-            return true;
-        pkNode = pkNode->FUN_00d46d50();
-    }
-    return false;
-}
-
 // @fnv 0x00e04e50
+// pdb: hkpConvexPieceMeshShape::getFirstKey | hkpConvexPieceMeshShape.obj | fnv360_0822_retail, objrun_open, low
 int __cdecl FUN_00e04e50()
 {
     return 0;
 }
 
-// @fnv 0x00e04e60
-void __stdcall FUN_00e04e60(int a, int b)
-{}
-
-struct FUN_00e04e70_class
-{
-    virtual void vf0();
-    virtual void vf1();
-    virtual void vf2();
-    virtual void vf3();
-    virtual void vf4();
-    virtual void vf5();
-    virtual int vf6(void* first, void* second);
-    int unknown04;
-    void* value08;
-    void* value0c;
-    int FUN_00e04e70(void* first, void* second);
-};
-// Calls vf6 with the two arguments, clears value08 and value0c, and returns the result of vf6.
-// @fnv 0x00e04e70
-int FUN_00e04e70_class::FUN_00e04e70(void* first, void* second)
-{
-    int result = vf6(first, second);
-    value08 = 0;
-    value0c = 0;
-    return result;
-}
-
-struct FUN_00e04f10_Resource
-{
-    int refs;
-};
-extern "C" void __fastcall FUN_00c90510(FUN_00e04f10_Resource* resource);
-struct FUN_00e04f10_Manager
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual FUN_00e04f10_Resource* GetSecond();
-    virtual FUN_00e04f10_Resource* GetFirst();
-};
-extern "C" FUN_00e04f10_Manager* DAT_01268b08;
 extern "C" void* DAT_010ea4dc[];
-struct FUN_00e04f10_Values
-{
-    int first, second;
-};
-class FUN_00e04f10_Class
-{
-  public:
-    void** vtable;
-    unsigned short unk04, refCount;
-    FUN_00e04f10_Values values;
-    FUN_00e04f10_Resource* first;
-    FUN_00e04f10_Resource* second;
-    FUN_00e04f10_Class* Initialize(const FUN_00e04f10_Values* init);
-};
 // @f3 0x006d5980 (community match, verified in this file)
 namespace f3m_006d5980 {
 struct Heap {
@@ -230,6 +89,7 @@ struct Owner {
     void FUN_006d5980();
 };
 
+// pdb: BGSSaveLoadManager::DeleteSaveGameList | BGSSaveLoadManager.obj | fnv360_0721_beta, caller, low, conflict (skyrim: BGSCellNumericIDArrayMap::AddReference)
 void Owner::FUN_006d5980()
 {
     for (ListNode* node = list; node; node = node->next) {
@@ -247,11 +107,6 @@ void Owner::FUN_006d5980()
 
 
 namespace fnv_00e04f80 {
-struct Resource_00e04f80
-{
-    const char* FUN_00d46d40();
-    unsigned int FUN_00d470d0();
-};
 
 struct Referenced_00e04f80
 {
@@ -274,85 +129,8 @@ struct ListenerVTable_00e04f80
     ResourceCallback_00e04f80 onResourceRemoved;
 };
 
-struct Manager_00e04f80
-{
-    virtual void vfunc00();
-    virtual void vfunc04();
-    virtual void removeResource(Referenced_00e04f80* owner, unsigned int resourceId);
-};
-
-struct Router_00e04f80
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    Manager_00e04f80* manager;
-};
-
-struct Registry_00e04f80
-{
-    char* FUN_00d46d80(char* status, Resource_00e04f80* resource);
-};
-
-extern Registry_00e04f80 DAT_01268748;
 extern char DAT_010ea4dc;
-extern char DAT_0102e388;
-extern Router_00e04f80* __cdecl FUN_00c85750();
 
-struct FUN_00e04f80_class
-{
-    void* vtable;
-    unsigned short resourceId;
-    unsigned short unk06;
-    Referenced_00e04f80* owner;
-    Resource_00e04f80* resource;
-    Referenced_00e04f80* context;
-    Listener_00e04f80* listener;
-
-    void ReleaseResource();
-};
-
-// @fnv 0x00e04f80
-void FUN_00e04f80_class::ReleaseResource()
-{
-    Resource_00e04f80* oldResource = resource;
-    vtable = &DAT_010ea4dc;
-    if (oldResource)
-    {
-        char status;
-        if (*DAT_01268748.FUN_00d46d80(&status, oldResource))
-        {
-            owner->FUN_00c905b0();
-        }
-        else
-        {
-            Listener_00e04f80* handler = listener;
-            if (handler)
-            {
-                ListenerVTable_00e04f80* methods = handler->methods;
-                ResourceCallback_00e04f80* callbackSlot = &methods->onResourceRemoved;
-                const char* name = resource->FUN_00d46d40();
-                (handler->**callbackSlot)(owner, name);
-            }
-
-            unsigned int uiResourceId = resource->FUN_00d470d0();
-            Referenced_00e04f80* savedOwner = owner;
-            Router_00e04f80* router = FUN_00c85750();
-            router->manager->removeResource(savedOwner, uiResourceId);
-        }
-    }
-
-    if (listener)
-        ((Referenced_00e04f80*)listener)->FUN_00c905b0();
-    ((volatile FUN_00e04f80_class*)this)->listener = 0;
-
-    Referenced_00e04f80* pRemainingContext = ((volatile FUN_00e04f80_class*)this)->context;
-    if (pRemainingContext)
-        pRemainingContext->FUN_00c905b0();
-    ((volatile FUN_00e04f80_class*)this)->context = 0;
-    ((volatile FUN_00e04f80_class*)this)->vtable = &DAT_0102e388;
-}
 }  // namespace fnv_00e04f80
 
 namespace fnv_00e05030 {
@@ -368,41 +146,4 @@ struct FUN_00d46d40_s
     hkBool FUN_00d46d80(FUN_00d46d40_s* other);
 };
 
-struct Registry
-{
-    virtual void unk0();
-    virtual void unk1();
-    virtual void unk2();
-    virtual void unk3();
-    virtual FUN_00d46d40_s* GetClassByName(const char* name);
-};
-
-struct MyClass
-{
-    int unk00;
-    int unk04;
-    void* unk08;
-    D481D0Class* unk0C;
-    Registry* unk10;
-
-    void* LookupByName(const char* name, hkBool b);
-};
-
-// Looks up two registry nodes by the object's name and the given name, compares them, and returns unk08 if they match or name is null, otherwise 0.
-// @fnv 0x00e05030
-void* MyClass::LookupByName(const char* pcName, hkBool abMatch)
-{
-    if (pcName)
-    {
-        Registry* reg = unk10;
-        const char* n = unk0C->getName();
-        FUN_00d46d40_s* node1 = reg->GetClassByName(n);
-        FUN_00d46d40_s* node2 = reg->GetClassByName(pcName);
-        abMatch = node2->FUN_00d46d80(node1);
-        if (abMatch.m_cBooleanValue)
-            return unk08;
-        return 0;
-    }
-    return unk08;
-}
 }  // namespace fnv_00e05030

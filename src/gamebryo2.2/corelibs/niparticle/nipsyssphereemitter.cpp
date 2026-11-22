@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/niparticle/nipsyssphereemitter.cpp: NiPSysSphereEmitter, PSysSphereEmitter (10 functions)
+// gamebryo2.2/corelibs/niparticle/nipsyssphereemitter.cpp: NiPSysSphereEmitter, PSysSphereEmitter (9 functions)
 #include "f3_common.h"
 #include "nipsyssphereemitter_decls.h"
 // Calls the base LoadBinary, then reads a 4-byte value from the stream into a member and advances the stream position.
 // @fnv 0x00c20040
+// pdb: NiPSysSphereEmitter::LoadBinary | NiPSysSphereEmitter.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiPSysSphereEmitter::LoadBinary(NiStream& stream)
 {
     NiPSysVolumeEmitter::LoadBinary(stream);
@@ -15,6 +17,7 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202510;
 
 // @fnv 0x00c1fe10
+// pdb: NiPosData::GetRTTI | NiPathInterpolator.obj | fnv360_0822_retail, objrun_open, medium
 GlobalObjectO2_00a7b610* __cdecl FUN_00c1fe10()
 {
     return &g_01202510;
@@ -30,7 +33,8 @@ struct BSFadeNode
     float m_f58;
 };
 // @fnv 0x00c1fff0
-BSFadeNode* __cdecl FUN_00c1fff0()
+// pdb: NiPSysSphereEmitter::CreateObject | NiPSysSphereEmitter.obj | fnv360_0822_retail, objrun + bridge(hash|objopen_prop), high
+BSFadeNode* __cdecl NiPSysSphereEmitter_CreateObject()
 {
     BSFadeNode* p = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x5c));
     if (p)
@@ -54,33 +58,13 @@ struct Holder20020
 };
 // Calls FUN_00c31750 on this, then deletes this with size 0x5c when bit 0 of f is set, and returns this.
 // @fnv 0x00c20020
+// pdb: NiPathInterpolator::`scalar deleting destructor' | NiPathInterpolator.obj | fnv360_0721_beta, objrun, medium
 void* Holder20020::FUN_00c20020(unsigned int auiFlags)
 {
     ((Holder31750*)this)->FUN_00c31750();
     if (auiFlags & 1)
         _delete(this, 0x5c);
     return this;
-}
-
-struct Base00c1fde0
-{
-    char _pad[0x58];
-    bool __thiscall FUN_00c31b80(void* pkObject);
-};
-struct Holder00c1fde0 : Base00c1fde0
-{
-    float m_fCylinderRadius;
-    bool __thiscall FUN_00c1fde0(void* pkObject);
-};
-// @fnv 0x00c1fde0
-bool __thiscall Holder00c1fde0::FUN_00c1fde0(void* pkObject)
-{
-    Holder00c1fde0* pkDest = (Holder00c1fde0*)pkObject;
-    if (!FUN_00c31b80(pkObject))
-        return false;
-    if (m_fCylinderRadius != pkDest->m_fCylinderRadius)
-        return false;
-    return true;
 }
 
 struct FUN_00c1ffa0_s
@@ -91,6 +75,8 @@ struct FUN_00c1ffa0_s
 };
 
 // @fnv 0x00c1ffa0
+// pdb: NiPSysSphereEmitter::CreateClone | NiPSysSphereEmitter.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kCloning
 BSFadeNode* FUN_00c1ffa0_s::CreateFadeNode(void* pkCloningProcess)
 {
     BSFadeNode* pkObject = new BSFadeNode;
@@ -109,7 +95,7 @@ BSFadeNode* FUN_00c1ffa0_s::CreateFadeNode(void* pkCloningProcess)
     return pkObject;
 }
 
-// FUN_00c20080 - the sphere emitter's stream loader.
+// NiPSysSphereEmitter_SaveBinary - the sphere emitter's stream loader.
 //
 // The pack's NiStream / NiBinaryStream declarations do not match the original
 // code: the original takes the binary stream from stream+0x250 (the pack says
@@ -155,11 +141,12 @@ struct PSysVolumeEmitter
 struct PSysSphereEmitter : PSysVolumeEmitter
 {
     float m_fBoundRadius;  // +0x58
-    void FUN_00c20080(GameStream& stream);
+    void NiPSysSphereEmitter_SaveBinary(GameStream& stream);
 };
 
 // @fnv 0x00c20080
-void PSysSphereEmitter::FUN_00c20080(GameStream& stream)
+// pdb: NiPSysSphereEmitter::SaveBinary | NiPSysSphereEmitter.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objopen_prop) + skyrim(caller_sim), high
+void PSysSphereEmitter::NiPSysSphereEmitter_SaveBinary(GameStream& stream)
 {
     PSysVolumeEmitter::LoadBinary(stream);
     BinaryStream* input = stream.input;
@@ -196,6 +183,8 @@ struct Emitter00c200c0
 
 // Appends a value derived from DAT_01202510 and a value computed from m_f58 into the array p, growing it when full.
 // @fnv 0x00c200c0
+// pdb: NiPSysSphereEmitter::GetViewerStrings | NiPSysSphereEmitter.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void __thiscall Emitter00c200c0::AppendTwoValues(FUN_00c200c0_Arr* p)
 {
     FUN_00c31db0(p);
@@ -246,6 +235,7 @@ struct FUN_00c31af0 : S_00c31af0_Base
     FUN_00c31af0();
 };
 // @fnv 0x00c31af0
+// pdb: NiPSysVolumeEmitter::NiPSysVolumeEmitter | NiPSysVolumeEmitter.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00c31af0::FUN_00c31af0() : S_00c31af0_Base()
 {
     unk54 = 0;
@@ -271,7 +261,7 @@ struct SphereMatrix3
 
 struct SphereEmitter00c1fe20 : NiPSysSphereEmitter
 {
-    void GenerateSpherePoint(SphereMatrix3& kRotate, SpherePoint3& kPosition, SpherePoint3& kMotionVelocity);
+    void NiPSysSphereEmitter_ComputeVolumeInitialPositionAndVelocity(SphereMatrix3& kRotate, SpherePoint3& kPosition, SpherePoint3& kMotionVelocity);
 };
 
 static inline float UnitRandom()
@@ -280,7 +270,10 @@ static inline float UnitRandom()
 }
 
 // @fnv 0x00c1fe20
-void SphereEmitter00c1fe20::GenerateSpherePoint(SphereMatrix3& kRotate, SpherePoint3& kPosition,
+// pdb: NiPSysSphereEmitter::ComputeVolumeInitialPositionAndVelocity | NiPSysSphereEmitter.obj | fnv360_0822_retail, objrun, high
+// pdb params: kEmitterToPSys, kPosition, kVelocity
+// pdb: NiPSysSphereEmitter::ComputeVolumeInitialPositionAndVelocity | NiPSysSphereEmitter.obj | fnv360_0822_retail, objrun, high (was: GenerateSpherePoint)
+void SphereEmitter00c1fe20::NiPSysSphereEmitter_ComputeVolumeInitialPositionAndVelocity(SphereMatrix3& kRotate, SpherePoint3& kPosition,
                                                 SpherePoint3& kMotionVelocity)
 {
     float fRadius = m_fBoundRadius * UnitRandom();

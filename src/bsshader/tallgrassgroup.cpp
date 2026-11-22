@@ -172,6 +172,7 @@ class FUN_00bd8f90
 };
 
 // @fnv 0x00bd8f90
+// pdb: TallGrassGroup::~TallGrassGroup | TallGrassGroup.obj | fnv360_0822_retail, call_gap, low
 FUN_00bd8f90::~FUN_00bd8f90()
 {
     m_spNode->InsertChild(m_pReferencedObject);
@@ -720,6 +721,8 @@ struct FUN_00bd8ae0
 
 // Initializes the object from a ModelSource, allocating index arrays, building a GridBuffer, and attaching geometry and node sub-objects.
 // @fnv 0x00bd8ae0
+// pdb: TallGrassGroup::TallGrassGroup | TallGrassGroup.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apCachedGeometry, aiCellX, aiCellY, abLowDetail
 FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned char auFlag)
 {
 

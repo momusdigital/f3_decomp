@@ -42,6 +42,8 @@ struct LocalObj
 };
 
 // @fnv 0x00c812d0
+// pdb: bhkUtilFunctions::FindCollisionObjectBFS | bhkUtilFunctions.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, auiMaxLevel
 int __cdecl FUN_00c812d0(void* a1, void* a2)
 {
     LocalObj local;
@@ -82,7 +84,8 @@ void FUN_00c68900(NiAVObject* pkObject, CollisionObjectCountContext* pkContext,
 extern CollisionObjectCountCallback DAT_011afe9c;
 
 // @fnv 0x00c6a350
-bool FUN_00c6a350(NiAVObject* pkObject, int iValue, bool bRecurse, bool bForce, bool bOption)
+// pdb: bhkWorld::SetMotion | bhkWorld.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(caller), high
+bool bhkWorld_SetMotion(NiAVObject* pkObject, int iValue, bool bRecurse, bool bForce, bool bOption)
 {
     bool bResult = false;
     if (pkObject && (bForce || C6A350IsEnabled(pkObject)))

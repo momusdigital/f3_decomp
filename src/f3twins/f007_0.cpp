@@ -60,7 +60,7 @@ void FUN_00a57ba0();
 void FUN_00a05900();
 void FUN_00a2a1c0();
 void FUN_00a4a7b0();
-void FUN_00a77a70();
+void hkSolverExport_exportImpulsesAndRhs();
 void FUN_00a80660();
 void FUN_00929ad0();
 void FUN_00863fa0();
@@ -150,7 +150,7 @@ void FUN_00bc7180();
 void FUN_00bce0c0();
 void FUN_00bcd130();
 void FUN_00be48a0();
-void FUN_00be4930();
+void FutBinaryFileC_readHeader();
 void FUN_00bfcb40();
 void FUN_00bf5110();
 void FUN_00bf9990();
@@ -159,31 +159,40 @@ void FUN_00825ad0();
 void FUN_0048c5c0();
 void FUN_005a26a0();
 
+// pdb: QueuedReplacementKFList::CheckFinished | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 __declspec(noinline) void FUN_00424570()
 {
     FUN_00aa5240();
 }
 
+// pdb: TESForm::AddChunkArray | TESForm.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeChunkID, aeChunkID, apData, apData, aiCount, aiCount
 __declspec(noinline) void FUN_00455b30()
 {
     FUN_00455570();
 }
 
+// pdb: BSAnimGroupSequence::GetViewerStrings | BSAnimGroupSequence.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 __declspec(noinline) void FUN_0049cab0()
 {
     FUN_008ae420();
 }
 
+// pdb: BGSStaticCollection::ClearData | BGSStaticCollection.obj | fnv360_0721_beta, objrun, medium
 __declspec(noinline) void FUN_004a7320()
 {
     FUN_00c24b70();
 }
 
+// pdb: BGSTerrainManager::EnableLODWaterProcessing | BGSTerrainManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abEnable
 __declspec(noinline) void FUN_00615510()
 {
     FUN_00614610();
 }
 
+// pdb: Interface::GetEnemyActor | Interface.obj | fnv360_0822_retail, call_gap, low
 __declspec(noinline) void FUN_00619560()
 {
     FUN_00644790();
@@ -194,16 +203,21 @@ __declspec(noinline) void FUN_00640080()
     FUN_0063fda0();
 }
 
+// pdb: ValueModifierEffect::GetSaveSize | AbsorbEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 __declspec(noinline) void FUN_006a05d0()
 {
     FUN_006a1980();
 }
 
+// pdb: TelekinesisEffect::CopyData | TelekinesisEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apDestination
 __declspec(noinline) void FUN_006a7f70()
 {
     FUN_006bc7f0();
 }
 
+// pdb: ParalysisEffect::Finish | ParalysisEffect.obj | fnv360_0721_retail, vtable, medium
 __declspec(noinline) void FUN_006b9070()
 {
     FUN_006bce80();
@@ -219,161 +233,218 @@ __declspec(noinline) void FUN_006cbce0()
     FUN_006caf60();
 }
 
+// pdb: Actor::SetHeading | Actor.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: apTargetObject
 __declspec(noinline) void FUN_0070c850()
 {
     FUN_00765380();
 }
 
+// pdb: Character::SaveGame | Character.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: aiFlags
 __declspec(noinline) void FUN_007289d0()
 {
     FUN_007003c0();
 }
 
+// pdb: Character::InitLoadGame | Character.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: aiFlags, aiOldFlags
 __declspec(noinline) void FUN_00728a20()
 {
     FUN_0070fd50();
 }
 
+// pdb: GrenadeProjectile::FinishLoadGame | GrenadeProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 __declspec(noinline) void FUN_007c1d80()
 {
     FUN_007c9720();
 }
 
+// pdb: Projectile::Load | Projectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 __declspec(noinline) void FUN_007c75f0()
 {
     FUN_004f4350();
 }
 
+// pdb: CombatProcedureAttackGrenade::Shutdown | CombatProcedureAttackGrenade.obj | fnv360_0822_retail, vtable, medium
 __declspec(noinline) void FUN_007d1e30()
 {
     FUN_007ab580();
 }
 
+// pdb: NiSequenceStreamHelper::RegisterStreamables | NiSequenceStreamHelper.obj | fnv360_0822_retail, call_seq, high
+// pdb params: stream
 __declspec(noinline) void FUN_00825c20()
 {
     FUN_00824e10();
 }
 
+// pdb: NiSequenceStreamHelper::IsEqual | NiSequenceStreamHelper.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pObject
 __declspec(noinline) void FUN_00827b30()
 {
     FUN_008254b0();
 }
 
+// pdb: NiSourceCubeMap::SaveBinary | NiSourceCubeMap.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00830030()
 {
     FUN_0082fdc0();
 }
 
-__declspec(noinline) void FUN_0083c0f0()
+// pdb: NiTriShape::LinkObject | NiTriShape.obj | fnv360_0721_beta, objrun_prop + bridge(vtable|objopen_prop) + skyrim(caller_sim), high
+__declspec(noinline) void NiTriShape_LinkObject()
 {
     FUN_008553f0();
 }
 
-__declspec(noinline) void FUN_0083f540()
+// pdb: NiTriShape::CopyMembers | NiTriShape.obj | fnv360_0822_retail, caller_sim + bridge(call_dedup|caller_sim) + skyrim(objrun_prop), high
+__declspec(noinline) void NiTriShape_CopyMembers()
 {
     FUN_00853ec0();
 }
 
+// pdb: NiLines::LoadBinary | NiLines.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_0083f7f0()
 {
     FUN_0084b7b0();
 }
 
+// pdb: NiAmbientLight::LoadBinary | NiAmbientLight.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 __declspec(noinline) void FUN_008401f0()
 {
     FUN_0083c460();
 }
 
+// pdb: BSFurnitureMarker::RegisterStreamables | BSFurnitureMarker.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 __declspec(noinline) void FUN_00849750()
 {
     FUN_008459a0();
 }
 
+// pdb: NiScreenGeometry::LoadBinary | NiOldScreenSpace.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 __declspec(noinline) void FUN_00853200()
 {
     FUN_00863100();
 }
 
+// pdb: NiLines::RegisterStreamables | NiLines.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiTriBasedGeom::LoadBinary)
+// pdb params: kStream
 __declspec(noinline) void FUN_00853f00()
 {
     FUN_0084afd0();
 }
 
+// pdb: NiXenonFragmentShader::NextPass | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_sim, low, conflict (bridge: NiD3DDefaultShader::PostProcessPipeline)
 __declspec(noinline) void FUN_008862f0()
 {
     FUN_0088d3e0();
 }
 
+// pdb: NiD3DShader::Initialize | NiD3DShader.obj | fnv360_0822_retail, call_seq, medium
 __declspec(noinline) void FUN_0088d360()
 {
     FUN_0088bd60();
 }
 
-__declspec(noinline) void FUN_008a0700()
+// pdb: NiFilename::GetFullPath | NiFilename.obj | fnv360_0822_retail, call_gap_sim + bridge(call_seq|call_gap) + skyrim(call_seq), high
+__declspec(noinline) void NiFilename_GetFullPath()
 {
     FUN_008a0540();
 }
 
-__declspec(noinline) void FUN_008b3eb0()
+// pdb: BSMultiTargetTreadTransfController::IsEqual | BSMultiTargetTreadTransfController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+__declspec(noinline) void BSMultiTargetTreadTransfController_IsEqual()
 {
     FUN_00ac88b0();
 }
 
+// pdb: NiColorExtraDataController::IsEqual | NiColorExtraDataController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 __declspec(noinline) void FUN_008bb5e0()
 {
     FUN_008d0e40();
 }
 
+// pdb: BSNodeReferences::RegisterStreamables | BSReference.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 __declspec(noinline) void FUN_008c1240()
 {
     FUN_008257d0();
 }
 
+// pdb: bhkBlendCollisionObjectAddRotation::LinkObject | bhkBlendCollisionObjectAddRotation.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 __declspec(noinline) void FUN_00901ac0()
 {
     FUN_008f3310();
 }
 
+// pdb: bhkExtendedMeshShape::CanShare | bhkExtendedMeshShape.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: arCloneData
 __declspec(noinline) void FUN_00911180()
 {
     FUN_008f7650();
 }
 
+// pdb: bhkSPCollisionObject::IsEqual | bhkSPCollisionObject.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apObject
 __declspec(noinline) void FUN_00929cd0()
 {
     FUN_008d1f50();
 }
 
+// pdb: bhkExtraData::ProcessClone | bhkExtraData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arCloneData
 __declspec(noinline) void FUN_00945070()
 {
     FUN_00825890();
 }
 
+// pdb: hkFixedConstraintCinfo::SaveBinary | bhkFixedConstraint.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_0094b740()
 {
     FUN_009dd840();
 }
 
+// pdb: bhkMoppBvTreeShape::LinkObject | bhkMoppBvTreeShape.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: arStream
 __declspec(noinline) void FUN_0094d480()
 {
     FUN_00910eb0();
 }
 
+// pdb: bhkMoppBvTreeShape::RegisterStreamables | bhkMoppBvTreeShape.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: arStream
 __declspec(noinline) void FUN_0094d490()
 {
     FUN_00910ef0();
 }
 
+// pdb: bhkConvexSweepShape::LinkObject | bhkConvexSweepShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 __declspec(noinline) void FUN_009520a0()
 {
     FUN_008f7450();
 }
 
+// pdb: bhkBvTreeShape::IsEqual | bhkBvTreeShape.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apObject
 __declspec(noinline) void FUN_009522b0()
 {
     FUN_008f7550();
 }
 
+// pdb: hkQsTransform::copyToTransform | hkQsTransform.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: transformOut
 __declspec(noinline) void FUN_009649e0()
 {
     FUN_00964800();
@@ -384,12 +455,14 @@ __declspec(noinline) void FUN_0096ab80()
     FUN_008f75b0();
 }
 
+// pdb: hkThread::~hkThread | hkWin32Thread.obj | tesv_win, caller_sim, low
 __declspec(noinline) void FUN_00984b30()
 {
     FUN_00984a80();
 }
 
-__declspec(noinline) void FUN_009b0690()
+// pdb: hkClass::getMember | hkClass.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_seq) + skyrim(call_gap), high
+__declspec(noinline) void hkClass_getMember()
 {
     FUN_009b0650();
 }
@@ -399,59 +472,78 @@ __declspec(noinline) void FUN_009b20b0()
     FUN_009b1ae0();
 }
 
+// pdb: hkpListAgent::invalidateTim | hkpListAgent.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpListAgent::staticGetClosestPoints)
+// pdb params: input
 __declspec(noinline) void FUN_009bed90()
 {
     FUN_009be640();
 }
 
-__declspec(noinline) void FUN_009bedc0()
+// pdb: hkpListAgent::staticLinearCast | hkpListAgent.obj | fnv360_0822_retail, caller_sim + bridge(caller_sim|objrun) + skyrim(caller_sim), high
+__declspec(noinline) void hkpListAgent_staticLinearCast()
 {
     FUN_009be680();
 }
 
+// pdb: hkpListAgent::calcContentStatistics | hkpListAgent.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpListAgent::staticGetPenetrations)
+// pdb params: collector, cls
 __declspec(noinline) void FUN_009bedd0()
 {
     FUN_009be600();
 }
 
+// pdb: hkGenericConstraintCinfo::LoadBinary | bhkGenericConstraint.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_009dd830()
 {
     FUN_008fc580();
 }
 
+// pdb: hkGenericConstraintCinfo::SaveBinary | bhkGenericConstraint.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_009dd840()
 {
     FUN_008fc5d0();
 }
 
+// pdb: bhkConstraintChain::SaveBinary | bhkConstraintChain.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_009e0cc0()
 {
     FUN_008fbf30();
 }
 
+// pdb: hkGeometryUtility::createVerticesFromPlaneEquations | hkGeometryUtility.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: planeEquationsIn, vertsOut
 __declspec(noinline) void FUN_009e8bb0()
 {
     FUN_00a57ba0();
 }
 
+// pdb: hkMathUtil::decomposeMatrix | hkMathUtil.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: matrixIn, decompOut
 __declspec(noinline) void FUN_00a061f0()
 {
     FUN_00a05900();
 }
 
+// pdb: hkPackfileData::setContentsWithName | hkPackfileData.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: topLevelObject, typeName
 __declspec(noinline) void FUN_00a297c0()
 {
     FUN_00a2a1c0();
 }
 
-__declspec(noinline) void FUN_00a4a9b0()
+// pdb: hkPackfileWriter::addSection | hkPackfileWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+__declspec(noinline) void hkPackfileWriter_addSection()
 {
     FUN_00a4a7b0();
 }
 
-__declspec(noinline) void FUN_00a79670()
+// pdb: hkExportImpulsesAndRhs | hkpSolverExport.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+__declspec(noinline) void hkExportImpulsesAndRhs()
 {
-    FUN_00a77a70();
+    hkSolverExport_exportImpulsesAndRhs();
 }
 
 __declspec(noinline) void FUN_00a808a0()
@@ -464,26 +556,36 @@ __declspec(noinline) void FUN_00a82280()
     FUN_00929ad0();
 }
 
+// pdb: BSXFlags::LoadBinary | BSXFlags.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00aa5ee0()
 {
     FUN_00863fa0();
 }
 
+// pdb: BSDecalPlacementVectorExtraData::LinkObject | BSDecalPVExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00aa5ef0()
 {
     FUN_008646e0();
 }
 
+// pdb: BSXFlags::SaveBinary | BSXFlags.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00aa5f00()
 {
     FUN_00864a70();
 }
 
+// pdb: BSDecalPlacementVectorExtraData::IsEqual | BSDecalPVExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 __declspec(noinline) void FUN_00aa5f10()
 {
     FUN_00863eb0();
 }
 
+// pdb: BSRangeNode::LinkObject | BSRangeNode.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 __declspec(noinline) void FUN_00aa6f70()
 {
     FUN_0082e780();
@@ -494,41 +596,56 @@ __declspec(noinline) void FUN_00aa9dc0()
     FUN_008f24c0();
 }
 
+// pdb: BSParallelTaskThread::OnShutdown | BSParallelTaskManager.obj | fnv360_0822_retail, vtable, medium
 __declspec(noinline) void FUN_00aa9dd0()
 {
     FUN_008f17c0();
 }
 
+// pdb: BSBlastNode::SaveBinary | BSBlastNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00aaaed0()
 {
     FUN_00aa9bd0();
 }
 
+// pdb: BSBlastNode::LoadBinary | BSBlastNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00aab020()
 {
     FUN_00aa9b20();
 }
 
+// pdb: BSBlastNode::LinkObject | BSBlastNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00aab190()
 {
     FUN_00aa6f70();
 }
 
+// pdb: BSBlastNode::IsEqual | BSBlastNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 __declspec(noinline) void FUN_00aab1a0()
 {
     FUN_00aa9880();
 }
 
+// pdb: TESCreature::Revert | TESCreature.obj | fnv360_0822_retail, vtable, high
+// pdb params: apLoadGameBuffer
 __declspec(noinline) void FUN_00aad680()
 {
     FUN_008cbd30();
 }
 
+// pdb: BSParticleSystemManager::GetViewerStrings | BSParticleSystemManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 __declspec(noinline) void FUN_00aae270()
 {
     FUN_0082ee90();
 }
 
+// pdb: BSFurnitureMarker::IsEqual | BSFurnitureMarker.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 __declspec(noinline) void FUN_00ab0090()
 {
     FUN_00845af0();
@@ -539,46 +656,64 @@ __declspec(noinline) void FUN_00ab40a0()
     FUN_00abb340();
 }
 
+// pdb: BSScissorTriShape::GetViewerStrings | BSScissorTriShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 __declspec(noinline) void FUN_00ab5560()
 {
     FUN_0083f700();
 }
 
+// pdb: BSNiNode::CopyMembers | BSNiNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pDest, arCloneData
 __declspec(noinline) void FUN_00ab5d90()
 {
     FUN_0082daa0();
 }
 
+// pdb: BSParentVelocityModifier::RegisterStreamables | BSParentVelocityModifier.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 __declspec(noinline) void FUN_00ab6230()
 {
     FUN_00ac5dd0();
 }
 
+// pdb: BSWArray::LoadBinary | BSWArray.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00ab7b30()
 {
     FUN_00863c60();
 }
 
+// pdb: BSWArray::SaveBinary | BSWArray.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00ab7b60()
 {
     FUN_00863cf0();
 }
 
+// pdb: BSWArray::IsEqual | BSWArray.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 __declspec(noinline) void FUN_00ab7b70()
 {
     FUN_00863ae0();
 }
 
+// pdb: BSPSysArrayEmitter::LoadBinary | BSPSysArrayEmitter.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00ab7de0()
 {
     FUN_00ac6210();
 }
 
+// pdb: BSPSysArrayEmitter::SaveBinary | BSPSysArrayEmitter.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00ab7df0()
 {
     FUN_00ac6260();
 }
 
+// pdb: BSPSysArrayEmitter::IsEqual | BSPSysArrayEmitter.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 __declspec(noinline) void FUN_00ab7e00()
 {
     FUN_00ac6280();
@@ -589,156 +724,213 @@ __declspec(noinline) void FUN_00ab7ec0()
     FUN_00ac5e40();
 }
 
+// pdb: NiPSysBoxEmitter::ProcessClone | NiPSysBoxEmitter.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 __declspec(noinline) void FUN_00abf4f0()
 {
     FUN_00ac62f0();
 }
 
+// pdb: NiMeshParticleSystem::SetModelData | NiMeshParticleSystem.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: BSStripParticleSystem::LinkObject)
+// pdb params: pkModelData
 __declspec(noinline) void FUN_00ac1410()
 {
     FUN_008553e0();
 }
 
+// pdb: BSStripParticleSystem::RegisterStreamables | BSStripParticleSystem.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac1450()
 {
     FUN_00abaec0();
 }
 
+// pdb: BSStripParticleSystem::SaveBinary | BSStripParticleSystem.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac1460()
 {
     FUN_00abb210();
 }
 
+// pdb: BSParentVelocityModifier::LinkObject | BSParentVelocityModifier.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 __declspec(noinline) void FUN_00ac1ae0()
 {
     FUN_00ac5db0();
 }
 
+// pdb: NiPSysData::RegisterStreamables | NiPSysData.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiTriStripsData::LinkObject)
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac4830()
 {
     FUN_00855550();
 }
 
+// pdb: BSStripParticleSystem::OnVisible | BSStripParticleSystem.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kCuller
 __declspec(noinline) void FUN_00ac5140()
 {
     FUN_0084a950();
 }
 
+// pdb: BSStripParticleSystem::LoadBinary | BSStripParticleSystem.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac5150()
 {
     FUN_00abb1b0();
 }
 
+// pdb: BSStripParticleSystem::LinkObject | BSStripParticleSystem.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac5160()
 {
     FUN_00abb5b0();
 }
 
+// pdb: BSStripParticleSystem::IsEqual | BSStripParticleSystem.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 __declspec(noinline) void FUN_00ac5170()
 {
     FUN_00abafe0();
 }
 
-__declspec(noinline) void FUN_00ac6200()
+// pdb: NiPSysVolumeEmitter::CopyMembers | NiPSysVolumeEmitter.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(objrun_open), high
+__declspec(noinline) void NiPSysVolumeEmitter_CopyMembers()
 {
     FUN_00ac1a70();
 }
 
+// pdb: NiPSysAirFieldModifier::RegisterStreamables | NiPSysAirFieldModifier.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac6250()
 {
     FUN_00ab6230();
 }
 
+// pdb: NiPSysResetOnLoopCtlr::SaveBinary | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac75b0()
 {
     FUN_00838320();
 }
 
+// pdb: NiPSysResetOnLoopCtlr::LoadBinary | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac88a0()
 {
     FUN_008381d0();
 }
 
+// pdb: NiPSysResetOnLoopCtlr::IsEqual | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkObject
 __declspec(noinline) void FUN_00ac88b0()
 {
     FUN_00837860();
 }
 
-__declspec(noinline) void FUN_00ac9040()
+// pdb: NiPSysPositionModifier::LoadBinary | NiPSysPositionModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+__declspec(noinline) void NiPSysPositionModifier_LoadBinary()
 {
     FUN_00ac5fa0();
 }
 
-__declspec(noinline) void FUN_00ac9050()
+// pdb: NiPSysPositionModifier::SaveBinary | NiPSysPositionModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+__declspec(noinline) void NiPSysPositionModifier_SaveBinary()
 {
     FUN_00ac6040();
 }
 
-__declspec(noinline) void FUN_00ac9060()
+// pdb: NiPSysPositionModifier::IsEqual | NiPSysPositionModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+__declspec(noinline) void NiPSysPositionModifier_IsEqual()
 {
     FUN_00ac5f20();
 }
 
+// pdb: NiPSysAirFieldAirFrictionCtlr::LoadBinary | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00aca3f0()
 {
     FUN_008bb690();
 }
 
+// pdb: NiPSysAirFieldAirFrictionCtlr::RegisterStreamables | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00acb6e0()
 {
     FUN_008d0610();
 }
 
-__declspec(noinline) void FUN_00accc90()
+// pdb: NiPSysDragFieldModifier::LinkObject | NiPSysDragFieldModifier.obj | fnv360_0721_beta, objrun_open + bridge(vtable|objrun_open) + skyrim(caller_sim), high
+__declspec(noinline) void NiPSysDragFieldModifier_LinkObject()
 {
     FUN_00ac2550();
 }
 
+// pdb: NiPSysModifierBoolCtlr::CopyMembers | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pkDest, kCloning
 __declspec(noinline) void FUN_00ad2420()
 {
     FUN_00ac6560();
 }
 
+// pdb: NiPSysModifierBoolCtlr::SaveBinary | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00ad2430()
 {
     FUN_00ac64b0();
 }
 
+// pdb: NiPSysModifierBoolCtlr::IsEqual | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 __declspec(noinline) void FUN_00ad2440()
 {
     FUN_00ac6610();
 }
 
+// pdb: BSFadeNode::UpdateDownwardPass | BSFadeNode.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arUpdateData, aiFlags
 __declspec(noinline) void FUN_00ad2850()
 {
     FUN_0082db90();
 }
 
+// pdb: BSFadeNode::LoadBinary | BSFadeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00ad2860()
 {
     FUN_0082db60();
 }
 
+// pdb: BSFadeNode::SaveBinary | BSFadeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00ad2890()
 {
     FUN_0082e820();
 }
 
+// pdb: BSFadeNode::IsEqual | BSFadeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apObject
 __declspec(noinline) void FUN_00ad28a0()
 {
     FUN_0082e460();
 }
 
+// pdb: BSShaderManager::DefaultFileCreateFunc | BSShaderManager.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apName, aeMode, auiSize
 __declspec(noinline) void FUN_00ad57b0()
 {
     FUN_0089f1d0();
 }
 
+// pdb: TallGrassShaderProperty::LinkObject | TallGrassShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00ade430()
 {
     FUN_00af2f20();
 }
 
+// pdb: TallGrassShaderProperty::RegisterStreamables | TallGrassShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00ade440()
 {
     FUN_00aed1a0();
@@ -749,11 +941,15 @@ __declspec(noinline) void FUN_00ae89d0()
     FUN_00ae8980();
 }
 
+// pdb: BSDistantTreeShaderProperty::RegisterStreamables | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00aed1a0()
 {
     FUN_00b2ace0();
 }
 
+// pdb: BSDistantTreeShaderProperty::LinkObject | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00af2f20()
 {
     FUN_00b2acd0();
@@ -764,16 +960,22 @@ __declspec(noinline) void FUN_00b023e0()
     FUN_00b022b0();
 }
 
+// pdb: HairShaderProperty::RegisterStreamables | HairShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b2ab60()
 {
     FUN_00ae9bd0();
 }
 
+// pdb: BSShaderProperty::LinkObject | BSShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b2acd0()
 {
     FUN_00864b40();
 }
 
+// pdb: BSShaderProperty::RegisterStreamables | BSShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b2ace0()
 {
     FUN_00839510();
@@ -784,91 +986,123 @@ __declspec(noinline) void FUN_00b308f0()
     FUN_00882710();
 }
 
+// pdb: SpeedTreeLeafShaderProperty::GetViewerStrings | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apStrings
 __declspec(noinline) void FUN_00b35240()
 {
     FUN_00b35a50();
 }
 
+// pdb: SpeedTreeShaderPPLightingProperty::GetViewerStrings | SpeedTreeShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apStrings
 __declspec(noinline) void FUN_00b35a40()
 {
     FUN_00aec6a0();
 }
 
+// pdb: DistantLODShaderProperty::GetViewerStrings | DistantLODShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apStrings
 __declspec(noinline) void FUN_00b35a50()
 {
     FUN_00af4060();
 }
 
+// pdb: SpeedTreeBranchShaderProperty::GetViewerStrings | SpeedTreeBranchShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apStrings
 __declspec(noinline) void FUN_00b35fb0()
 {
     FUN_00b35a40();
 }
 
+// pdb: HairShaderProperty::LoadBinary | HairShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b36690()
 {
     FUN_00aec160();
 }
 
+// pdb: HairShaderProperty::SaveBinary | HairShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b366a0()
 {
     FUN_00aec270();
 }
 
+// pdb: Lighting30ShaderProperty::PostLinkObject | Lighting30ShaderProperty.obj | fnv360_0721_beta, objrun_open, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b366b0()
 {
     FUN_00aec350();
 }
 
+// pdb: BSDistantTreeShader::Initialize | BSDistantTreeShader.obj | fnv360_0822_retail, caller_sim, medium
 __declspec(noinline) void FUN_00b38020()
 {
     FUN_00b58540();
 }
 
+// pdb: BSDistantTreeShaderProperty::LoadBinary | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b39170()
 {
     FUN_00b2b420();
 }
 
+// pdb: BSDistantTreeShaderProperty::PostLinkObject | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 __declspec(noinline) void FUN_00b39180()
 {
     FUN_00825330();
 }
 
+// pdb: BSMaterialEmittanceMultController::SaveBinary | BSMaterialEmittanceMultController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00b46b50()
 {
     FUN_008d1170();
 }
 
+// pdb: HairShaderProperty::LinkObject | HairShaderProperty.obj | fnv360_0721_beta, objrun_open, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00b470d0()
 {
     FUN_00ae9b70();
 }
 
+// pdb: DebugShader::SetupGeometry | DebugShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeometry
 __declspec(noinline) void FUN_00b54d50()
 {
     FUN_0088e670();
 }
 
+// pdb: DebugShader::ReloadShaders | DebugShader.obj | fnv360_0822_retail, caller_sim, medium
 __declspec(noinline) void FUN_00b54fb0()
 {
     FUN_00b54d60();
 }
 
+// pdb: SpeedTreeBranchShader::SetupPassConstants | SpeedTreeBranchShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: auiCurrentPass
 __declspec(noinline) void FUN_00b568e0()
 {
     FUN_00afddc0();
 }
 
+// pdb: NiXenonFragmentShader::RecreateRendererData | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_prop, low
 __declspec(noinline) void FUN_00b62b50()
 {
     FUN_0088e2a0();
 }
 
+// pdb: ImageSpaceEffectMotionBlur::Shutdown | ImageSpaceEffectMotionBlur.obj | fnv360_0822_retail, caller_sim, medium
 __declspec(noinline) void FUN_00b873f0()
 {
     FUN_00ad59e0();
 }
 
+// pdb: TallGrassTriShape::CreateClone | TallGrassTriShape.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: arCloneData
 __declspec(noinline) void FUN_00b8e810()
 {
     FUN_0083f6b0();
@@ -879,61 +1113,78 @@ __declspec(noinline) void FUN_00bc2aa0()
     FUN_00bc2980();
 }
 
+// pdb: Uniform::Next | IdvRandom.obj | fnv360_0822_retail, vtable, medium
 __declspec(noinline) void FUN_00bc4ab0()
 {
     FUN_00bc7180();
 }
 
+// pdb: BSSystemDir::~BSSystemDir | BSSystemDir.obj | fnv360_0822_retail, call_gap_sim, low
 __declspec(noinline) void FUN_00bce190()
 {
     FUN_00bce0c0();
 }
 
+// pdb: Sleep | sleep.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: dwMilliseconds
 __declspec(noinline) void FUN_00bce1e0()
 {
     FUN_00bcd130();
 }
 
+// pdb: FutBinaryFileC::write | binaryFile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: data, size, num
 __declspec(noinline) void FUN_00be49c0()
 {
     FUN_00be48a0();
 }
 
+// pdb: FutBinaryFileC::read | binaryFile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: data, size, num
 __declspec(noinline) void FUN_00be49d0()
 {
-    FUN_00be4930();
+    FutBinaryFileC_readHeader();
 }
 
-__declspec(noinline) void FUN_00bea750()
+// pdb: Tile::GetMaximumDepth | Tile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+__declspec(noinline) void Tile_GetMaximumDepth()
 {
     FUN_00bfcb40();
 }
 
+// pdb: `TESObjectCELL::EnumReferencesCloseToPointFromInterior'::`4'::`dynamic atexit destructor for 'checkedcells'' | TESObjectCELL.obj | fnv360_0822_retail, caller_sim, low
 __declspec(noinline) void FUN_00bf65e0()
 {
     FUN_00bf5110();
 }
 
+// pdb: TileMenu::MakeNode | TileMenu.obj | fnv360_0822_retail, caller_sim, low
 __declspec(noinline) void FUN_00bfc270()
 {
     FUN_00bf9990();
 }
 
+// pdb: atol | atox.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: nptr
 __declspec(noinline) void FUN_00c047de()
 {
     FUN_00c047cd();
 }
 
+// pdb: BSMultiBoundShape::LoadBinary | BSMultiBoundShape.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void FUN_00c22010()
 {
     FUN_00825ad0();
 }
 
+// pdb: `dynamic atexit destructor for 'msm'' | MiscStats.obj | fnv360_0822_retail, caller_sim, low
 __declspec(noinline) void FUN_00d87df0()
 {
     FUN_0048c5c0();
 }
 
+// pdb: `dynamic atexit destructor for 'ActorValue::Instance'' | ActorValue.obj | fnv360_0822_retail, caller_sim, low
 __declspec(noinline) void FUN_00d94d80()
 {
     FUN_005a26a0();

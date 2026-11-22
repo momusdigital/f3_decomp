@@ -11,6 +11,7 @@ void __cdecl FUN_00c00d1f(void (__cdecl*)());
 extern char DAT_01175220;
 void __cdecl FUN_00d998b0();
 
+// pdb: `dynamic initializer for 'ScreenSplatter::spTextures'' | ScreenSplatter.obj | fnv360_0822_debug, objrun, medium
 void FUN_00c8daa0()
 {
     FUN_00c01f76(&DAT_0106fd18, 4, 3, FUN_004280b0, FUN_00424aa0);

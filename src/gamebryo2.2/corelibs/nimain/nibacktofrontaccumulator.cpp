@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/nibacktofrontaccumulator.cpp: NiBackToFrontAccumulator, BackToFront_aa0 (12 functions)
+// gamebryo2.2/corelibs/nimain/nibacktofrontaccumulator.cpp: NiBackToFrontAccumulator, BackToFront_aa0 (10 functions)
 #include "f3_common.h"
 #include "nibacktofrontaccumulator_decls.h"
 
@@ -11,6 +11,8 @@ NiBackToFrontAccumulator::NiBackToFrontAccumulator()
 
 // Returns the median of the three values at indices left, mid and right in the array.
 // @fnv 0x00aa0a20
+// pdb: NiBackToFrontAccumulator::ChoosePivot | NiBackToFrontAccumulator.obj | fnv360_0721_beta, objopen_prop, medium
+// pdb params: l, r
 float NiBackToFrontAccumulator::GetPivotValue(int left, int right)
 {
     int mid = (left + right) >> 1;
@@ -30,7 +32,10 @@ float NiBackToFrontAccumulator::GetPivotValue(int left, int right)
 }
 
 // @fnv 0x00aa0b40
-void NiBackToFrontAccumulator::QuickSort(int left, int right)
+// pdb: NiBackToFrontAccumulator::SortObjectsByDepth | NiBackToFrontAccumulator.obj | fnv360_0721_beta, objopen_prop, high
+// pdb params: l, r
+// pdb: NiBackToFrontAccumulator::SortObjectsByDepth | NiBackToFrontAccumulator.obj | fnv360_0721_beta, objopen_prop, high (was: QuickSort)
+void NiBackToFrontAccumulator::SortObjectsByDepth(int left, int right)
 {
     if (right > left)
     {
@@ -57,11 +62,11 @@ void NiBackToFrontAccumulator::QuickSort(int left, int right)
             m_pfGeometrySortValues[i] = fTempDepth;
         }
         if (i == right)
-            QuickSort(left, i - 1);
+            SortObjectsByDepth(left, i - 1);
         else
         {
-            QuickSort(left, i);
-            QuickSort(i + 1, right);
+            SortObjectsByDepth(left, i);
+            SortObjectsByDepth(i + 1, right);
         }
     }
 }
@@ -69,6 +74,8 @@ void NiBackToFrontAccumulator::QuickSort(int left, int right)
 struct NiObject;
 unsigned char __stdcall FUN_00ba87d0(NiObject*);
 // @fnv 0x00aa0ae0
+// pdb: NiBSplineCompColorInterpolator::RegisterStreamables | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kStream
 unsigned char __stdcall FUN_00aa0ae0(NiObject* pkObject)
 {
     unsigned char r = FUN_00ba87d0(pkObject);
@@ -77,6 +84,7 @@ unsigned char __stdcall FUN_00aa0ae0(NiObject* pkObject)
 
 extern const char g_011f5f74_arg1[];
 // @fnv 0x00aa0e50
+// pdb: NiFloatExtraData::GetRTTI | NiFloatExtraData.obj | fnv360_0822_retail, udata, medium
 const char* __cdecl FUN_00aa0e50()
 {
     return g_011f5f74_arg1;
@@ -148,10 +156,6 @@ struct S_00aa0d00_Node
     S_00aa0d00_Node* prev;
     void* data;
 };
-struct S_00aa0d00_Pool
-{
-    S_00aa0d00_Node* head;
-};
 struct S_00aa0d00_Aux
 {
     int unk00;
@@ -160,7 +164,6 @@ struct S_00aa0d00_Aux
 extern S_00aa0d00_Aux DAT_011c5f80;
 extern S_00aa0d00_Node* DAT_011c5f58;
 extern unsigned int DAT_011c5f84;
-extern S_00aa0d00_Renderer* DAT_011f4748;
 
 struct S_00aa0d00_Base
 {
@@ -243,6 +246,7 @@ extern S_00aa0d00_Node* DAT_0106e588;
 extern S_00aa0d00_Renderer* DAT_0108f048;
 struct TailCaller { void FUN_00748e30(); };
 
+// pdb: NiBackToFrontAccumulator::FinishAccumulating | NiBackToFrontAccumulator.obj | fnv360_0822_retail, caller_sim, low
 void S_00aa0d00_Base::ReleaseAllItems()
 {
     S_00aa0d00_Renderer* r = DAT_0108f048;
@@ -310,6 +314,7 @@ class AA0F30Object
 // Scalar deleting destructor.
 // Runs the destructor, then frees this object with AA0F30DeleteSized when uiFlags has bit 0 set, and returns this.
 // @fnv 0x00aa0f30
+// pdb: NiTexturingProperty::`scalar deleting destructor' | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
 AA0F30Object* AA0F30Object::DestroyAndFree(unsigned int uiFlags)
 {
     this->~AA0F30Object();
@@ -370,6 +375,7 @@ class BackToFront_aa0 : public FUN_00aa0fc0
 };
 
 // @fnv 0x00aa0f50
+// pdb: NiBackToFrontAccumulator::CreateClone | NiBackToFrontAccumulator.obj | tesv_win, caller_sim, low
 BackToFront_aa0* BackToFront_aa0::FUN_00aa0f50(CloningProcess& kCloning)
 {
     BackToFront_aa0* pkObject = new BackToFront_aa0;
@@ -377,19 +383,9 @@ BackToFront_aa0* BackToFront_aa0::FUN_00aa0f50(CloningProcess& kCloning)
     return pkObject;
 }
 
-void __cdecl FUN_00a88a40();
-// @fnv 0x00aa0ac0
-void __cdecl FUN_00aa0ac0()
-{
-    FUN_00a88a40();
-}
-
 extern S_00aa0d00_Aux DAT_011c5f80;
 extern S_00aa0d00_Node* DAT_011c5f58;
 extern unsigned int DAT_011c5f84;
-
-extern int DAT_010a23ac;
-extern int DAT_010a2304;
 
 extern void NiFree(void*);
 
@@ -416,6 +412,7 @@ extern PoolLockF3 DAT_0106e5a0;
 extern S_00aa0d00_Node* DAT_0106e588;
 extern int DAT_00e27cbc;
 extern int DAT_00e27c14;
+// pdb: NiBackToFrontAccumulator::~NiBackToFrontAccumulator | NiBackToFrontAccumulator.obj | fnv360_0822_retail, caller_sim, medium
 void C_00aa0dc0::FUN_00aa0dc0()
 {
     NiBackToFrontAccumulator* self = this;
@@ -571,6 +568,7 @@ class FUN_00aa0c00_cls : public NiBackToFrontAccumulator
 
 // Collects geometry pointers from m_pkGeometryList, computes their dot-product sort values against the camera view direction, and calls FUN_00aa0b40 to sort them.
 // @fnv 0x00aa0c00
+// pdb: NiBackToFrontAccumulator::Sort | NiBackToFrontAccumulator.obj | fnv360_0721_beta, objrun_open, medium
 void FUN_00aa0c00_cls::SortGeometriesBackToFront()
 {
     if (!m_pkGeometryList)
@@ -603,68 +601,4 @@ void FUN_00aa0c00_cls::SortGeometriesBackToFront()
     FUN_00aa0b40(0, m_iGeometryCount - 1);
 }
 
-struct NiBackToFrontItemsArg
-{
-    void** m_ppGeometries;
-    int m_iArrayLength;
-};
-
 typedef PoolAllocatorBase<NiBackToFrontListItem> NiBackToFrontItemPool;
-
-void FUN_0043a080();
-
-static inline NiBackToFrontListItem* NewListItem()
-{
-    NiBackToFrontItemPool::ms_kPoolState.Lock(0);
-    NiBackToFrontItemPool::LinkedListEntry* pkReturn = NiBackToFrontItemPool::ms_pFreeList;
-    if (pkReturn == 0)
-    {
-        FUN_0043a080();
-        pkReturn = NiBackToFrontItemPool::ms_pFreeList;
-    }
-    NiBackToFrontItemPool::ms_pFreeList = NiBackToFrontItemPool::ms_pFreeList->m_pkNext;
-    NiBackToFrontListItem* pkItem = reinterpret_cast<NiBackToFrontListItem*>(pkReturn);
-    pkItem->m_pInventoryEntryData = 0;
-    pkItem->m_pkNext = 0;
-    pkItem->m_pkPrevious = 0;
-    if (--NiBackToFrontItemPool::ms_kPoolState.m_uiCount == 0)
-    {
-        NiBackToFrontItemPool::ms_kPoolState.m_uiLock = 0;
-    }
-    return pkItem;
-}
-
-static inline void AddNodeTail(NiBackToFrontGeometryList& kList, NiBackToFrontListItem* pkNode)
-{
-    pkNode->m_pkNext = 0;
-    pkNode->m_pkPrevious = kList.m_pkTail;
-    if (kList.m_pkTail)
-        kList.m_pkTail->m_pkNext = pkNode;
-    else
-        kList.m_pkHead = pkNode;
-    kList.m_pkTail = pkNode;
-    kList.m_uiCount++;
-}
-
-static inline void AddTail(NiBackToFrontGeometryList& kList, void* element)
-{
-    NiBackToFrontListItem* pkNode = NewListItem();
-    pkNode->m_pInventoryEntryData = element;
-    AddNodeTail(kList, pkNode);
-}
-
-struct FUN_00aa0e60_cls : NiBackToFrontAccumulator
-{
-    void AddGeometries(NiBackToFrontItemsArg* pkArg);
-};
-
-// Appends each geometry pointer in pkArg->m_ppGeometries to m_kUnsortedGeometryList via AddTail.
-// @fnv 0x00aa0e60
-void FUN_00aa0e60_cls::AddGeometries(NiBackToFrontItemsArg* pkArg)
-{
-    unsigned int ItemUpdateArray = pkArg->m_iArrayLength;
-    for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
-    {
-        AddTail(m_kUnsortedGeometryList, pkArg->m_ppGeometries[uiIndex]);
-    }
-}

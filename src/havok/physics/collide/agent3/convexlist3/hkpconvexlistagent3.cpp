@@ -2,75 +2,22 @@
 // src/havok/physics/collide/agent3/convexlist3/hkpconvexlistagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/convexlist3/hkpconvexlistagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00da3510(void* a, void* b);
+void __cdecl hkAgent1nMachine_InvalidateTim(void* a, void* b);
 
 // @fnv 0x00d32b20
-void __cdecl CallIfNotFlagged(int aiUnused, int pObject, int c)
+// pdb: hkConvexListAgent3::invalidateTim | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun, high
+// pdb params: entry, agentData, input
+// pdb: hkConvexListAgent3::invalidateTim | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun, high (was: CallIfNotFlagged)
+void __cdecl hkConvexListAgent3_invalidateTim(int aiUnused, int pObject, int c)
 {
     if (!(*(char*)(pObject + 0xb) & 0x20))
-        FUN_00da3510((void*)(pObject + 0x10), (void*)c);
+        hkAgent1nMachine_InvalidateTim((void*)(pObject + 0x10), (void*)c);
 }
 
 void __cdecl SetFlagAndCall(int, int, int);
-void __cdecl FUN_00d32cd0(int, int, int);
-void __cdecl FUN_00d32ca0(int, int, int);
 void __cdecl FUN_00d32bd0(int, int, int);
-void __cdecl FUN_00d32be0(int, int, int);
-void __cdecl FUN_00d32c00(int, int, int);
-void __cdecl FUN_00d32c20(int, int, int);
-void __cdecl FUN_00d32c40(int, int, int);
-void __cdecl FUN_00d32ae0(int, int, int);
-void __cdecl FUN_00d32b40(int, int, int);
-void __cdecl FUN_00d32ba0(int, int, int);
-struct FUN_00d33140_t
-{
-    void* m_ppVirtualMethodTable;
-    int m_04;
-    void* m_08;
-    void* m_0c;
-    void* m_10;
-    void* m_14;
-    void* m_18;
-    void* m_1c;
-    void* m_20;
-    void* m_24;
-    void* m_28;
-    void* m_2c;
-    char m_30;
-};
-// Fills the struct at a with function pointers for its slots, stores a pointer in m_04 and sets m_30 to 1.
-// @fnv 0x00d33140
-void __cdecl FUN_00d33140(int apStruct)
-{
-    FUN_00d33140_t* p = (FUN_00d33140_t*)apStruct;
-    p->m_ppVirtualMethodTable = (void*)&SetFlagAndCall;
-    p->m_2c = (void*)&FUN_00d32cd0;
-    p->m_28 = (void*)&FUN_00d32ca0;
-    p->m_08 = (void*)&FUN_00d32bd0;
-    p->m_0c = (void*)&FUN_00d32be0;
-    p->m_10 = (void*)&FUN_00d32c00;
-    p->m_14 = (void*)&FUN_00d32c20;
-    p->m_18 = (void*)&FUN_00d32c40;
-    p->m_1c = (void*)&FUN_00d32ae0;
-    p->m_20 = (void*)&CallIfNotFlagged;
-    p->m_24 = (void*)&FUN_00d32b40;
-    p->m_04 = (int)&FUN_00d32ba0;
-    p->m_30 = 1;
-}
-
-struct FUN_00d32ae0_agent
-{
-    virtual void f0();
-    virtual void f1();
-    virtual void f2();
-    virtual void f3();
-    virtual void f4();
-    virtual void f5();
-    virtual void f6(const char*);
-    virtual void f7();
-};
-
-void __cdecl FUN_00d97250(void*, void*, void*);
+void __cdecl hkConvexListAgent3_calcStatistics(int, int, int);
+void __cdecl hkConvexListAgent3_warpTime(int, int, int);
 
 // If the flag at offset 0x0b of b is clear, calls f6 with "hkConvexListAgent3", FUN_00d97250 on b+0x10, then f7 on the agent.
 // @f3 0x009bc8c0 (community match, verified in this file)
@@ -88,7 +35,8 @@ struct FUN_00d32ae0_vt
 
 void __cdecl FUN_00a26d90(void*, void*, void*);
 
-void __cdecl FUN_00d32ae0(int aiUnused, int b, int c)
+// pdb: hkConvexListAgent3::calcStatistics | hkpConvexListAgent3.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkConvexListAgent3_calcStatistics(int aiUnused, int b, int c)
 {
     if (reinterpret_cast<unsigned char*>(b)[0x0b] & 0x20)
         return;
@@ -105,7 +53,8 @@ void __cdecl _FUN_00da35f0(void*, float, float, int);
 
 // If the object's byte at offset 0xb lacks flag 0x20, forwards its fields at +0x10 plus three stack arguments to _FUN_00da35f0.
 // @fnv 0x00d32b40
-void __cdecl FUN_00d32b40(int aiUnused, int aiArg1, int aiArg2)
+// pdb: hkConvexListAgent3::warpTime | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun + bridge(hash|objrun) + skyrim(hash), high
+void __cdecl hkConvexListAgent3_warpTime(int aiUnused, int aiArg1, int aiArg2)
 {
     struct StackArguments
     {
@@ -127,44 +76,13 @@ void __cdecl DispatchInputRecord(int a, int b, void* c);
 
 // Calls DispatchInputRecord with a, b and c, then sets bit 0x20 and clears bit 0x40 in byte 0xb of c.
 // @fnv 0x00d32b70
+// pdb: hkConvexListAgent3::create | hkpConvexListAgent3.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: input, entry, agentData
 void __cdecl SetFlagAndCall(int aiArg1, int aiArg2, int c)
 {
     char* p = (char*)c;
     DispatchInputRecord(aiArg1, aiArg2, p);
     p[0xb] = (p[0xb] & 0xbf) | 0x20;
-}
-
-void __cdecl RemoveEntryById(void);
-
-// @fnv 0x00d32be0
-void __cdecl FUN_00d32be0(int, int apObject, int)
-{
-    if ((reinterpret_cast<unsigned char*>(apObject)[0x0b] & 0x20) != 0)
-    {
-        *reinterpret_cast<volatile int*>(&apObject) = apObject;
-        RemoveEntryById();
-    }
-}
-
-void __cdecl InsertSlotId(void);
-
-// @fnv 0x00d32c00
-void __cdecl FUN_00d32c00(int aiUnused, int apObject, int aiUnused2)
-{
-    if ((reinterpret_cast<unsigned char*>(apObject)[0x0b] & 0x20) != 0)
-    {
-        *(volatile int*)&apObject = apObject;
-        InsertSlotId();
-    }
-}
-
-void __cdecl FindEntryByKey(int, int, int);
-
-// @fnv 0x00d32c20
-void __cdecl FUN_00d32c20(int aiArg1, int apArg2, int aiArg3)
-{
-    if ((reinterpret_cast<unsigned char*>(apArg2)[0x0b] & 0x20) != 0)
-        FindEntryByKey(aiArg1, apArg2, aiArg3);
 }
 
 struct PackTarget
@@ -196,7 +114,7 @@ void FUN_00d33210_cls::FUN_00d33210()
     m_0c->v24();
 }
 
-// FUN_00d33220 (0x00d33220, 10 bytes)
+// hkpMapPointsToSubShapeContactMgr_reserveContactPointsImpl (0x00d33220, 10 bytes)
 //
 //	8b 49 0c        mov ecx, dword ptr [ecx+0xc]
 //	8b 01           mov eax, dword ptr [ecx]
@@ -224,11 +142,12 @@ struct Own_d33220
     int unk04;
     int unk08;
     Sub_d33220* unk0c;
-    void FUN_00d33220(int);
+    void hkpMapPointsToSubShapeContactMgr_reserveContactPointsImpl(int);
 };
 
 // @fnv 0x00d33220
-void Own_d33220::FUN_00d33220(int a)
+// pdb: hkpMapPointsToSubShapeContactMgr::reserveContactPointsImpl | hkpConvexListAgent3.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Own_d33220::hkpMapPointsToSubShapeContactMgr_reserveContactPointsImpl(int a)
 {
     unk0c->v4(a);
 }
@@ -251,6 +170,8 @@ struct FnvCpu_FUN_00d33230_CpuOwner
     void FUN_00d33230(int arg0);
 };
 // @fnv 0x00d33230
+// pdb: hkpMalleableConstraintData::getRuntimeInfo | hkpMalleableConstraintData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: wantRuntime, infoOut
 void FnvCpu_FUN_00d33230_CpuOwner::FUN_00d33230(int arg0)
 {
     target->Invoke(arg0);
@@ -276,6 +197,8 @@ struct Self
 };
 
 // @fnv 0x00d33240
+// pdb: hkpMapPointsToSubShapeContactMgr::processContactImpl | hkpConvexListAgent3.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b, input, collisionData
 void __fastcall FUN_00d33240(Self* self, int unused, int arg)
 {
     self->unk0c->vfn18(arg);
@@ -299,70 +222,13 @@ struct FnvCpu_FUN_00d33250_CpuOwner
     unsigned int unk04;
     unsigned int unk08;
     FnvCpu_FUN_00d33250_CpuInterface* target;
-    void FUN_00d33250(int arg0);
+    void hkpMapPointsToSubShapeContactMgr_removeToiImpl(int arg0);
 };
 // @fnv 0x00d33250
-void FnvCpu_FUN_00d33250_CpuOwner::FUN_00d33250(int arg0)
+// pdb: hkpMapPointsToSubShapeContactMgr::removeToiImpl | hkpConvexListAgent3.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void FnvCpu_FUN_00d33250_CpuOwner::hkpMapPointsToSubShapeContactMgr_removeToiImpl(int arg0)
 {
     target->Invoke(arg0);
-}
-
-struct TargetInterface
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0c();
-    virtual int slot10();
-};
-
-struct Arg3
-{
-    TargetInterface* target;
-};
-
-struct Arg1
-{
-    int unk00;
-    int unk04;
-    short unk08;
-    char unk0a;
-    unsigned char flags;
-    int unk0c;
-    int field_10;
-};
-
-struct EventData
-{
-    int m00;
-    Arg3* m04;
-    int m08;
-    int m0c;
-    int m10;
-    int m14;
-    int m18;
-    int m1c;
-};
-
-void __cdecl FUN_00da48e0(void*, void*);
-
-// @fnv 0x00d32c40
-void __cdecl FUN_00d32c40(int aiUnused, Arg1* a1, int a2, Arg3* a3, int aiArg4, int aiArg5, int aiArg6)
-{
-    if (a1->flags & 0x20)
-    {
-        return;
-    }
-    int iSlotResult;
-    iSlotResult = a3->target->slot10();
-    EventData j;
-    j.m00 = a2;
-    j.m04 = a3;
-    j.m10 = aiArg4;
-    j.m14 = aiArg5;
-    j.m18 = aiArg6;
-    j.m0c = iSlotResult;
-    FUN_00da48e0(&a1->field_10, &j);
 }
 
 struct hkpShapeD333
@@ -429,13 +295,16 @@ class hkpConvexListProcessorD333
     hkpChildProcessorD333* m_processor;
     bool m_invalidCache;
 
-    unsigned short ProcessConvexListChildren(const hkpCdBodyD333& kBodyA, const hkpCdBodyD333& kBodyB, const void* pvInput,
+    unsigned short hkpMapPointsToSubShapeContactMgr_addContactPointImpl(const hkpCdBodyD333& kBodyA, const hkpCdBodyD333& kBodyB, const void* pvInput,
                                   const void* pvTransform, hkpGskCacheD333* pkCache, void* pvOutput) throw();
 };
 
 // Resolves convex-list child shapes for both bodies from the cache keys, flags an invalid cache on mismatch, and delegates to m_processor->process.
 // @f3 0x009bd210 (community match, verified in this file)
-unsigned short hkpConvexListProcessorD333::ProcessConvexListChildren(const hkpCdBodyD333& kBodyA, const hkpCdBodyD333& kBodyB,
+// pdb: hkpMapPointsToSubShapeContactMgr::addContactPointImpl | hkpConvexListAgent3.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b, input, output, contactCache, cp
+// pdb: hkpMapPointsToSubShapeContactMgr::addContactPointImpl | hkpConvexListAgent3.obj | fnv360_0822_retail, vtable, high (was: ProcessConvexListChildren)
+unsigned short hkpConvexListProcessorD333::hkpMapPointsToSubShapeContactMgr_addContactPointImpl(const hkpCdBodyD333& kBodyA, const hkpCdBodyD333& kBodyB,
                                                           const void* pvInput, const void* pvTransform,
                                                           hkpGskCacheD333* pkCache, void* pvOutput) throw()
 {
@@ -518,6 +387,8 @@ struct Container
 
 // Compares the source's time field with this object's, notifies the callback and copies the value block on change, then copies the tag and payload.
 // @fnv 0x00d33600
+// pdb: hkpProcessCollisionOutputBackup::rollbackOutput | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: bodyA, bodyB, output, mgr
 void Container::FUN_00d33600(void* unusedA, void* unusedB, char* source, Callback* callback)
 {
     float sourceTime = *reinterpret_cast<float*>(source + 0x3030);
@@ -538,35 +409,11 @@ void Container::FUN_00d33600(void* unusedA, void* unusedB, char* source, Callbac
     }
 }
 
-struct hkpShapeD32
-{
-    int unk00;
-    int unk04;
-    unsigned char unk08;
-    unsigned char unk09;
-    unsigned char unk0A;
-    unsigned char m_flags;
-    int unk0C;
-    int m_data;
-};
-
-void __cdecl ForwardToTarget(void* agent, hkpShapeD32* shape, void* input, void* output, void* collector);
-void __cdecl FUN_00da42b0(int* data, void* collector, void* input, void* output);
-
-// If the hkpShapeD32 flag 0x20 is set, forward the call to ForwardToTarget; otherwise call FUN_00da42b0 with the shape data.
-// @fnv 0x00d32ba0
-void __cdecl FUN_00d32ba0(void* agent, hkpShapeD32* shape, void* input, void* output, void* collector)
-{
-    if (shape->m_flags & 0x20)
-    {
-        ForwardToTarget(agent, shape, input, output, collector);
-        return;
-    }
-    FUN_00da42b0(&shape->m_data, collector, input, output);
-}
+void __cdecl hkAgent1nMachine_Destroy(int* data, void* collector, void* input, void* output);
 
 void __cdecl FUN_00d41860();
 // @fnv 0x00d32bd0
+// pdb: TESSpellList::ClearDataComponent | TESSpellList.obj | fnv360_0822_retail, vtable, medium
 void __cdecl FUN_00d32bd0(int a, int b, int c)
 {
     FUN_00d41860();
@@ -603,8 +450,6 @@ struct hkpAgent3FuncsD331
     bool m_bAgentFlag2;
 };
 
-void __cdecl FUN_00d33140(hkpAgent3FuncsD331& kFuncs);
-
 class hkpCollisionDispatcherD331
 {
   public:
@@ -615,7 +460,10 @@ class hkpCollisionDispatcherD331
 // @f3 0x009bcf60 (community match, verified in this file)
 void __cdecl FUN_009bcf00(hkpAgent3FuncsD331& kFuncs);
 
-void __cdecl RegisterAgent3Entries(hkpCollisionDispatcherD331* pkDispatcher)
+// pdb: hkConvexListAgent3::registerAgent3 | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: dispatcher
+// pdb: hkConvexListAgent3::registerAgent3 | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun_prop, high (was: RegisterAgent3Entries)
+void __cdecl hkConvexListAgent3_registerAgent3(hkpCollisionDispatcherD331* pkDispatcher)
 {
     __declspec(align(16)) hkpAgent3FuncsD331 kFuncs;
     FUN_009bcf00(kFuncs);
@@ -625,53 +473,6 @@ void __cdecl RegisterAgent3Entries(hkpCollisionDispatcherD331* pkDispatcher)
 
 
 #include <xmmintrin.h>
-// Builds on an earlier contributor's 2026-10-25 reconstruction of this routine.
-extern float DAT_010CEB6C;
-extern __m128 DAT_01268370;
-void __cdecl FUN_00d41930(int, int, int, int);
-// If bit 5 of the flag byte at c+11 is set, delegates to FUN_00d41930; otherwise writes DAT_01268370 to output and sets its fourth float to DAT_010CEB6C.
-// @fnv 0x00d32ca0
-void __cdecl FUN_00d32ca0(int a, int b, int c, int output)
-{
-    if ((*reinterpret_cast<const unsigned char*>(c + 11) & 0x20) != 0)
-    {
-        FUN_00d41930(a, b, c, output);
-        return;
-    }
-    __m128* __restrict p = reinterpret_cast<__m128*>(output);
-    float finalComponent = DAT_010CEB6C;
-    *p = DAT_01268370;
-    reinterpret_cast<float*>(p)[3] = finalComponent;
-}
-
-struct HK_ASSERT_OBJECT_SIZE_OK_FUNC_t
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    HK_ASSERT_OBJECT_SIZE_OK_FUNC_t& FUN_00d33260(const HK_ASSERT_OBJECT_SIZE_OK_FUNC_t& a);
-};
 
 struct __declspec(align(16)) HK_Stage_t
 {
@@ -692,41 +493,6 @@ struct __declspec(align(16)) HK_Stage_t
     int d38;
     int d3c;
 };
-
-// Copies the first 20 bytes and the remaining 64 bytes of the source object into this object, returning a reference to this.
-// @fnv 0x00d33260
-HK_ASSERT_OBJECT_SIZE_OK_FUNC_t& HK_ASSERT_OBJECT_SIZE_OK_FUNC_t::FUN_00d33260(const HK_ASSERT_OBJECT_SIZE_OK_FUNC_t& a)
-{
-    m_00 = a.m_00;
-    m_04 = a.m_04;
-    m_08 = a.m_08;
-    m_0c = a.m_0c;
-    m_10 = a.m_10;
-    HK_Stage_t stagedTail;
-    stagedTail.d00 = a.m_20;
-    stagedTail.d04 = a.m_24;
-    stagedTail.d08 = a.m_28;
-    stagedTail.d0c = a.m_2c;
-    stagedTail.d10 = a.m_30;
-    stagedTail.d14 = a.m_34;
-    stagedTail.d18 = a.m_38;
-    stagedTail.d1c = a.m_3c;
-    stagedTail.d20 = a.m_40;
-    stagedTail.d24 = a.m_44;
-    stagedTail.d28 = a.m_48;
-    stagedTail.d2c = a.m_4c;
-    stagedTail.d30 = a.m_50;
-    stagedTail.d34 = a.m_54;
-    stagedTail.d38 = a.m_58;
-    stagedTail.d3c = a.m_5c;
-    __m128* d = (__m128*)&m_20;
-    const __m128* s = (const __m128*)&stagedTail.d00;
-    d[0] = s[0];
-    d[1] = s[1];
-    d[2] = s[2];
-    d[3] = s[3];
-    return *this;
-}
 
 #include <string.h>
 struct __declspec(align(16)) FUN_00d33330_t
@@ -781,6 +547,8 @@ struct D33330_OrientedBox : D33330_Box
     virtual ~D33330_OrientedBox();
 };
 
+// pdb: BSMultiBoundOBB::BSMultiBoundOBB | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arCenter, arHalfExtents, arAxis
 FUN_00d33330_t& FUN_00d33330_t::FUN_00d33330(const FUN_00d33330_t& first, const FUN_00d33330_t& second, const FUN_00d33330_t& third)
 {
     const D33330_Point3& centre = reinterpret_cast<const D33330_Point3&>(first);
@@ -855,31 +623,11 @@ class FUN_00d33670
     CollisionState state;
     FUN_00d33670(const LargeOutput& src);
 };
-// Copies header, state vectors, distance, scalars, and data buffer from a LargeOutput into this collision object.
-// @fnv 0x00d33670
-FUN_00d33670::FUN_00d33670(const LargeOutput& src)
-{
-    float d = DAT_0104da48;
-    header = src.header;
-    state.distance = d;
-    state.extra.a = 0.0f;
-    state.extra.b = 0.0f;
-    state.vector0 = src.state.vector0;
-    state.vector1 = src.state.vector1;
-    memcpy(&state.distance, &src.state.distance, 8);
-    SmallState* pExtra = state.copyScalars(src.state);
-    memcpy(pExtra, &src.state.extra, sizeof(state.extra));
-    if (src.data)
-        FUN_00ec44d0(data, src.data, sizeof(data));
-}
 
 #include <xmmintrin.h>
 namespace fnv_00d32cd0 {
 #include <windows.h>
 #include <string.h>
-
-extern "C" unsigned __int64 __rdtsc();
-extern "C" void _ReadWriteBarrier();
 
 struct __declspec(align(16)) FourFloatVector
 {
@@ -913,11 +661,6 @@ struct Body
     Body* parent;
     int unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48;
     float radius;
-};
-struct CollisionInput
-{
-    int unk00, unk04;
-    float tolerance;
 };
 struct Cache
 {
@@ -979,17 +722,6 @@ struct Manager
     virtual void f1c();
     virtual void f20(int, Basis*);
 };
-struct Context
-{
-    Body* bodyA;
-    Body* bodyB;
-    int unk08;
-    CollisionInput* input;
-    Manager* manager;
-    int unk14, unk18, unk1c;
-    Transform transform;
-    int extra60, extra64, extra68, extra6c, extra70, extra74, extra78, extra7c;
-};
 struct StateRecord
 {
     union
@@ -1022,240 +754,9 @@ struct FUN_00d33670
     FUN_00d33670(Output*);
     void FUN_00d33600(Body*, Body*, Output*, Manager*);
 };
-struct ProcessInput
-{
-    Body* bodyA;
-    Body* bodyB;
-    int unk08;
-    CollisionInput* input;
-    Manager* manager;
-    int unk14, unk18, unk1c;
-    Transform transform;
-    int extra60, extra64, extra68, extra6c, extra70, extra74, extra78, extra7c;
-    void FUN_00d33260(Context*);
-};
-struct CollisionResult
-{
-    float unk00, unk04, unk08, distance;
-};
-struct ProbeInput
-{
-    Transform* relative;
-    Transform* world;
-    Shape* a;
-    Shape* b;
-    float tolerance;
-};
-struct Collector
-{
-    void* vtable;
-    short unk04;
-    short capacity;
-    int mode;
-    Manager* manager;
-    bool hit;
-};
-struct MonitorEntry
-{
-    const char* volatile name;
-    unsigned int time;
-    int unk08;
-    const char* volatile detail;
-};
-struct Monitor
-{
-    int unk00;
-    MonitorEntry* current;
-    int unk08;
-    MonitorEntry* end;
-};
-extern DWORD DAT_0126835c;
-extern void* DAT_010ceb44;
-extern float DAT_010ceb6c;
-int __cdecl FUN_00dabca0(ProbeInput*, Agent*, void*, FourFloatVector*);
-void __cdecl FUN_00da42b0(Cache*, int, Manager*, int);
-void* __cdecl FUN_00d41a30(ProcessInput*, int, Agent*, void*, Output*);
+void __cdecl hkAgent1nMachine_Destroy(Cache*, int, Manager*, int);
 void __cdecl FUN_00d41860(int, Agent*, Manager*, int);
-void __cdecl InitBlockPool(Cache*);
-void __cdecl FUN_00da4aa0(Cache*, Context*, int*, int*, Output*);
-void* __cdecl FUN_00c85750();
 
-struct TLSArgument
-{
-    DWORD value;
-};
-// Runs a collision probe or stream on two bodies, updates the agent cache and contact output, and returns a 16-byte-aligned result pointer.
-// @fnv 0x00d32cd0
-void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, CollisionResult* collisionOutput, Output* output)
-{
-    struct Scratch
-    {
-        volatile unsigned int stamp;
-        union
-        {
-            Shape* shape;
-            volatile unsigned int stamp;
-        } shapeEnd;
-
-        union
-        {
-            void* result;
-            Monitor* monitor;
-        } outcome;
-    } scratch;
-
-    {
-        Monitor* monitor = (Monitor*)TlsGetValue(DAT_0126835c);
-        MonitorEntry* entry = monitor->current;
-        if (entry < monitor->end)
-        {
-            entry->name = "LtCvxLst";
-            entry->detail = "StTim";
-            _ReadWriteBarrier();
-            scratch.stamp = (unsigned int)__rdtsc();
-            _ReadWriteBarrier();
-            entry->time = scratch.stamp;
-            monitor->current = (MonitorEntry*)((char*)entry + 16);
-        }
-    }
-    scratch.shapeEnd.shape = context->bodyB->shape;
-    FUN_00d33670 temporary(output);
-
-    FourFloatVector separating;
-    union
-    {
-        Transform relative;
-        ProcessInput process;
-    } phase;
-    union
-    {
-        ProbeInput probe;
-        Collector collector;
-    } arguments;
-    if (agent->flags & 0x20)
-        goto processStream;
-    for (;;)
-    {
-        {
-            scratch.outcome.monitor = (Monitor*)TlsGetValue(DAT_0126835c);
-            MonitorEntry* entry = scratch.outcome.monitor->current;
-            if (entry < scratch.outcome.monitor->end)
-            {
-                entry->name = "StStream";
-                _ReadWriteBarrier();
-                scratch.stamp = (unsigned int)__rdtsc();
-                _ReadWriteBarrier();
-                entry->time = scratch.stamp;
-                scratch.outcome.monitor->current = (MonitorEntry*)((char*)entry + 12);
-            }
-            if (agent->state.countdown-- >= 0)
-                goto fallback;
-            agent->state.countdown = 25;
-            {
-
-                phase.relative.FUN_00cb22f0(context->bodyA->transform, context->bodyB->transform);
-
-                arguments.probe.a = context->bodyA->shape;
-                arguments.probe.b = context->bodyB->shape;
-                arguments.probe.relative = &phase.relative;
-                arguments.probe.world = context->bodyA->transform;
-                arguments.probe.tolerance = context->input->tolerance;
-
-                if (!FUN_00dabca0(&arguments.probe, agent, collisionOutput, &separating))
-                    goto fallback;
-            }
-            FUN_00da42b0(&agent->state.cache, context->input->unk00, context->manager, output->owner);
-            agent->flags |= 0x20;
-            agent->state.packed = 0;
-            temporary.FUN_00d33600(context->bodyA, context->bodyB, output, context->manager);
-        }
-    processStream: {
-
-        arguments.collector.capacity = 1;
-        arguments.collector.mode = 2;
-        arguments.collector.vtable = &DAT_010ceb44;
-        arguments.collector.manager = context->manager;
-        arguments.collector.hit = false;
-
-        phase.process.FUN_00d33260(context);
-        phase.process.extra60 = context->extra60;
-        phase.process.extra70 = context->extra70;
-        phase.process.extra74 = context->extra74;
-        phase.process.extra78 = context->extra78;
-        phase.process.extra7c = context->extra7c;
-        phase.process.manager = (Manager*)&arguments.collector;
-        scratch.outcome.result = FUN_00d41a30(&phase.process, stream, agent, collisionOutput, output);
-        phase.process.manager = arguments.collector.manager;
-        if (!arguments.collector.hit)
-        {
-            if (!agent->state.count || (agent->flags & 0x40))
-                goto finished;
-            Body* body = context->bodyB;
-            while (body->parent)
-                body = body->parent;
-            float radiusB = body->radius;
-            body = context->bodyA;
-            while (body->parent)
-                body = body->parent;
-            float radiusA = body->radius;
-            float radius = radiusA < radiusB ? radiusA : radiusB;
-            float twice = radius * 2.0f;
-            if (!(collisionOutput->distance < -twice))
-                goto finished;
-        }
-        Manager* manager = context->manager;
-        if (output->cache.time != temporary.cache.time)
-        {
-            manager->f20(output->owner, &output->cache.transform);
-            output->cache.assign(temporary.cache);
-        }
-        output->count = temporary.count;
-        if (output->savedContacts)
-            memmove(output->savedContacts, &temporary.owner, 0x1008);
-        FUN_00d41860(stream, agent, context->manager, output->owner);
-        agent->flags &= 0xdf;
-        StateRecord* state = &agent->state;
-        if (state)
-        {
-            state->cache.first = 0;
-            state->cache.second = 0;
-            state->cache.state = 0x80000000;
-        }
-        InitBlockPool(&agent->state.cache);
-        agent->state.countdown = 25;
-    }
-    }
-fallback:
-    collisionOutput->distance = -1.701410009187828e+38f;
-    {
-        int count = scratch.shapeEnd.shape->childCount;
-        int** arena = (int**)FUN_00c85750();
-        int* keys = *arena;
-        *arena = (int*)((char*)keys + ((count * 4 + 0x83) & ~0x7f));
-        for (int i = 0; i < count; ++i)
-            keys[i] = i;
-        int* sub = &(*(Shape* volatile*)&scratch.shapeEnd.shape)->unk14;
-        Cache* cache = &agent->state.cache;
-        FUN_00da4aa0((keys[count] = -1, cache), context, sub, keys, output);
-        *(int**)FUN_00c85750() = keys;
-        scratch.outcome.result = cache + 1;
-    }
-finished:
-    agent->flags |= 0x40;
-    Monitor* monitor = (Monitor*)TlsGetValue(DAT_0126835c);
-    MonitorEntry* entry;
-    entry = monitor->current;
-    if (entry < monitor->end)
-    {
-        entry->name = "lt";
-        _ReadWriteBarrier();
-        scratch.shapeEnd.stamp = (unsigned int)__rdtsc();
-        _ReadWriteBarrier();
-        entry->time = scratch.shapeEnd.stamp;
-        monitor->current = (MonitorEntry*)((char*)entry + 12);
-    }
-    return (void*)(((unsigned int)scratch.outcome.result + 15) & ~15);
-}
 }  // namespace fnv_00d32cd0
 
 class hkpLinearCastProcessorD334
@@ -1337,8 +838,9 @@ int hkpConvexListLinearCastD334::FUN_00d334c0(const hkpCdBodyD333* apBodyA, cons
 
 
 // @f3twin 0x009bd060 of 0x0095b090
-struct F3Twin_009bd060 : public FnvCpu_FUN_00d33230_CpuOwner { void F3_FUN_009bd060(int arg0) ; };
-void F3Twin_009bd060::F3_FUN_009bd060(int arg0) 
+struct F3Twin_009bd060 : public FnvCpu_FUN_00d33230_CpuOwner { void hkpMapPointsToSubShapeContactMgr_removeContactPointImpl(int arg0) ; };
+// pdb: hkpMapPointsToSubShapeContactMgr::removeContactPointImpl | hkpConvexListAgent3.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void F3Twin_009bd060::hkpMapPointsToSubShapeContactMgr_removeContactPointImpl(int arg0) 
 {
     target->Invoke(arg0);
 }

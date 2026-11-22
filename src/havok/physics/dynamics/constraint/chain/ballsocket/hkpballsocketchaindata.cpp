@@ -9,18 +9,19 @@ struct S_00d53cf0
     int x, y;
 };
 
-struct hkpBallSocketChainData_00d53cf0
+struct hkpBallSocketChainData_00d53cf0 : public hkpBallSocketChainData
 {
-    int m_uiNumConstraints;
     void GetConstraintSizeInfo(bool a, S_00d53cf0* b);
 };
 
 // @fnv 0x00d53cf0
+// pdb: hkpBallSocketChainData::getConstraintInfo | hkpBallSocketChainData.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpBallSocketChainData::getRuntimeInfo)
+// pdb params: info
 void hkpBallSocketChainData_00d53cf0::GetConstraintSizeInfo(bool abEnabled, S_00d53cf0* apSizeInfo)
 {
     if (abEnabled)
     {
-        apSizeInfo->y = 3 * *(int*)((char*)this + 0x1c);
+        apSizeInfo->y = 3 * m_pConstraintInfo.m_iElementCount;
         apSizeInfo->x = apSizeInfo->y * 8;
     }
     else
@@ -30,34 +31,28 @@ void hkpBallSocketChainData_00d53cf0::GetConstraintSizeInfo(bool abEnabled, S_00
     }
 }
 
-struct hkpBallSocketChainData_00d53ca0
+struct hkpBallSocketChainData_00d53ca0 : public hkpBallSocketChainData
 {
     void InitChainData(char* out);
 };
-// Initializes the output chain data: stores a pointer to this+0xc, zeroes fields, and sets sizes from the count at this+0x1c.
+// Initializes the output chain data: stores a pointer to the bridge atoms, zeroes fields, and sets sizes from the number of constraint infos.
 // @fnv 0x00d53ca0
+// pdb: hkpBallSocketChainData::getConstraintInfo | hkpBallSocketChainData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: info
 void hkpBallSocketChainData_00d53ca0::InitChainData(char* out)
 {
-    *(int*)(out + 0x10) = (int)(this + 0xc);
+    *(int*)(out + 0x10) = (int)&m_kBridgeAtoms;
     int zero = 0;
     *(int*)(out + 8) = zero;
     *(int*)(out + 0xc) = zero;
     *(int*)out = zero;
     *(int*)(out + 4) = 0x10;
     *(int*)(out + 0x14) = 0xc;
-    int iCount = *(int*)((char*)this + 0x1c);
+    int iCount = m_pConstraintInfo.m_iElementCount;
     int iTripleCount = iCount * 3;
     *(int*)(out + 4) = (((iCount * 0x134 + 0x33) & 0xfffffff0) + 0x10);
     *(int*)(out + 8) = iTripleCount;
     *(int*)(out + 0xc) = iTripleCount;
-}
-
-// FUN_00d53c90 : a one-line function - getter
-extern int g_target_00d53c90;
-// @fnv 0x00d53c90
-void* FUN_00d53c90()
-{
-    return &g_target_00d53c90;
 }
 
 class hkpConstraintDataD53E;
@@ -122,6 +117,7 @@ class FUN_00d53d90 : public hkpConstraintDataD53E
 };
 
 // @fnv 0x00d53d90
+// pdb: hkpBallSocketChainData::hkpBallSocketChainData | hkpBallSocketChainData.obj | fnv360_0822_retail, caller_sim, high
 FUN_00d53d90::FUN_00d53d90()
 {
     m_fTau = 0.6f;
@@ -180,21 +176,6 @@ class hkpConstraintDataD53D : public hkReferencedObjectD53D
     hkUlong m_ulUserData;
 };
 
-class FUN_00d53df0 : public hkpConstraintDataD53D
-{
-  public:
-    hkpBridgeAtomsD53D m_kBridgeAtoms;
-
-    FUN_00d53df0(hkFinishLoadedObjectFlagD53D flag);
-    virtual ~FUN_00d53df0();
-};
-
-// @fnv 0x00d53df0
-FUN_00d53df0::FUN_00d53df0(hkFinishLoadedObjectFlagD53D flag) : hkpConstraintDataD53D(flag), m_kBridgeAtoms(flag)
-{
-    if (flag.m_bFinishing)
-        m_kBridgeAtoms.m_kBridgeAtom.FUN_00d21ce0(this);
-}
 }  // namespace fnv_00d53df0
 
 namespace fnv_00d53e30 {
@@ -317,80 +298,10 @@ class FUN_00d53e30
     FUN_00d53e30* DestroyAndFree(unsigned int uiFlags) throw();
 };
 
-// Destructs the object and, when uiFlags has bit 0 set, frees its memory via operator delete, then returns this.
-// @fnv 0x00d54150
-FUN_00d53e30* FUN_00d53e30::DestroyAndFree(unsigned int uiFlags) throw()
-{
-    this->FUN_00d53e30::~FUN_00d53e30();
-    if (uiFlags & 1)
-        FUN_00d53e30::operator delete(this);
-    return this;
-}
-
 namespace fnv_00d549d0 {
-struct MemManager
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void deallocateChunk(void* p, int nbytes);
-};
-
-struct ThreadContext
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    MemManager* memory;
-};
 
 void* FUN_00c85750();
 
-struct Elem
-{
-    int a, b;
-};
-
-struct DummyClass
-{
-    int unk00;
-    Elem* data1;
-    int size1;
-    int cap1;
-    Elem* data2;
-    int size2;
-    int cap2;
-
-    void ClearArrays();
-};
-
-// @fnv 0x00d549d0
-void DummyClass::ClearArrays()
-{
-    ThreadContext* pThreadContext2 = (ThreadContext*)FUN_00c85750();
-    MemManager& mem2 = *pThreadContext2->memory;
-    int iCapacity2 = cap2;
-    size2 = 0;
-    if ((iCapacity2 & 0x80000000) == 0)
-    {
-        mem2.deallocateChunk(data2, (iCapacity2 & 0x3FFFFFFF) * 8);
-    }
-    data2 = 0;
-    cap2 = 0x80000000;
-
-    ThreadContext* pThreadContext1 = (ThreadContext*)FUN_00c85750();
-    MemManager& mem1 = *pThreadContext1->memory;
-    int iCapacity1 = cap1;
-    size1 = 0;
-    if ((iCapacity1 & 0x80000000) == 0)
-    {
-        mem1.deallocateChunk(data1, (iCapacity1 & 0x3FFFFFFF) * 8);
-    }
-    data1 = 0;
-    cap1 = 0x80000000;
-}
 }  // namespace fnv_00d549d0
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -408,41 +319,10 @@ struct Router_00d53d30
     void* m_10;
 };
 
-struct Pair_00d53d30
-{
-    __m128 a;
-    __m128 b;
-};
-
 namespace fnvc_adapt {
 Router_00d53d30* FUN_00c85750();
 }
 void ResizeAudioStream(void* alloc, void* arr, int elemSize);
-
-struct Chain_00d53d30
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    hkArray<Pair_00d53d30> m_aiIndexedValues;
-    void Push(const __m128& a, const __m128& b);
-};
-
-// Appends a Pair_00d53d30 to m_aiIndexedValues, growing the array via ResizeAudioStream when capacity is exceeded.
-// @fnv 0x00d53d30
-void Chain_00d53d30::Push(const __m128& a, const __m128& b)
-{
-    hkArray<Pair_00d53d30>& arr = m_aiIndexedValues;
-    Router_00d53d30* r = fnvc_adapt::FUN_00c85750();
-    if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
-        ResizeAudioStream(r->m_10, &arr, 0x20);
-    Pair_00d53d30& e = arr.m_data[arr.m_iElementCount++];
-    e.a = a;
-    e.b = b;
-}
 
 extern "C"
 {
@@ -494,10 +374,6 @@ template <class T> struct ChainValue
     {
         return val();
     }
-};
-struct QueryResultSchema
-{
-    ChainValue<void*> m_pQueryResultSchema;
 };
 struct QuantizedBoundsData;
 struct ChainStep
@@ -711,57 +587,4 @@ struct OffsetForChain
 };
 extern "C"
 {
-    void AppendEventRecord(const PortQuery*, QueryResultSchema*, void*, int);
-    char* FUN_00dd13c0(void*);
-    void FUN_00dcee70(PortQuery*);
-    void FUN_00dcfc00(const PortVector*, const PortVector*, float, PortQuery*, char*);
-    void FUN_00dd0ad0(int, float, float, float, OffsetForChain*, const QuantizedBoundsData*, char*, const PortQuery*,
-                      QueryResultSchema*);
-}
-struct ProbeRoot : public hkpBallSocketChainData
-{
-    void FUN_00d53e80(const PortQuery&, QueryResultSchema&);
-};
-// Iterates a rigid-body constraint chain, computing transformed pivot positions and accumulating query results into the output schema.
-// @fnv 0x00d53e80
-void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
-{
-    void* solver = input.m_pByteBuffer.val();
-    AppendEventRecord(&input, &output, solver, 8);
-    PortQuery localQuery = input;
-    localQuery.m_pConstraintChainInstance = 0;
-    localQuery.m_pByteBuffer = 0;
-    PortInplace<OffsetForChain, 32> offsets;
-    PortInstance* instance = reinterpret_cast<PortInstance*>(input.m_pConstraintChainInstance.val());
-    const QuantizedBoundsData* base = reinterpret_cast<const QuantizedBoundsData*>(
-        reinterpret_cast<const char*>(input.m_pBodyA.val()) - instance->getEntityA()->m_uiFilterInfo);
-    const PortBodyArray<PortEntity*>& bodies = instance->m_ppRigidBodies;
-    int count = bodies.GetLogicalSize() - 1;
-    PortEntity* body = bodies[0];
-    PortMotion* motion = body->getMotion();
-    localQuery.m_pBodyB =
-        reinterpret_cast<const QuantizedBoundsData*>(reinterpret_cast<const char*>(base) + body->m_uiFilterInfo);
-    offsets.pushBackUnchecked(OffsetForChain(base, localQuery.m_pBodyB));
-    localQuery.m_kBodyBLocalFrame = &motion->getTransform();
-    localQuery.m_fFourthQueryValue = 1.0f;
-    localQuery.m_fThirdQueryValue = localQuery.m_kThirdChainValue;
-    char* schema = FUN_00dd13c0(output.m_pQueryResultSchema);
-    for (int index = 0; index < count; ++index)
-    {
-        localQuery.m_pBodyA = localQuery.m_pBodyB;
-        localQuery.m_kBodyALocalFrame = localQuery.m_kBodyBLocalFrame;
-        body = bodies[index + 1];
-        motion = body->getMotion();
-        localQuery.m_pBodyB =
-            reinterpret_cast<const QuantizedBoundsData*>(reinterpret_cast<const char*>(base) + body->m_uiFilterInfo);
-        offsets.AddBack(OffsetForChain(base, localQuery.m_pBodyB));
-        localQuery.m_kBodyBLocalFrame = &motion->getTransform();
-        PortVector a, b;
-        a._setTransformedPos(*localQuery.m_kBodyALocalFrame, m_pConstraintInfo.m_data[index].m_kPivotInA);
-        b._setTransformedPos(*localQuery.m_kBodyBLocalFrame, m_pConstraintInfo.m_data[index].m_kPivotInB);
-        FUN_00dcee70(&localQuery);
-        FUN_00dcfc00(&a, &b, m_fMaximumAngularImpulse, &localQuery, schema);
-        schema += 0x90;
-    }
-    FUN_00dd0ad0(count, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, offsets.begin(), base, schema, &input, &output);
 }

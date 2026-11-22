@@ -20,43 +20,10 @@ struct MyType : BSFadeNode
     }
 };
 // @fnv 0x00c65830
+// pdb: bhkPCollisionObject::CreateObject | bhkPCollisionObject.obj | fnv360_0822_retail, caller_sim, medium
 void* FUN_00c65830()
 {
     return new MyType;
-}
-
-struct hkVector4
-{
-    float x, y, z, w;
-};
-void __cdecl SetNiPoint3FromHkVector4(void*, hkVector4 const&);
-extern int _NiPoint3_ZERO;
-extern int DAT_011f4270;
-extern int DAT_011f4274;
-extern float DAT_01267e30;
-struct WeaponObject
-{
-    void* FUN_00c65ef0(void*);
-};
-// @fnv 0x00c65ef0
-void* WeaponObject::FUN_00c65ef0(void* a1)
-{
-    void* p = *(void**)((char*)this + 0x10);
-    if (p)
-    {
-        void* q = *(void**)((char*)p + 8);
-        const hkVector4* r;
-        if (q)
-            r = (const hkVector4*)((char*)q + 0x1B0);
-        else
-            r = (const hkVector4*)&DAT_01267e30;
-        SetNiPoint3FromHkVector4(a1, *r);
-        return a1;
-    }
-    ((int*)a1)[0] = _NiPoint3_ZERO;
-    ((int*)a1)[1] = DAT_011f4270;
-    ((int*)a1)[2] = DAT_011f4274;
-    return a1;
 }
 
 struct AudioTlsState
@@ -100,6 +67,8 @@ struct MyNode : BSFadeNode
     }
 };
 
+// pdb: bhkCollisionObject::CreateClone | bhkCollisionObject.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arCloneData
 MyType* FUN_00c659d0_shell::FUN_00c659d0(void* param)
 {
     ScopedMemoryContext scope(0x10);
@@ -108,52 +77,6 @@ MyType* FUN_00c659d0_shell::FUN_00c659d0(void* param)
     return (MyType*)obj;
 }
 
-
-struct FUN_00c65890_Tgt
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    unsigned int m_flags;
-};
-
-struct FUN_00c65890_Callee
-{
-    void Tail();
-};
-
-struct FUN_00c65890_cls
-{
-    int unk00;
-    int unk04;
-    FUN_00c65890_Callee* m_08;
-    int unk0c;
-    FUN_00c65890_Tgt* m_10;
-    void FUN_00c65890(int param);
-    void UpdateState(int param);
-};
-
-// @fnv 0x00c65890
-void FUN_00c65890_cls::FUN_00c65890(int param)
-{
-    FUN_00c65890_Tgt* tgt = m_10;
-    if (tgt != 0)
-    {
-        unsigned int flags = tgt->m_flags;
-        flags >>= 6;
-        if (((unsigned char)flags & 1) != 0)
-        {
-            FUN_00c65890_Callee* p = m_08;
-            if (p != 0)
-            {
-                p->Tail();
-            }
-            return;
-        }
-    }
-    UpdateState(param);
-}
 
 struct CollisionNode
 {
@@ -448,6 +371,8 @@ static inline bool IsFixedMotion(int type)
     return type < 6 || type == 8;
 }
 
+// pdb: bhkCollisionObject::SetMotionType | bhkCollisionObject.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aeType, apObject, abAllowActivate
 void ColObj_c65f40::FUN_00c65f40(int type, NiObj_c65f40* obj, bool update)
 {
     RigidBody_c65f40* rb;
@@ -742,6 +667,8 @@ class CollisionObj : public CollisionParent
 };
 
 // @f3 0x008d26a0 (community match, verified in this file)
+// pdb: bhkCollisionObject::AddViewerStrings | bhkCollisionObject.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void CollisionObj::FUN_00c66060(ViewerStrings* apViewerStrings)
 {
     ParentViewerStrings(apViewerStrings);

@@ -48,6 +48,8 @@ struct Wrapper
 };
 // Calls inner->Invoke with the two arguments swapped, then copies inner->state into this wrapper's state and returns it.
 // @fnv 0x00da7150
+// pdb: hkpMoppAabbCastVirtualMachineQueryInt::operator= | hkpMoppAabbCastVirtualMachine.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpSymmetricAgentFlipBodyCollector::addCdBodyPair)
+// pdb params: __that
 unsigned char Wrapper::ForwardAndSyncState(void* first, void* second)
 {
     inner->Invoke(second, first);
@@ -169,19 +171,6 @@ struct hkVector4
     }
 };
 
-struct VecDispatch
-{
-    virtual void v00();
-    virtual void Dispatch(void* packet);
-    float m_04;
-};
-struct VecArg
-{
-    hkVector4 m_00;
-    hkVector4 m_10;
-    unsigned int m_20;
-    unsigned int m_24;
-};
 struct VecPacket
 {
     hkVector4 m_00;
@@ -191,28 +180,5 @@ struct VecPacket
     __forceinline VecPacket(unsigned int a, unsigned int b) : m_20(a), m_24(b)
     {}
 };
-struct VecHolder
-{
-    unsigned int unk00;
-    float m_04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    hkVector4 m_10;
-    VecDispatch* m_20;
 
-    void FUN_00da70e0(const VecArg& arg);
-};
-
-// Builds a packet with arg.m_00 + m_10 * arg.m_10's w and arg.m_10 negated, dispatches it via m_20, and copies m_20->m_04 to m_04.
-// @fnv 0x00da70e0
-void VecHolder::FUN_00da70e0(const VecArg& arg)
-{
-    VecPacket p(arg.m_24, arg.m_20);
-    hkVector4 w;
-    w.setBroadcast3(arg.m_10);
-    p.m_00.setAddMul4(arg.m_00, m_10, w);
-    p.m_10.setNeg3(arg.m_10);
-    m_20->Dispatch(&p);
-    m_04 = m_20->m_04;
-}
 }  // namespace fnv_00da70e0

@@ -4,32 +4,6 @@
 
 #include "havok/hkpNullCollisionFilter.h"
 
-extern int DAT_0102e388;
-extern int DAT_010c3b80;
-extern int DAT_010c3b8c;
-extern int DAT_010c3b98;
-extern int DAT_010c3bac;
-
-struct FUN_00cfa860
-{
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
-    ~FUN_00cfa860();
-};
-
-// @fnv 0x00cfa860
-FUN_00cfa860::~FUN_00cfa860()
-{
-    *(void**)((char*)this + 0x14) = &DAT_010c3b8c;
-    *(void**)((char*)this + 0x10) = &DAT_010c3bac;
-    *(void**)((char*)this + 0x0c) = &DAT_010c3b98;
-    *(void**)((char*)this + 0x08) = &DAT_010c3b80;
-    *(void**)((char*)this + 0x00) = &DAT_0102e388;
-}
-
 extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 struct __declspec(align(16)) S_00cfab30_vec
@@ -122,14 +96,11 @@ struct S_00cfab30_this
     int unk30;
     void* unk34;
 
-    void __thiscall RecordAndDispatch(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*, void*);
+    void __thiscall hkpSimpleWorldRayCaster_castRaysFromSinglePoint(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*, void*);
 };
 
-extern int DAT_0126835c;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier(void);
-extern const char str_010cc668[];
-extern const char str_010c41f8[];
 
 // Records a start timestamp, stores arguments into fields, invokes target_call on arg08 with a local struct, then records an end timestamp.
 // @f3 0x00984970 (community match, verified in this file)
@@ -161,7 +132,10 @@ struct Target570 {
     virtual void v50();
     virtual void Dispatch(Dispatch570*,S_00cfab30_this*,int);
 };
-void S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* target,S_00cfab30_arg* input,void* context,void* adjusted,void* extra,void* owner){
+// pdb: hkpSimpleWorldRayCaster::castRaysFromSinglePoint | hkpSimpleWorldRayCaster.obj | fnv360_0822_retail, ustr, high
+// pdb params: broadphase, inputArray, numRays, filter, cache, outputs
+// pdb: hkpSimpleWorldRayCaster::castRaysFromSinglePoint | hkpSimpleWorldRayCaster.obj | fnv360_0822_retail, ustr, high (was: RecordAndDispatch)
+void S_00cfab30_this::hkpSimpleWorldRayCaster_castRaysFromSinglePoint(S_00cfab30_object* target,S_00cfab30_arg* input,void* context,void* adjusted,void* extra,void* owner){
     S_00cfab30_allocator* (__stdcall* lookup)(unsigned long)=DAT_00d9b080;
     volatile unsigned int timestamp;
     S_00cfab30_allocator* allocator=lookup(DAT_0116913c);

@@ -5,7 +5,8 @@
 extern "C" void* g_011f5b88;
 
 // @fnv 0x00a8a7b0
-void* __cdecl FUN_00a8a7b0()
+// pdb: NiTriShapeDynamicData::GetRTTI | NiTriShapeDynamicData.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+void* __cdecl NiTriShapeDynamicData_GetRTTI()
 {
     return &g_011f5b88;
 }
@@ -27,6 +28,7 @@ struct FUN_00a8a7c0_shell : public FUN_00a68800_shell
 };
 
 // @fnv 0x00a8a7c0
+// pdb: NiLinesData::`scalar deleting destructor' | NiLinesData.obj | fnv360_0822_retail, objrun, high
 void* __thiscall FUN_00a8a7c0_shell::FUN_00a8a7c0(unsigned int flags)
 {
     void* pkFlags = *(void**)((char*)this + 0x40);
@@ -58,14 +60,16 @@ struct NiLinesDataStandIn
     int unk38;
     int unk3c;
     char* m_pName40;
-    bool FUN_00a67840(NiLinesDataStandIn* other);
+    bool NiGeometryData_IsEqual(NiLinesDataStandIn* other);
     bool IsEqual(NiLinesDataStandIn* other);
 };
 
 // @fnv 0x00a8a730
+// pdb: NiLinesData::IsEqual | NiLinesData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 bool NiLinesDataStandIn::IsEqual(NiLinesDataStandIn* other)
 {
-    if (!FUN_00a67840(other))
+    if (!NiGeometryData_IsEqual(other))
     {
         return false;
     }
@@ -91,7 +95,7 @@ bool NiLinesDataStandIn::IsEqual(NiLinesDataStandIn* other)
 }
 
 namespace fnv_00a8a850 {
-// NiLinesData::FUN_00a8a850  --  the save path of the "lines" data object.
+// NiLinesData::NiLinesData_SaveBinary  --  the save path of the "lines" data object.
 //
 // The object keeps a name buffer (m_pName40) and its length (m_nameLen08).
 // Saving writes that buffer into the sub-stream that the target object holds
@@ -278,14 +282,15 @@ struct NiLinesDataStandIn
     int unk38;
     int unk3c;
     char* m_pName40;
-    void FUN_00a68520(NiStreamStandIn& stream);
-    void FUN_00a8a850(NiStreamStandIn& stream);
+    void NiGeometryData_SaveBinary(NiStreamStandIn& stream);
+    void NiLinesData_SaveBinary(NiStreamStandIn& stream);
 };
 
 // @fnv 0x00a8a850
-void NiLinesDataStandIn::FUN_00a8a850(NiStreamStandIn& stream)
+// pdb: NiLinesData::SaveBinary | NiLinesData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiLinesDataStandIn::NiLinesData_SaveBinary(NiStreamStandIn& stream)
 {
-    this->FUN_00a68520(stream);
+    this->NiGeometryData_SaveBinary(stream);
     NiStreamIOStandIn* io = stream.unk250;
     char* buf = this->m_pName40;
     unsigned int len = this->m_nameLen08;
@@ -331,6 +336,8 @@ struct S_00a8a890_Obj
 };
 
 // @fnv 0x00a8a890
+// pdb: NiFloatsExtraDataController::GetViewerStrings | NiFloatsExtraDataController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkStrings
 void S_00a8a890_Obj::FUN_00a8a890(S_00a8a890_Arr* arr)
 {
     RegisterFields(arr);
@@ -397,12 +404,13 @@ class GeomDataA8A8 : public FUN_00a67ea0_helper
     int unk0C[13];
     unsigned char* m_pucFlags;
 
-    void FUN_00a8a800(NiStreamA8A8& kStream);
+    void NiLinesData_LoadBinary(NiStreamA8A8& kStream);
 };
 
 // Calls ReadBinary, allocates m_pucFlags for m_usVertices bytes, and reads that data from kStream.
 // @fnv 0x00a8a800
-void GeomDataA8A8::FUN_00a8a800(NiStreamA8A8& kStream)
+// pdb: NiLinesData::LoadBinary | NiLinesData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+void GeomDataA8A8::NiLinesData_LoadBinary(NiStreamA8A8& kStream)
 {
     ReadBinary(kStream);
     m_pucFlags = (unsigned char*)NiMalloc(m_usVertices);

@@ -4,6 +4,8 @@
 
 // Finds the key interval containing time, interpolates between the lower and upper keys via DAT_011f3ca8[type], updates lastIndex and returns the result.
 // @fnv 0x00a27490
+// pdb: NiRotKey::GenInterp | NiRotKey.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiPosKey::GenInterp)
+// pdb params: fTime, pkKeys, eType, uiNumKeys, uiLastIdx, ucSize
 NiPoint3 PositionKeyInterpolator::InterpolatePosition(float time, PositionKeyInterpolator* keys, KeyType type,
                                                       unsigned int count, unsigned int& lastIndex, unsigned char size)
 {
@@ -62,6 +64,8 @@ bool AreFloatsEqual(const A27760Data* pkA, const A27760Data* pkB);
 
 // Returns true when AreFloatsEqual succeeds for both records and their m_kValue points compare equal.
 // @fnv 0x00a27760
+// pdb: NiPosKey::Equal | NiPosKey.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: key0, key1
 bool AreDataEqual(const A27760Data* pkA, const A27760Data* pkB)
 {
     if (!AreFloatsEqual(pkA, pkB))
@@ -97,6 +101,8 @@ P3 __cdecl FUN_00a27490(float time, PKey* keys, int type, unsigned int count, un
                         unsigned char size);
 // Returns the key position for time, clamping to the first/last key when time is out of range, otherwise delegating to FUN_00a27490.
 // @fnv 0x00a276a0
+// pdb: NiRotKey::GenInterpDefault | NiRotKey.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiPosKey::GenInterpDefault)
+// pdb params: fTime, pkKeys, eType, uiNumKeys, ucSize
 P3 __cdecl GetKeyPosAtTime(float time, PKey* keys, int type, unsigned int count, unsigned char size)
 {
     if (count)
@@ -141,7 +147,9 @@ inline NiPoint3 InitialCrossCurveVectors(const NiPoint3& a, const NiPoint3& b)
 }
 // Evaluates curve velocity and acceleration at time, then derives the tangent, normal, binormal and curvature for the animation key pair.
 // @fnv 0x00a277c0
-void __cdecl ComputeFrenetFrame(float time, const AnimationKey* key0, const AnimationKey* key1,
+// pdb: NiPosKey::CoordinateFrame | NiPosKey.obj | tesv_win, udata, high
+// pdb: NiPosKey::CoordinateFrame | NiPosKey.obj | tesv_win, udata, high (was: ComputeFrenetFrame)
+void __cdecl NiPosKey_CoordinateFrame(float time, const AnimationKey* key0, const AnimationKey* key1,
                                 AnimationKey::KeyType type, NiPoint3& tangent, NiPoint3& normal, NiPoint3& binormal,
                                 float& curvature)
 {

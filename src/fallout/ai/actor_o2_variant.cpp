@@ -17,6 +17,7 @@ struct bhkRagdollController
     void* FUN_00c7de30(unsigned int);
 };
 // @fnv 0x00c7de30
+// pdb: ProjectileListener::`scalar deleting destructor' | ProjectileListener.obj | fnv360_0822_retail, vtable_prefix, medium
 void* bhkRagdollController::FUN_00c7de30(unsigned int flag)
 {
     FUN_00c7d900();
@@ -30,7 +31,8 @@ void* bhkRagdollController::FUN_00c7de30(unsigned int flag)
 extern "C" void* g_012685f8;
 
 // @fnv 0x00c7fa60
-void* __cdecl FUN_00c7fa60()
+// pdb: NiBSplineInterpolator::GetRTTI | NiBSplineInterpolator.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(objrun), high
+void* __cdecl NiBSplineInterpolator_GetRTTI()
 {
     return &g_012685f8;
 }
@@ -44,6 +46,7 @@ struct FUN_00c7fa70_Class
 };
 
 // @fnv 0x00c7fa70
+// pdb: bhkUnaryAction::`scalar deleting destructor' | GlobalFunc.obj | fnv360_0822_retail, vtable_prefix, high
 void* __thiscall FUN_00c7fa70_Class::FUN_00c7fa70(int flags)
 {
     FUN_00cc58c0();
@@ -76,6 +79,7 @@ struct FUN_00cda4b0_cls
 };
 
 // @fnv 0x00cda4b0
+// pdb: BSShaderBloodSplatter::ReloadShaders | BSShaderBloodSplatter.obj | fnv360_0822_debug, caller_sim, low
 void __thiscall FUN_00cda4b0_cls::FUN_00cda4b0()
 {
     FUN_00cda340();
@@ -89,6 +93,7 @@ struct FUN_00cda8d0_class
 };
 
 // @fnv 0x00cda8d0
+// pdb: hkaPose::getSyncedPoseModelSpace | hkaPose.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkaPose::getSyncedPoseLocalSpace)
 void* FUN_00cda8d0_class::FUN_00cda8d0()
 {
     FUN_00cda340();
@@ -101,6 +106,7 @@ struct FUN_00cdb290
     void* __thiscall GetPlus4();
 };
 // @fnv 0x00cdb290
+// pdb: hkaPose::getSyncedPoseModelSpace | hkaPose.obj | tesv_win, objrun_open, low
 void* __thiscall FUN_00cdb290::GetPlus4()
 {
     FUN_00cda690();
@@ -152,6 +158,8 @@ struct MyNode
     unsigned short count;
 };
 // @fnv 0x00c802d0
+// pdb: bhkUtilFunctions::FindNextCollisionObject | bhkUtilFunctions.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObj
 MyNode* __cdecl FUN_00c802d0(MyNode* p)
 {
     MyNode* r = p->field_1c;
@@ -264,6 +272,7 @@ struct FUN_00c6ffc0_Class
 };
 
 // @f3 0x008ecaa0 (community match, verified in this file)
+// pdb: bhkCharacterController::KillDisplayGeometry | bhkCharacterController.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00c6ffc0_Class::FUN_00c6ffc0()
 {
     Target* p = FUN_00c6e0b0();
@@ -354,7 +363,8 @@ struct RCtx;
 RObj* __cdecl FUN_00c4b470(RCtx*, RKey*, int);
 
 // @fnv 0x00c7bcb0
-void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr)
+// pdb: bhkRagdollController::CopyPoseTo3DRec | bhkRagdollController.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|caller_sim), high
+void __cdecl bhkRagdollController_CopyPoseTo3DRec(RCtx* ctx, RObj* obj, RArr* arr)
 {
     RKey key(obj->name);
     key.obj = obj;
@@ -380,7 +390,7 @@ void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr)
         {
             RObj* child = node->children[i];
             if (child)
-                FUN_00c7bcb0(ctx, child, arr);
+                bhkRagdollController_CopyPoseTo3DRec(ctx, child, arr);
         }
     }
 }
@@ -406,7 +416,7 @@ struct Creature
 };
 
 void __cdecl SetFlagRecursive(int, void*);
-void __cdecl FUN_00c7bcb0(void*, void*, void*);
+void __cdecl bhkRagdollController_CopyPoseTo3DRec(void*, void*, void*);
 
 inline unsigned char GetFlag6(unsigned short w)
 {
@@ -414,6 +424,8 @@ inline unsigned char GetFlag6(unsigned short w)
 }
 
 // @f3 0x008e7690 (community match, verified in this file)
+// pdb: bhkRagdollController::CopyPoseTo3D | bhkRagdollController.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apSkeleton, apPose, arPoseA, arbPrevUseVel, arePrevMotion
 void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5)
 {
     MyNode* node = FUN_00c802d0((MyNode*)param_1);
@@ -450,7 +462,7 @@ void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* p
     }
     if (param_1 && param_2)
     {
-        FUN_00c7bcb0(param_1, param_2, param_3);
+        bhkRagdollController_CopyPoseTo3DRec(param_1, param_2, param_3);
         NiUpdateData updateData;
         updateData.m_fTime = 0.0f;
         updateData.b0 = false;
@@ -476,12 +488,6 @@ struct NiTransform
     NiTransform operator*(const NiTransform&) const;
 };
 void FUN_00c74dd0(void*, NiTransform*);
-extern bool DAT_01267c28;
-extern bool DAT_01267c34;
-extern bool DAT_01267c40;
-extern bool DAT_01267c4c;
-extern bool DAT_01267c58;
-extern bool DAT_01267c64;
 
 struct RagScrapMarker
 {
@@ -641,7 +647,7 @@ struct Controller {
     bool flag28e;
     char unk28f;
     __forceinline void Update(float);
-    void FUN_008e1dd0();
+    void bhkRagdollController_GetSGPoseLocalSpace();
     void FUN_008e5710(int);
     void FUN_008dd450(void*);
     void FUN_008dbec0(void*);
@@ -650,7 +656,7 @@ struct Controller {
     // only tells the compiler that the bool passed by address does not escape, so the loads of the count are not
     // held behind the store that clears it.
     __declspec(noalias) void FUN_008e6750(void*, void*, bool*);
-    void FUN_008e6210(void*);
+    void bhkRagdollController_UpdateRagdollRigidBodies(void*);
     void FUN_008e6d70();
     void FUN_008e2480();
 };
@@ -697,7 +703,7 @@ __forceinline void Controller::Update(float)
         FUN_008db970(&m_kWorkArea, &kWorld);
         if (flag40 == 0)
         {
-            FUN_008e1dd0();
+            bhkRagdollController_GetSGPoseLocalSpace();
             FUN_008e5710(0);
             if (DAT_010f2c88 && (flag222 || flag223))
                 FUN_008dd450(&m_kWorkArea);
@@ -709,7 +715,7 @@ __forceinline void Controller::Update(float)
         unsigned int count = m_48->inner->count;
         bool bOk = false;
         ScrapMarker kScrap(count);
-        FUN_008e6210((DAT_010f2cb8 && flag256 && (FUN_008e6750(&m_kWorkArea, kScrap.p, &bOk), bOk)) ? kScrap.p : 0);
+        bhkRagdollController_UpdateRagdollRigidBodies((DAT_010f2cb8 && flag256 && (FUN_008e6750(&m_kWorkArea, kScrap.p, &bOk), bOk)) ? kScrap.p : 0);
         FUN_008e5710(1);
         if (!flag40)
         {
@@ -724,6 +730,8 @@ __forceinline void Controller::Update(float)
 
 // The pack's class names its callees by their New Vegas addresses, so the body lives in a stand-in class with this
 // game's callee names and is forced inline here.
+// pdb: bhkRagdollController::DoRagdollAnim | bhkRagdollController.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abUpdateBones
 void FUN_00c7d630_t::FUN_00c7d630(float dt)
 {
     reinterpret_cast<f3m_008e7b20::Controller*>(this)->Update(dt);
@@ -757,6 +765,7 @@ struct FUN_00c7d810_Cls
 };
 
 // @fnv 0x00c7d810
+// pdb: bhkRagdollController::SyncRagdollTo3D | bhkRagdollController.obj | fnv360_0822_retail, call_gap, medium
 void FUN_00c7d810_Cls::FUN_00c7d810()
 {
     Xform nitrans = *(Xform*)((char*)(*(void**)((char*)this + 0x58)) + 0x68);
@@ -774,44 +783,11 @@ void FUN_00c7d810_Cls::FUN_00c7d810()
 }
 }  // namespace fnv_00c7d810
 
-struct FUN_00cb0c00_class
-{
-    void FUN_00cb0c00();
-};
-
-struct VObjExt : VObj
-{
-    virtual void v3();
-    virtual void v4(void*, unsigned int);
-};
-
-struct FUN_00c7d890_cls
-{
-    void* _0;
-    int _4;
-    unsigned int _8;
-    void FUN_00c7d890();
-};
-
-// @fnv 0x00c7d890
-void FUN_00c7d890_cls::FUN_00c7d890()
-{
-    VObjExt* p = (VObjExt*)_FUN_00c85750()->p;
-    int count = _4;
-    char* base = (char*)_0;
-    for (int i = 0; i < count; i++)
-        ((FUN_00cb0c00_class*)(base + i * 8))->FUN_00cb0c00();
-    unsigned int flags = _8;
-    _4 = 0;
-    if (!(flags & 0x80000000))
-        p->v4(_0, (flags & 0x3fffffff) * 8);
-    _8 = 0x80000000;
-    _0 = 0;
-}
-
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 
 // @fnv 0x00c7f900
+// pdb: BSSimpleArray<DetailedActorPathHandler::ActorAvoidanceData,1024>::_MoveItems | DetailedActorPathHandler.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apDestAddr, apSrcAddr, aiCount
 void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count)
 {
     if (count <= 0)
@@ -859,7 +835,8 @@ extern void* DAT_011afecc;
 S_c6a200_Info* __cdecl GetExtraDataChecked(void* obj);
 void __cdecl FUN_00c68900(void* obj, S_c6a200_Ev* ev, void* extra);
 // @fnv 0x00c6a200
-bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3)
+// pdb: bhkWorld::SetDisabled | bhkWorld.obj | fnv360_0822_retail, call_seq + bridge(call_gap_sim|call_gap_sim) + skyrim(caller_sim), high
+bool __cdecl bhkWorld_SetDisabled(void* obj, unsigned char a1, unsigned char a2, unsigned char a3)
 {
     bool r = false;
     if (obj)
@@ -886,6 +863,8 @@ struct FlagController
     void FUN_00c7ba10(bool);
 };
 // @fnv 0x00c7ba10
+// pdb: bhkRagdollController::EnableRagdollFeedback | bhkRagdollController.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: Projectile::HavokDetached)
+// pdb params: abEnable
 void FlagController::FUN_00c7ba10(bool enabled)
 {
     unsigned char* state = (unsigned char*)this;
@@ -1007,18 +986,6 @@ struct ScopeGuard
     }
 };
 
-void FUN_00c7d480_cls::FUN_00c7d480()
-{
-    ScopeGuard guard(this);
-    unsigned int count = m_0c;
-    bool differs = count != (unsigned int)m_00;
-    if (!differs)
-    {
-        m_04 = 0;
-    }
-    *(unsigned int*)_FUN_00c85750() = count;
-}
-
 namespace fnv_00c7d520 {
 struct FreeIface
 {
@@ -1059,17 +1026,6 @@ struct ScopeGuard
     }
 };
 
-void FUN_00c7d520_cls::FUN_00c7d520()
-{
-    ScopeGuard guard(this);
-    unsigned int count = m_0c;
-    bool differs = count != (unsigned int)m_00;
-    if (!differs)
-    {
-        m_04 = 0;
-    }
-    *(unsigned int*)_FUN_00c85750() = count;
-}
 }  // namespace fnv_00c7d520
 
 struct AudioAllocator
@@ -1142,6 +1098,7 @@ struct L_c7d5c0_Layout {
     unsigned int cap;
 };
 
+// pdb: hkpListShape::~hkpListShape | hkpListShape.obj | fnv360_0822_retail, call_seq, high
 void FUN_00c7d5c0_cls::FUN_00c7d5c0()
 {
     L_c7d5c0_Layout* self = (L_c7d5c0_Layout*)this;
@@ -1201,6 +1158,8 @@ struct FUN_00c7f9e0 : MiddleObject
 };
 
 // @fnv 0x00c7f9e0
+// pdb: bhkHingeConstraint::bhkHingeConstraint | MissileProjectile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: arInfo
 FUN_00c7f9e0::FUN_00c7f9e0(void* context) : MiddleObject()
 {
     classTable = DAT_010c52bc;
@@ -1225,115 +1184,6 @@ struct BCB9810AllocTagScope
     }
 };
 
-struct BCB9810Node
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    BCB9810Node* m_pParentNode;
-};
-
-struct BCB9810Entry
-{
-    int unk00;
-    int unk04;
-    BCB9810Node* m_pkTreeNode;
-    int unk0C;
-};
-
-class BCB9810Registry
-{
-  public:
-    void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
-    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
-
-    int unk00;
-    int unk04;
-    BCB9810Entry* m_pkEntryArray;
-    int m_iArrayLength;
-};
-
-// @fnv 0x00cb9810
-void BCB9810Registry::FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode)
-{
-    BCB9810AllocTagScope kScope(0x10);
-    bool bFound = false;
-    for (int i = 0; i < m_iArrayLength; i++)
-    {
-        if (bFound)
-            break;
-        BCB9810Node* pkRoot = pkNode;
-        while (pkRoot->m_pParentNode)
-            pkRoot = pkRoot->m_pParentNode;
-        if (pkRoot == m_pkEntryArray[i].m_pkTreeNode)
-            bFound = true;
-    }
-    if (!bFound)
-        AppendTailPair(pvOwner, pkNode);
-}
-
-struct CE4360Iter
-{
-    int* GetFirst();
-    int* GetSecond();
-    int* GetThird();
-    int* GetFourth();
-};
-
-struct CE4360Context
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int m_iMode;
-};
-
-void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
-void __cdecl FUN_00ce4330(CE4360Context* pkContext, int a, int b, int c);
-
-// @fnv 0x00ce4360
-void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue)
-{
-    if (pkContext->m_iMode == 0)
-    {
-        int a = *pkFrom->GetFirst();
-        int b = *pkTo->GetSecond();
-        FUN_00ce3a00(pkContext, a, b, *pkTo->GetThird(), iValue);
-    }
-    else if (pkContext->m_iMode == 1)
-    {
-        int a = *pkFrom->GetSecond();
-        int b = *pkTo->GetFourth();
-        FUN_00ce4330(pkContext, a, b, 0);
-    }
-}
-
 struct RTTI_c9b
 {
     const char* m_pcName;
@@ -1342,8 +1192,6 @@ struct RTTI_c9b
 extern unsigned char DAT_011f4428;
 
 class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_012043f8;
-extern float DAT_01267e30;
 
 struct S
 {
@@ -1525,6 +1373,8 @@ __forceinline bool IsNodeF3(Obj_c9b* pkObj)
     }
     return false;
 }
+// pdb: bhkBlendController::DoGetUp | bhkBlendController.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apObject, afTime
 void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f)
 {
     if (pkObj && IsNodeF3(pkObj) && pkObj->m_usElementCount > 0)
@@ -1575,6 +1425,8 @@ struct FUN_0046e5c0_stub
     void FUN_0046e5c0(char* dst, char* src, unsigned int count);
 };
 
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::_ReallocateBuffer | PathSmootherPOV.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiNewSize, aiCopyCount
 void FUN_00c7f970_cls::FUN_00c7f970(unsigned int uiNew, unsigned int uiOld)
 {
     if (m_pData)
@@ -1620,17 +1472,6 @@ struct hkArrayStandIn
     hkArrayStandIn() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
 };
-struct FUN_00c7bfd0
-{
-    int m_00, m_04, m_08;
-    float m_0c;
-    float m_10;
-    hkArrayStandIn m_14, m_20, m_2c;
-    Head m_38;
-    int m_40, m_44, m_48;
-    float m_4c, m_50;
-    FUN_00c7bfd0();
-};
 // @f3 0x007c2870 (community match, verified in this file)
 extern int DAT_0108ec68;
 extern int DAT_0108ec6c;
@@ -1666,6 +1507,7 @@ struct BooleanFloatQuery
     void FUN_007c2870();
 };
 
+// pdb: HitData::ClearData | HitData.obj | fnv360_0822_retail, call_seq, medium
 void BooleanFloatQuery::FUN_007c2870()
 {
     m_14 = 0.0f;
@@ -1762,6 +1604,8 @@ struct FUN_00cb9650_Object
 extern const char DAT_012683f4[];
 
 // @fnv 0x00cb9650
+// pdb: bhkForceController::RemoveForce | bhkForceController.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject
 void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object)
 {
     if (object != 0)
@@ -1818,6 +1662,8 @@ struct RagController
     void FUN_00c75580(unsigned char enabled);
 };
 // @f3 0x008dc2e0 (community match, verified in this file)
+// pdb: bhkRagdollController::SetLookIKActive | bhkRagdollController.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abActive
 void RagController::FUN_00c75580(unsigned char enabled)
 {
     int state;
@@ -1856,9 +1702,6 @@ void RagController::FUN_00c75580(unsigned char enabled)
 
 
 extern "C" double __cdecl sqrt(double x);
-__int64 __cdecl FUN_00aa4d80();
-extern float DAT_011b02e4;
-extern float DAT_011ac39c;
 struct NodeC
 {
     int n000;
@@ -2266,6 +2109,8 @@ struct Native2030Cls
 };
 
 // @fnv 0x00c7ba50
+// pdb: bhkRagdollController::DoPoseMatching | bhkRagdollController.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arWorldFromModel, apRagdollDrivePoseLS, arbUseDrivePose
 void Cls::FUN_00c7ba50(void* a1, void* a2, bool* a3)
 {
     Native2030Cls* self=(Native2030Cls*)this;
@@ -2323,8 +2168,6 @@ void Cls::FUN_00c7ba50(void* a1, void* a2, bool* a3)
     }
 }
 
-
-extern __m128 g_hkQuadZero;
 
 struct RagMotion
 {
@@ -2846,7 +2689,7 @@ struct RagdollCtl
     int unk2a8;
     int unk2ac;
     void FUN_00c7b6a0(bool);
-    void FUN_00c7c150(bool);
+    void bhkRagdollController_DisableRagdollAnim(bool);
 };
 
 // @f3 0x008e6bf0 (community match, verified in this file)
@@ -2897,7 +2740,8 @@ struct RVec48e {
 }
 using namespace n8e6bf0;
 
-void RagdollCtl::FUN_00c7c150(bool b)
+// pdb: bhkRagdollController::DisableRagdollAnim | bhkRagdollController.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void RagdollCtl::bhkRagdollController_DisableRagdollAnim(bool b)
 {
     if (active)
     {
@@ -2947,6 +2791,7 @@ void RagdollCtl::FUN_00c7c150(bool b)
 
 
 // @fnv 0x00c7f4a0
+// pdb: hkVector4::isOk4 | hkVector4.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkVector4isOk)
 static __declspec(noinline) unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count)
 {
     int i = 0;
@@ -2993,12 +2838,12 @@ static __declspec(noinline) bool* CheckFloatsValid(const float* pData, int iCoun
     return pOut;
 }
 // @fnv 0x00c7f500
+// pdb: hkVector4::isOk4 | hkVector4.obj | tesv_win, objrun_prop, low
 void HkFloatCheck::FUN_00c7f500(bool* pOut)
 {
     CheckFloatsValid((const float*)this, 4, pOut);
 }
 
-extern int DAT_01267b70;
 struct S_Out
 {
     int unk00;
@@ -3037,7 +2882,6 @@ struct S_Elem
     int unk08;
     S_Inner* unk0c;
 };
-int* __cdecl FUN_00c85ef0(S_Out* out, void* ptr, void* tag);
 inline void* GetOwner(S_Obj* c)
 {
     return (char*)c + c->unk10;
@@ -3066,6 +2910,8 @@ struct S_InnerCall
 {
     int FUN_008f9c90(int arg);
 };
+// pdb: bhkUtilFunctions::GetNiAVObject | bhkUtilFunctions.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apCollidable
 int __cdecl FUN_00c7fa90(S_Obj* p)
 {
     int result = 0;
@@ -3114,17 +2960,6 @@ struct __declspec(align(16)) MVec4
         q = _mm_add_ps(q, a.q);
     }
 };
-struct BoneTransform
-{
-    MVec4 position;
-    MVec4 rotation;
-    MVec4 scale;
-};
-struct BoneDesc
-{
-    int unk00;
-    unsigned char locked;
-};
 struct BoneFlags
 {
     unsigned int bits;
@@ -3139,66 +2974,6 @@ struct BoneFlags
         return *this;
     }
 };
-struct SkeletonModel
-{
-    int unk00, unk04, unk08;
-    short* parents;
-    int unk10, unk14;
-    BoneDesc* bones;
-    int count;
-    int unk20;
-    BoneTransform* reference;
-};
-struct PoseState
-{
-    SkeletonModel* model;
-    BoneTransform* local;
-    int unk08, unk0c;
-    BoneTransform* world;
-    int unk14, unk18;
-    unsigned int* flags;
-    int count;
-    int unk24;
-    bool ready;
-    void FUN_00cda340();
-    void FUN_00cda4c0();
-};
-// @fnv 0x00cda4c0
-void PoseState::FUN_00cda4c0()
-{
-    int n = model->count;
-    FUN_00cda340();
-    for (int i = 0; i < n; ++i)
-    {
-        bool locked = model->bones[i].locked != 0;
-        short parent = model->parents[i];
-        if (locked)
-        {
-            const BoneTransform& ref = model->reference[i];
-            if (parent != -1)
-            {
-                const BoneTransform& p = world[parent];
-                world[i].position.Rotate(p.rotation, ref.position);
-                world[i].position.Add(p.position);
-            }
-            else
-            {
-                world[i].position.q = ref.position.q;
-            }
-            flags[i] |= 1;
-            flags[i] |= 4;
-        }
-        else if (parent != -1)
-        {
-            unsigned int* f = flags;
-            if (f[parent] & 4)
-                f[i] |= 1;
-        }
-    }
-    int m = count;
-    for (int j = 0; j < m; ++j)
-        flags[j] &= ~28;
-}
 
 struct C7C2B0_Heap
 {
@@ -3233,21 +3008,6 @@ struct C7C2B0_Array
         m_iCapacityState = 0x80000000;
     }
 };
-struct ShapeArrays
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    C7C2B0_Array m_iThirdValue;
-    C7C2B0_Array m_kPointB;
-    C7C2B0_Array m_kPointA;
-    ~ShapeArrays();
-};
-// @fnv 0x00c7c2b0
-ShapeArrays::~ShapeArrays()
-{}
 
 extern "C" void _ReadWriteBarrier(void);
 struct AllocHolderX
@@ -3651,7 +3411,6 @@ FUN_00c7d900::~FUN_00c7d900()
 }
 
 namespace fnv_00cda110 {
-void sub_00cb1260(void*, void*, unsigned int);
 
 struct A
 {
@@ -3674,28 +3433,6 @@ struct S
     char pad2a[2];
     float* arr2c;  // 0x2c
 };
-// @fnv 0x00cda110
-void __fastcall FUN_00cda110(S* s)
-{
-    int i;
-    sub_00cb1260(s->p04, s->a->p24, s->a->count * 0x30);
-    for (i = 0; i < s->a->count; i++)
-        s->arr1c[i] = 2;
-    s->b28 = 0;
-    s->b29 = 1;
-    _ReadWriteBarrier();
-    A* d = s->a;
-    i = 0;
-    if (d->n34 > 0)
-    {
-        float* f = s->arr2c;
-        do
-        {
-            *f++ = 0.0f;
-            i++;
-        } while (i < d->n34);
-    }
-}
 }  // namespace fnv_00cda110
 
 struct KPoint3
@@ -3851,13 +3588,15 @@ struct KRigidBodyView
 struct KQuatView
 {
     float w, x, y, z;
-    void FUN_0049da00(KMatrix3& m) const;
+    void NiQuaternion_ToRotation(KMatrix3& m) const;
 };
 struct KNodeUpdateView
 {
     void FUN_008330a0();
 };
 
+// pdb: bhkBlendCollisionObject::SetBipTransform | bhkBlendCollisionObject.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, arDelta, abZeroZ
 void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
 {
     if (!root)
@@ -3894,7 +3633,7 @@ void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
             KQuat q;
             ((KRigidBodyView*)body)->FUN_004e6030(t.trans);
             ((KRigidBodyView*)body)->FUN_004e6070(q);
-            ((KQuatView*)&q)->FUN_0049da00(t.rot);
+            ((KQuatView*)&q)->NiQuaternion_ToRotation(t.rot);
         }
         else
         {
@@ -4090,481 +3829,3 @@ FUN_00c7dc40::~FUN_00c7dc40()
 {}
 
 typedef unsigned char u8;
-
-struct RagdollAnimationResetView
-{
-    __declspec(noinline) void FUN_00cdb3e0();
-};
-
-struct RagdollAnimBodyView
-{
-    void FUN_00c68d50(int a1);
-};
-
-struct RagdollAnimEntry
-{
-    int unk00;
-    int unk04;
-    void* p08;
-};
-
-struct RagdollAnimOwner
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26C;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27C;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28C;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29C;
-    int unk2A0;
-    int unk2A4;
-    int unk2A8;
-    int unk2AC;
-    int unk2B0;
-    int unk2B4;
-    int unk2B8;
-    int unk2BC;
-    int unk2C0;
-    int unk2C4;
-    int unk2C8;
-    int unk2CC;
-    int unk2D0;
-    int unk2D4;
-    int unk2D8;
-    int unk2DC;
-    int unk2E0;
-    int unk2E4;
-    int unk2E8;
-    int unk2EC;
-    int unk2F0;
-    int unk2F4;
-    int unk2F8;
-    int unk2FC;
-    int unk300;
-    int unk304;
-    int unk308;
-    int unk30C;
-    int unk310;
-    int unk314;
-    int unk318;
-    int unk31C;
-    int unk320;
-    int unk324;
-    int unk328;
-    int unk32C;
-    int unk330;
-    int unk334;
-    int unk338;
-    int unk33C;
-    int unk340;
-    int unk344;
-    int unk348;
-    int unk34C;
-    RagdollAnimBodyView* p350;
-};
-
-struct RagdollAnimReference
-{
-    int unk00;
-    int unk04;
-    RagdollAnimOwner* p08;
-};
-
-struct RagdollAnimHandle
-{
-    RagdollAnimReference* p00;
-};
-
-struct RagdollAnimData
-{
-    int unk00;
-    int unk04;
-    RagdollAnimHandle* p08;
-    int unk0C;
-    int unk10;
-    RagdollAnimEntry** arr14;
-    int count18;
-};
-
-struct RagdollAnimControllerView
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    u8 unk40;
-    u8 b41;
-    u8 b42;
-    u8 b43;
-    int unk44;
-    RagdollAnimData* p48;
-    RagdollAnimationResetView* p4C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    u8 unk21C;
-    u8 b21D;
-    u8 b21E;
-    u8 unk21F;
-    u8 b220;
-    u8 unk221;
-    u8 b222;
-    u8 b223;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26C;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27C;
-    int unk280;
-    int unk284;
-    int unk288;
-    u8 unk28C;
-    u8 unk28D;
-    u8 b28E;
-    u8 unk28F;
-    int FUN_00c7a8d0();
-};
-
-// @fnv 0x00c7a8d0
-int RagdollAnimControllerView::FUN_00c7a8d0()
-{
-    if (b41 == 0 && p4C != 0)
-    {
-        p4C->FUN_00cdb3e0();
-    }
-    u8 old = b222;
-    u8 flag = b42;
-    int now = b220 != 0;
-    b41 = flag;
-    b43 = 0;
-    b222 = (u8)now;
-    if (old != 0 && (u8)now == 0)
-    {
-        b223 = 1;
-    }
-    int now2 = b21D != 0;
-    b21E = (u8)now2;
-    if (b28E != 0 || flag == 0)
-        return now2;
-    {
-        RagdollAnimData* z = p48;
-        void* u = z->arr14[0] ? z->arr14[0]->p08 : 0;
-        RagdollAnimReference* s = z->p08->p00;
-        if (s != 0 && s->p08 != 0 && u != 0)
-        {
-            RagdollAnimBodyView* obj = s->p08->p350;
-            for (int i = 0; i < z->count18; ++i)
-            {
-                RagdollAnimEntry* b = z->arr14[i];
-                if (!!b->p08)
-                {
-                    obj->FUN_00c68d50((int)b);
-                }
-            }
-        }
-    }
-}

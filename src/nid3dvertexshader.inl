@@ -111,6 +111,8 @@ protected:
 };
 
 // @fnv 0x00be0b30
+// pdb: NiD3DVertexShader::NiD3DVertexShader | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkRenderer
 NiD3DVertexShader::NiD3DVertexShader(GraphicsRenderer *const pkRenderer) :
     NiD3DShaderProgram(pkRenderer, false)
 {
@@ -121,18 +123,22 @@ NiD3DVertexShader::NiD3DVertexShader(GraphicsRenderer *const pkRenderer) :
 }
 
 // @fnv 0x00be0b60
+// pdb: NiBlendInterpolator::GetRTTI | NiBlendInterpolator.obj | fnv360_0822_retail, objrun, low
 const NiRTTI* NiD3DVertexShader::GetRTTI() const
 {
     return &ms_kRTTI;
 }
 
 // @fnv 0x00be0bb0
+// pdb: NiD3DVertexShader::SetUsage | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: uiUsage
 void NiD3DVertexShader::SetD3DPixelShader(RenderableGeometry *const hShader)
 {
     m_pD3DPixelShader = hShader;
 }
 
 // @fnv 0x00be0bc0
+// pdb: NiD3DVertexShader::GetVertexDeclaration | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, vtable, medium
 COMUnknownInterface* NiD3DVertexShader::GetShaderDeclaration() const
 {
     return m_pD3DVertexShader;

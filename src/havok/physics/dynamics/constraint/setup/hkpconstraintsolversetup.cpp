@@ -28,6 +28,7 @@ struct State
 void __cdecl FUN_00d8aac0(void* owner, void* current, int eventCode, int flags);
 // Optionally resets currentA/currentB to their reset values, zeroes the float range up to end, and notifies callbacks when current differs from desired.
 // @fnv 0x00d88340
+// pdb: hkpConstraintSolverSetup::subSolve | hkpConstraintSolverSetup.obj | tesv_win, call_gap, low
 void __cdecl FUN_00d88340(State* state, int reset)
 {
     if (reset == 0)
@@ -80,10 +81,6 @@ D88310Bool __cdecl FUN_00d88310(const D88310Stream* stream, const void* unused, 
         return false;
     return true;
 }
-
-// @fnv 0x00d88300
-void __cdecl FUN_00d88300()
-{}
 
 struct D88470Sub
 {
@@ -160,6 +157,8 @@ struct TotalsElementView
     int unk24;
     D88470Sub* sub;
 };
+// pdb: hkpConstraintSolverSetup::internalIsMemoryOkForNewJacobianSchemas | hkpConstraintSolverSetup.obj | fnv360_0822_debug, objrun_sim, low
+// pdb params: s, constraints, numConstraints
 D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, int count)
 {
     unsigned int totals[2];
@@ -245,12 +244,6 @@ struct hkpVelocityAccumulatorD886
     }
 };
 
-struct hkpSolverSumVelocitiesD886
-{
-    hkVector4D886 m_vLinearVelocity;
-    hkVector4D886 m_vAngularVelocity;
-};
-
 struct hkStepInfoD886;
 
 struct hkpEntityD886
@@ -259,63 +252,9 @@ struct hkpEntityD886
     unsigned int m_uiFilterInfo;
 };
 
-struct hkpConstraintSolverResourcesD886
-{
-    const hkStepInfoD886* m_pStepInfo;
-    unsigned int unk04, unk08;
-    hkpVelocityAccumulatorD886* m_pVelocityAccumulatorA;
-    hkpVelocityAccumulatorD886* m_pVelocityAccumulatorB;
-    hkpVelocityAccumulatorD886* m_pVelocityAccumulatorC;
-    hkpSolverSumVelocitiesD886* m_sumVelocities;
-};
-
 hkpVelocityAccumulatorD886* __cdecl FUN_00d29830(const hkStepInfoD886* pkInfo, hkpEntityD886* const* ppkEntities,
                                                  unsigned int uiNumEntities, int iMotionOffset,
                                                  hkpVelocityAccumulatorD886* pkAccumulatorsOut);
-
-// @fnv 0x00d88670
-void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntityD886* const* ppkEntities,
-                          unsigned int uiNumEntities)
-{
-    if (!uiNumEntities)
-    {
-        return;
-    }
-
-    if (kResources.m_pVelocityAccumulatorC == kResources.m_pVelocityAccumulatorA)
-    {
-        hkpVelocityAccumulatorD886* pkFixed = kResources.m_pVelocityAccumulatorC;
-        pkFixed->setFixed();
-        kResources.m_pVelocityAccumulatorC = pkFixed + 1;
-        hkpSolverSumVelocitiesD886* pkFixedSumVel = kResources.m_sumVelocities;
-        pkFixedSumVel->m_vAngularVelocity.setZero4();
-        pkFixedSumVel->m_vLinearVelocity.setZero4();
-    }
-
-    for (unsigned int i = 0; i < uiNumEntities; i++)
-    {
-        ppkEntities[i]->m_uiFilterInfo = reinterpret_cast<unsigned int>(kResources.m_pVelocityAccumulatorC + i) -
-                                         reinterpret_cast<unsigned int>(kResources.m_pVelocityAccumulatorA);
-    }
-
-    hkpVelocityAccumulatorD886* pkAccumulator = kResources.m_pVelocityAccumulatorC;
-    hkpSolverSumVelocitiesD886* pkSumVel =
-        kResources.m_sumVelocities + ppkEntities[0]->m_uiFilterInfo / sizeof(hkpVelocityAccumulatorD886);
-    kResources.m_pVelocityAccumulatorC =
-        FUN_00d29830(kResources.m_pStepInfo, ppkEntities, uiNumEntities, 0xe0, pkAccumulator);
-
-    for (unsigned int i = 0; i < uiNumEntities; i++)
-    {
-        pkSumVel->m_vLinearVelocity = pkAccumulator->m_vCenterOfMass;
-        pkSumVel->m_vAngularVelocity = pkAccumulator->m_scratch1;
-        pkAccumulator->m_vCenterOfMass.setZero4();
-        pkAccumulator->m_scratch1.setZero4();
-        pkAccumulator++;
-        pkSumVel++;
-    }
-
-    kResources.m_pVelocityAccumulatorC->m_type = 3;
-}
 
 struct S88_Allocator;
 
@@ -936,7 +875,7 @@ struct NC88_Array {
 void __cdecl FUN_00d92900(NC88_ConstraintData* data, const NC88_QueryIn* in, S88_Atom* atom, int type);
 void __cdecl FUN_00d72190(S88_Atom* atom, const NC88_QueryIn& in, D88310Bool writeHeader, Native_S88_QueryOut_a0ac60& out);
 void __cdecl FUN_00d6f460(const S88_Atom* atoms, int atomsSize, const NC88_QueryIn& in, Native_S88_QueryOut_a0ac60& out);
-void __cdecl FUN_00a26440(NC88_ConstraintData*,const NC88_QueryIn*,S88_Atom*);
+void __cdecl hkSimpleContactConstraintData_fireCallbacks(NC88_ConstraintData*,const NC88_QueryIn*,S88_Atom*);
 void __cdecl FUN_00a00ec0(S88_Atom*,const NC88_QueryIn&,D88310Bool,Native_S88_QueryOut_a0ac60&);
 void __cdecl FUN_009fccc0(const S88_Atom*,int,const NC88_QueryIn&,Native_S88_QueryOut_a0ac60&);
 inline void S88_buildCurrentJacobianFromAtoms(S88_Atom* atoms,int size,const NC88_QueryIn& in,Native_S88_QueryOut_a0ac60& out) {
@@ -954,6 +893,8 @@ inline void CopyNativeVector(hkVector4D886& dst,const hkVector4D886& src) {
  dst.m_vComponents.m128_f32[3]=src.m_vComponents.m128_f32[3];
 }
 inline void ZeroNativeVector(hkVector4D886& dst) {dst.m_vComponents.m128_f32[0]=dst.m_vComponents.m128_f32[1]=dst.m_vComponents.m128_f32[2]=dst.m_vComponents.m128_f32[3]=0.0f;}
+// pdb: hkpConstraintSolverSetup::internalAddJacobianSchemas | hkpConstraintSolverSetup.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: s, constraints, numConstraints, constraintStatus
 void __cdecl FUN_00d88760(S88_Resources& packS, S88_Instance** packConstraints, int numConstraints, S88_Array& packStatus)
 {
     NC88_Resources& s = reinterpret_cast<NC88_Resources&>(packS);
@@ -1004,7 +945,7 @@ void __cdecl FUN_00d88760(S88_Resources& packS, S88_Instance** packConstraints, 
 
         if(instance->getInternal()->m_ucCallbackRequest&1) {
             NC88_ConstraintData* data=instance->getDataRw();
-            FUN_00a26440(data,&in,data->m_pAtom);
+            hkSimpleContactConstraintData_fireCallbacks(data,&in,data->m_pAtom);
         }
 
         if (instance->m_pConstraintInternal->m_ucCallbackRequest & 4)
@@ -1173,6 +1114,7 @@ struct Accumulator537 {
         Vector537 zero;zero.Zero();matrix[0]=zero;matrix[1]=zero;matrix[2]=zero;
     }
 };
+// pdb: hkConstraintSolverSetup_integrate2 | hkpConstraintSolverSetup.obj | fnv360_0822_debug, objrun, low, conflict (skyrim: hkpConstraintSolverSetup::calcBufferOffsetsForSolve)
 int __cdecl FUN_00d883c0(const S883_Island& island,char* buffer,int bufferSize,S883_TaskHeader& header) {
     header.m_buffer=buffer;
     int count=island.GetEntities().GetLogicalSize();
@@ -1193,8 +1135,6 @@ int __cdecl FUN_00d883c0(const S883_Island& island,char* buffer,int bufferSize,S
 extern "C" void _mm_prefetch(char const*, int);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
-extern const char str_010d3d70[];
-extern const char str_010d3d60[];
 
 // hkMemoryAllocator
 struct S88b50_Allocator
@@ -1539,11 +1479,6 @@ struct S88b50_MonitorStream
         m_kRayEnd = e;
     }
 };
-struct S88b50_AddValueCommand
-{
-    const char* m_pCommandName;
-    float m_uiFilterValue;
-};
 
 struct S88b50_BreachedHeader
 {
@@ -1562,13 +1497,10 @@ template <typename T> inline T S88b50_max2(T x, T y)
     return x > y ? x : y;
 }
 
-int __cdecl FUN_00d8d030(const void* solverInfo, char* schemas, hkpVelocityAccumulatorD886* accum, char* elemTemps);
-void __cdecl FUN_00df0680(const void* solverInfo, char* elemTemps, char* schemas, hkpVelocityAccumulatorD886* accum);
 int __cdecl FUN_00d29bf0(const void* solverInfo, const hkStepInfoD886* stepInfo,
                          const hkpVelocityAccumulatorD886* accums, S88b50_Entity* const* bodies, int numBodies,
                          int offset);
 void __cdecl FUN_00d1a330(const void* input, S88b50_Entity* const* bodies, int numBodies);
-void __cdecl FUN_00d01700(void* world, void* elems, int n);
 
 // hkMatrix3
 struct S88b50_Matrix3
@@ -2167,15 +2099,15 @@ void* InstanceN::getRuntime() const {return m_pConstraintInternal->m_pRuntime;}
 extern unsigned long DAT_010f3170,DAT_0116913c;
 extern const char str_00e854c0[],str_00e854b0[];
 extern void __cdecl FUN_00901f10(NativeCriticalArray*,int);
-extern VelocityAccumulatorN* __cdecl FUN_009abb20(const hkStepInfoD886*,EntityN* const*,int,int,VelocityAccumulatorN*);
-extern void __cdecl FUN_00a26440(ConstraintDataN*,QueryInN*,S88_Atom*);
+extern VelocityAccumulatorN* __cdecl hkRigidMotionUtilApplyForcesAndBuildAccumulators(const hkStepInfoD886*,EntityN* const*,int,int,VelocityAccumulatorN*);
+extern void __cdecl hkSimpleContactConstraintData_fireCallbacks(ConstraintDataN*,QueryInN*,S88_Atom*);
 extern void __cdecl FUN_00a00ec0(S88_Atom*,QueryInN*,D88310Bool,S88_QueryOut*);
 extern void __cdecl FUN_009fccc0(S88_Atom*,int,QueryInN*,S88_QueryOut*);
 extern int __cdecl FUN_00a14ee0(const void*,char*,VelocityAccumulatorN*,char*);
-extern void __cdecl FUN_00a79670(const void*,char*,char*,VelocityAccumulatorN*);
-extern int __cdecl FUN_009ac100(const void*,const hkStepInfoD886*,const VelocityAccumulatorN*,EntityN* const*,int,int);
+extern void __cdecl hkExportImpulsesAndRhs(const void*,char*,char*,VelocityAccumulatorN*);
+extern int __cdecl hkRigidMotionUtilApplyAccumulators(const void*,const hkStepInfoD886*,const VelocityAccumulatorN*,EntityN* const*,int,int);
 extern void __cdecl FUN_0099a2d0(const void*,EntityN* const*,int);
-extern void __cdecl FUN_00989600(void*,void*,int);
+extern void __cdecl hkpWorldCallbackUtil_fireContactImpulseLimitBreached(void*,void*,int);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 __forceinline NativeSolverMemory* NativeSolverMemory::current() { return static_cast<NativeSolverMemory*>(TlsGetValue(DAT_010f3170)); }
 void NativeCriticalArray::append(const ConstraintInternalN* c) {
@@ -2231,7 +2163,7 @@ static __forceinline void MakeNativeAccumulators(const hkStepInfoD886& stepInfo,
         unsigned offset=(i+1)*128;
         if(offset!=entities[i]->m_uiFilterInfo) entities[i]->m_uiFilterInfo=offset;
     }
-    VelocityAccumulatorN* accumEnd=FUN_009abb20(&stepInfo,entities,count,0xd0,accumulators+1);
+    VelocityAccumulatorN* accumEnd=hkRigidMotionUtilApplyForcesAndBuildAccumulators(&stepInfo,entities,count,0xd0,accumulators+1);
     accumEnd->m_type=3;
 
 }
@@ -2259,7 +2191,7 @@ static __forceinline void MakeNativeElements(QueryInN& in,
                 in.m_kBodyBLocalFrame=&b->getCollidable()->getTransform();
                 if(c->m_ucCallbackRequest&1) {
                     ConstraintDataN* data=c->m_pHavokConstraint->m_data;
-                    FUN_00a26440(data,&in,data->m_pAtom);
+                    hkSimpleContactConstraintData_fireCallbacks(data,&in,data->m_pAtom);
                 }
                 if(c->m_ucCallbackRequest&4) c->m_pHavokConstraint->m_data->BuildJacobianCallback(in);
             }
@@ -2340,12 +2272,12 @@ setPrimary:
         monitor->end=reinterpret_cast<char*>(value+1);
     }
     if(solved==1) {
-        FUN_00a79670(solverInfo,elementTemps,schemaStart,accumulators);
-        int res=FUN_009ac100(solverInfo,&stepInfo,accumulators+1,entities,count,0xd0);
+        hkExportImpulsesAndRhs(solverInfo,elementTemps,schemaStart,accumulators);
+        int res=hkRigidMotionUtilApplyAccumulators(solverInfo,&stepInfo,accumulators+1,entities,count,0xd0);
         FUN_0099a2d0(entities[0]->getWorld()->getCollisionInput(),entities,count);
         inactive=res;
         NativeBreachHeader* breaches=reinterpret_cast<NativeBreachHeader*>(schemaStart);
-        if(breaches->count) FUN_00989600(island.m_pOwningWorld,breaches+1,breaches->count);
+        if(breaches->count) hkpWorldCallbackUtil_fireContactImpulseLimitBreached(island.m_pOwningWorld,breaches+1,breaches->count);
     }
 
         if(extraStorage) NativeSolverMemory::current()->restore(extraStorage);

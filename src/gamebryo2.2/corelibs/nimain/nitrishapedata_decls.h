@@ -38,10 +38,10 @@ class NiTriShapeData : public NiTriBasedGeomData
   public:
     unsigned int m_uiTriListLength;
     unsigned short* m_pusTriList;
-    void* m_pkSharedNormalArray;
-    unsigned short m_usSharedNormalCount;
+    void* m_pkSharedNormals;  // src: FNV360_PDB +0x4C (old: m_pkSharedNormalArray)
+    unsigned short m_usSharedNormalsArraySize;  // src: FNV360_PDB +0x50 (old: m_usSharedNormalCount)
     unsigned char shapePadding[2];
-    void* m_pkSharedNormalArrayMemoryBlock;
+    void* m_pkSNAMemoryBlocks;  // src: FNV360_PDB +0x54 (old: m_pkSharedNormalArrayMemoryBlock)
 
     NiTriShapeData(unsigned short, NiPoint3*, NiPoint3*, RgbaColor*, NiPoint2*, unsigned short,
                    NiGeometryData__DataFlags, unsigned short, unsigned short*);

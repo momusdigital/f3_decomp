@@ -20,11 +20,6 @@ void NiD3DRenderState::FUN_00e87980(void* apData)
     ((NiD3DShaderFactory*)((char*)this + 0xf8))->FUN_00e94050(*(void**)((char*)this + 0x10f8));
 }
 
-struct FUN_009ba5f0_shell
-{
-    void SetChildObject(int);
-};
-
 struct FUN_00c89c80_obj
 {
     void CopyFromSource(unsigned int uiMaxSize);
@@ -35,6 +30,8 @@ struct Ref549 {virtual ~Ref549();unsigned short size;short references;unsigned i
 struct Destination549 {unsigned int unk00;Ref549* reference;unsigned int kind,value0c,value10;void FUN_008fbbb0(void*);};
 struct Source549 {unsigned int unk00,unk04,unk08;void* node;unsigned int unk10,value14,value18;unsigned char kind;};
 struct Owner549 {unsigned int unk00,unk04;Source549* source;};
+// pdb: bhkConstraint::CopyCinfo | bhkConstraint.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arInfo
 void FUN_00c89c80_obj::CopyFromSource(unsigned int destination) {
     Destination549* output=reinterpret_cast<Destination549*>(destination);
     if(this) {
@@ -84,6 +81,8 @@ struct FUN_00a41520_cls
 };
 
 // @fnv 0x00a41520
+// pdb: BSAnimNoteListener::Register | BSAnimNoteListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeType, apReceiver
 bool FUN_00a41520_cls::FUN_00a41520(void* apFirst, void* apSecond)
 {
     if (FindPairIndex(apFirst, apSecond) == -1)
@@ -116,6 +115,7 @@ template <class T> struct NiPointer
 };
 // Deletes the array of NiPointer<NiNode> objects pointed to by buffer when buffer is non-null.
 // @fnv 0x00b7ce30
+// pdb: NiTNewInterface<class NiPointer<class NiAVObject> >::Deallocate | BipedAnim.obj | tesv_win, call_seq, medium
 void __cdecl DeleteNiNodePointerArray(NiPointer<NiNode>* pNodePointerArray)
 {
     if (pNodePointerArray)
@@ -135,6 +135,8 @@ struct S_Interface
 
 // Resizes the key-pair array to auiNewSize, clearing dropped entries, reallocating, copying old entries and freeing the old buffer.
 // @fnv 0x00a90180
+// pdb: NiTArray<Actor *,NiTMallocInterface<Actor *> >::SetSize | DetailedActorPathHandler.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: uiMaxSize
 void FUN_00a41520_cls::FUN_00a90180(unsigned int auiNewSize)
 {
     if (auiNewSize == m_uCapacity)
@@ -176,6 +178,8 @@ void FUN_00a41520_cls::FUN_00a90180(unsigned int auiNewSize)
 
 // Stores the entry pointer at the given index, growing the count and adjusting the non-null entry counter when the slot's nullness changes.
 // @fnv 0x00ba3aa0
+// pdb: NiTArray<NiAVObject *,NiTMallocInterface<NiAVObject *> >::SetAt | BSTempEffectParticle.obj | fnv360_0721_beta, objrun, low
+// pdb params: uiIndex, element
 void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
 {
     if (auiIndex >= m_uCount)
@@ -225,6 +229,8 @@ struct C89CD0Holder
 };
 
 // @fnv 0x00c89cd0
+// pdb: bhkCharacterProxy::CopyCinfo | bhkCharacterProxy.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arInfo
 void C89CD0Holder::ProcessTarget(void* arg)
 {
     C89CD0Holder* pkHolder = this;
@@ -233,30 +239,6 @@ void C89CD0Holder::ProcessTarget(void* arg)
         C89CD0Target* pkTarget = pkHolder->m_pkTarget;
         if (pkTarget)
             pkTarget->process(arg);
-    }
-}
-
-struct Target
-{
-    void FUN_00c89bf0(void* apArg);
-};
-
-struct FUN_00c89cf0_cls
-{
-    int unk00;
-    int unk04;
-    Target* m_pFlagTarget;
-
-    void DispatchToTarget(void* apArg);
-};
-
-// @fnv 0x00c89cf0
-void FUN_00c89cf0_cls::DispatchToTarget(void* apArg)
-{
-    if (this != 0)
-    {
-        if (m_pFlagTarget != 0)
-            m_pFlagTarget->FUN_00c89bf0(apArg);
     }
 }
 
@@ -349,6 +331,8 @@ class NiTObjectArrayA47
 
 // Resizes the object array to uiMaxSize, releasing surplus elements and reallocating m_pBase while preserving existing entries.
 // @fnv 0x00a47770
+// pdb: NiTArray<NiPointer<NiMetricsOutputModule>,NiTNewInterface<NiPointer<NiMetricsOutputModule> > >::SetSize | NiMetricsLayer.obj | fnv360_0721_beta, call_dedup, low
+// pdb params: uiMaxSize
 void NiTObjectArrayA47::FUN_00a47770(unsigned int uiMaxSize)
 {
     if (uiMaxSize == m_usMaxSize)
@@ -700,6 +684,8 @@ struct NiTexturingProperty
 
 // Copy-constructs a NiTexturingProperty::Map, copying flags and texture, and deep-copying the texture transform if present.
 // @fnv 0x00a6a8b0
+// pdb: NiTexturingProperty::Map::Map | NiTexturingProperty.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: kObj
 NiTexturingProperty::Map::Map(const Map& kMap) throw() : m_usFlags(kMap.m_usFlags), m_spTexture(kMap.m_spTexture)
 {
     if (kMap.m_pTextureTransform)
@@ -827,6 +813,7 @@ struct FUN_00b8a9e0 : FUN_004eba20
 
 // Zero-initializes m_24, m_28, m_3c, m_40, m_44, m_48 and the m_abFlags array; other members use their default constructors.
 // @fnv 0x00b8a9e0
+// pdb: ImageSpaceShaderParam::ImageSpaceShaderParam | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_seq, medium
 FUN_00b8a9e0::FUN_00b8a9e0() : m_24(0), m_28(0), m_3c(0), m_40(0), m_44(0), m_48(0)
 {
     memset(m_abFlags, 0, sizeof(m_abFlags));
@@ -1009,6 +996,7 @@ struct FUN_00e7ecd0_cls
 
 // If m_5f is 0, calls FUN_00e7de30 then FUN_00aa1460(this, 0x68); otherwise resets m_10, m_18 and other fields and passes this to DAT_0126f6cc->FindOrAdd.
 // @fnv 0x00e7ecd0
+// pdb: NiD3DPass::ReturnPassToPool | NiD3DPass.obj | fnv360_0822_retail, call_dedup, medium
 void FUN_00e7ecd0_cls::FUN_00e7ecd0()
 {
     void* ref;
@@ -1197,6 +1185,8 @@ struct S_00e98aa0_Holder
 
 // Assigns p to m_sp0 and null to m_sp4 through the reference-counting pointer assignment.
 // @fnv 0x00e98aa0
+// pdb: MoviePlayer::CalculateScale | MoviePlayer.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiPick::Record::Record)
+// pdb params: afWidth, afHeight, abLetterBoxed
 void S_00e98aa0_Holder::SetObject(S_00e98aa0_RefObj* apRefObj)
 {
     m_sp0 = apRefObj;
@@ -1401,6 +1391,8 @@ struct ShaderConstantEntryArray
 
 // Stores element in the first null slot, else grows the array if full and appends it, returning its index; returns -1 for a null element.
 // @fnv 0x00e87800
+// pdb: NiTArray<NiPointer<NiPSysMeshEmitter::NiSkinnedEmitterData>,NiTNewInterface<NiPointer<NiPSysMeshEmitter::NiSkinnedEmitterData> > >::AddFirstEmpty | NiPSysMeshEmitter.obj | fnv360_0822_retail, objrun, high
+// pdb params: element
 unsigned int ShaderConstantEntryArray::FUN_00e87800(const ElemPtr& element)
 {
     if (element == ElemPtr(0))

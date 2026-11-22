@@ -1,4 +1,4 @@
-// staging/blk_00ba0000_o2.cpp: GeomList_S, Owner, BSFogProperty, FnvOdbObject and more (245 functions)
+// staging/blk_00ba0000_o2.cpp: GeomList_S, Owner, BSFogProperty, FnvOdbObject and more (226 functions)
 #include "f3_common.h"
 #include <windows.h>
 // src/staging/blk_00ba0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -12,6 +12,7 @@ struct FUN_00bb0e90_Class
 };
 
 // @fnv 0x00bb0e90
+// pdb: BSTextureManager::GetShadowDepthBuffer | BSTextureManager.obj | fnv360_0721_beta, call_gap, low
 void* __thiscall FUN_00bb0e90_Class::FUN_00bb0e90()
 {
     return reinterpret_cast<void**>(this)[0x90 / 4];
@@ -20,6 +21,7 @@ void* __thiscall FUN_00bb0e90_Class::FUN_00bb0e90()
 extern const char* const g_01200788_arg1;
 
 // @fnv 0x00bb35a0
+// pdb: NiD3DShaderConstantMap::IsFadeNode | NiXenonErrorShader.obj | fnv360_0822_debug, objrun_open, low
 const char* const* __cdecl FUN_00bb35a0()
 {
     return &g_01200788_arg1;
@@ -36,6 +38,7 @@ struct FUN_00ba1230_Class
     void* __thiscall FUN_00ba1230(bool flag);
 };
 // @fnv 0x00ba1230
+// pdb: ExtraLock::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, high
 void* __thiscall FUN_00ba1230_Class::FUN_00ba1230(bool flag)
 {
     void* p = this;
@@ -57,6 +60,7 @@ struct FUN_00ba1750_Class
     void* __thiscall FUN_00ba1750(char flag);
 };
 // @fnv 0x00ba1750
+// pdb: ExtraTeleport::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, high
 void* __thiscall FUN_00ba1750_Class::FUN_00ba1750(char flag)
 {
     FUN_00ba12d0();
@@ -67,20 +71,6 @@ void* __thiscall FUN_00ba1750_Class::FUN_00ba1750(char flag)
 }  // namespace fnv_00ba1750
 
 extern "C" void NiFreeAlias(void*);
-extern int DAT_010b9d24;
-struct FUN_00ba3d10_Class
-{
-    int m0;
-    void* m1;
-    void __thiscall FUN_00ba3d10();
-};
-// @fnv 0x00ba3d10
-void __thiscall FUN_00ba3d10_Class::FUN_00ba3d10()
-{
-    void* p = m1;
-    m0 = (int)&DAT_010b9d24;
-    NiFreeAlias(p);
-}
 
 namespace fnv_00ba4170 {
 struct MemoryManager
@@ -94,6 +84,7 @@ struct FUN_00ba4170_Class
     void* __thiscall FUN_00ba4170(int);
 };
 // @fnv 0x00ba4170
+// pdb: ExtraScript::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00ba4170_Class::FUN_00ba4170(int flag)
 {
     FUN_00ba3d30();
@@ -115,6 +106,7 @@ struct FUN_00ba46a0_Class
     FUN_00ba46a0_Class* __thiscall FUN_00ba46a0(unsigned char flags);
 };
 // @fnv 0x00ba46a0
+// pdb: ExtraTresPassPackage::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, high
 FUN_00ba46a0_Class* __thiscall FUN_00ba46a0_Class::FUN_00ba46a0(unsigned char flags)
 {
     FUN_00ba4190();
@@ -139,6 +131,7 @@ struct FUN_00ba4920_Class
     void* __thiscall FUN_00ba4920(int);
 };
 // @fnv 0x00ba4920
+// pdb: ExtraHeadingTarget::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00ba4920_Class::FUN_00ba4920(int a)
 {
     ((FUN_00ba4480_Class*)this)->FUN_00ba4480();
@@ -158,30 +151,13 @@ struct FUN_00ba8270_Class
 };
 
 // @fnv 0x00ba8270
+// pdb: ParticleShaderProperty::`scalar deleting destructor' | ParticleShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
 void* __thiscall FUN_00ba8270_Class::FUN_00ba8270(bool b)
 {
     FUN_00ba7df0();
     if (b & 1)
         operator delete(this, 0x14c);
     return this;
-}
-
-extern const void* DAT_010b895c;
-
-struct ImageSpaceEffect
-{
-    ImageSpaceEffect();
-};
-
-struct FUN_00baa160_Class : ImageSpaceEffect
-{
-    FUN_00baa160_Class();
-};
-
-// @fnv 0x00baa160
-FUN_00baa160_Class::FUN_00baa160_Class()
-{
-    *(const void**)this = &DAT_010b895c;
 }
 
 namespace fnv_00baa220 {
@@ -196,6 +172,7 @@ struct FUN_00baa220_Class
     void* __thiscall FUN_00baa220(int flag);
 };
 // @fnv 0x00baa220
+// pdb: ExtraPrimitive::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_debug, vtable, high
 void* __thiscall FUN_00baa220_Class::FUN_00baa220(int flag)
 {
     void* r = FUN_00baa180();
@@ -211,6 +188,8 @@ struct FUN_00baa640_Class
 };
 
 // @fnv 0x00baa640
+// pdb: TallGrassShader::SetCurrentPass | TallGrassShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aPass, aFirstPass
 void __thiscall FUN_00baa640_Class::FUN_00baa640(int aiValue, char b)
 {
     *(int*)((char*)this + 0x120) = aiValue;
@@ -257,6 +236,7 @@ struct FUN_00bb0ea0_Class
 
 // Calls FUN_00bb0de0, then deletes this with size 0xa0 when flag bit 0 is set, and returns this.
 // @fnv 0x00bb0ea0
+// pdb: PrecipitationShaderProperty::`scalar deleting destructor' | PrecipitationShaderProperty.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall FUN_00bb0ea0_Class::FUN_00bb0ea0(bool abDelete)
 {
     FUN_00bb0de0();
@@ -276,6 +256,7 @@ struct FUN_00bb3140_Class
 };
 // Resets the vtable pointer, calls FUN_00bb35b0, and if del has bit 0 set, frees this with operator delete before returning this.
 // @fnv 0x00bb3140
+// pdb: SpeedTreeBranchShaderProperty::`scalar deleting destructor' | SpeedTreeBranchShaderProperty.obj | fnv360_0822_retail, udata, high
 void* __thiscall FUN_00bb3140_Class::FUN_00bb3140(bool abDelete)
 {
     m_vtbl = (int)&DAT_010b9338;
@@ -292,6 +273,7 @@ struct FUN_00bb3220_Class
 };
 
 // @fnv 0x00bb3220
+// pdb: SpeedTreeShaderPPLightingProperty::GetWindInfo | SpeedTreeShaderProperty.obj | fnv360_0822_retail, objrun_sim, low
 void* __thiscall FUN_00bb3220_Class::GetEntryValue()
 {
     void* entry = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x104);
@@ -306,6 +288,7 @@ struct FUN_00bb3240_Class
 };
 
 // @fnv 0x00bb3240
+// pdb: SpeedTreeShaderPPLightingProperty::GetVertexCount | SpeedTreeShaderProperty.obj | fnv360_0822_retail, objrun_sim, low
 unsigned int __thiscall FUN_00bb3240_Class::FUN_00bb3240()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x104);
@@ -320,6 +303,8 @@ struct FUN_00bb3260_Class
 };
 
 // @fnv 0x00bb3260
+// pdb: SpeedTreeShaderPPLightingProperty::SetData | SpeedTreeShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apWindInfo, asVertexCount
 void* __thiscall FUN_00bb3260_Class::FUN_00bb3260(void* apData, unsigned short ausValue)
 {
     void* p = *(void**)((char*)this + 0x104);
@@ -336,6 +321,7 @@ struct FUN_00bb36d0_Class
     void* __thiscall GetThirdElement();
 };
 // @fnv 0x00bb36d0
+// pdb: SpeedTreeShaderLightingProperty::GetWindInfo | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, objopen_prop, low
 void* __thiscall FUN_00bb36d0_Class::GetThirdElement()
 {
     void** p = *reinterpret_cast<void***>(reinterpret_cast<char*>(this) + 0x84);
@@ -350,6 +336,7 @@ struct FUN_00bb36f0_Class
 };
 
 // @fnv 0x00bb36f0
+// pdb: SpeedTreeShaderLightingProperty::GetVertexCount | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, objrun_open, low
 int __thiscall FUN_00bb36f0_Class::FUN_00bb36f0()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x84);
@@ -384,6 +371,7 @@ struct FUN_00bb38e0_Class
 
 // Calls FUN_00bb35b0, then deletes this with size 0x108 when flags has bit 0 set, and returns this.
 // @fnv 0x00bb38e0
+// pdb: BSPortal::`scalar deleting destructor' | BGSPrimitive.obj | fnv360_0822_retail, vtable, high
 void* __thiscall FUN_00bb38e0_Class::FUN_00bb38e0(int flags)
 {
     FUN_00bb35b0();
@@ -398,6 +386,8 @@ struct FUN_00bb3c90_Class
 };
 
 // @fnv 0x00bb3c90
+// pdb: SpeedTreeShaderLightingProperty::SetData | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apWindInfo, aiWindInfoCount
 void* __thiscall FUN_00bb3c90_Class::FUN_00bb3c90()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x88);
@@ -414,6 +404,7 @@ struct FUN_00bb4470_Class
     void* __thiscall FUN_00bb4470(int flags);
 };
 // @fnv 0x00bb4470
+// pdb: GeometryDecalShaderProperty::`scalar deleting destructor' | GeometryDecalShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
 void* __thiscall FUN_00bb4470_Class::FUN_00bb4470(int flags)
 {
     FUN_00bb40c0();
@@ -434,6 +425,7 @@ struct FUN_00bb4650_Class
 
 // Sets the vtable pointer, calls FUN_00b67380 on this, and if flags bit 0 is set frees this with size 0x108; returns this.
 // @fnv 0x00bb4650
+// pdb: BSDistantTreeShader::LoadShaders | BSDistantTreeShader.obj | tesv_win, objrun_open, low
 void* __thiscall FUN_00bb4650_Class::FUN_00bb4650(unsigned char flags)
 {
     m_vft = &DAT_010b9910;
@@ -451,6 +443,7 @@ struct FUN_00bb7f60_Class
     FUN_00bb7f60_Class* __thiscall FUN_00bb7f60(unsigned char flags);
 };
 // @fnv 0x00bb7f60
+// pdb: BSTempNodeManager::`scalar deleting destructor' | TES.obj | fnv360_0822_retail, vtable, high
 FUN_00bb7f60_Class* __thiscall FUN_00bb7f60_Class::FUN_00bb7f60(unsigned char flags)
 {
     FUN_00bb7d70();
@@ -476,6 +469,7 @@ struct FUN_00bb8990_Class
 };
 // Calls FUN_00bb83d0, then deallocates this via the memory manager when bit 0 of a is set, and returns this.
 // @fnv 0x00bb8990
+// pdb: ExtraCombatStyle::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: ExtraOcclusionPlaneRefData::`scalar deleting destructor')
 void* __thiscall FUN_00bb8990_Class::FUN_00bb8990(int aiFlags)
 {
     FUN_00bb83d0();
@@ -536,27 +530,12 @@ void __thiscall FUN_00bb1b20_Class::FUN_00bb1b20(int a)
         DAT_0126f74c = *(int*)((char*)this + 0x388);
 }
 
-extern "C" void __cdecl NiFree(void*);
 extern MemoryManager g_memoryManager;
-struct FUN_00ba3ce0_Class
-{
-    void* m0;
-    void* m1;
-    void* __thiscall FUN_00ba3ce0(bool flag);
-};
-// Sets m0 to DAT_010b9d24, frees m1 with NiFree, and if flag bit 0 is set deallocates this via g_memoryManager, returning this.
-// @fnv 0x00ba3ce0
-void* __thiscall FUN_00ba3ce0_Class::FUN_00ba3ce0(bool abFree)
-{
-    m0 = &DAT_010b9d24;
-    NiFree(m1);
-    if (abFree & 1)
-        g_memoryManager.Deallocate(this);
-    return this;
-}
 
 // Returns the element of a fixed lookup table at index a - 1.
 // @fnv 0x00ba5060
+// pdb: D3DDevice_SetRenderState_HighPrecisionBlendEnable | state.obj | fnv360_1110_retail, objrun_prop, low, conflict (bridge: BSShader::SetupGeometryAlphaBlending)
+// pdb params: pDevice, Value
 int __cdecl GetTableValue(int aiIndex)
 {
     int table[] = {1, 0, 2, 3, 6, 7, 8, 9, 4, 5, 10};
@@ -578,6 +557,7 @@ struct FUN_00ba5100_Class
 };
 // If m_0x28_flag is set, calls virtual methods 40 and 34 on m_0x7c and m_0x80, then calls FUN_00e814b0 on this.
 // @fnv 0x00ba5100
+// pdb: ParticleShader::RecreateRendererData | ParticleShader.obj | fnv360_0822_retail, objopen_prop, medium
 void __thiscall FUN_00ba5100_Class::FUN_00ba5100()
 {
     if (m_0x28_flag)
@@ -602,6 +582,7 @@ struct FUN_00ba63a0_Class
     bool __thiscall FUN_00ba63a0();
 };
 // @fnv 0x00ba63a0
+// pdb: ParticleShader::LoadStagesAndPasses | ParticleShader.obj | fnv360_0822_retail, objrun_prop, medium
 bool __thiscall FUN_00ba63a0_Class::FUN_00ba63a0()
 {
     if (!m0)
@@ -618,6 +599,8 @@ struct FUN_00bad4f0_Class
 };
 
 // @fnv 0x00bad4f0
+// pdb: ImageSpaceEffectHDR::SetParams | ImageSpaceEffectHDR.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apfData
 void __thiscall FUN_00bad4f0_Class::FUN_00bad4f0(int a)
 {
     *(char*)((char*)this + 5) = 1;
@@ -642,6 +625,8 @@ struct FUN_00bae740_Class : NiObjectNET_stub
     void FUN_00bae740(int a);
 };
 // @fnv 0x00bae740
+// pdb: SkyShaderProperty::PostLinkObject | SkyShaderProperty.obj | fnv360_0721_beta, caller_sim, low, conflict (bridge: BSShaderNoLightingProperty::PostLinkObject)
+// pdb params: kStream
 void FUN_00bae740_Class::FUN_00bae740(int aiArg)
 {
     FUN_00a5c6a0(aiArg);
@@ -665,6 +650,8 @@ struct FUN_00baf520_Class
     void __thiscall CopyTo(FUN_00b66700_Class* dest);
 };
 // @fnv 0x00baf520
+// pdb: BSShaderData::SetupDataPPLightingShader | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apPPShaderProp
 void __thiscall FUN_00baf520_Class::CopyTo(FUN_00b66700_Class* dest)
 {
     dest->SetClamped(*(float*)((char*)this + 0x58));
@@ -686,6 +673,8 @@ extern float DAT_01200658;
 extern float DAT_01200668;
 // Stores a and b into DAT_01200658 and DAT_01200668, and adds c and d to DAT_01200608 and DAT_0120060c.
 // @fnv 0x00bb1390
+// pdb: SpeedTreeLeafShader::UpdateWindTimers | SpeedTreeLeafShader.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: afRockWindPower, afRustleWindPower, afScaledRockTimeDelta, afScaledRustleTimeDelta
 void __cdecl FUN_00bb1390(float afValue1, float afValue2, float afDelta1, float afDelta2)
 {
     DAT_01200658 = afValue1;
@@ -699,6 +688,8 @@ struct FUN_00bb36b0_Class
     void __thiscall FUN_00bb36b0(int a);
 };
 // @fnv 0x00bb36b0
+// pdb: SpeedTreeShaderLightingProperty::SetClampNI | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aClampMode
 void __thiscall FUN_00bb36b0_Class::FUN_00bb36b0(int a)
 {
     *(int*)((char*)this + 0x80) = a;
@@ -720,6 +711,8 @@ struct FUN_00bb79e0_Class
 };
 // Calls FUN_00a5c6a0 on this, then if the pointer at offset 0x94 is set, calls BSShaderManager::GetTexture with it and the texture at offset 0x60.
 // @fnv 0x00bb79e0
+// pdb: TileShaderProperty::PostLinkObject | TileShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: kStream
 void __thiscall FUN_00bb79e0_Class::FUN_00bb79e0(int arg)
 {
     NiObjectNET_stub* p = (NiObjectNET_stub*)this;
@@ -743,6 +736,7 @@ struct FUN_00bb9010_Class
     void __thiscall FUN_00bb9010();
 };
 // @fnv 0x00bb9010
+// pdb: ImageSpaceEffectTV::ReturnTextures | ImageSpaceEffectTV.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void __thiscall FUN_00bb9010_Class::FUN_00bb9010()
 {
     void* p = *(void**)((char*)this + 0x2c);
@@ -764,6 +758,7 @@ struct FUN_00bb9560_Class
     char __thiscall FUN_00bb9560();
 };
 // @fnv 0x00bb9560
+// pdb: Lighting30Shader::LoadStagesAndPasses | Lighting30Shader.obj | fnv360_0822_retail, objrun_prop, medium
 char __thiscall FUN_00bb9560_Class::FUN_00bb9560()
 {
     for (int i = 0; i < 0x70; ++i)
@@ -815,50 +810,20 @@ struct FUN_00bb7300_Class
 };
 // Allocates and constructs a new FUN_00bb7170_Class object, returning the pointer.
 // @fnv 0x00bb7300
+// pdb: BSDistantTreeShaderProperty::CreateObject | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, objrun, medium
 FUN_00bb7170_Class* FUN_00bb7300_Class::CreateInstance()
 {
     return new FUN_00bb7170_Class;
 }
 
-struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011fa05c;
 char* __cdecl FUN_00a7d330(void*);
 struct StrArr
 {
     void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, char*&);
 };
-void __stdcall WriteToSettingArray(StrArr*);
-
-// @fnv 0x00bb74e0
-void __stdcall FUN_00bb74e0(StrArr* a)
-{
-    WriteToSettingArray(a);
-    char* p = FUN_00a7d330(*(void**)&g_011fa05c);
-    unsigned int i = *(unsigned short*)((char*)a + 0xa);
-    unsigned int c = *(unsigned short*)((char*)a + 0x8);
-    if (i >= c)
-        a->SetSize(i + *(unsigned short*)((char*)a + 0xe));
-    a->SetAt(i, p);
-}
 
 void __cdecl NiFreeAlias(void*);
-struct FUN_00ba4050_Class
-{
-    int m_vft;
-    void* m_obj;
-    void* __thiscall FUN_00ba4050(bool);
-};
-// Resets the vtable, frees m_obj via NiFreeAlias, and deallocates this when del is set.
-// @fnv 0x00ba4050
-void* FUN_00ba4050_Class::FUN_00ba4050(bool del)
-{
-    m_vft = (int)&DAT_010b9d24;
-    NiFreeAlias(m_obj);
-    if (del & 1)
-        g_memoryManager.Deallocate(this);
-    return this;
-}
 
 struct FUN_00ba4580_Class
 {
@@ -874,6 +839,7 @@ struct NiTPrimitiveArray_int___H
 };
 
 // @fnv 0x00ba4580
+// pdb: ImageSpaceEffectFullScreenBlur::ReturnTextures | ImageSpaceEffectBlur.obj | fnv360_0822_retail, objrun, low, conflict (bridge: ImageSpaceEffectBloom::ReturnTextures)
 void FUN_00ba4580_Class::FUN_00ba4580()
 {
     char* p = (char*)this;
@@ -893,10 +859,11 @@ struct FUN_00ba52b0_Class
     char m0[0x74];
     void* m_0x74;
     void* m_0x78;
-    void __thiscall FUN_00ba52b0(int a);
+    void __thiscall ParticleShader_InitPass(int a);
 };
 // @fnv 0x00ba52b0
-void __thiscall FUN_00ba52b0_Class::FUN_00ba52b0(int a)
+// pdb: ParticleShader::InitPass | ParticleShader.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+void __thiscall FUN_00ba52b0_Class::ParticleShader_InitPass(int a)
 {
     if (a == 0x41)
         DAT_0126f74c = (int)m_0x78;
@@ -911,6 +878,7 @@ struct FUN_00ba6370_Class
 };
 // Calls FUN_00ba5740, then deletes this with size 0x12c if flag bit 0 is set, and returns this.
 // @fnv 0x00ba6370
+// pdb: ParticleShader::`scalar deleting destructor' | ParticleShader.obj | fnv360_0822_retail, objrun_prop, medium
 void* FUN_00ba6370_Class::FUN_00ba6370(bool abDelete)
 {
     FUN_00ba5740();
@@ -927,6 +895,7 @@ struct FUN_00baa140_Class
 };
 // Calls FUN_00baa0e0, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00baa140
+// pdb: BSPSysSimpleColorModifier::`scalar deleting destructor' | BSPSysSimpleColorModifier.obj | fnv360_0822_retail, vtable, medium
 FUN_00baa140_Class* FUN_00baa140_Class::FUN_00baa140(unsigned char flags)
 {
     FUN_00baa0e0();
@@ -942,20 +911,13 @@ struct FUN_00bad560_Class
 };
 // Calls FUN_00bad400, then deallocates this via g_memoryManager when flag has bit 0 set, and returns this.
 // @fnv 0x00bad560
+// pdb: ExtraAmmo::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: ExtraActorCause::`scalar deleting destructor')
 FUN_00bad560_Class* FUN_00bad560_Class::FUN_00bad560(char flag)
 {
     FUN_00bad400();
     if (flag & 1)
         g_memoryManager.Deallocate(this);
     return this;
-}
-
-extern const char* const DAT_012005b8;
-
-// @fnv 0x00baec70
-const char* const* __cdecl FUN_00baec70()
-{
-    return &DAT_012005b8;
 }
 
 extern "C" void __cdecl _delete(void*, unsigned int);
@@ -968,6 +930,7 @@ struct FUN_00baeeb0_Class : FUN_00baec90_Class
     void* __thiscall FUN_00baeeb0(unsigned char a);
 };
 // @fnv 0x00baeeb0
+// pdb: BSStripPSysData::`scalar deleting destructor' | BSStripPSysData.obj | fnv360_0822_retail, caller_sim, high
 void* FUN_00baeeb0_Class::FUN_00baeeb0(unsigned char a)
 {
     FUN_00baec90();
@@ -991,26 +954,6 @@ void __thiscall FUN_00bb1a70_Class::CallVirtualMethodWithField()
 }
 
 extern int DAT_010b9338;
-struct FUN_00bb3070_Class
-{
-    void* m_vft;
-    char m_04[0x1c - 4];
-    int m_0x1c;
-    char m_0x20[0x58 - 0x20];
-    int m_0x58;
-    void __thiscall FUN_00bb3500(int a);
-    void* __thiscall FUN_00bb3070(int a);
-};
-// Calls FUN_00bb3500, sets the vtable to DAT_010b9338 and initializes m_0x58 to 4 and m_0x1c to 10, then returns this.
-// @fnv 0x00bb3070
-void* __thiscall FUN_00bb3070_Class::FUN_00bb3070(int a)
-{
-    FUN_00bb3500(a);
-    m_vft = (void*)&DAT_010b9338;
-    m_0x58 = 4;
-    m_0x1c = 10;
-    return this;
-}
 
 struct FUN_00bb3400_Class
 {
@@ -1024,6 +967,8 @@ struct FUN_00bb3400_Class
 };
 
 // @fnv 0x00bb3400
+// pdb: SkyShaderProperty::SetupGeometry | SkyShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeometry
 int FUN_00bb3400_Class::FUN_00bb3400(NiAVObject* apObject, int b, int c)
 {
     if (reinterpret_cast<char*>(apObject) + 0x9c == 0)
@@ -1045,6 +990,7 @@ struct FUN_00bb3910_Class
     FUN_00bb3910_Class* __thiscall FUN_00bb3910(unsigned char a);
 };
 // @fnv 0x00bb3910
+// pdb: NiD3DShaderConstantManager::`scalar deleting destructor' | NiD3DShaderConstantManager.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00bb3910_Class* __thiscall FUN_00bb3910_Class::FUN_00bb3910(unsigned char a)
 {
     ((FUN_00bb3790_Class*)this)->FUN_00bb3790();
@@ -1064,6 +1010,8 @@ struct FUN_00bb3cb0_Class
     void __thiscall FUN_00bb3cb0(const void* a, unsigned int b);
 };
 // @fnv 0x00bb3cb0
+// pdb: SpeedTreeLeafShaderProperty::SetLeafMaps | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apLeafMaps, aiCount
 void __thiscall FUN_00bb3cb0_Class::FUN_00bb3cb0(const void* apData, unsigned int b)
 {
     if (m_0x88)
@@ -1230,6 +1178,7 @@ struct FUN_00bb3ee0_Class
 
 // Calls FUN_00bb3cd0, then deletes this with size 0x90 if the low bit of a is set, and returns this.
 // @fnv 0x00bb3ee0
+// pdb: SkyShaderProperty::`scalar deleting destructor' | SkyShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* __thiscall FUN_00bb3ee0_Class::FUN_00bb3ee0(bool abDelete)
 {
     FUN_00bb3cd0();
@@ -1247,6 +1196,7 @@ struct FUN_00bb4520_Class : NewObj
     FUN_00bb4520_Class();
 };
 // @fnv 0x00bb4520
+// pdb: Lighting30ShaderProperty::Lighting30ShaderProperty | Lighting30ShaderProperty.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSDistantTreeShader::GetShaderDecl)
 FUN_00bb4520_Class::FUN_00bb4520_Class()
 {
     *(int*)this = (int)&DAT_010b9910;
@@ -1263,6 +1213,7 @@ struct BSFogProperty
 extern const void* vftable_BSFogProperty;
 // Sets the vftable, calls DestroyFogProperty on this, and if flags bit 0 is set deletes this with size 0x64, returning this.
 // @fnv 0x00bb8250
+// pdb: BSFogProperty::`scalar deleting destructor' | BSFogProperty.obj | fnv360_0822_retail, objrun, high
 BSFogProperty* BSFogProperty::FUN_00bb8250(unsigned char flags)
 {
     m_vft = (void*)&vftable_BSFogProperty;
@@ -1272,47 +1223,10 @@ BSFogProperty* BSFogProperty::FUN_00bb8250(unsigned char flags)
     return this;
 }
 
-struct NiTPrimitiveArray_ImageSpaceTexture___
-{
-    void __thiscall SetSize(unsigned int);
-    ~NiTPrimitiveArray_ImageSpaceTexture___();
-};
-
-extern int DAT_010b9f04;
-extern int DAT_011a9be0;
-extern int DAT_011a9be4;
-extern int DAT_011a9be8;
-extern int DAT_011a9bec;
 extern int DAT_01200800;
 extern int DAT_01200804;
 extern int DAT_01200808;
 extern int DAT_0120080c;
-
-struct FUN_00bb8900_Class : ImageSpaceEffect
-{
-    void* m_vft;
-    unsigned char m_flag;
-    char m_auiShapeKeys[0x23];
-    NiTPrimitiveArray_ImageSpaceTexture___ m_ppData;
-
-    FUN_00bb8900_Class();
-};
-
-// Initializes the vtable pointer, sizes the texture array to 5, clears m_flag, and copies four globals into DAT_01200800..0c.
-// @fnv 0x00bb8900
-FUN_00bb8900_Class::FUN_00bb8900_Class()
-{
-    m_vft = &DAT_010b9f04;
-
-    m_ppData.SetSize(5);
-
-    m_flag = 0;
-
-    DAT_01200800 = DAT_011a9be0;
-    DAT_01200804 = DAT_011a9be4;
-    DAT_01200808 = DAT_011a9be8;
-    DAT_0120080c = DAT_011a9bec;
-}
 
 struct FUN_00bb8ea0_Class
 {
@@ -1323,6 +1237,7 @@ struct FUN_00bb91e0_Class
     void* __thiscall FUN_00bb91e0(unsigned char flags);
 };
 // @fnv 0x00bb91e0
+// pdb: ExtraPortalRefData::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_debug, vtable, high
 void* __thiscall FUN_00bb91e0_Class::FUN_00bb91e0(unsigned char flags)
 {
     FUN_00bb8ea0_Class* obj = (FUN_00bb8ea0_Class*)this;
@@ -1340,6 +1255,7 @@ struct FUN_00bb9590_Class
 };
 
 // @fnv 0x00bb9590
+// pdb: Lighting30Shader::ReloadShaders | Lighting30Shader.obj | fnv360_0822_retail, objrun_prop, medium
 void __thiscall FUN_00bb9590_Class::FUN_00bb9590()
 {
     ((void(__thiscall*)(void*))(*(void***)((char*)m_vft + 0x148)))(this);
@@ -1349,7 +1265,7 @@ void __thiscall FUN_00bb9590_Class::FUN_00bb9590()
 struct FUN_00bb9660_Class : LodShaderBase
 {
     char m0[0x28];
-    void FUN_00bb9660();
+    void Lighting30Shader_RecreateRendererData();
 };
 
 extern void* DAT_01200dd8[0x39];
@@ -1357,7 +1273,8 @@ extern void* DAT_01200c48[0x32];
 extern void* DAT_01200d10[0x32];
 
 // @fnv 0x00bb9660
-void FUN_00bb9660_Class::FUN_00bb9660()
+// pdb: Lighting30Shader::RecreateRendererData | Lighting30Shader.obj | fnv360_0822_retail, objrun_sim + bridge(hash|objrun_open), high
+void FUN_00bb9660_Class::Lighting30Shader_RecreateRendererData()
 {
     if (*(int*)((char*)this + 0x28) != 0)
     {
@@ -1384,6 +1301,8 @@ extern char DAT_01200863;
 extern char* DAT_012010bc;
 
 // @fnv 0x00bb96d0
+// pdb: Lighting30Shader::DisableNonVolatileConstantsForPass | Lighting30Shader.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: auiPassEnum
 void __stdcall FUN_00bb96d0(unsigned int)
 {
     DAT_01200863 = 0;
@@ -1439,6 +1358,8 @@ struct FUN_00baff20_Class
 };
 
 // @fnv 0x00baff20
+// pdb: BSShaderData::AddAlphaProperty | BSShaderData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget
 void __thiscall FUN_00baff20_Class::AttachAlphaProperty(NiAVObject* target)
 {
     if ((m_0x38 != 0 || m_0x44 != 0) && m_0x57 == 0)
@@ -1482,6 +1403,7 @@ struct FUN_00ba02b0_Class
 };
 // Walks the linked list from head, calling FUN_00ba01a0 for each node with a non-null elem, then sets head to null.
 // @fnv 0x00ba02b0
+// pdb: ShadowSceneLight::RemoveUnusedGeom | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, medium
 void FUN_00ba02b0_Class::FUN_00ba02b0()
 {
     FUN_00ba02b0_Node* node = head;
@@ -1626,6 +1548,7 @@ struct FUN_00ba15e0 : ISEffectBase
 };
 
 // @fnv 0x00ba15e0
+// pdb: ImageSpaceEffectWaterFFT::ImageSpaceEffectWaterFFT | ImageSpaceEffectWaterFFT.obj | fnv360_0822_retail, udata, high
 FUN_00ba15e0::FUN_00ba15e0()
 {
     arr28.SetSize(10);
@@ -1677,6 +1600,7 @@ class FUN_00ba2d30_cls
 };
 
 // @fnv 0x00ba2d30
+// pdb: AILinearTaskThread::RunLinearTasks | AILinearTaskThread.obj | fnv360_0822_retail, vtable, medium
 void FUN_00ba2d30_cls::FUN_00ba2d30()
 {
     if (m_4c != 0)
@@ -1693,6 +1617,7 @@ struct FUN_00ba3750_Class
     void __thiscall FUN_00ba3750(unsigned char state);
 };
 // @fnv 0x00ba3750
+// pdb: __lvx | ShadowSceneLight.obj | fnv360_0822_debug, objrun_open, low
 void FUN_00ba3750_Class::FUN_00ba3750(unsigned char state)
 {
     state02 = state;
@@ -1760,6 +1685,8 @@ __forceinline FnvOdbValue ReadValue(const volatile int& i)
     return r;
 }
 
+// pdb: ImageSpaceEffectOption::Render | ImageSpaceEffect.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apGeometry, apRenderer, apParam, abEndFrame
 void FnvOdbObject::ProcessEntries(void* arg1, void* arg2, void* arg3, FnvOdbValue aValue)
 {
     v4(arg3);
@@ -1831,6 +1758,7 @@ class FUN_00ba4080
 };
 
 // @fnv 0x00ba4080
+// pdb: ImageSpaceEffect::ImageSpaceEffect | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
 FUN_00ba4080::FUN_00ba4080() : m_bEnableState(false), m_bVisible(true)
 {}
 
@@ -1882,6 +1810,7 @@ class FUN_00ba4190 : public BA4190Base
 };
 
 // @fnv 0x00ba4190
+// pdb: ImageSpaceEffectBlur::~ImageSpaceEffectBlur | ImageSpaceEffectBlur.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00ba4190::~FUN_00ba4190()
 {
     if (m_kThirdFollowingStreamField.GetAt(0))
@@ -1938,6 +1867,8 @@ struct FUN_00ba4260_Class
 };
 
 // @fnv 0x00ba4260
+// pdb: BSShaderAccumulator::SetWaterRefraction | TESWater.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: abWaterRefraction
 void __thiscall FUN_00ba4260_Class::FUN_00ba4260(unsigned char value)
 {
     *reinterpret_cast<unsigned char*>(reinterpret_cast<int>(this) + 0x5c) = value;
@@ -1954,6 +1885,7 @@ extern char DAT_011f94a9;
 extern float DAT_012003d0;
 
 // @fnv 0x00ba45d0
+// pdb: ImageSpaceEffectBlur::ImageSpaceEffectBlur | ImageSpaceEffectBlur.obj | fnv360_0822_retail, objrun, medium
 int FUN_00ba45d0()
 {
     if (DAT_012003d4 == DAT_011a9490 && DAT_012003d8 == DAT_011a9494 && DAT_012003dc == DAT_011a9498)
@@ -2009,6 +1941,7 @@ struct FUN_00ba4640 : SpawnBaseA
 
 // Constructs the object, initializing m_28 with 4 and setting m_58 to -1.
 // @fnv 0x00ba4640
+// pdb: ImageSpaceEffectBlur::ImageSpaceEffectBlur | ImageSpaceEffectBlur.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00ba4640::FUN_00ba4640() : m_28(4)
 {
     m_58 = -1;
@@ -2074,6 +2007,7 @@ struct FUN_00ba4880 : SpawnedBase
 
 // Initializes m_28 with 4 and copies three global values into DAT_012003dc, DAT_012003d4 and DAT_012003d8.
 // @fnv 0x00ba4880
+// pdb: ImageSpaceEffectFullScreenBlur::ImageSpaceEffectFullScreenBlur | ImageSpaceEffectBlur.obj | fnv360_0822_retail, objrun, high
 FUN_00ba4880::FUN_00ba4880()
 {
     m_28.Init(4);
@@ -2264,6 +2198,8 @@ struct ScreenEffect
     bool UpdateTexelSize(int);
 };
 // @fnv 0x00ba4ee0
+// pdb: ImageSpaceEffectFullScreenBlur::UpdateParams | ImageSpaceEffectBlur.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apParam
 bool ScreenEffect::UpdateTexelSize(int)
 {
     float width, height;
@@ -2297,6 +2233,7 @@ extern RefCounted* DAT_012003f4;
 
 // If the global RefCounted pointer is set, decrements its reference count, calls v1() when it reaches zero, and clears the global pointer.
 // @fnv 0x00ba50d0
+// pdb: NiImageConverter::_SDMShutdown | NiImageConverter.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00ba50d0()
 {
     if (DAT_012003f4 != 0)
@@ -2387,6 +2324,7 @@ struct ParticleShader
 };
 // Builds source and binary paths for the particle vertex and pixel shaders and compiles both programs into vertexProgram and pixelProgram.
 // @fnv 0x00ba5130
+// pdb: ParticleShader::LoadShaders | ParticleShader.obj | fnv360_0822_retail, ustr, medium
 void ParticleShader::CompileParticleShaders()
 {
     char sourcePath[260];
@@ -2504,6 +2442,8 @@ struct FUN_00ba82a0_cls
 
 // Allocates an Obj_b10008, initializes it via FUN_00ba8b10 with arg, and returns the new object.
 // @fnv 0x00ba82a0
+// pdb: ParticleShaderProperty::CreateClone | ParticleShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 Obj_b10008* FUN_00ba82a0_cls::FUN_00ba82a0(int arg)
 {
     Obj_b10008* p = new Obj_b10008();
@@ -2761,6 +2701,8 @@ struct GeomCollector_S
 };
 
 // @fnv 0x00ba8320
+// pdb: ParticleShaderProperty::CollectGeometryRecursive | ParticleShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apObject
 void GeomCollector_S::CollectShaderGeometries(NiAVObj_S* obj)
 {
     if (!obj)
@@ -2839,6 +2781,8 @@ class FUN_00ba8560_cls
 };
 
 // @fnv 0x00ba8560
+// pdb: ParticleShaderProperty::CollectTargets | ParticleShaderProperty.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject
 void FUN_00ba8560_cls::DispatchRefOp(ImgRef* pRef)
 {
     m_lock.Enter();
@@ -2875,6 +2819,7 @@ struct SpawnedObject
 
 // Allocates a SpawnedObject via its operator new and returns the new instance.
 // @fnv 0x00ba8a00
+// pdb: BSShaderTextureSet::CreateObject | BSShaderTextureSet.obj | fnv360_0721_beta, caller_sim, low
 SpawnedObject* __cdecl FUN_00ba8a00()
 {
     SpawnedObject* obj = new SpawnedObject();
@@ -2941,6 +2886,8 @@ struct FnvShaderProperty : FnvShaderPropertyBase
 };
 
 // @fnv 0x00ba8aa0
+// pdb: BSShaderProperty::IsEqual | BSShaderProperty.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: pkObject
 void FnvShaderProperty::FUN_00ba8aa0(void* arg)
 {
     v98(arg);
@@ -3115,6 +3062,8 @@ struct FUN_00ba96d0Owner
 
 // If m_48 is null, allocates a new FUN_00ba94b0 with a and stores it in m_48.
 // @fnv 0x00ba96d0
+// pdb: BSShaderProperty::CheckCreateLocalMapRenderPassArray | BSShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aiNumPasses
 void FUN_00ba96d0Owner::EnsureAllocated(unsigned int uiValue)
 {
     if (m_48 == 0)
@@ -3177,6 +3126,8 @@ struct FUN_00ba9740_cls
 
 // If m_p44 is null, allocates 0x14 bytes from DAT_011f6238 and stores the object built by FUN_00ba94b0(a1) into m_p44.
 // @fnv 0x00ba9740
+// pdb: BSShaderProperty::CheckCreateConstAlphaRenderPassArray | BSShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aiNumPasses
 void FUN_00ba9740_cls::EnsureBa9740Obj(unsigned int uiValue)
 {
     if (m_p44 == 0)
@@ -3259,6 +3210,8 @@ class BA97B0Owner
 
 // Allocates a BA97B0Child with uiValue and stores it in m_pkChild when m_pkChild is null.
 // @fnv 0x00ba97b0
+// pdb: BSShaderProperty::CheckCreateWaterFogRenderPassArray | BSShaderProperty.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: aiNumPasses
 void BA97B0Owner::CreateChildIfMissing(unsigned int uiValue)
 {
     if (!m_pkChild)
@@ -3291,6 +3244,8 @@ struct FUN_00ba9820_cls
 
 // If m_54 is null, allocates a SpawnedObject_b7307 with the given value and stores it in m_54.
 // @fnv 0x00ba9820
+// pdb: BSShaderProperty::CheckSilhouetteRenderPassArray | BSShaderProperty.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: BSShaderProperty::CheckCreateDepthMapRenderPassArray)
+// pdb params: aiNumPasses
 void FUN_00ba9820_cls::CreateSpawnedObjectIfMissing(int aiValue)
 {
     if (m_54 == 0)
@@ -3361,6 +3316,7 @@ struct FUN_00baa210_cls
 };
 
 // @fnv 0x00baa210
+// pdb: ImageSpaceEffectMenuBG::IsActive | ImageSpaceEffectMenuBG.obj | fnv360_0721_beta, objrun_open, low
 void FUN_00baa210_cls::FUN_00baa210()
 {
     m_0c->m_pFlagTarget->v06();
@@ -3373,6 +3329,7 @@ struct S_00baa3f0_Class
 
 // If idx is in 0x16..0x3d or 0x25c..0x287, stores the corresponding slot value into DAT_0126f74c.
 // @fnv 0x00baa3f0
+// pdb: TallGrassShader::ClearPassStages | TallGrassShader.obj | fnv360_0822_retail, objrun_open, medium
 void S_00baa3f0_Class::FUN_00baa3f0(unsigned int uiIndex)
 {
     const int* slots = (const int*)this;
@@ -3446,6 +3403,7 @@ struct FUN_00baa570 : FUN_00be0f10
 };
 // Clears connected, then passes the stored current pointer to DAT_011f6238.FUN_00aa4060 before destruction.
 // @fnv 0x00baa570
+// pdb: TallGrassShader::~TallGrassShader | TallGrassShader.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00baa570::~FUN_00baa570()
 {
     void* old = current;
@@ -3457,7 +3415,8 @@ FUN_00baa570::~FUN_00baa570()
 extern int DAT_01200508;
 
 // @fnv 0x00baa630
-int* FUN_00baa630()
+// pdb: NiShader::NiShaderInstanceDescriptor::GetRTTI | NiXenonFragmentShader.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+int* NiShader_NiShaderInstanceDescriptor_GetRTTI()
 {
     return &DAT_01200508;
 }
@@ -3797,6 +3756,8 @@ struct BAA720_Effect
 };
 
 // @fnv 0x00baa720
+// pdb: TallGrassShader::UpdatePointLights | TallGrassShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apTGSProp, d3dInvWorld, afWorldScale, apPass
 void BAA720_Effect::ApplyLightToEffect(BAA720_List* list, const BAA720_Matrix* apMatrix, float scale,
                                        unsigned int flags)
 {
@@ -4091,7 +4052,7 @@ struct S_baeb00_Stream
     int unk248;
     int unk24c;
     S_baeb00_BinStream* m_pBackingStream;
-    void FUN_00a64160(int);
+    void NiStream_SaveCString(int);
 };
 template <class T> inline void WriteBinaryArray(S_baeb00_BinStream& kStream, const T* pkValue, unsigned int uiNumEls)
 {
@@ -4147,11 +4108,13 @@ struct S_baeb00_Obj : S_baeb00_Base
     void Serialize(S_baeb00_Stream& kStream);
 };
 // @fnv 0x00baeb00
+// pdb: SkyShaderProperty::SaveBinary | SkyShaderProperty.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: kStream
 void S_baeb00_Obj::Serialize(S_baeb00_Stream& kStream)
 {
     S_baeb00_Base::FUN_00ba9380(kStream);
     SerializeValue(kStream, unk7c);
-    kStream.FUN_00a64160(unk74);
+    kStream.NiStream_SaveCString(unk74);
     SerializeValue(kStream, unk8c);
 }
 
@@ -4249,6 +4212,8 @@ struct SpawnFactory
 };
 
 // @fnv 0x00baedc0
+// pdb: SkyShaderProperty::CreateClone | SkyShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arCloneData
 SpawnedObject90* SpawnFactory::FUN_00baedc0(int aiArg)
 {
     SpawnedObject90* pNew = new SpawnedObject90();
@@ -4303,6 +4268,7 @@ void* __cdecl FUN_00aa13e0(unsigned int aiSize);
 
 // Allocates and constructs a SpawnedObject90, returning the new object.
 // @fnv 0x00baee40
+// pdb: SkyShaderProperty::CreateObject | SkyShaderProperty.obj | fnv360_0721_beta, caller_sim, medium
 SpawnedObject90* __cdecl CreateSpawnedObject90()
 {
     return new SpawnedObject90();
@@ -4388,6 +4354,7 @@ struct FUN_00baf3c0
 
 // Initializes the object's fields: colors from DAT_011f4998, numeric defaults, and boolean flags.
 // @fnv 0x00baf3c0
+// pdb: BSShaderData::BSShaderData | BSShaderData.obj | fnv360_0822_retail, call_gap, medium
 FUN_00baf3c0::FUN_00baf3c0()
 {
     unk00 = 0;
@@ -4572,6 +4539,7 @@ struct FUN_00baf580_cls
 };
 
 // @fnv 0x00baf580
+// pdb: BSShaderData::CheckTextureAlphas | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
 void FUN_00baf580_cls::FUN_00baf580()
 {
     if (m_a8 == 0)
@@ -4772,6 +4740,8 @@ class FUN_00bafa80_cls
 
 // Replaces a1->m_a4 with m_a8, releasing the old reference and retaining the new one, then calls a1->v57 with m_b4.
 // @fnv 0x00bafa80
+// pdb: BSShaderData::SetupTexturesPPLightingShader | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apShaderProp
 void FUN_00bafa80_cls::FUN_00bafa80(TargetObject_cls* apTarget)
 {
     NiRefObject* pNewRef = m_a8;
@@ -4898,6 +4868,8 @@ class OwnerBAF
 
 // If m_pkSource is set, copies the source's name at index 0 into pkTarget->m_kName via BSStringBAF::Set.
 // @fnv 0x00bafcb0
+// pdb: BSShaderData::SetupTexturesTallGrassShader | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pTGShaderProp
 void OwnerBAF::SetTargetName(TargetBAF* pkTarget)
 {
     if (m_pkSource)
@@ -5027,6 +4999,8 @@ struct Src
 
 // Allocates a MatProp, copies the ambient/diffuse colors and three floats into it, notifies up to four targets, then attaches it to obj.
 // @fnv 0x00bafe10
+// pdb: BSShaderData::AddMaterialProperty | BSShaderData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget
 void Src::CreateAndAttachMaterialProperty(NiAVObject_Attach* obj)
 {
     MatProp* p = new MatProp;
@@ -5106,6 +5080,8 @@ struct FUN_00bb0d40 : SpawnBase
 };
 
 // @fnv 0x00bb0d40
+// pdb: PrecipitationShaderProperty::PrecipitationShaderProperty | PrecipitationShaderProperty.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiParticleCount, afRotationSpeed, akVelocity, akMin, akMax, aePrecipType, aeFaceMode
 FUN_00bb0d40::FUN_00bb0d40(int a1, float a2, Triple3* a3, Triple3* a4, Triple3* a5, int a6, int abFlag) : SpawnBase()
 {
     m_68 = a2;
@@ -5214,6 +5190,7 @@ class FUN_00bb0de0 : public BB0DE0Base
 };
 
 // @fnv 0x00bb0de0
+// pdb: PrecipitationShaderProperty::~PrecipitationShaderProperty | PrecipitationShaderProperty.obj | fnv360_0822_retail, objrun, medium
 FUN_00bb0de0::~FUN_00bb0de0()
 {
     m_iFadeIndex = 0;
@@ -5240,19 +5217,6 @@ class BB0ED0RefObject
 };
 
 struct BB0ED0CloningProcess;
-
-struct BB0ED0Values
-{
-    int m_aiData0;
-    int m_aiData1;
-    int m_aiData2;
-    int m_aiData3;
-    int m_aiData4;
-    int m_aiData5;
-    int m_aiData6;
-    int m_aiData7;
-    int m_aiData8;
-};
 
 class BB0ED0Base
 {
@@ -5308,6 +5272,8 @@ class BB0ED0Property : public BB0ED0Base
 
 // Copies the base part and then the flags, the nine values, the texture pointer and the mode into pkDest.
 // @fnv 0x00bb0ed0
+// pdb: PrecipitationShaderProperty::CopyMembers | PrecipitationShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pDest, arCloneData
 void BB0ED0Property::CloneTo(BB0ED0Property* pkDest, BB0ED0CloningProcess& kCloning)
 {
     BB0ED0Base::CopyMemberData(pkDest, kCloning);
@@ -5375,6 +5341,8 @@ struct ShaderRenderState
 };
 
 // @fnv 0x00bb0fc0
+// pdb: PrecipitationShaderProperty::GetRenderPasses | PrecipitationShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
 ShaderRenderCommand* __thiscall ShaderRenderState::FUN_00bb0fc0(void* data, unsigned int version, int unused1,
                                                                 unsigned int variant, int unused2, int FlushUsageData)
 {
@@ -5794,6 +5762,7 @@ void __cdecl FUN_00bb1a90()
 extern int DAT_01200610;
 
 // @fnv 0x00bb1d30
+// pdb: NiD3DShaderConstantMap::GetRTTI | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_open, low
 void* __cdecl FUN_00bb1d30()
 {
     return &DAT_01200610;
@@ -6094,6 +6063,8 @@ class FUN_00bb2580_cls
 
 // Calls v59, then FUN_00bb1f60 with the seven arguments, stores m_384 into DAT_0126f74c and returns 0.
 // @fnv 0x00bb2580
+// pdb: SpeedTreeLeafShader::UpdatePipeline | SpeedTreeLeafShader.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: apGeometry, apSkin, apBuffData, apState, apEffects, aWorld, aWorldBound
 int FUN_00bb2580_cls::FUN_00bb2580(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     v59();
@@ -6463,6 +6434,7 @@ struct GlobalObjectO2_00bb3130
 extern GlobalObjectO2_00bb3130 g_01200788;
 
 // @fnv 0x00bb3130
+// pdb: NiD3DShaderConstantMap::IsNode | NiXenonErrorShader.obj | fnv360_0822_debug, objrun_open, low
 GlobalObjectO2_00bb3130* __cdecl FUN_00bb3130()
 {
     return &g_01200788;
@@ -6775,6 +6747,8 @@ virtual void slot108();
 virtual void slot10c();
 virtual void slot110();
 virtual int GetArg(); };
+// pdb: SpeedTreeBranchShaderProperty::CreateClone | SpeedTreeBranchShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arCloneData
 Obj_b9933* FUN_00bb3170_cls::CreateAndAttach(int arg) {
 Obj_b9933* p = reinterpret_cast<Obj_b9933*>(new NativePass2549(reinterpret_cast<StateView2549*>(this)->GetArg()));
 Attach(p,arg); return p;
@@ -6854,6 +6828,7 @@ struct FUN_00bb3210_cls
 };
 
 // @fnv 0x00bb3210
+// pdb: NavMesh::GetNavMeshInfo | NavMesh.obj | fnv360_0822_retail, call_seq, medium
 void* FUN_00bb3210_cls::FUN_00bb3210()
 {
     return m_104;
@@ -6911,6 +6886,8 @@ struct ImageProvider
     ImageBuffer* __thiscall FUN_00bb3280(ImageSource* source);
 };
 // @f3 0x00b36120 (community match, verified in this file)
+// pdb: SpeedTreeBranchShaderProperty::CreateRendererSpecificProperty | SpeedTreeBranchShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeometry
 ImageBuffer* __thiscall ImageProvider::FUN_00bb3280(ImageSource* source)
 {
     if (source != 0)
@@ -7108,6 +7085,8 @@ class FUN_00bb3500_cls : public BBB3500Base
 
 // Stores pkObject into the reference-counted pointer member, incrementing its reference count.
 // @fnv 0x00bb3500
+// pdb: SpeedTreeShaderPPLightingProperty::SpeedTreeShaderPPLightingProperty | SpeedTreeShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apData
 FUN_00bb3500_cls::FUN_00bb3500_cls(BBB3500RefObject* pkObject)
 {
     m_pReferencedObject = pkObject;
@@ -7218,6 +7197,7 @@ struct FUN_00bb35b0 : ResourceBase
 
 // Destructor that clears the SmartReference member by assigning a null RefCounted pointer.
 // @fnv 0x00bb35b0
+// pdb: SpeedTreeShaderPPLightingProperty::~SpeedTreeShaderPPLightingProperty | SpeedTreeShaderProperty.obj | fnv360_0822_retail, call_seq, medium
 FUN_00bb35b0::~FUN_00bb35b0()
 {
     m_kSmartReference = static_cast<RefCounted*>(0);
@@ -7291,6 +7271,8 @@ class FUN_00bb3660 : public BB3660Base
 };
 
 // @fnv 0x00bb3660
+// pdb: SpeedTreeShaderLightingProperty::SpeedTreeShaderLightingProperty | SpeedTreeShaderProperty.obj | fnv360_0822_retail, objrun, low, conflict (bridge: DistantLODShaderProperty::DistantLODShaderProperty)
+// pdb params: apData
 FUN_00bb3660::FUN_00bb3660(BB3660RefObject* pkTexture) : m_iFadeIndex(0), m_iMode(3), m_spTexture(pkTexture)
 {}
 
@@ -7341,6 +7323,7 @@ struct CpuObject
     int FUN_00bb36c0();
 };
 // @fnv 0x00bb36c0
+// pdb: BGSTalkingActivator::GetTempRef | BGSTalkingActivator.obj | fnv360_0822_retail, call_seq, high
 int CpuObject::FUN_00bb36c0()
 {
     return value;
@@ -7527,6 +7510,8 @@ struct FUN_00bb3950 : S_00bb3950_Base
 };
 
 // @fnv 0x00bb3950
+// pdb: NiPointer<STLSPData>::operator= | BSTreeModel.obj | fnv360_0721_beta, call_gap, low
+// pdb params: pObject
 FUN_00bb3950::FUN_00bb3950()
 {
     unk08 = DAT_011f6238.Alloc(0x300);
@@ -7754,11 +7739,13 @@ struct FUN_00bb3a50_cls
     unsigned char m_74;
     void __thiscall FUN_00ba95e0(int a);
     short __thiscall FUN_00b707d0();
-    int __thiscall FUN_00b70600(int* out);
+    int __thiscall BSShaderLightingProperty_GetFirstActiveNonShadowLight(int* out);
     void* __thiscall FUN_00bb3a50(int a1, int a2, unsigned short* a3, int a4, int a5, int a6);
 };
 
 // @fnv 0x00bb3a50
+// pdb: SpeedTreeLeafShaderProperty::GetRenderPasses | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
 void* FUN_00bb3a50_cls::FUN_00bb3a50(int a1, int aiKeyLow, unsigned short* apOutFlag, int aiKeyHigh, int a5, int a6)
 {
     int key = (aiKeyHigh << 8) | aiKeyLow;
@@ -7778,7 +7765,7 @@ void* FUN_00bb3a50_cls::FUN_00bb3a50(int a1, int aiKeyLow, unsigned short* apOut
         else
         {
             aiKeyHigh = 0;
-            int r = FUN_00b70600(&aiKeyHigh);
+            int r = BSShaderLightingProperty_GetFirstActiveNonShadowLight(&aiKeyHigh);
             m_3c->FUN_00ba9ee0(a1, 0x3f, 1, 2, edi, r, 0, 0);
         }
         m_38 = key;
@@ -7790,6 +7777,7 @@ void* FUN_00bb3a50_cls::FUN_00bb3a50(int a1, int aiKeyLow, unsigned short* apOut
 extern int DAT_012007a0;
 
 // @fnv 0x00bb3c60
+// pdb: NiXenonErrorShader::GetRTTI | NiXenonErrorShader.obj | fnv360_0721_beta, objrun_open, low
 int* __cdecl FUN_00bb3c60()
 {
     return &DAT_012007a0;
@@ -7837,6 +7825,7 @@ struct FUN_00bb3c70_cls
 };
 
 // @fnv 0x00bb3c70
+// pdb: SpeedTreeLeafShaderProperty::GetLevel | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, objopen_prop, low
 unsigned short FUN_00bb3c70_cls::FUN_00bb3c70()
 {
     return m_8C;
@@ -7884,6 +7873,7 @@ struct FUN_00bb3c80_cls
 };
 
 // @fnv 0x00bb3c80
+// pdb: TES::GetWorldSpace | TES.obj | fnv360_0822_retail, call_seq, medium
 int FUN_00bb3c80_cls::FUN_00bb3c80()
 {
     return m_88;
@@ -7957,6 +7947,7 @@ class FUN_00bb3cd0 : public BB3CD0Base
 
 // Destructor that releases the texture smart pointer by setting m_spTexture to null.
 // @fnv 0x00bb3cd0
+// pdb: SpeedTreeLeafShaderProperty::~SpeedTreeLeafShaderProperty | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00bb3cd0::~FUN_00bb3cd0()
 {
     m_spTexture = 0;
@@ -8006,6 +7997,7 @@ struct FUN_00bb4080_Class
 
 // Calls FUN_00b71720, sets unk00 to &DAT_010b9828 and initializes unk7C, unk58 and unk1C, then returns this.
 // @fnv 0x00bb4080
+// pdb: GeometryDecalShaderProperty::GeometryDecalShaderProperty | GeometryDecalShaderProperty.obj | fnv360_0822_retail, call_gap, low
 void* FUN_00bb4080_Class::FUN_00bb4080()
 {
     FUN_00b71720();
@@ -8019,6 +8011,7 @@ void* FUN_00bb4080_Class::FUN_00bb4080()
 extern int DAT_012007a8;
 
 // @fnv 0x00bb40b0
+// pdb: NiD3DShaderInterface::GetRTTI | NiD3DShaderInterface.obj | fnv360_0721_retail, objrun, low, conflict (bridge: NiD3DShaderInterface::GetIsBestImplementation)
 int* __cdecl FUN_00bb40b0()
 {
     return &DAT_012007a8;
@@ -8063,122 +8056,17 @@ class FUN_00bb40c0_cls : public SpawnedBase_bb40
 };
 
 // @fnv 0x00bb40c0
+// pdb: GeometryDecalShaderProperty::~GeometryDecalShaderProperty | GeometryDecalShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00bb40c0_cls::~FUN_00bb40c0_cls()
 {}
 }  // namespace fnv_00bb40c0
 
-struct SpawnBaseObj
-{
-    SpawnBaseObj();
-    virtual ~SpawnBaseObj();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-
-struct SpawnArgIface
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1C();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2C();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3C();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4C();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5C();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6C();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7C();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8C();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual void v9C();
-    virtual void vA0();
-    virtual void vA4();
-    virtual void vA8();
-    virtual void vAC();
-    virtual void vB0();
-    virtual void vB4();
-    virtual void vB8();
-    virtual void vBC();
-    virtual void vC0();
-    virtual void vC4();
-    virtual void vC8();
-    virtual void vCC(void* obj);
-};
-
-struct FUN_00bb4540 : SpawnBaseObj
-{
-    int m_1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int m_58;
-    virtual ~FUN_00bb4540();
-    FUN_00bb4540(SpawnArgIface* arg);
-};
-
-// Calls arg->vCC(this), then sets m_58 to 0x1d and m_1c to 0xc.
-// @fnv 0x00bb4540
-FUN_00bb4540::FUN_00bb4540(SpawnArgIface* pSpawnArg) : SpawnBaseObj()
-{
-    pSpawnArg->vCC(this);
-    m_58 = 0x1d;
-    m_1c = 0xc;
-}
-
 extern int DAT_010b9910;
-
-// @fnv 0x00bb45b0
-void __fastcall FUN_00bb45b0(unsigned int* param_1)
-{
-    *param_1 = reinterpret_cast<unsigned int>(&DAT_010b9910);
-    FUN_00b67380(param_1);
-}
 
 // FUN_00bb45c0 : a one-line function - getter
 extern int g_target_00bb45c0;
 // @fnv 0x00bb45c0
+// pdb: NiPersistentSrcTextureRendererData::GetRTTI | NiXenonPersistentSrcTextureRendererData.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiDX9PersistentSrcTextureRendererData::GetRTTI)
 void* FUN_00bb45c0()
 {
     return &g_target_00bb45c0;
@@ -8212,6 +8100,7 @@ class ObjectDerived_b9105 : public ObjectBase_b9105
 
 // Allocates and constructs a new ObjectDerived_b9105 via its custom operator new and returns it.
 // @fnv 0x00bb45d0
+// pdb: Lighting30ShaderProperty::CreateObject | Lighting30ShaderProperty.obj | fnv360_0721_beta, objrun_prop, low
 ObjectDerived_b9105* CreateObjectDerived()
 {
     return new ObjectDerived_b9105();
@@ -8737,6 +8626,8 @@ void __stdcall FUN_00b690d0(void* p);
 extern void* DAT_012007b0;
 
 // @fnv 0x00bb5fa0
+// pdb: bhkPhantom::GetViewerStrings | bhkPhantom.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apStrings
 void __stdcall FUN_00bb5fa0(FUN_00bb5fa0_cls* self)
 {
     FUN_00b690d0(self);
@@ -8787,6 +8678,8 @@ struct FUN_00bb5ff0_Class
 };
 
 // @fnv 0x00bb5ff0
+// pdb: HairShaderProperty::SetupGeometry | HairShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeometry
 bool FUN_00bb5ff0_Class::FUN_00bb5ff0(FUN_00a59d30_Class* a1)
 {
     bool result = FUN_00b67a40(a1);
@@ -8805,6 +8698,7 @@ bool FUN_00bb5ff0_Class::FUN_00bb5ff0(FUN_00a59d30_Class* a1)
 // FUN_00bb7200 : a one-line function - getter
 extern int g_target_00bb7200;
 // @fnv 0x00bb7200
+// pdb: NiD3DVertexShader::GetRTTI | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low
 void* FUN_00bb7200()
 {
     return &g_target_00bb7200;
@@ -8854,6 +8748,8 @@ struct FUN_00bb7210_Class
 };
 
 // @fnv 0x00bb7210
+// pdb: BSDistantTreeShaderProperty::CreateClone | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 FUN_00bb7170_Node* FUN_00bb7210_Class::CreateNode(int a1)
 {
     FUN_00bb7170_Node* node = new FUN_00bb7170_Node();
@@ -8907,6 +8803,7 @@ struct S_00bb7370_Obj : S_00bb7370_Base
 };
 // Runs the object's destructor and, when flags has bit 0 set, frees the 0x68-byte object, then returns this.
 // @fnv 0x00bb7370
+// pdb: BSDistantTreeShaderProperty::`scalar deleting destructor' | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, objrun, high
 S_00bb7370_Obj* S_00bb7370_Obj::FUN_00bb7370(unsigned int flags)
 {
     this->S_00bb7370_Obj::~S_00bb7370_Obj();
@@ -8928,6 +8825,7 @@ class FUN_00bb7c30_Class
 };
 // Allocates a 0xb0-byte object and constructs a FUN_00bb7c30_Class with flag 0, returning the pointer.
 // @fnv 0x00bb7ef0
+// pdb: TileShaderProperty::CreateObject | TileShaderProperty.obj | fnv360_0721_beta, caller_sim, medium
 FUN_00bb7c30_Class* __cdecl FUN_00bb7ef0()
 {
     return new FUN_00bb7c30_Class(0);
@@ -8942,149 +8840,8 @@ struct StrArrView
     unsigned short elementSize;
     unsigned short growBy;
 };
-extern void* DAT_012007d8;
-extern const char DAT_010b9e1c[];
-extern const char DAT_010b9e0c[];
-extern const char DAT_010b9dfc[];
-extern const char DAT_010b9df4[];
-extern const char DAT_010b9dec[];
-extern char DAT_011f444c;
 extern char* __cdecl FUN_00a7d550(const char*, float);
 extern char* __cdecl FUN_00a7d5e0(const char*, unsigned int);
-struct GameGraphicsObject
-{
-    virtual void Method0();
-    virtual void Method1();
-    virtual void Method2();
-    virtual void Method3();
-    virtual void Method4();
-    virtual void Method5();
-    virtual void Method6();
-    virtual void Method7();
-    virtual void Method8();
-    virtual void Method9();
-    virtual void Method10();
-    virtual void Method11();
-    virtual void Method12();
-    virtual void Method13();
-    virtual void Method14();
-    virtual void Method15();
-    virtual void Method16();
-    virtual void Method17();
-    virtual void Method18();
-    virtual void Method19();
-    virtual void Method20();
-    virtual void Method21();
-    virtual void Method22();
-    virtual void Method23();
-    virtual void Method24();
-    virtual void Method25();
-    virtual void Method26();
-    virtual void Method27();
-    virtual void Method28();
-    virtual void Method29();
-    virtual void Method30();
-    virtual void Method31();
-    virtual void Method32();
-    virtual void Method33();
-    virtual void Method34();
-    virtual void Method35();
-    virtual void Method36();
-    virtual void Method37();
-    virtual void Method38();
-    virtual unsigned int* GetGraphicsValue();
-};
-extern GameGraphicsObject* __stdcall FUN_00653290(const void*);
-struct ShaderPassParameters
-{
-    unsigned int unknown00;
-    unsigned int unknown04;
-    unsigned int unknown08;
-    unsigned int unknown0c;
-    unsigned int unknown10;
-    unsigned int unknown14;
-    unsigned int unknown18;
-    unsigned int unknown1c;
-    unsigned int unknown20;
-    unsigned int unknown24;
-    unsigned int unknown28;
-    unsigned int unknown2c;
-    unsigned int unknown30;
-    unsigned int unknown34;
-    unsigned int unknown38;
-    unsigned int unknown3c;
-    unsigned int unknown40;
-    unsigned int unknown44;
-    unsigned int unknown48;
-    unsigned int unknown4c;
-    unsigned int unknown50;
-    unsigned int unknown54;
-    unsigned int unknown58;
-    unsigned int unknown5c;
-    void* volatile enabledData;
-    unsigned int unknown64;
-    float parameter68;
-    float parameter6c;
-    float parameter70;
-    float parameter74;
-    void AppendShaderParameters(StrArr*);
-};
-// @fnv 0x00bb7f90
-void ShaderPassParameters::AppendShaderParameters(StrArr* array)
-{
-    WriteToSettingArray(array);
-    StrArrView* arrayView = reinterpret_cast<StrArrView*>(array);
-    char* value = FUN_00a7d330(DAT_012007d8);
-    {
-        unsigned int at = arrayView->count;
-        if (at >= arrayView->capacity)
-            array->SetSize(at + arrayView->growBy);
-        array->SetAt(at, value);
-    }
-    value = FUN_00a7d550(DAT_010b9e1c, parameter68);
-    {
-        unsigned int at = arrayView->count;
-        if (at >= arrayView->capacity)
-            array->SetSize(at + arrayView->growBy);
-        array->SetAt(at, value);
-    }
-    value = FUN_00a7d550(DAT_010b9e0c, parameter6c);
-    {
-        unsigned int at = arrayView->count;
-        if (at >= arrayView->capacity)
-            array->SetSize(at + arrayView->growBy);
-        array->SetAt(at, value);
-    }
-    value = FUN_00a7d550(DAT_010b9dfc, parameter70);
-    {
-        unsigned int at = arrayView->count;
-        if (at >= arrayView->capacity)
-            array->SetSize(at + arrayView->growBy);
-        array->SetAt(at, value);
-    }
-    value = FUN_00a7d550(DAT_010b9df4, parameter74);
-    {
-        unsigned int at = arrayView->count;
-        if (at >= arrayView->capacity)
-            array->SetSize(at + arrayView->growBy);
-        array->SetAt(at, value);
-    }
-    if (enabledData)
-    {
-        GameGraphicsObject* object = FUN_00653290(&DAT_011f444c);
-        if (object)
-        {
-            unsigned int graphicalValue = *object->GetGraphicsValue();
-            value = FUN_00a7d5e0(DAT_010b9dec, graphicalValue);
-            {
-                unsigned int at = arrayView->count;
-                if (at >= arrayView->capacity)
-                    array->SetSize(at + arrayView->growBy);
-                array->SetAt(at, value);
-            }
-        }
-    }
-}
 
 void* __cdecl FUN_00aa13e0(unsigned int);
 void __cdecl FUN_00aa1460(void*, unsigned int);
@@ -9106,6 +8863,8 @@ struct FogProp_bb8280
 };
 
 // @fnv 0x00bb8280
+// pdb: BSFogProperty::CreateClone | BSFogProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 FogProp_bb8280* FogProp_bb8280::Clone(void* pCloning)
 {
     FogProp_bb8280* pNewInstance = new FogProp_bb8280();
@@ -9159,6 +8918,8 @@ struct FNVCaller
 };
 
 // @fnv 0x00bb8300
+// pdb: BSFogProperty::GetViewerStrings | BSFogProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void FNVCaller::FUN_00bb8300(FNVArray* destination)
 {
     Initialize(destination);
@@ -9223,6 +8984,7 @@ struct FUN_00bb83d0 : BaseEffect
     ~FUN_00bb83d0();
 };
 // @fnv 0x00bb83d0
+// pdb: ImageSpaceEffectInterface::~ImageSpaceEffectInterface | ImageSpaceEffectInterface.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: ImageSpaceEffectVATSScan::~ImageSpaceEffectVATSScan)
 FUN_00bb83d0::~FUN_00bb83d0()
 {
     if (DAT_01200810)
@@ -9309,6 +9071,7 @@ class BB8590Effect
 
 // Clears the shared reference and, for each of the 5 textures, resets it to null via SetTexture(0).
 // @fnv 0x00bb8590
+// pdb: ImageSpaceEffectInterface::ReturnTextures | ImageSpaceEffectInterface.obj | fnv360_0822_retail, objopen_prop, low
 void BB8590Effect::ClearTextures()
 {
     g_spBB8590Shared = 0;
@@ -9355,11 +9118,14 @@ class FUN_00bb8890_cls
     int unk18;
     B5270Item** m_1c;
     void SetEffectParams(int index);
-    void ProcessItem(int a1, int a2, int a3, int a4);
+    void ImageSpaceEffectInterface_Render(int a1, int a2, int a3, int a4);
 };
 
 // @fnv 0x00bb8890
-void FUN_00bb8890_cls::ProcessItem(int a1, int a2, int a3, int a4)
+// pdb: ImageSpaceEffectInterface::Render | ImageSpaceEffectInterface.obj | fnv360_0822_retail, udata, high
+// pdb params: apGeometry, apRenderer, apParam, abEndFrame
+// pdb: ImageSpaceEffectInterface::Render | ImageSpaceEffectInterface.obj | fnv360_0822_retail, udata, high (was: ProcessItem)
+void FUN_00bb8890_cls::ImageSpaceEffectInterface_Render(int a1, int a2, int a3, int a4)
 {
     v4(a3);
     B5270Item* item = m_1c[DAT_012007fc];
@@ -9413,6 +9179,7 @@ struct FUN_00bb9180_cls : SpawnedBase
 
 // Constructs a SpawnedBase-derived object, initializing its SpawnedSub member m_28 with the value 4.
 // @fnv 0x00bb9180
+// pdb: ImageSpaceEffectTV::ImageSpaceEffectTV | ImageSpaceEffectTV.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00bb9180_cls::FUN_00bb9180_cls() : m_28(4)
 {}
 
@@ -9495,6 +9262,7 @@ struct FUN_00ba02f0 : BA02F0EffectBase
 };
 
 // @fnv 0x00ba02f0
+// pdb: ImageSpaceEffectWaterDisplacement::ImageSpaceEffectWaterDisplacement | ImageSpaceEffectWaterDisplacement.obj | fnv360_0822_retail, udata, high
 FUN_00ba02f0::FUN_00ba02f0()
 {
     m_textures.SetSize(2);
@@ -9684,6 +9452,8 @@ struct FUN_00ba63e0 : NiObject
 };
 // Initializes the object: stores a in unk0c and n in unk10, allocates an array of n elements into unk14, clears unk1c and zeroes unk08 and unk18.
 // @fnv 0x00ba63e0
+// pdb: NiAdditionalGeometryData::NiAdditionalGeometryData | ParticleShader.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: usVertexCount, uiDataStreamCount
 FUN_00ba63e0::FUN_00ba63e0(unsigned short a, unsigned int auiCount)
 {
     unk08 = 0;
@@ -9886,6 +9656,8 @@ class GeometryCollectorBA8
 };
 // Recursively walks the node tree, adding objects that have both geometry data and a node to m_kGeometry.
 // @fnv 0x00ba8480
+// pdb: ParticleShaderProperty::CollectCollisionBonesRecursive | ParticleShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apObject
 void GeometryCollectorBA8::CollectGeometry(NiAVObjectBA8* pkObject)
 {
     if (!pkObject)
@@ -9951,6 +9723,8 @@ struct FUN_00ba9660_cls
 
 // Allocates a NewObj with a1 and stores it in m_40 if m_40 is null.
 // @fnv 0x00ba9660
+// pdb: BSShaderProperty::RenderPass::SetLights | BSShaderProperty.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: BSShaderProperty::CheckSilhouetteRenderPassArray)
+// pdb params: ausNumLights, apSceneLight
 void FUN_00ba9660_cls::EnsureNewObj(int aiValue)
 {
     if (m_40 == 0)
@@ -10072,6 +9846,7 @@ class FUN_00bad500 : public AD500ImageSpaceEffect
 };
 // Initializes the effect by pointing its shader field at g_kAD500Shader and setting the texture array size to 3.
 // @fnv 0x00bad500
+// pdb: ImageSpaceEffectHDR::ImageSpaceEffectHDR | ImageSpaceEffectHDR.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00bad500::FUN_00bad500()
 {
     m_pShaderHandle = &g_kAD500Shader;
@@ -10128,12 +9903,15 @@ struct RenderPassShader_bae7b0
     {
         return m_type == 2 || m_type == 4;
     }
-    BSShaderProperty__RenderPassArray* BuildRenderPasses(NiGeometry* geom, int a2, int a3, int a4, int a5, int a6);
+    BSShaderProperty__RenderPassArray* SkyShaderProperty_GetRenderPasses(NiGeometry* geom, int a2, int a3, int a4, int a5, int a6);
 };
 
 // Selects and adds render passes to m_passes based on m_type and global flags, returning the pass array.
 // @fnv 0x00bae7b0
-BSShaderProperty__RenderPassArray* RenderPassShader_bae7b0::BuildRenderPasses(NiGeometry* geom, int aiUnused2,
+// pdb: SkyShaderProperty::GetRenderPasses | SkyShaderProperty.obj | fnv360_0822_retail, udata, high
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
+// pdb: SkyShaderProperty::GetRenderPasses | SkyShaderProperty.obj | fnv360_0822_retail, udata, high (was: BuildRenderPasses)
+BSShaderProperty__RenderPassArray* RenderPassShader_bae7b0::SkyShaderProperty_GetRenderPasses(NiGeometry* geom, int aiUnused2,
                                                                               int aiUnused3, int aiUnused4,
                                                                               int aiUnused5, int aiUnused6)
 {
@@ -10279,6 +10057,7 @@ struct FUN_00baec90 : ISEffectBaseStub
 };
 
 // @fnv 0x00baec90
+// pdb: SkyShaderProperty::~SkyShaderProperty | SkyShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 FUN_00baec90::~FUN_00baec90()
 {
     m_spTex80 = 0;
@@ -10292,162 +10071,6 @@ struct NiMemObjectAllocation
 {
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
-};
-struct FUN_00b6abb0 : NiMemObjectAllocation
-{
-    FUN_00b6abb0();
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-};
-struct BSShaderLightingProperty : NiMemObjectAllocation
-{
-    BSShaderLightingProperty();
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-};
-struct FUN_00bc37b0 : NiMemObjectAllocation
-{
-    FUN_00bc37b0();
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
 };
 struct FUN_00baeb80 : NiMemObjectAllocation
 {
@@ -10488,166 +10111,6 @@ struct FUN_00baeb80 : NiMemObjectAllocation
     int unk084;
     int unk088;
     int unk08C;
-};
-struct FUN_00b60cb0 : NiMemObjectAllocation
-{
-    FUN_00b60cb0();
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-};
-struct TileShaderProperty : NiMemObjectAllocation
-{
-    TileShaderProperty(bool);
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-};
-struct FUN_00c05880 : NiMemObjectAllocation
-{
-    FUN_00c05880();
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
 };
 inline void* operator new(unsigned int, int bytes)
 {
@@ -10709,6 +10172,7 @@ struct FUN_00b39a70 {
     static void operator delete(void* p) { ::FUN_0089ec20(p); }
 };
 }
+// pdb: BSShaderData::GetShaderProperty | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
 void* FactorySelector::FUN_00baf120()
 {
     using namespace nb31310;
@@ -10878,6 +10342,8 @@ struct FUN_00baf640_Class
 
 // Sets or clears bits in the flag words from the object's byte fields and copies field8c into the float field.
 // @fnv 0x00baf640
+// pdb: BSShaderData::SetupShaderFlags | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apShaderProp, apObject
 void FUN_00baf640_Class::UpdateRenderFlags(FlagState* a, RenderInput* b)
 {
     int uiZero = 0;
@@ -11225,12 +10691,7 @@ void FUN_00baf640_Class::UpdateRenderFlags(FlagState* a, RenderInput* b)
     *pfValue = field8c;
 }
 
-struct NiGlobalStringTable
-{
-    static char* __cdecl AddString(const char*);
-};
 extern char* DAT_0109b220;
-extern const float DAT_01012054;
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 struct Getter08
 {
@@ -11406,6 +10867,8 @@ struct Source08
 };
 // Copies the getter's first string into target->name, calls target->set(value), and copies f98..fa4 into target->f70..f7c when those are not -1.0f.
 // @fnv 0x00bafaf0
+// pdb: BSShaderData::SetupTexturesNoLightingShader | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pNLShaderProp
 void Source08::CopyToTarget(Target08* target)
 {
     if (getter)
@@ -11673,6 +11136,7 @@ struct FUN_00bb1c10 : SpeedTreeShaderBase
 
 // Destructor that releases the four vertex shader and two pixel shader smart pointers by setting them to null.
 // @fnv 0x00bb1c10
+// pdb: SpeedTreeLeafShader::~SpeedTreeLeafShader | SpeedTreeLeafShader.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00bb1c10::~FUN_00bb1c10()
 {
     for (int i = 0; i < 4; i++)
@@ -12029,6 +11493,7 @@ struct ShaderSetup
 };
 // Creates two passes, each with a new stage configured by SetupStage, attaches the stage, assigns the current state, and sets resources.
 // @fnv 0x00bb1d40
+// pdb: SpeedTreeLeafShader::LoadStagesAndPasses | SpeedTreeLeafShader.obj | fnv360_0822_retail, call_seq, medium
 void ShaderSetup::CreatePasses()
 {
     CreatePass(&pass384);
@@ -12353,6 +11818,7 @@ public:
     virtual void* GetState();
 };
 
+// pdb: SpeedTreeBranchShaderProperty::CreateCopy | SpeedTreeBranchShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
 B30B0Pass* B30B0Shader::CreateDefaultPass()
 {
     return new F3DefaultPass81(reinterpret_cast<F3ShaderStateView81*>(this)->GetState());
@@ -12655,6 +12121,7 @@ struct FUN_00bb3ba0 : BSFaceGenMorphData
 
 // Allocates a copy of this morph data object, copies it via FUN_00bb3d80, and returns the clone.
 // @fnv 0x00bb3f10
+// pdb: SpeedTreeLeafShaderProperty::CreateCopy | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 nsbb::FUN_00bb3ba0* nsbb::FUN_00bb3ba0::CloneMorphData(void* process)
 {
     FUN_00bb3ba0* clone = new FUN_00bb3ba0(vFValue(), vCC(), vFC());
@@ -12822,6 +12289,8 @@ struct BB5DD0Owner
 };
 
 // @fnv 0x00bb5dd0
+// pdb: Lighting30ShaderProperty::GetRenderDepthPass | Lighting30ShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeom
 BB5DD0Obj* BB5DD0Owner::CreateObject(BB5DD0Ref* pRef)
 {
     if ((m_uiValue1 & 0x4000000) > 0 || (m_uiValue1 & 0x8000000) > 0)
@@ -12880,6 +12349,8 @@ struct Effect_bb9020
 
 // Computes inverse texture dimensions from textures[1] and writes five parameter vectors into parameters->p0, then returns false.
 // @fnv 0x00bb9020
+// pdb: ImageSpaceEffectTV::UpdateParams | ImageSpaceEffectTV.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pParam
 bool Effect_bb9020::FUN_00bb9020(int unused)
 {
     float invWidth = 0.0f;
@@ -12924,6 +12395,7 @@ struct FUN_00ba12d0 : FUN_00ba3d30
 };
 // Deletes each non-null entry in effects.data for indices 0-11 and clears the slot via FUN_00ba3aa0.
 // @fnv 0x00ba12d0
+// pdb: ImageSpaceEffectWaterFFT::~ImageSpaceEffectWaterFFT | ImageSpaceEffectWaterFFT.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00ba12d0::~FUN_00ba12d0()
 {
     for (unsigned int i = 0; i < 12; ++i)
@@ -12955,6 +12427,8 @@ class OwnC00
 };
 // If m_pkSource is set, copies its name into pkTarget->m_kName and stores m_b4 into pkTarget->m_8c.
 // @fnv 0x00bafc00
+// pdb: BSShaderData::SetupTexturesTileShader | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pTileShaderProp
 void OwnC00::CopySourceNameToTarget(TgtC00* pkTarget)
 {
     if (m_pkSource)
@@ -13202,6 +12676,8 @@ struct NativeObject
 };
 
 }
+// pdb: BSShaderData::AddShaderProperty | BSShaderData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget
 void WorkerSource::UpdateWorkerObject(WorkerTarget* target)
 {
     task1588::NativeObject* object = reinterpret_cast<task1588::NativeObject*>(FUN_00baf120());
@@ -13263,6 +12739,8 @@ struct BB3FC0ImageProvider
 
 // Allocates an ImageBuffer sized to the layer count, configures it, fills it with the layer data, and returns it.
 // @fnv 0x00bb3fc0
+// pdb: SpeedTreeLeafShaderProperty::CreateRendererSpecificProperty | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeometry
 ImageBuffer* BB3FC0ImageProvider::FUN_00bb3fc0(int unused)
 {
     unsigned int count = getLayerCount();
@@ -13363,9 +12841,10 @@ extern float DAT_011ae5f0;
 extern float DAT_011ae5f4;
 extern float DAT_011ae5f8;
 extern float DAT_011ae5fc;
-extern float DAT_01099378;
 
 // @fnv 0x00bb85e0
+// pdb: ImageSpaceEffectInterface::UpdateParams | ImageSpaceEffectInterface.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pParam
 bool EffectCtx::FUN_00bb85e0(int aiUnused)
 {
     ((TextureHolder*)m_ppTextures[3])->FUN_00ba37f0((void*)DAT_01200810);
@@ -13426,22 +12905,6 @@ bool EffectCtx::FUN_00bb85e0(int aiUnused)
 
 struct NiStream;
 
-struct FUN_00b6f460_class
-{
-    void LoadAndSetAdditional(NiStream* stream);
-};
-
-struct FUN_00ba8630_Class : FUN_00b6f460_class
-{
-    void FUN_00ba8650(NiStream* stream);
-};
-
-// @fnv 0x00ba8650
-void FUN_00ba8630_Class::FUN_00ba8650(NiStream* stream)
-{
-    LoadAndSetAdditional(stream);
-}
-
 struct NiObj_s
 {
     bool IsEqual(NiObj_s*);
@@ -13451,27 +12914,16 @@ struct FUN_00ba87d0_Class
     bool FUN_00ba87d0(NiObj_s* a);
 };
 // @fnv 0x00ba87d0
+// pdb: NiParticleMeshes::RegisterStreamables | NiParticleMeshes.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 bool FUN_00ba87d0_Class::FUN_00ba87d0(NiObj_s* a)
 {
     return ((NiObj_s*)this)->IsEqual(a);
 }
 
-void __cdecl FUN_00a950c0();
-// @fnv 0x00ba8a70
-void __cdecl FUN_00ba8a70()
-{
-    FUN_00a950c0();
-}
-
-void __cdecl FUN_00a99e40();
-
-// @fnv 0x00ba8a80
-void __cdecl FUN_00ba8a80()
-{
-    FUN_00a99e40();
-}
-
 // @fnv 0x00ba8a90
+// pdb: NiXenonTextureManager::GetTexture | NiXenonTextureManager.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: __formal, __formal, __formal, __formal, __formal, __formal
 int __stdcall FUN_00ba8a90(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
 {
     return 0;
@@ -13506,6 +12958,7 @@ struct FUN_00baa180 : BaseEffect
 };
 // Destructor: if the first entry in effects is non-null, deletes it and clears that slot via FUN_00ba3aa0(0, 0).
 // @fnv 0x00baa180
+// pdb: ImageSpaceEffectRadialBlur::~ImageSpaceEffectRadialBlur | ImageSpaceEffectRadialBlur.obj | fnv360_0721_beta, objrun_prop, low
 FUN_00baa180::~FUN_00baa180()
 {
     if (effects.data[0] != 0)
@@ -13517,6 +12970,8 @@ FUN_00baa180::~FUN_00baa180()
 
 extern "C" void __cdecl FUN_00c9a420();
 // @fnv 0x00bae710
+// pdb: NiAmbientLight::LinkObject | NiAmbientLight.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: stream
 void __cdecl FUN_00bae710()
 {
     FUN_00c9a420();
@@ -13580,6 +13035,8 @@ struct FUN_00baeee0_shell
 struct BaseSettingsFO3 { void FUN_00b2b9f0(StrArr*); };
 extern const char* const DAT_01176338;
 
+// pdb: SkyShaderProperty::GetViewerStrings | SkyShaderProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void __thiscall FUN_00baeee0_shell::AppendToStringArray(StrArr* arr)
 {
     char buf[256];
@@ -13658,139 +13115,9 @@ void __thiscall FUN_00baeee0_shell::AppendToStringArray(StrArr* arr)
 
 
 namespace fnv_00bb1160 {
-extern void* DAT_012005fc;
-extern char DAT_010b90ec;
-extern char DAT_010ae79c;
-extern char DAT_010ae344;
-extern char DAT_010b90dc;
 char* FUN_00a7d4d0(const char*, int);
 char* FUN_00a7d5a0(const char*, void*);
 const char* FUN_00c4bb40(void*);
-char* FUN_00a7d370(const char*, bool);
-char* FUN_00a7db60(const char*, unsigned int);
-struct FUN_00bb1160_Class
-{
-    virtual void slot0();
-    virtual void slot1();
-    virtual void slot2();
-    virtual void slot3();
-    virtual void slot4();
-    virtual void slot5();
-    virtual void slot6();
-    virtual void slot7();
-    virtual void slot8();
-    virtual void slot9();
-    virtual void slot10();
-    virtual void slot11();
-    virtual void slot12();
-    virtual void slot13();
-    virtual void slot14();
-    virtual void slot15();
-    virtual void slot16();
-    virtual void slot17();
-    virtual void slot18();
-    virtual void slot19();
-    virtual void slot20();
-    virtual void slot21();
-    virtual void slot22();
-    virtual void slot23();
-    virtual void slot24();
-    virtual void slot25();
-    virtual void slot26();
-    virtual void slot27();
-    virtual void slot28();
-    virtual void slot29();
-    virtual void slot30();
-    virtual void slot31();
-    virtual void slot32();
-    virtual void slot33();
-    virtual void slot34();
-    virtual void slot35();
-    virtual void slot36();
-    virtual void slot37();
-    virtual void slot38();
-    virtual void slot39();
-    virtual void slot40();
-    virtual void slot41();
-    virtual void slot42();
-    virtual void slot43();
-    virtual void slot44();
-    virtual void slot45();
-    virtual void slot46();
-    virtual void slot47();
-    virtual void slot48();
-    virtual void slot49();
-    virtual void slot50();
-    virtual int IsEnabled();
-    unsigned int field04;
-    unsigned int field08;
-    unsigned int field0c;
-    unsigned int field10;
-    unsigned int field14;
-    unsigned int field18;
-    unsigned int field1c;
-    unsigned int field20;
-    unsigned int field24;
-    unsigned int field28;
-    unsigned int field2c;
-    unsigned int field30;
-    unsigned int field34;
-    unsigned int field38;
-    unsigned int field3c;
-    unsigned int field40;
-    unsigned int field44;
-    unsigned int field48;
-    unsigned int field4c;
-    unsigned int field50;
-    unsigned int field54;
-    unsigned int field58;
-    unsigned int field5c;
-    unsigned int field60;
-    unsigned int field64;
-    unsigned int field68;
-    unsigned int field6c;
-    unsigned int field70;
-    unsigned int field74;
-    unsigned int field78;
-    unsigned int field7c;
-    unsigned int field80;
-    unsigned int field84;
-    unsigned int field88;
-    unsigned int field8c;
-    void* field90;
-    unsigned int field94;
-    unsigned int field98;
-    void __thiscall FUN_00bb1160(StrArr* array);
-};
-// Appends formatted entries for DAT_012005fc, field60, field90 (via FUN_00c4bb40 or FUN_00a7d5a0), a disabled flag, and field98 to the array.
-// @fnv 0x00bb1160
-void __thiscall FUN_00bb1160_Class::FUN_00bb1160(StrArr* array)
-{
-    WriteToSettingArray(array);
-    ((FNVArray*)array)->Append(FUN_00a7d330(DAT_012005fc));
-    ((FNVArray*)array)->Append(FUN_00a7d4d0(&DAT_010b90ec, field60));
-    if (field90)
-    {
-        void* name = (void*)FUN_00c4bb40(field90);
-        char* value;
-        if (name)
-        {
-            value = FUN_00a7d5e0(&DAT_010ae79c, (unsigned int)name);
-            ((FNVArray*)array)->Append(value);
-        }
-        else
-        {
-            name = field90;
-            value = FUN_00a7d5a0(&DAT_010ae79c, name);
-            ((FNVArray*)array)->Append(value);
-        }
-    }
-    if (!IsEnabled())
-    {
-        ((FNVArray*)array)->Append(FUN_00a7d370(&DAT_010ae344, 1));
-    }
-    ((FNVArray*)array)->Append(FUN_00a7db60(&DAT_010b90dc, field98));
-}
 }  // namespace fnv_00bb1160
 
 union FogSlots_00bb1b50
@@ -13825,6 +13152,8 @@ void __stdcall FUN_00bb1b50(int unused)
 
 void __cdecl FUN_00bb3380();
 // @fnv 0x00bb30a0
+// pdb: NiAmbientLight::RegisterStreamables | NiAmbientLight.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 void __cdecl FUN_00bb30a0()
 {
     FUN_00bb3380();
@@ -13840,6 +13169,8 @@ struct FUN_00bb3380_Class : ShaderBase_00b690d0
     void FUN_00bb3380(StrArray* a);
 };
 // @fnv 0x00bb3380
+// pdb: NiAmbientLight::SaveBinary | NiAmbientLight.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 void FUN_00bb3380_Class::FUN_00bb3380(StrArray* a)
 {
     GetDebugInfo_b690d0(a);
@@ -13847,6 +13178,7 @@ void FUN_00bb3380_Class::FUN_00bb3380(StrArray* a)
 
 void __cdecl FUN_00b71450();
 // @fnv 0x00bb3390
+// pdb: NiImageConverter::GetPlatformSpecificSubdirectory | NiImageConverter.obj | fnv360_0822_debug, objrun_open, low
 void __cdecl FUN_00bb3390()
 {
     FUN_00b71450();
@@ -13889,6 +13221,7 @@ struct FnvCpu_FUN_00bb3730_CpuObject
     int FUN_00bb3730();
 };
 // @fnv 0x00bb3730
+// pdb: TESPackage::GetRefCount | Package.obj | fnv360_0822_retail, call_gap, low
 int FnvCpu_FUN_00bb3730_CpuObject::FUN_00bb3730()
 {
     return value;
@@ -13898,6 +13231,8 @@ namespace fnv_00bb3940 {
 void FUN_00bb3390();
 
 // @fnv 0x00bb3940
+// pdb: NiPSysData::RegisterStreamables | NiPSysData.obj | fnv360_0721_retail, objrun_prop, high
+// pdb params: kStream
 void FUN_00bb3940()
 {
     FUN_00bb3390();
@@ -13905,22 +13240,11 @@ void FUN_00bb3940()
 }  // namespace fnv_00bb3940
 
 struct NiStream;
-struct FUN_00b68dc0_class
-{
-    void LoadFromStream(NiStream&);
-};
-struct FUN_00bb44f0_class : FUN_00b68dc0_class
-{
-    void FUN_00bb44f0(NiStream&);
-};
-// @fnv 0x00bb44f0
-void FUN_00bb44f0_class::FUN_00bb44f0(NiStream& a)
-{
-    LoadFromStream(a);
-}
 
 void __cdecl CheckAndNotify();
 // @fnv 0x00bb4500
+// pdb: BSStripPSysData::RegisterStreamables | BSStripPSysData.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: BSStripPSysData::LinkObject)
+// pdb params: kStream
 void __cdecl FUN_00bb4500()
 {
     CheckAndNotify();
@@ -13928,6 +13252,8 @@ void __cdecl FUN_00bb4500()
 
 void __cdecl FUN_00b68fe0();
 // @fnv 0x00bb4510
+// pdb: BSResizableTriShape::LinkObject | BSResizableTriShape.obj | fnv360_0721_beta, objrun_sim, low, conflict (skyrim: BSLODTriShape::LinkObject)
+// pdb params: kStream
 void __cdecl FUN_00bb4510()
 {
     return FUN_00b68fe0();
@@ -13970,6 +13296,8 @@ struct NiMapBase : FUN_00bc3780_Class
 };
 
 // @fnv 0x00bb7160
+// pdb: BSDistantTreeShaderProperty::SaveBinary | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 void NiMapBase::FUN_00bb7160(NiStream* pkStream)
 {
     FUN_00ba9380(*pkStream);
@@ -14020,25 +13348,6 @@ struct S00baa660_Tls
 };
 
 typedef void(__thiscall* S00baa660_VFn)(S00baa660_Obj*);
-
-// If FUN_00e80570 returns true, calls virtual functions at offsets 0x12c, 0x134, and 0x130 on this object.
-// @fnv 0x00baa660
-bool S00baa660_Obj::FUN_00baa660()
-{
-    S00baa660_Tls tls;
-    bool result = FUN_00e80570();
-    if (result)
-    {
-        void** vt = *(void***)this;
-        ((S00baa660_VFn)vt[0x12c / 4])(this);
-        vt = *(void***)this;
-        ((S00baa660_VFn)vt[0x134 / 4])(this);
-        vt = *(void***)this;
-        ((S00baa660_VFn)vt[0x130 / 4])(this);
-        result = true;
-    }
-    return result;
-}
 
 extern int DAT_011f91e4;
 extern bool DAT_011f9ef0;
@@ -14220,6 +13529,8 @@ struct UpPair
     NiPoint3 up;
 };
 // @fnv 0x00baac10
+// pdb: TallGrassShader::SetupTransformations | TallGrassShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeometry, apSkin, apPartition, apBuffData, apState, apEffects, aWorld, aWorldBound
 int ACShader::FUN_00baac10(int a, int b, int c, int d, ACObject* object, int f, const NiTransformBB2* transform, int h)
 {
     setter->FUN_00e6fbb0(transform, 0);
@@ -14376,6 +13687,8 @@ typedef void(__thiscall* S00bafd50_FinishFn)(void*, void*);
 
 // If m_a8 is set, passes the result of its vtable slot 35 (via FUN_00a5b690) to argument->m_74, then calls argument's vtable slot 52 with m_b4.
 // @fnv 0x00bafd50
+// pdb: BSShaderData::SetupTexturesSkyShader | BSShaderData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pSkyShaderProp
 void S00bafd50_Cls::FUN_00bafd50(S00bafd50_Arg* argument)
 {
     if (m_a8 != 0)
@@ -14478,6 +13791,8 @@ struct S00ba1770_Effect : BaseEffect
 
 // Sets the texture array size to 12, then creates seven S00ba1770_Param objects, adds each to effects, and calls FUN_00ba3c70 with data->unk08->GetAt(i).
 // @fnv 0x00ba1770
+// pdb: ImageSpaceEffectWaterFFT::Setup | ImageSpaceEffectWaterFFT.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void S00ba1770_Effect::FUN_00ba1770(S00ba1770_Data* data, int unused)
 {
     SetTextureArraySize(12);
@@ -14682,6 +13997,8 @@ static __forceinline void DecRefCount(RefCounted* p)
 // @f3 0x00b28530 (community match, verified in this file)
 extern "C" RefCounted* _DAT_012003f4;
 
+// pdb: ParticleShader::Stop | ParticleShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, apProp
 void __cdecl FUN_00ba6290(Fn6290Object* pObject, Fn6290Result* pWanted)
 {
     if (pObject == 0)
@@ -15085,7 +14402,7 @@ struct FUN_00baea50_arg
     int unk244;
     int unk248;
     StreamObj* m_24C;
-    void FUN_00a64ce0(int* out);
+    void NiStream_LoadCString(int* out);
 };
 
 struct FUN_00baea50_cls
@@ -15135,12 +14452,14 @@ void __cdecl FUN_00aa10f0(int a);
 
 // Calls FUN_00ba92c0, reads m_7C and m_8C from a1's stream, updates m_74 from a1's value, and takes m_88 from a global counter when m_8C is 3.
 // @fnv 0x00baea50
+// pdb: SkyShaderProperty::LoadBinary | SkyShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void FUN_00baea50_cls::FUN_00baea50(FUN_00baea50_arg* a1)
 {
     FUN_00ba92c0(a1);
     a1->m_24C->Read(&m_7C, 4);
     int out = 0;
-    a1->FUN_00a64ce0(&out);
+    a1->NiStream_LoadCString(&out);
     m_74.FUN_004037f0(out, 0);
     FUN_00aa10f0(out);
     a1->m_24C->Read(&m_8C, 4);
@@ -15355,6 +14674,8 @@ struct Owner
 }
 // Gets the holder's item; if present, stores its data's m_08 in m_90, calls SetMode from bits 12-13 of m_04 (3 if none), forwards the item, and returns true.
 // @fnv 0x00bb12e0
+// pdb: PrecipitationShaderProperty::SetupGeometry | PrecipitationShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeometry
 bool nbb::Owner::FUN_00bb12e0(Root248* apRoot)
 {
     Holder* h = GetHolder(apRoot);
@@ -15384,11 +14705,6 @@ extern const char DAT_010b9178[], DAT_010aece0[], DAT_01011584[], DAT_010b9174[]
     DAT_010a93e4[], DAT_010b9138[], DAT_010b9128[], DAT_010b9118[], DAT_010b8afc[];
 extern int DAT_011f91c0;
 extern bool DAT_011f948b, DAT_011f9421;
-struct Macro
-{
-    const char* name;
-    const char* value;
-};
 struct VertexShaderRequest
 {
     const char* values[7];
@@ -15678,6 +14994,7 @@ struct Owner
 };
 // Builds vertex and pixel shader requests, then compiles them into vertex[] and pixel[] programs using the active profile.
 // @fnv 0x00bb13d0
+// pdb: SpeedTreeLeafShader::LoadShaders | SpeedTreeLeafShader.obj | fnv360_0822_retail, ustr, medium
 void Owner::FUN_00bb13d0()
 {
     const char* apixels[2][19];
@@ -15897,6 +15214,7 @@ class BBRefObj : public BBRefBase
 
 // Runs the BBRefObj destructor (frees m_pResource if m_us0C > 0, decrements a global counter) and frees the object if uiFlags bit 0 is set; returns this.
 // @fnv 0x00bb3470
+// pdb: STSPData::~STSPData | SpeedTreeShaderProperty.obj | fnv360_0822_retail, udata, high
 BBRefObj* BBRefObj::FUN_00bb3470(unsigned int uiFlags)
 {
     this->BBRefObj::~BBRefObj();
@@ -15968,6 +15286,7 @@ class FUN_00bb3790 : public ShaderBase_bb37
 
 // Destructor: clears m_spTexture1 then m_spTexture0, releasing their references, after which the ShaderBase_bb37 base destructor runs.
 // @fnv 0x00bb3790
+// pdb: SpeedTreeShaderLightingProperty::~SpeedTreeShaderLightingProperty | SpeedTreeShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00bb3790::~FUN_00bb3790()
 {
     m_spTexture1 = 0;
@@ -16030,6 +15349,7 @@ class FUN_00ba0400 : public BaseObj_ba
 
 // Deletes each non-null element of m_pArr and removes it from m_18 for all 9 slots.
 // @fnv 0x00ba0400
+// pdb: ImageSpaceEffectWaterDisplacement::~ImageSpaceEffectWaterDisplacement | ImageSpaceEffectWaterDisplacement.obj | fnv360_0822_retail, objrun, medium
 FUN_00ba0400::~FUN_00ba0400()
 {
     for (unsigned int i = 0; i < 9; i++)
@@ -16293,6 +15613,7 @@ class FUN_00ba2d70_cls
 };
 
 // @fnv 0x00ba2d70
+// pdb: BSTaskThread::StartThread | BSTaskManager_Xenon.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00ba2d70_cls::FUN_00ba2d70()
 {
     CloseHandle(m_hHandle);
@@ -17354,6 +16675,8 @@ struct DecalShaderProperty
 
 // Computes camera distance to the decal, updates m_fHitDistance and alpha, and rebuilds the render pass array when the pass state changes.
 // @fnv 0x00bb41e0
+// pdb: BSShaderNoLightingProperty::GetRenderPasses | BSShaderNoLightingProperty.obj | fnv360_0721_beta, caller_sim, low, conflict (bridge: GeometryDecalShaderProperty::GetRenderPasses)
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
 BSShaderProperty__RenderPassArray* DecalShaderProperty::UpdateRenderPasses(NiGeometry* geom, unsigned int pass, int a3,
                                                                            int passType, int a5, int a6)
 {
@@ -17430,7 +16753,6 @@ BSShaderProperty__RenderPassArray* DecalShaderProperty::UpdateRenderPasses(NiGeo
 }
 
 namespace fnv_00bb7170 {
-extern int DAT_010b9c40;
 
 struct PoolHeap
 {
@@ -17439,21 +16761,6 @@ struct PoolHeap
 };
 
 extern "C" PoolHeap DAT_011f6238;
-
-unsigned int __cdecl FUN_00bb6030();
-
-struct BaseShim
-{
-    int m_vptr;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    BaseShim();
-    ~BaseShim();
-};
 
 struct PoolElement20
 {
@@ -17471,40 +16778,6 @@ struct PoolElement20
     }
 };
 
-struct FUN_00bb7170 : BaseShim
-{
-    int m_01c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int m_058;
-    int unk5c;
-    unsigned int m_060;
-    PoolElement20* m_064;
-    FUN_00bb7170();
-};
-
-// Sets the vtable pointer, m_058 to 8, m_060 from FUN_00bb6030, allocates m_064 as m_060 PoolElement20 entries, and sets m_01c to 0x18.
-// @fnv 0x00bb7170
-FUN_00bb7170::FUN_00bb7170()
-{
-    m_vptr = (int)&DAT_010b9c40;
-    m_058 = 8;
-    m_060 = FUN_00bb6030();
-    m_064 = new PoolElement20[m_060];
-    m_01c = 0x18;
-}
 }  // namespace fnv_00bb7170
 
 struct GameHeap
@@ -17631,6 +16904,8 @@ struct ISBlurEffect
 
 // Configures two blur passes with shader params and textures based on radius and bFlag.
 // @fnv 0x00ba46c0
+// pdb: ImageSpaceEffectBlur::Setup | ImageSpaceEffectBlur.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void ISBlurEffect::SetupBlurPasses(TexSource* apTexSource, int unused)
 {
     SetPassCount(2);
@@ -17901,6 +17176,8 @@ __declspec(noinline) RefPtr_b9fcc0 List593::FUN_00af0700(const RefPtr_b9fcc0& it
     return cursor ? FUN_00ab43e0(cursor) : item;
 }
 
+// pdb: ShadowSceneLight::RemoveTriGeom | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTriGeom, akIterator
 void BA01A0Owner::FUN_00ba01a0(BA01A0Item* item, void* key)
 {
     BA01A0Item* p = item;
@@ -17923,49 +17200,6 @@ void BA01A0Owner::FUN_00ba01a0(BA01A0Item* item, void* key)
     }
 }
 
-
-__declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9efa0(void*& key)
-{
-    SessionNode* node = (SessionNode*)key;
-    if (node == head)
-    {
-        key = node->next;
-        return PopFront();
-    }
-    if (node == tail)
-    {
-        key = 0;
-        return PopBack();
-    }
-    SessionNode* previous = node->prev;
-    SessionNode* following = node->next;
-    key = following;
-    if (previous)
-        previous->next = following;
-    if (following)
-        following->prev = previous;
-    RefPtr_b9fcc0 result = node->value;
-    ReleaseRefCountedNode(node);
-    --count;
-    return result;
-}
-
-__declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9fcc0(const RefPtr_b9fcc0& item)
-{
-    SessionNode* node = head;
-    while (node)
-    {
-        SessionNode* current = node;
-        node = node->next;
-        if (current->value.m_p == item.m_p)
-        {
-            node = current;
-            break;
-        }
-    }
-    void* cursor = node;
-    return cursor ? FUN_00b9efa0(cursor) : item;
-}
 
 struct S2760_Xf
 {
@@ -18312,6 +17546,8 @@ void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Sets up shader state from input camera and geometry, then submits the geometry to the active render passes.
 // @fnv 0x00bb2760
+// pdb: SpeedTreeLeafShader::SetupGeometryConstants | SpeedTreeLeafShader.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apState
 void Shader2760::FUN_00bb2760(Input2760* input)
 {
     RenderGroup2760* group = (RenderGroup2760*)DAT_011f91e0;
@@ -18652,7 +17888,7 @@ struct Node
     Node* m_2c;
     Node* m_30;
     void __thiscall SetAccumulatorAt(int a, void* b, int c);
-    void __thiscall FUN_00b8a6e0(int a, int b, int c);
+    void __thiscall ImageSpaceShaderParam_SetTexOffset(int a, int b, int c);
     void __thiscall FUN_00b8a790(int a, float b, float c, float d, float e);
 };
 struct Ctx
@@ -19077,7 +18313,7 @@ void __thiscall Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
         {
             Tex* rt1 = texA.FUN_00ba3780();
             Tex* rt2 = texA.FUN_00ba3780();
-            pParamNode->FUN_00b8a6e0(0, rt2->GetW37(), rt1->GetH38());
+            pParamNode->ImageSpaceShaderParam_SetTexOffset(0, rt2->GetW37(), rt1->GetH38());
         }
         pRenderNode->Draw4(a0, a1, pParamNode, 1);
         pRenderNode->SetAccumulatorAt(0, &texB, 0);
@@ -19085,7 +18321,7 @@ void __thiscall Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
         {
             Tex* rt1 = texB.FUN_00ba3780();
             Tex* rt2 = texA.FUN_00ba3780();
-            pParamNode->FUN_00b8a6e0(0, rt2->GetW37(), rt1->GetH38());
+            pParamNode->ImageSpaceShaderParam_SetTexOffset(0, rt2->GetW37(), rt1->GetH38());
         }
         char* enabled = (char*)pRenderNode->m_2c->m_04;
         *enabled = 1;
@@ -19285,17 +18521,6 @@ class FUN_00baeb80 : public FUN_00ba8e50
     FUN_00baeb80();
     virtual ~FUN_00baeb80();
 };
-// Constructor: sets m_7c to 3, clears m_80, m_84 and m_88, sets m_8c to 8, copies a color from DAT_011a9be0 into m_60, and writes 13 at offset 0x1c.
-// @fnv 0x00baeb80
-FUN_00baeb80::FUN_00baeb80() : m_7c(3)
-{
-    m_80 = 0;
-    m_84 = 0.0f;
-    m_88 = 0;
-    m_8c = 8;
-    m_60 = *(nb::Color*)&DAT_011a9be0;
-    *(int*)((char*)this + 0x1c) = 13;
-}
 }  // namespace fnv_00baeb80
 
 namespace fnv_00bb8ea0 {
@@ -19362,6 +18587,7 @@ struct FUN_00bb8ea0 : ISEffectBase
 
 // Destructor that nulls spObjA and spObjB, then deletes and clears texture swap list entries 1-3 and the first effect param.
 // @fnv 0x00bb8ea0
+// pdb: ImageSpaceEffectTV::~ImageSpaceEffectTV | ImageSpaceEffectTV.obj | fnv360_0822_retail, objrun_open, low
 FUN_00bb8ea0::~FUN_00bb8ea0()
 {
     spObjA = 0;
@@ -19404,6 +18630,7 @@ struct BA3A00RefRelease
 
 // Destructor that calls FUN_00ba39a0 if unk02 is set, then decrements the reference count of the NiRefObject in unk04 and nulls it.
 // @fnv 0x00ba3a00
+// pdb: ImageSpaceTexture::~ImageSpaceTexture | ImageSpaceTexture.obj | fnv360_0822_retail, call_seq, medium
 FUN_00ba3a00::~FUN_00ba3a00()
 {
     IST* slot = reinterpret_cast<IST*>(this);
@@ -20280,13 +19507,11 @@ struct P368Context
 };
 
 extern NiBound DAT_011f4288;
-extern const float DAT_011f9458;
 extern float DAT_011f9460, DAT_011f9468, DAT_011f946c;
 extern float DAT_011f9470;
 
 bool IsParticleShaderRendererEnabled();
 int GetGlobalFloatAsUInt();
-bool FUN_005bf7b0();
 float LinearInterpolate(float, float, float, float, float);
 
 struct P368Shader
@@ -20421,7 +19646,7 @@ struct P368Shader
     void FUN_00ba95e0(int);
     void FUN_00ba8ab0(float);
     void SortShadowSceneLights(P368Sphere*);
-    P368Light* FUN_00b70600(void**);
+    P368Light* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void**);
     P368Light* FUN_00b70700(void**);
     P368Light* FUN_00b70590(void**);
     P368Light* FUN_00b70680(void**);
@@ -20429,10 +19654,6 @@ struct P368Shader
     P368PassArray* FUN_00bb4740(P368Geom*, unsigned int, bool, unsigned int, P368Context*, bool);
 };
 
-__declspec(noinline) bool P368Shader::FUN_004a2020(int n)
-{
-    return double(shaderFlagWords[unsigned(n) >> 5] & (1u << (unsigned(n) % 32))) > 0.0;
-}
 // Selects and builds the P368PassArray for a given pass index, updating lights, distance, and blend state based on shader flags and context.
 // @f3 0x00b368e0 (community match, verified in this file)
 bool FUN_00530bb0();
@@ -22106,6 +21327,7 @@ struct Buffer
 };
 
 // @fnv 0x00ba11e0
+// pdb: BSSimpleArray<DismemberedLimb *,1024>::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_retail, vtable, medium
 extern "C" Buffer* __fastcall FUN_00ba11e0(Buffer* buffer, void*, unsigned char acFlags)
 {
     int value = buffer->m_04;
@@ -22162,6 +21384,8 @@ struct FUN_00bb3ba0 : LeafLightingBase
 
 // Constructs the LeafLightingBase from texture, sets the vtable, stores data in leafData and value in level, and sets lightingType and shaderType to 6.
 // @fnv 0x00bb3ba0
+// pdb: SpeedTreeLeafShaderProperty::SpeedTreeLeafShaderProperty | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: SpeedTreeShaderLightingProperty::SpeedTreeShaderLightingProperty)
+// pdb params: asLevel, apData, apLeafData
 FUN_00bb3ba0::FUN_00bb3ba0(unsigned short value, void* texture, BB3660RefObject* data)
     : LeafLightingBase(texture), vtable(&DAT_010b9700), leafData()
 {

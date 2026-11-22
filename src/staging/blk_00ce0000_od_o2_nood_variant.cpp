@@ -38,6 +38,7 @@ public:
 
 typedef hkBool (__cdecl* SortLess1142)(const SortElem16&, const SortElem16&);
 
+// pdb: hkAlgorithm::quickSortRecursive<struct hkGeomConvexHullBuilder::WeightedNeighbour,class hkBool (__cdecl*)(struct hkGeomConvexHullBuilder::WeightedNeighbour const &,struct hkGeomConvexHullBuilder::WeightedNeighbour const &)> | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00cf83c0(SortElem16* storage, int low, int high, SortLess1142 less)
 {
     SortRecord1142* values = reinterpret_cast<SortRecord1142*>(storage);
@@ -104,18 +105,6 @@ struct QuaternionVector
         value = _mm_shuffle_ps(imag, _mm_unpackhi_ps(imag, real), 0xc4);
     }
 };
-struct Transform
-{
-    __m128 translation;
-    QuaternionVector rotation;
-    __m128 scale;
-};
-extern const __m128 DAT_010c71e0;
-struct Par_00ce2d10
-{
-    __m128 translation;
-    QuaternionVector rotation;
-};
 
 template <class T> struct PointerParam
 {
@@ -136,96 +125,6 @@ template <class T> struct PointerParam
         return p;
     }
 };
-// @fnv 0x00ce2d10
-void __cdecl FUN_00ce2d10(const Transform* parents, PointerParam<const Transform> local, const short* indices,
-                          int count, Transform* output)
-{
-    if (!indices)
-    {
-        for (int i = 0; i < count; ++i)
-        {
-            const Transform& l = local[i];
-            const Transform& p = parents[i];
-            __m128 v = l.translation;
-            __m128 q = p.rotation.value;
-            __m128 t1 = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xd2), _mm_shuffle_ps(q, q, 0xc9));
-            __m128 t2 = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2));
-            __m128 cross = _mm_sub_ps(t1, t2);
-            __m128 w = _mm_shuffle_ps(q, q, 0xff);
-            __m128 product = _mm_mul_ps(v, q);
-            __m128 s55 = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
-            __m128 dot = _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), s55);
-            __m128 rotated =
-                _mm_add_ps(_mm_mul_ps(cross, w), _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
-                                                            _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
-            output[i].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), p.translation);
-            output[i].rotation.FUN_00c66320(&p.rotation, &l.rotation);
-            output[i].scale = _mm_mul_ps(l.scale, p.scale);
-        }
-    }
-    else
-    {
-        int i = 0;
-        if (i >= count)
-            return;
-        const Transform* source = local.p;
-        do
-        {
-            short index = indices[i];
-            if (index >= 0)
-            {
-                Transform parent;
-                parent.rotation.value = parents[index].rotation.value;
-                parent.scale = parents[index].scale;
-                parent.translation = parents[index].translation;
-                __m128 v = source->translation;
-                __m128 q = parent.rotation.value;
-                __m128 t1 = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xd2), _mm_shuffle_ps(q, q, 0xc9));
-                __m128 t2 = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2));
-                __m128 cross = _mm_sub_ps(t1, t2);
-                __m128 w = _mm_shuffle_ps(q, q, 0xff);
-                __m128 product = _mm_mul_ps(v, q);
-                __m128 s55 = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
-                __m128 dot = _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), s55);
-                __m128 rotated = _mm_add_ps(_mm_mul_ps(cross, w),
-                                            _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
-                                                       _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
-                output[index].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), parent.translation);
-                output[index].rotation.FUN_00c66320(&parent.rotation, &source->rotation);
-                output[index].scale = _mm_mul_ps(source->scale, parent.scale);
-                ++source;
-            }
-            else
-            {
-                ++source;
-            }
-            ++i;
-        } while (i < count);
-    }
-}
-
-struct Cls
-{
-    unsigned short m0, m2, m4, m6;
-    __m128 v10, v20, v30, v40, v50, v60;
-    Cls* FUN_00ce4a50(Cls* src);
-};
-
-// @fnv 0x00ce4a50
-Cls* Cls::FUN_00ce4a50(Cls* src)
-{
-    m0 = src->m0;
-    m2 = src->m2;
-    m4 = src->m4;
-    m6 = src->m6;
-    v10 = src->v10;
-    v20 = src->v20;
-    v30 = src->v30;
-    v40 = src->v40;
-    v50 = src->v50;
-    v60 = src->v60;
-    return this;
-}
 
 struct SortRec
 {
@@ -241,6 +140,8 @@ typedef char*(__cdecl* SortCmp)(void* tag, const SortRec* lhs, const SortRec* rh
 void __cdecl FUN_00ce245a(SortRec* a, int low, int high, SortCmp cmp);
 
 // @fnv 0x00cf8510
+// pdb: hkAlgorithm::quickSortRecursive<hkWorldOperation::BiggestOperation,hkBool (__cdecl*)(hkWorldOperation::BiggestOperation const &,hkWorldOperation::BiggestOperation const &)> | hkpWorldOperationQueue.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: pArr, d, h, cmpLess
 void __cdecl FUN_00cf8510(SortRec* a, int low, int high, SortCmp cmp)
 {
     char tagLo;
@@ -289,8 +190,6 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned int DAT_0126835c;
-extern char DAT_010cc678[];
-extern char DAT_010c41f8[];
 void* __cdecl FUN_00c85750(void);
 struct S00cfac20_Vec
 {
@@ -304,12 +203,6 @@ struct S00cfac20_Vec
         q = _mm_max_ps(a.q, b.q);
     }
 };
-struct S00cfac20_Ray
-{
-    S00cfac20_Vec from;
-    S00cfac20_Vec to;
-    S00cfac20_Vec extra;
-};
 struct S00cfac20_Aabb
 {
     S00cfac20_Vec mn;
@@ -319,36 +212,6 @@ struct S00cfac20_Aabb
         mn.setMin4(mn, p);
         mx.setMax4(mx, p);
     }
-};
-struct S00cfac20_Builder
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual int GetLogicalSize();
-    virtual void v64();
-    virtual void init(S00cfac20_Aabb* bounds, void* mem);
 };
 struct S00cfac20_Mon
 {
@@ -371,11 +234,6 @@ struct S00cfac20_Stack
         cur = p;
     }
 };
-struct S00cfac20_Grp
-{
-    void RecordAndDispatch(S00cfac20_Builder* b, S00cfac20_Ray* ray, void* ctx, void* mem, char* out);
-    void FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out);
-};
 static inline void S00cfac20_timer(const char* name)
 {
     S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue(DAT_0126835c);
@@ -388,71 +246,6 @@ static inline void S00cfac20_timer(const char* name)
         *(unsigned int*)(p + 4) = t;
         p += 0xc;
         mon->cur = p;
-    }
-}
-static __forceinline void S00cfac20_calcAabb(const S00cfac20_Ray* rays, int count, S00cfac20_Aabb& aabb)
-{
-    S00cfac20_Vec mn;
-    mn.setMin4(rays->from, rays->to);
-    aabb.mn.q = mn.q;
-    aabb.mx.setMax4(rays->from, rays->to);
-    const S00cfac20_Ray* p = rays + 1;
-    int i = count - 2;
-    if (i >= 0)
-    {
-        do
-        {
-            mn.setMin4(mn, p->to);
-            aabb.mx.setMax4(aabb.mx, p->to);
-            mn.setMin4(mn, p->from);
-            aabb.mx.setMax4(aabb.mx, p->from);
-            ++p;
-        } while (--i >= 0);
-        aabb.mn.q = mn.q;
-    }
-}
-// @fnv 0x00cfac20
-void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out)
-{
-    char* dst;
-    int j;
-    {
-        S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue(DAT_0126835c);
-        char* p = mon->cur;
-        if (p < mon->end)
-        {
-            *(const char**)p = DAT_010cc678;
-            _ReadWriteBarrier();
-            *(volatile unsigned*)&dst = (unsigned)__rdtsc();
-            *(unsigned int*)(p + 4) = *(volatile unsigned*)&dst;
-            p += 0xc;
-            mon->cur = p;
-        }
-    }
-    S00cfac20_Aabb aabb;
-    S00cfac20_calcAabb(rays, count, aabb);
-    char* mem = ((S00cfac20_Stack*)FUN_00c85750())->alloc(b->GetLogicalSize());
-    b->init(&aabb, mem);
-    S00cfac20_Ray* r = rays;
-    dst = out;
-    for (j = count - 1; j >= 0; --j)
-    {
-        RecordAndDispatch(b, r++, ctx, mem, dst);
-        dst += 0x60;
-    }
-    ((S00cfac20_Stack*)FUN_00c85750())->release(mem);
-    {
-        S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue(DAT_0126835c);
-        char* p = mon->cur;
-        if (p < mon->end)
-        {
-            *(const char**)p = DAT_010c41f8;
-            _ReadWriteBarrier();
-            *(volatile unsigned*)&j = (unsigned)__rdtsc();
-            *(unsigned int*)(p + 4) = *(volatile unsigned*)&j;
-            p += 0xc;
-            mon->cur = p;
-        }
     }
 }
 }  // namespace fnv_00cfac20
@@ -478,12 +271,6 @@ struct hkVector4
     {
         m_vComponents = v.m_vComponents;
     }
-};
-
-struct hkReferencedObject
-{
-    void FUN_00c90510();
-    void FUN_00c905b0();
 };
 
 template <class T> struct ReferenceCountedPointer
@@ -647,57 +434,3 @@ template <typename T> struct hkArray
         hkCopy(m_data, a.m_data, m_iElementCount);
     }
 };
-
-struct VectorTriple
-{
-    hkVector4 a, b, c;
-};
-
-struct VertexInfo
-{
-    hkUint16 m_index0;
-    hkUint16 m_index1;
-    VectorTriple m_v;
-};
-
-struct FaceInfo
-{
-    hkUint16 m_index0;
-    hkUint16 m_index1;
-    hkUint16 m_index2;
-    hkUint16 m_index3;
-    VectorTriple m_kPointA;
-    VectorTriple m_kPointB;
-};
-
-struct ShapeData
-{
-    ReferenceCountedPointer<hkReferencedObject> m_kFirstReferencedObject;
-    ReferenceCountedPointer<hkReferencedObject> m_kSecondReferencedObject;
-    hkArray<VertexInfo> m_kVertices;
-    hkArray<FaceInfo> m_faces;
-    hkArray<hkUint16> m_ppIndices;
-    hkVector4 m_kMinimumCorner;
-    hkVector4 m_kMaximumCorner;
-    hkVector4 m_kCenterPosition;
-    bool m_flag;
-    int m_uiItemCount;
-
-    ShapeData& FUN_00ce4ae0(const ShapeData& other);
-};
-
-// @fnv 0x00ce4ae0
-ShapeData& ShapeData::FUN_00ce4ae0(const ShapeData& other)
-{
-    m_kFirstReferencedObject = other.m_kFirstReferencedObject;
-    m_kSecondReferencedObject = other.m_kSecondReferencedObject;
-    m_kVertices = other.m_kVertices;
-    m_faces = other.m_faces;
-    m_ppIndices._copyFromArrayPod(containerHeap(), other.m_ppIndices);
-    m_kMinimumCorner = other.m_kMinimumCorner;
-    m_kMaximumCorner = other.m_kMaximumCorner;
-    m_kCenterPosition = other.m_kCenterPosition;
-    m_flag = other.m_flag;
-    m_uiItemCount = other.m_uiItemCount;
-    return *this;
-}

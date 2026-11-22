@@ -301,6 +301,8 @@ struct PipboyShader2
 
 // Configures the Pipboy shader passes, loads scanline and distortion textures, and sets up constants with texel size and global parameters.
 // @fnv 0x00bb9200
+// pdb: ImageSpaceEffectTV::Setup | ImageSpaceEffectTV.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void PipboyShader2::SetupPipboyPasses(PipboyGeometry* pkGeometry, int iUnused)
 {
     SetTextureArraySize(1);

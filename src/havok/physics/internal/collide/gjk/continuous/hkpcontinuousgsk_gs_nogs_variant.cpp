@@ -95,6 +95,8 @@ union NativeQuad {__m128 simd;float lane[4];};
 union ScalarBits {unsigned int bits;float value;};
 static __forceinline float SampleFloat(unsigned int bits){ScalarBits word;word.bits=bits;return word.value;}
 
+// pdb: hk4dGskCollidePointWithPlaneFinal | hkpContinuousGsk.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: input, tol, vertexA, startRt, endRt, distance0, distance1, velocity, out
 float FUN_00db4ca0(void* a, const float* target, const __m128* origin, float A, float B, float C, float D, int unused, Out* res)
 {
 

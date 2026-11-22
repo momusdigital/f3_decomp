@@ -129,6 +129,7 @@ enum ErrorTag {
     tan_naninf = 1012
 };
 
+// pdb: __libm_error_support | _libm_error_.obj | tesv_win, call_dedup, low
 void __cdecl FUN_00c0def2(void* arg1, void* arg2, void* retval, ErrorTag input_tag)
 {
     _exception exc;
@@ -425,6 +426,7 @@ void __cdecl FUN_00c0def2(void* arg1, void* arg2, void* retval, ErrorTag input_t
 
 // @f3 0x00c0b987 (community match, verified in this file)
 namespace f3m_00c0b987 {
+// pdb: _ms_p5_test_fdiv | _testfdiv_.obj | tesv_win, uconst, low
 int __cdecl FUN_00c0b987()
 {
     struct Probe { volatile double dividend, divisor; double remainder; };

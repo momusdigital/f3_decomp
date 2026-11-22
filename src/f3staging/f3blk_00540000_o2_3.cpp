@@ -24,6 +24,7 @@ struct Entry {
     FUN_0045bca0 c;
     Entry();
 };
+// pdb: RANK_DATA::RANK_DATA | TESFaction.obj | fnv360_0721_retail, objrun_prop, low, conflict (skyrim: RaceTintingTemplateEntry::RaceTintingTemplateEntry)
 Entry::Entry() {}
 }
 }   // namespace f3m_00551b90
@@ -33,16 +34,16 @@ namespace f3m_0054ab80 {
 namespace f3m_0054ab80 {
 struct Stats30 {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C;
-    void FUN_0044f900(int value);
-    void FUN_0044f890(float value);
+    void TESActorBaseData_SetSpeedMult(int value);
+    void TESActorBaseData_SetKarma(float value);
 };
 struct Stats90 {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20;
-    void FUN_00450eb0(int value, int flag);
-    void FUN_00450ee0(int value, int flag);
-    void FUN_00450f10(int value, int flag);
+    void TESAIForm_SetAggression(int value, int flag);
+    void TESAIForm_SetConfidence(int value, int flag);
+    void TESAIForm_SetEnergy(int value, int flag);
     void FUN_00450f40(int value, int flag);
-    void FUN_00450f70(int value);
+    void TESAIForm_SetMood(int value);
 };
 struct StatsB8 {
     int unk00;
@@ -56,6 +57,8 @@ struct Owner {
     StatsB8 statsB8;
     void FUN_0054ab80(int selector, int value);
 };
+// pdb: TESActorBase::SetActorValue | TESActorBase.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiWhich, aiValue
 void Owner::FUN_0054ab80(int selector, int value)
 {
     switch (selector) {
@@ -67,13 +70,13 @@ void Owner::FUN_0054ab80(int selector, int value)
     case 10: statsB8.FUN_004516e0(10, value, 1); break;
     case 11: statsB8.FUN_004516e0(11, value, 1); break;
     case 16: valueB4 = value; break;
-    case 0: stats90.FUN_00450eb0(value, 1); break;
-    case 1: stats90.FUN_00450ee0(value, 1); break;
-    case 2: stats90.FUN_00450f10(value, 1); break;
+    case 0: stats90.TESAIForm_SetAggression(value, 1); break;
+    case 1: stats90.TESAIForm_SetConfidence(value, 1); break;
+    case 2: stats90.TESAIForm_SetEnergy(value, 1); break;
     case 3: stats90.FUN_00450f40(value, 1); break;
-    case 4: stats90.FUN_00450f70(value); break;
-    case 21: stats30.FUN_0044f900(value); break;
-    case 23: stats30.FUN_0044f890((float)value); break;
+    case 4: stats90.TESAIForm_SetMood(value); break;
+    case 21: stats30.TESActorBaseData_SetSpeedMult(value); break;
+    case 23: stats30.TESActorBaseData_SetKarma((float)value); break;
     }
 }
 }

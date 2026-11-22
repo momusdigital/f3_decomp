@@ -17,7 +17,7 @@ class WorldCBFD
     void FUN_00cfb1e0(FlagCBFD kFlag);
 };
 
-void __cdecl FUN_00d46410(WorldCBFD* pkWorld);
+void __cdecl hkRegisterAlternateShapeTypes(WorldCBFD* pkWorld);
 void __cdecl ConfigureVtblHandlers(WorldCBFD* pkWorld);
 void __cdecl RegisterTwoTables(WorldCBFD* pkWorld);
 void __cdecl RegisterAll(WorldCBFD* pkWorld);
@@ -43,6 +43,8 @@ struct WorldCBFDF3
 {
     void FUN_00985220(FlagCBFD flag);
 };
+// pdb: hkpAgentRegisterUtil::registerAllAgents | hkpAgentRegisterUtil.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: dis
 void __cdecl InitializeWorld(WorldCBFD* pkWorld)
 {
     WorldCBFDF3* w = (WorldCBFDF3*)pkWorld;

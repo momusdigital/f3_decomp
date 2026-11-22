@@ -1,12 +1,9 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/hkpshapecollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkpShapeCollection.h"
-
-class hkPackedNiTriStripsShape;
-class hkNiTriStripsShape;
-class hkpListShape;
 
 class hkpShapeCollection_L
 {
@@ -16,6 +13,7 @@ class hkpShapeCollection_L
 };
 
 // @fnv 0x00d213d0
+// pdb: hkpShapeCollection::getContainer | hkpShapeCollection.obj | fnv360_0822_retail, objrun_open, low
 int hkpShapeCollection_L::FUN_00d213d0()
 {
     if (this != 0)
@@ -25,62 +23,16 @@ int hkpShapeCollection_L::FUN_00d213d0()
     return 0;
 }
 
-extern char const* const DAT_01268910;
-void __cdecl FUN_00c90360(char const* const* first, char const* const* second);
-// @fnv 0x00d213e0
-void __cdecl FUN_00d213e0(char const* const* first, char const* const* ignored)
-{
-    FUN_00c90360(first, &DAT_01268910);
-}
-
 // @fnv 0x00d213f0
-void __stdcall FUN_00d213f0(int, int)
+// pdb: hkpMoppShapeMediator::setSplittingPlaneDirections | hkpMoppShapeMediator.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpMoppShapeMediator_setSplittingPlaneDirections(int, int)
 {}
 
 // @fnv 0x00d21400
+// pdb: hkpExtendedMeshShape::assertShapesSubpartValidity | hkpExtendedMeshShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: part
 void __stdcall FUN_00d21400(int a1)
 {}
-
-struct Allocator
-{
-    virtual void vfn0();
-    virtual void vfn4();
-    virtual void Free(void* pointer, unsigned short size);
-};
-struct MemorySystem
-{
-    unsigned int field00;
-    unsigned int field04;
-    unsigned int field08;
-    unsigned int field0c;
-    Allocator* allocator;
-};
-extern char DAT_010c6fb0;
-extern char DAT_0102e388;
-struct Holder
-{
-    void* vtable;
-    unsigned short memSizeAndFlags;
-    unsigned short referenceCount;
-    unsigned int userData;
-    unsigned int shapeType;
-    void* shapeVtable;
-    MemorySystem* __thiscall FUN_00c85750();
-    Holder* __thiscall Destroy(unsigned char flags);
-};
-// Sets shapeVtable and vtable, then frees the object via the memory system allocator if the low bit of flags is set.
-// @fnv 0x00cf57e0
-Holder* __thiscall Holder::Destroy(unsigned char flags)
-{
-    shapeVtable = &DAT_010c6fb0;
-    vtable = &DAT_0102e388;
-    if ((flags & 1) != 0)
-    {
-        MemorySystem* memory = FUN_00c85750();
-        memory->allocator->Free(this, memSizeAndFlags);
-    }
-    return this;
-}
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -143,7 +95,7 @@ class FUN_00d21450_Class : public hkpShape
     char unk16;
     char unk17;
 
-    hkBoolRet FUN_00d21450(const ShapeRayCastQuery& input, ShapeRayCastOutput& output) const;
+    hkBoolRet hkpShapeCollection_castRayImpl(const ShapeRayCastQuery& input, ShapeRayCastOutput& output) const;
 };
 
 struct ShapeRayCastQuery
@@ -183,20 +135,10 @@ class hkpRayShapeCollectionFilter
 
 // Calls RayCast on each child in m_container (filtered if a filter is given), stores the last hit shape key in output.m_uiShapeKeys, returns true if any hit.
 // @fnv 0x00d21450
-hkBoolRet FUN_00d21450_Class::FUN_00d21450(const ShapeRayCastQuery& input, ShapeRayCastOutput& output) const
+// pdb: hkpShapeCollection::castRayImpl | hkpShapeCollection.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+hkBoolRet FUN_00d21450_Class::hkpShapeCollection_castRayImpl(const ShapeRayCastQuery& input, ShapeRayCastOutput& output) const
 {
-    volatile unsigned int time;
-    StringCursor* stream = (StringCursor*)TlsGetValue(DAT_0126835c);
-    char* current = stream->m_pTileTemplate;
-    if (current < stream->m_kRayEnd)
-    {
-        *(const char**)current = "TtrcShpCollect";
-        _ReadWriteBarrier();
-        time = (unsigned int)__rdtsc();
-        *(unsigned int*)(current + 4) = time;
-        current += 12;
-        stream->m_pTileTemplate = current;
-    }
+    HK_TIMER_BEGIN("rcShpCollect", HK_NULL);
     output.m_uiShapeKeyIndex++;
     const hkpShapeContainer* container = &m_container;
     hkpShapeKey uiHitKey = 0xffffffff;
@@ -235,17 +177,7 @@ hkBoolRet FUN_00d21450_Class::FUN_00d21450(const ShapeRayCastQuery& input, Shape
     {
         output.m_uiShapeKeys[output.m_uiShapeKeyIndex] = uiHitKey;
     }
-    StringCursor* streamEnd = (StringCursor*)TlsGetValue(DAT_0126835c);
-    char* currentEnd = streamEnd->m_pTileTemplate;
-    if (currentEnd < streamEnd->m_kRayEnd)
-    {
-        *(const char**)currentEnd = "Et";
-        _ReadWriteBarrier();
-        time = (unsigned int)__rdtsc();
-        *(unsigned int*)(currentEnd + 4) = time;
-        currentEnd += 12;
-        streamEnd->m_pTileTemplate = currentEnd;
-    }
+    HK_TIMER_END();
     return hkBoolRet(uiHitKey != 0xffffffff);
 }
 
@@ -253,7 +185,6 @@ namespace fnv_00d217d0 {
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwIndex);
 
 extern "C" unsigned int DAT_0126835c;
-extern "C" char str_010ce1f8[];
 extern "C" char str_010c41f8[];
 
 class Arg0_L;
@@ -262,20 +193,6 @@ class Arg2_L;
 class ShapeBuf_L;
 struct Ctx_L;
 class Owner_L;
-
-struct ProfRec_L
-{
-    void* id;
-    unsigned int time;
-    int unk08;
-};
-struct ProfSlot_L
-{
-    int unk00;
-    ProfRec_L* head;
-    int unk08;
-    ProfRec_L* end;
-};
 
 class Shape_L
 {
@@ -362,70 +279,6 @@ class Owner_L
     void FUN_00d217d0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2);
 };
 
-// @fnv 0x00d217d0
-void Owner_L::FUN_00d217d0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2)
-{
-    volatile unsigned int uiTimestamp;
-    ProfSlot_L* pProfSlot = (ProfSlot_L*)TlsGetValue(DAT_0126835c);
-    ProfRec_L* pProfRec = pProfSlot->head;
-    if (pProfRec < pProfSlot->end)
-    {
-        pProfRec->id = &str_010ce1f8;
-        _ReadWriteBarrier();
-        uiTimestamp = (unsigned int)__rdtsc();
-        pProfRec->time = uiTimestamp;
-        pProfSlot->head = pProfRec + 1;
-    }
-    ShapeBuf_L buffer;
-    char enabled;
-    Ctx_L ctx;
-    int key;
-    if (arg0->m_iFilter == 0)
-    {
-        key = this->m_coll.getFirstKey_L();
-        if (key != -1)
-        {
-            do
-            {
-                ctx.shape = this->m_coll.getChildShape_L(key, buffer);
-                ctx.arg1 = arg1;
-                ctx.unk08 = arg1->unk08;
-                ctx.key = key;
-                ctx.shape->process_L(arg0, &ctx, arg2);
-                key = this->m_coll.getNextKey_L(key);
-            } while (key != -1);
-        }
-    }
-    else
-    {
-        key = this->m_coll.getFirstKey_L();
-        if (key != -1)
-        {
-            do
-            {
-                if (*arg0->m_iFilter->isEnabled_L(&enabled, arg0, this, &this->m_coll, key))
-                {
-                    ctx.shape = this->m_coll.getChildShape_L(key, buffer);
-                    ctx.arg1 = arg1;
-                    ctx.unk08 = arg1->unk08;
-                    ctx.key = key;
-                    ctx.shape->process_L(arg0, &ctx, arg2);
-                }
-                key = this->m_coll.getNextKey_L(key);
-            } while (key != -1);
-        }
-    }
-    pProfSlot = (ProfSlot_L*)TlsGetValue(DAT_0126835c);
-    pProfRec = pProfSlot->head;
-    if (pProfRec < pProfSlot->end)
-    {
-        pProfRec->id = &str_010c41f8;
-        _ReadWriteBarrier();
-        uiTimestamp = (unsigned int)__rdtsc();
-        pProfRec->time = uiTimestamp;
-        pProfSlot->head = pProfRec + 1;
-    }
-}
 }  // namespace fnv_00d217d0
 
 extern unsigned long DAT_0126835c;
@@ -497,14 +350,15 @@ class hkPackedNiTriStripsShape_StandIn : public hkpShapeCollection
     virtual ~hkPackedNiTriStripsShape_StandIn();
     virtual void Unk04();
     virtual int First();
-    virtual float FUN_00d216e0(int arg);
+    virtual float hkpShapeCollection_getMaximumProjection(int arg);
     virtual void Unk10();
     virtual void Unk14();
 };
 
 // Iterates child shapes via ShapeIterator, calls GetMaxProjection(arg) on each and returns the largest value, between two timer records.
 // @fnv 0x00d216e0
-float hkPackedNiTriStripsShape_StandIn::FUN_00d216e0(int arg)
+// pdb: hkpShapeCollection::getMaximumProjection | hkpShapeCollection.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+float hkPackedNiTriStripsShape_StandIn::hkpShapeCollection_getMaximumProjection(int arg)
 {
     volatile float maxProj;
     __declspec(align(16)) float buf[125];
@@ -589,18 +443,3 @@ struct WeldingAndType
         m_eCollectionType = type;
     }
 };
-
-class FUN_00d21410 : public hkpShape_ctor, public ShapeContainerLite
-{
-  public:
-    WeldingAndType m_info;
-    FUN_00d21410(int type, char collectionType);
-    ~FUN_00d21410();
-    virtual int FUN_00d213d0();
-};
-
-// Constructs a shape object, initializing the reference count, user data, type, and collection type fields.
-// @fnv 0x00d21410
-FUN_00d21410::FUN_00d21410(int type, char collectionType)
-    : hkpShape_ctor(type), ShapeContainerLite(), m_info(collectionType)
-{}

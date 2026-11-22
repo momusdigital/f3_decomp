@@ -5,17 +5,6 @@
 #include "Tile__FloatAction.h"
 #include "tile_packet_decls.h"
 
-struct FUN_00bb79d0_class
-{
-    void __thiscall FUN_00bb79d0(bool value);
-};
-
-// @fnv 0x00bb79d0
-void __thiscall FUN_00bb79d0_class::FUN_00bb79d0(bool value)
-{
-    *(char*)((char*)this + 0xac) = value;
-}
-
 struct MemoryManager
 {
     void Deallocate(void*);
@@ -99,6 +88,8 @@ struct GeomData_S
 };
 
 // @fnv 0x00a670c0
+// pdb: NiGeometryData::Replace | NiGeometryData.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod
 void GeomData_S::FUN_00a670c0(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, RgbaColor* pkColor,
                               NiPoint2* pkTexture, unsigned short usNumTextureSets, unsigned short eNBTMethod)
 {

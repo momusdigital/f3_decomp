@@ -31,6 +31,7 @@ static __declspec(noinline) LI* FUN_00c08dbf(LI** pp, LI* n)
     return n;
 }
 
+// pdb: __updatetlocinfo | setlocal.obj | tesv_win, hash, low
 LI* __cdecl FUN_00c08dfd()
 {
     LI* p;
@@ -65,6 +66,8 @@ int __cdecl FUN_00c173ab(void*, int);
 void __cdecl FUN_00c064b8(void*);
 void __cdecl FUN_00c16549(int);
 
+// pdb: _mtinitlocknum | mlock.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: locknum
 int __cdecl FUN_00c1655e(int n)
 {
     int ret = 1;
@@ -112,6 +115,7 @@ void __cdecl FUN_00c16549(int);
 void __cdecl FUN_00c064b8(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
+// pdb: _fcloseall | closeall.obj | fnv360_0822_retail, caller_sim, medium
 int __cdecl FUN_00c18561()
 {
     int count = 0;
@@ -181,6 +185,7 @@ void __cdecl FUN_00c16621(int);
 void __cdecl FUN_00c16549(int);
 void FUN_00c1cad2();
 
+// pdb: __tzset | tzset.obj | tesv_win, hash, low
 void FUN_00c1d1be()
 {
     if (DAT_0117a5c4 == 0) {

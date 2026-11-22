@@ -57,6 +57,8 @@ struct QhkQuat {
     void FUN_008d3290(const QhkQuat& q0, const QhkQuat& q1);
 };
 
+// pdb: hkQsTransform::setFromTransformNoScale | hkQsTransform.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkQuaternion::setMul)
+// pdb params: transform
 void QhkQuat::FUN_008d3290(const QhkQuat& q0, const QhkQuat& q1)
 {
     QhkVec4 vec;

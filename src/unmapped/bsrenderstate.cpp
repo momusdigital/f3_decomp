@@ -9,6 +9,8 @@ extern unsigned int DAT_011ffa80;
 
 // Adds c to two counters indexed by DAT_011ffa7c and DAT_011ffa80, first invoking a virtual call with 0x13/0x14 and DAT_011ad8a8[a]/[b] when each counter is zero.
 // @fnv 0x00b97ff0
+// pdb: BSRenderState::SetAlphaBlendFunc | BSRenderState_Xenon.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeSrcRGB, aeDestRGB, aeLock
 void AddToTwoCounters(int aiIndexA, int aiIndexB, int aiAmount)
 {
     int iCounterIndex = DAT_011ffa7c;
@@ -637,6 +639,8 @@ extern int g_B98070Counts[];
 
 // Adjusts the renderer state 0x34 when the current index's count is zero, then adds count to g_B98070Counts[index].
 // @fnv 0x00b98070
+// pdb: BSRenderState::SetStencilEnable | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abEnabled, aeLock
 void __cdecl UpdateRendererStateCount(bool enable, int count)
 {
     unsigned int index = g_B98070Index;
@@ -657,6 +661,8 @@ struct DeviceView
 };
 // If the three tracked slots are zero, calls device vtable[26] with opcodes 0x35/0x36/0x37 and values from DAT_011ad8a8, then adds delta to the third slot.
 // @fnv 0x00b980c0
+// pdb: BSRenderState::SetStencilAction | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aeFail, aeZFail, aePass, aeLock
 void __cdecl FUN_00b980c0(int aiFirstIndex, int aiSecondIndex, int aiThirdIndex, int delta)
 {
     if (DAT_011ff9d8[DAT_011ffb04] == 0)
@@ -1284,6 +1290,8 @@ extern unsigned int DAT_011ffb18;
 extern int DAT_011ff9d8[];
 extern GraphicsRenderer* volatile g_pkRenderer;
 // @fnv 0x00b98180
+// pdb: BSRenderState::SetStencilFunc | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aeFunc, auiRef, auiTestMask, aeLock
 void FUN_00b98180(int a, int aiValue39, int aiValue3A, int aiSlotIncrement)
 {
     if (DAT_011ff9d8[DAT_011ffb10] == 0)
@@ -1902,6 +1910,8 @@ extern int DAT_011ff9d8[];
 extern Renderer* g_pkRenderer;
 // Sends opcode 0xc3 with the float's bit pattern when the renderer slot is zero, then adds addend to that slot.
 // @fnv 0x00b98320
+// pdb: BSRenderState::SetDepthBias | BSRenderState_Xenon.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afDepthBias, aeLock
 void SendFloatAdd(float value, int addend)
 {
     union
@@ -1955,6 +1965,8 @@ struct Service
 
 // If the current slot's counter is zero, calls V68(0x3b, apFirst, 0, 0) on the service, then adds aiSecond to that slot's counter.
 // @fnv 0x00b98230
+// pdb: BSRenderState::SetStencilWriteMask | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: auiWriteMask, aeLock
 void __cdecl AddToSlot(void* apFirst, int aiSecond)
 {
     int iSlotIndex = DAT_011ffb1c;
@@ -2002,6 +2014,8 @@ struct SpawnedObject
 };
 
 // @fnv 0x00b98280
+// pdb: BSRenderState::SetUserClipPlaneEnables | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abPlane0, abPlane1, abPlane2, abPlane3, abPlane4, abPlane5, aeLock
 void UpdateSpawnedObjectFlags(unsigned char abFlag1, unsigned char abFlag2, unsigned char abFlag3,
                               unsigned char abFlag4, unsigned char abFlag5, unsigned char abFlag6, int aiDelta)
 {

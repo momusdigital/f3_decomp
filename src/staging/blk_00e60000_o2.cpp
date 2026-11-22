@@ -19,6 +19,7 @@ struct FUN_00e7cdf0_shell
     int _p6;
 };
 // @fnv 0x00e7cdf0
+// pdb: NiDX9DepthStencilBufferData::HasValidDepthBuffer | NiDX92DBufferData.obj | tesv_win, hash, low
 unsigned char FUN_00e7cdf0_shell::FUN_00e7cdf0()
 {
     if (_p4 && _p6)
@@ -37,6 +38,7 @@ struct FUN_00e7d230_cls
 
 // Calls FUN_00e7d1b0, then deletes this (size 0x24) when bit 0 of a is set, and returns this.
 // @fnv 0x00e7d230
+// pdb: NiDX9TextureBufferData::`vector deleting destructor' | NiDX92DBufferData.obj | tesv_win, objrun, medium
 FUN_00e7d230_cls* __thiscall FUN_00e7d230_cls::DestroyIfFlagged(int aiFlags)
 {
     FUN_00e7d1b0();
@@ -59,6 +61,7 @@ struct FUN_00e7f790_Class
 };
 
 // @fnv 0x00e7f790
+// pdb: NiTPoolContainer<NiD3DRenderStateGroup,NiTNewInterface<NiD3DRenderStateGroup> >::~NiTPoolContainer<NiD3DRenderStateGroup,NiTNewInterface<NiD3DRenderStateGroup> > | NiD3DRenderStateGroup.obj | fnv360_0822_retail, caller_sim, medium
 void __thiscall FUN_00e7f790_Class::DestroyList()
 {
     DestroyArrayElements(*(void**)this);
@@ -70,25 +73,6 @@ void __thiscall FUN_00e7f790_Class::DestroyList()
     }
 }
 
-// @fnv 0x00e60c70
-int __cdecl FUN_00e60c70(int a)
-{
-    switch (a)
-    {
-    case 0:
-        return 0;
-    case 1:
-        return 1;
-    case 2:
-        return 2;
-    case 3:
-    case 4:
-        return 3;
-    default:
-        return 0;
-    }
-}
-
 struct FUN_00e67fd0_cls
 {
     void __thiscall ClearEntries();
@@ -96,6 +80,7 @@ struct FUN_00e67fd0_cls
 
 // Zeroes the first int of each of two arrays of entries, using the counts at offsets 0x10 and 8 and strides 0x50 and 0x40.
 // @fnv 0x00e67fd0
+// pdb: hkpWingedEdge::resetTriangleAndVertexStates | hkpWingedEdge.obj | fnv360_0822_retail, call_seq, high
 void __thiscall FUN_00e67fd0_cls::ClearEntries()
 {
     int count = 0;
@@ -120,29 +105,8 @@ void __thiscall FUN_00e67fd0_cls::ClearEntries()
 
 typedef void*(__stdcall* DepthDevice)(unsigned int);
 typedef int(__stdcall* CreateExFn)(unsigned int, DepthDevice**);
-extern void* DAT_0126f0d4;
-extern DepthDevice DAT_0126f0dc;
-extern CreateExFn DAT_0126f0e0;
 extern void*(__stdcall* DAT_00fdf0ac)(void*, const char*);
 extern void*(__stdcall* DAT_00fdf0b0)(const char*);
-
-// Loads D3D9.DLL and resolves Direct3DCreate9Ex and Direct3DCreate9, returning 1 if the Direct3DCreate9 pointer is available.
-// @fnv 0x00e69410
-unsigned char __cdecl InitD3D9CreateFunctions()
-{
-    if (DAT_0126f0dc)
-        return 1;
-    DAT_0126f0d4 = DAT_00fdf0b0("D3D9.DLL");
-    if (DAT_0126f0d4)
-    {
-        void*(__stdcall * pfnGetProcAddress)(void*, const char*) = DAT_00fdf0ac;
-        DAT_0126f0e0 = (CreateExFn)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9Ex");
-        DAT_0126f0dc = (DepthDevice)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9");
-        if (DAT_0126f0dc)
-            return 1;
-    }
-    return 0;
-}
 
 extern void __cdecl NiFree(void*);
 struct MemoryManager
@@ -150,22 +114,6 @@ struct MemoryManager
     void __thiscall Deallocate(void*);
 };
 extern int DAT_010eec74;
-struct FUN_00e7b200_Class
-{
-    int vtbl;
-    int m_p;
-    FUN_00e7b200_Class* __thiscall FUN_00e7b200(int);
-};
-// Sets the vtable, frees m_p with NiFree, and if bit 0 of a is set deallocates this via the memory manager; returns this.
-// @fnv 0x00e7b200
-FUN_00e7b200_Class* __thiscall FUN_00e7b200_Class::FUN_00e7b200(int aiFlags)
-{
-    vtbl = (int)&DAT_010eec74;
-    NiFree((void*)m_p);
-    if (aiFlags & 1)
-        g_memoryManager.Deallocate(this);
-    return this;
-}
 
 struct FUN_00e7d490_Class
 {
@@ -213,25 +161,6 @@ struct StagePool
 };
 extern StagePool* DAT_0126f6cc;
 
-// Allocates a 0x18-byte StagePool via the memory manager, zeroes its first four fields, sets the last two to 8, and stores it in DAT_0126f6cc.
-// @fnv 0x00e7ec90
-void __cdecl CreateStagePool()
-{
-    StagePool* p = (StagePool*)reinterpret_cast<P03MM*>(&g_memoryManager)->Allocate(0x18);
-    if (p)
-    {
-        p->v1 = 0;
-        p->v2 = 0;
-        p->v3 = 0;
-        p->v4 = 0;
-        p->v5 = 8;
-        p->v6 = 8;
-        DAT_0126f6cc = p;
-    }
-    else
-        DAT_0126f6cc = 0;
-}
-
 struct FUN_00e7efc0_Node
 {
     int _a;
@@ -250,6 +179,8 @@ struct FUN_00e7efc0_List
 };
 // Unlinks node from the doubly linked list, fixes neighbours and head, decrements count, clears node's links and returns it.
 // @fnv 0x00e7efc0
+// pdb: NiD3DRenderStateGroup::RemoveRSEntryFromSavedList | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkEntry
 FUN_00e7efc0_Node* __thiscall FUN_00e7efc0_List::FUN_00e7efc0(FUN_00e7efc0_Node* node)
 {
     FUN_00e7efc0_Node* prev = node->prev;
@@ -287,7 +218,8 @@ D3DRenderStateGroup* DAT_0126f718;
 NiD3DRenderStateEntry* DAT_0126f71c;
 // Allocates two 0x18-byte structures, zeroes their four pointers, sets their a/b fields to 8 and 0x10, and stores them in DAT_0126f718 and DAT_0126f71c.
 // @fnv 0x00e7f2b0
-void __cdecl FUN_00e7f2b0()
+// pdb: NiD3DRenderStateGroup::InitializePools | NiD3DRenderStateGroup.obj | fnv360_0822_retail, udata + bridge(hash|objrun), high
+void __cdecl NiD3DRenderStateGroup_InitializePools()
 {
     D3DRenderStateGroup* p =
         static_cast<D3DRenderStateGroup*>(reinterpret_cast<P03MM*>(&g_memoryManager)->Allocate(0x18));
@@ -440,6 +372,8 @@ struct NiDX9SourceCubeMapData_S
 
 // Reads each mip level of the given D3D texture, cube or volume texture, records dimensions and pixel format, and accumulates m_uiSize.
 // @fnv 0x00e68530
+// pdb: NiXenonSourceTextureData::InitializeFromD3DTexture | NiXenonSourceTextureData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiDX9SourceTextureData::InitializeFromD3DTexture)
+// pdb params: pkD3DTexture
 bool NiDX9SourceCubeMapData_S::FUN_00e68530(DX9BaseTexture_00e68530* pkD3DTexture)
 {
     m_uiTextureFormat = pkD3DTexture->GetLevelCount();
@@ -558,68 +492,6 @@ void __thiscall FUN_00e7d560_Class::FUN_00e7d560()
     }
 }
 
-struct FUN_00e673f0_shell
-{
-    int __thiscall GetPrimitiveCount();
-};
-struct FUN_00e613f0
-{
-    int _00;
-    int _04;
-    int _08;
-    FUN_00e673f0_shell** _0c;
-    int _10;
-    int __thiscall Sum();
-};
-// Sums the results of calling GetPrimitiveCount on each of the _10 entries in the _0c array and returns the total.
-// @fnv 0x00e613f0
-int __thiscall FUN_00e613f0::Sum()
-{
-    int total = 0;
-    for (int i = 0; i < _10; ++i)
-    {
-        int add = _0c[i]->GetPrimitiveCount();
-        total += add;
-    }
-    return total;
-}
-
-int __cdecl CompareStringsCaseInsensitive(int, int);
-
-struct FUN_00e63ec0_Class
-{
-    int _00;
-    int _04;
-    int* _08;
-    int _0c;
-    int __thiscall FUN_00e63ec0(int a, int* out);
-};
-
-// @fnv 0x00e63ec0
-int FUN_00e63ec0_Class::FUN_00e63ec0(int a, int* out)
-{
-    int i = 0;
-    if (_0c > 0)
-    {
-        do
-        {
-            int v = _08[i * 2 + 1] & 0xfffffffe;
-            if (CompareStringsCaseInsensitive(a, v))
-            {
-                ++i;
-            }
-            else
-            {
-                int* p = _08;
-                int val = p[i * 2];
-                *out = val;
-                return 0;
-            }
-        } while (i < _0c);
-    }
-    return 1;
-}
-
 struct NiTMapBaseStub
 {
     void RemoveAll();
@@ -635,6 +507,7 @@ struct FUN_00e7afc0_Class : NiTMapBaseStub
 };
 // Sets the vtable, removes all entries, frees the buffer at _08, and deallocates this object when ai has bit 0 set.
 // @fnv 0x00e7afc0
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,TESWaterForm *,bool>::`scalar deleting destructor' | TESWater.obj | fnv360_0822_retail, vtable, medium
 FUN_00e7afc0_Class* FUN_00e7afc0_Class::FUN_00e7afc0(int aiFlags)
 {
     vtbl = (int)&DAT_010eec54;
@@ -664,6 +537,7 @@ extern char DAT_010eec7c[];
 
 // Restores two vtables, calls RemoveAll on each, frees _08, and deallocates this when deleting has bit 0 set.
 // @fnv 0x00e7b000
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,NiXenonIndexBufferManager::NiXenonIBInfo *>::`scalar deleting destructor' | NiXenonIBManager.obj | fnv360_0721_beta, objrun_open, low
 FUN_00e7b000_Class* __thiscall FUN_00e7b000_Class::FUN_00e7b000(int deleting)
 {
     vtbl = DAT_010eec7c;
@@ -686,23 +560,6 @@ FUN_00e7b000_Class* __thiscall FUN_00e7b000_Class::FUN_00e7b000(int deleting)
 void* __cdecl _NiFree(void*);
 extern int DAT_010eec4c;
 extern MemoryManager _g_memoryManager;
-
-struct FUN_00e7b230_Class
-{
-    void* vtbl;
-    void* m_p;
-    void* __thiscall FUN_00e7b230(unsigned char flags);
-};
-
-// @fnv 0x00e7b230
-void* FUN_00e7b230_Class::FUN_00e7b230(unsigned char flags)
-{
-    this->vtbl = &DAT_010eec4c;
-    _NiFree(this->m_p);
-    if (flags & 1)
-        _g_memoryManager.Deallocate(this);
-    return this;
-}
 
 namespace fnv_00e7bb50 {
 void __cdecl _NiFree(void* p);
@@ -772,6 +629,7 @@ struct NiD3DShader
 };
 
 // @fnv 0x00e7c540
+// pdb: NiD3DDefaultShader::~NiD3DDefaultShader | NiD3DDefaultShader.obj | fnv360_0822_retail, call_gap, low
 void __thiscall NiD3DShader::FUN_00e7c540()
 {
     vtbl = DAT_010eecac;
@@ -783,6 +641,7 @@ extern int DAT_0126f590;
 
 // If DAT_0126f590 is set, calls the virtual function at offset 0x9c on p with 0 and clears DAT_0126f590 on success; returns 1 or 0.
 // @fnv 0x00e7cca0
+// pdb: NiDX9DepthStencilBufferData::SetNULLDepthStencilTarget | NiDX92DBufferData.obj | tesv_win, hash, low
 unsigned char __cdecl FUN_00e7cca0(int* pObject)
 {
     if (DAT_0126f590)
@@ -821,6 +680,7 @@ struct FUN_00e7d1b0_Class
 };
 
 // @fnv 0x00e7d1b0
+// pdb: NiDX9TextureBufferData::~NiDX9TextureBufferData | NiDX92DBufferData.obj | tesv_win, objrun, medium
 void FUN_00e7d1b0_Class::FUN_00e7d1b0()
 {
     void* p = *(void**)((char*)this + 0x20);
@@ -858,6 +718,7 @@ struct FUN_00e7d690_Class
 
 // Calls FUN_00e7d4e0, frees this with operator delete when flags has bit 1 set, and returns this.
 // @fnv 0x00e7d690
+// pdb: NiPSysSphereEmitter::`scalar deleting destructor' | NiPSysSphereEmitter.obj | fnv360_0822_retail, objrun, medium
 FUN_00e7d690_Class* FUN_00e7d690_Class::FUN_00e7d690(int flags)
 {
     FUN_00e7d4e0();
@@ -932,6 +793,8 @@ struct FUN_00e7ef80_List
 };
 // Unlinks node from the doubly linked list, fixing neighbours and head, decrements count, clears the node's links and returns it.
 // @fnv 0x00e7ef80
+// pdb: NiD3DRenderStateGroup::RemoveRSEntryFromNoSaveList | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkEntry
 FUN_00e7ef80_Node* FUN_00e7ef80_List::FUN_00e7ef80(FUN_00e7ef80_Node* node)
 {
     FUN_00e7ef80_Node* prev = node->next;
@@ -957,6 +820,8 @@ class D3DRenderStateGroup
 void __cdecl _FUN_00aa1490(void* p, int size);
 
 // @fnv 0x00e7f750
+// pdb: NiTNewInterface<NiD3DRenderStateGroup>::Deallocate | NiD3DRenderStateGroup.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pArray
 void __cdecl DestroyArrayElements(void* p)
 {
     if (p)
@@ -980,29 +845,6 @@ void __cdecl DestroyArrayElements(void* p)
     }
 }
 
-struct FUN_00e611d0_Object
-{
-    unsigned char unk00;
-    unsigned char unk01;
-    unsigned char unk02;
-    unsigned char unk03;
-    unsigned char unk04;
-    unsigned char unk05;
-    unsigned char unk06;
-    unsigned char unk07;
-    int unk08;
-    int unk0C;
-    unsigned char unk10;
-    unsigned char unk11;
-    unsigned char unk12;
-    unsigned char unk13;
-    unsigned char unk14;
-    unsigned char unk15;
-    unsigned char unk16;
-    unsigned char unk17;
-    int unk18;
-};
-
 struct FUN_00c85750_Result
 {
     int unk00;
@@ -1013,63 +855,7 @@ struct FUN_00c85750_Result
 };
 
 FUN_00c85750_Result* __cdecl FUN_00c85750();
-void __cdecl AppendIndexSequence(int, int, int, int, int);
 void __cdecl AppendIndices(int, int, int, int, int);
-
-// Switches on object->unk14: case 0 calls AppendIndexSequence with object fields and value; case 1 calls AppendIndices when unk00 is 3 or 4.
-// @fnv 0x00e611d0
-void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value)
-{
-    switch (object->unk14)
-    {
-    case 0: {
-        FUN_00c85750_Result* result = FUN_00c85750();
-        AppendIndexSequence(object->unk00, object->unk08, object->unk0C, value, result->unk10);
-        break;
-    }
-
-    case 1: {
-        if ((static_cast<unsigned int>(object->unk00) - 3U) <= 1U)
-        {
-            AppendIndices(object->unk00, object->unk18, object->unk08, 0, value);
-        }
-        break;
-    }
-    }
-}
-
-struct FUN_00e61230_Buffer
-{
-    unsigned int field00;
-    unsigned int field04;
-    unsigned int field08;
-    unsigned int field0c;
-    unsigned int field10;
-    unsigned int field14;
-    unsigned int field18;
-    unsigned int field1c;
-    unsigned int field20;
-    unsigned int field24;
-};
-struct FUN_00e61230_Receiver
-{
-    virtual void unknown0() = 0;
-    virtual void unknown1() = 0;
-    virtual void unknown2() = 0;
-    virtual void unknown3() = 0;
-    virtual void begin(void* value, unsigned int mode, FUN_00e61230_Buffer* buffer) = 0;
-    virtual void end(FUN_00e61230_Buffer* buffer) = 0;
-};
-extern "C" void __cdecl FUN_00e611d0(FUN_00e61230_Buffer* buffer, unsigned int stage);
-// Calls receiver->begin with value and mode 1, runs FUN_00e611d0 on the buffer with stage, then calls receiver->end.
-// @fnv 0x00e61230
-void __cdecl RunReceiverStage(FUN_00e61230_Receiver* receiver, void* value, unsigned int stage)
-{
-    FUN_00e61230_Buffer buffer;
-    receiver->begin(value, 1, &buffer);
-    FUN_00e611d0(&buffer, stage);
-    receiver->end(&buffer);
-}
 
 struct E65000Entry
 {
@@ -1079,6 +865,7 @@ struct E65000Entry
 
 // File-static helper with a compiler-chosen register convention.
 // @fnv 0x00e65000
+// pdb: doubleCut | hkpMoppKDopGeometriesVirtualMachine.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: shiftDopLow)
 static __declspec(noinline) float FUN_00e65000(E65000Entry* pkEntries, int iIndex, float fValue)
 {
     float fOld = pkEntries[iIndex].m_fValue;
@@ -1089,96 +876,6 @@ static __declspec(noinline) float FUN_00e65000(E65000Entry* pkEntries, int iInde
 float E65000Swap(E65000Entry* pkEntries, int iIndex, float fValue)
 {
     return FUN_00e65000(pkEntries, iIndex, fValue);
-}
-
-class E673F0Geometry
-{
-  public:
-    int unk00;
-    int unk04;
-    char m_cPrimitiveType;
-    char unk09;
-    char unk0A;
-    char unk0B;
-    int unk0C;
-    int m_iIndexCount;
-    int unk14;
-    int unk18;
-    int m_iVertexCount;
-
-    int GetPrimitiveCount();
-};
-
-// @fnv 0x00e673f0
-int E673F0Geometry::GetPrimitiveCount()
-{
-    int iCount = m_iIndexCount ? m_iIndexCount : m_iVertexCount;
-    switch (m_cPrimitiveType)
-    {
-    case 1:
-        return iCount / 3;
-    default:
-        return 0;
-    }
-}
-
-struct IndexSource_e67420
-{
-    int unk00;
-    int unk04;
-    char m_cType;
-    char unk09;
-    char unk0a;
-    char unk0b;
-    unsigned short* m_pusIndices;
-    int m_iShortCount;
-    int unk14;
-    unsigned int* m_puiIndices;
-    int m_iIntCount;
-
-    bool FUN_00e67420(unsigned int iIndex, unsigned int* p0, unsigned int* p1, unsigned int* p2);
-};
-
-// @fnv 0x00e67420
-bool IndexSource_e67420::FUN_00e67420(unsigned int iIndex, unsigned int* puiIndex0, unsigned int* puiIndex1,
-                                      unsigned int* puiIndex2)
-{
-    if (m_iShortCount)
-    {
-        switch (m_cType)
-        {
-        case 1:
-            *puiIndex0 = m_pusIndices[iIndex * 3];
-            *puiIndex1 = m_pusIndices[iIndex * 3 + 1];
-            *puiIndex2 = m_pusIndices[iIndex * 3 + 2];
-            return true;
-        case 2:
-            *puiIndex0 = m_pusIndices[iIndex];
-            *puiIndex1 = m_pusIndices[iIndex + 1];
-            *puiIndex2 = m_pusIndices[iIndex + 2];
-            return true;
-        }
-    }
-    else if (m_iIntCount)
-    {
-        switch (m_cType)
-        {
-        case 1:
-            *puiIndex0 = m_puiIndices[iIndex * 3];
-            *puiIndex1 = m_puiIndices[iIndex * 3 + 1];
-            *puiIndex2 = m_puiIndices[iIndex * 3 + 2];
-            return true;
-        case 2:
-            *puiIndex0 = m_puiIndices[iIndex];
-            *puiIndex1 = m_puiIndices[iIndex + 1];
-            *puiIndex2 = m_puiIndices[iIndex + 2];
-            return true;
-        }
-    }
-    *puiIndex0 = 0xffffffff;
-    *puiIndex1 = 0xffffffff;
-    *puiIndex2 = 0xffffffff;
-    return false;
 }
 
 class FUN_00e67660_cls;
@@ -2132,55 +1829,6 @@ class FUN_00e67660_cls
     int FUN_00e67660(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
 };
 
-extern float DAT_0104da48;
-
-// @fnv 0x00e67660
-int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, int aiArg, int* apiCount, FnvEnt67** apOutEntry)
-{
-    int iResult = 0;
-    int i = 0;
-    FnvEnt67** p = &apNode->m_18;
-    for (; i < 3; i++, p += 4)
-    {
-        FnvEnt67* e = *p;
-        FnvNode67* n = e->m_0c;
-        int st = n->m_44;
-        if (st == 0)
-        {
-            st = n->Callee00e63af0(aiArg, this, &m_04);
-            n->m_44 = st;
-            if (st == 1)
-            {
-                iResult = FUN_00e67660(n, aiArg, apiCount, apOutEntry);
-                if (iResult == 2)
-                {
-                    break;
-                }
-                continue;
-            }
-            if (st == 4)
-            {
-                iResult = 2;
-                break;
-            }
-        }
-        if (st == 2)
-        {
-            e->m_00->m_30 = e;
-            (*apiCount)++;
-            *apOutEntry = e;
-        }
-    }
-    apNode->m_40 = DAT_0104da48;
-    if (m_0c >= 100)
-    {
-        return 2;
-    }
-    m_de0[m_0c] = apNode;
-    m_0c++;
-    return iResult;
-}
-
 void* __cdecl _memmove(void*, const void*, unsigned);
 struct CopyDesc
 {
@@ -2245,6 +1893,8 @@ const char* __cdecl GetHResultName(long);
 void __cdecl FUN_00a29680(const char*, ...);
 // Locks a surface level, copies pixel rows from the source buffer (clamped to the surface height and pitch), then unlocks the surface.
 // @fnv 0x00e68150
+// pdb: D3DCubeTexture_GetCubeMapSurface | texture.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiDX9SourceTextureData::CopyDataToSurfaceLevel)
+// pdb params: pTexture, Face, Level
 void __cdecl FUN_00e68150(CopyPixels* pSourcePixels, unsigned level, CopySurface* surface, unsigned face)
 {
     CopyDesc desc;
@@ -2603,49 +2253,6 @@ extern int DAT_0126efc0;
 extern bool DAT_0126f0d0;
 const char* __cdecl GetHResultName(long);
 void __cdecl FUN_00a29680(const char*, ...);
-inline bool IsPowerOfTwo(unsigned n)
-{
-    if (!n)
-        return false;
-    return (n & (n - 1)) == 0;
-}
-// Clamps mip levels by power-of-two size and renderer flags, halves width/height per dropped level, then creates a texture via the device and stores it.
-// @fnv 0x00e682b0
-bool TextureOwner::CreateTextureFromInput(TextureInput* input, int format)
-{
-    if ((!IsPowerOfTwo(width) || !IsPowerOfTwo(height)) && !(renderer->Flags() & 8))
-        levels = 1;
-    else
-        levels = input->levels;
-    mipmap = levels != 1;
-    unsigned dropped = DAT_0126efc0;
-    if (dropped > levels - 1)
-        dropped = levels - 1;
-    for (unsigned i = 0; i < dropped; ++i)
-    {
-        if (width & 1)
-            ++width;
-        width >>= 1;
-        if (height & 1)
-            ++height;
-        height >>= 1;
-    }
-    skip = dropped;
-    TexDevice* device = renderer->device;
-    void* created = 0;
-    long hr = device->CreateTexture(width, height, levels - dropped, DAT_0126f0d0 ? 512 : 0, format,
-                                    DAT_0126f0d0 ? 0 : 1, &created, 0);
-    if (hr >= 0 && created)
-    {
-        texture = created;
-        return true;
-    }
-    FUN_00a29680(
-        "NiDX9SourceTextureData::CreateSurfFromRendererData> FAILED to create texture of format: 0x%x, D3D error: %s",
-        format, GetHResultName(hr));
-    texture = 0;
-    return false;
-}
 
 struct E68760Program
 {
@@ -2710,6 +2317,8 @@ class E68760Pass
 
 // Stores the program's ID and pointer, returning true if either the ID or the pointer changed.
 // @fnv 0x00e68760
+// pdb: XGSetCubeTextureHeader | header.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiDX9SourceTextureData::UpdatePalette)
+// pdb params: EdgeLength, Levels, Usage, Format, Pool, BaseOffset, MipOffset, pCubeTexture, pBaseSize, pMipSize
 bool E68760Pass::SetProgram(E68760Program* pkProgram)
 {
     bool bChanged = false;
@@ -2828,6 +2437,8 @@ class FUN_00e68830 : public E68830Base
 
 // Destructor for FUN_00e68830; the body is empty and the compiler-generated member cleanup handles the NiPointer member.
 // @fnv 0x00e68830
+// pdb: NiXenonRenderState::ClearTexture | NiXenonSourceTextureData.obj | fnv360_1110_retail, objrun_open, low, conflict (skyrim: NiDX9SourceTextureData::~NiDX9SourceTextureData)
+// pdb params: pkTexture
 FUN_00e68830::~FUN_00e68830() throw()
 {}
 
@@ -2926,6 +2537,7 @@ struct FUN_00e68870_cls
     void __thiscall FUN_00e68870(FUN_00e68870_arg* a1);
 };
 // @fnv 0x00e68870
+// pdb: NiDX9SourceTextureData::CopyDataToSurface | NiDX9SourceTextureData.obj | tesv_win, ustr, medium
 void FUN_00e68870_cls::FUN_00e68870(FUN_00e68870_arg* apSourceData)
 {
     int out;
@@ -3030,6 +2642,8 @@ struct FUN_00e68920_cls
 };
 // Copies renderer data into each surface level of m_pTex from m_78 up to unk68, skipping null or type 4/5 textures and logging failed GetSurfaceLevel calls.
 // @fnv 0x00e68920
+// pdb: fread2D | NiXenonSourceTextureData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiDX9SourceTextureData::CopyRendererDataToSurface)
+// pdb params: apDest, apSrc, aiDestStride, aiSrcLength, aiDestX, aiDestY, aiDestWidth
 void __thiscall FUN_00e68920_cls::FUN_00e68920(int a1)
 {
     if (m_pTex == 0)
@@ -3148,6 +2762,7 @@ struct TextureUpdate_00e689d0 : public NiDX9SourceCubeMapData_S
     void UpdateTexture();
 };
 // @fnv 0x00e689d0
+// pdb: NiDX9SourceTextureData::Update | NiDX9SourceTextureData.obj | tesv_win, caller_sim, low
 void TextureUpdate_00e689d0::UpdateTexture()
 {
     if (m_b6c)
@@ -3238,6 +2853,7 @@ struct FUN_00e68ea0_cls
 };
 
 // @fnv 0x00e68ea0
+// pdb: NiXenonDirect3DTextureData::`scalar deleting destructor' | NiXenonDirect3DTextureData.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: NiDX9SourceTextureData::`vector deleting destructor')
 FUN_00e68ea0_cls* FUN_00e68ea0_cls::FUN_00e68ea0(unsigned char acFlags)
 {
     *(void* volatile*)&m_vptr = DAT_010ed37c;
@@ -3351,30 +2967,6 @@ template <class TKEY, class TVAL> class BE7B040Map : public BE7B040MapBase<TKEY,
     }
 };
 
-class FUN_00e7b040_cls
-{
-  public:
-    ~FUN_00e7b040_cls() throw();
-
-    int unk00;
-    int unk04;
-    BE7B040Map<unsigned int, BE7B040Value*> m_kValues;
-};
-
-// Destructor that iterates the m_kValues map and deletes each stored BE7B040Value pointer.
-// @fnv 0x00e7b040
-FUN_00e7b040_cls::~FUN_00e7b040_cls() throw()
-{
-    BE7B040MapItem<unsigned int, BE7B040Value*>* pkPos = m_kValues.GetFirstPos();
-    while (pkPos)
-    {
-        unsigned int uiKey;
-        BE7B040Value* pkValue;
-        m_kValues.GetNext(pkPos, uiKey, pkValue);
-        delete pkValue;
-    }
-}
-
 struct Entry
 {
     unsigned int identifier;
@@ -3403,6 +2995,7 @@ struct Owner
 };
 // Scans the entry array for an item matching group, identifier and subIdentifier, accumulates its value and returns the last match.
 // @fnv 0x00e7b190
+// pdb: NiDX9AdapterDesc::ValidateFullscreenMode | NiDX9SystemDesc.obj | tesv_win, call_seq, medium
 Entry* Owner::FUN_00e7b190(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
                            unsigned int* puiAccumulated)
 {
@@ -3511,6 +3104,7 @@ struct ListNode_b9541
 };
 
 // @fnv 0x00e7b550
+// pdb: NiDX9DeviceDesc::~NiDX9DeviceDesc | NiDX9SystemDesc.obj | tesv_win, call_gap, low
 void __thiscall FUN_00e7b550_cls::DeleteAllItems()
 {
     ListNode_b9541* node = *(ListNode_b9541**)((char*)this + 0x134);
@@ -3880,6 +3474,7 @@ class FUN_00e7bbf0_cls
 
 // Stores the source's count and fills the array with a new item for each index, passing the source and context.
 // @fnv 0x00e7bbf0
+// pdb: NiDX9SystemDesc::FillAdapterInformation | NiDX9SystemDesc.obj | tesv_win, call_seq, medium
 void FUN_00e7bbf0_cls::BuildItemsFromSource(BE7BBF0Source* pkSource, void* pvContext)
 {
     m_uiCount = pkSource->GetCount();
@@ -3926,6 +3521,7 @@ struct FUN_00e7bc90 : Base_e7bc90
 
 // Initializes the count to zero, constructs the array with max size 0 and grow-by 1, then calls BuildItemsFromSource with the two arguments.
 // @fnv 0x00e7bc90
+// pdb: NiDX9SystemDesc::NiDX9SystemDesc | NiDX9SystemDesc.obj | tesv_win, call_seq, medium
 FUN_00e7bc90::FUN_00e7bc90(int a, int b) throw() : m_aiIndexedValues(0, 1)
 {
     m_uiCount = 0;
@@ -3951,6 +3547,7 @@ struct FUN_00e7bcd0_cls
 };
 
 // @f3 0x00881e90 (community match, verified in this file)
+// pdb: NiDX9SystemDesc::~NiDX9SystemDesc | NiDX9SystemDesc.obj | tesv_win, call_seq, medium
 void FUN_00e7bcd0_cls::DestroyItems()
 {
     for (unsigned int i = 0; i < m_uiItemCount; i++)
@@ -4004,6 +3601,7 @@ struct S_00e7c610_Object
 };
 
 // @fnv 0x00e7c610
+// pdb: NiD3DDefaultShader::`scalar deleting destructor' | NiD3DDefaultShader.obj | fnv360_0822_retail, objrun, medium
 void __stdcall FUN_00e7c610(float* afMatrix, S_00e7c610_Object* pObject)
 {
     pObject->unk5e = 1;
@@ -4064,6 +3662,7 @@ class FUN_00e7cc90_cls
 };
 
 // @fnv 0x00e7cc90
+// pdb: NiDX92DBufferData::Shutdown | NiDX92DBufferData.obj | tesv_win, objrun, medium
 bool FUN_00e7cc90_cls::FUN_00e7cc90()
 {
     v26();
@@ -4124,6 +3723,7 @@ class E7CCD0Renderer
 };
 
 // @fnv 0x00e7ccd0
+// pdb: NiDX9ImplicitBufferData::DisplayFrame | NiDX92DBufferData.obj | tesv_win, hash, low
 bool E7CCD0Renderer::PresentFrame()
 {
     return m_pD3DDevice->Present(0, 0, 0, 0) >= 0;
@@ -4199,6 +3799,7 @@ struct FnvBufferData
 extern int g_nLastId;
 
 // @fnv 0x00e7cdb0
+// pdb: NiDX9DepthStencilBufferData::SetDepthTarget | NiDX92DBufferData.obj | tesv_win, hash, low
 unsigned char FnvBufferData::FUN_00e7cdb0(FnvRendererData* pRenderer)
 {
     if (m_nId == 0)
@@ -4266,6 +3867,7 @@ struct FNV_Frame
 };
 
 // @fnv 0x00e7ce30
+// pdb: NiDX9ImplicitDepthStencilBufferData::Recreate | NiDX92DBufferData.obj | tesv_win, caller_sim, low
 unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
 {
     FNV_Frame frame;
@@ -4312,6 +3914,7 @@ class FUN_00e7d180_cls
 
 // Calls v02 on m_14 and clears it, then deallocates m_0c via DAT_011f6238 and clears it.
 // @fnv 0x00e7d180
+// pdb: NiDX92DBufferData::ReleaseReferences | NiDX92DBufferData.obj | tesv_win, objrun, medium
 void FUN_00e7d180_cls::FUN_00e7d180()
 {
     if (m_14 != 0)
@@ -4321,14 +3924,6 @@ void FUN_00e7d180_cls::FUN_00e7d180()
     }
     DAT_011f6238.Deallocate(m_0c);
     m_0c = 0;
-}
-
-struct CpuOpaque;
-extern CpuOpaque DAT_0126f5a4;
-// @fnv 0x00e7d220
-CpuOpaque* __cdecl FUN_00e7d220()
-{
-    return &DAT_0126f5a4;
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
@@ -4453,6 +4048,7 @@ class Ni2DBufferStub
 
 // Creates a NiDX9TextureBufferData wrapping the texture's level-0 surface, sets sample count from eMSAAPref, and attaches it to pkBuffer.
 // @fnv 0x00e7d250
+// pdb: NiDX9TextureBufferData::Create | NiDX92DBufferData.obj | tesv_win, call_seq, medium
 NiDX9TextureBufferData* __cdecl NiDX9TextureBufferData::FUN_00e7d250(D3DTexture_e7d250* pkD3DTexture,
                                                                      Ni2DBufferStub*& pkBuffer, int eMSAAPref,
                                                                      int iUnk18)
@@ -4586,14 +4182,6 @@ void FUN_00e7d4e0_cls::FUN_00e7d4e0()
 }
 }  // namespace fnv_00e7d4e0
 
-extern int DAT_0126f5e0;
-
-// @fnv 0x00e7d550
-int* __cdecl FUN_00e7d550()
-{
-    return &DAT_0126f5e0;
-}
-
 namespace fnv_00e7d620 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
@@ -4650,14 +4238,6 @@ FUN_00e7d620_cls* FUN_00e7d620_cls::FUN_00e7d620(unsigned char acFlags)
 }
 }  // namespace fnv_00e7d620
 
-extern int DAT_0126f5b4;
-
-// @fnv 0x00e7d680
-void* __cdecl FUN_00e7d680(void)
-{
-    return &DAT_0126f5b4;
-}
-
 namespace fnv_00e7eb50 {
 extern "C" void* __cdecl FUN_00e7e880(unsigned int count);
 struct Block
@@ -4704,6 +4284,8 @@ struct BlockAllocatedStringArray
 };
 // Allocates a Block of count elements, appends each element pointer to the array (growing it as needed), and links the block into the blocks list.
 // @fnv 0x00e7eb50
+// pdb: NiTPool<NiD3DPass,NiTNewInterface<NiD3DPass> >::CreateNewObjects | NiD3DPass.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: uiSize
 void BlockAllocatedStringArray::AppendBlock(unsigned int count)
 {
     Block* pBlock = (Block*)DAT_011f6238.FUN_00aa3e40(sizeof(Block));
@@ -4755,6 +4337,7 @@ struct FUN_00e7ec60_cls
 
 // Releases m_00 with mode 3, then recursively destroys and deallocates the m_08 child via DAT_011f6238.
 // @fnv 0x00e7ec60
+// pdb: NiXenonErrorShader::Initialize | NiXenonErrorShader.obj | fnv360_0822_debug, objrun_open, low
 void __thiscall FUN_00e7ec60_cls::FUN_00e7ec60()
 {
     if (m_00 != 0)
@@ -4873,6 +4456,7 @@ struct FUN_00e7f210_cls
 
 // Allocates a node holding n items, appends each item pointer to m_pItems (growing as needed), then pushes the node onto m_pHead.
 // @fnv 0x00e7f210
+// pdb: NiTPool<NiD3DRenderStateGroup::NiD3DRSEntry,NiTNewInterface<NiD3DRenderStateGroup::NiD3DRSEntry> >::GetFreeObject | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00e7f210_cls::AppendItems(unsigned int n)
 {
     void* mem = DAT_011f6238.Alloc(0xc);
@@ -4935,6 +4519,7 @@ struct Owner
 };
 // Adds each item from the first and second linked lists to DAT_0126f71c uniquely, then clears both list heads.
 // @fnv 0x00e7f320
+// pdb: NiD3DRenderStateGroup::~NiD3DRenderStateGroup | NiD3DRenderStateGroup.obj | fnv360_0822_retail, caller_sim, medium
 void Owner::MoveItemsToGlobalSet()
 {
     Item* pNextItem;
@@ -5025,6 +4610,7 @@ extern BE7F610Queue<BE7F610Buffer>* g_pkE7F610BufferQueue;
 
 // Deletes the global worker queue and buffer queue objects.
 // @fnv 0x00e7f610
+// pdb: NiD3DRenderStateGroup::ShutdownPools | NiD3DRenderStateGroup.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl DestroyGlobalQueues()
 {
     delete g_pkE7F610WorkerQueue;
@@ -5034,6 +4620,7 @@ void __cdecl DestroyGlobalQueues()
 extern int DAT_0126f728;
 
 // @fnv 0x00e7f7c0
+// pdb: hkpRigidBodyInertiaViewer::getProcessTag | hkpRigidBodyInertiaViewer.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_00e7f7c0()
 {
     return DAT_0126f728;
@@ -5071,6 +4658,7 @@ struct FUN_00e687a0 : Mid_00e687a0
 };
 // Constructs the object by forwarding p1 and p2 to the base constructor and leaving the Q74 member default-initialized.
 // @fnv 0x00e687a0
+// pdb: NiDX9SourceTextureData::NiDX9SourceTextureData | NiDX9SourceTextureData.obj | tesv_win, call_gap_sim, low
 FUN_00e687a0::FUN_00e687a0(int p1, int p2) : Mid_00e687a0(p1, p2)
 {}
 
@@ -5196,7 +4784,7 @@ struct E74Node
 };
 struct E74GroupMgr
 {
-    bool ProcessCollector(void* pkGroup, E74GeomData* pkData, E74SkinInstance* pkSkin, bool bHasAnimation,
+    bool NiD3DGeometryGroupManager_AddObjectToGroup(void* pkGroup, E74GeomData* pkData, E74SkinInstance* pkSkin, bool bHasAnimation,
                           unsigned int a, unsigned int b);
 };
 extern int DAT_0126f0ec;
@@ -5234,6 +4822,8 @@ struct FUN_00e74a40_shell : E74Accumulator
     void AddGeometryToBatch(E74Geometry* pkGeom);
 };
 // @fnv 0x00e74a40
+// pdb: NiXenonRenderer::AddToBatch | NiXenonRenderer.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkGeometry
 void FUN_00e74a40_shell::AddGeometryToBatch(E74Geometry* pkGeom)
 {
     E74GeomData* pkData = pkGeom->m_spGeometryData;
@@ -5250,7 +4840,7 @@ void FUN_00e74a40_shell::AddGeometryToBatch(E74Geometry* pkGeom)
     if (!pkData->GetActiveCount())
         return;
     bool bHasAnimation = FUN_00e72c20(pkGeom, m_pGeometryShader);
-    m_pkGroupMgr->ProcessCollector(m_pkActorGroup, pkData, pkSkin, bHasAnimation, 0, 0);
+    m_pkGroupMgr->NiD3DGeometryGroupManager_AddObjectToGroup(m_pkActorGroup, pkData, pkSkin, bHasAnimation, 0, 0);
     if (bHasAnimation)
     {
         E74SkinPartition* pkPartition = pkSkin->m_pkSkinMeshPartition;
@@ -6008,6 +5598,7 @@ struct FUN_00e74c00_stub {
     bool FUN_00878700();
 };
 
+// pdb: NiDX9Renderer::LostDeviceRestore | NiDX9Renderer.obj | tesv_win, ustr, medium
 bool FUN_00e74c00_cls::HandleDeviceLost()
 {
     void* obj = m_p288;
@@ -6177,6 +5768,7 @@ class TexFormatList
 };
 
 // @fnv 0x00e7aed0
+// pdb: NiDX9DeviceDesc::GetNearestFrameBufferFormat | NiDX9SystemDesc.obj | tesv_win, call_seq, medium
 int __thiscall TexFormatList::FindFormatValue(unsigned char abUseFlag4, int key)
 {
     Node* node = m_pFirstNode;
@@ -6281,6 +5873,8 @@ extern const PixelTemplate DAT_011ab2a8;
 extern const PixelTemplate DAT_011ab2f0;
 // Selects a PixelTemplate by format code, copies it into output, sets field0c to format and field10 to 0, and returns output.
 // @fnv 0x00e7c1e0
+// pdb: NiXenonPixelFormat::InitFromD3DFormat | NiXenonPixelFormat.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: NiDX9PixelFormat::InitFromD3DFormat)
+// pdb params: eD3DFmt, kFormat
 PixelTemplate& __cdecl GetPixelTemplateForFormat(int format, PixelTemplate& output)
 {
     const PixelTemplate* pTemplate;
@@ -6485,6 +6079,8 @@ void __cdecl CE7C500ConvertFormat(int eFormat, CE7C500PixelFormat* pkFormat);
 
 // Allocates a CE7C500PixelFormat, converts the given format into it, and returns the new object.
 // @fnv 0x00e7c500
+// pdb: NiXenonPixelFormat::CreateFromD3DFormat | NiXenonPixelFormat.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: NiDX9PixelFormat::CreateFromD3DFormat)
+// pdb params: eD3DFmt
 CE7C500PixelFormat* __cdecl CreatePixelFormat(int eFormat)
 {
     CE7C500PixelFormat* pkFormat = new CE7C500PixelFormat;
@@ -6522,6 +6118,7 @@ class AdditionalDepthData : public NiDX92DBufferDataStub
 extern char DAT_010ef028;
 // Creates AdditionalDepthData, acquires a depth surface from the device, queries its description, and creates or reuses the Ni2DBufferStub.
 // @fnv 0x00e7d390
+// pdb: NiDX9TextureBufferData::CreateCubeFace | NiDX92DBufferData.obj | tesv_win, call_seq, medium
 AdditionalDepthData* __cdecl CreateDepthBufferData(AdditionalDepthDevice* device, void* surfaceSource, int, int,
                                                    Ni2DBufferStub** buffer)
 {
@@ -6571,75 +6168,6 @@ struct IndexArray
     int size;
     unsigned int capacity;
 };
-
-// @fnv 0x00e61090
-void __cdecl AppendIndices(int primType, const unsigned short* src, int count, int offset, IndexArray* out)
-{
-    switch (primType)
-    {
-    case 3: {
-        FUN_00c85750_Result* pResult = FUN_00c85750();
-        IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
-        int oldSize = out->size;
-        int newSize = oldSize + count;
-        int cap = out->capacity & 0x3fffffff;
-        if (cap < newSize)
-        {
-            if (newSize < cap * 2)
-                newSize = cap * 2;
-            FUN_00c908c0(alloc, out, newSize, 2);
-        }
-        out->size += count;
-        unsigned short* dst = out->data + oldSize;
-        if (offset == 0)
-        {
-            FUN_00cb1260(dst, src, count * 2);
-            return;
-        }
-        if (count > 0)
-        {
-            int delta = (int)src - (int)dst;
-            do
-            {
-                *dst = (unsigned short)(*(unsigned short*)((char*)dst + delta) + offset);
-                dst++;
-            } while (--count != 0);
-        }
-        break;
-    }
-    case 4: {
-        int n = count * 3 - 6;
-        FUN_00c85750_Result* pResult = FUN_00c85750();
-        IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
-        int oldSize = out->size;
-        int newSize = oldSize + n;
-        int cap = out->capacity & 0x3fffffff;
-        if (cap < newSize)
-        {
-            if (newSize < cap * 2)
-                newSize = cap * 2;
-            FUN_00c908c0(alloc, out, newSize, 2);
-        }
-        out->size += n;
-        unsigned short* dst = out->data + oldSize;
-        for (int i = 2; i < count; i++)
-        {
-            *dst++ = (unsigned short)(src[i - 2] + offset);
-            if ((i & 1) == 0)
-            {
-                *dst++ = (unsigned short)(src[i - 1] + offset);
-                *dst++ = (unsigned short)(src[i] + offset);
-            }
-            else
-            {
-                *dst++ = (unsigned short)(src[i] + offset);
-                *dst++ = (unsigned short)(src[i - 1] + offset);
-            }
-        }
-        break;
-    }
-    }
-}
 
 struct HeapAlloc
 {
@@ -6702,119 +6230,17 @@ struct U16Array
     }
 };
 
-struct IndexSource
-{
-    unsigned char type;
-    unsigned char unk01;
-    unsigned char unk02;
-    unsigned char unk03;
-    int unk04;
-    int count;
-    int unk0c;
-    int unk10;
-    unsigned char mode;
-    unsigned char unk15;
-    unsigned char unk16;
-    unsigned char unk17;
-    int unk18;
-};
-
 inline void* __cdecl operator new(unsigned int, void* p) throw()
 {
     return p;
 }
-inline bool isTri(int t)
-{
-    switch (t)
-    {
-    case 3:
-    case 4:
-        return true;
-    }
-    return false;
-}
-void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
-void __cdecl FUN_00e60f50(int type, int data, int count, int base, IntArray* out);
 void __cdecl AppendIndices(int type, int data, int count, int base, U16Array* out);
-
-// @fnv 0x00e61280
-void __cdecl BuildIndexArray(IndexSource* src, IntArray* out)
-{
-    switch (src->mode)
-    {
-    case 0:
-        FUN_00e60e40(src->type, src->count, src->unk0c, out);
-        break;
-    case 1:
-        if (isTri(src->type))
-        {
-            int n = src->count;
-            U16Array tmp;
-            tmp.m_data = 0;
-            tmp.m_iElementCount = 0;
-            tmp.m_iCapacityState = 0x80000000;
-            MemRouter* r = getRouter();
-            char* p = r->stackCur;
-            r->stackCur = p + ((n * 2 + 0x7f) & ~0x7f);
-            tmp.m_data = (unsigned short*)p;
-            tmp.m_iCapacityState = n | 0x80000000;
-            tmp.m_pStackAllocation = p;
-            AppendIndices(src->type, src->unk18, src->count, 0, &tmp);
-            for (int i = 0; i < src->count; i++)
-            {
-                int v = tmp.m_data[i];
-                out->AddBack(v);
-            }
-            char* pStackMark = tmp.m_pStackAllocation;
-            if (pStackMark == (char*)tmp.m_data)
-                tmp.m_iElementCount = 0;
-            getRouter()->stackCur = pStackMark;
-            tmp.ClearAndRelease(getRouter()->heap);
-        }
-        break;
-    case 2:
-        if (isTri(src->type))
-            FUN_00e60f50(src->type, src->unk18, src->count, 0, out);
-        break;
-    }
-}
 
 enum hkResultE63E
 {
     HK_SUCCESS_E63E = 0,
     HK_FAILURE_E63E = 1
 };
-
-struct hkPairE63E
-{
-    void* m_key;
-    unsigned int m_uiFilterValue;
-};
-
-class hkMapE63E
-{
-  public:
-    int unk00;
-    int unk04;
-    hkPairE63E* m_pairs;
-    int m_numPairs;
-
-    hkResultE63E FindValue(void* key, unsigned int* out) const;
-};
-
-// @fnv 0x00e63e80
-hkResultE63E hkMapE63E::FindValue(void* key, unsigned int* out) const
-{
-    for (int i = 0; i < m_numPairs; i++)
-    {
-        if (m_pairs[i].m_key == key)
-        {
-            *out = m_pairs[i].m_uiFilterValue & ~1u;
-            return HK_SUCCESS_E63E;
-        }
-    }
-    return HK_FAILURE_E63E;
-}
 
 struct FnvCpu_FUN_00e687f0_CpuObject
 {
@@ -6848,6 +6274,7 @@ struct FnvCpu_FUN_00e687f0_CpuObject
     int FUN_00e687f0();
 };
 // @fnv 0x00e687f0
+// pdb: MiddleHighProcess::GetSavedAcquireObject | HighProcess.obj | fnv360_0822_retail, call_gap, low
 int FnvCpu_FUN_00e687f0_CpuObject::FUN_00e687f0()
 {
     return value;
@@ -6884,6 +6311,7 @@ struct FnvCpu_FUN_00e68800_CpuObject
     int FUN_00e68800();
 };
 // @fnv 0x00e68800
+// pdb: DetailedActorPathHandler::GetCurrentNodeIndex | DetailedActorPathHandler.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: NiDX9SourceTextureData::GetPalette)
 int FnvCpu_FUN_00e68800_CpuObject::FUN_00e68800()
 {
     return value;
@@ -6909,63 +6337,13 @@ struct FUN_00e76620_cls
 };
 
 // @fnv 0x00e76620
+// pdb: QueuedFileLoad::GetFileIndex | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 unsigned char FUN_00e76620_cls::FUN_00e76620()
 {
     return unk34;
 }
 
 void __cdecl FUN_00c908c0(void*, IndexArray*, int, int);
-// Appends a sequence of unsigned short indices to an IndexArray, growing its capacity via FUN_00c908c0 when needed.
-// @fnv 0x00e60d40
-void __cdecl AppendIndexSequence(int aiSequenceType, int count, int start, IndexArray* output, void* allocator)
-{
-    switch (aiSequenceType)
-    {
-    case 4: {
-        int added = 3 * count - 6;
-        int oldCount = output->size;
-        int required = oldCount + added;
-        int capacity = output->capacity & 0x3fffffff;
-        if (capacity < required)
-        {
-            int grown = 2 * capacity;
-            FUN_00c908c0(allocator, output, required >= grown ? required : grown, 2);
-        }
-        output->size += added;
-        unsigned short* destination = output->data + oldCount;
-        for (int i = 2; i < count; ++i)
-        {
-            *destination++ = start + i - 2;
-            if ((i & 1) == 0)
-            {
-                *destination++ = start + i - 1;
-                *destination++ = start + i;
-            }
-            else
-            {
-                *destination++ = start + i;
-                *destination++ = start + i - 1;
-            }
-        }
-        break;
-    }
-    case 3: {
-        int size = output->size;
-        int required = size + count;
-        int capacity = output->capacity & 0x3fffffff;
-        if (capacity < required)
-        {
-            int grown = 2 * capacity;
-            FUN_00c908c0(allocator, output, required >= grown ? required : grown, 2);
-        }
-        output->size += count;
-        unsigned short* destination = output->data + size;
-        for (int i = 0; i < count; ++i)
-            destination[i] = start + i;
-        break;
-    }
-    }
-}
 
 class AllocatorE60F;
 
@@ -7015,116 +6393,14 @@ template <class T> class hkArrayE60F
     }
 };
 
-// Appends indices to kOut: type 3 copies them (adding iOffset if nonzero), type 4 expands a strip into 3 indices per triangle with iOffset added.
-// @fnv 0x00e60f50
-void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArrayE60F<int>& kOut)
-{
-    switch (iType)
-    {
-    case 3: {
-        int* piDst = kOut.expandBy(iNumIndices);
-        if (iOffset == 0)
-        {
-            FUN_00cb1260(piDst, piIndices, iNumIndices * sizeof(int));
-        }
-        else
-        {
-            for (int i = 0; i < iNumIndices; i++)
-                piDst[i] = piIndices[i] + iOffset;
-        }
-        break;
-    }
-    case 4: {
-        int* piDst = kOut.expandBy((iNumIndices - 2) * 3);
-        for (int i = 2; i < iNumIndices; i++)
-        {
-            *piDst++ = piIndices[i - 2] + iOffset;
-            if ((i & 1) == 0)
-            {
-                *piDst++ = piIndices[i - 1] + iOffset;
-                *piDst++ = piIndices[i] + iOffset;
-            }
-            else
-            {
-                *piDst++ = piIndices[i] + iOffset;
-                *piDst++ = piIndices[i - 1] + iOffset;
-            }
-        }
-        break;
-    }
-    }
-}
-
-extern "C" double DAT_010229b8;
-
-// @fnv 0x00e62ac0
-static __declspec(noinline) float FUN_00e62ac0(unsigned seed)
-{
-    int result = 0x3039 - (int)(seed * 0x3e39b193u);
-    result &= 0x7fffffff;
-
-    return (float)result * DAT_010229b8;
-}
-
 volatile unsigned g_e62ac0_seed = 12345u;
 volatile float g_e62ac0_sink;
-
-void e62ac0_probe_caller(void)
-{
-    g_e62ac0_sink = FUN_00e62ac0(g_e62ac0_seed);
-}
-
-// SetVec3FromHelper - 36 bytes at 0x00e62af0 (/MT /O2 /GS /EHsc /Gy)
-// void body: out receives the same float three times, and out arrives in
-// EDX: this function only exists under a compiler-chosen custom calling
-// convention (static callee, caller built the stack args and cleans them,
-// hence the plain `ret`).  The convention register is steered by the exact
-// clobber set of the in-TU callee: helper() visibly clobbers EAX and ECX
-// (imul / shl with a variable count), so `out`, which must live across the
-// call, gets the only remaining volatile register: EDX.
-//   call 0xe62ac0            ; helper, result in st(0)
-//   fld  [esp+4] / fld st(0) / faddp st(2) / fsubr [esp+8] / fmulp st(1)
-//   fstp [esp+4] / fld [esp+4]
-//   fst [edx] / fst [edx+4] / fstp [edx+8]
-//   ret
-struct Vec3
-{
-    float x;
-    float y;
-    float z;
-};
 
 int g_cn = 5;
 int g_c2 = 7;
 
-// External linkage + noinline: stays a call, and because its body is in
-// this TU the caller knows it clobbers EAX/ECX but preserves EDX.
-extern float __declspec(noinline) helper()
-{
-    g_cn = (g_cn * 3) << (g_c2 & 31);
-    return 1.0f;
-}
-
-// Calls helper(), computes v = (b - a) * (r + a), and writes v into out->x, out->y, and out->z.
-// @fnv 0x00e62af0
-static __declspec(noinline) void SetVec3FromHelper(Vec3* out, float a, float b)
-{
-    float r = helper();
-    float v = (b - a) * (r + a);
-    out->x = v;
-    out->y = v;
-    out->z = v;
-}
-
-// Same-TU call site: gives the static callee its private calling
-// convention (out in EDX, a/b on the stack, caller pops).
-void FUN_dummycaller()
-{
-    Vec3 o;
-    SetVec3FromHelper(&o, 1.0f, 2.0f);
-}
-
 // @fnv 0x00e64fe0
+// pdb: doubleCut | hkpMoppKDopGeometriesVirtualMachine.obj | tesv_win, hash, low
 static __declspec(noinline) void SwapFloatPair(float* apFloats, int aiIndex, float* apOutSecond, float afFirst,
                                                float afSecond, unsigned __int64 outA)
 {
@@ -7154,6 +6430,7 @@ struct E65020Entry
 };
 
 // @fnv 0x00e65020
+// pdb: shiftDopHigh | hkpMoppKDopGeometriesVirtualMachine.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) static float FUN_00e65020(E65020Entry* pkEntries, int iIndex, float fValue)
 {
     float f = pkEntries[iIndex].m_fValue;
@@ -7165,10 +6442,6 @@ float E65020Swap(E65020Entry* pkEntries, int iIndex, float fValue)
 {
     return FUN_00e65020(pkEntries, iIndex, fValue);
 }
-
-// @fnv 0x00e67560
-void __cdecl FUN_00e67560()
-{}
 
 struct FUN_00e68820_cls
 {
@@ -7811,6 +7084,8 @@ struct FUN_00e69620_cls
 };
 
 // @fnv 0x00e69620
+// pdb: NiXenonRenderer::FindClosestPixelFormat | NiXenonRenderer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: eFormat, eUsage
 void FUN_00e69620_cls::FUN_00e69620()
 {
     unk884->vfB0(0);
@@ -7999,11 +7274,7 @@ class GlobalObject_0096a2d0
     void Lock(const char*);
 };
 
-extern ListNode* DAT_011c5f58;
-
 extern GlobalObject_0096a2d0 g_011c5f80;
-
-extern unsigned int DAT_011c5f84;
 
 void __cdecl FUN_0043a080();
 
@@ -8056,6 +7327,7 @@ struct PoolLock
     }
 };
 extern PoolLock DAT_0106e5a0;
+// pdb: NiDX9DeviceDesc::NiDX9DeviceDesc | NiDX9SystemDesc.obj | tesv_win, call_gap, low
 FUN_00e7b590::FUN_00e7b590(S00e7b590_D3D* dev, int aiAdapter, D3DDEVTYPE aiDeviceType, D3DFORMAT a4,
                            OuterNode** appFormats)
     : m_iOwnerObjectOffset(aiDeviceType)
@@ -8159,6 +7431,7 @@ struct FUN_00e7ce10_cls
 };
 
 // @fnv 0x00e7ce10
+// pdb: NiDX9DepthStencilBufferData::HasValidStencilBuffer | NiDX92DBufferData.obj | tesv_win, hash, low
 unsigned char FUN_00e7ce10_cls::FUN_00e7ce10()
 {
     if (!m_0c || !m_14)
@@ -8237,6 +7510,7 @@ extern NiTListE7CF<ItemE7CF*> DAT_0126f5c8;
 
 // Locks DAT_0126f600, calls vf58(pArg) on every item in DAT_0126f5c8, then unlocks.
 // @fnv 0x00e7cf00
+// pdb: NiDX9AdditionalDepthStencilBufferData::RecreateAll | NiDX92DBufferData.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_00e7cf00(void* pArg)
 {
     EnterCriticalSection(&DAT_0126f600);
@@ -8360,6 +7634,7 @@ class RT
 };
 // Releases the current swap chain and surface, adopts a new swap chain, fetches its backbuffer, and updates the texture size and pixel format.
 // @fnv 0x00e7d0a0
+// pdb: NiDX9ImplicitBufferData::Recreate | NiDX92DBufferData.obj | tesv_win, ustr, medium
 bool RT::FUN_00e7d0a0(Swap* pkSwap)
 {
     if (m_pkSurf)
@@ -8386,24 +7661,6 @@ bool RT::FUN_00e7d0a0(Swap* pkSwap)
     m_iFmt = CreatePixelFormat(kDesc.Format);
     FUN_00a29680("NiDX9Renderer::Recreate> Using %s backbuffer format\n", FUN_00e7a9a0(kDesc.Format));
     return true;
-}
-
-// Returns val, val/2, val/3, or val-2 depending on op (1-4), or 0 otherwise.
-// @fnv 0x00e60cf0
-int ApplyOperator(int op, int val)
-{
-    switch (op)
-    {
-    case 1:
-        return val;
-    case 2:
-        return val / 2;
-    case 3:
-        return val / 3;
-    case 4:
-        return val - 2;
-    }
-    return 0;
 }
 
 struct RouterX
@@ -8449,41 +7706,6 @@ struct IntArrayX
     }
 };
 
-// Appends indices to out: type 3 adds count sequential values from data; type 4 adds count*3-6 values as triplets with alternating order.
-// @fnv 0x00e60e40
-void __cdecl FUN_00e60e40(int type, int count, int aiStart, IntArray* out)
-{
-    IntArrayX* arr = (IntArrayX*)out;
-    switch (type)
-    {
-    case 3: {
-        int* dst = arr->expandBy(count);
-        for (int i = 0; i < count; i++)
-            dst[i] = (unsigned short)(aiStart + i);
-    }
-    break;
-    case 4: {
-        int* dst = arr->expandBy(count * 3 - 6);
-        for (int i = 2; i < count; i++)
-        {
-            int a = aiStart + i - 2;
-            *dst++ = a;
-            if ((i & 1) == 0)
-            {
-                *dst++ = a + 1;
-                *dst++ = a + 2;
-            }
-            else
-            {
-                *dst++ = a + 2;
-                *dst++ = a + 1;
-            }
-        }
-    }
-    break;
-    }
-}
-
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     struct
@@ -8496,115 +7718,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" void _mm_store_ss(float*, __m128);
-__forceinline float dot3(__m128 p)
-{
-    float value;
-    _mm_store_ss(&value, _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p)));
-    return value;
-}
-__forceinline void dotOut(__m128 p, float& value)
-{
-    _mm_store_ss(&value, _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p)));
-}
-__forceinline void lengths(__m128 a, __m128 b, float& aa, float& cc, float& cross)
-{
-    aa = dot3(_mm_mul_ps(a, a));
-    dotOut(_mm_mul_ps(b, b), cc);
-    cross = dot3(_mm_mul_ps(b, a));
-}
-struct BarycentricResult
-{
-    float u, v, w;
-};
-// Computes barycentric weights of point relative to triangle a, b, c, using edge-based weights instead when the determinant is not positive.
-// @fnv 0x00e61a10
-void __cdecl FUN_00e61a10(const __m128* point, const __m128* apVertexA, const __m128* apVertexB,
-                          const __m128* apVertexC, BarycentricResult* result)
-{
-    __m128 ab = _mm_sub_ps(*apVertexA, *apVertexB);
-    __m128 cb = _mm_sub_ps(*apVertexC, *apVertexB);
-    float abLen, fCBLenSq, ac;
-    lengths(ab, cb, abLen, fCBLenSq, ac);
-    float determinant = (float)(abLen * fCBLenSq) - (float)(ac * ac);
-    if (determinant > 0.0f)
-    {
-        float reciprocal = 1.0f / determinant;
-        __m128 bp = _mm_sub_ps(*apVertexB, *point);
-        __m128 apProduct = _mm_mul_ps(bp, ab);
-        float ap;
-        ap = dot3(apProduct);
-        __m128 cpProduct = _mm_mul_ps(bp, cb);
-        float cp;
-        cp = dot3(cpProduct);
-        float s = ac * cp - fCBLenSq * ap;
-        float t = ac * ap - abLen * cp;
-        result->u = s * reciprocal;
-        result->v = (determinant - s - t) * reciprocal;
-        result->w = t * reciprocal;
-    }
-    else
-    {
-        __m128 ca = _mm_sub_ps(*apVertexA, *apVertexC);
-        __m128 caLengthProduct = _mm_mul_ps(ca, ca);
-        float fCALenSq;
-        fCALenSq = dot3(caLengthProduct);
-        if (abLen >= fCBLenSq)
-        {
-            if (fCALenSq >= abLen)
-            {
-                result->v = 0.0f;
-                if (fCALenSq > 0.0f)
-                {
-                    __m128 sDotProduct = _mm_mul_ps(_mm_sub_ps(*point, *apVertexC), ca);
-                    float s;
-                    s = dot3(sDotProduct);
-                    s /= fCALenSq;
-                    result->u = s;
-                    result->w = 1.0f - s;
-                }
-                else
-                {
-                    result->u = 0.0f;
-                    result->w = 0.0f;
-                }
-            }
-            else
-            {
-                __m128 sDotProduct = _mm_mul_ps(_mm_sub_ps(*point, *apVertexB), ab);
-                float s;
-                s = dot3(sDotProduct);
-                s /= abLen;
-                result->u = s;
-                result->v = 1.0f - s;
-                result->w = 0.0f;
-            }
-        }
-        else
-        {
-            if (fCALenSq >= fCBLenSq)
-            {
-                __m128 sDotProduct = _mm_mul_ps(_mm_sub_ps(*point, *apVertexC), ca);
-                float s;
-                s = dot3(sDotProduct);
-                s /= fCALenSq;
-                result->u = s;
-                result->v = 0.0f;
-                result->w = 1.0f - s;
-            }
-            else
-            {
-                __m128 delta = _mm_sub_ps(*point, *apVertexB);
-                __m128 tDotProduct = _mm_mul_ps(delta, cb);
-                result->u = 0.0f;
-                float t;
-                t = dot3(tDotProduct);
-                t /= fCBLenSq;
-                result->w = t;
-                result->v = 1.0f - t;
-            }
-        }
-    }
-}
 
 namespace fnv_00e63af0 {
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -8617,18 +7730,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" void _mm_store_ss(float*, __m128);
 
-extern double DAT_0109a3a0;
-
-static __forceinline float fnv_dot(__m128 value)
-
-{
-
-    float scalar;
-    _mm_store_ss(&scalar,
-                 _mm_add_ss(_mm_shuffle_ps(value, value, 0xaa), _mm_add_ss(_mm_shuffle_ps(value, value, 0x55), value)));
-    return scalar;
-}
-
 __declspec(align(16)) class ClipPlane
 {
 
@@ -8640,96 +7741,11 @@ __declspec(align(16)) class ClipPlane
     int FUN_00e63af0(__m128* pB, float* pLo, float* pHi);
 };
 
-// Takes the distance of *pB from the plane origin along the normal, narrows *pLo or *pHi with it, and returns 4 if the range is empty, else 1 or 2.
-// @fnv 0x00e63af0
-int ClipPlane::FUN_00e63af0(__m128* apPoint, float* pLo, float* pHi)
-
-{
-
-    double t = fnv_dot(_mm_mul_ps(_mm_sub_ps(*apPoint, *m_pvOrigin), m_vNormal));
-
-    int result = 1;
-    if (*pLo < t)
-    {
-
-        if (t < *pHi)
-        {
-
-            *pHi = t;
-        }
-    }
-    else
-    {
-
-        double t2 = t + DAT_0109a3a0;
-
-        if (*pLo < t2)
-        {
-
-            *pLo = t2;
-        }
-
-        result = 2;
-    }
-
-    if (*pLo >= *pHi)
-    {
-
-        return 4;
-    }
-
-    return result;
-}
 }  // namespace fnv_00e63af0
-
-// @fnv 0x00e67550
-void __cdecl FUN_00e67550()
-{}
-
-// Clears bits 4-7 of *flags, then for modes 0-6 sets *outValue to 1 or 2 and ORs a bit pattern into *flags; returns false for other modes.
-// @fnv 0x00e69510
-bool __cdecl SetModeFlags(int mode, int* outValue, unsigned int* flags)
-{
-    *flags &= 0xffffff0fu;
-    switch (mode)
-    {
-    case 0:
-        *outValue = 1;
-        *flags |= 0x50u;
-        return true;
-    case 1:
-        *outValue = 1;
-        *flags |= 0x40u;
-        return true;
-    case 2:
-        *outValue = 1;
-        *flags |= 0x80u;
-        return true;
-    case 3:
-        *outValue = 1;
-        *flags |= 0x20u;
-        return true;
-    case 5:
-        *outValue = 2;
-        *flags |= 0x40u;
-        return true;
-    case 6:
-        *outValue = 2;
-        *flags |= 0x80u;
-        return true;
-    case 4:
-        *outValue = 2;
-        *flags |= 0x20u;
-        return true;
-    default:
-        return false;
-    }
-}
 
 namespace se695c0 {
 
 struct Block;
-int SelectFormatTileValue(int iArg, Block* pkBlock);
 
 struct Block
 {
@@ -9191,13 +8207,6 @@ struct Owner
     int FUN_00e695c0(int iArg);
 };
 
-// Returns the result of SelectFormatTileValue called with iArg and a pointer to m_kBlock.
-// @fnv 0x00e695c0
-int Owner::FUN_00e695c0(int iArg)
-{
-    return SelectFormatTileValue(iArg, &m_kBlock);
-}
-
 }
 
 struct NiDX9DepthStencilEntry
@@ -9230,6 +8239,7 @@ class DepthStencilSearch
 };
 // Returns the DAT_011bf140 value of the enabled fullscreen entry whose two values from FUN_00e7a8b0 are closest to p2 and p3, or 0.
 // @fnv 0x00e7ade0
+// pdb: NiDX9DeviceDesc::DisplayFormatInfo::FindClosestDepthStencil | NiDX9SystemDesc.obj | tesv_win, hash, low
 int DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
 {
     NiDX9RenderTargetInfo* pRenderTargetInfo = 0;
@@ -9280,6 +8290,7 @@ struct ClosestList
 };
 // Returns the later list value closer to target than the first element, the closest such one, else 0; also returns 0 when target is 0.
 // @fnv 0x00e7af60
+// pdb: NiDX9AdapterDesc::ModeDesc::GetClosestRefreshRate | NiDX9SystemDesc.obj | tesv_win, hash, low
 int ClosestList::FUN_00e7af60(int target)
 {
     if (!target)
@@ -9302,6 +8313,7 @@ int ClosestList::FUN_00e7af60(int target)
 
 // Maps index 0, 1, 2 and 3 to 0, 2, 4 and 8; any other index returns 0.
 // @f3 0x008827c0 (community match, verified in this file)
+// pdb: NiDX92DBufferData::GetMSSATypeFromMSAAPref | NiDX92DBufferData.obj | tesv_win, hash, low
 int FUN_00e7ccf0(unsigned int index)
 {
     switch (index)
@@ -9320,15 +8332,6 @@ int FUN_00e7ccf0(unsigned int index)
 }
 
 
-class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_0126f59c;
-
-// @fnv 0x00e7cd30
-GlobalObjectO2_00a7b610* FUN_00e7cd30()
-{
-    return &g_0126f59c;
-}
-
 class FUN_00e7a5e0_Object
 {
   public:
@@ -9339,6 +8342,7 @@ class FUN_00e7a5e0_Object
 
     void* m_pResource;
 
+    // pdb: NiTArray<void (__cdecl*)(class NiStream &,class NiObject *),class NiTMallocInterface<void (__cdecl*)(class NiStream &,class NiObject *)> >::`vector deleting destructor' | NiStream.obj | tesv_win, vtable, medium
     static void operator delete(void* p)
     {
         g_memoryManager.Deallocate(p);
@@ -9366,6 +8370,7 @@ namespace texture_format_entry {
 // format code, or -1 for an unknown format.
 // Maps a format code to 0, 8, 16, 24, 32, 64 or 128, or to -1 when the code is not listed.
 // @fnv 0x00e7acb0
+// pdb: NiDX9SystemDesc::GetBPPFromFormat | NiDX9SystemDesc.obj | tesv_win, hash, low
 int __cdecl FUN_00e7acb0(int aiFormat)
 {
     switch (aiFormat)
@@ -9689,11 +8694,6 @@ struct FormatPrefsQ
     int m_eMipFlag;
 };
 
-struct MemoryManagerQ : MemoryManager
-{
-    void* FUN_00aa3e40(unsigned int uiSize);
-};
-
 template <class T> __forceinline T NiMaxQ(T a, T b)
 {
     return (a > b) ? a : b;
@@ -9712,17 +8712,11 @@ __forceinline bool IsBumpFormatQ(int eFormat)
 int __cdecl FUN_00ec65a6(char* pcDest, unsigned int uiDestSize, const char* pcSrc);
 void __cdecl FUN_00aa2a00(char* pcPath);
 int __cdecl FUN_00aa1360(const char* s1, const char* s2);
-NiFileQ* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
 void* __cdecl FUN_00aa1070(unsigned int uiSize);
 void __cdecl FUN_00aa10f0(void* pvMem);
 void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
-long __stdcall FUN_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
 __declspec(noalias) long __stdcall FUN_00ee6e1c(void* pkDevice, const void* pvSrc, unsigned int uiSize,
                                                 D3DBaseTextureQ** ppkTexture);
-long __stdcall FUN_00ee6e16(void* pkDevice, const void* pvSrc, unsigned int uiSize, D3DBaseTextureQ** ppkTexture);
-long __stdcall FUN_00ee6e10(void* pkDevice, const void* pvSrc, unsigned int uiSize, D3DBaseTextureQ** ppkTexture);
-extern unsigned int DAT_0126efc4;
-extern unsigned int DAT_0126efc8;
 
 struct LocalGroup2
 {
@@ -9802,7 +8796,7 @@ struct File1871
     virtual void Unk10();
     virtual void Unk14();
     virtual unsigned int GetFileSize();
-    unsigned int FUN_0048be50(void* pvBuffer, unsigned int uiBytes);
+    unsigned int NiBinaryStream_Read(void* pvBuffer, unsigned int uiBytes);
 };
 struct Filename1871
 {
@@ -9821,6 +8815,7 @@ long __stdcall FUN_00c20868(void* pkDevice, const void* pvSrc, unsigned int uiSi
 extern unsigned int DAT_0109172c;
 extern unsigned int DAT_01091730;
 
+// pdb: NiDX9SourceTextureData::LoadTextureFile | NiDX9SourceTextureData.obj | tesv_win, uconst, low
 bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9RendererQ* pkRenderer,
                                                const FormatPrefsQ& kPrefs, NiFileQ* fileArgument)
 {
@@ -9874,7 +8869,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
         }
 
         unsigned char* pucBuffer = (unsigned char*)FUN_00aa1070(uiSize);
-        pkFile->FUN_0048be50(pucBuffer, uiSize);
+        pkFile->NiBinaryStream_Read(pucBuffer, uiSize);
         pkFile->Release(1);
 
         if (FUN_00c2087a(pucBuffer, uiSize, &info) < 0)
@@ -10527,8 +9522,6 @@ struct LockApi { void FUN_00409a80(const char* name=0) throw(); };
 
 
 
-extern unsigned int DAT_0106e5a4;
-
 struct NewPool {
 
  static ListItem* Allocate() throw() {
@@ -10661,6 +9654,7 @@ struct ModeEntry
 
 };
 
+// pdb: NiDX9AdapterDesc::NiDX9AdapterDesc | NiDX9SystemDesc.obj | tesv_win, call_gap, low
 FUN_00e7b7d0::FUN_00e7b7d0(AdapterApi* apAdapter, int handle, FormatList& names) : m_handle(handle), m_entries(32, 16)
 
 {
@@ -10780,6 +9774,7 @@ struct FUN_00e60660_Cls
 };
 
 // @fnv 0x00e60660
+// pdb: hkpConvexListShape::getContainer | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
 int* FUN_00e60660_Cls::FUN_00e60660()
 {
     return this ? &unk14 : 0;
@@ -10789,9 +9784,7 @@ namespace fnv_00e68010 {
 #include <d3d9.h>
 
 struct NiPixelFormatStub;
-D3DFORMAT GetD3DFormat(const NiPixelFormatStub* kFormat);
 const char* GetErrorString(HRESULT hr);
-void DebugOut(const char* fmt, ...);
 
 extern unsigned int DAT_0126efc0;
 extern bool DAT_0126f0d0;
@@ -10829,13 +9822,6 @@ struct NiPixelDataStub
     int unk5c;
     unsigned int m_uiMipmapLevels;
 };
-
-static inline bool IsPowerOfTwo(unsigned int x)
-{
-    if (x == 0)
-        return false;
-    return (x & (x - 1)) == 0;
-}
 
 struct NiDX9SourceTextureData
 {
@@ -11080,47 +10066,6 @@ struct Renderer
     IDirect3DDevice9* m_pDirect3DDevice;
 };
 
-// Creates a D3D texture from pkPixelData, dropping top mip levels per DAT_0126efc0, stores it in m_pkCubeMapTexture and returns false on failure.
-// @fnv 0x00e68010
-bool NiDX9SourceTextureData::FUN_00e68010(NiPixelDataStub* pkPixelData)
-{
-    D3DFORMAT eFormat = GetD3DFormat(&m_kPixelFormat);
-    m_uiImageWidth = *pkPixelData->m_puiWidth;
-    m_uiImageHeight = *pkPixelData->m_puiHeight;
-
-    if (!(IsPowerOfTwo(m_uiImageWidth) && IsPowerOfTwo(m_uiImageHeight)) && !(m_pOwnerShader->GetFlags() & 8))
-        m_uiTextureFormat = 1;
-    else
-        m_uiTextureFormat = pkPixelData->m_uiMipmapLevels;
-
-    unsigned int uiSkip = DAT_0126efc0;
-    if (uiSkip > m_uiTextureFormat - 1)
-        uiSkip = m_uiTextureFormat - 1;
-    for (unsigned int i = 0; i < uiSkip; i++)
-    {
-        if (m_uiImageWidth & 1)
-            m_uiImageWidth++;
-        m_uiImageWidth >>= 1;
-        if (m_uiImageHeight & 1)
-            m_uiImageHeight++;
-        m_uiImageHeight >>= 1;
-    }
-    m_uiSkipLevels = uiSkip;
-
-    IDirect3DDevice9* pkDevice = m_pOwnerShader->m_pDirect3DDevice;
-    IDirect3DTexture9* pkTexture = 0;
-    HRESULT hr = pkDevice->CreateTexture(m_uiImageWidth, m_uiImageHeight, m_uiTextureFormat - uiSkip,
-                                         DAT_0126f0d0 ? D3DUSAGE_DYNAMIC : 0, eFormat,
-                                         DAT_0126f0d0 ? D3DPOOL_DEFAULT : D3DPOOL_MANAGED, &pkTexture, 0);
-    if (SUCCEEDED(hr) && pkTexture)
-    {
-        m_pkCubeMapTexture = pkTexture;
-        return true;
-    }
-    DebugOut("NiDX9SourceTextureData::CreateSurf> Failed CreateImageSurface - %s\n", GetErrorString(hr));
-    m_pkCubeMapTexture = 0;
-    return false;
-}
 }  // namespace fnv_00e68010
 
 extern const char DAT_010ed328[];
@@ -11161,6 +10106,8 @@ struct TextureAccessor
 };
 // Copies one mip level of the given face from source into a locked surface, row by row when the source row size differs from the surface pitch.
 // @fnv 0x00e683d0
+// pdb: D3DDevice_CreateTexture | texture.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiDX9SourceTextureData::CopyRendererDataToSurfaceLevel)
+// pdb params: Width, Height, Depth, Levels, Usage, D3DFormat, Pool, D3DType
 void __cdecl FUN_00e683d0(TextureAccessor* source, unsigned int level, CopySurface* surface, unsigned int face)
 {
     CopyDesc desc;
@@ -11265,6 +10212,7 @@ struct ModeItemInit
 // @f3 0x00881460 (community match, verified in this file)
 extern int DAT_00e29b14;
 extern int DAT_010edb5c;
+// pdb: NiDX9DeviceDesc::DisplayFormatInfo::DisplayFormatInfo | NiDX9SystemDesc.obj | tesv_win, udata, high
 FUN_00e7b260* ModeItemInit::FUN_00e7b260(S00e7b590_D3D* apD3D, int aiAdapter, D3DDEVTYPE eDeviceType,
                                          D3DFORMAT eAdapterFormat, bool bFullscreen, bool bWindowed)
 {
@@ -11365,6 +10313,7 @@ FUN_00e7b260* ModeItemInit::FUN_00e7b260(S00e7b590_D3D* apD3D, int aiAdapter, D3
 
 // Locks DAT_0126f600, iterates DAT_0126f5c8 calling vf54 on each ItemE7CF, then unlocks.
 // @fnv 0x00e7cec0
+// pdb: NiDX9AdditionalDepthStencilBufferData::ShutdownAll | NiDX92DBufferData.obj | tesv_win, call_gap, low
 void __cdecl FUN_00e7cec0()
 {
     EnterCriticalSection(&DAT_0126f600);
@@ -11515,6 +10464,7 @@ class SwapChainBufferData : public NiDX92DBufferDataStub
 
 // Creates a SwapChainBufferData from pkDevice and pkParams, queries the render target and pixel format, and attaches it to the Ni2DBufferStub in ppkBuffer.
 // @fnv 0x00e7d6b0
+// pdb: NiDX9ImplicitBufferData::Create | NiDX92DBufferData.obj | tesv_win, ustr, medium
 SwapChainBufferData* __cdecl FUN_00e7d6b0(DeviceE7D6B0* pkDevice, PresentParamsE7D6B0* pkParams,
                                           Ni2DBufferStub** ppkBuffer)
 {
@@ -11554,21 +10504,8 @@ SwapChainBufferData* __cdecl FUN_00e7d6b0(DeviceE7D6B0* pkDevice, PresentParamsE
 }
 
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_load_ps(const float*);
-extern __m128 DAT_010c44d0;
-
-class XfCallee
-{
-  public:
-    virtual void v0();
-    virtual void v1(void* a, void* b);
-};
 
 __declspec(align(16)) struct XfVecBuf
 {
@@ -11578,58 +10515,8 @@ __declspec(align(16)) struct XfVecBuf
     unsigned int m_w;
 };
 
-class XfTransformBlock
-{
-  public:
-    __m128 m_row0;
-    __m128 m_row1;
-    __m128 m_row2;
-    __m128 m_row3;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    XfCallee* m_pCalleeA;
-    XfCallee* m_pCalleeB;
-    void FUN_00e62b20(__m128* in, __m128* out);
-};
-
-// Calls m_pCalleeA on in (output to out[1]) and m_pCalleeB on a row-transformed negated copy of in, then writes out[0] and out[2].
-// @fnv 0x00e62b20
-void XfTransformBlock::FUN_00e62b20(__m128* in, __m128* out)
-{
-    __m128 v = _mm_xor_ps(*in, DAT_010c44d0);
-    __m128 x = m_row0;
-    __m128 y = m_row1;
-    __m128 z = m_row2;
-    __m128 xy = _mm_unpacklo_ps(x, y);
-    __m128 high = _mm_shuffle_ps(_mm_unpackhi_ps(x, y), z, 0xe4);
-    x = _mm_movelh_ps(xy, z);
-    y = _mm_shuffle_ps(_mm_movehl_ps(x, xy), z, 0xd4);
-    z = high;
-    __m128 px = _mm_mul_ps(x, _mm_shuffle_ps(v, v, 0x00));
-    __m128 py = _mm_mul_ps(y, _mm_shuffle_ps(v, v, 0x55));
-    __m128 pz = _mm_mul_ps(z, _mm_shuffle_ps(v, v, 0xaa));
-    __m128 tmp = _mm_add_ps(_mm_add_ps(px, py), pz);
-    XfVecBuf tmpA;
-    XfVecBuf tmpB;
-    _mm_store_ps((float*)&tmpA.m_uiX, tmp);
-    m_pCalleeA->v1(in, out + 1);
-    m_pCalleeB->v1(&tmpA, &tmpB);
-    __m128 t2 = _mm_load_ps((float*)&tmpB.m_uiX);
-    __m128 rx = _mm_mul_ps(m_row0, _mm_shuffle_ps(t2, t2, 0));
-    __m128 ry = _mm_mul_ps(m_row1, _mm_shuffle_ps(t2, t2, 0x55));
-    __m128 rz = _mm_mul_ps(m_row2, _mm_shuffle_ps(t2, t2, 0xaa));
-    __m128 r = _mm_add_ps(_mm_add_ps(rx, ry), _mm_add_ps(rz, m_row3));
-    out[0] = _mm_sub_ps(out[1], r);
-    out[2] = t2;
-}
-
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 struct __declspec(align(16)) Vector
 {
@@ -11642,14 +10529,6 @@ struct __declspec(align(16)) Vector
     {
         value = v;
     }
-};
-struct Id
-{
-    unsigned int v;
-};
-union IdUnion
-{
-    unsigned int v;
 };
 struct IdCtor
 {
@@ -11679,52 +10558,10 @@ template <class T> struct Arg
     Arg(T* value) : p(value)
     {}
 };
-struct PodDir
-{
-    const Vector* p;
-};
-union UnionDir
-{
-    const Vector* p;
-};
-struct PodDst
-{
-    SupportResult* p;
-};
-struct SupportOwner
-{
-    void FUN_00e62b20(const Vector* direction, SupportResult* result);
-    __m128* FUN_00e62c60(Arg<__m128> out, const Vector* direction, Arg<const __m128> point, Arg<SupportResult> result);
-};
-// @fnv 0x00e62c60
-__m128* SupportOwner::FUN_00e62c60(Arg<__m128> out, const Vector* direction, Arg<const __m128> point,
-                                   Arg<SupportResult> result)
-{
-    SupportResult positiveSupport;
-    Vector negatedDirection;
-    negatedDirection.set(_mm_xor_ps(direction->get(), DAT_010c44d0));
-    FUN_00e62b20(direction, &positiveSupport);
-    SupportResult* __restrict dst = result.p;
-    FUN_00e62b20(&negatedDirection, dst);
-    __m128 origin = *point.p;
-    __m128 p = _mm_mul_ps(_mm_sub_ps(positiveSupport.position.get(), origin), direction->get());
-    __m128 first = _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
-    __m128 q = _mm_mul_ps(_mm_sub_ps(dst->position.get(), origin), negatedDirection.get());
-    __m128 second = _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), _mm_add_ss(_mm_shuffle_ps(q, q, 0x55), q));
-    __m128 position = positiveSupport.position.get();
-    __m128* output = out.p;
-    *output = _mm_max_ps(first, second);
-    if (_mm_movemask_ps(_mm_sub_ss(second, first)) & 1)
-    {
-        dst->assign(positiveSupport, position);
-    }
-    return output;
-}
 
 extern "C"
 {
     __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
     void _mm_store_ps(float*, __m128);
     void _mm_store_ss(float*, __m128);
     __m128 _mm_mul_ps(__m128, __m128);
@@ -11737,14 +10574,7 @@ extern "C"
     __m128 _mm_shuffle_ps(__m128, __m128, int);
     __m128 _mm_rsqrt_ss(__m128);
     __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    void _ReadWriteBarrier();
-    void _WriteBarrier();
 }
-
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
 
 struct PlaneVector
 {
@@ -11791,86 +10621,9 @@ struct PlaneVector
         return value;
     }
 };
-struct TrianglePlane
-{
-    PlaneVector m_00;
-    PlaneVector* m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    PlaneVector* m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    PlaneVector* m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    float m_40;
-
-    void FUN_00e67570();
-};
-
-// Computes the normalized plane normal from three vertex positions and stores the dot product with the first vertex in m_40.
-// @fnv 0x00e67570
-void TrianglePlane::FUN_00e67570()
-{
-    const PlaneVector& first = *m_10;
-    PlaneVector a, b;
-    a.difference(first, *m_20);
-    b.difference(*m_20, *m_30);
-    m_00.cross(a, b);
-    m_00.normalize();
-    m_40 = m_00.dotFloat(first);
-}
-
-extern "C" __m128 _mm_sqrt_ss(__m128);
-
-struct S00e61d30_TriVerts
-{
-    __m128 v0;
-    __m128 v1;
-    __m128 v2;
-};
-
-static inline __m128 Sum3(__m128 a, __m128 b)
-{
-    __m128 m = _mm_mul_ps(a, b);
-    return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
-}
-// @fnv 0x00e61d30
-void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out)
-{
-    __m128 vEdge0 = _mm_sub_ps(tri->v0, tri->v1);
-    __m128 vEdge1 = _mm_sub_ps(tri->v2, tri->v1);
-    float a, b, c;
-    (void)b;
-    (void)a;
-    (void)c;
-    _mm_store_ss(&a, Sum3(vEdge0, vEdge0));
-    _mm_store_ss(&b, Sum3(vEdge1, vEdge1));
-    _mm_store_ss(&c, Sum3(vEdge1, vEdge0));
-    __m128 vCross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(vEdge1, vEdge1, 0xd2), _mm_shuffle_ps(vEdge0, vEdge0, 0xc9)),
-                               _mm_mul_ps(_mm_shuffle_ps(vEdge1, vEdge1, 0xc9), _mm_shuffle_ps(vEdge0, vEdge0, 0xd2)));
-    float ab;
-    ab = a * b;
-    float inv = c * c;
-    float det = ab - inv;
-    float cc = 1.0f / det;
-    out[0] = a * cc;
-    out[1] = b * cc;
-    out[2] = c * cc;
-    __m128 sq;
-    sq = _mm_mul_ps(vCross, vCross);
-    __m128 vLen = _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq)));
-    float len;
-    _mm_store_ss(&len, vLen);
-    out[3] = 1.0f / len;
-}
 
 extern "C"
 {
-    double __cdecl fabs(double x);
 }
 
 struct S00e67ae0_HullFace;
@@ -11890,72 +10643,6 @@ struct S00e67ae0_HullFace
     float m_fClosestPointDistanceSquared;
     int m_uiContentCount;
 };
-
-struct S00e67ae0_HullWalker
-{
-    void ClearEntries();
-    S00e67ae0_HullFace* FUN_00e67ae0(S00e67ae0_HullFace* start);
-};
-
-// Walks from start across hull face edges whose side test is negative, until no edge qualifies or a visited face is reached, and returns that face.
-// @fnv 0x00e67ae0
-S00e67ae0_HullFace* S00e67ae0_HullWalker::FUN_00e67ae0(S00e67ae0_HullFace* apStartFace)
-{
-    ClearEntries();
-    S00e67ae0_HullFace* face = apStartFace;
-    S00e67ae0_HullEdge* pFromEdge = 0;
-    bool done = false;
-    int i;
-    do
-    {
-        if (done)
-            break;
-        face->m_uiContentCount = 3;
-        for (i = 0; i < 3; i++)
-        {
-            S00e67ae0_HullEdge* edge = &face->m_kEdges[i];
-            if (edge == pFromEdge)
-                continue;
-            __m128 n;
-            (void)n;
-            __m128 p = *edge->m_kRayStart;
-            __m128 d = _mm_sub_ps(**edge->m_kRayEnd, p);
-            __m128 sq = _mm_mul_ps(d, d);
-            __m128 sq_y = _mm_shuffle_ps(sq, sq, 0x55);
-            __m128 sq_xy = _mm_add_ss(sq_y, sq);
-            __m128 sq_z = _mm_shuffle_ps(sq, sq, 0xaa);
-            float fLengthSq;
-            _mm_store_ss(&fLengthSq, _mm_add_ss(sq_z, sq_xy));
-            n = face->m_vHitNormal;
-            __m128 n_zxy = _mm_shuffle_ps(n, n, 0xd2);
-            __m128 d_yzx = _mm_shuffle_ps(d, d, 0xc9);
-            __m128 cross0 = _mm_mul_ps(d_yzx, n_zxy);
-            __m128 d_zxy = _mm_shuffle_ps(d, d, 0xd2);
-            n = _mm_shuffle_ps(n, n, 0xc9);
-            __m128 cross = _mm_sub_ps(cross0, _mm_mul_ps(d_zxy, n));
-            __m128 terms = _mm_mul_ps(cross, p);
-            __m128 term_y = _mm_shuffle_ps(terms, terms, 0x55);
-            __m128 sum_xy = _mm_add_ss(term_y, terms);
-            __m128 term_z = _mm_shuffle_ps(terms, terms, 0xaa);
-            float side;
-            _mm_store_ss(&side, _mm_add_ss(term_z, sum_xy));
-            if (side * (float)fabs(side) < (float)(fLengthSq * -9.99999949475751e-11))
-            {
-                S00e67ae0_HullFace* next = edge->m_twin->m_face;
-                if (!(apStartFace->m_fClosestPointDistanceSquared > 0.0f) ||
-                    !(next->m_fClosestPointDistanceSquared <
-                      apStartFace->m_fClosestPointDistanceSquared * 0.8999999761581421))
-                {
-                    pFromEdge = face->m_kEdges[i].m_twin;
-                    face = next;
-                    done = next->m_uiContentCount == 3;
-                    break;
-                }
-            }
-        }
-    } while (i != 3);
-    return face;
-}
 
 extern "C" Ni2DBufferStub* __cdecl FUN_00a9ff60(unsigned int width, unsigned int height, RendererDataStub* data);
 NiPixelFormat* __cdecl CreatePixelFormat(unsigned int eD3DFormat);
@@ -12014,6 +10701,7 @@ class NiDX9AdditionalDepthStencilBufferData : public NiDX92DBufferDataStub
 
 // Creates NiDX9AdditionalDepthStencilBufferData, retrieves the device depth-stencil surface, and attaches it to the provided or newly created 2D buffer.
 // @fnv 0x00e7d850
+// pdb: NiDX9ImplicitDepthStencilBufferData::Create | NiDX92DBufferData.obj | tesv_win, call_gap, low
 NiDX9AdditionalDepthStencilBufferData* __cdecl FUN_00e7d850(D3DDevice_e7d850* pkD3DDevice, Ni2DBufferStub*& pkBuffer)
 {
     NiDX9AdditionalDepthStencilBufferData* pkData = new NiDX9AdditionalDepthStencilBufferData();

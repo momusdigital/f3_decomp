@@ -138,17 +138,18 @@ class hkpAllCdPointCollector : public hkpCdPointCollector
 class hkpCharacterProxy
 {
   public:
-    void FUN_0091f230(const hkStepInfo& stepInfo, const hkVector4& gravity,
+    void hkpCharacterProxy_integrateImplementation(const hkStepInfo& stepInfo, const hkVector4& gravity,
                       hkpAllCdPointCollector& castCollector,
                       hkpAllCdPointCollector& startPointCollector) throw();
     void FUN_009214d0(const hkStepInfo& stepInfo, const hkVector4& worldGravity);
 };
 
+// pdb: hkpCharacterProxy::integrate | hkpCharacterProxy.obj | tesv_win, caller_sim, low
 void hkpCharacterProxy::FUN_009214d0(const hkStepInfo& stepInfo, const hkVector4& worldGravity)
 {
     hkpAllCdPointCollector castCollector;
     hkpAllCdPointCollector startPointCollector;
-    FUN_0091f230(stepInfo, worldGravity, castCollector, startPointCollector);
+    hkpCharacterProxy_integrateImplementation(stepInfo, worldGravity, castCollector, startPointCollector);
 }
 
 }

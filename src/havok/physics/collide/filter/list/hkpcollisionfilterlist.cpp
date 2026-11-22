@@ -46,6 +46,8 @@ class FilterList
 };
 
 // @fnv 0x00e49cf0
+// pdb: hkpCollisionFilterList::isCollisionEnabled | hkpCollisionFilterList.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, collectionBodyA, collectionBodyB, containerShapeA, containerShapeB, keyA, keyB
 hkBoolRet FilterList::FUN_00e49cf0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     for (int i = m_kFilters.m_iElementCount - 1; i >= 0; --i)
@@ -93,12 +95,15 @@ struct FilterChain
     FilterEntry** filters;
     int filterCount;
 
-    CheckResult EvaluateAllFilters(int first, int second);
+    CheckResult hkpCollisionFilterList_isCollisionEnabled(int first, int second);
 };
 
 // Evaluates each filter predicate from last to first and returns false as soon as one is disabled, otherwise true.
 // @fnv 0x00e49d60
-CheckResult FilterChain::EvaluateAllFilters(int first, int second)
+// pdb: hkpCollisionFilterList::isCollisionEnabled | hkpCollisionFilterList.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, collidableB
+// pdb: hkpCollisionFilterList::isCollisionEnabled | hkpCollisionFilterList.obj | fnv360_0822_retail, vtable, high (was: EvaluateAllFilters)
+CheckResult FilterChain::hkpCollisionFilterList_isCollisionEnabled(int first, int second)
 {
     for (int index = filterCount - 1; index >= 0; --index)
     {
@@ -184,6 +189,8 @@ class CollisionFilterList9BC0
 
 // Returns true if every filter in m_kFilters reports that collision between a and b is enabled, otherwise false.
 // @fnv 0x00e49bc0
+// pdb: hkpCollisionFilterList::isCollisionEnabled | hkpCollisionFilterList.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b
 hkBool9BC0 CollisionFilterList9BC0::FUN_00e49bc0(const CollidableA9BC0& a, const CollidableB9BC0& b) const
 {
     for (int i = m_kFilters.GetLogicalSize() - 1; i >= 0; i--)
@@ -259,6 +266,8 @@ class FilterList9C20
 };
 // Returns true only if every filter in m_kFilters reports IsCollisionEnabled true for the given arguments.
 // @fnv 0x00e49c20
+// pdb: hkpCollisionFilterList::isCollisionEnabled | hkpCollisionFilterList.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, a, b, bContainer, bKey
 hkBool9C20 FilterList9C20::FUN_00e49c20(const void* p0, const void* p1, const void* p2, const void* p3,
                                         const void* p4) const
 {
@@ -337,6 +346,8 @@ class FilterList9C90
 };
 // Returns true only if every filter in m_kFilters reports IsCollisionEnabled true for the given arguments.
 // @fnv 0x00e49c90
+// pdb: hkpCollisionFilterList::isCollisionEnabled | hkpCollisionFilterList.obj | fnv360_0822_retail, vtable, high
+// pdb params: aInput, bShape, bContainer, bKey
 hkBool9C90 FilterList9C90::FUN_00e49c90(const void* p0, const void* p1, const void* p2, const void* p3) const
 {
     for (int i = m_kFilters.GetLogicalSize() - 1; i >= 0; i--)
@@ -345,52 +356,6 @@ hkBool9C90 FilterList9C90::FUN_00e49c90(const void* p0, const void* p1, const vo
             return false;
     }
     return true;
-}
-
-struct FUN_00e49dc0_FilterObject
-{
-    void FUN_00c905b0();
-};
-
-struct FUN_00e49dc0_List : public hkpCollisionFilterList
-{
-    void FUN_00e49dc0(hkpCollisionFilter* filter);
-};
-
-// Removes the given hkpCollisionFilter from m_kFilters by swapping it with the last element and calling FUN_00c905b0 on it.
-// @fnv 0x00e49dc0
-void FUN_00e49dc0_List::FUN_00e49dc0(hkpCollisionFilter* filter)
-{
-    int count = m_kFilters.m_iElementCount;
-    int index = 0;
-
-    if (count > 0)
-    {
-        hkpCollisionFilter** p = m_kFilters.m_data;
-        do
-        {
-            if (*p == filter)
-            {
-                goto found;
-            }
-            ++p;
-            ++index;
-        } while (index < count);
-    }
-    index = -1;
-
-found:
-    volatile int& sz = m_kFilters.m_iElementCount;
-    --sz;
-    int size = sz;
-
-    if (size != index)
-    {
-        hkpCollisionFilter** data = m_kFilters.m_data;
-        data[index] = data[size];
-    }
-
-    ((FUN_00e49dc0_FilterObject*)filter)->FUN_00c905b0();
 }
 
 struct AllocatorE49
@@ -499,6 +464,8 @@ __forceinline void Assign(FilterArrayE49& dst, const FilterArrayE49& src)
     FilterArrayE49::CopyItems(dst.data, src.data, n);
 }
 }
+// pdb: hkpCollisionFilterList::hkpCollisionFilterList | hkpCollisionFilterList.obj | fnv360_0721_beta, objrun, high
+// pdb params: collisionFilters
 FUN_00e49e50::FUN_00e49e50(const FilterArrayE49& source) throw()
 {
     type = 3;
@@ -583,56 +550,6 @@ struct FilterArrayE4
         capacityAndFlags = 0x80000000;
     }
 };
-struct FUN_00e49f40 : CollisionFilterE4
-{
-    FilterArrayE4 filters;
-    virtual ~FUN_00e49f40() throw();
-};
-// Releases references to all collision filters held in the filters array.
-// @fnv 0x00e49f40
-FUN_00e49f40::~FUN_00e49f40() throw()
-{
-    for (int i = 0; i < filters.size; ++i)
-        filters.data[i]->RemoveReference();
-}
-
-extern int DAT_0102e388;
-
-class FilterListAE90
-{
-  public:
-    int vftable;
-    int unk04;
-    FilterRefE4** m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    void FUN_00e4ae90();
-};
-
-// Releases each FilterRefE4 reference, deallocates m_data, empties the list and sets the vftable pointer to DAT_0102e388.
-// @fnv 0x00e4ae90
-void FilterListAE90::FUN_00e4ae90()
-{
-    FilterRouterE4* router = GetFilterRouterE4();
-    FilterRefE4** data = m_data;
-    FilterAllocatorE4* heap = router->m_pStreamAllocator;
-    int n = m_iElementCount;
-    for (int i = 0; i < n; i++)
-    {
-        if (data[i])
-            data[i]->RemoveReference();
-        data[i] = 0;
-    }
-    int cap = m_iCapacityState;
-    m_iElementCount = 0;
-    if ((cap & 0x80000000) == 0)
-    {
-        heap->DeallocateMemory(m_data, (cap & 0x3fffffff) * 4);
-    }
-    m_data = 0;
-    m_iCapacityState = (int)0x80000000;
-    vftable = (int)&DAT_0102e388;
-}
 
 // @f3 0x00a779f0 (community match, verified in this file)
 namespace f3m_00a779f0 {
@@ -683,6 +600,7 @@ struct FUN_00a779f0 : S00a779f0_CollisionFilter
     virtual ~FUN_00a779f0() throw();
     S00a779f0_Array<S00a779f0_CollisionFilter*> filters;
 };
+// pdb: hkpCollisionFilterList::hkpCollisionFilterList | hkpCollisionFilterList.obj | tesv_win, hash, low
 FUN_00a779f0::FUN_00a779f0() throw()
 {
 }

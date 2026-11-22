@@ -51,7 +51,8 @@ __declspec(align(16)) struct Col_009bda50
 };
 void FUN_00a3ab70(int, int, int, Col_009bda50*, Col_009bda50*);
 void FUN_009be680(int, int, int, int, int);
-void FUN_009bda50(int a, int b, int c, int d, int e)
+// pdb: hkpConvexListAgent::staticLinearCast | hkpConvexListAgent.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void hkpConvexListAgent_staticLinearCast(int a, int b, int c, int d, int e)
 {
     {
         MonitorStream_009bda50& mStream = MonitorStream_009bda50::GetMonitorStream();

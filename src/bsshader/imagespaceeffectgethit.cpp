@@ -21,6 +21,7 @@ bool ImageSpaceEffectWithTwoTextures::UpdateParams(ImageSpaceEffectParam* param)
 }
 
 // @fnv 0x00c03810
+// pdb: ImageSpaceEffectGetHit::ImageSpaceEffectGetHit | ImageSpaceEffectGetHit.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 ImageSpaceEffectWithTwoTextures::ImageSpaceEffectWithTwoTextures()
 {
     pTextures.AddFirstEmpty(4);
@@ -33,6 +34,7 @@ struct Standin
 };
 // Calls FUN_00c03580, then if bit 0 of flags is set deallocates this via g_memoryManager, and returns this.
 // @fnv 0x00c03890
+// pdb: ExtraLitWaterRefs::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, high
 void* Standin::ReleaseIfFlagged(unsigned int flags)
 {
     FUN_00c03580();
@@ -82,6 +84,8 @@ struct ImageSpaceEffectX : ImageSpaceEffect
 };
 // Sets texture and parameter arrays, configures four effect slots, and creates shader constants for the fourth slot.
 // @fnv 0x00c038b0
+// pdb: ImageSpaceEffectGetHit::Setup | ImageSpaceEffectGetHit.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apManager, apParam
 void ImageSpaceEffectX::SetupEffect(ImageSpaceManagerX* manager, ImageSpaceEffectParam* param)
 {
     SetTextureArrayCount(4);

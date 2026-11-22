@@ -6,7 +6,8 @@ extern "C" void* g_011f3f30;
 
 // Returns the address of the global g_011f3f30.
 // @fnv 0x00a47140
-void* __cdecl FUN_00a47140()
+// pdb: NiStringPalette::GetRTTI | NiStringPalette.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+void* __cdecl NiStringPalette_GetRTTI()
 {
     return &g_011f3f30;
 }
@@ -28,6 +29,7 @@ struct S_00a47190 : NiRefObject
 };
 // Frees m_08, destroys the NiRefObject base, and deletes this with size 0x14 when flag bit 0 is set.
 // @fnv 0x00a47190
+// pdb: NiStringPalette::`scalar deleting destructor' | NiStringPalette.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void* S_00a47190::DestroyAndFree(unsigned int auiFlags)
 {
     void* p = m_08;
@@ -52,6 +54,8 @@ struct FUN_00a471d0_Stream
 };
 // Reads uiNumEls bytes into pValue through the stream's input reader and advances the input position by the bytes read.
 // @fnv 0x00a471d0
+// pdb: NiStreamLoadBinary<char> | NiStringPalette.obj | fnv360_0721_beta, caller, medium
+// pdb params: kStream, pValue, uiNumEls
 void FUN_00a471d0(FUN_00a471d0_Stream* kStream, unsigned char* pBuffer, unsigned int uiNumEls)
 {
     FUN_00a471d0_Input* __restrict input = kStream->input;
@@ -100,6 +104,8 @@ struct S_00a47210 : NiObject
 };
 // Links the object to the stream, writes m_uiSize, then writes m_pcData bytes if the size is nonzero, and writes m_uiSize again.
 // @fnv 0x00a47210
+// pdb: NiStringPalette::SaveBinary | NiStringPalette.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: kStream
 void S_00a47210::WriteToStream(NiStream& kStream)
 {
     NiObject::LinkObject(kStream);
@@ -120,6 +126,8 @@ struct S_00a470c0 : S_00a47190
 // @f3 0x008c1250 (community match, verified in this file)
 #include <string.h>
 
+// pdb: NiStringPalette::IsEqual | NiStringPalette.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkObject
 bool S_00a470c0::FUN_00a470c0(S_00a470c0* other)
 {
     if (IsSameAs(other) && other->m_0C == m_0C && other->m_10 == m_10 && ((unsigned int)m_0C <= 0 || memcmp(other->m_08, m_08, m_0C) == 0))
@@ -150,6 +158,7 @@ struct S_00a47150_Obj : S_00a47150_Base
 };
 // Allocates and constructs a new S_00a47150_Obj via its operator new and returns the pointer.
 // @fnv 0x00a47150
+// pdb: NiStringPalette::CreateObject | NiStringPalette.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 S_00a47150_Obj* __cdecl FUN_00a47150()
 {
     return new S_00a47150_Obj;
@@ -183,6 +192,8 @@ class FUN_00a472b0_cls
 };
 // Reads a count and extra value from the stream, allocates a buffer of that count and reads it in.
 // @fnv 0x00a472b0
+// pdb: NiStringPalette::LoadBinary | NiStringPalette.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kStream
 void FUN_00a472b0_cls::ReadFromStream(A472Stream* stream)
 {
     ReadGroup(stream);

@@ -1,8 +1,9 @@
-// gamebryo2.2/corelibs/nimain/nishaderconstantmap.cpp: NiShaderConstantMap (10 functions)
+// gamebryo2.2/corelibs/nimain/nishaderconstantmap.cpp: NiShaderConstantMap (8 functions)
 #include "f3_common.h"
 #include "nishaderconstantmap_decls.h"
 
 // @fnv 0x00a9c2a0
+// pdb: NiShaderConstantMap::_SDMInit | NiShaderConstantMap.obj | fnv360_0822_retail, ustr, medium
 void NiShaderConstantMap::InitializePoint3()
 {
     ms_uiShaderConstantMapEntryCount = 136;
@@ -660,6 +661,8 @@ void NiShaderConstantMap::InitializePoint3()
 
 // Copies key into name, and if key ends with _<digit>, strips that suffix and stores the parsed digit in extra.
 // @fnv 0x00a9bee0
+// pdb: NiShaderConstantMap::ParseKeyName | NiShaderConstantMap.obj | fnv360_0822_debug, call_dedup, low
+// pdb params: pszOrigName, pszTrueName, uiMaxLen, uiRegisterCount
 bool NiShaderConstantMap::ParseConstantName(const char* key, char* name, unsigned int size, unsigned int& extra)
 {
     char buffer[260];
@@ -683,6 +686,8 @@ bool NiShaderConstantMap::ParseConstantName(const char* key, char* name, unsigne
 }
 
 // @fnv 0x00a9bfd0
+// pdb: NiShaderConstantMap::LookUpPredefinedMapping | NiShaderConstantMap.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pszMapping, uiMappingID, uiNumRegisters
 bool NiShaderConstantMap::FindConstantMapping(const char* key, unsigned int& mapping, unsigned int& extra)
 {
     char name[260];
@@ -729,76 +734,25 @@ enum NiShaderAttributeDesc_AttributeType
     NiShaderAttributeDesc_AttributeType_24 = 24
 };
 
-// Maps a 1-based mapping ID to an attribute type, setting the register and float counts, returning type 0 for unknown IDs.
-// @fnv 0x00a9bcd0
-NiShaderAttributeDesc_AttributeType __cdecl GetAttributeTypeForMapping(unsigned int uiMappingID,
-                                                                       unsigned int& uiRegCount,
-                                                                       unsigned int& uiFloatCount)
-{
-    uiMappingID--;
-    uiRegCount = 1;
-    uiFloatCount = 4;
-    if (uiMappingID > 0x17)
-        return NiShaderAttributeDesc_AttributeType_0;
-    switch (uiMappingID)
-    {
-    case 0:
-    case 21:
-        uiFloatCount = 1;
-        return NiShaderAttributeDesc_AttributeType_4;
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 13:
-    case 14:
-    case 17:
-    case 18:
-    case 19:
-    case 20:
-        return NiShaderAttributeDesc_AttributeType_7;
-    case 11:
-    case 12:
-    case 22:
-    case 23:
-        uiRegCount = 4;
-        uiFloatCount = 0x10;
-        return NiShaderAttributeDesc_AttributeType_9;
-    case 15:
-    case 16:
-        uiRegCount = 3;
-        uiFloatCount = 0xc;
-        return NiShaderAttributeDesc_AttributeType_8;
-    default:
-        return NiShaderAttributeDesc_AttributeType_0;
-    }
-}
-
-// @fnv 0x00a9bd60
-unsigned int __stdcall FUN_00a9bd60(const char*, unsigned int, unsigned int, const char*)
-{
-    return 0x30;
-}
-
 // @fnv 0x00a9bd70
+// pdb: NiShaderConstantMap::AddPredefinedEntry | NiShaderConstantMap.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pszKey, uiExtra, uiShaderRegister, pszVariableName
 int __stdcall FUN_00a9bd70(int a, int b, int c, int d, int e, int f, int g, int h, int i, int j)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd80
+// pdb: NiShaderConstantMap::AddAttributeEntry | NiShaderConstantMap.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pszKey, uiFlags, uiExtra, uiShaderRegister, uiRegisterCount, pszVariableName, uiDataSize, uiDataStride, pvDataSource, bCopyData
 int __stdcall FUN_00a9bd80(int a, int b, int c, int d, int e, int f)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd90
+// pdb: NiShaderConstantMap::AddConstantEntry | NiShaderConstantMap.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pszKey, uiFlags, uiExtra, uiShaderRegister, uiRegisterCount, pszVariableName, uiDataSize, uiDataStride, pvDataSource, bCopyData
 unsigned int __stdcall FUN_00a9bd90(const char* pszKey, unsigned int uiShaderRegister, const char* pszVariableName,
                                     unsigned int uiObjectIndex, int eObjectType)
 {
@@ -809,7 +763,10 @@ extern int __cdecl _NiStricmp(const char*, const char*);
 
 // Searches the shader constant map table for a case-insensitive name match and writes the matching entry's ID to uiMappingID, returning true if found.
 // @fnv 0x00a9c0e0
-bool __cdecl LookupShaderConstantMapping(const char* pcName, unsigned int* uiMappingID)
+// pdb: NiShaderConstantMap::LookUpObjectMapping | NiShaderConstantMap.obj | fnv360_0822_retail, udata, high
+// pdb params: pcMapping, uiMappingID
+// pdb: NiShaderConstantMap::LookUpObjectMapping | NiShaderConstantMap.obj | fnv360_0822_retail, udata, high (was: LookupShaderConstantMapping)
+bool __cdecl NiShaderConstantMap_LookUpObjectMapping(const char* pcName, unsigned int* uiMappingID)
 {
     unsigned int uiIndex;
     const NiShaderConstantMap::ShaderConstantMapEntry* pkMapping;
@@ -900,6 +857,8 @@ struct ShaderLights
 
 // Returns the enabled light of the requested type at index wanted from the classified, ambient or special list, or the primary/secondary light.
 // @fnv 0x00a9c130
+// pdb: NiShaderConstantMap::GetDynamicEffectForObject | NiShaderConstantMap.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkEffectState, eObjectType, uiObjectIndex
 ShaderLight* GetLightByType(ShaderLights* lights, unsigned int type, unsigned int wanted)
 {
     ShaderLight* result = 0;

@@ -19,7 +19,9 @@ class NiMemObject
 class NiTriBasedGeomData : public NiMemObject
 {
   public:
-    unsigned char geometryFields[68];
+    unsigned char unk00[0x20];
+    NiPoint3* m_pkVertex;  // src: FNV360_PDB NiGeometryData +0x20 (old: geometryFields)
+    unsigned char unk24[0x20];
 };
 
 class NiTriShapeData : public NiTriBasedGeomData
@@ -34,7 +36,9 @@ class NiGeometry
 {
   public:
     virtual ~NiGeometry();
-    unsigned char geometryFields[192];
+    unsigned char unk04[0xB4];
+    NiTriShapeData* m_spModelData;  // src: FNV360_PDB +0xB8 (old: geometryFields)
+    unsigned char unkBC[8];
 };
 
 class NiTriBasedGeom : public NiGeometry

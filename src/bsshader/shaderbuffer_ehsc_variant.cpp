@@ -142,6 +142,8 @@ struct S00b7fd90_cls
 };
 
 // @fnv 0x00b7fd90
+// pdb: ShaderBufferCreator::Add | ShaderBuffer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apName, apShader, aiSize
 void S00b7fd90_cls::FUN_00b7fd90(unsigned int a1, unsigned int a2, Thing_b9704* a3)
 {
     a3 = new Thing_b9704(a1, a2, a3);

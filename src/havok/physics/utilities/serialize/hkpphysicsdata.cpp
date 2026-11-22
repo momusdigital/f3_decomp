@@ -4,7 +4,7 @@
 
 #include "havok/hkpPhysicsData.h"
 
-int __cdecl CompareStringsCaseInsensitive(int, int);
+int __cdecl hkString_strCasecmp(int, int);
 
 struct FUN_00d4c000
 {
@@ -17,6 +17,8 @@ struct FUN_00d4c000
 };
 
 // @f3 0x009d8cb0 (community match, verified in this file)
+// pdb: hkpPhysicsData::findPhysicsSystemByName | hkpPhysicsData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: name
 int FUN_00d4c000::Method(int a)
 {
     int __cdecl FUN_00923300(int, int);
@@ -45,6 +47,7 @@ struct FUN_00d4c220_s
 };
 
 // @fnv 0x00d4c220
+// pdb: hkpPhysicsData::hkpPhysicsData | hkpPhysicsData.obj | fnv360_0822_retail, call_seq, high
 FUN_00d4c220_s::FUN_00d4c220_s()
 {
     m_06 = 1;
@@ -55,7 +58,7 @@ FUN_00d4c220_s::FUN_00d4c220_s()
     m_08 = 0;
 }
 
-int __cdecl CompareStringsCaseInsensitive(int, int);
+int __cdecl hkString_strCasecmp(int, int);
 
 struct FUN_00d4c050_obj
 {
@@ -67,9 +70,11 @@ struct FUN_00d4c050_obj
     int FindMatchingEntry(int a);
 };
 
-// Scans m_10 entries, checks each entry's sub-items via CompareStringsCaseInsensitive on the masked field at offset 0x74, and returns the first matching item or 0.
+// Scans m_10 entries, checks each entry's sub-items via hkString_strCasecmp on the masked field at offset 0x74, and returns the first matching item or 0.
 // @f3 0x009d8d00 (community match, verified in this file)
 int __cdecl FUN_00923300(int, int);
+// pdb: hkpPhysicsData::findRigidBodyByName | hkpPhysicsData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: name
 int FUN_00d4c050_obj::FindMatchingEntry(int a)
 {
     for (int i = 0; i < m_10; ++i)
@@ -453,7 +458,7 @@ class hkpWorld
         FUN_00c95a80(info, 0x111d4);
     }
     void FUN_00c97f80(hkpPhysicsSystem* system) throw();
-    void FUN_00c96ff0(int a, int b) throw();
+    void hkpWorld_updateCollisionFilterOnWorld(int a, int b) throw();
 };
 
 struct ContactOptions
@@ -526,7 +531,7 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
     }
     if (this->m_pWorldCinfo && *(void**)((char*)this->m_pWorldCinfo + 0x54))
     {
-        world->FUN_00c96ff0(0, 1);
+        world->hkpWorld_updateCollisionFilterOnWorld(0, 1);
     }
     return world;
 }
@@ -570,21 +575,9 @@ class FUN_00dcecc0
     FUN_00dcecc0* Destroy(unsigned int uiFlags) throw();
 };
 
-// Runs the destructor and, when bit 0 of uiFlags is set, frees the object through the heap allocator, then returns this.
-// @fnv 0x00d4c8e0
-FUN_00dcecc0* FUN_00dcecc0::Destroy(unsigned int uiFlags) throw()
-{
-    this->FUN_00dcecc0::~FUN_00dcecc0();
-    if (uiFlags & 1)
-        FUN_00dcecc0::operator delete(this);
-    return this;
-}
 }  // namespace fnv_00d4c8e0
 
 extern void* __cdecl FUN_00c85750(void);
-extern int DAT_010d07f4;
-extern void __cdecl ProcessCollisionRecords(void*, void*, void*);
-extern void __cdecl ResizeAudioStream(void*, void*, int);
 
 struct D4C2Place
 {
@@ -596,14 +589,6 @@ inline void* operator new(unsigned int, void* p, D4C2Place)
 }
 inline void operator delete(void*, void*, D4C2Place)
 {}
-
-struct BigType
-{
-    int m_00;
-    unsigned short m_04;
-    unsigned short m_06;
-    void* FUN_00c90b80(void);
-};
 
 struct ArrayField
 {
@@ -640,19 +625,6 @@ struct SmallType
     void FUN_00d065e0(void);
 };
 
-struct AllocType
-{
-    virtual void vf00(void);
-    virtual void* vf04(int);
-};
-struct HolderType
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    AllocType* m_10;
-};
 struct ClientType
 {
     void FUN_00c91c50(void*);
@@ -670,7 +642,7 @@ struct HostType
     int m_04;
     void* m_08;
     ArrayType m_0c;
-    void FUN_00d4c2d0(ClientType*, unsigned char);
+    void hkpPhysicsData_populateFromWorld(ClientType*, unsigned char);
 };
 
 // Ensures m_08 is allocated, registers client and m_0c, and when value is set allocates a SmallType, calls ProcessCollisionRecords, and appends it to m_0c.
@@ -729,7 +701,8 @@ struct HostCallData
 void __cdecl FUN_00a4d390(HostCallData* pkData, ClientType* pkClient, ItemType* pkItem);
 void __cdecl FUN_00901f10(ArrayType* pkArray, int iElementSize);
 
-void HostType::FUN_00d4c2d0(ClientType* client, unsigned char flag)
+// pdb: hkpPhysicsData::populateFromWorld | hkpPhysicsData.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+void HostType::hkpPhysicsData_populateFromWorld(ClientType* client, unsigned char flag)
 {
     if (m_08 == 0)
     {
@@ -829,7 +802,8 @@ template <class T> __forceinline int findValue(T* self, Value* value)
 typedef int Owner::*MemberPtr;
 // If value is in owner's list but not entity's, sets entity->m_40, calls entity->AddShape(value) and owner->FUN_00d06130 with the owner index.
 // @fnv 0x00d4bf70
-static __declspec(noinline) void FUN_00d4bf70(Owner* owner, Entity* volatile apEntity, MemberPtr valueArg)
+// pdb: hkpPhysicsSystem::removeRigidBody | hkpPhysicsSystem.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap), high
+static __declspec(noinline) void hkpPhysicsSystem_removeRigidBody(Owner* owner, Entity* volatile apEntity, MemberPtr valueArg)
 {
     Entity* entity = apEntity;
     Value* pValue;
@@ -851,7 +825,7 @@ void probeCaller()
 {
     OwnerArg o = {probeOwner};
     ValueArg v = {probeValue};
-    FUN_00d4bf70(o.p, probeEntity, *(MemberPtr*)&v.p);
+    hkpPhysicsSystem_removeRigidBody(o.p, probeEntity, *(MemberPtr*)&v.p);
 }
 
 namespace fnv_00d4c250 {
@@ -880,11 +854,6 @@ struct hkMemoryRouterD4C
 
 extern "C" hkMemoryRouterD4C* __cdecl FUN_00c85750() throw();
 
-struct hkRefD4C
-{
-    void FUN_00c905b0() throw();
-};
-
 template <class T> class hkArrayD4C
 {
   public:
@@ -910,29 +879,4 @@ class hkBaseObjectD4C
     {}
 };
 
-class hkReferencedObjectD4C : public hkBaseObjectD4C
-{
-  public:
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class FUN_00d4c250 : public hkReferencedObjectD4C
-{
-  public:
-    hkRefD4C* m_pCollisionShape;
-    hkArrayD4C<hkRefD4C*> m_children;
-
-    virtual ~FUN_00d4c250();
-};
-
-// Destructor: calls FUN_00c905b0 on m_pCollisionShape if set and on each element of m_children.
-// @fnv 0x00d4c250
-FUN_00d4c250::~FUN_00d4c250()
-{
-    if (m_pCollisionShape)
-        m_pCollisionShape->FUN_00c905b0();
-    for (int i = 0; i < m_children.m_iElementCount; i++)
-        m_children.m_data[i]->FUN_00c905b0();
-}
 }  // namespace fnv_00d4c250

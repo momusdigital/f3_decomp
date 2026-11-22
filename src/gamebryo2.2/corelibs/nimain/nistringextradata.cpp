@@ -22,6 +22,8 @@ class NiStringExtraData : public NiExtraData
 };
 
 // @fnv 0x00a74200
+// pdb: NiStringExtraData::SaveBinary | NiStringExtraData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 void NiStringExtraData::FUN_00a74200(NiStream& stream)
 {
     NiExtraData::SaveBinary(stream);
@@ -32,6 +34,7 @@ extern "C" void* DAT_011f4a38;
 
 // Returns the address of the global DAT_011f4a38.
 // @fnv 0x00a74220
+// pdb: NiStringExtraData::GetRTTI | NiStringExtraData.obj | fnv360_0822_retail, objrun, medium
 void* __cdecl FUN_00a74220()
 {
     return &DAT_011f4a38;
@@ -48,7 +51,8 @@ struct BSFadeNode
 extern "C" int EmptyFS;
 extern "C" void* DAT_0109d39c;
 // @fnv 0x00a74230
-void* __cdecl FUN_00a74230()
+// pdb: NiStringExtraData::CreateObject | NiStringExtraData.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+void* __cdecl NiStringExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)
@@ -80,6 +84,8 @@ struct NiStringExtraDataShell : NiStringExtraData
     void FUN_00a74260(NiStream& stream);
 };
 // @fnv 0x00a74260
+// pdb: NiStringExtraData::LoadBinary | NiStringExtraData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void NiStringExtraDataShell::FUN_00a74260(NiStream& stream)
 {
     ((NiExtraDataHelper*)this)->LoadBinary(stream);
@@ -111,6 +117,8 @@ struct FUN_00a741d0_shell : NiStringExtraData
     bool LoadStringExtraData(NiStream&);
 };
 // @fnv 0x00a741d0
+// pdb: NiStringExtraData::RegisterStreamables | NiStringExtraData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: stream
 bool FUN_00a741d0_shell::LoadStringExtraData(NiStream& stream)
 {
     if (!((FUN_00a7b290_shell*)this)->FUN_00a7b290(stream))
@@ -130,6 +138,8 @@ struct S_00a742a0
 };
 
 // @fnv 0x00a742a0
+// pdb: NiIntegerExtraData::IsEqual | NiIntegerExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pObject
 unsigned char S_00a742a0::Equals(S_00a742a0* pOther)
 {
     if (pOther == 0)
@@ -159,6 +169,7 @@ struct FUN_00a742c0_cls
 
 // Resets the vtable pointer, frees the data buffer if it is not the default, calls FUN_00a7b300, and optionally deallocates the object.
 // @fnv 0x00a742c0
+// pdb: NiFloatExtraData::`scalar deleting destructor' | NiFloatExtraData.obj | fnv360_1110_retail, objrun_prop, low, conflict (skyrim: NiStringExtraData::`scalar deleting destructor')
 FUN_00a742c0_cls* FUN_00a742c0_cls::Destroy(unsigned int acFlags)
 {
     *(volatile int*)&unk00 = (int)&DAT_0109d39c;
@@ -194,6 +205,7 @@ struct FUN_00a74300_cls
 };
 
 // @fnv 0x00a74300
+// pdb: NiStringExtraData::CreateClone | NiStringExtraData.obj | tesv_win, caller_sim, low
 void* FUN_00a74300_cls::CreateCopy(int arg)
 {
     FUN_00a74300_cls* esi = (FUN_00a74300_cls*)FUN_00aa13e0(0x10);
@@ -256,6 +268,8 @@ struct FUN_00a74380_shell : NiStringExtraData
 };
 
 // @fnv 0x00a74380
+// pdb: NiStringExtraData::GetViewerStrings | NiStringExtraData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a74380_shell::FUN_00a74380(NiStream& stream)
 {
     FUN_00a7b580(stream);

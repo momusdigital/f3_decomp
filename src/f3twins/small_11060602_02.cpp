@@ -11,13 +11,14 @@ typedef void (__thiscall *PA_0088fbc0)(void*, unsigned, int, int, int);
 typedef void (__thiscall *PB_0088fbc0)(void*, unsigned, int);
 typedef int (__thiscall *PC_0088fbc0)(void*, int, bool*, bool*, int*);
 typedef void (__stdcall *PD_0088fbc0)(void*, unsigned, int, int);
-struct S_0088fbc0 { int type; unsigned id; int a8; int pad; O_0088fbc0* o10; void FUN_0088ee90(int); void FUN_0088fb00(); void FUN_0088fbc0(); };
+struct S_0088fbc0 { int type; unsigned id; int a8; int pad; O_0088fbc0* o10; void FUN_0088ee90(int); void FUN_0088fb00(); void NiD3DTextureStage_ConfigureStage(); };
 extern unsigned DAT_00f7661c;
 extern V_0088fbc0* DAT_01091a68;
 extern W_0088fbc0* DAT_01091a64;
 extern V_0088fbc0* DAT_01091a60;
 extern int DAT_00f72684;
-void S_0088fbc0::FUN_0088fbc0()
+// pdb: NiD3DTextureStage::ConfigureStage | NiD3DTextureStage.obj | fnv360_0822_retail, udata, high
+void S_0088fbc0::NiD3DTextureStage_ConfigureStage()
 {
     bool flagb;
     bool flagc;

@@ -13,6 +13,7 @@ struct FUN_00d06f70_s
 };
 
 // @fnv 0x00d06f70
+// pdb: hkpMoppShapeMediator::~hkpMoppShapeMediator | hkpMoppShapeMediator.obj | fnv360_0822_retail, call_seq, high
 void FUN_00d06f70_s::FUN_00d06f70()
 {
     y = 0;
@@ -21,55 +22,7 @@ void FUN_00d06f70_s::FUN_00d06f70()
 
 int __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
 
-struct FUN_00d06fb0_cls
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void Dispatch(int aiFlag, void* apFirst, void* apSecond, int aiCount, int aiMode);
-
-    void DispatchWithMode(void* apFirst, void* apSecond, int aiCount, int aiMode);
-};
-
-// Computes a mode from apSecond and aiCount when aiCount is positive and aiMode is zero, then dispatches with flag 1.
-// @fnv 0x00d06fb0
-void FUN_00d06fb0_cls::DispatchWithMode(void* apFirst, void* apSecond, int aiCount, int aiMode)
-{
-    int iMode = aiMode;
-    if (aiCount > 0 && iMode == 0)
-        iMode = FUN_00d06f80(apSecond, aiCount);
-
-    Dispatch(1, apFirst, apSecond, aiCount, iMode);
-}
-
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
 extern "C" int __cdecl FUN_00d06f80(const char* s, int len);
-
-class Handler
-{
-  public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void Emit(int kind, int a, const char* s, int len, int hash);
-    void EmitString(int a, unsigned int* str);
-};
-
-// If the string pointer in str is non-null, computes its length and hash and emits it via Emit with kind 3.
-// @fnv 0x00d07030
-void Handler::EmitString(int a, unsigned int* str)
-{
-    const char* s = (const char*)(*str & ~1u);
-    if (s)
-    {
-        int len = FUN_00cb10d0(s);
-        Emit(3, a, s, len, FUN_00d06f80(s, len));
-    }
-}
 
 struct SlotAllocator
 {
@@ -108,7 +61,8 @@ struct TlsSlotAlloc
     void FUN_008f6d90(void* ptr, unsigned int size, int tag);
 };
 
-void __cdecl FUN_00d06cb0(GrowBuf* buf, unsigned int elemSize)
+// pdb: hkSmallArrayUtil::_reserveMore | hkSmallArray.obj | fnv360_0822_retail, call_seq + bridge(call_gap_sim|call_seq) + skyrim(call_gap), high
+void __cdecl hkSmallArrayUtil__reserveMore(GrowBuf* buf, unsigned int elemSize)
 {
     unsigned int newCount;
     if (buf->m_uCap != 0)
@@ -132,51 +86,6 @@ void __cdecl FUN_00d06cb0(GrowBuf* buf, unsigned int elemSize)
 }
 
 
-struct D06D50Class;
-
-struct D06D50Object
-{
-    virtual void unk00();
-    virtual const D06D50Class* GetClassType() const;
-};
-
-struct D06D50Registry
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual const D06D50Class* GetClassFromName(const D06D50Object* object) const;
-};
-
-struct D06D50Finder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    const D06D50Registry* m_registry;
-
-    const D06D50Class* FindClass(const D06D50Object* object) const;
-};
-
-// @fnv 0x00d06d50
-const D06D50Class* D06D50Finder::FindClass(const D06D50Object* object) const
-{
-    if (object)
-    {
-        const D06D50Class* pClass = object->GetClassType();
-        if (pClass)
-            return pClass;
-        if (m_registry)
-        {
-            pClass = m_registry->GetClassFromName(object);
-            if (pClass)
-                return pClass;
-        }
-    }
-    return 0;
-}
-
 struct FUN_00d06d90_cls;
 
 struct Rec
@@ -194,11 +103,6 @@ struct Inner
     virtual void* Query(Rec* a);
 };
 
-struct Tail
-{
-    int Process();
-};
-
 struct FUN_00d06d90_cls
 {
     int unk00;
@@ -209,23 +113,6 @@ struct FUN_00d06d90_cls
 
     int GetFlagsOrProcess(Rec* a);
 };
-
-// Reads the low 15 bits of a->m_04; if zero and m_10 is set, queries m_0c and returns Process() on the result, otherwise returns the flags.
-// @fnv 0x00d06d90
-int FUN_00d06d90_cls::GetFlagsOrProcess(Rec* pRec)
-{
-    unsigned int flags = pRec->m_04 & 0x7fff;
-    if (flags == 0 && m_10 != 0)
-    {
-        void* r = m_0c->Query(pRec);
-        if (r != 0)
-        {
-            return ((Tail*)r)->Process();
-        }
-        flags = 0;
-    }
-    return flags;
-}
 
 namespace fnv_00d06dd0 {
 struct S_00d06dd0_Heap
@@ -259,36 +146,9 @@ struct S_00d06dd0_Router
 
 S_00d06dd0_Router* FUN_00c85750();
 
-struct S_00d06dd0_Obj
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void slot14(int a, int b, int c, int d, int e);
-    int GetFlagsOrProcess(int a);
-    void DispatchIfNotFlagged(int a, unsigned int flags);
-};
-
-// When bit 0 of flags is clear, computes a value from a, calls the router heap's vfn2c with both, and passes the results to slot14.
-// @fnv 0x00d06dd0
-void S_00d06dd0_Obj::DispatchIfNotFlagged(int a, unsigned int flags)
-{
-    if ((flags & 1) == 0)
-    {
-        int b = GetFlagsOrProcess(a);
-        int r = FUN_00c85750()->heap().vfn2c(a, b);
-        slot14(0, 0, a, b, r);
-    }
-}
 }  // namespace fnv_00d06dd0
 
 namespace fnv_00d06e10 {
-struct FUN_00d06e10_src
-{
-    int Read();
-};
 
 struct FUN_00d06e10_obj
 {
@@ -317,31 +177,6 @@ struct FUN_00d06e10_holder
 
 FUN_00d06e10_holder* __cdecl FUN_00c85750();
 
-class FUN_00d06e10_cls
-{
-  public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void Emit(int kind, int a, const char* s, int len, int hash);
-
-    void FUN_00d06e10(int a1, int a2, unsigned char flag);
-};
-
-// When flag bit 0 is clear, reads a length from a1, computes a hash via holder->m_10->v2c(a2, len), and calls Emit with that length and hash.
-// @fnv 0x00d06e10
-void FUN_00d06e10_cls::FUN_00d06e10(int pSource, int pData, unsigned char flag)
-{
-    if ((flag & 1) == 0)
-    {
-        int len = ((FUN_00d06e10_src*)pSource)->Read();
-        FUN_00d06e10_holder* holder = FUN_00c85750();
-        int hash = holder->m_10->v2c(pData, len);
-        Emit(0, 0, (const char*)pData, len, hash);
-    }
-}
 }  // namespace fnv_00d06e10
 
 class D06F50ReferencedObject
@@ -355,46 +190,7 @@ class D06F50ReferencedObject
     short m_sReferenceCount;
 };
 
-class FUN_00d06f50 : public D06F50ReferencedObject
-{
-  public:
-    FUN_00d06f50(void* owner);
-    virtual void unk00();
-
-    int unk08;
-    void* m_pOwnerObject;
-    bool m_flag;
-};
-
-// @fnv 0x00d06f50
-FUN_00d06f50::FUN_00d06f50(void* owner) : m_pOwnerObject(owner), m_flag(false)
-{}
-
 namespace fnv_00d06f80 {
-struct Target
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual int v11(const char* s, int len);
-};
-
-struct Holder
-{
-    void* vtbl;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    Target* unk10;
-};
 
 extern void* __cdecl FUN_00c85750();
 
@@ -414,6 +210,8 @@ struct Cls_00569bf0 {
     void FUN_00c24b70();
     void FUN_00569bf0(int a);
 };
+// pdb: bhkShapePhantom::GetPenetrations | DecalCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arCollector
 void Cls_00569bf0::FUN_00569bf0(int a) {
     if (this) {
         Inner_569bf0* p = inner08;
@@ -430,38 +228,10 @@ void Cls_00569bf0::FUN_00569bf0(int a) {
 
 int __cdecl FUN_00d06f80(int aiB, int aiC);
 
-struct FUN_00d06ff0_cls
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void V14(int aiZero, int aiA, int aiB, int aiC, int aiR);
-
-    void FUN_00d06ff0(int aiA, int aiB, int aiC, int aiD);
-};
-
-// If aiC is positive and aiD is zero, computes a result via FUN_00d06f80(aiB, aiC), then calls V14 with zero, aiA, aiB, aiC and the result.
-// @fnv 0x00d06ff0
-void FUN_00d06ff0_cls::FUN_00d06ff0(int aiA, int aiB, int aiC, int aiD)
-{
-    int iResult = aiD;
-    if (aiC > 0 && aiD == 0)
-        iResult = FUN_00d06f80(aiB, aiC);
-    V14(0, aiA, aiB, aiC, iResult);
-}
-
-extern const char str_010cce5c[];
-extern const char str_010cce54[];
-extern const char str_010cce4c[];
-extern const char str_010cce44[];
-extern const char str_010cce3c[];
-extern const char str_0106f148[];
-
 // Returns one of five fixed string pointers for values 0 through 4, or a fallback pointer otherwise.
 // @f3 0x005a24f0 (community match, verified in this file)
-const char* __cdecl FUN_00d06e60(int value)
+// pdb: ActorValue::GetSectionCount | ActorValue.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+const char* __cdecl ActorValue_GetSectionCount(int value)
 {
     switch (value)
     {

@@ -9,6 +9,7 @@ struct B2_00b130b0 { virtual void v2(); };
 struct B_00b130b0 : B0_00b130b0, B2_00b130b0 { B_00b130b0(); };
 struct M_00b130b0 { M_00b130b0(int); char p[8]; };
 struct D_00b130b0 : B_00b130b0 { D_00b130b0(); char q[0x24]; M_00b130b0 m; };
+// pdb: ImageSpaceShaderBlur11::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b130b0::D_00b130b0() : m(2) {}
 
 struct B0_00b13eb0 { virtual ~B0_00b13eb0(); char p[0x68]; };
@@ -37,6 +38,7 @@ struct B2_00b16ad0 { virtual void v2(); };
 struct B_00b16ad0 : B0_00b16ad0, B2_00b16ad0 { B_00b16ad0(); };
 struct M_00b16ad0 { M_00b16ad0(int); char p[8]; };
 struct D_00b16ad0 : B_00b16ad0 { D_00b16ad0(); char q[0x24]; M_00b16ad0 m; };
+// pdb: ImageSpaceShaderMenuBG::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b16ad0::D_00b16ad0() : m(2) {}
 
 struct B0_00b17980 { virtual ~B0_00b17980(); char p[0x68]; };
@@ -44,6 +46,7 @@ struct B2_00b17980 { virtual void v2(); };
 struct B_00b17980 : B0_00b17980, B2_00b17980 { B_00b17980(); };
 struct M_00b17980 { M_00b17980(int); char p[8]; };
 struct D_00b17980 : B_00b17980 { D_00b17980(); char q[0x24]; M_00b17980 m; };
+// pdb: ImageSpaceShaderWaterDisplacementTexOffset::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b17980::D_00b17980() : m(2) {}
 
 struct B0_00b17ad0 { virtual ~B0_00b17ad0(); char p[0x68]; };
@@ -51,6 +54,7 @@ struct B2_00b17ad0 { virtual void v2(); };
 struct B_00b17ad0 : B0_00b17ad0, B2_00b17ad0 { B_00b17ad0(); };
 struct M_00b17ad0 { M_00b17ad0(int); char p[8]; };
 struct D_00b17ad0 : B_00b17ad0 { D_00b17ad0(); char q[0x24]; M_00b17ad0 m; };
+// pdb: ImageSpaceShaderWaterDisplacementWadingRipple::SetState | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b17ad0::D_00b17ad0() : m(2) {}
 
 struct B0_00b17c20 { virtual ~B0_00b17c20(); char p[0x68]; };
@@ -58,6 +62,7 @@ struct B2_00b17c20 { virtual void v2(); };
 struct B_00b17c20 : B0_00b17c20, B2_00b17c20 { B_00b17c20(); };
 struct M_00b17c20 { M_00b17c20(int); char p[8]; };
 struct D_00b17c20 : B_00b17c20 { D_00b17c20(); char q[0x24]; M_00b17c20 m; };
+// pdb: ImageSpaceShaderWaterDisplacementRainRipple::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b17c20::D_00b17c20() : m(2) {}
 
 struct B0_00b17de0 { virtual ~B0_00b17de0(); char p[0x68]; };
@@ -65,6 +70,7 @@ struct B2_00b17de0 { virtual void v2(); };
 struct B_00b17de0 : B0_00b17de0, B2_00b17de0 { B_00b17de0(); };
 struct M_00b17de0 { M_00b17de0(int); char p[8]; };
 struct D_00b17de0 : B_00b17de0 { D_00b17de0(); char q[0x24]; M_00b17de0 m; };
+// pdb: ImageSpaceShaderWaterWadingHeightmap::SetState | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b17de0::D_00b17de0() : m(2) {}
 
 struct B0_00b181d0 { virtual ~B0_00b181d0(); char p[0x68]; };
@@ -72,6 +78,7 @@ struct B2_00b181d0 { virtual void v2(); };
 struct B_00b181d0 : B0_00b181d0, B2_00b181d0 { B_00b181d0(); };
 struct M_00b181d0 { M_00b181d0(int); char p[8]; };
 struct D_00b181d0 : B_00b181d0 { D_00b181d0(); char q[0x24]; M_00b181d0 m; };
+// pdb: ImageSpaceShaderWaterSmoothHeightmap::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b181d0::D_00b181d0() : m(2) {}
 
 struct B0_00b18bb0 { virtual ~B0_00b18bb0(); char p[0x68]; };
@@ -93,6 +100,7 @@ struct B2_00b19180 { virtual void v2(); };
 struct B_00b19180 : B0_00b19180, B2_00b19180 { B_00b19180(); };
 struct M_00b19180 { M_00b19180(int); char p[8]; };
 struct D_00b19180 : B_00b19180 { D_00b19180(); char q[0x24]; M_00b19180 m; };
+// pdb: ImageSpaceShaderWaterFFTDisplayNormals::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b19180::D_00b19180() : m(2) {}
 
 struct B0_00b192d0 { virtual ~B0_00b192d0(); char p[0x68]; };
@@ -100,6 +108,7 @@ struct B2_00b192d0 { virtual void v2(); };
 struct B_00b192d0 : B0_00b192d0, B2_00b192d0 { B_00b192d0(); };
 struct M_00b192d0 { M_00b192d0(int); char p[8]; };
 struct D_00b192d0 : B_00b192d0 { D_00b192d0(); char q[0x24]; M_00b192d0 m; };
+// pdb: ImageSpaceShaderWaterFFTDisplayHighW::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b192d0::D_00b192d0() : m(2) {}
 
 struct B0_00b19420 { virtual ~B0_00b19420(); char p[0x68]; };
@@ -107,4 +116,5 @@ struct B2_00b19420 { virtual void v2(); };
 struct B_00b19420 : B0_00b19420, B2_00b19420 { B_00b19420(); };
 struct M_00b19420 { M_00b19420(int); char p[8]; };
 struct D_00b19420 : B_00b19420 { D_00b19420(); char q[0x24]; M_00b19420 m; };
+// pdb: ImageSpaceShaderWaterFFTDisplayAmplitude::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b19420::D_00b19420() : m(2) {}

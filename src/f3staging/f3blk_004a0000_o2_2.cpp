@@ -40,6 +40,8 @@ public:
     int unk4C;
 };
 
+// pdb: BGSPlaceableWater::Compare | BGSPlaceableWater.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCompare
 bool BGSPlaceableWater::FUN_004a5d30(TESForm* other)
 {
     BGSPlaceableWater* otherWater = dynamic_cast<BGSPlaceableWater*>(other);
@@ -162,7 +164,8 @@ public:
     void FUN_00444630(RegisteredEntry* entry);
 };
 extern EntryRegistry* DAT_0106cdcc;
-void FUN_004bfd80() {
+// pdb: BGSEncounterZone::CreateNoZone | BGSEncounterZone.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void BGSEncounterZone_CreateNoZone() {
     if (!DAT_01070ac0) {
         DAT_01070ac0 = new RegisteredEntry;
         DAT_01070ac0->Configure(0x1e, true);
@@ -186,7 +189,8 @@ namespace f3m_004a8c80 {
 
 unsigned int __fastcall FUN_004a8bb0(void* a, void* b, int c);
 
-float __fastcall FUN_004a8c80(void* a, void* b, int c)
+// pdb: BGSTerminal::GetMinSkillRequiredToHack | BGSTerminal.obj | fnv360_0822_debug, call_seq + bridge(call_gap|call_seq), high
+float __fastcall BGSTerminal_GetMinSkillRequiredToHack(void* a, void* b, int c)
 {
     switch (FUN_004a8bb0(a, b, c)) {
     case 0: return DAT_01076230;
@@ -374,9 +378,9 @@ struct File {
     unsigned unk290;
     unsigned unk294;
     unsigned char unk298; bool swapEndian;
-    unsigned char FUN_00448cc0();
-    int FUN_004487d0();
-    bool FUN_00447020();
+    unsigned char TESFile_GetTESForm();
+    int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     void FUN_00447d60(void*,unsigned);
 };
 struct Data {
@@ -486,17 +490,19 @@ struct Form {
     unsigned unk44;
     Data data;
     void FUN_00454410(File*);
-    void FUN_00454240(int);
-    void FUN_00454d10(File*,void*,unsigned);
+    void TESForm_SetInitialized(int);
+    void TESForm_LoadData(File*,void*,unsigned);
     bool FUN_004ae610(File*);
 };
+// pdb: TESGrass::Load | TESGrass.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Form::FUN_004ae610(File* file) {
-    if(file->FUN_00448cc0()!=0x24) return false;
+    if(file->TESFile_GetTESForm()!=0x24) return false;
     Data* contents=&data;
     memset(contents,0,sizeof(*contents));
     FUN_00454410(file);
-    FUN_00454240(0);
-    int chunk=file->FUN_004487d0();
+    TESForm_SetInitialized(0);
+    int chunk=file->TESFile_GetTESChunk();
     while(chunk) {
         switch(chunk) {
         case 0x44494445: {
@@ -505,14 +511,14 @@ bool Form::FUN_004ae610(File* file) {
             SetEditorID(buffer);
             break;
         }
-        case 0x41544144: FUN_00454d10(file,contents,0x20); break;
+        case 0x41544144: TESForm_LoadData(file,contents,0x20); break;
         case 0x444e424f: LoadBounds(file); break;
         case 0x4c444f4d:
         case 0x54444f4d: FUN_00458210(this ? reinterpret_cast<char*>(this)+0x30:0,file); break;
         }
         if(chunk==0x41544144 && file->swapEndian) contents->Swap();
-        if(!file->FUN_00447020()) break;
-        chunk=file->FUN_004487d0();
+        if(!file->TESFile_NextChunk()) break;
+        chunk=file->TESFile_GetTESChunk();
     }
     return true;
 }
@@ -529,30 +535,32 @@ namespace f3m_004bb210 {
 extern "C" void* __cdecl _alloca(size_t);
 namespace Tree2361 {
 inline void endian(float* p){unsigned* bits=(unsigned*)p;*bits=_byteswap_ulong(*bits);}
-struct File { char unknown000[0x25c]; unsigned size; char unknown260[0x39]; bool endian; unsigned char FUN_00448cc0(); int FUN_004487d0(); bool FUN_00447020(); bool FUN_00447d60(void*,unsigned); };
+struct File { char unknown000[0x25c]; unsigned size; char unknown260[0x39]; bool endian; unsigned char TESFile_GetTESForm(); int TESFile_GetTESChunk(); bool TESFile_NextChunk(); bool FUN_00447d60(void*,unsigned); };
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);}; extern Heap DAT_01090a78;
 struct Seed { unsigned value; static void* operator new[](size_t n){return DAT_01090a78.FUN_0086b930(n);} static void operator delete[](void*p){DAT_01090a78.FUN_0086ba60(p);} };
 struct Seeds {char unknown[16];void FUN_0076e130(); void FUN_00ab9e10(const unsigned&);};
 struct Data {float curvature,angle,dimming,rock,rustle; int shadowRadius;float speed,leaf;void FUN_00409ea0();};
 struct Tree;
 struct Vtable {void* unknown000[56];void (__thiscall* bounds)(Tree*,File*);void* unknown0e4[20];void (__thiscall* editor)(Tree*,char*);};
-void __cdecl FUN_00458210(void*,File*);void __cdecl FUN_0045bab0(void*,File*);void __cdecl FUN_0044c110(void*,File*);
+void __cdecl FUN_00458210(void*,File*);void __cdecl TESTexture_LoadTextureChunk(void*,File*);void __cdecl FUN_0044c110(void*,File*);
 struct Tree { Vtable* vt; char unknown004[0x2c];char model[0x18];char texture[0xc];char destructible[8];Seeds seeds;Data data;float billboard[2];void FUN_00454410(File*);bool FUN_004bb210(File*);};
+// pdb: TESObjectTREE::Load | TESObjectTREE.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Tree::FUN_004bb210(File*file){
- if(file->FUN_00448cc0()!=37)return false;
+ if(file->TESFile_GetTESForm()!=37)return false;
  FUN_00454410(file);
- while(int chunk=file->FUN_004487d0()){
+ while(int chunk=file->TESFile_GetTESChunk()){
  switch(chunk){
  case 0x44494445:{char*id=(char*)_alloca(file->size);file->FUN_00447d60(id,512);vt->editor(this,id);break;}
  case 0x444e424f:vt->bounds(this,file);break;
  case 0x4c444f4d:case 0x54444f4d:FUN_00458210(this?model:0,file);break;
- case 0x4e4f4349:FUN_0045bab0(this?texture:0,file);break;
+ case 0x4e4f4349:TESTexture_LoadTextureChunk(this?texture:0,file);break;
  case 0x54534544:case 0x44545344:FUN_0044c110(this?destructible:0,file);break;
  case 0x4d414e53:{unsigned size=file->size;if(!size || size%4)break;unsigned count=size/4;Seed*values=new Seed[count];memset(values,0,size);file->FUN_00447d60(values,size);seeds.FUN_0076e130();for(unsigned i=0;i<count;++i){if(file->endian)values[i].value=_byteswap_ulong(values[i].value);if(values[i].value>0)seeds.FUN_00ab9e10(values[i].value);}delete[]values;break;}
  case 0x4d414e43:if(file->size!=sizeof(Data))break;file->FUN_00447d60(&data,sizeof(Data));if(file->endian)data.FUN_00409ea0();if(data.shadowRadius<0)data.shadowRadius=128;break;
  case 0x4d414e42:if(file->size!=8)break;file->FUN_00447d60(billboard,8);if(file->endian){endian(&billboard[0]);endian(&billboard[1]);}break;
  }
- if(!file->FUN_00447020())break;
+ if(!file->TESFile_NextChunk())break;
  }
  return true;
 }
@@ -970,6 +978,8 @@ struct Weapon {
     void LoadData(ChunkFile*, int, int);
     bool FUN_004bd470(ChunkFile* file);
 };
+// pdb: TESObjectWEAP::Load | TESObjectWEAP.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Weapon::FUN_004bd470(ChunkFile* file) {
     if (file->Type() != 0x28) return false;
     Initialize(file);

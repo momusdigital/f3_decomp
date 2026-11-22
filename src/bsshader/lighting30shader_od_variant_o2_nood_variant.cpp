@@ -115,6 +115,8 @@ void FUN_00873cd0(S00bbe6b0_Mat* m, void* out);
 S00bbe6b0_Mat* __stdcall FUN_00c2082c(S00bbe6b0_Mat* out, const S00bbe6b0_Mat* a, const S00bbe6b0_Mat* b);
 S00bbe6b0_Mat* __stdcall FUN_00c2083e(S00bbe6b0_Mat* out, const S00bbe6b0_Mat* in);
 void* FUN_00bffa60(void* dst, const void* src, unsigned int n);
+// pdb: Lighting30Shader::SetupGeometryConstants_ObjToCubemap | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apRenderPass, auiCurrentPass, apSkin, aWorldTransform
 void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int flag, void* out)
 {
     __declspec(align(16)) Matrix1918 mat;

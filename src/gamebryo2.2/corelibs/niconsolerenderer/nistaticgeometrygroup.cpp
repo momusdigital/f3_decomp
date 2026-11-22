@@ -17,6 +17,7 @@ struct NiGeometryGroup
 };
 // If p->buf is set, removes it from the group, deletes it, and clears p->buf.
 // @fnv 0x00e94740
+// pdb: NiUnsharedGeometryGroup::RemoveObject | NiUnsharedGeometryGroup.obj | tesv_win, objrun_open, low
 void NiGeometryGroup::RemoveAndDeleteBuffer(FUN_00e94740_Param* p)
 {
     NiGeometryBufferData* q = p->buf;
@@ -52,7 +53,8 @@ struct NiGeometryBufferData
     NiVBChip** m_ppkVertexBuffers;
 };
 // @fnv 0x00e94770
-void __stdcall FUN_00e94770(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
+// pdb: NiStaticGeometryGroup::ReleaseChip | NiStaticGeometryGroup.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void __stdcall NiStaticGeometryGroup_ReleaseChip(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 {
     NiVBChip* pkChip;
     NiVBBlock* pkBlock;
@@ -96,6 +98,7 @@ struct NiStaticGeometryGroup
 };
 // Resets vtables, clears the map at offset 12, frees its buffer, calls cleanup, and optionally deletes the object.
 // @fnv 0x00e94890
+// pdb: NiStaticGeometryGroup::~NiStaticGeometryGroup | NiStaticGeometryGroup.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiStaticGeometryGroup::`scalar deleting destructor')
 void* NiStaticGeometryGroup::Destroy(unsigned int flag)
 {
     vtbl = (void*)&DAT_010f0fd4;
@@ -112,30 +115,7 @@ void* NiStaticGeometryGroup::Destroy(unsigned int flag)
     return this;
 }
 
-struct MM
-{
-    void _DeallocateAlias(void*);
-};
-extern MM g_memoryManager;
 void __cdecl _NiFreeAlias(void*);
-extern int DAT_010f0f84;
-struct S
-{
-    void* f0;
-    void* f4;
-    void* FUN_00e94a80(unsigned int);
-};
-// Sets f0 to DAT_010f0f84, frees f4, and if flag bit 0 is set deallocates this via g_memoryManager, returning this.
-// @fnv 0x00e94a80
-void* S::FUN_00e94a80(unsigned int flag)
-{
-    void* tmp = f4;
-    f0 = &DAT_010f0f84;
-    _NiFreeAlias(tmp);
-    if (flag & 1)
-        g_memoryManager._DeallocateAlias(this);
-    return this;
-}
 
 namespace fnv_00e94d00 {
 struct NiGeometryBufferData
@@ -162,12 +142,10 @@ void NiGeometryGroup::FUN_00e94d00(void* pkObj)
 }  // namespace fnv_00e94d00
 
 namespace fnv_00e94db0 {
-struct Direct3DDeviceInterface;
 struct NiGeometryBufferData;
 struct NiGeometryData;
 struct NiGeometryGroup;
 struct NiScreenTexture;
-struct NiSkinInstance;
 struct NiVBChip;
 
 struct NiGeometryBufferData
@@ -181,6 +159,8 @@ struct NiGeometryGroup
 };
 // Frees the NiGeometryBufferData stored at offset 0x1c of pkData via RemoveObject and delete, then clears the pointer.
 // @fnv 0x00e94db0
+// pdb: NiTPointerMap<char const *,NiObject * (__cdecl*)(void)>::DeleteItem | NiStream.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiStaticGeometryGroup::RemoveObject)
+// pdb params: pkItem
 void NiGeometryGroup::FUN_00e94db0(NiGeometryData* pkData)
 {
     NiGeometryBufferData* pkBuffData = *(NiGeometryBufferData**)((char*)pkData + 0x1c);
@@ -227,6 +207,7 @@ struct FUN_00e94ab0 : GeometryBase
 };
 // Constructs the object, whose GeometryMap member allocates and zeroes its bucket array.
 // @fnv 0x00e94ab0
+// pdb: NiStaticGeometryGroup::Create | NiStaticGeometryGroup.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiStaticGeometryGroup::NiStaticGeometryGroup)
 FUN_00e94ab0::FUN_00e94ab0()
 {}
 
@@ -251,6 +232,7 @@ __declspec(noinline) FUN_00e94ab0::FUN_00e94ab0()
     unk18 = 0;
 }
 // @fnv 0x00e94c00
+// pdb: NiStaticGeometryGroup::Create | NiStaticGeometryGroup.obj | tesv_win, caller_sim, low
 FUN_00e94ab0* __cdecl FUN_00e94c00()
 {
     return new FUN_00e94ab0;
@@ -438,6 +420,8 @@ struct S_00e948f0_Holder
 };
 
 // @fnv 0x00e948f0
+// pdb: NiStaticGeometryGroup::AddObject | NiStaticGeometryGroup.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkData, pkSkinInstance, pkPartition
 void S_00e948f0_Holder::InitData(S_00e948f0_Obj* apObj, int aiUnused, S_00e948f0_Y* apY)
 {
     S_00e948f0_Data* d;
@@ -581,7 +565,7 @@ struct FUN_00e94650_cls
 {
     VbNode* FUN_00e94650(unsigned int size, bool flag);
 };
-void* __cdecl FUN_00e94b80(unsigned int a, void* b, unsigned int key, unsigned int usage, unsigned int c);
+void* __cdecl NiVBSet_Create(unsigned int a, void* b, unsigned int key, unsigned int usage, unsigned int c);
 
 struct VbDesc
 {
@@ -642,6 +626,8 @@ struct FUN_00e94c20_cls
 
 // Looks up or creates a VbNode, calls FUN_00e94650 with vertex-count times stride and count>1, then stores a quotient in d->m_38.
 // @fnv 0x00e94c20
+// pdb: NiStaticGeometryGroup::CreateChip | NiStaticGeometryGroup.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkBuffData, uiStream
 VbNode* FUN_00e94c20_cls::GetOrCreateNode(VbDesc* apDesc, unsigned int uiStrideIndex)
 {
     VbNode* pNode = 0;
@@ -662,7 +648,7 @@ VbNode* FUN_00e94c20_cls::GetOrCreateNode(VbDesc* apDesc, unsigned int uiStrideI
     }
     if (!((FUN_00a53c30_cls*)&owner->map)->FUN_00a53c30(key, (void**)&pNode) || !(object = pNode))
     {
-        object = (VbNode*)FUN_00e94b80(0x10000, owner->m_08, key, usage, 0);
+        object = (VbNode*)NiVBSet_Create(0x10000, owner->m_08, key, usage, 0);
         ((FUN_00b57ea0_cls*)&owner->map)->InsertOrUpdate(key, object);
     }
     unsigned int count = apDesc->GetCount();
@@ -689,7 +675,8 @@ inline void* operator new(unsigned int n, S00e94b80_Heap) throw()
 }
 // Allocates a FUN_00e94b00, assigns its fields, AddRefs b when nonnull, releases the prior stored pointer otherwise, and calls FUN_00e941a0.
 // @fnv 0x00e94b80
-void* __cdecl FUN_00e94b80(unsigned int a, void* apUnknown, unsigned int key, unsigned int usage, unsigned int c)
+// pdb: NiVBSet::Create | NiStaticGeometryGroup.obj | fnv360_0822_retail, call_seq + skyrim(caller_sim), high
+void* __cdecl NiVBSet_Create(unsigned int a, void* apUnknown, unsigned int key, unsigned int usage, unsigned int c)
 {
     FUN_00e94b00* object = new (s00e94b80_heap) FUN_00e94b00;
     if (object)
@@ -716,11 +703,6 @@ void* __cdecl FUN_00e94b80(unsigned int a, void* apUnknown, unsigned int key, un
     return object;
 }
 
-struct P03MM
-{
-    void* Allocate(unsigned int);
-};
-extern int DAT_01400000;
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -730,34 +712,3 @@ struct NiScreenTexture
     char _0[0x1c];
     void* m_pkGeometryRendererData;
 };
-struct B00e947c0
-{
-    B00e947c0();
-    char _0[4];
-    void* m_uiValue1;
-    char _8[0x34];
-    int m_eRequestType;
-    char _40[0x14];
-};
-struct NiStaticGeometryGroup_00e94a30 : NiStaticGeometryGroup
-{
-    void FUN_00e98730(void*);
-    void FUN_00e94a30(NiScreenTexture*);
-};
-// Allocates and initializes a B00e947c0 buffer when pkScreenTexture->m_pkGeometryRendererData is null, then calls FUN_00e98730.
-// @fnv 0x00e94a30
-void NiStaticGeometryGroup_00e94a30::FUN_00e94a30(NiScreenTexture* pkScreenTexture)
-{
-    if (!pkScreenTexture->m_pkGeometryRendererData)
-    {
-        void* p = reinterpret_cast<P03MM*>(&g_memoryManager)->Allocate(0x54);
-        B00e947c0* pkBuffData;
-        if (p)
-            pkBuffData = new (p) B00e947c0;
-        else
-            pkBuffData = 0;
-        pkBuffData->m_eRequestType = 4;
-        pkBuffData->m_uiValue1 = &DAT_01400000;
-        FUN_00e98730(pkBuffData);
-    }
-}

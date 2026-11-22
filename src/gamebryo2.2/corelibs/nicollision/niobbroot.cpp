@@ -91,11 +91,12 @@ struct FUN_00dbd750_cls
     int unk00;
     int unk04;
     Target* m_08;
-    void FUN_00dbd750(int a);
+    void hkOArchive_writeRaw(int a);
 };
 
 // @fnv 0x00dbd750
-void FUN_00dbd750_cls::FUN_00dbd750(int a)
+// pdb: hkOArchive::writeRaw | hkOArchive.obj | fnv360_0822_retail, call_seq + skyrim(call_gap), high
+void FUN_00dbd750_cls::hkOArchive_writeRaw(int a)
 {
     m_08->Forward(a);
 }

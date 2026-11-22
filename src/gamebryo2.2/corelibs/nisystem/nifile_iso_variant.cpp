@@ -8,7 +8,7 @@
 void __cdecl ReadFileData();
 void __cdecl FUN_00aa19c0();
 void __cdecl FUN_00aa19e0();
-void __cdecl FUN_00aa1ad0();
+void __cdecl NiFile_WriteAndSwap();
 
 struct FileTransferCallbacks
 {
@@ -16,16 +16,17 @@ struct FileTransferCallbacks
     unsigned int bytesProcessed;
     void(__cdecl* readFunction)();
     void(__cdecl* writeFunction)();
-    void FUN_00aa1b30(bool enableSwap);
+    void NiFile_SetEndianSwap(bool enableSwap);
 };
 
 // @fnv 0x00aa1b30
-void FileTransferCallbacks::FUN_00aa1b30(bool enableSwap)
+// pdb: NiFile::SetEndianSwap | NiFile.obj | fnv360_0822_retail, objrun + skyrim(call_gap), high
+void FileTransferCallbacks::NiFile_SetEndianSwap(bool enableSwap)
 {
     if (enableSwap)
     {
         readFunction = FUN_00aa19e0;
-        writeFunction = FUN_00aa1ad0;
+        writeFunction = NiFile_WriteAndSwap;
     }
     else
     {
@@ -46,6 +47,8 @@ struct FileConstructor
 };
 
 // @fnv 0x00aa1b60
+// pdb: NiFile::DefaultFileCreateFunc | NiFile.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pcName, eMode, uiSize
 extern "C" NiFile* __cdecl FUN_00aa1b60(const char* filename, NiFile::OpenMode mode, unsigned int bufferSize)
 {
     void* storage = DAT_011f6238.FUN_00aa3e40(0x30);
@@ -57,7 +60,8 @@ extern "C" NiFile* __cdecl FUN_00aa1b60(const char* filename, NiFile::OpenMode m
 ::NiFile* __cdecl FUN_00aa1b60(const char*, ::NiFile::OpenMode, unsigned int);
 
 // @fnv 0x00aa1b90
-void __cdecl FUN_00aa1b90(::NiFile*(__cdecl* replacement)(const char*, ::NiFile::OpenMode, unsigned int))
+// pdb: NiFile::SetFileCreateFunc | NiFile.obj | fnv360_0822_retail, udata + bridge(udata|udata) + skyrim(udata), high
+void __cdecl NiFile_SetFileCreateFunc(::NiFile*(__cdecl* replacement)(const char*, ::NiFile::OpenMode, unsigned int))
 {
     ::DAT_011ac224 = &FUN_00aa1b60;
     if (replacement)
@@ -81,6 +85,7 @@ struct ProgramCacheDirectoryState
 };
 
 // @fnv 0x00ee8d20
+// pdb: NiGPUProgramCache::ValidateDirectory | NiGPUProgramCache.obj | fnv360_0822_retail, call_seq, medium
 extern "C" bool __fastcall FUN_00ee8d20(ProgramCacheDirectoryState* cache, int)
 {
     if (cache->workingDirectory != reinterpret_cast<const char*>(EmptyFS))
@@ -111,6 +116,8 @@ struct FileAccessObject : NiFile
     bool good;
 };
 // @fnv 0x00aa1a40
+// pdb: NiFile::DefaultFileAccessFunc | NiFile.obj | fnv360_0822_retail, objrun, high
+// pdb params: pcName, eMode
 extern "C" bool __cdecl FUN_00aa1a40(const char* name, NiFile::OpenMode mode)
 {
     FileAccessObject file(name, mode, 0);
@@ -121,6 +128,8 @@ extern bool(__cdecl* DAT_011ac228)(const char*, ::NiFile::OpenMode);
 bool __cdecl FUN_00aa1a40(const char*, ::NiFile::OpenMode);
 
 // @fnv 0x00aa1a70
+// pdb: NiFile::SetFileAccessFunc | NiFile.obj | fnv360_0822_retail, udata, high
+// pdb params: pfnFunc
 extern "C" void __cdecl FUN_00aa1a70(bool(__cdecl* handler)(const char*, ::NiFile::OpenMode))
 {
     DAT_011ac228 = FUN_00aa1a40;
@@ -147,6 +156,8 @@ class RelativeSeekFile : public NiFile
 };
 
 // @fnv 0x00aa1a90
+// pdb: NiFile::Seek | NiFile.obj | fnv360_0822_retail, objrun, medium
+// pdb params: iNumBytes
 void RelativeSeekFile::FUN_00aa1a90(int distance)
 {
     SeekFrom(distance, DAT_010a2484);
@@ -161,6 +172,8 @@ extern bool(__cdecl* DAT_011ac22c)(const char*);
 void __cdecl fnv_StandardizeFilePath(char*);
 
 // @fnv 0x00aa1bb0
+// pdb: NiFile::CreateDirectoryRecursive | NiFile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcFullPath
 bool __cdecl FUN_00aa1bb0(const char* pcPath)
 {
     if (DAT_011ac230(pcPath))
@@ -203,6 +216,7 @@ bool __cdecl FUN_00aa1bb0(const char* pcPath)
 namespace fnv_00aa1a30 {
 extern void(__cdecl* DAT_011ac228)(const char*, NiFile::OpenMode);
 // @fnv 0x00aa1a30
+// pdb: BSShaderManager::GetUseRefractionShader | TESScriptFunctions.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_00aa1a30(const char* name, NiFile::OpenMode mode)
 {
     DAT_011ac228(name, mode);

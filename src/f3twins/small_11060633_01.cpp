@@ -12,6 +12,7 @@ struct R_00adfa90 { void* vt; int cap; int* buf; int cnt; R_00adfa90(int c) { vt
 struct D_00adfa90 : R_00adfa90 { D_00adfa90() : R_00adfa90(0x65) { vt = &DAT_00e94814; } };
 struct C_00adfa90 { int f0; int f4; float v8, vc, v10, v14; float f18; int f1c; M_00adfa90 m20; B_00adfa90 a; D_00adfa90 b; C_00adfa90(); };
 
+// pdb: TallGrassShaderProperty::CachedGrass::CachedGrass | TallGrassShaderProperty.obj | fnv360_0721_beta, call_gap, medium
 C_00adfa90::C_00adfa90() : f0(0), v8(0.0f), vc(0.0f), v10(0.0f), v14(0.0f), f18(1.0f) { }
 
 // ---- family f399
@@ -43,6 +44,8 @@ struct C_00b44710 { char p0[0x70]; float f70; char p1[0x84 - 0x74]; float f84; c
     void __thiscall M(int); void FUN_00b44710_(float a, float b); };
 
 
+// pdb: BoltShaderProperty::ExtendBolt | BoltShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afTimeDelta, afDesiredBoltDistance
 void C_00b44710::FUN_00b44710_(float a, float b)
 {
     f70 = a + f70;
@@ -69,6 +72,8 @@ struct S_00b45970 { char p[0x24];  unsigned flags; char q[0x10]; int f38; void C
 struct C_00b45970 { char p[8]; S_00b45970* s; char q[0xc]; int f18, f1c, f20; void FUN_00b45970_(V_00b45970* v); void ClrBit(unsigned m) { if (s->flags & m) { s->f38 = 0; s->flags &= ~m; } } };
 
 
+// pdb: DistantLODGroup::SetDistantLODParam | DistantLODGroup.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apDistantLODParam
 void C_00b45970::FUN_00b45970_(V_00b45970* v)
 {
     if (v != 0)
@@ -104,6 +109,8 @@ void C_00b45970::FUN_00b45970_(V_00b45970* v)
 
 struct C_007c11f0 { char pad[320]; float a, b; void f(void*); void g(void*); };
 
+// pdb: FlameProjectile::Revert | FlameProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void C_007c11f0::f(void* p)
 {
     g(p);
@@ -118,6 +125,8 @@ struct V_00886240 { virtual void v0(); virtual void v1(); virtual void v2(); vir
 struct T_00886240 { char pad[0x24]; unsigned short w; };
 struct C_00886240 { char pad[0x18]; W_00886240* x; V_00886240* y; char pad2[0x38 - 0x20]; int m38; int f(int, int, T_00886240*, int, int, int, int, int); int K(int, int, int, int, int, int, int, int); };
 
+// pdb: NiXenonFragmentShader::SetupTransformations | NiXenonFragmentShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkGeometry, pkSkin, pkPartition, pkRendererData, pkState, pkEffects, kWorld, kWorldBound
 int C_00886240::f(int a1, int a2, T_00886240* a3, int a4, int a5, int a6, int a7, int a8)
 {
     if (a3) {

@@ -9,5 +9,7 @@
 
 // @f3 0x005a1900 (community match, verified in this file)
 namespace f3m_005a1900 {
+// pdb: ActionPoints::GetAttackAction | ActionPoints.obj | fnv360_0721_retail, caller, medium
+// pdb params: aeWeaponType
 unsigned __cdecl FUN_005a1900(unsigned type){unsigned result=16;if(type<=12){switch(type){case 0:result=0;break;case 1:result=1;break;case 2:result=2;break;case 3:case 4:result=3;break;case 5:case 6:case 7:result=4;break;case 8:result=5;break;case 9:result=6;break;case 10:result=7;break;case 11:result=8;break;}}return result;}
 }   // namespace f3m_005a1900

@@ -3,6 +3,8 @@
 #include "nitribasedgeomdata_decls.h"
 // Constructs a NiTriBasedGeomData by initializing the NiGeometryData base and storing the triangle count in m_usTriangles.
 // @fnv 0x00a8a920
+// pdb: NiTriBasedGeomData::NiTriBasedGeomData | NiTriBasedGeomData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod, usTriangles
 NiTriBasedGeomData::NiTriBasedGeomData(unsigned short ausVertexCount, NiPoint3* apVertices, NiPoint3* apNormals,
                                        RgbaColor* d, NiPoint2* apTextureCoords, unsigned short f,
                                        NiGeometryData__DataFlags aeDataFlags, unsigned short ausTriangleCount)
@@ -17,7 +19,7 @@ extern void* vftable_NiTriBasedGeomData;
 NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData* pThis)
 {
     FUN_00a67c00(pThis);
-    *(unsigned short*)((char*)pThis + 0x40) = 0;
+    pThis->m_usTriangles = 0;
     *(void**)pThis = &vftable_NiTriBasedGeomData;
     return pThis;
 }
@@ -33,25 +35,33 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a8aa30_shell : public NiTriBasedGeomData
 {
-    void FUN_00a8aa30(NiStream*);
+    void NiTriBasedGeomData_LoadBinary(NiStream*);
 };
 
 struct FakeBinaryStream
 {
     int pad;
-    unsigned int position;
-    unsigned int(__cdecl* read)(void*, void*, unsigned int, unsigned int*, unsigned int);
+    unsigned int position;  // src: FNV360_PDB NiBinaryStream +0x4 m_uiAbsoluteCurrentPos
+    unsigned int(__cdecl* read)(void*, void*, unsigned int, unsigned int*, unsigned int);  // src: FNV360_PDB NiBinaryStream +0x8 m_pfnRead
+};
+struct NiBinaryStream_Save;
+class NiStream
+{
+  public:
+    unsigned char unk000[0x24c];
+    FakeBinaryStream* m_pkIstr;  // src: FNV360_PDB +0x24C
+    NiBinaryStream_Save* m_pkOstr;  // src: FNV360_PDB +0x250
 };
 
 // Loads NiGeometryData binary data from the stream, then reads 2 bytes from the stream's binary reader into this+0x40.
 // @fnv 0x00a8aa30
-void FUN_00a8aa30_shell::FUN_00a8aa30(NiStream* kStream)
+// pdb: NiTriBasedGeomData::LoadBinary | NiTriBasedGeomData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+void FUN_00a8aa30_shell::NiTriBasedGeomData_LoadBinary(NiStream* kStream)
 {
     reinterpret_cast<NiGeometryData*>(this)->LoadBinary(*kStream);
-    FakeBinaryStream* __restrict input =
-        *reinterpret_cast<FakeBinaryStream**>(reinterpret_cast<char*>(kStream) + 0x24c);
+    FakeBinaryStream* __restrict input = kStream->m_pkIstr;
     unsigned int size = 2;
-    input->position += input->read(input, reinterpret_cast<char*>(this) + 0x40, 2, &size, 1);
+    input->position += input->read(input, &m_usTriangles, 2, &size, 1);
 }
 
 struct NiAVObject;
@@ -65,7 +75,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a8aa70_shell : public NiTriBasedGeomData
 {
-    void FUN_00a8aa70(NiStream*);
+    void NiTriBasedGeomData_SaveBinary(NiStream*);
 };
 
 struct NiBinaryStream_Save
@@ -77,12 +87,13 @@ struct NiBinaryStream_Save
 };
 
 // @fnv 0x00a8aa70
-void FUN_00a8aa70_shell::FUN_00a8aa70(NiStream* kStream)
+// pdb: NiTriBasedGeomData::SaveBinary | NiTriBasedGeomData.obj | fnv360_0822_retail, call_seq + bridge(vtable|call_seq) + skyrim(caller_sim), high
+void FUN_00a8aa70_shell::NiTriBasedGeomData_SaveBinary(NiStream* kStream)
 {
     NiGeometryData::SaveBinary(*kStream);
-    NiBinaryStream_Save* __restrict output = *(NiBinaryStream_Save**)((char*)kStream + 0x250);
+    NiBinaryStream_Save* __restrict output = kStream->m_pkOstr;
     unsigned int size = 2;
-    output->m_uiStreamFlags += output->m_pfnWrite(output, (char*)this + 0x40, 2, &size, 1);
+    output->m_uiStreamFlags += output->m_pfnWrite(output, &m_usTriangles, 2, &size, 1);
 }
 
 extern char const* const g_011f4a70_arg1;
@@ -188,18 +199,21 @@ struct S_00a8a9c0_Base
     int unk34;
     int unk38;
     int unk3c;
-    bool FUN_00a67840(const S_00a8a9c0_Base* pkObject);
+    bool NiGeometryData_IsEqual(const S_00a8a9c0_Base* pkObject);
 };
 struct S_00a8a9c0 : S_00a8a9c0_Base
 {
     unsigned short m_usTriangles;
-    unsigned char MatchesTriangleCount(const S_00a8a9c0_Base* pkObject);
+    unsigned char NiTriBasedGeomData_IsEqual(const S_00a8a9c0_Base* pkObject);
 };
-// Returns false if FUN_00a67840 fails, otherwise returns whether m_usTriangles equals the passed object's m_usTriangles.
+// Returns false if NiGeometryData_IsEqual fails, otherwise returns whether m_usTriangles equals the passed object's m_usTriangles.
 // @fnv 0x00a8a9c0
-unsigned char S_00a8a9c0::MatchesTriangleCount(const S_00a8a9c0_Base* pkObject)
+// pdb: NiTriBasedGeomData::IsEqual | NiTriBasedGeomData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
+// pdb: NiTriBasedGeomData::IsEqual | NiTriBasedGeomData.obj | fnv360_0822_retail, caller_sim, high (was: MatchesTriangleCount)
+unsigned char S_00a8a9c0::NiTriBasedGeomData_IsEqual(const S_00a8a9c0_Base* pkObject)
 {
-    if (!FUN_00a67840(pkObject))
+    if (!NiGeometryData_IsEqual(pkObject))
         return false;
     return m_usTriangles == ((const S_00a8a9c0*)pkObject)->m_usTriangles;
 }
@@ -235,6 +249,7 @@ struct FUN_00a8aa00_cls
 
 // Sets the vtable pointer, calls BaseCleanup, and frees the object with FUN_00aa1460 when acFlags bit 0 is set; returns this.
 // @fnv 0x00a8aa00
+// pdb: NiTriBasedGeomData::`scalar deleting destructor' | NiTriBasedGeomData.obj | fnv360_0822_retail, objrun, high
 FUN_00a8aa00_cls* FUN_00a8aa00_cls::Destroy(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_0109f2f4;
@@ -257,11 +272,14 @@ bool FUN_00a8a9b0::RegisterStreamables(NiStream& kStream)
 }
 
 // @fnv 0x00d3dd00
+// pdb: CombatProcedure::ActivatedReference | CombatProcedureActivateObject.obj | fnv360_0721_beta, vtable_prefix, low, conflict (skyrim: NiTriBasedGeomData::GetStripData)
+// pdb params: apRef, apObject, aiCount, abActivatedScriptOnly
 void __stdcall FUN_00d3dd00(int a, int b, int c, int d)
 {}
 
 void FUN_00a677e0();
 // @fnv 0x00a8a9a0
+// pdb: QueuedHelmet::PostProcess | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void FUN_00a8a9a0()
 {
     FUN_00a677e0();

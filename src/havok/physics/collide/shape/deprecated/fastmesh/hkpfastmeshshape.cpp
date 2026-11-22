@@ -208,6 +208,8 @@ struct TriangleOutE48C : ConvexE48C
         padding = 0;
     }
 };
+// pdb: hkpFastMeshShape::getChildShape | hkpFastMeshShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: key, buffer
 const hkpShapeE48C* hkpMeshShapeE48C::FUN_00e48cb0(unsigned int uiKey, unsigned char* pucBuffer) const
 {
     const hkpMeshShapeSubpartE48C* sub = m_kSubparts.m_data;

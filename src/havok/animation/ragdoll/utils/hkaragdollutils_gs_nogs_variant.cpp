@@ -7,44 +7,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
-    int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
 
-// @fnv 0x00cea7c0
-int __cdecl FUN_00cea7c0(void* p1, void* p2, void* p3)
-{
-    if (FUN_00cea030(p1, p2))
-        return 1;
-    if (FUN_00ce9db0(p2, p3))
-        return 1;
-    if (FUN_00ce9e90(p2))
-        return 1;
-    return 0;
-}
-
-struct Item
-{
-    int unk00[11];
-    int unk2c;
-};
-struct Container
-{
-    int unk00[2];
-    Item** items;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-struct Counter
-{
-    int unk00[12];
-    int unk30;
-};
-extern "C" void __cdecl AssignNodeFlags(int, int, int);
-void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
 struct Inner
 {
     virtual void unk0();
@@ -79,44 +44,7 @@ struct hkError
     virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
 };
 extern hkError* DAT_01268360;
-static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();
-void caller(Obj* obj);
-struct SpawnedAllocator
-{
-    virtual void* release();
-    virtual void* allocate(int size);
-};
-struct SpawnedGlobal
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    SpawnedAllocator* m_pAllocator;
-};
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
-struct SpawnedObject
-{
-    int unk00;
-    unsigned short m_size04;
-    int Init(void* a, void* b, int c, void* d);
-};
-struct SourceRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int m_i2c;
-};
-int __cdecl SpawnObjectFromRecord(SourceRecord* src);
+static bool _isConstraintSupported(Obj* obj, bool reportError) throw();
 
 struct Builder390
 {
@@ -301,7 +229,8 @@ struct List
     int count;
 };
 
-static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw()
+// pdb: _isConstraintSupported | hkaRagdollUtils.obj | fnv360_0822_retail, call_gap, high (was: IsSupportedRagdollConstraint)
+static __declspec(noinline) bool _isConstraintSupported(Obj* obj, bool reportError) throw()
 {
     Inner* inner = obj->inner;
     int t = inner->getSomething();
@@ -314,7 +243,8 @@ static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool rep
     return false;
 }
 
-static __declspec(noinline) Vec4* FUN_00ce9c40(Obj* obj) throw()
+// pdb: _accessConstraintPivotA | hkaRagdollUtils.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_seq), high
+static __declspec(noinline) Vec4* _accessConstraintPivotA(Obj* obj) throw()
 {
     Inner* inner = obj->inner;
     int t = inner->getSomething();
@@ -365,6 +295,7 @@ extern hkError* DAT_010f3364;
 extern const char DAT_00e7c21c[];
 extern const char DAT_00e7c1a8[];
 
+// pdb: alignConstraintSpacesToChildren | hkaRagdollUtils.obj | fnv360_0822_retail, ustr, high
 extern "C" int __cdecl FUN_00ce9e90(void* p)
 {
     List* list = (List*)p;

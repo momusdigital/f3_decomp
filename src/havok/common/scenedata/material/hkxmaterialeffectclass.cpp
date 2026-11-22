@@ -52,7 +52,7 @@ struct FUN_00e022d0_cls : SpawnedBase
 // @f3 0x00775310 (community match, verified in this file)
 namespace f3m_00775310 {
 struct Base775310 {
-    void FUN_004068c0(int a);
+    void MagicItem_Unload(int a);
 };
 struct Pad775310 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -64,7 +64,7 @@ struct Sub775310 {
     int a;
     char b;
     int c;
-    bool FUN_00bd0390();
+    bool BSSoundHandle_IsValid();
 };
 struct Owner775310 {
     int unk000;
@@ -533,14 +533,16 @@ struct Owner775310 {
     bool FUN_00775310(Arg775310* arg);
 };
 
+// pdb: PlayerCharacter::RemoveSpell | PlayerCharacter.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apSpellIn
 bool Owner775310::FUN_00775310(Arg775310* arg)
 {
     bool res = FUN_00723400(arg);
     if (res && (Base775310*)arg == unk648 && unk648) {
-        unk648->FUN_004068c0(1);
+        unk648->MagicItem_Unload(1);
         unk648 = 0;
         Sub775310* sub = &unk730;
-        if (sub->FUN_00bd0390()) {
+        if (sub->BSSoundHandle_IsValid()) {
             sub->a = -1;
             sub->b = 0;
             sub->c = 0;

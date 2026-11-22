@@ -192,6 +192,8 @@ struct S0049add0_Owner {
     bool FUN_0049add0(void* object, const S0049add0_Point* position, const S0049add0_Matrix* rotation);
 };
 
+// pdb: TESWaterSystem::RemovePlaceableWater | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apWaterRef, arPosition, arRotation
 bool S0049add0_Owner::FUN_0049add0(void* object, const S0049add0_Point* position, const S0049add0_Matrix* rotation) {
     if (DAT_00f4cf80 && DAT_0106fdcc) {
         S0049add0_Point dir(0.0f, 0.0f, 1.0f);
@@ -276,16 +278,16 @@ struct ExtraDataList
     void* m_data;
     unsigned int presence[5];
     bool IsEmpty() { return !m_data; }
-    bool FUN_0040af00();
+    bool ExtraDataList_GetCanNotWear();
     TESObjectREFR* FUN_0040bd70();
-    bool FUN_0040aed0(bool abLeft);
+    bool ExtraDataList_GetWorn(bool abLeft);
     void FUN_0040b5e0(bool abWorn, bool abWornLeft);
-    unsigned int FUN_0040a2d0();
+    unsigned int BaseExtraList_ItemsInList();
     char FUN_0040e260();
     void FUN_0040e1b0(unsigned char aucHotKey);
     short FUN_0040ac80();
-    void FUN_00410170(unsigned short ausCount);
-    bool FUN_0040a7e0(ExtraDataList* apOther, bool abFlag);
+    void ExtraDataList_SetCount(unsigned short ausCount);
+    bool ExtraDataList_CompareListForContainer(ExtraDataList* apOther, bool abFlag);
 };
 
 template <class T> struct BSSimpleList
@@ -791,11 +793,12 @@ struct InventoryChanges
         else
             return 0;
     }
-    bool FUN_00481490(bool* abRemoved, TESForm* apObject, int aiNumber, Actor* apActor, ExtraDataList* apExtra,
+    bool InventoryChanges_RemoveWorn(bool* abRemoved, TESForm* apObject, int aiNumber, Actor* apActor, ExtraDataList* apExtra,
                       bool ableft, bool abforce);
 };
 
-bool InventoryChanges::FUN_00481490(bool* abRemoved, TESForm* apObject, int aiNumber, Actor* apActor,
+// pdb: InventoryChanges::RemoveWorn | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+bool InventoryChanges::InventoryChanges_RemoveWorn(bool* abRemoved, TESForm* apObject, int aiNumber, Actor* apActor,
                                     ExtraDataList* apExtra, bool ableft, bool abforce)
 {
     ResetCachedWeights();
@@ -810,12 +813,12 @@ bool InventoryChanges::FUN_00481490(bool* abRemoved, TESForm* apObject, int aiNu
     while (pkFirst && pkFirst->GetItem())
     {
         ExtraDataList* pExtra = pkFirst->GetItem();
-        if (pExtra->FUN_0040af00() && !apActor->CanRemove(false))
+        if (pExtra->ExtraDataList_GetCanNotWear() && !apActor->CanRemove(false))
         {
             *abRemoved = false;
             return bExtraGood;
         }
-        if (pExtra->FUN_0040aed0(ableft) && (!apExtra || apExtra == pExtra))
+        if (pExtra->ExtraDataList_GetWorn(ableft) && (!apExtra || apExtra == pExtra))
         {
             ItemChange* pitem = 0;
             TESBipedModelForm* pmodel = FUN_00451da0(apObject);
@@ -864,12 +867,12 @@ bool InventoryChanges::FUN_00481490(bool* abRemoved, TESForm* apObject, int aiNu
                 }
             }
             pExtra->FUN_0040b5e0(false, ableft);
-            if (pExtra->FUN_0040a2d0() <= 1)
+            if (pExtra->BaseExtraList_ItemsInList() <= 1)
             {
                 if (pExtra->FUN_0040e260() >= 0)
-                    pExtra->FUN_00410170(pchangeItem->GetCount() - pchangeItem->FUN_0047ce40(false));
+                    pExtra->ExtraDataList_SetCount(pchangeItem->GetCount() - pchangeItem->FUN_0047ce40(false));
                 else
-                    pExtra->FUN_00410170(0);
+                    pExtra->ExtraDataList_SetCount(0);
             }
             if (pExtra->IsEmpty())
             {
@@ -888,12 +891,12 @@ bool InventoryChanges::FUN_00481490(bool* abRemoved, TESForm* apObject, int aiNu
                     ExtraDataList* pcompare = pExtra;
                     bool bcomp = true;
                     if (pcompare)
-                        bcomp = pcompare->FUN_0040a7e0(pCurrent, false) || pCurrent->FUN_0040a7e0(pcompare, false);
+                        bcomp = pcompare->ExtraDataList_CompareListForContainer(pCurrent, false) || pCurrent->ExtraDataList_CompareListForContainer(pcompare, false);
                     if (bcomp || pExtra == pCurrent)
                         node2 = node2->GetNext();
                     else
                     {
-                        pCurrent->FUN_00410170(pCurrent->FUN_0040ac80() + aiNumber);
+                        pCurrent->ExtraDataList_SetCount(pCurrent->FUN_0040ac80() + aiNumber);
                         if (pExtra->FUN_0040e260() >= 0)
                             pCurrent->FUN_0040e1b0(pExtra->FUN_0040e260());
                         if (pCurrent->IsEmpty())

@@ -1,4 +1,4 @@
-// fallout/interface/fovatseffectmanager.cpp: ShadowLightData, EffectSetting (4 functions)
+// fallout/interface/fovatseffectmanager.cpp: ShadowLightData, EffectSetting (3 functions)
 #include "f3_common.h"
 extern unsigned __int64 selected_target_masks[43];
 
@@ -6,6 +6,8 @@ extern unsigned __int64 selected_target_masks[43];
 
 // Stores targetMask at selected_target_masks[selectedIndex] and sets or clears the selectedIndex bit in each of the 43 mask words according to targetMask.
 // @fnv 0x00c82870
+// pdb: bhkCollisionFilter::SetMultiLayerCollision | bhkCollisionFilter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeA, uiLayerBits
 void ShadowLightData::SetTargetMaskForSelection(unsigned int selectedIndex, unsigned __int64 ullTargetMask)
 {
     unsigned __int64 ullSelectedBit = ((unsigned __int64)1) << selectedIndex;
@@ -27,84 +29,6 @@ void ShadowLightData::SetTargetMaskForSelection(unsigned int selectedIndex, unsi
 
 #pragma optimize("", off)
 #include "fovatseffectmanager_perks.h"
-
-// Applies the perk entry-point functions for an actor's entry point, validating filter parameters and function arguments first.
-// @fnv 0x005e58f0
-void ApplyPerkModifiers(int entryPoint, Actor* actor, ...)
-{
-    if (!actor || entryPoint >= 74)
-        return;
-    bool bUsePlayer = false;
-    Actor* pOriginalActor = actor;
-    if (actor != (Actor*)g_thePlayer && actor->IsPlayerTeammate())
-    {
-        bUsePlayer = true;
-        actor = (Actor*)g_thePlayer;
-    }
-    BSSimpleList<BGSPerkEntry*>* pList = actor->GetPerkEntriesForEntryPoint((unsigned char)entryPoint, bUsePlayer);
-    if (pList && pList->GetItem())
-    {
-        actor = pOriginalActor;
-        void* pEntryPointArguments[10];
-        void* pParameters[10];
-        struct PerkArgumentValidation
-        {
-            bool validArguments;
-            unsigned char argumentCount;
-            unsigned char parameterCount;
-            bool validParameters;
-        } argumentValidation;
-        struct PerkArgumentCursor
-        {
-            BGSEntryPointFunction::ENTRY_POINT_FUNCTION_TYPE type;
-            char* current;
-        } kArgumentPosition;
-        argumentValidation.parameterCount = EntryPointFunctionDispatcher::ms_kEntryPointTable[entryPoint].filterCount;
-        kArgumentPosition.type = (BGSEntryPointFunction::ENTRY_POINT_FUNCTION_TYPE)
-                                     EntryPointFunctionDispatcher::ms_kEntryPointTable[entryPoint]
-                                         .functionType;
-        argumentValidation.argumentCount = BGSEntryPointFunction::GetArgumentCount(kArgumentPosition.type);
-        pParameters[0] = actor;
-        kArgumentPosition.current = (char*)(&actor + 1);
-        argumentValidation.validParameters = true;
-        for (unsigned int i = 1; i < argumentValidation.parameterCount; ++i)
-        {
-            pParameters[i] = *(void**)((kArgumentPosition.current += 4) - 4);
-            if (!pParameters[i])
-                argumentValidation.validParameters = false;
-        }
-        argumentValidation.validArguments = true;
-        for (unsigned int i = 0; i < argumentValidation.argumentCount; ++i)
-        {
-            pEntryPointArguments[i] = *(void**)((kArgumentPosition.current += 4) - 4);
-            if (!pEntryPointArguments[i])
-                argumentValidation.validArguments = false;
-        }
-        kArgumentPosition.current = 0;
-        if (argumentValidation.validParameters && argumentValidation.validArguments)
-        {
-            while (pList)
-            {
-                BGSPerkEntry* pPerkEntry = pList->GetItem();
-                if (pPerkEntry && pPerkEntry->IsInfoValidForDialogue(argumentValidation.parameterCount, pParameters))
-                    BGSEntryPointFunction::ApplyFunction(
-                        (BGSEntryPointFunction::ENTRY_POINT_FUNCTION)pPerkEntry->GetFunction(), actor,
-                        kArgumentPosition.type, argumentValidation.argumentCount, pEntryPointArguments,
-                        pPerkEntry->GetFunctionData());
-                pList = pList->GetNext();
-            }
-        }
-        else
-        {
-            Warning(g_entryPointArgumentErrorFormat,
-                    argumentValidation.validParameters ? g_entryPointFunctionArgumentName
-                                                       : g_entryPointFilterParameterName,
-                    EntryPointFunctionDispatcher::ms_kEntryPointTable[entryPoint].name,
-                    argumentValidation.validParameters ? argumentValidation.parameterCount
-                                                       : argumentValidation.argumentCount);
-        }
-    }
-}
 
 #include "fovatseffectmanager_effects.h"
 

@@ -44,6 +44,7 @@ struct FUN_00d1f210_cls
 };
 
 // @fnv 0x00d1f210
+// pdb: hkpShapeCollection::getContainer | hkpShapeCollection.obj | fnv360_0822_debug, objrun_open, low
 int FUN_00d1f210_cls::FUN_00d1f210(int a1, int a2)
 {
     return m_04;

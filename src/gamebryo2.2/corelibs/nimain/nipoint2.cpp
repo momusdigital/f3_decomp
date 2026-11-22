@@ -3,6 +3,8 @@
 #include "nipoint2_decls.h"
 // Reads two floats from the stream into the point's x and y coordinates.
 // @fnv 0x00a68c80
+// pdb: NiPoint2::LoadBinary | NiPoint2.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: stream
 void NiPoint2::LoadBinary(NiStream& stream)
 {
     stream.m_pUnderlyingStream->ReadFloat(x);
@@ -33,6 +35,8 @@ struct THIS_00a68ce0
     void WriteCoords(ST_00a68ce0&);
 };
 // @fnv 0x00a68ce0
+// pdb: NiPoint2::SaveBinary | NiPoint2.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: stream
 void THIS_00a68ce0::WriteCoords(ST_00a68ce0& aStream)
 {
     aStream.m_pBackingStream->WriteFloat(x);

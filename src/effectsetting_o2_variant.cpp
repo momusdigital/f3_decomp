@@ -46,11 +46,11 @@ class BEB3890Base
     int unk34;
 };
 
-class FUN_00eb3890_cls : public BEB3890Base
+class NiBoxCapsuleIntersector : public BEB3890Base // src: F3_EXE vtable 0x00e206d0 (old: FUN_00eb3890_cls)
 {
   public:
-    FUN_00eb3890_cls(BEB3890Body* pkBodyA, BEB3890Body* pkBodyB, float fA, float fB, float fC, int iD);
-    virtual ~FUN_00eb3890_cls();
+    NiBoxCapsuleIntersector(BEB3890Body* pkBodyA, BEB3890Body* pkBodyB, float fA, float fB, float fC, int iD);
+    virtual ~NiBoxCapsuleIntersector();
 
     BEB3890Body* m_pkBodyA;
     BEB3890Body* m_pkBodyB;
@@ -61,7 +61,9 @@ class FUN_00eb3890_cls : public BEB3890Base
 };
 
 // @fnv 0x00eb3890
-FUN_00eb3890_cls::FUN_00eb3890_cls(BEB3890Body* pkBodyA, BEB3890Body* pkBodyB, float fA, float fB, float fC, int iD)
+// pdb: NiBoxCapsuleIntersector::NiBoxCapsuleIntersector | NiBoxCapsuleIntersector.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kBox, kCapsule, fMaxTime, fDerivativeTimeStep, fPseudodistanceThreshold, iMaxIterations
+NiBoxCapsuleIntersector::NiBoxCapsuleIntersector(BEB3890Body* pkBodyA, BEB3890Body* pkBodyB, float fA, float fB, float fC, int iD)
     : BEB3890Base(fA, fB, fC, iD), m_pkBodyA(pkBodyA), m_pkBodyB(pkBodyB)
 {
     m_fInvRadiusSq = 1.0f / (pkBodyB->m_fBoundRadius * pkBodyB->m_fBoundRadius);

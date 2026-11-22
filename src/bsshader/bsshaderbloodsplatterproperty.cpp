@@ -40,6 +40,8 @@ struct S_00b81420_Node : S_00b81420_AVObject
 
 // If obj is geometry, sets property 3's m_iValue when its type is 0x17; otherwise recurses into each child of obj's node.
 // @f3 0x00b03bb0 (community match, verified in this file)
+// pdb: BSShaderBloodSplatterProperty::SetFadeSourceRecurse | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, apfAlphaSource
 void FUN_00b81420(S_00b81420_AVObject* obj, int value)
 {
     if (!obj)
@@ -111,6 +113,8 @@ class FUN_00b81330_cls
 };
 
 // @fnv 0x00b81330
+// pdb: BSShaderBloodSplatterProperty::GetRenderPasses | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
 SpawnedP* FUN_00b81330_cls::FUN_00b81330(unsigned int a1, unsigned int a2, unsigned int auiUnused3, unsigned int a4,
                                          unsigned int auiUnused5, unsigned int auiUnused6)
 {
@@ -259,6 +263,8 @@ struct Owner
 };
 
 // @fnv 0x00b814a0
+// pdb: BSShaderBloodSplatterProperty::CreateClone | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 Item* Owner::CreateItem(int arg)
 {
     Item* item = new Item;
@@ -327,7 +333,7 @@ struct StringOwner
     unsigned int children[2];
 
     void WriteToSettingArray(StringArray* a1);
-    void BuildStringArray(unsigned int a1);
+    void BSShaderBloodSplatterProperty_GetViewerStrings(unsigned int a1);
 };
 
 extern unsigned int DAT_011ff0f4;
@@ -339,7 +345,10 @@ extern const char str_010ae79c[];
 
 // Appends a value and formatted child labels to a StringArray via append.
 // @fnv 0x00b81520
-void StringOwner::BuildStringArray(unsigned int apArray)
+// pdb: BSShaderBloodSplatterProperty::GetViewerStrings | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, ustr_rel, high
+// pdb params: apStrings
+// pdb: BSShaderBloodSplatterProperty::GetViewerStrings | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, ustr_rel, high (was: BuildStringArray)
+void StringOwner::BSShaderBloodSplatterProperty_GetViewerStrings(unsigned int apArray)
 {
     StringArray* pArray = (StringArray*)apArray;
     WriteToSettingArray(pArray);

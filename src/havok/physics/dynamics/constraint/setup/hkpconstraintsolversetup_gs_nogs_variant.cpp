@@ -320,7 +320,7 @@ struct Entity538 {
     unsigned int unkc,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,unk44,unk48,unk4c,unk50,unk54,unk58,unk5c,unk60,unk64,unk68,unk6c,unk70,unk74,unk78,unk7c,unk80,unk84,unk88,unk8c;char* data;
     unsigned int unk94,unk98,unk9c,unka0,unka4,unka8,unkac,unkb0,unkb4,unkb8,unkbc,unkc0,unkc4,unkc8,unkcc;Sub538 sub;
 };
-void __cdecl FUN_009ac100(void*,void*,Acc538*,Sub538**,int,int);
+void __cdecl hkRigidMotionUtilApplyAccumulators(void*,void*,Acc538*,Sub538**,int,int);
 void __cdecl FUN_0099a2d0(void*,D88580Entity**,int);
 void __cdecl FUN_00d88580(void* a0,void* a1,int offset,D88580Entity** entities,int count) {
     for(int i=0;i<count;++i) {
@@ -332,7 +332,7 @@ void __cdecl FUN_00d88580(void* a0,void* a1,int offset,D88580Entity** entities,i
         accumulator.scratch[0]=accumulator.angular[0];accumulator.scratch[1]=accumulator.angular[1];
         accumulator.scratch[2]=accumulator.angular[2];accumulator.scratch[3]=accumulator.angular[3];
         unsigned char saved=sub->flag;sub->flag=255;
-        FUN_009ac100(a0,a1,&accumulator,&sub,1,0);
+        hkRigidMotionUtilApplyAccumulators(a0,a1,&accumulator,&sub,1,0);
         FUN_0099a2d0(reinterpret_cast<Entity538*>(current)->world->target,&current,1);
         sub->flag=saved;
     }

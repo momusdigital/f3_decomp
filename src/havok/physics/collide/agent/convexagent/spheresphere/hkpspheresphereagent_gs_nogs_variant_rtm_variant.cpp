@@ -2,30 +2,6 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 #include "f3_common.h"
-// src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent_gs_nogs_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
-// byte only under /MT /O2 /GS- /EHsc /Gy (unit src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
-// to their real unit once identified.
-// src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp).
-// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d);
-void __stdcall FUN_00d3fcc0(void* a, void* c, void* b, void* d);
-struct S_00d3f660_Owner
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void Release(unsigned short id, void* arg);
-};
-struct S_00d3f660
-{
-    virtual ~S_00d3f660();
-    int unk4;
-    S_00d3f660_Owner* unk8;
-    unsigned short unkC;
-    void ReleaseAndDelete(void* arg);
-};
 
 #include <xmmintrin.h>
 #include <windows.h>
@@ -206,8 +182,6 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern unsigned int DAT_0126835c;
-extern char DAT_010cf1a4[];
-extern char DAT_010c41f8[];
 extern __m128 DAT_01268370;
 struct Shape
 {
@@ -221,126 +195,4 @@ struct Shape
         return radius;
     }
 };
-struct Transform
-{
-    __m128 rotation0, rotation1, rotation2, position;
-};
-struct Body
-{
-    Shape* shape;
-    int shapeKey;
-    Transform* transform;
-    const Body* parent;
-};
-struct Input
-{
-    int unk00;
-    int unk04;
-    float tolerance;
-};
-union ScalarScratch
-{
-    struct
-    {
-        float squaredDistance, distance, radiusB, radiusA;
-    } collision;
-    struct
-    {
-        volatile unsigned int beginStamp, endStamp;
-    } profiling;
-};
-struct Point
-{
-    __m128 position;
-    __m128 normal;
-    const Body* a;
-    const Body* b;
-};
-struct Collector
-{
-    virtual void v0();
-    virtual void AddContactPoint(const Point&);
-};
-struct Event
-{
-    const char* tag;
-    unsigned int time;
-    unsigned int timeHigh;
-};
-struct Monitor
-{
-    void* vtable;
-    Event* current;
-    Event* begin;
-    Event* end;
-};
-// @fnv 0x00d3f980
-void __stdcall FUN_00d3f980(const Body* a, const Body* b, const Input* input, Collector* collector)
-{
-    ScalarScratch scratch;
-    {
-        Monitor* stream = (Monitor*)TlsGetValue(DAT_0126835c);
-        Event* p = stream->current;
-        if (p < stream->end)
-        {
-            p->tag = DAT_010cf1a4;
-            _ReadWriteBarrier();
-            scratch.profiling.beginStamp = (unsigned int)__rdtsc();
-            p->time = scratch.profiling.beginStamp;
-            stream->current = p + 1;
-        }
-    }
-    const Shape* shapeA = a->shape;
-    const Shape* shapeB = b->shape;
-    const __m128& posB = b->transform->position;
-    Point point;
-    point.a = a;
-    point.b = b;
-    __m128 diff = _mm_sub_ps(a->transform->position, posB);
-    scratch.collision.distance = shapeB->getRadius() + shapeA->radius + input->tolerance;
-    __m128 sq = _mm_mul_ps(diff, diff);
-    __m128 add1 = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
-    __m128 distSqM = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), add1);
-    _mm_store_ss(&scratch.collision.squaredDistance, distSqM);
-    if (scratch.collision.squaredDistance < scratch.collision.distance * scratch.collision.distance)
-    {
-        __m128 normal;
-        if (scratch.collision.squaredDistance > 0.0f)
-        {
-            volatile float& rootValue = scratch.collision.distance;
-            rootValue = sqrt((double)scratch.collision.squaredDistance);
-            scratch.collision.distance = 1.0f / rootValue;
-
-            normal = _mm_mul_ps(_mm_load1_ps(&scratch.collision.distance), diff);
-            scratch.collision.distance = scratch.collision.distance * scratch.collision.squaredDistance;
-        }
-        else
-        {
-            scratch.collision.distance = 0.0f;
-            normal = _mm_shuffle_ps(DAT_01268370, _mm_unpackhi_ps(DAT_01268370, point.normal), 0xc4);
-        }
-        point.normal = normal;
-        scratch.collision.radiusA = shapeA->radius;
-        scratch.collision.radiusB = shapeB->getRadius();
-        scratch.collision.squaredDistance = shapeB->getRadius();
-        __m128 scale = _mm_load_ss(&scratch.collision.squaredDistance);
-        __m128 scaleCopy = scale;
-        __m128 radiusBroadcast = _mm_shuffle_ps(scaleCopy, scale, 0);
-        point.position = _mm_add_ps(_mm_mul_ps(radiusBroadcast, normal), posB);
-        point.normal.m128_f32[3] = scratch.collision.distance - (scratch.collision.radiusA + scratch.collision.radiusB);
-        collector->AddContactPoint(point);
-    }
-    {
-        Monitor* stream = (Monitor*)TlsGetValue(DAT_0126835c);
-        Event* p = stream->current;
-        if (p < stream->end)
-        {
-            p->tag = DAT_010c41f8;
-            _ReadWriteBarrier();
-            scratch.profiling.endStamp = (unsigned int)__rdtsc();
-            p->time = scratch.profiling.endStamp;
-            stream->current = p + 1;
-        }
-    }
-}
 }  // namespace fnv_00d3f980

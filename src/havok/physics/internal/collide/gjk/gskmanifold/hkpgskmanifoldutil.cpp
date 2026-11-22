@@ -29,7 +29,10 @@ struct S_00dad640_Target
 };
 
 // @fnv 0x00dad640
-void ReleaseAllEntries(S_00dad640_Set* set, S_00dad640_Target* target, void* arg)
+// pdb: hkGskManifold_cleanup | hkpGskManifoldUtil.obj | fnv360_0822_retail, call_seq, high
+// pdb params: manifold, mgr, constraintOwner
+// pdb: hkGskManifold_cleanup | hkpGskManifoldUtil.obj | fnv360_0822_retail, call_seq, high (was: ReleaseAllEntries)
+void hkGskManifold_cleanup(S_00dad640_Set* set, S_00dad640_Target* target, void* arg)
 {
     for (unsigned int i = 0; i < set->count; i++)
     {
@@ -76,7 +79,10 @@ struct S_00dad4d0_Set
 };
 
 // @fnv 0x00dad4d0
-bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key)
+// pdb: hkGskManifold_doesPointExistAndResort | hkpGskManifoldUtil.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: manifold, newPoint
+// pdb: hkGskManifold_doesPointExistAndResort | hkpGskManifoldUtil.obj | fnv360_0822_retail, call_gap_sim, high (was: FindAndPromoteEntry)
+bool hkGskManifold_doesPointExistAndResort(S_00dad4d0_Set* set, S_00dad4d0_Key* key)
 {
     unsigned i;
     for (i = 0; i < set->count; i++)
@@ -125,6 +131,8 @@ bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key)
 void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
 
 // @fnv 0x00dae340
+// pdb: hkGskManifold_removePoint | hkpGskManifoldUtil.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: manifold, index
 void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index)
 {
     unsigned int n = set->count;
@@ -340,50 +348,6 @@ class Vector
     }
 };
 namespace VectorUtil {
-__forceinline void dot3_3vs3(const Vector& a, const Vector& b, const Vector& c, const Vector& d, const Vector& e,
-                             const Vector& f, Vector& result)
-{
-    __m128 x = _mm_mul_ps(a.packet(), b.packet()), y = _mm_mul_ps(c.packet(), d.packet()),
-           z = _mm_mul_ps(e.packet(), f.packet());
-    __m128 low, high;
-    low = _mm_unpacklo_ps(x, y);
-    high = _mm_shuffle_ps(_mm_unpackhi_ps(x, y), z, 0xe4);
-    x = _mm_movelh_ps(low, z);
-    y = _mm_shuffle_ps(_mm_movehl_ps(x, low), z, 0xd4);
-    z = high;
-    result.packet() = _mm_add_ps(_mm_add_ps(x, y), z);
-}
-__forceinline void dot3_1vs4(const Vector& normal, const Vector& a, const Vector& b, const Vector& c, const Vector& d,
-                             Vector& result)
-{
-    __m128 x = _mm_mul_ps(a.packet(), normal.packet()), y = _mm_mul_ps(b.packet(), normal.packet());
-    __m128 z = _mm_mul_ps(c.packet(), normal.packet()), w = _mm_mul_ps(d.packet(), normal.packet());
-    __m128 t3, t2, t1, t0;
-    t0 = _mm_shuffle_ps(x, y, 0x44);
-    t2 = _mm_shuffle_ps(x, y, 0xee);
-    t1 = _mm_shuffle_ps(z, w, 0x44);
-    t3 = _mm_shuffle_ps(z, w, 0xee);
-    x = _mm_shuffle_ps(t0, t1, 0x88);
-    y = _mm_shuffle_ps(t0, t1, 0xdd);
-    z = _mm_shuffle_ps(t2, t3, 0x88);
-    w = _mm_shuffle_ps(t2, t3, 0xdd);
-    result.packet() = _mm_add_ps(_mm_add_ps(x, y), z);
-}
-__forceinline void dot3_2vs2(const Vector& a, const Vector& b, const Vector& c, const Vector& d, Vector& result)
-{
-    __m128 x = _mm_mul_ps(a.packet(), c.packet()), y = _mm_mul_ps(a.packet(), d.packet());
-    __m128 z = _mm_mul_ps(b.packet(), c.packet()), w = _mm_mul_ps(b.packet(), d.packet());
-    __m128 t3, t2, t1, t0;
-    t0 = _mm_shuffle_ps(x, y, 0x44);
-    t2 = _mm_shuffle_ps(x, y, 0xee);
-    t1 = _mm_shuffle_ps(z, w, 0x44);
-    t3 = _mm_shuffle_ps(z, w, 0xee);
-    x = _mm_shuffle_ps(t0, t1, 0x88);
-    y = _mm_shuffle_ps(t0, t1, 0xdd);
-    z = _mm_shuffle_ps(t2, t3, 0x88);
-    w = _mm_shuffle_ps(t2, t3, 0xdd);
-    result.packet() = _mm_add_ps(_mm_add_ps(x, y), z);
-}
 }
 
 class FloatField
@@ -421,193 +385,3 @@ struct ContactWork
         return *reinterpret_cast<const ContactVertex*>(reinterpret_cast<const char*>(vertices) + off);
     }
 };
-
-struct ContactResult
-{
-    Vector point, delta, normal;
-};
-
-static __forceinline int pointPoint(const ContactWork& w, const S_00dad4d0_Entry& f, ContactResult& r)
-{
-    const Vector& a = w.vertex(f.offs[0]);
-    const Vector& b = w.vertex(f.offs[1]);
-    Vector separation;
-    separation.setSub4(a, b);
-    float squared = separation.lengthSquared3();
-    if (squared > w.toleranceSquared)
-        return 1;
-    r.delta = separation;
-    r.normal = w.direction;
-    r.point = a;
-    return 0;
-}
-static __forceinline int pointEdge(const ContactWork& w, const S_00dad4d0_Entry& f, ContactResult& r)
-{
-    const Vector& a = w.vertex(f.offs[0]);
-    const Vector& b = w.vertex(f.offs[1]);
-    const Vector& c = w.vertex(f.offs[2]);
-    r.point = a;
-    r.normal = w.direction;
-    Vector edge, first, second, area, weights;
-    edge.setSub4(c, b);
-    first.setSub4(c, a);
-    second.setSub4(a, b);
-    area.setCross(edge, first);
-    VectorUtil::dot3_3vs3(first, edge, second, edge, area, area, weights);
-    float squared = edge.lengthSquared3();
-    int negative = weights.compareLessThanZero4().anyIsSet(Comparison::MASK_XY);
-    if (weights(3) > w.toleranceSquared * squared || negative)
-        return 1;
-    Scalar fraction = weights.getSimdAt(0) / (weights.getSimdAt(0) + weights.getSimdAt(1));
-    Vector closest;
-    closest.setInterpolate4(b, c, fraction);
-    r.delta.setSub4(a, closest);
-    return 0;
-}
-static __forceinline int edgePoint(const ContactWork& w, const S_00dad4d0_Entry& f, ContactResult& r)
-{
-    const Vector& a = w.vertex(f.offs[0]);
-    const Vector& b = w.vertex(f.offs[1]);
-    const Vector& c = w.vertex(f.offs[2]);
-    r.normal = w.direction;
-    Vector keepB(b);
-    Vector edge, first, second, area, weights;
-    edge.setSub4(keepB, a);
-    first.setSub4(keepB, c);
-    second.setSub4(c, a);
-    area.setCross(edge, first);
-    VectorUtil::dot3_3vs3(first, edge, second, edge, area, area, weights);
-    float squared = edge.lengthSquared3();
-    int negative = weights.compareLessThanZero4().anyIsSet(Comparison::MASK_XY);
-    if (weights(3) > w.toleranceSquared * squared || negative)
-        return 1;
-    Scalar fraction = weights.getSimdAt(0) / (weights.getSimdAt(0) + weights.getSimdAt(1));
-    r.point.setInterpolate4(keepB, a, fraction);
-    r.delta.setSub4(r.point, c);
-    return 0;
-}
-static __forceinline int pointFace(const ContactWork& w, const S_00dad4d0_Entry& f, ContactResult& r)
-{
-    const Vector& a = w.vertex(f.offs[0]);
-    const Vector& b = w.vertex(f.offs[1]);
-    const Vector& c = w.vertex(f.offs[2]);
-    const Vector& d = w.vertex(f.offs[3]);
-    r.point = a;
-    r.delta.setSub4(a, b);
-    Vector edge0, edge1, edge2, normal, weights;
-    edge0.setSub4(d, c);
-    edge1.setSub4(b, d);
-    edge2.setSub4(c, b);
-    normal.setCross(edge0, edge1);
-    normal.normalize3();
-    {
-        Vector ray0, ray1, ray2, side0, side1, side2;
-        ray0.setSub4(a, c);
-        ray1.setSub4(a, d);
-        ray2.setSub4(a, b);
-        side0.setCross(ray0, edge0);
-        side1.setCross(ray1, edge1);
-        side2.setCross(ray2, edge2);
-        VectorUtil::dot3_1vs4(normal, side0, side1, side2, w.direction, weights);
-    }
-    r.normal = normal;
-    int mask = weights.compareLessThanZero4().GetLaneMask();
-    if (mask & Comparison::MASK_W)
-        r.normal.setNeg4(normal);
-    return (mask & 7) ^ 7;
-}
-static __forceinline int facePoint(const ContactWork& w, const S_00dad4d0_Entry& f, ContactResult& r)
-{
-    const Vector& a = w.vertex(f.offs[0]);
-    const Vector& b = w.vertex(f.offs[1]);
-    const Vector& c = w.vertex(f.offs[2]);
-    const Vector& d = w.vertex(f.offs[3]);
-    r.point = d;
-    r.delta.setSub4(a, d);
-    Vector edge0, edge1, edge2, normal, weights;
-    edge0.setSub4(c, b);
-    edge1.setSub4(a, c);
-    edge2.setSub4(b, a);
-    normal.setCross(edge0, edge1);
-    normal.normalize3();
-    {
-        Vector ray0, ray1, ray2, side0, side1, side2;
-        ray0.setSub4(d, b);
-        ray1.setSub4(d, c);
-        ray2.setSub4(d, a);
-        side0.setCross(ray0, edge0);
-        side1.setCross(ray1, edge1);
-        side2.setCross(ray2, edge2);
-        VectorUtil::dot3_1vs4(normal, side0, side1, side2, w.direction, weights);
-    }
-    Scalar projection = r.delta.dot3(normal);
-    r.point.setAddMul4(d, normal, projection);
-    r.normal = normal;
-    int mask = weights.compareLessThanZero4().GetLaneMask();
-    if (mask & Comparison::MASK_W)
-        r.normal.setNeg4(normal);
-    return (mask & 7) ^ 7;
-}
-static __forceinline int edgeEdge(const ContactWork& w, const S_00dad4d0_Entry& f, ContactResult& r)
-{
-    const Vector& a = w.vertex(f.offs[0]);
-    const Vector& b = w.vertex(f.offs[1]);
-    const Vector& c = w.vertex(f.offs[2]);
-    const Vector& d = w.vertex(f.offs[3]);
-    Vector edgeA, edgeB, diffA, diffB, normal, ortA, ortB, weights;
-    edgeA.setSub4(b, a);
-    edgeB.setSub4(d, c);
-    diffA.setSub4(a, c);
-    diffB.setSub4(b, d);
-    normal.setCross(edgeA, edgeB);
-    ortA.setCross(edgeA, normal);
-    ortB.setCross(edgeB, normal);
-    r.normal = w.direction;
-    VectorUtil::dot3_2vs2(diffA, diffB, ortB, ortA, weights);
-    int mask = weights.compareLessThanZero4().GetLaneMask();
-    if (mask != 3 && mask != 12)
-        return 1;
-    Scalar x = weights.getSimdAt(0);
-    Scalar fraction = x / (x - weights.getSimdAt(2));
-    r.point.setInterpolate4(a, b, fraction);
-    Scalar y = weights.getSimdAt(1);
-    Scalar other = y / (y - weights.getSimdAt(3));
-    Vector closest;
-    closest.setInterpolate4(c, d, other);
-    r.delta.setSub4(r.point, closest);
-    return 0;
-}
-struct EntryParameter
-{
-    const S_00dad4d0_Entry* p;
-};
-// Switches on 4 * f.numA + f.numB to call pointPoint, pointEdge, pointFace, edgePoint, edgeEdge or facePoint; returns 1 for other combinations.
-// @fnv 0x00dad990
-static __declspec(noinline) int FUN_00dad990(const ContactWork& w, ContactResult& r, EntryParameter entry)
-{
-    const S_00dad4d0_Entry& f = *entry.p;
-    switch (4 * f.numA + f.numB)
-    {
-    case 0:
-        return 1;
-    case 5:
-        return pointPoint(w, f, r);
-    case 6:
-        return pointEdge(w, f, r);
-    case 7:
-        return pointFace(w, f, r);
-    case 9:
-        return edgePoint(w, f, r);
-    case 10:
-        return edgeEdge(w, f, r);
-    case 13:
-        return facePoint(w, f, r);
-    default:
-        return 1;
-    }
-}
-int probeCaller(const ContactWork& w, ContactResult& r, const S_00dad4d0_Entry* f)
-{
-    EntryParameter e = {f};
-    return FUN_00dad990(w, r, e);
-}

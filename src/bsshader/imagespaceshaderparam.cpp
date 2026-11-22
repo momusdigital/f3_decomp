@@ -6,6 +6,8 @@
 
 // Releases and reallocates the vertex and pixel constant arrays, then registers them with two new NiD3DShaderConstantMap objects.
 // @fnv 0x00b8ab10
+// pdb: ImageSpaceShaderParam::InitConstantMap | ImageSpaceShaderParam.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiVSize, aiPSize
 void ImageSpaceShaderParam::AllocateShaderConstants(int vertexCount, int pixelCount)
 {
     FUN_00b8a7e0();
@@ -37,6 +39,8 @@ void ImageSpaceShaderParam::AllocateShaderConstants(int vertexCount, int pixelCo
 
 // Writes the four floats x, y, z and w into the float array at the given index times four.
 // @fnv 0x00b8a790
+// pdb: ImageSpaceShaderParam::SetPixelConstant | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiIndex, afVal0, afVal1, afVal2, afVal3
 void ImageSpaceShaderParam::SetShaderConstantVector4(int index, float x, float y, float z, float w)
 {
     index *= 4;
@@ -47,6 +51,8 @@ void ImageSpaceShaderParam::SetShaderConstantVector4(int index, float x, float y
 }
 
 // @fnv 0x00b8a8d0
+// pdb: ImageSpaceShaderParam::SetRenderState | ImageSpaceShaderParam.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: auiState, auiValue
 void ImageSpaceShaderParam::SetRenderState(unsigned int state, unsigned int value)
 {
     m_kRenderStateMap.SetAt(state, value);
@@ -54,6 +60,7 @@ void ImageSpaceShaderParam::SetRenderState(unsigned int state, unsigned int valu
 
 // Releases the object references and deallocates the two buffers, clearing each pointer to null.
 // @fnv 0x00b8a7e0
+// pdb: ImageSpaceShaderParam::ClearConstantMap | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_gap, medium
 void ImageSpaceShaderParam::FUN_00b8a7e0()
 {
     if (m_pVertexShaderConstantMap.m_pObject)
@@ -80,12 +87,15 @@ void ImageSpaceShaderParam::FUN_00b8a7e0()
 
 // Copies size bytes from data into the parameter buffer at offset index*4.
 // @fnv 0x00b8a8b0
+// pdb: ImageSpaceShaderParam::SetPixelConstant | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiIndex, apSrc, aiLength
 void ImageSpaceShaderParam::CopyParamData(int index, const float* data, unsigned int size)
 {
     fnv_zlib_memcpy(m_pfPixelShaderConstants + index * 4, data, size);
 }
 
 // @fnv 0x00b8a7c0
+// pdb: ImageSpaceShaderParam::SetBlurClearMode | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_seq, medium
 void ImageSpaceShaderParam::FUN_00b8a7c0()
 {
     m_eClearFlags = DAT_011f9440 ? NiRenderer__ClearFlags_CLEAR_ALL : NiRenderer__ClearFlags_CLEAR_NONE;
@@ -99,6 +109,8 @@ struct H
 };
 // Writes four floats f0..f3 into the float array at offset aiIndex*4+12.
 // @fnv 0x00b8a760
+// pdb: ImageSpaceShaderParam::SetVertexConstant | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: aiIndex, afVal0, afVal1, afVal2, afVal3
 void H::SetFloat4At(int aiIndex, float f0, float f1, float f2, float f3)
 {
     int idx = aiIndex * 4 + 12;
@@ -116,6 +128,8 @@ struct FUN_00b8a860_shell
 };
 // Copies the four floats from src into the float array at m_44 at the slot given by idx.
 // @fnv 0x00b8a860
+// pdb: ImageSpaceShaderParam::SetPixelConstant | ImageSpaceShaderParam.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aiIndex, apfVal
 void FUN_00b8a860_shell::SetEntry(int aiIndex, float* apSource)
 {
     float fSrc1 = apSource[1];
@@ -215,6 +229,8 @@ struct ShaderPass_4e30
 
 // Sets a shader reference vector and three parameter vectors, using pPoint coordinates for the first when bUsePoint is set.
 // @fnv 0x00c04e30
+// pdb: ImageSpaceEffectCinematic::UpdateParams | ImageSpaceEffectCinematic.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pParam
 bool ShaderPass_4e30::FUN_00c04e30(int arg)
 {
     ShaderConstants_4e30* pShader = pOwner->pShader;

@@ -22,6 +22,8 @@ void FUN_00d99c60()
 
 int __cdecl FUN_00c00fb1(int, int, int, va_list);
 
+// pdb: BSsprintf | EffectItemList.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apString1, aiSize, apFormat
 int FUN_00403230(int a, int b, int c, ...)
 {
     va_list ap;

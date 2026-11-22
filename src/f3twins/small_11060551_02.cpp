@@ -20,6 +20,7 @@ __declspec(noinline) void __cdecl FUN_00d98370()
     IMP_00d9b0a4(DAT_0108f118);
 }
 
+// pdb: `dynamic atexit destructor for 'bhkCharacterControllerCinfo::spDefaultConvexShape'' | bhkCharacterController.obj | tesv_win, objrun_open, low
 __declspec(noinline) void __cdecl FUN_00d98cf0()
 {
     IMP_00d9b07c(DAT_010f3170);
@@ -39,28 +40,34 @@ __declspec(noinline) void __cdecl FUN_00d98f70()
 
 struct T_005abd50 { int pad; int FUN_005abd50(); };
 struct T_00723670 { int pad; int FUN_00723670(); };
-struct T_00723ca0 { int pad; int FUN_00723ca0(int); };
+struct T_00723ca0 { int pad; int ActorPackage_FinishLoadGame(int); };
 struct T_0078ba80 { int pad; int FUN_0078ba80(int, int); };
 
 struct S_005aaf30 { int pad; int FUN_005aaf30(); };
+// pdb: PatrolRefData::~PatrolRefData | PackageDataPatrol.obj | fnv360_0822_retail, call_seq, medium
 int S_005aaf30::FUN_005aaf30()
 {
     return ((T_005abd50*)((char*)this + 4))->FUN_005abd50();
 }
 
 struct S_00727100 { int pad; int FUN_00727100(); };
+// pdb: BaseProcess::ClearCurrentPackage | BaseProcess.obj | fnv360_0822_retail, caller_sim, low
 int S_00727100::FUN_00727100()
 {
     return ((T_00723670*)((char*)this + 4))->FUN_00723670();
 }
 
 struct S_00727950 { int pad; int FUN_00727950(int); };
+// pdb: BaseProcess::FinishLoadGame | BaseProcess.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apLoadGameBuffer
 int S_00727950::FUN_00727950(int a0)
 {
-    return ((T_00723ca0*)((char*)this + 4))->FUN_00723ca0(a0);
+    return ((T_00723ca0*)((char*)this + 4))->ActorPackage_FinishLoadGame(a0);
 }
 
 struct S_0078bd00 { int pad; int FUN_0078bd00(int, int); };
+// pdb: ProcessLists::RemoveReference | ProcessLists.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor, aWhichList
 int S_0078bd00::FUN_0078bd00(int a0, int a1)
 {
     return ((T_0078ba80*)((char*)this + 4))->FUN_0078ba80(a0, a1);

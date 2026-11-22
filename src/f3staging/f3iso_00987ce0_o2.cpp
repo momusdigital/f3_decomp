@@ -15,6 +15,7 @@ struct PtrArray
     unsigned short count;
 };
 
+// pdb: cleanupNullPointers | hkpEntityCallbackUtil.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: hkpEntityCallbackUtil_cleanupNullPointers)
 static __declspec(noinline) void FUN_00987ce0(PtrArray* arr)
 {
     for (int i = arr->count - 1; i >= 0; --i)

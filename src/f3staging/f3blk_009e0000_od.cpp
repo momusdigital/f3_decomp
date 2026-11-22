@@ -28,6 +28,8 @@ struct FUN_009e1ed0_cls {
     char* FUN_009e1ed0(char* flag, unsigned int arg2, Ctx* ctx);
 };
 
+// pdb: hkpMoppBvTreeShape::castRayImpl | hkpMoppBvTreeShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: input, results
 char* FUN_009e1ed0_cls::FUN_009e1ed0(char* flag, unsigned int arg2, Ctx* ctx)
 {
     Frame frame;
@@ -119,6 +121,7 @@ struct Obj {
     Writer* w;
     int FUN_009e0430(unsigned char reg, float value);
 };
+// pdb: hkpConstraintConstructionKit::setLinearFriction | hkpConstraintConstructionKit.obj | tesv_win, objrun_open, low
 int Obj::FUN_009e0430(unsigned char reg, float value)
 {
     w->ops.pushBack(0x15);
@@ -164,6 +167,7 @@ inline void Copy(Vec4& d, const Vec4& s) { d.x = s.x; d.y = s.y; d.z = s.z; d.w 
 inline void CopyNeg(Vec4& d, const Vec4& s) { d.x = -s.x; d.y = -s.y; d.z = -s.z; d.w = -s.w; }
 inline const Vec4& At(const char* base, unsigned int off) { return *(const Vec4*)(base + off); }
 
+// pdb: buildJacobianFrom2dAngAtom | hkpBuildJacobianFromAtoms.obj | fnv360_0721_beta, objopen_prop, low
 static __declspec(noinline) void FUN_009f85c0(const Info* info, const char* base, int arg1, const Vec4* sources, int arg3)
 {
     unsigned int idx = info->type;
@@ -219,6 +223,7 @@ struct Block {
     float b;
 };
 void __cdecl FUN_00a4fb30(Block* block, int p1, int p2);
+// pdb: buildJacobianFromLinLimitAtom | hkpBuildJacobianFromAtoms.obj | fnv360_0822_retail, objrun, medium
 static __declspec(noinline) void FUN_009f9e20(Info* info, Frame* self, Frame* other, int p1, int p2)
 {
     Block block;
@@ -286,7 +291,7 @@ struct __declspec(align(16)) S009f0d00_Vector4 {
 struct S009f0d00_Rotation {
     S009f0d00_Vector4 c0, c1, c2;
     __forceinline float operator()(int r, int c) const { return (&(&c0)[c].x)[r]; }
-    void FUN_00924b40(const S009f0d00_Vector4* q);
+    void hkRotation_set(const S009f0d00_Vector4* q);
 };
 
 __forceinline void S009f0d00_Vector4::setRotatedDir(const S009f0d00_Rotation& a, const S009f0d00_Vector4& b)
@@ -316,7 +321,7 @@ struct S009f0d00_SweptTransform {
 __forceinline void S009f0d00_calcTransAtT0(const S009f0d00_SweptTransform& sweptTrans, S009f0d00_Transform& transformOut)
 {
     const S009f0d00_Vector4& q0 = sweptTrans.m_rotation0;
-    transformOut.rot.FUN_00924b40(&q0);
+    transformOut.rot.hkRotation_set(&q0);
     S009f0d00_Vector4 centerShift;
     centerShift.setRotatedDir(transformOut.rot, sweptTrans.m_centerOfMassLocal);
     transformOut.trans.setSub4(sweptTrans.m_centerOfMass0, centerShift);
@@ -325,7 +330,7 @@ __forceinline void S009f0d00_calcTransAtT0(const S009f0d00_SweptTransform& swept
 __forceinline void S009f0d00_calcTransAtT1(const S009f0d00_SweptTransform& sweptTrans, S009f0d00_Transform& transformOut)
 {
     const S009f0d00_Vector4& q1 = sweptTrans.m_rotation1;
-    transformOut.rot.FUN_00924b40(&q1);
+    transformOut.rot.hkRotation_set(&q1);
     S009f0d00_Vector4 centerShift;
     centerShift.setRotatedDir(transformOut.rot, sweptTrans.m_centerOfMassLocal);
     transformOut.trans.setSub4(sweptTrans.m_centerOfMass1, centerShift);
@@ -446,6 +451,8 @@ extern int DAT_011697f4;
 
 namespace S009f0d00_ns {
 
+// pdb: hkpSweptTransformDisplayViewer::entityAddedCallback | hkpSweptTransformDisplayViewer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: entity
 void S009f0d00_Viewer::FUN_009f0d00(char* entity)
 {
     if (*(void**)(entity + 0x10) == 0)
@@ -570,6 +577,8 @@ public:
     void FUN_009e5870(const unsigned short* ids, int numIds, hkVector4* verticesOut) const;
 };
 
+// pdb: hkpCylinderShape::convertVertexIdsToVerticesImpl | hkpCylinderShape.obj | fnv360_0822_retail, objrun, medium
+// pdb params: ids, numIds, verticesOut
 void hkpCylinderShape::FUN_009e5870(const unsigned short* ids, int numIds, hkVector4* verticesOut) const
 {
     int i = numIds - 1;
@@ -836,7 +845,7 @@ void __cdecl FUN_009e5170(int* dst, const int* src);
 
 struct CB2FC0Object
 {
-    void FUN_00924b40(void* q);
+    void hkRotation_set(void* q);
 };
 
 struct EmsTransform
@@ -846,7 +855,7 @@ struct EmsTransform
 
     EmsTransform(const EmsVector4& q, const EmsVector4& t) : m_translation(t)
     {
-        ((CB2FC0Object*)this)->FUN_00924b40((void*)&q);
+        ((CB2FC0Object*)this)->hkRotation_set((void*)&q);
     }
 };
 
@@ -1522,6 +1531,8 @@ struct S009f6cd0_Self {
 struct S009f6cd0_Outer : S009f6cd0_OuterBase, S009f6cd0_Self {
 };
 
+// pdb: hkpMidphaseViewer::postSimulationCallback | hkpMidphaseViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void S009f6cd0_Self::FUN_009f6cd0(S009f6cd0_Param* param)
 {
     S009f6cd0_timer(DAT_00e8132c);
@@ -2362,7 +2373,6 @@ static void FUN_009eaf10( const hkReal* vertexArray, int numVertices, int stridi
 {
 	hkReal Ah = 0.0f;
 	int numTris = numVertices / 3;
-	;
 	hkVector4 mh;
 	mh.setZero4();
 	hkVector4* m = new hkVector4[numTris];
@@ -2793,6 +2803,8 @@ struct S9f1730_Self {
 struct S9f1730_Viewer : S9f1730_OuterBase, S9f1730_Self {
 };
 
+// pdb: hkpSimulationIslandViewer::postSimulationCallback | hkpSimulationIslandViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void S9f1730_Self::FUN_009f1730(S9f1730_World* world)
 {
     S9f1730_timer(DAT_00e80c90);
@@ -4167,7 +4179,7 @@ void __cdecl standInCallerOfRagdollMotorAtom( const hkpConstraintAtom* atoms, co
 }   // namespace f3m_009fac30
 
 // @f3 0x009e16f0 (community match, verified in this file)
-// virtual void hkpBallSocketChainData::FUN_009e16f0(class hkpConstraintQueryIn const &,class hkpConstraintQueryOut &)  (?buildJacobian@hkpBallSocketChainData@@UAEXABVhkpConstraintQueryIn@@AAVhkpConstraintQueryOut@@@Z; Havok 5.5.0 hkpDynamics.lib / hkpBallSocketChainData.obj)
+// virtual void hkpBallSocketChainData::hkpBallSocketChainData_buildJacobian(class hkpConstraintQueryIn const &,class hkpConstraintQueryOut &)  (?buildJacobian@hkpBallSocketChainData@@UAEXABVhkpConstraintQueryIn@@AAVhkpConstraintQueryOut@@@Z; Havok 5.5.0 hkpDynamics.lib / hkpBallSocketChainData.obj)
 // reduced by hktrim.py from sdk.cpp; compile: cl -c -Ox -Ob1 -Oi -Ot -GF -MT -GS- -Z7 -TP -X
 extern "C" {
 			__declspec(dllimport) void* _stdcall TlsGetValue( unsigned long dwTlsIndex );
@@ -5446,7 +5458,7 @@ class hkpBallSocketChainData : public hkpConstraintChainData
 		{
 		};
 	public:
-		virtual void FUN_009e16f0( const hkpConstraintQueryIn &in, hkpConstraintQueryOut &out );
+		virtual void hkpBallSocketChainData_buildJacobian( const hkpConstraintQueryIn &in, hkpConstraintQueryOut &out );
 		virtual void getConstraintInfo( hkpConstraintData::ConstraintInfo& info ) const;
 		virtual void getRuntimeInfo( hkBool wantRuntime, hkpConstraintData::RuntimeInfo& infoOut ) const;
 	public:
@@ -5541,7 +5553,8 @@ extern "C"
 	void __cdecl FUN_00a51540( int numConstraints, hkReal tau, hkReal damping, hkReal cfm, hkpVelocityAccumulatorOffset* accumulators, const hkpVelocityAccumulator* baseAccum, hkp1Lin2AngJacobian* jacobians, const hkpConstraintQueryIn& in, hkpConstraintQueryOut& out );
 }
 
-void hkpBallSocketChainData::FUN_009e16f0( const hkpConstraintQueryIn &inChain, hkpConstraintQueryOut &out )
+// pdb: hkpBallSocketChainData::buildJacobian | hkpBallSocketChainData.obj | fnv360_0721_retail, objrun + bridge(caller_sim|vtable) + skyrim(caller_sim), high
+void hkpBallSocketChainData::hkpBallSocketChainData_buildJacobian( const hkpConstraintQueryIn &inChain, hkpConstraintQueryOut &out )
 {
 	hkpSolverResults* solverResults = static_cast<hkpSolverResults*>( inChain.m_constraintRuntime.val() );
 	FUN_009fcb10( inChain, out, solverResults, sizeof(hkpSolverResults) );

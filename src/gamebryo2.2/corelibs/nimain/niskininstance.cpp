@@ -2,6 +2,8 @@
 #include "f3_common.h"
 #include "niskininstance_decls.h"
 // @fnv 0x00a86340
+// pdb: NiSkinInstance::LoadBinary | NiSkinInstance.obj | fnv360_0822_debug, vtable, medium
+// pdb params: kStream
 void NiSkinInstance::LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
@@ -12,6 +14,8 @@ void NiSkinInstance::LoadBinary(NiStream& stream)
     stream.ReadUnsignedInteger();
 }
 // @fnv 0x00a86380
+// pdb: NiSkinInstance::LinkObject | NiSkinInstance.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
 void NiSkinInstance::LinkObject(NiStream& stream)
 {
     NiObject::LinkObject(stream);
@@ -35,11 +39,12 @@ struct FUN_00a864d0_Class
     char pad[8];
     void* m_pSkinData;            // +0x08
     void* m_pkSkinMeshPartition;  // +0x0c
-    bool FUN_00a864d0(A46BB0Object* pkObject);
+    bool NiSkinInstance_IsEqual(A46BB0Object* pkObject);
 };
 
 // @fnv 0x00a864d0
-bool FUN_00a864d0_Class::FUN_00a864d0(A46BB0Object* pkObject)
+// pdb: NiSkinInstance::IsEqual | NiSkinInstance.obj | fnv360_0822_retail, call_seq + bridge(vtable|call_seq) + skyrim(caller_sim), high
+bool FUN_00a864d0_Class::NiSkinInstance_IsEqual(A46BB0Object* pkObject)
 {
     FUN_00a864d0_Class* pkSkinInstance = (FUN_00a864d0_Class*)pkObject;
     if (!((A46BB0Object*)this)->IsEqual(pkObject))
@@ -69,7 +74,7 @@ struct SkinGraph
     NiObject* skinPartition;
     NiObject* rootParent;
     NiObject** bones;
-    bool FUN_00a5d2f0(NiStream&);
+    bool NiObject_RegisterStreamables(NiStream&);
     bool VisitSkinGraphLinks(NiStream& stream);
 };
 typedef void(__thiscall* VisitStreamable)(NiObject*, NiStream&);
@@ -79,9 +84,11 @@ __forceinline void VisitLinkedObject(NiObject* object, NiStream& stream)
     reinterpret_cast<VisitStreamable>(methods[21])(object, stream);
 }
 // @fnv 0x00a86460
+// pdb: NiSkinInstance::RegisterStreamables | NiSkinInstance.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kStream
 bool SkinGraph::VisitSkinGraphLinks(NiStream& stream)
 {
-    if (!FUN_00a5d2f0(stream))
+    if (!NiObject_RegisterStreamables(stream))
         return false;
     VisitLinkedObject(skinData, stream);
     if (skinPartition)
@@ -115,6 +122,8 @@ class FUN_00a86740_cls : public NiSkinInstance
 };
 
 // @fnv 0x00a86740
+// pdb: NiSkinInstance::PostLinkObject | NiSkinInstance.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void FUN_00a86740_cls::ClearSkinDataLink(NiStream& stream)
 {
     if (stream.m_uiNifVersion >= 0xa010065)
@@ -205,6 +214,8 @@ struct NiSkinInstanceStub : NiObjectBaseStub
 
 // Clones the skin instance when cloneable, remapping the skin root and bone objects through the cloning map and copying the bone pointer array.
 // @fnv 0x00a86830
+// pdb: NiSkinInstance::CreateClone | NiSkinInstance.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kCloning
 NiSkinInstanceStub* NiSkinInstanceStub::FUN_00a86830(NiCloningProcessStub& kCloning)
 {
     if (!IsCloneable(kCloning))
@@ -295,6 +306,8 @@ class SkinInstanceW
 
 // Writes the skin instance's link IDs, bone count and each bone's link ID to the stream.
 // @fnv 0x00a867a0
+// pdb: NiSkinInstance::SaveBinary | NiSkinInstance.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 void SkinInstanceW::SaveSkinInstance(NiStreamW& kStream)
 {
     FUN_00a89af0(kStream);
@@ -439,6 +452,8 @@ struct Skin
 };
 // Adds skin and parent labels, hardware partition and bone count values, sorted bone labels, then calls partition->Describe.
 // @fnv 0x00a86920
+// pdb: NiSkinInstance::GetViewerStrings | NiSkinInstance.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Skin::FUN_00a86920(Strings* apStrings)
 {
     ClearStrings(apStrings);

@@ -9,6 +9,8 @@
 
 // Reads translation, rotation and scale from the stream; for older versions reads validity bytes and sets invalid components to kInvalidTransformValue.
 // @fnv 0x00a38bb0
+// pdb: NiQuatTransform::LoadBinary | NiQuatTransform.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: kStream
 void NiQuatTransform::LoadBinary(NiStream& stream)
 {
     reinterpret_cast<NiColor&>(m_kTranslate).LoadBinary(stream);
@@ -41,6 +43,7 @@ struct Outer_00a2bdb0
 };
 // Calls the inner object's method with four zero floats and returns this.
 // @fnv 0x00a2bdb0
+// pdb: NiBezRotKey::NiBezRotKey | NiBezRotKey.obj | tesv_win, hash, low
 Outer_00a2bdb0* __thiscall Outer_00a2bdb0::FUN_00a2bdb0()
 {
     _4.Set(0.0f, 0.0f, 0.0f, 0.0f);
@@ -88,6 +91,8 @@ struct QXform
     QXform FUN_00a38a00(const QXform& kXform) const;
 };
 // @fnv 0x00a38a00
+// pdb: NiQuatTransform::operator* | NiQuatTransform.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kTransform
 QXform QXform::FUN_00a38a00(const QXform& kXform) const
 {
     QXform kResult;
@@ -155,6 +160,8 @@ struct QXformViewer : QXform
 
 // Appends the class name and, when valid, the translate, rotate and scale members to the viewer string list.
 // @fnv 0x00a38cb0
+// pdb: NiQuatTransform::GetViewerStrings | NiQuatTransform.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void QXformViewer::FUN_00a38cb0(ViewerStrings* pkStrings)
 {
     char* pcString = GetViewerStringName("NiQuatTransform");
@@ -231,6 +238,8 @@ struct QXform2
 };
 
 // @fnv 0x00a38830
+// pdb: NiQuatTransform::HierApply | NiQuatTransform.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kTransform
 QXform2 QXform2::FUN_00a38830(const QXform2& kXform) const
 {
     QXform2 kRes;
@@ -493,7 +502,7 @@ class KeyA38
 class DataA38 : public NiObjectA38
 {
   public:
-    void FUN_00a38b60(NiStreamA38& kStream);
+    void NiQuatTransform_SaveBinary(NiStreamA38& kStream);
 
     KeyA38 m_kControlPoint;
     unsigned int m_uiCurrentValue;
@@ -501,7 +510,8 @@ class DataA38 : public NiObjectA38
 
 // Saves the base NiObjectA38, the KeyA38 member and the unsigned int member to the stream.
 // @fnv 0x00a38b60
-void DataA38::FUN_00a38b60(NiStreamA38& kStream)
+// pdb: NiQuatTransform::SaveBinary | NiQuatTransform.obj | fnv360_0822_retail, call_seq + bridge(hash|call_seq) + skyrim(call_seq), high
+void DataA38::NiQuatTransform_SaveBinary(NiStreamA38& kStream)
 {
     NiObjectA38::SaveBinary(kStream);
     m_kControlPoint.SaveBinary(&kStream);
@@ -516,6 +526,8 @@ struct QQ
 };
 // Multiplies this quaternion by q using the Hamilton product and returns the resulting quaternion.
 // @f3 0x00836e40 (community match, verified in this file)
+// pdb: NiQuatTransform::SetScale | Animation.obj | fnv360_0721_beta, objrun_prop, low, conflict (skyrim: NiQuaternion::operator*=)
+// pdb params: fScale
 QQ QQ::FUN_00a2bcf0(const QQ& q) const
 {
     QQ r;
@@ -589,6 +601,8 @@ struct FUN_00a386a0_shell : NiQuatTransform
 
 // Computes the inverse transform into kDest by inverting scale, conjugating and rotating the quaternion, and transforming the translation.
 // @fnv 0x00a386a0
+// pdb: NiQuatTransform::HierInvert | NiQuatTransform.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kDest
 void FUN_00a386a0_shell::Inverse(NiQuatTransform& kDest)
 {
     float fInvScale = 1.0f;

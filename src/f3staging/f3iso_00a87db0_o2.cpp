@@ -158,6 +158,8 @@ struct P154Tree
     }
 };
 
+// pdb: hkpMoppDefaultAssembler::calcChunkPoints | hkpMoppDefaultAssembler.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: currentNode, parentInfo, currentInfo, terminalsOut
 int P154Tree::FUN_00a87db0(P154Node* node, P154Region* parent, P154Region* region, P154Array* output)
 {
     int size;

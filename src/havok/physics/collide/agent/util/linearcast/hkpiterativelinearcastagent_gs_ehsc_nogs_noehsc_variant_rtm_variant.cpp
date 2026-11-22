@@ -1746,6 +1746,8 @@ const hkContactPoint& hkpSimpleClosestContactCollector::getHitContact() const
 
 // The packet's symbol is the unit's stand-in FUN_00daf8e0 with pointer parameters: they are read here as the
 // SDK's references (body A, body B, the linear cast input, the collector) and the optional start collector.
+// pdb: hkpIterativeLinearCastAgent::staticLinearCast | hkpIterativeLinearCastAgent.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void FUN_00daf8e0(const IterativeSweep_hkpCdBody* bodyA, const IterativeSweep_hkpCdBody* bodyB, const IterativeSweep_hkpLinearCastCollisionInput* input, IterativeSweep_hkpCdPointCollector* castCollector, IterativeSweep_hkpCdPointCollector* startCollector)
 {
 	using namespace f3m_00a3ab70;

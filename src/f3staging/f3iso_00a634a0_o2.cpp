@@ -158,6 +158,8 @@ void __cdecl FUN_00901f10(void* arr, int elemSize) throw();
 int __cdecl FUN_00a8bb00(void* writer, void* layout, const void* object, int flags, const void* original,
                          const hkClassQ* pClassInfo, void* patches) throw();
 
+// pdb: hkInspectProcess::writeObject | hkInspectProcess.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: ptr, klass, recurse, recursionStack
 int hkInspectProcessQ::FUN_00a634a0(const void* object, const hkClassQ* pClassInfo, ::hkBoolQ recurse,
                                     hkArrQ<hkWrittenObjectQ>* written) throw()
 {

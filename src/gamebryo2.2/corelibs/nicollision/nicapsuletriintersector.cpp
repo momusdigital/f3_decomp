@@ -68,7 +68,6 @@ void S_eb5ce0_Obj::FUN_00eb5ce0(int unused, const S_eb5ce0_Pt* d)
     }
 }
 
-extern double DAT_01012070;
 struct Point856
 {
     float x, y, z;
@@ -92,47 +91,3 @@ struct Point856
         return *this;
     }
 };
-struct Pair856
-{
-    Point856 points[2];
-};
-struct Triple856
-{
-    Point856 points[3];
-};
-struct Source856
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    Pair856 pair;
-};
-struct Frame856
-{
-    Point856 delta;
-    Pair856 pair;
-    Triple856 triple;
-};
-struct Frame2
-{
-    Pair856 pair;
-    Triple856 triple;
-};
-float __cdecl FUN_00eb1d20(Point856* a, Point856* b, float* time, float* p, float* q);
-class Native856
-{
-  public:
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34;
-    Source856* source;
-    Triple856 triple;
-    float scale, p, q;
-    float Evaluate(const Point856* a, const Point856* b, float s);
-};
-// @fnv 0x00eb3640
-float Native856::Evaluate(const Point856* apOffset, const Point856* b, float s)
-{
-    Pair856 pair = source->pair;
-    Triple856 localTriple = triple;
-    pair.points[0] += *apOffset * s;
-    localTriple.points[0] += *b * s;
-    float time;
-    return (float)((double)(FUN_00eb1d20(pair.points, localTriple.points, &time, &p, &q) * scale) - DAT_01012070);
-}

@@ -39,6 +39,8 @@ bool NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, bool>::GetAt(
     return false;
 }
 
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,unsigned char> >,unsigned int,unsigned char>::SetAt | PlayerCharacter.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSTScatterTableBase<struct BSTScatterTableTraits<class NiObject *,bool,struct BSTScatterTableDefaultKVStorage,struct BSTScatterTableDefaultHashPolicy<class NiObject *>,struct BSTScatterTableHeapAllocator<struct BSTScatterTableEntry<class NiObject *,bool,struct BSTScatterTableDefaultKVStorage> >,256> >::SetAtImpl<struct BSTScatterTableKernel<struct BSTScatterTableTraits<class NiObject *,bool,struct BSTScatterTableDefaultKVStorage,struct BSTScatterTableDefaultHashPolicy<class NiObject *>,struct BSTScatterTableHeapAllocator<struct BSTScatterTableEntry<class NiObject *,bool,struct BSTScatterTableDefaultKVStorage> >,256> >::NoOpPreviousValueFunctor>)
+// pdb params: key, val
 template<>
 // @fnv 0x00a5d320
 void NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, bool>::SetAt(
@@ -62,6 +64,8 @@ void NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, bool>::SetAt(
     m_kItemCount.m_uiCount++;
 }
 
+// pdb: NiTMapBase<DFALL<NiTMapItem<bhkRigidBody *,NiPointer<ObstacleData> > >,bhkRigidBody *,NiPointer<ObstacleData> >::GetAt | NavMeshObstacleManager.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: key, val
 template<>
 // @fnv 0x00e92760
 bool NiTMapBase<NiTPointerAllocator<unsigned int>, const char*, NiPointer<RefCountedNamedObject> >::GetAt(
@@ -81,6 +85,8 @@ bool NiTMapBase<NiTPointerAllocator<unsigned int>, const char*, NiPointer<RefCou
     return false;
 }
 
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,CombatThreat *> >,unsigned int,CombatThreat *>::RemoveAt | CombatThreatMap.obj | fnv360_0822_retail, call_seq, high
+// pdb params: key
 template<>
 // @fnv 0x00e91fd0
 bool NiTMapBase<NiTPointerAllocator<unsigned int>, const char*, NiShader*>::RemoveAt(

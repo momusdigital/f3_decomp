@@ -17,6 +17,7 @@ struct FUN_00b5a700_shell
 
 // Calls FUN_00b5a110, then deallocates this via g_memoryManager if flag has bit 1 set, and returns this.
 // @fnv 0x00b5a700
+// pdb: EnchantmentItem::`scalar deleting destructor' | EnchantmentItem.obj | fnv360_0822_retail, vtable_prefix, medium
 void* FUN_00b5a700_shell::FUN_00b5a700(int flag)
 {
     FUN_00b5a110();
@@ -176,6 +177,8 @@ struct S_00b5a4a0
 };
 
 // @fnv 0x00b5a4a0
+// pdb: ImageSpaceEffectRadialBlur::Setup | ImageSpaceEffectRadialBlur.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apManager, apParam
 void S_00b5a4a0::FUN_00b5a4a0(S_00b5a4a0_Src* src, int unused)
 {
     SetTextureArraySize(1);
@@ -296,6 +299,7 @@ struct FUN_00b5a590 : ImageSpaceEffect
 };
 
 // @fnv 0x00b5a590
+// pdb: ImageSpaceEffectDepthRadialBlur::ImageSpaceEffectDepthRadialBlur | ImageSpaceEffectRadialBlur.obj | fnv360_0721_beta, objrun, high
 FUN_00b5a590::FUN_00b5a590()
 {
     m_effectTextures.SetSize(4);
@@ -328,6 +332,8 @@ struct FUN_00b5a720_cls : S_00b5a4a0
 
 // Initializes two texture parameters from src, sets their values and flags, and registers them in m_params.
 // @fnv 0x00b5a720
+// pdb: ImageSpaceEffectDepthRadialBlur::Setup | ImageSpaceEffectRadialBlur.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void FUN_00b5a720_cls::FUN_00b5a720(S_00b5a4a0_Src* src, int unused)
 {
     S_00b5a4a0_Param* p;

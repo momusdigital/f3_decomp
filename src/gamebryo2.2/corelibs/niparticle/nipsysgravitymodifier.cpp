@@ -11,6 +11,7 @@ typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 extern NiMemObject g_01202548;
 
 // @fnv 0x00c22af0
+// pdb: BSFrustumFOVController::GetRTTI | BSFrustumFOVController.obj | fnv360_0822_retail, objrun_open, medium
 NiMemObject* __cdecl FUN_00c22af0()
 {
     return &g_01202548;
@@ -19,6 +20,7 @@ NiMemObject* __cdecl FUN_00c22af0()
 extern "C" void* g_01202790;
 
 // @fnv 0x00c2e540
+// pdb: NiBSplineBasisData::GetRTTI | NiBSplineBasisData.obj | fnv360_0822_retail, objrun_open, low
 void* __cdecl FUN_00c2e540()
 {
     return &g_01202790;
@@ -66,6 +68,8 @@ struct NiPSysGravityModifier : NiPSysModifier
 };
 // Allocates and constructs a copy of this gravity modifier, copies its fields, runs the base clone step with process, and returns the clone.
 // @fnv 0x00c22b00
+// pdb: NiPSysBombModifier::CreateClone | NiPSysBombModifier.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiPSysGravityModifier::CreateClone)
+// pdb params: kCloning
 NiPSysGravityModifier* NiPSysGravityModifier::FUN_00c22b00(CloningProcess& process)
 {
     NiPSysGravityModifier* clone = static_cast<NiPSysGravityModifier*>(operator new(0x40));
@@ -86,14 +90,7 @@ NiPSysGravityModifier* NiPSysGravityModifier::FUN_00c22b00(CloningProcess& proce
 }  // namespace fnv_00c22b00
 
 namespace fnv_00c2e520 {
-struct NiAVObject;
-struct NiBinaryStream;
-struct NiFixedString;
 struct NiObject;
-struct NiObjectGroup;
-struct NiSearchPath;
-struct NiTexture;
-struct NiThread;
 struct NiMemObject
 {
     char _pad_0[1];
@@ -129,6 +126,8 @@ struct FUN_00c2e520_shell : NiPSysBombModifier
 };
 
 // @fnv 0x00c2e520
+// pdb: NiPSysGravityModifier::LinkObject | NiPSysGravityModifier.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: kStream
 void FUN_00c2e520_shell::LinkObject(NiStream& stream)
 {
     NiPSysBombModifier::LinkObject(stream);
@@ -312,7 +311,7 @@ struct S_00c236b0_Stream
     int unk248;
     S_00c236b0_BinaryStream* m_pUnderlyingStream;  // +24C
 
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 
 template <class T> inline void S_00c236b0_StreamLoadBinary(S_00c236b0_Stream& kStream, T& value)
@@ -355,10 +354,12 @@ struct S_00c236b0_Obj : S_00c236b0_Base
 
 // Loads the object's base data, member m_1C, m_28, m_2C, m_30, and conditionally m_34, m_38 and m_3C from kStream based on version checks.
 // @fnv 0x00c236b0
+// pdb: NiPSysGravityModifier::LoadBinary | NiPSysGravityModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void S_00c236b0_Obj::LoadFromStream(S_00c236b0_Stream& kStream)
 {
     FUN_00c318b0(kStream);
-    kStream.FUN_00a645b0();
+    kStream.NiStream_ReadLinkID();
     m_1C.FUN_00a59be0(kStream);
     S_00c236b0_StreamLoadBinary(kStream, m_28);
     S_00c236b0_StreamLoadBinary(kStream, m_2C);
@@ -397,6 +398,8 @@ struct FNVSerializer
 };
 // Writes a header, a subproperty, and five 4-byte values plus one 1-byte value from this object to the stream writer.
 // @fnv 0x00c237c0
+// pdb: NiPSysGravityModifier::SaveBinary | NiPSysGravityModifier.obj | fnv360_0822_retail, objrun, high
+// pdb params: kStream
 void FNVSerializer::WriteToStream(FNVStreamArchive* stream)
 {
     FUN_00c31950(stream);
@@ -495,6 +498,8 @@ struct NiPSysGravityModifierImpl
 
 // Appends the gravity modifier's RTTI name, gravity object, axis, decay, strength, turbulence, force type and world-aligned flag to the viewer strings array.
 // @fnv 0x00c238c0
+// pdb: NiPSysGravityModifier::GetViewerStrings | NiPSysGravityModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void NiPSysGravityModifierImpl::AddViewerStrings(NiViewerStringsArray* pkStrings)
 {
     FUN_00c319e0(pkStrings);
@@ -580,6 +585,8 @@ struct FUN_00c235f0_cls
 
 // Compares two FUN_00c235f0_cls objects for equality, checking m_18, m_1c, and the float/int/char fields m_28 through m_3c.
 // @fnv 0x00c235f0
+// pdb: NiPSysGravityModifier::IsEqual | NiPSysGravityModifier.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkObject
 bool FUN_00c235f0_cls::IsEqual(FUN_00c235f0_cls* apOther)
 {
     if (FUN_00c31830(apOther))
@@ -714,40 +721,6 @@ inline VectorC22 operator*(float scale, const VectorC22& point)
     return VectorC22(point.x * scale, point.y * scale, point.z * scale);
 }
 
-__declspec(noinline) void __fastcall FUN_004a0c10(VectorC22* point)
-{
-    float length = point->Length();
-    if (length > 9.999999974752427e-07)
-    {
-        float inverse = 1.0f / length;
-        point->x *= inverse;
-        point->y *= inverse;
-        point->z *= inverse;
-    }
-    else
-    {
-        point->x = point->y = point->z = 0.0f;
-    }
-}
-
-__declspec(noinline) float __fastcall FUN_00457910(VectorC22* point)
-{
-    float length = point->Length();
-    if (length > 9.999999974752427e-07)
-    {
-        float inverse = 1.0f / length;
-        point->x *= inverse;
-        point->y *= inverse;
-        point->z *= inverse;
-    }
-    else
-    {
-        point->x = point->y = point->z = 0.0f;
-        length = 0.0f;
-    }
-    return length;
-}
-
 struct MatrixC22
 {
 
@@ -855,8 +828,6 @@ struct EmitterC22
         return activeCount;
     }
 };
-
-extern float __cdecl FUN_006397c0();
 
 struct EffectC22
 {
@@ -1102,7 +1073,8 @@ __declspec(noinline) void __fastcall FUN_00468d00(DirectVectorC22* point)
         point->x = point->y = point->z = 0.0f;
     }
 }
-__declspec(noinline) float __fastcall FUN_00432c00(DirectVectorC22* point)
+// pdb: NiPoint3::UnitizeGetLength | TES.obj | fnv360_0822_debug, call_seq + skyrim(caller), high
+__declspec(noinline) float __fastcall NiPoint3_UnitizeGetLength(DirectVectorC22* point)
 {
     float length = point->Length();
     if (length > 9.999999974752427e-07)
@@ -1171,6 +1143,7 @@ __forceinline void AdvancePath(EffectC22* effect,EmitterC22* particleData,unsign
                 StepPlanar(*pParticle,v * kIter + vOffset,elapsed);
             }
         }
+// pdb: NiPSysGravityModifier::Update | NiPSysGravityModifier.obj | tesv_win, caller_sim, low
 void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 {
     if (!emitter->GetActiveCount())
@@ -1379,7 +1352,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 vForceDirection.Z() = pForm.translation.Z() - y->z;
 
-                float fDecay = DecayExp((float)(-GetDecay() * FUN_00432c00(&vForceDirection)));
+                float fDecay = DecayExp((float)(-GetDecay() * NiPoint3_UnitizeGetLength(&vForceDirection)));
 
                 float s = fDecay * fSourceStrength * (elapsed - pParticle->GetActiveTime());
                 AddPoint4(pParticle->GetPosition(),vForceDirection * s);
@@ -1413,7 +1386,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
                 DirectVectorC22 z = pForm.translation - *y;
 
                 float fDecay;
-                fDecay = DecayExp((float)(-GetDecay() * FUN_00432c00(&z)));
+                fDecay = DecayExp((float)(-GetDecay() * NiPoint3_UnitizeGetLength(&z)));
 
                 pParticle->ApplyMotion(kIter * fDecay + vOffset, elapsed);
             }

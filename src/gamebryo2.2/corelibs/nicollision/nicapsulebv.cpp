@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00c1ba40
+// pdb: EscortActorPackageData::GetPackageType | EscortPackage.obj | fnv360_0822_retail, vtable, low
 int __cdecl FUN_00c1ba40()
 {
     return 2;
@@ -22,6 +23,7 @@ struct NiCapsuleBV : NiBoundingVolume
     NiBoundingVolume* FUN_00ea0700();
 };
 // @fnv 0x00ea0700
+// pdb: NiCapsuleBV::Clone | NiCapsuleBV.obj | fnv360_0822_retail, objrun, low
 NiBoundingVolume* NiCapsuleBV::FUN_00ea0700()
 {
     NiCapsuleBV* pNewInstance = (NiCapsuleBV*)g_memoryManager.Allocate(0x3c);
@@ -49,6 +51,8 @@ struct NiCapsuleBV : NiBoundingVolume
     int FUN_00e9f170(const NiBoundingVolume&) const;
 };
 // @fnv 0x00e9f170
+// pdb: NiCapsuleBV::operator== | NiCapsuleBV.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: kABV
 int NiCapsuleBV::FUN_00e9f170(const NiBoundingVolume& kABV) const
 {
     if (kABV.F3() == 2 && ((const NiCapsuleBV&)kABV).m_kComparableRecord.FUN_00eae690(m_kComparableRecord))
@@ -77,6 +81,8 @@ struct NiCapsuleBV : NiBoundingVolume
     void FUN_00e9f280(const NiBoundingVolume& kABV);
 };
 // @fnv 0x00e9f280
+// pdb: NiCapsuleBV::Copy | NiCapsuleBV.obj | fnv360_0721_beta, caller_sim, low
+// pdb params: kABV
 void NiCapsuleBV::FUN_00e9f280(const NiBoundingVolume& kABV)
 {
     NiCapsuleBV* kCBV = (NiCapsuleBV*)&kABV;
@@ -105,6 +111,8 @@ struct S00ea0640
     S00ea0640* FUN_00ea0640(S00ea0640* a1);
 };
 // @fnv 0x00ea0640
+// pdb: NiCapsuleBV::NiCapsuleBV | NiCapsuleBV.obj | fnv360_0822_retail, objrun, high
+// pdb params: kABV
 S00ea0640* S00ea0640::FUN_00ea0640(S00ea0640* apSource)
 {
     v0 = (int)&DAT_010f17d0;
@@ -136,6 +144,8 @@ bool __cdecl FUN_00e9ca50(float value, void* item, unsigned int arg3, unsigned i
                           unsigned int arg10, unsigned int arg11, unsigned int arg12);
 // Scans list->entries for the first item accepted by FUN_00e9ca50, stores its index in list->foundIndex and returns true, otherwise returns false.
 // @fnv 0x00e9ec10
+// pdb: NiUnionBV::UnionTriTestIntersect | NiUnionBV.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: fTime, kABV0, kV0, kVert0, kVert1, kVert2, kV1
 bool __cdecl FUN_00e9ec10(float value, MatchList* pMatchList, unsigned int arg3, unsigned int arg4, unsigned int arg5,
                           unsigned int arg6, unsigned int arg7, unsigned int arg8, unsigned int arg9,
                           unsigned int arg10, unsigned int arg11, unsigned int arg12)
@@ -193,6 +203,7 @@ struct S_00e9f1b0_Cls
 
 // Computes m20 as m04 minus m10 scaled by (m1c - m38), and m2c as that scaled delta times DAT_01011590.
 // @fnv 0x00e9f1b0
+// pdb: NiCapsuleBV::CalculateCapsule | NiCapsuleBV.obj | fnv360_0721_beta, call_seq, medium
 void S_00e9f1b0_Cls::FUN_00e9f1b0()
 {
     m20 = m04 - m10 * (m1c - m38);
@@ -302,6 +313,8 @@ float __cdecl FUN_00eaf310(const S_Seg* a, const S_Seg* b, float* s, float* t);
 float __cdecl DistanceSquaredToSegment(const S_Vec3* p, const S_Seg* b, float* s);
 
 // @fnv 0x00e9f620
+// pdb: NiCapsuleBV::CapsuleCapsuleTestIntersect | NiCapsuleBV.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: fTime, kABV0, kV0, kABV1, kV1
 bool __cdecl SweepSphereAgainstCapsule(float t, S_Capsule* apCapsule, const S_Vec3* from, S_Sphere* apSphere,
                                        const S_Vec3* to)
 {
@@ -414,6 +427,8 @@ struct FUN_00ea0540_cls
 };
 
 // @fnv 0x00ea0540
+// pdb: NiCapsuleBV::LoadBinary | NiCapsuleBV.obj | fnv360_0721_beta, caller_sim, low, conflict (skyrim: NiFogProperty::LoadBinary)
+// pdb params: stream
 void FUN_00ea0540_cls::FUN_00ea0540(unsigned int a1)
 {
     unsigned int obj = a1;
@@ -644,6 +659,8 @@ struct S_00ea05c0_Cls : NiBoundingVolume_SaveHelper
 
 // Saves the base bounding volume, two color helpers, and the 4-byte fields m1c and m38 to the stream.
 // @fnv 0x00ea05c0
+// pdb: NiCapsuleBV::SaveBinary | NiCapsuleBV.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void S_00ea05c0_Cls::FUN_00ea05c0(NiStream& aStream)
 {
     NiBoundingVolume_SaveHelper::SaveBinary(aStream);
@@ -682,6 +699,7 @@ extern int DAT_011a9474;
 
 // Allocates a 0x3c-byte object, initializes its vtable, center and axis vectors and two floats to 1.0, calls FUN_00e9f1b0, and returns it.
 // @fnv 0x00ea0690
+// pdb: NiCapsuleBV::Create | NiCapsuleBV.obj | fnv360_0822_retail, objrun, medium
 S_00ea0690* __cdecl FUN_00ea0690()
 {
     S_00ea0690* p = (S_00ea0690*)g_memoryManager.Allocate(0x3c);
@@ -871,6 +889,8 @@ struct S9f2c0_Caps
 
 // Transforms the capsule's center, axis, half-length, and bound radius from model to world space using the given transform, then calls FUN_00e9f1b0.
 // @fnv 0x00e9f2c0
+// pdb: NiCapsuleBV::UpdateWorldData | NiCapsuleBV.obj | fnv360_0721_beta, caller_sim, low
+// pdb params: kModelABV, kWorld
 void S9f2c0_Caps::TransformToWorld(const S9f2c0_Caps& kModel, const S9f2c0_Xf& kWorld)
 {
     m_kCenter = (kWorld.m_kOrientation * kModel.m_kCenter) * kWorld.m_fScale + kWorld.m_kTranslation;
@@ -1077,6 +1097,8 @@ inline S_Vec3 cross3(const S_Vec3& a, const S_Vec3& b)
 
 // Computes the squared distance between segments a and b and writes the closest-point parameters s and t.
 // @fnv 0x00eaf310
+// pdb: NiSqrDistance::Compute | NiDistSegPgm.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: kSeg, kPgm, fSegParam, fPgmParam0, fPgmParam1
 float __cdecl FUN_00eaf310(const S_Seg& a, const S_Seg& b, float& s, float& t)
 {
     float edge;
@@ -1340,6 +1362,8 @@ struct S_00ea0730_Arr
 };
 // Formats name as "name = CAPSULE_BV", grows the array if needed, and appends the buffer pointer to arr.
 // @fnv 0x00ea0730
+// pdb: NiCapsuleBV::AddViewerStrings | NiCapsuleBV.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, pkStrings
 void __stdcall AddCapsuleBV(const char* name, S_00ea0730_Arr* arr)
 {
     unsigned int n = strlen(name) + 14;
@@ -1562,6 +1586,7 @@ bool __cdecl FUN_00e9fdc0(float afTime, Capsule* apCapsule, Vec3* a2, const Vec3
 }  // namespace fnv_00e9fdc0
 
 // @f3twin 0x009d94a0 of 0x00802330
+// pdb: hkpCachingShapePhantom::getType | hkpCachingShapePhantom.obj | fnv360_0822_retail, objrun_open, low
 int __cdecl F3_FUN_009d94a0()
 {
     return 2;

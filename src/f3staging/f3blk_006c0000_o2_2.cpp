@@ -17,7 +17,8 @@ namespace f3m_006d4190 {
 
 struct Info497 {DWORD userSize;SYSTEMTIME time;char dateTime[260];char user[260];};
 int __cdecl FUN_00403230(char*,unsigned int,const char*,...);
-void __stdcall FUN_006d4190(char* output,unsigned int capacity) {
+// pdb: BGSSaveLoadManager::GetVersionInfo | BGSSaveLoadManager.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __stdcall BGSSaveLoadManager_GetVersionInfo(char* output,unsigned int capacity) {
     Info497 info;
     info.user[0]=0;memset(info.user+1,0,259);
     info.dateTime[0]=0;memset(info.dateTime+1,0,259);
@@ -93,6 +94,8 @@ struct SaveLoadStandIn6deb90 {
     BSFile* FUN_006deb90(BSFile* apFile, const char* apName, int aeMode);
 };
 
+// pdb: TESSaveLoadGame::PrepForLoadSave | TESSaveLoadGame.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apFile, asFileName, aeAction
 BSFile* SaveLoadStandIn6deb90::FUN_006deb90(BSFile* apFile, const char* apName, int aeMode)
 {
     char tmpPath[0x104];
@@ -174,6 +177,8 @@ struct SaveLoadManager {
     void FUN_006d47a0(char* filename, char* fullPath, bool write);
     SaveLoadFile* FUN_006d4840(char* filename, bool write, int bufferType, int deviceID);
 };
+// pdb: BGSSaveLoadManager::OpenSaveFile | BGSSaveLoadManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFileName, abWrite, aeBufferType, aiDeviceID
 SaveLoadFile* SaveLoadManager::FUN_006d4840(char* filename, bool write, int bufferType, int deviceID)
 {
     unsigned int bufferSize;
@@ -206,6 +211,7 @@ struct FUN_006d51a0_Owner {
     void FUN_006d46e0(char*);
     bool FUN_006d51a0();
 };
+// pdb: StartMenu::InitializeUserOptions | StartMenu.obj | fnv360_0721_retail, call_gap, low
 bool FUN_006d51a0_Owner::FUN_006d51a0()
 {
     char path[260];
@@ -250,6 +256,8 @@ struct Mgr {
     void FUN_006d5a40(char* name, int a, int b);
     void FUN_006d5bf0();
 };
+// pdb: BGSSaveLoadManager::IsSaveFileNameCustom | BGSSaveLoadManager.obj | fnv360_0822_debug, objrun, low
+// pdb params: apSaveFileName
 void Mgr::FUN_006d5bf0()
 {
     WIN32_FIND_DATAA fd;
@@ -295,6 +303,7 @@ struct FUN_006c09c0 : Base6c0 {
     int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; Owned6c0* owned; Lock6c0 lock;
     virtual ~FUN_006c09c0();
 };
+// pdb: StreamingVoiceContext::~StreamingVoiceContext | FalloutAudioMedia.obj | fnv360_0822_debug, objopen_prop, low
 FUN_006c09c0::~FUN_006c09c0() {
     if (owned) delete owned;
 }
@@ -311,7 +320,6 @@ struct Heap {void FUN_0086ba60(void*);}; extern Heap DAT_01090a78;
 struct FUN_006cd980 {char filename[260];void* file;~FUN_006cd980();static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
 int __cdecl FUN_00c05a0f(const char*,int);
 int __cdecl FUN_00c02aeb(const char*,const char*);
-unsigned int StringLength(const char* text){const char* end=text;while(*end++);return (unsigned int)(end-text-1);}
 struct Manager {void FUN_006d47a0(char*,char*,unsigned char);void FUN_006d4900(FUN_006cd980*,int);};
 void Manager::FUN_006d4900(FUN_006cd980* header,int rotate) {
  char base[260];

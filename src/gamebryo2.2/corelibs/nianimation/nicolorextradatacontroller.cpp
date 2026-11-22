@@ -4,13 +4,6 @@
 
 extern "C"
 {
-    extern void* g_011f3fdc;
-}
-
-// @fnv 0x00a4fb00
-void* __cdecl FUN_00a4fb00()
-{
-    return &g_011f3fdc;
 }
 
 extern "C" void __cdecl FUN_00a572d0(void);
@@ -22,6 +15,7 @@ struct FUN_00a4fb10_shell
 };
 
 // @fnv 0x00a4fb10
+// pdb: NiGeometryData::`scalar deleting destructor' | NiGeometryData.obj | fnv360_0822_retail, objrun_prop, high
 void* __thiscall FUN_00a4fb10_shell::FUN_00a4fb10(int aiFlags)
 {
     FUN_00a572d0();
@@ -62,6 +56,8 @@ struct Holder_00a55f80
     void* __thiscall FUN_00a55f80(int, float, int);
 };
 // @fnv 0x00a4fa70
+// pdb: NiColorExtraDataController::CreateBlendInterpolator | NiColorExtraDataController.obj | fnv360_1110_retail, objopen_prop, low
+// pdb params: usIndex, bManagerControlled, bAccumulateAnimations, fWeightThreshold, ucArraySize
 void* __stdcall FUN_00a4fa70(int a1, int a2, int a3, float a4, int a5)
 {
     void* p = BSFadeNode::operator new(0x44);
@@ -101,12 +97,7 @@ void* __thiscall Ctrl9::FUN_00a4fb30(unsigned short usIndex)
     return 0;
 }
 
-struct RgbaColor
-{
-    float r, g, b, a;
-};
 class NiRTTI;
-extern NiRTTI _g_011f3730;
 class NiObject
 {
   public:
@@ -115,63 +106,6 @@ class NiObject
 class NiInterpolator : public NiObject
 {
 };
-class NiColorInterpolator : public NiObject
-{
-  public:
-    void SetColorValue(RgbaColor);
-};
-struct NiColorExtraData
-{
-    char _0[12];
-    RgbaColor m_kFogTint;
-};
-struct NiColorExtraDataController
-{
-    char _0[60];
-    NiColorExtraData* m_pkExtra;
-    void FUN_00a4fc90(NiInterpolator* pkInterp, unsigned short usIndex);
-};
-// @fnv 0x00a4fc90
-void NiColorExtraDataController::FUN_00a4fc90(NiInterpolator* pkInterp, unsigned short usIndex)
-{
-    NiColorInterpolator* pkColorInterp;
-    if (!pkInterp)
-        pkColorInterp = 0;
-    else
-        pkColorInterp = (NiColorInterpolator*)pkInterp->DynamicCast(&_g_011f3730);
-    pkColorInterp->SetColorValue(m_pkExtra->m_kFogTint);
-}
-
-struct StrArr
-{
-    char _pad0[8];
-    unsigned short m_usAlloc;
-    unsigned short m_usSize;
-    unsigned short _pad1;
-    unsigned short m_usGrow;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
-};
-struct Base57420
-{
-    void __thiscall FUN_00a57420(StrArr*);
-};
-char* __cdecl _FUN_00a7d330(const char*);
-struct FUN_00a4fd90_shell : Base57420
-{
-    void __thiscall AppendString(StrArr*);
-};
-// Appends the string returned by _FUN_00a7d330(g_011f3fdc) to pkStrings, growing the array if its size has reached its allocation.
-// @fnv 0x00a4fd90
-void __thiscall FUN_00a4fd90_shell::AppendString(StrArr* pkStrings)
-{
-    FUN_00a57420(pkStrings);
-    char* pcString = _FUN_00a7d330((const char*)g_011f3fdc);
-    unsigned int uiIndex = pkStrings->m_usSize;
-    if (uiIndex >= pkStrings->m_usAlloc)
-        pkStrings->SetSize(uiIndex + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiIndex, pcString);
-}
 
 // Stand-in with the target virtual at vtable slot 0xB4/4 = 45
 struct InterpVT_00a4faa0
@@ -226,6 +160,8 @@ struct InterpVT_00a4faa0
 
 // Calls IsCorrectType on the interpolator's vtable and returns the result, ignoring the index.
 // @fnv 0x00a4faa0
+// pdb: NiColorExtraDataController::InterpolatorIsCorrectType | NiColorExtraDataController.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pkInterpolator, usIndex
 bool __stdcall FUN_00a4faa0(NiInterpolator* pkInterpolator, unsigned short usIndex)
 {
     return reinterpret_cast<InterpVT_00a4faa0*>(pkInterpolator)->IsCorrectType();
@@ -248,6 +184,8 @@ struct FUN_00a4fb80_cls
 
 // Allocates a 0x40-byte object, initialises it with InitTimeController and a vtable, then calls FUN_00c312f0 with arg and returns it.
 // @fnv 0x00a4fb80
+// pdb: NiColorExtraDataController::CreateClone | NiColorExtraDataController.obj | fnv360_1110_retail, objrun, high
+// pdb params: kCloning
 FUN_00a4fb80_obj* FUN_00a4fb80_cls::CreateObject(unsigned int arg)
 {
     FUN_00a4fb80_obj* p = (FUN_00a4fb80_obj*)FUN_00aa13e0(0x40);
@@ -393,7 +331,7 @@ class NiTimeControllerA4F
 class NiColorControllerA4F : public NiTimeControllerA4F
 {
   public:
-    void UpdateColorController(NiUpdateDataA4F& kUpdateData);
+    void NiColorExtraDataController_Update(NiUpdateDataA4F& kUpdateData);
 
     int unk30;
     NiInterpolatorA4F* m_spControllerInterpolator;
@@ -402,7 +340,10 @@ class NiColorControllerA4F : public NiTimeControllerA4F
 };
 
 // @fnv 0x00a4fce0
-void NiColorControllerA4F::UpdateColorController(NiUpdateDataA4F& kUpdateData)
+// pdb: NiColorExtraDataController::Update | NiColorExtraDataController.obj | fnv360_0822_retail, objrun_open, high
+// pdb params: UpdateData
+// pdb: NiColorExtraDataController::Update | NiColorExtraDataController.obj | fnv360_0822_retail, objrun_open, high (was: UpdateColorController)
+void NiColorControllerA4F::NiColorExtraDataController_Update(NiUpdateDataA4F& kUpdateData)
 {
     if (GetManagerControlled())
     {
@@ -428,6 +369,8 @@ void NiColorControllerA4F::UpdateColorController(NiUpdateDataA4F& kUpdateData)
 extern "C" void __cdecl IsEquivalent();
 
 // @fnv 0x00a4faf0
+// pdb: Interface::SetEnemyActor | Interface.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor
 void __cdecl FUN_00a4faf0()
 {
     IsEquivalent();

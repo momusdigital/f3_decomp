@@ -4,17 +4,10 @@
 
 struct GlobalObjectO2_00a7b610;
 
-extern GlobalObjectO2_00a7b610 g_01202690;
-
-// @fnv 0x00c27130
-GlobalObjectO2_00a7b610* __cdecl FUN_00c27130()
-{
-    return &g_01202690;
-}
-
 extern char const* const g_011dfe40_arg1;
 
 // @fnv 0x00a6d280
+// pdb: NiNode::GetRTTI | NiNode.obj | tesv_win, objrun_open, low
 char const* const& __cdecl FUN_00a6d280()
 {
     return g_011dfe40_arg1;
@@ -59,6 +52,8 @@ struct FUN_00c27160_cls
 
 // Allocates a 0x34-byte object, runs its base constructor, zeroes m_14/m_18, sets its vtable, then passes it to FUN_00a6cfe0 with a1 and returns it.
 // @fnv 0x00c27160
+// pdb: NiPSysUpdateCtlr::CreateClone | NiPSysUpdateCtlr.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kCloning
 void* FUN_00c27160_cls::FUN_00c27160(unsigned int a1)
 {
     FUN_00c27160_cls* p = (FUN_00c27160_cls*)FUN_00aa13e0(0x34);
@@ -137,6 +132,8 @@ struct FnvNode
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00c27290
+// pdb: NiPSysUpdateCtlr::SetTarget | NiPSysUpdateCtlr.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkTarget
 void FnvNode::FUN_00c27290(FnvNode* pTarget)
 {
     ((FnvTarget*)this)->SetTarget(pTarget);
@@ -163,39 +160,10 @@ void FnvNode::FUN_00c27290(FnvNode* pTarget)
     }
 }
 
-struct StrArr
-{
-    int _m0;
-    int _m4;
-    unsigned short m_usAlloc;
-    unsigned short m_usSize;
-    unsigned short _mC;
-    unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-
-void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
-
 struct GlobalObjectO2_00a7b610
 {
     const char* m_pcName;
 };
-
-// Appends the string returned by FUN_00a7d330(g_01202690.m_pcName) to pkStrings, growing it via SetSize when full and storing at index m_usSize.
-// @fnv 0x00c27300
-void __stdcall FUN_00c27300(StrArr* pkStrings)
-{
-    FUN_00a6d830(pkStrings);
-    char* str = FUN_00a7d330(g_01202690.m_pcName);
-    unsigned int size = pkStrings->m_usSize;
-    if (size >= pkStrings->m_usAlloc)
-    {
-        pkStrings->SetSize(size + pkStrings->m_usGrowBy);
-    }
-    pkStrings->SetAt(size, str);
-}
 
 struct S_a6d590_RefObject
 {
@@ -245,6 +213,7 @@ struct S_a6d590 : S_a6d590_Base
 
 // Runs the destructor, then frees the object with _delete when bit 0 of uiFlags is set, and returns this.
 // @fnv 0x00a6d590
+// pdb: NiTimeController::`scalar deleting destructor' | NiTimeController.obj | fnv360_0721_beta, objrun, medium
 S_a6d590* S_a6d590::DestroyAndFree(unsigned int uiFlags)
 {
     this->S_a6d590::~S_a6d590();
@@ -319,6 +288,7 @@ class FUN_00a6d220 : public FUN_00a5d3a0
 
 // Initializes the frequency, phase, and time fields, then updates the flags with (old flags & 0xff6c) | 0x4c.
 // @fnv 0x00a6d220
+// pdb: NiTimeController::NiTimeController | NiTimeController.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: bhkForceController::bhkForceController)
 FUN_00a6d220::FUN_00a6d220() throw()
     : m_uiObjectFlags(0), m_fFrequency(1.0f), m_fPhase(0.0f), m_fLoKeyTime(a6d2::DAT_0109c820),
       m_fHiKeyTime(a6d2::DAT_01015f5c), m_fStartTime(a6d2::DAT_01015f5c), m_fLastTime(a6d2::DAT_01015f5c),
@@ -328,10 +298,8 @@ FUN_00a6d220::FUN_00a6d220() throw()
     uFlags = (uFlags & 0xff6c) | 0x4c;
 }
 
-extern "C" void _ReadWriteBarrier();
 extern float g_01015f5c;
 extern float g_010be6a8;
-extern double g_010241b0;
 extern char g_012024e8;
 
 struct SpawnedTarget
@@ -450,7 +418,7 @@ struct SpawnedOwner
 
 struct S00a36250
 {
-    bool FUN_00a36250(float v);
+    bool NiTimeController_DontDoUpdate(float v);
 };
 
 struct SpawnedController
@@ -505,6 +473,8 @@ __forceinline bool StaticIsKindOf(const KindRtti* rtti, SpawnedItem* obj)
 }
 
 // @fnv 0x00c271c0
+// pdb: NiPSysUpdateCtlr::Update | NiPSysUpdateCtlr.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: UpdateData
 void SpawnedController::FUN_00c271c0(const float* apPosition)
 {
     unsigned short flags = m_08;
@@ -534,7 +504,7 @@ void SpawnedController::FUN_00c271c0(const float* apPosition)
             }
         }
     }
-    bool handled = reinterpret_cast<S00a36250*>(this)->FUN_00a36250(*apPosition);
+    bool handled = reinterpret_cast<S00a36250*>(this)->NiTimeController_DontDoUpdate(*apPosition);
     m_18 = 0.0f;
     m_14 = 0.0f;
     SpawnedOwner* owner = m_2C;

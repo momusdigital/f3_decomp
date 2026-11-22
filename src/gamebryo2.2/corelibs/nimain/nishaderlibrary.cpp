@@ -11,6 +11,7 @@ class RefCountedNamedObject : public NiRefObject
 };
 
 // @fnv 0x00d47a30
+// pdb: hkClassMember::getEnumClass | hkClassMember.obj | fnv360_0822_retail, call_gap, high
 const char* RefCountedNamedObject::GetName()
 {
     return m_pcName;

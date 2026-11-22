@@ -3,15 +3,19 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkpSimulation.h"
+#include "havok/hkMonitorStream.h"
 
 extern "C" void __cdecl FUN_00cfdbe0(int, int);
 
 struct FUN_00cf87a0_Class {
-    void __thiscall ForwardToGlobal(int a, int b, int c);
+    void __thiscall hkpSimulation_processAgentResetCollisionInformation(int a, int b, int c);
 };
 
 // @fnv 0x00cf87a0
-void __thiscall FUN_00cf87a0_Class::ForwardToGlobal(int aiArg1, int aiArg2, int aiUnused)
+// pdb: hkpSimulation::processAgentResetCollisionInformation | hkpSimulation.obj | fnv360_0822_retail, objrun, high
+// pdb params: entry, processInput, processOutput
+// pdb: hkpSimulation::processAgentResetCollisionInformation | hkpSimulation.obj | fnv360_0822_retail, objrun, high (was: ForwardToGlobal)
+void __thiscall FUN_00cf87a0_Class::hkpSimulation_processAgentResetCollisionInformation(int aiArg1, int aiArg2, int aiUnused)
 {
     FUN_00cfdbe0(aiArg1, aiArg2);
 }
@@ -20,8 +24,6 @@ class hkpWorld {
 public:
     int __thiscall FUN_00c93570();
 };
-
-extern "C" void __cdecl ProcessChildLoop(hkpWorld*);
 
 class SimulationDerived : public hkpSimulation {
 public:
@@ -55,13 +57,8 @@ extern "C" {
     extern int DAT_01269200;
     extern unsigned long DAT_0126835c;
     extern const char str_010c41f8[];
-    extern const char str_010cc530[];
     void __cdecl FUN_00d014f0(void*, void*);
 }
-
-struct FUN_00c96ff0_Class {
-    void __thiscall FUN_00c96ff0(int a, int b);
-};
 
 struct hkpWorld_Fields {
     int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c;
@@ -140,7 +137,7 @@ public:
 extern "C" int* DAT_010f3400;
 extern "C" const char str_00e32798[];
 extern "C" const char str_00e7d2c8[];
-extern "C" void __cdecl FUN_009893f0(void*,void*);
+extern "C" void __cdecl hkpWorldCallbackUtil_firePostCollideCallback(void*,void*);
 extern "C" void* (__stdcall *DAT_00d9b080)(unsigned long);
 struct FUN_00907f30_Class { void __thiscall FUN_00907f30(int,int); };
 static __forceinline void timerF3(const char* tag, volatile hkUint32& t) {
@@ -149,7 +146,6 @@ static __forceinline void timerF3(const char* tag, volatile hkUint32& t) {
 }
 hkUint32 hkpSimulation_Derived::FUN_00cf8820()
 {
-    volatile hkUint32 t;
     ((FUN_00907f30_Class*)m_pOwningWorld)->FUN_00907f30(0, 1);
 
     hkStepInfo stepInfo;
@@ -162,16 +158,16 @@ hkUint32 hkpSimulation_Derived::FUN_00cf8820()
     step(&stepInfo);
 
     if (DAT_010f3400[1] == 1) {
-        timerF3(str_00e32798, t);
+        HK_TIMER_END();
         return m_uiSimulationType;
     }
 
     if (m_uiSimulationType == 2) {
         m_fSimulationTime += m_fStepDeltaTime;
         if (((hkpWorld_Fields*)m_pOwningWorld)->unk154 != 0) {
-            timerF3(str_00e7d2c8, t);
-            FUN_009893f0(m_pOwningWorld, &stepInfo);
-            timerF3(str_00e32798, t);
+            HK_TIMER_BEGIN("PostCollideCB", HK_NULL);
+            hkpWorldCallbackUtil_firePostCollideCallback(m_pOwningWorld, &stepInfo);
+            HK_TIMER_END();
         }
         m_bHasStepped = 1;
     }
@@ -181,17 +177,18 @@ hkUint32 hkpSimulation_Derived::FUN_00cf8820()
 }
 
 
-extern "C" void CollectLinearCast();
+extern "C" void hkpSimulation_processAgentCollideDiscrete();
 
 struct FUN_00cfa400_Obj {
     void __thiscall FUN_00cf9480(int a1, int a2, int a3, void (*callback)(), int a5);
     void __thiscall FUN_00cfa400(int a1, int a2, int a3, int a4);
 };
 
-// Forwards the four arguments to FUN_00cf9480, passing CollectLinearCast as the callback.
+// Forwards the four arguments to FUN_00cf9480, passing hkpSimulation_processAgentCollideDiscrete as the callback.
 // @fnv 0x00cfa400
+// pdb: hkpWorld::internal_executePendingOperations | hkpWorld.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: hkpSimulation::collideEntitiesNarrowPhaseDiscrete)
 void __thiscall FUN_00cfa400_Obj::FUN_00cfa400(int a1, int a2, int a3, int a4) {
-    FUN_00cf9480(a1, a2, a3, CollectLinearCast, a4);
+    FUN_00cf9480(a1, a2, a3, hkpSimulation_processAgentCollideDiscrete, a4);
 }
 
 namespace fnv_00cfa470 {
@@ -353,80 +350,9 @@ struct hkpEntity {
     hkMotionState m_kMotionState;
 };
 
-void __cdecl FUN_00cf1b10(float time, hkMotionState* ms);
-void __cdecl FUN_00d28680(const hkStepInfo* stepInfo, hkpEntity** entities, int numEntities, int offset);
 void __cdecl FUN_00d1a330(hkpCollisionInputS* input, hkpEntity** entities, int numEntities);
 void __cdecl FUN_00cf9c60(hkpEntity** entities, int numEntities, hkpWorld* world);
 
-class hkpSimulationV : public hkpSimulation {
-public:
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1C();
-    virtual void collideEntities(hkpEntity** entities, int numEntities, hkpWorld* world, int findExtraContacts);
-
-    void FUN_00cfa400(hkpEntity** entities, int numEntities, hkpCollisionInputS* input, int flag);
-    void ResetSimulationState(hkpEntity** entities, int numEntities, hkpWorld* world, int resetInfo);
-};
-
-// @fnv 0x00cfa470
-void hkpSimulationV::ResetSimulationState(hkpEntity** entities, int numEntities, hkpWorld* world, int auiResetFlags)
-{
-    world->m_iCriticalOperationsLockCount++;
-
-    hkStepInfo stepInfo;
-    float startTime = world->FUN_00c91020();
-    float endTime = world->FUN_00c91030();
-    stepInfo.m_uiStartTime = startTime;
-    stepInfo.m_fEndTime = endTime;
-    stepInfo.m_fTimeStep = endTime - startTime;
-    stepInfo.m_fInverseDeltaTime = (stepInfo.m_fTimeStep == 0.0f) ? 0.0f : 1.0f / stepInfo.m_fTimeStep;
-    world->m_pCollisionInput->m_pStepInfo = stepInfo;
-
-    if (auiResetFlags & RESET_TOI)
-    {
-        for (int i = 0; i < numEntities; i++)
-        {
-            hkpEntity* entity = entities[i];
-            if (entity->m_bFlag != 5)
-            {
-                FUN_00cf1b10(world->FUN_00c91020(), &entity->m_kMotionState);
-            }
-        }
-        FUN_00d28680(&stepInfo, entities, numEntities, 0xe0);
-        FUN_00d1a330(world->m_pCollisionInput, entities, numEntities);
-    }
-
-    if (auiResetFlags & RESET_TIM)
-    {
-        FUN_00cf9c60(entities, numEntities, world);
-    }
-
-    if (auiResetFlags & RESET_AABB)
-    {
-        FUN_00cfa400(entities, numEntities, world->m_pCollisionInput, 0);
-    }
-    else if (auiResetFlags & RESET_TOI)
-    {
-        collideEntities(entities, numEntities, world, 2);
-    }
-
-    if (--world->m_iCriticalOperationsLockCount == 0 && !world->m_bBlockExecutingPendingOperations)
-    {
-        if (world->m_iPendingOperationCount)
-        {
-            world->FUN_00c91120();
-        }
-        if (world->m_iPendingOperationQueueCount == 1 && world->m_iQueuedOperationCount)
-        {
-            world->FUN_00c91140();
-        }
-    }
-}
 }  // namespace fnv_00cfa470
 
 struct FnvCpu_FUN_00cfa7a0_CpuAllocator {
@@ -442,27 +368,9 @@ struct FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder {
     FnvCpu_FUN_00cfa7a0_CpuAllocator* allocator;
 };
 FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00cfa7a0_CpuObject {
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00cf86d0();
-    FnvCpu_FUN_00cfa7a0_CpuObject* FUN_00cfa7a0(unsigned int flags);
-};
-// @fnv 0x00cfa7a0
-FnvCpu_FUN_00cfa7a0_CpuObject* FnvCpu_FUN_00cfa7a0_CpuObject::FUN_00cfa7a0(unsigned int flags)
-{
-    FUN_00cf86d0();
-    if (flags & 1) {
-        FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 
 extern "C" void __cdecl FUN_00d01380(int);
 extern unsigned long DAT_0126835c;
-extern void* DAT_00fdf044;
-extern const char str_010cc540[];
 extern const char str_010c41f8[];
 typedef void* (__stdcall *S00cf8a40_TlsFn)(unsigned long);
 
@@ -598,7 +506,7 @@ struct S00cf8a40_Obj {
     int unk24;
     int m_uiContentCount;
 
-    float GetClampedSimulationTime();
+    float hkpSimulation_snapSimulateTimeAndGetTimeToAdvanceTo();
     int FUN_00cf8a40();
 };
 
@@ -610,7 +518,7 @@ typedef void* (__stdcall *S00cf8a40_TlsFn)(unsigned long);
 
 int S00cf8a40_Obj::FUN_00cf8a40()
 {
-    m_uiCommandId = GetClampedSimulationTime();
+    m_uiCommandId = hkpSimulation_snapSimulateTimeAndGetTimeToAdvanceTo();
     if (m_uiCommandId >= m_pFreeList && m_node->unk13C) {
         S00cf8a40_TlsFn pTlsFn = (S00cf8a40_TlsFn)&TlsGetValue;
         S00cf8a40_Stream* s = (S00cf8a40_Stream*)pTlsFn(DAT_0126835c);
@@ -823,8 +731,6 @@ struct hkpCollisionInputCF9 {
     int* m_aiContactPointIds;
 };
 
-class hkpShapeCF9;
-
 class hkpAgentCF9 {
 public:
     virtual void vf00();
@@ -845,16 +751,16 @@ struct hkpLinearCastInputCF9 {
     void* m_pBodyB;
 };
 
-extern float DAT_0104da48;
 extern int DAT_01269200;
-
-void __cdecl FUN_00cfedd0(hkpLinearCastInputCF9* in, hkpCollisionInputCF9* input, hkpCdPointCollectorCF9* collector, hkpAgentCF9* agent);
 
 // @f3 0x0097fc80 (community match, verified in this file)
 struct CastBool {char value; };struct CastManager;struct CastMethods {void* unk00; void* unk04; void* unk08; void* unk0C; void* unk10; void* unk14; void* unk18; void* unk1C; void* unk20; void* unk24; void* unk28; void* unk2C; void* unk30; void* unk34; void* unk38; void* unk3C; void* unk40; void* unk44; void* unk48; void* unk4C; void* unk50; void* unk54; void* unk58; void* unk5C; CastBool* (__thiscall* query)(CastManager*,CastBool*,int);};struct CastManager {CastMethods* table;int state;};
 namespace CastGlobals {extern CastManager* DAT_010f3400;}
 extern float DAT_00de6e60;void __cdecl FUN_00999610(hkpLinearCastInputCF9*,hkpCollisionInputCF9*,hkpCdPointCollectorCF9*,hkpAgentCF9*);
-void __stdcall CollectLinearCast(hkpLinearCastInputCF9* linear,hkpCollisionInputCF9* input,hkpCdPointCollectorCF9* collector){collector->m_fEarlyOutDistance=DAT_00de6e60;collector->m_hitCount=0;collector->m_data=collector->m_kStorage;hkpDispatcherCF9* dispatcher=input->m_pCollisionDispatcher;input->m_aiContactPointIds=dispatcher->m_pAgents[0].m_aiContactPointIds;*(void**)((char*)input+0x10)=dispatcher->m_pAgents[linear->m_iType].m_pCreateFunc;FUN_00999610(linear,input,collector,linear->m_pCollisionAgent);CastManager* manager=CastGlobals::DAT_010f3400;CastBool flag;if(!manager->table->query(manager,&flag,0)->value)(CastGlobals::DAT_010f3400)->state=1;if((CastGlobals::DAT_010f3400)->state!=1&&collector->m_data!=collector->m_kStorage)linear->m_pCollisionAgent->getPenetrations(linear->m_pBodyA,linear->m_pBodyB,input,collector);}
+// pdb: hkpSimulation::processAgentCollideDiscrete | hkpSimulation.obj | fnv360_0822_retail, objrun, high
+// pdb params: entry, processInput, processOutput
+// pdb: hkpSimulation::processAgentCollideDiscrete | hkpSimulation.obj | fnv360_0822_retail, objrun, high (was: CollectLinearCast)
+void __stdcall hkpSimulation_processAgentCollideDiscrete(hkpLinearCastInputCF9* linear,hkpCollisionInputCF9* input,hkpCdPointCollectorCF9* collector){collector->m_fEarlyOutDistance=DAT_00de6e60;collector->m_hitCount=0;collector->m_data=collector->m_kStorage;hkpDispatcherCF9* dispatcher=input->m_pCollisionDispatcher;input->m_aiContactPointIds=dispatcher->m_pAgents[0].m_aiContactPointIds;*(void**)((char*)input+0x10)=dispatcher->m_pAgents[linear->m_iType].m_pCreateFunc;FUN_00999610(linear,input,collector,linear->m_pCollisionAgent);CastManager* manager=CastGlobals::DAT_010f3400;CastBool flag;if(!manager->table->query(manager,&flag,0)->value)(CastGlobals::DAT_010f3400)->state=1;if((CastGlobals::DAT_010f3400)->state!=1&&collector->m_data!=collector->m_kStorage)linear->m_pCollisionAgent->getPenetrations(linear->m_pBodyA,linear->m_pBodyB,input,collector);}
 
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
@@ -865,12 +771,6 @@ struct SimMonStream {
     char* m_kRayEnd;
     char* m_cap;
     char* m_capMinus16;
-};
-
-struct SimTimerCmd {
-    const char* m_name;
-    unsigned int m_ticks;
-    unsigned int m_auiShapeKeys;
 };
 
 struct __declspec(align(16)) SimStepInfo {
@@ -952,7 +852,7 @@ static inline SimMonStream& GetMonStream() {
 
 struct SimLocal : hkpSimulation {
     int FUN_00cf8da0(const SimStepInfo& stepInfo);
-    int FUN_00cf9340(float physicsDeltaTime);
+    int hkpSimulation_integrate(float physicsDeltaTime);
 };
 
 // @f3 0x0097fd30 (community match, verified in this file)
@@ -966,9 +866,9 @@ struct S_0097fd30_SimulationCall
     void FUN_0097f810(const SimStepInfo& stepInfo);
 };
 
-int SimLocal::FUN_00cf9340(float physicsDeltaTime)
+// pdb: hkpSimulation::integrate | hkpSimulation.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+int SimLocal::hkpSimulation_integrate(float physicsDeltaTime)
 {
-    typedef void* (__stdcall *LocalTlsFn)(unsigned long);
     struct LocalMonitor
     {
         char* m_start;
@@ -1016,62 +916,32 @@ int SimLocal::FUN_00cf9340(float physicsDeltaTime)
         int m_memoryState;
     };
 
-    volatile unsigned int t;
-    LocalTlsFn tls = *(LocalTlsFn*)0x00d9b080;
-    LocalMonitor& ms = *(LocalMonitor*)tls(*(unsigned long*)0x0116913c);
-    char* pos = ms.m_end;
-    if (pos < ms.m_capacityMinus16)
-    {
-        *(const char**)pos = (const char*)0x00e7d300;
-        _ReadWriteBarrier();
-        t = (unsigned int)__rdtsc();
-        *(unsigned int*)(pos + 4) = t;
-        ms.m_end = pos + 12;
-    }
+    HK_TIMER_BEGIN("Simulate", HK_NULL);
     m_fStepDeltaTime = physicsDeltaTime;
 
     int memNeeded = ((S_0097fd30_WorldCall*)m_pOwningWorld)->FUN_00903760();
-    LocalThreadMemory& threadMemory = *(LocalThreadMemory*)tls(*(unsigned long*)0x010f3170);
+    LocalThreadMemory& threadMemory = *(LocalThreadMemory*)TlsGetValue(*(unsigned long*)0x010f3170);
     if (memNeeded > threadMemory.m_stack.getFreeBytes() && !((LocalMemory*)*(LocalMemory**)0x010f3400)->hasMemoryAvailable(memNeeded))
     {
         ((LocalMemory*)*(LocalMemory**)0x010f3400)->m_memoryState = 1;
         m_uiSimulationType = 1;
-        LocalMonitor& ms2 = *(LocalMonitor*)tls(*(unsigned long*)0x0116913c);
-        pos = ms2.m_end;
-        if (pos < ms2.m_capacityMinus16)
-        {
-            *(const char**)pos = (const char*)0x00e32798;
-            _ReadWriteBarrier();
-            t = (unsigned int)__rdtsc();
-            *(unsigned int*)(pos + 4) = t;
-            ms2.m_end = pos + 12;
-        }
+        HK_TIMER_END();
         return 1;
     }
 
-    __declspec(align(16)) SimStepInfo stepInfo(m_fSimulationTime, m_fSimulationTime + *(volatile float*)&m_fStepDeltaTime);
+    __declspec(align(16)) SimStepInfo stepInfo(m_fSimulationTime, m_fSimulationTime + m_fStepDeltaTime);
     ((LocalWorld*)m_pOwningWorld)->m_dynamicsStepInfo = stepInfo;
     ((LocalWorld*)m_pOwningWorld)->m_pCollisionInput->m_pStepInfo = stepInfo;
     ((LocalWorld*)m_pOwningWorld)->m_pMaintenanceManager->PerformMaintenance((SimWorld*)m_pOwningWorld, stepInfo);
     ((S_0097fd30_SimulationCall*)this)->FUN_0097f810(stepInfo);
     m_bHasStepped = 0;
     m_uiSimulationType = 0;
-    LocalMonitor& ms3 = *(LocalMonitor*)tls(*(unsigned long*)0x0116913c);
-    pos = ms3.m_end;
-    if (pos < ms3.m_capacityMinus16)
-    {
-        *(const char**)pos = (const char*)0x00e32798;
-        _ReadWriteBarrier();
-        t = (unsigned int)__rdtsc();
-        *(unsigned int*)(pos + 4) = t;
-        ms3.m_end = pos + 12;
-    }
+    HK_TIMER_END();
     return 0;
 }
 
 
-extern "C" void ForwardToGlobal();
-extern "C" void __cdecl InitArrayEntries(void* a, void* b);
+extern "C" void hkpSimulation_processAgentResetCollisionInformation();
 
 struct S00cfa430_Data {
     char pad[0x78];
@@ -1082,159 +952,8 @@ struct MyObj : FUN_00cfa400_Obj {
     void FUN_00cfa430(void* first, void* second, S00cfa430_Data* data, unsigned char flags);
 };
 
-// If flags & 2, calls FUN_00cf9480 with first, second, data->unk78 and ForwardToGlobal; if flags & 4, calls InitArrayEntries(first, second).
-// @fnv 0x00cfa430
-void MyObj::FUN_00cfa430(void* first, void* second, S00cfa430_Data* data, unsigned char flags) {
-    if (flags & 2) {
-        FUN_00cf9480((int)first, (int)second, data->unk78, ForwardToGlobal, 0);
-    }
-    if (flags & 4) {
-        InitArrayEntries(first, second);
-    }
-}
-
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 extern "C" __m128 _mm_load_ss(const float* p);
-
-struct S00cfa6e0_Src {
-    int u00;
-    float f04;
-    float f08;
-    int u0c;
-    int u10;
-    int u14;
-    int u18;
-    int u1c;
-    int u20;
-    int u24;
-    int u28;
-    int u2c;
-    int u30;
-    int u34;
-    int u38;
-    int u3c;
-    int u40;
-    int u44;
-    int u48;
-    int u4c;
-    int u50;
-    float f54;
-    int u58;
-    float f5c;
-    int u60;
-    int u64;
-    int u68;
-    int u6c;
-    int u70;
-    int u74;
-    int u78;
-    int u7c;
-    int u80;
-    int u84;
-    int u88;
-    int u8c;
-    int u90;
-    int u94;
-    int u98;
-    int u9c;
-    int ua0;
-    int ua4;
-    int ua8;
-    int uac;
-    int ub0;
-    int ub4;
-    int ub8;
-    int ubc;
-    int uc0;
-    int uc4;
-    int uc8;
-    int ucc;
-    int ud0;
-    int ud4;
-    int ud8;
-    int udc;
-    int ue0;
-    int ue4;
-    int ue8;
-    int uec;
-    int uf0;
-    int uf4;
-    int uf8;
-    int ufc;
-    int u100;
-    int u104;
-    int u108;
-    float f10c;
-    float f110;
-    int u114;
-    int u118;
-    float f11c;
-    float f120;
-    int u124;
-    float f128;
-    int u12c;
-};
-
-struct S00cfa6e0_Pair {
-    int u00; int u04; int i08; int i0c;
-};
-
-struct S00cfa6e0_Dst {
-    float f00;
-    float f04;
-    float f08;
-    int i0c;
-    int i10;
-    float f14;
-    float f18;
-    int u1c;
-    float f20;
-    float f24;
-    float f28;
-    int u2c;
-    int u30;
-    int u34;
-    int u38;
-    int u3c;
-    float f40;
-    float f44;
-    int u48;
-    int u4c;
-    int i50;
-    int i54;
-    int i58;
-    int i5c;
-    int u60;
-    int u64;
-    int i68;
-    int u6c;
-    void FUN_00cfa6e0(S00cfa6e0_Src* s, S00cfa6e0_Pair* p, int v);
-};
-
-// Copies float and int fields from s and p into this object, computing several products of source floats.
-// @fnv 0x00cfa6e0
-void S00cfa6e0_Dst::FUN_00cfa6e0(S00cfa6e0_Src* apSource, S00cfa6e0_Pair* apPair, int aiValue)
-{
-    f00 = apSource->f10c;
-    f04 = apSource->f11c * apSource->f10c;
-    f08 = apSource->f110;
-    f14 = apSource->f120;
-    f18 = apSource->f120 * apSource->f11c;
-    f40 = apSource->f04;
-    f44 = apSource->f08;
-    i68 = aiValue;
-    f20 = apSource->f54 * apSource->f110;
-    f24 = apSource->f08;
-    f28 = apSource->f5c * apSource->f110;
-    i0c = apPair->i08;
-    i10 = apPair->i0c;
-    __m128 t = _mm_load_ss(&apSource->f128);
-    int* ti = (int*)&t;
-    i50 = ti[0];
-    i54 = ti[1];
-    i58 = ti[2];
-    i5c = ti[3];
-}
 
 struct FUN_00cfa7d0
 {
@@ -1297,11 +1016,13 @@ namespace MathUtilities {
 }
 
 struct Sim : hkpSimulation {
-    float GetClampedSimulationTime();
+    float hkpSimulation_snapSimulateTimeAndGetTimeToAdvanceTo();
 };
 
 // @fnv 0x00cf89c0
-float Sim::GetClampedSimulationTime() {
+// pdb: hkpSimulation::snapSimulateTimeAndGetTimeToAdvanceTo | hkpSimulation.obj | fnv360_0822_retail, call_seq, high
+// pdb: hkpSimulation::snapSimulateTimeAndGetTimeToAdvanceTo | hkpSimulation.obj | fnv360_0822_retail, call_seq, high (was: GetClampedSimulationTime)
+float Sim::hkpSimulation_snapSimulateTimeAndGetTimeToAdvanceTo() {
     if (m_fFrameMarkerTime != -1.0f) {
         if (fabsf(m_fFrameMarkerTime - m_fSimulationTime) < m_fFrameMarkerPsiSnap) {
             m_fFrameMarkerTime = m_fSimulationTime;
@@ -1324,35 +1045,6 @@ public:
     hkRefObjCF87() { m_sReferenceCount = 1; }
 };
 
-class FUN_00cf87c0 : public hkRefObjCF87 {
-public:
-    int m_08;
-    void* m_0c;
-    bool m_10;
-    char unk11;
-    char unk12;
-    char unk13;
-    float m_14;
-    float m_18;
-    int unk1C;
-    float m_20;
-    float m_24;
-    int m_28;
-
-    FUN_00cf87c0(void* p) throw();
-    virtual ~FUN_00cf87c0() throw();
-};
-
-// Initializes a FUN_00cf87c0 object by storing the provided pointer in m_0c and setting default values for its member fields.
-// @fnv 0x00cf87c0
-FUN_00cf87c0::FUN_00cf87c0(void* p) throw()
-    : m_0c(p), m_14(0.0f), m_18(0.0f), m_20(-1.0f), m_24(0.0001f), m_28(0)
-{
-    m_10 = true;
-    m_08 = 0;
-}
-
-extern "C" const char str_010cc568[];
 static __forceinline void S00cf8bc0_timer(const char* tag, hkReal& slot) {
     StringCursor* s = (StringCursor*)TlsGetValue(DAT_0126835c);
     char* pos = s->m_commandSlice;
@@ -1370,6 +1062,7 @@ struct S00cf8bc0_Sim : hkpSimulation_Derived {
 };
 // If m_uiSimulationType is non-zero, returns FUN_00cf8820(); else calls step by m_fStepDeltaTime, returning 2 if DAT_01269200 is 1, otherwise 0.
 // @f3 0x0097f630 (community match, verified in this file)
+// pdb: hkpSimulation::collide | hkpSimulation.obj | fnv360_0822_retail, vtable, medium
 int S00cf8bc0_Sim::FUN_00cf8bc0()
 {
     hkReal startTime;
@@ -1419,7 +1112,6 @@ extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern const char str_010cc624[], str_010cc618[], str_010cc60c[], str_010cc5fc[];
 extern const char str_010cc5f0[], str_010cc5e4[], str_010cc5d8[], str_01076f38[];
-extern "C" void __cdecl FUN_00d88040(int);
 struct Arr;
 extern "C" void __cdecl FUN_00cf7130(Arr*, Arr*);
 extern "C" void __cdecl FUN_00d1a330(void*, void*, int);
@@ -2022,16 +1714,8 @@ finish:
 }
 
 
-extern const char DAT_010c41f8[];
 extern const char str_01076f38[];
-extern const char str_010cc574[];
-extern const char str_010cc58c[];
 extern const char str_010c41f8[];
-extern const char str_010cc55c[];
-extern const char str_010cc5a4[];
-extern const char str_010cc5b0[];
-extern const char str_010cc5bc[];
-extern const char str_010cc5c4[];
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern unsigned long DAT_0126835c;
@@ -2297,28 +1981,6 @@ class WorldFull { public:
     }
 };
 
-__declspec(noinline) void WorldFull::ComputeMemoryUsage(MemoryRequirements* memory) {
-    memory->max = memory->sum = 0;
-    memory->biggest = 0;
-    for (int index=activeIslands.m_iElementCount-1; index>=0; --index) {
-        Island* island=activeIslands.m_data[index];
-        int extra=2*((int)island->unk01c/80)+8;
-        int size=((3*extra+(int)island->unk014)*4+23)&-16;
-        size+=(extra+8*island->numEntities+10)*16+island->numConstraints;
-        memory->sum+=size;
-        if (size>memory->max) { memory->max=size; memory->biggest=island; }
-    }
-}
-struct MemoryManager {
-    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
-    virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();
-    virtual bool available(int);
-};
-struct Holder { unsigned int unk00, unk04, unk08, unk0c, unk10, unk14; MemoryManager* memory; };
-
-extern "C" void __cdecl FUN_00d892d0();
-extern "C" void __cdecl FUN_00cb55d0(WorldFull*);
-extern "C" void __cdecl FUN_00d01bc0(WorldFull*);
 struct __declspec(align(16)) IntegrationContext {
     unsigned int unk000;
     unsigned int unk004;
@@ -2353,10 +2015,6 @@ struct __declspec(align(16)) IntegrationContext {
 };
 extern "C" int __cdecl FUN_00d28a30(SolverInfo*, TimeInterval*, void*, void*, int, int);
 extern "C" void __cdecl FUN_00d1a330(void*, void*, int);
-extern "C" int __cdecl FUN_00d88b50(TimeInterval*, SolverInfo*, IntegrationContext*, Island*, int, int, void*, int);
-extern "C" void __cdecl AddItemToContainer(WorldFull*, Island*);
-extern "C" void __cdecl FUN_00d015a0(WorldFull*, Island*, const TimeInterval*);
-extern "C" void __cdecl FUN_00d01440(WorldFull*, const TimeInterval*);
 struct Simulation {
     unsigned int unk00, unk04, unk08;
     WorldFull* m_pOwningWorld;
@@ -2544,15 +2202,15 @@ __forceinline void timerBeginList(const char* name, const char* firstSplit)
 
 extern "C" void __cdecl FUN_00a0b770();
 extern "C" void __cdecl FUN_00927c80(World* world);
-extern "C" int __cdecl FUN_009aa3e0(const SolverInfo& solverInfo, const StepInfo& stepInfo, const Vector4& acceleration,
+extern "C" int __cdecl hkRigidMotionUtilApplyForcesAndStep(const SolverInfo& solverInfo, const StepInfo& stepInfo, const Vector4& acceleration,
                                     void** motions, int numMotions, int motionOffset);
 extern "C" void __cdecl FUN_0099a2d0(void* collisionInput, void** entities, int numEntities);
 extern "C" int __cdecl FUN_00a0b010(const StepInfo& stepInfo, const SolverInfo& solverInfo,
                                     ConstraintQueryIn& constraintQueryIn, Island& island, void** entities,
                                     int numEntities);
-extern "C" void __cdecl FUN_00926f00(World* world, Island* island);
+extern "C" void __cdecl hkpWorldOperationUtil_markIslandInactive(World* world, Island* island);
 extern "C" void __cdecl FUN_009894a0(World* world, Island* island, const StepInfo& stepInfo);
-extern "C" void __cdecl FUN_00989340(World* world, const StepInfo& stepInfo);
+extern "C" void __cdecl hkpWorldCallbackUtil_firePostIntegrateCallback(World* world, const StepInfo& stepInfo);
 
 struct Simulation {
     int unk00, unk04, unk08;
@@ -2600,7 +2258,7 @@ __forceinline void Simulation::integrateInternal(const StepInfo& stepInfoIn)
             DynamicsStepInfo& info = m_world->dynamicsStepInfo;
             if (island->sizeOfJacobians == 0) {
                 timerCommand("TtSingleObj");
-                numInactiveFrames = FUN_009aa3e0(info.solverInfo, info.stepInfo,
+                numInactiveFrames = hkRigidMotionUtilApplyForcesAndStep(info.solverInfo, info.stepInfo,
                                                  info.solverInfo.globalAccelerationPerStep,
                                                  island->entities.begin(), island->entities.getSize(), 0xd0);
                 FUN_0099a2d0(island->world->collisionInput, island->entities.begin(), island->entities.getSize());
@@ -2611,7 +2269,7 @@ __forceinline void Simulation::integrateInternal(const StepInfo& stepInfoIn)
             }
             if (numInactiveFrames > 5) {
                 if ((island->flags & 0xc) && island->world->wantDeactivation)
-                    FUN_00926f00(island->world, island);
+                    hkpWorldOperationUtil_markIslandInactive(island->world, island);
             }
             if (m_world->islandPostIntegrateListeners.getSize()) {
                 timerCommand("StIslandPostIntegrateCb");
@@ -2623,7 +2281,7 @@ __forceinline void Simulation::integrateInternal(const StepInfo& stepInfoIn)
 
     if (m_world->worldPostIntegrateListeners.getSize()) {
         timerCommand("TtWorldPostIntegrateCb");
-        FUN_00989340(m_world, stepInfoIn);
+        hkpWorldCallbackUtil_firePostIntegrateCallback(m_world, stepInfoIn);
         timerCommand("Et");
     }
     timerCommand("lt");
@@ -2646,9 +2304,6 @@ extern "C" unsigned __int64 __cdecl __rdtsc(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned long DAT_0126835c;
 extern "C" int DAT_01269200;
-extern "C" char str_010cc64c;
-extern "C" char str_010cc54c;
-extern "C" char str_010cc634;
 struct TraceEntry { const char* m_name; unsigned int m_low; unsigned int m_high; };
 struct TraceState { unsigned int unk00; TraceEntry* m_next; unsigned int unk08; TraceEntry* m_last; };
 __forceinline void stamp(const char* name, volatile unsigned int& clockSlot) {
@@ -2974,8 +2629,6 @@ struct S00cfa080_Obj {
  void __thiscall FUN_00cfa080(hkVector4* p);
 };
 extern "C" void __cdecl FUN_00cf9c60(unsigned int, unsigned int, W*);
-extern "C" void __cdecl FUN_00cff3c0(O*, void*, O*);
-extern "C" void __cdecl FUN_00d01650(W*,O*,hkVector4*);
 __forceinline void stampN(const char* name) {
  TraceState* t = (TraceState*)TlsGetValue(DAT_0126835c);
  TraceEntry* e = t->m_next;
@@ -3015,8 +2668,8 @@ extern char DAT_00e7d3e4[], DAT_00e7d2e4[], DAT_00e7d3cc[];
 
 struct NativeWorldCalls { void FUN_00902550(); };
 extern "C" void __cdecl FUN_009808f0(unsigned, unsigned, W*);
-extern "C" void __cdecl FUN_00999b70(O*, void*, O*);
-extern "C" void __cdecl FUN_00989550(W*, O*, hkVector4*);
+extern "C" void __cdecl hkAgentNnMachine_ProcessTrack(O*, void*, O*);
+extern "C" void __cdecl hkpWorldCallbackUtil_fireIslandPostCollideCallback(W*, O*, hkVector4*);
 
 // Leaves the world's critical section and runs the pending operations when this was the last lock.
 __forceinline void NativeDone(W* w) {
@@ -3027,6 +2680,8 @@ __forceinline void NativeDone(W* w) {
 // Collide step of the simulation: stores the step info in the world and its collision input, runs the
 // broad phase over every active island, then the narrow phase and the post-collide listeners per island.
 // Stops early, releasing the lock, when the memory system reports it is out of memory.
+// pdb: hkpSimulation::collideInternal | hkpSimulation.obj | fnv360_0822_retail, vtable, medium
+// pdb params: stepInfoIn
 void S00cfa080_Obj::FUN_00cfa080(hkVector4* p) {
  stampN(DAT_00e7d3e4);
  memcpy(&m_pOwningWorld->unk190, p, sizeof(hkVector4));
@@ -3055,7 +2710,7 @@ void S00cfa080_Obj::FUN_00cfa080(hkVector4* p) {
   stampN(DAT_00e7d2e4);
   obj->unk060 = obj->unk000 + 0x1c60;
   obj->unk010 = 0;
-  FUN_00999b70(entry, &entry->unk058, obj);
+  hkAgentNnMachine_ProcessTrack(entry, &entry->unk058, obj);
   stampN(str_010c41f8);
   if (DAT_010f3400[1] == 1) {
    NativeDone(m_pOwningWorld);
@@ -3064,7 +2719,7 @@ void S00cfa080_Obj::FUN_00cfa080(hkVector4* p) {
   }
   if (m_pOwningWorld->unk16c != 0) {
    stampN(DAT_00e7d3cc);
-   FUN_00989550(m_pOwningWorld, entry, p);
+   hkpWorldCallbackUtil_fireIslandPostCollideCallback(m_pOwningWorld, entry, p);
    stampN(str_010c41f8);
   }
  }
@@ -3125,18 +2780,6 @@ struct Sim {
     void FUN_00cf8b00();
 };
 
-// Iterates every island and actor entry in the owning world and calls Process on each entity with the world's m_info.
-// @fnv 0x00cf8b00
-void Sim::FUN_00cf8b00()
-{
-    IslandArray& islands = m_pOwningWorld->m_islands;
-    for (int i = 0; i < islands.m_iElementCount; i++) {
-        EntityArray& ents = islands.m_data[i]->m_kActorEntries;
-        for (int j = 0; j < ents.m_iElementCount; j++) {
-            ents.m_data[j]->Process(&m_pOwningWorld->m_info);
-        }
-    }
-}
 }  // namespace fnv_00cf8b00
 
 extern "C" {
@@ -3153,8 +2796,6 @@ extern "C" {
     __m128 _mm_rsqrt_ss(__m128);
     float _mm_cvtss_f32(__m128);
     __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_setzero_ps();
     __m128 _mm_load_ps(const float*);
     __m128 _mm_load_ss(const float*);
     void _mm_store_ps(float*, __m128);
@@ -3250,7 +2891,7 @@ struct Pair {
 };
 struct Quaternion {
     __m128 value;
-    void __thiscall FUN_00cb2450(const __m128*, float);
+    void __thiscall hkQuaternion_setAxisAngle(const __m128*, float);
     void __thiscall FUN_00c66320(const Quaternion*, const Quaternion*);
     void __thiscall FUN_00c74b70(const Quaternion*, const Quaternion*);
 };
@@ -3484,7 +3125,7 @@ void __thiscall SimulationContext::FUN_00cf9480(Body** bodies, int count, Collis
                         __m128 inverseScalar=_mm_load_ss(&inverseLength);
                         axis=_mm_mul_ps(_mm_shuffle_ps(inverseScalar,inverseScalar,0),axis);
                         Quaternion turn, rotated;
-                        turn.FUN_00cb2450(&axis,savedRotation);
+                        turn.hkQuaternion_setAxisAngle(&axis,savedRotation);
                         rotated.FUN_00c66320(&turn,&body->motion.rotation1);
                         transform.FUN_00cb2d90(&rotated);
                         updateTranslation(body);
@@ -3499,7 +3140,7 @@ void __thiscall SimulationContext::FUN_00cf9480(Body** bodies, int count, Collis
                         refined=_mm_andnot_ps(_mm_cmpeq_ss(length,_mm_set_ss(0.0f)),refined);
                         perpendicular=_mm_mul_ps(_mm_shuffle_ps(refined,refined,0),perpendicular);
                         Quaternion sideways, oriented;
-                        sideways.FUN_00cb2450(&perpendicular,savedRotation);
+                        sideways.hkQuaternion_setAxisAngle(&perpendicular,savedRotation);
                         oriented.FUN_00c66320(&sideways,(Quaternion*)&angle);
                         transform.FUN_00cb2d90(&oriented);
                         updateTranslation(body);
@@ -3618,31 +3259,4 @@ struct FNVAudioHolder_CFA5F0 {
 };
 extern "C" void __cdecl FUN_00cf9c60(int arg1,int arg2,FNVSIM_CFA5F0* simulation);
 FNVAudioHolder_CFA5F0* __cdecl FUN_00c85750();
-struct FNVOwner_CFA5F0 {
-    void __thiscall FUN_00cfa400(int arg1, int arg2, FNVState_CFA5F0* state, int arg5);
-    void __thiscall FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim, const int* values,int arg5);
-};
-// @fnv 0x00cfa5f0
-void __thiscall FNVOwner_CFA5F0::FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim,const int* values,int arg5) {
-    FNVState_CFA5F0 state;
-    int* source = sim->stateSource78;
-    memcpy(&state, source, 0x50);
-    state.result64 = 0;
-    state.FUN_00cfa7d0(source);
-    state.input50 = values[0];
-    state.input54 = values[1];
-    state.input58 = values[2];
-    state.input5c = values[3];
-    ++sim->activeCount94;
-    FUN_00cf9c60(arg1,arg2,sim);
-    FUN_00cfa400(arg1,arg2,&state,arg5);
-    if (--sim->activeCount94 == 0 && !sim->flag9c) {
-        if (sim->hasPending8c) sim->FUN_00c91120();
-        if (sim->statusa4 == 1 && sim->hasPending90) sim->FUN_00c91140();
-    }
-    if (state.result64) {
-        FNVAudioHolder_CFA5F0* holder = FUN_00c85750();
-        holder->audio10->v2(state.result64, 0x200);
-    }
-}
 }  // namespace fnv_00cfa5f0

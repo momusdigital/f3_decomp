@@ -67,6 +67,8 @@ class AE8DE0_Class
     void FUN_005c8b90(AE8DE0_Record* a1, int a2, NiObjPtr a3);
 };
 
+// pdb: NiTMapBase<DFALL<NiTMapItem<bhkRigidBody *,NiPointer<ObstacleData> > >,bhkRigidBody *,NiPointer<ObstacleData> >::SetValue | NavMeshObstacleManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkItem, key, val
 void AE8DE0_Class::FUN_005c8b90(AE8DE0_Record* a1, int a2, NiObjPtr a3)
 {
     a1->m_04 = a2;
@@ -156,6 +158,7 @@ struct Owner108{
  unsigned int unk00;Handle108 first,second;
  void FUN_005c89c0();
 };
+// pdb: NavMeshRender::Update | NavMeshRender.obj | fnv360_0822_retail, call_gap, low
 void Owner108::FUN_005c89c0(){
  if(first.pointer&&first.pointer->manager)first.pointer->manager->Remove(first.pointer);
  if(second.pointer&&second.pointer->manager)second.pointer->manager->Remove(second.pointer);
@@ -174,6 +177,7 @@ struct VecB { float x, y, z; VecB() { x = 3.402823466e+38f; y = 3.402823466e+38f
 struct Base18 { virtual ~Base18(); int unk1c; int unk20; int unk24; Base18() { unk1c = 0; unk20 = 0; unk24 = 0; } };
 struct Tail { void* table; int unk2c; int unk30; int unk34; Tail(unsigned n) { table = &DAT_00dbe764; unk2c = 0; unk30 = 0; unk34 = 0; if (n) Grow(n); } void Grow(unsigned); ~Tail(); };
 class Holder { public: VecA a; VecB b; Base18 sub; Tail tail; Holder(); };
+// pdb: NavMeshBounds::NavMeshBounds | NavMeshBounds.obj | fnv360_0822_retail, call_seq, high
 Holder::Holder() : tail(0) {  }
 }   // namespace f3m_005c31a0
 
@@ -514,6 +518,8 @@ __declspec(noinline) bool SearchC::FUN_005c50a0(const LocationC& start,const Cir
  return success;
 }
 
+// pdb: NavMeshPOVSearch::GetNodeConnections | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode, apRetNodes
 bool SearchC::FUN_005c6320(QueryC* query,OutputC* output) {
  const NodePartC& parentNode=query->GetNode();
  const LinkPartC& parentLink=query->GetLink();
@@ -777,6 +783,8 @@ bool PathSmootherPOVSearch::FUN_005d2e50(const NavMeshEdgePoint& start, Sphere& 
     return true;
 }
 
+// pdb: PathSmootherPOVSearch::DoubleCheckArcAgainstNavMesh | PathSmootherPOV.obj | fnv360_0721_beta, call_gap, low
+// pdb params: aEntryLocation, aSphere, aArc
 bool PathSmootherPOVSearch::FUN_005d31c0(const NavMeshEdgePoint& edge, Sphere& sphere, CircularArc arc)
 {
     float radius;
@@ -827,7 +835,7 @@ struct ScrapHeapBuffer
     char* m_pCurrentPosition;
     char* m_pBufferLimit;
     void* m_pBufferHeader;
-    void* FUN_0086c710(unsigned int size, unsigned int align);
+    void* ScrapHeap_Allocate(unsigned int size, unsigned int align);
 };
 
 struct AStarNode
@@ -857,7 +865,7 @@ struct AStarNodeFresh : AStarNode
     }
     static void* operator new(unsigned int size, ScrapHeapBuffer& pool) throw()
     {
-        return pool.FUN_0086c710(size, ::DAT_00e27ed4);
+        return pool.ScrapHeap_Allocate(size, ::DAT_00e27ed4);
     }
 };
 
@@ -900,6 +908,8 @@ public:
     bool m_bUseBestNode;
 };
 
+// pdb: AStarSearch<CombatPlanNode *,CombatPlanLink *>::GetOrCreateAStarNode | CombatPlanner.obj | fnv360_0822_retail, caller, low
+// pdb params: aiKey, afCost, aRetNode
 int AStarSearch::FUN_005dbc20(unsigned int nKey, float fWeight, AStarNode*& rNode)
 {
     AStarNode** ppSlot = &m_ppHashNodes[ChooseBucket(nKey)];
@@ -1075,6 +1085,8 @@ class PathSmootherPOVSearch
                       bool startArc, bool endArc, float& destinationHeight);
 };
 
+// pdb: PathSmootherPOVSearch::TripleCheckSegmentAgainstNavMesh | PathSmootherPOV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aStartLocation, aEndLocation, apReturnLocation, abStartNode, abGoalNode, afRetPercentPreferred
 bool PathSmootherPOVSearch::FUN_005d25a0(const NavMeshEdgePoint& origin, const NiPoint3& target,
                                          NavMeshEdgePoint* hit, bool startArc, bool endArc,
                                          float& destinationHeight)

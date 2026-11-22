@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/nimain/niscreenelementsdata.cpp: NiScreenElementsData, NiScreenElementsDataShell (10 functions)
+// gamebryo2.2/corelibs/nimain/niscreenelementsdata.cpp: NiScreenElementsData, NiScreenElementsDataShell (8 functions)
 #include "f3_common.h"
 #include "niscreenelementsdata_decls.h"
 
 // @fnv 0x00a88020
+// pdb: NiScreenElementsData::SetRectangle | NiScreenElementsData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: iPolygon, fLeft, fTop, fWidth, fHeight
 bool NiScreenElementsData::SetRectangle(int iPolygon, float fLeft, float fTop, float afWidth, float afHeight)
 {
     if (iPolygon < 0 || iPolygon >= m_usMaxPQuantity)
@@ -31,12 +33,14 @@ bool NiScreenElementsData::SetRectangle(int iPolygon, float fLeft, float fTop, f
     GetVertices()[i].x = fRight;
     GetVertices()[i].y = fTop;
     GetVertices()[i].z = 0.0f;
-    SetDirtyFlags(1);
+    MarkAsChanged(1);
     m_bGeometryInitialized = true;
     return true;
 }
 
 // @fnv 0x00a88130
+// pdb: NiScreenElementsData::SetTextures | NiScreenElementsData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: iPolygon, usSet, fLeft, fTop, fRight, fBottom
 bool NiScreenElementsData::SetRectangleBounds(int iPolygonIndex, unsigned short usTextureSetIndex, float fLeft,
                                               float fTop, float fRight, float fBottom)
 {
@@ -57,21 +61,12 @@ bool NiScreenElementsData::SetRectangleBounds(int iPolygonIndex, unsigned short 
                 pkTexture[2].y = fBottom;
                 pkTexture[3].x = fRight;
                 pkTexture[3].y = fTop;
-                SetDirtyFlags(8);
+                MarkAsChanged(8);
                 return true;
             }
         }
     }
     return false;
-}
-
-struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5b50;
-
-// @fnv 0x00a87a90
-GlobalObjectO2_00a7b610* __cdecl FUN_00a87a90()
-{
-    return &g_011f5b50;
 }
 
 void __fastcall FUN_00a7b8c0(void*);
@@ -84,6 +79,7 @@ struct Holder00a87aa0
 };
 // Frees the two pointers at offsets 0x58 and 0x5c, calls FUN_00a7b8c0 on this, and deletes this (0x70 bytes) when f has bit 0 set.
 // @fnv 0x00a87aa0
+// pdb: NiScreenElementsData::`scalar deleting destructor' | NiScreenElementsData.obj | fnv360_0822_retail, objrun, high
 void* Holder00a87aa0::Destroy(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 0x58);
@@ -94,104 +90,6 @@ void* Holder00a87aa0::Destroy(unsigned int auiFlags)
     if (auiFlags & 1)
         _delete(this, 0x70);
     return this;
-}
-
-struct FUN_00a886f0_shell : public NiScreenElementsData
-{
-    void AppendMemberDescriptions(void*);
-};
-
-struct StrArr
-{
-    void* m_pData;
-    void* m_pAllocator;
-    unsigned short m_usCapacity;
-    unsigned short m_usSize;
-    unsigned short m_usReserved;
-    unsigned short m_usGrowBy;
-
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-
-struct Obj
-{
-    void AppendTriListInfo(StrArr*);
-};
-
-char* __cdecl _FUN_00a7d330(void*);
-char* __cdecl FUN_00a7d490(char const*, unsigned short);
-char* __cdecl FUN_00a7d5a0(char const*, void*);
-
-// Appends the object's member names and values to the string array, growing it as needed via SetSize and SetAt.
-// @fnv 0x00a886f0
-void FUN_00a886f0_shell::AppendMemberDescriptions(void* pkStrings)
-{
-    StrArr* strings = static_cast<StrArr*>(pkStrings);
-    char* value;
-    unsigned int index;
-
-    reinterpret_cast<Obj*>(this)->AppendTriListInfo(strings);
-
-    value = _FUN_00a7d330(*reinterpret_cast<void**>(&g_011f5b50));
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d5a0("m_akPolygon", this->m_akPolygon);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d5a0("m_ausPIndexer", this->m_ausPIndexer);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d490("m_usMaxPQuantity", this->m_usMaxPQuantity);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d490("m_usPGrowBy", this->m_usPGrowBy);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d490("m_usPQuantity", this->m_usPQuantity);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d490("m_usMaxVQuantity", this->m_usMaxVQuantity);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d490("m_usVGrowBy", this->m_usVGrowBy);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d490("m_usMaxIQuantity", this->m_usMaxIQuantity);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
-
-    value = FUN_00a7d490("m_usIGrowBy", this->m_usIGrowBy);
-    index = strings->m_usSize;
-    if (index >= strings->m_usCapacity)
-        strings->SetSize(index + strings->m_usGrowBy);
-    strings->SetAt(index, value);
 }
 
 class RgbaColor
@@ -232,6 +130,8 @@ struct NiScreenElementsDataShell : NiScreenElementsData
 };
 
 // @fnv 0x00a87ae0
+// pdb: NiScreenElementsData::Insert | NiScreenElementsData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: usNumVertices, usNumTriangles, ausTriList
 unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCount, unsigned short usTriangleCount,
                                                      const unsigned short* pusTriangleList)
 {
@@ -451,6 +351,8 @@ static inline NiPoint3 NegatePoint(const NiPoint3& p)
 
 // Initialises the screen-elements data: allocates polygon, indexer, vertex, normal, colour and texture arrays from the given capacities and clears the counts.
 // @f3 0x00852a30 (community match, verified in this file)
+// pdb: NiScreenElementsData::NiScreenElementsData | NiScreenElementsData.obj | fnv360_0822_retail, call_gap, high
+// pdb params: bWantNormals, bWantColors, usNumTextureSets, iMaxPQuantity, iPGrowBy, iMaxVQuantity, iVGrowBy, iMaxTQuantity, iTGrowBy
 FUN_00a881e0::FUN_00a881e0(bool bWantNormals, bool bWantColors, unsigned short usNumTextureSets, int iMaxPQuantity,
                            int iPGrowBy, int iMaxVQuantity, int iVGrowBy, int iMaxTQuantity, int iTGrowBy)
 {
@@ -540,13 +442,16 @@ template <class T> inline void NiStreamLoadBinary485(NiStream485& kStream, T* pk
 void* __cdecl FUN_00aa1070(unsigned int bytes);
 struct FUN_00a88410_shell : NiScreenElementsData
 {
-    void FUN_00a7b940(NiStream485& kStream);
-    void LoadScreenElementsData(NiStream485& kStream);
+    void NiTriShapeData_LoadBinary(NiStream485& kStream);
+    void NiScreenElementsData_LoadBinary(NiStream485& kStream);
 };
 // @fnv 0x00a88410
-void FUN_00a88410_shell::LoadScreenElementsData(NiStream485& kStream)
+// pdb: NiScreenElementsData::LoadBinary | NiScreenElementsData.obj | fnv360_0822_retail, objrun, high
+// pdb params: kStream
+// pdb: NiScreenElementsData::LoadBinary | NiScreenElementsData.obj | fnv360_0822_retail, objrun, high (was: LoadScreenElementsData)
+void FUN_00a88410_shell::NiScreenElementsData_LoadBinary(NiStream485& kStream)
 {
-    FUN_00a7b940(kStream);
+    NiTriShapeData_LoadBinary(kStream);
     NiStreamLoadBinary485(kStream, m_usMaxPQuantity);
     m_akPolygon = static_cast<NiScreenElementsData__Polygon*>(
         FUN_00aa1070(m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon)));
@@ -617,7 +522,7 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T* pValue
 }
 struct FUN_00a7bbe0_shell
 {
-    void FUN_00a7bbe0(NiStream* apStream);
+    void NiTriShapeData_SaveBinary(NiStream* apStream);
 };
 struct FUN_00a88590_shell : public NiScreenElementsData
 {
@@ -625,9 +530,11 @@ struct FUN_00a88590_shell : public NiScreenElementsData
 };
 // Writes the base screen elements data and the polygon, indexer and quantity fields to the binary stream.
 // @fnv 0x00a88590
+// pdb: NiScreenElementsData::SaveBinary | NiScreenElementsData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00a88590_shell::WriteToStream(NiStream& kStream)
 {
-    ((FUN_00a7bbe0_shell*)this)->FUN_00a7bbe0(&kStream);
+    ((FUN_00a7bbe0_shell*)this)->NiTriShapeData_SaveBinary(&kStream);
     SerializeValue(kStream, m_usMaxPQuantity);
     unsigned int uiPolygonCount = m_usMaxPQuantity;
     SerializeValue(kStream, m_akPolygon, uiPolygonCount);
@@ -653,6 +560,8 @@ struct FUN_00a87980_shell : public NiScreenElementsData
 
 // Compares this NiScreenElementsData with pkOther, checking base equality, quantity fields, polygon data, and polygon index arrays.
 // @fnv 0x00a87980
+// pdb: NiScreenElementsData::IsEqual | NiScreenElementsData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkObject
 bool FUN_00a87980_shell::FUN_00a87980(const FUN_00a87980_shell* pkOther)
 {
     if (!((TriShapeDataEq*)this)->IsEqualBase((const TriShapeDataEq*)pkOther))

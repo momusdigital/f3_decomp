@@ -33,6 +33,8 @@ static inline unsigned int C69FC0IsEnabled(int object)
 }
 
 // @fnv 0x00c69fc0
+// pdb: bhkWorld::AdjustForceAddCount | bhkWorld.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, abIncrement, abRecurse, abForce
 bool __cdecl FUN_00c69fc0(int object, unsigned char bSelect, unsigned char mode, unsigned char overrideCheck)
 {
     bool bResult = false;

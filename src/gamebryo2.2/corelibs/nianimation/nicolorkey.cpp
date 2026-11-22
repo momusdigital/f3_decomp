@@ -123,6 +123,8 @@ extern double DAT_010241b0;
 
 // Returns a table color directly when count is one or f matches DAT_010241b0; otherwise interpolates adjacent entries and updates pIdx.
 // @fnv 0x00a296c0
+// pdb: NiColorKey::GenInterp | NiColorKey.obj | fnv360_0721_retail, objrun_prop, medium
+// pdb params: fTime, pkKeys, eType, uiNumKeys, uiLastIdx, ucSize
 RgbaColor __cdecl InterpolateColor(float afTime, const char* table, unsigned int interp, unsigned int count,
                                    unsigned int* pIdx, unsigned char stride)
 {

@@ -10,6 +10,7 @@ struct hkpPulleyConstraintData
 };
 
 // @fnv 0x00deef40
+// pdb: hkpRotationalConstraintData::getConstraintInfo | hkpRotationalConstraintData.obj | tesv_win, objrun_open, low
 void hkpPulleyConstraintData::FUN_00deef40(int a)
 {
     FUN_00d21a60((char*)this + 0x10, 0x70, a);
@@ -77,12 +78,15 @@ struct S_00deef90
 
 // Returns true when both m_70 and m_74 are greater than zero.
 // @fnv 0x00deef90
+// pdb: hkpPoweredChainData::getConstraintInfo | hkpPoweredChainData.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpPulleyConstraintData::isValid)
+// pdb params: info
 S_00deef90_hkBool S_00deef90::FUN_00deef90() const
 {
     return m_70 > 0.0f && m_74 > 0.0f;
 }
 
 // @fnv 0x00deefc0
+// pdb: hkpPoweredChainData::getType | hkpPoweredChainData.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpPulleyConstraintData::getType)
 int FUN_00deefc0(void)
 {
     return 15;

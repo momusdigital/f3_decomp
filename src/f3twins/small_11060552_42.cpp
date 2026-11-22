@@ -8,6 +8,7 @@ extern char DAT_00e330ec;
 void __cdecl FUN_00d98c80();
 void __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'bhkRagdollController::uiFeedbackTimeout'' | bhkRagdollController.obj | fnv360_0822_debug, ustr, high
 void FUN_00d02810()
 {
     DAT_010f2e58.FUN_0043b7f0(&DAT_00e330ec, 1500);

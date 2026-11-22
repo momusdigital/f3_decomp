@@ -86,6 +86,8 @@ public:
     Tile* FUN_00bfc280(int valueID, float floatValue, const char* strValue);
 };
 
+// pdb: TileMenu::PostParse | TileMenu.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiTrait, afValue, axString
 Tile* TileMenu::FUN_00bfc280(int valueID, float floatValue, const char* strValue)
 {
     if (valueID == 0xFA4)
@@ -148,6 +150,8 @@ public:
     int menuId;
 };
 
+// pdb: Menu::SetMenuTile | Menu.obj | fnv360_0822_retail, uconst, low
+// pdb params: apMenu, abDontAddToStack
 void Menu_c570::FUN_00bfc570(Tile_c570* newTile, bool dontAddToStack)
 {
     tile = newTile;
@@ -176,6 +180,8 @@ struct Owner383 {
     void FUN_00bee340(unsigned int state);
     void FUN_00bf9950(unsigned int first, unsigned int second, unsigned int third);
 };
+// pdb: TileRect::Init | TileRect.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apParent, apName, apReplacedTile
 void Owner383::FUN_00bf9950(unsigned int first, unsigned int second, unsigned int third) {
     FUN_00bef5a0(first, second, third);
     FUN_00bee190(0xFA3, 1.0f, true);
@@ -199,6 +205,7 @@ struct Owner405 {
     Shared405* shared;
     void FUN_00be4650();
 };
+// pdb: BSFaceGenBinaryFile::readShort | binaryFile.obj | fnv360_1110_retail, call_gap, low, conflict (skyrim: ENDIAN<unsigned short>)
 void Owner405::FUN_00be4650() {
     Shared405* current = shared;
     if (current) {
@@ -244,6 +251,8 @@ struct Owner422 {
     Callee422* callee;
     int FUN_00be9190(int* output);
 };
+// pdb: Controls::GetNextKeyEvent | XControls.obj | fnv360_0721_beta, call_gap, low
+// pdb params: Key
 int Owner422::FUN_00be9190(int* output) {
     if (callee) {
         int present = 1;
@@ -259,7 +268,7 @@ int Owner422::FUN_00be9190(int* output) {
 
 // @f3 0x00be4720 (community match, verified in this file)
 #include <string>
-void __cdecl FUN_00be5520(int severity, std::string message);
+void __cdecl futSetLastError(int severity, std::string message);
 struct Owner435 {
     virtual void slot00();
     virtual void slot04();
@@ -280,11 +289,13 @@ struct Owner435 {
     void FUN_00be4650();
     bool FUN_00be4720(void* buffer, unsigned int size, unsigned int count);
 };
+// pdb: BSFaceGenBinaryFile::readHeader | binaryFile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: data, size, num
 bool Owner435::FUN_00be4720(void* buffer, unsigned int size, unsigned int count) {
     if (!raw)
         return false;
     if (!Read(buffer,1,size * count)) {
-        FUN_00be5520(1,name);
+        futSetLastError(1,name);
         FUN_00be4650();
         return false;
     }
@@ -361,6 +372,8 @@ struct FUN_00bf6160:List525 {
     unsigned int unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c;void* context;
     FUN_00bf6160(void*,Source525*,int,int);
 };
+// pdb: FontManager::TextPage::TextPage | Font.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apDoc, apLine, aiPageWidth, aiPageHeight
 FUN_00bf6160::FUN_00bf6160(void* pointer,Source525* source,int first,int second) {
     total=source->second+source->first;firstArgument=first;secondArgument=second;context=pointer;
     Node525* node=count.FUN_00423640();
@@ -394,7 +407,8 @@ struct S28 {
     F3Str str;
 };
 
-void __cdecl FUN_00be5520(S28 s)
+// pdb: futSetLastError | lastError.obj | fnv360_0822_debug, call_seq + bridge(call_gap|call_gap), high
+void __cdecl futSetLastError(S28 s)
 {
     if (DAT_01179468 == 0) {
         unsigned int len = s.str.size;
@@ -414,6 +428,8 @@ void __cdecl FUN_00be5520(S28 s)
 #include <stdlib.h>
 namespace f3m_00be6c00 {
 
+// pdb: std::ctype<char>::do_widen | algs.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: std::ctype<char>::_Do_widen_s)
+// pdb params: _First, _Last, _Dest
 int __stdcall FUN_00be6c00(void* Source, int a2, void* Destination, unsigned int DestinationSize)
 {
     const unsigned int uiSourceSize = (unsigned int)(a2 - (int)Source);
@@ -453,7 +469,7 @@ public:
     unsigned int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     bool good;
     bool IsGood() { return good; }
-    void FUN_0048be50(void* buffer, unsigned int size);
+    void NiBinaryStream_Read(void* buffer, unsigned int size);
 };
 XMLFile* __cdecl FUN_00bc7fc0(const char* name, int mode, unsigned int bufferSize, unsigned int flags);
 struct CompressedXML {
@@ -463,6 +479,8 @@ struct CompressedXML {
 };
 
 // @fnv 0x00a1ce70
+// pdb: Menu::CompressAndStoreXML | Menu.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apFilename, apFileData
 CompressedXML* FUN_00bfc8a0(const char* apFilename, const char* apFileData)
 {
     char* pbuf = 0;
@@ -480,7 +498,7 @@ CompressedXML* FUN_00bfc8a0(const char* apFilename, const char* apFileData)
         ifileSize = pfile->GetSize();
         pfileData = new char[ifileSize];
         bdeletefiledata = true;
-        pfile->FUN_0048be50(pfileData, ifileSize);
+        pfile->NiBinaryStream_Read(pfileData, ifileSize);
         delete pfile;
     }
     else
@@ -710,6 +728,8 @@ struct GQFont {
     void FUN_00bf3d60(GQGlyph* apGlyph, unsigned int auiIndex, GQGeometry* apGeom, GQPoint3* apPos, int aiUnused);
 };
 
+// pdb: Font::AddChar | Font.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLetter, aiVert, apShape, axPos, apColor
 void GQFont::FUN_00bf3d60(GQGlyph* apGlyph, unsigned int auiIndex, GQGeometry* apGeom, GQPoint3* apPos, int aiUnused)
 {
     apPos->x += apGlyph->m_fGlyphMetric;
@@ -742,14 +762,8 @@ void GQFont::FUN_00bf3d60(GQGlyph* apGlyph, unsigned int auiIndex, GQGeometry* a
 
 // @f3 0x00bf55f0 (community match, verified in this file)
 namespace fo3_00bf55f0 {
-struct BSShaderAccumulator;
-struct BSShaderProperty;
-struct CloningProcess;
 struct NiProperty;
-struct NiShadeProperty;
-struct NiStream;
 struct NiTexture;
-struct NiUpdateData;
 struct FUN_00b39a70;
 struct NiTriShape; struct NiObject; struct NiAVObject;
 struct FixedStringBase { char* m_kHandle; };
@@ -836,6 +850,8 @@ struct FUN_00ab54f0 : NiAVObject {
 
 // Builds a NiTriShape with vertex, texture and index buffers, attaches a FUN_00b39a70, copies the color, and optionally prepares the object.
 // @fnv 0x00a14a20
+// pdb: Font::MakeTriShape | Font.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiChars, axColor, abPrepareObject
 NiTriShape* FUN_00a14a20_shell::FUN_00bf55f0(int aiChars, void* axColor, bool abPrepareObject)
 {
     unsigned short* pvert_order;
@@ -986,6 +1002,8 @@ inline GQGeometryData* Geo_a14650(GQGeometry* s) { return s->GetModelData(); }
 inline GQPoint3* Verts_a14650(GQGeometryData* d) { return d->GetVertices(); }
 inline GQPoint2* Tex_a14650(GQGeometryData* d) { return d->GetTextures(); }
 inline unsigned short* Tris_a14650(GQGeometryData* d) { return d->FUN_006a05c0(); }
+// pdb: Font::AddIcon | Font.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiIconIndex, apShape, aPos
 void FontIcons::FUN_00bf3f30(int aiIconIndex, GQGeometry* shape, GQPoint3& position)
 {
     int baseVertex3 = aiIconIndex * 4;
@@ -1116,6 +1134,8 @@ extern L::Setting DAT_00f62e1c;
 
 // Builds a Data\Textures\ path from apFilename, looks up the texture, and falls back to a default setting string if not found.
 // @fnv 0x00a1f7d0
+// pdb: TileImage::ConvertToActualFilename | TileImage.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apFilename, afScale, afZoom, axOut
 void FUN_00bfd530(const char* apFilename, float* afScale, float afZoom, char* axOut)
 {
     if (!apFilename || !*apFilename || *apFilename == ' ')
@@ -1416,6 +1436,8 @@ struct FUN_00a21340_shell
 };
 
 // @fnv 0x00a21340
+// pdb: Tile3D::SetupShaderPropertiesRecurse | Tile3D.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apNode
 void FUN_00a21340_shell::FUN_00bfe400(NiNode* node)
 {
     if (node)
@@ -1627,6 +1649,8 @@ struct FUN_00bfdec0_t : public Tile3D
 };
 // Looks up a controller sequence by name and activates it, deactivating the current sequence first, then sets a manager flag and stores the new sequence.
 // @fnv 0x00a20cc0
+// pdb: Tile3D::PlaySequence | Tile3D.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apSequenceName
 bool FUN_00bfdec0_t::FUN_00bfdec0(const char* apSequenceName)
 {
     if (!GetNode() || !m_pParent || !apSequenceName)
@@ -1688,6 +1712,8 @@ struct SearchText {
     bool FUN_00bf9d40(char* destination, float x, float y, int flags);
 };
 // @fnv 0x00a103e0
+// pdb: DebugText::GetDebugText | DebugText.obj | fnv360_0721_beta, call_gap_sim, low
+// pdb params: apBuf, afX, afY, aiJustify
 bool SearchText::FUN_00bf9d40(char* destination, float x, float y, int flags)
 {
     bool found = false;
@@ -1964,6 +1990,7 @@ extern const char DAT_00ea9e80[]; // &widescreen;
 
 inline bool IsXenonPlatform() { return DAT_01075b28 && !DAT_01075cac; }
 
+// pdb: Tile::LoadTextTable | Tile.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bebd10()
 {
     DAT_0106a3b4.FUN_008a8ef0(DAT_00ea9f20, -1); // &generic;
@@ -2243,6 +2270,7 @@ inline float NiMaxF(float a, float b)
 }
 
 // @fnv 0x00a1dfb0
+// pdb: Menu::GetMaxDepth | Menu.obj | fnv360_0822_retail, call_gap, medium
 float FUN_00bfcb40()
 {
     void* xelem;
@@ -4048,6 +4076,8 @@ struct InputBindings {
     unsigned char m_1b94[0x70];
     void FUN_00be8850(int param);
 };
+// pdb: ListBox<StartMenu::Option *>::Traverse | StartMenu.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: apTraversalFn, aiStart, aiEnd
 void InputBindings::FUN_00be8850(int param)
 {
     for (int i = 0; i < 0x1c; ++i)
@@ -4415,6 +4445,8 @@ TileX* __cdecl FUN_00bf1b90(int type);
 void __cdecl FUN_00bedc80(TileX* tile);
 void __cdecl FUN_00887da0(const char* message);
 
+// pdb: Tile::BuildAndNameTree | Tile.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apTemplate
 TileX* TileX::FUN_00bf1d30(ParamX* apParam)
 {
     TileX* cur = this;
@@ -4505,10 +4537,11 @@ struct QOwner {
     int unk00; int unk04;
     QNode list;
     int unk10;
-    QResult* FUN_00bfd250(QCtx* ctx, const char* name, int p3);
+    QResult* Menu_RenderTemplate(QCtx* ctx, const char* name, int p3);
 };
 
-QResult* QOwner::FUN_00bfd250(QCtx* ctx, const char* name, int p3)
+// pdb: Menu::RenderTemplate | Menu.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+QResult* QOwner::Menu_RenderTemplate(QCtx* ctx, const char* name, int p3)
 {
     QResult* result = 0;
     if (p3) unk10 = p3;
@@ -4613,6 +4646,8 @@ public:
     Tile* FUN_00bfc280(int valueID, float floatValue, const char* strValue);
 };
 
+// pdb: Tile::BuildTile | Tile.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aeTiletype
 Tile* FUN_00bf1b90(int type)
 {
     switch (type)
@@ -4797,6 +4832,8 @@ struct SBox {
 };
 
 // @fnv 0x00a19c00
+// pdb: FontManager::TextPage::AddChar | Font.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apChar, aiNewLines
 SBox* SBox::FUN_00bf7d90(SItem* pItem, int aiIndex)
 {
     int iOffset;
@@ -4991,9 +5028,6 @@ inline FontManager* FontManager::Get()
     return DAT_011796f8;
 }
 
-int __cdecl FUN_004019a0(void*);
-int __cdecl FUN_0040b460(void*);
-
 struct TextNode
 {
 
@@ -5176,7 +5210,7 @@ struct TextNode
 
     void FUN_008268a0();
     bool FUN_00824920(FUN_00bf98b0*);
-    bool FUN_00a5ba40(FUN_00bf98b0*);
+    bool NiObjectNET_InsertExtraData(FUN_00bf98b0*);
 
     void SetFlag(unsigned mask, bool enabled)
     {
@@ -5327,7 +5361,7 @@ struct TextTile
 
     TextNode* FUN_00beadd0();
     float FUN_00becf40(int);
-    const char* FUN_00becf60(int);
+    const char* Tile_GetString(int);
 
     void FUN_00bee190(int, float, bool);
     void FUN_00bee370(int);
@@ -5337,6 +5371,7 @@ struct TextTile
 };
 
 // @fnv 0x00a21af0
+// pdb: TileText::MakeNode | TileText.obj | fnv360_0822_retail, caller_sim, low
 TextNode* TextTile::FUN_00bfea20()
 {
 
@@ -5389,7 +5424,7 @@ TextNode* TextTile::FUN_00bfea20()
 
     const char* text;
 
-    text = FUN_00becf60(0xfc4);
+    text = Tile_GetString(0xfc4);
 
     if (text && *text)
         current.FUN_004019c0(text, 0);
@@ -5580,7 +5615,6 @@ struct MemoryManager
 {
     void* Allocate(unsigned int);
 };
-extern MemoryManager _g_memoryManager;
 struct AtlasRect
 {
     float left, right, top, bottom;
@@ -6051,7 +6085,8 @@ typedef basic_string<char> string;
 }
 typedef std::string AtlasPath;
 // @fnv 0x00a06dd0
-void FUN_00bf14c0(const char* definition, const char* image, AtlasString* texture, float* bounds)
+// pdb: Tile::GetTextureAtlasInfo | Tile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Tile_GetTextureAtlasInfo(const char* definition, const char* image, AtlasString* texture, float* bounds)
 {
     char line5[1024];
     char filename9[260];
@@ -6340,7 +6375,7 @@ class BSString
 };
 
 const char* FUN_0061a8d0();
-NiAVObject* FUN_0061bb30(const char* path, bool* flag);
+NiAVObject* Interface_LoadModelFile(const char* path, bool* flag);
 NiAVObject* FUN_0061d280(NiAVObject* obj);
 void FUN_0061a8e0(int a);
 void FUN_0061a8a0();
@@ -6368,7 +6403,7 @@ class Tile3DX
     BSString m_kName;
     BSString strFilename;
 
-    const char* FUN_00becf60(int id);
+    const char* Tile_GetString(int id);
     bool FUN_00becf80(int id);
     void FUN_00bee190(int id, float value, bool b);
     void FUN_00bee370(int a);
@@ -6384,9 +6419,10 @@ class Tile3DX
 
 // Loads an object from a constructed path, attaches it beneath the node, converts its shaders, and updates culling and flags.
 // @fnv 0x00a20980
+// pdb: Tile3D::UpdateNIF | Tile3D.obj | fnv360_0822_retail, ustr, medium
 void Tile3DX::FUN_00bfe5d0()
 {
-    const char* pszName = FUN_00becf60(0xfcc);
+    const char* pszName = Tile_GetString(0xfcc);
     if (!pszName)
         return;
     if (strstr(pszName, "\\Data"))
@@ -6394,7 +6430,7 @@ void Tile3DX::FUN_00bfe5d0()
     else
         strFilename.FUN_00403a00("%s\\%s", FUN_0061a8d0(), pszName);
     bool flag = false;
-    NiAVObject* m_kModelObjectsItem = FUN_0061bb30(strFilename.CStr(), &flag);
+    NiAVObject* m_kModelObjectsItem = Interface_LoadModelFile(strFilename.CStr(), &flag);
     if (!m_kModelObjectsItem)
     {
         node = 0;
@@ -6637,6 +6673,7 @@ struct FontAtlasFactory {
  FUN_00ab54f0* FUN_00bf57d0();
 };
 // @fnv 0x00a14da0
+// pdb: Font::MakeIconsTriShape | Font.obj | fnv360_0822_retail, ustr, medium
 FUN_00ab54f0* FontAtlasFactory::FUN_00bf57d0() {
  unsigned vertices7=GetCount()*4;
  AtlasVertex* positions=new AtlasVertex[vertices7];
@@ -6830,6 +6867,8 @@ public:
     int unk34;
     QBf5150(int index, unsigned char sub, QVec4f v, int e);
 };
+// pdb: FontManager::CharData::CharData | Font.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiFontIndex, acChar, axColor, aiJustification
 QBf5150::QBf5150(int index, unsigned char sub, QVec4f v, int e)
 {
     if (index >= 8) index = 8;
@@ -8662,7 +8701,7 @@ static inline void SetSlot(int id, int base, QMenu* const& v)
         DAT_0106a7bc.FUN_005b3880(index, v);
 }
 void __cdecl FUN_0061a7a0(void* p, int flag);
-int __cdecl FUN_006191a0();
+int __cdecl Interface_GetTopMenuID();
 
 class QMenu {
 public:
@@ -8680,6 +8719,7 @@ public:
     int menuID;
 };
 
+// pdb: Menu::~Menu | Menu.obj | fnv360_0822_retail, call_seq, medium
 QMenu::~QMenu()
 {
     SetMenuVisibleF3(menuID, false);
@@ -8702,7 +8742,7 @@ QMenu::~QMenu()
         }
     }
     items.FUN_006c8220();
-    if (!FUN_006191a0()) {
+    if (!Interface_GetTopMenuID()) {
         if (DAT_0107a0d4->FUN_006e4eb0()->FUN_00be97a0(0xe, 0))
             { QInterfaceObj* o = DAT_0107a0d4->FUN_006e4eb0(); o->flags1B92 = o->flags1B92 | 8; }
     }
@@ -8905,7 +8945,8 @@ unsigned int position;
 unsigned int (__cdecl *reader)(LoaderFile*,void*,unsigned int,unsigned int*,unsigned int);
 int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; bool good;
 bool IsGood() { return good; }
-unsigned int FUN_0048be50(void* dst,unsigned int size) { unsigned int one3=1; unsigned int count3=reader(this,dst,size,&one3,1); position+=count3; unsigned int result3=count3; return result3; }
+// pdb: NiBinaryStream::Read | LipSynchAnim.obj | fnv360_0721_beta, call_seq + bridge(call_seq|call_dedup) + skyrim(call_gap), high
+unsigned int NiBinaryStream_Read(void* dst,unsigned int size) { unsigned int one3=1; unsigned int count3=reader(this,dst,size,&one3,1); position+=count3; unsigned int result3=count3; return result3; }
 };
 struct FileFinder { static LoaderFile* FUN_00bc7fc0(const char*,int,unsigned int,unsigned int); };
 inline void Close(LoaderFile* f) { delete f; }
@@ -9047,6 +9088,7 @@ struct FontLoader { unsigned short refs; const char* path; int font; TexturePtr 
 unsigned short RefCount() { return refs; } const char* const& Path() { return path; }
 void FUN_00bf4120(); };
 // @fnv 0x00a15320
+// pdb: Font::Load | Font.obj | fnv360_0822_retail, ustr, medium
 void FontLoader::FUN_00bf4120() {
 ContextScope scope(12);
 float maxHeight;
@@ -9065,7 +9107,7 @@ if(RefCount()==0 && path) {
 file=FileFinder::FUN_00bc7fc0(path,0,0x2800,2);
 if(!file || !file->IsGood()) { FUN_00887da0(DAT_00eaa374,Path()); if(file) delete file; return; }
 data=new FontData;
-file->FUN_0048be50(data,file->Size()); delete file; file=0;
+file->NiBinaryStream_Read(data,file->Size()); delete file; file=0;
 height=0.0f; maxHeight=0.0f; drop=0.0f;
 for(letter5=0;letter5<256;letter5++) {
 extent=data->f0000-((GlyphData*)data)->letters[letter5].spacing;
@@ -9086,10 +9128,10 @@ for(index3=0;index3<data->f0004;index3++) {
 sprintf_s(filename,256,DAT_00eaa3bc,((Names*)data)->textures[index3].name);
 kTextureFile=FileFinder::FUN_00bc7fc0(filename,0,0x2800,2);
 if(!kTextureFile || !kTextureFile->IsGood()) { FUN_00887da0(DAT_00eaa398,filename); if(kTextureFile) delete kTextureFile; return; }
-kTextureFile->FUN_0048be50(dimensions2,8);
+kTextureFile->NiBinaryStream_Read(dimensions2,8);
 prefs4.layout=6; prefs4.alpha=3; prefs4.mip=2;
 pixels5=new FUN_00846990(dimensions2[0],dimensions2[1],DAT_00f734c0,1,1);
-kTextureFile->FUN_0048be50(pixels5->GetPixels(),dimensions2[0]*dimensions2[1]*4);
+kTextureFile->NiBinaryStream_Read(pixels5->GetPixels(),dimensions2[0]*dimensions2[1]*4);
 pixels5->changed=true;
 texture5=new FUN_008342e0(pixels5,FUN_00422920(Path()),prefs4);
 delete kTextureFile; kTextureFile=0; texture5->FUN_00555870(1); textures[index3].FUN_008e9650(texture5);
@@ -9331,6 +9373,8 @@ struct FUN_00ab54f0 {
 void* __cdecl FUN_00adb960(int);
 struct TQOwner { FUN_00ab54f0* FUN_00bf5c80(TQStr kPath, TQPoint3 kPosition, int iWidth, int iHeight); };
 // @fnv 0x00a1a800
+// pdb: FontManager::MakeImage | Font.obj | fnv360_0822_retail, call_gap, low
+// pdb params: axFilename, axPos, aiWidth, aiHeight
 FUN_00ab54f0* TQOwner::FUN_00bf5c80(TQStr kPath, TQPoint3 kPosition, int iWidth, int iHeight)
 {
     TQPoint3* pkVerts = new TQPoint3[4];
@@ -9430,6 +9474,8 @@ void* FUN_0082f530(const FixedString&,const void*,bool,bool);
 char* FUN_00c01ef0(const char*,const char*);
 void FUN_00829410(Texture*,void*);
 void FUN_00c24b70(const char*,...);
+// pdb: TileImage::AddToTesTextures | TileImage.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFilename, afScale, aspTexture, afZoom, apDataImage
 void FUN_00bfd6b0(const char* filename,float& scale,TexturePtr& texture,float zoom,TexturePtr data){
  if(!data){
   char pathBuffer[1024];pathBuffer[0]=0;FUN_00c00610(pathBuffer+1,0,0x3ff);
@@ -11247,6 +11293,8 @@ struct Controller
     void FUN_00be9c50(float left, float right, int a, int b, int value, unsigned char state, bool force);
 };
 // @fnv 0x00a255b0
+// pdb: TESObjectWEAP::GetNumProjectiles | TESObjectWEAP.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: ProcessLists::FlareHitEffect)
+// pdb params: bUseModValue, bIgnoreAmmo, apWeaponHolder
 void Controller::FUN_00be9c50(float left, float right, int a, int b, int value, unsigned char state, bool force)
 {
     if (!enabled)
@@ -11320,6 +11368,7 @@ static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}
 };
 struct Scope {int previous;Scope(int value){int saved=tlsContext;previous=saved;tlsContext=value;}~Scope(){int saved=previous;tlsContext=saved;}};
 struct FUN_00bf5a50 {FUN_00bf5400* fonts[8];bool use;FUN_00bf5a50();};
+// pdb: FontManager::FontManager | Font.obj | fnv360_0822_retail, call_seq, medium
 FUN_00bf5a50::FUN_00bf5a50(){Scope scope(12);
 fonts[0]=new FUN_00bf5400(1,DAT_01179710,1);
 fonts[1]=new FUN_00bf5400(2,DAT_0117971c,1);
@@ -11462,6 +11511,8 @@ inline void LockUI() {if(FUN_00619310()) EnterCriticalSection(&DAT_011797a4);}
 inline void ReleaseLock() {if(FUN_00619310()) LeaveCriticalSection(&DAT_011797a4);}
 struct A0FE20Cls {FUN_0082ea60* FUN_00bfa310(char*,float,float,int,int,A0FE20Col*);};
 // @fnv 0x00a0fe20
+// pdb: DebugText::CreateDebugText | DebugText.obj | fnv360_0721_beta, uconst, low
+// pdb params: apText, afX, afY, aiJustify, aiFont, apColor
 FUN_0082ea60* A0FE20Cls::FUN_00bfa310(char* pcText, float fX, float fY, int iMode, int iSlot, A0FE20Col* pkColor)
 {
     A0FE20StateGuard ao(13);
@@ -11564,6 +11615,8 @@ struct Loader {
     Tile* FUN_00bf37b0(const char* path);
 };
 
+// pdb: Tile::ReadFile | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apName
 Tile* Loader::FUN_00bf37b0(const char* path)
 {
     ContextGuard guard(0xd);
@@ -11624,6 +11677,7 @@ struct List{void*first;void*last;unsigned count;List(){count=0;first=0;last=0;}~
 struct Array{virtual ~Array();virtual void**Allocate(unsigned);virtual void Free(void*);void**data;unsigned size,capacity;Array(){data=0;size=0;capacity=0;}};
 struct Base{virtual void FUN_00bf9b50();};
 struct FUN_00bfb3a0:Base {FUN_00bfa0f0 lines[200];List list;Array array;int unk2280;int first[3];int second[3];virtual void FUN_00bf9b50();FUN_00bfb3a0();};
+// pdb: DebugText::DebugText | DebugText.obj | fnv360_0721_beta, call_seq, medium
 FUN_00bfb3a0::FUN_00bfb3a0(){
  for(int i=0;i<200;++i){lines[i].x=0.0f;lines[i].y=0.0f;lines[i].active=0;lines[i].node.Clear();lines[i].text=0;lines[i].lifetime=-1.0f;}
  unk2280=0;memset(first,0,12);memset(second,0,12);
@@ -11657,6 +11711,8 @@ const std::ctype<char>& FUN_00be6ea0(const std::locale& loc) {
 #include <locale>
 #include <typeinfo>
 namespace f3m_00be7270 {
+// pdb: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::operator+= | algs.obj | fnv360_0822_retail, objrun, medium
+// pdb params: _Ch
 const std::codecvt<char,char,int>& FUN_00be7270(const std::locale& loc) {
  typedef std::codecvt<char,char,int> Facet;
  std::_Lockit lock(0);
@@ -11680,7 +11736,6 @@ const std::codecvt<char,char,int>& FUN_00be7270(const std::locale& loc) {
 #include <string.h>
 namespace Task1667 {
 void* FUN_00bffa60(void*,const void*,unsigned);void* FUN_00c00610(void*,int,unsigned);extern bool DAT_011795c0;
-struct MouseState{int x,y,z;unsigned char buttons[8];};
 struct InputHandler{
 int m_0000;
 int m_0004;
@@ -13484,6 +13539,8 @@ struct InputPoller : InputHandler
 {
     void FUN_00be8fd0();
 };
+// pdb: Controls::Poll | XControls.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: fTime, bDoSwapsOnDisconnect, bClearOnSwap
 void InputPoller::FUN_00be8fd0()
 {
     int i;
@@ -13525,7 +13582,7 @@ void InputPoller::FUN_00be8fd0()
     }
     if (m_0030)
     {
-        volatile int* mouse=&m_1b24; m_1b38=mouse[0]; m_1b3c=mouse[1]; m_1b40=mouse[2]; m_1b44=mouse[3]; m_1b48=mouse[4];
+        int* mouse=&m_1b24; m_1b38=mouse[0]; m_1b3c=mouse[1]; m_1b40=mouse[2]; m_1b44=mouse[3]; m_1b48=mouse[4];
         memset(&m_1b58, 0, 8);
         result = reinterpret_cast<PollingDevice*>(m_0030)->Acquire();
         if (result == 0 || result == 1)
@@ -15244,6 +15301,8 @@ unsigned char m_aaucControls[4][0x1c];
 void FUN_00be92f0(unsigned char);void FUN_00be9590(int);
 };
 // @fnv 0x00a24280
+// pdb: Controls::ForceUserAction | XControls.obj | fnv360_0822_debug, call_gap, low
+// pdb params: aeAction
 void Input::FUN_00be9590(int iControl)
 {
     if (iControl >= 0xd)
@@ -15373,6 +15432,7 @@ struct Pointer {FUN_0082ea60*p;Pointer&operator=(FUN_0082ea60*object){if(p!=obje
 struct Tile;struct FUN_00bf98b0:NiMemObject{int unk00,unk04,unk08;Tile*tile;FUN_0082ea60*node;FUN_00bf98b0(Tile*,FUN_0082ea60*);};
 struct Tile{int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;const char*name;int unk24,unk28;Pointer node;FUN_0082ea60*FUN_00beadd0();bool FUN_00becf80(int);float FUN_00becf40(int,int);void FUN_00bf00f0(int,float);FUN_0082ea60*FUN_00bf9990();};
 FUN_0082ea60*__cdecl FUN_0061a5e0();void __cdecl FUN_0061a8e0(int);
+// pdb: TileRect::MakeNode | TileRect.obj | fnv360_0822_retail, caller_sim, medium
 FUN_0082ea60*Tile::FUN_00bf9990(){FUN_0082ea60*parent=FUN_00beadd0();node=new FUN_0082ea60(0);if(!parent)parent=FUN_0061a5e0();parent->unknown_vtable_dc(node,1);node->FUN_008245d0(NiFixedString(name));node->SetHidden(!FUN_00becf80(0xfa3),1);node->FUN_008268a0();FUN_0061a8e0(1);node->FUN_00824920(new FUN_00bf98b0(this,node));FUN_00bf00f0(0xfa1,FUN_00becf40(0xfa1,0));FUN_00bf00f0(0xfa2,FUN_00becf40(0xfa2,0));return node;}
 }
 }   // namespace f3m_00bf9990
@@ -15440,6 +15500,8 @@ struct FUN_00bf5400 {
 };
 
 // @fnv 0x00a12020
+// pdb: Font::Font | Font.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aiFontNum, apFilename, abLoad
 FUN_00bf5400::FUN_00bf5400(int fontNum, const char* file, bool load)
 {
     TlsModeGuard guard;
@@ -15496,6 +15558,8 @@ struct ValueOwner {
     SortedValueList values;
     ValueRecord* FUN_00bee080(int);
 };
+// pdb: Tile::GetOrCreateValue | Tile.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: aiTrait
 ValueRecord* ValueOwner::FUN_00bee080(int id)
 {
     ValueRecord* result=0;
@@ -15536,6 +15600,7 @@ struct Array {virtual ~Array();virtual void* Allocate(unsigned);virtual void Dea
 inline Array::~Array(){Clear();}
 struct Base {int unk00,unk04,unk08;~Base() throw();};
 class FUN_00bf1040 {public:virtual ~FUN_00bf1040();Base base;Array array;Str str;Ptr ptr;unsigned flags;void FUN_00bef620();bool GetFlag(unsigned m){return (flags&m)!=0;}template<unsigned M>void SetFlag(bool b){b?flags|=M:flags&=~M;}};
+// pdb: Tile::~Tile | Tile.obj | fnv360_0822_retail, ustr, medium
 FUN_00bf1040::~FUN_00bf1040(){
  EnterCriticalSection((_RTL_CRITICAL_SECTION*)&DAT_01179690);FUN_0061a560(this);
  if(!GetFlag(0x2000)){FUN_00887da0(DAT_00eaa128);FUN_00bef620();}
@@ -15604,6 +15669,8 @@ struct Builder {List<Page*> pages;int width;int unk10;int index;void FUN_00bf784
 
 // Builds text and image shapes for a page, computes their bounds, and attaches them to a node.
 // @fnv 0x00a19060
+// pdb: FontManager::TextDoc::Render | Font.obj | fnv360_0822_retail, uconst, low
+// pdb params: apParent, apData
 void Builder::FUN_00bf7840(Node* node,Layout* layout){
 
 Page* pageSlot35=0;int remainingSlot28=index;int iconIndexSlot11=0;Shape* shapesSlot32[8];Link<Page*>* cursorSlot10=pages.Head();while(cursorSlot10&&remainingSlot28--)pages.Next(cursorSlot10);if(cursorSlot10)pageSlot35=cursorSlot10->value;else return;unsigned int fontIndex=0;int indices[8]={0};
@@ -15637,7 +15704,6 @@ extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl sscanf(const char*, const char*, ...);
 
 inline unsigned int __cdecl FUN_0044a670(const char* value) { return strlen(value); }
-unsigned int __cdecl FUN_00403940(unsigned int, unsigned int);
 void* __cdecl FUN_00401000(unsigned int);
 void __cdecl FUN_00401030(void*);
 inline void* __cdecl FUN_00401460(void* d, const void* s, unsigned n) { return memcpy(d,s,n); }
@@ -15661,10 +15727,6 @@ struct ParsedNode {
     ParsedNode* previous;
     ParsedToken* value;
 };
-unsigned int FUN_0040fc90();
-void FUN_0040fca0(unsigned int);
-void FUN_0040fbe0();
-unsigned int FUN_0043b460(volatile unsigned int*, unsigned int, unsigned int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*,long,long);
 struct ParsedPoolLock {
  volatile long owner; unsigned recursion;
@@ -15745,10 +15807,11 @@ ParsedToken* FUN_00beda30(int, float, const char*, int, void*);
 
 
 void FUN_00bedf40(ParsedToken*);
-void FUN_005b5e40(const char*, ...);
 extern const float DAT_00e3666c, DAT_00ea9f90;
 
 // @fnv 0x00a0a410
+// pdb: Tile::TileTemplate::AddPair | Tile.obj | fnv360_0822_retail, uconst, low
+// pdb params: aiCmd, apStr, aiLine, aiPreserveStrings
 void ParsedBuilder::FUN_00beece0(int trait, const char* text, void* context, bool literal) {
     float value = -2147483648.0f;
     if (!literal)
@@ -17757,6 +17820,8 @@ struct FUN_00bf60e0 {
 typedef FUN_00bf60e0 LayoutLine;
 inline int LayoutMax(int a,int b){return a>b?a:b;}
 // @fnv 0x00a19f70
+// pdb: FontManager::TextLine::AddChar | Font.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apChar, abToFront
 LayoutLine* FUN_00bf60e0::FUN_00bf65f0(LayoutItem* apItem, bool start) {
     LayoutLine* first6=0;
     if(width+apItem->width>maxWidth) {
@@ -19435,12 +19500,16 @@ unsigned unk34;
 FontData* data;};
 inline void NormalizeSmartQuotes(unsigned char* c) {switch(*c) {case 0x91:case 0x92:*c='\'';break;case 0x93:case 0x94:*c='"';break;}}
 struct Manager { Font* pFont[8];__declspec(noinline) float FUN_00bf3b30(int);Point FUN_00bf4890(const char*,int,float,int);};
+// pdb: FontManager::GetLinePadding | Font.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: aiFont
 float Manager::FUN_00bf3b30(int font) {
  float padding=0.0f;
  switch(font) {case 3: padding=6.0f;break;case 7:padding=2.0f;break;case 2:case 6:padding=4.0f;break;}
  return padding;
 }
 // @fnv 0x00a1b020
+// pdb: FontManager::CalculateStringDimensions | Font.obj | fnv360_0822_retail, call_gap, low
+// pdb params: strText, aiFont, afWrapwidth, aiStartIndex
 Point Manager::FUN_00bf4890(const char* strText, int aiFont, float afWrapwidth, int aiStartIndex)
 {
     float fprevLetterWidth;
@@ -19518,7 +19587,6 @@ Point Manager::FUN_00bf4890(const char* strText, int aiFont, float afWrapwidth, 
 #include <windows.h>
 #include <string.h>
 extern float DAT_01179830;
-extern float DAT_01095728;
 namespace f3m_00bfe1b0 {
 namespace task2016 {
 struct Heap {void FUN_0086ba60(void*);}; extern Heap DAT_01090a78;
@@ -19683,7 +19751,7 @@ struct AnimTile
     AnimManager* manager;
     AnimSequence* sequence;
     AnimString name;
-    const char* FUN_00becf60(int);
+    const char* Tile_GetString(int);
     bool FUN_00becf80(int);
     bool FUN_00bfdec0(const char*);
     AnimNode* GetNode()
@@ -19695,9 +19763,11 @@ struct AnimTile
 float FUN_00401e20(float low,float value);
 float FUN_0090d870(float high,float value);
 // @fnv 0x00a20ed0
+// pdb: Tile3D::UpdateSequence | Tile3D.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afValue, abIsPercentage
 bool AnimTile::FUN_00bfe1b0(float value, bool force)
 {
-    const char* r = FUN_00becf60(0xfd2);
+    const char* r = Tile_GetString(0xfd2);
     if ((name.Get() || r) && name != r)
     {
         name.FUN_004019c0(r, 0);
@@ -19905,6 +19975,7 @@ Owner* FUN_0061a5d0();
 // @fnv 0x00a0df80
 }
 using namespace task2055;
+// pdb: DebugText::Idle | DebugText.obj | fnv360_0721_beta, call_gap, low
 void FUN_00bfb870() {
  if (FUN_00619160()) return;
  DebugState* _debug = DebugState::FUN_00bfb7c0(true);
@@ -19998,6 +20069,8 @@ void __cdecl FUN_008294a0();
 }
 using namespace Native2078;
 // @fnv 0x00a04200
+// pdb: Tile::UpdateAll | Tile.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: Menu::SetMenuTile)
+// pdb params: abDoNiUpdate
 void __cdecl FUN_00bf3580(bool update)
 {
     Native2078::AutoMemContext autoMemContext(13);
@@ -20109,6 +20182,7 @@ inline void QueueTile(Obj* tileRef)
 }
 
 // Moves up to 11 - (DAT_01179660 + queue count) entries from the pending list into the queue.
+// pdb: Tile::PromoteHibernators | Tile.obj | fnv360_0721_beta, call_seq, medium
 void FUN_00bee1c0()
 {
     int n = DAT_01179660 + DAT_01179678.alloc.count;
@@ -20165,6 +20239,7 @@ class Tile3DX_m : public Tile3DX
     FUN_0082ea60_l* FUN_00bfe740();
 };
 
+// pdb: Tile3D::MakeNode | Tile3D.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_0082ea60_l* Tile3DX_m::FUN_00bfe740()
 {
     if (node.m_object)
@@ -20302,6 +20377,8 @@ float __cdecl FUN_00401e20(float a, float b);
 
 inline float ClipMin(float a, float b) { return a < b ? a : b; }
 
+// pdb: Tile::ReClipChildren | Tile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: afx, afy, afx2, afy2
 void ClipTile::FUN_00bed540(float left, float top, float right, float bottom)
 {
     ClipListNode* position;
@@ -20357,7 +20434,7 @@ void ClipTile::FUN_00bed540(float left, float top, float right, float bottom)
 extern const char kModeWriteBinary[];
 namespace f3m_00be4b10 {
 
-void __cdecl FUN_00be5520(int severity, std::string message);
+void __cdecl futSetLastError(int severity, std::string message);
 
 struct FgFileWriter4b10 {
     unsigned int unk00;
@@ -20375,15 +20452,17 @@ struct FgFileWriter4b10 {
     bool FUN_00be4b10(std::string name);
 };
 
+// pdb: FutBinaryFileC::openForOverwrite | binaryFile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: a_fname
 bool FgFileWriter4b10::FUN_00be4b10(std::string name) {
     Close();
     m_file = fopen(name.c_str(), kModeWriteBinary);
     if (!m_file) {
-        FUN_00be5520(5, name);
+        futSetLastError(5, name);
         return false;
     }
     if (!FUN_00be48a0(m_header.c_str(), m_header.size(), 1)) {
-        FUN_00be5520(5, name);
+        futSetLastError(5, name);
         Close();
         return false;
     }
@@ -20555,6 +20634,7 @@ public:
     BSSimpleArray<sPrintData*, 1024> queue;
     void FUN_00bfa260();
 };
+// pdb: DebugText::~DebugText | DebugText.obj | fnv360_0721_beta, call_seq, medium
 DebugText::~DebugText() {
     FUN_00bfa260();
     PrintNode* node = list.head;
@@ -20585,8 +20665,8 @@ struct Value {
     Tile* owner;
     float num;
     char* str;
-    void FUN_00beafa0();
-    void FUN_00bf0720(bool changed);
+    void Tile_Value_ClearActions();
+    void Tile_Value_CalculateValue(bool changed);
 };
 struct Flash {
     float from;
@@ -20602,9 +20682,10 @@ extern FlashList DAT_011796a8;
 struct Tile {
     void FUN_00617a60(int id, int value);
     Value* FUN_00bee080(int id);
-    void FUN_00bf05a0(int id, float from, float to, float duration, int mode);
+    void Tile_AddFadeControl(int id, float from, float to, float duration, int mode);
 };
-void Tile::FUN_00bf05a0(int id, float from, float to, float duration, int mode)
+// pdb: Tile::AddFadeControl | Tile.obj | fnv360_0721_retail, call_seq + bridge(call_gap|call_gap), high
+void Tile::Tile_AddFadeControl(int id, float from, float to, float duration, int mode)
 {
     if (from == to)
         return;
@@ -20632,8 +20713,8 @@ void Tile::FUN_00bf05a0(int id, float from, float to, float duration, int mode)
                 DAT_01090a78.FUN_0086ba60(v->str);
                 v->str = 0;
             }
-            v->FUN_00beafa0();
-            v->FUN_00bf0720(changed);
+            v->Tile_Value_ClearActions();
+            v->Tile_Value_CalculateValue(changed);
         }
         f->duration = duration / total * 1000.0;
     } else if (mode == 2) {
@@ -20702,6 +20783,8 @@ inline CIter& CIter::operator+=(int n) {
     ptr += n;
     return *this;
 }
+// pdb: std::vector<FffTriVtxLabelS,std::allocator<FffTriVtxLabelS> >::resize | TriFileIO.obj | fnv360_0822_retail, call_gap, low
+// pdb params: _Newsize
 void Vec::FUN_00be2900(unsigned int n, Elem val)
 {
     if (size() < n)
@@ -20725,7 +20808,7 @@ struct Region {
     unsigned int unk[4];
     Rect rect;
 };
-void FUN_00bf14c0(const char* definition, const char* image, Str* texture, float* bounds);
+void Tile_GetTextureAtlasInfo(const char* definition, const char* image, Str* texture, float* bounds);
 inline void* operator new(unsigned int, void* p) { return p; }
 struct RegionArray {
     virtual void v0();
@@ -20759,10 +20842,12 @@ struct Atlas {
     void FUN_00bf3960(Region* r, const char* ext);
     void FUN_00bf6980(const char* name);
 };
+// pdb: Font::AddTextIcon | Font.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: GFxTextParagraph::CharactersIterator::operator*)
+// pdb params: astrIcon
 void Atlas::FUN_00bf6980(const char* name)
 {
     Region r;
-    FUN_00bf14c0(DAT_011796bc, name, &texture, &r.rect.left);
+    Tile_GetTextureAtlasInfo(DAT_011796bc, name, &texture, &r.rect.left);
     int i = strlen(name) - 1;
     while (name[i] != '_')
         i--;
@@ -20794,8 +20879,8 @@ struct Value {
     Tile* owner;
     float number;
     char* string;
-    void FUN_00beafa0();
-    void FUN_00bf0720(bool changed);
+    void Tile_Value_ClearActions();
+    void Tile_Value_CalculateValue(bool changed);
 };
 
 struct ChildNode {
@@ -20843,13 +20928,15 @@ public:
                 DAT_01090a78.FUN_0086ba60(value->string);
                 value->string = 0;
             }
-            value->FUN_00beafa0();
-            value->FUN_00bf0720(changed);
+            value->Tile_Value_ClearActions();
+            value->Tile_Value_CalculateValue(changed);
         }
     }
     void FUN_00beea70(Tile* newParent, Tile* sibling);
 };
 
+// pdb: Tile::NiAVObject_AttachParent | Tile.obj | fnv360_0822_debug, caller, medium
+// pdb params: apParent, apReplacedTile
 void Tile::FUN_00beea70(Tile* newParent, Tile* sibling) {
     if (parent && !parent->IsLocked()) {
         float count = parent->GetFloat(0xfb6);
@@ -20916,8 +21003,8 @@ struct TileValue {
     float value;
     char* stringValue;
 
-    void FUN_00beafa0();
-    void FUN_00bf0720(bool changed);
+    void Tile_Value_ClearActions();
+    void Tile_Value_CalculateValue(bool changed);
 };
 
 void __cdecl FUN_00bedc80(TileBF* tile);
@@ -20945,7 +21032,7 @@ struct TileBF {
     TileValue* FUN_00bece90(int id);
     TileValue* FUN_00bee080(int id);
     float FUN_00becf40(int id);
-    const char* FUN_00becf60(int id);
+    const char* Tile_GetString(int id);
     DepthController* FUN_00beab90();
     TileBF* FUN_00bf00f0(int trait, float value, int unused);
 
@@ -20983,11 +21070,13 @@ struct TileBF {
             entry->stringValue = 0;
         }
         if (update)
-            entry->FUN_00beafa0();
-        entry->FUN_00bf0720(valueChanged);
+            entry->Tile_Value_ClearActions();
+        entry->Tile_Value_CalculateValue(valueChanged);
     }
 };
 
+// pdb: Tile::FinalPostParse | Tile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiTrait, afValue, axString
 TileBF* TileBF::FUN_00bf00f0(int trait, float value, int unused)
 {
     TileBF* bound;
@@ -21071,12 +21160,12 @@ TileBF* TileBF::FUN_00bf00f0(int trait, float value, int unused)
         return this;
     }
 
-    if (trait == 0xfcc && GetType() == 0x386 && FUN_00becf60(0xfcc)) {
+    if (trait == 0xfcc && GetType() == 0x386 && Tile_GetString(0xfcc)) {
         SetChangedFlag(0x20);
         return this;
     }
 
-    if (trait == 0xfcc && GetType() == 0x388 && FUN_00becf60(0xfcc)) {
+    if (trait == 0xfcc && GetType() == 0x388 && Tile_GetString(0xfcc)) {
         SetChangedFlag(0x40);
         return this;
     }
@@ -21220,7 +21309,8 @@ struct FUN_00bfd070_Map
 };
 extern FUN_00bfd070_Map DAT_0106a794;
 
-unsigned int __cdecl FUN_00bfd070(const char* path, bool flag)
+// pdb: Menu::GetXML | Menu.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+unsigned int __cdecl Menu_GetXML(const char* path, bool flag)
 {
     const char* name = path;
     const char* sep = strrchr(path, '\\');
@@ -21530,6 +21620,8 @@ inline ButtonIcon& GetIcon(Font* font, unsigned int index) { return font->Button
 
 using namespace Nbf86a0;
 
+// pdb: FontManager::PrepHypertext | Font.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: GFxStyledText::GetHtml)
+// pdb params: axTextString, axData
 LayoutBlock* FontShell::FUN_00bf86a0(LayoutString& source, LayoutResult* result)
 {
     bool layout = false;
@@ -21736,6 +21828,8 @@ public:
 
 void __cdecl FUN_00db3438();
 
+// pdb: Tile3D::PostParse | Tile3D.obj | fnv360_0822_retail, objrun, low
+// pdb params: aiTrait, afValue, axString
 int __thiscall FUN_00bfe0c0_Owner::FUN_00bfe0c0(int value1, int value2, int value3)
 {
     if (value1 == 0xFC4)
@@ -23498,6 +23592,8 @@ struct FUN_00be8170_Owner {
     int FUN_00be8170(int a);
 };
 
+// pdb: NiAVObject::SetAppCulled | TES.obj | fnv360_0822_debug, call_gap, low
+// pdb params: bAppCulled
 int FUN_00be8170_Owner::FUN_00be8170(int a) {
     FUN_00be8170_Obj* self = reinterpret_cast<FUN_00be8170_Obj*>(this);
     switch (a) {
@@ -23518,6 +23614,8 @@ struct FUN_00be6b40_Obj {
     int unk08;
     unsigned char* FUN_00be6b40(unsigned char* first, unsigned char* last);
 };
+// pdb: std::ctype<char>::do_tolower | algs.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: _First, _Last
 unsigned char* FUN_00be6b40_Obj::FUN_00be6b40(unsigned char* first, unsigned char* last)
 {
     if (first != last) {
@@ -23542,6 +23640,8 @@ struct FUN_00be6b70_Obj {
 
 void __cdecl FUN_00bff748(unsigned char value, void* context);
 
+// pdb: std::ctype<char>::do_toupper | algs.obj | fnv360_1110_retail, objopen_prop, low
+// pdb params: _Ch
 void __thiscall FUN_00be6b70_Obj::FUN_00be6b70(unsigned char value) {
     volatile unsigned char* byteValue = &value;
     FUN_00bff748(*byteValue, (char*)this + 8);
@@ -23565,6 +23665,8 @@ void __cdecl FUN_00be0010(int* first, int* last, int* value)
 
 // @f3 0x00be7060 (community match, verified in this file)
 namespace f3m_00be7060 {
+// pdb: std::codecvt<char,char,int>::do_in | algs.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: std::basic_istream<char,struct std::char_traits<char> >::~basic_istream<char,struct std::char_traits<char> >)
+// pdb params: __formal, _First1, __formal, _Mid1, _First2, __formal, _Mid2
 unsigned int __stdcall FUN_00be7060(
     unsigned int param1,
     unsigned int param2,
@@ -23592,6 +23694,8 @@ struct OwnerBF9C70 {
     virtual void vf18(int arg2, int arg3, int arg4, int* arg5, int arg6);
 };
 
+// pdb: DebugText::PrintLine | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aeLocation, aeJustify, apFormatString
 void __cdecl FUN_00bf9c70(OwnerBF9C70* owner, int arg2, int arg3, int arg4, int arg5) {
     owner->vf18(arg2, arg3, arg4, &arg5, 0);
 }
@@ -23606,6 +23710,7 @@ struct Owner {
     Entry* entries[8];
     void FUN_00bf65a0();
 };
+// pdb: FontManager::~FontManager | Font.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: GConstructorMov<struct GFxSGMLStackElemDesc<wchar_t> >::DestructArray)
 void Owner::FUN_00bf65a0() {
     for (int i = 0; i < 8; ++i) {
         Entry* entry = entries[i];
@@ -25129,6 +25234,8 @@ int Owner::FUN_00be8090(int index) { return entries[index].value; }
 
 // @f3 0x00bf3a40 (community match, verified in this file)
 namespace f3m_00bf3a40 {
+// pdb: FontManager::GetCharType | Font.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: acchar
 __declspec(noinline) int __stdcall FUN_00bf3a40(int character) {
     char c = static_cast<char>(character);
 
@@ -25154,6 +25261,8 @@ __declspec(noinline) int __stdcall FUN_00bf3a40(int character) {
 namespace f3m_00bf7840 {
 namespace Task1900 {
 
+// pdb: FontManager::TextPage::GetCharCountForFont | Font.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiFont
 int Page::FUN_00bf4840(unsigned int font) {
     int count = 0;
     Link<Line*>* lineLink = lines.Head();
@@ -25189,6 +25298,8 @@ struct FUN_00be8ad0_Obj {
     unsigned int FUN_00be8ad0(int index);
 };
 
+// pdb: Controls::RemapAction | Interface.obj | fnv360_1110_debug, objopen_prop, low
+// pdb params: eAction, uiIndex
 unsigned int FUN_00be8ad0_Obj::FUN_00be8ad0(int index)
 {
     unsigned short word =
@@ -25275,6 +25386,7 @@ struct StringOwner : Base {
     unsigned short length, capacity;
     ~StringOwner();
 };
+// pdb: DebugTextExtraData::~DebugTextExtraData | DebugText.obj | fnv360_0822_debug, call_seq, low
 StringOwner::~StringOwner() {
     if (data) DAT_01090a78.FUN_0086ba60(data);
     data = 0;
@@ -25311,6 +25423,7 @@ struct Owner {
     FILE* file;
     int FUN_00be5c00();
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::sync | algs.obj | fnv360_0822_retail, caller_sim, low
 int Owner::FUN_00be5c00() {
     if (file && Prepare(-1) != -1) {
         if (fflush(file) < 0) return -1;
@@ -25344,6 +25457,7 @@ struct FixedString {
 
 extern FixedString* DAT_01179800;
 
+// pdb: Menu::KillSDM | Menu.obj | fnv360_0822_retail, call_gap, medium
 void __cdecl FUN_00bfc650()
 {
     delete DAT_01179800;
@@ -25374,6 +25488,7 @@ struct Task {
     void FUN_00bea830();
 };
 
+// pdb: Tile::SetMenuDeleting | Tile.obj | fnv360_0822_retail, call_gap, low
 void Task::FUN_00bea830()
 {
     if (Flag(13) || Flag(14))
@@ -25391,7 +25506,6 @@ void Task::FUN_00bea830()
 }   // namespace f3m_00bea830
 
 // @f3 0x00beb270 (community match, verified in this file)
-extern void* const DAT_00ea9614[];
 namespace f3m_00beb270 {
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
@@ -25450,6 +25564,7 @@ struct Obj : Base {
     virtual ~Obj();
 };
 
+// pdb: Tile::Extra::~Extra | Tile.obj | fnv360_0822_retail, call_seq, medium
 Obj::~Obj()
 {
     if (target) {
@@ -25472,6 +25587,8 @@ extern int DAT_0106a3a8;
 bool __cdecl FUN_00bea6e0(const char* name);
 void __cdecl FUN_00bebcb0(const char* name, int id);
 
+// pdb: Tile::AddUserTrait | Tile.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apString, aiIndex
 int __cdecl FUN_00becd70(const char* name, int id)
 {
     int found = 0;
@@ -25499,6 +25616,8 @@ struct Ctype {
     Ctypevec ctype;
     const char* FUN_00be6b90(char* first, const char* last) const;
 };
+// pdb: std::ctype<char>::do_toupper | algs.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: _First, _Last
 const char* Ctype::FUN_00be6b90(char* first, const char* last) const
 {
     for (; first != last; ++first)
@@ -25517,6 +25636,7 @@ struct Obj {
     virtual int Find(int key, int start, int flags);
     int FUN_00be5740(int key, int flags);
 };
+// pdb: std::basic_streambuf<char,std::char_traits<char> >::_Unlock | algs.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: std::basic_streambuf<char,struct std::char_traits<char> >::xsgetn)
 int Obj::FUN_00be5740(int key, int flags)
 {
     return Find(key, -1, flags);
@@ -25551,6 +25671,7 @@ struct Config {
 
 extern Config* DAT_01179584;
 
+// pdb: XGamerProfile::Instance | XGamerProfile.obj | fnv360_0822_retail, call_dedup, low
 Config* __cdecl FUN_00be78d0()
 {
     if (!DAT_01179584)
@@ -25577,6 +25698,7 @@ struct StringMap : MapBase {
     bool ownsValues;
     virtual ~StringMap();
 };
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,int>,int>::~NiTStringTemplateMap<NiTPointerMap<char const *,int>,int> | Tile.obj | fnv360_0822_retail, uvref, medium
 StringMap::~StringMap()
 {
     if (ownsValues) {
@@ -25602,8 +25724,8 @@ public:
     float unk08;
     void* unk0C;
 
-    void FUN_00beafa0();
-    void FUN_00bf0720(bool changed);
+    void Tile_Value_ClearActions();
+    void Tile_Value_CalculateValue(bool changed);
 };
 
 class FUN_00bef830_Owner {
@@ -25613,6 +25735,8 @@ public:
     void FUN_00bef830(int value, float amount);
 };
 
+// pdb: Tile::Poke | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiTrait, afValue
 void FUN_00bef830_Owner::FUN_00bef830(int value, float amount)
 {
     FUN_00bef830_Record* record = FUN_00bee080(value);
@@ -25625,8 +25749,8 @@ void FUN_00bef830_Owner::FUN_00bef830(int value, float amount)
             ::DAT_01090a78.FUN_0086ba60(record->unk0C);
             record->unk0C = 0;
         }
-        record->FUN_00beafa0();
-        record->FUN_00bf0720(changed);
+        record->Tile_Value_ClearActions();
+        record->Tile_Value_CalculateValue(changed);
     }
 
     record = FUN_00bee080(value);
@@ -25639,8 +25763,8 @@ void FUN_00bef830_Owner::FUN_00bef830(int value, float amount)
             ::DAT_01090a78.FUN_0086ba60(record->unk0C);
             record->unk0C = 0;
         }
-        record->FUN_00beafa0();
-        record->FUN_00bf0720(changed);
+        record->Tile_Value_ClearActions();
+        record->Tile_Value_CalculateValue(changed);
     }
 }
 }   // namespace f3m_00bef830
@@ -25652,8 +25776,6 @@ namespace f3m_00be0070 {
 namespace f3m_00be0070 {
 struct Elem { int a; int b; int c; };
 }
-extern f3m_00be0070::Elem* __cdecl FUN_00baab10(f3m_00be0070::Elem* first, f3m_00be0070::Elem* last, f3m_00be0070::Elem* dest,
-                                                std::random_access_iterator_tag, std::_Nonscalar_ptr_iterator_tag, std::_Range_checked_iterator_tag);
 
 f3m_00be0070::Elem* __cdecl FUN_00be0070(f3m_00be0070::Elem* first, f3m_00be0070::Elem* last, f3m_00be0070::Elem* dest)
 {
@@ -25670,6 +25792,7 @@ struct Obj {
     Value* value;
     float FUN_00bea810();
 };
+// pdb: Tile::RefValueAction::QFloat | Tile.obj | fnv360_0822_retail, vtable, medium
 float Obj::FUN_00bea810()
 {
     return value ? value->value : 0.0f;
@@ -25681,7 +25804,7 @@ float Obj::FUN_00bea810()
 #include <stdio.h>
 #include <string>
 namespace f3m_00be4930 {
-void __cdecl FUN_00be5520(int severity, std::string message);
+void __cdecl futSetLastError(int severity, std::string message);
 namespace f3m_00be4930 {
 struct StdFile {
     virtual void slot00();
@@ -25695,14 +25818,15 @@ struct StdFile {
         name = "";
         file = 0;
     }
-    bool FUN_00be4930(void* buffer, unsigned int size, unsigned int count);
+    bool FutBinaryFileC_readHeader(void* buffer, unsigned int size, unsigned int count);
 };
-bool StdFile::FUN_00be4930(void* buffer, unsigned int size, unsigned int count)
+// pdb: FutBinaryFileC::readHeader | binaryFile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap_sim), high
+bool StdFile::FutBinaryFileC_readHeader(void* buffer, unsigned int size, unsigned int count)
 {
     if (!file)
         return false;
     if (fread(buffer, size, count, file) != count) {
-        FUN_00be5520(1, name);
+        futSetLastError(1, name);
         Close();
         return false;
     }
@@ -25719,6 +25843,7 @@ namespace f3m_00be1f90 {
 struct Elem { int v[11]; };   // 0x2c bytes
 }
 
+// pdb: BSTArray<float,class BSTSmallArrayHeapAllocator<12> >::RemoveLast | BSTSmallArray.obj | tesv_win, objrun_open, low
 f3m_00be1f90::Elem* __cdecl FUN_00be1f90(f3m_00be1f90::Elem* first, f3m_00be1f90::Elem* last, f3m_00be1f90::Elem* dest)
 {
     return std::copy_backward(first, last, dest);
@@ -25733,6 +25858,7 @@ namespace f3m_00be27a0 {
 struct Elem { int v[11]; };   // 0x2c bytes
 }
 
+// pdb: BSTArray<float,class BSTSmallArrayHeapAllocator<12> >::MoveItems | BSTSmallArray.obj | tesv_win, objrun_open, low
 f3m_00be27a0::Elem* __cdecl FUN_00be27a0(f3m_00be27a0::Elem* first, f3m_00be27a0::Elem* last, f3m_00be27a0::Elem* dest)
 {
     return std::copy_backward(first, last, dest);
@@ -25757,6 +25883,8 @@ f3m_00be27d0::Elem* __cdecl FUN_00be27d0(f3m_00be27d0::Elem* first, f3m_00be27d0
 namespace f3m_00bea9e0 {
 struct NameMap { bool FUN_00bea7b0(const char* name, int* out); };
 extern NameMap DAT_0106a3b4;
+// pdb: Tile::TextToTrait | Tile.obj | fnv360_0721_retail, call_dedup, low
+// pdb params: apText
 int __cdecl FUN_00bea9e0(const char* name)
 {
     int id = 0x80000000;
@@ -25781,6 +25909,7 @@ struct Obj {
     NiNode* root;
     void* FUN_00beb3d0();
 };
+// pdb: Tile::GetShaderProperty | Tile.obj | fnv360_0822_retail, caller_sim, low
 void* Obj::FUN_00beb3d0()
 {
     void* result = 0;
@@ -25812,6 +25941,7 @@ struct StandIn_bfcfe0 {
     StandIn_bfcfe0* FUN_00bfcfe0();
 };
 
+// pdb: Menu::Menu | Menu.obj | fnv360_0822_retail, call_seq, medium
 StandIn_bfcfe0* StandIn_bfcfe0::FUN_00bfcfe0() {
     unsigned int zero = 0;
     unk00 = 0xeaa924;
@@ -25845,6 +25975,7 @@ struct NameHolder {
 extern NameHolder* DAT_01179800;
 }
 
+// pdb: Menu::InitSDM | Menu.obj | fnv360_0822_retail, ustr_rel, medium
 void __cdecl FUN_00bfc3f0()
 {
     f3m_00bfc3f0::DAT_01179800 = new f3m_00bfc3f0::NameHolder("Tileptr");
@@ -25874,6 +26005,7 @@ struct InputOwner {
 };
 }
 
+// pdb: Main::GetControls | Main.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void f3m_00be8140::InputOwner::FUN_00be8140()
 {
     if (device) {
@@ -25940,6 +26072,7 @@ struct Tile {
 void __cdecl FUN_00bedc80(Tile* tile);
 }
 
+// pdb: Tile::ForceTextureRelease | Tile.obj | fnv360_0822_retail, objopen_prop, low
 void f3m_00bef350::Tile::FUN_00bef350()
 {
     if (model) {
@@ -25970,6 +26103,8 @@ void f3m_00bef350::Tile::FUN_00bef350()
 namespace f3m_00bf37a0 {
 void __cdecl FUN_00bf3580(int value);
 
+// pdb: Tile::UpdateChildren | Tile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abParentWillUpdate
 void __stdcall FUN_00bf37a0(int value)
 {
     FUN_00bf3580(0);
@@ -26003,6 +26138,7 @@ public:
     virtual ~FUN_00bf1a20();
 };
 
+// pdb: TileText::`scalar deleting destructor' | Tile.obj | fnv360_0822_retail, caller_sim, low
 FUN_00bf1a20::~FUN_00bf1a20()
 {
     if (!IsFlag13())
@@ -26111,6 +26247,8 @@ public:
     unsigned short count;
 };
 
+// pdb: Tile::SetAlphaAndColor | Tile.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apNode, afAlpha, aColor
 void __stdcall FUN_00beb400(BebOwner* self, float value, const int* src) {
     if (self == 0) {
         return;
@@ -26149,6 +26287,8 @@ struct FUN_00bedb10_Arr {
     void FUN_005e30b0(void* dst, void* src, int count);
     void FUN_00bedb10(int index, int* value);
 };
+// pdb: BSSimpleArray<Tile::Value *,8>::Insert | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiIndex, aValue
 void FUN_00bedb10_Arr::FUN_00bedb10(int index, int* value)
 {
     if (index == size) {
@@ -26208,6 +26348,7 @@ struct PtrArray {
     unsigned int size;
     PtrArray* FUN_00bf50c0(unsigned int flags);
 };
+// pdb: BSSimpleArray<ButtonIcon,1024>::`scalar deleting destructor' | Font.obj | fnv360_0822_retail, vtable, medium
 PtrArray* PtrArray::FUN_00bf50c0(unsigned int flags)
 {
     vptr = DAT_00eaa428;
@@ -26260,6 +26401,8 @@ struct Tile {
 };
 }
 
+// pdb: Tile::IsTrue | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeTrait
 bool f3m_00becf80::Tile::FUN_00becf80(int id)
 {
     Value* value = FUN_00bece90(id);
@@ -26273,18 +26416,20 @@ bool f3m_00becf80::Tile::FUN_00becf80(int id)
 
 // @f3 0x00beb1b0 (community match, verified in this file)
 namespace f3m_00beb1b0 {
-struct Item { void FUN_00bf0720(int flag); };
+struct Item { void Tile_Value_CalculateValue(int flag); };
 struct Node { Item* item; Node* next; };
 struct Map { bool FUN_00bea7b0(int key, Node** out); };
 extern Map DAT_0106a3d8;
 }
 
+// pdb: Tile::ValueChangeEvent | Tile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apChangedVal
 void __cdecl FUN_00beb1b0(int key)
 {
     f3m_00beb1b0::Node* node = 0;
     if (f3m_00beb1b0::DAT_0106a3d8.FUN_00bea7b0(key, &node)) {
         for (f3m_00beb1b0::Node* n = node; n; n = n->next)
-            n->item->FUN_00bf0720(0);
+            n->item->Tile_Value_CalculateValue(0);
     }
 }
 
@@ -26294,6 +26439,8 @@ namespace f3m_00be7490 {
 void __stdcall FUN_00c21ce6(int a, int b, int c, int d, int e);
 }
 
+// pdb: BSDLCSystemUtility::ShowMarketplace | BSDLCSystemUtility_Xenon.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: anPlayerIndex
 void __cdecl FUN_00be7490()
 {
     f3m_00be7490::FUN_00c21ce6(0, 0, 0, 0, -1);
@@ -26302,7 +26449,6 @@ void __cdecl FUN_00be7490()
 
 // @f3 0x00bebc80 (community match, verified in this file)
 #include <windows.h>
-extern void* g_DAT_01090a78_dummy;
 namespace f3m_00bebc80 {
 
 class OwnerBEBC80_L {
@@ -26316,6 +26462,7 @@ void __cdecl FUN_00beb5a0();
 extern void* FUN_0086ba60(void* memory);
 
 
+// pdb: Tile::MenuStringMap::`scalar deleting destructor' | Tile.obj | fnv360_0822_retail, vtable, medium
 void* OwnerBEBC80_L::FUN_00bebc80(unsigned char flag) {
     unk00 = 0xea972c;
     FUN_00beb5a0();
@@ -26431,6 +26578,7 @@ struct List : std::vector<Vec2> {
 };
 }
 
+// pdb: std::_Vector_const_iterator<std::_Vector_val<char,std::allocator<char> > >::operator++ | binaryFile.obj | fnv360_0822_debug, objrun_open, low
 f3m_00be01f0::List::iterator f3m_00be01f0::List::FUN_00be01f0(iterator first, iterator last)
 {
     if (first != last) {
@@ -26487,6 +26635,8 @@ struct List : std::vector<Elem> {
 };
 }
 
+// pdb: std::_Construct<char,char const &> | binaryFile.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Ptr, _Val
 void f3m_00be03d0::List::FUN_00be03d0()
 {
     clear();
@@ -26632,6 +26782,8 @@ struct Elem {
 }
 
 // std::_Fill for a {4 ints, string} element (VC8 xutility body)
+// pdb: std::_Move<FffTriStatMorphS *,FffTriStatMorphS *> | TriFileIO.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: _First, _Last, _Dest, __formal
 void __cdecl FUN_00be0ed0(f3m_00be0ed0::Elem* first, f3m_00be0ed0::Elem* last, const f3m_00be0ed0::Elem& value)
 {
     for (; first != last; ++first)
@@ -26750,6 +26902,8 @@ struct List : std::vector<Elem> {
 }
 
 // std::vector::resize(n, value) (VC8 release body)
+// pdb: std::vector<FR2Vect3TC<int>,std::allocator<FR2Vect3TC<int> > >::resize | TriFileIO.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: _Newsize
 void f3m_00be14e0::List::FUN_00be14e0(size_type newSize, Elem value)
 {
     if (size() < newSize)
@@ -26774,6 +26928,8 @@ struct List : std::vector<Elem> {
 }
 
 // std::vector::resize(n, value) (VC8 release body)
+// pdb: std::_Uninit_copy<std::_Vector_const_iterator<std::_Vector_val<char,std::allocator<char> > >,char *,std::allocator<char> > | binaryFile.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: _First, _Last, _Dest, _Al, __formal
 void f3m_00be1590::List::FUN_00be1590(size_type newSize, Elem value)
 {
     if (size() < newSize)
@@ -26845,14 +27001,13 @@ public:
     virtual void v10(int a, int b, int c, int d, int* e, int f);
 };
 
-void FUN_00bf9ca0_Target::v00() {}
 void FUN_00bf9ca0_Target::v04() {}
-void FUN_00bf9ca0_Target::v08() {}
-void FUN_00bf9ca0_Target::v0C() {}
 void FUN_00bf9ca0_Target::v10(int a, int b, int c, int d, int* e, int f)
 {
 }
 
+// pdb: DebugText::PrintXC | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aiX, aColor, apFormatString
 void __cdecl FUN_00bf9ca0(FUN_00bf9ca0_Target* object, int a, int b, int c, int d, int e)
 {
     object->v10(a, 0, 1, c, &d, b);
@@ -26880,11 +27035,12 @@ extern BSMapBase_00a09200 DAT_0106a3d8;
 struct Value_00a09200 {
     int unk00, unk04, unk08, unk0c;
     Action_00a09200* actions;
-    void FUN_00beafa0();
+    void Tile_Value_ClearActions();
 };
 
 // @fnv 0x00a09200
-void Value_00a09200::FUN_00beafa0()
+// pdb: Tile::Value::ClearActions | Tile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Value_00a09200::Tile_Value_ClearActions()
 {
     Action_00a09200* pcurrAction;
     {
@@ -26961,6 +27117,8 @@ struct FUN_00bebc00 {
  void Init(int a,float f,const char*s,int b,int c){trait=a;value=f;text=s;flags=b;owner=c;}
 };
 extern int DAT_01179668;extern FUN_00bebc00* DAT_01179628[];
+// pdb: Tile::TileTemplate::GetItem | Tile.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiCmd, afVal, apStr, aiTA, aiLine
 FUN_00bebc00* __cdecl FUN_00beda30(int a,float f,const char*s,int b,int c){
  FUN_00bebc00* node;
  if((unsigned)DAT_01179668>0){DAT_01179668=DAT_01179668-1;node=DAT_01179628[DAT_01179668];node->Init(a,f,s,b,c);}
@@ -27005,6 +27163,8 @@ struct Map {
     void FUN_00880f70(int key, Node* node);
 };
 extern Map DAT_0106a3d8;
+// pdb: Tile::AddReaction | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRefVal, apDependantVal
 void __cdecl FUN_00beb110(int key, int item)
 {
     Node* added = new Node;
@@ -27042,6 +27202,7 @@ void __cdecl FUN_0061a740(Menu*,float);
 void __cdecl FUN_0061a7a0(int,int);
 void __cdecl FUN_0061a7c0(int);
 void __cdecl FUN_0061a760();
+// pdb: Menu::StartFadeOut | Menu.obj | fnv360_0822_retail, call_seq, medium
 void Menu::FUN_00bfc470() {
     Tile* t = tile;
     float fade;
@@ -27087,6 +27248,7 @@ struct FUN_00bfa1b0 {
  float lifetime;
  ~FUN_00bfa1b0();
 };
+// pdb: DebugText::DebugTextData::~DebugTextData | DebugText.obj | fnv360_0721_beta, call_gap_sim, low
 FUN_00bfa1b0::~FUN_00bfa1b0() { text.Clear(); }
 }
 
@@ -27122,6 +27284,8 @@ struct FileSeekView {
  PosQ FUN_00be6800(int off,int way,int mode);
 };
 // @fnv 0x00acd5b0
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::seekoff | algs.obj | fnv360_0822_retail, objrun, medium
+// pdb params: _Off, _Way, __formal
 PosQ FileSeekView::FUN_00be6800(int off, int way, int mode)
 {
     __int64 fpos;
@@ -27195,6 +27359,7 @@ struct FUN_00bef530 {
     void FUN_00bef2b0();
     ~FUN_00bef530();
 };
+// pdb: Tile::TileTemplate::Clear | Tile.obj | fnv360_0822_retail, call_gap, low
 FUN_00bef530::~FUN_00bef530() { FUN_00bef2b0(); }
 }
 
@@ -27236,6 +27401,7 @@ struct Owner : Base {
     void FUN_00be69d0();
     virtual ~Owner();
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::~basic_filebuf<char,std::char_traits<char> > | algs.obj | fnv360_0822_retail, call_seq, low
 Owner::~Owner() {
     if(active) FUN_00be69d0();
 }
@@ -27285,7 +27451,7 @@ struct IosBase {
     void* arr;
     void* calls;
     Locale* ploc;
-    void FUN_00bbd8d0(int state, bool reraise);
+    void std_ios_base_clear(int state, bool reraise);
     void FUN_00be6d90();
 };
 __forceinline Locale* NewLocale()
@@ -27303,6 +27469,7 @@ __forceinline Locale* NewLocale()
     }
     return 0;
 }
+// pdb: std::ios_base::_Init | algs.obj | fnv360_0822_retail, call_gap, low
 void IosBase::FUN_00be6d90()
 {
     ploc = 0;
@@ -27312,7 +27479,7 @@ void IosBase::FUN_00be6d90()
     wide = 0;
     arr = 0;
     calls = 0;
-    FUN_00bbd8d0(0, false);
+    std_ios_base_clear(0, false);
     ploc = NewLocale();
 }
 }
@@ -27385,6 +27552,8 @@ struct Map {
     }
 };
 extern Map DAT_0106a3b4;
+// pdb: Tile::TraitToText | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiTrait
 int __cdecl FUN_00beab00(int target)
 {
     Item* pos = DAT_0106a3b4.GetFirstPos();
@@ -27462,6 +27631,8 @@ struct FUN_00bedbe0 {
     f3m_00bedbe0::Links links;
     FUN_00bedbe0(const char* n, int v);
 };
+// pdb: NiFixedString::operator= | TESScriptFunctions.obj | fnv360_0721_beta, call_seq, low
+// pdb params: pcString
 FUN_00bedbe0::FUN_00bedbe0(const char* n, int v)
 {
     name = n;
@@ -27563,6 +27734,8 @@ struct NiNode : NiAVObject {
 struct Setter {
     void FUN_00bead50(NiAVObject* obj, float v);
 };
+// pdb: LoadingMenu::FadeIn3D | LoadingMenu.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apObject, afPct
 void Setter::FUN_00bead50(NiAVObject* obj, float v)
 {
     if (!obj)
@@ -27603,6 +27776,8 @@ namespace f3m_00be70e0 {
 struct Stream : std::basic_ios<char, std::char_traits<char> > {
     char FUN_00be70e0(char value) const;
 };
+// pdb: std::basic_ios<char,std::char_traits<char> >::widen | algs.obj | fnv360_0822_retail, call_gap, low
+// pdb params: _Byte
 char Stream::FUN_00be70e0(char value) const
 {
     const std::ctype<char>& facet = std::use_facet<std::ctype<char> >(getloc());
@@ -27673,6 +27848,8 @@ struct FUN_00bf3960_shell {
 };
 
 // @fnv 0x00a14170
+// pdb: Font::SetSpacingForButtonIcon | Font.obj | fnv360_0822_retail, uconst, low
+// pdb params: apIconData, apIconID
 void FUN_00bf3960_shell::FUN_00bf3960(FUN_00bf3960_out* apOut, const char* apName) {
     apOut->fX = 60.0f;
     apOut->fZ = fValue2C;
@@ -27876,6 +28053,7 @@ public:
 };
 
 // @fnv 0x00a08a20
+// pdb: Tile::DeleteModel | Tile.obj | fnv360_0822_retail, call_gap, medium
 void SceneNodeOwner::FUN_00beadf0()
 {
     SceneNode* pkNode = GetNode();
@@ -27952,6 +28130,8 @@ virtual void v07();
 virtual void SetAlphaAndOverlayColor(NiNode*,float,const RgbaColor&);
 void FUN_00bfe000(NiNode*,float,const RgbaColor*); };
 // @fnv 0x00a21570
+// pdb: Tile3D::SetAlphaAndColor | Tile3D.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apNode, afAlpha, aColor
 void TileBFE000::FUN_00bfe000(NiNode* apNode, float afAlpha, const RgbaColor* apColor)
 {
     if (!apNode)
@@ -28171,6 +28351,8 @@ struct K4096 {K256 k0,k1,k2,k3,k4,k5,k6,k7,k8,k9,ka,kb,kc,kd,ke,kf;};
 struct FUN_00bfb3a0 {K4096 a,b;K256 c,d;K16 e0,e1,e2,e3,e4,e5,e6,e7,e8;int f0,f1,f2;
 FUN_00bfb3a0();static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);}};
 extern FUN_00bfb3a0* DAT_01179778;
+// pdb: DebugText::Instance | DebugText.obj | fnv360_0721_beta, call_gap, low
+// pdb params: abCreate
 FUN_00bfb3a0* FUN_00bfb7c0(bool create){if(!DAT_01179778&&create){ScopedContext ctx(13);DAT_01179778=new FUN_00bfb3a0;}return DAT_01179778;}
 }
 
@@ -28182,6 +28364,7 @@ struct FUN_00bef530 { ~FUN_00bef530(); static void operator delete(void* p) { DA
 struct List { FUN_00bef530* m_item; List* m_pkNext; void FUN_006c8220(); ~List() { FUN_006c8220(); } };
 struct FUN_00bf0f90 { FUN_00bef530* pTemplate; List xList; int iUnk0C; bool bOwns; ~FUN_00bf0f90(); };
 // @fnv 0x00a0ad40
+// pdb: Tile::BuildStorage::~BuildStorage | Tile.obj | fnv360_0822_retail, call_dedup, medium
 FUN_00bf0f90::~FUN_00bf0f90()
 {
     if (pTemplate)
@@ -28441,6 +28624,8 @@ struct S00a1b7f0_GlyphMetric {
 
 // Stores the character, conditionally computes width, height, and drop when the icon is empty, and resets fields.
 // @fnv 0x00a1b7f0
+// pdb: FontManager::CharData::SetChar | Font.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: FontManager::CharData::CharData)
+// pdb params: acChar
 void S00a1b7f0_GlyphMetric::FUN_00bf3c50(unsigned char auiCharacter) {
 
  character = auiCharacter;
@@ -28720,6 +28905,7 @@ struct Layout {
     int left,right,center;
     void FUN_00bf9b50();
 };
+// pdb: DebugText::Reset | DebugText.obj | fnv360_0721_beta, vtable, medium
 void Layout::FUN_00bf9b50()
 {
     int* selected=&DAT_01179794;
@@ -28785,6 +28971,7 @@ struct SB2561
     int FUN_00be5a40(char* _Ptr, unsigned int _Ptr_size, int _Count);
 };
 // @fnv 0x00acb880
+// pdb: std::basic_streambuf<char,struct std::char_traits<char> >::_Xsgetn_s | TESScriptFunctions_Console.obj | tesv_win, vtable, medium
 int SB2561::FUN_00be5a40(char* _Ptr, unsigned int _Ptr_size, int _Count)
 {
     int _Copied = 0;
@@ -28827,6 +29014,8 @@ extern const char* DAT_00e207a8;const char* __cdecl FUN_008242a0(const char*);
 struct Fixed {const char*text;Fixed(const char*s){if(!s)text=DAT_00e207a8;else text=FUN_008242a0(s);}~Fixed(){if(text!=DAT_00e207a8)InterlockedDecrement((volatile long*)(text-8));}};
 struct FUN_008459f0 {virtual ~FUN_008459f0();int unk04,unk08;FUN_008459f0();};
 struct FUN_00bf98b0: FUN_008459f0 {virtual ~FUN_00bf98b0();void* tile;void* node;FUN_00bf98b0(void*,void*);void FUN_008245d0(const Fixed&);};
+// pdb: Tile::Extra::Extra | TileRect.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: t, n
 FUN_00bf98b0::FUN_00bf98b0(void*a,void*b):FUN_008459f0(){tile=a;node=b;FUN_008245d0(Fixed("Tileptr"));}
 }
 }   // namespace f3m_00bf98b0
@@ -28849,6 +29038,8 @@ const unsigned* finish() const { const unsigned* p=last; if(first>p) FUN_00c01e8
 static unsigned* copy(const unsigned* a,const unsigned* b,unsigned* out) { unsigned n=(unsigned)(b-a); unsigned bytes=n*sizeof(unsigned); unsigned* result=out+n; if(n) FUN_00c01c9b(out,bytes,a,bytes); return result; }
 FUN_00be0df0(const FUN_00be0df0& other);
 };
+// pdb: std::vector<unsigned short *,std::allocator<unsigned short *> >::vector<unsigned short *,std::allocator<unsigned short *> > | IndexedGeometry.obj | fnv360_0822_retail, call_gap, low
+// pdb params: _Right
 FUN_00be0df0::FUN_00be0df0(const FUN_00be0df0& other):allocator(other.allocator) {if(buy(other.size())) last=copy(other.begin(),other.finish(),first);}
 }
 
@@ -28875,6 +29066,8 @@ struct FUN_00be73e0 : virtual Ios {
  FUN_00be73e0(Buffer* buffer,bool standard);
  virtual ~FUN_00be73e0();
 };
+// pdb: std::basic_ostream<char,std::char_traits<char> >::basic_ostream<char,std::char_traits<char> > | algs.obj | fnv360_0822_retail, uvref, medium
+// pdb params: _Strbuf, _Isstd
 FUN_00be73e0::FUN_00be73e0(Buffer* buffer,bool standard) { FUN_00be7210(buffer,standard); }
 }
 }   // namespace f3m_00be73e0
@@ -28917,6 +29110,8 @@ class FUN_00bf7f60 : public FUN_00bf7f60_Base
     int FUN_00bf7d90(unsigned int a, unsigned int b);
 };
 
+// pdb: FontManager::TextPage::TextPage | Font.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apDoc, apChar, aiPageWidth, aiPageHeight
 FUN_00bf7f60::FUN_00bf7f60(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4)
 {
     m_10.m_00 = 0;
@@ -28963,6 +29158,8 @@ struct FUN_00bf60e0 {
 };
 
 // @fnv 0x00a1bd40
+// pdb: FontManager::TextLine::TextLine | Font.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: GFxSGMLStackElemDesc<wchar_t>::GFxSGMLStackElemDesc<wchar_t>)
+// pdb params: apPage, apChar, aiSkippedSpace, aiPageWidth
 FUN_00bf60e0::FUN_00bf60e0(void* apOwner, void* apSource, unsigned int auiFlags, unsigned int auiMaxWidth) {
     uiNumItems = 0;
     uiFontNum = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apSource) + 0x18);
@@ -29004,6 +29201,7 @@ struct FUN_00bfcd20 : FUN_00bfccb0
     virtual ~FUN_00bfcd20();
 };
 // @fnv 0x00a0d2a0
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,XMLStorage *>,XMLStorage *>::~NiTStringTemplateMap<NiTPointerMap<char const *,XMLStorage *>,XMLStorage *> | Menu.obj | fnv360_0822_retail, uvref, medium
 FUN_00bfcd20::~FUN_00bfcd20()
 {
     if (m_bCopy) {
@@ -29066,6 +29264,8 @@ class AGOwner
 };
 
 // @fnv 0x00a09130
+// pdb: Tile::Value::AddAction | Tile.obj | fnv360_0822_retail, uvref, medium
+// pdb params: aiActionType, apSourceTile, aeSourceTrait
 void AGOwner::FUN_00beec50(int iIndex, Tile* pTile, int iValue)
 {
     AGValueItem* pLast = m_pHead;
@@ -29097,6 +29297,7 @@ static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}
 };
 struct FUN_006c8220 { FUN_00bedbe0* item; FUN_006c8220* next; FUN_006c8220(){item=0;next=0;} ~FUN_006c8220(); };
 struct FUN_00bede40 {FUN_00bedbe0* pTemplate; FUN_006c8220 list; int value; bool owns; FUN_00bede40();};
+// pdb: Tile::BuildStorage::BuildStorage | Tile.obj | fnv360_0822_retail, call_gap, medium
 FUN_00bede40::FUN_00bede40(){pTemplate=new FUN_00bedbe0("main",this);value=0;owns=true;}
 }
 
@@ -29127,6 +29328,7 @@ void __cdecl FUN_0061a7a0(int,int);
 void __cdecl FUN_0061a7c0(int);
 void __cdecl FUN_0061a770(Menu2609*);
 // @fnv 0x00a1d9e0
+// pdb: Menu::InstantFadeOut | Menu.obj | fnv360_0822_retail, call_dedup, low
 void Menu2609::FUN_00bfcac0()
 {
     if (m_eFadeState != 4)
@@ -29166,6 +29368,7 @@ struct FUN_00bf5a50 {
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
 extern FUN_00bf5a50* DAT_011796f8;
+// pdb: FontManager::Init | Font.obj | fnv360_0822_retail, call_dedup, low
 void __cdecl FUN_00bf6520() { if(!DAT_011796f8) DAT_011796f8=new FUN_00bf5a50; }
 }
 
@@ -29198,6 +29401,8 @@ struct Storage {
     List templates;
     FUN_00bedbe0* FUN_00bedec0(const char*);
 };
+// pdb: Tile::BuildStorage::NewSubTemplate | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pName
 FUN_00bedbe0* Storage::FUN_00bedec0(const char* name)
 {
     FUN_00bedbe0* result=new FUN_00bedbe0(name,this);
@@ -29252,7 +29457,8 @@ inline unsigned char A11740HasMarker(A11740Node*& p)
 }
 
 // @fnv 0x00a11740
-A11740Item* __cdecl FUN_00bf9e60(A11740Input* input, int unused, int expected, int* outValue)
+// pdb: DebugText::GetFloatingText | DebugText.obj | fnv360_0721_beta, udata, high
+A11740Item* __cdecl DebugText_GetFloatingText(A11740Input* input, int unused, int expected, int* outValue)
 {
     A11740Item* res;
     unsigned int indexB;
@@ -29372,6 +29578,7 @@ public:
     int FUN_00be7ee0(int param_1, int param_2);
 };
 
+// pdb: NiControllerSequence::SetPhase | NiControllerSequence.obj | tesv_win, callee_sim, low
 int __thiscall StandInClass::FUN_00be7ee0(int param_1, int param_2) {
 
     int eax = param_1 * 5;
@@ -29439,6 +29646,7 @@ struct Array {
  void FUN_00bf3ba0(void**,void**,unsigned int);
  void FUN_00bf4bf0(unsigned int,unsigned int);
 };
+// pdb: BSSimpleArray<BGSDistantTreeBlock::InstanceData,1024>::AddUninitialized | BGSDistantTreeBlock.obj | fnv360_0822_retail, call_seq, low
 void Array::FUN_00bf4bf0(unsigned int newCapacity,unsigned int preserveCount) {
  if(buffer) {
   if(preserveCount==capacity) buffer=Reallocate(buffer,newCapacity);
@@ -29494,6 +29702,8 @@ struct FgBinaryFile
 };
 
 // @fnv 0x00ac5cf0
+// pdb: BSFaceGenBinaryFile::read | binaryFile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: data, size, num
 bool FgBinaryFile::FUN_00be46a0(void* pvBuffer, unsigned int uiSize, unsigned int uiElementCount)
 {
     if (m_pBinaryStream == 0)
@@ -29614,6 +29824,8 @@ unsigned int unk98;
 ChildArray children;
 };
 struct PropertyOwner { void FUN_00bfe550(Node* target); };
+// pdb: Tile3D::RemoveProperties | Tile3D.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pTarget
 void PropertyOwner::FUN_00bfe550(Node* target)
 {
 unsigned int a;
@@ -29648,6 +29860,8 @@ struct Element2626 {
     int unk1C;
 };
 
+// pdb: BSSimpleArray<BGSDistantTreeBlock::InstanceData,1024>::_ReallocateBuffer | BGSDistantTreeBlock.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiNewSize, aiCopyCount
 void __stdcall FUN_00bf3ba0(Element2626* dest, Element2626* source, unsigned int count)
 {
     if (count > 0) {
@@ -29669,6 +29883,7 @@ struct Tile {float FUN_00becf40(unsigned);};
 struct Menu {int unk00;Tile* pMenu;int unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;int fadeState;void FUN_00bfc510();};
 void __cdecl FUN_0061a740(Menu*,float);
 void __cdecl FUN_0061a760();
+// pdb: Menu::StartFadeIn | Menu.obj | fnv360_0822_retail, call_gap, medium
 void Menu::FUN_00bfc510(){float fade=pMenu?pMenu->FUN_00becf40(0xfc1):0.25f;if(fade==0.0)fade=pMenu->FUN_00becf40(0xfc2);FUN_0061a740(this,fade);fadeState=8;FUN_0061a760();}
 }
 }   // namespace f3m_00bfc510
@@ -29678,6 +29893,8 @@ namespace f3m_00bedfa0 {
 namespace task2667 {
 struct Value;typedef int(__cdecl* Compare)(const void*,const void*);
 struct Array {unsigned unk00;Value**buffer;unsigned size,capacity;void FUN_00bedb10(unsigned,Value*&);void FUN_00bedfa0(Value*&,Compare);};
+// pdb: BSSimpleArray<Tile::Value *,8>::SortedInsert | Tile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aValue, apFunc
 void Array::FUN_00bedfa0(Value*&value,Compare compare){struct Bounds{int lower,middle,upper;}b;b.lower=0;b.upper=size-1;while(b.lower<=b.upper){b.middle=b.lower+((b.upper-b.lower)>>1);switch(compare(&value,buffer+b.middle)){case 1:b.lower=b.middle+1;break;case -1:b.upper=b.middle-1;break;case 0:b.lower=b.middle;b.upper=-1;break;}}FUN_00bedb10(b.lower,value);}
 }
 }   // namespace f3m_00bedfa0
@@ -29694,6 +29911,8 @@ struct TileImage {
  TileImage* FUN_00bfd3d0(int trait,float value,const char* text);
 };
 // @fnv 0x00a20580
+// pdb: TileImage::PostParse | TileImage.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aiTrait, afValue, axString
 TileImage* TileImage::FUN_00bfd3d0(int trait, float value, const char* text)
 {
     if ((trait == 0xfa1 || trait == 0xfa2) && !(uiFlags & 1))
@@ -29836,6 +30055,7 @@ template <class _Iter> inline _Iter _Checked_base(_Iter& _It)
 struct Elem { int id; int x,y,z; std::string name; };
 Elem* __cdecl FUN_00be13a0(Elem*, Elem*, Elem*, forward_iterator_tag, _Nonscalar_ptr_iterator_tag, _Range_checked_iterator_tag);
 // @fnv 0x00ac30c0
+// pdb: BSTArray<struct IDLE_REPLAY_DELAY *,class BSTSmallArrayHeapAllocator<4> >::DestructItems | TESObjectREFR.obj | tesv_win, objopen_prop, low
 Elem* __cdecl FUN_00be1840(Elem* _First, Elem* _Last, Elem* _Dest, random_access_iterator_tag,
                            _Nonscalar_ptr_iterator_tag, _Range_checked_iterator_tag)
 {
@@ -29863,6 +30083,7 @@ struct FUN_00bf1990 : FUN_0053dc10 {
  int unk3c,unk40,unk44;
  char unk48;
 };
+// pdb: RadialTile::RadialTile | RadialTile.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00bf1990::FUN_00bf1990(FUN_0053dc10* parent) {
  if(parent) FUN_00beea70(parent,0);
  unk48=0;
@@ -29873,8 +30094,10 @@ FUN_00bf1990::FUN_00bf1990(FUN_0053dc10* parent) {
 namespace f3m_00be7210 {
 namespace task2697 {
 void __cdecl FUN_00bff6ba(void*);
-struct Stream {int unk00,unk04,state,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24;void* buffer;int tied;unsigned char fill;void FUN_00be6d90();unsigned char FUN_00be70e0(int);void FUN_00bbd8d0(unsigned,int);void FUN_00be7210(void*,bool);};
-void Stream::FUN_00be7210(void*p,bool standard){FUN_00be6d90();buffer=p;tied=0;fill=FUN_00be70e0(0x20);if(!buffer){unsigned h=state;unsigned i=h|4;FUN_00bbd8d0(buffer==0?(i|4):i,0);}if(standard)FUN_00bff6ba(this);else unk04=0;}
+struct Stream {int unk00,unk04,state,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24;void* buffer;int tied;unsigned char fill;void FUN_00be6d90();unsigned char FUN_00be70e0(int);void std_ios_base_clear(unsigned,int);void FUN_00be7210(void*,bool);};
+// pdb: std::basic_ios<char,std::char_traits<char> >::init | algs.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: _Strbuf, _Isstd
+void Stream::FUN_00be7210(void*p,bool standard){FUN_00be6d90();buffer=p;tied=0;fill=FUN_00be70e0(0x20);if(!buffer){unsigned h=state;unsigned i=h|4;std_ios_base_clear(buffer==0?(i|4):i,0);}if(standard)FUN_00bff6ba(this);else unk04=0;}
 }
 }   // namespace f3m_00be7210
 
@@ -29913,6 +30136,8 @@ struct basic_streambuf
     }
     void FUN_00be5650();
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::_Init | algs.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: _File, _Which
 void basic_streambuf::FUN_00be5650()
     {
         _IGfirst = &_Gfirst, _IPfirst = &_Pfirst;
@@ -29941,6 +30166,7 @@ struct Array {
     void FUN_00799ae0(unsigned int newCapacity,unsigned int preserveCount);
 };
 // @fnv 0x00a0d000
+// pdb: BSSimpleArray<Tile::Value *,8>::AddUninitialized | Tile.obj | fnv360_0822_retail, call_dedup, low
 unsigned int Array::FUN_00beb7c0()
 {
     unsigned int allocationSize;
@@ -30019,6 +30245,8 @@ struct FUN_00be5b80 : FUN_00be5930 {
  FILE* file;
  FUN_00be5b80(FILE* input);
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::basic_filebuf<char,std::char_traits<char> > | algs.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: _File
 FUN_00be5b80::FUN_00be5b80(FILE* input) : FUN_00be5930() {
  ownsFile=false;
  wrote=false;
@@ -30058,6 +30286,7 @@ namespace f3m_00be1f10 {
 namespace f3_2746 {
 struct Element { unsigned int key; std::string value; };
 Element* __cdecl FUN_00be1360(Element*,Element*,Element*,std::forward_iterator_tag,std::_Nonscalar_ptr_iterator_tag,std::_Range_checked_iterator_tag);
+// pdb: BSTArray<float,class BSTSmallArrayHeapAllocator<12> >::SetFirst | BSTSmallArray.obj | tesv_win, objopen_prop, low
 Element* __cdecl FUN_00be1f10(Element* first, Element* last, Element* destination,
  std::random_access_iterator_tag, std::_Nonscalar_ptr_iterator_tag, std::_Range_checked_iterator_tag)
 {
@@ -30082,6 +30311,7 @@ struct FUN_00be59e0_cls {
  FUN_00be59e0_cls* FUN_00be59e0(char*,FNVSourceStringX*);
 };
 // @fnv 0x00ad3550
+// pdb: std::_Locinfo::_Getctype | algs.obj | fnv360_0822_debug, objopen_prop, medium
 FUN_00be59e0_cls* FUN_00be59e0_cls::FUN_00be59e0(char* pPos, FNVSourceStringX* pSource)
 {
     m_pSource = 0;
@@ -30100,9 +30330,10 @@ FUN_00be59e0_cls* FUN_00be59e0_cls::FUN_00be59e0(char* pPos, FNVSourceStringX* p
 
 // @f3 0x00bea870 (community match, verified in this file)
 namespace f3m_00bea870 {
-struct Lookup2693 { void* FUN_00bea870(int); };
+struct Lookup2693 { void* Tile_GetValueQ(int); };
 // @fnv 0x00a00e90
-void* Lookup2693::FUN_00bea870(int aiTrait)
+// pdb: Tile::GetValueQ | Tile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void* Lookup2693::Tile_GetValueQ(int aiTrait)
 {
  unsigned int uiIndex;
  {
@@ -30146,6 +30377,8 @@ struct FUN_00beaea0_Node
 };
 int __cdecl FUN_00c009eb(void* key, int arg);
 
+// pdb: Tile::SearchForTileByName | Tile.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apTarget, apName
 FUN_00beaea0_Node* __cdecl FUN_00beaea0(FUN_00beaea0_Node* node, int arg)
 {
     if (!node)
@@ -30176,6 +30409,7 @@ struct Buffer {
  void Reset() { closeFile=false;wroteSome=false;FUN_00be5650();file=0;state=DAT_0117956c;pcvt=0; }
  Buffer* FUN_00be69d0();
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::close | algs.obj | fnv360_0822_retail, call_seq, medium
 Buffer* Buffer::FUN_00be69d0() {
  Buffer* result=this;
  if(file==0) result=0;
@@ -30294,6 +30528,8 @@ class S00a0ca70_List
 };
 // Allocates a node from m_kNodePool, sets its m_val, and splices it into the linked list at the position pointed to by pos.
 // @fnv 0x00a0ca70
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>::InsertAfter | Tile.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: kPos, element
 S00a0ca70_Node* S00a0ca70_List::FUN_00bebbb0(S00a0ca70_Node** pos, const unsigned int* value)
 {
     S00a0ca70_Node** pForm;
@@ -30430,6 +30666,7 @@ struct Array {
  void* data; int count; int capacity;
  Array* FUN_00bf9f60(unsigned int flags);
 };
+// pdb: BSSimpleArray<DebugText::sPrintData *,1024>::`scalar deleting destructor' | DebugText.obj | fnv360_0721_beta, vtable, medium
 Array* Array::FUN_00bf9f60(unsigned int flags){this->Array::~Array();if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 
@@ -30445,6 +30682,8 @@ struct Menu {
  void FUN_00bfc510();
  void FUN_00bfd010(bool);
 };
+// pdb: Menu::PrepForVisibility | Menu.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abStayHidden
 void Menu::FUN_00bfd010(bool visible) {
  Tile* p=menu;
  p->FUN_00bee190(0xfa3,0.0f,true);
@@ -30502,6 +30741,7 @@ __forceinline void destroy(StreamLayout* object) {
  object->baseVtable=&DAT_00ea9244;
  FUN_00bff70a(basePart);
 }
+// pdb: std::basic_ostream<char,std::char_traits<char> >::`scalar deleting destructor' | algs.obj | fnv360_0822_retail, vtable, high
 void* __fastcall FUN_00be57e0(void* base,void*,unsigned int flags) {
  StreamLayout* object=reinterpret_cast<StreamLayout*>(static_cast<char*>(base)-4);
  destroy(object);
@@ -30590,6 +30830,7 @@ unsigned int unk38;
 Menu* pMenu; void FUN_00bef350(); void FUN_00bfc3b0();
 };
 // @fnv 0x00a1f310
+// pdb: TileMenu::ForceTextureRelease | TileMenu.obj | fnv360_0822_retail, objrun_open, low
 void Tile::FUN_00bfc3b0()
 {
     if (pMenu && (pMenu->GetID() == 0x3ec || pMenu->GetID() == 0x3ef))
@@ -30649,6 +30890,8 @@ public:
     void FUN_00bee340(unsigned int state);
     void FUN_00bfd430(unsigned int first, unsigned int second, unsigned int third);
 };
+// pdb: TileImage::Init | TileImage.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apParent, apName, apReplacedTile
 void Owner_bfd430::FUN_00bfd430(unsigned int first, unsigned int second, unsigned int third) {
     FUN_00bef5a0(first, second, third);
     FUN_00bee190(0xFF5, 255.0f, true);
@@ -30704,6 +30947,7 @@ public:
     Link_bf3c20 link;
     int FUN_00bf3c20(int n);
 };
+// pdb: FontManager::TextData::GetColor | Font.obj | fnv360_0822_debug, objrun_open, low
 int Owner_bf3c20::FUN_00bf3c20(int n) {
     Link_bf3c20* p = &link;
     for (int i = 0; i < n; i++) {
@@ -30721,6 +30965,8 @@ namespace task2813 {
 void __cdecl FUN_00c01e8b();int __cdecl FUN_00c01c20(void*,unsigned,const void*,unsigned);
 struct FNVCheckedBytes {char* FUN_00be6c80(char*,char*,unsigned char,void*,unsigned);};
 // @fnv 0x00ad40d0
+// pdb: std::ctype<char>::do_narrow | algs.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: std::ctype<char>::_Do_narrow_s)
+// pdb params: _First, _Last, __formal, _Dest
 char* FNVCheckedBytes::FUN_00be6c80(char* pBegin, char* pEnd, unsigned char m_ucType, void* pDest,
                                     unsigned int uiDestSize)
 {
@@ -30747,6 +30993,8 @@ struct String {
  unsigned int size,capacity;
  FUN_00be59e0 FUN_00be5d70();
 };
+// pdb: std::ctype<char>::_Init | algs.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Lobj
 FUN_00be59e0 String::FUN_00be5d70() {
  return FUN_00be59e0(capacity>=16?data.ptr:data.buffer,this);
 }
@@ -30774,6 +31022,8 @@ struct Entry { int pad[4]; int key; void* owner; int value; };
 struct Node { Entry* entry; Node* next; };
 extern Node DAT_011796a8;
 class Owner { public: int FUN_00bead10(int); };
+// pdb: Tile::GetFadeType | Tile.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: aiTrait
 int Owner::FUN_00bead10(int key) {
  for(Node* node=&DAT_011796a8;node!=0 && node->entry!=0;node=node->next) {
   if(node->entry->key==key && node->entry->owner==(void*)this) return node->entry->value;
@@ -30789,6 +31039,8 @@ struct Fade { int unk00,unk04,unk08,unk0c; int id; Tile* tile; };
 struct Node { Fade* item; Node* next; };
 extern Node DAT_011796a8;
 struct Tile { bool FUN_00beac60(int); };
+// pdb: Tile::HasFadeControl | Tile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiTrait
 bool Tile::FUN_00beac60(int trait) {
  for(Node* node=&DAT_011796a8;node && node->item;node=node->next)
   if(node->item->id==trait && node->item->tile==this) return true;
@@ -32569,6 +32821,8 @@ struct InputBindings {
     void FUN_00be8850(int param);
 };
 
+// pdb: MenuConsole::Instance | MenuConsole.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: abCreate
 int InputBindings::FUN_00be81c0(int a, int b)
 {
     int result = 0;
@@ -32640,6 +32894,8 @@ struct String {
  char&operator[](unsigned i){if(length<i)FUN_00c01e8b();return data()[i];}
 };
 struct FUN_00be4790 {virtual void v0();String path,name;int unk3c;FUN_00be4790(String);};
+// pdb: FutBinaryFileC::FutBinaryFileC | binaryFile.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::assign)
+// pdb params: a_fileId
 FUN_00be4790::FUN_00be4790(String input){name=input;if(name.size()!=8)FUN_00bdc3d0("c:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\binaryFile.cpp",0x22);unk3c=0;name[5]='0';}
 }
 }   // namespace f3m_00be4790
@@ -32651,6 +32907,8 @@ struct FontManagerHelper {NiPoint3 FUN_00bf4890(const char*,int,float,unsigned);
 extern FontManagerHelper* DAT_011796f8;
 struct FUN_00a12370_shell {int unk00,unk04,m_iFontNumber;void FUN_00bf4c60(const char*,float&,float&,int,unsigned);};
 // @fnv 0x00a12370
+// pdb: Font::GetLineOffsets | Font.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTextString, afX, afY, aiFlags, aiStart
 void FUN_00a12370_shell::FUN_00bf4c60(const char* apTextString, float& afX, float& afY, int aiFlags, unsigned int aiStart)
 {
     NiPoint3 stringDims;
@@ -32677,6 +32935,8 @@ void FUN_00a12370_shell::FUN_00bf4c60(const char* apTextString, float& afX, floa
 namespace f3m_00beaa10 {
 struct Lookup_beaa10 { bool FUN_00bea7b0(const char* key, unsigned int& val); };
 // @fnv 0x00a018d0
+// pdb: Tile::TextToTraitAndParam | Tile.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apText, apParam
 int __cdecl FUN_00beaa10(const char* apText, char* apParam)
 {
     if (!apText || !*apText || !apParam)
@@ -34320,6 +34580,8 @@ int unk18f0;
 int unk18f4;
 unsigned char current[256],previous[256];int FUN_00be8410(int,int);};
 // @fnv 0x00a24180
+// pdb: Controls::GetKeyboardButton | XControls.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiButton, aiFlags
 int Input::FUN_00be8410(int aiButton, int aiExtra)
 {
     int bresult = 0;
@@ -34391,6 +34653,7 @@ struct Owner {
  List list;
  ~Owner();
 };
+// pdb: FontManager::TextDoc::~TextDoc | Font.obj | fnv360_0822_retail, objrun_prop, low
 Owner::~Owner() { while(list.count) delete list.RemoveHead(); }
 }
 }   // namespace f3m_00bf85e0
@@ -34420,6 +34683,8 @@ struct Pointer {
  Extra* operator->() const {return object;}
 };
 struct Node {int pad[6];Node* parent;Extra* FUN_00824a50(void*);};
+// pdb: Tile::GetTileFromNode | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNode
 int FUN_00bea8d0(Node* node) {
  int value=0;
  if(node) {
@@ -34445,6 +34710,8 @@ public:
                       int value4, int* value5, int value6);
 };
 
+// pdb: DebugText::PrintX | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aiX, apFormatString
 void __cdecl FUN_00bf9c10(FUN_00bf9c10_Object* object,
                           int value1,
                           int value2,
@@ -34502,6 +34769,7 @@ public:
  MenuItem* menu;
  virtual ~FUN_00bfc1b0();
 };
+// pdb: TileMenu::~TileMenu | TileMenu.obj | fnv360_0721_retail, objrun_prop, low
 FUN_00bfc1b0::~FUN_00bfc1b0() {
  if(menu) {
   int id=menu->GetID();
@@ -34555,6 +34823,8 @@ void FadeList::FUN_00421610(FadeItem** key) {
     }
 }
 
+// pdb: Tile::RemoveFadeControl | Tile.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: aiTrait
 void Tile::FUN_00bed770(int trait) {
     FadeList pending;
     FadeNode* node;
@@ -34651,6 +34921,8 @@ struct BF9BF0Owner {
     void FUN_00bf9bf0(int index, int value);
 };
 
+// pdb: DebugText::SkipLine | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aeLocation, aiSkip
 void BF9BF0Owner::FUN_00bf9bf0(int index, int value)
 {
     *((int*)((char*)this + 0x2284) + index) +=
@@ -34717,6 +34989,7 @@ public:
  Text text40,text48;
  FUN_00bf1ab0(); virtual ~FUN_00bf1ab0();
 };
+// pdb: Tile3D::Tile3D | Tile.obj | fnv360_0822_retail, caller_sim, low
 FUN_00bf1ab0::FUN_00bf1ab0() {
  ref=(Ref*)0;
  unk38=0; unk3c=0;
@@ -34739,6 +35012,7 @@ struct Stream {
     int FUN_00be5ae0(const char*,int);
 };
 // @fnv 0x00acb9b0
+// pdb: std::basic_streambuf<char,struct std::char_traits<char> >::xsputn | TESScriptFunctions_Console.obj | tesv_win, vtable, medium
 int Stream::FUN_00be5ae0(const char* apChars, int count)
 {
     int copied6 = 0;
@@ -34825,6 +35099,8 @@ char* gptr() const { return *next; }
 char* Gndec() { ++*count; return --*next; }
 int FUN_00be5c30(int);
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::pbackfail | algs.obj | fnv360_0822_retail, objrun, medium
+// pdb params: _Meta
 int FileBuffer::FUN_00be5c30(int meta) {
 typedef std::char_traits<char> Traits;
 if(gptr()!=0 && eback()<gptr() && (Traits::eq_int_type(Traits::eof(),meta) || Traits::eq_int_type(Traits::to_int_type(gptr()[-1]),meta))) {
@@ -34860,6 +35136,8 @@ struct FUN_00be13a0_Elem
     std::string name;
 };
 
+// pdb: std::_Uninit_move<FffTriSurfLabelS *,FffTriSurfLabelS *,std::allocator<FffTriSurfLabelS>,FffTriSurfLabelS> | TriFileIO.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: _First, _Last, _Dest, _Al, __formal, __formal
 FUN_00be13a0_Elem* __cdecl FUN_00be13a0(FUN_00be13a0_Elem* first, FUN_00be13a0_Elem* last, FUN_00be13a0_Elem* dest)
 {
     if (first != last)
@@ -34886,6 +35164,7 @@ struct Item {
  unsigned short length;
  Item* FUN_00bf6220(unsigned int flags);
 };
+// pdb: UVMap::Endian | Font.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: GRangeData<class GPtr<class GFxTextFormat> >::operator=)
 Item* Item::FUN_00bf6220(unsigned int flags) {
  if(data) DAT_01090a78.FUN_0086ba60(data);
  data=0;
@@ -34911,6 +35190,7 @@ struct BufferBE6CC0:BaseBE6CC0 {
     }
     BufferBE6CC0* FUN_00be6cc0(unsigned int flags);
 };
+// pdb: std::ctype<char>::`scalar deleting destructor' | algs.obj | fnv360_0822_retail, vtable_prefix, high
 BufferBE6CC0* BufferBE6CC0::FUN_00be6cc0(unsigned int flags) {
     this->BufferBE6CC0::~BufferBE6CC0();
     if (flags&1) FUN_00401010(this);
@@ -34940,6 +35220,7 @@ public:
     int unk2C;
 };
 
+// pdb: Tile::GetParentModel | Tile.obj | fnv360_0822_retail, call_gap, medium
 int __fastcall FUN_00beadd0(C00beadd0* p)
 {
     int v;
@@ -34970,6 +35251,8 @@ namespace f3m_00bea760 {
 extern char* __cdecl FUN_00c010d0(int value, int type);
 extern unsigned int __cdecl FUN_00c047de(char* value);
 
+// pdb: Tile::GetExtraDataFromTraitName | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTraitName
 unsigned int __cdecl FUN_00bea760(int value)
 {
     char* result = FUN_00c010d0(value, 0x5f);
@@ -34993,6 +35276,8 @@ extern int DAT_0106a3a8;
 bool FUN_00bea6e0(const char* name);
 void* FUN_00bea760(const char* name);
 
+// pdb: Tile::AddToTable | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apText, aiIndex
 void FUN_00bebcb0(const char* name, int value)
 {
     if (name && name[0])
@@ -35021,6 +35306,8 @@ struct Array {
     void FUN_005b3880(int index, Tile* const& item);
 };
 extern Array DAT_0106a7bc;
+// pdb: Menu::SetMenuByClass | Menu.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiClass, apTile
 void __cdecl FUN_00bfcc60(int menuID, Tile* tile)
 {
     int index = menuID - 1001;
@@ -35052,6 +35339,8 @@ struct Owner {
     Node first;
     Item* FUN_00beb320(const char* name);
 };
+// pdb: Tile::BuildStorage::GetSubTemplateByName | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pName
 Item* Owner::FUN_00beb320(const char* name)
 {
     Node* node = &first;
@@ -35078,6 +35367,7 @@ public:
     int FUN_00bea6d0();
 };
 
+// pdb: Tile::BuildStorage::GetCurrentTemplate | Tile.obj | fnv360_0822_retail, call_gap, low
 int F3_00bea6d0::FUN_00bea6d0()
 {
     if (unk0c != 0)
@@ -35098,7 +35388,8 @@ struct FUN_00bece90_Result
 
 FUN_00bece90_Result* __stdcall FUN_00bece90(int);
 
-const char* __stdcall FUN_00becf60(int index)
+// pdb: Tile::GetString | Tile.obj | fnv360_0721_retail, call_seq + bridge(call_gap|call_seq), high
+const char* __stdcall Tile_GetString(int index)
 {
     FUN_00bece90_Result* result = FUN_00bece90(index);
     if (result)
@@ -35114,6 +35405,8 @@ struct IndexedStore_bfb4d0 {
     unsigned int entries[];
     void FUN_00bfb4d0(unsigned int index, unsigned int value);
 };
+// pdb: DebugText::SetCurrentLine | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aeLoc, aiLine
 void IndexedStore_bfb4d0::FUN_00bfb4d0(unsigned int index, unsigned int value) {
     entries[index] = value;
 }
@@ -35122,6 +35415,7 @@ void IndexedStore_bfb4d0::FUN_00bfb4d0(unsigned int index, unsigned int value) {
 // @f3 0x00be9c30 (community match, verified in this file)
 namespace f3m_00be9c30 {
 void __stdcall FUN_00be8b50(int index);
+// pdb: PlayerCharacter::GetMenuModeButtonClicked | InterfaceManager.obj | fnv360_0822_debug, objopen_prop, low
 void __cdecl FUN_00be9c30() {
     for (int i = 0; i < 28; ++i)
         FUN_00be8b50(i);
@@ -35138,6 +35432,8 @@ struct MenuView_bfd050 {
     ItemList_bfd050 list08;
     void FUN_00bfd050(Item_bfd050* item);
 };
+// pdb: Menu::AddTemplate | Menu.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTemplate
 void MenuView_bfd050::FUN_00bfd050(Item_bfd050* item)
 {
     if (item)
@@ -35152,6 +35448,8 @@ struct TileView_becf40 {
     Value_becf40* FUN_00bece90(int id);
     float FUN_00becf40(int id);
 };
+// pdb: Tile::GetFloat | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiTrait
 float TileView_becf40::FUN_00becf40(int id)
 {
     Value_becf40* value = FUN_00bece90(id);
@@ -35177,6 +35475,7 @@ struct Node00bea790 {
     Node00bea790* next;
     Node00bea790* FUN_00bea790();
 };
+// pdb: Tile::GetMenuTile | Tile.obj | fnv360_0721_retail, call_gap, low
 Node00bea790* Node00bea790::FUN_00bea790() {
     Node00bea790* current = this;
     while (current && current->next && current->next->next)
@@ -35188,6 +35487,7 @@ Node00bea790* Node00bea790::FUN_00bea790() {
 // @f3 0x00be5be0 (community match, verified in this file)
 namespace f3m_00be5be0 {
 extern int __cdecl FUN_00c0811c(int value, void* context);
+// pdb: std::ctype_base::~ctype_base | TESScriptFunctions_Console.obj | tesv_win, objrun_open, low
 bool __cdecl FUN_00be5be0(char value, void* context)
 {
     return FUN_00c0811c(value, context) != -1;
@@ -35226,6 +35526,8 @@ struct FUN_00be76f0_Obj {
 
 extern char __cdecl FUN_00be75c0();
 
+// pdb: XGamerProfile::RevokeCode | XGamerProfile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: cCode
 void __thiscall FUN_00be76f0_Obj::FUN_00be76f0(int value)
 {
     char enabled = FUN_00be75c0();
@@ -35250,6 +35552,8 @@ struct Dispatch_be6bd0 {
     virtual void slot1c(char* first, char* last, void* output, int length);
     void FUN_00be6bd0(char* first, char* last, void* output);
 };
+// pdb: std::ctype<char>::do_narrow | algs.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: std::ctype<char>::do_widen)
+// pdb params: _First, _Last, __formal, _Dest
 void Dispatch_be6bd0::FUN_00be6bd0(char* first, char* last, void* output)
 {
     slot1c(first, last, output, last - first);
@@ -35267,6 +35571,8 @@ struct Dispatch_bf9d00 {
     virtual void slot14();
     virtual int slot18(unsigned int, unsigned int, unsigned int, unsigned int*, unsigned int);
 };
+// pdb: DebugText::PrintLineC | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aColor, aeLocation, aeJustify, apFormatString
 int __cdecl FUN_00bf9d00(Dispatch_bf9d00* object, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e)
 {
     return object->slot18(b, c, d, &e, a);
@@ -35289,6 +35595,8 @@ struct State00be6c50 {
     virtual void Dispatch(char* first, char* last, void* third, void* fourth, int count);
     void FUN_00be6c50(char* first, char* last, void* third, void* fourth);
 };
+// pdb: std::ctype<char>::do_narrow | algs.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: _First, _Last, __formal, _Dest
 void State00be6c50::FUN_00be6c50(char* first, char* last, void* third, void* fourth) {
     Dispatch(first, last, third, fourth, static_cast<int>(last - first));
 }
@@ -35308,6 +35616,8 @@ public:
 
 void FUN_00bff4e8(unsigned int value, void* ptr);
 
+// pdb: std::ctype<char>::do_tolower | algs.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Ch
 void S00be6b20::FUN_00be6b20(unsigned char value)
 {
     FUN_00bff4e8(value, (void*)((char*)this + 8));
@@ -35347,6 +35657,8 @@ struct Object_bee370 {
     unsigned int flags30;
     void FUN_00bee370(unsigned int value);
 };
+// pdb: Tile::AddNeedsUpdate | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiFlag
 void Object_bee370::FUN_00bee370(unsigned int value)
 {
     if (value <= 0x3ff) {
@@ -35379,6 +35691,7 @@ struct Alloc00be2b50 {
     Elem00be2b50* FUN_00be2b50(Elem00be2b50* first, Elem00be2b50* last, Elem00be2b50* dest);
 };
 Elem00be2b50* __cdecl FUN_00be1d20(Elem00be2b50*, Elem00be2b50*, Elem00be2b50*, Alloc00be2b50&, std::_Nonscalar_ptr_iterator_tag, std::_Range_checked_iterator_tag);
+// pdb: BSTSmallArrayHeapAllocator<8>::Reallocate | ExtraDataList.obj | tesv_win, objrun_open, low
 Elem00be2b50* Alloc00be2b50::FUN_00be2b50(Elem00be2b50* first, Elem00be2b50* last, Elem00be2b50* dest) {
     return FUN_00be1d20(first, last, dest, *this, std::_Ptr_cat(first, dest), std::_Range_checked_iterator_tag());
 }
@@ -35387,6 +35700,8 @@ Elem00be2b50* Alloc00be2b50::FUN_00be2b50(Elem00be2b50* first, Elem00be2b50* las
 
 // @f3 0x00be7080 (community match, verified in this file)
 namespace f3m_00be7080 {
+// pdb: std::codecvt<char,char,int>::do_unshift | algs.obj | fnv360_0822_retail, vtable, medium
+// pdb params: __formal, _First2, __formal, _Mid2
 int __stdcall FUN_00be7080(void* p1, int p2, void* p3, int* p4)
 {
     *p4 = p2;
@@ -35454,9 +35769,8 @@ FNV_STATIC_ASSERT(offsetof(SearchLines, unk2280) == 0x2280);
 FNV_STATIC_ASSERT(offsetof(SearchLines, first) == 0x2284);
 FNV_STATIC_ASSERT(offsetof(SearchLines, second) == 0x2290);
 
-void SearchLines::FUN_00bf9b50() {}
-void Array::FUN_00bf9c80() {}
-
+// pdb: DebugText::GetCurrentLine | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aeLocation
 int SearchLines::FUN_00bf9d30(int a1)
 {
     return first[a1];
@@ -35508,6 +35822,7 @@ namespace f3m_00be8c70 {
 
 // Cached language code: detected once by comparing the system locale language
 // name against the known language names.
+// pdb: GetCurrentTexLanguage | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
 int FUN_00be8c70(void)
 {
     if (DAT_0106a3a0 != -1)
@@ -35536,6 +35851,8 @@ struct Request {
     std::vector<int> items;
 };
 struct Owner { int FUN_00be31a0(int a, Request r); int FUN_00be33e0(int a); };
+// pdb: std::vector<FffTriSurfLabelS,std::allocator<FffTriSurfLabelS> >::resize | TriFileIO.obj | fnv360_0822_retail, call_gap, low
+// pdb params: _Newsize
 int Owner::FUN_00be33e0(int a)
 {
     return FUN_00be31a0(a, Request());
@@ -35545,6 +35862,8 @@ int Owner::FUN_00be33e0(int a)
 
 // @f3 0x00be70a0 (community match, verified in this file)
 namespace f3m_00be70a0 {
+// pdb: std::codecvt<char,char,int>::do_length | algs.obj | fnv360_0822_retail, vtable, medium
+// pdb params: __formal, _First1, _Last1, _Count
 int __stdcall FUN_00be70a0(int a1, int a2, int a3, int a4)
 {
     int r = a3 - a2;
@@ -35586,6 +35905,8 @@ struct Menu {
     void FUN_00bee370(int flags);
     void FUN_00bfd8c0(RefObj* obj);
 };
+// pdb: TileImage::SetSourceTexture | TileImage.obj | fnv360_0822_retail, caller, medium
+// pdb params: apTexture
 void Menu::FUN_00bfd8c0(RefObj* obj)
 {
     FUN_00bf11a0(0xfcc, DAT_00db3438, true);
@@ -35606,6 +35927,7 @@ struct Obj {
     void* table;
     Obj* FUN_00be5600(unsigned int flags);
 };
+// pdb: std::ios_base::`scalar deleting destructor' | algs.obj | fnv360_0822_retail, vtable, medium
 Obj* Obj::FUN_00be5600(unsigned int flags)
 {
     table = &DAT_00ea9244;
@@ -35655,6 +35977,7 @@ struct FUN_00be56b0 {
     int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34;
     f3m_00be56b0::Locale* locale;
 };
+// pdb: std::basic_streambuf<char,std::char_traits<char> >::~basic_streambuf<char,std::char_traits<char> > | algs.obj | fnv360_0822_retail, call_seq, high
 FUN_00be56b0::~FUN_00be56b0() throw()
 {
     delete locale;
@@ -35704,6 +36027,7 @@ struct FUN_00bfe0e0 : FUN_00bf1040 {
     void FUN_00bef620();
     virtual ~FUN_00bfe0e0();
 };
+// pdb: Tile3D::~Tile3D | Tile3D.obj | fnv360_0822_retail, objrun, medium
 FUN_00bfe0e0::~FUN_00bfe0e0()
 {
     if (IsFlag17())
@@ -35761,6 +36085,8 @@ struct State00bf53d0 {
     unsigned short first, second;
     void FUN_00bf53d0();
 };
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,FontManager::TextLine *>::DeleteItem | Font.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkItem
 void State00bf53d0::FUN_00bf53d0() {
     if (data)
         Heap00bf53d0::DAT_01090a78.FUN_0086ba60(data);
@@ -35784,6 +36110,7 @@ struct List_beb880 {
     void FUN_00bd12d0();
 };
 struct Owner_beb880 { unsigned int unk00; List_beb880 list; void FUN_00beb880(); };
+// pdb: Tile::DeleteChildren | Tile.obj | fnv360_0822_retail, call_gap, low
 void Owner_beb880::FUN_00beb880()
 {
     Node_beb880* position = list.head;
@@ -35819,6 +36146,7 @@ public:
     F3W1Iter* FUN_00be1dc0(F3W1Iter* volatile output, volatile F3W1Iter where, F3W1Iter stop);
 };
 
+// pdb: BSTSmallArrayHeapAllocatorCore::Deallocate | BSTSmallArray.obj | tesv_win, objopen_prop, low
 F3W1Iter* F3W1Vec::FUN_00be1dc0(F3W1Iter* volatile output, volatile F3W1Iter where, F3W1Iter stop) {
     F3W1Vec* resultOwner = where.cont;
     if (!resultOwner || resultOwner != stop.cont)
@@ -35869,6 +36197,8 @@ namespace f3m_00be91f0 {
 int __cdecl FUN_00be8c70();
 struct CharTable { int FUN_00be91f0(int,int); };
 // @fnv 0x00a238a0
+// pdb: Controls::SetCurrentController | XControls.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: aiIndex
 int CharTable::FUN_00be91f0(int iChar, int iMode)
 {
     if (iChar < 0 || iChar > 0xff)
@@ -35919,6 +36249,7 @@ struct FUN_00424aa0{void*p;~FUN_00424aa0();};
 struct String{char*p;unsigned short length,capacity;~String(){if(p)DAT_01090a78.FUN_0086ba60(p);p=0;capacity=0;length=0;}};
 struct Icons{virtual ~Icons(){Clear();}void Clear(){if(data){Free(data);data=0;capacity=0;size=0;}}virtual void* Allocate(unsigned);virtual void Free(void*);void*data;unsigned size,capacity;};
 struct FUN_00bf5510{unsigned short background;char*file;int number;FUN_00424aa0 textures[8];float height,drop;int overlap;void*fontData;String iconName;Icons icons;void FUN_00bf3cf0();~FUN_00bf5510();};
+// pdb: Font::~Font | Font.obj | fnv360_0822_retail, objrun, medium
 FUN_00bf5510::~FUN_00bf5510(){DAT_01090a78.FUN_0086ba60(DAT_011796fc);DAT_01179700=0;DAT_011796fc=0;FUN_00bf3cf0();void*buffer=file;DAT_01090a78.FUN_0086ba60(buffer);}
 }
 }   // namespace f3m_00bf5510
@@ -35930,7 +36261,7 @@ namespace f3m_00bfe960 {
 class TextTile
 {
 public:
-    const char* FUN_00becf60(int id);
+    const char* Tile_GetString(int id);
     float FUN_00becf40(int id);
     void FUN_00bee370(int a);
     TextTile* FUN_00bfe960(int id, float value, const char* name);
@@ -35942,7 +36273,7 @@ TextTile* TextTile::FUN_00bfe960(int id, float value, const char* name)
     bool ok = false;
     if (id == 0xfc4)
     {
-        const char* s = FUN_00becf60(id);
+        const char* s = Tile_GetString(id);
         ok = !s || strcmp(name, s) == 0;
     }
     else if (id == 0xfb7)
@@ -35978,6 +36309,7 @@ struct W1Owner {
     void FUN_00bef2b0();
 };
 
+// pdb: Tile::TileTemplate::Clear | Tile.obj | fnv360_0721_beta, objopen_prop, low
 void W1Owner::FUN_00bef2b0() {
     while (list.alloc.count) {
         f3m_00bee1c0::Node* node = list.head;
@@ -36002,6 +36334,8 @@ struct Tile11a0 {
     Value11a0* FUN_00bee080(int id);
     void FUN_00bf11a0(int id, const char* name, int flag);
 };
+// pdb: Tile::Set | Tile.obj | fnv360_0721_retail, caller, medium
+// pdb params: aiTrait, apString, abClearActions
 void Tile11a0::FUN_00bf11a0(int id, const char* name, int flag) {
     Value11a0* value = FUN_00bee080(id);
     if (value) value->FUN_00bf0ec0(name, flag);
@@ -36014,6 +36348,7 @@ namespace f3m_00be1ee0 {
 struct ElementBE1 { unsigned int words[8]; ~ElementBE1(); };
 struct VectorBE1 { ElementBE1* FUN_00be1ee0(ElementBE1* first, ElementBE1* last, ElementBE1* dest); };
 ElementBE1* __cdecl FUN_00be0410(ElementBE1*, ElementBE1*, ElementBE1*, VectorBE1&, std::_Nonscalar_ptr_iterator_tag, std::_Range_checked_iterator_tag);
+// pdb: BSTArray<float,class BSTSmallArrayHeapAllocator<12> >::SetAt | BSTSmallArray.obj | tesv_win, objrun_open, low
 ElementBE1* VectorBE1::FUN_00be1ee0(ElementBE1* first, ElementBE1* last, ElementBE1* dest) {
  return FUN_00be0410(first, last, dest, *this, std::_Ptr_cat(first, dest), std::_Range_checked_iterator_tag());
 }
@@ -36027,6 +36362,7 @@ namespace f3m_00be2b20 {
 struct Entry2b20 { unsigned int words[11]; };
 struct Alloc2b20 { Entry2b20* FUN_00be2b20(Entry2b20*, Entry2b20*, Entry2b20*); };
 Entry2b20* __cdecl FUN_00be1c80(Entry2b20*, Entry2b20*, Entry2b20*, Alloc2b20&, std::_Nonscalar_ptr_iterator_tag, std::_Range_checked_iterator_tag);
+// pdb: BSTSmallArrayHeapAllocator<8>::Allocate | ExtraDataList.obj | tesv_win, objrun_open, low
 Entry2b20* Alloc2b20::FUN_00be2b20(Entry2b20* first, Entry2b20* last, Entry2b20* dest) {
  return FUN_00be1c80(first, last, dest, *this, std::_Ptr_cat(first, dest), std::_Range_checked_iterator_tag());
 }
@@ -36043,6 +36379,7 @@ __forceinline void Cleanup(FontManagerBF* manager) {
  manager->FUN_00bf65a0();
  DAT_01090a78.FUN_0086ba60(manager);
 }
+// pdb: FontManager::Free | Font.obj | fnv360_0721_beta, call_gap_sim, low
 void __cdecl FUN_00bf84d0() {
  if (DAT_011796f8) {
   Cleanup(DAT_011796f8);
@@ -36061,6 +36398,7 @@ __forceinline void Cleanup(SingletonBFC* manager) {
  manager->FUN_00bfb4f0();
  DAT_01090a78.FUN_0086ba60(manager);
 }
+// pdb: FontManager::Free | Font.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_00bfc0d0() {
  if (DAT_01179778) {
   Cleanup(DAT_01179778);
@@ -36072,6 +36410,7 @@ void __cdecl FUN_00bfc0d0() {
 // @f3 0x00be4870 (community match, verified in this file)
 namespace f3m_00be4870 {
 struct Writer_be4870 : f3m_00be4b10::FgFileWriter4b10 { void FUN_00be4870(); };
+// pdb: FutBinaryFileC::close | binaryFile.obj | fnv360_0822_retail, call_dedup, low
 void Writer_be4870::FUN_00be4870() { Close(); }
 }   // namespace f3m_00be4870
 
@@ -36098,7 +36437,8 @@ struct QMenuArray {
 };
 extern QMenuArray DAT_0106a7bc;
 
-QMenu* FUN_00beaf00(unsigned int index)
+// pdb: Tile::GetMenuByClass | Tile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+QMenu* Tile_GetMenuByClass(unsigned int index)
 {
     if (index >= 1001 && index <= 1060 && DAT_0106a7bc.size > index - 1001)
         return DAT_0106a7bc.base[index - 1001];
@@ -36122,6 +36462,7 @@ struct Obj {
     Info* info;
     void FUN_00bf3cf0();
 };
+// pdb: Font::KillData | Font.obj | fnv360_0822_retail, objrun, low
 void Obj::FUN_00bf3cf0()
 {
     for (int i = 0; info && i < info->count; ++i) {
@@ -36161,6 +36502,8 @@ struct FUN_00bebc00
     int m_i14;
 };
 
+// pdb: Tile::TileTemplateItem::TileTemplateItem | Tile.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: aiCmd, afVal, axStr, aiTA, aiLine
 FUN_00bebc00::FUN_00bebc00(int a, float b, const char* name, int c, int d)
 {
     m_i00 = a;
@@ -36186,6 +36529,7 @@ struct f3m_00be1f60_Vector
     f3m_00be1f60::Alloc m_kAlval;
     f3m_00be1f60::Elem* FUN_00be1f60(f3m_00be1f60::Elem* first, f3m_00be1f60::Elem* last, f3m_00be1f60::Elem* dest);
 };
+// pdb: BSTArray<float,class BSTSmallArrayHeapAllocator<12> >::SetLast | BSTSmallArray.obj | tesv_win, objrun_open, low
 f3m_00be1f60::Elem* f3m_00be1f60_Vector::FUN_00be1f60(f3m_00be1f60::Elem* first, f3m_00be1f60::Elem* last, f3m_00be1f60::Elem* dest)
 {
     return f3m_00be1f60::FUN_00be04b0(first, last, dest, m_kAlval, f3m_00be1f60::PtrCat(first, dest), f3m_00be1f60::CheckedTag());
@@ -36221,6 +36565,7 @@ class FUN_00bfce40 : public f3m_00bfce40::MapBase
     bool m_bCopy;
 };
 
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,Tile::BuildStorage *>,Tile::BuildStorage *>::~NiTStringTemplateMap<NiTPointerMap<char const *,Tile::BuildStorage *>,Tile::BuildStorage *> | Menu.obj | fnv360_0822_retail, uvref, medium
 FUN_00bfce40::~FUN_00bfce40()
 {
     if (m_bCopy)
@@ -36242,6 +36587,7 @@ FUN_00bfce40::~FUN_00bfce40()
 // @f3 0x00bf1a00 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_00bf1a00 {
+// pdb: TileText::GetTypeName | Tile.obj | fnv360_0822_retail, objrun_open, low
 int __cdecl FUN_00bf1a00(void)
 {
     return 0x387;
@@ -36251,6 +36597,7 @@ int __cdecl FUN_00bf1a00(void)
 // @f3 0x00bf1b50 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_00bf1b50 {
+// pdb: Tile3D::GetType | Tile.obj | fnv360_0822_retail, objrun, medium
 int __cdecl FUN_00bf1b50(void)
 {
     return 0x388;
@@ -36259,6 +36606,8 @@ int __cdecl FUN_00bf1b50(void)
 
 // @f3 0x00be6bc0 (community match, verified in this file)
 namespace f3m_00be6bc0 {
+// pdb: std::ctype<char>::do_widen | algs.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: _Byte
 unsigned char __stdcall FUN_00be6bc0(int x)
 {
     return (unsigned char)x;
@@ -36267,6 +36616,8 @@ unsigned char __stdcall FUN_00be6bc0(int x)
 
 // @f3 0x00be8340 (community match, verified in this file)
 namespace f3m_00be8340 {
+// pdb: XGamePad::SetButtonState | XInputManager.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: eButton, newVal
 unsigned int __stdcall FUN_00be8340(int a_iType) {
     unsigned int uiFlag = 0;
     switch (a_iType) {
@@ -36330,6 +36681,7 @@ public:
     int unk00, unk04, unk08, unk0c, unk10, unk14;
 };
 
+// pdb: std::locale::_Init | locale0.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: std::basic_istream<char,struct std::char_traits<char> >::basic_istream<char,struct std::char_traits<char> >)
 int __cdecl FUN_00be6d10(Object6d10** a_ppObject) {
     if (a_ppObject && !*a_ppObject)
         *a_ppObject = new Object6d10(0, 0, 0);
@@ -36340,6 +36692,8 @@ int __cdecl FUN_00be6d10(Object6d10** a_ppObject) {
 
 // @f3 0x00be6c40 (community match, verified in this file)
 namespace f3m_00be6c40 {
+// pdb: std::ctype<char>::do_narrow | algs.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: _Ch, __formal
 unsigned char __stdcall FUN_00be6c40(int a, int b)
 {
     return (unsigned char)a;
@@ -36353,6 +36707,8 @@ struct S {
     int fld;
     int FUN_00be7480();
 };
+// pdb: std::codecvt<char,char,int>::_Init | algs.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __formal
 int S::FUN_00be7480()
 {
     return fld;
@@ -36366,6 +36722,8 @@ struct S {
     int fld;
     int FUN_00be81b0();
 };
+// pdb: GridCellArray::SetRecreateCanopyShadowMaskTexture | TES.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: abRecreate
 int S::FUN_00be81b0()
 {
     return fld;
@@ -36398,6 +36756,7 @@ static Node00beab90* Root(Node00beab90* n) {
     while (n && n->parent && n->parent->parent) n = n->parent;
     return n;
 }
+// pdb: Tile::GetMenu | Tile.obj | fnv360_0822_retail, call_seq, medium
 void* Node00beab90::FUN_00beab90() {
     Node00beab90* n = Root(this);
     if (n && n->GetType() == 0x389) return n->menu;
@@ -36441,6 +36800,7 @@ static __forceinline Locale* NewLocale()
     }
     return 0;
 }
+// pdb: std::basic_streambuf<char,std::char_traits<char> >::basic_streambuf<char,std::char_traits<char> > | algs.obj | fnv360_0721_beta, call_seq, medium
 FUN_00be5930::FUN_00be5930()
 {
     ploc = NewLocale();
@@ -36460,6 +36820,8 @@ struct BFB670StandIn
     void __thiscall FUN_00bfb670(int firstInt, int index, int thirdInt, int fourthInt, int fifthInt, int sixthInt);
 };
 
+// pdb: DebugText::VAPrintX | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aiX, aeLocation, aeJustify, apFormatString, aArgs, apColor
 void __thiscall BFB670StandIn::FUN_00bfb670(
     int firstInt,
     int index,
@@ -36527,6 +36889,8 @@ struct LocalOwner
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
 extern "C" void _ReadWriteBarrier(void);
 
+// pdb: Tile::Init | Tile.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apParent, apName, apReplacedTile
 void LocalOwner::FUN_00bef5a0(unsigned int first, unsigned int second, unsigned int third)
 {
     LocalOwner* self = this;
@@ -36586,6 +36950,8 @@ struct Owner850 {
     float FUN_00bed850(int id);
 };
 
+// pdb: Tile::GetFadeEndFor | Tile.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: aiTrait
 float Owner850::FUN_00bed850(int id)
 {
     int index = -1;
@@ -36767,7 +37133,7 @@ public:
     float unk08;
     void* unk0C;
 
-    void __thiscall FUN_00beafa0();
+    void __thiscall Tile_Value_ClearActions();
 };
 
 class FUN_00beb070_Owner
@@ -36776,21 +37142,18 @@ public:
     void __thiscall FUN_00beb070();
 };
 
-void FUN_00beb070_Child::vf00()
-{
-}
-
 int FUN_00beb070_Child::vf04()
 {
     return 0;
 }
 
+// pdb: Tile::Value::~Value | Tile.obj | fnv360_0822_retail, call_gap_sim, low
 void FUN_00beb070_Owner::FUN_00beb070()
 {
     FUN_00beb070_Object* self = (FUN_00beb070_Object*)this;
     int result = 0;
 
-    self->FUN_00beafa0();
+    self->Tile_Value_ClearActions();
 
     if (DAT_0106a3d8.FUN_00bea7b0(self, &result))
     {
@@ -36825,7 +37188,6 @@ void FUN_00beb070_Owner::FUN_00beb070()
 
 // @f3 0x00bfb710 (community match, verified in this file)
 namespace f3m_00bfb710 {
-extern "C" int __cdecl FUN_00ecddf1(char*,unsigned int,const char*,char*);
 extern "C" int __cdecl FUN_00c076d5(char*,unsigned int,const char*,char*);
 struct Color {float r,g,b,a;};
 struct ColorRef { const Color* p; };
@@ -36837,6 +37199,8 @@ int lineX[3];
 int FUN_00bfb050(const char*,float,float,int,int,float,int,ColorRef);
 int FUN_00bfb710(int,int,const char*,char*,ColorRef);
 };
+// pdb: DebugText::VAPrintLine | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aeLocation, aeJustify, apFormatString, aArgs, apColor
 int DbgText::FUN_00bfb710(int slot,int flags,const char* format,char* args,ColorRef color) {
  char text[200];
  FUN_00c076d5(text,200,format,args);
@@ -36928,6 +37292,8 @@ extern Global688* DAT_01179688;
 extern int DAT_0117968c;
 extern int DAT_01179664;
 
+// pdb: Tile::AddHibernatingTile | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTile
 void __cdecl FUN_00bed4f0(Obj* p)
 {
     Obj* o = *(Obj* volatile*)&p;
@@ -36952,6 +37318,7 @@ struct AllocObject_7890 {
 
 int __stdcall FUN_00c21d10(int value);
 
+// pdb: XGamerProfile::Init | XGamerProfile.obj | fnv360_0721_retail, udata, medium
 void __cdecl FUN_00be7890() {
     unsigned char* p = DAT_01179584;
     if (p == 0) {
@@ -36986,6 +37353,7 @@ public:
     }
 };
 
+// pdb: std::basic_ios<char,struct std::char_traits<char> >::init | TESScriptFunctions_Console.obj | tesv_win, objopen_prop, low
 FUN_00be6a20::FUN_00be6a20(const mask* _Table, bool _Deletetable, size_t _Refs)
     : std::ctype_base(_Refs)
 {
@@ -37005,6 +37373,8 @@ FUN_00be6a20::FUN_00be6a20(const mask* _Table, bool _Deletetable, size_t _Refs)
 #include <string.h>
 namespace f3m_00bea6e0 {
 
+// pdb: Tile::IsValidUserTraitName | Tile.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apTraitName
 int __cdecl FUN_00bea6e0(char* name)
 {
     if (name && name[0]) {
@@ -37071,6 +37441,7 @@ struct StreamLayout {
     void FUN_00be55e0();
 };
 
+// pdb: std::`dynamic atexit destructor for 'cerr'' | cerr.obj | fnv360_0822_retail, caller_sim, low
 void StreamLayout::FUN_00be55e0() {
     char* basePart = reinterpret_cast<char*>(&baseVtable);
     *reinterpret_cast<void**>(basePart + (*reinterpret_cast<const int* volatile*>(basePart - 4))[1] - 4) = reinterpret_cast<void*>(0x00ea924c);
@@ -37113,6 +37484,8 @@ struct Sender {
 };
 }
 
+// pdb: std::vector<FffTriDiffMorphS,std::allocator<FffTriDiffMorphS> >::resize | TriFileIO.obj | fnv360_0822_retail, call_gap, low
+// pdb params: _Newsize
 void f3m_00be3450::Sender::FUN_00be3450(int arg)
 {
     FUN_00be32c0(arg, Message());
@@ -37141,6 +37514,8 @@ public:
 };
 }
 
+// pdb: std::_Dest_val<std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > | algs.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: _Alval, _Pdest
 void f3m_00be74c0::Watcher::FUN_00be74c0()
 {
     if (((char*)this)[enabledOffset] && handle && !pending) {
@@ -37166,12 +37541,13 @@ struct Tile {
     Node* children;
     int unk08, unk0c, unk10, unk14, unk18, unk1c;
     const char* name;   // 0x20
-    Tile* FUN_00beabd0(const char* key);
+    Tile* Tile_GetChildByName(const char* key);
 };
 }
 
 // depth-first search of the child tree by name
-f3m_00beabd0::Tile* f3m_00beabd0::Tile::FUN_00beabd0(const char* key)
+// pdb: Tile::GetChildByName | Tile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+f3m_00beabd0::Tile* f3m_00beabd0::Tile::Tile_GetChildByName(const char* key)
 {
     Node* node = children;
     while (node) {
@@ -37183,7 +37559,7 @@ f3m_00beabd0::Tile* f3m_00beabd0::Tile::FUN_00beabd0(const char* key)
         const char* text = child->name;
         if (text && strcmp(text, key) == 0)
             return child;
-        Tile* found = child->FUN_00beabd0(key);
+        Tile* found = child->Tile_GetChildByName(key);
         if (found)
             return found;
     }
@@ -37214,6 +37590,8 @@ struct FUN_00bf9ff0 : FUN_008459f0 {
     FUN_00bf9ff0(int a, const char* text, int c, int d);
     virtual ~FUN_00bf9ff0();
 };
+// pdb: DebugTextExtraData::DebugTextExtraData | DebugText.obj | fnv360_0721_beta, uvref, medium
+// pdb params: apBillboard, apText, aiHeight, aiOldCenter
 FUN_00bf9ff0::FUN_00bf9ff0(int a, const char* text, int c, int d) : FUN_008459f0()
 {
     unk0c = a;
@@ -37282,6 +37660,7 @@ struct Entry {
 extern Map<Buffer> DAT_0106a794;
 extern Map<Entry> DAT_0106a7a8;
 
+// pdb: Menu::FreeXMLArchive | Menu.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_00bfc680()
 {
     Item<Buffer>* pos = DAT_0106a794.GetFirstPos();
@@ -37354,6 +37733,8 @@ struct List : std::vector<Elem> {
 }
 
 // std::vector::resize(n, value) (VC8 release body)
+// pdb: std::vector<FutVect4TC<int>,std::allocator<FutVect4TC<int> > >::resize | TriFileIO.obj | fnv360_0822_retail, call_gap, low
+// pdb params: _Newsize
 void f3m_00be2800::List::FUN_00be2800(size_type newSize, Elem value)
 {
     if (size() < newSize)
@@ -37373,6 +37754,8 @@ struct Buffer : std::basic_streambuf<char> {
 };
 }
 
+// pdb: std::codecvt<char,char,int>::in | algs.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: std::basic_streambuf<char,struct std::char_traits<char> >::uflow)
+// pdb params: _State, _First1, _Last1, _Mid1, _First2, _Last2, _Mid2
 f3m_00be5770::Buffer::int_type f3m_00be5770::Buffer::FUN_00be5770()
 {
     return traits_type::eq_int_type(traits_type::eof(), underflow()) ? traits_type::eof() : traits_type::to_int_type(*_Gninc());
@@ -37484,6 +37867,7 @@ struct LayoutItem {
     void FUN_00bf3c50(int);
     void FUN_00bf5340();
 };
+// pdb: FontManager::CharData::RevertToDefault | Font.obj | fnv360_0822_retail, call_gap, low
 void LayoutItem::FUN_00bf5340()
 {
     Color c(DAT_00eaa440, DAT_00eaa43c, DAT_00eaa438, 1.0f);
@@ -37526,6 +37910,8 @@ struct NamedObject : FUN_00be4790 {
     virtual ~NamedObject();
 };
 
+// pdb: BSFaceGenBinaryFile::BSFaceGenBinaryFile | binaryFile.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: std::ios_base::_Init)
+// pdb params: apString
 NamedObject::NamedObject(std::string name) : FUN_00be4790(name) {
     unk40 = 0;
     unk44 = 0;
@@ -37550,6 +37936,7 @@ public:
     TileChild* m_pkFirst;
     bool FUN_00beac40();
 };
+// pdb: Tile::IsVisible | Tile.obj | fnv360_0721_retail, call_seq, medium
 bool TileOwner::FUN_00beac40()
 {
     TileChild* pkChild = m_pkFirst;
@@ -37632,6 +38019,7 @@ struct ClipTile
     ClipValue* FUN_00bece90(int id);
     float FUN_00bed040();
 };
+// pdb: Tile::GetRealY | Tile.obj | fnv360_0822_debug, caller, medium
 float ClipTile::FUN_00bed040()
 {
     ClipValue* head = FUN_00bece90(0xfa2);
@@ -37675,6 +38063,7 @@ struct Tile_becfb0
     float FUN_00becfb0();
 };
 
+// pdb: Tile::GetRealX | Tile.obj | fnv360_0822_retail, call_gap, medium
 float Tile_becfb0::FUN_00becfb0()
 {
     Entry_becfb0* first = FUN_00bece90(0xfa1);
@@ -37707,6 +38096,8 @@ struct Tile { int unk[12]; unsigned flags;
  bool G(unsigned m) const { return (flags & m) != 0; }
  void S(unsigned m) { flags |= m; }
  void C(unsigned m) { flags &= ~m; } };
+// pdb: Tile::AddDirtyTile | Tile.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apTile
 void __cdecl FUN_00bedc80(Tile* tileRef) {
  Tile* tile = (*(Tile* volatile*)&tileRef);
  if (!tile) return;
@@ -37726,6 +38117,8 @@ struct S340 {                                // the changed field lives at +0x30
     void FUN_00bee340(unsigned int value);   // thiscall: value on the stack (ret 4)
 };
 
+// pdb: Tile::SetNeedsUpdate | Tile.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiFlag
 void S340::FUN_00bee340(unsigned int value) {
     if (value <= 0x3ff) {
         unsigned int old = packed;
@@ -37785,6 +38178,7 @@ struct BE78 {
     void FUN_00be7820();
 };
 
+// pdb: XGamerProfile::Update | XGamerProfile.obj | fnv360_0822_retail, call_gap, low
 void BE78::FUN_00be7820() {
     if (*(unsigned char*)(raw + 0x24) != 0) {
         unsigned int* pid = (unsigned int*)(raw + 8);
@@ -37940,6 +38334,8 @@ struct Tile {
     void FUN_00bed970(int trait);
 };
 
+// pdb: Tile::PlayTileSound | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundType
 void Tile::FUN_00bed970(int trait)
 {
     Sound sound;
@@ -37988,6 +38384,8 @@ struct Node {
     void FUN_00bea600(const NiMatrix3& rot, const NiPoint3& center, const NiPoint3& trans);
 };
 
+// pdb: NiAVObject::SetRotateAboutCenter | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: kRot, kCen, kTrans
 void Node::FUN_00bea600(const NiMatrix3& rot, const NiPoint3& center, const NiPoint3& trans)
 {
     m_localRotate = rot;
@@ -38060,6 +38458,7 @@ struct OwnerBee {
     void FUN_00bee3a0();
 };
 
+// pdb: Tile::UpdateClipwindows | Tile.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: NiAVObject::SetRotateAboutCenter)
 void OwnerBee::FUN_00bee3a0() {
     NodeBee* node = list;
     while (node) {
@@ -38133,6 +38532,8 @@ inline CIter& CIter::operator+=(int n) {
     ptr += n;
     return *this;
 }
+// pdb: std::vector<FR2Vect3TC<float>,std::allocator<FR2Vect3TC<float> > >::resize | TriFileIO.obj | fnv360_0721_beta, objrun, medium
+// pdb params: _Newsize
 void Vec::FUN_00be1400(unsigned int n, Elem val)
 {
     if (size() < n)
@@ -38154,6 +38555,8 @@ struct TileBED {
  ValueBED* FUN_00bece90(int id);
  unsigned int FUN_00bed420(int id, unsigned int* out);
 };
+// pdb: Tile::GetFirstRefCopy | Tile.obj | fnv360_0721_retail, caller_sim, low
+// pdb params: aiTrait, aiType
 unsigned int TileBED::FUN_00bed420(int id, unsigned int* out) {
  TileBED* tile=this;
  ValueBED* value=tile->FUN_00bece90(id);
@@ -38196,6 +38599,7 @@ struct Watcher {
     Watcher* FUN_00be7640();
 };
 }
+// pdb: XGamerProfile::XGamerProfile | XGamerProfile.obj | fnv360_0822_retail, call_seq, medium
 f3m_00be7640::Watcher* f3m_00be7640::Watcher::FUN_00be7640() {
     ((Sub3ac*)((char*)this + 0x3ac))->Init();
     I(this, 0x00) = 0;
@@ -38233,6 +38637,7 @@ struct FileBuf_be5ca0 : std::basic_streambuf<char> {
     int_type FUN_00be5ca0();
 };
 
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::underflow | algs.obj | fnv360_0822_retail, objrun, medium
 FileBuf_be5ca0::int_type FileBuf_be5ca0::FUN_00be5ca0()
 {
     int_type _Meta;
@@ -38271,9 +38676,6 @@ struct ChainEntry { void FUN_00becde0(); };         // ORIG: mov ecx,edi ; call 
 extern ChainNode DAT_011796b0;                      // first intrusive chain head object ✓✓
 extern ChainNode DAT_011796a8;                      // second one ✓✓
 
-struct ListClearer { void FUN_006c8220(); };        // ORIG: mov ecx, offset <chain> ; call sub_6C8220 - once per chain ✓✓
-extern ListClearer DAT_011796b0_clear;              // not used: kept out of the model on purpose, see below
-
 struct HeapObj { void FUN_0086ba60(void* memory); };   // ORIG: mov ecx, offset unk_1090A78 ; push <item> ; call sub_86BA60 ✓✓
 extern HeapObj DAT_01090a78;                        // the global heap (declared four times in this prelude under other types) ✓✓
 
@@ -38283,8 +38685,7 @@ struct ChainHead {                                  // one type serves both role
     void FUN_006c8220();                            // ORIG: clear/destroy this chain in place ✓✓
 };
 
-extern ChainHead DAT_011796b0h;                     // placeholder - the real objects are declared above, so nothing here refers to this ✓✓
-
+// pdb: Tile::FreeTraitList | Tile.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: FontManager::~FontManager)
 void FUN_00bee000() {                               // no parameters and no receiver: ECX is loaded explicitly at each call ✓✓
     DAT_0106a3b4.FUN_006bd950();                    // ORIG: two teardown member calls before any walking ✓✓
     DAT_0106a3c8.FUN_006bd950();
@@ -38323,6 +38724,8 @@ class F3Owner_bee190
 
 void* __stdcall FUN_00bee080(void* pBlock);
 
+// pdb: Tile::Set | Tile.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: GFxValue::~GFxValue)
+// pdb params: aiTrait, afValue, abClearActions
 void __stdcall FUN_00bee190(void* pBlock, float fValue, int iArg)
 {
     F3Owner_bee190* pOwner = (F3Owner_bee190*)FUN_00bee080(pBlock);
@@ -38339,10 +38742,12 @@ struct Value {
     int unk00, unk04;
     float number;
     void* text;
-    void FUN_00beafa0();
-    void FUN_00bf0720(bool);
+    void Tile_Value_ClearActions();
+    void Tile_Value_CalculateValue(bool);
     void FUN_00beb200(float, bool);
 };
+// pdb: Tile::Value::SetFloat | Tile.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: GFxValue::ReleaseManagedValue)
+// pdb params: afValue, abClearActions
 void Value::FUN_00beb200(float replacement, bool notify)
 {
     bool changed = number != replacement || text != 0;
@@ -38351,8 +38756,8 @@ void Value::FUN_00beb200(float replacement, bool notify)
         DAT_01090a78.FUN_0086ba60(text);
         text = 0;
     }
-    if (notify) FUN_00beafa0();
-    FUN_00bf0720(changed);
+    if (notify) Tile_Value_ClearActions();
+    Tile_Value_CalculateValue(changed);
 }
 }
 
@@ -38373,6 +38778,8 @@ namespace Poolbedf40 {
 struct Item {int unk00,unk04;void* buffer;unsigned short count,capacity;};
 extern unsigned DAT_01179668;extern Item* DAT_01179628[];
 struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
+// pdb: Tile::TileTemplate::ThrowAway | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apItem
 void FUN_00bedf40(Item* item){if(DAT_01179668<10){DAT_01179628[DAT_01179668++]=item;return;}if(item){if(item->buffer)DAT_01090a78.FUN_0086ba60(item->buffer);item->buffer=0;item->capacity=0;item->count=0;DAT_01090a78.FUN_0086ba60(item);}}
 }
 
@@ -38426,14 +38833,14 @@ public:
     virtual void v10(int a, int b, int c, int d, int* e, int f);
 };
 
-void FUN_00bf9cd0_Target::v00() {}
 void FUN_00bf9cd0_Target::v04() {}
-void FUN_00bf9cd0_Target::v08() {}
 void FUN_00bf9cd0_Target::v0C() {}
 void FUN_00bf9cd0_Target::v10(int a, int b, int c, int d, int* e, int f)
 {
 }
 
+// pdb: DebugText::PrintXC | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aiX, aColor, aeLocation, aeJustify, apFormatString
 void __cdecl FUN_00bf9cd0(FUN_00bf9cd0_Target* object, int a, int b, int c, int d, int e, int f)
 {
     object->v10(a, c, d, e, &f, b);
@@ -38446,6 +38853,8 @@ namespace f3m_00be5cf0 {
 namespace Bufferbe5cf0 {
 struct File {void* ptr;int count;void* base;};int FUN_00c083eb(File*,char*,int,unsigned);extern void* DAT_0117956c;
 struct Object {int unk00,unk04,unk08,unk0c;void** p10;void** p14;int unk18,unk1c;void** p20;void** p24;int unk28,unk2c;int* p30;int* p34;int unk38,zero;char unk40;bool flag41;short unk42;void* locale;bool flag48;char unk49;short unk4a;File* file;void FUN_00be5650();Object* FUN_00be5cf0(char*,unsigned);};
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::setbuf | algs.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: _Buffer, _Count
 Object* Object::FUN_00be5cf0(char* buffer,unsigned size){if(file&&!FUN_00c083eb(file,buffer,(!buffer&&!size)?4:0,size)){File* f=file;flag48=true;flag41=false;FUN_00be5650();if(f){p14=p10=&f->base;p24=p20=&f->ptr;p34=p30=&f->count;}file=f;locale=DAT_0117956c;zero=0;return this;}return 0;}
 }
 
@@ -38456,9 +38865,11 @@ Object* Object::FUN_00be5cf0(char* buffer,unsigned size){if(file&&!FUN_00c083eb(
 #include <string>
 namespace f3m_00be48a0 {
 namespace Write285 {
-void FUN_00be5520(int,std::string);
+void futSetLastError(int,std::string);
 struct Object {int unk00;std::string name;int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38;FILE* file;bool FUN_00be48a0(const void*,unsigned,unsigned);};
-bool Object::FUN_00be48a0(const void* data,unsigned size,unsigned count){if(file){if(fwrite(data,size,count,file)!=count){FUN_00be5520(6,name);if(file)fclose(file);name.assign("",(std::string::size_type)0);file=0;}else return true;}return false;}
+// pdb: FutBinaryFileC::writeHeader | binaryFile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: data, size, num
+bool Object::FUN_00be48a0(const void* data,unsigned size,unsigned count){if(file){if(fwrite(data,size,count,file)!=count){futSetLastError(6,name);if(file)fclose(file);name.assign("",(std::string::size_type)0);file=0;}else return true;}return false;}
 }
 
 
@@ -38482,6 +38893,8 @@ namespace Construct300 {
 struct Diagnostic {int base;std::string a,b,c,d;Diagnostic(const char*);~Diagnostic();};
 struct Base {virtual ~Base();int value;Base(int v):value(v){}};
 struct FUN_00be6fd0:Base {FUN_00be6fd0(int);virtual ~FUN_00be6fd0();};
+// pdb: std::codecvt<char,char,int>::_Getcat | algs.obj | fnv360_0822_retail, uvref, medium
+// pdb params: _Ppf, _Ploc
 FUN_00be6fd0::FUN_00be6fd0(int v):Base(v){Diagnostic message(&DAT_00dfa5e8);}
 }
 }   // namespace f3m_00be6fd0
@@ -38535,6 +38948,8 @@ struct FileSeekView {
     PosQ FUN_00be68e0(PosQ pos, int mode);
 };
 
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::seekpos | algs.obj | fnv360_0822_retail, objrun, medium
+// pdb params: _Pos, __formal
 PosQ FileSeekView::FUN_00be68e0(PosQ pos, int mode)
 {
     __int64 fpos = pos.position;
@@ -38592,6 +39007,8 @@ protected:
                                                      //     its body lives elsewhere and I must not write it (my rule about not defining other routines inline ✗✗→✓✓ ) 
 };                                                    
 
+// pdb: Tile::GetUnderscoreValue | Tile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiBaseTrait, aiID
 void OwnerBed::FUN_00bed8e0(unsigned int id, int number) {   // ECX saved by their build because two calls follow ✓✗→? 
     char buffer[0x104];                  // v4 REVERTED to initialising here ✓✗→✓✓ pass three tried moving this write next to the call and made things far worse: extent fell from a matching size to 104 vs 132 with                // ORIG: 'mov [esp+118h+Key], 80000000h' BEFORE the lookup ✓✗→✓✓ the output starts as the invalid-handle sentinel so a failed lookup leaves it at that value ✗✗→? 
     const char* name = FUN_00beab00(id);             // ORIG: one-argument cdecl with the answer kept in EAX for the "%s" conversion ✓✗→✓✓ no second use of it anywhere ✗✗→? 
@@ -38620,6 +39037,8 @@ struct Target {
     virtual void Slot0c();
     virtual int Dispatch(int, int, int, int, va_list, int);
 };
+// pdb: DebugText::PrintX | DebugText.obj | fnv360_0721_beta, vtable, medium
+// pdb params: aiX, aeLocation, aeJustify, apFormatString
 int __cdecl FUN_00bf9c40(Target* target, int a, int b, int c, int d, ...) {
     va_list arguments;
     va_start(arguments, d);
@@ -38674,6 +39093,7 @@ struct FUN_00bf7ff0 {
     List list;
     ~FUN_00bf7ff0();
 };
+// pdb: FontManager::TextPage::~TextPage | Font.obj | fnv360_0721_beta, objrun, medium
 FUN_00bf7ff0::~FUN_00bf7ff0() { while (list.count) delete list.RemoveHead(); }
 }
 
@@ -38722,6 +39142,7 @@ struct Block {
     }
     void FUN_00bf8500(Item* item, int lines, bool lineRule);
 };
+// pdb: FontManager::CharData::Copy | Font.obj | fnv360_0822_retail, call_gap, low
 void Block::FUN_00bf8500(Item* item, int lines, bool lineRule)
 {
     Line* line;
@@ -38795,6 +39216,7 @@ struct FUN_00bf6a90 {
     List list;
     ~FUN_00bf6a90();
 };
+// pdb: FontManager::TextLine::~TextLine | Font.obj | fnv360_0822_retail, objrun, medium
 FUN_00bf6a90::~FUN_00bf6a90() { while (list.count) delete list.RemoveHead(); }
 }
 
@@ -38805,6 +39227,8 @@ namespace f3m_00be75c0 {
 namespace Small526 {
 union State {unsigned words[10];unsigned char bytes[40];State(){memset(bytes,0,sizeof(bytes));}};
 int __stdcall FUN_00c21d16(int,int,State*);
+// pdb: XGamerProfile::GetContentBit | XGamerProfile.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: cCode
 bool __cdecl FUN_00be75c0(){State state;if(FUN_00c21d16(0,1,&state)>=0 && (state.words[2]&1))return true;return false;}
 }
 }   // namespace f3m_00be75c0
@@ -38821,6 +39245,8 @@ struct Object {
     Tile*& Next(Node*& node) const { Tile** item = &node->tile; node = node->next; return *item; }
     Tile* FUN_00bed3c0(int);
 };
+// pdb: Tile::GetChildByID | Tile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiID
 Tile* Object::FUN_00bed3c0(int key)
 {
     Node* node = first;
@@ -38896,6 +39322,8 @@ struct ValueOwner {
     ValueRecord* FUN_00bece90(int id);
 };
 
+// pdb: Tile::GetValue | Tile.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: Tile::AddDirtyTile)
+// pdb params: aiTrait
 ValueRecord* ValueOwner::FUN_00bece90(int id)
 {
     ValueRecord* result = 0;
@@ -38946,6 +39374,8 @@ namespace match636 {
 struct Vector : std::vector<unsigned char> {
  void FUN_00be1640(size_type count,const unsigned char& value);
 };
+// pdb: std::vector<char,std::allocator<char> >::operator[] | TriFileIO.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: _Pos
 void Vector::FUN_00be1640(size_type count,const unsigned char& value){if(_Buy(count))_Mylast=_Ufill(_Myfirst,count,value);}
 }
 }   // namespace f3m_00be1640
@@ -38977,6 +39407,8 @@ namespace match643 {
 using f3m_00be1360::String;
 struct Base {unsigned a,b,c,d;};
 struct Row : Base {String name;};
+// pdb: std::_Uninit_move<FffTriVtxLabelS *,FffTriVtxLabelS *,std::allocator<FffTriVtxLabelS>,FffTriVtxLabelS> | TriFileIO.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: _First, _Last, _Dest, _Al, __formal, __formal
 Row* FUN_00be1310(Row* first,Row* last,Row* dest,std::forward_iterator_tag,std::_Nonscalar_ptr_iterator_tag,std::_Range_checked_iterator_tag){
  for(;first!=last;++dest,++first)*dest=*first;
  return dest;
@@ -39010,6 +39442,8 @@ struct TileValue {
     void FUN_00beaf40(int type, float val);
 };
 
+// pdb: Tile::Value::AddAction | Tile.obj | fnv360_0822_retail, uvref, medium
+// pdb params: aiActionType, afActionVal
 void TileValue::FUN_00beaf40(int type, float val) {
     ActionBase* cur = actions;
     FloatAction* act = new FloatAction();
@@ -39111,8 +39545,10 @@ struct File : FileBase {
     void FUN_00be4650();
     virtual ~File() { FUN_00be4650(); }
 };
-void __cdecl FUN_00be5520(int,TriString);
+void __cdecl futSetLastError(int,TriString);
 
+// pdb: fffReadTriFile | TriFileIO.obj | fnv360_0822_retail, ustr, medium
+// pdb params: fname, triData
 bool __cdecl FUN_00be34c0(const TriString& filename,Model& model) {
     struct Header { UInt vertices,triangles,quads,labels,surfaceLabels,textures,flags,morphs,modifiers,extraVertices; char reserved[16]; } header;
     memset(&header,0,sizeof(header));
@@ -39220,7 +39656,7 @@ bool __cdecl FUN_00be34c0(const TriString& filename,Model& model) {
         total+=length;
     }
     if(total!=header.vertices+header.extraVertices) {
-        FUN_00be5520(1,filename);
+        futSetLastError(1,filename);
         return false;
     }
     return true;
@@ -39230,7 +39666,6 @@ bool __cdecl FUN_00be34c0(const TriString& filename,Model& model) {
 
 // @f3 0x00bf1eb0 (community match, verified in this file)
 extern "C" unsigned long __readfsdword(unsigned long);
-extern "C" unsigned long _tls_index;
 extern "C" void _ReadWriteBarrier();
 extern __declspec(thread) unsigned int DAT_0117c298;
 
@@ -39509,7 +39944,7 @@ struct Tile1eb0 {
     bool FUN_00beac40();
     Value* FUN_00bece90(unsigned int);
     float FUN_00becf40(unsigned int) throw();
-    const char* FUN_00becf60(unsigned int);
+    const char* Tile_GetString(unsigned int);
     bool FUN_00becf80(unsigned int);
     void FUN_00bf11a0(unsigned int,const char*,bool);
     void FUN_00bee190(unsigned int,float,bool);
@@ -39606,7 +40041,7 @@ struct AtlasPath {
     void FUN_00ba3700(const char*);
     const char* c_str() const { return capacity<16?text.sbuf:text.large; }
 };
-__declspec(noinline) void __cdecl FUN_00bf14c0(const char* name,const char* file,LocalString* outName,Rect4& outRect)
+__declspec(noinline) void __cdecl Tile_GetTextureAtlasInfo(const char* name,const char* file,LocalString* outName,Rect4& outRect)
 {
     char path[260];
     strcpy_s(path,260,DAT_00dd1dc4);
@@ -39680,8 +40115,8 @@ extern float __cdecl FUN_0061a680();
 extern bool __cdecl FUN_0061a930(void*);
 extern float __cdecl FUN_00401e20(float,float);
 extern float __cdecl FUN_0090d870(float,float);
-struct ColorResult { bool FUN_00621610(int,Color4&) const; };
-extern ColorResult* __cdecl FUN_006295a0();
+struct ColorResult { bool SystemColorManager_GetColor(int,Color4&) const; };
+extern ColorResult* __cdecl SystemColorManager_GetInstance();
 __forceinline void Tile1eb0::mark(unsigned int bit) {
     unsigned int prev=flags;
     flags=prev|bit;
@@ -39706,6 +40141,8 @@ __forceinline void storePoint(Point2& out,float a,float b) { Point2 p(a,b); out=
 __forceinline Point3 makePoint(float a,float b,float c) { return Point3(a,b,c); }
 __forceinline Point2 makePoint(float a,float b) { return Point2(a,b); }
 
+// pdb: Tile::UpdateTile | Tile.obj | fnv360_0822_retail, ustr, medium
+// pdb params: abClearUpdateFlags
 bool Tile1eb0::FUN_00bf1eb0(bool reset)
 {
     bool changed=false;
@@ -39757,14 +40194,14 @@ bool Tile1eb0::FUN_00bf1eb0(bool reset)
                     if(value) { action=value->action; path=value->text; }
                     if(!value || ((!path || !*path) && !action)) {
                         FUN_00bf11a0(0xfcc,DAT_00eaa300,true);
-                        path=FUN_00becf60(0xfcc);
+                        path=Tile_GetString(0xfcc);
                         fallback=true;
                     }
                     if(path && *path) {
                         if(fallback || FUN_00bece90(0xff9)) {
                             LocalString resolved("");
-                            const char* atlasName=fallback?DAT_011796bc:FUN_00becf60(0xff9);
-                            FUN_00bf14c0(atlasName,FUN_00becf60(0xfcc),&resolved,atlas);
+                            const char* atlasName=fallback?DAT_011796bc:Tile_GetString(0xff9);
+                            Tile_GetTextureAtlasInfo(atlasName,Tile_GetString(0xfcc),&resolved,atlas);
                             FUN_00bfd6b0(resolved.data,&scale,&texture,FUN_00becf40(0xfb8),handle);
                         }
                         if(!texture.m_pObject) FUN_00bfd6b0(path,&scale,&texture,FUN_00becf40(0xfb8),handle);
@@ -39773,7 +40210,7 @@ bool Tile1eb0::FUN_00bf1eb0(bool reset)
                         shader->FUN_00b39a20(texture.m_pObject);
                         shader->wrap=FUN_00becf80(0xfb5)?2:0;
                         float percent=FUN_00becf40(0xfb8);
-                        const char* name=FUN_00becf60(0xfcc);
+                        const char* name=Tile_GetString(0xfcc);
                         float width=float(texture->width());
                         float height=float(texture->height());
                         if(FUN_00becf40(0xfb5)==DAT_01012054) {
@@ -39838,7 +40275,7 @@ bool Tile1eb0::FUN_00bf1eb0(bool reset)
                             actualWidth=float((double(height)/float(texture->height()))*float(texture->width()));
                         } else if(percent>=0.0f) {
                             if(percent==0.0f) percent=100.0f;
-                            const char* name=FUN_00becf60(0xfcc);
+                            const char* name=Tile_GetString(0xfcc);
                             if(useful(name)) {
                                 float factor=scale;
                                 actualWidth=float((double(shader->texture->width())*(percent/100.0))/factor);
@@ -39859,7 +40296,7 @@ bool Tile1eb0::FUN_00bf1eb0(bool reset)
                         if(FUN_00bece90(0xff9)) {
                             Rect4 rect(0,0,0,0);
                             if(atlas.right!=DAT_01012054 && atlas.bottom!=DAT_01012054) rect=atlas;
-                            else FUN_00bf14c0(FUN_00becf60(0xff9),FUN_00becf60(0xfcc),0,rect);
+                            else Tile_GetTextureAtlasInfo(Tile_GetString(0xff9),Tile_GetString(0xfcc),0,rect);
                             float rw=rect.right-rect.left;
                             float rh=rect.bottom-rect.top;
                             if(rw>0.0f && rh>0.0f) {
@@ -40022,7 +40459,7 @@ bool Tile1eb0::FUN_00bf1eb0(bool reset)
                 }
                 if(p) id=int(p->number(0xff4));
             palette:
-                if(FUN_006295a0()->FUN_00621610(id,colorValue)) {
+                if(SystemColorManager_GetInstance()->SystemColorManager_GetColor(id,colorValue)) {
                     colorValue*=amount;
                 } else goto explicitColor;
             }
@@ -40056,6 +40493,8 @@ struct Fade {
 };
 struct Node { Fade* item; Node* next; };
 extern Node DAT_011796a8;
+// pdb: Tile::GetFadeFinished | Tile.obj | fnv360_0721_retail, call_gap, medium
+// pdb params: aiTrait
 bool Tile::FUN_00beaca0(int trait)
 {
     for(Node* node=&DAT_011796a8; node && node->item; node=node->next) {
@@ -40095,11 +40534,13 @@ struct Value {
     void* owner;
     float num;
     char* str;
-    void FUN_00beafa0();
-    void FUN_00bf0720(bool changed);
+    void Tile_Value_ClearActions();
+    void Tile_Value_CalculateValue(bool changed);
     void FUN_00bf0ec0(const char* name, bool refresh);
 };
 
+// pdb: Tile::AddDirtyTile | Tile.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apTile
 void Value::FUN_00bf0ec0(const char* name, bool refresh)
 {
     bool changed = (!str && name) || (str && !name) || (str && name && strcmp(str, name) != 0);
@@ -40114,8 +40555,8 @@ void Value::FUN_00bf0ec0(const char* name, bool refresh)
     }
     num = 0.0f;
     if (refresh)
-        FUN_00beafa0();
-    FUN_00bf0720(changed);
+        Tile_Value_ClearActions();
+    Tile_Value_CalculateValue(changed);
 }
 }
 
@@ -40136,6 +40577,8 @@ const char* finish() const { const char* p=last; if(first>p) FUN_00c01e8b();retu
 static char* copy(const char* a,const char* b,char* out) { unsigned n=(unsigned)(b-a); unsigned bytes=n*sizeof(char); char* result=out+n; if(n) FUN_00c01c9b(out,bytes,a,bytes); return result; }
 FUN_00be4a80(const FUN_00be4a80& other);
 };
+// pdb: std::vector<signed char,std::allocator<signed char> >::vector<signed char,std::allocator<signed char> > | BSFaceGenModel.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: _Right
 FUN_00be4a80::FUN_00be4a80(const FUN_00be4a80& other):allocator(other.allocator) {if(buy(other.size())) last=copy(other.begin(),other.finish(),first);}
 }
 }   // namespace f3m_00be4a80
@@ -40165,6 +40608,7 @@ struct FileBuf {
     FILE* _Myfile;
     bool FUN_00be6110();
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::_Endwrite | algs.obj | fnv360_0822_retail, call_gap, low
 bool FileBuf::FUN_00be6110()
 {
     if (_Pcvt == 0 || !_Wrotesome)
@@ -40230,6 +40674,8 @@ struct FileBuf : std::basic_streambuf<char> {
     FILE* _Myfile;
     int FUN_00be6430(int _Meta);
 };
+// pdb: std::basic_filebuf<char,std::char_traits<char> >::overflow | algs.obj | fnv360_0822_retail, objrun, medium
+// pdb params: _Meta
 int FileBuf::FUN_00be6430(int _Meta)
 {
     typedef std::char_traits<char> _Traits;
@@ -40311,7 +40757,7 @@ struct TextBuffer {
     unsigned int length;
     char* text;
 };
-TextBuffer* FUN_00bfd070(const char* path, bool flag);
+TextBuffer* Menu_GetXML(const char* path, bool flag);
 
 struct String {
     char* pString;
@@ -40332,6 +40778,8 @@ struct String {
     unsigned int Length() const { return sLen == 0xFFFF ? strlen(pString) : sLen; }
 };
 
+// pdb: Tile::InsertIncludedFiles | Tile.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFile
 bool __cdecl FUN_00bed0d0(TextBuffer* buffer)
 {
     char* text = buffer->text;
@@ -40351,7 +40799,7 @@ bool __cdecl FUN_00bed0d0(TextBuffer* buffer)
         char* context;
         FUN_00c06119(found, "\"", &context);
         path.FUN_00403a00("Data\\Menus\\Prefabs\\%s", FUN_00c06119(0, "\"", &context));
-        TextBuffer* include = FUN_00bfd070(path.pString, false);
+        TextBuffer* include = Menu_GetXML(path.pString, false);
         result.FUN_00402540(include->text);
         if (include->text)
             DAT_01090a78.FUN_0086ba60(include->text);
@@ -40415,7 +40863,7 @@ struct UITile {
     __forceinline const char* GetName() const { return m_kName.pString; }
     TileMenuRoot* FUN_00beab90();
     __forceinline UITile* FUN_00a03d40(){UITile* t=this;while(t && t->m_pParentNode && t->m_pParentNode->m_pParentNode)t=t->m_pParentNode;return t;}
-    UITile* FUN_00beabd0(const char* pcName);
+    UITile* Tile_GetChildByName(const char* pcName);
 };
 
 enum { TilePathLayout = 1 / (sizeof(UITile) == 0x2c) };
@@ -40428,6 +40876,8 @@ UITile* FUN_0061a5c0();
 UITile* FUN_00beaea0(UITile* pkRoot, const char* pcPath);
 
 // @fnv 0x00beb8c0
+// pdb: Tile::GetTileByName | Tile.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apTarget, apName
 UITile* FUN_00beb8c0(UITile* pTile, const char* pcPath)
 {
     UITile* pResultTmp = 0;
@@ -40481,7 +40931,7 @@ UITile* FUN_00beb8c0(UITile* pTile, const char* pcPath)
         if (!acName[0] && pTile->GetChildCount())
             return pTile->m_kChildList.m_pkHead->m_element;
         else if (pTile && acName[0] && pTile->GetChildCount())
-            return pTile->FUN_00beabd0(acName);
+            return pTile->Tile_GetChildByName(acName);
         else
             return 0;
     case 0x138e:
@@ -40581,6 +41031,8 @@ struct FontShell {
     QLines* FUN_00bf9520(QStr* str, QParams* p);
 };
 
+// pdb: FontManager::PrepText | Font.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: axTextString, axData
 QLines* FontShell::FUN_00bf9520(QStr* str, QParams* p)
 {
     const char* d = str->m_data;
@@ -40770,6 +41222,7 @@ public:
 };
 void __cdecl FUN_0061a560(FUN_00bf1040*);
 
+// pdb: Tile::Release | Tile.obj | fnv360_0822_debug, caller, medium
 void FUN_00bf1040::FUN_00bef620()
 {
     ContextGuard guard(0xd);
@@ -40914,6 +41367,8 @@ __declspec(noinline) unsigned int StandIn9390::FUN_00be8340(int a_iType) {
     return uiFlag;
 }
 
+// pdb: Controls::GetDigitalAction | XControls.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: eAction, uiMask
 int StandIn9390::FUN_00be9390(int param1, int param2)
 {
     if (!DAT_011795c0)
@@ -41060,6 +41515,8 @@ template <class T> struct Map {
 extern Map<Buffer> DAT_0106a794;
 extern Map<Entry> DAT_0106a7a8;
 
+// pdb: Menu::RemoveFromXMLArchive | Menu.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFilename, apMenu
 void __cdecl FUN_00bfc7e0(const char* path, Owner* owner)
 {
     const char* name = path;
@@ -41094,13 +41551,15 @@ namespace f3m_00bef8f0 {
 namespace a00bef8f0 {
 struct Token { void FUN_00beece0(int,const char*,int,bool); };
 struct Owner { Token* FUN_00bea6d0(); };
-CompressedXML* __cdecl FUN_00bfd070(const char*,bool);
+CompressedXML* __cdecl Menu_GetXML(const char*,bool);
 void __cdecl FUN_00bed0d0(CompressedXML*);
 int __cdecl FUN_00bea9e0(const char*);
 bool __cdecl FUN_0061d750(const char*,char*);
 void __cdecl FUN_00887da0(const char*,...);
 }
 namespace a00bef8f0 {
+// pdb: Tile::ParseFile | Tile.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apName, apData, apSize
 __declspec(noinline) f3m_00bf37b0::ParseNode* __cdecl FUN_00bef8f0(const char* path,const char* a,unsigned int b) {
     using namespace a00bef8f0;
     const char* savedPath=path;
@@ -41110,7 +41569,7 @@ __declspec(noinline) f3m_00bf37b0::ParseNode* __cdecl FUN_00bef8f0(const char* p
     const char* input=0;
     unsigned int size=0;
     if(a) {input=a;size=b;}
-    else {file=a00bef8f0::FUN_00bfd070(path,false);if(file){a00bef8f0::FUN_00bed0d0(file);input=file->data;size=file->size;}}
+    else {file=a00bef8f0::Menu_GetXML(path,false);if(file){a00bef8f0::FUN_00bed0d0(file);input=file->data;size=file->size;}}
     char tag[128],text[4096],converted[4096];
     text[0]=0;
     int state=0,attribute=0;
@@ -41208,6 +41667,8 @@ namespace f3m_00be5760 {
 struct S_00be5760 {
     S_00be5760* FUN_00be5760(int p0, int p1);
 };
+// pdb: std::basic_streambuf<char,std::char_traits<char> >::pbackfail | algs.obj | fnv360_0721_beta, objrun_sim, low, conflict (skyrim: std::basic_streambuf<char,struct std::char_traits<char> >::setbuf)
+// pdb params: __formal
 S_00be5760* S_00be5760::FUN_00be5760(int p0, int p1)
 {
     return this;
@@ -41240,7 +41701,7 @@ struct HolderPtr {
 struct Directory { Holder* FUN_004248b0(const char*); };
 extern Directory* DAT_0106ca70;
 void* __cdecl FUN_00bc7fc0(const char*, int, unsigned int, unsigned int);
-void __cdecl FUN_00be5520(int, std::string);
+void __cdecl futSetLastError(int, std::string);
 struct File {
     void* unk00;
     std::string name;
@@ -41252,6 +41713,8 @@ struct File {
     void FUN_00be4650();
     bool FUN_00be5010(std::string, bool);
 };
+// pdb: BSFaceGenBinaryFile::openForRead | binaryFile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFileName, abCTLFile
 bool File::FUN_00be5010(std::string filename, bool flag) {
     int mode = 1;
     if (flag) mode = 0x100;
@@ -41264,7 +41727,7 @@ bool File::FUN_00be5010(std::string filename, bool flag) {
         raw = FUN_00bc7fc0(filename.c_str(), 0, 0x2800, mode);
     }
     if (!raw) {
-        FUN_00be5520(4, filename);
+        futSetLastError(4, filename);
         return false;
     }
     std::vector<char> bytes(signature.size() + 1, char());
@@ -41272,13 +41735,13 @@ bool File::FUN_00be5010(std::string filename, bool flag) {
     std::vector<char> copied(bytes);
     copied[5] = signature[5];
     if (signature != &copied[0]) {
-        FUN_00be5520(2, filename);
+        futSetLastError(2, filename);
         FUN_00be4650();
         return false;
     }
     if (bytes[5] > '0') {
         if (signature[5] != bytes[5]) {
-            FUN_00be5520(4, filename);
+            futSetLastError(4, filename);
             FUN_00be4650();
             return false;
         }
@@ -41534,6 +41997,7 @@ public:
     NiNode* FUN_00bfd920();
 };
 
+// pdb: TileImage::MakeNode | TileImage.obj | fnv360_0822_retail, ustr, medium
 NiNode* TileImage::FUN_00bfd920()
 {
     NiNode* pParent = FUN_00beadd0();
@@ -41847,6 +42311,8 @@ struct Manager : Base {
     int FUN_00bfb050(const char* text, float x, float y, int z, int c, float d, int e, const Color* color);
 };
 
+// pdb: DebugText::Print | DebugText.obj | fnv360_0721_beta, call_gap, low
+// pdb params: apText, afX, afY, aiJustify, aiLine_num, afDie, aiFont, apColor
 int Manager::FUN_00bfb050(const char* text, float x, float y, int z, int c, float d, int e, const Color* color)
 {
     bool found = false;
@@ -41933,6 +42399,8 @@ inline int max_val(int a, int b) { return a > b ? a : b; }
 struct Font : task2010::Font {
     int FUN_00bf4d20(Text* text,int* piMaxWidth,int* piTotalHeight,int lineLimit,char separator);
 };
+// pdb: Font::LineBreakText | Font.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: axTextString, aiWidth, aiHeight, abSkipHyperLinkedCharacters, acEolChar
 int Font::FUN_00bf4d20(Text* text,int* piMaxWidth,int* piTotalHeight,int lineLimit,char separator)
 {
     int p;
@@ -42043,7 +42511,7 @@ namespace f3m_00be4cb0 {
 
 namespace f3m_00be4cb0 {
 
-void __cdecl FUN_00be5520(int severity, std::string message);
+void __cdecl futSetLastError(int severity, std::string message);
 
 struct FutFile {
     virtual void slot00();
@@ -42056,31 +42524,33 @@ struct FutFile {
         m_fname = "";
         fptr = 0;
     }
-    bool FUN_00be4930(void* buffer, unsigned int size, unsigned int count);
+    bool FutBinaryFileC_readHeader(void* buffer, unsigned int size, unsigned int count);
     void FUN_00be4870();
     bool FUN_00be4cb0(std::string name);
 };
 
+// pdb: FutBinaryFileC::openForRead | binaryFile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: a_fname
 bool FutFile::FUN_00be4cb0(std::string name)
 {
     Close();
     fptr = fopen(name.c_str(), "rb");
     if (!fptr) {
-        FUN_00be5520(4, name);
+        futSetLastError(4, name);
         return false;
     }
     std::vector<char> v(fileId.size() + 1, 0);
-    if (!FUN_00be4930(&v[0], fileId.size(), 1))
+    if (!FutBinaryFileC_readHeader(&v[0], fileId.size(), 1))
         return false;
     std::vector<char> w(v);
     w[5] = fileId[5];
     if (fileId != &w[0]) {
-        FUN_00be5520(2, name);
+        futSetLastError(2, name);
         FUN_00be4870();
         return false;
     }
     if (v[5] > '0' && fileId.at(5) != v.at(5)) {
-        FUN_00be5520(4, name);
+        futSetLastError(4, name);
         FUN_00be4870();
         return false;
     }
@@ -42130,6 +42600,8 @@ struct FontShell7520 {
     Nbf86a0::LayoutString FUN_00bf7520(const char* input, int* index, unsigned int stopMask, unsigned int allowedMask,
                                        unsigned int* outFlags, char* currentChar, bool parseEntities);
 };
+// pdb: FontManager::CollectTo | Font.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apSource, aiIndex, aebfMatches, aebfInvMatches, aeResultMatch, acResultChar, bKeep
 Nbf86a0::LayoutString FontShell7520::FUN_00bf7520(const char* input, int* index, unsigned int stopMask, unsigned int allowedMask,
                                                    unsigned int* outFlags, char* currentChar, bool parseEntities)
 {
@@ -42207,7 +42679,6 @@ Nbf86a0::LayoutString FontShell7520::FUN_00bf7520(const char* input, int* index,
 #include <string.h>
 #include <stdlib.h>
 #include <io.h>
-extern "C" int __cdecl _access(const char*,int);
 namespace content7910 {
 unsigned int __cdecl FUN_00c056a5(char*,const wchar_t*,unsigned int);
 int __cdecl FUN_00c05a0f(const char*,int);
@@ -42359,6 +42830,7 @@ struct Owner {
  List list; unsigned int count;
  void FUN_00be7910(int);
 };
+// pdb: BGSSaveLoadHeader::SaveHeader | BGSSaveLoadHeader.obj | tesv_win, uimport, low
 void Owner::FUN_00be7910(int unused) {
  count=0;
  unsigned int info[14];
@@ -42592,6 +43064,8 @@ void Font::FUN_00bf4c60(const char* text, float& width, float& unused, int align
     }
 }
 
+// pdb: Font::MakeString | Font.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: afStartX, afStartY, afZ, apTextString, aiWidth, aiFlags, axFontColor, abUpperLeftCorner, abPrepareObject
 Shape* Font::FUN_00bf6260(float x, float y, float z, Text* str, int* width, int align, const Color* color, bool adjust, bool flag)
 {
     if (!str->Length() || !data)
@@ -42804,6 +43278,7 @@ struct List_dcd0
 extern List_dcd0 DAT_01179678;
 extern List_dcd0 DAT_01179684;
 
+// pdb: Tile::CheckHibernatingTiles | Tile.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_00bedcd0()
 {
     Node_dcd0* pos = f3m_00bedcd0::DAT_01179684.m_head;
@@ -42870,7 +43345,7 @@ struct ActMenu {
 };
 struct TileVal {
     int trait;
-    void FUN_00bf0720(bool changed);
+    void Tile_Value_CalculateValue(bool changed);
     void FUN_00beaf40(int id, float value);
     void FUN_00beec50(int id, void* tile, int value);
     void FUN_00bf0ec0(const char* str, bool refresh);
@@ -42920,6 +43395,8 @@ public:
     void FUN_00bf11d0(ActMenu* a1);
 };
 
+// pdb: Tile::ConnectTraitsToTree | Tile.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apTemplate
 void ActParser::FUN_00bf11d0(ActMenu* a1)
 {
     ActTile* aw = 0;
@@ -42954,7 +43431,7 @@ void ActParser::FUN_00bf11d0(ActMenu* a1)
             for (an = 0; an < (n = ad->count); an++)
             {
                 if (ad->parr[an]->trait != 4004)
-                    ad->parr[an]->FUN_00bf0720(true);
+                    ad->parr[an]->Tile_Value_CalculateValue(true);
             }
             LeaveCriticalSection(&DAT_01179690);
             ad = ad->next28;
@@ -43147,10 +43624,11 @@ struct S00bf0720_Value {
     float value;
     char* str;
     S00bf0720_Action* actions;
-    void FUN_00bf0720(bool update);
+    void Tile_Value_CalculateValue(bool update);
 };
 
-void S00bf0720_Value::FUN_00bf0720(bool update)
+// pdb: Tile::Value::CalculateValue | Tile.obj | fnv360_0822_debug, call_seq + bridge(call_gap|call_gap), high
+void S00bf0720_Value::Tile_Value_CalculateValue(bool update)
 {
     if ((tile->flags & 0x10000) && id != 4004)
         return;
@@ -43526,7 +44004,7 @@ inline bool S00bfbad0_IsFloatingText(S00bfbad0_Item* extra)
     return false;
 }
 
-S00bfbad0_Item* __cdecl FUN_00bf9e60(S00bfbad0_NiNode* node, const char* name, int expected, int* outValue)
+S00bfbad0_Item* __cdecl DebugText_GetFloatingText(S00bfbad0_NiNode* node, const char* name, int expected, int* outValue)
 {
     if (node == 0)
         return 0;
@@ -43550,6 +44028,8 @@ void __cdecl FUN_00ade300(S00bfbad0_NiAVObject*, bool, bool);
 }
 using namespace S00bfbad0_ns;
 
+// pdb: DebugText::AddFloatingText | DebugText.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apTarget, apString, aiHeight, afDie
 bool FUN_00bfbad0(S00bfbad0_NiNode* node, const char* text, int offset, float lifetime)
 {
     if (!node)
@@ -43560,7 +44040,7 @@ bool FUN_00bfbad0(S00bfbad0_NiNode* node, const char* text, int offset, float li
     S00bfbad0_Item* item;
     S00bfbad0_Cfg* cfg = node->m_cfg ? node->m_cfg : &DAT_0108edc8;
     int value = (int)cfg->m_height;
-    item = FUN_00bf9e60(node, text, offset, &value);
+    item = DebugText_GetFloatingText(node, text, offset, &value);
     if (item) {
         S00bfbad0_ListNode* pos = FUN_00bfb7c0(true)->list.GetHeadPos();
         while (pos) {
@@ -43914,6 +44394,7 @@ struct Elem {
     ~Elem();
 };
 
+// pdb: BSTSmallArrayHeapAllocatorCore::Allocate | BSTSmallArray.obj | tesv_win, objopen_prop, low
 Elem* __cdecl FUN_00be1c80(Elem* first, Elem* last, Elem* dest, std::allocator<Elem>& al)
 {
     Elem* next = dest;
@@ -44411,6 +44892,7 @@ struct Elem {
     std::vector<unsigned int> data;
 };
 
+// pdb: BSTSmallArrayHeapAllocatorCore::Reallocate | BSTSmallArray.obj | tesv_win, objopen_prop, low
 Elem* __cdecl FUN_00be1d20(Elem* _First, Elem* _Last, Elem* _Dest, std::allocator<Elem>& _Al,
                           std::_Nonscalar_ptr_iterator_tag, std::_Range_checked_iterator_tag)
 {
@@ -44614,7 +45096,7 @@ struct S00bf6b80_Rect {
     S00bf6b80_Rect() : left(0), right(0), top(0), bottom(0) {}
 };
 struct S00bf6b80_Icon { float width; unsigned int m_field04, m_field08; float spacing; S00bf6b80_Rect rect; };
-void FUN_00bf14c0(const char* definition, const char* image, S00bf6b80_Str* texture, float* bounds);
+void Tile_GetTextureAtlasInfo(const char* definition, const char* image, S00bf6b80_Str* texture, float* bounds);
 struct S00bf6b80_Icons {
     virtual void v0();
     virtual S00bf6b80_Icon* Allocate(unsigned int count);
@@ -44687,6 +45169,8 @@ struct S00bf6b80_Font {
 };
 
 
+// pdb: Font::PrepText | Font.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apOrigString, axData
 void S00bf6b80_Font::FUN_00bf6b80(const char* text, S00bf6b80_Info* info)
 {
     if (!text)
@@ -44955,6 +45439,7 @@ struct Obj {
     void FUN_00bfa080();
     Obj* FUN_00bfa6d0(unsigned flags);
 };
+// pdb: DebugTextExtraData::`scalar deleting destructor' | DebugText.obj | fnv360_0822_debug, vtable, low
 Obj* Obj::FUN_00bfa6d0(unsigned flags) {
     FUN_00bfa080();
     if (flags & 1) FUN_0089ec10(this, 32);
@@ -45062,6 +45547,8 @@ struct TargetFont {
         TextNodeOpaque** rawShape, TextNodeOpaque** rawIconsShape);
 };
 
+// pdb: Font::CreateText | Font.obj | fnv360_0721_beta, objrun, medium
+// pdb params: axTextString, aiWidth, aiHeight, aiLineStart, aiLineEnd, aiFlags, aiLineBreakChar, axFontColor, apTextShape, apIconShape
 void TargetFont::FUN_00bf80b0(
     StringBuffer& text, int* width, int* height, int a, int maxHeight,
     int align, int separator, const ColorRgba* rawColor,
@@ -45375,6 +45862,7 @@ struct Font {
 
 namespace queued_prints {
 
+// pdb: DebugText::HandleQueuedPrints | DebugText.obj | fnv360_0721_beta, caller_sim, low
 void DebugText::FUN_00bfa6f0()
 {
     for (unsigned i = 0; i < pending.Size(); ++i) {

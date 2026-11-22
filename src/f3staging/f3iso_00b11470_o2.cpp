@@ -42,6 +42,7 @@ struct SpaceMgr
     RenderedTex* FUN_00b11470();
 };
 
+// pdb: ImageSpaceManager::GetDepthRenderedTexture | ImageSpaceManager.obj | fnv360_0822_retail, caller_sim, low
 RenderedTex* SpaceMgr::FUN_00b11470()
 {
     if (!depthTex.FUN_00b22310())

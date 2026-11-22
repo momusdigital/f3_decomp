@@ -52,6 +52,7 @@ struct FUN_00a81f90_class
     void* __thiscall FUN_00a81f90();
 };
 // @fnv 0x00a81f90
+// pdb: NiSkinPartition::NiSkinPartition | NiSkinPartition.obj | fnv360_0822_retail, call_gap, medium
 void* __thiscall FUN_00a81f90_class::FUN_00a81f90()
 {
     _Call_a5d3a0();
@@ -168,6 +169,7 @@ struct FUN_00a85580 : S_00a85580_Object
     ~FUN_00a85580() throw();
 };
 // @fnv 0x00a85580
+// pdb: NiSkinInstance::~NiSkinInstance | NiSkinInstance_Xenon.obj | fnv360_0822_retail, call_seq, high
 FUN_00a85580::~FUN_00a85580() throw()
 {
     FUN_00aa10f0(unk14);

@@ -62,6 +62,8 @@ public:
     __forceinline ~FUN_004d5ed0() {}
 };
 
+// pdb: TESObjectCELL::QUEUED_ATTACH::QUEUED_ATTACH | TESObjectCELL.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: TESObjectCELL::GetQueuedDistantRefCount)
+// pdb params: __that
 FUN_004d5ed0::FUN_004d5ed0(const FUN_004d5ed0& o)
     : FUN_004d5e40(o)
 {}

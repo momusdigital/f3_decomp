@@ -12,39 +12,6 @@ class NiRenderer;
 class BoltShaderDeclarationCalls : public NiD3DVertexDeclaration
 {
   public:
-    virtual void vfn_008();
-    virtual void vfn_00c();
-    virtual void vfn_010();
-    virtual void vfn_014();
-    virtual void vfn_018();
-    virtual void vfn_01c();
-    virtual void vfn_020();
-    virtual void vfn_024();
-    virtual void vfn_028();
-    virtual void vfn_02c();
-    virtual void vfn_030();
-    virtual void vfn_034();
-    virtual void vfn_038();
-    virtual void vfn_03c();
-    virtual void vfn_040();
-    virtual void vfn_044();
-    virtual void vfn_048();
-    virtual void vfn_04c();
-    virtual void vfn_050();
-    virtual void vfn_054();
-    virtual void vfn_058();
-    virtual void vfn_05c();
-    virtual void vfn_060();
-    virtual void vfn_064();
-    virtual void vfn_068();
-    virtual void vfn_06c();
-    virtual void vfn_070();
-    virtual void vfn_074();
-    virtual void vfn_078();
-    virtual void vfn_07c();
-    virtual void vfn_080();
-    virtual void vfn_084();
-    virtual void vfn_088();
     virtual void vfn_08c(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
     virtual void vfn_090();
     virtual void vfn_094(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,

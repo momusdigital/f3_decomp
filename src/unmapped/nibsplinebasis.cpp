@@ -4,6 +4,7 @@
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4034;
 // @fnv 0x00a52500
+// pdb: bhkTransformShape::GetRTTI | BSTreeNode.obj | fnv360_0721_beta, objrun, medium
 GlobalObjectO2_00a7b610* FUN_00a52500()
 {
     return &g_011f4034;
@@ -19,6 +20,7 @@ struct CubicSplineBasis
 };
 // Caches the span for a time value and computes the four cubic spline basis weights, handling counts from 4 to 7 and above.
 // @fnv 0x00a51e80
+// pdb: NiBSplineBasis<float,3>::Compute | NiBSplineData.obj | tesv_win, call_seq, medium
 void CubicSplineBasis::ComputeBasisWeights(float time, int& start, int& end)
 {
     if (*reinterpret_cast<unsigned int*>(&time) == *reinterpret_cast<unsigned int*>(&lastTime))

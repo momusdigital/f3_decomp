@@ -32,7 +32,7 @@ public:
 };
 
 class BaseExtraList_40eb90;
-void __cdecl FUN_0040a150(BaseExtraList_40eb90* list);
+void __cdecl BaseExtraList_ClearLastExtraAll(BaseExtraList_40eb90* list);
 
 class BaseExtraList_40eb90 {
 public:
@@ -40,12 +40,13 @@ public:
     BSExtraData_40eb90* head;
     unsigned char presence[0x12];
 
-    void FUN_0040eb90(bool bDelete);
+    void BaseExtraList_RemoveAllDefault(bool bDelete);
 };
 
-void BaseExtraList_40eb90::FUN_0040eb90(bool bDelete) {
+// pdb: BaseExtraList::RemoveAllDefault | ExtraDataList.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void BaseExtraList_40eb90::BaseExtraList_RemoveAllDefault(bool bDelete) {
     DAT_0106c980.FUN_00409a80("BaseExtraList::RemoveAllDefault()");
-    FUN_0040a150(this);
+    BaseExtraList_ClearLastExtraAll(this);
     BSExtraData_40eb90* extra = head;
     BSExtraData_40eb90* prev = 0;
     while (extra) {

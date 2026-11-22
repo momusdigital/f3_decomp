@@ -5,10 +5,11 @@
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RC_00b57d10 { virtual void V0(); virtual void Release(); long refs; };
 struct R_00b57d10 { char pad[0x64]; int refs; void FUN_00888c10(); };
-struct C_00b57d10 { char pad[0x8c]; RC_00b57d10* a1[30]; RC_00b57d10* a2[10]; void FUN_00b58540(); bool FUN_00b57d10(); };
+struct C_00b57d10 { char pad[0x8c]; RC_00b57d10* a1[30]; RC_00b57d10* a2[10]; void FUN_00b58540(); bool SpeedTreeBranchShader_Initialize(); };
 extern R_00b57d10* DAT_011780f0[30];
 
-bool C_00b57d10::FUN_00b57d10()
+// pdb: SpeedTreeBranchShader::Initialize | SpeedTreeBranchShader.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+bool C_00b57d10::SpeedTreeBranchShader_Initialize()
 {
     FUN_00b58540();
     for (int i = 0; i < 30; i++) {
@@ -44,6 +45,8 @@ bool C_00b57d10::FUN_00b57d10()
 
 struct V_00b59420 { int a, b, c, d; };
 struct C_00b59420 { char pad[0x10]; unsigned short cap; unsigned short n; V_00b59420* items; int* vals; bool FUN_00b59420(V_00b59420*, int); };
+// pdb: TallGrassGroup::Add | TallGrassGroup.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: apInstanceData, alTerrainChunkSeed
 bool C_00b59420::FUN_00b59420(V_00b59420* p, int v)
 {
     if (n != cap && p) {

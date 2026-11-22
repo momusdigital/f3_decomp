@@ -5,33 +5,8 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct Container { int ClearValue(void* value); };
-struct Owner { int FUN_00d6a910(Container* container); };
-struct FUN_00dd9380_StandIn {
-    int FUN_00dd9380(const char* name, void* constructor);
-};
-extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
-extern char DAT_010c65b0;
-void FUN_00d6ad00();
-void __cdecl FUN_00d6ad40();
 extern int DAT_01269028;
-int FUN_00d6ad60();
-struct Target {
-    void FUN_00c93920(void* apArg);
-};
-struct FUN_00d6a8e0_cls {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-
-    void CallTargetWithSelfOffset(Target* apTarget);
-};
 // ---------------------------------------------------------------------------
 // FUN_00d6a940  (0x00d6a940, 112 bytes) - the constructor of the game's
 // hkpBroadphaseViewer.
@@ -65,68 +40,15 @@ struct FUN_00d6a8e0_cls {
 // taken in ebx) and the exact order of the initialisations.
 // ---------------------------------------------------------------------------
 // the object the world keeps at this+0x24: an array of shapes and a count
-struct BroadCtx {
-    int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
-    int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
-    int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
-    int unk60; int unk64; int unk68;
-    void** arr;   // +0x6c
-    int count;    // +0x70
-};
 // the secondary base at 0x28 - the listener the shapes are told about
-struct PostSimListener {
-    virtual void ps0();
-    virtual void ps1();
-    virtual void ps2();
-    virtual void ps3();
-};
 // one shape of the world; 0xc93920 appends a listener to its list at +0x164
-struct BroadElem {
-    void FUN_00c93920(PostSimListener* p);
-};
 // the primary base at 0x00 (its vptr is the one at 0x00)
-struct PrimBase {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    int unk04;
-};
 // the secondary base at 0x08, 0x18 bytes long
-struct ProcBase {
-    virtual void w0();
-    virtual void w1();
-    virtual void w2();
-    virtual void w3();
-    virtual void w4();
-    virtual void w5();
-    virtual void w6();
-    virtual void w7();
-    int unk0c; int unk10; int unk14; int unk18; int unk1c;
-};
 // the secondary base at 0x20
-struct CtxListenerBase {
-    virtual void x0();
-    virtual void x1();
-    virtual void x2();
-    virtual void x3();
-};
 // 0xddccb0 - hkpWorldViewerBase's constructor; it fills the three vptrs it
 // owns and the shape list at 0x24
-struct WorldViewerBase : PrimBase, ProcBase, CtxListenerBase {
-    BroadCtx* m_ctx;              // +0x24
-    WorldViewerBase(void* a);
-};
 // hkpBroadphaseViewer itself (the class is named after the function so that
 // its constructor's decorated name carries the tag the checker looks for)
-struct FUN_00d6a940 : WorldViewerBase, PostSimListener {
-    int unk2c;                     // +0x2c
-    int unk30;                     // +0x30
-    int unk34;                     // +0x34
-    FUN_00d6a940(void* a);
-private:
-    ~FUN_00d6a940();               // never defined: keeps a second tagged
-                                   // symbol out of the object file
-};
 struct AudioAllocator {
     virtual void unk00();
     virtual void unk04();
@@ -142,142 +64,9 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 AudioHolder* __cdecl FUN_00c85750();
-struct SpawnedItem {
-    virtual void v00(int aiFlags);
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-};
-struct OwnerNode {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    Container** m_ppItems;
-    int m_iArrayLength;
-};
-struct PrimaryBase {
-    virtual void unk00();
-    unsigned int unk04;
-    ~PrimaryBase();
-};
-struct MidBase {
-    virtual void unk00();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-};
-struct TailBase {
-    virtual void unk00();
-    OwnerNode* m_pSharedOwner;
-};
 struct SubObject {
     virtual ~SubObject() {}
 };
-struct FUN_00d6ac40_cls : PrimaryBase, MidBase, TailBase, SubObject {
-    SpawnedItem* m_pData;
-    int m_iField30;
-    unsigned int m_uiObjectFlags;
-
-    ~FUN_00d6ac40_cls() throw();
-};
-struct D6AD80Primary {
-    virtual void vfunc00();
-    virtual void FUN_00d6ad80();
-
-    int unk04;
-};
-struct D6AD80Secondary {
-    virtual void FUN_00d6ad80();
-};
-struct D6AD80Object : D6AD80Primary, D6AD80Secondary {
-    D6AD80Object();
-
-// @fnv 0x00d6ad80
-    virtual void FUN_00d6ad80();
-};
-D6AD80Object::D6AD80Object()
-{
-}
-struct D6AD90Primary {
-    virtual void vfunc00();
-    virtual void FUN_00d6ad90();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-};
-struct D6AD90Secondary {
-    virtual void FUN_00d6ad90();
-};
-struct D6AD90Object : D6AD90Primary, D6AD90Secondary {
-    D6AD90Object();
-
-// @fnv 0x00d6ad90
-    virtual void FUN_00d6ad90();
-};
-D6AD90Object::D6AD90Object()
-{
-}
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern unsigned long DAT_0126835c;
@@ -470,15 +259,6 @@ struct S00d6a9b0_Ctx
     S00d6a9b0_Sub* m_58;
 };
 
-struct S00d6a9b0_Owner
-{
-    virtual void o00(); virtual void o04(); virtual void o08(); virtual void o0c();
-    virtual void o10(); virtual void o14(); virtual void o18(); virtual void o1c();
-    virtual void o20(); virtual void o24(); virtual void o28(); virtual void o2c();
-    virtual void o30(); virtual void o34();
-    virtual void Fill(void* out, unsigned int mask, int zero, int flags);
-};
-
 extern int DAT_01269028;
 
 struct S00d6a9b0_Obj
@@ -488,9 +268,6 @@ struct S00d6a9b0_Obj
 
     void FUN_00d6a9b0(S00d6a9b0_Ctx* a1);
 };
-
-struct ViewerPrefix { S00d6a9b0_Owner* m_pOwnerObject; int unk04; int unk08; int unk0c; };
-struct WholeViewer : ViewerPrefix, S00d6a9b0_Obj {};
 
 // @f3 0x009f76f0 (community match, verified in this file)
 #include <new>
@@ -764,6 +541,8 @@ __forceinline void GObject::Run(GCtx* a1)
 
 } // namespace f3m_009f76f0
 
+// pdb: hkpBroadphaseViewer::postSimulationCallback | hkpBroadphaseViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void S00d6a9b0_Obj::FUN_00d6a9b0(S00d6a9b0_Ctx* ctx)
 {
     reinterpret_cast<f3m_009f76f0::GObject*>(this)->Run(reinterpret_cast<f3m_009f76f0::GCtx*>(ctx));

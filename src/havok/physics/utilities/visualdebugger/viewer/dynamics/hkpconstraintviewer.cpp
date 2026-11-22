@@ -14,6 +14,7 @@ struct FUN_00d69a80
 
 // Destructs the four hkDisplayGeometry members embedded at offsets 0x280, 0x1f0, 0x160 and 0xd0 of this object.
 // @fnv 0x00d69a80
+// pdb: hkpRagdollDrawer::~hkpRagdollDrawer | hkpConstraintViewer.obj | fnv360_0822_retail, call_gap, medium
 FUN_00d69a80::~FUN_00d69a80()
 {
     ((hkDisplayGeometry*)((char*)this + 0x280))->~hkDisplayGeometry();
@@ -95,6 +96,8 @@ class FUN_00d698b0 : public D698B0Base, public D698B0Listener
 
 // Base constructor then, if a world is set, registers this listener with every island in that world.
 // @fnv 0x00d698b0
+// pdb: hkpConstraintViewer::hkpConstraintViewer | hkpConstraintViewer.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: contexts
 FUN_00d698b0::FUN_00d698b0(void* info) : D698B0Base(info)
 {
     if (m_pOwningWorld)
@@ -112,7 +115,9 @@ extern hkProcessFactory* FUN_00dd9380;
 extern void* DAT_0126901c;
 void FUN_00d699c0();
 // @fnv 0x00d69a00
-void RegisterConstraintsProcessFactory()
+// pdb: hkpBroadphaseViewer::registerViewer | hkpBroadphaseViewer.obj | fnv360_0822_retail, udata, high
+// pdb: hkpBroadphaseViewer::registerViewer | hkpBroadphaseViewer.obj | fnv360_0822_retail, udata, high (was: RegisterConstraintsProcessFactory)
+void hkpBroadphaseViewer_registerViewer()
 {
     DAT_0126901c = FUN_00dd9380->FUN_00dd9380("Constraints", (void*)&FUN_00d699c0);
 }
@@ -208,6 +213,8 @@ struct FUN_00d69200_cls
 
 // Passes a pointer derived from this (this+8, or null when this-0x20 is null) to target->FUN_00c93920.
 // @fnv 0x00d69200
+// pdb: hkpMidphaseViewer::worldAddedCallback | hkpMidphaseViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d69200_cls::FUN_00d69200(SpawnedTarget* target)
 {
     target->FUN_00c93920(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
@@ -234,6 +241,8 @@ struct FUN_00d69230_cls
 
 // Calls apTarget->ClearValue with a pointer to this+8, or null if this-0x20 is null.
 // @fnv 0x00d69230
+// pdb: hkpMidphaseViewer::worldRemovedCallback | hkpMidphaseViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d69230_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
     apTarget->ClearValue(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
@@ -265,60 +274,11 @@ struct Target
     void ClearValue(void* apArg);
 };
 
-struct OwnerNode
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    Target** m_ppItems;
-    int m_iArrayLength;
-};
-
 struct PrimaryBase
 {
     virtual void unk00();
     unsigned int unk04;
     ~PrimaryBase();
-};
-
-struct MidBase
-{
-    virtual void unk00();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-};
-
-struct TailBase
-{
-    virtual void unk00();
-    OwnerNode* m_pSharedOwner;
 };
 
 struct SubObject
@@ -327,36 +287,6 @@ struct SubObject
     {}
 };
 
-struct FUN_00d69920_cls : PrimaryBase, MidBase, TailBase, SubObject
-{
-    void* m_pData;
-    int m_iField30;
-    unsigned int m_uiObjectFlags;
-
-    ~FUN_00d69920_cls() throw();
-};
-
-// @fnv 0x00d69920
-FUN_00d69920_cls::~FUN_00d69920_cls() throw()
-{
-    if (m_pSharedOwner != 0)
-    {
-        for (int i = 0; i < m_pSharedOwner->m_iArrayLength; ++i)
-        {
-            m_pSharedOwner->m_ppItems[i]->ClearValue(static_cast<SubObject*>(this));
-        }
-    }
-    AudioHolder* pHolder = FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
-    m_iField30 = 0;
-    unsigned int uiDataFlags = m_uiObjectFlags;
-    if ((uiDataFlags & 0x80000000u) == 0)
-    {
-        pAllocator->FreeData(m_pData, (uiDataFlags & 0x3fffffffu) * 4);
-    }
-    m_pData = 0;
-    m_uiObjectFlags = 0x80000000u;
-}
 }  // namespace fnv_00d69920
 
 struct AudioAllocator
@@ -442,6 +372,7 @@ struct FUN_00d69a40
 
 // Constructs the bundle by default-constructing its base, three cone members and one plane member.
 // @fnv 0x00d69a40
+// pdb: hkpRagdollDrawer::hkpRagdollDrawer | hkpConstraintViewer.obj | fnv360_0822_retail, call_gap, medium
 FUN_00d69a40::FUN_00d69a40() : m00(), m0d0(), m160(), m1f0(), m280()
 {}
 
@@ -450,41 +381,12 @@ extern "C"
 {
     extern unsigned32 g_0126901c;
 // @fnv 0x00d69ab0
+    // pdb: GFxSpriteDef::GetFrameRate | GFxSprite.obj | tesv_win, objrun_open, low
     unsigned32 FUN_00d69ab0(void)
     {
         return g_0126901c;
     }
 }
-
-struct D69AC0Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d69ac0();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-
-struct D69AC0Secondary
-{
-    virtual void FUN_00d69ac0();
-};
-
-struct D69AC0Object : D69AC0Primary, D69AC0Secondary
-{
-    D69AC0Object();
-
-// @fnv 0x00d69ac0
-    virtual void FUN_00d69ac0();
-};
-
-D69AC0Object::D69AC0Object()
-{}
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
@@ -828,6 +730,8 @@ struct F3ViewerOps
     void FUN_009f5c10(int constraint, int operationType);
 };
 
+// pdb: hkpConstraintViewer::postSimulationCallback | hkpConstraintViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void ConstraintViewer::FUN_00d69730(World* world)
 {
     int second_i;
@@ -888,23 +792,7 @@ void ConstraintViewer::FUN_00d69730(World* world)
 }
 
 
-extern float DAT_011b6168;
-void EnterTlsGuard();
-void FUN_00c904e0();
 namespace ConstraintDrawDetail {
-struct TraceEntry
-{
-    const char* volatile name;
-    unsigned tick;
-    unsigned value;
-};
-struct TraceBuffer
-{
-    TraceEntry* begin;
-    TraceEntry* current;
-    TraceEntry* end;
-    TraceEntry* limit;
-};
 struct Shape
 {
     virtual void v00();
@@ -933,29 +821,6 @@ struct Collidable
     int unk10;
     void* first;
     void* second;
-};
-struct LocalCollidable : Collidable
-{
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    void FUN_00cf3ea0(void*, void*, Shape*, bool);
-    void FUN_00cf40b0();
-};
-struct Transform
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    __declspec(align(16)) float x;
-    float y;
-    float z;
-    float w;
 };
 struct __declspec(align(16)) Renderer
 {
@@ -1068,14 +933,6 @@ struct __declspec(align(16)) Extended : Renderer
     void FUN_00d69a20();
     void FUN_00de7a70(Collidable*, void*, void*, void*);
     void FUN_00de5fe0(Collidable*, void*, void*, void*);
-};
-struct Tail
-{
-    void FUN_00da2560();
-};
-struct ComplexCleanup
-{
-    void FUN_00d69a80();
 };
 struct __declspec(align(16)) Complex : Renderer
 {
@@ -1232,148 +1089,4 @@ struct __declspec(align(16)) Complex : Renderer
     void FUN_00de59f0(Collidable*, void*, void*, void*);
     void FUN_00d69a80();
 };
-struct Viewer : ConstraintViewer
-{
-    void FUN_00d69260(int constraint, Entity* entity, int tag);
-};
-}
-// Records a Ttdraw trace, dispatches on the Collidable shape type to render via renderer or Complex, recurses for compound shapes, then records an Et trace.
-// @fnv 0x00d69260
-void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity, int tag)
-{
-    using namespace ConstraintDrawDetail;
-    Collidable* object = reinterpret_cast<Collidable*>(aiCollidable);
-    Transform* transform = reinterpret_cast<Transform*>(entity);
-    void* context = reinterpret_cast<void*>(tag);
-    Viewer* owner = this;
-    volatile unsigned uiShapeType;
-    Extended renderer;
-    Complex complexRenderer;
-    LocalCollidable child;
-    TraceBuffer* trace = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    if (trace->current < trace->limit)
-    {
-        TraceEntry* entry = trace->current;
-        entry->name = "Ttdraw";
-        _ReadWriteBarrier();
-        uiShapeType = (unsigned)__rdtsc();
-        entry->tick = uiShapeType;
-        trace->current = entry + 1;
-    }
-    uiShapeType = object->shape->getType();
-    EnterTlsGuard();
-    void* position = &transform->x;
-    switch (uiShapeType)
-    {
-    case 0: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FireMotionEvent(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 1: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7f20(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 2: {
-        renderer.FUN_00d69a20();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7a70(object, context, position, DAT_0126901c);
-        ((Tail*)&renderer.unk0d0)->FUN_00da2560();
-        break;
-    }
-    case 6: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7730(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 8: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7580(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 9: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de71d0(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 3: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de7020(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 14: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de6d80(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 7: {
-        complexRenderer.FUN_00d69a40();
-        complexRenderer.FUN_00de47d0(DAT_011b6168);
-        complexRenderer.FUN_00de6730(object, context, position, DAT_0126901c);
-        complexRenderer.FUN_00d69a80();
-        break;
-    }
-    case 12: {
-        child.FUN_00cf3ea0(object->first, object->second, object->shape->child, true);
-        owner->FUN_00d69260(reinterpret_cast<int>(&child), entity, tag);
-        child.FUN_00cf40b0();
-        break;
-    }
-    case 13: {
-        Shape* pParentShape = object->shape;
-        void* second = object->second;
-        void* first = object->first;
-        child.FUN_00cf3ea0(first, second, pParentShape->FUN_00cdf6c0(), true);
-        owner->FUN_00d69260(reinterpret_cast<int>(&child), entity, tag);
-        child.FUN_00cf40b0();
-        break;
-    }
-    case 15: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de6550(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 100:
-    case 101:
-    case 102: {
-        renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FireChainConstraints(object, context, position, DAT_0126901c);
-        break;
-    }
-    case 18: {
-        renderer.FUN_00d69a20();
-        renderer.FUN_00de47d0(DAT_011b6168);
-        renderer.FUN_00de5fe0(object, context, position, DAT_0126901c);
-        ((Tail*)&renderer.unk0d0)->FUN_00da2560();
-        break;
-    }
-    case 19: {
-        complexRenderer.FUN_00d69a40();
-        complexRenderer.FUN_00de47d0(DAT_011b6168);
-        complexRenderer.FUN_00de59f0(object, context, position, DAT_0126901c);
-        ((ComplexCleanup*)&complexRenderer)->FUN_00d69a80();
-        break;
-    }
-    }
-    FUN_00c904e0();
-    trace = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    if (trace->current < trace->limit)
-    {
-        TraceEntry* entry = trace->current;
-        entry->name = "Et";
-        _ReadWriteBarrier();
-        volatile unsigned tick = (unsigned)__rdtsc();
-        entry->tick = tick;
-        trace->current = entry + 1;
-    }
 }

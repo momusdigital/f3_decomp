@@ -48,6 +48,8 @@ struct FUN_00a816a0 : NiTriShapeData
 };
 // Constructs the base NiTriShapeData from the given arguments, then stores p1, p8 and p8*3 into unk08, unk40 and unk44 and p10/p11 into unk58/unk5a.
 // @fnv 0x00a816a0
+// pdb: NiTriShapeDynamicData::NiTriShapeDynamicData | NiTriShapeDynamicData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod, usTriangles, pusTriList, usActiveVertices, usActiveTriangles
 FUN_00a816a0::FUN_00a816a0(unsigned short p1, NiPoint3* p2, NiPoint3* p3, RgbaColor* p4, NiPoint2* p5,
                            unsigned short p6, NiGeometryData__DataFlags aeDataFlags, unsigned short p8,
                            unsigned short* p9, unsigned short p10, unsigned short p11)
@@ -339,18 +341,6 @@ struct S_B
         return DAT_011f6238.Alloc(n);
     }
 };
-
-extern unsigned char DAT_011f91c6;
-extern S_A* DAT_011f91a8;
-extern S_B* DAT_011f91ac;
-extern unsigned int DAT_011f91e0;
-extern unsigned int DAT_011f9508;
-
-void InitRenderSystem();
-void ClearAllCachedStates();
-void FUN_00ba50d0();
-void FUN_00bc0940();
-void ClearRefObject();
 
 // @f3 0x00addd70 (community match, verified in this file)
 namespace NativeDistantLodReset {
@@ -814,6 +804,8 @@ ObjR* __stdcall FUN_00b585c0(void* v, FnvOwner** out);
 
 // Passes Vec4 values assembled from a5 and a6 to the located object, then inserts key when absent from its KeyedList.
 // @fnv 0x00b59ae0
+// pdb: DistantLODShaderProperty::AddDistantLOD | DistantLODShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiCellChunk, aiCellKey, apDistantLODNode, apDistantLODParam, apPositions, afColors, aiNumPositions
 void __cdecl FUN_00b59ae0(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObjA4, Vec3* apPoints, float* a6,
                           unsigned short count)
 {
@@ -1042,8 +1034,6 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
     ma8 = S_00b6f0b0_Ptr(0);
     mac = S_00b6f0b0_Ptr(0);
 }
-
-extern "C" void _ReadWriteBarrier();
 
 struct MemoryManager
 {
@@ -1530,26 +1520,6 @@ struct Cache
 
     void InsertOrAssign(void*, Ref<Resource>);
 };
-
-bool Cache::FUN_00e92760(void* key, Ref<Resource>* out)
-{
-
-    CacheEntry* entry = buckets[Hash(key)];
-
-    while (entry)
-    {
-
-        if (Equal(key, entry->key))
-        {
-            *out = entry->value;
-            return true;
-        }
-
-        entry = entry->next;
-    }
-
-    return false;
-}
 
 Cache* GetNiTStringMap();
 
@@ -2384,10 +2354,6 @@ inline void* operator new(unsigned int n)
     return Resource::operator new(n);
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-
-int __cdecl PrintError(char*, unsigned int, const char*, ...);
-
 __forceinline bool IsKindOfType(NiObject* p, const NiRTTI* type)
 {
 
@@ -2490,6 +2456,8 @@ struct TreeShader : NiProperty {
 };
 extern "C" void* __cdecl FUN_00bffa60(void*, const void*, unsigned int);
 extern "C" int __cdecl FUN_00403230(char*, unsigned int, const char*, ...);
+// pdb: DistantLODShaderProperty::GetCachedGeometry | DistantLODShaderProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apDistantLODParam
 Resource* __cdecl FUN_00b587c0(Input* input)
 {
 

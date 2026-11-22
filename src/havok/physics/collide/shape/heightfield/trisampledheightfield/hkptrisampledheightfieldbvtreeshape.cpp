@@ -19,71 +19,6 @@ class hkpShape : public hkBaseObject
     virtual void v4();
 };
 
-// ---------------------------------------------------------------------------
-// The shape container.  It derives from the real class so that the members
-// keep their real offsets: m_kChildContainer.m_pContainedShape lives at +0x18.
-// ---------------------------------------------------------------------------
-struct TriSampledHeightFieldBvTreeShape : public hkpTriSampledHeightFieldBvTreeShape
-{
-    void FUN_00d27200();
-};
-
-// @fnv 0x00d27200
-void TriSampledHeightFieldBvTreeShape::FUN_00d27200()
-{
-    m_kChildContainer.m_pContainedShape->v4();
-}
-
-struct FUN_00d268b0_Obj : public hkpTriSampledHeightFieldBvTreeShape
-{
-    int __thiscall FUN_00d268b0(int a, int b);
-};
-
-// @fnv 0x00d268b0
-int __thiscall FUN_00d268b0_Obj::FUN_00d268b0(int a, int aiUnused)
-{
-    hkpShape* childShape = m_kChildContainer.m_pContainedShape;
-    void** vtable = *(void***)childShape;
-    typedef int(__thiscall * ShapeFunction)(hkpShape*, int, int);
-    ShapeFunction function = (ShapeFunction)vtable[6];
-
-    unsigned int result = (unsigned int)function(childShape, a, 0x100);
-    if (result <= 0x100u)
-    {
-        m_iChildSize = (hkInt32)result;
-        return 0x30;
-    }
-    return -1;
-}
-
-struct CallbackShape
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c(void* first, float value, void* last);
-};
-struct ShapeDispatch
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    CallbackShape* shape;
-    void DispatchCallback(void* first, float value, void* last);
-};
-// @fnv 0x00d26ae0
-void ShapeDispatch::DispatchCallback(void* first, float value, void* last)
-{
-    shape->v1c(first, value, last);
-}
-
 struct hkResultD26B
 {
     int m_00;
@@ -91,57 +26,7 @@ struct hkResultD26B
     {}
 };
 
-class hkTargetD26B
-{
-  public:
-    virtual void V0();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual void V4();
-    virtual void V5();
-    virtual void V6();
-    virtual void V7();
-    virtual hkResultD26B query(void* a, void* b);
-};
-
-class hkHolderD26B
-{
-  public:
-    hkTargetD26B* FUN_00d26450() throw();
-};
-
-class hkObjD26B
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    hkHolderD26B* m_holder;
-
-    hkResultD26B Query(void* a, void* b) throw();
-};
-
-// Forwards the two arguments to the query method of the target obtained from m_holder and returns its result.
-// @fnv 0x00d26b00
-hkResultD26B hkObjD26B::Query(void* a, void* b) throw()
-{
-    return m_holder->FUN_00d26450()->query(a, b);
-}
-
 extern void __cdecl ComputeAabbFromTransform(int, int, float, char*);
-
-struct FUN_00d268f0_LocalBuffer
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-};
 
 class FUN_00d268f0_Shape
 {
@@ -184,45 +69,6 @@ void __thiscall FUN_00d268f0_Shape::ProcessBuffer(int a,int b,float c,int d){
  reinterpret_cast<Task1475ShapeView*>(this)->CollectHits(reinterpret_cast<char*>(&buffer),d);
 }
 
-
-extern int DAT_010c6fd0;
-extern int DAT_010ce404;
-
-struct CC9F10Shape
-{
-    void FUN_00c90510();
-};
-
-struct FUN_00d26b50
-{
-    const int* m_pVT;
-    char pad4[2];
-    unsigned short m_uiValue1;
-    int m_iA;
-    int m_iB;
-    unsigned char m_bC;
-    char pad11[3];
-    const int* m_pD;
-    CC9F10Shape* m_pShape;
-    char pad1d[4];
-    unsigned char m_bE;
-    FUN_00d26b50(CC9F10Shape* pShape, unsigned char bE);
-};
-
-// Initializes a FUN_00d26b50 object with default values, assigns pShape and bE, and calls pShape->FUN_00c90510().
-// @fnv 0x00d26b50
-FUN_00d26b50::FUN_00d26b50(CC9F10Shape* pShape, unsigned char bE)
-{
-    m_uiValue1 = 1;
-    m_iA = 0;
-    m_iB = 8;
-    m_bC = 1;
-    m_pVT = &DAT_010ce404;
-    m_pD = &DAT_010c6fd0;
-    m_pShape = pShape;
-    m_pShape->FUN_00c90510();
-    m_bE = bE;
-}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -704,7 +550,6 @@ enum {  HK_SHAPE_BUFFER_ALIGNMENT = 16,	HK_SHAPE_BUFFER_SIZE = 256 };
 typedef __declspec(align(16)) char ShapeBuffer[HK_SHAPE_BUFFER_SIZE];
 typedef hkUint16 hkpVertexId;
 typedef hkUint32 hkpShapeKey;
-class hkpConvexShape;
 
 class hkpShape : public hkReferencedObject
 {
@@ -922,6 +767,8 @@ const hkpTriSampledHeightFieldCollection* hkpTriSampledHeightFieldBvTreeShape::F
 }
 }
 
+// pdb: hkpTriSampledHeightFieldBvTreeShape::queryAabb | hkpTriSampledHeightFieldBvTreeShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aabbIn, hits
 void TriSampledHeightFieldBvTreeShapeq::CollectHits(const hkAabbq& aabbInq, hkShapeKeyArray& hitsq) const
 {
 	const hk9a88c0::hkpSampledHeightFieldShape* hf = reinterpret_cast<const hk9a88c0::hkpTriSampledHeightFieldBvTreeShape*>(this)->FUN_009a82b0()->FUN_009a7e90();
@@ -1031,44 +878,6 @@ void TriSampledHeightFieldBvTreeShapeq::CollectHits(const hkAabbq& aabbInq, hkSh
 	}
 }
 
-
-struct TargetD26B
-{
-    virtual void V0();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual void V4();
-    virtual void V5();
-    virtual void V6();
-    virtual void V7();
-    virtual void V8();
-    virtual void Tail(int a, int b, int c, int d);
-};
-
-struct HolderD26B
-{
-    TargetD26B* FUN_00d26450();
-};
-
-struct FUN_00d26b30_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    HolderD26B* m_holder;
-
-    void FUN_00d26b30(int a, int b, int c, int d);
-};
-
-// @fnv 0x00d26b30
-void FUN_00d26b30_cls::FUN_00d26b30(int a, int b, int c, int d)
-{
-    m_holder->FUN_00d26450()->Tail(a, b, c, d);
-}
 
 extern "C"
 {
@@ -1385,115 +1194,3 @@ static __declspec(noinline) hkBoolResult
 typedef hkBoolResult(__cdecl* ExtentsQueryFn)(const hkAabb&, const hkpTriSampledHeightFieldCollection*, hkUint32&,
                                               hkUint32&, hkUint32&, hkUint32&);
 ExtentsQueryFn S00d26ba0_extentsFp = &FUN_00d26940;
-
-struct BvTreeShape : public hkpTriSampledHeightFieldBvTreeShape
-{
-    hkUint32 FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int maxNumKeys) const;
-};
-
-// Fills hits with shape keys for grid cells overlapping aabbIn and returns the count, or 0 if bounds checking finds every sampled height above or below it.
-// @fnv 0x00d26ba0
-hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int maxNumKeys) const
-{
-    hkAabb aabb(aabbIn);
-    const hkpTriSampledHeightFieldCollection* collection =
-        reinterpret_cast<const hkpTriSampledHeightFieldCollection*>(m_kChildContainer.m_pContainedShape);
-
-    hkUint32 maxZ, minZ, maxX, minX;
-    {
-        hkBoolResult ok = FUN_00d26940(aabb, collection, minX, maxX, minZ, maxZ);
-        if (!ok)
-        {
-            return 0;
-        }
-    }
-
-    int numHits = 0;
-    const hkpSampledHeightFieldShape* hf = collection->FUN_00d26450();
-
-    if (m_bCheckHeightFieldBounds)
-    {
-        bool allBelow = true;
-        bool allAbove = true;
-        int x, z;
-
-        for (x = minX; x <= maxX; x++)
-        {
-            for (z = minZ; z <= maxZ; z++)
-            {
-                hkpShapeKey key = (x << 1) + (z << 16);
-                if (numHits < maxNumKeys)
-                {
-                    hits[numHits++] = key;
-                }
-                if (numHits < maxNumKeys)
-                {
-                    hits[numHits++] = key | 1;
-                }
-                if (allBelow || allAbove)
-                {
-                    hkReal height = hf->getScaledHeight(x, z);
-                    if (aabb.m_kMinimumCorner.m128_f32[1] < height)
-                    {
-                        allBelow = false;
-                    }
-                    if (height < aabb.m_kMaximumCorner.m128_f32[1])
-                    {
-                        allAbove = false;
-                    }
-                }
-            }
-        }
-
-        if (allBelow || allAbove)
-        {
-            for (x = minX; x <= maxX + 1; x++)
-            {
-                hkReal height = hf->getHeightAt(x, maxZ + 1);
-                if (aabb.m_kMinimumCorner.m128_f32[1] < height)
-                {
-                    allBelow = false;
-                }
-                if (height < aabb.m_kMaximumCorner.m128_f32[1])
-                {
-                    allAbove = false;
-                }
-            }
-            for (z = minZ; z <= maxZ + 1; z++)
-            {
-                hkReal height = hf->getHeightAt(maxX + 1, z);
-                if (aabb.m_kMinimumCorner.m128_f32[1] < height)
-                {
-                    allBelow = false;
-                }
-                if (height < aabb.m_kMaximumCorner.m128_f32[1])
-                {
-                    allAbove = false;
-                }
-            }
-            if (allBelow || allAbove)
-            {
-                return 0;
-            }
-        }
-    }
-    else
-    {
-        for (int x = minX; x <= maxX; x++)
-        {
-            for (int z = minZ; z <= maxZ; z++)
-            {
-                hkpShapeKey key = (x << 1) + (z << 16);
-                if (numHits < maxNumKeys)
-                {
-                    hits[numHits++] = key;
-                    if (numHits < maxNumKeys)
-                    {
-                        hits[numHits++] = key | 1;
-                    }
-                }
-            }
-        }
-    }
-    return numHits;
-}

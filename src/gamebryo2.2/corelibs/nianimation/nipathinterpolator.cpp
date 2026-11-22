@@ -5,56 +5,77 @@
 extern "C" void* g_011f3f68;
 
 // @fnv 0x00a3dab0
-void* __cdecl FUN_00a3dab0()
+// pdb: bhkSerializable::GetRTTI | GlobalFunc.obj | fnv360_0822_retail, udata + bridge(vtable_prefix|vtable), high
+void* __cdecl bhkSerializable_GetRTTI()
 {
     return &g_011f3f68;
 }
 
-struct FUN_00a3dae0_shell
+// NiPosData / NiFloatData: key count, keys, key type and key size.
+struct PathKeyData_00a3dae0
+{
+    void* unk00;
+    unsigned int unk04;
+    unsigned int m_uiNumKeys;  // src: FNV360_PDB NiPosData +0x8
+    char* m_pkKeys;  // src: FNV360_PDB NiPosData +0xC
+    int m_eType;  // src: FNV360_PDB NiPosData +0x10
+    unsigned char m_ucKeySize;  // src: FNV360_PDB NiPosData +0x14
+};
+struct NiPathInterpolator
+{
+    unsigned char unk00[0x18];
+    PathKeyData_00a3dae0* m_spPathData;  // src: FNV360_PDB +0x18
+    PathKeyData_00a3dae0* m_spPctData;  // src: FNV360_PDB +0x1C
+    void __thiscall FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
+};
+struct FUN_00a3dae0_shell : NiPathInterpolator
 {
     void* __thiscall FUN_00a3dae0(short idx);
 };
 
 // Returns the pointer stored at offset 8 of the object at this+0x18 for idx 0 or this+0x1c for idx 1, or null if absent.
 // @fnv 0x00a3dae0
+// pdb: NiPathInterpolator::GetKeyCount | NiPathInterpolator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usChannel
 void* __thiscall FUN_00a3dae0_shell::FUN_00a3dae0(short idx)
 {
     if (idx == 0)
     {
-        void* p = *(void**)((char*)this + 0x18);
+        PathKeyData_00a3dae0* p = m_spPathData;
         if (p)
-            return *(void**)((char*)p + 8);
+            return (void*)p->m_uiNumKeys;
     }
     else if (idx == 1)
     {
-        void* p = *(void**)((char*)this + 0x1c);
+        PathKeyData_00a3dae0* p = m_spPctData;
         if (p)
-            return *(void**)((char*)p + 8);
+            return (void*)p->m_uiNumKeys;
     }
     return 0;
 }
 
-struct FUN_00a3db10_shell
+struct FUN_00a3db10_shell : NiPathInterpolator
 {
     int __thiscall GetValueByIndex(short arg);
 };
 
 // Returns the int at offset 0x10 of the pointer stored at this+0x18 for arg 0 or this+0x1c for arg 1, or 0 if that pointer is null or arg is other.
 // @fnv 0x00a3db10
+// pdb: NiPathInterpolator::GetKeyType | NiPathInterpolator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usChannel
 int __thiscall FUN_00a3db10_shell::GetValueByIndex(short aiIndex)
 {
-    unsigned char* b = reinterpret_cast<unsigned char*>(this);
     if (aiIndex == 0)
     {
-        int* p = *reinterpret_cast<int**>(b + 0x18);
+        PathKeyData_00a3dae0* p = m_spPathData;
         if (p)
-            return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(p) + 0x10);
+            return p->m_eType;
     }
     else if (aiIndex == 1)
     {
-        int* p = *reinterpret_cast<int**>(b + 0x1c);
+        PathKeyData_00a3dae0* p = m_spPctData;
         if (p)
-            return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(p) + 0x10);
+            return p->m_eType;
     }
     return 0;
 }
@@ -66,6 +87,8 @@ struct FUN_00a3db40_shell
 
 // Returns the int at offset 0xC of the object stored at this+0x18 when arg is 0, or at this+0x1C when arg is 1; otherwise returns 0.
 // @fnv 0x00a3db40
+// pdb: NiPathInterpolator::GetKeyArray | NiPathInterpolator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usChannel
 int __thiscall FUN_00a3db40_shell::FUN_00a3db40(short aiSlot)
 {
     if (aiSlot == 0)
@@ -83,26 +106,28 @@ int __thiscall FUN_00a3db40_shell::FUN_00a3db40(short aiSlot)
     return 0;
 }
 
-struct FUN_00a3db70_shell
+struct FUN_00a3db70_shell : NiPathInterpolator
 {
     char __thiscall FUN_00a3db70(unsigned short arg);
 };
 
 // Returns byte at offset 0x14 of the object stored at this+0x18 for arg 0 or this+0x1c for arg 1, otherwise 0.
 // @fnv 0x00a3db70
+// pdb: NiPathInterpolator::GetKeyStride | NiPathInterpolator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usChannel
 char __thiscall FUN_00a3db70_shell::FUN_00a3db70(unsigned short ausIndex)
 {
     if (ausIndex == 0)
     {
-        void* p = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x18);
+        PathKeyData_00a3dae0* p = m_spPathData;
         if (p)
-            return *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(p) + 0x14);
+            return p->m_ucKeySize;
     }
     else if (ausIndex == 1)
     {
-        void* p = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x1c);
+        PathKeyData_00a3dae0* p = m_spPctData;
         if (p)
-            return *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(p) + 0x14);
+            return p->m_ucKeySize;
     }
     return 0;
 }
@@ -110,6 +135,7 @@ char __thiscall FUN_00a3db70_shell::FUN_00a3db70(unsigned short ausIndex)
 extern "C" void* g_011f3e48;
 
 // @fnv 0x00a3dde0
+// pdb: bhkAction::GetRTTI | GlobalFunc.obj | fnv360_0822_retail, objrun, medium
 void* __cdecl FUN_00a3dde0()
 {
     return &g_011f3e48;
@@ -120,17 +146,13 @@ struct FloatDataHelper
     void __thiscall FUN_00a3cc40(float m_fStartTime, float m_fMaximumDistance);
 };
 
-struct NiPathInterpolator
-{
-    void* m_pPathInterp;
-    void __thiscall FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
-};
 
 // Forwards the two float arguments to the FloatDataHelper stored at offset 0x1c, if that pointer is non-null.
 // @fnv 0x00a3dc50
+// pdb: NiPathInterpolator::GuaranteeTimeRange | NiPathInterpolator.obj | tesv_win, objrun_open, low
 void __thiscall NiPathInterpolator::FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance)
 {
-    FloatDataHelper* p = (FloatDataHelper*)(*(void**)((char*)this + 0x1c));
+    FloatDataHelper* p = (FloatDataHelper*)m_spPctData;
     if (p)
     {
         p->FUN_00a3cc40(m_fStartTime, m_fMaximumDistance);
@@ -139,6 +161,8 @@ void __thiscall NiPathInterpolator::FUN_00a3dc50(float m_fStartTime, float m_fMa
 
 // Maps channel 0 to 1, channel 1 to 0, and any other channel to 6.
 // @fnv 0x00a3da80
+// pdb: NiPathInterpolator::GetKeyContent | NiPathInterpolator.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: usChannel
 int __stdcall GetChannelIndex(unsigned short usChannel)
 {
     if (usChannel == 0)
@@ -156,6 +180,7 @@ struct FUN_00a3dac0_shell
 
 // Calls FUN_00a48fb0, then deletes this with size 24 when idx has bit 0 set, and returns this.
 // @fnv 0x00a3dac0
+// pdb: BGSAddonNodeSoundHandleExtra::`scalar deleting destructor' | BGSAddonNode.obj | fnv360_0822_debug, vtable, high
 void* __thiscall FUN_00a3dac0_shell::DestroyIfOdd(short idx)
 {
     FUN_00a48fb0();
@@ -164,24 +189,25 @@ void* __thiscall FUN_00a3dac0_shell::DestroyIfOdd(short idx)
     return this;
 }
 
-struct FUN_00a3ddf0_shell
+struct FUN_00a3ddf0_shell : NiPathInterpolator
 {
-    void* __thiscall FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
+    void* __thiscall NiPathInterpolator_GenPathInterp(void* pData, int i1, int i2, float fTime);
 };
 extern void* DAT_011f3ca8[];
 // Reads a type index, element size and base pointer from this+0x18, then calls the DAT_011f3ca8 entry for that type with two element pointers and pData.
 // @fnv 0x00a3ddf0
-void* FUN_00a3ddf0_shell::FUN_00a3ddf0(void* pData, int aiIndexA, int aiIndexB, float fTime)
+// pdb: NiPathInterpolator::GenPathInterp | NiPathInterpolator.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void* FUN_00a3ddf0_shell::NiPathInterpolator_GenPathInterp(void* pData, int aiIndexA, int aiIndexB, float fTime)
 {
     char* pcElementBase = 0;
     int iType;
     unsigned char ucSize;
-    void* pkObj = *(void**)((char*)this + 0x18);
+    PathKeyData_00a3dae0* pkObj = m_spPathData;
     if (pkObj)
     {
-        iType = *(int*)((char*)pkObj + 0x10);
-        ucSize = *(unsigned char*)((char*)pkObj + 0x14);
-        pcElementBase = *(char**)((char*)pkObj + 0xC);
+        iType = pkObj->m_eType;
+        ucSize = pkObj->m_ucKeySize;
+        pcElementBase = pkObj->m_pkKeys;
     }
     else
     {
@@ -202,6 +228,7 @@ struct FUN_00a3e980_shell
 };
 
 // @fnv 0x00a3e980
+// pdb: NiTriShapeDynamicData::`scalar deleting destructor' | NiTriShapeDynamicData.obj | tesv_win, vtable_prefix, medium
 void* __thiscall FUN_00a3e980_shell::Destroy(unsigned int flags)
 {
     FUN_00a3dd40();
@@ -233,6 +260,8 @@ struct TargetHolder : FUN_00a3cbf0_shell
 };
 // Appends the string returned by _FUN_00a7d330(_g_011f3e48) to pkStrings, growing the array if the size limit is reached.
 // @fnv 0x00a3f4d0
+// pdb: NiParticles::GetViewerStrings | NiParticles.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pStrings
 void __thiscall TargetHolder::AppendString(StrArr* pkStrings)
 {
     FUN_00a3cbf0(pkStrings);
@@ -295,6 +324,8 @@ struct FUN_00a3dc80_shell
 };
 // Calls ProcessClone on this object and on the path and percentage objects if they are set.
 // @fnv 0x00a3dc80
+// pdb: NiMeshPSysData::ProcessClone | NiMeshPSysData.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiPathInterpolator::ProcessClone)
+// pdb params: kCloning
 void __thiscall FUN_00a3dc80_shell::FUN_00a3dc80(CloningProcess& kCloning)
 {
     ((NiObject*)this)->NiObject::ProcessClone(kCloning);
@@ -343,6 +374,8 @@ struct FUN_00a3dcc0_cls
     bool __thiscall FUN_00a3dcc0(void*);
 };
 // @fnv 0x00a3dcc0
+// pdb: bhkPackedNiTriStripsShape::RegisterStreamables | bhkPackedNiTriStripsShape.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiPathInterpolator::RegisterStreamables)
+// pdb params: arStream
 bool FUN_00a3dcc0_cls::FUN_00a3dcc0(void* pkStream)
 {
     if (!((HC1Base*)this)->FUN_00aa0ad0(pkStream))
@@ -360,20 +393,6 @@ struct A51BF0Base
 {
     static void* __cdecl operator new(unsigned int);
 };
-
-struct FUN_00a3f060_shell
-{
-    void* __thiscall FUN_00a3f060(short, short);
-};
-
-// @fnv 0x00a3f4b0
-void* __cdecl CreateA51BF0Base()
-{
-    void* p = A51BF0Base::operator new(0x5c);
-    if (p)
-        return ((FUN_00a3f060_shell*)p)->FUN_00a3f060(0, 0);
-    return 0;
-}
 
 extern float DAT_01097170;
 extern float DAT_01015f5c;
@@ -496,8 +515,8 @@ struct FUN_00a3dba0_Class
     virtual void vfDC()
     {}
 
-    float* __thiscall FUN_00a3ca80(int index, int mode);
-    float* __thiscall FUN_00a3ca80(int index);
+    float* __thiscall NiKeyBasedInterpolator_GetKeyAt(int index, int mode);
+    float* __thiscall NiKeyBasedInterpolator_GetKeyAt(int index);
 };
 
 struct FUN_00a3dba0_Class1 : FUN_00a3dba0_Class
@@ -511,6 +530,8 @@ struct FUN_00a3dba0_Class2 : FUN_00a3dba0_Class
 };
 
 // @fnv 0x00a3dba0
+// pdb: NiPathInterpolator::GetActiveTimeRange | NiPathInterpolator.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: fBeginKeyTime, fEndKeyTime
 void __thiscall FUN_00a3dba0_Class::GetRange(float* pfMin, float* pfMax)
 {
     *pfMin = DAT_01097170;
@@ -520,9 +541,9 @@ void __thiscall FUN_00a3dba0_Class::GetRange(float* pfMin, float* pfMax)
 
     if (count > 0)
     {
-        float* first = this->FUN_00a3ca80(0, 1);
+        float* first = this->NiKeyBasedInterpolator_GetKeyAt(0, 1);
         unsigned int index = reinterpret_cast<FUN_00a3dba0_Class2*>(this)->vfE0(1, 1) - 1;
-        float* last = this->FUN_00a3ca80(index);
+        float* last = this->NiKeyBasedInterpolator_GetKeyAt(index);
 
         if (first != 0 && last != 0)
         {
@@ -557,7 +578,7 @@ struct Source
     {
         return *reinterpret_cast<Stream**>(reinterpret_cast<char*>(this) + 0x24c);
     }
-    void __thiscall FUN_00a645b0();
+    void __thiscall NiStream_ReadLinkID();
 };
 void __stdcall FUN_00aa0ac0(Source*);
 struct PathData
@@ -570,8 +591,10 @@ struct PathData
     unsigned int unk34, value38;
     void __thiscall ReadFromStream(Source*);
 };
-// Reads channel, value38, value28, value2c and channel30 from the source's stream, accumulating bytesRead, then calls FUN_00a645b0 twice.
+// Reads channel, value38, value28, value2c and channel30 from the source's stream, accumulating bytesRead, then calls NiStream_ReadLinkID twice.
 // @fnv 0x00a3ed90
+// pdb: NiPathInterpolator::LoadBinary | NiPathInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void PathData::ReadFromStream(Source* source)
 {
     FUN_00aa0ac0(source);
@@ -587,8 +610,8 @@ void PathData::ReadFromStream(Source* source)
     stream->bytesRead += stream->Read(&value2c, 4);
     stream = source->stream();
     stream->bytesRead += stream->Read(&channel30, 2);
-    source->FUN_00a645b0();
-    source->FUN_00a645b0();
+    source->NiStream_ReadLinkID();
+    source->NiStream_ReadLinkID();
 }
 
 struct FNV_WriteStream;
@@ -806,6 +829,8 @@ static __forceinline void FNV_WriteField(FNV_WriteStream* pWriter, void* pData, 
 
 // Writes unk0c, unk38, unk28, unk2c and unk30 to the stream's writer, then calls f12 with unk18 and unk1c after FUN_00a95ca0.
 // @fnv 0x00a3ef70
+// pdb: NiPathInterpolator::SaveBinary | NiPathInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void FNV_Writer::WriteToStream(FNV_NiStream* pStream)
 {
     FUN_00a95ca0(pStream);
@@ -943,6 +968,8 @@ class NiPathInterp : public NiInterpolatorBase
 };
 
 // @fnv 0x00a3f2f0
+// pdb: NiPathInterpolator::CopyMembers | NiPathInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkDest, kCloning
 void NiPathInterp::FUN_00a3f2f0(NiPathInterp* pDest, CloningProcess& kCloning)
 {
     NiInterpolatorBase::CopyMemberData(pDest, kCloning);
@@ -1003,23 +1030,6 @@ class NiObjectA3F
     int unk58;
 };
 
-class NiCloningProcessA3F;
-
-class NiOwnerA3F
-{
-  public:
-    void CopyMemberData(NiObjectA3F* pkDest, NiCloningProcessA3F& kCloning);
-    NiObjectA3F* CloneObject(NiCloningProcessA3F& kCloning);
-};
-
-// @fnv 0x00a3f520
-NiObjectA3F* NiOwnerA3F::CloneObject(NiCloningProcessA3F& kCloning)
-{
-    NiObjectA3F* pkClone = new NiObjectA3F(0, 0);
-    CopyMemberData(pkClone, kCloning);
-    return pkClone;
-}
-
 struct MyPosKey
 {
     float m_fTime;
@@ -1039,16 +1049,19 @@ static __forceinline MyPosKey* GetKey(MyPosKey* pkKeys, unsigned int uiIndex, un
 
 struct PathInterpExt : public NiPathInterp
 {
-    void __thiscall FUN_00a3ea60(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
-    void FindKeyPair(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
+    void __thiscall NiPathInterpolator_GetPercentLoc(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
+    void NiPathInterpolator_GetLoc(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime);
 };
 
 // @fnv 0x00a3ec30
-void PathInterpExt::FindKeyPair(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime)
+// pdb: NiPathInterpolator::GetLoc | NiPathInterpolator.obj | fnv360_0822_retail, call_seq, high
+// pdb params: fTime, uiI1, uiI2, fNormTime
+// pdb: NiPathInterpolator::GetLoc | NiPathInterpolator.obj | fnv360_0822_retail, call_seq, high (was: FindKeyPair)
+void PathInterpExt::NiPathInterpolator_GetLoc(float fTime, unsigned int& ruiKey0, unsigned int& ruiKey1, float& rfNormTime)
 {
     if (GetBit(0x10))
     {
-        FUN_00a3ea60(fTime, ruiKey0, ruiKey1, rfNormTime);
+        NiPathInterpolator_GetPercentLoc(fTime, ruiKey0, ruiKey1, rfNormTime);
         unk10 = ruiKey0;
         return;
     }
@@ -1180,6 +1193,8 @@ class FUN_00a3f060 : public NiKeyBasedInterpolator
     float m_fLast;
 };
 // @fnv 0x00a3f060
+// pdb: NiPathInterpolator::NiPathInterpolator | NiPathInterpolator.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pkPathData, pkPctData
 FUN_00a3f060::FUN_00a3f060(NiPosData* pkPathData, NiFloatData* pkPctData)
     : m_pPathObject(pkPathData), m_pPathInterp(pkPctData), m_kRotationMatrix(DAT_011f4208), m_kPathOffset(DAT_011a9424)
 {
@@ -1218,14 +1233,15 @@ struct FUN_00a3e680_shell
     int unk1c;
     float* m_pfPathLengths;
     float m_fTotalPathLength;
-    float FUN_00a3e680(int i1, int i2, float t);
+    float NiPathInterpolator_PathLength(int i1, int i2, float t);
     float SampleLength(int i1, int i2, float t);
-    void FUN_00a3ea60(float fTime, unsigned int& i1, unsigned int& i2, float& fNormTime);
+    void NiPathInterpolator_GetPercentLoc(float fTime, unsigned int& i1, unsigned int& i2, float& fNormTime);
 };
 
 // Normalizes fTime to [0,1], locates the path key segment containing the target distance, and refines the local parameter via Newton iteration.
 // @fnv 0x00a3ea60
-void FUN_00a3e680_shell::FUN_00a3ea60(float fTime, unsigned int& ri1, unsigned int& ri2, float& rfLocalTime)
+// pdb: NiPathInterpolator::GetPercentLoc | NiPathInterpolator.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void FUN_00a3e680_shell::NiPathInterpolator_GetPercentLoc(float fTime, unsigned int& ri1, unsigned int& ri2, float& rfLocalTime)
 {
     unsigned int uiNumKeys = m_pPathObject ? m_pPathObject->m_uiNumKeys : 0;
     if (fTime == 0.0f)
@@ -1262,7 +1278,7 @@ void FUN_00a3e680_shell::FUN_00a3ea60(float fTime, unsigned int& ri1, unsigned i
     }
     for (int it = 0; it < 32; it++)
     {
-        float fError = FUN_00a3e680(i1, i2, fLocalTime) - fAccumulatedDistance;
+        float fError = NiPathInterpolator_PathLength(i1, i2, fLocalTime) - fAccumulatedDistance;
         if ((float)fabs(fError) <= DAT_01032980)
             break;
         fLocalTime = (float)(fLocalTime - fError / SampleLength(i1, i2, fLocalTime));
@@ -1312,11 +1328,13 @@ struct PathInterpLink : public NiPathInterp
         SetBit(x, 1);
     }
     void FUN_00a95ca0(NiStream&);
-    float GetAccumulatedValue();
+    float NiPathInterpolator_GetTotalPathLength();
     void FUN_00a3ee80(NiStream&);
 };
 // Reads path data from a stream, updates constant-velocity state, and computes curvature from the path object's position keys.
 // @fnv 0x00a3ee80
+// pdb: NiPathInterpolator::LinkObject | NiPathInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void PathInterpLink::FUN_00a3ee80(NiStream& stream)
 {
     FUN_00a95ca0(stream);
@@ -1325,7 +1343,7 @@ void PathInterpLink::FUN_00a3ee80(NiStream& stream)
     SetCVDataNeedsUpdate(true);
     if (GetConstVelocity() && GetCVDataNeedsUpdate())
     {
-        m_fTotalPathLength = GetAccumulatedValue();
+        m_fTotalPathLength = NiPathInterpolator_GetTotalPathLength();
         SetCVDataNeedsUpdate(false);
     }
     if (m_pPathObject)
@@ -1408,7 +1426,7 @@ class NiPosDataQ : public NiObj2
     unsigned char m_ucKeyDataSize;
 };
 
-float InterpolateKey(float fTime, void* pkKeys, int eType, unsigned int uiNumKeys, unsigned int& uiLastIdx,
+float NiFloatKey_GenInterp(float fTime, void* pkKeys, int eType, unsigned int uiNumKeys, unsigned int& uiLastIdx,
                      unsigned char ucSize);
 
 class NiObjectNETQ;
@@ -1448,16 +1466,19 @@ class NiPathInterpQ
         return (bool)GetField(0x20, 5);
     }
 
-    __declspec(noalias) void FindKeyPair(float fTime, int& iI1, int& iI2, float& fNormTime);
-    void EvaluateBasis(int iI1, int iI2, float fTime, NiMatrix3Q& kRot);
-    NiPoint3 FUN_00a3ddf0(int iI1, int iI2, float fTime);
+    __declspec(noalias) void NiPathInterpolator_GetLoc(float fTime, int& iI1, int& iI2, float& fNormTime);
+    void NiPathInterpolator_CalcRefFrame(int iI1, int iI2, float fTime, NiMatrix3Q& kRot);
+    NiPoint3 NiPathInterpolator_GenPathInterp(int iI1, int iI2, float fTime);
 
-    bool UpdateTransform(float fTime, NiObjectNETQ* pkTarget, NiQuatTransformQ& kValue);
+    bool NiPathInterpolator_Update(float fTime, NiObjectNETQ* pkTarget, NiQuatTransformQ& kValue);
 };
 
 // Computes the path position and optional rotation at fTime, writes them into kValue, and returns whether the transform was updated.
 // @fnv 0x00a3f120
-bool NiPathInterpQ::UpdateTransform(float fTime, NiObjectNETQ* pkTarget, NiQuatTransformQ& kValue)
+// pdb: NiPathInterpolator::Update | NiPathInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: fTime, pkInterpTarget, kValue
+// pdb: NiPathInterpolator::Update | NiPathInterpolator.obj | fnv360_0822_retail, caller_sim, high (was: UpdateTransform)
+bool NiPathInterpQ::NiPathInterpolator_Update(float fTime, NiObjectNETQ* pkTarget, NiQuatTransformQ& kValue)
 {
     if (!TimeHasChanged(fTime))
     {
@@ -1485,19 +1506,19 @@ bool NiPathInterpQ::UpdateTransform(float fTime, NiObjectNETQ* pkTarget, NiQuatT
         pkPathKeys = m_pPathObject->m_pKeyArray;
     if (!pkPathKeys)
         return false;
-    float fPct = InterpolateKey(fTime, pkKeys, eType, uiNumKeys, m_uiPercentKeyCount, ucSize);
+    float fPct = NiFloatKey_GenInterp(fTime, pkKeys, eType, uiNumKeys, m_uiPercentKeyCount, ucSize);
 
     int iI1, iI2;
-    FindKeyPair(fPct, iI1, iI2, fPct);
+    NiPathInterpolator_GetLoc(fPct, iI1, iI2, fPct);
 
     if (GetFollow())
     {
         NiMatrix3Q kRot;
-        EvaluateBasis(iI1, iI2, fPct, kRot);
+        NiPathInterpolator_CalcRefFrame(iI1, iI2, fPct, kRot);
         m_kRotationMatrix.FUN_00a6df40(kRot);
     }
 
-    m_kPathOffset = FUN_00a3ddf0(iI1, iI2, fPct);
+    m_kPathOffset = NiPathInterpolator_GenPathInterp(iI1, iI2, fPct);
 
     kValue.GetTransformScale(m_kPathOffset);
     if (GetFollow())
@@ -1586,12 +1607,13 @@ struct NiPathInterpolatorStub : NiKeyBasedInterpolatorStub
         GetPathKeys(uiNumKeys, eType, ucSize);
         return memcmp(m_pfPathLengths, pkPath->m_pfPathLengths, uiNumKeys * sizeof(float)) == 0;
     }
-    bool FUN_00a3e7b0(NiObjectStub* pkObject);
+    bool NiPathInterpolator_IsEqual(NiObjectStub* pkObject);
 };
 
 // Compares base equality, path objects and interpolator, path lengths, total length, point count, flags, and timing state.
 // @f3 0x008b88b0 (community match, verified in this file)
-bool NiPathInterpolatorStub::FUN_00a3e7b0(NiObjectStub* pkObject)
+// pdb: NiPathInterpolator::IsEqual | NiPathInterpolator.obj | fnv360_0721_beta, objrun + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+bool NiPathInterpolatorStub::NiPathInterpolator_IsEqual(NiObjectStub* pkObject)
 {
     if (!NiKeyBasedInterpolatorStub::IsEqual(pkObject))
         return false;
@@ -1739,18 +1761,12 @@ struct PathBasis
     float x, y, z;
     FV3 __thiscall FUN_0053d1a0(const FV3&) const;
 };
-struct PathBlend
-{
-    FV3* __thiscall FUN_00439e90(FV3*, const FV3*);
-};
 extern char DAT_011a9448;
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 extern PathBasis DAT_011a9484;
-extern float DAT_011f3e40;
-extern unsigned int DAT_011f3e44;
 extern float DAT_01097304;
 extern "C" double __cdecl atan(double);
-extern void __cdecl ComputeFrenetFrame(float, MyPosKey*, MyPosKey*, unsigned int, FV3*, FV3*, FV3*, float*);
+extern void __cdecl NiPosKey_CoordinateFrame(float, MyPosKey*, MyPosKey*, unsigned int, FV3*, FV3*, FV3*, float*);
 extern FV3 __cdecl FUN_004a3760(float, const FV3&);
 struct PathMotion : NiKeyBasedInterpolatorStub
 {
@@ -1783,7 +1799,7 @@ struct PathMotion : NiKeyBasedInterpolatorStub
         stride = 0;
         return 0;
     }
-    void __thiscall EvaluateBasis(unsigned int first, unsigned int second, float time, FM3* out);
+    void __thiscall NiPathInterpolator_CalcRefFrame(unsigned int first, unsigned int second, float time, FM3* out);
 };
 
 extern "C" double __cdecl sqrt(double);
@@ -1802,7 +1818,10 @@ __declspec(noinline) FV3 PathBasis::FUN_0053d1a0(const FV3& v) const
 
 // Computes the path basis matrix at a given time by interpolating position, tangent, and curvature, applying smoothing, axis, and bank adjustments.
 // @fnv 0x00a3de50
-void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int aiSecondKey, float time, FM3* out)
+// pdb: NiPathInterpolator::CalcRefFrame | NiPathInterpolator.obj | fnv360_0822_retail, call_seq, high
+// pdb params: ui1, ui2, fNormTime, kRefFrame
+// pdb: NiPathInterpolator::CalcRefFrame | NiPathInterpolator.obj | fnv360_0822_retail, call_seq, high (was: EvaluateBasis)
+void __thiscall PathMotion::NiPathInterpolator_CalcRefFrame(unsigned int aiFirstKey, unsigned int aiSecondKey, float time, FM3* out)
 {
     FM3 transform;
     memcpy(&transform, &DAT_011a9448, 36);
@@ -1819,7 +1838,7 @@ void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int 
         float curvature, otherCurvature;
         if (GetBit(4))
         {
-            ComputeFrenetFrame(time, GetKey(pKeys, aiFirstKey, stride), GetKey(pKeys, aiSecondKey, stride), type,
+            NiPosKey_CoordinateFrame(time, GetKey(pKeys, aiFirstKey, stride), GetKey(pKeys, aiSecondKey, stride), type,
                                &vPosition, &vTangent, &normal, &curvature);
             if (smoothing != 0.0f)
             {
@@ -1836,10 +1855,10 @@ void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int 
                         FV3 vOtherPos, vOtherTangent;
                         firstWeight = (smoothing + (1.0f - time)) / (2.0f * smoothing);
                         secondWeight = 1.0f - firstWeight;
-                        ComputeFrenetFrame(1.0f - smoothing, GetKey(pKeys, aiFirstKey, stride),
+                        NiPosKey_CoordinateFrame(1.0f - smoothing, GetKey(pKeys, aiFirstKey, stride),
                                            GetKey(pKeys, aiSecondKey, stride), type, &vOtherPos, &vTangent, &normal,
                                            &curvature);
-                        ComputeFrenetFrame(smoothing, GetKey(pKeys, index, stride), GetKey(pKeys, index + 1, stride),
+                        NiPosKey_CoordinateFrame(smoothing, GetKey(pKeys, index, stride), GetKey(pKeys, index + 1, stride),
                                            type, &vOtherPos, &vOtherTangent, &normal, &otherCurvature);
                         vTangent =
                             FUN_004a3760(firstWeight, vTangent).FUN_00439e90(FUN_004a3760(secondWeight, vOtherTangent));
@@ -1859,10 +1878,10 @@ void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int 
                         FV3 vOtherPos, vOtherTangent;
                         secondWeight = (smoothing - time) / (2.0f * smoothing);
                         firstWeight = 1.0f - secondWeight;
-                        ComputeFrenetFrame(smoothing, GetKey(pKeys, aiFirstKey, stride),
+                        NiPosKey_CoordinateFrame(smoothing, GetKey(pKeys, aiFirstKey, stride),
                                            GetKey(pKeys, aiSecondKey, stride), type, &vOtherPos, &vTangent, &normal,
                                            &curvature);
-                        ComputeFrenetFrame(1.0f - smoothing, GetKey(pKeys, index - 1, stride),
+                        NiPosKey_CoordinateFrame(1.0f - smoothing, GetKey(pKeys, index - 1, stride),
                                            GetKey(pKeys, index, stride), type, &vOtherPos, &vOtherTangent, &normal,
                                            &otherCurvature);
                         vTangent =
@@ -1879,7 +1898,7 @@ void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int 
         }
         else
         {
-            ComputeFrenetFrame(time, GetKey(pKeys, aiFirstKey, stride), GetKey(pKeys, aiSecondKey, stride), type,
+            NiPosKey_CoordinateFrame(time, GetKey(pKeys, aiFirstKey, stride), GetKey(pKeys, aiSecondKey, stride), type,
                                &vPosition, &vTangent, &normal, &curvature);
             transform.SetCol(0, vPosition);
             FV3 vBasis = DAT_011a9484.FUN_0053d1a0(vPosition);

@@ -72,7 +72,7 @@ class Vec4
     __forceinline Real& operator()(int i) { return (&x)[i]; }
     __forceinline const Real& operator()(int i) const { return (&x)[i]; }
 
-    void FUN_008d2a00(const Rotation& r, const Vec4& v);   
+    void hkVector4_setRotatedDir(const Rotation& r, const Vec4& v);   
     void FUN_00477880(const Rotation& r, const Vec4& v);   
     __forceinline void _setRotatedDir(const Rotation& r, const Vec4& v);
 
@@ -124,7 +124,7 @@ class Rotation
 {
   public:
     __forceinline const Vec4& getColumn(int i) const { return (&m_col0)[i]; }
-    void FUN_00924b40(const Quaternion& q);   
+    void hkRotation_set(const Quaternion& q);   
 
     Vec4 m_col0;
     Vec4 m_col1;
@@ -137,7 +137,7 @@ class Transform
     __forceinline Rotation& getRotation() { return m_rotation; }
     __forceinline const Rotation& getRotation() const { return m_rotation; }
     __forceinline Vec4& getTranslation() { return m_translation; }
-    __forceinline void setRotation(const Quaternion& q) { m_rotation.FUN_00924b40(q); }
+    __forceinline void setRotation(const Quaternion& q) { m_rotation.hkRotation_set(q); }
     __forceinline static const Vec4& getIdentityColumn0() { return DAT_010f3370; }
 
     Rotation m_rotation;
@@ -164,7 +164,7 @@ class Quaternion
     Vec4 m_vec;
 };
 
-UInt32 __cdecl FUN_00a0a120(const Vec4& q);   
+UInt32 __cdecl hkVector4Util_packQuaternionIntoInt32(const Vec4& q);   
 
 class SweptTransform
 {
@@ -376,7 +376,8 @@ __forceinline void stepMotionState(const StepInfo& info, Vec4& linearVelocity, V
 }
 }
 // The integration types and inline helper are from the shared motion unit.
-void __cdecl FUN_009a9cb0(const MotionIntegration009a9cb0::N9ac100::StepInfo& info,
+// pdb: hkRigidMotionUtilStep | hkpRigidMotionUtil.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq) + skyrim(call_gap), high
+void __cdecl hkRigidMotionUtilStep(const MotionIntegration009a9cb0::N9ac100::StepInfo& info,
                          void* const* objects, int count, int motionOffset)
 {
     using namespace MotionIntegration009a9cb0::N9ac100;

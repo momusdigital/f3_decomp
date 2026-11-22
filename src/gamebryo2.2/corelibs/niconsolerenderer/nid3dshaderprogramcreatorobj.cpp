@@ -7,6 +7,8 @@ int __cdecl FUN_00aa0020(int a, int b, const char* c);
 
 // Allocates a buffer of size b, copies a into it, stores the pointer and size in c and d, and returns false with an error if a or b is zero.
 // @fnv 0x00e98370
+// pdb: NiD3DShaderProgramCreatorObj::LoadShaderCodeFromBuffer | NiD3DShaderProgramCreatorObj.obj | fnv360_0822_retail, ustr_rel, medium
+// pdb params: pvBuffer, uiBufferSize, pvCode, uiCodeSize, pvConstantData, uiConstantSize, bRecoverable
 bool __stdcall CopyShaderBuffer(int apSource, int uiSize, int* pOutBuffer, int* pOutSize, int* e, int* f, int g)
 {
     *pOutBuffer = 0;
@@ -43,6 +45,8 @@ typedef int(__cdecl* FUN_00aa0020_4args)(int, int, const char*, const char*);
 
 // Resolves a file path, opens it, reads its entire contents into a newly allocated buffer, and returns the buffer and size via out parameters.
 // @fnv 0x00e981f0
+// pdb: NiD3DShaderProgramCreatorObj::LoadShaderCodeFromFile | NiD3DShaderProgramCreatorObj.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcFileName, pvCode, uiCodeSize, pvConstantData, uiConstantSize, bRecoverable
 bool __stdcall FUN_00e981f0(const char* apFilePath, void** apOutBuffer, unsigned int* outSize,
                             unsigned int* apOutExtra1, unsigned int* apOutExtra2, int aiContext)
 {

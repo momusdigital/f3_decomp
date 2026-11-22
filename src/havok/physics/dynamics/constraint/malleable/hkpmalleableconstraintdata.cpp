@@ -35,6 +35,8 @@ struct MalleableReal
     MalleableRuntime* m_runtime;
 };
 
+// pdb: bhkConstraint::SetEntityA | bhkConstraint.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apEntity
 void hkMalleableConstraintData::SetContactNormal(int index)
 {
     if (this == 0)
@@ -56,31 +58,8 @@ void hkMalleableConstraintData::SetContactNormal(int index)
 }
 
 
-struct ConstraintDataVTable
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c(int);
-};
-struct MalleableConstraintDataStandIn
-{
-    int m_auiShapeKeys[3];
-    ConstraintDataVTable* m_pConstraintData;
-    int FUN_00cdf690(int a);
-};
-// @fnv 0x00cdf690
-int MalleableConstraintDataStandIn::FUN_00cdf690(int aiValue)
-{
-    m_pConstraintData->v1c(aiValue);
-    return aiValue;
-}
-
 // @fnv 0x00cdf6b0
+// pdb: PatrolActorPackageData::GetPackageType | PatrolPackage.obj | fnv360_0822_retail, vtable, high
 int FUN_00cdf6b0()
 {
     return 13;
@@ -146,44 +125,14 @@ public:
     virtual void V15(FUN_00cdf620_Arg* argument);
 };
 }
+// pdb: hkpMalleableConstraintData::getConstraintInfo | hkpMalleableConstraintData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: info
 void FUN_00cdf620_cls::DispatchArg(FUN_00cdf620_Arg* argument) {
     ((task1470::FUN_00cdf620_Target*)m_target)->V15(argument);
     argument->m_data = &m_10;
     argument->m_iElementCount = 12;
 }
 
-
-struct hkPairCDF6
-{
-    int m_pHeadNode;
-    int m_iSecondInteger;
-};
-
-class hkInnerCDF6
-{
-  public:
-    virtual void V0();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual void V4();
-    virtual void V5();
-    virtual void V6();
-    virtual void V7();
-    virtual void V8();
-    virtual int forward(hkPairCDF6 kPair);
-};
-
-class hkOuterCDF6
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    hkInnerCDF6* m_inner;
-
-    int ForwardToInner(hkPairCDF6 kPair);
-};
 
 // Forwards the pair to m_inner's virtual forward and returns its result.
 // @f3 0x00652db0 (community match, verified in this file)
@@ -196,6 +145,8 @@ struct InventoryActionHandler
     int FUN_00697500(int selected, int item);
 };
 
+// pdb: InventoryMenu::SetKnobPosition | InventoryMenu.obj | fnv360_0822_debug, objrun, medium
+// pdb params: abPlaySounds
 int __cdecl FUN_00652db0(int item)
 {
     if (DAT_01076860 != 0)
@@ -213,6 +164,7 @@ class MalleableGetterStandIn : public hkpMalleableConstraintData
 };
 
 // @fnv 0x00cdf6c0
+// pdb: hkpMalleableConstraintData::getWrappedConstraintData | hkpMalleableConstraintData.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: hkpRagdollConstraintData::getType)
 hkpConstraintData* MalleableGetterStandIn::FUN_00cdf6c0()
 {
     return m_pConstraintData;
@@ -222,11 +174,12 @@ struct FUN_00cdf6d0_t
 {
     int m_auiShapeKeys[3];
     int m_field_c;
-    int FUN_00cdf6d0();
+    int hkClass_getNumDeclaredInterfaces();
 };
 
 // @fnv 0x00cdf6d0
-int FUN_00cdf6d0_t::FUN_00cdf6d0()
+// pdb: hkClass::getNumDeclaredInterfaces | hkClass.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap|call_seq) + skyrim(call_gap), high
+int FUN_00cdf6d0_t::hkClass_getNumDeclaredInterfaces()
 {
     return m_field_c;
 }
@@ -379,26 +332,4 @@ void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, int param2)
     {
         FUN_00d6f460(info.unk10, info.unk14, (Cdf7c0Buf*)&buf, param2);
     }
-}
-
-
-class hkObjectCDF6
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    float m_uiFilterValue;
-
-    void FUN_00cdf670(float fValue);
-};
-
-// @fnv 0x00cdf670
-void hkObjectCDF6::FUN_00cdf670(float fValue)
-{
-    m_uiFilterValue = fValue;
 }

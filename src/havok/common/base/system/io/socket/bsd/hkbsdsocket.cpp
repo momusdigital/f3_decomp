@@ -17,6 +17,7 @@ struct FUN_00da2dc0_class
     void CloseSocket();
 };
 // @fnv 0x00da2dc0
+// pdb: hkBsdSocket::close | hkBsdSocket.obj | fnv360_0822_retail, vtable, medium
 void FUN_00da2dc0_class::CloseSocket()
 {
     if (m_pSocket != -1)
@@ -36,6 +37,7 @@ struct hkBsdSocket
 };
 
 // @fnv 0x00da3080
+// pdb: hkBsdSocket::~hkBsdSocket | hkBsdSocket.obj | tesv_win, hash, low
 void __thiscall hkBsdSocket::Destroy()
 {
     *(int*)this = (int)&DAT_010d5030;
@@ -46,7 +48,7 @@ void __thiscall hkBsdSocket::Destroy()
 }
 
 extern "C" void __cdecl FUN_00d2b850(void);
-extern "C" void __cdecl FUN_00da2de0(void*);
+extern "C" void __cdecl hkBsdSocket_createSocket(void*);
 extern int DAT_010d5030;
 
 struct FUN_00da30a0_cls
@@ -54,19 +56,20 @@ struct FUN_00da30a0_cls
     void* m_vft;
     char m_auiShapeKeys[28];
     int m_field_0x20;
-    void FUN_00da2de0();
+    void hkBsdSocket_createSocket();
     void* __thiscall InitWithParam(int param);
 };
 
-// Calls FUN_00d2b850, sets the vtable to DAT_010d5030 and m_field_0x20 to param, calls FUN_00da2de0 if param is -1, and returns this.
+// Calls FUN_00d2b850, sets the vtable to DAT_010d5030 and m_field_0x20 to param, calls hkBsdSocket_createSocket if param is -1, and returns this.
 // @fnv 0x00da30a0
+// pdb: hkBsdSocket::hkBsdSocket | hkBsdSocket.obj | tesv_win, call_gap, low
 void* __thiscall FUN_00da30a0_cls::InitWithParam(int param)
 {
     FUN_00d2b850();
     m_vft = &DAT_010d5030;
     m_field_0x20 = param;
     if (param == -1)
-        FUN_00da2de0();
+        hkBsdSocket_createSocket();
     return this;
 }
 
@@ -74,11 +77,12 @@ struct FUN_00da2db0_cls
 {
     char m_auiShapeKeys[0x20];
     int m_pSocket;
-    bool* __thiscall FUN_00da2db0(bool* pOut);
+    bool* __thiscall hkBsdSocket_isOk(bool* pOut);
 };
 
 // @fnv 0x00da2db0
-bool* FUN_00da2db0_cls::FUN_00da2db0(bool* pOut)
+// pdb: hkBsdSocket::isOk | hkBsdSocket.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_open), high
+bool* FUN_00da2db0_cls::hkBsdSocket_isOk(bool* pOut)
 {
     *pOut = (m_pSocket != -1);
     return pOut;
@@ -92,11 +96,12 @@ struct FUN_00da2e60_cls
     void* m_vft;  // +0x00
     char m_auiShapeKeys[0x1c];
     int m_pSocket;  // +0x20
-    int FUN_00da2e60(int, int);
+    int hkBsdSocket_write(int, int);
 };
 
 // @fnv 0x00da2e60
-int FUN_00da2e60_cls::FUN_00da2e60(int a, int b)
+// pdb: hkBsdSocket::write | hkBsdSocket.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun), high
+int FUN_00da2e60_cls::hkBsdSocket_write(int a, int b)
 {
     int r;
     if (m_pSocket != -1)
@@ -127,11 +132,12 @@ struct FUN_00da2de0_class
     char m_auiShapeKeys[0x1c];
     int m_pSocket;
 
-    int FUN_00da2de0();
+    int hkBsdSocket_createSocket();
 };
 
 // @fnv 0x00da2de0
-int FUN_00da2de0_class::FUN_00da2de0()
+// pdb: hkBsdSocket::createSocket | hkBsdSocket.obj | fnv360_0721_beta, objrun + bridge(hash|objrun) + skyrim(hash), high
+int FUN_00da2de0_class::hkBsdSocket_createSocket()
 {
     this->f4();
 
@@ -149,6 +155,7 @@ struct FUN_00da2f90_cls
 };
 extern "C" int __stdcall FUN_00ee6d7a(int, int, int, int);
 // @fnv 0x00da2f90
+// pdb: hkBsdSocket::asyncSelect | hkBsdSocket.obj | tesv_win, hash, low
 bool FUN_00da2f90_cls::FUN_00da2f90(int aiArg1, int aiArg2, int c)
 {
     return FUN_00ee6d7a(m_pSocket, aiArg1, aiArg2, ((c & 3) | ((c & 0xc) << 2))) != 0;
@@ -159,6 +166,7 @@ extern "C" __declspec(dllimport) int __stdcall setsockopt(unsigned int s, int le
                                                           int optlen);
 
 // @fnv 0x00ee6d9e
+// pdb: D3DXMatrixMultiply | d3dx9_42.dll | tesv_win, objrun_open, low
 int __stdcall FUN_00ee6d9e(unsigned int s, int level, int optname, const char* optval, int optlen)
 {
     return setsockopt(s, level, optname, optval, optlen);
@@ -188,6 +196,8 @@ struct FUN_00da2e10_cls
 };
 
 // @fnv 0x00da2e10
+// pdb: hkBsdSocket::read | hkBsdSocket.obj | fnv360_0822_retail, vtable, high
+// pdb params: buf, nbytes
 int FUN_00da2e10_cls::Read(void* buf, int len)
 {
     if (m_pSocket != -1)
@@ -241,43 +251,6 @@ void FUN_00cbbd40_cls::FUN_00cbbd40()
     m_8 = 0x80000000;
 }
 
-extern "C" int __stdcall FUN_00ee6d80(unsigned int s, long lCmd, unsigned long* pulArg);
-
-class SocketDA2F
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    unsigned int m_uiSocket;
-
-    bool __thiscall SetNonBlocking(bool m_bCombatItemSearchActive);
-};
-
-// Sets the socket to non-blocking mode via FUN_00ee6d80 and returns whether the call succeeded.
-// @fnv 0x00da2fc0
-bool SocketDA2F::SetNonBlocking(bool m_bCombatItemSearchActive)
-{
-    bool* pBlocking = &m_bCombatItemSearchActive;
-    volatile unsigned long ulNonBlocking;
-
-    ulNonBlocking = (*pBlocking == 0);
-
-    int result = FUN_00ee6d80(m_uiSocket, 0x8004667e, const_cast<unsigned long*>(&ulNonBlocking));
-
-    return !!result;
-}
-
-extern char DAT_01269acc;
-extern const char str_010d5004[];
-extern const char str_010d4fdc[];
-int __stdcall FUN_00ee6d86(unsigned short, void*);
-
 struct S00da2ff0_Msg
 {
     int unk00;
@@ -295,14 +268,15 @@ struct S00da2ff0_Err
     virtual void v2();
     virtual int v3(int, int, void*, const char*, int);
 };
-extern S00da2ff0_Err* DAT_01268360;
 
 // When the flag is clear, calls FUN_00ee6d86 with 0x202, reports failure, and sets the flag.
 // @f3 0x00a28cc0 (community match, verified in this file)
 extern char DAT_0116c258;
 extern S00da2ff0_Err* DAT_010f3364;
 int __stdcall FUN_00c208f8(unsigned short, void*);
-void InitWinsock()
+// pdb: hkBsdNetworkInit | hkBsdSocket.obj | fnv360_0822_retail, ustr, high
+// pdb: hkBsdNetworkInit | hkBsdSocket.obj | fnv360_0822_retail, ustr, high (was: InitWinsock)
+void hkBsdNetworkInit()
 {
     if (DAT_0116c258 == 0)
     {
@@ -371,13 +345,14 @@ struct SocketConnector
     int unk18;
     int unk1c;
     int socket;
-    int FUN_00da2de0();
-    int FUN_00da2ec0(const char* host, int port);
+    int hkBsdSocket_createSocket();
+    int hkBsdSocket_connect(const char* host, int port);
 };
 
 // Resolves the host to an IPv4 address, ensures a socket exists, and calls the connection routine with the address and port.
 // @fnv 0x00da2ec0
-int SocketConnector::FUN_00da2ec0(const char* host, int port)
+// pdb: hkBsdSocket::connect | hkBsdSocket.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+int SocketConnector::hkBsdSocket_connect(const char* host, int port)
 {
     IPv4SocketAddress target;
     FUN_00cb1280(&target, 0, sizeof(target));
@@ -396,7 +371,7 @@ int SocketConnector::FUN_00da2ec0(const char* host, int port)
         FUN_00cb1260(&target.address, pHostEntry->addresses[0], pHostEntry->address_length);
     }
 
-    if (socket == -1 && FUN_00da2de0())
+    if (socket == -1 && hkBsdSocket_createSocket())
         return 1;
     int iResult = FUN_00ee6d62(socket, &target, sizeof(target));
     if (iResult != -1)
@@ -410,13 +385,7 @@ success:
 }
 
 unsigned short __stdcall FUN_00ee6d74(unsigned short usHostShort);
-int __stdcall FUN_00ee6d98(unsigned int s, const void* pvName, int iNameLen);
-int __stdcall FUN_00ee6d92(unsigned int s, int iBacklog);
-int __stdcall FUN_00ee6d8c(char* pcName, int iNameLen);
 extern "C" int __stdcall FUN_00ee6d9e(unsigned int s, int level, int option, const void* value, int size);
-
-extern const char str_010d505c[];
-extern const char str_010d5070[];
 
 struct sockaddr_inDA30
 {
@@ -462,7 +431,7 @@ class hkOstreamDA30
     void FUN_00cb1600(void* pvBuffer, int iSize) throw();
     void FUN_00cc00e0() throw();
     hkOstreamDA30& FUN_00cc01c0(const char* pcString) throw();
-    hkOstreamDA30& InvokeFromRequest(const hkStringBufDA30& kString) throw();
+    hkOstreamDA30& GridCellArray_MoveItem(const hkStringBufDA30& kString) throw();
     hkOstreamDA30& WriteInt(int i) throw();
 
     hkOstreamDA30(void* pvBuffer, int iSize)
@@ -493,8 +462,8 @@ class hkBsdSocketDA30
     int m_1c;
     unsigned int m_pSocket;
 
-    int FUN_00da2de0() throw();
-    int FUN_00da30d0(int iPort) throw();
+    int hkBsdSocket_createSocket() throw();
+    int hkBsdSocket_listen(int iPort) throw();
 };
 
 // Binds the socket to the given port, sets it to listen with backlog 2, and logs the host name and port.
@@ -525,8 +494,9 @@ struct Report573 {
     Report573& FUN_009437d0(int);
     void FUN_00943a60();
 };
-int hkBsdSocketDA30::FUN_00da30d0(int port) throw(){
-    if(FUN_00da2de0()!=0)return 1;
+// pdb: hkBsdSocket::listen | hkBsdSocket.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(ustr), high
+int hkBsdSocketDA30::hkBsdSocket_listen(int port) throw(){
+    if(hkBsdSocket_createSocket()!=0)return 1;
     sockaddr_inDA30 address;
     address.sin_family=2;address.sin_addr=0;address.sin_port=FUN_00ee6d74(port);
     int on=1;
@@ -548,40 +518,4 @@ int hkBsdSocketDA30::FUN_00da30d0(int port) throw(){
     report.FUN_00943a60();
     if((host.flags&0x80000000u)==0){unsigned int capacity=host.flags&0x3fffffff;Heap573* oldHeap=lookup(DAT_010f3170);oldHeap->FUN_008f6d90(host.data,capacity,23);}
     return 0;
-}
-
-
-struct FUN_00da33d0_client
-{
-    virtual void FUN_00da33d0_a();
-    virtual void FUN_00da33d0_b();
-    virtual void FUN_00da33d0_c(void*, unsigned short);
-};
-
-struct FUN_00da33d0_router
-{
-    void* m_vft;
-    char m_auiShapeKeys[0x0c];
-    FUN_00da33d0_client* m_client;
-};
-
-struct FUN_00da33d0_cls : hkBsdSocket
-{
-    void __thiscall Destroy();
-    int m_kPointA;
-    unsigned short m_kPointB;
-
-    FUN_00da33d0_cls* __thiscall FUN_00da33d0(bool flag);
-};
-
-// @fnv 0x00da33d0
-FUN_00da33d0_cls* FUN_00da33d0_cls::FUN_00da33d0(bool flag)
-{
-    this->Destroy();
-    if (flag & 1)
-    {
-        FUN_00da33d0_router* router = (FUN_00da33d0_router*)FUN_00c85750();
-        router->m_client->FUN_00da33d0_c(this, m_kPointB);
-    }
-    return this;
 }

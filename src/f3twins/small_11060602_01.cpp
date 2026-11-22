@@ -11,6 +11,7 @@ struct Ob_00883f60 { Vt_00883f60* vt; };
 
 struct C_00883f60 { void* vp; unsigned n; void* p8; int fc; int f10, f14, f18; Ob_00883f60* f1c; int f20; int f24; char pad[0x10]; int f38; char buf[0x200];
     C_00883f60(int, Ob_00883f60*); void FUN_00883600(); };
+// pdb: NiXenonRenderer::InitializeTextureDefaults | NiXenonRenderer.obj | fnv360_0822_retail, callee_sim, low
 C_00883f60::C_00883f60(int a, Ob_00883f60* b)
 {
     vp = &DAT_00e29ff8;
@@ -46,6 +47,7 @@ struct C_00886e40
     char* m40;
     void* FUN_00886e40(unsigned char);
 };
+// pdb: NiD3DShader::`scalar deleting destructor' | NiXenonFragmentShader.obj | fnv360_0721_beta, objopen_prop, low
 __declspec(noinline) void* C_00886e40::FUN_00886e40(unsigned char f)
 {
     m0 = &DAT_00e2a31c;

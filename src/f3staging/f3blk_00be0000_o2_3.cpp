@@ -27,6 +27,8 @@ void __cdecl FUN_00bff8ad(int arg) { DAT_00d9b094(arg); }
 // @f3 0x00bff8b8 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_00bff8b8 {
+// pdb: _Mtxdst | xmtx.obj | fnv360_0721_beta, objrun, medium
+// pdb params: _Mtx
 void __cdecl FUN_00bff8b8(LPCRITICAL_SECTION cs)
 {
     DeleteCriticalSection(cs);
@@ -54,6 +56,7 @@ struct Mutex {
     void* _Mtx;
     Mutex* FUN_00bff487();
 };
+// pdb: std::_Mutex::_Mutex | xmutex.obj | fnv360_0822_retail, call_gap, high
 Mutex* Mutex::FUN_00bff487()
 {
     _Mtx = FUN_00401000(0x18);
@@ -72,6 +75,7 @@ struct Mutex {
     void* _Mtx;
     void FUN_00bff49f();
 };
+// pdb: std::_Mutex::~_Mutex | xmutex.obj | fnv360_0822_retail, call_gap, low
 void Mutex::FUN_00bff49f()
 {
     FUN_00bff8b8(_Mtx);
@@ -87,6 +91,8 @@ typedef void (__cdecl* AtexitFn)();
 extern AtexitFn DAT_01179ac0[10];
 extern unsigned int DAT_0106aaec;
 void __cdecl FUN_00c0ad65();
+// pdb: _Atexit | iosptrs.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pf
 void __cdecl FUN_00bff8d9(AtexitFn pf)
 {
     if (DAT_0106aaec == 0)
@@ -106,6 +112,7 @@ extern unsigned int DAT_0106aaec;
 struct Init_atexit {
     void FUN_00bff8f9();
 };
+// pdb: _Init_atexit::~_Init_atexit | iosptrs.obj | tesv_win, udata, high
 void Init_atexit::FUN_00bff8f9()
 {
     while (DAT_0106aaec < 10) {
@@ -126,6 +133,8 @@ void __cdecl FUN_00bff8b8(Rmtx* mtx);
 struct Init_locks {
     void FUN_00bff120();
 };
+// pdb: _Deletegloballocale | locale0.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: std::_Init_locks::~_Init_locks)
+// pdb params: ptr
 void Init_locks::FUN_00bff120()
 {
     if (InterlockedDecrement(&DAT_0106aaa8) < 0)
@@ -173,6 +182,7 @@ void __cdecl FUN_00bff8ad(Rmtx* mtx);
 struct Init_locks {
     Init_locks* FUN_00bff0f1();
 };
+// pdb: std::_Init_locks::_Init_locks | xlock.obj | fnv360_0822_retail, caller_sim, low
 Init_locks* Init_locks::FUN_00bff0f1()
 {
     if (InterlockedIncrement(&DAT_0106aaa8) == 0)

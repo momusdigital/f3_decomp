@@ -11,7 +11,7 @@ struct NiVBBlock
     unsigned int m_uiValue20;
     unsigned int m_uiValue24;
     unsigned int m_uiValue28;
-    void FreeVBBlock(unsigned int);
+    void NiVBBlock_FreeChip(unsigned int);
 };
 
 void __stdcall InsertSortedNode(NiVBBlock*);
@@ -31,11 +31,13 @@ struct NiVBSet
     char _10[12];
     NiVBSetBlockArray m_kBlockArray;
     void RemoveNode(NiVBBlock*);
-    void FUN_00e94330(NiVBBlock*);
+    void NiVBSet_FreeBlock(NiVBBlock*);
     void FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex);
 };
 
 // @fnv 0x00e94490
+// pdb: NiVBSet::FreeChip | NiVBSet.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: uiBlockIndex, uiChipIndex
 void NiVBSet::FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex)
 {
     unsigned int uiPreFreeSpace;
@@ -44,14 +46,14 @@ void NiVBSet::FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex)
     if (!pkVBBlock)
         return;
     uiPreFreeSpace = pkVBBlock->m_uiValue24;
-    pkVBBlock->FreeVBBlock(uiChipIndex);
+    pkVBBlock->NiVBBlock_FreeChip(uiChipIndex);
     if (uiPreFreeSpace == pkVBBlock->m_uiValue24)
         return;
     RemoveNode(pkVBBlock);
     if (pkVBBlock->m_uiValue28 == pkVBBlock->m_uiSize)
     {
         m_kBlockArray.FUN_00a93c50(uiArrayIndex);
-        FUN_00e94330(pkVBBlock);
+        NiVBSet_FreeBlock(pkVBBlock);
     }
     else
     {
@@ -103,6 +105,8 @@ struct FUN_00e94220_cls
 
 // Inserts node into the doubly linked list ordered by m_key, updating head, next and back pointers.
 // @fnv 0x00e94220
+// pdb: NiVBSet::InsertBlockIntoFreeSpaceList | NiVBSet.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkVBBlock
 void FUN_00e94220_cls::InsertSortedNode(FUN_00e94220_node* node)
 {
     if (m_pFirstNode != 0)
@@ -175,6 +179,7 @@ struct LinkedVBBlock
 extern LinkedVBBlock* DAT_0126fa30;
 // Allocates DAT_011c0cdc LinkedVBBlock objects, initializes each, and links them into a doubly linked list headed by DAT_0126fa30.
 // @fnv 0x00e944f0
+// pdb: NiVBSet::AllocateBlocks | NiVBSet.obj | tesv_win, call_seq, medium
 void __cdecl AllocateVBBlocks()
 {
     for (unsigned int i = 0; i < DAT_011c0cdc; ++i)
@@ -207,12 +212,14 @@ struct VBSet
     char _00[0x30];
     unsigned int m_uiThreshold;
     VBBlock* RemoveFirstNodeAtLeast(unsigned int uiSize);
-    VBBlock* FUN_00e94580(unsigned int uiSize);
+    VBBlock* NiVBSet_CreateBlock(unsigned int uiSize);
     void InsertSortedNode(VBBlock* pkBlock);
     void* FUN_00e94650(unsigned int uiSize, bool bForceNew);
 };
 
 // @fnv 0x00e94650
+// pdb: NiVBSet::AllocateChip | NiVBSet.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: uiSize, bForceNewBlock
 void* VBSet::FUN_00e94650(unsigned int uiSize, bool bForceNew)
 {
     void* pvChip = 0;
@@ -220,7 +227,7 @@ void* VBSet::FUN_00e94650(unsigned int uiSize, bool bForceNew)
     if (!bForceNew)
         pkBlock = RemoveFirstNodeAtLeast(uiSize);
     if (!pkBlock)
-        pkBlock = FUN_00e94580(uiSize);
+        pkBlock = NiVBSet_CreateBlock(uiSize);
     if (pkBlock)
     {
         pvChip = pkBlock->FUN_00e98660(uiSize);
@@ -254,7 +261,10 @@ struct VBLayout
 };
 extern VBLayout* g_pkFreeList;
 // @fnv 0x00e98500
-unsigned int __fastcall FreeVBBlock(NiVBBlock* object, void*, unsigned int index)
+// pdb: NiVBBlock::FreeChip | NiVBBlock.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiChipIndex
+// pdb: NiVBBlock::FreeChip | NiVBBlock.obj | fnv360_0822_retail, call_seq, high (was: FreeVBBlock)
+unsigned int __fastcall NiVBBlock_FreeChip(NiVBBlock* object, void*, unsigned int index)
 {
     VBLayout* pLayout = reinterpret_cast<VBLayout*>(object);
     unsigned int result = 0;
@@ -308,7 +318,7 @@ struct HashTableBase
     virtual bool EqualKey(unsigned int key, unsigned int existingKey) = 0;
     virtual void Initialize(HashNode* entry, unsigned int key, unsigned int value) = 0;
     virtual void Reserved4() = 0;
-    virtual HashNode* AllocateNode() = 0;
+    virtual HashNode* hkpMoppDefaultSplitter_createTerminal() = 0;
 
     unsigned int tableSize;
     HashNode** buckets;
@@ -317,6 +327,8 @@ struct HashTableBase
 };
 // Looks up key in the bucket chain, updates the value if found, otherwise allocates, initializes and prepends a new node and increments elementCount.
 // @fnv 0x00b57ea0
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,CombatThreat *> >,unsigned int,CombatThreat *>::SetAt | CombatThreatMap.obj | fnv360_0822_retail, call_seq, high
+// pdb params: key, val
 void HashTableBase::InsertOrUpdate(unsigned int key, unsigned int value)
 {
     unsigned int bucketIndex = BucketIndex(key);
@@ -330,7 +342,7 @@ void HashTableBase::InsertOrUpdate(unsigned int key, unsigned int value)
         }
         node = node->next;
     }
-    HashNode* newNode = AllocateNode();
+    HashNode* newNode = hkpMoppDefaultSplitter_createTerminal();
     Initialize(newNode, key, value);
     newNode->next = buckets[bucketIndex];
     buckets[bucketIndex] = newNode;
@@ -381,7 +393,7 @@ struct VBSetX
     unsigned int m_u14;
     unsigned int m_u18;
     VBArr m_kArr;
-    VBBlk* FUN_00e94580(unsigned int uiSize);
+    VBBlk* NiVBSet_CreateBlock(unsigned int uiSize);
 };
 
 __forceinline VBBlk* PopBlock()
@@ -399,7 +411,8 @@ __forceinline VBBlk* PopBlock()
 
 // Allocates a VBBlk of at least uiSize bytes via the device, fills its fields, and inserts it into the VBArr.
 // @fnv 0x00e94580
-VBBlk* VBSetX::FUN_00e94580(unsigned int uiSize)
+// pdb: NiVBSet::CreateBlock | NiVBSet.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+VBBlk* VBSetX::NiVBSet_CreateBlock(unsigned int uiSize)
 {
     unsigned int uiAllocSize = uiSize;
     if ((m_u08 & 0x10000000) == 0)
@@ -477,6 +490,7 @@ struct VBSetCleanup
 
 // Releases each block's VB interface, links non-null blocks into a list, releases the buffer, and destroys the array.
 // @fnv 0x00e943c0
+// pdb: NiVBSet::~NiVBSet | NiVBSet.obj | fnv360_0822_retail, call_gap_sim, medium, conflict (bridge: NiVBSet::AllocateBlocks)
 void VBSetCleanup::FUN_00e943c0()
 {
     for (unsigned int i = 0; i < blocks.size; ++i)

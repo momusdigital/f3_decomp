@@ -19,6 +19,7 @@ void __fastcall FUN_00ad59e0(void*);
 struct T_005b3880 { void __thiscall FUN_005b3880(int, int*); };
 
 struct S_00b87400 { char pad[0x28]; T_005b3880 t; void __thiscall FUN_00b87400(void); };
+// pdb: ImageSpaceEffectMotionBlur::ReturnTextures | ImageSpaceEffectMotionBlur.obj | fnv360_0822_retail, caller_sim, medium
 void S_00b87400::FUN_00b87400(void)
 {
     FUN_00ad59e0(this);
@@ -32,6 +33,8 @@ void __fastcall FUN_008553d0(void*);
 void FUN_0089ec10(void*, int);
 
 struct C_00b8e840 { void* FUN_00b8e840(unsigned char); };
+// pdb: TallGrassTriShape::SetLocalBound | TallGrassTriShape.obj | fnv360_1110_retail, objopen_prop, low
+// pdb params: apBound
 void* C_00b8e840::FUN_00b8e840(unsigned char f)
 {
     FUN_008553d0(this);
@@ -54,6 +57,8 @@ struct C_00bcdc30
     void(__cdecl* wr)();
     void FUN_00bcdc30(bool f);
 };
+// pdb: BSFile::SetEndianSwap | BSFile.obj | fnv360_1110_retail, caller, low
+// pdb params: bDoSwap
 void C_00bcdc30::FUN_00bcdc30(bool f)
 {
     if (f)
@@ -72,19 +77,9 @@ void C_00bcdc30::FUN_00bcdc30(bool f)
 
 void __cdecl FUN_00c16549(int);
 
-void FUN_00c074ef()
-{
-    FUN_00c16549(7);
-}
-
 // ---- family f508
 
 void __cdecl FUN_00c16549(int);
-
-void FUN_00c0c737()
-{
-    FUN_00c16549(14);
-}
 
 // ---- family f509
 
@@ -102,6 +97,7 @@ void __fastcall FUN_00c21e30(void*);
 void __cdecl FUN_0089ec10(void*, unsigned int);
 
 struct C_00c21fc0 { void* FUN_00c21fc0(unsigned char f); };
+// pdb: NiRenderedTexture::`scalar deleting destructor' | NiRenderedTexture.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiRenderedCubeMap::`scalar deleting destructor')
 void* C_00c21fc0::FUN_00c21fc0(unsigned char f)
 {
     FUN_00c21e30(this);
@@ -114,6 +110,7 @@ void* C_00c21fc0::FUN_00c21fc0(unsigned char f)
 extern float DAT_00f5e024;
 extern float DAT_01072fcc;
 
+// pdb: `dynamic initializer for 'fFullDepthReciprocal'' | Sky.obj | fnv360_0822_retail, udata, high
 __declspec(noinline) void FUN_00c9ebe0()
 {
     DAT_01072fcc = 1.0f / DAT_00f5e024;
@@ -159,6 +156,7 @@ extern int DAT_0108ee38;
 void __cdecl FUN_00d982c0();
 int __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'NiTexture::RendererData::ms_aspReplacementData'' | NiTexture.obj | fnv360_0822_retail, objrun, high
 __declspec(noinline) void FUN_00cffe60()
 {
     DAT_0108ee14 = 0;
@@ -190,6 +188,7 @@ extern int DAT_0108f3c4;
 extern int DAT_0108f3c8;
 void __cdecl FUN_00d98390(void);
 
+// pdb: `dynamic initializer for 'NiTexturingProperty::ms_akMapIDtoNames'' | NiTexturingProperty.obj | fnv360_0822_retail, objrun_open, medium
 void FUN_00d000b0()
 {
     DAT_0108f3c8 = DAT_0108f3c4 = DAT_0108f3c0 = DAT_0108f3bc = DAT_0108f3b8 = DAT_0108f3b4 = DAT_0108f3b0 = DAT_0108f3ac = DAT_0108f3a8 = DAT_0108f3a4 = DAT_00e207a8;
@@ -206,6 +205,7 @@ extern int DAT_010908a0;
 void __cdecl FUN_00d98520();
 int __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'NiTextureEffect::ms_akTextureTypeStrings'' | NiTextureEffect.obj | fnv360_0822_retail, objrun_open, medium
 void FUN_00d00940()
 {
     int v = DAT_00e207a8;
@@ -223,6 +223,7 @@ extern char DAT_01091328;
 void __cdecl FUN_00d986b0();
 int __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'NiXenonRenderer::ms_aspDeclarations'' | NiXenonRenderer.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: `dynamic initializer for 'NiDX9Renderer::ms_aspDeclarations'')
 __declspec(noinline) void FUN_00d00e70()
 {
     int* p = (int*)&DAT_01091328;

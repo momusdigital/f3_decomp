@@ -370,5 +370,6 @@ void*unk1d4;
 void*unk1d8;
 void*unk1dc;
 void*unk1e0;
+// pdb: Actor::IsJumping | Actor.obj | fnv360_0822_retail, call_gap, medium
 Object*(__thiscall*ObjectValue)(Owner*);};struct Owner{Table*table;Secondary*FUN_00764ea0();bool FUN_006fafc0();};bool Owner::FUN_006fafc0(){Object*object=table->ObjectValue(this);if(object&&object->link){if(object->link->state->FUN_0054bdd0())return true;switch(object->link->state->FUN_0054bef0()){case 0xa8:case 0xaa:case 0xb3:case 0xb4:case 0xb5:case 0xb6:return true;}}Secondary*secondary=FUN_00764ea0();if(secondary&&secondary->value.FUN_00919ef0()==2)return true;return false;}}
 }   // namespace f3m_006fafc0

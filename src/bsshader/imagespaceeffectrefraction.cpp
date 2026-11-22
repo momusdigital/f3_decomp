@@ -3,6 +3,8 @@
 #include "imagespaceeffectrefraction_decls.h"
 
 // @fnv 0x00bd9420
+// pdb: ImageSpaceEffectRefraction::Setup | ImageSpaceEffectRefraction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apManager, apParam
 void RefractionImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEffectParam*)
 {
     SetTextureArrayCount(1);
@@ -17,6 +19,8 @@ void RefractionImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEff
 }
 
 // @f3 0x00b5b5a0 (community match, verified in this file)
+// pdb: ImageSpaceEffectRefraction::GetNormalsTexture | ImageSpaceEffectRefraction.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: abCreate
 BSRenderedTexture* RefractionImageSpaceEffect::GetRefractionTexture(bool create)
 {
     if (!m_kRefractionTexture.GetTexture() && create)
@@ -31,9 +35,10 @@ BSRenderedTexture* RefractionImageSpaceEffect::GetRefractionTexture(bool create)
 
 
 // @fnv 0x00bd93d0
+// pdb: ImageSpaceEffectRefraction::ImageSpaceEffectRefraction | ImageSpaceEffectRefraction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 RefractionImageSpaceEffect::RefractionImageSpaceEffect()
 {
-    volatile ImageSpaceTexture& texture = m_kRefractionTexture;
+    ImageSpaceTexture& texture = m_kRefractionTexture;
     *(void** volatile*)&m_ppVirtualMethodTable = DAT_010bc560;
     texture.m_bTextureFlag1 = false;
     texture.m_bTextureFlag2 = false;
@@ -50,6 +55,7 @@ struct X
 };
 // Calls FUN_00bd9160, then deallocates this via g_memoryManager if flag has bit 1 set, and returns this.
 // @fnv 0x00bd9400
+// pdb: ExtraReflectorRefs::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, medium
 void* X::ReleaseIfFlagged(unsigned int flag)
 {
     FUN_00bd9160();

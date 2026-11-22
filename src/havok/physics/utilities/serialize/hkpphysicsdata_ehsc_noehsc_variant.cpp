@@ -6,7 +6,7 @@
 // src/havok/physics/utilities/serialize/hkpphysicsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpPhysicsData.h"
-int __cdecl CompareStringsCaseInsensitive(int, int);
+int __cdecl hkString_strCasecmp(int, int);
 struct FUN_00d4c000
 {
     int m_00;
@@ -28,7 +28,7 @@ struct FUN_00d4c220_s
     int m_14;
     FUN_00d4c220_s();
 };
-int __cdecl CompareStringsCaseInsensitive(int, int);
+int __cdecl hkString_strCasecmp(int, int);
 struct FUN_00d4c050_obj
 {
     int m_00;
@@ -395,7 +395,7 @@ class hkpWorld
         FUN_00c95a80(info, 0x111d4);
     }
     void FUN_00c97f80(hkpPhysicsSystem* system) throw();
-    void FUN_00c96ff0(int a, int b) throw();
+    void hkpWorld_updateCollisionFilterOnWorld(int a, int b) throw();
 };
 struct ContactOptions
 {
@@ -498,7 +498,7 @@ struct HostType
     int m_04;
     void* m_08;
     ArrayType m_0c;
-    void FUN_00d4c2d0(ClientType*, unsigned char);
+    void hkpPhysicsData_populateFromWorld(ClientType*, unsigned char);
 };
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct Value
@@ -553,7 +553,7 @@ template <class T> __forceinline int findValue(T* self, Value* value)
     return -1;
 }
 typedef int Owner::*MemberPtr;
-static void FUN_00d4bf70(Owner* owner, Entity* volatile entityArg, MemberPtr valueArg);
+static void hkpPhysicsSystem_removeRigidBody(Owner* owner, Entity* volatile entityArg, MemberPtr valueArg);
 Owner* volatile probeOwner;
 Value* volatile probeValue;
 Entity* volatile probeEntity;
@@ -942,7 +942,8 @@ static __forceinline SplitSystem* makeSystem()
     return new FUN_00d065e0;
 }
 typedef int SplitSystem::*MoveMember;
-static __declspec(noinline) void FUN_00d4bf70(SplitSystem* from, SplitSystem* volatile toArg, MoveMember encoded)
+// pdb: hkpPhysicsSystem::removeRigidBody | hkpPhysicsSystem.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap), high
+static __declspec(noinline) void hkpPhysicsSystem_removeRigidBody(SplitSystem* from, SplitSystem* volatile toArg, MoveMember encoded)
 {
     SplitSystem* to = toArg;
     SplitBody* body;
@@ -960,7 +961,7 @@ static __forceinline void moveConnected(SplitSystem* from, SplitSystem* to, Spli
 {
     MoveMember encoded;
     memcpy(&encoded, &item, 4);
-    FUN_00d4bf70(from, to, encoded);
+    hkpPhysicsSystem_removeRigidBody(from, to, encoded);
 }
 
 // @f3 0x009d8f20 (community match, verified in this file)
@@ -1104,11 +1105,11 @@ struct LegacySystem : SplitRef
     LegacySystem* FUN_0098a090();
     void FUN_00989f70(LegacyBody*);
     void FUN_0098a040(LegacyAction*);
-    void FUN_00989ff0(LegacyConstraint*);
+    void hkpPhysicsSystem_addConstraint(LegacyConstraint*);
     void FUN_00989fb0(void*);
     void FUN_00989e90(int);
     void FUN_00989ef0(int);
-    void FUN_00989f30(int);
+    void hkpPhysicsSystem_removeConstraint(int);
     __forceinline const LegacyArray<LegacyBody*>& getRigidBodies() const { return bodies; }
     __forceinline const LegacyArray<LegacyConstraint*>& getConstraints() const { return constraints; }
     __forceinline const LegacyArray<LegacyAction*>& getActions() const { return actions; }
@@ -1164,7 +1165,7 @@ static __forceinline void splitLegacy(const LegacySystem* source, LegacyOutput& 
     for (int i = 0; i < source->getActions().GetLogicalSize(); ++i)
         remaining->FUN_0098a040(source->getActions()[i]);
     for (int i = 0; i < source->getConstraints().GetLogicalSize(); ++i)
-        remaining->FUN_00989ff0(source->getConstraints()[i]);
+        remaining->hkpPhysicsSystem_addConstraint(source->getConstraints()[i]);
     for (int i = 0; i < source->getPhantomArray().GetLogicalSize(); ++i)
         remaining->FUN_00989fb0(source->getPhantomArray()[i]);
 
@@ -1224,7 +1225,7 @@ static __forceinline void splitLegacy(const LegacySystem* source, LegacyOutput& 
                     if (constraints[i]->getEntityA() == current || constraints[i]->getEntityB() == current)
                     {
                         changed = true;
-                        component->FUN_00989ff0(constraints[i]);
+                        component->hkpPhysicsSystem_addConstraint(constraints[i]);
                         LegacyBody* other = constraints[i]->getOtherEntity(current);
                         if (other && !other->isFixed())
                             moveConnected(remaining, component, other);
@@ -1245,7 +1246,7 @@ static __forceinline void splitLegacy(const LegacySystem* source, LegacyOutput& 
                         {
                             changed = true;
                             component->FUN_0098a040(actions[i]);
-                            remaining->FUN_00989f30(i);
+                            remaining->hkpPhysicsSystem_removeConstraint(i);
                             moved = true;
                             for (int l = 0; l < participants.GetLogicalSize(); ++l)
                             {

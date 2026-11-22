@@ -2,14 +2,6 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterlifespanctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterlifespanctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202740;
-
-// @fnv 0x00c2b650
-void* __cdecl FUN_00c2b650()
-{
-    return &g_01202740;
-}
-
 struct NiPSysModifierFloatCtlr
 {
     void* m_pUserData;
@@ -47,28 +39,6 @@ void NiPSysEmitterLifeSpanCtlr::FUN_00c2b670(float fValue)
     *f = fValue;
 }
 }  // namespace fnv_00c2b670
-
-struct StrArr
-{
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
-};
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
-// Appends the string returned by _FUN_00a7d330(g_01202740) to pkStrings, growing the array by its growth step when it is full.
-// @fnv 0x00c2b6d0
-void __stdcall FUN_00c2b6d0(StrArr* pkStrings)
-{
-    FUN_00c32f60(pkStrings);
-    char* pszStr = _FUN_00a7d330(g_01202740);
-    unsigned int uSize = *(unsigned short*)((char*)pkStrings + 10);
-    unsigned int uCap = *(unsigned short*)((char*)pkStrings + 8);
-    if (uSize >= uCap)
-    {
-        pkStrings->SetSize(uSize + *(unsigned short*)((char*)pkStrings + 14));
-    }
-    pkStrings->SetAt(uSize, pszStr);
-}
 
 class C2B680Base
 {
@@ -108,6 +78,7 @@ class C2B680Object : public C2B680Base
 };
 
 // @fnv 0x00c2b680
+// pdb: NiPSysEmitterLifeSpanCtlr::CreateClone | NiPSysEmitterLifeSpanCtlr.obj | tesv_win, caller_sim, low
 C2B680Object* C2B680Object::FUN_00c2b680(void* pvCloning)
 {
     C2B680Object* pkClone = new C2B680Object;

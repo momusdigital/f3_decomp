@@ -14,14 +14,16 @@ struct __declspec(align(16)) MeshShapeBuffer
 {
     hkVector4 storage[32];
 };
+// hkpShapeContainer: the slots of hkpMeshShape's Fallout 3 container vtable (0x00e861b8) up to getChildShape, named
+// as the New Vegas Xbox 360 PDB names them.
 struct MeshShapeVTable
 {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual int vf0c(unsigned int key);
-    virtual void vf10();
-    virtual MeshShapeTriangle* vf14(unsigned int key, MeshShapeBuffer* storage);
+    virtual ~MeshShapeVTable();
+    virtual int getNumChildShapes() const;
+    virtual unsigned int getFirstKey() const;
+    virtual int getNextKey(unsigned int key) const;
+    virtual unsigned int getCollisionFilterInfo(unsigned int key) const;
+    virtual MeshShapeTriangle* getChildShape(unsigned int key, MeshShapeBuffer* storage) const;
 };
 extern float DAT_011b2e90;
 extern "C" hkBool* __cdecl IsDegenerateTriangle(hkBool* result, const hkVector4* v0, const hkVector4* v1,
@@ -31,16 +33,17 @@ struct MeshShapeDCCBC0 : public hkpMeshShape
     int FUN_00dccbc0();
 };
 // @fnv 0x00dccbc0
+// pdb: hkpMeshShape::getFirstKey | hkpMeshShape.obj | fnv360_0822_retail, objrun_open, medium
 int MeshShapeDCCBC0::FUN_00dccbc0()
 {
     if (*reinterpret_cast<unsigned int*>(&m_kScaling.z) == 0)
         return -1;
     MeshShapeBuffer buffer;
-    MeshShapeTriangle* triangle = ((MeshShapeVTable*)this)->vf14(0, &buffer);
+    MeshShapeTriangle* triangle = ((MeshShapeVTable*)this)->getChildShape(0, &buffer);
     hkBool result;
     if (!*IsDegenerateTriangle(&result, &triangle->vertex0, &triangle->vertex1, &triangle->vertex2, DAT_011b2e90))
         return 0;
-    return ((MeshShapeVTable*)this)->vf0c(0);
+    return ((MeshShapeVTable*)this)->getNextKey(0);
 }
 
 struct hkBoolDCC
@@ -105,11 +108,14 @@ class hkpMeshShapeDCC : public hkpShapeCollection
     int m_iNumBitsForSubpartIndex;
     hkArray<hkpMeshShapeSubpartDCC> m_kSubparts;
 
-    hkUint32 GetNextNonDegenerateTriangleKey(hkUint32 oldKey) const throw();
+    hkUint32 hkpMeshShape_getNextKey(hkUint32 oldKey) const throw();
 };
 
 // @f3 0x00a45530 (community match, verified in this file)
-hkUint32 hkpMeshShapeDCC::GetNextNonDegenerateTriangleKey(hkUint32 auiKey) const throw()
+// pdb: hkpMeshShape::getNextKey | hkpMeshShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
+// pdb params: initialKey
+// pdb: hkpMeshShape::getNextKey | hkpMeshShape.obj | fnv360_0822_retail, bridge_fnvpc, high (was: GetNextNonDegenerateTriangleKey)
+hkUint32 hkpMeshShapeDCC::hkpMeshShape_getNextKey(hkUint32 auiKey) const throw()
 {
     hkpShapeBufferDCC buffer;
 
@@ -131,10 +137,6 @@ hkUint32 hkpMeshShapeDCC::GetNextNonDegenerateTriangleKey(hkUint32 auiKey) const
     }
 }
 
-
-class hkClassDCD1;
-
-extern const hkClassDCD1 DAT_01269198;
 
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
@@ -182,59 +184,6 @@ class hkStatisticsCollectorDCD1
     }
 };
 
-struct hkSubpartDCD1
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-};
-
-class hkpShapeDCD1
-{
-  public:
-    void FUN_00d213e0(hkStatisticsCollectorDCD1* pkCollector, const hkClassDCD1* pkClass) const throw();
-};
-
-class hkObjDCD1 : public hkpShapeDCD1
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    hkArrayDCD1<hkSubpartDCD1> m_kSubparts;
-
-    void CollectSubPartsStats(hkStatisticsCollectorDCD1* pkCollector, const hkClassDCD1* pkClass) const throw();
-};
-
-// Adds the SubParts array to the statistics collector, then forwards to the base shape's statistics collection with DAT_01269198.
-// @fnv 0x00dcd140
-void hkObjDCD1::CollectSubPartsStats(hkStatisticsCollectorDCD1* pkCollector, const hkClassDCD1* pkClass) const throw()
-{
-    pkCollector->addArray("SubParts", m_kSubparts);
-    FUN_00d213e0(pkCollector, &DAT_01269198);
-}
-
 struct PageDCCD
 {
     char unk00[0x20];
@@ -252,10 +201,11 @@ class Base0DCCD
     int unk04[3];
 };
 
+// hkpShapeContainer (the hkpMeshShape subobject at +0x10)
 class Base1DCCD
 {
   public:
-    virtual void vf00();
+    virtual ~Base1DCCD();
     void* FindValue(unsigned int uiKey);
 };
 
@@ -271,6 +221,8 @@ class FUN_00dccd00_C : public Base0DCCD, public Base1DCCD
 
 // Gets an index for uiKey from GetElement on the owner; if found, returns the pointer stored in that page's value array, otherwise null.
 // @fnv 0x00dccd00
+// pdb: hkpMeshShape::getCollisionFilterInfo | hkpMeshShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: key
 void* Base1DCCD::FindValue(unsigned int uiKey)
 {
     FUN_00dccd00_C* pkOwner = (FUN_00dccd00_C*)((char*)this - 0x10);
@@ -449,6 +401,7 @@ class __declspec(novtable) Msh_dccf60_TriF3 : public ShapePrefix2129
     virtual ~Msh_dccf60_TriF3();
 };
 
+// pdb: hkpMeshShape::getChildShape | hkpMeshShape.obj | tesv_win, objrun_sim, low
 const void* Msh_dccf60_Mesh::CreateTriangle(unsigned int key, void* buffer) const
 {
     unsigned int triangleIndex = key & (~0U >> m_iNumBitsForSubpartIndex);
@@ -556,72 +509,6 @@ template <class T> struct hkArrayDCD3
     {}
 };
 
-class hkBaseObjectDCD3
-{
-  public:
-    virtual ~hkBaseObjectDCD3() throw();
-};
-
-class hkReferencedObjectDCD3 : public hkBaseObjectDCD3
-{
-  public:
-    virtual ~hkReferencedObjectDCD3() throw();
-
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class hkpShapeDCD3 : public hkReferencedObjectDCD3
-{
-  public:
-    virtual ~hkpShapeDCD3() throw();
-
-    unsigned long m_ulUserData;
-    unsigned int m_type;
-};
-
-class hkpShapeContainerDCD3
-{
-  public:
-    virtual ~hkpShapeContainerDCD3() throw();
-};
-
-class FUN_00d21410 : public hkpShapeDCD3, public hkpShapeContainerDCD3
-{
-  public:
-    FUN_00d21410(unsigned int uiType, unsigned char ucCollectionType) throw();
-    virtual ~FUN_00d21410() throw();
-
-    char m_bDisableWelding;
-    unsigned char m_eCollectionType;
-};
-
-struct hkpMeshShapeSubpartDCD3;
-
-class FUN_00dcd310 : public FUN_00d21410
-{
-  public:
-    FUN_00dcd310(float fRadius, int iNumBitsForSubpartIndex) throw();
-    virtual ~FUN_00dcd310() throw();
-
-    unsigned int unk18, unk1C;
-    hkVector4DCD3 m_kScaling;
-    int m_iNumBitsForSubpartIndex;
-    hkArrayDCD3<hkpMeshShapeSubpartDCD3> m_kSubparts;
-    hkArrayDCD3<unsigned short> m_kWeldingInfo;
-    unsigned char m_eWeldingType;
-    float m_fSphereRadius;
-    int m_auiShapeKeys[3];
-};
-
-// @fnv 0x00dcd310
-FUN_00dcd310::FUN_00dcd310(float afSphereRadius, int iNumBitsForSubpartIndex) throw() : FUN_00d21410(0x17, 5)
-{
-    m_kScaling.SetAllComponents(1.0f);
-    m_iNumBitsForSubpartIndex = iNumBitsForSubpartIndex;
-    m_fSphereRadius = afSphereRadius;
-    m_eWeldingType = 6;
-}
 }  // namespace fnv_00dcd310
 
 struct PageDCD4
@@ -646,6 +533,8 @@ class FUN_00dcd410_C
 
 // Looks up the element at uiKey in the paged array, returning its byte or short value, or -1 if the page is not allocated.
 // @fnv 0x00dcd410
+// pdb: hkpMeshShape::getMeshMaterial | hkpMeshShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: hkpMeshShape::getMaterialIndex)
+// pdb params: key
 int FUN_00dcd410_C::GetElement(unsigned int uiKey)
 {
     unsigned int uiPage = uiKey >> (32 - m_iShift);
@@ -691,10 +580,6 @@ static __declspec(noinline) void ExpandAabbWithVertex(const MeshVec& vertex, con
     aabb.m_kMaximumCorner.m_vComponents = _mm_max_ps(aabb.m_kMaximumCorner.m_vComponents, v.m_vComponents);
 }
 volatile int g_meshIn0, g_meshIn1, g_meshIn2, g_meshIn3;
-void MeshGetAabb_dccdd0()
-{
-    ExpandAabbWithVertex(*(MeshVec*)g_meshIn0, *(hkTransform*)g_meshIn1, *(MeshVec*)g_meshIn2, *(MeshAabb*)g_meshIn3);
-}
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -795,27 +680,9 @@ class S00dcd380_Mesh : public S00dcd380_Collection
     int m_iCapacityState;
 };
 
-class S00dcd380_Host
-{
-  public:
-    S00dcd380_Mesh* FUN_00dcd380(int finishing);
-};
-
-// Placement-constructs an S00dcd380_Mesh into this host object, passing a flag that carries the finishing state.
-// @fnv 0x00dcd380
-S00dcd380_Mesh* S00dcd380_Host::FUN_00dcd380(int finishing)
-{
-    S00dcd380_Flag flag;
-    flag.m_bFinishing = finishing;
-    __assume(this != 0);
-    return new (this) S00dcd380_Mesh(flag);
-}
-
 struct MeshAabb;
-extern "C" void _ReadWriteBarrier();
 
 extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 struct hkpMeshShapeSubpart
@@ -872,6 +739,7 @@ static __declspec(noinline) void ExpandAabbWithVertex(MeshAabb& b, const hkTrans
 }
 // Computes the world-space AABB of all subpart triangles, then expands it by margin plus m_fSphereRadius.
 // @f3 0x00a457b0 (community match, verified in this file)
+// pdb: hkpMeshShape::getAabbImpl | hkpMeshShape.obj | tesv_win, objrun_sim, low
 void MeshShapeHelper::FUN_00dccdd0(const hkTransform& transform, hkReal tolerance, MeshAabb& out) const
 {
     out.m_kMinimumCorner.m_vComponents.m128_f32[0] = kRealMax;
@@ -922,21 +790,4 @@ void MeshShapeHelper::FUN_00dccdd0(const hkTransform& transform, hkReal toleranc
     out.m_kMaximumCorner.m_vComponents.m128_f32[1] += pad;
     out.m_kMaximumCorner.m_vComponents.m128_f32[2] += pad;
     out.m_kMaximumCorner.m_vComponents.m128_f32[3] += pad;
-}
-
-
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-
-class MeshScalingSetter : public hkpMeshShape
-{
-  public:
-    void FUN_00dccf40(const hkVector4& value);
-};
-
-// @fnv 0x00dccf40
-void MeshScalingSetter::FUN_00dccf40(const hkVector4& value)
-{
-    __m128 data = _mm_load_ps(&value.x);
-    _mm_store_ps(&m_kScaling.x, data);
 }

@@ -28,6 +28,8 @@ struct Vt00d263f0
     virtual int v6(int a, int b);
 };
 
+// pdb: hkpTriSampledHeightFieldCollection::getWeldingInfo | hkpTriSampledHeightFieldCollection.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: key
 int FUN_00d263f0_t::FUN_00d263f0(int a, int b)
 {
     int limit = b - 0x24;
@@ -44,48 +46,8 @@ int FUN_00d263f0_t::FUN_00d263f0(int a, int b)
 }
 
 
-struct FUN_00d26760_StandIn
-{
-    void FUN_00d26760();
-};
-
-struct FUN_00d26880_MemoryManagerClient
-{
-    virtual void BeforeAllocate1() = 0;
-    virtual void BeforeAllocate2() = 0;
-    virtual void Deallocate(void* object, unsigned short size) = 0;
-};
-
-struct FUN_00d26880_MemoryRouter
-{
-    unsigned char Padding[0x10];
-    FUN_00d26880_MemoryManagerClient* Manager;
-};
-
-FUN_00d26880_MemoryRouter* _D1A0E0GetMemoryRouter();
-
-struct FUN_00d26880_StandIn : public hkpTriSampledHeightFieldCollection
-{
-    hkpTriSampledHeightFieldCollection* FUN_00d26880(unsigned int flags);
-};
-
-// Runs FUN_00d26760 on this, then if flags bit 0 is set, frees this through the memory router's manager using the size at offset 4, and returns this.
-// @fnv 0x00d26880
-hkpTriSampledHeightFieldCollection* FUN_00d26880_StandIn::FUN_00d26880(unsigned int flags)
-{
-    reinterpret_cast<FUN_00d26760_StandIn*>(this)->FUN_00d26760();
-
-    if (flags & 1u)
-    {
-        FUN_00d26880_MemoryRouter* router = _D1A0E0GetMemoryRouter();
-        unsigned short size = *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 4);
-        router->Manager->Deallocate(this, size);
-    }
-
-    return this;
-}
-
 // @fnv 0x00d26390
+// pdb: hkpMoppLongRayVirtualMachine::hkpMoppLongRayVirtualMachine | hkpMoppBvTreeShape.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpBallAndSocketConstraintData::getType)
 int FUN_00d26390()
 {
     return 0;
@@ -111,6 +73,8 @@ struct FUN_00d263a0_cls
 
 // Returns the next key in a sequence derived from the given key, or -1 when the sequence is exhausted.
 // @fnv 0x00d263a0
+// pdb: hkpTriSampledHeightFieldCollection::getAabbImpl | hkpTriSampledHeightFieldCollection.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: localToWorld, tolerance, out
 int __thiscall FUN_00d263a0_cls::GetNextKey(unsigned int key)
 {
     if ((key & 1) == 0)
@@ -130,6 +94,8 @@ int __thiscall FUN_00d263a0_cls::GetNextKey(unsigned int key)
 }
 
 // @fnv 0x00d26440
+// pdb: hkpTriSampledHeightFieldCollection::getCollisionFilterInfo | hkpTriSampledHeightFieldCollection.obj | fnv360_1110_retail, objrun_open, low, conflict (skyrim: hkpTriSampledHeightFieldBvTreeShape::getContainer)
+// pdb params: key
 int __stdcall FUN_00d26440(int arg0)
 {
     return 0;
@@ -147,6 +113,7 @@ struct FUN_00d26450_Obj
     void* FUN_00d26450();
 };
 // @fnv 0x00d26450
+// pdb: hkpTriSampledHeightFieldCollection::getHeightFieldShape | hkpTriSampledHeightFieldCollection.obj | fnv360_1110_retail, objrun_prop, low
 void* FUN_00d26450_Obj::FUN_00d26450()
 {
     return unk18;
@@ -158,77 +125,12 @@ class hkpSampledHeightFieldShape : public hkpShape
     int m_unk10;
 };
 
-struct S_d264d0_Coll : public hkpTriSampledHeightFieldCollection
-{
-    hkpSampledHeightFieldShape* FUN_00d26450();
-    void FUN_00d264d0(unsigned int key, unsigned short value);
-};
-
-__declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
-{
-    return m_pHeightFieldShape;
-}
-
-// Computes an index from key and count, then stores value in m_kWeldingInfo.m_data at that index.
-// @fnv 0x00d264d0
-void S_d264d0_Coll::FUN_00d264d0(unsigned int key, unsigned short value)
-{
-    unsigned int count = FUN_00d26450()->m_unk10;
-    unsigned int idx = ((count - 1) * (key >> 16) + ((key >> 1) & 0x7fff)) * 2 | (key & 1);
-    m_kWeldingInfo.m_data[idx] = value;
-}
-
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
 extern "C" __m128 _mm_setzero_ps(void);
-
-extern int DAT_010ce390;
-extern int DAT_010ce370;
-
-void __stdcall FUN_00d21410(int a, int b);
-
-struct Target26700
-{
-    void __thiscall FUN_00c90510();
-};
-
-struct FUN_00d26700
-{
-    void* m_vptr1;  // +0x00
-    int m_04;
-    int m_08;
-    int m_0c;
-    void* m_vptr2;  // +0x10
-    int m_14;
-    void* m_p;  // +0x18
-    int m_1c;
-    volatile float m_f;  // +0x20
-    volatile int m_uiX;  // +0x24
-    volatile int m_uiY;  // +0x28
-    volatile int m_uiZ;  // +0x2c
-    __m128 m_v;          // +0x30
-
-    FUN_00d26700(void* p, float f);
-};
-
-// Initializes a FUN_00d26700 object with a pointer and float, sets vtable pointers and default values, then calls a method on the pointer.
-// @fnv 0x00d26700
-FUN_00d26700::FUN_00d26700(void* p, float f)
-{
-    FUN_00d21410(7, 2);
-    m_vptr1 = &DAT_010ce390;
-    m_vptr2 = &DAT_010ce370;
-    m_uiX = 0;
-    m_uiY = 0;
-    m_uiZ = 0x80000000;
-    m_f = f;
-    m_p = p;
-    m_v = _mm_setzero_ps();
-    ((Target26700*)p)->FUN_00c90510();
-}
 
 class hkMemoryAllocatorD267
 {
@@ -274,11 +176,6 @@ template <class T> struct hkArrayD267
     }
 };
 
-struct RefD267 : public hkReferencedObject
-{
-    void FUN_00c905b0() throw();
-};
-
 class hkBase0D267
 {
   public:
@@ -297,93 +194,10 @@ class hkBase1D267
     int unk14;
 };
 
-class FUN_00d26760 : public hkBase0D267, public hkBase1D267
-{
-  public:
-    RefD267* m_pkRef;
-    int unk1C[2];
-    hkArrayD267<short> m_ppData;
-
-    virtual ~FUN_00d26760() throw();
-};
-
-// @fnv 0x00d26760
-FUN_00d26760::~FUN_00d26760() throw()
-{
-    m_pkRef->FUN_00c905b0();
-}
-
-struct FUN_00d26450_S
-{
-    void* FUN_00d26450();
-};
-
-struct FUN_00d267c0_Alloc
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void Free(void* data, int size);
-};
-
 void* FUN_00c85750(void);
-void FUN_00c908c0(int a1, int a2, int a3, int a4);
-
-struct FUN_00d267c0_t : FUN_00d26450_S
-{
-    void FUN_00d267c0(int mode);
-};
-
-// Resizes the internal buffer to the computed index when mode is not 6, otherwise frees the buffer and resets its state fields.
-// @fnv 0x00d267c0
-void FUN_00d267c0_t::FUN_00d267c0(int mode)
-{
-    if (mode != 6)
-    {
-        char* o = (char*)FUN_00d26450();
-        int idx = (2 * *(int*)(o + 0x14) - 2) * (*(int*)(o + 0x10) - 1);
-        char* arr = (char*)this + 0x24;
-        char* cur = (char*)FUN_00c85750();
-        if ((*(int*)(arr + 8) & 0x3fffffff) < idx)
-        {
-            FUN_00c908c0(*(int*)(cur + 0x10), (int)arr, idx, 2);
-        }
-        cur = (char*)FUN_00c85750();
-        int alloc = *(int*)(cur + 0x10);
-        int a = *(int*)(arr + 8) & 0x3fffffff;
-        if (a < idx)
-        {
-            int m = a * 2;
-            FUN_00c908c0(alloc, (int)arr, idx < m ? m : idx, 2);
-        }
-        *(int*)(arr + 4) = idx;
-    }
-    else
-    {
-        char* cur = (char*)FUN_00c85750();
-        FUN_00d267c0_Alloc* alloc = *(FUN_00d267c0_Alloc**)(cur + 0x10);
-        int a = *(int*)((char*)this + 0x2c);
-        *(int*)((char*)this + 0x28) = 0;
-        if (!(a & 0x80000000))
-        {
-            alloc->Free(*(void**)((char*)this + 0x24), (a & 0x3fffffff) * 2);
-        }
-        *(int*)((char*)this + 0x24) = 0;
-        *(unsigned int*)((char*)this + 0x2c) = 0x80000000;
-    }
-}
 
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_setr_ps(float a, float b, float c, float d);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-
-struct S00d26510_Bool
-{
-    char m_cBooleanValue;
-};
 
 struct S00d26510_Vec
 {
@@ -396,47 +210,6 @@ struct S00d26510_Vec
     {
         m_vComponents = _mm_mul_ps(v.m_vComponents, m_vComponents);
     }
-};
-
-struct S00d26510_Shape
-{
-    virtual ~S00d26510_Shape();
-    unsigned short m_usMemSizeAndFlags;
-    unsigned short m_sReferenceCount;
-    int m_ulUserData;
-    int m_type;
-};
-
-struct S00d26510_HFBase
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1C();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2C();
-    virtual void v30();
-    virtual float getHeightAt(int x, int z) const;
-    virtual void getTriangleFlip(S00d26510_Bool& out) const;
-    unsigned short m_usMemSizeAndFlags;
-    unsigned short m_sReferenceCount;
-    int m_ulUserData;
-    int m_type;
-};
-
-struct S00d26510_HF : public S00d26510_HFBase
-{
-    int m_iXResolution;
-    int m_iZResolution;
-    int unk18;
-    int unk1C;
-    S00d26510_Vec m_kHeightScaleVector;
 };
 
 struct S00d26510_ShapeB
@@ -488,73 +261,6 @@ struct S00d26510_Tri : public S00d26510_Convex
     }
     virtual ~S00d26510_Tri();
 };
-
-struct S00d26510_Container
-{
-    virtual ~S00d26510_Container();
-    virtual const S00d26510_ShapeB* FUN_00d26510(unsigned int key, void* buffer) const;
-};
-
-struct S00d26510_Coll : public S00d26510_Shape, public S00d26510_Container
-{
-    int unk14;
-    S00d26510_HF* m_pHeightFieldShape;
-    int m_iChildSize;
-    float m_fSphereRadius;
-    unsigned short* m_weldingData;
-    int m_weldingSize;
-    int m_weldingCap;
-    __m128 m_kTriangleExtrusion;
-
-    S00d26510_HF* getHF() const;
-    virtual const S00d26510_ShapeB* FUN_00d26510(unsigned int key, void* buffer) const;
-};
-
-__declspec(noinline) S00d26510_HF* S00d26510_Coll::getHF() const
-{
-    return m_pHeightFieldShape;
-}
-
-// Constructs a triangle shape in the provided buffer from heightfield vertices, welding data, and extrusion vector.
-// @fnv 0x00d26510
-const S00d26510_ShapeB* S00d26510_Coll::FUN_00d26510(unsigned int key, void* buffer) const
-{
-    const S00d26510_Coll* coll = this;
-    const S00d26510_HF* hf = coll->getHF();
-    int x = (key & 0xffff) >> 1;
-    int z = key >> 16;
-    S00d26510_Tri* tri = new (buffer) S00d26510_Tri(m_fSphereRadius);
-    S00d26510_Vec vertices[4];
-    for (int i = 0; i < 4; i++)
-    {
-        int xx = ((key & 0xffff) >> 1) + (i >> 1);
-        int zz = (key >> 16) + (i & 1);
-        vertices[i].set((float)xx, hf->getHeightAt(xx, zz), (float)zz, 0.0f);
-        vertices[i].mul4(hf->m_kHeightScaleVector);
-    }
-    S00d26510_Bool flipB;
-    hf->getTriangleFlip(flipB);
-    int flip = flipB.m_cBooleanValue != 0;
-    int iParity = key & 1;
-    tri->m_kVertexA = vertices[(~flip & iParity) * 3].m_vComponents;
-    tri->m_kVertexB = vertices[(flip + 1) * iParity + 1].m_vComponents;
-    tri->m_kVertexC = vertices[flip - iParity + 2].m_vComponents;
-    int size = coll->m_weldingSize;
-    int type = size ? 0 : 6;
-    int iWeldingInfo = size;
-    if (size)
-        iWeldingInfo = coll->m_weldingData[((coll->getHF()->m_iXResolution - 1) * z + x) * 2 | iParity];
-    tri->m_kWeldingInfo = (unsigned short)iWeldingInfo;
-    tri->m_eWeldingType = type;
-    __m128 sq = _mm_mul_ps(coll->m_kTriangleExtrusion, coll->m_kTriangleExtrusion);
-    __m128 len = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq));
-    float l;
-    _mm_store_ss(&l, len);
-
-    tri->m_ucWeldingPadding = l > 0.0f;
-    tri->m_kVertexTransform = coll->m_kTriangleExtrusion;
-    return tri;
-}
 
 // FUN_00d26870 - MSVC this-adjusting thunk for a secondary base.
 //

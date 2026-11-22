@@ -1,12 +1,13 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
-#ifndef FNV_NIAVOBJECT_H
-#define FNV_NIAVOBJECT_H
+#ifndef FNV_NIDEFAULTAVOBJECTPALETTE_TYPES_NIAVOBJECT_LOCAL_H
+#define FNV_NIDEFAULTAVOBJECTPALETTE_TYPES_NIAVOBJECT_LOCAL_H
 #include "f3_common.h"
 #include "layout_support.h"
 #include "NiObjectNET.h"
 #include "NiPoint3.h"
 #include "NiProperty.h"
 #include "layout_support.h"
+#include "NiNode.h"
 class FourComponentFloatVector;
 class NiAVObject;
 class NiCollisionObject;
@@ -200,158 +201,4 @@ class ThreeByThreeMatrix
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 48);
 FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
-#pragma pack(push, 4)
-class NiTransform
-{
-  public:
-    ThreeByThreeMatrix m_kOrientation;  // +0x0, 48 bytes
-    NiPoint3 m_kTranslation;   // +0x30, 12 bytes
-    float m_fScale;            // +0x3C, 4 bytes
-    // void __cdecl NiTransform::*()
-    // bool __cdecl NiTransform::*(const NiTransform&)
-    // operator*
-    // void __cdecl NiTransform::*(NiTransform&)
-    // void __cdecl NiTransform::*(NiTransform&)
-    // bool __cdecl NiTransform::*()
-    // void __cdecl NiTransform::*(NiStream&)
-    // void __cdecl NiTransform::*(NiStream&)
-    // void __cdecl NiTransform::*()
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kOrientation) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kTranslation) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_fScale) == 60);
-#pragma pack(push, 4)
-class NiAVObject : public NiObjectNET
-{
-  public:
-    // base NiObjectNET at +0x0, size 24
-    NiNode* m_pParentNode;                                    // +0x18, 4 bytes
-    NiPointer<NiCollisionObject> m_spCollisionObject;         // +0x1C, 4 bytes
-    FourComponentFloatVector* m_kWorldBound;                  // +0x20, 4 bytes
-    NiTPointerList_NiPointer_NiProperty___ SceneGraphObject;  // +0x24, 12 bytes
-    unsigned int m_uiObjectFlags;                                    // +0x30, 4 bytes
-    unsigned char layoutPadding34[12];
-    NiTransform m_kLocalTransform;  // +0x40, 64 bytes
-    NiTransform m_kWorldSpaceTransform;           // +0x80, 64 bytes
-    virtual void* GetType();
-    virtual NiNode* GetNiNode();
-    // const NiRTTI* __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(NiStream&)
-    // void __cdecl NiAVObject::*(NiStream&)
-    // bool __cdecl NiAVObject::*(NiStream&)
-    // void __cdecl NiAVObject::*(NiStream&)
-    // bool __cdecl NiAVObject::*(NiObject*)
-    // void __cdecl NiAVObject::*(NiTPrimitiveArray<char *>*)
-    // void __cdecl NiAVObject::*()
-    // GetParent
-    // void __cdecl NiAVObject::*(NiUpdateData&)
-    // void __cdecl NiAVObject::*(NiUpdateData&)
-    // void __cdecl NiAVObject::*(NiUpdateData&, bool)
-    // void __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(FourComponentFloatVector*)
-    // const NiPoint3& __cdecl NiAVObject::*()
-    // GetRotate
-    // void __cdecl NiAVObject::*(float)
-    // float __cdecl NiAVObject::*()
-    // const NiPoint3& __cdecl NiAVObject::*()
-    // float __cdecl NiAVObject::*()
-    // const NiBound& __cdecl NiAVObject::*()
-    // float __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*()
-    // GetPropertyList
-    // void __cdecl NiAVObject::*(NiProperty*)
-    // void __cdecl NiAVObject::*(NiProperty*)
-    // void __cdecl NiAVObject::*()
-    // NiProperty* __cdecl NiAVObject::*(int)
-    // RemoveProperty
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(bool)
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(NiCollisionObject*)
-    // NiCollisionObject* __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(const NiPoint3&)
-    // void __cdecl NiAVObject::*(float)
-    // void __cdecl NiAVObject::*(const NiBound&)
-    // int __cdecl NiAVObject::*()
-    // int __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(NiPropertyState*, bool, NiPropertyState*&)
-    // void __cdecl NiAVObject::*(NiNode*)
-    // void __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(NiCullingProcess&)
-    // void __cdecl NiAVObject::*(NiUpdateData&, unsigned int)
-    // const NiTransform& __cdecl NiAVObject::*()
-    // const NiTransform& __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*()
-    // bool __cdecl NiAVObject::*()
-    // NiAVObject
-    // void __cdecl NiAVObject::*(bool)
-    // bool __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*()
-    // void __cdecl NiAVObject::*(unsigned int, unsigned int, unsigned int)
-    // unsigned int __cdecl NiAVObject::*(unsigned int, unsigned int)
-    // void __cdecl NiAVObject::*(bool, unsigned int)
-    // bool __cdecl NiAVObject::*(unsigned int)
-    // void __cdecl NiAVObject::*(const NiAVObject*)
-    // bool __cdecl NiAVObject::*()
-    // bool __cdecl NiAVObject::*()
-    // NiAVObject& __cdecl NiAVObject::*(const NiAVObject&)
-    // void __cdecl NiAVObject::*()
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiAVObject) == 192);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_pParentNode) == 24);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_spCollisionObject) == 28);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kWorldBound) == 32);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, SceneGraphObject) == 36);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_uiObjectFlags) == 48);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kLocalTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiAVObject, m_kWorldSpaceTransform) == 128);
 #endif

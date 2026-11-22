@@ -5,12 +5,6 @@
 
 extern "C" void* g_011f3fcc;
 
-// @fnv 0x00a4ef60
-void* __cdecl FUN_00a4ef60()
-{
-    return &g_011f3fcc;
-}
-
 int* __fastcall InitTimeController(int*);
 extern int DAT_0109928c;
 extern int EmptyFS;
@@ -21,6 +15,7 @@ struct BSFadeNode
 };
 
 // @fnv 0x00a4f000
+// pdb: NiFloatsExtraDataController::CreateObject | NiFloatsExtraDataController.obj | fnv360_0721_retail, objrun, medium
 int* __cdecl FUN_00a4f000()
 {
     int* p = static_cast<int*>(BSFadeNode::operator new(0x48));
@@ -48,10 +43,13 @@ struct FUN_00a4ef70_shell
     char _pad[60];
     ExtraStub* e;
     int idx;
-    InterpStub* CreateInterpStub(unsigned short);
+    InterpStub* NiFloatsExtraDataController_CreatePoseInterpolator(unsigned short);
 };
 // @fnv 0x00a4ef70
-InterpStub* FUN_00a4ef70_shell::CreateInterpStub(unsigned short usIndex)
+// pdb: NiFloatsExtraDataController::CreatePoseInterpolator | NiFloatsExtraDataController.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: usIndex
+// pdb: NiFloatsExtraDataController::CreatePoseInterpolator | NiFloatsExtraDataController.obj | fnv360_0822_retail, objrun_prop, high (was: CreateInterpStub)
+InterpStub* FUN_00a4ef70_shell::NiFloatsExtraDataController_CreatePoseInterpolator(unsigned short usIndex)
 {
     InterpStub* p = (InterpStub*)BSFadeNode::operator new(0x18);
     if (p)
@@ -76,6 +74,8 @@ struct NiFloatsExtraDataController : NiPSysModifierCtlr
 };
 // Allocates and constructs a NiFloatsExtraDataController copy, runs the clone helper, then copies the extra data index from this object.
 // @fnv 0x00a4efb0
+// pdb: NiFloatsExtraDataController::CreateClone | NiFloatsExtraDataController.obj | fnv360_0721_retail, objrun, medium
+// pdb params: kCloning
 NiFloatsExtraDataController* NiFloatsExtraDataController::FUN_00a4efb0(CloningProcess& kCloning)
 {
     NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(BSFadeNode::operator new(0x48));
@@ -122,6 +122,8 @@ struct NiFloatsExtraDataController : Base00
 };
 // Calls the base loader, then reads a 4-byte float from the stream into the controller's float field and advances the stream position.
 // @fnv 0x00a4f1a0
+// pdb: NiFloatsExtraDataController::SaveBinary | NiFloatsExtraDataController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiFloatsExtraDataController::FUN_00a4f1a0(NiStream& stream)
 {
     FUN_00a57130(stream);
@@ -133,23 +135,11 @@ void NiFloatsExtraDataController::FUN_00a4f1a0(NiStream& stream)
 
 namespace fnv_00a4f080 {
 struct NiRTTI;
-struct GlobalObjectO2_00a7b610
-{
-    char x;
-};
-extern GlobalObjectO2_00a7b610 g_011f3738;
 struct NiObject
 {
     NiObject* DynamicCast(const NiRTTI*);
 };
-struct PoseInterpStub
-{
-    void SetFloatValue(float);
-};
 struct NiInterpolator : NiObject
-{
-};
-struct NiFloatInterpolator : PoseInterpStub
 {
 };
 struct Unk89020
@@ -163,17 +153,6 @@ struct NiFloatsExtraDataController
     int unk40;
     void ApplyInterpolatorValue(NiInterpolator*, unsigned short);
 };
-// Casts the interpolator to a float interpolator and applies the value obtained from unk3c->GetValueAt(unk40).
-// @fnv 0x00a4f080
-void NiFloatsExtraDataController::ApplyInterpolatorValue(NiInterpolator* pkInterp, unsigned short usIndex)
-{
-    NiFloatInterpolator* pkFloatInterp;
-    if (!pkInterp)
-        pkFloatInterp = 0;
-    else
-        pkFloatInterp = (NiFloatInterpolator*)pkInterp->DynamicCast((const NiRTTI*)&g_011f3738);
-    pkFloatInterp->SetFloatValue(unk3c->GetValueAt(unk40));
-}
 }  // namespace fnv_00a4f080
 
 namespace fnv_00a4f150 {
@@ -207,6 +186,8 @@ struct NiFloatsExtraDataController : NiPSysModifierCtlr
     void FUN_00a4f150(NiStream&);
 };
 // @fnv 0x00a4f150
+// pdb: NiFloatsExtraDataController::LoadBinary | NiFloatsExtraDataController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void NiFloatsExtraDataController::FUN_00a4f150(NiStream& kStream)
 {
     NiPSysModifierCtlr::LoadBinary(kStream);
@@ -217,49 +198,6 @@ void NiFloatsExtraDataController::FUN_00a4f150(NiStream& kStream)
 }  // namespace fnv_00a4f150
 
 extern "C" void* g_011f3fcc;
-extern int DAT_01099270;
-
-struct StreamStub
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned short unk08;
-    unsigned short unk0A;
-    unsigned short unk0C;
-    unsigned short unk0E;
-    void FUN_0096ad30(unsigned int offset);
-    void FUN_0096ae90(unsigned int index, void** result);
-};
-
-void __stdcall FUN_00a57420(StreamStub* stream);
-void* __cdecl FUN_00a7d330(void* source);
-void* __cdecl FUN_00a7d4d0(int* name, void* object);
-
-struct ControllerStub
-{
-    int unk00, unk04, unk08, unk0C;
-    int unk10, unk14, unk18, unk1C;
-    int unk20, unk24, unk28, unk2C;
-    int unk30, unk34, unk38, unk3C;
-    void* unk40;
-    void FUN_00a4f1e0(StreamStub* stream);
-};
-
-// @fnv 0x00a4f1e0
-void ControllerStub::FUN_00a4f1e0(StreamStub* stream)
-{
-    FUN_00a57420(stream);
-    void* value = FUN_00a7d330(g_011f3fcc);
-    unsigned int index = stream->unk0A;
-    if (index >= stream->unk08)
-        stream->FUN_0096ad30(index + stream->unk0E);
-    stream->FUN_0096ae90(index, &value);
-    value = FUN_00a7d4d0(&DAT_01099270, unk40);
-    index = stream->unk0A;
-    if (index >= stream->unk08)
-        stream->FUN_0096ad30(index + stream->unk0E);
-    stream->FUN_0096ae90(index, &value);
-}
 
 extern char* DAT_0109b220;
 extern "C" unsigned int __cdecl strlen(const char*);
@@ -300,6 +238,7 @@ struct StrHolder
 
 // Returns m_str.m_pString, lazily building it from m_pPrefix and m_iIndex via FUN_00a305b0 when m_str is empty.
 // @fnv 0x00a4ebd0
+// pdb: NiFloatsExtraDataPoint3Controller::GetCtlrID | NiFloatsExtraDataPoint3Controller.obj | fnv360_0721_beta, objopen_prop, low
 char* StrHolder::GetFormattedString()
 {
     if (m_str.m_pString != DAT_0109b220)
@@ -392,22 +331,23 @@ struct FloatController
     unsigned int unk38;
     NiFloatsExtraData* extraData;
     int index;
-    bool FUN_00a36250(float time);
+    bool NiTimeController_DontDoUpdate(float time);
     bool IsManaged() const
     {
         return ((unsigned char)(flags >> 5) & 1) != 0;
     }
-    void FUN_00a4f0c0(float* updateData);
+    void NiFloatsExtraDataController_Update(float* updateData);
 };
 // Updates lastTime for managed controllers, evaluates the interpolator when present, and writes a successful value to extraData.
 // @fnv 0x00a4f0c0
-void FloatController::FUN_00a4f0c0(float* updateData)
+// pdb: NiFloatsExtraDataController::Update | NiFloatsExtraDataController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+void FloatController::NiFloatsExtraDataController_Update(float* updateData)
 {
     if (IsManaged())
     {
         lastTime = DAT_01096324;
     }
-    else if (FUN_00a36250(*updateData))
+    else if (NiTimeController_DontDoUpdate(*updateData))
     {
         if (!interpolator || !interpolator->AlwaysUpdate())
             return;
@@ -453,6 +393,8 @@ struct NiFloatsExtraDataController : NiTransformController
 
 // Copies NiTransformController member data and transfers the NiFixedString name reference count between pkDest and the source.
 // @fnv 0x00c312f0
+// pdb: NiPSysModifierCtlr::CopyMembers | NiPSysModifierCtlr.obj | fnv360_1110_retail, objrun, high
+// pdb params: pkDest, kCloning
 void NiFloatsExtraDataController::FUN_00c312f0(NiFloatsExtraDataController* pkDest, void* kCloning)
 {
     NiTransformController::CopyMemberData(pkDest, kCloning);
@@ -522,6 +464,7 @@ void __cdecl FUN_00aa1460(void*, unsigned int);
 
 // Releases shared storage, calls FUN_00a572d0, and frees this when destroyFlag bit 0 is set.
 // @fnv 0x00a4f040
+// pdb: NiFloatsExtraDataController::`scalar deleting destructor' | NiFloatsExtraDataController.obj | fnv360_0721_retail, objrun, medium, conflict (bridge: NiColorExtraDataController::`scalar deleting destructor')
 MyController* MyController::FUN_00a4f040(unsigned int destroyFlag)
 {
 

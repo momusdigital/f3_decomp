@@ -1,4 +1,4 @@
-// bsshader/lighting30shader.cpp: SM3ShaderLoader, Shadow, Lighting, MapOwner and more (36 functions)
+// bsshader/lighting30shader.cpp: SM3ShaderLoader, Shadow, Lighting, MapOwner and more (32 functions)
 #include "f3_common.h"
 #include "lighting30shader_lighting30_factory_types.h"
 
@@ -6,6 +6,7 @@
 // PC virtual slots and cross-platform names are documented in NOTES.md.
 // Builds eight shader declarations with vertex entries, creates a Lighting30Shader, assigns the non-color declarations to its slots, and initializes it.
 // @fnv 0x00bbd0d0
+// pdb: Lighting30Shader::CreateShader | Lighting30Shader.obj | fnv360_0822_retail, call_gap, medium
 BSShader* Lighting30Shader::CreateShader()
 {
     NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create(g_pkRenderer, 6, 1);
@@ -185,6 +186,7 @@ BSShader* Lighting30Shader::CreateShader()
 #include "lighting30shader_packet.h"
 // Copies DAT_011a9bd0 into DAT_01201b30, sets DAT_012010c4->dirty and the two flags DAT_01200bf4 and DAT_01200bf5 to true.
 // @fnv 0x00bbb840
+// pdb: _blkmov | memcpyp.obj | fnv360_0822_retail, call_seq, medium
 void Lighting30Shader::InvalidateShaderConstants()
 {
     DAT_01201b30 = DAT_011a9bd0;
@@ -195,6 +197,8 @@ void Lighting30Shader::InvalidateShaderConstants()
 
 // Copies the packet into DAT_01201b30 and sets the byte at offset 8 of DAT_012010c4 from param_2 or DAT_01200bf4, then stores param_2 in DAT_01200bf4.
 // @fnv 0x00bbb790
+// pdb: Lighting30Shader::SetAmbientColor | Lighting30Shader.obj | fnv360_1110_retail, callee_sim, low
+// pdb params: akColor, abModified
 void __cdecl ApplyLighting30Packet(const Lighting30Packet4* apPacket, bool param_2)
 {
     DAT_01201b30 = *apPacket;
@@ -225,6 +229,8 @@ extern float DAT_01201368;
 
 // If DAT_012010b0[8] is set, computes pos minus DAT_011f474c minus the offset at DAT_011f91c8+0x1e4 and stores the result into DAT_01201360/64/68.
 // @fnv 0x00bbbcf0
+// pdb: Lighting30Shader::SetupGeometryConstants_RefractionPeriod | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pprop
 void __stdcall UpdatePositionOffset(const NiPoint3& pos)
 {
     if (DAT_012010b0[8])
@@ -262,6 +268,8 @@ extern float DAT_01201b90;
 extern float DAT_01201b94;
 
 // @fnv 0x00bbbdf0
+// pdb: ShadowLightShader::SetupGeometryConstants_RefractionPower | ShadowLightShader.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: pprop
 void __fastcall FUN_00bbbdf0(void* this_ptr, int, char* param_1)
 {
     if (DAT_012010d8[8] != 0)
@@ -350,6 +358,8 @@ struct DummyVTable
 
 // If DAT_012010e0[8] is set, queries param_1->vf4(5, 0) to set DAT_01201bec to 1.0 or 0.0 and copies the float at param_1+0x30 into DAT_01201be8.
 // @fnv 0x00bbbe30
+// pdb: Lighting30Shader::SetupGeometryConstants_WorldBoundCenter | Lighting30Shader.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: Lighting30Shader::SetupGeometryConstants_Envmap)
+// pdb params: worldBound
 void __fastcall FUN_00bbbe30(void* this_ptr, int edx_unused, DummyVTable* param_1)
 {
     if (DAT_012010e0[8] != 0)
@@ -367,6 +377,8 @@ void __stdcall FUN_00be1ff0(int arg);
 
 // Calls FUN_00be1ff0 with arg unless DAT_011f91e4 falls within any of four excluded ranges.
 // @fnv 0x00bbc5c0
+// pdb: Lighting30Shader::DetermineShaderDeclaration | Lighting30Shader.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apData
 void __stdcall DispatchIfNotExcluded(int arg)
 {
     if ((DAT_011f91e4 < 0x1cc || DAT_011f91e4 > 0x1dc) && (DAT_011f91e4 < 0x1bd || DAT_011f91e4 > 0x1c3) &&
@@ -402,6 +414,8 @@ extern int DAT_011ff9dc;
 
 // Checks DAT_011f91e4 and state entries, calling FUN_00b97e80, UpdateRendererStateCount or decrementing DAT_011ff9dc and calling FUN_00b97e30 based on flags.
 // @fnv 0x00bbeef0
+// pdb: Lighting30Shader::PostGeometry | Lighting30Shader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void __fastcall FUN_00bbeef0(void* this_ptr, int, unsigned char** state)
 {
     unsigned int val = DAT_011f91e4;
@@ -426,6 +440,7 @@ void __fastcall FUN_00bbeef0(void* this_ptr, int, unsigned char** state)
 extern "C" void* g_01201f20;
 
 // @fnv 0x00bbc9b0
+// pdb: NiD3DShaderProgram::GetRTTI | NiD3DShaderProgram.obj | fnv360_0822_retail, objrun_open, low
 void* __cdecl FUN_00bbc9b0()
 {
     return &g_01201f20;
@@ -457,6 +472,7 @@ struct S
     void ApplyToGlobalRange();
 };
 // @fnv 0x00bbb7f0
+// pdb: ShadowLightShader::ClearPassStages | ShadowLightShader.obj | fnv360_0822_retail, objrun, medium
 void S::ApplyToGlobalRange()
 {
     int* p = &DAT_01200ec0;
@@ -470,6 +486,8 @@ void S::ApplyToGlobalRange()
 
 // Iterates entries from start to the count at p+0x18 and zeroes the int at offset 8 of each non-null entry from the array at p+0x24.
 // @fnv 0x00bbc610
+// pdb: Lighting30Shader::ClearUnusedStages | Lighting30Shader.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apPass, auiFirstUnusedStage
 void __stdcall FUN_00bbc610(void* apContainer, unsigned int start)
 {
     for (unsigned int i = start; i < *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apContainer) + 0x18); ++i)
@@ -535,6 +553,8 @@ extern P4_bbb890 DAT_01201b40;
 P3_bbb890* __stdcall FUN_00ee6df8(P3_bbb890*, const P3_bbb890*, const M_bbb890*);
 
 // @fnv 0x00bbb890
+// pdb: Lighting30Shader::SetupGeometryConstants_WorldBoundCenter | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: worldBound
 void __stdcall UpdateTransformedPosition(M_bbb890 kMat, Obj_bbb890* pObject)
 {
     if (DAT_012010a4->bOn || DAT_012010c8->bOn)
@@ -748,6 +768,8 @@ struct FUN_00bbdcd0_shell
 
 // Assigns textures to the first two render stages from arg1 and clears the rest, then calls AddToTwoCounters with values derived from textureObject.
 // @fnv 0x00bbdcd0
+// pdb: Lighting30Shader::UpdatePipelineTexEffect | Lighting30Shader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apBSSProp, apPass
 void FUN_00bbdcd0_shell::ApplyTextureStages(FUN_00bbdcd0_Arg1* pTextureSource, FUN_00bbdcd0_Arg2* pStageList)
 {
     FUN_00bbdcd0_TextureObject* textureObject = pTextureSource->m_pTextureObject;
@@ -783,7 +805,7 @@ void FUN_00bbdcd0_shell::ApplyTextureStages(FUN_00bbdcd0_Arg1* pTextureSource, F
 
 struct GroupStandIn
 {
-    void ApplyGroupEntries();
+    void NiD3DRenderStateGroup_SetRenderStates();
 };
 
 struct ResultStandIn
@@ -802,11 +824,13 @@ class FUN_00bbb820_cls
 };
 
 // @fnv 0x00bbb820
+// pdb: Lighting30Shader::SetRenderStatesForPass | Lighting30Shader.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: auiPass, apL30Prop
 void FUN_00bbb820_cls::FUN_00bbb820(int param_1, int param_2)
 {
     ResultStandIn* pResult = this->SetupPass(param_1, param_2);
     DAT_0126f74c = (int)pResult;
-    pResult->m_pGroup->ApplyGroupEntries();
+    pResult->m_pGroup->NiD3DRenderStateGroup_SetRenderStates();
 }
 
 struct FogColorA
@@ -953,6 +977,8 @@ extern FogColorA DAT_01200c28;
 extern FogColorA DAT_01200c38;
 
 // @fnv 0x00bbde20
+// pdb: Lighting30Shader::UpdateTexEffectConstants | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeometry, apBSSProp, apPass
 void __stdcall FUN_00bbde20(int bFog, ShadowSceneOwner* pOwner, int iUnused)
 {
     if (!pOwner)
@@ -992,18 +1018,11 @@ void __stdcall FUN_00bbde20(int bFog, ShadowSceneOwner* pOwner, int iUnused)
 
 #include <stdlib.h>
 
-Lighting30Shader* __cdecl FUN_00b55560(int);
-struct ConstantMapPointer
-{
-    NiD3DShaderConstantMap* value;
-    void FUN_00c663d0(const NiPointer<NiD3DShaderConstantMap>*);
-};
 class D3DRenderStateGroup
 {
   public:
     void SetNodeValue(unsigned int, unsigned int, bool);
 };
-D3DRenderStateGroup* __cdecl FUN_00e7f5d0();
 class NiD3DPass
 {
   public:
@@ -1022,7 +1041,6 @@ extern Lighting30PacketState* DAT_012010d4;
 extern Lighting30PacketState* DAT_012010dc;
 extern Lighting30PacketState* DAT_012010e4;
 extern Lighting30PacketState* DAT_012010e8;
-extern unsigned short DAT_011f941c;
 inline void AssignMap(NiPointer<NiD3DShaderConstantMap>& dst, const NiPointer<NiD3DShaderConstantMap>& src)
 {
     NiRefObject* old = reinterpret_cast<NiRefObject*>(dst.m_pObject);
@@ -1082,6 +1100,8 @@ inline void AssignMap_b3fec0(NiPointer<NiD3DShaderConstantMap>& dst, const NiPoi
     }
 }
 
+// pdb: Lighting30Shader::EnableConstantsForPass | Lighting30Shader.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: auiPassEnum, abAlphaPass
 void __cdecl UpdateLightingPassState(unsigned int pass)
 {
     Lighting30Shader* shader = FUN_00adb960(29);
@@ -1229,6 +1249,8 @@ struct FUN_00bbdda0_cls : public FUN_00bbdcd0_shell
 };
 
 // @fnv 0x00bbdda0
+// pdb: Lighting30Shader::UpdatePipelineZOnlyTexEffect | Lighting30Shader.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apBSSProp, apPass
 void FUN_00bbdda0_cls::SetupTextureStages(FUN_00bbdcd0_Arg1* apTextureSource, FUN_00bbdcd0_Arg2* apStageList)
 {
     unsigned char* pTextureObject = (unsigned char*)apTextureSource->m_pTextureObject;
@@ -1331,6 +1353,8 @@ extern Color3 DAT_011f4998;
 extern Color4 DAT_01201b70;
 // Computes a light's color (override or base), scales it by exposure and intensity, then clamps and accumulates it into the global color or stores it separately.
 // @fnv 0x00bbecd0
+// pdb: Lighting30Shader::SetupGeometryConstants_Emittance | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pmaterialProperty, pprop
 void __stdcall ApplyLightSource(LightSource* light, RenderContext* context)
 {
     Color3 color = light->overrideColor ? *light->overrideColor : light->color;
@@ -1477,62 +1501,18 @@ struct FUN_00b7e330 : Object
     static __forceinline void operator delete(void*)
     {}
 };
-extern bool DAT_01201f28;
-extern char DAT_01011584[];
-extern char DAT_01013cf4[];
-extern char DAT_01031334[];
-extern char DAT_010a16ec[];
-extern char DAT_010a18a4[];
 extern char DAT_010a1cac[];
-extern char DAT_010a1d20[];
-extern char DAT_010a1db8[];
-extern char DAT_010a1e50[];
-extern char DAT_010a1ee0[];
-extern char DAT_010af45c[];
-extern char DAT_010af468[];
-extern char DAT_010af474[];
-extern char DAT_010af48c[];
-extern char DAT_010af498[];
-extern char DAT_010af580[];
-extern char DAT_010af590[];
-extern char DAT_010af5a0[];
-extern char DAT_010af5b0[];
-extern char DAT_010af5d8[];
-extern char DAT_010aff58[];
-extern char DAT_010ba250[];
-extern char DAT_010ba258[];
-extern char DAT_010ba26c[];
-extern char DAT_010ba278[];
-extern char DAT_010ba288[];
-extern char DAT_010ba294[];
-extern char DAT_010ba2a4[];
-extern char DAT_010ba2b4[];
-extern char DAT_010ba2bc[];
-extern char DAT_010ba2c8[];
-extern char DAT_010ba2d4[];
-extern char DAT_010ba2e4[];
-extern char DAT_010ba2f4[];
-extern char DAT_010ba30c[];
-extern char DAT_010ba320[];
-extern char DAT_010ba32c[];
-extern char DAT_011fa580[];
-extern char DAT_011fed08[];
-extern char DAT_011fed48[];
 extern char DAT_01200be8[];
 extern char DAT_01200bec[];
-extern char DAT_01200bf0[];
 extern char DAT_01200bf8[];
 extern char DAT_01200c08[];
 extern char DAT_01200c18[];
 extern char DAT_01200c28[];
 extern char DAT_01200c38[];
-extern char DAT_01201170[];
-extern char DAT_012012b0[];
 extern char DAT_012012f0[];
 extern char DAT_01201350[];
 extern char DAT_01201360[];
 extern char DAT_01201370[];
-extern char DAT_01201380[];
 extern char DAT_012013b0[];
 extern char DAT_012013d0[];
 extern char DAT_01201b30[];
@@ -1543,23 +1523,13 @@ extern char DAT_01201b70[];
 extern char DAT_01201b90[];
 extern char DAT_01201ba0[];
 extern char DAT_01201bc0[];
-extern char DAT_01201be0[];
 extern char DAT_01201c70[];
 extern Pointer DAT_01201080;
-extern Pointer DAT_01201084;
-extern Pointer DAT_01201088;
-extern Pointer DAT_0120108c;
 extern Pointer DAT_01201090;
-extern Pointer DAT_01201094;
-extern Pointer DAT_01201098;
-extern Pointer DAT_0120109c;
-extern Pointer DAT_012010a0;
 extern Pointer DAT_012010a4;
-extern Pointer DAT_012010a8;
 extern Pointer DAT_012010ac;
 extern Pointer DAT_012010b0;
 extern Pointer DAT_012010b4;
-extern Pointer DAT_012010b8;
 extern Pointer DAT_012010bc;
 extern Pointer DAT_012010c0;
 extern Pointer DAT_012010c4;
@@ -1572,208 +1542,6 @@ extern Pointer DAT_012010dc;
 extern Pointer DAT_012010e0;
 extern Pointer DAT_012010e4;
 extern Pointer DAT_012010e8;
-struct Lighting
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    void* device;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    Pointer constants30;
-    Pointer constants34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    Pointer constants6c;
-    Pointer constants70;
-    Pointer constants74;
-    Pointer constants78;
-    void FUN_00bbf5a0();
-};
-// @fnv 0x00bbf5a0
-void Lighting::FUN_00bbf5a0()
-{
-    if (!constants34.object && !DAT_01201f28)
-    {
-        DAT_01201f28 = true;
-        constants34.FUN_00a5f860(new FUN_00b7e330(device, 0));
-        ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1e50, 0x20000009, 0x0, (unsigned int)DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        DAT_01201080.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1e50));
-        ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1d20, 0x20000009, 0x14, (unsigned int)DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        DAT_01201084.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1d20));
-        ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1ee0, 0x20000009, 0x4, (unsigned int)DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        DAT_01201088.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1ee0));
-        ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1db8, 0x20000009, 0x18, (unsigned int)DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        DAT_0120108c.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1db8));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010a1cac, 0x20000009, 0x120000, 0x34, 0x36, 0x0, 0x0, 0x0, 0x0, 0x0);
-        DAT_01201090.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1cac));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af580, 0x10000009, 0x0, 0x6c, 0x36, (unsigned int)DAT_01011584, 0x360, 0x4,
-                       (unsigned int)DAT_011fa580, 0x0);
-        DAT_01201094.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af580));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba32c, 0x10000009, 0x0, 0x8, 0x4, (unsigned int)DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_01201170, 0x0);
-        DAT_01201098.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba32c));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010a18a4, 0x10000007, 0x0, 0x28, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201370, 0x0);
-        DAT_012010a4.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a18a4));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba320, 0x10000007, 0x0, 0x2e, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_012013d0, 0x0);
-        DAT_012010c0.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba320));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_01013cf4, 0x1000000c, 0x0, 0x2c, 0x2, (unsigned int)DAT_01011584, 0x20, 0x4,
-                       (unsigned int)DAT_012013b0, 0x0);
-        DAT_012010bc.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_01013cf4));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af5b0, 0x10000007, 0x0, 0x29, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201380, 0x0);
-        DAT_012010a8.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af5b0));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_01031334, 0x10000007, 0x0, 0x26, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201350, 0x0);
-        DAT_012010ac.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_01031334));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba30c, 0x10000007, 0x0, 0x27, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201360, 0x0);
-        DAT_012010b0.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba30c));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba2f4, 0x10000009, 0x0, 0x20, 0x6, (unsigned int)DAT_01011584, 0x60, 0x4,
-                       (unsigned int)DAT_012012f0, 0x0);
-        DAT_012010b4.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba2f4));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af5a0, 0x10000009, 0x0, 0xc, 0x4, (unsigned int)DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_011fed08, 0x0);
-        DAT_0120109c.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af5a0));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af590, 0x10000009, 0x0, 0x10, 0x4, (unsigned int)DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_011fed48, 0x0);
-        DAT_012010a0.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af590));
-        ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba2e4, 0x10000009, 0x0, 0x1c, 0x4, (unsigned int)DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_012012b0, 0x0);
-        DAT_012010b8.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba2e4));
-        constants34.FUN_00a5f860(new FUN_00b7e330(device, 0));
-    }
-    if (!constants30.object)
-    {
-        constants30 = new FUN_00b7e330(device, 2);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2d4, 0x10000007, 0x0, 0x0, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b30, 0x0);
-        DAT_012010c4 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2d4);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010aff58, 0x10000007, 0x0, 0x1, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b40, 0x0);
-        DAT_012010c8 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010aff58);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2c8, 0x10000007, 0x0, 0x2, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b50, 0x0);
-        DAT_012010cc = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2c8);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2bc, 0x10000007, 0x0, 0x3, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b60, 0x0);
-        DAT_012010d0 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2bc);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2b4, 0x10000007, 0x0, 0x4, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b70, 0x0);
-        DAT_012010d4 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2b4);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2a4, 0x10000007, 0x0, 0x6, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b90, 0x0);
-        DAT_012010d8 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2a4);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba294, 0x10000007, 0x0, 0x7, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201ba0, 0x0);
-        DAT_012010dc = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba294);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba288, 0x1000000c, 0x0, 0x9, 0x2, (unsigned int)DAT_01011584, 0x20, 0x4,
-                       (unsigned int)DAT_01201bc0, 0x0);
-        DAT_012010e4 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba288);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba278, 0x10000007, 0x0, 0xb, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201be0, 0x0);
-        DAT_012010e0 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba278);
-        ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba26c, 0x10000009, 0x0, 0x14, 0x29, (unsigned int)DAT_01011584, 0x290, 0x4,
-                       (unsigned int)DAT_01201c70, 0x0);
-        DAT_012010e8 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba26c);
-        constants30 = new FUN_00b7e330(device, 2);
-    }
-    constants78 = constants34;
-    constants74 = constants30;
-    if (!constants70.object)
-    {
-        constants70 = new FUN_00b7e330(device, 0);
-        ((FUN_00b7e330*)constants70.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1e50, 0x20000009, 0x0, (unsigned int)DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1d20, 0x20000009, 0x4, (unsigned int)DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010a1cac, 0x20000009, 0x120000, 0xe, 0x36, 0x0, 0x0, 0x0, 0x0, 0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af5d8, 0x10000007, 0x0, 0x8, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201370, 0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af498, 0x10000004, 0x0, 0x9, 0x1, (unsigned int)DAT_01011584, 0x4, 0x4,
-                       (unsigned int)DAT_01200be8, 0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af48c, 0x10000004, 0x0, 0xa, 0x1, (unsigned int)DAT_01011584, 0x4, 0x4,
-                       (unsigned int)DAT_01200bec, 0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010ba258, 0x10000004, 0x0, 0xb, 0x1, (unsigned int)DAT_01011584, 0x4, 0x4,
-                       (unsigned int)DAT_01200bf0, 0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af474, 0x10000007, 0x0, 0xc, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c38, 0x0);
-        ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010a16ec, 0x10000007, 0x0, 0xd, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c28, 0x0);
-    }
-    if (!constants6c.object)
-    {
-        constants6c = new FUN_00b7e330(device, 2);
-        ((FUN_00b7e330*)constants6c.object)
-            ->Register((unsigned int)DAT_010af468, 0x10000007, 0x0, 0x0, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200bf8, 0x0);
-        ((FUN_00b7e330*)constants6c.object)
-            ->Register((unsigned int)DAT_010af45c, 0x10000007, 0x0, 0x1, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c08, 0x0);
-        ((FUN_00b7e330*)constants6c.object)
-            ->Register((unsigned int)DAT_010ba250, 0x10000007, 0x0, 0x2, 0x1, (unsigned int)DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c18, 0x0);
-    }
-}
 }
 
 namespace fnv_00bbba00 {
@@ -1979,6 +1747,8 @@ extern NiPoint3 DAT_011f474c;
 extern void* DAT_011f91c8;
 
 // @fnv 0x00bbba00
+// pdb: Lighting30Shader::SetupGeometryConstants_ShadowProjection | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pskin, worldTransform
 void __stdcall UpdateShaderMatrices(int identity, const ShaderTransform* transform)
 {
     if (!DAT_012010b4->dirty)
@@ -2173,6 +1943,8 @@ struct FUN_00bbd000_cls
 };
 // If a frame is given and m38 is zero and a stage is active or m34 equals m70, submits params to the pipeline and draws the frame via the device.
 // @fnv 0x00bbd000
+// pdb: Lighting30Shader::SetupBoneMatrices | Lighting30Shader.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apGeometry, apSkin, apPartition, apBuffData, apState, apEffects, aWorld, aWorldBound
 int FUN_00bbd000_cls::RenderFrame(int aiUnused, Parameters* params, Frame* frame, int aiUnused4, int aiUnused5,
                                   int aiUnused6, int extra, int aiUnused8)
 {
@@ -2275,6 +2047,7 @@ class SM3ShaderLoader
 
 // Creates SM3 pixel shaders into DAT_01200c48 and DAT_01200d10 from kDescs, adjusting macro definitions by iVersion and DAT_011f94a4.
 // @fnv 0x00bba5d0
+// pdb: Lighting30Shader::LoadPixelShaders | Lighting30Shader.obj | fnv360_0822_retail, ustr, medium
 void SM3ShaderLoader::FUN_00bba5d0()
 {
     ShaderDescriptor kDescs[50] = {
@@ -2585,7 +2358,9 @@ extern float DAT_011f9614, DAT_011f9618;
 extern ResultVector DAT_01201bc0, DAT_01201bd0;
 // When DAT_012010e4->bOn, computes a fog plane from DAT_011f9604 and camera position, and sets DAT_01201bd0 from DAT_011f9614/DAT_011f9618.
 // @fnv 0x00bbbe80
-void UpdateFogPlanes()
+// pdb: Lighting30Shader::SetupGeometryConstants_WaterFog | Lighting30Shader.obj | fnv360_0822_retail, udata, high
+// pdb: Lighting30Shader::SetupGeometryConstants_WaterFog | Lighting30Shader.obj | fnv360_0822_retail, udata, high (was: UpdateFogPlanes)
+void Lighting30Shader_SetupGeometryConstants_WaterFog()
 {
     if (DAT_012010e4->bOn)
     {
@@ -2990,6 +2765,8 @@ void __stdcall FUN_00ee6dec(LocalPoint3* dst, const LocalPoint3* src);
 void __stdcall FUN_00ee6df8(LocalPoint3* dst, const LocalPoint3* src, const Matrix* matrix);
 // Sets light colors and updates position/alpha entries in DAT_01201c90 using matrix transforms, actor origin, and scale adjustments.
 // @fnv 0x00bbc050
+// pdb: Lighting30Shader::SetupGeometryConstants_Lights | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pprop, apRenderPass, auiCurrentPass, pmaterialProperty, d3dInvWorld, pskin, worldTransform
 void __stdcall FUN_00bbc050(LightingSource* source, EffectOp* op, unsigned int type, OtherData* detail, Matrix* matrix,
                             int adjustScale, SizeScale* size)
 {
@@ -3191,199 +2968,10 @@ extern Lighting30PacketState* DAT_012010e4;
 extern Lighting30PacketState* DAT_012010e8;
 extern unsigned char DAT_011f91c4;
 extern PacketF DAT_012013b0;
-extern PacketF DAT_012013c0;
 extern PacketF DAT_012013d0;
 extern P4_bbb890 DAT_011fa2a0;
 extern NiPoint3 DAT_011f474c;
 
-class MapOwner : public NiD3DShaderInterface
-{
-  public:
-    bool m_bIsInitialized;
-    bool m_bSoftwareVertexProcessing;
-    NiPointer<NiD3DShaderDeclaration> m_spShaderDeclaration;
-    D3DRenderStateGroup* m_pRenderStateGroup;
-    NiPointer<NiD3DShaderConstantMap> m_spFirstShaderConstantMap;
-    NiPointer<NiD3DShaderConstantMap> m_spSecondShaderConstantMap;
-    void UpdateShaderDirtyFlags(int);
-};
-
-// Maps a shader index to a table entry, sets dirty flags on Lighting30PacketState objects, and updates fog and position packet data when their states are dirty.
-// @fnv 0x00bbe120
-void MapOwner::UpdateShaderDirtyFlags(int aiShaderIndex)
-{
-    PacketF t;
-    if (aiShaderIndex == 480 || aiShaderIndex == 481)
-        return;
-    int iTableIndex;
-    switch ((unsigned int)aiShaderIndex)
-    {
-    case 467:
-        iTableIndex = 89;
-        break;
-    case 10:
-        iTableIndex = 1;
-        break;
-    case 11:
-        iTableIndex = 2;
-        break;
-    case 12:
-        iTableIndex = 3;
-        break;
-    case 13:
-        iTableIndex = 4;
-        break;
-    case 14:
-        iTableIndex = 5;
-        break;
-    case 15:
-        iTableIndex = 6;
-        break;
-    case 468:
-        iTableIndex = 90;
-        break;
-    case 469:
-        iTableIndex = 91;
-        break;
-    case 470:
-        iTableIndex = 92;
-        break;
-    case 471:
-        iTableIndex = 93;
-        break;
-    case 472:
-        iTableIndex = 94;
-        break;
-    case 473:
-        iTableIndex = 95;
-        break;
-    case 474:
-        iTableIndex = 96;
-        break;
-    case 730:
-        iTableIndex = 104;
-        break;
-    case 731:
-        iTableIndex = 105;
-        break;
-    case 736:
-        iTableIndex = 104;
-        break;
-    case 737:
-        iTableIndex = 105;
-        break;
-    case 742:
-        iTableIndex = 104;
-        break;
-    case 743:
-        iTableIndex = 105;
-        break;
-    case 748:
-        iTableIndex = 104;
-        break;
-    case 749:
-        iTableIndex = 105;
-        break;
-    default:
-        iTableIndex = aiShaderIndex - 376;
-        break;
-    }
-
-    int i = 0;
-    unsigned int mask = i + 1;
-    for (; i < 17; i++)
-    {
-        Lighting30PacketState* s = DAT_01201080[i];
-        if (s)
-            s->dirty = (DAT_01200a28[iTableIndex] & ((mask << 1) | (mask >> 31))) != 0;
-        mask = (mask << 1) | (mask >> 31);
-        DAT_01200854[i] = (DAT_01200a28[iTableIndex] & mask) != 0;
-    }
-
-    if (DAT_012010c4)
-        DAT_012010c4->dirty = (DAT_01200868[iTableIndex] >> 1) & 1;
-    DAT_01200848[0] = (unsigned char)((DAT_01200868[iTableIndex] >> 1) & 1);
-    if (DAT_012010c8)
-        DAT_012010c8->dirty = (DAT_01200868[iTableIndex] >> 2) & 1;
-    DAT_01200848[1] = (unsigned char)((DAT_01200868[iTableIndex] >> 2) & 1);
-    if (DAT_012010cc)
-        DAT_012010cc->dirty = (DAT_01200868[iTableIndex] >> 3) & 1;
-    DAT_01200848[2] = (unsigned char)((DAT_01200868[iTableIndex] >> 3) & 1);
-    if (DAT_012010d0)
-        DAT_012010d0->dirty = (DAT_01200868[iTableIndex] >> 4) & 1;
-    DAT_01200848[3] = (unsigned char)((DAT_01200868[iTableIndex] >> 4) & 1);
-    if (DAT_012010d4)
-        DAT_012010d4->dirty = (DAT_01200868[iTableIndex] >> 5) & 1;
-    DAT_01200848[4] = (unsigned char)((DAT_01200868[iTableIndex] >> 5) & 1);
-    if (DAT_012010d8)
-        DAT_012010d8->dirty = (DAT_01200868[iTableIndex] >> 6) & 1;
-    DAT_01200848[5] = (unsigned char)((DAT_01200868[iTableIndex] >> 6) & 1);
-    if (DAT_012010dc)
-        DAT_012010dc->dirty = (DAT_01200868[iTableIndex] >> 7) & 1;
-    DAT_01200848[6] = (unsigned char)((DAT_01200868[iTableIndex] >> 7) & 1);
-    if (DAT_012010e0)
-        DAT_012010e0->dirty = (DAT_01200868[iTableIndex] >> 8) & 1;
-    DAT_01200848[7] = (unsigned char)((DAT_01200868[iTableIndex] >> 8) & 1);
-    if (DAT_012010e4)
-        DAT_012010e4->dirty = (DAT_01200868[iTableIndex] >> 9) & 1;
-    DAT_01200848[8] = (unsigned char)((DAT_01200868[iTableIndex] >> 9) & 1);
-    if (DAT_012010e8)
-        DAT_012010e8->dirty = (DAT_01200868[iTableIndex] >> 10) & 1;
-    DAT_01200848[9] = (unsigned char)((DAT_01200868[iTableIndex] >> 10) & 1);
-
-    m_spSecondShaderConstantMap.m_pObject->IsTriShape();
-    m_spFirstShaderConstantMap.m_pObject->IsTriShape();
-
-    if (DAT_012010bc->dirty)
-    {
-        BSFogProperty* pFogProperty = FUN_00b55520(DAT_011f91c4);
-        if (pFogProperty)
-        {
-            float v2c = pFogProperty->f2c;
-            NiPoint3 pt = pFogProperty->pt;
-            float v30 = pFogProperty->f30;
-            float v60 = pFogProperty->f60;
-            if (v30 == 0.0f && v2c == 0.0f)
-            {
-                t.x = 500000.0f;
-                t.y = 0.0f;
-                t.z = v60;
-                t.w = 0.0f;
-                DAT_012013b0 = t;
-                DAT_012013c0 = *(PacketF*)&DAT_011a9bd0;
-            }
-            else
-            {
-                PacketF packetFogData;
-                packetFogData.x = v30;
-                packetFogData.y = v30 - v2c;
-                packetFogData.z = v60;
-                packetFogData.w = 0.0f;
-                DAT_012013b0 = packetFogData;
-                PacketF u;
-                u.x = pt.x;
-                u.y = pt.y;
-                u.z = pt.z;
-                u.w = 1.0f;
-                DAT_012013c0 = u;
-            }
-        }
-    }
-
-    if (DAT_012010c0->dirty)
-    {
-        P4_bbb890 a = DAT_011fa2a0;
-        t.x = a.x - DAT_011f474c.x;
-        t.y = a.y - DAT_011f474c.y;
-        t.z = a.z - DAT_011f474c.z;
-        PacketF packetFogData;
-        packetFogData.x = t.x;
-        packetFogData.y = t.y;
-        packetFogData.z = t.z;
-        packetFogData.w = 1.0f;
-        DAT_012013d0 = packetFogData;
-    }
-}
 }  // namespace fnv_00bbe120
 
 namespace fnv_00c0bd40 {
@@ -3477,16 +3065,6 @@ struct PassTexture
     {
         texture = t;
     }
-};
-struct PassStages
-{
-    PassTexture* stage0;
-    PassTexture* stage1;
-    PassTexture* stage2;
-    PassTexture* stage3;
-    PassTexture* stage4;
-    PassTexture* stage5;
-    PassTexture* stage6;
 };
 struct ShaderPassEntry
 {
@@ -4411,10 +3989,6 @@ class FUN_00be2200
 extern int DAT_011f91c0;
 extern int DAT_011ae60c;
 extern int DAT_01200854;
-extern int DAT_01200858;
-extern int DAT_0120085c;
-extern int DAT_01200860;
-extern char DAT_01200864;
 extern int DAT_01200848;
 extern int DAT_0120084c;
 extern short DAT_01200850;
@@ -4612,6 +4186,7 @@ class SM3ShaderLoader
 };
 // Loads 57 vertex shader entries using the selected profile, with four entries that may instead use vs_3_0.
 // @fnv 0x00bb96f0
+// pdb: Lighting30Shader::LoadVertexShaders | Lighting30Shader.obj | fnv360_0822_retail, ustr, medium
 void SM3ShaderLoader::FUN_00bb96f0()
 {
     ShaderDescriptor shaderEntries[57] = {
@@ -5603,100 +5178,6 @@ struct GHold
     int pad_004;
     unsigned char b;
 };
-struct Flags164
-{
-    int pad_000;
-    int pad_004;
-    int pad_008;
-    int pad_00c;
-    int pad_010;
-    int pad_014;
-    int field_018;
-    int pad_01c;
-    int pad_020;
-    int pad_024;
-    int pad_028;
-    int pad_02c;
-    int pad_030;
-    int pad_034;
-    int pad_038;
-    int pad_03c;
-    int pad_040;
-    int pad_044;
-    int pad_048;
-    int pad_04c;
-    int pad_050;
-    int pad_054;
-    int pad_058;
-    int pad_05c;
-    int pad_060;
-    int pad_064;
-    int pad_068;
-    int pad_06c;
-    int pad_070;
-    int pad_074;
-    int pad_078;
-    int pad_07c;
-    int pad_080;
-    int pad_084;
-    int pad_088;
-    int pad_08c;
-    int pad_090;
-    int pad_094;
-    int pad_098;
-    int pad_09c;
-    int pad_0a0;
-    int pad_0a4;
-    int pad_0a8;
-    int pad_0ac;
-    int pad_0b0;
-    int pad_0b4;
-    int pad_0b8;
-    int pad_0bc;
-    int pad_0c0;
-    int pad_0c4;
-    int pad_0c8;
-    int pad_0cc;
-    int pad_0d0;
-    int pad_0d4;
-    int pad_0d8;
-    int pad_0dc;
-    int pad_0e0;
-    int pad_0e4;
-    int pad_0e8;
-    int pad_0ec;
-    int pad_0f0;
-    int pad_0f4;
-    int pad_0f8;
-    int pad_0fc;
-    int pad_100;
-    int pad_104;
-    int pad_108;
-    int pad_10c;
-    int pad_110;
-    int pad_114;
-    int pad_118;
-    int pad_11c;
-    int pad_120;
-    int pad_124;
-    int pad_128;
-    int pad_12c;
-    int pad_130;
-    int pad_134;
-    int pad_138;
-    int pad_13c;
-    int pad_140;
-    int pad_144;
-    int pad_148;
-    int pad_14c;
-    int pad_150;
-    int pad_154;
-    int pad_158;
-    int pad_15c;
-    int pad_160;
-    char a;
-    char b;
-};
 struct Lst;
 struct Glob
 {
@@ -5772,190 +5253,14 @@ extern int DAT_011f91e4;
 extern char DAT_011f4288[];
 extern GHold* DAT_012010ac;
 extern GHold* DAT_012010dc;
-extern float DAT_011f940c;
 extern float DAT_01201350;
 extern float DAT_01201ba0;
-extern float DAT_01201ba4;
 extern Glob* DAT_0126f74c;
 extern Cam* DAT_011f91c8;
 struct PlaneTarget;
-struct PlaneTargetHolder
-{
-    int field_000;
-    int field_004;
-    int field_008;
-    int field_00c;
-    int field_010;
-    int field_014;
-    int field_018;
-    int field_01c;
-    int field_020;
-    int field_024;
-    int field_028;
-    int field_02c;
-    int field_030;
-    int field_034;
-    int field_038;
-    int field_03c;
-    int field_040;
-    int field_044;
-    int field_048;
-    int field_04c;
-    int field_050;
-    int field_054;
-    int field_058;
-    int field_05c;
-    int field_060;
-    int field_064;
-    int field_068;
-    int field_06c;
-    int field_070;
-    int field_074;
-    int field_078;
-    int field_07c;
-    int field_080;
-    int field_084;
-    int field_088;
-    int field_08c;
-    int field_090;
-    int field_094;
-    int field_098;
-    int field_09c;
-    int field_0a0;
-    int field_0a4;
-    int field_0a8;
-    int field_0ac;
-    int field_0b0;
-    int field_0b4;
-    int field_0b8;
-    int field_0bc;
-    int field_0c0;
-    int field_0c4;
-    int field_0c8;
-    int field_0cc;
-    int field_0d0;
-    int field_0d4;
-    int field_0d8;
-    int field_0dc;
-    int field_0e0;
-    int field_0e4;
-    int field_0e8;
-    int field_0ec;
-    int field_0f0;
-    int field_0f4;
-    int field_0f8;
-    int field_0fc;
-    int field_100;
-    int field_104;
-    int field_108;
-    int field_10c;
-    int field_110;
-    int field_114;
-    int field_118;
-    int field_11c;
-    int field_120;
-    int field_124;
-    int field_128;
-    int field_12c;
-    int field_130;
-    int field_134;
-    int field_138;
-    int field_13c;
-    int field_140;
-    int field_144;
-    int field_148;
-    int field_14c;
-    int field_150;
-    int field_154;
-    int field_158;
-    int field_15c;
-    int field_160;
-    int field_164;
-    int field_168;
-    int field_16c;
-    int field_170;
-    int field_174;
-    int field_178;
-    int field_17c;
-    int field_180;
-    int field_184;
-    int field_188;
-    int field_18c;
-    int field_190;
-    int field_194;
-    int field_198;
-    int field_19c;
-    int field_1a0;
-    int field_1a4;
-    int field_1a8;
-    int field_1ac;
-    int field_1b0;
-    int field_1b4;
-    int field_1b8;
-    int field_1bc;
-    int field_1c0;
-    int field_1c4;
-    int field_1c8;
-    int field_1cc;
-    int field_1d0;
-    int field_1d4;
-    int field_1d8;
-    int field_1dc;
-    int field_1e0;
-    int field_1e4;
-    int field_1e8;
-    int field_1ec;
-    int field_1f0;
-    int field_1f4;
-    int field_1f8;
-    int field_1fc;
-    int field_200;
-    int field_204;
-    int field_208;
-    int field_20c;
-    int field_210;
-    int field_214;
-    int field_218;
-    int field_21c;
-    int field_220;
-    int field_224;
-    int field_228;
-    int field_22c;
-    int field_230;
-    int field_234;
-    int field_238;
-    int field_23c;
-    int field_240;
-    int field_244;
-    int field_248;
-    int field_24c;
-    int field_250;
-    int field_254;
-    int field_258;
-    int field_25c;
-    int field_260;
-    int field_264;
-    int field_268;
-    int field_26c;
-    int field_270;
-    int field_274;
-    int field_278;
-    int field_27c;
-    int field_280;
-    int field_284;
-    PlaneTarget* target;
-};
-extern PlaneTargetHolder* DAT_011f4748;
 extern float DAT_011f474c, DAT_011f4750, DAT_011f4754;
 
 void FUN_00b97e30(int, int);
-void FUN_00c4c2d0(void* sub, int b, Mat* m);
-Flags164* FUN_00b4f5c0();
-Mat* __stdcall FUN_00ee6de0(Mat* o, Mat* a, Mat* b);
-Mat* __stdcall FUN_00ee6dda(Mat* o, float* det, Mat* a);
-Mat* __stdcall FUN_00ee6dd4(Mat* o, Mat* a);
-Plane* __stdcall FUN_00ee6dce(Plane* o, Plane* a);
-Plane* __stdcall FUN_00ee6dc8(Plane* o, Plane* a, Mat* m);
 void __stdcall FUN_00bbbe30(P0c* p);
 
 struct PlaneTarget
@@ -6046,7 +5351,7 @@ struct Shadow
     void FUN_00bbe9c0(const char* n, P0c* p, Arg* a, int mode);
     void ApplyLightSource(int p8, P0c* p);
     void FUN_00bbbdf0(P0c* p);
-    void UpdateFogPlanes();
+    void Lighting30Shader_SetupGeometryConstants_WaterFog();
     Renderer* GetRenderer() const
     {
         return r18;
@@ -6055,163 +5360,6 @@ struct Shadow
     Shadow* UpdateFrustum(ClipFull* clip, Plane* src, Shadow* volatile& owner);
 };
 
-static __forceinline Renderer* SetProjectionTranslation(Shadow& object, double value, float& out)
-{
-    Renderer* r = object.GetRenderer();
-    out = (float)value;
-    return r;
-}
-
-__forceinline Shadow* Shadow::UpdateFrustum(ClipFull* clip, Plane* src, Shadow* volatile& owner)
-{
-    Scratch one, two;
-    Shadow& current = *owner;
-    Mat view = current.GetRenderer()->view;
-    Vec3 cam;
-    DAT_011f91c8->FUN_00b71b40(&cam);
-    Renderer* projectionRenderer;
-    float px, py, pz;
-    {
-        Vec3& pos = one.vector;
-        Vec3& col = two.vector;
-        col.x = view.m[0][0];
-        col.y = view.m[1][0];
-        col.z = view.m[2][0];
-        px = cam.x + DAT_011f474c;
-        pos.x = px;
-        py = cam.y + DAT_011f4750;
-        pos.y = py;
-        pz = cam.z + DAT_011f4754;
-        pos.z = pz;
-        view.m[3][0] = -pos.DotProduct(col);
-    }
-    {
-        Vec3& pos = two.vector;
-        Vec3& col = one.vector;
-        col.x = view.m[0][1];
-        col.y = view.m[1][1];
-        col.z = view.m[2][1];
-        pos.x = px;
-        pos.y = py;
-        pos.z = pz;
-        view.m[3][1] = -pos.DotProduct(col);
-    }
-    {
-        Vec3& pos = two.vector;
-        Vec3& col = one.vector;
-        col.x = view.m[0][2];
-        col.y = view.m[1][2];
-        col.z = view.m[2][2];
-        pos.x = px;
-        pos.y = py;
-        pos.z = pz;
-        projectionRenderer = SetProjectionTranslation(*owner, -pos.DotProduct(col), view.m[3][2]);
-    }
-    Mat proj = projectionRenderer->projection;
-    MatA vp, inv;
-    FUN_00ee6de0(&vp, &view, &proj);
-    FUN_00ee6dda(&inv, 0, &vp);
-    FUN_00ee6dd4(&vp, &inv);
-    Plane out[6];
-    for (int i = 0; i < 6; i++)
-    {
-        cam = *(Vec3*)&src[i];
-        Plane& p = one.plane;
-        Plane& t = two.plane;
-        p.a = cam.x;
-        p.b = cam.y;
-        p.c = cam.z;
-        p.d = -src[i].d;
-        FUN_00ee6dce(&p, &p);
-        FUN_00ee6dc8(&t, &p, &vp);
-        out[i].a = t.a;
-        out[i].b = t.b;
-        out[i].c = t.c;
-        out[i].d = t.d;
-    }
-    int i = 0;
-    PlaneTarget** pt = &DAT_011f4748->target;
-    for (; i < 6; i++)
-        (*pt)->SetWaterColorParameter(i, &out[i]);
-    clip->CopySourceData(out);
-    return owner;
-}
-
-// Updates shadow rendering state, applies texture stages and matrices, updates frustum planes, and dispatches callbacks based on mode and flags.
-// @fnv 0x00bbef90
-void Shadow::FUN_00bbef90(Arg* apArgs)
-{
-    Shadow* pShadow = this;
-    Shadow* volatile pShadowVolatile = this;
-    unsigned mode = DAT_011f91e4;
-    Root* root = DAT_011f91e0;
-    Obj* obj = root->obj;
-    void* sub = &obj->sub68_000;
-    const char* name = obj->name;
-    if (!name)
-        name = DAT_011f4288;
-    int a = obj->b8->v;
-    int b = obj->bc;
-    P0c* pc = apArgs->pc;
-    int p8 = apArgs->p8;
-    Mat mat;
-    if ((unsigned)(mode - 0x1d3) <= 3 && (apArgs->g0->flags & 1))
-        FUN_00b97e30(0, 1);
-    FUN_00c4c2d0(sub, b, &mat);
-    r18->FUN_00e6fbb0(sub, 0);
-    if (mode == 0x1e0 || mode == 0x1e1)
-    {
-        ApplyTextureStages(pc, DAT_0126f74c);
-        FUN_00bbde20(obj, pc, DAT_0126f74c);
-        UpdateTransformedPosition(mat, sub);
-    }
-    else
-    {
-        if (mode == 0xe || mode == 0xf)
-            SetupTextureStages(pc, DAT_0126f74c);
-        FUN_00bbc050(pc, root, mode, p8, &mat, b, sub);
-        FUN_00bbe6b0(root, mode, b, sub);
-        UpdateShaderMatrices(b, sub);
-        if (DAT_012010ac->b)
-            DAT_01201350 = (float)(DAT_011f940c / 3600.0 * 6.283180236816406 * pc->ie4);
-        UpdatePositionOffset(name);
-        UpdateTransformedPosition(mat, sub);
-        FUN_00bbbda0(pc);
-        FUN_00bbe9c0(name, pc, apArgs, mode);
-        ApplyLightSource(p8, pc);
-        FUN_00bbbdf0(pc);
-        if (DAT_012010dc->b)
-        {
-            DAT_01201ba0 = pc->fe8;
-            DAT_01201ba4 = pc->fec;
-        }
-        FUN_00bbbe30(pc);
-        UpdateFogPlanes();
-        if ((unsigned)(mode - 0x1c4) <= 3)
-        {
-            ClipFull* clip = *DAT_011f91e0->clip;
-            if (!clip->flag208 && !FUN_00b4f5c0()->a && !FUN_00b4f5c0()->b)
-            {
-                pShadow = UpdateFrustum(clip, clip->planes, pShadowVolatile);
-            }
-            else if (!FUN_00b4f5c0()->a && !FUN_00b4f5c0()->b)
-            {
-                Plane(&planes)[6] = clip->planes2;
-                int i = 0;
-                PlaneTarget** pt = &DAT_011f4748->target;
-                for (; i < 6; ++i)
-                    (*pt)->SetWaterColorParameter(i, &planes[i]);
-            }
-        }
-    }
-    if (pShadow->e30 && DAT_0126f74c->h44)
-        DAT_0126f74c->l34->vfn(DAT_0126f74c->h44, obj, b, 0, a, apArgs, 0, sub, name, 0, 1);
-    if (pShadow->e34 && DAT_0126f74c->h5c)
-        DAT_0126f74c->l48->vfn(DAT_0126f74c->h5c, obj, b, 0, a, apArgs, 0, sub, name, 0, 1);
-    Geo* t = apArgs->g10;
-    if (t && (t->flags & 1))
-        pShadow->s1c->f24(t);
-}
 }  // namespace fnv_00bbef90
 
 #include <math.h>
@@ -6254,11 +5402,6 @@ class SolColor : public NiMemObject
     }
     float ComputeWeightedSum() const;
 };
-extern "C" double __cdecl sqrt(double);
-inline float SolPosition::FUN_00457990() const
-{
-    return (float)sqrt(x * x + y * y + z * z);
-}
 struct S00bbe9c0_Coef
 {
     float ambient, diffuse, specular, emissive;
@@ -6266,15 +5409,8 @@ struct S00bbe9c0_Coef
 extern S00bbe9c0_Coef DAT_011a9be0, DAT_01201b60;
 extern int DAT_011f91b8;
 extern char* DAT_011f91c8;
-extern double DAT_0101e568;
 extern char* DAT_012010d0;
 extern bool DAT_01200bf5;
-struct S00bbe9c0_Flags
-{
-    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
-    unsigned short flags;
-    unsigned char strength, other;
-};
 
 struct S00bbe9c0_AV
 {
@@ -6304,17 +5440,6 @@ struct S00bbe9c0_Node
     int unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8, unkdc;
     int unke0, unke4, unke8, unkec, unkf0, unkf4;
     S00bbe9c0_Target* target;
-};
-struct S00bbe9c0_Holder
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
-    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
-    int unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc;
-    int unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8, unkdc;
-    S00bbe9c0_Node* listE0;
 };
 struct S00bbe9c0_Obj;
 struct S00bbe9c0_VT
@@ -6396,94 +5521,9 @@ struct S00bbe9c0_Obj
     unsigned int flags;
     float opacity;
     bool FUN_004a2020(int mode);
-    S00bbe9c0_Node* FUN_00b70600(int* selected);
+    S00bbe9c0_Node* BSShaderLightingProperty_GetFirstActiveNonShadowLight(int* selected);
 };
-double FUN_0068b050(double, float);
-double FUN_00b719c0(double, double);
 extern double DAT_010ae8b8, DAT_010ae8c0, DAT_010ae8b0;
-__declspec(noinline) float SolColor::ComputeWeightedSum() const
-{
-    return (float)(r * DAT_010ae8b8 + g * DAT_010ae8c0 + b * DAT_010ae8b0);
-}
-// Computes ambient, diffuse, specular and emissive coefficients into DAT_01201b60 from lighting, state and render mode, and updates the dim flag.
-// @fnv 0x00bbe9c0
-void __stdcall FUN_00bbe9c0(const SolPosition* original, S00bbe9c0_Obj* lighting, S00bbe9c0_Flags** state,
-                            unsigned int renderMode)
-{
-    DAT_01201b60 = DAT_011a9be0;
-    if (DAT_011f91b8 == 8)
-    {
-        DAT_01201b60.ambient = ((lighting->flags & 0x20000u) > 0u) ? 0.0f : 1.0f;
-        S00bbe9c0_Flags* s = *state;
-        if (s && (((*(unsigned char*)&s->flags) & 1u) || ((((unsigned char)(s->flags >> 9)) & 1u) != 0)))
-        {
-            DAT_01201b60.diffuse = 0.0f;
-        }
-        else
-        {
-            DAT_01201b60.diffuse = 1.0f;
-        }
-        return;
-    }
-    if (DAT_011f91b8 == 10 || renderMode - 0x1bd > 6)
-    {
-        DAT_01201b60.ambient = lighting->opacity < 1.0f ? lighting->opacity : 1.0f;
-    }
-    else
-    {
-        float modifier = lighting->vtable->GetActorValueModifierAmount(lighting);
-        float illumination = lighting->opacity * modifier;
-        DAT_01201b60.ambient = illumination < 1.0f ? illumination : 1.0f;
-        if (((lighting->flags & 0x8000u) > 0u) && !lighting->FUN_004a2020(0x11))
-        {
-            renderMode = 0;
-            illumination = 0.0f;
-            S00bbe9c0_Node* node = lighting->FUN_00b70600((int*)&renderMode);
-            S00bbe9c0_Target* __restrict cam = ((S00bbe9c0_Holder*)DAT_011f91c8)->listE0->target;
-            float alpha;
-            {
-                SolColor sun = cam->posD4;
-                alpha = sun.ComputeWeightedSum();
-            }
-            if (node)
-            {
-                S00bbe9c0_Target* t = node->target;
-                SolPosition relative = t->pos8c.FUN_00439ef0(*original);
-                SolColor scaledColor = node->target->posD4.ScaleTo(node->target->radC4);
-                float distance = relative.FUN_00457990() / t->fE0;
-                double d = FUN_0068b050(0.0, distance);
-                float vfade = 1.0f - (float)FUN_00b719c0(1.0, d);
-                float fade = (float)((double)vfade * 1.0);
-                illumination = scaledColor.ComputeWeightedSum() * fade;
-            }
-            DAT_01201b60.ambient *= (illumination > alpha ? illumination : alpha);
-        }
-    }
-    S00bbe9c0_Flags* s = *state;
-    if (!(((unsigned char)(s->flags >> 9)) & 1))
-    {
-        DAT_01201b60.diffuse = 0.0f;
-    }
-    else
-    {
-        DAT_01201b60.diffuse = (float)(s->strength / DAT_0101e568);
-    }
-    DAT_01201b60.specular = 0.0f;
-    DAT_01201b60.emissive = 0.0f;
-    unsigned int mode = (s->flags >> 5) & 0xf;
-    if (mode == 0)
-    {
-        DAT_01201b60.specular = 1.0f;
-    }
-    else if (mode == 2)
-    {
-        DAT_01201b60.emissive = 1.0f;
-    }
-    bool previouslyDim = DAT_01200bf5;
-    bool dim = DAT_01201b60.ambient < 1.0f;
-    DAT_01200bf5 = dim;
-    DAT_012010d0[8] = (previouslyDim || dim);
-}
 }  // namespace fnv_00bbe9c0
 
 class NiD3DShaderConstantMap : public NiRefObject
@@ -6567,7 +5607,7 @@ struct FUN_00bbc9c0 : FUN_00be0f10
     NiPointer<NiD3DVertexDeclaration> m_pVertexDeclaration6;
     NiPointer<NiD3DVertexDeclaration> m_pVertexDeclaration7;
     NiPointer<NiD3DVertexDeclaration> m_pVertexDeclaration8;
-    NiGeometryBufferData* volatile m_pGeometryBufferData;
+    NiGeometryBufferData* m_pGeometryBufferData;
     UInt32 m_uiShaderOptions;
     virtual ~FUN_00bbc9c0();
 };

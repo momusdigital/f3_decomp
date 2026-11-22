@@ -3,6 +3,8 @@
 #include "nid3dgeometrygroupmanager_decls.h"
 // Allocates and initialises a NiD3DGeometryGroupManager, stores the device and buffers, and AddRefs the device.
 // @fnv 0x00e88eb0
+// pdb: NiD3DGeometryGroupManager::Create | NiD3DGeometryGroupManager.obj | fnv360_0721_beta, call_gap, high
+// pdb params: pkD3DDevice, pkVBManager
 NiD3DGeometryGroupManager* NiD3DGeometryGroupManager::Create(Direct3DDeviceInterface* device,
                                                              VertexDeclarationLayout* buffers)
 {
@@ -33,7 +35,7 @@ struct FUN_00e88fa0_shell : public NiD3DGeometryGroupManager
     bool FUN_00e88fa0(NiGeometryGroup*, NiGeometryData*, NiSkinInstance*, bool, unsigned int, unsigned int);
 };
 
-bool __fastcall ProcessCollector(void*, int, NiGeometryGroup*, NiGeometryData*, NiSkinInstance*, bool, unsigned int,
+bool __fastcall NiD3DGeometryGroupManager_AddObjectToGroup(void*, int, NiGeometryGroup*, NiGeometryData*, NiSkinInstance*, bool, unsigned int,
                                  unsigned int);
 
 struct FUN_00e88dc0_caller
@@ -44,14 +46,15 @@ struct FUN_00e88dc0_caller
     }
 };
 
-// Forwards the geometry group, data and skin instance to ProcessCollector along with the bool at pThis+0x18 and two zero arguments.
+// Forwards the geometry group, data and skin instance to NiD3DGeometryGroupManager_AddObjectToGroup along with the bool at pThis+0x18 and two zero arguments.
 // @fnv 0x00e88fa0
+// pdb: NiD3DGeometryGroupManager::AddObjectToGroup | NiD3DGeometryGroupManager.obj | tesv_win, hash, low
 bool __fastcall FUN_00e88fa0(void* pThis, int, NiGeometryGroup* pkGroup, NiGeometryData* pkData,
                              NiSkinInstance* pkSkinInstance)
 {
     typedef bool(__thiscall * Fn)(void*, NiGeometryGroup*, NiGeometryData*, NiSkinInstance*, bool, unsigned int,
                                   unsigned int);
-    return ((Fn)&ProcessCollector)(pThis, pkGroup, pkData, pkSkinInstance, *((bool*)pThis + 0x18), 0, 0);
+    return ((Fn)&NiD3DGeometryGroupManager_AddObjectToGroup)(pThis, pkGroup, pkData, pkSkinInstance, *((bool*)pThis + 0x18), 0, 0);
 }
 
 struct FUN_00e88c90_shell : public NiD3DGeometryGroupManager
@@ -60,6 +63,7 @@ struct FUN_00e88c90_shell : public NiD3DGeometryGroupManager
 };
 
 // @fnv 0x00e88c90
+// pdb: NiD3DGeometryGroupManager::IsGroupEmpty | NiD3DGeometryGroupManager.obj | tesv_win, objrun_open, low
 bool FUN_00e88c90_shell::FUN_00e88c90(NiGeometryGroup* pkGroup)
 {
     return *(unsigned int*)((char*)pkGroup + 4) == 0;
@@ -155,6 +159,7 @@ struct Holder
 void __cdecl FUN_00e94290();
 void __cdecl _NiFreeAlias(void*);
 // @fnv 0x00e88d60
+// pdb: NiD3DGeometryGroupManager::~NiD3DGeometryGroupManager | NiD3DGeometryGroupManager.obj | fnv360_0721_beta, objopen_prop, low
 void Holder::FUN_00e88d60()
 {
     unsigned int n = cnt;
@@ -181,6 +186,7 @@ struct FUN_00e88e90_shell
 };
 // Calls FUN_00e88d60, then deletes this with _delete(this, 0x1c) if flags has bit 1 set, and returns this.
 // @fnv 0x00e88e90
+// pdb: NiAlphaProperty::`scalar deleting destructor' | MultiBoundMarkerData.obj | fnv360_0822_retail, vtable_prefix, medium
 void* FUN_00e88e90_shell::DestroyIfOwned(unsigned int flags)
 {
     FUN_00e88d60();
@@ -218,6 +224,8 @@ struct FUN_P
     FUN_Elem* m_0C;
 };
 // @fnv 0x00e88d00
+// pdb: NiTSet<NiGeometryGroup *,NiTMallocInterface<NiGeometryGroup *> >::Realloc | NiD3DGeometryGroupManager.obj | fnv360_0721_beta, objopen_prop, low, conflict (skyrim: NiD3DGeometryGroupManager::RemoveSkinPartitionFromGroup)
+// pdb params: uiNewSize
 bool __stdcall FUN_00e88d00(FUN_P* p)
 {
     unsigned int cnt = p->m_08;
@@ -271,6 +279,8 @@ struct FUN_00e88c30_cls
 };
 
 // @fnv 0x00e88c30
+// pdb: NiD3DGeometryGroupManager::RemoveObjectFromGroup | NiD3DGeometryGroupManager.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: NiD3DGeometryGroupManager::DestroyGroup)
+// pdb params: pkScreenTexture
 bool FUN_00e88c30_cls::RemoveElement(FUN_00e88c30_elem* pElement)
 {
     if (pElement != 0 && this->v3(pElement))
@@ -336,6 +346,8 @@ struct GeomRef
 
 // Checks pRef's m_0C via FUN_00e88d00, otherwise calls Slot5 on pOwner's m_34->m_08 and Slot0 if m_04 is zero, returning true or false.
 // @fnv 0x00e88e40
+// pdb: NiTSet<NiGeometryGroup *,NiTMallocInterface<NiGeometryGroup *> >::Add | NiD3DGeometryGroupManager.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: NiD3DGeometryGroupManager::RemoveObjectFromGroup)
+// pdb params: element
 bool __stdcall FUN_00e88e40(GeomOwner* pGeomOwner, GeomRef* pGeomRef)
 {
     if (pGeomRef == 0)
@@ -440,6 +452,7 @@ class NiGeometryGroupManagerE88
 
 // Creates a geometry group for the given repacking behavior, adds it to the manager's set, and returns it (or null for an unknown behavior).
 // @fnv 0x00e88f10
+// pdb: NiD3DGeometryGroupManager::CreateGroup | NiD3DGeometryGroupManager.obj | tesv_win, caller_sim, low
 NiGeometryGroupE88* NiGeometryGroupManagerE88::CreateGroup(RepackingBehavior eBehavior)
 {
     NiGeometryGroupE88* pkGroup = 0;
@@ -514,7 +527,10 @@ struct HkCollector
 
 // Processes each element of the info array when enabled; otherwise calls Process once with null if body->unk34 is zero.
 // @fnv 0x00e88dc0
-bool __stdcall ProcessCollector(HkCollector* collector, HkBody* body, HkInput* input, bool flag, int unused1,
+// pdb: NiD3DGeometryGroupManager::AddObjectToGroup | NiD3DGeometryGroupManager.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkGroup, pkData, pkSkinInstance, bHWSkinning, __formal, __formal
+// pdb: NiD3DGeometryGroupManager::AddObjectToGroup | NiD3DGeometryGroupManager.obj | fnv360_0822_retail, call_seq, high (was: ProcessCollector)
+bool __stdcall NiD3DGeometryGroupManager_AddObjectToGroup(HkCollector* collector, HkBody* body, HkInput* input, bool flag, int unused1,
                                 int unused2)
 {
     if (input && flag && input->unk0c)

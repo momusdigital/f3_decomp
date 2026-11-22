@@ -1,4 +1,4 @@
-// staging/blk_00ce0000_od_o2_gs_nood_nogs_variant.cpp: RayCaster (3 functions)
+// staging/blk_00ce0000_od_o2_gs_nood_nogs_variant.cpp: RayCaster (1 function)
 #include "f3_common.h"
 #include <windows.h>
 // src/staging/blk_00ce0000_od_o2_gs_nood_nogs_variant.cpp - flag-variant unit created 2026-10-27 by flag_proofs.py: contributor code for these functions matched byte for
@@ -10,12 +10,6 @@
 #include "../../include/layout_support.h"
 
 #include <xmmintrin.h>
-struct Vec4Target
-{
-    __m128 m_v0;
-    __m128 m_v1;
-    void __thiscall FUN_00c66320(const __m128* a, const __m128* b);
-};
 
 __declspec(align(16)) struct Vec4Pod
 {
@@ -24,37 +18,6 @@ __declspec(align(16)) struct Vec4Pod
     unsigned int m_08;
     unsigned int m_0c;
 };
-
-// @fnv 0x00ce2ca0
-void FUN_00ce2ca0(void* unused, __m128* dst, const __m128* a, const __m128* b)
-{
-    dst[0] = _mm_add_ps(_mm_mul_ps(a[2], b[0]), a[0]);
-    ((Vec4Target*)(dst + 1))->FUN_00c66320(a + 1, b + 1);
-    dst[2] = b[2];
-}
-
-extern const __m128 DAT_010c4c10;
-
-struct FUN_00cf2280_cls
-{
-    __m128 m_00;
-    __m128 m_10;
-    __m128 m_20;
-    __m128 m_30;
-    __m128 m_40;
-
-    void FUN_00cf2280(const __m128* a, const __m128* b);
-};
-
-// @fnv 0x00cf2280
-void FUN_00cf2280_cls::FUN_00cf2280(const __m128* a, const __m128* b)
-{
-    m_00 = _mm_and_ps(*a, DAT_010c4c10);
-    m_10 = _mm_and_ps(*a, DAT_010c4c10);
-    m_20 = *b;
-    m_30 = *b;
-    m_40 = _mm_setzero_ps();
-}
 
 extern "C" void _ReadWriteBarrier(void);
 

@@ -1,9 +1,10 @@
-// gamebryo2.2/corelibs/nimain/nialphaaccumulator.cpp: NiAlphaAccumulator, CloneAccumulator (17 functions)
+// gamebryo2.2/corelibs/nimain/nialphaaccumulator.cpp: NiAlphaAccumulator, CloneAccumulator (15 functions)
 #include "f3_common.h"
 #include "nialphaaccumulator_decls.h"
 
 // Constructs the accumulator: sets the vtable pointer and zeroes the list count, head, tail and the remaining members.
 // @fnv 0x00aa0f00
+// pdb: NiBackToFrontAccumulator::NiBackToFrontAccumulator | NiBackToFrontAccumulator.obj | fnv360_0822_retail, call_seq, medium
 NiAlphaAccumulator::NiAlphaAccumulator()
 {
     *(volatile unsigned int*)this = (unsigned int)&kVtbl_NiBackToFrontAccumulator;
@@ -39,6 +40,8 @@ struct DummyObj
 };
 
 // @fnv 0x00a433b0
+// pdb: BSTreadTransfInterpolator::RegisterStreamables | BSTreadTransfInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arStream
 DummyObj* __fastcall InitFromGlobals(DummyObj* pThis)
 {
     pThis->f00 = DAT_011a8400;
@@ -66,6 +69,8 @@ struct FUN_00a43350_shell
     unsigned int FUN_00a43350(unsigned short usChannel);
 };
 // @fnv 0x00a43350
+// pdb: BSTreadTransfInterpolator::GetKeyContent | BSTreadTransfInterpolator.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: usChannel
 unsigned int FUN_00a43350_shell::FUN_00a43350(unsigned short usChannel)
 {
     return usChannel ? 6 : 0;
@@ -78,7 +83,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3ed8;
 // Returns the address of the global object g_011f3ed8.
 // @fnv 0x00a43360
-GlobalObjectO2_00a7b610* __cdecl FUN_00a43360()
+// pdb: BSTreadTransfInterpolator::GetRTTI | BSTreadTransfInterpolator.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+GlobalObjectO2_00a7b610* __cdecl BSTreadTransfInterpolator_GetRTTI()
 {
     return &g_011f3ed8;
 }
@@ -144,6 +150,8 @@ struct FUN_00a43450_shell : FUN_00aa0ad0_base
 };
 // Calls the base register, then registers each link's name string and the data object's streamables with the stream; returns the base result.
 // @fnv 0x00a43450
+// pdb: BSTreadTransfInterpolator::Update | BSTreadTransfInterpolator.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: BSTreadTransfInterpolator::RegisterStreamables)
+// pdb params: afTime, apInterpTarget, arValue
 bool FUN_00a43450_shell::FUN_00a43450(FUN_00a43450_stream* arStream)
 {
     bool bret = FUN_00aa0ad0(arStream);
@@ -174,6 +182,8 @@ struct FUN_00aa0ae0_stub
     char FUN_00aa0ae0(NiObject* pkObject);
 };
 // @fnv 0x00a9b510
+// pdb: NiBSplineColorInterpolator::RegisterStreamables | NiBSplineColorInterpolator.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kStream
 bool FUN_00a9b510_shell::FUN_00a9b510(NiObject* pkObject)
 {
     bool b = ((FUN_00aa0ae0_stub*)this)->FUN_00aa0ae0(pkObject) != 0;
@@ -182,12 +192,13 @@ bool FUN_00a9b510_shell::FUN_00a9b510(NiObject* pkObject)
 
 struct FUN_00a9b530_shell : public NiAlphaAccumulator
 {
-    void* FUN_00a9b530();
+    void* NiParticleMeshes_GetRTTI();
 };
 
 extern const char* const g_011fa000_arg1;
 // @fnv 0x00a9b530
-void* FUN_00a9b530_shell::FUN_00a9b530()
+// pdb: NiParticleMeshes::GetRTTI | NiParticleMeshes.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+void* FUN_00a9b530_shell::NiParticleMeshes_GetRTTI()
 {
     return (void*)&g_011fa000_arg1;
 }
@@ -233,7 +244,9 @@ struct Derived_a43370 : Base1_a43370
 
 // Allocates and default-constructs a Derived_a43370 object via its operator new and returns the pointer.
 // @fnv 0x00a43370
-Derived_a43370* __cdecl CreateDerivedA43370()
+// pdb: BSTreadTransfInterpolator::CreateObject | BSTreadTransfInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb: BSTreadTransfInterpolator::CreateObject | BSTreadTransfInterpolator.obj | fnv360_0822_retail, objrun, high (was: CreateDerivedA43370)
+Derived_a43370* __cdecl BSTreadTransfInterpolator_CreateObject()
 {
     return new Derived_a43370();
 }
@@ -365,6 +378,8 @@ struct FUN_00a9b850_shell : public NiAlphaAccumulator
 };
 
 // @fnv 0x00a9b850
+// pdb: NiAlphaAccumulator::hkPackfileWriter_notDuplicateMetaData | NiAlphaAccumulator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apGeometry
 bool FUN_00a9b850_shell::FUN_00a9b850(FUN_00a9b850_Obj* pObject)
 {
     FUN_00a9b850_Prop* p = pObject->m9c;
@@ -381,6 +396,8 @@ bool FUN_00a9b850_shell::FUN_00a9b850(FUN_00a9b850_Obj* pObject)
 
 void FUN_00a95ca0();
 // @fnv 0x00a43330
+// pdb: MagicItemForm::SetAltered | EnchantmentItem.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: abValue
 void FUN_00a43330()
 {
     FUN_00a95ca0();
@@ -395,24 +412,13 @@ struct FUN_00a43340 : C8CCC0Base
     bool IsEqual(const FUN_00a43340&);
 };
 // @fnv 0x00a43340
+// pdb: BGSBodyPartData::ClearData | BGSBodyPartData.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BGSBodyPartData::`vector deleting destructor'`adjustor{40}')
 bool FUN_00a43340::IsEqual(const FUN_00a43340& apObject)
 {
     return C8CCC0Base::IsEqual(apObject);
 }
 
-void __cdecl FUN_00aa0ac0();
-// @fnv 0x00a9b4f0
-void __cdecl FUN_00a9b4f0()
-{
-    FUN_00aa0ac0();
-}
-
 void __cdecl FUN_00aa0ad0();
-// @fnv 0x00a9b500
-void __cdecl FUN_00a9b500()
-{
-    FUN_00aa0ad0();
-}
 
 struct S00a9b570_Pt
 {
@@ -545,12 +551,13 @@ struct S00a9b570_Acc
     bool m_bSkipObjectsWithFlag14;
     bool m_bInterface;
 
-    void FUN_00a9b570();
+    void NiAlphaAccumulator_Sort();
     void FUN_00aa0b40(int start, int finish);
 };
 
 // @fnv 0x00a9b570
-void S00a9b570_Acc::FUN_00a9b570()
+// pdb: NiAlphaAccumulator::Sort | NiAlphaAccumulator.obj | fnv360_0721_beta, objopen_prop + bridge(vtable|objopen_prop) + skyrim(objrun), high
+void S00a9b570_Acc::NiAlphaAccumulator_Sort()
 {
     if (!m_pkList)
         m_pkList = &m_kUnsortedGeometryList;
@@ -853,6 +860,8 @@ struct S00a9b790_Acc : NiAlphaAccumulator
     void FUN_00a9b790(S00a9b790_NiVisibleArray& kArray);
 };
 // @fnv 0x00a9b790
+// pdb: NiAlphaAccumulator::RegisterObjectArray | NiAlphaAccumulator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kArray
 void S00a9b790_Acc::FUN_00a9b790(S00a9b790_NiVisibleArray& kArray)
 {
     ((S00a9b790_VNiAlphaAccumulator*)this)->Body(kArray);
@@ -872,12 +881,13 @@ struct CloneCopyHelper
 };
 struct CloneAccumulator : NiAlphaAccumulator
 {
-    NiObject* FUN_00a9b730(CloningProcess*);
+    NiObject* NiAlphaAccumulator_CreateClone(CloningProcess*);
 };
 
 // Allocates a NiAlphaAccumulator clone, initializes it, copies skip flags, and returns the new object.
 // @fnv 0x00a9b730
-NiObject* CloneAccumulator::FUN_00a9b730(CloningProcess* cloning)
+// pdb: NiAlphaAccumulator::CreateClone | NiAlphaAccumulator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+NiObject* CloneAccumulator::NiAlphaAccumulator_CreateClone(CloningProcess* cloning)
 {
     NiAlphaAccumulator* clone = (NiAlphaAccumulator*)FUN_00aa13e0(sizeof(NiAlphaAccumulator));
     if (clone)

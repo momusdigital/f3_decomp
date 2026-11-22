@@ -7,68 +7,6 @@
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_load_ps1(const float*);
-extern float DAT_01012068;
-extern double DAT_01012070;
-
-struct Cls_00d24670 {
-    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
-    virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
-    virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c();
-    virtual void v30();
-    virtual float getH(int x, int y);
-    virtual void getFlip(bool& flip);
-    void FUN_00d24670(int x, int y, float fx, float fy, __m128* nrm, float* height, int* flag);
-};
-
-// @fnv 0x00d24670
-void Cls_00d24670::FUN_00d24670(int x, int y, float fx, float fy, __m128* nrm, float* height, int* flag)
-{
-    *nrm = _mm_load_ps1(&DAT_01012068);
-    bool flip;
-    getFlip(flip);
-    if (flip) {
-        float h00 = getH(x, y);
-        float h11 = getH(x + 1, y + 1);
-        if (fx > fy) {
-            float h10 = getH(x + 1, y);
-            const float dx = h10 - h00;
-            const float dy = h11 - h10;
-            *height = h00 + dy * fy + dx * fx;
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
-            *flag = 1;
-        } else {
-            float h01 = getH(x, y + 1);
-            const float dx = h11 - h01;
-            const float dy = h01 - h00;
-            *height = h00 + dy * fy + dx * fx;
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
-            *flag = 0;
-        }
-    } else {
-        float h10 = getH(x + 1, y);
-        float h01 = getH(x, y + 1);
-        if (fx + fy > 1.0) {
-            float h11 = getH(x + 1, y + 1);
-            const float dx = h11 - h01;
-            const float dy = h11 - h10;
-            *height = h10 + dy * fy + dx * (fx - 1.0);
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
-            *flag = 1;
-        } else {
-            float h00 = getH(x, y);
-            const float dx = h10 - h00;
-            const float dy = h01 - h00;
-            *height = h00 + dy * fy + dx * fx;
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
-            *flag = 0;
-        }
-    }
-}
 
 struct hkInfoD260 {
     int unk00;
@@ -133,6 +71,8 @@ struct S00d261b0_cls {
 
 // If a1's f10 is below f04, stores it in f04, copies v00, f10 and i14 into *p0c, sets p0c's slot at m_idx40 to -1, and sets b08 to 1.
 // @f3 0x009a7950 (community match, verified in this file)
+// pdb: `anonymous namespace'::NearestHitCollector::addRayHit | hkpSampledHeightFieldShape.obj | fnv360_0822_retail, vtable, high
+// pdb params: cdBody, hitInfoIn
 void S00d261b0_cls::UpdateMinValue(int a0, int a1)
 {
     S00d261b0_Elem* e = (S00d261b0_Elem*)a1;
@@ -174,12 +114,13 @@ struct Val1 {
 
 struct Host {
     void FUN_00d24b50(int a1, int a2, Val1 v, float f, Local12* pLocal);
-    void FUN_00d260d0(int a1, int a2, const Arg3* a3);
+    void hkpSampledHeightFieldShape_castRayWithCollectorImpl(int a1, int a2, const Arg3* a3);
 };
 
 // Builds a local record from DAT_010ce310 and a3 (its float and pointer), then calls FUN_00d24b50 with a1, a2, a default Val1, 0.0f and that record.
 // @fnv 0x00d260d0
-void Host::FUN_00d260d0(int a1, int a2, const Arg3* a3)
+// pdb: hkpSampledHeightFieldShape::castRayWithCollectorImpl | hkpSampledHeightFieldShape.obj | fnv360_0822_retail, uvref + bridge(uvref|vtable) + skyrim(uvref), high
+void Host::hkpSampledHeightFieldShape_castRayWithCollectorImpl(int a1, int a2, const Arg3* a3)
 {
     Local12 local;
     local.m_00 = &DAT_010ce310;
@@ -213,12 +154,13 @@ struct Obj {
     float unk24;
 
     void FUN_00d24b50(RayData* data, void* arg2, hkBoolD260 arg3, float arg4, void* arg5);
-    void FUN_00d26120(Input* input, void* arg2, void* arg3);
+    void hkpSampledHeightFieldShape_castSphere(Input* input, void* arg2, void* arg3);
 };
 
 // Copies the input ray, offsets its Y and endY by a signed value, and calls FUN_00d24b50 with the modified ray.
 // @fnv 0x00d26120
-void Obj::FUN_00d26120(Input* input, void* arg2, void* arg3) {
+// pdb: hkpSampledHeightFieldShape::castSphere | hkpSampledHeightFieldShape.obj | fnv360_0822_retail, objrun + bridge(hash|vtable) + skyrim(hash), high
+void Obj::hkpSampledHeightFieldShape_castSphere(Input* input, void* arg2, void* arg3) {
     float a = input->f30;
     RayData local = input->base;
 
@@ -231,54 +173,4 @@ void Obj::FUN_00d26120(Input* input, void* arg2, void* arg3) {
     this->FUN_00d24b50(&local, arg2, true, input->f34, arg3);
 }
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-
 __declspec(align(16)) const hkVector4 halfScale = {0.5f, 0.5f, 0.5f, 0.5f};
-
-struct SampledHeightField : hkpSampledHeightFieldShape {
-    virtual void slot01();
-    virtual void slot02();
-    virtual void slot03();
-    virtual void slot04();
-    virtual void slot05();
-    virtual void slot06();
-    virtual void slot07();
-    virtual void slot08();
-    virtual void slot09();
-    virtual void slot10();
-    virtual void slot11();
-    virtual void slot12();
-    virtual float getHeightAt(int x, int z);
-    void FUN_00d249f0(hkUlong transform, float tolerance, hkUlong aabb);
-};
-
-void __cdecl FUN_00d26230(hkUlong, const hkVector4&, const hkVector4&, float, hkUlong);
-
-// If the cached height range is not yet set, scans all heights to compute it; then calls FUN_00d26230 with the box center and half extents, tolerance and aabb.
-// @fnv 0x00d249f0
-void SampledHeightField::FUN_00d249f0(hkUlong transform, float tolerance, hkUlong aabb)
-{
-    float fMinHeight = getHeightAt(0, 0);
-    float maximum = fMinHeight;
-    if (SetCenterPosition.y < 0.0f) {
-        for (int x = 0; x < m_iXResolution; ++x) {
-            for (int z = 0; z < m_iZResolution; ++z) {
-                float height = getHeightAt(x, z);
-                fMinHeight = fMinHeight < height ? fMinHeight : height;
-                maximum = maximum > height ? maximum : height;
-            }
-        }
-        fMinHeight *= m_kHeightScaleVector.y;
-        maximum *= m_kHeightScaleVector.y;
-        float oldMinimum = fMinHeight;
-        fMinHeight = fMinHeight < maximum ? fMinHeight : maximum;
-        maximum = maximum < oldMinimum ? oldMinimum : maximum;
-        m_fHeightScale = (fMinHeight + maximum) * 0.5;
-        SetCenterPosition.y = maximum - fMinHeight;
-    }
-    __declspec(align(16)) hkVector4 center;
-    *reinterpret_cast<__m128*>(&center) = _mm_mul_ps(*reinterpret_cast<const __m128*>(&SetCenterPosition), *reinterpret_cast<const __m128*>(&halfScale));
-    __declspec(align(16)) hkVector4 halfExtents = center;
-    center.y = m_fHeightScale;
-    FUN_00d26230(transform, halfExtents, center, tolerance, aabb);
-}

@@ -34,6 +34,8 @@ struct NiSpecularProperty : NiProperty
     NiObject* FUN_00a95110(CloningProcess&);
 };
 // @fnv 0x00a95110
+// pdb: NiSpecularProperty::CreateClone | NiSpecularProperty.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kCloning
 NiObject* NiSpecularProperty::FUN_00a95110(CloningProcess& kCloning)
 {
     NiSpecularProperty* pkObject = new NiSpecularProperty;
@@ -73,6 +75,8 @@ struct FUN_00a951f0_cls
 };
 
 // @fnv 0x00a951f0
+// pdb: NiDitherProperty::GetViewerStrings | NiDitherProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a951f0_cls::FUN_00a951f0(FUN_00a951f0_list* list)
 {
     AppendString(list);

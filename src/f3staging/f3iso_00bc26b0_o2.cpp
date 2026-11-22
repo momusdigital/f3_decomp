@@ -60,6 +60,8 @@ struct TreeMap
     void FUN_00bc26b0(TreeNode* where);
 };
 
+// pdb: std::_Tree<std::_Tmap_traits<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CIdvBezierSpline *,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> >,0> >::_Lrotate | IdvSpline.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: _Wherenode
 void TreeMap::FUN_00bc26b0(TreeNode* where)
 {
     TreeNode* node = where->right;

@@ -20,6 +20,7 @@ struct FUN_00d65f70_class
 };
 // If m_1c is set, iterates its count at offset 0x70 and calls FUN_00d65970 on each entry from the array at 0x6c.
 // @fnv 0x00d65f70
+// pdb: hkpShapeDisplayViewer::init | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
 void FUN_00d65f70_class::FUN_00d65f70()
 {
     if (m_1c)
@@ -82,6 +83,8 @@ struct S_00c6d840
 };
 
 // @f3 0x00477900 (community match, verified in this file)
+// pdb: bhkWorldObject::GetProperty | bhkWorldObject.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSPointerHandleManagerInterface<class Projectile,class HandleManager>::GetHandle)
+// pdb params: apObj, aiKey
 S_00c6d840_Pair S_00c6d840::FindEntry(int key)
 {
     for (int i = 0; i < m_uiItemCount; i++)
@@ -128,6 +131,7 @@ struct FUN_00d653e0_cls
 };
 
 // @fnv 0x00d653e0
+// pdb: hkpShapeDisplayViewer::clearCache | hkpShapeDisplayViewer.obj | fnv360_0822_retail, objrun_sim, low
 void FUN_00d653e0_cls::FUN_00d653e0()
 {
     sub54.ResetEntries();
@@ -157,6 +161,8 @@ struct FUN_00d655e0_class
 };
 // Scans the items array for an entry whose key equals key and returns its index, or -1 if none matches.
 // @fnv 0x00d655e0
+// pdb: hkpShapeDisplayViewer::findWorld | hkpShapeDisplayViewer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: world
 int FUN_00d655e0_class::FindItemIndex(int key)
 {
     for (int i = 0; i < count34; ++i)
@@ -208,7 +214,9 @@ extern GlobalObjectO2_00d472a0 g_01268f2c;
 extern void* __cdecl FUN_00d65910(void*);
 
 // @fnv 0x00d65950
-void RegisterShapesProcess()
+// pdb: hkpMousePickingViewer::registerViewer | hkpMousePickingViewer.obj | fnv360_0822_debug, udata, high
+// pdb: hkpMousePickingViewer::registerViewer | hkpMousePickingViewer.obj | fnv360_0822_debug, udata, high (was: RegisterShapesProcess)
+void hkpMousePickingViewer_registerViewer()
 {
     void* process = FUN_00dd9380->FUN_00dd9380("Shapes", (void*)&FUN_00d65910);
     *(void**)((char*)&g_01268f2c + 0xB4) = process;
@@ -223,6 +231,8 @@ struct Adjustor
     void FUN_00d65fb0();
 };
 // @fnv 0x00d65fb0
+// pdb: hkpShapeDisplayViewer::worldAddedCallback | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void Adjustor::FUN_00d65fb0()
 {
     ((Target*)((char*)this - 0x20))->FUN_00d65970();
@@ -231,6 +241,7 @@ void Adjustor::FUN_00d65fb0()
 extern int g_D661D0Value;
 
 // @fnv 0x00d661d0
+// pdb: NiGeometryData::GetGroup | NiGeometryData.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiDX92DBufferData::IsTriShape)
 int __cdecl FUN_00d661d0()
 {
     return g_D661D0Value;
@@ -253,18 +264,12 @@ struct FUN_00d652a0_cls
 };
 
 // @fnv 0x00d652a0
+// pdb: hkpShapeDisplayViewer::synchronizeTransforms | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d652a0_cls::FUN_00d652a0(int arg)
 {
     v10(m_18, arg);
 }
-
-extern int vftbl_010d1b04;
-extern int vftbl_010d1ae4;
-extern int vftbl_010d1ad4;
-extern int vftbl_010d1ab8;
-extern int vftbl_010d1aa8;
-extern int vftbl_010ccf7c;
-extern int vftbl_0102f13c;
 
 struct AudioAllocator
 {
@@ -275,106 +280,7 @@ struct AudioAllocator
     virtual void FreeArray(void* apMemory, int aiSize) throw();
 };
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
 struct BSAudio;
-
-struct SpawnedBuf
-{
-    int unk00;
-    int unk04;
-    int unk08;
-
-    void ProcessArgument(AudioAllocator* apAlloc);
-    void FUN_00a29680();
-};
-
-struct FUN_00d66080_cls
-{
-    int m_vptr00;
-    int unk04;
-    int m_vptr08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int m_vptr20;
-    int unk24;
-    int m_vptr28;
-    int m_vptr2c;
-    int* m_pData;
-    int m_iArrayLength;
-    unsigned int m_uiObjectFlags;
-    SpawnedBuf m_buf3c;
-    SpawnedBuf m_buf48;
-    SpawnedBuf m_buf54;
-
-    void FUN_00d65fc0(int aiIndex);
-    void FUN_00ddcc60();
-    void Destroy();
-};
-
-// @fnv 0x00d66080
-void FUN_00d66080_cls::Destroy()
-{
-    m_vptr00 = (int)&vftbl_010d1b04;
-    m_vptr08 = (int)&vftbl_010d1ae4;
-    m_vptr20 = (int)&vftbl_010d1ad4;
-    m_vptr28 = (int)&vftbl_010d1ab8;
-    m_vptr2c = (int)&vftbl_010d1aa8;
-
-    for (int i = m_iArrayLength - 1; i >= 0; --i)
-    {
-        FUN_00d65fc0(i);
-    }
-
-    {
-        SpawnedBuf* pBuf = &m_buf54;
-        AudioHolder* pHolder = (AudioHolder*)FUN_00c85750();
-        pBuf->ProcessArgument(pHolder->m_pAllocator);
-        pBuf->FUN_00a29680();
-    }
-    {
-        SpawnedBuf* pBuf = &m_buf48;
-        AudioHolder* pHolder = (AudioHolder*)FUN_00c85750();
-        pBuf->ProcessArgument(pHolder->m_pAllocator);
-        pBuf->FUN_00a29680();
-    }
-    {
-        SpawnedBuf* pBuf = &m_buf3c;
-        AudioHolder* pHolder = (AudioHolder*)FUN_00c85750();
-        pBuf->ProcessArgument(pHolder->m_pAllocator);
-        pBuf->FUN_00a29680();
-    }
-
-    AudioHolder* pHolder = (AudioHolder*)FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
-    unsigned int uiFlags = m_uiObjectFlags;
-    m_iArrayLength = 0;
-    if ((uiFlags & 0x80000000u) == 0)
-    {
-        pAllocator->FreeArray(m_pData, (int)((uiFlags & 0x3fffffffu) * 4));
-    }
-    m_pData = 0;
-    // the original stores the new flag value AFTER the m_pData=0 store and
-    // BEFORE the pop edi; writing it through a reference keeps MSVC from
-    // sinking the constant store past the register restore.
-    {
-        unsigned int& ruiFlags = m_uiObjectFlags;
-        ruiFlags = 0x80000000u;
-    }
-    m_vptr2c = (int)&vftbl_010ccf7c;
-    m_vptr28 = (int)&vftbl_0102f13c;
-    FUN_00ddcc60();
-}
 
 struct OwnerObject
 {
@@ -397,6 +303,8 @@ struct FUN_00d66160_cls
 
 // Calls FindItemIndex on the owner object at this-0x20 and, if the result is non-negative, passes it to FUN_00d65fc0.
 // @fnv 0x00d66160
+// pdb: hkpShapeDisplayViewer::worldRemovedCallback | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d66160_cls::FUN_00d66160(int arg)
 {
     OwnerObject* pOwner = (OwnerObject*)((char*)this - 0x20);
@@ -469,6 +377,8 @@ struct FUN_00477900_stub
     D66180PropertyValue FUN_00477900(unsigned int key);
 };
 
+// pdb: hkpShapeDisplayViewer::getId | hkpShapeDisplayViewer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: entity
 void* __cdecl GetProperty1134(D66180Entity* entity)
 {
     int count = *(int*)((char*)entity + 0x78);
@@ -604,6 +514,8 @@ inline void* operator new(unsigned int, PoolD64650* pool) throw()
 }
 struct SpawnOwnerD64650 { void FUN_00903ae0(void*); void FUN_00903be0(void*); };
 extern "C" void __cdecl FUN_00901f10(SpawnList*, int);
+// pdb: hkpSweptTransformDisplayViewer::addWorld | hkpSweptTransformDisplayViewer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: world
 void FUN_00d64650_cls::FUN_00d64650(SpawnOwner* owner)
 {
     ((SpawnOwnerD64650*)owner)->FUN_00903ae0(this ? (char*)this + 0x28 : 0);
@@ -660,6 +572,8 @@ struct D65610Self : D65610Prim, D65610Sec
 // Calls v10 on the stored object with the entity's offset 0xf0 pointer, the result of GetProperty1134(e), and DAT_01268fe0.
 // @f3 0x009f2580 (community match, verified in this file)
 extern int DAT_01269cd8;
+// pdb: hkpShapeDisplayViewer::inactiveEntityMovedCallback | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: entity
 void D65610Self::FUN_00d65610(D66180Entity* pEntity)
 {
     D65610Obj* obj = m_pEntryObject;
@@ -667,60 +581,6 @@ void D65610Self::FUN_00d65610(D66180Entity* pEntity)
     obj->v10(p + 0xe0, GetProperty1134(pEntity), DAT_01269cd8);
 }
 
-
-static inline bool HasProperty(const S_00c6d840* props, int key)
-{
-    for (int i = 0; i < props->m_uiItemCount; i++)
-    {
-        if (props->m_entries[i].m_key == key)
-            return true;
-    }
-    return false;
-}
-
-// Returns the value of the first present entry among 0x1234 (if checkOverride), 0x1235 and 0x1135; sets *usedDefault and returns 0 if that value is 0.
-// @fnv 0x00d652c0
-static int FUN_00d652c0(S_00c6d840* props, bool checkOverride, bool* usedDefault)
-{
-    int base = props->FindEntry(0x1135, 0).m_kPointA;
-    int level = props->FindEntry(0x1235, 0).m_kPointA;
-    int iOverride = props->FindEntry(0x1234, 0).m_kPointA;
-    int result = 0;
-    *usedDefault = false;
-    if (checkOverride && HasProperty(props, 0x1234))
-    {
-        if (iOverride == 0)
-        {
-            *usedDefault = true;
-            return 0;
-        }
-        result = iOverride;
-    }
-    else if (HasProperty(props, 0x1235))
-    {
-        if (level == 0)
-        {
-            *usedDefault = true;
-            return 0;
-        }
-        result = level;
-    }
-    else if (HasProperty(props, 0x1135))
-    {
-        if (base == 0)
-        {
-            *usedDefault = true;
-            return 0;
-        }
-        result = base;
-    }
-    return result;
-}
-
-int PropertyQueryCaller(S_00c6d840* props, bool checkOverride, bool* usedDefault)
-{
-    return FUN_00d652c0(props, checkOverride, usedDefault);
-}
 
 struct ShapeList
 {
@@ -753,7 +613,6 @@ extern char DAT_010d1ae4[];
 extern char DAT_010d1ad4[];
 extern char DAT_010d1ab8[];
 extern char DAT_010d1aa8[];
-extern float DAT_01012054;
 extern int DAT_01268fe8;
 extern int DAT_01268fe4;
 
@@ -959,11 +818,6 @@ struct Listener_d65f
     virtual void l00();
 };
 
-struct Watch_d65f
-{
-    int unk00;
-};
-
 struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray_d65f<Node_d65f*> m_kNodeCollection;
@@ -1058,6 +912,8 @@ static void __forceinline TtPushEvent(const char* name)
 
 // Pushes a TthkpShapeDisplayViewer event, returns early if m_flag34 is false, otherwise calls GetOuter()->v10 with m_18 and arg, then pushes an Et event.
 // @fnv 0x00d65520
+// pdb: hkpShapeDisplayViewer::postSimulationCallback | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void TtShapeDisplayInner::FUN_00d65520(int arg)
 {
     TtPushEvent("TthkpShapeDisplayViewer");
@@ -1069,36 +925,6 @@ void TtShapeDisplayInner::FUN_00d65520(int arg)
     GetOuter()->v10(GetOuter()->m_18, arg);
     TtPushEvent("Et");
 }
-
-struct D661E0Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d661e0();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-
-struct D661E0Secondary
-{
-    virtual void FUN_00d661e0();
-};
-
-struct D661E0Object : D661E0Primary, D661E0Secondary
-{
-    D661E0Object();
-
-// @fnv 0x00d661e0
-    virtual void FUN_00d661e0();
-};
-
-D661E0Object::D661E0Object()
-{}
 
 // sub ecx,8; jmp FUN_00d661f0: adjustor thunk from multiple inheritance.
 struct PrimaryBase
@@ -1121,46 +947,6 @@ struct Derived : PrimaryBase, SecondaryBase
 
 Derived::Derived()
 {}
-
-// FUN_00d66200 : MSVC this-adjusting thunk  (sub ecx, 0x28 ; jmp <impl>)
-//
-// Two bases declare the same virtual, so the derived class overrides one
-// function for both of them and the compiler emits one adjustor thunk per
-// secondary base.  The first base is padded to 40 bytes so the second
-// base lands at +0x28.  The override is DECLARED ONLY, so this thunk
-// is the single defined function symbol carrying the name FUN_00d66200; a defined
-// key function makes the vftable that references the thunk be emitted here.
-struct A1_00d66200
-{
-    A1_00d66200();
-    virtual void FUN_00d66200();
-    char pad[0x24];
-};
-
-struct A2_00d66200
-{
-    A2_00d66200();
-// @fnv 0x00d66200
-    virtual void FUN_00d66200();
-};
-
-struct Own_00d66200 : A1_00d66200, A2_00d66200
-{
-    Own_00d66200();
-    virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d66200();    // the shared override - declared only
-};
-
-Own_00d66200::Own_00d66200()
-{}
-void Own_00d66200::key_fn()
-{}
-
-Own_00d66200* make_00d66200()
-{
-    static Own_00d66200 o;
-    return &o;
-}
 
 namespace fnv_00d66210 {
 // sub ecx,0x2c; jmp target == MSVC adjustor thunk: Derived overrides a virtual that both of its bases
@@ -1230,15 +1016,6 @@ struct S_00d66220_RefObject
     }
 };
 
-struct FUN_00d66220 : S_00d66220_RefObject
-{
-    FUN_00d66220();
-    virtual ~FUN_00d66220();
-};
-
-// @fnv 0x00d66220
-FUN_00d66220::FUN_00d66220()
-{}
 }  // namespace fnv_00d66220
 
 struct OutVec
@@ -1507,6 +1284,8 @@ struct ItemFix
     }
 };
 
+// pdb: hkpShapeDisplayViewer::synchronizeTransforms | hkpShapeDisplayViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: displayHandler, world
 void S00d653f0_Obj::FUN_00d653f0(Visitor* apVisitor, Node* apNode)
 {
     float f = (m_68 > 0.0f) ? m_68 : ((CpuObject*)apNode)->FUN_00c91020();
@@ -1680,11 +1459,6 @@ struct AudioParam
 };
 // The flag the helper is given: it is a single byte but the helper reads it
 // as a whole word.
-union AudioFlag
-{
-    int m_iValue;
-    char m_cValue;
-};
 // The sub object this method belongs to.
 struct AudioNodeSub
 {
@@ -1728,14 +1502,6 @@ static DisplayOuter* GetDisplayOuter(AudioNodeSub* p)
     return (DisplayOuter*)((char*)p - sizeof(DisplayPrimary));
 }
 extern int DAT_01268fe0;
-struct S_00c6d840_Q : S_00c6d840
-{
-    S_00c6d840_Pair FindEntry(int key, int unused);
-};
-struct FUN_00d655e0_Q : FUN_00d655e0_class
-{
-    int FindItemIndex(int key);
-};
 void* __cdecl GetProperty1134(D66180Entity* e);
 // Module local helper: it is called from exactly one place, so the compiler
 // hands it the sound in EAX and keeps the two other arguments on the stack.
@@ -1777,6 +1543,8 @@ int __cdecl FUN_009f3010(AudioParam* param);
 extern int DAT_011697fc;
 }
 
+// pdb: hkpShapeDisplayViewer::entityRemovedCallback | hkpShapeDisplayViewer.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: entity
 void AudioNodeSub::FUN_00d65640(AudioParam* pParam)
 {
     using namespace Native933;
@@ -1976,6 +1744,8 @@ struct Slot7HavokThreadMemory
 };
 void __cdecl FUN_00901f10(void* arr, int n);
 
+// pdb: hkpShapeDisplayViewer::addWorld | hkpShapeDisplayViewer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: world
 void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
 {
     reinterpret_cast<Slot7RegistrationView*>(arg)->FUN_00903ae0(this);

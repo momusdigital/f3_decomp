@@ -98,7 +98,7 @@ class TESWorldSpace
     void FUN_00586130(float);
     bool GetSmallWorld();
     bool IsFlag4C20Set();
-    void SetParent(TESWorldSpace*);
+    void NiAVObject_AttachParent(TESWorldSpace*);
     void SetFieldD0(unsigned int);
     TESObjectCELL* GetInteriorCell();
     void FUN_00588270(BSSimpleArray<TESObjectREFR*, 1024>&);

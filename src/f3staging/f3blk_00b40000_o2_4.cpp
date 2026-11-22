@@ -159,6 +159,8 @@ struct PassProperty1535 {
     void FUN_00b533b0(unsigned int pass);
 };
 
+// pdb: SkinShader::InitPass | SkinShader.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiControllerSequence::ProcessClone)
+// pdb params: auiCurrentPass
 void PassProperty1535::FUN_00b533b0(unsigned int pass)
 {
     switch (pass) {

@@ -16,6 +16,8 @@ struct NiAllocSlots
     virtual void Free(void* p, int event, int size);
 };
 // @fnv 0x00aa1170
+// pdb: _NiExternalFree | NiMemoryDefines.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: pvMem
 void FreeAlignedBlock(void* apBlock)
 {
     if (apBlock)
@@ -36,6 +38,8 @@ struct NiAllocSlots
     virtual void Free(void* p, int event, int size);
 };
 // @fnv 0x00aa1190
+// pdb: _NiExternalAlignedFree | NiMemoryDefines.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: pvMem
 void FreeAllocatorBlock(void* apBlock)
 {
     if (apBlock)
@@ -49,6 +53,7 @@ void FreeAllocatorBlock(void* apBlock)
 extern NiMemoryManagerState* DAT_011f6080;
 
 // @fnv 0x00aa1070
+// pdb: _NiMalloc | NiMemoryDefines.obj | tesv_win, hash, low
 void* FUN_00aa1070(unsigned int uiSize)
 {
     unsigned int size;
@@ -70,6 +75,8 @@ struct FUN_00aa1130_alloc
 
 // Allocates a block of at least p1 bytes with alignment p2 through the global allocator's s4 virtual method.
 // @fnv 0x00aa1130
+// pdb: _NiExternalAlignedMalloc | NiMemoryDefines.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: stSizeInBytes, stAlignment
 void* __cdecl FUN_00aa1130(unsigned int uiSize, unsigned int uiAlignment)
 {
     unsigned int size = uiSize != 0 ? uiSize : 1;
@@ -95,6 +102,7 @@ class S_AllocVt
 };
 
 // @fnv 0x00aa1250
+// pdb: _NiExternalAlignedRealloc | NiMemoryDefines.obj | tesv_win, call_seq, medium
 void* FUN_00aa1250(void* apMemory, unsigned int size, unsigned int alignment)
 {
     unsigned int uiOldSize;
@@ -139,6 +147,8 @@ struct MemoryAllocationManager
 
 // Allocates stSizeInBytes (minimum 1) with stAlignment via the global memory manager, using allocation type 7.
 // @fnv 0x00aa10b0
+// pdb: _NiAlignedMalloc | NiMemoryDefines.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: stSizeInBytes, stAlignment
 void* FUN_00aa10b0(unsigned int stSizeInBytes, unsigned int stAlignment)
 {
     if (stSizeInBytes == 0)
@@ -186,6 +196,8 @@ static inline void* InlMalloc(unsigned int stSizeInBytes)
 
 // Frees a nonnull pvMem when size is zero, allocates when pvMem is null, otherwise reallocates it to the requested size.
 // @fnv 0x00aa11b0
+// pdb: _NiExternalRealloc | NiMemoryDefines.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pvMem, stSizeInBytes
 void* __cdecl InlRealloc(void* pvMem, unsigned int stSizeInBytes)
 {
     if (stSizeInBytes == 0 && pvMem != 0)
@@ -273,6 +285,7 @@ struct NiFixedAllocatorStub
 
 // Locks cs, picks or creates a FixedChunk with free blocks, allocates one block from it, and returns the block pointer.
 // @fnv 0x00aa35a0
+// pdb: NiFixedAllocator::Allocate | NiSmallObjectAllocator.obj | fnv360_0822_retail, objrun_open, medium
 void* NiFixedAllocatorStub::FUN_00aa35a0()
 {
     EnterCriticalSection(&cs);

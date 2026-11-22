@@ -9,8 +9,8 @@
 // @f3 0x00992c40 (community match, verified in this file)
 struct Serializer92 {
     virtual void v0();
-    virtual void WriteHeader(const char*, int, void*);
-    virtual void WriteArray(const char*, int, const void*, unsigned int, unsigned int);
+    virtual void NiStream_SaveHeader(const char*, int, void*);
+    virtual void writeArray64(const char*, int, const void*, unsigned int, unsigned int);
     virtual void v0c();
     virtual void v10();
     virtual void v14();
@@ -31,25 +31,26 @@ struct Container92 {
     int count;
     int unkD4;
     Row92* rows;
-    void FUN_00992c40(Serializer92* writer);
+    void hkp3AxisSweep_calcContentStatistics(Serializer92* writer);
 };
 extern const char DAT_00e7dd2c[];
 extern const char DAT_00e7dd24[];
 extern const char DAT_00de0378[];
 extern const char DAT_00e7dd1c[];
-void Container92::FUN_00992c40(Serializer92* writer)
+// pdb: hkp3AxisSweep::calcContentStatistics | hkp3AxisSweep.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(ustr), high
+void Container92::hkp3AxisSweep_calcContentStatistics(Serializer92* writer)
 {
-    writer->WriteHeader(DAT_00e7dd2c,4,this);
-    if ((a.capacity & 0x80000000u) == 0) writer->WriteArray(DAT_00e7dd24,4,a.data,a.count*16,(a.capacity&0x3fffffff)*16);
-    if ((b.capacity & 0x80000000u) == 0) writer->WriteArray(DAT_00de0378,4,b.data,b.count*4,(b.capacity&0x3fffffff)*4);
-    if ((c.capacity & 0x80000000u) == 0) writer->WriteArray(DAT_00de0378,4,c.data,c.count*4,(c.capacity&0x3fffffff)*4);
-    if ((d.capacity & 0x80000000u) == 0) writer->WriteArray(DAT_00de0378,4,d.data,d.count*4,(d.capacity&0x3fffffff)*4);
-    if (count != 0) writer->WriteArray(DAT_00e7dd1c,4,rows,count*16,0);
+    writer->NiStream_SaveHeader(DAT_00e7dd2c,4,this);
+    if ((a.capacity & 0x80000000u) == 0) writer->writeArray64(DAT_00e7dd24,4,a.data,a.count*16,(a.capacity&0x3fffffff)*16);
+    if ((b.capacity & 0x80000000u) == 0) writer->writeArray64(DAT_00de0378,4,b.data,b.count*4,(b.capacity&0x3fffffff)*4);
+    if ((c.capacity & 0x80000000u) == 0) writer->writeArray64(DAT_00de0378,4,c.data,c.count*4,(c.capacity&0x3fffffff)*4);
+    if ((d.capacity & 0x80000000u) == 0) writer->writeArray64(DAT_00de0378,4,d.data,d.count*4,(d.capacity&0x3fffffff)*4);
+    if (count != 0) writer->writeArray64(DAT_00e7dd1c,4,rows,count*16,0);
     for (int i=0;i<count;i++)
     {
         Array92* r = (Array92*)((char*)rows + i*16 + 4);
         if((r->capacity & 0x80000000u) == 0)
-            writer->WriteArray(DAT_00e7dd1c,8,r->data,r->count*2,(r->capacity&0x3fffffff)*2);
+            writer->writeArray64(DAT_00e7dd1c,8,r->data,r->count*2,(r->capacity&0x3fffffff)*2);
     }
     writer->Finish();
 }
@@ -163,6 +164,7 @@ struct FUN_00981430_Dst
     void FUN_00981430(const FUN_00981430_Src* src, const FUN_00981430_Pair* pair);
 };
 
+// pdb: hkpConstraintSolverSetup::initializeSolverState | hkpConstraintSolverSetup.obj | tesv_win, call_gap, low
 void FUN_00981430_Dst::FUN_00981430(const FUN_00981430_Src* src, const FUN_00981430_Pair* pair)
 {
     unk00 = src->unk10C;
@@ -214,21 +216,22 @@ struct Container989a20 {
     Array92 arr1;
     Array92 arr2;
 
-    void FUN_00931940(Serializer92* writer);
-    void FUN_00989a20(Serializer92* writer);
+    void hkpWorldObject_calcContentStatistics(Serializer92* writer);
+    void hkpPhantom_calcContentStatistics(Serializer92* writer);
 };
 
 extern const char DAT_00e7d998[];
 extern const char DAT_00e7d988[];
 
-void Container989a20::FUN_00989a20(Serializer92* writer)
+// pdb: hkpPhantom::calcContentStatistics | hkpPhantom.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void Container989a20::hkpPhantom_calcContentStatistics(Serializer92* writer)
 {
-    FUN_00931940(writer);
+    hkpWorldObject_calcContentStatistics(writer);
     if ((arr1.capacity & 0x80000000u) == 0) {
-        writer->WriteArray(DAT_00e7d998, 4, arr1.data, arr1.count * 4, (arr1.capacity & 0x3fffffff) * 4);
+        writer->writeArray64(DAT_00e7d998, 4, arr1.data, arr1.count * 4, (arr1.capacity & 0x3fffffff) * 4);
     }
     if ((arr2.capacity & 0x80000000u) == 0) {
-        writer->WriteArray(DAT_00e7d988, 4, arr2.data, arr2.count * 4, (arr2.capacity & 0x3fffffff) * 4);
+        writer->writeArray64(DAT_00e7d988, 4, arr2.data, arr2.count * 4, (arr2.capacity & 0x3fffffff) * 4);
     }
 }
 
@@ -244,11 +247,13 @@ struct Info459 {
     void* contact; void* properties; float parameter, value;
     int state0,state1;
 };
-void __cdecl FUN_00988c60(void*,Info459*);
-void __cdecl FUN_00988230(Manager459*,Info459*);
+void __cdecl hkpWorldCallbackUtil_fireContactPointCallback(void*,Info459*);
+void __cdecl hkpEntityCallbackUtil_fireContactPointCallbackInternal(Manager459*,Info459*);
 __forceinline bool HasCallbacks459(Manager459* manager) {
     return *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(manager)+0x1f4)!=0;
 }
+// pdb: hkpReportContactMgr::confirmToi | hkpReportContactMgr.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: event, rotateNormal, outToBeActivated
 void __stdcall FUN_009869e0(Source459* source,float value,void* unused) {
     Info459 info;
     info.parameter=value;
@@ -259,9 +264,9 @@ void __stdcall FUN_009869e0(Source459* source,float value,void* unused) {
     info.properties=&source->properties40;
     info.state0=0;
     info.state1=0;
-    FUN_00988c60(source->first->context,&info);
-    if(HasCallbacks459(source->first)) FUN_00988230(source->first,&info);
-    if(HasCallbacks459(source->second)) FUN_00988230(source->second,&info);
+    hkpWorldCallbackUtil_fireContactPointCallback(source->first->context,&info);
+    if(HasCallbacks459(source->first)) hkpEntityCallbackUtil_fireContactPointCallbackInternal(source->first,&info);
+    if(HasCallbacks459(source->second)) hkpEntityCallbackUtil_fireContactPointCallbackInternal(source->second,&info);
 }
 
 // @f3 0x00990390 (community match, verified in this file)
@@ -271,6 +276,8 @@ struct FUN_00990390 {
     unsigned int unk40,unk44,unk48,unk4c,unk50,unk54,unk58,unk5c,unk60,unk64,unk68,unk6c;
     FUN_00990390* Assign(const FUN_00990390&);
 };
+// pdb: hkReferencedObject::addReferences | hkReferencedObject.obj | fnv360_0822_debug, call_gap, low
+// pdb params: objects, numObjects, pointerStriding
 FUN_00990390* FUN_00990390::Assign(const FUN_00990390& source) {
     scalar00=source.scalar00; unk04=source.unk04; unk08=source.unk08;
     scalar0c=source.scalar0c; unk10=source.unk10;
@@ -325,6 +332,8 @@ struct Owner517 {
     void FUN_0097f1c0(Source517*);
     Owner517* FUN_0098d900(Source517*);
 };
+// pdb: hkpContinuousSimulation::hkpContinuousSimulation | hkpContinuousSimulation.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkCriticalSection::hkCriticalSection)
+// pdb params: world
 Owner517* Owner517::FUN_0098d900(Source517* source) {
     FUN_0097f1c0(source);table=&Globals517::DAT_00e7dc14;
     Array517* array=&values;
@@ -441,6 +450,7 @@ struct Edge {
     Point* m_kPointB;
 };
 
+// pdb: hkAgentNnMachine_RelinkEntry | hkpAgentNnMachine.obj | fnv360_0822_retail, objrun_open, low
 static __declspec(noinline) void FUN_00998550(Edge* apEdge)
 {
     unsigned short a = apEdge->m_idxA;
@@ -460,26 +470,6 @@ namespace f3m_00981d00 {
 struct Ent98 {
     void* unk00;
     void* unk04;
-};
-
-struct Node98 {
-    int unk00;
-    signed char unk04;
-    signed char unk05;
-    short unk06;
-    int unk08;
-    int unk0c;
-    signed char unk10;
-    signed char unk11;
-    signed char unk12;
-    signed char unk13;
-    int unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c;
-    int unk40,unk44,unk48,unk4c,unk50,unk54,unk58,unk5c,unk60,unk64,unk68,unk6c;
-    int unk70,unk74,unk78,unk7c,unk80,unk84,unk88,unk8c,unk90,unk94,unk98,unk9c;
-    int unka0,unka4,unka8,unkac,unkb0,unkb4;
-    int unkb8;
-    int unkbc,unkc0,unkc4,unkc8,unkcc,unkd0,unkd4;
-    unsigned char unkd8;
 };
 
 struct Arr98 { Ent98* data; int count; int capacity; };
@@ -503,10 +493,11 @@ class Ctx98 {
 public:
     int unk00;
     Owner98* owner;
-    void FUN_00981d00(Ent98* entry);
+    void hkpMultiThreadedSimulation_MtEntityEntityBroadPhaseListener_removeCollisionPair(Ent98* entry);
 };
 
-void Ctx98::FUN_00981d00(Ent98* entry)
+// pdb: hkpMultiThreadedSimulation::MtEntityEntityBroadPhaseListener::removeCollisionPair | hkpMultithreadedSimulation.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Ctx98::hkpMultiThreadedSimulation_MtEntityEntityBroadPhaseListener_removeCollisionPair(Ent98* entry)
 {
     char* a = (char*)entry->unk00;
     char* b = (char*)entry->unk04;
@@ -554,6 +545,11 @@ struct Rec989340 {
     const void* label;
     unsigned int ticks;
     unsigned int unk08;
+
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int time; __asm { rdtsc
+        mov time, eax } ticks = time; }
 };
 
 struct Buf989340 {
@@ -589,7 +585,8 @@ struct Container989340 {
     Arr989340 arr;
 };
 
-void __cdecl FUN_00989340(Container989340* self, void* a)
+// pdb: hkpWorldCallbackUtil::firePostIntegrateCallback | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void __cdecl hkpWorldCallbackUtil_firePostIntegrateCallback(Container989340* self, void* a)
 {
     Arr989340* arr = &self->arr;
     int i = arr->count - 1;
@@ -602,12 +599,7 @@ void __cdecl FUN_00989340(Container989340* self, void* a)
             if (r < b->end) {
                 r->label = DAT_00e7d950;
                 _ReadWriteBarrier();
-unsigned int t;
-                __asm {
-                    rdtsc
-                    mov dword ptr[t], eax
-                }
-                r->ticks = t;
+r->setTime();
                 b->cur = r + 1;
             }
             arr->data[i]->Run(self, a);
@@ -616,12 +608,7 @@ unsigned int t;
             if (r < b->end) {
                 r->label = DAT_00e32798;
                 _ReadWriteBarrier();
-unsigned int t2;
-                __asm {
-                    rdtsc
-                    mov dword ptr[t2], eax
-                }
-                r->ticks = t2;
+r->setTime();
                 b->cur = r + 1;
             }
         }
@@ -650,6 +637,7 @@ struct Obj {
     Obj* FUN_0099ea40();
 };
 
+// pdb: hkpSimpleShapePhantom::clone | hkpSimpleShapePhantom.obj | fnv360_1110_retail, objrun, medium
 Obj* Obj::FUN_0099ea40()
 {
     HeapB* (__stdcall* const getHeap)(unsigned long) = FUN_00d9b080;
@@ -751,6 +739,7 @@ struct hkpShapeKeyMask {
     void FUN_00987bc0(hkArrayUShort& kIndicesOut) const;
 };
 
+// pdb: hkpDynamicsCpIdMgr::getAllUsedIds | hkpSimpleConstraintContactMgr.obj | tesv_win, objrun, medium
 void hkpShapeKeyMask::FUN_00987bc0(hkArrayUShort& kIndicesOut) const
 {
     for (int i = 0; i < m_iElementCount; i++) {
@@ -781,6 +770,7 @@ struct Pair_b0377 {
 
 void __cdecl FUN_00901f10(Arr_b0377* arr, int elemSize);
 
+// pdb: hkp3AxisSweep::endOverlapCheckMarker | hkp3AxisSweep.obj | tesv_win, objrun_open, low
 void __fastcall FUN_00991ad0(void* self, unsigned int* rec, unsigned int key, unsigned int* obj, Arr_b0377* arr)
 {
     if ((obj[3] & 1) == 0) {
@@ -877,7 +867,8 @@ struct State
     unsigned int used;
     SlabArray slabs;
 };
-static __declspec(noinline) Record* FUN_00998850(State* state)
+// pdb: hkAgentNnMachine_AllocateEntry | hkpAgentNnMachine.obj | fnv360_0822_retail, call_seq + bridge(caller|call_gap) + skyrim(call_seq), high
+static __declspec(noinline) Record* hkAgentNnMachine_AllocateEntry(State* state)
 {
     if (state->used < 512u)
     {
@@ -892,9 +883,10 @@ static __declspec(noinline) Record* FUN_00998850(State* state)
     return reinterpret_cast<Record*>(block);
 }
 // @fnv 0x00cfeca0
-Record* FUN_00998d40(State* state, const Record* source)
+// pdb: hkAgentNnMachine_CopyAndRelinkAgentEntry | hkpAgentNnMachine.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_seq) + skyrim(call_gap), high
+Record* hkAgentNnMachine_CopyAndRelinkAgentEntry(State* state, const Record* source)
 {
-    Record* record = FUN_00998850(state);
+    Record* record = hkAgentNnMachine_AllocateEntry(state);
     record->word00 = source->word00;
     record->word04 = source->word04;
     record->word08 = source->word08;
@@ -968,6 +960,7 @@ struct Owner {
     PtrArray listeners;
     void FUN_009898a0();
 };
+// pdb: hkpPhantom::firePhantomShapeSet | hkpPhantom.obj | tesv_win, caller_sim, low
 void Owner::FUN_009898a0()
 {
     for (int i = listeners.count - 1; i >= 0; i--) {
@@ -1006,6 +999,7 @@ struct FUN_0099e9f0 : Base {
     PtrArr arr;
     virtual ~FUN_0099e9f0();
 };
+// pdb: hkpSimpleShapePhantom::~hkpSimpleShapePhantom | hkpSimpleShapePhantom.obj | fnv360_0822_retail, call_seq, high
 FUN_0099e9f0::~FUN_0099e9f0()
 {
 }
@@ -1027,7 +1021,8 @@ struct Item { virtual void v0(); virtual void v1(); virtual void v2(); virtual v
 struct Arr { int unk00, unk04; Item** data; unsigned short count; };
 struct Obj { char pad[0xcc]; Arr* arr; };
 
-void __cdecl FUN_00988020(Obj* obj)
+// pdb: hkpEntityCallbackUtil::fireEntityShapeSet | hkpEntityCallbackUtil.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void __cdecl hkpEntityCallbackUtil_fireEntityShapeSet(Obj* obj)
 {
     volatile unsigned int t[2];
     Arr* arr = obj->arr;
@@ -1087,9 +1082,10 @@ struct Ptr9852c0 {
 struct Grid9852c0 {
     char pad00[0xc];
     Ptr9852c0 cells[8][8];
-    void FUN_009852c0(Obj9852c0* o, int idx);
+    void hkpCollisionDispatcher_registerContactMgrFactoryWithAll(Obj9852c0* o, int idx);
 };
-void Grid9852c0::FUN_009852c0(Obj9852c0* o, int idx)
+// pdb: hkpCollisionDispatcher::registerContactMgrFactoryWithAll | hkpCollisionDispatcher.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void Grid9852c0::hkpCollisionDispatcher_registerContactMgrFactoryWithAll(Obj9852c0* o, int idx)
 {
     for (int k = 0; k < 8; ++k) {
         cells[k][idx] = o;
@@ -1116,9 +1112,10 @@ struct Arr989ff0 {
 struct Obj989ff0 {
     char pad00[0x14];
     Arr989ff0 arr;
-    void FUN_00989ff0(Ref989ff0* p);
+    void hkpPhysicsSystem_addConstraint(Ref989ff0* p);
 };
-void Obj989ff0::FUN_00989ff0(Ref989ff0* p)
+// pdb: hkpPhysicsSystem::addConstraint | hkpPhysicsSystem.obj | fnv360_0822_retail, call_seq + skyrim(call_gap), high
+void Obj989ff0::hkpPhysicsSystem_addConstraint(Ref989ff0* p)
 {
     if (p) {
         if (p->active) ++p->refs;
@@ -1223,6 +1220,8 @@ struct Container988e70 {
     Arr989340 arr;
 };
 extern const char DAT_00e7d904[];
+// pdb: hkpWorldCallbackUtil::fireWorldDeleted | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: world
 void __cdecl FUN_00988e70(Container988e70* self) {
     Arr989340* arr = &self->arr;
     int i = arr->count - 1;
@@ -1235,12 +1234,7 @@ void __cdecl FUN_00988e70(Container988e70* self) {
                 if (r < b->end) {
                     r->label = DAT_00e7d904;
                     _ReadWriteBarrier();
-                    unsigned int ticks;
-                    __asm {
-                        rdtsc
-                        mov dword ptr[ticks], eax
-                    }
-                    r->ticks = ticks;
+                    r->setTime();
                     b->cur = r + 1;
                 }
                 ((Item988e70*)arr->data[i])->Run(self);
@@ -1249,12 +1243,7 @@ void __cdecl FUN_00988e70(Container988e70* self) {
                 if (r < b->end) {
                     r->label = DAT_00e32798;
                     _ReadWriteBarrier();
-                    unsigned int ticks2;
-                    __asm {
-                        rdtsc
-                        mov dword ptr[ticks2], eax
-                    }
-                    r->ticks = ticks2;
+                    r->setTime();
                     b->cur = r + 1;
                 }
             }
@@ -1266,8 +1255,9 @@ void __cdecl FUN_00988e70(Container988e70* self) {
 
 // @f3 0x0098b5f0 (community match, verified in this file)
 namespace f3m_0098b5f0 {
-struct Obj98b5f0 { int v; void FUN_0098b5f0(); };
-void Obj98b5f0::FUN_0098b5f0()
+struct Obj98b5f0 { int v; void hkMultiThreadCheck_disableChecks(); };
+// pdb: hkMultiThreadCheck::disableChecks | hkMultiThreadCheck.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap_sim|call_gap) + skyrim(call_gap_sim), high
+void Obj98b5f0::hkMultiThreadCheck_disableChecks()
 {
     v = -47;
 }
@@ -1409,9 +1399,10 @@ unsigned int unk0c8;
 
 
 // @fnv 0x00cffcf0
-void __cdecl FUN_009880d0(CFFCF0Owner* owner)
+// pdb: hkpEntityCallbackUtil::fireEntityDeleted | hkpEntityCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpEntityCallbackUtil_fireEntityDeleted(CFFCF0Owner* owner)
 {
-    volatile CFFCF0TimerTicks ticks;
+    CFFCF0TimerTicks ticks;
     CFFCF0ListenerList* list = owner->m_listenerList;
     if (list)
     {
@@ -1455,13 +1446,6 @@ static void FUN_00987ce0(CFF9B0SmallArray& cleanupArray)
         if (cleanupArray.m_data[i] == 0)
             cleanupArray.removeAtAndCopy(i);
     }
-}
-
-// Callers so the file-static helper is emitted with its register calling convention.
-void CFF9B0CleanupListeners(CFF9B0SmallArray* a, CFF9B0SmallArray* b)
-{
-    FUN_00987ce0(*a);
-    FUN_00987ce0(*b);
 }
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
@@ -1531,7 +1515,8 @@ struct ListenerOwner
 };
 // Sets event->m_pObservedSource to owner, calls callback on each non-null listener in reverse with timers, then calls FUN_00987ce0 to remove null entries.
 // @fnv 0x00d00110
-void __cdecl FUN_00988390(ListenerOwner* owner, ListenerEvent* event)
+// pdb: hkpEntityCallbackUtil::fireContactProcessInternal | hkpEntityCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpEntityCallbackUtil_fireContactProcessInternal(ListenerOwner* owner, ListenerEvent* event)
 {
     CFF9B0SmallArray& kListeners = owner->m_kListeners;
     event->m_pObservedSource = owner;
@@ -1539,8 +1524,8 @@ void __cdecl FUN_00988390(ListenerOwner* owner, ListenerEvent* event)
     {
         if (kListeners.m_data[i] != 0)
         {
-            volatile unsigned int t1;
-            volatile unsigned int uiTimerEnd;
+            unsigned int t1;
+            unsigned int uiTimerEnd;
             TimerWriteV(DAT_00e7d8a4, t1);
             ((ContactListener*)kListeners.m_data[i])->callback(event);
             TimerWriteV(DAT_00e32798, uiTimerEnd);
@@ -1645,7 +1630,8 @@ struct ListenerOwner
     CFF9B0SmallArray m_kListeners;
 };
 // @fnv 0x00d00110
-void __cdecl FUN_009882e0(ListenerOwner* owner, ListenerEvent* event)
+// pdb: hkpEntityCallbackUtil::fireContactPointRemovedInternal | hkpEntityCallbackUtil.obj | fnv360_0822_retail, caller_sim + bridge(ustr_rel|call_seq) + skyrim(caller_sim), high
+void __cdecl hkpEntityCallbackUtil_fireContactPointRemovedInternal(ListenerOwner* owner, ListenerEvent* event)
 {
     CFF9B0SmallArray& kListeners = owner->m_kListeners;
     event->m_pObservedSource = owner;
@@ -1653,8 +1639,8 @@ void __cdecl FUN_009882e0(ListenerOwner* owner, ListenerEvent* event)
     {
         if (kListeners.m_data[i] != 0)
         {
-            volatile unsigned int t1;
-            volatile unsigned int uiTimerEnd;
+            unsigned int t1;
+            unsigned int uiTimerEnd;
             TimerWriteV(DAT_00e7d898, t1);
             ((ContactListener*)kListeners.m_data[i])->callback(event);
             TimerWriteV(DAT_00e32798, uiTimerEnd);
@@ -1754,7 +1740,8 @@ struct ListenerOwner {
     CFF9B0SmallArray m_kListeners;
 };
 // @fnv 0x00d00110
-void __cdecl FUN_00988230(ListenerOwner* owner, ListenerEvent* event)
+// pdb: hkpEntityCallbackUtil::fireContactPointCallbackInternal | hkpEntityCallbackUtil.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap_sim|call_seq) + skyrim(call_gap_sim), high
+void __cdecl hkpEntityCallbackUtil_fireContactPointCallbackInternal(ListenerOwner* owner, ListenerEvent* event)
 {
     CFF9B0SmallArray& kListeners = owner->m_kListeners;
     event->m_pObservedSource = owner;
@@ -1762,8 +1749,8 @@ void __cdecl FUN_00988230(ListenerOwner* owner, ListenerEvent* event)
     {
         if (kListeners.m_data[i] != 0)
         {
-            volatile unsigned int t1;
-            volatile unsigned int uiTimerEnd;
+            unsigned int t1;
+            unsigned int uiTimerEnd;
             TimerWriteV(DAT_00e7d88c, t1);
             ((ContactListener*)kListeners.m_data[i])->callback(event);
             TimerWriteV(DAT_00e32798, uiTimerEnd);
@@ -1888,10 +1875,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
     }
 }
 // @fnv 0x00d00060
-void __cdecl FUN_00988580(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireActionRemoved | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_fireActionRemoved(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2041,10 +2029,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_009886e0(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireEntityRemoved | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap_sim|call_seq) + skyrim(call_gap), high
+void __cdecl hkpWorldCallbackUtil_fireEntityRemoved(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2199,10 +2188,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_009889a0(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::firePhantomShapeSet | hkpWorldCallbackUtil.obj | fnv360_0721_beta, ustr_rel + bridge(ustr_rel|call_seq) + skyrim(ustr_rel), high
+void __cdecl hkpWorldCallbackUtil_firePhantomShapeSet(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2296,10 +2286,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_00988a50(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireConstraintAdded | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_gap_sim), high
+void __cdecl hkpWorldCallbackUtil_fireConstraintAdded(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2448,10 +2439,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_00988630(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireEntityAdded | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap_sim + bridge(call_dedup|call_dedup) + skyrim(call_gap), high
+void __cdecl hkpWorldCallbackUtil_fireEntityAdded(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2546,10 +2538,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_00988b00(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireConstraintRemoved | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_seq) + skyrim(call_gap_sim), high
+void __cdecl hkpWorldCallbackUtil_fireConstraintRemoved(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2700,10 +2693,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_00988790(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireEntityShapeSet | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void __cdecl hkpWorldCallbackUtil_fireEntityShapeSet(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2868,10 +2862,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_009896b0(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireInactiveEntityMoved | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_fireInactiveEntityMoved(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -2955,10 +2950,11 @@ __forceinline void TimerEvent(const char* name, volatile unsigned int& ticks)
         stream->end = command + 1;
     }
 }
-void __cdecl FUN_00988840(World* world, PhantomEvent* event)
+// pdb: hkpWorldCallbackUtil::firePhantomAdded | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_firePhantomAdded(World* world, PhantomEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     ListenerArray& listeners = world->phantomListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i) {
@@ -3094,10 +3090,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
     }
 }
 // @fnv 0x00d00060
-void __cdecl FUN_009888f0(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::firePhantomRemoved | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_firePhantomRemoved(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->phantomListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -3118,12 +3115,15 @@ void __cdecl FUN_009888f0(World833* world, ContactPointEvent* event)
 // @f3 0x00983000 (community match, verified in this file)
 namespace f3m_00983000 {
 struct O_983000 { char pad[0x140]; int v; int* FUN_00983000(); };
+// pdb: hkArrayBase<hkpTypedBroadPhaseHandlePair>::end | hkpMultithreadedSimulation.obj | fnv360_0822_debug, objrun_open, low
 int* O_983000::FUN_00983000() { return &v; }
 }   // namespace f3m_00983000
 
 // @f3 0x00986d20 (community match, verified in this file)
 namespace f3m_00986d20 {
 struct O_986d20 { char pad[0x20]; int v; int FUN_00986d20(); };
+// pdb: hkpContactMgr::removeContactPoint | hkpSimpleConstraintContactMgr.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: cpId, constraintOwner
 int O_986d20::FUN_00986d20() { return v - 0x14; }
 }   // namespace f3m_00986d20
 
@@ -3189,9 +3189,10 @@ struct Owner00981730 {
     unsigned int unkE0;
     unsigned int unkE4;
     unsigned int unkE8;
-    void FUN_00981730(unsigned int* out);
+    void hkpMultiThreadedSimulation_getMultithreadConfig(unsigned int* out);
 };
-void Owner00981730::FUN_00981730(unsigned int* out) { *out = unkE8; }
+// pdb: hkpMultiThreadedSimulation::getMultithreadConfig | hkpMultithreadedSimulation.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_open), high
+void Owner00981730::hkpMultiThreadedSimulation_getMultithreadConfig(unsigned int* out) { *out = unkE8; }
 }   // namespace f3m_00981730
 
 // @f3 0x0099e740 (community match, verified in this file)
@@ -3205,6 +3206,8 @@ struct Obj99e740 {
     int count;
     n99e740::Bool FUN_0099e740(void* k);
 };
+// pdb: hkpSimpleShapePhantom::isOverlappingCollidableAdded | hkpSimpleShapePhantom.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collidable
 n99e740::Bool Obj99e740::FUN_0099e740(void* k)
 {
     for (int i = 0; i < count; i++)
@@ -3360,8 +3363,8 @@ struct ContactRecord {
     void* owner;
     void* firstInput;
 };
-void __cdecl FUN_00988d10(void* handler, ContactRecord* record);
-void __cdecl FUN_009882e0(Contact* contact, ContactRecord* record);
+void __cdecl hkpWorldCallbackUtil_fireContactPointRemoved(void* handler, ContactRecord* record);
+void __cdecl hkpEntityCallbackUtil_fireContactPointRemovedInternal(Contact* contact, ContactRecord* record);
 struct FUN_00cfccf0_class {
     void* m_00; void* m_04; void* m_08; void* m_0c;
     void* m_10; void* m_14; void* m_18; void* m_1c;
@@ -3375,6 +3378,8 @@ struct FUN_00cfccf0_class {
 };
 // Builds a ContactRecord from the two stored contacts and inputs, dispatches it via m_0c, then processes each contact whose flag at index 0x102 is set.
 // @fnv 0x00cfccf0
+// pdb: hkpSimpleConstraintContactMgr::removeToiImpl | hkpSimpleConstraintContactMgr.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: constraintOwner, properties
 void FUN_00cfccf0_class::FUN_00986d30(void* firstInput, void* secondInput) {
     Contact* first = m_58;
     Contact* second = m_5c;
@@ -3385,9 +3390,9 @@ void FUN_00cfccf0_class::FUN_00986d30(void* firstInput, void* secondInput) {
     record.secondContact = second;
     record.owner = this;
     record.firstInput = firstInput;
-    FUN_00988d10(m_0c, &record);
-    if (first->listenerCount) FUN_009882e0(first, &record);
-    if (second->listenerCount) FUN_009882e0(second, &record);
+    hkpWorldCallbackUtil_fireContactPointRemoved(m_0c, &record);
+    if (first->listenerCount) hkpEntityCallbackUtil_fireContactPointRemovedInternal(first, &record);
+    if (second->listenerCount) hkpEntityCallbackUtil_fireContactPointRemovedInternal(second, &record);
 }
 
 }
@@ -3400,6 +3405,7 @@ struct Obj {
     int unk00;
     bool FUN_0098b620();
 };
+// pdb: hkMultiThreadCheck::reenableChecks | hkMultiThreadCheck.obj | fnv360_0822_retail, objrun_open, low
 bool Obj::FUN_0098b620() {
     return unk00 != -0x2f;
 }
@@ -3410,6 +3416,7 @@ bool Obj::FUN_0098b620() {
 namespace f3m_00991080 {
 namespace f3m_00991080 {
 struct Vec4 { float x, y, z, w; };
+// pdb: memclear16 | hkp3AxisSweep.obj | tesv_win, objrun_sim, low
 void __fastcall FUN_00991080(Vec4* p, int bytes) {
     for (int n = bytes >> 4; n >= 0; n--) {
         Vec4* v = p++;
@@ -3484,6 +3491,7 @@ struct Owner {
     void FUN_009835d0();
 };
 
+// pdb: hkpProcessCollisionInput::`scalar deleting destructor' | hkpWorld.obj | fnv360_0822_retail, call_dedup, low
 void Owner::FUN_009835d0() {
     lock.Destroy();
     second.Release();
@@ -3495,6 +3503,8 @@ void Owner::FUN_009835d0() {
 // @f3 0x00998570 (community match, verified in this file)
 namespace f3m_00998570 {
 namespace Dispatch322{struct Input322;struct Context322;typedef void(__cdecl *Callback322)(Input322*,void*,unsigned int,unsigned int,Context322*,unsigned int,void*);struct Row322{Callback322 function;unsigned int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,unk44,unk48,unk4c;};struct Root322{unsigned int unk0000,unk0004,unk0008,unk000c,unk0010,unk0014,unk0018,unk001c,unk0020,unk0024,unk0028,unk002c,unk0030,unk0034,unk0038,unk003c,unk0040,unk0044,unk0048,unk004c,unk0050,unk0054,unk0058,unk005c,unk0060,unk0064,unk0068,unk006c,unk0070,unk0074,unk0078,unk007c,unk0080,unk0084,unk0088,unk008c,unk0090,unk0094,unk0098,unk009c,unk00a0,unk00a4,unk00a8,unk00ac,unk00b0,unk00b4,unk00b8,unk00bc,unk00c0,unk00c4,unk00c8,unk00cc,unk00d0,unk00d4,unk00d8,unk00dc,unk00e0,unk00e4,unk00e8,unk00ec,unk00f0,unk00f4,unk00f8,unk00fc,unk0100,unk0104,unk0108,unk010c,unk0110,unk0114,unk0118,unk011c,unk0120,unk0124,unk0128,unk012c,unk0130,unk0134,unk0138,unk013c,unk0140,unk0144,unk0148,unk014c,unk0150,unk0154,unk0158,unk015c,unk0160,unk0164,unk0168,unk016c,unk0170,unk0174,unk0178,unk017c,unk0180,unk0184,unk0188,unk018c,unk0190,unk0194,unk0198,unk019c,unk01a0,unk01a4,unk01a8,unk01ac,unk01b0,unk01b4,unk01b8,unk01bc,unk01c0,unk01c4,unk01c8,unk01cc,unk01d0,unk01d4,unk01d8,unk01dc,unk01e0,unk01e4,unk01e8,unk01ec,unk01f0,unk01f4,unk01f8,unk01fc,unk0200,unk0204,unk0208,unk020c,unk0210,unk0214,unk0218,unk021c,unk0220,unk0224,unk0228,unk022c,unk0230,unk0234,unk0238,unk023c,unk0240,unk0244,unk0248,unk024c,unk0250,unk0254,unk0258,unk025c,unk0260,unk0264,unk0268,unk026c,unk0270,unk0274,unk0278,unk027c,unk0280,unk0284,unk0288,unk028c,unk0290,unk0294,unk0298,unk029c,unk02a0,unk02a4,unk02a8,unk02ac,unk02b0,unk02b4,unk02b8,unk02bc,unk02c0,unk02c4,unk02c8,unk02cc,unk02d0,unk02d4,unk02d8,unk02dc,unk02e0,unk02e4,unk02e8,unk02ec,unk02f0,unk02f4,unk02f8,unk02fc,unk0300,unk0304,unk0308,unk030c,unk0310,unk0314,unk0318,unk031c,unk0320,unk0324,unk0328,unk032c,unk0330,unk0334,unk0338,unk033c,unk0340,unk0344,unk0348,unk034c,unk0350,unk0354,unk0358,unk035c,unk0360,unk0364,unk0368,unk036c,unk0370,unk0374,unk0378,unk037c,unk0380,unk0384,unk0388,unk038c,unk0390,unk0394,unk0398,unk039c,unk03a0,unk03a4,unk03a8,unk03ac,unk03b0,unk03b4,unk03b8,unk03bc,unk03c0,unk03c4,unk03c8,unk03cc,unk03d0,unk03d4,unk03d8,unk03dc,unk03e0,unk03e4,unk03e8,unk03ec,unk03f0,unk03f4,unk03f8,unk03fc,unk0400,unk0404,unk0408,unk040c,unk0410,unk0414,unk0418,unk041c,unk0420,unk0424,unk0428,unk042c,unk0430,unk0434,unk0438,unk043c,unk0440,unk0444,unk0448,unk044c,unk0450,unk0454,unk0458,unk045c,unk0460,unk0464,unk0468,unk046c,unk0470,unk0474,unk0478,unk047c,unk0480,unk0484,unk0488,unk048c,unk0490,unk0494,unk0498,unk049c,unk04a0,unk04a4,unk04a8,unk04ac,unk04b0,unk04b4,unk04b8,unk04bc,unk04c0,unk04c4,unk04c8,unk04cc,unk04d0,unk04d4,unk04d8,unk04dc,unk04e0,unk04e4,unk04e8,unk04ec,unk04f0,unk04f4,unk04f8,unk04fc,unk0500,unk0504,unk0508,unk050c,unk0510,unk0514,unk0518,unk051c,unk0520,unk0524,unk0528,unk052c,unk0530,unk0534,unk0538,unk053c,unk0540,unk0544,unk0548,unk054c,unk0550,unk0554,unk0558,unk055c,unk0560,unk0564,unk0568,unk056c,unk0570,unk0574,unk0578,unk057c,unk0580,unk0584,unk0588,unk058c,unk0590,unk0594,unk0598,unk059c,unk05a0,unk05a4,unk05a8,unk05ac,unk05b0,unk05b4,unk05b8,unk05bc,unk05c0,unk05c4,unk05c8,unk05cc,unk05d0,unk05d4,unk05d8,unk05dc,unk05e0,unk05e4,unk05e8,unk05ec,unk05f0,unk05f4,unk05f8,unk05fc,unk0600,unk0604,unk0608,unk060c,unk0610,unk0614,unk0618,unk061c,unk0620,unk0624,unk0628,unk062c,unk0630,unk0634,unk0638,unk063c,unk0640,unk0644,unk0648,unk064c,unk0650,unk0654,unk0658,unk065c,unk0660,unk0664,unk0668,unk066c,unk0670,unk0674,unk0678,unk067c,unk0680,unk0684,unk0688,unk068c,unk0690,unk0694,unk0698,unk069c,unk06a0,unk06a4,unk06a8,unk06ac,unk06b0,unk06b4,unk06b8,unk06bc,unk06c0,unk06c4,unk06c8,unk06cc,unk06d0,unk06d4,unk06d8,unk06dc,unk06e0,unk06e4,unk06e8,unk06ec,unk06f0,unk06f4,unk06f8,unk06fc,unk0700,unk0704,unk0708,unk070c,unk0710,unk0714,unk0718,unk071c,unk0720,unk0724,unk0728,unk072c,unk0730,unk0734,unk0738,unk073c,unk0740,unk0744,unk0748,unk074c,unk0750,unk0754,unk0758,unk075c,unk0760,unk0764,unk0768,unk076c,unk0770,unk0774,unk0778,unk077c,unk0780,unk0784,unk0788,unk078c,unk0790,unk0794,unk0798,unk079c,unk07a0,unk07a4,unk07a8,unk07ac,unk07b0,unk07b4,unk07b8,unk07bc,unk07c0,unk07c4,unk07c8,unk07cc,unk07d0,unk07d4,unk07d8,unk07dc,unk07e0,unk07e4,unk07e8,unk07ec,unk07f0,unk07f4,unk07f8,unk07fc,unk0800,unk0804,unk0808,unk080c,unk0810,unk0814,unk0818,unk081c,unk0820,unk0824,unk0828,unk082c,unk0830,unk0834,unk0838,unk083c,unk0840,unk0844,unk0848,unk084c,unk0850,unk0854,unk0858,unk085c,unk0860,unk0864,unk0868,unk086c,unk0870,unk0874,unk0878,unk087c,unk0880,unk0884,unk0888,unk088c,unk0890,unk0894,unk0898,unk089c,unk08a0,unk08a4,unk08a8,unk08ac,unk08b0,unk08b4,unk08b8,unk08bc,unk08c0,unk08c4,unk08c8,unk08cc,unk08d0,unk08d4,unk08d8,unk08dc,unk08e0,unk08e4,unk08e8,unk08ec,unk08f0,unk08f4,unk08f8,unk08fc,unk0900,unk0904,unk0908,unk090c,unk0910,unk0914,unk0918,unk091c,unk0920,unk0924,unk0928,unk092c,unk0930,unk0934,unk0938,unk093c,unk0940,unk0944,unk0948,unk094c,unk0950,unk0954,unk0958,unk095c,unk0960,unk0964,unk0968,unk096c,unk0970,unk0974,unk0978,unk097c,unk0980,unk0984,unk0988,unk098c,unk0990,unk0994,unk0998,unk099c,unk09a0,unk09a4,unk09a8,unk09ac,unk09b0,unk09b4,unk09b8,unk09bc,unk09c0,unk09c4,unk09c8,unk09cc,unk09d0,unk09d4,unk09d8,unk09dc,unk09e0,unk09e4,unk09e8,unk09ec,unk09f0,unk09f4,unk09f8,unk09fc,unk0a00,unk0a04,unk0a08,unk0a0c,unk0a10,unk0a14,unk0a18,unk0a1c,unk0a20,unk0a24,unk0a28,unk0a2c,unk0a30,unk0a34,unk0a38,unk0a3c,unk0a40,unk0a44,unk0a48,unk0a4c,unk0a50,unk0a54,unk0a58,unk0a5c,unk0a60,unk0a64,unk0a68,unk0a6c,unk0a70,unk0a74,unk0a78,unk0a7c,unk0a80,unk0a84,unk0a88,unk0a8c,unk0a90,unk0a94,unk0a98,unk0a9c,unk0aa0,unk0aa4,unk0aa8,unk0aac,unk0ab0,unk0ab4,unk0ab8,unk0abc,unk0ac0,unk0ac4,unk0ac8,unk0acc,unk0ad0,unk0ad4,unk0ad8,unk0adc,unk0ae0,unk0ae4,unk0ae8,unk0aec,unk0af0,unk0af4,unk0af8,unk0afc,unk0b00,unk0b04,unk0b08,unk0b0c,unk0b10,unk0b14,unk0b18,unk0b1c,unk0b20,unk0b24,unk0b28,unk0b2c,unk0b30,unk0b34,unk0b38,unk0b3c,unk0b40,unk0b44,unk0b48,unk0b4c,unk0b50,unk0b54,unk0b58,unk0b5c,unk0b60,unk0b64,unk0b68,unk0b6c,unk0b70,unk0b74,unk0b78,unk0b7c,unk0b80,unk0b84,unk0b88,unk0b8c,unk0b90,unk0b94,unk0b98,unk0b9c,unk0ba0,unk0ba4,unk0ba8,unk0bac,unk0bb0,unk0bb4,unk0bb8,unk0bbc,unk0bc0,unk0bc4,unk0bc8,unk0bcc,unk0bd0,unk0bd4,unk0bd8,unk0bdc,unk0be0,unk0be4,unk0be8,unk0bec,unk0bf0,unk0bf4,unk0bf8,unk0bfc,unk0c00,unk0c04,unk0c08,unk0c0c,unk0c10,unk0c14,unk0c18,unk0c1c,unk0c20,unk0c24,unk0c28,unk0c2c,unk0c30,unk0c34,unk0c38,unk0c3c,unk0c40,unk0c44,unk0c48,unk0c4c,unk0c50,unk0c54,unk0c58,unk0c5c,unk0c60,unk0c64,unk0c68,unk0c6c,unk0c70,unk0c74,unk0c78,unk0c7c,unk0c80,unk0c84,unk0c88,unk0c8c,unk0c90,unk0c94,unk0c98,unk0c9c,unk0ca0,unk0ca4,unk0ca8,unk0cac,unk0cb0,unk0cb4,unk0cb8,unk0cbc,unk0cc0,unk0cc4,unk0cc8,unk0ccc,unk0cd0,unk0cd4,unk0cd8,unk0cdc,unk0ce0,unk0ce4,unk0ce8,unk0cec,unk0cf0,unk0cf4,unk0cf8,unk0cfc,unk0d00,unk0d04,unk0d08,unk0d0c,unk0d10,unk0d14,unk0d18,unk0d1c,unk0d20,unk0d24,unk0d28,unk0d2c,unk0d30,unk0d34,unk0d38,unk0d3c,unk0d40,unk0d44,unk0d48,unk0d4c,unk0d50,unk0d54,unk0d58,unk0d5c,unk0d60,unk0d64,unk0d68,unk0d6c,unk0d70,unk0d74,unk0d78,unk0d7c,unk0d80,unk0d84,unk0d88,unk0d8c,unk0d90,unk0d94,unk0d98,unk0d9c,unk0da0,unk0da4,unk0da8,unk0dac,unk0db0,unk0db4,unk0db8,unk0dbc,unk0dc0,unk0dc4,unk0dc8,unk0dcc,unk0dd0,unk0dd4,unk0dd8,unk0ddc,unk0de0,unk0de4,unk0de8,unk0dec,unk0df0,unk0df4,unk0df8,unk0dfc,unk0e00,unk0e04,unk0e08,unk0e0c,unk0e10,unk0e14,unk0e18,unk0e1c,unk0e20,unk0e24,unk0e28,unk0e2c,unk0e30,unk0e34,unk0e38,unk0e3c,unk0e40,unk0e44,unk0e48,unk0e4c,unk0e50,unk0e54,unk0e58,unk0e5c,unk0e60,unk0e64,unk0e68,unk0e6c,unk0e70,unk0e74,unk0e78,unk0e7c,unk0e80,unk0e84,unk0e88,unk0e8c,unk0e90,unk0e94,unk0e98,unk0e9c,unk0ea0,unk0ea4,unk0ea8,unk0eac,unk0eb0,unk0eb4,unk0eb8,unk0ebc,unk0ec0,unk0ec4,unk0ec8,unk0ecc,unk0ed0,unk0ed4,unk0ed8,unk0edc,unk0ee0,unk0ee4,unk0ee8,unk0eec,unk0ef0,unk0ef4,unk0ef8,unk0efc,unk0f00,unk0f04,unk0f08,unk0f0c,unk0f10,unk0f14,unk0f18,unk0f1c,unk0f20,unk0f24,unk0f28,unk0f2c,unk0f30,unk0f34,unk0f38,unk0f3c,unk0f40,unk0f44,unk0f48,unk0f4c,unk0f50,unk0f54,unk0f58,unk0f5c,unk0f60,unk0f64,unk0f68,unk0f6c,unk0f70,unk0f74,unk0f78,unk0f7c,unk0f80,unk0f84,unk0f88,unk0f8c,unk0f90,unk0f94,unk0f98,unk0f9c,unk0fa0,unk0fa4,unk0fa8,unk0fac,unk0fb0,unk0fb4,unk0fb8,unk0fbc,unk0fc0,unk0fc4,unk0fc8,unk0fcc,unk0fd0,unk0fd4,unk0fd8,unk0fdc,unk0fe0,unk0fe4,unk0fe8,unk0fec,unk0ff0,unk0ff4,unk0ff8,unk0ffc,unk1000,unk1004,unk1008,unk100c,unk1010,unk1014,unk1018,unk101c,unk1020,unk1024,unk1028,unk102c,unk1030,unk1034,unk1038,unk103c,unk1040,unk1044,unk1048,unk104c,unk1050,unk1054,unk1058,unk105c,unk1060,unk1064,unk1068,unk106c,unk1070,unk1074,unk1078,unk107c,unk1080,unk1084,unk1088,unk108c,unk1090,unk1094,unk1098,unk109c,unk10a0,unk10a4,unk10a8,unk10ac,unk10b0,unk10b4,unk10b8,unk10bc,unk10c0,unk10c4,unk10c8,unk10cc,unk10d0,unk10d4,unk10d8,unk10dc,unk10e0,unk10e4,unk10e8,unk10ec,unk10f0,unk10f4,unk10f8,unk10fc,unk1100,unk1104,unk1108,unk110c,unk1110,unk1114,unk1118,unk111c,unk1120,unk1124,unk1128,unk112c,unk1130,unk1134,unk1138,unk113c,unk1140,unk1144,unk1148,unk114c,unk1150,unk1154,unk1158,unk115c,unk1160,unk1164,unk1168,unk116c,unk1170,unk1174,unk1178,unk117c,unk1180,unk1184,unk1188,unk118c,unk1190,unk1194,unk1198,unk119c,unk11a0,unk11a4,unk11a8,unk11ac,unk11b0,unk11b4,unk11b8,unk11bc,unk11c0,unk11c4,unk11c8,unk11cc,unk11d0,unk11d4,unk11d8,unk11dc,unk11e0,unk11e4,unk11e8,unk11ec,unk11f0,unk11f4,unk11f8,unk11fc,unk1200,unk1204,unk1208,unk120c,unk1210,unk1214,unk1218,unk121c,unk1220,unk1224,unk1228,unk122c,unk1230,unk1234,unk1238,unk123c,unk1240,unk1244,unk1248,unk124c,unk1250,unk1254,unk1258,unk125c,unk1260,unk1264,unk1268,unk126c,unk1270,unk1274,unk1278,unk127c,unk1280,unk1284,unk1288,unk128c,unk1290,unk1294,unk1298,unk129c,unk12a0,unk12a4,unk12a8,unk12ac,unk12b0,unk12b4,unk12b8,unk12bc,unk12c0,unk12c4,unk12c8,unk12cc,unk12d0,unk12d4,unk12d8,unk12dc,unk12e0,unk12e4,unk12e8,unk12ec,unk12f0,unk12f4,unk12f8,unk12fc,unk1300,unk1304,unk1308,unk130c,unk1310,unk1314,unk1318,unk131c,unk1320,unk1324,unk1328,unk132c,unk1330,unk1334,unk1338,unk133c,unk1340,unk1344,unk1348,unk134c,unk1350,unk1354,unk1358,unk135c,unk1360,unk1364,unk1368,unk136c,unk1370,unk1374,unk1378,unk137c,unk1380,unk1384,unk1388,unk138c,unk1390,unk1394,unk1398,unk139c,unk13a0,unk13a4,unk13a8,unk13ac,unk13b0,unk13b4,unk13b8,unk13bc,unk13c0,unk13c4,unk13c8,unk13cc,unk13d0,unk13d4,unk13d8,unk13dc,unk13e0,unk13e4,unk13e8,unk13ec,unk13f0,unk13f4,unk13f8,unk13fc,unk1400,unk1404,unk1408,unk140c,unk1410,unk1414,unk1418,unk141c,unk1420,unk1424,unk1428,unk142c,unk1430,unk1434,unk1438,unk143c,unk1440,unk1444,unk1448,unk144c,unk1450,unk1454,unk1458,unk145c,unk1460,unk1464,unk1468,unk146c,unk1470,unk1474,unk1478,unk147c,unk1480,unk1484,unk1488,unk148c,unk1490,unk1494,unk1498,unk149c,unk14a0,unk14a4,unk14a8,unk14ac,unk14b0,unk14b4,unk14b8,unk14bc,unk14c0,unk14c4,unk14c8,unk14cc,unk14d0,unk14d4,unk14d8,unk14dc,unk14e0,unk14e4,unk14e8,unk14ec,unk14f0,unk14f4,unk14f8,unk14fc,unk1500,unk1504,unk1508,unk150c,unk1510,unk1514,unk1518,unk151c,unk1520,unk1524,unk1528,unk152c,unk1530,unk1534,unk1538,unk153c,unk1540,unk1544,unk1548,unk154c,unk1550,unk1554,unk1558,unk155c,unk1560,unk1564,unk1568,unk156c,unk1570,unk1574,unk1578,unk157c,unk1580,unk1584,unk1588,unk158c,unk1590,unk1594,unk1598,unk159c,unk15a0,unk15a4,unk15a8,unk15ac,unk15b0,unk15b4,unk15b8,unk15bc,unk15c0,unk15c4,unk15c8,unk15cc,unk15d0,unk15d4,unk15d8,unk15dc,unk15e0,unk15e4,unk15e8,unk15ec,unk15f0,unk15f4,unk15f8,unk15fc,unk1600,unk1604,unk1608,unk160c,unk1610,unk1614,unk1618,unk161c,unk1620,unk1624,unk1628,unk162c,unk1630,unk1634,unk1638,unk163c,unk1640,unk1644,unk1648,unk164c,unk1650,unk1654,unk1658,unk165c,unk1660,unk1664,unk1668,unk166c,unk1670,unk1674,unk1678,unk167c,unk1680,unk1684,unk1688,unk168c,unk1690,unk1694,unk1698,unk169c,unk16a0,unk16a4,unk16a8,unk16ac,unk16b0,unk16b4,unk16b8,unk16bc,unk16c0,unk16c4;Row322 callbacks[256];};struct Context322{Root322*root;};struct Input322{unsigned char type,index;unsigned short unk02;unsigned int unk04,value08,unk0c,value10,value14,unk18,unk1c,data20,unk24,unk28,unk2c,data30;};
+// pdb: hkAgentNnMachine_IsEntryOnTrack | hkpAgentNnMachine.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: hkAgentNnMachine_UpdateShapeCollectionFilter)
+// pdb params: track, entry
 void __cdecl FUN_00998570(Input322*input,Context322*context,void*user){void*data;switch(input->type){case 2:case 6:data=&input->data20;break;case 4:data=&input->data30;break;default:return;}Callback322 callback=context->root->callbacks[input->index].function;if(callback)callback(input,data,input->value10,input->value14,context,input->value08,user);}
 }
 }   // namespace f3m_00998570
@@ -3515,6 +3525,8 @@ struct Obj99db10 {
     n99db10::Vec4 v;
     void FUN_0099db10(const n99db10::Mat* m);
 };
+// pdb: hkpBoxMotion::applyForce | hkpBoxMotion.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpBoxMotion::setInertiaInvLocal)
+// pdb params: deltaTime, force, p
 void Obj99db10::FUN_0099db10(const n99db10::Mat* m)
 {
     v.Set4(m->m[0][0], m->m[1][0], m->m[2][0], v.w);
@@ -3528,9 +3540,10 @@ struct Info { char pad[0x12]; unsigned char flags; };
 struct Body { char pad[0x28]; Info* info; };
 }
 struct Obj98ad90 {
-    void FUN_0098ad90(n98ad90::Body* b, unsigned char f);
+    void hkpSimulationIsland_addCallbackRequest(n98ad90::Body* b, unsigned char f);
 };
-void Obj98ad90::FUN_0098ad90(n98ad90::Body* b, unsigned char f)
+// pdb: hkpSimulationIsland::addCallbackRequest | hkpSimulationIsland.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Obj98ad90::hkpSimulationIsland_addCallbackRequest(n98ad90::Body* b, unsigned char f)
 {
     b->info->flags |= f;
 }
@@ -3538,13 +3551,15 @@ void Obj98ad90::FUN_0098ad90(n98ad90::Body* b, unsigned char f)
 
 // @f3 0x00981740 (community match, verified in this file)
 namespace f3m_00981740 {
-struct O_981740 { char pad[0xe8]; int v; void FUN_00981740(const int* p); };
-void O_981740::FUN_00981740(const int* p) { v = *p; }
+struct O_981740 { char pad[0xe8]; int v; void hkpMultiThreadedSimulation_setMultithreadConfig(const int* p); };
+// pdb: hkpMultiThreadedSimulation::setMultithreadConfig | hkpMultithreadedSimulation.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_open), high
+void O_981740::hkpMultiThreadedSimulation_setMultithreadConfig(const int* p) { v = *p; }
 }   // namespace f3m_00981740
 
 // @f3 0x0098b600 (community match, verified in this file)
 namespace f3m_0098b600 {
 struct O_98b600 { int v; unsigned short w4; void FUN_0098b600(); };
+// pdb: hkMultiThreadCheck::enableChecks | hkMultiThreadCheck.obj | fnv360_0822_retail, objopen_prop, medium
 void O_98b600::FUN_0098b600() { if (v == -0x2f) { v = -15; w4 = 0; } }
 }   // namespace f3m_0098b600
 
@@ -3585,7 +3600,8 @@ void FUN_0098b6f0_t::FUN_0098b6f0() {
 // @f3 0x0099da40 (community match, verified in this file)
 namespace f3m_0099da40 {
 struct Matrix349{float values[16];};struct Owner349{unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,unk44,unk48,unk4c,unk50,unk54,unk58,unk5c,unk60,unk64,unk68,unk6c,unk70,unk74,unk78,unk7c,unk80,unk84,unk88,unk8c,unk90,unk94,unk98,unk9c,unka0,unka4,unka8,unkac,unkb0,unkb4,unkb8,unkbc;float x,y,z,w;void Set(float a,float b,float c,const volatile float& d){x=a;y=b;z=c;w=d;}void FUN_0099da40(const Matrix349*);};
-void Owner349::FUN_0099da40(const Matrix349*matrix){float second=1.0f/matrix->values[5];float third=1.0f/matrix->values[10];volatile float fourth=w;Set(1.0f/matrix->values[0],second,third,fourth);}
+// pdb: hkpBoxMotion::setInertiaLocal | hkpBoxMotion.obj | tesv_win, objrun, medium
+void Owner349::FUN_0099da40(const Matrix349*matrix){float second=1.0f/matrix->values[5];float third=1.0f/matrix->values[10];float fourth=w;Set(1.0f/matrix->values[0],second,third,fourth);}
 }   // namespace f3m_0099da40
 
 // @f3 0x00989b30 (community match, verified in this file)
@@ -3616,6 +3632,7 @@ struct FUN_00989b30_c {
     n989b30::Array<int> a8c;
     void FUN_00989b30();
 };
+// pdb: hkpPhantom::deallocateInternalArrays | hkpPhantom.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00989b30_c::FUN_00989b30()
 {
     if (a80.size == 0)
@@ -3669,9 +3686,10 @@ struct FUN_0098b150_T {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
     int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34;
     Arr_98b150 arr;
-    void FUN_0098b150(Item_98b150* x);
+    void hkpSimulationIsland_addAction(Item_98b150* x);
 };
-void FUN_0098b150_T::FUN_0098b150(Item_98b150* x) {
+// pdb: hkpSimulationIsland::addAction | hkpSimulationIsland.obj | fnv360_0822_retail, call_gap + bridge(call_gap_sim|call_seq) + skyrim(call_gap), high
+void FUN_0098b150_T::hkpSimulationIsland_addAction(Item_98b150* x) {
     arr.Push(x);
     x->unk0C = this;
 }
@@ -3708,6 +3726,8 @@ int FUN_009819f0_T::FUN_009819f0() {
 namespace f3m_0099f680 {
 struct V4_0099f680 { float x, y, z, w; };
 struct O_0099f680 { char pad[0x20]; V4_0099f680 v; void FUN_0099f680(V4_0099f680* out); };
+// pdb: hkpTriangleShape::getCentreImpl | hkpTriangleShape.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpTriangleShape::getFirstVertex)
+// pdb params: centreOut
 void O_0099f680::FUN_0099f680(V4_0099f680* out) { out->x = v.x; out->y = v.y; out->z = v.z; out->w = v.w; }
 }   // namespace f3m_0099f680
 
@@ -3724,6 +3744,7 @@ struct Obj9814b0 {
     void FUN_0097f0f0();
     Obj9814b0* FUN_009814b0(unsigned int flags);
 };
+// pdb: hkpSimulation::`scalar deleting destructor' | hkpSimulation.obj | fnv360_0721_beta, vtable, high
 Obj9814b0* Obj9814b0::FUN_009814b0(unsigned int flags)
 {
     FUN_0097f0f0();
@@ -3772,6 +3793,7 @@ virtual void slot10();
 virtual void slot11();
 virtual void Forward(int);};
 struct Object{int unk00,unk04,unk08,unk0c,unk10;Member inner;void FUN_00986ca0(int);};
+// pdb: hkpConstraintInfo::clear | hkpSimpleConstraintContactMgr.obj | fnv360_0822_debug, objopen_prop, low, conflict (skyrim: hkpSimpleConstraintContactMgr::toiCollisionResponseBeginCallback)
 void Object::FUN_00986ca0(int a){inner.Forward(a);}
 }
 }   // namespace f3m_00986ca0
@@ -3797,6 +3819,8 @@ struct C99d250 {
     n99d250::RefObj* ref;
     void FUN_0099d250(n99d250::RefObj* r);
 };
+// pdb: hkpKeyframedRigidMotion::setStoredMotion | hkpKeyframedRigidMotion.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: savedMotion
 void C99d250::FUN_0099d250(n99d250::RefObj* r)
 {
     if (r) r->addReference();
@@ -3822,6 +3846,7 @@ template <class T> struct Array {
 };
 struct Obj { int m0, m4, m8; int id; };
 }
+// pdb: hkp3AxisSweep::endOverlap | hkp3AxisSweep.obj | tesv_win, objrun_open, low
 void __fastcall FUN_009919f0(n9919f0::Obj* a, n9919f0::Obj* b, n9919f0::Array<n9919f0::Pair>* arr)
 {
     n9919f0::Pair& p = arr->expandOne();
@@ -3851,6 +3876,8 @@ struct C9899a0 {
     n9899a0::Array<void*> items;
     void FUN_009899a0(void* item);
 };
+// pdb: hkpPhantom::addPhantomListener | hkpPhantom.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: el
 void C9899a0::FUN_009899a0(void* item)
 {
     items.pushBack(item);
@@ -3861,6 +3888,7 @@ void C9899a0::FUN_009899a0(void* item)
 namespace f3m_00986610 {
 namespace f3m_00986610 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O00986610 { char pad[4]; unsigned short w; void FUN_009860f0(); O00986610* FUN_00986610(unsigned int flags); };
+// pdb: hkpCollisionDispatcher::`scalar deleting destructor' | hkpCollisionDispatcher.obj | fnv360_0822_retail, vtable, high
 O00986610* O00986610::FUN_00986610(unsigned int flags) { FUN_009860f0(); if (flags & 1) { f3m_00986610::T* t = (f3m_00986610::T*)f3m_00986610::DAT_00d9b080(f3m_00986610::DAT_010f3170); t->FUN_008f6d90(this, w, 0x27); } return this; }
 }   // namespace f3m_00986610
 
@@ -3868,6 +3896,7 @@ O00986610* O00986610::FUN_00986610(unsigned int flags) { FUN_009860f0(); if (fla
 namespace f3m_00986be0 {
 namespace f3m_00986be0 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O00986be0 { char pad[4]; unsigned short w; void FUN_00986640(); O00986be0* FUN_00986be0(unsigned int flags); };
+// pdb: hkpReportContactMgr::`scalar deleting destructor' | hkpReportContactMgr.obj | fnv360_0721_beta, vtable_prefix, medium
 O00986be0* O00986be0::FUN_00986be0(unsigned int flags) { FUN_00986640(); if (flags & 1) { f3m_00986be0::T* t = (f3m_00986be0::T*)f3m_00986be0::DAT_00d9b080(f3m_00986be0::DAT_010f3170); t->FUN_008f6d90(this, w, 0x22); } return this; }
 }   // namespace f3m_00986be0
 
@@ -3922,6 +3951,7 @@ struct FUN_009860f0 : n9860f0::RefObj {
     void FUN_00985aa0() throw();
     virtual ~FUN_009860f0() throw();
 };
+// pdb: hkpCollisionDispatcher::~hkpCollisionDispatcher | hkpCollisionDispatcher.obj | fnv360_0822_retail, call_seq, high
 FUN_009860f0::~FUN_009860f0() throw()
 {
     FUN_00985aa0();
@@ -3935,6 +3965,7 @@ FUN_009860f0::~FUN_009860f0() throw()
 namespace f3m_00987c80 {
 namespace f3m_00987c80 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O00987c80 { char pad[4]; unsigned short w; void FUN_00987c10(); O00987c80* FUN_00987c80(unsigned int flags); };
+// pdb: hkpSimpleContactConstraintData::`scalar deleting destructor' | hkpSimpleConstraintContactMgr.obj | fnv360_0822_retail, vtable_prefix, high
 O00987c80* O00987c80::FUN_00987c80(unsigned int flags) { FUN_00987c10(); if (flags & 1) { f3m_00987c80::T* t = (f3m_00987c80::T*)f3m_00987c80::DAT_00d9b080(f3m_00987c80::DAT_010f3170); t->FUN_008f6d90(this, w, 0x2c); } return this; }
 }   // namespace f3m_00987c80
 
@@ -3942,6 +3973,7 @@ O00987c80* O00987c80::FUN_00987c80(unsigned int flags) { FUN_00987c10(); if (fla
 namespace f3m_0098a930 {
 namespace f3m_0098a930 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O0098a930 { char pad[4]; unsigned short w; void FUN_0098a0e0(); O0098a930* FUN_0098a930(unsigned int flags); };
+// pdb: hkpPhysicsSystem::`scalar deleting destructor' | hkpPhysicsSystem.obj | fnv360_0822_retail, vtable, high
 O0098a930* O0098a930::FUN_0098a930(unsigned int flags) { FUN_0098a0e0(); if (flags & 1) { f3m_0098a930::T* t = (f3m_0098a930::T*)f3m_0098a930::DAT_00d9b080(f3m_0098a930::DAT_010f3170); t->FUN_008f6d90(this, w, 0x2f); } return this; }
 }   // namespace f3m_0098a930
 
@@ -3949,6 +3981,7 @@ O0098a930* O0098a930::FUN_0098a930(unsigned int flags) { FUN_0098a0e0(); if (fla
 namespace f3m_0098c150 {
 namespace f3m_0098c150 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O0098c150 { char pad[4]; unsigned short w; void FUN_0098bbd0(); O0098c150* FUN_0098c150(unsigned int flags); };
+// pdb: hkpBroadPhaseBorder::`scalar deleting destructor' | hkpBroadPhaseBorder.obj | fnv360_0822_retail, vtable, high
 O0098c150* O0098c150::FUN_0098c150(unsigned int flags) { FUN_0098bbd0(); if (flags & 1) { f3m_0098c150::T* t = (f3m_0098c150::T*)f3m_0098c150::DAT_00d9b080(f3m_0098c150::DAT_010f3170); t->FUN_008f6d90(this, w, 0xd); } return this; }
 }   // namespace f3m_0098c150
 
@@ -3956,6 +3989,7 @@ O0098c150* O0098c150::FUN_0098c150(unsigned int flags) { FUN_0098bbd0(); if (fla
 namespace f3m_00990520 {
 namespace f3m_00990520 { extern unsigned long DAT_010f3170; extern void* (__stdcall* DAT_00d9b080)(unsigned long); struct T { void FUN_008f6d90(void* p, unsigned int a, unsigned int b); }; }
 struct O00990520 { char pad[4]; unsigned short w; void FUN_0098d990(); O00990520* FUN_00990520(unsigned int flags); };
+// pdb: hkpContinuousSimulation::`scalar deleting destructor' | hkpContinuousSimulation.obj | fnv360_0822_retail, vtable_prefix, high
 O00990520* O00990520::FUN_00990520(unsigned int flags) { FUN_0098d990(); if (flags & 1) { f3m_00990520::T* t = (f3m_00990520::T*)f3m_00990520::DAT_00d9b080(f3m_00990520::DAT_010f3170); t->FUN_008f6d90(this, w, 0x15); } return this; }
 }   // namespace f3m_00990520
 
@@ -3970,7 +4004,12 @@ struct Item {
     virtual void v0();
     virtual void Run(void* a, void* b);
 };
-struct Rec { const void* label; unsigned int ticks; unsigned int unk08; };
+struct Rec { const void* label; unsigned int ticks; unsigned int unk08; 
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int time; __asm { rdtsc
+        mov time, eax } ticks = time; }
+};
 struct Buf { int unk00; Rec* cur; int unk08; Rec* end; };
 extern Buf* (__stdcall* const DAT_00d9b080)(unsigned long);
 struct Arr { Item** data; int count; };
@@ -3982,7 +4021,8 @@ static __declspec(noinline) void FUN_00988440(Arr* arr) {
 }
 struct Container { unsigned int unk000; unsigned int unk004; unsigned int unk008; unsigned int unk00c; unsigned int unk010; unsigned int unk014; unsigned int unk018; unsigned int unk01c; unsigned int unk020; unsigned int unk024; unsigned int unk028; unsigned int unk02c; unsigned int unk030; unsigned int unk034; unsigned int unk038; unsigned int unk03c; unsigned int unk040; unsigned int unk044; unsigned int unk048; unsigned int unk04c; unsigned int unk050; unsigned int unk054; unsigned int unk058; unsigned int unk05c; unsigned int unk060; unsigned int unk064; unsigned int unk068; unsigned int unk06c; unsigned int unk070; unsigned int unk074; unsigned int unk078; unsigned int unk07c; unsigned int unk080; unsigned int unk084; unsigned int unk088; unsigned int unk08c; unsigned int unk090; unsigned int unk094; unsigned int unk098; unsigned int unk09c; unsigned int unk0a0; unsigned int unk0a4; unsigned int unk0a8; unsigned int unk0ac; unsigned int unk0b0; unsigned int unk0b4; unsigned int unk0b8; unsigned int unk0bc; unsigned int unk0c0; unsigned int unk0c4; unsigned int unk0c8; unsigned int unk0cc; unsigned int unk0d0; unsigned int unk0d4; unsigned int unk0d8; unsigned int unk0dc; unsigned int unk0e0; unsigned int unk0e4; unsigned int unk0e8; unsigned int unk0ec; unsigned int unk0f0; unsigned int unk0f4; unsigned int unk0f8; unsigned int unk0fc; unsigned int unk100; unsigned int unk104; unsigned int unk108; unsigned int unk10c; unsigned int unk110; unsigned int unk114; unsigned int unk118; unsigned int unk11c; unsigned int unk120; unsigned int unk124; unsigned int unk128; unsigned int unk12c; unsigned int unk130; unsigned int unk134; unsigned int unk138; unsigned int unk13c; unsigned int unk140; unsigned int unk144; unsigned int unk148; unsigned int unk14c; unsigned int unk150; unsigned int unk154; unsigned int unk158; unsigned int unk15c; unsigned int unk160; unsigned int unk164; unsigned int unk168; unsigned int unk16c; unsigned int unk170; unsigned int unk174; unsigned int unk178; unsigned int unk17c; Arr arr; };
 }
-void __cdecl FUN_00989600(n989600::Container* self, void* a, void* b)
+// pdb: hkpWorldCallbackUtil::fireContactImpulseLimitBreached | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_fireContactImpulseLimitBreached(n989600::Container* self, void* a, void* b)
 {
     n989600::Arr* arr = &self->arr;
     int i = arr->count - 1;
@@ -3995,12 +4035,7 @@ void __cdecl FUN_00989600(n989600::Container* self, void* a, void* b)
                 if (r < buf->end) {
                     r->label = DAT_00e7d96c;
                     _ReadWriteBarrier();
-                    unsigned int t;
-                    __asm {
-                        rdtsc
-                        mov dword ptr[t], eax
-                    }
-                    r->ticks = t;
+                    r->setTime();
                     buf->cur = r + 1;
                 }
                 arr->data[i]->Run(a, b);
@@ -4009,12 +4044,7 @@ void __cdecl FUN_00989600(n989600::Container* self, void* a, void* b)
                 if (r < buf->end) {
                     r->label = DAT_00e32798;
                     _ReadWriteBarrier();
-                    unsigned int t2;
-                    __asm {
-                        rdtsc
-                        mov dword ptr[t2], eax
-                    }
-                    r->ticks = t2;
+                    r->setTime();
                     buf->cur = r + 1;
                 }
             }
@@ -4098,7 +4128,8 @@ static __declspec(noinline) void FUN_00988440(ListenerArray* pArr)
 
 // Invokes v03 on each non-null listener in pOwner->m_kListeners with pOwner, logging start and end ticks, then compacts the array.
 // @fnv 0x00d85ef0
-void __cdecl FUN_009893f0(ListenerOwner* pOwner, void* arg)
+// pdb: hkpWorldCallbackUtil::firePostCollideCallback | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_gap), high
+void __cdecl hkpWorldCallbackUtil_firePostCollideCallback(ListenerOwner* pOwner, void* arg)
 {
     volatile DWORD ticks[2];
     ListenerArray* pArr = &pOwner->m_kListeners;
@@ -4300,10 +4331,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_00989550(World833* world, ContactPointEvent* first, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireIslandPostCollideCallback | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap + bridge(ustr_rel|call_dedup) + skyrim(ustr_rel), high
+void __cdecl hkpWorldCallbackUtil_fireIslandPostCollideCallback(World833* world, ContactPointEvent* first, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     int i = listeners.size - 1;
     for (; i >= 0; --i)
@@ -4338,6 +4370,8 @@ public:
     }
     static void operator delete(void* p);
 };
+// pdb: hk3AxisSweep16CreateBroadPhase | hkp3AxisSweep.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: worldMin, worldMax, numMarkers
 Obj_996fd0* __cdecl FUN_00996fd0(int a, int b, int c) {
     return new Obj_996fd0(a, b, c);
 }
@@ -4388,15 +4422,17 @@ struct CtxD4E0 {
     float FUN_009022e0();
 };
 
-void __cdecl FUN_009776f0(float time, void* sub);
+void __cdecl hkSweptTransformUtil_backStepMotionState(float time, void* sub);
 void __cdecl FUN_00901f10(ArrD4E0* arr, int elementSize);
 
+// pdb: hkLs_backstepAndFreezeEntireIsland | hkpContinuousSimulation.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: time, island, entityState, activeEntities
 void __cdecl FUN_0098d4e0(float time, SrcD4E0* src, unsigned char** flags, ArrD4E0* out)
 {
     for (int i = 0; i < src->count; i++) {
         ItemD4E0* item = src->items[i];
         SubD4E0* sub = &item->sub;
-        FUN_009776f0(time, sub);
+        hkSweptTransformUtil_backStepMotionState(time, sub);
         if ((*flags)[i] != 0x10) {
             if (out->count == (int)(out->capacity & 0x3fffffffu))
                 FUN_00901f10(out, 4);
@@ -4468,6 +4504,7 @@ struct Object985040 {
     unsigned int* FUN_00985040(unsigned char flag);
 };
 
+// pdb: hkpNullBroadPhaseListener::`scalar deleting destructor' | hkpTypedBroadPhaseDispatcher.obj | fnv360_0721_beta, vtable, medium
 unsigned int* Object985040::FUN_00985040(unsigned char flag)
 {
     unsigned int* target = this ? &this->unk08 : 0;
@@ -4501,6 +4538,8 @@ public:
     Obj99e700(int a, int b);
     virtual ~Obj99e700();
 };
+// pdb: hkpThinBoxMotion::hkpThinBoxMotion | hkpThinBoxMotion.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: position, rotation
 Obj99e700::Obj99e700(int a, int b) : Base99e700(a, b)
 {
     type = 8;
@@ -4532,6 +4571,8 @@ struct Node : Base, Interface {
     virtual void V1();
 };
 
+// pdb: hkpShapeCollection::hkpShapeCollection | hkpShapeCollection.obj | fnv360_0822_retail, call_seq, high
+// pdb params: type, subType
 Node::Node(int a) : Base(a) {
     unk14 = false;
 }
@@ -4554,6 +4595,7 @@ public:
 }
 struct FUN_0099ef50 : n99ef50::Base {
     static void* operator new(unsigned int n);
+    // pdb: hkpSimpleShapePhantom::`scalar deleting destructor' | hkpSimpleShapePhantom.obj | fnv360_0822_retail, vtable_prefix, high
     static void operator delete(void* p) {
         FUN_0099ef50* o = static_cast<FUN_0099ef50*>(p);
         n99ef50::Heap* h = n99ef50::FUN_00d9b080(DAT_010f3170);
@@ -4608,6 +4650,7 @@ struct hkpPhysicsSystem : hkReferencedObject {
  const char* name;unsigned int userData;bool active;
  hkpPhysicsSystem() throw();
 };
+// pdb: hkpPhysicsSystem::hkpPhysicsSystem | hkpPhysicsSystem.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: hkStringPtr::operator=)
 hkpPhysicsSystem::hkpPhysicsSystem() throw() { name=0;userData=0;active=true; }
 }
 }   // namespace f3m_0098a090
@@ -4641,6 +4684,8 @@ struct Arr {
     }
 };
 struct O { char pad[0x20]; Arr arr; void FUN_0098a040(Ref* r); };
+// pdb: hkpPhysicsSystem::addAction | hkpPhysicsSystem.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: enumerateAllConstraintsInIsland)
+// pdb params: a
 void O::FUN_0098a040(Ref* r) {
     if (r) {
         if (r->w4) ++r->w6;
@@ -4693,6 +4738,7 @@ unsigned u80;
 unsigned u84;
 unsigned u88;
 Array listeners;void FUN_00989860();};
+// pdb: hkpPhantom::firePhantomAdded | hkpPhantom.obj | tesv_win, call_gap, low
 void Owner::FUN_00989860(){for(int i=listeners.count-1;i>=0;--i){if(*listeners[i])(*listeners[i])->Removed(this);}FUN_00989760(&listeners);}
 }
 }   // namespace f3m_00989860
@@ -4712,6 +4758,8 @@ struct Arr {
     }
 };
 struct O { char pad[0x48]; Arr arr; void FUN_0098aea0(Child* c); };
+// pdb: hkpSimulationIsland::internalAddEntity | hkpSimulationIsland.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkpEntity::setCachedShapeData)
+// pdb params: entity
 void O::FUN_0098aea0(Child* c) {
     c->owner = this;
     c->idx = (unsigned short)arr.size;
@@ -4738,6 +4786,7 @@ struct Dst_99e160 {
     float fd0, fd4, fd8, fdc, fe0, fe4, fe8, fec;
 };
 struct O_99e160 { char pad[0x10]; Sub_99e160 sub; void FUN_0099e160(Dst_99e160* d); };
+// pdb: hkpFixedRigidMotion::getPositionAndVelocities | hkpFixedRigidMotion.obj | tesv_win, caller_sim, low
 void O_99e160::FUN_0099e160(Dst_99e160* d) {
     d->sub.FUN_008f8720(&sub);
     d->fdc = 0.0f; d->fd8 = 0.0f; d->fd4 = 0.0f; d->fd0 = 0.0f;
@@ -4749,8 +4798,9 @@ void O_99e160::FUN_0099e160(Dst_99e160* d) {
 extern const char DAT_00e7db0c[];extern const char DAT_00e7daf8[];extern int DAT_0116b504;
 namespace f3m_0098c550 {
 struct Tracker9855 { virtual void slot0(); virtual void slot1(); virtual void array(const char*,int,void*,int,int); virtual void value(const char*,int,int); };
-struct Owner9855 {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;void* data;int count;int capacity;int value;void FUN_00901e70(Tracker9855*,int*);void FUN_0098c550(Tracker9855*,int);};
-void Owner9855::FUN_0098c550(Tracker9855* t,int){if(!(capacity&0x80000000))t->array(DAT_00e7db0c,2,data,count*112,(capacity&0x3fffffff)*112);t->value(DAT_00e7daf8,2,value);FUN_00901e70(t,&DAT_0116b504);}
+struct Owner9855 {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;void* data;int count;int capacity;int value;void hkReferencedObject_calcContentStatistics(Tracker9855*,int*);void hkpContinuousSimulation_calcContentStatistics(Tracker9855*,int);};
+// pdb: hkpContinuousSimulation::calcContentStatistics | hkpContinuousSimulation.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable_prefix), high
+void Owner9855::hkpContinuousSimulation_calcContentStatistics(Tracker9855* t,int){if(!(capacity&0x80000000))t->array(DAT_00e7db0c,2,data,count*112,(capacity&0x3fffffff)*112);t->value(DAT_00e7daf8,2,value);hkReferencedObject_calcContentStatistics(t,&DAT_0116b504);}
 }   // namespace f3m_0098c550
 
 // @f3 0x00981a30 (community match, verified in this file)
@@ -4758,29 +4808,24 @@ extern unsigned long DAT_0116913c;
 extern const char DAT_00e7d300[],DAT_00e32798[];
 namespace f3m_00981a30 {
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-struct Event981 {const char* name;unsigned int ticks;int unk08;};
+struct Event981 {const char* name;unsigned int ticks;int unk08;
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int time; __asm { rdtsc
+        mov time, eax } ticks = time; }
+};
 struct Monitor981 {int unk00;Event981* current;int unk08;Event981* end;};
 struct Input981 {int type;};
 struct Owner981 {void FUN_009817a0(int);void FUN_00981a30(Input981*);};
 void Owner981::FUN_00981a30(Input981* input){
  Monitor981* mon=(Monitor981*)TlsGetValue(DAT_0116913c);
  if(mon->current<mon->end){Event981* event=mon->current;event->name=DAT_00e7d300;
- unsigned int ticks;
- __asm {
- rdtsc
- mov dword ptr[ticks], eax
- }
- event->ticks=ticks;mon->current=event+1;}
+ event->setTime();mon->current=event+1;}
  int type=input->type;
  if(type==0) FUN_009817a0(2);else if(type==1) FUN_009817a0(type);else FUN_009817a0(0);
  mon=(Monitor981*)TlsGetValue(DAT_0116913c);
  if(mon->current<mon->end){Event981* event=mon->current;event->name=DAT_00e32798;
- unsigned int ticks;
- __asm {
- rdtsc
- mov dword ptr[ticks], eax
- }
- event->ticks=ticks;mon->current=event+1;}
+ event->setTime();mon->current=event+1;}
 }
 }   // namespace f3m_00981a30
 
@@ -4790,6 +4835,8 @@ struct Element9fb { void FUN_009316e0(); };
 struct Array9fb { Element9fb** data; int size; unsigned capacity; };
 void __cdecl FUN_00901f10(Array9fb*,int);
 struct Owner9fb { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; Array9fb array; void FUN_00989fb0(Element9fb*); };
+// pdb: hkpPhysicsSystem::addPhantom | hkpPhysicsSystem.obj | fnv360_0822_retail, caller, medium, conflict (bridge: hkpPhysicsSystem::addRigidBody)
+// pdb params: p
 void Owner9fb::FUN_00989fb0(Element9fb* element) {
 if(element) {element->FUN_009316e0();
 Array9fb* a=&array;
@@ -4802,8 +4849,9 @@ a->data[a->size]=element; ++a->size;
 namespace f3m_00985230 {
 struct MatrixRefNode { virtual ~MatrixRefNode(); unsigned short memoryFlags; short refs; void AddRef(){if(memoryFlags)++refs;} void Release(){if(memoryFlags){--refs;if(refs==0)delete this;}} };
 struct MatrixRef { MatrixRefNode* p; void operator=(MatrixRefNode* n){n->AddRef();p->Release();p=n;} };
-struct RefMatrix { int unk00,unk04,unk08; MatrixRef nodes[8][8]; void FUN_00985230(MatrixRefNode*,int,int); };
-void RefMatrix::FUN_00985230(MatrixRefNode* node,int index,int group) { node->AddRef(); MatrixRef* slot = &nodes[group][index]; slot->p->Release();slot->p=node;node->AddRef();slot=&nodes[index][group];slot->p->Release();slot->p=node; }
+struct RefMatrix { int unk00,unk04,unk08; MatrixRef nodes[8][8]; void hkpCollisionDispatcher_registerContactMgrFactory(MatrixRefNode*,int,int); };
+// pdb: hkpCollisionDispatcher::registerContactMgrFactory | hkpCollisionDispatcher.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void RefMatrix::hkpCollisionDispatcher_registerContactMgrFactory(MatrixRefNode* node,int index,int group) { node->AddRef(); MatrixRef* slot = &nodes[group][index]; slot->p->Release();slot->p=node;node->AddRef();slot=&nodes[index][group];slot->p->Release();slot->p=node; }
 }   // namespace f3m_00985230
 
 // @f3 0x0098c100 (community match, verified in this file)
@@ -4813,6 +4861,8 @@ struct Shape { int unk00; int unk04; int unk08; int unk0c; signed char offset; u
 struct Argument { int unk00; Shape* shape; };
 struct Handler { void FUN_0098c100(Argument*); };
 struct Owner { void** table; int unk04,unk08; Handler handler; };
+// pdb: hkpBroadPhaseBorder::operator delete | hkpBroadPhaseBorder.obj | fnv360_0822_debug, objrun_sim, low, conflict (skyrim: hkpBroadPhaseBorder::collidableAddedCallback)
+// pdb params: p
 void Handler::FUN_0098c100(Argument* arg) {
  Shape* shape=arg->shape;
  if(shape->type==1) {
@@ -4845,6 +4895,8 @@ struct Lock { int unk00,unk04,unk08,unk0c,unk10,unk14; int unk18,unk1c; unsigned
 };
 struct Array { void* data; int count,capacity; __forceinline Array():data(0),count(0),capacity(0x80000000) {} };
 struct FUN_00983540 { Array first; int value; Array second; int unk1c; Lock lock; FUN_00983540(int); };
+// pdb: hkpWorldOperationQueue::hkpWorldOperationQueue | hkpWorldOperationQueue.obj | fnv360_0822_retail, call_gap, low
+// pdb params: world
 FUN_00983540::FUN_00983540(int v) { value=v; }
 }
 
@@ -4944,27 +4996,23 @@ extern const char DAT_00e7d8f8[],DAT_00e32798[];
 namespace f3m_00988dc0 {
 namespace visit988 {
 extern unsigned long DAT_0116913c;extern void* (__stdcall *DAT_00d9b080)(unsigned long);
-struct Event {const char* tag;unsigned ticks;int unk08;};struct Monitor {int unk00;Event* current;int unk08;Event* end;};
+struct Event {const char* tag;unsigned ticks;int unk08;
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int time; __asm { rdtsc
+        mov time, eax } ticks = time; }
+};struct Monitor {int unk00;Event* current;int unk08;Event* end;};
 struct Out {int unk00,unk04,unk08;};struct Elem {virtual void V0();virtual void V4();virtual void V8();virtual void Visit(Out*);};
 struct List {Elem** data;int size,capacity;};
 static __declspec(noinline) void FUN_00988440(List* list){for(int i=list->size-1;i>=0;--i){if(!list->data[i]){--list->size;for(int j=i;j<list->size;++j)list->data[j]=list->data[j+1];}}}
 struct Owner {int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; List list;};
-void FUN_00988dc0(Owner* owner,Out* out){List* list=&owner->list;out->unk08=0;int i=list->size-1;if(i>=0){void* (__stdcall *tls)(unsigned long)=DAT_00d9b080;do{if(list->data[i]){
+// pdb: hkpWorldCallbackUtil::fireContactProcess | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void hkpWorldCallbackUtil_fireContactProcess(Owner* owner,Out* out){List* list=&owner->list;out->unk08=0;int i=list->size-1;if(i>=0){void* (__stdcall *tls)(unsigned long)=DAT_00d9b080;do{if(list->data[i]){
  Monitor* m=(Monitor*)tls(DAT_0116913c);
- if(m->current<m->end){Event* event=m->current;event->tag=DAT_00e7d8f8;unsigned ticks;
- __asm {
- rdtsc
- mov dword ptr[ticks], eax
- }
- event->ticks=ticks;m->current=event+1;}
+ if(m->current<m->end){Event* event=m->current;event->tag=DAT_00e7d8f8;event->setTime();m->current=event+1;}
  list->data[i]->Visit(out);
  m=(Monitor*)tls(DAT_0116913c);
- if(m->current<m->end){Event* event=m->current;event->tag=DAT_00e32798;unsigned ticks;
- __asm {
- rdtsc
- mov dword ptr[ticks], eax
- }
- event->ticks=ticks;m->current=event+1;}
+ if(m->current<m->end){Event* event=m->current;event->tag=DAT_00e32798;event->setTime();m->current=event+1;}
  }}while(--i>=0);}FUN_00988440(list);}
 }
 }   // namespace f3m_00988dc0
@@ -4978,6 +5026,7 @@ void Owner::FUN_0098c180(Factory* f) { f->ops->begin(f,&DAT_00e7dad0,2,this); op
 // @f3 0x00985aa0 (community match, verified in this file)
 namespace f3m_00985aa0 {
 namespace BufferCleanup985 {extern unsigned long DAT_010f3170;extern void* (__stdcall* DAT_00d9b080)(unsigned long);struct Allocator{void FUN_008f6f90(void*);};struct BufferOwner {int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C; int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; int unk0050; int unk0054; int unk0058; int unk005C; int unk0060; int unk0064; int unk0068; int unk006C; int unk0070; int unk0074; int unk0078; int unk007C; int unk0080; int unk0084; int unk0088; int unk008C; int unk0090; int unk0094; int unk0098; int unk009C; int unk00A0; int unk00A4; int unk00A8; int unk00AC; int unk00B0; int unk00B4; int unk00B8; int unk00BC; int unk00C0; int unk00C4; int unk00C8; int unk00CC; int unk00D0; int unk00D4; int unk00D8; int unk00DC; int unk00E0; int unk00E4; int unk00E8; int unk00EC; int unk00F0; int unk00F4; int unk00F8; int unk00FC; int unk0100; int unk0104; int unk0108; int unk010C; int unk0110; int unk0114; int unk0118; int unk011C; int unk0120; int unk0124; int unk0128; int unk012C; int unk0130; int unk0134; int unk0138; int unk013C; int unk0140; int unk0144; int unk0148; int unk014C; int unk0150; int unk0154; int unk0158; int unk015C; int unk0160; int unk0164; int unk0168; int unk016C; int unk0170; int unk0174; int unk0178; int unk017C; int unk0180; int unk0184; int unk0188; int unk018C; int unk0190; int unk0194; int unk0198; int unk019C; int unk01A0; int unk01A4; int unk01A8; int unk01AC; int unk01B0; int unk01B4; int unk01B8; int unk01BC; int unk01C0; int unk01C4; int unk01C8; int unk01CC; int unk01D0; int unk01D4; int unk01D8; int unk01DC; int unk01E0; int unk01E4; int unk01E8; int unk01EC; int unk01F0; int unk01F4; int unk01F8; int unk01FC; int unk0200; int unk0204; int unk0208; int unk020C; int unk0210; int unk0214; int unk0218; int unk021C; int unk0220; int unk0224; int unk0228; int unk022C; int unk0230; int unk0234; int unk0238; int unk023C; int unk0240; int unk0244; int unk0248; int unk024C; int unk0250; int unk0254; int unk0258; int unk025C; int unk0260; int unk0264; int unk0268; int unk026C; int unk0270; int unk0274; int unk0278; int unk027C; int unk0280; int unk0284; int unk0288; int unk028C; int unk0290; int unk0294; int unk0298; int unk029C; int unk02A0; int unk02A4; int unk02A8; int unk02AC; int unk02B0; int unk02B4; int unk02B8; int unk02BC; int unk02C0; int unk02C4; int unk02C8; int unk02CC; int unk02D0; int unk02D4; int unk02D8; int unk02DC; int unk02E0; int unk02E4; int unk02E8; int unk02EC; int unk02F0; int unk02F4; int unk02F8; int unk02FC; int unk0300; int unk0304; int unk0308; int unk030C; int unk0310; int unk0314; int unk0318; int unk031C; int unk0320; int unk0324; int unk0328; int unk032C; int unk0330; int unk0334; int unk0338; int unk033C; int unk0340; int unk0344; int unk0348; int unk034C; int unk0350; int unk0354; int unk0358; int unk035C; int unk0360; int unk0364; int unk0368; int unk036C; int unk0370; int unk0374; int unk0378; int unk037C; int unk0380; int unk0384; int unk0388; int unk038C; int unk0390; int unk0394; int unk0398; int unk039C; int unk03A0; int unk03A4; int unk03A8; int unk03AC; int unk03B0; int unk03B4; int unk03B8; int unk03BC; int unk03C0; int unk03C4; int unk03C8; int unk03CC; int unk03D0; int unk03D4; int unk03D8; int unk03DC; int unk03E0; int unk03E4; int unk03E8; int unk03EC; int unk03F0; int unk03F4; int unk03F8; int unk03FC; int unk0400; int unk0404; int unk0408; int unk040C; int unk0410; int unk0414; int unk0418; int unk041C; int unk0420; int unk0424; int unk0428; int unk042C; int unk0430; int unk0434; int unk0438; int unk043C; int unk0440; int unk0444; int unk0448; int unk044C; int unk0450; int unk0454; int unk0458; int unk045C; int unk0460; int unk0464; int unk0468; int unk046C; int unk0470; int unk0474; int unk0478; int unk047C; int unk0480; int unk0484; int unk0488; int unk048C; int unk0490; int unk0494; int unk0498; int unk049C; int unk04A0; int unk04A4; int unk04A8; int unk04AC; int unk04B0; int unk04B4; int unk04B8; int unk04BC; int unk04C0; int unk04C4; int unk04C8; int unk04CC; int unk04D0; int unk04D4; int unk04D8; int unk04DC; int unk04E0; int unk04E4; int unk04E8; int unk04EC; int unk04F0; int unk04F4; int unk04F8; int unk04FC; int unk0500; int unk0504; int unk0508; int unk050C; int unk0510; int unk0514; int unk0518; int unk051C; int unk0520; int unk0524; int unk0528; int unk052C; int unk0530; int unk0534; int unk0538; int unk053C; int unk0540; int unk0544; int unk0548; int unk054C; int unk0550; int unk0554; int unk0558; int unk055C; int unk0560; int unk0564; int unk0568; int unk056C; int unk0570; int unk0574; int unk0578; int unk057C; int unk0580; int unk0584; int unk0588; int unk058C; int unk0590; int unk0594; int unk0598; int unk059C; int unk05A0; int unk05A4; int unk05A8; int unk05AC; int unk05B0; int unk05B4; int unk05B8; int unk05BC; int unk05C0; int unk05C4; int unk05C8; int unk05CC; int unk05D0; int unk05D4; int unk05D8; int unk05DC; int unk05E0; int unk05E4; int unk05E8; int unk05EC; int unk05F0; int unk05F4; int unk05F8; int unk05FC; int unk0600; int unk0604; int unk0608; int unk060C; int unk0610; int unk0614; int unk0618; int unk061C; int unk0620; int unk0624; int unk0628; int unk062C; int unk0630; int unk0634; int unk0638; int unk063C; int unk0640; int unk0644; int unk0648; int unk064C; int unk0650; int unk0654; int unk0658; int unk065C; int unk0660; int unk0664; int unk0668; int unk066C; int unk0670; int unk0674; int unk0678; int unk067C; int unk0680; int unk0684; int unk0688; int unk068C; int unk0690; int unk0694; int unk0698; int unk069C; int unk06A0; int unk06A4; int unk06A8; int unk06AC; int unk06B0; int unk06B4; int unk06B8; int unk06BC; int unk06C0; int unk06C4; int unk06C8; int unk06CC; int unk06D0; int unk06D4; int unk06D8; int unk06DC; int unk06E0; int unk06E4; int unk06E8; int unk06EC; int unk06F0; int unk06F4; int unk06F8; int unk06FC; int unk0700; int unk0704; int unk0708; int unk070C; int unk0710; int unk0714; int unk0718; int unk071C; int unk0720; int unk0724; int unk0728; int unk072C; int unk0730; int unk0734; int unk0738; int unk073C; int unk0740; int unk0744; int unk0748; int unk074C; int unk0750; int unk0754; int unk0758; int unk075C; int unk0760; int unk0764; int unk0768; int unk076C; int unk0770; int unk0774; int unk0778; int unk077C; int unk0780; int unk0784; int unk0788; int unk078C; int unk0790; int unk0794; int unk0798; int unk079C; int unk07A0; int unk07A4; int unk07A8; int unk07AC; int unk07B0; int unk07B4; int unk07B8; int unk07BC; int unk07C0; int unk07C4; int unk07C8; int unk07CC; int unk07D0; int unk07D4; int unk07D8; int unk07DC; int unk07E0; int unk07E4; int unk07E8; int unk07EC; int unk07F0; int unk07F4; int unk07F8; int unk07FC; int unk0800; int unk0804; int unk0808; int unk080C; int unk0810; int unk0814; int unk0818; int unk081C; int unk0820; int unk0824; int unk0828; int unk082C; int unk0830; int unk0834; int unk0838; int unk083C; int unk0840; int unk0844; int unk0848; int unk084C; int unk0850; int unk0854; int unk0858; int unk085C; int unk0860; int unk0864; int unk0868; int unk086C; int unk0870; int unk0874; int unk0878; int unk087C; int unk0880; int unk0884; int unk0888; int unk088C; int unk0890; int unk0894; int unk0898; int unk089C; int unk08A0; int unk08A4; int unk08A8; int unk08AC; int unk08B0; int unk08B4; int unk08B8; int unk08BC; int unk08C0; int unk08C4; int unk08C8; int unk08CC; int unk08D0; int unk08D4; int unk08D8; int unk08DC; int unk08E0; int unk08E4; int unk08E8; int unk08EC; int unk08F0; int unk08F4; int unk08F8; int unk08FC; int unk0900; int unk0904; int unk0908; int unk090C; int unk0910; int unk0914; int unk0918; int unk091C; int unk0920; int unk0924; int unk0928; int unk092C; int unk0930; int unk0934; int unk0938; int unk093C; int unk0940; int unk0944; int unk0948; int unk094C; int unk0950; int unk0954; int unk0958; int unk095C; int unk0960; int unk0964; int unk0968; int unk096C; int unk0970; int unk0974; int unk0978; int unk097C; int unk0980; int unk0984; int unk0988; int unk098C; int unk0990; int unk0994; int unk0998; int unk099C; int unk09A0; int unk09A4; int unk09A8; int unk09AC; int unk09B0; int unk09B4; int unk09B8; int unk09BC; int unk09C0; int unk09C4; int unk09C8; int unk09CC; int unk09D0; int unk09D4; int unk09D8; int unk09DC; int unk09E0; int unk09E4; int unk09E8; int unk09EC; int unk09F0; int unk09F4; int unk09F8; int unk09FC; int unk0A00; int unk0A04; int unk0A08; int unk0A0C; int unk0A10; int unk0A14; int unk0A18; int unk0A1C; int unk0A20; int unk0A24; int unk0A28; int unk0A2C; int unk0A30; int unk0A34; int unk0A38; int unk0A3C; int unk0A40; int unk0A44; int unk0A48; int unk0A4C; int unk0A50; int unk0A54; int unk0A58; int unk0A5C; int unk0A60; int unk0A64; int unk0A68; int unk0A6C; int unk0A70; int unk0A74; int unk0A78; int unk0A7C; int unk0A80; int unk0A84; int unk0A88; int unk0A8C; int unk0A90; int unk0A94; int unk0A98; int unk0A9C; int unk0AA0; int unk0AA4; int unk0AA8; int unk0AAC; int unk0AB0; int unk0AB4; int unk0AB8; int unk0ABC; int unk0AC0; int unk0AC4; int unk0AC8; int unk0ACC; int unk0AD0; int unk0AD4; int unk0AD8; int unk0ADC; int unk0AE0; int unk0AE4; int unk0AE8; int unk0AEC; int unk0AF0; int unk0AF4; int unk0AF8; int unk0AFC; int unk0B00; int unk0B04; int unk0B08; int unk0B0C; int unk0B10; int unk0B14; int unk0B18; int unk0B1C; int unk0B20; int unk0B24; int unk0B28; int unk0B2C; int unk0B30; int unk0B34; int unk0B38; int unk0B3C; int unk0B40; int unk0B44; int unk0B48; int unk0B4C; int unk0B50; int unk0B54; int unk0B58; int unk0B5C; int unk0B60; int unk0B64; int unk0B68; int unk0B6C; int unk0B70; int unk0B74; int unk0B78; int unk0B7C; int unk0B80; int unk0B84; int unk0B88; int unk0B8C; int unk0B90; int unk0B94; int unk0B98; int unk0B9C; int unk0BA0; int unk0BA4; int unk0BA8; int unk0BAC; int unk0BB0; int unk0BB4; int unk0BB8; int unk0BBC; int unk0BC0; int unk0BC4; int unk0BC8; int unk0BCC; int unk0BD0; int unk0BD4; int unk0BD8; int unk0BDC; int unk0BE0; int unk0BE4; int unk0BE8; int unk0BEC; int unk0BF0; int unk0BF4; int unk0BF8; int unk0BFC; int unk0C00; int unk0C04; int unk0C08; int unk0C0C; int unk0C10; int unk0C14; int unk0C18; int unk0C1C; int unk0C20; int unk0C24; int unk0C28; int unk0C2C; int unk0C30; int unk0C34; int unk0C38; int unk0C3C; int unk0C40; int unk0C44; int unk0C48; int unk0C4C; int unk0C50; int unk0C54; int unk0C58; int unk0C5C; int unk0C60; int unk0C64; int unk0C68; int unk0C6C; int unk0C70; int unk0C74; int unk0C78; int unk0C7C; int unk0C80; int unk0C84; int unk0C88; int unk0C8C; int unk0C90; int unk0C94; int unk0C98; int unk0C9C; int unk0CA0; int unk0CA4; int unk0CA8; int unk0CAC; int unk0CB0; int unk0CB4; int unk0CB8; int unk0CBC; int unk0CC0; int unk0CC4; int unk0CC8; int unk0CCC; int unk0CD0; int unk0CD4; int unk0CD8; int unk0CDC; int unk0CE0; int unk0CE4; int unk0CE8; int unk0CEC; int unk0CF0; int unk0CF4; int unk0CF8; int unk0CFC; int unk0D00; int unk0D04; int unk0D08; int unk0D0C; int unk0D10; int unk0D14; int unk0D18; int unk0D1C; int unk0D20; int unk0D24; int unk0D28; int unk0D2C; int unk0D30; int unk0D34; int unk0D38; int unk0D3C; int unk0D40; int unk0D44; int unk0D48; int unk0D4C; int unk0D50; int unk0D54; int unk0D58; int unk0D5C; int unk0D60; int unk0D64; int unk0D68; int unk0D6C; int unk0D70; int unk0D74; int unk0D78; int unk0D7C; int unk0D80; int unk0D84; int unk0D88; int unk0D8C; int unk0D90; int unk0D94; int unk0D98; int unk0D9C; int unk0DA0; int unk0DA4; int unk0DA8; int unk0DAC; int unk0DB0; int unk0DB4; int unk0DB8; int unk0DBC; int unk0DC0; int unk0DC4; int unk0DC8; int unk0DCC; int unk0DD0; int unk0DD4; int unk0DD8; int unk0DDC; int unk0DE0; int unk0DE4; int unk0DE8; int unk0DEC; int unk0DF0; int unk0DF4; int unk0DF8; int unk0DFC; int unk0E00; int unk0E04; int unk0E08; int unk0E0C; int unk0E10; int unk0E14; int unk0E18; int unk0E1C; int unk0E20; int unk0E24; int unk0E28; int unk0E2C; int unk0E30; int unk0E34; int unk0E38; int unk0E3C; int unk0E40; int unk0E44; int unk0E48; int unk0E4C; int unk0E50; int unk0E54; int unk0E58; int unk0E5C; int unk0E60; int unk0E64; int unk0E68; int unk0E6C; int unk0E70; int unk0E74; int unk0E78; int unk0E7C; int unk0E80; int unk0E84; int unk0E88; int unk0E8C; int unk0E90; int unk0E94; int unk0E98; int unk0E9C; int unk0EA0; int unk0EA4; int unk0EA8; int unk0EAC; int unk0EB0; int unk0EB4; int unk0EB8; int unk0EBC; int unk0EC0; int unk0EC4; int unk0EC8; int unk0ECC; int unk0ED0; int unk0ED4; int unk0ED8; int unk0EDC; int unk0EE0; int unk0EE4; int unk0EE8; int unk0EEC; int unk0EF0; int unk0EF4; int unk0EF8; int unk0EFC; int unk0F00; int unk0F04; int unk0F08; int unk0F0C; int unk0F10; int unk0F14; int unk0F18; int unk0F1C; int unk0F20; int unk0F24; int unk0F28; int unk0F2C; int unk0F30; int unk0F34; int unk0F38; int unk0F3C; int unk0F40; int unk0F44; int unk0F48; int unk0F4C; int unk0F50; int unk0F54; int unk0F58; int unk0F5C; int unk0F60; int unk0F64; int unk0F68; int unk0F6C; int unk0F70; int unk0F74; int unk0F78; int unk0F7C; int unk0F80; int unk0F84; int unk0F88; int unk0F8C; int unk0F90; int unk0F94; int unk0F98; int unk0F9C; int unk0FA0; int unk0FA4; int unk0FA8; int unk0FAC; int unk0FB0; int unk0FB4; int unk0FB8; int unk0FBC; int unk0FC0; int unk0FC4; int unk0FC8; int unk0FCC; int unk0FD0; int unk0FD4; int unk0FD8; int unk0FDC; int unk0FE0; int unk0FE4; int unk0FE8; int unk0FEC; int unk0FF0; int unk0FF4; int unk0FF8; int unk0FFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; void* first;void* second;void* third;void* fourth;void FUN_00985aa0();};
+// pdb: hkpCollisionDispatcher::disableDebugging | hkpCollisionDispatcher.obj | fnv360_0822_retail, callee_sim, low
 void BufferOwner::FUN_00985aa0(){Allocator* allocator;void* buffer=first;if(buffer){void* (__stdcall* get)(unsigned long)=DAT_00d9b080;allocator=(Allocator*)get(DAT_010f3170);allocator->FUN_008f6f90(buffer);buffer=second;allocator=(Allocator*)get(DAT_010f3170);allocator->FUN_008f6f90(buffer);buffer=third;allocator=(Allocator*)get(DAT_010f3170);allocator->FUN_008f6f90(buffer);buffer=fourth;allocator=(Allocator*)get(DAT_010f3170);allocator->FUN_008f6f90(buffer);first=0;second=0;third=0;fourth=0;}}
 }
 }   // namespace f3m_00985aa0
@@ -4985,8 +5034,9 @@ void BufferOwner::FUN_00985aa0(){Allocator* allocator;void* buffer=first;if(buff
 // @f3 0x0099e940 (community match, verified in this file)
 extern const char DAT_00e7ddc4[],DAT_00e7ddb8[]; struct Writer99e; struct Owner99e;
 struct Table99e {void* unk00;void (__thiscall* begin)(Writer99e*,const char*,int,Owner99e*);void (__thiscall* data)(Writer99e*,const char*,int,void*,int,int);void* unk0c;void* unk10;void* unk14;void (__thiscall* end)(Writer99e*);};struct Writer99e{Table99e* table;};
-struct Owner99e { int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; void* data; int count; int capacity;void FUN_00989a20(Writer99e*);void FUN_0099e940(Writer99e*);};
-void Owner99e::FUN_0099e940(Writer99e* writer){writer->table->begin(writer,DAT_00e7ddc4,2,this);FUN_00989a20(writer);if(!(capacity & 0x80000000u)){int cap=capacity&0x3fffffff;cap+=cap;cap+=cap;int size=count;size+=size;size+=size;writer->table->data(writer,DAT_00e7ddb8,8,data,size,cap);}writer->table->end(writer);}
+struct Owner99e { int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; void* data; int count; int capacity;void hkpPhantom_calcContentStatistics(Writer99e*);void hkpSimpleShapePhantom_calcContentStatistics(Writer99e*);};
+// pdb: hkpSimpleShapePhantom::calcContentStatistics | hkpSimpleShapePhantom.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void Owner99e::hkpSimpleShapePhantom_calcContentStatistics(Writer99e* writer){writer->table->begin(writer,DAT_00e7ddc4,2,this);hkpPhantom_calcContentStatistics(writer);if(!(capacity & 0x80000000u)){int cap=capacity&0x3fffffff;cap+=cap;cap+=cap;int size=count;size+=size;size+=size;writer->table->data(writer,DAT_00e7ddb8,8,data,size,cap);}writer->table->end(writer);}
 
 // @f3 0x0099d300 (community match, verified in this file)
 extern int DAT_00e3599c;extern int DAT_00dcc494;
@@ -4994,13 +5044,15 @@ namespace f3m_0099d300 {
 struct Refd300;struct Tabled300 {void (__thiscall* destroy)(Refd300*,int);};
 struct Refd300 {Tabled300* table;unsigned short managed;short refs;void Release(){if(managed){unsigned short count=--refs;if(!count)table->destroy(this,1);}}};
 struct Ownerd300 {void* table;int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; Refd300* object;void FUN_0099d300();};
+// pdb: hkpKeyframedRigidMotion::~hkpKeyframedRigidMotion | hkpKeyframedRigidMotion.obj | fnv360_0822_retail, call_seq, high
 void Ownerd300::FUN_0099d300(){table=&DAT_00e3599c;if(object)object->Release();table=&DAT_00dcc494;}
 }   // namespace f3m_0099d300
 
 // @f3 0x00987940 (community match, verified in this file)
 namespace f3m_00987940 {
-namespace Q9879 {struct Memory {void* FUN_008f6d30(int,int);}; __declspec(dllimport) Memory* __stdcall FUN_00d9b080(int);extern int DAT_010f3170;struct Input {int unk00;int unk04;int unk08;int unk0c;signed char offset;};struct Block {int unk00;unsigned short size;unsigned short unk06;void* FUN_00987840(void*,void*,void*);};struct Owner {int unk00;int unk04;void* context;void* FUN_00987940(Input*,Input*,int);};
-void* Owner::FUN_00987940(Input* a,Input* b,int unused){void* first=(char*)a+a->offset;void* second=(char*)b+b->offset;Memory* memory=FUN_00d9b080(DAT_010f3170);Block* block=(Block*)memory->FUN_008f6d30(128,0x22);block->size=128;return block->FUN_00987840(context,first,second);} }
+namespace Q9879 {struct Memory {void* FUN_008f6d30(int,int);}; __declspec(dllimport) Memory* __stdcall FUN_00d9b080(int);extern int DAT_010f3170;struct Input {int unk00;int unk04;int unk08;int unk0c;signed char offset;};struct Block {int unk00;unsigned short size;unsigned short unk06;void* FUN_00987840(void*,void*,void*);};struct Owner {int unk00;int unk04;void* context;void* hkpSimpleConstraintContactMgr_Factory_createContactMgr(Input*,Input*,int);};
+// pdb: hkpSimpleConstraintContactMgr::Factory::createContactMgr | hkpSimpleConstraintContactMgr.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void* Owner::hkpSimpleConstraintContactMgr_Factory_createContactMgr(Input* a,Input* b,int unused){void* first=(char*)a+a->offset;void* second=(char*)b+b->offset;Memory* memory=FUN_00d9b080(DAT_010f3170);Block* block=(Block*)memory->FUN_008f6d30(128,0x22);block->size=128;return block->FUN_00987840(context,first,second);} }
 }   // namespace f3m_00987940
 
 // @f3 0x009899e0 (community match, verified in this file)
@@ -5009,6 +5061,8 @@ namespace w9899e0 {
 struct Array; void FUN_00901f10(Array*,int);
 struct Array { int* data; int count; unsigned capacity; void Push(int value) { if(count==(capacity&0x3fffffff)) FUN_00901f10(this,4); data[count]=value; ++count; } };
 struct Owner { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; Array array; void FUN_009899e0(int); };
+// pdb: hkpPhantom::addPhantomOverlapListener | hkpPhantom.obj | fnv360_0721_beta, call_gap, low
+// pdb params: el
 void Owner::FUN_009899e0(int value) { array.Push(value); }
 }
 }   // namespace f3m_009899e0
@@ -5107,10 +5161,11 @@ __forceinline void TimerEvent(const char* name, volatile unsigned int& ticks)
         stream->end = command + 1;
     }
 }
-void __cdecl FUN_00988c60(World* world, PhantomEvent* event)
+// pdb: hkpWorldCallbackUtil::fireContactPointCallback | hkpWorldCallbackUtil.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap_sim|call_seq) + skyrim(call_gap_sim), high
+void __cdecl hkpWorldCallbackUtil_fireContactPointCallback(World* world, PhantomEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     ListenerArray& listeners = world->phantomListeners;
     event->unused08=0;
     int i = listeners.size - 1;
@@ -5129,6 +5184,8 @@ void __cdecl FUN_00988c60(World* world, PhantomEvent* event)
 // @f3 0x0099d980 (community match, verified in this file)
 namespace f3m_0099d980 {
 namespace Init99Batch {extern int DAT_00e35b64;struct Scale {float x,y,z,w;void Set(float n){x=n;y=n;z=n;w=n;}};struct Object {int* table;int unk04;unsigned char type,unk09,unk0A,unk0B;int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; Scale scale;void FUN_008f8530(int,int,int);Object* FUN_0099d980(int,int);};
+// pdb: hkpBoxMotion::hkpBoxMotion | hkpBoxMotion.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: position, rotation
 Object* Object::FUN_0099d980(int a,int b){FUN_008f8530(a,b,0);table=&DAT_00e35b64;scale.Set(1.0f);type=4;return this;}
 }
 }   // namespace f3m_0099d980
@@ -5295,10 +5352,11 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00988440.
 // @fnv 0x00d00060
-void __cdecl FUN_00988d10(World833* world, ContactPointEvent* event)
+// pdb: hkpWorldCallbackUtil::fireContactPointRemoved | hkpWorldCallbackUtil.obj | fnv360_0822_retail, caller_sim + bridge(caller_sim|call_seq) + skyrim(caller_sim), high
+void __cdecl hkpWorldCallbackUtil_fireContactPointRemoved(World833* world, ContactPointEvent* event)
 {
-    volatile unsigned beginTicks;
-    volatile unsigned endTicks;
+    unsigned beginTicks;
+    unsigned endTicks;
     Array833& listeners = world->contactPointListeners;
     event->unk10 = 0;
     int i = listeners.size - 1;
@@ -5322,6 +5380,7 @@ namespace pointer_swap_remove {
 struct Item {void FUN_009316f0();};
 struct Array {Item** data;int count,capacity;__forceinline void RemoveAt(int i){--count;data[i]=data[count];}};
 struct Owner {unsigned int unk00,unk04;Array array;void FUN_00989e90(int);};
+// pdb: hkStringPtr::operator= | hkStringPtr.obj | tesv_win, call_gap, low
 void Owner::FUN_00989e90(int index){array.data[index]->FUN_009316f0();array.RemoveAt(index);}
 }
 }   // namespace f3m_00989e90
@@ -5333,6 +5392,8 @@ struct ContactPoint {float position[4];float separatingNormal[4];};
 struct Atom {unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c;ContactPoint points[1];};
 struct Storage {unsigned int unk00,unk04,unk08;unsigned char* ids;int count;unsigned int unk14,unk18,unk1c,unk20,unk24;Atom* atom;};
 struct Owner {unsigned int unk00,unk04,unk08;ContactPoint* point;unsigned int unk10,unk14,unk18;unsigned int valid;Storage* storage;unsigned short FUN_00986ce0();};
+// pdb: hkpSimpleConstraintContactMgr::reserveContactPointsImpl | hkpSimpleConstraintContactMgr.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: numPoints
 unsigned short Owner::FUN_00986ce0(){if(!valid)return (unsigned short)-1;Storage* data=storage;int index=point-data->atom->points;int i=data->count-1;if(i>=0){unsigned char* ids=data->ids;do{if(ids[i]==index)break;--i;}while(i>=0);}return (unsigned short)i;}
 }
 }   // namespace f3m_00986ce0
@@ -5424,6 +5485,7 @@ struct Owner98d990 {
     void FUN_0098d990();
 };
 
+// pdb: hkpContinuousSimulation::~hkpContinuousSimulation | hkpContinuousSimulation.obj | fnv360_0822_retail, call_seq, medium
 void Owner98d990::FUN_0098d990()
 {
     table = &G98d990::DAT_00e7dc14;
@@ -5467,6 +5529,7 @@ struct Obj987c10
     void FUN_00987c10();
 };
 
+// pdb: hkpSimpleContactConstraintData::~hkpSimpleContactConstraintData | hkpSimpleConstraintContactMgr.obj | fnv360_0822_retail, call_seq, high
 void Obj987c10::FUN_00987c10()
 {
     vtbl = DAT_00e7d7c8;
@@ -5592,6 +5655,7 @@ struct Owner99e {
     SlabArray slabs;
     void FUN_0099e8f0(Block99e* block);
 };
+// pdb: hkpSimpleShapePhantom::addOverlappingCollidable | hkpSimpleShapePhantom.obj | tesv_win, objopen_prop, low
 void Owner99e::FUN_0099e8f0(Block99e* block)
 {
     if (block->unk00 == 0)
@@ -5640,7 +5704,8 @@ unsigned int unk7c;
 unsigned int unk80;
 unsigned int unk84;
 unsigned int unk88;
-void**data;int count;int Find(void*key){int size=count;int i=0;if(size>0){void**entry=data;do{if(*entry==key)return i;++i;++entry;}while(i<size);}return -1;}void FUN_009898e0(void*);};void Owner::FUN_009898e0(void*key){int index=Find(key);--*(volatile int*)&count;int i=index;if(i<*(volatile int*)&count){do{data[i]=data[i+1];++i;}while(i<count);}}}
+// pdb: hkpPhantom::removePhantomListener | hkpPhantom.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void**data;int count;int Find(void*key){int size=count;int i=0;if(size>0){void**entry=data;do{if(*entry==key)return i;++i;++entry;}while(i<size);}return -1;}void hkpPhantom_removePhantomListener(void*);};void Owner::hkpPhantom_removePhantomListener(void*key){int index=Find(key);--*(volatile int*)&count;int i=index;if(i<*(volatile int*)&count){do{data[i]=data[i+1];++i;}while(i<count);}}}
 
 
 
@@ -5696,6 +5761,7 @@ struct FUN_0098a0e0 : public hkReferencedObject {
     virtual ~FUN_0098a0e0() throw();
 };
 
+// pdb: hkpPhysicsSystem::~hkpPhysicsSystem | hkpPhysicsSystem.obj | fnv360_0822_retail, call_seq, high
 FUN_0098a0e0::~FUN_0098a0e0() throw() {
     int count1 = arr1.m_size;
     for (int i = 0; i < count1; ++i) {
@@ -5776,11 +5842,12 @@ struct FUN_009877d0_Contact
     int unk28;
     int unk2C; int unk30; int unk34; int unk38;
     E77D0Atom* unk3C;
-    void FUN_009877d0(E77D0Stream* stream);
+    void hkpSimpleConstraintContactMgr_calcContentStatistics(E77D0Stream* stream);
 };
 
 // Writes the contact: its atom block and, when present, the id block.
-void FUN_009877d0_Contact::FUN_009877d0(E77D0Stream* stream)
+// pdb: hkpSimpleConstraintContactMgr::calcContentStatistics | hkpSimpleConstraintContactMgr.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void FUN_009877d0_Contact::hkpSimpleConstraintContactMgr_calcContentStatistics(E77D0Stream* stream)
 {
     stream->Begin(0, 8, this);
     stream->Block("ContactAtom", 8, unk3C, unk3C->unk02, 0);
@@ -5825,6 +5892,7 @@ unsigned int unk70;
 unsigned int unk74;
 unsigned int unk78;
 unsigned int unk7c;
+// pdb: hkpPhantom::~hkpPhantom | hkpPhantom.obj | fnv360_0822_retail, call_seq, high
 Array first,second;void FUN_009897e0();void FUN_0090c0a0();void FUN_00989aa0();};void Owner::FUN_00989aa0(){vtable=&DAT_00e35e64;FUN_009897e0();second.Free();first.Free();FUN_0090c0a0();}}
 }   // namespace f3m_00989aa0
 
@@ -5834,6 +5902,7 @@ extern unsigned int DAT_010f3170;extern "C" void* (__stdcall* DAT_00d9b080)(unsi
 extern const void* const DAT_00dcc494[];
 struct Heap {void FUN_008f6d90(void*,int,int);};
 struct Header {const void* const* vtable;unsigned short memorySizeAndFlags;short refCount;Header* FUN_00986c10(unsigned int);};
+// pdb: hkpReportContactMgr::Factory::`scalar deleting destructor' | hkpReportContactMgr.obj | fnv360_0822_debug, objrun_open, low
 Header* Header::FUN_00986c10(unsigned int flags){bool release=(flags&1)!=0;vtable=DAT_00dcc494;if(release){Heap* heap=(Heap*)DAT_00d9b080(DAT_010f3170);heap->FUN_008f6d90(this,memorySizeAndFlags,34);}return this;}
 }
 
@@ -5849,10 +5918,11 @@ Header* Header::FUN_0098b560(unsigned int flags){bool release=(flags&1)!=0;vtabl
 // @f3 0x00981190 (community match, verified in this file)
 namespace f3m_00981190 {
 void __cdecl FUN_0097f1a0();
-void __cdecl InitArrayEntries(int**,int);
+void __cdecl hkpEntityAabbUtil_entityBatchInvalidateAabb(int**,int);
 struct CallbackContext {unsigned int unk00;unsigned int unk04;unsigned int unk08;unsigned int unk0c;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;unsigned int unk38;unsigned int unk3c;unsigned int unk40;unsigned int unk44;unsigned int unk48;unsigned int unk4c;unsigned int unk50;unsigned int unk54;unsigned int unk58;unsigned int unk5c;unsigned int unk60;unsigned int unk64;unsigned int unk68; int value6c;};
-struct FUN_00cfa400_Obj {void FUN_00cf9480(int,int,int,void(__cdecl*)(),int);void FUN_00981190(int**,int,CallbackContext*,bool);};
-void FUN_00cfa400_Obj::FUN_00981190(int** entries,int count,CallbackContext* context,bool skip){if(!skip)FUN_00cf9480((int)entries,count,context->value6c,FUN_0097f1a0,0);InitArrayEntries(entries,count);}
+struct FUN_00cfa400_Obj {void FUN_00cf9480(int,int,int,void(__cdecl*)(),int);void hkpSimulation_resetCollisionInformationForEntities(int**,int,CallbackContext*,bool);};
+// pdb: hkpSimulation::resetCollisionInformationForEntities | hkpSimulation.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void FUN_00cfa400_Obj::hkpSimulation_resetCollisionInformationForEntities(int** entries,int count,CallbackContext* context,bool skip){if(!skip)FUN_00cf9480((int)entries,count,context->value6c,FUN_0097f1a0,0);hkpEntityAabbUtil_entityBatchInvalidateAabb(entries,count);}
 }   // namespace f3m_00981190
 
 // @f3 0x00989f30 (community match, verified in this file)
@@ -5870,9 +5940,10 @@ struct hkReferencedObject : hkBaseObject {
 struct Owner {
     unsigned int unk00,unk04,unk08,unk0C,unk10,unk14,unk18,unk1C;
     hkReferencedObject** data; int count;
-    void FUN_00989f30(int);
+    void hkpPhysicsSystem_removeConstraint(int);
 };
-void Owner::FUN_00989f30(int index) {data[index]->RemoveReference(); --count; data[index]=data[count];}
+// pdb: hkpPhysicsSystem::removeConstraint | hkpPhysicsSystem.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void Owner::hkpPhysicsSystem_removeConstraint(int index) {data[index]->RemoveReference(); --count; data[index]=data[count];}
 }   // namespace f3m_00989f30
 
 // @f3 0x00989f70 (community match, verified in this file)
@@ -5882,6 +5953,8 @@ struct Array {RefObject** data;int count;unsigned int capacity;void Append(RefOb
 void __cdecl FUN_00901f10(Array*,int);
 inline void Array::Append(RefObject* value){if(count==(capacity&0x3FFFFFFF))FUN_00901f10(this,4);data[count]=value;++count;}
 struct Owner {unsigned int unk00,unk04;Array objects;void FUN_00989f70(RefObject*);};
+// pdb: hkpPhysicsSystem::addRigidBody | hkpPhysicsSystem.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: rb
 void Owner::FUN_00989f70(RefObject* value){if(value){value->FUN_009316e0();objects.Append(value);}}
 }   // namespace f3m_00989f70
 
@@ -5953,9 +6026,11 @@ struct Owner982c20 {
     void* FUN_009819f0();
     void FUN_00981e50(float);
     void FUN_00981a30(void**);
-    void FUN_009826e0();
+    void hkpMultiThreadedSimulation_finishMtStep();
     int FUN_00982c20(float);
 };
+// pdb: hkpWorld::finishMtStep | hkpWorld.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: jobQueue, threadPool
 int Owner982c20::FUN_00982c20(float x) {
     void* original=FUN_009819f0();
     void* p=original;
@@ -5965,7 +6040,7 @@ int Owner982c20::FUN_00982c20(float x) {
     }
     sub.FUN_009b4a40();
     FUN_00981a30(&p);
-    if (!original) FUN_009826e0();
+    if (!original) hkpMultiThreadedSimulation_finishMtStep();
     return 0;
 }
 }   // namespace f3m_00982c20
@@ -5982,6 +6057,7 @@ public:
     void FUN_0099f6a0(float* dest);
 };
 
+// pdb: diffCrossDiffDotNormal | hkpTriangleShape.obj | fnv360_0822_retail, objrun_open, low
 void FunClass::FUN_0099f6a0(float* dest) {
     SrcObj* src = reinterpret_cast<SrcObj*>(this);
 
@@ -6106,6 +6182,8 @@ struct Obj {
     void FUN_0099eed0();
 };
 
+// pdb: hkAlgorithm::quickSortRecursive<hkpSimpleShapePhantom::CollisionDetail,hkpSimpleShapePhantom::OrderByUid> | hkpSimpleShapePhantom.obj | fnv360_1110_retail, objrun, medium
+// pdb params: pArr, d, h, cmpLess
 void Obj::FUN_0099eed0()
 {
     if (m_count == 0) {
@@ -6164,7 +6242,7 @@ struct NodeC2b0
 struct OutC2b0
 {
     float x, y, z, w;
-    void FUN_008d2a00(const void* matrix, const void* vector);
+    void hkVector4_setRotatedDir(const void* matrix, const void* vector);
 };
 
 struct CtxC2b0
@@ -6200,7 +6278,7 @@ void FUN_0098c2b0(CtxC2b0* ctx, ArrC2b0* arr)
         }
         else
         {
-            ((OutC2b0*)&node->tx)->FUN_008d2a00(&node->m00, &item->vx);
+            ((OutC2b0*)&node->tx)->hkVector4_setRotatedDir(&node->m00, &item->vx);
         }
     }
 }
@@ -6305,6 +6383,7 @@ struct FUN_0098b190 : A270Base98b {
     A270Arr98b unk5C;
     ~FUN_0098b190() throw();
 };
+// pdb: hkpSimulationIsland::~hkpSimulationIsland | hkpSimulationIsland.obj | fnv360_0822_retail, call_seq, medium
 FUN_0098b190::~FUN_0098b190() throw() {
     vtable = &DAT_00e7da3c;
 }
@@ -6366,10 +6445,11 @@ struct FUN_00989940_Obj {
     int unk78;
     int unk7C;
     IntArray unk80;
-    void FUN_00989940(int value);
+    void hkpPhantom_removePhantomOverlapListener(int value);
 };
 
-void FUN_00989940_Obj::FUN_00989940(int value)
+// pdb: hkpPhantom::removePhantomOverlapListener | hkpPhantom.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void FUN_00989940_Obj::hkpPhantom_removePhantomOverlapListener(int value)
 {
     unk80.removeAtAndCopy(unk80.indexOf(value));
 }
@@ -6482,6 +6562,8 @@ struct Owner {
     void FUN_009855c0(int first, int second, int flag);
     void FUN_00985e20(int first, int second);
 };
+// pdb: hkpCollisionDispatcher::registerAlternateShapeType | hkpCollisionDispatcher.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: primaryType, alternateType
 void Owner::FUN_00985e20(int first, int second)
 {
     for (int i = 0; i < pairs.count; i++) {
@@ -6590,6 +6672,8 @@ struct FUN_0099d2a0 : FUN_008f8530 {
     FUN_0099d2a0(const Position&, const Rotation&);
 };
 
+// pdb: hkpKeyframedRigidMotion::hkpKeyframedRigidMotion | hkpKeyframedRigidMotion.obj | fnv360_0822_retail, call_gap, high
+// pdb params: position, rotation
 FUN_0099d2a0::FUN_0099d2a0(const Position& position, const Rotation& rotation)
     : FUN_008f8530(position, rotation, false)
 {
@@ -6709,7 +6793,8 @@ struct Self988 {
     Child988** children; int childCount;
 };
 
-void __cdecl FUN_00988f20(Owner988* o, Self988* sp)
+// pdb: hkpWorldCallbackUtil::fireIslandActivated | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_fireIslandActivated(Owner988* o, Self988* sp)
 {
     volatile unsigned int t[2];
     o->refs++;
@@ -6884,7 +6969,8 @@ struct World {
     void Unlock() { if (--lockCount == 0 && !blocked && pending != 0) FUN_00902550(); }
 };
 
-void __cdecl FUN_009890d0(World* game, Event* scene)
+// pdb: hkpWorldCallbackUtil::fireIslandDeactivated | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_fireIslandDeactivated(World* game, Event* scene)
 {
     struct
     {
@@ -7058,10 +7144,11 @@ struct hkpPhysicsSystem {
         return p;
     }
     hkpPhysicsSystem() throw();
-    hkpPhysicsSystem* FUN_0098a4b0() const;
+    hkpPhysicsSystem* hkpPhysicsSystem_clone() const;
 };
 
-hkpPhysicsSystem* hkpPhysicsSystem::FUN_0098a4b0() const
+// pdb: hkpPhysicsSystem::clone | hkpPhysicsSystem.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+hkpPhysicsSystem* hkpPhysicsSystem::hkpPhysicsSystem_clone() const
 {
     hkpPhysicsSystem* s = new hkpPhysicsSystem();
 
@@ -7162,6 +7249,11 @@ struct Rec {
     const void* label;
     unsigned int ticks;
     unsigned int unk08;
+
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int time; __asm { rdtsc
+        mov time, eax } ticks = time; }
 };
 
 struct Stream {
@@ -7204,7 +7296,8 @@ struct World {
     Array postSimulationListeners;
 };
 
-void __cdecl FUN_00989280(World* world)
+// pdb: hkpWorldCallbackUtil::firePostSimulationCallback | hkpWorldCallbackUtil.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpWorldCallbackUtil_firePostSimulationCallback(World* world)
 {
     Array& listeners = world->postSimulationListeners;
     int previousSize = listeners.size;
@@ -7222,12 +7315,7 @@ void __cdecl FUN_00989280(World* world)
             if (r < b->end) {
                 r->label = DAT_00e7d944;
                 _ReadWriteBarrier();
-                unsigned int t;
-                __asm {
-                    rdtsc
-                    mov dword ptr[t], eax
-                }
-                r->ticks = t;
+                r->setTime();
                 b->cur = r + 1;
             }
             listeners.data[i]->postSimulationCallback(world);
@@ -7236,12 +7324,7 @@ void __cdecl FUN_00989280(World* world)
             if (r < b->end) {
                 r->label = DAT_00e32798;
                 _ReadWriteBarrier();
-                unsigned int t2;
-                __asm {
-                    rdtsc
-                    mov dword ptr[t2], eax
-                }
-                r->ticks = t2;
+                r->setTime();
                 b->cur = r + 1;
             }
         }
@@ -7369,7 +7452,8 @@ typedef bool (__cdecl* Compare)(const Pair&, const Pair&);
 bool __cdecl FUN_00981680(const Pair&, const Pair&);
 void __cdecl FUN_00982ee0(Pair*, int, int, Compare);
 
-void __cdecl FUN_00981db0(Array* array)
+// pdb: sortPairList | hkpMultithreadedSimulation.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void __cdecl sortPairList(Array* array)
 {
     Pair* p = array->data;
     Pair* const end = p + array->count;
@@ -7441,6 +7525,7 @@ struct C99d9c0 {
     float ix, iy, iz;
     void FUN_0099d9c0(n99d9c0::Mat3* out);
 };
+// pdb: hkpBoxMotion::getInertiaLocal | hkpBoxMotion.obj | tesv_win, objrun, medium
 void C99d9c0::FUN_0099d9c0(n99d9c0::Mat3* out)
 {
     n99d9c0::Vec4 inv;
@@ -7492,6 +7577,8 @@ struct Cdc20
     float m_c0, m_c4, m_c8;
     void FUN_0099dc20(Mdc20& out);
 };
+// pdb: hkpBoxMotion::getInertiaWorld | hkpBoxMotion.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: inertia
 void Cdc20::FUN_0099dc20(Mdc20& out)
 {
     __declspec(align(16)) struct { float pad, x, y, z; } inv;
@@ -7510,7 +7597,8 @@ struct PtrList_9897a0 {
     int count;
 };
 
-static __declspec(noinline) void FUN_009897a0(PtrList_9897a0* a)
+// pdb: hkpPhantom::removeNullOverlapListeners | hkpPhantom.obj | fnv360_0822_retail, call_gap_sim + skyrim(call_gap_sim), high
+static __declspec(noinline) void hkpPhantom_removeNullOverlapListeners(PtrList_9897a0* a)
 {
     for (int i = a->count - 1; i >= 0; i--) {
         if (!a->data[i]) {
@@ -7522,7 +7610,7 @@ static __declspec(noinline) void FUN_009897a0(PtrList_9897a0* a)
 }
 
 PtrList_9897a0* volatile g_list_9897a0;
-void caller_of_FUN_009897a0() { FUN_009897a0(g_list_9897a0); }
+void caller_of_FUN_009897a0() { hkpPhantom_removeNullOverlapListeners(g_list_9897a0); }
 }   // namespace f3m_009897a0
 
 // @f3 0x0099e370 (community match, verified in this file)
@@ -7665,7 +7753,6 @@ void Cd6a0::FUN_0099d6a0(const Vd6a0& imp, const Vd6a0& pos)
 namespace f3m_009811d0 {
 struct Item;
 struct __declspec(align(16)) V4 { float x; float y; float z; float w; };
-struct Dst { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; V4 v; };
 struct Cam {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68;
     V4* unk6c;
@@ -7681,16 +7768,16 @@ struct Cam {
 struct Owner {
     int unk00;
     void FUN_00981160(Item** a, int n, V4* d, int z);
-    void FUN_009811d0(Item** items, int n, Cam* cam, unsigned flags);
+    void hkpSimulation_reintegrateAndRecollideEntities(Item** items, int n, Cam* cam, unsigned flags);
 };
-float Cam_GetItemF(Cam* c, Item* items);
-void FUN_009776f0(float f, float* p);
-void FUN_009a9cb0(V4* o, Item** items, int n, int sz);
+void hkSweptTransformUtil_backStepMotionState(float f, float* p);
+void hkRigidMotionUtilStep(V4* o, Item** items, int n, int sz);
 void FUN_0099a2d0(V4* d, Item** items, int n);
 void FUN_009808f0(Item** items, int n, Cam* c);
 void FUN_009445b0(Item* items, V4* d);
 
-void Owner::FUN_009811d0(Item** items, int n, Cam* cam, unsigned flags)
+// pdb: hkpSimulation::reintegrateAndRecollideEntities | hkpSimulation.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void Owner::hkpSimulation_reintegrateAndRecollideEntities(Item** items, int n, Cam* cam, unsigned flags)
 {
     cam->unk84++;
     float a = cam->FUN_009022d0();
@@ -7706,8 +7793,8 @@ void Owner::FUN_009811d0(Item** items, int n, Cam* cam, unsigned flags)
     if (flags & 1) {
         for (i = 0; i < n; i++)
         {   float* p = (float*)((char*)items[i] + 0xe0);
-            FUN_009776f0(cam->FUN_009022d0(), p); }
-        FUN_009a9cb0(&v, items, n, 0xd0);
+            hkSweptTransformUtil_backStepMotionState(cam->FUN_009022d0(), p); }
+        hkRigidMotionUtilStep(&v, items, n, 0xd0);
         FUN_0099a2d0(cam->unk6c, items, n);
     }
     if (flags & 2)
@@ -7736,8 +7823,8 @@ extern const char DAT_00e7d9e0[];
 namespace f3m_0098aef0 {
 struct Writer98a {
     virtual void v00();
-    virtual void WriteHeader(const char* name, int kind, void* obj);
-    virtual void WriteArray(const char* name, int kind, const void* data, unsigned int size, unsigned int capacity);
+    virtual void NiStream_SaveHeader(const char* name, int kind, void* obj);
+    virtual void writeArray64(const char* name, int kind, const void* data, unsigned int size, unsigned int capacity);
     virtual void WritePointer(const char* name, int kind, void* ptr);
     virtual void BeginObject(const char* name);
     virtual void EndObject();
@@ -7806,7 +7893,7 @@ struct Owner98a { int unk00; int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c
 
 struct Sub98a { int unk00; };
 void __cdecl FUN_00a26e70(Sub98a*, Writer98a*);
-void __cdecl FUN_00a26c90(Sub98a*, void*, Writer98a*);
+void __cdecl hkpAgentMachineUtil_calcNnStatistics(Sub98a*, void*, Writer98a*);
 
 
 struct Group98a {
@@ -7823,22 +7910,23 @@ struct Group98a {
     int unk54;
     Sub98a sub;
 
-    void FUN_0098aef0(Writer98a* writer);
+    void hkpSimulationIsland_calcContentStatistics(Writer98a* writer);
 };
 
-void Group98a::FUN_0098aef0(Writer98a* writer)
+// pdb: hkpSimulationIsland::calcContentStatistics | hkpSimulationIsland.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void Group98a::hkpSimulationIsland_calcContentStatistics(Writer98a* writer)
 {
-    writer->WriteHeader(0, 8, this);
+    writer->NiStream_SaveHeader(0, 8, this);
     if ((itemCapacity & 0x80000000u) == 0)
-        writer->WriteArray(DAT_00e7da2c, 8, items, itemCount * 4, (itemCapacity & 0x3fffffff) * 4);
+        writer->writeArray64(DAT_00e7da2c, 8, items, itemCount * 4, (itemCapacity & 0x3fffffff) * 4);
     for (int i = 0; i < itemCount; i++) {
         Item98a* item = items[i];
         writer->WritePointer(DAT_00e35dd0, 2, item);
         writer->BeginObject(DAT_00e7bf1c);
         if ((item->elemCapacity & 0x8000) == 0)
-            writer->WriteArray(DAT_00e7da20, 8, item->elems, item->elemCount * 48, (item->elemCapacity & 0x3fff) * 48);
+            writer->writeArray64(DAT_00e7da20, 8, item->elems, item->elemCount * 48, (item->elemCapacity & 0x3fff) * 48);
         if ((item->wordCapacity & 0x80000000u) == 0)
-            writer->WriteArray(DAT_00e7da14, 8, item->words, item->wordCount * 4, (item->wordCapacity & 0x3fffffff) * 4);
+            writer->writeArray64(DAT_00e7da14, 8, item->words, item->wordCount * 4, (item->wordCapacity & 0x3fffffff) * 4);
         for (int j = 0; j < item->elemCount; j++) {
             if (item->elems[j].first->flags & 0x7fff)
                 writer->WritePointer(DAT_00e7da08, 2, item->elems[j].first);
@@ -7846,16 +7934,16 @@ void Group98a::FUN_0098aef0(Writer98a* writer)
                 writer->WritePointer(DAT_00e7da00, 1, item->elems[j].first->link);
         }
         if ((item->byteCapacity & 0x80000000u) == 0)
-            writer->WriteArray(DAT_00e7d9f8, 4, item->bytes, item->byteCount, item->byteCapacity & 0x3fffffff);
+            writer->writeArray64(DAT_00e7d9f8, 4, item->bytes, item->byteCount, item->byteCapacity & 0x3fffffff);
         writer->EndObject();
     }
     if ((refCapacity & 0x80000000u) == 0)
-        writer->WriteArray(DAT_00e7d9ec, 8, refs, refCount * 4, (refCapacity & 0x3fffffff) * 4);
+        writer->writeArray64(DAT_00e7d9ec, 8, refs, refCount * 4, (refCapacity & 0x3fffffff) * 4);
     for (int k = 0; k < refCount; k++)
         writer->WritePointer(DAT_00e3277c, 2, refs[k]);
     FUN_00a26e70(&sub, writer);
     writer->BeginObject(DAT_00e7d9e0);
-    FUN_00a26c90(&sub, owner->unk6c, writer);
+    hkpAgentMachineUtil_calcNnStatistics(&sub, owner->unk6c, writer);
     writer->EndObject();
     writer->Finish();
 }
@@ -7908,6 +7996,7 @@ public:
     void FUN_0099daa0(ThreeByThreeMatrix* out);
 };
 
+// pdb: hkpBoxMotion::getInertiaInvLocal | hkpBoxMotion.obj | tesv_win, objrun, medium
 void DiagonalMatrixOwner::FUN_0099daa0(ThreeByThreeMatrix* out)
 {
     DiagonalQuad saved;
@@ -8083,6 +8172,7 @@ struct FUN_009824b0 : S9824b0_Base {
     virtual ~FUN_009824b0() throw();
 };
 
+// pdb: hkpMultiThreadedSimulation::~hkpMultiThreadedSimulation | hkpMultithreadedSimulation.obj | fnv360_0822_retail, call_seq, medium
 FUN_009824b0::~FUN_009824b0() throw()
 {
 }
@@ -8182,7 +8272,7 @@ struct S98d5c0_Block
     S98d5c0_Vec4 unk60;
     S98d5c0_Vec4 sample70;
     S98d5c0_Vec4 value80;
-    void FUN_00924b40(S98d5c0_Vec4* sample);
+    void hkRotation_set(S98d5c0_Vec4* sample);
 };
 struct S98d5c0_Aux
 {
@@ -8196,6 +8286,7 @@ struct S98d5c0_Aux
     S98d5c0_Vec4 row70;
 };
 
+// pdb: hkLs_restoreTransformOnBodiesWithUpdatedTransform | hkpContinuousSimulation.obj | tesv_win, call_gap, low
 void __cdecl FUN_0098d5c0(S98d5c0_Context* context, const unsigned char** kindMap, int offset)
 {
     for (int i = 0; i < context->count4C; i++)
@@ -8204,7 +8295,7 @@ void __cdecl FUN_0098d5c0(S98d5c0_Context* context, const unsigned char** kindMa
         if (kind == 1 || kind == 2)
         {
             S98d5c0_Block* block = (S98d5c0_Block*)(context->entries48[i] + 0xe0);
-            block->FUN_00924b40(&block->sample70);
+            block->hkRotation_set(&block->sample70);
             float x = block->value80.x;
             float y = block->value80.y;
             float z = block->value80.z;
@@ -8385,7 +8476,7 @@ struct __declspec(align(16)) Vec4 {
  __forceinline void setMax4(const Vec4& a,const Vec4& b){float t;t=a.x>b.x?a.x:b.x;x=t;t=a.y>b.y?a.y:b.y;y=t;t=a.z>b.z?a.z:b.z;z=t;t=a.w>b.w?a.w:b.w;w=t;}
  __forceinline void add4(const Vec4& a){x+=a.x;y+=a.y;z+=a.z;w+=a.w;}
  __forceinline void sub4(const Vec4& a){x-=a.x;y-=a.y;z-=a.z;w-=a.w;}
- void FUN_008d28e0(const Transform*,const Vec4*);
+ void hkVector4_setTransformedPos(const Transform*,const Vec4*);
 };
 struct Bounds {Vec4 minimum,maximum;};
 struct Shape {
@@ -8397,9 +8488,9 @@ struct Shape {
 void Shape::FUN_0099f850(const Transform* transform,float tolerance,Bounds* out) {
  Vec4 tol4; tol4.setAll(radius+tolerance);
  Vec4 first,second,third;
- first.FUN_008d28e0(transform,&a);
- second.FUN_008d28e0(transform,&b);
- third.FUN_008d28e0(transform,&c);
+ first.hkVector4_setTransformedPos(transform,&a);
+ second.hkVector4_setTransformedPos(transform,&b);
+ third.hkVector4_setTransformedPos(transform,&c);
  out->minimum.setMin4(first,second);
  out->maximum.setMax4(first,second);
  out->minimum.setMin4(out->minimum,third);
@@ -8470,6 +8561,7 @@ static inline void memCpy4(void* dst, const void* src, int numWords)
         *(dst32++) = *(src32++);
     }
 }
+// pdb: hkpSimpleContactConstraintAtomUtil::removeAtAndCopy | hkpSimpleConstraintContactMgr.obj | tesv_win, call_seq, medium
 void FUN_00987b00(hkpSimpleContactConstraintAtom* atom, int index)
 {
     int numContactPoints = atom->m_numContactPoints - 1;
@@ -8494,8 +8586,8 @@ namespace f3m_00985ef0 {
 
 struct Serializer {
     virtual void v00();
-    virtual void WriteHeader(const char* name, int a, void* obj);
-    virtual void WriteArray(const char* name, int a, const void* data, int size, int capSize);
+    virtual void NiStream_SaveHeader(const char* name, int a, void* obj);
+    virtual void writeArray64(const char* name, int a, const void* data, int size, int capSize);
     virtual void WritePointer(const char* name, int a, void* ptr);
     virtual void v10();
     virtual void v14();
@@ -8523,12 +8615,13 @@ struct Dispatcher {
     void* debugTable2;
     void* debugTable3;
 
-    void FUN_00985ef0(Serializer* writer);
+    void hkpCollisionDispatcher_calcContentStatistics(Serializer* writer);
 };
 
-void Dispatcher::FUN_00985ef0(Serializer* writer)
+// pdb: hkpCollisionDispatcher::calcContentStatistics | hkpCollisionDispatcher.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void Dispatcher::hkpCollisionDispatcher_calcContentStatistics(Serializer* writer)
 {
-    writer->WriteHeader(0, 2, this);
+    writer->NiStream_SaveHeader(0, 2, this);
     if (debugTable0) {
         writer->FUN_008f69e0("DebugTable", 4, debugTable0);
         writer->FUN_008f69e0("DebugTable", 4, debugTable1);
@@ -8536,7 +8629,7 @@ void Dispatcher::FUN_00985ef0(Serializer* writer)
         writer->FUN_008f69e0("DebugTable", 4, debugTable3);
     }
     if ((shapeInheritanceCapacity & 0x80000000u) == 0) {
-        writer->WriteArray("shapeInheritanceArray", 4, shapeInheritanceData, shapeInheritanceCount * 8, (shapeInheritanceCapacity & 0x3fffffff) * 8);
+        writer->writeArray64("shapeInheritanceArray", 4, shapeInheritanceData, shapeInheritanceCount * 8, (shapeInheritanceCapacity & 0x3fffffff) * 8);
     }
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -8690,10 +8783,11 @@ struct Self {
   Entry* m_30;
   int m_34;
 
-  void FUN_0098c9b0(int* ids, int n) throw();
+  void hkpContinuousSimulation_removeToiEventsOfEntities(int* ids, int n) throw();
 };
 
-void Self::FUN_0098c9b0(int* ids, int n) throw() {
+// pdb: hkpContinuousSimulation::removeToiEventsOfEntities | hkpContinuousSimulation.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void Self::hkpContinuousSimulation_removeToiEventsOfEntities(int* ids, int n) throw() {
   if (m_34 != 0) {
     Table t(n);
     for (int i = 0; i < n; ++i) {
@@ -8827,7 +8921,7 @@ struct World98d9e0 {
     int unk138;
     int postSimCallbacks;
 };
-void __cdecl FUN_00989280(World98d9e0* world);
+void __cdecl hkpWorldCallbackUtil_firePostSimulationCallback(World98d9e0* world);
 
 struct Sim98d9e0 {
     int unk00, unk04, unk08;
@@ -8840,6 +8934,7 @@ struct Sim98d9e0 {
     void* FUN_0098d9e0();
 };
 
+// pdb: hkpContinuousSimulation::advanceTime | hkpContinuousSimulation.obj | fnv360_0822_retail, vtable, medium
 void* Sim98d9e0::FUN_0098d9e0()
 {
     void* result = FUN_0098c5b0();
@@ -8854,7 +8949,7 @@ void* Sim98d9e0::FUN_0098d9e0()
             r->ticks = t;
             b->cur = r + 1;
         }
-        FUN_00989280(world);
+        hkpWorldCallbackUtil_firePostSimulationCallback(world);
         b = getter(DAT_0116913c);
         r = b->cur;
         if (r < b->end) {
@@ -9025,8 +9120,8 @@ struct Info
     void* state1;
 };
 
-void __cdecl FUN_00988c60(void* context, Info* info);
-void __cdecl FUN_00988230(Manager* manager, Info* info);
+void __cdecl hkpWorldCallbackUtil_fireContactPointCallback(void* context, Info* info);
+void __cdecl hkpEntityCallbackUtil_fireContactPointCallbackInternal(Manager* manager, Info* info);
 void __cdecl FUN_0098cb20(void* context, Source* source, float value, void* extra);
 
 __forceinline bool HasCallbacks(Manager* manager)
@@ -9047,6 +9142,7 @@ struct Listener
     void FUN_00986db0(Source* source, float value, void* extra);
 };
 
+// pdb: hkpSimpleConstraintContactMgr::fireCallbacksForEarliestToi | hkpSimpleConstraintContactMgr.obj | tesv_win, caller_sim, low
 void Listener::FUN_00986db0(Source* source, float value, void* extra)
 {
     Info info;
@@ -9060,11 +9156,11 @@ void Listener::FUN_00986db0(Source* source, float value, void* extra)
     info.properties = &source->properties40;
     info.state0 = 0;
     info.state1 = &list14;
-    FUN_00988c60(context, &info);
+    hkpWorldCallbackUtil_fireContactPointCallback(context, &info);
     if (HasCallbacks(source->first))
-        FUN_00988230(source->first, &info);
+        hkpEntityCallbackUtil_fireContactPointCallbackInternal(source->first, &info);
     if (HasCallbacks(source->second))
-        FUN_00988230(source->second, &info);
+        hkpEntityCallbackUtil_fireContactPointCallbackInternal(source->second, &info);
     Manager* firstBody=source->first;
     Manager* secondBody=source->second;
     if ((firstBody->motionType != 7 && firstBody->motionType != 6) ||
@@ -9118,6 +9214,7 @@ struct Owner : Base {
     Row* rows;
     ~Owner() throw();
 };
+// pdb: hkp3AxisSweep::~hkp3AxisSweep | hkp3AxisSweep.obj | fnv360_0822_retail, call_seq, high
 Owner::~Owner() throw()
 {
     vptr = DAT_00e7dd3c;
@@ -9154,6 +9251,8 @@ struct Sweep {
     Axis axes[3];
     void FUN_00991820(const Node& node,Aabb& out);
 };
+// pdb: hkp3AxisSweep::getAabbFromNode | hkp3AxisSweep.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: node, aabb
 void Sweep::FUN_00991820(const Node& node,Aabb& out) {
     float i0=1.0f/scale.x;
     float i1=1.0f/scale.y;
@@ -9285,6 +9384,7 @@ struct CollectorState
         void* callbackArg1, void* callbackArg2);
 };
 
+// pdb: hkpWorldLinearCaster::linearCast | hkpWorldLinearCaster.obj | tesv_win, call_seq, medium
 void CollectorState::FUN_0098ab20(Callback* callback, Obj* obj, Vertex* point,
     void* root, MatrixData* input, float* value, void* unused,
     void* callbackArg1, void* callbackArg2)
@@ -9456,10 +9556,11 @@ struct Owner {
     int unk2c;
     Entry* entries;
     int count;
-    void FUN_0098caa0(void* node);
+    void hkpContinuousSimulation_removeToiEventsOfEntity(void* node);
 };
 
-void Owner::FUN_0098caa0(void* node)
+// pdb: hkpContinuousSimulation::removeToiEventsOfEntity | hkpContinuousSimulation.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void Owner::hkpContinuousSimulation_removeToiEventsOfEntity(void* node)
 {
     void* const target = node;
 
@@ -9528,6 +9629,8 @@ struct Query {
     void* linked10;
     void FUN_009844e0(World* world, const Input* in, Linked* linked, void* user, void* e);
 };
+// pdb: hkpSimpleWorldRayCaster::castRay | hkpSimpleWorldRayCaster.obj | fnv360_0822_retail, ustr, high
+// pdb params: broadphase, input, filter, cache, output
 void Query::FUN_009844e0(World* world, const Input* in, Linked* linked, void* user, void* e)
 {
     TimerMark(str_00e7d4cc);
@@ -9554,9 +9657,10 @@ void Query::FUN_009844e0(World* world, const Input* in, Linked* linked, void* us
 namespace f3m_0099db60 {
 __declspec(align(16)) struct Vdb60 { float x,y,z,w; void setMul4(float s,const Vdb60&a){x=s*a.x;y=s*a.y;z=s*a.z;w=s*a.w;} };
 struct Mdb60 { Vdb60 c0,c1,c2; void FUN_0096cf70(const Mdb60&,const Mdb60&); };
-struct Cdb60 { float unk00,unk04,unk08,unk0c; Mdb60 m10; float unk40,unk44,unk48,unk4c,unk50,unk54,unk58,unk5c,unk60,unk64,unk68,unk6c,unk70,unk74,unk78,unk7c,unk80,unk84,unk88,unk8c,unk90,unk94,unk98,unk9c,unka0,unka4,unka8,unkac,unkb0,unkb4,unkb8,unkbc; float m_c0,m_c4,m_c8; void FUN_0099db60(Mdb60& out); };
+struct Cdb60 { float unk00,unk04,unk08,unk0c; Mdb60 m10; float unk40,unk44,unk48,unk4c,unk50,unk54,unk58,unk5c,unk60,unk64,unk68,unk6c,unk70,unk74,unk78,unk7c,unk80,unk84,unk88,unk8c,unk90,unk94,unk98,unk9c,unka0,unka4,unka8,unkac,unkb0,unkb4,unkb8,unkbc; float m_c0,m_c4,m_c8; void hkpBoxMotion_getInertiaInvWorld(Mdb60& out); };
 __declspec(align(16)) struct Sdb60 { float pad,x,y,z; float& operator()(int i){ return (&x)[i]; } };
-void Cdb60::FUN_0099db60(Mdb60& out){ Sdb60 v; v(0)=m_c0;v(1)=m_c4;v(2)=m_c8; Mdb60 t; t.c0.setMul4(v(0),m10.c0);t.c1.setMul4(v(1),m10.c1);t.c2.setMul4(v(2),m10.c2); out.FUN_0096cf70(t,m10); }
+// pdb: hkpBoxMotion::getInertiaInvWorld | hkpBoxMotion.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+void Cdb60::hkpBoxMotion_getInertiaInvWorld(Mdb60& out){ Sdb60 v; v(0)=m_c0;v(1)=m_c4;v(2)=m_c8; Mdb60 t; t.c0.setMul4(v(0),m10.c0);t.c1.setMul4(v(1),m10.c1);t.c2.setMul4(v(2),m10.c2); out.FUN_0096cf70(t,m10); }
 }   // namespace f3m_0099db60
 
 // @f3 0x00991450 (community match, verified in this file)
@@ -9855,17 +9959,18 @@ struct Ref {
     short references;
 };
 struct Deletion;
-struct World { void FUN_00902d30(Deletion*); };
+struct World { void hkpWorld_removeWorldDeletionListener(Deletion*); };
 struct Deletion {
     void* unk00;
     void* unk04;
     World* world;
     Ref* Owner() { return reinterpret_cast<Ref*>(reinterpret_cast<char*>(this)-sizeof(Ref)); }
-    void FUN_0098bc80(World*);
+    void hkpBroadPhaseBorder_worldDeletedCallback(World*);
 };
 __forceinline void F(Ref* self, RefVtable* vt, int n) { self->vtable == vt ? vt->release(self, n) : vt->release(self, n); }
-void Deletion::FUN_0098bc80(World*) {
-    world->FUN_00902d30(Owner() ? this : 0);
+// pdb: hkpBroadPhaseBorder::worldDeletedCallback | hkpBroadPhaseBorder.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(objrun_open), high
+void Deletion::hkpBroadPhaseBorder_worldDeletedCallback(World*) {
+    world->hkpWorld_removeWorldDeletionListener(Owner() ? this : 0);
     Ref* owner = Owner();
     if (owner->memorySize && --owner->references == 0)
         F(owner, owner->vtable, 1);
@@ -10036,10 +10141,12 @@ struct Collector {
     char unk10[0x170 - 0x10];
     Flags170* unk170;
 
-    void FUN_0098e4c0(Entity** entities, int num, void* arg);
+    void collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(Entity** entities, int num, void* arg);
     void FUN_00982c80(Entity** entities, int num, void* arg);
 };
 
+// pdb: hkpMultiThreadedSimulation::collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly | hkpMultithreadedSimulation.obj | fnv360_0822_retail, vtable, medium
+// pdb params: entities, numEntities, input, entitiesNeedingPsiCollisionDetection
 void Collector::FUN_00982c80(Entity** entities, int num, void* arg)
 {
     if (unk0c->enabled && unk170->enabled) {
@@ -10066,7 +10173,7 @@ void Collector::FUN_00982c80(Entity** entities, int num, void* arg)
     marks.releaseLocal();
     return;
     }
-    FUN_0098e4c0(entities, num, arg);
+    collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(entities, num, arg);
 }
 
 }
@@ -10076,7 +10183,6 @@ void Collector::FUN_00982c80(Entity** entities, int num, void* arg)
 extern unsigned long DAT_0116913c;
 extern const char DAT_00e7de38[];
 extern const char DAT_00e32798[];
-extern const float DAT_00de6e60;
 extern const float DAT_00de731c;
 namespace f3m_0099f1c0 {
 namespace Bounds879 {
@@ -10131,9 +10237,10 @@ struct Collection {
     void* vtable;
     unsigned int u04,u08,u0c;
     Container container;
-    void FUN_0099f1c0(const Transform& transform,float tolerance,Aabb& out);
+    void hkpShapeCollection_getAabbImpl(const Transform& transform,float tolerance,Aabb& out);
 };
-void Collection::FUN_0099f1c0(const Transform& transform,float tolerance,Aabb& out) {
+// pdb: hkpShapeCollection::getAabbImpl | hkpShapeCollection.obj | fnv360_0822_retail, ustr + bridge(ustr|vtable) + skyrim(ustr), high
+void Collection::hkpShapeCollection_getAabbImpl(const Transform& transform,float tolerance,Aabb& out) {
     MonitorStream::Get()->Record(DAT_00e7de38);
     out.low.SetAll(3.40282e38f);
     out.high.SetAll(-3.40282e38f);
@@ -10295,6 +10402,8 @@ struct FUN_00982160 : SimulationBase {
     f3m_00982160::Lock m380;
     FUN_00982160(f3m_00982160::World* world);
 };
+// pdb: hkpMultiThreadedSimulation::hkpMultiThreadedSimulation | hkpMultithreadedSimulation.obj | fnv360_0822_retail, uvref, high
+// pdb params: world
 FUN_00982160::FUN_00982160(f3m_00982160::World* world)
     : SimulationBase(world), mf0(0, 10), m140(&m200, &m280, &m300), m200(0, 1000), m280(0, 1000), m300(0, 1000)
 {
@@ -10498,6 +10607,7 @@ __forceinline void pushBack(Array<Entity*>& a, Entity* e)
 
 using f3m_0098cf90::Vec4;
 
+// pdb: hkLs_toiCheckValidityOfConstraints | hkpContinuousSimulation.obj | tesv_win, call_gap, low
 void __cdecl FUN_0098cf90(f3m_0098cf90::SolverResources& solverResources, f3m_0098cf90::ProcessInput& processInput,
     f3m_0098cf90::Array<f3m_0098cf90::SchemaInfo>& constraintStatus, int& firstNonActive, int minPriority,
     f3m_0098cf90::FixedArray<unsigned char>& entityState, const f3m_0098cf90::Array<f3m_0098cf90::Entity*>& touchedEntities,
@@ -10586,8 +10696,8 @@ struct hkpContactProcessEvent {
     Mgr* m_internalContactMgr;
     hkpContactProcessEvent(Mgr* mgr, const hkpCollidable& a, const hkpCollidable& b, hkpProcessCollisionData* data) : m_collidableA(&a), m_collidableB(&b), m_collisionData(data), m_internalContactMgr(mgr) {}
 };
-void __cdecl FUN_00988dc0(hkpWorld* world, hkpContactProcessEvent& event);
-void __cdecl FUN_00988390(hkpRigidBody* body, hkpContactProcessEvent& event);
+void __cdecl hkpWorldCallbackUtil_fireContactProcess(hkpWorld* world, hkpContactProcessEvent& event);
+void __cdecl hkpEntityCallbackUtil_fireContactProcessInternal(hkpRigidBody* body, hkpContactProcessEvent& event);
 template <class T> inline T min2(T a, T b) { return a < b ? a : b; }
 struct Mgr {
     void* vt;
@@ -10621,11 +10731,11 @@ void n_009874f0::Mgr::FUN_009874f0(const hkpCollidable& a, const hkpCollidable& 
         hkpProcessCdPoint* callbackEnd = collisionData->m_firstFreeContactPoint;
         for (hkpProcessCdPoint* p = &collisionData->m_contactPoints[0]; p < callbackEnd; p++)
             *props++ = data.getContactPointProperties(data.m_values[p->m_contactPointId]);
-        FUN_00988dc0(m_world, event);
+        hkpWorldCallbackUtil_fireContactProcess(m_world, event);
         if (rbA->m_contactListenersSize)
-            FUN_00988390(rbA, event);
+            hkpEntityCallbackUtil_fireContactProcessInternal(rbA, event);
         if (rbB->m_contactListenersSize)
-            FUN_00988390(rbB, event);
+            hkpEntityCallbackUtil_fireContactProcessInternal(rbB, event);
     }
     m_skipNextNprocessCallbacks = (unsigned short)skip;
     hkpProcessCdPoint* end = collisionData->m_firstFreeContactPoint;
@@ -10711,18 +10821,18 @@ struct JobQueue {
     int FUN_00a22250(void* arg, Record* kind, int zero);
 };
 
-int __cdecl FUN_00a24db0(void*, void*, Record*);
+int __cdecl integrateJob(void*, void*, Record*);
 int __cdecl FUN_00a23da0(void*, void*, Record*);
 int __cdecl FUN_00a23c30(void*, void*, Record*);
-int __cdecl FUN_00a23aa0(void*, void*, Record*);
+int __cdecl hkCpuBuildJacobiansJob(void*, void*, Record*);
 int __cdecl FUN_00a23820(void*, void*, Record*);
 int __cdecl FUN_00a234f0(void*, void*, Record*);
-int __cdecl FUN_00a235a0(void*, void*, Record*);
+int __cdecl hkCpuSolveConstraintBatchJob(void*, void*, Record*);
 int __cdecl FUN_00a236b0(void*, void*, Record*);
-int __cdecl FUN_00a23770(void*, void*, Record*);
+int __cdecl hkCpuSolveExportResultsJob(void*, void*, Record*);
 int __cdecl FUN_00a23410(void*, void*, Record*);
-int __cdecl FUN_00a23370(void*, void*, Record*);
-int __cdecl FUN_00a22ec0(void*, void*, Record*);
+int __cdecl hkCpuSplitSimulationIslandJob(void*, void*, Record*);
+int __cdecl hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(void*, void*, Record*);
 int __cdecl FUN_00a22660(void*, void*, Record*);
 int __cdecl FUN_00a22490(void*, void*, Record*);
 
@@ -10748,18 +10858,18 @@ void Ctx::FUN_009817a0(void* arg)
 
     while (!status) {
         switch (rec.kind) {
-        case 0: status = FUN_00a24db0(node, &unk140, &rec); break;
+        case 0: status = integrateJob(node, &unk140, &rec); break;
         case 1: status = FUN_00a23da0(node, &unk140, &rec); break;
         case 3: status = FUN_00a23c30(node, &unk140, &rec); break;
-        case 4: status = FUN_00a23aa0(node, &unk140, &rec); break;
+        case 4: status = hkCpuBuildJacobiansJob(node, &unk140, &rec); break;
         case 6: status = FUN_00a23820(node, &unk140, &rec); break;
         case 7: status = FUN_00a234f0(node, &unk140, &rec); break;
-        case 8: status = FUN_00a235a0(node, &unk140, &rec); break;
+        case 8: status = hkCpuSolveConstraintBatchJob(node, &unk140, &rec); break;
         case 9: status = FUN_00a236b0(node, &unk140, &rec); break;
-        case 10: status = FUN_00a23770(node, &unk140, &rec); break;
+        case 10: status = hkCpuSolveExportResultsJob(node, &unk140, &rec); break;
         case 11: status = FUN_00a23410(node, &unk140, &rec); break;
-        case 5: status = FUN_00a23370(node, &unk140, &rec); break;
-        case 12: status = FUN_00a22ec0(node, &unk140, &rec); break;
+        case 5: status = hkCpuSplitSimulationIslandJob(node, &unk140, &rec); break;
+        case 12: status = hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(node, &unk140, &rec); break;
         case 13:
         case 15: status = FUN_00a22660(node, &unk140, &rec); break;
         case 14:
@@ -10850,7 +10960,7 @@ struct TimEntry : Entry { float time; int u1c; Vec normal; };
 struct BaseInput { const Body* a; const Body* b; const Input* input; void* manager; Transform transform; };
 struct ProcessInput : BaseInput { float distance; int offset; Vec tim; };
 struct BodyTemp { Body a,b; Transform ta,tb; };
-extern void __cdecl FUN_00976cd0(const Sweep&,float,Transform&);
+extern void __cdecl hkSweptTransformUtil_lerp2(const Sweep&,float,Transform&);
 typedef void* (__cdecl *ProcessFn)(const ProcessInput&,Entry*,void*,Vec*,Output&);
 typedef void (__cdecl *SepFn)(const BaseInput&,Entry*,void*,Vec&);
 typedef void* (__cdecl *CleanFn)(Entry*,void*,void*,void*);
@@ -10866,8 +10976,8 @@ static __forceinline void calc(const Motion& a,const Motion& b,float dt,Vec& out
     out.w=fa*a.delta.w*a.radius+fb*b.delta.w*b.radius;
 }
 static __forceinline void init(BaseInput& in,BodyTemp& temp,BaseInput& out) {
-    FUN_00976cd0(in.a->getMotion()->getSweep(),in.input->start,temp.ta);
-    FUN_00976cd0(in.b->getMotion()->getSweep(),in.input->start,temp.tb);
+    hkSweptTransformUtil_lerp2(in.a->getMotion()->getSweep(),in.input->start,temp.ta);
+    hkSweptTransformUtil_lerp2(in.b->getMotion()->getSweep(),in.input->start,temp.tb);
     out.a=&temp.a; out.b=&temp.b; out.manager=in.manager; out.input=in.input;
     temp.a.setShape(in.a->getShape(),in.a->getKey());
     temp.b.setShape(in.b->getShape(),in.b->getKey());
@@ -10875,6 +10985,7 @@ static __forceinline void init(BaseInput& in,BodyTemp& temp,BaseInput& out) {
     new (&temp.b) Body(in.b,&temp.tb);
     out.transform.FUN_00925300(temp.ta,temp.tb);
 }
+// pdb: hkAgentNnMachine_InlineProcessAgent | hkpAgentNnMachine.obj | tesv_win, caller_sim, low
 static __declspec(noinline) void __cdecl FUN_00998e30(Entry* entry,int offset,const Input& input,int& counter,Output& output,void* mgr) {
     switch(entry->command) {
     case 6: {
@@ -11369,7 +11480,6 @@ extern V4 DAT_01060dd0;
 extern float DAT_01060db0;
 extern float DAT_01060db4;
 extern float DAT_01060db8;
-extern float DAT_01060dbc;
 
 struct __declspec(align(16)) hkAabbUint32 { unsigned int m_min[3]; unsigned int m_expansionMin; unsigned int m_max[3]; unsigned int m_expansionMax; };
 struct __declspec(align(16)) S4 { unsigned short x, y, z, w; };
@@ -11947,7 +12057,7 @@ public:
     virtual float addBroadPhaseHandle(const void* broadPhaseHandle, int castIndex);
 
     void FUN_009844e0(const hkpBroadPhase& broadphase, const hkpWorldRayCastInput& input, const hkpCollisionFilter* filter, const char* cache, hkpWorldRayCastOutput& output);
-    void FUN_009845e0(const hkpBroadPhase& broadphase, const hkpWorldRayCastInput* inputArray, int numRays, const hkpCollisionFilter* filter, hkpWorldRayCastOutput* outputs);
+    void hkpSimpleWorldRayCaster_castRayGroup(const hkpBroadPhase& broadphase, const hkpWorldRayCastInput* inputArray, int numRays, const hkpCollisionFilter* filter, hkpWorldRayCastOutput* outputs);
 
     const hkpWorldRayCastInput* m_input;
     const void* m_filter;
@@ -11958,7 +12068,8 @@ public:
     const void* m_shapeInputCollidableFilter;
 };
 
-void hkpSimpleWorldRayCaster::FUN_009845e0(const hkpBroadPhase& broadphase, const hkpWorldRayCastInput* inputArray, int numRays, const hkpCollisionFilter* filter, hkpWorldRayCastOutput* outputs)
+// pdb: hkpSimpleWorldRayCaster::castRayGroup | hkpSimpleWorldRayCaster.obj | fnv360_0822_retail, ustr + skyrim(ustr), high
+void hkpSimpleWorldRayCaster::hkpSimpleWorldRayCaster_castRayGroup(const hkpBroadPhase& broadphase, const hkpWorldRayCastInput* inputArray, int numRays, const hkpCollisionFilter* filter, hkpWorldRayCastOutput* outputs)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();
@@ -12299,6 +12410,8 @@ public:
     hkInt16 m_skipNextNprocessCallbacks;
 };
 
+// pdb: hkpVehicleLinearCastWheelCollide::getCollisionOutputFromCastResult | hkpVehicleLinearCastWheelCollide.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: hkpReportContactMgr::addContactPointImpl)
+// pdb params: vehicle, wheelNum, linearCastOutput, output
 hkContactPointId hkpReportContactMgr::FUN_009866a0(const hkpCdBody& a, const hkpCdBody& b,
                                                    const hkpProcessCollisionInput& input,
                                                    hkpProcessCollisionOutput& output, const hkpGskCache* contactCache,
@@ -12712,6 +12825,8 @@ struct hkpContinuousSimulation {
     void FUN_0098fce0(hkpWorld* world, hkpToiEvent* pair, float physicsDeltaTime);
 };
 
+// pdb: hkpMultiThreadedSimulation::collideEntitiesNeedingPsiCollisionDetectionNarrowPhase_toiOnly | hkpMultithreadedSimulation.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkpContinuousSimulation::simulateToi)
+// pdb params: input, entitiesNeedingPsiCollisionDetection
 void hkpContinuousSimulation::FUN_0098fce0(hkpWorld* world, hkpToiEvent* pair, float physicsDeltaTime)
 {
     if (!DAT_0116931c) {
@@ -12924,7 +13039,8 @@ struct Slot {CreateAgent create;unsigned int unk04;
  unsigned int unk4c;
 };
 extern float DAT_00db38b8;
-static __declspec(noinline) Obj* FUN_00998850(Track* track) {
+// pdb: hkAgentNnMachine_AllocateEntry | hkpAgentNnMachine.obj | fnv360_0822_retail, call_seq + bridge(caller|call_gap) + skyrim(call_seq), high
+static __declspec(noinline) Obj* hkAgentNnMachine_AllocateEntry(Track* track) {
  if(track->used<0x200u) {
   unsigned char* page=track->blocks.data[track->blocks.size-1];
   Obj* result=reinterpret_cast<Obj*>(page+track->used);
@@ -12939,9 +13055,10 @@ static __declspec(noinline) Obj* FUN_00998850(Track* track) {
  track->used=0x80;
  return reinterpret_cast<Obj*>(page);
 }
-Obj* __cdecl FUN_00998a30(Track* track,Body* first,Body* second,int quality,Context* context,void* userData) {
+// pdb: hkAgentNnMachine_CreateAgent | hkpAgentNnMachine.obj | fnv360_0822_retail, call_gap + bridge(call_gap_sim|call_dedup) + skyrim(call_gap_sim), high
+Obj* __cdecl hkAgentNnMachine_CreateAgent(Track* track,Body* first,Body* second,int quality,Context* context,void* userData) {
  char* base=context->base;
- Obj* pair=FUN_00998850(track);
+ Obj* pair=hkAgentNnMachine_AllocateEntry(track);
  pair->userData=userData;
  pair->first=first;pair->second=second;
  pair->indexA=static_cast<unsigned short>(first->entries.size);
@@ -13185,6 +13302,8 @@ void Obj::FUN_0099d910(float s, const Vec4& v) { v50(v * s); }
 // @f3 0x0099dca0 (community match, verified in this file)
 namespace f3m_0099dca0 {
 namespace VectorTemplate0099dca0 { struct V { float x,y,z,w; }; struct C { unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;unsigned unk14;unsigned unk18;unsigned unk1c;unsigned unk20;unsigned unk24;unsigned unk28;unsigned unk2c;unsigned unk30;unsigned unk34;unsigned unk38;unsigned unk3c;unsigned unk40;unsigned unk44;unsigned unk48;unsigned unk4c;unsigned unk50;unsigned unk54;unsigned unk58;unsigned unk5c;unsigned unk60;unsigned unk64;unsigned unk68;unsigned unk6c;unsigned unk70;unsigned unk74;unsigned unk78;unsigned unk7c;unsigned unk80;unsigned unk84;unsigned unk88;unsigned unk8c;unsigned unk90;unsigned unk94;unsigned unk98;unsigned unk9c;unsigned unka0;unsigned unka4;unsigned unka8;unsigned unkac;unsigned unkb0;unsigned unkb4;unsigned unkb8;unsigned unkbc;unsigned unkc0;unsigned unkc4;unsigned unkc8; float factor; V output; void FUN_0099dca0(float,const V*); };
+// pdb: hkpBoxMotion::applyPointImpulse | hkpBoxMotion.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpBoxMotion::applyAngularImpulse)
+// pdb params: imp, p
 void C::FUN_0099dca0(float s,const V* v) { __declspec(align(16)) V t; t.x=v->x*s; t.y=v->y*s; t.z=v->z*s; t.w=v->w*s; float f=factor; output.x += f*t.x; output.y += f*t.y; output.z += f*t.z; output.w += f*t.w; } }
 }   // namespace f3m_0099dca0
 
@@ -13213,6 +13332,8 @@ public:
     virtual void v19(const Vdd30& v, void* p);
     void FUN_0099dd30(float s, const Vdd30& v, void* p);
 };
+// pdb: hkpBoxMotion::applyAngularImpulse | hkpBoxMotion.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: imp
 void Cdd30::FUN_0099dd30(float s, const Vdd30& v, void* p)
 {
     Vdd30 t;
@@ -13419,6 +13540,10 @@ struct ProfRec_L
     void* id;
     unsigned int time;
     int unk08;
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int ticks; __asm { rdtsc
+        mov ticks, eax } time = ticks; }
 };
 struct ProfSlot_L
 {
@@ -13505,23 +13630,19 @@ class Owner_L
     void* unk08;
     void* unk0c;
     Coll_L2 m_coll;
-    void FUN_0099f4c0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2);
+    void hkpShapeCollection_castRayWithCollectorImpl(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2);
 };
 
 // @fnv 0x00d217d0
-void Owner_L::FUN_0099f4c0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2)
+// pdb: hkpShapeCollection::castRayWithCollectorImpl | hkpShapeCollection.obj | fnv360_0822_retail, objrun_prop + skyrim(objrun_prop), high
+void Owner_L::hkpShapeCollection_castRayWithCollectorImpl(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2)
 {
-    unsigned int uiTimestamp;
     ProfSlot_L* pProfSlot = (ProfSlot_L*)TlsGetValue(DAT_0116913c);
     ProfRec_L* pProfRec = pProfSlot->head;
     if (pProfRec < pProfSlot->end)
     {
         pProfRec->id = &DAT_00e7de28;
-        __asm {
-            rdtsc
-            mov dword ptr[uiTimestamp], eax
-        }
-        pProfRec->time = uiTimestamp;
+        pProfRec->setTime();
         pProfSlot->head = pProfRec + 1;
     }
     ShapeBuf_L buffer;
@@ -13568,11 +13689,7 @@ void Owner_L::FUN_0099f4c0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2)
     if (pProfRec < pProfSlot->end)
     {
         pProfRec->id = &DAT_00e32798;
-        __asm {
-            rdtsc
-            mov dword ptr[uiTimestamp], eax
-        }
-        pProfRec->time = uiTimestamp;
+        pProfRec->setTime();
         pProfSlot->head = pProfRec + 1;
     }
 }
@@ -13717,6 +13834,7 @@ struct Queue9830 {
  Lock9830 lock;
  void FUN_009830d0(const Record9830&);
 };
+// pdb: hkpWorldOperationQueue::queueOperation | hkpWorldOperationQueue.obj | tesv_win, call_seq, medium
 void Queue9830::FUN_009830d0(const Record9830& src) {
  Lock9830* guard=&lock;
  guard->FUN_00908a00();
@@ -13810,6 +13928,8 @@ void Queue9830::FUN_009830d0(const Record9830& src) {
 // @f3 0x00998520 (community match, verified in this file)
 namespace f3m_00998520 {
 // 0x00998520 — target is a single `ret` (C3, 1 byte).
+// pdb: hkAgentNnMachine_TouchAgent | hkpAgentNnMachine.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: entry, input
 void FUN_00998520() {}
 }   // namespace f3m_00998520
 
@@ -13817,6 +13937,8 @@ void FUN_00998520() {}
 namespace f3m_0098b5d0 {
 // w494 — 0x0098b5d0, 3 bytes: C2 04 00 = ret 4 (stdcall, callee pops one 4-byte argument).
 // Empty __stdcall body with one parameter compiles to exactly `ret 4`.
+// pdb: hkMultiThreadCheck::accessCheck | hkMultiThreadCheck.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: type
 void __stdcall FUN_0098b5d0(void* p)
 {
     (void)p;
@@ -13869,6 +13991,8 @@ struct WQuery {
     void FUN_009843e0(WWorld* world, const WInput* in, WLinked* linked, void* e);
 };
 
+// pdb: hkpSimpleWorldRayCaster::castRay | hkpSimpleWorldRayCaster.obj | fnv360_0822_retail, ustr, high
+// pdb params: broadphase, input, filter, output
 void WQuery::FUN_009843e0(WWorld* world, const WInput* in, WLinked* linked, void* e)
 {
     WTimerMark(str_00e7d4bc);
@@ -13914,6 +14038,7 @@ namespace f3m_00990c60
     };
 }
 
+// pdb: hkp3AxisSweep::updateNodesAfterDelete | hkp3AxisSweep.obj | tesv_win, objrun_prop, low
 extern "C" void __stdcall FUN_00990c60(f3m_00990c60::BpNode* nodes, int numNodes, f3m_00990c60::BpNode& oldNode)
 {
     using namespace f3m_00990c60;
@@ -13971,6 +14096,7 @@ struct S0098b790_t {
     unsigned short bits;
     void FUN_0098b790();
 };
+// pdb: hkMultiThreadCheck::staticQuit | hkMultiThreadCheck.obj | fnv360_0822_retail, objrun_open, low
 void S0098b790_t::FUN_0098b790() {
     if (id == -0x2f) return;
     n98b790::ScopedLock guard(*(n98b790::Lock**)&DAT_01169318);
@@ -13997,6 +14123,7 @@ public:
     void FUN_009824b0();
     hkpMultiThreadedSimulation* FUN_00983010(unsigned int flags);
 };
+// pdb: hkpMultiThreadedSimulation::`scalar deleting destructor' | hkpMultithreadedSimulation.obj | fnv360_0822_retail, vtable, high
 hkpMultiThreadedSimulation* hkpMultiThreadedSimulation::FUN_00983010(unsigned int flags) {
     FUN_009824b0();
     if (flags & 1) {
@@ -14035,6 +14162,7 @@ class hkp3AxisSweep : public hkReferencedObject
         hkp3AxisSweep* FUN_009984f0(unsigned int flags);
 };
 
+// pdb: hkp3AxisSweep::`scalar deleting destructor' | hkp3AxisSweep.obj | fnv360_0822_retail, vtable_prefix, high
 hkp3AxisSweep* hkp3AxisSweep::FUN_009984f0(unsigned int flags)
 {
     FUN_00997010();
@@ -14087,6 +14215,7 @@ struct C98b5a0 {
     void FUN_0098b190();
     C98b5a0* FUN_0098b5a0(unsigned int flags);
 };
+// pdb: hkpSimulationIsland::`scalar deleting destructor' | hkpSimulationIsland.obj | fnv360_0822_retail, vtable, high
 C98b5a0* C98b5a0::FUN_0098b5a0(unsigned int flags)
 {
     FUN_0098b190();
@@ -14460,7 +14589,6 @@ namespace hkArrayUtil
 {
 void __cdecl _reserve(void*, int numElem, int sizeElem);
 void __cdecl _reserveMore(void* array, int sizeElem);
-void __cdecl _reduce(void* array, int sizeElem, char* inplaceMem, int requestedCapacity);
 }
 template <typename T> class hkObjectArray;
 template <typename T>
@@ -15786,6 +15914,8 @@ inline void __cdecl hkVector4Util::convertAabbToUint32( const hkAabb& aabb, cons
 	hkVector4Util::convertToUint32WithClip( aabb.m_min, offsetLow,  scale, (*reinterpret_cast<const hkVector4*>(&hkQuadReal0000)), maxVal, aabbOut.m_min );
 	hkVector4Util::convertToUint32WithClip( aabb.m_max, offsetHigh, scale, (*reinterpret_cast<const hkVector4*>(&hkQuadReal0000)), maxVal, aabbOut.m_max );
 }
+// pdb: hkpEntityAabbUtil::entityBatchRecalcAabb | hkpEntityAabbUtil.obj | fnv360_0822_debug, call_gap, low
+// pdb params: collisionInput, entityBatch, numEntities
 void __cdecl hkEntityAabbUtil::FUN_0099a2d0(const hkpCollisionInput* collisionInput, hkpEntity*const* entityBatch, int numEntities)
 {
 	const hkReal tolerance = collisionInput->getTolerance() * 0.5;
@@ -15801,7 +15931,6 @@ void __cdecl hkEntityAabbUtil::FUN_0099a2d0(const hkpCollisionInput* collisionIn
 			const hkpShapeContainer* container = shape->getContainer();
 			hkpAabbUtil::OffsetAabbInput input;
 			hkpAabbUtil::initOffsetAabbInput( entity->getMotion()->getMotionState(), input );
-			;
 			{
 				const hkVector4& massCenter = entity->getMotion()->getCenterOfMassInWorld();
 				hkAabb rootAabb; rootAabb.m_min = massCenter; rootAabb.m_max = massCenter;

@@ -5,7 +5,8 @@
 extern "C" void* g_011f3f88;
 
 // @fnv 0x00a4b570
-void* __cdecl FUN_00a4b570()
+// pdb: bhkAabbPhantom::GetRTTI | TESObjectREFR.obj | fnv360_0822_retail, udata + bridge(vtable_prefix|vtable), high
+void* __cdecl bhkAabbPhantom_GetRTTI()
 {
     return &g_011f3f88;
 }
@@ -14,25 +15,6 @@ struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
 };
-
-void __cdecl FUN_00a57c80(void*);
-
-extern int DAT_01098a14;
-
-// Allocates a 0x3c-byte BSFadeNode, runs its constructor, zeroes the field at offset 0x38, sets its vtable, and returns the object or null.
-// @fnv 0x00a4b790
-void* __cdecl FUN_00a4b790()
-{
-    void* p = BSFadeNode::operator new(0x3c);
-    if (p)
-    {
-        ((void(__thiscall*)(void*))FUN_00a57c80)(p);
-        *(unsigned short*)((char*)p + 0x38) = 0;
-        *(void**)p = &DAT_01098a14;
-        return p;
-    }
-    return 0;
-}
 
 namespace fnv_00a4b880 {
 struct StrArr
@@ -50,6 +32,8 @@ char* __cdecl FUN_00a7d330(char const*);
 
 // Appends the string returned by FUN_00a7d330(g_011f3f88.m_str) to pkStrings, growing it when the length reaches the count.
 // @fnv 0x00a4b880
+// pdb: NiParticleMeshes::GetViewerStrings | NiParticleMeshes.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void __stdcall FUN_00a4b880(StrArr* pkStrings)
 {
     FUN_00a57d10(pkStrings);
@@ -67,6 +51,7 @@ void __stdcall FUN_00a4b880(StrArr* pkStrings)
 extern "C" void* g_01201f74;
 
 // @fnv 0x00bc29d0
+// pdb: NiInterpController::GetRTTI | NiInterpController.obj | fnv360_0822_retail, objrun_open, low
 void* __cdecl FUN_00bc29d0()
 {
     return &g_01201f74;
@@ -179,6 +164,7 @@ struct ColorControllerView8c5410
 };
 }
 
+// pdb: NiMaterialColorController::GetCtlrID | NiMaterialColorController.obj | fnv360_0822_retail, ustr, medium
 const char* NiMaterialColorController::GetChannelName()
 {
     unsigned char flags = reinterpret_cast<f3m_008c5410::ColorControllerView8c5410*>(this)->channelFlags;
@@ -287,105 +273,6 @@ struct ThingPtr
     }
 };
 
-struct NiStreamLike
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    unsigned int m_uiFormatVersion;
-
-    Source* FUN_00a63430();
-};
-
-struct StreamableBase
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    void FUN_00a57630(NiStreamLike* apStream);
-};
-
-struct FUN_00a4b4b0_cls : StreamableBase
-{
-    ThingPtr m_spThing;
-
-    void FUN_00a4b4b0(NiStreamLike* apStream);
-};
-
-// @fnv 0x00a4b4b0
-void FUN_00a4b4b0_cls::FUN_00a4b4b0(NiStreamLike* apStream)
-{
-    StreamableBase::FUN_00a57630(apStream);
-
-    if (apStream->m_uiFormatVersion < 0xa010068)
-    {
-        Source* pSource = apStream->FUN_00a63430();
-        m_spThing = new Thing(pSource);
-        m_spThing.m_pObject->Refresh();
-    }
-}
-
 namespace fnv_00a4b540 {
 struct NiObject
 {
@@ -401,6 +288,8 @@ struct NiMaterialColorController
 
 // Returns true if pkObject passes FUN_00a57c10 and its mFlags[0x38] low 3 bits match this object's mFlags[0x38] low 3 bits.
 // @fnv 0x00a4b540
+// pdb: NiMaterialColorController::IsEqual | NiMaterialColorController.obj | fnv360_0822_retail, objrun, low
+// pdb params: pkObject
 bool __thiscall NiMaterialColorController::FUN_00a4b540(NiObject* pkObject)
 {
     if (!FUN_00a57c10(pkObject))
@@ -538,7 +427,7 @@ class NiMaterialColorControllerA4B5
     };
 
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
+    bool NiTimeController_DontDoUpdate(float fTime);
     void FUN_00a4b580(NiUpdateDataA4B5& kUpdateData);
 
     bool GetManagerControlled() const
@@ -563,13 +452,15 @@ class NiMaterialColorControllerA4B5
 
 // Sets controller time for manager-controlled updates, then may evaluate the interpolator and update a material color channel.
 // @f3 0x008c5520 (community match, verified in this file)
+// pdb: NiMaterialColorController::Update | NiMaterialColorController.obj | fnv360_0721_retail, objrun, medium
+// pdb params: UpdateData
 void NiMaterialColorControllerA4B5::FUN_00a4b580(NiUpdateDataA4B5& kUpdateData)
 {
     if (GetManagerControlled())
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(kUpdateData.m_fTime) &&
+    else if (NiTimeController_DontDoUpdate(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -607,75 +498,15 @@ void NiMaterialColorControllerA4B5::FUN_00a4b580(NiUpdateDataA4B5& kUpdateData)
 
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-void __cdecl _delete(void*, unsigned int);
-struct RefObj
-{
-    virtual void f0();
-    virtual void f1();
-    long m_ref;
-};
-struct BaseB
-{
-    void FUN_00a6d290();
-};
-struct S00a4b6f0
-{
-    char _0[0x34];
-    RefObj* volatile m_ptr;
-    void* Release(unsigned int);
-};
-// Sets the vtable pointer, decrements p->m_ref and calls p->f1() at zero, calls FUN_00a6d290, then conditionally deletes this.
-// @fnv 0x00a4b6f0
-void* S00a4b6f0::Release(unsigned int uiFlags)
-{
-    *(void* volatile*)this = (void*)&DAT_01098a14;
-    RefObj* p = m_ptr;
-    if (p)
-    {
-        if (InterlockedDecrement((volatile long*)&p->m_ref) == 0)
-            p->f1();
-    }
-    ((BaseB*)this)->FUN_00a6d290();
-    if (uiFlags & 1)
-        _delete(this, 0x3c);
-    return this;
-}
 
 namespace fnv_00a4b740 {
 struct CloningProcess;
-struct NiAlphaController
-{
-    void CopyMemberData(NiAlphaController*, CloningProcess&);
-};
-struct NiLightColorController
-{
-    void FUN_00a57c80();
-};
 struct NiMaterialColorController
 {
     char _pad[0x38];
     unsigned short m_uiObjectFlags;
     NiMaterialColorController* Clone(CloningProcess&);
 };
-// Allocates a new NiMaterialColorController, initializes it, copies member data from this, and returns the new object.
-// @fnv 0x00a4b740
-NiMaterialColorController* NiMaterialColorController::Clone(CloningProcess& kCloning)
-{
-    NiMaterialColorController* pkObject = (NiMaterialColorController*)BSFadeNode::operator new(0x3c);
-    if (pkObject)
-    {
-        ((NiLightColorController*)pkObject)->FUN_00a57c80();
-        *(void**)pkObject = (void*)&DAT_01098a14;
-        pkObject->m_uiObjectFlags = 0;
-    }
-    else
-    {
-        pkObject = 0;
-    }
-    ((NiAlphaController*)this)->CopyMemberData((NiAlphaController*)pkObject, kCloning);
-    pkObject->m_uiObjectFlags = m_uiObjectFlags;
-    return pkObject;
-}
 }  // namespace fnv_00a4b740
 
 struct StreamRecord
@@ -698,9 +529,8 @@ struct NiStream
     {
         return *(unsigned short*)((char*)this + 0x286);
     }
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
-void __stdcall FUN_00a57c70(NiStream*);
 struct Stand840
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -715,6 +545,8 @@ struct S0082b560_Stream
 };
 void __stdcall FUN_008d1870(NiStream*);
 typedef unsigned int (__cdecl* ReadProcRef)(StreamRecord*, void*, unsigned int, const unsigned int&, unsigned int);
+// pdb: NiMaterialColorController::LoadBinary | NiMaterialColorController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kStream
 void Stand840::Load(NiStream* stream)
 {
     FUN_008d1870(stream);
@@ -750,6 +582,7 @@ struct FUN_00bc2980 : NiNode
 };
 // Constructs a NiNode-derived object, sets m_b4 to 100.0f, m_b0 to DAT_010ba600, m_ad and m_ac to 0, and sets the vtable pointer to DAT_010ba608.
 // @fnv 0x00bc2980
+// pdb: BSClearZNode::BSClearZNode | BSClearZNode.obj | fnv360_0822_retail, call_gap_sim, high
 FUN_00bc2980::FUN_00bc2980() : NiNode(0)
 {
     m_b4 = 100.0f;
@@ -762,6 +595,8 @@ FUN_00bc2980::FUN_00bc2980() : NiNode(0)
 void __cdecl FUN_00a5ea70();
 
 // @fnv 0x00bc29c0
+// pdb: BSStripPSysData::RegisterStreamables | BSStripPSysData.obj | fnv360_0721_retail, objrun_prop, high
+// pdb params: kStream
 void __cdecl FUN_00bc29c0()
 {
     FUN_00a5ea70();
@@ -781,6 +616,7 @@ extern void* DAT_010ba608;
 
 // Initializes NiMaterialColorController fields, calls FUN_00a5e930, and optionally calls __Dummy_00b6fef0 if arg bit 0 is set.
 // @fnv 0x00bc29e0
+// pdb: BSClearZNode::`scalar deleting destructor' | BSClearZNode.obj | fnv360_0822_retail, objrun, medium
 NiMaterialColorController* __thiscall NiMaterialColorController::FUN_00bc29e0(int aiFlags)
 {
     ((float*)this)[0x2d] = 100.0f;

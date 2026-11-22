@@ -21,7 +21,8 @@ struct Item1117 {
     unsigned short unk24;
     unsigned char kind26;
 };
-bool __fastcall FUN_00433170(void* context, void* unused, Item1117* item, bool flag) {
+// pdb: TES::IsCellLoaded | TES.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_gap), high
+bool __fastcall TES_IsCellLoaded(void* context, void* unused, Item1117* item, bool flag) {
     if (item) {
         switch (item->kind26) {
         case 2:
@@ -101,6 +102,7 @@ struct Pool {
     void FUN_004336d0();
     bool FUN_00434d90();
 };
+// pdb: TES::ClearOldestBufferedCell | TES.obj | fnv360_0822_retail, call_gap, low
 bool Pool::FUN_00434d90() {
     Entry* e;
     if (!unk34) {

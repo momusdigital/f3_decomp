@@ -27,8 +27,8 @@ struct List {
     }
 };
 struct TexSwap { void FUN_00458ea0(void* form); };
-void __cdecl FUN_00454a40(unsigned int* id, TESFile* file);
-TESForm* __cdecl FUN_00455190(unsigned int id);
+void __cdecl TESForm_AddCompileIndex(unsigned int* id, TESFile* file);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 void __cdecl FUN_00887da0(const char* fmt, ...);
 extern const char DAT_00de16ac[];
 struct HeadPart {
@@ -43,13 +43,14 @@ struct HeadPart {
     List m_kExtraParts;
     unsigned int GetFormID() const { return m_uiFormID; }
     bool GetInitialized() const { return (m_uiFlags >> 3) & 1; }
-    TESFile* FUN_00455470(int);
-    void FUN_00454240(int);
+    TESFile* TESForm_GetFile(int);
+    void TESForm_SetInitialized(int);
     void FUN_00544ae0();
 };
 }
 
 
+// pdb: BGSHeadPart::InitItem | BGSHeadPart.obj | fnv360_0822_retail, vtable, medium
 void n_00544ae0::HeadPart::FUN_00544ae0()
 {
     if (GetInitialized())
@@ -60,8 +61,8 @@ void n_00544ae0::HeadPart::FUN_00544ae0()
     while (pIter && !pIter->IsEmpty())
     {
         unsigned int auiFormId = pIter->m_item;
-        FUN_00454a40(&auiFormId, FUN_00455470(-1));
-        BGSHeadPart* pPart = dynamic_cast<BGSHeadPart*>(FUN_00455190(auiFormId));
+        TESForm_AddCompileIndex(&auiFormId, TESForm_GetFile(-1));
+        BGSHeadPart* pPart = dynamic_cast<BGSHeadPart*>(TESForm_GetFormByNumericID(auiFormId));
         if (!pPart)
         {
             FUN_00887da0(DAT_00de16ac, auiFormId, GetEditorID(), GetFormID());
@@ -80,7 +81,7 @@ void n_00544ae0::HeadPart::FUN_00544ae0()
             pIter = pIter->m_pkNext;
         }
     }
-    FUN_00454240(1);
+    TESForm_SetInitialized(1);
 }
 
 // ---- family s033
@@ -114,8 +115,8 @@ struct List {
     }
 };
 struct PickupPutdown { void FUN_0044e680(void* form); };
-void __cdecl FUN_00454a40(unsigned int* id, TESFile* file);
-TESForm* __cdecl FUN_00455190(unsigned int id);
+void __cdecl TESForm_AddCompileIndex(unsigned int* id, TESFile* file);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 void __cdecl FUN_00887da0(const char* fmt, ...);
 extern const char DAT_00de1b58[];
 extern const char DAT_00de1b14[];
@@ -143,13 +144,14 @@ struct Note {
     void SetNoteTopic(TESTopic* p) { if (cType == 3) m_pText = p; }
     TESActorBase* GetNoteSpeaker() { return cType == 3 ? m_pDialogueSpeaker : 0; }
     void SetNoteSpeaker(TESActorBase* p) { if (cType == 3) m_pDialogueSpeaker = p; }
-    TESFile* FUN_00455470(int);
-    void FUN_00454240(int);
+    TESFile* TESForm_GetFile(int);
+    void TESForm_SetInitialized(int);
     void FUN_00545c00();
 };
 }
 
 
+// pdb: BGSNote::InitItem | BGSNote.obj | fnv360_0822_retail, vtable, medium
 void n_00545c00::Note::FUN_00545c00()
 {
     if (GetInitialized())
@@ -161,8 +163,8 @@ void n_00545c00::Note::FUN_00545c00()
         unsigned int id;
         TESQuest* form;
         id = (unsigned int)current->GetItem();
-        FUN_00454a40(&id, FUN_00455470(-1));
-        form = dynamic_cast<TESQuest*>(FUN_00455190(id));
+        TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+        form = dynamic_cast<TESQuest*>(TESForm_GetFormByNumericID(id));
         if (form)
         {
             current->m_item = form;
@@ -186,8 +188,8 @@ void n_00545c00::Note::FUN_00545c00()
         unsigned int id;
         TESSound* form;
         id = (unsigned int)GetNoteSound();
-        FUN_00454a40(&id, FUN_00455470(-1));
-        form = dynamic_cast<TESSound*>(FUN_00455190(id));
+        TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+        form = dynamic_cast<TESSound*>(TESForm_GetFormByNumericID(id));
         SetNoteSound(form);
         if (!form)
             FUN_00887da0(DAT_00de1b14, id, GetEditorID(), GetFormID());
@@ -197,8 +199,8 @@ void n_00545c00::Note::FUN_00545c00()
         unsigned int id;
         TESTopic* form;
         id = (unsigned int)GetNoteTopic();
-        FUN_00454a40(&id, FUN_00455470(-1));
-        form = dynamic_cast<TESTopic*>(FUN_00455190(id));
+        TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+        form = dynamic_cast<TESTopic*>(TESForm_GetFormByNumericID(id));
         SetNoteTopic(form);
         if (!form)
             FUN_00887da0(DAT_00de1ad4, id, GetEditorID(), GetFormID());
@@ -208,12 +210,12 @@ void n_00545c00::Note::FUN_00545c00()
         unsigned int id;
         TESActorBase* form;
         id = (unsigned int)GetNoteSpeaker();
-        FUN_00454a40(&id, FUN_00455470(-1));
-        form = dynamic_cast<TESActorBase*>(FUN_00455190(id));
+        TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+        form = dynamic_cast<TESActorBase*>(TESForm_GetFormByNumericID(id));
         SetNoteSpeaker(form);
         if (!form)
             FUN_00887da0(DAT_00de1a90, id, GetEditorID(), GetFormID());
     }
     m_kSounds.FUN_0044e680(this);
-    FUN_00454240(1);
+    TESForm_SetInitialized(1);
 }

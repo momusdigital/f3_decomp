@@ -44,6 +44,8 @@ struct FUN_00a42460_cls
 };
 
 // @fnv 0x00a42460
+// pdb: NiPoint3Interpolator::SetKeys | NiOldAnimationConverter.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, unsigned int auiArg3)
 {
     if (auiArg2 > 0)
@@ -276,6 +278,8 @@ struct LcOld
 void CopyControllerSettings(LcOld* pkOld, LcCtlr* pkCtlr);
 
 // @fnv 0x00a42570
+// pdb: NiOldAnimationConverter::ConvertLookAtController | NiOldAnimationConverter.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkController
 extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
 {
     LcTarget* pkTarget = pkOld->m_pkTarget;
@@ -419,6 +423,8 @@ class Ctl424
 
 // Copies animation type, cycle type, playback direction, frequency, key times and active flag from pkSrc to pkDest.
 // @fnv 0x00a424e0
+// pdb: NiOldAnimationConverter::SynchronizeTimeControllers | NiOldAnimationConverter.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkSrc, pkDest
 void __cdecl CopyControllerSettings(Ctl424* pkSrc, Ctl424* pkDest)
 {
     pkDest->SetAnimType(pkSrc->GetAnimType());

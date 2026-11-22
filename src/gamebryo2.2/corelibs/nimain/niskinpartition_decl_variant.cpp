@@ -1,11 +1,11 @@
 #include "f3_common.h"
 // src/gamebryo2.2/corelibs/nimain/niskinpartition_decl_variant.cpp - declaration variant unit created 2026-10-24 by decl_variants.py for paused function 0x00a839d0: the skeleton of src/gamebryo2.2/corelibs/nimain/niskinpartition.cpp
-// with declarations corrected to what the original code does (unit: __declspec(nothrow) void FUN_00a839d0(unsigned int,SkinItems -> __declspec(nothrow) void FUN_00a839d0(SkinItems*) throw();). Move the function to its real unit once
+// with declarations corrected to what the original code does (unit: __declspec(nothrow) void NiSkinPartition_MergeBoneSets(unsigned int,SkinItems -> __declspec(nothrow) void NiSkinPartition_MergeBoneSets(SkinItems*) throw();). Move the function to its real unit once
 // that unit declares it this way.
 
 #include "niskinpartition_decls.h"
 const void* g_011f5b1c;
-const void* __cdecl FUN_00a820d0();
+const void* __cdecl NiDirectionalLight_GetRTTI();
 void __stdcall FUN_00a82600(int a, int b, float c);
 struct Holder
 {
@@ -74,7 +74,7 @@ struct C082d30
     unsigned int f4;
     unsigned int f8;
     void FUN_00a82710(unsigned int);
-    void AppendMatchingIndices(int, int*, unsigned int);
+    void NiSkinPartition_TriangleSet_AddTriangles(int, int*, unsigned int);
 };
 struct Dummy13
 {
@@ -89,11 +89,11 @@ struct MyCls
     int _40;
     int _44;
     void _Call_a5d3a0();
-    void FUN_00a853c0(int);
+    void NiSkinData_ComputeBoneBounds(int);
     MyCls* InitFromData(int, int, const Dummy13&, int);
 };
 extern int DAT_0109e574;
-int __cdecl FUN_00a853c0();
+int __cdecl NiSkinData_ComputeBoneBounds();
 void* __cdecl _NiMalloc(unsigned int);
 void __cdecl _NiFree(void*);
 struct FUN_00a826b0_shell
@@ -287,7 +287,7 @@ struct ItemSet
     unsigned int m_u4;
     unsigned int m_uiItemCount;
 };
-int __cdecl FindMatchingItem(ItemSet* set, const unsigned short* a2, const void* a3, unsigned char* flags,
+int __cdecl NiSkinPartition_AssignTriangle(ItemSet* set, const unsigned short* a2, const void* a3, unsigned char* flags,
                              unsigned char key);
 // FUN_00a833a0 : constructor of a three-dword value object; zeroes all members.
 struct FUN_00a833a0_cls
@@ -565,9 +565,9 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(SkinItems*) throw();
-    bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
+    __declspec(nothrow) void NiSkinPartition_CreateInitialBoneSets(SkinGeom*, void*, SkinItems*, int*) throw();
+    __declspec(nothrow) void NiSkinPartition_MergeBoneSets(SkinItems*) throw();
+    bool NiSkinPartition_MakeBoneSets(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 template <class T> class SkinTArray
 {
@@ -698,7 +698,8 @@ struct MergeItems
 };
 
 // @fnv 0x00a839d0
-void __stdcall FUN_00a839d0(unsigned char threshold, MergeItems* items)
+// pdb: NiSkinPartition::MergeBoneSets | NiSkinPartition.obj | fnv360_0822_retail, call_gap + bridge(call_gap|objrun) + skyrim(call_gap), high
+void __stdcall NiSkinPartition_MergeBoneSets(unsigned char threshold, MergeItems* items)
 {
     // One equivalence id per bounded skin set; 50 entries inferred from the frame.
     int cls[50];

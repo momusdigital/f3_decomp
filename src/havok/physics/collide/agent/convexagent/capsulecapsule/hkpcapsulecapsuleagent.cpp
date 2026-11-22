@@ -20,12 +20,15 @@ struct FUN_00d3b3d0_Class
     unsigned short unk0C;
     unsigned short unk0E;
     unsigned short unk10;
-    void InvokeCallbacksAndRelease(int);
+    void hkpCapsuleCapsuleAgent_cleanup(int);
 };
 
 // Calls invoke on unk08 for each of the three IDs at unk0C unless it is 0xffff, then releases the object.
 // @fnv 0x00d3b3d0
-void FUN_00d3b3d0_Class::InvokeCallbacksAndRelease(int value)
+// pdb: hkpCapsuleCapsuleAgent::cleanup | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: constraintOwner
+// pdb: hkpCapsuleCapsuleAgent::cleanup | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, vtable, high (was: InvokeCallbacksAndRelease)
+void FUN_00d3b3d0_Class::hkpCapsuleCapsuleAgent_cleanup(int value)
 {
     unsigned short* id = &unk0C;
     int iRemaining = 3;
@@ -44,10 +47,8 @@ void FUN_00d3b3d0_Class::InvokeCallbacksAndRelease(int value)
 
 typedef void (__cdecl* HandlerFn)();
 
-void __cdecl FUN_00d3b380();
 void __cdecl FUN_00d3b420();
 void __cdecl FUN_00d3bd80();
-void __cdecl FUN_00daf8e0();
 
 struct HandlerSet {
     HandlerFn m_pfnFirst;
@@ -64,17 +65,19 @@ struct Registry {
 
 // Fills a HandlerSet with four handler functions and zeroed flags, then registers it with the registry using 5 and 5.
 // @f3 0x009c5720 (community match, verified in this file)
+// pdb: hkpCapsuleCapsuleAgent::registerAgent | hkpCapsuleCapsuleAgent.obj | fnv360_0721_beta, objrun, medium
+// pdb params: dispatcher
 void RegisterHandlers(Registry* registry) {
-    void FUN_009c4740();
-    void FUN_009c47e0();
-    void FUN_009c5400();
+    void hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent();
+    void hkpCapsuleCapsuleAgent_staticGetPenetrations();
+    void hkpCapsuleCapsuleAgent_staticGetClosestPoints();
     void FUN_00a3ab70();
     HandlerSet handlers;
     handlers.m_cFlagA=0;
     handlers.m_cFlagB=0;
-    handlers.m_pfnFirst=FUN_009c4740;
-    handlers.m_pfnSecond=FUN_009c47e0;
-    handlers.m_pfnThird=FUN_009c5400;
+    handlers.m_pfnFirst=hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent;
+    handlers.m_pfnSecond=hkpCapsuleCapsuleAgent_staticGetPenetrations;
+    handlers.m_pfnThird=hkpCapsuleCapsuleAgent_staticGetClosestPoints;
     handlers.m_pfnFourth=FUN_00a3ab70;
     registry->FUN_00cfbbe0(&handlers,6,6);
 }
@@ -83,11 +86,14 @@ void RegisterHandlers(Registry* registry) {
 void __cdecl FUN_00d3b420(const void* a, const void* b, const void* c, void* d);
 
 struct D3B6D0Agent {
-    virtual void ForwardToHandler(const void* a, const void* b, const void* c, void* d);
+    virtual void hkpCapsuleCapsuleAgent_getPenetrations(const void* a, const void* b, const void* c, void* d);
 };
 
 // @fnv 0x00d3b6d0
-void D3B6D0Agent::ForwardToHandler(const void* apArg1, const void* apArg2, const void* apArg3, void* apArg4)
+// pdb: hkpCapsuleCapsuleAgent::getPenetrations | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpCapsuleCapsuleAgent::getPenetrations | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, vtable, high (was: ForwardToHandler)
+void D3B6D0Agent::hkpCapsuleCapsuleAgent_getPenetrations(const void* apArg1, const void* apArg2, const void* apArg3, void* apArg4)
 {
     FUN_00d3b420(apArg1, apArg2, apArg3, apArg4);
 }
@@ -100,7 +106,6 @@ extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 
 struct Vec4 { float x, y, z, w; };
-union MatrixRow { Vec4 scalar; __m128 simd; };
 struct Mat44 { Vec4 row0, row1, row2, row3; };
 struct JointTransform {
     float unk00;
@@ -128,56 +133,10 @@ void __cdecl FUN_00cd6260(const void* a, float fraction, const void* b, float we
 
 // Transforms each bone's two frameVectors by its matrix, then calls FUN_00cd6260 with the results, each bone's blend value and the parameter's fraction.
 // @fnv 0x00d3b8e0
-static __declspec(noinline) void __cdecl FUN_00d3b8e0(TransformInput* first, TransformInput* second, const BlendParameter* parameter, int flags)
-{
-    JointTransform* firstBone = first->bone;
-    JointTransform* secondBone = second->bone;
-    __declspec(align(16)) __m128 firstResult[2];
-    MatrixRow a0;
-    a0.scalar = first->matrix->row0;
-    MatrixRow a1;
-    a1.scalar = first->matrix->row1;
-    MatrixRow a2;
-    a2.scalar = first->matrix->row2;
-    MatrixRow a3;
-    a3.scalar = first->matrix->row3;
-
-    for (int index = 1; index >= 0; --index) {
-        __m128 v = _mm_load_ps(firstBone->frameVectors + index * 4);
-        __m128 xy = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), a1.simd),
-                                _mm_mul_ps(_mm_shuffle_ps(v, v, 0x00), a0.simd));
-        __m128 zw = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), a2.simd), a3.simd);
-        firstResult[index] = _mm_add_ps(xy, zw);
-    }
-
-    __declspec(align(16)) __m128 secondResult[2];
-    MatrixRow b0;
-    b0.scalar = second->matrix->row0;
-    MatrixRow b1;
-    b1.scalar = second->matrix->row1;
-    MatrixRow b2;
-    b2.scalar = second->matrix->row2;
-    MatrixRow b3;
-    b3.scalar = second->matrix->row3;
-
-    for (int index = 1; index >= 0; --index) {
-        __m128 v = _mm_load_ps(secondBone->frameVectors + index * 4);
-        __m128 xy = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), b1.simd),
-                                _mm_mul_ps(_mm_shuffle_ps(v, v, 0x00), b0.simd));
-        __m128 zw = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), b2.simd), b3.simd);
-        secondResult[index] = _mm_add_ps(xy, zw);
-    }
-
-    volatile float fraction = parameter->fraction;
-    volatile float weightB = secondBone->blend;
-    volatile float weightA = firstBone->blend;
-    FUN_00cd6260(firstResult, weightA, secondResult, weightB, fraction, flags);
-}
 TransformInput* volatile inputFirst;
 TransformInput* volatile inputSecond;
 const BlendParameter* volatile inputParameter;
 volatile int inputFlags;
-void invoke_transform() { FUN_00d3b8e0(inputFirst, inputSecond, inputParameter, inputFlags); }
 
 typedef float hkReal;
 typedef unsigned short hkUint16;
@@ -346,16 +305,6 @@ hkVector4 m_vTranslation;};inline void hkVector4::operator=(const hkVector4&v)
 {
 m_vComponents=v.m_vComponents;
 }
-inline void hkVector4::_setTransformedPos(const hkTransform&t,const hkVector4&b)
-{
-const hkRotation&r=t.getRotation();
-hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-hkQuadReal r0=_mm_mul_ps(r.getColumn(0).m_vComponents,b0);
-hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
-hkQuadReal r1=_mm_mul_ps(r.getColumn(1).m_vComponents,b1);
-hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
-hkQuadReal r2=_mm_mul_ps(r.getColumn(2).m_vComponents,b2);
-m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),_mm_add_ps(r2,t.getTranslation().m_vComponents));}
 inline hkVector4&hkMatrix3::getColumn(int x)
 {
 return(&m_kColumn0)[x];
@@ -420,15 +369,6 @@ hkUint32 m_uiStartTicks;
 hkUint32 m_uiEndTicks;
 __forceinline void setTime();
 };};
-void StringCursor::CommandTimingEntry::setTime()
-{
-hkUint32 ticks;
-__asm{
-rdtsc
-mov dword ptr[ticks],eax
-}
-m_uiStartTicks=ticks;
-}
 class hkAabb
 {
 public:
@@ -633,32 +573,6 @@ hkResult __cdecl FindCapsuleCapsuleContact(const hkVector4*capsA,hkReal capsARad
 namespace hkVector4Util_S
 {
 __forceinline void __cdecl TransformPointArray(const hkTransform&t,const hkVector4*vectorsIn,int numVectors,hkVector4*vectorsOut);}
-inline void __cdecl hkVector4Util_S::TransformPointArray(const hkTransform&t,const hkVector4*vectorsIn,int numVectors,hkVector4*vectorsOut)
-{
-hkTransform unaliased=t;
-int i=numVectors-1;
-do
-{
-vectorsOut[i]._setTransformedPos(unaliased,vectorsIn[i]);
-}while(--i>=0);}
-static __forceinline hkResult getClosestPointInternal(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkContactPoint&cpoint)
-{
-const hkpCapsuleShape*capsuleA=static_cast<const hkpCapsuleShape*>(bodyA.getShape());
-const hkpCapsuleShape*capsuleB=static_cast<const hkpCapsuleShape*>(bodyB.getShape());
-hkVector4 pA[2];hkVector4Util_S::TransformPointArray(bodyA.getTransform(),capsuleA->GetIndexedVertices(),2,pA);
-hkVector4 pB[2];hkVector4Util_S::TransformPointArray(bodyB.getTransform(),capsuleB->GetIndexedVertices(),2,pB);
-return FindCapsuleCapsuleContact(pA,capsuleA->getRadius(),pB,capsuleB->getRadius(),input.getTolerance(),cpoint);}
-// @fnv 0x00d3bd80
-void __cdecl hkpCapsuleCapsuleAgent::FUN_00d3bd80(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
-{
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "CapsCaps";h->setTime();mStream.setEnd((char*)(h+1));}};
-ContactPointPair event(bodyA,bodyB);
-if(getClosestPointInternal(bodyA,bodyB,input,event.m_kPoint)==HK_SUCCESS)
-{
-collector.AddCdPoint(event);
-}
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
-}
 
 extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
 extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
@@ -901,7 +815,8 @@ __forceinline hkResult GetCapsuleCapsulePoint(const hkpCdBody& firstBody, const 
                         tolerance, pointOut);
 }
 
-void __stdcall FUN_00d3baf0(const hkpCdBody& firstBody, const hkpCdBody& secondBody,
+// pdb: hkpCapsuleCapsuleAgent::getClosestPoints | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpCapsuleCapsuleAgent_getClosestPoints(const hkpCdBody& firstBody, const hkpCdBody& secondBody,
                             const CollisionAgentContext& options, hkpCdPointCollector& collector)
 {
     RecordCapsuleEvent(DAT_010d1074);

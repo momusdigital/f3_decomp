@@ -46,6 +46,7 @@ struct RenderingState
 };
 
 // @fnv 0x00ba3690
+// pdb: MTRenderingSystem::MTRenderingSystem | MTRenderingSystem.obj | fnv360_0822_debug, objopen_prop, medium
 RenderingState::RenderingState()
 {
     int i = 0;
@@ -85,6 +86,8 @@ struct ThreadStages : ::TaskThreadManager
 };
 
 // @fnv 0x00ba3130
+// pdb: MTRenderingSystem::WaitOnThreadStage | MTRenderingSystem.obj | fnv360_0822_retail, call_seq, high
+// pdb params: aiThreadIndex, aiStage
 extern "C" void __fastcall FUN_00ba3130(ThreadStages* system, void*, int threadIndex, int stage)
 {
     if (!::DAT_011f94b4)
@@ -357,6 +360,8 @@ class AccumTaskReceiver : public ::TaskThreadManager
 };
 
 // @fnv 0x00ba3390
+// pdb: MTRenderingSystem::AddAccumTask | MTRenderingSystem.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: BSTextureManager::ReturnFrustumShadowTexture)
+// pdb params: apCamera, apFrustum, apScene, apSceneList1, apSceneList2, apAccum, akCullType, aiStage, aiBatchRendererIndex
 void __fastcall FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, TaskArg1* a2, NiRefObject* a3, void* a4,
                              void* a5, NiRefObject* a6, unsigned int a7, unsigned int a8, void* a9)
 {
@@ -447,6 +452,7 @@ struct RenderTaskManager : ::TaskThreadManager
     RenderTask* tasks[2];
 };
 // @fnv 0x00ba2d80
+// pdb: MTRenderingSystem::DestroyThreads | MTRenderingSystem.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: BeamShader::Free)
 void __fastcall FUN_00ba2d80(RenderTaskManager* manager)
 {
     if (!::DAT_011f94b4)
@@ -561,6 +567,8 @@ struct RenderTaskThread : FUN_007240a0 {
     static void operator delete(void* p) {DAT_01090a78.FUN_0086ba60(p);}
 };
 }
+// pdb: AILinearTaskThreadManager::AddThread | AILinearTaskThreadManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiThreadIndex, aiHWThread, apfnTaskFunc, apThreadName, aeStackSize
 void ThreadOwner::FUN_00ba2e00(int index,unsigned affinity,void (__cdecl* task)(),const char* name,unsigned stackSize) {
     using namespace Task1449;
     Task1449::RenderTaskThread** threads=(Task1449::RenderTaskThread**)this;
@@ -611,6 +619,7 @@ class ThreadCoordinator_ba2f30
     void FUN_00ba2f30();
 };
 // @fnv 0x00ba2f30
+// pdb: MTRenderingSystem::StartThreads | MTRenderingSystem.obj | fnv360_0822_retail, caller, medium
 void ThreadCoordinator_ba2f30::FUN_00ba2f30()
 {
     if (!DAT_011f94b4)
@@ -679,6 +688,7 @@ class FUN_00ba2fa0_C
 };
 
 // @fnv 0x00ba2fa0
+// pdb: MTRenderingSystem::WaitForThreads | MTRenderingSystem.obj | fnv360_0822_retail, call_gap, medium
 void FUN_00ba2fa0_C::FUN_00ba2fa0()
 {
     if (DAT_011f94b4)
@@ -725,6 +735,7 @@ struct WorkerThreadState : ThreadState
     bool killThread;
 };
 // @fnv 0x00ba2ff0
+// pdb: AITaskThread::`scalar deleting destructor' | AITaskManager.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: RenderingTaskThread::RunLinearTasks)
 void* __fastcall FUN_00ba2ff0(WorkerThreadState* self, void*, unsigned int flags)
 {
     self->finishedProcessing.Release();
@@ -772,6 +783,7 @@ struct FUN_00ba3030
 };
 
 // @fnv 0x00ba3030
+// pdb: MTRenderingSystem::AccumTask::~AccumTask | MTRenderingSystem.obj | fnv360_0721_beta, objrun_open, low
 FUN_00ba3030::~FUN_00ba3030()
 {}
 
@@ -788,6 +800,7 @@ struct FUN_00ba30e0
 };
 
 // @fnv 0x00ba30e0
+// pdb: RenderingTaskThread::OnFinish | MTRenderingSystem.obj | tesv_win, objrun_open, low
 FUN_00ba30e0::FUN_00ba30e0()
 {
     state00 = 0;
@@ -817,6 +830,8 @@ class RenderingStageController : public TaskThreadManager
 };
 
 // @fnv 0x00ba30f0
+// pdb: MTRenderingSystem::SetThreadStage | MTRenderingSystem.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiThreadIndex, aiStage
 void RenderingStageController::FUN_00ba30f0(int threadIndex, int stage)
 {
     if (DAT_011f94b4 && threadIndex < 2)
@@ -1113,6 +1128,7 @@ extern TaskItem DAT_0117577c[24];
 }
 void __cdecl FUN_00ba3190();
 namespace fnv_00ba3190 { void __cdecl FUN_00ba3190(); }
+// pdb: MTRenderingSystem::Thread2TaskFunc | MTRenderingSystem.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl ::fnv_00ba3190::FUN_00ba3190()
 {
     for (int i = 1; i < 24; i++) {

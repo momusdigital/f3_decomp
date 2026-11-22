@@ -5,6 +5,7 @@
 #include "havok/hkpConvexShape.h"
 
 // @fnv 0x00c9e1e0
+// pdb: hkArrayBase<hkaDetectRagdollPenetration::BonePenetration>::getCapacity | bhkRagdollPenetrationUtil.obj | fnv360_0822_debug, objrun_open, low
 int __stdcall FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     return 2;
@@ -64,38 +65,34 @@ class hkpSingleShapeContainerC9E3 : public hkpShapeContainerC9E3
     FUN_00d1df70* m_pContainedShape;
 };
 
-class FUN_00c9e340 : public hkpConvexShapeC9E3
-{
-  public:
-    hkpSingleShapeContainerC9E3 m_pContainedShape;
-
-    FUN_00c9e340(int iType, hkReal fRadius, FUN_00d1df70* pkChild, int iRef) throw();
-    virtual ~FUN_00c9e340() throw();
-};
-
-// @fnv 0x00c9e340
-FUN_00c9e340::FUN_00c9e340(int iShapeType, hkReal fRadius, FUN_00d1df70* pkChild, int iRef) throw()
-    : hkpConvexShapeC9E3(iShapeType, fRadius), m_pContainedShape(pkChild, iRef)
-{}
-
 #include <xmmintrin.h>
+class hkClass;
+class hkStatisticsCollector;
+// hkBool
+struct hkBoolC9E
+{
+    char m_bool;
+    hkBoolC9E(bool b) : m_bool((char)b) {}
+};
+// hkpConvexShape: the sixteen slots of the Fallout 3 vtables of its subclasses (hkpSphereShape 0x00e7c8d4: slot 3 is
+// this function, 4 casts a ray through slot 8 and transforms the hit for a collector, 5 returns no container, 9 returns
+// one sphere, 12 writes a supporting vertex, 14 returns WELD_RESULT_ACCEPT_CONTACT_POINT_UNMODIFIED), named as the New
+// Vegas Xbox 360 PDB names them.
 struct S00c9e1f0_Obj
 {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1C();
-    virtual void vf20();
-    virtual void vf24();
-    virtual void vf28();
-    virtual void vf2C();
-    virtual void vf30();
-    virtual void vf34();
-    virtual void method(int arg, float* out);
+    virtual ~S00c9e1f0_Obj();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual float getMaximumProjection(int direction) const;
+    virtual void castRayWithCollectorImpl(const void* input, const void* cdBody, void* collector) const;
+    virtual const void* getContainer() const;
+    virtual int calcSizeForSpu(const void* input, int spuBufferSizeLeft) const;
+    virtual void getAabbImpl(const void* localToWorld, float tolerance, void* out) const;
+    virtual hkBoolC9E castRayImpl(const void* input, void* results) const;
+    virtual int getNumCollisionSpheresImpl() const;
+    virtual const void* getCollisionSpheresImpl(void* sphereBuffer) const;
+    virtual void getFirstVertex(float* v) const;
+    virtual void getSupportingVertexImpl(int direction, float* supportingVertexOut) const;
 
     float unk04;
     float unk08;
@@ -105,14 +102,12 @@ struct S00c9e1f0_Obj
     float GetDotProductOffset(int arg);
 };
 
-// Calls method(arg, buf), then returns m_10 plus the 3-component dot product of the vector at arg and buf.
+// Returns the radius (m_10) plus the projection of the supporting vertex in the direction onto that direction.
 // @f3 0x00916f60 (community match, verified in this file)
 float S00c9e1f0_Obj::GetDotProductOffset(int arg)
 {
     __declspec(align(16)) float v[4];
-    typedef void (__thiscall *VectorMethod)(S00c9e1f0_Obj*, int, float*);
-    VectorMethod* methods = *reinterpret_cast<VectorMethod**>(this);
-    methods[12](this, arg, v);
+    getSupportingVertexImpl(arg, v);
     const float* a = reinterpret_cast<const float*>(arg);
     float dot = a[1] * v[1] + a[0] * v[0] + a[2] * v[2];
     float result = dot + m_10;
@@ -128,24 +123,6 @@ struct __declspec(align(16)) Vec4
 struct Mat3
 {
     Vec4 c0, c1, c2;
-};
-
-struct Out
-{
-    Vec4 v;
-    float t;
-    int flags;
-    int unk01;
-    int unk02;
-    int b;
-    int unk03;
-    int unk04;
-    int unk05;
-    int unk06;
-    int unk07;
-    int unk08;
-    int unk09;
-    int c;
 };
 
 struct P2
@@ -167,57 +144,3 @@ struct Cb
     VTable* vt;
     float f;
 };
-
-class Shape
-{
-  public:
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8(bool* ok, void* p1, Out* out);
-};
-
-struct FN : public Shape
-{
-    void FUN_00c9e2a0(int p1, int p2, Cb* p3);
-};
-
-// Calls v8 to fill out.v, multiplies it by the Mat3 in P2, stores the result back, then invokes the VTable callback fn on Cb.
-// @fnv 0x00c9e2a0
-void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
-{
-    bool ok;
-    Out out;
-
-    out.t = apCb->f;
-    out.flags = -1;
-    out.b = -1;
-    out.c = 0;
-
-    this->v8(&ok, (void*)(*(volatile int*)&p1), &out);
-
-    if (ok)
-    {
-        __m128 v = _mm_load_ps(&out.v.x);
-        int p2Value = p2;
-        P2* pP2 = (P2*)p2Value;
-        Mat3* m = pP2->m;
-        VTable* vt = apCb->vt;
-        void(__thiscall * fn)(Cb*, P2*, Vec4*) = vt->fn;
-
-        __m128 c0 = _mm_load_ps(&m->c0.x);
-        __m128 c1 = _mm_load_ps(&m->c1.x);
-        __m128 c2 = _mm_load_ps(&m->c2.x);
-
-        __m128 r = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), c1), _mm_mul_ps(_mm_shuffle_ps(v, v, 0), c0));
-        r = _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), c2));
-
-        _mm_store_ps(&out.v.x, r);
-        fn(apCb, pP2, &out.v);
-    }
-}

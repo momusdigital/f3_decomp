@@ -155,6 +155,8 @@ struct ShaderObj
 };
 
 // @fnv 0x00e9efe0
+// pdb: NiUnionBV::CreateFromStream | NiUnionBV.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: NiUnionBV::Clone)
+// pdb params: stream
 ShaderObj* __cdecl FUN_00e9efe0(unsigned int a1)
 {
     ShaderObj* p = new ShaderObj;
@@ -184,6 +186,8 @@ struct Obj
 };
 unsigned int FUN_00e9cab0(void*);
 // @fnv 0x00e9f020
+// pdb: NiUnionBV::LoadBinary | NiUnionBV.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void Obj::FUN_00e9f020(char* stream)
 {
     unsigned int num;
@@ -257,6 +261,8 @@ class E9E8C0Array
 };
 
 // @fnv 0x00e9e8c0
+// pdb: NiUnionBV::operator== | NiUnionBV.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kABV
 bool E9E8C0Array::FUN_00e9e8c0(E9E8C0Array* pkOther)
 {
     if (pkOther->GetType() != 4)
@@ -296,6 +302,8 @@ struct S_00e9e930
     void FUN_00e9e930(S_00e9e930_A* a1, void* a2);
 };
 // @fnv 0x00e9e930
+// pdb: NiUnionBV::UpdateWorldData | NiUnionBV.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kModelABV, kWorld
 void S_00e9e930::FUN_00e9e930(S_00e9e930_A* a1, void* a2)
 {
     for (unsigned int i = 0; i < m0E; i++)
@@ -507,6 +515,8 @@ class FUN_00e9ed50_cls
 };
 
 // @fnv 0x00e9ed50
+// pdb: NiUnionBV::SaveBinary | NiUnionBV.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: stream
 void FUN_00e9ed50_cls::FUN_00e9ed50(NiStream& kStream)
 {
     SaveValueToStream(kStream);
@@ -590,6 +600,8 @@ class NiUnionBV
 };
 
 // @fnv 0x00e9f0b0
+// pdb: NiUnionBV::AddViewerStrings | NiUnionBV.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, pkStrings
 void NiUnionBV::FUN_00e9f0b0(char* pcPrefix, NiTPrimitiveArray<char*>* pkStrings)
 {
     u32 uiLen = strlen(pcPrefix) + 12;
@@ -663,6 +675,7 @@ class NiShaderArrayOwner
 };
 
 // @fnv 0x00e9edd0
+// pdb: NiUnionBV::NiUnionBV | NiUnionBV.obj | fnv360_0822_debug, objopen_prop, low
 NiShaderArrayOwner::NiShaderArrayOwner() : m_kArray(2, 1), m_pkEntry(0)
 {}
 }  // namespace fnv_00e9edd0

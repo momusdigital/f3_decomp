@@ -141,6 +141,8 @@ template <> class NiPointer<NiD3DPixelShader>
 };
 #pragma optimize("gty", on)
 // @fnv 0x00b66f20
+// pdb: ActorLockData::operator= | DoorLock.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiPointer<class NiTimeController>::~NiPointer<class NiTimeController>)
+// pdb params: aData
 NiPointer<NiD3DPixelShader>::~NiPointer()
 {
     NiD3DPixelShader* object = m_pObject;
@@ -166,6 +168,8 @@ template <> class NiPointer<NiGPUProgram>
 };
 #pragma optimize("gty", on)
 // @fnv 0x00a5f860
+// pdb: NiPointer<NiRenderedTexture>::operator= | ExtraDataCell.obj | fnv360_0822_debug, call_dedup, low
+// pdb params: pObject
 NiPointer<NiGPUProgram>& NiPointer<NiGPUProgram>::operator=(NiGPUProgram* object)
 {
     NiGPUProgram* previous = m_pObject;
@@ -183,6 +187,8 @@ NiPointer<NiGPUProgram>& NiPointer<NiGPUProgram>::operator=(NiGPUProgram* object
 
 #pragma optimize("gty", on)
 // @fnv 0x00a67260
+// pdb: NiPointer<NiTimeController>::operator= | NiPSysUpdateCtlr.obj | fnv360_0721_beta, objrun_prop, low, conflict (skyrim: NiTimeController::SetNext)
+// pdb params: pObject
 void NiGPUProgramOwner::SetProgram(NiGPUProgram* object)
 {
     NiGPUProgram* previous = program;

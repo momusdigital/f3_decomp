@@ -5,6 +5,7 @@
 extern char const* const g_0126fa40_arg1;
 
 // @fnv 0x00be0ae0
+// pdb: NiTransformController::GetRTTI | NiTransformController.obj | fnv360_0822_retail, objrun, medium
 char const* const* __cdecl FUN_00be0ae0()
 {
     return &g_0126fa40_arg1;
@@ -40,12 +41,14 @@ struct C00be0ad0
 };
 
 // @fnv 0x00be0ad0
+// pdb: PathingLocation::GetWorldspace | PathingLocation.obj | fnv360_0822_retail, vtable, medium
 int C00be0ad0::FUN_00be0ad0()
 {
     return m1c;
 }
 
 // @fnv 0x00eea510
+// pdb: hkpConvexTranslateShape::getContainer | hkpConvexTranslateShape.obj | fnv360_0822_retail, objrun_open, low
 void* __fastcall FUN_00eea510(void* thisptr)
 {
     return (char*)thisptr + 0x14;
@@ -53,6 +56,7 @@ void* __fastcall FUN_00eea510(void* thisptr)
 
 // @f3twin 0x00a977c0 of 0x004c0120
 struct F3Twin_00a977c0 : public C00be0ad0 { int F3_FUN_00a977c0() ; };
+// pdb: hkpConvexPieceShape::getNumCollisionSpheresImpl | hkpConvexPieceShape.obj | fnv360_0822_retail, objrun_open, low
 int F3Twin_00a977c0::F3_FUN_00a977c0() 
 {
     return m1c;

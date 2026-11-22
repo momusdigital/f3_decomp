@@ -98,6 +98,8 @@ struct GraphicsRenderer : public NiRenderer
 void __cdecl PushRefCountedSlot(NiRenderTargetGroup* pkTarget);
 
 // @fnv 0x00b6b7d0
+// pdb: BSRenderedTexture::Begin | BSRenderedTexture.obj | fnv360_0822_retail, caller, medium
+// pdb params: apTargetGroup, aiClearMode
 void FUN_00b6b7d0(NiRenderTargetGroup* pkTarget, unsigned int uiClone)
 {
     NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;

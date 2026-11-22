@@ -41,7 +41,7 @@ extern const Matrix44 DAT_00f7b140;
 extern Matrix44 DAT_010f3370;
 
 void __cdecl FUN_00d02ef0() {
-    volatile Matrix44 matrix;
+    Matrix44 matrix;
     matrix.m00 = DAT_00f7b140.m00;
     matrix.m01 = DAT_00f7b140.m01;
     matrix.m02 = DAT_00f7b140.m02;
@@ -6080,6 +6080,7 @@ void FUN_00d0acb0()
 namespace f3m_00d00b90 {
 void FUN_00d985b0();
 int __cdecl FUN_00c00d1f(void (__cdecl* cleanup)());
+// pdb: `dynamic initializer for 'NiFogProperty::ms_spDefault'' | NiFogProperty.obj | tesv_win, objrun_open, low
 void FUN_00d00b90() { FUN_00c00d1f(FUN_00d985b0); }
 }   // namespace f3m_00d00b90
 
@@ -6089,6 +6090,7 @@ namespace f3m_00d00f70 {
 
 void __cdecl FUN_00d98710();
 
+// pdb: `dynamic initializer for 'NiDX9AdditionalDepthStencilBufferData::ms_kAddDepthStencil'' | NiDX92DBufferData.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d00f70() {
     atexit(FUN_00d98710);
 }
@@ -6104,6 +6106,7 @@ struct Target
 
 extern Target DAT_01091320;
 
+// pdb: `dynamic initializer for 'NiXenonRendererSDMObject'' | NiXenonRenderer.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: `dynamic initializer for 'NiDX9RendererSDMObject'')
 void __cdecl FUN_00d00e60()
 {
     DAT_01091320.FUN_0088d2f0();
@@ -6126,6 +6129,7 @@ void __cdecl FUN_00d00c90() {
 namespace f3m_00d00ce0 {
 void __cdecl FUN_00d98680();
 int __cdecl FUN_00c00d1f(void (__cdecl* cleanup)());
+// pdb: `anonymous namespace'::`dynamic initializer for 'ms_kOutputs'' | NiMetricsLayer.obj | tesv_win, objrun_open, low
 void FUN_00d00ce0() { FUN_00c00d1f(FUN_00d98680); }
 }   // namespace f3m_00d00ce0
 
@@ -6156,6 +6160,7 @@ void FUN_00d00300() { atexit(FUN_00d98440); }
 #include <stdlib.h>
 namespace f3m_00d00e50 {
 void FUN_00d986f0();
+// pdb: `dynamic initializer for 'NiXenonRenderer::ms_kDisplayFormats'' | NiXenonRenderer.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: `dynamic initializer for 'NiDX9Renderer::ms_kDisplayFormats'')
 void FUN_00d00e50() { atexit(FUN_00d986f0); }
 }   // namespace f3m_00d00e50
 
@@ -6178,6 +6183,7 @@ namespace f3m_00d000a0 {
 
 void __cdecl FUN_00d983c0();
 
+// pdb: `dynamic initializer for 'NiTexturingProperty::ms_spDefault'' | NiTexturingProperty.obj | fnv360_0822_retail, objopen_prop, low
 void __cdecl FUN_00d000a0()
 {
     atexit(FUN_00d983c0);
@@ -6242,6 +6248,7 @@ namespace f3m_00d00a40 {
 
 void __cdecl FUN_00d98580();
 
+// pdb: `dynamic initializer for 'NiShadeProperty::ms_spDefault'' | NiShadeProperty.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d00a40()
 {
     atexit(FUN_00d98580);

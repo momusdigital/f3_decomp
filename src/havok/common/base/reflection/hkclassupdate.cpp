@@ -41,6 +41,7 @@ struct FUN_00d46f70_cls
     int FUN_00d46f70();
 };
 
+// pdb: `anonymous namespace'::walkMembers | hkClassUpdate.obj | fnv360_0822_retail, caller_sim, medium
 void __cdecl VisitTypeMembers(TypeNode* node, VisitMap* visited, unsigned int mask, void(__cdecl* callback)(Member*))
 {
     for (;;)
@@ -152,7 +153,10 @@ static __declspec(noinline) void E04D30Finish(void* registry)
 
 // Registers context handlers by level: at level 1 runs VisitTypeNode and records registry, and below 4/5 registers size-2 and size-8 handlers.
 // @fnv 0x00e04d30
-void __cdecl RegisterContextHandlers(void* registry, void* context, int level)
+// pdb: hkClass::updateMetadataInplace | hkClassUpdate.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: c, updated, sourceVersion
+// pdb: hkClass::updateMetadataInplace | hkClassUpdate.obj | fnv360_0822_retail, caller_sim, high (was: RegisterContextHandlers)
+void __cdecl hkClass_updateMetadataInplace(void* registry, void* context, int level)
 {
     if (level == 1)
     {
@@ -214,7 +218,8 @@ struct RegistryMethods
 };
 extern const char DAT_00e459d4[];
 extern RegistryMethods DAT_011693b0;
-int __cdecl FUN_009232c0(const char*, const char*);
+int __cdecl hkString_strCmp(const char*, const char*);
+// pdb: `anonymous namespace'::updateConstraintInstance300 | hkClassUpdate.obj | fnv360_0822_retail, caller_sim, medium
 static __declspec(noinline) void FUN_00e04cc0(TraverseNode* node, VisitMap* visited)
 {
     void* nodePtr = node;
@@ -224,7 +229,7 @@ static __declspec(noinline) void FUN_00e04cc0(TraverseNode* node, VisitMap* visi
     {
         map->FUN_00922710(nodePtr, flags | 4);
         NodeMethods* nodeView = (NodeMethods*)node;
-        if (FUN_009232c0(nodeView->FUN_009b0490(), DAT_00e459d4) == 0)
+        if (hkString_strCmp(nodeView->FUN_009b0490(), DAT_00e459d4) == 0)
         {
             char* member = nodeView->FUN_009b06b0(2);
             TypeDefinitionView* definition = DAT_011693b0.FUN_009b0650(4);
@@ -251,6 +256,7 @@ struct ParentNodeView : TypeNode
 };
 
 // @fnv 0x00d46d60
+// pdb: hkClassMember::getStructClass | hkClassMember.obj | fnv360_0822_retail, call_dedup, medium
 TypeNode* ParentNodeView::FUN_00d46d60()
 {
     return parent;

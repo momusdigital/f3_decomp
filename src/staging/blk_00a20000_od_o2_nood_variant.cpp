@@ -4057,7 +4057,7 @@ void __cdecl FUN_00ec44d0(int a, int b, int c);
 class FUN_00a25f60_cls
 {
   public:
-    void FUN_00a25f60(int* p1, int* p2, int p3, int p4);
+    void hkAgent3Bridge_calcStatistics(int* p1, int* p2, int p3, int p4);
 };
 struct FUN_00a26300_Class
 {
@@ -6019,6 +6019,7 @@ void __cdecl FUN_00a27d60(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28
 void __cdecl FUN_00a27e40(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28060_Pt* out);
 
 // @fnv 0x00a28060
+// pdb: NiBezPosKey::ComputeMaxCurvature | NiBezPosKey.obj | tesv_win, objrun_prop, low
 float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
 {
     float fScaledValue = 0.0f;
@@ -6088,7 +6089,8 @@ void __cdecl ComputeInterpolatedPosition(float t, Spl_a2b6d0_Key* a, Spl_a2b6d0_
 void __cdecl FUN_00a2b130(float t, Spl_a2b6d0_Key* a, Spl_a2b6d0_Key* b, Spl_a2b6d0_Pt* out);
 
 // @fnv 0x00a2b6d0
-float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
+// pdb: NiTCBPosKey::ComputeMaxCurvature | NiTCBPosKey.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(objrun_prop), high
+float __cdecl NiTCBPosKey_ComputeMaxCurvature(Spl_a2b6d0_Key* keys, int count)
 {
     float fScaledValue = 0.0f;
     for (unsigned int i = 0; i < (unsigned int)(count - 1); i++)

@@ -58,6 +58,7 @@ protected:
 };
 
 // @fnv 0x00E8BF90
+// pdb: SandBoxActorPackageData::GetCurrentTargetObject | SandBoxPackage.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiDX9VertexBufferManager::GetFrameID)
 const char* NiD3DHLSLVertexShader::GetEntryPoint()
 {
     return m_pcShaderEntryPoint;
@@ -90,6 +91,8 @@ struct Outer
 
 // Calls func1c then func18 on a->m08; if func18 returns nonzero, stores it in a->m28[b] when b < a->m20 and returns true, else false.
 // @fnv 0x00e8bfa0
+// pdb: NiXenonVertexBufferManager::AllocateBufferSpace | NiXenonVBManager.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiDX9VertexBufferManager::AllocateBufferSpace)
+// pdb params: pkBuffData, uiStream
 bool __stdcall FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
 {
     Inner* p = apOuter->m08;
@@ -106,6 +109,7 @@ bool __stdcall FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
 void* _memmove(void*, const void*, unsigned int);
 // Copies count blocks of size bytes from src to dst, advancing dst by stride and src by size each time.
 // @fnv 0x00e8c090
+// pdb: NiDX9VertexBufferManager::PackVB | NiDX9VBManager.obj | tesv_win, hash, low
 void __stdcall CopyStridedElements(char* apDest, char* src, unsigned int stride, unsigned int size, unsigned int count)
 {
     if (count <= 0)
@@ -134,6 +138,8 @@ struct S_00e8c0d0
     bool CopyAndRelease(void* p);
 };
 // @fnv 0x00e8c0d0
+// pdb: NiXenonVertexBufferManager::UnlockVB | NiXenonVBManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiDX9VertexBufferManager::UnlockVB)
+// pdb params: pkVB
 bool S_00e8c0d0::CopyAndRelease(void* apObj)
 {
     _memmove(m_dst, m_src, m_iElementCount);
@@ -147,6 +153,7 @@ bool S_00e8c0d0::CopyAndRelease(void* apObj)
 extern unsigned int DAT_011bf558;
 
 // @fnv 0x00e8c120
+// pdb: NiDX9VertexBufferManager::GenerateVertexParameters | NiDX9VBManager.obj | tesv_win, call_gap, low
 void __stdcall FUN_00e8c120(Outer* p1, Outer* p2, unsigned int* flags, unsigned int* auiOffset, int* p5,
                             unsigned int* p6, unsigned int* p7, unsigned int* p8, unsigned int* p9)
 {
@@ -216,6 +223,8 @@ struct Owner_e8bff0 {
     void* FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsigned int length, unsigned int flags);
 };
 // @fnv 0x00e8bff0
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,NiVBBlock *,NiXenonRenderer::PrePackObject *>::GetNext | NiXenonRenderer.obj | fnv360_0721_beta, call_gap, low, conflict (skyrim: NiDX9VertexBufferManager::LockVB)
+// pdb params: pos, key, val
 void* Owner_e8bff0::FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsigned int length, unsigned int flags) {
     unsigned int out = 0;
     if (source->read(type, length, &out, flags) < 0)
@@ -361,6 +370,8 @@ __declspec(noinline) void Renderer::FUN_00e8c120(NiGeometryData* d, void* p, uns
     *a = unk00; *b = unk04; *c = unk08; *e = unk0c; *f = unk10; *g = unk14; *h = unk18;
 }
 // @fnv 0x00e8c1e0
+// pdb: NiXenonVertexBufferManager::PackUntransformedVB | NiXenonVBManager.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiDX9VertexBufferManager::PackUntransformedVB)
+// pdb params: pkData, pkSkin, usDirtyFlags, pakVertexElements, pkOldVBChip, pvLockedBuff
 VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform, unsigned int dirty, VertexRecord* existing, char* destination)
 {
     VertexRecord* record;

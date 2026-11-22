@@ -55,6 +55,7 @@ extern char DAT_00dfa944[];
 extern char DAT_00dfa930[];
 extern char DAT_00dfa93c[];
 
+// pdb: `dynamic initializer for 'psJoystick'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void FUN_00cdc090()
 {
     DAT_01073410 = new FUN_00403100(DAT_00dfa9ac, DAT_00dbe0d4);
@@ -117,6 +118,7 @@ extern GameSetting* DAT_010733b4;
 extern GameSetting* DAT_010733b8;
 extern GameSetting* DAT_010733bc;
 
+// pdb: `dynamic initializer for 'psMouse'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void __cdecl FUN_00cdbe50()
 {
     DAT_0107339c = new GameSetting("sMouseLeftButton", "Mouse1");
@@ -643,6 +645,7 @@ namespace f3m_00cd9c70 {
 class SettingsHeap { public: void* FUN_0086b930(unsigned); };
 
 
+// pdb: `dynamic initializer for 'psKeyboard'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void __cdecl FUN_00cd9c70()
 {
     DAT_01073524 = new FUN_00403100(DAT_00dfa828, DAT_00dfa830);
@@ -924,6 +927,7 @@ extern FUN_00403100* DAT_01073390;
 extern FUN_00403100* DAT_01073394;
 extern int DAT_01073398;
 namespace f3m_00cdd120 {
+// pdb: `dynamic initializer for 'psWeaponTypes'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void FUN_00cdd120()
 {
     DAT_01073368 = new FUN_00403100(DAT_00dfb118, DAT_00dfb134);
@@ -949,6 +953,7 @@ extern GameSetting* DAT_0107395c;
 extern GameSetting* DAT_01073960;
 namespace f3m_00cd9b30 {
 
+// pdb: `dynamic initializer for 'psDevice'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void __cdecl FUN_00cd9b30()
 {
     DAT_01073954 = new GameSetting("sDeviceKeyboard", "Keyboard");
@@ -994,6 +999,7 @@ extern FUN_00403100* DAT_01073404;
 extern FUN_00403100* DAT_01073408;
 extern FUN_00403100* DAT_0107340c;
 
+// pdb: `dynamic initializer for 'psTargetTypes'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void FUN_00cdd420()
 {
     DAT_010733c4 = new FUN_00403100("sTargetTypeTake", "Take");
@@ -1063,6 +1069,7 @@ extern FUN_00403100* DAT_01073494;
 extern FUN_00403100* DAT_01073498;
 extern FUN_00403100* DAT_0107349c;
 
+// pdb: `dynamic initializer for 'psUserActions'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: UserEvents::UserEvents)
 void FUN_00cd94a0()
 {
     DAT_01073430 = new FUN_00403100("sUActnForward", "Forward");
@@ -1144,6 +1151,7 @@ extern FUN_00403100* DAT_01073510;
 extern FUN_00403100* DAT_01073514;
 extern FUN_00403100* DAT_01073518;
 
+// pdb: `dynamic initializer for 'psXBoxGamepadText'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void FUN_00cdc2a0()
 {
     DAT_010734a0 = new FUN_00403100("sXBDPadY", "D-Pad Up / Down");
@@ -1228,6 +1236,7 @@ extern FUN_00403100* DAT_01073948;
 extern FUN_00403100* DAT_0107394c;
 extern FUN_00403100* DAT_01073950;
 
+// pdb: `dynamic initializer for 'psPS3GamepadText'' | MenuGamesettings.obj | fnv360_0822_retail, ustr, medium
 void FUN_00cdc9e0()
 {
     DAT_010738d8 = new FUN_00403100("sPS3DPadY", "D-Pad Up/Down");
@@ -1274,6 +1283,7 @@ extern SettingStandIn DAT_01073b0c;
 void FUN_00d94920();
 extern "C" int __cdecl atexit(void (__cdecl* fn)(void));
 
+// pdb: `dynamic initializer for 'BSFaceGenManager::uiMaxEGTDataSize'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSFaceGenManager::bUseCustomizationMorphs'')
 void FUN_00cdf4a0()
 {
     DAT_01073b0c.FUN_0043b7f0("uiFaceGenMaxEGTDataSize:General", 0x4000000);
@@ -5343,6 +5353,7 @@ extern Setting DAT_010732f0;
 void __cdecl FUN_00d90be0();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMaxEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5dc0()
 {
     f3m_00cd5dc0::DAT_010732f0.FUN_0043b7f0("iConcentricLengthMaxEasy", 200);
@@ -7330,6 +7341,7 @@ extern Setting DAT_01073284;
 void __cdecl FUN_00d90c00();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMaxHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5e00()
 {
     f3m_00cd5e00::DAT_01073284.FUN_0043b7f0("iConcentricLengthMaxHard", 200);
@@ -7422,6 +7434,7 @@ extern char DAT_00df7dec[];
 void __cdecl FUN_00d90b00();
 void __cdecl FUN_00c00d1f(void (*)(void));
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMinAverage'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cd5c00()
 {
     DAT_010732cc.FUN_0043b7f0((int)DAT_00df7dec, 0x64);
@@ -7584,6 +7597,7 @@ extern char DAT_00df7e08[];
 void FUN_00d90b10();
 int FUN_00c00d1f(void* f);
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMinHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cd5c20()
 {
     DAT_01073314.FUN_0043b7f0(DAT_00df7e08, 0x32);
@@ -8131,6 +8145,7 @@ extern Setting DAT_010732b4;
 void __cdecl FUN_00d90b80();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMinVeryEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5d00()
 {
     f3m_00cd5d00::DAT_010732b4.FUN_0043b7f0("iConcentricLengthMinVeryEasy", 200);
@@ -9068,6 +9083,7 @@ struct Semaphore
 extern Semaphore DAT_01073ae4;
 void __cdecl FUN_00d94880();
 
+// pdb: `anonymous namespace'::`dynamic initializer for 'HeadModelArgs'' | BSFaceGenManager.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00cdf560()
 {
     DAT_01073ae4.Semaphore::Semaphore();
@@ -9184,6 +9200,7 @@ extern Setting DAT_01073a14;
 void __cdecl FUN_00d94910();
 }
 
+// pdb: `dynamic initializer for 'BSFaceGenManager::uiMaxEGMDataSize'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSFaceGenManager::bUseRaceMorph'')
 void __cdecl FUN_00cdf480()
 {
     f3m_00cdf480::DAT_01073a14.FUN_0043b7f0("uiFaceGenMaxEGMDataSize:General", 67108864u);
@@ -10427,6 +10444,7 @@ extern Setting DAT_010732e4;
 void __cdecl FUN_00d90b90();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMinEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5d20()
 {
     f3m_00cd5d20::DAT_010732e4.FUN_0043b7f0("iConcentricLengthMinEasy", 200);
@@ -11997,6 +12015,7 @@ extern Standin_010732a8 DAT_010732a8;
 extern "C" void __cdecl FUN_00c00d1f(void (__cdecl* fn)(void));
 void FUN_00d90b40();
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMaxEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cd5c80()
 {
     DAT_010732a8.FUN_0043b7f0(0xdf7e58, 0xc8);
@@ -14908,6 +14927,7 @@ public:
 void FUN_00d90b20();
 int FUN_00c00d1f(void* f);
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMinVeryHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cd5c40()
 {
     DAT_010732c0.FUN_0043b7f0(DAT_00df7e20, 0x19);
@@ -16411,6 +16431,7 @@ extern InitTarget DAT_01073308;
 void __cdecl FUN_00d90c10();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMaxVeryHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5e20()
 {
     f3m_00cd5e20::DAT_01073308.FUN_0043b7f0(f3m_00cd5e20::DAT_00df7fc8, 200);
@@ -19293,6 +19314,7 @@ extern InitTarget DAT_0107326c;
 void __cdecl FUN_00d90bd0();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMaxVeryEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5da0()
 {
     f3m_00cd5da0::DAT_0107326c.FUN_0043b7f0(f3m_00cd5da0::DAT_00df7f54, 200);
@@ -19313,6 +19335,7 @@ extern InitTarget DAT_01073278;
 void __cdecl FUN_00d90ba0();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMinAverage'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5d40()
 {
     f3m_00cd5d40::DAT_01073278.FUN_0043b7f0(f3m_00cd5d40::DAT_00df7efc, 200);
@@ -19865,6 +19888,7 @@ extern InitTarget DAT_01073350;
 void __cdecl FUN_00d90b60();
 }
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMaxHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5cc0()
 {
     f3m_00cd5cc0::DAT_01073350.FUN_0043b7f0(f3m_00cd5cc0::DAT_00df7e8c, 50);
@@ -24024,6 +24048,7 @@ extern InitTarget DAT_01073260;
 void __cdecl FUN_00d90bb0();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMinHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5d60()
 {
     f3m_00cd5d60::DAT_01073260.FUN_0043b7f0(f3m_00cd5d60::DAT_00df7f18, 200);
@@ -30800,6 +30825,7 @@ extern InitTarget DAT_0107329c;
 void __cdecl FUN_00d90b70();
 }
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMaxVeryHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5ce0()
 {
     f3m_00cd5ce0::DAT_0107329c.FUN_0043b7f0(f3m_00cd5ce0::DAT_00df7ea4, 25);
@@ -31010,6 +31036,7 @@ extern InitTarget DAT_0107332c;
 void __cdecl FUN_00d90bf0();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMaxAverage'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5de0()
 {
     f3m_00cd5de0::DAT_0107332c.FUN_0043b7f0(f3m_00cd5de0::DAT_00df7f90, 200);
@@ -31372,6 +31399,7 @@ extern InitTarget DAT_0107335c;
 void __cdecl FUN_00d90bc0();
 }
 
+// pdb: `dynamic initializer for 'iConcentricLengthMinVeryHard'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5d80()
 {
     f3m_00cd5d80::DAT_0107335c.FUN_0043b7f0(f3m_00cd5d80::DAT_00df7f34, 200);
@@ -35112,6 +35140,7 @@ extern Obj_cd5ca0 DAT_01073344;
 extern const char DAT_00df7e70[];
 void __cdecl FUN_00d90b50();
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMaxAverage'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5ca0()
 {
     DAT_01073344.FUN_0043b7f0(DAT_00df7e70, 0x64);
@@ -37465,6 +37494,7 @@ namespace f3m_00cd5be0 {
 
 void __cdecl FUN_00d90af0();
 
+// pdb: `dynamic initializer for 'iSweetSpotLengthMinEasy'' | MenuGamesettings.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00cd5be0()
 {
     DAT_010732fc.FUN_0043b7f0(DAT_00df7dd4, 200);
@@ -37480,6 +37510,7 @@ struct Obj010739bc
 
 extern Obj010739bc DAT_010739bc;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSFaceGenAnimationData.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cde220()
 {
     DAT_010739bc.FUN_008a8440();
@@ -37493,6 +37524,7 @@ struct Obj01073b28
 
 extern Obj01073b28 DAT_01073b28;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSFaceGenModel.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cdf350()
 {
     DAT_01073b28.FUN_008a8440();
@@ -37506,6 +37538,7 @@ struct Obj01073bfc
 
 extern Obj01073bfc DAT_01073bfc;
 
+// pdb: `dynamic initializer for 'NiAnimationSDMObject'' | BSFaceGenNiNode.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00cdf8f0()
 {
     DAT_01073bfc.FUN_008a8440();

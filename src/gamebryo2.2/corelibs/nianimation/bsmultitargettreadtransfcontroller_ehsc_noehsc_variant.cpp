@@ -11,9 +11,9 @@ struct FUN_00a35950_shell : public BSMultiTargetTreadTransfController
 extern int g_011f36e4;
 struct FUN_00a35e90_shell : public BSMultiTargetTreadTransfController
 {
-    char* FUN_00a35e90(unsigned short);
+    char* BSMultiTargetTreadTransfController_GetInterpolatorID(unsigned short);
 };
-struct FUN_00a35fc0_shell
+struct FUN_00a35fc0_shell : BSMultiTargetTreadTransfController
 {
     void __thiscall SetSlotValue(unsigned short idx, void* val);
 };
@@ -21,7 +21,7 @@ struct NiInterpController
 {
     static unsigned short INVALID_INDEX;
 };
-struct FUN_00a35910_shell
+struct FUN_00a35910_shell : BSMultiTargetTreadTransfController
 {
     unsigned short __thiscall FindIndexByValue(unsigned short a);
 };
@@ -47,9 +47,9 @@ struct This_00a35f30
 };
 struct Holder_00a35f30
 {
-    unsigned short FindLinkIndex(const Arg_00a35f30& arName);
+    unsigned short BSMultiTargetTreadTransfController_GetInterpolatorIndexFx(const Arg_00a35f30& arName);
 };
-struct FUN_00a35f70_struct
+struct FUN_00a35f70_struct : BSMultiTargetTreadTransfController
 {
     void __thiscall SetSlotEntry(unsigned short, void*, unsigned short, void*);
 };
@@ -369,13 +369,6 @@ struct Holder
     void AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) throw();
     void FUN_00a32b80(unsigned int idx);
 };
-void Holder::AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) throw()
-{
-    SmartPtr<RefObj> sp = m_14[idx].m_p;
-    m_14[idx].Clear();
-    m_18[idx].Clear();
-    out = sp;
-}
 struct NiStream;
 extern void __cdecl LoadBinary(NiStream*);
 void __cdecl FUN_00a35840(NiStream* stream);
@@ -497,7 +490,7 @@ struct Controller112
     unsigned short count, field3a;
     Link112** links;
     unsigned short linkCount;
-    void FUN_00a35c00(float* time);
+    void BSMultiTargetTreadTransfController_Update(float* time);
 };
 
 struct ArrayCount
@@ -579,10 +572,11 @@ struct TargetA35
     unsigned short count;
     NodeA35** nodes;
     unsigned short nodeCount;
-    void FUN_00a35a80(unsigned short, unsigned short);
+    void BSMultiTargetTreadTransfController_AllocateStorage(unsigned short, unsigned short);
 };
 // @fnv 0x00a35a80
-void TargetA35::FUN_00a35a80(unsigned short n, unsigned short m)
+// pdb: BSMultiTargetTreadTransfController::AllocateStorage | BSMultiTargetTreadTransfController.obj | fnv360_0822_retail, call_seq + bridge(call_gap|objrun) + skyrim(call_gap), high
+void TargetA35::BSMultiTargetTreadTransfController_AllocateStorage(unsigned short n, unsigned short m)
 {
     count = n;
     nodeCount = m;

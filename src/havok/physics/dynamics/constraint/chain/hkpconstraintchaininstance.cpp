@@ -8,10 +8,6 @@ struct FUN_00c91120
 {
     void ExecutePendingOperations();
 };
-struct FUN_00c91140
-{
-    void ExecutePendingOperationQueues();
-};
 struct FUN_00c97510
 {
     void ProcessPointer(void*);
@@ -25,6 +21,8 @@ struct FUN_00dd0460
     void EntityRemovedCallback(void*);
 };
 // @f3 0x00a50b20 (community match, verified in this file)
+// pdb: hkpConstraintChainInstance::entityRemovedCallback | hkpConstraintChainInstance.obj | fnv360_0822_retail, vtable, high
+// pdb params: entity
 void FUN_00dd0460::EntityRemovedCallback(void* a)
 {
     FUN_00c97510* w = *(FUN_00c97510**)((char*)a + 8);
@@ -109,13 +107,13 @@ class hkpPhantomOverlapDD04
     int unk34;
     hkArrayDD04<hkReferencedObjectDD04*> m_kTrackedObjects;
 
-    void AddReferencedObject(hkReferencedObjectDD04* pkObject);
+    void hkpConstraintChainInstance_addEntity(hkReferencedObjectDD04* pkObject);
 };
 
 // @f3 0x00a50b70 (community match, verified in this file)
 struct FUN_00c903a0_class
 {
-    void FUN_00c903a0();
+    void hkSweptTransformUtil_setTimeInformation();
 };
 
 struct hkpPhantomOverlapLayout
@@ -135,21 +133,24 @@ struct hkpPhantomOverlapLayout
 
 void __cdecl FUN_00901f10(void* arr, int elemSize);
 
-void hkpPhantomOverlapDD04::AddReferencedObject(hkReferencedObjectDD04* pkObject)
+// pdb: hkpConstraintChainInstance::addEntity | hkpConstraintChainInstance.obj | fnv360_0822_retail, call_gap, high
+// pdb params: entity
+// pdb: hkpConstraintChainInstance::addEntity | hkpConstraintChainInstance.obj | fnv360_0822_retail, call_gap, high (was: AddReferencedObject)
+void hkpPhantomOverlapDD04::hkpConstraintChainInstance_addEntity(hkReferencedObjectDD04* pkObject)
 {
     hkpPhantomOverlapLayout* self = (hkpPhantomOverlapLayout*)this;
     int iSlot = self->m_kTrackedObjects.m_iElementCount;
     if (iSlot < 2 && self->m_pHeadNode[iSlot] == 0)
     {
         self->m_pHeadNode[iSlot] = pkObject;
-        ((FUN_00c903a0_class*)pkObject)->FUN_00c903a0();
+        ((FUN_00c903a0_class*)pkObject)->hkSweptTransformUtil_setTimeInformation();
     }
     hkArrayDD04<hkReferencedObjectDD04*>* arr = &self->m_kTrackedObjects;
     if (arr->m_iElementCount == arr->getCapacity())
         FUN_00901f10(arr, 4);
     arr->m_data[arr->m_iElementCount] = pkObject;
     arr->m_iElementCount++;
-    ((FUN_00c903a0_class*)pkObject)->FUN_00c903a0();
+    ((FUN_00c903a0_class*)pkObject)->hkSweptTransformUtil_setTimeInformation();
 }
 
 
@@ -248,6 +249,7 @@ static __forceinline void ReleaseOwnerDD05(hkReferencedObject* owner)
     }
 }
 
+// pdb: hkpConstraintChainInstance::~hkpConstraintChainInstance | hkpConstraintChainInstance.obj | fnv360_0822_retail, call_seq, high
 FUN_00dd05c0::~FUN_00dd05c0() throw()
 {
     for (int i = 0; i < unk04[11]; ++i)
@@ -278,25 +280,6 @@ struct FnvCpu_FUN_00dd0630_CpuAllocatorHolder
     FnvCpu_FUN_00dd0630_CpuAllocator* allocator;
 };
 FnvCpu_FUN_00dd0630_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00dd0630_CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00dd05c0();
-    FnvCpu_FUN_00dd0630_CpuObject* Destroy(unsigned int flags);
-};
-// Calls FUN_00dd05c0, and if flags has bit 0 set, frees this via the allocator from FUN_00c85750, then returns this.
-// @fnv 0x00dd0630
-FnvCpu_FUN_00dd0630_CpuObject* FnvCpu_FUN_00dd0630_CpuObject::Destroy(unsigned int flags)
-{
-    FUN_00dd05c0();
-    if (flags & 1)
-    {
-        FnvCpu_FUN_00dd0630_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00dd0630
 
 namespace fnv_00dd0530 {
@@ -413,16 +396,5 @@ class hkpConstraintChainInstance : public FUN_00cf3f40::hkpConstraintInstance
     hkpConstraintChainInstanceAction* m_pAction;
 };
 
-// Constructs a constraint chain instance from pkData, nulls actor entries, and creates its owning hkpConstraintChainInstanceAction.
-// @fnv 0x00dd0530
-hkpConstraintChainInstance::hkpConstraintChainInstance(hkDD05::hkpConstraintChainData* pkData)
-    : FUN_00cf3f40::hkpConstraintInstance(1)
-{
-    m_data = pkData;
-    pkData->FUN_00c90510();
-    m_kActorEntries[0] = 0;
-    m_kActorEntries[1] = 0;
-    m_pAction = new hkpConstraintChainInstanceAction(this);
-}
 }
 }  // namespace fnv_00dd0530

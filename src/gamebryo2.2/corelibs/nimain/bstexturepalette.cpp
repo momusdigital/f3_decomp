@@ -41,6 +41,8 @@ extern TextureCacheMap* DAT_0108f064;
 extern BSFileEntryMap* DAT_0108f068;
 extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 
+// pdb: BSTexturePalette::SetTexture | BSTexturePalette.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTex, apEntry
 void __cdecl TextureFileEntrySetter::SetTexture(NiTexture* texture, const BSFileEntry* entry)
 {
     if (DAT_0108f068)
@@ -80,6 +82,8 @@ struct FUN_00a61890_stub
 void* __cdecl FindNodeByObject(const void* p);
 extern int DAT_011f4484;
 // @f3 0x00829710 (community match, verified in this file)
+// pdb: BSTexturePalette::RemoveTexture | BSTexturePalette.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTexture
 bool FUN_00a61f30(const void* apTexture)
 {
     bool bres = false;
@@ -189,6 +193,8 @@ struct FUN_00a617c0_shell : public TextureFileEntrySetter
 
 // Looks up a texture by its path in a hash bucket, returning the matching item or inserting a new one and incrementing the count.
 // @fnv 0x00a617c0
+// pdb: BSTexturePalette::FindEntryForTexture | BSMain.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apTex
 TextureCacheNode* FUN_00a617c0_shell::FindOrInsertTexture(NiTexture* apTex)
 {
     const char* path = *reinterpret_cast<NiTexture_VF*>(apTex)->GetTextureResourceName();
@@ -219,6 +225,8 @@ struct S_00a61b90_Map : TextureCacheMap
 // Locks the spin lock, hashes the path suffix, releases any existing texture in ppTex, and probes up to 7 map slots for a matching texture.
 // @f3 0x00829350 (community match, verified in this file)
 extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long* dest, long exchange, long comparand);
+// pdb: BSTexturePalette::GetTexture | BSTexturePalette.obj | fnv360_0822_debug, caller, medium
+// pdb params: apPath, arTexture
 bool __cdecl FindTextureByPath(const char* path, NiTexture** ppTex)
 {
     bool found = false;
@@ -384,6 +392,7 @@ __declspec(noinline) bool __cdecl FUN_00a616e0(TexMapIter& it)
 
 // Iterates texture cache entries, removes entries whose object ref count is 2 up to a limit, then decrements the last object's ref count.
 // @f3 0x008294a0 (community match, verified in this file)
+// pdb: BSTexturePalette::PurgeUnusedTextures | BSTexturePalette.obj | fnv360_0822_retail, call_seq, medium
 void __cdecl FUN_00a61cd0()
 {
     if (DAT_011f4468)

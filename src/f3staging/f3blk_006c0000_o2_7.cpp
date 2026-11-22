@@ -13,10 +13,12 @@ struct Buffer;
 struct World {void FUN_00436420(Buffer*);};extern World* DAT_0107a0d8;
 struct Manager {void FUN_0078da50(Buffer*);void FUN_0078c030(Buffer*);};extern Manager DAT_0107c0a0;
 struct Spaces {void FUN_007a7a50(Buffer*);};extern Spaces* DAT_0108c988;
-struct Sky {void FUN_0057aeb0(Buffer*);};Sky* __cdecl FUN_0043c230();
+struct Sky {void FUN_0057aeb0(Buffer*);};Sky* __cdecl Sky_GetInstance();
 void __cdecl FUN_006d13c0(Buffer*);void __cdecl FUN_006d1a30(Buffer*);void __cdecl FUN_0061a210(Buffer*);
-void __cdecl FUN_006d1ae0(Buffer*);void __cdecl FUN_0048c4b0(Buffer*);void __cdecl FUN_005a1d10(Buffer*);
-void __cdecl FUN_006c13c0(Buffer*);void __cdecl FUN_006bd7b0(Buffer*);void __cdecl FUN_006cd570(const char*,...);
+void __cdecl BGSSaveLoadGlobalData_SaveEffects(Buffer*);void __cdecl FUN_0048c4b0(Buffer*);void __cdecl FUN_005a1d10(Buffer*);
+void __cdecl FalloutRadio_SaveGame(Buffer*);void __cdecl FUN_006bd7b0(Buffer*);void __cdecl FUN_006cd570(const char*,...);
+// pdb: BGSSaveLoadGlobalData::SaveGlobalData | BGSSaveLoadGlobalData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiGlobalDataType, apSaveGameBuffer
 bool __cdecl FUN_006d1c50(unsigned type,Buffer* buffer){
 switch(type){
 case 1:FUN_006d13c0(buffer);return true;
@@ -25,11 +27,11 @@ case 3:FUN_006d1a30(buffer);return true;
 case 4:DAT_0107c0a0.FUN_0078da50(buffer);return true;
 case 5:DAT_0108c988->FUN_007a7a50(buffer);return true;
 case 6:FUN_0061a210(buffer);return true;
-case 7:FUN_006d1ae0(buffer);return true;
+case 7:BGSSaveLoadGlobalData_SaveEffects(buffer);return true;
 case 0:FUN_0048c4b0(buffer);return true;
-case 8:FUN_0043c230()->FUN_0057aeb0(buffer);return true;
+case 8:Sky_GetInstance()->FUN_0057aeb0(buffer);return true;
 case 9:FUN_005a1d10(buffer);return true;
-case 10:FUN_006c13c0(buffer);return true;
+case 10:FalloutRadio_SaveGame(buffer);return true;
 case 11:FUN_006bd7b0(buffer);return true;
 case 1000:DAT_0107c0a0.FUN_0078c030(buffer);return true;
 default:FUN_006cd570("SAVELOAD: Unknown global data type %i in SaveGlobalData()",type);return false;

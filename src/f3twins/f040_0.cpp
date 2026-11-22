@@ -36,60 +36,70 @@ extern S_0043b7f0 DAT_010f2aa4;
 extern char DAT_00e327d4;
 void __cdecl FUN_00d98910();
 
+// pdb: `dynamic initializer for 'Renderer::iActorShadowCountInt'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8d660()
 {
     DAT_0106f7fc.FUN_00491570(&DAT_00dc2460, 4);
     FUN_00c00d1f(FUN_00d88640);
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::uMaxInteriorWaterReflections'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8edf0()
 {
     DAT_0106fde4.FUN_0043b7f0(&DAT_00dc31fc, 4);
     FUN_00c00d1f(FUN_00d88cd0);
 }
 
+// pdb: `dynamic initializer for 'LoadingMenu::iMaxScreens'' | LoadingMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce87e0()
 {
     DAT_01076a20.FUN_0043b7f0(&DAT_00e0648c, 4);
     FUN_00c00d1f(FUN_00d95bc0);
 }
 
+// pdb: `dynamic initializer for 'iMaxHiPerfCombatCount'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf6020()
 {
     DAT_0107ad60.FUN_0043b7f0(&DAT_00e1349c, 4);
     FUN_00c00d1f(FUN_00d97620);
 }
 
+// pdb: `dynamic initializer for 'iAIThread2HWThread'' | AILinearTaskThreadManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: AILinearTaskThreadManager::`dynamic initializer for 'iAIThread2HWThread'')
 void FUN_00cf69e0()
 {
     DAT_0107b010.FUN_0043b7f0(&DAT_00e13838, 4);
     FUN_00c00d1f(FUN_00d97780);
 }
 
+// pdb: `dynamic initializer for 'iMaxHiPerfPCTargetCount'' | CombatState.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfad20()
 {
     DAT_0108ca64.FUN_0043b7f0(&DAT_00e1af00, 4);
     FUN_00c00d1f(FUN_00d97e50);
 }
 
+// pdb: `dynamic initializer for 'iMaxHiPerfNPCTargetCount'' | CombatState.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfad40()
 {
     DAT_0108ca14.FUN_0043b7f0(&DAT_00e1af20, 4);
     FUN_00c00d1f(FUN_00d97e60);
 }
 
+// pdb: `dynamic initializer for 'iHWThread1'' | bhkWorld.obj | fnv360_0822_debug, ustr, high
 void FUN_00d01ea0()
 {
     DAT_010f2a8c.FUN_0043b7f0(&DAT_00e327ac, 4);
     FUN_00c00d1f(FUN_00d988f0);
 }
 
+// pdb: `dynamic initializer for 'iHWThread2'' | bhkWorld.obj | fnv360_0822_debug, ustr, high
 void FUN_00d01ec0()
 {
     DAT_010f2a98.FUN_0043b7f0(&DAT_00e327c0, 4);
     FUN_00c00d1f(FUN_00d98900);
 }
 
+// pdb: `dynamic initializer for 'iHWThread3'' | bhkWorld.obj | fnv360_0822_debug, ustr, high
 void FUN_00d01ee0()
 {
     DAT_010f2aa4.FUN_0043b7f0(&DAT_00e327d4, 4);

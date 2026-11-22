@@ -42,6 +42,8 @@ ThreeByThreeMatrix ThreeByThreeMatrix::operator+(const ThreeByThreeMatrix& matri
 
 #pragma optimize("gty", on)
 // @fnv 0x00A69970
+// pdb: NiPlane::NiPlane | NiPlane.obj | fnv360_0822_retail, call_gap, high
+// pdb params: kNormal, fConstant
 NiPlane::NiPlane(const NiPoint3& n,float c) : normal(n), constant(c) {}
 
 #pragma optimize("", off)

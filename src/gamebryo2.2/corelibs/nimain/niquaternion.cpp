@@ -4,6 +4,8 @@
 
 // Normalizes the quaternion by computing the reciprocal of the square root of the sum of squares and scaling all four components by it.
 // @fnv 0x00a38560
+// pdb: NiQuatTransform::SetRotate | Animation.obj | fnv360_0721_beta, objrun_prop, low, conflict (skyrim: NiQuaternion::Normalize)
+// pdb params: kRotate
 void NiQuaternion::MakeUnitLength()
 {
     float fNorm =
@@ -17,6 +19,8 @@ void NiQuaternion::MakeUnitLength()
 
 // Reads four 4-byte values (r, g, b, a) from the stream's binary reader, advancing the stream position by the bytes read.
 // @fnv 0x00a69800
+// pdb: NiColorA::LoadBinary | NiColor.obj | fnv360_0822_retail, call_seq, high
+// pdb params: stream
 void RgbaColor::LoadBinary(NiStream& arStream)
 {
     NiBinaryStream* pkStream = arStream.m_pUnderlyingStream;
@@ -43,6 +47,8 @@ void RgbaColor::LoadBinary(NiStream& arStream)
 
 // Spherical interpolation between quaternions a and b by t, using a cosine-based warp, then normalizes the result.
 // @fnv 0x00a6e330
+// pdb: NiQuaternion::Squad | NiQuaternion.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiQuaternion::Slerp)
+// pdb params: t, p, a, b, q
 void NiQuaternion::Slerp(float t, const NiQuaternion& a, const NiQuaternion& b)
 {
     float cosine = a.m_fVectorX * b.m_fVectorX + a.m_fVectorY * b.m_fVectorY + a.m_fVectorZ * b.m_fVectorZ +
@@ -71,6 +77,8 @@ inline float QuaternionSqrt(float value)
 extern const unsigned int DAT_011a9e98[3];
 // Builds the quaternion components from a rotation matrix, using the trace branch or the largest-diagonal branch.
 // @fnv 0x00a6df40
+// pdb: NiQuaternion::FromRotation | NiQuaternion.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: rot
 void NiQuaternion::FromRotationMatrix(const ThreeByThreeMatrix& matrix)
 {
     float root = matrix.m[0][0] + matrix.m[1][1] + matrix.m[2][2];
@@ -107,6 +115,7 @@ extern double DAT_0109c9d0;
 extern double DAT_0109c9d8;
 
 // @fnv 0x00a6dc30
+// pdb: NiQuaternion::CounterWarp | NiQuaternion.obj | tesv_win, hash, low
 float FUN_00a6dc30(float t, float fCos)
 {
     float fFactor = 1.0f - DAT_0109c9d8 * fCos;
@@ -117,6 +126,8 @@ float FUN_00a6dc30(float t, float fCos)
 
 // Interpolates p to q and a to b by t, then slerps between those two results by 2*t*(1-t) into self.
 // @fnv 0x00a6e430
+// pdb: NiQuaternion::LoadBinary | NiQuaternion.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiQuaternion::Squad)
+// pdb params: stream
 void __fastcall FUN_00a6e430(NiQuaternion* self, int edx, float afTime, const NiQuaternion& aStart,
                              const NiQuaternion& aStart2, const NiQuaternion& aEnd2, const NiQuaternion& aEnd)
 {
@@ -130,7 +141,8 @@ void __fastcall FUN_00a6e430(NiQuaternion* self, int edx, float afTime, const Ni
 extern unsigned char DAT_011F3FE4;
 
 // @fnv 0x00a4ffe0
-unsigned char* __cdecl FUN_00a4ffe0()
+// pdb: BSFaceGenModelExtraData::GetRTTI | BSFaceGenModel.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(udata), high
+unsigned char* __cdecl BSFaceGenModelExtraData_GetRTTI()
 {
     return &DAT_011F3FE4;
 }
@@ -154,6 +166,7 @@ static inline float isqrt_approx_in_neighborhood(float s)
 }
 
 // @fnv 0x00a4ff00
+// pdb: NiQuaternion::FastNormalize | NiBSplineTransformInterpolator.obj | tesv_win, hash, low
 void FUN_00a4ff00_shell::NormalizeQuaternion()
 {
     float s =
@@ -197,14 +210,15 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T& value)
 
 struct FUN_00a6e4a0_shell : public NiQuaternion
 {
-    void SnapSmallComponentsToZero();
-    void FUN_00a6e4a0(NiStream& kStream);
+    void NiQuaternion_Snap();
+    void NiQuaternion_SaveBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a6e4a0
-void FUN_00a6e4a0_shell::FUN_00a6e4a0(NiStream& kStream)
+// pdb: NiQuaternion::SaveBinary | NiQuaternion.obj | fnv360_0822_retail, call_gap + bridge(hash|call_gap) + skyrim(call_gap), high
+void FUN_00a6e4a0_shell::NiQuaternion_SaveBinary(NiStream& kStream)
 {
-    SnapSmallComponentsToZero();
+    NiQuaternion_Snap();
     SerializeValue(kStream, m_fVectorX);
     SerializeValue(kStream, m_fVectorY);
     SerializeValue(kStream, m_fVectorZ);
@@ -226,6 +240,8 @@ struct FUN_00a6de50_shell
 
 // Computes the rotation angle from the quaternion's w component and normalizes the xyz vector into an axis, zeroing both when the vector length is below epsilon.
 // @fnv 0x00a6de50
+// pdb: NiQuaternion::ToAngleAxis | NiQuaternion.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: angle, axis
 void FUN_00a6de50_shell::GetAngleAndAxis(float* angle, float* axis)
 {
     float fSquaredLength = m_fVectorY * m_fVectorY + m_fVectorZ * m_fVectorZ + m_fScalarPart * m_fScalarPart;
@@ -279,7 +295,7 @@ static const float g_fSnapEpsilonA6E = 1e-08f;
 class NiQuaternionA6E
 {
   public:
-    void SnapSmallComponentsToZero();
+    void NiQuaternion_Snap();
 
     float m_fVectorX;
     float m_fVectorY;
@@ -289,7 +305,9 @@ class NiQuaternionA6E
 
 // Sets each quaternion component to zero when its absolute value is at most g_fSnapEpsilonA6E but not already zero.
 // @fnv 0x00a6e0f0
-void NiQuaternionA6E::SnapSmallComponentsToZero()
+// pdb: NiQuaternion::Snap | NiQuaternion.obj | fnv360_0822_retail, call_seq, high
+// pdb: NiQuaternion::Snap | NiQuaternion.obj | fnv360_0822_retail, call_seq, high (was: SnapSmallComponentsToZero)
+void NiQuaternionA6E::NiQuaternion_Snap()
 {
     if (NiAbsA6E(m_fVectorY) <= g_fSnapEpsilonA6E && m_fVectorY != 0.0f)
         m_fVectorY = 0.0f;
@@ -312,6 +330,8 @@ extern const double DAT_0109c9e0;
 
 // Combines two results from FUN_00a6dc90, scales their sum, passes it to FUN_00a88970, then multiplies by current.
 // @fnv 0x00a6dd50
+// pdb: NiQuaternion::Intermediate | NiQuaternion.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: q0, q1, q2
 Quaternion* __cdecl FUN_00a6dd50(Quaternion* output, const Quaternion* previous, Quaternion* current,
                                  const Quaternion* next)
 {
@@ -376,6 +396,8 @@ inline float NiAbs(float fValue)
 
 // Sets vector x to zero and scales the other vector components and scalar part by a coefficient derived from arccosine of vector x.
 // @fnv 0x00a6dc90
+// pdb: NiQuaternion::Log | NiQuaternion.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: q
 NiQuaternion __cdecl FUN_00a6dc90(const NiQuaternion& q)
 {
     // q = cos(A)+sin(A)*(x*i+y*j+z*k), log(q) = A*(x*i+y*j+z*k)
@@ -402,6 +424,8 @@ struct FUN_00a6e1f0_shell : public NiQuaternion
 
 // Computes a quaternion from three Euler angles (afXAngle, afYAngle, afZAngle) and stores the result in the vector and scalar parts.
 // @fnv 0x00a6e1f0
+// pdb: NiQuaternion::FromEulerAnglesXYZ | NiQuaternion.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afXAngle, afYAngle, afZAngle
 void FUN_00a6e1f0_shell::SetFromEulerAngles(float afXAngle, float afYAngle, float afZAngle)
 {
     afXAngle = -afXAngle * 0.5;
@@ -436,6 +460,8 @@ struct FUN_00a6e190_shell
 
 // Allocates a buffer and writes pcPrefix and f0, f4, f8, and fc using the shown format string.
 // @fnv 0x00a6e190
+// pdb: NiQuaternion::GetViewerString | NiQuaternion.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix
 char* __thiscall FUN_00a6e190_shell::FUN_00a6e190(const char* pcPrefix)
 {
     unsigned int uiLen = strlen(pcPrefix) + 0x80;

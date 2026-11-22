@@ -17,6 +17,7 @@ TESTopicInfo* NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >::
 
 #pragma optimize("gty", on)
 // @fnv 0x00a64250
+// pdb: NiTLargeArray<NiPointer<NiTimeController>,NiTMallocInterface<NiPointer<NiTimeController> > >::RemoveAll | bhkExtraData.obj | fnv360_0822_retail, call_dedup, medium
 void NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >::RemoveAll()
 {
     register NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >* array = this;

@@ -1,8 +1,10 @@
-// bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (25 functions)
+// bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (23 functions)
 #include "f3_common.h"
 #include "tallgrassshader_decls.h"
 // Creates the constants object with the given count (defaulting to 5 when count is -1) if it does not already exist.
 // @fnv 0x00ba95e0
+// pdb: BSShaderProperty::CheckCreateRenderPassArray | BSShaderProperty.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: aiNumPasses
 void TallGrassShader::InitializeConstants(unsigned int count)
 {
     if (!constants)
@@ -44,6 +46,8 @@ struct Node
     unsigned short count;
 };
 // @fnv 0x00ba90a0
+// pdb: BSShaderProperty::ToggleMotionBlurRecurse | BSShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apObject
 void FUN_00ba90a0(Obj* apObj)
 {
     if (!apObj)
@@ -100,6 +104,8 @@ struct Node
     unsigned short count;
 };
 // @fnv 0x00ba9120
+// pdb: BSShaderProperty::SetMotionBlurRecurse | BSShaderProperty.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, abMotionBlur
 void FUN_00ba9120(Obj* pObj, int a)
 {
     if (!pObj)
@@ -157,6 +163,8 @@ struct Node
     unsigned short count;
 };
 // @fnv 0x00ba91a0
+// pdb: BSShaderProperty::SetFlagRecurse | BSShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, aeFlag, abEnable
 void FUN_00ba91a0(Obj* pObj, int a, bool b)
 {
     if (!pObj)
@@ -183,13 +191,6 @@ void FUN_00ba91a0(Obj* pObj, int a, bool b)
 }  // namespace fnv_00ba91a0
 
 extern int DAT_010b8480;
-// @fnv 0x00ba9230
-void __fastcall FUN_00ba9230(void** self, int)
-{
-    void* p = self[1];
-    self[0] = &DAT_010b8480;
-    g_memoryManager.Deallocate(p);
-}
 
 struct BSFadeNode
 {
@@ -202,6 +203,7 @@ struct FUN_00ba8e50 : BSFadeNode
 };
 // Allocates and constructs a new FUN_00ba8e50 (BSFadeNode-derived) object, returning the pointer.
 // @fnv 0x00ba9250
+// pdb: BSShaderProperty::CreateObject | BSShaderProperty.obj | fnv360_0822_retail, objrun, medium
 FUN_00ba8e50* FUN_00ba9250()
 {
     return new FUN_00ba8e50;
@@ -212,6 +214,7 @@ struct FUN_00bac160_holder
     void ConfigureBeamPasses();
 };
 // @fnv 0x00bac8b0
+// pdb: TallGrassShader::ReloadShaders | TallGrassShader.obj | fnv360_0822_retail, objrun_prop, low
 void __fastcall FUN_00bac8b0(FUN_00bac160_holder* self, int)
 {
     void** vt = *(void***)self;
@@ -433,6 +436,7 @@ void __fastcall FUN_00baa570(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // Calls FUN_00baa570 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0 with self and 0x1e0, and returns self.
 // @fnv 0x00baced0
+// pdb: TallGrassShader::`scalar deleting destructor' | TallGrassShader.obj | fnv360_0822_retail, objrun, high
 void* __fastcall FUN_00baced0(void* self, int, unsigned int flags)
 {
     FUN_00baa570(self);
@@ -450,6 +454,7 @@ struct ImageSpaceTexture
 };
 extern ImageSpaceTexture DAT_012005a4;
 // @fnv 0x00bad4a0
+// pdb: ImageSpaceEffectHDR::ClearAdaptedLight | ImageSpaceEffectHDR.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00bad4a0()
 {
     if (DAT_012005a4.GetTexture())
@@ -550,6 +555,8 @@ struct FUN_00bacd00 : BSShader
 };
 
 // @fnv 0x00bacd00
+// pdb: TallGrassShader::TallGrassShader | TallGrassShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl
 FUN_00bacd00::FUN_00bacd00(RefObj_bacd00* pDecl)
     : m_k1(0.0f, 0.0f, 0.0f, 0.0f), m_k2(0.0f, 0.0f, 0.0f, 0.0f), m_k3(0.0f, 0.0f, 0.0f, 0.0f)
 {
@@ -719,25 +726,6 @@ struct FUN_00bacd00 : BSFadeNode
     char pad[0x1dc];
     FUN_00bacd00(NiD3DVertexDeclaration*);
 };
-// @fnv 0x00bacf00
-FUN_00bacd00* CreateShaderFadeNode()
-{
-    QAutoMemContext tempMemContext(0x1c);
-    NiD3DVertexDeclaration* m_pVertexDeclaration1 = NiD3DVertexDeclaration::Create(DAT_011f9508, 5, 1);
-    m_pVertexDeclaration1->SetEntry(0, 0, 0, 2, 0);
-    m_pVertexDeclaration1->SetEntry(1, 3, 3, 2, 0);
-    m_pVertexDeclaration1->SetEntry(2, 5, 4, 3, 0);
-    m_pVertexDeclaration1->SetEntry(3, 7, 5, 1, 0);
-    m_pVertexDeclaration1->SetEntry2(0, 4, 6, 0x80000000, 0, 5, 1, 0);
-    m_pVertexDeclaration1->Finish();
-    FUN_00bacd00* pshader = new FUN_00bacd00(m_pVertexDeclaration1);
-    pshader->V4c();
-    pshader->V13c();
-    pshader->V11c();
-    pshader->V140();
-    pshader->Vc0(m_pVertexDeclaration1);
-    return pshader;
-}
 }  // namespace fnv_00bacf00
 
 struct NiPropertyState_stub
@@ -827,6 +815,8 @@ struct FUN_00ba8ff0_shell : NiPropertyState_stub
     FUN_00ba8e50* CreatePropertyStateCopy(unsigned int uiPass);
 };
 // @fnv 0x00ba8ff0
+// pdb: BSShaderProperty::CreateClone | BSShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arCloneData
 FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(unsigned int uiPass)
 {
     FUN_00ba8e50* pResult = new FUN_00ba8e50;
@@ -864,6 +854,8 @@ struct FUN_00ba9380_cls
 };
 // Calls SaveToStream, then reads four 4-byte values from the stream at pOther+0x250 into this+0x58, this+0x20, this+0x24 and this+0x30.
 // @fnv 0x00ba9380
+// pdb: BSShaderProperty::SaveBinary | BSShaderProperty.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSLightingShaderMaterialBase::SaveBinary)
+// pdb params: kStream
 void FUN_00ba9380_cls::FUN_00ba9380(void* pOther)
 {
     char* pObj = (char*)pOther;
@@ -922,6 +914,7 @@ struct FUN_00ba9520 : S_00ba9520_Base
 
 // Frees each non-null entry and its unk0c buffer, then sets unk10 to DAT_00ffdead before the base destructor runs.
 // @fnv 0x00ba9520
+// pdb: BSShaderProperty::RenderPassArray::~RenderPassArray | BSShaderProperty.obj | fnv360_0822_retail, uconst, low
 FUN_00ba9520::~FUN_00ba9520()
 {
     for (unsigned int i = 0; i < unk0c; ++i)
@@ -977,6 +970,7 @@ struct Shader_bad060 : BSShader
 };
 
 // @fnv 0x00bad060
+// pdb: TallGrassShader::LoadStagesAndPasses | TallGrassShader.obj | fnv360_0822_retail, objrun, medium
 bool Shader_bad060::FUN_00bad060()
 {
     AutoMemContext_bad060 kContext(0x1c);
@@ -1027,6 +1021,7 @@ struct ShaderRegister
 };
 // Creates the main and extra ShaderVariableMap groups if missing, registers their variables, and caches the lookup result of the count-based variable.
 // @fnv 0x00bad100
+// pdb: TallGrassShader::CreateConstantMaps | TallGrassShader.obj | fnv360_0822_retail, ustr, medium
 void ShaderRegister::InitializeShaderVariableMaps()
 {
     AllocationScope allocScope;
@@ -1094,6 +1089,7 @@ struct FUN_00bad400 : FUN_00ba3d30_Base
     FUN_00bad400_Elem** m1c;
     virtual ~FUN_00bad400();
 };
+// pdb: ImageSpaceEffectBlur::~ImageSpaceEffectBlur | ImageSpaceEffectBlur.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: ImageSpaceEffectHDR::~ImageSpaceEffectHDR)
 FUN_00bad400::~FUN_00bad400()
 {
     for (unsigned int i = 0; i < 13; ++i)
@@ -1214,7 +1210,8 @@ extern Matrix215 DAT_01200470, DAT_012004b0;
 extern Point215 DAT_012004f0;
 // If neither flag is set, copies the renderer's two matrices and the source's x/y/z point into globals and sets DAT_0120045e true and DAT_011adcdc false.
 // @fnv 0x00ba9420
-void FUN_00ba9420(const Source215* source)
+// pdb: BSShaderProperty::PreviousTransform::SaveCamera | BSShaderProperty.obj | fnv360_0721_beta, udata + bridge(hash|udata), high
+void BSShaderProperty_PreviousTransform_SaveCamera(const Source215* source)
 {
     if (!DAT_0120045c && !DAT_0120045d)
     {
@@ -1446,6 +1443,8 @@ struct S_00ba92c0_Prop : S_00ba92c0_Base
 
 // Reads unk58, the two flag words, sets flag 0x8000 when bit 0x2000 is set, then reads unk30 from the stream's bin.
 // @fnv 0x00ba92c0
+// pdb: BSShaderProperty::LoadBinary | BSShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 void S_00ba92c0_Prop::FUN_00ba92c0(S_00ba92c0_Stream& kStream)
 {
     FUN_00a95190(kStream);
@@ -1820,6 +1819,7 @@ struct GrassScopeCurrent {
  }
  ~GrassScopeCurrent() { thread->unk298 = previous; }
 };
+// pdb: TallGrassShader::LoadShaders | TallGrassShader.obj | fnv360_0822_retail, ustr, medium
 void TallGrassPrograms::FUN_00baafc0()
 {
     GrassScopeCurrent grassMemoryScope;
@@ -2268,6 +2268,8 @@ class FUN_00ba94b0 : public MidLevel
 
 // Constructs a FUN_00ba94b0 object by calling the MidLevel base constructor, zeroing unk10, and invoking FUN_00ba8d30.
 // @fnv 0x00ba94b0
+// pdb: BSShaderProperty::RenderPassArray::RenderPassArray | BSShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiCount
 FUN_00ba94b0::FUN_00ba94b0(unsigned int n) : MidLevel(n)
 {
     unk10 = 0;
@@ -2394,6 +2396,7 @@ struct Shader_c160 : BSShader
 };
 // Configures up to 44 beam passes by assigning stages from a pool, setting node values, and linking vertex and pixel shader objects.
 // @fnv 0x00bac160
+// pdb: TallGrassShader::PresetStages | TallGrassShader.obj | fnv360_0822_retail, objrun_prop, low
 void Shader_c160::ConfigureBeamPasses()
 {
     AutoMemContext_bad060 scope(28);
@@ -2832,12 +2835,15 @@ int __cdecl FUN_00b97f20(unsigned int a, unsigned int b, int c);
 struct BSParticleShader : FUN_00bacd00
 {
     void FUN_00baaf40(GeomStub* geom, Param2* p2);
-    void SetShaderParams(Param1* p1);
+    void TallGrassShader_SetupGeometryConstants(Param1* p1);
 };
 
 // Sets particle shader uniforms from p1 and p2, calls the base vfunc24, and dispatches pass handlers when enabled.
 // @fnv 0x00bac9c0
-void BSParticleShader::SetShaderParams(Param1* p1)
+// pdb: TallGrassShader::SetupGeometryConstants | TallGrassShader.obj | fnv360_0822_retail, udata, high
+// pdb params: apState
+// pdb: TallGrassShader::SetupGeometryConstants | TallGrassShader.obj | fnv360_0822_retail, udata, high (was: SetShaderParams)
+void BSParticleShader::TallGrassShader_SetupGeometryConstants(Param1* p1)
 {
     GeomStub* geom = *DAT_011f91e0;
     void* world = &geom->m_kWorldSpaceTransform;

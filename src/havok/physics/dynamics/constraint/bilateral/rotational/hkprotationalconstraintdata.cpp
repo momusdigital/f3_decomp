@@ -21,18 +21,19 @@ void __stdcall FUN_00e3b520(char flag, int* out)
 }
 
 void* __cdecl FUN_00d21a60(void*, int, int);
-struct FUN_00e3b500_cls
+struct FUN_00e3b500_cls : public hkpRotationalConstraintData
 {
     void __thiscall FUN_00e3b500(int arg);
 };
 // @fnv 0x00e3b500
 void __thiscall FUN_00e3b500_cls::FUN_00e3b500(int arg)
 {
-    FUN_00d21a60((char*)this + 0x10, 0x74, arg);
+    FUN_00d21a60(&m_kBridgeAtoms, m_kBridgeAtoms.getSizeOfAllAtoms(), arg);
 }
 
 // Returns the constant value 16.
 // @fnv 0x00e3b5b0
+// pdb: hkpRotationalConstraintData::getType | hkpRotationalConstraintData.obj | fnv360_0822_retail, objrun_open, low
 int __cdecl FUN_00e3b5b0()
 {
     return 16;
@@ -58,6 +59,7 @@ struct hkpRotationalConstraintDataHelper : public hkpRotationalConstraintData
 };
 
 // @fnv 0x00e3b550
+// pdb: hkpRotationalConstraintData::isValid | hkpRotationalConstraintData.obj | fnv360_0822_retail, objrun_open, low
 hkBool_ret __thiscall hkpRotationalConstraintDataHelper::FUN_00e3b550()
 {
     float eps = 0.001f;
@@ -66,6 +68,7 @@ hkBool_ret __thiscall hkpRotationalConstraintDataHelper::FUN_00e3b550()
 }
 
 // @f3twin 0x00a71120 of 0x009e1b00
+// pdb: hkpRotationalConstraintData::getRuntimeInfo | hkpRotationalConstraintData.obj | tesv_win, objrun_open, low
 void __stdcall F3_FUN_00a71120(char flag, int* out)
 {
     if (flag)

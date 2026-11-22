@@ -8,7 +8,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_01202688;
-void* __cdecl FUN_00c26810();
+void* __cdecl BSAnimNotes_GetRTTI();
 
 // FUN_00c26de0: NiPSysFieldModifier-style Update with attenuation - per-particle
 // force from FUN_00c26820, scaled by magnitude * dt / dist^attenuation.
@@ -168,6 +168,8 @@ struct TFieldModifier
 };
 
 // @fnv 0x00c26de0
+// pdb: NiPSysVortexFieldModifier::Update | NiPSysVortexFieldModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkData
 void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
 {
     if (m_fInfluence == 0.0f)

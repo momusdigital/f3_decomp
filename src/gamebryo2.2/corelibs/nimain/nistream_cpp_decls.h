@@ -3,7 +3,7 @@
 
 // which this folder resolves case-insensitively to the niobject.h unit file: take the canonical include/NiObject.h and skip that file.
 #include "../../../../include/NiObject.h"
-#define FNV_NIOBJECT_UNIT_H
+
 #define NiStream NiStreamAtlas
 #include "nistream_types_NiStream.h"
 #undef NiStream
@@ -39,30 +39,6 @@ class NiStreamFixedStrings : public NiTLargeObjectArray_NiFixedString_
 };
 
 class NiStream;
-class NiStreamableObject : public NiObject
-{
-  public:
-    virtual void Slot02() = 0;
-    virtual void Slot03() = 0;
-    virtual void Slot04() = 0;
-    virtual void Slot05() = 0;
-    virtual void Slot06() = 0;
-    virtual void Slot07() = 0;
-    virtual void Slot08() = 0;
-    virtual void Slot09() = 0;
-    virtual void Slot10() = 0;
-    virtual void Slot11() = 0;
-    virtual void Slot12() = 0;
-    virtual void Slot13() = 0;
-    virtual void Slot14() = 0;
-    virtual void Slot15() = 0;
-    virtual void Slot16() = 0;
-    virtual void Slot17() = 0;
-    virtual void Slot18() = 0;
-    virtual void Slot19() = 0;
-    virtual void Slot20() = 0;
-    virtual void RegisterStreamables(NiStream* stream) = 0;
-};
 
 class NiStreamVirtualView
 {
@@ -113,7 +89,7 @@ class NiStreamMemoryBuffer : public NiBinaryStream
     void FUN_00aa2fb0(char* buffer, int size);
     void FUN_00aa2ff0();
     void NiMemStreamDestructor();
-    char* FUN_00aa2d60();
+    char* NiMemStream_Str();
 };
 
 inline void NiStreamReadUInt(NiBinaryStream* stream, unsigned int& value)

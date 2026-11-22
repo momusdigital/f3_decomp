@@ -173,9 +173,9 @@ class ProcessContext
 class hkOArchive
 {
   public:
-    void FUN_00d60960(unsigned int);
-    void FUN_00d605d0(unsigned char);
-    void FUN_00d609a0(unsigned __int64);
+    void hkOArchive_write32u(unsigned int);
+    void hkOArchive_write8u(unsigned char);
+    void hkOArchive_write64u(unsigned __int64);
 };
 struct hkInspectProcess
 {
@@ -198,9 +198,9 @@ extern GlobalObjectO2_00d472a0 g_0126cae8;
 class FUN_00d605d0_Class
 {
   public:
-    void FUN_00d60960(int iCommand);
-    void FUN_00d605d0(unsigned int uiValue);
-    void FUN_00d609a0(const GlobalObjectO2_00d472a0* pkClass, int iFlags);
+    void hkOArchive_write32u(int iCommand);
+    void hkOArchive_write8u(unsigned int uiValue);
+    void hkOArchive_write64u(const GlobalObjectO2_00d472a0* pkClass, int iFlags);
 };
 struct TrackedObjectDDB3
 {
@@ -415,8 +415,8 @@ struct hkWrittenObjectQ
 };
 struct hkDisplayOStreamQ
 {
-    void FUN_00d60960(int size) throw();
-    void FUN_00d605d0(unsigned int cmd) throw();
+    void hkOArchive_write32u(int size) throw();
+    void hkOArchive_write8u(unsigned int cmd) throw();
     void FUN_00d607b0(const char* data, int size) throw();
 };
 int __cdecl FUN_00e0bd40(hkArrayStreamWriterQ* writer, hkStructureLayoutQ* layout, const void* object, int flags,
@@ -489,8 +489,8 @@ int hkInspectProcessQ::FUN_00ddb770(const void* object, const hkClassQ* pClassIn
     }
 
     int total = size + 1;
-    m_pDisplayStream->FUN_00d60960(total);
-    m_pDisplayStream->FUN_00d605d0(0x24);
+    m_pDisplayStream->hkOArchive_write32u(total);
+    m_pDisplayStream->hkOArchive_write8u(0x24);
     m_pDisplayStream->FUN_00d607b0(buffer.m_data, buffer.GetLogicalSize());
     if (recurse)
     {
@@ -798,7 +798,7 @@ struct A63Class;
 struct A63Written { const void* m_object; const A63Class* m_class; };
 struct A63Class {
  int hasVtableQ() const throw();
- A63Member& FUN_009b0690(int);
+ A63Member& hkClass_getMember(int);
 };
 void __cdecl FUN_009234e0(void*,const void*,int);
 struct A63Input
@@ -866,6 +866,8 @@ extern const A63Class DAT_0116a994;
 
 }
 
+// pdb: hkInspectProcess::consumeCommand | hkInspectProcess.obj | fnv360_0822_retail, vtable, medium
+// pdb params: command
 void InspectConsumer::FUN_00ddbae0(unsigned char command)
 {
     using namespace f3m_00a638a0;
@@ -887,7 +889,7 @@ void InspectConsumer::FUN_00ddbae0(unsigned char command)
         {
             void* object = reinterpret_cast<void*>(unsigned int(objectID));
             A63Class* type = reinterpret_cast<A63Class*>(static_cast<unsigned int>(classID));
-            const A63Member& field = type->FUN_009b0690(path[0]);
+            const A63Member& field = type->hkClass_getMember(path[0]);
             void* destination = ::FUN_00ddb450(static_cast<char*>(object) + field.getOffset(), reinterpret_cast<const ::List<unsigned short>&>(path), 0, field.getKind(),
                                              field.getSubtype(), reinterpret_cast<const ::MemberInfo*>(&field));
             if (destination)

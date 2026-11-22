@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/nianimation/nibsplinepoint3interpolator.cpp: NiBSplinePoint3Interpolator, NiBSplineTransformInterpolator (13 functions)
+// gamebryo2.2/corelibs/nianimation/nibsplinepoint3interpolator.cpp: NiBSplinePoint3Interpolator, NiBSplineTransformInterpolator (11 functions)
 #include "f3_common.h"
 #include "nibsplinepoint3interpolator_decls.h"
 // Loads the base interpolator, the point3 value, and the control point handle from the stream.
 // @fnv 0x00a50910
+// pdb: NiBSplinePoint3Interpolator::LoadBinary | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiBSplinePoint3Interpolator::LoadBinary(NiStream& stream)
 {
     NiBSplineInterpolator::LoadBinary(stream);
@@ -17,34 +19,23 @@ struct NiBSplineTransformInterpolator
     int m_fUnknown20;
     int m_fUnknown24;
     int m_fUnknown28;
-    void FUN_00a57fd0(NiBSplineTransformInterpolator*, CloningProcess&);
+    void NiBSplineInterpolator_CopyMembers(NiBSplineTransformInterpolator*, CloningProcess&);
     void CopyUnknownFields(NiBSplineTransformInterpolator*, CloningProcess&);
 };
 
-// Calls FUN_00a57fd0, then copies the four int fields at offsets 0x1C-0x28 from this into dest.
+// Calls NiBSplineInterpolator_CopyMembers, then copies the four int fields at offsets 0x1C-0x28 from this into dest.
 // @fnv 0x00a50680
+// pdb: NiBSplinePoint3Interpolator::CopyMembers | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pkDest, kCloning
 void NiBSplineTransformInterpolator::CopyUnknownFields(NiBSplineTransformInterpolator* dest, CloningProcess& process)
 {
-    NiBSplineTransformInterpolator::FUN_00a57fd0(dest, process);
+    NiBSplineTransformInterpolator::NiBSplineInterpolator_CopyMembers(dest, process);
     int* p = (int*)this;
     int* d = (int*)dest;
     d[7] = p[7];
     d[8] = p[8];
     d[9] = p[9];
     d[10] = p[10];
-}
-
-struct FUN_00a506b0_shell : public NiBSplinePoint3Interpolator
-{
-    void* FUN_00a506b0();
-};
-
-extern char const* const g_011f4014_arg1;
-
-// @fnv 0x00a506b0
-void* FUN_00a506b0_shell::FUN_00a506b0()
-{
-    return (void*)&g_011f4014_arg1;
 }
 
 void __fastcall FUN_00a57f80(void*);
@@ -70,6 +61,8 @@ struct FUN_00a50640_shell
 };
 
 // @fnv 0x00a50640
+// pdb: NiBSplinePoint3Interpolator::GetControlHandle | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usChannel
 unsigned int FUN_00a50640_shell::GetChannelValue(unsigned short usChannel)
 {
     if (usChannel != 0)
@@ -82,6 +75,8 @@ struct FUN_00a50660_shell
     void SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel);
 };
 // @fnv 0x00a50660
+// pdb: NiBSplinePoint3Interpolator::SetControlHandle | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: kControlHandle, usChannel
 void __thiscall FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel)
 {
     if (!usChannel)
@@ -99,6 +94,7 @@ struct FUN_00a57f20_shell
 };
 
 // @fnv 0x00a50840
+// pdb: NiBSplinePoint3Interpolator::CreateObject | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun, medium
 void* __cdecl FUN_00a50840()
 {
     void* p = BSFadeNode::operator new(0x2c);
@@ -120,6 +116,8 @@ struct FUN_00a506c0_shell
     void* FUN_00a506c0(int a1, int a2, int a3);
 };
 // @fnv 0x00a506c0
+// pdb: NiBSplinePoint3Interpolator::NiBSplinePoint3Interpolator | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: pkData, kPoint3CPHandle, pkBasisData
 void* FUN_00a506c0_shell::FUN_00a506c0(int a1, int aiValue, int a3)
 {
     ((FUN_00a57f20_shell*)this)->FUN_00a57f20(a1, a3);
@@ -131,7 +129,7 @@ void* FUN_00a506c0_shell::FUN_00a506c0(int a1, int aiValue, int a3)
 struct NiObject;
 struct FUN_00a50110_obj
 {
-    void __thiscall FUN_00a57fd0(FUN_00a50110_obj*, CloningProcess&);
+    void __thiscall NiBSplineInterpolator_CopyMembers(FUN_00a50110_obj*, CloningProcess&);
 };
 struct FUN_00a507e0_obj
 {
@@ -143,6 +141,8 @@ struct FUN_00a507e0_obj
     NiObject* Clone(CloningProcess& kCloning);
 };
 // @fnv 0x00a507e0
+// pdb: NiBSplinePoint3Interpolator::CreateClone | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kCloning
 NiObject* FUN_00a507e0_obj::Clone(CloningProcess& kCloning)
 {
     FUN_00a507e0_obj* pkObject = (FUN_00a507e0_obj*)BSFadeNode::operator new(44);
@@ -156,7 +156,7 @@ NiObject* FUN_00a507e0_obj::Clone(CloningProcess& kCloning)
     {
         pkObject = 0;
     }
-    ((FUN_00a50110_obj*)this)->FUN_00a57fd0((FUN_00a50110_obj*)pkObject, kCloning);
+    ((FUN_00a50110_obj*)this)->NiBSplineInterpolator_CopyMembers((FUN_00a50110_obj*)pkObject, kCloning);
     pkObject->_1c = this->_1c;
     pkObject->_20 = this->_20;
     pkObject->_24 = this->_24;
@@ -171,63 +171,6 @@ template <class T> struct NiTMallocInterface
 template <class T, class A> struct NiTPrimitiveArray
 {
 };
-
-struct Base
-{
-    void FUN_00a58200(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-};
-
-struct StrArr
-{
-    unsigned char m_unknown00[8];
-    unsigned short m_pRayCursor;
-    unsigned short m_iElementCount;
-    unsigned short m_unknown0c;
-    unsigned short m_growSize;
-
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-
-char* __cdecl _FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
-
-struct FUN_00a50960_shell
-{
-    unsigned char m_unknown[0x28];
-    unsigned int m_kPoint3CPHandle;
-
-    void FUN_00a50960(StrArr* pkStrings);
-};
-
-// @fnv 0x00a50960
-void FUN_00a50960_shell::FUN_00a50960(StrArr* pkStrings)
-{
-    reinterpret_cast<Base*>(this)->FUN_00a58200(
-        reinterpret_cast<NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*>(pkStrings));
-
-    char* pcString = _FUN_00a7d330(g_011f4014_arg1);
-
-    {
-        unsigned int index = pkStrings->m_iElementCount;
-
-        if (index >= pkStrings->m_pRayCursor)
-            pkStrings->SetSize(index + pkStrings->m_growSize);
-
-        pkStrings->SetAt(index, pcString);
-    }
-
-    pcString = FUN_00a7d510("m_kPoint3CPHandle", m_kPoint3CPHandle);
-
-    {
-        unsigned int index = pkStrings->m_iElementCount;
-
-        if (index >= pkStrings->m_pRayCursor)
-            pkStrings->SetSize(index + pkStrings->m_growSize);
-
-        pkStrings->SetAt(index, pcString);
-    }
-}
 
 struct Point3
 {
@@ -255,6 +198,8 @@ struct FUN_00a50710_shell
     bool __thiscall SampleBSpline(float time, int unk, Point3* output);
 };
 // @fnv 0x00a50710
+// pdb: NiBSplinePoint3Interpolator::Update | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkInterpTarget, kValue
 bool FUN_00a50710_shell::SampleBSpline(float time, int aiUnused, Point3* output)
 {
     if (lastTime == time)
@@ -485,12 +430,13 @@ class A50880Light : public A50880Base
     A50880Color m_kFogTint;
     float m_fValue;
 
-    void FUN_00a50880(A50880Stream& kStream);
+    void NiBSplinePoint3Interpolator_SaveBinary(A50880Stream& kStream);
 };
 
 // SaveBinary
 // @fnv 0x00a50880
-void A50880Light::FUN_00a50880(A50880Stream& kStream)
+// pdb: NiBSplinePoint3Interpolator::SaveBinary | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void A50880Light::NiBSplinePoint3Interpolator_SaveBinary(A50880Stream& kStream)
 {
     SaveToStream(kStream);
     m_kFogTint.SaveBinary(kStream);
@@ -516,14 +462,16 @@ struct S_00a508d0_Obj
     int unk18;
     S_00a508d0_Sub sub1c;
     int unk28;
-    bool FUN_00a57e90(S_00a508d0_Obj* p);
+    bool NiBSplineInterpolator_IsEqual(S_00a508d0_Obj* p);
     bool FUN_00a508d0(S_00a508d0_Obj* p);
 };
 
 // @fnv 0x00a508d0
+// pdb: NiBSplinePoint3Interpolator::IsEqual | NiBSplinePoint3Interpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkObject
 bool S_00a508d0_Obj::FUN_00a508d0(S_00a508d0_Obj* pOther)
 {
-    if (!FUN_00a57e90(pOther))
+    if (!NiBSplineInterpolator_IsEqual(pOther))
         return false;
     if (sub1c.FUN_00439090(&pOther->sub1c))
         return false;

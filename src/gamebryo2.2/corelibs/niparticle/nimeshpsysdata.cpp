@@ -4,13 +4,6 @@
 
 extern "C"
 {
-    extern void* g_012027c0;
-}
-
-// @fnv 0x00c30a80
-void* __cdecl FUN_00c30a80()
-{
-    return &g_012027c0;
 }
 
 struct NiPSysData
@@ -27,6 +20,7 @@ void __cdecl operator delete(void* p, unsigned int size);
 
 // Calls FUN_00c309d0, then deletes this with size 0x98 when bit 0 of flags is set, and returns this.
 // @fnv 0x00c30bd0
+// pdb: BSBatchRenderer::`scalar deleting destructor' | BSBatchRenderer.obj | fnv360_0822_debug, caller_sim, low
 void* __thiscall NiMeshPSysData::FUN_00c30bd0(unsigned int flags)
 {
     FUN_00c309d0();
@@ -160,6 +154,8 @@ struct FUN_00c30940_shell
 };
 // Registers the streamables of this object and of the NiNodeHelper stored at offset 0x7c, returning false if the first registration fails.
 // @fnv 0x00c30940
+// pdb: NiMeshPSysData::RegisterStreamables | NiMeshPSysData.obj | fnv360_0721_retail, objrun_prop, low
+// pdb params: kStream
 bool FUN_00c30940_shell::FUN_00c30940(NiStream& kStream)
 {
     if (!((NiPSysData_Helper*)this)->RegisterStreamables(kStream))
@@ -191,6 +187,7 @@ struct BaseCall00c30a90
     void __thiscall FUN_00c24d20();
 };
 // @fnv 0x00c30a90
+// pdb: NiMeshPSysData::ResolveAddedParticles | NiMeshPSysData.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: NiMeshPSysData::SetActiveVertexCount)
 void __thiscall S_00c30a90::FUN_00c30a90()
 {
     unsigned short us;
@@ -223,6 +220,7 @@ struct Holder_00c30c50
     NiObject* __thiscall FUN_00c30c50(CloningProcess&);
 };
 // @fnv 0x00c30c50
+// pdb: NiMeshPSysData::CreateClone | NiMeshPSysData.obj | tesv_win, caller_sim, low
 NiObject* __thiscall Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
 {
     NiMeshPSysData* pkObject;
@@ -233,30 +231,6 @@ NiObject* __thiscall Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
         pkObject = 0;
     ((Hae0*)this)->CloneTo(pkObject, kCloning);
     return (NiObject*)pkObject;
-}
-
-struct StrArr
-{
-    char _pad[8];
-    unsigned short m_usAlloc;
-    unsigned short m_usSize;
-    unsigned short _pad2;
-    unsigned short m_usGrow;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
-};
-void __stdcall FUN_00c255b0(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
-// @fnv 0x00c31210
-void __stdcall FUN_00c31210(StrArr* pkStrings)
-{
-    FUN_00c255b0(pkStrings);
-    char* pszStr = _FUN_00a7d330((const char*)g_012027c0);
-    unsigned int uiSize = pkStrings->m_usSize;
-    unsigned int uiAlloc = pkStrings->m_usAlloc;
-    if (uiSize >= uiAlloc)
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrow);
-    pkStrings->SetAt(uiSize, pszStr);
 }
 
 struct CloningProcess;
@@ -305,6 +279,8 @@ struct NiMeshPSysData_00c30920 : NiObject
 };
 
 // @fnv 0x00c30920
+// pdb: bhkExtraData::ProcessClone | bhkExtraData.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: NiMeshPSysData::ProcessClone)
+// pdb params: arCloneData
 void NiMeshPSysData_00c30920::FUN_00c30920(CloningProcess& kCloning)
 {
     NiObject::ProcessClone(kCloning);
@@ -330,6 +306,7 @@ extern int DAT_010c07e0;
 void __cdecl _NiFree(void* p);
 
 // @fnv 0x00c309a0
+// pdb: NiTArray<MobileObject *,NiTMallocInterface<MobileObject *> >::`scalar deleting destructor' | ProcessArray.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00c309a0_shell::Destroy(unsigned char deallocate)
 {
     void* p = data;
@@ -385,13 +362,14 @@ struct Mesh308Compat
 };
 struct DerivedThis308 : This308
 {
-    char __thiscall FUN_00c24de0(This308*);
-    char __thiscall FUN_00c30970(This308*);
+    char __thiscall NiPSysData_IsEqual(This308*);
+    char __thiscall NiMeshPSysData_IsEqual(This308*);
 };
 // @fnv 0x00c30970
-char __thiscall DerivedThis308::FUN_00c30970(This308* other)
+// pdb: NiMeshPSysData::IsEqual | NiMeshPSysData.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+char __thiscall DerivedThis308::NiMeshPSysData_IsEqual(This308* other)
 {
-    if (!FUN_00c24de0(other))
+    if (!NiPSysData_IsEqual(other))
         return 0;
     Mesh308Compat* thisMesh = reinterpret_cast<Mesh308Compat*>(m7c);
     Mesh308* otherMesh = other->m7c;
@@ -506,6 +484,8 @@ class C30AE0Modifier : public C30AE0Base
 };
 
 // @fnv 0x00c30ae0
+// pdb: NiMeshPSysData::LinkObject | NiMeshPSysData.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiMeshPSysData::CopyMembers)
+// pdb params: kStream
 void C30AE0Modifier::CloneTo(C30AE0Modifier* pkDest, C30AE0CloningProcess& kCloning)
 {
     C30AE0Base::CopyMemberData(pkDest, kCloning);
@@ -535,6 +515,7 @@ struct NiMeshPSysData308
     void __thiscall FUN_00c30b70(NiStream& kStream);
 };
 // @fnv 0x00c30b70
+// pdb: NiTPrimitiveArray<NiTObjectArray<NiPointer<NiAVObject> > *>::`scalar deleting destructor' | NiMeshPSysData.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiMeshPSysData::LinkObject)
 void __thiscall NiMeshPSysData308::FUN_00c30b70(NiStream& kStream)
 {
     ((NiPSysDataLinkHelper*)this)->LinkObject(kStream);
@@ -771,14 +752,16 @@ struct MeshSave
     unsigned int unk88;
     SavedElement** elements;
     unsigned short capacity, count, growth, unk96;
-    void FUN_00c25560(SaveStream&);
+    void NiPSysData_SaveBinary(SaveStream&);
     void WriteToStream(SaveStream&);
 };
-// Calls FUN_00c25560, then writes value, active, count and each element's id (or zero) to the stream, and saves a link to particleMeshes.
+// Calls NiPSysData_SaveBinary, then writes value, active, count and each element's id (or zero) to the stream, and saves a link to particleMeshes.
 // @fnv 0x00c30cc0
+// pdb: NiMeshPSysData::SaveBinary | NiMeshPSysData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void MeshSave::WriteToStream(SaveStream& stream)
 {
-    FUN_00c25560(stream);
+    NiPSysData_SaveBinary(stream);
     stream.buffer->Write(&value, 4);
     {
         bool bActive = active;
@@ -954,6 +937,7 @@ class FUN_00c309d0 : public BaseC30
 
 // Destructor that repeatedly removes the last element from m_kElements and deletes it until the array is empty.
 // @fnv 0x00c309d0
+// pdb: NiMeshPSysData::~NiMeshPSysData | NiMeshPSysData.obj | fnv360_0822_retail, caller_sim, low
 FUN_00c309d0::~FUN_00c309d0() throw()
 {
     while (m_kElements.GetSize() > 0)
@@ -996,61 +980,6 @@ class BC30C00ObjectArray : public BC30C00ChildArray
     {}
     virtual ~BC30C00ObjectArray();
 };
-
-class BC30C00Base
-{
-  public:
-    BC30C00Base() throw();
-    virtual ~BC30C00Base();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-};
-
-class FUN_00c30c00_cls : public BC30C00Base
-{
-  public:
-    FUN_00c30c00_cls() throw();
-    virtual ~FUN_00c30c00_cls();
-
-    void* m_pkTarget;
-    int unk80;
-    int unk84;
-    BC30C00ObjectArray m_kArray;
-};
-
-// Initializes the object with m_pkTarget set to null.
-// @fnv 0x00c30c00
-FUN_00c30c00_cls::FUN_00c30c00_cls() throw() : m_pkTarget(0)
-{}
 
 __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
@@ -1180,7 +1109,7 @@ struct NiParticleInfoSI
 
 struct NiPSysData_StandIn
 {
-    void FUN_00c24cc0(unsigned short usParticle);
+    void NiPSysData_RemoveParticle(unsigned short usParticle);
 };
 
 struct NiMeshPSysDataSI : NiPSysData_StandIn
@@ -1224,12 +1153,14 @@ struct NiMeshPSysDataSI : NiPSysData_StandIn
 };
 
 // @fnv 0x00c30e80
+// pdb: NiMeshPSysData::RemoveParticle | NiMeshPSysData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: usParticle
 void NiMeshPSysDataSI::FUN_00c30e80(unsigned short usParticleIndex)
 {
     unsigned short usLastParticle = m_usActive - 1;
     unsigned short usParticleGeneration = m_pkParticleInfo[usParticleIndex].m_usFirstValue;
 
-    FUN_00c24cc0(usParticleIndex);
+    NiPSysData_RemoveParticle(usParticleIndex);
 
     NiAVObjectPtrSI spParticle = 0;
     if (usParticleIndex == usLastParticle)
@@ -1342,6 +1273,8 @@ struct Owner436
 };
 // Grows or shrinks the children array to count, deleting removed entries and allocating new Array436 entries sized to arraySize.
 // @fnv 0x00c30f90
+// pdb: NiMeshPSysData::SetNumGenerations | NiMeshPSysData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: uiNumGenerations
 void Owner436::ResizeChildren(unsigned count)
 {
     unsigned previous = children.size;
@@ -1609,7 +1542,7 @@ struct PSysDataBase
 struct NiMeshPSysDataStub : PSysDataBase
 {
     void FillPools(bool bFill);
-    void FUN_00c31090(NiStream& kStream);
+    void NiMeshPSysData_LoadBinary(NiStream& kStream);
 };
 
 struct NiMeshPSysDataLayout : NiMeshPSysDataStub
@@ -1656,7 +1589,8 @@ inline void S00c31090_AddPool(PoolArrayArray& kPools, unsigned int uiIndex, Pool
 
 // Loads base particle data, fills pools for older versions, and otherwise reads pool sizes and creates a pool for each nonzero size.
 // @f3 0x00ad14d0 (community match, verified in this file)
-void NiMeshPSysDataStub::FUN_00c31090(NiStream& kStream)
+// pdb: NiMeshPSysData::LoadBinary | NiMeshPSysData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+void NiMeshPSysDataStub::NiMeshPSysData_LoadBinary(NiStream& kStream)
 {
     NiMeshPSysDataLayout* pkThis = (NiMeshPSysDataLayout*)this;
     unsigned int uiPoolSize;

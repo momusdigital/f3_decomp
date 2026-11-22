@@ -82,6 +82,8 @@ struct hkQsTransform
     hkVector4 m_scale;
 };
 
+// pdb: hkVector4::setTransformedPos | hkVector4.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: hkaSkeletonUtils::getBoneChain)
+// pdb params: t, v
 void hkVector4::FUN_008d2b00(const hkQsTransform& a, const hkVector4& b)
 {
     hkVector4 scaled;

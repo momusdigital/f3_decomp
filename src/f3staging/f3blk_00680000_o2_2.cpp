@@ -6,6 +6,8 @@
 
 // @f3 0x006891d0 (community match, verified in this file)
 namespace f3m_006891d0 {
+// pdb: SurgeryMenu::GetIndexFromActorValue | SurgeryMenu.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aeLimb
 int __stdcall FUN_006891d0(int type) {
  switch(type) {
  case 26: return 0;
@@ -35,6 +37,7 @@ class QSlotTable684 {
     int ids[6];
     QSlotTable684();
 };
+// pdb: StatsMenu::BodyPartController::BodyPartController | StatsMenu.obj | fnv360_0822_debug, call_seq, medium
 QSlotTable684::QSlotTable684()
 {
     unk00 = 0;

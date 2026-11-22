@@ -2,27 +2,6 @@
 // src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct VirtualBase
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void Dispatch();
-};
-struct FUN_00ddf020_Class
-{
-    void __thiscall FUN_00ddf020();
-};
-// @fnv 0x00ddf020
-void __thiscall FUN_00ddf020_Class::FUN_00ddf020()
-{
-    ((VirtualBase*)this)->Dispatch();
-}
-
 struct hkMemoryAllocator
 {
     virtual ~hkMemoryAllocator();
@@ -168,24 +147,6 @@ struct AllocatorHolder
     MemoryAllocator* allocator;
 };
 extern AllocatorHolder* __cdecl FUN_00c85750();
-struct StreamStatisticsCollector
-{
-    int unk00;
-    unsigned short unk04;
-    void FUN_00ddf240();
-    void* FreeIfFlagged(unsigned int flags);
-};
-// @fnv 0x00ddfb40
-void* StreamStatisticsCollector::FreeIfFlagged(unsigned int flags)
-{
-    FUN_00ddf240();
-    if (flags & 1)
-    {
-        AllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Free(this, (unsigned int)unk04);
-    }
-    return this;
-}
 }  // namespace fnv_00ddfb40
 
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize);
@@ -205,6 +166,8 @@ static inline void S_00a64bf0_SetSize(hkArrayChar* a, int n)
     a->m_iElementCount = n;
 }
 
+// pdb: hkStreamStatisticsCollector::setDataByCopying | hkStreamStatisticsCollector.obj | fnv360_0822_retail, objrun, low, conflict (bridge: _newCommand)
+// pdb params: buffer, length, endianSwap
 static __declspec(noinline) int* FUN_00ddf370(hkArrayChar* a, int n)
 {
     int* slot;
@@ -365,7 +328,7 @@ extern unsigned long DAT_010f3170;
 extern void* (__stdcall* DAT_00d9b080)(unsigned long);
 unsigned __cdecl FUN_009233f0(const char*);
 void* __cdecl FUN_009234e0(void*, const void*, unsigned);
-int __cdecl FUN_009232c0(const char*, const char*);
+int __cdecl hkString_strCmp(const char*, const char*);
 void __cdecl FUN_00901e90(String*, int, int);
 void __cdecl FUN_00901f10(Strings*, int);
 }
@@ -383,7 +346,7 @@ static __declspec(noinline) MonitorNode* FUN_00a64f60(
     if (parent) {
         for (int i = 0; i < parent->children.size; ++i) {
             MonitorNode* child = parent->children.data[i];
-            if (!FUN_009232c0(child->name, name)) {
+            if (!hkString_strCmp(child->name, name)) {
                 result = child;
                 break;
             }
@@ -436,6 +399,8 @@ static __declspec(noinline) MonitorNode* FUN_00a64f60(
     return result;
 }
 
+// pdb: _sumNodes | hkStreamStatisticsCollector.obj | fnv360_0822_retail, objrun, medium
+// pdb params: n, stringTable
 void __cdecl AggregateChildValues(MonitorNode* node, MonitorStrings* strings)
 {
     if (!node || !node->children.size)
@@ -523,27 +488,6 @@ class ObjDDF9
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
 };
 
-void __stdcall FUN_00ddf740(hkArrayDDF9<ObjDDF9*>& kArray, int iParam) throw();
-
-// @fnv 0x00ddf970
-void __stdcall ClearAllItems(int iUnused0, int iUnused1)
-{
-    hkArrayDDF9<ObjDDF9*> kArray;
-    FUN_00ddf740(kArray, 0);
-    while (kArray.m_iElementCount)
-    {
-        delete kArray.m_data[kArray.m_iElementCount - 1];
-        kArray.m_iElementCount--;
-    }
-}
-
-extern int DAT_010d8040;
-
-struct SubBase
-{
-    void FUN_00d06f50(int a1);
-};
-
 struct AudioAllocator
 {
     virtual void v00();
@@ -560,11 +504,6 @@ struct AudioHolder
     int unk0C;
     AudioAllocator* m_pAllocator;
 };
-
-inline AudioHolder* holderGet()
-{
-    return (AudioHolder*)FUN_00c85750();
-}
 
 struct SpawnedHandle
 {
@@ -592,60 +531,7 @@ struct SpawnedHandle
     }
 };
 
-struct FUN_00ddf170_cls
-{
-    void* m_vtbl;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    SpawnedHandle m_14;
-    SpawnedHandle m_20;
-
-    FUN_00ddf170_cls* FUN_00ddf170(int a1, int a2);
-};
-
-// Calls a base method, sets the vtable, initializes two SpawnedHandle members, and optionally allocates a buffer.
-// @fnv 0x00ddf170
-FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
-{
-    ((SubBase*)this)->FUN_00d06f50(a1);
-    int value = aiBufferSize;
-    m_vtbl = (void*)&DAT_010d8040;
-    SpawnedHandle* pHandle = &m_14;
-    pHandle->m_ptr = 0;
-    pHandle->m_uiFilterValue = 0;
-    pHandle->m_flags = 0x80000000u;
-
-    hkMemoryAllocatorDDF9& alloc = hkRouterDDF9::FUN_00c85750().heap();
-    void* p;
-    if (value)
-    {
-        int sz = value;
-        p = alloc.AllocateBufferWithSize(sz);
-        value = sz;
-    }
-    else
-    {
-        p = 0;
-    }
-    unsigned int flags = value ? (unsigned int)value : 0x80000000u;
-    pHandle->m_uiFilterValue = value;
-    pHandle->m_ptr = p;
-    pHandle->m_flags = flags;
-
-    SpawnedHandle* pHandle2 = &m_20;
-    pHandle2->m_ptr = 0;
-    pHandle2->m_uiFilterValue = 0;
-    pHandle2->m_flags = 0xffffffffu;
-    AudioAllocator* pAudioAllocator = holderGet()->m_pAllocator;
-    m_20.EnsureCapacity(pAudioAllocator, 0);
-
-    pHandle->SetSizeAndGrow(0);
-    return this;
-}
-
-int FUN_00cb10d0(const char* s);
+int hkString_strLen(const char* s);
 
 struct StrPacker
 {
@@ -665,6 +551,8 @@ static __declspec(noinline) int* FUN_00a64bf0(hkArrayChar* a, int n)
     a->m_iElementCount += n;
     return (int*)p;
 }
+// pdb: hkStreamStatisticsCollector::addChunk | hkStreamStatisticsCollector.obj | fnv360_0822_retail, objrun, low, conflict (bridge: hkStreamStatisticsCollector::pushDir)
+// pdb params: type, name, chunkAddress, usedSize, allocSize
 void StrPacker::FUN_00ddf5a0(const char* str)
 {
     if (((hkArrayChar*)((char*)this + 8))->getCapacity() > ((hkArrayChar*)((char*)this + 8))->m_iElementCount + 0x46)
@@ -673,7 +561,7 @@ void StrPacker::FUN_00ddf5a0(const char* str)
         int pad = 0;
         if (str != 0)
         {
-            count = FUN_00cb10d0(str) + 1;
+            count = hkString_strLen(str) + 1;
             pad = count % 2;
         }
         unsigned char* out = (unsigned char*)FUN_00a64bf0((hkArrayChar*)((char*)this + 8), pad + count);
@@ -744,11 +632,6 @@ struct FUN_00ddeff0
     int unk54;
 };
 
-// The constructor body is empty.
-// @fnv 0x00ddeff0
-FUN_00ddeff0::FUN_00ddeff0()
-{}
-
 struct FUN_00ddf640_Cls : Obj
 {
     unsigned char* __thiscall FUN_00ddf640();
@@ -776,6 +659,7 @@ static __declspec(noinline) int* FUN_00a64bf0(hkArrayChar*a,int n){
 }
 struct Owner{int unk00,unk04;hkArrayChar array;};
 }
+// pdb: hkStreamStatisticsCollector::popDir | hkStreamStatisticsCollector.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 unsigned char* FUN_00ddf640_Cls::FUN_00ddf640(){
  Native1471::Owner* self=reinterpret_cast<Native1471::Owner*>(this);
  unsigned char*out=(unsigned char*)self->array.getCapacity();
@@ -808,49 +692,6 @@ struct AudioHolder
 
 AudioHolder* __cdecl FUN_00c85750() throw();
 
-struct SpawnedSub
-{
-    void Attach(AudioAllocator* apAllocator);
-    void Reset();
-};
-
-struct SpawnedRoot
-{
-    virtual ~SpawnedRoot() throw();
-};
-
-struct FUN_00ddf240_cls : SpawnedRoot
-{
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    void* m_pData;
-    int m_iUnk18;
-    unsigned int m_uiObjectFlags;
-    SpawnedSub m_sub;
-
-    virtual ~FUN_00ddf240_cls() throw();
-};
-
-// @fnv 0x00ddf240
-FUN_00ddf240_cls::~FUN_00ddf240_cls() throw()
-{
-    SpawnedSub* pSub = &m_sub;
-    AudioHolder* pHolder = FUN_00c85750();
-    pSub->Attach(pHolder->m_pAllocator);
-    pSub->Reset();
-    AudioHolder* pHolder2 = FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder2->m_pAllocator;
-    unsigned int uFlags = m_uiObjectFlags;
-    m_iUnk18 = 0;
-    if ((uFlags & 0x80000000u) == 0)
-    {
-        pAllocator->FreeArray(m_pData, (int)(uFlags & 0x3fffffffu));
-    }
-    m_pData = 0;
-    m_uiObjectFlags = 0x80000000u;
-}
 }  // namespace fnv_00ddf240
 
 namespace fnv_00ddfa10 {
@@ -865,62 +706,8 @@ struct SpawnHolder
 
 SpawnHolder* FUN_00c85750();
 
-struct Sub20_cls
-{
-    int CB1930(int a, int b);
-    void CB1870(int a, int b, int c);
-};
-
 typedef void(__thiscall* VSlot8)(void* self, void* owner, int r);
 
-struct FUN_00ddfa10_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int m_18;
-    unsigned int m_1c;
-    Sub20_cls m_20;
-
-    int D06D90(int a);
-    void DDF420(int a, int b, int c);
-    int D06D50(int a);
-    void DDF020();
-    void FUN_00ddfa10(int a1, int a2, unsigned char flag);
-};
-
-// After capacity and a2 checks, updates m_20 and calls a virtual function from a2; when flag bit 0 is clear, it also calls DDF420 and DDF020.
-// @fnv 0x00ddfa10
-void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, int a2, unsigned char aiFlags)
-{
-    int count = (int)(m_1c & 0x3fffffffu);
-    if (count <= m_18 + 0x46)
-        return;
-    if (a2 == 0)
-        return;
-    Sub20_cls* sub = &m_20;
-    if (sub->CB1930(a2, 0))
-        return;
-    SpawnHolder* holder = FUN_00c85750();
-    sub->CB1870(holder->m_10, a2, 1);
-    if ((aiFlags & 1) == 0)
-    {
-        DDF420(a1, a2, D06D90(a2));
-        void** pVTable = *(void***)a2;
-        int r = D06D50(a2);
-        ((VSlot8)pVTable[2])((void*)a2, this, r);
-        DDF020();
-    }
-    else
-    {
-        void** pVTable = *(void***)a2;
-        int r = D06D50(a2);
-        ((VSlot8)pVTable[2])((void*)a2, this, r);
-    }
-}
 }  // namespace fnv_00ddfa10
 
 namespace fnv_00ddfab0 {
@@ -933,69 +720,8 @@ struct AudioHolder
     int m_10;
 };
 
-struct Param1
-{
-    int FUN_00d470d0();
-};
-
-struct Sub20
-{
-    int LookupHashEntry(int a, int b);
-    void FUN_00cb1870(int a, int b, int c);
-};
-
 AudioHolder* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cf6920(int a, void* b, void* c);
 
-struct FUN_00ddfab0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int m_18;
-    unsigned int m_1c;
-    Sub20 m_20;
-
-    void FUN_00ddf420(int a, int b, int c);
-    void FUN_00ddf020();
-    void FUN_00ddfab0(Param1* a1, int a2, int a3, int a4);
-};
-
-// Checks m_1c, m_18, and a3; updates m_20, then calls FUN_00cf6920 and conditionally calls FUN_00ddf420 and FUN_00ddf020.
-// @fnv 0x00ddfab0
-void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, int a3, int aiFlags)
-{
-    int iMasked = (int)(m_1c & 0x3fffffff);
-    int iLimit = m_18 + 0x46;
-    if (iMasked <= iLimit)
-    {
-        return;
-    }
-    if (a3 == 0)
-    {
-        return;
-    }
-    if (m_20.LookupHashEntry(a3, 0) != 0)
-    {
-        return;
-    }
-    AudioHolder* holder = FUN_00c85750();
-    m_20.FUN_00cb1870(holder->m_10, a3, 1);
-    if ((aiFlags & 1) == 0)
-    {
-        int r = a1->FUN_00d470d0();
-        FUN_00ddf420(a2, a3, r);
-        FUN_00cf6920(a3, a1, this);
-        FUN_00ddf020();
-    }
-    else
-    {
-        FUN_00cf6920(a3, a1, this);
-    }
-}
 }  // namespace fnv_00ddfab0
 
 struct AllocIface
@@ -1035,7 +761,7 @@ void MonitorStream::FUN_00ddf4d0(int unused, const char* name, int size, int id,
     int odd = 0;
     if (name)
     {
-        len = FUN_00cb10d0(name) + 1;
+        len = hkString_strLen(name) + 1;
         odd = len % 2;
     }
     unsigned char* p = (unsigned char*)FUN_00ddf370(&m_stream, odd + len);
@@ -1068,7 +794,7 @@ void Pkt::FUN_00ddf420(const char* str, const void* a2, int a3)
     int pad = 0;
     if (str != 0)
     {
-        len = FUN_00cb10d0(str) + 1;
+        len = hkString_strLen(str) + 1;
         pad = len % 2;
     }
     unsigned char* out = (unsigned char*)FUN_00ddf370(&m14, len + pad);

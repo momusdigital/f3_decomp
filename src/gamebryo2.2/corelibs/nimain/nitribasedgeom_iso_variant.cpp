@@ -8,7 +8,8 @@ class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4a48;
 
 // @fnv 0x00a74790
-const GlobalObjectO2_00a7b610* FUN_00a74790()
+// pdb: NiDynamicEffect::GetRTTI | NiDynamicEffect.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+const GlobalObjectO2_00a7b610* NiDynamicEffect_GetRTTI()
 {
     return &g_011f4a48;
 }
@@ -18,6 +19,7 @@ extern "C" void __fastcall FUN_00a80580(::NiGeometry*);
 extern "C" void __cdecl FUN_00aa1460(void*, unsigned int);
 
 // @fnv 0x00a89790
+// pdb: NiScreenElements::`scalar deleting destructor' | NiScreenElements.obj | fnv360_0822_retail, objrun, high
 extern "C" ::NiGeometry* __fastcall FUN_00a89790(::NiGeometry* geometry, void*, unsigned int flags)
 {
     *reinterpret_cast<void**>(geometry) = &DAT_0109ed94;
@@ -90,6 +92,8 @@ struct ParticleDownwardPassReceiver
     void __thiscall FUN_00c1ad90(void* data, unsigned int value);
 };
 // @fnv 0x00c1ad90
+// pdb: NiParticleSystem::UpdateDownwardPass | NiParticleSystem.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: UpdateData, uFlags
 void ParticleDownwardPassReceiver::FUN_00c1ad90(void* data, unsigned int value)
 {
     NiUpdateData* update = (NiUpdateData*)data;
@@ -108,6 +112,8 @@ class ParticleLinkEndpoint : public NiGeometry
   public:
     void FUN_00a80b50(NiStream&);
 // @fnv 0x00a74780
+    // pdb: MagicShaderHitEffect::InitLoadGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+    // pdb params: apEffect, apTarget
     void FUN_00a74780(NiStream& input)
     {
         FUN_00a80b50(input);
@@ -120,6 +126,7 @@ class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5b70;
 
 // @fnv 0x00a89780
+// pdb: NiCollisionObject::GetRTTI | NiCollisionObject.obj | fnv360_0822_retail, objrun, high
 extern "C" GlobalObjectO2_00a7b610* __cdecl FUN_00a89780()
 {
     return &g_011f5b70;
@@ -154,6 +161,8 @@ char* __cdecl FUN_00a7d330(const char*);
 }
 
 // @fnv 0x00a897c0
+// pdb: NiBSplineCompFloatInterpolator::GetViewerStrings | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void __stdcall FUN_00a897c0(TriGeomViewerDetail::EntryArray* entries)
 {
     TriGeomViewerDetail::FUN_00a80e70(entries);
@@ -171,6 +180,8 @@ class LineReceiver : public ::NiGeometry
 };
 
 // @fnv 0x00a9b180
+// pdb: GrenadeProjectile::SaveGame | GrenadeProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSaveGameBuffer
 void LineReceiver::FUN_00a9b180(BinaryDataRecord& stream)
 {
     FUN_00a80bf0(stream);
@@ -187,6 +198,8 @@ class ParticleDataEndpoint : public ::NiGeometry
 };
 
 // @fnv 0x00c1ad80
+// pdb: NiLines::IsEqual | NiLines.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 void ParticleDataEndpoint::FUN_00c1ad80(NiGeometryData* replacement)
 {
     FUN_00a80680(replacement);

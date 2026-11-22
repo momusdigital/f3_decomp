@@ -83,7 +83,7 @@ struct BlendAccess {
 struct BlendAllocator { char* top; };
 extern BlendAllocator* __cdecl FUN_00c85750();
 extern __int64 __cdecl FUN_00aa4d80();
-extern void __cdecl FUN_00cddef0(int, BlendTransform*, BlendTransform*, BlendTransform*);
+extern void __cdecl hkaSkeletonUtils_transformModelPoseToLocalPose(int, BlendTransform*, BlendTransform*, BlendTransform*);
 extern void __cdecl CallWithGlobal(int, BlendTransform*, void*, BlendTransform*);
 extern void __cdecl FUN_00ce3a00(int, int, int, BlendTransform*, int);
 struct BlendBuffer {
@@ -334,11 +334,6 @@ __forceinline void AssignScene(CachedScene*& slot, CachedScene* created) {
         if (created) InterlockedIncrement(&created->references);
     }
 }
-struct CacheManager {
-    void FUN_00e92760(char*, CachedScene**);
-    void InsertOrAssign(char*, SceneRef);
-};
-extern CacheManager DAT_011b0300;
 struct Allocator {
     virtual void Reserved();
     virtual void* Allocate(unsigned int);
@@ -463,12 +458,6 @@ struct InputScene {
     __forceinline BoneTransformData* GetSkeleton() { return skeleton; }
 };
 struct Argument { int reserved0, FunctionAtSlot4; char* name; };
-struct TransformSource {
-    int reserved0, FunctionAtSlot4, VirtualFunction8, reservedC;
-    int VirtualFunction10, reserved14, reserved18, reserved1c;
-    PackedVector basis;
-    PackedVector quaternion;
-};
 struct __declspec(align(16)) Conversion {
     PackedVector rotation;
     PackedVector translation;
@@ -476,12 +465,6 @@ struct __declspec(align(16)) Conversion {
     PackedVector quaternion;
     void FUN_00cb2d90(void*);
 };
-union TemporaryPoseWork {
-    Conversion converted;
-    MatrixTransform result;
-};
-struct ExtraView { TransformSource* FUN_00653290(void*); };
-extern int DAT_012683c8;
 struct FUN_00cdb400 {
     float* values;
     int reserved04, reserved08, reserved0c, VirtualFunction10, reserved14, reserved18, reserved1c;
@@ -492,14 +475,7 @@ struct FUN_00cdb400 {
     static void operator delete(void*);
 };
 typedef FUN_00cdb400 SkinState;
-int __cdecl ApplyToCollisionBodies(BoneTransformData*, ArrayStorage*, ArrayStorage*);
-int __cdecl FUN_00cea030(ArrayStorage*, ArrayStorage*);
-BoneTransformData* __cdecl FUN_00ceb2c0(ArrayStorage*, ArrayStorage*);
 void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
-void __cdecl FUN_00624ad0(MatrixTransform*, const void*);
-void* __cdecl FUN_00cea810(BoneTransformData*, ArrayStorage*, ArrayStorage*);
-int __cdecl FUN_00ec7750(const char*, const char*);
-void __cdecl FUN_00ce61c0(PoseState*, PoseBuffer*, PoseBuffer*);
 InputScene* __cdecl FUN_00c802d0(Argument*);
 extern float DAT_01267c7c, DAT_01267c88, DAT_01267c94, DAT_01267ca0;
 extern float DAT_01267cac, DAT_01267cb8, DAT_01267cc4, DAT_01267cd0;
@@ -676,7 +652,7 @@ struct SceneOwner {
     __forceinline char* GetName() { return name; }
     void FUN_00c7e9a0(Argument*, const char*);
     void FUN_00c7e3b0();
-    unsigned char FUN_00c75460();
+    unsigned char bhkRagdollController_InitGrabIK();
     void FUN_00c79e20();
 };
 namespace VectorHardware {
@@ -717,16 +693,12 @@ public:
     T* get() const { return value; }
 };
 extern BlendAllocator* FUN_00c85750();
-extern float DAT_011b02e8;
 extern float DAT_011ac39c;
-extern const float DAT_01017d00;
 extern __int64 FUN_00aa4d80();
 struct ScratchAllocator {
     char* current;
     char* allocate(int n) { int numBytes=(n+127)&~127; char* p=current; char* next=p+numBytes; current=next; return p; }
 };
-extern char FUN_00c8cce0(int*);
-extern "C" void* __cdecl FUN_00cb1280(void*,int,unsigned int);
 struct Clock {
     __int64 start;
     __int64 duration;
@@ -758,15 +730,6 @@ struct Selection {
     unsigned int unk03c;
     IndexArray indices;
     int find(unsigned short v) { return indices.find(v); }
-};
-struct SelectionHolder {
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    Selection* selection;
 };
 struct BroadHandle { unsigned int id; };
 struct TypedHandle : BroadHandle {
@@ -1061,184 +1024,6 @@ struct RagdollView {
     int getNumBones() const { return skeleton->m_kBones.GetLogicalSize(); }
     BodyView* getRigidBodyOfBone(int i) const { int index=indices[i]; return index<0 ? 0 : bodyArray[index]; }
 };
-struct Controller {
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    RagdollView* bodies;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19c;
-    unsigned int unk1a0;
-    unsigned int unk1a4;
-    unsigned int unk1a8;
-    unsigned int unk1ac;
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int unk1dc;
-    unsigned int unk1e0;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned int unk1ec;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    unsigned int unk1fc;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20c;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    unsigned int unk21c;
-    unsigned int unk220;
-    unsigned int unk224;
-    unsigned int unk228;
-    unsigned int unk22c;
-    unsigned int unk230;
-    unsigned int unk234;
-    unsigned int unk238;
-    unsigned int unk23c;
-    unsigned int unk240;
-    unsigned int unk244;
-    unsigned int unk248;
-    unsigned int unk24c;
-    unsigned int unk250;
-    unsigned int unk254;
-    unsigned int unk258;
-    unsigned int unk25c;
-    unsigned int unk260;
-    unsigned int unk264;
-    unsigned int unk268;
-    unsigned int unk26c;
-    unsigned int unk270;
-    unsigned int unk274;
-    unsigned int unk278;
-    unsigned int unk27c;
-    unsigned int unk280;
-    unsigned int unk284;
-    unsigned int unk288;
-    unsigned char unk28c;
-    bool enabled;
-    bool active;
-    unsigned char unk28f;
-    unsigned int unk290;
-    unsigned int unk294;
-    unsigned int unk298;
-    unsigned int unk29c;
-    unsigned int unk2a0;
-    PointerView<SelectionHolder> selection;
-    Clock timer;
-    void FUN_00c7a230(bool);
-    void FUN_00c7b6a0(bool active);
-};
 __forceinline void UpdateLinear(BodyView* body,const VectorValue& value) {
     if(!value.equal(body->getLinearVelocity())) {
         body->FUN_00c9c1d0();
@@ -1259,7 +1044,6 @@ struct Context { int unk00, unk04, unk08, unk0c; Heap* heap; };
 extern void* __cdecl FUN_00c74ea0(unsigned);
 extern void __cdecl FUN_00c74dd0(void*, void*);
 extern float DAT_01050c98, DAT_01050c48, DAT_01011d78, DAT_01012068;
-extern void* UNK_010c4dec;
 static __forceinline void* AllocateBuffer(unsigned n) { Context* context=(Context*)(void*)FUN_00c85750(); Heap* heap=context->heap; return (heap->Allocate)(n); }
 static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
 struct SmallMember { unsigned data; __forceinline SmallMember() { FUN_00cb0a60(); } __forceinline ~SmallMember() { FUN_00cb0c00(); } void FUN_00cb0a60(); void FUN_00cb0c00(); };
@@ -1353,9 +1137,6 @@ struct Root {
     __forceinline Root():src(0) {}
 };
 struct Owner { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18; Root* root; __forceinline void SetRoot(Root* p) { root=p; } };
-union Vec128 { __m128 value; char bytes[16]; };
-struct FramePoint { float x,y,z; };
-struct FrameState { FramePoint rotation[3]; FramePoint point; float scale; void FUN_00a86bf0(); };
 struct __declspec(align(16)) LookBoneParams91 {
     CloneBuffer* pose;
     short bone,parent;
@@ -1514,13 +1295,6 @@ struct C74Transform {
     float m_TranslateZ;
     float m_fScale;
 };
-struct C74NiQuaternion {
-    float m_fVectorX;
-    float m_fVectorY;
-    float m_fVectorZ;
-    float m_fScalarPart;
-    void FromRotationMatrix(const C74Matrix3& kRot);
-};
 struct C74Vector4 {
     VectorBits m_vComponents;
     float& operator()(int i) { return m_vComponents.m128_f32[i]; }
@@ -1545,11 +1319,8 @@ union __declspec(intrin_type) __declspec(align(16)) __m128 {
 extern "C" __m128 _mm_setr_ps(float,float,float,float);
 }
 extern int DAT_011f49e0;
-extern double DAT_010c4dd0;
-extern double DAT_010c4dc8;
 extern float DAT_01011d78;
 extern float DAT_01012068;
-extern float DAT_01267d90;
 struct InputName { char* key; };
 struct FNVInput { int unk00; InputName* objects; unsigned count; InputName& at(unsigned i) { return objects[i]; } };
 struct StringHeader { long references; unsigned length; void release() { InterlockedDecrement(&references); } };
@@ -1918,11 +1689,9 @@ struct ParticleTable {
     bool __thiscall FUN_00c77ac0(Scratch*, FNVInput*);
     Geo* __thiscall FUN_00c75180(GameForm*);
 };
-extern GameForm* __cdecl FUN_00c4b470(void*, ResourceName const&, int);
 static __forceinline Runtime* GetEntryRuntime() { return reinterpret_cast<Runtime*>(FUN_00c85750()); }
 extern "C" void __cdecl FUN_00c908c0(Allocator*, EntryArray*, int, unsigned);
 extern "C" Resource* __cdecl FUN_00c802d0(GameForm*);
-extern "C" short __cdecl FindIndexByKey(int,int,int);
 __forceinline void* FUN_00cd8820::operator new(size_t bytes) {
     void* ptr=GetEntryRuntime()->heap().Allocate(bytes);
     static_cast<FUN_00cd8820*>(ptr)->size=(unsigned short)bytes;
@@ -2182,186 +1951,14 @@ struct Skeleton {
  __forceinline BoneState* getBody(int i) const {int k=indexList[i];return k>=0?stateList[k]:0;}
  void FUN_00ce1ad0(Transform48*,void*);
 };
-struct Processor {
- void FUN_00cdb3e0();
- void FUN_00cdb7c0(float delta, Transform48* transforms, void* settings, int* results);
-};
-struct PoseLookup { void** FUN_00cda8d0(); };
-struct BlendData { int unk00,unk04,unk08,unk0c; void* data; };
-extern float DAT_011afe64;
 extern float DAT_010c7948[];
-void UpdateEntriesByKind(Skeleton*);
-void EnableBehaviorsByKind(Skeleton*);
-void FUN_00c7a410(Skeleton*, Transform48*);
 void CallWithGlobal(int, void*, void*, Transform48*);
-void FUN_00cddef0(int, void*, Transform48*, Transform48*);
+void hkaSkeletonUtils_transformModelPoseToLocalPose(int, void*, Transform48*, Transform48*);
 void FUN_00ce3a00(void*,void*,void*,Transform48*,int);
-struct RagdollUpdateController {
- int unk00; bool needsInit; unsigned char unk05; unsigned short unk06; int unk08; int mode;
- int settings10, settings14, settings18, settings1c, settings20, settings24, settings28, settings2c, settings30, settings34, settings38, settings3c, settings40;
- bool forceMode; unsigned char unk45; unsigned short unk46;
- Skeleton* skeleton; Processor* processor; bool active; unsigned char unk51; unsigned short unk52;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
- PoseLookup* lookup;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
- BlendData* blend;
- void FUN_00c7d030(const Transform48* input);
-};
-extern "C" __m128 _mm_setzero_ps();
 namespace ControllerFloatHardware { extern "C" __m128 _mm_set_ps1(float); }
-extern void* DAT_010c4ddc;
 extern void* DAT_01071aec;
 extern void* DAT_010c4db8;
 extern char* DAT_0109b220;
-extern const float DAT_010c4df8;
-extern const float DAT_01022958;
-extern const float DAT_01017868;
-extern const __m128 DAT_010c71b0;
 struct RefTarget {
     virtual void unused();
     virtual void destroy();
@@ -2405,9 +2002,6 @@ struct __declspec(align(16)) StateRecord {
     float time,blend;
     unsigned int unk4c;
 };
-struct NodeArg {
-    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual NiNode* get();
-};
 struct TempArray {
     void* vtable; unsigned int data,size,capacity;
     TempArray():vtable(&DAT_010c4db8),data(0),size(0),capacity(0){}
@@ -2416,181 +2010,8 @@ struct TempArray {
 typedef void (__thiscall *FreeTemp)(TempArray*,unsigned int);
 extern FreeTemp DAT_010c4dc0;
 TempArray::~TempArray() { vtable=&DAT_010c4db8; if(data) DAT_010c4dc0(this,data); }
-extern void __cdecl FUN_00c7d3b0(NiNode*,NiNode*,TempArray*,bool*,unsigned int*);
-extern void __cdecl RestoreNodeTransforms(NiNode*,TempArray*,bool,unsigned int);
-struct ConstructorBase { virtual ~ConstructorBase(); };
 struct LastArray { unsigned int data,size,capacity,extra; LastArray():data(0),size(0),capacity(0),extra(0){} };
-struct ThirdArg { unsigned int value; };
-union NodeOrFlag { NodeArg* node; bool flag; };
 struct VecStore { __m128 value; VecStore& operator=(__m128 other) { value=other; return *this; } };
-union SimdVector { __m128 value; signed char lanes[16]; };
-class FUN_00c7f060 : public ConstructorBase {
-public:
-    bool unk04;
-    unsigned char unk05;
-    unsigned char unk06;
-    unsigned char unk07;
-    float unk08;
-    int unk0c;
-    VecStore unk10;
-    VecStore unk20;
-    VecStore unk30;
-    bool unk40;
-    bool unk41;
-    bool unk42;
-    bool unk43;
-    bool unk44;
-    unsigned char unk45;
-    unsigned char unk46;
-    unsigned char unk47;
-    unsigned int unk48;
-    unsigned int unk4c;
-    bool unk50;
-    unsigned char unk51;
-    unsigned char unk52;
-    unsigned char unk53;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6c;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7c;
-    unsigned int unk80;
-    RefSlot ref84;
-    unsigned int unk88;
-    bool unk8c;
-    unsigned char unk8d;
-    unsigned char unk8e;
-    unsigned char unk8f;
-    unsigned int unk90;
-    RefSlotArray array94;
-    SmallArray arraya0;
-    bool unkb0;
-    bool unkb1;
-    bool unkb2;
-    bool unkb3;
-    bool unkb4;
-    unsigned char unkb5;
-    unsigned char unkb6;
-    unsigned char unkb7;
-    unsigned int unkb8;
-    unsigned int unkbc;
-    __m128 unkc0;
-    __m128 unkd0;
-    __m128 unke0;
-    StateRecord records[2];
-    bool unk190;
-    unsigned char unk191;
-    unsigned char unk192;
-    unsigned char unk193;
-    unsigned int unk194;
-    bool unk198;
-    unsigned char unk199;
-    unsigned char unk19a;
-    unsigned char unk19b;
-    float unk19c;
-    float unk1a0;
-    bool unk1a4;
-    bool unk1a5;
-    unsigned char unk1a6;
-    unsigned char unk1a7;
-    float unk1a8;
-    unsigned int unk1ac;
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned char unk1bc;
-    bool unk1bd;
-    unsigned char unk1be;
-    unsigned char unk1bf;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int unk1dc;
-    unsigned int unk1e0;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned char unk1ec;
-    bool unk1ed;
-    unsigned char unk1ee;
-    unsigned char unk1ef;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    unsigned int unk1fc;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20c;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    bool unk21c;
-    bool unk21d;
-    bool unk21e;
-    bool unk21f;
-    bool unk220;
-    bool unk221;
-    bool unk222;
-    bool unk223;
-    bool unk224;
-    unsigned char unk225;
-    unsigned char unk226;
-    unsigned char unk227;
-    unsigned int unk228;
-    RefSlotArray array22c;
-    unsigned short unk238;
-    unsigned short unk23a;
-    float unk23c;
-    bool unk240;
-    bool unk241;
-    bool unk242;
-    bool unk243;
-    float unk244;
-    unsigned int unk248;
-    NamePair name24c;
-    bool unk254;
-    bool unk255;
-    bool unk256;
-    unsigned char unk257;
-    unsigned int unk258;
-    unsigned int unk25c;
-    PlainArray array260;
-    unsigned int unk270;
-    unsigned int unk274;
-    unsigned int unk278;
-    float unk27c;
-    float unk280;
-    bool unk284;
-    unsigned char unk285;
-    unsigned char unk286;
-    unsigned char unk287;
-    unsigned int unk288;
-    bool unk28c;
-    bool unk28d;
-    bool unk28e;
-    bool unk28f;
-    float unk290;
-    unsigned int unk294;
-    unsigned int unk298;
-    unsigned int unk29c;
-    NameSlot name2a0;
-    RefSlot ref2a4;
-    LastArray array2a8;
-    unsigned int unk2b8;
-    virtual ~FUN_00c7f060();
-    FUN_00c7f060(NodeArg*,NodeOrFlag,void*);
-    void FUN_00c7e9a0(NodeArg*,void*);
-};
 namespace InversePositionHardware {
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 }
@@ -2599,10 +2020,6 @@ extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" __m128 _mm_rcp_ps(__m128);
-extern const __m128 g_rotationOffset;
-struct InversePositionVector : Vec4 {
-    void FUN_00c7f840(const Vec4* t, const Vec4* p);
-};
 namespace FloatHardware { extern "C" ::__m128 _mm_sub_ps(::__m128,::__m128); }
 extern "C" {
 extern ::__m128 _mm_load_ss(float const*);
@@ -2872,9 +2289,6 @@ public:
     int unk00, unk04, unk08;
     hkArray<short> m_kParentIndices;
 };
-hkBool __cdecl WalkChainUntilLimit(const hkaSkeleton& skeleton, short start, short end, hkArray<short>& chain);
-extern "C" void __cdecl FUN_00cde1d0(const hkaSkeleton& skeleton, hkQsTransform* pose);
-extern "C" void __cdecl FUN_00cde2d0(const hkaSkeleton& skeleton, const hkQsTransform* ref, hkQsTransform* pose);
 template <class T> class ReferenceCountedPointer {
 public:
     __forceinline T* val() const { return m_pRetainedObject; }
@@ -2953,19 +2367,10 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
-class hkaSkeletonMapper : public hkReferencedObject {
-public:
-    void __cdecl FUN_00ce3a00(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, int source) const;
-    hkaSkeletonMapperData m_kMappingData;
-};
 // ---- Gamebryo / game helpers ----
 void* __cdecl NiMalloc(unsigned int size);
 void __cdecl NiFree(void* p);
 void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int n);
-struct MM {
-    void Deallocate(void* p);
-};
-extern MM _g_memoryManager;
 namespace SkeletonBuild {
 
 // ---- Havok memory ----
@@ -2982,7 +2387,6 @@ struct NineIntegerRecord {
     hkMemoryAllocator* heap;
 };
 int __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int capacity, int elemSize);
-const char* __cdecl FUN_00cb1410(int name);
 
 inline hkMemoryAllocator* HeapAllocator()
 {
@@ -3218,12 +2622,6 @@ template<class T> struct PlainPtr {
     operator T*() const { return ptr; }
     T* operator=(T* p) { ptr = p; return p; }
 };
-struct SkeletonHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    hkaSkeleton* m_pSkeleton;
-};
 
 struct BuildNode {
     int key;
@@ -3231,219 +2629,6 @@ struct BuildNode {
     void* payload;
 };
 BuildNode* __cdecl FUN_00c802d0(void* root);
-
-struct AnimationOwner {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    void* root;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    SkeletonPoseData* pose;
-    int unk08c;
-    int unk090;
-    HkArray<hkQsTransform> transforms;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    PlainPtr<SkeletonHolder> skeletonHolder;
-
-    void FUN_00c7b4f0(void* node, BoneRecordArray* records, BoneRecordMap* map);
-    void FUN_00c7e3b0();
-};
-
-// @fnv 0x00c7e3b0
-void AnimationOwner::FUN_00c7e3b0()
-{
-    if (!root)
-        return;
-
-    void* node = FUN_00c802d0(root)->payload;
-    BoneRecordArray records;
-    BoneRecordMap map;
-    FUN_00c7b4f0(node, &records, &map);
-
-    SkeletonHolder* holder = skeletonHolder;
-    if (!holder->m_pSkeleton) {
-        skeletonHolder->m_pSkeleton = new hkaSkeleton;
-        int numBones = records.m_uiSize;
-        skeletonHolder->m_pSkeleton->m_kBones.setSizeObj(numBones);
-        skeletonHolder->m_pSkeleton->m_kParentIndices.setSizePod(numBones);
-        skeletonHolder->m_pSkeleton->m_kReferencePose.setSizePod(numBones);
-        for (unsigned int i = 0; i < records.m_uiSize; ++i) {
-            hkaBone& bone = skeletonHolder->m_pSkeleton->m_kBones[i];
-            bone.m_name.FUN_00cb0c10(FUN_00cb1410(records.m_pBase[i]->name));
-            skeletonHolder->m_pSkeleton->m_kBones[i].m_bLockTranslation = true;
-            skeletonHolder->m_pSkeleton->m_kReferencePose[i] = records.m_pBase[i]->transform;
-            skeletonHolder->m_pSkeleton->m_kParentIndices[i] = records.m_pBase[i]->parent;
-        }
-    }
-
-    for (unsigned int i = 0; i < records.m_uiSize; ++i) {
-        BoneRecord* r = records.m_pBase[i];
-        if (r)
-            _g_memoryManager.Deallocate(reinterpret_cast<char*>(r) - reinterpret_cast<unsigned char*>(r)[-1]);
-    }
-    records.RemoveAll();
-
-    pose = new SkeletonPoseData(skeletonHolder->m_pSkeleton);
-    pose->FUN_00cda110();
-    transforms.setSizePod(skeletonHolder->m_pSkeleton->m_kBones.GetLogicalSize());
-}
 
 }
 // namespace SkeletonBuild
@@ -3562,64 +2747,6 @@ struct LocalPoseState {
     dirty=false;
  }
 };
-struct PoseNode {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int transform;
-};
-struct PoseScale {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    float scale;
-};
-struct PoseCount { int unk00, unk04, unk08; PoseSkeleton* skeleton; };
 struct MatrixNine { float xx,xy,xz,yx,yy,yz,zx,zy,zz; };
 struct NiTransform { MatrixNine rotation; float x,y,z,scale; };
 struct MatrixQuaternion { float w,x,y,z; void FUN_00a6df40(const MatrixNine*); };
@@ -3644,214 +2771,6 @@ __declspec(noinline) PoseTransform* FUN_00c74dd0(void* ptr,NiTransform* source) 
  output->scale.bits.quad=LoadScalar(&source->scale);
  return output;
 }
-__declspec(noinline) void FUN_00cb1260(void* to,const void* from,unsigned n) {
- unsigned char* dest=static_cast<unsigned char*>(to);
- const unsigned char* src=static_cast<const unsigned char*>(from);
- while(n--) *dest++=*src++;
-}
-struct PoseOwner {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    PoseScale* scaleSource;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    LocalPoseState* state;
-    int unk08c;
-    int unk090;
-    void* output;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    PoseNode** nodes;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    PoseCount* counts;
-    void FUN_00c79680();
-};
-// @fnv 0x00c79680
-void PoseOwner::FUN_00c79680() {
-    float scale = scaleSource->scale;
-    int count = counts->skeleton->count;
-    for (int index=0;index<count;++index) {
-        PoseTransform transform;
-        FUN_00c74dd0(&transform,(NiTransform*)&nodes[index]->transform);
-        transform.translation.bits.quad=_mm_mul_ps(LoadScalar(&scale),transform.translation.bits.quad);
-        state->SetLocal(index,transform);
-    }
-    state->FUN_00cda340();
-    PoseTransform** data=state->FUN_00cdb290();
-    FUN_00cb1260(output,*data,count*sizeof(PoseTransform));
-}
-
-__declspec(noinline) void Quat::FUN_00c66320(const Quat* a,const Quat* b) {
-    ::__m128 av=a->m_vec.bits.quad, bv=b->m_vec.bits.quad;
-    ::__m128 product=_mm_mul_ps(av,bv);
-    ::__m128 sum=_mm_add_ss(_mm_shuffle_ps(product,product,85),product);
-    sum=_mm_add_ss(_mm_shuffle_ps(product,product,170),sum);
-    ::__m128 w=PoseFloatHardware::_mm_sub_ps(product,_mm_shuffle_ps(sum,sum,0));
-    ::__m128 c0=_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2));
-    ::__m128 c1=_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9));
-    ::__m128 cross=PoseFloatHardware::_mm_sub_ps(c0,c1);
-    ::__m128 aw=_mm_shuffle_ps(av,av,255); aw=_mm_shuffle_ps(aw,aw,0);
-    ::__m128 bw=_mm_shuffle_ps(bv,bv,255); bw=_mm_shuffle_ps(bw,bw,0);
-    ::__m128 xyz=_mm_add_ps(_mm_mul_ps(bw,av),_mm_add_ps(_mm_mul_ps(aw,bv),cross));
-    V4 result; result.bits.quad=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,w),196);
-    FUN_00cb1260(this,&result,sizeof(result));
-}
 
 namespace RecordHardware {
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
@@ -3860,12 +2779,10 @@ union __declspec(intrin_type) __declspec(align(16)) __m128 {
 };
 extern "C" __m128 __cdecl _mm_load_ss(const float*);
 extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 __cdecl _mm_set_ss(float);
 extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
 }
 typedef RecordHardware::__m128 ReviewedVector;
 struct ReviewedRTTI { const char* name; ReviewedRTTI* parent; };
-extern ReviewedRTTI DAT_0126817c;
 struct ReviewedNode {
     virtual void slot00();
     virtual void slot04();
@@ -4057,6 +2974,8 @@ extern ReviewedRTTI DAT_010f31e4;
 __forceinline F8e_ReviewFloat4& F8e_QLoad(F8e_ReviewFloat4& t, const float* v){ t.x=v[0];t.y=v[1];t.z=v[2];t.w=v[3]; return t; }
 __forceinline void F8e_QStore(float* v, const F8e_ReviewFloat4& t){ v[0]=t.x;v[1]=t.y;v[2]=t.z;v[3]=t.w; }
 __forceinline void F8e_QMulS(float f, F8e_ReviewFloat4& t){ t.x*=f;t.y*=f;t.z*=f;t.w*=f; }
+// pdb: bhkRagdollController::CreateSGSkeletonRec | bhkRagdollController.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apObj, arBoneA, arboneMap
 void ReviewedContext::FUN_00c7b4f0(ReviewedNode* node, ReviewedArray* out, ReviewedContext* receiver)
 {
     unsigned char* raw=(unsigned char*)Task2996Heap::DAT_01090a78.FUN_0086b930(0x60);
@@ -4097,12 +3016,10 @@ void ReviewedContext::FUN_00c7b4f0(ReviewedNode* node, ReviewedArray* out, Revie
 }
 
 
-extern "C" void _ReadWriteBarrier();
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_shuffle_ps(__m128,__m128,int);
 extern "C" __m128 _mm_mul_ps(__m128,__m128);
-extern "C" void _mm_store_ps(float*,__m128);
 __forceinline __m128 ScalePrimaryLine(const float* v, float f) {
     __m128 low = _mm_load_ss(&f);
     return _mm_mul_ps(_mm_shuffle_ps(low, low, 0), _mm_load_ps(v));
@@ -4202,7 +3119,6 @@ struct FNVHeap { void* FUN_00aa3e40(unsigned int); };
 extern FNVHeap g_011f6238;
 extern const FNVVec3 DAT_011f426c;
 extern unsigned int DAT_011a9c10, DAT_011a9c14, DAT_011a9c18, DAT_011a9c1c;
-extern float DAT_01016264;
 extern __declspec(noalias) void __cdecl FUN_00458620(void*,const void*);
 extern char* __stdcall FUN_00c76220(unsigned int,char*);
 struct FNVString { char* FUN_00c761f0(); };

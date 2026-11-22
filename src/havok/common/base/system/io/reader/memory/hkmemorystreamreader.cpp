@@ -10,11 +10,13 @@ struct FUN_00e059e0
     int m_0c;
     int m_10;
     int m_14;
-    int __thiscall GetCurrentOffset();
+    int __thiscall hkMemoryStreamReader_rewindToMark();
 };
 
 // @fnv 0x00e059e0
-int __thiscall FUN_00e059e0::GetCurrentOffset()
+// pdb: hkMemoryStreamReader::rewindToMark | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb: hkMemoryStreamReader::rewindToMark | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high (was: GetCurrentOffset)
+int __thiscall FUN_00e059e0::hkMemoryStreamReader_rewindToMark()
 {
     if (m_14 >= 0)
     {
@@ -36,6 +38,7 @@ struct hkMemoryStreamReader
 };
 
 // @fnv 0x00e059c0
+// pdb: hkMemoryStreamReader::markSupported | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high
 unsigned char* __thiscall hkMemoryStreamReader::IsSupported(unsigned char* supported)
 {
     *supported = (m_10 != 0);
@@ -53,33 +56,6 @@ struct FUN_00e05bf0Manager
     {}
 };
 
-struct FUN_00e05bf0Router
-{
-    unsigned char m_00[0x10];
-    FUN_00e05bf0Manager* m_10;
-};
-
-FUN_00e05bf0Router* __cdecl _D1A0E0GetMemoryRouter();
-
-struct FUN_00e05bf0Class : hkMemoryStreamReader
-{
-    void __thiscall FUN_00e05bb0();
-    hkMemoryStreamReader* __thiscall FUN_00e05bf0(int flags);
-};
-
-hkMemoryStreamReader* __thiscall FUN_00e05bf0Class::FUN_00e05bf0(int flags)
-{
-    FUN_00e05bb0();
-
-    if (flags & 1)
-    {
-        FUN_00e05bf0Router* router = _D1A0E0GetMemoryRouter();
-        router->m_10->FUN_00e05bf0_2(this, (unsigned short)m_04);
-    }
-
-    return this;
-}
-
 struct FUN_00e059d0_cls
 {
     int unk00;
@@ -88,19 +64,21 @@ struct FUN_00e059d0_cls
     int m_0c;
     int unk10;
     int m_14;
-    unsigned char* FUN_00e059d0(unsigned char* supported);
+    unsigned char* hkMemoryStreamReader_setMark(unsigned char* supported);
 };
 
 // @fnv 0x00e059d0
-unsigned char* FUN_00e059d0_cls::FUN_00e059d0(unsigned char* supported)
+// pdb: hkMemoryStreamReader::setMark | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+unsigned char* FUN_00e059d0_cls::hkMemoryStreamReader_setMark(unsigned char* supported)
 {
     m_14 = m_0c;
     return 0;
 }
 
-// FUN_00e05a00: sets the flag byte pointed to by the argument to 1 and returns the argument.
+// hkMemoryStreamReader_seekTellSupported: sets the flag byte pointed to by the argument to 1 and returns the argument.
 // @fnv 0x00e05a00
-unsigned char* __stdcall FUN_00e05a00(unsigned char* supported)
+// pdb: hkMemoryStreamReader::seekTellSupported | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+unsigned char* __stdcall hkMemoryStreamReader_seekTellSupported(unsigned char* supported)
 {
     *supported = 1;
     return supported;
@@ -113,6 +91,10 @@ struct hkBoolE059
     {
         m_cBooleanValue = static_cast<char>(b);
     }
+    operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
 };
 
 class hkObjectE059
@@ -124,22 +106,25 @@ class hkObjectE059
     int m_iEnd;
     int m_iCurrent;
 
-    hkBoolE059 IsNotAtEnd() const;
+    hkBoolE059 hkMemoryStreamReader_isOk() const;
 };
 
 // @fnv 0x00e059a0
-hkBoolE059 hkObjectE059::IsNotAtEnd() const
+// pdb: hkMemoryStreamReader::isOk | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb: hkMemoryStreamReader::isOk | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high (was: IsNotAtEnd)
+hkBoolE059 hkObjectE059::hkMemoryStreamReader_isOk() const
 {
     return m_iEnd != m_iCurrent + 1;
 }
 
 struct FUN_00e05a10_cls : hkMemoryStreamReader
 {
-    int __thiscall FUN_00e05a10(int arg4, int mode);
+    int __thiscall hkMemoryStreamReader_seek(int arg4, int mode);
 };
 // Computes a new stream position from arg4 and mode, clamps it to [0, m_10], stores it in m_0c and returns whether clamping occurred.
 // @fnv 0x00e05a10
-int __thiscall FUN_00e05a10_cls::FUN_00e05a10(int aiOffset, int mode)
+// pdb: hkMemoryStreamReader::seek | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int __thiscall FUN_00e05a10_cls::hkMemoryStreamReader_seek(int aiOffset, int mode)
 {
     int edx = -1;
     switch (mode)
@@ -182,6 +167,7 @@ struct FnvCpu_FUN_00e05a70_CpuObject
     int FUN_00e05a70();
 };
 // @fnv 0x00e05a70
+// pdb: NonActorMagicCaster::GetCurrentSpell | NonActorMagicCaster.obj | fnv360_0822_retail, vtable, medium
 int FnvCpu_FUN_00e05a70_CpuObject::FUN_00e05a70()
 {
     return value;
@@ -199,12 +185,15 @@ struct FUN_00e05a80Class
     int m_0c;
     int m_10;
 
-    int __thiscall ReadFromBuffer(void* destination, int count);
+    int __thiscall hkMemoryStreamReader_read(void* destination, int count);
 };
 extern "C" void __cdecl FUN_00cb1260(void* destination, const void* source, int count);
 
 // @fnv 0x00e05a80
-int __thiscall FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
+// pdb: hkMemoryStreamReader::read | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: buf, nbytes
+// pdb: hkMemoryStreamReader::read | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high (was: ReadFromBuffer)
+int __thiscall FUN_00e05a80Class::hkMemoryStreamReader_read(void* destination, int count)
 {
     unsigned char state;
     if (*checkState(&state))
@@ -220,23 +209,26 @@ int __thiscall FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
     return 0;
 }
 
+class hkClass;
+class hkStatisticsCollector;
+// Virtual slots as the Fallout 3 vtable of hkMemoryStreamReader (0x00e88590) has them: the destructor,
+// hkReferencedObject's two, then hkStreamReader's isOk, read, skip (names from the New Vegas Xbox 360 PDB).
 struct FUN_00e05af0_Obj : hkMemoryStreamReader
 {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual unsigned char* IsNotAtEnd(unsigned char* value);
-    virtual void vf10();
+    virtual ~FUN_00e05af0_Obj();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual hkBoolE059 isOk() const;
+    virtual int read(void* buf, int nbytes);
     virtual int ReadBytes(int value);
 };
 
 // @fnv 0x00e05af0
+// pdb: hkMemoryStreamReader::skip | hkMemoryStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: nbytes
 int __thiscall FUN_00e05af0_Obj::ReadBytes(int aiByteCount)
 {
-    int local;
-    unsigned char* result = IsNotAtEnd(((unsigned char*)&local) + 3);
-
-    if (*result != 0)
+    if (isOk())
     {
         int count = m_0c - m_08;
 
@@ -273,7 +265,6 @@ struct hkMemoryRouterE05B
 namespace hkRouterE05B {
 extern "C" hkMemoryRouterE05B& __cdecl FUN_00c85750() throw();
 }
-void* __cdecl AllocateWithHeader(hkMemoryAllocatorE05B& kAlloc, int iNumBytes) throw();
 void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
 class hkRefObjE05B
@@ -315,6 +306,8 @@ struct M3_Alloc
 };
 extern "C" void* __cdecl FUN_009234e0(void* destination, const void* source, int count);
 
+// pdb: hkMemoryStreamReader::hkMemoryStreamReader | hkMemoryStreamReader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: mem, memSize, mt
 FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
 {
     unk0C = 0;
@@ -385,9 +378,4 @@ class hkObjE05B : public hkReferencedObjectE05B
     void FUN_00e05bb0();
 };
 
-// @fnv 0x00e05bb0
-void hkObjE05B::FUN_00e05bb0()
-{
-    this->hkObjE05B::~hkObjE05B();
-}
 }  // namespace fnv_00e05bb0

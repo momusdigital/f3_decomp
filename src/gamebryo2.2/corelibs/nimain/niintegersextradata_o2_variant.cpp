@@ -3,32 +3,12 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include "niintegersextradata_decls.h"
-struct NiFixedString
-{
-};
-struct NiAVObject
-{
-    void SetName(NiFixedString const& name);
-};
-extern NiFixedString* DAT_012031c0;
-struct FUN_00c543e0_shell : NiAVObject
-{
-    void FUN_00c543e0();
-};
-extern int g_012031c4;
-struct FUN_00c54d60_shell
-{
-    int* __thiscall FUN_00c54d60();
-};
-struct FUN_00c54030_shell
-{
-    int __thiscall FUN_00c54030(int param_1);
-};
 
 extern char const* const g_012043a4_arg1;
 
 // @fnv 0x00a99940
-char const* const* __cdecl FUN_00a99940()
+// pdb: NiSpecularProperty::GetRTTI | NiSpecularProperty.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+char const* const* __cdecl NiSpecularProperty_GetRTTI()
 {
     return &g_012043a4_arg1;
 }
@@ -49,6 +29,7 @@ struct FUN_00a99950_shell
     void __thiscall FUN_00a99950();
 };
 // @fnv 0x00a99950
+// pdb: NiIntegersExtraData::~NiIntegersExtraData | NiIntegersExtraData.obj | tesv_win, hash, low
 void __thiscall FUN_00a99950_shell::FUN_00a99950()
 {
     void* p = *(void**)((char*)this + 0x10);
@@ -58,28 +39,7 @@ void __thiscall FUN_00a99950_shell::FUN_00a99950()
     ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
 }
 
-struct PB_00a7b2e0
-{
-    void FUN_00a7b2e0();
-};
-struct PB_00a99800
-{
-    void AssignPointerArray(int a, int b);
-};
 extern int DAT_010a0c7c;
-struct ST_00a99980 : NiExtraData
-{
-    ST_00a99980* FUN_00a99980(int a, int b);
-};
-// @fnv 0x00a99980
-ST_00a99980* ST_00a99980::FUN_00a99980(int a, int b)
-{
-    ((PB_00a7b2e0*)this)->FUN_00a7b2e0();
-    *(int*)this = (int)&DAT_010a0c7c;
-    *(int*)((char*)this + 0x10) = 0;
-    ((PB_00a99800*)this)->AssignPointerArray(a, b);
-    return this;
-}
 
 extern int DAT_010a0c7c;
 struct BSFadeNode
@@ -91,6 +51,7 @@ struct NiExtraDataShell : NiExtraData
     void FUN_00a7b2e0();
 };
 // @fnv 0x00a99a10
+// pdb: NiIntegersExtraData::CreateObject | NiIntegersExtraData.obj | fnv360_0822_retail, caller_sim, low
 NiExtraData* FUN_00a99a10()
 {
     NiExtraData* data = static_cast<NiExtraData*>(BSFadeNode::operator new(0x14));
@@ -121,6 +82,7 @@ struct FUN_00a99a50_shell
     void __cdecl operator delete(void* p, unsigned int);
 };
 // @fnv 0x00a99a50
+// pdb: NiFloatsExtraData::`scalar deleting destructor' | NiFloatsExtraData.obj | fnv360_0822_retail, objrun, medium
 FUN_00a99a50_shell* __thiscall FUN_00a99a50_shell::FUN_00a99a50(int flag)
 {
     vtbl = (int)&DAT_010a0c7c;
@@ -138,10 +100,11 @@ struct Extra_00a998e0
     unsigned char _pad0[12];
     unsigned int m_uiSize;
     int* m_piValue;
-    bool FUN_00a998e0(Extra_00a998e0* pObject);
+    bool NiIntegersExtraData_IsEqual(Extra_00a998e0* pObject);
 };
 // @fnv 0x00a998e0
-bool Extra_00a998e0::FUN_00a998e0(Extra_00a998e0* pObject)
+// pdb: NiIntegersExtraData::IsEqual | NiIntegersExtraData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_open), high
+bool Extra_00a998e0::NiIntegersExtraData_IsEqual(Extra_00a998e0* pObject)
 {
     Extra_00a998e0* pExtra = pObject;
     unsigned int i;
@@ -170,10 +133,11 @@ struct FUN_00a99870_shell : public NiExtraData
     unsigned int m_uiSize;
     int* m_piValue;
     void FUN_00a7b330(void* pDest, void* pCloning);
-    void __thiscall FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning);
+    void __thiscall NiIntegersExtraData_CopyMembers(FUN_00a99870_shell* pDest, void* pCloning);
 };
 // @fnv 0x00a99870
-void __thiscall FUN_00a99870_shell::FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning)
+// pdb: NiIntegersExtraData::CopyMembers | NiIntegersExtraData.obj | fnv360_0822_retail, call_dedup + bridge(call_seq|call_dedup) + skyrim(objrun_prop), high
+void __thiscall FUN_00a99870_shell::NiIntegersExtraData_CopyMembers(FUN_00a99870_shell* pDest, void* pCloning)
 {
     FUN_00a7b330(pDest, pCloning);
     if (m_piValue && m_uiSize > 0)
@@ -248,6 +212,8 @@ struct NiIntegersExtraDataView : NiExtraData
 };
 
 // @fnv 0x00a99b20
+// pdb: NiIntegersExtraData::GetViewerStrings | NiIntegersExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pStrings
 void NiIntegersExtraDataView::FUN_00a99b20(NiViewerStringsArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
@@ -287,11 +253,12 @@ class NiPSysOwnerA99
 {
   public:
     void CopyMemberData(NiPSysBaseA99* pkDest, void* pvProcess);
-    NiPSysBaseA99* FUN_00a999b0(void* pvProcess);
+    NiPSysBaseA99* NiFloatsExtraData_CreateClone(void* pvProcess);
 };
 
 // @fnv 0x00a999b0
-NiPSysBaseA99* NiPSysOwnerA99::FUN_00a999b0(void* pvProcess)
+// pdb: NiFloatsExtraData::CreateClone | NiFloatsExtraData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_prop) + skyrim(objrun_prop), high
+NiPSysBaseA99* NiPSysOwnerA99::NiFloatsExtraData_CreateClone(void* pvProcess)
 {
     NiPSysDerivedA99* pkClone = new NiPSysDerivedA99;
     CopyMemberData(pkClone, pvProcess);

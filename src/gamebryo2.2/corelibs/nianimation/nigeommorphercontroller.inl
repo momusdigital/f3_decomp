@@ -1,6 +1,7 @@
 #include "f3_common.h"
 #include "nigeommorphercontroller_decls.h"
 // @fnv 0x00a3b460
+// pdb: NiGeomMorpherController::AllocateInterpArray | NiGeomMorpherController.obj | fnv360_0822_retail, objrun, medium
 void NiGeomMorpherController::ClearInterpolatorArray()
 {
     delete[] m_pInterpolatorItems;

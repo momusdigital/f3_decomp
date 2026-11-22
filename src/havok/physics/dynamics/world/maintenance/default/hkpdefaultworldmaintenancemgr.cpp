@@ -1,4 +1,5 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/dynamics/world/maintenance/default/hkpdefaultworldmaintenancemgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/maintenance/default/hkpdefaultworldmaintenancemgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -11,17 +12,18 @@ struct S_00d0b250_RefObj
     {}
 };
 
-struct FUN_00d0b250 : S_00d0b250_RefObj
+struct hkpDefaultWorldMaintenanceMgr : S_00d0b250_RefObj // src: F3_EXE vtable 0x00e7da5c (old: FUN_00d0b250)
 {
     float m_kPointA;
     float m_kPointB;
-    FUN_00d0b250();
-    virtual ~FUN_00d0b250();
+    hkpDefaultWorldMaintenanceMgr();
+    virtual ~hkpDefaultWorldMaintenanceMgr();
 };
 
 // Initializes the object's two float members to 33.0 and 63.0 and sets the base reference count to 1.
 // @fnv 0x00d0b250
-FUN_00d0b250::FUN_00d0b250() : m_kPointA(33.0f), m_kPointB(63.0f)
+// pdb: hkpDefaultWorldMaintenanceMgr::hkpDefaultWorldMaintenanceMgr | hkpDefaultWorldMaintenanceMgr.obj | fnv360_0822_retail, uvref, high
+hkpDefaultWorldMaintenanceMgr::hkpDefaultWorldMaintenanceMgr() : m_kPointA(33.0f), m_kPointB(63.0f)
 {}
 
 struct S_00d0b230_Dst
@@ -41,11 +43,14 @@ struct FUN_00d0b230_class
 {
     int unk00, unk04;
     float unk08;
-    void SetDstFields(S_00d0b230_Arg* a);
+    void hkpDefaultWorldMaintenanceMgr_init(S_00d0b230_Arg* a);
 };
 
 // @fnv 0x00d0b230
-void FUN_00d0b230_class::SetDstFields(S_00d0b230_Arg* a)
+// pdb: hkpDefaultWorldMaintenanceMgr::init | hkpDefaultWorldMaintenanceMgr.obj | fnv360_0822_retail, vtable, high
+// pdb params: world
+// pdb: hkpDefaultWorldMaintenanceMgr::init | hkpDefaultWorldMaintenanceMgr.obj | fnv360_0822_retail, vtable, high (was: SetDstFields)
+void FUN_00d0b230_class::hkpDefaultWorldMaintenanceMgr_init(S_00d0b230_Arg* a)
 {
     S_00d0b230_Dst* pDst = a->unk08;
     pDst->unk14 = unk08;
@@ -55,32 +60,7 @@ void FUN_00d0b230_class::SetDstFields(S_00d0b230_Arg* a)
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
-extern DWORD DAT_0126835c;
-extern const char str_010cd380[];
-extern const char str_010cd378[];
-extern const char str_010cd36c[];
-extern const char str_01076f38[];
-extern void __cdecl FUN_00cb6f30(void*);
-struct TraceBuffer
-{
-    int unk00;
-    unsigned char* current;
-    int unk08;
-    unsigned char* end;
-};
-struct TraceEntry16
-{
-    volatile unsigned int type;
-    volatile unsigned int timestamp;
-    unsigned int unk08;
-    volatile unsigned int detail;
-};
-struct TraceEntry12
-{
-    volatile unsigned int type;
-    volatile unsigned int timestamp;
-    unsigned int unk08;
-};
+extern void __cdecl hkpWorldOperationUtil_splitSimulationIslands(void*);
 struct FUN_00d0b280_cls
 {
     int unk00;
@@ -88,60 +68,22 @@ struct FUN_00d0b280_cls
     int unk08;
     float unk0c;
     void FUN_00d0b280(float* first, float* second);
-    void FUN_00d0b3e0(float* first, float* second);
+    void hkpDefaultWorldMaintenanceMgr_resetWorldTime(float* first, float* second);
 };
-// Writes trace entries, calls FUN_00cb6f30(first), and if *second >= unk0c calls FUN_00d0b3e0(first, second) between further trace entries.
+// Writes trace entries, calls hkpWorldOperationUtil_splitSimulationIslands(first), and if *second >= unk0c calls hkpDefaultWorldMaintenanceMgr_resetWorldTime(first, second) between further trace entries.
 // @fnv 0x00d0b280
 void FUN_00d0b280_cls::FUN_00d0b280(float* first, float* second)
 {
-    TraceBuffer* buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    unsigned char* current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
-        entry->type = (unsigned int)str_010cd380;
-        entry->detail = (unsigned int)str_010cd378;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 16;
-        buffer->current = current;
-    }
-    FUN_00cb6f30(first);
+    HK_TIMER_BEGIN_LIST("Maintenance", "Split");
+    hkpWorldOperationUtil_splitSimulationIslands(first);
     if (*second >= unk0c)
     {
-        buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-        current = buffer->current;
-        if (current < buffer->end)
-        {
-            volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-            entry->type = (unsigned int)str_010cd36c;
-            _ReadWriteBarrier();
-            volatile unsigned int timestamp = (unsigned int)__rdtsc();
-            entry->timestamp = timestamp;
-            current += 12;
-            buffer->current = current;
-        }
-        FUN_00d0b3e0(first, second);
+        HK_TIMER_SPLIT_LIST("ResetTime");
+        hkpDefaultWorldMaintenanceMgr_resetWorldTime(first, second);
     }
-    buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-        entry->type = (unsigned int)str_01076f38;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 12;
-        buffer->current = current;
-    }
+    HK_TIMER_END_LIST();
 }
 
-extern DWORD DAT_0126835c;
-extern const char str_010cd380[];
-extern const char str_010cd36c[];
-extern const char str_01076f38[];
 
 struct FUN_00d0b350_cls
 {
@@ -149,40 +91,20 @@ struct FUN_00d0b350_cls
     int unk04;
     int unk08;
     float unk0c;
-    void FUN_00d0b3e0(float* first, float* second);
-    void TraceConditionalCall(float* first, float* second);
+    void hkpDefaultWorldMaintenanceMgr_resetWorldTime(float* first, float* second);
+    void hkpDefaultWorldMaintenanceMgr_performMaintenanceNoSplit(float* first, float* second);
 };
-// Writes a trace entry, calls FUN_00d0b3e0(first, second) if *second >= unk0c, then writes a closing trace entry.
+// Writes a trace entry, calls hkpDefaultWorldMaintenanceMgr_resetWorldTime(first, second) if *second >= unk0c, then writes a closing trace entry.
 // @fnv 0x00d0b350
-void FUN_00d0b350_cls::TraceConditionalCall(float* first, float* second)
+// pdb: hkpDefaultWorldMaintenanceMgr::performMaintenanceNoSplit | hkpDefaultWorldMaintenanceMgr.obj | fnv360_0822_retail, vtable, high
+// pdb params: world, stepInfo
+// pdb: hkpDefaultWorldMaintenanceMgr::performMaintenanceNoSplit | hkpDefaultWorldMaintenanceMgr.obj | fnv360_0822_retail, vtable, high (was: TraceConditionalCall)
+void FUN_00d0b350_cls::hkpDefaultWorldMaintenanceMgr_performMaintenanceNoSplit(float* first, float* second)
 {
-    TraceBuffer* buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    unsigned char* current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry16* entry = (volatile TraceEntry16*)current;
-        entry->type = (unsigned int)str_010cd380;
-        entry->detail = (unsigned int)str_010cd36c;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 16;
-        buffer->current = current;
-    }
+    HK_TIMER_BEGIN_LIST("Maintenance", "ResetTime");
     if (*second >= unk0c)
-        FUN_00d0b3e0(first, second);
-    buffer = (TraceBuffer*)TlsGetValue(DAT_0126835c);
-    current = buffer->current;
-    if (current < buffer->end)
-    {
-        volatile TraceEntry12* entry = (volatile TraceEntry12*)current;
-        entry->type = (unsigned int)str_01076f38;
-        _ReadWriteBarrier();
-        volatile unsigned int timestamp = (unsigned int)__rdtsc();
-        entry->timestamp = timestamp;
-        current += 12;
-        buffer->current = current;
-    }
+        hkpDefaultWorldMaintenanceMgr_resetWorldTime(first, second);
+    HK_TIMER_END_LIST();
 }
 
 struct hkStepInfo
@@ -474,14 +396,14 @@ struct hkpWorld
     hkStepInfo m_pStepInfo;
 };
 
-void __cdecl ProcessBlocks(hkpSimulationIsland* island, float oldTime, float newTime, CollisionAgentContext* input);
+void __cdecl hkpWorldAgentUtil_warpTime(hkpSimulationIsland* island, float oldTime, float newTime, CollisionAgentContext* input);
 
 struct TimeRebaser
 {
     int unk00;
     int unk04;
     float m_newTime;
-    void FUN_00d0b3e0(hkpWorld* world, hkStepInfo& stepInfo);
+    void hkpDefaultWorldMaintenanceMgr_resetWorldTime(hkpWorld* world, hkStepInfo& stepInfo);
 };
 
 // @f3 0x0098ba90 (community match, verified in this file)
@@ -669,7 +591,8 @@ struct F3Entity
     float m_uiCommandId;
 };
 void __cdecl FUN_009445e0(hkpSimulationIsland* island, float oldTime, float newTime, CollisionAgentContext* input);
-void TimeRebaser::FUN_00d0b3e0(hkpWorld* world, hkStepInfo& stepInfo)
+// pdb: hkpDefaultWorldMaintenanceMgr::resetWorldTime | hkpDefaultWorldMaintenanceMgr.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void TimeRebaser::hkpDefaultWorldMaintenanceMgr_resetWorldTime(hkpWorld* world, hkStepInfo& stepInfo)
 {
     F3World* fo3World = (F3World*)world;
     float deltaTime = stepInfo.m_fEndTime - stepInfo.m_uiStartTime;

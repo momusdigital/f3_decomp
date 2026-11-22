@@ -7,21 +7,7 @@ struct Target
 {
     void* volatile vptr;
 };
-struct Thunk
-{
-    void InvokeVirtualSlot15(int, int, int, int, int);
-};
 typedef void(__thiscall* VirtualTarget)(Target*, int, int, int, int, int);
-// @fnv 0x00ddc920
-void Thunk::InvokeVirtualSlot15(int a, int b, int c, int d, int e)
-{
-    Target* target = *(Target**)((char*)this - 8);
-    void* volatile* table = (void* volatile*)target->vptr;
-    volatile int& fifth = e;
-    fifth = DAT_01269cdc;
-    VirtualTarget call = (VirtualTarget)table[15];
-    call(target, a, b, c, d, e);
-}
 
 struct Owner
 {
@@ -39,6 +25,8 @@ struct Interface
 };
 // Retrieves the Owner pointer stored 8 bytes before this Interface and forwards all seven arguments to its forward method.
 // @fnv 0x00ddc9c0
+// pdb: hkDebugDisplayProcess::updateCamera | hkDebugDisplayProcess.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: from, to, up, nearPlane, farPlane, fov, name
 void Interface::ForwardToOwner(unsigned int a, unsigned int b, unsigned int c, float d, float e, float f,
                                unsigned int g)
 {
@@ -47,7 +35,6 @@ void Interface::ForwardToOwner(unsigned int a, unsigned int b, unsigned int c, f
 }
 
 namespace fnv_00ddca90 {
-extern int g_callbackContext;
 struct Target
 {
     virtual void f00();
@@ -64,21 +51,6 @@ struct Target
     virtual void f2c();
     virtual int invoke(int, int, int, int, int);
 };
-struct Adapter
-{
-    int InvokeTarget(int, int, int, int, int);
-};
-struct AdapterHeader
-{
-    Target* target;
-    unsigned int flags;
-};
-// @fnv 0x00ddca90
-int Adapter::InvokeTarget(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int context)
-{
-    AdapterHeader* header = reinterpret_cast<AdapterHeader*>(reinterpret_cast<char*>(this) - sizeof(AdapterHeader));
-    return header->target->invoke(aiArg1, aiArg2, aiArg3, aiArg4, g_callbackContext);
-}
 }  // namespace fnv_00ddca90
 
 extern char DAT_010d7ed0;
@@ -86,7 +58,6 @@ extern char DAT_010d7eb0;
 extern char DAT_010d7e5c;
 extern char DAT_010d7cfc;
 extern char DAT_010d1508;
-extern char DAT_0102e388;
 class ProcessManager
 {
   public:
@@ -116,6 +87,7 @@ extern char FUN_00e808e0;
 extern char FUN_00dcc494;
 extern ProcessManager* DAT_010f323c;
 
+// pdb: hkDebugDisplayProcess::~hkDebugDisplayProcess | hkDebugDisplayProcess.obj | fnv360_0822_retail, call_seq, medium
 void Process::FUN_00ddcb50()
 {
     vftable = &DAT_00e86e68;
@@ -165,32 +137,10 @@ struct S_00ddcb90_RefObj
     {}
 };
 
-struct S_00ddcb90_Base2
-{
-    virtual void v0();
-};
-
-struct S_00ddcb90_Obj : S_00ddcb90_RefObj, S_00ddcb90_Base2
-{
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    S_00ddcb90_Obj() throw();
-};
-
-// Allocates and constructs a new S_00ddcb90_Obj via its operator new and returns it as S_00ddcb90_Base2.
-// @fnv 0x00ddcb90
-S_00ddcb90_Base2* FUN_00ddcb90()
-{
-    return new S_00ddcb90_Obj();
-}
-
 namespace fnv_00ddcbe0 {
 extern int DAT_01269cdc;
 // @fnv 0x00ddcbe0
+// pdb: hkpPhantomDisplayViewer::getProcessTag | hkpPhantomDisplayViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_00ddcbe0()
 {
     return DAT_01269cdc;
@@ -220,20 +170,6 @@ struct Process
     void FUN_00ddcb50();
     Process* FUN_00ddcc10(unsigned char flags);
 };
-// Calls FUN_00ddcb50, and if flags has bit 0 set, releases this process with size unk04 through the allocator from FUN_00c85750; returns this.
-// @fnv 0x00ddcc10
-Process* Process::FUN_00ddcc10(unsigned char flags)
-{
-    FUN_00ddcb50();
-    if (flags & 1)
-    {
-        ProcessServices* services = FUN_00c85750();
-        unsigned short size = unk04;
-        Allocator* allocator = services->allocator;
-        allocator->Release(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00ddcc10
 
 extern unsigned int g_01269cdc;
@@ -261,6 +197,8 @@ class S_00ddc960_cls
 };
 
 // @fnv 0x00ddc960
+// pdb: hkDebugDisplayProcess::setGeometryColor | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: color, id, tag
 int S_00ddc960_cls::ForwardToTarget(int aiArg1, int aiArg2, unsigned int c)
 {
     OwnerHolder* h = (OwnerHolder*)((char*)this - 8);
@@ -295,91 +233,12 @@ int S_00ddc960_cls::ForwardToTarget(int aiArg1, int aiArg2, unsigned int c)
 // The forwarder returns what the delegate returns, which is what makes the
 // call a tail jump.
 
-// Stand-in for the object the delegate points at.  The eleventh virtual is
-// the one the forwarder calls; the ones before it only pad the vtable.
-struct Sink
-{
-    virtual void f0();
-    virtual void f1();
-    virtual void f2();
-    virtual void f3();
-    virtual void f4();
-    virtual void f5();
-    virtual void f6();
-    virtual void f7();
-    virtual void f8();
-    virtual void f9();
-    virtual Sink* f10(int, int, int, int, int, int);
-};
-
 // The global the sixth argument is replaced with (uninitialised, so it
 // lives in .bss just like the original one at 0x1269cdc).
 int g_1269cdc;
 
-// Primary base of the forwarding object: the delegate plus padding, so
-// that the secondary base below starts eight bytes into the object.
-struct ForwarderBase
-{
-    Sink* m_delegate;
-    int unk04;
-};
-
-// Secondary base: the interface that carries the forwarding virtual.
-struct ForwarderInterface
-{
-    virtual Sink* ForwardToDelegate(int, int, int, int, int, int);
-};
-
-struct Forwarder : public ForwarderBase, public ForwarderInterface
-{
-};
-
-// @fnv 0x00ddca50
-Sink* ForwarderInterface::ForwardToDelegate(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6)
-{
-    // The delegate pointer is stored in the primary base, which ends right
-    // where this secondary base sub-object begins.
-    Sink* d = *(Sink**)((char*)this - sizeof(ForwarderBase));
-    return d->f10(aiArg1, aiArg2, aiArg3, aiArg4, aiArg5, g_1269cdc);
-}
-
 // FUN_00ddcad0: thiscall forwarder. The owner pointer lives 8 bytes before this;
 // the single stack argument is forwarded to the owner's vtable slot 0x40 via a tail jump.
-
-class FUN_00ddcad0_owner
-{
-  public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40(int a);
-};
-
-class FUN_00ddcad0_cls
-{
-  public:
-    void FUN_00ddcad0(int a);
-};
-
-// @fnv 0x00ddcad0
-void FUN_00ddcad0_cls::FUN_00ddcad0(int a)
-{
-    FUN_00ddcad0_owner* owner = *(FUN_00ddcad0_owner**)((char*)this - 8);
-    owner->v40(a);
-}
 
 struct S_00ddc8e0_Owner
 {
@@ -393,6 +252,8 @@ struct S_00ddc8e0_Cls
     int ForwardToOwnerVirtual(int a, int b, int c, int d);
 };
 // @fnv 0x00ddc8e0
+// pdb: hkDebugDisplayProcess::addGeometry | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: geometries, transform, id, tag, shapeIdHint
 int S_00ddc8e0_Cls::ForwardToOwnerVirtual(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     S_00ddc8e0_Owner* pOwner = *(S_00ddc8e0_Owner**)((char*)this - 8);
@@ -430,6 +291,8 @@ struct ForwarderDDCA : public ForwarderBaseDDCA, public ForwarderInterfaceDDCA
 };
 
 // @fnv 0x00ddca10
+// pdb: hkDebugDisplayProcess::displayLine | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: start, end, color, id, tag
 SinkDDCA* ForwarderInterfaceDDCA::FUN_00ddca10(int aArg1, int aArg2, int aArg3, int aArg4)
 {
     SinkDDCA* pkDelegate =
@@ -516,6 +379,8 @@ class FUN_00ddc900_cls
 };
 
 // @fnv 0x00ddc900
+// pdb: hkDebugDisplayProcess::addGeometryInstance | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: instID, transform, id, tag, shapeIdHint
 void FUN_00ddc900_cls::FUN_00ddc900(int a, int b, int c, unsigned int d)
 {
     FNVHolder* h = (FNVHolder*)((char*)this - 8);
@@ -557,24 +422,6 @@ struct FNVHolder
     FNVTarget* m_target;
 };
 
-class FUN_00ddc940_cls
-{
-  public:
-    void FUN_00ddc940(int a, int b, int c, unsigned int d);
-};
-
-// @fnv 0x00ddc940
-void FUN_00ddc940_cls::FUN_00ddc940(int aiArg1, int aiArg2, int aiArg3, unsigned int d)
-{
-    FNVHolder* h = (FNVHolder*)((char*)this - 8);
-    FNVTarget* t = h->m_target;
-    void* vp = *(void**)t;
-    unsigned int dat = DAT_01269cdc;
-    *(unsigned int volatile*)&d = dat;
-    typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int, unsigned int);
-    SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x38);
-    fn(t, aiArg1, aiArg2, aiArg3, d);
-}
 }  // namespace fnv_00ddc940
 
 namespace fnv_00ddc980 {
@@ -602,6 +449,8 @@ class FUN_00ddc980_cls
 };
 
 // @fnv 0x00ddc980
+// pdb: hkDebugDisplayProcess::updateGeometry | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: transform, id, tag
 void FUN_00ddc980_cls::FUN_00ddc980(int aArg1, int aArg2, int aArg3)
 {
     FNVHolder* h = (FNVHolder*)((char*)this - 8);
@@ -633,6 +482,8 @@ class FUN_00ddc9a0_cls
     void FUN_00ddc9a0(int a, unsigned int b);
 };
 // @fnv 0x00ddc9a0
+// pdb: hkDebugDisplayProcess::removeGeometry | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: id, tag, shapeIdHint
 void FUN_00ddc9a0_cls::FUN_00ddc9a0(int aiArg, unsigned int auiParam)
 {
     FNVTarget* t = *(FNVTarget**)((char*)this - 8);
@@ -676,6 +527,8 @@ class FUN_00ddca30_cls
 };
 
 // @fnv 0x00ddca30
+// pdb: hkDebugDisplayProcess::displayTriangle | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: a, b, c, color, id, tag
 void FUN_00ddca30_cls::FUN_00ddca30(int aiArg1, int aiArg2, int aiArg3, int aiArg4, unsigned int auArg5)
 {
     FNVHolder* h = (FNVHolder*)((char*)this - 8);
@@ -688,34 +541,6 @@ void FUN_00ddca30_cls::FUN_00ddca30(int aiArg1, int aiArg2, int aiArg3, int aiAr
     fn(t, aiArg1, aiArg2, aiArg3, aiArg4, auArg5);
 }
 }  // namespace fnv_00ddca30
-
-struct VirtualReceiver
-{
-    virtual int method0(int, int, int);
-    virtual int method1(int, int, int);
-    virtual int method2(int, int, int);
-    virtual int method3(int, int, int);
-    virtual int method4(int, int, int);
-    virtual int method5(int, int, int);
-    virtual int method6(int, int, int);
-    virtual int method7(int, int, int);
-    virtual int method8(int, int, int);
-    virtual int method9(int, int, int);
-    virtual int method10(int, int, int);
-    virtual int method11(int, int, int);
-    virtual int method12(int, int, int);
-    virtual int method13(int, int, int);
-};
-struct WrapperObject
-{
-    int __thiscall FUN_00ddcab0(int first, int second, int third);
-};
-// @fnv 0x00ddcab0
-int WrapperObject::FUN_00ddcab0(int first, int second, int third)
-{
-    VirtualReceiver* receiver = *(VirtualReceiver**)((char*)this - 8);
-    return receiver->method13(first, second, DAT_01269cdc);
-}
 
 namespace fnv_00ddcaf0 {
 extern char DAT_010d1508[];
@@ -749,6 +574,7 @@ class FUN_00ddcaf0_cls
 
 // Initializes m_06, m_0c, m_08, m_20, and m_vtbl, calls Helper if DAT_01269cdc is zero, then dispatches m_20 via GlobalDispatcher.
 // @fnv 0x00ddcaf0
+// pdb: hkDebugDisplayProcess::hkDebugDisplayProcess | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00ddcaf0_cls* FUN_00ddcaf0_cls::FUN_00ddcaf0()
 {
     unsigned char flag = 1;
@@ -770,56 +596,12 @@ FUN_00ddcaf0_cls* FUN_00ddcaf0_cls::FUN_00ddcaf0()
 }  // namespace fnv_00ddcaf0
 
 namespace fnv_00ddcbc0 {
-void* __cdecl FUN_00ddcb90();
 
-struct S_00ddcbc0_Factory
-{
-    void* FUN_00dd9380(const char* name, void*(__cdecl* createFn)());
-};
-
-extern "C" S_00ddcbc0_Factory* DAT_01269cd0;
 extern "C" void* DAT_01269cdc;
 
-// @fnv 0x00ddcbc0
-void FUN_00ddcbc0()
-{
-    DAT_01269cdc = DAT_01269cd0->FUN_00dd9380("Debug Display", FUN_00ddcb90);
-}
 }  // namespace fnv_00ddcbc0
 
 template <class T> class HavokElementArray;
-class hkVector4;
-class hkQsTransform;
-
-struct BehaviorReceiver : TargetIface
-{
-    virtual void vslot4();
-    virtual void vslot5();
-    virtual void vslot6();
-    virtual int DisplayBehaviorGraph(const HavokElementArray<int>& words, const HavokElementArray<int>& values,
-                                     const HavokElementArray<int>& quads, const HavokElementArray<hkVector4>& vectors,
-                                     const HavokElementArray<char*>& nodes, const HavokElementArray<int>& states,
-                                     const HavokElementArray<int>& transitions, const HavokElementArray<hkQsTransform>& poses);
-};
-
-struct BehaviorForwarder
-{
-    int FUN_00ddca00(const HavokElementArray<int>& words, const HavokElementArray<int>& values, const HavokElementArray<int>& quads,
-                     const HavokElementArray<hkVector4>& vectors, const HavokElementArray<char*>& nodes,
-                     const HavokElementArray<int>& states, const HavokElementArray<int>& transitions,
-                     const HavokElementArray<hkQsTransform>& poses);
-};
-
-// @fnv 0x00ddca00
-int BehaviorForwarder::FUN_00ddca00(const HavokElementArray<int>& words, const HavokElementArray<int>& values,
-                                    const HavokElementArray<int>& quads, const HavokElementArray<hkVector4>& vectors,
-                                    const HavokElementArray<char*>& nodes, const HavokElementArray<int>& states,
-                                    const HavokElementArray<int>& transitions, const HavokElementArray<hkQsTransform>& poses)
-{
-    OwnerHolder* owner = reinterpret_cast<OwnerHolder*>(reinterpret_cast<char*>(this) - sizeof(OwnerHolder));
-    return static_cast<BehaviorReceiver*>(owner->m_target)
-        ->DisplayBehaviorGraph(words, values, quads, vectors, nodes, states, transitions, poses);
-}
 
 struct TextReceiver : TargetIface
 {
@@ -844,45 +626,12 @@ struct TextForwarder : OwnerHolder, TextEntry
 };
 
 // @fnv 0x00ddca70
+// pdb: hkDebugDisplayProcess::display3dText | hkDebugDisplayProcess.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: text, pos, color, id, tag
 int TextEntry::FUN_00ddca70(const char* text, int color, int id, int tag)
 {
     __assume(this != 0);
     TextForwarder& owner = static_cast<TextForwarder&>(*this);
     TextReceiver* receiver = static_cast<TextReceiver*>(owner.m_target);
     return receiver->displayText(text, color, id, g_01269cdc);
-}
-
-struct ImmediateReceiver : TargetIface
-{
-    virtual void slot4();
-    virtual void slot5();
-    virtual void slot6();
-    virtual void slot7();
-    virtual void slot8();
-    virtual void slot9();
-    virtual void slot10();
-    virtual void slot11();
-    virtual void slot12();
-    virtual void slot13();
-    virtual void slot14();
-    virtual void slot15();
-    virtual void slot16();
-    virtual int GetTypeItem();
-};
-
-struct ImmediateForwarder
-{
-    int FUN_00ddcae0();
-};
-
-struct ImmediateOwner : OwnerHolder
-{
-    ImmediateForwarder m_interface;
-};
-
-// @fnv 0x00ddcae0
-int ImmediateForwarder::FUN_00ddcae0()
-{
-    ImmediateOwner* owner = reinterpret_cast<ImmediateOwner*>(reinterpret_cast<char*>(this) - sizeof(OwnerHolder));
-    return static_cast<ImmediateReceiver*>(owner->m_target)->GetTypeItem();
 }

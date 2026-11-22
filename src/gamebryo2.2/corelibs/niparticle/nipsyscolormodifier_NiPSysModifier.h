@@ -1,6 +1,6 @@
 // Authored declaration for the base Nif particle system modifier.
-#ifndef FNV_NIPSYSMODIFIER_H
-#define FNV_NIPSYSMODIFIER_H
+#ifndef FNV_NIPSYSMODIFIER_LOCAL_H
+#define FNV_NIPSYSMODIFIER_LOCAL_H
 #include "f3_common.h"
 #include "NiObject.h"
 #include "NiFixedString.h"

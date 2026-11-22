@@ -1680,6 +1680,8 @@ __forceinline void __cdecl hkCollectionBvTreeAgent3_calcAabbs( const hkpAgent3Pr
 	}
 }
 
+// pdb: hkpCollectionCollectionAgent3::process | hkpCollectionCollectionAgent3.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: hkpCollectionCollectionAgent3::process_gatherShapeKeys)
+// pdb params: input, entry, agentData, separatingNormal, output
 hkpAgentData* __cdecl hkpCollectionCollectionAgent3::FUN_009cfcf0( const hkpAgent3ProcessInput& input, hkpAgentEntry* entry, hkpAgentData* agentData, hkVector4* separatingNormal, hkpProcessCollisionOutput& output )
 {
 	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerBeginListCommand* h = reinterpret_cast<hkMonitorStream::TimerBeginListCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "L" "t" "CollColl3"; h->m_nameOfFirstSplit = "S" "t" "Init"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } };
@@ -1692,7 +1694,6 @@ hkpAgentData* __cdecl hkpCollectionCollectionAgent3::FUN_009cfcf0( const hkpAgen
 		treatAasCollection = shapeAisCollection;
 		if ( ( shapeAisCollection && input.m_bodyA->getShape()->getType() != HK_SHAPE_LIST ) || ( shapeBisCollection && input.m_bodyB->getShape()->getType() != HK_SHAPE_LIST ) )
 		{
-			;
 		}
 	}
 	else
@@ -1716,7 +1717,6 @@ hkpAgentData* __cdecl hkpCollectionCollectionAgent3::FUN_009cfcf0( const hkpAgen
 			else
 			{
 				treatAasCollection = input.m_bodyA->getMotionState()->m_objectRadius <= input.m_bodyB->getMotionState()->m_objectRadius;
-				;
 			}
 		}
 		else
@@ -1744,7 +1744,6 @@ hkpAgentData* __cdecl hkpCollectionCollectionAgent3::FUN_009cfcf0( const hkpAgen
 				hkpShapeKey hitList[HK_MAX_NUM_HITS_PER_AABB_QUERY];
 				if ( treatAasCollection )
 				{
-					;
 					hkTransform bTa; bTa.setInverse( input.m_aTb );
 					numHitsFirst = hkBvTreeAgent3::calcAabbAndQueryTree( *input.m_bodyA, *input.m_bodyB, bTa, input.m_linearTimInfo, *input.m_input, 0, hitList, HK_MAX_NUM_HITS_PER_AABB_QUERY );
 					firstCdBody = input.m_bodyB;
@@ -1754,7 +1753,6 @@ hkpAgentData* __cdecl hkpCollectionCollectionAgent3::FUN_009cfcf0( const hkpAgen
 				}
 				else
 				{
-					;
 					hkVector4 negLinearTimInfo; negLinearTimInfo.setNeg3( input.m_linearTimInfo );
 					numHitsFirst = hkBvTreeAgent3::calcAabbAndQueryTree( *input.m_bodyB, *input.m_bodyA, input.m_aTb, negLinearTimInfo, *input.m_input, 0, hitList, HK_MAX_NUM_HITS_PER_AABB_QUERY );
 					firstCdBody = input.m_bodyA;
@@ -1807,7 +1805,6 @@ hkpAgentData* __cdecl hkpCollectionCollectionAgent3::FUN_009cfcf0( const hkpAgen
 			{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerCommand* h = reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "S" "t" "SortHits"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } };
 			{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::AddValueCommand* h = reinterpret_cast<hkMonitorStream::AddValueCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "M" "i" "NumHits"; h->m_value = float(numShapeKeyPairs); mStream.setEnd( (char*)(h+1) ); } };
 			hkAlgorithm::quickSort( shapeKeyPairs, numShapeKeyPairs );
-			;
 			hkShapeKeyPair& pair = shapeKeyPairs[numShapeKeyPairs];
 			pair.m_shapeKeyA = 0xffffffff;
 			pair.m_shapeKeyB = 0xffffffff;

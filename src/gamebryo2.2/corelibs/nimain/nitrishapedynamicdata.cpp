@@ -4,45 +4,49 @@
 
 struct NiTriShapeDynamicData
 {
-    unsigned short m_usActiveVertices;
-    unsigned short m_usActiveTriangles;
+    unsigned char unk00[0x48];
+    const unsigned short* m_pusTriList;  // src: FNV360_PDB NiTriShapeData +0x48
+    unsigned char unk4C[0xC];
+    unsigned short m_usActiveVertices;  // src: FNV360_PDB +0x58
+    unsigned short m_usActiveTriangles;  // src: FNV360_PDB +0x5A
     void FUN_00a81730(unsigned short& usStrips, const unsigned short*& pusStripLengths,
                       const unsigned short*& pusTriList, unsigned int& uiStripLengthSum);
 };
 
 // @fnv 0x00a81730
+// pdb: NiTriShapeDynamicData::GetStripData | NiTriShapeDynamicData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: usStrips, pusStripLengths, pusTriList, uiStripLengthSum
 void __thiscall NiTriShapeDynamicData::FUN_00a81730(unsigned short& usStrips, const unsigned short*& pusStripLengths,
                                                     const unsigned short*& pusTriList, unsigned int& uiStripLengthSum)
 {
-    usStrips = *(unsigned short*)((char*)this + 0x5a);
+    usStrips = m_usActiveTriangles;
     pusStripLengths = (const unsigned short*)0;
-    pusTriList = *(const unsigned short**)((char*)this + 0x48);
-    uiStripLengthSum = *(unsigned short*)((char*)this + 0x5a) * 3;
+    pusTriList = m_pusTriList;
+    uiStripLengthSum = m_usActiveTriangles * 3;
 }
 
 extern void* g_011f5af4;
 
-// @fnv 0x00a81800
-void* __cdecl FUN_00a81800()
-{
-    return &g_011f5af4;
-}
-
 namespace fnv_00a81820 {
 struct NiTriShapeDynamicData
 {
+    unsigned char unk00[0x5a];
+    unsigned short m_usActiveTriangles;  // src: FNV360_PDB +0x5A
     void __thiscall FUN_00a81820(unsigned short usActiveTriangles);
 };
 
 // @fnv 0x00a81820
+// pdb: NiTriShapeDynamicData::SetActiveTriangleCount | NiTriShapeDynamicData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: usActiveTriangles
 void __thiscall NiTriShapeDynamicData::FUN_00a81820(unsigned short usActiveTriangles)
 {
-    *(unsigned short*)((char*)this + 0x5a) = usActiveTriangles;
+    m_usActiveTriangles = usActiveTriangles;
 }
 }  // namespace fnv_00a81820
 
 struct NiTriShapeData
 {
+    unsigned char unk00[0x58];
     bool FUN_00a7b7e0(const NiTriShapeData*);
 };
 struct NiTriShapeDynamicDataShell : NiTriShapeData
@@ -53,10 +57,12 @@ struct NiTriShapeDynamicDataShell : NiTriShapeData
 };
 // Compares this shape data with another via FUN_00a7b7e0 and checks that the active vertex and triangle counts match.
 // @fnv 0x00a817c0
+// pdb: NiTriShapeDynamicData::IsEqual | NiTriShapeDynamicData.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiTriStripsDynamicData::IsEqual)
+// pdb params: pkObject
 bool NiTriShapeDynamicDataShell::FUN_00a817c0(const NiTriShapeDynamicDataShell* other)
 {
-    if (FUN_00a7b7e0(other) && *(unsigned short*)((char*)this + 0x58) == *(unsigned short*)((char*)other + 0x58) &&
-        *(unsigned short*)((char*)this + 0x5a) == *(unsigned short*)((char*)other + 0x5a))
+    if (FUN_00a7b7e0(other) && m_usActiveVertices == other->m_usActiveVertices &&
+        m_usActiveTriangles == other->m_usActiveTriangles)
         return true;
     return false;
 }
@@ -67,9 +73,11 @@ struct NiTriShapeDynamicData_shell : NiTriShapeDynamicData
 };
 
 // @fnv 0x00a81810
+// pdb: NiTriShapeDynamicData::SetActiveVertexCount | NiTriShapeDynamicData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: usActiveVertices
 void NiTriShapeDynamicData_shell::FUN_00a81810(unsigned short usActiveVertices)
 {
-    ((unsigned short*)this)[0x2c] = usActiveVertices;
+    m_usActiveVertices = usActiveVertices;
 }
 
 void __fastcall FUN_00a7b8c0(void*);
@@ -91,32 +99,42 @@ void* S00a81830::Destroy(unsigned int auiFlags)
 struct S_00a818b0_Bin
 {
     unsigned int unk00;
-    unsigned int m_uiPos;
-    unsigned int unk08;
-    unsigned int(__cdecl* m_pfnRead)(S_00a818b0_Bin*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int Read(void* p, unsigned int bytes, unsigned int* sz, unsigned int n)
+    unsigned int m_uiAbsoluteCurrentPos;  // src: FNV360_PDB NiBinaryStream +0x4 (old: m_uiPos)
+    unsigned int m_pfnRead;  // src: FNV360_PDB NiBinaryStream +0x8 (old: unk08)
+    unsigned int(__cdecl* m_pfnWrite)(S_00a818b0_Bin*, void*, unsigned int, unsigned int*, unsigned int);  // src: FNV360_PDB NiBinaryStream +0xC (old: m_pfnRead)
+    unsigned int Write(void* p, unsigned int bytes, unsigned int* sz, unsigned int n)
     {
-        return m_pfnRead(this, p, bytes, sz, n);
+        return m_pfnWrite(this, p, bytes, sz, n);
     }
 };
-static __forceinline void S_BinRead(S_00a818b0_Bin* bin, void* v, unsigned int bytes)
+static __forceinline void S_BinWrite(S_00a818b0_Bin* bin, void* v, unsigned int bytes)
 {
     unsigned int sz = 2;
-    bin->m_uiPos += bin->Read(v, bytes, &sz, 1);
+    bin->m_uiAbsoluteCurrentPos += bin->Write(v, bytes, &sz, 1);
 }
+struct NiStream_00a818b0
+{
+    unsigned char unk000[0x250];
+    S_00a818b0_Bin* m_pkOstr;  // src: FNV360_PDB NiStream +0x250
+};
 struct FUN_00a818b0_cls
 {
-    void FUN_00a7bbe0(void* pOther);
+    unsigned char unk00[0x58];
+    unsigned short m_usActiveVertices;  // src: FNV360_PDB NiTriShapeDynamicData +0x58
+    unsigned short m_usActiveTriangles;  // src: FNV360_PDB NiTriShapeDynamicData +0x5A
+    void NiTriShapeData_SaveBinary(void* pOther);
     void FUN_00a818b0(void* pOther);
 };
-// Calls FUN_00a7bbe0, then reads two 2-byte values from the stream at pOther+0x250 into this+0x58 and this+0x5a.
+// Calls NiTriShapeData_SaveBinary, then writes the active vertex and triangle counts to the stream's output stream.
 // @fnv 0x00a818b0
+// pdb: NiTriShapeDynamicData::SaveBinary | NiTriShapeDynamicData.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void FUN_00a818b0_cls::FUN_00a818b0(void* pOther)
 {
-    char* pObj = (char*)pOther;
-    FUN_00a7bbe0(pOther);
-    S_BinRead(*(S_00a818b0_Bin**)(pObj + 0x250), (char*)this + 0x58, 2);
-    S_BinRead(*(S_00a818b0_Bin**)(pObj + 0x250), (char*)this + 0x5a, 2);
+    NiStream_00a818b0* pObj = (NiStream_00a818b0*)pOther;
+    NiTriShapeData_SaveBinary(pOther);
+    S_BinWrite(pObj->m_pkOstr, &m_usActiveVertices, 2);
+    S_BinWrite(pObj->m_pkOstr, &m_usActiveTriangles, 2);
 }
 
 extern void* g_011f5af4;
@@ -181,6 +199,8 @@ struct FUN_00a81910_cls
 
 // Calls AppendTriListInfo, then appends the result of FUN_00a7d330(g_011f5af4) and two named values m_usActiveVertices and m_usActiveTriangles to the array.
 // @f3 0x0084c000 (community match, verified in this file)
+// pdb: NiTriShapeDynamicData::GetViewerStrings | NiTriShapeDynamicData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void FUN_00a81910_cls::AddActiveCounts(NiArr* a)
 {
     AppendTriListInfo(a);
@@ -218,6 +238,7 @@ struct FUN_00a81710_cls
     unsigned short FUN_00a81710();
 };
 // @fnv 0x00a81710
+// pdb: NiTriShapeDynamicData::GetActiveVertexCount | NiTriShapeDynamicData.obj | fnv360_0822_retail, objrun_open, low
 unsigned short FUN_00a81710_cls::FUN_00a81710()
 {
     return m_58;
@@ -253,6 +274,7 @@ struct A81720Owner
 };
 
 // @fnv 0x00a81720
+// pdb: NiTriShapeDynamicData::GetActiveTriangleCount | NiTriShapeDynamicData.obj | fnv360_0822_retail, objrun_open, low
 unsigned short A81720Owner::FUN_00a81720()
 {
     return unk5a;
@@ -445,7 +467,7 @@ struct Dynamic
     unsigned int unk54;
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
-    bool FUN_00a7b940(Stream*);
+    bool NiTriShapeData_LoadBinary(Stream*);
     void FUN_00a81850(Stream*);
 };
 static __forceinline void ReadBytes(Reader* bin, void* v, unsigned int bytes)
@@ -454,10 +476,12 @@ static __forceinline void ReadBytes(Reader* bin, void* v, unsigned int bytes)
     bin->m_uiBytesRead += bin->Read(v, bytes, &size, 1);
 }
 // @fnv 0x00a81850
+// pdb: NiTriShapeDynamicData::LoadBinary | NiTriShapeDynamicData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kStream
 void Dynamic::FUN_00a81850(Stream* pStream)
 {
     Stream* s = pStream;
-    FUN_00a7b940(s);
+    NiTriShapeData_LoadBinary(s);
     ReadBytes(s->m_pReader, &m_usActiveVertices, 2);
     ReadBytes(s->m_pReader, &m_usActiveTriangles, 2);
 }

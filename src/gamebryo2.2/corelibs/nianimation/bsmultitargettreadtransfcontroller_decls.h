@@ -10,6 +10,16 @@ class BSMultiTargetTreadTransfController
     TreadEntry* entries;
 
   public:
+    struct LinkAVObj
+    {
+        unsigned short usBlendIdx;  // src: FNV360_PDB +0x0
+        void* pTarget;  // src: FNV360_PDB +0x4 (NiAVObject*)
+        void* pLink;  // src: FNV360_PDB +0x8 (BSTreadTransfInterpolator::LinkInfo*)
+    };
+    unsigned short usNumInterps;  // src: FNV360_PDB +0x38
+    LinkAVObj** pLinksA;  // src: FNV360_PDB +0x3C
+    unsigned short usNumLinks;  // src: FNV360_PDB +0x40
+
     NiInterpolator* GetInterpolator(unsigned short index);
 };
 extern unsigned int DAT_011f36a0;

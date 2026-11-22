@@ -146,6 +146,8 @@ struct StringQ
 };
 
 // @fnv 0x00a0c300
+// pdb: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::rfind | Tile.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: _Ptr, _Off, _Count
 unsigned int StringQ::FUN_00be5840(const char* _Ptr, unsigned int _Off, unsigned int _Count) const
 {
     if (_Count == 0)
@@ -189,6 +191,7 @@ struct FUN_00be5630_Obj {
     int FUN_00be5630();
 };
 
+// pdb: FutErrorC::FutErrorC | lastError.obj | fnv360_0822_debug, objrun_open, low
 int FUN_00be5630_Obj::FUN_00be5630()
 {
     if (*unk20 != 0)
@@ -253,14 +256,14 @@ struct Property {
     int unk00,unk04;
     float unk08;
     void* unk0c;
-    void FUN_00beafa0();
-    void FUN_00bf0720(bool);
+    void Tile_Value_ClearActions();
+    void Tile_Value_CalculateValue(bool);
     __forceinline void Set(float f) {
         bool changed = unk08 != f || unk0c != 0;
         unk08 = f;
         if(unk0c) { DAT_01090a78.FUN_0086ba60(unk0c); unk0c=0; }
-        FUN_00beafa0();
-        FUN_00bf0720(changed);
+        Tile_Value_ClearActions();
+        Tile_Value_CalculateValue(changed);
     }
 };
 struct Widget {
@@ -297,6 +300,7 @@ Pending::~Pending() { FUN_006c8220(); }
 __forceinline float Pulse(float start,float end,float low,float high,float progress) {
  return start+(end-start)*((progress-low)/(double(high)-low));
 }
+// pdb: Tile::UpdateFadeControls | Tile.obj | fnv360_0822_retail, uconst, low
 void FUN_00bee440() {
     if (!DAT_011796a8.unk04 && !DAT_011796a8.unk00) return;
     Pending pending;
@@ -440,6 +444,7 @@ struct Vec {
     Iter FUN_00be1e20(Iter _First, Iter _Last);   // erase
 };
 
+// pdb: BSTSmallArrayHeapAllocatorCore::Adopt | BSTSmallArray.obj | tesv_win, objopen_prop, low
 Iter Vec::FUN_00be1e20(Iter _First, Iter _Last)
 {
     if (_First != _Last) {

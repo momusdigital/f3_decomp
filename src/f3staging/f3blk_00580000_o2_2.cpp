@@ -34,6 +34,8 @@ public:
  void SetValue(unsigned int i,float value) {if(i<count && values[i]!=value) values[i]=value;}
  BSFaceGenKeyframeMultiple(BSFaceGenKeyframeMultiple*);
 };
+// pdb: BSFaceGenKeyframeMultiple::BSFaceGenKeyframeMultiple | BSFaceGenKeyframe.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aOther
 BSFaceGenKeyframeMultiple::BSFaceGenKeyframeMultiple(BSFaceGenKeyframeMultiple* other) {
  SetType(other->GetType());
  SetWeight(other->GetWeight());
@@ -45,6 +47,8 @@ BSFaceGenKeyframeMultiple::BSFaceGenKeyframeMultiple(BSFaceGenKeyframeMultiple* 
 
 // @f3 0x0058a8e0 (community match, verified in this file)
 namespace f3m_0058a8e0 {
+// pdb: BSFaceGenManager::GetExpressionFromEmotion | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aeWhich
 int FUN_0058a8e0(int n)
 {
     switch (n)
@@ -83,6 +87,8 @@ struct FUN_0058a210 : Base {
  virtual ~FUN_0058a210();
  void FUN_0058a0c0(unsigned,bool);
 };
+// pdb: BSFaceGenKeyframeMultiple::BSFaceGenKeyframeMultiple | BSFaceGenKeyframe.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeType, aiNumQuantities
 FUN_0058a210::FUN_0058a210(int t,unsigned n): Base(t) {
  values=0;
  count=0;

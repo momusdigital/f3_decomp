@@ -231,6 +231,7 @@ extern void* DAT_0116d728;
 extern void* DAT_0116d72c;
 extern void* DAT_0116d730;
 
+// pdb: `dynamic initializer for 'NiFloatKeyregisterloaderreturn'' | ScreenSplatter.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00c8da00()
 {
     void* a = DAT_0108f450;
@@ -271,6 +272,7 @@ __declspec(noinline) void FUN_00c98260()
     DAT_010719d4 = c;
 }
 
+// pdb: `dynamic initializer for 'WorldCenter'' | Main.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00cf52e0()
 {
     void* a = DAT_0108ec68;
@@ -281,6 +283,7 @@ __declspec(noinline) void FUN_00cf52e0()
     DAT_0107a184 = c;
 }
 
+// pdb: `dynamic initializer for 'vanityModePos'' | PlayerCharacter.obj | fnv360_0822_debug, objrun, medium
 __declspec(noinline) void FUN_00cf9360()
 {
     void* a = DAT_0108ec68;
@@ -291,6 +294,7 @@ __declspec(noinline) void FUN_00cf9360()
     DAT_0107bdc0 = c;
 }
 
+// pdb: `dynamic initializer for 'autoVanityModePos'' | PlayerCharacter.obj | fnv360_0822_debug, objrun, medium
 __declspec(noinline) void FUN_00cf9390()
 {
     void* a = DAT_0108ec68;
@@ -301,6 +305,7 @@ __declspec(noinline) void FUN_00cf9390()
     DAT_0107bb80 = c;
 }
 
+// pdb: `dynamic initializer for 'chaseCameraPos'' | PlayerCharacter.obj | fnv360_0822_debug, objrun, medium
 __declspec(noinline) void FUN_00cf93e0()
 {
     void* a = DAT_0108ec68;
@@ -311,6 +316,7 @@ __declspec(noinline) void FUN_00cf93e0()
     DAT_0107bab0 = c;
 }
 
+// pdb: `dynamic initializer for 'NiPosKey::ms_kDefault'' | NiPosKey.obj | tesv_win, udata, high
 __declspec(noinline) void FUN_00d01210()
 {
     void* a = DAT_0108ec68;
@@ -641,6 +647,7 @@ __declspec(noinline) void FUN_00d806b0()
     DAT_010644a8 = c;
 }
 
+// pdb: `dynamic initializer for 'BSWindModifier::WindDir'' | BSWindModifier.obj | fnv360_0822_retail, objrun_open, low
 __declspec(noinline) void FUN_00d82bf0()
 {
     void* a = DAT_0108ec68;

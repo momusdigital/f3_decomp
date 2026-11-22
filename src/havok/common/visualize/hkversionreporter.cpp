@@ -27,7 +27,7 @@ struct S_Router
     }
 };
 S_Router* FUN_00c85750();
-int FUN_00cb10d0(const char* s);
+int hkString_strLen(const char* s);
 
 struct S_Arr
 {
@@ -60,7 +60,7 @@ struct S_Out
     int unkc;
     S_Out* FUN_00dda690(S_Arr* a);
     S_Out* FUN_00dda6e0(const char* name);
-    void FUN_00d605d0(unsigned v);
+    void hkOArchive_write8u(unsigned v);
     void WriteInt(unsigned v);
     void WriteUInt16(unsigned v);
     void FUN_00d607b0(const void* p, int n);
@@ -125,6 +125,8 @@ extern Heap569* (__stdcall* DAT_00d9b080)(unsigned long);
 extern unsigned int DAT_01063010,DAT_0106300c;
 extern char DAT_00e8097c;
 int __cdecl FUN_009233f0(const char*);
+// pdb: hkVersionReporter::sendVersionInformation | hkVersionReporter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: connection
 int __cdecl WriteCompilerInfo(const char* name){
     Buffer569 buffer;
     buffer.data=0;buffer.size=0;buffer.capacity=0x80000000;

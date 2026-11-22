@@ -4,6 +4,7 @@
 extern "C" __int64 __cdecl __time64(__int64*);
 
 // @fnv 0x00e29910
+// pdb: hkGetSystemTime | hkSystemTime.obj | fnv360_0822_retail, objrun_prop, medium
 int FUN_00e29910(void)
 {
     return (int)__time64(0);

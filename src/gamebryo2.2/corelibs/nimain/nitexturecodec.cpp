@@ -74,6 +74,8 @@ struct Conv
 
 // Selects decode functions by source format, allocates a PixelData and converts each face/mipmap block into it, returning the result or null.
 // @fnv 0x00a8be70
+// pdb: NiTextureCodec::ExpandCompressedData | NiTextureCodec.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kSrc
 PixelData* Conv::ConvertTexture(SrcData* src)
 {
     switch (src->format)

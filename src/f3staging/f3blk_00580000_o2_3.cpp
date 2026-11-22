@@ -20,6 +20,8 @@
 extern float DAT_00f5f038, DAT_00f5f044, DAT_00f5f050, DAT_00f5f05c, DAT_00f5f068;
 namespace f3m_00581620 {
 struct Selector162 { int FUN_005a29a0(int); };
+// pdb: AiFormulas::AVDeriveHealingRate | AiFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, aiWhich
 float FUN_00581620(Selector162* p) {
 float result=0.0f;
 switch(p->FUN_005a29a0(7)) { case 6: result=DAT_00f5f038; break; case 7: result=DAT_00f5f044; break; case 8: result=DAT_00f5f050; break; case 9: result=DAT_00f5f05c; break; case 10: result=DAT_00f5f068; break; }

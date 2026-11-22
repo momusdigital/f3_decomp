@@ -13,11 +13,14 @@ struct FUN_00d2bb20_cls
     int m_18;
     int m_1c;
     int m_20;
-    int SetValueAndCompare(int p);
+    int hkBufferedStreamReader_setMark(int p);
 };
 
 // @fnv 0x00d2bb20
-int FUN_00d2bb20_cls::SetValueAndCompare(int iValue)
+// pdb: hkBufferedStreamReader::setMark | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: markLimit
+// pdb: hkBufferedStreamReader::setMark | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable, high (was: SetValueAndCompare)
+int FUN_00d2bb20_cls::hkBufferedStreamReader_setMark(int iValue)
 {
     m_1c = m_10;
     m_20 = iValue;
@@ -34,10 +37,11 @@ struct FUN_00d2bb40_cls
     int m_14;
     int m_18;
     int m_1c;
-    int FUN_00d2bb40();
+    int hkBufferedStreamReader_rewindToMark();
 };
 // @fnv 0x00d2bb40
-int FUN_00d2bb40_cls::FUN_00d2bb40()
+// pdb: hkBufferedStreamReader::rewindToMark | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int FUN_00d2bb40_cls::hkBufferedStreamReader_rewindToMark()
 {
     if (m_1c >= 0)
     {
@@ -47,34 +51,9 @@ int FUN_00d2bb40_cls::FUN_00d2bb40()
     return 1;
 }
 
-extern int DAT_0102e388;
-extern int DAT_010ce688;
-struct hkReferencedObject
-{
-    void removeReference();
-};
-struct hkBufferedStreamReader
-{
-    int* m_pVTable;
-    int m_uiStandInValue;
-    hkReferencedObject* m_pObject;
-    int m_iValueAfterStandIn;
-    int m_pAuxiliaryObject;
-    void FUN_00d2bc10();
-    void Destroy();
-};
-// @fnv 0x00d2bc70
-void hkBufferedStreamReader::Destroy()
-{
-    m_pVTable = &DAT_010ce688;
-    m_pObject->removeReference();
-    ((hkBufferedStreamReader*)((char*)this + 0xc))->FUN_00d2bc10();
-    m_pVTable = &DAT_0102e388;
-}
-
 struct FUN_00d2ba80_cls
 {
-    int SkipBytes(int);
+    int hkBufferedStreamReader_skip(int);
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -87,22 +66,32 @@ struct FUN_00d2ba80_cls
     virtual void v9();
     virtual void v10();
     virtual void v11();
-    virtual int v12();
+        virtual int v12();
+
+    // hkBufferedStreamReader (New Vegas Xbox 360 PDB names): the stream, then m_buf's begin, current and size.
+    int unk04;
+    void* m_stream;    // +0x08
+    char* m_begin;     // +0x0C m_buf.begin
+    int m_current;     // +0x10 m_buf.current
+    int m_size;        // +0x14 m_buf.size
 };
 // Advances the read position by n bytes, refilling the buffer via v12() when the remaining bytes are insufficient, and returns the number of bytes consumed.
 // @fnv 0x00d2ba80
-int FUN_00d2ba80_cls::SkipBytes(int aiByteCount)
+// pdb: hkBufferedStreamReader::skip | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: nbytes
+// pdb: hkBufferedStreamReader::skip | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable, high (was: SkipBytes)
+int FUN_00d2ba80_cls::hkBufferedStreamReader_skip(int aiByteCount)
 {
     int iRemaining = aiByteCount;
-    int iAvailable = ((int*)this)[5] - ((int*)this)[4];
+    int iAvailable = m_size - m_current;
     while (iRemaining > iAvailable)
     {
         iRemaining -= iAvailable;
         if (v12())
             return aiByteCount - iRemaining;
-        iAvailable = ((int*)this)[5] - ((int*)this)[4];
+        iAvailable = m_size - m_current;
     }
-    ((int*)this)[4] += iRemaining;
+    m_current += iRemaining;
     return aiByteCount;
 }
 
@@ -115,11 +104,12 @@ struct FUN_00d2bb10_this
     int m_10;
     int m_14;
     int m_18;
-    bool* FUN_00d2bb10(bool* out);
+    bool* hkBufferedStreamReader_markSupported(bool* out);
 };
 
 // @fnv 0x00d2bb10
-bool* FUN_00d2bb10_this::FUN_00d2bb10(bool* out)
+// pdb: hkBufferedStreamReader::markSupported | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool* FUN_00d2bb10_this::hkBufferedStreamReader_markSupported(bool* out)
 {
     *out = (m_18 != 0);
     return out;
@@ -129,38 +119,33 @@ void _FUN_00cb1260(void*, const void*, int);
 
 struct FUN_00d2ba00_cls : FUN_00d2ba80_cls
 {
-    int m_uiStandInValue;
-    int m_iValueAfterStandIn;
-    char* m_pBuffer;
-    int m_vContactPosition;
-    int m_kRayEnd;
-
-    int FUN_00d2ba00(char* pBuffer, int nSize);
+    int hkBufferedStreamReader_read(char* pBuffer, int nSize);
 };
 
-// Copies up to nSize bytes from the internal buffer into pBuffer, refilling via v12 when exhausted, and returns the number of bytes read.
+// Copies up to nSize bytes from the buffer into pBuffer, refilling via v12 when it runs out, and returns the number of bytes read.
 // @fnv 0x00d2ba00
-int FUN_00d2ba00_cls::FUN_00d2ba00(char* apDest, int nSize)
+// pdb: hkBufferedStreamReader::read | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int FUN_00d2ba00_cls::hkBufferedStreamReader_read(char* apDest, int nSize)
 {
     char* pDest = apDest;
     int nRemaining = nSize;
-    int nAvailable = m_kRayEnd - m_vContactPosition;
+    int nAvailable = m_size - m_current;
 
     while (nRemaining > nAvailable)
     {
-        _FUN_00cb1260(pDest, m_pBuffer + m_vContactPosition, nAvailable);
-        m_vContactPosition += nAvailable;
+        _FUN_00cb1260(pDest, m_begin + m_current, nAvailable);
+        m_current += nAvailable;
         pDest += nAvailable;
         nRemaining -= nAvailable;
 
         if (v12() != 0)
             return nSize - nRemaining;
 
-        nAvailable = m_kRayEnd - m_vContactPosition;
+        nAvailable = m_size - m_current;
     }
 
-    _FUN_00cb1260(pDest, m_pBuffer + m_vContactPosition, nRemaining);
-    m_vContactPosition += nRemaining;
+    _FUN_00cb1260(pDest, m_begin + m_current, nRemaining);
+    m_current += nRemaining;
     return nSize;
 }
 
@@ -204,16 +189,6 @@ int __fastcall FUN_00d2bb60(FUN_00d2bb60_cls* self, int unused, int value)
     return value;
 }
 
-struct MemoryManager
-{
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    void* m_10;
-};
-MemoryManager* FUN_00c85750();
-void* FUN_00c85620(void*, void*, unsigned int);
 struct FUN_00d2bbd0_cls
 {
     void* m_00;
@@ -231,6 +206,8 @@ struct TlsMemory
 {
     virtual void* v0(unsigned int size, void* ptr, int type);
 };
+// pdb: hkBufferedStreamReader::Buffer::Buffer | hkBufferedStreamReader.obj | fnv360_0822_retail, objrun, high
+// pdb params: cap
 FUN_00d2bbd0_cls* FUN_00d2bbd0_cls::Init(int p)
 {
     TlsMemory* mm = (TlsMemory*)TlsGetValue(DAT_010f3170);
@@ -275,6 +252,7 @@ class hkBufferedStreamWriterD2B9
 };
 
 // @fnv 0x00d2b990
+// pdb: hkBufferedStreamReader::refillBuffer | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable, high
 int hkBufferedStreamWriterD2B9::Flush()
 {
     if (!m_stream->IsStreamValid().m_cBooleanValue)
@@ -311,10 +289,11 @@ struct Stream
     int a, b;
     Reader* reader;
     int c, pos, end;
-    hkBool FUN_00d2bad0();
+    hkBool hkBufferedStreamReader_isOk();
 };
 // @fnv 0x00d2bad0
-hkBool Stream::FUN_00d2bad0()
+// pdb: hkBufferedStreamReader::isOk | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+hkBool Stream::hkBufferedStreamReader_isOk()
 {
     unsigned char byte;
     return hkBool(pos != end || *reader->v3(&byte) != 0);
@@ -348,6 +327,7 @@ struct FUN_00d2bba0_cls
 };
 // Returns the stream's Tell() offset adjusted by (m_10 - m_14), or -1 if Tell() is negative.
 // @fnv 0x00d2bba0
+// pdb: hkBufferedStreamReader::tell | hkBufferedStreamReader.obj | tesv_win, vtable, medium
 int FUN_00d2bba0_cls::GetCurrentPosition()
 {
     int r = m_stream->Tell();
@@ -390,6 +370,8 @@ class hkTrackerD2BB
 };
 
 // @fnv 0x00d2bb80
+// pdb: hkBufferedStreamReader::seek | hkBufferedStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: offset, whence
 void hkTrackerD2BB::Reset(int flags)
 {
     m_pHeadNode = -1;
@@ -442,70 +424,4 @@ void BufWriterMarkD2B9::FUN_00d2b900() throw()
         m_bufOffset = ((dataSize / 512) + (remainder != 0 ? 1 : 0)) * 512;
         m_writePos = m_bufOffset;
     }
-}
-
-struct CC9F10Shape
-{
-    void Refresh();
-};
-struct V_00d2bbd0 : FUN_00d2bbd0_cls
-{
-    FUN_00d2bbd0_cls* Init(int);
-};
-struct FUN_00d2bc30_cls
-{
-    int* m_pVTable;
-    unsigned short m_04;
-    unsigned short m_06;
-    int m_08;
-    FUN_00d2bbd0_cls* Init(int);
-    FUN_00d2bc30_cls* FUN_00d2bc30(int, int);
-};
-// Sets m_06 to 1, stores a in m_08, sets vtable, calls Init with b, and calls Refresh on m_08.
-// @fnv 0x00d2bc30
-FUN_00d2bc30_cls* FUN_00d2bc30_cls::FUN_00d2bc30(int aiShape, int b)
-{
-    m_06 = 1;
-    m_08 = aiShape;
-    m_pVTable = &DAT_010ce688;
-    ((V_00d2bbd0*)((char*)this + 0xc))->Init(b);
-    ((CC9F10Shape*)m_08)->Refresh();
-    return this;
-}
-
-struct BufferedReaderHeap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void ReleaseBlock(void*, unsigned int);
-};
-
-struct BufferedReaderDeletionView : hkBufferedStreamReader
-{
-    void Destroy();
-    hkBufferedStreamReader* FUN_00d2bca0(unsigned int);
-};
-
-// Calls Destroy, and if flags has bit 0 set, releases this block via the memory router's heap ReleaseBlock, then returns this.
-// @fnv 0x00d2bca0
-hkBufferedStreamReader* BufferedReaderDeletionView::FUN_00d2bca0(unsigned int flags)
-{
-    Destroy();
-    if (flags & 1)
-    {
-        MemoryManager* router = FUN_00c85750();
-        unsigned short size = static_cast<unsigned short>(m_uiStandInValue);
-        static_cast<BufferedReaderHeap*>(router->m_10)->ReleaseBlock(this, size);
-    }
-    return this;
-}
-
-void __cdecl FUN_00c85660(void* allocator, void* buffer);
-
-// @fnv 0x00d2bc10
-__declspec(noinline) void hkBufferedStreamReader::FUN_00d2bc10()
-{
-    void* buffer = m_pVTable;
-    MemoryManager* memory = FUN_00c85750();
-    FUN_00c85660(memory->m_10, buffer);
 }

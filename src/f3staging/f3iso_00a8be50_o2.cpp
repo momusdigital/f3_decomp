@@ -17,6 +17,8 @@ static __declspec(noinline) void FUN_00a8be00(int digit,int stride,int* pixels) 
         }
     }
 }
+// pdb: hkMapBase<unsigned long,unsigned long,hkMapOperations<unsigned long> >::reserve | hkMap.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: alloc, numElements
 static __declspec(noinline) void FUN_00a8be50(int value,int stride,int* pixels) {
     int x=0;
     for(int place=1000;place>=1;place/=10) {

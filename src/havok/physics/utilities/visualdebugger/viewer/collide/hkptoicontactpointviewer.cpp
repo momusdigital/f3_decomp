@@ -4,6 +4,7 @@
 
 extern int currentState;
 // @fnv 0x00d68260
+// pdb: NiD3DShaderProgramFactory::GetInstance | NiD3DShaderProgramFactory.obj | fnv360_0822_retail, call_gap, medium
 int __cdecl FUN_00d68260() {
     return currentState;
 }
@@ -52,6 +53,8 @@ struct FUN_00d66bf0_cls {
 };
 
 // @fnv 0x00d66bf0
+// pdb: hkpMousePickingViewer::dragObject | hkpMousePickingViewer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: newWorldSpacePoint
 void FUN_00d66bf0_cls::DispatchToChild(int arg)
 {
     SpawnedChild* child = m_pChildObject;
@@ -79,6 +82,8 @@ struct FUN_00d682a0_cls {
 
 // Calls apTarget->FUN_00c91a20 with a pointer to this+8, or null if this-0x20 is null.
 // @fnv 0x00d682a0
+// pdb: hkpConstraintViewer::worldRemovedCallback | hkpConstraintViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
     apTarget->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
@@ -110,6 +115,8 @@ struct FUN_00d682d0_cls {
 
 // Calls FUN_00ddccb0 with a1, then stores five DAT_ pointers into this at offsets 0x28, 0x00, 0x08, 0x20 and 0x28, and returns this.
 // @fnv 0x00d682d0
+// pdb: hkpToiContactPointViewer::hkpToiContactPointViewer | hkpToiContactPointViewer.obj | fnv360_0822_retail, objrun, high
+// pdb params: contexts
 void* FUN_00d682d0_cls::FUN_00d682d0(int aiArg)
 {
     FUN_00ddccb0(aiArg);
@@ -149,6 +156,7 @@ public:
 
 // Iterates the item list and calls m_sub.v1 on each item until the list ends or the count is reached.
 // @fnv 0x00d68310
+// pdb: hkpContactPointViewer::init | hkpContactPointViewer.obj | fnv360_0822_retail, vtable, medium
 void FUN_00d68310_cls::FUN_00d68310() {
     int i = 0;
     while (m_kNode != 0) {
@@ -239,6 +247,7 @@ public:
 };
 
 // @fnv 0x00d68350
+// pdb: hkpToiContactPointViewer::~hkpToiContactPointViewer | hkpToiContactPointViewer.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00d68350_cls::FUN_00d68350()
 {
     int i = 0;
@@ -269,6 +278,7 @@ extern int g_stateResult;
 extern const char str_010d1ea0[];
 
 // @fnv 0x00d686f0
+// pdb: hkpConvexRadiusViewer::registerViewer | hkpConvexRadiusViewer.obj | fnv360_0822_retail, ustr, medium
 void DispatchStateHandler()
 {
     g_stateResult = g_stateTarget->Dispatch(str_010d1ea0, FUN_00d686b0);
@@ -299,6 +309,8 @@ struct FUN_00d68270_Arg {
 };
 // Calls arg->FUN_00c93a20 with the address 8 bytes past this, treated as the Base2 part of the enclosing Derived object.
 // @fnv 0x00d68270
+// pdb: hkpConstraintViewer::worldAddedCallback | hkpConstraintViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d68270_Base1::FUN_00d68270(FUN_00d68270_Arg* arg)
 {
     arg->FUN_00c93a20(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0)));
@@ -333,26 +345,6 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {
 }
-
-// FUN_00d68720 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)
-struct A1_00d68720 {
-    A1_00d68720();
-    virtual void FUN_00d68720();
-    char pad[0x04];
-};
-struct A2_00d68720 {
-    A2_00d68720();
-    virtual void FUN_00d68720();
-};
-struct Own_00d68720 : A1_00d68720, A2_00d68720 {
-    Own_00d68720();
-    virtual void key_fn();
-// @fnv 0x00d68720
-    void FUN_00d68720();
-};
-Own_00d68720::Own_00d68720() { }
-void Own_00d68720::key_fn() { }
-Own_00d68720* make_00d68720() { static Own_00d68720 o; return &o; }
 
 namespace fnv_00d68730 {
 // sub ecx,0x28; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
@@ -434,36 +426,9 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
     struct { float lane0, lane1, lane2, lane3; };
 } __m128;
 
-extern "C" __m128 _mm_set_ss(float);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_rsqrt_ss(__m128 a);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_setzero_ps(void);
-
-
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-extern float DAT_0104da4c;
-extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern float DAT_01019de0;
-extern float DAT_010c69c4;
 extern const float DAT_010c69c0=(0.85f-1.0f);
-extern float DAT_010ec7f0;
-extern unsigned long DAT_0126835c;
 
 struct Vec {
     union {
@@ -471,129 +436,6 @@ struct Vec {
         struct { float x, y, z, w; };
     };
 };
-
-struct Handler {
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void DisplayLine(const Vec& a, const Vec& b, int color, int id, int tag);
-};
-
-struct TimerCmd {
-    const char* m_pCommandName;
-    unsigned int m_uiStartTicks;
-    unsigned int m_uiEndTicks;
-};
-
-struct MonStream {
-    int unk00;
-    TimerCmd* m_kRayEnd;
-    int unk08;
-    TimerCmd* m_cap;
-};
-
-__forceinline __m128 lengthSquared3(__m128 v) {
-    __m128 sq = _mm_mul_ps(v, v);
-    __m128 y = _mm_shuffle_ps(sq, sq, 0x55);
-    __m128 xy = _mm_add_ss(y, sq);
-    __m128 z = _mm_shuffle_ps(sq, sq, 0xAA);
-    return _mm_add_ss(z, xy);
-}
-
-__forceinline __m128 sqrtInverse(__m128 len2) {
-    __m128 y0 = _mm_rsqrt_ss(len2);
-    __m128 zero = _mm_set_ss(DAT_01011d78);
-    __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 half = _mm_set_ss(DAT_01016248);
-    __m128 r2 = _mm_mul_ss(_mm_mul_ss(len2, y0), y0);
-    __m128 eq = _mm_cmpeq_ss(len2, zero);
-    __m128 inv = _mm_mul_ss(_mm_mul_ss(half, y0), _mm_sub_ss(three, r2));
-    return _mm_andnot_ps(eq, inv);
-}
-
-__forceinline __m128 splat(float s) {
-    __m128 a = _mm_load_ss(&s);
-    return _mm_shuffle_ps(a, a, 0);
-}
-
-// @fnv 0x00d683b0
-static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir, int color, int id, int tag) {
-    float lenSq;
-
-    _mm_store_ss(&lenSq, lengthSquared3(dir->m));
-    if (lenSq > 1.1920928955078125e-07f) {
-        { MonStream* s = (MonStream*)TlsGetValue(DAT_0126835c);
-        if (s->m_kRayEnd < s->m_cap) {
-            TimerCmd* h = s->m_kRayEnd;
-            h->m_pCommandName = "TtToiDisplayArrow";
-            unsigned t1;
-            __asm {
-                rdtsc
-                mov dword ptr[t1], eax
-            }
-            h->m_uiStartTicks = t1;
-            s->m_kRayEnd = h + 1;
-        } }
-        struct Endpoints { Vec head1; Vec perp; };
-        Endpoints endpoints;
-        Vec to;
-        Vec head2;
-        to.m = _mm_add_ps(from->m, dir->m);
-        int iAlt = 0;
-        float cur = fabsf(dir->x);
-        int i0 = 1;
-        float ay = fabsf(dir->y);
-        int i2 = i0 + 1;
-        float az = fabsf(dir->z);
-        if (ay < cur) {
-            cur = ay;
-            i0 = 0;
-            iAlt = 1;
-        }
-        if (az < cur) i2 = iAlt;
-        endpoints.perp.m = _mm_setzero_ps();
-        (&endpoints.perp.x)[i0] = (&dir->x)[i2];
-        (&endpoints.perp.x)[i2] = -(&dir->x)[i0];
-        __m128 inv = sqrtInverse(lengthSquared3(endpoints.perp.m));
-        __m128 len = _mm_sqrt_ss(lengthSquared3(dir->m));
-        __m128 perpS = _mm_mul_ps(_mm_mul_ps(endpoints.perp.m, _mm_shuffle_ps(inv, inv, 0)), _mm_shuffle_ps(len, len, 0));
-        float coeff = DAT_01019de0;
-        __m128 cb = splat(coeff);
-        __m128 one = _mm_load_ps(&DAT_010ec7f0);
-        __m128 base = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(one, cb), from->m), _mm_mul_ps(cb, to.m));
-        float scalePos = DAT_010c69c4;
-        endpoints.head1.m = _mm_add_ps(base, _mm_mul_ps(splat(scalePos), perpS));
-        float scaleNeg = DAT_010c69c0;
-        head2.m = _mm_add_ps(base, _mm_mul_ps(splat(scaleNeg), perpS));
-        self->DisplayLine(*from, to, color, id, tag);
-        self->DisplayLine(to, endpoints.head1, color, id, tag);
-        self->DisplayLine(to, head2, color, id, tag);
-        { MonStream* s = (MonStream*)TlsGetValue(DAT_0126835c);
-        if (s->m_kRayEnd < s->m_cap) {
-            TimerCmd* h = s->m_kRayEnd;
-            h->m_pCommandName = "Et";
-            unsigned t2;
-            __asm {
-                rdtsc
-                mov dword ptr[t2], eax
-            }
-            h->m_uiStartTicks = t2;
-            s->m_kRayEnd = h + 1;
-        } }
-    }
-}
-
-void RenderLine(Handler* handler, Vec* direction, Vec* origin, int color, int id, int tag) {
-    FUN_00d683b0(handler, origin, direction, color, id, tag);
-}
-
-extern int DAT_01269004;
 
 class S00d68670_hkBool {
 public:
@@ -630,31 +472,3 @@ struct S00d68670_ContactPointEvent {
     S00d68670_ContactPoint* m_vContactPoint;
     S00d68670_hkBool isToi() const { return m_type <= 0; }
 };
-
-struct S00d68670_WorldViewerBase {
-    virtual void v00();
-    int unk04;
-    int unk08;
-    Handler* m_pDisplayHandler;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-
-struct S00d68670_ContactListener {
-    virtual void FUN_00d68670(const S00d68670_ContactPointEvent& event);
-};
-
-struct S00d68670_ToiContactPointViewer : S00d68670_WorldViewerBase, S00d68670_ContactListener {
-    virtual void FUN_00d68670(const S00d68670_ContactPointEvent& event);
-};
-
-// @fnv 0x00d68670
-void S00d68670_ToiContactPointViewer::FUN_00d68670(const S00d68670_ContactPointEvent& event)
-{
-    if (event.isToi())
-    {
-        const S00d68670_Collidable* collidable = event.m_apEntities[0]->getCollidable();
-        FUN_00d683b0(m_pDisplayHandler, (Vec*)&event.m_vContactPoint->getPosition(), (Vec*)&event.m_vContactPoint->getNormal(), 0xffff0000, (int)collidable, DAT_01269004);
-    }
-}

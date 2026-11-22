@@ -2,25 +2,33 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+// hkpDeferredConstraintOwner: the members addConstraintToCriticalLockedIsland sets (New Vegas Xbox 360 PDB names).
 struct FUN_00d93330 {
-    void __thiscall UpdateConstraint(int);
+    char unk00[0x18];
+    int m_constraintAddRemoveCounter;  // +0x18
+    int m_constraintForCommand;        // +0x1C
+    void __thiscall hkpDeferredConstraintOwner_addConstraintToCriticalLockedIsland(int);
 };
 // @fnv 0x00d93330
-void __thiscall FUN_00d93330::UpdateConstraint(int v)
+// pdb: hkpDeferredConstraintOwner::addConstraintToCriticalLockedIsland | hkpCpuAgentSectorJob.obj | fnv360_0822_retail, vtable, high
+// pdb params: constraint
+// pdb: hkpDeferredConstraintOwner::addConstraintToCriticalLockedIsland | hkpCpuAgentSectorJob.obj | fnv360_0822_retail, vtable, high (was: UpdateConstraint)
+void __thiscall FUN_00d93330::hkpDeferredConstraintOwner_addConstraintToCriticalLockedIsland(int v)
 {
-    ++(*(int*)((char*)this + 0x18));
-    *(int*)((char*)this + 0x1c) = v;
+    ++m_constraintAddRemoveCounter;
+    m_constraintForCommand = v;
 }
 
-struct FUN_00d93340_StandIn {
+// hkpDeferredConstraintOwner, as above.
+struct FUN_00d93340_StandIn : FUN_00d93330 {
     void FUN_00d93340(int);
 };
 
 // @fnv 0x00d93340
 void __thiscall FUN_00d93340_StandIn::FUN_00d93340(int a)
 {
-    *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x18) - 1;
-    *(int*)((char*)this + 0x1c) = a;
+    m_constraintAddRemoveCounter = m_constraintAddRemoveCounter - 1;
+    m_constraintForCommand = a;
 }
 
 struct SubTarget {
@@ -68,6 +76,8 @@ struct Arg1StructF3 {
     int unk00[10];
     SubTarget* unk28;
 };
+// pdb: hkpDeferredConstraintOwner::addCallbackRequest | hkpCpuAgentSectorJob.obj | fnv360_0822_retail, vtable, high
+// pdb params: constraint, request
 void SimulationIsland::SetFlags(Arg1Struct* a1, unsigned int uiFlags)
 {
     if (((Arg1StructF3*)a1)->unk28) {
@@ -293,8 +303,8 @@ struct AgentPhysics {
     void FUN_0098c830(Output *, Entry *);
 };
 struct AgentWorld {
-    void FUN_009037b0(Island *);
-    void FUN_009025e0(Island *);
+    void hkpWorld_lockIslandForConstraintUpdate(Island *);
+    void hkpWorld_unlockIslandForConstraintUpdate(Island *);
 };
 struct AgentGlobals {
     AgentWorld *world; AgentPhysics *simulation; int threadType, field0c;
@@ -392,7 +402,7 @@ int FUN_00d93380(Globals *globalsParam, Queue *queueParam, Job *jobParam) {
                 }
             } while (entry);
             if (!baseJob.header) {
-                tl.world->FUN_009037b0(island);
+                tl.world->hkpWorld_lockIslandForConstraintUpdate(island);
                 island->maximum = island->maximum > owner.maximum ? island->maximum : owner.maximum;
                 island->added += owner.added;
                 island->removed += owner.removed;
@@ -400,7 +410,7 @@ int FUN_00d93380(Globals *globalsParam, Queue *queueParam, Job *jobParam) {
                 if (owner.commands.size) {
                     FUN_00a7cd10(tl.world, (Command *)((char *)&owner.commands + owner.commands.offset), owner.commands.size);
                 }
-                tl.world->FUN_009025e0(island);
+                tl.world->hkpWorld_unlockIslandForConstraintUpdate(island);
             } else {
                 storeResults(baseJob.header->results[(short)baseJob.taskIndex], owner);
             }

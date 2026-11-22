@@ -165,7 +165,7 @@ class NiParticlesData : public NiGeometryData
     unsigned char m_ucSubTextureOffsetCount;  // +0x6C, 1 bytes
     unsigned char layoutPadding6D[3];
     // Authored declaration for this unit's covered function (layout unchanged).
-    void SetRotations(NiQuaternion* pkRotations);
+    void ReplaceRotations(NiQuaternion* pkRotations);
     // const NiRTTI* __cdecl NiParticlesData::*()
     // void __cdecl NiParticlesData::*(NiStream&)
     // void __cdecl NiParticlesData::*(NiStream&)

@@ -28,6 +28,8 @@ struct FUN_00d47260_cls
 };
 
 // @fnv 0x00d47260
+// pdb: hkClass::getAttribute | hkClass.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: id
 void* FUN_00d47260_cls::FUN_00d47260(const char* name) const
 {
     if (m_pCustomAttributes)
@@ -35,44 +37,16 @@ void* FUN_00d47260_cls::FUN_00d47260(const char* name) const
     return 0;
 }
 
-struct FUN_00d472a0
-{
-    unsigned int m[11];
-    FUN_00d472a0(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f,
-                 unsigned int g, unsigned int h, unsigned int i, unsigned int j, unsigned int k, unsigned int l,
-                 unsigned int n);
-};
-
-// @fnv 0x00d472a0
-FUN_00d472a0::FUN_00d472a0(unsigned int auiValue0, unsigned int auiValue1, unsigned int auiValue2,
-                           unsigned int auiUnused, unsigned int auiValue3, unsigned int auiValue4,
-                           unsigned int auiValue5, unsigned int auiValue6, unsigned int auiValue7,
-                           unsigned int auiValue8, unsigned int auiValue9, unsigned int auiValue10,
-                           unsigned int auiValue11)
-{
-    m[0] = auiValue0;
-    m[1] = auiValue1;
-    m[2] = auiValue2;
-    m[3] = auiValue3;
-    m[4] = auiValue4;
-    m[5] = auiValue5;
-    m[6] = auiValue6;
-    m[7] = auiValue7;
-    m[8] = auiValue8;
-    m[9] = auiValue9;
-    m[10] = auiValue10;
-    m[11] = auiValue11;
-}
-
 struct FUN_00d46f00_s
 {
     unsigned int m_uiCount;
     FUN_00d46f00_s* m_parent;
-    unsigned int __thiscall FUN_00d46f00() const;
+    unsigned int __thiscall hkClass_getNumMembers() const;
 };
 
 // @fnv 0x00d46f00
-unsigned int FUN_00d46f00_s::FUN_00d46f00() const
+// pdb: hkClass::getNumMembers | hkClass.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_seq) + skyrim(call_seq), high
+unsigned int FUN_00d46f00_s::hkClass_getNumMembers() const
 {
     FUN_00d46f00_s* cls = m_parent;
     unsigned int total = *(unsigned int*)((char*)this + 0x1c);
@@ -91,14 +65,17 @@ struct TypeNode
 struct Container
 {
     void* FUN_00d46f80(int) const;
-    int FindMemberByName(const char* name) const;
+    int hkClass_getMemberByName(const char* name) const;
 };
 
 int __cdecl FUN_00cb0fa0(const char*, const char*);
 
 // Scans the container's members by index and returns the first whose name matches the given string, or 0 if none match.
 // @fnv 0x00d46f90
-int Container::FindMemberByName(const char* name) const
+// pdb: hkClass::getMemberByName | hkClass.obj | fnv360_0822_retail, call_gap, high
+// pdb params: name
+// pdb: hkClass::getMemberByName | hkClass.obj | fnv360_0822_retail, call_gap, high (was: FindMemberByName)
+int Container::hkClass_getMemberByName(const char* name) const
 {
     Container* self = const_cast<Container*>(this);
     TypeNode* node = reinterpret_cast<TypeNode*>(self);
@@ -120,14 +97,9 @@ int Container::FindMemberByName(const char* name) const
 int __cdecl FUN_00cb0fa0(int, int);
 int __cdecl FUN_00d46f20(void);
 
-struct FUN_00d46f00_Class
-{
-    int FUN_00d46f00(void);
-};
-
 struct FUN_00d46fe0_Class
 {
-    int FUN_00d46f00(void);
+    int hkClass_getNumMembers(void);
     int* FUN_00d46f20(int i);
     int* FUN_00d46fe0(const int* name);
 };
@@ -136,7 +108,7 @@ struct FUN_00d46fe0_Class
 // @fnv 0x00d46fe0
 int* FUN_00d46fe0_Class::FUN_00d46fe0(const int* name)
 {
-    for (int i = 0; i < FUN_00d46f00(); i++)
+    for (int i = 0; i < hkClass_getNumMembers(); i++)
     {
         int* m = FUN_00d46f20(i);
         if (FUN_00cb0fa0(m[0], (int)name) == 0)
@@ -160,37 +132,7 @@ struct Container
     int FindIndexByName(const char* name);
 };
 
-// Scans entries by index, comparing each entry's name string to name, and returns the first matching index or -1.
-// @fnv 0x00d47080
-int Container::FindIndexByName(const char* name)
-{
-    int i = 0;
-    if (FUN_00d46f70() > 0)
-    {
-        do
-        {
-            if (FUN_00cb0fa0(*(const char**)FUN_00d46f80(i), name) == 0)
-                return i;
-            ++i;
-        } while (i < FUN_00d46f70());
-    }
-    return -1;
-}
 }  // namespace fnv_00d47080
-
-struct FUN_00d471a0_class
-{
-    char pad[0x20];
-    int* m_iSlotIds;
-    int FUN_00d471a0(int i) const;
-};
-// @fnv 0x00d471a0
-int FUN_00d471a0_class::FUN_00d471a0(int aiIndex) const
-{
-    if (m_iSlotIds && m_iSlotIds[aiIndex] >= 0)
-        return 1;
-    return 0;
-}
 
 struct FUN_00d46fe0_result
 {
@@ -213,6 +155,7 @@ struct FUN_00d87150_class
 
 // Looks up name via cls, stores the result, and sets m_offset to baseOffset plus the result's m_bitOffset when found.
 // @fnv 0x00d87150
+// pdb: hkClassMemberAccessor::connect | hkClassMemberAccessor.obj | tesv_win, call_seq, medium
 void FUN_00d87150_class::InitBitOffset(int baseOffset, FUN_00d46fe0_class* apClass, const char* name)
 {
     m_offset = 0;
@@ -221,16 +164,22 @@ void FUN_00d87150_class::InitBitOffset(int baseOffset, FUN_00d46fe0_class* apCla
         m_offset = baseOffset + m_kMemberDescriptor->m_bitOffset;
 }
 
+class hkClass;
+class hkStatisticsCollector;
+// hkpCharacterContext: the three slots of its Fallout 3 vtable (0x00e36654).
 struct FUN_00d470e0_Class
 {
-    virtual void vf00();
+    virtual ~FUN_00d470e0_Class();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
     int unk04;
     int unk08;
-    void __thiscall FUN_00d470e0(int value);
+    void __thiscall hkpCharacterContext_setCharacterType(int value);
 };
 
 // @fnv 0x00d470e0
-void __thiscall FUN_00d470e0_Class::FUN_00d470e0(int value)
+// pdb: hkpCharacterContext::setCharacterType | hkpCharacterContext.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void __thiscall FUN_00d470e0_Class::hkpCharacterContext_setCharacterType(int value)
 {
     this->unk08 = value;
 }
@@ -268,6 +217,8 @@ struct FUN_00d46f60_Class
 };
 
 // @fnv 0x00d46f60
+// pdb: bhkBlendCollisionObjectAddRotation::SaveBinary | bhkBlendCollisionObjectAddRotation.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: arStream
 void* FUN_00d46f60_Class::FUN_00d46f60(int a1)
 {
     return FUN_00d46f20(a1);
@@ -300,22 +251,24 @@ struct FnvCpu_FUN_00d470d0_CpuObject
     int FUN_00d470d0();
 };
 // @fnv 0x00d470d0
+// pdb: BaseProcess::GetInstanceDataThatIsRunning | BaseProcess.obj | fnv360_0822_retail, vtable, medium
 int FnvCpu_FUN_00d470d0_CpuObject::FUN_00d470d0()
 {
     return value;
 }
 
-// FUN_00d47120: 4-byte inline getter, __thiscall, reads this+0x2C.
+// hkClass_getDescribedVersion: 4-byte inline getter, __thiscall, reads this+0x2C.
 // Neighbours use hkClass layout (m_parent@0x04, declaredMembers@0x18, defaults@0x20,
 // sizeof == 0x30), so +0x2C is m_iDescribedVersion.
 
 struct hkClassD47120 : hkClass
 {
-    int FUN_00d47120() const;
+    int hkClass_getDescribedVersion() const;
 };
 
 // @fnv 0x00d47120
-int hkClassD47120::FUN_00d47120() const
+// pdb: hkClass::getDescribedVersion | hkClass.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+int hkClassD47120::hkClass_getDescribedVersion() const
 {
     return m_iDescribedVersion;
 }
@@ -366,46 +319,6 @@ class hkPackfileD472
     hkResultD472 WriteItemName(int index, hkStreamWriterD472* writer);
 };
 
-// Looks up the item name at index and writes it to the stream writer, returning success or failure.
-// @fnv 0x00d47210
-hkResultD472 hkPackfileD472::WriteItemName(int index, hkStreamWriterD472* writer)
-{
-    const char* name;
-    if (getName(index, name))
-    {
-        writer->write(name, m_items[index].FUN_00d86980());
-        return HK_SUCCESS_D472;
-    }
-    return HK_FAILURE_D472;
-}
-
-struct hkNamedEntryD473
-{
-    int m_name;
-};
-
-class hkEntryListD473
-{
-  public:
-    int FUN_00d46ef0() const;
-    hkNamedEntryD473* GetEntryAt(int i);
-
-    hkNamedEntryD473* FUN_00d47300(int iName);
-};
-
-// Scans the entry list and returns the first entry whose m_name matches iName, or null if none matches.
-// @fnv 0x00d47300
-hkNamedEntryD473* hkEntryListD473::FUN_00d47300(int iName)
-{
-    for (int i = 0; i < FUN_00d46ef0(); i++)
-    {
-        hkNamedEntryD473* pkEntry = GetEntryAt(i);
-        if (FUN_00cb0fa0(pkEntry->m_name, iName) == 0)
-            return pkEntry;
-    }
-    return 0;
-}
-
 struct SmallFlag
 {
     unsigned char v;
@@ -419,7 +332,7 @@ struct Archive
     unsigned int unk00, unk04, unk08, unk0c;
     void __thiscall FUN_00d60830(void* stream, SmallFlag swap);
     void __thiscall WriteInt(int value);
-    void __thiscall FUN_00d60900(unsigned short value);
+    void __thiscall hkOArchive_write16(unsigned short value);
     int __thiscall FUN_00d607b0(const void* data, int bytes);
     void __thiscall FUN_00d60590();
 };
@@ -434,7 +347,7 @@ struct Prop
     unsigned short m_iElementCount;
 };
 Prop* __cdecl FUN_00d868a0(unsigned int which);
-int __cdecl FUN_00cb10d0(const char* str);
+int __cdecl hkString_strLen(const char* str);
 struct ClassRec;
 struct MemberRec
 {
@@ -464,6 +377,8 @@ struct ClassRec
     void __thiscall WriteToStream(void* stream) const;
 };
 // @fnv 0x00d47490
+// pdb: hkClass::writeSignature | hkClass.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: w
 void ClassRec::WriteToStream(void* stream) const
 {
     Archive out;
@@ -504,13 +419,13 @@ void ClassRec::WriteToStream(void* stream) const
         }
         if (info.m_pClassEnum)
             member.FUN_00d86930()->FUN_00db7600(stream);
-        out.FUN_00d607b0(info.m_name, FUN_00cb10d0(info.m_name));
-        out.FUN_00d60900(info.m_type);
-        out.FUN_00d60900(info.m_eSubtype);
+        out.FUN_00d607b0(info.m_name, hkString_strLen(info.m_name));
+        out.hkOArchive_write16(info.m_type);
+        out.hkOArchive_write16(info.m_eSubtype);
         if (altType != 0)
-            out.FUN_00d60900(altType);
-        out.FUN_00d60900(info.m_iArraySize);
-        out.FUN_00d60900(info.m_flags);
+            out.hkOArchive_write16(altType);
+        out.hkOArchive_write16(info.m_iArraySize);
+        out.hkOArchive_write16(info.m_flags);
     }
     out.WriteInt(m_numMembers);
     out.FUN_00d60590();
@@ -534,6 +449,7 @@ struct FUN_00d47690_class
 
 // Computes a CRC over this class and, unless SIGNATURE_LOCAL is set, over its parent chain, returning the CRC value.
 // @fnv 0x00d47690
+// pdb: hkClass::getSignature | hkClass.obj | tesv_win, call_dedup, low
 unsigned int FUN_00d47690_class::ComputeSignature(int signatureFlags) const
 {
     FUN_00db7870 crc(0);
@@ -573,6 +489,8 @@ struct hkVariantD476
 
 // Looks up the type info for type, and if its size is at most 0x40, stores type and copies that many bytes from src into m_data, returning 0; otherwise returns 1.
 // @fnv 0x00d476e0
+// pdb: hkTypedUnion::setSimple | hkClass.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: orig, type
 int hkVariantD476::SetData(const void* src, const void* type)
 {
     hkTypeInfoD476* info = FUN_00d868a0(type);
@@ -596,6 +514,7 @@ struct FUN_00d86b30_class
 };
 
 // @fnv 0x00d86b30
+// pdb: hkClassMember::getArrayType | hkClassMember.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 unsigned int FUN_00d86b30_class::FUN_00d86b30()
 {
     return unk0D;
@@ -649,11 +568,11 @@ struct HkClassNode
     int unk14;
     HkMem* m_members;
     int m_uiCount;
-    int FUN_00d46f00();
+    int hkClass_getNumMembers();
     HkMem* FUN_00d46f20(int i);
 };
 
-__declspec(noinline) int HkClassNode::FUN_00d46f00()
+__declspec(noinline) int HkClassNode::hkClass_getNumMembers()
 {
     HkClassNode* p = m_parent;
     int total = m_uiCount;
@@ -670,10 +589,12 @@ __declspec(noinline) int HkClassNode::FUN_00d46f00()
 
 // Resolves a global member index i by walking up the HkClassNode parent chain and returning the matching HkMem entry from m_members.
 // @fnv 0x00d46f20
+// pdb: hkClass::getMember | hkClass.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: memberIndex
 HkMem* HkClassNode::FUN_00d46f20(int aiIndex)
 {
     HkClassNode* pNode = this;
-    int iOffset = aiIndex - FUN_00d46f00();
+    int iOffset = aiIndex - hkClass_getNumMembers();
     if (this != 0)
     {
         do
@@ -698,17 +619,18 @@ struct hkItemD470
 class hkClassEnumD470
 {
   public:
-    int FUN_00d46f00() const;
+    int hkClass_getNumMembers() const;
     const hkItemD470& FUN_00d46f20(int i) const;
 
-    int FUN_00d47030(const char* name) const;
+    int hkClass_getMemberIndexByName(const char* name) const;
 };
 
 // Linearly searches the enum items for one whose m_name matches name and returns its index, or -1 if not found.
 // @fnv 0x00d47030
-int hkClassEnumD470::FUN_00d47030(const char* name) const
+// pdb: hkClass::getMemberIndexByName | hkClass.obj | fnv360_0822_debug, caller_sim + skyrim(caller_sim), high
+int hkClassEnumD470::hkClass_getMemberIndexByName(const char* name) const
 {
-    for (int i = 0; i < FUN_00d46f00(); i++)
+    for (int i = 0; i < hkClass_getNumMembers(); i++)
     {
         if (FUN_00cb0fa0(FUN_00d46f20(i).m_name, name) == 0)
             return i;
@@ -739,6 +661,7 @@ class ResultPtr
 
 // Follows parent links, updating lastNode, then writes whether lastNode->unk0c is non-zero through out.p.
 // @fnv 0x00d470f0
+// pdb: hkClass::hasVtable | hkClass.obj | fnv360_0822_retail, call_dedup, low
 static __declspec(noinline) char* __stdcall GetLastNodeFlag(ZN0d46d50* apStartNode, ZN0d46d50* lastNode, ResultPtr out)
 {
     ZN0d46d50* next = FUN_00d46d50(apStartNode);
@@ -779,6 +702,8 @@ struct FUN_00d47130_class
 };
 // Looks up name via FUN_00d47130 and, on success, calls target->vf10 with the index and p->FUN_00d86980().
 // @fnv 0x00d471c0
+// pdb: hkClass::getDefault | hkClass.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: memberIndex, writer
 int __thiscall FUN_00d47130_class::InvokeTarget(const char* name, FUN_00d471c0_target* target)
 {
     int index;
@@ -789,66 +714,12 @@ int __thiscall FUN_00d47130_class::InvokeTarget(const char* name, FUN_00d471c0_t
     return result;
 }
 
-class hkpEntityListenerD87
-{
-  public:
-    virtual ~hkpEntityListenerD87();
-};
-
-class hkpConstraintListenerD87
-{
-  public:
-    virtual ~hkpConstraintListenerD87();
-};
-
-class hkpActionListenerD87
-{
-  public:
-    virtual ~hkpActionListenerD87();
-};
-
-class hkpPhantomListenerD87
-{
-  public:
-    virtual ~hkpPhantomListenerD87();
-};
-
-class hkReferencedObjectD87
-{
-  public:
-    virtual ~hkReferencedObjectD87();
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class FUN_00def160 : public hkReferencedObjectD87,
-                     public hkpEntityListenerD87,
-                     public hkpConstraintListenerD87,
-                     public hkpActionListenerD87,
-                     public hkpPhantomListenerD87
-{
-  public:
-    virtual ~FUN_00def160();
-
-    int unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
-};
-
 class hkpWorldPostSimulationListenerD87
 {
   public:
     virtual ~hkpWorldPostSimulationListenerD87()
     {}
 };
-
-class FUN_00d87bf0 : public FUN_00def160, public hkpWorldPostSimulationListenerD87
-{
-  public:
-    virtual ~FUN_00d87bf0();
-};
-
-// @fnv 0x00d87bf0
-FUN_00d87bf0::~FUN_00d87bf0()
-{}
 
 struct MemberD4728
 {
@@ -874,6 +745,7 @@ class OwnerD4728
 };
 
 // @fnv 0x00d47280
+// pdb: hkClass::getFlags | hkClass.obj | fnv360_0822_retail, objrun_sim, medium
 MemberD4728* OwnerD4728::FUN_00d47280()
 {
     return &m_kMember;
@@ -927,6 +799,7 @@ S00d47350_Res __fastcall FUN_00d47130(Zt* self, DataS obj, Outs r);
 
 // Uses the member returned by FUN_00d47130 to populate output according to the member's type.
 // @fnv 0x00d47350
+// pdb: hkClass::getDefault | hkClass.obj | tesv_win, hash, low
 S00d47350_Res __fastcall FUN_00d47350(Zt* self, int, void* data, S00d47350_Out* output)
 {
     S00d47350_Member* holder;
@@ -985,10 +858,10 @@ struct LookupNode
     HkMem* m_members;
     int m_uiCount;
     int* m_pDefaultObject;
-    int FUN_00d46f00();
+    int hkClass_getNumMembers();
     int FUN_00d47130(int offset, char** value, HkMem** member);
 };
-__declspec(noinline) int LookupNode::FUN_00d46f00()
+__declspec(noinline) int LookupNode::hkClass_getNumMembers()
 {
     LookupNode* p = m_parent;
     int total = m_uiCount;
@@ -1007,7 +880,7 @@ __declspec(noinline) int LookupNode::FUN_00d46f00()
 int LookupNode::FUN_00d47130(int offset, char** value, HkMem** member)
 {
     LookupNode* node = this;
-    offset -= node->FUN_00d46f00();
+    offset -= node->hkClass_getNumMembers();
     while (node != 0)
     {
         offset += node->m_uiCount;
@@ -1037,105 +910,12 @@ enum hkResultD473
     HK_FAILURE = 1
 };
 
-class hkClassD473;
-class hkClassEnumD473;
-
-class hkClassMemberD473
-{
-  public:
-    const char* m_name;
-    const hkClassD473* m_class;
-    const hkClassEnumD473* m_pClassEnum;
-    unsigned char m_type;
-    unsigned char m_eSubtype;
-    short m_iArraySize;
-    unsigned short m_flags;
-    unsigned short m_offset;
-    const void* m_pCustomAttributes;
-
-    const hkClassD473* FUN_00d86920() const;
-    const hkClassEnumD473* FUN_00d86930() const;
-    int ReadSignedValueBySize(const void* pvObject) const;
-};
-
-class hkDataValueD473
-{
-  public:
-    int m_type;
-    int unk04;
-    int unk08;
-    int unk0C;
-    const void* m_uiFilterValue;
-    const void* m_class;
-
-    hkResultD473 SetData(const void* pvAddr, int iType);
-};
-
-class hkClassAccessorD473
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    const hkClassMemberD473* m_members;
-    int m_numMembers;
-    const char* m_pData;
-
-    hkResultD473 FUN_00d473f0(int iIndex, hkDataValueD473& kOut) const;
-};
-
-// Reads the value of the member at iIndex from m_pData into kOut, dispatching on the member's type for class, enum, or generic data.
-// @fnv 0x00d473f0
-hkResultD473 hkClassAccessorD473::FUN_00d473f0(int iIndex, hkDataValueD473& kOut) const
-{
-    if (m_pData)
-    {
-        int iOffset = ((const int*)m_pData)[iIndex];
-        if (iOffset >= 0)
-        {
-            const void* pvAddr = m_pData + iOffset;
-            const hkClassMemberD473& kMember = m_members[iIndex];
-            hkResultD473 res = HK_SUCCESS;
-            unsigned char ucType = kMember.m_type;
-
-            if (ucType == 0x14)
-            {
-                const hkClassD473* pkClass = kMember.FUN_00d86920();
-                pvAddr = *(const void* const*)pvAddr;
-                kOut.m_class = pkClass;
-                kOut.m_uiFilterValue = pvAddr;
-                kOut.m_type = 0x14;
-            }
-            else if (ucType == 0x18)
-            {
-                const hkClassEnumD473* pkEnum = kMember.FUN_00d86930();
-                int iValue = kMember.ReadSignedValueBySize(pvAddr);
-                kOut.m_class = pkEnum;
-                kOut.m_uiFilterValue = (const void*)iValue;
-                kOut.m_type = 0x18;
-            }
-            else
-            {
-                int t = (int)kMember.m_type;
-                res = kOut.SetData(pvAddr, t);
-            }
-
-            return res;
-        }
-    }
-
-    return HK_FAILURE;
-}
-
 struct S_00e03240_Node;
 
 struct S_00e03240_Holder
 {
     int __thiscall InvokeTarget(int value, int flags);
-    int __thiscall FUN_00d46f00();
+    int __thiscall hkClass_getNumMembers();
     S_00e03240_Node* __thiscall FUN_00d46f20(int index);
 };
 
@@ -1158,7 +938,8 @@ static __declspec(noinline) int FUN_00e03100(S_00e03240_Node* node)
 }
 
 // @fnv 0x00e03240
-int __cdecl FUN_00e03240(S_00e03240_Holder* holder, S_00e03240_Node* node, int value, int flags)
+// pdb: applyDefaultsFor | hkObjectCopier.obj | fnv360_0822_retail, call_gap_sim + bridge(call_gap_sim|call_gap) + skyrim(call_gap_sim), high
+int __cdecl applyDefaultsFor(S_00e03240_Holder* holder, S_00e03240_Node* node, int value, int flags)
 {
     int result = holder->InvokeTarget(value, flags);
 
@@ -1176,11 +957,11 @@ int __cdecl FUN_00e03240(S_00e03240_Holder* holder, S_00e03240_Node* node, int v
     int outerCount = rounds;
     do
     {
-        for (int index = 0; index < childHolder->FUN_00d46f00(); ++index)
+        for (int index = 0; index < childHolder->hkClass_getNumMembers(); ++index)
         {
             S_00e03240_Node* child = childHolder->FUN_00d46f20(index);
 
-            if (!FUN_00e03240(childHolder, child, index, flags))
+            if (!applyDefaultsFor(childHolder, child, index, flags))
                 result = 0;
         }
     } while (--outerCount);

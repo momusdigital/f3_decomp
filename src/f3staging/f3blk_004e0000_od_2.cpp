@@ -188,7 +188,7 @@ int unk298;
 struct ContextE { int old; TlsE* p; ContextE(){unsigned index=_tls_index;_ReadWriteBarrier();p=((TlsE**)__readfsdword(0x2c))[index];old=p->unk298;p->unk298=16;} ~ContextE(){p->unk298=old;} };
 struct VecE {float x,y,z,w;};
 struct GravityE {float x,y,z,w; void FUN_0090ab20(float);};
-struct __declspec(align(16)) FUN_008d3a60 { float unk04,unk08,unk0c,unk10;
+struct __declspec(align(16)) bhkWorldCinfo { float unk04,unk08,unk0c,unk10; // src: F3_EXE vtable 0x00e32184 (old: FUN_008d3a60)
 float unk14;
 float unk18;
 float unk1c;
@@ -230,7 +230,7 @@ float unkc0;
 float unkc4;
 float unkc8;
 float unkcc;
-void FUN_0090ab20(float); FUN_008d3a60(); virtual ~FUN_008d3a60(){} };
+void FUN_0090ab20(float); bhkWorldCinfo(); virtual ~bhkWorldCinfo(){} };
 struct ListenerBaseE: AllocE { void* vt; int unk04,unk08,unk0c,unk10; ListenerBaseE(){FUN_008f1780();} void FUN_008f1780(); };
 extern char DAT_00dcd71c;
 struct ListenerE:ListenerBaseE { ListenerE(){vt=&DAT_00dcd71c;} };
@@ -363,15 +363,17 @@ int unkd8;
 int unkdc;
 static void* operator new(unsigned n){void* raw=DAT_01090a78.FUN_0086b930(n);unsigned char align=16-((unsigned)raw&15);raw=(char*)raw+align;((unsigned char*)raw)[-1]=align;return raw;} static void operator delete(void*);
 TargetE* safeGet(){if(this)return get();return 0;}
-FUN_00908b80(FUN_008d3a60&);
+FUN_00908b80(bhkWorldCinfo&);
 void FUN_004d9280(void*); void FUN_004d9310(void*); void FUN_004d9370(void*); void FUN_008d9060(VecE*); void FUN_008d69e0(int);
 };
 struct FUN_0056adf0:AllocE {int a,b; FUN_0056adf0();void FUN_0056ad60(TargetE*);};
 extern FUN_0056adf0* DAT_01071528; extern bool DAT_0106cafd;
 void* __cdecl FUN_00573620(); void* __cdecl FUN_00432f70();
+// pdb: TESObjectCELL::CreateWorld | TESObjectCELL.obj | fnv360_0822_retail, uvref, medium
+// pdb params: arCenter
 FUN_00908b80* __cdecl FUN_004e1e00(VecE* input){
  ContextE context;
- FUN_008d3a60 info;
+ bhkWorldCinfo info;
  info.unk10=0;info.unk14=0;info.unk18=DAT_00dcd8a0;info.unk1c=0;
  info.FUN_0090ab20(DAT_00dcd89c);
  VecE pos;memcpy(&pos,input,12); pos.z=0;info.unk50=1;

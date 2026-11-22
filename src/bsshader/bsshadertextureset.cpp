@@ -12,19 +12,17 @@
 // @fnv 0x004ab230
 #pragma optimize("", off)
 #pragma optimize("y", off)
-NiNode* BipedAnim::GetBoneNode(BIPED_BONE boneIndex)
-{
-    return bone[boneIndex].pParent;
-}
 #pragma optimize("y", on)
 #pragma optimize("", on)
 
 // Looks up the texture name for a texture type, resolves it via BSShaderManager::GetTexture, and assigns it to textureOut with refcount handling.
 // @fnv 0x00ba87f0
-void BSShaderTextureSet::GetTexture(BSShaderProperty::TextureTypeEnum textureType, NiPointer<NiTexture>& textureOut)
+// pdb: BSShaderTextureSet::GetTexture | BSShaderTextureSet.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiType, aspTexture
+void BSShaderTextureSet::GetTexture(BSShaderProperty::TextureTypeEnum textureType, NiPointer<NiTexture>& textureOut) const
 {
     NiPointer<NiTexture> texture;
-    register const char* textureName = GetTexture(textureType);
+    register const char* textureName = GetTextureFilename(textureType);
     if (textureName)
         BSShaderManager::GetTexture(textureName, true, texture, true, textureType == BSShaderProperty::TEXTYPE_ENV);
     if (textureOut.m_pObject != texture.m_pObject)
@@ -44,6 +42,8 @@ struct FUN_00ba88d0_shell : public BSShaderTextureSet
 };
 
 // @fnv 0x00ba88d0
+// pdb: BSShaderTextureSet::LoadBinary | BSShaderTextureSet.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void FUN_00ba88d0_shell::LoadTextureSet(NiStream* kStream)
 {
     BSTextureSet::LoadBinary(*kStream);
@@ -75,12 +75,16 @@ struct FUN_00ba89e0_shell : public BSShaderTextureSet
 };
 
 // @fnv 0x00ba89e0
+// pdb: BSShaderTextureSet::SetTextureFilename | BSShaderTextureSet.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSShaderTextureSet::LinkObject)
+// pdb params: aiType, apFilename
 void FUN_00ba89e0_shell::FUN_00ba89e0(int aiType, char* apFilename)
 {
     reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 8)[aiType].Set(apFilename, 0);
 }
 
 // @fnv 0x00ba87e0
+// pdb: BipedAnim::GetParentBone | BipedAnim.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeType
 int __fastcall FUN_00ba87e0(int* self, int unused, int index)
 {
     return self[index * 2 + 2];
@@ -88,6 +92,7 @@ int __fastcall FUN_00ba87e0(int* self, int unused, int index)
 
 void __cdecl _MyHelper00a5d2f0(int a);
 // @fnv 0x00a81fe0
+// pdb: BGSMoviePlayer::UnPauseMusic | BGSMoviePlayer.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00a81fe0(int a)
 {
     _MyHelper00a5d2f0(a);
@@ -96,6 +101,8 @@ void __cdecl FUN_00a81fe0(int a)
 void FUN_00a89af0();
 
 // @fnv 0x00a724d0
+// pdb: ValueModifierEffect::LoadGame | AbsorbEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void FUN_00a724d0()
 {
     FUN_00a89af0();
@@ -110,12 +117,13 @@ template <class T> inline void NiStreamSaveBinaryBA89(NiBinaryStream* pkStream, 
 class BSShaderTextureSetBA89 : public BSShaderTextureSet
 {
   public:
-    void FUN_00ba8970(NiStream& stream);
+    void BSShaderTextureSet_SaveBinary(NiStream& stream);
 };
 
 // Links the object into the stream, writes the texture count 6, and writes each of the six m_kTextureNames strings to the stream.
 // @fnv 0x00ba8970
-void BSShaderTextureSetBA89::FUN_00ba8970(NiStream& stream)
+// pdb: BSShaderTextureSet::SaveBinary | BSShaderTextureSet.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void BSShaderTextureSetBA89::BSShaderTextureSet_SaveBinary(NiStream& stream)
 {
     ((NiObjectCall*)this)->NiObjectCall::LinkObject(stream);
 

@@ -2,6 +2,7 @@
 #include "f3_common.h"
 #include "bsfogproperty_decls.h"
 // @fnv 0x00bb8180
+// pdb: BSFogProperty::BSFogProperty | BSFogProperty.obj | fnv360_0721_beta, caller, medium
 BSFogProperty::BSFogProperty()
 {
     m_fFogStartDistance = (1.0 - m_fFogDepth * DAT_010b9e30) * DAT_0103a480;
@@ -20,6 +21,8 @@ struct FUN_00bb8140_shell : public BSFogProperty
 
 // Stores a scaled depth value at offset 0x2c and the constant 163840.0f at offset 0x30.
 // @fnv 0x00bb8140
+// pdb: BSFogProperty::SetDepth | BSFogProperty.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: afDepth
 void FUN_00bb8140_shell::SetDepthParams(float afDepth)
 {
     *(float*)((char*)this + 0x2c) = (1.0 - afDepth * DAT_010b9e30) * DAT_0103a480;
@@ -59,6 +62,7 @@ struct NiAVObject
 };
 
 // @fnv 0x00a5c240
+// pdb: NiObjectNET::~NiObjectNET | NiObjectNET.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00a5c240_shell::DestroyFogProperty()
 {
     *(void**)this = (void*)&DAT_0109b244;
@@ -80,6 +84,7 @@ void FUN_00a5c240_shell::DestroyFogProperty()
 extern int g_012007e0;
 
 // @fnv 0x00bb8170
+// pdb: CWindMatrices::GetSize | SpeedTreeRT.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: NiD3DHLSLVertexShader::GetRTTI)
 int* __cdecl FUN_00bb8170()
 {
     return &g_012007e0;
@@ -88,6 +93,7 @@ int* __cdecl FUN_00bb8170()
 extern char const* const g_012007e0_arg1;
 
 // @fnv 0x00a99f20
+// pdb: NiShadeProperty::GetRTTI | BSShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 char const* const* __cdecl FUN_00a99f20()
 {
     return &g_012007e0_arg1;
@@ -101,6 +107,7 @@ struct S00a99f40
 };
 // Calls DestroyFogProperty on this, deletes this with size 0x2c when bit 0 of a1 is set, and returns this.
 // @fnv 0x00a99f40
+// pdb: NiD3DShaderDeclaration::`scalar deleting destructor' | NiD3DShaderDeclaration.obj | fnv360_0721_retail, objopen_prop, low
 void* S00a99f40::DestroyIfFlagged(unsigned int auiFlags)
 {
     DestroyFogProperty(this);
@@ -121,6 +128,7 @@ struct StandIn
     void* __thiscall Destroy(unsigned int);
 };
 // @fnv 0x00a9bbc0
+// pdb: NiTLargeArray<TESTopicInfo *,NiTMallocInterface<TESTopicInfo *> >::`scalar deleting destructor' | TESTopic.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall StandIn::Destroy(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 4);
@@ -133,6 +141,8 @@ void* __thiscall StandIn::Destroy(unsigned int auiFlags)
 
 void DestroyFogProperty();
 // @fnv 0x00a99f30
+// pdb: PlayerCharacter::TransferDisease | PlayerCharacter.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, apDesiredTarget, abLoadCast
 void FUN_00a99f30()
 {
     DestroyFogProperty();

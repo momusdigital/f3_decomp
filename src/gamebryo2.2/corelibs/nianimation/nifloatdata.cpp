@@ -3,6 +3,8 @@
 #include "nifloatdata_decls.h"
 
 // @fnv 0x00a3cdc0
+// pdb: NiFloatData::ReplaceAnim | NiFloatData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void NiFloatData::SetColorKeys(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pKeyArray)
@@ -33,6 +35,7 @@ extern const void* vftable_NiFloatData[];
 void __fastcall FUN_00a5d3d0(NiObject*);
 
 // @fnv 0x00a3cc80
+// pdb: NiFloatData::~NiFloatData | NiFloatData.obj | fnv360_0822_retail, call_seq, high
 void FUN_00a3cc80_shell::FUN_00a3cc80()
 {
     *(const void***)this = vftable_NiFloatData;
@@ -54,6 +57,8 @@ struct S00a3cc40
 };
 // Calls UpdateSlotStates with the key count, key pointer and two floats, then stores the updated key pointer back.
 // @fnv 0x00a3cc40
+// pdb: NiFloatData::GuaranteeKeysAtStartAndEnd | NiFloatData.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: fStartTime, fEndTime
 void S00a3cc40::FUN_00a3cc40(float m_fStartTime, float m_fMaximumDistance)
 {
     void* pkKeys = m_pKeyArray;
@@ -69,11 +74,12 @@ struct FUN_00a3ccb0_Cls
     void* m_pKeyArray;
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
-    void FUN_00a3ccb0(void* keys, unsigned int numKeys, int type);
+    void NiFloatData_SetAnim(void* keys, unsigned int numKeys, int type);
 };
 // Stores the keys pointer, key count and type, caching DAT_41890871[type] as a byte; clears all fields when any argument is null or zero.
 // @fnv 0x00a3ccb0
-void FUN_00a3ccb0_Cls::FUN_00a3ccb0(void* keys, unsigned int numKeys, int type)
+// pdb: NiFloatData::SetAnim | NiFloatData.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+void FUN_00a3ccb0_Cls::NiFloatData_SetAnim(void* keys, unsigned int numKeys, int type)
 {
     if (keys && numKeys && type)
     {
@@ -102,6 +108,7 @@ void __fastcall _Call_a5d3a0(void* object);
 extern const char vftable_NiFloatData[];
 
 // @fnv 0x00a3cd00
+// pdb: NiFloatData::CreateObject | NiFloatData.obj | fnv360_0822_retail, objrun, medium
 NiFloatData* CreateNiFloatData()
 {
     NiFloatData* object = static_cast<NiFloatData*>(A51BF0Base::operator new(0x18));
@@ -156,6 +163,8 @@ char* __cdecl _FUN_00a7d330(GlobalObjectO2_00a7b610* object);
 char* __cdecl FUN_00a7d510(char const* name, unsigned int value);
 
 // @fnv 0x00a3d050
+// pdb: NiFloatData::GetViewerStrings | NiFloatData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pStrings
 void FUN_00a3d050_shell::FUN_00a3d050(StrArr* strings)
 {
     AppendCameraPathEntries(strings);
@@ -208,6 +217,8 @@ struct FUN_00a3cfd0_shell : NiFloatData
 };
 extern void(__cdecl* DAT_011f3a50[])(NiStream*, TimedAnimationKey*, unsigned int);
 // @fnv 0x00a3cfd0
+// pdb: NiFloatData::SaveBinary | NiFloatData.obj | fnv360_0822_retail, vtable, high
+// pdb params: stream
 void FUN_00a3cfd0_shell::WriteToStream(NiStream* stream)
 {
     reinterpret_cast<NiObject_Ext*>(this)->FUN_00a89af0(stream);
@@ -222,7 +233,7 @@ void FUN_00a3cfd0_shell::WriteToStream(NiStream* stream)
 struct FUN_00a3ce20_shell : public NiFloatData
 {
     void FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistance, NiFloatData** ppResult);
-    void FUN_00a5d510(NiFloatData** ppOut);
+    void NiObject_CreateDeepCopy(NiFloatData** ppOut);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* Addend);
@@ -242,14 +253,16 @@ struct NiRefShell : public NiObject
     }
 };
 
-extern void __cdecl FUN_00a3d630(int, int, TimedAnimationKey*, unsigned int, float, float, TimedAnimationKey**,
+extern void __cdecl NiAnimationKey_CopySequence(int, int, TimedAnimationKey*, unsigned int, float, float, TimedAnimationKey**,
                                  unsigned int*);
 
 // @fnv 0x00a3ce20
+// pdb: NiFloatData::GetSequenceData | NiFloatData.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: fStartTime, fEndTime, aspFloatData
 void FUN_00a3ce20_shell::FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistance, NiFloatData** ppResult)
 {
     NiFloatData* pData = 0;
-    FUN_00a5d510(&pData);
+    NiObject_CreateDeepCopy(&pData);
     NiFloatData* pCur = pData;
     if (pCur != 0)
         ((NiRefShell*)pCur)->AcquireReference();
@@ -257,7 +270,7 @@ void FUN_00a3ce20_shell::FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistan
     {
         TimedAnimationKey* pKeys = 0;
         unsigned int uiNumKeys = 0;
-        FUN_00a3d630(0, (int)m_eRequestType, m_pKeyArray, m_uiNumKeys, m_fStartTime, m_fMaximumDistance, &pKeys,
+        NiAnimationKey_CopySequence(0, (int)m_eRequestType, m_pKeyArray, m_uiNumKeys, m_fStartTime, m_fMaximumDistance, &pKeys,
                      &uiNumKeys);
         pCur->SetColorKeys(pKeys, uiNumKeys, m_eRequestType);
     }
@@ -282,12 +295,13 @@ extern FUN_00a3cd40_KeyCmp DAT_011f3ae0[];
 struct FUN_00a3cd40_cls : public NiFloatData
 {
     bool IsSameAs(NiFloatData* other);
-    bool FUN_00a3cd40(NiFloatData* other);
+    bool NiFloatData_IsEqual(NiFloatData* other);
 };
 
 // Compares this NiFloatData with another by checking key count, request type, key data size, and each key via a type-specific comparator.
 // @fnv 0x00a3cd40
-bool FUN_00a3cd40_cls::FUN_00a3cd40(NiFloatData* other)
+// pdb: NiFloatData::IsEqual | NiFloatData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_prop), high
+bool FUN_00a3cd40_cls::NiFloatData_IsEqual(NiFloatData* other)
 {
     if (!IsSameAs(other))
     {
@@ -521,12 +535,13 @@ struct StreamView_cf
 
 struct FUN_00a3cf10_cls : public NiFloatData
 {
-    void FUN_00a3cf10(NiStream& stream);
+    void NiFloatData_LoadBinary(NiStream& stream);
 };
 
 // Loads animation key data from a NiStream, reading key count, type, and key values, then stores them via SetKeyData.
 // @fnv 0x00a3cf10
-void FUN_00a3cf10_cls::FUN_00a3cf10(NiStream& stream)
+// pdb: NiFloatData::LoadBinary | NiFloatData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void FUN_00a3cf10_cls::NiFloatData_LoadBinary(NiStream& stream)
 {
     reinterpret_cast<StreamStand_cf*>(this)->LoadStream(stream);
     StreamView_cf* pStreamView = reinterpret_cast<StreamView_cf*>(&stream);

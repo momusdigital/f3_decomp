@@ -103,6 +103,8 @@ struct Obj44cf60
     int unk15C;
 };
 
+// pdb: BGSEquipType::GetEquipType | BGSEquipType.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BGSEquipType::GetEquipSlotForForm)
+// pdb params: apForm
 int FUN_0044cf60(Obj44cf60* p)
 {
     int r = -1;

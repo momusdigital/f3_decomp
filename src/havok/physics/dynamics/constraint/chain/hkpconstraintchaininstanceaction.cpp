@@ -21,41 +21,20 @@ struct FnvCpu_FUN_00e063e0_CpuOwner
     unsigned int unk10;
     unsigned int unk14;
     FnvCpu_FUN_00e063e0_CpuInterface* target;
-    void FUN_00e063e0(int arg0);
+    void hkpConstraintChainInstanceAction_entityRemovedCallback(int arg0);
 };
 // @fnv 0x00e063e0
-void FnvCpu_FUN_00e063e0_CpuOwner::FUN_00e063e0(int arg0)
+// pdb: hkpConstraintChainInstanceAction::entityRemovedCallback | hkpConstraintChainInstanceAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void FnvCpu_FUN_00e063e0_CpuOwner::hkpConstraintChainInstanceAction_entityRemovedCallback(int arg0)
 {
     target->Invoke(arg0);
 }
 
 // @fnv 0x00e063c0
-void __stdcall FUN_00e063c0(int)
+// pdb: hkpConstraintChainInstanceAction::applyAction | hkpConstraintChainInstanceAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpConstraintChainInstanceAction_applyAction(int)
 {}
 
-// @fnv 0x00e063d0
-int __stdcall FUN_00e063d0(int arg0, int arg1)
-{
-    return 0;
-}
-
-struct FnvAllocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void* AllocateMemoryBlock(int* bytes);
-    virtual void ReleaseBlock(void* ptr, int bytes);
-};
-struct FnvMemoryRouter
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    FnvAllocator* allocator;
-};
-extern "C" FnvMemoryRouter* __cdecl FUN_00c85750();
 struct FnvEntityArray
 {
     void** m_data;

@@ -16,6 +16,8 @@ char* __cdecl _FUN_00a7d330(const char*);
 extern const char* DAT_012005b8;
 // Grows the string array if it is full, then appends the string returned by _FUN_00a7d330(DAT_012005b8) at the end.
 // @fnv 0x00bb44a0
+// pdb: bhkBinaryAction::GetViewerStrings | bhkBinaryAction.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apStrings
 void __stdcall FUN_00bb44a0(StrArr* apStrings)
 {
     FUN_00b71450(apStrings);

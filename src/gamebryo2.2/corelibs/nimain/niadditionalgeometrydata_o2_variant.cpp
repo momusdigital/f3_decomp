@@ -10,14 +10,6 @@ struct P03MM
 };
 extern P03MM g_memoryManager;
 
-// @fnv 0x00a72510
-void* __stdcall FUN_00a72510(unsigned int size)
-{
-    if (size)
-        return g_memoryManager.Allocate(size);
-    return 0;
-}
-
 namespace fnv_00a727c0 {
 struct P03MM
 {
@@ -33,6 +25,7 @@ struct NiAGDDataBlock
     unsigned char m_bFlag;
 };
 // @fnv 0x00a727c0
+// pdb: NiAdditionalGeometryData::CreateAGDDataBlock | NiAdditionalGeometryData.obj | fnv360_0822_retail, vtable, medium
 NiAGDDataBlock* __cdecl FUN_00a727c0()
 {
     NiAGDDataBlock* block = static_cast<NiAGDDataBlock*>(g_memoryManager.Allocate(16));
@@ -89,6 +82,8 @@ struct S00a72330
     void FUN_00a72330(unsigned int* out, unsigned int* idx, unsigned int unused);
 };
 // @fnv 0x00a72330
+// pdb: NiBinaryStreamSave | NiAdditionalGeometryData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiAdditionalGeometryData::NiAGDDataStream::FillInByteSizeArray)
+// pdb params: os, pvValue, uiNumEls, puiComponentSizes, uiNumComponents
 void S00a72330::FUN_00a72330(unsigned int* out, unsigned int* idx, unsigned int)
 {
     switch (type)
@@ -161,6 +156,8 @@ class FUN_00a72530_owner
 };
 
 // @fnv 0x00a72530
+// pdb: NiAdditionalGeometryData::NiAGDDataBlock::FreeBuffer | NiAdditionalGeometryData.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: pvBuffer
 void __thiscall FUN_00a72530_owner::FUN_00a72530(unsigned int value)
 {
     if (value == 0 && unk0c != 0)
@@ -387,6 +384,8 @@ class DataBlockStub
 };
 
 // @f3 0x0083d2f0 (community match, verified in this file)
+// pdb: NiTArray<NiAdditionalGeometryData::NiAGDDataBlock *,NiTMallocInterface<NiAdditionalGeometryData::NiAGDDataBlock *> >::SetAt | NiAdditionalGeometryData.obj | fnv360_0721_beta, call_seq, low, conflict (bridge: NiAdditionalGeometryData::NiAGDDataBlock::LoadBinary)
+// pdb params: uiIndex, element
 void DataBlockStub::FUN_00a72eb0(NiStreamStub& kStream, int a2, int a3, int a4, unsigned short m_usPassCountLocal)
 {
     LoadBinary(kStream, m_uiSize);
@@ -460,6 +459,8 @@ struct FUN_00a730e0_cls
 extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int n);
 
 // @fnv 0x00a730e0
+// pdb: NiAdditionalGeometryData::SetDataStreamCount | NiAdditionalGeometryData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: uiCount
 void FUN_00a730e0_cls::FUN_00a730e0(unsigned int newCount)
 {
     SceneElem* oldData = m_data;
@@ -535,6 +536,7 @@ class FUN_00a734c0 : public ObjBase
 };
 
 // @fnv 0x00a734c0
+// pdb: NiAdditionalGeometryData::NiAdditionalGeometryData | NiAdditionalGeometryData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 FUN_00a734c0::FUN_00a734c0()
 {
     m_08 = 0;
@@ -553,6 +555,7 @@ struct Obj_a73e20
 };
 
 // @fnv 0x00a73e20
+// pdb: NiAdditionalGeometryData::CreateObject | NiAdditionalGeometryData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 Obj_a73e20* __cdecl FUN_00a73e20()
 {
     Obj_a73e20* p = (Obj_a73e20*)FUN_00aa13e0(0x2c);
@@ -598,6 +601,8 @@ struct FUN_00a746e0 : Base00a804e0
 };
 
 // @fnv 0x00a746e0
+// pdb: NiLines::NiLines | NiLines.obj | fnv360_0822_retail, call_gap, high
+// pdb params: usVertices, pkVertex, pkColor, pkTexture, usNumTextureSets, eNBTMethod, pkFlags
 FUN_00a746e0::FUN_00a746e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
     : Base00a804e0(new Impl00a8a680(a1, a2, a3, a4, a5, a6, a7))
 {}
@@ -617,6 +622,8 @@ class A2440Buffer
 };
 
 // @f3 0x0083c820 (community match, verified in this file)
+// pdb: NiAdditionalGeometryData::NiAGDDataStream::IsEqual | NiAdditionalGeometryData.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiAdditionalGeometryData::NiAGDDataBlock::IsEqual)
+// pdb params: pkOther
 bool A2440Buffer::FUN_00a72440(const A2440Buffer& other) const {
     if(m_uiSize!=other.m_uiSize) return false;
     int result=memcmp(m_pCompressedData,other.m_pCompressedData,m_uiSize);
@@ -928,6 +935,8 @@ struct LBObject : LBObjectBase
 };
 
 // @fnv 0x00a73160
+// pdb: NiAdditionalGeometryData::LoadBinary | NiAdditionalGeometryData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void LBObject::FUN_00a73160(LBStream& arStream)
 {
     LBObjectBase::LoadBinary(arStream);
@@ -1154,12 +1163,12 @@ struct ChildElem
     int unk10;
     int unk14;
     int unk18;
-    void FUN_00a72db0(SaveStream* stream);
+    void NiAdditionalGeometryData_NiAGDDataStream_SaveBinary(SaveStream* stream);
 };
 
 struct ChildObj
 {
-    void FUN_00a728d0(SaveStream* stream, unsigned int index, ChildElem* elems, unsigned int count, unsigned int flags);
+    void NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(SaveStream* stream, unsigned int index, ChildElem* elems, unsigned int count, unsigned int flags);
 };
 
 struct FUN_00a73370Node
@@ -1177,18 +1186,19 @@ struct FUN_00a73370Node
     unsigned short unk24;
     unsigned short childCount;
     void LinkObject(SaveStream* stream);
-    void FUN_00a73370(SaveStream* stream);
+    void NiAdditionalGeometryData_SaveBinary(SaveStream* stream);
 };
 
 // @fnv 0x00a73370
-void FUN_00a73370Node::FUN_00a73370(SaveStream* stream)
+// pdb: NiAdditionalGeometryData::SaveBinary | NiAdditionalGeometryData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_open), high
+void FUN_00a73370Node::NiAdditionalGeometryData_SaveBinary(SaveStream* stream)
 {
     LinkObject(stream);
     SerializeValue(stream, flags);
     SerializeValue(stream, elemCount);
     for (unsigned int i = 0; i < elemCount; i++)
     {
-        elems[i].FUN_00a72db0(stream);
+        elems[i].NiAdditionalGeometryData_NiAGDDataStream_SaveBinary(stream);
     }
     SerializeValue(stream, (unsigned int)childCount);
     for (unsigned int j = 0; j < childCount; j++)
@@ -1197,7 +1207,7 @@ void FUN_00a73370Node::FUN_00a73370(SaveStream* stream)
         bool present = (c != 0);
         SerializeValue(stream, present);
         if (present)
-            c->FUN_00a728d0(stream, j, elems, elemCount, flags);
+            c->NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(stream, j, elems, elemCount, flags);
     }
 }
 
@@ -1237,6 +1247,8 @@ static inline void AddVal(ArrayArg* p, unsigned int v)
 }
 
 // @fnv 0x00a73d90
+// pdb: NiAdditionalGeometryData::NiAGDDataBlock::GetViewerStrings | NiAdditionalGeometryData.obj | fnv360_0822_debug, ustr_rel, medium
+// pdb params: pkStrings
 void FUN_00a73d90_cls::FUN_00a73d90(ArrayArg* p)
 {
     AddVal(p, FUN_00a7d510(str_0109d2f4, m_04));
@@ -1348,6 +1360,8 @@ class NiAGDViewer : public NiObjectViewer
 };
 
 // @fnv 0x00a73e40
+// pdb: NiAdditionalGeometryData::GetViewerStrings | NiAdditionalGeometryData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 void NiAGDViewer::FUN_00a73e40(NiViewerStringsArray* pkStrings)
 {
     NiObjectViewer::GetViewerStrings(pkStrings);
@@ -1408,7 +1422,7 @@ class Owner517
     virtual void v0();
     unsigned int size;
     char* data;
-    void FUN_00a728d0(Stream517& stream, unsigned int block, Descriptor517* entries, unsigned int count,
+    void NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(Stream517& stream, unsigned int block, Descriptor517* entries, unsigned int count,
                       unsigned short vertices);
 };
 template <class T> inline void BinaryLoad517(Input517* input, T* value, unsigned int count)
@@ -1433,7 +1447,8 @@ inline void ReadComponents517(Input517* input, void* destination, unsigned short
     input->BinaryRead(destination, sum * vertices, components, count);
 }
 // @fnv 0x00a728d0
-void Owner517::FUN_00a728d0(Stream517& stream, unsigned int block, Descriptor517* entries, unsigned int count,
+// pdb: NiAdditionalGeometryData::NiAGDDataBlock::SaveBinary | NiAdditionalGeometryData.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(objopen_prop), high
+void Owner517::NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(Stream517& stream, unsigned int block, Descriptor517* entries, unsigned int count,
                             unsigned short vertices)
 {
     Descriptor517* idx = entries;
@@ -1509,6 +1524,7 @@ extern DummyMM g_memoryManager;
 struct FUN_00a724e0
 {
     virtual ~FUN_00a724e0();
+    // pdb: ExtraPatrolRefInUseData::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_retail, vtable, high
     void operator delete(void* p)
     {
         g_memoryManager._DeallocateAlias(p);
@@ -1578,6 +1594,8 @@ struct Descriptor73530
     void FUN_00a73530(StringArray73530* output);
 };
 // @fnv 0x00a73530
+// pdb: NiAdditionalGeometryData::NiAGDDataStream::GetViewerStrings | NiAdditionalGeometryData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Descriptor73530::FUN_00a73530(StringArray73530* output)
 {
     const char* value;
@@ -1793,10 +1811,11 @@ class NiAGDObject : public NiObject
     int unk18;
     NiTPrimitiveArray<A2440Buffer*> m_aDataBlocks;
 
-    bool FUN_00a727f0(NiObject* pkObject);
+    bool NiAdditionalGeometryData_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a727f0
-bool NiAGDObject::FUN_00a727f0(NiObject* pkObject)
+// pdb: NiAdditionalGeometryData::IsEqual | NiAdditionalGeometryData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objopen_prop), high
+bool NiAGDObject::NiAdditionalGeometryData_IsEqual(NiObject* pkObject)
 {
     if (!NiObject::IsSameAs(pkObject))
         return false;

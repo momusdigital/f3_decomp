@@ -1,9 +1,11 @@
-// gamebryo2.2/corelibs/niconsolerenderer/nigeometrybufferdata.cpp: NiGeometryBufferData, RendererData, NiSlotSetE8E (8 functions)
+// gamebryo2.2/corelibs/niconsolerenderer/nigeometrybufferdata.cpp: NiGeometryBufferData, RendererData, NiSlotSetE8E (7 functions)
 #include "f3_common.h"
 #include <cstddef>
 #include "nigeometrybufferdata.h"
 
 // @fnv 0x00e8eee0
+// pdb: NiVertexDeclCache::CreateVertexDecl | NiVertexDeclCache.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiGeometryBufferData::RemoveIB)
+// pdb params: pakVertexElements, pkDevice
 void NiGeometryBufferData::ReleaseBuffers()
 {
     if (m_pkIndexBuffer)
@@ -49,6 +51,8 @@ struct UnknownComObj
 };
 
 // @f3 0x00889290 (community match, verified in this file)
+// pdb: D3DDevice_SetSamplerState_MaxMipLevel | state.obj | fnv360_1110_debug, objopen_prop, low, conflict (skyrim: NiGeometryBufferData::~NiGeometryBufferData)
+// pdb params: pDevice, Sampler, Value
 void FUN_00e8f0f0_shell::DestroyGeometryBufferData()
 {
     *reinterpret_cast<void**>(this) = &NiGeometryBufferData_vtable;
@@ -95,6 +99,7 @@ struct MemoryManager
 extern MemoryManager g_memoryManager;
 // Calls the object's destructor, then frees the object via g_memoryManager when _flags has bit 0 set, and returns _this.
 // @fnv 0x00e8f170
+// pdb: ExtraSavedHavokData::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 void* __fastcall FUN_00e8f170(void* _this, int, unsigned int auiFlags)
 {
     ((FUN_00e8f0f0_shell*)_this)->DestroyGeometryBufferData();
@@ -110,19 +115,6 @@ struct P03MM
 };
 extern P03MM g_memoryManager;
 extern int DAT_010f0170;
-struct RendererData
-{
-    void* FUN_00e8ee80(unsigned int);
-};
-// Sets the object's vtable pointer to DAT_010f0170 and, if bit 0 of a1 is set, deallocates the object via g_memoryManager, then returns this.
-// @fnv 0x00e8ee80
-void* RendererData::FUN_00e8ee80(unsigned int auiFlags)
-{
-    *(void**)this = (void*)&DAT_010f0170;
-    if (auiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
-    return this;
-}
 
 struct IUnk_00e8f010
 {
@@ -138,6 +130,8 @@ struct C_00e8f010
     void FUN_00e8f010(int);
 };
 // @fnv 0x00e8f010
+// pdb: D3DVertexBuffer_GetDesc | resource.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiGeometryBufferData::SetFVF)
+// pdb params: pVertexBuffer, pDesc
 void C_00e8f010::FUN_00e8f010(int a)
 {
     m_iThirdValue = a;
@@ -163,6 +157,7 @@ struct Holder_00e8f040
 };
 // Releases the old COM pointer, stores p and AddRefs it when different, then resets unkC to 0.
 // @fnv 0x00e8f040
+// pdb: NiGeometryBufferData::SetVertexDeclaration | NiGeometryBufferData.obj | tesv_win, call_seq, medium
 void Holder_00e8f040::SetComPointer(FakeCOM_00e8f040* apCom)
 {
     if (apCom != ptr10)
@@ -219,12 +214,13 @@ class NiSlotSetE8E
     unsigned int* m_puiFlags;
     void** m_ppvSlots;
 
-    void FUN_00e8ef10(unsigned int uiNewSize);
+    void NiGeometryBufferData_SetStreamCount(unsigned int uiNewSize);
 };
 
 // Resizes the slot and flag arrays to uiNewSize, copying existing entries, zeroing new ones, notifying the listener of removed slots, and freeing the old arrays.
 // @fnv 0x00e8ef10
-void NiSlotSetE8E::FUN_00e8ef10(unsigned int uiNewSize)
+// pdb: NiGeometryBufferData::SetStreamCount | NiGeometryBufferData.obj | fnv360_0822_retail, call_gap_sim + bridge(call_seq|objrun_prop) + skyrim(call_seq), high
+void NiSlotSetE8E::NiGeometryBufferData_SetStreamCount(unsigned int uiNewSize)
 {
     if (uiNewSize == m_uiSize)
         return;
@@ -268,6 +264,8 @@ struct S00e8f080_Obj : public NiGeometryBufferData
 
 // Returns whether a geometry buffer data kind is enabled by checking bit fields in m_uiValue1.
 // @fnv 0x00e8f080
+// pdb: D3DDevice_GetSamplerState_MipMapLodBias | state.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiGeometryBufferData::ContainsVertexData)
+// pdb params: pDevice, Sampler
 bool S00e8f080_Obj::IsKindEnabled(int kind)
 {
     bool r;

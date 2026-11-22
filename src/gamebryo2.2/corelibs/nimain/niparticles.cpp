@@ -2,32 +2,25 @@
 // src/gamebryo2.2/corelibs/nimain/niparticles.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niparticles.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char const* const g_011f5f14_arg1;
-
-// @fnv 0x00a9b1b0
-char const* const* __cdecl FUN_00a9b1b0()
-{
-    return &g_011f5f14_arg1;
-}
-
 struct NiGeometryData
 {
     enum Consistency
     {
     };
-    void SetDataConsistency(Consistency);
+    void SetConsistency(Consistency);
 };
 
 struct NiParticles
 {
-    void FUN_00a9b230(bool bTool);
+    void CalculateConsistency(bool bTool);
 };
 
 // @fnv 0x00a9b230
-void NiParticles::FUN_00a9b230(bool bTool)
+// pdb: NiParticles::CalculateConsistency | NiParticles.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiParticles::CalculateConsistency(bool bTool)
 {
     NiGeometryData* p = *(NiGeometryData**)((char*)this + 0xb8);
-    p->SetDataConsistency((NiGeometryData::Consistency)0);
+    p->SetConsistency((NiGeometryData::Consistency)0);
 }
 
 struct DtorObj
@@ -41,6 +34,7 @@ struct S00a9b1c0
 };
 // Calls FUN_00a80580 on this, frees this with _delete when bit 0 of f is set, and returns this.
 // @fnv 0x00a9b1c0
+// pdb: NiParticleMeshes::`vector deleting destructor' | NiParticleMeshes.obj | tesv_win, vtable_prefix, medium
 void* S00a9b1c0::FUN_00a9b1c0(unsigned int auiFlags)
 {
     ((DtorObj*)this)->FUN_00a80580();
@@ -66,6 +60,7 @@ struct FUN_00a9b1f0_shell
     void SetupRenderer(NiRenderer*);
 };
 // @fnv 0x00a9b1f0
+// pdb: NiParticles::`scalar deleting destructor' | NiParticles.obj | fnv360_0721_beta, objrun, medium
 void FUN_00a9b1f0_shell::SetupRenderer(NiRenderer* apkRenderer)
 {
     NiRenderer* pkRenderer = apkRenderer;
@@ -74,31 +69,6 @@ void FUN_00a9b1f0_shell::SetupRenderer(NiRenderer* apkRenderer)
     {
         ((void(__thiscall*)(NiRenderer*, void*))(*(void***)pkRenderer)[111])(pkRenderer, this);
     }
-}
-
-struct StrArr
-{
-    char _0[8];
-    unsigned short m_usMax;
-    unsigned short m_usSize;
-    unsigned short _c;
-    unsigned short m_usGrow;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-void __stdcall FUN_00a80e70(StrArr*);
-char* _FUN_00a7d330(const char*);
-// Grows the StrArr if it is full, then appends the string returned by _FUN_00a7d330(g_011f5f14_arg1) at the current size.
-// @fnv 0x00a9b2e0
-void __stdcall FUN_00a9b2e0(StrArr* apStrArr)
-{
-    FUN_00a80e70(apStrArr);
-    char* psz = _FUN_00a7d330(g_011f5f14_arg1);
-    unsigned int uiSize = apStrArr->m_usSize;
-    unsigned int uiMax = apStrArr->m_usMax;
-    if (uiSize >= uiMax)
-        apStrArr->SetSize(apStrArr->m_usGrow + uiSize);
-    apStrArr->SetAt(uiSize, psz);
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -119,6 +89,8 @@ struct FUN_00a9b250_cls
 };
 
 // @fnv 0x00a9b250
+// pdb: NiScreenGeometry::CreateClone | NiOldScreenSpace.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: BSLODTriShape::CreateObject)
+// pdb params: kCloning
 FUN_00a9b250_obj* FUN_00a9b250_cls::CreateAndInitObject(unsigned int arg)
 {
     FUN_00a9b250_obj* p = (FUN_00a9b250_obj*)FUN_00aa13e0(0xc4);
@@ -218,6 +190,8 @@ struct FUN_00a9b2a0_cls
 
 // If m_9C is set and its flag bits are set, forwards pArg->m_0C to m_B8, then calls FUN_00a7fd90(pArg).
 // @fnv 0x00a9b2a0
+// pdb: NiParticles::OnVisible | NiParticles.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kCuller
 void FUN_00a9b2a0_cls::ProcessArgIfFlagged(ArgRec* pArg)
 {
     ObjHdr* pObjHdr = m_9C;

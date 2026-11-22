@@ -52,6 +52,7 @@ struct View
 };
 // Iterates entries and calls FUN_00d69c10 on each item via the owner at this-8.
 // @fnv 0x00d69f60
+// pdb: hkpRigidBodyCentreOfMassViewer::init | hkpRigidBodyCentreOfMassViewer.obj | fnv360_0822_retail, vtable, medium
 void View::FUN_00d69f60()
 {
     if (entries)
@@ -71,6 +72,8 @@ struct FUN_00d69fb0_cls
 };
 // Calls FUN_00d69c10 on the Target object located 0x20 bytes before this.
 // @fnv 0x00d69fb0
+// pdb: hkpRigidBodyCentreOfMassViewer::worldAddedCallback | hkpRigidBodyCentreOfMassViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d69fb0_cls::CallTargetMethod()
 {
     ((Target*)((char*)this - 0x20))->FUN_00d69c10();
@@ -97,25 +100,6 @@ template <class T> struct S_00d69fc0_Array
             m_data[index] = m_data[m_iElementCount];
     }
 };
-
-struct S_00d69fc0_Item;
-
-struct S_00d69fc0
-{
-    int unk00;
-    int unk04;
-    S_00d69fc0_Array<S_00d69fc0_Item*> m_items;
-    void RemoveItem(S_00d69fc0_Item* item);
-};
-
-// Finds item in m_items and, if present, removes it by index.
-// @fnv 0x00d69fc0
-void S_00d69fc0::RemoveItem(S_00d69fc0_Item* item)
-{
-    int index = m_items.indexOf(item);
-    if (index >= 0)
-        m_items.removeAt(index);
-}
 
 struct D6A140Allocator
 {
@@ -157,33 +141,7 @@ class D6A140ReferencedObject
     short m_sReferenceCount;
 };
 
-class D6A140Interface
-{
-  public:
-    virtual ~D6A140Interface();
-};
-
-class D6A140Object : public D6A140ReferencedObject, public D6A140Interface
-{
-  public:
-    __declspec(nothrow) D6A140Object(const void* info);
-
-    int unk0C[12];
-};
-
-// Allocates a D6A140Object with the given info and returns it as a D6A140Interface pointer.
-// @fnv 0x00d6a140
-D6A140Interface* __cdecl FUN_00d6a140(const void* info)
-{
-    return new D6A140Object(info);
-}
-
 extern void* DAT_01269020;
-// @fnv 0x00d6a1a0
-void* __cdecl FUN_00d6a1a0()
-{
-    return DAT_01269020;
-}
 
 namespace fnv_00d6a1f0 {
 struct Allocator
@@ -209,18 +167,6 @@ Owner::~Owner()
 {}
 // Runs the Owner destructor, and if flags has bit 0 set, frees this object through the allocator obtained from FUN_00c85750 using unk04 as size; returns this.
 // @fnv 0x00d6a1f0
-void* Owner::DestroyOwner(unsigned int flags)
-{
-    this->Owner::~Owner();
-    if (flags & 1)
-    {
-        Manager* manager = FUN_00c85750();
-        Allocator* allocator = manager->unk10;
-        unsigned short size = unk04;
-        allocator->Free(this, size);
-    }
-    return this;
-}
 Owner force_vtable;
 }  // namespace fnv_00d6a1f0
 
@@ -304,6 +250,8 @@ struct FUN_00d69b20_cls
 
 // Attaches and detaches this object's slots on a1, then dispatches every element of a1's three lists through m_28.v08.
 // @fnv 0x00d69b20
+// pdb: hkpRigidBodyCentreOfMassViewer::removeWorld | hkpRigidBodyCentreOfMassViewer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: world
 void FUN_00d69b20_cls::AttachAndDispatch(ArgOwner* apOwner)
 {
     apOwner->Attach(this != 0 ? (void*)&m_28 : 0);
@@ -338,7 +286,6 @@ void FUN_00d69b20_cls::AttachAndDispatch(ArgOwner* apOwner)
 }
 
 namespace fnv_00d69fa0 {
-class SpawnedObject;
 
 class FUN_00d69b20_cls
 {
@@ -353,6 +300,8 @@ class FUN_00d69fa0_cls
 };
 
 // @fnv 0x00d69fa0
+// pdb: hkpRigidBodyInertiaViewer::worldAddedCallback | hkpRigidBodyInertiaViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FUN_00d69fa0_cls::FUN_00d69fa0()
 {
     ((FUN_00d69b20_cls*)((char*)this - 0x20))->FUN_00d69b20_target();
@@ -390,6 +339,8 @@ struct FUN_00d6a040 : FUN_00ddccb0
     FUN_00d6a040(void* input);
 };
 // @fnv 0x00d6a040
+// pdb: hkpConvexRadiusViewer::hkpConvexRadiusViewer | hkpConvexRadiusViewer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: contexts
 FUN_00d6a040::FUN_00d6a040(void* input) : FUN_00ddccb0(input)
 {
     unk28 = (void*)str_0102f13c;
@@ -404,29 +355,7 @@ FUN_00d6a040::FUN_00d6a040(void* input) : FUN_00ddccb0(input)
     unk38 = 0x80000000u;
 }
 
-class RegistryOwner
-{
-  public:
-    void* Register(const char* name, void (*callback)());
-};
-
-extern RegistryOwner* DAT_01269cd0;
 extern void* DAT_01269020;
-
-extern void FUN_00d6a140();
-
-// @fnv 0x00d6a180
-void RegisterCenterOfMass()
-{
-    DAT_01269020 = DAT_01269cd0->Register("Center of Mass", FUN_00d6a140);
-}
-
-struct DwordList
-{
-    unsigned int* m_pData;
-    int m_iArrayLength;
-    unsigned int m_uCapFlags;
-};
 
 struct GlobalHolder
 {
@@ -441,34 +370,6 @@ namespace fnvc_adapt {
 GlobalHolder* __cdecl FUN_00c85750();
 }
 extern "C" void _ReadWriteBarrier(void);
-void __cdecl ResizeAudioStream(void* aAlloc, void* aList, unsigned int aiElemSize);
-
-struct FUN_00d6a000_cls
-{
-    int unk00;
-    int unk04;
-    DwordList m_kNode;
-
-    void AppendDword(unsigned int aValue);
-};
-
-// Appends aValue to the DwordList, growing it via ResizeAudioStream when full, then increments the element count.
-// @fnv 0x00d6a000
-void FUN_00d6a000_cls::AppendDword(unsigned int aValue)
-{
-    DwordList* list = &m_kNode;
-    GlobalHolder* pAllocHolder = fnvc_adapt::FUN_00c85750();
-    if (list->m_iArrayLength == (int)(list->m_uCapFlags & 0x3fffffffu))
-    {
-        ResizeAudioStream(pAllocHolder->m_pAllocator, list, 4);
-    }
-
-    unsigned int count = (unsigned int)list->m_iArrayLength;
-    unsigned int data = (unsigned int)list->m_pData;
-    unsigned int pSlot = data + count * 4u;
-    *(unsigned int*)pSlot = *(volatile unsigned int*)&aValue;
-    list->m_iArrayLength++;
-}
 
 namespace fnv_00d6a0a0 {
 struct Allocator
@@ -510,61 +411,6 @@ struct Array
     }
 };
 
-struct Base00
-{
-    virtual ~Base00() throw();
-    int unk04;
-};
-
-struct Base08
-{
-    virtual void Vfn08();
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-
-struct Source
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    void** unk6C;
-    int unk70;
-};
-
-struct Base20
-{
-    virtual void Vfn20();
-    Source* unk24;
-};
-
 struct Base28
 {
     virtual ~Base28() throw()
@@ -577,23 +423,6 @@ struct Base2C
     {}
 };
 
-struct FUN_00d6a0a0 : Base00, Base08, Base20, Base28, Base2C
-{
-    Array unk30;
-    virtual ~FUN_00d6a0a0();
-    void AttachAndDispatch(void* item) throw();
-};
-
-// Destructor: iterates the Source's unk70 entries and calls AttachAndDispatch on each pointer in unk6C when unk24 is set.
-// @fnv 0x00d6a0a0
-FUN_00d6a0a0::~FUN_00d6a0a0()
-{
-    if (unk24)
-    {
-        for (int i = 0; i < unk24->unk70; i++)
-            AttachAndDispatch(unk24->unk6C[i]);
-    }
-}
 }  // namespace fnv_00d6a0a0
 
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -606,7 +435,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -614,18 +442,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void*(__stdcall* DAT_00fdf044)(unsigned long);
 
 extern unsigned int DAT_0126835c;
-extern float DAT_011b6194;
-extern char DAT_010d2224[];
-extern char DAT_010d2210[];
-extern char DAT_010d2200[];
-extern char DAT_010c41f8[];
-
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_move_ss(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" float _mm_cvtss_f32(__m128);
 
 struct MonRec
 {
@@ -684,7 +500,7 @@ struct Motion
     __m128 axisZ;
     int m40, m44, m48, m4c, m50, m54, m58, m5c;
     __m128 pos;
-    float FUN_00c86430();
+    float hkpMotion_getMass();
 };
 
 struct Body
@@ -739,7 +555,7 @@ struct COMViewer : HandlerOwner, COMViewerPart
 {
 };
 
-// For each body whose motion.FUN_00c86430() is nonzero, draws red, green and blue lines from its position along its three axes through the display handler.
+// For each body whose motion.hkpMotion_getMass() is nonzero, draws red, green and blue lines from its position along its three axes through the display handler.
 // @f3 0x009f65f0 (community match, verified in this file)
 namespace f3_center_axes {
 struct __declspec(align(16)) AxisPoint {
@@ -807,6 +623,8 @@ static __forceinline void Mark(const char* name) {
 }
 }
 
+// pdb: hkpRigidBodyCentreOfMassViewer::postSimulationCallback | hkpRigidBodyCentreOfMassViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void COMViewerPart::FUN_00d69d00(void*)
 {
     using namespace f3_center_axes;
@@ -869,53 +687,6 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {}
 
-// FUN_00d6a1c0 : MSVC this-adjusting thunk.
-//
-// The original is 8 bytes:  sub ecx, 0x28 ; jmp 0x00d6a1f0
-// That is the adjustor thunk MSVC emits for a virtual function that a
-// derived class overrides for a SECONDARY base: calling through the
-// secondary base's vftable passes the base subobject's 	his, so the
-// thunk walks it back to the derived object and tail-jumps to the shared
-// override.
-//
-// Two bases declare the same virtual, so the derived class overrides one
-// function for both of them -> one adjustor per secondary base.  The first
-// base is padded to 40 bytes so the second base lands at +0x28.
-// The override is DECLARED ONLY, so the thunk is the single defined
-// function symbol carrying the name FUN_00d6a1c0, and a defined key function in the
-// derived class makes the vftable that references the thunk be emitted here.
-struct AdjBase1
-{
-    AdjBase1();
-    virtual void FUN_00d6a1c0();
-    char pad[0x24];
-};
-
-struct AdjBase2
-{
-    AdjBase2();
-// @fnv 0x00d6a1c0
-    virtual void FUN_00d6a1c0();
-};
-
-struct AdjOwner : AdjBase1, AdjBase2
-{
-    AdjOwner();
-    virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d6a1c0();    // the shared override - declared only
-};
-
-AdjOwner::AdjOwner()
-{}
-void AdjOwner::key_fn()
-{}
-
-AdjOwner* make_adj_owner()
-{
-    static AdjOwner o;
-    return &o;
-}
-
 namespace fnv_00d6a1d0 {
 // sub ecx,0x2c; jmp DestroyOwner: adjustor thunk from multiple inheritance.
 // PrimaryBase is vptr + 10 dwords = 0x2c bytes.
@@ -970,8 +741,6 @@ Parent::Parent()
 {}
 
 #include <math.h>
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
 
 struct Vec4Clamp
 {
@@ -1075,6 +844,8 @@ struct CenterOfMassRemovalDispatcher
 };
 // Passes callback28 and data2c to context, then calls callback28.deliver for each entry in the data48 lists of list28, list34 and special20.
 // @fnv 0x00d69c10
+// pdb: hkpRigidBodyCentreOfMassViewer::addWorld | hkpRigidBodyCentreOfMassViewer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: world
 void CenterOfMassRemovalDispatcher::FUN_00d69c10(Context* context)
 {
     context->FUN_00c93820(this ? &callback28 : 0);

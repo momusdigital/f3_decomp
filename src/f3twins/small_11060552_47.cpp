@@ -88,6 +88,7 @@ void __stdcall FUN_00c01f76(void*, int, int, void (__cdecl*)(), void (__cdecl*)(
 void __cdecl FUN_00d99a10();
 int __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'PrecipitationShader::spVertexShader'' | PrecipitationShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void FUN_00d84960()
 {
     FUN_00c01f76(&ARG_01176348, 4, 2, FUN_004280b0, FUN_00424aa0);

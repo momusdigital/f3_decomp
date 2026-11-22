@@ -54,6 +54,7 @@ __declspec(noinline) void FUN_00d87cc0()
     IMP_00d9b098(&DAT_0106e334);
 }
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::SuspendCriticalSection'' | BSRenderer.obj | tesv_win, objopen_prop, low
 __declspec(noinline) void FUN_00d87e00()
 {
     IMP_00d9b098(&DAT_0106fc34);
@@ -114,6 +115,7 @@ __declspec(noinline) void FUN_00d96860()
     IMP_00d9b098(&DAT_01079148);
 }
 
+// pdb: `dynamic atexit destructor for 'FalloutRadio::RadioUpdateCriticalSection'' | FalloutRadio.obj | fnv360_0822_retail, objopen_prop, low
 __declspec(noinline) void FUN_00d968b0()
 {
     IMP_00d9b098(&DAT_01079364);
@@ -164,6 +166,7 @@ __declspec(noinline) void FUN_00d98270()
     IMP_00d9b098(&DAT_0108ed00);
 }
 
+// pdb: `dynamic atexit destructor for 'NiTexture::ms_kTextureListCriticalSection'' | NiTexture.obj | tesv_win, objrun_prop, low
 __declspec(noinline) void FUN_00d982b0()
 {
     IMP_00d9b098(&DAT_0108ee80);
@@ -179,11 +182,13 @@ __declspec(noinline) void FUN_00d98380()
     IMP_00d9b098(&DAT_0108f300);
 }
 
+// pdb: `dynamic atexit destructor for 'NiPalette::ms_kPaletteListCriticalSection'' | NiPalette.obj | tesv_win, objopen_prop, low
 __declspec(noinline) void FUN_00d984a0()
 {
     IMP_00d9b098(&DAT_01090680);
 }
 
+// pdb: `dynamic atexit destructor for 'NiMetricsLayer::ms_kMutex'' | NiMetricsLayer.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00d98640()
 {
     IMP_00d9b098(&DAT_01090a14);

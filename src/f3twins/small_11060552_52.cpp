@@ -6,6 +6,7 @@ extern char ARG_011737c8;
 void __cdecl FUN_00424aa0();
 void __stdcall FUN_00c00799(void*, int, int, void (__cdecl*)());
 
+// pdb: `dynamic atexit destructor for 'BSShaderManager::pspShader'' | BSShaderManager.obj | tesv_win, objrun_open, low
 void FUN_00d997e0()
 {
     FUN_00c00799(&ARG_011737c8, 4, 208, FUN_00424aa0);

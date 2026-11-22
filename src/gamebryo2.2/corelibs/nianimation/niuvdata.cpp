@@ -2,29 +2,11 @@
 // src/gamebryo2.2/corelibs/nianimation/niuvdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niuvdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern const void* g_011f3f10;
-
-// @fnv 0x00a45010
-const void* __cdecl FUN_00a45010()
-{
-    return &g_011f3f10;
-}
-
 struct NiUVData
 {
     void Destructor();
     void* FUN_00a45200(unsigned int);
 };
-void __cdecl _delete(void*, unsigned int);
-// Calls Destructor, then frees this with _delete when flags has bit 1 set, and returns this.
-// @fnv 0x00a45200
-void* NiUVData::FUN_00a45200(unsigned int flags)
-{
-    Destructor();
-    if (flags & 1)
-        _delete(this, 0x4C);
-    return this;
-}
 
 extern void(__cdecl* DAT_011f38a0[])(void*);
 extern unsigned char DAT_011f3758[];
@@ -33,6 +15,8 @@ struct S45280
     void FUN_00a45280(void* keys, unsigned int count, int type);
 };
 // @fnv 0x00a45280
+// pdb: NiUVData::ReplaceVOffsetAnim | NiUVData.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void S45280::FUN_00a45280(void* keys, unsigned int count, int type)
 {
     void* oldKeys = *(void**)((char*)this + 0x18);
@@ -71,6 +55,8 @@ struct FUN_00a45340_shell
 
 // Releases the previous key data, then stores the new keys, count and type (or clears them when keys or count is null/zero).
 // @fnv 0x00a45340
+// pdb: NiUVData::ReplaceVTilingAnim | NiUVData.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void FUN_00a45340_shell::FUN_00a45340(void* keys, unsigned int count, unsigned int type)
 {
     if (m_pKeyArray)
@@ -112,6 +98,8 @@ struct FUN_00a45220_shell
 
 // Releases the current key array, then stores the new keys, count and type (or clears them when keys or numKeys is null/zero).
 // @fnv 0x00a45220
+// pdb: NiUVData::ReplaceUOffsetAnim | NiUVData.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void FUN_00a45220_shell::FUN_00a45220(TimedAnimationKey* keys, unsigned int numKeys, unsigned int type)
 {
     if (m_pKeyArray)
@@ -147,6 +135,8 @@ struct FUN_00a452e0_shell
 };
 // Releases the previous key array, then stores the new keys, count and type (or clears them when keys or count is null/zero).
 // @fnv 0x00a452e0
+// pdb: NiUVData::ReplaceUTilingAnim | NiUVData.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void FUN_00a452e0_shell::FUN_00a452e0(void* keys, unsigned int count, unsigned int type)
 {
     if (m_pKeyArray)
@@ -177,6 +167,7 @@ struct NiRefObject
 
 // Sets the vtable, releases the four pointer members via DAT_011f38a0 if non-null, then calls the NiRefObject destructor.
 // @fnv 0x00a45020
+// pdb: NiUVData::~NiUVData | NiUVData.obj | fnv360_0822_retail, objrun, medium
 void NiUVData::Destructor()
 {
     *(void**)this = (void*)&DAT_01097f84;
@@ -194,75 +185,6 @@ void NiUVData::Destructor()
     if (p)
         DAT_011f38a0[*(unsigned int*)((char*)this + 0x34)](p);
     ((NiRefObject*)this)->~NiRefObject();
-}
-
-struct StrArr
-{
-    unsigned char _pad0[8];
-    unsigned short m_uiCapacity;
-    unsigned short m_uiSize;
-    unsigned char _pad1[2];
-    unsigned short m_uiGrowSize;
-
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-
-void __stdcall AppendCameraPathEntries(StrArr*);
-char* __cdecl _FUN_00a7d330(char*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
-
-struct FUN_00a457d0_shell
-{
-    unsigned char _pad0[8];
-    unsigned int m_uiNumUOffsetKeys;
-    unsigned char _pad1[8];
-    unsigned int m_uiNumVOffsetKeys;
-    unsigned char _pad2[8];
-    unsigned int m_uiNumUTilingKeys;
-    unsigned char _pad3[8];
-    unsigned int m_uiNumVTilingKeys;
-
-    void AppendKeyNames(StrArr*);
-};
-
-// @fnv 0x00a457d0
-void FUN_00a457d0_shell::AppendKeyNames(StrArr* apViewerStrings)
-{
-    char* pString;
-    unsigned int nIndex;
-
-    AppendCameraPathEntries(apViewerStrings);
-
-    pString = _FUN_00a7d330(const_cast<char*>(static_cast<const char*>(g_011f3f10)));
-    nIndex = apViewerStrings->m_uiSize;
-    if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
-
-    pString = FUN_00a7d510("m_uiNumUOffsetKeys", m_uiNumUOffsetKeys);
-    nIndex = apViewerStrings->m_uiSize;
-    if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
-
-    pString = FUN_00a7d510("m_uiNumUTilingKeys", m_uiNumUTilingKeys);
-    nIndex = apViewerStrings->m_uiSize;
-    if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
-
-    pString = FUN_00a7d510("m_uiNumVOffsetKeys", m_uiNumVOffsetKeys);
-    nIndex = apViewerStrings->m_uiSize;
-    if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
-
-    pString = FUN_00a7d510("m_uiNumVTilingKeys", m_uiNumVTilingKeys);
-    nIndex = apViewerStrings->m_uiSize;
-    if (nIndex >= apViewerStrings->m_uiCapacity)
-        apViewerStrings->SetSize(apViewerStrings->m_uiGrowSize + nIndex);
-    apViewerStrings->SetAt(nIndex, pString);
 }
 
 extern bool(__cdecl* DAT_011f3ae0[])(void*, void*);
@@ -301,11 +223,12 @@ struct NiUVDataStandIn : public NiObject
     {
         return pk + i * uc;
     }
-    bool FUN_00a45090(NiUVDataStandIn* pkOther);
+    bool NiUVData_IsEqual(NiUVDataStandIn* pkOther);
 };
 
 // @fnv 0x00a45090
-bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
+// pdb: NiUVData::IsEqual | NiUVData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool NiUVDataStandIn::NiUVData_IsEqual(NiUVDataStandIn* pkOther)
 {
     if (!NiObject::IsEqual(pkOther))
         return false;
@@ -598,12 +521,13 @@ class NiUVDataLoader : public NiUVObject
     void ReplaceVOffsetKeys(NiUVKey* pkKeys, unsigned int uiNumKeys, NiUVKeyType eType);
     void ReplaceUTilingKeys(NiUVKey* pkKeys, unsigned int uiNumKeys, NiUVKeyType eType);
     void ReplaceVTilingKeys(NiUVKey* pkKeys, unsigned int uiNumKeys, NiUVKeyType eType);
-    void FUN_00a453a0(NiUVStream& kStream);
+    void NiUVData_LoadBinary(NiUVStream& kStream);
 };
 
 // Loads the base object, then reads U/V offset and U/V tiling key blocks from the stream and replaces each key set.
 // @fnv 0x00a453a0
-void NiUVDataLoader::FUN_00a453a0(NiUVStream& kStream)
+// pdb: NiUVData::LoadBinary | NiUVData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiUVDataLoader::NiUVData_LoadBinary(NiUVStream& kStream)
 {
     NiUVObject::LoadBinary(kStream);
 
@@ -864,12 +788,13 @@ struct NiUVDataLB : NiObjectLB
     unsigned int m_uiNumVTilingKeys;
     void* m_pVTilingKeys;
     unsigned int m_uiVTilingKeyStride;
-    void FUN_00a45610(NiStreamX& kStream);
+    void NiUVData_SaveBinary(NiStreamX& kStream);
 };
 
 // Loads the base object, then reads the U/V offset and tiling key counts and, when nonzero, reads each key array via the key-type loader table.
 // @fnv 0x00a45610
-void NiUVDataLB::FUN_00a45610(NiStreamX& kStream)
+// pdb: NiUVData::SaveBinary | NiUVData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+void NiUVDataLB::NiUVData_SaveBinary(NiStreamX& kStream)
 {
     NiObjectLB::LoadBinary(kStream);
     ReadBinaryValue(kStream, m_uiNumUOffsetKeys);

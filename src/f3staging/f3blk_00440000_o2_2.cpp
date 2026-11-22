@@ -25,6 +25,7 @@ public:
     unsigned int value1C, value20, value24, value28, value2C, value30;
     FUN_0044f520();
 };
+// pdb: TESActorBaseData::InitializeDataComponent | TESActorBaseData.obj | fnv360_0822_retail, vtable, medium
 void FUN_0044f520::FUN_0044f140() {
     flags04 = 0;
     value08 = static_cast<unsigned short>(ActorDefaults232::DAT_00f4a194);
@@ -152,6 +153,7 @@ struct Owner447390
     bool FUN_00447390();
 };
 
+// pdb: TESFile::MastersChanged | TESFile.obj | fnv360_0822_retail, call_gap, low
 bool Owner447390::FUN_00447390()
 {
     NameNode447390* name = &names3EC;
@@ -234,6 +236,8 @@ public:
     void FUN_0045f320(Arg45f320* a);
 };
 
+// pdb: Animation::QueueReplacementAnimation | Animation.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apKFModel
 void Owner45f320::FUN_0045f320(Arg45f320* a)
 {
     Arg45f320* arg = *(Arg45f320* volatile*)&a;
@@ -282,7 +286,8 @@ struct Holder {
 
 unsigned int __stdcall FUN_0041a4b0(Node** out);
 
-unsigned int __stdcall FUN_00442e50(Holder h) {
+// pdb: NavMeshArray::AddNavMesh | TESDataHandler.obj | fnv360_0822_retail, call_seq + skyrim(call_gap), high
+unsigned int __stdcall NavMeshArray_AddNavMesh(Holder h) {
     unsigned int r = FUN_0041a4b0(&h.node);
     return r;
 }
@@ -299,6 +304,8 @@ struct TESFile {
     TESFile* FUN_00446ec0(unsigned int index);
 };
 
+// pdb: TESFile::GetIndexFile | TESFile.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: index
 TESFile* TESFile::FUN_00446ec0(unsigned int index)
 {
     if (index <= masterCount) {

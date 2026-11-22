@@ -72,7 +72,7 @@ struct Obj
 struct VecM
 {
     hkVector4 v;
-    void FUN_008d28e0(const void* m, const hkVector4& p);
+    void hkVector4_setTransformedPos(const void* m, const hkVector4& p);
 };
 struct SubM
 {
@@ -101,6 +101,8 @@ struct ObjM
     void FUN_00a6a750(int a);
     void FUN_00a6a7b0(int a);
 };
+// pdb: hkpBallSocketDrawer::drawConstraint | hkpBallSocketDrawer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: constraint, displayHandler, id, tag
 void Obj::FireMotionEvent(Body* apBody, Listener* apListener, int aiArg)
 {
     ObjM* pSelf = (ObjM*)this;
@@ -113,9 +115,9 @@ void Obj::FireMotionEvent(Body* apBody, Listener* apListener, int aiArg)
     Vec* pVec40;
     Vec* pVec50;
     pVec50 = &m50;
-    ((VecM*)pVec50)->FUN_008d28e0(&t, pMotion->v20);
+    ((VecM*)pVec50)->hkVector4_setTransformedPos(&t, pMotion->v20);
     pVec40 = &m40;
-    ((VecM*)pVec40)->FUN_008d28e0(&r, pMotion->v10);
+    ((VecM*)pVec40)->hkVector4_setTransformedPos(&r, pMotion->v10);
     pSelf->FUN_00a6a750(aiArg);
     pSelf->FUN_00a6a7b0(aiArg);
     pListener->Fire(pVec40, pVec50, 0xffff0000, aiArg);

@@ -38,6 +38,8 @@ struct ShaderLoader
 
 // Resolves the shader path, assembles it with D3DXAssembleShaderFromFileA, copies the bytecode into a NiMalloc buffer, and logs errors on failure.
 // @fnv 0x00e97ea0
+// pdb: NiD3DShaderProgramCreatorAsm::LoadShaderCodeFromFile | NiD3DShaderProgramCreatorAsm_Xenon.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcFileName, pvCode, uiCodeSize, pvConstantData, uiConstantSize, bRecoverable
 bool ShaderLoader::AssembleShaderFile(const char* pcFile, void** ppvBytecode, unsigned int* puiBytecodeSize,
                                       int* piUnk0, int* piUnk1, int pcLogContext)
 {
@@ -115,6 +117,8 @@ struct FUN_00e98080_shell
 
 // Assembles source, logs failures, and copies successful output into a newly allocated buffer returned through data.
 // @fnv 0x00e98080
+// pdb: NiD3DShaderProgramCreatorAsm::LoadShaderCodeFromBuffer | NiD3DShaderProgramCreatorAsm_Xenon.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pvBuffer, uiBufferSize, pvCode, uiCodeSize, pvConstantData, uiConstantSize, bRecoverable
 bool FUN_00e98080_shell::FUN_00e98080(const char* source, unsigned int length, void** ppBytecode,
                                       unsigned int* puiBytecodeSize, void** reserved, unsigned int* reservedSize,
                                       int context)

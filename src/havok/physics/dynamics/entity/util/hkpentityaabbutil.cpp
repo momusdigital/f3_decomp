@@ -20,6 +20,8 @@ __forceinline void S_00d1b1d0_swap(T& x, T& y)
 }
 
 // @fnv 0x00d1b1d0
+// pdb: hkAlgorithm::quickSortRecursive<hkValueIndexPair,hkAlgorithm::less<hkValueIndexPair> > | hkpEntityAabbUtil.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pArr, d, h, cmpLess
 void FUN_00d1b1d0(S_00d1b1d0_Item* pItems, int iLow, int iHigh, S_00d1b1d0_Less cmpLess)
 {
 setStart:

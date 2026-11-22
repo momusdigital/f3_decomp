@@ -2,6 +2,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd13e0
+// pdb: hkJacobianPoweredChainSchema_getAngularJacobians | hkpJacobianChainSchemas.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: schema, numConstraints
 char* FUN_00dd13e0(char* base, int index)
 {
     return base + 0x20 + ((index * 9) << 4);
@@ -17,19 +19,17 @@ struct DD13C0Object
 };
 
 // @fnv 0x00dd13c0
+// pdb: hkJacobianBallSocketChainSchema_getJacobians | hkpJacobianChainSchemas.obj | fnv360_1110_retail, objopen_prop, medium
+// pdb params: schema
 int* __cdecl FUN_00dd13c0(DD13C0Object* object)
 {
     return &object->m_data;
 }
 
 // @fnv 0x00dd13b0
+// pdb: hkJacobianStiffSpringChainSchema_getJacobians | hkpJacobianChainSchemas.obj | fnv360_1110_retail, objrun_prop, medium
+// pdb params: schema
 int __cdecl FUN_00dd13b0(unsigned int arg0)
 {
     return (int)(arg0 + 16u);
-}
-
-// @fnv 0x00dd13d0
-char* FUN_00dd13d0(char* base)
-{
-    return base + 0x20;
 }

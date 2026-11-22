@@ -3,6 +3,7 @@
 
 extern "C" __declspec(dllimport) void __stdcall D3DXMatrixTranspose(void);
 // @fnv 0x00ee6dd4
+// pdb: D3DXCreateTextureFromFileInMemory | d3dx9_42.dll | tesv_win, call_gap, low
 void FUN_00ee6dd4()
 {
     D3DXMatrixTranspose();

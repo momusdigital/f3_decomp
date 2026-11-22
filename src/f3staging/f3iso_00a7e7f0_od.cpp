@@ -11,7 +11,7 @@
 #include <math.h>
 struct V4 { float x,y,z,w; };
 extern V4 DAT_01092a50;
-void __cdecl FUN_00970190(const V4*,const V4*,const V4*,const V4*,float*);
+void __cdecl hkpCollideTriangleUtil_calcBarycentricCoordinates(const V4*,const V4*,const V4*,const V4*,float*);
 
 // Simplex (GJK-style) step of the convex distance solver: unk68 holds the simplex vertices, unk60 the matching
 // support points of the first shape, unk6c the simplex size.
@@ -68,6 +68,8 @@ __forceinline void Perpendicular(const Vec4& edge, Vec4& perp) {
     perp[other]=edge[sel];
     perp[sel]=-edge[other];
 }
+// pdb: hkpConvexPenetrationUtil::builtTetrahedron | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, objrun, medium
+// pdb params: output, gjkStatus
 int Geometry::FUN_00a7e7f0(Result* result,int* status) {
     Vec4* point;
     int best=-1;
@@ -236,7 +238,7 @@ outTriangle: {
     result->distance=0.0f;
     result->normal=normal;
     float weights[3];
-    FUN_00970190(&DAT_01092a50,reinterpret_cast<const V4*>(unk68),reinterpret_cast<const V4*>(unk68+1),reinterpret_cast<const V4*>(unk68+2),weights);
+    hkpCollideTriangleUtil_calcBarycentricCoordinates(&DAT_01092a50,reinterpret_cast<const V4*>(unk68),reinterpret_cast<const V4*>(unk68+1),reinterpret_cast<const V4*>(unk68+2),weights);
     Vec4* m=unk60;
     Vec4 tmp;
     tmp.SetMul(m[0],weights[0]);

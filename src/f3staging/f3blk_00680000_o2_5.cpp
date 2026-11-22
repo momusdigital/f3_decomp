@@ -18,7 +18,7 @@ struct Input{bool FUN_00be9a90();};struct Controls{Input* FUN_006e4eb0(int,int,u
 struct Pause{bool FUN_00658af0();};extern Pause* DAT_010769ac;
 struct Setting{int unk00;const char* value;};extern Setting* DAT_01073954[];extern const char* DAT_00f64ac4;extern const char* DAT_00f62c88;
 struct ResetState{int first;int second;void Reset(){second=0;first=0;}};ResetState* FUN_0067aea0();
-bool FUN_0061c490(int);int FUN_0061efa0(int);bool FUN_00477b00();int FUN_00beaf00(int);void FUN_0061e7d0(int);void FUN_00619700(const char*,int,int,int,int,int,const char*,int);void FUN_006213f0(int);void FUN_006809b0();void FUN_0067d410();void FUN_0067c6f0();float FUN_0047ca30(float,float);
+bool FUN_0061c490(int);int FUN_0061efa0(int);bool FUN_00477b00();int Tile_GetMenuByClass(int);void FUN_0061e7d0(int);void FUN_00619700(const char*,int,int,int,int,int,const char*,int);void FUN_006213f0(int);void FUN_006809b0();void FUN_0067d410();void FUN_0067c6f0();float FUN_0047ca30(float,float);
 extern "C" void* __cdecl FUN_00c0050a(void*,int,const void*,const void*,int);extern char DAT_00f6b3e8;extern char DAT_00f6b408;
 struct Menu{virtual void v0();virtual void v4();virtual void v8();virtual void Click(int,Tile*); int unk04;int unk08;int unk0c;
 int unk010;
@@ -131,8 +131,10 @@ int unk1b8;
 int unk1bc;
 int unk1c0;
 int mode;
-bool Flag(unsigned f){return (flags&f)!=0;}bool FUN_0067aee0();void FUN_00683550();bool FUN_00683980(int,int);
+bool Flag(unsigned f){return (flags&f)!=0;}bool FUN_0067aee0();void StartMenu__UpdateProfileSpecificData();bool FUN_00683980(int,int);
 };extern Menu* DAT_010770ac;
+// pdb: StartMenu::DoGamepad | StartMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiButton, afValue
 bool Menu::FUN_00683980(int button,int unused){
 if(FUN_0061c490(0x3f5)){
 if(button>0){
@@ -142,10 +144,10 @@ int action=list.FUN_00632d70()->modes;int key=FUN_0061efa0(button);
 if(DAT_0107a0d4->FUN_006e4eb0(action,3,(unsigned char)key)->FUN_00be9a90()){
 if(FUN_00477b00())tile68->FUN_00bee190(0xfa3,0.0f,true);else {Setting* setting=DAT_01073954[mode];tile68->FUN_00bf11a0(0xfc4,setting?setting->value:0,true);}
 list.FUN_0067a7f0(1);list.FUN_0067d9c0(1);list.FUN_00655800(FUN_0067d410,0,0x7fffffff);flags|=2;tile3c->FUN_00bee190(0xfaf,1.0f,true);
-}else if(!FUN_00beaf00(0x3e9)){FUN_0061e7d0(10);FUN_00619700(DAT_00f64ac4,0,0,0,1,0x12,DAT_00f62c88,0);}return true;}}
+}else if(!Tile_GetMenuByClass(0x3e9)){FUN_0061e7d0(10);FUN_00619700(DAT_00f64ac4,0,0,0,1,0x12,DAT_00f62c88,0);}return true;}}
 switch(button){
 case 10: if(tile3c->FUN_00becf80(0xfaf)){FUN_006213f0(10);FUN_006809b0();return true;}
-case 5:case 9: if(!Flag(1)&&tile4c->FUN_00becf80(0xfa3)&&tile4c->FUN_00becf40(0xfa9)!=0.0){FUN_00683550();FUN_0067aea0()->Reset();return true;}break;
+case 5:case 9: if(!Flag(1)&&tile4c->FUN_00becf80(0xfa3)&&tile4c->FUN_00becf40(0xfa9)!=0.0){StartMenu__UpdateProfileSpecificData();FUN_0067aea0()->Reset();return true;}break;
 case 12:if(tile38->FUN_00beac40()&&tile38->FUN_00becf80(0xfaf)){tile38->FUN_00bed970(0xfcb);Click(4,tile38);return true;}break;
 case 11:if(tile64->FUN_00beac40()&&tile64->FUN_00becf80(0xfaf)){tile64->FUN_00bed970(0xfcb);Click(15,tile64);return true;}break;
 case 3:case 4:if(list.FUN_0067a880()&&list.GetHighlightedItem()){int id=button==4?100:101;Tile*tile=list.GetHighlightedItem()->FUN_00bed3c0(id);if(tile&&tile->FUN_00beac40()&&tile->FUN_00becf80(0xfaf)){Click(id,tile);tile->FUN_00bed970(0xfcb);return true;}else if(id==101&&list.FUN_00632d70()&&list.FUN_00632d70()->callback==FUN_0067c6f0){Click(-1,list.GetHighlightedItem());tile->FUN_00bed970(0xfcb);return true;}}break;

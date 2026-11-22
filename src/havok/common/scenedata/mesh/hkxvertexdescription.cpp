@@ -73,6 +73,8 @@ class ListLayoutE3DE
 
 };
 
+// pdb: ExtraDismemberedLimbs::CheckDismemberedLimbsIdentical | ExtraDataObjects.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apDismemberedLimbs
 bool hkListE3DE::Equals(const hkListE3DE& other) const
 {
     const ListLayoutE3DE* self = reinterpret_cast<const ListLayoutE3DE*>(this);

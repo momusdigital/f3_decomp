@@ -266,15 +266,17 @@ unsigned int unk28c;
 unsigned int unk290;
 unsigned int unk294;
 unsigned char unk298,swapped;
-unsigned int FUN_004487d0(); void FUN_00447d60(void*,unsigned int); bool FUN_00447020();
+unsigned int TESFile_GetTESChunk(); void FUN_00447d60(void*,unsigned int); bool TESFile_NextChunk();
 };
 void FUN_00887da0(const char*,...);
 void FUN_004580b0(Model*,TESFile*);
 struct Header { unsigned int health; unsigned char count,flags; unsigned short unused; };
 struct DiskStage { union { unsigned int packed; struct { unsigned char index,stage,health,flags; }; }; unsigned int damage,explosion,debris,count; };
+// pdb: BGSDestructibleObjectForm::LoadChunk | BGSDestructibleObjectForm.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apDestruct, apFile
 void FUN_0044c110(BGSDestructibleObjectForm* obj,TESFile* file) {
  if (!file || !obj) return;
- unsigned int type=file->FUN_004487d0();
+ unsigned int type=file->TESFile_GetTESChunk();
  obj->FUN_0044be90();
  Destruction* data=obj->data;
  switch(type) {
@@ -303,7 +305,7 @@ void FUN_0044c110(BGSDestructibleObjectForm* obj,TESFile* file) {
  data->stages[index]->explosion=d.explosion;
  data->stages[index]->debris=d.debris;
  data->stages[index]->count=d.count;
- int sub=file->FUN_004487d0();
+ int sub=file->TESFile_GetTESChunk();
  while(sub) {
  switch(sub) {
  case 0x46545344: return;
@@ -311,8 +313,8 @@ void FUN_0044c110(BGSDestructibleObjectForm* obj,TESFile* file) {
  case 0x53444d44: { data->stages[index]->FUN_0044a1a0(); unsigned int size=file->chunkSize; void* buf=_alloca(size); file->FUN_00447d60(buf,size); data->stages[index]->model->FUN_00459340(buf,size,file->version); break; }
  case 0x54444d44: data->stages[index]->FUN_0044a1a0(); FUN_004580b0(data->stages[index]->model,file); break;
  }
- if(!file->FUN_00447020())break;
- sub=file->FUN_004487d0();
+ if(!file->TESFile_NextChunk())break;
+ sub=file->TESFile_GetTESChunk();
  }
  }
  }
@@ -347,6 +349,7 @@ extern "C" void FUN_004556a0(int tag, unsigned char value);
 extern "C" void FUN_00455710(int tag, float value);
 extern "C" void FUN_00455b30(int tag, int* arr, unsigned int count);
 
+// pdb: BGSIdleCollection::Save | BGSIdleCollection.obj | fnv360_0822_retail, call_seq, medium
 void CThing::FUN_0044d3b0()
 {
     if (field05 == 0)
@@ -414,6 +417,8 @@ struct TESModel458 {
 
 void __cdecl FUN_004580b0(TESModel458* model, TESFile458* file);
 
+// pdb: TESModel::LoadModelChunk | TESModel.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apModel, apFile
 void __cdecl FUN_00458210(TESModel458* model, TESFile458* file)
 {
     if (file && model) {
@@ -519,6 +524,8 @@ public:
 
 }
 
+// pdb: TESTextureListArray::Load | TESModelList.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apModelList, apFile
 void f3m_00458510::FileEntryListCollection::FUN_00458510(TESModelList* owner, TESFile* file)
 {
     FUN_004584b0();
@@ -623,7 +630,7 @@ class TESUsesForm : public f3m_00454d10::BaseFormComponent
 class TESValueForm : public f3m_00454d10::BaseFormComponent
 {
   public:
-    void FUN_0045be20(int a);
+    void TESValueForm_SetFormValue(int a);
 };
 
 class TESHealthForm : public f3m_00454d10::BaseFormComponent
@@ -650,7 +657,7 @@ class TESQualityForm : public f3m_00454d10::BaseFormComponent
 class TESAttackDamageForm : public f3m_00454d10::BaseFormComponent
 {
   public:
-    void FUN_00451610(unsigned short a);
+    void TESAttackDamageForm_SetAttackDamage(unsigned short a);
 };
 
 class TESAttributes : public f3m_00454d10::BaseFormComponent
@@ -670,14 +677,15 @@ namespace f3m_00454d10 {
 class TESForm454 : public ::TESForm
 {
   public:
-    void FUN_00454d10(TESFile* file, void* dest, unsigned short count);
+    void TESForm_LoadData(TESFile* file, void* dest, unsigned short count);
 };
 }
 
-void f3m_00454d10::TESForm454::FUN_00454d10(f3m_00454d10::TESFile* file, void* dest, unsigned short count)
+// pdb: TESForm::LoadData | TESForm.obj | fnv360_0822_retail, call_seq + skyrim(caller_sim), high
+void f3m_00454d10::TESForm454::TESForm_LoadData(f3m_00454d10::TESFile* file, void* dest, unsigned short count)
 {
     volatile int val;
-    volatile int damage;
+    int damage;
     volatile float fval;
     unsigned short chunkSize = file->GetChunkSize();
     unsigned short pos = count;
@@ -706,7 +714,7 @@ void f3m_00454d10::TESForm454::FUN_00454d10(f3m_00454d10::TESFile* file, void* d
         pos += 4;
         if (file->IsEndianConversionRequired())
             SwapBytes(&val, SwapTag());
-        pValue->FUN_0045be20(val);
+        pValue->TESValueForm_SetFormValue(val);
     }
     if (pHealth && pos < chunkSize)
     {
@@ -742,7 +750,7 @@ void f3m_00454d10::TESForm454::FUN_00454d10(f3m_00454d10::TESFile* file, void* d
         pos += 2;
         if (file->IsEndianConversionRequired())
             SwapBytes(&damage);
-        pDamage->FUN_00451610(*(volatile unsigned short*)&damage);
+        pDamage->TESAttackDamageForm_SetAttackDamage(*(volatile unsigned short*)&damage);
     }
     if (pAttr)
         pos += pAttr->FUN_004516b0(buffer + pos);

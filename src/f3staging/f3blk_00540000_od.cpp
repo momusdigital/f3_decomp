@@ -165,7 +165,7 @@ extern ScriptFunctionInfo DAT_00f525d0[];
 extern const char* DAT_00f50acc[];
 void __cdecl FUN_00887da0(const char* format, ...);
 void __cdecl FUN_006195d0(const char* format, ...);
-ScriptFunctionInfo* __cdecl FUN_00519af0(int opcode);
+ScriptFunctionInfo* __cdecl ScriptCompiler_GetFunctionDef(int opcode);
 bool __cdecl FUN_00517950(const ScriptParameter* params, const char* data, unsigned int* offset,
                           TESObjectREFR* reference, TESObjectREFR* container, Script* script, ScriptLocals* locals, ...);
 
@@ -188,12 +188,13 @@ class ScriptRunner
     bool m_bScriptCompileFailed;          // +0xA0
     bool m_bExecutionFlagSet;             // +0xA1
     void SetError(Script* script, SCRIPT_ERROR error) { m_eScriptError = error; }
-    bool FUN_00540270(Script* script, const SCRIPT_OUTPUT output, TESObjectREFR* reference, int& blockSize,
+    bool EvaluateLine(Script* script, const SCRIPT_OUTPUT output, TESObjectREFR* reference, int& blockSize,
                       const unsigned int inputOffset, unsigned int& lineOffset, const unsigned int lineNumber,
                       bool skip, bool skipBlock);
 };
 
-bool ScriptRunner::FUN_00540270(Script* script, const SCRIPT_OUTPUT output, TESObjectREFR* reference, int& blockSize,
+// pdb: ScriptRunner::EvaluateLine | TESScriptRunManager.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+bool ScriptRunner::EvaluateLine(Script* script, const SCRIPT_OUTPUT output, TESObjectREFR* reference, int& blockSize,
                                 const unsigned int inputOffset, unsigned int& lineOffset,
                                 const unsigned int lineNumber, bool skip, bool skipBlock)
 {
@@ -447,7 +448,7 @@ bool ScriptRunner::FUN_00540270(Script* script, const SCRIPT_OUTPUT output, TESO
             if (skip)
                 break;
         default: {
-            function = FUN_00519af0(output);
+            function = ScriptCompiler_GetFunctionDef(output);
             if (!function)
             {
                 N540270::BSString message;

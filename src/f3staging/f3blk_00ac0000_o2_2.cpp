@@ -55,6 +55,8 @@ struct NiMeshPSysDataSI
     void FUN_00ad1250(unsigned int uiIndex, NiPointerSI<NiAVObjectSI> pkObject);
 };
 
+// pdb: NiMeshPSysData::AddToPool | NiMeshPSysData.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: uiGeneration, spObject
 void NiMeshPSysDataSI::FUN_00ad1250(unsigned int uiIndex, NiPointerSI<NiAVObjectSI> pkObject)
 {
     if (uiIndex >= m_kPoolArrays.m_usSize)

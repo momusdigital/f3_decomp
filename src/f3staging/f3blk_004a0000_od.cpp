@@ -315,6 +315,8 @@ struct Obj {
     bool FUN_004a6440(Rd* r);
 };
 
+// pdb: BGSProjectile::Load | BGSProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Obj::FUN_004a6440(Rd* r)
 {
     if (r->GetType() != 0x33)
@@ -477,6 +479,8 @@ struct Obj {
     bool FUN_004a3530(Rd* r);
 };
 
+// pdb: BGSAddonNode::Load | BGSAddonNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Obj::FUN_004a3530(Rd* r)
 {
     if (r->GetType() != 0x58)

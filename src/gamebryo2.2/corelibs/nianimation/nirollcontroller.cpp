@@ -5,17 +5,10 @@
 extern const char* const g_011f3f58_arg1;
 
 // @fnv 0x00a485a0
-const char* const* __cdecl FUN_00a485a0()
+// pdb: bhkPhantom::GetRTTI | TESObjectREFR.obj | fnv360_0822_retail, udata + bridge(vtable_prefix|vtable), high
+const char* const* __cdecl bhkPhantom_GetRTTI()
 {
     return &g_011f3f58_arg1;
-}
-
-extern void* g_011f3f58;
-
-// @fnv 0x00a485b0
-void* __cdecl FUN_00a485b0()
-{
-    return &g_011f3f58;
 }
 
 struct BSFadeNode {
@@ -47,39 +40,13 @@ struct S_00a485c0 {
 };
 // Calls FUN_00a57990, frees this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00a485c0
+// pdb: TESAnimGroup::`scalar deleting destructor' | TESAnimGroup.obj | fnv360_0822_retail, vtable, medium
 void* S_00a485c0::DestroyIfFlagged(unsigned int flags)
 {
 	FUN_00a57990();
 	if (flags & 1)
 		_delete(this, 0x3c);
 	return this;
-}
-
-struct StrArr {
-    char _pad[8];
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short _pad2;
-    unsigned short m_usGrowBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char* &);
-};
-void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
-struct NiRollController {
-    void FUN_00a48790(StrArr*);
-};
-// Appends the string returned by _FUN_00a7d330(g_011f3f58) to the StrArr, growing it via SetSize when full, then stores it with SetAt.
-// @fnv 0x00a48790
-void NiRollController::FUN_00a48790(StrArr* pStrArr)
-{
-    FUN_00a6d830(pStrArr);
-    char* pkString = _FUN_00a7d330((const char*)g_011f3f58);
-    unsigned int uiSize = pStrArr->m_usSize;
-    unsigned int uiMaxSize = pStrArr->m_usMaxSize;
-    if (uiSize >= uiMaxSize)
-        pStrArr->SetSize(uiSize + pStrArr->m_usGrowBy);
-    pStrArr->SetAt(uiSize, pkString);
 }
 
 typedef unsigned int A486F0size_t;
@@ -130,6 +97,8 @@ struct A486F0Controller : A486F0ControllerBase {
 
 // Allocates a new controller, copies this object's state into it via the cloning process, and returns the clone.
 // @fnv 0x00a486f0
+// pdb: NiLookAtController::CreateClone | NiLookAtController.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiRollController::CreateClone)
+// pdb params: kCloning
 A486F0Object* A486F0Controller::FUN_00a486f0(A486F0CloningProcess& kCloning)
 {
     A486F0Controller* pkClone = new A486F0Controller;
@@ -155,6 +124,7 @@ void __cdecl FUN_00a48570()
 void __cdecl FUN_00a57b00();
 
 // @fnv 0x00a48580
+// pdb: PathingRequestFlee::GetType | PathingRequestFlee.obj | fnv360_0721_beta, objrun, medium
 void __cdecl FUN_00a48580() {
     FUN_00a57b00();
 }
@@ -162,6 +132,8 @@ void __cdecl FUN_00a48580() {
 void __cdecl FUN_00a57b20();
 
 // @fnv 0x00a48590
+// pdb: PathingRequestSafeStraightLine::CopyTo | PathingRequestSafeStraightLine.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apDest
 void __cdecl FUN_00a48590()
 {
     FUN_00a57b20();
@@ -205,13 +177,13 @@ public:
 };
 
 struct NiFloatKeyA485 {
-    static float __cdecl InterpolateKey(float fTime, NiFloatKeyA485* pkKeys, int eType, unsigned int uiNumKeys, unsigned int& uiLastIdx, unsigned char ucSize);
+    static float __cdecl NiFloatKey_GenInterp(float fTime, NiFloatKeyA485* pkKeys, int eType, unsigned int uiNumKeys, unsigned int& uiLastIdx, unsigned char ucSize);
 };
 
 class NiRollControllerA485 {
 public:
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
+    bool NiTimeController_DontDoUpdate(float fTime);
     NiFloatKeyA485* GetFloatKeys(unsigned int& uiNumKeys, int& eType, unsigned char& ucSize);
     void FUN_00a485e0(NiUpdateDataA485& kUpdateData);
 
@@ -226,16 +198,17 @@ public:
 };
 
 // @fnv 0x00a485e0
+// pdb: NiRollController::Update | NiRollController.obj | tesv_win, caller_sim, low
 void NiRollControllerA485::FUN_00a485e0(NiUpdateDataA485& kUpdateData)
 {
-    if (!m_pkTarget || FUN_00a36250(kUpdateData.m_fTime))
+    if (!m_pkTarget || NiTimeController_DontDoUpdate(kUpdateData.m_fTime))
         return;
 
     unsigned int uiNumKeys;
     int eType;
     unsigned char ucSize;
     NiFloatKeyA485* pkKeys = GetFloatKeys(uiNumKeys, eType, ucSize);
-    float fRoll = NiFloatKeyA485::InterpolateKey(m_fControllerTime, pkKeys, eType, uiNumKeys, m_uiLastKeyIndex, ucSize);
+    float fRoll = NiFloatKeyA485::NiFloatKey_GenInterp(m_fControllerTime, pkKeys, eType, uiNumKeys, m_uiLastKeyIndex, ucSize);
 
     NiMatrix3A485 kRot = m_pkTarget->m_kRotate;
     NiMatrix3A485 kRoll;

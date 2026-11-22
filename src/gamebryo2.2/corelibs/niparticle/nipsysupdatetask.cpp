@@ -5,7 +5,8 @@
 extern "C" void* g_01202580;
 
 // @fnv 0x00c25870
-void* __cdecl FUN_00c25870()
+// pdb: BSLookIKNote::GetRTTI | BSLookIKNote.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+void* __cdecl BSLookIKNote_GetRTTI()
 {
     return &g_01202580;
 }
@@ -32,6 +33,7 @@ struct S
     void Destroy();
 };
 // @fnv 0x00c25880
+// pdb: NiPSysUpdateTask::~NiPSysUpdateTask | NiPSysUpdateTask.obj | fnv360_0822_retail, objrun, high
 void S::Destroy()
 {
     int(__stdcall * f)(void*) = DAT_00fdf1c4;
@@ -78,6 +80,8 @@ struct Host_00c258e0
     void AssignRefAndValue(Ref_00c258e0* pkObject, float fNew);
 };
 // @fnv 0x00c258e0
+// pdb: NiPSysUpdateTask::Init | NiPSysUpdateTask.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkSystem, fTime
 void Host_00c258e0::AssignRefAndValue(Ref_00c258e0* pkObject, float afValue)
 {
     if (m_ptr != pkObject)
@@ -108,6 +112,7 @@ struct Task
     void ReleaseSysAndDispatch();
 };
 // @fnv 0x00c25930
+// pdb: NiPSysUpdateTask::DoTask | NiPSysUpdateTask.obj | fnv360_1110_retail, objrun, low
 void Task::ReleaseSysAndDispatch()
 {
     FakeSys* p = sys;
@@ -140,6 +145,7 @@ extern int DAT_011aeba8;
 extern int DAT_01202600;
 // Under a critical section, grows the pool when empty, pops the last task into slot 0 and returns the previous slot-0 task.
 // @fnv 0x00c25c40
+// pdb: NiPSysUpdateTask::GetFreeObject | NiPSysUpdateTask.obj | fnv360_0822_retail, callee_sim, low
 NiPSysUpdateTask* PopNiPSysUpdateTask()
 {
     EnterCriticalSection((void*)&DAT_01202600);
@@ -207,6 +213,7 @@ extern int g_C25AC0Default;
 
 // Resets the count to zero, deletes the global manager instance, and restores the current value from the default.
 // @fnv 0x00c25ac0
+// pdb: NiPSysUpdateTask::_SDMShutdown | NiPSysUpdateTask.obj | fnv360_0822_debug, call_seq, medium
 void __cdecl DestroyManager()
 {
     C25AC0Manager* pkManager = g_C25AC0Instance;
@@ -315,6 +322,7 @@ extern void(__stdcall* DAT_00fdf05c)(void*);
 extern void(__stdcall* DAT_00fdf100)(void*);
 
 // @fnv 0x00c25be0
+// pdb: NiPSysUpdateTask::Clear | NiPSysUpdateTask.obj | fnv360_0822_retail, objrun, medium
 bool S_00c25be0::FUN_00c25be0()
 {
     Obj* pObj = unk0c;
@@ -377,6 +385,7 @@ struct Elem_c25 : FUN_00a5d3d0
 };
 
 // @fnv 0x00c259f0
+// pdb: NiPSysUpdateTask::`vector deleting destructor' | NiPSysUpdateTask.obj | fnv360_0822_retail, objrun, medium
 void* Elem_c25::DestroyElements(unsigned int uiFlags)
 {
     if (uiFlags & 2)

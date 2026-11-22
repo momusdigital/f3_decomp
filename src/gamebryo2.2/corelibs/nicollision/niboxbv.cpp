@@ -4,7 +4,8 @@
 
 // Returns the constant value 1.
 // @fnv 0x00b6f470
-int __cdecl FUN_00b6f470()
+// pdb: hkpDefaultToiResourceMgr::resourcesDepleted | hkpDefaultToiResourceMgr.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun), high
+int __cdecl hkpDefaultToiResourceMgr_resourcesDepleted()
 {
     return 1;
 }
@@ -29,6 +30,8 @@ struct NiBoxBV
 };
 
 // @fnv 0x00ea0800
+// pdb: NiSphereBV::SaveBinary | NiSphereBV.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void __thiscall NiBoxBV::FUN_00ea0800(NiStream& kStream)
 {
     m_kBase.SaveBinary(kStream);
@@ -51,6 +54,8 @@ struct StandIn
     int __thiscall FUN_00ea07a0(const NiBoundingVolume&);
 };
 // @fnv 0x00ea07a0
+// pdb: NiBoxBV::operator== | NiBoxBV.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kABV
 int __thiscall StandIn::FUN_00ea07a0(const NiBoundingVolume& kABV)
 {
     if (reinterpret_cast<const VType&>(kABV).f3() == 1)
@@ -81,6 +86,8 @@ struct Helper
 };
 // Allocates 0x40 bytes and, if successful, builds a NiBoundingVolume from five NiPoint3 constants; returns it or null.
 // @fnv 0x00ea74f0
+// pdb: NiBoxBV::LoadBinary | NiBoxBV.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: kStream
 NiBoundingVolume* CreateBoundingVolume()
 {
     void* p = g_memoryManager.Allocate(0x40);
@@ -107,6 +114,7 @@ struct FUN_00ea7d10_shell
 };
 // Allocates a 0x40-byte clone, copies the vfptr and data payload into it, and returns it as a NiBoundingVolume, or returns 0 on failure.
 // @fnv 0x00ea7d10
+// pdb: NiBoxBV::Clone | NiBoxBV.obj | fnv360_0822_retail, objrun, low
 NiBoundingVolume* FUN_00ea7d10_shell::Clone()
 {
     FUN_00ea7d10_shell* pkClone = (FUN_00ea7d10_shell*)g_memoryManager.Allocate(0x40);
@@ -145,6 +153,8 @@ struct Isect
     void __thiscall FUN_00eae6d0();
 };
 // @fnv 0x00ea3950
+// pdb: NiBoxBV::BoxSphereFindIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, kBV0, kV0, kBV1, kV1, fIntrTime, kIntrPt, bCalcNormals, kNormal0, kNormal1
 bool FUN_00ea3950(float afLength, const void* pA, const void* pB, const void* pC, const void* pD, float* pfTime,
                   Pt3* pPoint, bool bNormal, Pt3* pNormal, Pt3* pNegNormal)
 {
@@ -177,6 +187,8 @@ struct FUN_00ea0820
 };
 // Stores a global address and copies the components of five NiPoint3 arguments into the object's fields.
 // @fnv 0x00ea0820
+// pdb: NiBoxBV::NiBoxBV | NiBoxBV.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kExtent, kCenter, kXAvis, kYAvis, kZAxis
 FUN_00ea0820::FUN_00ea0820(const NiPoint3& aPoint1, const NiPoint3& aPoint2, const NiPoint3& aPoint3,
                            const NiPoint3& aPoint4, const NiPoint3& aPoint5)
 {
@@ -245,6 +257,8 @@ struct PointPairState
     void FUN_00eae6d0();
 };
 // @fnv 0x00ea3c50
+// pdb: NiBoxBV::BoxCapsuleFindIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, kBV0, kV0, kBV1, kV1, fIntrTime, kIntrPt, bCalcNormals, kNormal0, kNormal1
 bool FUN_00ea3c50(float length, const void* a, const void* b, const void* c, const void* d, float* pfTime, Point* point,
                   bool normals, Point* normal, Point* negative)
 {
@@ -309,6 +323,8 @@ inline float AbsF(float f)
 }
 // Tests whether a triangle moving by (kV1-kV0)*fTime intersects the oriented bounding box using projection tests.
 // @fnv 0x00ea2190
+// pdb: NiBoxBV::BoxTriTestIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, kBV0, kV0, kVert0, kVert1, kVert2, kV1
 bool IntersectsTriangle(float fTime, const BoxVolume& kBV0, const V3& kV0, const V3& kVert0, const V3& kVert1,
                         const V3& kVert2, const V3& kV1)
 {
@@ -1060,7 +1076,10 @@ static __forceinline void ClampSecondBox(const CollisionBox& box, const Pt3& dir
 
 // Clamps a position to two oriented collision boxes along given directions when a projection query reports no intersection.
 // @fnv 0x00ea7730
-void __cdecl ClampPositionToBoxes(float threshold, const CollisionBox* firstBox, const Pt3* firstDirection,
+// pdb: NiBoxBV::RefinePoint | NiBoxBV.obj | fnv360_0822_retail, objrun, high
+// pdb params: fTime, pkBBV0, pkV0, pkBBV1, pkV1, fIntrTime, kIntrPt0
+// pdb: NiBoxBV::RefinePoint | NiBoxBV.obj | fnv360_0822_retail, objrun, high (was: ClampPositionToBoxes)
+void __cdecl NiBoxBV_RefinePoint(float threshold, const CollisionBox* firstBox, const Pt3* firstDirection,
                                   const CollisionBox* secondBox, const Pt3* secondDirection, const float* distance,
                                   Pt3* position)
 {
@@ -1152,7 +1171,8 @@ class OBoxBV
 };
 
 // @fnv 0x00ea0ad0
-bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const Point3& kV0, const OBoxBV& kBV1, const Point3& kV1)
+// pdb: NiBoxBV::BoxBoxTestIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+bool __cdecl NiBoxBV_BoxBoxTestIntersect(float fTime, const OBoxBV& kBV0, const Point3& kV0, const OBoxBV& kBV1, const Point3& kV1)
 {
     const OBox& kBox0 = kBV0.m_kBoundsBox;
     const OBox& kBox1 = kBV1.m_kBoundsBox;
@@ -1603,6 +1623,8 @@ float SqrDistSegBox(const SegmentShape& kSeg, const CenteredPointBounds& kBox, f
 float SqrDistPtBox(const Vec3& kPt, const CenteredPointBounds& kBox, float& fB0, float& fB1, float& fB2);
 
 // @fnv 0x00ea7530
+// pdb: NiBoxBV::BoxSphereTestIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, kBV0, kV0, kBV1, kV1
 bool IntersectsSphereAndBox(float fTime, const BoxBVStub& kBV0, const Vec3& kV0, const SphereBVStub& kBV1,
                             const Vec3& kV1)
 {
@@ -1646,6 +1668,8 @@ struct NiBoxBV : NiBoundingVolume
 };
 
 // @fnv 0x00ea08a0
+// pdb: NiBoxBV::Copy | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kABV
 void NiBoxBV::FUN_00ea08a0(const NiBoundingVolume& kABV)
 {
     NiBoxBV* kBBV = this;
@@ -1690,6 +1714,8 @@ struct BoxNormal
 };
 // Builds a vector from side-selected box axes, including an axis when velocity is zero or its axis dot velocity exceeds the threshold.
 // @fnv 0x00ea3a60
+// pdb: NiBoxBV::GetNormal | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: iSign0, iSign1, iSign2, kVelocity
 NormalVec BoxNormal::FUN_00ea3a60(int iXSide, int iYSide, int iZSide, NormalVec kMotionVelocity)
 {
     int iNumAxes = 0;
@@ -1760,6 +1786,8 @@ struct FnvTextProcessor
 };
 // Formats text into a new buffer, grows the array if needed, and appends the buffer pointer at the current count index.
 // @fnv 0x00eab7b0
+// pdb: NiBoxBV::AddViewerStrings | NiBoxBV.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, pkStrings
 void FnvTextProcessor::AddString(const char* text, FnvStringArray* array)
 {
     unsigned int length = (unsigned int)strlen(text) + 10;
@@ -1845,6 +1873,8 @@ struct SolBoxVolume : VolumeBase
 };
 // Applies a WorldTransform to a source SolBoxVolume, updating this box's center, axes, and extents.
 // @fnv 0x00ea08c0
+// pdb: NiBoxBV::UpdateWorldData | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kModelABV, kWorld
 void SolBoxVolume::TransformFrom(const VolumeBase& source, const WorldTransform& transform)
 {
     const SolBoxVolume& input = static_cast<const SolBoxVolume&>(source);
@@ -1934,7 +1964,8 @@ static inline float AbsF(float f)
 
 // Checks if a sphere overlaps a box via axis projections, or if their velocities cause a collision within the given time step.
 // @fnv 0x00ea2030
-bool FUN_00ea2030(float fTime, const CenteredPointBounds* pBox, const void* pVel0, const SphereShape* pSphere, const void* pVel1)
+// pdb: NiBoxBV::BoxCapsuleTestIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+bool NiBoxBV_BoxCapsuleTestIntersect(float fTime, const CenteredPointBounds* pBox, const void* pVel0, const SphereShape* pSphere, const void* pVel1)
 {
     BoxPt d = pSphere->center - pBox->center;
 
@@ -2080,6 +2111,8 @@ struct BoundTriPoint : ReworkPoint {
 };
 inline ReworkPoint __cdecl FUN_00468cd0(float f, const ReworkPoint& v) { return ReworkPoint(f * v.x, f * v.y, f * v.z); }
 struct TargetNormal : ReworkPoint { void FUN_00468d00(); };
+// pdb: NiBoxBV::BoxTriFindIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, kBV0, kV0, kVert0, kVert1, kVert2, kV1, fIntrTime, kIntrPt, bCalcNormals, kNormal0, kNormal1
 bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint& vel0, const ReworkPoint& p0,
                           const ReworkPoint& p1, const ReworkPoint& p2, const ReworkPoint& vel1, float& hitTime,
                           ReworkPoint& hitPoint, bool wantNormals, ReworkPoint& normal0, ReworkPoint& normal1)
@@ -3500,11 +3533,13 @@ inline float NiAbs(float fValue)
 {
     return float(fabs(fValue));
 }
-void __cdecl ClampPositionToBoxes(float fTime, const SweepBox* pkBox0, const SweepPoint* pkV0, const SweepBox* pkBox1,
+void __cdecl NiBoxBV_RefinePoint(float fTime, const SweepBox* pkBox0, const SweepPoint* pkV0, const SweepBox* pkBox1,
                                   const SweepPoint* pkV1, float& fIntrTime, SweepPoint& kPoint);
 
 // Tests two moving boxes over maxTime and writes hitTime and hitPoint, with normal outputs when requested.
 // @fnv 0x00ea7d40
+// pdb: NiBoxBV::BoxBoxFindIntersect | NiBoxBV.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, kBV0, kV0, kBV1, kV1, fIntrTime, kIntrPt, bCalcNormals, kNormal0, kNormal1
 bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint& vel0, const SweepBox& box1,
                           const SweepPoint& vel1, float& hitTime, SweepPoint& hitPoint, bool wantNormals,
                           SweepPoint& normal0, SweepPoint& normal1)
@@ -4079,7 +4114,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b1.GetNavMeshData()[k] + (hitTime * vel1[k]) + y[0] * b1.GetAxis(0)[k] +
                           y[1] * b1.GetAxis(1)[k] + y[2] * b1.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b1, &vel1, &b0, &vel0, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b1, &vel1, &b0, &vel0, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4117,7 +4152,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4171,7 +4206,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4224,7 +4259,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4277,7 +4312,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4330,7 +4365,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4383,7 +4418,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4436,7 +4471,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4489,7 +4524,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4542,7 +4577,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)
@@ -4595,7 +4630,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
             hitPoint[k] = b0.GetNavMeshData()[k] + (hitTime * vel0[k]) + x[0] * b0.GetAxis(0)[k] +
                           x[1] * b0.GetAxis(1)[k] + x[2] * b0.GetAxis(2)[k];
         }
-        ClampPositionToBoxes(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
+        NiBoxBV_RefinePoint(maxTime, &b0, &vel0, &b1, &vel1, hitTime, hitPoint);
         if (wantNormals)
         {
             if (side < 0)

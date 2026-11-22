@@ -9,6 +9,7 @@
 void FUN_00c31260();
 
 // @fnv 0x00c31290
+// pdb: NiBlendBoolInterpolator::GetRTTI | NiBlendBoolInterpolator.obj | fnv360_0822_debug, objrun_open, low
 void* __cdecl FUN_00c31290()
 {
     return &DAT_012027c8;

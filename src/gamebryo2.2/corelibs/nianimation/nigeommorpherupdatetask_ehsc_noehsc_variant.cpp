@@ -9,7 +9,7 @@ extern "C"
 {
     extern const void* g_011f4100;
 }
-const void* __cdecl FUN_00a56c00();
+const void* __cdecl BSTempEffectSimpleDecal_GetRTTI();
 struct NiGeomMorpherUpdateTask;
 extern int DAT_011a9414;
 extern int DAT_011a941c;
@@ -288,6 +288,8 @@ inline void* MorphTaskArr::operator new[](size_t size, unsigned int count)
 }
 
 // @fnv 0x00a56ce0
+// pdb: NiTNewInterface<NiGeomMorpherUpdateTask>::Allocate | NiGeomMorpherUpdateTask.obj | fnv360_0822_retail, call_gap, low
+// pdb params: uiNumElements
 NiGeomMorpherUpdateTask* __cdecl FUN_00a56ce0(unsigned int ItemUpdateArray) throw()
 {
     return (NiGeomMorpherUpdateTask*)(new (ItemUpdateArray) MorphTaskArr[ItemUpdateArray]);

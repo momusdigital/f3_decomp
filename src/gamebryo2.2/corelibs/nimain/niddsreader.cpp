@@ -3,6 +3,7 @@
 #include "niddsreader_decls.h"
 // Initializes the NiBMPReader fields: zeroes height, width, unknown, x, y, sets format to DAT_011aa2e8 and clears b1 and b2.
 // @fnv 0x00a8e410
+// pdb: NiBMPReader::NiBMPReader | NiBMPReader.obj | tesv_win, uvref, medium
 NiBMPReader::NiBMPReader()
 {
     height = 0;
@@ -17,6 +18,7 @@ NiBMPReader::NiBMPReader()
 
 // For each of the count at thisPtr+0x10e, copies one source byte into three consecutive destination bytes.
 // @fnv 0x00a8d4e0
+// pdb: NiTGAReader::Unpack8BitSourceRowGray | NiTGAReader.obj | tesv_win, objrun_open, low
 void __fastcall ExpandGrayToRgb(void* thisPtr, int, unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)((char*)thisPtr + 0x10e); ++i)
@@ -29,6 +31,7 @@ void __fastcall ExpandGrayToRgb(void* thisPtr, int, unsigned char* src, unsigned
 
 // Converts a count of 16-bit RGB565 pixels from pucSrc into 24-bit RGB888 bytes written to pucDest.
 // @fnv 0x00a8d520
+// pdb: NiTGAReader::Unpack16BitSourceRowRGB | NiTGAReader.obj | tesv_win, objrun_open, low
 void __fastcall ConvertRgb565ToRgb888(char* pThis, int, unsigned char* pucSrc, unsigned char* pucDest)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(pThis + 0x10e); i++)
@@ -41,6 +44,7 @@ void __fastcall ConvertRgb565ToRgb888(char* pThis, int, unsigned char* pucSrc, u
 }
 
 // @fnv 0x00a8d590
+// pdb: NiTGAReader::Unpack16BitSourceRowIndexed | NiTGAReader.obj | tesv_win, objrun_open, low
 void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, unsigned char* pDst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(this_ptr + 0x10e); i++)
@@ -57,6 +61,7 @@ void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, un
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8c0e0
+// pdb: NiDDSReader::CanReadFile | NiDDSReader.obj | tesv_win, vtable, medium
 bool __stdcall FUN_00a8c0e0(const char* extension)
 {
     if (NiStricmp(extension, ".dds") != 0)
@@ -65,6 +70,7 @@ bool __stdcall FUN_00a8c0e0(const char* extension)
 }
 
 // @fnv 0x00a8c100
+// pdb: NiDDSReader::ValidateRGBABitmasks | NiDDSReader.obj | tesv_win, hash, low
 bool __stdcall IsValidBitDepth(int a, int b, int c, int d, unsigned int bits)
 {
     if (bits == 16 || bits == 24 || bits == 32)
@@ -79,6 +85,8 @@ struct NiPixelFormatMaskView : NiPixelFormat
 };
 // Returns a canonical NiPixelFormat for 16-, 24- and 32-bit formats, otherwise returns fmt unchanged.
 // @fnv 0x00a8c120
+// pdb: NiDDSReader::ComputeFinalFormat | NiDDSReader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kSrcFormat
 NiPixelFormat __stdcall NormalizePixelFormat(NiPixelFormat aFormat)
 {
     switch (aFormat.bits)
@@ -107,6 +115,7 @@ struct FUN_00a8c190 : NiImageReader
     virtual void vfn_x();
 };
 // @fnv 0x00a8c190
+// pdb: NiDDSReader::NiDDSReader | NiDDSReader.obj | fnv360_0822_retail, objrun_open, low
 FUN_00a8c190::FUN_00a8c190()
 {
     m_kPointA = 0;
@@ -116,6 +125,7 @@ FUN_00a8c190::FUN_00a8c190()
 
 // For each of the count at self+0x10e, reads a byte from src, subtracts the byte at self+0x104, and writes the result to dst.
 // @fnv 0x00a8d4a0
+// pdb: NiTGAReader::Unpack8BitSourceRowPal | NiTGAReader.obj | tesv_win, objrun_open, low
 void __fastcall FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsigned char* dst)
 {
     unsigned int i;
@@ -127,6 +137,7 @@ void __fastcall FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsi
 }
 
 // @fnv 0x00a8d600
+// pdb: NiTGAReader::Unpack16BitSourceRowIndexedAlpha | NiTGAReader.obj | tesv_win, objrun_open, low
 void __fastcall FUN_00a8d600(char* self, int edx, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(self + 0x10e); ++i)
@@ -147,6 +158,7 @@ struct FUN_00a8d670_obj
     unsigned short width;
 };
 // @fnv 0x00a8d670
+// pdb: NiTGAReader::Unpack24BitSourceRow | NiTGAReader.obj | tesv_win, objrun_open, low
 void __fastcall FUN_00a8d670(FUN_00a8d670_obj* self, int unused, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < self->width; i++)
@@ -164,6 +176,7 @@ struct FUN_00a8d6c0_obj
     unsigned short width;
 };
 // @fnv 0x00a8d6c0
+// pdb: NiTGAReader::Unpack32BitSourceRow | NiTGAReader.obj | tesv_win, objrun_open, low
 void __fastcall FUN_00a8d6c0(FUN_00a8d6c0_obj* self, int unused, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < self->width; i++)
@@ -178,6 +191,7 @@ void __fastcall FUN_00a8d6c0(FUN_00a8d6c0_obj* self, int unused, const unsigned 
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8d710
+// pdb: NiTGAReader::CanReadFile | NiTGAReader.obj | tesv_win, vtable, medium
 bool __stdcall IsTgaExtension(const char* ext)
 {
     if (NiStricmp(ext, ".tga") == 0 || NiStricmp(ext, ".targa") == 0)
@@ -185,7 +199,7 @@ bool __stdcall IsTgaExtension(const char* ext)
     return false;
 }
 
-struct FUN_00a8d750 : NiImageReader
+struct NiTGAReader : NiImageReader // src: F3_EXE vtable 0x00e24dd8 (old: FUN_00a8d750)
 {
     unsigned char b100, b101, b102;
     unsigned char pad103;
@@ -198,11 +212,12 @@ struct FUN_00a8d750 : NiImageReader
     NiPixelFormat m_eFormat;
     unsigned int d160, d164, d168, d16c, d170, d174;
     unsigned char b178, b179, b17a, b17b, b17c;
-    FUN_00a8d750();
+    NiTGAReader();
     virtual void vfn_x();
 };
 // @fnv 0x00a8d750
-FUN_00a8d750::FUN_00a8d750()
+// pdb: NiTGAReader::NiTGAReader | NiTGAReader.obj | tesv_win, caller_sim, low
+NiTGAReader::NiTGAReader()
 {
     b100 = 0;
     b101 = 0;
@@ -237,6 +252,7 @@ FUN_00a8d750::FUN_00a8d750()
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8e3f0
+// pdb: NiBMPReader::CanReadFile | NiBMPReader.obj | tesv_win, vtable, medium
 bool __stdcall IsNotBmpExtension(const char* extension)
 {
     if (NiStricmp(extension, ".bmp") != 0)
@@ -274,6 +290,7 @@ struct FUN_00a8d850_cls : NiImageReader
 };
 
 // @fnv 0x00a8d850
+// pdb: NiTGAReader::`scalar deleting destructor' | NiTGAReader.obj | tesv_win, vtable, medium
 FUN_00a8d850_cls* FUN_00a8d850_cls::DestroyImageReader(unsigned char acFlags)
 {
     void* pFirst = m_p164;
@@ -362,6 +379,7 @@ struct ClsReader : NiImageReader
 
 // Reads pixel data from the stream into an image, allocating or reusing the image and buffer, then writes each row via m_fn170.
 // @fnv 0x00a8e120
+// pdb: NiTGAReader::ReadFile | NiTGAReader.obj | tesv_win, vtable, medium
 ClsImage* ClsReader::ReadImage(ClsStream* stream, ClsImage* image)
 {
     NiPixelFormat fmt;
@@ -832,6 +850,8 @@ struct FormatView
 };
 // Reads one mip level from a stream and expands its packed pixels into RGBA bytes, forcing alpha to 255 when the source format has no alpha channel.
 // @fnv 0x00a8c7a0
+// pdb: NiDDSReader::Read32Bit | NiDDSReader.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: kIst, pkDest, kSrcFmt, kDestFmt, uiMipMapIdx, uiFaceIdx, bEndianConverted
 void __cdecl FUN_00a8c7a0(BinaryStreamView* stream, PixelDataView* data, NiPixelFormat source, NiPixelFormat dest,
                           unsigned int level, unsigned int face)
 {
@@ -980,11 +1000,14 @@ struct DDSReader
     unsigned int height, width, levels;
     unsigned char swap, unk10d, unk10e, unk10f;
     NiPixelFormat format;
-    PixelData* ReadPixelData(ImageStream*, PixelData*);
+    PixelData* NiDDSReader_ReadFile(ImageStream*, PixelData*);
 };
 // Reads DDS pixel data for all faces and mip levels from stream into result, converting pixel format if it differs from the requested format.
 // @fnv 0x00a8d0d0
-PixelData* DDSReader::ReadPixelData(ImageStream* stream, PixelData* apPixelData)
+// pdb: NiDDSReader::ReadFile | NiDDSReader.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kIst, pkOptDest
+// pdb: NiDDSReader::ReadFile | NiDDSReader.obj | fnv360_0822_retail, caller_sim, high (was: ReadPixelData)
+PixelData* DDSReader::NiDDSReader_ReadFile(ImageStream* stream, PixelData* apPixelData)
 {
     unsigned int uiWidth, uiHeight, faceCount;
     bool headerFlag;
@@ -1131,6 +1154,7 @@ struct DDSReader : NiImageReader
 };
 // Seeks to the start, reads fields, selects m_eFormat and a converter, and writes values to pFlag, pA, pB, pFmt, and pByte.
 // @fnv 0x00a8dce0
+// pdb: NiTGAReader::ReadHeader | NiTGAReader.obj | tesv_win, vtable, medium
 bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, NiPixelFormat* apFormat,
                              unsigned char* pByte, int* pFlag)
 {
@@ -1261,6 +1285,7 @@ __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct FUN_00a8e480 : NiImageReader
 {
     virtual ~FUN_00a8e480();
+    // pdb: NiDDSReader::`scalar deleting destructor' | NiDDSReader.obj | fnv360_0822_retail, objrun_open, low
     static void operator delete(void* p)
     {
         g_memoryManager.Deallocate(p);
@@ -1390,6 +1415,8 @@ template <int C> static inline unsigned char Expand(unsigned int raw, const Chan
 
 // Reads packed pixel data from stream into buf, expands each channel via ChannelInfo, and writes RGBA or RGB bytes into data->pixels for the given mip and face.
 // @fnv 0x00a8cc40
+// pdb: NiDDSReader::Read16Bit | NiDDSReader.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: kIst, pkDest, kSrcFmt, kDestFmt, uiMipMapIdx, uiFaceIdx, bEndianConverted
 void __cdecl FUN_00a8cc40(NiBinaryStream* stream, NiPixelData* apPixelData, NiPixelFormat srcFmt, NiPixelFormat dstFmt,
                           unsigned int mip, unsigned int face)
 {

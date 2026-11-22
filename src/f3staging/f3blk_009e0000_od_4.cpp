@@ -152,6 +152,7 @@ static void FUN_009e93b0(const float* vertices, int numVertices, int striding, h
 }
 
 // The volume of the box around the vertices, with the axes made orthonormal first.
+// pdb: getVolumeFromAxes | hkGeometryUtility.obj | tesv_win, objrun_prop, low
 static hkReal FUN_009e97e0(const float* vertices, int numVertices, int striding, const hkVector4* axesIn)
 {
     hkVector4 axes[3];

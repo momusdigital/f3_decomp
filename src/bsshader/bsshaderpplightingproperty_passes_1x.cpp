@@ -19,6 +19,8 @@ struct FUN_00bdac00_t : BSShaderPPLightingProperty
 };
 
 // @fnv 0x00bdac00
+// pdb: BSShaderPPLightingProperty::AddTexturePass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apGeom, apLight, asCount, abUpdateList, abFirst, abSkinned, abMultitexture, abFacegenBlend, abVertexColors, abTreeBranch, abHair
 void* FUN_00bdac00_t::FUN_00bdac00(NiGeometry* apGeom, ShadowSceneLight* apLight, unsigned short* asCount,
                                    bool abUpdateList, bool* abFirst, bool abSkinned, bool abMultitexture,
                                    bool abFacegenBlend, bool abVertexColors, bool abTreeBranch, bool abHair)

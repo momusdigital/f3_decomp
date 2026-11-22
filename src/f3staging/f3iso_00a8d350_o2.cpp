@@ -104,6 +104,7 @@ static __declspec(noinline) StatsNode* FUN_00a8c7a0(StatsNode* pkOwner, const ch
     return 0;
 }
 
+// pdb: hkMakeSumRecursive | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: setAllDependeciesToDo)
 void __cdecl FUN_00a8d350(StatsNode* pkParent, StatsNode* pkSource)
 {
     for (int i = 0; i < pkSource->m_iChildCount; ++i)

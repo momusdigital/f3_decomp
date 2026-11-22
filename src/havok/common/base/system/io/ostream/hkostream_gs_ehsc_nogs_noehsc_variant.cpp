@@ -76,7 +76,7 @@ struct CpuObject
     CpuInterface* target;
     void FUN_00cc0460();
 };
-// FUN_00cc0470 : the stub family - load a sub-object out of `this` and tail-jump to
+// hkOstream_write : the stub family - load a sub-object out of `this` and tail-jump to
 // one of its virtuals (vtable offset 0x10).
 struct Sub_00cc0470
 {
@@ -91,13 +91,13 @@ struct Own_00cc0470
     int u00;
     int u04;
     Sub_00cc0470* m_sub;
-    void __thiscall FUN_00cc0470(void* a);
+    void __thiscall hkOstream_write(void* a);
 };
 extern int g_unk01268560;
 int* __cdecl FUN_00cc04c0();
 extern int DAT_01268ad8;
 int __cdecl FUN_00cc0770();
-void __stdcall FUN_00e3b490(bool* p);
+void __stdcall hkOffsetOnlyStreamWriter_isOk(bool* p);
 struct FUN_00cc04a0_Slots
 {
     virtual void slot00();
@@ -297,7 +297,7 @@ class FUN_00d60b40 : public hkRefObjD60B
 
 #include <stdarg.h>
 extern "C" void __cdecl FUN_00cb0f50(char* buffer, unsigned int size, const char* fmt, char* args);
-extern "C" int __cdecl FUN_00cb10d0(int value);
+extern "C" int __cdecl hkString_strLen(int value);
 extern "C" const char str_010c9308[];
 
 class hkWriter0080
@@ -314,7 +314,7 @@ static __declspec(noinline) void FUN_00cc0080(hkWriter0080* out, const char* str
 {
     if (str)
     {
-        out->write(str, FUN_00cb10d0((int)str));
+        out->write(str, hkString_strLen((int)str));
     }
     else
     {
@@ -323,6 +323,8 @@ static __declspec(noinline) void FUN_00cc0080(hkWriter0080* out, const char* str
 }
 
 // @fnv 0x00cc0410
+// pdb: hkOstream::printf | hkOStream.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: fmt
 void __cdecl FUN_00cc0410(hkOstream* self, const char* fmt, ...)
 {
     char buf[0x2728];

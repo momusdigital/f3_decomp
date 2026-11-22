@@ -2,6 +2,7 @@
 #include "f3_common.h"
 #include "bsshaderpplightingproperty_decls.h"
 // @fnv 0x00b68d30
+// pdb: BSShaderPPLightingProperty::SetDefaultNormalMap | BSShaderPPLightingProperty.obj | fnv360_0822_retail, call_gap, medium
 void BSShaderPPLightingProperty::EnsureNormalMap()
 {
     if (!normalMaps[0])
@@ -9,6 +10,7 @@ void BSShaderPPLightingProperty::EnsureNormalMap()
 }
 
 // @fnv 0x00b67260
+// pdb: BSLightingShaderMaterialLandscape::QFeature | BSLightingShaderMaterial.obj | tesv_win, objrun_open, low
 int __fastcall FUN_00b67260(char* pThis, int, int idx1, int idx2)
 {
     return ((int**)(pThis + 0xAC))[idx1][idx2];
@@ -32,6 +34,8 @@ struct SelfStub
     void FUN_00b702b0(NewObj*, int);
 };
 // @fnv 0x00b67610
+// pdb: BSShaderPPLightingProperty::CreateClone | BSShaderPPLightingProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: BSLightingShaderMaterialLODLandscape::CopyMembers)
+// pdb params: arCloneData
 NewObj* __fastcall FUN_00b67610(SelfStub* self, int edx, int arg)
 {
     NewObj* pObj = new NewObj();
@@ -42,12 +46,15 @@ NewObj* __fastcall FUN_00b67610(SelfStub* self, int edx, int arg)
 
 extern char const* const g_0120043c_arg1;
 // @fnv 0x00b671b0
+// pdb: NiAmbientLight::GetRTTI | NiAmbientLight.obj | fnv360_1110_retail, objrun, low
 char const* const* __cdecl FUN_00b671b0()
 {
     return &g_0120043c_arg1;
 }
 
 // @fnv 0x00b671c0
+// pdb: BSShaderPPLightingProperty::SetClampNI | BSShaderPPLightingProperty.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: aClampMode
 int __fastcall FUN_00b671c0(char* self, int)
 {
     return *reinterpret_cast<int*>(self + 0xd8);
@@ -60,12 +67,14 @@ void __fastcall FUN_00b671d0(char* self, int, int v)
 }
 
 // @fnv 0x00b671e0
+// pdb: BSShaderPPLightingProperty::GetBaseTexture | BSShaderPPLightingProperty.obj | fnv360_0822_retail, objrun_open, low
 unsigned short __fastcall FUN_00b671e0(char* self, int)
 {
     return *reinterpret_cast<unsigned short*>(self + 0xa8);
 }
 
 // @fnv 0x00b671f0
+// pdb: BSShaderPPLightingProperty::GetBaseTexture | BSShaderPPLightingProperty.obj | fnv360_0721_beta, objrun_open, low
 unsigned short __fastcall FUN_00b671f0(char* self, int)
 {
     return *reinterpret_cast<unsigned short*>(self + 0xc8);
@@ -228,6 +237,7 @@ void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 void __fastcall FUN_00b66850(void*);
 // Calls FUN_00b66850 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0 with self and 0x14, and returns self.
 // @fnv 0x00b67580
+// pdb: bhkShape::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_retail, vtable_prefix, high
 void* __fastcall FUN_00b67580(void* self, int, unsigned char flags)
 {
     FUN_00b66850(self);
@@ -240,6 +250,7 @@ void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 void __fastcall FUN_00b669f0(void*);
 // Calls FUN_00b669f0 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0(self, 0x74), and returns self.
 // @fnv 0x00b675a0
+// pdb: NiControllerSequence::`scalar deleting destructor' | NiControllerSequence.obj | fnv360_0822_retail, caller_sim, low
 void* __fastcall FUN_00b675a0(void* self, int, unsigned char flags)
 {
     FUN_00b669f0(self);
@@ -303,6 +314,8 @@ struct TargetClass_00b683e0
 
 // Selects a renderer pointer based on particle shader settings, calls V40 with it, and returns the low 16 bits of the resulting local value.
 // @fnv 0x00b683e0
+// pdb: BSShaderPPLightingProperty::GetNumberofPasses | BSShaderPPLightingProperty.obj | fnv360_0822_retail, udata, medium, conflict (bridge: ShadowLightShader::GetEnvMap)
+// pdb params: apGeometry
 unsigned short __fastcall FUN_00b683e0(TargetClass_00b683e0* this_ptr, int unused_edx, void* arg1)
 {
     unsigned int uiResult = 0;
@@ -320,6 +333,7 @@ void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 void __fastcall FUN_00b67380(void*);
 // Calls FUN_00b67380 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0(self, 0x104), and returns self.
 // @fnv 0x00b68fb0
+// pdb: BSShaderPPLightingProperty::`scalar deleting destructor' | BSShaderPPLightingProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* __fastcall FUN_00b68fb0(void* self, int, unsigned char flags)
 {
     FUN_00b67380(self);
@@ -356,6 +370,8 @@ struct FUN_00b675c0_shell
 };
 // Releases the old m_dc reference, stores p and increments its ref count if different, then resets m_38 to 0.
 // @fnv 0x00b675c0
+// pdb: BSShaderPPLightingProperty::SetTextureEffectData | BSShaderPPLightingProperty.obj | fnv360_1110_retail, call_seq, medium
+// pdb params: apData
 void FUN_00b675c0_shell::AssignRefObj(RefObj* apRefObj)
 {
     if (m_dc != apRefObj)
@@ -463,6 +479,7 @@ struct FUN_00b67380 : FUN_00b71410
 
 // Releases the six arrays and their element slots, clears the smart pointers and scalars, and deletes m_p100.
 // @fnv 0x00b67380
+// pdb: BSShaderPPLightingProperty::~BSShaderPPLightingProperty | BSShaderPPLightingProperty.obj | fnv360_0822_retail, call_seq, medium
 FUN_00b67380::~FUN_00b67380()
 {
     if (m_apArrays[0])
@@ -592,6 +609,8 @@ struct FUN_00b68dc0_class
 
 // Reads a base object via FUN_00b70260, then loads m_uiValueD8, an optional byte for versions below 0x17, and m_uiValueE0 through m_uiValueEC from the stream.
 // @fnv 0x00b68dc0
+// pdb: BSShaderPPLightingProperty::LoadBinary | BSShaderPPLightingProperty.obj | fnv360_0721_beta, objrun, high
+// pdb params: kStream
 void FUN_00b68dc0_class::LoadFromStream(NiStream& stream)
 {
     reinterpret_cast<Helper*>(this)->FUN_00b70260(stream);
@@ -858,6 +877,8 @@ struct S_00b68ed0_Obj
     void ReadFromStream(S_00b68ed0_Stream* s);
 };
 // @fnv 0x00b68ed0
+// pdb: BSShaderPPLightingProperty::SaveBinary | BSShaderPPLightingProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void S_00b68ed0_Obj::ReadFromStream(S_00b68ed0_Stream* apStream)
 {
     FUN_00bb7160(apStream);
@@ -1121,6 +1142,8 @@ struct TexSet_b68660
 };
 
 // @fnv 0x00b68660
+// pdb: BSShaderPPLightingProperty::SetLandscapeTextureSet | BSShaderPPLightingProperty.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiIndex, apTexSet
 void TexSet_b68660::FUN_00b68660(unsigned int uiIndex, TexSource_b68660* pSource)
 {
     if (m_usCapacity < 10)
@@ -1285,7 +1308,8 @@ struct NiNode_b68770 : NiAVObject_b68770
 
 // Recursively applies shader flags 15, 16 and 36 and a float value to geometry objects whose shader type is 8-12, optionally setting iValueE4.
 // @f3 0x00aebb10 (community match, verified in this file)
-void __cdecl FUN_00b68770(NiAVObject_b68770* obj, bool abFlag15, float afFloatValue, bool abFlag16, float afValueE4,
+// pdb: BSShaderPPLightingProperty::SetRefractionRecurse | BSShaderPPLightingProperty.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller), high
+void __cdecl BSShaderPPLightingProperty_SetRefractionRecurse(NiAVObject_b68770* obj, bool abFlag15, float afFloatValue, bool abFlag16, float afValueE4,
                           bool abFlag36)
 {
     if (!obj)
@@ -1313,7 +1337,7 @@ void __cdecl FUN_00b68770(NiAVObject_b68770* obj, bool abFlag15, float afFloatVa
             {
                 NiAVObject_b68770* child = node->m_children[i];
                 if (child)
-                    FUN_00b68770(child, abFlag15, afFloatValue, abFlag16, afValueE4, abFlag36);
+                    BSShaderPPLightingProperty_SetRefractionRecurse(child, abFlag15, afFloatValue, abFlag16, afValueE4, abFlag36);
             }
         }
     }
@@ -1544,6 +1568,8 @@ struct FUN_00422b50 : NiMemObject {
     unsigned short r18 : 15;
     short m1a;
 };
+// pdb: BSShaderPPLightingProperty::ClarifyShader | BSShaderPPLightingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apGeometry, abForceShader, abAllow30Shaders
 FUN_00bb4540* BSPPL_b68880::FUN_00b68880(PropObj* pProp, int aiArg2, int aiArg3)
 {
     if (pProp && !pProp->vfn_30())
@@ -1625,6 +1651,7 @@ FUN_00bb4540* BSPPL_b68880::FUN_00b68880(PropObj* pProp, int aiArg2, int aiArg3)
 
 // Allocates and returns a new NewObj instance.
 // @fnv 0x00b68d50
+// pdb: BSShaderPPLightingProperty::CreateObject | BSShaderPPLightingProperty.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: BSLightingShaderMaterialSnow::ComputeCRC32)
 NewObj* __cdecl CreateNewObj()
 {
     return new NewObj();
@@ -1754,6 +1781,8 @@ inline float NiClamp_b68(float fValue, float fMin, float fScaledValue)
 }
 
 // @fnv 0x00b68fe0
+// pdb: BSShaderPPLightingProperty::PostLinkObject | BSShaderPPLightingProperty.obj | fnv360_0721_beta, objopen_prop, medium
+// pdb params: kStream
 void ShaderProp_b68::FUN_00b68fe0(ShaderProp_b68* apOther)
 {
     FUN_00ba8be0(apOther);
@@ -1969,6 +1998,8 @@ struct Target
 extern const char* DAT_0116fd98;
 struct CurrentHelpers { void FUN_00af4060(StrArr*); float FUN_00ae9f70(); float FUN_00aea020(); };
 const char* __cdecl FUN_00aabd00(void*);
+// pdb: BSShaderPPLightingProperty::GetViewerStrings | BSShaderPPLightingProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void Target::FUN_00b690d0(StrArr* apStrings)
 {
     char* value;
@@ -2375,6 +2406,7 @@ struct FUN_00b66f50 : FUN_00b71720
 extern bool DAT_0116fd94;
 extern float FUN_00dc8368;
 
+// pdb: BSShaderPPLightingProperty::BSShaderPPLightingProperty | BSShaderPPLightingProperty.obj | fnv360_0822_retail, call_seq, medium
 FUN_00b66f50::FUN_00b66f50()
 {
     count = 2;
@@ -2480,6 +2512,7 @@ struct OwnerX
     void GrowArrays();
 };
 // @fnv 0x00b68450
+// pdb: BSShaderPPLightingProperty::SetForLandscapeTextures | BSShaderPPLightingProperty.obj | fnv360_0822_retail, call_seq, medium
 void OwnerX::GrowArrays()
 {
     if (m_usSize >= 10)
@@ -2639,7 +2672,7 @@ extern char DAT_011f4aac;
 extern int DAT_011f91c0;
 extern char DAT_010ae238;
 extern char DAT_010ae1f0;
-extern void* __cdecl FUN_00b54b60(CallerArg*);
+extern void* __cdecl BSShaderManager_CreateTangentSpaceSimple(CallerArg*);
 extern void __cdecl FUN_005b5e40(void*, void*);
 struct RefHandle
 {
@@ -2791,6 +2824,8 @@ struct SelfObj
 };
 // Checks and may create the argument's bounding volume, updates secondary flag 0x20, conditionally stores a handle, applies flag-gated updates, then refreshes.
 // @fnv 0x00b67a40
+// pdb: BSShaderPPLightingProperty::SetupGeometry | BSShaderPPLightingProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apGeometry
 bool SelfObj::FUN_00b67a40(CallerArg* arg)
 {
     if (arg->GetBoundingVolume() == 0)
@@ -2806,7 +2841,7 @@ bool SelfObj::FUN_00b67a40(CallerArg* arg)
         bool bSameKind = geom->property ? geom->property->IsSameKind(&DAT_011f4aac) : false;
         if (!bSameKind && !(geom->typeFlags & 0xf000))
         {
-            activeHandle.FUN_0066b0d0(FUN_00b54b60(arg));
+            activeHandle.FUN_0066b0d0(BSShaderManager_CreateTangentSpaceSimple(arg));
         }
     }
     if ((primaryFlags & 0x100000) > 0)
@@ -3403,7 +3438,7 @@ struct Shader
     void FUN_00bdf650(Geom*, bool, bool, Context*);
     void FUN_00bda060(Geom*, bool, bool);
     void SetPassEnabled(Geom*, bool, bool);
-    void AddPasses(Geom*, bool);
+    void BSShaderPPLightingProperty_AddSilhouettePass_2x(Geom*, bool);
     bool GetFlag(int n)
     {
         return ((Fake_FUN_004a2020*)this)->GetFlag(n);
@@ -3527,7 +3562,7 @@ struct PassShader
     void FUN_00b2b830(int);
     void FUN_00b2b980(int);
     void FUN_00b2b740(int);
-    void FUN_00b618e0(Geom*, bool, bool, Context*);
+    void BSShaderPPLightingProperty_AddDepthMapPass_2x(Geom*, bool, bool, Context*);
     void FUN_00b5c280(Geom*, bool, bool);
     void FUN_00b60430(Geom*, bool, bool);
     void FUN_00b61950(Geom*, bool);
@@ -3563,7 +3598,7 @@ __forceinline Passes* PassShader::Get(Geom* geom, unsigned int pass, unsigned sh
             if (prop == 0)
                 prop = properties->alpha;
             bool alphaTest = prop && (bool)(int)(prop->shifted() & 1);
-            FUN_00b618e0(geom, geom->skin != 0, alphaTest, context);
+            BSShaderPPLightingProperty_AddDepthMapPass_2x(geom, geom->skin != 0, alphaTest, context);
         }
         return special7;
     }
@@ -3711,7 +3746,7 @@ __forceinline Passes* PassShader::Get(Geom* geom, unsigned int pass, unsigned sh
                     skin = geom->skin;
                     FUN_00b2b7c0(1);
                     special7->count = 0;
-                    FUN_00b618e0(geom, skin != 0, alphaTest, context);
+                    BSShaderPPLightingProperty_AddDepthMapPass_2x(geom, skin != 0, alphaTest, context);
                 }
             }
             else
@@ -3753,6 +3788,8 @@ __forceinline Passes* PassShader::Get(Geom* geom, unsigned int pass, unsigned sh
     }
     return mainPasses;
 }
+// pdb: BSShaderPPLightingProperty::GetRenderPasses | BSShaderPPLightingProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
 Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output, unsigned int type, Context* context, unsigned char update)
 {
     return ((PassShader*)this)->Get(geom, pass, output, type, context, update);

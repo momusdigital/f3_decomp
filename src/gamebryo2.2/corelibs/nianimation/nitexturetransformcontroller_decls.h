@@ -123,9 +123,9 @@ class NiPoint2
 class TextureMapTransform
 {
   public:
-    NiPoint2 translate;
-    float rotate;
-    NiPoint2 scale;
+    NiPoint2 m_kTranslate;  // src: FNV360_PDB NiTextureTransform +0x0 (old: translate)
+    float m_fRotate;  // src: FNV360_PDB NiTextureTransform +0x8 (old: rotate)
+    NiPoint2 m_kScale;  // src: FNV360_PDB NiTextureTransform +0xC (old: scale)
     char pad[52];
     static void* operator new(unsigned int, void* p) throw()
     {

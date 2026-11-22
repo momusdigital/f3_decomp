@@ -29,7 +29,7 @@ void CopyFloat2(float* dst, const float* src);
 extern int DAT_011f49e0;
 void __stdcall FUN_00a312d0(int, int, int, int, int);
 void __cdecl FUN_00a31680();
-extern "C" float __cdecl GetAccumulatedValue();
+extern "C" float __cdecl NiPathInterpolator_GetTotalPathLength();
 struct FUN_00a3ea40_cls {
     void UpdateIfFlagged();
 };
@@ -85,8 +85,8 @@ void __cdecl FUN_00a2af70();
 void __cdecl ComputeInterpolatedPosition();
 void __cdecl FUN_00a2b130();
 void __cdecl FUN_00a2b410();
-void __cdecl FUN_00a2b6d0();
-void __cdecl InsertBezPosKey();
+void __cdecl NiTCBPosKey_ComputeMaxCurvature();
+void __cdecl NiTCBPosKey_Insert();
 void __cdecl FUN_00a2baa0(int a, int b);
 struct FUN_00a2ceb0_cls {
     float pad;
@@ -261,8 +261,8 @@ public:
     float m_fForwardTangent;
     float m_fBackwardTangent;
 };
-A27250FloatKey* LoadFloatKeys(A27250Stream& kStream, unsigned int uiNumKeys);
-// ApplyAnimToTarget: forwards two arguments to CallAnimCallback, then calls the
+A27250FloatKey* NiBezFloatKey_CreateFromStream(A27250Stream& kStream, unsigned int uiNumKeys);
+// ApplyAnimToTarget: forwards two arguments to NiAnimationKey_SaveBinary, then calls the
 // member at +4 of the second argument with the first argument.
 struct AnimNode
 {
@@ -273,7 +273,7 @@ struct AnimTarget
     int unk00;
     AnimNode m_node;
 };
-void __cdecl CallAnimCallback(int a, void* b);
+void __cdecl NiAnimationKey_SaveBinary(int a, void* b);
 void __cdecl ApplyAnimToTarget(int a, AnimTarget* b);
 struct FUN_00a27b60_tail {
     unsigned int unk00;
@@ -396,7 +396,7 @@ public:
     A281E0Point3 m_kOutTan;
     int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
 };
-A281E0BezPosKey* LoadBezPosKeys(A281E0Stream& kStream, unsigned int uiNumKeys);
+A281E0BezPosKey* NiBezPosKey_CreateFromStream(A281E0Stream& kStream, unsigned int uiNumKeys);
 class NiStream;
 class NiColorSaveHelper {
 public:
@@ -437,9 +437,9 @@ struct Inner_b5508 {
 };
 void FUN_00a286e0(unsigned int a0, unsigned int a1, unsigned int a2, Vec4_b5508* out);
 struct FUN_00a28720_target {
-    void __thiscall FUN_00a6e4a0(void* value);
+    void __thiscall NiQuaternion_SaveBinary(void* value);
 };
-void __cdecl CallAnimCallback(void* a, void* b);
+void __cdecl NiAnimationKey_SaveBinary(void* a, void* b);
 void __cdecl FUN_00a28720(void* a, void* b);
 extern "C" unsigned int DAT_011f366c;
 extern "C" unsigned int DAT_011f3670;
@@ -477,7 +477,7 @@ struct SpawnTarget
     void Callee(float a, void* p1, void* p2, void* p3, void* p4);
 };
 void __cdecl CallSpawnTarget(float a, char* x, char* y, SpawnTarget* z);
-// Reconstruction of FUN_00a28dc0.
+// Reconstruction of NiBezRotKey_FillDerivedVals.
 //
 // The object is a fixed-size array of 36-byte key records:
 //   +0x00  quaternion q0   (16 bytes)
@@ -501,7 +501,7 @@ struct FNVAnim {
 };
 extern void  __cdecl FUN_00a28ab0(FNVAnim* obj, unsigned int count, unsigned int flag);
 extern FNVQuat* __cdecl FUN_00a6dd50(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
-void __cdecl FUN_00a28dc0(FNVAnim* obj, unsigned int count, unsigned int flag);
+void __cdecl NiBezRotKey_FillDerivedVals(FNVAnim* obj, unsigned int count, unsigned int flag);
 // The game class NiBound - a 16-byte bound (three position floats and a radius).
 class NiBound {
 public:
@@ -694,15 +694,15 @@ struct FUN_00a29550_owner {
 };
 int __cdecl FUN_00a29550(int a1, int a2);
 struct Inner {
-    void FUN_00a698a0(void* target);
+    void NiColorA_SaveBinary(void* target);
 };
 struct Outer {
     int unk00;
     Inner inner04;
 };
-void __cdecl CallAnimCallback(void* target, Outer* source);
-void __cdecl FUN_00a29660(void* target, Outer* source);
-// Reconstruction of UpdateArrayElements (0x00a29e40, 189 bytes).
+void __cdecl NiAnimationKey_SaveBinary(void* target, Outer* source);
+void __cdecl NiColorKey_SaveBinary(void* target, Outer* source);
+// Reconstruction of NiEulerRotKey_Insert (0x00a29e40, 189 bytes).
 //
 // The original does two things:
 //
@@ -741,7 +741,7 @@ extern FNV_CbFn g_fnv_cb_011f3810[];
 extern "C" void __stdcall FNV_array_ctor_iterator(void* base, unsigned int size, unsigned int count, void* ctor);
 // The element constructor of the allocated object.
 extern "C" void __cdecl FNV_element_ctor(void* self);
-bool UpdateArrayElements(float t, void** pOut, int* pFlag);
+bool NiEulerRotKey_Insert(float t, void** pOut, int* pFlag);
 class A29F00BinaryStream {
 public:
     void* m_ppVirtualMethodTable;
@@ -922,7 +922,7 @@ extern unsigned char DAT_011f3758[];
 extern A29F00LoadFunc DAT_011f3db0[];
 class A29F00KeyData {
 public:
-    void LoadKeyData(A29F00Stream& kStream);
+    void NiEulerRotKey_LoadBinary(A29F00Stream& kStream);
 
     int unk00;
     int unk04;
@@ -1338,7 +1338,7 @@ struct FUN_00a2b980_cls {
     unsigned int m_uiC;
 
     void FUN_00a27430(NiStreamImpl& stream);
-    void FUN_00a2b980(NiStreamImpl& stream);
+    void NiTCBPosKey_LoadBinary(NiStreamImpl& stream);
 };
 class BA2BA10BinaryStream {
 public:
@@ -1790,7 +1790,7 @@ struct S_a2c300_Obj {
     int unk18;
     int unk1c;
     void FUN_00a29640(S_a2c300_Stream* s);
-    void SaveExtraFields(S_a2c300_Stream* s);
+    void NiTCBRotKey_LoadBinary(S_a2c300_Stream* s);
 };
 struct S_a2c390_Istr {
     int unk0;
@@ -2179,8 +2179,8 @@ struct FUN_00a2c9d0_cls {
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00a26eb0(S_00a2c9d0_Owner* owner);
-    void FUN_00a2c9d0(S_00a2c9d0_Owner* owner);
+    void NiFloatKey_LoadBinary(S_00a2c9d0_Owner* owner);
+    void NiTCBFloatKey_LoadBinary(S_00a2c9d0_Owner* owner);
 };
 struct NiBinaryStreamW {
     void* m_vtbl;
@@ -2221,12 +2221,12 @@ struct KeyframeElement {
     float continuity;
     float bias;
     ~KeyframeElement();
-    void FUN_00a2c9d0(void* context);
+    void NiTCBFloatKey_LoadBinary(void* context);
     static void* operator new[](unsigned int bytes) {
         return ((P03MM*)&g_memoryManager)->Allocate(bytes);
     }
 };
-KeyframeElement* __cdecl AllocateKeyframeElements(void* context, unsigned int count);
+KeyframeElement* __cdecl NiTCBFloatKey_CreateFromStream(void* context, unsigned int count);
 extern "C" void __cdecl FUN_00a2ca60(void* a1, void* a2);
 void __cdecl FUN_00a2cb50(void* a1, void* a2, unsigned int count);
 struct FUN_00a2cc40_S
@@ -2405,7 +2405,7 @@ public:
     unsigned int m_uiItemCount;
     void* unk10;
     A30540Entry* m_pEntries;
-    void FUN_00a30540();
+    void NiControllerSequence_DetachInterpolators();
 };
 extern "C" int __cdecl strcmp(const char* s1, const char* s2);
 struct FUN_00a305e0_cls {
@@ -2681,7 +2681,7 @@ struct FUN_00a3da50_Owner {
     int m_unk24C;
     FUN_00a3da50_Anim *m_pAnim;
 };
-int __cdecl CallAnimCallback(FUN_00a3da50_Owner *pOwner, int iIndex);
+int __cdecl NiAnimationKey_SaveBinary(FUN_00a3da50_Owner *pOwner, int iIndex);
 __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct S_a3dd40_Obj {
     virtual ~S_a3dd40_Obj();
@@ -2750,7 +2750,7 @@ struct BezPosKey {
     static void operator delete[](void* p) { g_memoryManager.Deallocate(p); }
 };
 void BezSortKeys(BezPosKey* keys, unsigned int count, unsigned int stride);
-bool InsertBezPosKey(float t, BezPosKey** pKeys, unsigned int* pCount);
+bool NiTCBPosKey_Insert(float t, BezPosKey** pKeys, unsigned int* pCount);
 class NiAnimationKeyA3D {
 public:
     float GetTime() const { return m_fTime; }
@@ -2784,7 +2784,7 @@ typedef void* (__cdecl* A29CF0CreateFn)(unsigned int uiNumKeys);
 typedef void (__cdecl* A29CF0CopyFn)(void* pkNewKey, const void* pkOrigKey);
 extern A29CF0CreateFn DAT_011f3930[];
 extern A29CF0CopyFn DAT_011f39c0[];
-void __cdecl CopyKeyData(void* pvDest, void* pvSrc);
+void __cdecl NiEulerRotKey_Copy(void* pvDest, void* pvSrc);
 void __cdecl CompareHelpers(int a, int b);
 void __cdecl FUN_00a2a1a0(int a, int b);
 struct A2C550Key {
@@ -2798,7 +2798,7 @@ struct A2C550Key {
 };
 bool AreRecordsEqual(const A2C550Key& kA, const A2C550Key& kB);
 bool FUN_00a2c550(const A2C550Key& kA, const A2C550Key& kB);
-void __cdecl FUN_00a29660(void* dst, const void* src);
+void __cdecl NiColorKey_SaveBinary(void* dst, const void* src);
 void __cdecl FUN_00a2cfd0(void* target, const unsigned char* source, unsigned int count);
 struct Point415 {
  float x,y,z;
@@ -2886,6 +2886,7 @@ public:
 };
 
 // @fnv 0x00a316a0
+// pdb: NiControllerSequence::NiControllerSequence | NiControllerSequence.obj | fnv360_0822_retail, call_dedup, low
 NiControllerSequence::NiControllerSequence() :
     m_kName(DAT_0109b220), m_uiNumControlledBlocks(0), m_uiNumIDTags(0), m_pInterpArray(0), m_pkIDTags(0), m_fWeight(1.0f), m_spTextKeyData(0), m_fFrequency(1.0f), m_fFirstKeyTime(DAT_01096548)
 {

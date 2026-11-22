@@ -43,7 +43,7 @@ class hkpMoppModifierE485
 {
   public:
     virtual ~hkpMoppModifierE485();
-    virtual hkBoolE485 IsTerminalRemoved(hkUint32 id, const hkUint32* properties) = 0;
+    virtual hkBoolE485 hkpRemoveTerminalsMoppModifier_shouldTerminalBeRemoved(hkUint32 id, const hkUint32* properties) = 0;
     virtual void resetTerminal(hkUint32 id, const hkUint32* properties) = 0;
 };
 
@@ -54,12 +54,15 @@ class hkpRemoveTerminalsMoppModifierE485 : public hkReferencedObjectE485, public
     const hkArrayE485<hkUint32>* m_pTerminalIdsToRemove;
 
     virtual ~hkpRemoveTerminalsMoppModifierE485();
-    virtual hkBoolE485 IsTerminalRemoved(hkUint32 id, const hkUint32* properties);
+    virtual hkBoolE485 hkpRemoveTerminalsMoppModifier_shouldTerminalBeRemoved(hkUint32 id, const hkUint32* properties);
     virtual void resetTerminal(hkUint32 id, const hkUint32* properties);
 };
 
 // @fnv 0x00e48510
-hkBoolE485 hkpRemoveTerminalsMoppModifierE485::IsTerminalRemoved(hkUint32 id, const hkUint32* properties)
+// pdb: hkpRemoveTerminalsMoppModifier::shouldTerminalBeRemoved | hkpRemoveTerminalsMoppModifier.obj | fnv360_0822_retail, vtable, high
+// pdb params: id, properties
+// pdb: hkpRemoveTerminalsMoppModifier::shouldTerminalBeRemoved | hkpRemoveTerminalsMoppModifier.obj | fnv360_0822_retail, vtable, high (was: IsTerminalRemoved)
+hkBoolE485 hkpRemoveTerminalsMoppModifierE485::hkpRemoveTerminalsMoppModifier_shouldTerminalBeRemoved(hkUint32 id, const hkUint32* properties)
 {
     return m_pTerminalIdsToRemove->indexOf(id) >= 0;
 }
@@ -84,37 +87,9 @@ struct hkBitFieldE485
     }
 };
 
-class hkObjE485
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    hkBitFieldE485* m_bits;
-
-    hkBoolE485 IsBitClear(int index, int iUnused) const;
-};
-
-// Returns the negation of the bit at the given index in m_bits.
-// @fnv 0x00e48550
-hkBoolE485 hkObjE485::IsBitClear(int index, int iUnused) const
-{
-    return !m_bits->get(index);
-}
 }  // namespace fnv_00e48550
 
-struct FUN_00e48580_Heap
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* unk10;
-};
 void* __cdecl FUN_00c85750();
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 struct Packed
 {
     unsigned int lo : 8;
@@ -130,13 +105,16 @@ struct FUN_00e48580_Obj
 {
     int unk00;
     FUN_00e48580_Array arr;
-    void AppendPackedValue(int value);
+    void hkpRemoveTerminalsMoppModifier_addTerminalRemoveInfo(int value);
 };
 // Appends a packed entry to the array, growing it via the allocator when full, then stores 0 in the low 8 bits and value in the high 24 bits.
 // @f3 0x00a76540 (community match, verified in this file)
 void __cdecl FUN_00901f10(void* array, int elementSize);
 
-void FUN_00e48580_Obj::AppendPackedValue(int value)
+// pdb: hkpRemoveTerminalsMoppModifier::addTerminalRemoveInfo | hkpRemoveTerminalsMoppModifier.obj | fnv360_0822_retail, vtable, high
+// pdb params: relativeMoppAddress
+// pdb: hkpRemoveTerminalsMoppModifier::addTerminalRemoveInfo | hkpRemoveTerminalsMoppModifier.obj | fnv360_0822_retail, vtable, high (was: AppendPackedValue)
+void FUN_00e48580_Obj::hkpRemoveTerminalsMoppModifier_addTerminalRemoveInfo(int value)
 {
     FUN_00e48580_Array* arr = &this->arr;
     if (arr->unk04 == (int)(arr->unk08 & 0x3fffffff))
@@ -190,6 +168,8 @@ class FUN_00e486e0 : public hkRefObjE486, public hkVisitorE486
 };
 
 // @fnv 0x00e486e0
+// pdb: hkpRemoveTerminalsMoppModifier::hkpRemoveTerminalsMoppModifier | hkpRemoveTerminalsMoppModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: moppCode, aabb, shapesToRemove
 FUN_00e486e0::FUN_00e486e0(void* apFirst, void* apSecond, void* context) throw()
 {
     m_iValueAtOffset0C = context;
@@ -280,17 +260,6 @@ class hkpEntityListenerE487
     {}
 };
 
-class FUN_00e48740 : public hkReferencedObjectE487, public hkpEntityListenerE487
-{
-  public:
-    hkArrayE487<void*> m_kActorEntries;
-
-    virtual ~FUN_00e48740() throw();
-};
-
-// @fnv 0x00e48740
-FUN_00e48740::~FUN_00e48740() throw()
-{}
 }  // namespace fnv_00e48740
 
 struct __declspec(align(16)) FUN_00e67230_Obj
@@ -320,6 +289,8 @@ struct __declspec(align(16)) FUN_00e67230_Obj
 
 // Constructs a temporary object and forwards the three arguments to its constructor.
 // @fnv 0x00e5d040
+// pdb: hkMoppModifyVirtualMachine_queryAabb | hkpMoppMachine.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: code, aabb, modifierOut
 void __cdecl ConstructTemporaryObject(int a1, int a2, int a3)
 {
     FUN_00e67230_Obj tmp;
@@ -366,42 +337,9 @@ struct hkAabbE485
     hkVector4E485 m_kMaximumCorner;
 };
 
-struct hkTransformE485
-{
-    hkVector4E485 m_kColumn0;
-    hkVector4E485 m_kColumn1;
-    hkVector4E485 m_kColumn2;
-    hkVector4E485 m_vTranslation;
-};
-extern const hkTransformE485 DAT_01268370;
-
 struct __declspec(align(16)) hkpShapeBufferE485
 {
     unsigned int m_kStorage[128];
-};
-
-class hkpShapeE485
-{
-  public:
-    virtual ~hkpShapeE485();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual void V4();
-    virtual void V5();
-    virtual void V6();
-    virtual void getAabb(const hkTransformE485& kLocalToWorld, float fTolerance, hkAabbE485& kOut) const;
-};
-
-class hkpShapeContainerE485
-{
-  public:
-    virtual ~hkpShapeContainerE485();
-    virtual void V1();
-    virtual void V2();
-    virtual void V3();
-    virtual void V4();
-    virtual const hkpShapeE485* GetShapeForKey(unsigned int uiKey, hkpShapeBufferE485& kBuffer) const;
 };
 
 template <class T> struct hkArrayE485
@@ -446,46 +384,6 @@ class hkpMoppModifierE485
     virtual void InvokeSecondModifierMethod();
 };
 
-class FUN_00e485d0 : public hkReferencedObjectE485, public hkpMoppModifierE485
-{
-  public:
-    hkArrayE485<unsigned int> m_kRemovedTerminalIds;
-    const hkArrayE485<unsigned int>* m_pTerminalIdsToRemove;
-
-    FUN_00e485d0(const hkpMoppCodeE485* pkMoppCode, const hkpShapeContainerE485* pkShapeContainer,
-                 const hkArrayE485<unsigned int>& kShapesToRemove);
-    virtual ~FUN_00e485d0();
-    virtual void InvokeFirstModifierMethod();
-    virtual void InvokeSecondModifierMethod();
-};
-
 void __cdecl ConstructTemporaryObject(const hkpMoppCodeE485* pkMoppCode, const hkAabbE485& kAabb, hkpMoppModifierE485* pkModifier);
 
-// Constructor that combines the AABBs of the shapes for kShapesToRemove and calls ConstructTemporaryObject with the MOPP code, that AABB and this.
-// @fnv 0x00e485d0
-FUN_00e485d0::FUN_00e485d0(const hkpMoppCodeE485* pkMoppCode, const hkpShapeContainerE485* pkShapeContainer,
-                           const hkArrayE485<unsigned int>& kShapesToRemove) throw()
-{
-    if (kShapesToRemove.GetLogicalSize() != 0)
-    {
-        hkAabbE485 kAabb;
-        hkpShapeBufferE485 kBuffer;
-        {
-            const hkpShapeE485* pkShape = pkShapeContainer->GetShapeForKey(kShapesToRemove[0], kBuffer);
-            pkShape->getAabb(DAT_01268370, 0.0f, kAabb);
-        }
-        for (int i = 1; i < kShapesToRemove.GetLogicalSize(); i++)
-        {
-            const hkpShapeE485* pkShape = pkShapeContainer->GetShapeForKey(kShapesToRemove[i], kBuffer);
-            hkAabbE485 kAabb2;
-            pkShape->getAabb(DAT_01268370, 0.0f, kAabb2);
-            hkAabbE485& kOut = kAabb;
-            kOut.m_kMinimumCorner.setMin4(kOut.m_kMinimumCorner, kAabb2.m_kMinimumCorner);
-            kOut.m_kMaximumCorner.setMax4(kOut.m_kMaximumCorner, kAabb2.m_kMaximumCorner);
-        }
-        m_pTerminalIdsToRemove = &kShapesToRemove;
-        ConstructTemporaryObject(pkMoppCode, kAabb, this);
-        m_pTerminalIdsToRemove = 0;
-    }
-}
 }  // namespace fnv_00e485d0

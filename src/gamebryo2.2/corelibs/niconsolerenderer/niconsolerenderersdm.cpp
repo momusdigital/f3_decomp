@@ -8,6 +8,8 @@ struct NiD3DShaderProgramCreatorHLSL
 };
 
 // @fnv 0x00e91ae0
+// pdb: CombatProcedureAttackMelee::Initialize | CombatProcedureAttackMelee.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCombatController
 void __thiscall NiD3DShaderProgramCreatorHLSL::FUN_00e91ae0(unsigned int uiFlags)
 {
     ((unsigned int*)this)[1] = uiFlags;

@@ -4,105 +4,19 @@
 
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct FUN_00622430_shell
-{
-    unsigned int __thiscall FUN_00622430();
-};
 struct NiRTTI;
-extern NiRTTI g_011d5e70;
-struct FUN_0066b5b0_shell
-{
-    const NiRTTI* __thiscall GetNiRTTI();
-};
-struct NiAVObject;
-struct NiNode
-{
-    NiAVObject* __thiscall GetAt(unsigned int);
-};
-struct BSTreeNode : NiNode
-{
-    NiAVObject* __thiscall GetFirstChild();
-};
-struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
-struct DummyNode
-{
-    void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
-    void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
-};
-struct FUN_00c6c290_holder
-{
-    void FUN_00c6c290();
-};
-struct FUN_0066d410_shell : public FUN_00c6c290_holder
-{
-    void FUN_0066d410();
-};
 struct NiRTTI
 {
 };
-extern const NiRTTI g_012683d0;
-struct FUN_0066d430_shell
-{
-    const NiRTTI* GetRTTI() const;
-};
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
-struct FUN_0066d440_shell
-{
-    void FUN_0066d470();
-    void* FUN_0066d440(unsigned int flags);
-};
-struct FUN_0066d470_shell
-{
-    void FUN_0066d410();
-    void FUN_0066d470();
-};
-struct FUN_0066d510_shell
-{
-    const void* FUN_0066d510();
-};
-extern const void* g_012683e0;
-struct FUN_0066d520_shell
-{
-    void FUN_00cb78b0();
-    void* FUN_0066d520(unsigned int flags);
-};
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct GlobalObjectO2_00a7b610
 {
 };
 GlobalObjectO2_00a7b610 g_012681b4;
-struct FUN_0066d610_shell
-{
-    GlobalObjectO2_00a7b610* GetGlobalObject();
-};
-struct bhkCapsuleShape
-{
-    unsigned int __thiscall FUN_0066d730() const;
-};
-struct FUN_0066da50_t
-{
-    void FUN_0066da50();
-};
-struct FUN_0066d7a0_shell
-{
-    int m0;
-    FUN_0066da50_t m1;
-    void RunInner();
-};
 struct Flt
 {
     operator unsigned int() const;
-};
-struct NiTriBasedGeom;
-struct FUN_0066b620_shell
-{
-    NiTriBasedGeom* __thiscall GetTriBasedGeom();
-};
-extern const char* const g_012683d0_arg1;
-struct FUN_0066d400_shell
-{
-    const char* const* GetArg1Ptr();
 };
 
 struct NiStream;
@@ -152,6 +66,8 @@ struct S_00c8c390
     bool FUN_00c8c390(NiStream*);
 };
 // @fnv 0x00c8c390
+// pdb: bhkTransformShape::RegisterStreamables | bhkTransformShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: arStream
 bool S_00c8c390::FUN_00c8c390(NiStream* arStream)
 {
     if (this)
@@ -199,6 +115,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall FUN_00d9b068(long*);
 extern "C" __declspec(dllimport) long __stdcall FUN_00d9b064(long*);
 typedef void (__thiscall* Release8f)(S_00c8c810_A*);
+// pdb: bhkTransformShape::Link | bhkTransformShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: abAttach
 void __thiscall H_00c8c810::FUN_00c8c810(bool b)
 {
     if (b)
@@ -371,6 +289,8 @@ struct BSFadeNode
     }
 };
 // @fnv 0x00c87fc0
+// pdb: bhkSPCollisionObject::CreateClone | bhkSPCollisionObject.obj | fnv360_0721_beta, objrun, low, conflict (bridge: bhkSPCollisionObject::CreateObject)
+// pdb params: arCloneData
 BSFadeNode* FUN_00c87fc0()
 {
     return new BSFadeNode;
@@ -396,11 +316,6 @@ struct NewObjA : BSFadeNode
         *(void**)this = &DAT_01066acc;
     }
 };
-// @fnv 0x00cb7640
-void* FUN_00cb7640()
-{
-    return new NewObjA;
-}
 }  // namespace fnv_00cb7640
 
 struct Middle
@@ -417,6 +332,8 @@ struct This
     void FUN_00c84e20(unsigned int* output);
 };
 // @fnv 0x00c84e20
+// pdb: bhkShape::CopyCinfo | bhkShape.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: arInfo
 void This::FUN_00c84e20(unsigned int* output)
 {
     *output = (this != 0 && middle != 0) ? middle->value : 0;
@@ -437,6 +354,8 @@ struct LegacyLinker : NiCollisionObject
     void FUN_00c87f80(NiStream*);
 };
 // @fnv 0x00c87f80
+// pdb: bhkPCollisionObject::LinkObject | bhkPCollisionObject.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void LegacyLinker::FUN_00c87f80(NiStream* stream)
 {
     if (stream->version >= 0x15)
@@ -517,6 +436,8 @@ struct C8C330Owner
 };
 
 // @f3 0x008fde90 (community match, verified in this file)
+// pdb: bhkTransformShape::LinkObject | bhkTransformShape.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arStream
 void C8C330Owner::FUN_00c8c330(C8C330Node* pkNode)
 {
     bool bCreated;
@@ -531,12 +452,6 @@ void C8C330Owner::FUN_00c8c330(C8C330Node* pkNode)
 
 
 typedef unsigned int C8CA60size_t;
-
-struct C8CA60MemoryManager
-{
-    void* Allocate(unsigned int uiSize);
-};
-extern C8CA60MemoryManager g_C8CA60MemoryManager;
 
 extern __declspec(thread) int g_C8CA60AllocTag;
 
@@ -555,15 +470,6 @@ struct C8CA60AllocTagScope
     }
 };
 
-inline void* C8CA60AlignedAlloc(unsigned int uiSize)
-{
-    char* pcMem = (char*)g_C8CA60MemoryManager.Allocate(uiSize);
-    unsigned char ucOffset = (unsigned char)(16 - ((unsigned char)(unsigned int)pcMem & 0xf));
-    pcMem += ucOffset;
-    pcMem[-1] = ucOffset;
-    return pcMem;
-}
-
 struct C8CA60Child
 {
     C8CA60Child();
@@ -573,31 +479,6 @@ struct C8CA60Child
         return pvMem;
     }
 };
-
-struct C8CA60Owner
-{
-    int unk00;
-    int unk04;
-    void* m_pParentNode;
-    C8CA60Child* m_pkChild;
-
-    void FUN_00c8c410(C8CA60Child* pkChild);
-    C8CA60Child* FUN_00c8ca60(bool* pbCreated);
-};
-
-// @fnv 0x00c8ca60
-C8CA60Child* C8CA60Owner::FUN_00c8ca60(bool* pbCreated)
-{
-    C8CA60AllocTagScope kScope(0x10);
-    *pbCreated = (m_pkChild == 0);
-    if (*pbCreated)
-    {
-        m_pkChild = new (C8CA60AlignedAlloc(0x60)) C8CA60Child();
-        if (m_pParentNode)
-            FUN_00c8c410(m_pkChild);
-    }
-    return m_pkChild;
-}
 
 struct StrArr
 {
@@ -614,28 +495,12 @@ struct StrArr
         FUN_0096ae90(index, text);
     }
 };
-struct NiPoint3
-{
-    float x, y, z;
-    char* FUN_00a59af0(const char*);
-};
-struct NiTransform
-{
-    float rotation[9];
-    NiPoint3 translate;
-    float scale;
-    char* ToString(const char*);
-};
 struct NativeTransform
 {
     float rotation[12];
     float translation[4];
 };
-void __cdecl FUN_00624b10(NiTransform*, NiPoint3*);
-void __cdecl FUN_00458620(NiPoint3*, const float*);
-extern NativeTransform DAT_01268370;
 char* __cdecl FUN_00a7d330(void*);
-extern unsigned int DAT_0126fd98;
 extern __declspec(thread) unsigned int currentTask;
 struct AutoMemContext
 {
@@ -713,22 +578,6 @@ struct Object
         return 0;
     }
 };
-// @fnv 0x00c8cb20
-void Object::FUN_00c8cb20(StrArr* output)
-{
-    AutoMemContext task;
-    FUN_00c851c0(output);
-    output->append(FUN_00a7d330(*(void**)&g_012681b4));
-    const NativeTransform* world = this && state ? &state->world : &DAT_01268370;
-    NiTransform transform;
-    FUN_00624b10(&transform, (NiPoint3*)world);
-    FUN_00458620(&transform.translate, world->translation);
-    output->append(transform.translate.FUN_00a59af0("Trans"));
-    output->append(transform.ToString("Rot"));
-    Component* component = getComponent();
-    if (component)
-        component->serialize(output);
-}
 
 struct CB7800RTTI
 {
@@ -787,27 +636,6 @@ struct CB7800AllocTagScope
     }
 };
 
-struct CB7800Base
-{
-    void GetViewerStrings(CB7800StringArray* pkStrings);
-};
-
-struct CB7800Object : CB7800Base
-{
-    static CB7800RTTI ms_kRTTI;
-
-    void FUN_00cb7800(CB7800StringArray* pkStrings);
-};
-
-// @fnv 0x00cb7800
-void CB7800Object::FUN_00cb7800(CB7800StringArray* pkStrings)
-{
-    CB7800AllocTagScope kScope(0x10);
-    CB7800Base::GetViewerStrings(pkStrings);
-    char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
-    pkStrings->Add(pcString);
-}
-
 struct S_00cb78b0_Base
 {
     virtual ~S_00cb78b0_Base();
@@ -821,6 +649,7 @@ struct FUN_00cb78b0 : S_00cb78b0_Base
 };
 
 // @fnv 0x00cb78b0
+// pdb: bhkRigidBodyT::`scalar deleting destructor' | bhkRigidBodyT.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00cb78b0::~FUN_00cb78b0()
 {
     FUN_00c876a0();
@@ -1025,6 +854,8 @@ struct Vector3
     float z;
 };
 // @fnv 0x00cf0930
+// pdb: bhkStream::SwapHKArray | bhkStream.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCInfo, aiSize, apArray
 void __cdecl FUN_00cf0930(void* buffer, int bytes, Vector3* vector)
 {
     int words = bytes / 4;
@@ -1232,21 +1063,6 @@ struct TlsGuard_t
     }
 };
 
-struct FUN_00c88210_cls
-{
-    void __thiscall FUN_00c6ba30(BSFadeNode* node, unsigned int flags);
-    BSFadeNode* FUN_00c88210(unsigned int flags);
-};
-
-// @fnv 0x00c88210
-BSFadeNode* FUN_00c88210_cls::FUN_00c88210(unsigned int flags)
-{
-    TlsGuard_t guard;
-    BSFadeNode* node = new BSFadeNode;
-    this->FUN_00c6ba30(node, flags);
-    return node;
-}
-
 extern __declspec(thread) int g_iC882C0AllocTag;
 
 struct BC882C0AllocTagScope
@@ -1290,25 +1106,7 @@ class BC882C0StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcC882C0Name;
-
 char* __cdecl FUN_00a7d330(const char* pcString);
-
-class FUN_00c882c0_cls
-{
-  public:
-    void C882C0BaseGetViewerStrings(BC882C0StringArray* pkArray);
-    void FUN_00c882c0(BC882C0StringArray* pkArray);
-};
-
-// @fnv 0x00c882c0
-void FUN_00c882c0_cls::FUN_00c882c0(BC882C0StringArray* pkArray)
-{
-    BC882C0AllocTagScope kScope(0x10);
-    C882C0BaseGetViewerStrings(pkArray);
-    char* pcName = FUN_00a7d330(g_pcC882C0Name);
-    pkArray->Add(pcName);
-}
 
 struct ScaleMatrix
 {
@@ -1381,13 +1179,15 @@ struct FUN_00caaea0_shell
     virtual void v43() = 0;
     virtual void v44() = 0;
     virtual ScaleMatrix* getMatrix(bool* outFlag) = 0;
-    void FUN_00c84df0(void* context, SourceObject* source);
+    void bhkShape_CopyMembers(void* context, SourceObject* source);
     void FUN_00caaea0(void* context, SourceObject* source);
 };
 // @f3 0x0091d1c0 (community match, verified in this file)
 struct CapsuleVector4 {float x,y,z,w; void Mul(float s){x*=s;y*=s;z*=s;w*=s;} };
 struct CapsuleGeometry {float unknown00;float radius;float unknown08,unknown0c;CapsuleVector4 vertexA,vertexB;};
 
+// pdb: bhkCapsuleShape::CopyMembers | bhkCapsuleShape.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apDest, arCloneData
 void FUN_00caaea0_shell::FUN_00caaea0(void* context, SourceObject* source)
 {
     bool flag;
@@ -1406,7 +1206,7 @@ void FUN_00caaea0_shell::FUN_00caaea0(void* context, SourceObject* source)
         }
     }
 
-    FUN_00c84df0(context,source);
+    bhkShape_CopyMembers(context,source);
 }
 
 
@@ -1616,72 +1416,6 @@ struct S_00caaf40_Obj
     static void* operator new(unsigned int);
     S_00caaf40_Obj();
 };
-
-struct S_00caaf40
-{
-    virtual void vfn_00();
-    virtual void vfn_04();
-    virtual void vfn_08();
-    virtual void vfn_0c();
-    virtual void vfn_10();
-    virtual void vfn_14();
-    virtual void vfn_18();
-    virtual void vfn_1c();
-    virtual void vfn_20();
-    virtual void vfn_24();
-    virtual void vfn_28();
-    virtual void vfn_2c();
-    virtual void vfn_30();
-    virtual void vfn_34();
-    virtual void vfn_38();
-    virtual void vfn_3c();
-    virtual void vfn_40();
-    virtual void vfn_44();
-    virtual void vfn_48();
-    virtual void vfn_4c();
-    virtual void vfn_50();
-    virtual void vfn_54();
-    virtual void vfn_58();
-    virtual void vfn_5c();
-    virtual void vfn_60();
-    virtual void vfn_64();
-    virtual void vfn_68();
-    virtual void vfn_6c();
-    virtual void vfn_70();
-    virtual void vfn_74();
-    virtual void vfn_78();
-    virtual void vfn_7c();
-    virtual void vfn_80();
-    virtual void vfn_84();
-    virtual void vfn_88();
-    virtual void vfn_8c();
-    virtual void vfn_90();
-    virtual void vfn_94();
-    virtual void vfn_98();
-    virtual void vfn_9c();
-    virtual void vfn_a0();
-    virtual void vfn_a4();
-    virtual void vfn_a8();
-    virtual void vfn_ac();
-    virtual void vfn_b0();
-    virtual void vfn_b4();
-    virtual void vfn_b8();
-    virtual void vfn_bc();
-    virtual void vfn_c0();
-    virtual void vfn_c4(S_00caaf40_Obj* o, int a);
-    S_00caaf40_Obj* FUN_00caaf40(int a);
-};
-
-// @fnv 0x00caaf40
-S_00caaf40_Obj* S_00caaf40::FUN_00caaf40(int a)
-{
-    S_00caaf40_Ctx ctx(0x10);
-    FUN_00c876f0();
-    S_00caaf40_Obj* o = new S_00caaf40_Obj;
-    vfn_c4(o, a);
-    FUN_00c87700();
-    return o;
-}
 
 namespace fnv_00cab000 {
 // FUN_00cab000 - bhkCapsuleShape::FUN_00cab000 (vtable slot 46 of .?AVbhkCapsuleShape@@)
@@ -1894,104 +1628,7 @@ struct TlsGuard_t
     }
 };
 
-// ---------------------------------------------------------------------------
-// The memory manager that hands out the object's memory.
-// ---------------------------------------------------------------------------
-struct MemoryManager
-{
-    void* Allocate(unsigned int size);
-};
-
-extern MemoryManager g_memoryManager;
-
-// The game's default radius (0.1f) lives in this float table.
-extern float DAT_010c72bc[];
-
-// ---------------------------------------------------------------------------
-// The 0x30 byte object that is allocated on first use.
-// The eight matrix floats at +0x10 are volatile because the original initialiser
-// writes the whole matrix area and then rewrites part of it: a plain store that
-// is overwritten later is deleted by the optimiser, a volatile one is kept.
-// ---------------------------------------------------------------------------
-struct BhkAllocObj
-{
-    int unk00;
-    float unk04;
-    int unk08;
-    int unk0c;
-    volatile float unk10;
-    volatile float unk14;
-    volatile float unk18;
-    volatile float unk1c;
-    volatile float unk20;
-    volatile float unk24;
-    volatile float unk28;
-    volatile float unk2c;
-};
-
-// ---------------------------------------------------------------------------
-// The shape itself.
-// ---------------------------------------------------------------------------
-struct BhkCap_00cab000
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void FUN_00caade0(BhkAllocObj* p);
-    int FUN_00cab000(bool* out);
-};
-
-// @fnv 0x00cab000
-int BhkCap_00cab000::FUN_00cab000(bool* out)
-{
-    TlsGuard_t guard;
-
-    bool b = (unk0c == 0);
-    *out = b;
-    if (b)
-    {
-        BhkAllocObj* p = (BhkAllocObj*)g_memoryManager.Allocate(0x30);
-        if (p)
-        {
-            p->unk00 = 0;
-            p->unk04 = DAT_010c72bc[0];
-            p->unk10 = 0.0f;
-            p->unk14 = 0.0f;
-            p->unk18 = 0.0f;
-            p->unk1c = 0.0f;
-            p->unk20 = 0.0f;
-            p->unk24 = 0.0f;
-            p->unk28 = 0.0f;
-            p->unk2c = 0.0f;
-            p->unk20 = 1.0f;
-            p->unk24 = 0.0f;
-            p->unk28 = 0.0f;
-            p->unk2c = 0.0f;
-        }
-        else
-        {
-            p = 0;
-        }
-        unk0c = (int)p;
-        if (unk08 != 0)
-        {
-            FUN_00caade0(p);
-        }
-    }
-    return unk0c;
-}
 }  // namespace fnv_00cab000
-
-struct AudioTlsState
-{
-    char* GetBlock();
-};
-
-struct MemoryContext
-{
-    int unk2b4;
-};
 
 extern __declspec(thread) int g_memoryContext;
 
@@ -2113,6 +1750,8 @@ struct Allocation524 {
 };
 struct Pending524 {Allocation524* pointer;__forceinline Pending524(Allocation524* value):pointer(value){_ReadWriteBarrier();}__forceinline ~Pending524(){if(pointer)delete pointer;}};
 struct Ref524 {virtual void Destroy(int);short size,references;};
+// pdb: bhkCapsuleShape::Init | bhkCapsuleShape.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arTop, arBottom, afRad
 void Owner::FUN_00cab0e0(int a,int b,float c) {
     Heap524* heap=Globals524::DAT_00d9b080(Globals524::DAT_010f3170);
     Allocation524* allocation=static_cast<Allocation524*>(heap->FUN_008f6d30(64,39));
@@ -2322,35 +1961,7 @@ struct S_00cab8c0_Ctx
         DAT_tls.ctx = saved;
     }
 };
-struct S_00cab8c0_Arr
-{
-    int unk00;
-    int unk04;
-    unsigned short m_iElementCount;
-    unsigned short m_uiItemCount;
-    unsigned short unk0c;
-    unsigned short m_grow;
-    void SetSize(unsigned n);
-    void SetAt(unsigned i, char* const& e);
-};
-extern int DAT_0126832c;
 char* FUN_00a7d330(int s);
-struct S_00cab8c0_Owner
-{
-    void FUN_00c9fc50(S_00cab8c0_Arr* a);
-    void FUN_00cab8c0(S_00cab8c0_Arr* a);
-};
-// @fnv 0x00cab8c0
-void S_00cab8c0_Owner::FUN_00cab8c0(S_00cab8c0_Arr* a)
-{
-    S_00cab8c0_Ctx guard(0x10);
-    FUN_00c9fc50(a);
-    char* s = FUN_00a7d330(DAT_0126832c);
-    unsigned idx = a->m_uiItemCount;
-    if (idx >= a->m_iElementCount)
-        a->SetSize(idx + a->m_grow);
-    a->SetAt(idx, s);
-}
 }  // namespace fnv_00cab8c0
 
 namespace fnv_00cb76a0 {
@@ -2565,20 +2176,6 @@ struct SpawnedFade
     }
 };
 
-struct FUN_00cb76a0_cls
-{
-    void __thiscall FUN_00c657f0(void* obj, unsigned int arg);
-    void* FUN_00cb76a0(unsigned int arg);
-};
-
-// @fnv 0x00cb76a0
-void* FUN_00cb76a0_cls::FUN_00cb76a0(unsigned int arg)
-{
-    TlsGuard_t guard;
-    SpawnedFade* obj = new SpawnedFade;
-    this->FUN_00c657f0(obj, arg);
-    return obj;
-}
 }  // namespace fnv_00cb76a0
 
 struct FUN_00cb7790_node
@@ -2621,14 +2218,6 @@ struct FUN_00cb7790_receiver
     void __thiscall FUN_0056df20(Buf00cb7750*);
 };
 
-struct FUN_00cb7790_state
-{
-    unsigned int owner;
-    unsigned int depth;
-    void __thiscall FUN_0040fbf0(int);
-};
-extern FUN_00cb7790_state DAT_01267b80;
-
 struct FUN_00cb7790_class
 {
     unsigned int unk00;
@@ -2664,6 +2253,7 @@ struct StateStub
 
 extern StateStub DAT_010f2c40;
 
+// pdb: bhkSPCollisionObject::NitohkTransform | bhkSPCollisionObject.obj | fnv360_0822_retail, caller_sim, medium
 void FUN_00cb7790_class::FUN_00cb7790()
 {
     ReceiverStub* pReceiver = (ReceiverStub*)receiver;
@@ -2735,9 +2325,9 @@ struct Guard
 };
 
 void* __cdecl opnew(unsigned int);
-void __cdecl opdelete(void*);
 
 // @fnv 0x00cb7920
+// pdb: bhkMultiSphereShape::CreateObject | bhkMultiSphereShape.obj | fnv360_0822_retail, objrun, medium
 Node* FUN_00cb7920()
 {
     Node* p = (Node*)opnew(0x14);
@@ -2822,6 +2412,8 @@ void FUN_00cf0930(int* a, int b, int* c);
 void FUN_00cf0f40(Pass* pass, int* b);
 
 // @f3 0x0092a140 (community match, verified in this file)
+// pdb: bhkMultiSphereShape::LoadBinary | bhkMultiSphereShape.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: bhkListShape::RegisterStreamables)
+// pdb params: arStream
 void Shader::FUN_00cb7b20(Pass* pass)
 {
     FUN_00c84d00(pass);
@@ -3035,13 +2627,6 @@ struct TlsGuard
     }
 };
 
-struct SpawnArgs
-{
-    int unk00;
-    unsigned int m_kPointA;
-    unsigned int m_kPointB;
-};
-
 struct SpawnAllocator
 {
     virtual void v00();
@@ -3113,69 +2698,6 @@ struct SpawnedNode
     }
 };
 
-struct FUN_00cb7b80_cls
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35(SpawnedNode* n);
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47(SpawnArgs* a);
-    void FUN_00cb7b80(SpawnArgs* a);
-};
-
-// @fnv 0x00cb7b80
-void FUN_00cb7b80_cls::FUN_00cb7b80(SpawnArgs* a)
-{
-    TlsGuard guard;
-    unsigned int b, c;
-    SpawnedNode* n = new SpawnedNode(c = a->m_kPointA, b = a->m_kPointB);
-    this->v35(n);
-    n->Finish();
-    this->v47(a);
-}
 }  // namespace fnv_00cb7b80
 
 namespace fnv_00cb8150 {
@@ -3224,32 +2746,6 @@ struct CbArr8150
     }
 };
 
-extern "C" unsigned char __stdcall FUN_00c84dc0(void* a1);
-extern "C" unsigned char __cdecl FUN_00cf08c0(int* pA, void** pB);
-
-struct FUN_00cb8150_cls
-{
-    int unk00;
-    void FUN_00cb7c60(CbArr8150* p);
-
-    unsigned char FUN_00cb8150(void* a1);
-};
-
-// @fnv 0x00cb8150
-unsigned char FUN_00cb8150_cls::FUN_00cb8150(void* a1)
-{
-    FUN_00cb8150_cls* other = (FUN_00cb8150_cls*)a1;
-    unsigned char r = FUN_00c84dc0(a1);
-    if (r != 0)
-    {
-        CbArr8150 a;
-        CbArr8150 b;
-        this->FUN_00cb7c60(&a);
-        other->FUN_00cb7c60(&b);
-        r = FUN_00cf08c0((int*)&a.m_pData, (void**)&b.m_pData);
-    }
-    return r;
-}
 }  // namespace fnv_00cb8150
 
 namespace fnv_00cb8330 {
@@ -3473,42 +2969,6 @@ struct S_00cb8330_Pool
     void FUN_00aa4060(void* p);
 };
 extern S_00cb8330_Pool DAT_011f6238;
-struct S_00cb8330_Obj
-{
-    int unk00;
-    void* m_data;
-    int m_iElementCount;
-    int m_cap;
-};
-struct S_00cb8330_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00cb8330_Obj* m_0c;
-    void FUN_00cb8330(bool bFree);
-};
-// @fnv 0x00cb8330
-void S_00cb8330_cls::FUN_00cb8330(bool bFree)
-{
-    TlsGuard guard;
-    if (bFree)
-    {
-        S_00cb8330_Obj* p = m_0c;
-        if (p)
-        {
-            S_00cb8330_Heap& h = FUN_00c85750()->heap();
-            int cap = p->m_cap;
-            p->m_iElementCount = 0;
-            if ((cap & 0x80000000) == 0)
-                h.v10(p->m_data, (cap & 0x3fffffff) * 16);
-            p->m_data = 0;
-            p->m_cap = 0x80000000;
-            DAT_011f6238.FUN_00aa4060(p);
-        }
-        m_0c = 0;
-    }
-}
 }  // namespace fnv_00cb8330
 
 struct A1Owner
@@ -3669,7 +3129,6 @@ struct OwnerB
 };
 
 void __cdecl FUN_00cf0930(void* a, void* b, void* c);
-void __cdecl FUN_00cf0cf0(void* a, void* b);
 
 struct TmpGuard
 {
@@ -3744,7 +3203,7 @@ struct FUN_00cb8010_cls
     virtual void vB0();
     virtual OwnerB* v45(unsigned char* pFlag);
 
-    void __thiscall FUN_00c84d50(A1Owner* a1);
+    void __thiscall bhkShape_SaveBinary(A1Owner* a1);
     void __thiscall FUN_00cb8010(A1Owner* a1);
 };
 
@@ -3785,6 +3244,8 @@ struct TmpGuard2
     }
 };
 
+// pdb: bhkMultiSphereShape::SaveBinary | bhkMultiSphereShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: arStream
 void __thiscall FUN_00cb8010_cls::FUN_00cb8010(A1Owner* a1)
 {
     unsigned int flagSlot;
@@ -3908,8 +3369,6 @@ struct CObj
     bool __thiscall FUN_00c8c3d0(int value);
 };
 
-bool __stdcall FUN_00c84ec0(void* value);
-
 inline bool Walk(CObj* o, int v, bool r)
 {
     if (o)
@@ -4017,6 +3476,8 @@ bool __thiscall CObj::FUN_00c8c3d0(int value)
 
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 // @fnv 0x00c8c020
+// pdb: bhkStream::Endian | bhkTransformShape.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arTrans
 void __cdecl FUN_00c8c020(unsigned int* apData)
 {
     *(volatile unsigned int*)&apData[0] = _byteswap_ulong(*(volatile unsigned int*)&apData[0]);
@@ -4037,7 +3498,7 @@ struct FUN_00c8c1e0_arg
 {
     int unk00;
     unsigned int m04;
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
     int unk08;
     int unk0C;
     int unk10;
@@ -4293,32 +3754,6 @@ struct FUN_00c8c1e0_cls
     void FUN_00c8c1e0(FUN_00c8c1e0_arg* a1);
 };
 
-// @fnv 0x00c8c1e0
-void FUN_00c8c1e0_cls::FUN_00c8c1e0(FUN_00c8c1e0_arg* a1)
-{
-    FUN_00c8c1e0_rec* r;
-    FUN_00c8c1e0_arg* volatile* pa = &a1;
-    FUN_00c8c1e0_arg* a = *pa;
-    a->FUN_00a645b0();
-    FUN_00c84d00(a);
-    r = GetRec(a1);
-    r->m04 = 0;
-    if (a->m1E5 != 1)
-    {
-        FUN_00c8c1e0_sub* s = &r->sub;
-        volatile unsigned int* w = &s->m30;
-        w[0] = _byteswap_ulong(w[0]);
-        w[1] = _byteswap_ulong(w[1]);
-        w[2] = _byteswap_ulong(w[2]);
-        w[3] = _byteswap_ulong(w[3]);
-        FUN_00c8c020(s);
-    }
-    if (a->m04 < 0x32)
-    {
-        r->sub.Flush();
-    }
-}
-
 struct C8C260Block
 {
     int unk00;
@@ -4558,7 +3993,7 @@ struct C8C260Shader
     int unk04;
     C8C260Link* m_link;
 
-    void FUN_00c84d50(C8C260Renderer* pkRenderer);
+    void bhkShape_SaveBinary(C8C260Renderer* pkRenderer);
     void FUN_00c8c260(C8C260Renderer* pkRenderer);
 };
 
@@ -4570,8 +4005,10 @@ inline void* C8C260GetTarget(C8C260Shader* p)
 // @f3 0x008fddc0 (community match, verified in this file)
 struct FUN_00c84d50_cls
 {
-    void FUN_00c84d50(void* p);
+    void bhkShape_SaveBinary(void* p);
 };
+// pdb: bhkTransformShape::SaveBinary | bhkTransformShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void C8C260Shader::FUN_00c8c260(C8C260Renderer* pkRenderer)
 {
     pkRenderer->SetTarget(C8C260GetTarget(this));
@@ -4590,7 +4027,7 @@ void C8C260Shader::FUN_00c8c260(C8C260Renderer* pkRenderer)
             FUN_00c8c020(header);
         }
     }
-    reinterpret_cast<FUN_00c84d50_cls*>(this)->FUN_00c84d50(pkRenderer);
+    reinterpret_cast<FUN_00c84d50_cls*>(this)->bhkShape_SaveBinary(pkRenderer);
     if (pkBlock)
     {
         pkBlock->m_flags = 0;
@@ -4610,33 +4047,6 @@ void C8C260Shader::FUN_00c8c260(C8C260Renderer* pkRenderer)
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 typedef void(__thiscall* ReleaseFn_t)(S_00c8c810_A* apObj);
-
-// @fnv 0x00c8c770
-void H_00c8c810::FUN_00c8c770()
-{
-    TlsGuard_t guard;
-    if (this != 0)
-    {
-        S_00c8c810_C* pC = this->p;
-        if (pC != 0)
-        {
-            S_00c8c810_B* pB = pC->p;
-            if (pB != 0)
-            {
-                S_00c8c810_A* pA = pB->p;
-                if (pA != 0)
-                {
-                    if (InterlockedDecrement(&pA->_ref) == 0)
-                    {
-                        void** vt = *(void***)pA;
-                        ReleaseFn_t fn = (ReleaseFn_t)vt[1];
-                        fn(pA);
-                    }
-                }
-            }
-        }
-    }
-}
 
 namespace fnv_00c8c130 {
 struct RenderArg
@@ -4736,85 +4146,6 @@ struct RenderResult
     volatile float colour48;
     float colour4C;
 };
-struct RenderProcessor
-{
-    virtual void method0();
-    virtual void method1();
-    virtual void method2();
-    virtual void method3();
-    virtual void method4();
-    virtual void method5();
-    virtual void method6();
-    virtual void method7();
-    virtual void method8();
-    virtual void method9();
-    virtual void method10();
-    virtual void method11();
-    virtual void method12();
-    virtual void method13();
-    virtual void method14();
-    virtual void method15();
-    virtual void method16();
-    virtual void method17();
-    virtual void method18();
-    virtual void method19();
-    virtual void method20();
-    virtual void method21();
-    virtual void method22();
-    virtual void method23();
-    virtual void method24();
-    virtual void method25();
-    virtual void method26();
-    virtual void method27();
-    virtual void method28();
-    virtual void method29();
-    virtual void method30();
-    virtual void method31();
-    virtual void method32();
-    virtual void method33();
-    virtual void method34();
-    virtual void method35();
-    virtual void method36();
-    virtual void method37();
-    virtual void method38();
-    virtual void method39();
-    virtual void method40();
-    virtual void method41();
-    virtual void method42();
-    virtual void method43();
-    virtual void method44();
-    virtual RenderResult* GetRendered(unsigned char*);
-    void FUN_00c84df0(void* input, RenderArg* arg);
-    void FUN_00c8c130(void* input, RenderArg* arg);
-};
-// @fnv 0x00c8c130
-void RenderProcessor::FUN_00c8c130(void* input, RenderArg* arg)
-{
-    unsigned char ignored;
-    RenderResult* result = GetRendered(&ignored);
-    RenderNode* node = result->holder04 ? result->holder04->node08 : 0;
-    float alpha = arg->alpha;
-    if (alpha != 1.0f)
-    {
-        result->colour40 = result->colour40 * alpha;
-        result->colour44 *= alpha;
-        result->colour48 *= alpha;
-        result->colour4C *= alpha;
-    }
-    else
-    {
-        if (node == 0)
-            goto complete;
-        if (node->NeedsRefresh(arg))
-            goto complete;
-    }
-    {
-        HolderResult* replacement = node->Fetch(arg);
-        result->holder04 = replacement ? replacement->link08 : 0;
-    }
-complete:
-    FUN_00c84df0(input, arg);
-}
 }  // namespace fnv_00c8c130
 
 namespace fnv_00c8c4d0 {
@@ -5154,36 +4485,6 @@ struct AutoMemContext
     }
 };
 
-struct S_00cb8270
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00cb8270_Array* unk0C;
-
-    void FUN_00cb7c60(S_00cb8270_Array*);
-
-    S_00cb8270_Array* FUN_00cb8270(bool& outCreated);
-};
-
-// @fnv 0x00cb8270
-S_00cb8270_Array* S_00cb8270::FUN_00cb8270(bool& outCreated)
-{
-    AutoMemContext memContext(0x10);
-
-    bool created = (unk0C == 0);
-    outCreated = created;
-    if (created)
-    {
-        S_00cb8270_Array* arr = new S_00cb8270_Array();
-        unk0C = arr;
-        if (unk08 != 0)
-        {
-            FUN_00cb7c60(arr);
-        }
-    }
-    return unk0C;
-}
 }  // namespace fnv_00cb8270
 
 struct CollisionStreamLoader : NiCollisionObject
@@ -5198,6 +4499,8 @@ struct LegacyCollisionLoader : CollisionStreamLoader
 };
 
 // @fnv 0x00c87f60
+// pdb: bhkPCollisionObject::LoadBinary | bhkPCollisionObject.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void __thiscall LegacyCollisionLoader::FUN_00c87f60(NiStream& stream)
 {
     if (stream.version >= 0x15)

@@ -22,6 +22,7 @@ struct BD2E40Ctx_Layout
     void FUN_00bd24f0(int kind, int a, int b, int c, Ptr_bd2e40_Layout owner, Vec3_bd2e40_Layout position);
     void FUN_00bd2e40();
 };
+// pdb: BSAudioManager::VolumeChanged | BSAudioManager.obj | fnv360_0822_retail, call_seq, low
 void BD2E40Ctx_Layout::FUN_00bd2e40()
 {
     FUN_00bd24f0(14, 0, 0, 0, Ptr_bd2e40_Layout(), *reinterpret_cast<const Vec3_bd2e40_Layout*>(&DAT_0108ec68));

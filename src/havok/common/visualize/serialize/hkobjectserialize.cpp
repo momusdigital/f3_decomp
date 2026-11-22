@@ -23,28 +23,9 @@ struct C68E30MemoryRouter
 extern "C" C68E30MemoryRouter& __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
-struct C68E30PrimaryBase
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-
 struct C68E30Listener
 {
     int unk00;
-};
-
-struct C68E30Entity : C68E30PrimaryBase, C68E30Listener
-{
-};
-
-struct C68E30Holder
-{
-    int unk00;
-    int unk04;
-    C68E30Entity* m_pEntity;
 };
 
 struct C68E30Pair
@@ -78,65 +59,6 @@ struct C68E30PairArray
     }
 };
 
-struct C68E30Owner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    C68E30PairArray m_kListeners;
-
-    void FUN_00c68e30(C68E30Holder* holder, int value);
-};
-
-// @fnv 0x00c68e30
-void C68E30Owner::FUN_00c68e30(C68E30Holder* holder, int value)
-{
-    C68E30Pair pair;
-    pair.m_uiFilterValue = value;
-    C68E30Listener* listener = 0;
-    if (holder->m_pEntity)
-        listener = holder->m_pEntity;
-    pair.m_kListener = listener;
-    m_kListeners.AddBack(pair);
-}
-
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-    virtual void v0c();
-    virtual void Resize(void* apMemory, unsigned int auiSize) throw();
-};
-
 struct AudioHolder
 {
     int unk00;
@@ -150,8 +72,6 @@ namespace fnvc_adapt {
 AudioHolder* __cdecl FUN_00c85750() throw();
 }
 void __cdecl FUN_00c908c0(void* apOwner, void* apArray, int aiSize, int aiAlign);
-
-extern int DAT_01268fd0;
 
 struct SweptVirtualObj
 {
@@ -200,6 +120,8 @@ struct FUN_00d641f0_cls
 extern int DAT_011697ec;
 void __cdecl FUN_00901e90(void* array, int count, int elementSize);
 
+// pdb: hkpSweptTransformDisplayViewer::removeAllGeometries | hkpSweptTransformDisplayViewer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: worldIndex
 void FUN_00d641f0_cls::ClearSweptEntry(int index)
 {
     SweptEntry* entry = m_30[index];
@@ -257,9 +179,9 @@ struct Buffer
     Sink* stream;
     bool byteSwap;
     void FUN_00d60830(Sink*, ByteSwap) throw();
-    void FUN_00d609a0(unsigned int, unsigned int) throw();
+    void hkOArchive_write64u(unsigned int, unsigned int) throw();
     void WriteInt(unsigned int) throw();
-    void FUN_00d60960(unsigned int) throw();
+    void hkOArchive_write32u(unsigned int) throw();
     void FUN_00d60590() throw();
 };
 
@@ -267,7 +189,8 @@ struct Buffer
 // @f3 0x00a8b5b0 (community match, verified in this file)
 namespace Task1491 { struct Entry12 { unsigned first,second,third; }; }
 // @fnv 0x00e0b850
-static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
+// pdb: _writeData | hkObjectSerialize.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(caller_sim), high
+static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
                                              const void* payload, unsigned int payloadBytes, ByteSwap byteSwap,
                                              Data* data, Sink* sink)
 {
@@ -276,20 +199,20 @@ static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, u
     unsigned int count;
     Buffer buffer;
     buffer.FUN_00d60830(sink, byteSwap);
-    buffer.FUN_00d609a0(a1, a2);
+    buffer.hkOArchive_write64u(a1, a2);
     if (!*sink->Get(&status))
     {
         buffer.FUN_00d60590();
         return -1;
     }
-    buffer.FUN_00d609a0(a3, a4);
+    buffer.hkOArchive_write64u(a3, a4);
     if (!*sink->Get(&status))
     {
         buffer.FUN_00d60590();
         return -1;
     }
     count = data->pairCount;
-    buffer.FUN_00d60960(count);
+    buffer.hkOArchive_write32u(count);
     bytes = 0x14;
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -303,13 +226,13 @@ static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, u
         bytes += 8;
     }
     count = data->tripleCount;
-    buffer.FUN_00d60960(count);
+    buffer.hkOArchive_write32u(count);
     bytes += 4;
     for (unsigned int i = 0; i < count; ++i)
     {
         buffer.WriteInt(((Task1491::Entry12*)data->triples)[i].first);
-        buffer.FUN_00d609a0(((Task1491::Entry12*)data->triples)[i].second, 0);
-        buffer.FUN_00d609a0(((Task1491::Entry12*)data->triples)[i].third, 0);
+        buffer.hkOArchive_write64u(((Task1491::Entry12*)data->triples)[i].second, 0);
+        buffer.hkOArchive_write64u(((Task1491::Entry12*)data->triples)[i].third, 0);
         if (!*sink->Get(&status))
         {
             buffer.FUN_00d60590();
@@ -317,7 +240,7 @@ static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, u
         }
         bytes += 20;
     }
-    buffer.FUN_00d60960(payloadBytes);
+    buffer.hkOArchive_write32u(payloadBytes);
     if (!*sink->Get(&status))
     {
         buffer.FUN_00d60590();
@@ -337,7 +260,7 @@ static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, u
 int SerializeData(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, const void* payload,
                   unsigned int payloadBytes, ByteSwap byteSwap, Data* data, Sink* sink)
 {
-    return FUN_00e0b850(a1, a2, a3, a4, payload, payloadBytes, byteSwap, data, sink);
+    return _writeData(a1, a2, a3, a4, payload, payloadBytes, byteSwap, data, sink);
 }
 
 struct C68E30Allocator
@@ -350,8 +273,6 @@ struct C68E30Allocator
 };
 
 void __cdecl FUN_00c908c0(void* alloc, void* array, int numElements, int sizeElem);
-void* __cdecl AllocateWithHeader(void* alloc, int size);
-void __cdecl FUN_00c856c0(void* alloc, void* p);
 
 struct hkBool
 {
@@ -454,6 +375,8 @@ template <typename T> __forceinline void GrowItems(hkArray<T>& a,int size) throw
  if(cap<size) {int size2=size; int newCap=cap+cap; int n=size; if(n<newCap)n=newCap; FUN_00901e90(&a,n,sizeof(T));}
  a.m_iElementCount=size;
 }
+// pdb: hkObjectSerialize::readObject | hkObjectSerialize.obj | fnv360_0822_retail, objrun, medium
+// pdb params: s, data, dataSize, globalFixups, klassID
 unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuffer, int* outAllocSize,
                                            hkArray<Item24>& outItems, void* tag)
 {
@@ -561,7 +484,7 @@ struct ObjectWriteFlag
         return value != 0;
     }
 };
-static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
+static __declspec(noinline) int _writeData(Data* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
                                              unsigned int classLow, unsigned int classHigh, const void* payload,
                                              unsigned int payloadSize, ObjectWriteFlag swap)
 {
@@ -572,20 +495,20 @@ static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigne
     ByteSwap endian;
     endian.value = swap;
     archive.FUN_00d60830(output, endian);
-    archive.FUN_00d609a0(idLow, idHigh);
+    archive.hkOArchive_write64u(idLow, idHigh);
     if (!*output->Get(&ok))
     {
         archive.FUN_00d60590();
         return -1;
     }
-    archive.FUN_00d609a0(classLow, classHigh);
+    archive.hkOArchive_write64u(classLow, classHigh);
     if (!*output->Get(&ok))
     {
         archive.FUN_00d60590();
         return -1;
     }
     count = fixups->pairCount;
-    archive.FUN_00d60960(count);
+    archive.hkOArchive_write32u(count);
     total = 20;
     for (unsigned int j = 0; j < count; ++j)
     {
@@ -599,13 +522,13 @@ static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigne
         total += 8;
     }
     count = fixups->tripleCount;
-    archive.FUN_00d60960(count);
+    archive.hkOArchive_write32u(count);
     total += 4;
     for (unsigned int j = 0; j < count; ++j)
     {
         archive.WriteInt(fixups->triples[j].first);
-        archive.FUN_00d609a0(fixups->triples[j].second, 0);
-        archive.FUN_00d609a0(fixups->triples[j].third, 0);
+        archive.hkOArchive_write64u(fixups->triples[j].second, 0);
+        archive.hkOArchive_write64u(fixups->triples[j].third, 0);
         if (!*output->Get(&ok))
         {
             archive.FUN_00d60590();
@@ -613,7 +536,7 @@ static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigne
         }
         total += 20;
     }
-    archive.FUN_00d60960(payloadSize);
+    archive.hkOArchive_write32u(payloadSize);
     if (!*output->Get(&ok))
     {
         archive.FUN_00d60590();
@@ -628,14 +551,6 @@ static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigne
     archive.FUN_00d60590();
     return total + payloadSize + 4;
 }
-
-struct ObjectWriteTri
-{
-    int a;
-    int b;
-    int c;
-    int d;
-};
 
 struct ObjectWriteItem
 {
@@ -654,68 +569,15 @@ struct ObjectWriteArrItem
     int m_cap;
 };
 
-struct ObjectWriteArrTri
-{
-    ObjectWriteTri* m_data;
-    int m_iElementCount;
-    int m_cap;
-};
-
-struct ObjectWriteArrByte
-{
-    char* m_data;
-    int m_iElementCount;
-    int m_cap;
-};
-
-struct ObjectWriteArrInt
-{
-    int* m_data;
-    int m_iElementCount;
-    int m_cap;
-};
-
-struct ObjectWriteW
-{
-    ObjectWriteArrInt m_a0;
-    ObjectWriteArrTri m_a1;
-    ObjectWriteArrInt m_a2;
-    ObjectWriteArrInt m_a3;
-    int m_30;
-    void FUN_00e028e0();
-};
-
-struct ObjectWriteZ
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    void FUN_00cc06f0(ObjectWriteArrByte* y, int one);
-    void FUN_00cc0780();
-};
-
 struct ObjectWriteInfo
 {
     char unk00;
     char m_01;
 };
 
-struct ObjectWriteX
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void FUN_00e02bb0(ObjectWriteInfo* info);
-    void FUN_00e02a80(ObjectWriteZ* z, int a, int b, ObjectWriteW* w);
-    void FUN_00e02c70();
-};
-
 extern char DAT_011b7b89;
 
-// Writes an object record to a sink by serializing its fixups and payload via FUN_00e0b850, returning the total bytes written.
+// Writes an object record to a sink by serializing its fixups and payload via _writeData, returning the total bytes written.
 // @f3 0x00a8bb00 (community match, verified in this file)
 #include <windows.h>
 struct NativeFixup {
@@ -772,9 +634,8 @@ struct NativeThreadMemory {
 extern char DAT_00e7a244, DAT_00dcc494;
 extern unsigned long DAT_010f3170;
 extern void __cdecl FUN_00901f10(void*, int);
-extern int __cdecl FUN_00a8b5b0(Data* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
-                                unsigned int classLow, unsigned int classHigh, const void* payload,
-                                unsigned int payloadSize, ObjectWriteFlag swap);
+// pdb: hkObjectSerialize::writeObject | hkObjectSerialize.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: s, destLayout, dataID, data, klass, globalFixups
 int __cdecl FUN_00e0bd40(Sink* sink, ObjectWriteInfo* layout, unsigned int idLow,
                          unsigned int idHigh, int source, unsigned int size, ObjectWriteArrItem* output)
 {
@@ -821,7 +682,7 @@ int __cdecl FUN_00e0bd40(Sink* sink, ObjectWriteInfo* layout, unsigned int idLow
         slot.m_10 = fixups.triples[i].classId;
         slot.m_14 = 0;
     }
-    int written = FUN_00e0b850((Data*)&fixups, sink, idLow, idHigh, size, 0, bytes.data, bytes.size, ObjectWriteFlag(layout->m_01 != DAT_011b7b89));
+    int written = _writeData((Data*)&fixups, sink, idLow, idHigh, size, 0, bytes.data, bytes.size, ObjectWriteFlag(layout->m_01 != DAT_011b7b89));
     fixups.FUN_009b2fd0();
     writer.vtable = &DAT_00e7a244;
     if (writer.skipRelease == 0) {

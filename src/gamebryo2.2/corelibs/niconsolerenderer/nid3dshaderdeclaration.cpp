@@ -11,6 +11,7 @@ struct FUN_00e7a1e0_shell
 
 // Calls FUN_00e78be0, then deletes this with size 0x2c when flags has bit 0 set, and returns this.
 // @fnv 0x00e7a1e0
+// pdb: NiBSplineCompFloatInterpolator::`scalar deleting destructor' | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, objrun, medium
 void* FUN_00e7a1e0_shell::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00e78be0();
@@ -58,6 +59,8 @@ struct NiVBBlock
 };
 
 // @fnv 0x00e942d0
+// pdb: NiXenonRenderer::ReleaseDevice | NiD3DShaderDeclaration.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiVBBlock::ClearAllData)
+// pdb params: pkDevice
 void NiVBBlock::FUN_00e942d0()
 {
     unsigned int zero = 0;

@@ -21,35 +21,6 @@ struct D3DD50Collector : D3DD50CollectorBase {
     virtual void unk00();
     virtual void unk04();
 };
-void __cdecl D3DD50Query(int a, int b, int c, D3DD50CollectorBase* collector);
-void __cdecl QueryD3DCollector(int aiArg1, int aiArg2, int aiArg3, int aiData);
-extern char DAT_010ce7fc[];
-struct Functor_d3e110 {
-    void* m_vtbl;
-    float m_fHitFraction;
-    int m_uiFilterValue;
-};
-void __cdecl FUN_00d3d8c0(int a, int b, int c, Functor_d3e110* f);
-void __cdecl FUN_00d3e110(int a, int b, int aiArg3, int d);
-struct SpawnedInner
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void unk10();
-    virtual void unk14(unsigned short flags, void* param);
-};
-class FUN_00d3d200_cls
-{
-public:
-    virtual void unk00(int flags);
-    int m_unk04;                 // +0x04
-    SpawnedInner* m_pInner;      // +0x08
-    unsigned short m_wFlags;     // +0x0C
-
-    void FUN_00d3d200(void* param);
-};
 struct hkMemory {
     virtual void unk0();
     virtual void* allocateChunk(int size);
@@ -62,7 +33,6 @@ struct hkThreadMemory {
         return m_pMemoryAllocator->allocateChunk(size);
     }
 };
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00cd7160(void* src, void* dst);
 extern "C" const void* DAT_010cf060;
 extern "C" const void* DAT_010cf09c;
@@ -87,22 +57,6 @@ struct TargetAgent {
         vtable = &DAT_010cf09c;
     }
 };
-void* __cdecl CreateTargetAgent(void* bodyA, void* bodyB, void* input, void* mgr);
-extern char DAT_010ce81c[];
-struct D3DD10Data
-{
-    void* vt;
-    unsigned char flag;
-    unsigned int value;
-};
-struct D3DD10Object
-{
-    void __thiscall FUN_00d3d2a0(unsigned int a1, unsigned int a2,
-                                 unsigned int a3, D3DD10Data* data);
-
-    void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1,
-                                 unsigned int p2, unsigned int p3);
-};
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 extern "C" {
 __m128 _mm_add_ps(__m128, __m128);
@@ -126,52 +80,6 @@ __forceinline void hkSwap(T& a, T& b)
     a = b;
     b = t;
 }
-struct NibblePair
-{
-    unsigned char lo : 4;
-    unsigned char hi : 4;
-};
-struct SpawnedParticle
-{
-    hkVector4q m_vContactPosition;
-    hkVector4q m_fVelocity;
-    hkVector4q m_extra;
-};
-struct ParticleSystemState
-{
-    SpawnedParticle* m_kRayEnd;
-    int unk0004;
-    int unk0008;
-    int unk000C;
-    SpawnedParticle m_particles[256];
-    int unk3010;
-    int unk3014;
-    int unk3018;
-    int unk301C;
-    hkVector4q m_3020;
-    float m_3030;
-    int unk3034;
-    int unk3038;
-    int unk303C;
-    struct Info
-    {
-        unsigned short m_3040;
-        unsigned short m_3042;
-        unsigned short m_3044;
-        unsigned short unk3046;
-        unsigned char m_3048;
-        unsigned char m_3049;
-        NibblePair m_304a;
-        unsigned char unk304b;
-    } m_info;
-};
-extern hkVector4q DAT_010c4c00;
-class ParticleSystemOps
-{
-public:
-    void FUN_00d3dd90(int a, int b, int c, ParticleSystemState* state);
-    void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
-};
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern "C" {
@@ -182,7 +90,6 @@ __m128 _mm_unpacklo_ps(__m128, __m128);
 __m128 _mm_unpackhi_ps(__m128, __m128);
 __m128 _mm_movelh_ps(__m128, __m128);
 __m128 _mm_movehl_ps(__m128, __m128);
-void _mm_store_ps(float*, __m128);
 }
 extern "C" DWORD DAT_0126835c;
 struct __declspec(align(16)) Vec4 {
@@ -191,24 +98,6 @@ struct __declspec(align(16)) Vec4 {
 struct Res {
     Vec4 pt;
     float d;
-};
-struct Arg3S {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    float f10;
-};
-struct ProfRec {
-    const char* name;
-    unsigned int tsc;
-    unsigned int unk08;
-};
-struct ProfBuf {
-    unsigned int unk00;
-    ProfRec* cur;
-    unsigned int unk08;
-    ProfRec* end;
 };
 struct XForm {
     __m128 r0;
@@ -247,30 +136,11 @@ struct SinkWrap {
     Sink* p;
     SinkWrap(Sink* q) : p(q) {}
 };
-class SphereTriAgent {
-public:
-    int unk00, unk04, unk08, unk0C;
-    float unk10;
-    void FUN_00d3d2a0(BodyHolderB* a, BodyHolderB* b, int c_, Sink* sink);
-};
 // rotate the translation difference by the inverse of B's rotation (HK_TRANSPOSE3), compute the
 // closest point, and report a contact when the distance is below the summed radii.
 extern DWORD DAT_0126835c;
-extern char DAT_010cf0d4[];
 // "TtSphereTri"
-extern char DAT_010c41f8[];
 // "Et"
-struct S_00d3d3e0_Entry {
-    const char* name;
-    unsigned time;
-    int unk08;
-};
-struct S_00d3d3e0_Hdr {
-    int unk00;
-    S_00d3d3e0_Entry* cur;
-    int unk08;
-    S_00d3d3e0_Entry* end;
-};
 struct __declspec(align(16)) S_00d3d3e0_V4 {
     float x, y, z, w;
 };
@@ -310,7 +180,6 @@ void __cdecl FUN_00cd7850(S_00d3d3e0_V4* a, void* b, S_00d3d3e0_V4* c, S_00d3d3e
 struct S_00d3d3e0_P1P { S_00d3d3e0_P1* p; S_00d3d3e0_P1* val() const { return p; } };
 struct S_00d3d3e0_P2P { S_00d3d3e0_P2* p; S_00d3d3e0_P2* val() const { return p; } };
 struct S_00d3d3e0_P3P { S_00d3d3e0_P3* p; S_00d3d3e0_P3* val() const { return p; } };
-void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P3P a3);
 
 extern "C" __m128 _mm_load_ss(float const*_A);
 typedef unsigned long DWORD;
@@ -333,14 +202,15 @@ struct S00d3d6b0_BodyB {
 };
 struct S00d3d6b0_BodyHolderB { S00d3d6b0_BodyB* obj; int unk04; S00d3d6b0_XForm* xf; };
 struct S00d3d6b0_HitInfo { S00d3d6b0_Vec4 pt,nrm; S00d3d6b0_BodyHolderB* a; S00d3d6b0_BodyHolderB* b; };
-struct S00d3d6b0_Sink { virtual void unk00(); virtual void unk04(S00d3d6b0_HitInfo*); };
+// hkpCdPointCollector: its two Fallout 3 slots (0x00de6e68), with the New Vegas Xbox 360 PDB's names.
+struct S00d3d6b0_Sink { virtual ~S00d3d6b0_Sink(); virtual void addCdPoint(S00d3d6b0_HitInfo*); };
 struct S00d3d6b0_Input { int unk00,unk04; float tolerance; };
 extern void __cdecl FUN_00cd7850(S00d3d6b0_Vec4* v, void* tri, float* f, S00d3d6b0_Res* out, void* flag);
 class S00d3d6b0_SphereTriAgent {
 public:
     int unk00,unk04,unk08,unk0C;
     float unk10;
-    void FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink);
+    void hkpSphereTriangleAgent_getClosestPoints(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink);
 };
 // @f3 0x009c74a0 (community match, verified in this file)
 extern unsigned long DAT_0116913c;
@@ -404,7 +274,7 @@ __forceinline void NativeTransformPoints(const NativeTransform& transform, const
 }
 static __forceinline bool GetSphereTriHit(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, float* cache, S00d3d6b0_HitInfo& hit);
 }
-void FUN_00970580(S00d3d6b0_Vec4*, const void*, float*, S00d3d6b0_Res*);
+void hkpCollideTriangleUtil_closestPointTriangle(S00d3d6b0_Vec4*, const void*, float*, S00d3d6b0_Res*);
 static __forceinline bool f3m_009c74a0::GetSphereTriHit(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, float* cache, S00d3d6b0_HitInfo& hit) {
     S00d3d6b0_BodyB* shapeA = a->obj;
     S00d3d6b0_BodyB* shapeB = b->obj;
@@ -413,7 +283,7 @@ static __forceinline bool f3m_009c74a0::GetSphereTriHit(S00d3d6b0_BodyHolderB* a
     if (0) { DeadFloats d0; DeadFloats u0 = *reinterpret_cast<const DeadFloats*>(input); d0 = u0; }
     NativeTransformPoints(*reinterpret_cast<const NativeTransform*>(b->xf), reinterpret_cast<const NativeFloat4*>(shapeB->vertices), tri, 3);
     S00d3d6b0_Res out;
-    FUN_00970580(center, tri, cache, &out);
+    hkpCollideTriangleUtil_closestPointTriangle(center, tri, cache, &out);
     float sum = shapeA->radius + shapeB->radius;
     float distance = out.d;
     float threshold = reinterpret_cast<const NativeSphereInput*>(input)->tolerance + sum;
@@ -431,7 +301,8 @@ static __forceinline bool f3m_009c74a0::GetSphereTriHit(S00d3d6b0_BodyHolderB* a
     }
     return false;
 }
-void S00d3d6b0_SphereTriAgent::FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink)
+// pdb: hkpSphereTriangleAgent::getClosestPoints | hkpSphereTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void S00d3d6b0_SphereTriAgent::hkpSphereTriangleAgent_getClosestPoints(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink)
 {
     using namespace f3m_009c74a0;
     {
@@ -452,7 +323,7 @@ void S00d3d6b0_SphereTriAgent::FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_
     hit.a = a;
     hit.b = b;
     if (GetSphereTriHit(a, b, input, &unk10, hit)) {
-        sink->unk04(&hit);
+        sink->addCdPoint(&hit);
     }
     {
         S00d3d6b0_ProfBuf* buffer = static_cast<S00d3d6b0_ProfBuf*>(TlsGetValue(DAT_0116913c));
@@ -504,25 +375,6 @@ struct Transform {
     }
 };
 
-__forceinline void FourFloatVector::transformed(const Transform& t, const FourFloatVector& v) {
-    __m128 splatX = _mm_shuffle_ps(v.m, v.m, 0);
-    __m128 prodX = _mm_mul_ps(t.col0.m, splatX);
-    __m128 splatY = _mm_shuffle_ps(v.m, v.m, 0x55);
-    __m128 prodY = _mm_mul_ps(t.col1.m, splatY);
-    __m128 splatZ = _mm_shuffle_ps(v.m, v.m, 0xaa);
-    __m128 prodZ = _mm_mul_ps(t.col2.m, splatZ);
-    m = _mm_add_ps(_mm_add_ps(prodX, prodY), _mm_add_ps(prodZ, t.translation.m));
-}
-
-struct AlignedPairData {
-    FourFloatVector m_vContactPosition;
-    FourFloatVector m_vSeparatingNormal;
-    unsigned int m_iOwnerObjectOffset;
-    int pad24;
-    int pad28;
-    int pad2C;
-};
-
 struct Shape;
 struct CdBody {
     Shape* m_pCollisionShape;
@@ -558,40 +410,6 @@ struct Shape {
     FourFloatVector m_kVertices[3];
 };
 
-struct CollisionConstraintOwner {};
-
-struct ProcessCollisionOutput {
-    AlignedPairData* m_pAlignedPairData;
-    CollisionConstraintOwner* m_pConstraintOwner;
-};
-
-struct ProcessCollisionInput {
-    int unk00;
-    int unk04;
-    float m_fCollisionTolerance;
-};
-
-struct ContactMgr {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual unsigned short addContactPoint(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result, int zero, AlignedPairData* cp);
-    virtual void unk10();
-    virtual void removeContactPoint(unsigned short id, CollisionConstraintOwner& owner);
-};
-
-struct MonitorRecord {
-    const char* name;
-    unsigned int timestamp;
-    unsigned int auxiliary;
-};
-struct MonitorStream {
-    void* unk0;
-    MonitorRecord* m_pTileTemplate;
-    void* unk8;
-    MonitorRecord* m_pRayCursor;
-};
-
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
 
@@ -602,117 +420,6 @@ extern "C" int __cdecl FUN_00cd7850(
     void* output,
     void* weldFlag
 );
-
-union FeatureInfo {
-    struct { unsigned char count; unsigned short indices[3]; };
-    unsigned __int64 encoded;
-};
-
-struct ClosestPointOutput {
-    FourFloatVector m_vHitNormal;
-    float m_fClosestPointDistanceSquared;
-};
-
-static __forceinline int queryContact(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, void* cache, AlignedPairData* cp, FeatureInfo* feature) {
-    Shape* shapeA = bodyA->shape();
-    Shape* shapeB = bodyB->shape();
-    const FourFloatVector* spherePos = &(&bodyA->transform())->translation;
-
-    __declspec(align(16)) FourFloatVector vTransformed[3];
-        const Transform* motionB = (&bodyB->transform());
-        Transform copy(*motionB);
-        for (int i=2; i>=0; --i) {
-            vTransformed[i].transformed(copy, shapeB->m_kVertices[i]);
-        }
-
-    __declspec(align(16)) ClosestPointOutput cpOutput;
-    int featureKind = FUN_00cd7850(spherePos, vTransformed, cache, &cpOutput, feature);
-
-    float sumRadius = shapeA->m_fSphereRadius + shapeB->m_fSphereRadius;
-    float maxDist = sumRadius + input->m_fCollisionTolerance;
-
-    if (cpOutput.m_fClosestPointDistanceSquared < maxDist) {
-        cp->m_vContactPosition.addScaled(*spherePos, cpOutput.m_vHitNormal, shapeB->m_fSphereRadius - cpOutput.m_fClosestPointDistanceSquared);
-        cp->m_vSeparatingNormal = cpOutput.m_vHitNormal;
-        cp->m_vSeparatingNormal.component(3) = cpOutput.m_fClosestPointDistanceSquared - sumRadius;
-
-        if (featureKind) return 2; return 1;
-    }
-    return 0;
-}
-
-struct TargetAgent_Cand : TargetAgent {
-    void FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result);
-};
-
-// @fnv 0x00d3dd90
-void TargetAgent_Cand::FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result) {
-    MonitorStream* stream = (MonitorStream*)TlsGetValue(DAT_0126835c);
-    MonitorRecord* cur = stream->m_pTileTemplate;
-    if (cur < stream->m_pRayCursor) {
-        cur->name = DAT_010cf0d4;
-        unsigned int ticks;
-        _ReadWriteBarrier();
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        cur->timestamp = ticks;
-        stream->m_pTileTemplate = cur + 1;
-    }
-
-    AlignedPairData* cp = result->m_pAlignedPairData;
-    FeatureInfo weldFlag;
-    if (queryContact(bodyA, bodyB, input, this->m_pAccessManager, cp, &weldFlag)) {
-        unsigned char m_uiMaterialIndex = weldFlag.count;
-        if (m_uiMaterialIndex > 0) {
-            Shape* weldShape = bodyB->shape();
-            FourFloatVector normalOut = cp->m_vSeparatingNormal;
-            FourFloatVector posOut = cp->m_vContactPosition;
-            int weldRes = weldShape->weldContactPoint(weldFlag.indices, &m_uiMaterialIndex, &posOut, (&bodyB->transform()), bodyA->shape(), (&bodyA->transform()), &normalOut);
-            if (weldRes == 0) {
-                if (this->m_padC != 0xffff) {
-                    ((ContactMgr*)this->m_pContactManager)->removeContactPoint(this->m_padC, *result->m_pConstraintOwner);
-                    this->m_padC = 0xffff;
-                }
-                return;
-            }
-            if (weldRes == 1) {
-                __m128 oldNormal = cp->m_vSeparatingNormal.m;
-                __m128 newNormal = normalOut.m;
-                __m128 unpck = _mm_unpackhi_ps(newNormal, oldNormal);
-                cp->m_vSeparatingNormal.m = _mm_shuffle_ps(newNormal, unpck, 0xc4);
-            }
-        }
-
-        if (this->m_padC == 0xffff) {
-            this->m_padC = ((ContactMgr*)this->m_pContactManager)->addContactPoint(bodyA, bodyB, input, result, 0, cp);
-        }
-        if (this->m_padC != 0xffff) {
-            cp->m_iOwnerObjectOffset = this->m_padC;
-            ++result->m_pAlignedPairData;
-        }
-    } else {
-        if (this->m_padC != 0xffff) {
-            ((ContactMgr*)this->m_pContactManager)->removeContactPoint(this->m_padC, *result->m_pConstraintOwner);
-            this->m_padC = 0xffff;
-        }
-    }
-
-    MonitorStream* streamEnd = (MonitorStream*)TlsGetValue(DAT_0126835c);
-    MonitorRecord* curEnd = streamEnd->m_pTileTemplate;
-    if (curEnd < streamEnd->m_pRayCursor) {
-        curEnd->name = DAT_010c41f8;
-        unsigned int ticks;
-        _ReadWriteBarrier();
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        curEnd->timestamp = ticks;
-        streamEnd->m_pTileTemplate = curEnd + 1;
-    }
-}
 
 extern "C" __m128 _mm_load_ss(const float*);
 static __forceinline __m128 PlainBroadcast(const float& f) {
@@ -797,7 +504,7 @@ int __cdecl FUN_00cd7850(const S_00d3d520_V4* pos, const S_00d3d520_V4* tri, int
 // @f3 0x009c7290 (community match, verified in this file)
 struct S_00d3d520_Tol { int unk00; float distance; };
 
-int __cdecl FUN_00970580(const S_00d3d520_V4* pos, const S_00d3d520_V4* tri, int a4, S_00d3d520_Res* out);
+int __cdecl hkpCollideTriangleUtil_closestPointTriangle(const S_00d3d520_V4* pos, const S_00d3d520_V4* tri, int a4, S_00d3d520_Res* out);
 
 struct TransformScalar974 {
     float value;
@@ -825,6 +532,8 @@ static __forceinline void TransformVertex(
     out.z = static_cast<float>(yz + xz + c2.z * z + c3.z);
     out.w = 0.0f;
 }
+// pdb: hkpSphereTriangleAgent::getClosestPoint | hkpSphereTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, cache, cpoint
 int __cdecl FUN_00d3d520(S_00d3d520_A* a, S_00d3d520_Body* b, S_00d3d520_Info* info, int a4, S_00d3d520_Out* outp)
 {
     S_00d3d520_Shape* sphere = a->shape;
@@ -848,7 +557,7 @@ int __cdecl FUN_00d3d520(S_00d3d520_A* a, S_00d3d520_Body* b, S_00d3d520_Info* i
     } while (--i >= 0);
 
     S_00d3d520_Res& pen = scratch.contact;
-    int r = FUN_00970580(center, v, a4, &pen);
+    int r = hkpCollideTriangleUtil_closestPointTriangle(center, v, a4, &pen);
     float k = sphere->radius + tri->radius;
 
     float thr = reinterpret_cast<const S_00d3d520_Tol*>(info)->distance + k;

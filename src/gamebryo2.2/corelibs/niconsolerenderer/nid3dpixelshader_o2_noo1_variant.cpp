@@ -80,7 +80,7 @@ class NiD3DPixelShader : public NiD3DShaderProgram
     GeometryRelatedType* m_pD3DPixelShader;
 };
 struct NiD3DPixelShader;
-void __cdecl FUN_00e92f30(NiD3DPixelShader*);
+void __cdecl NiD3DShaderProgramFactory_RecreatePixelShader(NiD3DPixelShader*);
 struct FUN_00e898d0_shell : NiD3DPixelShader
 {
     void FUN_00e898d0();

@@ -49,6 +49,8 @@ struct Task1939List : Task1939Base, Task1939Node
 };
 float __cdecl FUN_0047ca30(float value, float step);
 // @fnv 0x007214b0
+// pdb: ListBox<StartMenu::Option *>::GetHighlightTarget | StartMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeButton
 Task1939Tile* Task1939List::FUN_0067c070(unsigned int action)
 {
     Task1939Tile* result = 0;
@@ -165,6 +167,8 @@ struct FUN_00660dc0_cls {
     Obj* FUN_00660dc0(int code);
 };
 
+// pdb: ListBox<BGSNote *>::GetHighlightTarget | MapMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeButton
 Obj* FUN_00660dc0_cls::FUN_00660dc0(int code)
 {
     Obj* found = 0;
@@ -294,7 +298,7 @@ struct SwTile {
     SwMenu* FUN_00beab90();
     float FUN_00becf40(int id);
     void FUN_00bee190(int id, float value, bool propagate);
-    SwTile* FUN_00beabd0(const char* name);
+    SwTile* Tile_GetChildByName(const char* name);
     void FUN_00bf11a0(int id, const char* text, bool propagate);
 };
 
@@ -333,15 +337,17 @@ extern const double DAT_00e04a70;
 extern const float DAT_00e04a78;
 extern const double DAT_00dbeb78;
 
-SwMenu* __cdecl FUN_00beaf00(int id);
-float __cdecl FUN_00bea750();
+SwMenu* __cdecl Tile_GetMenuByClass(int id);
+float __cdecl Tile_GetMaximumDepth();
 int __cdecl FUN_00c048fb(int c);
 
 
+// pdb: SleepWaitMenu::Create | SleepWaitMenu.obj | fnv360_0822_retail, ustr, medium
+// pdb params: abSleep
 SwTile* __cdecl FUN_00674aa0(bool sleep)
 {
     SwIface* interfaceState = DAT_01075b24;
-    if (SwMenu* existing = FUN_00beaf00(0x3f4))
+    if (SwMenu* existing = Tile_GetMenuByClass(0x3f4))
         delete existing;
 
     SwTile* loaded = interfaceState->unk9C->FUN_00bf37b0(DAT_00e07730);
@@ -358,7 +364,7 @@ SwTile* __cdecl FUN_00674aa0(bool sleep)
         DAT_011790c8->FUN_00bcfcd0(DAT_00dc552c, 0x121, 0).FUN_00bd00c0();
         if (loaded->FUN_00becf40(0xfa7) == 6006.0f ||
             loaded->FUN_00becf40(0xfa7) == DAT_00e04a70) {
-            loaded->FUN_00bee190(0xfad, FUN_00bea750(), true);
+            loaded->FUN_00bee190(0xfad, Tile_GetMaximumDepth(), true);
         }
 
         DAT_01076fd8->m_bSleep = sleep;
@@ -380,7 +386,7 @@ SwTile* __cdecl FUN_00674aa0(bool sleep)
 
         SwTile* root = DAT_01076fd8->unk04;
         const float opacity = DAT_01073294 * DAT_00dbeb78;
-        root->FUN_00beabd0(DAT_00e07718)->FUN_00bee190(0xfa9, opacity, true);
+        root->Tile_GetChildByName(DAT_00e07718)->FUN_00bee190(0xfa9, opacity, true);
         DAT_01076fd8->FUN_00bfd010(0);
         return loaded;
     } else if (DAT_01076fd8 && DAT_01076fd8->unk04) {

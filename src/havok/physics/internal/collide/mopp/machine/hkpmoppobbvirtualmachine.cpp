@@ -94,6 +94,8 @@ struct GridCell {
 };
 
 // @f3 0x00a52f70 (community match, verified in this file)
+// pdb: hkpMoppObbVirtualMachine::queryAabb | hkpMoppObbVirtualMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: code, aabb, primitives_out
 void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3) {
     m30 = a1;
     m00 = a3;
@@ -188,6 +190,8 @@ struct TargetErrorText {
     TargetErrorText& FUN_00943710(const char*);
     void FUN_00943a60();
 };
+// pdb: hkpMoppObbVirtualMachine::queryAabbOnTree | hkpMoppObbVirtualMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: query, PC, chunkOffset
 void VirtualMachine::Execute(const QueryState* __restrict apQueryState,unsigned char* __restrict pc,int codeOffset) {
     QueryState localQueryState;
     if (!DAT_0116c47c) {

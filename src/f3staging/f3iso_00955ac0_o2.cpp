@@ -177,8 +177,8 @@ public:
     mutable hkArray<unsigned> m_boneFlags;
     mutable bool m_modelInSync, m_localInSync;
 
-    void FUN_00955370() const;
-    void FUN_00955810() const;
+    void hkaPose_syncLocalSpace() const;
+    void hkaPose_syncModelSpace() const;
     hkArray<hkQsTransform>& FUN_00954fc0();
     hkArray<hkQsTransform>& FUN_00955ab0();
     void FUN_00955ac0();
@@ -199,7 +199,7 @@ public:
 void pose_constraints::hkaPose::FUN_00955ac0()
 {
     const int count = m_skeleton->m_numBones;
-    FUN_00955370();
+    hkaPose_syncLocalSpace();
     for (int i = 0; i < count; ++i) {
         if (m_skeleton->m_bones[i]->m_lockTranslation) {
             m_localPose[i].m_translation = m_skeleton->m_referencePose[i].m_translation;

@@ -49,7 +49,7 @@ struct Malleable91BridgeAtom : Malleable91ConstraintAtom
     void* m_buildJacobianFunc;
     Malleable91ConstraintData* m_constraintData;
     Malleable91BridgeAtom() : Malleable91ConstraintAtom(1) {}
-    void FUN_009a1a00(Malleable91ConstraintData* constraintData);
+    void hkpBridgeConstraintAtom_init(Malleable91ConstraintData* constraintData);
 };
 struct Malleable91BridgeAtoms
 {
@@ -64,10 +64,11 @@ public:
     FUN_0091ba60();
     virtual ~FUN_0091ba60();
 };
+// pdb: ahkpMalleableConstraintData::ahkpMalleableConstraintData | bhkMalleableConstraint.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: bhkMalleableConstraint::~bhkMalleableConstraint)
 FUN_0091ba60::FUN_0091ba60()
 {
     m_constraintData = 0;
-    m_atoms.m_bridgeAtom.FUN_009a1a00(this);
+    m_atoms.m_bridgeAtom.hkpBridgeConstraintAtom_init(this);
     m_strength = 0.01f;
 }
 

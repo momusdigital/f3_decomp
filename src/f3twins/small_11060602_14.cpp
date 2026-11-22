@@ -5,10 +5,11 @@
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RC_00b50c60 { virtual void V0(); virtual void Release(); long refs; };
 struct R_00b50c60 { char pad[0x64]; int refs; void FUN_00888c10(); };
-struct C_00b50c60 { char pad[0x8c]; RC_00b50c60* a1[20]; RC_00b50c60* a2[33]; void FUN_00b58540(); bool FUN_00b50c60(); };
+struct C_00b50c60 { char pad[0x8c]; RC_00b50c60* a1[20]; RC_00b50c60* a2[33]; void FUN_00b58540(); bool ParallaxShader_Initialize(); };
 extern R_00b50c60* DAT_01177fd0[33];
 
-bool C_00b50c60::FUN_00b50c60()
+// pdb: ParallaxShader::Initialize | ParallaxShader.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+bool C_00b50c60::ParallaxShader_Initialize()
 {
     FUN_00b58540();
     for (int i = 0; i < 20; i++) {
@@ -96,6 +97,7 @@ struct SP_00b52fb0 { RC_00b52fb0* p; ~SP_00b52fb0(); };
 struct Base_00b52fb0 { virtual ~Base_00b52fb0(); char pad[0x88]; };
 struct D_00b52fb0 : Base_00b52fb0 { SP_00b52fb0 a1[26]; SP_00b52fb0 a2[13]; virtual ~D_00b52fb0(); };
 extern R_00b52fb0* DAT_01178060[26];
+// pdb: SkinShader::~SkinShader | SkinShader.obj | fnv360_0822_retail, objrun, high
 D_00b52fb0::~D_00b52fb0()
 {
     for (int i = 0; i < 26; i++) {

@@ -15,6 +15,8 @@ struct FUN_00d1e160_t
 };
 // Calls FUN_00d1dfa0, sets vtbl to &DAT_010c6cdc, writes 5 to byte offset 8, and returns this.
 // @fnv 0x00d1e160
+// pdb: hkpFixedRigidMotion::hkpFixedRigidMotion | hkpFixedRigidMotion.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: position, rotation
 void* FUN_00d1e160_t::InitFixedRigidMotion(int a, int b)
 {
     FUN_00d1dfa0(a, b);
@@ -28,6 +30,8 @@ void __stdcall FUN_00d1e130(int, int)
 {}
 
 // @fnv 0x00d1e140
+// pdb: hkEnum<enum hkpSampledHeightFieldShape::HeightFieldType,unsigned char>::hkEnum<enum hkpSampledHeightFieldShape::HeightFieldType,unsigned char> | hkpSampledHeightFieldShape.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkpSampledHeightFieldShape::getCinfo)
+// pdb params: e
 void __stdcall FUN_00d1e140(void* a)
 {}
 
@@ -39,28 +43,9 @@ struct C00d1e150
 };
 
 // @fnv 0x00d1e150
+// pdb: hkpExtendedMeshShape::assertTrianglesSubpartValidity | hkpExtendedMeshShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: part
 void C00d1e150::FUN_00d1e150(int arg)
 {}
 
 #include <xmmintrin.h>
-struct FUN_00c86660_Obj
-{
-    void FUN_00c86660(int* a);
-};
-
-struct FUN_00d1e190_Obj
-{
-    void FUN_00d1e190(int* motion);
-};
-
-// Calls FUN_00c86660 on motion's sub-object at offset 0x10 with this+0x10, then zeroes two 16-byte vectors at float offsets 0x34 and 0x38 of motion.
-// @fnv 0x00d1e190
-void FUN_00d1e190_Obj::FUN_00d1e190(int* motion)
-{
-    reinterpret_cast<FUN_00c86660_Obj*>(reinterpret_cast<char*>(motion) + 0x10)
-        ->FUN_00c86660(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10));
-
-    __m128 zero = _mm_setzero_ps();
-    _mm_store_ps(reinterpret_cast<float*>(motion) + 0x34, zero);
-    _mm_store_ps(reinterpret_cast<float*>(motion) + 0x38, zero);
-}

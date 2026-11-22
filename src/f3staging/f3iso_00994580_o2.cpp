@@ -146,6 +146,7 @@ static __forceinline void RemoveOverlaps994580(SweepOwnerX& owner, SweepNodesX& 
     }
 }
 
+// pdb: hkp3AxisSweep::removeObject | hkp3AxisSweep.obj | tesv_win, objrun_prop, low
 void SweepOwnerX::FUN_00994580(unsigned int* handle, SweepPairsX* pairs)
 {
     unsigned long base = *handle;

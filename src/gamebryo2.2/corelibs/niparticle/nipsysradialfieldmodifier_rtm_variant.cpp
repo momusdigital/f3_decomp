@@ -5,7 +5,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_012026b0;
-void* __cdecl FUN_00c285c0();
+void* __cdecl NiSequence_GetRTTI();
 struct NiBinaryStream
 {
     int _0;
@@ -233,11 +233,12 @@ struct FUN_00c285d0_cls
 {
     int unk0;
     void FUN_00c32020(void* obj, unsigned int a1);
-    void* FUN_00c285d0(unsigned int a1);
+    void* NiPSysRadialFieldModifier_CreateClone(unsigned int a1);
 };
 
 // @fnv 0x00c285d0
-void* FUN_00c285d0_cls::FUN_00c285d0(unsigned int a1)
+// pdb: NiPSysRadialFieldModifier::CreateClone | NiPSysRadialFieldModifier.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+void* FUN_00c285d0_cls::NiPSysRadialFieldModifier_CreateClone(unsigned int a1)
 {
     RadialFieldObject_00c285d0* p = new (FUN_00aa13e0(0x34)) RadialFieldObject_00c285d0;
     FUN_00c32020(p, a1);

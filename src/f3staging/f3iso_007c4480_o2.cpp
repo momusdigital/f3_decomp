@@ -114,6 +114,8 @@ public:
     virtual ~FUN_007c4480();
     FUN_007c4480(int value);
 };
+// pdb: MissileProjectile::MissileProjectile | MissileProjectile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abAdd
 FUN_007c4480::FUN_007c4480(int value)
     : SpawnedBase(value), m_140(0), m_144(0)
 {

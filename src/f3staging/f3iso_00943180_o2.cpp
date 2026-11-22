@@ -356,11 +356,6 @@ class hkClassAccessor
 		hkVariant m_variant;
 };
 
-const hkClass& hkClassAccessor::getClass() const
-{
-	return *m_variant.m_class;
-}
-
 class hkObjectUpdateTracker : public hkReferencedObject
 {
 	public:

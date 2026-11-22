@@ -261,6 +261,8 @@ float FUN_006fb050(int);float FUN_006f5de0();float FUN_004e6d80();
 bool FUN_00579670(){return state==9;}
 };
 // @fnv 0x009a8460
+// pdb: CombatUtilities::GetTargetFiringZOffset | CombatUtilities.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget, aeTargetSegmentInView, abIgnoreCrouch
 float __cdecl FUN_007b7eb0(S_009a8460_Actor* actor, int type, bool flag)
 {
     float f;
@@ -382,6 +384,7 @@ struct FUN_007b60d0 {
 int unk00,unk04,unk08,unk0c,unk10;NiPointer<Ref> ref;
 ~FUN_007b60d0();
 };
+// pdb: CombatThreat::~CombatThreat | CombatThreatMap.obj | fnv360_0822_retail, call_seq, medium
 FUN_007b60d0::~FUN_007b60d0() {
 Ref* r=ref; if(r && r->owner) r->owner->Remove(r);
 }
@@ -430,6 +433,8 @@ struct FUN_007b76e0 : Closest
     virtual ~FUN_007b76e0();
     void FUN_0056f720(int index, unsigned int* reference);
 };
+// pdb: SpecificItemCollector::SpecificItemCollector | CombatUtilities.obj | fnv360_0721_beta, call_gap, low
+// pdb params: aePick, arFilter
 FUN_007b76e0::FUN_007b76e0(int index, unsigned int* reference)
 {
     FUN_0056f720(index, reference);

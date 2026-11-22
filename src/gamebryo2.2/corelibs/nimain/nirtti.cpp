@@ -18,6 +18,8 @@ class NiRTTI
 FNV_STATIC_ASSERT(sizeof(NiRTTI) == 0x8);
 
 // @fnv 0x00a7b610
+// pdb: CombatWorldState::CombatWorldState | CombatWorldState.obj | fnv360_0822_retail, call_seq, high
+// pdb params: aeState, aiValue
 NiRTTI::NiRTTI(const char* pcName, const NiRTTI* pkBaseRTTI)
 {
     m_pcName = pcName;
@@ -30,6 +32,7 @@ extern int DAT_01267b60;
 
 // Calls Construct on pThis, installs the DAT_010c4314 vtable, zeroes field at offset 16, increments DAT_01267b60 and sets a ushort at offset 12 to 0x41.
 // @fnv 0x00c6b910
+// pdb: bhkNiCollisionObject::bhkNiCollisionObject | bhkNiCollisionObject.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiAVObject::QIgnoreFade)
 void* __fastcall FUN_00c6b910(void* apObject)
 {
     Construct(apObject);

@@ -66,6 +66,8 @@ public:
     float initialRadius, radiusVariation, lifespan, lifespanVariation;
 };
 
+// pdb: NiPSysEmitter::GetViewerStrings | NiPSysEmitter.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void NiPSysEmitter::FUN_00ac21e0(ViewerStrings* strings)
 {
     FUN_00ac60d0(strings);
@@ -144,6 +146,8 @@ public:
     float spread;
 };
 
+// pdb: NiPSysAirFieldModifier::GetViewerStrings | NiPSysAirFieldModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void NiPSysAirFieldModifier::FUN_00ad0800(ViewerStrings* strings)
 {
     FUN_00ad1b10(strings);
@@ -610,6 +614,8 @@ public:
     void FUN_00ac60d0(ViewerStrings* strings);
 };
 
+// pdb: NiPSysModifier::GetViewerStrings | NiPSysModifier.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 void NiPSysModifierShell::FUN_00ac60d0(ViewerStrings* strings)
 {
     FUN_00825b40(strings);
@@ -1014,12 +1020,13 @@ struct FadeNodeObj
     }
     void FUN_0082d9f0(FadeCuller& culler);
     float FUN_00ad28b0();
-    void FUN_00ad2d80(FadeCuller& culler);
+    void BSFadeNode_OnVisible(FadeCuller& culler);
 };
 
 // Updates the fade state of a FadeNodeObj based on camera distance and fade thresholds, queueing a batch render when the fade target is in progress.
 // @fnv 0x00b4e490
-void FadeNodeObj::FUN_00ad2d80(FadeCuller& culler)
+// pdb: BSFadeNode::OnVisible | BSFadeNode.obj | fnv360_0822_retail, udata, high
+void FadeNodeObj::BSFadeNode_OnVisible(FadeCuller& culler)
 {
     if (!DAT_01067af0 || IsCulledFlag())
     {
@@ -1159,6 +1166,8 @@ struct Emit_acdad0 {
     Sink_acdad0* unk18;
     void FUN_00acdad0(f3m_00ac21e0::ViewerStrings* strings);
 };
+// pdb: NiPSysColliderManager::GetViewerStrings | NiPSysColliderManager.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void Emit_acdad0::FUN_00acdad0(f3m_00ac21e0::ViewerStrings* strings)
 {
     ((f3m_00ac21e0::NiPSysEmitter*)this)->FUN_00ac60d0(strings);
@@ -1170,6 +1179,7 @@ void Emit_acdad0::FUN_00acdad0(f3m_00ac21e0::ViewerStrings* strings)
 // @f3 0x00ad3ab0 (community match, verified in this file)
 namespace f3m_00ad3ab0 {
 
+// pdb: BSShaderProperty::GetSIBlockRenderPasses | DistantLODShaderProperty.obj | fnv360_0822_retail, objrun, low
 unsigned short __stdcall FUN_00ad3ab0(int a)
 {
     return 1;
@@ -1276,6 +1286,8 @@ namespace f3m_00ad0b80 {
 char* __cdecl FUN_00847b50(const char* label);
 void __stdcall FUN_00ad27f0(f3m_00ad0800::ViewerStrings* strings);
 
+// pdb: NiPSysAirFieldAirFrictionCtlr::GetViewerStrings | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0721_retail, objrun_open, low
+// pdb params: pkStrings
 void __stdcall FUN_00ad0b80(f3m_00ad0800::ViewerStrings* strings)
 {
     FUN_00ad27f0(strings);
@@ -1302,6 +1314,8 @@ namespace f3m_00ad1660 {
 char* __cdecl FUN_00847b50(const char* label);
 void __stdcall FUN_00ac5000(f3m_00ad0800::ViewerStrings* strings);
 
+// pdb: NiMeshPSysData::GetViewerStrings | NiMeshPSysData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void __stdcall FUN_00ad1660(f3m_00ad0800::ViewerStrings* strings)
 {
     FUN_00ac5000(strings);
@@ -1315,6 +1329,8 @@ namespace f3m_00ad27f0 {
 char* __cdecl FUN_00847b50(const char* label);
 void __stdcall FUN_00ac67c0(f3m_00ad0800::ViewerStrings* strings);
 
+// pdb: NiPSysModifierFloatCtlr::GetViewerStrings | NiPSysModifierFloatCtlr.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void __stdcall FUN_00ad27f0(f3m_00ad0800::ViewerStrings* strings)
 {
     FUN_00ac67c0(strings);
@@ -1333,6 +1349,8 @@ public:
     long count;
 };
 
+// pdb: NiTPointerAllocator<unsigned int>::Deallocate | TES.obj | fnv360_0822_retail, call_seq, low
+// pdb params: pkDel
 void __stdcall FUN_00ade560(void* pointer)
 {
     PoolAllocatorBase<unsigned int>::LinkedListEntry* entry = (PoolAllocatorBase<unsigned int>::LinkedListEntry*)pointer;
@@ -1374,6 +1392,8 @@ struct ModifierSubLocal : NiPSysModifierLocal
 
 unsigned int __cdecl FUN_00847b50(unsigned int auiValue);
 
+// pdb: NiPSysMeshUpdateModifier::GetViewerStrings | NiPSysMeshUpdateModifier.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void ModifierSubLocal::FUN_00ac0a10(NiStreamLocal* apStream)
 {
     NiPSysModifierLocal::SaveBinary(*apStream);
@@ -1411,6 +1431,8 @@ struct ModifierSubLocal : FUN_00c1b850_clsLocal
 
 unsigned int __cdecl FUN_00847b50(unsigned int auiValue);
 
+// pdb: NiMeshParticleSystem::GetViewerStrings | NiMeshParticleSystem.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void ModifierSubLocal::FUN_00ac18d0(NiStreamLocal* apStream)
 {
     FUN_00c1b850_clsLocal::WriteParticleSystemInfo(apStream);
@@ -1448,6 +1470,8 @@ struct ModifierSubLocal : FUN_00c1b850_clsLocal
 
 unsigned int __cdecl FUN_00847b50(unsigned int auiValue);
 
+// pdb: BSStripParticleSystem::GetViewerStrings | BSStripParticleSystem.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void ModifierSubLocal::FUN_00ac51c0(NiStreamLocal* apStream)
 {
     FUN_00c1b850_clsLocal::WriteParticleSystemInfo(apStream);
@@ -1492,6 +1516,8 @@ public:
     void FUN_00aca270(ViewerStrings* strings);
 };
 
+// pdb: NiPSysModifierActiveCtlr::GetViewerStrings | NiPSysModifierActiveCtlr.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void NiPSysModifierViewer::FUN_00aca270(ViewerStrings* strings)
 {
     FUN_00ad25c0(strings);
@@ -1545,6 +1571,8 @@ public:
     ViewerVector direction;
 };
 
+// pdb: NiPSysGravityFieldModifier::GetViewerStrings | NiPSysGravityFieldModifier.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkStrings
 void NiPSysFieldViewer::FUN_00acb440(ViewerStrings* strings)
 {
     FUN_00ad1b10(strings);
@@ -1588,6 +1616,8 @@ public:
     void FUN_00ad25c0(ViewerStrings* strings);
 };
 
+// pdb: NiPSysModifierBoolCtlr::GetViewerStrings | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void BaseViewer::FUN_00ad25c0(ViewerStrings* strings)
 {
     FUN_00ac67c0(strings);
@@ -1690,6 +1720,8 @@ public:
     void FUN_00ad24e0(PObjAD24* pkInterp, unsigned short usIndex);
 };
 
+// pdb: NiPSysModifierBoolCtlr::SynchronizePoseInterpolator | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkInterp, usIndex
 void OwnerAD24::FUN_00ad24e0(PObjAD24* pkInterp, unsigned short usIndex)
 {
     bool bValue;
@@ -1864,6 +1896,8 @@ struct f3m_00ad2700_Obj
     void FUN_00ad2700(f3m_00ad2700::NiObject* obj, int unused);
 };
 
+// pdb: NiPSysModifierFloatCtlr::SynchronizePoseInterpolator | NiPSysModifierFloatCtlr.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkInterp, usIndex
 void f3m_00ad2700_Obj::FUN_00ad2700(f3m_00ad2700::NiObject* obj, int unused)
 {
     if (obj)
@@ -1895,6 +1929,8 @@ struct ViewerStrings
 
 void __stdcall FUN_00ac60d0(ViewerStrings* strings);
 
+// pdb: NiPSysPositionModifier::GetViewerStrings | NiPSysPositionModifier.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiPSysPositionModifier::CreateObject)
+// pdb params: pkStrings
 void __stdcall FUN_00ac9190(ViewerStrings* strings)
 {
     FUN_00ac60d0(strings);
@@ -1990,6 +2026,8 @@ struct ViewerStrings
     void FUN_005b3880(unsigned int index, char* const& value);
 };
 
+// pdb: NiPSysFieldAttenuationCtlr::GetViewerStrings | NiPSysFieldAttenuationCtlr.obj | fnv360_0721_retail, objrun_open, low
+// pdb params: pkStrings
 void __stdcall FUN_00acb7a0(ViewerStrings* strings)
 {
     FUN_00ad27f0(strings);
@@ -2219,6 +2257,8 @@ extern void* __stdcall FUN_00838420(ViewerStrings* strings);
 extern const char* DAT_0116ec38;
 extern const char* DAT_0116ed88;
 
+// pdb: NiPSysUpdateCtlr::GetViewerStrings | NiPSysUpdateCtlr.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkStrings
 void __stdcall FUN_00ac77a0(ViewerStrings* strings)
 {
     FUN_00838420(strings);
@@ -2279,6 +2319,7 @@ struct FUN_00ad0e30 : FUN_00ac46e0 {
  virtual ~FUN_00ad0e30();
  FUN_00ad0e30();
 };
+// pdb: NiMeshPSysData::NiMeshPSysData | NiMeshPSysData.obj | tesv_win, uvref, medium
 FUN_00ad0e30::FUN_00ad0e30() : unk7c(0) {}
 }   // namespace f3m_00ad0e30
 
@@ -2286,7 +2327,8 @@ FUN_00ad0e30::FUN_00ad0e30() : unk7c(0) {}
 extern int* volatile DAT_0116ef60;
 extern volatile unsigned int DAT_0116ef58;
 namespace f3m_00ada500 {
-unsigned int __cdecl FUN_00ada500() {
+// pdb: BSShaderManager::GetNextAvailableShadowMapAccumulator | BSShaderManager.obj | fnv360_0822_retail, udata + bridge(call_seq|call_gap_sim), high
+unsigned int __cdecl BSShaderManager_GetNextAvailableShadowMapAccumulator() {
  unsigned int i=DAT_0116ef58;
  int* e=DAT_0116ef60+i;
  DAT_0116ef58=i+1;
@@ -2444,12 +2486,13 @@ struct NiPSysCollider {int unk00,unk04,unk08,unk0c,unk10;NiPoint3 m_kCollisionPo
 struct NiPSysPlanarCollider:NiPSysCollider {int unk2c,unk30,unk34;NiPoint3 m_kFirstVector,m_kSecondPlaneVector;float m_fWidthSquared,m_fHeightSquared;NiPlane m_kHalfSpacePlane;NiPoint3 m_kPathOffset;RotationHelper rotation;};
 struct PlanarColliderExt : NiPSysPlanarCollider
 {
-    NiPSysCollider* FUN_00ac91f0(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
+    NiPSysCollider* NiPSysPlanarCollider_Resolve(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
     NiPSysCollider* FUN_00ad1cb0(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
 };
 
 
-NiPSysCollider* PlanarColliderExt::FUN_00ac91f0(float time, float* collisionTime, BoundDataBlock* data,
+// pdb: NiPSysPlanarCollider::Resolve | NiPSysPlanarCollider.obj | fnv360_0822_retail, uconst + bridge(vtable|uconst) + skyrim(uconst), high
+NiPSysCollider* PlanarColliderExt::NiPSysPlanarCollider_Resolve(float time, float* collisionTime, BoundDataBlock* data,
                                                 unsigned short particleId)
 {
     bool bCollided = false;

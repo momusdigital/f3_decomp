@@ -6,11 +6,6 @@
 // src/staging/blk_00a60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include "../../include/layout_support.h"
-void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
-struct FUN_00a61590_class
-{
-    void* __thiscall ClearAndReset();
-};
 struct NiShader;
 template <class K, class V> class NiTPointerMap;
 template <class K, class V> class NiTStringTemplateMap
@@ -18,95 +13,28 @@ template <class K, class V> class NiTStringTemplateMap
   public:
     virtual void Test(int);
 };
-struct NiUnionBV
-{
-    virtual void Test(int);
-};
-extern NiTStringTemplateMap<NiTPointerMap<char const*, NiShader*>, NiShader*>* DAT_011f4784;
-extern NiUnionBV* DAT_011f4788;
-void FUN_00a632b0();
 extern "C" void NiFreeAlias(void*);
-extern void* DAT_011f4aa8;
-void FreeGlobalAlias();
-extern int DAT_0109df2c;
-extern int DAT_011f4ab4;
-struct FUN_00a7f820_Class
-{
-    void __thiscall FUN_00a7f820();
-};
-void __fastcall FUN_00a69690(float* p);
 struct MemoryManager
 {
     void __thiscall Deallocate(void*);
 };
 extern MemoryManager g_memoryManager;
-struct FUN_00a615c0_Class
-{
-    void __thiscall ClearAllBuckets();
-};
 struct RecursiveSpinLock
 {
     void __thiscall Lock(const char*);
 };
-extern RecursiveSpinLock g_011c5f80;
-extern unsigned int DAT_011c5f84;
-extern void* DAT_011c5f58;
-void __stdcall FUN_00a638c0(void* p);
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
 };
-struct NiTriBasedGeomData;
-NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData*);
-extern int DAT_0109dac4;
-void* __cdecl FUN_00a7b790();
-void __fastcall FUN_00a71f60(void*);
-extern int DAT_0109dd0c;
-struct FUN_00a7d670_Class
-{
-    void* __thiscall FUN_00a7d670();
-};
-struct CloningProcess;
-struct NiDirectionalLight
-{
-    void CopyMemberData(NiDirectionalLight* dst, CloningProcess& proc);
-    void FUN_00a7d6a0(NiDirectionalLight* dst, CloningProcess& proc);
-};
 extern "C" int __cdecl tolower(int);
 unsigned int FUN_00a61530(const char* str);
-struct NiCullingProperty
-{
-    void FUN_00a5d7a0(void*, CloningProcess&);
-};
-struct FUN_00a755f0_Class : NiCullingProperty
-{
-    void __thiscall CopyCullingData(void* dst, CloningProcess& proc);
-};
-struct FUN_00a72590_Class
-{
-    int FUN_00a72590(unsigned int index, int* out);
-};
 struct A51BF0Base
 {
     static void* __cdecl operator new(unsigned int);
 };
-struct FUN_00a7d6e0_Class
-{
-    void __thiscall FUN_00a71f60();
-};
-void* FUN_00a7d6e0();
-struct NiTMapBaseStub
-{
-    void RemoveAll();
-};
 extern void _NiFree(void*);
 extern int DAT_0109bc84;
-extern int DAT_0109bca4;
-extern int DAT_0109bcc4;
-struct FUN_00a63850_Class
-{
-    void DestroyMap();
-};
 struct NiPoint3
 {
     float x;
@@ -115,62 +43,9 @@ struct NiPoint3
 
     NiPoint3 __thiscall CrossProduct(NiPoint3 const& other) const;
 };
-struct FUN_00a699d0_Class
-{
-    NiPoint3 normal;
-    float distance;
-
-    FUN_00a699d0_Class* __thiscall FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
-};
-struct NiTFixedStringMap_NiAVObject___
-{
-    void* m_baseData0;
-    void* m_baseData1;
-    void __thiscall RemoveAll();
-};
-struct FUN_00a6ea00_Class : NiTFixedStringMap_NiAVObject___
-{
-    void* m_pData;
-    void* __thiscall FUN_00a6ea00(unsigned char flag);
-};
-extern int DAT_0109ca08;
 extern MemoryManager _g_memoryManager;
 void _NiFree(void* p);
-struct NiTriStrips
-{
-    NiTriStrips();
-};
 extern int DAT_0109cd44;
-void* CreateNiTriStrips();
-struct NiTPrimitiveArray_ImageSpaceTexture___
-{
-    void SetSize(unsigned int);
-};
-struct FUN_00a72ca0_Class
-{
-    void FUN_00a72ca0(unsigned int size);
-};
-struct FUN_00a7f810
-{
-    int m_p;
-    FUN_00a7f810();
-};
-struct HashValue_00a61670
-{
-    unsigned int unk00;
-    unsigned int key;
-};
-struct HashNode_00a61670
-{
-    HashValue_00a61670* value;
-    HashNode_00a61670* next;
-};
-struct FUN_00a61670_Map
-{
-    HashNode_00a61670* buckets[1001];
-    unsigned int count;
-    HashValue_00a61670* RemoveByKey(unsigned int key);
-};
 extern struct MemoryManager g_memoryManager;
 struct A616E0Entry
 {
@@ -210,56 +85,6 @@ struct A616E0Bucket
         return it->m_entry != 0;
     }
 };
-struct A616E0Pool
-{
-    A616E0Bucket m_buckets[7];
-};
-extern A616E0Pool* DAT_011f4464;
-bool __cdecl FUN_00a616e0(A616E0Iter* it);
-class A61750Texture
-{
-  public:
-    virtual void vfunc00();
-    virtual void vfunc01();
-    virtual void vfunc02();
-    virtual void vfunc03();
-    virtual void vfunc04();
-    virtual void vfunc05();
-    virtual void vfunc06();
-    virtual void vfunc07();
-    virtual void vfunc08();
-    virtual void vfunc09();
-    virtual void vfunc0A();
-    virtual void vfunc0B();
-    virtual void vfunc0C();
-    virtual void vfunc0D();
-    virtual void vfunc0E();
-    virtual void vfunc0F();
-    virtual void vfunc10();
-    virtual void vfunc11();
-    virtual void vfunc12();
-    virtual void vfunc13();
-    virtual void vfunc14();
-    virtual void vfunc15();
-    virtual void vfunc16();
-    virtual void vfunc17();
-    virtual void vfunc18();
-    virtual void vfunc19();
-    virtual void vfunc1A();
-    virtual void vfunc1B();
-    virtual void vfunc1C();
-    virtual void vfunc1D();
-    virtual void vfunc1E();
-    virtual void vfunc1F();
-    virtual void vfunc20();
-    virtual void vfunc21();
-    virtual void vfunc22();
-    virtual void vfunc23();
-    virtual void vfunc24();
-    virtual unsigned int GetHeight();
-    virtual unsigned int GetWidth();
-};
-unsigned int GetTextureSizeLevel(A61750Texture* pkTexture);
 extern bool __cdecl FUN_00a614d0(int, int);
 struct NiShaderBase
 {
@@ -350,27 +175,6 @@ class NiShader : public NiShaderBase
     virtual void Release();
     virtual int* GetHash();
 };
-struct FUN_00a61920_Node
-{
-    NiShader* m_pObject;
-    int unk04;
-    FUN_00a61920_Node* m_pkNext;
-    short unk0c;
-    short unk0e;
-};
-class FUN_00a61920_Class
-{
-  public:
-    FUN_00a61920_Node* m_pBuckets[1];
-
-    bool __thiscall FindShaderByHash(int, int, NiShader**);
-};
-void NiShader::Release()
-{}
-int* NiShader::GetHash()
-{
-    return &m_iShaderValue;
-}
 class FUN_00a61ec0_cls;
 class RefCountedNodeObject
 {
@@ -399,37 +203,7 @@ class FUN_00a61ec0_cls
 
     void ClearAllSlots();
 };
-struct Vector4f
-{
-    unsigned char b0;
-    unsigned char b1;
-    unsigned char b2;
-    unsigned char b3;
-};
-void __cdecl SwapByteQuadWords(Vector4f* q, unsigned int count);
-struct A62190Component
-{
-    int m_eComponent;
-    int m_eRepresentation;
-    unsigned char m_ucBPC;
-    bool m_bSigned;
-};
 // NiPixelFormat::GetMask
-class A62190PixelFormat
-{
-  public:
-    unsigned char m_ucFlags;
-    unsigned char m_ucBitsPerPixel;
-    unsigned char unk02;
-    unsigned char unk03;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    A62190Component m_akComponents[4];
-
-    unsigned int GetComponentMask(int eComponent) const;
-};
 // ReleasePendingTable - release the pending objects held in the engine slot table.
 //
 // The table lives at DAT_011f4514 and holds ten four byte slots.  Every slot
@@ -441,15 +215,7 @@ class A62190PixelFormat
 // A slot is released by dropping the reference count of the object it holds;
 // when that count reaches zero the release hook of the object (vtable slot 1)
 // runs, and afterwards the slot itself is cleared.
-struct SlotObject
-{
-    virtual void SlotVirtual0();  // vtable slot 0
-    virtual void SlotVirtual1();  // vtable slot 1 - the release hook
-    int m_iObjectReferenceCount;  // +0x04
-};
-extern SlotObject* g_pendingTable[10];
 typedef long(__stdcall* FNV_INTERLOCKED_DECREMENT)(volatile long*);
-void ReleasePendingTable();
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 struct RefObj_a62
@@ -483,148 +249,9 @@ template <class T> struct NiPtr_a62
         return *this;
     }
 };
-struct Settings_a62
-{
-    int m_ai[17];
-};
-extern Settings_a62 g_kSettings_11f4600;
-extern NiPtr_a62<RefObj_a62> g_aspObjects_11f4514[10];
-void __cdecl ApplySettings(const Settings_a62& kSettings);
 extern MemoryManager _g_memoryManager;
 extern int DAT_0109bc84;
 extern "C" void NiFreeAlias(void*);
-struct FUN_00a639e0_Class
-{
-    void* m_baseData0;
-    void* m_baseData1;
-    void* m_baseData2;
-    FUN_00a639e0_Class* __thiscall FUN_00a639e0(char param_2);
-};
-struct FUN_00a66960_cls
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0C;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1C;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2C;
-    int FUN_00a66960(int a1);
-};
-static int CompareFloatArrays(const float* pfA, const float* pfB, unsigned int ItemUpdateArray);
-struct A66970Keys
-{
-    unsigned int m_uiCount;
-    const float* m_pfA;
-    const float* m_pfB;
-};
-int A66970Compare(const A66970Keys* pkKeys);
-struct OutRec674
-{
-    int a;
-    int b;
-    unsigned char c;
-};
-struct Obj_a674
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual bool v35();
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned char m_2c;
-    void __thiscall FUN_00a72720(int flag, int* a, int* f, int* c, int* e, int* d, int* b);
-};
-struct FUN_00a674b0_cls
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    Obj_a674* m_30;
-    unsigned int unk34;
-    unsigned char unk38;
-    unsigned char unk39;
-    unsigned char m_3a;
-    void __thiscall GetOutRec(OutRec674* out);
-};
-extern int DAT_0109c28c;
-struct FUN_00a693e0_cls
-{
-    int m_vptr00;
-
-    void FUN_00a693e0();
-};
-extern unsigned int DAT_011f4980;
-extern unsigned int DAT_011f4984;
-struct FUN_00a69b00
-{
-    unsigned int originXBits, originYBits;
-    float originZ, extentX, extentY, scaleX, scaleY;
-    volatile unsigned char enabled;
-    unsigned char unk1D, unk1E, unk1F;
-    int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40;
-    volatile int mode;
-    FUN_00a69b00();
-};
-struct FUN_00a69b40_Class
-{
-    void __thiscall FUN_00a69b40(int param_2);
-};
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 class NiGlobalStringTable
 {
@@ -657,26 +284,6 @@ static inline void ReleaseString(FixedStringStub& s)
             InterlockedDecrement((volatile long*)(old - 8));
     }
 }
-extern NiRefObjectStub* DAT_011f49ac;
-extern FixedStringStub DAT_011f49b0;
-extern FixedStringStub DAT_011f49b4;
-extern FixedStringStub DAT_011f49b8;
-extern FixedStringStub DAT_011f49bc;
-extern FixedStringStub DAT_011f49c0;
-extern FixedStringStub DAT_011f49c4;
-extern FixedStringStub DAT_011f49c8;
-extern FixedStringStub DAT_011f49cc;
-extern FixedStringStub DAT_011f49d0;
-extern FixedStringStub DAT_011f49d4;
-void ReleaseGlobalStrings();
-struct FUN_00a6db50_V
-{
-    float m_00;
-    float m_04;
-    float m_08;
-    float m_0c;
-    FUN_00a6db50_V* __thiscall Set(float a, float b, float c, float d);
-};
 class A6DB70ColorA
 {
   public:
@@ -692,143 +299,10 @@ class A6DB70ColorA
     float b;
     float a;
 };
-struct FUN_00a6dbd0_cls
-{
-    float m_f0;
-    float m_f1;
-    float m_f2;
-    float m_f3;
-
-    void Negate(float* __restrict out);
-};
-class FUN_00a71b80_cls
-{
-  public:
-    float m_00;
-    float m_04;
-    float m_08;
-    float m_0c;
-    float m_10;
-    float m_14;
-    unsigned char m_18;
-
-    FUN_00a71b80_cls* Init(float a1, float a2, float a3, float a4, float a5, float a6, unsigned char flag);
-};
-struct FUN_00a75dc0_cls
-{
-    void* FUN_00a75dc0(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5,
-                       unsigned int a6, unsigned int a7, unsigned int a8, unsigned int a9, unsigned int a10,
-                       unsigned int a11);
-};
 void* __cdecl FUN_00aa13e0(unsigned int size);
-struct FUN_00a71c40_cls
-{
-    int* m_vt;
-    void FUN_00a89720(void* p);
-    FUN_00a71c40_cls* ConstructWithAlloc(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
-                                         unsigned int a5, unsigned int a6, unsigned int a7, unsigned int a8,
-                                         unsigned int a9, unsigned int a10, unsigned int a11);
-};
 // FUN_00a71cc0 : constructor-like helper that calls a base routine with the
 // argument and then installs the class vtable pointer, returning itself.
 extern int DAT_0109cd44;
-struct FUN_00a71cc0_cls
-{
-    void* m_pVTable;
-    void FUN_00a89720(int arg);
-    FUN_00a71cc0_cls* FUN_00a71cc0(int arg);
-};
-struct FUN_00a72550_Class
-{
-    struct Item
-    {
-        int unk00;
-        int unk04;
-        int unk08;
-    };
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    Item** unk20;
-    unsigned short unk24;
-    unsigned short unk26;
-
-    int GetItemData(unsigned int index, int* out);
-};
-struct SceneEntry
-{
-    virtual void Detach(unsigned int reason);
-    virtual void Unknown04();
-    virtual void Unknown08();
-    virtual void Unknown0C();
-    virtual void Prepare(unsigned int reason);
-};
-struct IndexedObjects
-{
-    void* vtable;
-    SceneEntry** entries;
-    unsigned short capacity;
-    unsigned short count;
-    unsigned short elementSize;
-    unsigned short growth;
-    void __thiscall FUN_00ba3aa0(unsigned int index, unsigned int* removed);
-};
-struct LinkedRecord
-{
-    void* owner;
-    void* object;
-    void* metadata;
-    void* parent;
-    void* child;
-    unsigned int objectIndex;
-    void* cachedValue;
-};
-struct ObjectRegistry
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    unsigned int recordCount;
-    LinkedRecord* records;
-    void* unk18;
-    IndexedObjects indexedObjects;
-
-    bool __thiscall RemoveObject(unsigned int index, bool clearReferences);
-};
-struct BA726A0Entry
-{
-    unsigned int m_uiValue1;
-    void* m_pResource;
-    unsigned int m_uiStride;
-    unsigned int m_uiSize;
-    unsigned int m_uiValueBeforeCount;
-    unsigned int m_uiCount;
-    unsigned int m_uiElapsedTime;
-};
-class FUN_00a726a0_cls
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    unsigned short m_usFormat;
-    unsigned int m_uiStreamIndex;
-    BA726A0Entry* m_pkEntryArray;
-    int unk18;
-    int unk1C;
-    int unk20;
-    unsigned short unk24;
-    unsigned short m_usMaxCount;
-
-    bool FUN_00a726a0(unsigned int uiIndex, unsigned int ItemUpdateArray, unsigned int uiStart, void* pvData,
-                      unsigned short usFormat, unsigned int uiStride, unsigned int uiElapsedMilliseconds);
-};
 struct ObjectWriter
 {
     void* vtable;
@@ -841,20 +315,6 @@ struct BinaryStream
     {
         return *reinterpret_cast<ObjectWriter**>(reinterpret_cast<char*>(this) + 0x24c);
     }
-};
-struct ColorState
-{
-    unsigned char format;
-    unsigned char flags;
-    unsigned short reserved;
-    unsigned int red;
-    unsigned int green;
-    unsigned int blue;
-    unsigned int alpha;
-    unsigned int threshold;
-    unsigned int blendMode;
-
-    void FUN_00a72cb0(BinaryStream* stream);
 };
 class BA72DB0BinaryStream
 {
@@ -1043,28 +503,6 @@ template <class T> inline void BA72DB0SaveBinary(BA72DB0Stream& kStream, const T
 {
     BA72DB0BinaryStreamSave(*kStream.m_pBackingStream, &value);
 }
-class BA72DB0Data
-{
-  public:
-    void FUN_00a72db0(BA72DB0Stream& kStream);
-
-    bool m_bFlag;
-    int m_iValue0;
-    int m_iValue1;
-    int m_iValue2;
-    int m_iValue3;
-    int m_iValue4;
-    int m_iValue5;
-};
-extern int DAT_0109d55c;
-struct SceneFactoryObject
-{
-    void* m_vtbl;
-    void Initialize();
-};
-SceneFactoryObject* CreateSceneFactoryObject();
-extern int DAT_011aa04c;
-void __cdecl FUN_00a74d80(int param_1);
 // FUN_00a74d90 - installs a callback pointer into the global slot at 0x011aa050.
 //
 // Original bytes:
@@ -1076,40 +514,6 @@ void __cdecl FUN_00a74d80(int param_1);
 // declared (never defined) here, so the checker binds it to the original's
 // own address.  The name is spelled with a void* type so that it does not
 // collide with the canonical "?DAT_011aa050@@3HA" entry in the symbol DB.
-extern void* DAT_011aa050;
-void __cdecl FUN_00a74d90(void* callback);
-struct CallTarget_00a74e10
-{
-    int SetFromFrustum(int, int);
-};
-struct SearchObject
-{
-    int FUN_00a755d0(unsigned int arg0);
-};
-extern int DAT_00ff0000;
-struct FUN_00a77110_info
-{
-    unsigned int m_eVertexFormat;
-    unsigned int m_flags;
-};
-void __cdecl FUN_00a77110(unsigned int width, unsigned int rows, unsigned int unk0c, unsigned char* dst,
-                          unsigned int unk14, FUN_00a77110_info* info, const unsigned char* src);
-struct BitPackLayout
-{
-    unsigned int mask0;
-    unsigned int mask1;
-    unsigned int mask2;
-    unsigned int unk0C;
-    unsigned char rshift0;
-    unsigned char rshift1;
-    unsigned char rshift2;
-    unsigned char unk13;
-    unsigned char lshift0;
-    unsigned char lshift1;
-    unsigned char lshift2;
-};
-void UnpackPixels(unsigned int countA, unsigned int countB, unsigned int unk0C, unsigned char* dst, unsigned int unk14,
-                  unsigned int unk18, unsigned int srcAddr, const BitPackLayout* layout);
 // Convert a 16-bit-per-pixel surface into 32-bit RGBA.
 //
 // The pixel layout is described by FnvPixelFormat: four channel masks
@@ -1119,49 +523,6 @@ void UnpackPixels(unsigned int countA, unsigned int countB, unsigned int unk0C, 
 //
 // arg0 = pixels per pass, arg1 = number of passes,
 // arg3 = destination bytes, arg6 = source words, arg7 = pixel layout.
-struct FnvPixelFormat
-{
-    unsigned int mask[4];
-    unsigned char shiftRight[4];
-    unsigned char shiftLeft[4];
-};
-void ConvertPixelsToBytes(unsigned int count, unsigned int rows, unsigned int a2, char* dest, unsigned int a4, void* a5,
-                          unsigned short* src, FnvPixelFormat* fmt);
-struct A77740Format
-{
-    unsigned int m_uiMask0;
-    unsigned int m_uiMask1;
-    unsigned int m_uiMask2;
-    unsigned int m_uiMask3;
-    unsigned char m_ucLeftShift0;
-    unsigned char m_ucLeftShift1;
-    unsigned char m_ucLeftShift2;
-    unsigned char m_ucLeftShift3;
-    unsigned char m_ucRightShift0;
-    unsigned char m_ucRightShift1;
-    unsigned char m_ucRightShift2;
-    unsigned char m_ucRightShift3;
-};
-void ConvertRgbToPacked16(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiUnused, unsigned char* pucDest,
-                          unsigned int uiUnused2, const A77740Format* pkFmt, const unsigned char* pucSrc);
-struct S_00a77800_Layout
-{
-    unsigned int mask0;
-    unsigned int mask1;
-    unsigned int unk08;
-    unsigned int mask2;
-    unsigned char shl0;
-    unsigned char shl1;
-    unsigned char unk12;
-    unsigned char shl2;
-    unsigned char shr0;
-    unsigned char shr1;
-    unsigned char unk16;
-    unsigned char shr2;
-};
-void __cdecl FUN_00a77800(unsigned int count, unsigned int rows, unsigned int unkArg3, unsigned int* dst,
-                          unsigned int unkArg5, const S_00a77800_Layout* layout, const unsigned char* src);
-bool FUN_00a77920(int a);
 struct NiBinaryStream;
 typedef unsigned int (*NiBinaryStreamWriteFn)(NiBinaryStream* pThis, const void* pvBuffer, unsigned int uiBytes,
                                               unsigned int* puiComponentSizes, unsigned int uiNumComponents);
@@ -1341,27 +702,6 @@ template <class T> inline void SerializeValue(NiStream& stream, const T& value)
 {
     SerializeValue(*stream.m_pBackingStream, value);
 }
-struct Entry
-{
-    int a;
-    int b;
-    char c;
-    char d;
-};
-struct FUN_00a7d1a0_Class
-{
-    char m_c0;
-    char m_c1;
-    int m_i4;
-    int m_i8;
-    int m_iC;
-    int m_i10;
-    Entry m_entries[4];
-
-    void FUN_00a7d1a0(NiStream& stream);
-};
-void* __cdecl BuildSqrtLut();
-void FUN_00a7e930();
 struct S_00a7fea0_P3
 {
     float x, y, z;
@@ -1392,18 +732,6 @@ struct S_00a7fea0_M3
         return S_00a7fea0_P3(m00 * v.x + m01 * v.y + m02 * v.z, m10 * v.x + m11 * v.y + m12 * v.z,
                              m20 * v.x + m21 * v.y + m22 * v.z);
     }
-};
-struct S_00a7fea0_Xf
-{
-    S_00a7fea0_M3 rot;
-    S_00a7fea0_P3 t;
-    float scale;
-};
-struct S_00a7fea0_Class
-{
-    S_00a7fea0_P3 p;
-    float scale;
-    void TransformPoint(const S_00a7fea0_Xf& a);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class MemoryManagerA61
@@ -1491,16 +819,6 @@ struct NodeA61
     int m_iData;
     NodeA61* m_pkNext;
 };
-unsigned int __cdecl GetPrefixLengthA61(const char* pcName, int iFlags);
-unsigned int __cdecl HashNameA61(const char* pcName);
-class NameTableA61
-{
-  public:
-    void RemoveNode(NodeA61* pkNode);
-
-    NodeA61* m_apkBuckets[713];
-    unsigned int m_uiCount;
-};
 // Fixed-size (713 bucket) pointer map: return the current entry's object and advance the iterator.
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plValue);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plValue);
@@ -1539,36 +857,6 @@ template <class T> class A619B0Pointer
         return *this;
     }
 };
-struct A619B0Item
-{
-    A619B0Pointer<A619B0Object> m_spValue;
-    int m_iKey;
-    A619B0Item* m_pkNext;
-};
-struct A619B0Iterator
-{
-    A619B0Item* m_pkItem;
-    unsigned int m_uiBucket;
-};
-class A619B0Map
-{
-  public:
-    A619B0Item* m_apkBuckets[713];
-
-    bool GetNext(A619B0Iterator& kIter, A619B0Pointer<A619B0Object>& rspValue);
-};
-struct MyPool
-{
-    FUN_00a61ec0_cls m_buckets[7];
-};
-struct FUN_0040fbf0_Class
-{
-    void FUN_0040fbf0(int);
-};
-extern FUN_00a615c0_Class* DAT_011f4468;
-extern FUN_0040fbf0_Class DAT_011f4480;
-extern int DAT_011f4484;
-void __cdecl FUN_00a62030();
 class BA643B0BinaryStream
 {
   public:
@@ -1745,24 +1033,6 @@ template <class T> inline void BA643B0LoadBinary(BA643B0Stream& kStream, T& valu
 {
     BA643B0BinaryStreamLoad(*kStream.m_pUnderlyingStream, &value);
 }
-void __cdecl FUN_00a643b0(BA643B0Stream& kStream, char* pcValue);
-struct Q67530Data
-{
-    int a;
-    int b;
-    int d;
-    int c;
-    int e;
-    int f;
-};
-struct BSFaceGenModel
-{
-    void FUN_00a72720(int flag, void* a, void* f, void* c, void* e, void* d, void* b);
-};
-struct Q67530Cls : FUN_00a674b0_cls
-{
-    void FillOutRec674(OutRec674* out);
-};
 void* __cdecl NiMallocA6F(unsigned int uiSize) throw();
 extern "C" void* __cdecl MemSetA6F(void* pvDest, int iValue, unsigned int uiSize);
 struct NiTMapItemA6F;
@@ -1812,68 +1082,9 @@ class NiExtraDataMapA6F : public NiObjectA6F
     NiTPointerMapA6F m_kFormatEntries;
     void* m_pkLast;
 };
-struct NiPixelChannelsA773
-{
-    unsigned int m_uiRedMask;
-    unsigned int m_uiGreenMask;
-    unsigned int m_uiBlueMask;
-    unsigned int m_uiAlphaMask;
-    unsigned char m_ucRedShift;
-    unsigned char m_ucGreenShift;
-    unsigned char m_ucBlueShift;
-    unsigned char m_ucAlphaShift;
-    unsigned char m_ucRedBits;
-    unsigned char m_ucGreenBits;
-    unsigned char m_ucBlueBits;
-    unsigned char m_ucAlphaBits;
-};
-void __cdecl FUN_00a773d0(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride,
-                          unsigned char* pucDest, unsigned int uiDestSize, unsigned int uiSrcStride,
-                          const unsigned short* pusSrc, const NiPixelChannelsA773* pkChannels);
-struct NiPixelChannelsA77
-{
-    unsigned int m_uiRedMask;
-    unsigned int m_uiGreenMask;
-    unsigned int m_uiBlueMask;
-    unsigned int m_uiAlphaMask;
-    unsigned char m_ucRedShift;
-    unsigned char m_ucGreenShift;
-    unsigned char m_ucBlueShift;
-    unsigned char m_ucAlphaShift;
-    unsigned char m_ucRedBits;
-    unsigned char m_ucGreenBits;
-    unsigned char m_ucBlueBits;
-    unsigned char m_ucAlphaBits;
-};
-void __cdecl ConvertPixelsToRgb(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride,
-                                unsigned char* pucDest, unsigned int uiDestSize, unsigned int uiSrcStride,
-                                const unsigned int* puiSrc, const NiPixelChannelsA77* pkChannels);
-struct NiPixelChannelsA776
-{
-    unsigned int m_uiRedMask;
-    unsigned int m_uiGreenMask;
-    unsigned int m_uiBlueMask;
-    unsigned int m_uiAlphaMask;
-    unsigned char m_ucRedShift;
-    unsigned char m_ucGreenShift;
-    unsigned char m_ucBlueShift;
-    unsigned char m_ucAlphaShift;
-    unsigned char m_ucRedBits;
-    unsigned char m_ucGreenBits;
-    unsigned char m_ucBlueBits;
-    unsigned char m_ucAlphaBits;
-};
-void __cdecl FUN_00a776b0(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride, unsigned int* puiDest,
-                          unsigned int uiDestSize, const NiPixelChannelsA776* pkDestChannels,
-                          const unsigned char* pucSrc, const NiPixelChannelsA776* pkSrcChannels);
 extern "C" int __cdecl tolower(int);
 bool __cdecl FUN_00a614d0(const char* a, const char* b);
-struct A5FC10Stub
-{
-    A5FC10Stub* __thiscall FUN_00a5fc10();
-};
 void* __cdecl FUN_00aa13e0(unsigned int size);
-A5FC10Stub* __cdecl CreateA5FC10Stub();
 struct This;
 struct T
 {
@@ -1923,49 +1134,6 @@ struct This
     T* m24;
     void DispatchIfStateFour();
 };
-struct FUN_00a5fca0_cls
-{
-    void FUN_00a5fca0();
-};
-struct FUN_00a60160_cls : FUN_00a5fca0_cls
-{
-    void* DestroyIfFlagged(unsigned int flags);
-};
-extern "C" void __cdecl _delete(void* p, unsigned int size);
-struct NiStreamA606
-{
-    virtual void V00();
-    virtual void V01();
-    virtual void V02();
-    virtual void V03();
-    virtual void V04();
-    virtual void V05();
-    virtual void V06();
-    virtual void V07();
-    virtual void V08();
-    virtual void V09();
-    virtual void V10();
-    virtual void V11();
-    virtual void SaveLinkID(void* pkObject);
-    void WriteObjectLink(void* pkString);
-};
-struct ControllerA606
-{
-    char m_acUnk00[0x18];
-    unsigned int m_uiUnk18;
-    unsigned int m_uiUnk1c;
-    unsigned int m_uiUnk20;
-    char m_acUnk24[0xc];
-    void* m_kName;
-    int m_iUnk34;
-    void* m_pkTarget1;
-    void* m_pkTarget2;
-    bool m_bUnk40;
-    bool m_bUnk41;
-    bool m_bUseFirst;
-    void FUN_00a5d7b0(NiStream& kStream);
-    void FUN_00a60600(NiStream& kStream);
-};
 class FUN_00a5e3a0_Helper
 {
   public:
@@ -1989,14 +1157,6 @@ struct NodeA616
         return ((FUN_00a5e3a0_Helper*)&_g_memoryManager)->FUN_00aa3e40(uiSize);
     }
     static void operator delete(void* p);
-};
-class HashA616
-{
-  public:
-    NodeA616* m_buckets[1001];
-    unsigned int m_uiItemCount;
-
-    void FUN_00a61610(unsigned int key, EntryA616* entry);
 };
 class A61E60Obj
 {
@@ -2060,7 +1220,6 @@ struct A61E60Node
 
     A61E60Node* m_pNext;
 };
-unsigned int __cdecl FUN_00af4170(const char* s, int n);
 unsigned int FUN_00a61530(const char* str);
 struct NodeList
 {
@@ -2077,15 +1236,6 @@ struct NodeList
         return n;
     }
 };
-void* __cdecl FindNodeByObject(A61E60Obj* obj);
-bool __fastcall FUN_00a5c180(void*, int, NiStream*);
-bool __fastcall FUN_00a62130(void* a, int b, NiStream* s);
-class EqBase
-{
-  public:
-    bool __thiscall FUN_00a5c820(void* other);
-    bool __thiscall FUN_00a62140(void* other);
-};
 class ColorAStandIn
 {
   public:
@@ -2101,19 +1251,11 @@ class ColorAStandIn
     }
     ColorAStandIn Subtract(const ColorAStandIn& c) const;
 };
-struct FUN_00a727b0_Class
-{
-    unsigned int FUN_00a727b0();
-};
-extern void __cdecl FUN_00a8a9b0();
-void __cdecl FUN_00a75f00();
-unsigned short __fastcall FUN_00a75f20(char* p, int);
 class FileA609
 {
   public:
     virtual ~FileA609();
 };
-FileA609* __cdecl FUN_00aa1a20(const char* pcName, NiFile::OpenMode eMode, unsigned int uiBufferSize);
 class ObjA609;
 struct NamedA609
 {
@@ -2258,10 +1400,10 @@ template <class T> inline void TextureBinaryStreamLoad(TextureBinaryInput& input
 }
 struct TextureLoadStream : NiStream
 {
-    void FUN_00a64ea0(NiFixedString*);
-    void FUN_00a64df0(NiFixedString*);
+    void NiStream_LoadCStringAsFixedString(NiFixedString*);
+    void NiStream_LoadFixedString(NiFixedString*);
     void FUN_00a64700(unsigned int);
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
     void FUN_00a636f0(const char*);
     bool FUN_00a636b0(char*, unsigned int);
     void FUN_00a633d0(const char*, NiObjectA61**);
@@ -2280,20 +1422,6 @@ struct TextureLoadStream : NiStream
     {
         return static_cast<unsigned int>(unk0d8);
     }
-};
-struct TextureStreamVirtual
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void Register(NiObjectA61*);
 };
 enum SourcePixelLayout
 {
@@ -2314,31 +1442,6 @@ enum SourceAlphaFormat
     AlphaBinary = 2,
     AlphaSmooth = 3
 };
-struct SourceTextureBase : NiObjectA61
-{
-    unsigned int unk08, unk0c, unk10, unk14;
-    unsigned int pixelLayout, alphaFormat, mipmapFormat;
-    unsigned int unk24, unk28, unk2c;
-    void FUN_00a47350(TextureLoadStream&);
-};
-struct NiSourceTexture : SourceTextureBase
-{
-    NiFixedString fileName;
-    NiFixedString resolvedName;
-    NiObjectA61* pixelData;
-    NiObjectA61* rendererData;
-    bool isStatic;
-    bool loadDirect;
-    bool persistent;
-    void FUN_00a60180(TextureLoadStream& stream);
-};
-extern bool DAT_011f4780;
-void __cdecl FUN_00a76960(void*, void*);
-bool __cdecl FUN_00aa1a30(const char*, int);
-class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f444c;
-char* __cdecl FUN_00a7d330(char* pcText);
-char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcText);
 struct StrArr
 {
     void* vtable;
@@ -2356,28 +1459,6 @@ struct StrArr
             SetSize(uiIndex + m_usGrowBy);
         SetAt(uiIndex, element);
     }
-};
-struct FUN_00a62a40_this
-{
-    void FUN_00a62a40(StrArr* pkStrings);
-};
-struct FUN_00a60770_shell : FUN_00a62a40_this
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    const char* m_pcFileName;
-    void GetFileStrings(StrArr* pkStrings);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 namespace A61F {
@@ -2416,31 +1497,6 @@ struct LockState
 };
 
 }
-class GlobalObject_0096a2d0
-{
-  public:
-    void Lock(const char* pcName) throw();
-};
-extern "C" bool __cdecl fnv_NiStreamGetTexture(const char* pcName, A61F::NiPointer* apTextureOutput) throw();
-bool __cdecl FUN_00a61f30(const void* pvTexture) throw();
-bool __cdecl FUN_00a61fb0(const char* pcName);
-struct FUN_00a63840_Class
-{
-    unsigned int m0;
-    unsigned int m4;
-    unsigned int FUN_00a63840(unsigned int a);
-};
-struct NiPixelFormatA775
-{
-    unsigned int m_auiMask[4];
-    unsigned char m_aucShift[4];
-    unsigned char m_aucBitsLoss[4];
-};
-void __cdecl ConvertPixelFormat(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride,
-                                unsigned char* pucDest, unsigned int uiSrcStride, unsigned int uiSrcSize,
-                                const unsigned char* pucSrc, const NiPixelFormatA775* pkSrcFmt);
-void __cdecl FUN_00a8a9a0();
-void __cdecl FUN_00a7b7d0();
 struct Vec3
 {
     float x;
@@ -2462,31 +1518,6 @@ struct Vec3
         return *this;
     }
 };
-void __cdecl AddScaledPoints(NiPoint3* dest, float scale, const NiPoint3* src, unsigned int count);
-extern int DAT_0109b944;
-extern int DAT_0109df8c;
-struct FUN_00a7fb80_Class
-{
-    void* m_ppVirtualMethodTable;
-    int m_04;
-    int m_08;
-    int m_0C;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1C;
-    int m_20;
-    volatile int m_24;
-    int m_28;
-    int m_2C;
-    int m_30;
-    void* __thiscall FUN_00a5c200();
-    void* __thiscall FUN_00a7fb80();
-};
-struct Z2Setup
-{
-    void* __thiscall FUN_00a5f7b0();
-};
 
 class FUN_007613f0
 {
@@ -2502,6 +1533,8 @@ class FUN_007613f0
 };
 
 // @fnv 0x00a63ae0
+// pdb: NiTNewInterface<NiFixedString>::Allocate | NiD3DGPUProgramCache.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiNumElements
 void* FUN_00a63ae0(unsigned int ItemUpdateArray)
 {
     return new FUN_007613f0[ItemUpdateArray];

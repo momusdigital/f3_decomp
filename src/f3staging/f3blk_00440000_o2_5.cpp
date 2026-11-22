@@ -8,6 +8,7 @@
 
 // @f3 0x00452690 (community match, verified in this file)
 namespace f3m_00452690 {
+// pdb: TESContainer::ContainerCanHoldType | TESContainer.obj | tesv_win, call_gap_sim, low
 bool FUN_00452690(unsigned char type)
 {
     switch (type) {
@@ -264,6 +265,8 @@ public:
 
 extern void __cdecl FUN_008225c0(Mat33* m, Vec3* a, int one, Vec3* b, Vec3* out);
 
+// pdb: Animation::GetDelta | Animation.obj | fnv360_0822_debug, caller, medium
+// pdb params: delta, apRef, applyRot, zeroZ
 bool Rec::FUN_0045d370(Vec3* out, Base* obj, bool flag1, bool flag2)
 {
     if (!unk08)

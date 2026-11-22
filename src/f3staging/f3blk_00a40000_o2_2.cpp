@@ -38,6 +38,8 @@ struct FUN_00a54650 {
     volatile bool enabled;
     FUN_00a54650(void* context);
 };
+// pdb: hkpMoppCompiler::hkpMoppCompiler | hkpMoppCompiler.obj | fnv360_0822_retail, callee_sim, high
+// pdb params: meshType
 FUN_00a54650::FUN_00a54650(void* context) : first(context), second(context) {
     value40 = DAT_00dbe1e0;
     count = 5;

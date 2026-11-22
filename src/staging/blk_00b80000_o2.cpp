@@ -13,6 +13,7 @@ struct FUN_00b81290_class
 };
 // Calls FUN_00b81130, then deletes this with size 0x70 when flags has bit 0 set, and returns this.
 // @fnv 0x00b81290
+// pdb: NiScreenGeometryData::`scalar deleting destructor' | NiOldScreenSpace.obj | fnv360_0822_retail, objrun_prop, low
 void* __thiscall FUN_00b81290_class::FUN_00b81290(int flags)
 {
     FUN_00b81130();
@@ -31,6 +32,7 @@ struct FUN_00b8d580_Class : public FUN_00b8d4d0_Class
     FUN_00b8d580_Class* __thiscall FUN_00b8d580(unsigned int a);
 };
 // @fnv 0x00b8d580
+// pdb: ImageSpaceManager::AddEffect | ImageSpaceManager.obj | tesv_win, objrun_open, low
 FUN_00b8d580_Class* __thiscall FUN_00b8d580_Class::FUN_00b8d580(unsigned int auiFlags)
 {
     FUN_00b8d4d0_Class::FUN_00b8d4d0();
@@ -43,21 +45,6 @@ void FUN_00c03a20();
 
 void __cdecl operator delete(void* p, unsigned int size);
 
-struct FUN_00b91b50
-{
-    FUN_00b91b50* Method(bool flag);
-};
-
-// Calls FUN_00c03a20, then deletes this with size 0xd0 when flag bit 0 is set, and returns this.
-// @fnv 0x00b91b50
-FUN_00b91b50* FUN_00b91b50::Method(bool abFree)
-{
-    FUN_00c03a20();
-    if (abFree & 1)
-        operator delete(this, 0xd0);
-    return this;
-}
-
 void __cdecl FUN_00b92450();
 
 void __cdecl operator delete(void* p, unsigned int size);
@@ -69,6 +56,7 @@ struct FUN_00b924d0_class
 
 // Calls FUN_00b92450, then frees this with operator delete when b has bit 0 set, and returns this.
 // @fnv 0x00b924d0
+// pdb: ImageSpaceShaderTextureMask::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00b924d0_class* __thiscall FUN_00b924d0_class::FUN_00b924d0(bool abFree)
 {
     FUN_00b92450();
@@ -81,6 +69,8 @@ extern "C" void __cdecl FUN_00b983d0(int, int, int, int);
 extern "C" int DAT_011ffa1c;
 
 // @fnv 0x00b985f0
+// pdb: NiTPointerMap<TESObjectREFR *,TESObjectREFR *>::DeleteItem | TESWater.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkItem
 void __cdecl FUN_00b985f0(int aiAmount)
 {
     DAT_011ffa1c -= aiAmount;
@@ -97,6 +87,7 @@ struct FUN_00b9b380_class
 
 // Calls FUN_00b9aa80, then deletes this (size 0x98) when bit 0 of a is set, and returns this.
 // @fnv 0x00b9b380
+// pdb: TallGrassShaderProperty::`scalar deleting destructor' | TallGrassShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00b9b380_class* FUN_00b9b380_class::FUN_00b9b380(int aiFlags)
 {
     FUN_00b9aa80();
@@ -166,6 +157,7 @@ struct FUN_00b8d700
 extern int DAT_010b083c;
 extern int DAT_010b0860;
 // @fnv 0x00b8d700
+// pdb: ImageSpaceShaderAlphaMult::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8d700::FUN_00b8d700()
 {
     *(int*)this = (int)&DAT_010b0860;
@@ -209,6 +201,7 @@ struct FUN_00b8d990 : public ImageSpaceEffectShader
     FUN_00b8d990();
 };
 // @fnv 0x00b8d990
+// pdb: ImageSpaceShaderBlur::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8d990::FUN_00b8d990()
 {
     *(int**)((char*)this + 0x00) = &DAT_010b0b98;
@@ -329,17 +322,6 @@ struct ImageSpaceEffectShader
         void SetSize(unsigned int n);
     } m_tex;
 };
-struct FUN_00b8e020 : ImageSpaceEffectShader
-{
-    FUN_00b8e020();
-};
-// @fnv 0x00b8e020
-FUN_00b8e020::FUN_00b8e020()
-{
-    m_vft = (void*)0x010b1340;
-    ((int*)this)[0x1b] = (int)0x010b1320;
-    ((TextureArray*)((char*)this + 0x94))->SetSize(2);
-}
 }  // namespace fnv_00b8e020
 
 extern int DAT_010b1340;
@@ -361,25 +343,7 @@ FUN_00b8e130_class* __thiscall FUN_00b8e130_class::FUN_00b8e130(bool abFree)
 }
 
 extern "C" void __cdecl _delete(void* p, unsigned int size);
-extern int DAT_010b14c0;
-extern int DAT_010b14a0;
 void FUN_00c03a20();
-
-struct FUN_00b8e280_class
-{
-    FUN_00b8e280_class* __thiscall FUN_00b8e280(bool flag);
-};
-
-// @fnv 0x00b8e280
-FUN_00b8e280_class* __thiscall FUN_00b8e280_class::FUN_00b8e280(bool abFree)
-{
-    *(void**)(this) = &DAT_010b14c0;
-    *(void**)(this + 0x6c) = &DAT_010b14a0;
-    FUN_00c03a20();
-    if (abFree & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 namespace fnv_00b8e2c0 {
 extern int DAT_010b1640;
@@ -432,6 +396,7 @@ struct FUN_00b8ee20_class : ImageSpaceEffectShader
 };
 
 // @fnv 0x00b8ee20
+// pdb: ImageSpaceShaderBlur13::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8ee20_class::FUN_00b8ee20_class()
 {
     *(void**)this = (void*)&DAT_010b2140;
@@ -461,44 +426,10 @@ FUN_00b8ef60_class* __thiscall FUN_00b8ef60_class::FUN_00b8ef60(bool abFree)
 }
 
 extern "C" void __cdecl _delete(void* p, unsigned int size);
-extern int DAT_010b2308;
-extern int DAT_010b22e8;
 void FUN_00c03a20();
-
-struct FUN_00b8f120_class
-{
-    void* __thiscall FUN_00b8f120(unsigned char b);
-};
-
-// @fnv 0x00b8f120
-void* __thiscall FUN_00b8f120_class::FUN_00b8f120(unsigned char abFree)
-{
-    *(int**)this = &DAT_010b2308;
-    *(int**)((char*)this + 0x6c) = &DAT_010b22e8;
-    FUN_00c03a20();
-    if (abFree & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 extern "C" void __cdecl _delete(void*, unsigned int);
-extern "C" int DAT_010b2470;
-extern "C" int DAT_010b2490;
 void FUN_00c03a20();
-struct FUN_00b8f2b0_class
-{
-    void* __thiscall FUN_00b8f2b0(bool flag);
-};
-// @fnv 0x00b8f2b0
-void* __thiscall FUN_00b8f2b0_class::FUN_00b8f2b0(bool abFree)
-{
-    *(int*)this = (int)&DAT_010b2490;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2470;
-    FUN_00c03a20();
-    if (abFree & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 extern int DAT_010b25f0;
 extern int DAT_010b2610;
@@ -507,6 +438,7 @@ struct FUN_00b8f470_class
     int* __thiscall FUN_00b8f470(bool);
 };
 // @fnv 0x00b8f470
+// pdb: ImageSpaceShaderStencilCopyNoTextureNoDepth::SetState | ImageSpaceManager.obj | fnv360_0822_debug, objrun, medium
 int* __thiscall FUN_00b8f470_class::FUN_00b8f470(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b2610;
@@ -585,24 +517,6 @@ void* __thiscall FUN_00b8f6d0_class::FUN_00b8f6d0(bool abFree)
 }
 
 extern "C" void __cdecl _delete(void* p, unsigned int size);
-extern int DAT_010b2a74;
-extern int DAT_010b2a98;
-
-struct FUN_00b8f7a0_class
-{
-    int* __thiscall FUN_00b8f7a0(int arg);
-};
-
-// @fnv 0x00b8f7a0
-int* __thiscall FUN_00b8f7a0_class::FUN_00b8f7a0(int aiFlags)
-{
-    *(int**)((char*)this + 0) = &DAT_010b2a98;
-    *(int**)((char*)this + 0x6c) = &DAT_010b2a74;
-    FUN_00c03a20();
-    if (aiFlags & 1)
-        _delete(this, 0xd0);
-    return (int*)this;
-}
 
 extern "C" void __cdecl _delete(void*, unsigned int);
 extern "C" int DAT_010b2bec;
@@ -642,6 +556,7 @@ struct FUN_00b8f930 : public ImageSpaceEffectShader
     FUN_00b8f930();
 };
 // @fnv 0x00b8f930
+// pdb: ImageSpaceShaderCopyRenderTarget1::SetState | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8f930::FUN_00b8f930()
 {
     *(int*)this = (int)&DAT_010b2db0;
@@ -690,6 +605,7 @@ struct FUN_00b8fa80_class : public ImageSpaceEffectShader
     FUN_00b8fa80_class();
 };
 // @fnv 0x00b8fa80
+// pdb: ImageSpaceShaderDepthOfField::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8fa80_class::FUN_00b8fa80_class()
 {
     *(int*)this = (int)&DAT_010b2f50;
@@ -730,6 +646,7 @@ struct FUN_00b8fbe0 : public ImageSpaceEffectShader
     FUN_00b8fbe0();
 };
 // @fnv 0x00b8fbe0
+// pdb: ImageSpaceShaderRadialBlur::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8fbe0::FUN_00b8fbe0()
 {
     *(void**)this = (void*)&DAT_010b30e0;
@@ -773,6 +690,7 @@ struct FUN_00b8fd40 : public ImageSpaceEffectShader
     FUN_00b8fd40();
 };
 // @fnv 0x00b8fd40
+// pdb: ImageSpaceShaderRadialBlurHigh::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8fd40::FUN_00b8fd40()
 {
     *(void**)this = (void*)&DAT_010b3268;
@@ -815,6 +733,7 @@ struct FUN_00b8fea0 : ImageSpaceEffectShader
     FUN_00b8fea0();
 };
 // @fnv 0x00b8fea0
+// pdb: ImageSpaceShaderDepthOfFieldMask::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8fea0::FUN_00b8fea0()
 {
     *(int*)this = (int)&DAT_010b33f0;
@@ -860,6 +779,7 @@ struct FUN_00b8fff0 : public ImageSpaceEffectShader
     FUN_00b8fff0();
 };
 // @fnv 0x00b8fff0
+// pdb: ImageSpaceShaderDoubleVision::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8fff0::FUN_00b8fff0()
 {
     *(int**)((char*)this + 0x00) = (int*)&DAT_010b3598;
@@ -878,17 +798,6 @@ struct ImageSpaceEffectShader
     ImageSpaceEffectShader();
     ~ImageSpaceEffectShader();
 };
-struct FUN_00b91680 : ImageSpaceEffectShader
-{
-    FUN_00b91680();
-};
-// @fnv 0x00b91680
-FUN_00b91680::FUN_00b91680()
-{
-    *(void**)((char*)this + 0x0) = (void*)0x010b4c68;
-    *(void**)((char*)this + 0x6c) = (void*)0x010b4c48;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(5);
-}
 }  // namespace fnv_00b91680
 
 extern int DAT_010b4c48;
@@ -932,6 +841,7 @@ struct FUN_00b917c0 : public ImageSpaceEffectShader
     ~FUN_00b917c0();
 };
 // @fnv 0x00b917c0
+// pdb: ImageSpaceShaderHDRDownSample16LightAdapt::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b917c0::FUN_00b917c0()
 {
     vtbl = (void*)&DAT_010b4de8;
@@ -976,6 +886,7 @@ struct FUN_00b91900 : ImageSpaceEffectShader
     FUN_00b91900();
 };
 // @fnv 0x00b91900
+// pdb: ImageSpaceShaderMap::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b91900::FUN_00b91900()
 {
     *(void**)this = (void*)&DAT_010b4f80;
@@ -1109,6 +1020,7 @@ struct FUN_00b91e40 : ImageSpaceEffectShader
     FUN_00b91e40();
 };
 // @fnv 0x00b91e40
+// pdb: ImageSpaceShaderMotionBlur::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b91e40::FUN_00b91e40()
 {
     *reinterpret_cast<int**>(this) = &DAT_010b5640;
@@ -1181,24 +1093,7 @@ FUN_00b92290_shell* __thiscall FUN_00b92290_shell::FUN_00b92290(bool abFree)
 }
 
 extern "C" void __cdecl _delete(void* p, unsigned int size);
-extern int DAT_010b5af0;
-extern int DAT_010b5b10;
 void FUN_00c03a20();
-struct FUN_00b92570_class
-{
-    int vtbl;
-    FUN_00b92570_class* __thiscall FUN_00b92570(bool del);
-};
-// @fnv 0x00b92570
-FUN_00b92570_class* __thiscall FUN_00b92570_class::FUN_00b92570(bool abDelete)
-{
-    vtbl = (int)&DAT_010b5b10;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b5af0;
-    FUN_00c03a20();
-    if (abDelete & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 namespace fnv_00b92690 {
 extern int DAT_010b5cb8;
@@ -1312,6 +1207,7 @@ struct FUN_00b92930 : ImageSpaceEffectShader
     FUN_00b92930();
 };
 // @fnv 0x00b92930
+// pdb: ImageSpaceShaderWaterDisplacementClearSimulation::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b92930::FUN_00b92930()
 {
     *(void**)((char*)this + 0) = &DAT_010b6048;
@@ -1343,66 +1239,7 @@ FUN_00b92a40_class* __thiscall FUN_00b92a40_class::FUN_00b92a40(bool abDelete)
     return this;
 }
 
-extern int DAT_010b61d0;
-extern int DAT_010b61f0;
 void FUN_00c03a20();
-struct FUN_00b92b90
-{
-    FUN_00b92b90(bool b);
-};
-// @fnv 0x00b92b90
-FUN_00b92b90::FUN_00b92b90(bool abDelete)
-{
-    int* p = (int*)this;
-    *p = (int)&DAT_010b61f0;
-    p[0x6c / 4] = (int)&DAT_010b61d0;
-    FUN_00c03a20();
-    if (abDelete & 1)
-        _delete(this, 0xd0);
-}
-
-extern int DAT_010b6398;
-extern int DAT_010b6374;
-
-struct FUN_00b92ce0_class
-{
-    int vtbl;
-    int pad[26];
-    int* field_6c;
-    FUN_00b92ce0_class* __thiscall FUN_00b92ce0(int flag);
-};
-
-// Sets the vtable and field_6c pointers, calls FUN_00c03a20, and if flag bit 0 is set frees this with size 0xd0.
-// @fnv 0x00b92ce0
-FUN_00b92ce0_class* __thiscall FUN_00b92ce0_class::FUN_00b92ce0(int flag)
-{
-    *(int**)this = &DAT_010b6398;
-    field_6c = &DAT_010b6374;
-    FUN_00c03a20();
-    if (flag & 1)
-        operator delete(this, 0xd0);
-    return this;
-}
-
-extern int DAT_010b6524;
-extern int DAT_010b6548;
-
-struct FUN_00b92ea0_shell
-{
-    void* __thiscall FUN_00b92ea0(bool flag);
-};
-
-// Installs two static tables into the object, calls FUN_00c03a20, and if flag bit 0 is set frees the 0xd0-byte object, returning this.
-// @fnv 0x00b92ea0
-void* __thiscall FUN_00b92ea0_shell::FUN_00b92ea0(bool abFree)
-{
-    *reinterpret_cast<int**>(this) = &DAT_010b6548;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b6524;
-    FUN_00c03a20();
-    if (abFree & 1)
-        operator delete(this, 0xd0);
-    return this;
-}
 
 namespace fnv_00b92ee0 {
 struct ImageSpaceEffectShader
@@ -1422,6 +1259,7 @@ struct FUN_00b92ee0_class : public ImageSpaceEffectShader
     ~FUN_00b92ee0_class();
 };
 // @fnv 0x00b92ee0
+// pdb: ImageSpaceShaderWaterRainHeightmap::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b92ee0_class::FUN_00b92ee0_class()
 {
     *(void**)((char*)this + 0) = &DAT_010b66f0;
@@ -1484,20 +1322,6 @@ extern "C" void __cdecl _delete(void*, unsigned int);
 extern int DAT_010b687c;
 extern int DAT_010b68a0;
 void FUN_00c03a20();
-struct FUN_00b93140_class
-{
-    void* __thiscall FUN_00b93140(bool);
-};
-// @fnv 0x00b93140
-void* FUN_00b93140_class::FUN_00b93140(bool abFree)
-{
-    *(void**)this = &DAT_010b68a0;
-    *(void**)((char*)this + 0x6c) = &DAT_010b687c;
-    FUN_00c03a20();
-    if (abFree & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 namespace fnv_00b93180 {
 struct ImageSpaceEffectShader
@@ -1509,19 +1333,6 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 {
     void SetSize(unsigned int);
 };
-struct FUN_00b93180 : public ImageSpaceEffectShader
-{
-    void* vtbl;
-    void* p6c;
-    FUN_00b93180();
-};
-// @fnv 0x00b93180
-FUN_00b93180::FUN_00b93180()
-{
-    vtbl = (void*)0x010b6a40;
-    ((void**)((char*)this + 0x6c))[0] = (void*)0x010b6a20;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(2);
-}
 }  // namespace fnv_00b93180
 
 extern int DAT_010b6a20;
@@ -1538,6 +1349,7 @@ struct FUN_00b93290_shell
 };
 // Sets the vtable and f27 pointers, calls FUN_00c03a20, and if flag bit 0 is set deletes this with size 0xd0, returning this.
 // @fnv 0x00b93290
+// pdb: BSImagespaceShaderGreyScale::`vector deleting destructor' | ImageSpaceManager.obj | tesv_win, objopen_prop, low
 FUN_00b93290_shell* __thiscall FUN_00b93290_shell::FUN_00b93290(bool abFree)
 {
     vft = &DAT_010b6a40;
@@ -1690,6 +1502,7 @@ struct FUN_00b93d40_class : public ImageSpaceEffectShader
     FUN_00b93d40_class();
 };
 // @fnv 0x00b93d40
+// pdb: ImageSpaceShaderWaterBlendHeightmaps::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b93d40_class::FUN_00b93d40_class()
 {
     *(void**)((char*)this) = &DAT_010b7418;
@@ -1720,88 +1533,12 @@ extern "C" void __cdecl _delete(void*, unsigned int);
 extern "C" int DAT_010b7578;
 extern "C" int DAT_010b7598;
 void FUN_00c03a20();
-struct FUN_00b93fa0_shell
-{
-    void* vtbl;
-    void* m_004;
-    void* m_008;
-    void* m_00c;
-    void* m_010;
-    void* m_014;
-    void* m_018;
-    void* m_01c;
-    void* m_020;
-    void* m_024;
-    void* m_028;
-    void* m_02c;
-    void* m_030;
-    void* m_034;
-    void* m_038;
-    void* m_03c;
-    void* m_040;
-    void* m_044;
-    void* m_048;
-    void* m_04c;
-    void* m_050;
-    void* m_054;
-    void* m_058;
-    void* m_05c;
-    void* m_060;
-    void* m_064;
-    void* m_068;
-    void* m_06c;
-    void FUN_00c03a20();
-    void* __thiscall FUN_00b93fa0(bool flag);
-};
-// Sets the vtable and a member pointer, calls FUN_00c03a20, and if flag bit 0 is set frees this with _delete before returning this.
-// @fnv 0x00b93fa0
-void* __thiscall FUN_00b93fa0_shell::FUN_00b93fa0(bool abFree)
-{
-    *reinterpret_cast<void**>(this) = &DAT_010b7598;
-    m_06c = &DAT_010b7578;
-    FUN_00c03a20();
-    if (abFree & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 extern "C" void __cdecl _delete(void*, unsigned int);
 void FUN_00c03a20();
-extern int DAT_010b7700;
-extern int DAT_010b7720;
-
-struct FUN_00b940f0_class
-{
-    FUN_00b940f0_class* __thiscall FUN_00b940f0(bool flag);
-};
-
-// @fnv 0x00b940f0
-FUN_00b940f0_class* __thiscall FUN_00b940f0_class::FUN_00b940f0(bool abFree)
-{
-    *(int**)this = &DAT_010b7720;
-    *(int**)((char*)this + 0x6c) = &DAT_010b7700;
-    FUN_00c03a20();
-    if (abFree & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 extern int DAT_010b78b8;
 extern int DAT_010b7898;
-struct FUN_00b94240_Class
-{
-    int* __thiscall FUN_00b94240(bool b);
-};
-// @fnv 0x00b94240
-int* __thiscall FUN_00b94240_Class::FUN_00b94240(bool abFree)
-{
-    *(int**)this = &DAT_010b78b8;
-    *(int**)((char*)this + 0x6c) = &DAT_010b7898;
-    FUN_00c03a20();
-    if ((char)abFree & 1)
-        operator delete(this, 0xd0);
-    return (int*)this;
-}
 
 namespace fnv_00b94280 {
 struct ImageSpaceEffectShader
@@ -1853,20 +1590,6 @@ extern "C" void __cdecl _delete(void*, unsigned int);
 extern int DAT_010b7bf0;
 extern int DAT_010b7bcc;
 void FUN_00c03a20();
-struct FUN_00b944e0_class
-{
-    FUN_00b944e0_class* __thiscall FUN_00b944e0(bool flag);
-};
-// @fnv 0x00b944e0
-FUN_00b944e0_class* __thiscall FUN_00b944e0_class::FUN_00b944e0(bool abFree)
-{
-    *(int*)this = (int)&DAT_010b7bf0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b7bcc;
-    FUN_00c03a20();
-    if (abFree & 1)
-        _delete(this, 0xd0);
-    return this;
-}
 
 struct FUN_00b9cfd0_class
 {
@@ -1874,6 +1597,8 @@ struct FUN_00b9cfd0_class
 };
 // Replaces the ref-counted pointer at offset 0x1a0, releasing the old object and incrementing the new one's reference count.
 // @fnv 0x00b9cfd0
+// pdb: NiPointer<ShadowSceneLight>::operator= | VATS.obj | fnv360_0721_beta, call_gap, low
+// pdb params: pObject
 void __thiscall FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
 {
     void* old = *(void**)((char*)this + 0x1a0);
@@ -1948,6 +1673,7 @@ struct FUN_00b8d850 : ImageSpaceEffectShader
 };
 
 // @fnv 0x00b8d850
+// pdb: ImageSpaceShaderBlend::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8d850::FUN_00b8d850()
 {
     m_000[0] = (int)&DAT_010b0a00;
@@ -1963,6 +1689,7 @@ struct FUN_00b8dae0_class : public ImageSpaceEffectShader
 };
 // Initialises the object's vtable pointers and sets the embedded texture array at offset 0x94 to size 2.
 // @fnv 0x00b8dae0
+// pdb: ImageSpaceShaderBlur3::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8dae0_class::FUN_00b8dae0_class()
 {
     *(int*)this = (int)&DAT_010b0d40;
@@ -1976,6 +1703,7 @@ struct FUN_00b8dc30_class : public ImageSpaceEffectShader
 };
 // Initializes the object's vtable pointers and sets the size of the texture array at offset 0x94 to 2.
 // @fnv 0x00b8dc30
+// pdb: ImageSpaceShaderBlur5::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8dc30_class::FUN_00b8dc30_class()
 {
     int* v = (int*)this;
@@ -1994,70 +1722,11 @@ struct FUN_00b8ded0 : ImageSpaceEffectShader
 };
 // Sets two vtable pointers and initialises the texture array at offset 0x94 with a size of 2.
 // @fnv 0x00b8ded0
+// pdb: ImageSpaceShaderBlur9::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8ded0::FUN_00b8ded0()
 {
     *(int*)this = (int)&DAT_010b11c0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b119c;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(2);
-}
-
-struct FUN_00b8e170 : ImageSpaceEffectShader
-{
-    char m_00b8e170[0x95 - sizeof(ImageSpaceEffectShader)];
-    NiTPrimitiveArray_ImageSpaceTexture___ m_00b8e204;
-    FUN_00b8e170();
-};
-// Initialises the vtable pointers and sets the embedded texture array to size 2.
-// @fnv 0x00b8e170
-FUN_00b8e170::FUN_00b8e170()
-{
-    ((int*)this)[0] = (int)&DAT_010b14c0;
-    ((int*)this)[0x1b] = (int)&DAT_010b14a0;
-    m_00b8e204.SetSize(2);
-}
-
-struct FUN_00b8efa0 : public ImageSpaceEffectShader
-{
-    NiTPrimitiveArray_ImageSpaceTexture___ arr;
-    FUN_00b8efa0();
-};
-// Initialises the vtable pointers and sets the embedded texture array at offset 0x94 to size 2.
-// @fnv 0x00b8efa0
-FUN_00b8efa0::FUN_00b8efa0()
-{
-    *(int*)this = (int)&DAT_010b2a98;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2a74;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(2);
-}
-
-struct FUN_00b8f010_class : ImageSpaceEffectShader
-{
-    char m_00[0x94];
-    NiTPrimitiveArray_ImageSpaceTexture___ m_094;
-    FUN_00b8f010_class();
-};
-// Initialises the vtable pointers at offsets 0 and 0x6c and sets the texture array at 0x94 to size 2.
-// @fnv 0x00b8f010
-FUN_00b8f010_class::FUN_00b8f010_class()
-{
-    *(int*)this = (int)&DAT_010b2308;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b22e8;
-    m_094.SetSize(2);
-}
-
-struct FUN_00b8f1b0 : ImageSpaceEffectShader
-{
-    int m_00b2470;
-    int m_00b2490;
-    FUN_00b8f1b0();
-};
-
-// Initialises the object's vtable pointers and sets the embedded primitive array at offset 0x94 to size 2.
-// @fnv 0x00b8f1b0
-FUN_00b8f1b0::FUN_00b8f1b0()
-{
-    *(int*)this = (int)&DAT_010b2490;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b2470;
     ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(2);
 }
 
@@ -2069,6 +1738,7 @@ struct FUN_00b8f360_class : public ImageSpaceEffectShader
 };
 // Initialises two vtable pointers and sets the size of the texture array at offset 0x94 to 1.
 // @fnv 0x00b8f360
+// pdb: ImageSpaceShaderStencilCopy::SetState | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8f360_class::FUN_00b8f360_class()
 {
     m_000 = &DAT_010b2610;
@@ -2083,6 +1753,7 @@ struct FUN_00b8f520_class : ImageSpaceEffectShader
 };
 // Initialises the object's vtable pointers and sets the embedded texture array at offset 0x94 to size 1.
 // @fnv 0x00b8f520
+// pdb: ImageSpaceShaderStencilCopyNoTextureNoDepth::~ImageSpaceShaderStencilCopyNoTextureNoDepth | ImageSpaceManager.obj | fnv360_0822_debug, objrun, medium
 FUN_00b8f520_class::FUN_00b8f520_class()
 {
     ((int*)this)[0] = (int)&DAT_010b27a8;
@@ -2117,6 +1788,7 @@ struct FUN_00b91b80 : ImageSpaceEffectShader
     FUN_00b91b80();
 };
 // @fnv 0x00b91b80
+// pdb: ImageSpaceShaderTV::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_retail, objrun, medium
 FUN_00b91b80::FUN_00b91b80()
 {
     *reinterpret_cast<void**>(this) = &DAT_010b52c0;
@@ -2128,225 +1800,14 @@ FUN_00b91b80::FUN_00b91b80()
 extern int DAT_010b5460;
 extern int DAT_010b5480;
 
-struct FUN_00b91cf0_class : ImageSpaceEffectShader
-{
-    FUN_00b91cf0_class();
-    int* m_6c;
-    NiTPrimitiveArray_ImageSpaceTexture___ m_94;
-};
-
-// @fnv 0x00b91cf0
-FUN_00b91cf0_class::FUN_00b91cf0_class()
-{
-    *reinterpret_cast<int**>(this) = &DAT_010b5480;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b5460;
-    reinterpret_cast<NiTPrimitiveArray_ImageSpaceTexture___*>(reinterpret_cast<char*>(this) + 0x94)->SetSize(2);
-}
-
-struct FUN_00b92a80_class : public ImageSpaceEffectShader
-{
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int* m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
-    NiTPrimitiveArray_ImageSpaceTexture___ m_aiIndexedValues;
-    FUN_00b92a80_class();
-};
-// @fnv 0x00b92a80
-FUN_00b92a80_class::FUN_00b92a80_class()
-{
-    *reinterpret_cast<int**>(this) = &DAT_010b61f0;
-    m_70 = &DAT_010b61d0;
-    m_aiIndexedValues.SetSize(2);
-}
-
-struct FUN_00b92d90 : ImageSpaceEffectShader
-{
-    int m_00b6548;
-    int m_00b6524;
-    FUN_00b92d90();
-};
-// @fnv 0x00b92d90
-FUN_00b92d90::FUN_00b92d90()
-{
-    *(int*)this = (int)&DAT_010b6548;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b6524;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(2);
-}
-
 extern int DAT_010b687c;
 extern int DAT_010b68a0;
-struct FUN_00b93030 : ImageSpaceEffectShader
-{
-    int m_00b2d8c;
-    int m_00b2db0;
-    void FUN_00c03a20();
-    FUN_00b93030();
-    ~FUN_00b93030();
-};
-// @fnv 0x00b93030
-FUN_00b93030::FUN_00b93030()
-{
-    *reinterpret_cast<int**>(this) = &DAT_010b68a0;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b687c;
-    reinterpret_cast<NiTPrimitiveArray_ImageSpaceTexture___*>(reinterpret_cast<char*>(this) + 0x94)->SetSize(2);
-}
 
 extern int DAT_010b7578;
 extern int DAT_010b7598;
 
-struct FUN_00b93e90 : ImageSpaceEffectShader
-{
-    void* m_000;
-    void* m_004;
-    void* m_008;
-    void* m_00c;
-    void* m_010;
-    void* m_014;
-    void* m_018;
-    void* m_01c;
-    void* m_020;
-    void* m_024;
-    void* m_028;
-    void* m_02c;
-    void* m_030;
-    void* m_034;
-    void* m_038;
-    void* m_03c;
-    void* m_040;
-    void* m_044;
-    void* m_048;
-    void* m_04c;
-    void* m_050;
-    void* m_054;
-    void* m_058;
-    void* m_05c;
-    void* m_060;
-    void* m_064;
-    void* m_068;
-    void* m_06c;
-    void* m_070;
-    void* m_074;
-    void* m_078;
-    void* m_07c;
-    void* m_080;
-    void* m_084;
-    void* m_088;
-    void* m_08c;
-    void* m_090;
-    NiTPrimitiveArray_ImageSpaceTexture___ m_094;
-    FUN_00b93e90();
-};
-
-// Initializes the object's pointers to two globals and sizes the texture array to 2.
-// @fnv 0x00b93e90
-FUN_00b93e90::FUN_00b93e90()
-{
-    m_000 = (void*)&DAT_010b7598;
-    m_06c = (void*)&DAT_010b7578;
-    m_094.SetSize(2);
-}
-
-struct FUN_00b93fe0 : ImageSpaceEffectShader
-{
-    int m_00b2d8c;
-    int m_00b2db0;
-    void FUN_00c03a20();
-    FUN_00b93fe0();
-    ~FUN_00b93fe0();
-};
-// @fnv 0x00b93fe0
-FUN_00b93fe0::FUN_00b93fe0()
-{
-    *reinterpret_cast<int**>(this) = &DAT_010b7720;
-    *reinterpret_cast<int**>((char*)this + 0x6c) = &DAT_010b7700;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(2);
-}
-
 extern int DAT_010b7bf0;
 extern int DAT_010b7bcc;
-struct FUN_00b943d0_class : public ImageSpaceEffectShader
-{
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
-    NiTPrimitiveArray_ImageSpaceTexture___ arr;
-    FUN_00b943d0_class();
-};
-// @fnv 0x00b943d0
-FUN_00b943d0_class::FUN_00b943d0_class()
-{
-    *reinterpret_cast<int**>(this) = &DAT_010b7bf0;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b7bcc;
-    arr.SetSize(2);
-}
 
 struct MemoryManager
 {
@@ -2360,6 +1821,7 @@ struct GlobalObjectO2_00b8a9e0
 };
 // Runs the destructor, then deallocates this object via g_memoryManager if flag bit 0 is set, and returns this.
 // @fnv 0x00b8aaf0
+// pdb: ExtraCellImpactSwap::`scalar deleting destructor' | ExtraDataCell.obj | fnv360_0822_debug, vtable, medium
 void* GlobalObjectO2_00b8a9e0::DestroyAndFree(bool abFree)
 {
     this->GlobalObjectO2_00b8a9e0::~GlobalObjectO2_00b8a9e0();
@@ -2375,30 +1837,13 @@ struct FUN_00b8cad0_class
 };
 // Stores value at offset 0xac of this object, saving and restoring the thread-local g_tls_2b4 around the write.
 // @fnv 0x00b8cad0
+// pdb: ImageSpaceManager::SetBaseParameterData | ImageSpaceManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apParameterData
 void __thiscall FUN_00b8cad0_class::SetValue(int value)
 {
     int old = g_tls_2b4;
     *(int*)((char*)this + 0xac) = value;
     g_tls_2b4 = old;
-}
-
-extern int __tls_index;
-
-struct FUN_00b8cb00_class
-{
-    unsigned char pad_000[0xb0];
-    int m_00b0;
-    void __thiscall FUN_00b8cb00(int value);
-};
-
-// Stores value into m_00b0 and re-reads/writes the thread-local tlsValue.
-// @fnv 0x00b8cb00
-void FUN_00b8cb00_class::FUN_00b8cb00(int value)
-{
-    static __declspec(thread) volatile int tlsValue = 59;
-    int iTlsValue = tlsValue;
-    m_00b0 = value;
-    tlsValue = iTlsValue;
 }
 
 extern int DAT_010b083c;
@@ -2431,6 +1876,7 @@ struct FUN_00b8dd80_Class : public ImageSpaceEffectShader
 };
 
 // @fnv 0x00b8dd80
+// pdb: ImageSpaceShaderBlur7::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b8dd80_Class::FUN_00b8dd80_Class()
 {
     *(int**)this = &DAT_010b1040;
@@ -2443,82 +1889,9 @@ extern int DAT_010b5480;
 void FUN_00c03a20();
 extern "C" void __cdecl _delete(void*, unsigned int);
 
-struct FUN_00b91e00_class
-{
-    int* vtbl;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int* m_6c;
-    FUN_00b91e00_class(bool flag);
-    ~FUN_00b91e00_class();
-};
-
-// Sets the vtable and m_6c pointers, calls FUN_00c03a20, and deletes this with size 0xd0 when flag bit 0 is set.
-// @fnv 0x00b91e00
-FUN_00b91e00_class::FUN_00b91e00_class(bool abDelete)
-{
-    vtbl = &DAT_010b5480;
-    m_6c = &DAT_010b5460;
-    FUN_00c03a20();
-    if (abDelete & 1)
-        _delete(this, 0xd0);
-}
-
 extern int _data_011c16bc;
 
-struct FUN_00b92500_class : ImageSpaceEffectShader
-{
-    char pad[0x94 - sizeof(ImageSpaceEffectShader) + 1];
-    NiTPrimitiveArray_ImageSpaceTexture___ m_ppData;  // +0x94
-    FUN_00b92500_class();
-};
-
-// @fnv 0x00b92500
-FUN_00b92500_class::FUN_00b92500_class()
-{
-    *(int*)this = (int)&DAT_010b5b10;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b5af0;
-    m_ppData.SetSize(5);
-}
-
 extern int _data_011c16bc;
-
-struct FUN_00b92bd0_class : ImageSpaceEffectShader
-{
-    FUN_00b92bd0_class();
-};
-
-// @fnv 0x00b92bd0
-FUN_00b92bd0_class::FUN_00b92bd0_class()
-{
-    *(int*)this = (int)&DAT_010b6398;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b6374;
-    ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))->SetSize(2);
-}
 
 extern int _data_011c16bc;
 
@@ -2533,6 +1906,7 @@ struct FUN_00b932d0_class : ImageSpaceEffectShader
 
 // Initialises the vtable and m_6c pointers and sets the m_94 texture array size to 3.
 // @fnv 0x00b932d0
+// pdb: ImageSpaceShaderWaterDisplacementNormals::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b932d0_class::FUN_00b932d0_class()
 {
     *(void**)this = (void*)&DAT_010b6bd8;
@@ -2593,22 +1967,6 @@ extern int DAT_010b7898;
 extern int DAT_010b78b8;
 extern int _data_011c16bc;
 
-struct FUN_00b94130_class : ImageSpaceEffectShader
-{
-    char pad[0x94 - sizeof(ImageSpaceEffectShader) + 1];
-    NiTPrimitiveArray_ImageSpaceTexture___ m_ppData;  // +0x94
-    FUN_00b94130_class();
-};
-
-// Initialises the vtable pointers at offsets 0 and 0x6c and sets the texture array's size to 2.
-// @fnv 0x00b94130
-FUN_00b94130_class::FUN_00b94130_class()
-{
-    *(int*)this = (int)&DAT_010b78b8;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010b7898;
-    m_ppData.SetSize(2);
-}
-
 struct FUN_00b988c0
 {
     virtual ~FUN_00b988c0();
@@ -2639,6 +1997,7 @@ struct FUN_00b9b930_class
 };
 // Calls FUN_00b9b450, then frees this via _g_memoryManager if del is set, and returns this.
 // @fnv 0x00b9b930
+// pdb: ExtraCellCanopyShadowMask::`scalar deleting destructor' | ExtraDataCell.obj | fnv360_0822_retail, vtable, medium
 FUN_00b9b930_class* FUN_00b9b930_class::FUN_00b9b930(bool abDelete)
 {
     FUN_00b9b450();
@@ -2651,7 +2010,8 @@ FUN_00b9b930_class* FUN_00b9b930_class::FUN_00b9b930(bool abDelete)
 extern int DAT_011ff0f4;
 
 // @fnv 0x00b811e0
-int __cdecl FUN_00b811e0()
+// pdb: NiBackToFrontAccumulator::GetRTTI | NiBackToFrontAccumulator.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+int __cdecl NiBackToFrontAccumulator_GetRTTI()
 {
     return reinterpret_cast<int>(&DAT_011ff0f4);
 }
@@ -2748,6 +2108,7 @@ class FUN_00b81200_cls : public BB81200Shader
 };
 
 // @f3 0x00b03980 (community match, verified in this file)
+// pdb: BSShaderBloodSplatterProperty::BSShaderBloodSplatterProperty | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00b81200_cls::FUN_00b81200_cls()
 {
     m_iFirst = 0;
@@ -2802,6 +2163,8 @@ struct FUN_00b812b0_class
 };
 
 // @fnv 0x00b812b0
+// pdb: BSShaderBloodSplatterProperty::CopyMembers | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pDest, arCloneData
 void FUN_00b812b0_class::FUN_00b812b0(FUN_00b812b0_class* dst, int flag)
 {
     FUN_00ba8b10(dst, flag);
@@ -2981,6 +2344,7 @@ struct FUN_00b81730_class
 
 // Calls call on each of the 74 entries in m_6c.
 // @fnv 0x00b81730
+// pdb: WaterShader::ClearPassStages | WaterShader.obj | fnv360_0822_retail, objrun_open, medium
 void FUN_00b81730_class::CallAll()
 {
     for (int i = 0; i < 74; ++i)
@@ -3016,11 +2380,12 @@ struct S_00b8a6e0_Foo
     unsigned char unk55;
     unsigned char unk56;
 
-    void __thiscall FUN_00b8a6e0(int arg0, unsigned int arg1, unsigned int arg2);
+    void __thiscall ImageSpaceShaderParam_SetTexOffset(int arg0, unsigned int arg1, unsigned int arg2);
 };
 
 // @fnv 0x00b8a6e0
-void __thiscall S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, unsigned int arg2)
+// pdb: ImageSpaceShaderParam::SetTexOffset | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+void __thiscall S_00b8a6e0_Foo::ImageSpaceShaderParam_SetTexOffset(int iSlot, unsigned int arg1, unsigned int arg2)
 {
     float value0;
     float value1;
@@ -3208,6 +2573,7 @@ class B8C690Shader
 
 // Clears all four texture smart pointers (m_spTexture0 through m_spTexture3) to null.
 // @fnv 0x00b8c690
+// pdb: ImageSpaceManager::ShutdownGeometry | ImageSpaceManager.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: ImageSpaceManager::ReloadShaders)
 void B8C690Shader::ClearTextures()
 {
     m_spTexture0 = 0;
@@ -3223,6 +2589,8 @@ struct FUN_00b8cc20_class
 };
 // Saves the TLS context, sets it to 39, and for two entries adds values[index]*scale into a component offset of this, then restores the context.
 // @fnv 0x00b8cc20
+// pdb: ImageSpaceManager::ApplyParamModifierWeather | ImageSpaceManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeEffect, uiParam, afValue, afStrength
 void __thiscall FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, const float* values, float scale)
 {
     int previousContext = g_tls_2b4;
@@ -3276,6 +2644,7 @@ typedef void(__thiscall* RunShader_00b8d3a0)(ShaderController_00b8d3a0*);
 
 // Builds two zeroed shader arguments from global sources, calls the vtable configure function with three globals, then runs the shader.
 // @fnv 0x00b8d3a0
+// pdb: ImageSpaceShaderVolumetricFog::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ShaderController_00b8d3a0::ConfigureAndRunShader()
 {
     ShaderArgument_00b8d3a0 first;
@@ -3404,6 +2773,7 @@ class FUN_00b8d620_cls
 
 // Fills a shader parameter frame with the base and copy HLSL paths, zeroes the remaining fields, then calls v4F to create the ALPHAMULT shader and v53.
 // @fnv 0x00b8d620
+// pdb: ImageSpaceShaderAlphaMult::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8d620_cls::InitAlphaMultShader()
 {
     FUN_00b8d620_frame f;
@@ -3527,6 +2897,7 @@ class FUN_00b8d770_cls
 
 // Fills a shader descriptor with base/blend HLSL paths and TEX2, zeroes the remaining fields, then calls v4F to create the BLEND shader and v53.
 // @fnv 0x00b8d770
+// pdb: ImageSpaceShaderBlend::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8d770_cls::CreateBlendShader()
 {
     FUN_00b8d770_frame f;
@@ -3738,6 +3109,7 @@ struct S_00b8d8c0_Cls
     void FUN_00b8d8c0();
 };
 // @fnv 0x00b8d8c0
+// pdb: ImageSpaceShaderBlur::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void S_00b8d8c0_Cls::FUN_00b8d8c0()
 {
     S_00b8d8c0_Desc s1;
@@ -3860,6 +3232,7 @@ class FUN_00b8da00_cls
 
 // Fills a ShaderBuildFrame with the base.v.hlsl and blur2.p.hlsl shader paths and profiles, then calls v4F with BLUR3, vs_1_1 and ps_2_a.
 // @fnv 0x00b8da00
+// pdb: ImageSpaceShaderBlur3::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, strset, low
 void FUN_00b8da00_cls::InitBlur3Shader()
 {
     ShaderBuildFrame f;
@@ -4068,10 +3441,11 @@ struct S_00b8db50_Cls
     virtual void v148()
     {}
     virtual void v14c();
-    void FUN_00b8db50();
+    void ImageSpaceShaderBlur5_ReloadShaders();
 };
 // @fnv 0x00b8db50
-void S_00b8db50_Cls::FUN_00b8db50()
+// pdb: ImageSpaceShaderBlur5::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, udata + bridge(udata|udata), high
+void S_00b8db50_Cls::ImageSpaceShaderBlur5_ReloadShaders()
 {
     S_00b8db50_Desc s1;
     S_00b8db50_Desc s2;
@@ -4223,12 +3597,14 @@ class FUN_00b8dca0_cls
     virtual void v51();
     virtual void v52();
     virtual void v53();
-    void CreateBlur7Shader();
+    void ImageSpaceShaderBlur7_ReloadShaders();
 };
 
 // Fills two shader descriptor structs with HLSL paths and technique names, then calls v4F to create the "BLUR7" shader and v53.
 // @fnv 0x00b8dca0
-void FUN_00b8dca0_cls::CreateBlur7Shader()
+// pdb: ImageSpaceShaderBlur7::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, udata, high
+// pdb: ImageSpaceShaderBlur7::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, udata, high (was: CreateBlur7Shader)
+void FUN_00b8dca0_cls::ImageSpaceShaderBlur7_ReloadShaders()
 {
     SS1 s1;
     SS0 s0;
@@ -4346,12 +3722,14 @@ class FUN_00b8ddf0_cls
     virtual void v51();
     virtual void v52();
     virtual void v53();
-    void CreateBlur9Shader();
+    void ImageSpaceShaderBlur9_ReloadShaders();
 };
 
 // Fills a shader parameter frame with the base vertex shader and blur2 pixel shader paths, then calls v4F to create the "BLUR9" shader and v53.
 // @fnv 0x00b8ddf0
-void FUN_00b8ddf0_cls::CreateBlur9Shader()
+// pdb: ImageSpaceShaderBlur9::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, udata, high
+// pdb: ImageSpaceShaderBlur9::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, udata, high (was: CreateBlur9Shader)
+void FUN_00b8ddf0_cls::ImageSpaceShaderBlur9_ReloadShaders()
 {
     FUN_00b8ddf0_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
@@ -4561,6 +3939,7 @@ struct S_00b8df40_Cls
     void InitBlur11Shader();
 };
 // @fnv 0x00b8df40
+// pdb: ImageSpaceShaderBlur11::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void S_00b8df40_Cls::InitBlur11Shader()
 {
     S_00b8df40_Desc s1;
@@ -4686,6 +4065,7 @@ class B8E090ImageSpaceEffect
 
 // Builds vertex and pixel shader file descriptors for BLUR13 and calls CreateShaders followed by SetupShaders.
 // @fnv 0x00b8e090
+// pdb: ImageSpaceShaderBlur13::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void B8E090ImageSpaceEffect::CreateBlur13Shaders()
 {
     B8E090ShaderFile kVertexDelta;
@@ -4808,6 +4188,7 @@ class FUN_00b8e1e0_cls
 
 // Fills a shader frame with the BLUR15 imagespace shader paths and parameters, then passes it to v4F and calls v53.
 // @fnv 0x00b8e1e0
+// pdb: ImageSpaceShaderBlur15::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8e1e0_cls::InitBlur15Shader()
 {
     FUN_00b8e1e0_frame f;
@@ -4978,6 +4359,7 @@ class B8F080ImageSpaceEffect
 
 // Builds vertex and pixel shader file descriptors with macros and calls CreateShaders for COPYRT1, then SetupShaders.
 // @fnv 0x00b8f080
+// pdb: ImageSpaceShaderCopyRenderTarget1::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void B8F080ImageSpaceEffect::CreateCopyShaders()
 {
     B8F080ShaderFile kVertexDelta;
@@ -5085,6 +4467,7 @@ struct FUN_00b8f220_cls
     void InitStencilCopyShader();
 };
 // @fnv 0x00b8f220
+// pdb: ImageSpaceShaderStencilCopy::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8f220_cls::InitStencilCopyShader()
 {
     unsigned int f[0x26];
@@ -5207,6 +4590,7 @@ class FUN_00b8f3d0_cls
 
 // Builds a shader parameter frame with base/copy HLSL paths and NOTEX, then calls v4F with "STENCILCOPYNOTEXNODEPTH" and vs_1_1.
 // @fnv 0x00b8f3d0
+// pdb: ImageSpaceShaderStencilCopyNoTextureNoDepth::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8f3d0_cls::CreateStencilCopyNoTexNoDepth()
 {
     FUN_00b8f3d0_frame f;
@@ -5330,6 +4714,7 @@ class FUN_00b8f590_cls
 
 // Fills a shader frame with the base.v.hlsl path, NOTEX and NULL names, zeroes its parameter blocks, then calls v4F and v53.
 // @fnv 0x00b8f590
+// pdb: ImageSpaceShaderNULL::ImageSpaceShaderNULL | ImageSpaceManager.obj | fnv360_0822_debug, objrun, medium
 void FUN_00b8f590_cls::FUN_00b8f590()
 {
     FUN_00b8f590_frame f;
@@ -5448,12 +4833,14 @@ class B8F850ImageSpaceEffect
     virtual void vfunc52();
     virtual void SetupShaders();
 
-    void CreateDepthOfFieldShaders();
+    void ImageSpaceShaderDepthOfField_ReloadShaders();
 };
 
 // Builds the base vertex and DepthOfField pixel shader file descriptors and calls CreateShaders with "DOF", then SetupShaders.
 // @fnv 0x00b8f850
-void B8F850ImageSpaceEffect::CreateDepthOfFieldShaders()
+// pdb: ImageSpaceShaderDepthOfField::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr_rel, high
+// pdb: ImageSpaceShaderDepthOfField::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr_rel, high (was: CreateDepthOfFieldShaders)
+void B8F850ImageSpaceEffect::ImageSpaceShaderDepthOfField_ReloadShaders()
 {
     B8F850ShaderFile kVertexDelta;
     kVertexDelta.m_pcFile = "imagespace\\1x\\v\\base.v.hlsl";
@@ -5585,12 +4972,14 @@ class FUN_00b8f9a0_cls
     virtual void v51();
     virtual void v52();
     virtual void v53();
-    void InitRadialBlurShader();
+    void ImageSpaceShaderRadialBlur_ReloadShaders();
 };
 
 // Fills a shader-source frame with base.v.hlsl and RadialBlur.p.hlsl paths, zeroes the remaining fields, then calls v4F with RBLUR/vs_1_1/ps_2_0 and v53.
 // @fnv 0x00b8f9a0
-void FUN_00b8f9a0_cls::InitRadialBlurShader()
+// pdb: ImageSpaceShaderRadialBlur::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr_rel, high
+// pdb: ImageSpaceShaderRadialBlur::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr_rel, high (was: InitRadialBlurShader)
+void FUN_00b8f9a0_cls::ImageSpaceShaderRadialBlur_ReloadShaders()
 {
     FUN_00b8f9a0_frame f;
 
@@ -5721,6 +5110,7 @@ class FUN_00b8faf0_cls
 };
 
 // @fnv 0x00b8faf0
+// pdb: ImageSpaceShaderRadialBlurMedium::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8faf0_cls::CreateRadialBlurShader()
 {
     FUN_00b8faf0_frame f;
@@ -5837,6 +5227,7 @@ struct FUN_00b8fc50_cls
 };
 // Fills two shader parameter blocks (base.v.hlsl/TEX2 and RadialBlur.p.hlsl/NUM_STEPS=10.0f), passes them to v13c with RBLURH/vs_1_1/ps_2_0, then calls v14c.
 // @fnv 0x00b8fc50
+// pdb: ImageSpaceShaderRadialBlurHigh::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8fc50_cls::FUN_00b8fc50()
 {
     unsigned int f[0x26];
@@ -5968,6 +5359,7 @@ class FUN_00b8fdb0_cls
 };
 
 // @fnv 0x00b8fdb0
+// pdb: ImageSpaceShaderDepthOfFieldMask::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8fdb0_cls::CreateDepthOfFieldMaskShader()
 {
     FUN_00b8fdb0_frame f;
@@ -6157,6 +5549,7 @@ struct FUN_00b916f0_Object
 
 // Fills two shader descriptor structs with string pointers and zeroed data, passes them with macro and shader names to vf13C, then calls vf14C.
 // @fnv 0x00b916f0
+// pdb: ImageSpaceShaderInterfaceScanlinesBlend::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void __thiscall FUN_00b916f0_Object::InitializeShader()
 {
     FUN_00b916f0_First first;
@@ -6278,6 +5671,7 @@ class FUN_00b91830_cls
 
 // Builds two shader descriptors for base.v.hlsl and map_P20.p.hlsl, passes them to v4F with MAP/vs_1_1/ps_2_0, then calls v53.
 // @fnv 0x00b91830
+// pdb: ImageSpaceShaderMap::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b91830_cls::CreateMapShader()
 {
     FUN_00b91830_src lo;
@@ -6384,6 +5778,7 @@ struct FUN_00b91970_cls
     void InitMenuBGShader();
 };
 // @fnv 0x00b91970
+// pdb: ImageSpaceShaderMenuBG::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b91970_cls::InitMenuBGShader()
 {
     unsigned int f[0x26];
@@ -6445,6 +5840,7 @@ struct FUN_00b91a40 : ImageSpaceEffectShader
 };
 // Initialises the two vtables and sets the textures array size to 2.
 // @fnv 0x00b91a40
+// pdb: ImageSpaceShaderInterfaceScanlinesBlend::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b91a40::FUN_00b91a40()
 {
     primaryVTable = &DAT_010b5140;
@@ -6566,6 +5962,7 @@ class B91AB0ImageSpaceEffect
 
 // Builds vertex and pixel shader file descriptors for COPYUNPACK, gets the pixel shader profile, then calls CreateShaders and SetupShaders.
 // @fnv 0x00b91ab0
+// pdb: ImageSpaceShaderMenuUnpack::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void B91AB0ImageSpaceEffect::CreateCopyUnpackShaders()
 {
     B91AB0ShaderFile kVertexDelta;
@@ -6698,6 +6095,7 @@ struct FUN_00b91bf0_Object
 };
 
 // @fnv 0x00b91bf0
+// pdb: ImageSpaceShaderMotionBlur::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void __thiscall FUN_00b91bf0_Object::InitMotionBlurShader()
 {
     FUN_00b91bf0_First first;
@@ -6814,6 +6212,7 @@ struct FUN_00b91d60_cls
     void InitNoiseScrollAndBlendShader();
 };
 // @fnv 0x00b91d60
+// pdb: ImageSpaceShaderNoiseScrollAndBlend::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderNoiseScrollAndBlend::GetImagespaceFXMacros)
 void FUN_00b91d60_cls::InitNoiseScrollAndBlendShader()
 {
     unsigned int f[0x26];
@@ -6923,6 +6322,7 @@ struct FUN_00b91eb0_cls
     void InitNoiseNormalMapShader();
 };
 // @fnv 0x00b91eb0
+// pdb: ImageSpaceShaderNoiseNormalmap::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderNoiseNormalmap::GetImagespaceFXMacros)
 void FUN_00b91eb0_cls::InitNoiseNormalMapShader()
 {
     unsigned int f[0x26];
@@ -7055,6 +6455,7 @@ struct FUN_00b921f0_Class : public FUN_00b921f0_Vt
 };
 
 // @fnv 0x00b921f0
+// pdb: ImageSpaceShaderRefraction::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b921f0_Class::CreateRefractionShader()
 {
     FUN_00b921f0_Desc kDesc1;
@@ -7150,6 +6551,7 @@ struct FUN_00b922d0 : Base_c04570
 
 // Sets the array size to 2 and assigns the global reference-counted object DAT_011f9520 to m_spD0.
 // @fnv 0x00b922d0
+// pdb: ImageSpaceShaderRefraction::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 FUN_00b922d0::FUN_00b922d0()
 {
     m_kArr94.SetSize(2);
@@ -7193,6 +6595,7 @@ typedef void(__thiscall* ConfigureEffect)(ShaderEffect*, ShaderPassParameters*, 
 typedef void(__thiscall* FinalizeEffect)(ShaderEffect*);
 
 // @fnv 0x00b92390
+// pdb: ImageSpaceShaderTextureMask::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void __thiscall ShaderEffect::ConfigureShaderPasses()
 {
     ShaderPassParameters first;
@@ -7309,6 +6712,7 @@ class FUN_00b92450_cls : public SpawnPrimary_b7231, public SpawnSecondary_b7231
 
 // Destructor of a class holding a reference-counted pointer; the member's destructor releases the object.
 // @fnv 0x00b92450
+// pdb: ImageSpaceShaderTextureMask::~ImageSpaceShaderTextureMask | ImageSpaceManager.obj | fnv360_0822_retail, objrun_sim, low
 FUN_00b92450_cls::~FUN_00b92450_cls()
 {}
 
@@ -7426,6 +6830,7 @@ class B92700WaterEffect
 
 // Builds vertex and pixel shader file descriptors for water displacement clear simulation and passes them to CreateShaders, then calls SetupShaders.
 // @fnv 0x00b92700
+// pdb: ImageSpaceShaderWaterDisplacementClearSimulation::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterDisplacementClearSimulation::GetImagespaceFXMacros)
 void B92700WaterEffect::CreateClearSimulationShaders()
 {
     B92700ShaderFile kVertexDelta;
@@ -7550,6 +6955,7 @@ class FUN_00b92850_cls
 };
 
 // @fnv 0x00b92850
+// pdb: ImageSpaceShaderWaterDisplacementTexOffset::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterDisplacementTexOffset::GetImagespaceFXMacros)
 void FUN_00b92850_cls::InitWaterDisplacementTexOffset()
 {
     FUN_00b92850_frame f;
@@ -7684,6 +7090,7 @@ class FUN_00b929a0_cls
     void InitWadingRippleShader();
 };
 // @fnv 0x00b929a0
+// pdb: ImageSpaceShaderWaterDisplacementWadingRipple::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterDisplacementWadingRipple::GetImagespaceFXMacros)
 void FUN_00b929a0_cls::InitWadingRippleShader()
 {
     struct Frame
@@ -7824,6 +7231,7 @@ class B92AF0WaterEffect
 
 // Builds vertex and pixel shader files for the rain ripple water displacement effect, then creates and sets up the shaders.
 // @fnv 0x00b92af0
+// pdb: ImageSpaceShaderWaterDisplacementRainRipple::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterDisplacementRainRipple::GetImagespaceFXMacros)
 void B92AF0WaterEffect::CreateRainRippleShaders()
 {
     B92AF0ShaderFile kVertexDelta;
@@ -7957,6 +7365,7 @@ class B92C40WaterEffect
 
 // Builds vertex and pixel shader files for water displacement with the HEIGHTMAP_WADING macro, then creates and sets up the shaders.
 // @fnv 0x00b92c40
+// pdb: ImageSpaceShaderWaterWadingHeightmap::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterWadingHeightmap::GetImagespaceFXMacros)
 void B92C40WaterEffect::CreateWadingHeightmapShaders()
 {
     B92C40ShaderFile kVertexDelta;
@@ -8083,6 +7492,7 @@ class FUN_00b92e00_cls
 };
 
 // @fnv 0x00b92e00
+// pdb: ImageSpaceShaderWaterRainHeightmap::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterRainHeightmap::GetImagespaceFXMacros)
 void FUN_00b92e00_cls::FUN_00b92e00()
 {
     FUN_00b92e00_frame f;
@@ -8213,6 +7623,7 @@ class B92F50WaterEffect
 
 // Builds vertex and pixel shader file descriptors for water displacement with BLEND_HEIGHTMAPS, then calls CreateShaders and SetupShaders.
 // @fnv 0x00b92f50
+// pdb: ImageSpaceShaderWaterBlendHeightmaps::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterBlendHeightmaps::GetImagespaceFXMacros)
 void B92F50WaterEffect::CreateDisplacementShaders()
 {
     B92F50ShaderFile kVertexDelta;
@@ -8344,6 +7755,7 @@ class B930A0WaterEffect
 
 // Builds vertex and pixel shader files for the smooth heightmap water effect and calls CreateShaders with the pixel shader profile, then SetupShaders.
 // @fnv 0x00b930a0
+// pdb: ImageSpaceShaderWaterSmoothHeightmap::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSImagespaceShaderWaterSmoothHeightmap::GetImagespaceFXMacros)
 void B930A0WaterEffect::CreateSmoothHeightmapShaders()
 {
     B930A0ShaderFile kVertexDelta;
@@ -8470,6 +7882,7 @@ class FUN_00b931f0_cls
 };
 
 // @fnv 0x00b931f0
+// pdb: ImageSpaceShaderWaterDisplacementNormals::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b931f0_cls::FUN_00b931f0()
 {
     FUN_00b931f0_frame f;
@@ -8578,6 +7991,7 @@ struct FUN_00b93340_cls
 };
 // Fills two shader descriptor blocks (base.v.hlsl and waterhmap.p.hlsl with WATER_SPECTRUM), then calls v13c with FFTWATERSPECTRUM/vs_1_1 and v14c.
 // @fnv 0x00b93340
+// pdb: ImageSpaceShaderWaterFFTWaterSpectrum::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b93340_cls::InitWaterSpectrumShader()
 {
     unsigned int f[0x26];
@@ -9029,6 +8443,7 @@ class S_00b93670_cls
 };
 
 // @fnv 0x00b93670
+// pdb: ImageSpaceShaderWaterFFTHorizontalButterfly::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void S_00b93670_cls::InitHorizontalButterflyShader()
 {
     S_00b93670_frame shaderFrame;
@@ -9143,6 +8558,7 @@ struct FUN_00b939c0_cls
     void InitVerticalButterflyShader();
 };
 // @fnv 0x00b939c0
+// pdb: ImageSpaceShaderWaterFFTVerticalButterfly::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b939c0_cls::InitVerticalButterflyShader()
 {
     unsigned int f[0x26];
@@ -9276,6 +8692,7 @@ class FUN_00b93b10_cls
 };
 
 // @fnv 0x00b93b10
+// pdb: ImageSpaceShaderWaterFFTHorizontalScramble::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b93b10_cls::FUN_00b93b10()
 {
     ShaderSourceA source;
@@ -9390,6 +8807,7 @@ struct FUN_00b93c60_cls
     void InitVerticalScrambleShader();
 };
 // @fnv 0x00b93c60
+// pdb: ImageSpaceShaderWaterFFTVerticalScramble::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b93c60_cls::InitVerticalScrambleShader()
 {
     unsigned int f[0x26];
@@ -9560,6 +8978,7 @@ struct FUN_00b93db0_Object
 };
 
 // @fnv 0x00b93db0
+// pdb: ImageSpaceShaderWaterFFTNormals::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void __thiscall FUN_00b93db0_Object::FUN_00b93db0()
 {
     FUN_00b93db0_First first;
@@ -9675,6 +9094,7 @@ struct FUN_00b93f00_cls
     void CreateFilterShader();
 };
 // @fnv 0x00b93f00
+// pdb: ImageSpaceShaderWaterFFTFilter::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b93f00_cls::CreateFilterShader()
 {
     unsigned int f[0x26];
@@ -9829,6 +9249,7 @@ struct S_00b94050_Obj
 };
 // Builds two shader descriptors (base.v.hlsl and waterhmap.p.hlsl with DISPLAY_NORMALS), gets a profile name, then calls FUN_x13c and FUN_x14c.
 // @fnv 0x00b94050
+// pdb: ImageSpaceShaderWaterFFTDisplayNormals::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void S_00b94050_Obj::InitDisplayNormalsShaders()
 {
     S_00b94050_A a;
@@ -9985,6 +9406,7 @@ class FUN_00b942f0_cls
 };
 
 // @fnv 0x00b942f0
+// pdb: ImageSpaceShaderWaterFFTDisplayAmplitude::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b942f0_cls::InitWaterHmapDisplayAmplitude()
 {
     FUN_00b942f0_frame f;
@@ -10096,6 +9518,7 @@ struct FUN_00b94440_cls
 };
 // Fills two shader descriptor blocks, resolves a value via FUN_00b4f380(1), then calls v13c with the descriptors and v14c.
 // @fnv 0x00b94440
+// pdb: ImageSpaceShaderWaterFFTDisplayWaterHeight::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b94440_cls::InitWaterHeightShader()
 {
     unsigned int f[0x26];
@@ -10207,6 +9630,8 @@ extern unsigned char* DAT_011f4748;
 
 // If DAT_011ffa10 is zero, packs the four arguments into a B9697Args and passes it to v4B of the object at DAT_011f4748+0x288, then adds a4 to DAT_011ffa10.
 // @fnv 0x00b97d20
+// pdb: BSRenderState::SetScissorRect | BSRenderState_Xenon.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiLeft, aiTop, aiRight, aiBottom, aeLock
 void __cdecl AccumulateAndDispatch(int a0, int a1, int a2, int a3, int aiDelta)
 {
     if (DAT_011ffa10 == 0)
@@ -10275,6 +9700,8 @@ struct FUN_00b97e30_obj
 };
 
 // @fnv 0x00b97e30
+// pdb: BSRenderState::SetZWriteEnable | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abEnabled, aeLock
 void FUN_00b97e30(unsigned char a1, unsigned int uiAmount)
 {
     unsigned int idx = DAT_011ffa68;
@@ -10310,6 +9737,8 @@ extern int DAT_011ad888[];
 
 // For two channels, sends a notification when the channel counter is zero, then adds increment to each channel counter.
 // @fnv 0x00b97f20
+// pdb: StatsMenu::SetCurrentPage | StatsMenu.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: aePage
 void __cdecl FUN_00b97f20(int index, int secondValue, int increment)
 {
     int firstChannel = DAT_011ffa94;
@@ -10346,6 +9775,7 @@ typedef void(__thiscall* FinishEvent)(EventHandler*);
 typedef void(__stdcall* DispatchUI)(UIService*, unsigned int, unsigned int, unsigned int);
 
 // @fnv 0x00b988e0
+// pdb: BSBatchRenderer::EndPass | BSBatchRenderer.obj | fnv360_0822_retail, call_gap, medium
 void __cdecl FUN_00b988e0()
 {
     EventHandler* eventHandler = DAT_011ffe2c;
@@ -10460,6 +9890,8 @@ class B9B3D0Shader
 
 // Calls Setup on the high or low stage array entry at iStage, depending on whether m_iMode is positive.
 // @fnv 0x00b9b3d0
+// pdb: BSBatchRenderer::RegisterAlphaPass | BSBatchRenderer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apRenderPass, aiIndex
 void B9B3D0Shader::SetupStage(B9B3D0Pass* pkPass, int iStage)
 {
     if (m_iMode > 0)
@@ -10483,6 +9915,8 @@ class FUN_00b9b400_cls
 
 // Fills m_table198 and m_table98 with 256 bytes from DAT_011ad900 starting at an offset derived from key.
 // @fnv 0x00b9b400
+// pdb: ImageSpaceEffectNoise::InitTables | ImageSpaceEffectNoise.obj | fnv360_0822_retail, uconst, low
+// pdb params: aiSeed
 void FUN_00b9b400_cls::FUN_00b9b400(unsigned int key)
 {
     unsigned int shift = ((key * 0x5391313du) + 0x22fc2945u) >> 0x18;
@@ -10567,6 +10001,7 @@ class FUN_00b9b450 : public B9B450EffectBase
 
 // Destructor deletes the two shaders stored in m_kShaders and clears their slots.
 // @fnv 0x00b9b450
+// pdb: ImageSpaceEffectNoise::~ImageSpaceEffectNoise | ImageSpaceEffectNoise.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00b9b450::~FUN_00b9b450()
 {
     if (m_kShaders.GetAt(0))
@@ -10660,6 +10095,7 @@ class FUN_00b9b830 : public B9B830ImageSpaceEffect
 
 // Registers this instance globally, clears the flag, copies the 256-byte table into both tables, and zeroes the five vectors.
 // @fnv 0x00b9b830
+// pdb: ImageSpaceEffectNoise::ImageSpaceEffectNoise | ImageSpaceEffectNoise.obj | fnv360_0822_retail, udata, high
 FUN_00b9b830::FUN_00b9b830()
 {
     g_pkB9B830Instance = this;
@@ -11064,6 +10500,8 @@ struct ISEffectX
 };
 
 // @fnv 0x00b9b950
+// pdb: ImageSpaceEffectNoise::Setup | ImageSpaceEffectNoise.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void ISEffectX::InitFromTexOwner(TexOwner* owner, int unused)
 {
     SetupBase(2);
@@ -11164,6 +10602,8 @@ class B9BB10Effect
 
 // Sets m_fValue when it differs from fValue, resetting m_fTimer to 1.0 or rescaling it by the clamped ratio against g_fB9BB10Duration.
 // @fnv 0x00b9bb10
+// pdb: ShadowSceneLight::SetFadeTarget | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afTarget, abForce
 void B9BB10Effect::FUN_00b9bb10(float fValue, bool bReset)
 {
     if (m_fValue != fValue)
@@ -11404,6 +10844,8 @@ static inline NiAVObject*& GetNext(ListNode*& pos)
 }
 
 // @fnv 0x00b9d020
+// pdb: ShadowSceneLight::Display | ShadowSceneLight.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arCuller
 bool CullerOwner::CullSceneObjects(NiCullingProcess& kCuller)
 {
     if (pFlags->flags30 & 1)
@@ -11578,10 +11020,6 @@ struct FUN_00bd8290 : NiAVObject
         FUN_00bd74a0();
     }
 };
-struct Input
-{
-    int unk00, unk04, unk08, unk0c;
-};
 struct TagGuard
 {
     int old;
@@ -11594,25 +11032,6 @@ struct TagGuard
         g_tls_2b4 = old;
     }
 };
-struct Target
-{
-    bool FUN_00b9c020(int, FUN_00bd8290*);
-    bool FUN_00b9de90(int, int, int, int, Input*, unsigned short);
-};
-// @fnv 0x00b9de90
-bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsigned short flags)
-{
-    int value = input->unk0c;
-    TagGuard tagGuard;
-    FUN_00bd8290 node(0);
-    node.unk058 = a;
-    node.unk05c = b;
-    node.unk060 = c;
-    node.FUN_00bd7200(flags);
-    NiUpdateData update;
-    node.Update(update);
-    return FUN_00b9c020(value, &node);
-}
 }  // namespace fnv_00b9de90
 
 extern __declspec(thread) int g_iAllocTagB8C;
@@ -11814,6 +11233,8 @@ class ImageSpaceManagerB8C
 
 // Sets up a texture from pkSource on the effect at index uiEffect, renders it to the main or alt target, then clears the texture.
 // @fnv 0x00b8c730
+// pdb: ImageSpaceManager::RenderEffect | ImageSpaceManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiEffect, apRenderer, apDestinationBuffer, apParam, abEndFrame
 void ImageSpaceManagerB8C::FUN_00b8c730(unsigned int uiEffectIndex, void* pvArg1, SourceB8C* pkSource, void* pvArg2,
                                         void* pvArg3)
 {
@@ -11879,6 +11300,8 @@ struct FUN_00b8c830_class
 };
 // Wraps two BSRenderedTextures into ImageSpaceTextures, binds them to the shader slots 0 and 1, renders the geometry, then unbinds the slots.
 // @fnv 0x00b8c830
+// pdb: ImageSpaceManager::RenderEffect | ImageSpaceManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apEffect, apRenderer, apSourceBuffer, apDestinationBuffer, apParam, abEndFrame
 void FUN_00b8c830_class::RenderWithTextures(HolderForAccum* apShader, int aiArg1, BSRenderedTexture* apSource0,
                                             BSRenderedTexture* apSource1, int aiArg2, int aiArg3)
 {
@@ -11896,14 +11319,6 @@ void FUN_00b8c830_class::RenderWithTextures(HolderForAccum* apShader, int aiArg1
         apShader->SetAccumulatorAt(1, 0, 0);
     }
 }
-
-class BB8D440Texture;
-
-class BB8D440ImageSpaceTexture
-{
-  public:
-    BB8D440Texture* GetTexture() const;
-};
 
 template <class T> class BB8D440Pointer
 {
@@ -11923,40 +11338,6 @@ template <class T> class BB8D440Pointer
 
     T* m_pObject;
 };
-
-struct BB8D440Data
-{
-    int unk00;
-    int unk04;
-    BB8D440Pointer<BB8D440ImageSpaceTexture> m_spTexture;
-};
-
-class BB8D440Effect
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    BB8D440Data* m_pUserData;
-
-    int HasTexture();
-};
-
-// @fnv 0x00b8d440
-int BB8D440Effect::HasTexture()
-{
-    if (m_pUserData->m_spTexture != 0 && m_pUserData->m_spTexture->GetTexture())
-        return 1;
-    return 0;
-}
 
 struct BufferDescriptor
 {
@@ -12072,6 +11453,7 @@ extern "C" char str_010b0158[], str_010b0820[], str_010b22e0[], str_010a93ec[];
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 int __cdecl FUN_00b4f380(int);
 // @fnv 0x00b8f710
+// pdb: ImageSpaceShaderCopy::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr_rel, high
 void Renderer::InitBuffers()
 {
     BufferDescriptor primary;
@@ -12245,6 +11627,7 @@ struct FUN_00b8ff10_class : public S_00b8ff10_Base
 };
 
 // @fnv 0x00b8ff10
+// pdb: ImageSpaceShaderDoubleVision::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void FUN_00b8ff10_class::FUN_00b8ff10()
 {
     S_00b8ff10_Local1 local1;
@@ -12900,6 +12283,8 @@ extern int g_aiB7DE0PushCounts[];
 
 // If the current level's push count is zero, sets render state 7 on the renderer, then adds iCount to that level's push count.
 // @fnv 0x00b97de0
+// pdb: BSRenderState::SetZEnable | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abEnabled, aeLock
 void __cdecl FUN_00b97de0(bool bEnable, int iCount)
 {
     unsigned int uiTreeBlockIndex = g_uiB7DE0Level;
@@ -12941,6 +12326,8 @@ struct FUN_00b98480_Sub
 };
 // If the counter at DAT_011ff9d8[idx] is zero, calls f26(8, 2 or 3, 0, 0) on the object at DAT_011f9508+0x8b8, then adds param_2 to the counter.
 // @f3 0x00b0e0d0 (community match, verified in this file)
+// pdb: BSRenderState::SetWireframeEnable | BSRenderState_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abEnable, aeLock
 void __cdecl FUN_00b98480(char abFlag, int aiAmount)
 {
     unsigned int idx = DAT_011ffa50;
@@ -13002,7 +12389,6 @@ bool FUN_00b98970_shell::HasListedItemInRange(unsigned int aMin, unsigned int aM
 }
 
 namespace fnv_00b9b540 {
-extern float DAT_011ffe48;
 extern float DAT_011ffe4c, DAT_011ffe50;
 extern float DAT_011ffe5c, DAT_011ffe60;
 extern float DAT_011ffe6c, DAT_011ffe70;
@@ -13016,84 +12402,6 @@ struct ImageSpaceTexture
     void FUN_00ba3760(unsigned int);
     void FUN_00ba39a0();
 };
-struct PassConstants
-{
-    void FUN_00b8a790(unsigned int, float, float, float, float);
-};
-struct ShaderPrimary
-{
-    virtual void PrimarySlot0();
-    int unk04, unk08, unk0c, unk10, unk14, unk18;
-    int unk1c, unk20, unk24, unk28, unk2c, unk30, unk34;
-    int unk38, unk3c, unk40, unk44, unk48, unk4c, unk50;
-    int unk54, unk58, unk5c, unk60, unk64, unk68;
-};
-struct ShaderStage
-{
-    virtual void Slot0();
-    virtual void Render(void*, void*, PassConstants*, bool);
-    void SetAccumulatorAt(unsigned int, ImageSpaceTexture*, unsigned int);
-};
-struct ShaderObject : ShaderPrimary, ShaderStage
-{
-};
-struct EffectB9B540
-{
-    virtual void Slot0();
-    virtual void Slot1();
-    virtual void Slot2();
-    virtual void Slot3();
-    virtual void Slot4();
-    virtual void Slot5();
-    virtual void Slot6();
-    virtual bool Initialize(void*);
-    unsigned char unk04;
-    bool needsInitialize;
-    unsigned short unk06;
-    int unk08;
-    ShaderStage** shaders;
-    int unk10, unk14, unk18;
-    PassConstants** constants;
-    int unk20, unk24, unk28;
-    ImageSpaceTexture** textures;
-    int unk30, unk34, unk38, unk3c, unk40, unk44, unk48;
-    int unk4c, unk50, unk54, unk58, unk5c, unk60, unk64;
-    ImageSpaceTexture temporaryTexture;
-    void FUN_00b9b540(void*, void*, void*, void*);
-};
-// Initializes the effect if needed, sets shader constants, binds textures, renders both shader stages and releases the temporary texture.
-// @fnv 0x00b9b540
-void EffectB9B540::FUN_00b9b540(void* renderer, void* target, void* input, void* unused)
-{
-    if (needsInitialize)
-        needsInitialize = Initialize(input);
-    temporaryTexture.FUN_00ba3840(50);
-    ShaderStage* shader = static_cast<ShaderObject*>(shaders[0]);
-    PassConstants* parameters = constants[0];
-    parameters->FUN_00b8a790(0, DAT_011ffe4c, DAT_011ffe50, 0.0f, 0.0f);
-    parameters->FUN_00b8a790(1, DAT_011ffe5c, DAT_011ffe60, 0.0f, 0.0f);
-    parameters->FUN_00b8a790(2, DAT_011ffe6c, DAT_011ffe70, 0.0f, 0.0f);
-    parameters->FUN_00b8a790(3, DAT_011ffe48, 0.0f, 0.0f, 0.0f);
-    parameters->FUN_00b8a790(4, DAT_011ffe7c, DAT_011ffe80, DAT_011ffe84, 0.0f);
-    parameters->FUN_00b8a790(5, DAT_011ffe8c, DAT_011ffe90, DAT_011ffe94, 0.0f);
-    shader->SetAccumulatorAt(0, &temporaryTexture, 0);
-    shader->SetAccumulatorAt(1, textures[1], 1);
-    textures[0]->FUN_00ba3760(3);
-    textures[1]->FUN_00ba3760(3);
-    shader->Render(renderer, target, parameters, true);
-    shader = static_cast<ShaderObject*>(shaders[1]);
-    parameters = constants[1];
-    parameters->FUN_00b8a790(0, DAT_011ffe4c, DAT_011ffe50, 0.0f, 0.0f);
-    parameters->FUN_00b8a790(1, DAT_011ffe5c, DAT_011ffe60, 0.0f, 0.0f);
-    parameters->FUN_00b8a790(2, DAT_011ffe6c, DAT_011ffe70, 0.0f, 0.0f);
-    parameters->FUN_00b8a790(3, DAT_011ffe48, 0.0f, 0.0f, 0.0f);
-    shader->SetAccumulatorAt(0, textures[0], 0);
-    shader->SetAccumulatorAt(1, &temporaryTexture, 0);
-    textures[0]->FUN_00ba3760(3);
-    textures[1]->FUN_00ba3760(3);
-    shader->Render(renderer, target, parameters, true);
-    temporaryTexture.FUN_00ba39a0();
-}
 }  // namespace fnv_00b9b540
 
 struct ImageSpaceShaderHDRBase
@@ -13162,6 +12470,7 @@ struct FUN_00b8d4d0 : ImageSpaceShaderHDRBase, ImageSpaceShaderSecondary
 
 // Releases the texture, destroys and deallocates the texture stored at index 2 of m_94, then clears that slot.
 // @fnv 0x00b8d4d0
+// pdb: ImageSpaceShaderVolumetricFog::~ImageSpaceShaderVolumetricFog | ImageSpaceManager.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00b8d4d0::~FUN_00b8d4d0()
 {
     ReleaseTexture();
@@ -13272,1267 +12581,6 @@ struct Registry
         r_04[index] = value;
     }
 };
-struct CBA4640 : NiMemObj
-{
-    virtual void s0();
-    virtual void s1();
-    virtual void s2();
-    virtual void s3();
-    virtual void s4();
-    virtual void s5();
-    virtual void s6();
-    virtual void s7();
-    virtual void Call20(int n);
-    virtual void Call24(int n);
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58;
-    CBA4640();
-};
-struct CC05680 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64;
-    CC05680();
-};
-struct CBD93D0 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64;
-    CBD93D0();
-};
-struct CC03810 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78;
-    CC03810();
-};
-struct CBAD500 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c;
-    CBAD500();
-};
-struct CC05420 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78;
-    CC05420();
-};
-struct CC04D20 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78, data_00_7c, data_00_80, data_00_84, data_00_88, data_00_8c,
-        data_00_90, data_00_94, data_00_98, data_00_9c, data_00_a0, data_00_a4, data_00_a8, data_00_ac, data_00_b0,
-        data_00_b4, data_00_b8, data_00_bc, data_00_c0, data_00_c4;
-    CC04D20();
-};
-struct CBB8900 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54;
-    CBB8900();
-};
-struct CBC0600 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54;
-    CBC0600();
-};
-struct CBD7120 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78, data_00_7c, data_00_80, data_00_84, data_00_88, data_00_8c,
-        data_00_90, data_00_94, data_00_98, data_00_9c, data_00_a0, data_00_a4, data_00_a8, data_00_ac, data_00_b0,
-        data_00_b4, data_00_b8;
-    CBD7120();
-};
-struct CC049C0 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74;
-    CC049C0();
-};
-struct CBA4880 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78, data_00_7c, data_00_80, data_00_84;
-    CBA4880();
-};
-struct CB5A590 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78, data_00_7c, data_00_80, data_00_84, data_00_88, data_00_8c,
-        data_00_90, data_00_94, data_00_98, data_00_9c, data_00_a0, data_00_a4, data_00_a8, data_00_ac, data_00_b0,
-        data_00_b4, data_00_b8, data_00_bc, data_00_c0, data_00_c4, data_00_c8, data_00_cc, data_00_d0;
-    CB5A590();
-};
-struct CB5A410 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70;
-    CB5A410();
-};
-struct CBAA160 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54;
-    CBAA160();
-};
-struct CC04600 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60;
-    CC04600();
-};
-struct CBA15E0 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78, data_00_7c, data_00_80, data_00_84, data_00_88, data_00_8c,
-        data_00_90, data_00_94, data_00_98, data_00_9c, data_00_a0, data_00_a4, data_00_a8, data_00_ac, data_00_b0,
-        data_00_b4, data_00_b8;
-    CBA15E0();
-};
-struct CBA02F0 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70;
-    CBA02F0();
-};
-struct CB9B830 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64, data_00_68,
-        data_00_6c, data_00_70, data_00_74, data_00_78, data_00_7c, data_00_80, data_00_84, data_00_88, data_00_8c,
-        data_00_90, data_00_94, data_00_98, data_00_9c, data_00_a0, data_00_a4, data_00_a8, data_00_ac, data_00_b0,
-        data_00_b4, data_00_b8, data_00_bc, data_00_c0, data_00_c4, data_00_c8, data_00_cc, data_00_d0, data_00_d4,
-        data_00_d8, data_00_dc, data_00_e0, data_00_e4, data_00_e8, data_00_ec, data_00_f0, data_00_f4, data_00_f8,
-        data_00_fc, data_00_100, data_00_104, data_00_108, data_00_10c, data_00_110, data_00_114, data_00_118,
-        data_00_11c, data_00_120, data_00_124, data_00_128, data_00_12c, data_00_130, data_00_134, data_00_138,
-        data_00_13c, data_00_140, data_00_144, data_00_148, data_00_14c, data_00_150, data_00_154, data_00_158,
-        data_00_15c, data_00_160, data_00_164, data_00_168, data_00_16c, data_00_170, data_00_174, data_00_178,
-        data_00_17c, data_00_180, data_00_184, data_00_188, data_00_18c, data_00_190, data_00_194, data_00_198,
-        data_00_19c, data_00_1a0, data_00_1a4, data_00_1a8, data_00_1ac, data_00_1b0, data_00_1b4, data_00_1b8,
-        data_00_1bc, data_00_1c0, data_00_1c4, data_00_1c8, data_00_1cc, data_00_1d0, data_00_1d4, data_00_1d8,
-        data_00_1dc, data_00_1e0, data_00_1e4, data_00_1e8, data_00_1ec, data_00_1f0, data_00_1f4, data_00_1f8,
-        data_00_1fc, data_00_200, data_00_204, data_00_208, data_00_20c, data_00_210, data_00_214, data_00_218,
-        data_00_21c, data_00_220, data_00_224, data_00_228, data_00_22c, data_00_230, data_00_234, data_00_238,
-        data_00_23c, data_00_240, data_00_244, data_00_248, data_00_24c, data_00_250, data_00_254, data_00_258,
-        data_00_25c, data_00_260, data_00_264, data_00_268, data_00_26c, data_00_270, data_00_274, data_00_278,
-        data_00_27c, data_00_280, data_00_284, data_00_288, data_00_28c, data_00_290, data_00_294, data_00_298,
-        data_00_29c, data_00_2a0, data_00_2a4, data_00_2a8, data_00_2ac, data_00_2b0, data_00_2b4, data_00_2b8;
-    CB9B830();
-};
-struct CC033C0 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54, data_00_58, data_00_5c, data_00_60, data_00_64;
-    CC033C0();
-};
-struct CBB9180 : NiMemObj
-{
-    int data_00_0, data_00_4, data_00_8, data_00_c, data_00_10, data_00_14, data_00_18, data_00_1c, data_00_20,
-        data_00_24, data_00_28, data_00_2c, data_00_30, data_00_34, data_00_38, data_00_3c, data_00_40, data_00_44,
-        data_00_48, data_00_4c, data_00_50, data_00_54;
-    CBB9180();
-};
-void* __cdecl FUN_00aa13e0(unsigned int n);
-struct CB8EFA0
-{
-    CB8EFA0* __thiscall FUN_00b8efa0();
-};
-struct CB8F010
-{
-    CB8F010* __thiscall FUN_00b8f010();
-};
-struct CB8F660
-{
-    CB8F660* __thiscall FUN_00b8f660();
-};
-struct CB8F520
-{
-    CB8F520* __thiscall FUN_00b8f520();
-};
-struct CB8F1B0
-{
-    CB8F1B0* __thiscall FUN_00b8f1b0();
-};
-struct CB8F360
-{
-    CB8F360* __thiscall FUN_00b8f360();
-};
-struct CB92180
-{
-    CB92180* __thiscall FUN_00b92180();
-};
-struct CB8D330
-{
-    CB8D330* __thiscall FUN_00b8d330();
-};
-struct CB8D850
-{
-    CB8D850* __thiscall FUN_00b8d850();
-};
-struct CB8FEA0
-{
-    CB8FEA0* __thiscall FUN_00b8fea0();
-};
-struct CB8D5B0
-{
-    CB8D5B0* __thiscall FUN_00b8d5b0();
-};
-struct CB8D700
-{
-    CB8D700* __thiscall FUN_00b8d700();
-};
-struct CB922D0
-{
-    CB922D0* __thiscall FUN_00b922d0();
-};
-struct CB8EE20
-{
-    CB8EE20* __thiscall FUN_00b8ee20();
-};
-struct CB8F7E0
-{
-    CB8F7E0* __thiscall FUN_00b8f7e0();
-};
-struct CB8FD40
-{
-    CB8FD40* __thiscall FUN_00b8fd40();
-};
-struct CB917C0
-{
-    CB917C0* __thiscall FUN_00b917c0();
-};
-struct CB91900
-{
-    CB91900* __thiscall FUN_00b91900();
-};
-struct CB91B80
-{
-    CB91B80* __thiscall FUN_00b91b80();
-};
-struct CB8F930
-{
-    CB8F930* __thiscall FUN_00b8f930();
-};
-struct CB8FA80
-{
-    CB8FA80* __thiscall FUN_00b8fa80();
-};
-struct CB8FBE0
-{
-    CB8FBE0* __thiscall FUN_00b8fbe0();
-};
-struct CB8BEA0
-{
-    CB8BEA0* __thiscall FUN_00b8bea0();
-};
-struct CB8FFF0
-{
-    CB8FFF0* __thiscall FUN_00b8fff0();
-};
-struct CB90190
-{
-    CB90190* __thiscall FUN_00b90190();
-};
-struct CB90330
-{
-    CB90330* __thiscall FUN_00b90330();
-};
-struct CB90520
-{
-    CB90520* __thiscall FUN_00b90520();
-};
-struct CB906B0
-{
-    CB906B0* __thiscall FUN_00b906b0();
-};
-struct CB90830
-{
-    CB90830* __thiscall FUN_00b90830();
-};
-struct CB909C0
-{
-    CB909C0* __thiscall FUN_00b909c0();
-};
-struct CB90B50
-{
-    CB90B50* __thiscall FUN_00b90b50();
-};
-struct CB91000
-{
-    CB91000* __thiscall FUN_00b91000();
-};
-struct CB911A0
-{
-    CB911A0* __thiscall FUN_00b911a0();
-};
-struct CB91340
-{
-    CB91340* __thiscall FUN_00b91340();
-};
-struct CB914E0
-{
-    CB914E0* __thiscall FUN_00b914e0();
-};
-struct CB90CE0
-{
-    CB90CE0* __thiscall FUN_00b90ce0();
-};
-struct CB90E70
-{
-    CB90E70* __thiscall FUN_00b90e70();
-};
-struct CB91680
-{
-    CB91680* __thiscall FUN_00b91680();
-};
-struct CB8BCE0
-{
-    CB8BCE0* __thiscall FUN_00b8bce0();
-};
-struct CB92500
-{
-    CB92500* __thiscall FUN_00b92500();
-};
-struct CB91A40
-{
-    CB91A40* __thiscall FUN_00b91a40();
-};
-struct CB8D990
-{
-    CB8D990* __thiscall FUN_00b8d990();
-};
-struct CB8DAE0
-{
-    CB8DAE0* __thiscall FUN_00b8dae0();
-};
-struct CB8DC30
-{
-    CB8DC30* __thiscall FUN_00b8dc30();
-};
-struct CB8DD80
-{
-    CB8DD80* __thiscall FUN_00b8dd80();
-};
-struct CB8DED0
-{
-    CB8DED0* __thiscall FUN_00b8ded0();
-};
-struct CB8E020
-{
-    CB8E020* __thiscall FUN_00b8e020();
-};
-struct CB8E170
-{
-    CB8E170* __thiscall FUN_00b8e170();
-};
-struct CB8E2C0
-{
-    CB8E2C0* __thiscall FUN_00b8e2c0();
-};
-struct CB8E460
-{
-    CB8E460* __thiscall FUN_00b8e460();
-};
-struct CB8E600
-{
-    CB8E600* __thiscall FUN_00b8e600();
-};
-struct CB8E7A0
-{
-    CB8E7A0* __thiscall FUN_00b8e7a0();
-};
-struct CB8E940
-{
-    CB8E940* __thiscall FUN_00b8e940();
-};
-struct CB8EAE0
-{
-    CB8EAE0* __thiscall FUN_00b8eae0();
-};
-struct CB8EC80
-{
-    CB8EC80* __thiscall FUN_00b8ec80();
-};
-struct CB932D0
-{
-    CB932D0* __thiscall FUN_00b932d0();
-};
-struct CB93600
-{
-    CB93600* __thiscall FUN_00b93600();
-};
-struct CB93950
-{
-    CB93950* __thiscall FUN_00b93950();
-};
-struct CB93AA0
-{
-    CB93AA0* __thiscall FUN_00b93aa0();
-};
-struct CB93BF0
-{
-    CB93BF0* __thiscall FUN_00b93bf0();
-};
-struct CB93D40
-{
-    CB93D40* __thiscall FUN_00b93d40();
-};
-struct CB93E90
-{
-    CB93E90* __thiscall FUN_00b93e90();
-};
-struct CB93FE0
-{
-    CB93FE0* __thiscall FUN_00b93fe0();
-};
-struct CB94130
-{
-    CB94130* __thiscall FUN_00b94130();
-};
-struct CB94280
-{
-    CB94280* __thiscall FUN_00b94280();
-};
-struct CB943D0
-{
-    CB943D0* __thiscall FUN_00b943d0();
-};
-struct CB92690
-{
-    CB92690* __thiscall FUN_00b92690();
-};
-struct CB927E0
-{
-    CB927E0* __thiscall FUN_00b927e0();
-};
-struct CB92930
-{
-    CB92930* __thiscall FUN_00b92930();
-};
-struct CB92A80
-{
-    CB92A80* __thiscall FUN_00b92a80();
-};
-struct CB92BD0
-{
-    CB92BD0* __thiscall FUN_00b92bd0();
-};
-struct CB92D90
-{
-    CB92D90* __thiscall FUN_00b92d90();
-};
-struct CB92EE0
-{
-    CB92EE0* __thiscall FUN_00b92ee0();
-};
-struct CB93030
-{
-    CB93030* __thiscall FUN_00b93030();
-};
-struct CB93180
-{
-    CB93180* __thiscall FUN_00b93180();
-};
-struct CB91CF0
-{
-    CB91CF0* __thiscall FUN_00b91cf0();
-};
-struct CNB91E40 : Header6c, ISSBase
-{
-    CNB91E40();
-};
-struct CNB8C070 : Header6c, ISSBase
-{
-    CNB8C070();
-};
-struct TailObj
-{
-    virtual void t0();
-    virtual void t1();
-    virtual void t2();
-    virtual void t3();
-    virtual void t4();
-    virtual void t5();
-    virtual void t6();
-    virtual void t7();
-    virtual void t8();
-    virtual void t9();
-    virtual void t10();
-    virtual void t11();
-    virtual void t12();
-    virtual void t13();
-    virtual void t14();
-    virtual void t15();
-    virtual void t16();
-    virtual void t17();
-    virtual void t18();
-    virtual void t19();
-    virtual void t20();
-    virtual void t21();
-    virtual void t22();
-    virtual void t23();
-    virtual void t24();
-    virtual void t25();
-    virtual void t26();
-    virtual void t27();
-    virtual void t28();
-    virtual void t29();
-    virtual void t30();
-    virtual void t31();
-    virtual void t32();
-    virtual void t33();
-    virtual void t34();
-    virtual void t35();
-    virtual void t36();
-    virtual void t37();
-    virtual void t38();
-    virtual void t39();
-    virtual void t40();
-    virtual void t41();
-    virtual void t42();
-    virtual void t43();
-    virtual void t44();
-    virtual void t45();
-    virtual void t46();
-    virtual void t47();
-    virtual void t48();
-    virtual void t49();
-    virtual void t50();
-    virtual void t51();
-    virtual void t52();
-    virtual void t53();
-    virtual void t54();
-    virtual void t55();
-    virtual void t56();
-    virtual void t57();
-    virtual void t58();
-    virtual void t59();
-    virtual void t60();
-    virtual void t61();
-    virtual void t62();
-    virtual void t63();
-    virtual void t64();
-    virtual void t65();
-    virtual void t66();
-    virtual void t67();
-    virtual void t68();
-    virtual void t69();
-    virtual void t70();
-    virtual void t71();
-    virtual void Call120();
-};
-struct ShaderHeader : TailObj
-{
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-};
-struct ShaderLayout : ShaderHeader, ISSBase
-{
-};
-struct Temp
-{
-    void* p;
-    ~Temp();
-};
-struct CNB8EFA0 : Header6c, ISSBase
-{
-    CNB8EFA0();
-};
-struct CNB8F010 : Header6c, ISSBase
-{
-    CNB8F010();
-};
-struct CNB8F660 : Header6c, ISSBase
-{
-    CNB8F660();
-};
-struct CNB8F520 : Header6c, ISSBase
-{
-    CNB8F520();
-};
-struct CNB8F1B0 : Header6c, ISSBase
-{
-    CNB8F1B0();
-};
-struct CNB8F360 : Header6c, ISSBase
-{
-    CNB8F360();
-};
-struct CNB92180 : Header6c, ISSBase
-{
-    CNB92180();
-};
-struct CNB8D330 : Header6c, ISSBase
-{
-    CNB8D330();
-};
-struct CNB8D850 : Header6c, ISSBase
-{
-    CNB8D850();
-};
-struct CNB8FEA0 : Header6c, ISSBase
-{
-    CNB8FEA0();
-};
-struct CNB8D5B0 : Header6c, ISSBase
-{
-    CNB8D5B0();
-};
-struct CNB8D700 : Header6c, ISSBase
-{
-    CNB8D700();
-};
-struct ISSBase68 : ISSBase
-{
-    ISSBase68();
-    ~ISSBase68();
-    int iss_00_64;
-};
-struct CNB922D0 : Header6c, ISSBase68
-{
-    CNB922D0();
-};
-struct CNB8EE20 : Header6c, ISSBase
-{
-    CNB8EE20();
-};
-struct CNB8F7E0 : Header6c, ISSBase
-{
-    CNB8F7E0();
-};
-struct CNB8FD40 : Header6c, ISSBase
-{
-    CNB8FD40();
-};
-struct CNB917C0 : Header6c, ISSBase
-{
-    CNB917C0();
-};
-struct CNB91900 : Header6c, ISSBase
-{
-    CNB91900();
-};
-struct CNB91B80 : Header6c, ISSBase
-{
-    CNB91B80();
-};
-struct CNB8F930 : Header6c, ISSBase
-{
-    CNB8F930();
-};
-struct CNB8FA80 : Header6c, ISSBase
-{
-    CNB8FA80();
-};
-struct CNB8FBE0 : Header6c, ISSBase
-{
-    CNB8FBE0();
-};
-struct CNB8BEA0 : Header6c, ISSBase
-{
-    CNB8BEA0();
-};
-struct CNB8FFF0 : Header6c, ISSBase
-{
-    CNB8FFF0();
-};
-struct CNB90190 : Header6c, ISSBase
-{
-    CNB90190();
-};
-struct CNB90330 : Header6c, ISSBase
-{
-    CNB90330();
-};
-struct CNB90520 : Header6c, ISSBase
-{
-    CNB90520();
-};
-struct CNB906B0 : Header6c, ISSBase
-{
-    CNB906B0();
-};
-struct CNB90830 : Header6c, ISSBase
-{
-    CNB90830();
-};
-struct CNB909C0 : Header6c, ISSBase
-{
-    CNB909C0();
-};
-struct CNB90B50 : Header6c, ISSBase
-{
-    CNB90B50();
-};
-struct CNB91000 : Header6c, ISSBase
-{
-    CNB91000();
-};
-struct CNB911A0 : Header6c, ISSBase
-{
-    CNB911A0();
-};
-struct CNB91340 : Header6c, ISSBase
-{
-    CNB91340();
-};
-struct CNB914E0 : Header6c, ISSBase
-{
-    CNB914E0();
-};
-struct CNB90CE0 : Header6c, ISSBase
-{
-    CNB90CE0();
-};
-struct CNB90E70 : Header6c, ISSBase
-{
-    CNB90E70();
-};
-struct CNB91680 : Header6c, ISSBase
-{
-    CNB91680();
-};
-struct CNB8BCE0 : Header6c, ISSBase
-{
-    CNB8BCE0();
-};
-struct CNB92500 : Header6c, ISSBase
-{
-    CNB92500();
-};
-struct CNB91A40 : Header6c, ISSBase
-{
-    CNB91A40();
-};
-struct CNB8D990 : Header6c, ISSBase
-{
-    CNB8D990();
-};
-struct CNB8DAE0 : Header6c, ISSBase
-{
-    CNB8DAE0();
-};
-struct CNB8DC30 : Header6c, ISSBase
-{
-    CNB8DC30();
-};
-struct CNB8DD80 : Header6c, ISSBase
-{
-    CNB8DD80();
-};
-struct CNB8DED0 : Header6c, ISSBase
-{
-    CNB8DED0();
-};
-struct CNB8E020 : Header6c, ISSBase
-{
-    CNB8E020();
-};
-struct CNB8E170 : Header6c, ISSBase
-{
-    CNB8E170();
-};
-struct CNB8E2C0 : Header6c, ISSBase
-{
-    CNB8E2C0();
-};
-struct CNB8E460 : Header6c, ISSBase
-{
-    CNB8E460();
-};
-struct CNB8E600 : Header6c, ISSBase
-{
-    CNB8E600();
-};
-struct CNB8E7A0 : Header6c, ISSBase
-{
-    CNB8E7A0();
-};
-struct CNB8E940 : Header6c, ISSBase
-{
-    CNB8E940();
-};
-struct CNB8EAE0 : Header6c, ISSBase
-{
-    CNB8EAE0();
-};
-struct CNB8EC80 : Header6c, ISSBase
-{
-    CNB8EC80();
-};
-struct CNB932D0 : Header6c, ISSBase
-{
-    CNB932D0();
-};
-struct CNB93600 : Header6c, ISSBase
-{
-    CNB93600();
-};
-struct CNB93950 : Header6c, ISSBase
-{
-    CNB93950();
-};
-struct CNB93AA0 : Header6c, ISSBase
-{
-    CNB93AA0();
-};
-struct CNB93BF0 : Header6c, ISSBase
-{
-    CNB93BF0();
-};
-struct CNB93D40 : Header6c, ISSBase
-{
-    CNB93D40();
-};
-struct CNB93E90 : Header6c, ISSBase
-{
-    CNB93E90();
-};
-struct CNB93FE0 : Header6c, ISSBase
-{
-    CNB93FE0();
-};
-struct CNB94130 : Header6c, ISSBase
-{
-    CNB94130();
-};
-struct CNB94280 : Header6c, ISSBase
-{
-    CNB94280();
-};
-struct CNB943D0 : Header6c, ISSBase
-{
-    CNB943D0();
-};
-struct CNB92690 : Header6c, ISSBase
-{
-    CNB92690();
-};
-struct CNB927E0 : Header6c, ISSBase
-{
-    CNB927E0();
-};
-struct CNB92930 : Header6c, ISSBase
-{
-    CNB92930();
-};
-struct CNB92A80 : Header6c, ISSBase
-{
-    CNB92A80();
-};
-struct CNB92BD0 : Header6c, ISSBase
-{
-    CNB92BD0();
-};
-struct CNB92D90 : Header6c, ISSBase
-{
-    CNB92D90();
-};
-struct CNB92EE0 : Header6c, ISSBase
-{
-    CNB92EE0();
-};
-struct CNB93030 : Header6c, ISSBase
-{
-    CNB93030();
-};
-struct CNB93180 : Header6c, ISSBase
-{
-    CNB93180();
-};
-struct CNB91CF0 : Header6c, ISSBase
-{
-    CNB91CF0();
-};
-struct B94520Cls
-{
-    int m_00;
-    Registry m_04;
-    void __thiscall FUN_00b94520();
-};
-// @fnv 0x00b94520
-void __thiscall B94520Cls::FUN_00b94520()
-{
-    {
-        m_04.SetAt(13, new CC05680);
-    }
-    {
-        m_04.SetAt(2, new CBD93D0);
-    }
-    {
-        m_04.SetAt(8, new CC03810);
-    }
-    {
-        m_04.SetAt(1, new CBAD500);
-    }
-    {
-        m_04.SetAt(0, new CC05420);
-    }
-    {
-        m_04.SetAt(3, new CC04D20);
-    }
-    {
-        m_04.SetAt(10, new CBB8900);
-    }
-    {
-        m_04.SetAt(11, new CBC0600);
-    }
-    {
-        m_04.SetAt(4, new CBD7120);
-    }
-    {
-        m_04.SetAt(12, new CC049C0);
-    }
-    {
-        m_04.SetAt(7, new CBA4880);
-    }
-    {
-        m_04.SetAt(5, new CB5A590);
-    }
-    {
-        m_04.SetAt(6, new CB5A410);
-    }
-    {
-        m_04.SetAt(14, new CBAA160);
-    }
-    {
-        m_04.SetAt(15, new CC04600);
-    }
-    {
-        m_04.SetAt(31, new CBA15E0);
-    }
-    {
-        m_04.SetAt(32, new CBA02F0);
-    }
-    {
-        m_04.SetAt(33, new CB9B830);
-    }
-    {
-        m_04.SetAt(9, new CC033C0);
-    }
-    {
-        m_04.SetAt(30, new CBB9180);
-    }
-    {
-        for (unsigned int i = 0; i < 7; i++)
-        {
-            CBA4640* obj = new CBA4640;
-            obj->Call20(i + 1);
-            obj->Call24(0);
-            m_04.AssignKnownU(i + 16, obj);
-            CBA4640* obj2 = new CBA4640;
-            obj2->Call20(i + 1);
-            obj2->Call24(1);
-            m_04.AssignKnownU(i + 23, obj2);
-        }
-    }
-    {
-        m_04.Assign(34, new CNB8EFA0);
-    }
-    {
-        m_04.Assign(35, new CNB8F010);
-    }
-    {
-        m_04.Assign(36, new CNB8F660);
-    }
-    {
-        m_04.Assign(37, new CNB8F520);
-    }
-    {
-        m_04.Assign(38, new CNB8EFA0);
-    }
-    {
-        m_04.Assign(39, new CNB8F1B0);
-    }
-    {
-        m_04.Assign(40, new CNB8F360);
-    }
-    {
-        m_04.Assign(41, new CNB92180);
-    }
-    {
-        m_04.Assign(42, new CNB8D330);
-    }
-    {
-        m_04.Assign(43, new CNB8D850);
-    }
-    {
-        m_04.Assign(44, new CNB8FEA0);
-    }
-    {
-        m_04.Assign(45, new CNB8D5B0);
-    }
-    {
-        m_04.Assign(46, new CNB8D700);
-    }
-    {
-        m_04.Assign(47, new CNB922D0);
-    }
-    {
-        m_04.Assign(50, new CNB8EE20);
-    }
-    {
-        m_04.Assign(51, new CNB8F7E0);
-    }
-    {
-        m_04.Assign(52, new CNB8FD40);
-    }
-    {
-        m_04.Assign(48, new CNB917C0);
-    }
-    {
-        m_04.Assign(49, new CNB91900);
-    }
-    {
-        m_04.Assign(53, new CNB91B80);
-    }
-    {
-        m_04.Assign(54, new CNB8F930);
-    }
-    {
-        m_04.Assign(55, new CNB8FA80);
-    }
-    {
-        m_04.Assign(56, new CNB8FBE0);
-    }
-    {
-        m_04.Assign(57, new CNB8BEA0);
-    }
-    {
-        m_04.Assign(58, new CNB8FFF0);
-    }
-    {
-        m_04.Assign(59, new CNB90190);
-    }
-    {
-        m_04.Assign(60, new CNB90330);
-    }
-    {
-        m_04.Assign(61, new CNB90520);
-    }
-    {
-        m_04.Assign(62, new CNB906B0);
-    }
-    {
-        m_04.Assign(63, new CNB90830);
-    }
-    {
-        m_04.Assign(64, new CNB909C0);
-    }
-    {
-        m_04.Assign(65, new CNB90B50);
-    }
-    {
-        m_04.Assign(67, new CNB91000);
-    }
-    {
-        m_04.Assign(66, new CNB911A0);
-    }
-    {
-        m_04.Assign(69, new CNB91340);
-    }
-    {
-        m_04.Assign(68, new CNB914E0);
-    }
-    {
-        m_04.Assign(70, new CNB90CE0);
-    }
-    {
-        m_04.Assign(71, new CNB90E70);
-    }
-    {
-        m_04.Assign(72, new CNB91680);
-    }
-    {
-        m_04.Assign(73, new CNB8BCE0);
-    }
-    {
-        m_04.Assign(75, new CNB92500);
-    }
-    {
-        m_04.Assign(76, new CNB91A40);
-    }
-    {
-        m_04.Assign(78, new CNB8D990);
-    }
-    {
-        m_04.Assign(79, new CNB8DAE0);
-    }
-    {
-        m_04.Assign(80, new CNB8DC30);
-    }
-    {
-        m_04.Assign(81, new CNB8DD80);
-    }
-    {
-        m_04.Assign(82, new CNB8DED0);
-    }
-    {
-        m_04.Assign(83, new CNB8E020);
-    }
-    {
-        m_04.Assign(84, new CNB8E170);
-    }
-    {
-        m_04.Assign(85, new CNB8E2C0);
-    }
-    {
-        m_04.Assign(86, new CNB8E460);
-    }
-    {
-        m_04.Assign(87, new CNB8E600);
-    }
-    {
-        m_04.Assign(88, new CNB8E7A0);
-    }
-    {
-        m_04.Assign(89, new CNB8E940);
-    }
-    {
-        m_04.Assign(90, new CNB8EAE0);
-    }
-    {
-        m_04.Assign(91, new CNB8EC80);
-    }
-    {
-        m_04.Assign(93, new CNB932D0);
-    }
-    {
-        m_04.Assign(94, new CNB93600);
-    }
-    {
-        m_04.Assign(95, new CNB93950);
-    }
-    {
-        m_04.Assign(96, new CNB93AA0);
-    }
-    {
-        m_04.Assign(97, new CNB93BF0);
-    }
-    {
-        m_04.Assign(98, new CNB93D40);
-    }
-    {
-        m_04.Assign(99, new CNB93E90);
-    }
-    {
-        m_04.Assign(100, new CNB93FE0);
-    }
-    {
-        m_04.Assign(101, new CNB94130);
-    }
-    {
-        m_04.Assign(102, new CNB94280);
-    }
-    {
-        m_04.Assign(103, new CNB932D0);
-    }
-    {
-        m_04.Assign(104, new CNB943D0);
-    }
-    {
-        m_04.Assign(105, new CNB92690);
-    }
-    {
-        m_04.Assign(106, new CNB927E0);
-    }
-    {
-        m_04.Assign(107, new CNB92930);
-    }
-    {
-        m_04.Assign(108, new CNB92A80);
-    }
-    {
-        m_04.Assign(109, new CNB92BD0);
-    }
-    {
-        m_04.Assign(110, new CNB92D90);
-    }
-    {
-        m_04.Assign(111, new CNB92EE0);
-    }
-    {
-        m_04.Assign(112, new CNB93030);
-    }
-    {
-        m_04.Assign(113, new CNB93180);
-    }
-    {
-        m_04.Assign(114, new CNB91CF0);
-    }
-    {
-        m_04.SetAt(0x73, (ISSBase*)new CNB91E40);
-    }
-    {
-        m_04.SetAt(0x4d, (ISSBase*)new CNB8C070);
-    }
-    for (unsigned int off = 34; off < 116; ++off)
-    {
-        if (m_04.r_04[off])
-        {
-            ShaderLayout* shader = static_cast<ShaderLayout*>(static_cast<ISSBase*>(m_04.r_04[off]));
-            shader->Call120();
-        }
-    }
-}
 
 namespace nb {
 struct Snd
@@ -14574,6 +12622,8 @@ struct Main
 extern int DAT_011ffa8c;
 extern int DAT_011ad888[];
 // @fnv 0x00b97e80
+// pdb: BSRenderState::SetZFunc | BSRenderState_Xenon.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeZFunc, aeLock
 void __cdecl FUN_00b97e80(int idx, int amount)
 {
     int i = DAT_011ffa8c;
@@ -14584,6 +12634,8 @@ void __cdecl FUN_00b97e80(int idx, int amount)
 
 extern unsigned int DAT_011ffa6c;
 // @fnv 0x00b97ed0
+// pdb: BSRenderState::SetAlphaTestEnable | BSRenderState_Xenon.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: abEnabled, aeLock
 void __cdecl FUN_00b97ed0(unsigned char aByteValue, int aiDelta)
 {
     unsigned int index = DAT_011ffa6c;
@@ -14708,15 +12760,6 @@ struct NodeList1_af60
         }
     }
 };
-struct List1_af60
-{
-    unsigned short unk00;
-    unsigned short m_02;
-    int unk04;
-    int unk08;
-    int unk0c;
-    NodeList1_af60 m_kNode;
-};
 struct Sub2c_af60
 {
     void FUN_00b64ec0();
@@ -14787,24 +12830,6 @@ struct Entry_af60
     float m_20;
     void FUN_00b9a410();
 };
-struct Node2_af60
-{
-    Node2_af60* m_next;
-    Node2_af60* m_pSecondNode;
-    Entry_af60* m_data;
-};
-struct List2_af60
-{
-    Node2_af60* m_pFirstNode;
-    Node2_af60* m_pTail;
-    int m_uiItemCount;
-    void RemoveHead();
-};
-struct Lock_af60
-{
-    int m_pOwnerObject;
-    void FUN_0040fbf0(int a);
-};
 struct Mgr_af60
 {
     void FUN_00aa4060(Entry_af60* e);
@@ -14817,209 +12842,8 @@ struct Point3_af60
     Point3_af60(float ax, float ay, float az) : x(ax), y(ay), z(az)
     {}
 };
-struct Cam_af60
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    float m_68;
-    int unk6c;
-    int unk70;
-    float m_74;
-    int unk78;
-    int unk7c;
-    float m_80;
-};
-extern Lock_af60 DAT_011c5f80;
-extern int DAT_011c5f84;
-extern Node2_af60* DAT_011c5f58;
 extern Mgr_af60 DAT_011f6238;
-extern int DAT_011f91b8;
-extern char DAT_011ad80f;
-extern float DAT_01200458;
-extern int DAT_011ff9dc;
-extern int DAT_011ff9e4;
-extern double DAT_01016978;
-void __cdecl ClearPassList(int* p, int a);
 void __cdecl FUN_00b97e30(int a, int b);
-void __cdecl SendFloatAdd(float f, int a);
-void __cdecl FUN_00b994f0(Item_af60* item, unsigned int a, int b, int c, int d);
-extern "C" int __cdecl _isnan(double);
-struct Renderer_af60
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    List1_af60* m_70[2];
-    List2_af60 m_78[2];
-    void UpdateVisibility(int idx, Cam_af60* cam, bool flag, float maxDist);
-};
-inline void List2_af60::RemoveHead()
-{
-    Node2_af60* n = m_pFirstNode;
-    m_pFirstNode = n->m_next;
-    if (m_pFirstNode)
-    {
-        m_pFirstNode->m_pSecondNode = 0;
-    }
-    else
-    {
-        m_pTail = 0;
-    }
-    n->m_data = 0;
-    DAT_011c5f80.FUN_0040fbf0(0);
-    n->m_pSecondNode = 0;
-    n->m_next = DAT_011c5f58;
-    DAT_011c5f84 -= 1;
-    DAT_011c5f58 = n;
-    if (DAT_011c5f84 == 0)
-    {
-        DAT_011c5f80.m_pOwnerObject = 0;
-    }
-    m_uiItemCount--;
-}
-static __forceinline float CalcDist(Item_af60* a, const Point3_af60& dir, bool flag)
-{
-    if (flag)
-    {
-        Bound_af60* b = a->m_00->GetBound();
-        Bound_af60* b2 = a->m_00->GetBound();
-        float d = b->x * dir.x + b->y * dir.y + b->z * dir.z;
-        return d - b2->radius;
-    }
-    Bound_af60* b = a->m_00->GetBound();
-    return b->x * dir.x + b->y * dir.y + b->z * dir.z;
-}
-// @fnv 0x00b9af60
-void Renderer_af60::UpdateVisibility(int idx, Cam_af60* cam, bool abUseRadius, float maxDist)
-{
-    Point3_af60 dir(cam->m_68, cam->m_74, cam->m_80);
-    List1_af60* pList = m_70[idx];
-    Node1_af60* n = pList->m_kNode.m_pFirstNode;
-    Item_af60* a = n ? n->m_data : 0;
-    float dist = 0.0f;
-    if (a)
-    {
-        dist = CalcDist(a, dir, abUseRadius);
-    }
-    Entry_af60* e = m_78[idx].m_uiItemCount ? m_78[idx].m_pFirstNode->m_data : 0;
-    maxDist -= DAT_01016978;
-    do
-    {
-        while (e && (e->m_20 > dist || !a) && e->m_20 >= maxDist)
-        {
-            if ((e->m_flags & 1) > 0)
-            {
-                ClearPassList(&e->m_0c, 1);
-            }
-            else if (e->m_08)
-            {
-                e->m_08->SetState(1, 0x2f1, 1);
-            }
-            if (e->m_08)
-            {
-                e->m_08->m_2c.FUN_00b64ec0();
-            }
-            e->m_02 = 0;
-            e->FUN_00b9a410();
-            DAT_011f6238.FUN_00aa4060(e);
-            m_78[idx].RemoveHead();
-            e = m_78[idx].m_uiItemCount ? m_78[idx].m_pFirstNode->m_data : 0;
-        }
-        if (a && dist >= maxDist)
-        {
-            Props_af60* p = a->m_00->m_a8;
-            if (p && !(DAT_011f91b8 == 9 && (p->m_1c == 0x15 || p->m_1c == 0x11)))
-            {
-                bool restore;
-                if ((p->m_20 & 0x4000000) > 0 || (p->m_20 & 0x8000000) > 0)
-                {
-                    float f = DAT_01200458;
-                    restore = true;
-                    if (!DAT_011ad80f)
-                    {
-                        f = 0.0f;
-                    }
-                    FUN_00b97e30(0, 1);
-                    SendFloatAdd(f, 1);
-                }
-                else
-                {
-                    restore = false;
-                }
-                FUN_00b994f0(a, a->m_04, 1, 1, 1);
-                if (restore)
-                {
-                    DAT_011ff9dc -= 1;
-                    FUN_00b97e30(1, 0);
-                    DAT_011ff9e4 -= 1;
-                    SendFloatAdd(0.0f, 0);
-                }
-            }
-            List1_af60* l = m_70[idx];
-            if (l->m_kNode.m_pFirstNode)
-            {
-                l->m_02--;
-                l->m_kNode.RemoveHead();
-            }
-            l = m_70[idx];
-            Node1_af60* node = l->m_kNode.m_pFirstNode;
-            a = node ? node->m_data : 0;
-            if (a)
-            {
-                dist = CalcDist(a, dir, abUseRadius);
-            }
-        }
-    } while (((a && dist >= maxDist) || (e && e->m_20 >= maxDist)) && !_isnan(dist));
-}
 }  // namespace fnv_00b9af60
 
 class NiPoint3
@@ -15161,6 +12985,8 @@ class ShadowSceneLight
 };
 
 // @fnv 0x00b9bbb0
+// pdb: ShadowSceneLight::BoundWithinLightFrustum | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: arBound
 bool ShadowSceneLight::TestSphereFrustum(const NiSphere& kSphere)
 {
     bool bInside = true;
@@ -15475,6 +13301,7 @@ struct Self_b89970
 
 // Calls FUN_00be0870, then if unk6c is set decrements its unk64 (calling FUN_00e80190 at zero) and clears unk6c; returns the FUN_00be0870 result.
 // @fnv 0x00b89970
+// pdb: SkyShader::Initialize | SkyShader.obj | fnv360_0822_retail, objrun, medium
 char Self_b89970::FUN_00b89970()
 {
     char result = FUN_00be0870();
@@ -15740,6 +13567,8 @@ class ImageSpaceManagerB979
 
 // Prepares end-of-frame effects, then iterates active effects to render them, swapping source and destination render targets between passes.
 // @fnv 0x00b97900
+// pdb: ImageSpaceManager::RenderEndOfFrameEffects | ImageSpaceManager.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: apRenderer, apScreenBuffer, apDestinationBuffer
 void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, RenderTargetB979** ppkSource,
                                                     RenderTargetB979** ppkDest)
 {
@@ -15984,6 +13813,7 @@ struct FUN_00b9b7f0_cls
 
 // Calls FUN_00b9b400 on this with DAT_011f9410 and sets m_2b8 to 1.
 // @fnv 0x00b9b7f0
+// pdb: ImageSpaceEffectNoise::InitializeUtilityBuffers | ImageSpaceEffectNoise.obj | fnv360_0822_retail, caller_sim, medium
 void FUN_00b9b7f0_cls::FUN_00b9b7f0()
 {
     ((B9B400Cls*)this)->FUN_00b9b400((unsigned int)DAT_011f9410);
@@ -16180,6 +14010,8 @@ __declspec(noinline) void FX::FUN_00b9b400(unsigned int value)
 
 // If m_2b8 is false, calls FUN_00b9b400 with DAT_011f9410 and sets m_2b8 to true, then returns true.
 // @fnv 0x00b9bac0
+// pdb: ImageSpaceEffectNoise::UpdateParams | ImageSpaceEffectNoise.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pParam
 bool FX::EnsureInitialized(int unused)
 {
     if (!m_2b8)
@@ -16241,6 +14073,7 @@ struct FUN_00b81130 : public FUN_00baa0e0
 
 // Releases the two ReleaseObject slots by decrementing their reference counts and calling v04 when the count reaches zero.
 // @fnv 0x00b81130
+// pdb: BSShaderBloodSplatterProperty::~BSShaderBloodSplatterProperty | BSShaderBloodSplatterProperty.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00b81130::~FUN_00b81130()
 {
     ReleaseObject** slot = &m_60[0].m_pObject;
@@ -16296,7 +14129,6 @@ struct W82197
 };
 void __cdecl UpdateInputFlags(W82197, int);
 
-extern "C" void __stdcall FUN_00ec5fce(void* apBase, unsigned int aiSize, unsigned int aiCount, void* apDtor);
 void __cdecl FUN_00aa10f0(void* apMemory);
 extern "C" void FUN_0045cec0();
 
@@ -16404,6 +14236,7 @@ class FUN_00b8a8e0 : public FUN_00b8a8e0_base
 
 // Destructor that calls Cleanup; the member and base destructors then run implicitly.
 // @fnv 0x00b8a8e0
+// pdb: ImageSpaceShaderParam::~ImageSpaceShaderParam | ImageSpaceShaderParam.obj | fnv360_0822_retail, call_gap, low
 FUN_00b8a8e0::~FUN_00b8a8e0()
 {
     Cleanup();
@@ -16417,6 +14250,7 @@ class WaterFFTDisplayEffect : public B8F080ImageSpaceEffect
 
 // Creates vertex and pixel shaders for the FFT display high-water effect and calls SetupShaders.
 // @fnv 0x00b941a0
+// pdb: ImageSpaceShaderWaterFFTDisplayHighW::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void WaterFFTDisplayEffect::FUN_00b941a0()
 {
     B8F080ShaderFile kVertexDelta = {"imagespace\\1x\\v\\base.v.hlsl", {{NULL, NULL}}};
@@ -16424,23 +14258,6 @@ void WaterFFTDisplayEffect::FUN_00b941a0()
     const char* pcPS = (const char*)FUN_00b4f380(1);
     CreateShaders(&kVertexDelta, &kPixel, "FFTDISPLAYHIGHW", "vs_1_1", pcPS);
     SetupShaders();
-}
-
-struct EffectManager975
-{
-    int unk00;
-    int unk04;
-    ImageSpaceEffectB979** effects;
-    void FUN_00b8c980(ImageSpaceEffectB979*, int, int, int, int, int);
-    void FUN_00b975f0(unsigned int index, int a, int b, int c, int d, int e);
-};
-
-// Calls FUN_00b8c980 with effects[index] and the five int arguments while a memory context of 0x27 is set.
-// @fnv 0x00b975f0
-void EffectManager975::FUN_00b975f0(unsigned int uiEffectIndex, int a, int b, int c, int d, int e)
-{
-    ScopedMemoryContext context(0x27);
-    FUN_00b8c980(effects[uiEffectIndex], a, b, c, d, e);
 }
 
 void NiFree(void* memory);
@@ -16674,17 +14491,18 @@ struct FUN_00b97690
     int unk310;
     int unk314;
     unsigned int m_textureId;
-    void ShutdownAllEffects();
+    void ImageSpaceManager_ShutdownEffects();
     void ClearTextures();
     ~FUN_00b97690();
 };
-// If active, calls ShutdownAllEffects, ClearTextures and FUN_00b8a7e0, clears active, and passes m_textureId to DAT_011f91a8->FUN_00b6da10.
+// If active, calls ImageSpaceManager_ShutdownEffects, ClearTextures and FUN_00b8a7e0, clears active, and passes m_textureId to DAT_011f91a8->FUN_00b6da10.
 // @fnv 0x00b97690
+// pdb: ImageSpaceManager::~ImageSpaceManager | ImageSpaceManager.obj | fnv360_0822_retail, call_gap_sim, medium
 FUN_00b97690::~FUN_00b97690()
 {
     if (active)
     {
-        ShutdownAllEffects();
+        ImageSpaceManager_ShutdownEffects();
         ClearTextures();
         FUN_00b8a7e0(&DAT_01202410);
         active = false;
@@ -16987,6 +14805,8 @@ class B9DBE0Fader
 
 // Stores in m_fFade the distance from the camera position plus offset to the bound center, minus the bound radius, divided by the fade range, and returns it.
 // @fnv 0x00b9dbe0
+// pdb: ShadowSceneLight::GetLuminanceToBound | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apBound
 float B9DBE0Fader::ComputeFade(const B9DBE0Bound* pkBound)
 {
     B9DBE0Point3 kCameraPos = DAT_011f91c8->m_kWorldPos;
@@ -20489,7 +18309,7 @@ struct B9Entry
 };
 struct B9List
 {
-    B9Entry* FUN_00b70600(void** position);
+    B9Entry* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void** position);
     B9Entry* FUN_00b70700(void** position);
 };
 struct B9Manager
@@ -20658,6 +18478,8 @@ static float WeightUpperBound(float limit, float x)
 }
 // Computes a weighted blend of nearby B9Light sources into output light translation, diffuse color, and attenuation distance.
 // @fnv 0x00b9d150
+// pdb: ShadowSceneLight::ComputeWeightedShadowLight | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLightingProperty, aTargetCenter
 void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
 {
     B9Bounds* bounds = object->FUN_00a5bdd0(DAT_012031e4);
@@ -20674,7 +18496,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     unsigned int count = 0;
     unsigned short index = 0;
     void* cursor;
-    B9Entry* entry = lights ? lights->FUN_00b70600(&cursor) : B9Mgr()->GetListItemAt(0);
+    B9Entry* entry = lights ? lights->BSShaderLightingProperty_GetFirstActiveNonShadowLight(&cursor) : B9Mgr()->GetListItemAt(0);
 
     if (entry)
     {
@@ -20719,7 +18541,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     else
     {
         unsigned int scan = 0;
-        entry = lights ? lights->FUN_00b70600(&cursor) : manager->GetListItemAt(0);
+        entry = lights ? lights->BSShaderLightingProperty_GetFirstActiveNonShadowLight(&cursor) : manager->GetListItemAt(0);
         for (unsigned int i = 0; i < count; ++i)
         {
             if (entry && !entry->disabled)
@@ -21014,6 +18836,7 @@ class B8EE90CinematicShader : public B92700WaterEffect
 };
 
 // @fnv 0x00b8ee90
+// pdb: ImageSpaceShaderCinematic::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void B8EE90CinematicShader::FUN_00b8ee90()
 {
     B92700ShaderFile kVertexShader;

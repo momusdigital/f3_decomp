@@ -4,9 +4,10 @@
 
 #include "havok/hkpCollisionFilter.h"
 
-// FUN_00cbfb90: stdcall, 7 stack params, returns the last one.
+// hkpCollisionFilter_numShapeKeyHitsLimitBreached: stdcall, 7 stack params, returns the last one.
 // @fnv 0x00cbfb90
-int __stdcall FUN_00cbfb90(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+// pdb: hkpCollisionFilter::numShapeKeyHitsLimitBreached | hkpCollisionFilter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int __stdcall hkpCollisionFilter_numShapeKeyHitsLimitBreached(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     return a7;
 }

@@ -151,6 +151,7 @@ struct Owner14 {
     List14 second;
     void FUN_00b21110();
 };
+// pdb: ShadowSceneLight::RemoveAllTriShapes | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, medium
 void Owner14::FUN_00b21110() {
     Node14* node = first.head;
     while (node) {
@@ -227,6 +228,8 @@ class FUN_00b33320_shell
     void FUN_00b33320(SettingArray* pArray);
 };
 
+// pdb: PrecipitationShaderProperty::GetViewerStrings | PrecipitationShaderProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void FUN_00b33320_shell::FUN_00b33320(SettingArray* pArray)
 {
     FUN_00b2b9f0(pArray);
@@ -611,10 +614,11 @@ struct Shader
     {
         return fogPixel;
     }
-    void FUN_00b34130(Geometry*, int, int, PassInfo*, int, int, Bound*);
+    void SpeedTreeLeafShader_UpdatePipelineForInstance(Geometry*, int, int, PassInfo*, int, int, Bound*);
 };
 // @fnv 0x00b34130
-void Shader::FUN_00b34130(Geometry* geometry, int unused1, int unused2, PassInfo* info, int FlushUsageData, int unused4,
+// pdb: SpeedTreeLeafShader::UpdatePipelineForInstance | SpeedTreeLeafShader.obj | fnv360_1110_retail, udata, high
+void Shader::SpeedTreeLeafShader_UpdatePipelineForInstance(Geometry* geometry, int unused1, int unused2, PassInfo* info, int FlushUsageData, int unused4,
                           Bound* bound)
 {
     unsigned int mode = info->mode;
@@ -834,6 +838,7 @@ struct FUN_00b3b600 : FUN_00b22630
 };
 
 // @fnv 0x00bc0360
+// pdb: ImageSpaceEffectVATSScan::~ImageSpaceEffectVATSScan | ImageSpaceEffectVATSScan.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: ImageSpaceEffectTV::~ImageSpaceEffectTV)
 FUN_00b3b600::~FUN_00b3b600()
 {
     DAT_011765d8 = 0;
@@ -974,6 +979,8 @@ struct TintEffect {
     void FUN_00b2b9f0(NameArray*);
     void FUN_00b39f90(NameArray*);
 };
+// pdb: TileShaderProperty::GetViewerStrings | TileShaderProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void TintEffect::FUN_00b39f90(NameArray* names) {
     FUN_00b2b9f0(names);
     void* handle=FUN_00847b50(DAT_01176558);
@@ -1027,6 +1034,7 @@ struct Owner17 : FUN_00b2afb0 {
     Element17* elements;
     Owner17();
 };
+// pdb: BSDistantTreeShaderProperty::BSDistantTreeShaderProperty | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, objrun, medium
 Owner17::Owner17() {
     vtable = &DAT_00ea0718;
     value58 = 8;
@@ -1123,6 +1131,8 @@ public:
     FUN_00bb0d40* FUN_00b33240(int& process);
 };
 
+// pdb: PrecipitationShaderProperty::CreateClone | PrecipitationShaderProperty.obj | fnv360_0822_retail, objrun, low, conflict (bridge: PrecipitationShaderProperty::PrecipitationShaderProperty)
+// pdb params: arCloneData
 FUN_00bb0d40* SpawnOwner::FUN_00b33240(int& process)
 {
     ThreadFlagGuard guard;
@@ -1353,6 +1363,7 @@ class FUN_00bacd00 : public NiMemObject
     int unk1c0, unk1c4, unk1c8, unk1cc, unk1d0, unk1d4, unk1d8, unk1dc;
 };
 
+// pdb: TallGrassShader::CreateShader | TallGrassShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00bacd00* FUN_00b2f0e0()
 {
     AutoMemContext tempMemContext(0x1c);
@@ -1431,6 +1442,7 @@ public:
     virtual ~FUN_00b30b60();
 };
 
+// pdb: SkyShaderProperty::SkyShaderProperty | SkyShaderProperty.obj | fnv360_0822_retail, call_gap, medium
 FUN_00b30b60::FUN_00b30b60() : m_7c(3)
 {
     m_80 = 0;
@@ -1594,6 +1606,7 @@ bool Target::FUN_00b20210(int a, int b, int c, int aiUnused, Input* input, unsig
 
 // @f3 0x00b36750 (community match, verified in this file)
 namespace f3m_00b36750 {
+// pdb: Lighting30ShaderProperty::~Lighting30ShaderProperty | Lighting30ShaderProperty.obj | fnv360_0822_retail, objrun, low
 unsigned short __stdcall FUN_00b36750(int x)
 {
     return 0;
@@ -1613,6 +1626,7 @@ struct FUN_00b2ab40 {
     FUN_00b2ab40();
 };
 
+// pdb: SpeedTreeBillboardShaderProperty::SpeedTreeBillboardShaderProperty | SpeedTreeBillboardShaderProperty.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSShaderTextureSet::GetTextureFilename)
 FUN_00b2ab40::FUN_00b2ab40() {
     FUN_00aea2f0();
     vtable = (void*)&DAT_00e9ee48;
@@ -1652,6 +1666,8 @@ public:
     void FUN_00b2a1a0(ViewerStrings* strings);
 };
 
+// pdb: ParticleShaderProperty::GetViewerStrings | ParticleShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apStrings
 void Owner::FUN_00b2a1a0(ViewerStrings* strings)
 {
     FUN_00b2b9f0(strings);
@@ -1690,6 +1706,8 @@ public:
     void FUN_00b2ac80(ViewerStrings* strings);
 };
 
+// pdb: SpeedTreeBillboardShaderProperty::GetViewerStrings | SpeedTreeBillboardShaderProperty.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: apStrings
 void Owner::FUN_00b2ac80(ViewerStrings* strings)
 {
     FUN_00aec6a0(strings);
@@ -1728,6 +1746,8 @@ public:
     void FUN_00b36640(ViewerStrings* strings);
 };
 
+// pdb: GeometryDecalShaderProperty::GetViewerStrings | GeometryDecalShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apStrings
 void Owner::FUN_00b36640(ViewerStrings* strings)
 {
     FUN_00af4060(strings);
@@ -1766,6 +1786,8 @@ public:
     void FUN_00b37f90(ViewerStrings* strings);
 };
 
+// pdb: Lighting30ShaderProperty::GetViewerStrings | Lighting30ShaderProperty.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apStrings
 void Owner::FUN_00b37f90(ViewerStrings* strings)
 {
     FUN_00aec6a0(strings);
@@ -1804,6 +1826,8 @@ public:
     void FUN_00b39500(ViewerStrings* strings);
 };
 
+// pdb: BSDistantTreeShaderProperty::GetViewerStrings | BSDistantTreeShaderProperty.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apStrings
 void Owner::FUN_00b39500(ViewerStrings* strings)
 {
     FUN_00b2b9f0(strings);
@@ -1823,6 +1847,7 @@ struct FUN_00b22380_Callee
     void FUN_00b22380(bool flag);
 };
 
+// pdb: ImageSpaceEffectVATSScan::ReturnTextures | ImageSpaceEffectVATSScan.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00b3b7a0_Base::FUN_00b3b7a0()
 {
     f3_0251::DAT_011765dc = (f3_0251::ISTexRef*)0;
@@ -1842,7 +1867,7 @@ namespace PortB20340 {
 struct NiPoint3 {
     float x,y,z;
     void FUN_00468d00();
-    NiPoint3* FUN_004c8df0(NiPoint3*,const NiPoint3&) const;
+    NiPoint3* NiPoint3_UnitCross(NiPoint3*,const NiPoint3&) const;
     NiPoint3* FUN_00432b40(NiPoint3*,float) const;
     NiPoint3& FUN_00432b70(const NiPoint3&);
     float FUN_00432bd0() const;
@@ -2062,9 +2087,9 @@ extern ShadowEvents DAT_01175720;
 float FUN_00401e20(float,float);
 float FUN_0090d870(float,float);
 bool FUN_00530bb0();
-BSShaderAccumulator* FUN_00ada500();
+BSShaderAccumulator* BSShaderManager_GetNextAvailableShadowMapAccumulator();
 inline void ShadowSet(NiPoint3& v,float x,float y,float z) {v.x=x;v.y=y;v.z=z;}
-inline NiPoint3* ShadowCross(const NiPoint3& v,NiPoint3* r,const NiPoint3& o) {return v.FUN_004c8df0(r,o);}
+inline NiPoint3* ShadowCross(const NiPoint3& v,NiPoint3* r,const NiPoint3& o) {return v.NiPoint3_UnitCross(r,o);}
 __forceinline NiPoint3* ShadowScale(const NiPoint3& v,NiPoint3* r,float s) {return v.FUN_00432b40(r,s);}
 inline float ShadowOrderedScale(const NiAVObject* o) {_ReadWriteBarrier();return o->m_kWorld.m_fScale;}
 inline float ShadowRadius(const NiBound& b) {return b.radius;}
@@ -2150,6 +2175,8 @@ struct ShadowSceneCameraUpdate {
  void FUN_00ae1780(BSRenderedTexture*);
  void FUN_00b20340(void*,unsigned char*);
 };
+// pdb: ShadowSceneLight::MTSetupFrustumDepthMap | ShadowSceneLight.obj | fnv360_0822_retail, uconst, low
+// pdb params: arCuller, aiIndex
 void ShadowSceneCameraUpdate::FUN_00b20340(void* unused, unsigned char* renderFlags)
 {
     bool updateShadow = true;
@@ -2233,7 +2260,7 @@ void ShadowSceneCameraUpdate::FUN_00b20340(void* unused, unsigned char* renderFl
 
         if (bCastShadow && FUN_00530bb0())
         {
-            reinterpret_cast<NiPointerDispatch&>(spShadowAccumulator).FUN_008e9650(reinterpret_cast<NiRefObject*>(FUN_00ada500()));
+            reinterpret_cast<NiPointerDispatch&>(spShadowAccumulator).FUN_008e9650(reinterpret_cast<NiRefObject*>(BSShaderManager_GetNextAvailableShadowMapAccumulator()));
             reinterpret_cast<ShadowAccumulator*>(spShadowAccumulator.m_pObject)->SetPass(7);
             if (!GetShadowCamera())
             {
@@ -2401,6 +2428,8 @@ struct FUN_00b366e0 : f3m_00b366e0::Base
     virtual ~FUN_00b366e0();
 };
 
+// pdb: Lighting30ShaderProperty::Lighting30ShaderProperty | Lighting30ShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: aPPLightingProp
 FUN_00b366e0::FUN_00b366e0(f3m_00b366e0::Parent* parent)
 {
     parent->Attach(this);
@@ -2441,6 +2470,8 @@ struct FUN_00b35f80 : FUN_00b35bc0 {
  virtual ~FUN_00b35f80();
  FUN_00b35f80(void*);
 };
+// pdb: SpeedTreeBranchShaderProperty::SpeedTreeBranchShaderProperty | SpeedTreeBranchShaderProperty.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apData
 FUN_00b35f80::FUN_00b35f80(void* arg) : FUN_00b35bc0(arg) {
  unk58=4;
  unk1c=9;
@@ -2537,6 +2568,7 @@ struct CallerB2c830 {
  bool FUN_0088d360();
  bool FUN_00b2c830();
 };
+// pdb: TallGrassShader::Initialize | TallGrassShader.obj | fnv360_0822_retail, caller_sim, medium
 bool CallerB2c830::FUN_00b2c830() {
  AllocationGuardB2c830 guard;
  bool result=FUN_0088d360();

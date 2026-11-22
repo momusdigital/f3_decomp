@@ -14,6 +14,8 @@ struct FUN_00eae690_Class
 
 // Returns 1 when FUN_00eb60e0(o) succeeds and m_f equals o.m_f, otherwise 0.
 // @fnv 0x00eae690
+// pdb: NiCapsule::operator== | NiCapsule.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: kCapsule
 int FUN_00eae690_Class::FUN_00eae690(const FUN_00eae690_Class& aOther)
 {
     if (FUN_00eb60e0(aOther) && !(m_f != aOther.m_f))
@@ -28,6 +30,8 @@ struct FUN_00eb60e0_t
 
 // Compares the six floats of p and q and returns 1 if all are equal, otherwise 0.
 // @fnv 0x00eb60e0
+// pdb: NiSegment::operator== | NiSegment.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: kSegment
 int __fastcall FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
 {
     if (!(p->a[0] != q->a[0] || p->a[1] != q->a[1] || p->a[2] != q->a[2] || p->a[3] != q->a[3] || p->a[4] != q->a[4] ||
@@ -48,6 +52,7 @@ struct Isect
 };
 // Calls FUN_00eae6d0, then deallocates this via _g_memoryManager if flag has bit 1 set, and returns this.
 // @fnv 0x00eaee30
+// pdb: ExtraLinkedRefChildren::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 Isect* Isect::FUN_00eaee30(char flag)
 {
     FUN_00eae6d0();
@@ -162,6 +167,8 @@ struct FNVRegion
     FNVRegion* InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, void* userdata);
 };
 // @fnv 0x00eb3c40
+// pdb: NiBoxSphereIntersector::NiBoxSphereIntersector | NiBoxSphereIntersector.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kBox, kSphere, fMaxTime, fDerivativeTimeStep, fPseudodistanceThreshold, iMaxIterations
 FNVRegion* FNVRegion::InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, void* userdata)
 {
     FUN_00eae720(x, y, z, userdata);
@@ -195,6 +202,8 @@ struct OrientedBox
 };
 
 // @fnv 0x00eb42e0
+// pdb: NiSqrDistance::Compute | NiDistPntBox.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kPoint, kBox, fBoxParam0, fBoxParam1, fBoxParam2
 float __cdecl GetSqrDistanceToOrientedBox(const BoxVec3* point, const OrientedBox* box, float* outT0, float* outT1,
                                           float* outT2)
 {
@@ -298,6 +307,8 @@ struct FUN_00eb5e30 : S_00eb5e30_Base
 };
 static float DAT_010f1b24 = 3.4028234663852886e+38f;
 // @fnv 0x00eb5e30
+// pdb: NiSphereTriIntersector::NiSphereTriIntersector | NiSphereTriIntersector.obj | fnv360_1110_retail, objrun_prop, low
+// pdb params: kSphere, kP0, kP1, kP2, fMaxTime, fDerivativeTimeStep, fPseudodistanceThreshold, iMaxIterations
 FUN_00eb5e30::FUN_00eb5e30(S_00eb5e30_Obj* pObj, const S_00eb5e30_V3* pOrigin, const S_00eb5e30_V3* pPoint1,
                            const S_00eb5e30_V3* pPoint2, float a, float b, float c, int d)
     : S_00eb5e30_Base(a, b, c, d)
@@ -333,6 +344,7 @@ struct FUN_00eb6b50_Class
 
 // Calls FUN_00eb8ab0, and if bit 0 of flags is set passes this to DAT_011f6238.FUN_00aa4060; returns this as int.
 // @fnv 0x00eb6b50
+// pdb: ExtraActivateRefChildren::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, vtable, high
 int __thiscall FUN_00eb6b50_Class::FUN_00eb6b50(unsigned char flags)
 {
     this->FUN_00eb8ab0();
@@ -429,6 +441,8 @@ class TransformEAE
 
 // Compares translation, rotation rows and scale against kOther and returns true only if all components match.
 // @fnv 0x00eae520
+// pdb: NiBox::operator== | NiBox.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kBox
 bool TransformEAE::FUN_00eae520(const TransformEAE& kOther) const
 {
     if (!(m_kTranslate == kOther.m_kTranslate))
@@ -467,6 +481,7 @@ struct Isect
 };
 
 // @fnv 0x00eae6d0
+// pdb: TESHealthForm::~TESHealthForm | TESHealthForm.obj | fnv360_0721_beta, call_seq, medium
 void Isect::FUN_00eae6d0()
 {
     m_pVtbl = &DAT_010f1a84;
@@ -549,31 +564,6 @@ struct Vec3
 {
     float x, y, z;
 };
-static __forceinline Vec3 sumVec(const Vec3& a, const Vec3& b)
-{
-    Vec3 r;
-    r.x = a.x + b.x;
-    r.y = a.y + b.y;
-    r.z = a.z + b.z;
-    return r;
-}
-static __forceinline Vec3 diffVec(const Vec3& a, const Vec3& b)
-{
-    Vec3 r;
-    r.x = a.x - b.x;
-    r.y = a.y - b.y;
-    r.z = a.z - b.z;
-    return r;
-}
-static __forceinline Vec3 sumVecB(const Vec3& a, const Vec3& b)
-{
-    Vec3 r;
-    const volatile float& first = a.x;
-    r.x = first + b.x;
-    r.y = a.y + b.y;
-    r.z = a.z + b.z;
-    return r;
-}
 struct Triangle3
 {
     Vec3 origin, edge0, edge1;
@@ -584,93 +574,6 @@ struct Segment3
 };
 extern float __cdecl FUN_00eaff20(const Segment3*, const Triangle3*, float*, float*, float*);
 extern float __cdecl FUN_00eb1d20(const Segment3*, const Triangle3*, float*, float*, float*);
-// @fnv 0x00eb3230
-float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* aTriB, float* aU, float* aV, float* bU,
-                                       float* bV)
-{
-    Segment3 segEdge;
-    segEdge.origin = aTriA->origin;
-    segEdge.direction = aTriA->edge0;
-    float fBestDist = FUN_00eaff20(&segEdge, aTriB, aU, bU, bV);
-    *aV = 0.0f;
-
-    float av, au;
-    struct Pair
-    {
-        float bv, bu;
-    } baryB;
-    segEdge.direction = aTriA->edge1;
-    float candidate = FUN_00eaff20(&segEdge, aTriB, &av, &baryB.bu, &baryB.bv);
-    au = 0.0f;
-    if (candidate < fBestDist)
-    {
-        fBestDist = candidate;
-        *aU = au;
-        *aV = av;
-        *bU = baryB.bu;
-        *bV = baryB.bv;
-    }
-    segEdge.origin = sumVec(aTriA->edge0, segEdge.origin);
-    segEdge.direction = diffVec(segEdge.direction, aTriA->edge0);
-    candidate = FUN_00eaff20(&segEdge, aTriB, &av, &baryB.bu, &baryB.bv);
-    au = 1.0f - av;
-    if (candidate < fBestDist)
-    {
-        fBestDist = candidate;
-        *aU = au;
-        *aV = av;
-        *bU = baryB.bu;
-        *bV = baryB.bv;
-    }
-
-    segEdge.origin = aTriB->origin;
-    segEdge.direction = aTriB->edge0;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bu, &au, &av);
-    baryB.bv = 0.0f;
-    if (candidate < fBestDist)
-    {
-        fBestDist = candidate;
-        *aU = au;
-        *aV = av;
-        *bU = baryB.bu;
-        *bV = baryB.bv;
-    }
-    segEdge.direction = aTriB->edge1;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bv, &au, &av);
-    baryB.bu = 0.0f;
-    if (candidate < fBestDist)
-    {
-        fBestDist = candidate;
-        *aU = au;
-        *aV = av;
-        *bU = baryB.bu;
-        *bV = baryB.bv;
-    }
-    segEdge.origin = sumVecB(aTriB->edge1, aTriB->origin);
-    segEdge.direction = aTriB->edge0;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bu, &au, &av);
-    baryB.bv = 1.0f;
-    if (candidate < fBestDist)
-    {
-        fBestDist = candidate;
-        *aU = au;
-        *aV = av;
-        *bU = baryB.bu;
-        *bV = baryB.bv;
-    }
-    segEdge.origin = sumVec(aTriB->origin, aTriB->edge0);
-    segEdge.direction = aTriB->edge1;
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &baryB.bv, &au, &av);
-    if (candidate < fBestDist)
-    {
-        fBestDist = candidate;
-        *aU = au;
-        *aV = av;
-        *bU = 1.0f;
-        *bV = baryB.bv;
-    }
-    return fBestDist;
-}
 }  // namespace fnv_00eb3230
 
 struct FUN_00eb5f10_Tail
@@ -721,6 +624,8 @@ struct FUN_00eb5f10_Class
 };
 // Allocates an object sized by kind, stores it in unk08, initialises unk04/unk10/unk14/unk18/unk0c/unk50 and calls unk1c.FUN_00a86bf0.
 // @fnv 0x00eb5f10
+// pdb: NiOBBRoot::NiOBBRoot | NiOBBRoot.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: usTriangles, pTriList, pVertex, pWVertex, iBinSize
 FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, int arg2, int arg3, int arg4, int arg5)
 {
     vtable = (void**)&UNK_010f1b44;
@@ -765,6 +670,8 @@ inline float my_dot(const Vector3& a, const Vector3& b)
 }
 // Tests whether a ray from origin along direction hits the object's sphere bound, returning true if the origin is inside or the ray intersects it.
 // @fnv 0x00eada70
+// pdb: NiCollisionUtils::FindBoundIntersect | NiCollisionUtils.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pkObj, kOrigin, kDir
 bool RayIntersectsBound(BoundedObject* object, const Vector3& origin, const Vector3& direction)
 {
     SphereBound bound = object->bound ? *object->bound : DAT_011f4288;
@@ -813,6 +720,7 @@ class Node
 
 // Allocates a new Node object on the heap and returns its pointer.
 // @fnv 0x00ead090
+// pdb: NiCollisionData::CreateObject | NiCollisionData.obj | fnv360_0822_retail, caller_sim, medium
 Node* FUN_00ead090()
 {
     return new Node;
@@ -2119,6 +2027,7 @@ struct ClampBox
 
 // Clamps each axis of self to the range defined by other and accumulates the squared deviation into out.
 // @fnv 0x00eb4490
+// pdb: Case000 | NiDistSegBox.obj | fnv360_0822_retail, objrun_prop, low
 static __declspec(noinline) void ClampPointToBox(ClampBox* apBox, ClampPoint* apPoint, float* afSquaredDistance)
 {
     float d;
@@ -2391,18 +2300,7 @@ static __declspec(noinline) void FUN_00eb5010(AxisValues* point, int axis1, int 
         point->value[axis2] = box->extent[axis2];
     }
 }
-extern AxisValues* volatile probePoint;
 extern int volatile probeAxis0, probeAxis1, probeAxis2;
-extern float* volatile probeSquared;
-extern float* volatile probeParameter;
-extern const ExtentBox* volatile probeBox;
-extern const AxisValues* volatile probeDirection;
-void probeCaller()
-{
-    BoxInput b = {probeBox};
-    AxisIndex a = {probeAxis0};
-    FUN_00eb5010(probePoint, probeAxis1, probeAxis2, probeSquared, b, a, probeDirection, probeParameter);
-}
 
 struct Alloc139
 {
@@ -2497,6 +2395,8 @@ struct FUN_00eba1b0
 };
 // Computes each triangle's area and centroid from indices and vertices, then calls BuildNode with them plus temporary order and scratch arrays.
 // @fnv 0x00eba1b0
+// pdb: NiOBBNode::NiOBBNode | NiOBBNode.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pRoot, usTriangles, pTriList, pVertex, pWVertex, iBinSize
 FUN_00eba1b0::FUN_00eba1b0(int arg1, unsigned short count, const unsigned short* indices, const Point139* vertices,
                            int arg5, int arg6)
 {
@@ -2752,108 +2652,9 @@ static void FUN_00eb4cd0(LBPoint3& rkPnt, const LBPoint3& rkDir, const LBBox& rk
     }
 }
 
-struct LBLine3
-{
-    LBPoint3 m_kStartPoint;
-    LBPoint3 m_kLightVector;
-};
-
-void LBCase0(int i0, int i1, int i2, LBPoint3& rkPnt, const LBPoint3& rkDir, const LBBox& rkBox, float* pfLParam,
-             float& rfSqrDistance);
-void LBCase00(int i0, int i1, int i2, LBPoint3& rkPnt, const LBPoint3& rkDir, const LBBox& rkBox, float* pfLParam,
-              float& rfSqrDistance);
-void LBCase000(LBPoint3& rkPnt, const LBBox& rkBox, float& rfSqrDistance);
-
 static float Dot(const LBPoint3& a, const LBPoint3& b)
 {
     return a.x * b.x + a.y * b.y + a.z * b.z;
-}
-
-float LBSqrDistance(const LBLine3& rkLine, const LBBox& rkBox, float* pfLParam, float* pfBParam0, float* pfBParam1,
-                    float* pfBParam2)
-{
-    LBPoint3 kDiff;
-    kDiff.x = rkLine.m_kStartPoint.x - rkBox.m_kCenter.x;
-    kDiff.y = rkLine.m_kStartPoint.y - rkBox.m_kCenter.y;
-    kDiff.z = rkLine.m_kStartPoint.z - rkBox.m_kCenter.z;
-    LBPoint3 kPnt, kWorldPosition;
-    kPnt.x = Dot(kDiff, rkBox.m_akAxes[0]);
-    kPnt.y = Dot(kDiff, rkBox.m_akAxes[1]);
-    kPnt.z = Dot(kDiff, rkBox.m_akAxes[2]);
-    kWorldPosition.x = Dot(rkLine.m_kLightVector, rkBox.m_akAxes[0]);
-    kWorldPosition.y = Dot(rkLine.m_kLightVector, rkBox.m_akAxes[1]);
-    kWorldPosition.z = Dot(rkLine.m_kLightVector, rkBox.m_akAxes[2]);
-
-    bool bReflect[3];
-    int i;
-    for (i = 0; i < 3; i++)
-    {
-        if (kWorldPosition[i] < 0.0f)
-        {
-            kPnt[i] = -kPnt[i];
-            kWorldPosition[i] = -kWorldPosition[i];
-            bReflect[i] = true;
-        }
-        else
-        {
-            bReflect[i] = false;
-        }
-    }
-
-    float fSqrDistance = 0.0f;
-
-    if (kWorldPosition.x > 0.0f)
-    {
-        if (kWorldPosition.y > 0.0f)
-        {
-            if (kWorldPosition.z > 0.0f)
-                FUN_00eb4cd0(kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
-            else
-                LBCase0(0, 1, 2, kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
-        }
-        else
-        {
-            if (kWorldPosition.z > 0.0f)
-                LBCase0(0, 2, 1, kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
-            else
-                LBCase00(0, 1, 2, kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
-        }
-    }
-    else
-    {
-        if (kWorldPosition.y > 0.0f)
-        {
-            if (kWorldPosition.z > 0.0f)
-                LBCase0(1, 2, 0, kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
-            else
-                LBCase00(1, 0, 2, kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
-        }
-        else
-        {
-            if (kWorldPosition.z > 0.0f)
-                LBCase00(2, 0, 1, kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
-            else
-            {
-                LBCase000(kPnt, rkBox, fSqrDistance);
-                if (pfLParam)
-                    *pfLParam = 0.0f;
-            }
-        }
-    }
-
-    if (pfBParam0)
-    {
-        for (i = 0; i < 3; i++)
-        {
-            if (bReflect[i])
-                kPnt[i] = -kPnt[i];
-        }
-        *pfBParam0 = kPnt.x;
-        *pfBParam1 = kPnt.y;
-        *pfBParam2 = kPnt.z;
-    }
-
-    return fSqrDistance;
 }
 
 float __cdecl DistanceSquaredToSegment(const NiPoint3&, const OriginDirectionPair&, float&);
@@ -3734,6 +3535,7 @@ class PortBox
 
 // For axis order i0,i1,i2, moves origin to a box point and updates lineParam and sqrDistance from direction, PmE and the box extents.
 // @f3 0x00817310 (community match, verified in this file)
+// pdb: Face | NiDistSegBox.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 static __declspec(noinline) void FUN_00eb4590(const PortBox& box, int aiAxis0, int aiAxis1, int aiAxis2,
                                               PortPoint& originRef, const PortPoint& direction, const PortPoint& PmE,
                                               float& lineParam, float& sqrDistance)
@@ -3973,6 +3775,8 @@ class FUN_00eb3750 : public SpawnedBase
 
 // Stores a1 and *a2, stores a3-a2 and a4-a2, sets m_60 to 1/(a1[14]*a1[14]) and sets m_64 and m_68 to the float max constant.
 // @fnv 0x00eb3750
+// pdb: NiCapsuleTriIntersector::NiCapsuleTriIntersector | NiCapsuleTriIntersector.obj | fnv360_1110_retail, objrun_prop, low
+// pdb params: kCapsule, kP0, kP1, kP2, fMaxTime, fDerivativeTimeStep, fPseudodistanceThreshold, iMaxIterations
 FUN_00eb3750::FUN_00eb3750(float* apFloats, FloatVec3Local* apVecA, FloatVec3Local* apVecB, FloatVec3Local* apVecC,
                            float a5, float a6, float a7, void* a8)
     : SpawnedBase(a5, a6, a7, a8)
@@ -3995,54 +3799,4 @@ FUN_00eb3750::FUN_00eb3750(float* apFloats, FloatVec3Local* apVecA, FloatVec3Loc
     }
     m_60 = 1.0f / (apFloats[14] * apFloats[14]);
     m_68 = m_64 = fltmax_eb3750::DAT_010f1ad0;
-}
-
-extern NiPoint3 DAT_011a9490;
-extern NiPoint3 DAT_011f426c;
-extern NiPoint3 DAT_011a946c;
-extern NiPoint3 DAT_011a9478;
-extern NiPoint3 DAT_011a9484;
-
-struct NiBoundingVolume
-{
-    virtual void LoadBinary(void* apStream);
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-};
-
-class Helper
-{
-  public:
-    NiBoundingVolume* __thiscall FUN_00ea0820(const NiPoint3& akExtents, const NiPoint3& akCenter,
-                                              const NiPoint3& akAxis0, const NiPoint3& akAxis1,
-                                              const NiPoint3& akAxis2);
-};
-
-struct MemoryManagerAllocHelper
-{
-    void* Allocate(unsigned int auiSize);
-};
-
-// Allocates 0x40 bytes, builds a NiBoundingVolume via FUN_00ea0820 from five global NiPoint3 values, calls LoadBinary(apStream) and returns it.
-// @fnv 0x00ea7490
-NiBoundingVolume* __cdecl FUN_00ea7490(void* apStream)
-{
-    Helper* pkHelper = (Helper*)((MemoryManagerAllocHelper*)&_g_memoryManager)->Allocate(0x40);
-    NiBoundingVolume* pkVolume =
-        pkHelper ? pkHelper->FUN_00ea0820(DAT_011a9490, DAT_011f426c, DAT_011a946c, DAT_011a9478, DAT_011a9484) : 0;
-    pkVolume->LoadBinary(apStream);
-    return pkVolume;
 }

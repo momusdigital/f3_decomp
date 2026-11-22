@@ -11,6 +11,8 @@ struct NiMaterial;
 extern NiMaterial* __cdecl FindOrCreateShaderEntry(NiMaterial*, int);
 
 // @fnv 0x00a8fd60
+// pdb: NiSingleShaderMaterialLibrary::GetMaterial | NiSingleShaderMaterialLibrary.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kName
 NiMaterial* __stdcall FUN_00a8fd60(const NiFixedString* kName)
 {
     char* p = kName->m_kHandle;
@@ -20,6 +22,7 @@ NiMaterial* __stdcall FUN_00a8fd60(const NiFixedString* kName)
 extern NiMaterial* DAT_011f5e40;
 
 // @fnv 0x00a8fcc0
+// pdb: NiSingleShaderMaterialLibrary::_SDMShutdown | NiSingleShaderMaterialLibrary.obj | fnv360_0822_retail, call_seq, medium
 void __cdecl FUN_00a8fcc0()
 {
     NiMaterial* material = DAT_011f5e40;
@@ -104,6 +107,7 @@ struct NiSingleShaderMaterialLibrary
 };
 // Registers the class name string, releases it if not empty, zeroes _c and _d, sets the vtable, and returns this.
 // @fnv 0x00a8fce0
+// pdb: NiSingleShaderMaterialLibrary::NiSingleShaderMaterialLibrary | NiSingleShaderMaterialLibrary.obj | fnv360_0822_retail, ustr, medium
 NiSingleShaderMaterialLibrary* NiSingleShaderMaterialLibrary::FUN_00a8fce0()
 {
     char* tmp = NiGlobalStringTable::AddString("NiSingleShaderMaterialLibrary");
@@ -133,6 +137,7 @@ struct FUN_00a8fd30_shell
 };
 // Sets the vfptr to DAT_0109f7b4, clears m1 and m2, calls FUN_00a8fdb0, and deletes this with size 0x14 when flag bit 0 is set.
 // @fnv 0x00a8fd30
+// pdb: NiSingleShaderMaterialLibrary::`scalar deleting destructor' | NiSingleShaderMaterialLibrary.obj | fnv360_0822_retail, objrun, medium
 void* FUN_00a8fd30_shell::Destroy(unsigned int auiFlags)
 {
     vfptr = (void*)&DAT_0109f7b4;

@@ -32,6 +32,7 @@ NiRefObject::NiRefObject()
 }
 
 // @fnv 0x00bb33c0
+// pdb: STSPData::STSPData | SpeedTreeShaderProperty.obj | fnv360_0822_retail, call_gap, low
 FUN_00bb33c0::FUN_00bb33c0()
 {
     m_kPointB = 0;

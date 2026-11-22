@@ -41,6 +41,8 @@ struct SpectatorPackage
 };
 
 // @fnv 0x009f9d10
+// pdb: BSStringT<char>::operator= | BGSTerminal.obj | fnv360_0822_debug, call_gap, low, conflict (skyrim: ConcreteObjectFormFactory<class BGSTalkingActivator,26,33,0>::~ConcreteObjectFormFactory<class BGSTalkingActivator,26,33,0>)
+// pdb params: arString
 SpectatorPackage* SpectatorPackage::FUN_009f9d10(const SpectatorPackage& aPackage)
 {
     IsComplete(aPackage);
@@ -179,13 +181,6 @@ FUN_009fbca0* __thiscall FUN_009fbca0::Method(bool abDelete)
 
 int __stdcall FUN_009fd0a0(int);
 
-// @fnv 0x009fc450
-int __stdcall FUN_009fc450(int a)
-{
-    int b = *(int*)((int)a + 8);
-    return FUN_009fd0a0(b);
-}
-
 struct FUN_009fc460_Class
 {
     int __thiscall FUN_009fa560();
@@ -260,14 +255,6 @@ struct FUN_009fddd0_class
     void __thiscall FUN_009fd3c0();
     FUN_009fddd0_class* __thiscall FUN_009fddd0(int);
 };
-// @fnv 0x009fddd0
-FUN_009fddd0_class* __thiscall FUN_009fddd0_class::FUN_009fddd0(int a)
-{
-    FUN_009fd3c0();
-    if (a & 1)
-        delete this;
-    return this;
-}
 
 void __fastcall FUN_009fdc10(void*);
 void __cdecl _Deallocate(void*);
@@ -278,6 +265,7 @@ struct FUN_009fdeb0_class
 };
 
 // @fnv 0x009fdeb0
+// pdb: hkProcessContext::`scalar deleting destructor' | hkpPhysicsContext.obj | fnv360_0822_retail, vtable, medium
 int __thiscall FUN_009fdeb0_class::FUN_009fdeb0(int flag)
 {
     FUN_009fdc10(this);
@@ -531,7 +519,6 @@ extern int DAT_01093d84;
 extern int DAT_01093d9c;
 extern int DAT_01093de8;
 extern int DAT_01093e24;
-extern int DAT_01093ed4;
 struct FUN_009fc890_class
 {
     void __thiscall FUN_009fc890(int a, int b, int c, int d, const wchar_t* e, int f);
@@ -1046,10 +1033,10 @@ class FUN_009f9f70_member
     int unk00;
 };
 
-class FUN_009f9f70_cls
+class CEnumPins // src: F3_EXE vtable 0x00e1fd20 (old: FUN_009f9f70_cls)
 {
   public:
-    virtual ~FUN_009f9f70_cls();
+    virtual ~CEnumPins();
     int unk04;
     int unk08;
     FUN_009f9f70_holder* m_0c;
@@ -1060,7 +1047,7 @@ class FUN_009f9f70_cls
 
 // Destructor that fetches the leaf callback from m_0c and invokes it with the leaf and the holder's m_0c address.
 // @fnv 0x009f9f70
-FUN_009f9f70_cls::~FUN_009f9f70_cls()
+CEnumPins::~CEnumPins()
 {
     FUN_009f9f70_holder* pLeafHolder = m_0c;
     FUN_009f9f70_leaf* pLeaf = pLeafHolder->m_0c;
@@ -1142,26 +1129,6 @@ struct Intf
     virtual int m1();
 };
 
-int Intf::unk0()
-{
-    return 0;
-}
-int Intf::unk1()
-{
-    return 0;
-}
-int Intf::unk2()
-{
-    return 0;
-}
-int Intf::unk3()
-{
-    return 0;
-}
-int Intf::unk4()
-{
-    return 0;
-}
 int Intf::m0()
 {
     return 0;
@@ -1579,6 +1546,8 @@ class FUN_009fb250 : public C9FB250BaseObject, public C9FB250Unknown
 
 // DECLARE_IUNKNOWN
 // @fnv 0x009fb250
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BSSoundHandle *>::KeyToHashIndex | FalloutAudio.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: key
 unsigned long __stdcall FUN_009fb250::AddRef()
 {
     return m_pUnknown->AddRef();
@@ -2528,7 +2497,8 @@ void __stdcall FUN_009fe560(ForwardTarget* p)
 extern int DAT_011a6224;
 
 // @fnv 0x009fea24
-int __cdecl FUN_009fea24()
+// pdb: EffectSettingCollection::GetUsageMonitorEffectSetting | EffectSettingCollection.obj | fnv360_0822_debug, udata + bridge(udata|udata) + skyrim(callee_sim), high
+int __cdecl EffectSettingCollection_GetUsageMonitorEffectSetting()
 {
     return DAT_011a6224;
 }
@@ -2544,6 +2514,7 @@ void __cdecl FUN_009fead0()
 extern void(__cdecl* DAT_011a6250)(void);
 
 // @fnv 0x009feae2
+// pdb: BSShaderManager::GetVSTarget | BSShaderManager.obj | tesv_win, call_gap_sim, low
 void __cdecl FUN_009feae2()
 {
     DAT_011a6250();
@@ -2725,6 +2696,7 @@ struct FnvCpu_FUN_009fd0f0_CpuObject
     int FUN_009fd0f0();
 };
 // @fnv 0x009fd0f0
+// pdb: DoorTeleportData::GetLinkedDoor | TeleportData.obj | fnv360_0822_retail, call_seq, high
 int FnvCpu_FUN_009fd0f0_CpuObject::FUN_009fd0f0()
 {
     return value;
@@ -2811,6 +2783,7 @@ class S009f9d50_Value
 };
 
 // @fnv 0x009f9d50
+// pdb: BipedAnim::~BipedAnim | BipedAnim.obj | fnv360_0822_retail, call_seq, low
 S009f9d50_Value& S009f9d50_Value::FUN_009f9d50(const S009f9d50_Value& kOther)
 {
     return FUN_009f9c80(kOther);
@@ -3418,14 +3391,14 @@ struct RecordWriter
     virtual int __stdcall WriteRecord(Vector4f header, int type, int group, int property, int setting, int flags,
                                       Vector4f attachment, int attachmentKind) = 0;
     virtual int __stdcall WriteLink(Vector4f header, int type, Vector4f first, Vector4f second) = 0;
-    virtual int __stdcall WriteHeader(Vector4f header) = 0;
+    virtual int __stdcall NiStream_SaveHeader(Vector4f header) = 0;
 };
 // @fnv 0x009fb290
 int __stdcall WriteRecordSet(const RecordSet* source, RecordWriter* writer, int includeRecords)
 {
     if (source == 0)
         return 1;
-    int result = writer->WriteHeader(*source->root);
+    int result = writer->NiStream_SaveHeader(*source->root);
     if (includeRecords)
     {
         result = writer->BeginSet(*source->root, source->category, source->version);
@@ -5271,6 +5244,7 @@ int FUN_009fdf20_cls::FUN_009fdf20()
 extern "C" void __cdecl FUN_009fd320();
 
 // @fnv 0x009fdfd0
+// pdb: RaceSexMenu::GetClassStatic | RaceSexMenu.obj | fnv360_0822_debug, callee_sim, low
 void __cdecl FUN_009fdfd0()
 {
     FUN_009fd320();
@@ -5949,36 +5923,6 @@ struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
 };
 
 AdjDerived::AdjDerived()
-{}
-
-// FUN_009fdd60: __cdecl adjustor thunk (sub dword ptr [esp+4],0x18; jmp target).
-// A __cdecl virtual member passes "this" as the first stack argument, so the
-// multiple-inheritance adjustor thunk subtracts the secondary-base offset from
-// the stack slot instead of from ecx. Primary base is 0x18 bytes (vptr + five
-// ints); the secondary base subobject sits at +0x18 inside Derived.
-struct PrimaryBase_009fdd60
-{
-    virtual void __cdecl FUN_009fdd60();
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-};
-
-struct SecondaryBase_009fdd60
-{
-    virtual void __cdecl FUN_009fdd60();
-};
-
-struct Derived_009fdd60 : PrimaryBase_009fdd60, SecondaryBase_009fdd60
-{
-    Derived_009fdd60();
-// @fnv 0x009fdd60
-    virtual void __cdecl FUN_009fdd60();
-};
-
-Derived_009fdd60::Derived_009fdd60()
 {}
 
 namespace fnv_009fddf0 {

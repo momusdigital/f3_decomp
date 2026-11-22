@@ -45,6 +45,8 @@ struct NiNodeHolder
 };
 void FUN_00b54ac0(NiRefObject*);
 // @fnv 0x00b6bee0
+// pdb: BSShaderUtil::AccumulateScene | BSShaderUtil.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apCamera, apScene, aCuller
 void FUN_00b6bee0(void* first, void* second, BSShaderAccumulator* accumulator)
 {
     if (DAT_011f4748 && first && second)

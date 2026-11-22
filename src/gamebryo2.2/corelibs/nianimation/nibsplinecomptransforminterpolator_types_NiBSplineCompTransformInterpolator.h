@@ -206,7 +206,7 @@ class NiBSplineTransformInterpolator : public NiBSplineInterpolator
     // NiBSplineTransformInterpolator& __cdecl NiBSplineTransformInterpolator::*(const NiBSplineTransformInterpolator&)
     // void __cdecl NiBSplineTransformInterpolator::*()
     // void __cdecl NiBSplineTransformInterpolator::*()
-    void FUN_00a57fd0(NiBSplineTransformInterpolator*, CloningProcess&);
+    void NiBSplineInterpolator_CopyMembers(NiBSplineTransformInterpolator*, CloningProcess&);
     void LoadBinary(NiStream&);
 };
 #pragma pack(pop)

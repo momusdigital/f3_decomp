@@ -131,6 +131,7 @@ public:
     ShaderObject* FUN_00b636d0(const char*, const MacroPair*, const char*, const char*);
     void FUN_00af6d90();
 };
+// pdb: ShadowLightShader::LoadPixelShaders | ShadowLightShader.obj | fnv360_0822_retail, ustr, medium
 void ShaderBuilder::FUN_00af6d90() {
     char specularText[350];
     char emissiveText[350];
@@ -451,6 +452,7 @@ struct AccumS
     }
 };
 
+// pdb: BSShaderAccumulator::RenderAlphaGeometry | BSShaderAccumulator.obj | fnv360_0822_retail, caller_sim, medium
 void AccumS::FUN_00ae7ca0()
 {
     FUN_00b0e510();
@@ -626,6 +628,8 @@ struct Target : SceneFields {
     void FUN_00ae4e90(Context* next);
 };
 
+// pdb: ShadowSceneNode::SetPortalGraph | ShadowSceneNode.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apBSPortalGraph
 void Target::FUN_00ae4e90(Context* next)
 {
     Context*& context = Field<Context*>(0x1e0);
@@ -1370,6 +1374,8 @@ static inline void S00b5b260_Apply(S00b5b260_Light* light, FourComponentFloatVec
     }
 }
 // @fnv 0x00b5b260
+// pdb: ShadowSceneNode::UpdateQueuedObjectLighting | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeom, apSceneNode, abActiveLightsOnly, apRoom, apPortal
 bool FUN_00ae1ad0(S00b5b260_Geom* geom, ShadowSceneNode* scene, void* unused, LightOwnerA* ownerA, LightOwnerB* ownerB)
 {
     BSShaderProperty* pShader = geom->shader;
@@ -1492,6 +1498,8 @@ void* __cdecl FUN_00424d50(int* a, Node_ae2ce0* b);
 void* __fastcall FUN_007fbf10(void* p);
 bool __cdecl FUN_00ae1ad0(Node_ae2ce0* n, int a2, int a3, int a4, int a5);
 
+// pdb: ShadowSceneNode::UpdateQueuedObjectLighting | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject, apSceneNode, abActiveLightsOnly, apRoom, apPortal
 bool __cdecl FUN_00ae2ce0(Node_ae2ce0* node, int a2, int a3, int a4, int a5)
 {
     if (node == 0) {
@@ -1850,6 +1858,8 @@ public:
     LightEx* FUN_00ae33e0(void* key);
 };
 
+// pdb: ShadowSceneNode::AddShadowLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject
 LightEx* SceneNode::FUN_00ae33e0(void* key)
 {
     NodeList* pos = unkC0;
@@ -1952,6 +1962,7 @@ struct FUN_00afc720 : FUN_00b62e90
 };
 // Destructor that zeroes global NiPointer arrays and member resource pointers.
 // @fnv 0x00b79de0
+// pdb: ShadowLightShader::~ShadowLightShader | ShadowLightShader.obj | fnv360_0822_retail, objrun, medium
 FUN_00afc720::~FUN_00afc720()
 {
     for (int i = 0; i < 156; ++i)
@@ -2165,6 +2176,7 @@ class FUN_00afc480 : public BSFaceGenMorphData
 
 // Builds four morph descriptors via FUN_0087e9a0, fills them with v035/v037 entries, creates a FUN_00afc480 from them, runs its setup calls and returns it.
 // @fnv 0x00b7a380
+// pdb: ShadowLightShader::CreateShader | ShadowLightShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00afc480* __cdecl FUN_00afccc0()
 {
     FUN_00e76700_desc* pDesc0 = FUN_0087e9a0(DAT_0116f2f8, 6, 1);
@@ -2311,6 +2323,7 @@ struct FUN_00b78980_shell
 
 // Resets all 0x2f7 NiD3DPass entries to DAT_01173b08, then runs the base pass setup and, at particle shader level >= 2, the extra setup routines; returns true.
 // @fnv 0x00b7a730
+// pdb: ShadowLightShader::LoadStagesAndPasses | ShadowLightShader.obj | fnv360_0721_beta, caller_sim, medium
 bool FUN_00b78980_shell::FUN_00afd070()
 {
     for (unsigned int i = 0; i < 0x2f7; i++)
@@ -2389,6 +2402,7 @@ extern float DAT_0116f404;
 extern float DAT_0116f408;
 
 // @fnv 0x00b79730
+// pdb: ShadowLightShader::SetupGeometryConstants_WaterFog | ShadowLightShader.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: ShadowLightShader::SetupGeometryConstants_SimpleShadowClipPlanes)
 void __cdecl FUN_00afc280()
 {
     if (reinterpret_cast<char*>(DAT_011749fc.m_pObject)[8])
@@ -2430,6 +2444,8 @@ struct Vec4
 extern Vec4 DAT_0116fe40[];
 
 // @fnv 0x00b79410
+// pdb: ShadowLightShader::SetupGeometryConstants_LandTextureMask | ShadowLightShader.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: ShadowLightShader::SetupGeometryConstants_Toggles)
+// pdb params: epass, apRenderPass
 void __stdcall FUN_00afbf60(unsigned int uiMessageId, unsigned char* pucPayload)
 {
     int iSlotA;
@@ -2672,6 +2688,8 @@ struct ShaderS
 
 // Sets fog or pass-specific state, then updates DAT_0117005c/DAT_01170058 alpha values from the geometry and material flags.
 // @fnv 0x00b795b0
+// pdb: ShadowLightShader::SetupGeometryConstants_Toggles | ShadowLightShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: epass, pgeometry, pprop, pmaterialProperty, apRenderPass, palphaProp
 void ShaderS::FUN_00afc100(unsigned int uiPass, void* pArg2, GeomS* pGeom, void* pArg4, PropS* pProp, MatS* pMatrix)
 {
     if (!DAT_011749c0->enabled)
@@ -2875,6 +2893,8 @@ extern bool DAT_0116f20e,DAT_0116f217;
 void __cdecl FUN_00b3bb90(unsigned int,WaterRGBA);
 void __cdecl FUN_00b3bbc0(unsigned int,WaterRGBA,WaterRGBA);
 void __cdecl FUN_00b3dde0(const WaterRGBA*,bool);
+// pdb: BSShaderLightingProperty::SetDirectionalLight3x | BSShaderLightingProperty.obj | fnv360_1110_retail, call_seq, medium
+// pdb params: auiLightIndex, apLight, afForcedDarkness
 void __cdecl FUN_00af3aa0(unsigned int id, Water* water, float scale)
 {
     Water* w = water;
@@ -3356,6 +3376,8 @@ public:
     unsigned int unk70;
 };
 
+// pdb: BSShaderLightingProperty::GetViewerStrings | BSShaderLightingProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void Owner::FUN_00af4060(ViewerStrings* strings)
 {
     FUN_00b2b9f0(strings);
@@ -3767,6 +3789,8 @@ static inline Quad119 QMul(const Quad119& v, float f)
 }
 // Updates shader light constants for a pass: writes light positions/radii or directions, adjusts diffuse color, and handles the id 0x24b case.
 // @fnv 0x00b78a90
+// pdb: ShadowLightShader::SetupGeometryConstants_Lights | ShadowLightShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pprop, apRenderPass, d3dInvWorld, aWorld, epass, apSkin
 void __stdcall FUN_00afb610(Property119* pProperty, Pass119* pass, M_bbb890 matrix, Scale119* scale, unsigned int id,
                                unsigned int world)
 {
@@ -3955,6 +3979,7 @@ int unk1fc;
  Critical cs;
  virtual ~Target();
 };
+// pdb: BSShaderAccumulator::~BSShaderAccumulator | BSShaderAccumulator.obj | fnv360_0822_retail, caller_sim, low
 Target::~Target(){
 
  for(int i=0;i<4;++i){ a[i].Reset(); b[i].Reset(); }
@@ -4092,6 +4117,8 @@ struct ShadowSceneNodeAE2
     }
 };
 
+// pdb: ShadowSceneNode::UpdateDynamicShadows | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arCuller
 void ShadowSceneNodeAE2::FUN_00ae2130(int arg)
 {
     AutoMemContext ctx(0x20);
@@ -4180,6 +4207,7 @@ struct ShaderOwner {
     ShaderObject* FUN_00b62f60(const char*, const ShaderMacro*, const char*, const char*);
     void FUN_00af4760();
 };
+// pdb: ShadowLightShader::LoadVertexShaders | ShadowLightShader.obj | fnv360_0822_retail, ustr, medium
 void ShaderOwner::FUN_00af4760() {
     ShaderDefinition base[31] = {
         { "lighting\\1x\\v\\base.v.hlsl", 0 },
@@ -4402,6 +4430,8 @@ struct Node{
 
 int unk0;int unk4;int unk8;int unkc;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;int unk80;int unk84;int unk88;int unk8c;int unk90;int unk94;int unk98;int unk9c;int unka0;int unka4;int unka8;int unkac;int unkb0;int unkb4;int unkb8;int unkbc;int unkc0;int unkc4;int unkc8;int unkcc;int unkd0;int unkd4;int unkd8;int unkdc;int unke0;PtrList<FUN_00b21da0> lights;int unkf0;int unkf4;int unkf8;int unkfc;int unk100;int unk104;int unk108;int unk10c;int unk110;int unk114;int unk118;int unk11c;int unk120;int unk124;int unk128;int unk12c;int unk130;int unk134;int unk138;int unk13c;int unk140;int unk144;int unk148;int unk14c;int unk150;int unk154;int unk158;int unk15c;int unk160;int unk164;int unk168;int unk16c;int unk170;int unk174;int unk178;int unk17c;int unk180;int unk184;int unk188;int unk18c;int unk190;int unk194;int unk198;int unk19c;int unk1a0;int unk1a4;int unk1a8;int unk1ac;int unk1b0;int unk1b4;int unk1b8;int unk1bc;int unk1c0;int unk1c4;int unk1c8;int unk1cc;int unk1d0;int unk1d4;int unk1d8;int unk1dc;unsigned value1e0;FUN_00b21da0* FUN_00ae3160(Light*,bool);};
 
+// pdb: ShadowSceneNode::AddLight | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apLight, abDynamic
 FUN_00b21da0* Node::FUN_00ae3160(Light* light,bool flag){if(!Light::Is(&DAT_0108f468,light)&&!Light::Is(&DAT_0108f498,light))return 0;DAT_0116fc80.FUN_00409a80(0);FUN_00b21da0* result=new FUN_00b21da0;result->FUN_00b20120(light);result->flagFC=flag;{Ref<FUN_00b21da0> temp(result);lights.FUN_00827100(temp);}result->SetValue(value1e0);DAT_0116fc80.Unlock();return result;}
 
 }
@@ -4412,6 +4442,8 @@ struct Owner00ae7350 {
     int FUN_00ae7350();
 };
 
+// pdb: Main::DrawWorld_RestartRenderTexture | Main.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apRenderTexture, abMultiSampleEnabled, auiClearMode
 int Owner00ae7350::FUN_00ae7350() {
     unsigned count = *(unsigned*)((char*)this + 0x18c);
     int sum = 0;
@@ -4449,6 +4481,7 @@ struct ShaderOwner {
     ShaderResource* resource;
     void FUN_00af03c0();
 };
+// pdb: BSTextureManager::ClearShadowDepthBuffer | BSTextureManager.obj | fnv360_0822_retail, call_seq, low
 void ShaderOwner::FUN_00af03c0()
 {
     ShaderResource* current = resource;
@@ -4491,6 +4524,8 @@ public:
     void FUN_00aeda10(ViewerStrings* strings);
 };
 
+// pdb: WaterShaderProperty::GetViewerStrings | WaterShaderProperty.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apStrings
 void Owner::FUN_00aeda10(ViewerStrings* strings)
 {
     FUN_00b2b9f0(strings);
@@ -4586,6 +4621,8 @@ struct FUN_00ae9b70_Cls
     void FUN_00ae9b70(FUN_00ae9b70_Arg* arg);
 };
 
+// pdb: BSShaderPPLightingProperty::LinkObject | BSShaderPPLightingProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: kStream
 void FUN_00ae9b70_Cls::FUN_00ae9b70(FUN_00ae9b70_Arg* arg)
 {
     FUN_00af2f20(arg);
@@ -4616,6 +4653,7 @@ struct ListHolder481 {
     FNVPointerListItem* head;
     void FUN_00ae7440();
 };
+// pdb: BSTPersistentList<NiTPointerAllocator<unsigned int>,BSShaderProperty::RenderPass *>::CleanUnusedNodes | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
 void ListHolder481::FUN_00ae7440() {
     FNVPointerListItem* node = head;
     if (node) {
@@ -5705,6 +5743,8 @@ __declspec(noinline) void Self::FUN_00ae3860(RefPtr_b9fcc0& value, void*& positi
     else
         m_listB4.FUN_00ab43e0(position);
 }
+// pdb: ShadowSceneNode::PreOnVisible | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arCuller
 unsigned int Self::FUN_00ae5870(ParamObj* arg)
 {
     arg->FUN_00aad400();
@@ -5847,6 +5887,8 @@ struct OwnerAe {                    // receiver: only the member at +0x30 is eve
     void FUN_00afeeb0();
 };
 
+// pdb: ShadowLightShader::SetSpecularMap | ShadowLightShader.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: ShadowLightShader::SetEnvironmentMaskMap)
+// pdb params: pprop, auiStage, auiIndex, abUseDefaultOnNULL
 void OwnerAe::FUN_00afeeb0() {                          // v2: two independent induction variables and a bottom-tested countdown, as their loop shows ??
     FlagTarget** pairSlot = (FlagTarget**)&DAT_011749b4;   // ORIG: mov edx, offset dword_11749B4 ; then [edx-4] and [edx] per row, add edx,8 each pass ??
     int bitBase = 2;                                       // ORIG: mov eax, 2 ; add eax,2 each pass (the shift amount is not derived from the row counter) ??
@@ -6005,6 +6047,8 @@ int unk7c;
 Node* base;
 int FUN_00afcc00(int,Geometry*,Input*,int,int,int,void*,int);
 };
+// pdb: ShadowLightShader::SetupBoneMatrices | ShadowLightShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apGeometry, apSkin, apPartition, apBuffData, apState, apEffects, aWorld, aWorldBound
 int Owner::FUN_00afcc00(int unused,Geometry* geometry,Input* input,int a,int b,int c,void* context,int d) {
  if((input && !unk38 && DAT_01174980 && DAT_01174980->enabled) || current==base) {
   DAT_0116f2f8->FUN_00874f80(geometry,context,0,3,1);
@@ -6135,6 +6179,8 @@ struct Target : Base {
     Target(void* owner, int count, int mode);
     virtual ~Target();
 };
+// pdb: BSShaderAccumulator::BSShaderAccumulator | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aeBatchRendererCreationType, auiBatchRendererCount, auiPassesPerBatchRenderer
 Target::Target(void* owner, int count, int mode) : pass1a4(0, 0x2f5, true, 0, 0)
 {
     unk84 = 1;
@@ -6188,6 +6234,7 @@ struct Obj {
     void FUN_00ae8a50();
     Obj* FUN_00ae94b0(unsigned flags);
 };
+// pdb: BSShaderAccumulator::`scalar deleting destructor' | BSShaderAccumulator.obj | fnv360_0822_retail, caller_sim, low
 Obj* Obj::FUN_00ae94b0(unsigned flags) {
     FUN_00ae8a50();
     if (flags & 1) FUN_0089ec10(this, 640);
@@ -6432,6 +6479,7 @@ extern BSTextureManager* DAT_0116ef98;
 extern GlobalObject_0096a2d0 DAT_0116fc80, DAT_0116fca0;
 
 
+// pdb: ShadowSceneNode::ProcessQueuedLights | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, medium
 void Owner::FUN_00ae6580()
 {
     DAT_0116fc80.Lock(0);

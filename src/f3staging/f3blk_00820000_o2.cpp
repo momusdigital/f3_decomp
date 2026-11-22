@@ -77,6 +77,8 @@ struct Container {
     unsigned int unk28, count;
     void FUN_008269d0(Set* source, bool allocate, Set** output);
 };
+// pdb: NiAVObject::PushLocalProperties | NiAVObject.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkParentState, bCopyOnChange, aspPropertyState
 void Container::FUN_008269d0(Set* source, bool allocate, Set** output) {
     if (!count) { Set* original = source; Set** target = *(Set** volatile*)&output; *target = original; return; }
     DAT_0108ede0.FUN_00409a80(0);
@@ -102,12 +104,14 @@ void Container::FUN_008269d0(Set* source, bool allocate, Set** output) {
 namespace f3m_00829a60 {
 struct Base829a60 { virtual ~Base829a60(); virtual void v4(); int pad[5]; Base829a60(); };
 struct FUN_00829a60 : Base829a60 { unsigned short value; virtual ~FUN_00829a60(); FUN_00829a60(); };
+// pdb: NiScreenTexture::GetTexturingProperty | NiXenonRenderer.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiProperty::NiProperty)
 FUN_00829a60::FUN_00829a60() { value = 8; }
 }   // namespace f3m_00829a60
 
 // @f3 0x00824200 (community match, verified in this file)
 namespace f3m_00824200 {
 namespace f3m_00824200 { struct Heap { void FUN_0086ba60(void* p); }; extern Heap DAT_01090a78; struct O { ~O(); static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); } }; extern O* DAT_0108ec74; }
+// pdb: NiGlobalStringTable::_SDMShutdown | NiGlobalStringTable.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: NiStaticDataManager::SetRootLibrary)
 void __cdecl FUN_00824200() { delete f3m_00824200::DAT_0108ec74; f3m_00824200::DAT_0108ec74 = 0; }
 }   // namespace f3m_00824200
 
@@ -117,6 +121,7 @@ void* __cdecl FUN_0089eb90(unsigned int n) throw();
 struct B00829af0 { virtual ~B00829af0(); virtual void v4(); int pad[5]; B00829af0() throw(); };
 struct D00829af0 : B00829af0 { unsigned short value; virtual ~D00829af0(); static void* operator new(unsigned int n) throw() { return FUN_0089eb90(n); } D00829af0() throw(); };
 D00829af0::D00829af0() throw() { value = 8; }
+// pdb: NiVertexColorProperty::CreateObject | NiVertexColorProperty.obj | fnv360_0822_retail, objopen_prop, low
 D00829af0* __cdecl FUN_00829af0() { return new D00829af0(); }
 }   // namespace f3m_00829af0
 
@@ -144,6 +149,8 @@ struct Object {
     void FUN_0084ba30(NameArray*);
     void FUN_0083f8e0(NameArray*);
 };
+// pdb: NiLines::GetViewerStrings | NiLines.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void Object::FUN_0083f8e0(NameArray* names) {
     FUN_0084ba30(names);
     void* value=FUN_00847b50(DAT_0108f448);
@@ -177,6 +184,8 @@ struct Object {
     void FUN_00855450(NameArray*);
     void FUN_0083f700(NameArray*);
 };
+// pdb: NiTriShape::GetViewerStrings | NiTriShape.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkStrings
 void Object::FUN_0083f700(NameArray* names) {
     FUN_00855450(names);
     void* value=FUN_00847b50(DAT_0108f440);
@@ -210,6 +219,8 @@ struct Object {
     void FUN_00855450(NameArray*);
     void FUN_0083c250(NameArray*);
 };
+// pdb: NiTriStrips::GetViewerStrings | NiTriStrips.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void Object::FUN_0083c250(NameArray* names) {
     FUN_00855450(names);
     void* value=FUN_00847b50(DAT_0108f414);
@@ -258,6 +269,8 @@ public:
     virtual ~FUN_0082ea60();
     NiTPrimArray82ea60<void*> arr;
 };
+// pdb: NiNode::NiNode | NiNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiNumChildren
 FUN_0082ea60::FUN_0082ea60(unsigned int initial) : arr(initial, 1)
 {
 }
@@ -283,6 +296,8 @@ public:
  FUN_008340f0(unsigned int max,unsigned int grow);
  virtual ~FUN_008340f0();
 };
+// pdb: NiTPrimitiveArray<NiD3DShaderDeclaration::NiPackerEntry *>::NiTPrimitiveArray<NiD3DShaderDeclaration::NiPackerEntry *> | NiD3DShaderDeclaration.obj | fnv360_0822_retail, call_gap, low
+// pdb params: uiMaxSize, uiGrowBy
 FUN_008340f0::FUN_008340f0(unsigned int max,unsigned int grow):Base(max,grow) {}
 }
 }   // namespace f3m_008340f0
@@ -537,6 +552,8 @@ static __forceinline void ReadPoint2EA0(StreamEA0& s, void* p,unsigned count){Io
 extern void __cdecl FUN_00831dd0(StreamEA0&,Point2EA0*,unsigned);
 extern void __cdecl FUN_00c24b70(const void*,const void*,unsigned);
 extern char DAT_00e217c8[];
+// pdb: NiGeometryData::LoadBinary | NiGeometryData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: kStream
 void GeomEA0::FUN_008321d0(StreamEA0& kStream)
 {
     void* pvCur;
@@ -972,6 +989,7 @@ int unk3b0;
 int unk3b4;
 unsigned int error;
 char errorText[260]; bool FUN_0082c870(); };
+// pdb: NiStream::LoadRTTI | NiStream.obj | fnv360_0822_retail, ustr, medium
 bool Reader::FUN_0082c870() {
     unsigned short typeCount;
     stream->Read(&typeCount);
@@ -1108,6 +1126,8 @@ struct FUN_00827350_list
 
 // Under a global lock, walks the list p2 and for each item with vfn35() below 7 resolves it with ctx and passes it to self->m_24.FUN_00af0680.
 // Fallout 3 task 0001: adapted from the packet starting draft.
+// pdb: NiAVObject::CloneProperties | NiAVObject.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkDest, pkList, kCloning
 void __stdcall FUN_00827350(FUN_00827350_owner* apOwner, void* apList, void* apContext)
 {
     DAT_0108ede0.FUN_00409a80(0);
@@ -1171,6 +1191,8 @@ struct ThreadedTable {
     void FUN_00824170(const char** key, unsigned int flags);
 };
 
+// pdb: NiGlobalStringTable::InsertString | NiGlobalStringTable.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kHandle, stLen
 void ThreadedTable::FUN_00824170(const char** key, unsigned int flags)
 {
     unsigned int previousMode = g_threadContext.mode;
@@ -1212,6 +1234,7 @@ struct Node82a730 {
 extern SpinLock82a730 DAT_0106e5a0;
 extern Node82a730* DAT_0106e588;
 
+// pdb: NiTPointerMap<char const *,unsigned short>::DeleteItem | NiStream.obj | tesv_win, vtable, medium
 void __stdcall FUN_0082a730(Node82a730* node) {
     node->unk08 = 0;
     DAT_0106e5a0.FUN_00409a80(0);
@@ -1224,6 +1247,7 @@ void __stdcall FUN_0082a730(Node82a730* node) {
 // @f3 0x00836e10 (community match, verified in this file)
 namespace f3m_00836e10 {
 struct ProductVector {float x,y,z,w;};
+// pdb: operator* | NiTCBRotKey.obj | tesv_win, call_dedup, low
 ProductVector FUN_00836e10(float factor,const ProductVector& input) {ProductVector result;result.x=input.x*factor;result.y=input.y*factor;result.z=input.z*factor;result.w=input.w*factor;return result;}
 }   // namespace f3m_00836e10
 
@@ -1255,6 +1279,8 @@ struct Owner838e30 {
     Owner838e30* FUN_00838e30(void* source, int count);
 };
 
+// pdb: NiDefaultAVObjectPalette::NiDefaultAVObjectPalette | NiControllerManager.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkScene, uiHashSize
 Owner838e30* Owner838e30::FUN_00838e30(void* source, int count) {
     FUN_00825800();
     table = &FUN_00e2224c;
@@ -1510,6 +1536,7 @@ void CameraBound_0083a9d0::FUN_0083a9d0(const NiBound& bound, NiPoint3& kMin, Ni
 extern int DAT_00f73164;
 namespace f3m_0083ec20 {
 
+// pdb: NiProcessorSpecificCode::SetVectorTransformFunction | NiProcessor.obj | tesv_win, call_seq, medium
 void FUN_0083ec20(int value)
 {
     DAT_00f73164 = value;
@@ -1520,6 +1547,7 @@ void FUN_0083ec20(int value)
 extern int DAT_00f73168;
 namespace f3m_0083ec30 {
 
+// pdb: NiProcessorSpecificCode::SetPointTransformFunction | NiProcessor.obj | tesv_win, call_seq, medium
 void FUN_0083ec30(int value)
 {
     DAT_00f73168 = value;
@@ -1538,6 +1566,7 @@ struct Owner
     void FUN_00839f80();
 };
 
+// pdb: NiCamera::~NiCamera | NiCamera.obj | fnv360_0822_retail, call_gap, high
 void Owner::FUN_00839f80()
 {
     *(int*)this = (int)&FUN_00e22464;
@@ -1562,6 +1591,8 @@ struct Obj {
     void FUN_008258b0(Obj* self, int arg);
     void* FUN_00836650(int arg);
 };
+// pdb: NiTexturingProperty::CreateClone | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void* Obj::FUN_00836650(int arg) {
     if (unk0c) {
         Item* item = new Item;

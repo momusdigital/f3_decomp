@@ -184,6 +184,8 @@ struct S_00e9cb10_Obj
     void SaveValueToStream(S_00e9cb10_Stream* s);
 };
 // @fnv 0x00e9cb10
+// pdb: NiBoundingVolume::SaveBinary | NiBoundingVolume.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 void S_00e9cb10_Obj::SaveValueToStream(S_00e9cb10_Stream* apStream)
 {
     int v = v3();
@@ -214,6 +216,8 @@ typedef unsigned int(__cdecl* e9Dispatch)(e9Obj*);
 
 // Reads a 4-byte type from the object's sink and dispatches to the handler at DAT_0126fa7c[type] when the type is in 0..5, otherwise returns 0.
 // @fnv 0x00e9cab0
+// pdb: NiBoundingVolume::CreateFromStream | NiBoundingVolume.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream
 unsigned int __cdecl FUN_00e9cab0(e9Obj* pObj)
 {
     int iType;

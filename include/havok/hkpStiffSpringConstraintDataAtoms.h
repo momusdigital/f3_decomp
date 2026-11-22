@@ -10,6 +10,8 @@
 class hkpStiffSpringConstraintDataAtoms
 {
   public:
+    // The bytes up to the end of the last atom (Havok's hkGetByteOffsetInt(this, &m_kStiffSpringConstraintAtom + 1)).
+    int getSizeOfAllAtoms() const { return (int)((const char*)(&m_kStiffSpringConstraintAtom + 1) - (const char*)this); }
     hkpSetLocalTranslationsConstraintAtom m_kSetLocalTranslationsConstraintAtom;  // +0x0
     hkpStiffSpringConstraintAtom m_kStiffSpringConstraintAtom;                    // +0x30
     char pad38[0x8];

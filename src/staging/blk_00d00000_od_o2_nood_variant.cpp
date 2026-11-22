@@ -56,6 +56,8 @@ struct BigState
 };
 
 // @f3 0x00990200 (community match, verified in this file)
+// pdb: hkpSolverInfo::operator= | hkpContinuousSimulation.obj | fnv360_0822_debug, call_gap, high
+// pdb params: __that
 BigState& BigState::FUN_00d105b0(const BigState& o)
 {
     unk00 = o.unk00;

@@ -64,6 +64,8 @@ struct BlendItem
 };
 
 // @fnv 0x00a370b0
+// pdb: NiBlendInterpolator::NiBlendInterpolator | NiBlendInterpolator.obj | fnv360_0822_retail, call_seq, high
+// pdb params: bManagerControlled, fWeightThreshold, ucArraySize
 S_00a370b0_Class* __thiscall S_00a370b0_Class::FUN_00a370b0(bool bFlags, float fWeightThreshold,
                                                             unsigned char volatile ucArraySize)
 {

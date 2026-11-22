@@ -11,6 +11,8 @@ struct StateObject
 };
 // Updates state by folding each byte of bytes into it through Crc32ShiftRight8, then stores the result in state and returns length.
 // @fnv 0x00db7810
+// pdb: hkCrc32StreamWriter::write | hkCrc32StreamWriter.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkCrcStreamWriter<unsigned int,3988292384>::write)
+// pdb params: ptr, nbytes
 int StateObject::FUN_00db7810(unsigned char* bytes, int length)
 {
     unsigned int current = state;
@@ -32,6 +34,7 @@ struct TargetClass
 };
 
 // @fnv 0x00db7860
+// pdb: hkCrc32StreamWriter::getCrc32 | hkCrc32StreamWriter.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: hkCrcStreamWriter<unsigned int,3988292384>::getCrc)
 int TargetClass::FUN_00db7860()
 {
     return ~m_val;
@@ -53,6 +56,8 @@ struct FUN_00db7870_cls
 };
 
 // @fnv 0x00db7870
+// pdb: hkCrc32StreamWriter::hkCrc32StreamWriter | hkCrc32StreamWriter.obj | fnv360_0822_retail, uvref, medium
+// pdb params: startCrc
 FUN_00db7870_cls::FUN_00db7870_cls(unsigned int value)
 {
     m_w06 = 1;
@@ -62,6 +67,7 @@ FUN_00db7870_cls::FUN_00db7870_cls(unsigned int value)
 
 // Sets the one-byte flag at *p to 1 (true) and returns nothing.
 // @fnv 0x00db7890
+// pdb: hkpBallAndSocketConstraintData::setMaxLinearImpulse | hkpBallAndSocketConstraintData.obj | tesv_win, objrun_open, low
 void __stdcall FUN_00db7890(void* p)
 {
     *(unsigned char*)p = 1;

@@ -221,12 +221,12 @@ unsigned char unk296;
 unsigned char unk297;
 unsigned char unk298;
 unsigned char unk299;
-unsigned char FUN_00448cc0(); int FUN_004487d0(); void FUN_00447d60(void*,unsigned); void FUN_00448800(unsigned*); bool FUN_00447020(); };
+unsigned char TESFile_GetTESForm(); int TESFile_GetTESChunk(); void FUN_00447d60(void*,unsigned); void FUN_00448800(unsigned*); bool TESFile_NextChunk(); };
 struct Data { void FUN_004fdf00(); };
-struct Aux { void FUN_00451610(int); };
+struct Aux { void TESAttackDamageForm_SetAttackDamage(int); };
 struct Str { void FUN_004019c0(const char*,unsigned); };
 void __cdecl FUN_00456560(void*,Input*);
-void __cdecl FUN_0045bab0(void*,Input*);
+void __cdecl TESTexture_LoadTextureChunk(void*,Input*);
 struct Obj {
 virtual void v000();
 virtual void v004();
@@ -400,31 +400,33 @@ unsigned unk16c;
 unsigned unk170;
 unsigned unk174;
 unsigned unk178;
-void FUN_00454410(Input*); void FUN_00454240(int); unsigned FUN_00454fe0(); void FUN_00454d10(Input*,void*,unsigned); bool FUN_004fed60(Input*); };
+void FUN_00454410(Input*); void TESForm_SetInitialized(int); unsigned FUN_00454fe0(); void TESForm_LoadData(Input*,void*,unsigned); bool FUN_004fed60(Input*); };
+// pdb: TESWaterForm::Load | TESWaterForm.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Obj::FUN_004fed60(Input* file) {
- if(file->FUN_00448cc0()!=0x4e) return false;
- FUN_00454410(file); FUN_00454240(0);
- int type=file->FUN_004487d0();
+ if(file->TESFile_GetTESForm()!=0x4e) return false;
+ FUN_00454410(file); TESForm_SetInitialized(0);
+ int type=file->TESFile_GetTESChunk();
  while(type) {
  switch(type) {
  case 0x444e424f: readBound(file); break;
  case 0x44494445: { char* text=(char*)_alloca(file->unk25c); file->FUN_00447d60(text,0x200); setID(text); break; }
  case 0x41544144:
- { unsigned delta=file->unk25c; delta-=FUN_00454fe0(); if(delta==0) { FUN_00454d10(file,(void*)delta,delta); if(file->unk299!=(unsigned char)delta) ((Data*)&unk084)->FUN_004fdf00(); }
- else { FUN_00454d10(file,&unk084,0xc4); if(file->unk299) ((Data*)&unk084)->FUN_004fdf00();
- unk138=unk134=unk130=100.0f; unk13c=1.0f; unk140=0.5f; unk144=FUN_00dbea4c; ((Aux*)&unk024)->FUN_00451610(0); } } break;
+ { unsigned delta=file->unk25c; delta-=FUN_00454fe0(); if(delta==0) { TESForm_LoadData(file,(void*)delta,delta); if(file->unk299!=(unsigned char)delta) ((Data*)&unk084)->FUN_004fdf00(); }
+ else { TESForm_LoadData(file,&unk084,0xc4); if(file->unk299) ((Data*)&unk084)->FUN_004fdf00();
+ unk138=unk134=unk130=100.0f; unk13c=1.0f; unk140=0.5f; unk144=FUN_00dbea4c; ((Aux*)&unk024)->TESAttackDamageForm_SetAttackDamage(0); } } break;
  case 0x4c4c5546: FUN_00456560(this ? &unk018 : 0,file); break;
  case 0x4d414e44: file->FUN_00447d60(&unk084,0xc4); if(file->unk299) ((Data*)&unk084)->FUN_004fdf00(); break;
  case 0x4d414e41: file->FUN_00447d60(&unk070,1); break;
  case 0x4d414e46: file->FUN_00447d60((char*)&unk070+1,1); break;
- case 0x4d414e4e: FUN_0045bab0(&unk064,file); break;
+ case 0x4d414e4e: TESTexture_LoadTextureChunk(&unk064,file); break;
  case 0x4d414e53: { unsigned id=0; file->FUN_00448800(&id); unk07c=id; break; }
  case 0x4d414e58: { unsigned id=0; file->FUN_00448800(&id); unk178=id; break; }
  case 0x4d414e4d: { char* text=(char*)_alloca(file->unk25c); file->FUN_00447d60(text,0); ((Str*)&unk074)->FUN_004019c0(text,0); break; }
  case 0x4d414e47: { file->FUN_00447d60(&unk148,12); if(file->unk299) { unsigned* p=&unk148; int n=3; do { *p=_byteswap_ulong(*p); ++p; } while(--n); } break; }
  }
- if(!file->FUN_00447020()) break;
- type=file->FUN_004487d0();
+ if(!file->TESFile_NextChunk()) break;
+ type=file->TESFile_GetTESChunk();
  }
  return true;
 }
@@ -437,12 +439,12 @@ namespace f3m_004ec240 {
 extern "C" void* __cdecl _alloca(unsigned int);
 struct V { float x,y,z; };
 struct Entry { V pos; unsigned short angle; unsigned char kind,flags; void FUN_00ab00a0(float); };
-struct Base { int unk00; unsigned char type; bool FUN_004add50(unsigned); };
+struct Base { int unk00; unsigned char type; bool TESFurniture_GetMarkerEnabled(unsigned); };
 struct Data { int unk00,unk04,unk08,unk0c; Entry* entries; int unk14; unsigned short count; };
 struct Extra { void FUN_0041dc60(int); };
-struct List { Extra* FUN_0040a4c0(int); };
+struct List { Extra* BaseExtraList_GetExtraData(int); };
 struct Mat { float m[9]; };
-Data* __cdecl FUN_00ab03d0(void*);
+Data* __cdecl BSFurnitureMarker_Find(void*);
 bool __cdecl FUN_004add90(unsigned);
 bool __cdecl FUN_004add80(unsigned);
 void __cdecl FUN_008225c0(Mat*,V*,unsigned,V*,V*);
@@ -594,13 +596,15 @@ Mat* FUN_004e7c10(Mat*);
 bool FUN_004ec240(V*,bool,bool,Entry*,int*,bool);
 };
 
+// pdb: TESObjectREFR::GetClosestFreeMarker | TESObjectREFR.obj | fnv360_0822_debug, caller, medium
+// pdb params: aLocation, abSitOK, abSleepOK, aOutMarker, aiOutMarkerIndex, abIgnoreReservations
 bool Obj::FUN_004ec240(V* point,bool a,bool b,Entry* out,int* index,bool mode) {
  bool result=false;
  if(base->type==0x27) {
   if(getData()) {
    Base* form=base;
    if(form) {
-    Data* data=FUN_00ab03d0(getData());
+    Data* data=BSFurnitureMarker_Find(getData());
     if(data) {
      unsigned n=data->count;
      if(n) {
@@ -608,7 +612,7 @@ bool Obj::FUN_004ec240(V* point,bool a,bool b,Entry* out,int* index,bool mode) {
       unsigned* indices=(unsigned*)_alloca(n*sizeof(unsigned));
       unsigned used=0;
       for(unsigned i=0;i<n;++i) {
-       if(form->FUN_004add50(i) && !FUN_004e6e30(i,mode)) {
+       if(form->TESFurniture_GetMarkerEnabled(i) && !FUN_004e6e30(i,mode)) {
         unsigned kind=data->entries[i].kind;
         if((FUN_004add90(kind)&&a)||(FUN_004add80(kind)&&b)||(!FUN_004add90(kind)&&!FUN_004add80(kind))) {
          positions[used]=data->entries[i].pos;
@@ -646,7 +650,7 @@ bool Obj::FUN_004ec240(V* point,bool a,bool b,Entry* out,int* index,bool mode) {
    out->pos=*getPos(); out->kind=0; out->FUN_00ab00a0(0); *index=-1; result=false;
   }
  } else if(!mode) {
-  Extra* e=extra.FUN_0040a4c0(0x82); if(e) e->FUN_0041dc60(0);
+  Extra* e=extra.BaseExtraList_GetExtraData(0x82); if(e) e->FUN_0041dc60(0);
   out->pos=*getPos(); out->kind=0; out->FUN_00ab00a0(0); *index=-1; result=true;
  }
  return result;
@@ -670,16 +674,18 @@ struct f3_004ffdb0_Pair {
 };
 struct f3_004ffdb0_Sub98 { void FUN_00b10fe0(); };
 void FUN_00458210(void*,f3m_004fed60::Input*);
-void FUN_00454a40(f3_004ffdb0_Pair*,f3m_004fed60::Input*);
+void TESForm_AddCompileIndex(f3_004ffdb0_Pair*,f3m_004fed60::Input*);
 struct f3_004ffdb0_Rec : f3m_004fed60::Obj { __declspec(noinline) unsigned char FUN_004ffdb0(f3m_004fed60::Input*); };
+// pdb: TESWeather::Load | TESWeather.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 unsigned char f3_004ffdb0_Rec::FUN_004ffdb0(f3m_004fed60::Input* s)
 {
-    if (s->FUN_00448cc0() != 0x35)
+    if (s->TESFile_GetTESForm() != 0x35)
         return 0;
     FUN_00454410(s);
-    FUN_00454240(0);
+    TESForm_SetInitialized(0);
     unsigned int tag;
-    while ((tag = s->FUN_004487d0()) != 0) {
+    while ((tag = s->TESFile_GetTESChunk()) != 0) {
         char* t = (char*)this;
         switch (tag) {
         case 0x41544144: {
@@ -714,15 +720,15 @@ unsigned char f3_004ffdb0_Rec::FUN_004ffdb0(f3m_004fed60::Input* s)
         }
         case 0x4c444f4d: FUN_00458210(t + 0xa0, s); break;
         case 0x444e424f: readBound(s); break;
-        case 0x4d414e41: f3m_004fed60::FUN_0045bab0((void*)(t + 0x44), s); break;
+        case 0x4d414e41: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x44), s); break;
         case 0x44414901: case 0x4d414e4d: { unsigned int v = 0; s->FUN_00448800(&v); *(unsigned int*)(t + 0x20) = v; break; }
-        case 0x4d414e43: f3m_004fed60::FUN_0045bab0((void*)(t + 0x38), s); break;
-        case 0x4d414e44: f3m_004fed60::FUN_0045bab0((void*)(t + 0x2c), s); break;
-        case 0x4d414e42: f3m_004fed60::FUN_0045bab0((void*)(t + 0x50), s); break;
-        case 0x4d414e45: f3m_004fed60::FUN_0045bab0((void*)(t + 0x5c), s); break;
-        case 0x4d414e47: f3m_004fed60::FUN_0045bab0((void*)(t + 0x68), s); break;
-        case 0x4d414e4a: f3m_004fed60::FUN_0045bab0((void*)(t + 0x74), s); break;
-        case 0x4d414e4b: f3m_004fed60::FUN_0045bab0((void*)(t + 0x80), s); break;
+        case 0x4d414e43: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x38), s); break;
+        case 0x4d414e44: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x2c), s); break;
+        case 0x4d414e42: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x50), s); break;
+        case 0x4d414e45: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x5c), s); break;
+        case 0x4d414e47: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x68), s); break;
+        case 0x4d414e4a: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x74), s); break;
+        case 0x4d414e4b: f3m_004fed60::TESTexture_LoadTextureChunk((void*)(t + 0x80), s); break;
         case 0x4d414e4f: s->FUN_00447d60(t + 0x5c, 4); break;
         case 0x4d414e50: {
             s->FUN_00447d60(t + 0x60, 0x40);
@@ -776,13 +782,13 @@ unsigned char f3_004ffdb0_Rec::FUN_004ffdb0(f3m_004fed60::Input* s)
             if (s->unk299) {
                 e->Endian();
             }
-            FUN_00454a40(e, s);
+            TESForm_AddCompileIndex(e, s);
             ((f3_004ffdb0_PairList*)(t + 0x180))->FUN_0061c430(&keep);
             }
             break;
         }
         }
-        if (!s->FUN_00447020())
+        if (!s->TESFile_NextChunk())
             break;
     }
     return 1;

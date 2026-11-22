@@ -8,6 +8,7 @@ void __cdecl FUN_0088d140();
 void __cdecl FUN_0088d280();
 void __cdecl FUN_0089f820(void (__cdecl*)(), void (__cdecl*)());
 
+// pdb: NiXenonRendererSDM::NiXenonRendererSDM | NiXenonRendererSDM.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiDX9RendererSDM::NiDX9RendererSDM)
 C_0088d2f0::C_0088d2f0()
 {
     if (DAT_01091968++ == 0)
@@ -19,6 +20,7 @@ C_0088d2f0::C_0088d2f0()
 struct I_00898b30 { virtual void __stdcall a(); virtual void __stdcall b(); virtual unsigned long __stdcall Release(); };
 struct C_00898b30 { char pad[56]; I_00898b30* p; void f(); void G(); };
 
+// pdb: NiD3DHLSLVertexShader::DestroyRendererData | NiD3DHLSLVertexShader.obj | fnv360_0721_beta, objopen_prop, low
 void C_00898b30::f()
 {
     if (p) {
@@ -34,6 +36,7 @@ struct S_00898b70 { int a, b, c; };
 struct I_00898b70 { virtual void __stdcall v0(); virtual void __stdcall v1(); virtual void __stdcall v2(); virtual void __stdcall v3(); virtual void __stdcall v4(); virtual long __stdcall Get(S_00898b70*); };
 struct C_00898b70 { char pad[56]; I_00898b70* p; int f(); };
 
+// pdb: NiD3DHLSLVertexShader::GetVariableCount | NiD3DHLSLVertexShader.obj | fnv360_0721_beta, objopen_prop, low
 int C_00898b70::f()
 {
     if (!p) return 0;
@@ -47,6 +50,7 @@ int C_00898b70::f()
 struct I_00899110 { virtual void __stdcall a(); virtual void __stdcall b(); virtual unsigned long __stdcall Release(); };
 struct C_00899110 { char pad[68]; I_00899110* p; void f(); void G(); };
 
+// pdb: NiD3DHLSLPixelShader::DestroyRendererData | NiD3DHLSLPixelShader.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiD3DHLSLVertexShader::DestroyRendererData)
 void C_00899110::f()
 {
     if (p) {
@@ -62,6 +66,7 @@ struct S_00899150 { int a, b, c; };
 struct I_00899150 { virtual void __stdcall v0(); virtual void __stdcall v1(); virtual void __stdcall v2(); virtual void __stdcall v3(); virtual void __stdcall v4(); virtual long __stdcall Get(S_00899150*); };
 struct C_00899150 { char pad[68]; I_00899150* p; int f(); };
 
+// pdb: NiD3DHLSLPixelShader::GetVariableCount | NiD3DHLSLPixelShader.obj | fnv360_0721_beta, objopen_prop, low
 int C_00899150::f()
 {
     if (!p) return 0;
@@ -76,6 +81,7 @@ void* __cdecl operator new(unsigned int);
 struct B_008d1f60 { int a[4]; B_008d1f60(); virtual void vf(); };
 struct D_008d1f60 : B_008d1f60 { D_008d1f60() {} virtual void vf(); };
 
+// pdb: bhkCollisionObject::CreateObject | bhkCollisionObject.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 B_008d1f60* FUN_008d1f60()
 {
     return new D_008d1f60;
@@ -87,6 +93,8 @@ struct Q_008d22c0 { void __thiscall FUN_008330a0(); };
 struct Y_008d22c0 { char pad[0x10]; unsigned flags; bool __thiscall b6() { return (flags >> 6) & 1; } };
 struct S_008d22c0 { char pad[8]; Q_008d22c0* q; int pad2; Y_008d22c0* y; void __thiscall FUN_008d22c0(int); void __thiscall FUN_008d9d50(int); };
 
+// pdb: bhkCollisionObject::UpdateWorldData | bhkCollisionObject.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: UpdateData
 void S_008d22c0::FUN_008d22c0(int a)
 {
     if (y && y->b6()) {
@@ -126,6 +134,7 @@ V3_008d22f0 S_008d22f0::FUN_008d22f0()
 struct T_00987bc0 { void __thiscall FUN_00987bc0(); };
 struct S_009874e0 { void __thiscall FUN_009874e0(); };
 
+// pdb: hkpSimpleConstraintContactMgr::getAllContactPointIds | hkpSimpleConstraintContactMgr.obj | tesv_win, objrun_prop, low
 void S_009874e0::FUN_009874e0()
 {
     ((T_00987bc0*)((char*)this + 32))->FUN_00987bc0();
@@ -139,7 +148,8 @@ struct T_009bca20 { char pad[0xb]; unsigned char fb; char pad2[4]; };
 struct Info_009bca20 { int a; int b; int pad8; int c; int d; int e; int f; int pad1c; };
 void __cdecl FUN_00a2b420(void*, Info_009bca20*);
 
-void __cdecl FUN_009bca20(int a1, T_009bca20* a2, int a3, H_009bca20* a4, int a5, int a6, int a7)
+// pdb: hkConvexListAgent3::updateFilter | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun + bridge(caller_sim|objrun) + skyrim(caller_sim), high
+void __cdecl hkConvexListAgent3_updateFilter(int a1, T_009bca20* a2, int a3, H_009bca20* a4, int a5, int a6, int a7)
 {
     if (!(a2->fb & 0x20)) {
         Info_009bca20 i;
@@ -162,6 +172,7 @@ struct A_009f39a0 { void FUN_008f6d90(void* p, int bytes, int tag); };
 extern void* DAT_00dcc494;
 struct S_009f39a0 { void* vptr; unsigned short unk04; unsigned short pad; void* ptr; int pad2; unsigned int flags; S_009f39a0* __thiscall FUN_009f39a0(int); };
 
+// pdb: hkpUserShapePhantomTypeIdentifier::`scalar deleting destructor' | hkpPhantomDisplayViewer.obj | fnv360_0822_retail, vtable, low, conflict (bridge: hkxVertexSelectionChannel::`scalar deleting destructor')
 S_009f39a0* S_009f39a0::FUN_009f39a0(int f)
 {
     if (!(flags & 0x80000000)) {
@@ -180,7 +191,7 @@ S_009f39a0* S_009f39a0::FUN_009f39a0(int f)
 // ---- family s071
 
 extern char DAT_0116ebc8;
-void __cdecl FUN_0082a370(const char*);
+void __cdecl NiStream_UnregisterLoader(const char*);
 void __cdecl FUN_00ac6ac0(void);
 extern const char DAT_00e8c090;
 extern const char DAT_00e8c080;
@@ -234,61 +245,62 @@ extern const char DAT_00e8bbc0;
 extern const char DAT_00e8bbac;
 extern const char DAT_00e8bb90;
 
+// pdb: NiParticleSDM::Shutdown | NiParticleSDM.obj | fnv360_0822_retail, strset, low
 void FUN_00aba5f0()
 {
     if (DAT_0116ebc8) {
         DAT_0116ebc8 = 0;
-        FUN_0082a370(&DAT_00e8c090);
-        FUN_0082a370(&DAT_00e8c080);
-        FUN_0082a370(&DAT_00e8c06c);
-        FUN_0082a370(&DAT_00e8c04c);
-        FUN_0082a370(&DAT_00e8c028);
-        FUN_0082a370(&DAT_00e8c010);
-        FUN_0082a370(&DAT_00e8bff4);
-        FUN_0082a370(&DAT_00e8bfdc);
-        FUN_0082a370(&DAT_00e8bfc8);
-        FUN_0082a370(&DAT_00e8bfac);
-        FUN_0082a370(&DAT_00e8bf98);
-        FUN_0082a370(&DAT_00e8bf80);
-        FUN_0082a370(&DAT_00e8bf6c);
-        FUN_0082a370(&DAT_00e8bf54);
-        FUN_0082a370(&DAT_00e8bf48);
-        FUN_0082a370(&DAT_00e8bf30);
-        FUN_0082a370(&DAT_00e8bf1c);
-        FUN_0082a370(&DAT_00e8bf08);
-        FUN_0082a370(&DAT_00e8bef0);
-        FUN_0082a370(&DAT_00e8bed0);
-        FUN_0082a370(&DAT_00e8beb0);
-        FUN_0082a370(&DAT_00e8be90);
-        FUN_0082a370(&DAT_00e8be74);
-        FUN_0082a370(&DAT_00e8be54);
-        FUN_0082a370(&DAT_00e8be34);
-        FUN_0082a370(&DAT_00e8be1c);
-        FUN_0082a370(&DAT_00e8be00);
-        FUN_0082a370(&DAT_00e8bde4);
-        FUN_0082a370(&DAT_00e8bdc8);
-        FUN_0082a370(&DAT_00e8bdb0);
-        FUN_0082a370(&DAT_00e8bd94);
-        FUN_0082a370(&DAT_00e8bd78);
-        FUN_0082a370(&DAT_00e8bd60);
-        FUN_0082a370(&DAT_00e8bd44);
-        FUN_0082a370(&DAT_00e8bd24);
-        FUN_0082a370(&DAT_00e8bd08);
-        FUN_0082a370(&DAT_00e8bce8);
-        FUN_0082a370(&DAT_00e8bcd4);
-        FUN_0082a370(&DAT_00e8bcb8);
-        FUN_0082a370(&DAT_00e8bc9c);
-        FUN_0082a370(&DAT_00e8bc84);
-        FUN_0082a370(&DAT_00e8bc6c);
-        FUN_0082a370(&DAT_00e8bc50);
-        FUN_0082a370(&DAT_00e8bc38);
-        FUN_0082a370(&DAT_00e8bc20);
-        FUN_0082a370(&DAT_00e8bc0c);
-        FUN_0082a370(&DAT_00e8bbf8);
-        FUN_0082a370(&DAT_00e8bbe0);
-        FUN_0082a370(&DAT_00e8bbc0);
-        FUN_0082a370(&DAT_00e8bbac);
-        FUN_0082a370(&DAT_00e8bb90);
+        NiStream_UnregisterLoader(&DAT_00e8c090);
+        NiStream_UnregisterLoader(&DAT_00e8c080);
+        NiStream_UnregisterLoader(&DAT_00e8c06c);
+        NiStream_UnregisterLoader(&DAT_00e8c04c);
+        NiStream_UnregisterLoader(&DAT_00e8c028);
+        NiStream_UnregisterLoader(&DAT_00e8c010);
+        NiStream_UnregisterLoader(&DAT_00e8bff4);
+        NiStream_UnregisterLoader(&DAT_00e8bfdc);
+        NiStream_UnregisterLoader(&DAT_00e8bfc8);
+        NiStream_UnregisterLoader(&DAT_00e8bfac);
+        NiStream_UnregisterLoader(&DAT_00e8bf98);
+        NiStream_UnregisterLoader(&DAT_00e8bf80);
+        NiStream_UnregisterLoader(&DAT_00e8bf6c);
+        NiStream_UnregisterLoader(&DAT_00e8bf54);
+        NiStream_UnregisterLoader(&DAT_00e8bf48);
+        NiStream_UnregisterLoader(&DAT_00e8bf30);
+        NiStream_UnregisterLoader(&DAT_00e8bf1c);
+        NiStream_UnregisterLoader(&DAT_00e8bf08);
+        NiStream_UnregisterLoader(&DAT_00e8bef0);
+        NiStream_UnregisterLoader(&DAT_00e8bed0);
+        NiStream_UnregisterLoader(&DAT_00e8beb0);
+        NiStream_UnregisterLoader(&DAT_00e8be90);
+        NiStream_UnregisterLoader(&DAT_00e8be74);
+        NiStream_UnregisterLoader(&DAT_00e8be54);
+        NiStream_UnregisterLoader(&DAT_00e8be34);
+        NiStream_UnregisterLoader(&DAT_00e8be1c);
+        NiStream_UnregisterLoader(&DAT_00e8be00);
+        NiStream_UnregisterLoader(&DAT_00e8bde4);
+        NiStream_UnregisterLoader(&DAT_00e8bdc8);
+        NiStream_UnregisterLoader(&DAT_00e8bdb0);
+        NiStream_UnregisterLoader(&DAT_00e8bd94);
+        NiStream_UnregisterLoader(&DAT_00e8bd78);
+        NiStream_UnregisterLoader(&DAT_00e8bd60);
+        NiStream_UnregisterLoader(&DAT_00e8bd44);
+        NiStream_UnregisterLoader(&DAT_00e8bd24);
+        NiStream_UnregisterLoader(&DAT_00e8bd08);
+        NiStream_UnregisterLoader(&DAT_00e8bce8);
+        NiStream_UnregisterLoader(&DAT_00e8bcd4);
+        NiStream_UnregisterLoader(&DAT_00e8bcb8);
+        NiStream_UnregisterLoader(&DAT_00e8bc9c);
+        NiStream_UnregisterLoader(&DAT_00e8bc84);
+        NiStream_UnregisterLoader(&DAT_00e8bc6c);
+        NiStream_UnregisterLoader(&DAT_00e8bc50);
+        NiStream_UnregisterLoader(&DAT_00e8bc38);
+        NiStream_UnregisterLoader(&DAT_00e8bc20);
+        NiStream_UnregisterLoader(&DAT_00e8bc0c);
+        NiStream_UnregisterLoader(&DAT_00e8bbf8);
+        NiStream_UnregisterLoader(&DAT_00e8bbe0);
+        NiStream_UnregisterLoader(&DAT_00e8bbc0);
+        NiStream_UnregisterLoader(&DAT_00e8bbac);
+        NiStream_UnregisterLoader(&DAT_00e8bb90);
         FUN_00ac6ac0();
     }
 }
@@ -299,6 +311,7 @@ struct Q_00b125b0 { int __thiscall FUN_00b22310(); };
 struct M_00b125b0 { char pad[8]; Q_00b125b0* q; };
 struct S_00b125b0 { char pad[0x2c]; M_00b125b0* m; int __thiscall FUN_00b125b0(); };
 
+// pdb: ImageSpaceEffectRefraction::IsActive | ImageSpaceEffectRefraction.obj | fnv360_0822_retail, caller_sim, medium
 int S_00b125b0::FUN_00b125b0()
 {
     if (((int*)m)[2] && ((Q_00b125b0**)m)[2]->FUN_00b22310()) return 1;

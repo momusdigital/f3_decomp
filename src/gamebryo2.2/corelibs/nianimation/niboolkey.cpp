@@ -166,12 +166,14 @@ struct SObj
     unsigned int state;
     bool enabled;
 };
-void CallAnimCallback(SStream*, SObj*);
-// Calls CallAnimCallback, then writes the object's enabled flag as one byte to the stream's output and adds the written count.
+void NiAnimationKey_SaveBinary(SStream*, SObj*);
+// Calls NiAnimationKey_SaveBinary, then writes the object's enabled flag as one byte to the stream's output and adds the written count.
 // @fnv 0x00a295f0
+// pdb: NiBoolKey::SaveBinary | NiBoolKey.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: stream, pkKey
 void WriteEnabledFlag(SStream* stream, SObj* object)
 {
-    CallAnimCallback(stream, object);
+    NiAnimationKey_SaveBinary(stream, object);
     bool enabled = object->enabled != 0;
     unsigned int size;
     OutputStream* output = stream->output;
@@ -195,6 +197,8 @@ extern InterpFn DAT_011f3d08[];
 
 // Returns the single BooleanKey value for one key or sentinel time; otherwise interpolates between bracketing keys and returns the result.
 // @fnv 0x00a29250
+// pdb: NiBoolKey::GenInterp | NiBoolKey.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fTime, pkKeys, eType, uiNumKeys, uiLastIdx, ucSize
 bool InterpolateBooleanKey(float fTime, const AnimationKey* pkKeys, unsigned int uiType, unsigned int uiNumKeys,
                            unsigned int* puiLastIdx, unsigned char ucKeySize)
 {
@@ -435,6 +439,8 @@ void WriteFloatToStream(Stream& kStream, const Key* pkKey);
 
 // For each key, calls WriteFloatToStream, then writes m_iValue0 and m_iValue1 with StreamSaveBinary.
 // @fnv 0x00a27320
+// pdb: NiBezFloatKey::SaveToStream | NiBezFloatKey.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: stream, pkKeys, uiNumKeys
 void SaveKeys(Stream& kStream, const Key* pkKeys, unsigned int uiNumKeys)
 {
     for (unsigned int i = 0; i < uiNumKeys; i++)

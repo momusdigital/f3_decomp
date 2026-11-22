@@ -3,11 +3,13 @@
 // NiTimeController: base timing/update functionality for animation controllers.
 // FNV 2.2 branch revision (thread-local scale cache, legacy flag conversion,
 // geometry consistency fixup on attach/link).
-#include "nitimecontroller.h"
+#include "nitimecontroller_types.h"
 #include "nitimecontroller_decls.h"
 
 // Clones the base NiObject, then recursively clones the next controller in the chain if one exists.
 // @fnv 0x00a6d0c0
+// pdb: NiTimeController::ProcessClone | NiTimeController.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kCloning
 void NiTimeController::ProcessClone(CloningProcess& kCloning)
 {
     NiObject::ProcessClone(kCloning);
@@ -17,6 +19,8 @@ void NiTimeController::ProcessClone(CloningProcess& kCloning)
 }
 //---------------------------------------------------------------------------
 // @fnv 0x00a6d450
+// pdb: NiTimeController::SetTarget | NiTimeController.obj | fnv360_0822_retail, vtable, high
+// pdb params: pkTarget
 void NiTimeController::SetTarget(NiObjectNET* pkTarget)
 {
     if (m_pkTarget == pkTarget)
@@ -48,7 +52,7 @@ void NiTimeController::SetTarget(NiObjectNET* pkTarget)
         if (IsGeometryController())
         {
             NiGeometry* pkGeometry = (NiGeometry*)m_pkTarget;
-            pkGeometry->GetModelData()->SetDataConsistency(NiGeometryData::STATIC);
+            pkGeometry->GetModelData()->SetConsistency(NiGeometryData::STATIC);
         }
     }
 
@@ -56,6 +60,8 @@ void NiTimeController::SetTarget(NiObjectNET* pkTarget)
 }
 //---------------------------------------------------------------------------
 // @fnv 0x00a6d500
+// pdb: NiTimeController::LinkObject | NiTimeController.obj | fnv360_0822_retail, vtable, high
+// pdb params: kStream
 void NiTimeController::LinkObject(NiStream& kStream)
 {
     // FNV 2.2 NiPointer assignment order: release the old object before
@@ -76,7 +82,7 @@ void NiTimeController::LinkObject(NiStream& kStream)
         if (IsGeometryController() && m_pkTarget)
         {
             NiGeometry* pkGeometry = (NiGeometry*)m_pkTarget;
-            pkGeometry->GetModelData()->SetDataConsistency(NiGeometryData::STATIC);
+            pkGeometry->GetModelData()->SetConsistency(NiGeometryData::STATIC);
         }
     }
 }
@@ -90,7 +96,10 @@ extern int DAT_011a9bdc;
 
 // Copies the four globals DAT_011a9bd0 through DAT_011a9bdc into p[0..3] and returns p.
 // @fnv 0x00a29690
-int* __cdecl CopyGlobalsToBuffer(int, int, int, int* pDest)
+// pdb: NiColorKey::Interpolate | NiColorKey.obj | fnv360_0721_retail, objrun, high
+// pdb params: fTime, pKey0, pKey1, pResult
+// pdb: NiColorKey::Interpolate | NiColorKey.obj | fnv360_0721_retail, objrun, high (was: CopyGlobalsToBuffer)
+int* __cdecl NiColorKey_Interpolate(int, int, int, int* pDest)
 {
     pDest[0] = DAT_011a9bd0;
     pDest[1] = DAT_011a9bd4;
@@ -112,6 +121,8 @@ struct TCEq : NiObject
     NiObject* m_pkTarget;
 };
 // @fnv 0x00a6cc80
+// pdb: NiTimeController::IsEqual | NiTimeController.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkObject
 bool __fastcall FUN_00a6cc80(TCEq* pThis, int edx, NiObject* pkObject)
 {
     TCEq* pkControl = (TCEq*)pkObject;
@@ -132,7 +143,8 @@ struct TCChain
     TCChain* m_pNext;
 };
 // @fnv 0x00a6cd00
-unsigned int __fastcall FUN_00a6cd00(TCChain* p, int edx)
+// pdb: NiTimeController::ItemsInList | NiTimeController.obj | fnv360_0822_retail, call_gap_sim + bridge(call_seq|call_gap_sim) + skyrim(call_seq), high
+unsigned int __fastcall NiTimeController_ItemsInList(TCChain* p, int edx)
 {
     unsigned int n = 0;
     while (p)
@@ -153,6 +165,8 @@ struct TCStart
     float m_fLastTime;
 };
 // @fnv 0x00a6cd10
+// pdb: NiTimeController::Start | NiTimeController.obj | fnv360_0822_retail, vtable, medium
+// pdb params: fTime
 void __fastcall InitStartTime(TCStart* p, int edx, float fTime)
 {
     p->m_uiObjectFlags |= 8;
@@ -197,11 +211,13 @@ class FUN_00a6cd30_cls
     float m_fStartTime;
     float m_fLastTime;
 
-    void ResetTiming();
+    void NiTimeController_Stop();
 };
 
 // @fnv 0x00a6cd30
-void FUN_00a6cd30_cls::ResetTiming()
+// pdb: NiTimeController::Stop | NiTimeController.obj | fnv360_0822_retail, vtable, high
+// pdb: NiTimeController::Stop | NiTimeController.obj | fnv360_0822_retail, vtable, high (was: ResetTiming)
+void FUN_00a6cd30_cls::NiTimeController_Stop()
 {
     m_uiObjectFlags &= 0xfff7;
     m_fLastTime = kNegInfinity;
@@ -283,7 +299,10 @@ struct TCAV : TCBase
 };
 
 // @fnv 0x00a6d390
-void __cdecl StartControllersRecursive(TCAV* p, float fTime)
+// pdb: NiTimeController::StartAnimations | NiTimeController.obj | fnv360_0721_beta, objrun, high
+// pdb params: pkObj, fTime
+// pdb: NiTimeController::StartAnimations | NiTimeController.obj | fnv360_0721_beta, objrun, high (was: StartControllersRecursive)
+void __cdecl NiTimeController_StartAnimations(TCAV* p, float fTime)
 {
     NiTimeController* c = p->m_pControllers.m_pObject;
     while (c != 0)
@@ -312,7 +331,7 @@ L_0048: {
             TCAV* item = *pp;
             node = node->m_pNext;
             if (*pp != 0 && (*pp)->m_pControllers.m_pObject != 0)
-                StartControllersRecursive(*pp, fTime);
+                NiTimeController_StartAnimations(*pp, fTime);
         } while (node != 0);
     }
 }
@@ -327,7 +346,7 @@ L_0076:
                 TCAV** arr = p->m_ppChildren;
                 TCAV* child = arr[i];
                 if (child != 0)
-                    StartControllersRecursive(child, fTime);
+                    NiTimeController_StartAnimations(child, fTime);
                 i++;
             } while (i < p->m_usChildCount);
         }
@@ -444,6 +463,8 @@ class TCTimeNode
 extern int DAT_011f4280;
 
 // @fnv 0x00a6d2d0
+// pdb: NiTimeController::StartAnimations | NiTimeController.obj | fnv360_0822_debug, caller, medium
+// pdb params: pkObj
 void __cdecl FUN_00a6d2d0(TCTimeNode* obj)
 {
     TCTimeNode* p = obj->m_pChildObject;
@@ -813,6 +834,8 @@ class TCController : public NiTimeController
 };
 
 // @fnv 0x00a6d830
+// pdb: NiTimeController::GetViewerStrings | NiTimeController.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 void TCController::FUN_00a6d830(NiViewerStringsArray* pkViewerStrings)
 {
     pkViewerStrings->Add(FUN_00a7d330(DAT_011f49e4));
@@ -832,10 +855,6 @@ void TCController::FUN_00a6d830(NiViewerStringsArray* pkViewerStrings)
     bool bBack = (m_uiObjectFlags >> 4) & 1;
     pkViewerStrings->Add(FUN_00a7d370("Play Backwards", bBack));
 }
-
-// @fnv 0x00a29680
-void __cdecl FUN_00a29680()
-{}
 
 class NiTimeControllerA362
 {
@@ -882,7 +901,7 @@ class NiTimeControllerA362
     virtual void vfn_9c();
     virtual void vfn_a0();
     virtual float ComputeScaledTime(float fTime);
-    bool FUN_00a36250(float fTime);
+    bool NiTimeController_DontDoUpdate(float fTime);
 
     unsigned int m_uiRefCount;
     unsigned short m_uiObjectFlags;
@@ -914,7 +933,8 @@ class NiTimeControllerA362
 
 // When active and time changed or force-update is set, it may return true if scaled time matches; otherwise it deactivates and returns false.
 // @fnv 0x00a36250
-bool NiTimeControllerA362::FUN_00a36250(float fTime)
+// pdb: NiTimeController::DontDoUpdate | NiPSysEmitterCtlr.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+bool NiTimeControllerA362::NiTimeController_DontDoUpdate(float fTime)
 {
     if (GetActive())
     {
@@ -1028,6 +1048,8 @@ void* __cdecl _NiMalloc(unsigned int);
 int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates strlen(pcPrefix)+12 bytes; for eType 0 or 1, formats the prefix with APP_TIME or APP_INIT and returns the buffer.
 // @fnv 0x00a6d120
+// pdb: NiTimeController::GetViewerString | NiTimeController.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eType
 char* __cdecl BuildAppTimeOrInitString(const char* pcPrefix, int eType)
 {
     unsigned int uiLen = (unsigned int)strlen(pcPrefix) + 12;
@@ -1048,6 +1070,8 @@ void* __cdecl _NiMalloc(unsigned int);
 int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates a buffer, formats pcPrefix with LOOP, REVERSE, CLAMP, or UNKNOWN!!! based on eType, and returns it.
 // @fnv 0x00a6d190
+// pdb: NiTimeController::GetViewerString | NiTimeController.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eType
 char* __cdecl FUN_00a6d190(const char* pcPrefix, int eType)
 {
     unsigned int uiLen = (unsigned int)strlen(pcPrefix) + 11;
@@ -1179,7 +1203,7 @@ inline float AddLowKey(double remainder, float lowKey)
 class ScaledTimeController : public NiTimeController
 {
   public:
-    float FUN_00a6cd60(float fTime);
+    float NiTimeController_ComputeScaledTime(float fTime);
 };
 
 __declspec(thread) float ts_fLastScaledTime = 0.0f;
@@ -1190,7 +1214,8 @@ __declspec(thread) float ts_fLastHiKeyTime = 0.0f;
 
 // Computes a scaled time from fTime using frequency, phase, and cycle type, caching the result in thread-local storage when inputs are unchanged.
 // @fnv 0x00a6cd60
-float ScaledTimeController::FUN_00a6cd60(float fTime)
+// pdb: NiTimeController::ComputeScaledTime | NiTimeController.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+float ScaledTimeController::NiTimeController_ComputeScaledTime(float fTime)
 {
     if (m_fStartTime == -3.402823466e+38F)
         m_fStartTime = fTime;

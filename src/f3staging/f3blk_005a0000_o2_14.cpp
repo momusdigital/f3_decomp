@@ -28,7 +28,7 @@ public:
     int GetTypeFiveRef();
     void SetTypeFiveRef(int v);
 
-    void FUN_005acde0(TESPackageLocation* src, bool force);
+    void PackageLocation_Copy(TESPackageLocation* src, bool force);
 };
 
 void TESPackageLocation::SetType(int t)
@@ -119,7 +119,8 @@ void TESPackageLocation::SetTypeFiveRef(int v)
     type = 5;
 }
 
-void TESPackageLocation::FUN_005acde0(TESPackageLocation* src, bool force)
+// pdb: PackageLocation::Copy | PackageLocation.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap) + skyrim(call_gap_sim), high
+void TESPackageLocation::PackageLocation_Copy(TESPackageLocation* src, bool force)
 {
     if (!src)
         return;

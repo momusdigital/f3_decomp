@@ -1,8 +1,9 @@
-// gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp: NiD3DGPUProgramCache, NiFixedString, Holder, ShaderLoader8e (15 functions)
+// gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp: NiD3DGPUProgramCache, NiFixedString, Holder, ShaderLoader8e (13 functions)
 #include "f3_common.h"
 #include "nid3dgpuprogramcache_decls.h"
 // Returns the vertex shader profile string matching fnv_particle_shader_renderer_level, or null for other values.
 // @fnv 0x00b4f3e0
+// pdb: BSShaderManager::SetLightFadeDistances | Sky.obj | tesv_win, call_gap_sim, low
 const char* NiD3DGPUProgramCache::GetVertexShaderProfile()
 {
     switch (fnv_particle_shader_renderer_level)
@@ -23,6 +24,7 @@ const char* NiD3DGPUProgramCache::GetVertexShaderProfile()
 }
 // Returns the pixel shader profile string for the selected shader level, or 0 for unknown levels.
 // @fnv 0x00b4f380
+// pdb: BSPow<float> | TESLeveledList.obj | tesv_win, call_gap, low
 const char* NiD3DGPUProgramCache::GetPixelShaderProfile(bool usePixelLevel)
 {
     unsigned int level = usePixelLevel ? DAT_011f91bc : fnv_particle_shader_renderer_level;
@@ -54,6 +56,8 @@ struct MemoryManager
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00a644a0
+// pdb: NiTNewInterface<NiFixedString>::Deallocate | NiD3DGPUProgramCache.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: pArray
 void FUN_00a644a0(char** p)
 {
     if (p)
@@ -70,20 +74,6 @@ void FUN_00a644a0(char** p)
     }
 }
 
-// @fnv 0x00e8dd60
-const char* __cdecl FUN_00e8dd60()
-{
-    return "hlsl";
-}
-
-extern "C" void* g_01270920;
-
-// @fnv 0x00e8ea10
-void* __cdecl FUN_00e8ea10()
-{
-    return &g_01270920;
-}
-
 struct RefCounted
 {
     virtual void f0();
@@ -98,6 +88,7 @@ struct Holder
     void ReleaseAll();
 };
 // @fnv 0x00e8de70
+// pdb: NiTPtrSet<NiPointer<NiMaterialResource>,NiTNewInterface<NiPointer<NiMaterialResource> > >::RemoveAll | NiD3DGPUProgramCache.obj | fnv360_0822_retail, call_gap_sim, medium
 void Holder::ReleaseAll()
 {
     unsigned int i = 0;
@@ -131,6 +122,7 @@ struct S00e8ea20
 };
 // Decrements the refcount at _s-8 if _s is set, calls FUN_00ee9a60, and frees this with _delete when f has bit 0 set; returns this.
 // @fnv 0x00e8ea20
+// pdb: NiGPUProgramCache::`scalar deleting destructor' | NiGPUProgramCache.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* S00e8ea20::ReleaseAndDestroy(unsigned int auiFlags)
 {
     if (_s != EmptyFS)
@@ -156,6 +148,8 @@ struct ObjectReference
 };
 // Assigns a text pointer and a ref-counted object into a ValueHolder, adjusting reference counts and releasing the previous object.
 // @fnv 0x00e8ded0
+// pdb: NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> > >,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> >::SetValue | NiD3DGPUProgramCache.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkItem, kKey, val
 void __stdcall AssignValueHolder(ValueHolder* destination, char** sourceText, ObjectReference incoming)
 {
     char* text = *sourceText;
@@ -247,6 +241,8 @@ class E8DF70Writer
 
 // Writes the shader's name, code size and code bytes to the stream, returning false if the shader is null.
 // @fnv 0x00e8df70
+// pdb: NiD3DGPUProgramCache::SaveGPUProgram | NiD3DGPUProgramCache.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream, pkProgram
 bool E8DF70Writer::WriteShader(E8DF70BinaryStream& kStream, E8DF70Shader* pkShader)
 {
     if (!pkShader)
@@ -296,6 +292,8 @@ struct S_00e8e1d0_Map
     void InsertOrAssign(const unsigned* k, S_00e8e1d0_Ptr v) throw();
 };
 // @fnv 0x00e8e1d0
+// pdb: NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> > >,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> >::SetAt | NiD3DGPUProgramCache.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: kKey, val
 void S_00e8e1d0_Map::InsertOrAssign(const unsigned* pKey, S_00e8e1d0_Ptr v)
 {
     unsigned i = *pKey % nBuckets;
@@ -477,6 +475,8 @@ struct FUN_00e8e450 : W20Base
 __declspec(nothrow) void FUN_00a305b0(char*, unsigned int, const char*, ...);
 // Builds a shader cache filename from path, requested profile and "DX9", sets name/profile, fills the fallback profile list by kind, and loads if requested.
 // @fnv 0x00e8e450
+// pdb: NiD3DGPUProgramCache::NiD3DGPUProgramCache | NiD3DGPUProgramCache.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: GRendererD3D9Impl::SetDependentVideoMode)
+// pdb params: uiVersion, pcWorkingDir, eType, kShaderProfile, pcMaterialIdentifier, bAutoWriteCacheToDisk, bWriteDebugHLSLFile, bLocked, bLoad
 __declspec(nothrow) FUN_00e8e450::FUN_00e8e450(int a, const char* apcSource, int kind, const NiFixedString& arRequested,
                                                const char* apcPath, int b, bool use, int c, bool load)
     : W20Base(a, b, c)
@@ -677,6 +677,8 @@ struct ShaderLoader8e
 };
 
 // @fnv 0x00e8e000
+// pdb: NiD3DGPUProgramCache::LoadGPUProgram | NiD3DGPUProgramCache.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream, kName, pkProgram, bSkip
 bool ShaderLoader8e::LoadShaderProgram(ShaderStream8e* pkStream, const FixedString8e& kName,
                                        ShaderProgram8e** ppkProgram, bool bSkip)
 {
@@ -762,6 +764,8 @@ class NiFile : public NiBinaryStream
 
 // Writes pcText to pcFileName if the preceding checks pass and the file opens, then returns true.
 // @fnv 0x00e8dd70
+// pdb: NiD3DGPUProgramCache::SaveDebugHLSLFile | NiD3DGPUProgramCache.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pcFilename, pcProgramText
 bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
 {
     if (FUN_00ee8d20())
@@ -943,6 +947,8 @@ class S00e8eb80_Obj
 
 // Compiles shader source into a ShaderNode, adds refs, and inserts it into the ShaderMap keyed by name.
 // @fnv 0x00e8eb80
+// pdb: NiD3DGPUProgramCache::GenerateProgram | NiD3DGPUProgramCache.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcName, pcProgramText, kUniforms
 RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSource, ArrayHolder* refs)
 {
     if (!m_3a)

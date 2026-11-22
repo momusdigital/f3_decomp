@@ -156,6 +156,8 @@ char* NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>::RemoveHead()
 }
 
 // @fnv 0x00e7d7f0
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiLight *>::RemovePos | TESObjectREFR.obj | fnv360_0721_beta, call_seq, high
+// pdb params: kPos
 char* NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>::RemovePos(void*& position)
 {
     NiTListItem<char*>* item = static_cast<NiTListItem<char*>*>(position);
@@ -212,6 +214,8 @@ Script* NiTPointerListBase<NiTPointerAllocator<unsigned int>,Script*>::RemoveTai
 #pragma optimize("", on)
 
 // @fnv 0x00a5a310
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSTempEffectSimpleDecal> >::AddTail | BGSDecalManager.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: element
 void NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<BSMultiBound> >::AddTail(const NiPointer<BSMultiBound>& element)
 {
     NiTListItem<NiPointer<BSMultiBound> >* item = static_cast<NiTListItem<NiPointer<BSMultiBound> >*>(reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>,char*>*>(&m_kItemCount)->AddHead());

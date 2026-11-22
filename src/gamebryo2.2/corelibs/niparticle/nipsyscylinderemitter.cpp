@@ -3,6 +3,8 @@
 #include "nipsyscylinderemitter_decls.h"
 
 // @fnv 0x00c1fc40
+// pdb: NiPSysCylinderEmitter::LoadBinary | NiPSysCylinderEmitter.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiPSysCylinderEmitter::LoadBinary(NiStream& stream)
 {
     NiPSysVolumeEmitter::LoadBinary(stream);
@@ -41,6 +43,7 @@ struct S00c1fc20
 };
 // Calls FUN_00c31750, frees this with _delete when bit 0 of a1 is set, and returns this.
 // @fnv 0x00c1fc20
+// pdb: NiShadeProperty::`scalar deleting destructor' | BSShaderProperty.obj | fnv360_0822_debug, objopen_prop, low
 void* S00c1fc20::DestroyIfFlagged(unsigned int auiFlags)
 {
     FUN_00c31750();
@@ -59,6 +62,8 @@ struct FUN_00c1fba0_shell : BSFadeNode
     void FUN_00c31b10(BSFadeNode*, CloningProcess*);
 };
 // @fnv 0x00c1fba0
+// pdb: NiPSysCylinderEmitter::CreateClone | NiPSysCylinderEmitter.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kCloning
 BSFadeNode* FUN_00c1fba0_shell::CloneFadeNode(CloningProcess& kCloning)
 {
     BSFadeNode* pkObject = (BSFadeNode*)BSFadeNode::operator new(0x60);
@@ -107,6 +112,8 @@ struct FUN_00c1fd00_shell
 };
 
 // @fnv 0x00c1fd00
+// pdb: NiPSysCylinderEmitter::GetViewerStrings | NiPSysCylinderEmitter.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void FUN_00c1fd00_shell::AppendShapeParams(StrArr* pkStrings)
 {
     FUN_00c31db0(pkStrings);
@@ -162,12 +169,15 @@ struct NiPSysVolumeEmitterStand
 
 struct FUN_00c1fca0_cls : NiPSysCylinderEmitter
 {
-    void LoadCylinderEmitter(NiStream& stream);
+    void NiPSysCylinderEmitter_SaveBinary(NiStream& stream);
 };
 
 // Loads the volume emitter base stream, then reads two values from the stream into the cylinder emitter.
 // @fnv 0x00c1fca0
-void FUN_00c1fca0_cls::LoadCylinderEmitter(NiStream& stream)
+// pdb: NiPSysCylinderEmitter::SaveBinary | NiPSysCylinderEmitter.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
+// pdb: NiPSysCylinderEmitter::SaveBinary | NiPSysCylinderEmitter.obj | fnv360_0822_retail, caller_sim, high (was: LoadCylinderEmitter)
+void FUN_00c1fca0_cls::NiPSysCylinderEmitter_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<NiPSysVolumeEmitterStand*>(this)->LoadStream(stream);
     CylinderEmitterStreamView* s = reinterpret_cast<CylinderEmitterStreamView*>(&stream);
@@ -238,6 +248,8 @@ class NiPSysCylinderEmitterX
 
 // Fills kPosition with a random point inside the cylinder and rotates both kPosition and kMotionVelocity by kRotate.
 // @fnv 0x00c1fa50
+// pdb: NiPSysCylinderEmitter::ComputeVolumeInitialPositionAndVelocity | NiPSysCylinderEmitter.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kEmitterToPSys, kPosition, kVelocity
 void NiPSysCylinderEmitterX::FUN_00c1fa50(ThreeByThreeMatrix& kRotate, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
 {
     float fRadius = m_fCylinderRadius * RandomFloat0To1();

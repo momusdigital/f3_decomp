@@ -7,6 +7,8 @@ struct hkpGskBaseAgent
     virtual void FUN_00dabe90(bool);
 };
 // @fnv 0x00dabe90
+// pdb: hkpGskBaseAgent::cleanup | hkpGskBaseAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: constraintOwner
 void hkpGskBaseAgent::FUN_00dabe90(bool)
 {
     if (this)
@@ -17,32 +19,8 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
 } __m128;
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 extern float DAT_01012054;
-
-class FUN_00dabeb0_cls
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    float m_f18;
-    int unk1C;
-
-    void Reset(bool flag);
-};
-
-// @fnv 0x00dabeb0
-void FUN_00dabeb0_cls::Reset(bool flag)
-{
-    m_f18 = DAT_01012054;
-    *(__m128*)((char*)this + 0x20) = _mm_setzero_ps();
-}
 
 extern float DAT_01012054;
 
@@ -59,13 +37,16 @@ class FUN_00dabed0_cls
     int unk1c;
     __m128 m_20;
 
-    void SetValueIfExpected(float expected, float value, int unused);
+    void hkpGskBaseAgent_warpTime(float expected, float value, int unused);
 };
 
 // If m_18 equals expected, stores value into m_18; otherwise sets m_18 to DAT_01012054 and zeroes m_20.
 // @f3 0x00a348c0 (community match, verified in this file)
 namespace Defaults370 { extern const float DAT_00db38b8; }
-void FUN_00dabed0_cls::SetValueIfExpected(float expected, float value, int unused) {
+// pdb: hkpGskBaseAgent::warpTime | hkpGskBaseAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: oldTime, newTime, input
+// pdb: hkpGskBaseAgent::warpTime | hkpGskBaseAgent.obj | fnv360_0822_retail, vtable, high (was: SetValueIfExpected)
+void FUN_00dabed0_cls::hkpGskBaseAgent_warpTime(float expected, float value, int unused) {
     if (m_18 == expected) {
         m_18 = value;
     } else {
@@ -95,30 +76,6 @@ struct GskAgentInput
     float m_fScalar;
 };
 
-struct hkTransform
-{
-    __m128 m_kColumn0;
-    __m128 m_kColumn1;
-    __m128 m_kColumn2;
-    __m128 m_kColumn3;
-    void FUN_00cb22f0(const void* a, const void* b);
-};
-
-struct GskInput
-{
-    const hkTransform* m_kTransform;
-    const void* m_pTransformB;
-    const void* m_pShapeA;
-    const void* m_pShapeB;
-    float m_fScalar;
-};
-
-struct GskOutput
-{
-    __m128 m_pos;
-    __m128 m_vHitNormal;
-};
-
 struct hkContactPoint
 {
     __m128 m_vContactPosition;
@@ -138,8 +95,6 @@ struct hkpCdPointCollector
     virtual void AddCdPoint(const ContactPointPair& point);
 };
 
-int FUN_00dabca0(const GskInput* input, void* status, __m128* out1, __m128* out2);
-
 class FUN_00dac9e0_cls
 {
   public:
@@ -148,7 +103,7 @@ class FUN_00dac9e0_cls
     int unk08;
     int unk0c;
 
-    void ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const GskAgentInput* input,
+    void hkpGskBaseAgent_getClosestPoints(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const GskAgentInput* input,
                            hkpCdPointCollector* collector);
 };
 
@@ -211,7 +166,10 @@ struct hkpCdPointCollectorF3
 };
 int FUN_00a345e0(const GskInputF3* input, void* status, hkVector4F3* out1, hkVector4F3* out2);
 
-void FUN_00dac9e0_cls::ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const GskAgentInput* input,
+// pdb: hkpGskBaseAgent::getClosestPoints | hkpGskBaseAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpGskBaseAgent::getClosestPoints | hkpGskBaseAgent.obj | fnv360_0822_retail, vtable, high (was: ProcessGskContact)
+void FUN_00dac9e0_cls::hkpGskBaseAgent_getClosestPoints(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const GskAgentInput* input,
                                          hkpCdPointCollector* collector)
 {
     StringCursor* pProfilerBuffer = (StringCursor*)TlsGetValue(DAT_0116913c);
@@ -262,7 +220,8 @@ void FUN_00dac9e0_cls::ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody
 
 
 // @fnv 0x00dabe80
-void __stdcall FUN_00dabe80(int, int, int, int)
+// pdb: hkpGskBaseAgent::processCollision | hkpGskBaseAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpGskBaseAgent_processCollision(int, int, int, int)
 {}
 
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
@@ -303,62 +262,6 @@ struct hkTransformDAC0
         return m_rotation;
     }
 };
-
-__forceinline void hkVector4DAC0::_setRotatedDir(const hkMatrix3DAC0& r, const hkVector4DAC0& b)
-{
-    const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    const __m128 r0 = _mm_mul_ps(b0, r.m_kColumn0.m_vComponents);
-    const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    const __m128 r1 = _mm_mul_ps(b1, r.m_kColumn1.m_vComponents);
-    const __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    const __m128 r2 = _mm_mul_ps(b2, r.m_kColumn2.m_vComponents);
-    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
-}
-
-class hkpConvexShapeDAC0
-{
-  public:
-    virtual ~hkpConvexShapeDAC0();
-
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    unsigned long m_ulUserData;
-    unsigned int m_type;
-    float m_fSphereRadius;
-};
-
-struct hkpCdBodyDAC0
-{
-    const hkpConvexShapeDAC0* m_pCollisionShape;
-    unsigned int m_uiCollisionShapeKey;
-    const hkTransformDAC0* m_pMotionState;
-};
-
-struct hkpCollisionInputDAC0;
-
-struct FUN_00daad40_solver
-{
-    void FUN_00daad40(const hkpConvexShapeDAC0* pkShapeA, const hkpConvexShapeDAC0* pkShapeB,
-                      const hkTransformDAC0& kAtB, hkVector4DAC0& kPointOut);
-};
-
-// Builds kAtB, calls the solver, rotates its result by body A's rotation into kSeparatingNormal, and sets w to the solver's w minus both sphere radii.
-// @fnv 0x00dac020
-void __cdecl FUN_00dac020(const hkpCdBodyDAC0& kBodyA, const hkpCdBodyDAC0& kBodyB, const hkpCollisionInputDAC0& kInput,
-                          FUN_00daad40_solver* pkSolver, hkVector4DAC0& kSeparatingNormal)
-{
-    const hkpConvexShapeDAC0* pkShapeA = kBodyA.m_pCollisionShape;
-    const hkpConvexShapeDAC0* pkShapeB = kBodyB.m_pCollisionShape;
-
-    hkTransformDAC0 kAtB;
-    kAtB.FUN_00cb22f0(*kBodyA.m_pMotionState, *kBodyB.m_pMotionState);
-
-    hkVector4DAC0 kNormal;
-    pkSolver->FUN_00daad40(pkShapeA, pkShapeB, kAtB, kNormal);
-
-    kSeparatingNormal._setRotatedDir(kBodyA.m_pMotionState->getRotation(), kNormal);
-    kSeparatingNormal(3) = kNormal(3) - pkShapeA->m_fSphereRadius - pkShapeB->m_fSphereRadius;
-}
 
 extern char g_gskBaseAgentVtbl;
 
@@ -437,6 +340,8 @@ struct FUN_00dabf10_cls
 
 // Initializes the GskSub at m_0c from the two nodes, sets m_06, m_08 and the vtable, and stores the smaller of the two chain-end nodes' m_4c in m_1c.
 // @f3 0x00a34900 (community match, verified in this file)
+// pdb: hkpGskBaseAgent::hkpGskBaseAgent | hkpGskBaseAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, mgr
 FUN_00dabf10_cls* FUN_00dabf10_cls::FUN_00dabf10(GskNode* apNodeA, GskNode* apNodeB, int a3)
 {
     m_06 = 1;
@@ -500,72 +405,8 @@ struct hkBool
     }
 };
 
-struct CollisionAgentContext
-{
-    void* m_pCollisionDispatcher;
-    float m_weldTolerance;
-    float m_fScalar;
-};
-
-struct ContactData
-{
-    __m128 m_vHitNormal;
-    __m128 m_vContactPosition;
-    float m_fClosestPointDistanceSquared;
-    __m128 m_data30;
-    __m128 m_data40;
-};
-
-struct Shape
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void GetVerticesForIds(const short* ids, int numIds, __m128* vertsOut);
-    int pad04;
-    int pad08;
-    int pad0c;
-    float m_fSphereRadius;
-};
-
-struct GskCache
-{
-    short m_kVertices[4];
-    unsigned char m_ucDimensionA, m_ucDimensionB, m_features, unk17;
-};
-struct GskStatus
-{
-    int m_ucDimensionA;
-    int m_ucDimensionB;
-    int m_featureA;
-    int m_featureB;
-    int unk10;
-    int unk14;
-    int pad18;
-    int pad1c;
-    __m128 m_vertsA[12];
-    __m128 m_vertsB[10];
-
-    void FUN_00daad40(const void* shapeA, const void* shapeB, const hkTransform* bTa, void* out10);
-    void FUN_00da9790(void* cache);
-    void FUN_00da9880(void* out10, hkContactPoint* pointOut);
-};
-
 extern "C"
 {
-    void _mm_store_ps(float*, __m128);
     __m128 _mm_add_ps(__m128, __m128);
     __m128 _mm_sub_ps(__m128, __m128);
     __m128 _mm_mul_ps(__m128, __m128);
@@ -574,112 +415,6 @@ extern "C"
     __m128 _mm_unpackhi_ps(__m128, __m128);
     __m128 _mm_movehl_ps(__m128, __m128);
     __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-}
-
-static __forceinline short* unpackCache(GskCache& c, int& b, unsigned& f, int& a)
-{
-    b = c.m_ucDimensionB;
-    f = c.m_features;
-    a = c.m_ucDimensionA;
-    return c.m_kVertices;
-}
-
-struct GskAgentStandin : public hkpGskBaseAgent
-{
-    int unk04;
-    int unk08;
-    GskCache m_pAccessManager;
-
-    hkBool FUN_00dac7f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
-                        hkContactPoint& pointOut);
-};
-
-// Runs the GSK solver on the two shapes, writes the contact point to pointOut, and returns true if the separation minus radii is below input.m_fScalar.
-// @fnv 0x00dac7f0
-hkBool GskAgentStandin::FUN_00dac7f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
-                                     hkContactPoint& pointOut)
-{
-    Shape* pShapeB = (Shape*)bodyB.m_pCollisionShape;
-    Shape* shapeA = (Shape*)bodyA.m_pCollisionShape;
-
-    hkTransform tRelativeTransform;
-    tRelativeTransform.FUN_00cb22f0(bodyA.m_pMotionState, bodyB.m_pMotionState);
-
-    Shape* __restrict convertShapeA = shapeA;
-    int dimB, r1;
-    unsigned uiFeatures;
-    short* i = unpackCache(this->m_pAccessManager, dimB, uiFeatures, r1);
-    GskStatus gskStatus;
-    gskStatus.m_ucDimensionB = dimB;
-    gskStatus.unk10 = 0;
-    gskStatus.m_featureA = uiFeatures & 0x0f;
-    gskStatus.m_ucDimensionA = r1;
-    gskStatus.m_featureB = uiFeatures >> 4;
-    gskStatus.unk14 = 0;
-
-    convertShapeA->GetVerticesForIds(i, r1, gskStatus.m_vertsA);
-    pShapeB->GetVerticesForIds(&i[gskStatus.m_ucDimensionA], gskStatus.m_ucDimensionB, gskStatus.m_vertsB);
-
-    __m128 c1;
-    gskStatus.FUN_00daad40(shapeA, pShapeB, &tRelativeTransform, &c1);
-
-    if (gskStatus.unk14 != 0)
-    {
-        gskStatus.FUN_00da9790(i);
-    }
-
-    gskStatus.FUN_00da9880(&c1, &pointOut);
-
-    const hkTransform* b = (const hkTransform*)bodyA.m_pMotionState;
-    ContactData* pContactData = (ContactData*)&pointOut;
-    __m128 verts = pContactData->m_vHitNormal;
-
-    __m128 feat = _mm_mul_ps(_mm_shuffle_ps(verts, verts, 0x55), b->m_kColumn1);
-    __m128 aTransform = _mm_mul_ps(_mm_shuffle_ps(verts, verts, 0), b->m_kColumn0);
-    __m128 v3 = _mm_mul_ps(_mm_shuffle_ps(verts, verts, 0xaa), b->m_kColumn2);
-    pContactData->m_data40 = _mm_add_ps(_mm_add_ps(feat, aTransform), v3);
-
-    float dimA;
-    dimA = pContactData->m_fClosestPointDistanceSquared - shapeA->m_fSphereRadius - pShapeB->m_fSphereRadius;
-    pContactData->m_fClosestPointDistanceSquared = dimA;
-
-    if (dimA < input.m_fScalar)
-    {
-        float fRadiusA = shapeA->m_fSphereRadius;
-        __m128 vRadiusA = _mm_load_ss(&fRadiusA);
-        __m128 vRadiusASplatted = _mm_shuffle_ps(vRadiusA, vRadiusA, 0);
-        _mm_store_ps(pContactData->m_vContactPosition.m128_f32,
-                     _mm_sub_ps(pContactData->m_vContactPosition, _mm_mul_ps(vRadiusASplatted, verts)));
-
-        float negDist = -dimA;
-        __m128 negV = _mm_load_ss(&negDist);
-        __m128 cnt = _mm_shuffle_ps(negV, negV, 0);
-        __m128 r0 = _mm_sub_ps(_mm_add_ps(pContactData->m_vContactPosition, _mm_mul_ps(cnt, pContactData->m_vHitNormal)),
-                               tRelativeTransform.m_kColumn3);
-
-        struct Rows
-        {
-            __m128 a, c;
-        } rows;
-
-        __m128 vColumn0 = tRelativeTransform.m_kColumn0, kIter = tRelativeTransform.m_kColumn1,
-               s = tRelativeTransform.m_kColumn2;
-        __m128 v2 = _mm_unpacklo_ps(vColumn0, kIter);
-        rows.a = _mm_unpackhi_ps(vColumn0, kIter);
-        __m128 v4 = _mm_movelh_ps(v2, s);
-        rows.c = _mm_shuffle_ps(_mm_movehl_ps(v4, v2), s, 0xd4);
-        __m128 tmp = _mm_shuffle_ps(rows.a, s, 0xe4);
-        __m128 bTa = _mm_mul_ps(_mm_shuffle_ps(r0, r0, 0x55), rows.c);
-        __m128 r2 = _mm_mul_ps(_mm_shuffle_ps(r0, r0, 0), v4);
-        __m128 m3 = _mm_mul_ps(_mm_shuffle_ps(r0, r0, 0xaa), tmp);
-        pContactData->m_data30 = _mm_add_ps(_mm_add_ps(bTa, r2), m3);
-
-        return true;
-    }
-
-    return false;
 }
 
 #include <windows.h>
@@ -735,14 +470,6 @@ struct __declspec(align(16)) S_00dac2b0_Vec
 };
 
 struct S_00dac2b0_Shape;
-
-struct S_00dac2b0_Cache
-{
-    unsigned short id0, id1, id2, id3;
-    unsigned char dimA, dimB, dims;
-    void FUN_00dafe70(const S_00dac2b0_Shape* a, const S_00dac2b0_Shape* b, const S_00dac2b0_Transform* t);
-    void FUN_00dafcd0(const S_00dac2b0_Shape* a, const S_00dac2b0_Shape* b, const S_00dac2b0_Transform* t);
-};
 
 struct S_00dac2b0_Shape
 {
@@ -854,8 +581,8 @@ struct S_00dac2b0_CacheX
 {
     unsigned short id0, id1, id2, id3;
     unsigned char dimA, dimB, dims;
-    void FUN_00a3b260(const S_00dac2b0_ShapeX* a, const S_00dac2b0_ShapeX* b, const S_00dac2b0_TransformX* t);
-    void FUN_00a3b030(const S_00dac2b0_ShapeX* a, const S_00dac2b0_ShapeX* b, const S_00dac2b0_TransformX* t);
+    void hkpGskCache_initTriangle(const S_00dac2b0_ShapeX* a, const S_00dac2b0_ShapeX* b, const S_00dac2b0_TransformX* t);
+    void hkpGskCache_init(const S_00dac2b0_ShapeX* a, const S_00dac2b0_ShapeX* b, const S_00dac2b0_TransformX* t);
 };
 
 struct S_00dac2b0_ShapeX
@@ -892,11 +619,14 @@ struct __declspec(align(16)) S_00dac2b0_GskX
     int unk1C;
     S_00dac2b0_Vec m_vertsA[12];
     S_00dac2b0_Vec m_vertsB[10];
-    int FUN_00a32da0(const S_00dac2b0_ShapeX* a, const S_00dac2b0_ShapeX* b, const S_00dac2b0_TransformX* t,
+    int hkpGsk_getClosestFeature(const S_00dac2b0_ShapeX* a, const S_00dac2b0_ShapeX* b, const S_00dac2b0_TransformX* t,
                      S_00dac2b0_Vec* out);
 };
 
-void __cdecl TestGsk(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB, const void* input,
+// pdb: hkpGskBaseAgent::staticGetPenetrations | hkpGskBaseAgent.obj | fnv360_0822_retail, call_seq, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpGskBaseAgent::staticGetPenetrations | hkpGskBaseAgent.obj | fnv360_0822_retail, call_seq, high (was: TestGsk)
+void __cdecl hkpGskBaseAgent_staticGetPenetrations(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB, const void* input,
                      S_00dac2b0_Collector& collector)
 {
     S_00dac2b0_MonitorStreamX::GetMonitorStream().timer("TtGsk");
@@ -911,11 +641,11 @@ void __cdecl TestGsk(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB,
     S_00dac2b0_CacheX cache;
     if (shapeB->m_type == 4)
     {
-        cache.FUN_00a3b260(shapeA, shapeB, &aTb);
+        cache.hkpGskCache_initTriangle(shapeA, shapeB, &aTb);
     }
     else
     {
-        cache.FUN_00a3b030(shapeA, shapeB, &aTb);
+        cache.hkpGskCache_init(shapeA, shapeB, &aTb);
     }
 
     S_00dac2b0_GskX gsk;
@@ -929,7 +659,7 @@ void __cdecl TestGsk(const S_00dac2b0_Body& bodyA, const S_00dac2b0_Body& bodyB,
     shapeB->GetVerticesForIds(&cache.id0 + gsk.m_ucDimensionA, gsk.m_ucDimensionB, gsk.m_vertsB);
 
     S_00dac2b0_Vec out;
-    int iResult = gsk.FUN_00a32da0(shapeA, shapeB, &aTb, &out);
+    int iResult = gsk.hkpGsk_getClosestFeature(shapeA, shapeB, &aTb, &out);
 
     S_00dac2b0_MonitorStreamX::GetMonitorStream().timer("Et");
 
@@ -1086,43 +816,6 @@ struct S_00dac0b0_PackedCache
     unsigned char m_flags;
 };
 
-struct S_00dac0b0_Gsk
-{
-    int m_ucDimensionA;
-    int m_ucDimensionB;
-    int m_ucLowNibble;
-    int m_ucHighNibble;
-    int m_iCachedVertexCount;
-    int m_changed;
-    int unk18;
-    int unk1C;
-    S_00dac0b0_Vertex a00;
-    S_00dac0b0_Vertex a01;
-    S_00dac0b0_Vertex a02;
-    S_00dac0b0_Vertex a03;
-    S_00dac0b0_Vertex a04;
-    S_00dac0b0_Vertex a05;
-    S_00dac0b0_Vertex a06;
-    S_00dac0b0_Vertex a07;
-    S_00dac0b0_Vertex a08;
-    S_00dac0b0_Vertex a09;
-    S_00dac0b0_Vertex a10;
-    S_00dac0b0_Vertex a11;
-    S_00dac0b0_Vertex b00;
-    S_00dac0b0_Vertex b01;
-    S_00dac0b0_Vertex b02;
-    S_00dac0b0_Vertex b03;
-    S_00dac0b0_Vertex b04;
-    S_00dac0b0_Vertex b05;
-    S_00dac0b0_Vertex b06;
-    S_00dac0b0_Vertex b07;
-    S_00dac0b0_Vertex b08;
-    S_00dac0b0_Vertex b09;
-    S_00dac0b0_Transform aTb;
-    int FUN_00daad40(S_00dac0b0_Shape* a, S_00dac0b0_Shape* b, const S_00dac0b0_Transform& aTb, S_00dac0b0_Vertex* out);
-    void FUN_00da9790(S_00dac0b0_PackedCache* dst);
-};
-
 template <class T> struct S_00dac0b0_Pad
 {
     T* m_p;
@@ -1146,7 +839,7 @@ struct S_00dac0b0_Agent : hkpGskBaseAgent
     int unk18;
     int unk1C;
     S_00dac0b0_Vertex m_sepNormal;
-    void FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB,
+    void hkpGskBaseAgent_getPenetrations(S_00dac0b0_Pad<const S_00dac0b0_Body> pA, S_00dac0b0_Pad<const S_00dac0b0_Body> pB,
                       const void* input, S_00dac0b0_Pad<S_00dac0b0_Out> pOut);
 };
 
@@ -1202,7 +895,7 @@ struct __declspec(align(16)) Gsk58 {
     S_00dac0b0_Vertex b08;
     S_00dac0b0_Vertex b09;
     Transform58 aTb;
-    int FUN_00a32da0(const S_00dac0b0_Shape*,const S_00dac0b0_Shape*,const Transform58*,S_00dac0b0_Vertex*);
+    int hkpGsk_getClosestFeature(const S_00dac0b0_Shape*,const S_00dac0b0_Shape*,const Transform58*,S_00dac0b0_Vertex*);
     void FUN_00a30af0(S_00dac0b0_PackedCache*);
 };
 template<class Result, class Matrix, class Vector>
@@ -1217,7 +910,8 @@ static __forceinline void SetRotated(Result& result,const Matrix& t,const Vector
     result.z=zProduct+vx*t.col0.z+vz*t.col2.z;
     result.w=0.0f;
 }
-void S_00dac0b0_Agent::FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA,S_00dac0b0_Pad<const S_00dac0b0_Body> pB,const void* input,S_00dac0b0_Pad<S_00dac0b0_Out> pOut) {
+// pdb: hkpGskBaseAgent::getPenetrations | hkpGskBaseAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void S_00dac0b0_Agent::hkpGskBaseAgent_getPenetrations(S_00dac0b0_Pad<const S_00dac0b0_Body> pA,S_00dac0b0_Pad<const S_00dac0b0_Body> pB,const void* input,S_00dac0b0_Pad<S_00dac0b0_Out> pOut) {
     EarlyScratch scratch;
     TlsGetter58 getter=DAT_00d9b080;
     {
@@ -1257,7 +951,7 @@ void S_00dac0b0_Agent::FUN_00dac0b0(S_00dac0b0_Pad<const S_00dac0b0_Body> pA,S_0
     reinterpret_cast<const NativeVertexIdShape58*>(shapeA)->GetVerticesForIds(&cache->id0,gsk.dimA,&gsk.a00);
     reinterpret_cast<const NativeVertexIdShape58*>(shapeB)->GetVerticesForIds(&cache->id0+gsk.dimA,gsk.dimB,&gsk.b00);
     S_00dac0b0_Vertex normal;
-    int result=gsk.FUN_00a32da0(shapeA,shapeB,&gsk.aTb,&normal);
+    int result=gsk.hkpGsk_getClosestFeature(shapeA,shapeB,&gsk.aTb,&normal);
     if(gsk.changed)gsk.FUN_00a30af0(cache);
     if(result==0) {
         float distance=normal.w-shapeA->m_fSphereRadius-shapeB->m_fSphereRadius;

@@ -1,9 +1,11 @@
-// gamebryo2.2/corelibs/nianimation/nibsplinebasisdata.cpp: NiBSplineBasisData, SplineOwner (10 functions)
+// gamebryo2.2/corelibs/nianimation/nibsplinebasisdata.cpp: NiBSplineBasisData, SplineOwner (9 functions)
 #include "f3_common.h"
 #include "nibsplinebasisdata_decls.h"
 
 // Calls the base NiObject::LoadBinary, then reads a scalar from the stream into the basis data's field.
 // @fnv 0x00a52c10
+// pdb: NiBSplineBasisData::LoadBinary | NiBSplineBasisData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void NiBSplineBasisData::LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
@@ -18,6 +20,8 @@ struct FUN_00a52bb0_shell : public NiBSplineBasisData
 bool __stdcall IsSameAs(NiObject* pkObject);
 
 // @fnv 0x00a52bb0
+// pdb: NiBSplineBasisData::IsEqual | NiBSplineBasisData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkObject
 bool FUN_00a52bb0_shell::FUN_00a52bb0(NiObject* pkObject)
 {
     if (!IsSameAs(pkObject))
@@ -31,6 +35,7 @@ void __fastcall FUN_00a5d3d0(void* pThis);
 void __cdecl FUN_00aa1460(void* pMem, unsigned int uiSize);
 
 // @fnv 0x00a52be0
+// pdb: NiBSplineBasisData::`scalar deleting destructor' | NiBSplineBasisData.obj | fnv360_0822_retail, objrun, medium
 void* __fastcall FUN_00a52be0(void* pThis, int, unsigned char flags)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_01099f24;
@@ -48,6 +53,7 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f403c;
 // @fnv 0x00a52af0
+// pdb: bhkCapsuleShape::GetRTTI | BSTreeNode.obj | fnv360_0822_retail, objrun_open, low
 GlobalObjectO2_00a7b610* FUN_00a52af0()
 {
     return &g_011f403c;
@@ -69,6 +75,8 @@ struct ArrX
     unsigned short m_usGrowBy;
 };
 // @fnv 0x00a52c90
+// pdb: NiFloatExtraDataController::GetViewerStrings | NiFloatExtraDataController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkStrings
 void __stdcall FUN_00a52c90(ArrX* pArray)
 {
     AppendCameraPathEntries(pArray);
@@ -107,6 +115,8 @@ struct FUN_00a51ab0_cls : FUN_00a51ab0_base
 
 // Calls InitBase, sets the vtable pointer, zeroes four floats and stores a2 into m_2c, then returns this.
 // @fnv 0x00a51ab0
+// pdb: NiBSplineColorInterpolator::NiBSplineColorInterpolator | NiBSplineColorInterpolator.obj | fnv360_0721_retail, objrun, high
+// pdb params: pkData, kColorACPHandle, pkBasisData
 FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(int a1, int a2, int a3)
 {
     InitBase(a1, a3);
@@ -119,7 +129,6 @@ FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(int a1, int a2, int a3)
     return this;
 }
 
-extern float DAT_01012054;
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 
 class SplineBase
@@ -166,11 +175,14 @@ struct SplineOwner
     unsigned int unk04;
     SplineBlock m_08;
     void CreateVertexBufferSet(SplineObj* pObj, unsigned char flags);
-    SplineObj* CreateSplineObj(unsigned char flags);
+    SplineObj* NiBSplineBasisData_CreateClone(unsigned char flags);
 };
 
 // @fnv 0x00a52b00
-SplineObj* SplineOwner::CreateSplineObj(unsigned char flags)
+// pdb: NiBSplineBasisData::CreateClone | NiBSplineBasisData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kCloning
+// pdb: NiBSplineBasisData::CreateClone | NiBSplineBasisData.obj | fnv360_0822_retail, caller_sim, high (was: CreateSplineObj)
+SplineObj* SplineOwner::NiBSplineBasisData_CreateClone(unsigned char flags)
 {
     SplineObj* pResult = new SplineObj;
     CreateVertexBufferSet(pResult, flags);
@@ -217,7 +229,9 @@ class NiSplineImpl : public NiSplineBase
 
 // Allocates and constructs a NiSplineImpl via its operator new and returns the new object.
 // @fnv 0x00a52b60
-NiSplineImpl* CreateNiSplineImpl()
+// pdb: NiBSplineBasisData::CreateObject | NiBSplineBasisData.obj | fnv360_0822_retail, objrun, high
+// pdb: NiBSplineBasisData::CreateObject | NiBSplineBasisData.obj | fnv360_0822_retail, objrun, high (was: CreateNiSplineImpl)
+NiSplineImpl* NiBSplineBasisData_CreateObject()
 {
     return new NiSplineImpl;
 }
@@ -243,43 +257,10 @@ class FUN_00a52c50_BasisData : public NiObject
 
 // Saves the base NiObject data and the BSplineBasis control point count to the given NiStream.
 // @fnv 0x00a52c50
+// pdb: NiBSplineBasisData::SaveBinary | NiBSplineBasisData.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kStream
 void FUN_00a52c50_BasisData::FUN_00a52c50(NiStream& stream)
 {
     SaveBinaryBase(stream);
     WriteScalar(static_cast<NiStreamSave&>(stream).m_pBackingStream, m_kBSplineBasis.m_iNumControlPoints);
-}
-
-extern int DAT_0109a2a4;
-void* NiMalloc(unsigned int size);
-
-struct FUN_00a54190_cls
-{
-    int m_vt;
-    void* m_04;
-    unsigned short m_08;
-    unsigned short m_0a;
-    unsigned short m_0c;
-    unsigned short m_0e;
-    FUN_00a54190_cls* FUN_00a54190(int n, short a2);
-};
-
-// Sets object fields and allocates 4 times m_08 bytes when m_08 is positive.
-// @fnv 0x00a54190
-FUN_00a54190_cls* FUN_00a54190_cls::FUN_00a54190(int n, short a2)
-{
-    m_vt = (int)&DAT_0109a2a4;
-    m_08 = n;
-    m_0e = a2;
-    m_0a = 0;
-    m_0c = 0;
-    if (m_08 > 0)
-    {
-        unsigned int sz = m_08;
-        m_04 = NiMalloc(sz * 4);
-    }
-    else
-    {
-        m_04 = 0;
-    }
-    return this;
 }

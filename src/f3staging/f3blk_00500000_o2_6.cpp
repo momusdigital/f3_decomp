@@ -297,7 +297,8 @@ struct VTable50f930 {
  unsigned (__thiscall *status)(Object50f930*);
 };
 struct Object50f930 {VTable50f930* vtable;};extern const char DAT_00dd225c[];void FUN_006195d0(const char*,...);
-bool FUN_0050f930(Object50f930* object,void* a,void* b,double* result) {
+// pdb: Script::GetSleepingConditionFunction | TESConditionFunctions.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+bool Script_GetSleepingConditionFunction(Object50f930* object,void* a,void* b,double* result) {
  *result=0.0;
  if(object && object->vtable->check(object)){switch(object->vtable->status(object)){case 10:*result+=1.0;case 9:*result+=1.0;case 8:case 7:*result+=1.0;case 6:*result+=1.0;}}
  if(tls.print)FUN_006195d0(DAT_00dd225c,*result);return true;

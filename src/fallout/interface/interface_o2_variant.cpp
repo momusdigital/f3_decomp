@@ -171,6 +171,8 @@ struct QueuedTreeModel
 };
 
 // @fnv 0x00b600c0
+// pdb: QueuedTexture::GetDescription | ModelLoader.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: Actor::GetForceUpdateQuestTarget)
+// pdb params: apDescription, aiBufferSize
 bool QueuedTreeModel::FUN_00b600c0(char* pBuf, unsigned int uiSize)
 {
     return FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);

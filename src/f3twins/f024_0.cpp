@@ -47,16 +47,19 @@ __declspec(noinline) void FUN_00d98260()
     DAT_0108ebf0 = &DAT_00e20294;
 }
 
+// pdb: `dynamic atexit destructor for 'sOnStartup'' | bhkWorld.obj | tesv_win, objrun_prop, low
 __declspec(noinline) void FUN_00d988c0()
 {
     DAT_010f2adc = &DAT_00e31ff4;
 }
 
+// pdb: `dynamic atexit destructor for 'sOnExit'' | bhkWorld.obj | tesv_win, objrun_prop, low
 __declspec(noinline) void FUN_00d988d0()
 {
     DAT_010f2bbc = &DAT_00e31ff4;
 }
 
+// pdb: hkHavokCurrentClasses::`dynamic atexit destructor for 'hkHavokDefaultClassRegistry'' | hkBuiltinTypeRegistry.obj | tesv_win, udata, high
 __declspec(noinline) void FUN_00d98d90()
 {
     DAT_010f343c = &DAT_00dcc494;
@@ -197,6 +200,7 @@ __declspec(noinline) void FUN_00d98f40()
     DAT_011690e4 = &DAT_00dcc494;
 }
 
+// pdb: `dynamic atexit destructor for 'hkNullAgentInstance'' | hkpNullAgent.obj | tesv_win, objopen_prop, low
 __declspec(noinline) void FUN_00d98fe0()
 {
     DAT_01169320 = &DAT_00dcc494;
@@ -212,6 +216,7 @@ __declspec(noinline) void FUN_00d99000()
     DAT_01065bf0 = &DAT_00dcc494;
 }
 
+// pdb: `dynamic atexit destructor for 'SIdvRandomImpl::m_cUniform'' | IdvRandom.obj | fnv360_0822_retail, udata, high
 __declspec(noinline) void FUN_00d9a100()
 {
     DAT_01068f90 = &DAT_00ea8054;

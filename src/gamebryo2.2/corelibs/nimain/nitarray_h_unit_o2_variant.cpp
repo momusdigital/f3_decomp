@@ -32,6 +32,8 @@ struct FUN_00cc6540_Class
 char* __cdecl FUN_00a7d550(char const* name, float value);
 
 // @fnv 0x00cc6540
+// pdb: hkRagdollLimitsConstraintCinfo::GetViewerStrings | bhkRagdollLimitsConstraint.obj | fnv360_0822_retail, strset, low
+// pdb params: apStrings
 void FUN_00cc6540_Class::FUN_00cc6540(StrArr* array)
 {
     FUN_00c8a560(array);
@@ -96,9 +98,6 @@ struct GlobalObjectO2_00a7b610
 };
 
 extern __declspec(thread) GlobalObjectO2_00a7b610 g_tls_object;
-extern GlobalObjectO2_00a7b610* g_01268740;
-
-char* __cdecl _FUN_00a7d330(GlobalObjectO2_00a7b610* object);
 
 struct TLSGuard
 {
@@ -115,18 +114,6 @@ struct TLSGuard
     }
 };
 
-// @fnv 0x00cf46e0
-void __stdcall FUN_00cf46e0(StrArr* array)
-{
-    TLSGuard guard;
-    char* value = _FUN_00a7d330(g_01268740);
-    unsigned int index = array->m_00a;
-
-    if (index >= array->m_008)
-        array->SetSize(static_cast<unsigned int>(index + array->m_00e));
-
-    array->SetAt(index, value);
-}
 }  // namespace fnv_00cf46e0
 
 struct CharPtrArr
@@ -144,6 +131,8 @@ struct CharPtrArr
 };
 
 // @fnv 0x00a5b4b0
+// pdb: NiTArray<CombatGroup *,NiTMallocInterface<CombatGroup *> >::AddFirstEmpty | CombatManager.obj | fnv360_0822_retail, call_seq, high
+// pdb params: element
 int CharPtrArr::FUN_00a5b4b0(char*& value)
 {
     if (value == 0)
@@ -208,25 +197,7 @@ class BC8AD40StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcC8AD40Name;
-
 char* __cdecl FUN_00a7d330(const char* pcString);
-
-class FUN_00c8ad40_cls
-{
-  public:
-    void C8AD40BaseGetViewerStrings(BC8AD40StringArray* pkArray);
-    void FUN_00c8ad40(BC8AD40StringArray* pkArray);
-};
-
-// @fnv 0x00c8ad40
-void FUN_00c8ad40_cls::FUN_00c8ad40(BC8AD40StringArray* pkArray)
-{
-    BC8AD40AllocTagScope kScope(0x10);
-    C8AD40BaseGetViewerStrings(pkArray);
-    char* pcName = FUN_00a7d330(g_pcC8AD40Name);
-    pkArray->Add(pcName);
-}
 
 namespace fnv_00cc31c0 {
 extern __declspec(thread) int g_iCC31C0MemContext;
@@ -247,7 +218,6 @@ class CC31C0MemContext
     int m_iPrevious;
 };
 
-extern const char* g_pcCC31C0ClassName;
 extern "C" char* __cdecl FUN_00a7d330(const char* pcName);
 
 class CC31C0StrArray
@@ -273,20 +243,6 @@ class CC31C0StrArray
     unsigned short m_usGrowBy;
 };
 
-class CC31C0Object
-{
-  public:
-    void GetViewerStringsBase(CC31C0StrArray* pkStrings);
-    void FUN_00cc31c0(CC31C0StrArray* pkStrings);
-};
-
-// @fnv 0x00cc31c0
-void CC31C0Object::FUN_00cc31c0(CC31C0StrArray* pkStrings)
-{
-    CC31C0MemContext kContext(0x10);
-    GetViewerStringsBase(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcCC31C0ClassName));
-}
 }  // namespace fnv_00cc31c0
 
 struct ViewerObject
@@ -301,10 +257,6 @@ struct ViewerObject
     virtual void slot7();
     virtual void* GetType();
 };
-const char* __cdecl TypeName(void*);
-char* __cdecl MakeViewerString(const char*, const char*);
-char* __cdecl FUN_00a7d4d0(const char*, int);
-int __cdecl FormatViewer(char*, unsigned int, const char*, ...);
 struct ViewerConstraint
 {
     int unk00;
@@ -323,18 +275,20 @@ struct C8AD40ViewerObj
     virtual void slot3();
     virtual void* GetType();
 };
-const char* __cdecl FUN_0097a770(void*);
+const char* __cdecl bhkConstraintManager_GetTypeName(void*);
 char* __cdecl FUN_00847e70(const char*, const char*);
 int __cdecl FUN_00403230(char*, unsigned int, const char*, ...);
 char* __cdecl FUN_00847d30(const char*, int);
 
+// pdb: hkConstraintCinfo::GetViewerStrings | bhkConstraint.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void ViewerConstraint::FUN_00c8a560(BC8AD40StringArray* array)
 {
     char* text;
     char buffer[32];
     if (object)
     {
-        text = FUN_00847e70("Type", FUN_0097a770(((C8AD40ViewerObj*)object)->GetType()));
+        text = FUN_00847e70("Type", bhkConstraintManager_GetTypeName(((C8AD40ViewerObj*)object)->GetType()));
         array->Add(text);
     }
     FUN_00403230(buffer, 32, "0x%8X", entityA);
@@ -393,30 +347,7 @@ class BCC4740StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcCC4740Name;
-
 char* __cdecl FUN_00a7d330(const char* pcString);
-
-class CC4740Base
-{
-  public:
-    void GetViewerStrings(BCC4740StringArray* pkArray);
-};
-
-class CC4740Derived : public CC4740Base
-{
-  public:
-    void FUN_00cc4740(BCC4740StringArray* pkArray);
-};
-
-// @fnv 0x00cc4740
-void CC4740Derived::FUN_00cc4740(BCC4740StringArray* pkArray)
-{
-    BCC4740AllocTagScope kScope(0x10);
-    CC4740Base::GetViewerStrings(pkArray);
-    char* pcName = FUN_00a7d330(g_pcCC4740Name);
-    pkArray->Add(pcName);
-}
 
 extern __declspec(thread) int g_iCC4740AllocTag;
 struct CF4520AllocTagScope
@@ -432,7 +363,6 @@ struct CF4520AllocTagScope
         g_iCC4740AllocTag = saved;
     }
 };
-extern const char* DAT_01268738;
 char* __cdecl FUN_00a7d330(const char* name);
 struct CF4520Array
 {
@@ -453,13 +383,6 @@ struct CF4520Array
         return index;
     }
 };
-// @fnv 0x00cf4520
-void __stdcall FUN_00cf4520(CF4520Array* array)
-{
-    CF4520AllocTagScope tag(16);
-    char* element = FUN_00a7d330(DAT_01268738);
-    array->Add(element);
-}
 
 extern __declspec(thread) int g_iCCCFD0AllocTag;
 struct BCCCFD0AllocTagScope
@@ -502,28 +425,6 @@ class BCCCFD0StringArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 };
-
-extern const char* g_pcCCCFD0Name;
-
-class CCCFD0Base
-{
-  public:
-    void GetViewerStrings(BCCCFD0StringArray* pkStrings);
-};
-
-class CCCFD0Derived : public CCCFD0Base
-{
-  public:
-    void FUN_00cccfd0(BCCCFD0StringArray* pkStrings);
-};
-
-// @fnv 0x00cccfd0
-void CCCFD0Derived::FUN_00cccfd0(BCCCFD0StringArray* pkStrings)
-{
-    BCCCFD0AllocTagScope kScope(0x10);
-    CCCFD0Base::GetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcCCCFD0Name));
-}
 
 extern "C" void _ReadWriteBarrier();
 struct CAA010Inner
@@ -597,8 +498,6 @@ struct CAA010Arr
     }
 };
 
-CAA010Shell* __cdecl CreateSaver(void* p);
-
 struct CAA010This
 {
     int unk00;
@@ -636,6 +535,8 @@ struct Shell948 {
 Shell948* __cdecl FUN_0097a820(void*);
 struct Data948{int unk00,unk04,unk08,unk0C,unk10,unk14;Inner948* inner;int unk1C;float threshold;unsigned char broken; __forceinline bool IsBroken() const { return broken != 0; }};
 
+// pdb: hkBreakableConstraintCinfo::GetViewerStrings | bhkBreakableConstraint.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void CAA010This::FUN_00caa010(CAA010Arr* array)
 {
     FUN_00c8a560(array);
@@ -662,7 +563,6 @@ void CAA010This::FUN_00caa010(CAA010Arr* array)
 }
 
 
-extern const char* DAT_01268730;
 // @f3 0x004a3380 (community match, verified in this file)
 extern const char DAT_00dc3b84[], DAT_00dc3b70[];
 namespace f3m_004a3380 {
@@ -692,6 +592,8 @@ struct Holder4a3380 {
     unsigned int FUN_004a3380(CArr4a3380* pkArray);
 };
 
+// pdb: GameSettingCollection::GetViewerStrings | XGameSetting.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apStringsA
 unsigned int Holder4a3380::FUN_004a3380(CArr4a3380* pkArray)
 {
     unsigned int I;

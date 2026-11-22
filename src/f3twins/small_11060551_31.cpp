@@ -6,6 +6,7 @@ void* __cdecl FUN_0089eb90(unsigned int);
 
 struct B_008647d0 { B_008647d0() throw(); virtual void w(); int p[2]; };
 struct C_008647d0 : B_008647d0 { C_008647d0() { f10 = 0; f0c = 0; } virtual void w(); int f0c; int f10; static void* operator new(unsigned int s) { return FUN_0089eb90(s); } };
+// pdb: NiFloatsExtraData::CreateObject | NiFloatsExtraData.obj | fnv360_0822_retail, objrun, medium
 C_008647d0* FUN_008647d0()
 {
     return new C_008647d0;
@@ -18,6 +19,7 @@ void FUN_0089ec10(void*, int);
 extern char DAT_00e26cac;
 
 struct C_00865dd0 { void* FUN_00865dd0(unsigned char); };
+// pdb: NiAlphaAccumulator::`vector deleting destructor' | NiAlphaAccumulator.obj | tesv_win, vtable_prefix, medium
 void* C_00865dd0::FUN_00865dd0(unsigned char f)
 {
     *(void**)((char*)this + 0x0) = (void*)&DAT_00e26cac;
@@ -31,6 +33,7 @@ void* C_00865dd0::FUN_00865dd0(unsigned char f)
 struct S_00873cd0 { char pad[0x24]; int f24[3]; float f30; };
 void __cdecl FUN_00870a80(int, S_00873cd0*, int*, float);
 
+// pdb: NiD3DUtility::GetD3DFromNi | BSShaderUtil.obj | tesv_win, caller_sim, low
 void FUN_00873cd0(int a, S_00873cd0* b)
 {
     FUN_00870a80(a, b, b->f24, b->f30);
@@ -63,6 +66,7 @@ char C_00886770::FUN_00886770(char a)
 
 
 struct S_00886780 { char pad[0x20]; char v; char __thiscall FUN_00886780(void); };
+// pdb: NiD3DShader::GetCurrentPass | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_sim, low
 char S_00886780::FUN_00886780(void)
 {
     return v;
@@ -77,6 +81,7 @@ extern char* DAT_00e207a8;
 extern char DAT_00e2a194;
 
 struct C_008867b0 { void* vt; char* f4; void* FUN_008867b0(unsigned char f); };
+// pdb: NiFragmentShaderInstanceDescriptor::`scalar deleting destructor' | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun, medium
 void* C_008867b0::FUN_008867b0(unsigned char f)
 {
     if (f4 != DAT_00e207a8) InterlockedDecrement((volatile long*)(f4 - 8));
@@ -92,6 +97,7 @@ extern char DAT_00e2b69c;
 struct T_0086ea50 { void __thiscall FUN_0086ea50(void*); };
 
 struct S_0089e000 { char pad[0x24]; T_0086ea50* o; int pad2[3]; int f34; void __thiscall FUN_0089ddf0(void); void __thiscall FUN_0089e000(void); };
+// pdb: NiD3DPixelShader::~NiD3DPixelShader | NiD3DPixelShader.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiD3DVertexShader::~NiD3DVertexShader)
 void S_0089e000::FUN_0089e000(void)
 {
     *(void**)this = &DAT_00e2b69c;
@@ -107,6 +113,7 @@ extern char DAT_00e2bdb8;
 void __cdecl FUN_0089e890(void*);
 
 struct C_0089e390 { char pad[0x2c]; void* vt; void* f30; void FUN_0089e390(); };
+// pdb: NiVBBlock::~NiVBBlock | NiVBBlock.obj | fnv360_0822_retail, objrun_sim, medium
 void C_0089e390::FUN_0089e390()
 {
     vt = &DAT_00e2bdb8;
@@ -118,12 +125,15 @@ void C_0089e390::FUN_0089e390()
 
 
 struct C_0089f4c0 { virtual void v(); int a, b, c; C_0089f4c0(); };
+// pdb: NiBinaryStream::NiBinaryStream | NiBinaryStream.obj | fnv360_0822_retail, call_seq, high
 C_0089f4c0::C_0089f4c0() { b = 0; c = 0; a = 0; }
 
 // ---- family f238
 
 void __cdecl FUN_008a3a60(int, char*);
 
+// pdb: NiStepBoolKey::SaveToStream | NiStepBoolKey.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: stream, pkKeys, uiNumKeys
 void FUN_008a6f30(int a, char* p, unsigned int n)
 {
     unsigned int i = n;
@@ -178,6 +188,7 @@ void __cdecl FUN_0089e890(void*);
 void __cdecl FUN_0089ec10(void*, unsigned int);
 
 struct C_008cf000 { void* vt; char p1[0x38]; void* f3c; void* f40; char p2[8]; void* f4c; void* f50; char p3[8]; void* f5c; void FUN_008cee00(); void FUN_00837e80(); void* FUN_008cf000(unsigned char f); };
+// pdb: NiBoneLODController::~NiBoneLODController | NiBoneLODController.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiBoneLODController::`scalar deleting destructor')
 void* C_008cf000::FUN_008cf000(unsigned char f)
 {
     vt = &DAT_00e30cac;
@@ -199,12 +210,15 @@ extern float DAT_00db7260;
 struct B_008d0c80 { B_008d0c80() throw(); virtual void w(); int p; };
 struct F_008d0c80 { float v; F_008d0c80() { v = DAT_00db7260; } };
 struct C_008d0c80 : B_008d0c80, F_008d0c80 { C_008d0c80(); virtual void w(); };
+// pdb: NiInterpolator::NiInterpolator | NiInterpolator.obj | fnv360_0822_retail, call_seq, medium
 C_008d0c80::C_008d0c80() {}
 
 // ---- family f250
 
 extern int DAT_00f79458;
 
+// pdb: bhkWorldCinfo::SetSimulationType | bhkWorld.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: aiType
 void FUN_008d30f0(int n)
 {
     switch (n) {
@@ -228,6 +242,7 @@ void FUN_008d30f0(int n)
 int __cdecl FUN_008f1bf0(void*);
 
 struct S_008d4070 { char pad[0x80]; void* v; int __thiscall FUN_008d4070(void); };
+// pdb: bhkPickData::GetNiAVObject | bhkWorld.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: bhkTaskletManagerCallback::~bhkTaskletManagerCallback)
 int S_008d4070::FUN_008d4070(void)
 {
     if (v)
@@ -241,6 +256,7 @@ int S_008d4070::FUN_008d4070(void)
 
 struct X_008d4090 { char pad[0x10]; signed char c10; char pad2[7]; char b18; };
 struct C_008d4090 { char pad[0x80]; X_008d4090* f80; char* FUN_008d4090(); };
+// pdb: bhkPickData::GethkRigidBody | bhkWorld.obj | fnv360_0822_retail, call_gap_sim, medium
 char* C_008d4090::FUN_008d4090()
 {
     X_008d4090* p = f80;

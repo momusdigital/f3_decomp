@@ -26,11 +26,11 @@ struct InputState {
     unsigned char enabled;
 };
 extern bool __cdecl FUN_0061c490(int);
-extern InputState* __cdecl FUN_00619e90();
+extern InputState* __cdecl Interface_GetPipboy();
 extern bool __cdecl FUN_00477b00();
 extern void __cdecl FUN_0061e7d0(int);
 extern void __cdecl FUN_0061b370(int,int,int);
-extern void __cdecl FUN_0061b570(int,int);
+extern void __cdecl Interface_SetStatsMenuVisible(int,int);
 struct Controller { int FUN_00be7ee0(int,int); };
 struct InputManager { Controller* FUN_006e4eb0(); };
 extern InputManager* DAT_0107a0d4;
@@ -39,7 +39,7 @@ struct MenuTile {
     void FUN_00bef830(int,float);
     float FUN_00becf40(int);
     bool FUN_00becf80(void*);
-    MenuTile* FUN_00beabd0(const char*);
+    MenuTile* Tile_GetChildByName(const char*);
 };
 struct MenuNode { MenuNode* next; MenuNode* previous; MenuTile* tile; };
 struct MenuList { int count; MenuNode* first;
@@ -176,8 +176,10 @@ struct MapMenu {
     void FUN_0065e6e0();
     bool FUN_0065fab0(int event,void* extra);
 };
+// pdb: MapMenu::DoGamepad | MapMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiButton, afValue
 bool MapMenu::FUN_0065fab0(int event,void* extra) {
-    if (!FUN_0061c490(0x3ff) || !FUN_00619e90()->enabled) return false;
+    if (!FUN_0061c490(0x3ff) || !Interface_GetPipboy()->enabled) return false;
     bool handled=false;
     int axis;
     if (FUN_0061c490(0x3ff)) {
@@ -219,7 +221,7 @@ bool MapMenu::FUN_0065fab0(int event,void* extra) {
             case 30: case 31: {
                 MenuTile* target;
                 if (mode==30) target=scroll;
-                else target=root->FUN_00beabd0(DAT_00e06894);
+                else target=root->Tile_GetChildByName(DAT_00e06894);
                 if (!target || target->FUN_00becf40(0xfa3)==0.0f || !axis) break;
                 int step=(axis<0)?1:-1;
                 if (!step) break;
@@ -243,7 +245,7 @@ bool MapMenu::FUN_0065fab0(int event,void* extra) {
         case 13:
             FUN_0061e7d0(0x24);FUN_0061b370(1,0,1);handled=true;break;
         case 14:
-            FUN_0061e7d0(0x24);FUN_0061b570(1,0);handled=true;break;
+            FUN_0061e7d0(0x24);Interface_SetStatsMenuVisible(1,0);handled=true;break;
         case 9:
             if (mode==29) {
                 MenuNode* pos=list->first;
@@ -312,6 +314,8 @@ struct Owner {
     NiPointer<Ref> target;
     void FUN_00645c40(Ref*);
 };
+// pdb: VATSMenu::IsWellFormedMenu | VATSMenu.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: ai
 void Owner::FUN_00645c40(Ref* value) {target=value;}
 }
 }   // namespace f3m_00645c40
@@ -329,7 +333,7 @@ namespace m643540 {
 struct Props {
     bool FUN_00becf80(int trait);
     void FUN_00bee190(int trait, float value, int update);
-    const char* FUN_00becf60(int trait);
+    const char* Tile_GetString(int trait);
 };
 
 struct Sound {
@@ -344,7 +348,7 @@ struct Sound {
 };
 
 struct AudioManager {
-    Sound FUN_00bd65f0(const char* name, unsigned int flags);
+    Sound BSAudioManager_GetSoundHandleByName(const char* name, unsigned int flags);
 };
 
 AudioManager* __cdecl FUN_00bd6800();
@@ -372,7 +376,7 @@ struct Menu {
     int unk10C_0, unk10C_1, unk10C_2, unk10C_3, unk10C_4, unk10C_5, unk10C_6, unk10C_7;
     Sound sounds[5];
     int unk168;
-    void FUN_0063fba0(Entry* entry);
+    void HackingMenu_UpdateScrollingCursor(Entry* entry);
     void FUN_00642e60();
     void FUN_00643540();
 };
@@ -381,6 +385,7 @@ struct Menu {
 // helper cannot throw (its body is not part of this pack).
 float __cdecl FUN_0047ca30(float a, float b) throw();
 
+// pdb: HackingMenu::DoIntro | HackingMenu.obj | fnv360_0822_retail, call_seq, medium
 void Menu::FUN_00643540()
 {
     int i;
@@ -397,14 +402,14 @@ void Menu::FUN_00643540()
                 }
                 if (GetTimeMS() > DAT_010762a4)
                 {
-                    unsigned int start = strlen(entries[i]->pProps->FUN_00becf60(0xfc4));
+                    unsigned int start = strlen(entries[i]->pProps->Tile_GetString(0xfc4));
                     entries[i]->FUN_00617900();
-                    unsigned int end = strlen(entries[i]->pProps->FUN_00becf60(0xfc4));
+                    unsigned int end = strlen(entries[i]->pProps->Tile_GetString(0xfc4));
                     for (unsigned int j = 0; j < end - start; j++)
                     {
                         static int s_iTypeTime = (int)(DAT_00f63150 > 1 ? FUN_0047ca30((float)(1000.0 / (float)DAT_00f63150), 1.0f) : 1000.0f);
                         unsigned int delay = s_iTypeTime * j / (end - start);
-                        FUN_00bd6800()->FUN_00bd65f0(DAT_00e04d1c, 0x121).FUN_00bd00f0(delay, 0);
+                        FUN_00bd6800()->BSAudioManager_GetSoundHandleByName(DAT_00e04d1c, 0x121).FUN_00bd00f0(delay, 0);
                     }
                     if (entries[i]->flag29)
                     {
@@ -418,7 +423,7 @@ void Menu::FUN_00643540()
                 entries[i]->FUN_00617900();
                 sounds[3].FUN_00bd00c0(false);
             }
-            FUN_0063fba0(entries[i]);
+            HackingMenu_UpdateScrollingCursor(entries[i]);
             break;
         }
     }

@@ -44,6 +44,8 @@ public:
     unsigned char ba4,ba5,ba6,ba7,ba8;
     BoundItemEffect(void* a,void* b,void* c);
 };
+// pdb: BoundItemEffect::BoundItemEffect | BoundItemEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apEffect
 BoundItemEffect::BoundItemEffect(void* a,void* b,void* c):FUN_006a2e70(a,b,c),m4c(0){
     fa0=0.0f;
     ba4=0;ba5=0;ba6=0;ba7=0;ba8=0;
@@ -89,6 +91,7 @@ struct FUN_006a84c0 : FUN_006a2740 {
     RefPointer next;
     ~FUN_006a84c0();
 };
+// pdb: LightEffect::~LightEffect | LightEffect.obj | fnv360_0822_retail, objrun, medium
 FUN_006a84c0::~FUN_006a84c0() {}
 }
 }   // namespace f3m_006a84c0
@@ -164,6 +167,8 @@ struct Owner {
     void FUN_006bc930(void*,void*,Source*);
     Owner(void*,void*,Source*);
 };
+// pdb: ShieldEffect::ShieldEffect | ShieldEffect.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apCaster, apSpell, apEffect
 Owner::Owner(void* first,void* second,Source* source) {
     FUN_006bc930(first,second,source);
     table=&DAT_00e0c16c;
@@ -454,6 +459,7 @@ public:
     void FUN_006b3930();
 };
 
+// pdb: MagicProjectile::KillAreaEffectGeometry | MagicProjectile.obj | fnv360_0822_retail, call_seq, medium
 void NiNameOwner::FUN_006b3930()
 {
     NiNamedObject* result = GetNameHolder() ? GetNameHolder()->AttachName(NiFixedString("MagicAreaDisplay")) : 0;
@@ -849,10 +855,12 @@ public:
     void FUN_004eeae0(Q6bPoint* p);
     void FUN_004e86c0(Q6bPoint p);
     void FUN_00764ec0(int v);
-    void FUN_004e8670(int v);
+    void TESObjectREFR_SetObjectReference(int v);
 };
 int FUN_006b3860();
 
+// pdb: MagicProjectile::MagicProjectile | MagicProjectile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apDominantEffect, apAVEffect, aOrigin, aRotation
 Q6b3e70::Q6b3e70(Q6bForm* form, int a, int b, int c, Q6bPoint pos, Q6bPoint rot)
     : unk88(0.0f), unk8c(form), unk90(a), unk94(b), unk98(c)
 {
@@ -863,6 +871,6 @@ Q6b3e70::Q6b3e70(Q6bForm* form, int a, int b, int c, Q6bPoint pos, Q6bPoint rot)
     FUN_004e86c0(rot);
     Q6bData* d = form->Get2c();
     if (d) FUN_00764ec0(d->unk3c);
-    FUN_004e8670(FUN_006b3860());
+    TESObjectREFR_SetObjectReference(FUN_006b3860());
 }
 }   // namespace f3m_006b3e70

@@ -5,6 +5,7 @@
 extern "C" void* g_012026e8;
 
 // @fnv 0x00c2a080
+// pdb: NiMaterialColorController::GetRTTI | NiMaterialColorController.obj | fnv360_0822_retail, objrun_prop, low
 void* __cdecl FUN_00c2a080()
 {
     return &g_012026e8;
@@ -27,6 +28,7 @@ struct Creator
 
 // Allocates a 0x40-byte Item, initialises it, sets its vtable, passes it to FUN_00c32de0 with iArg, and returns it.
 // @fnv 0x00c2a0c0
+// pdb: NiPSysInitialRotAngleVarCtlr::CreateClone | NiPSysInitialRotAngleVarCtlr.obj | tesv_win, caller_sim, low
 Item* Creator::CreateItem(int iArg)
 {
     Item* pkItem = (Item*)FUN_00aa13e0(0x40);
@@ -110,6 +112,8 @@ struct C2A110Object : C2A110Base
 };
 
 // @fnv 0x00c2a110
+// pdb: bhkExtendedMeshShape::GetViewerStrings | bhkExtendedMeshShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apStrings
 void C2A110Object::AppendRTTIName(C2A110StringArray* pkStrings)
 {
     C2A110Base::FUN_00c32f60(pkStrings);

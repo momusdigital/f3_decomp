@@ -77,8 +77,6 @@ struct Desc
     int unk08;
 };
 
-extern "C" char DAT_010ce1a8[];
-
 struct RefObj
 {
     void* m_vtbl;
@@ -117,6 +115,8 @@ static __forceinline void Resize(hkIntArray* a, int n) {
     a->m_iElementCount=n;
 }
 }
+// pdb: hkaDetectRagdollPenetration::hkaDetectRagdollPenetration | hkaDetectRagdollPenetration.obj | fnv360_0822_retail, uvref, high
+// pdb params: setup
 FUN_00d1fa50::FUN_00d1fa50(const Desc& d)
 {
     m_sReferenceCount = 1;
@@ -138,9 +138,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_set_ps1(float);
 extern "C" __m128 _mm_min_ps(__m128, __m128);
 extern "C" __m128 _mm_max_ps(__m128, __m128);
-
-extern float DAT_0104da48;
-extern float DAT_0104e148;
 
 struct hkVector4
 {
@@ -250,120 +247,7 @@ struct BoxSet
     }
 };
 
-struct IndexInfo
-{
-    int unk00, unk04, unk08;
-    short* m_idx;
-};
-
-struct PairRecord
-{
-    short m_kPointA;
-    short m_kPointB;
-    int unk04, unk08, unk0c;
-    hkVector4 m_p0;
-    hkVector4 m_p1;
-    PairRecord() throw();
-};
-
-struct AabbSink
-{
-    void FUN_00cf24a0(const hkAabb& aabb) throw();
-};
-
-struct PairTester
-{
-    virtual void v00();
-    virtual hkBool test(AabbSink* sink, const hkVector4& a, const hkVector4& b, hkVector4& p0, hkVector4& p1) throw();
-};
-
-void __cdecl CollectReachableNodes(IndexInfo* info, short idx, hkArr<short>* list, int flags) throw();
-
-struct PairFinder : RefObj
-{
-    IndexInfo* m_info;
-    PairTester* m_tester;
-    AabbSink* m_sink;
-    int m_uiItemCount;
-    hkIntArray m_aiIndexedValues;
-    bool m_flag;
-    hkBool FUN_00d1fb00(BoxSet* boxes, hkArr<PairRecord>* out);
-};
-
-// Tests box pairs against m_tester, collects matching PairRecords into out, and marks reachable nodes in m_aiIndexedValues.
-// @fnv 0x00d1fb00
-hkBool PairFinder::FUN_00d1fb00(BoxSet* boxes, hkArr<PairRecord>* out)
-{
-    out->m_iElementCount = 0;
-    if (!m_flag)
-    {
-        {
-            hkAabb aabb;
-            aabb.m_kMinimumCorner.SetAllComponents(DAT_0104da48);
-            aabb.m_kMaximumCorner.SetAllComponents(DAT_0104e148);
-            for (short i = 1; i < m_uiItemCount; i++)
-            {
-                short idx = m_info->m_idx[i];
-                if (m_aiIndexedValues.m_data[idx])
-                {
-                    hkVector4 a;
-                    a = boxes->GetBoxVector(idx);
-                    hkVector4 b;
-                    b = boxes->GetBoxVector(i);
-                    aabb.includePoint(a);
-                    aabb.includePoint(b);
-                }
-            }
-            if (aabb.ValidateBounds())
-                m_sink->FUN_00cf24a0(aabb);
-        }
-        hkVector4 a, b, p0, p1;
-        for (short i = 1; i < m_uiItemCount; i++)
-        {
-            short idx = m_info->m_idx[i];
-            if (m_aiIndexedValues.m_data[idx])
-            {
-                a = boxes->GetBoxVector(idx);
-                b = boxes->GetBoxVector(i);
-                hkBool res = m_tester->test(m_sink, a, b, p0, p1);
-                if (res)
-                {
-                    PairRecord rec;
-                    rec.m_p0 = p0;
-                    rec.m_kPointA = idx;
-                    rec.m_kPointB = i;
-                    rec.m_p1 = p1;
-                    out->AddBack(rec);
-                }
-            }
-        }
-    }
-    for (int k = 0; k < m_aiIndexedValues.m_iElementCount; k++)
-        m_aiIndexedValues.m_data[k] = 0;
-    if (out->m_iElementCount == 0)
-    {
-        m_flag = true;
-        return false;
-    }
-    for (int j = 0; j < out->m_iElementCount; j++)
-    {
-        short c = out->m_data[j].m_kPointA;
-        if (m_aiIndexedValues.m_data[c] != 2)
-            m_aiIndexedValues.m_data[c] = 1;
-        hkArr<short> list;
-        CollectReachableNodes(m_info, c, &list, 0);
-        for (int k = 0; k < list.m_iElementCount; k++)
-        {
-            short p = list.m_data[k];
-            if (m_aiIndexedValues.m_data[p] != 2)
-                m_aiIndexedValues.m_data[p] = 2;
-        }
-    }
-    return true;
-}
-
 namespace fnv_00d1fe70 {
-extern int DAT_0102e388;
 
 struct AudioAllocator
 {
@@ -402,27 +286,4 @@ struct FUN_00d1fe70_cls
     static void operator delete(void* apMemory) throw();
 };
 
-// Frees the m_p18 array, resets its state, restores the vtable, and optionally frees this when acFlags bit 0 is set.
-// @fnv 0x00d1fe70
-FUN_00d1fe70_cls* FUN_00d1fe70_cls::FUN_00d1fe70(unsigned char acFlags)
-{
-    AudioHolder* pHolder = FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
-    int count = m_20;
-    m_1c = 0;
-    if (((unsigned int)count & 0x80000000u) == 0)
-    {
-        pAllocator->FreeArray(m_p18, (count & 0x3fffffff) * 4);
-    }
-    m_p18 = 0;
-    m_20 = 0x80000000;
-    m_vptr = (int)&DAT_0102e388;
-    if (acFlags & 1)
-    {
-        AudioHolder* pHolder2 = FUN_00c85750();
-        AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
-        pAllocator2->Free(this, m_uSize);
-    }
-    return this;
-}
 }  // namespace fnv_00d1fe70

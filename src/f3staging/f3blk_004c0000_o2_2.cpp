@@ -41,6 +41,7 @@ struct Cell8410 {
     void FUN_004d8410();
 };
 
+// pdb: TESObjectCELL::AddReferencesToLoadedReferenceCollection | TESObjectCELL.obj | fnv360_0721_beta, call_seq, medium
 void Cell8410::FUN_004d8410() {
     refLock.FUN_00409a80("TESObjectCELL::CellRefLockEnter()");
     for (RefNode8410* node = &refs; node; node = node->next) {
@@ -68,7 +69,7 @@ struct CellLock5fd0 {
 struct CellRef5fd0 {
     bool FUN_004e8f90();
     bool FUN_004e8fe0();
-    void FUN_004f5f00(bool flag);
+    void TESObjectREFR_AttachSound(bool flag);
 };
 
 struct RefNode5fd0 {
@@ -643,6 +644,8 @@ struct Cell5fd0 {
     void FUN_004d5fd0(bool flag);
 };
 
+// pdb: TESObjectCELL::AttachSounds | TESObjectCELL.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abAttach
 void Cell5fd0::FUN_004d5fd0(bool flag)
 {
     if (!g_state5fd0->flag5A9 && !g_settings5fd0->Flag1()) {
@@ -652,7 +655,7 @@ void Cell5fd0::FUN_004d5fd0(bool flag)
             node = node->next;
             if (ref && ref->FUN_004e8f90()) {
                 if (!flag || ref->FUN_004e8fe0())
-                    ref->FUN_004f5f00(flag);
+                    ref->TESObjectREFR_AttachSound(flag);
             }
         }
         refLock.Unlock();
@@ -708,10 +711,11 @@ struct Transition4C22
     NiPointer<NiRefObject> unk28;
     float unk2C;
 
-    bool FUN_004c2270(Target4C22* target, float arg2, float arg3, NiRefObject* object);
+    bool ImageSpaceModifierInstanceForm_StartTransition(Target4C22* target, float arg2, float arg3, NiRefObject* object);
 };
 
-bool Transition4C22::FUN_004c2270(Target4C22* target, float arg2, float arg3, NiRefObject* object)
+// pdb: ImageSpaceModifierInstanceForm::StartTransition | ImageSpaceModifierInstance.obj | fnv360_0721_beta, udata, high
+bool Transition4C22::ImageSpaceModifierInstanceForm_StartTransition(Target4C22* target, float arg2, float arg3, NiRefObject* object)
 {
     if ((unk1C && unk1C->busy) || (target && target->busy))
         return false;
@@ -752,9 +756,10 @@ struct Owner651 {
     int unk3c;
     int unk40;
     Pair651* value;
-    int FUN_004d3450();
+    int TESObjectCELL_GetDataY();
 };
-int Owner651::FUN_004d3450()
+// pdb: TESObjectCELL::GetDataY | TESObjectCELL.obj | fnv360_0822_retail, call_seq + skyrim(call_gap), high
+int Owner651::TESObjectCELL_GetDataY()
 {
     if (!(flags & 1) && value)
         return value->second;
@@ -807,6 +812,7 @@ int g_landCount;
 
 void FUN_004ca670();
 
+// pdb: TESObjectLAND::TESObjectLAND | TESLand.obj | fnv360_0721_beta, call_seq, high
 TESObjectLAND::TESObjectLAND()
 {
     if (!g_landInitialised)
@@ -842,6 +848,7 @@ public:
     NiPointer<Shape> transformData;
     virtual ~FUN_004c1f50();
 };
+// pdb: ImageSpaceModifierInstance::~ImageSpaceModifierInstance | ImageSpaceModifierInstance.obj | fnv360_0822_retail, call_seq, medium
 FUN_004c1f50::~FUN_004c1f50() {
     transformData = 0;
 }
@@ -861,7 +868,7 @@ struct Item_004da190 {
 };
 
 
-extern "C" void* __cdecl FUN_00455190(unsigned int formID);
+extern "C" void* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 extern "C" void* __cdecl FUN_00c0050a(void* obj, int offset, const void* from, const void* to, int isRef);
 
 struct Base_004da190 {
@@ -899,6 +906,8 @@ struct Cell_004da190 : Base_004da190 {
     bool FUN_004da190(Item_004da190* item);
 };
 
+// pdb: TESObjectCELL::SavesBefore | TESObjectCELL.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apGroupFORM
 bool Cell_004da190::FUN_004da190(Item_004da190* item)
 {
     bool result = false;
@@ -923,7 +932,7 @@ bool Cell_004da190::FUN_004da190(Item_004da190* item)
         case 6:
         case 8:
         case 9:
-            if (void* cell = FUN_00c0050a(FUN_00455190(item->unk08), 0, DAT_00f46078_x, DAT_00f47a3c_x, 0))
+            if (void* cell = FUN_00c0050a(TESForm_GetFormByNumericID(item->unk08), 0, DAT_00f46078_x, DAT_00f47a3c_x, 0))
                 result = vf3c(cell);
             break;
 
@@ -944,7 +953,7 @@ bool Cell_004da190::FUN_004da190(Item_004da190* item)
         case 1:
             if (unk24 & 1)
                 result = true;
-            else if (void* ws = FUN_00c0050a(FUN_00455190(item->unk08), 0, DAT_00f46078_x, DAT_00f47a58_x, 0))
+            else if (void* ws = FUN_00c0050a(TESForm_GetFormByNumericID(item->unk08), 0, DAT_00f46078_x, DAT_00f47a58_x, 0))
                 result = vf3c(ws);
             break;
 
@@ -986,7 +995,7 @@ struct SubNode {
     int u20; int u24;
     unsigned char b28;
     void FUN_00615370(struct Ref* r);
-    void FUN_00615df0(struct Ref* r, bool b);
+    void BGSTerrainManager_HideTree(struct Ref* r, bool b);
 };
 
 struct Node3D {
@@ -1075,6 +1084,7 @@ struct Cell {
     void FUN_004d8460();
 };
 
+// pdb: TESObjectCELL::RemoveReferencesFromLoadedReferenceCollection | TESObjectCELL.obj | fnv360_0822_retail, call_gap, low
 void Cell::FUN_004d8460()
 {
     lock80.FUN_00409a80(DAT_00dcd0a8);
@@ -1088,7 +1098,7 @@ void Cell::FUN_004d8460()
                     if (!((unsigned char)(r->flags08 >> 11) & 1))
                         node->FUN_00501cc0()->FUN_00615370(r);
                     else
-                        node->FUN_00501cc0()->FUN_00615df0(r, true);
+                        node->FUN_00501cc0()->BGSTerrainManager_HideTree(r, true);
                     node->FUN_00501cc0()->b28 = 1;
                 }
             }
@@ -1170,13 +1180,13 @@ struct ModFile
     int unk268, unk26c, unk270, unk274, unk278, unk27c, unk280, unk284, unk288, unk28c, unk290, unk294;
     char unk298;
     bool swapBytes;  // big-endian file
-    ModFile* FUN_00449c50();
-    bool FUN_004490f0(void* form);
-    unsigned char FUN_00448cc0();
-    bool FUN_00448f60(unsigned int offset);
-    int FUN_004487d0();
+    ModFile* TESFile_GetThreadSafeFile();
+    bool TESFile_FindForm(void* form);
+    unsigned char TESFile_GetTESForm();
+    bool TESFile_SetOffset(unsigned int offset);
+    int TESFile_GetTESChunk();
     bool FUN_00447d60(void* buffer, unsigned int length);
-    bool FUN_00447020();
+    bool TESFile_NextChunk();
     unsigned int FormOffset() const { return formOffset; }
     unsigned int ChunkLength() const { return chunkLength; }
     const char* Name() const { return fileName; }
@@ -1190,8 +1200,8 @@ struct WorldForm
 struct ParentCell
 {
     WorldForm* FUN_004d3780();
-    int FUN_004d3430();
-    int FUN_004d3450();
+    int TESObjectCELL_GetDataX();
+    int TESObjectCELL_GetDataY();
 };
 
 // the queued texture list created for the land (0x28 bytes)
@@ -1290,8 +1300,8 @@ struct OpacityEntry
 
 void* FUN_00aa5160::operator new(unsigned int size) throw() { return g_memoryManager.Allocate(size); }
 
-TESForm* __cdecl FUN_00455190(unsigned int formID);
-void __cdecl FUN_00454a40(unsigned int* formID, ModFile* file);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
+void __cdecl TESForm_AddCompileIndex(unsigned int* formID, ModFile* file);
 void __cdecl FUN_00887da0(const char* format, ...);
 extern long DAT_0116d6bc;  // warning counter
 extern const float DAT_01071398[4];  // quadrant y offsets
@@ -1311,9 +1321,9 @@ public:
 
     unsigned int HasData() const { return flags & 8; }
     unsigned int InWorldspace() const { return flags & 0x400; }
-    int GridX() { return mesh ? mesh->gridX : (parentCell ? parentCell->FUN_004d3430() : 0); }
-    int GridY() { return mesh ? mesh->gridY : (parentCell ? parentCell->FUN_004d3450() : 0); }
-    ModFile* FUN_00455470(int index);
+    int GridX() { return mesh ? mesh->gridX : (parentCell ? parentCell->TESObjectCELL_GetDataX() : 0); }
+    int GridY() { return mesh ? mesh->gridY : (parentCell ? parentCell->TESObjectCELL_GetDataY() : 0); }
+    ModFile* TESForm_GetFile(int index);
     void FUN_004ce5e0(void* bytes, unsigned int length, CollisionData** out);
     void FUN_004cb250();
     int FUN_004c8f00();
@@ -1322,6 +1332,7 @@ public:
     bool FUN_004cf050();
 };
 
+// pdb: TESObjectLAND::LoadVerticesIntoArrays | TESLand.obj | fnv360_0822_retail, ustr, medium
 bool LandForm::FUN_004cf050()
 {
     if (HasData())
@@ -1335,12 +1346,12 @@ bool LandForm::FUN_004cf050()
     {
         if (!(flags & 1) && !(flags & 2) && !(flags & 4))
             return true;
-        sourceFile = FUN_00455470(-1)->FUN_00449c50();
-        if (!sourceFile->FUN_004490f0(this))
+        sourceFile = TESForm_GetFile(-1)->TESFile_GetThreadSafeFile();
+        if (!sourceFile->TESFile_FindForm(this))
             loadFailed = true;
         if (!loadFailed)
         {
-            unsigned char recordType = sourceFile->FUN_00448cc0();
+            unsigned char recordType = sourceFile->TESFile_GetTESForm();
             if (recordType != 0x42)
                 loadFailed = true;
         }
@@ -1362,14 +1373,14 @@ bool LandForm::FUN_004cf050()
         ParentCell* ownerCell = parentCell;
         unsigned int id = formID;
         FUN_00887da0("CELLS: Failed to load landscape data for LAND (%08X) in Cell (%i, %i) from file '%s'.", id,
-                     ownerCell->FUN_004d3430(), ownerCell->FUN_004d3450(), nameText);
+                     ownerCell->TESObjectCELL_GetDataX(), ownerCell->TESObjectCELL_GetDataY(), nameText);
         InterlockedIncrement(&DAT_0116d6bc);
         if (DAT_0116d6bc < 0)
             DAT_0116d6bc = 0;
         return false;
     }
     ModFile* reader = sourceFile;
-    if (!reader->FUN_00448f60(dataOffset))
+    if (!reader->TESFile_SetOffset(dataOffset))
         return false;
     bool gotHeights = false;
     bool gotNormals = false;
@@ -1377,7 +1388,7 @@ bool LandForm::FUN_004cf050()
     int i, j;
     do
     {
-        switch (reader->FUN_004487d0())
+        switch (reader->TESFile_GetTESChunk())
         {
         case 0x41544144:  // DATA
             if (InWorldspace())
@@ -1516,8 +1527,8 @@ bool LandForm::FUN_004cf050()
                     baseChunk.formID = _byteswap_ulong(baseChunk.formID);
                     baseChunk.layerIndex = _byteswap_ushort(baseChunk.layerIndex);
                 }
-                FUN_00454a40(&baseChunk.formID, reader);
-                mesh->quadTexture[baseChunk.quadrant] = dynamic_cast<TESLandTexture*>(FUN_00455190(baseChunk.formID));
+                TESForm_AddCompileIndex(&baseChunk.formID, reader);
+                mesh->quadTexture[baseChunk.quadrant] = dynamic_cast<TESLandTexture*>(TESForm_GetFormByNumericID(baseChunk.formID));
                 if (!mesh->quadTexture[baseChunk.quadrant])
                 {
                     FUN_00887da0("TEXTURES: Land (%i, %i) unable to find base texture ID (%08X) for block %i.",
@@ -1554,8 +1565,8 @@ bool LandForm::FUN_004cf050()
                 TESLandTexture* landTexture = 0;
                 if (layerChunk.formID)
                 {
-                    FUN_00454a40(&layerChunk.formID, reader);
-                    landTexture = dynamic_cast<TESLandTexture*>(FUN_00455190(layerChunk.formID));
+                    TESForm_AddCompileIndex(&layerChunk.formID, reader);
+                    landTexture = dynamic_cast<TESLandTexture*>(TESForm_GetFormByNumericID(layerChunk.formID));
                     if (!landTexture)
                     {
                         FUN_00887da0("TEXTURES: Land (%i, %i) unable to find additional texture ID (%08X) for block %i.",
@@ -1611,7 +1622,7 @@ bool LandForm::FUN_004cf050()
             }
             break;
         }
-    } while (reader->FUN_00447020());
+    } while (reader->TESFile_NextChunk());
     if (texturesBad)
         FUN_004cb250();
     if (gotHeights && !gotNormals)
@@ -1638,6 +1649,8 @@ struct CellA10 {
     int GetY() { if (!IsInterior() && coords) return coords->y; return 0; }
     bool FUN_004d3a10(const CellPos* pos);
 };
+// pdb: TESObjectCELL::IsPointInCellExterior | TESObjectCELL.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aPt
 bool CellA10::FUN_004d3a10(const CellPos* pos)
 {
     if (IsInterior())
@@ -1691,9 +1704,10 @@ struct Cell
             fRot = extraData.FUN_0040d5b0();
         return fRot;
     }
-    void FUN_004d3cc0(const NiPoint3& kIn, NiPoint3& kOut, bool bInvert);
+    void TESObjectCELL_AdjustCoordForNorthRotation(const NiPoint3& kIn, NiPoint3& kOut, bool bInvert);
 };
-void Cell::FUN_004d3cc0(const NiPoint3& kIn, NiPoint3& kOut, bool bInvert)
+// pdb: TESObjectCELL::AdjustCoordForNorthRotation | TESObjectCELL.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Cell::TESObjectCELL_AdjustCoordForNorthRotation(const NiPoint3& kIn, NiPoint3& kOut, bool bInvert)
 {
     float fAngle = (bInvert ? -1.0f : 1.0f) * GetNorthRotation();
     if (fAngle != 0.0f)
@@ -1937,6 +1951,8 @@ struct MapCell {
     void __thiscall FUN_004db3e0(NiCamera* pkCamera, NiPointer<BSRenderedTexture>& spResult);
 };
 
+// pdb: TESObjectCELL::TakeLocalMapPicture | TESObjectCELL.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apCamera, aspRenderedTexture
 void MapCell::FUN_004db3e0(NiCamera* pkCamera, NiPointer<BSRenderedTexture>& spResult)
 {
     MemoryContext memory;

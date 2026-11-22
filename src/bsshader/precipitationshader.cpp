@@ -5,6 +5,7 @@
 extern "C" void* g_012005c0;
 
 // @fnv 0x00bb0540
+// pdb: NiFragmentShaderInstanceDescriptor::GetRTTI | NiXenonFragmentShader.obj | fnv360_0822_retail, udata, medium
 void* __cdecl FUN_00bb0540()
 {
     return &g_012005c0;
@@ -13,6 +14,7 @@ void* __cdecl FUN_00bb0540()
 extern void* g_012005fc;
 
 // @fnv 0x00bb0d10
+// pdb: NiXenonFragmentShader::GetRTTI | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_sim, low
 void* __cdecl FUN_00bb0d10()
 {
     return &g_012005fc;
@@ -24,6 +26,7 @@ struct FUN_00bb0d20_shell
 };
 
 // @fnv 0x00bb0d20
+// pdb: PlayerMover::GetPreferredMoveMode | PlayerMover.obj | fnv360_0822_retail, vtable_prefix, low
 void* FUN_00bb0d20_shell::FUN_00bb0d20()
 {
     return *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94);
@@ -35,6 +38,8 @@ struct FUN_00bb0d30_shell
 };
 
 // @fnv 0x00bb0d30
+// pdb: PrecipitationShaderProperty::SetClampNI | PrecipitationShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aClampMode
 void __thiscall FUN_00bb0d30_shell::FUN_00bb0d30(int value)
 {
     *(int*)((char*)this + 0x94) = value;
@@ -47,6 +52,7 @@ struct FUN_00bb0a50_shell
     void* __thiscall DestroyIfFlagged(int flags);
 };
 // @fnv 0x00bb0a50
+// pdb: PrecipitationShader::`scalar deleting destructor' | PrecipitationShader.obj | fnv360_0822_retail, objopen_prop, low
 void* __thiscall FUN_00bb0a50_shell::DestroyIfFlagged(int flags)
 {
     FUN_00bb0550();
@@ -272,6 +278,8 @@ void* __cdecl FUN_00aa13e0(unsigned int aiSize);
 void* __cdecl FUN_00e76700(void* apTag, int a1, int a2);
 
 // @fnv 0x00bb0660
+// pdb: NiPointer<BSShader>::operator= | BSShaderManager.obj | fnv360_0721_beta, call_gap, low
+// pdb params: pObject
 void* __cdecl FUN_00bb0660()
 {
     SpawnedBase* pHost = (SpawnedBase*)FUN_00e76700(g_011f9508, 3, 2);
@@ -501,6 +509,7 @@ struct ShaderConstantsImpl
 };
 
 // @fnv 0x00bb0a80
+// pdb: PrecipitationShader::CreateConstantMaps | PrecipitationShader.obj | fnv360_0822_retail, ustr, medium
 void ShaderConstantsImpl::InitConstantMaps()
 {
     if (!m_spFirstShaderConstantMap.m_pObject)
@@ -718,6 +727,7 @@ class FUN_00bb0550 : public ResourceOwnerBase
 
 // Destructor that clears the four g_aspLarge and two g_aspSmall NiPointers and the g_spSharedResource RefPtr to null.
 // @fnv 0x00bb0550
+// pdb: PrecipitationShader::~PrecipitationShader | PrecipitationShader.obj | fnv360_0822_retail, objopen_prop, low
 FUN_00bb0550::~FUN_00bb0550()
 {
     for (int i = 0; i < 4; i++)

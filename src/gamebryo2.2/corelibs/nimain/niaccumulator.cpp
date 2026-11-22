@@ -4,7 +4,8 @@
 extern char const* const g_011f6058_arg1;
 
 // @fnv 0x00aa0b00
-char const* const* __cdecl FUN_00aa0b00()
+// pdb: NiFloatsExtraData::GetRTTI | NiFloatsExtraData.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+char const* const* __cdecl NiFloatsExtraData_GetRTTI()
 {
     return &g_011f6058_arg1;
 }
@@ -21,6 +22,7 @@ struct NiAccumulator : NiRefObject
 };
 // Sets the vtable to DAT_010a2304, runs the NiRefObject destructor, and frees this with _delete when a1 has bit 0 set.
 // @fnv 0x00aa0b10
+// pdb: NiKeyBasedInterpolator::`scalar deleting destructor' | NiKeyBasedInterpolator.obj | fnv360_0822_retail, objrun, high
 void* NiAccumulator::FUN_00aa0b10(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_010a2304;

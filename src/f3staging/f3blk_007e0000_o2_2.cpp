@@ -7,6 +7,7 @@
 // @f3 0x007f97c0 (community match, verified in this file)
 namespace f3m_007f97c0 {
 class FUN_007f97c0 { public: virtual void v0(); char b4; int a8; FUN_007f97c0(); };
+// pdb: BSCacheDriveSystemUtility::BSCacheDriveSystemUtility | BSCacheDriveSystemUtility.obj | fnv360_0822_retail, call_seq, medium
 FUN_007f97c0::FUN_007f97c0() { b4 = 0; a8 = 0; }
 }   // namespace f3m_007f97c0
 
@@ -26,6 +27,7 @@ struct FUN_007f9370 {
     char m95;
     FUN_007f9370();
 };
+// pdb: BSSystemUtility::BSSystemUtility | BSSystemUtility.obj | fnv360_0822_debug, call_seq, medium, conflict (skyrim: BSWin32SystemUtility::BSWin32SystemUtility)
 FUN_007f9370::FUN_007f9370() : m84(0), m88(0), m8c(0), m90(0), m94(0), m95(0) {
     n7f9370::FUN_00c00610(buf, 0, sizeof(buf));
 }
@@ -42,6 +44,7 @@ struct FUN_007f9830 {
     FUN_007f9830();
     virtual ~FUN_007f9830();
 };
+// pdb: BSGameDataSystemUtility::BSGameDataSystemUtility | BSGameDataSystemUtility.obj | fnv360_0822_retail, call_seq, medium
 FUN_007f9830::FUN_007f9830() : m4(0), m5(0), m8(0), m84c(0)
 {
 }
@@ -464,6 +467,7 @@ public:
     Vec3 m_posOther;
     void FUN_007f1040();
 };
+// pdb: SpectatorThreatInfo::Update | SpectatorPackage.obj | fnv360_0822_retail, call_seq, medium
 void Cls_007f1040::FUN_007f1040()
 {
     m_tick = m_pActor ? GetTickCount() : m_tick;
@@ -844,7 +848,7 @@ struct S7e3_Actor
     int unk13c;
     unsigned char unk140, unk141;
     float FUN_006f5b00();
-    float FUN_006f5ad0();
+    float Actor_GetWalkSpeed();
     float FUN_006f9ec0();
 };
 struct PointLocation
@@ -949,7 +953,7 @@ struct S7e3_Extra
     P3Update FUN_007ddb50();
 };
 P3Update __cdecl FUN_007b7bf0(S7e3_Actor* actor);
-P3Update __cdecl FUN_007b9d70(S7e3_Actor* actor, P3Update point);
+P3Update __cdecl CombatUtilities_GetAngleToProjectedPoint(S7e3_Actor* actor, P3Update point);
 struct S7e3_UpdateHandler
 {
     int unk00;
@@ -1039,7 +1043,7 @@ __declspec(noinline) void S7e3_UpdateHandler::FUN_007e3780(float& heading, float
             turn = actor->Heading(false);
         else
         {
-            P3Update orientation = FUN_007b9d70(actor, target);
+            P3Update orientation = CombatUtilities_GetAngleToProjectedPoint(actor, target);
             if (!actor->unk141)
                 look = orientation.x;
             if (actor->FUN_006f9ec0() < 100.0)
@@ -1073,6 +1077,8 @@ __declspec(noinline) void S7e3_UpdateHandler::FUN_007e3780(float& heading, float
     toTarget = look;
 }
 
+// pdb: DetailedActorPathHandler::UpdateHeading | DetailedActorPathHandler.obj | fnv360_0822_retail, uconst, low
+// pdb params: fdeltaT, afSlowDown
 float S7e3_UpdateHandler::FUN_007e3ac0(float dt, float* mult)
 {
     float maxTurn = 0.0f;
@@ -1102,7 +1108,7 @@ float S7e3_UpdateHandler::FUN_007e3ac0(float dt, float* mult)
             P3Update tmp;
             P3Update d = PointDifference_7e3ac0(tether, actor->Position());
             look = (float)sqrt((float)(d.x * d.x + d.y * d.y + d.z * d.z));
-            ptr = (moveMode & 0x200) ? actor->FUN_006f5b00() : actor->FUN_006f5ad0();
+            ptr = (moveMode & 0x200) ? actor->FUN_006f5b00() : actor->Actor_GetWalkSpeed();
             distance2 = ptr;
             tmp = tether;
             if (look < distance2)

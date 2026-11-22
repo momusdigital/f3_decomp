@@ -31,6 +31,8 @@ extern MemoryManager g_memoryManager;
 
 // Looks up the entry for name in the string-pointer map and returns it, or null if not found.
 // @fnv 0x00b7fac0
+// pdb: ShaderBuffer::Get | ShaderBuffer.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: apName
 ShaderBufferRecord* ShaderBufferCollection::Get(const char* name)
 {
     ShaderBufferRecord* entry = 0;
@@ -39,6 +41,7 @@ ShaderBufferRecord* ShaderBufferCollection::Get(const char* name)
 }
 
 // @fnv 0x00b7fd50
+// pdb: ShaderBuffer::~ShaderBuffer | ShaderBuffer.obj | fnv360_0822_retail, call_gap_sim, low
 ShaderBufferCollection::~ShaderBufferCollection()
 {
     if (pFileName)
@@ -101,6 +104,7 @@ struct FUN_00b7e2b0_Class
 
 // Releases the owned buffer at unk04 via FUN_00ec5fce and the manager, optionally frees this, and returns this.
 // @fnv 0x00b7e2b0
+// pdb: NiTArray<NiPointer<NiAVObject>,NiTNewInterface<NiPointer<NiAVObject> > >::`scalar deleting destructor' | BipedAnim.obj | fnv360_0822_retail, vtable, high
 void* FUN_00b7e2b0_Class::Destroy(unsigned char flags)
 {
     void* base = unk04;
@@ -209,6 +213,8 @@ class SpawnedObject
 
 // Stores arg3 in m_100, looks up arg3 in DAT_011f6238 and registers arg2 when both are non-zero, clears the first 0x100 bytes, and sets arg1 as owner if non-null.
 // @fnv 0x00b7fa40
+// pdb: ShaderBufferData::ShaderBufferData | ShaderBuffer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apName, apData, aiSize
 SpawnedObject* SpawnedObject::FUN_00b7fa40(void* apOwner, void* apName, unsigned int auiKey)
 {
     m_100 = auiKey;

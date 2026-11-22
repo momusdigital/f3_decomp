@@ -104,10 +104,12 @@ struct _FakeTriData
 };
 
 // @fnv 0x00a71e00
+// pdb: NiTriStrips::GetModelTriangle | NiTriStrips.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usTriangle, pkP0, pkP1, pkP2
 void FUN_00a71e00_shell::GetTriangleVertices(unsigned short m_usTriangleID, NiPoint3** pkP0, NiPoint3** pkP1,
                                              NiPoint3** pkP2)
 {
-    _FakeTriData* pkModelData = *reinterpret_cast<_FakeTriData**>(reinterpret_cast<char*>(this) + 0xb8);
+    _FakeTriData* pkModelData = static_cast<_FakeTriData*>(m_spModelData);
     NiPoint3* pkVertex = pkModelData->m_pkVertex;
     unsigned short usIndex0, usIndex1, usIndex2;
     pkModelData->GetTriangleVertexIndices(m_usTriangleID, usIndex0, usIndex1, usIndex2);
@@ -154,7 +156,13 @@ void* __cdecl FUN_00a9b150()
     return 0;
 }
 
-struct NiRenderer;
+struct NiRenderer
+{
+    unsigned char unk000[0x200];
+    int m_eFrameState;  // src: FNV360_PDB +0x200
+    unsigned char unk204[4];
+    bool m_bRenderTargetGroupActive;  // src: FNV360_PDB +0x208
+};
 struct FUN_00a80610_shell
 {
     void __thiscall FUN_00a80610(NiRenderer*);
@@ -165,11 +173,13 @@ struct FUN_00a71d70_shell
 };
 // Calls FUN_00a80610, then if the renderer's field at 0x200 is 1 or 2 and the byte at 0x208 is 1, invokes virtual slot 110 with this.
 // @fnv 0x00a71d70
+// pdb: NiTriStrips::OnlyRenderImmediate | NiTriStrips.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: apkRenderer
 void __thiscall FUN_00a71d70_shell::FUN_00a71d70(NiRenderer* apkRenderer)
 {
     ((FUN_00a80610_shell*)this)->FUN_00a80610(apkRenderer);
-    int i = *(int*)((char*)apkRenderer + 0x200);
-    if ((i == 1 || i == 2) && *(char*)((char*)apkRenderer + 0x208) == 1)
+    int i = apkRenderer->m_eFrameState;
+    if ((i == 1 || i == 2) && apkRenderer->m_bRenderTargetGroupActive == 1)
     {
         void** vtbl = *(void***)apkRenderer;
         ((void(__thiscall*)(NiRenderer*, void*))vtbl[110])(apkRenderer, this);
@@ -228,6 +238,8 @@ struct FUN_00a71d30_shell
     void FUN_00a71d30(NiRenderer*);
 };
 // @fnv 0x00a71d30
+// pdb: NiTriStrips::RenderImmediate | NiTriStrips.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apkRenderer
 void FUN_00a71d30_shell::FUN_00a71d30(NiRenderer* apkRenderer)
 {
     NiDX9Renderer* pkRenderer = (NiDX9Renderer*)apkRenderer;
@@ -259,6 +271,8 @@ struct FUN_00a71db0_class
     NiTriStripsObject* CreateTriStripsObject(int value);
 };
 // @fnv 0x00a71db0
+// pdb: NiTriStrips::CreateClone | NiTriStrips.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: kCloning
 NiTriStripsObject* FUN_00a71db0_class::CreateTriStripsObject(int value)
 {
     NiTriStripsObject* strips = new (0xc0) NiTriStripsObject;
@@ -269,6 +283,7 @@ NiTriStripsObject* FUN_00a71db0_class::CreateTriStripsObject(int value)
 void __cdecl FUN_00a80400();
 
 // @fnv 0x00a9b140
+// pdb: TESContainer::ClearDataComponent | TESContainer.obj | fnv360_0822_retail, vtable, medium
 void __cdecl FUN_00a9b140()
 {
     FUN_00a80400();
@@ -276,6 +291,7 @@ void __cdecl FUN_00a9b140()
 
 void __cdecl FUN_00a9b180();
 // @fnv 0x00a98ea0
+// pdb: TESActorBaseData::ClearDataComponent | TESActorBaseData.obj | fnv360_0822_retail, vtable, medium
 void __cdecl FUN_00a98ea0()
 {
     FUN_00a9b180();

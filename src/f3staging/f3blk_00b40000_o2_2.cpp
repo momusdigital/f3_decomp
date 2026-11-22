@@ -1445,7 +1445,7 @@ struct S3e40_Shader
 
     void FUN_00424200(unsigned int, bool);
 
-    void FUN_00b618e0(S3e40_Geom*, bool, bool, S3e40_Light*);
+    void BSShaderPPLightingProperty_AddDepthMapPass_2x(S3e40_Geom*, bool, bool, S3e40_Light*);
 
     void FUN_00b5bf20(S3e40_Geom*, unsigned short*, bool, bool*, int);
 
@@ -1775,7 +1775,7 @@ regular:
 
             bool marked = ref && (ref->Mode() != 0);
 
-            FUN_00b618e0(geom, geom->shader != 0, marked, preferred);
+            BSShaderPPLightingProperty_AddDepthMapPass_2x(geom, geom->shader != 0, marked, preferred);
 
         }
 

@@ -25,6 +25,7 @@ struct FUN_004060b0_Holder
     void FUN_004060b0();
 };
 
+// pdb: BSSimpleList<char const *>::IsEmpty | MagicItem.obj | fnv360_0721_beta, objrun, medium
 void FUN_004060b0_Holder::FUN_004060b0()
 {
     if (object)
@@ -50,6 +51,7 @@ public:
     TESObjectREFR* parent;
     unsigned char oppositeState;
 };
+// pdb: ExtraEnableStateParent::ExtraEnableStateParent | ExtraDataObjects.obj | fnv360_0822_retail, uvref, high
 ExtraEnableStateParent::ExtraEnableStateParent() : BSExtraData(0x37), parent(0), oppositeState(0)
 {
 }
@@ -105,18 +107,20 @@ public:
 class ExtraDataList
 {
 public:
-    BSExtraData* FUN_0040a4c0(unsigned char type);
-    void FUN_0040a320(BSExtraData* pkExtra);
+    BSExtraData* BaseExtraList_GetExtraData(unsigned char type);
+    void BaseExtraList_AddExtra(BSExtraData* pkExtra);
     void FUN_0040a3f0(unsigned char type);
 
     void FUN_00412380(BSOcclusionPlane* pkPlane);
 };
 
+// pdb: ExtraDataList::SetOcclusionPlane | ExtraDataList.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apPlane
 void ExtraDataList::FUN_00412380(BSOcclusionPlane* pkPlane)
 {
     if (pkPlane)
     {
-        ExtraOcclusionPlane* pkExtra = (ExtraOcclusionPlane*)FUN_0040a4c0(0x71);
+        ExtraOcclusionPlane* pkExtra = (ExtraOcclusionPlane*)BaseExtraList_GetExtraData(0x71);
         if (pkExtra)
         {
             pkExtra->spPlane = pkPlane;
@@ -125,7 +129,7 @@ void ExtraDataList::FUN_00412380(BSOcclusionPlane* pkPlane)
         {
             pkExtra = new ExtraOcclusionPlane;
             pkExtra->spPlane = pkPlane;
-            FUN_0040a320(pkExtra);
+            BaseExtraList_AddExtra(pkExtra);
         }
     }
     else
@@ -245,6 +249,8 @@ public:
     }
     void FUN_00411080(TESRegionList* list);
 };
+// pdb: ExtraDataList::SetRegionList | ExtraDataList.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apList
 void ExtraDataList::FUN_00411080(TESRegionList* list)
 {
     ExtraRegionList* extra = (ExtraRegionList*)GetByType(4);
@@ -369,6 +375,8 @@ public:
     }
     void FUN_0040b330(float value);
 };
+// pdb: ExtraDataList::SetCharge | ExtraDataList.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afCharge
 void ExtraDataList::FUN_0040b330(float value)
 {
     ExtraCharge* extra = (ExtraCharge*)GetByType(0x28);
@@ -427,6 +435,8 @@ struct Q84 : QBase {
     Q84(int a, QRef* b);
     virtual ~Q84();
 };
+// pdb: ExtraCellCanopyShadowMask::ExtraCellCanopyShadowMask | ExtraDataCell.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aeState, apTex
 Q84::Q84(int a, QRef* b) : QBase(10)
 {
     unk0c = a;

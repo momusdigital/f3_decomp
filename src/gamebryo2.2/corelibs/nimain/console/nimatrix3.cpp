@@ -17,6 +17,8 @@ struct TransformRecord {
 };
 
 // @fnv 0x00a59980
+// pdb: NiMatrix3::EigenSolveSymmetric | NiMatrix3.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: afEigenvalue, akEigenvector
 void TransformRecord::GetMatrix(unsigned int parameter, float* pafMatrix)
 {
     TransformRecord recordCopy = *this;
@@ -224,6 +226,8 @@ struct S_00a59a30_Matrix3 {
 
 // Reads the 3x3 matrix elements from the stream's binary reader, loading each element individually.
 // @fnv 0x00a59a30
+// pdb: NiMatrix3::LoadBinary | NiMatrix3.obj | fnv360_0822_retail, call_seq, high
+// pdb params: stream
 void S_00a59a30_Matrix3::LoadFromStream(S_00a59a30_Stream& kStream)
 {
     for (int i = 0; i < 3; i++)
@@ -239,6 +243,7 @@ extern const float g_fA58510Pi;
 
 // Returns acos(fValue) when fValue is between -1 and 1, 0.0 when it is 1 or above, and g_fA58510Pi when it is -1 or below.
 // @fnv 0x00a58510
+// pdb: NiACos | TESConditionFunctions.obj | tesv_win, call_seq, medium
 float __cdecl AcosClamped(float fValue)
 {
     if (-1.0 < fValue) {
@@ -262,6 +267,7 @@ public:
 
 // Scans a 3x3 block of floats and sets each element to zero when its absolute value is at or below DAT_0109afc4.
 // @fnv 0x00a598a0
+// pdb: NiMatrix3::Snap | NiMatrix3.obj | tesv_win, hash, low
 void FUN_00a598a0_cls::ZeroSmallValues()
 {
     double threshold = DAT_0109afc4;
@@ -299,11 +305,14 @@ static __forceinline void S_BinRead(S_00a59a90_Bin* bin, void* v, unsigned int b
 struct FUN_00a59a90_cls {
     float m[9];
     void ZeroSmallValues();
-    void ReadMatrixFromStream(void* pOther);
+    void NiMatrix3_SaveBinary(void* pOther);
 };
 // Calls ZeroSmallValues, then reads nine floats from the stream at pOther+0x250 into the 3x3 matrix m.
 // @fnv 0x00a59a90
-void FUN_00a59a90_cls::ReadMatrixFromStream(void* pOther)
+// pdb: NiMatrix3::SaveBinary | NiMatrix3.obj | fnv360_0822_retail, call_seq, high
+// pdb params: stream
+// pdb: NiMatrix3::SaveBinary | NiMatrix3.obj | fnv360_0822_retail, call_seq, high (was: ReadMatrixFromStream)
+void FUN_00a59a90_cls::NiMatrix3_SaveBinary(void* pOther)
 {
     char* pObj = (char*)pOther;
     ZeroSmallValues();
@@ -319,6 +328,8 @@ void FUN_00a59a90_cls::ReadMatrixFromStream(void* pOther)
 struct Point314 {float x,y,z;};
 // Transforms each of count source points by a 3x3 matrix plus translation, writing the results to destination.
 // @fnv 0x00a582f0
+// pdb: NiMatrix3::TransformVertices | NiMatrix3.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: rot, trn, uiVertexCount, pInVertex, pOutVertex
 extern "C" void FUN_00a582f0(const float* matrix,const float* translation,unsigned int count,const Point314* source,Point314* destination) {
  for(unsigned int i=0;i<count;++i) {
   destination[i].x=matrix[0]*source[i].x+translation[0]+matrix[1]*source[i].y+source[i].z*matrix[2];
@@ -337,6 +348,8 @@ public:
 };
 
 // @fnv 0x00a588a0
+// pdb: NiMatrix3::TransposeTimes | NiMatrix3.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: mat
 Matrix3A588 Matrix3A588::FUN_00a588a0(const Matrix3A588& kMat) const
 {
     Matrix3A588 kPrd;
@@ -375,6 +388,8 @@ struct FUN_00a59660_cls {
 };
 
 // @fnv 0x00a59660
+// pdb: NiMatrix3::FromEulerAnglesZXY | NiMatrix3.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: fZAngle, fXAngle, fYAngle
 void FUN_00a59660_cls::FUN_00a59660(float fAngle1, float fAngle2, float fAngle3)
 {
     Mat3 kMat[4];
@@ -451,6 +466,8 @@ struct FUN_00a58550_cls {
 
 // Extracts the rotation axis and angle from a 3x3 matrix, normalizing the axis and handling degenerate cases.
 // @fnv 0x00a58550
+// pdb: NiMatrix3::ExtractAngleAndAxis | NiMatrix3.obj | fnv360_0822_debug, caller, medium
+// pdb params: fAngle, fX, fY, fZ
 void FUN_00a58550_cls::GetAxisAngle(float* angle, float* apAxisX, float* apAxisY, float* apAxisZ) const
 {
     float trace = unk00 + unk10 + unk20;
@@ -556,7 +573,7 @@ bool S_00a58990::FUN_00a58990(float* diag, float* subd)
     return false;
 }
 
-float FUN_00a811f0(float fY, float fX);
+float NiFastATan2(float fY, float fX);
 
 static float DAT_011a9444 = 1.5707964f;
 
@@ -583,6 +600,8 @@ struct S_00a592c0_Matrix3 {
 
 // Extracts X, Y, and Z rotation angles from the 3x3 matrix entries, returning false when the pitch is at a gimbal lock limit.
 // @fnv 0x00a592c0
+// pdb: NiMatrix3::ToEulerAnglesXYZ | NiMatrix3.obj | fnv360_0822_debug, caller, medium
+// pdb params: rfXAngle, rfYAngle, rfZAngle
 bool S_00a592c0_Matrix3::DecomposeToEulerAngles(float& rfXAngle, float& rfYAngle, float& rfZAngle) const
 {
     rfYAngle = -S_00a592c0_ASin(m_afEntries[0][2]);
@@ -590,13 +609,13 @@ bool S_00a592c0_Matrix3::DecomposeToEulerAngles(float& rfXAngle, float& rfYAngle
     {
         if (rfYAngle > -DAT_011a9444)
         {
-            rfXAngle = -FUN_00a811f0(-m_afEntries[1][2], m_afEntries[2][2]);
-            rfZAngle = -FUN_00a811f0(-m_afEntries[0][1], m_afEntries[0][0]);
+            rfXAngle = -NiFastATan2(-m_afEntries[1][2], m_afEntries[2][2]);
+            rfZAngle = -NiFastATan2(-m_afEntries[0][1], m_afEntries[0][0]);
             return true;
         }
         else
         {
-            float fRmY = FUN_00a811f0(m_afEntries[1][0], m_afEntries[1][1]);
+            float fRmY = NiFastATan2(m_afEntries[1][0], m_afEntries[1][1]);
             rfZAngle = 0.0f;
             rfXAngle = fRmY - rfZAngle;
             return false;
@@ -604,7 +623,7 @@ bool S_00a592c0_Matrix3::DecomposeToEulerAngles(float& rfXAngle, float& rfYAngle
     }
     else
     {
-        float fRpY = FUN_00a811f0(m_afEntries[1][0], m_afEntries[1][1]);
+        float fRpY = NiFastATan2(m_afEntries[1][0], m_afEntries[1][1]);
         rfZAngle = 0.0f;
         rfXAngle = rfZAngle - fRpY;
         return false;
@@ -619,6 +638,7 @@ struct Matrix161 {
 };
 
 // @fnv 0x00a59540
+// pdb: NiMatrix3::FromEulerAnglesXYZ | NiMatrix3.obj | tesv_win, hash, low
 void Matrix161::FUN_00a59540(float xAngle, float yAngle, float zAngle)
 {
     Matrix161 rotations[3];
@@ -681,6 +701,8 @@ struct ThreeByThreeMatrix {
 };
 
 // @fnv 0x00a59780
+// pdb: NiMatrix3::FromEulerAnglesZYX | NiMatrix3.obj | fnv360_0721_beta, caller, medium
+// pdb params: fZAngle, fYAngle, fXAngle
 void ThreeByThreeMatrix::FUN_00a59780(float fZ, float fY, float fX)
 {
     float c,s;
@@ -712,6 +734,8 @@ struct FloatMatrix3 {
 };
 // Formats the 3x3 matrix into a heap-allocated string prefixed by name, using _NiSprintf into a NiMalloc buffer.
 // @fnv 0x00a598f0
+// pdb: NiMatrix3::GetViewerString | NiMatrix3.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pPrefix
 char* FloatMatrix3::ToString(const char* name) {
     unsigned int size = strlen(name) + 128;
     char* result = static_cast<char*>(NiMalloc(size));

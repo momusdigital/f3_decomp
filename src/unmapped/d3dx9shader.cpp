@@ -40,6 +40,8 @@ struct D3DXIMAGE_INFO;
 extern "C" __declspec(dllimport) long __stdcall D3DXGetImageInfoFromFileInMemory(const void* source, unsigned int size,
                                                                                  D3DXIMAGE_INFO* info);
 // @fnv 0x00ee6e22
+// pdb: socket | sockapi.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: af, type, protocol
 long __stdcall FUN_00ee6e22(const void* source, unsigned int size, D3DXIMAGE_INFO* info)
 {
     return D3DXGetImageInfoFromFileInMemory(source, size, info);
@@ -51,6 +53,7 @@ extern "C" __declspec(dllimport) long __stdcall D3DXGetShaderConstantTable(const
                                                                            EE6E40ConstantTable** ppConstantTable);
 
 // @fnv 0x00ee6e40
+// pdb: connect | WSOCK32.dll | tesv_win, call_seq, medium
 long __stdcall FUN_00ee6e40(const unsigned long* pFunction, EE6E40ConstantTable** ppConstantTable)
 {
     return D3DXGetShaderConstantTable(pFunction, ppConstantTable);
@@ -67,6 +70,7 @@ extern "C" __declspec(dllimport) long __stdcall D3DXCompileShaderFromFileA(
     ID3DXConstantTable** ppConstantTable);
 
 // @fnv 0x00ee6e46
+// pdb: gethostbyname | WSOCK32.dll | tesv_win, call_seq, medium
 long __stdcall FUN_00ee6e46(const char* pSrcFile, const D3DXMACRO* pDefines, ID3DXInclude* pInclude,
                             const char* pFunctionName, const char* pProfile, unsigned long Flags,
                             ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs, ID3DXConstantTable** ppConstantTable)
@@ -91,6 +95,7 @@ int __stdcall FUN_00ee6e1c(void* pDevice, const void* pSrcData, unsigned int Src
 extern "C" __declspec(dllimport) long __stdcall D3DXGetPixelShaderProfile(void* pDevice, int ShaderType);
 
 // @fnv 0x00ee6e28
+// pdb: WSAGetLastError | WSOCK32.dll | tesv_win, call_seq, medium
 long __stdcall FUN_00ee6e28(void* pDevice, int ShaderType)
 {
     return D3DXGetPixelShaderProfile(pDevice, ShaderType);
@@ -111,6 +116,7 @@ long __stdcall FUN_00ee6e4c(const char* pSrcFile, const void* pDefines, void* pI
 extern "C" __declspec(dllimport) void __cdecl D3DXAssembleShader();
 
 // @fnv 0x00ee6e52
+// pdb: htons | WSOCK32.dll | tesv_win, call_gap, low
 void __cdecl FUN_00ee6e52()
 {
     D3DXAssembleShader();

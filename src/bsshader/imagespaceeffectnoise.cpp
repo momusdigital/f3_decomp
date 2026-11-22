@@ -3,6 +3,8 @@
 #include "imagespaceeffectnoise_decls.h"
 
 // @fnv 0x00c05180
+// pdb: ImageSpaceEffectCinematic::Setup | ImageSpaceEffectCinematic.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apManager, apParam
 void NoiseImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEffectParam*)
 {
     SetTextureArrayCount(1);
@@ -23,6 +25,8 @@ class NiTPrimitiveArray_ImageSpaceEffectParam___
 
 // Allocates an 8-byte parameter from two ints and stores it at uiIndex in the array at pThis+0x38.
 // @fnv 0x00ba3b10
+// pdb: ImageSpaceEffect::SetEffectInputs | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiEffectIndex, aiInput1, aiFilterMode1
 void __fastcall SetEffectParamAt(char* pThis, int, unsigned int uiIndex, int a2, int a3)
 {
     int* p = (int*)g_memoryManager.Allocate(8);

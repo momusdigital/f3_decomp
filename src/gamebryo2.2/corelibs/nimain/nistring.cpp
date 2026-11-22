@@ -15,6 +15,8 @@ struct FUN_00a88c00_shell : StringPointerRecord
 };
 
 // @fnv 0x00a88c00
+// pdb: NiString::ToFloat | NiString.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: f
 bool FUN_00a88c00_shell::FUN_00a88c00(float* out)
 {
     if (!m_kHandle)
@@ -35,18 +37,20 @@ bool FUN_00a88c00_shell::FUN_00a88c00(float* out)
     return true;
 }
 
-char* __cdecl AllocStringHandle(const char*);
+char* __cdecl NiString_AllocateAndCopy(const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
 struct MyStr
 {
     char* m_kHandle;
     MyStr& AssignString(const char*);
 };
-// Stores the string returned by AllocStringHandle into m_kHandle and, if non-null, writes its strlen into the int preceding the buffer.
+// Stores the string returned by NiString_AllocateAndCopy into m_kHandle and, if non-null, writes its strlen into the int preceding the buffer.
 // @fnv 0x00a88b80
+// pdb: NiString::NiString | NiString.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pcStr
 MyStr& MyStr::AssignString(const char* acString)
 {
-    char* v = AllocStringHandle(acString);
+    char* v = NiString_AllocateAndCopy(acString);
     m_kHandle = v;
     if (v)
         *(int*)(v - 4) = (int)strlen(v);
@@ -62,6 +66,7 @@ struct S00a88bc0
 };
 // Decrements the reference count stored before m_kHandle and frees the aliased block when it reaches zero, then clears m_kHandle.
 // @fnv 0x00a88bc0
+// pdb: NiString::~NiString | NiString.obj | fnv360_0822_debug, call_gap, low
 void S00a88bc0::ReleaseHandle()
 {
     if (m_kHandle)
@@ -87,7 +92,10 @@ void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Allocates a handle for a copy of pcStr, stores the length before the string and returns a pointer to the copied string, or 0 on failure.
 // @fnv 0x00a88b10
-char* __cdecl AllocStringHandle(const char* pcSource)
+// pdb: NiString::AllocateAndCopy | NiString.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pcString
+// pdb: NiString::AllocateAndCopy | NiString.obj | fnv360_0822_retail, call_seq, high (was: AllocStringHandle)
+char* __cdecl NiString_AllocateAndCopy(const char* pcSource)
 {
     if (!pcSource)
         return 0;

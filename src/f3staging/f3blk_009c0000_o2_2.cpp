@@ -134,6 +134,8 @@ struct __declspec(align(16)) Base_e9f0
     int m_count;
 };
 void __cdecl FUN_009f90f0(const Plane_e9f0* plane, void* out, int arg);
+// pdb: hkpGenericConstraintData::setConeLimitW | hkpGenericConstraintData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: currentCommand, currentData, scheme, vars, in, out
 void __stdcall FUN_009de9f0(const int** pIdx, const Vec4_e9f0** pSrc, int unused, Base_e9f0* base, void* out, int arg)
 {
     Plane_e9f0 p;
@@ -466,7 +468,7 @@ typedef unsigned short hkContactPointId;
 class hkpCapsuleTriangleAgent
 {
 public:
-    void FUN_009c3190(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector);
+    void hkpCapsuleTriangleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector);
 
     void* m_vtable;
     int unk04;
@@ -475,7 +477,8 @@ public:
     hkpCollideTriangleUtil::PointTriangleDistanceCache m_triangleCache;
 };
 
-void hkpCapsuleTriangleAgent::FUN_009c3190(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
+// pdb: hkpCapsuleTriangleAgent::getClosestPoints | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpCapsuleTriangleAgent::hkpCapsuleTriangleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();
@@ -819,6 +822,8 @@ public:
 // setupPointTriangleDistanceCache: precomputes the triangle's edge and normal lengths
 void __cdecl FUN_0096fd30(const hkVector4* triVertices, hkpCollideTriangleUtil::PointTriangleDistanceCache& cache);
 
+// pdb: hkpCapsuleTriangleAgent::staticGetClosestPoints | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_009c3590(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     {
@@ -1144,7 +1149,7 @@ void __cdecl FUN_0096e450(const hkVector4* capsAPoints, hkReal capsARadius, cons
 class hkpCapsuleTriangleAgent
 {
 public:
-    void FUN_009c4120(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
+    void hkpCapsuleTriangleAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
     static __forceinline void getClosestPointsInl(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCollideTriangleUtil::PointTriangleDistanceCache& cache, hkContactPoint* points);
 
     void* m_vtable;
@@ -1170,7 +1175,8 @@ __forceinline void hkpCapsuleTriangleAgent::getClosestPointsInl(const hkpCdBody&
     FUN_0096e450(endPoints, capsuleA->getRadius(), triVertices, triB->getRadius(), cache, input.getTolerance(), 1, points);
 }
 
-void hkpCapsuleTriangleAgent::FUN_009c4120(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result)
+// pdb: hkpCapsuleTriangleAgent::processCollision | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpCapsuleTriangleAgent::hkpCapsuleTriangleAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();
@@ -1488,7 +1494,8 @@ static __forceinline hkBool getClosestPoint(const hkpCdBody& bodyA, const hkpCdB
     return res == HK_SUCCESS;
 }
 
-void __cdecl FUN_009c5400(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
+// pdb: hkpCapsuleCapsuleAgent::staticGetClosestPoints | hkpCapsuleCapsuleAgent.obj | fnv360_0822_retail, ustr_rel + bridge(caller_sim|objrun) + skyrim(ustr_rel), high
+void __cdecl hkpCapsuleCapsuleAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();
@@ -1791,7 +1798,7 @@ namespace hkpCollideTriangleUtil
 }
 
 // closestPointTriangle: the closest point on a triangle to a position
-int __cdecl FUN_00970580(const hkVector4& position, const hkVector4* triVertices, const hkpCollideTriangleUtil::ClosestPointTriangleCache& cache, hkpCollideTriangleUtil::ClosestPointTriangleResult& result);
+int __cdecl hkpCollideTriangleUtil_closestPointTriangle(const hkVector4& position, const hkVector4* triVertices, const hkpCollideTriangleUtil::ClosestPointTriangleCache& cache, hkpCollideTriangleUtil::ClosestPointTriangleResult& result);
 
 struct hkpCollisionInput
 {
@@ -1808,7 +1815,7 @@ struct hkpProcessCollisionInput : public hkpCollisionInput
 class hkpSphereTriangleAgent
 {
 public:
-    void FUN_009c7b80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
+    void hkpSphereTriangleAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
 
     // the contact between the sphere and the triangle, when they are within tolerance
     static __forceinline hkBool getClosestPoint(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCollideTriangleUtil::ClosestPointTriangleCache& cache, hkContactPoint& cpoint);
@@ -1832,7 +1839,7 @@ __forceinline hkBool hkpSphereTriangleAgent::getClosestPoint(const hkpCdBody& bo
     transformPoints(bodyB.getTransform(), triB->getVertices(), 3, triVertices);
 
     hkpCollideTriangleUtil::ClosestPointTriangleResult cpResult;
-    FUN_00970580(posA, &triVertices[0], cache, cpResult);
+    hkpCollideTriangleUtil_closestPointTriangle(posA, &triVertices[0], cache, cpResult);
 
     const hkReal radiusSum = sphereA->getRadius() + triB->getRadius();
     const hkReal maxDist = radiusSum + input.getTolerance();
@@ -1847,7 +1854,8 @@ __forceinline hkBool hkpSphereTriangleAgent::getClosestPoint(const hkpCdBody& bo
     return false;
 }
 
-void hkpSphereTriangleAgent::FUN_009c7b80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result)
+// pdb: hkpSphereTriangleAgent::processCollision | hkpSphereTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpSphereTriangleAgent::hkpSphereTriangleAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();
@@ -2274,10 +2282,11 @@ public:
 class hkpSphereCapsuleAgent
 {
 public:
-    void FUN_009c8710(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector);
+    void hkpSphereCapsuleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector);
 };
 
-void hkpSphereCapsuleAgent::FUN_009c8710(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
+// pdb: hkpSphereCapsuleAgent::getClosestPoints | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpSphereCapsuleAgent::hkpSphereCapsuleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector)
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();

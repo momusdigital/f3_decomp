@@ -3,6 +3,8 @@
 #include "nicolordata_decls.h"
 
 // @fnv 0x00a3d210
+// pdb: NiColorData::ReplaceAnim | NiColorData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void NiColorData::SetColorKeys(ColorAnimationKey* keys, unsigned int count, AnimationKey::KeyType type)
 {
     if (m_pKeyArray)
@@ -32,6 +34,7 @@ extern void(__cdecl* DAT_011f38e8[])(ColorAnimationKey*);
 extern const void* vftable_NiColorData;
 
 // @fnv 0x00a3d120
+// pdb: NiColorData::~NiColorData | NiColorData.obj | fnv360_0822_retail, call_seq, high
 void FUN_00a3d120_shell::DestroyColorData()
 {
     *(const void**)this = &vftable_NiColorData;
@@ -52,6 +55,8 @@ struct NiColorDataHack
     void FUN_00a3d0e0(float m_fStartTime, float m_fMaximumDistance);
 };
 // @fnv 0x00a3d0e0
+// pdb: NiColorData::GuaranteeKeysAtStartAndEnd | NiColorData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fStartTime, fEndTime
 void NiColorDataHack::FUN_00a3d0e0(float afValue1, float afValue2)
 {
     void* pkKeys = m_pKeyArray;
@@ -74,7 +79,9 @@ extern int vftable_NiColorData;
 
 // Allocates a 0x18-byte object, runs its constructor, installs the NiColorData vtable and zeroes three int fields at offsets 8, 0xc and 0x10.
 // @fnv 0x00a3d150
-void* CreateNiColorData()
+// pdb: NiColorData::CreateObject | NiColorData.obj | fnv360_0822_retail, objrun, high
+// pdb: NiColorData::CreateObject | NiColorData.obj | fnv360_0822_retail, objrun, high (was: CreateNiColorData)
+void* NiColorData_CreateObject()
 {
     char* p = (char*)A51BF0Base::operator new(0x18);
     if (p)
@@ -95,11 +102,12 @@ extern bool(__cdecl* DAT_011f3b28[])(ColorAnimationKey*, ColorAnimationKey*);
 
 struct FUN_00a3d190_shell : public NiColorData
 {
-    bool FUN_00a3d190(NiColorData* other);
+    bool NiColorData_IsEqual(NiColorData* other);
 };
 
 // @fnv 0x00a3d190
-bool FUN_00a3d190_shell::FUN_00a3d190(NiColorData* other)
+// pdb: NiColorData::IsEqual | NiColorData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(udata), high
+bool FUN_00a3d190_shell::NiColorData_IsEqual(NiColorData* other)
 {
     if (!IsSameAs(other))
         return false;
@@ -329,12 +337,13 @@ class NiColorDataA3D : public NiObjectA3D
 {
   public:
     void SetColorKeys(NiColorKeyA3D* pkKeys, unsigned int uiNumKeys, KeyTypeA3D eType);
-    void FUN_00a3d370(A3D370Stream& kStream);
+    void NiColorData_LoadBinary(A3D370Stream& kStream);
 };
 
 // Loads the base object, reads the key count, and if nonzero reads the key type and creates and stores the color keys via the matching create function.
 // @fnv 0x00a3d370
-void NiColorDataA3D::FUN_00a3d370(A3D370Stream& kStream)
+// pdb: NiColorData::LoadBinary | NiColorData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(udata), high
+void NiColorDataA3D::NiColorData_LoadBinary(A3D370Stream& kStream)
 {
     NiObjectA3D::LoadBinary(kStream);
 
@@ -534,6 +543,8 @@ struct FUN_00a3d410_cls : S_a3d410_Base
 };
 // Calls the base loader, reads a count into unk8, and if positive reads unk10 and dispatches DAT_011f3a98[unk10] with unkc and the count.
 // @fnv 0x00a3d410
+// pdb: NiColorData::SaveBinary | NiColorData.obj | fnv360_0822_retail, vtable, high
+// pdb params: stream
 void FUN_00a3d410_cls::LoadFromStream(S_a3d410_Stream* pStream)
 {
     FUN_00a89af0(pStream);
@@ -574,6 +585,8 @@ class FUN_00a3d490_cls
 };
 
 // @fnv 0x00a3d490
+// pdb: NiColorData::GetViewerStrings | NiColorData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pStrings
 void FUN_00a3d490_cls::FUN_00a3d490(FUN_00a3d490_arr* arr)
 {
     AppendCameraPathEntries(arr);
@@ -680,6 +693,8 @@ class FUN_00a3d270_cls
 
 // Creates a NiDataD27, fills it via BuildDataD27 when m_uiNum > 0, sets its data, and assigns it to spResult.
 // @fnv 0x00a3d270
+// pdb: NiColorData::GetSequenceData | NiColorData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fStartTime, fEndTime, aspColorData
 void FUN_00a3d270_cls::BuildAndSetData(float fFirst, float fSecond, NiPointerD27<NiDataD27>& spResult)
 {
     NiPointerD27<NiDataD27> spCreated;

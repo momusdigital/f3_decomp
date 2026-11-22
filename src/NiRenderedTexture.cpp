@@ -3,6 +3,8 @@
 #include "NiRenderedTexture.h"
 
 // @fnv 0x00a7fc00
+// pdb: NiRenderedTexture::Create | NiRenderedTexture.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kName, uiWidth, uiHeight, apkRenderer, kPrefs, eMSAAPref, apAliasTex, uiAliasOffset
 NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned int width, unsigned int height,
                                              NiRenderer* renderer, NiTexture::TextureFormatPreferences& preferences,
                                              Ni2DBuffer::MultiSamplePreference msaa, NiRenderedTexture* reuseTexture,
@@ -60,7 +62,7 @@ NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned
 // The error log didn't complain about InterlockedDecrement, only LONG.
 
 void __fastcall DestroyFogProperty(void*);
-void __fastcall FUN_00a5f800(void*);
+void __fastcall NiTexture_RemoveTextureFromList(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 extern int DAT_0109b944;
 
@@ -68,6 +70,7 @@ extern int DAT_0109b944;
 // extern "C" long __cdecl InterlockedDecrement(long*);
 
 // @fnv 0x00a7fd30
+// pdb: NiRenderedTexture::`scalar deleting destructor' | NiRenderedCubeMap.obj | tesv_win, vtable_prefix, medium
 void* __fastcall DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned char flags)
 {
     void* p30 = *(void**)((char*)self + 0x30);
@@ -91,7 +94,7 @@ void* __fastcall DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned c
         ((void(__thiscall*)(void*, int))vtbl24[0])(p24, 1);
     }
 
-    FUN_00a5f800(self);
+    NiTexture_RemoveTextureFromList(self);
     DestroyFogProperty(self);
 
     if (flags & 1)
@@ -110,6 +113,7 @@ struct FUN_00a7fbd0_shell : public NiRenderedTexture
 extern char const* const g_012708e4_arg1[];
 
 // @fnv 0x00a7fbd0
+// pdb: NiDefaultAVObjectPalette::GetRTTI | NiControllerManager.obj | fnv360_0822_retail, udata, medium
 void* FUN_00a7fbd0_shell::FUN_00a7fbd0()
 {
     return reinterpret_cast<void*>(const_cast<char const**>(g_012708e4_arg1));
@@ -121,6 +125,7 @@ struct FUN_00a7fbe0_shell : public NiRenderedTexture
 };
 
 // @fnv 0x00a7fbe0
+// pdb: NiRenderedTexture::GetWidth | NiRenderedTexture.obj | tesv_win, objrun_open, low
 unsigned int FUN_00a7fbe0_shell::FUN_00a7fbe0()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x30);
@@ -135,6 +140,7 @@ struct FUN_00a7fbf0_shell : public NiRenderedTexture
 };
 
 // @fnv 0x00a7fbf0
+// pdb: NiRenderedTexture::GetHeight | NiRenderedTexture.obj | tesv_win, objrun_open, low
 unsigned int FUN_00a7fbf0_shell::FUN_00a7fbf0()
 {
     NiRenderedTexture* this_ = static_cast<NiRenderedTexture*>(this);
@@ -162,6 +168,7 @@ struct FnvCpu_FUN_00be0b90_CpuObject
     int FUN_00be0b90();
 };
 // @fnv 0x00be0b90
+// pdb: BGSLightingTemplate::GetDataDirectionalZ | BGSLightingTemplate.obj | fnv360_0822_retail, call_seq, medium
 int FnvCpu_FUN_00be0b90_CpuObject::FUN_00be0b90()
 {
     return value;

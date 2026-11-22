@@ -6,68 +6,12 @@
 // src/staging/blk_00da0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include "../../include/layout_support.h"
-extern "C" void __cdecl FUN_00cb0a70(void*);
-extern int DAT_010d461c;
-struct FUN_00da07b0_class
-{
-    void __thiscall FUN_00cb0a70(void*);
-};
-void __cdecl FUN_00da07b0(void* a, void* b);
-void __cdecl InitBlockPool(void*);
 void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
-void __cdecl FUN_00da08c0(void** a);
-extern int DAT_010c59f4;
 extern int DAT_010c6bec;
-void __cdecl FUN_00da08e0(void* a, int b);
 extern int DAT_010c6fd0;
-void __cdecl FUN_00da0b10(int* p);
-extern int DAT_010d6014;
-struct FUN_00db7ab0_class
-{
-    void* __thiscall FUN_00db7ab0(void* a, void* b, void* c);
-};
-int __cdecl Crc32ShiftRight8(unsigned int a);
-void __cdecl FUN_00da6dc0(void*);
-void __cdecl FUN_00da6de0(void*);
-void __cdecl FUN_00da6e30(void*);
-void __cdecl FUN_00da6e60(void*);
-void __cdecl BuildEventIndex(void);
 void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
 void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
-void __cdecl FUN_00da6fd0(void* p);
-void __cdecl FUN_00da0680(char* a, int b);
-struct FUN_00da0740_vt
-{
-    virtual void v0(int);
-};
-void __cdecl FUN_00da0740(FUN_00da0740_vt* p);
-struct FUN_00cb0a70_class
-{
-    void __thiscall FUN_00cb0a70(int);
-};
-void __cdecl FUN_00da0760(void* a, void* b);
-struct FUN_00db7cf0_class
-{
-    int __thiscall FUN_00db7cf0(int a, int b);
-};
-extern int g_unk0126958c;
-void* __cdecl FUN_00da0610();
-extern char DAT_012695bc;
-char* __cdecl FUN_00da0630(void);
-extern int DAT_012695ec;
-int* __cdecl FUN_00da0660(void);
-extern int g_unk0126961c;
-int* __cdecl FUN_00da0670();
-struct FUN_00da0720_Class
-{
-    virtual void vf00(int value);
-};
-void __cdecl FUN_00da0720(FUN_00da0720_Class* param_1);
 struct CpuOpaque;
-extern CpuOpaque DAT_0126967c;
-CpuOpaque* __cdecl FUN_00da0730();
-extern int DAT_012696c4;
-int* __cdecl FUN_00da0750();
 // FUN_00da08a0 : cdecl, 13 bytes
 //   mov ecx, [esp+4]
 //   mov eax, [ecx]
@@ -76,17 +20,7 @@ int* __cdecl FUN_00da0750();
 //   call edx
 //   ret
 // Calls slot 0 of the object's vtable with the argument 0.
-struct FUN_00da08a0_cls
-{
-    virtual int v00(int a);
-};
-int __cdecl FUN_00da08a0(FUN_00da08a0_cls* pObj);
-extern int DAT_0126970c;
-int* __cdecl FUN_00da08b0();
-extern int DAT_01269754;
-void* __cdecl FUN_00da08d0(void);
 extern int DAT_010c6bec;
-void* __cdecl FUN_00da0910(void);
 struct DA0920FinishFlag
 {
     int m_bFinishing;
@@ -267,108 +201,16 @@ class DA0920Object : public DA0920Base
     {}
     virtual void vfunc00();
 };
-void ConstructDA0920Object(void* p, int finishing);
-extern int g_unk010c6c64;
-void* __cdecl FUN_00da0950();
-extern int DAT_0126979c;
-void* __cdecl FUN_00da0970();
-extern void* DAT_012697cc;
-void* FUN_00da09a0();
 struct CpuOpaque;
-extern CpuOpaque DAT_012697fc;
-CpuOpaque* __cdecl FUN_00da09c0();
-extern int DAT_0126982c;
-void* __cdecl FUN_00da09e0();
 struct CpuOpaque;
-extern CpuOpaque DAT_0126985c;
-CpuOpaque* __cdecl FUN_00da0a00();
-extern int DAT_0126988c;
-void* __cdecl FUN_00da0a20();
 // FUN_00da0a40 : a one-line function - getter
-extern int g_target_00da0a40;
-void* FUN_00da0a40();
-extern int DAT_012698ec;
-void* __cdecl FUN_00da0a60();
 // FUN_00da0a80 : returns the address of a global data object.
-extern int DAT_0126991c;
-int* __cdecl FUN_00da0a80(void);
-extern int DAT_0126994c;
-int __cdecl FUN_00da0aa0();
 struct CpuOpaque;
-extern CpuOpaque DAT_0126997c;
-CpuOpaque* __cdecl FUN_00da0ac0();
-extern int DAT_012699ac;
-int* __cdecl FUN_00da0ae0(void);
-struct FUN_00da0af0_Class
-{
-    virtual void vf00(int value);
-};
-void __cdecl FUN_00da0af0(FUN_00da0af0_Class* param_1);
-extern int DAT_01269a0c;
-void* __cdecl FUN_00da0b00();
 extern int DAT_010c6fd0;
-void* __cdecl FUN_00da0b20();
-unsigned char* __cdecl CheckDuplicateValues(unsigned char* result, int* values);
-struct FUN_00db0060_class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-
-    void __thiscall FUN_00db0060(int* param_2, int param_3);
-};
-struct DB7570Pair
-{
-    unsigned int m_key;
-    unsigned int m_uiFilterValue;
-};
 enum DB7570Result
 {
     DB7570_SUCCESS = 0,
     DB7570_FAILURE = 1
-};
-class DB7570Map
-{
-  public:
-    int unk00;
-    DB7570Pair* m_data;
-    int m_iElementCount;
-
-    DB7570Result Lookup(unsigned int key, unsigned int& valueOut) const;
-};
-extern "C" int __cdecl CompareStringsCaseInsensitive(int a1, int a2);
-struct FUN_00db75b0_entry
-{
-    int unk00;
-    int unk04;
-};
-struct FUN_00db75b0_class
-{
-    int unk00;
-    FUN_00db75b0_entry* unk04;
-    int unk08;
-
-    unsigned int __thiscall FUN_00db75b0(int a1, unsigned int* a2);
-};
-struct FUN_00db78a0_item
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    void* m_0c;
-};
-class FUN_00db78a0_cls
-{
-  public:
-    virtual void vSlot00();
-    virtual void vSlot04();
-    virtual void vSlot08();
-    virtual void vSlot0c(void* field, void* item);
-    void FUN_00db78a0(FUN_00db78a0_item** a, void** b);
 };
 struct hkMemoryAllocator;
 struct AudioMgr
@@ -433,62 +275,7 @@ struct HashEntryTable
 
     void FUN_00cb1870(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
 };
-struct MapHolder
-{
-    int unk00, unk04;
-    HashEntryTable m_map;
-
-    void CopyMapEntries(const MapHolder& other);
-};
-// ForwardToInner: forwards a 64-bit value to a member function held at this->m_08.
-struct SpawnedInner
-{
-    void FUN_00db7c70(__int64 v);
-};
-struct SpawnedOuter
-{
-    int unk00;
-    int unk04;
-    SpawnedInner* m_08;
-
-    void ForwardToInner(__int64 v);
-};
-struct CallTarget_00dba270
-{
-    int Splice(int, int, int, int, int);
-};
-struct SearchObject
-{
-    int FUN_00dba320(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
-};
-class DBA340Object
-{
-  public:
-    int FUN_00dba320(void* pvA, void* pvB, void* pvC, int iFlag);
-    int FUN_00dba340(void* pvA, void* pvB, void* pvC);
-};
-struct DBB100Class
-{
-    const char* getName() const;
-};
-struct DBB100Registry
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual const DBB100Class* getClassByObject(const void* object) const;
-};
-struct DBB100Writer
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void WriteCString(const char* s);
-};
-static void FUN_00dbb100(const DBB100Registry* registry, const void* object, DBB100Writer* writer);
-void DBB100WriteClassNames(const DBB100Registry* registry, const void** objects, DBB100Writer* writer);
+// hkSubStreamWriter_seekTellSupported: forwards a 64-bit value to a member function held at this->m_08.
 struct hkMemoryAllocator
 {
     virtual void vSlot00();
@@ -497,47 +284,6 @@ struct hkMemoryAllocator
     virtual void vSlot0C(void* field, void* item);
     virtual void free(void* p, unsigned int nbytes);
 };
-struct AudioRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* unk10;
-};
-AudioRouter* __cdecl da06d0_getRouter();
-struct Elem
-{
-    int unk00;
-    int unk04;
-};
-struct Buffer
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    Elem* m_ppData;
-    int m_iElementCount;
-    int m_pRayCursor;
-};
-void __cdecl FUN_00da06d0(Buffer* self);
 struct SweepBounds
 {
     unsigned int minX, minY, minZ, key;
@@ -597,7 +343,6 @@ __forceinline SweepPair* collideOne(const SweepBounds* bounds, const SweepBounds
     }
     return out;
 }
-int __cdecl SweepCollidePairs(const SweepBounds* bounds, int count, SweepPair* pairs, int capacity, int& skipped);
 struct DBA430Listener
 {
     virtual void vf00();
@@ -605,11 +350,6 @@ struct DBA430Listener
     virtual void vf08();
     virtual void vf0c();
     virtual void vslot10(int a, int b);
-};
-struct DBA430Inner
-{
-    void __thiscall Sync(DBA430Listener* listener);
-    void __thiscall Mark();
 };
 struct BSAudio
 {
@@ -620,33 +360,6 @@ struct BSAudio
     DBA430Listener* m_10;
 };
 BSAudio* __cdecl FUN_00c85750();
-struct DBA430Owner
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    DBA430Inner m_0C;
-
-    void Reset();
-};
-union FeaturePair
-{
-    unsigned short pair;
-    struct
-    {
-        unsigned char first;
-        unsigned char second;
-        unsigned char detail;
-        unsigned char flags;
-    };
-};
-struct FeatureCache
-{
-    FeaturePair entries[8];
-    unsigned char dimension;
-    unsigned char count;
-    bool result;
-};
 __forceinline int excludedAxis(int flags)
 {
     signed char bits = static_cast<signed char>(flags >> 4);
@@ -685,83 +398,8 @@ __forceinline void addEdge(int& mask, int value)
     else
         addCell(mask, x + 2 * y + 8);
 }
-void __stdcall CheckFeatureCacheCoverage(FeatureCache* cache, int firstFlags, int secondFlags);
-void __cdecl FUN_00da0600();
-void __cdecl FUN_00da0620(void);
-void FUN_00da0640();
-void FUN_00da0650();
-void __cdecl FUN_00da0960();
-void __cdecl FUN_00da0980();
-void __cdecl FUN_00da0990();
-void __cdecl FUN_00da09b0();
-void __cdecl FUN_00da09d0();
-void __cdecl FUN_00da09f0();
-void FUN_00da0a10();
-void __cdecl FUN_00da0a30();
-void __cdecl FUN_00da0a50();
-void __cdecl FUN_00da0a70();
-void __cdecl FUN_00da0a90();
-void __cdecl FUN_00da0ab0();
-void __cdecl FUN_00da0ad0();
-struct CallbackHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    void(__stdcall* callback)(void* argument);
-};
 extern void*(__stdcall* DAT_00fdf110)();
-struct FUN_00da2b30_Class
-{
-    int unk00;
-    int unk04;
-    CallbackHolder* holder;
-
-    void InvokeCallback();
-};
-extern int DAT_010d4de4;
-extern int DAT_01269a9c;
-struct FUN_00da2840_Obj
-{
-    void __thiscall FUN_00da2840();
-};
-struct FUN_00da2b90_Obj
-{
-    int unk00;
-    short unk04;
-    short unk06;
-    int* unk08;
-
-    unsigned int* __thiscall Initialize();
-};
-struct DA2D70Listener
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08(void* object, int value);
-};
-struct DA2D70Audio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    DA2D70Listener* m_10;
-};
-struct DA2D70Object
-{
-    int unk00;
-    unsigned short unk04;
-
-    void __thiscall FUN_00da2930();
-    void* __thiscall NotifyAudioListener(int flags);
-};
 extern BSAudio* __cdecl FUN_00c85750();
-void __cdecl FUN_00da2da0();
-void __cdecl FUN_00da44d0(int a, int b, void* pvCallback);
-void __cdecl ProcessCollisionEntry();
-void __cdecl FUN_00da4900(int a, int b);
-void* __cdecl FUN_00da3510(void*, void*);
 void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
 extern int DAT_010cf7d4;
 extern int DAT_010cf804;
@@ -770,14 +408,6 @@ struct Allocator
 {
     virtual void Reserved();
     virtual void* Alloc(unsigned int bytes);
-};
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* heap;
 };
 struct SubObject
 {
@@ -814,66 +444,8 @@ struct CreatedObject
         vtable = &DAT_010cf804;
     }
 };
-void* __cdecl FUN_00db79c0();
-struct FUN_00db7c00_obj
-{
-    virtual void vslot00(int value);
-};
-void __cdecl FUN_00db7c00(FUN_00db7c00_obj* p);
-// 0x00db7c10  /MT /O2 /GS /EHsc /Gy   target: B8 28 9B 26 01 C3  (mov eax, offset DAT_01269b28; ret)
-extern int DAT_01269b28;
-int* FUN_00db7c10();
-extern int DAT_010cce28;
-struct hkLoadedObjectDB7C
-{
-    int* m_ppVirtualMethodTable;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    FUN_00cb0a70_class m_name;
-};
-void __cdecl InitLoadedObject(void* pvObject, int iFinishing);
-extern "C" void __cdecl FUN_00ec658f(const void*);
-extern unsigned char DAT_01269b80;
-extern void* DAT_010d6260;
-extern void* DAT_01269b78;
-extern void* FUN_00fde2a0;
-extern unsigned short DAT_01269b7e;
-void* __cdecl FUN_00dba610();
 
 #include <xmmintrin.h>
-struct Vec4
-{
-    __declspec(align(16)) float v[4];
-};
-
-// @fnv 0x00db0dc0
-static __declspec(noinline) void FUN_00db0dc0(float* pFirst, float* pSecond, int idxFirst, int idxSecond,
-                                              unsigned char* pOut)
-{
-    Vec4 first = *(Vec4*)pFirst;
-    Vec4 second = *(Vec4*)pSecond;
-
-    first.v[idxFirst] = 1.0f;
-    second.v[idxSecond] = 1.0f;
-
-    __m128 zero = _mm_setzero_ps();
-    unsigned int maskFirst = _mm_movemask_ps(_mm_cmplt_ps(*(const __m128*)&first, zero));
-    unsigned int maskSecond = _mm_movemask_ps(_mm_cmplt_ps(*(const __m128*)&second, zero));
-
-    pOut[0] = (unsigned char)(((maskFirst | 0xf8) << 4) | idxFirst);
-    pOut[1] = (unsigned char)((((~maskSecond) & 7) << 4) + idxSecond);
-}
 
 volatile int gA;
 volatile int gB;
@@ -881,14 +453,8 @@ volatile int gI;
 volatile int gJ;
 volatile int gO;
 
-void drive_db0dc0(void)
-{
-    FUN_00db0dc0((float*)gA, (float*)gB, gI, gJ, (unsigned char*)gO);
-}
-
 #include <string.h>
 extern "C" __declspec(dllimport) void* __stdcall GetCurrentProcess();
-int __cdecl FUN_00eca38d(char*, unsigned int, const char*, ...);
 struct SymbolInfoBuffer
 {
     unsigned int size, address, symbolSize, flags, maxNameLength;
@@ -916,7 +482,6 @@ struct DebugFunctions
     void* unk24;
     int(__stdcall* lineFromAddress)(void*, unsigned __int64, unsigned int*, SourceLine*);
 };
-extern char DAT_01269a88;
 struct StackTracer
 {
     int unk00, unk04;
@@ -925,10 +490,6 @@ struct StackTracer
 };
 // @f3 0x009af7a0 (community match, verified in this file)
 extern char DAT_00e7e230[];
-
-extern char DAT_00e7e220[];
-
-extern char DAT_00e7e218[];
 
 extern char DAT_00e7e208[];
 
@@ -943,6 +504,7 @@ extern int (__stdcall* DAT_01169374)(void*, unsigned __int64, unsigned int*, Sou
 extern void* (__stdcall* DAT_00d9b258)();
 extern int __cdecl FUN_00c04534(char*,unsigned int,const char*,...);
 
+// pdb: hkStackTracer::dumpStackTrace | hkStackTracer.obj | tesv_win, callee_sim, low
 void StackTracer::FUN_00da2990(unsigned int* addresses,int count,void(__cdecl* output)(const char*,void*),void* context)
 
 {
@@ -1099,14 +661,7 @@ static __declspec(noinline) int FUN_00dad340(const dad340_quad* q, const RowTabl
     return 1;
 }
 
-extern "C" const RowTable* get_rows();
-extern "C" dad340_quad* get_quad();
-extern "C" __m128* get_output();
 volatile int dad340_result;
-void dad340_drive()
-{
-    dad340_result = FUN_00dad340(get_quad(), get_rows(), get_output());
-}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128i
 {
@@ -1192,11 +747,6 @@ class GridVector
     }
     static __forceinline const GridVector& zero();
 };
-extern "C" GridVector DAT_01267e30;
-__forceinline const GridVector& GridVector::zero()
-{
-    return DAT_01267e30;
-}
 
 struct GridBounds
 {
@@ -1264,41 +814,3 @@ struct GridArray
         return data[i];
     }
 };
-struct GridMesh
-{
-    GridArray vertices;
-};
-
-// @fnv 0x00da0d50
-void __cdecl FUN_00da0d50(GridMesh& mesh, int resolution)
-{
-    GridBounds bounds;
-    bounds.reset();
-    for (int i = 0; i < mesh.vertices.size(); ++i)
-        bounds.include(mesh.vertices[i]);
-    GridVector border;
-    border.fill(0.01f);
-    bounds.lower.subtract(border);
-    bounds.upper.add(border);
-    GridVector width;
-    width.difference(bounds.upper, bounds.lower);
-    GridVector domain;
-    domain.fill(float(resolution - 1.0));
-    GridVector step;
-    step.quotient(width, domain);
-    GridVector reciprocal;
-    reciprocal.quotient(domain, width);
-    for (int i = 0; i < mesh.vertices.size(); ++i)
-    {
-        GridVector value;
-        value.difference(mesh.vertices[i], bounds.lower);
-        value.multiply(reciprocal);
-        GridUInt packed;
-        packed.encode(value);
-        packed.decode(value);
-        value.maximum(GridVector::zero(), value);
-        value.minimum(domain, value);
-        value.multiply(step);
-        mesh.vertices[i].sum(value, bounds.lower);
-    }
-}

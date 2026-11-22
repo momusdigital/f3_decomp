@@ -5,72 +5,14 @@
 
 // src/havok/common/serialize/version/hkversionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl VisitObjectList(int, int);
-struct FUN_00db7a80_Class
-{
-    int __pad0;
-    int __pad1;
-    int __pad2;
-    int m_kPointB;
-    int m_iThirdValue;
-    int m_iFourthElementInteger;
-    void EnsureInitialized();
-};
-struct MemoryManager
-{
-    virtual void FUN_00e00000() = 0;
-    virtual void FUN_00e00004() = 0;
-    virtual void FUN_00e00008(void*, unsigned short) = 0;
-};
-struct MemoryRouter
-{
-    void* m_p00;
-    void* m_p04;
-    void* m_p08;
-    void* m_p0C;
-    MemoryManager* m_pMemoryManager;
-};
-MemoryRouter* _D1A0E0GetMemoryRouter();
 struct Object
 {
     void FUN_00e03160();
 };
-struct FUN_00e049d0_Class : Object
-{
-    unsigned int m_auiShapeKeys;
-    unsigned short m_type;
-
-    FUN_00e049d0_Class* FUN_00e049d0(int flags);
-};
-extern "C" char str_010cf830[];
-void* __cdecl FUN_00dc0fb0();
-struct FUN_00d86980_Class
-{
-    int FUN_00d86980();
-};
-struct FUN_00d871a0
-{
-    int m_00;
-    int m_04;
-
-    FUN_00d871a0(void*, int);
-    bool& FUN_00d871e0(bool&);
-    void* FUN_00d871f0();
-    FUN_00d86980_Class* FUN_00d87370();
-};
-extern "C" void* __cdecl FUN_00cb1260(void*, const void*, unsigned int);
-void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4);
 struct FUN_00d46d40_s
 {
     const char* FUN_00d46d40() const throw();
 };
-class GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
-{
-  public:
-    int m_00;
-};
-extern GlobalObjectO2_00d472a0 g_01268748;
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB) throw();
 class hkClassMemberDC11
 {
   public:
@@ -94,12 +36,6 @@ class hkClassMemberDC11
     int FUN_00d86920() const throw();
     const FUN_00d46d40_s& FUN_00d86910() const throw();
 };
-class hkVersionCheckDC11
-{
-  public:
-    int FUN_00e032d0(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
-    int IsMemberCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
-};
 class hkMemoryAllocatorDC12;
 struct hkMemoryRouterDC12
 {
@@ -114,7 +50,6 @@ struct hkMemoryRouterDC12
     }
 };
 extern "C" hkMemoryRouterDC12& __cdecl FUN_00c85750();
-void __cdecl ProcessObjectArray(void* const* ppvList, int iFlags) throw();
 class hkPointerMapDC12
 {
   public:
@@ -143,20 +78,9 @@ class hkVisitorDC12
         FUN_00dc1670();
     }
     void FUN_00dc1670() throw();
-    void FUN_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
+    void hkStructureLayout_computeMemberOffsetsInplace(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
 };
 // @fnv 0x00dc1230
-extern "C" void __cdecl VisitObjectList(int iList, int iFlags)
-{
-    void* const* ppvList = reinterpret_cast<void* const*>(iList);
-    ProcessObjectArray(ppvList, iFlags);
-    hkVisitorDC12 kVisitor;
-    hkPointerMapDC12 kDone;
-    kDone.EnsureCapacity(FUN_00c85750().heap(), 0);
-    for (int i = 0; ppvList[i]; i++)
-        kVisitor.FUN_00dc1bb0(ppvList[i], kDone, 1);
-    kDone.ProcessArgument(FUN_00c85750().heap());
-}
 class hkBoolDC10
 {
   public:
@@ -166,48 +90,6 @@ class hkBoolDC10
     }
     char m_cBooleanValue;
 };
-class FUN_00d27520
-{
-  public:
-    void FUN_00d27520_dtor() throw();
-    int unk00;
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    int m_offset;
-    char* m_buf;
-    int m_curSize;
-    int m_iCapacity;
-    char m_overflowed;
-};
-class FUN_00d274c0 : public FUN_00d27520
-{
-  public:
-    FUN_00d274c0(void* pvMem, int m_uiSizeAndFlags, hkBoolDC10 bMemoryIsString) throw();
-    int FUN_00d27380(int offset, int whence) throw();
-};
-struct EntryDC10
-{
-    int m_key;
-    int unk04;
-    int unk08;
-    int unk0C;
-    unsigned short unk10;
-    unsigned short m_offset;
-};
-class SetDC10
-{
-  public:
-    int FUN_00d46fe0(int key) throw();
-};
-class SectionsDC10
-{
-  public:
-    int FUN_00d470d0() throw();
-    int FUN_00d46f00() throw();
-    EntryDC10* FUN_00d46f20(int i) throw();
-    void InvokeTarget(int i, FUN_00d27520* pkWriter) throw();
-};
-void __cdecl FUN_00dc1070(void* pvBuf, SetDC10* pkSet, SectionsDC10* pkSections);
 struct S00dc15a0_Buffer
 {
     virtual void vf00();
@@ -237,15 +119,12 @@ struct S00dc15a0_Array
 namespace fnvc_adapt {
 extern "C" S00dc15a0_AudioSystem* __cdecl FUN_00c85750();
 }
-extern "C" void __cdecl FUN_00c908c0(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
 static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
 {
     arr->m_iElementCount = (int)&params + (int)&value + (int)&flags;
     return arr->m_capFlags;
 }
-int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags);
 
-extern "C" void _ReadWriteBarrier();
 struct ByteBuffer
 {
     ~ByteBuffer();
@@ -298,11 +177,6 @@ struct CopyRouter
     CopyAllocator* allocator;
 };
 
-struct MapEntry
-{
-    void* object;
-    int offset;
-};
 struct OffsetMap
 {
     void* entries;
@@ -336,7 +210,6 @@ struct CopyOption
     int value;
     void FUN_00dc1680(const int*);
 };
-extern int DAT_011b7b88;
 struct Relocation
 {
     int offset;
@@ -379,7 +252,7 @@ struct CopyWriter : Object
     int position;
     int options;
     void FUN_00dc1040(CopyOption*, CopyOption*);
-    int FUN_00e04920(void*, int, int, int, Relocations*);
+    int hkObjectCopier_copyObject(void*, int, int, int, Relocations*);
     ~CopyWriter()
     {
         FUN_00e03160();
@@ -543,6 +416,7 @@ struct F3Writer
 
 extern "C" void __cdecl FUN_009234e0(char* dst, const char* src, int size);
 
+// pdb: `anonymous namespace'::copySomeObjects | hkVersionUtil.obj | fnv360_0822_retail, caller_sim, low
 static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput objectInput, OffsetInput offsetInput,
                                                CopyListener* listener)
 {

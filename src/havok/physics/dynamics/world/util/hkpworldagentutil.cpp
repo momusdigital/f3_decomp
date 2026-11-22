@@ -178,7 +178,6 @@ struct S_00cc10b0_Agent
 };
 
 S_00cc10b0_Island* __cdecl PickIslandByValue(S_00cc10b0_Agent* agent, S_00cc10b0_Island* a, S_00cc10b0_Island* b);
-void __cdecl FUN_00cfea30(int* p, S_00cc10b0_Agent* agent, int w, S_00cc10b0_Island* island);
 
 // @f3 0x00944730 (community match, verified in this file)
 struct S_00cc10b0_EntityF3
@@ -273,7 +272,8 @@ struct S_00cc10b0_WorldF3
     int m_74;
 };
 void __cdecl FUN_00999390(int* p, S_00cc10b0_Agent* agent, int w, S_00cc10b0_Island* island);
-void __cdecl FUN_00cc10b0(S_00cc10b0_Agent* agent)
+// pdb: hkpWorldAgentUtil::removeAgent | hkpWorldAgentUtil.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl hkpWorldAgentUtil_removeAgent(S_00cc10b0_Agent* agent)
 {
     S_00cc10b0_EntityF3* entityA = (S_00cc10b0_EntityF3*)agent->m_pCollidableA->getOwner();
     S_00cc10b0_Island* islandA = entityA->m_pCurrentSimulationIsland;
@@ -400,11 +400,13 @@ struct Owner
     int unk0c;
     Root* root;
 };
-void __cdecl FUN_00cc10b0(Owner* owner);
-// Calls Invoke on the interface object reached through root's displacement-indexed entry, then calls FUN_00cc10b0.
+void __cdecl hkpWorldAgentUtil_removeAgent(Owner* owner);
+// Calls Invoke on the interface object reached through root's displacement-indexed entry, then calls hkpWorldAgentUtil_removeAgent.
 // @f3 0x009447d0 (community match, verified in this file)
 void __cdecl FUN_00944730(Owner* owner);
 
+// pdb: hkpWorldAgentUtil::removeAgentAndItsToiEvents | hkpWorldAgentUtil.obj | fnv360_0822_retail, caller, medium
+// pdb params: agent
 void __cdecl FUN_00cc1160(Owner* owner)
 {
     Owner* pOwner = owner;
@@ -468,23 +470,6 @@ struct DispatchContext
     void* table;
 };
 typedef void(__cdecl* EventHandler)(void*, void*, void*, void*, void*, void*, void*);
-struct MemoryAllocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void Free(void* pointer, unsigned int bytes);
-};
-struct BSAudio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    MemoryAllocator* volatile allocator;
-};
-extern BSAudio* __cdecl FUN_00c85750();
 // @f3 0x00944510 (community match, verified in this file)
 struct EventSourceView
 {
@@ -515,6 +500,8 @@ struct EventSourceView
     int count;
 };
 
+// pdb: hkpWorldAgentUtil::getIslandFromAgentEntry | hkpWorldAgentUtil.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: entry, candidateA, candidateB
 void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
 {
     EventSourceView* view = (EventSourceView*)source;
@@ -575,18 +562,18 @@ struct ItemOwner
     int m_iArrayLength;
 };
 
-void __cdecl FUN_00cfdbe0(void* pItem, void* pContext);
-
 // @f3 0x007a6d70 (community match, verified in this file)
 struct ItemOwner;
-struct Call7a6d70 { void FUN_0079fc80(void* item, int n); };
+struct Call7a6d70 { void CombatGroup_SetMemberGroupStrategyAssignment(void* item, int n); };
 struct Ent7a6d70 { int key; void* item; };
 struct Ctx7a6d70 { char pad[0x1c]; Ent7a6d70* entries; int count; };
+// pdb: CombatGroupStrategyAdvance::Execute | CombatGroupStrategy.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apGroup, apGroupData
 void __stdcall FUN_00cc0ea0(ItemOwner* pOwner, void* pContext)
 {
     Ctx7a6d70* c = (Ctx7a6d70*)pContext;
     for (int i = 0; i < c->count; ++i)
-        ((Call7a6d70*)pOwner)->FUN_0079fc80(c->entries[i].item, 4);
+        ((Call7a6d70*)pOwner)->CombatGroup_SetMemberGroupStrategyAssignment(c->entries[i].item, 4);
 }
 
 
@@ -630,7 +617,10 @@ void __cdecl DispatchSlotCallback(S_00cc0ed0_Rec* r, float a, float b, int c);
 
 // Iterates over the block pointers in m5c, calling DispatchSlotCallback on each record up to the block end (m58 for the last block, 0x200 otherwise).
 // @fnv 0x00cc0ed0
-void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, int a4)
+// pdb: hkpWorldAgentUtil::warpTime | hkpWorldAgentUtil.obj | fnv360_0822_retail, call_seq, high
+// pdb params: island, oldTime, newTime, collisionInput
+// pdb: hkpWorldAgentUtil::warpTime | hkpWorldAgentUtil.obj | fnv360_0822_retail, call_seq, high (was: ProcessBlocks)
+void __cdecl hkpWorldAgentUtil_warpTime(S_00cc0ed0_Blocks* s, float a2, float a3, int a4)
 {
     int i = 0;
     if (s->m60 > 0)
@@ -657,84 +647,6 @@ void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, int a4)
     }
 }
 
-struct S_00cc0f40_Prop
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    unsigned short w20;
-};
-struct S_00cc0f40_Body
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    signed char b8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    S_00cc0f40_Prop* prop;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    int unkE0;
-    int unkE4;
-    char kind;
-};
-struct S_00cc0f40_Flag
-{
-    char v;
-};
 struct S_00cc0f40_Type
 {
     int unk00;
@@ -768,48 +680,6 @@ struct S_00cc0f40_In
 {
     S_00cc0f40_Tbl* table;
 };
-void __cdecl FUN_00cb5570(int a, S_00cc0f40_Body* b, S_00cc0f40_Body* c);
-S_00cc0f40_Coll* __cdecl FUN_00cfe1d0(S_00cc0f40_Coll* c, void* o1, void* o2, int n, char* flag);
-void __cdecl GetNodePairValue(S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, S_00cc0f40_In* in, int* o1, int* o2);
-void __cdecl FUN_00cfe8a0(S_00cc0f40_Body* z, S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, S_00cc0f40_Coll* c,
-                          S_00cc0f40_Coll* d, S_00cc0f40_Flag flag, int v, S_00cc0f40_In* in, int r);
-// Resolves the bodies behind two collision objects, swaps them if needed, calls the table's v3 handler and passes the result to FUN_00cfe8a0.
-// @fnv 0x00cc0f40
-void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00cc0f40_In* in)
-{
-    S_00cc0f40_Body* a = (S_00cc0f40_Body*)((char*)pCollA + pCollA->off);
-    S_00cc0f40_Body* b = (S_00cc0f40_Body*)((char*)pCollB + pCollB->off);
-    if (a->kind != 5 && b->kind != 5 && a->prop != b->prop)
-        FUN_00cb5570((int)a->unk08, a, b);
-    S_00cc0f40_Prop* pPropA = a->prop;
-    S_00cc0f40_Prop* pPropB = b->prop;
-    S_00cc0f40_Prop* z = pPropA->w20 == 0xffff ? (pPropB->w20 == 0xffff ? pPropA : pPropB) : pPropA;
-    S_00cc0f40_Flag flag;
-    flag.v = 0;
-    S_00cc0f40_Coll* s1 = pCollA;
-    S_00cc0f40_Coll* s2 = pCollB;
-    __declspec(align(16)) unsigned int bufA[0x2b4 / 4];
-    __declspec(align(16)) unsigned int bufB[0x2b4 / 4];
-    unsigned int outA[16];
-    unsigned int outB[16];
-    if (pCollA->type->kind == 0xf)
-        s1 = FUN_00cfe1d0(pCollA, outA, bufA, 4, &flag.v);
-    if (pCollB->type->kind == 0xf)
-        s2 = FUN_00cfe1d0(pCollB, outB, bufB, 4, &flag.v);
-    int swap, o;
-    GetNodePairValue(s1, s2, in, &o, &swap);
-    if (swap)
-    {
-        S_00cc0f40_Coll* pTemp = pCollA;
-        pCollA = pCollB;
-        pCollB = pTemp;
-        pTemp = s1;
-        s1 = s2;
-        s2 = pTemp;
-    }
-    int r = in->table->fn[a->b8c * 8 + b->b8c]->v3(pCollA, pCollB, in);
-    FUN_00cfe8a0((S_00cc0f40_Body*)((char*)z + 0x58), pCollA, s1, pCollB, s2, flag, o, in, r);
-}
 
 struct Island
 {
@@ -820,6 +690,8 @@ struct Island
 
 // Returns the island with the smaller count if val falls within 0x200 of an entry in its array, otherwise the island with the larger count.
 // @fnv 0x00cc0e20
+// pdb: hkpWorldAgentUtil::getIslandFromAgentEntry | hkpWorldAgentUtil.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: entry, candidateA, candidateB
 Island* __cdecl PickIslandByValue(unsigned int val, Island* apIslandA, Island* apIslandB)
 {
     bool less = apIslandA->count <= apIslandB->count;
@@ -844,6 +716,7 @@ struct SelectorTarget
 };
 
 // @fnv 0x00cc0e90
+// pdb: getAgentData | hkpWorldAgentUtil.obj | fnv360_0822_retail, objrun_open, low
 static unsigned int FUN_00cc0e90(SelectorTarget* p)
 {
     if (p->m_00 == 4)
@@ -859,11 +732,3 @@ unsigned int probe_caller(SelectorTarget* p)
 }
 
 unsigned int probe_sink;
-
-int main()
-{
-    SelectorTarget a;
-    a.m_00 = 4;
-    probe_sink = probe_caller(&a);
-    return 0;
-}

@@ -6,7 +6,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_01202580;
-void* __cdecl FUN_00c25870();
+void* __cdecl BSLookIKNote_GetRTTI();
 struct NiRefObject
 {
     ~NiRefObject();
@@ -222,6 +222,8 @@ struct C25990Elem
     static void operator delete[](void* p);
 };
 // @fnv 0x00c25990
+// pdb: NiTNewInterface<NiPSysUpdateTask>::Allocate | NiPSysUpdateTask.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: uiNumElements
 void* __cdecl FUN_00c25990(unsigned int count)
 {
     return new (count) C25990Elem[count];

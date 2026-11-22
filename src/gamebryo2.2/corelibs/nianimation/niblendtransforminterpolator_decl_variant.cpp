@@ -7,12 +7,12 @@
 #include "niblendtransforminterpolator_NiObjectNET.h"
 struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 {
-    void* FUN_00a40a40();
+    void* BSSplatterExtraData_GetRTTI();
 };
 extern "C" const NiRTTI* g_011f3e64;
 struct FUN_00a40a20_shell : public NiBlendTransformInterpolator
 {
-    bool FUN_00a40a20(NiObject*);
+    bool BSDismemberSkinInstance_RegisterStreamables(NiObject*);
 };
 struct FUN_00a36fd0_tgt
 {
@@ -52,7 +52,7 @@ struct NiUpdateOwner_b9169
 };
 struct FUN_00a40a50_cls : NiUpdateOwner_b9169
 {
-    NiBlendObject_b9169* CreateBlendObject(int a1);
+    NiBlendObject_b9169* NiBlendTransformInterpolator_CreateClone(int a1);
 };
 extern unsigned int DAT_011a8400;
 extern unsigned int DAT_011a8404;
@@ -174,6 +174,8 @@ __forceinline void Invalidate850(NiQuatTransform& value)
     value.m_fScale = value.m_kRotate.m_fVectorY = value.m_kTranslate.x = -3.402823466e+38F;
 }
 // @fnv 0x00a40b30
+// pdb: NiBlendTransformInterpolator::StoreSingleValue | NiBlendTransformInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fTime, pkInterpTarget, kValue
 bool NiBlendTransformInterpolator::FUN_00a40b30(float time, NiObjectNET* object, NiQuatTransform& value)
 {
     if (m_uiObjectFlags & 1)

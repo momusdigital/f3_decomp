@@ -323,6 +323,7 @@ extern unsigned DAT_011726ec;
 extern unsigned DAT_01171b0c;
 
 
+// pdb: ShadowLightShader::PresetADTSPasses_2x | ShadowLightShader_Preset_2x.obj | fnv360_0822_retail, uconst, low
 void __cdecl FUN_00b72650() {
     PassOwner pass;
     StageOwner stage;
@@ -2112,8 +2113,8 @@ public:
  unsigned unk24;
  unsigned unk28;
  bool valid;
- void FUN_0048be50(void*,unsigned);
- void ReadBytes(void* p,unsigned n) { FUN_0048be50(p,n); }
+ void NiBinaryStream_Read(void*,unsigned);
+ void ReadBytes(void* p,unsigned n) { NiBinaryStream_Read(p,n); }
 };
 struct ShaderBufferRecord {};
 struct CacheEntryView {
@@ -2537,6 +2538,8 @@ inline bool IsEmptyDirectory(const char* p){return StringsEqual(0,p);}
 int __cdecl FUN_00403230(char*,unsigned,const char*,...);
 void __cdecl FUN_00bcb0e0(const char*);
 inline void Cat(char* d, unsigned n, const char* s) { strcat_s(d, n, s); }
+// pdb: BSShader::CompileVertexShaderHLSL | BSShader.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFilename, apMacro, apTarget, apCacheName
 NiD3DVertexShader* __stdcall FUN_00b62f60(const char* source, _D3DXMACRO* macros, const char* profile,
                                      const char* shaderName)
 {
@@ -3208,6 +3211,7 @@ extern unsigned int DAT_0116f334;
 
 // For each of four global passes, fills missing stages, assigns shader programs, sets render states and writes per-pass constants.
 // @fnv 0x00bfbf60
+// pdb: ShadowLightShader::PresetEnvMapPasses_2x | ShadowLightShader_Preset_2x.obj | fnv360_0822_retail, uconst, low
 void FUN_00b7de40()
 {
     NiPointer<Pass_bfbf60> spRenderPass;
@@ -3434,6 +3438,8 @@ struct SelectShader
                      bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h, bool i, bool j, bool k);
 };
 // @fnv 0x00bde1d0
+// pdb: BSShaderPPLightingProperty::AddAmbDiffTexPass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0721_beta, call_gap, low
+// pdb params: apGeom, apSunlight, asCount, abUpdateList, abFirst, abSkinned, abGlowMap, abFacegenBlend, abMultitexture, abProjShadow, abParallax, abModelSpaceNormals, abTreeBranch, abTreeBillboard, abHair, abAlphaTest
 int SelectShader::FUN_00b60490(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count, unsigned char type,
                                bool* out, bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h, bool i,
                                bool j, bool k)
@@ -3981,6 +3987,8 @@ struct Shader98
 };
 // If the light's color differs from DAT_0108f450, picks a pass id from the flag combination and either runs FUN_00b2c0b0 or increments *count, then clears *out.
 // Adapted from the compiled FNV compatibility overlay, recovery:9049.
+// pdb: BSShaderPPLightingProperty::AddSpecularPass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apLight, asCount, abUpdateList, abFirst, abSkinned, abMultitexture, abProjShadow, abParallax, abTreeBranch, abHair
 int Shader98::FUN_00b611d0(NiGeometry* geom, Light98* light, unsigned short* count, unsigned char mode, bool* out,
                            bool alternate, bool unused, bool flagA, bool flagB, bool flagC, bool flagD)
 {
@@ -4449,6 +4457,8 @@ struct Shader91
 };
 // Builds a light pass from the shader's passes, fills its light list, and picks a pass type from the mode, light count and flags; returns the pass.
 // @fnv 0x00bde9b0
+// pdb: BSShaderPPLightingProperty::AddAmbDiffTexSpecular10Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apSunlight, asCount, abUpdateList, abFirst, abSkinned, abGlowMap, abSpecular, abFaceGenBlend, abExtraLight
 Pass91* Shader91::FUN_00b60c70(Geometry91* geometry, Light91* light, unsigned short* count, unsigned char mode,
                                bool* out, bool alternate, bool special, bool flagA, bool flagB, bool extra)
 {
@@ -4689,6 +4699,8 @@ PassArray* pPasses;
 int FUN_00b600d0(NiGeometry*,ShadowSceneLight*,ShadowSceneLight*,unsigned short*,unsigned char,bool*,bool,bool,bool,bool);
 };
 // @fnv 0x00bdda20
+// pdb: BSShaderPPLightingProperty::AddSpecularPt2Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeom, apLight, apLight2, asCount, abUpdateList, abFirst, abSkinned, abParallax, abTreeBranch, abHair
 int ShaderPassSelector::FUN_00b600d0(NiGeometry* geom, ShadowSceneLight* light0, ShadowSceneLight* light1,
                                      unsigned short* count, unsigned char type, bool* out, bool a, bool b,
                                      bool d, bool e)
@@ -4797,6 +4809,8 @@ struct Shader_bddfb0
 };
 
 // @fnv 0x00bddfb0
+// pdb: BSShaderPPLightingProperty::AddSpecularPt3Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apLight, apLight2, apLight3, asCount, abUpdateList, abFirst, abSkinned, abParallax, abTreeBranch, abHair
 int Shader_bddfb0::FUN_00b60270(NiGeometry* geom, ShadowSceneLight* pLight0, ShadowSceneLight* pLight1,
                                 ShadowSceneLight* pLight2, unsigned short* count, unsigned char type, bool* out, bool a,
                                 bool b, bool c, bool d)
@@ -5369,6 +5383,7 @@ extern NiPointer<ShaderPass> DAT_01174630;
 extern NiPointer<ShaderPass> DAT_01174634;
 extern NiPointer<ShaderPass> DAT_01174638;
 
+// pdb: ShadowLightShader::PresetLandscape_2x | ShadowLightShader_Preset_2x.obj | fnv360_0822_retail, uconst, low
 void __cdecl FUN_00b7e740() {
     NiPointer<ShaderPass> pass;
     NiPointer<TextureStage> stage;
@@ -6633,6 +6648,7 @@ extern Property* DAT_011737e4;
 extern unsigned int DAT_0116f324, DAT_0116f328, DAT_0116f2fc;
 extern unsigned int DAT_01172f50, DAT_01172f54, DAT_01172f58, DAT_01172f5c;
 extern unsigned int DAT_01172370, DAT_01172374, DAT_01172378, DAT_0117237c;
+// pdb: ShadowLightShader::PresetTexturePasses_1x | ShadowLightShader_Preset_1x.obj | fnv360_0822_retail, objrun_prop, medium
 void __cdecl FUN_00b6a8f0() {
     PassPtr pass;
     StagePtr stage;
@@ -6877,6 +6893,7 @@ extern unsigned DAT_01172fcc;
 extern unsigned DAT_01172fd4;
 extern unsigned DAT_01172fd8;
 
+// pdb: ShadowLightShader::PresetSpecularPasses_2x | ShadowLightShader_Preset_2x.obj | fnv360_0822_retail, objrun, medium
 void FUN_00b7b590() {
     NiPointer<PassRef> pass;
     NiPointer<StageRef> stage;
@@ -8932,6 +8949,7 @@ __forceinline void BuildFirst(ShaderPass* pass, NiPointer<TextureStage>& stage) 
     DAT_01170a4c = 0;
 
 }
+// pdb: ShadowLightShader::PresetADTPasses_2x | ShadowLightShader_Preset_2x.obj | fnv360_0822_retail, uconst, low
 void __cdecl FUN_00b6dcc0() {
     PassPointer pass;
     NiPointer<TextureStage> stage;
@@ -10275,6 +10293,7 @@ extern int DAT_01172200;
 extern int DAT_01171620;
 extern int DAT_01170a40;
 
+// pdb: ShadowLightShader::PresetADPasses_2x | ShadowLightShader_Preset_2x.obj | fnv360_0822_retail, objrun, medium
 void FUN_00b78590() {
     NiPointer<Pass> pass;
     NiPointer<Stage> stage;
@@ -11485,6 +11504,7 @@ extern "C" void __cdecl FUN_00b62c70(TemporaryResource*, unsigned int, unsigned 
 extern "C" GraphicsManager* __cdecl FUN_00890750();
 struct GraphicsSetup { void FUN_00b7ae40(); };
 // @fnv 0x00bf8f70
+// pdb: ShadowLightShader::PresetDiffusePtPasses_2x | ShadowLightShader_Preset_2x.obj | fnv360_0822_retail, objrun, medium
 void GraphicsSetup::FUN_00b7ae40()
 {
     ScopedSystem system;
@@ -11755,6 +11775,7 @@ extern unsigned int DAT_0116f324;
 extern unsigned int DAT_0116f328;
 extern unsigned int DAT_0116f2fc;
 // @fnv 0x00be78e0
+// pdb: ShadowLightShader::PresetZOnlyPasses_1x | ShadowLightShader_Preset_1x.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void __cdecl FUN_00b69860()
 {
     ScopedSystem system;
@@ -12566,7 +12587,7 @@ struct PShader
 
 
     virtual void fallback(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
-    void FUN_00b61a20(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
+    void BSShaderPPLightingProperty_GetRenderPasses_2x(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
     bool IsKindOf(const RuntimeType* wanted) const {for(const RuntimeType* t=GetType();t;t=t->parent)if(t==wanted)return true;return false;}
 PShader* CastTo(const RuntimeType* wanted){return IsKindOf(wanted)?this:0;}
     bool FUN_00468ec0(unsigned int);
@@ -12637,7 +12658,8 @@ extern RuntimeType DAT_01176520, DAT_0117826c, DAT_01176508;
 PContext* __cdecl FUN_00ad5a50();
 bool __cdecl FUN_00530bb0();
 
-void PShader::FUN_00b61a20(PGeom* geom, int renderFlags, unsigned short* count, int mode, PRenderer* renderer,
+// pdb: BSShaderPPLightingProperty::GetRenderPasses_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0721_beta, udata + bridge(caller_sim|caller_sim), high
+void PShader::BSShaderPPLightingProperty_GetRenderPasses_2x(PGeom* geom, int renderFlags, unsigned short* count, int mode, PRenderer* renderer,
                            unsigned char passMode)
 {
     bool diffusePass = (flags & 1) > 0;
@@ -13032,6 +13054,8 @@ struct Ownerb60040 {
     int FUN_00b60040(void* a1, int a2, unsigned short* a3, unsigned char a4, unsigned char* a5, bool a6, int a7, int a8, int a9, int a10, int a11, bool a12, int a13);
 };
 
+// pdb: BSShaderPPLightingProperty::AddTexturePass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeom, apSunlight, asCount, abUpdateList, abFirst, abSkinned, abMultitexture, abFacegenBlend, abVertexColors, abTreeBranch, abProjShadow, abParallax, abHair
 int Ownerb60040::FUN_00b60040(void* a1, int a2, unsigned short* a3, unsigned char a4, unsigned char* a5, bool a6, int a7, int a8, int a9, int a10, int a11, bool a12, int a13)
 {
     if (a12) {

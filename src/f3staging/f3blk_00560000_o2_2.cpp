@@ -458,8 +458,8 @@ int unk68; int state; };
 struct Other { void FUN_00579dc0(float); };
 bool FUN_00576ba0(Obj*);
 void FUN_0048fd80(void*);
-struct Manager2 { double FUN_004e9080(); };
-__forceinline bool checkThreshold(){ double limit=DAT_0107a224->get()->value; return ((Manager2*)DAT_0107a104)->FUN_004e9080()>limit; }
+struct Manager2 { double TESObjectREFR_GetRelevantWaterHeight(); };
+__forceinline bool checkThreshold(){ double limit=DAT_0107a224->get()->value; return ((Manager2*)DAT_0107a104)->TESObjectREFR_GetRelevantWaterHeight()>limit; }
 struct Obj { int unk0;
 int unk4;
 int unk8;
@@ -531,19 +531,20 @@ int unk10C;
 int unk110;
 int unk114;
 unsigned flags;
-void FUN_0057c650(float); void FUN_0057c6b0(); void FUN_0057de00(); void FUN_0057b700(); void FUN_0057bac0(); void FUN_0057aaa0(); void FUN_0057cae0();
-void FUN_0057e0a0(float dt);
+void FUN_0057c650(float); void Sky_HandleClimateChange(); void Sky_UpdateWeather(); void FUN_0057b700(); void FUN_0057bac0(); void FUN_0057aaa0(); void FUN_0057cae0();
+void Sky_Update(float dt);
 };
-void Obj::FUN_0057e0a0(float dt) {
+// pdb: Sky::Update | Sky.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller), high
+void Obj::Sky_Update(float dt) {
  Context context(33);
  if(DAT_0107a104->unk3C) {
  time=DAT_01079f68.FUN_006e2a90();
  if(DAT_0107a104 && DAT_0107a104->unk3C && checkThreshold()) flags|=4; else flags&=~4;
  if(mode==1 && !DAT_01079858->active()) FUN_0057c650(dt);
  else {
- FUN_0057c6b0();
+ Sky_HandleClimateChange();
  if(DAT_01079858->active()) flags|=1;
- FUN_0057de00(); FUN_0057b700(); FUN_0057bac0(); FUN_0057aaa0(); FUN_0057cae0();
+ Sky_UpdateWeather(); FUN_0057b700(); FUN_0057bac0(); FUN_0057aaa0(); FUN_0057cae0();
  if(c20)c20->update(this,dt); if(c24)c24->update(this,dt); if(c2c)c2c->update(this,dt); if(c28)c28->update(this,dt);
  if(((flags&0x20) && stamp<DAT_01079f68.FUN_006e2ac0()) || DAT_01079858->active()) {
  bool ok=FUN_00576ba0(this);
@@ -571,6 +572,7 @@ struct State578210 {
     int unk18;
     State578210();
 };
+// pdb: BSMasterParticleSystem::GetActiveEmitterObjCount | BSPSysMultiTargetEmitterCtlr.obj | tesv_win, objrun_open, low
 State578210::State578210()
     : unk04(0), unk08(0), unk0C(0), unk10(0), unk14(0), unk18(0) { kind = 2; }
 }   // namespace f3m_00578210
@@ -582,6 +584,8 @@ struct Properties56 {int unk00; int unk04; int unk08; int unk0C; int unk10; int 
 struct Metric56 {float FUN_008f8410();};
 struct Body56 {int unk00; int unk04; int unk08; int unk0C; Properties56 unk10; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; Metric56 unkD0; Properties56* Properties(){return &unk10;} unsigned Type(){Properties56* p=Properties();return p?p->unk1C:0;}};
 struct Input56 {int unk00,unk04;Body56* unk08;};
+// pdb: TESHavokUtilities::ScaleGameplayImpulseForce | TEShavokUtilities.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: hkpVehicleDefaultSuspension::calcSuspension)
+// pdb params: afBaseForce, apPushedBody, abUseMinMass
 float FUN_0056fc20(float scale,Input56* input,bool adjust){if(!input)return scale;Body56* body=input->unk08;unsigned type=body?body->Type():0;float value;switch(type&0x7f){case 14:value=DAT_00f62010;break;case 8:case 29:value=DAT_00f6201c;break;case 10:value=DAT_00f62028;break;case 20:value=DAT_00f6204c;break;default:value=DAT_00f62034;break;}if(adjust){float metric=body?body->unkD0.FUN_008f8410():0.0f;if(metric<DAT_00f62040)value=value*(metric/DAT_00f62040);}value=DAT_00f62004*value;value=value*scale;return value;}
 }   // namespace f3m_0056fc20
 
@@ -594,6 +598,7 @@ struct bhkWaterListener {virtual ~bhkWaterListener();int unk04,unk08,unk0C,unk10
 struct BGSZoneTargetListener {virtual ~BGSZoneTargetListener();int unk04;BGSZoneTargetListener();};
 struct WaterList573 {int first,count,capacity;WaterList573(){capacity=0;first=0;count=0;}~WaterList573();};
 struct TESWaterListener:bhkWaterListener,BGSZoneTargetListener {float scale;WaterScalar573* data;int unk24;int side;int unk2C,unk30;WaterList573 list;TESWaterListener();virtual ~TESWaterListener();};
+// pdb: TESWaterListener::TESWaterListener | TESWaterListener.obj | fnv360_0822_retail, call_seq, medium
 TESWaterListener::TESWaterListener():bhkWaterListener(),BGSZoneTargetListener(),scale(1.0f){side=DAT_0106e9cc;data=new WaterScalar573[side*side];}
 }   // namespace f3m_00573570
 
@@ -727,6 +732,8 @@ struct C {
     void FUN_005688b0(float f, int n);
 };
 
+// pdb: CameraCaster::Init | CameraCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afRadius, aiGroup
 void C::FUN_005688b0(float f, int n)
 {
     Thing* t = new Thing(f, 1);
@@ -1012,6 +1019,7 @@ __declspec(noinline) void Owner::FUN_0056e770(Box* box, ArrayView<Group*>* a)
     }
 }
 
+// pdb: LoadedAreaBound::CheckForDynamicBodiesOutsideBound | LoadedAreaBound.obj | fnv360_1110_retail, objrun_prop, low
 void Owner::FUN_0056ec10()
 {
     Box cur;
@@ -1738,6 +1746,8 @@ public:
     void FUN_0056edf0(TESObjectCELL* apCell, GridCellArray* apCellGrid);                   // Update
 };
 
+// pdb: LoadedAreaBound::Update | LoadedAreaBound.obj | fnv360_1110_retail, objrun_prop, low
+// pdb params: apCell, apCellGrid
 void LoadedAreaBound::FUN_0056edf0(TESObjectCELL* apCell, GridCellArray* apCellGrid)
 {
     if (apCell != m_pCell && apCell)

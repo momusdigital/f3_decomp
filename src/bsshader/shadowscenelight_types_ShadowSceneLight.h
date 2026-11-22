@@ -370,8 +370,8 @@ class ShadowSceneLight : public NiRefObject
     ~ShadowSceneLight();
     void ClearShadowObjects();
     void AddObject(NiAVObject*);
-    void ProcessShadowObject(NiAVObject*);
-    void AddShadowObject(NiAVObject*);
+    void ParseObjectAddFrustum(NiAVObject*);
+    void ParseObjectAddRadius(NiAVObject*);
     void AddGeometry(NiTriBasedGeom*);
     bool TestSphereFrustum(NiPoint3*);
     bool FUN_00b9dae0(NiPoint3*, NiLight*, float);

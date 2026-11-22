@@ -82,7 +82,8 @@ struct FUN_005abc50 : HeapAllocated {
     unsigned int unk04;
     FUN_005abc50();
 };
-void* __cdecl FUN_00723d70(unsigned int kind) {
+// pdb: ActorPackageData::CreateActorPackageData | ActorPackageData.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap) + skyrim(call_gap), high
+void* __cdecl ActorPackageData_CreateActorPackageData(unsigned int kind) {
     void* object=0;
     switch(kind) {
     case 2: object=new FUN_007eca70; break;

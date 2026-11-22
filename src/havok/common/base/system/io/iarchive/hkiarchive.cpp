@@ -2,46 +2,7 @@
 // src/havok/common/base/system/io/iarchive/hkiarchive.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/iarchive/hkiarchive.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct hkReferencedObject
-{
-    void RetainReference();
-    void removeReference();
-};
-
-struct FUN_00dd9110_class
-{
-    int m_iWordAt00;
-    int m_cByteAtOffset1;
-    hkReferencedObject* m_cByteAtOffset2;
-    void SetReferencedObject(hkReferencedObject* p);
-};
-
-// @fnv 0x00dd9110
-void FUN_00dd9110_class::SetReferencedObject(hkReferencedObject* apObject)
-{
-    apObject->RetainReference();
-    m_cByteAtOffset2->removeReference();
-    m_cByteAtOffset2 = apObject;
-}
-
 int DAT_010d7c80;
-
-struct FUN_00dd9130_class
-{
-    FUN_00dd9130_class* Init(hkReferencedObject* p, bool b);
-};
-
-// Stores the vtable pointer, reference object and bool flag into this, then calls the object's method and returns this.
-// @fnv 0x00dd9130
-FUN_00dd9130_class* FUN_00dd9130_class::Init(hkReferencedObject* apObject, bool abFlag)
-{
-    *(unsigned short*)((char*)this + 6) = 1;
-    *(int**)this = &DAT_010d7c80;
-    *(hkReferencedObject**)((char*)this + 8) = apObject;
-    *(bool*)((char*)this + 12) = abFlag;
-    apObject->RetainReference();
-    return this;
-}
 
 struct Inner
 {
@@ -61,6 +22,8 @@ struct FUN_00dd90d0_cls
 };
 
 // @fnv 0x00dd90d0
+// pdb: hkIArchive::readRaw | hkIArchive.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: buf, nbytes
 void FUN_00dd90d0_cls::FUN_00dd90d0(int a)
 {
     m_08->Tail(a);
@@ -95,6 +58,7 @@ class hkWrapperDD90
 };
 
 // @fnv 0x00dd90e0
+// pdb: hkIArchive::isOk | hkIArchive.obj | fnv360_0822_retail, call_seq, medium
 hkResultDD90 hkWrapperDD90::GetStreamResult()
 {
     return m_stream->getResult();
@@ -105,10 +69,11 @@ struct FnvCpu_FUN_00dd9100_CpuObject
     unsigned int unk00;
     unsigned int unk04;
     int value;
-    int FUN_00dd9100();
+    int hkOArchive_getStreamWriter();
 };
 // @fnv 0x00dd9100
-int FnvCpu_FUN_00dd9100_CpuObject::FUN_00dd9100()
+// pdb: hkOArchive::getStreamWriter | hkOArchive.obj | fnv360_0822_retail, call_seq + skyrim(call_gap), high
+int FnvCpu_FUN_00dd9100_CpuObject::hkOArchive_getStreamWriter()
 {
     return value;
 }
@@ -137,6 +102,8 @@ static __forceinline void swapByte(unsigned char& low, unsigned char& high)
 }
 // Writes itemSize*itemCount bytes to the stream writer, then swaps byte order in-place for 2, 4, or 8-byte items when m_swapByteOrder is set.
 // @fnv 0x00dd8fe0
+// pdb: hkIArchive::readArrayGeneric | hkIArchive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: array, elemsize, arraySize
 void DD8FE0_Stream::FUN_00dd8fe0(void* data, int itemSize, int itemCount)
 {
     m_pStreamWriter->Write(data, itemSize * itemCount);

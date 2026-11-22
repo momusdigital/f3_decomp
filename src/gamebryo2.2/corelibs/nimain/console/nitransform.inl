@@ -2,6 +2,7 @@
 #include "nitransform_decls.h"
 #pragma optimize("gty", on)
 // @fnv 0x00a68bf0
+// pdb: NiAVObject::UpdateWorldLoc | NiAVObject_Xenon.obj | fnv360_0822_retail, call_seq, high
 void NiAVObject::UpdateWorldLoc()
 {
  if (parent) {

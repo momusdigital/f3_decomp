@@ -8,6 +8,7 @@ struct DAFc80
     void FUN_00dafc80(int a, int b);
 };
 // @fnv 0x00dafc80
+// pdb: hkpTriangleShape::isExtruded | hkpGskCache.obj | fnv360_0822_debug, objrun_open, low
 void DAFc80::FUN_00dafc80(int a, int b)
 {
     unk04 = 1;

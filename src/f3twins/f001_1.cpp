@@ -38,6 +38,7 @@ void FUN_00cffad0()
     DAT_0108dd20 = (float)(DAT_00db3698 / s);
 }
 
+// pdb: `dynamic initializer for 'ISQRT_ADDITIVE_CONSTANT'' | NiBSplineTransformInterpolator.obj | tesv_win, udata, high
 void FUN_00d00120()
 {
     float s = (float)sqrt(DAT_00db36a0);
@@ -50,6 +51,7 @@ void FUN_00d019e0()
     DAT_01092830 = (float)(DAT_00db3698 / s);
 }
 
+// pdb: `dynamic initializer for 'ISQRT_ADDITIVE_CONSTANT'' | NiBSplineCompTransformInterpolator.obj | tesv_win, objrun_open, low
 void FUN_00d01a90()
 {
     float s = (float)sqrt(DAT_00db36a0);

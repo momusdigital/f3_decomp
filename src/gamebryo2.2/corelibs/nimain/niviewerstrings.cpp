@@ -8,6 +8,8 @@ extern "C" size_t __cdecl strlen(const char*);
 
 // Allocates len+5 bytes and formats "%s = %c" from str and c into the new buffer, returning it.
 // @fnv 0x00a7d3d0
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_debug, objrun, medium
+// pdb params: pcPrefix, cValue
 void* __cdecl FormatStringAssignment(const char* str, char cValue)
 {
     size_t len = strlen(str);
@@ -23,6 +25,8 @@ void* __cdecl NiMalloc(unsigned int size);
 
 // Allocates a buffer sized from strlen(name) plus 0xf and writes "%s = %d" with name and value into it, returning the buffer.
 // @fnv 0x00a7d4d0
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, iValue
 char* __cdecl FUN_00a7d4d0(const char* name, int value)
 {
     size_t len = strlen(name);
@@ -37,6 +41,8 @@ void* _NiMalloc(unsigned int);
 
 // Allocates a buffer and formats "name = value" (or "name = NULL" when value is null), returning the buffer.
 // @fnv 0x00a7d5e0
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, pcValue
 char* FUN_00a7d5e0(char const* name, char const* value)
 {
     if (value)
@@ -58,6 +64,8 @@ char* FUN_00a7d5e0(char const* name, char const* value)
 
 // Allocates strlen(str)+9 bytes with NiMalloc and formats "--- %s ---" into it, returning the buffer.
 // @fnv 0x00a7d330
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcRttiName
 char* FUN_00a7d330(const char* pcText)
 {
     unsigned int size = strlen(pcText) + 9;
@@ -68,6 +76,8 @@ char* FUN_00a7d330(const char* pcText)
 
 // Allocates a buffer sized to the name plus 9 and formats it as "name = true" or "name = false" depending on value, returning the buffer.
 // @fnv 0x00a7d370
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, bValue
 char* FUN_00a7d370(const char* name, bool value)
 {
     int size = (int)strlen(name) + 9;
@@ -81,6 +91,8 @@ char* FUN_00a7d370(const char* name, bool value)
 
 // Formats str and value into a newly allocated buffer as "%s = %u" and returns it.
 // @fnv 0x00a7d410
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, ucValue
 char* __cdecl FUN_00a7d410(const char* pcName, unsigned char value)
 {
     int len = strlen(pcName);
@@ -93,6 +105,8 @@ void* __cdecl _NiMalloc(unsigned int);
 int __cdecl _NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates a buffer sized to the string plus 10, formats "str = value" into it with _NiSprintf, and returns the buffer.
 // @fnv 0x00a7d450
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, sValue
 char* __cdecl FUN_00a7d450(const char* pcName, short value)
 {
     unsigned int size = strlen(pcName) + 10;
@@ -103,6 +117,8 @@ char* __cdecl FUN_00a7d450(const char* pcName, short value)
 
 // Allocates a buffer sized for name plus 9 bytes and writes "name = value" into it with the given unsigned short value, returning the buffer.
 // @fnv 0x00a7d490
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, usValue
 char* __cdecl FUN_00a7d490(const char* name, unsigned short value)
 {
     int size = strlen(name) + 9;
@@ -115,6 +131,8 @@ void* __cdecl _NiMalloc(unsigned int);
 int __cdecl _NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates a buffer sized to the string length plus 14 and formats "%s = %u" from the string and unsigned value into it, returning the buffer.
 // @fnv 0x00a7d510
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, uiValue
 char* __cdecl FUN_00a7d510(const char* a, unsigned int uiValue)
 {
     unsigned int len = strlen(a) + 14;
@@ -125,6 +143,8 @@ char* __cdecl FUN_00a7d510(const char* a, unsigned int uiValue)
 
 // Allocates a buffer sized to str plus 20 bytes and writes "str = val" into it with %g formatting, returning the buffer.
 // @fnv 0x00a7d550
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, fValue
 char* __cdecl FUN_00a7d550(const char* str, float fValue)
 {
     unsigned int size = strlen(str) + 20;
@@ -137,6 +157,8 @@ void* __cdecl _NiMalloc(unsigned int);
 int __cdecl _NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates a buffer sized to the name plus 16 bytes and formats "name = pointer" into it, returning the buffer.
 // @fnv 0x00a7d5a0
+// pdb: NiGetViewerString | NiViewerStrings.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, pvValue
 char* __cdecl FUN_00a7d5a0(const char* name, void* value)
 {
     unsigned int len = strlen(name) + 16;

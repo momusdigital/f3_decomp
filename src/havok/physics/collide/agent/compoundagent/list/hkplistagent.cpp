@@ -1,7 +1,7 @@
 // src/havok/physics/collide/agent/compoundagent/list/hkplistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/list/hkplistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl FUN_00da3510(void*, void*);
+extern "C" void __cdecl hkAgent1nMachine_InvalidateTim(void*, void*);
 
 struct hkAgent1nMachine
 {
@@ -15,9 +15,11 @@ struct hkpListAgent
 };
 
 // @fnv 0x00d36850
+// pdb: hkpListAgent::invalidateTim | hkpListAgent.obj | fnv360_0721_beta, objrun, high
+// pdb params: input
 void __thiscall hkpListAgent::FUN_00d36850(void* arg)
 {
-    FUN_00da3510((char*)this + 0x10, arg);
+    hkAgent1nMachine_InvalidateTim((char*)this + 0x10, arg);
 }
 
 extern "C" void __cdecl FUN_00d36990(int, int, int, int);
@@ -28,7 +30,7 @@ void __stdcall FUN_00d36b00(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     FUN_00d36990(aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
-extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
+extern "C" void __cdecl hkAgent1nMachine_WarpTime(void*, float, float, int);
 struct Owner
 {
     int unk04;
@@ -37,11 +39,12 @@ struct Owner
     int unk10;
     void FUN_00d36870(float a1, float a2, int a3);
 };
-// Forwards the three arguments to FUN_00da35f0 with the object's field at offset 0x10 as its first argument.
+// Forwards the three arguments to hkAgent1nMachine_WarpTime with the object's field at offset 0x10 as its first argument.
 // @fnv 0x00d36870
+// pdb: hkpListAgent::warpTime | hkpListAgent.obj | tesv_win, hash, low
 void Owner::FUN_00d36870(float afValue1, float afValue2, int aiValue)
 {
-    FUN_00da35f0((char*)this + 0x10, afValue1, afValue2, aiValue);
+    hkAgent1nMachine_WarpTime((char*)this + 0x10, afValue1, afValue2, aiValue);
 }
 
 void __cdecl FUN_00d36920(void* a, void* b, void* c, void* d);
@@ -56,12 +59,13 @@ void __cdecl FUN_00d36930(int a1, int a2, int a3, int a4, int a5);
 
 // Forwards all five arguments to FUN_00d36930.
 // @fnv 0x00d36960
-void __stdcall FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
+// pdb: hkpListAgent::linearCast | hkpListAgent.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+void __stdcall hkpListAgent_linearCast(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
 {
     FUN_00d36930(aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
 }
 
-extern "C" void __cdecl FUN_00da42b0(void* a, int b, int c, int d);
+extern "C" void __cdecl hkAgent1nMachine_Destroy(void* a, int b, int c, int d);
 
 struct FUN_00d36820_cls
 {
@@ -73,11 +77,13 @@ struct FUN_00d36820_cls
     void FUN_00d36820(int a1);
 };
 
-// Calls FUN_00da42b0 with &unk10, unk0C, unk08 and a1, then invokes v00(1).
+// Calls hkAgent1nMachine_Destroy with &unk10, unk0C, unk08 and a1, then invokes v00(1).
 // @fnv 0x00d36820
+// pdb: hkpListAgent::cleanup | hkpListAgent.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: constraintOwner
 void FUN_00d36820_cls::FUN_00d36820(int aiValue)
 {
-    FUN_00da42b0(&unk10, unk0C, unk08, aiValue);
+    hkAgent1nMachine_Destroy(&unk10, unk0C, unk08, aiValue);
     this->v00(1);
 }
 
@@ -96,21 +102,21 @@ struct S_00d368a0
     int unk04;
     int unk08;
     int unk0C;
-    int m_sub10;
-
-    void FUN_00d368a0(S_00d368a0_Arg* a);
+    int m_agentTrack;  // +0x10 hkpAgent1nTrack (m_sectors first)
+    void hkpListAgent_calcContentStatistics(S_00d368a0_Arg* a);
 };
 
 // @f3 0x009bed10 (community match, verified in this file)
 extern "C" void __cdecl FUN_00a26d90(void* a, int b, S_00d368a0_Arg* c);
 
-void S_00d368a0::FUN_00d368a0(S_00d368a0_Arg* a)
+// pdb: hkpListAgent::calcContentStatistics | hkpListAgent.obj | fnv360_0721_beta, objrun + bridge(caller_sim|vtable) + skyrim(objrun), high
+void S_00d368a0::hkpListAgent_calcContentStatistics(S_00d368a0_Arg* a)
 {
-    FUN_00a26d90((char*)this + 0x10, a->unk04, a);
+    FUN_00a26d90(&m_agentTrack, a->unk04, a);
 }
 
 
-extern "C" void __cdecl FUN_00da48e0(void*, void*);
+extern "C" void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(void*, void*);
 
 struct VirtTarget
 {
@@ -137,12 +143,12 @@ struct FUN_00d368c0_cls
 {
     int unk00;
     int unk04;
-    int m_08;
-    int unk0C;
-    int unk10;
-    void FUN_00d368c0(void* a1, void* a2, void* a3, void* a4);
+    int m_08;          // m_contactMgr
+    int unk0C;         // m_dispatcher
+    int m_agentTrack;  // +0x10 hkpAgent1nTrack (m_sectors first)
+    void hkpListAgent_updateShapeCollectionFilter(void* a1, void* a2, void* a3, void* a4);
 };
-// Builds a CallArgs from the four arguments and m_08, calls v10 on a2, then passes it to FUN_00da48e0 with this+0x10.
+// Builds a CallArgs from the four arguments and m_08, calls v10 on a2, then passes it to hkAgent1nMachine_UpdateShapeCollectionFilter with this+0x10.
 // @f3 0x009bed30 (community match, verified in this file)
 extern "C" void __cdecl FUN_00a2b420(void* target, void* args);
 struct FUN_00d368c0_Virt
@@ -154,7 +160,8 @@ struct FUN_00d368c0_Virt
     virtual int v10();
     virtual int v14();
 };
-void FUN_00d368c0_cls::FUN_00d368c0(void* a1, void* a2, void* a3, void* a4)
+// pdb: hkpListAgent::updateShapeCollectionFilter | hkpListAgent.obj | fnv360_0721_beta, objrun_sim + bridge(caller_sim|vtable) + skyrim(caller_sim), high
+void FUN_00d368c0_cls::hkpListAgent_updateShapeCollectionFilter(void* a1, void* a2, void* a3, void* a4)
 {
     CallArgs args;
     args.unk00 = (int)a1;
@@ -163,6 +170,6 @@ void FUN_00d368c0_cls::FUN_00d368c0(void* a1, void* a2, void* a3, void* a4)
     args.unk14 = m_08;
     args.unk18 = (int)a4;
     args.unk0C = ((FUN_00d368c0_Virt*)*(void**)a2)->v14();
-    FUN_00a2b420((char*)this + 0x10, &args);
+    FUN_00a2b420(&m_agentTrack, &args);
 }
 

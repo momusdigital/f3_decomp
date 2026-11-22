@@ -26,36 +26,43 @@ extern const char DAT_00e7bb64;
 void __cdecl FUN_00a64790(void);
 extern void* DAT_0116c49c;
 
-void FUN_009ef920()
+// pdb: hkpWorldMemoryViewer::registerViewer | hkpWorldMemoryViewer.obj | fnv360_0822_debug, udata + bridge(ustr|ustr), high
+void hkpWorldMemoryViewer_registerViewer()
 {
     DAT_011697e4 = DAT_0116c490->FUN_00a61250(&DAT_00e80a00, (void*)FUN_009ef7e0);
 }
 
+// pdb: hkpRigidBodyInertiaViewer::registerViewer | hkpRigidBodyInertiaViewer.obj | fnv360_0822_retail, ustr, medium
 void FUN_009f4250()
 {
     DAT_01169818 = DAT_0116c490->FUN_00a61250(&DAT_00e80eb0, (void*)FUN_009f4210);
 }
 
+// pdb: hkpToiContactPointViewer::registerViewer | hkpToiContactPointViewer.obj | fnv360_0822_retail, ustr, medium
 void FUN_009f5090()
 {
     DAT_0116981c = DAT_0116c490->FUN_00a61250(&DAT_00e80f74, (void*)FUN_009f5010);
 }
 
-void FUN_009f51a0()
+// pdb: hkpInactiveContactPointViewer::registerViewer | hkpInactiveContactPointViewer.obj | fnv360_0822_debug, udata + bridge(ustr|ustr), high
+void hkpInactiveContactPointViewer_registerViewer()
 {
     DAT_01169820 = DAT_0116c490->FUN_00a61250(&DAT_00e80ff8, (void*)FUN_009f5160);
 }
 
+// pdb: hkpMidphaseViewer::registerViewer | hkpMidphaseViewer.obj | fnv360_0822_debug, udata, medium, conflict (skyrim: getVtablehkpWorld)
 void FUN_009f7490()
 {
     DAT_0116983c = DAT_0116c490->FUN_00a61250(&DAT_00e812d0, (void*)FUN_009f6c90);
 }
 
-void FUN_00a637c0()
+// pdb: hkInspectProcess::registerProcess | hkInspectProcess.obj | fnv360_0822_debug, udata, high
+void hkInspectProcess_registerProcess()
 {
     DAT_0116c494 = DAT_0116c490->FUN_00a61250(&DAT_00e86d74, (void*)FUN_00a63780);
 }
 
+// pdb: hkDebugDisplayProcess::registerProcess | hkDebugDisplayProcess.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00a647c0()
 {
     DAT_0116c49c = DAT_0116c490->FUN_00a61250(&DAT_00e7bb64, (void*)FUN_00a64790);
@@ -77,6 +84,7 @@ extern O_00b429d0* DAT_01177cd8;
 struct O_00b47cf0 { virtual void v0(); virtual void v1(); volatile long ref; void Dec() { if (!InterlockedDecrement(&ref)) v1(); } };
 extern O_00b47cf0* DAT_01177d60;
 
+// pdb: Main::FreeMenuRootNode | Main.obj | fnv360_0822_retail, call_gap, low
 void FUN_0048f980()
 {
     if (DAT_0107a4f8) {
@@ -85,7 +93,8 @@ void FUN_0048f980()
     }
 }
 
-void FUN_008608b0()
+// pdb: NiShadeProperty::_SDMShutdown | NiShadeProperty.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_dedup) + skyrim(call_gap_sim), high
+void NiShadeProperty__SDMShutdown()
 {
     if (DAT_010908d8) {
         DAT_010908d8->Dec();
@@ -101,6 +110,7 @@ void FUN_008e9170()
     }
 }
 
+// pdb: ParticleShader::ReloadShaders | ParticleShader.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: ParticleShader::Free)
 void FUN_00b27390()
 {
     if (DAT_01176178) {
@@ -109,6 +119,7 @@ void FUN_00b27390()
     }
 }
 
+// pdb: BoltShader::ReloadShaders | BoltShader.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: BoltShader::Free)
 void FUN_00b429d0()
 {
     if (DAT_01177cd8) {
@@ -117,6 +128,7 @@ void FUN_00b429d0()
     }
 }
 
+// pdb: BeamShader::ReloadShaders | BeamShader.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: BSLightingShaderMaterialMultiLayerParallax::ClearTextures)
 void FUN_00b47cf0()
 {
     if (DAT_01177d60) {
@@ -134,31 +146,37 @@ extern float DAT_0107b350;
 extern float DAT_00f5eaa0;
 extern float DAT_0107c04c;
 
+// pdb: SeenData::GetSeenPosSize | SeenData.obj | fnv360_0822_retail, call_gap, low
 float FUN_006f0300()
 {
     return DAT_00f6e038;
 }
 
+// pdb: BaseProcess::GetBreathTimer | BaseProcess.obj | fnv360_0822_retail, objrun_open, low
 float FUN_007279a0()
 {
     return DAT_00db8d0c;
 }
 
+// pdb: GetCameraShakeMult | CameraShake.obj | fnv360_0822_retail, call_gap, low
 float FUN_00727d90()
 {
     return DAT_0107b34c;
 }
 
+// pdb: GetCameraShakeCurrentTime | CameraShake.obj | fnv360_0822_retail, call_gap_sim, low
 float FUN_00727da0()
 {
     return DAT_0107b350;
 }
 
+// pdb: Character::GetTurningSpeed | Character.obj | fnv360_0822_retail, objrun, medium
 float FUN_007289b0()
 {
     return DAT_00f5eaa0;
 }
 
+// pdb: ProcessLists::GetSystemTimeClock | ProcessLists.obj | fnv360_0822_retail, call_seq, medium
 float FUN_0078bd10()
 {
     return DAT_0107c04c;
@@ -176,21 +194,25 @@ extern V16 DAT_0116f40c;
 extern V16 DAT_0117566c;
 extern V16 DAT_0117567c;
 
+// pdb: `dynamic initializer for 'NiRotKey::ms_kDefault'' | NiRotKey.obj | tesv_win, udata, high
 void FUN_00d01240()
 {
     DAT_01091ebc = DAT_00f72f04;
 }
 
+// pdb: `dynamic initializer for 'NiColorKey::ms_kDefault'' | NiColorKey.obj | tesv_win, udata, high
 void FUN_00d01270()
 {
     DAT_01091ed0 = DAT_00f73210;
 }
 
+// pdb: `dynamic initializer for 'BSShaderManager::LoadedRange'' | BSShaderManager.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: `dynamic initializer for 'BSShaderManager::STBBColorConstants'')
 void FUN_00d83d00()
 {
     DAT_0116f3e4 = DAT_00f73210;
 }
 
+// pdb: `dynamic initializer for 'BSShaderManager::fpInterfaceTint'' | BSShaderManager.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d83d40()
 {
     DAT_0116f40c = DAT_00f73210;
@@ -332,7 +354,7 @@ void FUN_00d98850()
 
 void __fastcall FUN_004590a0(void*);
 void __fastcall FUN_00457d60(void*);
-void __fastcall FUN_00955370(void*);
+void __fastcall hkaPose_syncLocalSpace(void*);
 void __fastcall FUN_00954f90(void*);
 void __fastcall FUN_00b24110(void*);
 void __fastcall FUN_00b253e0(void*);
@@ -341,30 +363,35 @@ void __fastcall FUN_00b384b0(void*);
 void __fastcall FUN_00b492e0(void*);
 void __fastcall FUN_00b4ae50(void*);
 
+// pdb: TESModelTextureSwap::ClearDataComponent | TESModelTextureSwap.obj | fnv360_0822_debug, vtable, medium
 __declspec(noinline) void __fastcall FUN_00459330(void* p)
 {
     FUN_004590a0(p);
     FUN_00457d60(p);
 }
 
+// pdb: hkaPose::accessSyncedPoseLocalSpace | hkaPose.obj | tesv_win, objopen_prop, low
 __declspec(noinline) void __fastcall FUN_00955aa0(void* p)
 {
-    FUN_00955370(p);
+    hkaPose_syncLocalSpace(p);
     FUN_00954f90(p);
 }
 
+// pdb: SkyShader::ReloadShaders | SkyShader.obj | fnv360_0822_debug, caller_sim, low
 __declspec(noinline) void __fastcall FUN_00b26580(void* p)
 {
     FUN_00b24110(p);
     FUN_00b253e0(p);
 }
 
+// pdb: BSDistantTreeShader::ReloadShaders | BSDistantTreeShader.obj | fnv360_0822_debug, caller_sim, low
 __declspec(noinline) void __fastcall FUN_00b386c0(void* p)
 {
     FUN_00b38070(p);
     FUN_00b384b0(p);
 }
 
+// pdb: BSShaderNoLighting::ReloadShaders | BSShaderNoLighting.obj | fnv360_0822_debug, caller_sim, low
 __declspec(noinline) void __fastcall FUN_00b4c3a0(void* p)
 {
     FUN_00b492e0(p);
@@ -382,6 +409,7 @@ void __fastcall FUN_009255d0(void*);
 void __fastcall FUN_00837e80(void*);
 
 struct C_008e8f10 { void* FUN_008e8f10(unsigned char f); };
+// pdb: bhkCollisionBox::`scalar deleting destructor' | bhkCharacterController.obj | fnv360_0822_retail, objopen_prop, low
 void* C_008e8f10::FUN_008e8f10(unsigned char f)
 {
     FUN_00931b30(this);
@@ -406,6 +434,8 @@ void* C_00919e20::FUN_00919e20(unsigned char f)
 }
 
 struct C_00925660 { void* FUN_00925660(unsigned char f); };
+// pdb: bhkRigidBodyT::GetRotation | bhkRigidBodyT.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: arRot
 void* C_00925660::FUN_00925660(unsigned char f)
 {
     FUN_009255d0(this);
@@ -414,6 +444,7 @@ void* C_00925660::FUN_00925660(unsigned char f)
 }
 
 struct C_0092b920 { void* FUN_0092b920(unsigned char f); };
+// pdb: bhkForceController::`scalar deleting destructor' | bhkForceController.obj | fnv360_0822_retail, objrun, medium
 void* C_0092b920::FUN_0092b920(unsigned char f)
 {
     FUN_00837e80(this);
@@ -435,6 +466,7 @@ extern int DAT_011780f0;
 extern int DAT_01178168;
 
 struct S_00b3de40 { void FUN_00b3de40(); };
+// pdb: Lighting30Shader::ClearPassStages | Lighting30Shader.obj | fnv360_0822_retail, objrun_sim, low
 void S_00b3de40::FUN_00b3de40()
 {
     int* p = &DAT_01176c60;
@@ -447,6 +479,7 @@ void S_00b3de40::FUN_00b3de40()
 }
 
 struct S_00b504a0 { void FUN_00b504a0(); };
+// pdb: ParallaxShader::ClearPassStages | ParallaxShader.obj | fnv360_0822_retail, objrun_open, low
 void S_00b504a0::FUN_00b504a0()
 {
     int* p = &DAT_01177fd0;
@@ -459,6 +492,7 @@ void S_00b504a0::FUN_00b504a0()
 }
 
 struct S_00b52e50 { void FUN_00b52e50(); };
+// pdb: SkinShader::ClearPassStages | SkinShader.obj | fnv360_0822_retail, objrun, medium
 void S_00b52e50::FUN_00b52e50()
 {
     int* p = &DAT_01178060;
@@ -471,6 +505,7 @@ void S_00b52e50::FUN_00b52e50()
 }
 
 struct S_00b54330 { void FUN_00b54330(); };
+// pdb: HairShader::ClearPassStages | HairShader.obj | fnv360_0822_retail, objrun, medium
 void S_00b54330::FUN_00b54330()
 {
     int* p = &DAT_01173d78;

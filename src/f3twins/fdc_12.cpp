@@ -2555,6 +2555,7 @@ void FUN_00cffc60()
     DAT_0108dd38 = FUN_008a7ad0();
 }
 
+// pdb: `dynamic initializer for 'hkBaseObjectTypeInfo'' | hkReferencedObject.obj | tesv_win, objopen_prop, low
 void FUN_00d02b80()
 {
     DAT_00f7a2a8 = FUN_00901e10();

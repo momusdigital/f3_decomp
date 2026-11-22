@@ -124,6 +124,8 @@ class Controller
 };
 
 // @fnv 0x00a2feb0
+// pdb: NiMultiTargetTransformController::AllocateStorage | NiMultiTargetTransformController.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: usCount
 void Controller::FUN_00a2feb0(unsigned short n)
 {
     m_usNumTargets = n;
@@ -179,6 +181,7 @@ struct FUN_00a30160_cls : public NiMultiTargetTransformController
 };
 
 // @fnv 0x00a30160
+// pdb: NiMultiTargetTransformController::ClearInterpolators | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, medium
 void FUN_00a30160_cls::FUN_00a30160()
 {
     if (m_usNumTargets == 0)

@@ -142,6 +142,8 @@ struct SharedAccumulatorState
 
 // Locks sharedLock, checks if object is in sharedObjects, adds it if missing, and returns true when it was newly added.
 // @fnv 0x00b63b10
+// pdb: BGSSceneInfo::TexUseCB | BGSSceneInfo.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: BSShaderAccumulator::AddShared)
+// pdb params: apTexture, aulMemorySize, apParam
 bool SharedAccumulatorState::FUN_00b63b10(NiObject* object)
 {
     bool value = false;

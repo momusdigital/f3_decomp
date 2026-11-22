@@ -733,7 +733,7 @@ struct S78ed50_Ref : S78ed50_Form {
     int GetUnk3c() { return unk3c; }
     S78ed50_Ref* FUN_00619bf0();
     bool FUN_00764e60();
-    int FUN_00455470(int a);
+    int TESForm_GetFile(int a);
     int FUN_007650b0();
     void FUN_007654f0();
     int FUN_006191f0();
@@ -750,8 +750,8 @@ struct S78ed50_Owner {
 };
 
 struct S78ed50_Checker { bool FUN_0076c8e0(); };
-struct S78ed50_Lookup { bool FUN_00433170(int a, int b); };
-struct S78ed50_Clock { unsigned int FUN_006e2b00(); };
+struct S78ed50_Lookup { bool TES_IsCellLoaded(int a, int b); };
+struct S78ed50_Clock { unsigned int Calendar_GetHoursPassed(); };
 
 extern S78ed50_Checker* DAT_0107a104;
 extern S78ed50_Lookup* DAT_0107a0d8;
@@ -795,6 +795,7 @@ struct S78ed50_Mgr {
     void FUN_0078ed50();
 };
 
+// pdb: ProcessLists::ChangeProcessLevelTempList | ProcessLists.obj | fnv360_0822_retail, call_gap, medium
 void S78ed50_Mgr::FUN_0078ed50()
 {
     if (DAT_0107a104->FUN_0076c8e0())
@@ -822,7 +823,7 @@ void S78ed50_Mgr::FUN_0078ed50()
             || (DAT_0107c054->unk79 && DAT_0107c054->FUN_00619bf0() != DAT_0107c054)) {
             if (DAT_0107c054->unk79 && DAT_0107c054->FUN_00764e60()) {
                 DAT_0107c0a4.FUN_0078bc20(DAT_0107c054, 0);
-            } else if ((DAT_0107c054->IsBit5() && !DAT_0107c054->FUN_00455470(-1))
+            } else if ((DAT_0107c054->IsBit5() && !DAT_0107c054->TESForm_GetFile(-1))
                 || (DAT_0107c054->unk79 && !DAT_0107c054->FUN_00764e60())) {
                 if (DAT_0107c054->unk60)
                     owner.FUN_0078ba80(DAT_0107c054, DAT_0107c054->FUN_007650b0());
@@ -840,10 +841,10 @@ void S78ed50_Mgr::FUN_0078ed50()
         }
 
         if (actor && actor->v22c(0) && !actor->FUN_006f4a10() && actor->FUN_006f4a40()
-            && !DAT_0107a0d8->FUN_00433170(actor->GetUnk3c(), 0)
+            && !DAT_0107a0d8->TES_IsCellLoaded(actor->GetUnk3c(), 0)
             && actor->unk60->v694() != 0.0f) {
             unsigned int now = DAT_00f4fab4;
-            if (now + actor->unk60->v694() < DAT_01079f68.FUN_006e2b00()) {
+            if (now + actor->unk60->v694() < DAT_01079f68.Calendar_GetHoursPassed()) {
                 S78ed50_Info* info = actor->FUN_004ebfc0();
                 if (info && (info->unk1e & 1))
                     continue;
@@ -885,7 +886,7 @@ void S78ed50_Mgr::FUN_0078ed50()
             if (removed)
                 removed->unk7a = 0;
             removed->v224();
-            if (DAT_0107c054->IsBit5() && !DAT_0107c054->FUN_00455470(-1)) {
+            if (DAT_0107c054->IsBit5() && !DAT_0107c054->TESForm_GetFile(-1)) {
                 if (DAT_0107c054->unk60)
                     owner.FUN_0078ba80(DAT_0107c054, DAT_0107c054->FUN_007650b0());
                 if (DAT_0107c054)
@@ -1050,10 +1051,10 @@ struct Cell78 {
     int unk20;
     unsigned int unk24;
     World78* FUN_004d3780();
-    Location78* FUN_004d5240();
+    Location78* TESObjectCELL_GetEncounterZone();
     void FUN_004de880(void* ref);
     int FUN_004d55b0(void* arg);
-    void FUN_004e52d0(void* ref, int a);
+    void TESObjectCELL_AddReference(void* ref, int a);
     bool FUN_004d7380(Vec3_78* p, float* h);
 };
 
@@ -1069,7 +1070,7 @@ struct UnkCellHolder78 {
 };
 
 struct Hud78 {
-    void FUN_006983c0(int a, int b, int c);
+    void FOPipboyManager_ShowPipboyLightEffect(int a, int b, int c);
     void FUN_00698300();
 };
 
@@ -1079,12 +1080,12 @@ struct Stream78 {
 };
 
 struct Unk8c_78 {
-    bool FUN_006b6d00(void* node, int a);
+    bool MagicTarget_IsSpellTarget(void* node, int a);
     void FUN_006b76e0(void* node, int a, int b);
 };
 
 struct Unk57d_78 {
-    void FUN_0057dd10();
+    void Sky_ResetWeather();
 };
 
 struct Unk9a0_78 {
@@ -1114,7 +1115,7 @@ struct Unk730_78 {
     char unk04;
     char unk05, unk06, unk07;
     int unk08;
-    bool FUN_00bd0390();
+    bool BSSoundHandle_IsValid();
     void Clear() {
         unk00 = -1;
         unk04 = 0;
@@ -1268,11 +1269,11 @@ struct Player78 {
     void FUN_004e86c0(Vec3_78 rot);
     void FUN_004e8790(Cell78* cell);
     void FUN_00767f10(float dt, Vec3_78* vel, int flag);
-    void FUN_007705f0(Player78* self);
-    void FUN_00729160(float a);
-    int FUN_006f8f30();
+    void PlayerCharacter_CheckForQuestTargetUpdate(Player78* self);
+    void Character_Update(float a);
+    int Actor_GetAnimation();
     void FUN_0070d7d0(int a, float b);
-    void FUN_0077d670(int a);
+    void PlayerCharacter_UpdateCamera(int a);
     World78* FUN_004e8880();
     void FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool flag24);
 };
@@ -1294,7 +1295,7 @@ struct TES78 {
     char unk50, unk51, unk52, unk53;
     UnkCellHolder78* FUN_00b35640();
     void FUN_0043a040(Cell78* cell, Vec3_78* pos);
-    void FUN_00435fb0(World78* world);
+    void TES_SetWorldSpace(World78* world);
     void FUN_0043a670(Vec3_78* pos);
     void FUN_00437290(float a);
     void FUN_00439030();
@@ -1309,10 +1310,10 @@ struct C0a0_78 {
     void FUN_0078e2b0();
 };
 struct Clock78 {
-    int FUN_006e2b00();
+    int Calendar_GetHoursPassed();
 };
 struct Ebbc_78 {
-    bool FUN_007f9d20();
+    bool MoviePlayer_GetPlayingSequence();
     void FUN_007f9d50();
     void FUN_007fb230(void* p, bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h);
 };
@@ -1380,14 +1381,14 @@ extern char DAT_01075a07;
 extern void* DAT_01079ee8;
 
 void __cdecl FUN_0061a020();
-MenuSlot78* __cdecl FUN_00beaf00(int id);
+MenuSlot78* __cdecl Tile_GetMenuByClass(int id);
 bool __cdecl FUN_006bdcd0(int id);
 void __cdecl FUN_006be910();
 void __cdecl FUN_006bebf0();
-void __cdecl FUN_0059c260();
+void __cdecl BSTreeManager_ClearCanopyShadow();
 void __cdecl FUN_0059bfa0();
-Hud78* __cdecl FUN_00619e90();
-Unk57d_78* __cdecl FUN_0043c230();
+Hud78* __cdecl Interface_GetPipboy();
+Unk57d_78* __cdecl Sky_GetInstance();
 Ad5_78* __cdecl FUN_00ad5a50();
 void __fastcall FUN_00ae6580(char* s);
 void __cdecl FUN_0059bd60(int a, bool b);
@@ -1395,6 +1396,8 @@ void __cdecl FUN_00657ab0();
 void __cdecl FUN_0064de10(int a);
 void __cdecl FUN_00644490(const char* name);
 
+// pdb: PlayerCharacter::PositionPlayer | PlayerCharacter.obj | fnv360_0822_debug, caller, medium
+// pdb params: aPos, aAngle, apCell, abResetWeather
 void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool flag24)
 {
     if (!((TES78*)DAT_0107a0d8)->unk51 && !((TES78*)DAT_0107a0d8)->unk52)
@@ -1403,7 +1406,7 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
     if (DAT_010770ac && !(DAT_010770ac->unk1a0 & 1))
     {
         FUN_0061a020();
-        MenuObj78* menu = FUN_00beaf00(0x3f5)->FUN_00beab90();
+        MenuObj78* menu = Tile_GetMenuByClass(0x3f5)->FUN_00beab90();
         if (menu)
             menu->Destroy(true);
     }
@@ -1411,22 +1414,22 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
     bool flag23 = (((TES78*)DAT_0107a0d8)->unk34 != 0);
     UnkCellHolder78* holder = ((TES78*)DAT_0107a0d8)->FUN_00b35640();
     targetCell->FUN_004d3780();
-    Location78* newLoc = targetCell->FUN_004d5240();
+    Location78* newLoc = targetCell->TESObjectCELL_GetEncounterZone();
     Location78* oldLoc = 0;
     if (unk3c)
-        oldLoc = unk3c->FUN_004d5240();
+        oldLoc = unk3c->TESObjectCELL_GetEncounterZone();
     else if (holder)
         oldLoc = holder->unkd0;
     if (oldLoc != newLoc)
     {
-        int t = ((Clock78*)&DAT_01079f68)->FUN_006e2b00();
+        int t = ((Clock78*)&DAT_01079f68)->Calendar_GetHoursPassed();
         if (oldLoc)
             oldLoc->FUN_004bfaa0(t);
         if (newLoc)
             newLoc->FUN_004bfac0(t);
     }
 
-    bool flag17 = DAT_0108ebbc->FUN_007f9d20();
+    bool flag17 = DAT_0108ebbc->MoviePlayer_GetPlayingSequence();
     if (unk3c)
         unk3c->FUN_004de880(this);
     v2a8(&pos);
@@ -1442,7 +1445,7 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
             FUN_006bebf0();
         }
         ((TES78*)DAT_0107a0d8)->FUN_0043a040(targetCell, &pos);
-        FUN_0059c260();
+        BSTreeManager_ClearCanopyShadow();
     }
     else
     {
@@ -1456,19 +1459,19 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
                 FUN_0059bfa0();
             else
             {
-                FUN_0059c260();
+                BSTreeManager_ClearCanopyShadow();
                 ((TES78*)DAT_0107a0d8)->unk08->FUN_0047ba30();
             }
-            ((TES78*)DAT_0107a0d8)->FUN_00435fb0(targetCell->FUN_004d3780());
+            ((TES78*)DAT_0107a0d8)->TES_SetWorldSpace(targetCell->FUN_004d3780());
         }
 
         if (flag23)
         {
             void* n = DAT_0106c86c ? &DAT_0106c86c->unk18 : 0;
-            if (unk8c.FUN_006b6d00(n, 1))
+            if (unk8c.MagicTarget_IsSpellTarget(n, 1))
             {
-                FUN_00619e90()->FUN_006983c0(1, 0, 1);
-                FUN_00619e90()->FUN_006983c0(0, 0, 1);
+                Interface_GetPipboy()->FOPipboyManager_ShowPipboyLightEffect(1, 0, 1);
+                Interface_GetPipboy()->FOPipboyManager_ShowPipboyLightEffect(0, 0, 1);
                 void* n2 = DAT_0106c86c ? &DAT_0106c86c->unk18 : 0;
                 unk8c.FUN_006b76e0(n2, 0, 0);
             }
@@ -1478,9 +1481,9 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
     }
     DAT_011790c8->FUN_0078c030(0x1000);
     if (flag24)
-        FUN_0043c230()->FUN_0057dd10();
+        Sky_GetInstance()->Sky_ResetWeather();
     FUN_004e8790(0);
-    targetCell->FUN_004e52d0(this, 0);
+    targetCell->TESObjectCELL_AddReference(this, 0);
 
     if (!v1d0() && !DAT_01079858->IsBit1())
     {
@@ -1520,13 +1523,13 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
     dir.y = (float)cos(fYaw);
     dir.z = 0.0f;
     DAT_011790c8->FUN_00bcf6e0(dir, DAT_00f725b0);
-    FUN_007705f0(this);
+    PlayerCharacter_CheckForQuestTargetUpdate(this);
     Ad5_78* ad5 = FUN_00ad5a50();
     if (ad5)
         ad5->FUN_00ae87d0();
     if (unk5f0)
     {
-        FUN_00619e90()->FUN_00698300();
+        Interface_GetPipboy()->FUN_00698300();
         FUN_00ae6580(DAT_0116efb8);
 
         if (!DAT_01079858->IsBit1())
@@ -1557,12 +1560,12 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
         }
 
         unk5a8 = !unk5a8;
-        FUN_00729160(0.0f);
-        FUN_0070d7d0(!unk5a8 ? unk5ec : FUN_006f8f30(), 0.0f);
+        Character_Update(0.0f);
+        FUN_0070d7d0(!unk5a8 ? unk5ec : Actor_GetAnimation(), 0.0f);
         unk5a8 = !unk5a8;
-        FUN_00729160(0.0f);
-        FUN_0070d7d0(!unk5a8 ? unk5ec : FUN_006f8f30(), 0.0f);
-        FUN_0077d670(0);
+        Character_Update(0.0f);
+        FUN_0070d7d0(!unk5a8 ? unk5ec : Actor_GetAnimation(), 0.0f);
+        PlayerCharacter_UpdateCamera(0);
     }
 
     if (unk9a0)
@@ -1574,7 +1577,7 @@ void Player78::FUN_007820f0(Vec3_78 pos, Vec3_78 rot, Cell78* targetCell, bool f
         FUN_00657ab0();
     if (flag17)
         DAT_0108ebbc->FUN_007f9d50();
-    if (unk730.FUN_00bd0390())
+    if (unk730.BSSoundHandle_IsValid())
     {
         unk730.Clear();
         unk72c = 0;

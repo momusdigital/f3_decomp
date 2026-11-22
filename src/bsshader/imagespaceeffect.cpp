@@ -31,6 +31,8 @@ struct FUN_00ba3c70_shell
 
 // Stores the effect, its parameter and output index into the three arrays at the given effect index.
 // @fnv 0x00ba3c70
+// pdb: ImageSpaceEffect::SetEffect | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiEffectIndex, apEffect, apParam, aiOutput
 void FUN_00ba3c70_shell::SetEffectAt(int aiEffectIndex, ImageSpaceEffect* apEffect, ImageSpaceEffectParam* apParam,
                                      int aiOutput)
 {
@@ -55,6 +57,8 @@ struct FUN_00ba3b50_t
 };
 // Allocates a 16-byte block, stores the four arguments in it, and sets it at index a1 in the array at offset 0x38.
 // @fnv 0x00ba3b50
+// pdb: ImageSpaceEffect::SetEffectInputs | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiEffectIndex, aiInput1, aiInput2, aiFilterMode1, aiFilterMode2
 void FUN_00ba3b50_t::SetArrayEntry(int uiIndex, int a2, int a3, int a4, int a5)
 {
     int* p = (int*)g_memoryManager.Allocate(16);
@@ -76,6 +80,8 @@ struct ImageSpaceEffect
 };
 // Sets the size of the four texture arrays at offsets 8, 0x18, 0x38 and 0x48 to count.
 // @fnv 0x00ba3f90
+// pdb: ImageSpaceEffect::SetEffectCount | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiCount
 void ImageSpaceEffect::SetTextureArraySize(int count)
 {
     ((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 8))->SetSize(count);
@@ -97,6 +103,8 @@ struct Holder
     void FUN_00ba3ba0(unsigned int, int, int, int, int, int, int);
 };
 // @fnv 0x00ba3ba0
+// pdb: ImageSpaceEffect::SetEffectInputs | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiEffectIndex, aiInput1, aiInput2, aiInput3, aiFilterMode1, aiFilterMode2, aiFilterMode3
 void Holder::FUN_00ba3ba0(unsigned int auiIndex, int aiValue0, int aiValue1, int aiValue2, int aiValue3, int aiValue4,
                           int aiValue5)
 {
@@ -125,6 +133,8 @@ struct HolderForAccum
     void SetAccumulatorAt(unsigned int auiIndex, NiAccumulator* apAccum, NiCamera const* apCamera);
 };
 // @fnv 0x00ba3cb0
+// pdb: ImageSpaceEffect::SetTexture | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiIndex, apTex, aiFilterMode
 void HolderForAccum::SetAccumulatorAt(unsigned int auiIndex, NiAccumulator* apAccum, NiCamera const* apCamera)
 {
     m_kArray.SetAt(auiIndex, reinterpret_cast<int&>(apAccum));
@@ -187,6 +197,8 @@ class BBA3C00Shader
 
 // Allocates a BBA3C00Entry, fills its four ranges from the start/end arguments, and stores it in m_kEntries at uiIndex.
 // @fnv 0x00ba3c00
+// pdb: ImageSpaceEffect::SetEffectInputs | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiEffectIndex, aiInput1, aiInput2, aiInput3, aiInput4, aiFilterMode1, aiFilterMode2, aiFilterMode3, aiFilterMode4
 void BBA3C00Shader::SetEntryRanges(unsigned int uiIndex, int iStart0, int iStart1, int iStart2, int iStart3, int iEnd0,
                                    int iEnd1, int iEnd2, int iEnd3)
 {
@@ -230,6 +242,8 @@ struct S_00ba3f20_Obj
     void ProcessItems(int a1, int a2, int a3, int a4);
 };
 // @f3 0x00b22b10 (community match, verified in this file)
+// pdb: ImageSpaceEffect::Render | ImageSpaceEffect.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: apGeometry, apRenderer, apParam, abEndFrame
 void S_00ba3f20_Obj::ProcessItems(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     vf10(aiArg3);
@@ -346,6 +360,8 @@ class ImageSpaceManagerView
 
 // Assigns input and output parameter views to an effect's parameter array and sets their values via FUN_00d47a40.
 // @fnv 0x00ba3e30
+// pdb: ImageSpaceEffect::ApplyEffectTextures | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiEffectIndex
 void ImageSpaceManagerView::SetEffectParams(unsigned int uiEffectIndex)
 {
     ImageSpaceEffectView* pkEffect = m_kEffects.GetAt(uiEffectIndex);

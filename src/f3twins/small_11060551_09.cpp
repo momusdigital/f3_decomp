@@ -14,18 +14,21 @@ extern S_0043b7f0 DAT_010f2e1c;
 extern char DAT_00e33064;
 void __cdecl FUN_00d98c30();
 
+// pdb: `dynamic initializer for 'BSFaceGenManager::uiEGTClampSize'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSFaceGenManager::uiNumActorsAllowedToMorph'')
 void FUN_00cdf4c0()
 {
     DAT_01073a68.FUN_0043b7f0(&DAT_00dfc0c0, 30);
     FUN_00c00d1f(FUN_00d94930);
 }
 
+// pdb: `dynamic initializer for 'iConsoleTextXPos'' | MenuConsole.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce6f10()
 {
     DAT_01075d60.FUN_0043b7f0(&DAT_00e04560, 30);
     FUN_00c00d1f(FUN_00d959d0);
 }
 
+// pdb: `dynamic initializer for 'bhkRagdollController::iNumFramesFootEaseOut'' | bhkRagdollController.obj | fnv360_0822_debug, ustr, high
 void FUN_00d02730()
 {
     DAT_010f2e1c.FUN_0043b7f0(&DAT_00e33064, 30);

@@ -11,41 +11,9 @@ class BSTextureSet;
 class BSTextureSet : public NiObject
 {
   public:
-    virtual void vfn_03() = 0;
-    virtual void vfn_04() = 0;
-    virtual void vfn_05() = 0;
-    virtual void vfn_06() = 0;
-    virtual void vfn_07() = 0;
-    virtual void vfn_08() = 0;
-    virtual void vfn_09() = 0;
-    virtual void vfn_0a() = 0;
-    virtual void vfn_0b() = 0;
-    virtual void vfn_0c() = 0;
-    virtual void vfn_0d() = 0;
-    virtual void vfn_0e() = 0;
-    virtual void vfn_0f() = 0;
-    virtual void vfn_10() = 0;
-    virtual void vfn_11() = 0;
-    virtual void vfn_12() = 0;
-    virtual void LoadBinary(NiStream& stream) = 0;
-    virtual void vfn_14() = 0;
-    virtual void vfn_15() = 0;
-    virtual void SaveBinary(NiStream& stream) = 0;
-    virtual void vfn_17() = 0;
-    virtual void vfn_18() = 0;
-    virtual void vfn_19() = 0;
-    virtual void vfn_1a() = 0;
-    virtual void vfn_1b() = 0;
-    virtual void vfn_1c() = 0;
-    virtual void vfn_1d() = 0;
-    virtual void vfn_1e() = 0;
-    virtual void vfn_1f() = 0;
-    virtual void vfn_20() = 0;
-    virtual void vfn_21() = 0;
-    virtual void vfn_22() = 0;
-    virtual const char* GetTexture(BSShaderProperty::TextureTypeEnum textureType);
-    virtual void GetTexture(BSShaderProperty::TextureTypeEnum textureType, NiPointer<NiTexture>& texture);
-    virtual void SetTexture(BSShaderProperty::TextureTypeEnum textureType, const char* textureName);
+    virtual const char* GetTextureFilename(BSShaderProperty::TextureTypeEnum textureType) const;
+    virtual void GetTexture(BSShaderProperty::TextureTypeEnum textureType, NiPointer<NiTexture>& texture) const;
+    virtual void SetTextureFilename(BSShaderProperty::TextureTypeEnum textureType, const char* textureName);
     // base NiObject at +0x0, size 8
     // void __cdecl BSTextureSet::*(NiStream&)
     // void __cdecl BSTextureSet::*(NiStream&)
@@ -66,9 +34,9 @@ class BSShaderTextureSet : public BSTextureSet
   public:
     virtual void LoadBinary(NiStream& stream);
     virtual void SaveBinary(NiStream& stream);
-    virtual const char* GetTexture(BSShaderProperty::TextureTypeEnum textureType);
-    virtual void GetTexture(BSShaderProperty::TextureTypeEnum textureType, NiPointer<NiTexture>& texture);
-    virtual void SetTexture(BSShaderProperty::TextureTypeEnum textureType, const char* textureName);
+    virtual const char* GetTextureFilename(BSShaderProperty::TextureTypeEnum textureType) const;
+    virtual void GetTexture(BSShaderProperty::TextureTypeEnum textureType, NiPointer<NiTexture>& texture) const;
+    virtual void SetTextureFilename(BSShaderProperty::TextureTypeEnum textureType, const char* textureName);
     // base BSTextureSet at +0x0, size 8
     BSStringT<char> m_kTextureNames[7];  // +0x8, 56 bytes
     // void __cdecl BSShaderTextureSet::*(NiStream&)

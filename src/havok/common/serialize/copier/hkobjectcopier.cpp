@@ -1,21 +1,11 @@
-// havok/common/serialize/copier/hkobjectcopier.cpp: Object, Host (12 functions)
+// havok/common/serialize/copier/hkobjectcopier.cpp: Object, Host (10 functions)
 #include "f3_common.h"
 #include "fnv_asm_helpers.h"
 // src/havok/common/serialize/copier/hkobjectcopier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/copier/hkobjectcopier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-// Compares byte 0xc of two entries and returns 1 if equal and byte 0xd also matches or byte 0xc is 0x18, otherwise 0.
-// @fnv 0x00e032d0
-int __stdcall FUN_00e032d0(const void* a, const void* b)
-{
-    const unsigned char* pa = static_cast<const unsigned char*>(a);
-    const unsigned char* pb = static_cast<const unsigned char*>(b);
-    if (pa[0xc] == pb[0xc] && (pa[0xd] == pb[0xd] || pa[0xc] == 0x18))
-        return 1;
-    return 0;
-}
-
 // @fnv 0x00e049c0
+// pdb: hkClassMember::getClass | hkClassMember.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: `anonymous namespace'::min2<int>)
 int __cdecl FUN_00e049c0(int a, int b)
 {
     return a < b ? a : b;
@@ -27,6 +17,7 @@ struct Object {
     void FUN_00e03160();
 };
 // @fnv 0x00e03160
+// pdb: TESAttackDamageForm::~TESAttackDamageForm | TESAttackDamageForm.obj | fnv360_0822_retail, call_dedup, low
 void Object::FUN_00e03160() {
     vtable = &DAT_0102e388;
 }
@@ -69,27 +60,6 @@ struct E04A00EntryArray {
     void AddBack(const E04A00Entry& e) { _pushBack(FUN_00c85750().heap(), e); }
 };
 
-struct E04A00Registry {
-    int unk00;
-    int unk04;
-    int unk08;
-    E04A00EntryArray m_entries;
-
-    void AddEntry(void* a, void* b, void* c, void* d);
-};
-
-// Builds an entry from the four arguments and appends it to m_entries via the registry's allocator.
-// @fnv 0x00e04a00
-void E04A00Registry::AddEntry(void* a, void* b, void* c, void* d)
-{
-    E04A00Entry e;
-    e.m_kPointA = a;
-    e.m_kPointB = b;
-    e.m_iThirdValue = c;
-    e.m_iFourthElementInteger = d;
-    m_entries.AddBack(e);
-}
-
 // FUN_00e03100
 //
 // The object pointer reaches this function in ESI (the compiler passes the
@@ -104,6 +74,7 @@ public:
 };
 
 // @fnv 0x00e03100
+// pdb: objectCopier_calcCArraySize | hkObjectCopier.obj | tesv_win, call_gap, low
 static int FUN_00e03100(Obj* apObj) {
     if (apObj->m()) {
         return apObj->m();
@@ -133,6 +104,8 @@ struct FUN_00e03120 {
 // Initializes the object from two int pointers and a third int, setting unk14 by comparing the second byte of the two stored ints.
 // @f3 0x009b3190 (community match, verified in this file)
 extern int DAT_00e7e8a0;
+// pdb: hkObjectCopier::hkObjectCopier | hkObjectCopier.obj | fnv360_0822_retail, uvref, high
+// pdb params: layoutIn, layoutOut, flags
 FUN_00e03120::FUN_00e03120(const int* piFirst, const int* piSecond, int aiValue)
 {
     unk06 = 1;
@@ -181,7 +154,9 @@ struct UIntArrayArena {
     char* m_end;
 };
 
-static void WriteUIntArray(const unsigned int* data, int count, Writer* pWriter, int elemSize)
+// pdb: writeUlongArray | hkObjectCopier.obj | fnv360_0822_retail, call_gap, high
+// pdb: writeUlongArray | hkObjectCopier.obj | fnv360_0822_retail, call_gap, high (was: WriteUIntArray)
+static void writeUlongArray(const unsigned int* data, int count, Writer* pWriter, int elemSize)
 {
     if (elemSize == 4) {
         pWriter->write(data, 4, count);
@@ -212,13 +187,13 @@ static void WriteUIntArray(const unsigned int* data, int count, Writer* pWriter,
 
 void WriteUIntArray_keep_9b3760(Writer* w, int elemSize, const unsigned int* data, int count)
 {
-    WriteUIntArray(data, count, w, elemSize);
+    writeUlongArray(data, count, w, elemSize);
 }
 
 
 void e03300_driver(Writer* w, int elemSize, const unsigned int* data, int count)
 {
-    WriteUIntArray(data, count, w, elemSize);
+    writeUlongArray(data, count, w, elemSize);
 }
 
 // AppendListEntry
@@ -267,13 +242,13 @@ struct List
     unsigned int m_iCapacityState;
 };
 
-int __cdecl FUN_00cb10d0(int);
+int __cdecl hkString_strLen(int);
 int __cdecl FUN_00e03360_ext1(int);
 int __cdecl FUN_00e03360_ext2(VObj* p);
 
 // Module-local helper: the manager hands it the object it just looked up
 // together with a mode value.
-__declspec(noinline) static void FUN_00e03360(VObj* p, int n)
+__declspec(noinline) static void objectCopierPadUp(VObj* p, int n)
 {
     int k = FUN_00e03360_ext1(n);
     FUN_00e03360_ext2(p);
@@ -286,7 +261,7 @@ __declspec(noinline) static void FUN_00e03360(VObj* p, int n)
 static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
 {
     VObj* value = ctx->FUN_00d60800();
-    FUN_00e03360(value, 2);
+    objectCopierPadUp(value, 2);
     value = ctx->FUN_00d60800()->v20();
     E04A00MemoryRouter& router = FUN_00c85750();
     if (list->m_uiItemCount == (int)(list->m_iCapacityState & 0x3fffffffu))
@@ -297,7 +272,7 @@ static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
     entry.m_key = b;
     entry.m_uiFilterValue = value;
     list->m_uiItemCount++;
-    ctx->FUN_00d607b0(a, FUN_00cb10d0(a) + 1);
+    ctx->FUN_00d607b0(a, hkString_strLen(a) + 1);
     return 0;
 }
 
@@ -325,13 +300,13 @@ struct FUN_00e04920_cls {
     unsigned int unk10;
     unsigned char m_flag14;
     unsigned int FUN_00e036b0(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
-    unsigned int FUN_00e03ea0(unsigned int a, unsigned int b, Scratch16* scratch,
+    unsigned int hkObjectCopier_saveExtras(unsigned int a, unsigned int b, Scratch16* scratch,
                                 unsigned int c, unsigned int d, unsigned int e, unsigned int f);
-    int FUN_00e04920(unsigned int a1, unsigned int a2, unsigned int a3,
+    int hkObjectCopier_copyObject(unsigned int a1, unsigned int a2, unsigned int a3,
                      unsigned int a4, unsigned int a5);
 };
 
-// Calls FUN_00e036b0 and FUN_00e03ea0 with a scratch object, then returns whether the byte from ForwardValueToObject is zero.
+// Calls FUN_00e036b0 and hkObjectCopier_saveExtras with a scratch object, then returns whether the byte from ForwardValueToObject is zero.
 // @f3 0x009b4850 (community match, verified in this file)
 static __declspec(noinline) void FUN_009b33c0(VObj* p, int n)
 {
@@ -339,7 +314,8 @@ static __declspec(noinline) void FUN_009b33c0(VObj* p, int n)
     FUN_00e03360_ext2(p);
 }
 
-int FUN_00e04920_cls::FUN_00e04920(unsigned int a1, unsigned int a2, unsigned int a3,
+// pdb: hkObjectCopier::copyObject | hkObjectCopier.obj | fnv360_0822_retail, call_gap + bridge(caller_sim|vtable) + skyrim(call_gap), high
+int FUN_00e04920_cls::hkObjectCopier_copyObject(unsigned int a1, unsigned int a2, unsigned int a3,
                                    unsigned int a4, unsigned int a5)
 {
     Scratch16 scratch;
@@ -347,7 +323,7 @@ int FUN_00e04920_cls::FUN_00e04920(unsigned int a1, unsigned int a2, unsigned in
     unsigned int intermediate = FUN_00e036b0(a1, a2, &scratch, a4);
     VObj* object = reinterpret_cast<VObj*>(a3);
     FUN_009b33c0(object, 16);
-    FUN_00e03ea0(a1, a2, &scratch, a4, intermediate, a5, 0);
+    hkObjectCopier_saveExtras(a1, a2, &scratch, a4, intermediate, a5, 0);
     FUN_009b33c0(object, 16);
     int success = (*scratch.ForwardValueToObject(&a1) == 0);
     scratch.FUN_00d60590();
@@ -355,7 +331,7 @@ int FUN_00e04920_cls::FUN_00e04920(unsigned int a1, unsigned int a2, unsigned in
 }
 
 
-// FUN_00e03360: module-local helper (custom register convention: n in EAX, obj in EDI).
+// objectCopierPadUp: module-local helper (custom register convention: n in EAX, obj in EDI).
 // lets the object fill it, then frees it.
 
 struct HeapAlloc
@@ -489,7 +465,8 @@ extern unsigned int DAT_010f3170;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long idx);
 void __cdecl FUN_00901e90(E3Arr* arr, int newCap, int elem);
 
-static __declspec(noinline) void __cdecl FUN_00e03360(Reader* apReader, int aiCount)
+// pdb: objectCopierPadUp | hkObjectCopier.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_seq) + skyrim(call_gap), high
+static __declspec(noinline) void __cdecl objectCopierPadUp(Reader* apReader, int aiCount)
 {
     int off = apReader->GetReadOffset();
     E3Arr a;
@@ -537,14 +514,14 @@ static __declspec(noinline) void __cdecl FUN_00e03360(Reader* apReader, int aiCo
 }
 void e03360_keep_driver(Reader* obj, int a, int b)
 {
-    FUN_00e03360(obj, a);
+    objectCopierPadUp(obj, a);
 }
 
 
 void keep_alive_b11425(Reader* obj, int a, int b)
 {
-    FUN_00e03360(obj, a);
-    FUN_00e03360(obj, b + a);
+    objectCopierPadUp(obj, a);
+    objectCopierPadUp(obj, b + a);
 }
 
 struct DiagnosticWriter {
@@ -557,7 +534,7 @@ struct DiagnosticWriter {
 };
 
 struct Target {
-    void WriteSwapped(const void* p, unsigned int n, unsigned int m);              // (this,void*,int,int)
+    void hkOArchive_writeArrayGeneric(const void* p, unsigned int n, unsigned int m);              // (this,void*,int,int)
 };
 
 struct AssertMgr {
@@ -571,9 +548,10 @@ extern AssertMgr* DAT_01268360;
 extern const char str_010ea3e4[];
 extern const char str_010ea3c8[];
 
-// Calls WriteSwapped for listed type values, adjusting its integer arguments for cases 12 through 18; other values enter the diagnostic path.
+// Calls hkOArchive_writeArrayGeneric for listed type values, adjusting its integer arguments for cases 12 through 18; other values enter the diagnostic path.
 // @f3 0x009b3200 (community match, verified in this file)
-static __declspec(noinline) void FUN_00e03170(unsigned int a, unsigned int aiSize, unsigned int type, Target* apTarget, void* apData)
+// pdb: writePodArray | hkObjectCopier.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+static __declspec(noinline) void writePodArray(unsigned int a, unsigned int aiSize, unsigned int type, Target* apTarget, void* apData)
 {
     switch (type - 1) {
     case 11: case 12: case 13: case 14: case 15: case 16: case 17:
@@ -583,7 +561,7 @@ static __declspec(noinline) void FUN_00e03170(unsigned int a, unsigned int aiSiz
         /* fall through */
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
     case 9: case 10:
-        apTarget->WriteSwapped(apData, aiSize, a);
+        apTarget->hkOArchive_writeArrayGeneric(apData, aiSize, a);
         return;
     case 19: case 20: case 21: case 22: case 24: case 25: case 26: case 27: case 29:
         goto fail;
@@ -604,11 +582,10 @@ fail:
 
 void target_driver(unsigned int type, unsigned int count, unsigned int size, void* data, Target* target)
 {
-    FUN_00e03170(count, size, type, target, data);
+    writePodArray(count, size, type, target, data);
 }
 
 namespace fnv_00e036b0 {
-extern "C" void _ReadWriteBarrier();
 struct Item {
     int f00; int f04; int f08;
     unsigned char type; unsigned char f0d; unsigned char f0e; unsigned char f0f;
@@ -631,51 +608,24 @@ struct EbpObj {
     virtual int v1c(int a, int b);
     virtual int v20();
 };
-struct ExitObj {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual int v1c(int a);
-};
 struct HObj {
     int Lookup(int a, void* b);
-    int FUN_00db75b0(int a, void* b);
+    int hkClassEnum_getValueOfName(int a, void* b);
     int CollectMatchingEntries(int a, void* b, void* c);
-};
-struct Inner {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual int v10(int a, int b);
-};
-struct InnerHolder { int f00; int f04; int f08; int f0c; Inner* f10; };
-struct Chain {
-    Chain* FUN_00cc01c0(const void* s, void* a);
-    Chain* FUN_00cc01c0();
-    void FUN_00cc00e0();
-};
-struct StrBuf {
-    char* data; int size; int capacity;
-    void FUN_00cb1600(void* a, int n);
 };
 struct StreamObj {
     EbpObj* FUN_00d60800();
     void WriteInt(int a);
-    void FUN_00d60900(int a);
-    void FUN_00d605b0(int a);
-    void WriteSwapped(const void* data, unsigned int size, unsigned int count);
+    void hkOArchive_write16(int a);
+    void hkOArchive_write8(int a);
+    void hkOArchive_writeArrayGeneric(const void* data, unsigned int size, unsigned int count);
     void FUN_00d607b0(const void* data, unsigned int size);
     StreamObj* FUN_00d46fe0(int v);
     void* FUN_00d46d40();
 };
 struct DescriptorList {
     int unk00; int unk04; int unk08;
-    int FUN_00d46f00();
+    int hkClass_getNumMembers();
     Item* FUN_00d46f20(int i);
     int FUN_00d470d0();
 };
@@ -689,7 +639,7 @@ struct Host {
     unsigned char f0c; unsigned char f0d; unsigned char f0e; unsigned char f0f;
     int f10;
     StreamObj* FUN_00d46fe0(int v);
-    void FUN_00e03460(StreamObj* a, Item* it);
+    void hkObjectCopier_writeZero(StreamObj* a, Item* it);
     int FUN_00e036b0(StreamObj* p0, StreamObj* p1, StreamObj* p2, DescriptorList* p3);
 };
 extern int DAT_01044c28;
@@ -698,7 +648,7 @@ extern int DAT_010ea47c;
 extern int DAT_010ea3c8;
 extern int DAT_010ea448;
 int __cdecl FUN_00e049c0(int a, int b);
-int __cdecl FUN_00e03240(DescriptorList* a, Item* it, int i, int e);
+int __cdecl applyDefaultsFor(DescriptorList* a, Item* it, int i, int e);
 
 static __declspec(noinline) int FUN_00e03100(Item* p) {
     if (p->FUN_00d86940()) return p->FUN_00d86940();
@@ -718,7 +668,7 @@ struct DiagnosticWriterOrig {
 };
 static DiagnosticWriterOrig& wch(DiagnosticWriter& w) { return *(DiagnosticWriterOrig*)&w; }
 
-static __declspec(noinline) void FUN_00e03170(Target* obj, unsigned int type, unsigned int size, unsigned int count, void* data) {
+static __declspec(noinline) void writePodArray(Target* obj, unsigned int type, unsigned int size, unsigned int count, void* data) {
     switch (type) {
     case 12:
     case 13:
@@ -743,7 +693,7 @@ static __declspec(noinline) void FUN_00e03170(Target* obj, unsigned int type, un
     case 11:
     case 32:
     output:
-        obj->WriteSwapped(data, size, count);
+        obj->hkOArchive_writeArrayGeneric(data, size, count);
         return;
     default: {
         unsigned int storage[128];
@@ -757,7 +707,7 @@ static __declspec(noinline) void FUN_00e03170(Target* obj, unsigned int type, un
     }
 }
 
-static __declspec(noinline) void WriteUIntArray(int count, const unsigned int* data, Writer* w, int elemSize) {
+static __declspec(noinline) void writeUlongArray(int count, const unsigned int* data, Writer* w, int elemSize) {
     if (elemSize == 4) {
         w->write(data, elemSize, count);
         return;
@@ -794,17 +744,17 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
     
     state1.ebp = apOutputStream->FUN_00d60800();
     state0.base = state1.ebp->v20();
-    for (state0.index = 0; state0.index < apDescriptorList->FUN_00d46f00(); state0.index++) {
+    for (state0.index = 0; state0.index < apDescriptorList->hkClass_getNumMembers(); state0.index++) {
         Item* pItem = apDescriptorList->FUN_00d46f20(state0.index);
         state1.ebp->v1c((int)pItem->f12 + state0.base, 0);
         if (pItem->f10 & 0x400) {
             int fl = this->f10;
             if (fl & 2) {
-                this->FUN_00e03460(apOutputStream, pItem);
+                this->hkObjectCopier_writeZero(apOutputStream, pItem);
                 continue;
             }
             if (fl & 1) {
-                FUN_00e03240(apDescriptorList, pItem, state0.index, (int)state1.ebp);
+                applyDefaultsFor(apDescriptorList, pItem, state0.index, (int)state1.ebp);
                 continue;
             }
         }
@@ -819,14 +769,14 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 int x = FUN_00e03100(nb);
                 int y = FUN_00e03100(pItem);
                 int v = pItem->FUN_00d86980();
-                FUN_00e03170((Target*)apOutputStream, pItem->type, v / y, FUN_00e049c0(x,y), (void*)iSourceOffset);
+                writePodArray((Target*)apOutputStream, pItem->type, v / y, FUN_00e049c0(x,y), (void*)iSourceOffset);
                 break;
             }
             case 29: {
                 int x = FUN_00e03100(nb);
                 int y = FUN_00e03100(pItem);
                 int r = FUN_00e049c0(x, y);
-                WriteUIntArray(r, (const unsigned int*)iSourceOffset, (Writer*)apOutputStream, (int)this->f0c);
+                writeUlongArray(r, (const unsigned int*)iSourceOffset, (Writer*)apOutputStream, (int)this->f0c);
                 break;
             }
             case 23: {
@@ -848,11 +798,11 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                     LookupResult* __restrict pLookupResult = &state1.lookup;
                     int iResult = ((HObj*)h1)->Lookup(r86, pLookupResult);
                     if (iResult == 0) {
-                        ((HObj*)h2)->FUN_00db75b0(pLookupResult->value, &work.local20);
+                        ((HObj*)h2)->hkClassEnum_getValueOfName(pLookupResult->value, &work.local20);
                     }
                     switch (iStep) {
-                    case 1: apOutputStream->FUN_00d605b0(work.local20); break;
-                    case 2: apOutputStream->FUN_00d60900(work.local20); break;
+                    case 1: apOutputStream->hkOArchive_write8(work.local20); break;
+                    case 2: apOutputStream->hkOArchive_write16(work.local20); break;
                     case 4: apOutputStream->WriteInt(work.local20); break;
                     }
                     iSourceOffset += iStep;
@@ -878,7 +828,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 int ebpInt = iSourceOffset;
                 if (pItem->type == 0x1b) {
                     scratch.pair2[0] = 0; scratch.pair2[1] = 0;
-                    pStream->WriteSwapped(scratch.pair2, (int)this->f0c, 1);
+                    pStream->hkOArchive_writeArrayGeneric(scratch.pair2, (int)this->f0c, 1);
                     if (((PointerValue*)ebpInt)->valid != 0) {
                         ebpInt = ((PointerValue*)ebpInt)->object;
                     } else {
@@ -900,7 +850,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 }
                 {
                     scratch.out[0] = 0; scratch.out[1] = 0;
-                    pStream->WriteSwapped(scratch.out, (int)this->f0c, 1);
+                    pStream->hkOArchive_writeArrayGeneric(scratch.out, (int)this->f0c, 1);
                     pStream->WriteInt(ebpInt);
                     if (pItem->type == 0x16) {
                         ebpInt |= 0x80000000;
@@ -931,7 +881,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 if (rawCount <= 0) break;
                 int iRemaining = rawCount;
                 do {
-                    apOutputStream->WriteSwapped(scratch.buf4, (int)this->f0c, 2);
+                    apOutputStream->hkOArchive_writeArrayGeneric(scratch.buf4, (int)this->f0c, 2);
                     iRemaining--;
                 } while (iRemaining != 0);
                 break;
@@ -960,7 +910,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                     while (iValueIndex < work.values.size) {
                         
                         int* __restrict outputValue = &state0.out40;
-                        int iLookupResult = ((HObj*)state0.flagh2)->FUN_00db75b0(work.values.data[iValueIndex], outputValue);
+                        int iLookupResult = ((HObj*)state0.flagh2)->hkClassEnum_getValueOfName(work.values.data[iValueIndex], outputValue);
                         if (iLookupResult == 0) iOrValue |= *outputValue;
                         else work.acc |= *outputValue;
                         iValueIndex++;
@@ -971,8 +921,8 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                         iOrValue |= iAccumulated;
                     }
                     switch (state1.flagq) {
-                    case 1: apOutputStream->FUN_00d605b0(iOrValue); break;
-                    case 2: apOutputStream->FUN_00d60900(iOrValue); break;
+                    case 1: apOutputStream->hkOArchive_write8(iOrValue); break;
+                    case 2: apOutputStream->hkOArchive_write16(iOrValue); break;
                     case 4: apOutputStream->WriteInt(iOrValue); break;
                     }
                     cur += state1.flagq;
@@ -999,7 +949,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
             }
             }
             } else {
-                FUN_00e03240(apDescriptorList, pItem, state0.index, (int)state1.ebp);
+                applyDefaultsFor(apDescriptorList, pItem, state0.index, (int)state1.ebp);
             }
         }
     }

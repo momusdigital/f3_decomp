@@ -45,8 +45,9 @@ class NiMultiTargetTransformController
   public:
     virtual NiInterpolator* GetInterpolatorAtIndex(unsigned short);
     char m_ucUnknownByte[0x30];
-    void* m_pkBlendInterpolators;
-    NiAVObject** m_ppTargetObjects;
+    void* m_pkBlendInterps;  // src: FNV360_PDB +0x34 (old: m_pkBlendInterpolators)
+    NiAVObject** m_ppkTargets;  // src: FNV360_PDB +0x38 (old: m_ppTargetObjects)
+    unsigned short m_usNumInterps;  // src: FNV360_PDB +0x3C
 };
 
 struct NiMultiTargetTransformController__PoseSource
@@ -58,10 +59,12 @@ struct NiMultiTargetTransformController__PoseSource
 };
 
 // @fnv 0x00a2ffe0
+// pdb: NiMultiTargetTransformController::CreatePoseInterpolator | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, high
+// pdb params: usIndex
 NiInterpolator* NiMultiTargetTransformController::GetInterpolatorAtIndex(unsigned short index)
 {
     NiMultiTargetTransformController__PoseSource* source =
-        (NiMultiTargetTransformController__PoseSource*)m_ppTargetObjects[index];
+        (NiMultiTargetTransformController__PoseSource*)m_ppkTargets[index];
     NiQuaternion rotate;
     NiQuatTransform transform;
     rotate.FromRotationMatrix(source->m_kOrientation);
@@ -73,13 +76,14 @@ NiInterpolator* NiMultiTargetTransformController::GetInterpolatorAtIndex(unsigne
 
 struct FUN_00a2fd40_shell : public NiMultiTargetTransformController
 {
-    char* FUN_00a2fd40(unsigned short);
+    char* NiMultiTargetTransformController_GetInterpolatorID(unsigned short);
 };
 
 // @fnv 0x00a2fd40
-char* FUN_00a2fd40_shell::FUN_00a2fd40(unsigned short usIndex)
+// pdb: NiMultiTargetTransformController::GetInterpolatorID | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+char* FUN_00a2fd40_shell::NiMultiTargetTransformController_GetInterpolatorID(unsigned short usIndex)
 {
-    return *((char**)m_ppTargetObjects[usIndex] + 2);
+    return *((char**)m_ppkTargets[usIndex] + 2);
 }
 
 void __fastcall DestroyInterpolatorArray(void* pThis);
@@ -87,6 +91,7 @@ void __cdecl FUN_00aa1460(void* ptr, unsigned int size);
 void __cdecl FUN_00aa1490(void* ptr, unsigned int size);
 
 // @fnv 0x00a2ff70
+// pdb: NiBlendTransformInterpolator::`vector deleting destructor' | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, high
 void* __fastcall FUN_00a2ff70(char* pThis, int, unsigned int flags)
 {
     if (flags & 2)
@@ -147,13 +152,15 @@ struct Helper2
 };
 
 // @fnv 0x00a30070
+// pdb: NiMultiTargetTransformController::CopyMembers | NiMultiTargetTransformController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkDest, kCloning
 void FUN_00a30070_shell::CloneTo(NiMultiTargetTransformController* pkDest, CloningProcess* kCloning)
 {
     ((NiTransformController*)this)->FUN_00a2f8a0((NiTransformController*)pkDest, *kCloning);
-    ((Helper1*)pkDest)->FUN_00a2feb0(*(unsigned short*)((char*)this + 0x3c));
-    for (unsigned short us = 0; us < *(unsigned short*)((char*)this + 0x3c); ++us)
+    ((Helper1*)pkDest)->FUN_00a2feb0(m_usNumInterps);
+    for (unsigned short us = 0; us < m_usNumInterps; ++us)
     {
-        ((Helper2*)this->m_pkBlendInterpolators)[us].FUN_00a40aa0(&((Helper2*)pkDest->m_pkBlendInterpolators)[us],
+        ((Helper2*)this->m_pkBlendInterps)[us].FUN_00a40aa0(&((Helper2*)pkDest->m_pkBlendInterps)[us],
                                                                   kCloning);
     }
 }
@@ -223,6 +230,8 @@ struct NiBlendTransformInterpolator_Stub
 
 // Calls the base ProcessClone, then clones each target transform interpolator and remaps its target object through the cloning process's pointer map.
 // @fnv 0x00a300d0
+// pdb: NiMultiTargetTransformController::ProcessClone | NiMultiTargetTransformController.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kCloning
 void FUN_00a300d0_shell::FUN_00a300d0(CloningProcess* kCloning)
 {
     ((NiTimeController*)this)->NiTimeController::ProcessClone(*kCloning);
@@ -231,17 +240,17 @@ void FUN_00a300d0_shell::FUN_00a300d0(CloningProcess* kCloning)
     ((NiTStringPointerMap<ShaderBufferRecord*>*)kCloning->m_pCloneMap)->GetAt((const char*)this, pkClone);
     NiMultiTargetTransformController* pkDest = (NiMultiTargetTransformController*)pkClone;
 
-    unsigned short m_usPassCountLocal = *(unsigned short*)((char*)this + 0x3C);
+    unsigned short m_usPassCountLocal = m_usNumInterps;
     for (unsigned short us = 0; us < m_usPassCountLocal; us++)
     {
-        ((NiBlendTransformInterpolator_Stub*)m_pkBlendInterpolators)[us].ProcessClone(*kCloning);
-        if (m_ppTargetObjects[us] != 0)
+        ((NiBlendTransformInterpolator_Stub*)m_pkBlendInterps)[us].ProcessClone(*kCloning);
+        if (m_ppkTargets[us] != 0)
         {
             bool bFound = ((NiTStringPointerMap<ShaderBufferRecord*>*)kCloning->m_pCloneMap)
-                              ->GetAt((const char*)m_ppTargetObjects[us], pkClone);
-            pkDest->m_ppTargetObjects[us] = bFound ? (NiAVObject*)pkClone : 0;
+                              ->GetAt((const char*)m_ppkTargets[us], pkClone);
+            pkDest->m_ppkTargets[us] = bFound ? (NiAVObject*)pkClone : 0;
         }
-        m_usPassCountLocal = *(unsigned short*)((char*)this + 0x3C);
+        m_usPassCountLocal = m_usNumInterps;
     }
 }
 }  // namespace fnv_00a300d0
@@ -255,6 +264,7 @@ struct NiMemObject_Del : public NiMemObject
 
 // Calls FUN_00a2fb70 on pThis, then deletes pThis with size 0x40 when flags has bit 1 set, and returns pThis.
 // @fnv 0x00a30280
+// pdb: bhkLiquidAction::`scalar deleting destructor' | Explosion.obj | fnv360_0822_retail, vtable, medium
 void* __fastcall FUN_00a30280(void* pThis, int, unsigned int flags)
 {
     FUN_00a2fb70(pThis);
@@ -271,6 +281,8 @@ struct Blend34
     char* p;
 };
 // @fnv 0x00a2fa30
+// pdb: NiMultiTargetTransformController::GetInterpolator | NiMultiTargetTransformController.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: BSTScatterTableKernel<struct BSTScatterTableTraits<class BSFixedString,class NiAVObject *,struct BSTScatterTableDefaultKVStorage,struct BSTScatterTableDefaultHashPolicy<class BSFixedString>,struct BSTScatterTableHeapAllocator<struct BSTScatterTableEntry<class BSFixedString,class NiAVObject *,struct BSTScatterTableDefaultKVStorage> >,8> >::HashToEntry)
+// pdb params: usIndex
 char* __fastcall FUN_00a2fa30(Blend34* self, int, unsigned short ausIndex)
 {
     return self->p + ausIndex * 0x30;
@@ -358,11 +370,6 @@ void __fastcall FUN_00a2fa70(Ctl* self, int, float afValueA, float afValueB)
 }
 
 extern int DAT_011f36bc;
-// @fnv 0x00a2fbd0
-int* __cdecl FUN_00a2fbd0()
-{
-    return &DAT_011f36bc;
-}
 
 namespace fnv_00a30240 {
 struct NiFixedString
@@ -385,6 +392,8 @@ struct Ctl
     unsigned short num;
 };
 // @fnv 0x00a30240
+// pdb: NiMultiTargetTransformController::GetInterpolatorIndexFx | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, low
+// pdb params: arName
 unsigned short __fastcall FindTargetIndex(Ctl* self, int, const NiFixedString* arName)
 {
     unsigned short us;
@@ -417,6 +426,7 @@ struct Ctl
 };
 // Walks the RTTI chain of self->target and returns true if it reaches g_011f4428_arg1, otherwise false.
 // @fnv 0x00a302a0
+// pdb: BSPlayerDistanceCheckController::TargetIsRequiredType | BSPlayerDistanceCheckController.obj | fnv360_0822_retail, vtable, medium
 bool __fastcall IsTargetOfType(Ctl* pCtl)
 {
     Obj* t = pCtl->target;
@@ -449,7 +459,7 @@ struct CloningProcess
 typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a302d0_shell : public NiMultiTargetTransformController
 {
-    NiObject* FUN_00a302d0(CloningProcess*);
+    NiObject* NiMultiTargetTransformController_CreateClone(CloningProcess*);
 };
 
 struct FUN_00a30070_shell
@@ -481,7 +491,8 @@ struct CloneCtl : CloneBase
 };
 // Allocates a CloneCtl, passes it with kCloning to CloneTo, and returns it as a NiObject.
 // @fnv 0x00a302d0
-NiObject* FUN_00a302d0_shell::FUN_00a302d0(CloningProcess* kCloning)
+// pdb: NiMultiTargetTransformController::CreateClone | NiMultiTargetTransformController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+NiObject* FUN_00a302d0_shell::NiMultiTargetTransformController_CreateClone(CloningProcess* kCloning)
 {
     CloneCtl* pkObject = new CloneCtl;
     reinterpret_cast<FUN_00a30070_shell*>(this)->CloneTo(reinterpret_cast<NiMultiTargetTransformController*>(pkObject),
@@ -516,6 +527,7 @@ struct Ctl : Base
 };
 // Allocates and constructs a new Ctl object, returning the pointer.
 // @fnv 0x00a30330
+// pdb: NiMultiTargetTransformController::CreateObject | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, medium
 Ctl* __cdecl CreateCtl()
 {
     return new Ctl;
@@ -533,15 +545,6 @@ struct Stream
     char pad[0x24c];
     BinStream* ostr;
 };
-// Writes 2 bytes from data through the stream's BinStream write callback and advances its position by the bytes written.
-// @fnv 0x00a30370
-void __cdecl FUN_00a30370(Stream* apStream, const void* data)
-{
-    BinStream* o = apStream->ostr;
-    unsigned int(__cdecl * fn)(BinStream*, const void*, unsigned int, void*, unsigned int) = o->write;
-    *reinterpret_cast<unsigned int*>(&apStream) = 2;
-    o->pos += fn(o, data, 2, &apStream, 1);
-}
 
 namespace fnv_00a303a0 {
 struct BinStream
@@ -556,15 +559,6 @@ struct Stream
     char pad[0x250];
     BinStream* ostr;
 };
-// Writes 2 bytes from data through the stream's write callback and advances the stream position by the bytes written.
-// @fnv 0x00a303a0
-void __cdecl FUN_00a303a0(Stream* apStream, const void* data)
-{
-    BinStream* o = apStream->ostr;
-    unsigned int(__cdecl * fn)(BinStream*, const void*, unsigned int, void*, unsigned int) = o->write;
-    *reinterpret_cast<unsigned int*>(&apStream) = 2;
-    o->pos += fn(o, data, 2, &apStream, 1);
-}
 }  // namespace fnv_00a303a0
 
 struct NiUpdateData
@@ -580,7 +574,7 @@ struct NiUpdateData
 typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00a2fbe0_shell : public NiMultiTargetTransformController
 {
-    void UpdateTargets(NiUpdateData*);
+    void NiMultiTargetTransformController_Update(NiUpdateData*);
 };
 
 extern "C" double __cdecl fabs(double);
@@ -683,7 +677,10 @@ extern float DAT_01096b8c;
 
 // If active, iterates targets with selective update, blends each via Update, and applies non-sentinel translate, rotate and scale values.
 // @fnv 0x00a2fbe0
-void FUN_00a2fbe0_shell::UpdateTargets(NiUpdateData* UpdateData)
+// pdb: NiMultiTargetTransformController::Update | NiMultiTargetTransformController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: UpdateData
+// pdb: NiMultiTargetTransformController::Update | NiMultiTargetTransformController.obj | fnv360_0822_retail, caller_sim, high (was: UpdateTargets)
+void FUN_00a2fbe0_shell::NiMultiTargetTransformController_Update(NiUpdateData* UpdateData)
 {
     if (((CtlFlags_a2fbe0*)this)->GetActive())
     {
@@ -691,21 +688,21 @@ void FUN_00a2fbe0_shell::UpdateTargets(NiUpdateData* UpdateData)
         kTransform.m_kTranslate = DAT_011a8400;
         kTransform.m_kRotate = DAT_011f3704;
         kTransform.m_fScale = DAT_01096b8c;
-        for (int us = 0; us < *(unsigned short*)((char*)this + 0x3c); us++)
+        for (int us = 0; us < m_usNumInterps; us++)
         {
-            if (((Target_a2fbe0**)m_ppTargetObjects)[us] &&
-                ((Target_a2fbe0**)m_ppTargetObjects)[us]->GetSelectiveUpdate())
+            if (((Target_a2fbe0**)m_ppkTargets)[us] &&
+                ((Target_a2fbe0**)m_ppkTargets)[us]->GetSelectiveUpdate())
             {
-                if (((Blend_a2fbe0*)m_pkBlendInterpolators)[us].Update(
-                        UpdateData->fTime, (NiAVObject*)((Target_a2fbe0**)m_ppTargetObjects)[us], kTransform))
+                if (((Blend_a2fbe0*)m_pkBlendInterps)[us].Update(
+                        UpdateData->fTime, (NiAVObject*)((Target_a2fbe0**)m_ppkTargets)[us], kTransform))
                 {
                     if (kTransform.m_kTranslate.x != -3.4028234663852886e+38)
-                        ((Target_a2fbe0**)m_ppTargetObjects)[us]->m_kTranslate = kTransform.m_kTranslate;
+                        ((Target_a2fbe0**)m_ppkTargets)[us]->m_kTranslate = kTransform.m_kTranslate;
                     if (kTransform.m_kRotate.m_fVectorY != -3.4028234663852886e+38)
                         ((QuatHelper_a2fbe0*)&kTransform.m_kRotate)
-                            ->ToRotationMatrix(((Target_a2fbe0**)m_ppTargetObjects)[us]->m_kRotate);
+                            ->ToRotationMatrix(((Target_a2fbe0**)m_ppkTargets)[us]->m_kRotate);
                     if (kTransform.m_fScale != -3.4028234663852886e+38)
-                        ((Target_a2fbe0**)m_ppTargetObjects)[us]->m_fScale = (float)fabs(kTransform.m_fScale);
+                        ((Target_a2fbe0**)m_ppkTargets)[us]->m_fScale = (float)fabs(kTransform.m_fScale);
                 }
             }
         }
@@ -763,6 +760,8 @@ struct FUN_00a2fae0_cls
 };
 
 // @fnv 0x00a2fae0
+// pdb: NiMultiTargetTransformController::IsEqual | NiMultiTargetTransformController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 bool FUN_00a2fae0_cls::Equals(FUN_00a2fae0_cls* other)
 {
     if (!this->FUN_00c283f0(other))
@@ -858,15 +857,8 @@ struct NiBlendInterpolator
     unsigned int unk28;
     unsigned int unk2c;
 };
-struct TimeFlags
-{
-    unsigned char m_unused : 5;
-    unsigned char m_bManagerControlled : 1;
-    unsigned char m_reserved : 2;
-};
 struct NiMultiTargetTimeShell : public NiMultiTargetTransformController
 {
-    unsigned short m_usNumTargets;
     bool GetManagerControlled() const
     {
         return (reinterpret_cast<const unsigned short*>(m_ucUnknownByte + 4)[0] >> 5) & 1;
@@ -880,20 +872,22 @@ struct NiMultiTargetTimeShell : public NiMultiTargetTransformController
         return *reinterpret_cast<float*>(m_ucUnknownByte + 0x14);
     }
     void ResetIfFlagClear();
-    void UpdateTimeRange();
+    void NiMultiTargetTransformController_ResetTimeExtrema();
 };
 // @fnv 0x00a2fde0
-void NiMultiTargetTimeShell::UpdateTimeRange()
+// pdb: NiMultiTargetTransformController::ResetTimeExtrema | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, high
+// pdb: NiMultiTargetTransformController::ResetTimeExtrema | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, high (was: UpdateTimeRange)
+void NiMultiTargetTimeShell::NiMultiTargetTransformController_ResetTimeExtrema()
 {
     if (!GetManagerControlled())
     {
         LoKeyTime() = DAT_0109643c;
         HiKeyTime() = DAT_01015f5c;
-        for (unsigned short index = 0; index < m_usNumTargets; ++index)
+        for (unsigned short index = 0; index < m_usNumInterps; ++index)
         {
             float endTime = DAT_01015f5c;
             float startTime = DAT_0109643c;
-            static_cast<NiBlendInterpolator*>(m_pkBlendInterpolators)[index].GetTimeRange(&startTime, &endTime);
+            static_cast<NiBlendInterpolator*>(m_pkBlendInterps)[index].GetTimeRange(&startTime, &endTime);
             if (startTime < LoKeyTime())
                 LoKeyTime() = startTime;
             if (endTime > HiKeyTime())
@@ -1125,7 +1119,7 @@ class A30440Controller
 class A30440MultiTarget : public A30440Controller
 {
   public:
-    A30440Object** m_ppTargetObjects;
+    A30440Object** m_ppkTargets;  // src: FNV360_PDB +0x38 (old: m_ppTargetObjects)
     unsigned short m_usTargetCount;
 
     void FUN_00a30440(A30440Stream& kStream);
@@ -1139,54 +1133,10 @@ void A30440MultiTarget::FUN_00a30440(A30440Stream& kStream)
     A30440Controller::SaveBinary(kStream);
     A30440SaveBinary(kStream, m_usTargetCount);
     for (unsigned short us = 0; us < m_usTargetCount; us++)
-        kStream.SaveLinkID(m_ppTargetObjects[us]);
+        kStream.SaveLinkID(m_ppkTargets[us]);
 }
 
-struct FUN_00a304b0_arr
-{
-    char pad00[8];
-    unsigned short m_usCapacity;
-    unsigned short m_usElementCount;
-    unsigned short m_usPad0c;
-    unsigned short m_usGrow;
-
-    void FUN_0096ad30(unsigned int ItemUpdateArray);
-    void FUN_0096ae90(unsigned int uiIndex, void** ppItem);
-};
-
-struct FUN_00a304b0_cls
-{
-    char pad00[0x3c];
-    unsigned short m_usNumInterps;
-
-    void WriteManagerControlledFlag(FUN_00a304b0_arr* pArr);
-    void FUN_00a304b0(FUN_00a304b0_arr* pArr);
-};
-
-void* __cdecl FUN_00a7d330(int);
-void* __cdecl FUN_00a7d490(const char*, unsigned short);
 extern int DAT_011f36bc;
-
-// @fnv 0x00a304b0
-void FUN_00a304b0_cls::FUN_00a304b0(FUN_00a304b0_arr* pArr)
-{
-    WriteManagerControlledFlag(pArr);
-    void* pItem = FUN_00a7d330(DAT_011f36bc);
-    unsigned int usIndex = pArr->m_usElementCount;
-    if (usIndex >= pArr->m_usCapacity)
-    {
-        pArr->FUN_0096ad30(usIndex + pArr->m_usGrow);
-    }
-    pArr->FUN_0096ae90(usIndex, &pItem);
-
-    pItem = FUN_00a7d490("m_usNumInterps", m_usNumInterps);
-    usIndex = pArr->m_usElementCount;
-    if (usIndex >= pArr->m_usCapacity)
-    {
-        pArr->FUN_0096ad30(usIndex + pArr->m_usGrow);
-    }
-    pArr->FUN_0096ae90(usIndex, &pItem);
-}
 
 extern "C" int __cdecl strcmp(const char* pcA, const char* pcB);
 
@@ -1200,7 +1150,7 @@ struct BA2FD60Item
 class BA2FD60Controller
 {
   public:
-    unsigned short FindItemIndexByName(const char* pcName) const;
+    unsigned short NiMultiTargetTransformController_GetInterpolatorIndex(const char* pcName) const;
 
     int unk00;
     int unk04;
@@ -1224,7 +1174,10 @@ class BA2FD60Controller
 
 // Returns the index of the first item whose m_pcName matches pcName, or INVALID_INDEX if pcName is null or no match is found.
 // @fnv 0x00a2fd60
-unsigned short BA2FD60Controller::FindItemIndexByName(const char* pcName) const
+// pdb: NiMultiTargetTransformController::GetInterpolatorIndex | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, high
+// pdb params: pcID
+// pdb: NiMultiTargetTransformController::GetInterpolatorIndex | NiMultiTargetTransformController.obj | fnv360_0822_retail, objrun, high (was: FindItemIndexByName)
+unsigned short BA2FD60Controller::NiMultiTargetTransformController_GetInterpolatorIndex(const char* pcName) const
 {
     if (!pcName)
         return INVALID_INDEX;
@@ -1242,9 +1195,10 @@ struct NiMultiTargetTransformControllerStandIn : public NiMultiTargetTransformCo
 };
 
 // @fnv 0x00a2fa20
+// pdb: NiMultiTargetTransformController::GetInterpolatorCount | NiMultiTargetTransformController.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiDefaultAVObjectPalette::GetRTTI)
 unsigned short __thiscall NiMultiTargetTransformControllerStandIn::FUN_00a2fa20()
 {
-    return *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 0x3C);
+    return m_usNumInterps;
 }
 
 class NiBinaryStream
@@ -1428,20 +1382,20 @@ inline void ReadBinaryValue(NiStream& kStream, unsigned short& usValue)
 class NiMultiTargetTransformControllerA30 : public NiMultiTargetTransformController
 {
   public:
-    unsigned short m_usNumInterps;
     void FUN_00a2f910(NiStream& kStream);
     void FUN_00a2feb0(unsigned short ausNumInterps);
-    void FUN_00a303d0(NiStream& kStream);
+    void NiMultiTargetTransformController_LoadBinary(NiStream& kStream);
 };
-// Calls FUN_00a2f910, reads m_usNumInterps, passes it to FUN_00a2feb0, then assigns returned pointers to m_ppTargetObjects.
+// Calls FUN_00a2f910, reads m_usNumInterps, passes it to FUN_00a2feb0, then assigns returned pointers to m_ppkTargets.
 // @fnv 0x00a303d0
-void NiMultiTargetTransformControllerA30::FUN_00a303d0(NiStream& kStream)
+// pdb: NiMultiTargetTransformController::LoadBinary | NiMultiTargetTransformController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiMultiTargetTransformControllerA30::NiMultiTargetTransformController_LoadBinary(NiStream& kStream)
 {
     FUN_00a2f910(kStream);
     ReadBinaryValue(kStream, m_usNumInterps);
     FUN_00a2feb0(m_usNumInterps);
     for (unsigned short us = 0; us < m_usNumInterps; us++)
-        m_ppTargetObjects[us] = kStream.FUN_00a64620();
+        m_ppkTargets[us] = kStream.FUN_00a64620();
 }
 
 struct MemoryManager
@@ -1501,6 +1455,7 @@ struct FUN_00a2fb70 : NiRefBase_a2fb70
 };
 // Destroys the blends array and frees the targets pointer.
 // @fnv 0x00a2fb70
+// pdb: NiMultiTargetTransformController::~NiMultiTargetTransformController | NiMultiTargetTransformController.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00a2fb70::~FUN_00a2fb70() throw()
 {
     delete[] blends;

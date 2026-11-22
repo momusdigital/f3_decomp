@@ -3,6 +3,7 @@
 #include "nigeometrygroup_decls.h"
 // Initializes the NiGeometryGroup vtable pointer, sets m_uiRefCount to 0, and clears the second member.
 // @fnv 0x00e986f0
+// pdb: NiGeometryGroup::NiGeometryGroup | NiGeometryGroup.obj | tesv_win, hash, low
 NiGeometryGroup::NiGeometryGroup()
 {
     m_ppVirtualMethodTable = NiGeometryGroup_vtable;
@@ -11,6 +12,8 @@ NiGeometryGroup::NiGeometryGroup()
 }
 
 // @fnv 0x00e98750
+// pdb: NiGeometryGroup::RemoveObject | NiGeometryGroup.obj | fnv360_0822_retail, objopen_prop, low, conflict (bridge: NiXenonRenderer::ReleaseDevice)
+// pdb params: pkBuffData
 void NiGeometryGroup::RemoveObject(NiGeometryBufferData* data)
 {
     InterlockedDecrement(&m_uiRefCount);
@@ -23,6 +26,7 @@ void NiGeometryGroup::RemoveObject(NiGeometryBufferData* data)
 
 // Initializes the NiGeometryBufferData object: sets the vtable pointer, zeroes all fields, sets one field to 4, and clears m_pusIndexArray.
 // @fnv 0x00e947c0
+// pdb: NiGeometryBufferData::NiGeometryBufferData | NiStaticGeometryGroup.obj | tesv_win, call_seq, medium
 NiGeometryBufferData::NiGeometryBufferData()
 {
     m_ppVirtualMethodTable = NiGeometryBufferData_vtable;
@@ -51,6 +55,8 @@ NiGeometryBufferData::NiGeometryBufferData()
 __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 // @fnv 0x00e98730
+// pdb: NiGeometryGroup::AddObject | NiGeometryGroup.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkBuffData
 void __fastcall FUN_00e98730(int pObject, int, int pArg)
 {
     InterlockedIncrement((long volatile*)(pObject + 4));
@@ -70,6 +76,7 @@ struct StandIn
 };
 // Sets the vtable to NiGeometryGroup_vtable, releases the FakeDevice at offset 8 if present, and optionally deletes this with size 12.
 // @fnv 0x00e98790
+// pdb: NiGeometryGroup::`scalar deleting destructor' | NiGeometryGroup.obj | tesv_win, objrun_open, low
 void* StandIn::Destroy(unsigned int auiFlags)
 {
     FakeDevice* pDevice = *(FakeDevice**)((char*)this + 8);
@@ -95,6 +102,7 @@ struct FUN_00e98710_cls
 };
 
 // @fnv 0x00e98710
+// pdb: NiGeometryGroup::~NiGeometryGroup | NiGeometryGroup.obj | fnv360_0822_retail, call_gap, high
 void FUN_00e98710_cls::FUN_00e98710()
 {
     m_pVTable = NiGeometryGroup_vtable;

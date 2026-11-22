@@ -6,11 +6,13 @@
 #include "NiFixedString.h"
 #include "NiObject.h"
 #include "NiObjectNET.h"
+#include "NiSingleInterpController.h"
+#include "NiInterpolator.h"
 #include "layout_support.h"
 class NiInterpController;
 class NiInterpolator;
 class NiFloatData;
-class CloningProcess;
+class NiCloningProcess;
 class NiStream;
 class NiPSysEmitterCtlr;
 class NiPSysModifier;
@@ -19,154 +21,18 @@ class NiSingleInterpController;
 class NiTPrimitiveSet_float_;
 class NiTSet_float_NiTMallocInterface_float___;
 #pragma pack(push, 4)
-class NiTimeController : public NiObject
-{
-  public:
-    // base NiObject at +0x0, size 8
-    unsigned short m_uiObjectFlags;  // +0x8, 2 bytes
-    unsigned char layoutPaddingA[2];
-    float m_fFrequency;                              // +0xC, 4 bytes
-    float m_fPhase;                                  // +0x10, 4 bytes
-    float m_fLoKeyTime;                              // +0x14, 4 bytes
-    float m_fHiKeyTime;                              // +0x18, 4 bytes
-    float m_fStartTime;                              // +0x1C, 4 bytes
-    float m_fLastTime;                               // +0x20, 4 bytes
-    float m_fWeightAdjustedLastTime;                 // +0x24, 4 bytes
-    float m_fControllerTime;                         // +0x28, 4 bytes
-    NiObjectNET* m_pkTarget;                         // +0x2C, 4 bytes
-    NiPointer<NiTimeController> m_spNextController;  // +0x30, 4 bytes
-    // const NiRTTI* __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(NiTimeController*, CloningProcess&)
-    // void __cdecl NiTimeController::*(NiStream&)
-    // void __cdecl NiTimeController::*(NiStream&)
-    // bool __cdecl NiTimeController::*(NiStream&)
-    // void __cdecl NiTimeController::*(NiStream&)
-    // bool __cdecl NiTimeController::*(NiObject*)
-    // void __cdecl NiTimeController::*(NiTPrimitiveArray<char *>*)
-    // void __cdecl NiTimeController::*(unsigned short, unsigned short, unsigned short)
-    // unsigned short __cdecl NiTimeController::*(unsigned short, unsigned short)
-    // void __cdecl NiTimeController::*(bool, unsigned short)
-    // bool __cdecl NiTimeController::*(unsigned short)
-    // NiTimeController
-    // void __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(NiTimeController::AnimType)
-    // NiTimeController::AnimType __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(NiTimeController::CycleType)
-    // NiTimeController::CycleType __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(bool)
-    // bool __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(float)
-    // float __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(float)
-    // float __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(float)
-    // float __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(float)
-    // float __cdecl NiTimeController::*()
-    // NiObjectNET* __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(NiObjectNET*)
-    // unsigned int __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(NiTimeController*)
-    // NiTimeController* __cdecl NiTimeController::*()
-    // float __cdecl NiTimeController::*()
-    // bool __cdecl NiTimeController::*(float)
-    // float __cdecl NiTimeController::*()
-    // float __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(NiTimeController*)
-    // void __cdecl NiTimeController::*(bool)
-    // bool __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(CloningProcess&)
-    // void __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(bool)
-    // bool __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(bool)
-    // bool __cdecl NiTimeController::*()
-    // void __cdecl NiTimeController::*(bool)
-    // bool __cdecl NiTimeController::*()
-    // NiTimeController& __cdecl NiTimeController::*(const NiTimeController&)
-    // void __cdecl NiTimeController::*()
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fPhase) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLoKeyTime) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fHiKeyTime) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fStartTime) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLastTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightAdjustedLastTime) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 48);
-#pragma pack(push, 4)
-class NiInterpController : public NiTimeController
-{
-  public:
-    // base NiTimeController at +0x0, size 52
-    // const NiRTTI* __cdecl NiInterpController::*()
-    // void __cdecl NiInterpController::*(NiInterpController*, CloningProcess&)
-    // void __cdecl NiInterpController::*(NiStream&)
-    // void __cdecl NiInterpController::*(NiStream&)
-    // bool __cdecl NiInterpController::*(NiStream&)
-    // void __cdecl NiInterpController::*(NiStream&)
-    // bool __cdecl NiInterpController::*(NiObject*)
-    // void __cdecl NiInterpController::*(NiTPrimitiveArray<char *>*)
-    // void __cdecl NiInterpController::*(NiUpdateData&)
-    // bool __cdecl NiInterpController::*()
-    // void __cdecl NiInterpController::*(bool)
-    // NiInterpController
-    // void __cdecl NiInterpController::*()
-    // NiInterpController& __cdecl NiInterpController::*(const NiInterpController&)
-    // void __cdecl NiInterpController::*()
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
-#pragma pack(push, 4)
-class NiSingleInterpController : public NiInterpController
-{
-  public:
-    // base NiInterpController at +0x0, size 52
-    NiPointer<NiInterpolator> m_spControllerInterpolator;  // +0x34, 4 bytes
-    // const NiRTTI* __cdecl NiSingleInterpController::*()
-    // void __cdecl NiSingleInterpController::*(NiSingleInterpController*, CloningProcess&)
-    // void __cdecl NiSingleInterpController::*(NiStream&)
-    // void __cdecl NiSingleInterpController::*(NiStream&)
-    // bool __cdecl NiSingleInterpController::*(NiStream&)
-    // void __cdecl NiSingleInterpController::*(NiStream&)
-    // bool __cdecl NiSingleInterpController::*(NiObject*)
-    // void __cdecl NiSingleInterpController::*(NiTPrimitiveArray<char *>*)
-    // unsigned short __cdecl NiSingleInterpController::*()
-    // const char* __cdecl NiSingleInterpController::*(unsigned short)
-    // unsigned short __cdecl NiSingleInterpController::*(const char*)
-    // unsigned short __cdecl NiSingleInterpController::*(const NiFixedString&)
-    // NiInterpolator* __cdecl NiSingleInterpController::*(unsigned short)
-    // void __cdecl NiSingleInterpController::*(NiInterpolator*, unsigned short)
-    // void __cdecl NiSingleInterpController::*()
-    // void __cdecl NiSingleInterpController::*(float, float)
-    // void __cdecl NiSingleInterpController::*(CloningProcess&)
-    // NiSingleInterpController
-    // bool __cdecl NiSingleInterpController::*()
-    // void __cdecl NiSingleInterpController::*()
-    // NiSingleInterpController& __cdecl NiSingleInterpController::*(const NiSingleInterpController&)
-    // void __cdecl NiSingleInterpController::*()
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiSingleInterpController) == 56);
-FNV_STATIC_ASSERT(offsetof(NiSingleInterpController, m_spControllerInterpolator) == 52);
-#pragma pack(push, 4)
 class NiPSysModifierCtlr : public NiSingleInterpController
 {
   public:
     // base NiSingleInterpController at +0x0, size 56
-    NiFixedString m_kTargetModifierName;  // +0x38, 4 bytes
-    NiPSysModifier* m_pkTargetModifier;   // +0x3C, 4 bytes
+    NiFixedString m_kModifierName;  // +0x38, 4 bytes  // src: FNV360_PDB +0x38 (old: m_kTargetModifierName)
+    NiPSysModifier* m_pkModifier;   // +0x3C, 4 bytes  // src: FNV360_PDB +0x3C (old: m_pkTargetModifier)
     void LoadBinary(NiStream& stream);
     void LinkObject(NiStream& stream);
-    void ProcessClone(CloningProcess& process);
-    void CopyMemberData(NiPSysModifierCtlr* destination, CloningProcess& process);
+    void ProcessClone(NiCloningProcess& process);
+    void CopyMemberData(NiPSysModifierCtlr* destination, NiCloningProcess& process);
     // const NiRTTI* __cdecl NiPSysModifierCtlr::*()
-    // void __cdecl NiPSysModifierCtlr::*(NiPSysModifierCtlr*, CloningProcess&)
+    // void __cdecl NiPSysModifierCtlr::*(NiPSysModifierCtlr*, NiCloningProcess&)
     // void __cdecl NiPSysModifierCtlr::*(NiStream&)
     // void __cdecl NiPSysModifierCtlr::*(NiStream&)
     // bool __cdecl NiPSysModifierCtlr::*(NiStream&)
@@ -178,7 +44,7 @@ class NiPSysModifierCtlr : public NiSingleInterpController
     // const NiFixedString& __cdecl NiPSysModifierCtlr::*()
     // NiPSysModifier* __cdecl NiPSysModifierCtlr::*()
     // const char* __cdecl NiPSysModifierCtlr::*()
-    // void __cdecl NiPSysModifierCtlr::*(CloningProcess&)
+    // void __cdecl NiPSysModifierCtlr::*(NiCloningProcess&)
     // void __cdecl NiPSysModifierCtlr::*(NiStream&)
     // NiPSysModifierCtlr
     // bool __cdecl NiPSysModifierCtlr::*(NiObjectNET*)
@@ -189,8 +55,8 @@ class NiPSysModifierCtlr : public NiSingleInterpController
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPSysModifierCtlr) == 64);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifierCtlr, m_kTargetModifierName) == 56);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifierCtlr, m_pkTargetModifier) == 60);
+FNV_STATIC_ASSERT(offsetof(NiPSysModifierCtlr, m_kModifierName) == 56);
+FNV_STATIC_ASSERT(offsetof(NiPSysModifierCtlr, m_pkModifier) == 60);
 #pragma pack(push, 4)
 class NiPSysModifierBoolCtlr : public NiPSysModifierCtlr
 {
@@ -200,35 +66,6 @@ class NiPSysModifierBoolCtlr : public NiPSysModifierCtlr
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPSysModifierBoolCtlr) == 64);
 
-class NiInterpolator : public NiObject
-{
-  public:
-    virtual void vfn_08();
-    virtual void vfn_0C();
-    virtual void vfn_10();
-    virtual void vfn_14();
-    virtual void vfn_18();
-    virtual void vfn_1C();
-    virtual void vfn_20();
-    virtual void vfn_24();
-    virtual void vfn_28();
-    virtual void vfn_2C();
-    virtual void vfn_30();
-    virtual void vfn_34();
-    virtual void vfn_38();
-    virtual void vfn_3C();
-    virtual void vfn_40();
-    virtual void vfn_44();
-    virtual NiObject* Clone(CloningProcess& process);
-    virtual void vfn_4C();
-    virtual void vfn_50();
-    virtual void vfn_54();
-    virtual void vfn_58();
-    virtual void vfn_5C();
-    virtual void vfn_60();
-    virtual void vfn_64();
-    virtual void ProcessClone(CloningProcess& process);
-};
 
 class NiFloatInterpolator : public NiInterpolator
 {
@@ -255,8 +92,8 @@ class NiTSet_float_NiTMallocInterface_float___
 {
   public:
     float* m_pBase;                      // +0x0, 4 bytes
-    unsigned int m_uiElementCount;       // +0x4, 4 bytes
-    unsigned int m_uiAllocatedCapacity;  // +0x8, 4 bytes
+    unsigned int m_uiAlloced;       // +0x4, 4 bytes  // src: FNV360_PDB +0x4 (old: m_uiElementCount)
+    unsigned int m_uiUsed;  // +0x8, 4 bytes  // src: FNV360_PDB +0x8 (old: m_uiAllocatedCapacity)
     // NiTSet<float,NiTMallocInterface<float> >
     // void __cdecl NiTSet<float,NiTMallocInterface<float> >::*()
     // unsigned int __cdecl NiTSet<float,NiTMallocInterface<float> >::*()
@@ -279,8 +116,8 @@ class NiTSet_float_NiTMallocInterface_float___
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTSet_float_NiTMallocInterface_float___) == 12);
 FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_pBase) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_uiElementCount) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_uiAllocatedCapacity) == 8);
+FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_uiAlloced) == 4);
+FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_uiUsed) == 8);
 #pragma pack(push, 4)
 class NiTPrimitiveSet_float_ : public NiTSet_float_NiTMallocInterface_float___
 {
@@ -300,69 +137,20 @@ class NiPSysEmitterCtlr : public NiPSysModifierCtlr
   public:
     static void* operator new(unsigned int size);
     // base NiPSysModifierCtlr at +0x0, size 64
-    NiPointer<NiInterpolator> m_spVisibilityInterpolator;  // +0x40, 4 bytes
-    NiInterpolator* m_pEmitterActiveInterpolator;          // +0x44, 4 bytes
-    float m_fScaledLastTime;                               // +0x48, 4 bytes
-    bool m_bIsInitialized;                                 // +0x4C, 1 bytes
+    NiPointer<NiInterpolator> m_spEmitterActiveInterpolator;  // +0x40, 4 bytes  // src: FNV360_PDB +0x40 (old: m_spVisibilityInterpolator)
+    NiInterpolator* m_pkLastBirthRateInterpolator;          // +0x44, 4 bytes  // src: FNV360_PDB +0x44 (old: m_pEmitterActiveInterpolator)
+    float m_fLastScaledTime;                               // +0x48, 4 bytes  // src: FNV360_PDB +0x48 (old: m_fScaledLastTime)
+    bool m_bLastActive;                                 // +0x4C, 1 bytes  // src: FNV360_PDB +0x4C (old: m_bIsInitialized)
     unsigned char layoutPadding4D[3];
-    NiTPrimitiveSet_float_ m_kBirthRateKeys;  // +0x50, 12 bytes
+    NiTPrimitiveSet_float_ m_kParticleAges;  // +0x50, 12 bytes  // src: FNV360_PDB +0x50 (old: m_kBirthRateKeys)
     void LoadBinary(NiStream& stream);
     void LinkObject(NiStream& stream);
-    void ProcessClone(CloningProcess& process);
-    void CopyMemberData(NiPSysEmitterCtlr* destination, CloningProcess& process);
-    NiObject* MakeClone(CloningProcess& process);
-    virtual void vfn_08();
-    virtual void vfn_0C();
-    virtual void vfn_10();
-    virtual void vfn_14();
-    virtual void vfn_18();
-    virtual void vfn_1C();
-    virtual void vfn_20();
-    virtual void vfn_24();
-    virtual void vfn_28();
-    virtual void vfn_2C();
-    virtual void vfn_30();
-    virtual void vfn_34();
-    virtual void vfn_38();
-    virtual void vfn_3C();
-    virtual void vfn_40();
-    virtual void vfn_44();
-    virtual void vfn_48();
-    virtual void vfn_4C();
-    virtual void vfn_50();
-    virtual void vfn_54();
-    virtual void vfn_58();
-    virtual void vfn_5C();
-    virtual void vfn_60();
-    virtual void vfn_64();
-    virtual void vfn_68();
-    virtual void vfn_6C();
-    virtual void vfn_70();
-    virtual void vfn_74();
-    virtual void vfn_78();
-    virtual void vfn_7C();
-    virtual void vfn_80();
-    virtual void vfn_84();
-    virtual void vfn_88();
-    virtual void vfn_8C();
-    virtual void vfn_90();
-    virtual void vfn_94();
-    virtual void vfn_98();
-    virtual void vfn_9C();
-    virtual void vfn_A0();
-    virtual void vfn_A4();
-    virtual void vfn_A8();
-    virtual void vfn_AC();
-    virtual void vfn_B0();
-    virtual void vfn_B4();
-    virtual void vfn_B8();
-    virtual void vfn_BC();
-    virtual void vfn_C0();
-    virtual void vfn_C4();
-    virtual void SetInterpolator(NiInterpolator* interpolator, unsigned int index);
+    void ProcessClone(NiCloningProcess& process);
+    void CopyMemberData(NiPSysEmitterCtlr* destination, NiCloningProcess& process);
+    NiObject* MakeClone(NiCloningProcess& process);
     // const NiRTTI* __cdecl NiPSysEmitterCtlr::*()
-    // NiObject* __cdecl NiPSysEmitterCtlr::*(CloningProcess&)
-    // void __cdecl NiPSysEmitterCtlr::*(NiPSysEmitterCtlr*, CloningProcess&)
+    // NiObject* __cdecl NiPSysEmitterCtlr::*(NiCloningProcess&)
+    // void __cdecl NiPSysEmitterCtlr::*(NiPSysEmitterCtlr*, NiCloningProcess&)
     // void __cdecl NiPSysEmitterCtlr::*(NiStream&)
     // void __cdecl NiPSysEmitterCtlr::*(NiStream&)
     // bool __cdecl NiPSysEmitterCtlr::*(NiStream&)
@@ -387,7 +175,7 @@ class NiPSysEmitterCtlr : public NiPSysModifierCtlr
     // NiInterpolator* __cdecl NiPSysEmitterCtlr::*(unsigned short)
     // void __cdecl NiPSysEmitterCtlr::*(NiInterpolator*, unsigned short)
     // NiBlendInterpolator* __cdecl NiPSysEmitterCtlr::*(unsigned short, bool, bool, float, unsigned char)
-    // void __cdecl NiPSysEmitterCtlr::*(CloningProcess&)
+    // void __cdecl NiPSysEmitterCtlr::*(NiCloningProcess&)
     // unsigned short __cdecl NiPSysEmitterCtlr::*()
     // void __cdecl NiPSysEmitterCtlr::*(unsigned short)
     // bool __cdecl NiPSysEmitterCtlr::*(NiInterpolator*, unsigned short)
@@ -400,9 +188,9 @@ class NiPSysEmitterCtlr : public NiPSysModifierCtlr
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiPSysEmitterCtlr) == 92);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_spVisibilityInterpolator) == 64);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_pEmitterActiveInterpolator) == 68);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_fScaledLastTime) == 72);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_bIsInitialized) == 76);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_kBirthRateKeys) == 80);
+FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_spEmitterActiveInterpolator) == 64);
+FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_pkLastBirthRateInterpolator) == 68);
+FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_fLastScaledTime) == 72);
+FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_bLastActive) == 76);
+FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_kParticleAges) == 80);
 #endif

@@ -2,28 +2,6 @@
 // src/fallout_shared/tesproduceform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesproduceform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl memset(void* p, int c, unsigned int n);
-
-struct FUN_0048b590_shell
-{
-    void ClearFields();
-};
-
-// Sets the int at offset 4 to 0 and zeroes the 4 bytes at offset 8 of this object.
-// @fnv 0x0048b590
-void FUN_0048b590_shell::ClearFields()
-{
-    *(reinterpret_cast<int*>(this) + 1) = 0;
-    memset(reinterpret_cast<char*>(this) + 8, 0, 4);
-}
-
-extern "C" void* __cdecl __memcpy(void* dst, const void* src, unsigned int count);
-
-struct FUN_0048b670_shell
-{
-    void CopyFromSource(void* src);
-};
-
 // Copies 4 bytes from src into this object at offset 8 when src is non-null.
 // @f3 0x00bb0380 (community match, verified in this file)
 namespace f3m_00bb0380 {
@@ -39,79 +17,17 @@ void __cdecl FUN_00bb0380(Elem_00bb0380* first, Elem_00bb0380* last, int value) 
 }   // namespace f3m_00bb0380
 
 
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
-void __cdecl _FUN_00485910(unsigned int, unsigned int);
-struct RefObj0084e3a0
-{
-    unsigned int _ref_0084e3a0();
-};
-struct FUN_0048b5c0_shell
-{
-    int unk0;
-    RefObj0084e3a0* unk4;
-    int unk8;
-    void FUN_0048b5c0();
-};
-// @fnv 0x0048b5c0
-void FUN_0048b5c0_shell::FUN_0048b5c0()
-{
-    unsigned int tmp;
-    if (unk4 != 0)
-    {
-        tmp = unk4->_ref_0084e3a0();
-        _FUN_00485910(0x47494650, tmp);
-    }
-    FUN_004856f0(0x43504650, &unk8, 4);
-}
-
 struct BaseFormComponent
 {
     virtual ~BaseFormComponent();
 };
-struct TESProduceForm : BaseFormComponent
-{
-    void FUN_0048b610(BaseFormComponent* apCopyFC);
-};
-struct TESRaceForm
-{
-    void Initialize(unsigned int);
-};
-struct CombatNode
-{
-    unsigned int FUN_00726070();
-};
-// Casts apCopyFC to TESProduceForm, initializes this from its combat node value, then copies the data at offset 8.
-// @fnv 0x0048b610
-void TESProduceForm::FUN_0048b610(BaseFormComponent* apCopyFC)
-{
-    TESProduceForm* pCopy = dynamic_cast<TESProduceForm*>(apCopyFC);
-    if (!pCopy)
-        return;
-    ((TESRaceForm*)this)->Initialize(((CombatNode*)pCopy)->FUN_00726070());
-    ((FUN_0048b670_shell*)this)->CopyFromSource((void*)((char*)pCopy + 8));
-}
 
-extern "C" int __cdecl memcmp(const void* a, const void* b, unsigned int n);
 struct ProduceFormData : BaseFormComponent
 {
     void* pIngredient;
     unsigned char cProdChance[4];
     bool FUN_0048b6a0(BaseFormComponent* apOther);
 };
-
-// Compares production chance bytes and a value from FUN_00726070 against another component, returning true when they differ or the other is not a TESProduceForm.
-// @fnv 0x0048b6a0
-bool ProduceFormData::FUN_0048b6a0(BaseFormComponent* apOther)
-{
-    ProduceFormData* pOther = (ProduceFormData*)dynamic_cast<TESProduceForm*>(apOther);
-    if (!pOther)
-        return true;
-    if (((CombatNode*)this)->FUN_00726070() != ((CombatNode*)pOther)->FUN_00726070())
-        return true;
-    if (memcmp(cProdChance, pOther->cProdChance, 4))
-        return true;
-    return false;
-}
 
 struct TESFile;
 
@@ -199,23 +115,11 @@ struct FUN_00485b60_Cls
     unsigned int Deallocate();
 };
 
-void ResolveFormID(unsigned int* apFormID, TESFile* apFile);
 struct TESForm;
-TESForm* FUN_004839c0(unsigned int aFormID);
-void FNV_Warning(const char* apMsg, ...);
-
-extern const char DAT_0101d2b4[];
-extern const char DAT_0101d2f8[];
-extern const char DAT_0101d340[];
 
 struct TESForm
 {
     virtual ~TESForm();
-};
-
-struct IngredientItem : TESForm
-{
-    int m_04;
 };
 
 struct FUN_0048b720_Cls : ProduceFormData
@@ -235,8 +139,8 @@ struct FUN_00485b60_Stub {
     int unk08;
     unsigned int unk0C;
 
-    TESFile* FUN_00455470(int aIndex);
-    int FUN_00449cb0();
+    TESFile* TESForm_GetFile(int aIndex);
+    int TESForm_GetFormEditorIDLength();
 };
 
 struct FUN_0048b720_Stub {
@@ -249,27 +153,29 @@ struct FUN_00408ec0_Obj {
     void FUN_00408ec0(FUN_00485b60_Cls* apArg);
 };
 
-void FUN_00454a40(unsigned int* apFormID, TESFile* apFile);
-TESForm* FUN_00455190(unsigned int aFormID);
+void TESForm_AddCompileIndex(unsigned int* apFormID, TESFile* apFile);
+TESForm* TESForm_GetFormByNumericID(unsigned int aFormID);
 void FUN_00887da0(const char* apMsg, ...);
 
 extern const char DAT_00dbcb38[];
 extern const char DAT_00dbcae8[];
 extern const char DAT_00dbcaa0[];
 
+// pdb: ContainerObject::InitItem | TESContainer.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apOwner
 void FUN_0048b720_Cls::ResolveIngredient(FUN_00485b60_Cls* apArg)
 {
     unsigned int formID = (unsigned int)pIngredient;
-    FUN_00454a40(&formID, apArg->GetFile(-1));
+    TESForm_AddCompileIndex(&formID, apArg->GetFile(-1));
 
-    pIngredient = dynamic_cast<TESBoundObject*>(FUN_00455190(formID));
+    pIngredient = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(formID));
 
     if (pIngredient == 0) {
         if (apArg != 0) {
             FUN_00485b60_Stub* owner =
                 reinterpret_cast<FUN_00485b60_Stub*>(apArg);
 
-            if (owner->FUN_00449cb0()) {
+            if (owner->TESForm_GetFormEditorIDLength()) {
                 FUN_00887da0(
                     DAT_00dbcb38,
                     formID,

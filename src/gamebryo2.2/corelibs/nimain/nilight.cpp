@@ -1,9 +1,11 @@
-// gamebryo2.2/corelibs/nimain/nilight.cpp: NiLight, Standin (11 functions)
+// gamebryo2.2/corelibs/nimain/nilight.cpp: NiLight, Standin (10 functions)
 #include "f3_common.h"
 #include "nilight_decls.h"
 
 // Loads the dimmer value and ambient, diffuse and specular colors from the stream after the base NiDynamicEffect data.
 // @fnv 0x00a72080
+// pdb: NiLight::LoadBinary | NiLight.obj | fnv360_0721_beta, objrun, high
+// pdb params: stream
 void NiLight::LoadBinary(NiStream& stream)
 {
     NiDynamicEffect::LoadBinary(stream);
@@ -14,25 +16,14 @@ void NiLight::LoadBinary(NiStream& stream)
 }
 
 // @fnv 0x00a68d40
+// pdb: NiDynamicEffect::CopyMembers | NiDynamicEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkDest, kCloning
 void NiLight::CopyMemberData(NiLight* clone, CloningProcess& process)
 {
     NiAVObject::FUN_00a5ac90(clone, process);
     clone->m_uiEffectPushCount = m_uiEffectPushCount;
     clone->m_uiRevID = m_uiRevID;
     clone->m_bEffectEnabled = m_bEffectEnabled;
-}
-
-struct FUN_00a72000_shell : public NiLight
-{
-    void* FUN_00a72000();
-};
-
-extern const char* const g_011f4a68_arg1;
-
-// @fnv 0x00a72000
-void* FUN_00a72000_shell::FUN_00a72000()
-{
-    return (void*)&g_011f4a68_arg1;
 }
 
 extern int DAT_0109ce4c;
@@ -115,6 +106,7 @@ struct FUN_00a72010_owner
     void FUN_00a72010();
 };
 // @fnv 0x00a72010
+// pdb: NiLight::~NiLight | NiLight.obj | fnv360_0721_beta, objrun, high
 void FUN_00a72010_owner::FUN_00a72010()
 {
     typedef void(__thiscall * Fn_t)(NiRenderer*, void*);
@@ -138,6 +130,8 @@ struct FUN_00a68d80_shell
     bool __thiscall FUN_00a68d80(NiObject*);
 };
 // @fnv 0x00a72160
+// pdb: NiLight::IsEqual | NiLight.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pObject
 bool FUN_00a72160_shell::FUN_00a72160(NiObject* pObject)
 {
     if (((FUN_00a68d80_shell*)this)->FUN_00a68d80(pObject) &&
@@ -177,6 +171,8 @@ struct FUN_00a721e0_shell
 // @f3 0x0083c5c0 (community match, verified in this file)
 extern const char* const g_011f3fbc_arg1;
 
+// pdb: NiLight::GetViewerStrings | NiLight.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a721e0_shell::AppendEffectProperties(StrArr* pArray)
 {
     char* pString;
@@ -321,6 +317,7 @@ struct FUN_00a71f60_cls : FUN_00a69320_base
 
 // Calls Init, sets the vtable pointer, zeroes m_c8..m_e8 and m_ec, then sets m_c4..m_e8 to 1.0f.
 // @fnv 0x00a71f60
+// pdb: NiLight::NiLight | NiLight.obj | fnv360_0822_retail, call_seq, high
 FUN_00a71f60_cls::FUN_00a71f60_cls()
 {
     Init();
@@ -385,6 +382,8 @@ struct FUN_00a71f50_cls : public NiDynamicEffect
 };
 
 // @fnv 0x00a71f50
+// pdb: ValueModifierEffect::SaveGame | AbsorbEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void FUN_00a71f50_cls::FUN_00a71f50(NiStream& stream)
 {
     NiDynamicEffect::LinkObject(stream);
@@ -393,6 +392,7 @@ void FUN_00a71f50_cls::FUN_00a71f50(NiStream& stream)
 void __cdecl FUN_00a6ff10();
 
 // @fnv 0x00a90010
+// pdb: QueuedCharacter::Attach | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void __cdecl FUN_00a90010()
 {
     FUN_00a6ff10();
@@ -404,6 +404,7 @@ extern int DAT_0109ce4c;
 
 // Sets the vtable, calls UnkF8 on the renderer when present, destroys the dynamic effect, and optionally frees memory when flag bit 0 is set.
 // @fnv 0x00a72040
+// pdb: NiLight::`scalar deleting destructor' | NiLight.obj | fnv360_0721_beta, objrun, high
 void* Standin::FUN_00a72040(unsigned int auiFlags)
 {
     *(void**)this = &DAT_0109ce4c;

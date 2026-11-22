@@ -7,6 +7,7 @@
 extern "C" __declspec(dllimport) unsigned int __stdcall XInputGetState(unsigned int dwUserIndex, void* pState);
 
 // @fnv 0x009f996e
+// pdb: D3DPERF_SetOptions | d3d9.dll | tesv_win, callee_sim, low
 unsigned int __stdcall FUN_009f996e(unsigned int dwUserIndex, void* pState)
 {
     return XInputGetState(dwUserIndex, pState);
@@ -703,6 +704,8 @@ class NiRenderer
 extern NiRenderer* DAT_011f9508;
 
 // @fnv 0x00b98610
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,TESWaterForm *,bool>::NiTMapBase<NiTPointerAllocator<unsigned int>,TESWaterForm *,bool> | TESWater.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: uiHashSize
 void FUN_00b98610(int state, int value)
 {
     switch (state)

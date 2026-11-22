@@ -8,7 +8,7 @@
 // @f3 0x00a48420 (community match, verified in this file)
 namespace f3m_00a48420 {
 namespace XmlClassFilter {
-int __cdecl FUN_009232c0(const char* a, const char* b);
+int __cdecl hkString_strCmp(const char* a, const char* b);
 
 struct XmlElement_9730;
 struct XmlNode_9730 {
@@ -26,10 +26,10 @@ struct XmlElement_9730 : XmlNode_9730 {
 
 static __declspec(noinline) bool FUN_00a48420(const char* className)
 {
-    return className && FUN_009232c0(className, "hkClass")
-        && FUN_009232c0(className, "hkClassMember")
-        && FUN_009232c0(className, "hkClassEnum")
-        && FUN_009232c0(className, "hkClassEnumItem");
+    return className && hkString_strCmp(className, "hkClass")
+        && hkString_strCmp(className, "hkClassMember")
+        && hkString_strCmp(className, "hkClassEnum")
+        && hkString_strCmp(className, "hkClassEnumItem");
 }
 
 struct XmlReader_9730 {
@@ -55,12 +55,12 @@ int XmlReader_9730::FUN_00a49730(XmlNode_9730** node, void* stream)
     if (result == 0 && m_stop == 0) {
         if (XmlElement_9730* element = (*node)->asElement()) {
             const char* className = element->FUN_00a80eb0("class", 0);
-            if (!(m_depth > 0) && (FUN_009232c0(element->cString(), "hkobject") || FUN_00a48420(className))) {
-                if (m_readObjects && !FUN_009232c0(element->cString(), "hkobject") && FUN_00a48420(className))
+            if (!(m_depth > 0) && (hkString_strCmp(element->cString(), "hkobject") || FUN_00a48420(className))) {
+                if (m_readObjects && !hkString_strCmp(element->cString(), "hkobject") && FUN_00a48420(className))
                     result = FUN_00a49670(element, node, stream);
             } else {
                 m_depth++;
-                if (!FUN_009232c0(element->cString(), "hkparam") && !FUN_009232c0("attributes", element->FUN_00a80eb0("name", 0))) {
+                if (!hkString_strCmp(element->cString(), "hkparam") && !hkString_strCmp("attributes", element->FUN_00a80eb0("name", 0))) {
                     m_depth--;
                     result = FUN_00a49670(element, node, stream);
                 }

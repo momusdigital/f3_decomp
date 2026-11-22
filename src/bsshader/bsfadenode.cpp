@@ -1,4 +1,4 @@
-// bsshader/bsfadenode.cpp: BSFadeNode, NiFixedString, BSShaderManager, FadeViewer and more (22 functions)
+// bsshader/bsfadenode.cpp: BSFadeNode, NiFixedString, BSShaderManager, FadeViewer and more (21 functions)
 #include "f3_common.h"
 #include "bsfadenode_decls.h"
 
@@ -14,6 +14,7 @@ __forceinline NiFixedString::NiFixedString(const char* apString)
 #pragma optimize("", on)
 
 // @fnv 0x00b4e270
+// pdb: BSFadeNode::InitSDM | BSFadeNode.obj | fnv360_0822_retail, ustr, high
 void BSFadeNode::InitializeMultiBounds()
 {
     ms_pAlphaProperty = new NiAlphaProperty;
@@ -23,6 +24,7 @@ void BSFadeNode::InitializeMultiBounds()
 
 // Allocates and returns a new BSFadeNode instance.
 // @fnv 0x00b4eaa0
+// pdb: BSFadeNode::CreateObject | BSFadeNode.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: BSFadeNode::CreateClone)
 NiObject* BSFadeNode::CreateObject()
 {
     return new BSFadeNode;
@@ -30,6 +32,8 @@ NiObject* BSFadeNode::CreateObject()
 
 // Clamps nearDistance to the INI setting's integer value and raises farDistance to twice that minimum, then stores both into fNearDistSqr and fFarDistSqr.
 // @fnv 0x00b4dfd0
+// pdb: BSFadeNode::SetRange | BSFadeNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afNearDist, afFarDist
 void BSFadeNode::SetRange(float nearDistance, float farDistance)
 {
     float minDistance =
@@ -45,6 +49,7 @@ void BSFadeNode::SetRange(float nearDistance, float farDistance)
 }
 
 // @fnv 0x00b4f530
+// pdb: TES::CancelExteriorCellLoads | TES.obj | fnv360_0822_retail, call_gap_sim, low
 BSRenderedTexture* BSShaderManager::GetSceneDepthRenderedTexture()
 {
     return DAT_011f91ac->GetDepthRenderedTexture();
@@ -52,14 +57,9 @@ BSRenderedTexture* BSShaderManager::GetSceneDepthRenderedTexture()
 
 struct BSTreeModel;
 struct CSpeedTreeRT;
-struct NiBinaryStream;
 struct NiCullingProcess;
-struct NiObjectGroup;
-struct NiSearchPath;
 struct NiStream;
-struct NiTexture;
 struct NiTexturingProperty;
-struct NiThread;
 struct NiTriBasedGeom;
 struct NiUpdateData;
 struct bhkSimpleShapePhantom;
@@ -112,6 +112,8 @@ struct FUN_00a5e5b0_helper
 };
 
 // @fnv 0x00b4def0
+// pdb: BSMultiBoundOBB::RegisterStreamables | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 bool FUN_00b4def0_shell::FUN_00b4def0(NiStream* arStream)
 {
     if (!((FUN_00a5e5b0_helper*)this)->RegisterChildStreamables(arStream))
@@ -129,6 +131,8 @@ struct Dummy
 };
 
 // @fnv 0x00b4dfb0
+// pdb: BSFadeNode::AddMovingSoundCallback | BSFadeNode.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apObj
 void __cdecl SetFlagOnVirtualResult(Dummy* apDummy)
 {
     if (apDummy)
@@ -149,6 +153,7 @@ class P03MM
 
 // Recursively frees the linked list hanging off self[1], deallocating each node, then clears self[0].
 // @fnv 0x00b4df30
+// pdb: BSSimpleList<char const *>::IsEmpty | MagicItem.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: BSTArray<struct CommandedActorData,class BSTArrayHeapAllocator>::~BSTArray<struct CommandedActorData,class BSTArrayHeapAllocator>)
 void __fastcall FUN_00b4df30(void* p)
 {
     void** self = (void**)p;
@@ -176,6 +181,8 @@ double(__cdecl* DAT_011f9134)(void*);
 
 // Returns the result of calling the DAT_011f9134 function pointer on param_1, or 1.0f if the pointer is null.
 // @fnv 0x00b4df80
+// pdb: BSShaderAccumulator::StartGroupingAlphas | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: NiFile::InvokeReadErrorFunc)
+// pdb params: aBound, abZPrePass
 float __fastcall FUN_00b4df80(void* param_1)
 {
     float f;
@@ -192,6 +199,8 @@ struct FUN_00b4dec0_shell : public BSFadeNode
 };
 
 // @fnv 0x00b4dec0
+// pdb: BSFadeNode::SetLODMultType | BSFadeNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeMultType
 void FUN_00b4dec0_shell::FUN_00b4dec0(int aeMultType)
 {
     *(int*)((char*)this + 0xc4) = aeMultType;
@@ -203,6 +212,8 @@ struct NiNode_Helper : public NiNode
 };
 
 // @fnv 0x00b4e3f0
+// pdb: BSFadeNode::CreateClone | BSFadeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arCloneData
 void* __fastcall FUN_00b4e3f0(void* apSource, int dummy, void* kCloning)
 {
     BSFadeNode* pFadeNode = new BSFadeNode();
@@ -238,6 +249,7 @@ struct MM_Dealloc_b4e380
 };
 
 // @fnv 0x00b4e380
+// pdb: BSFadeNode::KillSDM | BSFadeNode.obj | fnv360_0822_retail, call_seq, medium
 void __cdecl ReleaseFadeNodeResources()
 {
     if (BSFadeNode::ms_pAlphaProperty.m_pObject)
@@ -260,7 +272,6 @@ void __cdecl ReleaseFadeNodeResources()
 }
 
 extern unsigned char DAT_011ad7b4;
-extern int DAT_011f36ac;
 
 bool __cdecl FUN_00b4ea20_probe(void* obj);
 
@@ -302,6 +313,8 @@ struct FUN_0082dcf0_owner
 {
     void FUN_0082dcf0(float* apValue, int aiValue);
 };
+// pdb: BSFadeNode::UpdateSelectedDownwardPass | BSFadeNode.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: UpdateData, uFlags
 void FUN_00b4ea20_cls::FUN_00b4ea20(float* apValue, int aiValue)
 {
     if (DAT_01067af0 == 0)
@@ -443,6 +456,8 @@ struct FadeViewer
 };
 // Appends formatted fade-viewer fields and bit flags from field30 to the strings list, then forwards to an Extra viewer if found.
 // @fnv 0x00b4ed70
+// pdb: BSFadeNode::GetViewerStrings | BSFadeNode.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FadeViewer::FUN_00b4ed70(Strings* strings)
 {
     FUN_00a5ea70(strings);
@@ -513,6 +528,7 @@ void FadeViewer::FUN_00b4ed70(Strings* strings)
 void FUN_00a5dd70();
 
 // @fnv 0x00b4ded0
+// pdb: SpectatorPackage::InitLoadGame | SpectatorPackage.obj | fnv360_0822_retail, vtable, medium
 void FUN_00b4ded0()
 {
     FUN_00a5dd70();
@@ -528,11 +544,12 @@ void FUN_00b4dee0()
 struct Cls00b4df20
 {
     bool FUN_00a5e600(Cls00b4df20* other);
-    bool FUN_00b4df20(Cls00b4df20* other);
+    bool NiProperty_CopyMembers(Cls00b4df20* other);
 };
 
 // @fnv 0x00b4df20
-bool Cls00b4df20::FUN_00b4df20(Cls00b4df20* other)
+// pdb: NiProperty::CopyMembers | NiProperty.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+bool Cls00b4df20::NiProperty_CopyMembers(Cls00b4df20* other)
 {
     return FUN_00a5e600(other);
 }
@@ -634,6 +651,8 @@ extern float DAT_01067b2c;
 extern float DAT_01067b28;
 void FUN_00aeeec0(Fade*, float);
 
+// pdb: BSFadeNode::CheckFadeRadius | BSFadeNode.obj | fnv360_0822_retail, uconst, low
+// pdb params: apCamera, abNoFade
 bool Fade::UpdateFade(Fade* camera, int unused)
 {
     float alpha = 1.0f;
@@ -708,15 +727,8 @@ bool Fade::UpdateFade(Fade* camera, int unused)
 
 #include <math.h>
 struct NiCamera;
-struct CloningProcess;
-struct NiPoint2;
-struct NiPoint3;
 struct NiStream;
 struct NiUpdateData;
-struct blob12
-{
-    char b[12];
-};
 struct FUN_00b4e030_shell : public BSFadeNode
 {
     bool IsWithinFadeDistance(NiCamera*, float);
@@ -741,6 +753,8 @@ struct Pt3
 extern float DAT_01067b00;
 extern float DAT_01067b2c;
 
+// pdb: BSFadeNode::ShouldUpdate | BSFadeNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCamera, afDistMult
 bool FUN_00b4e030_shell::IsWithinFadeDistance(NiCamera* apCamera, float afDistMult)
 {
     float ffadeAdjust = *(float*)((char*)apCamera + 0x110);
@@ -856,36 +870,11 @@ struct FadeCuller
     FadeCamera* m_pCamera;  // 0x0c
 };
 
-struct FadeQueue
-{
-    void RenderBound(const char* name, int b);
-    void DispatchBatchRenderer();
-};
-
-struct FadeQueueHolder
-{
-    int unk00;
-    int unk04;
-    FadeQueue* m_pQueue;
-};
-
 extern char DAT_011ad7b4;
 extern float DAT_011ad7b8[11];
-extern float DAT_011ad7e4;
-extern float DAT_011ad7e8;
-extern float DAT_011ad7ec;
 extern float DAT_011ad7f0;
 extern float DAT_011ad7f4;
-extern float DAT_011ad7f8;
-extern float DAT_011f63a0;
 extern int DAT_011f9138;
-extern FadeQueueHolder* DAT_011f4748;
-extern int DAT_011fa000;
-extern char DAT_011f4288[];
-
-float FUN_0040ebd0(float a, float b);
-float FUN_00404010(float a, float b);
-bool FUN_0043b300(void* list, FadeQueue* q);
 
 struct FadeNodeObj;
 void FUN_00b6bb30(FadeNodeObj* node, float fade);
@@ -954,124 +943,11 @@ struct FadeNodeObj
     {
         return (m_uiValue1 >> 28) & 1;
     }
-    void FUN_00a5dbe0(FadeCuller& culler);
+    void NiNode_OnVisible(FadeCuller& culler);
     float FUN_00b4df80();
     void FUN_00b4e490(FadeCuller& culler);
 };
 
-// Updates the fade state of a FadeNodeObj based on camera distance and fade thresholds, queueing a batch render when the fade target is in progress.
-// @fnv 0x00b4e490
-void FadeNodeObj::FUN_00b4e490(FadeCuller& culler)
-{
-    if (!DAT_011ad7b4 || IsCulledFlag())
-    {
-        FUN_00a5dbe0(culler);
-        return;
-    }
-    float fFadeAmount;
-    if (eMultType == 6)
-    {
-        if (!IsFadedIn())
-        {
-            fFadeAmount = FUN_0040ebd0(1.0f, FUN_0040ebd0(DAT_011f63a0 / DAT_011ad7e4, DAT_011ad7f8) + fCurrentFade);
-            fCurrentFade = fFadeAmount;
-            FUN_00b6bb30(this, fFadeAmount);
-            fLastFade = fCurrentFade;
-            if (fCurrentFade >= 1.0f)
-                m_uiValue1 |= 0x4000;
-        }
-        FUN_00a5dbe0(culler);
-        return;
-    }
-
-    float fMult = DAT_011ad7b8[eMultType];
-    FadeCamera* pCamera = culler.m_pCamera;
-    float fDist;
-    FadePt3 kDiff;
-    if (fMult > 0.0f)
-    {
-        fDist = pCamera->m_fTrailingValue / fMult;
-    }
-    else
-    {
-        fDist = 0.2f;
-        m_uiValue1 |= 0x4000;
-        fLastFade = fCurrentFade = 1.0f;
-        FUN_00b6bb30(this, *(volatile float*)&fCurrentFade);
-    }
-
-    kDiff = m_kWorldTranslate - pCamera->m_kWorldTranslate;
-    fDist = kDiff.Length() * fDist;
-    fFadeAmount = 1.0f;
-    float fNear = fNearDistSqr * DAT_011ad7f4;
-    if (fDist > fNear)
-    {
-        float fFar = fFarDistSqr * DAT_011ad7f4;
-        fFadeAmount = 1.0f - (fDist - fNear) / (fFar - fNear);
-    }
-    if (eMultType == 10)
-    {
-        if (IsAlwaysFade())
-            fFadeAmount = 1.0f;
-        else
-            fFadeAmount = 0.0f;
-    }
-
-    if (eMultType != 8 && iFrameCounter < DAT_011f9138 - 20 && m_fFadeDelta < 600.0f)
-    {
-        if (fFadeAmount > DAT_011ad7ec || (IsFadedIn() && fFadeAmount > DAT_011ad7f0))
-        {
-            FUN_00b6bb30(this, 1.0f);
-            fLastFade = fCurrentFade = 1.0f;
-            m_uiValue1 |= 0x4000;
-        }
-        else
-        {
-            FUN_00b6bb30(this, 0.0f);
-            fLastFade = fCurrentFade = 0.0f;
-            m_uiValue1 &= ~0x4000;
-        }
-    }
-    iFrameCounter = DAT_011f9138;
-
-    float fTarget = FUN_00b4df80();
-    bool bFadeQueuedCur = false;
-    if (IsFadedIn() && fTarget > 0.0f && fTarget < 1.0f)
-    {
-        FadeQueue* m_pPrimaryTaskProcessor = DAT_011f4748->m_pQueue;
-        if (FUN_0043b300(&DAT_011fa000, m_pPrimaryTaskProcessor))
-        {
-            m_pPrimaryTaskProcessor->RenderBound(m_pcName ? m_pcName : DAT_011f4288, 1);
-            bFadeQueuedCur = true;
-            FUN_00b6bb30(this, fTarget);
-            fLastFade = fCurrentFade = fTarget;
-        }
-    }
-    else if ((!IsFadedIn() && fFadeAmount > DAT_011ad7ec) ||
-             (fCurrentFade > 0.0f && fCurrentFade < 1.0f && fFadeAmount > DAT_011ad7ec))
-    {
-        fFadeAmount = FUN_0040ebd0(1.0f, FUN_0040ebd0(DAT_011f63a0 / DAT_011ad7e4, DAT_011ad7f8) + fCurrentFade);
-        fCurrentFade = fFadeAmount;
-        FUN_00b6bb30(this, fFadeAmount);
-        fLastFade = fCurrentFade;
-        if (fCurrentFade >= 1.0f)
-            m_uiValue1 |= 0x4000;
-    }
-    else if ((IsFadedIn() && fFadeAmount < DAT_011ad7f0) ||
-             (fCurrentFade < 1.0f && fCurrentFade > 0.0f && fFadeAmount < DAT_011ad7f0))
-    {
-        fCurrentFade = FUN_00404010(0.0f, fCurrentFade - FUN_0040ebd0(DAT_011f63a0 / DAT_011ad7e8, DAT_011ad7f8));
-        FUN_00b6bb30(this, fCurrentFade);
-        fLastFade = fCurrentFade;
-        if (fCurrentFade <= 0.0f)
-            m_uiValue1 &= ~0x4000;
-    }
-
-    if (fCurrentFade > 0.0f && fTarget != 0.0f)
-        FUN_00a5dbe0(culler);
-    if (bFadeQueuedCur)
-        DAT_011f4748->m_pQueue->DispatchBatchRenderer();
-}
 }  // namespace fnv_00b4e490
 
 // @fnv 0x00b4df10

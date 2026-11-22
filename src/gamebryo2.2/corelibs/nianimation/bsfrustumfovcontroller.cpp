@@ -4,12 +4,6 @@
 
 extern "C" void* g_011f3ec8;
 
-// @fnv 0x00a42e80
-void* __cdecl FUN_00a42e80()
-{
-    return &g_011f3ec8;
-}
-
 struct NiFloatInterpController
 {
     void Init();
@@ -23,6 +17,7 @@ struct BSFadeNode
 extern int DAT_0109780c;
 
 // @fnv 0x00a42ee0
+// pdb: BSFrustumFOVController::CreateObject | BSFrustumFOVController.obj | fnv360_0822_retail, objopen_prop, medium
 void* __cdecl FUN_00a42ee0()
 {
     void* p = BSFadeNode::operator new(0x38);
@@ -50,6 +45,7 @@ struct NiObjectNET
 extern const char* const g_011f5e6c_arg1;
 // Walks pkTarget's NiRTTI chain and returns true if any entry matches g_011f5e6c_arg1, false otherwise or when pkTarget is null.
 // @fnv 0x00a42d90
+// pdb: BSFrustumFOVController::InterpTargetIsCorrectType | BSFrustumFOVController.obj | tesv_win, objrun_open, low
 bool __stdcall FUN_00a42d90(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
@@ -70,11 +66,12 @@ struct StrArr
     void SetAt(unsigned int, char*&);
 };
 
-void __stdcall FUN_00a576c0(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
 
 // @f3 0x00825cd0 (community match, verified in this file)
 void __stdcall FUN_00825710(StrArr* pkStrings);
+// pdb: NiProperty::GetViewerStrings | NiProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkStrings
 void __stdcall FUN_00a42f10(StrArr* pkStrings)
 {
     FUN_00825710(pkStrings);
@@ -276,6 +273,8 @@ class A42D00Controller
 
 // Links the object base from the stream and, for older file versions, creates an interpolator from the stream data and collapses it.
 // @fnv 0x00a42d00
+// pdb: BSMaterialEmittanceMultController::LinkObject | BSMaterialEmittanceMultController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kStream
 void A42D00Controller::LinkInterpolator(A42D00Stream& kStream)
 {
     LinkObjectBase(kStream);
@@ -404,7 +403,7 @@ class NiCameraControllerA42D
 {
   public:
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
+    bool NiTimeController_DontDoUpdate(float fTime);
     void FUN_00a42dc0(NiUpdateDataA42D& kUpdateData);
 
     bool GetManagerControlled() const
@@ -430,13 +429,15 @@ class NiCameraControllerA42D
 
 // Updates the camera controller time and, if not skipped, applies the interpolator's value to the target's view frustum bounds.
 // @fnv 0x00a42dc0
+// pdb: BSFrustumFOVController::Update | BSFrustumFOVController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: UpdateData
 void NiCameraControllerA42D::FUN_00a42dc0(NiUpdateDataA42D& kUpdateData)
 {
     if (GetManagerControlled())
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(kUpdateData.m_fTime) &&
+    else if (NiTimeController_DontDoUpdate(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;
@@ -481,12 +482,13 @@ class ObjA42E : public FUN_00a57640
     }
 
     void FUN_00a57620(ObjA42E* dest, CloningProcessObjA42E& cloning);
-    ObjA42E* FUN_00a42e90(CloningProcessObjA42E& cloning);
+    ObjA42E* BSFrustumFOVController_CreateClone(CloningProcessObjA42E& cloning);
 };
 
 // Allocates an ObjA42E, calls FUN_00a57620 with it and cloning, and returns the new object.
 // @fnv 0x00a42e90
-ObjA42E* ObjA42E::FUN_00a42e90(CloningProcessObjA42E& cloning)
+// pdb: BSFrustumFOVController::CreateClone | BSFrustumFOVController.obj | fnv360_0822_retail, objopen_prop + bridge(vtable|objrun_open) + skyrim(caller_sim), high
+ObjA42E* ObjA42E::BSFrustumFOVController_CreateClone(CloningProcessObjA42E& cloning)
 {
     ObjA42E* p = new ObjA42E;
     FUN_00a57620(p, cloning);
@@ -515,6 +517,7 @@ struct BSFrustumFOVController : NiFloatInterpController
 
 // Reads the camera's field-of-view angle and writes its arctangent doubled into fValue.
 // @fnv 0x00a42cd0
+// pdb: BSFrustumFOVController::GetTargetFloatValue | BSFrustumFOVController.obj | tesv_win, caller_sim, low
 void BSFrustumFOVController::GetFieldOfView(float& afOutValue)
 {
     NiCamera* pCamera = *(NiCamera**)((char*)this + 0x2c);

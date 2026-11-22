@@ -17,6 +17,8 @@ struct PointerCountProcessor
     void FUN_00aa3830(void*, unsigned int);
 };
 // @fnv 0x00aa3830
+// pdb: NiSmallObjectAllocator::Deallocate | NiSmallObjectAllocator.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: p, stNumBytes
 void PointerCountProcessor::FUN_00aa3830(void* p, unsigned int stNumBytes)
 {
     SubAlloc* pAlloc = (SubAlloc*)((char*)this + (stNumBytes << 8) - 0x100);
@@ -110,6 +112,8 @@ struct FUN_00aa3760_cls
 };
 
 // @fnv 0x00aa3760
+// pdb: NiSmallObjectAllocator::NiSmallObjectAllocator | NiSmallObjectAllocator.obj | fnv360_0822_retail, call_seq, high
+// pdb params: stChunkSize
 FUN_00aa3760_cls* FUN_00aa3760_cls::InitEntries(unsigned int auiValue)
 {
     FUN_00aa3760_cls* self = this;
@@ -165,6 +169,8 @@ class FUN_00aa3810_cls
 };
 
 // @fnv 0x00aa3810
+// pdb: NiSmallObjectAllocator::Allocate | NiSmallObjectAllocator.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: stNumBytes
 int FUN_00aa3810_cls::FUN_00aa3810(unsigned int index)
 {
     AllocBlock* block = (AllocBlock*)((char*)this + (index << 8) - 0x100);

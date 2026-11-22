@@ -5,7 +5,7 @@ class TaskThreadManager
 {
   public:
     static TaskThreadManager* GetSingleton();
-    void StartRenderingTaskThread();
+    void MTRenderingSystem_CreateThreads();
     static void EndRenderingTaskThread();
     void LaunchWorkerThread(int, unsigned int, void(__cdecl*)(), const char*, unsigned int);
 };

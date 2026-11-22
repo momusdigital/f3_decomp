@@ -3,16 +3,20 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dda830
+// pdb: hkDisplaySerializeOStream::computeBytesRequired | hkDisplaySerializeOStream.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: g
 unsigned int FUN_00dda830(const unsigned int* puiValues)
 {
     return 4 * (3 * (puiValues[4] + puiValues[1])) + 8;
 }
 
-void __stdcall WriteFloatArray(unsigned int, unsigned int);
+void __stdcall hkOArchive_writeArrayFloat32(unsigned int, unsigned int);
 // @fnv 0x00dda730
+// pdb: hkDisplaySerializeOStream::writeQuadVector4 | hkDisplaySerializeOStream.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: v
 void __stdcall FUN_00dda730(unsigned int p)
 {
-    WriteFloatArray(p, 3);
+    hkOArchive_writeArrayFloat32(p, 3);
 }
 
 struct hkMemoryAllocator
@@ -33,10 +37,6 @@ struct AudioMgr
 
 struct BSAudio;
 __declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)FUN_00c85750();
-}
 
 struct hkBool
 {
@@ -51,51 +51,9 @@ struct hkBool
     }
 };
 
-struct RefObj
-{
-    void* m_vtbl;
-    short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    __declspec(nothrow) void FUN_00c905b0();
-};
-
-struct FUN_00d27460 : RefObj
-{
-    int pad[(0x1c - 8) / 4];
-    __declspec(nothrow) FUN_00d27460(int a, int b);
-};
-
-inline void* hkAlloc(int n)
-{
-    RefObj* p = (RefObj*)audio()->heap().AllocateMemoryBlock(n);
-    p->m_usMemSizeAndFlags = (short)n;
-    return p;
-}
-
 inline void* operator new(unsigned int, void* p)
 {
     return p;
-}
-
-struct FUN_00d60830 : RefObj
-{
-    RefObj* m_8;
-    __declspec(nothrow) FUN_00d60830(RefObj* o, hkBool b);
-};
-
-extern "C" char DAT_010d7db8[];
-
-struct FUN_00dda6e0 : FUN_00d60830
-{
-    FUN_00dda6e0(int a);
-};
-
-// Constructs a FUN_00d60830 base with a newly allocated FUN_00d27460(a, 0x2000), sets the vtable, and calls FUN_00c905b0 on m_8.
-// @fnv 0x00dda6e0
-FUN_00dda6e0::FUN_00dda6e0(int a) : FUN_00d60830(new(hkAlloc(sizeof(FUN_00d27460))) FUN_00d27460(a, 0x2000), false)
-{
-    m_vtbl = DAT_010d7db8;
-    m_8->FUN_00c905b0();
 }
 
 struct DDA7C0Vector4
@@ -147,6 +105,8 @@ struct StreamTriangleIndices
     int pointC;
 };
 
+// pdb: hkDisplaySerializeOStream::writeGeometry | hkDisplaySerializeOStream.obj | fnv360_0822_retail, call_gap, low
+// pdb params: g
 void DDA7C0OStream::WriteGeometry(const DDA7C0Geometry& geometry)
 {
     int numVertices = geometry.m_kVertices.m_iElementCount;
@@ -180,25 +140,6 @@ struct AllocatorHolder
     Allocator* allocator;
 };
 AllocatorHolder* __cdecl FUN_00c85750();
-struct FUN_00ddabb0_shell
-{
-    void* unk00;
-    unsigned short size;
-    void FUN_00d60590();
-    FUN_00ddabb0_shell* FUN_00ddabb0(unsigned int flags);
-};
-// Calls FUN_00d60590, then if bit 0 of flags is set frees this through the allocator from FUN_00c85750, and returns this.
-// @fnv 0x00ddabb0
-FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
-{
-    FUN_00d60590();
-    if (flags & 1)
-    {
-        AllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Free(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00ddabb0
 
 // Stand-in for the class that owns WriteUInt16 (the game's own class name for
@@ -207,7 +148,7 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 //
 // The original is a __thiscall member with ONE 4-byte stack argument (the
 // callers do `mov ecx,<object> / push <arg> / call WriteUInt16`, and the body
-// ends in `ret 4`).  It forwards `this` (ECX) unchanged to WriteSwapped and
+// ends in `ret 4`).  It forwards `this` (ECX) unchanged to hkOArchive_writeArrayGeneric and
 // passes the ADDRESS of its own incoming argument as the first argument of
 // that call, followed by the constants 2 and 1:
 //
@@ -218,20 +159,22 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 //     call 0x00d60600
 //     ret 4
 //
-// WriteSwapped is a __thiscall member of its own (it uses ECX as `this` and
+// hkOArchive_writeArrayGeneric is a __thiscall member of its own (it uses ECX as `this` and
 // pops three 4-byte arguments), so it is only DECLARED here: the call target
 // is then bound by the checker from the original's own bytes.
 
 struct hkOArchiveStandIn
 {
-    void WriteSwapped(void* p, int n, int m);  // declared, never defined
+    void hkOArchive_writeArrayGeneric(void* p, int n, int m);  // declared, never defined
     void WriteUInt16(unsigned int value);
 };
 
 // @fnv 0x00d60920
+// pdb: hkOArchive::write16u | hkOArchive.obj | fnv360_0822_retail, call_seq, high
+// pdb params: u
 void hkOArchiveStandIn::WriteUInt16(unsigned int value)
 {
-    WriteSwapped(&value, 2, 1);
+    hkOArchive_writeArrayGeneric(&value, 2, 1);
 }
 
 #include <xmmintrin.h>
@@ -267,15 +210,9 @@ struct S_00dda740_Transform
     S_00dda740_Vector4 m_vTranslation;
 };
 
-struct S_00dda740_Quaternion
-{
-    S_00dda740_Vector4 m_vec;
-    void FUN_00cb26e0(const S_00dda740_Matrix3& r);
-};
-
 struct S_00dda740
 {
-    void WriteFloatArray(const float* data, int n);
+    void hkOArchive_writeArrayFloat32(const float* data, int n);
     void WriteTransform(const S_00dda740_Transform& t);
 };
 
@@ -292,6 +229,8 @@ struct Matrix474 {
 struct Transform474 { Matrix474 rotation; Vector474 translation; };
 struct Quaternion474 { Vector474 value; void FUN_00924360(const Matrix474&); };
 struct Writer474 { void FUN_009eea90(const float*,int); };
+// pdb: hkDisplaySerializeOStream::writeTransform | hkDisplaySerializeOStream.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: t
 void S_00dda740::WriteTransform(const S_00dda740_Transform& transform) {
     const Transform474& input=reinterpret_cast<const Transform474&>(transform);
     Vector474 translation=input.translation;
@@ -307,6 +246,8 @@ int FUN_00dda830(int value);
 
 // Returns a constant chosen by the int at param+0x50 (0x1d plus FUN_00dda830(param+8) for 6), or 1 for other values.
 // @fnv 0x00dda850
+// pdb: hkDisplaySerializeOStream::computeBytesRequired | hkDisplaySerializeOStream.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: dg
 int FUN_00dda850(int param)
 {
     int result = 1;
@@ -380,16 +321,18 @@ struct Shape
 };
 struct DDA8C0Writer
 {
-    void FUN_00d605b0(int v);
+    void hkOArchive_write8(int v);
     void WriteTransform(const void* p);
     void FUN_00dda730(const void* p);
-    void HashUInt(float f);
+    void hkOArchive_writeFloat32(float f);
     void WriteInt(int v);
     void WriteGeometry(const DDA7C0Geometry& geometry);
     void WriteShape(Shape* p);
 };
 // Writes a Shape to the stream by dispatching on its tag and serializing the tag-specific fields via the writer's hash and write helpers.
 // @f3 0x00a625d0 (community match, verified in this file)
+// pdb: hkDisplaySerializeOStream::writeDisplayGeometry | hkDisplaySerializeOStream.obj | fnv360_0822_retail, call_gap, low
+// pdb params: dg
 void DDA8C0Writer::WriteShape(Shape* p)
 {
     float tmp[4];
@@ -399,7 +342,7 @@ void DDA8C0Writer::WriteShape(Shape* p)
     Vec4A b4;
     Vec4A b5;
     int tag = p->tag;
-    FUN_00d605b0(tag);
+    hkOArchive_write8(tag);
     switch (tag) {
     case 6:
         WriteTransform(&p->unk10);
@@ -411,14 +354,14 @@ void DDA8C0Writer::WriteShape(Shape* p)
         tmp[1] = p->vec60.f[1];
         tmp[2] = p->vec60.f[2];
         tmp[3] = p->vec60.f[3];
-        HashUInt(tmp[3]);
+        hkOArchive_writeFloat32(tmp[3]);
         FUN_00dda730(tmp);
         WriteInt(p->i70);
         WriteInt(p->i74);
         break;
     case 8:
         WriteTransform(&p->unk10);
-        HashUInt(p->f80);
+        hkOArchive_writeFloat32(p->f80);
         FUN_00dda730(&p->vec60);
         FUN_00dda730(&p->i70);
         WriteInt(p->i84);
@@ -426,7 +369,7 @@ void DDA8C0Writer::WriteShape(Shape* p)
         break;
     case 9:
         WriteTransform(&p->unk10);
-        HashUInt(p->f80);
+        hkOArchive_writeFloat32(p->f80);
         FUN_00dda730(&p->vec60);
         FUN_00dda730(&p->i70);
         WriteInt(p->i84);
@@ -443,24 +386,24 @@ void DDA8C0Writer::WriteShape(Shape* p)
     case 4:
         FUN_00dda730(p->GetValue(&b1));
         FUN_00dda730(p->GetVec4At70(&b2));
-        HashUInt(p->FUN_00de5350());
-        HashUInt(p->FUN_00de5340());
+        hkOArchive_writeFloat32(p->FUN_00de5350());
+        hkOArchive_writeFloat32(p->FUN_00de5340());
         WriteInt(p->FUN_00de5360());
         break;
     case 5:
         FUN_00dda730(p->CopyVec4ToBuffer(&b3));
         FUN_00dda730(p->GetQuad16(&b4));
         FUN_00dda730(p->CopyStatsTo(&b5));
-        HashUInt(p->FUN_00de4900());
-        HashUInt(p->FUN_00de48e0());
-        HashUInt(p->FUN_00de48f0());
+        hkOArchive_writeFloat32(p->FUN_00de4900());
+        hkOArchive_writeFloat32(p->FUN_00de48e0());
+        hkOArchive_writeFloat32(p->FUN_00de48f0());
         WriteInt(p->FUN_00de4910());
         break;
     case 7:
         FUN_00dda730(p->FUN_00de4df0());
         FUN_00dda730(p->FUN_00de4de0());
         FUN_00dda730(p->FUN_00de4e00());
-        HashUInt(*p->FUN_00de4e10());
+        hkOArchive_writeFloat32(*p->FUN_00de4e10());
         break;
     }
 }

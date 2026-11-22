@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/niparticle/nipsysdragmodifier.cpp: NiPSysDragModifier, NiPSysDragShell (7 functions)
+// gamebryo2.2/corelibs/niparticle/nipsysdragmodifier.cpp: NiPSysDragModifier, NiPSysDragShell (6 functions)
 #include "f3_common.h"
 #include "nipsysdragmodifier_decls.h"
 
 // @fnv 0x00C2C450
+// pdb: NiPSysDragModifier::LoadBinary | NiPSysDragModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiPSysDragModifier::LoadBinary(NiStream& kStream)
 {
     NiPSysModifier::LoadBinary(kStream);
@@ -21,6 +23,7 @@ struct BSFadeNode
 void* __fastcall FUN_00c2c030(void*);
 
 // @fnv 0x00c2c080
+// pdb: NiPSysDragModifier::CreateObject | NiPSysDragModifier.obj | fnv360_0822_retail, objrun_prop, low
 void* __cdecl FUN_00c2c080()
 {
     void* p = BSFadeNode::operator new(0x34);
@@ -31,11 +34,6 @@ void* __cdecl FUN_00c2c080()
 
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202768;
-// @fnv 0x00c2c0a0
-void* __cdecl FUN_00c2c0a0()
-{
-    return &g_01202768;
-}
 
 namespace fnv_00c2c0b0 {
 struct CloningProcess
@@ -77,6 +75,8 @@ struct DragData
     float f;
 };
 // @fnv 0x00c2c0b0
+// pdb: NiPSysDragModifier::CreateClone | NiPSysDragModifier.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: kCloning
 NiObject* FUN_00c2c0b0_shell::CloneDragModifier(CloningProcess* kCloning)
 {
     DragCtorStub* pAlloc = (DragCtorStub*)BSFadeNode::operator new(0x34);
@@ -123,6 +123,7 @@ struct FUN_00c2c030 : NiPSysModifierStub
 
 // Initializes the modifier stub fields: null pointer, unit vector, 0.05, and two infinity values.
 // @fnv 0x00c2c030
+// pdb: NiPSysDragModifier::NiPSysDragModifier | NiPSysDragModifier.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00c2c030::FUN_00c2c030()
     : m_pParent(0), m_kDragDirection(g_UNIT_X), m_fDragStrength(0.05f), m_fFirstLightParameter(s_fInfinity),
       m_fSecondLightParameter(s_fInfinity)
@@ -168,11 +169,12 @@ struct NiPoint3Stand
 
 struct FUN_00c2c4f0_cls : NiPSysDragModifier
 {
-    void FUN_00c2c4f0(NiStream& stream);
+    void NiPSysDragModifier_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00c2c4f0
-void FUN_00c2c4f0_cls::FUN_00c2c4f0(NiStream& stream)
+// pdb: NiPSysDragModifier::SaveBinary | NiPSysDragModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+void FUN_00c2c4f0_cls::NiPSysDragModifier_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<NiPSysModifierStand*>(this)->LoadStream(stream);
     void** vt = *reinterpret_cast<void***>(&stream);
@@ -242,6 +244,8 @@ struct S_00c2c590 : S_00c2c590_Base
 };
 // Compares this object with other: base comparison, unk18 pointer presence and unk5C match, then unk1C vector and unk28/unk2C/unk30 floats.
 // @fnv 0x00c2c590
+// pdb: NiPSysDragModifier::IsEqual | NiPSysDragModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkObject
 bool S_00c2c590::FUN_00c2c590(S_00c2c590* other)
 {
     if (FUN_00c31830(other))
@@ -309,6 +313,8 @@ void* __cdecl FUN_00a7d5e0(const void* typeName, const void* value);
 void* __cdecl FUN_00a7d550(const void* typeName, float value);
 // Saves the modifier via NiPSysModifier::SaveBinary, then appends the drag object name, drag axis, percentage, range and falloff to the stream array.
 // @f3 0x00accab0 (community match, verified in this file)
+// pdb: NiPSysDragModifier::GetViewerStrings | NiPSysDragModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void NiPSysDragShell::FUN_00c2c620(NiStream& stream)
 {
     NiPSysModifier::SaveBinary(stream);

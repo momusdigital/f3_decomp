@@ -15,7 +15,8 @@ struct S00dcc240_Stream
     virtual void Mark(int n);
     virtual void Restore();
 };
-static __declspec(noinline) void SkipWhitespace(S00dcc240_Stream* stream)
+// pdb: eatWhiteSpace | hkIStream.obj | fnv360_0822_retail, call_seq, high (was: SkipWhitespace)
+static __declspec(noinline) void eatWhiteSpace(S00dcc240_Stream* stream)
 {
     int storage[16];
     char* buffer = (char*)storage;
@@ -46,11 +47,12 @@ static __declspec(noinline) void SkipWhitespace(S00dcc240_Stream* stream)
 
 // Skips whitespace, then parses an optional sign and a decimal, octal, or hexadecimal integer from the stream, storing the sign in negative.
 // @fnv 0x00dcc240
-static __declspec(noinline) unsigned __int64 FUN_00dcc240(S00dcc240_Stream* stream, bool* negative)
+// pdb: readInteger64 | hkIStream.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) unsigned __int64 readInteger64(S00dcc240_Stream* stream, bool* negative)
 {
     int storage[64];
 
-    SkipWhitespace(stream);
+    eatWhiteSpace(stream);
     *negative = false;
     unsigned __int64 value = 0;
     int cursor = 0;
@@ -106,5 +108,5 @@ static __declspec(noinline) unsigned __int64 FUN_00dcc240(S00dcc240_Stream* stre
 }
 unsigned __int64 S00dcc240_Caller(S00dcc240_Stream* s, bool* neg)
 {
-    return FUN_00dcc240(s, neg);
+    return readInteger64(s, neg);
 }

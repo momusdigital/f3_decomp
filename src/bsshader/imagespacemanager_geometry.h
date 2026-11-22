@@ -4,16 +4,12 @@
 #include "f3_common.h"
 #include "NiObject.h"
 #include "NiFixedString.h"
+#include "NiGlobalStringTable.h"
 class NiUpdateData
 {
   public:
     float time;
     bool a, b, c, d, e;
-};
-class NiGlobalStringTable
-{
-  public:
-    static char* AddString(const char*);
 };
 extern NiFixedString EmptyFS;
 class NiScreenElementsData : public NiObject
@@ -74,19 +70,7 @@ template <class T> class GeometryPointer
         return *this;
     }
 };
-class GeometryString : public NiFixedString
-{
-  public:
-    GeometryString(const char* s)
-    {
-        m_kHandle = NiGlobalStringTable::AddString(s);
-    }
-    ~GeometryString()
-    {
-        if (m_kHandle != EmptyFS.m_kHandle)
-            InterlockedDecrement(reinterpret_cast<volatile long*>(m_kHandle - 8));
-    }
-};
+
 #endif
 
 extern const float DAT_0104a494;

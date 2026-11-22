@@ -305,6 +305,7 @@ unsigned field_480;
 float field_484;
 void FUN_008ea4f0(int,AimVector_c70060*);bool IsFlagSet(unsigned bit)const{return (field_294>>bit)&1;}
 void FUN_008ecb40();};
+// pdb: bhkCharacterController::~bhkCharacterController | bhkCharacterController.obj | fnv360_0822_debug, udata, low, conflict (bridge: bhkCharacterController::CalculatePitchAndRoll)
 void AimController_c70060::FUN_008ecb40()
 {
     unsigned int flags=field_294;

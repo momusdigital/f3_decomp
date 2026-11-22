@@ -33,6 +33,7 @@ void __fastcall FUN_00bce590(void*);
 extern char DAT_00eb9d64;
 
 struct C_004b2dd0 { void* vt; void* FUN_004b2dd0(); };
+// pdb: TESBoundTreeObject::TESBoundTreeObject | TESObject.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* C_004b2dd0::FUN_004b2dd0()
 {
     FUN_004b2ce0(this);
@@ -41,6 +42,7 @@ void* C_004b2dd0::FUN_004b2dd0()
 }
 
 struct C_004ba400 { void* vt; void* FUN_004ba400(); };
+// pdb: TESTexture1024::TESTexture1024 | TESWeather.obj | tesv_win, uvref, medium
 void* C_004ba400::FUN_004ba400()
 {
     FUN_0045bca0(this);
@@ -49,6 +51,7 @@ void* C_004ba400::FUN_004ba400()
 }
 
 struct C_0055f0d0 { void* vt; void* FUN_0055f0d0(); };
+// pdb: BGSTextureModel::BGSTextureModel | TESRace.obj | tesv_win, uvref, medium
 void* C_0055f0d0::FUN_0055f0d0()
 {
     FUN_004580f0(this);
@@ -57,6 +60,8 @@ void* C_0055f0d0::FUN_0055f0d0()
 }
 
 struct C_0062ccf0 { void* vt; void* FUN_0062ccf0(); };
+// pdb: StatsMenu::HealingOption::DefaultTargetConditionCallback | MenuManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aHO
 void* C_0062ccf0::FUN_0062ccf0()
 {
     FUN_00bfcfe0(this);
@@ -65,6 +70,8 @@ void* C_0062ccf0::FUN_0062ccf0()
 }
 
 struct C_008553b0 { void* vt; void* FUN_008553b0(); };
+// pdb: NiTriBasedGeom::LoadBinary | NiTriBasedGeom.obj | fnv360_0822_debug, objrun_sim, low, conflict (skyrim: NiTriBasedGeom::NiTriBasedGeom)
+// pdb params: kStream
 void* C_008553b0::FUN_008553b0()
 {
     FUN_0084b0e0(this);
@@ -73,6 +80,7 @@ void* C_008553b0::FUN_008553b0()
 }
 
 struct C_008d1320 { void* vt; void* FUN_008d1320(); };
+// pdb: NiBoolInterpController::NiBoolInterpController | NiBoolInterpController.obj | tesv_win, uvref, medium
 void* C_008d1320::FUN_008d1320()
 {
     FUN_008b2590(this);
@@ -81,6 +89,7 @@ void* C_008d1320::FUN_008d1320()
 }
 
 struct C_008d1880 { void* vt; void* FUN_008d1880(); };
+// pdb: NiPoint3InterpController::NiPoint3InterpController | NiPoint3InterpController.obj | tesv_win, uvref, medium
 void* C_008d1880::FUN_008d1880()
 {
     FUN_008b2590(this);
@@ -89,6 +98,7 @@ void* C_008d1880::FUN_008d1880()
 }
 
 struct C_0097a610 { void* vt; void* FUN_0097a610(); };
+// pdb: bhkSpringDamperConstraintMotor::bhkSpringDamperConstraintMotor | bhkSpringDamperConstraintMotor.obj | tesv_win, objopen_prop, low
 void* C_0097a610::FUN_0097a610()
 {
     FUN_00a09760(this);
@@ -97,6 +107,7 @@ void* C_0097a610::FUN_0097a610()
 }
 
 struct C_00a9f4e0 { void* vt; void* FUN_00a9f4e0(); };
+// pdb: BSMultiBoundOBB::QType | BSMultiBoundOBB.obj | fnv360_0721_beta, objrun, medium
 void* C_00a9f4e0::FUN_00a9f4e0()
 {
     FUN_00aa0b10(this);
@@ -113,6 +124,7 @@ void* C_00aa0b10::FUN_00aa0b10()
 }
 
 struct C_00aad5f0 { void* vt; void* FUN_00aad5f0(); };
+// pdb: BSMultiBoundShape::BSMultiBoundShape | BSMultiBoundShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void* C_00aad5f0::FUN_00aad5f0()
 {
     FUN_00825800(this);
@@ -129,6 +141,7 @@ void* C_00aad690::FUN_00aad690()
 }
 
 struct C_00ad23c0 { void* vt; void* FUN_00ad23c0(); };
+// pdb: NiPSysModifierBoolCtlr::NiPSysModifierBoolCtlr | NiPSysModifierBoolCtlr.obj | tesv_win, uvref, medium
 void* C_00ad23c0::FUN_00ad23c0()
 {
     FUN_00ac64d0(this);
@@ -137,6 +150,7 @@ void* C_00ad23c0::FUN_00ad23c0()
 }
 
 struct C_00b2c330 { void* vt; void* FUN_00b2c330(); };
+// pdb: NiShadeProperty::~NiShadeProperty | BSShaderProperty.obj | fnv360_0822_debug, objrun_open, low
 void* C_00b2c330::FUN_00b2c330()
 {
     FUN_00b22930(this);
@@ -145,6 +159,7 @@ void* C_00b2c330::FUN_00b2c330()
 }
 
 struct C_00bcec80 { void* vt; void* FUN_00bcec80(); };
+// pdb: BSXenonFileCache::BSXenonFileCache | BSXenonFileCache.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_00bcec80::FUN_00bcec80()
 {
     FUN_00bce590(this);
@@ -153,6 +168,7 @@ void* C_00bcec80::FUN_00bcec80()
 }
 
 struct C_00c223e0 { void* vt; void* FUN_00c223e0(); };
+// pdb: NiShaderDeclaration::NiShaderDeclaration | NiShaderDeclaration.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void* C_00c223e0::FUN_00c223e0()
 {
     FUN_00825800(this);

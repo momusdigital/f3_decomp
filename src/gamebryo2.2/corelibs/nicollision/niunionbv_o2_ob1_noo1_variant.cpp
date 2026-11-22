@@ -177,6 +177,8 @@ struct TexCacheCall
     void FUN_00801510();
 };
 
+// pdb: NiUnionBV::Copy | NiUnionBV.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kABV
 void TexCache::FUN_00e9ecd0(Source* src)
 {
     if (src->GetType() == 4)
@@ -263,6 +265,8 @@ struct Source365
 };
 
 // @fnv 0x00e9eef0
+// pdb: NiUnionBV::UnionUnionTestIntersect | NiUnionBV.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: fTime, kABV0, kV0, kABV1, kV1
 State365* __thiscall Source365::FUN_00e9eef0()
 {
     State365* state = static_cast<State365*>(g_memoryManager.Allocate(sizeof(State365)));

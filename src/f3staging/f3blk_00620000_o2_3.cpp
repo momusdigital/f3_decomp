@@ -18,6 +18,8 @@ struct Menu {
  bool FUN_006337c0(int,int);
 };
 // @fnv 0x0072f4b0
+// pdb: BarterMenu::DoGamepad | BarterMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiButton, afValue
 bool Menu::FUN_006337c0(int aiAction, int aiUnused)
 {
     bool bHandled = false;
@@ -115,6 +117,8 @@ struct NavigationList : NavigationBase, NavigationNode
 float __cdecl FUN_0047ca30(float value, float step);
 int FUN_00bea9e0(const char*);int FUN_00becd70(const char*,int);
 // @fnv 0x007214b0
+// pdb: ListBox<enum ActorValue::Index>::GetHighlightTarget | MenuManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeButton
 NavigationTile* NavigationList::FUN_0062e370(unsigned int action)
 {
     NavigationTile* result = 0;

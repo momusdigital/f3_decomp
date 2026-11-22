@@ -82,7 +82,7 @@ struct Val1 {
 };
 struct Host {
     void FUN_00d24b50(int a1, int a2, Val1 v, float f, Local12* pLocal);
-    void FUN_00d260d0(int a1, int a2, const Arg3* a3);
+    void hkpSampledHeightFieldShape_castRayWithCollectorImpl(int a1, int a2, const Arg3* a3);
 };
 struct __declspec(align(16)) RayData {
     float x; float y; float z; float w;
@@ -107,7 +107,7 @@ struct Obj {
     float unk24;
 
     void FUN_00d24b50(RayData* data, void* arg2, hkBoolD260 arg3, float arg4, void* arg5);
-    void FUN_00d26120(Input* input, void* arg2, void* arg3);
+    void hkpSampledHeightFieldShape_castSphere(Input* input, void* arg2, void* arg3);
 };
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 __declspec(align(16)) const hkVector4 halfScale = {0.5f, 0.5f, 0.5f, 0.5f};

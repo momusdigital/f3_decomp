@@ -4,9 +4,6 @@
 
 struct D625A0Allocator;
 
-void __cdecl FUN_00c908c0(D625A0Allocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl D625A0MemMove(void* dst, const void* src, unsigned int nbytes);
-
 struct D625A0CharArray
 {
     char* m_data;
@@ -21,28 +18,9 @@ struct D625A0CharArray
     void ReplaceRange(D625A0Allocator& alloc, int index, int numdel, const char* p, int numtoinsert);
 };
 
-// @fnv 0x00d625a0
-void D625A0CharArray::ReplaceRange(D625A0Allocator& alloc, int index, int aiNumDelete, const char* apSource,
-                                   int aiNumInsert)
-{
-    int iNewLength = m_iElementCount - aiNumDelete + aiNumInsert;
-    int numtomove = m_iElementCount - index - aiNumDelete;
-    const int iCapacity = getCapacity();
-    if (iCapacity < iNewLength)
-    {
-        int iDoubledCapacity = 2 * iCapacity;
-        int iNewCapacity = (iNewLength < iDoubledCapacity) ? iDoubledCapacity : iNewLength;
-        FUN_00c908c0(&alloc, this, iNewCapacity, sizeof(char));
-    }
-    D625A0MemMove(m_data + index + aiNumInsert, m_data + index + aiNumDelete, numtomove * sizeof(char));
-    char* dst = m_data + index;
-    for (int i = 0; i < aiNumInsert; ++i)
-        dst[i] = apSource[i];
-    m_iElementCount = iNewLength;
-}
-
 extern char d_010d17d0;
 // @fnv 0x00d634d0
+// pdb: getVtablehkpMultiRayShape | hkpMultiRayShapeClass.obj | fnv360_0721_beta, objrun_open, low
 char* FUN_00d634d0()
 {
     return &d_010d17d0;
@@ -112,6 +90,7 @@ struct FUN_00d634e0_cls
 
 // Iterates m_pHolder's items and passes each to the sink's Process callback when m_pHolder is non-null.
 // @fnv 0x00d634e0
+// pdb: hkpVehicleViewer::init | hkpVehicleViewer.obj | fnv360_0822_retail, vtable, medium
 void FUN_00d634e0_cls::ProcessItems()
 {
     if (m_pHolder != 0)
@@ -120,18 +99,6 @@ void FUN_00d634e0_cls::ProcessItems()
             m_kSink.m_pVtbl->Process(&m_kSink, m_pHolder->m_ppItems[i]);
     }
 }
-
-struct HeadPart
-{
-    virtual void h00();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-};
 
 struct OurPart
 {
@@ -151,10 +118,6 @@ struct NotifyTarget
 struct SecondTarget
 {
     virtual void w00();
-};
-
-struct Container : HeadPart, OurPart, NotifyTarget, SecondTarget
-{
 };
 
 struct ItemList
@@ -180,19 +143,6 @@ struct Registry
     ItemList* FUN_00c929e0();
 };
 
-// @fnv 0x00d63520
-void OurPart::RegisterAndNotify(Registry* apRegistry)
-{
-    apRegistry->FUN_00c937a0((Container*)((char*)this - 0x20));
-    apRegistry->FUN_00c93920((Container*)((char*)this - 0x20));
-
-    ItemList* pItemList = apRegistry->FUN_00c929e0();
-    for (int i = 0; i < pItemList->m_iArrayLength; i++)
-        ((NotifyTarget*)((char*)this + 8))->Notify(pItemList->m_ppItems[i]);
-
-    pItemList->FUN_00c905b0();
-}
-
 struct Factory
 {
     void* FUN_00dd9380(const char*, void*);
@@ -210,6 +160,7 @@ void __cdecl FUN_00d63da0()
 extern int g_D63DC0Value;
 
 // @fnv 0x00d63dc0
+// pdb: BGSMoviePlayer::GetScreenWidth | BGSMoviePlayer.obj | fnv360_0822_retail, objrun, medium
 int __cdecl FUN_00d63dc0()
 {
     return g_D63DC0Value;
@@ -242,6 +193,8 @@ struct FUN_00d63480_cls
 
 // Passes pointers to this object's members at offsets 8 and 0xc to the target's two callbacks, or null if the owner pointer is null.
 // @fnv 0x00d63480
+// pdb: hkpVehicleViewer::worldRemovedCallback | hkpVehicleViewer.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSTArray<class NiPointer<class bhkCharacterController>,class BSTSmallArrayHeapAllocator<120> >::DestructItems)
+// pdb params: w
 void FUN_00d63480_cls::PassMembersToTarget(Target* apTarget)
 {
     char* pOwner = (char*)this - 0x20;
@@ -299,6 +252,8 @@ extern int DAT_010d1814;
 extern int DAT_010d1804;
 
 // @fnv 0x00d63c50
+// pdb: hkpVehicleViewer::hkpVehicleViewer | hkpVehicleViewer.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: contexts
 FUN_00d63c50::FUN_00d63c50(ViewerArg* arg) : WorldViewerBase(arg)
 {
     m_vtbl28 = &DAT_010cb1d4;
@@ -506,18 +461,6 @@ struct FUN_00d63e10_cls
     static void operator delete(void* apMemory) throw();
 };
 
-// @fnv 0x00d63e10
-FUN_00d63e10_cls* FUN_00d63e10_cls::Destroy(unsigned char acFlags)
-{
-    FUN_00d63cb0();
-    if (acFlags & 1)
-    {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
-    }
-    return this;
-}
 }  // namespace fnv_00d63e10
 
 class hkMemoryAllocatorD635;
@@ -658,6 +601,8 @@ struct HkReferencedObjectLayout
 // hkArrayUtil::_reserve(array, sizeElem): grows the array in place.
 void __cdecl FUN_00901f10(void* apArray, int iSizeElem);
 
+// pdb: hkpVehicleViewer::actionAddedCallback | hkpVehicleViewer.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkbUtils::getNodesByClass)
+// pdb params: action
 void VehicleViewerD635::AddVehicle(hkReferencedObjectD635* pkObj)
 {
     hkBuiltinTypeRegistryD635* pkReg = hkD635::DAT_01268b08;
@@ -746,35 +691,6 @@ struct Parent : FirstBase, Receiver
 Parent::Parent()
 {}
 
-// FUN_00d63e00 : MSVC this-adjusting thunk  (sub ecx, 0x2c ; jmp <impl>)
-struct A1_00d63e00
-{
-    A1_00d63e00();
-    virtual void FUN_00d63e00();
-    char pad[0x28];
-};
-struct A2_00d63e00
-{
-    A2_00d63e00();
-    virtual void FUN_00d63e00();
-};
-struct Own_00d63e00 : A1_00d63e00, A2_00d63e00
-{
-    Own_00d63e00();
-    virtual void key_fn();
-// @fnv 0x00d63e00
-    void FUN_00d63e00();
-};
-Own_00d63e00::Own_00d63e00()
-{}
-void Own_00d63e00::key_fn()
-{}
-Own_00d63e00* make_00d63e00()
-{
-    static Own_00d63e00 o;
-    return &o;
-}
-
 struct D63590Array
 {
     unsigned int* m_data;
@@ -796,25 +712,3 @@ struct D63590Array
             m_data[index] = m_data[m_iElementCount];
     }
 };
-
-class D63590List
-{
-  public:
-    int unk00;
-    int unk04;
-    D63590Array m_items;
-
-    void FUN_00d63590(unsigned int value);
-};
-
-// Finds value in m_items, removes it at that index, and calls FUN_00c905b0 on the ItemList.
-// @fnv 0x00d63590
-void D63590List::FUN_00d63590(unsigned int value)
-{
-    int index = m_items.indexOf(value);
-    if (index != -1)
-    {
-        m_items.removeAt(index);
-        ((ItemList*)value)->FUN_00c905b0();
-    }
-}

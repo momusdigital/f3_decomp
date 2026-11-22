@@ -6,7 +6,7 @@
 // src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d);
-void __stdcall FUN_00d3fcc0(void* a, void* c, void* b, void* d);
+void __stdcall hkpSphereSphereAgent_getPenetrations(void* a, void* c, void* b, void* d);
 struct S_00d3f660_Owner
 {
     virtual void v0();
@@ -22,7 +22,7 @@ struct S_00d3f660
     int unk4;
     S_00d3f660_Owner* unk8;
     unsigned short unkC;
-    void ReleaseAndDelete(void* arg);
+    void hkpSphereSphereAgent_cleanup(void* arg);
 };
 
 #include <xmmintrin.h>
@@ -104,6 +104,8 @@ extern unsigned long DAT_0126835c;
 extern unsigned long DAT_0116913c;
 extern char FUN_00e32798[];
 extern void* (__stdcall* FUN_00d9b080)(unsigned long);
+// pdb: hkpSphereSphereAgent::staticGetPenetrations | hkpSphereSphereAgent.obj | fnv360_0822_retail, call_seq, high
+// pdb params: bodyA, bodyB, input, collector
 extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d)
 {
     void* (__stdcall* getTls)(unsigned long) = FUN_00d9b080;

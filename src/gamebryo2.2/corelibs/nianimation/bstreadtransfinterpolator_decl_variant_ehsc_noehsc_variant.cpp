@@ -8,25 +8,22 @@
 // that unit declares it this way.
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct FUN_00a43560_shell
+#include "bstreadtransfinterpolator_lerpdata_decls.h"
+struct FUN_00a43560_shell : TreadTransf_00a43560
 {
-    unsigned char m_auiShapeKeys[0x20];
-    void* m_ptr_20;
     int __thiscall FUN_00a43560(short arg);
 };
-struct FUN_00a43580_shell
+struct FUN_00a43580_shell : TreadTransf_00a43560
 {
     void* __thiscall FUN_00a43580(unsigned short flag);
 };
-struct FUN_00a435a0_shell
+struct FUN_00a435a0_shell : TreadTransf_00a43560
 {
     void* FUN_00a435a0(short arg1);
 };
 extern "C" void __cdecl __Dummy_00b6fef0(void* ptr, unsigned int flags);
-struct FUN_00a435c0_shell
+struct FUN_00a435c0_shell : TreadTransf_00a43560
 {
-    unsigned char m_auiShapeKeys[0x20];
-    void* m_ptr_20;
     char __thiscall FUN_00a435c0(short arg);
 };
 struct TrackFlags
@@ -42,7 +39,7 @@ struct SampleTrack
     float* values;
     TrackFlags flags;
 };
-float __cdecl InterpolateKey(float, float*, float*, unsigned int, unsigned int*, TrackFlags);
+float __cdecl NiFloatKey_GenInterp(float, float*, float*, unsigned int, unsigned int*, TrackFlags);
 struct FUN_00a434b0_shell
 {
     unsigned int unk00;
@@ -54,7 +51,7 @@ struct FUN_00a434b0_shell
     float valueDelta;
     unsigned int sampleIndex;
     SampleTrack* track;
-    bool __thiscall UpdateSampleValue(float time, int, int);
+    bool __thiscall BSTreadTransfInterpolator_Update(float time, int, int);
 };
 struct FUN_00a435e0_shell
 {
@@ -239,14 +236,6 @@ inline void FUN_00a435e0_shell::v37()
 {}
 inline void FUN_00a435e0_shell::v38(int)
 {}
-bool FUN_00a435e0_shell::FUN_00a435e0(int arg)
-{
-    if (unk20 != 0)
-    {
-        v38(arg);
-    }
-    return false;
-}
 class A43600BinaryStream
 {
   public:
@@ -594,6 +583,8 @@ class BSTreadTransfInterpolator : public NiInterpolator
     void FUN_00a43690(BSTreadTransfInterpolator*, void*);
 };
 // @fnv 0x00a43690
+// pdb: BSTreadTransfInterpolator::CopyMembers | BSTreadTransfInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkDest, kCloning
 void BSTreadTransfInterpolator::FUN_00a43690(BSTreadTransfInterpolator* destination, void* context)
 {
     FUN_00aa0ab0(destination, context);

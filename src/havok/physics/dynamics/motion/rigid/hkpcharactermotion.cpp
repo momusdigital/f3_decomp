@@ -52,12 +52,12 @@ void hkpCharacterMotionD1E::SetInertiaAndMassInv(const hkMatrix3D1E& inertia)
     m_kInertiaAndMassInv.z = fInvMaxDiag;
 }
 
-struct FUN_00d1edd0_stub
+struct FUN_00d1edd0_stub : public hkpMotion
 {
     void SetMinOfThree(const float* src);
 };
 
-// Stores the minimum of src[0], src[5], and src[10] into the three floats at offsets 0xc0, 0xc4, and 0xc8 of this.
+// Stores the smallest diagonal element of the 4x4 src (src[0], src[5], src[10]) as all three inverse inertias.
 // @fnv 0x00d1edd0
 void FUN_00d1edd0_stub::SetMinOfThree(const float* src)
 {
@@ -66,9 +66,9 @@ void FUN_00d1edd0_stub::SetMinOfThree(const float* src)
     float c = a < b ? a : b;
     float fThird = src[10];
     float fMinAll = c < fThird ? c : fThird;
-    *(float*)((char*)this + 0xc0) = fMinAll;
-    *(float*)((char*)this + 0xc4) = fMinAll;
-    *(float*)((char*)this + 0xc8) = fMinAll;
+    m_kInertiaAndMassInv.x = fMinAll;
+    m_kInertiaAndMassInv.y = fMinAll;
+    m_kInertiaAndMassInv.z = fMinAll;
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -122,40 +122,6 @@ struct hkMatrix3D1EE
     }
 };
 
-class hkBaseObjectD1EE
-{
-  public:
-    virtual ~hkBaseObjectD1EE() throw();
-};
-
-class hkReferencedObjectD1EE : public hkBaseObjectD1EE
-{
-  public:
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class hkpSphereMotionD1EE : public hkReferencedObjectD1EE
-{
-  public:
-    void FUN_00d1ee40(hkMatrix3D1EE& kInertiaInv) const;
-
-    unsigned char m_type;
-    unsigned char m_ucDeactivationIntegrateCounter;
-    unsigned short m_ausDeactivationNumInactiveFrames[2];
-    unsigned short unk0E;
-    hkVector4D1EE m_kMotionState[11];
-    hkVector4D1EE m_kInertiaAndMassInv;
-};
-
-// Fills kInertiaInv with a diagonal matrix whose entries are the inverse inertia stored in m_kInertiaAndMassInv.
-// @fnv 0x00d1ee40
-void hkpSphereMotionD1EE::FUN_00d1ee40(hkMatrix3D1EE& kInertiaInv) const
-{
-    float fInv = m_kInertiaAndMassInv(0);
-    kInertiaInv.setDiagonal(fInv, fInv, fInv);
-}
-
 namespace fnv_00d1ee80 {
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -208,39 +174,6 @@ struct hkMatrix3D1E8x
     }
 };
 
-class hkBaseObjectD1E8x
-{
-  public:
-    virtual ~hkBaseObjectD1E8x() throw();
-};
-
-class hkReferencedObjectD1E8x : public hkBaseObjectD1E8x
-{
-  public:
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class hkpSphereMotionD1E8x : public hkReferencedObjectD1E8x
-{
-  public:
-    void FUN_00d1ee80(hkMatrix3D1E8x& kInertiaInv) const;
-
-    unsigned char m_type;
-    unsigned char m_ucDeactivationIntegrateCounter;
-    unsigned short m_ausDeactivationNumInactiveFrames[2];
-    unsigned short unk0E;
-    hkVector4D1E8x m_kMotionState[11];
-    hkVector4D1E8x m_kInertiaAndMassInv;
-};
-
-// Fills kInertiaInv with a diagonal matrix whose entries are all the inverse inertia value stored in m_kInertiaAndMassInv.
-// @fnv 0x00d1ee80
-void hkpSphereMotionD1E8x::FUN_00d1ee80(hkMatrix3D1E8x& kInertiaInv) const
-{
-    float fInv = m_kInertiaAndMassInv(0);
-    kInertiaInv.setDiagonal(fInv, fInv, fInv);
-}
 }  // namespace fnv_00d1ee80
 
 namespace fnv_00d1ef50 {
@@ -267,42 +200,6 @@ struct hkVector4D1EF
     }
 };
 
-class hkBaseObjectD1EF
-{
-  public:
-    virtual ~hkBaseObjectD1EF() throw();
-};
-
-class hkReferencedObjectD1EF : public hkBaseObjectD1EF
-{
-  public:
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-
-class hkpSphereMotionD1EF : public hkReferencedObjectD1EF
-{
-  public:
-    void ApplyImpulse(const hkVector4D1EF& kImpulse);
-
-    unsigned char m_type;
-    unsigned char m_ucDeactivationIntegrateCounter;
-    unsigned short m_ausDeactivationNumInactiveFrames[2];
-    unsigned short unk0E;
-    hkVector4D1EF m_kMotionState[11];
-    hkVector4D1EF m_kInertiaAndMassInv;
-    hkVector4D1EF m_kTranslationalVelocity;
-    hkVector4D1EF m_kAngularVelocity;
-};
-
-// Multiplies m_kInertiaAndMassInv by kImpulse and adds the result to m_kAngularVelocity.
-// @fnv 0x00d1ef50
-void hkpSphereMotionD1EF::ApplyImpulse(const hkVector4D1EF& kImpulse)
-{
-    hkVector4D1EF kDelta;
-    kDelta.setMul4(m_kInertiaAndMassInv, kImpulse);
-    m_kAngularVelocity.add4(kDelta);
-}
 }  // namespace fnv_00d1ef50
 
 struct __declspec(align(16)) FUN_00d1ecc0_Matrix
@@ -343,25 +240,6 @@ void FUN_00d1ecc0_Class::FUN_00d1ecc0(FUN_00d1ecc0_Matrix& inertia) const
     inertia.m_Values[10] = value;
 }
 
-
-struct FUN_00d1ed00_t
-{
-    void GetInverseDiagonal(float* out);
-};
-
-// Writes to out three rows of four floats with 1/(float at offset 0xC0) at indices 0, 5 and 10 and zeros elsewhere.
-// @fnv 0x00d1ed00
-void FUN_00d1ed00_t::GetInverseDiagonal(float* out)
-{
-    float inv = 1.0f / ((float*)this)[48];
-    __m128 z = _mm_setzero_ps();
-    *(__m128*)out = z;
-    *(__m128*)(out + 4) = z;
-    *(__m128*)(out + 8) = z;
-    out[0] = inv;
-    out[5] = inv;
-    out[10] = inv;
-}
 
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
@@ -410,64 +288,10 @@ struct hkVector4X
     }
 };
 
-class hkpSphereMotionX
-{
-  public:
-    void* m_vtbl;
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    unsigned char m_type;
-    unsigned char m_ucDeactivationIntegrateCounter;
-    unsigned short m_ausDeactivationNumInactiveFrames[2];
-    unsigned short unk0E;
-    hkVector4X m_kMotionTransform[4];
-    hkVector4X m_vCenterOfMass0;
-    hkVector4X m_vCenterOfMass1;
-    hkVector4X m_rest[5];
-    hkVector4X m_kInertiaAndMassInv;
-    hkVector4X m_kTranslationalVelocity;
-    hkVector4X m_kAngularVelocity;
-
-    void FUN_00d1eec0(const hkVector4X& imp, const hkVector4X& p);
-};
-
-// Adds imp scaled by the W of m_kInertiaAndMassInv to translational velocity, and (p - center of mass) x imp scaled by m_kInertiaAndMassInv to angular velocity.
-// @fnv 0x00d1eec0
-void hkpSphereMotionX::FUN_00d1eec0(const hkVector4X& imp, const hkVector4X& p)
-{
-    m_kTranslationalVelocity.addMul4(m_kInertiaAndMassInv.getW(), imp);
-    hkVector4X relMassCenter;
-    relMassCenter.setSub4(p, m_vCenterOfMass1);
-    hkVector4X crossWs;
-    crossWs.setCross(relMassCenter, imp);
-    hkVector4X deltaVelWs;
-    deltaVelWs.setMul4(crossWs, m_kInertiaAndMassInv);
-    m_kAngularVelocity.add4(deltaVelWs);
-}
-
 extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-union Vector
-{
-    __m128 quad;
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-union Scalar
-{
-    __m128 quad;
-    float real;
-};
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_set_ps(float, float, float, float);
 struct Simd
 {
     __m128 quad;
@@ -511,23 +335,3 @@ union Vec
         return r;
     }
 };
-class Motion
-{
-    hkVector4 m_00, m_10, m_20, m_30, m_40, m_50, m_60, m_70, m_80, m_90, m_a0, m_b0;
-    Vec mass, velocity;
-
-  public:
-    void FUN_00d1ef80(float s, const Vec& force);
-};
-// Multiplies force by timestep s, scales by mass.getW(), and adds the result to velocity.
-// @fnv 0x00d1ef80
-void Motion::FUN_00d1ef80(float afTimestep, const Vec& force)
-{
-    __m128 timestep = _mm_load_ps1(&afTimestep);
-    Vec impulse;
-    impulse.quad = _mm_mul_ps(timestep, force.quad);
-    Simd w = mass.getW();
-    Vec weighted = impulse;
-    weighted.mulSimd(w);
-    velocity.add(weighted);
-}

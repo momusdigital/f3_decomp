@@ -10,6 +10,8 @@ extern int* DAT_00f6ee80[];
 namespace f3m_0074a170 {
 namespace allowa1 {
 struct Item { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; signed char unk20; };
+// pdb: LowProcess::ShouldStopCombatControllerToFinishPackage | LowProcess.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apPackage, aiIndex
 bool __stdcall FUN_0074a170(Item* item,int index) {
  switch(item->unk20) { case 0: case 1: case 6: case 7: case 13: case 14: case 17: return false; }
  if(item->unk18!=-1 && DAT_00f6ee80[item->unk18][index]==0x35) return false;
@@ -280,6 +282,8 @@ int unk2c;
 unsigned flags;
 int Lookup(int row) {return DAT_00f6ee80[row][column()];}
 bool FUN_007555b0(Target55*); };
+// pdb: MiddleHighProcess::ShouldPickPackIdle | MiddleHighProcess.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor
 bool Owner55::FUN_007555b0(Target55* target) {
 if(flags&0x40) return false;
 Entry55* entry=this->entry();

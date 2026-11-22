@@ -3,6 +3,8 @@
 #include "tileshader_decls.h"
 
 // @fnv 0x00bcac60
+// pdb: TileShader::PostGeometry | TileShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void TileShader::UpdateMaterial(const NiPropertyState* state)
 {
     NiMaterialPropertyView* material = (NiMaterialPropertyView*)state->m_spProperties[3];
@@ -28,6 +30,8 @@ extern NiGPUProgram* DAT_012021e4;
 extern int DAT_0126f74c;
 
 // @fnv 0x00bcb180
+// pdb: GeometryDecalShader::InitPass | GeometryDecalShader.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: auiCurrentPass
 void __fastcall SelectGPUProgram(char* this_ptr, int, int arg)
 {
     switch (arg)
@@ -51,6 +55,7 @@ struct FUN_00bca500_shell
 };
 
 // @fnv 0x00bca500
+// pdb: TileShader::ClearPassStages | TileShader.obj | fnv360_0721_beta, objrun_open, low
 void __thiscall FUN_00bca500_shell::FUN_00bca500(void* p)
 {
     DAT_0126f74c = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x6c);
@@ -59,6 +64,7 @@ void __thiscall FUN_00bca500_shell::FUN_00bca500(void* p)
 extern "C" void* g_012021b8;
 
 // @fnv 0x00bca6b0
+// pdb: NiControllerSequence::GetRTTI | NiControllerSequence.obj | fnv360_0822_retail, udata, medium
 void* __cdecl FUN_00bca6b0()
 {
     return &g_012021b8;
@@ -66,6 +72,8 @@ void* __cdecl FUN_00bca6b0()
 
 // Sets byte at offset 8 of the objects at thisptr+0x84/0x88/0x8c based on whether a3 equals 0x24d, then calls vtable slot 0x24 on the object at thisptr+0x34.
 // @fnv 0x00bcb1d0
+// pdb: GeometryDecalShader::SetupPassConstants | GeometryDecalShader.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: auiCurrentPass
 void __fastcall SetFlagState(void* thisptr, int, int a3)
 {
     char* obj84 = *(char**)((char*)thisptr + 0x84);
@@ -182,6 +190,7 @@ struct TileStandin
 };
 // Calls UnkA0 on each non-null vertex shader when unk28 is set, then Unk88 on each non-null pixel shader, and finally calls FUN_00be08b0.
 // @fnv 0x00bca070
+// pdb: TileShader::RecreateRendererData | TileShader.obj | fnv360_0822_retail, objrun_prop, medium
 void TileStandin::FUN_00bca070()
 {
     unsigned int i;
@@ -211,6 +220,7 @@ struct X
 };
 // Calls FUN_00bca510, then if bit 0 of a1 is set frees this with _delete and returns this.
 // @fnv 0x00bcae60
+// pdb: SpeedTreeLeafShaderProperty::`scalar deleting destructor' | SpeedTreeLeafShaderProperty.obj | fnv360_0822_retail, objrun_prop, low
 void* __thiscall X::DestroyIfFlagged(unsigned int auiFlags)
 {
     FUN_00bca510();
@@ -306,6 +316,7 @@ struct FUN_00bcaca0 : public BSShader
 };
 
 // @fnv 0x00bcaca0
+// pdb: PrecipitationShader::PrecipitationShader | PrecipitationShader.obj | fnv360_0822_retail, call_dedup, medium
 FUN_00bcaca0::FUN_00bcaca0(NiD3DVertexShader* pVertexShader1, NiD3DVertexShader* pVertexShader2)
 {
     m_b64 = true;
@@ -389,6 +400,7 @@ extern float DAT_01202198[4];
 
 // Lazily creates the two NiD3DShaderConstantMap objects and adds the tintcolor, WorldViewProjTranspose and TexScroll entries.
 // @fnv 0x00bcaff0
+// pdb: TileShader::CreateConstantMaps | TileShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bcaff0_shell::CreateShaderConstantMaps()
 {
     TileShaderLayout* p = (TileShaderLayout*)this;
@@ -490,6 +502,7 @@ struct FUN_00bca0d0_shell : BSShader
     void CreateTileVertexShaders();
 };
 // @fnv 0x00bca0d0
+// pdb: TileShader::LoadVertexShaders | TileShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bca0d0_shell::CreateTileVertexShaders()
 {
     TileShaderDef_bca0d0 kDefs[3];
@@ -718,6 +731,7 @@ struct FUN_00bcaca0 : A51BF0Base
 };
 
 // @fnv 0x00bcae90
+// pdb: PrecipitationShader::CreateShader | PrecipitationShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00bcaca0* FUN_00bcae90()
 {
     NiD3DVertexDeclaration* pFirstObject = NiD3DVertexDeclaration::Create(DAT_011f9508, 2, 1);
@@ -1344,6 +1358,8 @@ struct Renderer8b8
 
 // If the counter at DAT_011ff9d8[idx] is zero, calls Target(0xae, a1 & 0xFF, 0, 0) on m_pk08b8, then adds a2 to the counter.
 // @fnv 0x00b984f0
+// pdb: BSRenderState::SetScissorEnable | BSRenderState_Xenon.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abEnabled, aeLock
 void AddToCounterIfIdle(unsigned int uiValue, unsigned int uiIncrement)
 {
     unsigned int idx = DAT_011ffce8;
@@ -1444,6 +1460,7 @@ struct FUN_00bca240_shell : BSShader
 
 // Builds three tile pixel-shader definitions, resolves the pixel shader profile, and creates each shader into m_spPixelShaders.
 // @fnv 0x00bca240
+// pdb: TileShader::LoadPixelShaders | TileShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bca240_shell::CreateTilePixelShaders()
 {
     TileShaderDef_bca240 kDefs[3];
@@ -1595,6 +1612,7 @@ struct FUN_00bca510 : FUN_00be0f10
 };
 // Releases the vertex, pixel and pass references, then resets enabled64, other88 and value60.
 // @fnv 0x00bca510
+// pdb: TileShader::~TileShader | TileShader.obj | fnv360_0721_beta, objopen_prop, low
 FUN_00bca510::~FUN_00bca510()
 {
     for (unsigned int i = 0; i < 3; ++i)
@@ -1662,6 +1680,7 @@ struct Shader321
     bool ConfigurePassStages();
 };
 // @fnv 0x00bca3c0
+// pdb: ParallaxShader::PresetTexturePasses_2x | ParallaxShader_Preset.obj | fnv360_0822_retail, caller_sim, medium
 bool Shader321::ConfigurePassStages()
 {
     FUN_00e804d0(pass);
@@ -2375,6 +2394,8 @@ struct PassFlags
 
 // Sets vertex and pixel shader handles and constants on the renderer based on pass flags, then applies target pairs and flag targets to the shader state.
 // @fnv 0x00bca760
+// pdb: TileShader::SetupGeometryTextures | TileShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apState
 void PassShader::ApplyToRenderer(RenderPassArg* pArg)
 {
     GeometryData* pGeom = pArg->m_pkGeometryData;

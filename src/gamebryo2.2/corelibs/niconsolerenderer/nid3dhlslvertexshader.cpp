@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp: MyHolder, ShaderWrap, NiD3DHLSLVertexShader, ArrayShader (8 functions)
+// gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp: MyHolder, ShaderWrap, NiD3DHLSLVertexShader, ArrayShader (6 functions)
 #include "f3_common.h"
 #include "nid3dhlslvertexshader_decls.h"
 // Constructs a NiTPrimitiveArray by forwarding the size and grow arguments to the NiTArray base constructor.
 // @fnv 0x00e98db0
+// pdb: NiTPrimitiveArray<NiPick::Record *>::NiTPrimitiveArray<NiPick::Record *> | NiPick.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: NiTScrapArray<class NiPick::Record *>::NiTScrapArray<class NiPick::Record *>)
+// pdb params: uiMaxSize, uiGrowBy
 template <>
 NiTPrimitiveArray<NiD3DShaderProgramCreatorObj*>::NiTPrimitiveArray(unsigned int size, unsigned short grow)
     : NiTArray<NiD3DShaderProgramCreatorObj*>(size, grow)
@@ -27,63 +29,6 @@ bool CLS_00e89b10::CallVtableMethod(unsigned int auiArg1, const float* apfArg2, 
 {
     DEV_00e89b10* dev = *(DEV_00e89b10**)((char*)this + 0x10F8);
     return dev->vtable->m_fn(dev, auiArg1, apfArg2, auiArg3) >= 0;
-}
-
-struct MyConstTable
-{
-    virtual void __stdcall Dummy0();
-    virtual void __stdcall Dummy1();
-    virtual void __stdcall Release();
-};
-struct MyHolder
-{
-    char _pad0[0x44];
-    MyConstTable* m_pShaderConstantTable;
-    void FUN_00e89ac0();
-    void ReleaseConstTable();
-};
-// Releases the held const table if present, clears the pointer, then calls FUN_00e89ac0.
-// @fnv 0x00e97210
-void MyHolder::ReleaseConstTable()
-{
-    if (m_pShaderConstantTable)
-    {
-        m_pShaderConstantTable->Release();
-        m_pShaderConstantTable = 0;
-    }
-    FUN_00e89ac0();
-}
-
-struct MyDesc
-{
-    const char* Creator;
-    unsigned int Version;
-    unsigned int Constants;
-};
-struct MyTable
-{
-    virtual long __stdcall F0();
-    virtual long __stdcall F1();
-    virtual long __stdcall F2();
-    virtual long __stdcall F3();
-    virtual long __stdcall F4();
-    virtual long __stdcall GetDesc(MyDesc* pDesc);
-};
-struct ShaderWrap
-{
-    unsigned char _pad[0x44];
-    MyTable* m_pShaderConstantTable;
-    unsigned int GetConstants();
-};
-// Returns the shader's Constants from its descriptor, or 0 if the table is null or GetDesc fails.
-// @fnv 0x00e97250
-unsigned int ShaderWrap::GetConstants()
-{
-    MyDesc kDesc;
-    if (!m_pShaderConstantTable)
-        return 0;
-    long hr = m_pShaderConstantTable->GetDesc(&kDesc);
-    return hr < 0 ? 0 : kDesc.Constants;
 }
 
 struct _D3DXCONSTANT_DESC
@@ -122,6 +67,8 @@ struct NiD3DHLSLVertexShader
 };
 // Looks up the constant handle at uiIndex, queries its descriptor, and returns the descriptor's Name if found, otherwise null.
 // @fnv 0x00e97280
+// pdb: NiD3DHLSLPixelShader::GetVariableName | NiD3DHLSLPixelShader.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: NiD3DHLSLVertexShader::GetVariableCount)
+// pdb params: uiIndex
 const char* NiD3DHLSLVertexShader::GetConstantName(unsigned int uiIndex)
 {
     _D3DXCONSTANT_DESC kDesc;
@@ -140,6 +87,8 @@ const char* NiD3DHLSLVertexShader::GetConstantName(unsigned int uiIndex)
 void __cdecl FUN_00e89ad0();
 
 // @fnv 0x00e97240
+// pdb: hkFixedConstraintCinfo::LoadBinary | bhkFixedConstraint.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arStream
 void __cdecl FUN_00e97240()
 {
     FUN_00e89ad0();
@@ -480,8 +429,6 @@ struct OrderArg
 {
     const unsigned short* p;
 };
-extern "C" void _ReadWriteBarrier();
-extern const char str_010f14e8[];
 struct ArrayShader : VS_00e972e0_Shader
 {
     bool FUN_00e974f0(VS_00e972e0_Entry*, const void*, unsigned int, unsigned int, OrderArg);

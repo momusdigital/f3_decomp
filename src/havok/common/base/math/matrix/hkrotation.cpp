@@ -22,6 +22,7 @@ struct CB2FC0Object
 
 // Builds a CB2FC0Snapshot from this object and passes it to FUN_00cb2d90.
 // @fnv 0x00cb2fc0
+// pdb: hkRotation::renormalize | hkRotation.obj | tesv_win, hash, low
 void CB2FC0Object::FUN_00cb2fc0()
 {
     CB2FC0Snapshot snapshot(this);
@@ -46,6 +47,8 @@ class FUN_00cb2e30_cls
 
 // Builds a SpawnedSnap from value and scale, then passes it to FUN_00cb2d90 on this object.
 // @fnv 0x00cb2e30
+// pdb: hkRotation::setAxisAngle | hkRotation.obj | fnv360_0822_debug, objrun_prop, low
+// pdb params: axis, angle
 void FUN_00cb2e30_cls::SpawnSnap(int value, float scale)
 {
     SpawnedSnap snap(value, scale);
@@ -71,6 +74,7 @@ class FUN_00cb2ff0 : public FUN_00cb2ff0_base
 
 // Calls unk08 on this object, then decrements the global counter DAT_012683c0.
 // @fnv 0x00cb2ff0
+// pdb: bhkTriSampledHeightFieldBvTreeShape::~bhkTriSampledHeightFieldBvTreeShape | bhkTriSampledHeightFieldBvTreeShape.obj | fnv360_0822_retail, call_seq, high
 FUN_00cb2ff0::~FUN_00cb2ff0()
 {
     this->unk08();
@@ -142,12 +146,6 @@ struct hkVector4q
     }
 };
 
-__forceinline __m128 hkCross(__m128 a, __m128 b)
-{
-    __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
-    __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9));
-    return _mm_sub_ps(cross0, cross1);
-}
 __forceinline float hkLen2(__m128 v)
 {
     __m128 sq = _mm_mul_ps(v, v);
@@ -171,29 +169,6 @@ class hkMatrix3q
     hkBool IsOrthonormal(float epsilon) const;
 };
 
-// Checks that each column's squared length is within epsilon of 1 and the first two columns' cross product matches the third within epsilon.
-// @fnv 0x00cb2e70
-hkBool hkMatrix3q::IsOrthonormal(float epsilon) const
-{
-    float colNorm0 = m_kColumn0.lengthSquared3();
-    if ((float)fabs(colNorm0 - 1.0f) > epsilon)
-    {
-        return false;
-    }
-    float colNorm1 = m_kColumn1.lengthSquared3();
-    if ((float)fabs(colNorm1 - 1.0f) > epsilon)
-    {
-        return false;
-    }
-    float colNorm2 = m_kColumn2.lengthSquared3();
-    if ((float)fabs(colNorm2 - 1.0f) > epsilon)
-    {
-        return false;
-    }
-    hkVector4q col0crosscol1;
-    col0crosscol1.m_vComponents = hkCross(m_kColumn0.m_vComponents, m_kColumn1.m_vComponents);
-    return col0crosscol1.equals3(m_kColumn2, epsilon);
-}
 }  // namespace fnv_00cb2e70
 
 struct FUN_00cd4d90_cls
@@ -204,22 +179,6 @@ struct FUN_00cd4d90_cls
 
     const __m128* ScaleRows(const __m128* scale, const __m128* matrix);
 };
-
-// Multiplies each row by the first value at scale, adds it to the corresponding row, and returns scale.
-// @fnv 0x00cd4d90
-const __m128* FUN_00cd4d90_cls::ScaleRows(const __m128* scale, const __m128* matrix)
-{
-    m_row0 = _mm_add_ps(
-        _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps((const float*)scale), _mm_load_ps((const float*)scale), 0), matrix[0]),
-        m_row0);
-    m_row1 = _mm_add_ps(
-        _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps((const float*)scale), _mm_load_ps((const float*)scale), 0), matrix[1]),
-        m_row1);
-    m_row2 = _mm_add_ps(
-        _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps((const float*)scale), _mm_load_ps((const float*)scale), 0), matrix[2]),
-        m_row2);
-    return scale;
-}
 
 extern const __m128 DAT_010c7180;
 extern const __m128 DAT_010c8770;

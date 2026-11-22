@@ -568,1098 +568,1281 @@ extern S_0043b7f0 DAT_0117961c;
 extern char DAT_00ea9570;
 void __cdecl FUN_00d9a400();
 
+// pdb: `dynamic initializer for 'bPreemptivelyUnloadCells'' | TES.obj | fnv360_0822_debug, ustr, high
 void FUN_00c85c40()
 {
     DAT_0106cc0c.FUN_0043b8a0(&DAT_00db8fd8, 0);
     FUN_00c00d1f(FUN_00d86c30);
 }
 
+// pdb: `dynamic initializer for 'bShowLoadingAreaMessage'' | TES.obj | fnv360_0822_debug, ustr, high
 void FUN_00c85cd0()
 {
     DAT_0106cc54.FUN_0043b8a0(&DAT_00db9054, 0);
     FUN_00c00d1f(FUN_00d86c70);
 }
 
+// pdb: `dynamic initializer for 'iHavokUpdateType'' | TES.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c85d80()
 {
     DAT_0106cb1c.FUN_0043b7f0(&DAT_00db90e4, 0);
     FUN_00c00d1f(FUN_00d86cc0);
 }
 
+// pdb: `dynamic initializer for 'bCheckPurgedTextureList'' | TES.obj | fnv360_0822_debug, ustr, high
 void FUN_00c860b0()
 {
     DAT_0106cba8.FUN_0043b8a0(&DAT_00db927c, 0);
     FUN_00c00d1f(FUN_00d86da0);
 }
 
+// pdb: `dynamic initializer for 'bQueueWarnings'' | TES.obj | fnv360_0822_debug, ustr, high
 void FUN_00c860d0()
 {
     DAT_0106ccf8.FUN_0043b8a0(&DAT_00db929c, 0);
     FUN_00c00d1f(FUN_00d86db0);
 }
 
+// pdb: `dynamic initializer for 'TES::bSelectivePurgeUnusedOnFastTravel'' | TES.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86110()
 {
     DAT_0106cb00.FUN_0043b8a0(&DAT_00db92dc, 0);
     FUN_00c00d1f(FUN_00d86dd0);
 }
 
+// pdb: `dynamic initializer for 'bLoadTheMap'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86610()
 {
     DAT_0106ce74.FUN_0043b8a0(&DAT_00dba820, 0);
     FUN_00c00d1f(FUN_00d86f40);
 }
 
+// pdb: `dynamic initializer for 'bFileSkipModelChecks'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86670()
 {
     DAT_0106cf0c.FUN_0043b8a0(&DAT_00dba9a8, 0);
     FUN_00c00d1f(FUN_00d86f70);
 }
 
+// pdb: `dynamic initializer for 'bFileCheckModelCollision'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86690()
 {
     DAT_0106cf00.FUN_0043b8a0(&DAT_00dba9cc, 0);
     FUN_00c00d1f(FUN_00d86f80);
 }
 
+// pdb: `dynamic initializer for 'bFileTestLoad'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void FUN_00c866f0()
 {
     DAT_0106ce40.FUN_0043b8a0(&DAT_00dbaa34, 0);
     FUN_00c00d1f(FUN_00d86fb0);
 }
 
+// pdb: `dynamic initializer for 'bFileUnusedObject'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86710()
 {
     DAT_0106cef4.FUN_0043b8a0(&DAT_00dbaa50, 0);
     FUN_00c00d1f(FUN_00d86fc0);
 }
 
+// pdb: `dynamic initializer for 'bFileSkipIconChecks'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86730()
 {
     DAT_0106ce30.FUN_0043b8a0(&DAT_00dbaa70, 0);
     FUN_00c00d1f(FUN_00d86fd0);
 }
 
+// pdb: `dynamic initializer for 'bKeepPlugin'' | TESDataHandler.obj | fnv360_0822_debug, ustr, high
 void FUN_00c86790()
 {
     DAT_0106cf18.FUN_0043b8a0(&DAT_00dbaad0, 0);
     FUN_00c00d1f(FUN_00d87000);
 }
 
+// pdb: `dynamic initializer for 'bFixAIPackagesOnLoad'' | TESAIForm.obj | fnv360_0822_debug, ustr, high
 void FUN_00c89920()
 {
     DAT_0106dbf0.FUN_0043b8a0(&DAT_00dbc968, 0);
     FUN_00c00d1f(FUN_00d87680);
 }
 
+// pdb: `dynamic initializer for 'bWarnOnMissingFileEntry'' | TESModel.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8a040()
 {
     DAT_0106dd58.FUN_0043b8a0(&DAT_00dbd870, 0);
     FUN_00c00d1f(FUN_00d87720);
 }
 
+// pdb: `dynamic initializer for 'bClampWarning'' | Animation.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8a6c0()
 {
     DAT_0106de70.FUN_0043b8a0(&DAT_00dbe66c, 0);
     FUN_00c00d1f(FUN_00d87780);
 }
 
+// pdb: `dynamic initializer for 'bPriorityWarning'' | Animation.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8a6e0()
 {
     DAT_0106de88.FUN_0043b8a0(&DAT_00dbe68c, 0);
     FUN_00c00d1f(FUN_00d87790);
 }
 
+// pdb: `dynamic initializer for 'BGSDecalManager::bProfileDecals'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8a9d0()
 {
     DAT_0106df64.FUN_0043b8a0(&DAT_00dbec28, 0);
     FUN_00c00d1f(FUN_00d87830);
 }
 
+// pdb: `dynamic initializer for 'BGSDecalManager::bDebugDecals'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8a9f0()
 {
     DAT_0106dfdc.FUN_0043b8a0(&DAT_00dbec40, 0);
     FUN_00c00d1f(FUN_00d87840);
 }
 
+// pdb: `dynamic initializer for 'BGSDecalManager::bDecalMultithreaded'' | BGSDecalManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8aa30()
 {
     DAT_0106dfac.FUN_0043b8a0(&DAT_00dbec70, 0);
     FUN_00c00d1f(FUN_00d87860);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iAdapter'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iAdapter'')
 void FUN_00c8c530()
 {
     DAT_0106f8b0.FUN_00491570(&DAT_00dc182c, 0);
     FUN_00c00d1f(FUN_00d884f0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bIgnoreResolutionCheck'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bIgnoreResolutionCheck'')
 void FUN_00c8c590()
 {
     DAT_0106f850.FUN_0043b8a0(&DAT_00dc1860, 0);
     FUN_00c00d1f(FUN_00d87e40);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iLocationX'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iLocationX'')
 void FUN_00c8c5d0()
 {
     DAT_0106faf0.FUN_0043b7f0(&DAT_00dc1898, 0);
     FUN_00c00d1f(FUN_00d87e50);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iLocationY'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iLocationY'')
 void FUN_00c8c5f0()
 {
     DAT_0106fb70.FUN_0043b7f0(&DAT_00dc18ac, 0);
     FUN_00c00d1f(FUN_00d87e60);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iNPatchSegments'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iNPatchSegments'')
 void FUN_00c8c610()
 {
     DAT_0106f628.FUN_0043b7f0(&DAT_00dc18c0, 0);
     FUN_00c00d1f(FUN_00d87e70);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iNPatchPositionOrder'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iNPatchPositionOrder'')
 void FUN_00c8c630()
 {
     DAT_0106f990.FUN_0043b7f0(&DAT_00dc18d4, 0);
     FUN_00c00d1f(FUN_00d87e80);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iNPatchNormalOrder'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iNPatchNormalOrder'')
 void FUN_00c8c650()
 {
     DAT_0106fb08.FUN_0043b7f0(&DAT_00dc18ec, 0);
     FUN_00c00d1f(FUN_00d87e90);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bDrawShadows'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bDrawShadows'')
 void FUN_00c8c6b0()
 {
     DAT_0106f9f4.FUN_00491620(&DAT_00dc193c, 0);
     FUN_00c00d1f(FUN_00d88530);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bDoStaticAndArchShadows'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8c7b0()
 {
     DAT_0106f8a4.FUN_0043b8a0(&DAT_00dc19fc, 0);
     FUN_00c00d1f(FUN_00d87f20);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iMultiSamples'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iMultiSamples'')
 void FUN_00c8c810()
 {
     DAT_0106f918.FUN_00491570(&DAT_00dc1a50, 0);
     FUN_00c00d1f(FUN_00d88550);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iWaterMultiSamples'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iWaterMultiSamples'')
 void FUN_00c8c830()
 {
     DAT_0106f7a8.FUN_00491570(&DAT_00dc1a68, 0);
     FUN_00c00d1f(FUN_00d88560);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bTransparencyMultisampling'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bTransparencyMultisampling'')
 void FUN_00c8c890()
 {
     DAT_0106fc9c.FUN_00491620(&DAT_00dc1abc, 0);
     FUN_00c00d1f(FUN_00d88590);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bAllowScreenShot'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bAllowScreenShot'')
 void FUN_00c8c8b0()
 {
     DAT_0106f93c.FUN_0043b8a0(&DAT_00dc1ae0, 0);
     FUN_00c00d1f(FUN_00d87f50);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iTexMipMapSkip'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iTexMipMapSkip'')
 void FUN_00c8c8d0()
 {
     DAT_0106fca8.FUN_00491570(&DAT_00dc1afc, 0);
     FUN_00c00d1f(FUN_00d885a0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iTexMipMapMinimum'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iTexMipMapMinimum'')
 void FUN_00c8c8f0()
 {
     DAT_0106f778.FUN_00491570(&DAT_00dc1b14, 0);
     FUN_00c00d1f(FUN_00d885b0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bAllow30Shaders'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bAllow30Shaders'')
 void FUN_00c8cb90()
 {
     DAT_0106f660.FUN_0043b8a0(&DAT_00dc1cd8, 0);
     FUN_00c00d1f(FUN_00d88040);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bForce1XShaders'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bForce1XShaders'')
 void FUN_00c8cbb0()
 {
     DAT_0106fa00.FUN_0043b8a0(&DAT_00dc1cf0, 0);
     FUN_00c00d1f(FUN_00d88050);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bForcePow2Textures'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bForcePow2Textures'')
 void FUN_00c8cbd0()
 {
     DAT_0106fa54.FUN_0043b8a0(&DAT_00dc1d08, 0);
     FUN_00c00d1f(FUN_00d88060);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bReportBadTangentSpace'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bReportBadTangentSpace'')
 void FUN_00c8cc10()
 {
     DAT_0106fb8c.FUN_0043b8a0(&DAT_00dc1d44, 0);
     FUN_00c00d1f(FUN_00d88080);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bEquippedTorchesCastShadows'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bEquippedTorchesCastShadows'')
 void FUN_00c8cc30()
 {
     DAT_0106f748.FUN_0043b8a0(&DAT_00dc1d64, 0);
     FUN_00c00d1f(FUN_00d88090);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bMTRendering'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bMTRendering'')
 void FUN_00c8d5a0()
 {
     DAT_0106f634.FUN_0043b8a0(&DAT_00dc23d8, 0);
     FUN_00c00d1f(FUN_00d88370);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bLODNoiseAniso'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bLODNoiseAniso'')
 void FUN_00c8d5c0()
 {
     DAT_0106fc80.FUN_0043b8a0(&DAT_00dc23f0, 0);
     FUN_00c00d1f(FUN_00d88380);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bActorSelfShadowing'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bActorSelfShadowing'')
 void FUN_00c8d680()
 {
     DAT_0106fb80.FUN_0043b8a0(&DAT_00dc2480, 0);
     FUN_00c00d1f(FUN_00d883b0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bShadowsOnGrass'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bShadowsOnGrass'')
 void FUN_00c8d6a0()
 {
     DAT_0106f700.FUN_0043b8a0(&DAT_00dc249c, 0);
     FUN_00c00d1f(FUN_00d883c0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::iShadowFilter'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::iShadowFilter'')
 void FUN_00c8d700()
 {
     DAT_0106fbe4.FUN_00491570(&DAT_00dc24f4, 0);
     FUN_00c00d1f(FUN_00d88660);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bUseFakeFullScreenMotionBlur'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bUseFakeFullScreenMotionBlur'')
 void FUN_00c8d740()
 {
     DAT_0106facc.FUN_0043b8a0(&DAT_00dc2528, 0);
     FUN_00c00d1f(FUN_00d883f0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::b30GrassVS'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::b30GrassVS'')
 void FUN_00c8d760()
 {
     DAT_0106f82c.FUN_00491620(&DAT_00dc2550, 0);
     FUN_00c00d1f(FUN_00d88670);
 }
 
+// pdb: `dynamic initializer for 'BSRenderer::uVideoDeviceIdentifierPart1'' | BSRenderer.obj | tesv_win, ustr, medium
 void FUN_00c8d780()
 {
     DAT_0106fb20.FUN_0043b7f0(&DAT_00dc2564, 0);
     FUN_00c00d1f(FUN_00d88400);
 }
 
+// pdb: `dynamic initializer for 'BSRenderer::uVideoDeviceIdentifierPart2'' | BSRenderer.obj | tesv_win, ustr, medium
 void FUN_00c8d7a0()
 {
     DAT_0106fb5c.FUN_0043b7f0(&DAT_00dc2588, 0);
     FUN_00c00d1f(FUN_00d88410);
 }
 
+// pdb: `dynamic initializer for 'BSRenderer::uVideoDeviceIdentifierPart3'' | BSRenderer.obj | tesv_win, ustr, medium
 void FUN_00c8d7c0()
 {
     DAT_0106f844.FUN_0043b7f0(&DAT_00dc25ac, 0);
     FUN_00c00d1f(FUN_00d88420);
 }
 
+// pdb: `dynamic initializer for 'BSRenderer::uVideoDeviceIdentifierPart4'' | BSRenderer.obj | tesv_win, ustr, medium
 void FUN_00c8d7e0()
 {
     DAT_0106fae4.FUN_0043b7f0(&DAT_00dc25d0, 0);
     FUN_00c00d1f(FUN_00d88430);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bCreateShaderPackage'' | Renderer.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c8d890()
 {
     DAT_0106fb2c.FUN_0043b8a0(&DAT_00dc2654, 0);
     FUN_00c00d1f(FUN_00d88480);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bTintMipMaps'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bTintMipMaps'')
 void FUN_00c8d8e0()
 {
     DAT_0106f73c.FUN_0043b8a0(&DAT_00dc268c, 0);
     FUN_00c00d1f(FUN_00d884a0);
 }
 
+// pdb: `dynamic initializer for 'Renderer::bDynamicWindowReflections'' | Renderer.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'BSRenderer::bDynamicWindowReflections'')
 void FUN_00c8d9b0()
 {
     DAT_0106f644.FUN_0043b8a0(&DAT_00dc2718, 0);
     FUN_00c00d1f(FUN_00d884e0);
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::bUseWaterHiRes'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8eba0()
 {
     DAT_0106fe30.FUN_0043b8a0(&DAT_00dc2ff0, 0);
     FUN_00c00d1f(FUN_00d88bc0);
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::bUseWaterReflectionBlur'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8ec40()
 {
     DAT_0106ff28.FUN_00491620(&DAT_00dc3070, 0);
     FUN_00c00d1f(FUN_00d88c10);
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::bReflectExplosions'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8eca0()
 {
     DAT_0106fdd4.FUN_0043b8a0(&DAT_00dc30c4, 0);
     FUN_00c00d1f(FUN_00d88c40);
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::bForceHighDetailReflections'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8ece0()
 {
     DAT_0106fee0.FUN_00491620(&DAT_00dc3108, 0);
     FUN_00c00d1f(FUN_00d88c60);
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::bForceLowDetailReflections'' | TESWater.obj | fnv360_0822_debug, ustr, high
 void FUN_00c8ed00()
 {
     DAT_0106fd94.FUN_0043b8a0(&DAT_00dc312c, 0);
     FUN_00c00d1f(FUN_00d88c70);
 }
 
+// pdb: `dynamic initializer for 'TESWaterSystem::bForceHighDetailLandReflections'' | TESWater.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'TESWaterSystem::bReflectLODLand'')
 void FUN_00c8ed20()
 {
     DAT_0106ff9c.FUN_0043b8a0(&DAT_00dc3150, 0);
     FUN_00c00d1f(FUN_00d88c80);
 }
 
+// pdb: `dynamic initializer for 'bUseConstant'' | TESLight.obj | fnv360_0822_debug, ustr, high
 void FUN_00c953f0()
 {
     DAT_01070798.FUN_0043b8a0(&DAT_00dc82e4, 0);
     FUN_00c00d1f(FUN_00d89990);
 }
 
+// pdb: `dynamic initializer for 'bUseLinear'' | TESLight.obj | fnv360_0822_debug, ustr, high
 void FUN_00c95410()
 {
     DAT_01070734.FUN_0043b8a0(&DAT_00dc8304, 0);
     FUN_00c00d1f(FUN_00d899a0);
 }
 
+// pdb: `dynamic initializer for 'ATTENUATION_SETTINGS::bOutQuadInLin'' | TESLight.obj | fnv360_0822_debug, ustr, high
 void FUN_00c95550()
 {
     DAT_01070708.FUN_0043b8a0(&DAT_00dc8418, 0);
     FUN_00c00d1f(FUN_00d89a20);
 }
 
+// pdb: `dynamic initializer for 'bLaserSights'' | TESObjectWEAP.obj | fnv360_0822_debug, ustr, high
 void FUN_00c96510()
 {
     DAT_01070a4c.FUN_0043b8a0(&DAT_00dcb5fc, 0);
     FUN_00c00d1f(FUN_00d89b00);
 }
 
+// pdb: `dynamic initializer for 'bAimSights'' | TESObjectWEAP.obj | fnv360_0822_debug, ustr, high
 void FUN_00c96530()
 {
     DAT_01070a58.FUN_0043b8a0(&DAT_00dcb610, 0);
     FUN_00c00d1f(FUN_00d89b10);
 }
 
+// pdb: `dynamic initializer for 'bForceNPCsUseAmmo'' | TESObjectWEAP.obj | fnv360_0822_debug, ustr, high
 void FUN_00c96550()
 {
     DAT_01070a74.FUN_0043b8a0(&DAT_00dcb624, 0);
     FUN_00c00d1f(FUN_00d89b20);
 }
 
+// pdb: `dynamic initializer for 'bPreventSafetyCheck'' | TESLand.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c96f30()
 {
     DAT_0107145c.FUN_0043b8a0(&DAT_00dccc20, 0);
     FUN_00c00d1f(FUN_00d89ba0);
 }
 
+// pdb: `dynamic initializer for 'bCurrentCellOnly'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void FUN_00c96f50()
 {
     DAT_0107143c.FUN_0043b8a0(&DAT_00dccc40, 0);
     FUN_00c00d1f(FUN_00d89bb0);
 }
 
+// pdb: `dynamic initializer for 'iLandBorder1B'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97020()
 {
     DAT_0107149c.FUN_0043b7f0(&DAT_00dccce4, 0);
     FUN_00c00d1f(FUN_00d89c10);
 }
 
+// pdb: `dynamic initializer for 'iLandBorder2R'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97040()
 {
     DAT_010714c4.FUN_0043b7f0(&DAT_00dcccfc, 0);
     FUN_00c00d1f(FUN_00d89c20);
 }
 
+// pdb: `dynamic initializer for 'iLandBorder2G'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97060()
 {
     DAT_010714f4.FUN_0043b7f0(&DAT_00dccd14, 0);
     FUN_00c00d1f(FUN_00d89c30);
 }
 
+// pdb: `dynamic initializer for 'iLandBorder2B'' | TESLand.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97080()
 {
     DAT_01071484.FUN_0043b7f0(&DAT_00dccd2c, 0);
     FUN_00c00d1f(FUN_00d89c40);
 }
 
+// pdb: `dynamic initializer for 'bDefaultCOCPlacement'' | TESObjectCELL.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97550()
 {
     DAT_01071538.FUN_0043b8a0(&DAT_00dcdb70, 0);
     FUN_00c00d1f(FUN_00d89d50);
 }
 
+// pdb: `dynamic initializer for 'bPreventHavokAddClutter'' | TESObjectREFR.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97720()
 {
     DAT_01071738.FUN_0043b8a0(&DAT_00dcf498, 0);
     FUN_00c00d1f(FUN_00d89da0);
 }
 
+// pdb: `dynamic initializer for 'bPreventHavokAddAll'' | TESObjectREFR.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97740()
 {
     DAT_010716f0.FUN_0043b8a0(&DAT_00dcf4b8, 0);
     FUN_00c00d1f(FUN_00d89db0);
 }
 
+// pdb: `dynamic initializer for 'TESObjectREFR::bPrimitivesOn'' | TESObjectREFR.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97760()
 {
     DAT_010716c0.FUN_0043b8a0(&DAT_00dcf4d4, 0);
     FUN_00c00d1f(FUN_00d89dc0);
 }
 
+// pdb: `dynamic initializer for 'bGrassPointLighting'' | TESTerrainLODManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97a70()
 {
     DAT_010717a8.FUN_0043b8a0(&DAT_00dcf590, 0);
     FUN_00c00d1f(FUN_00d89e10);
 }
 
+// pdb: `dynamic initializer for 'bCheckCellOffsetsOnInit'' | TESWorldSpace.obj | fnv360_0822_debug, ustr, high
 void FUN_00c97f40()
 {
     DAT_01071920.FUN_0043b8a0(&DAT_00dd037c, 0);
     FUN_00c00d1f(FUN_00d89f10);
 }
 
+// pdb: `dynamic initializer for 'bActivateAllQuestScripts'' | TESQuest.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c9aed0()
 {
     DAT_010722d0.FUN_0043b8a0(&DAT_00de54a0, 0);
     FUN_00c00d1f(FUN_00d8a0f0);
 }
 
+// pdb: `dynamic initializer for 'bAutoWaterUsesHavokShapes'' | TESWaterListener.obj | fnv360_0822_debug, ustr, medium
 void FUN_00c9cfd0()
 {
     DAT_01072a44.FUN_0043b8a0(&DAT_00de7610, 0);
     FUN_00c00d1f(FUN_00d8a3a0);
 }
 
+// pdb: `dynamic initializer for 'BSFaceGenManager::bFixNormals'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cdf3a0()
 {
     DAT_01073a4c.FUN_0043b8a0(&DAT_00dfbfe4, 0);
     FUN_00c00d1f(FUN_00d948b0);
 }
 
+// pdb: `dynamic initializer for 'BSFaceGenManager::bUseFaceGenLOD'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cdf3c0()
 {
     DAT_01073a74.FUN_0043b8a0(&DAT_00dfbffc, 0);
     FUN_00c00d1f(FUN_00d948c0);
 }
 
+// pdb: `dynamic initializer for 'bDebugFaceGenMultithreading'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cdf4e0()
 {
     DAT_01073ad8.FUN_0043b8a0(&DAT_00dfc0d8, 0);
     FUN_00c00d1f(FUN_00d94940);
 }
 
+// pdb: `dynamic initializer for 'bDebugFaceGenCriticalSection'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cdf500()
 {
     DAT_01073a8c.FUN_0043b8a0(&DAT_00dfc0fc, 0);
     FUN_00c00d1f(FUN_00d94950);
 }
 
+// pdb: `dynamic initializer for 'BSFaceGenManager::bLoadBackgroundFaceGen'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cdf520()
 {
     DAT_01073a40.FUN_0043b8a0(&DAT_00dfc120, 0);
     FUN_00c00d1f(FUN_00d94960);
 }
 
+// pdb: `dynamic initializer for 'bLoadFaceGenHeadEGTFiles'' | BSFaceGenManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cdf540()
 {
     DAT_01073af0.FUN_0043b8a0(&DAT_00dfc148, 0);
     FUN_00c00d1f(FUN_00d94970);
 }
 
+// pdb: `dynamic initializer for 'BSTreeManager::bForceFullLOD'' | BSTreeManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cdfeb0()
 {
     DAT_01073c94.FUN_0043b8a0(&DAT_00dfcb2c, 0);
     FUN_00c00d1f(FUN_00d949a0);
 }
 
+// pdb: `dynamic initializer for 'bTreeTops'' | BSTreeNode.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce0150()
 {
     DAT_01073d78.FUN_0043b8a0(&DAT_00dfd32c, 0);
     FUN_00c00d1f(FUN_00d94af0);
 }
 
+// pdb: `dynamic initializer for 'bINIGlobalNavMeshCheck'' | NavMesh_LoadSave.obj | fnv360_0822_debug, ustr, high
 void FUN_00ce4100()
 {
     DAT_010744f0.FUN_0043b8a0(&DAT_00e00cc0, 0);
     FUN_00c00d1f(FUN_00d95220);
 }
 
+// pdb: `dynamic initializer for 'bSelectedPathDrawAvoidNodes'' | NavMeshRender.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce45c0()
 {
     DAT_01074580.FUN_0043b8a0(&DAT_00e01040, 0);
     FUN_00c00d1f(FUN_00d95290);
 }
 
+// pdb: `dynamic initializer for 'bCreateDebugInfo'' | PathBuilder.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `anonymous namespace'::`dynamic initializer for 'bCreateDebugInfo'')
 void FUN_00ce4d70()
 {
     DAT_010748b0.FUN_0043b8a0(&DAT_00e01fbc, 0);
     FUN_00c00d1f(FUN_00d95370);
 }
 
+// pdb: `dynamic initializer for 'bUseOldPathSmoothing'' | PathBuilder.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `anonymous namespace'::`dynamic initializer for 'bUseOldPathSmoothing'')
 void FUN_00ce4db0()
 {
     DAT_01074898.FUN_0043b8a0(&DAT_00e02008, 0);
     FUN_00c00d1f(FUN_00d95390);
 }
 
+// pdb: `dynamic initializer for 'bDrawPathBounds'' | PathSmoother.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'bDisableUnloadedPathsSC'')
 void FUN_00ce5910()
 {
     DAT_010756fc.FUN_0043b8a0(&DAT_00e0296c, 0);
     FUN_00c00d1f(FUN_00d95420);
 }
 
+// pdb: `dynamic initializer for 'bGeneralSubtitles'' | Interface.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce6710()
 {
     DAT_01075a24.FUN_0061d5f0(&DAT_00e036b0, 0);
     FUN_00c00d1f(FUN_00d95750);
 }
 
+// pdb: `dynamic initializer for 'bDisableDynamicCrosshair'' | Interface.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce67d0()
 {
     DAT_01075abc.FUN_0061d5f0(&DAT_00e03750, 0);
     FUN_00c00d1f(FUN_00d957b0);
 }
 
+// pdb: `dynamic initializer for 'bActivatePickUseGamebryoPick'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce6a90()
 {
     DAT_01075b98.FUN_0043b8a0(&DAT_00e03c94, 0);
     FUN_00c00d1f(FUN_00d95860);
 }
 
+// pdb: `dynamic initializer for 'bEnableMenuRenderDebugMode'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce6d20()
 {
     DAT_01075b50.FUN_0043b8a0(&DAT_00e03eb0, 0);
     FUN_00c00d1f(FUN_00d95960);
 }
 
+// pdb: `dynamic initializer for 'bTrueIronSights'' | Interface.obj | fnv360_0822_debug, caller_sim, low
 void FUN_00ce6d60()
 {
     DAT_01075ca8.FUN_0061d5f0(&DAT_00e03ed8, 0);
     FUN_00c00d1f(FUN_00d95970);
 }
 
+// pdb: `dynamic initializer for 'SystemColorManager::uHUDColor'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce6d80()
 {
     DAT_01075b74.FUN_006f00a0(&DAT_00e03ef8, 0);
     FUN_00c00d1f(FUN_00d95980);
 }
 
+// pdb: `dynamic initializer for 'SystemColorManager::uPipboyColor'' | InterfaceManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce6da0()
 {
     DAT_01075b84.FUN_006f00a0(&DAT_00e03f0c, 0);
     FUN_00c00d1f(FUN_00d95990);
 }
 
+// pdb: `dynamic initializer for 'bHideUnavailablePerks'' | LevelUpMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce8510()
 {
     DAT_01076938.FUN_0043b8a0(&DAT_00e0619c, 0);
     FUN_00c00d1f(FUN_00d95b70);
 }
 
+// pdb: `dynamic initializer for 'bRenderLocalMapContinually'' | MapMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce8cd0()
 {
     DAT_01076bec.FUN_0043b8a0(&DAT_00e07008, 0);
     FUN_00c00d1f(FUN_00d95ca0);
 }
 
+// pdb: `dynamic initializer for 'bFadeInScreenShot'' | StartMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00ce9de0()
 {
     DAT_0107713c.FUN_0043b8a0(&DAT_00e0840c, 0);
     FUN_00c00d1f(FUN_00d96020);
 }
 
+// pdb: `dynamic initializer for 'bVatsAlwaysHit'' | VATSMenu.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cea600()
 {
     DAT_0107747c.FUN_0043b8a0(&DAT_00e08bec, 0);
     FUN_00c00d1f(FUN_00d96220);
 }
 
+// pdb: `dynamic initializer for 'bUseOptimizedMenuRendering'' | FOHUDEffectManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cea6f0()
 {
     DAT_01077530.FUN_0043b8a0(&DAT_00e08c24, 0);
     FUN_00c00d1f(FUN_00d96240);
 }
 
+// pdb: `dynamic initializer for 'bDrawSpellContact'' | bhkCharacterListenerSpell.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cec8e0()
 {
     DAT_01077d08.FUN_0043b8a0(&DAT_00e09f24, 0);
     FUN_00c00d1f(FUN_00d967d0);
 }
 
+// pdb: `dynamic initializer for 'FalloutAudio::iMusicSynchOverride'' | FalloutAudio.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf1a30()
 {
     DAT_01079170.FUN_0043b7f0(&DAT_00e0c844, 0);
     FUN_00c00d1f(FUN_00d96880);
 }
 
+// pdb: `dynamic initializer for 'bUseSaveGameHistory'' | BGSSaveLoadHistory.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf2ec0()
 {
     DAT_01079984.FUN_0043b8a0(&DAT_00e0ed70, 0);
     FUN_00c00d1f(FUN_00d96ae0);
 }
 
+// pdb: `dynamic initializer for 'bAllowProfileTransfer'' | BGSSaveLoadManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf32c0()
 {
     DAT_01079b38.FUN_0043b8a0(&DAT_00e0f390, 0);
     FUN_00c00d1f(FUN_00d96b30);
 }
 
+// pdb: `dynamic initializer for 'bOutputSaveGameScreenshot'' | BGSSaveLoadManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf32e0()
 {
     DAT_01079b88.FUN_0043b8a0(&DAT_00e0f3b0, 0);
     FUN_00c00d1f(FUN_00d96b40);
 }
 
+// pdb: `dynamic initializer for 'bCopySaveGameToHostOrMemStick'' | BGSSaveLoadManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf3300()
 {
     DAT_01079b94.FUN_0043b8a0(&DAT_00e0f3d4, 0);
     FUN_00c00d1f(FUN_00d96b50);
 }
 
+// pdb: `dynamic initializer for 'bDebugSaveBuffer'' | TESSaveLoadGame.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf3710()
 {
     DAT_01079d1c.FUN_0043b8a0(&DAT_00e1083c, 0);
     FUN_00c00d1f(FUN_00d96b80);
 }
 
+// pdb: `dynamic initializer for 'bAlwaysActive'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf45c0()
 {
     DAT_0107a54c.FUN_0043b8a0(&DAT_00e114e8, 0);
     FUN_00c00d1f(FUN_00d96f80);
 }
 
+// pdb: `dynamic initializer for 'bCRTMemoryChecks'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf45e0()
 {
     DAT_0107a1fc.FUN_0043b8a0(&DAT_00e11500, 0);
     FUN_00c00d1f(FUN_00d96f90);
 }
 
+// pdb: `dynamic initializer for 'bRunVTuneTest'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4840()
 {
     DAT_0107a188.FUN_0043b8a0(&DAT_00e118c0, 0);
     FUN_00c00d1f(FUN_00d970c0);
 }
 
+// pdb: `dynamic initializer for 'iFPSClamp'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4860()
 {
     DAT_0107a4d4.FUN_0043b7f0(&DAT_00e118d8, 0);
     FUN_00c00d1f(FUN_00d970d0);
 }
 
+// pdb: `dynamic initializer for 'bUseThreadedParticleSystem'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf48a0()
 {
     DAT_0107a1a4.FUN_0043b8a0(&DAT_00e1190c, 0);
     FUN_00c00d1f(FUN_00d970f0);
 }
 
+// pdb: `dynamic initializer for 'bUseThreadedMorpher'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf48c0()
 {
     DAT_0107a3a4.FUN_0043b8a0(&DAT_00e11930, 0);
     FUN_00c00d1f(FUN_00d97100);
 }
 
+// pdb: `dynamic initializer for 'bUseThreadedTempEffects'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf48e0()
 {
     DAT_0107a350.FUN_0043b8a0(&DAT_00e1194c, 0);
     FUN_00c00d1f(FUN_00d97110);
 }
 
+// pdb: `dynamic initializer for 'bDisplayBoundingVolumes'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4900()
 {
     DAT_0107a208.FUN_0043b8a0(&DAT_00e1196c, 0);
     FUN_00c00d1f(FUN_00d97120);
 }
 
+// pdb: `dynamic initializer for 'bEnableBoundingVolumeOcclusion'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4920()
 {
     DAT_0107a368.FUN_0043b8a0(&DAT_00e1198c, 0);
     FUN_00c00d1f(FUN_00d97130);
 }
 
+// pdb: `dynamic initializer for 'iCameraPathTake'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf49a0()
 {
     DAT_0107a540.FUN_0043b7f0(&DAT_00e11a14, 0);
     FUN_00c00d1f(FUN_00d97170);
 }
 
+// pdb: `dynamic initializer for 'bUseHardDriveCache'' | Main.obj | fnv360_0822_debug, objrun, high
 void FUN_00cf49c0()
 {
     DAT_0107a3e8.FUN_0043b8a0(&DAT_00e11a28, 0);
     FUN_00c00d1f(FUN_00d97180);
 }
 
+// pdb: `dynamic initializer for 'bUseBackgroundFileLoader'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4d40()
 {
     DAT_0107a340.FUN_0043b8a0(&DAT_00e11d70, 0);
     FUN_00c00d1f(FUN_00d972d0);
 }
 
+// pdb: `dynamic initializer for 'bCheckRuntimeCollisions'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4d70()
 {
     DAT_0107a284.FUN_0043b8a0(&DAT_00e11d98, 0);
     FUN_00c00d1f(FUN_00d972e0);
 }
 
+// pdb: `dynamic initializer for 'iFileLogging'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4e30()
 {
     DAT_0107a4e0.FUN_0043b7f0(&DAT_00e11e78, 0);
     FUN_00c00d1f(FUN_00d97340);
 }
 
+// pdb: `dynamic initializer for 'bUseSunbeams'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf4ed0()
 {
     DAT_0107a194.FUN_0043b8a0(&DAT_00e11f08, 0);
     FUN_00c00d1f(FUN_00d97390);
 }
 
+// pdb: `dynamic initializer for 'bBlockMessageBoxes'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf52a0()
 {
     DAT_0107a1e4.FUN_0043b8a0(&DAT_00e1200c, 0);
     FUN_00c00d1f(FUN_00d973c0);
 }
 
+// pdb: `dynamic initializer for 'bUseWindowsMessageBox'' | Main.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf52c0()
 {
     DAT_0107a468.FUN_0043b8a0(&DAT_00e12028, 0);
     FUN_00c00d1f(FUN_00d973d0);
 }
 
+// pdb: `dynamic initializer for 'bShowCheckMemoryOutput'' | MemoryLevelManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf5580()
 {
     DAT_0107a644.FUN_0043b8a0(&DAT_00e120fc, 0);
     FUN_00c00d1f(FUN_00d974c0);
 }
 
+// pdb: `dynamic initializer for 'uiRedeemedContentMask'' | PlayerCharacter.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: ScreenShot::`dynamic initializer for 'iiniIndex'')
 void FUN_00cf5940()
 {
     DAT_0107a738.FUN_006f00a0(&DAT_00e12508, 0);
     FUN_00c00d1f(FUN_00d974e0);
 }
 
+// pdb: `dynamic initializer for 'bVATSSmartCameraCheckDebug'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf5f40()
 {
     DAT_0107ae2c.FUN_0043b8a0(&DAT_00e13400, 0);
     FUN_00c00d1f(FUN_00d975c0);
 }
 
+// pdb: `dynamic initializer for 'bDismemberOneLimb'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf5f60()
 {
     DAT_0107ae1c.FUN_0043b8a0(&DAT_00e13420, 0);
     FUN_00c00d1f(FUN_00d975d0);
 }
 
+// pdb: `dynamic initializer for 'bTrackAllDeaths'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf5f80()
 {
     DAT_0107aca0.FUN_0043b8a0(&DAT_00e1343c, 0);
     FUN_00c00d1f(FUN_00d975e0);
 }
 
+// pdb: `dynamic initializer for 'iShowHitVector'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf5fa0()
 {
     DAT_0107adfc.FUN_0043b7f0(&DAT_00e13454, 0);
     FUN_00c00d1f(FUN_00d975f0);
 }
 
+// pdb: `dynamic initializer for 'bDisableNPCAttacks'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf60f0()
 {
     DAT_0107acd0.FUN_0043b8a0(&DAT_00e13540, 0);
     FUN_00c00d1f(FUN_00d97680);
 }
 
+// pdb: `dynamic initializer for 'bDisableAllGore'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf6110()
 {
     DAT_0107adc0.FUN_0043b8a0(&DAT_00e1355c, 0);
     FUN_00c00d1f(FUN_00d97690);
 }
 
+// pdb: `dynamic initializer for 'bUseMovementBlockedPackage'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf6130()
 {
     DAT_0107acc0.FUN_0043b8a0(&DAT_00e13574, 0);
     FUN_00c00d1f(FUN_00d976a0);
 }
 
+// pdb: `dynamic initializer for 'bDisableHeadTracking'' | Actor.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf6150()
 {
     DAT_0107acdc.FUN_0043b8a0(&DAT_00e13598, 0);
     FUN_00c00d1f(FUN_00d976b0);
 }
 
+// pdb: `dynamic initializer for 'ActorLook::bActorLookWithHavok'' | ActorLook.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf6640()
 {
     DAT_0107aedc.FUN_0043b8a0(&DAT_00e136dc, 0);
     FUN_00c00d1f(FUN_00d97720);
 }
 
+// pdb: `dynamic initializer for 'bUseThreadedAI'' | AITaskManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf6c70()
 {
     DAT_0107b054.FUN_0043b8a0(&DAT_00e139dc, 0);
     FUN_00c00d1f(FUN_00d977f0);
 }
 
+// pdb: `dynamic initializer for 'bBackgroundLoadLipFiles'' | MobileObject.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf88c0()
 {
     DAT_0107b8b0.FUN_0043b8a0(&DAT_00e17d14, 0);
     FUN_00c00d1f(FUN_00d97920);
 }
 
+// pdb: `dynamic initializer for 'iHavokSkipFrameCount'' | MobileObject.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: BSAttachTechniques::`dynamic initializer for 'AttachTechniqueM'')
 void FUN_00cf8910()
 {
     DAT_0107b87c.FUN_0043b7f0(&DAT_00e17d58, 0);
     FUN_00c00d1f(FUN_00d97940);
 }
 
+// pdb: `dynamic initializer for 'bInstantLevelUp'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf8ae0()
 {
     DAT_0107bc30.FUN_0043b8a0(&DAT_00e18950, 0);
     FUN_00c00d1f(FUN_00d97980);
 }
 
+// pdb: `dynamic initializer for 'bHealthBarShowing'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf8b00()
 {
     DAT_0107bc0c.FUN_0043b8a0(&DAT_00e1896c, 0);
     FUN_00c00d1f(FUN_00d97990);
 }
 
+// pdb: `dynamic initializer for 'bAllowHavokGrabTheLiving'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf8b40()
 {
     DAT_0107bd7c.FUN_0043b8a0(&DAT_00e189a8, 0);
     FUN_00c00d1f(FUN_00d979b0);
 }
 
+// pdb: `dynamic initializer for 'bTrackProgress'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf8b80()
 {
     DAT_0107bcac.FUN_0043b8a0(&DAT_00e189f0, 0);
     FUN_00c00d1f(FUN_00d979d0);
 }
 
+// pdb: `dynamic initializer for 'bShowGunTarget'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf8c90()
 {
     DAT_0107bcc0.FUN_0043b8a0(&DAT_00e18ac8, 0);
     FUN_00c00d1f(FUN_00d97a40);
 }
 
+// pdb: `dynamic initializer for 'bInvertYValues'' | PlayerCharacter.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: `dynamic initializer for 'bInvertYValues_G'')
 void FUN_00cf8fa0()
 {
     DAT_0107bccc.FUN_0061d5f0(&DAT_00e18d00, 0);
     FUN_00c00d1f(FUN_00d97b60);
 }
 
+// pdb: `dynamic initializer for 'bDisablePlayerCollision'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf9110()
 {
     DAT_0107bdc4.FUN_0043b8a0(&DAT_00e18ddc, 0);
     FUN_00c00d1f(FUN_00d97be0);
 }
 
+// pdb: `dynamic initializer for 'bAlwaysRunByDefault'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'bAlwaysRunByDefault_G'')
 void FUN_00cf9310()
 {
     DAT_0107bdac.FUN_0043b8a0(&DAT_00e18f64, 0);
     FUN_00c00d1f(FUN_00d97cb0);
 }
 
+// pdb: `dynamic initializer for 'bDisableAutoVanityMode'' | PlayerCharacter.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf93c0()
 {
     DAT_0107bc60.FUN_0043b8a0(&DAT_00e18fa8, 0);
     FUN_00c00d1f(FUN_00d97cd0);
 }
 
+// pdb: `dynamic initializer for 'bTaskletActorSceneGraphUpdates'' | ProcessLists.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf9800()
 {
     DAT_0107c094.FUN_0043b8a0(&DAT_00e19558, 0);
     FUN_00c00d1f(FUN_00d97d10);
 }
 
+// pdb: `dynamic initializer for 'bTaskletTempEffectsUpdate'' | ProcessLists.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00cf9840()
 {
     DAT_0108c430.FUN_0043b8a0(&DAT_00e195ac, 0);
     FUN_00c00d1f(FUN_00d97d30);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatAttackerText'' | CombatController.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf9fa0()
 {
     DAT_0108c680.FUN_0043b8a0(&DAT_00e1a188, 0);
     FUN_00c00d1f(FUN_00d97d40);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatGuardRadius'' | CombatController.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf9fc0()
 {
     DAT_0108c68c.FUN_0043b8a0(&DAT_00e1a1a8, 0);
     FUN_00c00d1f(FUN_00d97d50);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatArea'' | CombatController.obj | fnv360_0822_debug, ustr, high
 void FUN_00cf9fe0()
 {
     DAT_0108c6c4.FUN_0043b8a0(&DAT_00e1a1c8, 0);
     FUN_00c00d1f(FUN_00d97d60);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatUnreachableLocations'' | CombatController.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfa000()
 {
     DAT_0108c6a8.FUN_0043b8a0(&DAT_00e1a1e0, 0);
     FUN_00c00d1f(FUN_00d97d70);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatCoverReservations'' | CombatCoverMap.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfa1d0()
 {
     DAT_0108c738.FUN_0043b8a0(&DAT_00e1a29c, 0);
     FUN_00c00d1f(FUN_00d97d80);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatCoverReservationsText'' | CombatCoverMap.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfa1f0()
 {
     DAT_0108c764.FUN_0043b8a0(&DAT_00e1a2c4, 0);
     FUN_00c00d1f(FUN_00d97d90);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatCoverSearch'' | CombatCoverMap.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfa210()
 {
     DAT_0108c72c.FUN_0043b8a0(&DAT_00e1a2f0, 0);
     FUN_00c00d1f(FUN_00d97da0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatCoverSearchText'' | CombatCoverMap.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfa230()
 {
     DAT_0108c780.FUN_0043b8a0(&DAT_00e1a310, 0);
     FUN_00c00d1f(FUN_00d97db0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatCoverSearch2'' | CombatCoverMap.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfa250()
 {
     DAT_0108c744.FUN_0043b8a0(&DAT_00e1a334, 0);
     FUN_00c00d1f(FUN_00d97dc0);
 }
 
+// pdb: `dynamic initializer for 'bDisableCombatDialogue'' | CombatDialogueManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfa420()
 {
     DAT_0108c7e4.FUN_0043b8a0(&DAT_00e1a36c, 0);
     FUN_00c00d1f(FUN_00d97dd0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatGroups'' | CombatGroup.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfa640()
 {
     DAT_0108c8cc.FUN_0043b8a0(&DAT_00e1a808, 0);
     FUN_00c00d1f(FUN_00d97de0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatGroups2'' | CombatGroup.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfa660()
 {
     DAT_0108c8b4.FUN_0043b8a0(&DAT_00e1a824, 0);
     FUN_00c00d1f(FUN_00d97df0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatGroupClusters'' | CombatGroup.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfa680()
 {
     DAT_0108c88c.FUN_0043b8a0(&DAT_00e1a840, 0);
     FUN_00c00d1f(FUN_00d97e00);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatSearch'' | CombatGroup.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfa6a0()
 {
     DAT_0108c87c.FUN_0043b8a0(&DAT_00e1a864, 0);
     FUN_00c00d1f(FUN_00d97e10);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatDetectionEvents'' | CombatManager.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfaa60()
 {
     DAT_0108c9a4.FUN_0043b8a0(&DAT_00e1aab8, 0);
     FUN_00c00d1f(FUN_00d97e40);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatTargets'' | CombatTargetMap.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfafd0()
 {
     DAT_0108caf0.FUN_0043b8a0(&DAT_00e1b034, 0);
     FUN_00c00d1f(FUN_00d97eb0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatThreats'' | CombatThreatMap.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfb1a0()
 {
     DAT_0108cb5c.FUN_0043b8a0(&DAT_00e1b0c0, 0);
     FUN_00c00d1f(FUN_00d97ec0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatTextColorDark'' | CombatUtilities.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfb3a0()
 {
     DAT_0108cbd0.FUN_0043b8a0(&DAT_00e1b120, 0);
     FUN_00c00d1f(FUN_00d97ee0);
 }
 
+// pdb: `dynamic initializer for 'bDebugCombatProjectileLOS'' | CombatUtilities.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfb3f0()
 {
     DAT_0108cbec.FUN_0043b8a0(&DAT_00e1b160, 0);
     FUN_00c00d1f(FUN_00d97f00);
 }
 
+// pdb: `dynamic initializer for 'bProjectileDebug'' | Projectile.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc340()
 {
     DAT_0108cf50.FUN_0043b8a0(&DAT_00e1ccb4, 0);
     FUN_00c00d1f(FUN_00d97f60);
 }
 
+// pdb: `dynamic initializer for 'bVATSProjectileDebug'' | Projectile.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc390()
 {
     DAT_0108cf24.FUN_0043b8a0(&DAT_00e1ccec, 0);
     FUN_00c00d1f(FUN_00d97f80);
 }
 
+// pdb: `dynamic initializer for 'bINIUseFartherCheckForAvoidance'' | DetailedActorPathHandler.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfe490()
 {
     DAT_0108d850.FUN_0043b8a0(&DAT_00e1eb34, 0);
     FUN_00c00d1f(FUN_00d98070);
 }
 
+// pdb: `dynamic initializer for 'bDebugSpectatorThreats'' | SpectatorPackage.obj | fnv360_0822_debug, ustr, high
 void FUN_00cffab0()
 {
     DAT_0108dcac.FUN_0043b8a0(&DAT_00e1fa84, 0);
     FUN_00c00d1f(FUN_00d981a0);
 }
 
+// pdb: `dynamic initializer for 'bhkWorld::bHavokDebug'' | bhkWorld.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'bhavokDebugS'')
 void FUN_00d02050()
 {
     DAT_010f2bd8.FUN_0043b8a0(&DAT_00e32864, 0);
     FUN_00c00d1f(FUN_00d98970);
 }
 
+// pdb: `dynamic initializer for 'bAutoViewDistance'' | BSSceneGraph.obj | fnv360_0822_debug, ustr, high
 void FUN_00d82f00()
 {
     DAT_0116da28.FUN_0043b8a0(&DAT_00e8ac44, 0);
     FUN_00c00d1f(FUN_00d99150);
 }
 
+// pdb: `dynamic initializer for 'bDoTestHDR'' | BSShaderManager.obj | fnv360_0822_debug, ustr, high
 void FUN_00d83b10()
 {
     DAT_0116f2e8.FUN_0043b8a0(&DAT_00e947d4, 0);
     FUN_00c00d1f(FUN_00d99740);
 }
 
+// pdb: `dynamic initializer for 'iRenderingThread1HWThread'' | MTRenderingSystem.obj | fnv360_0822_debug, ustr, high
 void FUN_00d844a0()
 {
     DAT_01175708.FUN_0043b7f0(&DAT_00e96894, 0);
     FUN_00c00d1f(FUN_00d99980);
 }
 
+// pdb: `dynamic initializer for 'iRadialBlurLevel'' | ImageSpaceEffectRadialBlur.obj | fnv360_0822_debug, ustr, high
 void FUN_00d84f00()
 {
     DAT_01177d10.FUN_00491570(&DAT_00ea1264, 0);
     FUN_00c00d1f(FUN_00d99d40);
 }
 
+// pdb: `dynamic initializer for 'bMultiThreadAudio'' | BSAudio.obj | fnv360_0822_debug, ustr, low, conflict (skyrim: `dynamic initializer for 'bEnableAudioCache'')
 void FUN_00d856a0()
 {
     DAT_011790f0.FUN_0043b8a0(&DAT_00ea8548, 0);

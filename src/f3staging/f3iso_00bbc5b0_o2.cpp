@@ -60,6 +60,7 @@ template<> void vector<speedtree_lod::FrondGuide>::push_back(const speedtree_lod
 template<> vector<speedtree_lod::GuideVector>::iterator vector<speedtree_lod::GuideVector>::iterator::operator+(int) const;
 }
 namespace speedtree_lod {
+// pdb: CFrondEngine::BuildGuideLods | FrondEngine.obj | fnv360_0822_retail, objrun, medium
 void FrondEngine::FUN_00bbc5b0()
 {
 

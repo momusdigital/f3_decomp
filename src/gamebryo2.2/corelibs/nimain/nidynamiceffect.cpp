@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/nimain/nidynamiceffect.cpp: EffectObject, FNVEffect (7 functions)
+// gamebryo2.2/corelibs/nimain/nidynamiceffect.cpp: EffectObject, FNVEffect (6 functions)
 #include "f3_common.h"
 #include "nidynamiceffect_decls.h"
 
 // @fnv 0x00a68ea0
+// pdb: NiDynamicEffect::LoadBinary | NiDynamicEffect.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void NiDynamicEffect::LoadBinary(NiStream& stream)
 {
     NiAVObject::LoadBinary(stream);
@@ -26,34 +28,8 @@ void NiDynamicEffect::LoadBinary(NiStream& stream)
         stream.ReadUnsignedInteger();
 }
 
-// @fnv 0x00a69070
-void NiDynamicEffect::LinkObject(NiStream& stream)
-{
-    NiAVObject::LinkObject(stream);
-    if (stream.m_uiNifVersion >= 0x0a00010e)
-    {
-        unsigned int count = stream.GetLinkID();
-        while (count--)
-        {
-            NiNode* node = reinterpret_cast<NiNode*>(stream.GetLoadedObject());
-            if (node)
-            {
-                NiTListItem<NiNode*>* item = NiDynamicEffectNewListItem();
-                item->m_element = node;
-                item->m_pkPrev = 0;
-                item->m_pkNext = m_kAffectedNodes.m_pkHead;
-                if (m_kAffectedNodes.m_pkHead)
-                    m_kAffectedNodes.m_pkHead->m_pkPrev = item;
-                else
-                    m_kAffectedNodes.m_pkTail = item;
-                ++m_kAffectedNodes.m_kItemCount.m_uiCount;
-                m_kAffectedNodes.m_pkHead = item;
-            }
-        }
-    }
-}
-
 // @fnv 0x00a69320
+// pdb: NiDynamicEffect::NiDynamicEffect | NiDynamicEffect.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiAVObject::NiAVObject)
 NiDynamicEffect::NiDynamicEffect()
     : m_bEffectEnabled(true), m_ucEffectCategory(0xff), m_uiEffectPushCount(0), m_uiRevID(1)
 {
@@ -76,6 +52,7 @@ struct FUN_00a69390_shell : public NiDynamicEffect
 };
 
 // @fnv 0x00a69390
+// pdb: NiDynamicEffect::`scalar deleting destructor' | NiDynamicEffect.obj | fnv360_0822_retail, caller_sim, low
 void* __thiscall FUN_00a69390_shell::DestroyNiDynamicEffect(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &vftable_NiDynamicEffect;
@@ -174,6 +151,8 @@ struct Zx3Effect : public NiAVObject
 };
 
 // @fnv 0x00a69140
+// pdb: NiDynamicEffect::GetViewerStrings | NiDynamicEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Zx3Effect::FUN_00a69140(StrArr* pkStrings)
 {
     ((FUN_00a5ea70_t*)this)->FUN_00a5ad00(pkStrings);
@@ -220,6 +199,8 @@ static __forceinline void WriteLinkedObject(NiStream* stream, NiNode*& object)
     ((SaveLinkedObject*)stream->m_ppVirtualMethodTable)[12](stream, object);
 }
 // @fnv 0x00a68f80
+// pdb: NiDynamicEffect::SaveBinary | NiDynamicEffect.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiAVObject::SaveBinary)
+// pdb params: kStream
 void __thiscall EffectObject::SaveToStream(NiStream* stream)
 {
     FUN_00a5a900(stream);
@@ -250,14 +231,16 @@ static inline NiNode* GetNext(NiTListItem<NiNode*>*& node)
 class FNVEffect : public NiDynamicEffect
 {
   public:
-    bool __thiscall FUN_00a5a260(FNVEffect* other);
+    bool __thiscall NiAVObject_IsEqual(FNVEffect* other);
     bool __thiscall FUN_00a68d80(FNVEffect* other);
 };
-// Returns false if counts differ or paired entries differ in nullness; otherwise returns true if FUN_00a5a260 succeeds.
+// Returns false if counts differ or paired entries differ in nullness; otherwise returns true if NiAVObject_IsEqual succeeds.
 // @fnv 0x00a68d80
+// pdb: NiDynamicEffect::IsEqual | NiDynamicEffect.obj | fnv360_0822_retail, objrun, low
+// pdb params: pkObject
 bool __thiscall FNVEffect::FUN_00a68d80(FNVEffect* other)
 {
-    if (!FUN_00a5a260(other))
+    if (!NiAVObject_IsEqual(other))
         return false;
     if (m_kEffectTargetNodes.m_kItemCount.m_uiCount != other->m_kEffectTargetNodes.m_kItemCount.m_uiCount)
         return false;

@@ -2,6 +2,8 @@
 #include "f3_common.h"
 #include "niposdata_decls.h"
 // @fnv 0x00a490e0
+// pdb: NiPosData::ReplaceAnim | NiPosData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkKeys, uiNumKeys, eType
 void NiPosData::SetColorKeys(PositionKeyInterpolator* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pKeyArray)
@@ -23,6 +25,8 @@ void NiPosData::SetColorKeys(PositionKeyInterpolator* keys, unsigned int count, 
 }
 
 // @fnv 0x00a49240
+// pdb: NiPosData::LoadBinary | NiPosData.obj | fnv360_0822_retail, objrun_open, high
+// pdb params: stream
 void NiPosData::LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
@@ -57,6 +61,7 @@ struct Derived : BaseUnk
     char m14;
 };
 // @fnv 0x00a49020
+// pdb: NiPosData::CreateObject | NiPosData.obj | fnv360_0822_retail, objopen_prop, medium
 Derived* FUN_00a49020()
 {
     Derived* p = (Derived*)BSFadeNode::operator new(sizeof(Derived));
@@ -85,6 +90,8 @@ struct MyPosData
 };
 // Calls UpdateSlotStates with the key count and key pointer, then stores the updated key pointer back.
 // @fnv 0x00a48f70
+// pdb: NiPosData::GuaranteeKeysAtStartAndEnd | NiPosData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fStartTime, fEndTime
 void MyPosData::FUN_00a48f70(float afArg1, float afArg2)
 {
     void* pkKeys = m_pKeyArray;
@@ -106,6 +113,7 @@ struct Holder : NiRefObject
 };
 // Restores the vtable, calls the stored callback on the pointer at _0C if set, then destroys the NiRefObject base.
 // @fnv 0x00a48fb0
+// pdb: NiPosData::~NiPosData | NiPosData.obj | fnv360_0822_retail, objopen_prop, medium
 void Holder::FUN_00a48fb0()
 {
     PositionKeyInterpolator* p = _0C;
@@ -128,6 +136,8 @@ struct S_00a48fe0
 };
 // Stores the key array, key count and type, setting a byte from DAT_011f375e indexed by type; clears all fields when keys or numKeys is null/zero.
 // @fnv 0x00a48fe0
+// pdb: NiPosData::SetAnim | NiPosData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkKeys, uiNumKeys, eType
 void S_00a48fe0::FUN_00a48fe0(void* keys, unsigned int numKeys, int type)
 {
     if (keys && numKeys)
@@ -161,6 +171,8 @@ typedef bool(__cdecl* KeyEqual)(const void*, const void*);
 extern KeyEqual DAT_011f3af8[];
 
 // @fnv 0x00a49060
+// pdb: NiPosData::IsEqual | NiPosData.obj | fnv360_0822_retail, objrun_open, high
+// pdb params: pkObject
 bool PosKeyData::Equals(const PosKeyData* other)
 {
     if (!IsSameAs(other))
@@ -381,6 +393,8 @@ class A49300Data : public A49300Base
 
 // SaveBinary
 // @fnv 0x00a49300
+// pdb: NiPosData::SaveBinary | NiPosData.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: stream
 void A49300Data::SaveToStream(A49300Stream& kStream)
 {
     FUN_00a89af0(kStream);
@@ -419,6 +433,8 @@ struct Owner_00a49380
 };
 
 // @fnv 0x00a49380
+// pdb: NiPosData::GetViewerStrings | NiPosData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pStrings
 void Owner_00a49380::FUN_00a49380(FUN_0096ad30_param* param)
 {
     unsigned int value;
@@ -460,7 +476,7 @@ class RefCountedObj
     }
 };
 
-void FUN_00a3d630(int, int, int, int, float, float, unsigned int*, unsigned int*);
+void NiAnimationKey_CopySequence(int, int, int, int, float, float, unsigned int*, unsigned int*);
 
 class FUN_00a49140_cls
 {
@@ -471,18 +487,20 @@ class FUN_00a49140_cls
     RefCountedObj* m_0C;
     int m_10;
 
-    void FUN_00a5d510(RefCountedObj** out);
+    void NiObject_CreateDeepCopy(RefCountedObj** out);
     void FUN_00a49140(float a1, float a2, RefCountedObj** out);
 };
 
 // @fnv 0x00a49140
+// pdb: NiPosData::GetSequenceData | NiPosData.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: fStartTime, fEndTime, aspPosData
 void FUN_00a49140_cls::FUN_00a49140(float a1, float a2, RefCountedObj** apObj)
 {
     RefCountedObj* tmp;
     unsigned int uiOut2;
     unsigned int uiOut1;
     tmp = 0;
-    FUN_00a5d510(&tmp);
+    NiObject_CreateDeepCopy(&tmp);
     RefCountedObj* p = tmp;
     if (p != 0)
     {
@@ -492,7 +510,7 @@ void FUN_00a49140_cls::FUN_00a49140(float a1, float a2, RefCountedObj** apObj)
     {
         uiOut1 = 0;
         uiOut2 = 0;
-        FUN_00a3d630(1, m_10, (int)m_0C, (int)m_08, a1, a2, &uiOut1, &uiOut2);
+        NiAnimationKey_CopySequence(1, m_10, (int)m_0C, (int)m_08, a1, a2, &uiOut1, &uiOut2);
         p->FUN_00a490e0(uiOut1, uiOut2, m_10);
     }
     RefCountedObj* old = *apObj;

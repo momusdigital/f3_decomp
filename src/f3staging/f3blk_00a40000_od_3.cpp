@@ -1817,6 +1817,8 @@ separatingVelocity = hk4dGskCalcPointVelocity( msA, msB, cp.getPosition(), cp.ge
 		}
 	}
 }
+// pdb: hk4dGskCollideCalcToi | hkpContinuousGsk.obj | fnv360_0822_debug, objrun_prop, low, conflict (bridge: hkGskManifold_verifyAndGetPoints)
+// pdb params: in3, allowedPenetrationDepth, minSeparation, toiSeparation, gskCache, separatingNormal, out
 void __cdecl FUN_00a433d0( const hkpAgent3ProcessInput& in3, const hkReal allowedPenetrationDepth, const hkReal minSeparation, const hkReal toiSeparation, hkpGskCache& gskCache, hkVector4& separatingNormal, hkpProcessCollisionOutput& out )
 {
 	hkp4dGskTolerances tol;
@@ -3548,6 +3550,7 @@ static __forceinline hkReal hk4dGskCalcPointVelocity( const hkMotionState* msA, 
 	const hkReal separatingVelocity = relVel.dot3( separatingNormal );
 	return separatingVelocity;
 }
+// pdb: hk4dGskCalcToiFinal | hkpContinuousGsk.obj | tesv_win, caller_sim, low
 void __cdecl FUN_00a42220( const hkpAgent3ProcessInput& in3, hkp4dGskTolerances& tol, hkpGsk& gsk, int featureChange, const hkVector4& oldMasterNormal, const hkVector4* deltaAngles, hkReal startRt, hkReal endRt, hkReal distance0, hkReal distance1, hkpProcessCollisionOutput& out )
 {
 	hkReal Rt = startRt;

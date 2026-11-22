@@ -48,6 +48,8 @@ struct NavigationList : NavigationBase, NavigationNode
 };
 float __cdecl FUN_0047ca30(float value, float step);
 // @fnv 0x007214b0
+// pdb: ListBox<PerkRankData *>::GetHighlightTarget | MenuManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeButton
 NavigationTile* NavigationList::FUN_0062e840(unsigned int action)
 {
     NavigationTile* result = 0;

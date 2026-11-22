@@ -5,6 +5,8 @@
 struct P_0086b930 { void* FUN_0086b930(unsigned int); };
 extern P_0086b930 DAT_01090a78;
 
+// pdb: BSSimpleArray<BGSBodyPart *,1024>::_Allocate | HitData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 void* __stdcall FUN_005d2de0(unsigned int n)
 {
     return DAT_01090a78.FUN_0086b930(n * 4);

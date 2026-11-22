@@ -58,6 +58,8 @@ struct Owner04f0 {
     void FUN_009504f0(int a, int b, float c);
 };
 
+// pdb: bhkCylinderShape::Init | bhkCylinderShape.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: arTop, arBottom, afRad
 void Owner04f0::FUN_009504f0(int a, int b, float c)
 {
     Obj04f0* obj = new Obj04f0(a, b, c, DAT_00f7ad9c);
@@ -94,6 +96,7 @@ struct FUN_00944050 : f3m_00944050::Base944
     virtual ~FUN_00944050() throw();
 };
 
+// pdb: hkpHavokSnapshot::ConvertListener::~ConvertListener | hkpHavokSnapshot.obj | fnv360_0822_retail, call_seq, high
 FUN_00944050::~FUN_00944050() throw()
 {
     for (int i = 0; i < size; i++)
@@ -228,7 +231,8 @@ extern "C" hkpModifierConstraintAtom* __cdecl FUN_009a94f0(hkpConstraintInstance
 extern "C" void __cdecl FUN_009a9550(hkpConstraintInstance* apInstance, ConstraintInput* apInput,
                                       hkpModifierConstraintAtom* apAtom);
 
-void __cdecl FUN_0095aec0(hkpConstraintInstance* apInstance, ConstraintInput* apInput)
+// pdb: hkpResponseModifier::disableConstraint | hkpResponseModifier.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void __cdecl hkpResponseModifier_disableConstraint(hkpConstraintInstance* apInstance, ConstraintInput* apInput)
 {
     apInput->disable();
     Timer_Emit("TtDsblConstr");
@@ -299,6 +303,8 @@ struct Node {
 };
 struct VecA { void Copy(const void*); };
 struct Owner { int unk0; Node* unk4; void FUN_00949bf0(Node* dst, Src2* p); void FUN_008fc3f0(Node*, Src2*); };
+// pdb: hkRagdollConstraintCinfo::CloneData | bhkRagdollConstraint.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apData, arCloneData
 void Owner::FUN_00949bf0(Node* dst, Src2* p) {
     Node* src = unk4;
     if (dst == 0) dst = new Node() ;
@@ -336,6 +342,8 @@ struct Object1148 {
  void* unk00; unsigned short unk04,unk06; int unk08;
  Object1148* FUN_00943b30(int value);
 };
+// pdb: hkOstream::hkOstream | hkOStream.obj | fnv360_0822_retail, call_dedup, high
+// pdb params: buf
 Object1148* Object1148::FUN_00943b30(int value) {
  unk06=1;
  unk00=(void*)FUN_00e7a270;
@@ -551,6 +559,8 @@ public:
     void FUN_00946120(Arg* a1);
 };
 
+// pdb: bhkSpringAction::LoadBinary | bhkSpringAction.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: bhkAngularDashpotAction::LoadBinary)
+// pdb params: arStream
 void Cls00946120::FUN_00946120(Arg* a1)
 {
     Arg* a = *(Arg* volatile*)&a1;
@@ -813,6 +823,8 @@ public:
     void FUN_009316f0();
 };
 
+// pdb: bhkCachingShapePhantom::Init | bhkCachingShapePhantom.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arInfo
 void Owner::FUN_009459c0(Arg* arg)
 {
     if (arg != 0) {
@@ -875,7 +887,7 @@ struct hkReferencedObject946380 {
 // hkpSpringAction
 struct FUN_00d4d340 : hkReferencedObject946380 {
     FUN_00d4d340(void* entityA, void* entityB, unsigned long userData);
-    void FUN_009d9f40(const hkVector4_946380& pivotA, const hkVector4_946380& pivotB);  // setPositionsInWorldSpace
+    void hkpSpringAction_setPositionsInBodySpace(const hkVector4_946380& pivotA, const hkVector4_946380& pivotB);  // setPositionsInWorldSpace
     void setStrength(float s) { m_strength = s; }
     void setDamping(float d) { m_damping = d; }
     void setRestLength(float l) { m_restLength = l; }
@@ -931,6 +943,8 @@ struct World946380 {
     void FUN_00946380(SpringDesc946380* desc);
 };
 
+// pdb: bhkSpringAction::Init | bhkSpringAction.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arInfo
 void World946380::FUN_00946380(SpringDesc946380* desc) {
     if (desc) {
         FUN_00d4d340* action = new FUN_00d4d340(desc->entityA, desc->entityB, 0);
@@ -939,7 +953,7 @@ void World946380::FUN_00946380(SpringDesc946380* desc) {
         action->setRestLength(desc->restLength);
         action->setOnCompression(desc->onCompression);
         action->setOnExtension(desc->onExtension);
-        action->FUN_009d9f40(hkVector4_946380(desc->pivotA.x, desc->pivotA.y, desc->pivotA.z, desc->pivotA.w), hkVector4_946380(desc->pivotB.x, desc->pivotB.y, desc->pivotB.z, desc->pivotB.w));
+        action->hkpSpringAction_setPositionsInBodySpace(hkVector4_946380(desc->pivotA.x, desc->pivotA.y, desc->pivotA.z, desc->pivotA.w), hkVector4_946380(desc->pivotB.x, desc->pivotB.y, desc->pivotB.z, desc->pivotB.w));
         AddAction(action);
         action->removeReference();
         AddDesc(desc);
@@ -1041,6 +1055,8 @@ struct Table {
     void(__thiscall* finish)(Owner*, Input*);
 };
 struct Owner { Table* table; void FUN_00946970(Input*); };
+// pdb: bhkMotorAction::Init | bhkMotorAction.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arInfo
 void Owner::FUN_00946970(Input* input) {
     if (input) {
         FUN_009da340* shape = new FUN_009da340(input->object, Aligned4(input->direction.x, input->direction.y, input->direction.z, input->direction.w), input->a, input->b);
@@ -1130,15 +1146,13 @@ void Owner::FUN_0094ea60(Info* info){
 
 // @f3 0x00942cf0 (community match, verified in this file)
 #include <windows.h>
+#include "havok/hkMonitorStream.h"
 extern unsigned long DAT_0116913c;
 extern unsigned long DAT_010f3170;
-extern int DAT_00e7a1c8;
 extern int DAT_00e32798;
 namespace f3m_00942cf0 {
 
 
-struct ProfEntry { void* tag; unsigned int start; unsigned int unk08; };
-struct ProfStream { int unk00; ProfEntry* cur; int unk08; ProfEntry* end; };
 
 struct Vec4 { float x, y, z, w; };
 struct Blk { Vec4 a; Vec4 b; Vec4 c; };
@@ -1201,26 +1215,14 @@ struct Calc
 
 struct Owner
 {
-    void FUN_00942cf0(Obj* a1, Blk* a2, int a3, char* a4, int a5, int a6);
+    void hkpWorldRayCaster_castRayGroup(Obj* a1, Blk* a2, int a3, char* a4, int a5, int a6);
 };
 
-void Owner::FUN_00942cf0(Obj* a1, Blk* a2, int a3, char* a4, int a5, int a6)
+// pdb: hkpWorldRayCaster::castRayGroup | hkpWorldRayCaster.obj | fnv360_0822_retail, ustr + skyrim(ustr), high
+void Owner::hkpWorldRayCaster_castRayGroup(Obj* a1, Blk* a2, int a3, char* a4, int a5, int a6)
 {
 
-    {
-        ProfStream* ps = (ProfStream*)TlsGetValue(DAT_0116913c);
-        ProfEntry* e = ps->cur;
-        if (e < ps->end) {
-            e->tag = &DAT_00e7a1c8;
-            unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
-            e->start = ticks;
-            ps->cur = e + 1;
-        }
-    }
+    HK_TIMER_BEGIN("RayCastGroup", HK_NULL);
 
     __declspec(align(16)) Vec4 mn;
     __declspec(align(16)) Vec4 mx;
@@ -1277,20 +1279,7 @@ void Owner::FUN_00942cf0(Obj* a1, Blk* a2, int a3, char* a4, int a5, int a6)
         ms2->v18(dest);
     }
 
-    {
-        ProfStream* ps2 = (ProfStream*)TlsGetValue(DAT_0116913c);
-        ProfEntry* e2 = ps2->cur;
-        if (e2 < ps2->end) {
-            e2->tag = &DAT_00e32798;
-            unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
-            e2->start = ticks;
-            ps2->cur = e2 + 1;
-        }
-    }
+    HK_TIMER_END();
 }
 }   // namespace f3m_00942cf0
 
@@ -1306,6 +1295,11 @@ struct S945a80_ProfRec {
     const char* m_pName;
     unsigned int m_iTick;
     unsigned int m_iEnd;
+
+    // hkMonitorStream::TimerCommand::setTime (class and member names: FNV360_PDB)
+    // RULE-EXCEPTION: R18, Havok's IA32 setTime reads the TSC with inline asm: retail stores eax to a stack local and reloads it, which __rdtsc() does not emit
+    __forceinline void setTime() { unsigned int ticks; __asm { rdtsc
+        mov ticks, eax } m_iTick = ticks; }
 };
 
 struct S945a80_ProfBuf {
@@ -1445,7 +1439,7 @@ struct S945a80_World {
 };
 
 bool FUN_008f62d0(S945a80_Key a, S945a80_Key b);
-void __stdcall FUN_008d2a00(S945a80_Mat* mat, S945a80_Out* out);
+void __stdcall hkVector4_setRotatedDir(S945a80_Mat* mat, S945a80_Out* out);
 
 struct S945a80_Picker {
     int unk00;
@@ -1455,22 +1449,18 @@ struct S945a80_Picker {
     S945a80_Pair* pairs;
     int count;
     int GetCount() const { return count; }
-    void FUN_00945a80(S945a80_RayIn* in, S945a80_Out* out);
+    void hkpCachingShapePhantomRay_castRay(S945a80_RayIn* in, S945a80_Out* out);
 };
 
-void S945a80_Picker::FUN_00945a80(S945a80_RayIn* in, S945a80_Out* out)
+// pdb: hkpCachingShapePhantomRay::castRay | bhkCachingShapePhantom.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void S945a80_Picker::hkpCachingShapePhantomRay_castRay(S945a80_RayIn* in, S945a80_Out* out)
 {
     S945a80_ProfBuf* buf = (S945a80_ProfBuf*)TlsGetValue(DAT_0116913c);
     S945a80_ProfRec* rec = buf->m_pCur;
     bool room = rec < buf->m_pEnd;
     if (room) {
         rec->m_pName = DAT_00e7a3fc;
-        unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        rec->m_iTick = ticks;
+        rec->setTime();
         buf->m_pCur = rec + 1;
     }
 
@@ -1514,18 +1504,13 @@ void S945a80_Picker::FUN_00945a80(S945a80_RayIn* in, S945a80_Out* out)
         }
     }
     if (out->entry)
-        FUN_008d2a00(out->entry->mat, out);
+        hkVector4_setRotatedDir(out->entry->mat, out);
 
     buf = (S945a80_ProfBuf*)TlsGetValue(DAT_0116913c);
     rec = buf->m_pCur;
     if (rec < buf->m_pEnd) {
         rec->m_pName = DAT_00e32798;
-        unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        rec->m_iTick = ticks;
+        rec->setTime();
         buf->m_pCur = rec + 1;
     }
 }

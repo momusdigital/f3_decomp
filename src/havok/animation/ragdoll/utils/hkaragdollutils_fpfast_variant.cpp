@@ -7,32 +7,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
-    int __cdecl FUN_00ce9e90(void*);
 }
-int __cdecl FUN_00cea7c0(void* p1, void* p2, void* p3);
-struct Item
-{
-    int unk00[11];
-    int unk2c;
-};
-struct Container
-{
-    int unk00[2];
-    Item** items;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-struct Counter
-{
-    int unk00[12];
-    int unk30;
-};
-extern "C" void __cdecl AssignNodeFlags(int, int, int);
-void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
 struct Inner
 {
     virtual void unk0();
@@ -59,52 +35,7 @@ struct hkErrStream
     ~hkErrStream() throw();
     hkErrStream& operator<<(const char* str) throw();
 };
-struct hkError
-{
-    virtual ~hkError() throw();
-    virtual void unk0();
-    virtual void unk1();
-    virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
-};
-extern hkError* DAT_01268360;
-static bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw();
-void caller(Obj* obj);
-struct SpawnedAllocator
-{
-    virtual void* release();
-    virtual void* allocate(int size);
-};
-struct SpawnedGlobal
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    SpawnedAllocator* m_pAllocator;
-};
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
-struct SpawnedObject
-{
-    int unk00;
-    unsigned short m_size04;
-    int Init(void* a, void* b, int c, void* d);
-};
-struct SourceRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int m_i2c;
-};
-int __cdecl SpawnObjectFromRecord(SourceRecord* src);
+static bool _isConstraintSupported(Obj* obj, bool reportError) throw();
 struct Node
 {
     int unk00, unk04, unk08, unk0c, unk10;
@@ -162,10 +93,6 @@ struct LogText
     void FUN_00cc00e0() throw();
 };
 extern "C" void __cdecl FUN_00c908c0(HeapAllocator* allocator, ScratchArray* array, int capacity, int itemSize);
-extern "C" const char DAT_010cbde0[];
-extern "C" const char DAT_010cbdec[];
-extern "C" const char DAT_010cbe00[];
-extern "C" const char DAT_010cbd34[];
 struct BSAudio;
 BSAudio* __cdecl _FUN_00c85750() throw();
 static ScratchAllocator* scratchState() throw()
@@ -270,136 +197,15 @@ template <class T> struct LocalBuffer
         return data[index];
     }
 };
-template <class T> __forceinline void GameArray<T>::assign(const T* source, int size) throw()
-{
-    HeapAllocator* allocator = scratchState()->heap;
-    int available = capacity & 0x3fffffff;
-    if (available < size)
-    {
-        if (!(capacity & 0x80000000))
-            allocator->release(data, available * 4);
-        int bytes = size * 4;
-        data = reinterpret_cast<T*>(allocator->allocate(&bytes));
-        capacity = bytes / 4;
-    }
-    count = size;
-    T* destination = data;
-    for (int index = 0; index < size; ++index)
-        destination[index] = source[index];
-}
-template <class T> static __forceinline void swapItems(T& first, T& second) throw()
-{
-    T temporary = first;
-    first = second;
-    second = temporary;
-}
-static int findNode(const IntArray* nodes, void* value)
-{
-    int count = nodes->count;
-    for (int index = 0; index < count; ++index)
-        if (nodes->data[index] == value)
-            return index;
-    return -1;
-}
-// @fnv 0x00cea030
-extern "C" int __cdecl FUN_00cea030(void* first, void* second)
-{
-    IntArray* nodes = static_cast<IntArray*>(first);
-    NodeArray* links = static_cast<NodeArray*>(second);
-    int nodeCount = nodes->count;
-    int linkCount = links->count;
-    if (linkCount != nodeCount - 1)
-    {
-        int messageStorage[128];
-        hkErrStream message(messageStorage, 512);
-        reinterpret_cast<LogText*>(&message)
-            ->FUN_00cc01c0(DAT_010cbde0)
-            ->WriteInt(nodeCount - 1)
-            ->FUN_00cc01c0(DAT_010cbdec)
-            ->WriteInt(linkCount)
-            ->FUN_00cc01c0(DAT_010cbe00);
-        DAT_01268360->message(1, 0xabba54bb, reinterpret_cast<const char*>(messageStorage), DAT_010cbd34, 0x144);
-        return 1;
-    }
-    int nodeBytes;
-    LocalArray linkPosition(nodeCount, &nodeBytes);
-    linkPosition.SetSizeAndGrow(nodeCount, 0);
-    LocalBuffer<int> permutation(nodeCount, nodeBytes);
-    LocalArray successor(nodeCount, nodeBytes);
-    successor.SetSizeAndGrow(nodeCount, -1);
-    for (int edgeIndex = 0; edgeIndex < linkCount; ++edgeIndex)
-    {
-        Node* edge = links->data[edgeIndex];
-        void* destination = edge->destination;
-        void* source = edge->source;
-        int sourceIndex = findNode(nodes, source);
-        int targetIndex = findNode(nodes, destination);
-        if (sourceIndex < 0 || targetIndex < 0)
-            return 1;
-        if (successor[sourceIndex] != -1 || linkPosition[sourceIndex] != 0)
-            return 1;
-        linkPosition[sourceIndex] = edgeIndex;
-        successor[sourceIndex] = targetIndex;
-    }
-    {
-        LocalArray chainDepth(nodeCount, nodeBytes);
-        chainDepth.SetSizeAndGrow(nodeCount, 0);
-        for (int index = 0; index < nodeCount; ++index)
-        {
-            for (int next = successor[index]; next != -1; next = successor[next])
-                ++chainDepth[index];
-        }
-        for (int index = 0; index < nodeCount; ++index)
-            permutation[index] = index;
-        for (int left = 0; left < nodeCount - 1; ++left)
-        {
-            for (int right = left + 1; right < nodeCount; ++right)
-            {
-                if (chainDepth[left] > chainDepth[right])
-                {
-                    swapItems(chainDepth[left], chainDepth[right]);
-                    swapItems(permutation[left], permutation[right]);
-                }
-            }
-        }
-    }
-    LocalBuffer<void*> sortedNodes(nodeCount, nodeBytes);
-    LocalBuffer<Node*> sortedEdges(linkCount, (linkCount * 4 + 127) & ~127);
-    for (int index = 0; index < nodeCount; ++index)
-    {
-        int original = permutation[index];
-        sortedNodes[index] = nodes->data[original];
-        if (index > 0)
-        {
-            int position = linkPosition[original];
-            if (position >= 0)
-                sortedEdges[index - 1] = links->data[position];
-            else
-                sortedEdges[index - 1] = 0;
-        }
-    }
-    nodes->assign(sortedNodes.data, nodeCount);
-    links->assign(sortedEdges.data, linkCount);
-    return 0;
-}
 
 #include <xmmintrin.h>
 extern "C" void _ReadWriteBarrier(void);
-extern "C" void _WriteBarrier(void);
-
-extern const float DAT_010959f4;
-extern const float DAT_01012068;
-extern const __m128 DAT_010c71b0;
 
 struct Vec4
 {
     float x, y, z, w;
 };
 struct PivotVec;
-struct Bits
-{
-    int x, y, z, w;
-};
 struct __declspec(align(16)) V4A
 {
     float x, y, z, w;
@@ -429,12 +235,14 @@ struct List
     int count;
 };
 
-static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw()
+// pdb: _isConstraintSupported | hkaRagdollUtils.obj | fnv360_0822_retail, call_gap, high (was: IsSupportedRagdollConstraint)
+static __declspec(noinline) bool _isConstraintSupported(Obj* obj, bool reportError) throw()
 {
     return obj->inner != 0 && reportError;
 }
 
-static __declspec(noinline) Vec4* FUN_00ce9c40(Obj* obj) throw()
+// pdb: _accessConstraintPivotA | hkaRagdollUtils.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_seq), high
+static __declspec(noinline) Vec4* _accessConstraintPivotA(Obj* obj) throw()
 {
     Inner* inner = obj->inner;
     int t = inner->getSomething();
@@ -505,7 +313,8 @@ static __declspec(noinline) V4A* FUN_0095e420(Obj* obj) throw()
     return (V4A*)((char*)inner + (t <= 8 ? 0x20 : 0x50));
 }
 
-static __declspec(noinline) int FUN_0095de50(Qs* xf, Shape* shape) throw()
+// pdb: moveRigidBodyPivot | hkaRagdollUtils.obj | fnv360_0822_retail, call_seq + skyrim(call_gap), high
+static __declspec(noinline) int moveRigidBodyPivot(Qs* xf, Shape* shape) throw()
 {
     g_pivotXf = xf;
     int s = (*(Shape* volatile*)&shape)->v0();
@@ -544,7 +353,7 @@ int __cdecl FUN_00ce9db0(A1W constraints, void* warnOnAlignment)
         volatile float lenSq = childFromConstraint.translation.z*childFromConstraint.translation.z + (childFromConstraint.translation.x*childFromConstraint.translation.x + childFromConstraint.translation.y*childFromConstraint.translation.y);
         if (lenSq > 1e-6f)
         {
-            if (FUN_0095de50(&childFromConstraint, shape) != 0)
+            if (moveRigidBodyPivot(&childFromConstraint, shape) != 0)
                 result = 1;
         }
     }

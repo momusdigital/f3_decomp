@@ -85,7 +85,7 @@ struct Pair {
     unsigned int hi;
 };
 extern "C" unsigned int* __cdecl FNV_e03300_arena();
-static void WriteUIntArray(const unsigned int* data, int count, Writer* pWriter, int elemSize);
+static void writeUlongArray(const unsigned int* data, int count, Writer* pWriter, int elemSize);
 void e03300_driver(Writer* w, int elemSize, const unsigned int* data, int count);
 // AppendListEntry
 //
@@ -128,10 +128,11 @@ struct List
     int m_uiItemCount;
     unsigned int m_iCapacityState;
 };
-int __cdecl FUN_00cb10d0(int);
+int __cdecl hkString_strLen(int);
 int __cdecl FUN_00e03360_ext1(int);
 int __cdecl FUN_00e03360_ext2(VObj* p);
-__declspec(noinline) static void FUN_00e03360(VObj* p, int n)
+// pdb: objectCopierPadUp | hkObjectCopier.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_seq) + skyrim(call_gap), high
+__declspec(noinline) static void objectCopierPadUp(VObj* p, int n)
 {
     int k = FUN_00e03360_ext1(n);
     FUN_00e03360_ext2(p);
@@ -158,12 +159,12 @@ struct FUN_00e04920_cls {
     unsigned int unk10;
     unsigned char m_flag14;
     unsigned int FUN_00e036b0(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
-    unsigned int FUN_00e03ea0(unsigned int a, unsigned int b, Scratch16* scratch,
+    unsigned int hkObjectCopier_saveExtras(unsigned int a, unsigned int b, Scratch16* scratch,
                                 unsigned int c, unsigned int d, unsigned int e, unsigned int f);
-    int FUN_00e04920(unsigned int a1, unsigned int a2, unsigned int a3,
+    int hkObjectCopier_copyObject(unsigned int a1, unsigned int a2, unsigned int a3,
                      unsigned int a4, unsigned int a5);
 };
-// FUN_00e03360: module-local helper (custom register convention: n in EAX, obj in EDI).
+// objectCopierPadUp: module-local helper (custom register convention: n in EAX, obj in EDI).
 // lets the object fill it, then frees it.
 struct HeapAlloc
 {
@@ -256,7 +257,7 @@ struct LocalCharArray : CharArray
         destroy(Router().m_pStreamAllocator);
     }
 };
-static void __cdecl FUN_00e03360(Reader* obj, int n);
+static void __cdecl objectCopierPadUp(Reader* obj, int n);
 void keep_alive_b11425(Reader* obj, int a, int b);
 struct DiagnosticWriter {
     void* vtbl;                                            // +0
@@ -267,7 +268,7 @@ struct DiagnosticWriter {
     void FUN_00cc00e0();                                   // (this), ret
 };
 struct Target {
-    void WriteSwapped(const void* p, unsigned int n, unsigned int m);              // (this,void*,int,int)
+    void hkOArchive_writeArrayGeneric(const void* p, unsigned int n, unsigned int m);              // (this,void*,int,int)
 };
 struct AssertMgr {
     virtual void v0();
@@ -278,7 +279,7 @@ struct AssertMgr {
 extern AssertMgr* DAT_01268360;
 extern const char str_010ea3e4[];
 extern const char str_010ea3c8[];
-static void FUN_00e03170(unsigned int a, unsigned int b, unsigned int type, Target* obj, void* p);
+static void writePodArray(unsigned int a, unsigned int b, unsigned int type, Target* obj, void* p);
 void target_driver(unsigned int type, unsigned int count, unsigned int size, void* data, Target* target);
 
 extern "C" void _ReadWriteBarrier();
@@ -302,7 +303,7 @@ struct S00e03ea0_Member {
 
 struct S00e03ea0_Schema {
     const char* FUN_00d46d40();
-    int FUN_00d46f00();
+    int hkClass_getNumMembers();
     S00e03ea0_Member* FUN_00d46f20(int i);
     S00e03ea0_Member* FUN_00d46fe0(void* name);
     int FUN_00d470d0();
@@ -311,7 +312,7 @@ struct S00e03ea0_Schema {
 struct S00e03ea0_Writer {
     VObj* FUN_00d60800();
     void FUN_00d607b0(void* p, int size);
-    void WriteSwapped(const void* p, int size, int n);
+    void hkOArchive_writeArrayGeneric(const void* p, int size, int n);
 };
 
 struct S00e03ea0_Scr2 {
@@ -416,7 +417,8 @@ __declspec(noinline) static int FUN_00e03100(Obj* p)
     return n ? p->m() : 1;
 }
 
-__declspec(noinline) static void WriteUIntArray(const unsigned int* data, int count, Writer* w, int elemSize)
+// pdb: writeUlongArray | hkObjectCopier.obj | fnv360_0822_retail, call_gap, high (was: WriteUIntArray)
+__declspec(noinline) static void writeUlongArray(const unsigned int* data, int count, Writer* w, int elemSize)
 {
     if (elemSize == 4) { w->write(data, elemSize, count); return; }
     {
@@ -435,7 +437,7 @@ __declspec(noinline) static void WriteUIntArray(const unsigned int* data, int co
 
 __declspec(noinline) static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
 {
-    FUN_00e03360(ctx->FUN_00d60800(), 2);
+    objectCopierPadUp(ctx->FUN_00d60800(), 2);
     VObj* target = ctx->FUN_00d60800()->v20();
     E04A00Allocator& alloc = FUN_00c85750().heap();
     if (list->m_uiItemCount == (int)(list->m_iCapacityState & 0x3fffffff))
@@ -444,19 +446,20 @@ __declspec(noinline) static int AppendListEntry(Ctx* ctx, List* list, int a, int
     entry->m_key = b;
     entry->m_uiFilterValue = target;
     ++list->m_uiItemCount;
-    ctx->FUN_00d607b0(a, FUN_00cb10d0(a) + 1);
+    ctx->FUN_00d607b0(a, hkString_strLen(a) + 1);
     return 0;
 }
 
 extern const char str_010ea3e4[];
-__declspec(noinline) static void FUN_00e03170(Target* w, unsigned int count, unsigned int stride, unsigned int kind, void* data)
+// pdb: writePodArray | hkObjectCopier.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+__declspec(noinline) static void writePodArray(Target* w, unsigned int count, unsigned int stride, unsigned int kind, void* data)
 {
     switch (kind) {
     case 12: case 13: case 14: case 15: case 16: case 17: case 18:
         count *= stride >> 2;
         stride = 4;
     case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 32:
-        w->WriteSwapped(data, stride, count);
+        w->hkOArchive_writeArrayGeneric(data, stride, count);
         break;
     default:
         char text[512];
@@ -486,7 +489,7 @@ struct S00e03ea0_Ser {
     unsigned char unk0f;
     unsigned char m_flags;
 
-    void FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea0_Writer* writer,
+    void hkObjectCopier_saveExtras(char* src, S00e03ea0_Schema* srcClass, S00e03ea0_Writer* writer,
                       S00e03ea0_Schema* dstClass, int dst, S00e03ea0_Out* out, int depth);
     void FUN_00e036b0(char* src, S00e03ea0_Schema* srcClass, S00e03ea0_Writer* writer,
                       S00e03ea0_Schema* dstClass);
@@ -584,7 +587,7 @@ struct hkStreamWriter {
 };
 struct VObj;
 struct CandidateWriter {
- VObj* FUN_00d60800();void FUN_00d607b0(void*,int);void WriteSwapped(const void*,int,int);
+ VObj* FUN_00d60800();void FUN_00d607b0(void*,int);void hkOArchive_writeArrayGeneric(const void*,int,int);
  hkStreamWriter*FUN_009ee790();void FUN_009ee740(const void*,int);void FUN_009ee590(const void*,int,int);
 };
 struct hkOstream {
@@ -607,12 +610,13 @@ struct CandidateOut {
 struct CandidateSer {
  virtual void v00();virtual void v04();virtual void v08();virtual void v0c();virtual int v10(S00e03ea0_Member*,S00e03ea0_Member*);
  unsigned u04;unsigned char m_srcPtrSize,u09,u0a,u0b,m_dstPtrSize,u0d,u0e,u0f;unsigned char m_flags;
- void FUN_009b3800(char*,CandidateSchema*,CandidateWriter*,CandidateSchema*);
+ void hkObjectCopier_saveBody(char*,CandidateSchema*,CandidateWriter*,CandidateSchema*);
 };
 static int FUN_009b31e0(const CopierClassMember*member) {
  return member->FUN_0093d8c0()?member->FUN_0093d8c0():1;
 }
-static int FUN_009b3360(const char*text,CandidateWriter*writer,hkArray<LocalFixup>*local,int destination) {
+// pdb: saveCstring | hkObjectCopier.obj | fnv360_0822_retail, call_gap + bridge(call_gap|objrun) + skyrim(call_gap), high
+static int saveCstring(const char*text,CandidateWriter*writer,hkArray<LocalFixup>*local,int destination) {
  LocalFixup pair;pair.from=destination;pair.to=writer->FUN_009ee790()->tell();local->addBack(pair);
  writer->FUN_009ee740(text,FUN_009233f0(text)+1);return 0;
 }
@@ -642,7 +646,8 @@ template<class T> struct CopierArrayView {T* data;int size;};
 struct HomogeneousArray {S00e03ea0_Schema*objectClass;char*data;int size;};
 struct Variant {const void*object;S00e03ea0_Schema*objectClass;};
 
-void S00e03ea0_Ser::FUN_00e03ea0(char*source,S00e03ea0_Schema*sourceClass,S00e03ea0_Writer*rawWriter,S00e03ea0_Schema*destinationClass,int destination,S00e03ea0_Out*rawOut,int depth) {
+// pdb: hkObjectCopier::saveExtras | hkObjectCopier.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void S00e03ea0_Ser::hkObjectCopier_saveExtras(char*source,S00e03ea0_Schema*sourceClass,S00e03ea0_Writer*rawWriter,S00e03ea0_Schema*destinationClass,int destination,S00e03ea0_Out*rawOut,int depth) {
  CandidateSchema*sourceView=reinterpret_cast<CandidateSchema*>(sourceClass);
  CandidateSchema*destinationView=reinterpret_cast<CandidateSchema*>(destinationClass);
  CandidateWriter*writer=reinterpret_cast<CandidateWriter*>(rawWriter);
@@ -661,7 +666,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char*source,S00e03ea0_Schema*sourceClass,S00e03
   switch(member.type) {
   case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:case 9:case 10:case 11:case 12:case 13:case 14:case 15:case 16:case 17:case 18:case 21:case 24:case 30:case 31:break;
   case 29: {
-   const char*text=readValue<const char*>(s);if(text)FUN_009b3360(text,writer,&out->local,destination+member.offset);break;
+   const char*text=readValue<const char*>(s);if(text)saveCstring(text,writer,&out->local,destination+member.offset);break;
   }
   case 20: {
    int count=FUN_009b4900(FUN_009b31e0(original),FUN_009b31e0(&member));
@@ -669,7 +674,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char*source,S00e03ea0_Schema*sourceClass,S00e03
     const void*object=readValue<const void*>(s+m_srcPtrSize*j);
     if(object) {
      int target=member.offset+m_dstPtrSize*j;
-     if(member.subtype==2)FUN_009b3360(static_cast<const char*>(object),writer,&out->local,destination+target);
+     if(member.subtype==2)saveCstring(static_cast<const char*>(object),writer,&out->local,destination+target);
      else out->FUN_009b4980(destination+target,object,member.FUN_0093d8a0());
     }
    }break;
@@ -688,14 +693,14 @@ void S00e03ea0_Ser::FUN_00e03ea0(char*source,S00e03ea0_Schema*sourceClass,S00e03
    } else if(member.subtype==29) {
     hkStreamWriter* fixupStream=writer->FUN_009ee790();int fixupOffset=member.offset;out->FUN_009b4940(destination+fixupOffset,fixupStream->tell());unsigned zero[2]={0,0};int start=writer->FUN_009ee790()->tell();
     for(int j=0;j<readValue<int>(s+sizeof(void*));j++)writer->FUN_009ee740(zero,m_dstPtrSize);
-    for(int j=0;j<readValue<int>(s+sizeof(void*));j++) {const char**text=reinterpret_cast<const char**>(readValue<char*>(s))+j;if(*text)FUN_009b3360(*reinterpret_cast<const char* const volatile*>(text),writer,&out->local,start+m_dstPtrSize*j);}
+    for(int j=0;j<readValue<int>(s+sizeof(void*));j++) {const char**text=reinterpret_cast<const char**>(readValue<char*>(s))+j;if(*text)saveCstring(*reinterpret_cast<const char* const volatile*>(text),writer,&out->local,start+m_dstPtrSize*j);}
    } else if(member.subtype==25) {
     int start=writer->FUN_009ee790()->tell();out->FUN_009b4940(destination+member.offset,start);
     CandidateSchema*sc=reinterpret_cast<CandidateSchema*>(original->FUN_0093d8a0());CandidateSchema*dc=reinterpret_cast<CandidateSchema*>(member.FUN_0093d8a0());
     if(sc&&dc) {
      char* arrayData=readValue<char*>(s);
-     for(int j=0;j<readValue<int>(s+sizeof(void*));j++)self->FUN_009b3800(arrayData+sc->FUN_009b0760()*j,sc,writer,dc);
-     for(int j=0;j<readValue<int>(s+sizeof(void*));j++)FUN_00e03ea0(arrayData+sc->FUN_009b0760()*j,reinterpret_cast<S00e03ea0_Schema*>(sc),rawWriter,reinterpret_cast<S00e03ea0_Schema*>(dc),start+dc->FUN_009b0760()*j,rawOut,depth);
+     for(int j=0;j<readValue<int>(s+sizeof(void*));j++)self->hkObjectCopier_saveBody(arrayData+sc->FUN_009b0760()*j,sc,writer,dc);
+     for(int j=0;j<readValue<int>(s+sizeof(void*));j++)hkObjectCopier_saveExtras(arrayData+sc->FUN_009b0760()*j,reinterpret_cast<S00e03ea0_Schema*>(sc),rawWriter,reinterpret_cast<S00e03ea0_Schema*>(dc),start+dc->FUN_009b0760()*j,rawOut,depth);
     }
    } else if(member.subtype==28) {
     int start=writer->FUN_009ee790()->tell();out->FUN_009b4940(destination+member.offset,start);
@@ -719,8 +724,8 @@ void S00e03ea0_Ser::FUN_00e03ea0(char*source,S00e03ea0_Schema*sourceClass,S00e03
    int target=destination+member.getOffset();out->FUN_009b4980(target,reinterpret_cast<S00e03ea0_Schema*>(klass),&DAT_0116a994);
    int start=writer->FUN_009ee790()->tell();out->FUN_009b4940(destination+m_dstPtrSize+member.offset,start);
    char*data=readValue<char*>(s+sizeof(void*));
-   for(int j=0;j<readValue<int>(s+sizeof(void*)*2);j++)self->FUN_009b3800(data+klass->FUN_009b0760()*j,klass,writer,klass);
-   for(int j=0;j<readValue<int>(s+sizeof(void*)*2);j++)FUN_00e03ea0(data+klass->FUN_009b0760()*j,reinterpret_cast<S00e03ea0_Schema*>(klass),rawWriter,reinterpret_cast<S00e03ea0_Schema*>(klass),start+klass->FUN_009b0760()*j,rawOut,depth);
+   for(int j=0;j<readValue<int>(s+sizeof(void*)*2);j++)self->hkObjectCopier_saveBody(data+klass->FUN_009b0760()*j,klass,writer,klass);
+   for(int j=0;j<readValue<int>(s+sizeof(void*)*2);j++)hkObjectCopier_saveExtras(data+klass->FUN_009b0760()*j,reinterpret_cast<S00e03ea0_Schema*>(klass),rawWriter,reinterpret_cast<S00e03ea0_Schema*>(klass),start+klass->FUN_009b0760()*j,rawOut,depth);
    break;
   }
   case 25: {
@@ -728,7 +733,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char*source,S00e03ea0_Schema*sourceClass,S00e03
    int target=destination+member.offset;int originalCount=FUN_009b31e0(original);int count=FUN_009b4900(originalCount,FUN_009b31e0(&member));
    for(int j=0;j<count;j++) {
     char*sourceElement=s+sc->FUN_009b0760()*j;
-    FUN_00e03ea0(sourceElement,reinterpret_cast<S00e03ea0_Schema*>(sc),rawWriter,reinterpret_cast<S00e03ea0_Schema*>(dc),target+dc->FUN_009b0760()*j,rawOut,depth);
+    hkObjectCopier_saveExtras(sourceElement,reinterpret_cast<S00e03ea0_Schema*>(sc),rawWriter,reinterpret_cast<S00e03ea0_Schema*>(dc),target+dc->FUN_009b0760()*j,rawOut,depth);
    }
    break;
   }
@@ -769,7 +774,7 @@ struct ZeroMember {
 };
 struct ZeroArchive {
     int FUN_00d607b0(const void* data, int size);
-    void FUN_00d60960(unsigned int value);
+    void hkOArchive_write32u(unsigned int value);
 };
 static __declspec(noinline) int FUN_00e03100(Obj* p);
 extern const char str_010ea424[];
@@ -787,7 +792,7 @@ struct ZeroCopier {
     unsigned char m_outputEmptyBase;
     unsigned int m_flags;
     unsigned char m_bStreamResult;
-    void FUN_00e03460(ZeroArchive& archive, const ZeroMember& member);
+    void hkObjectCopier_writeZero(ZeroArchive& archive, const ZeroMember& member);
 };
 // @f3 0x009b34f0 (community match, verified in this file)
 namespace ZeroFill {
@@ -901,7 +906,8 @@ static __declspec(noinline) int FUN_009b31e0(const MemberInfo& member)
 
 }
 
-void ZeroCopier::FUN_00e03460(ZeroArchive& archive, const ZeroMember& member)
+// pdb: hkObjectCopier::writeZero | hkObjectCopier.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void ZeroCopier::hkObjectCopier_writeZero(ZeroArchive& archive, const ZeroMember& member)
 {
     using namespace ZeroFill;
     const MemberInfo& info = reinterpret_cast<const MemberInfo&>(member);

@@ -42,6 +42,8 @@ struct Receiver
 
 // Passes the enclosing FullObject (this minus 0x20) to the receiver's ClearValue.
 // @fnv 0x00d6a250
+// pdb: hkpBroadphaseViewer::worldRemovedCallback | hkpBroadphaseViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void FirstBase::FUN_00d6a250(Receiver* apReceiver)
 {
     apReceiver->ClearValue((FullObject*)((char*)this - 0x20));
@@ -295,6 +297,8 @@ struct FUN_00d6a220_cls
 };
 
 // @fnv 0x00d6a220
+// pdb: hkpBroadphaseViewer::worldAddedCallback | hkpBroadphaseViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 int FUN_00d6a220_cls::HandleWithSelfOffset(Target* apTarget)
 {
     return apTarget->Handle(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
@@ -395,6 +399,8 @@ struct FUN_00d6a280 : FUN_00ddccb0, S_d6a280_Mx
 
 // Constructs the base with a, then calls FUN_00c93920 on each item of m_24's m_items array, passing this.
 // @fnv 0x00d6a280
+// pdb: hkpMidphaseViewer::hkpMidphaseViewer | hkpMidphaseViewer.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: contexts
 FUN_00d6a280::FUN_00d6a280(int a) : FUN_00ddccb0(a)
 {
     if (m_24 != 0)
@@ -525,13 +531,11 @@ struct hkpMidphaseViewer : public hkpShape, public hkpMidphaseViewerBase
     virtual void FUN_00d6a8a0();  // declared, never defined
 };
 
-hkpMidphaseViewer::hkpMidphaseViewer() : hkpShape(), hkpMidphaseViewerBase()
-{}
-
 namespace fnv_00d6a870 {
 extern int DAT_01269024;
 
 // @fnv 0x00d6a870
+// pdb: hkpWorldMemoryViewer::getProcessTag | hkpWorldMemoryViewer.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_00d6a870()
 {
     return DAT_01269024;
@@ -567,16 +571,4 @@ struct hkpMidphaseViewer
     void* FUN_00d6a8b0(int flags);
 };
 
-// Calls FUN_00d6a750, then if flags & 1 removes this viewer from the physics world registry, and returns this.
-// @fnv 0x00d6a8b0
-void* hkpMidphaseViewer::FUN_00d6a8b0(int flags)
-{
-    FUN_00d6a750();
-    if (flags & 1)
-    {
-        hkpPhysicsWorld* world = FUN_00c85750();
-        world->unk10->removeViewer(this, unk04);
-    }
-    return this;
-}
 }  // namespace fnv_00d6a8b0

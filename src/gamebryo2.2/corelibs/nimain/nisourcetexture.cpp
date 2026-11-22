@@ -9,6 +9,7 @@ class NiPixelData : public NiObject
 
 // Releases the app pixel data object: decrements its ref count, deletes it when the count reaches zero, and clears the pointer.
 // @fnv 0x00a60910
+// pdb: NiSourceCubeMap::DestroyAppPixelData | NiSourceCubeMap.obj | fnv360_0822_retail, objrun, high
 void NiSourceTexture::DestroyAppPixelData()
 {
     NiPixelData* pAppPixelData = m_spAppPixelData.m_pObject;
@@ -21,6 +22,8 @@ void NiSourceTexture::DestroyAppPixelData()
 }
 
 // @fnv 0x00a5fd70
+// pdb: NiSourceTexture::Create | NiSourceTexture.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: StandardizeTexturePath)
+// pdb params: kFilename, kPrefs, bLoadDirectToRendererHint, bSrcRendererDataIsPersistent
 NiSourceTexture* NiSourceTexture::Create(const NiFixedString& name, NiTexture__FormatPrefs& prefs,
                                          bool loadDirectToRendererHint, bool srcRendererDataIsPersistent)
 {

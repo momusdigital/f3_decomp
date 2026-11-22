@@ -5,7 +5,8 @@
 extern char const* const g_01202688_arg1;
 
 // @fnv 0x00c320f0
-char const* const* __cdecl FUN_00c320f0()
+// pdb: NiExtraDataController::GetRTTI | NiExtraDataController.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+char const* const* __cdecl NiExtraDataController_GetRTTI()
 {
     return &g_01202688_arg1;
 }
@@ -19,6 +20,7 @@ struct NiPSysFieldModifier
 };
 // Calls FUN_00c31750, then deletes this with size 48 if flags has bit 0 set, and returns this.
 // @fnv 0x00c32100
+// pdb: NiD3DVertexShader::`scalar deleting destructor' | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0721_beta, objopen_prop, low
 NiPSysFieldModifier* __thiscall NiPSysFieldModifier::Destroy(unsigned int flags)
 {
     FUN_00c31750();
@@ -259,7 +261,7 @@ struct StreamOwner
     unsigned int unk244;
     unsigned int unk248;
     StreamCtx* m_24c;
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 
 class FUN_00c32120_cls
@@ -283,10 +285,12 @@ class FUN_00c32120_cls
 
 // Calls the base loader, then reads m_1c, m_20, a byte flag into m_24, and m_28 from the stream, and sets m_2c to m_28 squared.
 // @fnv 0x00c32120
+// pdb: NiPSysFieldModifier::LoadBinary | NiPSysFieldModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void FUN_00c32120_cls::LoadFromStream(StreamOwner* apOwner)
 {
     FUN_00c318b0(apOwner);
-    apOwner->FUN_00a645b0();
+    apOwner->NiStream_ReadLinkID();
     StreamCtx* s = apOwner->m_24c;
     {
         unsigned int n = 4;
@@ -521,12 +525,13 @@ struct NiPSysFieldModifierImpl
     float m_fDistanceLimit;
 
     void __thiscall FUN_00c31950(NiStream& kStream);
-    void __thiscall FUN_00c321f0(NiStream& kStream);
+    void __thiscall NiPSysFieldModifier_SaveBinary(NiStream& kStream);
 };
 
 // Calls FUN_00c31950, then writes the link ID and the float, float, bool and float fields to the stream.
 // @fnv 0x00c321f0
-void NiPSysFieldModifierImpl::FUN_00c321f0(NiStream& kStream)
+// pdb: NiPSysFieldModifier::SaveBinary | NiPSysFieldModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|call_seq) + skyrim(caller_sim), high
+void NiPSysFieldModifierImpl::NiPSysFieldModifier_SaveBinary(NiStream& kStream)
 {
     FUN_00c31950(kStream);
     kStream.SaveLinkID(m_pkFieldObject);
@@ -586,6 +591,8 @@ __forceinline void S_00c322b0_Add(S_00c322b0_Arr* a, char* s)
     a->FUN_0096ae90(i, s);
 }
 // @fnv 0x00c322b0
+// pdb: NiPSysFieldModifier::GetViewerStrings | NiPSysFieldModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void S_00c322b0::FUN_00c322b0(S_00c322b0_Arr* a)
 {
     FUN_00c319e0(a);

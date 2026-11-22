@@ -90,14 +90,14 @@ struct BaseInterp
 };
 struct MyInterp
 {
-    bool __thiscall FUN_00a4bbe0(NiStream*);
+    bool __thiscall NiLookAtInterpolator_RegisterStreamables(NiStream*);
 };
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
     void* __thiscall FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
-void* __cdecl FUN_00a4c5a0();
+void* __cdecl NiLookAtInterpolator_CreateObject();
 struct FUN_00a4b900_V
 {
     virtual void v00();
@@ -366,7 +366,7 @@ class A4BC40Data : public A4BC40Base
     A4BC40Transform m_kTransform;
     A4BC40Object* m_ppKeyData[3];
 
-    bool FUN_00a4bc40(A4BC40Object* pkObject);
+    bool NiLookAtInterpolator_IsEqual(A4BC40Object* pkObject);
 };
 struct Builder
 {
@@ -696,7 +696,7 @@ class C630Blend : public C630Interpolator
     C630Transform m_kTransform;
     C630Pointer<C630RefObject> m_akReferencedObjects[3];
 
-    void FUN_00a4c630(C630Stream& kStream);
+    void NiLookAtInterpolator_LoadBinary(C630Stream& kStream);
 };
 struct BinaryOutput341
 {
@@ -879,14 +879,14 @@ struct Stream341
     unsigned int unk248;
     unsigned int unk24c;
     BinaryOutput341* output;
-    void WriteObjectLink(const void* name);
+    void NiStream_SaveFixedString(const void* name);
 };
 struct Transform341
 {
     float translationX, translationY, translationZ;
     float rotationW, rotationX, rotationY, rotationZ;
     float scale;
-    void FUN_00a38b60(Stream341*);
+    void NiQuatTransform_SaveBinary(Stream341*);
 };
 struct Interpolator341
 {
@@ -991,6 +991,7 @@ class NiLookAtInterpolatorX : public NiInterpolator
 };
 
 // @fnv 0x00a4be20
+// pdb: NiLookAtInterpolator::~NiLookAtInterpolator | NiLookAtInterpolator.obj | fnv360_0822_retail, objrun, medium
 NiLookAtInterpolatorX::~NiLookAtInterpolatorX()
 {
     m_kTargetNodeName = *(LAFixedString*)&g_StaticFixedString_011f49e0;

@@ -19,7 +19,7 @@ __declspec(selectany) extern const char DAT_00e08554[]="Interface\\Icons\\Pipboy
 __declspec(selectany) extern const char DAT_00e0851c[]="Interface\\Icons\\PipboyImages\\Karma icons\\karma_bad.dds";
 __declspec(selectany) extern const char DAT_00e084e0[]="Interface\\Icons\\PipboyImages\\Karma icons\\karma_saintly.dds";
 __declspec(selectany) extern const char DAT_00e084a8[]="Interface\\Icons\\PipboyImages\\Karma icons\\karma_evil.dds";
-struct UITile { void FUN_00bf11a0(unsigned, const char*, bool); const char* FUN_00becf60(unsigned); void FUN_00bee190(unsigned, float, bool); };
+struct UITile { void FUN_00bf11a0(unsigned, const char*, bool); const char* Tile_GetString(unsigned); void FUN_00bee190(unsigned, float, bool); };
 struct HeapHolder { void FUN_0086ba60(void*); };
 extern HeapHolder DAT_01090a78;
 struct MenuString {
@@ -78,7 +78,7 @@ struct Player {
     unsigned unk98;
     ValueOwner values;
     Item* FUN_004e8ab0(unsigned, int);
-    unsigned short FUN_006f4cd0();
+    unsigned short Actor_GetLevel();
 };
 extern Player* DAT_0107a104;
 struct Setting { int* FUN_004241e0(); };
@@ -199,16 +199,18 @@ struct StatsMenu {
         slots[i].GetTile()->FUN_00bee190(0xfaf,(float)enabled,true);
         if(i==0) {
             
-            if(slots[i].item) { label.FUN_00403a00(DAT_00e08464,slots[i].item->FUN_007270f0(),slots[i].GetTile()->FUN_00becf60(0x1004)); VisibilityTile()->FUN_00bee190(0xfaf,1.f,true); }
-            else { const char* defaultText=slots[i].GetTile()->FUN_00becf60(0x1004); label.FUN_004019c0(defaultText,0); if(active) FUN_00685b10(); VisibilityTile()->FUN_00bee190(0xfaf,0.f,true); }
+            if(slots[i].item) { label.FUN_00403a00(DAT_00e08464,slots[i].item->FUN_007270f0(),slots[i].GetTile()->Tile_GetString(0x1004)); VisibilityTile()->FUN_00bee190(0xfaf,1.f,true); }
+            else { const char* defaultText=slots[i].GetTile()->Tile_GetString(0x1004); label.FUN_004019c0(defaultText,0); if(active) FUN_00685b10(); VisibilityTile()->FUN_00bee190(0xfaf,0.f,true); }
 
         } else {
-            if(slots[i].item) label.FUN_00403a00(DAT_00e08464,slots[i].item->FUN_007270f0(),slots[i].GetTile()->FUN_00becf60(0x1004));
-            else { const char* defaultText=slots[i].GetTile()->FUN_00becf60(0x1004); label.FUN_004019c0(defaultText,0); }
+            if(slots[i].item) label.FUN_00403a00(DAT_00e08464,slots[i].item->FUN_007270f0(),slots[i].GetTile()->Tile_GetString(0x1004));
+            else { const char* defaultText=slots[i].GetTile()->Tile_GetString(0x1004); label.FUN_004019c0(defaultText,0); }
         }
         slots[i].GetTile()->FUN_00bf11a0(0xfc4,label.text,true);
     }
 };
+// pdb: StatsMenu::UpdateActorValue | StatsMenu.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aeWhich
 void StatsMenu::FUN_006875c0(int value) {
     MenuString formatted;
     int tileIndex, valueIndex;
@@ -228,9 +230,9 @@ void StatsMenu::FUN_006875c0(int value) {
         Root()->FUN_00bf11a0(0x100a,formatted.text,true); break;
     }
     case 24: {
-        int level=DAT_0107a104->FUN_006f4cd0();
+        int level=DAT_0107a104->Actor_GetLevel();
         if(level>=*DAT_00f62300.FUN_004241e0()) formatted.FUN_00403a00(DAT_00dbab78,DAT_00f64cd4);
-        else {  formatted.FUN_00403a00(DAT_00e06008,DAT_0107a104->values.CurrentInt(24),FUN_005850f0(DAT_0107a104->FUN_006f4cd0()+1)); }
+        else {  formatted.FUN_00403a00(DAT_00e06008,DAT_0107a104->values.CurrentInt(24),FUN_005850f0(DAT_0107a104->Actor_GetLevel()+1)); }
         Root()->FUN_00bf11a0(0x100b,formatted.text,true); break;
     }
     case 54:

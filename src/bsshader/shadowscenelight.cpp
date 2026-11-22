@@ -1,9 +1,11 @@
-// bsshader/shadowscenelight.cpp: ShadowSceneLight, RemovalList, NiRefObject, LightView and more (22 functions)
+// bsshader/shadowscenelight.cpp: ShadowSceneLight, RemovalList, NiRefObject, LightView and more (21 functions)
 #include "f3_common.h"
 #include "shadowscenelight_decls.h"
 
 // If object has a node with a world bound and radius, dispatches it to one of two handlers; otherwise forwards tri-based geometry to AddGeometry.
 // @fnv 0x00ba0110
+// pdb: ShadowSceneLight::AddObject | ShadowSceneLight.obj | fnv360_0721_beta, caller, low
+// pdb params: apAVObject
 void ShadowSceneLight::AddObject(NiAVObject* object)
 {
     if (object)
@@ -19,12 +21,12 @@ void ShadowSceneLight::AddObject(NiAVObject* object)
                 goto AddDisplayGeometry;
             if (m_bSkipLightObject)
             {
-                ProcessShadowObject(reinterpret_cast<NiAVObject*>(node));
+                ParseObjectAddFrustum(reinterpret_cast<NiAVObject*>(node));
                 return;
             }
             else
             {
-                AddShadowObject(reinterpret_cast<NiAVObject*>(node));
+                ParseObjectAddRadius(reinterpret_cast<NiAVObject*>(node));
                 return;
             }
         }
@@ -35,7 +37,10 @@ void ShadowSceneLight::AddObject(NiAVObject* object)
 }
 
 // @fnv 0x00b9f6a0
-void ShadowSceneLight::AddShadowObject(NiAVObject* object)
+// pdb: ShadowSceneLight::ParseObjectAddRadius | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, high
+// pdb params: apObject
+// pdb: ShadowSceneLight::ParseObjectAddRadius | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, high (was: AddShadowObject)
+void ShadowSceneLight::ParseObjectAddRadius(NiAVObject* object)
 {
     unsigned int active = m_kFrustumPlanes.m_uiActivePlaneMask;
     if (!((unsigned char)(object->m_uiObjectFlags >> 11) & 1))
@@ -61,7 +66,7 @@ void ShadowSceneLight::AddShadowObject(NiAVObject* object)
                      (child->m_kWorldBound &&
                       reinterpret_cast<ShadowBoundRadiusView*>(child->m_kWorldBound)->m_fBoundRadius)) &&
                     !((unsigned char)flags & 1))
-                    AddShadowObject(child);
+                    ParseObjectAddRadius(child);
             }
         }
         else if (reinterpret_cast<ShadowObjectSlots*>(object)->GetTriBasedGeom())
@@ -71,7 +76,10 @@ done:
     m_kFrustumPlanes.m_uiActivePlaneMask = active;
 }
 // @fnv 0x00b9f5b0
-void ShadowSceneLight::ProcessShadowObject(NiAVObject* object)
+// pdb: ShadowSceneLight::ParseObjectAddFrustum | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, high
+// pdb params: apObject
+// pdb: ShadowSceneLight::ParseObjectAddFrustum | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, high (was: ProcessShadowObject)
+void ShadowSceneLight::ParseObjectAddFrustum(NiAVObject* object)
 {
     unsigned int active = m_kFrustumPlanes.m_uiActivePlaneMask;
     if (object == m_pLightNode.m_pObject || !((unsigned char)~(object->m_uiObjectFlags >> 23) & 1))
@@ -98,7 +106,7 @@ void ShadowSceneLight::ProcessShadowObject(NiAVObject* object)
                      (child->m_kWorldBound &&
                       reinterpret_cast<ShadowBoundRadiusView*>(child->m_kWorldBound)->m_fBoundRadius)) &&
                     !((unsigned char)flags & 1))
-                    ProcessShadowObject(child);
+                    ParseObjectAddFrustum(child);
             }
         }
         else if (reinterpret_cast<ShadowObjectSlots*>(object)->GetTriBasedGeom())
@@ -117,6 +125,7 @@ __forceinline void ShadowMatrixIdentity(D3DXMATRIX& m)
     m._11 = m._22 = m._33 = m._44 = 1.0f;
 }
 // @fnv 0x00b9fda0
+// pdb: ShadowSceneLight::ShadowSceneLight | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, medium
 ShadowSceneLight::ShadowSceneLight()
 {
     m_fShadowParameter3 = 0.0f;
@@ -170,6 +179,7 @@ static __forceinline int IsShaderPropRange_b20af0(char* prop)
     unsigned int t = *(unsigned int*)(prop + 0x1c);
     return t >= 1 && t <= 11;
 }
+// pdb: ShadowSceneLight::ClearRenderPasses | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, medium
 void __fastcall ClearShaderPropRefs(char* self)
 {
     Node_00b9e770* pNode = *(Node_00b9e770**)(self + 0x138);
@@ -238,6 +248,7 @@ struct SsArr
 };
 // Destructs the SsArr object, frees its data block, and deallocates the object itself when flags has bit 0 set.
 // @fnv 0x00b9e920
+// pdb: BSSimpleArray<TESBoundObject *,1024>::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: TESObjectREFR::SetVisibleDistant)
 SsArr* __fastcall DestroySsArr(SsArr* p, int, unsigned int flags)
 {
     p->SsArr::~SsArr();
@@ -254,6 +265,7 @@ struct GlobalObjectO2_00b9fda0
 };
 
 // @fnv 0x00ba00e0
+// pdb: ShadowSceneLight::`scalar deleting destructor' | ShadowSceneLight.obj | fnv360_0822_retail, caller_sim, medium
 GlobalObjectO2_00b9fda0* __fastcall FUN_00ba00e0(GlobalObjectO2_00b9fda0* this_ptr, int /*edx*/, int param2)
 {
     this_ptr->~GlobalObjectO2_00b9fda0();
@@ -300,6 +312,7 @@ struct FUN_00b9e7c0_list
 };
 
 // @fnv 0x00b9e7c0
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::RemoveHead | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, high
 RefPtr_b9e7c0 FUN_00b9e7c0_list::PopFront()
 {
     ListItem_b9e7c0* pkNode = m_pkHead;
@@ -378,6 +391,8 @@ struct List_b9fcc0
 };
 
 // @fnv 0x00b9fcc0
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::Remove | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: element
 RefPtr_b9fcc0 List_b9fcc0::FUN_00b9fcc0(const RefPtr_b9fcc0& element)
 {
     void* kPos = FindPos(element);
@@ -422,6 +437,7 @@ struct FUN_00b9e850_list
 };
 
 // @fnv 0x00b9e850
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::RemoveTail | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, high
 RefPtr_b9e850 FUN_00b9e850_list::PopBack()
 {
     ListItem_b9e850* pkNode = m_pkTail;
@@ -498,6 +514,7 @@ struct FUN_00b9fba0_s
     void FUN_00b9fba0();
 };
 // @fnv 0x00b9fba0
+// pdb: ShadowSceneLight::InsertUnusedFence | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, low
 void FUN_00b9fba0_s::FUN_00b9fba0()
 {
     char* self = reinterpret_cast<char*>(this);
@@ -572,6 +589,8 @@ struct FUN_00b9bc50_t
 
 // Computes a light's attenuation at apPoint from its dimmed color and distance/radius falloff, storing and returning the result at this+0xc.
 // @fnv 0x00b9bc50
+// pdb: ShadowSceneLight::GetLuminanceAtPoint | ShadowSceneLight.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apPoint, apIgnore
 float FUN_00b9bc50_t::ComputeLightAttenuation(V3 apPoint, NiLight* apIgnore)
 {
     char* pkLight = *(char**)((char*)this + 0xf8);
@@ -697,6 +716,7 @@ struct FUN_00b9f0c0_cls : public NiRefObject
 };
 
 // @fnv 0x00b9f0c0
+// pdb: ShadowSceneLight::~ShadowSceneLight | ShadowSceneLight.obj | fnv360_0822_retail, caller_sim, low
 FUN_00b9f0c0_cls::~FUN_00b9f0c0_cls()
 {
     ((LightD*)this)->FUN_00b9ef30();
@@ -1131,6 +1151,7 @@ void FUN_00b6c0d0(LightView*, AccumulatorView*, int);
 void FUN_00b71360(unsigned int, WaterView*, float);
 void FUN_00b6b790();
 // @fnv 0x00bd77c0
+// pdb: BSCubeMapCamera::ClickCubeMap | BSCubeMapCamera.obj | fnv360_1110_retail, call_seq, medium
 void LightView::RenderFaces()
 {
     Color4 old = DAT_011a9bd0;
@@ -1353,6 +1374,7 @@ class RestartMultiBoundLayout
     RemovalList pending;
     ActiveList active;
 };
+// pdb: BSTextureManager::BorrowFrustumShadowTexture | BSTextureManager.obj | fnv360_0822_retail, call_gap, medium
 NiRefObject* MultiBoundLists::ActivatePending()
 {
     RestartMultiBoundLayout* layout = reinterpret_cast<RestartMultiBoundLayout*>(this);
@@ -1575,6 +1597,8 @@ struct RemovalList
 
 // Removes the ListItem_b9fcc0 at position, updating the position pointer to the next item, and returns the removed RefPtr_b9fcc0 element.
 // @fnv 0x00b9efa0
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiAVObject> >::RemovePos | BSPortalGraph.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: kPos
 RefPtr_b9fcc0 RemovalList::FUN_00b9efa0(void*& position)
 {
     ListItem_b9fcc0* item = (ListItem_b9fcc0*)position;
@@ -1643,11 +1667,6 @@ struct ShadowExtraData
     ShadowVector offset;
     ShadowVector extent;
 };
-struct ShadowUpdateData
-{
-    float time;
-    bool updateControllers, multithreaded, updateGeomorphs, updateBounds, updateTransforms;
-};
 struct NiFrustum
 {
     float left, right, top, bottom, nearPlane, farPlane;
@@ -1660,10 +1679,6 @@ struct NiFrustum
         right = r;
         top = r;
     }
-};
-struct ShadowViewport
-{
-    float left, right, top, bottom;
 };
 struct ShadowObject : NiAVObject
 {
@@ -1684,39 +1699,10 @@ struct NiMemObjectAllocation
     static void* operator new(unsigned int);
     static void operator delete(void*);
 };
-struct ShadowLight : ShadowObject
-{
-    unsigned int unk09c, unk0a0, unk0a4, unk0a8, unk0ac, unk0b0, unk0b4;
-    unsigned int unk0b8, unk0bc, unk0c0, unk0c4, unk0c8, unk0cc, unk0d0;
-    unsigned int unk0d4, unk0d8, unk0dc;
-    float range;
-};
-struct FUN_00a712f0 : ShadowObject, NiMemObjectAllocation
-{
-    D3DXMATRIX worldToCamera;
-    NiFrustum frustum;
-    ShadowViewport viewport;
-    float lodAdjust;
-    unsigned int unk10c, unk110;
-    FUN_00a712f0();
-    void FUN_00a59c60(ShadowUpdateData&);
-    void SetLookAt(const ShadowVector&, const ShadowVector&);
-    void FUN_00a6faf0(const NiFrustum&);
-    void FUN_00712e60(const ShadowViewport&);
-    void FUN_00a70080(const NiBound&);
-};
 struct ShadowManager
 {
     BSRenderedTexture* ActivatePending();
     void FUN_00b6d4c0(BSRenderedTexture*);
-};
-struct ShadowPointerCalls
-{
-    ShadowPointerCalls& FUN_0066b0d0(void*);
-};
-struct ShadowPlanes
-{
-    void SetFromFrustum(const NiFrustum&, const ShadowTransform&);
 };
 struct ShadowAccumulator : BSShaderAccumulator
 {
@@ -1753,42 +1739,16 @@ struct ShadowAccumulator : BSShaderAccumulator
     }
     void AssignRefCounted(ShadowSceneLight*);
 };
-struct ShadowEvents
-{
-    void FUN_00ba30f0(int, unsigned char*);
-    void FUN_00ba3390(NiCamera*, int, NiAVObject*, int, int, BSShaderAccumulator*, int, unsigned char*, int);
-};
 extern ShadowManager* DAT_011f91a8;
 extern int DAT_011f91c0, DAT_011f91b0;
 extern int DAT_011f91d8;
 extern double DAT_01082cb0, DAT_01031148, DAT_010b7ea0;
 extern double DAT_01016ff0, DAT_0106c948, DAT_01020758;
 extern double DAT_0106b178, DAT_01018a90;
-extern float DAT_01032adc;
 extern ShadowVector DAT_011a9484, DAT_011a946c, DAT_011f426c;
-extern const void* DAT_012031e4;
-extern ShadowEvents DAT_01200088;
 inline float ShadowNegate(float f)
 {
     return -f;
-}
-inline float ShadowRadius(const NiBound& b)
-{
-    return b.radius;
-}
-extern float __cdecl FUN_00404010(float, float);
-extern float __cdecl FUN_0040ebd0(float, float);
-extern bool __cdecl FUN_005bf7b0();
-extern BSShaderAccumulator* __cdecl PopNextInt();
-inline void ShadowEnabled(int& result)
-{
-    result = (DAT_011f91d8 & 0x10) > 0;
-}
-inline int ShadowEnabledValue()
-{
-    int result;
-    ShadowEnabled(result);
-    return result;
 }
 class ShadowSceneLightDecompile : public ShadowSceneLight
 {
@@ -1809,183 +1769,9 @@ class ShadowSceneLightDecompile : public ShadowSceneLight
     void UpdateShadow(void*, unsigned char*);
 };
 
-// Updates the shadow camera frustum and viewport when conditions hold; otherwise releases an existing shadow texture.
-// @fnv 0x00b9dfc0
-void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* renderFlags)
-{
-    bool updateShadow = true;
-    if (!(CastsShadow() && DAT_011f91c0 >= 3 && (unsigned char)ShadowEnabledValue()) && !m_bLightFlag3)
-        updateShadow = false;
-
-    if (!m_spLightRenderedTexture.m_pObject)
-    {
-        BSRenderedTexture* texture = DAT_011f91a8->ActivatePending();
-        if (!texture)
-            reinterpret_cast<NiAVObject*>(m_pMenuLight.m_pObject)->m_uiObjectFlags |= 1;
-        AssignRefObject(texture);
-    }
-
-    if (updateShadow && m_usEnabledState != 255 && m_fShadowParameter5 > DAT_01082cb0 &&
-        m_spLightRenderedTexture.m_pObject)
-    {
-        ShadowTransform lightTransform = reinterpret_cast<ShadowObject*>(GetLight())->world;
-        union
-        {
-            ShadowVector direction, sceneOrigin;
-            ShadowUpdateData initialUpdate;
-        } a;
-        union
-        {
-            ShadowVector side, position;
-        } b;
-        union
-        {
-            ShadowVector temp, delta, offset;
-        } c;
-        union
-        {
-            ShadowVector extent;
-            ShadowUpdateData finalUpdate;
-        } d;
-        union
-        {
-            ShadowVector axis, up;
-        } e;
-        ShadowVector::Set(
-            a.direction,
-            reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation.x - lightTransform.translation.x,
-            reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation.y - lightTransform.translation.y,
-            reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation.z -
-                lightTransform.translation.z);
-        a.direction.FUN_004a0c10();
-        ShadowVector::Set(e.axis, -DAT_011a9484.x, -DAT_011a9484.y, -DAT_011a9484.z);
-        a.direction.FUN_0053d1a0(&b.side, e.axis);
-        if (b.side.x < DAT_01031148 && b.side.x > DAT_010b7ea0 && b.side.y < DAT_01031148 && b.side.y > DAT_010b7ea0 &&
-            b.side.z < DAT_01031148 && b.side.z > DAT_010b7ea0)
-        {
-            e.axis = DAT_011a946c;
-            const NiPoint3* __restrict cross = a.direction.FUN_0053d1a0(&c.temp, e.axis);
-            static_cast<NiPoint3&>(b.side) = *cross;
-        }
-        memcpy(&e.up, a.direction.FUN_0053d1a0(&c.temp, b.side), sizeof(e.up));
-        NiFrustum frustum(false);
-        frustum.orthographic = true;
-        ShadowExtraData* pExtraData =
-            reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->FUN_00a5bdd0(DAT_012031e4);
-        float radius;
-        {
-            ShadowObject* __restrict scene = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
-            {
-                const NiPoint3* __restrict origin = &scene->world.translation;
-                static_cast<NiPoint3&>(a.sceneOrigin) = *origin;
-            }
-            {
-                const NiPoint3* __restrict extent =
-                    pExtraData ? pExtraData->extent.ApplyScaled(&c.temp, scene->GetScale()) : &DAT_011f426c;
-                static_cast<NiPoint3&>(d.extent) = *extent;
-            }
-            const NiBound* bound = static_cast<NiBound*>(scene->m_kWorldBound);
-            if (!bound)
-                bound = &DAT_011f4288;
-            radius = FUN_0040ebd0(DAT_01032adc, FUN_00404010(float(d.extent.x * DAT_01016ff0),
-                                                             FUN_00404010(float(d.extent.y * DAT_01016ff0),
-                                                                          FUN_00404010(float(d.extent.z * DAT_01016ff0),
-                                                                                       ShadowRadius(*bound)))));
-        }
-        ShadowObject* light = reinterpret_cast<ShadowObject*>(m_pMenuLight.m_pObject);
-        float distance;
-        ShadowVector::Set(c.delta, light->world.translation.x - a.sceneOrigin.x,
-                          light->world.translation.y - a.sceneOrigin.y, light->world.translation.z - a.sceneOrigin.z);
-        distance = c.delta.Length();
-        m_fSpotlightParameter = float((radius / distance) * DAT_0106c948);
-        frustum.Set(-radius, radius);
-        frustum.nearPlane = 1.0f;
-        frustum.farPlane = reinterpret_cast<ShadowLight*>(light)->range;
-        __declspec(align(16)) ShadowViewport viewport;
-        viewport.bottom = viewport.left = 0.0f;
-        viewport.top = viewport.right = 1.0f;
-
-        if (m_bSkipLightObject && FUN_005bf7b0())
-        {
-            reinterpret_cast<ShadowPointerCalls*>(&m_spShadowShaderAccumulator)->FUN_0066b0d0(PopNextInt());
-            reinterpret_cast<ShadowAccumulator*>(m_spShadowShaderAccumulator.m_pObject)->SetPass(7);
-            if (!GetShadowCamera())
-            {
-                FUN_00a712f0* camera = new FUN_00a712f0;
-                reinterpret_cast<ShadowPointerCalls*>(&m_pCamera)->FUN_0066b0d0(camera);
-            }
-            memcpy(&reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->local.translation, &lightTransform.translation,
-                   sizeof(lightTransform.translation));
-            a.initialUpdate.time = 0.0f;
-            a.initialUpdate.updateControllers = false;
-            a.initialUpdate.multithreaded = false;
-            a.initialUpdate.updateGeomorphs = false;
-            a.initialUpdate.updateBounds = false;
-            a.initialUpdate.updateTransforms = false;
-            reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->FUN_00a59c60(a.initialUpdate);
-            memcpy(&b.position, &reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation,
-                   sizeof(b.position));
-            pExtraData = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->FUN_00a5bdd0(DAT_012031e4);
-            ShadowVector tempOffset;
-            ShadowObject* __restrict scaleSource = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
-            float scale = static_cast<const volatile float&>(scaleSource->world.scale);
-            ShadowVector* __restrict output = &tempOffset;
-            const ShadowVector* input = &pExtraData->offset;
-            b.position.FUN_0063c8a0(*input->ApplyScaled(output, scale));
-            pExtraData->extent.ApplyScaled(&c.offset,
-                                           reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->OrderedScale());
-            if (c.offset.z > c.offset.x + c.offset.y)
-            {
-                c.offset.x = float(DAT_011a9484.x * DAT_01020758);
-                c.offset.y = float(DAT_011a9484.y * DAT_01020758);
-                c.offset.z = float(DAT_011a9484.z * DAT_01020758);
-                b.position.x = c.offset.x + b.position.x;
-                b.position.y = c.offset.y + (*static_cast<const volatile float*>(&b.position.y));
-                b.position.z = c.offset.z + (*static_cast<const volatile float*>(&b.position.z));
-            }
-            reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->SetLookAt(b.position, e.up);
-            reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->FUN_00a6faf0(frustum);
-            reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->FUN_00712e60(viewport);
-            d.finalUpdate.time = 0.0f;
-            d.finalUpdate.updateControllers = false;
-            d.finalUpdate.multithreaded = false;
-            d.finalUpdate.updateGeomorphs = false;
-            d.finalUpdate.updateBounds = false;
-            d.finalUpdate.updateTransforms = false;
-            reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->FUN_00a59c60(d.finalUpdate);
-            float nearPlane = frustum.nearPlane;
-            float farPlane = frustum.farPlane;
-            ShadowObject* __restrict boundSource = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
-            const NiBound* bound = static_cast<NiBound*>(boundSource->m_kWorldBound);
-            if (!bound)
-                bound = &DAT_011f4288;
-            reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->FUN_00a70080(*bound);
-            frustum = reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->frustum;
-            frustum.farPlane = float(frustum.farPlane + DAT_0106b178);
-            if (!DAT_011f91b0)
-                frustum.nearPlane = float(frustum.farPlane * DAT_01018a90);
-            reinterpret_cast<ShadowPlanes*>(&m_kFrustumPlanes)
-                ->SetFromFrustum(frustum, reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->world);
-            frustum.nearPlane = nearPlane;
-            frustum.farPlane = farPlane;
-            reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())->FUN_00a6faf0(frustum);
-            reinterpret_cast<ShadowAccumulator*>(m_spShadowShaderAccumulator.m_pObject)->AssignRefCounted(this);
-            DAT_01200088.FUN_00ba3390(m_pCamera.m_pObject, 0, m_pLightNode.m_pObject, 0, 0,
-                                      m_spShadowShaderAccumulator.m_pObject, 0, renderFlags + 0x11, 0);
-        }
-    }
-    else if (m_spLightRenderedTexture.m_pObject)
-    {
-        DAT_011f91a8->FUN_00b6d4c0(m_spLightRenderedTexture.m_pObject);
-        m_spLightRenderedTexture = 0;
-        m_spShadowShaderAccumulator = 0;
-    }
-    DAT_01200088.FUN_00ba30f0(0, renderFlags + 0x11);
-}
 }  // namespace fnv_00b9dfc0
 
 struct NiRTTI;
-extern NiRTTI g_011fed88_arg1;
 struct NiShader
 {
     NiShader* DynamicCast(const NiRTTI*);
@@ -2193,6 +1979,8 @@ struct Property504 {
 };
 struct List504 {void FUN_00af2fb0(Node_b9f480*,Node_b9f480*);void FUN_00af0680(GeomHolder_b9f480*);};
 extern NiBound DAT_0108edc8;
+// pdb: ShadowSceneLight::AddTriGeom | ShadowSceneLight.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTriGeom
 void ShadowSceneLight_b9f480::AddGeometry(Geom_b9f480* geometry) {
     static GeomHolder_b9f480 shared;
     if(geometry->pShader && reinterpret_cast<unsigned int>(CastShader504(geometry->pShader))!=0) {
@@ -3133,27 +2921,6 @@ struct PassEffect
 {
     void SetAccumulatorAt(int, ImageSpaceTexture*, int);
 };
-struct PassEffectList
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00C;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01C;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02C;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03C;
-    unsigned int unk040;
-    PassEffect* effect;
-};
 struct PassImageManager
 {
     unsigned int unk00, unk04;
@@ -3178,6 +2945,8 @@ struct ShadowPass : ShadowSceneLight
 };
 // Renders the shadow pass by setting up the shadow matrices from the light and camera, then applies the image space effect to the light rendered texture.
 // @fnv 0x00b9f780
+// pdb: ShadowSceneLight::MTRenderFrustumDepthMap | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arCuller, aiIndex
 void ShadowPass::FUN_00b9f780(PassContext* context, int pass)
 {
     g_01200088.FUN_00ba3130(1, pass + 17);
@@ -3447,10 +3216,6 @@ struct AlphaPropertyView_b9e
     int unk038;
     float alpha;
 };
-struct PropertyObjectView_b9e
-{
-    AlphaPropertyView_b9e* FUN_00a59d30(unsigned);
-};
 struct ShaderDirtyView_b9e
 {
     int unk000;
@@ -3626,6 +3391,8 @@ static inline int IsLightingShader(ShaderDirtyView_b9e* prop)
     int type = prop->type;
     return type >= 1 && type <= 11;
 }
+// pdb: ShadowSceneLight::TestFrustumCull | ShadowSceneLight.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arCuller
 void ShadowUpdate_b9e::FUN_00b9e970(CameraCullView_b9e* camera)
 {
     task1896::LightView* self = reinterpret_cast<task1896::LightView*>(this);

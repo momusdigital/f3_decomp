@@ -29,6 +29,7 @@ class NiColor
 class NiFogProperty : public NiProperty
 {
   public:
+    virtual int Type() const;
     unsigned short m_uiObjectFlags;
     float m_fFogDepth;
     NiColor m_kFogTint;

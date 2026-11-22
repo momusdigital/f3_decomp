@@ -91,15 +91,17 @@ struct TmpStub
 
 struct SweptStub
 {
-    int __thiscall FUN_009786b0(int, void*);
+    int __thiscall hkMotionState_initMotionState(int, void*);
 };
 
+// pdb: hkpShapePhantom::hkpShapePhantom | hkpShapePhantom.obj | fnv360_0822_retail, uvref, high
+// pdb params: shape, transform
 FUN_00c9ea40_cls::FUN_00c9ea40_cls(int a, int b) : FUN_00c9ea90(a)
 {
     FUN_00827200_class tmp;
     ((TmpStub*)&tmp)->FUN_00924360(b);
     SweptStub* pSwept = (SweptStub*)((char*)this + 0xa0);
-    pSwept->FUN_009786b0(b + 0x30, &tmp);
+    pSwept->hkMotionState_initMotionState(b + 0x30, &tmp);
     *(hkMotionState**)((char*)this + 0x18) = (hkMotionState*)((char*)this + 0xa0);
 }
 

@@ -50,6 +50,8 @@ struct FUN_0097dab0 : FUN_0099f010 {
     void FUN_0097adb0(Shape** shapes, int count, int* filters);
     void FUN_0097aae0();
 };
+// pdb: hkpListShape::hkpListShape | hkpListShape.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: shapeArray, numShapes, ref
 FUN_0097dab0::FUN_0097dab0(Shape** shapes, int count) : FUN_0099f010(10) {
     ReserveChildren(children, 4);
     FUN_0097adb0(shapes, count, 0);

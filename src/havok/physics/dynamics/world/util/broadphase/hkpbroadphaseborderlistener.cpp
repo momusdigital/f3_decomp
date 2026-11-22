@@ -34,13 +34,12 @@ struct S_00cf6f10_Obj
 };
 
 // @fnv 0x00cf6f10
-int __stdcall FUN_00cf6f10(S_00cf6f10_Rec* pRec)
+// pdb: hkpBroadPhaseBorderListener::removeCollisionPair | hkpBroadPhaseBorderListener.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpBroadPhaseBorderListener_removeCollisionPair(S_00cf6f10_Rec* pRec)
 {
     S_00cf6f10_Node* a = pRec->first;
-    if (a->type == 3 && pRec->second->type == 3)
-    {
-    }
-    else
+        if (a->type == 3 && pRec->second->type == 3)
+        return;
     {
         if (a->type == 3)
         {
@@ -56,7 +55,7 @@ int __stdcall FUN_00cf6f10(S_00cf6f10_Rec* pRec)
             S_00cf6f10_Node* pSecondBase2 = (S_00cf6f10_Node*)((char*)b + b->off);
             S_00cf6f10_Obj* y = (S_00cf6f10_Obj*)((char*)pSecondBase2 + pSecondBase2->off10);
             S_00cf6f10_Node* pFirst2 = pRec->first;
-            return y->v24((char*)pFirst2 + pFirst2->off);
+            y->v24((char*)pFirst2 + pFirst2->off);
         }
     }
 }
@@ -94,7 +93,10 @@ static inline Disp* GetDisp(Sh* s)
     return (Disp*)(p + p[0x10]);
 }
 // @fnv 0x00cf6ea0
-void __stdcall DispatchPairByType(Pair* p)
+// pdb: hkpBroadPhaseBorderListener::addCollisionPair | hkpBroadPhaseBorderListener.obj | fnv360_0822_retail, vtable, high
+// pdb params: pair
+// pdb: hkpBroadPhaseBorderListener::addCollisionPair | hkpBroadPhaseBorderListener.obj | fnv360_0822_retail, vtable, high (was: DispatchPairByType)
+void __stdcall hkpBroadPhaseBorderListener_addCollisionPair(Pair* p)
 {
     if (p->a->type == 3 && p->b->type == 3)
         return;

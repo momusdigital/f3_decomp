@@ -144,7 +144,8 @@ struct Track { unsigned int used; BlockArray blocks; };
 struct Allocator { void* FUN_008f6d30(int bytes, int memoryClass); };
 extern Allocator* (__stdcall* DAT_00d9b080)(unsigned long);
 void __cdecl FUN_00901f10(void* array, int elementSize);
-static __declspec(noinline) Obj* FUN_00998850(Track* track) {
+// pdb: hkAgentNnMachine_AllocateEntry | hkpAgentNnMachine.obj | fnv360_0822_retail, call_seq + bridge(caller|call_gap) + skyrim(call_seq), high
+static __declspec(noinline) Obj* hkAgentNnMachine_AllocateEntry(Track* track) {
  if(track->used<0x200u) {
   unsigned char* page=track->blocks.data[track->blocks.size-1];
   Obj* result=reinterpret_cast<Obj*>(page+track->used);
@@ -160,7 +161,7 @@ static __declspec(noinline) Obj* FUN_00998850(Track* track) {
  return reinterpret_cast<Obj*>(page);
 }
 Track* volatile g_track;
-Obj* caller_of_FUN_00998850() { return FUN_00998850(g_track); }
+Obj* caller_of_FUN_00998850() { return hkAgentNnMachine_AllocateEntry(g_track); }
 }
 }   // namespace f3m_00998850
 
@@ -173,7 +174,7 @@ struct LifoAllocator
 {
     void FUN_008f6d90(void* block, int bytes, int memoryClass);
 };
-void __cdecl FUN_00901fb0(void* array, int elemSize, void* storage, int capacity);
+void __cdecl hkArrayUtil__reduce(void* array, int elemSize, void* storage, int capacity);
 struct BlockArray
 {
     char** data;
@@ -188,7 +189,8 @@ struct LifoState
     int free;
     BlockArray blocks;
 };
-static __declspec(noinline) void FUN_009988c0(LifoState* state)
+// pdb: hkAgentNnMachine_DeallocateLastEntry | hkpAgentNnMachine.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) void hkAgentNnMachine_DeallocateLastEntry(LifoState* state)
 {
     state->free -= 0x80;
     if (state->free == 0)
@@ -211,16 +213,16 @@ static __declspec(noinline) void FUN_009988c0(LifoState* state)
         int wanted = (int)((n | (n >> 1)) + 1);
         if (wanted < 1)
         {
-            FUN_00901fb0(blocks, 4, &blocks->storage, 1);
+            hkArrayUtil__reduce(blocks, 4, &blocks->storage, 1);
         }
         else if (wanted < (int)(capacityFlags & 0x3fffffff))
         {
-            FUN_00901fb0(blocks, 4, 0, wanted);
+            hkArrayUtil__reduce(blocks, 4, 0, wanted);
         }
     }
 }
 LifoState* volatile g_state_9988c0;
-void caller_of_FUN_009988c0() { FUN_009988c0(g_state_9988c0); }
+void caller_of_FUN_009988c0() { hkAgentNnMachine_DeallocateLastEntry(g_state_9988c0); }
 }
 }   // namespace f3m_009988c0
 

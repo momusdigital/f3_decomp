@@ -16,7 +16,7 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 extern void* DAT_0109827c;
-void* __cdecl FUN_00a46b70();
+void* __cdecl NiTextKeyExtraData_CreateObject();
 struct NiMemObject
 {
     char _pad_0[1];
@@ -194,7 +194,7 @@ class NiPSysOwnerA46
 {
   public:
     void CopyMemberData(NiPSysBaseA46* pkDest, void* pvProcess);
-    NiPSysBaseA46* FUN_00a46da0(void* pvProcess);
+    NiPSysBaseA46* NiTextKeyExtraData_CreateClone(void* pvProcess);
 };
 
 struct MemoryManager
@@ -262,6 +262,8 @@ inline bool A46IsExactKindOf(const NiRTTI* pkRTTI, const A46ExtraData* pkObject)
 }
 
 // @fnv 0x00a46c20
+// pdb: NiTextKeyExtraData::CopyMembers | NiTextKeyExtraData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pDest, kCloning
 void A46TextKeyExtraData::FUN_00a46c20(A46TextKeyExtraData* pkDest, CloningProcess* kCloning)
 {
     A46ExtraData::FUN_00a7b330(pkDest, kCloning);
@@ -485,6 +487,8 @@ struct NiStream
 };
 
 // @fnv 0x00a46e00
+// pdb: NiTextKeyExtraData::LoadBinary | NiTextKeyExtraData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: stream
 void __thiscall NiTextKeyExtraDataStub::FUN_00a46e00(NiStream& stream)
 {
     LoadBinaryBase(stream);

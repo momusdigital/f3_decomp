@@ -17,6 +17,8 @@ void C_00424d00::FUN_00424d00()
 
 void* __cdecl FUN_00aab350(void*, void*, int);
 
+// pdb: BSUtilities::GetObjectByName | BipedAnim.obj | fnv360_0822_debug, call_gap, low
+// pdb params: apScene, apName
 void* FUN_00470720(void* a, void* b)
 {
     return FUN_00aab350(a, b, 1);
@@ -27,6 +29,7 @@ void* FUN_00470720(void* a, void* b)
 
 
 struct C_0047cb70 { int a, b, c; void* FUN_0047cb70(); };
+// pdb: ItemChange::ItemChange | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
 void* C_0047cb70::FUN_0047cb70()
 {
     c = 0;
@@ -40,6 +43,7 @@ void* C_0047cb70::FUN_0047cb70()
 struct P_004e0560 { int* FUN_004e0560(int); };
 extern P_004e0560 DAT_01090a78;
 
+// pdb: NiTMap<TESForm *,BGSLoadGameSubBuffer>::NewItem | BGSLoadGameSubBuffer.obj | fnv360_0822_retail, vtable, medium
 int* FUN_004e0560()
 {
     int* p = DAT_01090a78.FUN_004e0560(12);
@@ -105,6 +109,7 @@ struct C_00541dd0
     virtual char* t(char*);
     char* FUN_00541dd0();
 };
+// pdb: BGSBodyPart::InitializeData | BGSBodyPart.obj | fnv360_0822_debug, objrun_open, low
 char* C_00541dd0::FUN_00541dd0()
 {
     char c;

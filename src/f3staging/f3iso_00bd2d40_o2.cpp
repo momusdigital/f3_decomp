@@ -28,12 +28,13 @@ class BSAudioManager
 {
 public:
     typedef void (__cdecl *SoundCallback)(void*);
-    bool FUN_00bd2d40(unsigned int soundHandle, SoundCallback callback, void* userData);
+    bool SetCompletionCallback(unsigned int soundHandle, SoundCallback callback, void* userData);
     void FUN_00bd24f0(unsigned int command, unsigned int soundHandle, void* userData,
                       SoundCallback callback, NiPointer<NiAVObject> object, NiPoint3 position);
 };
 
-bool BSAudioManager::FUN_00bd2d40(unsigned int soundHandle, SoundCallback callback, void* userData)
+// pdb: BSAudioManager::SetCompletionCallback | BSAudioManager.obj | fnv360_1110_retail, call_seq + bridge(call_gap|call_gap), high
+bool BSAudioManager::SetCompletionCallback(unsigned int soundHandle, SoundCallback callback, void* userData)
 {
     FUN_00bd24f0(0x3a, soundHandle, userData, callback, static_cast<NiAVObject*>(0), FNV_NiPoint3Zero);
     return true;

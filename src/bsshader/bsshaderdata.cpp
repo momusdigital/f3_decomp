@@ -103,6 +103,8 @@ struct FUN_00bb0180_shell : public ShaderPropertyConversionData
 
 // Adds an alpha, material and/or shader property to apTarget according to the bits set in auiProperties.
 // @fnv 0x00bb0180
+// pdb: BSShaderData::Convert | BSShaderData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apTarget, auiProperties
 void FUN_00bb0180_shell::AddProperties(NiAVObject* apTarget, unsigned int auiProperties)
 {
     if (auiProperties & 1)
@@ -121,6 +123,7 @@ struct FUN_00bb0490_shell
 };
 
 // @fnv 0x00bb0490
+// pdb: PrecipitationShader::ClearPassStages | PrecipitationShader.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00bb0490_shell::CallVirtualMethod74()
 {
     ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(this))[0x4a])(this, DAT_012005e0);
@@ -187,6 +190,7 @@ struct FUN_00bb0360_t : BSShader
 };
 
 // @fnv 0x00bb0360
+// pdb: PrecipitationShader::LoadPixelShaders | PrecipitationShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bb0360_t::CreatePrecipitationPixelShaders()
 {
     PrecipShaderDef ShaderDefs[2];
@@ -241,6 +245,7 @@ struct FUN_00bb01c0_t : BSShaderVS
 };
 
 // @fnv 0x00bb01c0
+// pdb: PrecipitationShader::LoadVertexShaders | PrecipitationShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bb01c0_t::CreatePrecipitationVertexShaders()
 {
     PrecipShaderDef shaderDefs[4];

@@ -207,11 +207,6 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
     }
 }
 
-struct VUC_World
-{
-    void FUN_00c914d0(void* entity, int flag);
-};
-
 struct VUC_VehicleTarget
 {
     virtual void f1() = 0;
@@ -252,6 +247,8 @@ struct Obj38_7988 {
     virtual void vf(void* arg);
 };
 extern "C" void __stdcall FUN_00aa5a60(void* world, void* param2);
+// pdb: LipTask::Cancel | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aePreviousState, apTaskOwner
 void __thiscall VUC_VehicleInstance::FUN_00e378e0(void* world, void* param2)
 {
     FUN_00aa5a60(world, param2);
@@ -291,11 +288,6 @@ void FUN_00e38080StandIn::FUN_00e38080(const VUC_StepInfo& stepInfo, void* apArg
     FUN_00e59a40(&deltaTime, m_data + 0xa4, apArg, &m_object54);
 }
 
-struct DDCC60World
-{
-    void removeReference();
-};
-
 struct VUC_Allocator
 {
     virtual void a();
@@ -310,210 +302,6 @@ struct VUC_Router
     char m_auiShapeKeys[0x10];
     VUC_Allocator* m_pThreadAllocator;
 };
-
-extern int DAT_010df34c;
-VUC_Router* _D1A0E0GetMemoryRouter();
-void __fastcall FUN_00d2b2b0(void*);
-
-struct FUN_00e38bf0
-{
-    void* m_vtbl;
-    char m_uiStandInValue[0x18];
-
-    DDCC60World* m_ref1c;
-    DDCC60World* m_ref20;
-    DDCC60World* m_ref24;
-    DDCC60World* m_ref28;
-    DDCC60World* m_ref2c;
-    DDCC60World* m_ref30;
-    DDCC60World* m_ref34;
-    DDCC60World* m_ref38;
-    DDCC60World* m_ref3c;
-    DDCC60World* m_ref40;
-    DDCC60World* m_ref44;
-
-    void* m_data48;
-    int m_size4c;
-    int m_capacity50;
-
-    char m_iValueAfterStandIn[0x48];
-
-    DDCC60World* m_ref9c;
-    void* m_dataa0;
-    int m_sizea4;
-    int m_capacitya8;
-
-    char m_pAuxiliaryObject[0x14];
-
-    void* m_datac0;
-    int m_sizec4;
-    int m_capacityc8;
-
-    FUN_00e38bf0();
-    ~FUN_00e38bf0();
-};
-
-// Resets the vtable, releases the twelve referenced objects, frees the three dynamic arrays through the memory router allocator, and calls FUN_00d2b2b0.
-// @fnv 0x00e38bf0
-FUN_00e38bf0::~FUN_00e38bf0()
-{
-    m_vtbl = &DAT_010df34c;
-
-    if (m_ref1c)
-        m_ref1c->removeReference();
-    if (m_ref20)
-        m_ref20->removeReference();
-    if (m_ref24)
-        m_ref24->removeReference();
-    if (m_ref28)
-        m_ref28->removeReference();
-    if (m_ref2c)
-        m_ref2c->removeReference();
-    if (m_ref30)
-        m_ref30->removeReference();
-    if (m_ref34)
-        m_ref34->removeReference();
-    if (m_ref38)
-        m_ref38->removeReference();
-    if (m_ref3c)
-        m_ref3c->removeReference();
-    if (m_ref44)
-        m_ref44->removeReference();
-    if (m_ref9c)
-        m_ref9c->removeReference();
-    if (m_ref40)
-        m_ref40->removeReference();
-
-    VUC_Router* router = _D1A0E0GetMemoryRouter();
-    VUC_Allocator* allocator = router->m_pThreadAllocator;
-
-    m_sizec4 = 0;
-    if ((m_capacityc8 & 0x80000000) == 0)
-    {
-        unsigned int size = (m_capacityc8 & 0x3fffffff) * 4;
-        allocator->free(m_datac0, size);
-    }
-    m_datac0 = 0;
-    m_capacityc8 = 0x80000000;
-
-    router = _D1A0E0GetMemoryRouter();
-    allocator = router->m_pThreadAllocator;
-
-    m_sizea4 = 0;
-    if ((m_capacitya8 & 0x80000000) == 0)
-    {
-        unsigned int size = m_capacitya8 & 0x3fffffff;
-        allocator->free(m_dataa0, size);
-    }
-    m_dataa0 = 0;
-    m_capacitya8 = 0x80000000;
-
-    router = _D1A0E0GetMemoryRouter();
-    allocator = router->m_pThreadAllocator;
-
-    m_size4c = 0;
-    if ((m_capacity50 & 0x80000000) == 0)
-    {
-        unsigned int size = (m_capacity50 & 0x3fffffff) * 0xe0;
-        allocator->free(m_data48, size);
-    }
-    m_data48 = 0;
-    m_capacity50 = 0x80000000;
-
-    FUN_00d2b2b0(this);
-}
-
-struct FnvCpu_FUN_00e36f50_CpuInterface
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0c();
-    virtual void slot10();
-    virtual void Invoke(int arg0);
-};
-struct FnvCpu_FUN_00e36f50_CpuOwner
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    FnvCpu_FUN_00e36f50_CpuInterface* target;
-    void FUN_00e36f50(int arg0);
-};
-// @fnv 0x00e36f50
-void FnvCpu_FUN_00e36f50_CpuOwner::FUN_00e36f50(int arg0)
-{
-    target->Invoke(arg0);
-}
-
-struct CpuObject
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3c;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4c;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5c;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6c;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7c;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8c;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9c;
-    unsigned int unka0;
-    unsigned int unka4;
-    unsigned int unka8;
-    unsigned int unkac;
-    unsigned int unkb0;
-    unsigned int unkb4;
-    float value;
-    float FUN_00e370a0();
-};
-// @fnv 0x00e370a0
-float CpuObject::FUN_00e370a0()
-{
-    return value;
-}
 
 struct Filtered
 {
@@ -685,6 +473,7 @@ struct RefTarget_423be0
     unsigned int refID;
 };
 
+// pdb: DoorTeleportData::SaveGame | TeleportData.obj | fnv360_0822_retail, call_gap, low
 void FUN_00e37910_cls::FUN_00e37910()
 {
     DAT_01079ca4->FUN_006db460(&m_04, 12);
@@ -1141,37 +930,11 @@ class hkSourceE392
     FUN_00e38b20* FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw();
 };
 
-// Allocates a clone of this source for the given input, copies the shape, creates an agent, clones m_9c and calls FUN_00c90510 on the clone's reference objects.
-// @fnv 0x00e39210
-FUN_00e38b20* hkSourceE392::FUN_00e39210(const hkInputE392* pkInput, int iFlags) throw()
-{
-    const hkShapeE392* pkShape = pkInput->m_info->m_pCollisionShape;
-    FUN_00e38b20* pkClone = new FUN_00e38b20(pkShape);
-    pkClone->FUN_00e39480(this);
-    pkClone->m_08 = 0;
-    pkClone->m_0c = 0;
-    pkClone->m_pCollisionShape = pkShape;
-    pkClone->m_pCollisionAgent = m_factory->createAgent(pkShape, iFlags);
-    pkClone->m_pCollisionAgent->m_sState = 1;
-    pkClone->m_9c = m_9c->clone();
-    pkClone->m_1c->FUN_00c90510();
-    pkClone->m_20->FUN_00c90510();
-    pkClone->m_24->FUN_00c90510();
-    pkClone->m_28->FUN_00c90510();
-    pkClone->m_2c->FUN_00c90510();
-    pkClone->m_30->FUN_00c90510();
-    pkClone->m_34->FUN_00c90510();
-    pkClone->m_38->FUN_00c90510();
-    pkClone->m_44->FUN_00c90510();
-    if (m_40)
-        pkClone->m_40->FUN_00c90510();
-    return pkClone;
-}
-
 void __cdecl FUN_00e39190();
 
 // @fnv 0x00e392f0
-void __cdecl FUN_00e392f0()
+// pdb: hkString::memMove | hkString.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl hkString_memMove()
 {
     FUN_00e39190();
 }
@@ -1628,70 +1391,6 @@ void VehStep_Vehicle::FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output*
 }
 }  // namespace fnv_00e385e0
 
-struct FUN_00e39300_class
-{
-    __m128 unk00;
-    __m128 unk10;
-    float unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    __m128 unk50;
-    __m128 unk60;
-    float unk70;
-    __m128 unk80;
-    __m128 unk90;
-    __m128 unka0;
-    __m128 unkb0;
-    float unkc0;
-    float unkc4;
-    float unkc8;
-    float unkcc;
-    float unkd0;
-    float unkd4;
-    FUN_00e39300_class& FUN_00e39300(const FUN_00e39300_class* src);
-};
-
-// Copies most fields from src into this, skipping unk48 and unk4c, and returns *this.
-// @fnv 0x00e39300
-FUN_00e39300_class& FUN_00e39300_class::FUN_00e39300(const FUN_00e39300_class* src)
-{
-    unk00 = src->unk00;
-    unk10 = src->unk10;
-    unk20 = src->unk20;
-    unk24 = src->unk24;
-    unk28 = src->unk28;
-    unk2c = src->unk2c;
-    unk30 = src->unk30;
-    unk34 = src->unk34;
-    unk38 = src->unk38;
-    unk3c = src->unk3c;
-    unk40 = src->unk40;
-    unk44 = src->unk44;
-    unk50 = src->unk50;
-    unk60 = src->unk60;
-    unk70 = src->unk70;
-    unk80 = src->unk80;
-    unk90 = src->unk90;
-    unka0 = src->unka0;
-    unkb0 = src->unkb0;
-    unkc0 = src->unkc0;
-    unkc4 = src->unkc4;
-    unkc8 = src->unkc8;
-    unkcc = src->unkcc;
-    unkd0 = src->unkd0;
-    unkd4 = src->unkd4;
-    return *this;
-}
-
 inline void* operator new(unsigned int, void* pvWhere)
 {
     return pvWhere;
@@ -1859,200 +1558,8 @@ struct WheelE39
     int m_iD8;
     int m_iDC;
 };
-struct Block48E39
-{
-    int m_i00;
-    int m_i04;
-    int m_i08;
-    int m_i0C;
-    int m_i10;
-    int m_i14;
-    int m_i18;
-    int m_i1C;
-    int m_i20;
-    int m_i24;
-    int m_i28;
-    int m_i2C;
-    int m_i30;
-    int m_i34;
-    int m_i38;
-    int m_i3C;
-    int m_i40;
-    int m_i44;
-};
-class hkReferencedObjectE39
-{
-  public:
-    virtual ~hkReferencedObjectE39();
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-};
-class VehicleDataE39 : public hkReferencedObjectE39
-{
-  public:
-    VehicleDataE39& FUN_00e39480(const VehicleDataE39& kOther);
-    int m_i08;
-    int m_i0C;
-    int m_i10;
-    hkStringPtrE39 m_kName;
-    int m_i18;
-    int m_i1C;
-    int m_i20;
-    int m_i24;
-    int m_i28;
-    int m_i2C;
-    int m_i30;
-    int m_i34;
-    int m_i38;
-    int m_i3C;
-    int m_i40;
-    int m_i44;
-    hkClassArrayE39<WheelE39> m_akWheels;
-    Block48E39 m_kBlock54;
-    int m_i9C;
-    hkPodArrayE39<char> m_acFlags;
-    float m_fAC;
-    bool m_bB0;
-    float m_fB4;
-    float m_fB8;
-    float m_fBC;
-    hkPodArrayE39<float> m_afValues;
-    bool m_bCC;
-    bool m_bCD;
-    bool m_bCE;
-    float m_fD0;
-};
 
-// Copies all fields from kOther into this VehicleDataE39 instance and returns a reference to this.
-// @fnv 0x00e39480
-VehicleDataE39& VehicleDataE39::FUN_00e39480(const VehicleDataE39& kOther)
-{
-    m_usMemSizeAndFlags = kOther.m_usMemSizeAndFlags;
-    m_sReferenceCount = kOther.m_sReferenceCount;
-    m_i08 = kOther.m_i08;
-    m_i0C = kOther.m_i0C;
-    m_i10 = kOther.m_i10;
-    m_kName = kOther.m_kName;
-    m_i18 = kOther.m_i18;
-    m_i1C = kOther.m_i1C;
-    m_i20 = kOther.m_i20;
-    m_i24 = kOther.m_i24;
-    m_i28 = kOther.m_i28;
-    m_i2C = kOther.m_i2C;
-    m_i30 = kOther.m_i30;
-    m_i34 = kOther.m_i34;
-    m_i38 = kOther.m_i38;
-    m_i3C = kOther.m_i3C;
-    m_i40 = kOther.m_i40;
-    m_i44 = kOther.m_i44;
-    m_akWheels = kOther.m_akWheels;
-    m_kBlock54 = kOther.m_kBlock54;
-    m_i9C = kOther.m_i9C;
-    m_acFlags = kOther.m_acFlags;
-    m_fAC = kOther.m_fAC;
-    m_bB0 = kOther.m_bB0;
-    m_fB4 = kOther.m_fB4;
-    m_fB8 = kOther.m_fB8;
-    m_fBC = kOther.m_fBC;
-    m_afValues = kOther.m_afValues;
-    m_bCC = kOther.m_bCC;
-    m_bCD = kOther.m_bCD;
-    m_bCE = kOther.m_bCE;
-    m_fD0 = kOther.m_fD0;
-    return *this;
-}
-
-extern "C" void _mm_store_ps(float*, __m128);
-extern const __m128 DAT_01267e30;
-extern const __m128 DAT_010c7190;
-extern const __m128 DAT_010c71b0;
-extern const float DAT_01012068;
-extern const float DAT_01011d78;
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern "C" __m128 _mm_setzero_ps();
-union VecInit
-{
-    __m128 v;
-    struct
-    {
-        float x, y, z, w;
-    } f;
-};
-struct WheelInit
-{
-    VecInit m00;
-    VecInit m10;
-    float m20;
-    int m24;
-    int m28;
-    float m2c, m30, m34, m38, m3c, m40, m44, m48, m4c;
-    VecInit m50;
-    VecInit m60;
-    float m70, m74, m78, m7c;
-    VecInit m80;
-    VecInit m90;
-    VecInit ma0;
-    VecInit mb0;
-    float mc0, mc4, mc8, mcc, md0, md4;
-    void FUN_00e370b0();
-};
-// Loads preset vectors into m00, m10 and mb0, sets m90 to (1,0,0,0), m28 to -1 and m10.w to 1, and zeroes the other fields it touches.
-// @fnv 0x00e370b0
-void WheelInit::FUN_00e370b0()
-{
-    __m128 normal = DAT_010c7190;
-    m00.v = DAT_01267e30;
-    m10.v = normal;
-    float* d = &m10.f.w;
-    *d = 1.0f;
-    m50.v = _mm_setzero_ps();
-    m20 = 0.0f;
-    m60.v = _mm_setzero_ps();
-    m70 = 0.0f;
-    m80.v = _mm_setzero_ps();
-    ma0.v = _mm_setzero_ps();
-    m90.v = _mm_setr_ps(1.0f, 0.0f, 0.0f, 0.0f);
-    m24 = 0;
-    m28 = -1;
-    mb0.v = DAT_010c71b0;
-    mc0 = 0.0f;
-    mc4 = 0.0f;
-    mc8 = 0.0f;
-    mcc = 0.0f;
-    md0 = 0.0f;
-    md4 = 0.0f;
-}
-
-struct FnvVehicleState
-{
-    unsigned char active;
-    unsigned int flags04;
-    float scalar08;
-    float scalar0c;
-    __m128 vectors10;
-    __m128 vectors20;
-    __m128 vectors30;
-    __m128 vectors40;
-    __m128 vectors50;
-    __m128 vectors60;
-    __m128 vectors70;
-};
-
-// Sets active to 1, scalar08 to 0.0f, and zeroes all vectors in the FnvVehicleState.
-// @fnv 0x00e37160
-void __stdcall FUN_00e37160(int, FnvVehicleState* state)
-{
-    state->scalar08 = 0.0f;
-    state->active = 1;
-    __m128 zero = _mm_setzero_ps();
-    state->vectors30 = zero;
-    state->vectors10 = zero;
-    state->vectors20 = zero;
-    state->vectors40 = zero;
-    state->vectors50 = zero;
-    state->vectors60 = zero;
-    state->vectors70 = zero;
-}
 
 struct FUN_00e39400_Router
 {
@@ -2222,14 +1729,6 @@ struct VehFr_Motion
     virtual void SetTranslationalVelocity(const VehFr_Vector4& v);
 
     virtual void SetRotationalVelocity(const VehFr_Vector4& v);
-};
-
-struct VehFr_MotionBody : VehFr_Motion
-{
-
-    int unk04;
-
-    unsigned char m_type;
 };
 
 struct VehFr_MotionData
@@ -2683,146 +2182,6 @@ struct S00e37880_Vec
     }
 };
 
-struct S00e37880_Data
-{
-    int unk0000;
-    int unk0004;
-    int unk0008;
-    int unk000c;
-    int unk0010;
-    int unk0014;
-    int unk0018;
-    int unk001c;
-    int unk0020;
-    int unk0024;
-    int unk0028;
-    int unk002c;
-    int unk0030;
-    int unk0034;
-    int unk0038;
-    int unk003c;
-    int unk0040;
-    int unk0044;
-    int unk0048;
-    int unk004c;
-    int unk0050;
-    int unk0054;
-    int unk0058;
-    int unk005c;
-    int unk0060;
-    int unk0064;
-    int unk0068;
-    int unk006c;
-    int unk0070;
-    int unk0074;
-    int unk0078;
-    int unk007c;
-    int unk0080;
-    int unk0084;
-    int unk0088;
-    int unk008c;
-    int unk0090;
-    int unk0094;
-    int unk0098;
-    int unk009c;
-    int unk00a0;
-    int unk00a4;
-    int unk00a8;
-    int unk00ac;
-    int unk00b0;
-    int unk00b4;
-    int unk00b8;
-    int unk00bc;
-    int unk00c0;
-    int unk00c4;
-    int unk00c8;
-    int unk00cc;
-    int unk00d0;
-    int unk00d4;
-    int unk00d8;
-    int unk00dc;
-    int unk00e0;
-    int unk00e4;
-    int unk00e8;
-    int unk00ec;
-    int unk00f0;
-    int unk00f4;
-    int unk00f8;
-    int unk00fc;
-    int unk0100;
-    int unk0104;
-    int unk0108;
-    int unk010c;
-    int unk0110;
-    int unk0114;
-    int unk0118;
-    int unk011c;
-    int unk0120;
-    int unk0124;
-    int unk0128;
-    int unk012c;
-    int unk0130;
-    int unk0134;
-    int unk0138;
-    int unk013c;
-    int unk0140;
-    int unk0144;
-    int unk0148;
-    int unk014c;
-    int unk0150;
-    int unk0154;
-    int unk0158;
-    int unk015c;
-    int unk0160;
-    int unk0164;
-    int unk0168;
-    int unk016c;
-    int unk0170;
-    int unk0174;
-    int unk0178;
-    int unk017c;
-    int unk0180;
-    int unk0184;
-    int unk0188;
-    int unk018c;
-    int unk0190;
-    int unk0194;
-    int unk0198;
-    int unk019c;
-    int unk01a0;
-    int unk01a4;
-    int unk01a8;
-    int unk01ac;
-    S00e37880_Vec m_vec;
-};
-
-struct S00e37880_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    S00e37880_Data* m_data;
-
-    float FUN_00e37880();
-};
-
-// Returns the length of m_data->m_vec scaled by 3600 / 1609.3, a metres-per-second to miles-per-hour conversion.
-// @fnv 0x00e37880
-float S00e37880_Obj::FUN_00e37880()
-{
-    __m128 v = m_data->m_vec.squared();
-    __m128 a = _mm_shuffle_ps(v, v, 0x55);
-    __m128 b = _mm_shuffle_ps(v, v, 0xaa);
-    a = _mm_add_ss(a, v);
-    b = _mm_add_ss(b, a);
-    return (float)(_mm_cvtss_f32(_mm_sqrt_ss(b)) / 1609.300048828125 * 3600.0);
-}
-
-extern double DAT_01017b70;
-extern double DAT_01012640;
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_sqrt_ss(__m128);
 extern "C" float _mm_cvtss_f32(__m128);
@@ -2954,18 +2313,6 @@ struct SpeedBodyE378
         return m_kTranslationalVelocity;
     }
 };
-struct VehicleSpeedE378 : hkpVehicleInstance
-{
-    float FUN_00e37820();
-};
-// Returns the length of the entity's linear velocity divided by DAT_01017b70 and multiplied by DAT_01012640.
-// @fnv 0x00e37820
-float VehicleSpeedE378::FUN_00e37820()
-{
-    return float(
-        (double(reinterpret_cast<const SpeedBodyE378*>(m_pEntity)->linearVelocity().length3()) / DAT_01017b70) *
-        DAT_01012640);
-}
 
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" __m128 _mm_sqrt_ss(__m128);

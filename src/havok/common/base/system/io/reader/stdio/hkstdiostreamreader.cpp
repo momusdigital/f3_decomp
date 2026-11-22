@@ -11,12 +11,15 @@ struct FUN_00d2bcd0_class
     void* m_08;
     void* m_0c;
     char m_10;
-    void ReadOrMarkFailed(void* buffer, unsigned int count);
+    void hkStdioStreamReader_read(void* buffer, unsigned int count);
 };
 
 // Reads count bytes from the stream at m_0c into buffer; if fread returns no bytes, sets m_10 to 0.
 // @fnv 0x00d2bcd0
-void FUN_00d2bcd0_class::ReadOrMarkFailed(void* buffer, unsigned int count)
+// pdb: hkStdioStreamReader::read | hkStdioStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: buf, nbytes
+// pdb: hkStdioStreamReader::read | hkStdioStreamReader.obj | fnv360_0822_retail, vtable, high (was: ReadOrMarkFailed)
+void FUN_00d2bcd0_class::hkStdioStreamReader_read(void* buffer, unsigned int count)
 {
     if ((int)fread(buffer, 1, count, m_0c) > 0)
         return;
@@ -34,6 +37,7 @@ struct FUN_00d2bda0_cls
 
 // Resets the vtable pointers and closes the stored file handle if present.
 // @fnv 0x00d2bda0
+// pdb: hkStdioStreamReader::~hkStdioStreamReader | hkStdioStreamReader.obj | fnv360_0822_retail, objrun, high
 void __thiscall FUN_00d2bda0_cls::DestroyFileHandle()
 {
     int file = *(int*)((char*)this + 0xc);
@@ -50,10 +54,11 @@ struct FUN_00d2bd50_cls
     void* m_04;
     void* m_08;
     void* m_0c;
-    long FUN_00d2bd50();
+    long hkStdioStreamReader_tell();
 };
 // @fnv 0x00d2bd50
-long FUN_00d2bd50_cls::FUN_00d2bd50()
+// pdb: hkStdioStreamReader::tell | hkStdioStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+long FUN_00d2bd50_cls::hkStdioStreamReader_tell()
 {
     return _ftell(m_0c);
 }
@@ -65,6 +70,7 @@ void __stdcall FUN_00d2bd10(unsigned char* output)
 }
 
 // @fnv 0x00d2bd20
+// pdb: hkArrayStreamWriter::getClassType | hkOStream.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkArrayStreamWriter::isOk)
 void __stdcall FUN_00d2bd20(char* a1)
 {
     *a1 = 1;
@@ -81,6 +87,8 @@ struct FileObject
     bool Seek(long offset, int origin);
 };
 // @fnv 0x00d2bd30
+// pdb: hkStdioStreamReader::seek | hkStdioStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: offset, whence
 bool FileObject::Seek(long lOffset, int origin)
 {
     return _fseek(stream, lOffset, origin) != 0;
@@ -102,10 +110,13 @@ struct ReaderWithPosition
     virtual int GetPosition() = 0;
     int unk04;
     int position;
-    int SetPositionFromReader(int unused);
+    int hkSeekableStreamReader_setMark(int unused);
 };
 // @fnv 0x00d2bdd0
-int ReaderWithPosition::SetPositionFromReader(int unused)
+// pdb: hkSeekableStreamReader::setMark | hkStdioStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: markLimit
+// pdb: hkSeekableStreamReader::setMark | hkStdioStreamReader.obj | fnv360_0822_retail, vtable, high (was: SetPositionFromReader)
+int ReaderWithPosition::hkSeekableStreamReader_setMark(int unused)
 {
     int value = GetPosition();
     int failed = value == -1;
@@ -131,40 +142,13 @@ struct Owner : DispatchObject
 {
     int unk04;
     void* unk08;
-    void FUN_00d2bdf0();
+    void hkSeekableStreamReader_rewindToMark();
 };
 // @fnv 0x00d2bdf0
-void Owner::FUN_00d2bdf0()
+// pdb: hkSeekableStreamReader::rewindToMark | hkStdioStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Owner::hkSeekableStreamReader_rewindToMark()
 {
     invoke(unk08, 0);
-}
-
-extern int DAT_010cc2fc;
-struct Prefix
-{
-    int vtable;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    ~Prefix();
-};
-
-struct FUN_00cb0a70_Class
-{
-    void FUN_00cb0a70(int);
-};
-struct FUN_00d2c7e0_class : Prefix
-{
-    FUN_00cb0a70_Class sub;
-    FUN_00d2c7e0_class(int value);
-};
-// Sets the vtable pointer and forwards value to the sub-object's FUN_00cb0a70.
-// @fnv 0x00d2c7e0
-FUN_00d2c7e0_class::FUN_00d2c7e0_class(int value)
-{
-    vtable = (int)&DAT_010cc2fc;
-    sub.FUN_00cb0a70(value);
 }
 
 struct FUN_00d2bd00_cls
@@ -174,17 +158,17 @@ struct FUN_00d2bd00_cls
     int unk08;
     int unk0c;
     unsigned char unk10;
-    void FUN_00d2bd00(unsigned char* out);
+    void hkStdioStreamReader_isOk(unsigned char* out);
 };
 
 // @fnv 0x00d2bd00
-void FUN_00d2bd00_cls::FUN_00d2bd00(unsigned char* volatile out)
+// pdb: hkStdioStreamReader::isOk | hkStdioStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void FUN_00d2bd00_cls::hkStdioStreamReader_isOk(unsigned char* volatile out)
 {
     unsigned char value = unk10;
     *out = value;
 }
 
-extern "C" void _ReadWriteBarrier(void);
 extern "C" void* __cdecl FUN_00ec9a47(const char* name, const char* mode);
 extern int DAT_010ce6c0;
 extern const char kModeReadBinary[];
@@ -202,6 +186,8 @@ struct StdioStreamReader
 
 // Initialises the stream object and opens fname in binary read mode, storing the handle and setting the flag to whether opening succeeded.
 // @fnv 0x00d2bd60
+// pdb: hkStdioStreamReader::hkStdioStreamReader | hkStdioStreamReader.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: nameIn
 StdioStreamReader* StdioStreamReader::OpenFile(const char* fname)
 {
     refCount = 1;
@@ -213,42 +199,9 @@ StdioStreamReader* StdioStreamReader::OpenFile(const char* fname)
     return this;
 }
 
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
-CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void DestroyFileHandle();
-    CpuObject* FUN_00d2be00(unsigned int flags);
-};
-// @fnv 0x00d2be00
-CpuObject* CpuObject::FUN_00d2be00(unsigned int flags)
-{
-    DestroyFileHandle();
-    if (flags & 1)
-    {
-        CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
-
 // @f3twin 0x00a85100 of 0x0092e890
-void __stdcall F3_FUN_00a85100(unsigned char* output)
+// pdb: hkOffsetOnlyStreamWriter::seekTellSupported | hkOffsetOnlyStreamWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkOffsetOnlyStreamWriter_seekTellSupported(unsigned char* output)
 {
     *output = 1;
 }

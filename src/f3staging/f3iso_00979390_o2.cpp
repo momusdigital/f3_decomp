@@ -9,6 +9,7 @@
 namespace f3m_00979390 {
 struct VectorArray { const float* values; int count; };
 bool FUN_009792a0(const float*,const float*);
+// pdb: hkMultiSphereShapeCinfo::~hkMultiSphereShapeCinfo | BSTreeNode.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 bool FUN_00979390(const VectorArray* left,const VectorArray* right) {
     const int count=left->count;
     bool equal=count==right->count;

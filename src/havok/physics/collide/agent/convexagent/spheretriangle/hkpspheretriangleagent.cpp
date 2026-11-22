@@ -1,4 +1,5 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -29,6 +30,8 @@ void __cdecl D3DD50Query(int a, int b, int c, D3DD50CollectorBase* collector);
 
 // Constructs a D3DD50Collector from d and passes it to D3DD50Query with b, a, c.
 // @fnv 0x00d3dd50
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereBoxAgent>::staticGetPenetrations | hkpSphereBoxAgent.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl QueryD3DCollector(int aiArg1, int aiArg2, int aiArg3, int aiData)
 {
     D3DD50Collector collector(aiData);
@@ -48,6 +51,8 @@ void __cdecl FUN_00d3d8c0(int a, int b, int c, Functor_d3e110* f);
 
 // Builds a Functor_d3e110 with a max-float value and d, sets its vtable to DAT_010ce7fc, and calls FUN_00d3d8c0(b, a, c, &f).
 // @fnv 0x00d3e110
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereTriangleAgent>::staticGetClosestPoints | hkpSphereTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d3e110(int a, int b, int aiArg3, int d)
 {
     Functor_d3e110 f;
@@ -57,36 +62,41 @@ void __cdecl FUN_00d3e110(int a, int b, int aiArg3, int d)
     FUN_00d3d8c0(b, a, aiArg3, &f);
 }
 
+class hkClass;
+class hkStatisticsCollector;
+// hkpContactMgr, up to removeContactPointImpl (names from the New Vegas Xbox 360 PDB).
 struct SpawnedInner
 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void unk10();
-    virtual void unk14(unsigned short flags, void* param);
+    virtual ~SpawnedInner();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual unsigned short addContactPointImpl();
+    virtual int reserveContactPointsImpl(int numPoints);
+    virtual void removeContactPointImpl(unsigned short cpId, void* constraintOwner);
 };
 
+// hkpSphereTriangleAgent (cleanup is slot 7 of its Fallout 3 vtable, 0x00e7f1c8)
 class FUN_00d3d200_cls
 {
   public:
-    virtual void unk00(int flags);
+    virtual ~FUN_00d3d200_cls();
     int m_unk04;              // +0x04
     SpawnedInner* m_pInner;   // +0x08
     unsigned short m_wFlags;  // +0x0C
 
-    void FUN_00d3d200(void* param);
+    void hkpSphereTriangleAgent_cleanup(void* param);
 };
 
-// If m_wFlags is not 0xFFFF, forwards m_wFlags and param to m_pInner->unk14, then calls unk00(1) on this object.
+// Removes the agent's contact point from the contact manager if it has one, then deletes the agent.
 // @fnv 0x00d3d200
-void FUN_00d3d200_cls::FUN_00d3d200(void* param)
+// pdb: hkpSphereTriangleAgent::cleanup | hkpSphereTriangleAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void FUN_00d3d200_cls::hkpSphereTriangleAgent_cleanup(void* param)
 {
     if (m_wFlags != 0xFFFF)
     {
-        m_pInner->unk14(m_wFlags, param);
+        m_pInner->removeContactPointImpl(m_wFlags, param);
     }
-    this->unk00(1);
+    delete this;
 }
 
 struct hkMemory
@@ -106,7 +116,6 @@ struct hkThreadMemory
     }
 };
 
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00cd7160(void* src, void* dst);
 extern "C" const void* DAT_010cf060;
 extern "C" const void* DAT_010cf09c;
@@ -159,6 +168,8 @@ struct CapsuleAgentSlot3
     float cache20;
     float cache24;
 };
+// pdb: hkpCapsuleTriangleAgent::createTriangleCapsuleAgent | hkpCapsuleTriangleAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, input, mgr
 void* __cdecl CreateTargetAgent(void* bodyA, void* bodyB, void* input, void* manager)
 {
     CapsuleThreadMemorySlot3* memory = static_cast<CapsuleThreadMemorySlot3*>(TlsGetValue(DAT_010f3170));
@@ -195,6 +206,8 @@ struct D3DD10Object
 
 // Builds a D3DD10Data with value p3, flag 0 and vt DAT_010ce81c, then calls FUN_00d3d2a0 with p1, p0, p2 and that data.
 // @fnv 0x00d3dd10
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereTriangleAgent>::getPenetrations | hkpSphereTriangleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 void __thiscall D3DD10Object::FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int uiValue)
 {
     D3DD10Data data;
@@ -241,116 +254,6 @@ struct hkVector4q
     }
 };
 
-template <typename T> __forceinline void hkSwap(T& a, T& b)
-{
-    T t = a;
-    a = b;
-    b = t;
-}
-
-struct NibblePair
-{
-    unsigned char lo : 4;
-    unsigned char hi : 4;
-};
-
-struct SpawnedParticle
-{
-    hkVector4q m_vContactPosition;
-    hkVector4q m_fVelocity;
-    hkVector4q m_extra;
-};
-
-struct ParticleSystemState
-{
-    SpawnedParticle* m_kRayEnd;
-    int unk0004;
-    int unk0008;
-    int unk000C;
-    SpawnedParticle m_particles[256];
-    int unk3010;
-    int unk3014;
-    int unk3018;
-    int unk301C;
-    hkVector4q m_3020;
-    float m_3030;
-    int unk3034;
-    int unk3038;
-    int unk303C;
-    struct Info
-    {
-        unsigned short m_3040;
-        unsigned short m_3042;
-        unsigned short m_3044;
-        unsigned short unk3046;
-        unsigned char m_3048;
-        unsigned char m_3049;
-        NibblePair m_304a;
-        unsigned char unk304b;
-    } m_info;
-};
-
-extern hkVector4q DAT_010c4c00;
-
-class ParticleSystemOps
-{
-  public:
-    void FUN_00d3dd90(int a, int b, int c, ParticleSystemState* state);
-    void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
-};
-
-// After FUN_00d3dd90, adds each new particle's w-scaled velocity to its first vector and flips its sign; if m_3030 changed, swaps several info fields.
-// @fnv 0x00d3e150
-void ParticleSystemOps::FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s)
-{
-    float x;
-    x = s->m_3030;
-    SpawnedParticle* t;
-    t = s->m_kRayEnd;
-    this->FUN_00d3dd90(a2, a1, a3, s);
-    for (; t < s->m_kRayEnd; t++)
-    {
-        hkVector4q pObj;
-        pObj.setBroadcast3(t->m_fVelocity);
-        t->m_vContactPosition.addMul4(pObj, t->m_fVelocity);
-        t->m_fVelocity.setXor4(t->m_fVelocity, DAT_010c4c00);
-    }
-    if (x != s->m_3030)
-    {
-        hkVector4q* v3020;
-        v3020 = &s->m_3020;
-        v3020->xor4(DAT_010c4c00);
-        ParticleSystemState::Info* p;
-        p = &s->m_info;
-        char val;
-        val = p->m_304a.lo;
-        p->m_304a.lo = p->m_304a.hi;
-        p->m_304a.hi = val;
-        unsigned char* bytes;
-        bytes = (unsigned char*)&p->m_3048;
-        unsigned char res;
-        res = bytes[0];
-        unsigned char j;
-        j = p->m_3049;
-        bytes[1] = res;
-        unsigned int uiIndex;
-        uiIndex = (unsigned int)j + (unsigned int)res - 1;
-        bytes[0] = j;
-        unsigned short* z;
-        z = &p->m_3040;
-        unsigned int a;
-        a = z[0];
-        z[0] = z[uiIndex];
-        z[uiIndex] = a;
-        unsigned char* last;
-        last = (unsigned char*)&p->m_3049;
-        if ((last[-1] & last[0]) == 2)
-        {
-            hkSwap(p->m_3042, p->m_3044);
-        }
-    }
-}
-
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 
@@ -363,7 +266,6 @@ extern "C"
     __m128 _mm_unpackhi_ps(__m128, __m128);
     __m128 _mm_movelh_ps(__m128, __m128);
     __m128 _mm_movehl_ps(__m128, __m128);
-    void _mm_store_ps(float*, __m128);
 }
 
 extern "C" DWORD DAT_0126835c;
@@ -377,15 +279,6 @@ struct Res
 {
     Vec4 pt;
     float d;
-};
-
-struct Arg3S
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    float f10;
 };
 
 struct ProfRec
@@ -431,10 +324,11 @@ struct BodyHolderB
     XForm* xf;
 };
 
+// hkpCdBodyPairCollector
 struct Sink
 {
-    virtual void unk00();
-    virtual void unk04(BodyHolderB& a, BodyHolderB& b);
+    virtual ~Sink();
+    virtual void addCdBodyPair(BodyHolderB& a, BodyHolderB& b);
 };
 
 extern void __cdecl FUN_00cd7850(Vec4* v, void* tri, float* f, Res* out, void* flag);
@@ -468,27 +362,15 @@ class SphereTriAgent
 extern DWORD DAT_0116913c;
 extern char DAT_00e7f23c, DAT_00e32798;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
-extern void __cdecl FUN_00970580(Vec4* projected, void* shape, const hkVector4q* axis, Res* result);
+extern void __cdecl hkpCollideTriangleUtil_closestPointTriangle(Vec4* projected, void* shape, const hkVector4q* axis, Res* result);
 
 void SphereTriAgent::FUN_00d3d2a0(BodyHolderB* a, BodyHolderB* b, int c_, Sink* sink)
 {
-    volatile unsigned int ticks;
     BodyB* sphere;
     BodyB* tri;
     XForm* ma;
     XForm* mb;
-    {
-        ProfBuf* timer = (ProfBuf*)TlsGetValue(DAT_0116913c);
-        if (timer->cur < timer->end)
-        {
-            ProfRec* rec = timer->cur;
-            rec->name = &DAT_00e7f23c;
-            _ReadWriteBarrier();
-            ticks = (unsigned int)__rdtsc();
-            rec->tsc = ticks;
-            timer->cur = rec + 1;
-        }
-    }
+    HK_TIMER_BEGIN("SphereTri", HK_NULL);
 
     sphere = a->obj;
     tri = b->obj;
@@ -506,23 +388,12 @@ void SphereTriAgent::FUN_00d3d2a0(BodyHolderB* a, BodyHolderB* b, int c_, Sink* 
     projected.w = 0.0f;
 
     Res result;
-    FUN_00970580(&projected, (char*)tri+0x20, (const hkVector4q*)&unk10, &result);
+    hkpCollideTriangleUtil_closestPointTriangle(&projected, (char*)tri+0x20, (const hkVector4q*)&unk10, &result);
     float combined = sphere->unk10 + tri->unk10;
     if (result.d < combined)
-        sink->unk04(*a, *b);
+        sink->addCdBodyPair(*a, *b);
 
-    {
-        ProfBuf* timerEnd = (ProfBuf*)TlsGetValue(DAT_0116913c);
-        if (timerEnd->cur < timerEnd->end)
-        {
-            ProfRec* recEnd = timerEnd->cur;
-            recEnd->name = &DAT_00e32798;
-            _ReadWriteBarrier();
-            ticks = (unsigned int)__rdtsc();
-            recEnd->tsc = ticks;
-            timerEnd->cur = recEnd + 1;
-        }
-    }
+    HK_TIMER_END();
 }
 
 
@@ -621,21 +492,11 @@ struct S_00d3d3e0_P3P
 void __cdecl FUN_00cd7850(S_00d3d3e0_V4* a, void* b, S_00d3d3e0_V4* c, S_00d3d3e0_Out* d);
 extern DWORD DAT_0116913c;
 
+// pdb: hkpSphereTriangleAgent::staticGetPenetrations | hkpSphereTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P3P a3)
 {
-    S_00d3d3e0_Hdr* h = (S_00d3d3e0_Hdr*)TlsGetValue(DAT_0116913c);
-    if (h->cur < h->end)
-    {
-        S_00d3d3e0_Entry* e = h->cur;
-        e->name = DAT_010cf0d4;
-        unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        e->time = ticks;
-        h->cur = e + 1;
-    }
+    HK_TIMER_BEGIN("SphereTri", HK_NULL);
     S_00d3d3e0_P1* p1 = a1.val();
     S_00d3d3e0_Shape* shape = p1->shape;
     S_00d3d3e0_Obj* obj = a2.val()->obj;
@@ -657,19 +518,7 @@ void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P
     float sum = obj->f10 + shape->f10;
     if (out.f10 < sum)
         a3.val()->v1(p1, a2.val());
-    h = (S_00d3d3e0_Hdr*)TlsGetValue(DAT_0116913c);
-    if (h->cur < h->end)
-    {
-        S_00d3d3e0_Entry* e = h->cur;
-        e->name = DAT_010c41f8;
-        unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
-        e->time = ticks;
-        h->cur = e + 1;
-    }
+    HK_TIMER_END();
 }
 
 
@@ -684,17 +533,19 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d3d6b0(void*, void*, unsigned int, CpuCallData*);
+    void hkpSphereTriangleAgent_getClosestPoints(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d3e0d0(void*, void*, unsigned int, unsigned int);
 };
-// Fills a CpuCallData with fourth, DAT_0104da48 and &DAT_010ce7fc, then calls FUN_00d3d6b0 with second, first, third and the data pointer.
+// Fills a CpuCallData with fourth, DAT_0104da48 and &DAT_010ce7fc, then calls hkpSphereTriangleAgent_getClosestPoints with second, first, third and the data pointer.
 // @fnv 0x00d3e0d0
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereTriangleAgent>::getClosestPoints | hkpSphereTriangleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 void CpuObject::FUN_00d3e0d0(void* first, void* second, unsigned int third, unsigned int uiValue)
 {
     CpuCallData data;
     data.value = uiValue;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d3d6b0(second, first, third, &data);
+    hkpSphereTriangleAgent_getClosestPoints(second, first, third, &data);
 }
 }  // namespace fnv_00d3e0d0

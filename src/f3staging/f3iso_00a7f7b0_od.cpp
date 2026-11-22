@@ -211,7 +211,8 @@ struct A7Work
 void __cdecl FUN_00a99740(A7WingedEdge& first, A7WingedEdge& second, A7Vector& direction,
                           A7Triangle*& nearestFirst, A7Triangle*& nearestSecond);
 
-int __cdecl FUN_00a7f7b0(const A7Transform& transformA, const A7Shape* shapeA,
+// pdb: hkCalcMultiPenetrationDepth | hkpConvexPenetrationUtil.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+int __cdecl hkCalcMultiPenetrationDepth(const A7Transform& transformA, const A7Shape* shapeA,
                          const A7Shape** shapeBs, int count, const A7Transform& aTb,
                          A7Contact** pointsOut)
 {

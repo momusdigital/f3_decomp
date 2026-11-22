@@ -202,6 +202,7 @@ void FUN_00d028c0()
     atexit(FUN_00d989f0);
 }
 
+// pdb: `dynamic initializer for 'bhkLiquidAction::LiquidListMap'' | bhkLiquidAction.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d03180()
 {
     DAT_00f7b6b0 = FUN_0089e810(0x94);

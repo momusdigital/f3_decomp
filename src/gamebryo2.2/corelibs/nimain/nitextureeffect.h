@@ -13,14 +13,10 @@
 #include "f3_common.h"
 
 #include "NiFixedString.h"
+#include "NiGlobalStringTable.h"
 
 typedef long LONG;
 
-class NiGlobalStringTable
-{
-  public:
-    static char* AddString(const char* pcString);
-};
 
 extern "C" __declspec(dllimport) LONG __stdcall InterlockedDecrement(LONG volatile* lpAddend);
 

@@ -14,11 +14,11 @@ class hkpConeLimitConstraintAtom : public hkpConstraintAtom
         ZERO_WHEN_VECTORS_ALIGNED = 0,
         ZERO_WHEN_VECTORS_PERPENDICULAR = 1
     };
-    hkUint8 m_bLimitEnabled;                     // +0x2
-    hkUint8 m_ucMemOffsetToAngleOffset;          // +0x3
-    hkUint8 m_ucMemOffsetToOldAngleOffset;       // +0x4
-    hkUint8 m_ucMemOffsetToFirstConstrainedDof;  // +0x5 (MeasurementMode)
-    hkUint8 m_ucAngleMeasurementMode;            // +0x6
+    hkUint8 m_isEnabled;               // +0x2 src: FNV360_PDB +0x2 (old: m_bLimitEnabled)
+    hkUint8 m_twistAxisInA;            // +0x3 src: FNV360_PDB +0x3 (old: m_ucMemOffsetToAngleOffset)
+    hkUint8 m_refAxisInB;              // +0x4 src: FNV360_PDB +0x4 (old: m_ucMemOffsetToOldAngleOffset)
+    hkUint8 m_angleMeasurementMode;    // +0x5 (MeasurementMode) src: FNV360_PDB +0x5 (old: m_ucMemOffsetToFirstConstrainedDof)
+    hkUint8 m_memOffsetToAngleOffset;  // +0x6 src: FNV360_PDB +0x6 (old: m_ucAngleMeasurementMode)
     char pad7[0x1];
     hkReal m_fMinAngle;                // +0x8
     hkReal m_fMaxAngle;                // +0xC

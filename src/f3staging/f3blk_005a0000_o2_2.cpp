@@ -47,6 +47,7 @@ struct Owner : Base, Side, Ref {
  Aux aa8; Ad0 ad0; Obj* oe0; Ae4 ae4; Af4 af4; Obj* o104;
  ~Owner();
 };
+// pdb: NavMesh::~NavMesh | NavMesh.obj | fnv360_0822_retail, call_seq, medium
 Owner::~Owner() {
 
  a28.Clear(); a38.Clear(); a48.Clear(); a58.Clear(); a78.Clear();
@@ -81,6 +82,8 @@ struct Form {
     }
 };
 
+// pdb: TESPackage::FormMatchesPackageObjectType | Package.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apForm, aeType
 bool __cdecl FUN_005a72a0(const Form* form, int kind)
 {
     bool allowed = false;
@@ -219,6 +222,8 @@ struct Owner5accf0 {
     int unk08;
     void FUN_005accf0(int a2);
 };
+// pdb: PackageLocation::SetLocType | PackageLocation.obj | fnv360_0822_debug, caller, low, conflict (skyrim: PackageLocation::SetRadius)
+// pdb params: aeLoctype
 void Owner5accf0::FUN_005accf0(int a2)
 {
     if (a2 != unk00)
@@ -250,6 +255,8 @@ struct Array5b8620 {
  void FUN_005b8560(void*,void*,unsigned);
  void FUN_005b8620(unsigned,unsigned);
 };
+// pdb: BSSimpleArray<SandBoxChoiceListItem,1024>::_ReallocateBuffer | SandBoxPackage.obj | fnv360_0822_debug, caller, low
+// pdb params: aiNewSize, aiCopyCount
 void Array5b8620::FUN_005b8620(unsigned amount,unsigned copyCount) {
  if(buffer) {
   if(copyCount==capacity) { buffer=((void* (__thiscall *)(Array5b8620*,void*,unsigned))table[3])(this,buffer,amount); return; }
@@ -267,6 +274,7 @@ namespace f3m_005a22f0 {
 namespace Release160{
 struct Heap160{void FUN_0086ba60(void*);};extern Heap160 DAT_01090a78;
 struct Owner160{unsigned int unk00,unk04,unk08,unk0c,unk10,unk14;volatile long references;void FUN_005a2110();void FUN_005a22f0();};
+// pdb: ActorCause::DecRefCount | ActorCause.obj | fnv360_0721_beta, call_gap, low, conflict (bridge: NiPointer<ActorCause>::operator=)
 void Owner160::FUN_005a22f0(){if(!InterlockedDecrement(&references)&&this){FUN_005a2110();DAT_01090a78.FUN_0086ba60(this);}}
 }
 }   // namespace f3m_005a22f0
@@ -307,6 +315,8 @@ public:
     FUN_005aff50(unsigned int a, float b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, unsigned int g, unsigned int h, float i, unsigned int j, bool k);
 };
 
+// pdb: BSTempEffectDebris::BSTempEffectDebris | BSTempEffectDebris.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCell, afLifetime, apFilename, apSourceRef, aPosition, aRotation, aStartLinearVelocity, aStartAngularVelocity, afScale, bUseCache, abAddDebrisCount
 FUN_005aff50::FUN_005aff50(unsigned int a, float b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, unsigned int g, unsigned int h, float i, unsigned int j, bool k)
     : FUN_005af350(a, b)
 {
@@ -574,6 +584,8 @@ struct Owner {
     Src* src;
     float FUN_005a6550(Ref* obj, int unused);
 };
+// pdb: TESPackage::GetPackageRadiusActorToRefTarget | Package.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apMobileObject, abSecondLoc
 float Owner::FUN_005a6550(Ref* obj, int unused)
 {
     int result = 0;
@@ -825,6 +837,8 @@ struct Owner {
     virtual SceneNode* CollisionNode();
     void FUN_005a11e0(PrimitiveSource* source,float factor);
 };
+// pdb: BSTreeNode::MakeHavokLeaves | BSTreeNode.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apST, afScale
 void Owner::FUN_005a11e0(PrimitiveSource* source,float factor) {
     if(DAT_01073d7c==1) {
         unsigned int count=source->FUN_00ba2040();
@@ -911,6 +925,8 @@ struct Obj5ae7e0 {
     void FUN_005ae7e0(int a0);
 };
 
+// pdb: TESConditionItem::SetDefaultDataForFunction | TESConditionItem.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiFunc
 void Obj5ae7e0::FUN_005ae7e0(int a0)
 {
     int idx = a0;
@@ -963,6 +979,8 @@ void Obj5ae7e0::FUN_005ae7e0(int a0)
 // @f3 0x005a2490 (community match, verified in this file)
 namespace f3m_005a2490 {
 namespace f3m_005a2490 {
+// pdb: ActorValue::ToArrayIndex | ActorValue.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSection, aiIndex
 char __cdecl FUN_005a2490(int type, int value)
 {
     switch (type) {

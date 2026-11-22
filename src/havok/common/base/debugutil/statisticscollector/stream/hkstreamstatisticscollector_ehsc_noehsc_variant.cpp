@@ -317,7 +317,7 @@ struct FUN_00ddf170_cls
 
     FUN_00ddf170_cls* FUN_00ddf170(int a1, int a2);
 };
-int FUN_00cb10d0(const char* s);
+int hkString_strLen(const char* s);
 struct StrPacker
 {
     int unk00, unk04, unk08, unk0c, unk10;
@@ -547,7 +547,7 @@ struct StrArray {
     int m_size;
     int m_cap;
 };
-extern "C" int __cdecl FUN_009232c0(const char* a, const char* b);
+extern "C" int __cdecl hkString_strCmp(const char* a, const char* b);
 extern "C" int __cdecl FUN_009233f0(const char* s);
 extern "C" void __cdecl FUN_009234e0(char* dst, const char* src, int n);
 extern "C" void __cdecl FUN_00901e90(void* arr, int capacity, int elemSize);
@@ -572,7 +572,7 @@ static __declspec(noinline) Node* FUN_00a64f60(const char* name, Node* parent, i
     if (parent) {
         for (int i = 0; i < parent->childSize; ++i) {
             Node** child = &parent->childData[i];
-            if (!FUN_009232c0((*child)->name, name)) {
+            if (!hkString_strCmp((*child)->name, name)) {
                 node = parent->childData[i];
                 if (node)
                     goto found;
@@ -614,6 +614,8 @@ found:
 }
 }
 
+// pdb: hkStreamStatisticsCollector::makeTree | hkStreamStatisticsCollector.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: m_nodesOut, stringTable
 void MonitorTreeBuilder::FUN_00ddf740(MonitorNodeArray* roots, MonitorStrings* strings)
 {
     using namespace na651b0;

@@ -5,6 +5,8 @@
 // Maps a NiPixelFormat to a D3DFORMAT: returns the renderer hint if set, otherwise selects a format from the pixel format, bit depth and channel masks.
 // @f3 0x00881ef0 (community match, verified in this file)
 struct PixelBitReader { unsigned char FUN_00842010(NiPixelFormat::Component) const; };
+// pdb: NiXenonPixelFormat::DetermineD3DFormat | NiXenonPixelFormat.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiDX9PixelFormat::DetermineD3DFormat)
+// pdb params: kDesc
 D3DFORMAT __cdecl NiD3DTextureData::ConvertPixelFormatToD3DFormat(const NiPixelFormat& kPixelFormat)
 {
     unsigned int uiRendererHint = kPixelFormat.m_uiRendererHint;

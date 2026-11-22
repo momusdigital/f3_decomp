@@ -109,6 +109,7 @@ void C_00697120::FUN_00697120()
 }
 
 struct C_0078ba60 { void* vt; void* f4; void FUN_0078ba60(); };
+// pdb: ProcessArray::~ProcessArray | ProcessArray.obj | fnv360_0822_retail, call_gap_sim, low
 void C_0078ba60::FUN_0078ba60()
 {
     vt = &DAT_00e19490;

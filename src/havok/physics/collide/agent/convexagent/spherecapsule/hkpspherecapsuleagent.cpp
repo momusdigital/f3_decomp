@@ -12,53 +12,8 @@ typedef void (*S_00d3ef70_GetPenetrationsFunc)(const S_00d3ef70_CdBody&, const S
 typedef void (*S_00d3ef70_GetClosestPointsFunc)(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 typedef void (*S_00d3ef70_LinearCastFunc)(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
 
-struct S_00d3ef70_AgentFuncs {
-    S_00d3ef70_CreateFunc m_pCreateFunc;
-    S_00d3ef70_GetPenetrationsFunc m_pQueryPenetrationsFunc;
-    S_00d3ef70_GetClosestPointsFunc m_getClosestPointsFunc;
-    S_00d3ef70_LinearCastFunc m_pLinearCastFunc;
-    bool m_bIsFlipped;
-    bool m_bIsPredictive;
-};
-
-struct S_00d3ef70_Dispatcher {
-    void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
-};
-
-S_00d3ef70_Agent* FUN_00d3e2f0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
 void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
 void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-
-// Registers two collision agent function tables with the dispatcher for the type pairs (5,1) and (1,5).
-// @fnv 0x00d3ef70
-void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher)
-{
-    {
-        S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = FUN_00d3e2f0;
-        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3f040;
-        agentFuncs.m_getClosestPointsFunc = FUN_00d3f4c0;
-        agentFuncs.m_pLinearCastFunc = FUN_00d3ac80;
-        agentFuncs.m_bIsFlipped = true;
-        agentFuncs.m_bIsPredictive = false;
-        dispatcher->registerCollisionAgent(agentFuncs, 5, 1);
-    }
-    {
-        S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = FUN_00d3e270;
-        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3e330;
-        agentFuncs.m_getClosestPointsFunc = FUN_00d3ebe0;
-        agentFuncs.m_pLinearCastFunc = FUN_00daf8e0;
-        agentFuncs.m_bIsFlipped = false;
-        agentFuncs.m_bIsPredictive = false;
-        dispatcher->registerCollisionAgent(agentFuncs, 1, 5);
-    }
-}
 
 class InnerCls {
 public:
@@ -97,47 +52,11 @@ void FUN_00d3e2b0_cls::FUN_00d3e2b0(int a1)
     v0(1);
 }
 
-struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
-
-struct ObjAllocator {
-    virtual void unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct SmallRecord {
-    void* m_vptr;
-    unsigned short m_w04;
-    unsigned short m_w06;
-    int m_i08;
-    unsigned short m_w0C;
-};
-
-extern char DAT_010cf018[];
-
-AllocHolder* FUN_00c85750();
-
-// @fnv 0x00d3e2f0
-void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue) {
-    AllocHolder* pAllocHolder = FUN_00c85750();
-    ObjAllocator* allocator = (ObjAllocator*)pAllocHolder->m_pAllocator;
-    SmallRecord* pRecord = (SmallRecord*)allocator->Alloc(0x10);
-    pRecord->m_w04 = 0x10;
-    pRecord->m_w06 = 1;
-    pRecord->m_i08 = aiValue;
-    pRecord->m_w0C = 0xffff;
-    pRecord->m_vptr = DAT_010cf018;
-}
-
 void __cdecl FUN_00d3e330(int a, int b, int c, int d);
 
 // @fnv 0x00d3e510
-void __stdcall FUN_00d3e510(int a, int b, int c, int d)
+// pdb: hkpSphereCapsuleAgent::getPenetrations | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, vtable + skyrim(vtable), high
+void __stdcall hkpSphereCapsuleAgent_getPenetrations(int a, int b, int c, int d)
 {
     FUN_00d3e330(a, b, c, d);
 }
@@ -154,6 +73,8 @@ void __cdecl FUN_00d3e330(unsigned int a, unsigned int b, unsigned int c, FUN_00
 
 // Builds a FUN_00d3f040_tmp with value a3, flag 0 and str pointing at DAT_010ce81c, then calls FUN_00d3e330(a1, a0, a2, &t).
 // @fnv 0x00d3f040
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereTriangleAgent>::staticGetPenetrations | hkpSphereTriangleAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int uiValue)
 {
     FUN_00d3f040_tmp t;
@@ -170,52 +91,28 @@ struct AgentDispatchDescriptor {
     volatile unsigned int tag;
 };
 struct CollisionDispatcher {
-    void FUN_00d3e510(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
+    void hkpSphereCapsuleAgent_getPenetrations(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
     void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };
-// Builds an AgentDispatchDescriptor with the given tag and a fixed dispatch table, then calls FUN_00d3e510 with the bodies swapped.
+// Builds an AgentDispatchDescriptor with the given tag and a fixed dispatch table, then calls hkpSphereCapsuleAgent_getPenetrations with the bodies swapped.
 // @fnv 0x00d3f000
+// pdb: hkpSymmetricAgentLinearCast<hkpSphereCapsuleAgent>::getPenetrations | hkpSphereCapsuleAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 void CollisionDispatcher::FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag)
 {
     AgentDispatchDescriptor descriptor;
     descriptor.tag = tag;
     descriptor.isFlipped = false;
     descriptor.dispatchTable = &DAT_010ce81c;
-    FUN_00d3e510(bodyB, bodyA, input, &descriptor);
+    hkpSphereCapsuleAgent_getPenetrations(bodyB, bodyA, input, &descriptor);
 }
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void _ReadWriteBarrier(void);
-
-extern unsigned long DAT_0126835c;
-extern const char str_010cf158[];
-extern const char str_010c41f8[];
-
-struct SphCap_Mon {
-    char* m_kRayStart;
-    char* m_kRayEnd;
-    char* m_cap;
-    char* m_capMinus16;
-};
-
-struct SphCap_Timer {
-    const char* m_name;
-    unsigned int m_ticks;
-    unsigned int m_unk08;
-};
 
 struct SphCap_Vector4 {
     __m128 m_vComponents;
@@ -233,26 +130,6 @@ struct __declspec(align(16)) SphCap_Vector4F {
     float y;
     float z;
     float w;
-};
-
-struct SphCap_TransformF {
-    SphCap_Vector4F c0;
-    SphCap_Vector4F c1;
-    SphCap_Vector4F c2;
-    SphCap_Vector4F c3;
-};
-
-struct SphCap_SegResult {
-    SphCap_Vector4 m_kClosestPoint;
-};
-
-struct SphCap_Frame {
-    SphCap_SegResult closest;
-    SphCap_Vector4F t0;
-    SphCap_Vector4F t1;
-    SphCap_Vector4F t2;
-    SphCap_Vector4F t3;
-    SphCap_Vector4 points[2];
 };
 
 struct SphCap_Shape {
@@ -277,17 +154,6 @@ struct S_00d3ef70_CdBody {
 struct S_00d3ef70_Collector {
     virtual void slot00();
     virtual void AddCdBodyPair(const S_00d3ef70_CdBody& a, const S_00d3ef70_CdBody& b);
-};
-
-int __cdecl FUN_00d230e0(const SphCap_Vector4& pos, const SphCap_Vector4& a, const SphCap_Vector4& b, SphCap_SegResult& out);
-
-struct Group1 {
-    SphCap_Vector4F t0;
-    SphCap_Vector4F t1;
-};
-struct Group2 {
-    SphCap_Vector4F t2;
-    SphCap_Vector4F t3;
 };
 
 // @f3 0x009c80e0 (community match, verified in this file)

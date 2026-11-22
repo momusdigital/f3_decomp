@@ -9,12 +9,6 @@ extern "C"
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202770;
 
-// @fnv 0x00c2c800
-GlobalObjectO2_00a7b610* __cdecl FUN_00c2c800()
-{
-    return &g_01202770;
-}
-
 void __cdecl FUN_00c31750(void);
 void __cdecl __Dummy_00b6fef0(void*, int);
 
@@ -25,6 +19,7 @@ struct FUN_00c2c810_shell
 
 // Calls FUN_00c31750, then if bit 0 of arg is set calls __Dummy_00b6fef0 on this with 0x40, and returns this.
 // @fnv 0x00c2c810
+// pdb: BSDecalPlacementVectorExtraData::`scalar deleting destructor' | BSDecalPVExtraData.obj | fnv360_0822_retail, vtable, high
 void* __thiscall FUN_00c2c810_shell::FUN_00c2c810(int arg)
 {
     void* p = this;
@@ -64,6 +59,8 @@ struct NiPSysDragFieldModifier : NiPSysFieldModifier
 };
 // Allocates and initialises a NiPSysDragFieldModifier clone, copies the byte at offset 0x30 and the NiPoint3 at offset 0x34 from this, and returns it.
 // @fnv 0x00c2c8d0
+// pdb: NiPSysDragFieldModifier::CreateClone | NiPSysDragFieldModifier.obj | fnv360_0721_retail, objrun, medium
+// pdb params: kCloning
 NiPSysFieldModifier* __thiscall NiPSysDragFieldModifier::FUN_00c2c8d0(CloningProcess& process)
 {
     NiPSysFieldModifier* clone = static_cast<NiPSysFieldModifier*>(BSFadeNode::operator new(0x40));
@@ -138,6 +135,8 @@ struct DragFieldFields
 };
 // Scales each active particle's velocity by a damping factor derived from deltaTime, age and damping, zeroing it once the factor reaches zero.
 // @fnv 0x00c2c830
+// pdb: NiPSysDragFieldModifier::UpdateNoAttenuationNoDirNoDist | NiPSysDragFieldModifier.obj | fnv360_0721_retail, objrun, medium
+// pdb params: fTime, pkData
 void __fastcall ApplyDragDamping(DragFieldFields* self, void*, float deltaTime, BoundDataBlock* data)
 {
     for (unsigned short i = 0; i < data->activeCount; ++i)
@@ -191,6 +190,8 @@ struct FUN_00c2cae0_cls
 };
 
 // @fnv 0x00c2cae0
+// pdb: NiPSysDragFieldModifier::IsEqual | NiPSysDragFieldModifier.obj | fnv360_0721_retail, objrun, medium
+// pdb params: pkObject
 bool FUN_00c2cae0_cls::FUN_00c2cae0(FUN_00c2cae0_cls* other)
 {
     if (FUN_00c32060(other))
@@ -225,10 +226,13 @@ struct Subobject
 };
 struct FUN_00c2ce10_owner
 {
-    void __thiscall InvokeCallbackAndUpdate(void* object);
+    void __thiscall NiPSysDragFieldModifier_LoadBinary(void* object);
 };
 // @fnv 0x00c2ce10
-void FUN_00c2ce10_owner::InvokeCallbackAndUpdate(void* object)
+// pdb: NiPSysDragFieldModifier::LoadBinary | NiPSysDragFieldModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
+// pdb: NiPSysDragFieldModifier::LoadBinary | NiPSysDragFieldModifier.obj | fnv360_0822_retail, caller_sim, high (was: InvokeCallbackAndUpdate)
+void FUN_00c2ce10_owner::NiPSysDragFieldModifier_LoadBinary(void* object)
 {
     void* original = object;
     LoadFromStream(original);
@@ -266,14 +270,15 @@ struct FNVMain
     unsigned char enabled30;
     unsigned char state31, state32, state33;
     FNVChild child34;
-    void __thiscall FUN_00c321f0(FNVParameter*);
-    void __thiscall FUN_00c2ce70(FNVParameter*);
+    void __thiscall NiPSysFieldModifier_SaveBinary(FNVParameter*);
+    void __thiscall NiPSysDragFieldModifier_SaveBinary(FNVParameter*);
 };
-// Calls FUN_00c321f0, invokes the owner's callback0c with the enabled byte and adds its result to total04, then calls child34.FUN_00a69780.
+// Calls NiPSysFieldModifier_SaveBinary, invokes the owner's callback0c with the enabled byte and adds its result to total04, then calls child34.FUN_00a69780.
 // @fnv 0x00c2ce70
-void __thiscall FNVMain::FUN_00c2ce70(FNVParameter* pParameter)
+// pdb: NiPSysDragFieldModifier::SaveBinary | NiPSysDragFieldModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void __thiscall FNVMain::NiPSysDragFieldModifier_SaveBinary(FNVParameter* pParameter)
 {
-    FUN_00c321f0(pParameter);
+    NiPSysFieldModifier_SaveBinary(pParameter);
     unsigned char enabled = enabled30;
     FNVCallbackOwner* owner = pParameter->owner();
     int(__cdecl * pCallback)(FNVCallbackOwner*, unsigned char*, int, int*, int) = owner->callback0c;
@@ -318,6 +323,8 @@ struct FNVObject195
     void __thiscall FUN_00c2cec0(FNVArray195* storage);
 };
 // @f3 0x00acd360 (community match, verified in this file)
+// pdb: NiPSysDragFieldModifier::GetViewerStrings | NiPSysDragFieldModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void __thiscall FNVObject195::FUN_00c2cec0(FNVArray195* pArray)
 {
     FNVArray195* const array = pArray;
@@ -447,6 +454,8 @@ struct FieldModStandIn
 };
 
 // @f3 0x00accdf0 (community match, verified in this file)
+// pdb: NiPSysDragFieldModifier::UpdateNoAttenuationNoDir | NiPSysDragFieldModifier.obj | fnv360_0721_retail, objrun, medium
+// pdb params: fTime, pkData
 void FieldModStandIn::ApplyFieldModToParticles(float fTime, PSysDataStandIn* pkData)
 {
     NiTransform kField = m_pkFieldObject->m_kWorldSpaceTransform;
@@ -555,6 +564,8 @@ struct DragModifier
 
 // Applies a drag field modifier to active particles, scaling or zeroing their velocity based on influence, distance, and motion direction.
 // @fnv 0x00c2cb20
+// pdb: NiPSysDragFieldModifier::Update | NiPSysDragFieldModifier.obj | fnv360_0721_retail, objrun, medium
+// pdb params: fTime, pkData
 void __thiscall DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
 {
     if (m_fInfluence == 0.0f)

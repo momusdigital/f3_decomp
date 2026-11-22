@@ -2,11 +2,14 @@
 #include "f3_common.h"
 #include "niextradata_packet.h"
 // @fnv 0x00aa0fe0
+// pdb: LockFreeMap<MobileObject *,NiPointer<LipTask> >::LockFreeMapIterator::ClearKey | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, medium
 void NiAccumulator::ClearCamera()
 {
     camera = 0;
 }
 // @fnv 0x00a7b3b0
+// pdb: NiExtraData::LinkObject | NiExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void NiExtraData::LinkObject(NiStream& stream)
 {
     if (stream.version < 0x0500000b)
@@ -14,6 +17,8 @@ void NiExtraData::LinkObject(NiStream& stream)
 }
 // Constructs a NiExtraData: sets the vtable, then assigns name from src with interlocked refcount updates on the string handle.
 // @fnv 0x00a7b440
+// pdb: NiExtraData::NiExtraData | NiExtraData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: kName
 NiExtraData::NiExtraData(const NiFixedString& aName)
 {
     const NiFixedString& src = aName;
@@ -32,6 +37,8 @@ NiExtraData::NiExtraData(const NiFixedString& aName)
 }
 // Loads NiExtraData from a stream: reads a count and byte buffer for old versions, otherwise reads the name, registering a NiBinaryExtraData object.
 // @fnv 0x00a7b4a0
+// pdb: NiExtraData::LoadBinary | NiExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void NiExtraData::LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
@@ -46,7 +53,7 @@ void NiExtraData::LoadBinary(NiStream& stream)
             ReadBinaryValue(stream, buffer, count);
             NiBinaryExtraData* extra = new NiBinaryExtraData(count, buffer);
             if (extra)
-                stream.RegisterObject(extra);
+                stream.hkPackfileWriter_notDuplicateMetaData(extra);
         }
     }
     else if (stream.version < 0x14010001)
@@ -77,6 +84,8 @@ struct MyOwner : public NiObject
     bool FUN_00a7b290(NiStream&);
 };
 // @fnv 0x00a7b290
+// pdb: NiExtraData::RegisterStreamables | NiExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 bool MyOwner::FUN_00a7b290(NiStream& kStream)
 {
     if (!((NiObjectBase*)this)->NiObjectBase::RegisterStreamables(&kStream))
@@ -162,11 +171,12 @@ struct FUN_00a7b2c0_shell
     void* vtable;
     unsigned int pad;
     char m_kName[1];
-    void FUN_00a7b2c0(NiStream& kStream);
+    void NiExtraData_SaveBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a7b2c0
-void FUN_00a7b2c0_shell::FUN_00a7b2c0(NiStream& kStream)
+// pdb: NiExtraData::SaveBinary | NiExtraData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void FUN_00a7b2c0_shell::NiExtraData_SaveBinary(NiStream& kStream)
 {
     reinterpret_cast<FUN_00a7b2c0_NiObject*>(this)->LinkObject(kStream);
     reinterpret_cast<FUN_00a7b2c0_NiStream*>(&kStream)->SerializeString(m_kName);
@@ -186,6 +196,7 @@ struct FUN_00a7b300_shell : public NiRefObject
 
 // Restores the NiExtraData vtable, releases the reference-counted object at offset 8 if not the empty sentinel, then calls the NiRefObject destructor.
 // @fnv 0x00a7b300
+// pdb: NiExtraData::~NiExtraData | NiExtraData.obj | fnv360_0822_retail, call_seq, high
 void FUN_00a7b300_shell::FUN_00a7b300()
 {
     *reinterpret_cast<void* volatile*>(this) = kVtbl_NiExtraData;
@@ -212,6 +223,7 @@ struct ExtraDataObject
 };
 
 // @fnv 0x00a7b2e0
+// pdb: NiExtraData::NiExtraData | NiExtraData.obj | fnv360_0822_retail, call_dedup, low
 ExtraDataObject* ExtraDataObject::FUN_00a7b2e0()
 {
     InitializeBase();
@@ -233,6 +245,8 @@ class NiObject_00a7b3d0
 
 // Returns 0 if IsSameAs fails; otherwise returns whether _08 equals object->_08.
 // @fnv 0x00a7b3d0
+// pdb: NiExtraData::IsEqual | NiExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pObject
 unsigned char __thiscall NiObject_00a7b3d0::FUN_00a7b3d0(NiObject_00a7b3d0* object)
 {
     if (!IsSameAs(object))
@@ -258,6 +272,7 @@ struct Cls
 };
 
 // @fnv 0x00a7b400
+// pdb: NiExtraData::`scalar deleting destructor' | NiExtraData.obj | fnv360_0822_retail, objrun, high
 Cls* Cls::DestroyExtraData(unsigned char acFlags)
 {
     *(volatile void**)&m_vptr = kVtbl_NiExtraData;
@@ -305,6 +320,8 @@ struct ExtraDataStrings
     void FUN_00a7b580(StrArr* strings);
 };
 // @fnv 0x00a7b580
+// pdb: NiExtraData::GetViewerStrings | NiExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 void ExtraDataStrings::FUN_00a7b580(StrArr* strings)
 {
     strings->Add(FUN_00a7d330(g_01270908_arg1));

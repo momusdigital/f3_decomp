@@ -42,6 +42,8 @@ public:
     void FUN_00bbdff0(CTreeFileAccess& reader);
 };
 
+// pdb: CTreeEngine::ParseLodInfo | TreeEngine.obj | fnv360_0822_retail, ustr, medium
+// pdb params: cFile
 void CLodParameters::FUN_00bbdff0(CTreeFileAccess& reader)
 {
     int token = reader.FUN_00ba92d0();
@@ -92,6 +94,7 @@ struct List : std::vector<int> {
 };
 }
 
+// pdb: std::vector<std::vector<unsigned short *,std::allocator<unsigned short *> >,std::allocator<std::vector<unsigned short *,std::allocator<unsigned short *> > > >::clear | IndexedGeometry.obj | fnv360_0721_beta, objrun_open, low
 void f3m_00bb0fe0::List::FUN_00bb0fe0()
 {
     erase(begin(), end());
@@ -108,6 +111,7 @@ struct Vec3 {
 };
 }
 
+// pdb: CSpeedTreeRT::SGeometry::SIndexed::SIndexed | SpeedTreeRT.obj | fnv360_0822_debug, objrun_open, low
 f3m_00ba1140::Vec3 f3m_00ba1140::Vec3::FUN_00ba1140(const Matrix& t) const
 {
     Vec3 r;
@@ -154,6 +158,8 @@ struct StripOwner {
  void FUN_00bb1100();
  void FUN_00bb21b0(bool parity);
 };
+// pdb: CIndexedGeometry::CombineStrips | IndexedGeometry.obj | fnv360_0822_retail, call_gap, low
+// pdb params: bToggleFaceOrdering
 void StripOwner::FUN_00bb21b0(bool parity)
 {
  if ((unsigned short)(positions68.size() / 3) > 0)

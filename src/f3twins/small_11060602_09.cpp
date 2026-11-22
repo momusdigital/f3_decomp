@@ -10,6 +10,8 @@ extern V3_00afbcd0 DAT_0108f04c;
 extern V3_00afbcd0 DAT_01173634;
 
 struct S_00afbcd0 { char pad[0x20]; V3_00afbcd0* v; };
+// pdb: ShadowLightShader::SetupGeometryConstants_WorldBoundCenter | ShadowLightShader.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pgeometry
 void __stdcall FUN_00afbcd0(S_00afbcd0* p)
 {
     if (DAT_0117499c->v) {
@@ -34,6 +36,8 @@ extern G_00afc410* DAT_01174a00;
 extern V4_00afc410 DAT_01170080;
 
 struct S_00afc410 { char pad[0xf0]; float f0, f4, f8, fc; };
+// pdb: ShadowLightShader::SetupGeometryConstants_LODTexParams | ShadowLightShader.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: ShadowLightShader::UpdatePipelineZOnlyTexEffect)
+// pdb params: pprop
 void __stdcall FUN_00afc410(S_00afc410* p)
 {
     if (DAT_01174a00->v) {

@@ -94,6 +94,8 @@ static inline int FnvLightingMatch(S_00b6fa40_Prop* p)
     return p->unk1c == 0x14;
 }
 
+// pdb: BSShaderNoLightingProperty::SetFalloffRecurse | BSShaderNoLightingProperty.obj | fnv360_0822_debug, call_gap, low
+// pdb params: apObject, aFalloffData
 void __cdecl FUN_00b6fa40(S_00b6fa40_Obj* obj, const float* pf)
 {
     if (!obj)

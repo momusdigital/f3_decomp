@@ -51,6 +51,8 @@ class ShaderStringPointerMap
 };
 
 // @fnv 0x00e927f0
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,NiPointer<NiSequence> >,NiPointer<NiSequence> >::SetAt | NiKeyframeManager.obj | fnv360_0721_beta, call_seq, medium, conflict (bridge: NiSequence::AddNameControllerPair)
+// pdb params: pcKey, val
 void ShaderStringPointerMap::FUN_00e927f0(const char* key, NiPointer<ShaderRefObject> val)
 {
     unsigned int uiIndex = KeyToHashIndex(key);

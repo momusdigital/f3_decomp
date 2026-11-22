@@ -3,6 +3,7 @@
 #include "debugshader_local.h"
 
 // @fnv 0x00bd1950
+// pdb: DebugShader::DebugShader | DebugShader.obj | fnv360_0822_retail, call_seq, medium
 BloodSplatterBeamShader::BloodSplatterBeamShader()
 {
     m_iPassId = 10;
@@ -16,6 +17,7 @@ BloodSplatterBeamShader::BloodSplatterBeamShader()
 }
 
 // @fnv 0x00bd20e0
+// pdb: DebugShader::LoadStagesAndPasses | DebugShader.obj | fnv360_0822_retail, call_seq, medium
 bool BloodSplatterBeamShader::ConfigureShaderPass()
 {
     NiD3DPass::CreateD3DPass(spRenderPass);
@@ -37,6 +39,7 @@ bool BloodSplatterBeamShader::ConfigureShaderPass()
 }
 
 // @fnv 0x00bd23f0
+// pdb: DebugShader::CreateShader | DebugShader.obj | fnv360_0822_retail, call_gap, medium
 BSShader* BloodSplatterBeamShader::CreateShader()
 {
     NiD3DVertexDeclaration* decl = NiD3DVertexDeclaration::Create(DAT_011f9508, 2, 1);
@@ -62,6 +65,7 @@ struct FUN_00bd23c0_shell
 
 // Calls FUN_00bd1ab0, then deletes this with size 0xc0 when arg has bit 0 set, and returns this.
 // @fnv 0x00bd23c0
+// pdb: BSSceneGraph::`scalar deleting destructor' | BSSceneGraph.obj | fnv360_0822_retail, vtable, high
 void* FUN_00bd23c0_shell::DestroyIfFlagged(int arg)
 {
     FUN_00bd1ab0();
@@ -76,6 +80,7 @@ struct FUN_00bd2720_shell
 };
 
 // @fnv 0x00bd2720
+// pdb: TileShader::ReloadShaders | TileShader.obj | fnv360_0721_beta, objrun_open, low
 void FUN_00bd2720_shell::FUN_00bd2720()
 {
     void** v = *(void***)this;
@@ -90,6 +95,7 @@ extern int _fnv_particle_shader_renderer_level;
 typedef void(__thiscall* FUN_00bd3f80_Fn)(FUN_00bd3f80_shell*);
 // Calls virtual slots 81 and 87 on this, and slot 88 when _fnv_particle_shader_renderer_level is at least 2.
 // @fnv 0x00bd3f80
+// pdb: SpeedTreeBranchShader::ClearPassStages | SpeedTreeBranchShader.obj | fnv360_0721_beta, objrun_open, medium
 void FUN_00bd3f80_shell::FUN_00bd3f80()
 {
     ((FUN_00bd3f80_Fn*)*(void***)this)[81](this);
@@ -104,6 +110,7 @@ struct FUN_00bd2b40_class
 };
 
 // @fnv 0x00bd2b40
+// pdb: SpeedTreeFrondShader::ClearPassStages | SpeedTreeFrondShader.obj | fnv360_0822_retail, objrun, medium
 void FUN_00bd2b40_class::CallVirtualWithMember()
 {
     void** vtbl = *(void***)this;
@@ -155,6 +162,7 @@ struct FUN_00bd1ab0 : public FUN_00bd1ab0_Base
 
 // Clears the vertex shader, both pixel shaders, the screen elements and all 16 texture pointers.
 // @fnv 0x00bd1ab0
+// pdb: DebugShader::~DebugShader | DebugShader.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00bd1ab0::~FUN_00bd1ab0()
 {
     m_spTreeVertexShader = 0;
@@ -345,6 +353,7 @@ class SpeedTreeFrondShaderX
 };
 
 // @fnv 0x00bd2730
+// pdb: SpeedTreeFrondShader::LoadShaders | SpeedTreeFrondShader.obj | fnv360_0822_retail, ustr, medium
 void SpeedTreeFrondShaderX::CreateShaders()
 {
     ShaderDescX kVertexShaders[4];
@@ -443,6 +452,7 @@ struct DebugShaderLoader : BloodSplatterBeamShader
 };
 
 // @fnv 0x00bd16f0
+// pdb: DebugShader::LoadShaders | DebugShader.obj | fnv360_0822_retail, ustr, medium
 void DebugShaderLoader::LoadDebugShaders()
 {
     const char* profile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
@@ -627,6 +637,7 @@ struct DebugShaderInit : BloodSplatterBeamShader
 };
 extern const float DAT_011ae620;
 // @fnv 0x00bd24c0
+// pdb: DebugShader::Initialize | DebugShader.obj | fnv360_0822_retail, ustr, medium
 bool DebugShaderInit::InitDebugShader()
 {
     bool result = FUN_00be0870();
@@ -649,6 +660,8 @@ bool DebugShaderInit::InitDebugShader()
 
 void LoadDebugShaders();
 // @fnv 0x00bd1940
+// pdb: BSResizableTriShape::RegisterStreamables | BSResizableTriShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00bd1940()
 {
     LoadDebugShaders();
@@ -1089,17 +1102,6 @@ void RenderOwner::DrawSlots(void* destination)
     }
 }
 
-class NiRTTI
-{
-  public:
-    const char* m_pcName;
-    const NiRTTI* m_pBaseRTTI;
-
-    const NiRTTI* GetBaseRTTI() const
-    {
-        return m_pBaseRTTI;
-    }
-};
 
 class NiRTTIObject : public NiTexture
 {
@@ -1173,6 +1175,8 @@ class TextureRenderer
 
 // Finds a free slot in m_aspTextures and stores pkTexture there if it is a TextureKindA or TextureKindB.
 // @fnv 0x00bd22c0
+// pdb: DebugShader::SetTextureToRender | DebugShader.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apTexture
 void TextureRenderer::AddTexture(NiTexture* pkTexture)
 {
     int iSlot = -1;

@@ -15,7 +15,7 @@ extern int DAT_011b7aec;
 extern void* DAT_010d65bc;
 struct FUN_00dbdf30_s
 {
-    void FUN_00dbdf30(GlobalObjectO2_00d472a0*, int);
+    void hkPackfileWriter_setSectionForClass(GlobalObjectO2_00d472a0*, int);
 };
 struct FUN_00dbc670
 {
@@ -24,36 +24,24 @@ struct FUN_00dbc670
     FUN_00dbc670();
 };
 extern void FUN_00dbe4d0();
-// Calls FUN_00dbe4d0, sets m_vft, then calls FUN_00dbdef0 and FUN_00dbdf30 on four global objects with DAT_011b7aec.
+// Calls FUN_00dbe4d0, sets m_vft, then calls FUN_00dbdef0 and hkPackfileWriter_setSectionForClass on four global objects with DAT_011b7aec.
 // @fnv 0x00dbc670
 FUN_00dbc670::FUN_00dbc670()
 {
     FUN_00dbe4d0();
     m_vft = &DAT_010d65bc;
     FUN_00dbdef0(DAT_011b7a7c);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126cae8, DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126ca58, DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126cab8, DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126ca88, DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126cae8, DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126ca58, DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126cab8, DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126ca88, DAT_011b7aec);
 }
 
 // @fnv 0x00dbd720
+// pdb: `anonymous namespace'::getArraySizeInBytes<class hkPackfileSectionHeader> | hkBinaryPackfileWriter.obj | tesv_win, call_seq, medium
 unsigned int __cdecl FUN_00dbd720(unsigned int arg)
 {
     return *reinterpret_cast<unsigned int*>(arg + 4) * 3 * 16;
-}
-
-struct FUN_00dbc6e0_s
-{
-    void* m_vft;
-    void FUN_00dbdf60();
-    void FUN_00dbc6e0();
-};
-// @fnv 0x00dbc6e0
-void FUN_00dbc6e0_s::FUN_00dbc6e0()
-{
-    m_vft = &DAT_010d65bc;
-    FUN_00dbdf60();
 }
 
 struct CallbackTarget
@@ -71,36 +59,49 @@ struct FUN_00dbd730_class
     void* ForwardToTarget(void* value);
 };
 // @fnv 0x00dbd730
+// pdb: hkOArchive::isOk | hkOArchive.obj | fnv360_0822_retail, call_seq, high
 void* FUN_00dbd730_class::ForwardToTarget(void* value)
 {
     target->Send(value);
     return value;
 }
 
+class hkClass;
+class hkStatisticsCollector;
+// hkBool: a class with a constructor, so it comes back through a hidden result pointer.
+struct SubStreamBool
+{
+    char m_bool;
+    SubStreamBool(bool b) : m_bool((char)b) {}
+};
+// hkStreamWriter: the slots of the Fallout 3 hkSubStreamWriter vtable (0x00e800c0) up to seekTellSupported, named as
+// the New Vegas Xbox 360 PDB names them.
 struct S_00dbd770_Inner
 {
-    virtual void unk0();
-    virtual void unk4();
-    virtual void unk8();
-    virtual void unkC();
-    virtual void unk10();
-    virtual void unk14();
-    virtual void unk18(void* p);
+    virtual ~S_00dbd770_Inner();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual SubStreamBool isOk() const;
+    virtual int write(const void* buf, int nbytes);
+    virtual void flush();
+    virtual SubStreamBool seekTellSupported() const;
 };
 
+// hkSubStreamWriter
 struct S_00dbd770
 {
     int unk0;
     int unk4;
-    S_00dbd770_Inner* unk8;
-    void* ForwardToInner(void* p);
+    S_00dbd770_Inner* m_childStream;  // +0x08
+    SubStreamBool hkSubStreamWriter_seekTellSupported() const;
 };
 
 // @fnv 0x00dbd770
-void* S_00dbd770::ForwardToInner(void* apArg)
+// pdb: hkSubStreamWriter::seekTellSupported | hkBinaryPackfileWriter.obj | fnv360_0822_retail, vtable, high
+// pdb: hkSubStreamWriter::seekTellSupported | hkBinaryPackfileWriter.obj | fnv360_0822_retail, vtable, high (was: ForwardToInner)
+SubStreamBool S_00dbd770::hkSubStreamWriter_seekTellSupported() const
 {
-    unk8->unk18(apArg);
-    return apArg;
+    return m_childStream->seekTellSupported();
 }
 
 struct Inner
@@ -124,6 +125,7 @@ struct FUN_00dbd7d0_Class
     int GetAdjustedValue();
 };
 // @fnv 0x00dbd7d0
+// pdb: hkSubStreamWriter::tell | hkBinaryPackfileWriter.obj | tesv_win, vtable, medium
 int FUN_00dbd7d0_Class::GetAdjustedValue()
 {
     return object->f8() - offset;
@@ -148,6 +150,7 @@ struct FUN_00dbd870
 };
 // Default-constructs four Triple members and sets trailing to 0.
 // @fnv 0x00dbd870
+// pdb: hkRelocationInfo::hkRelocationInfo | hkDeepCopier.obj | tesv_win, hash, low
 FUN_00dbd870::FUN_00dbd870() : trailing(0)
 {}
 
@@ -206,21 +209,7 @@ struct FUN_00dbc6f0_cls_key
     unsigned char m_byTag;
 };
 
-struct FUN_00dbc6f0_cls_bytes
-{
-    unsigned char b0;
-    unsigned char b1;
-    unsigned char b2;
-    unsigned char b3;
-};
-
-union FUN_00dbc6f0_cls_word
-{
-    int iValue;
-    FUN_00dbc6f0_cls_bytes bytes;
-};
-
-int __cdecl FUN_00cb10d0(void* apNode);
+int __cdecl hkString_strLen(void* apNode);
 
 typedef void(__thiscall* S_WriteFn)(FUN_00dbc6f0_cls_callee*, void*, int);
 
@@ -240,7 +229,10 @@ static inline int S_Rev(int v)
 }
 
 // @fnv 0x00dbc6f0
-void __stdcall WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, int aiDiff)
+// pdb: hkBinaryPackfileWriter::writeClassName | hkBinaryPackfileWriter.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: context, k, absoluteDataStart
+// pdb: hkBinaryPackfileWriter::writeClassName | hkBinaryPackfileWriter.obj | fnv360_0822_retail, caller_sim, high (was: WriteNodeDiff)
+void __stdcall hkBinaryPackfileWriter_writeClassName(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, int aiDiff)
 {
     int x = apSource->Lookup(0);
     if (apOwner->m_byReverse != 0)
@@ -253,17 +245,18 @@ void __stdcall WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_s
     int iDiff = apOwner->m_pCallee->Count() - aiDiff;
     apOwner->m_store.Store(pNode, iDiff);
     void** pVtable = *(void***)apOwner->m_pCallee;
-    ((S_WriteFn)pVtable[4])(apOwner->m_pCallee, pNode, FUN_00cb10d0(pNode) + 1);
+    ((S_WriteFn)pVtable[4])(apOwner->m_pCallee, pNode, hkString_strLen(pNode) + 1);
 }
 
+// hkStreamWriter, up to flush (Fallout 3 vtables, PDB names).
 struct Target
 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void unk10();
-    virtual void unk14();
+    virtual ~Target();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual SubStreamBool isOk() const;
+    virtual int write(const void* buf, int nbytes);
+    virtual void flush();
 };
 
 struct FUN_00dbd760_cls
@@ -271,13 +264,14 @@ struct FUN_00dbd760_cls
     int unk00;
     int unk04;
     Target* m_08;
-    void FUN_00dbd760();
+    void hkOstream_flush();
 };
 
 // @fnv 0x00dbd760
-void FUN_00dbd760_cls::FUN_00dbd760()
+// pdb: hkOstream::flush | hkOStream.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void FUN_00dbd760_cls::hkOstream_flush()
 {
-    m_08->unk14();
+    m_08->flush();
 }
 
 struct S_00dbd790_Obj
@@ -297,49 +291,20 @@ struct S_00dbd790_Class
     int unk04;
     S_00dbd790_Obj* object;
     int offset;
-    void DispatchToObject(int a, int b);
+    void hkSubStreamWriter_seek(int a, int b);
 };
 // Calls the object's f7 virtual method, passing a plus offset when b is zero and a otherwise, along with b.
 // @fnv 0x00dbd790
-void S_00dbd790_Class::DispatchToObject(int aiValue, int b)
+// pdb: hkSubStreamWriter::seek | hkBinaryPackfileWriter.obj | fnv360_0822_retail, vtable, high
+// pdb params: offset, whence
+// pdb: hkSubStreamWriter::seek | hkBinaryPackfileWriter.obj | fnv360_0822_retail, vtable, high (was: DispatchToObject)
+void S_00dbd790_Class::hkSubStreamWriter_seek(int aiValue, int b)
 {
     object->f7(b == 0 ? aiValue + offset : aiValue, b);
 }
 
-struct FUN_00dbd820_pair
-{
-    unsigned int first;
-    unsigned int second;
-};
-
-struct FUN_00dbd820_cls
-{
-    FUN_00dbd820_pair* m_data;
-    int m_iElementCount;
-    unsigned int m_flags;
-    void AppendPair(FUN_00dbd820_pair p);
-};
-
 extern void* FUN_00c85750();
 extern void __cdecl ResizeAudioStream(void* allocator, void* vec, unsigned int elemSize);
-
-// @fnv 0x00dbd820
-void FUN_00dbd820_cls::AppendPair(FUN_00dbd820_pair aPair)
-{
-    FUN_00dbd820_pair entry;
-    entry.first = aPair.first;
-    entry.second = *(volatile unsigned int*)&aPair.second;
-    void* holder = FUN_00c85750();
-    if (m_iElementCount == (int)(m_flags & 0x3fffffffu))
-    {
-        ResizeAudioStream(*(void**)((char*)holder + 0x10), this, 8);
-    }
-    int idx = m_iElementCount;
-    FUN_00dbd820_pair* slot = m_data + idx;
-    slot->first = entry.first;
-    slot->second = entry.second;
-    m_iElementCount++;
-}
 
 struct S_00dbd8a0_Sub
 {
@@ -395,6 +360,8 @@ struct FUN_00dbd8a0
 
 // Initialises members from p: stores p, builds unk20 from p->unk04 and unk30 from byte 0, and sets unk4c by comparing DAT_011b7b89 with p->unk04.unk1.
 // @fnv 0x00dbd8a0
+// pdb: hkBinaryPackfileWriter::SaveContext::SaveContext | hkBinaryPackfileWriter.obj | fnv360_0822_debug, call_seq, high
+// pdb params: options
 FUN_00dbd8a0::FUN_00dbd8a0(S_00dbd8a0_Arg* apArg) : unk00(apArg), unk20(&apArg->unk04), unk30(S_00dbd8a0_Byte(0))
 {
     unk4c = DAT_011b7b89 != apArg->unk04.unk1;
@@ -452,204 +419,10 @@ template <class T> class BDBD910Array
     }
 };
 
-struct BDBD910Entry48
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-};
-
-struct BDBD910Entry8
-{
-    int unk00;
-    int unk04;
-};
-
-struct BDBD910Entry52
-{
-    ~BDBD910Entry52();
-
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-};
-
-class BDBD910Member20
-{
-  public:
-    ~BDBD910Member20();
-
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-
-class BDBD910Member30
-{
-  public:
-    ~BDBD910Member30();
-
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-
-class FUN_00dbd910_cls
-{
-  public:
-    ~FUN_00dbd910_cls() throw();
-
-    int unk00;
-    BDBD910Array<BDBD910Entry48> m_kArray04;
-    BDBD910Array<BDBD910Entry8> m_kArray10;
-    int unk1C;
-    BDBD910Member20 m_kMember20;
-    BDBD910Member30 m_kMember30;
-    BDBD910Array<BDBD910Entry52> m_kArray40;
-};
-
-// Destructor for the container class; the member arrays and members are destroyed automatically by their own destructors.
-// @fnv 0x00dbd910
-FUN_00dbd910_cls::~FUN_00dbd910_cls() throw()
-{}
-
 namespace fnv_00dbd620 {
-struct S_00dbd620_Arg;
-
-struct S_00dbd620_Poly
-{
-    virtual void* v0();
-    virtual void* v1();
-    virtual void* v2();
-    virtual void* v3();
-    virtual void* v4();
-    virtual void* v5();
-    virtual void* v6();
-    virtual void v7(void* a, unsigned int b);
-    virtual void* v8();
-};
-
-struct S_00dbd620_Writer
-{
-    void* vtbl;
-    char unk04;
-    char unk05;
-    short unk06;
-    S_00dbd620_Poly* unk08;
-    void* unk0c;
-};
-
-struct S_00dbd620_Obj
-{
-    void* unk00;
-    int unk04;
-    void* unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    void* unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    char unk4c;
-    S_00dbd620_Obj(S_00dbd620_Arg* p);
-    void FUN_00dbd8a0(S_00dbd620_Arg* p);
-};
-
-struct S_00dbd620_Dtor
-{
-    int unk00;
-    ~S_00dbd620_Dtor();
-};
-
-extern int DAT_010d65ec;
-extern int DAT_0102e388;
 
 unsigned int __cdecl FUN_00dbd720(unsigned int arg);
 
-static __declspec(noinline) void S_00dbd620_Helper(void* a, void* b, void* c, void* d)
-{
-    int n = *(int*)b;
-    for (int i = 0; i < n; i++)
-        ((S_00dbd620_Poly*)a)->v3();
-    *(int*)c += n + *(int*)d;
-}
-
-struct S_00dbd620_Owner
-{
-    void FUN_00dbc7a0(void* p);
-    void FUN_00dbcea0(void* p);
-    void FUN_00dbc960(void* p, void* q);
-    void* ProcessPoly(S_00dbd620_Poly* a1, S_00dbd620_Arg* a2);
-};
-
-// @fnv 0x00dbd620
-void* S_00dbd620_Owner::ProcessPoly(S_00dbd620_Poly* pPoly, S_00dbd620_Arg* a2)
-{
-    S_00dbd620_Obj obj(a2);
-    S_00dbd620_Writer writer;
-
-    writer.unk06 = 1;
-    writer.vtbl = &DAT_010d65ec;
-    writer.unk08 = pPoly;
-    writer.unk0c = writer.unk08->v8();
-
-    obj.unk1c = &writer;
-    FUN_00dbc7a0(&obj);
-
-    S_00dbd620_Helper((void*)&obj.unk20, (void*)a2, obj.unk1c, obj.unk08);
-
-    void* pSaved = ((S_00dbd620_Poly*)&writer)->v8();
-
-    unsigned int one = 1;
-    ((S_00dbd620_Poly*)&writer)->v7((void*)FUN_00dbd720((unsigned int)&obj.unk04), one);
-
-    FUN_00dbcea0(&obj);
-
-    void* pSaved2 = ((S_00dbd620_Poly*)&writer)->v8();
-
-    FUN_00dbc960(&obj, pSaved);
-
-    ((S_00dbd620_Poly*)&writer)->v7(pSaved2, 0);
-
-    ((S_00dbd620_Poly*)&writer)->v5();
-
-    writer.vtbl = &DAT_0102e388;
-
-    ((S_00dbd620_Dtor*)&obj)->~S_00dbd620_Dtor();
-
-    return 0;
-}
 }  // namespace fnv_00dbd620
 
 // Havok patch manager: rebuild patch dependency order (topological sort).
@@ -929,294 +702,6 @@ struct S_00db8670_MultiMapUlong
     }
 };
 
-__declspec(noinline) void S_00db8670_MultiMap64::Insert(S_00db8670_Uint64 key, const int& value) throw()
-{
-    int oldHead = (int)m_pHashFunction.FUN_00cb1cb0(key, S_00db8670_Uint64(-1));
-    int newHead = AllocateSlot();
-    m_kChainValues[newHead].value = value;
-    m_kChainValues[newHead].next = oldHead;
-    m_pHashFunction.InsertKeyValue(S_GetRouter().heap(), key, newHead);
-}
-__declspec(noinline) void S_00db8670_MultiMapUlong::FUN_00dc9ec0(S_00db8670_Ulong key, const int& value) throw()
-{
-    int oldHead = (int)m_pHashFunction.LookupHashEntry(key, S_00db8670_Ulong(-1));
-    int newHead = AllocateSlot();
-    m_kChainValues[newHead].value = value;
-    m_kChainValues[newHead].next = oldHead;
-    m_pHashFunction.FUN_00cb1870(S_GetRouter().heap(), key, newHead);
-}
-
-struct S_00db8670_StringMapOps
-{
-};
-
-struct S_00db8670_StringMap
-{
-    void* m_kPrimitiveElement;
-    int m_iCapacityFlags;
-    int m_iPairCount;
-    S_00db8670_StringMapOps m_pOperations;
-
-    S_00db8670_StringMap(S_00db8670_StringMapOps ops = S_00db8670_StringMapOps()) throw();
-    ~S_00db8670_StringMap() throw();
-
-    int GetValue(const char* key, int def) const throw();
-    void FUN_00d874d0(const char* key, int val) throw();
-};
-
-struct S_00db8670_Component
-{
-    int m_type;
-    const void* m_patch;
-};
-
-struct S_00db8670_DependsPatch
-{
-    const char* m_name;
-    int m_version;
-};
-
-struct S_00db8670_PatchInfo
-{
-    const char* m_oldName;
-    const char* m_newName;
-    int m_oldVersion;
-    int m_newVersion;
-    const S_00db8670_Component* m_component;
-    int m_numComponent;
-};
-
-struct S_00db8670_UidFromClassVersion
-{
-    S_00db8670_Uint64 FUN_00db7d60(const char* name, int version) const throw();
-};
-
-__declspec(noinline) int __cdecl FUN_00db7cb0(const S_00db8670_PatchInfo* p) throw()
-{
-    if (p->m_oldVersion == -1)
-    {
-        if (p->m_oldName != 0 || p->m_newVersion == -1 || p->m_newName == 0)
-            return 0;
-    }
-    else if (p->m_newVersion == -1)
-    {
-        if (p->m_oldName == 0 || p->m_newName != 0)
-            return 0;
-    }
-    else if (p->m_oldName == 0)
-        return 0;
-    return 1;
-}
-int __cdecl FUN_00cb0fa0(const char* a, const char* b) throw();
-int __cdecl FUN_00db7e70(int from, int to, const S_00db8670_MultiMapUlong& deps, S_00db8670_MapUlong& visited) throw();
-int __cdecl FUN_00db83c0(int index, S_00db8670_Array<int>& order, const S_00db8670_MultiMapUlong& deps, int next,
-                         S_00db8670_Array<int>& stack,
-                         const S_00db8670_Array<const S_00db8670_PatchInfo*>& patches) throw();
-
-struct S_00db8670_PatchManager
-{
-    int unk00;
-    int unk04;
-    S_00db8670_UidFromClassVersion* m_pUidFromClassVersion;
-    S_00db8670_Array<const S_00db8670_PatchInfo*> m_kPatchInfos;
-    S_00db8670_Map64 m_kPatchInfoIndexMap;
-
-    int FindEntry(S_00db8670_Uint64 uid, int flag) throw();
-    int FUN_00db8670() throw();
-};
-
-// Validates patch info, builds dependency and rename maps, topologically sorts m_kPatchInfos, and rebuilds m_kPatchInfoIndexMap.
-// @fnv 0x00db8670
-int S_00db8670_PatchManager::FUN_00db8670() throw()
-{
-    S_00db8670_Map64 newClassIndexFromUid;
-    S_00db8670_Map64& patchIndexFromUid = m_kPatchInfoIndexMap;
-    S_00db8670_MultiMap64 patchesFromUid;
-    const S_00db8670_UidFromClassVersion* uidFromClassVersion = m_pUidFromClassVersion;
-    S_00db8670_MultiMapUlong patchesFromName;
-
-    patchIndexFromUid.clear();
-
-    {
-        for (int i = 0; i < m_kPatchInfos.GetLogicalSize(); i++)
-        {
-            const S_00db8670_PatchInfo* p = m_kPatchInfos[i];
-            if (!FUN_00db7cb0(p))
-            {
-                return 1;
-            }
-            if (p->m_oldVersion != -1)
-            {
-                S_00db8670_Uint64 uid = m_pUidFromClassVersion->FUN_00db7d60(p->m_oldName, p->m_oldVersion);
-                if (patchIndexFromUid.hasKey(uid))
-                {
-                    return 1;
-                }
-                patchIndexFromUid.insert(uid, i);
-                if (p->m_newVersion == -1 || (p->m_newName && FUN_00cb0fa0(p->m_oldName, p->m_newName)))
-                {
-                    patchesFromName.FUN_00dc9ec0((S_00db8670_Ulong)p->m_oldName, i);
-                }
-            }
-            else
-            {
-                S_00db8670_Uint64 uid = m_pUidFromClassVersion->FUN_00db7d60(p->m_newName, p->m_newVersion);
-                if (newClassIndexFromUid.hasKey(uid))
-                {
-                    return 1;
-                }
-                newClassIndexFromUid.insert(uid, i);
-            }
-            if (p->m_newVersion != -1)
-            {
-                const char* name = p->m_newName ? p->m_newName : p->m_oldName;
-                S_00db8670_Uint64 uid = uidFromClassVersion->FUN_00db7d60(name, p->m_newVersion);
-                patchesFromUid.Insert(uid, i);
-            }
-        }
-    }
-
-    S_00db8670_StringMap newClassNames;
-    S_00db8670_MultiMapUlong dependencies;
-    S_00db8670_MultiMapUlong renames;
-
-    for (int j = 0; j < m_kPatchInfos.GetLogicalSize(); j++)
-    {
-        const S_00db8670_PatchInfo* p = m_kPatchInfos[j];
-        const char* name = p->m_oldName;
-        int version = p->m_oldVersion;
-        if (version == -1)
-        {
-            name = p->m_newName;
-            version = p->m_newVersion;
-            if (name == 0 || version == -1)
-            {
-                return 1;
-            }
-        }
-        S_00db8670_Uint64 uid = uidFromClassVersion->FUN_00db7d60(name, version);
-        int iNewClassIndex;
-        if (p->m_oldVersion == -1)
-        {
-            iNewClassIndex = (int)newClassIndexFromUid.FindValueForKey(uid, S_00db8670_Uint64(-1));
-        }
-        else
-        {
-            iNewClassIndex = (int)patchIndexFromUid.FindValueForKey(uid, S_00db8670_Uint64(-1));
-            for (int k = patchesFromUid.CallHelperWithDefaults(uid); k != -1; k = patchesFromUid.GetNextChainIndex(k))
-            {
-                int value = patchesFromUid.getValue(k);
-                dependencies.FUN_00dc9ec0(iNewClassIndex, value);
-            }
-        }
-
-        for (int c = 0; c < p->m_numComponent; c++)
-        {
-            const S_00db8670_Component& component = p->m_component[c];
-            if (component.m_type == 6)
-            {
-                const S_00db8670_DependsPatch* dep = (const S_00db8670_DependsPatch*)component.m_patch;
-                S_00db8670_Uint64 depUid = uidFromClassVersion->FUN_00db7d60(dep->m_name, dep->m_version);
-                int depIndex = (int)patchIndexFromUid.FindValueForKey(depUid, S_00db8670_Uint64(-1));
-                if (depIndex != -1)
-                {
-                    dependencies.FUN_00dc9ec0(depIndex, iNewClassIndex);
-                }
-                for (int k = patchesFromUid.CallHelperWithDefaults(depUid); k != -1;
-                     k = patchesFromUid.GetNextChainIndex(k))
-                {
-                    int value = patchesFromUid.getValue(k);
-                    dependencies.FUN_00dc9ec0(iNewClassIndex, value);
-                }
-            }
-        }
-
-        if (p->m_oldVersion == -1)
-        {
-            if (patchesFromName.LookupWithDefault((S_00db8670_Ulong)name) != -1)
-            {
-                int k = patchesFromName.LookupWithDefault((S_00db8670_Ulong)name);
-                if (k != -1)
-                {
-                    int lastIndex = FindEntry(uid, 0);
-                    S_00db8670_MultiMapUlong* target;
-                    if (lastIndex == -1)
-                    {
-                        if (newClassNames.GetValue(name, -1) != -1)
-                        {
-                            return 1;
-                        }
-                        newClassNames.FUN_00d874d0(name, j);
-                        target = &dependencies;
-                    }
-                    else
-                    {
-                        target = &renames;
-                    }
-                    do
-                    {
-                        int value = patchesFromName.getValue(k);
-                        if (lastIndex != value)
-                        {
-                            target->FUN_00dc9ec0(iNewClassIndex, value);
-                        }
-                        k = patchesFromName.GetNextChainIndex(k);
-                    } while (k != -1);
-                }
-            }
-        }
-    }
-
-    for (int it = renames.m_pHashFunction.GetFirstIterator(); renames.m_pHashFunction.isValid(it);
-         it = renames.m_pHashFunction.getNext(it))
-    {
-        S_00db8670_Ulong key = renames.m_pHashFunction.GetIteratorKey(it);
-        for (int k = renames.LookupWithDefault(key); k != -1; k = renames.GetNextChainIndex(k))
-        {
-            S_00db8670_MapUlong visited;
-            int value = renames.getValue(k);
-            if (!FUN_00db7e70(key, value, dependencies, visited))
-            {
-                dependencies.FUN_00dc9ec0(key, value);
-            }
-        }
-    }
-
-    S_00db8670_Array<const S_00db8670_PatchInfo*> sorted;
-    sorted.SwapThreeInts(m_kPatchInfos);
-    S_00db8670_Array<int> newIndex;
-    newIndex.SetSizeAndGrow(sorted.GetLogicalSize(), -1);
-    S_00db8670_Array<int> stack;
-    int next = 0;
-    for (int i = 0; i < sorted.GetLogicalSize(); i++)
-    {
-        next = FUN_00db83c0(i, newIndex, dependencies, next, stack, sorted);
-    }
-
-    m_kPatchInfos.SetSizeAndGrow(sorted.GetLogicalSize());
-    for (int i = 0; i < sorted.GetLogicalSize(); i++)
-    {
-        int n = newIndex[i];
-        if (n < 0)
-        {
-            m_kPatchInfos.SwapThreeInts(sorted);
-            return 1;
-        }
-        m_kPatchInfos[n] = sorted[i];
-    }
-
-    patchIndexFromUid.clear();
-    for (int i = 0; i < m_kPatchInfos.GetLogicalSize(); i++)
-    {
-        const S_00db8670_PatchInfo* p = m_kPatchInfos[i];
-        if (p->m_oldName)
-        {
-            patchIndexFromUid.insert(m_pUidFromClassVersion->FUN_00db7d60(p->m_oldName, p->m_oldVersion), i);
-        }
-    }
-    return 0;
-}
-
 struct Dbc860Triple
 {
     int x;
@@ -1278,10 +763,7 @@ struct Dbc860Sink
 };
 
 extern "C" void __cdecl FUN_00cb1280(void* dst, int a, int b);
-extern "C" void __cdecl FUN_00cb1260(void* dst, void* src, int n);
 extern "C" void __cdecl CopyIfNonEmpty(void* dst, void* src, int n);
-extern "C" void __cdecl FUN_00dbda20(void* dst, int n);
-extern int DAT_0126c6c8;
 
 // Builds a Dbc860Header and initializes a Dbc860Frame, then calls sink->Call with the value, header, DAT_0126c6c8, and frame.
 // @f3 0x009d7ac0 (community match, verified in this file)
@@ -1307,6 +789,8 @@ extern "C" void __cdecl FUN_009234e0(void* dst, void* src, int n);
 extern "C" void __cdecl FUN_009233d0(void* dst, void* src, int n);
 extern "C" void __cdecl FUN_00a4a570(void* dst, int n);
 extern int DAT_0116c41c;
+// pdb: hkBinaryPackfileWriter::fillSectionTags | hkBinaryPackfileWriter.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: saveFileHeader)
+// pdb params: context
 static __declspec(noinline) void FUN_00dbc860(Dbc860Src* apSrc, int value, int extra, Dbc860Sink* sink)
 {
     Dbc860Header header;
@@ -1356,17 +840,18 @@ void CallTarget_dbc860()
     FUN_00dbc860(g_dbc860_self, g_dbc860_value, g_dbc860_extra, g_dbc860_sink);
 }
 
+// hkStreamWriter, up to tell (Fallout 3 vtables, PDB names).
 struct S00dbcdd0_Obj
 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void unk10(void* p, unsigned int n);
-    virtual void unk14();
-    virtual void unk18();
-    virtual void unk1C();
-    virtual unsigned int unk20();
+    virtual ~S00dbcdd0_Obj();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual SubStreamBool isOk() const;
+    virtual void write(void* p, unsigned int n);
+    virtual void flush();
+    virtual SubStreamBool seekTellSupported() const;
+    virtual int seek(int offset, int whence);
+    virtual unsigned int tell() const;
 };
 
 struct S00dbcdd0_Alloc
@@ -1439,7 +924,7 @@ struct MyArr : S00dbcdd0_Arr
 
 static __declspec(noinline) void FUN_00dbcdd0(S00dbcdd0_Obj* obj, unsigned int count)
 {
-    int value = (int)obj->unk20();
+    int value = (int)obj->tell();
     MyArr arr;
     S00dbcdd0_Tls* tls;
 
@@ -1462,7 +947,7 @@ static __declspec(noinline) void FUN_00dbcdd0(S00dbcdd0_Obj* obj, unsigned int c
     int remainder = ((int)count - 1) & value;
     arr.m_iElementCount = (int)count;
     if (remainder != 0) {
-        obj->unk10(arr.m_data, count - remainder);
+        obj->write(arr.m_data, count - remainder);
     }
 
     if ((arr.m_capFlags & 0x80000000) == 0) {
@@ -1518,14 +1003,6 @@ struct S_00dbd7f0_RefObj
     }
 };
 
-struct FUN_00dbd7f0 : S_00dbd7f0_RefObj
-{
-    FUN_00dbd7f0();
-    virtual ~FUN_00dbd7f0();
-};
-// @fnv 0x00dbd7f0
-FUN_00dbd7f0::FUN_00dbd7f0()
-{}
 }  // namespace fnv_00dbd7f0
 
 extern "C" void _ReadWriteBarrier();
@@ -1705,7 +1182,6 @@ struct SectionContext
     int trailing;
     void FUN_00e028e0();
 };
-extern int DAT_0126c698;
 struct Serializer
 {
     virtual void v00();
@@ -1854,6 +1330,8 @@ struct FixupThree {
 };
 extern int DAT_0116c44c;
 extern char DAT_011b7b89;
+// pdb: hkBinaryPackfileWriter::doDeferredWrites | hkBinaryPackfileWriter.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: context, sectionHeadersStart
 void WriterOwner::FUN_00dbc960(SourceData* source, int position)
 {
     BinaryWriter values;
@@ -1967,41 +1445,6 @@ struct FUN_00d46d40_s
     __declspec(noinline) const char* FUN_00d46d40();
 };
 
-struct FUN_00d874b0_class
-{
-    char* SetBoolFromThreshold(char* buf, int v);
-};
-struct FUN_00dbdd40_s
-{
-    int GetOrAddString(int v);
-};
-struct FUN_00dce8d0_class
-{
-    int LookupHashEntry(unsigned long a, unsigned long b);
-};
-struct FUN_00d60940_Class
-{
-    void WriteInt(unsigned int v);
-};
-struct FUN_00d607b0_s
-{
-    void writeVec(int v, int n);
-};
-struct FUN_00d9ec10_cls
-{
-    void SwapThreeInts(int* a);
-};
-extern void __stdcall WriteSwapped(void* data, int elem, int bytes);
-struct Ctx
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void FUN_00d60830(ClockObj* c, int f);
-    void FUN_00d60590();
-    void WriteSwapped(void* data, int elem, int count);
-};
 struct MapBool
 {
     char value;
@@ -2011,23 +1454,6 @@ struct MapBool
     {
         return value != 0;
     }
-};
-struct LocObj
-{
-    int l00;
-    int l04;
-    int l08;
-    int l0c;
-    void FUN_00d87790(MapBool a);
-    void FUN_00d874d0(const char* s, int f);
-    void* FindStringKey(const char* s);
-    MapBool SetBoolFromThreshold(int v);
-    void FreeBuffer();
-    void FUN_00d60830(ClockObj* c, int f);
-    void WriteSwapped(void* data, int elem, int bytes);
-    void WriteInt(int v);
-    void FUN_00d607b0(int v, int n);
-    void FUN_00d60590();
 };
 struct Pair8
 {
@@ -2084,13 +1510,6 @@ struct SrcOptions
     int unk00;
     int unk04;
     unsigned char flag08;
-};
-struct SubVec
-{
-    int v00;
-    int v04;
-    int v08;
-    void SwapThreeInts(Arr8* a);
 };
 inline void* operator new(unsigned int, void* p)
 {
@@ -2184,15 +1603,15 @@ struct ThisCls
     int unk24;
     int unk28;
     PairMap map2c;
-    void WriteNodeDiff(Src* src, void* glob, int diff);
+    void hkBinaryPackfileWriter_writeClassName(Src* src, void* glob, int diff);
     int GetOrAddString(int v);
-    void FUN_00dbcea0(Src* arg);
+    void hkBinaryPackfileWriter_writeAllObjects(Src* arg);
 };
 extern int DAT_011b7aec;
 void* FUN_00c85750();
 extern void __cdecl ResizeAudioStream(void* allocator, void* vec, unsigned int elemSize);
 extern void __cdecl FUN_00c908c0(void* a, void* vec, int n, int elem);
-extern int __cdecl FUN_00cb10d0(void* p);
+extern int __cdecl hkString_strLen(void* p);
 struct Router
 {
     int unk00;
@@ -2205,14 +1624,13 @@ struct Router
         return *heap;
     }
 };
-extern void* __cdecl memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
 
 extern void FUN_00ec61c0(void* dst, int value, int n);
 static __declspec(noinline) void FUN_00dbcdd0(ClockObj* obj0, unsigned int count)
 {
     S00dbcdd0_Obj* obj = (S00dbcdd0_Obj*)obj0;
-    int value = (int)obj->unk20();
+    int value = (int)obj->tell();
     S00dbcdd0_Arr arr;
     arr.m_data = &arr.u0;
     arr.m_iElementCount = 0;
@@ -2238,7 +1656,7 @@ static __declspec(noinline) void FUN_00dbcdd0(ClockObj* obj0, unsigned int count
     arr.m_iElementCount = (int)count;
     if (r != 0)
     {
-        obj->unk10(arr.m_data, count - r);
+        obj->write(arr.m_data, count - r);
     }
     S00dbcdd0_Alloc& heap2 = ((S00dbcdd0_Holder*)FUN_00c85750())->heap();
     unsigned int capFlags = arr.m_capFlags;
@@ -2340,7 +1758,7 @@ __forceinline MapIter NextPair(PairMap* map, MapIter previous)
     }
     return (MapIter)i;
 }
-// Calls WriteNodeDiff for four globals and unseen entries, writes per-counter data, records timings, and resizes two arrays.
+// Calls hkBinaryPackfileWriter_writeClassName for four globals and unseen entries, writes per-counter data, records timings, and resizes two arrays.
 // @f3 0x009d7fd0 (community match, verified in this file)
 // Writes every pending object of a binary packfile, section by section, and collects the fixups of each section.
 // The container and stream types below are the inline library code this function was built from.
@@ -2755,7 +2173,8 @@ __forceinline void Writer::writeAllObjects(SaveContext& context)
 
 // The stand-in classes of the pack for the writer and its save context do not describe the layouts used here
 // (12-byte global fixups, key/value export map), so the body is written on the layouts above.
-void ThisCls::FUN_00dbcea0(Src* context)
+// pdb: hkBinaryPackfileWriter::writeAllObjects | hkBinaryPackfileWriter.obj | fnv360_0822_debug, call_seq + bridge(call_seq|callee_sim) + skyrim(call_seq), high
+void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* context)
 {
     ((pfw9d7fd0::Writer*)this)->writeAllObjects(*(pfw9d7fd0::SaveContext*)context);
 }
@@ -2820,6 +2239,8 @@ struct Writer
 // @f3 0x009d7a40 (community match, verified in this file)
 extern "C" int __cdecl FUN_009d88b0(SectionTagsPrivate::HeaderArray* a);
 
+// pdb: hkSubStreamWriter::hkSubStreamWriter | hkBinaryPackfileWriter.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: hkBinaryPackfileWriter::fillSectionTags)
+// pdb params: child
 void SectionTagsPrivate::Writer::FUN_00dbc7a0(SectionTagsPrivate::Context* context)
 {
     SectionTagsPrivate::HeaderArray* headers = &context->headers;
@@ -2845,9 +2266,8 @@ void SectionTagsPrivate::Writer::FUN_00dbc7a0(SectionTagsPrivate::Context* conte
 }
 
 // @f3twin 0x00a82a00 of 0x009d8900
-struct F3Twin_00a82a00 : public S_00dbd770 { void* F3_FUN_00a82a00(void* apArg) ; };
-void* F3Twin_00a82a00::F3_FUN_00a82a00(void* apArg) 
+struct F3Twin_00a82a00 : public S_00dbd770 { SubStreamBool F3_FUN_00a82a00() const; };
+SubStreamBool F3Twin_00a82a00::F3_FUN_00a82a00() const
 {
-    unk8->unk18(apArg);
-    return apArg;
+    return m_childStream->seekTellSupported();
 }

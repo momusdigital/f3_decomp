@@ -38,6 +38,8 @@ struct __declspec(align(16)) Vec4
     __forceinline float Dot3(const Vec4& o) const { return x * o.x + y * o.y + z * o.z; }
 };
 
+// pdb: hkpTriangleUtil::isDegenerate | hkpTriangleUtil.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: a, b, c, tolerance
 hkBool __cdecl FUN_00a564b0(const Vec4& a, const Vec4& b, const Vec4& c, float tolerance)
 {
     Vec4 e1;
@@ -210,6 +212,8 @@ __forceinline void inlineCalcRelativeAngle(const Vec4& twistAinWorld, const Vec4
 
 }
 
+// pdb: hkInternalConstraintUtils_calcRelativeAngle | hkpInternalConstraintUtils.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: twistAxisAinWorld, twistAxisBinWorld, planeAxisAinWorld, planeAxisBinWorld, axisOut, angleOut
 void __cdecl FUN_00a50370(const cru_a50370::Vec4& twistAinWorld, const cru_a50370::Vec4& twistBinWorld,
                           const cru_a50370::Vec4& planeAinWorld, const cru_a50370::Vec4& planeBinWorld,
                           cru_a50370::Vec4& axisOut, cru_a50370::PadSpu<float>& angleOut)
@@ -326,6 +330,8 @@ __forceinline void LongRayVirtualMachine::startQuery(const MoppCode* code, const
 
 }
 
+// pdb: hkpMoppLongRayVirtualMachine::queryLongRay | hkpMoppLongRayVirtualMachine.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: collection, code, input, body, collector
 void f3o_a54420::LongRayVirtualMachine::FUN_00a54420(const void* collection, const MoppCode* code, const ShapeRayCastInput& input, const void* body, const RayHitCollector* collector)
 {
     m_collection = collection;
@@ -370,6 +376,7 @@ struct VecArray {
 void __cdecl FUN_00a59d00(VecArray* points);
 }
 
+// pdb: hkGeomConvexHullBuilder::removeCollinearVertices | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a5b5d0(f3m_00a5b5d0::VecArray* points, float tolerance)
 {
     using namespace f3m_00a5b5d0;
@@ -551,7 +558,8 @@ int __cdecl FUN_00a559f0(const weld_a55e90::Vec4* triangle, const weld_a55e90::V
 unsigned int __cdecl FUN_00ddcdd0(unsigned int bitcode, unsigned int edgeIndex, unsigned int value);
 int __cdecl GetIndexForValue(int value);
 
-weld_a55e90::hkBool __cdecl FUN_00a55e90(const weld_a55e90::BvTree* bvTree, const weld_a55e90::TriShape* triangle,
+// pdb: hkpMeshWeldingUtility::calcBitcodeForTriangleEdge | hkpMeshWeldingUtility.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+weld_a55e90::hkBool __cdecl hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(const weld_a55e90::BvTree* bvTree, const weld_a55e90::TriShape* triangle,
                                           unsigned int key, int edgeIndex, unsigned short& bitcode,
                                           bool testConsistency)
 {
@@ -1383,6 +1391,8 @@ static __forceinline void buildConstraintMatrixLuDecompositionForBallAndSocketCh
 	}
 }
 
+// pdb: hkBallSocketChainBuildJacobian | hkpChainBuildJacobian.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: numConstraints, tau, damping, cfm, accumulators, accumBase, jacobiansEnd, in, out
 void __cdecl FUN_00a51540( int numConstraints, hkReal tau, hkReal damping, hkReal cfm, hkpVelocityAccumulatorOffset* accumulators, const hkpVelocityAccumulator* accumBase, hkp1Lin2AngJacobian* jacobiansEnd, const hkpConstraintQueryIn& in, hkpConstraintQueryOut& out )
 {
 	hkpJacobianBallSocketChainSchema* chainSchema = reinterpret_cast<hkpJacobianBallSocketChainSchema*>( out.m_jacobianSchemas.val() );
@@ -1940,6 +1950,7 @@ class hkpGeomConvexHullBuilder
 		class PlaneAndPoints;
 };
 
+// pdb: hkGeomConvexHullBuilder::postFilterVertices | hkGeomConvexHullBuilder.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00a5bbb0( hkpGeomHull& hull, int startVertex, int endVertex, const hkpGeomConvexHullTolerances& tolerances, hkBool& vertsHaveChanged )
 {
 	vertsHaveChanged = false;
@@ -2716,6 +2727,7 @@ class hkpGeomConvexHullBuilder
 		static void __cdecl generateHullFromPlanarPoints( const hkVector4& planeEquation, const hkVector4* vertices, int numVertices, hkArray<hkVector4>& hullVerticesOut, hkArray<hkVector4>& planeEquationsOut );
 };
 
+// pdb: hkGeomConvexHullBuilder::buildPlaneEquations | hkGeomConvexHullBuilder.obj | tesv_win, call_gap, low
 hkBool __cdecl FUN_00a5c3d0( const hkpGeomConvexHullTolerances& tolerances, hkpGeomHull& hull, const hkArray<hkVector4>& usedVertices, hkVector4& planarPlaneEquationOut, hkBool& isPlanarOut, hkArray<hkVector4>& planeEquationsOut, hkArray<hkpGeomConvexHullBuilder::PlaneAndPoints>& tangentPlanesOut )
 {
 	hkpGeomEdge* edgeBase = hull.m_edges.begin();
@@ -4244,6 +4256,7 @@ class hkpGeomConvexHullBuilder
 hkBool weightedNeighbourLess( const hkpGeomConvexHullBuilder::WeightedNeighbour& a, const hkpGeomConvexHullBuilder::WeightedNeighbour& b );
 hkBool weightedLineLess( const hkpGeomConvexHullBuilder::WeightedLine& a, const hkpGeomConvexHullBuilder::WeightedLine& b );
 
+// pdb: hkGeomConvexHullBuilder::mergeHulls | hkGeomConvexHullBuilder.obj | tesv_win, call_gap_sim, low
 hkResult __cdecl FUN_00a5e880( const hkpGeomConvexHullTolerances& tolerances, hkpGeomHull& lhull, hkpGeomHull& rhull, hkpGeomHull& hullOut )
 {
 	hullOut.m_vertexBase = lhull.m_vertexBase;
@@ -4855,6 +4868,7 @@ struct hk4dGskCollideMatrices
 void hk4dGskCollideInitMatrices( const hkp4dGskVertexCollidePointsInput& input, hkReal Rt, hk4dGskCollideMatrices& mat );
 hkReal hk4dGskCollidePointWithPlaneFinal( const hkp4dGskVertexCollidePointsInput& input, const hkp4dGskTolerances& tol, const hkVector4& vertex, hkReal lastT, hkReal Rt, hkReal oldDistance, hkReal distance, hkReal velocity, hkp4dGskVertexCollidePointsOutput& out );
 
+// pdb: hk4dGskCollidePointsWithPlane | hkpContinuousGsk.obj | tesv_win, call_gap, low
 void FUN_00a419b0( const hkp4dGskVertexCollidePointsInput& input, const hkp4dGskTolerances& tol, hkp4dGskVertexCollidePointsOutput& out )
 {
 	hkReal endRt = 1.0f;
@@ -5425,6 +5439,7 @@ class hkpGeomConvexHullBuilder::PlaneAndPoints
 		hkUint16 m_info : 16;
 };
 
+// pdb: hkGeomConvexHullBuilder::generateConvexHull | hkGeomConvexHullBuilder.obj | tesv_win, uconst, low
 void __cdecl hkpGeomConvexHullBuilder::FUN_00a5fae0( const hkVector4* verts, int numVertices, hkpGeomHull& hullOut, hkArray<hkVector4>& usedVerticesOut, hkpGeomConvexHullMode mode )
 {
 	hkpGeomConvexHullTolerances tolerances;

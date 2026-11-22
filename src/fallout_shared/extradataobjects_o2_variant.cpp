@@ -15,6 +15,7 @@ class FUN_00ee8ac0_cls
 };
 
 // @fnv 0x00ee8ac0
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,CombatThreat *> >,unsigned int,CombatThreat *>::GetFirstPos | CombatThreatMap.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSTHashMapBase<struct BSTHashMapTraits<class BSFixedStringCI,class NiControllerSequence *,struct BSTDefaultScatterTable<class BSFixedStringCI,class NiControllerSequence *> > >::Begin)
 int* FUN_00ee8ac0_cls::FUN_00ee8ac0()
 {
     unsigned int count = m_uiCount;

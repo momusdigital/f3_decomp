@@ -80,6 +80,8 @@ bool __cdecl FUN_0061c490(int aiID);
 
 // Handles menu actions 13/14 by switching between the two panes and actions 3/4 by resetting the active pane and setting state, returning whether handled.
 // @fnv 0x0075d250
+// pdb: ContainerMenu::DoGamepad | ContainerMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiButton, afValue
 bool Menu75d250::FUN_0063ade0(int aiAction, int aiUnused)
 {
     bool bHandled = false;
@@ -177,6 +179,8 @@ struct NavigationList : NavigationBase, NavigationNode
 float __cdecl FUN_0047ca30(float value, float step);
 int FUN_00bea9e0(const char*);int FUN_00becd70(const char*,int);
 // @fnv 0x007214b0
+// pdb: ListBox<TERMINAL_MENU_ITEM *>::GetHighlightTarget | ComputersMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeButton
 NavigationTile* NavigationList::FUN_00637340(unsigned int action)
 {
     NavigationTile* result = 0;

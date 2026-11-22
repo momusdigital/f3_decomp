@@ -381,7 +381,7 @@ struct S_00a533c0_Class
     unsigned char unk0c;
     S_00a533c0_Data* unk10;
     unsigned char unk14;
-    bool __thiscall UpdateValue(float fValue, int iValue, unsigned char* pOut);
+    bool __thiscall NiBoolInterpolator_Update(float fValue, int iValue, unsigned char* pOut);
 };
 void __cdecl FUN_00aa1000();
 void __cdecl FUN_00aa0ab0();
@@ -428,7 +428,7 @@ class NiBoolInterpA535 : public FUN_00a3ca10
     unsigned int m_uiLastKeyIndex;
 
     void CloneTo(NiBoolInterpA535* dest, CloningProcessA535& cloning);
-    NiBoolInterpA535* FUN_00a53590(CloningProcessA535& cloning);
+    NiBoolInterpA535* NiBoolInterpolator_CreateClone(CloningProcessA535& cloning);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
@@ -586,7 +586,7 @@ class Interpolator3300 : public NiRefObject3300
 class Controller3300
 {
   public:
-    Controller3300* FUN_00a53300(float fA, float fB);
+    Controller3300* NiBoolInterpolator_GetSequenceInterpolator(float fA, float fB);
     Controller3300* CreateCopy(float fA, float fB);
 
     int unk00;
@@ -598,7 +598,8 @@ class Controller3300
 };
 
 // @fnv 0x00a53300
-Controller3300* Controller3300::FUN_00a53300(float fA, float fB)
+// pdb: NiBoolInterpolator::GetSequenceInterpolator | NiBoolInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+Controller3300* Controller3300::NiBoolInterpolator_GetSequenceInterpolator(float fA, float fB)
 {
     Controller3300* pkCopy = CreateCopy(fA, fB);
     if (m_spInterp.m_pObject)

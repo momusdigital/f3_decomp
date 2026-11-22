@@ -47,6 +47,8 @@ struct Owner {
     String name;
     bool FUN_00552e30(const char* value);
 };
+// pdb: TESIdleForm::SetFormEditorID | TESIdleForm.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEditorID
 bool Owner::FUN_00552e30(const char* value) {
     unsigned int size = static_cast<unsigned int>(strlen(value)) + 1;
     char* copy = static_cast<char*>(_alloca(size));

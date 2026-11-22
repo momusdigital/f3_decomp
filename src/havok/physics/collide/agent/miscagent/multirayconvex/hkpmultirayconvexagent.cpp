@@ -6,59 +6,21 @@ void FUN_00d374f0(int a, int b, int c, int d);
 
 struct FUN_00d37690_Class
 {
-    void __thiscall ForwardToFunction(int a, int b, int c, int d);
+    void __thiscall hkpMultiRayConvexAgent_getPenetrations(int a, int b, int c, int d);
 };
 
 // @fnv 0x00d37690
-void __thiscall FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+// pdb: hkpMultiRayConvexAgent::getPenetrations | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpMultiRayConvexAgent::getPenetrations | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, vtable, high (was: ForwardToFunction)
+void __thiscall FUN_00d37690_Class::hkpMultiRayConvexAgent_getPenetrations(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00d374f0(aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
-void FUN_00d37740(int a, int b, int c, int d);
-void FUN_00d37780(int a, int b, int c, int d);
 void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
 void FUN_00d37280(int a, int b, int c, int d);
-void FUN_00daf8e0();
-void FUN_00d3ac80();
-
-struct FUN_00cfbbe0_Arg
-{
-    void* f0;
-    void* f1;
-    void* f2;
-    void* f3;
-    char f4;
-    char f5;
-};
-
-struct FUN_00cfbbe0_Class
-{
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
-};
-
-// Builds two FUN_00cfbbe0_Arg descriptors from function pointers and flags and passes each to FUN_00cfbbe0 with size arguments 0x12/0x18 and 0x18/0x12.
-// @fnv 0x00d377d0
-void FUN_00d377d0(int pClass)
-{
-    FUN_00cfbbe0_Class* p = (FUN_00cfbbe0_Class*)pClass;
-    FUN_00cfbbe0_Arg arg;
-    arg.f0 = (void*)&FUN_00d37780;
-    arg.f1 = (void*)&FUN_00d37860;
-    arg.f2 = (void*)&FUN_00d378a0;
-    arg.f3 = (void*)&FUN_00d3ac80;
-    arg.f4 = 1;
-    arg.f5 = 1;
-    p->FUN_00cfbbe0(&arg, 0x12, 0x18);
-    arg.f0 = (void*)&FUN_00d37740;
-    arg.f1 = (void*)&FUN_00d374f0;
-    arg.f2 = (void*)&FUN_00d37280;
-    arg.f3 = (void*)&FUN_00daf8e0;
-    arg.f4 = 0;
-    arg.f5 = 1;
-    p->FUN_00cfbbe0(&arg, 0x18, 0x12);
-}
 
 struct Handler
 {
@@ -76,11 +38,14 @@ struct Owner
     Handler* handler;
     unsigned short* values;
     int count;
-    void ProcessValuesAndDelete(int argument);
+    void hkpMultiRayConvexAgent_cleanup(int argument);
 };
 // Calls handler->process for each non-0xffff value in values, then deletes this.
 // @fnv 0x00d36fc0
-void Owner::ProcessValuesAndDelete(int argument)
+// pdb: hkpMultiRayConvexAgent::cleanup | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: constraintOwner
+// pdb: hkpMultiRayConvexAgent::cleanup | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, vtable, high (was: ProcessValuesAndDelete)
+void Owner::hkpMultiRayConvexAgent_cleanup(int argument)
 {
     int length = count;
     for (int i = 0; i < length; ++i)
@@ -114,6 +79,8 @@ void FUN_00d374f0(void* b, void* a, void* c, S_00d37860_Collector* collector);
 
 // Builds a collector from filter and runs FUN_00d374f0 with b, a, c and the collector.
 // @fnv 0x00d37860
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiRayConvexAgent>::staticGetPenetrations | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, objrun, high
+// pdb params: bodyA, bodyB, input, collector
 void FUN_00d37860(void* a, void* b, void* c, int filter)
 {
     S_00d37860_Collector collector(filter);
@@ -131,6 +98,8 @@ extern const char DAT_010ce7fc[];
 void FUN_00d37280(int, int, int, Payload*);
 // Builds a Payload from DAT_010ce7fc, DAT_0104da48 and d, then passes it with b, a and c to FUN_00d37280.
 // @fnv 0x00d378a0
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiRayConvexAgent>::staticGetClosestPoints | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: bodyA, bodyB, input, collector
 void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId)
 {
     Payload p;
@@ -236,6 +205,8 @@ class FUN_00d376b0 : public D376B0Filter
 // Constructs a filter from a shape reference, sizing an index array to the shape's child count and filling it with 0xffff.
 // @f3 0x009bffd0 (community match, verified in this file)
 void __cdecl FUN_00901e90(void* apArray, int aiCapacity, int aiElementSize);
+// pdb: hkpMultiRayConvexAgent::hkpMultiRayConvexAgent | hkpMultiRayConvexAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, input, mgr
 FUN_00d376b0::FUN_00d376b0(const D376B0ShapeRef& shape, void* pUnused, void* unused1, void* userData)
     : D376B0Filter(userData)
 {
@@ -281,15 +252,6 @@ struct S_00d37740_Object
 
 S_00d37740_Object* FUN_00c85750();
 
-// @fnv 0x00d37740
-void FUN_00d37740(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
-{
-    S_00d37740_Object* obj = FUN_00c85750();
-    S_00d376b0_Class* result = obj->unk10->FUN_00d37740_Method(0x20);
-
-    result->unk04 = 0x20;
-    result->FUN_00d376b0(aiArg1, aiArg2, aiArg3, aiArg4);
-}
 }  // namespace fnv_00d37740
 
 namespace fnv_00d37780 {

@@ -68,7 +68,7 @@ struct MenuOwner
     Node* m_pkHead;
     Node* m_pkTail;
     unsigned int m_uiCount;
-    Tile* FUN_00bfd250(void* parent, char* name, int flags);
+    Tile* Menu_RenderTemplate(void* parent, char* name, int flags);
     void FUN_00640b80(unsigned int count, char** texts);
 };
 
@@ -105,6 +105,8 @@ static __forceinline void AddTail(MenuOwner* list, Tile* tile)
     list->m_pkTail = item;
 }
 
+// pdb: HackingMenu::ScrollLog | HackingMenu.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiTicks, pNewEntries
 void MenuOwner::FUN_00640b80(unsigned int count, char** texts)
 {
     Iterator it(this->m_pkHead);
@@ -120,7 +122,7 @@ void MenuOwner::FUN_00640b80(unsigned int count, char** texts)
 
     for (unsigned int i = 0; i < count; i++)
     {
-        Tile* tile = FUN_00bfd250(this->unk118, DAT_00e05280, 0);
+        Tile* tile = Menu_RenderTemplate(this->unk118, DAT_00e05280, 0);
         tile->FUN_00bee190(0xfac, (float)(count - i - 1), 1);
         tile->FUN_00bf11a0(0xfc4, texts[i], 1);
         AddTail(this, tile);

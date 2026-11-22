@@ -11,12 +11,14 @@
 // @f3 0x00c068dc (community match, verified in this file)
 namespace f3m_00c068dc {
 void __cdecl FUN_00c16621(int code);
+// pdb: _lockexit | crt0dat.obj | fnv360_0822_retail, caller_sim, low
 void FUN_00c068dc() { FUN_00c16621(8); }
 }   // namespace f3m_00c068dc
 
 // @f3 0x00c0afff (community match, verified in this file)
 namespace f3m_00c0afff {
 int __cdecl FUN_00c0aee7(void* value, int mode);
+// pdb: _cropzeros | cvt.obj | tesv_win, caller_sim, low
 int __cdecl FUN_00c0afff(void* value)
 {
     return FUN_00c0aee7(value, 0);
@@ -41,6 +43,8 @@ extern "C" void __cdecl FUN_00c01e67(const wchar_t*, const wchar_t*, const wchar
 extern "C" void __cdecl FUN_00c07b90(FILE_* stream);
 extern "C" int __cdecl FUN_00c03d19(FILE_* stream);
 extern "C" void __cdecl FUN_00c07bfa(FILE_* stream);
+// pdb: fclose | fclose.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: stream
 extern "C" int __cdecl FUN_00c03d8b(FILE_* stream)
 {
     int result = -1;
@@ -78,6 +82,8 @@ extern "C" void __cdecl FUN_00c07b90(FILE_* stream);
 extern "C" void __cdecl FUN_00c07bfa(FILE_* stream);
 extern "C" int __cdecl FUN_00c12649(FILE_* stream);
 extern "C" void __cdecl FUN_00c126df(int flag, FILE_* stream);
+// pdb: vprintf_helper | vprintf.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: outfn, format, plocinfo, ap
 extern "C" int __cdecl FUN_00c058e0(OUTPUTFN outfn, const char* format, void* plocinfo, char* ap)
 {
     FILE_* stream = &FUN_00c07ab9()[1];
@@ -108,6 +114,7 @@ extern "C" int __cdecl FUN_00c058e0(OUTPUTFN outfn, const char* format, void* pl
 extern int DAT_0117a760;
 namespace f3m_00c0f5da {
 
+// pdb: _crt_debugger_hook | dbghook.obj | tesv_win, call_seq, medium
 void __cdecl FUN_00c0f5da()
 {
     DAT_0117a760 = 0;
@@ -117,6 +124,7 @@ void __cdecl FUN_00c0f5da()
 // @f3 0x00c1164f (community match, verified in this file)
 namespace f3m_00c1164f {
 int __cdecl FUN_00c115ab(void* value, int mode);
+// pdb: _mbctolower | mbtolwr.obj | tesv_win, call_gap, low
 int __cdecl FUN_00c1164f(void* value)
 {
     return FUN_00c115ab(value, 0);
@@ -138,6 +146,8 @@ namespace f3m_00c0d33a {
 namespace f3m_00c0d33a {
 int __cdecl FUN_00c0d304(void* p, int flag);
 }
+// pdb: isxdigit | _ctype.obj | fnv360_0721_beta, call_gap_sim, low, conflict (skyrim: isleadbyte)
+// pdb params: c
 int __cdecl FUN_00c0d33a(void* p)
 {
     return f3m_00c0d33a::FUN_00c0d304(p, 0);
@@ -149,6 +159,8 @@ namespace f3m_00c0aff1 {
 namespace f3m_00c0aff1 {
 int __cdecl FUN_00c0ae76(void* p, int flag);
 }
+// pdb: _forcdecpt | cvt.obj | fnv360_0822_debug, objrun_prop, low
+// pdb params: buffer
 int __cdecl FUN_00c0aff1(void* p)
 {
     return f3m_00c0aff1::FUN_00c0ae76(p, 0);
@@ -157,6 +169,8 @@ int __cdecl FUN_00c0aff1(void* p)
 
 // @f3 0x00c1b6ed (community match, verified in this file)
 namespace f3m_00c1b6ed {
+// pdb: _ValidateRead | validate.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: data, size
 int __cdecl FUN_00c1b6ed(int value)
 {
     int result = 1;
@@ -170,6 +184,7 @@ int __cdecl FUN_00c1b6ed(int value)
 namespace f3m_00c078cc {
 namespace f3m_00c078cc {
 extern "C" void* __cdecl FUN_00c0781e(unsigned int size, unsigned int align, unsigned int offset);
+// pdb: _aligned_malloc | align.obj | tesv_win, caller_sim, low
 extern "C" void* __cdecl FUN_00c078cc(unsigned int size, unsigned int align)
 {
     return FUN_00c0781e(size, align, 0);
@@ -181,6 +196,8 @@ extern "C" void* __cdecl FUN_00c078cc(unsigned int size, unsigned int align)
 namespace f3m_00c078b7 {
 namespace f3m_00c078b7 {
 extern "C" void __cdecl FUN_00c064b8(void* pBlock);
+// pdb: XGRAPHICS::MyClientFreeSysMem | r500assembler.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: _aligned_free)
+// pdb params: hClientDevHandle, lpAddress
 extern "C" void __cdecl FUN_00c078b7(void* memblock)
 {
     unsigned int ptr;
@@ -200,6 +217,7 @@ namespace f3m_00c0781e {
 extern "C" int* __cdecl FUN_00c02a76(void);
 extern "C" void __cdecl FUN_00c01e67(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, unsigned int);
 extern "C" void* __cdecl FUN_00c063f5(unsigned int size);
+// pdb: _aligned_offset_malloc | align.obj | tesv_win, caller_sim, low
 extern "C" void* __cdecl FUN_00c0781e(unsigned int size, unsigned int align, unsigned int offset)
 {
     unsigned int ptr, retptr, gap;
@@ -246,6 +264,8 @@ extern "C" f3m_00c12a0f::ioinfo* DAT_0117a660[];    // __pioinfo
 
 inline f3m_00c12a0f::ioinfo* pioinfo(int fh) { return DAT_0117a660[fh >> 5] + (fh & 0x1f); }
 
+// pdb: _close | close.obj | fnv360_0822_retail, call_seq, high
+// pdb params: fh
 extern "C" int __cdecl FUN_00c12a0f(int fh)
 {
     int r;
@@ -318,6 +338,8 @@ __forceinline Descriptor* GetDescriptor(FILE* stream)
     return &_badioinfo;
 }
 }
+// pdb: fgetc | fgetc.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: fputs)
+// pdb params: stream
 int __cdecl FUN_00c07fe5(FILE* stream)
 {
     using namespace crt_c07fe5;
@@ -379,6 +401,8 @@ __forceinline Descriptor* GetDescriptor(FILE* stream)
     return &__badioinfo;
 }
 }
+// pdb: fputc | fputc.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: ch, str
 int __cdecl FUN_00c0811c(int character,FILE* stream)
 {
     using namespace crt_c0811c;
@@ -438,6 +462,8 @@ extern "C" int __cdecl FUN_00c1d471(int fh);
 extern "C" void __cdecl FUN_00c1d511(int fh);
 extern "C" __int64 __cdecl FUN_00c1c454(int fh, __int64 pos, int mthd);
 
+// pdb: _lseeki64 | lseeki64.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: fh, pos, mthd
 extern "C" __int64 __cdecl FUN_00c1c4d7(int fh, __int64 pos, int mthd)
 {
     __int64 r = -1i64;
@@ -517,6 +543,7 @@ static __declspec(noinline) void __cdecl FUN_00c068ee(_PVFV* pfbegin, _PVFV* pfe
     }
 }
 
+// pdb: doexit | crt0dat.obj | fnv360_0822_retail, udata, high
 static void __cdecl FUN_00c06a2b(int code, int quick, int retcaller)  // doexit
 {
     FUN_00c16621(_EXIT_LOCK1);

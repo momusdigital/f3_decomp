@@ -87,6 +87,7 @@ struct FUN_0047deb0_owner {
     void FUN_0047deb0();
 };
 
+// pdb: ItemChange::InitLoadGame | InventoryChanges.obj | fnv360_0721_retail, call_seq, medium
 void FUN_0047deb0_owner::FUN_0047deb0() {
     FUN_0047deb0_node* n = unk00;
     while (n) {
@@ -114,6 +115,7 @@ extern void FUN_00dbe6cc();
 void __cdecl FUN_00824ed0();
 void __cdecl FUN_0089ec10(FUN_004651a0_Class* obj, int value);
 
+// pdb: NiStencilProperty::`scalar deleting destructor' | BGSAutoWater.obj | fnv360_0822_retail, vtable, medium
 FUN_004651a0_Class* __thiscall FUN_004651a0_Class::FUN_004651a0(unsigned char flag) {
     unk00 = (int)(void*)&FUN_00dbe6cc;
     FUN_00824ed0();
@@ -137,7 +139,7 @@ struct FUN_0047af50_Obj {
     int unk04;
     int unk08;
 
-    bool __thiscall FUN_0047af50(int param2, int param3);
+    bool __thiscall GridArray_SetCenter(int param2, int param3);
 };
 
 void FUN_0047af50_Obj::vf00() {}
@@ -147,7 +149,8 @@ void FUN_0047af50_Obj::vf0C() {}
 void FUN_0047af50_Obj::vf10() {}
 void FUN_0047af50_Obj::vf14(int, int) {}
 
-bool __thiscall FUN_0047af50_Obj::FUN_0047af50(int param2, int param3) {
+// pdb: GridArray::SetCenter | GridArray.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool __thiscall FUN_0047af50_Obj::GridArray_SetCenter(int param2, int param3) {
     int deltaX = param2 - unk04;
     int deltaY = param3 - unk08;
 
@@ -193,6 +196,8 @@ __forceinline ClassifiedObject47* FindObject47(LookupOwner47* owner)
     LookupResult47 result;
     return owner->FUN_00477900(&result, DAT_010f2c30)->item;
 }
+// pdb: bhkPCollisionObject::Getbhk | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apPhantom
 ClassifiedObject47* __cdecl FUN_00477a30(LookupOwner47* owner)
 {
     ClassifiedObject47* object = FindObject47(owner);
@@ -221,6 +226,8 @@ int FUN_004776e0_Owner::vf04(int value)
     return value;
 }
 
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,VertexDist> >,unsigned int,VertexDist>::GetNext | GlobalFunc.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: pos, key, val
 void __thiscall FUN_004776e0_Owner::FUN_004776e0(int** result, int* value, int* values)
 {
     int* table = *result;
@@ -278,6 +285,8 @@ struct PointOwner_4651 {
     int unk24;
 };
 
+// pdb: BGSAutoWater::IsPolyonInsidePolygon | BGSAutoWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apPoly1, apPoly2
 bool FUN_004651d0(PointOwner_4651* owner, Area_4651* area)
 {
     for (int i = 0; i < owner->unk24; i++) {
@@ -313,6 +322,8 @@ struct GroupList_47f3 {
     bool FUN_0047f300(int key);
 };
 
+// pdb: InventoryChanges::IsLevelItemInited | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiIndex
 bool GroupList_47f3::FUN_0047f300(int key)
 {
     bool found = false;
@@ -357,6 +368,7 @@ public:
     int FUN_0047cec0();
 };
 
+// pdb: ItemChange::NumberLeveledExtra | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 int EntryList_47cec0::FUN_0047cec0()
 {
     int total = 0;
@@ -381,6 +393,8 @@ extern unsigned int g_uiTotalMemory_46f7;
 unsigned int GetTotalMemory_46f7();
 int FormatString_46f7(char* buffer, const char* format, ...);
 
+// pdb: BGSSceneInfo::BuildMNumberString | BGSSceneInfo.obj | fnv360_0822_retail, ustr, medium
+// pdb params: afMnumber, aOutText, abForActor
 void FUN_0046f720(float used, char* buffer, bool useCached)
 {
     float total;
@@ -420,6 +434,7 @@ public:
     int FUN_0047d2a0();
 };
 
+// pdb: ItemChange::GetScript | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
 int FUN_0047d2a0_Owner::FUN_0047d2a0() {
     FUN_0047d2a0_Node* node = unk00;
 
@@ -539,6 +554,8 @@ public:
     unsigned short capacity;
     unsigned short count;
 };
+// pdb: AddNoLightingPropertyRecurse | GlobalFunc.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject
 void FUN_0047acf0(TraversalObject* object)
 {
     if (object->AsGeometry() && !object->FUN_00826590(3))
@@ -620,6 +637,8 @@ struct GroupListM
     int FUN_0047f9c0(int key, void* item);
 };
 
+// pdb: InventoryChanges::GetExtraDataListIndexForItem | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, apExtra
 int GroupListM::FUN_0047f9c0(int key, void* item)
 {
     if (key && item && head00)
@@ -654,6 +673,8 @@ struct ShortPair475080 {
 	ShortPair475080* FUN_00475080(const ShortPair475080* other);
 };
 
+// pdb: Date::Date | Date.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aDate
 ShortPair475080* ShortPair475080::FUN_00475080(const ShortPair475080* other)
 {
 	unk00 = other->unk00;
@@ -663,6 +684,8 @@ ShortPair475080* ShortPair475080::FUN_00475080(const ShortPair475080* other)
 
 // @f3 0x004750e0 (community match, verified in this file)
 extern unsigned short g_daysInMonth50e0[12];
+// pdb: Date::CalculateDate | Date.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: asDay, asMonth
 unsigned short FUN_004750e0(unsigned short day, unsigned short month) {
     unsigned short d = day;
     unsigned short m = month;
@@ -738,6 +761,8 @@ struct InventoryOwner910 {
     void* FUN_0047e910(TESLevItem* levItem);
 };
 
+// pdb: InventoryChanges::GetLeveledCalculatedBaseObject | InventoryChanges.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apLevelItem
 void* InventoryOwner910::FUN_0047e910(TESLevItem* levItem) {
     void* result = 0;
     if (levItem) {
@@ -773,6 +798,8 @@ void* InventoryOwner910::FUN_0047e910(TESLevItem* levItem) {
 }   // namespace f3m_0047e910
 
 // @f3 0x00475850 (community match, verified in this file)
+// pdb: IsAnInteger | GlobalFunc.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: ActorValue::GetActorValueIndex)
+// pdb params: str
 int FUN_00475850(const char* text)
 {
     char first = *text++;
@@ -798,6 +825,7 @@ struct FNV_0046c090_Obj {
     float FUN_0046c090();
 };
 
+// pdb: BGSSaveLoadManager::LoadMostRecentSaveGame | BGSSaveLoadManager.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 float FNV_0046c090_Obj::FUN_0046c090() {
     return unk04 * unk04 + unk00 * unk00 + unk08 * unk08;
 }
@@ -814,6 +842,8 @@ struct FUN_0047d200_Holder {
     void FUN_0047d200(int value);
 };
 
+// pdb: ItemChange::SetPoison | InventoryChanges.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apPoison
 void __thiscall FUN_0047d200_Holder::FUN_0047d200(int value) {
     FUN_0047d200_Object** objects = unk00;
     if (objects != 0) {
@@ -836,6 +866,8 @@ float __cdecl FUN_00475740(float param_1, float param_2, float param_3,
 // @f3 0x00475970 (community match, verified in this file)
 #include <math.h>
 
+// pdb: GetUnclampedZAngleFromVector | GlobalFunc.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiPoint3::GetUnclampedZAngleFromVector)
+// pdb params: aDirection
 float FUN_00475970(const float* vec)
 {
     float angle;
@@ -879,6 +911,8 @@ struct Pair4751
     Pair4751* FUN_004751a0(int first, int second, short extra);
 };
 
+// pdb: Date::Date | Date.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: asDay, asMonth, asYear
 Pair4751* Pair4751::FUN_004751a0(int first, int second, short extra)
 {
     unk00 = FUN_004750e0(first, second);
@@ -958,6 +992,8 @@ struct AnimHolder464600
     void FUN_00464600(NameNode464600* list, const char* folder);
 };
 
+// pdb: Animation::AddSpecialAnimations | Animation.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFileList, apPath
 void AnimHolder464600::FUN_00464600(NameNode464600* list, const char* folder)
 {
     for (NameNode464600* node = list; node; node = node->next)
@@ -978,6 +1014,7 @@ public:
 };
 extern Heap479b00 DAT_01090a78;  // game heap
 
+// pdb: NiTMap<unsigned int,VertexDist>::NewItem | GlobalFunc.obj | fnv360_0822_retail, vtable, medium
 void* FUN_00479b00()
 {
     return DAT_01090a78.FUN_0086b930(0x14);
@@ -986,7 +1023,7 @@ void* FUN_00479b00()
 // @f3 0x0047ce90 (community match, verified in this file)
 class Item47ce90 {
 public:
-    bool FUN_0040ac70();
+    bool ExtraDataList_HasLeveledItem();
 };
 
 struct Node47ce90 {
@@ -1001,12 +1038,13 @@ public:
     bool FUN_0047ce90();
 };
 
+// pdb: BSSimpleList<ContainerObject *>::`scalar deleting destructor' | TESContainer.obj | fnv360_0822_debug, call_gap_sim, low
 bool List47ce90::FUN_0047ce90()
 {
     for (Node47ce90* node = first; node; node = node->next) {
         if (!node->item)
             break;
-        if (node->item->FUN_0040ac70())
+        if (node->item->ExtraDataList_HasLeveledItem())
             return true;
     }
     return false;
@@ -1045,6 +1083,8 @@ struct Vec4_477880
     void FUN_00477880(const Matrix_477880& m, const Vec3_477880& v);
 };
 
+// pdb: hkpBoxBoxCollisionDetection::debugCheckManifold | hkpBoxBoxCollisionDetection.obj | fnv360_0822_debug, objrun_prop, low
+// pdb params: manifold, result
 void Vec4_477880::FUN_00477880(const Matrix_477880& m, const Vec3_477880& v)
 {
     float px = v.x;
@@ -1067,6 +1107,7 @@ struct Quad46c350
     void FUN_0046c350();
 };
 
+// pdb: BSOcclusionShape::QAdjustedViewPlanes | BSOcclusionPlane.obj | tesv_win, objrun_open, low
 void Quad46c350::FUN_0046c350()
 {
     d = c = b = a = 0.0f;
@@ -1218,6 +1259,7 @@ public:
     OwnedList list;
     ~FUN_0046ffe0();
 };
+// pdb: BSSimpleList<TESForm *>::RemoveAll | BGSTextureUseMap.obj | fnv360_0721_beta, call_dedup, low
 FUN_0046ffe0::~FUN_0046ffe0() {
     list.FUN_006c8220();
 }
@@ -1336,6 +1378,8 @@ extern const char DAT_00dbfdb4[];
 extern const char DAT_00dc0a8c[];
 int FUN_00c009eb(const char* first, const char* second);
 int FUN_00c020cb(const char* first, const char* second, unsigned int length);
+// pdb: RemoveScabard | GlobalFunc.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: RemoveScabbard)
+// pdb params: apNode
 bool FUN_004781c0(SceneNode* node) {
     if (node) {
         for (unsigned int i = 0; i < node->count; ++i) {
@@ -1724,19 +1768,20 @@ struct GameStateB47b2f0 {
 
 extern GameStateB47b2f0* DAT_0106cdcc;
 
-void FUN_004d46f0();
+void TESObjectCELL_KillStatics();
 
 class Updater47b2f0 {
 public:
     void FUN_007f97f0();
-    void FUN_0047b2f0();
+    void GridCellArray_KillAll();
 };
 
-void Updater47b2f0::FUN_0047b2f0()
+// pdb: GridCellArray::KillAll | GridCell.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable_prefix), high
+void Updater47b2f0::GridCellArray_KillAll()
 {
     FUN_007f97f0();
     if (DAT_0106cdcc->flag5A9)
-        FUN_004d46f0();
+        TESObjectCELL_KillStatics();
 }
 
 // @f3 0x0047b3c0 (community match, verified in this file)
@@ -1759,10 +1804,11 @@ public:
             return &data10[row * size0C + col];
         return 0;
     }
-    void FUN_0047b3c0(unsigned int row, unsigned int col);
+    void GridCellArray_ClearItem(unsigned int row, unsigned int col);
 };
 
-void Matrix47b3c0::FUN_0047b3c0(unsigned int row, unsigned int col)
+// pdb: GridCellArray::ClearItem | GridCell.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable_prefix), high
+void Matrix47b3c0::GridCellArray_ClearItem(unsigned int row, unsigned int col)
 {
     *GetCell(row, col) = 0;
     valid20 = false;
@@ -1860,6 +1906,8 @@ public:
     unsigned short count;        // A6
 };
 
+// pdb: UnTintScenegraph | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRoot
 void FUN_004788d0(AVObject4788d0* object)
 {
     Object4788d0* prop = object->FUN_00826590(3);
@@ -1884,7 +1932,7 @@ void FUN_004788d0(AVObject4788d0* object)
 // @f3 0x0047e210 (community match, verified in this file)
 struct ExtraList47e210
 {
-    bool FUN_0040aed0(int flag);
+    bool ExtraDataList_GetWorn(int flag);
 };
 
 struct InnerNode47e210
@@ -2018,6 +2066,7 @@ public:
     bool FUN_0047e210();
 };
 
+// pdb: InventoryChanges::WearingVoiceModulateItem | InventoryChanges.obj | fnv360_0822_retail, caller_sim, low
 bool Container47e210::FUN_0047e210()
 {
     bool found = false;
@@ -2029,7 +2078,7 @@ bool Container47e210::FUN_0047e210()
         {
             for (InnerNode47e210* inner = entry->extras; inner && inner->item && !found; inner = inner->next)
             {
-                if (inner->item->FUN_0040aed0(0) && (form->flags17A & 1))
+                if (inner->item->ExtraDataList_GetWorn(0) && (form->flags17A & 1))
                     found = true;
             }
         }
@@ -2109,6 +2158,8 @@ struct AFLinkRegistry {
     void FUN_004700e0(AFLinkKey* key, int value, AFLinkTarget* target);
 };
 
+// pdb: BGSTextureUseMap::AddTexUse | BGSTextureUseMap.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apTex, aulMemorySize, apForm
 void AFLinkRegistry::FUN_004700e0(AFLinkKey* key, int value, AFLinkTarget* target)
 {
     if (!key || !target)
@@ -2196,6 +2247,8 @@ public:
     ColorSurface* surface;
     void FUN_0046d790(const ColorWords* source);
 };
+// pdb: BGSPrimitiveSphere::SetColor | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aColor
 void ColorOwner::FUN_0046d790(const ColorWords* source) {
     color = *source;
     if (surface) {
@@ -2208,18 +2261,21 @@ void ColorOwner::FUN_0046d790(const ColorWords* source) {
 }
 
 // @f3 0x0046c1d0 (community match, verified in this file)
+// pdb: BSOcclusionPlane::QDebugGeomShapeSize | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_0046c1d0()
 {
     return 0x1e;
 }
 
 // @f3 0x0046c650 (community match, verified in this file)
+// pdb: bhkLiquidAction::QCinfoSize | Explosion.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_0046c650()
 {
     return 0x18;
 }
 
 // @f3 0x0046c660 (community match, verified in this file)
+// pdb: BSMultiBoundAABB::QDebugGeomShapeSize | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_0046c660()
 {
     return 0x24;
@@ -2230,6 +2286,8 @@ struct RadiusVector3 {
     float x, y, z;
     float SquaredLength() const { return x*x + y*y + z*z; }
 };
+// pdb: LengthCheck | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aVector, afCompLength
 int FUN_00476720(const RadiusVector3* vector, float radius) {
     float length = vector->SquaredLength();
     radius *= radius;
@@ -2241,7 +2299,8 @@ int FUN_00476720(const RadiusVector3* vector, float radius) {
 }
 
 // @f3 0x0047af00 (community match, verified in this file)
-void __fastcall FUN_0047af00(int* ecx)
+// pdb: GridArray::Init | GridArray.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __fastcall GridArray_Init(int* ecx)
 {
     ecx[2] = 0xffffd8f0;
     ecx[1] = 0xffffd8f0;
@@ -2250,23 +2309,29 @@ void __fastcall FUN_0047af00(int* ecx)
 // @f3 0x00468d00 (community match, verified in this file)
 #include <math.h>
 
+inline float FUN_00468d00_NiSqrt(float fValue)
+{
+    return float(sqrt(fValue));
+}
+
 struct FUN_00468d00_Vec {
     float x;
     float y;
     float z;
+    float Length() const { return FUN_00468d00_NiSqrt(x * x + y * y + z * z); }
     void FUN_00468d00();
 };
 
+// pdb: NiSinCos | TESObjectWEAP.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiPoint3::Unitize)
+// pdb params: fRadians, fSin, fCos
+// The body is Gamebryo's NiPoint3::Unitize (the Skyrim link).
 void FUN_00468d00_Vec::FUN_00468d00() {
-    volatile float sumSq = x * x + y * y + z * z;
-    volatile float rooted = (float)sqrt((double)sumSq);
-    float len = rooted;
-    const float eps = 0.000001f;
-    if (len > eps) {
-        float inv = 1.0f / len;
-        x = x * inv;
-        y = y * inv;
-        z = z * inv;
+    float fLength = Length();
+    if (fLength > 1e-06f) {
+        float fRecip = 1.0f / fLength;
+        x *= fRecip;
+        y *= fRecip;
+        z *= fRecip;
     } else {
         x = 0.0f;
         y = 0.0f;
@@ -2277,7 +2342,7 @@ void FUN_00468d00_Vec::FUN_00468d00() {
 // @f3 0x0047ce40 (community match, verified in this file)
 struct Entry_0047ce40 {
     bool __thiscall FUN_0040c080(int value);
-    bool __thiscall FUN_0040aed0(int value);
+    bool __thiscall ExtraDataList_GetWorn(int value);
     short __thiscall FUN_0040ac80();
 };
 
@@ -2292,6 +2357,8 @@ struct Owner_0047ce40 {
     int __thiscall FUN_0047ce40(char flag);
 };
 
+// pdb: ItemChange::GetExtraTotalCount | InventoryChanges.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: ItemChange::GetExtraTotalDefaultCount)
+// pdb params: abWornIgnore
 int __thiscall Owner_0047ce40::FUN_0047ce40(char flag) {
     int total = 0;
     Node_0047ce40* current = node;
@@ -2300,7 +2367,7 @@ int __thiscall Owner_0047ce40::FUN_0047ce40(char flag) {
         Entry_0047ce40* entry = current->item;
 
         if (!entry->FUN_0040c080(0)) {
-            if (flag != 0 || !entry->FUN_0040aed0(0)) {
+            if (flag != 0 || !entry->ExtraDataList_GetWorn(0)) {
                 total += entry->FUN_0040ac80();
             }
         }
@@ -2329,6 +2396,7 @@ struct Owner47 {
 };
 extern void* DAT_01071564;
 
+// pdb: GridCellArray::ToggleCollisionGeometry | GridCell.obj | fnv360_0822_retail, caller_sim, low
 void Owner47::FUN_0047b940() {
     G47* g = (G47*)DAT_01071564;
     if (!g) return;
@@ -2348,6 +2416,7 @@ struct Mat_4752c0 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
     Vec3_4752c0 FUN_004752c0(const Vec3_4752c0& in);
 };
+// pdb: NiMatrix3::operator* | InventoryChanges.obj | tesv_win, call_seq, medium
 Vec3_4752c0 Mat_4752c0::FUN_004752c0(const Vec3_4752c0& in) {
     Vec3_4752c0 out;
     out.x = m00 * in.x + m01 * in.y + m02 * in.z;
@@ -2364,6 +2433,8 @@ struct S768 {
     float f;
 };
 bool __cdecl FUN_00476780(S768* s, void* p);
+// pdb: PointInFrustum | GlobalFunc.obj | fnv360_0822_retail, caller, medium
+// pdb params: aTestLocation, apCamera, afDistance
 bool __cdecl FUN_004768c0(int a1, int a2, int a3, void* p4, float a5) {
     if (!p4) return false;
     S768 s;
@@ -2438,6 +2509,8 @@ extern int DAT_0116ebd8;
 
 bool __cdecl FUN_004782c0(int* param_1);
 
+// pdb: HasParticleSystem | GlobalFunc.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apObj
 bool __cdecl FUN_004782c0(int* param_1) {
     if (param_1 == 0) {
         return false;
@@ -2479,6 +2552,7 @@ extern const TypeInfo DAT_0116eeec;
 
 int __cdecl FUN_00404050(const char *s1, const char *s2);
 
+// pdb: GetCollisionObjectCount | GlobalFunc.obj | fnv360_0822_retail, objrun, medium
 void FUN_00478960(void *a1, void *a2)
 {
     if ((*(unsigned char *)((char *)a2 + 0x18) & 1) && a1)
@@ -2548,6 +2622,8 @@ public:
     float m_18;
 };
 struct Pt46c300 { float x, y, z; float SqrLength() const { return x * x + y * y + z * z; } };
+// pdb: BGSPrimitiveSphere::IsInside | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aPoint
 bool __fastcall FUN_0046c300(const Obj46c300* self, int, const Pt46c300* p)
 {
     return self->m_18 * self->m_18 > p->SqrLength();
@@ -2558,10 +2634,11 @@ struct FUN_00474b30_Node {
     int* value;
     FUN_00474b30_Node* next;
 
-    int* __thiscall FUN_00474b30(int key);
+    int* __thiscall BSClonePools_RequestClone(int key);
 };
 
-int* __thiscall FUN_00474b30_Node::FUN_00474b30(int key) {
+// pdb: BSClonePools::RequestClone | BSClonePool.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+int* __thiscall FUN_00474b30_Node::BSClonePools_RequestClone(int key) {
     int* found = 0;
 
     for (FUN_00474b30_Node* current = this; current; current = current->next) {
@@ -2611,6 +2688,7 @@ struct Singleton47cbf0 {
     virtual void DeleteThis(bool free);
 };
 extern Singleton47cbf0* DAT_0106ea24;
+// pdb: InventoryChanges::KillTempRef | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 void FUN_0047cbf0()
 {
     if (DAT_0106ea24)
@@ -2629,6 +2707,7 @@ struct Key4751d0 {
     unsigned short id;
 };
 Pair4751d0 __cdecl FUN_00475140(unsigned int id);
+// pdb: Date::GetDay | Date.obj | fnv360_0822_retail, objrun_prop, low
 int __fastcall FUN_004751d0(Key4751d0* key)
 {
     Pair4751d0 pair = FUN_00475140(key->id);
@@ -2638,16 +2717,20 @@ int __fastcall FUN_004751d0(Key4751d0* key)
 
 // @f3 0x00475070 (community match, verified in this file)
 struct Owner588{unsigned short first,second;Owner588* FUN_00475070();};
+// pdb: Date::Date | Date.obj | fnv360_0822_retail, call_seq, high
 Owner588* Owner588::FUN_00475070(){first=0;second=0;return this;}
 
 // @f3 0x0047cbe0 (community match, verified in this file)
 struct Target591{int FUN_004e66c0();};
 struct Owner591{int unk00;Target591* target;int FUN_0047cbe0();};
+// pdb: InventoryChanges::GetOriginalContainer | InventoryChanges.obj | fnv360_0822_retail, caller_sim, low
 int Owner591::FUN_0047cbe0(){return target?target->FUN_004e66c0():0;}
 
 // @f3 0x0046dd40 (community match, verified in this file)
 namespace f3m_0046dd40 {
 struct Owner631{void FUN_0046d800(float);void FUN_0046dd40(const float*);};
+// pdb: BGSPrimitiveSphere::SetRadii | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aRadii
 void Owner631::FUN_0046dd40(const float* value){FUN_0046d800(*value);}
 }   // namespace f3m_0046dd40
 
@@ -2668,6 +2751,8 @@ struct Owner646{
     int unk28;    Entry646 entries[16];
     void FUN_00471570(Entry646*);void FUN_00472200(unsigned int);
 };
+// pdb: BipedAnim::RemovePart | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aeObj, abClear, aiClearValue
 void Owner646::FUN_00472200(unsigned int index){FUN_00471570(&entries[index]);}
 }   // namespace f3m_00472200
 
@@ -2682,6 +2767,7 @@ struct Owner647 {
     unsigned short value;
     unsigned int FUN_004751f0();
 };
+// pdb: Date::GetMonth | Date.obj | fnv360_0822_retail, objrun_prop, low
 unsigned int Owner647::FUN_004751f0()
 {
     return FUN_00475140(value).index;
@@ -2699,6 +2785,7 @@ struct RelativeValue648 {
     int unk14;
     unsigned char tag;
 };
+// pdb: bhkUnaryAction::GetRTTI | bhkCartTether.obj | tesv_win, objrun_open, low
 char* FUN_00475660(RelativeValue648* value)
 {
     if (value->tag == 2)
@@ -2729,6 +2816,7 @@ public:
     C* unk10;
 };
 
+// pdb: GetHavokWorldObjectCount | GlobalFunc.obj | fnv360_0822_retail, objrun, medium
 void FUN_00478a50(D* a1, C* a2)
 {
     C* eax = a1->unk10;
@@ -2775,6 +2863,8 @@ struct FUN_00470740_Obj {
     Slot470740 slots[20];
     Slot470740* FUN_00470740(void* key);
 };
+// pdb: BipedAnim::FindBipObject | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObj
 Slot470740* FUN_00470740_Obj::FUN_00470740(void* key)
 {
     if (!key)
@@ -2804,6 +2894,8 @@ public:
     bool FUN_00468ec0(unsigned int index);
 };
 
+// pdb: BSShaderProperty::GetFlag | BGSDecalManager.obj | fnv360_0721_beta, call_gap, low, conflict (bridge: NiObject::IsExactKindOf)
+// pdb params: aiFlag
 bool FlagSet_468ec0::FUN_00468ec0(unsigned int index)
 {
     return (unk20[index >> 5] & (1u << (index & 0x1F))) > 0;
@@ -2819,7 +2911,7 @@ struct Target {
 struct Form {
     char unk00[0x26];
     unsigned char typeID;
-    Target* FUN_004d5270();
+    Target* TESObjectCELL_GetLand();
 };
 struct Grid {
     int unk00;
@@ -2834,12 +2926,14 @@ struct Grid {
     }
     void FUN_0047b740(int arg);
 };
+// pdb: GridCellArray::ShowLandBorders | GridCell.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: GridCellArray::RunAnimations)
+// pdb params: abShow
 void Grid::FUN_0047b740(int arg) {
     for (unsigned int x = 0; x < dim; x++) {
         for (unsigned int y = 0; y < dim; y++) {
             Form* form = *GetAt(x, y);
             if (form && form->typeID == 6) {
-                Target* t = form->FUN_004d5270();
+                Target* t = form->TESObjectCELL_GetLand();
                 if (t)
                     t->FUN_004cea70(arg);
             }
@@ -2877,6 +2971,7 @@ struct FUN_0046c560 : Base {
     RefPtr unk104;
     ~FUN_0046c560();
 };
+// pdb: BSPortal::~BSPortal | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
 FUN_0046c560::~FUN_0046c560()
 {
 }
@@ -2908,6 +3003,7 @@ public:
     static Tab_46b690* ms_pStringTable;
 };
 
+// pdb: BGSDecalManager::GetInstance | BGSDecalManager.obj | fnv360_0822_retail, call_gap, low
 Tab_46b690* FUN_0046b690()
 {
     if (!Tab_46b690::ms_pStringTable)
@@ -2956,6 +3052,7 @@ struct Owner {
     List list;
     void FUN_0046bff0();
 };
+// pdb: BGSDecalManager::UpdateDecalEmitters | BGSDecalManager.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_0046bff0() {
     Node* n = list.head;
     while (n) {
@@ -2992,9 +3089,10 @@ struct Grid {
             return &cells[x * size + y];
         return 0;
     }
-    bool FUN_0047b2a0(unsigned int x, unsigned int y);
+    bool GridCellArray_GetAttached(unsigned int x, unsigned int y);
 };
-bool Grid::FUN_0047b2a0(unsigned int x, unsigned int y)
+// pdb: GridCellArray::GetAttached | GridCell.obj | fnv360_0822_retail, call_gap + bridge(call_gap_sim|call_gap) + skyrim(call_gap_sim), high
+bool Grid::GridCellArray_GetAttached(unsigned int x, unsigned int y)
 {
     Cell* c = *GetAt(x, y);
     if (c)
@@ -3106,6 +3204,7 @@ public:
     float FUN_0047cda0();
 };
 
+// pdb: TESObjectARMO::GetArmorRating | InventoryChanges.obj | fnv360_0822_debug, call_gap, low
 float Owner_0047cda0::FUN_0047cda0()
 {
     return (float)(unk178 / 100.0);
@@ -3119,6 +3218,7 @@ struct Obj468ef0 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18;
     int type;
 };
+// pdb: NiPointer<BSTempEffectGeometryDecal>::~NiPointer<BSTempEffectGeometryDecal> | BGSDecalManager.obj | fnv360_0822_debug, call_gap_sim, low
 int FUN_00468ef0(Obj468ef0* obj)
 {
     if (!obj)
@@ -3159,6 +3259,8 @@ struct BoundOwner
     NiBound* bound;
 };
 
+// pdb: NodeInFrustum | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, apCamera
 bool FUN_004784d0(BoundOwner* owner)
 {
     if (owner) {
@@ -3212,6 +3314,8 @@ struct PtrHolder_0047b7b0
     RefObject_0047b7b0* __thiscall FUN_0047b7b0(int index);
 };
 
+// pdb: BSSimpleArray<NiPoint2,1024>::operator[] | ImageSpaceEffectWaterDisplacement.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: NiScreenElements::SetRectangle)
+// pdb params: aiIndex
 RefObject_0047b7b0* PtrHolder_0047b7b0::FUN_0047b7b0(int index)
 {
     return this ? m_kEntries[index] : NiPointer<RefObject_0047b7b0>();
@@ -3236,6 +3340,8 @@ struct Walker47;
 void __cdecl FUN_00478a50(void* elem, WalkOpts47* opts);
 void __cdecl FUN_008d5790(Walker47* node, WalkOpts47* opts, void (__cdecl* cb)(void*, WalkOpts47*));
 
+// pdb: GetHavokWorldObjectCountInSceneGraph | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRoot
 int __cdecl FUN_00478a70(Walker47* node)
 {
     WalkOpts47 opts;
@@ -3278,6 +3384,8 @@ public:
     int FUN_004708a0(int index);
 };
 
+// pdb: BipedAnim::IsFaceGenObject | BipedAnim.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeBipedObject
 int Owner_004708a0::FUN_004708a0(int index)
 {
     Entry_004708a0_target* p = entries[index + 3].unk00;
@@ -3317,6 +3425,7 @@ struct Obj_468dd0 {
     Obj_468dd0* FUN_00468dd0();
 };
 
+// pdb: BGSDecalManager::GetInstance | BGSDecalManager.obj | fnv360_0721_retail, caller, medium
 Obj_468dd0* Obj_468dd0::FUN_00468dd0()
 {
     p60.x = 0.0f;
@@ -3405,7 +3514,8 @@ int FUN_0046e6b0(Owner670* owner)
 // @f3 0x004750c0 (community match, verified in this file)
 extern const unsigned short DAT_00f4c6d4[12];
 namespace f3m_004750c0 {
-unsigned short FUN_004750c0(int month)
+// pdb: Date::GetDaysInMonth | Date.obj | fnv360_0822_retail, udata + bridge(call_gap_sim|udata), high
+unsigned short Date_GetDaysInMonth(int month)
 {
     if (month >= 12)
         return 0;
@@ -3421,6 +3531,8 @@ struct Owner705 {
     Point705 position;
     void FUN_0046c630(const Point705* supplied);
 };
+// pdb: BSMultiBoundSphere::SetCenter | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arCenter
 void Owner705::FUN_0046c630(const Point705* supplied)
 {
     position = *supplied;
@@ -3434,6 +3546,8 @@ struct Owner706 {
     void FUN_004704a0(int first, int third);
     void FUN_00470600(int first, int second, int third);
 };
+// pdb: BGSTextureUseMap::CollectTexUseData | BGSTextureUseMap.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apNode, apDefaultUser, abCheckActors
 void Owner706::FUN_00470600(int first, int second, int third)
 {
     value = second;
@@ -3445,6 +3559,7 @@ void Owner706::FUN_00470600(int first, int second, int third)
 extern bool DAT_01073a30;
 extern bool DAT_01073a60;
 namespace f3m_004706c0 {
+// pdb: BSFaceGenManager::GetUseMultiThreading | BipedAnim.obj | fnv360_0822_retail, call_gap, low
 int FUN_004706c0()
 {
     if (DAT_01073a30 && DAT_01073a60) return 1;
@@ -3456,6 +3571,7 @@ int FUN_004706c0()
 extern bool DAT_01075b28;
 extern bool DAT_01075cac;
 namespace f3m_00477b00 {
+// pdb: Interface::Has360Controller | Interface.obj | fnv360_0822_debug, call_seq, medium
 int FUN_00477b00()
 {
     if (DAT_01075b28 && !DAT_01075cac) return 1;
@@ -3467,6 +3583,8 @@ int FUN_00477b00()
 namespace Match752 {
 struct Heap { void* FUN_0086b930(unsigned int bytes); };
 extern Heap DAT_01090a78;
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::_Allocate | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 void* __stdcall FUN_0046eab0(unsigned int count)
 {
     return DAT_01090a78.FUN_0086b930(count << 6);
@@ -3483,6 +3601,7 @@ struct Owner {
     void FUN_0046bff0();
     void FUN_0046c070();
 };
+// pdb: BGSDecalManager::ClearDecalsThisFrame | BGSDecalManager.obj | fnv360_0822_debug, udata, medium
 void Owner::FUN_0046c070()
 {
     DAT_0106def4 = 0;
@@ -3519,6 +3638,8 @@ int Owner760::FUN_00475530()
 namespace Match777 {
 struct Heap { void* FUN_0086bae0(void* memory, unsigned int bytes); };
 extern Heap DAT_01090a78;
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::_Reallocate | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuffer, aiNewSizeInItem
 void* __stdcall FUN_0046ead0(void* memory, unsigned int count)
 {
     return DAT_01090a78.FUN_0086bae0(memory, count << 6);
@@ -3535,6 +3656,8 @@ struct Owner789 {
     Data789* data;
     int FUN_004706e0();
 };
+// pdb: ImpactMixer::PlayHitSound | ImpactMixer.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: apAttacker, afDamage, afDefDamage, apTarget, aiWeaponType, aiArmorType, aiShieldType, abFakeHit, abEnchantedWeapon
 int Owner789::FUN_004706e0()
 {
     if (this && data) {
@@ -3678,9 +3801,10 @@ struct Owner805 {
     int unk0ec;
     int unk0f0;
     unsigned char state;
-    int FUN_0047cb00();
+    int TESObjectWEAP_IsThrownWeapon();
 };
-int Owner805::FUN_0047cb00()
+// pdb: TESObjectWEAP::IsThrownWeapon | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+int Owner805::TESObjectWEAP_IsThrownWeapon()
 {
     unsigned char value = state;
     if (InWideRange805(value) && !InNarrowRange805(value)) return 1;
@@ -3692,6 +3816,7 @@ int Owner805::FUN_0047cb00()
 namespace f3m_00470870 {
 struct Item840 { virtual ~Item840(); };
 struct Owner840 { Item840* first; Item840* second; void FUN_00470870(); };
+// pdb: NiCloningProcess::~NiCloningProcess | BipedAnim.obj | fnv360_0822_retail, call_seq, high
 void Owner840::FUN_00470870() {
     delete first;
     delete second;
@@ -3778,6 +3903,8 @@ public:
     void FUN_0047cb40(float value);
 };
 
+// pdb: TESObjectWEAP::GetAttackSpeed | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: bModValue
 void FUN_0047cb40_Owner::FUN_0047cb40(float value)
 {
     if (!(value < DAT_00dc0ac8)) {
@@ -3792,6 +3919,7 @@ void FUN_0047cb40_Owner::FUN_0047cb40(float value)
 namespace f3m_0047d230 {
 struct Item842 { int FUN_0040acc0(); void FUN_0040b920(); };
 struct Owner842 { Item842** items; void FUN_0047d230(); };
+// pdb: ItemChange::RemovePoison | InventoryChanges.obj | fnv360_0822_retail, caller, medium
 void Owner842::FUN_0047d230() {
     Item842** list = items;
     if (list) {
@@ -3804,6 +3932,7 @@ void Owner842::FUN_0047d230() {
 // @f3 0x00475250 (community match, verified in this file)
 namespace f3m_00475250 {
 struct Vec849 { float x, y, z; float FUN_00475250(const Vec849* other); };
+// pdb: NiPoint3::operator* | GlobalFunc.obj | tesv_win, call_dedup, low
 float Vec849::FUN_00475250(const Vec849* other) {
     return other->y * y + other->x * x + other->z * z;
 }
@@ -3813,6 +3942,8 @@ float Vec849::FUN_00475250(const Vec849* other) {
 namespace f3m_00477760 {
 struct Payload850 { int x, y, z; };
 struct Node850 { int unk00, key04; Payload850 values08; };
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,VertexDist> >,unsigned int,VertexDist>::SetValue | GlobalFunc.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkItem, key, val
 Node850* __stdcall FUN_00477760(Node850* node, int key, Payload850 values) {
     node->key04 = key;
     node->values08 = values;
@@ -3823,6 +3954,7 @@ Node850* __stdcall FUN_00477760(Node850* node, int key, Payload850 values) {
 // @f3 0x00468cd0 (community match, verified in this file)
 namespace f3m_00468cd0 {
 struct Vec865 { float x, y, z; };
+// pdb: operator* | ExtraDataObjects.obj | tesv_win, call_seq, medium
 Vec865* __cdecl FUN_00468cd0(Vec865* output, float scale, const Vec865* source) {
     output->x = source->x * scale;
     output->y = source->y * scale;
@@ -3853,6 +3985,7 @@ struct Owner887 {
     void FUN_00824e90();
     Owner887* FUN_00465160();
 };
+// pdb: NiStencilProperty::NiStencilProperty | BGSAutoWater.obj | fnv360_0822_retail, call_gap, low
 Owner887* Owner887::FUN_00465160() {
     FUN_00824e90();
     vtable00 = &DAT_00dbe6cc;
@@ -3879,6 +4012,8 @@ extern const char DAT_00f46078[], DAT_00f46a4c[];
 namespace f3m_0047caa0 {
 struct Value889 { int unk00; unsigned int value04; };
 Value889* __cdecl FUN_00c0050a(void* object, int unused, const void* baseType, const void* targetType, int flags);
+// pdb: TESEnchantableForm::GetFormEnchanting | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apForm
 unsigned int __cdecl FUN_0047caa0(void* object) {
     Value889* value = FUN_00c0050a(object, 0, DAT_00f46078, DAT_00f46a4c, 0);
     if (value) return value->value04;
@@ -3904,8 +4039,9 @@ struct FUN_0046c0c0_Class {
     FUN_0046c0c0_Class* __thiscall FUN_0046c0c0(FUN_0046c0c0_Obj* source);
 };
 
+// pdb: BSOcclusionPlane::GetFrustumPlanes | BSOcclusionPlane.obj | tesv_win, objrun_open, low
 FUN_0046c0c0_Class* __thiscall FUN_0046c0c0_Class::FUN_0046c0c0(FUN_0046c0c0_Obj* source) {
-    volatile float value = source->unk0C;
+    float value = source->unk0C;
 
     unk00 = source->unk00;
     unk04 = source->unk04;
@@ -3936,6 +4072,8 @@ public:
 };
 extern FileFinder* DAT_011785d0;
 
+// pdb: BipedAnim::Get1stPersonModelFileName | BipedAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apModel, ap1stPersonFileName
 bool __stdcall FUN_00470a30(ModelSource* source, char* path)
 {
     char fullPath[0x104];
@@ -3970,6 +4108,7 @@ struct Owner
     int FUN_0047d170();
 };
 
+// pdb: ItemChange::GetItemOwnership | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 int Owner::FUN_0047d170()
 {
     if (holder) {
@@ -4064,14 +4203,15 @@ public:
 class GroupList {
 public:
     GroupNode* head;
-    void FUN_0047f930(Stream* s);
+    void InventoryChanges_InitLoadGame(Stream* s);
 };
 
 }
 
 using namespace f3m_0047f930;
 
-void GroupList::FUN_0047f930(Stream* s)
+// pdb: InventoryChanges::InitLoadGame | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void GroupList::InventoryChanges_InitLoadGame(Stream* s)
 {
     int saved24 = s->VFunc04();
     unsigned int saved17 = *(unsigned int*)((char*)s + 0x17);
@@ -4166,6 +4306,8 @@ public:
     NiAVObject* GetAt(unsigned int index) const { return children[index]; }
 };
 
+// pdb: HasMorpherController | GlobalFunc.obj | fnv360_0822_debug, caller, medium
+// pdb params: apObj
 bool __cdecl FUN_00478250(NiAVObject* object)
 {
     if (!object)
@@ -4231,6 +4373,8 @@ public:
 
 using namespace f3m_004691c0;
 
+// pdb: BSCullingProcess::SetAccumulator | BGSDecalManager.obj | fnv360_0822_debug, objrun, low
+// pdb params: apAccumulator
 void Owner::FUN_004691c0(RefObject* object)
 {
     unkC4 = object;
@@ -4252,7 +4396,7 @@ struct FUN_0047af10_Obj {
     int unk08;
     unsigned int count;
 
-    void __thiscall FUN_0047af10();
+    void __thiscall GridArray_DetachAll();
 };
 void FUN_0047af10_Obj::vf00() {}
 void FUN_0047af10_Obj::vf04() {}
@@ -4261,7 +4405,8 @@ void FUN_0047af10_Obj::vf0C() {}
 void FUN_0047af10_Obj::vf10() {}
 void FUN_0047af10_Obj::vf14() {}
 void FUN_0047af10_Obj::vf18(unsigned int, unsigned int) {}
-void __thiscall FUN_0047af10_Obj::FUN_0047af10() {
+// pdb: GridArray::DetachAll | GridArray.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __thiscall FUN_0047af10_Obj::GridArray_DetachAll() {
     for (unsigned int row = 0; row < count; ++row) {
         for (unsigned int col = 0; col < count; ++col) {
             vf18(row, col);
@@ -4406,6 +4551,8 @@ struct FUN_0046e700_Table {
 };
 extern FUN_0046e700_Table DAT_00f4bf68;
 
+// pdb: BGSSceneInfo::TexUseCB | BGSSceneInfo.obj | fnv360_0721_beta, objrun, low
+// pdb params: apTexture, aulMemorySize, apParam
 void __cdecl FUN_0046e700(int key, int amount, int** counter)
 {
     bool found = false;
@@ -4478,6 +4625,8 @@ struct Owner925 {
     Child925* child08;
     float FUN_00475710();
 };
+// pdb: hkpRigidBody::applyLinearImpulse | MagicCaster.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: bhkRigidBody::GetDynamicMass)
+// pdb params: imp
 float Owner925::FUN_00475710() {
     return this && child08 ? child08->componentD0.FUN_008f8410() : 0.0f;
 }
@@ -4491,6 +4640,8 @@ struct Owner926 {
     int* data10;
     int* FUN_0047b220(unsigned int row, unsigned int column);
 };
+// pdb: GridCellArray::Get | GridCell.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: Actor::RequestDetectionState)
+// pdb params: aiX, aiY
 int* Owner926::FUN_0047b220(unsigned int row, unsigned int column) {
     if (row < size0C && column < size0C) return &data10[size0C * row + column];
     return 0;
@@ -4529,6 +4680,8 @@ extern Manager470770* DAT_0116efb8;
 void __cdecl FUN_00478bb0(Form470770* form);
 void __cdecl FUN_008d7720(Form470770* form, int a, int b);
 
+// pdb: BipedAnim::RunBiped3DDetach | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: ap3D
 void __cdecl FUN_00470770(Form470770* form)
 {
     if (form) {
@@ -4545,6 +4698,8 @@ void __cdecl FUN_00470770(Form470770* form)
 // @f3 0x00477b20 (community match, verified in this file)
 namespace f3m_00477b20 {
 float FUN_00475910(float angle);
+// pdb: GetZAngleFromVector | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: NiPoint3::GetZAngleFromVector)
+// pdb params: aDirection
 float FUN_00477b20(const float* vec)
 {
     float angle;
@@ -4578,6 +4733,7 @@ public:
     int FUN_0047d1d0();
 };
 
+// pdb: ItemChange::GetPoison | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 int FUN_0047d1d0_Holder::FUN_0047d1d0() {
     int result = 0;
     do {
@@ -4599,6 +4755,8 @@ struct Entry464e20 {
     float value;
 };
 }
+// pdb: SortY | BGSAutoWater.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pV1, pV2
 int __cdecl FUN_00464e20(const f3m_00464e20::Entry464e20* a, const f3m_00464e20::Entry464e20* b)
 {
     if (a->value > b->value)
@@ -4659,15 +4817,16 @@ struct FUN_004708d0_Obj {
     FUN_004708d0_Extra* FUN_00824a50(void* name);
 };
 
-void __cdecl FUN_004f37d0(void* value);
+void __cdecl TESObjectREFR_AddAddonNodes(void* value);
 
-void __cdecl FUN_004708d0(FUN_004708d0_Obj* obj, void* value) {
+// pdb: BipedAnim::AddAddonNodes | BipedAnim.obj | fnv360_0822_retail, objrun + bridge(call_gap|call_gap_sim), high
+void __cdecl BipedAnim_AddAddonNodes(FUN_004708d0_Obj* obj, void* value) {
     FUN_004708d0_Extra* extra = obj->FUN_00824a50(DAT_01202ddc);
     if (extra != 0) {
         unsigned int flags = *(volatile unsigned int*)&extra->unk0C;
         flags >>= 4;
         if ((unsigned char)flags & 1) {
-            FUN_004f37d0(value);
+            TESObjectREFR_AddAddonNodes(value);
         }
     }
 }
@@ -4676,11 +4835,12 @@ void __cdecl FUN_004708d0(FUN_004708d0_Obj* obj, void* value) {
 // @f3 0x00475490 (community match, verified in this file)
 namespace f3m_00475490 {
 struct Mat33 { float m[3][3]; };
-bool __stdcall FUN_00475380(Mat33* m);
+bool __stdcall NiMatrix3_Inverse(Mat33* m);
 
+// pdb: NiMatrix3::Inverse | GlobalFunc.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 Mat33* __stdcall FUN_00475490(Mat33* m)
 {
-    if (!FUN_00475380(m))
+    if (!NiMatrix3_Inverse(m))
     {
         m->m[0][0] = 0.0f;
         m->m[1][0] = 0.0f;
@@ -4711,7 +4871,8 @@ int FUN_00465120(const Vec3_465120* a, const Vec3_465120* b)
 namespace f3m_00468fd0 {
 struct Random964 { unsigned int FUN_0086c4b0(unsigned int maximum); };
 Random964* __cdecl FUN_0044a2d0();
-float __cdecl FUN_00468fd0() {
+// pdb: RandomFloatTwoPi | BGSDecalManager.obj | fnv360_0822_retail, call_seq + skyrim(call_gap), high
+float __cdecl RandomFloatTwoPi() {
     Random964* random = FUN_0044a2d0();
     unsigned int value = random->FUN_0086c4b0(0xffffffffu);
     return (float)value * 1.462918119976564e-09;
@@ -4731,6 +4892,7 @@ struct Owner965 {
     float x18, y1C, z20;
     float FUN_0046c670();
 };
+// pdb: BSMultiBoundAABB::QMultiBoundRadius | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 float Owner965::FUN_0046c670() { return sqrt(y1C * y1C + x18 * x18 + z20 * z20); }
 }   // namespace f3m_0046c670
 
@@ -4921,6 +5083,8 @@ struct Obj {
 }
 using namespace f3m_00470fd0;
 
+// pdb: BipedAnim::BipedAnim | BipedAnim.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef, apNode
 Obj* Obj::FUN_00470fd0(int a, int b)
 {
     memset(this, 0, sizeof(Obj));
@@ -4958,6 +5122,7 @@ namespace f3m_0047d2d0 {
 struct Object973 { int FUN_0040ad00(); };
 struct Node973 { Object973* object00; Node973* next04; };
 struct Owner973 { Node973* head00; int FUN_0047d2d0(); };
+// pdb: ItemChange::GetScriptLocals | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
 int Owner973::FUN_0047d2d0() {
     Node973* node = head00;
     while (node) {
@@ -4976,8 +5141,8 @@ namespace f3m_0047e280 {
 
 struct EntryM
 {
-    bool FUN_0040aed0(int a);
-    bool FUN_0040af00();
+    bool ExtraDataList_GetWorn(int a);
+    bool ExtraDataList_GetCanNotWear();
     void FUN_0040b5e0(int a, int b);
 };
 
@@ -5003,10 +5168,11 @@ struct OuterNodeM
 struct ListM
 {
     OuterNodeM* head;
-    EntryM* FUN_0047e280(int key, bool flag);
+    EntryM* InventoryChanges_WearingObject(int key, bool flag);
 };
 
-EntryM* ListM::FUN_0047e280(int key, bool flag)
+// pdb: InventoryChanges::WearingObject | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+EntryM* ListM::InventoryChanges_WearingObject(int key, bool flag)
 {
     OuterNodeM* node = head;
     bool searching = true;
@@ -5025,9 +5191,9 @@ EntryM* ListM::FUN_0047e280(int key, bool flag)
             EntryM* e = in->data;
             if (!e)
                 break;
-            if (e->FUN_0040aed0(0))
+            if (e->ExtraDataList_GetWorn(0))
                 return e;
-            if (e->FUN_0040af00() && flag)
+            if (e->ExtraDataList_GetCanNotWear() && flag)
             {
                 e->FUN_0040b5e0(1, 0);
                 return e;
@@ -5080,6 +5246,8 @@ struct Owner {
 }
 using namespace f3m_0047e400;
 
+// pdb: InventoryChanges::GetObjectbyType | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aeFormID, ainumb
 Form* Owner::FUN_0047e400(int type, int* count)
 {
     Container* container = baseForm ? baseForm->FUN_004e66c0() : 0;
@@ -5131,6 +5299,8 @@ Form* Owner::FUN_0047e400(int type, int* count)
 
 // @f3 0x00464df0 (community match, verified in this file)
 namespace f3m_00464df0 {
+// pdb: SortX | BGSAutoWater.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pV1, pV2
 int __cdecl FUN_00464df0(const float* left, const float* right) {
     if (*left > *right) return 1;
     if (*right > *left) return -1;
@@ -5201,11 +5371,11 @@ public:
     Derived46c* FUN_0046c360(int unused);
 };
 
-void Base46c::Slot00() {}
-
+// pdb: BGSPrimitiveSphere::MakeMultiBoundShape | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: akAngle
 Derived46c* Owner46c::FUN_0046c360(int unused)
 {
-    volatile Vec3_46c v;
+    Vec3_46c v;
     return new Derived46c(Zero46c(v), unk18);
 }
 }   // namespace f3m_0046c360
@@ -5221,6 +5391,7 @@ struct Vec3
 struct Mat3 { float m[3][3]; };
 }
 using namespace f3m_00475320;
+// pdb: operator* | LocalMap.obj | tesv_win, call_gap, low
 Vec3 FUN_00475320(const Vec3& v, const Mat3& mat)
 {
     return Vec3(mat.m[0][0] * v.x + mat.m[1][0] * v.y + mat.m[2][0] * v.z,
@@ -5255,6 +5426,8 @@ struct Owner47fa20 {
     Item47fa20* FUN_0047fa20(int key, int index);
 };
 
+// pdb: InventoryChanges::GetExtraDataListFromIndexForItem | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, aiExtraIndex
 Item47fa20* Owner47fa20::FUN_0047fa20(int key, int index)
 {
     if (key == 0 || index == -1)
@@ -5314,6 +5487,8 @@ void FUN_00477680_cls::vf00() {}
 int FUN_00477680_cls::vf04(int key) { return key; }
 bool FUN_00477680_cls::vf08(int key, int nodeKey) { return nodeKey == key; }
 
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,VertexDist> >,unsigned int,VertexDist>::GetAt | GlobalFunc.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: key, val
 bool FUN_00477680_cls::FUN_00477680(int key, FUN_00477680_out* out)
 {
     FUN_00477680_node* n = unk08[vf04(key)];
@@ -5371,6 +5546,8 @@ __forceinline ClassifiedObject* FindObject(LookupOwner* owner)
 }
 }
 using namespace f3m_004779d0;
+// pdb: bhkCollisionObject::Getbhk | GlobalFunc.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: TESObjectREFR::GetHandle)
+// pdb params: apBody
 ClassifiedObject* __cdecl FUN_004779d0(LookupOwner* owner)
 {
     ClassifiedObject* object = FindObject(owner);
@@ -5420,6 +5597,8 @@ typedef void (__cdecl *Callback_478b70)();
 void __cdecl FUN_00478b30();
 void __cdecl FUN_008d5790(int, void*, Callback_478b70);
 
+// pdb: GetHavokWorldObjectByIndexInSceneGraph | GlobalFunc.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRoot, aiIndex
 int __cdecl FUN_00478b70(int param_1, int param_2)
 {
     Local_478b70 local;
@@ -5453,15 +5632,15 @@ struct Cell47b3
     int unk10;
     Point47b3 pos;
     bool unk20;
-    bool FUN_0047af50(int x, int y);
-    bool FUN_0047b310(int x, int y);
+    bool GridArray_SetCenter(int x, int y);
+    bool GridCellArray_SetCenter(int x, int y);
 };
 }
 using namespace f3m_0047b310;
 
 static __forceinline void Move47b3(Cell47b3* c, int x, int y, bool& result)
 {
-    if (c->FUN_0047af50(x, y))
+    if (c->GridArray_SetCenter(x, y))
     {
         c->pos.x = (float)(x << 12);
         c->pos.y = (float)(y << 12);
@@ -5472,7 +5651,8 @@ static __forceinline void Move47b3(Cell47b3* c, int x, int y, bool& result)
     }
 }
 
-bool Cell47b3::FUN_0047b310(int x, int y)
+// pdb: GridCellArray::SetCenter | GridCell.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable_prefix), high
+bool Cell47b3::GridCellArray_SetCenter(int x, int y)
 {
     bool r = false;
     Move47b3(this, x, y, r);
@@ -5498,6 +5678,7 @@ extern f3m_0046e540::Manager* DAT_0107a0d8;
 extern int DAT_0106e1b8;
 extern int DAT_0106e17c;
 extern int DAT_0106e284;
+// pdb: BGSSceneInfo::GetLoadedAreaNonActorMemoryBudgetCap | BGSSceneInfo.obj | fnv360_0822_retail, call_seq, medium
 int __cdecl FUN_0046e540()
 {
     int result = DAT_0106e1b8;
@@ -5575,6 +5756,8 @@ int FUN_0046deb0(float v, void* arg);
 int FUN_0046de00(const Pt3_46e* p, void* arg);
 }
 using namespace f3m_0046e470;
+// pdb: BGSPrimitive::CreateAbstract | BGSPrimitive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: eType, aRadii, aColor
 int FUN_0046e470(int type, const Pt3_46e* v, void* arg)
 {
     switch (type)
@@ -5607,6 +5790,7 @@ namespace f3m_0047d1a0 {
 struct Object999 { signed char FUN_0040e260(); };
 struct Node999 { Object999* object00; Node999* next04; };
 struct Owner999 { Node999* head00; int FUN_0047d1a0(); };
+// pdb: ItemChange::GetHotKey | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 int Owner999::FUN_0047d1a0() {
     Node999* node = head00;
     int result = -1;
@@ -5711,6 +5895,8 @@ public:
     virtual ~FUN_0046c490();
 };
 
+// pdb: BSPortal::BSPortal | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arCenter, arHalfExtents, arRotation
 FUN_0046c490::FUN_0046c490(int a, int b, int c) : Base46(a, b, c)
 {
     m0e4 = 1;
@@ -5742,6 +5928,8 @@ struct FUN_004650c0_cls {
     unsigned int FUN_004650c0(void* key, unsigned int start, ElemPred pred);
 };
 
+// pdb: BSSimpleArray<NavMeshEdgeHandle,1024>::Find<NavMeshEdgeHandle> | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aValue, aiStartIndex, apFunc
 unsigned int FUN_004650c0_cls::FUN_004650c0(void* key, unsigned int start, ElemPred pred)
 {
     for (unsigned int i = start; i < size; i++) {
@@ -5780,6 +5968,8 @@ struct Biped_00472c60 {
     void FUN_00471020(Scene* s);
     void FUN_00472c60(void* key);
 };
+// pdb: BipedAnim::RemovePart | BipedAnim.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: BipedAnim::QueueHelmetLoad)
+// pdb params: apObj
 void Biped_00472c60::FUN_00472c60(void* key)
 {
     if (!key)
@@ -5813,6 +6003,8 @@ struct Obj_469000 {
 };
 }
 using namespace f3m_00469000;
+// pdb: BGSDecalManager::IsValidDecalImpact | BGSDecalManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCollidee, aeDecalType
 bool __cdecl FUN_00469000(Obj_469000* obj)
 {
     switch (obj->unk1C->typeID)
@@ -5830,6 +6022,8 @@ bool __cdecl FUN_00469000(Obj_469000* obj)
 
 // @f3 0x0047ca30 (community match, verified in this file)
 namespace f3m_0047ca30 {
+// pdb: BSRoundToNearest | InventoryChanges.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: afVal, afNearest
 float FUN_0047ca30(float value, float step)
 {
     value = value / step;
@@ -5848,6 +6042,8 @@ struct Owner1020 {
     void FUN_00470f10(unsigned int index, void* value);
     unsigned int FUN_004721c0(void* value);
 };
+// pdb: NiTArray<NiPointer<NiAVObject>,NiTNewInterface<NiPointer<NiAVObject> > >::Add | BipedAnim.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: element
 unsigned int Owner1020::FUN_004721c0(void* value) {
     unsigned int capacity = capacity08;
     unsigned int index = size0A;
@@ -5913,6 +6109,8 @@ struct Owner1027 {
     void FUN_00833810(int value);
     Owner1027* FUN_004690f0(int value);
 };
+// pdb: BSCullingProcess::BSCullingProcess | BGSDecalManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apVisibleSet
 Owner1027* Owner1027::FUN_004690f0(int value) {
     FUN_00833810(value);
     value090 = 0;
@@ -5937,11 +6135,12 @@ struct Grid {
     Cell** GetCellPtr(unsigned int x, unsigned int y) {
         return (x < size && y < size) ? &cells[x * size + y] : 0;
     }
-    void __thiscall FUN_0047b560(int arg, unsigned int x, unsigned int y);
+    void __thiscall GridCellArray_AttachToWorld(int arg, unsigned int x, unsigned int y);
 };
 }
 using namespace f3m_0047b560;
-void __thiscall Grid::FUN_0047b560(int arg, unsigned int x, unsigned int y)
+// pdb: GridCellArray::AttachToWorld | GridCell.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap_sim), high
+void __thiscall Grid::GridCellArray_AttachToWorld(int arg, unsigned int x, unsigned int y)
 {
     Cell* cell = *GetCellPtr(x, y);
     if (cell)
@@ -5976,6 +6175,7 @@ struct Cls_477a90 {
 };
 
 
+// pdb: hkMouseSpringActionCinfo::hkMouseSpringActionCinfo | GlobalFunc.obj | fnv360_0822_debug, call_gap, low
 Cls_477a90* Cls_477a90::FUN_00477a90() {
     unk00 = 0;
     unk04 = 0;
@@ -6019,6 +6219,7 @@ struct Sphere_4754d0 {
     float radius;
     int FUN_004754d0(const Plane_4754d0& s);
 };
+// pdb: NiBound::WhichSide | GlobalFunc.obj | tesv_win, objopen_prop, low
 int Sphere_4754d0::FUN_004754d0(const Plane_4754d0& s)
 {
     float dist = s.x * x + s.y * y + s.z * z;
@@ -6056,11 +6257,12 @@ struct List {
 struct Owner {
     List list;
     Source* source;
-    int __thiscall FUN_0047e4f0(int key);
+    int __thiscall InventoryChanges_GetObjectCount(int key);
 };
 }
 using namespace f3m_0047e4f0;
-int __thiscall Owner::FUN_0047e4f0(int key)
+// pdb: InventoryChanges::GetObjectCount | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(objrun_prop), high
+int __thiscall Owner::InventoryChanges_GetObjectCount(int key)
 {
     Counter* c = source ? source->FUN_004e66c0() : 0;
     int count;
@@ -6119,6 +6321,8 @@ struct Obj46d150 {
     void FUN_0046d150(const Color46d150* c);
 };
 
+// pdb: BGSPrimitiveBox::SetColor | BGSPrimitive.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BGSPrimitiveBox::SetRadii)
+// pdb params: aColor
 void Obj46d150::FUN_0046d150(const Color46d150* c)
 {
     color = *c;
@@ -6231,6 +6435,7 @@ struct Owner_00469ae0 {
     void FUN_00469ae0();
 };
 
+// pdb: BSPerformanceTimerManager::BeginFrame | BSPerformanceTimer.obj | fnv360_0822_debug, call_gap_sim, low
 void Owner_00469ae0::FUN_00469ae0()
 {
     if (unk10 > 0) {
@@ -6302,6 +6507,8 @@ struct Pair
     Target* target;
     int value;
 };
+// pdb: BGSTextureUseMap::TexUseCB | BGSTextureUseMap.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apTexture, aulMemorySize, apParam
 void __cdecl FUN_00470480(int a, int b, Pair* p)
 {
     if (p->target)
@@ -6313,6 +6520,8 @@ void __cdecl FUN_00470480(int a, int b, Pair* p)
 // @f3 0x004758a0 (community match, verified in this file)
 namespace f3m_004758a0 {
 namespace f3m_004758a0 {
+// pdb: IsAFloat | GlobalFunc.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: str
 int FUN_004758a0(const char* s)
 {
     bool dot = false;
@@ -6357,6 +6566,8 @@ public:
 
 extern Holder_474ba0* DAT_0106e578;
 
+// pdb: BSClonePools::GetInstance | BSClonePool.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abCreate
 Holder_474ba0* __cdecl FUN_00474ba0(char create)
 {
     if (!DAT_0106e578 && create)
@@ -6374,6 +6585,8 @@ struct Vec3_477f60 {
 
 int __cdecl FUN_00476720(const Vec3_477f60* v, float r);
 
+// pdb: LengthCheck | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aPt1, aPt2, afCompLength
 int __cdecl FUN_00477f60(const Vec3_477f60* a, const Vec3_477f60* b, float r)
 {
     Vec3_477f60 d;
@@ -6408,6 +6621,8 @@ struct Obj {
 }
 extern void (__cdecl* g_011aa050)(unsigned short count, unsigned int src, void* out, void* xf);
 using namespace f3m_00477d30;
+// pdb: CreateWorldVertices | GlobalFunc.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apGeom
 Vert* __cdecl FUN_00477d30(Obj* obj)
 {
     if (!obj || !obj->data->count)
@@ -6419,15 +6634,16 @@ Vert* __cdecl FUN_00477d30(Obj* obj)
 
 // @f3 0x0047d260 (community match, verified in this file)
 namespace f3m_0047d260 {
-struct Object1045 { bool FUN_0040aed0(bool highOnly); };
+struct Object1045 { bool ExtraDataList_GetWorn(bool highOnly); };
 struct Node1045 { Object1045* object00; Node1045* next04; };
-struct Owner1045 { Node1045* head00; bool FUN_0047d260(bool highOnly); };
-bool Owner1045::FUN_0047d260(bool highOnly) {
+struct Owner1045 { Node1045* head00; bool ItemChange_GetWorn(bool highOnly); };
+// pdb: ItemChange::GetWorn | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+bool Owner1045::ItemChange_GetWorn(bool highOnly) {
     Node1045* node = head00;
     while (node) {
         Object1045* object = node->object00;
         if (!object) break;
-        if (object->FUN_0040aed0(highOnly)) return true;
+        if (object->ExtraDataList_GetWorn(highOnly)) return true;
         node = node->next04;
     }
     return false;
@@ -6451,6 +6667,8 @@ struct Search_478ae0
 using namespace f3m_00478ae0;
 void FUN_008d5790(void* root, Search_478ae0* search, void (*cb)(void*, Search_478ae0*));
 void FUN_00478ab0(void* node, Search_478ae0* search);
+// pdb: GetHavokWorldObjectIndexInSceneGraph | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRoot, apWorldObject
 int FUN_00478ae0(void* root, int key)
 {
     Search_478ae0 s;
@@ -6472,6 +6690,8 @@ namespace f3m_00474fe0 {
 struct Manager1068 { void FUN_00474c70(int first, int second); };
 Manager1068* __cdecl FUN_00474ba0(bool create);
 struct Owner1068 { int first00, second04, result08; Owner1068* FUN_00474fe0(int first, int second); };
+// pdb: BSCloneReserver::BSCloneReserver | BSClonePool.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apLoadedObject, aiCloneCount
 Owner1068* Owner1068::FUN_00474fe0(int first, int second) {
     first00 = first;
     second04 = second;
@@ -6492,6 +6712,8 @@ struct Owner1106 {
     void FUN_00aad5f0();
     Owner1106* FUN_0046c5e0(const Vector1106* first, const Vector1106* second);
 };
+// pdb: BSMultiBoundAABB::BSMultiBoundAABB | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arCenter, arHalfExtents
 Owner1106* Owner1106::FUN_0046c5e0(const Vector1106* first, const Vector1106* second) {
     FUN_00aad5f0();
     vtable00 = &DAT_00dbeef4;
@@ -6560,6 +6782,7 @@ public:
     void FUN_0047b6e0();
 };
 
+// pdb: GridCellArray::RunAnimations | GridCell.obj | fnv360_0822_retail, call_seq, medium
 void Owner_0047b6e0::FUN_0047b6e0()
 {
     unsigned int i = 0;
@@ -6636,6 +6859,8 @@ struct Owner477 {
 
 int __cdecl FUN_00424fe0(Node477* node);
 
+// pdb: FindFirstCollisionObject | GlobalFunc.obj | fnv360_0822_debug, caller, medium
+// pdb params: ap3D
 int __cdecl FUN_00477d90(Node477* node)
 {
     int result = 0;
@@ -6678,6 +6903,7 @@ struct FUN_0047ba30_owner {
     void FUN_0047ba30();
 };
 
+// pdb: GridCellArray::ClearCanopyShadowMaskTexture | GridCell.obj | fnv360_0822_debug, caller, medium
 void FUN_0047ba30_owner::FUN_0047ba30() {
     if (unk24 == 0) return;
     int (__stdcall* fn)(void*) = FUN_00d9b064;
@@ -6791,6 +7017,7 @@ struct Owner {
     Obj* FUN_0046cfd0();
 };
 
+// pdb: BGSPrimitivePlane::MakePortal | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 Obj* Owner::FUN_0046cfd0() {
     return new Obj(&DAT_0108ec68, Vec2(unk18, unk20), (void*)FUN_00f72574);
 }
@@ -6803,7 +7030,8 @@ extern double DAT_00dc0760;
 extern float DAT_00db38b8;
 namespace f3m_004759f0 {
 
-float FUN_004759f0(float from, float to, float* out)
+// pdb: GetAngleDelta | GlobalFunc.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+float GetAngleDelta(float from, float to, float* out)
 {
     float d = to - from;
     *out = 0.0f;
@@ -6840,6 +7068,8 @@ struct Owner_0046c290 {
     unsigned char FUN_0046c290(const float* v) const;
 };
 
+// pdb: BGSPrimitivePlane::IsInside | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aPoint
 unsigned char Owner_0046c290::FUN_0046c290(const float* v) const
 {
     return !(v[0] < -unk18) && !(v[1] < -unk1C) && !(v[2] < -unk20) && !(v[0] > unk18) && !(v[1] > unk1C) && !(v[2] > unk20);
@@ -6872,6 +7102,7 @@ struct Owner_0047d5b0 {
     const char* FUN_0047d5b0();
 };
 
+// pdb: ItemChange::GetFullName | InventoryChanges.obj | fnv360_0822_retail, call_dedup, medium
 const char* Owner_0047d5b0::FUN_0047d5b0()
 {
     TESBoundObject* obj = unk08;
@@ -6899,6 +7130,7 @@ namespace f3m_00474ae0 {
 void __cdecl FUN_006c8220();
 struct Pair1187 { void* first; void* second; Pair1187():first(0),second(0){} ~Pair1187(); };
 struct FUN_00474ae0 { Pair1187 pair; FUN_00474ae0(); };
+// pdb: BSSimpleList<BSClonePools::ClonePool *>::RemoveAll | BSClonePool.obj | fnv360_0721_beta, call_seq, medium
 FUN_00474ae0::FUN_00474ae0() { FUN_006c8220(); }
 }   // namespace f3m_00474ae0
 
@@ -7026,6 +7258,8 @@ struct Owner471 {
     Mgr471* unk10;
     void FUN_00471020(Obj471* obj);
 };
+// pdb: BipedAnim::RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRoot
 void Owner471::FUN_00471020(Obj471* obj)
 {
     if (!obj) return;
@@ -7062,6 +7296,7 @@ void Owner471::FUN_00471020(Obj471* obj)
 namespace f3m_00474c20 {
 struct Pair1208 { int first,second;Pair1208():first(0),second(0){}~Pair1208();void FUN_005e3010(); };
 struct FUN_00474c20 { int unk00;Pair1208 member04;FUN_00474c20(); };
+// pdb: BSSimpleList<NiPointer<NiAVObject> >::RemoveAll | BSClonePool.obj | fnv360_0721_beta, call_gap, low
 FUN_00474c20::FUN_00474c20() { unk00=0;member04.FUN_005e3010(); }
 }   // namespace f3m_00474c20
 
@@ -7080,6 +7315,8 @@ struct FUN_004789f0_Opts {
 int __cdecl FUN_008d5790(int a, FUN_004789f0_Opts* opts, void* callback);
 void __cdecl FUN_00478960();
 
+// pdb: GetCollisionObjectCountInSceneGraph | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRoot, abIgnoreWeaponBone, abIgnoreFadeNodes, abIgnoreArrows
 int __cdecl FUN_004789f0(int a, unsigned char b, unsigned char c, unsigned char d)
 {
     FUN_004789f0_Opts o;
@@ -7103,16 +7340,17 @@ int __cdecl FUN_004789f0(int a, unsigned char b, unsigned char c, unsigned char 
 
 // @f3 0x0047b500 (community match, verified in this file)
 namespace f3m_0047b500 {
-struct Next1223 {void FUN_004cdb00();};
-struct Item1223 {Next1223* FUN_004d5270();};
+struct Next1223 {void TESObjectLAND_InitDistantTextureBlending();};
+struct Item1223 {Next1223* TESObjectCELL_GetLand();};
 struct Owner1223 {
  int unk00,unk04,unk08;unsigned int dimension;Item1223** items;
  __forceinline Item1223** At(unsigned int x,unsigned int y){if(x>=dimension||y>=dimension)return 0;return &items[dimension*x+y];}
  void FUN_0047b500();
 };
+// pdb: GridCellArray::UpdateDistantLandBlending | GridCell.obj | fnv360_0822_retail, call_gap_sim, low
 void Owner1223::FUN_0047b500(){
  unsigned int count=dimension;
- for(unsigned int x=0;x<count;++x)for(unsigned int y=0;y<count;++y){Item1223** slot=At(x,y);if(slot&&*slot)(*slot)->FUN_004d5270()->FUN_004cdb00();}
+ for(unsigned int x=0;x<count;++x)for(unsigned int y=0;y<count;++y){Item1223** slot=At(x,y);if(slot&&*slot)(*slot)->TESObjectCELL_GetLand()->TESObjectLAND_InitDistantTextureBlending();}
 }
 }   // namespace f3m_0047b500
 
@@ -7121,6 +7359,8 @@ void Owner1223::FUN_0047b500(){
 extern double FUN_00dc0438;
 extern float DAT_00f4c824;
 namespace f3m_00475210 {
+// pdb: NiASin | GlobalFunc.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: fValue
 float __cdecl FUN_00475210(float value) {
     if (value > FUN_00dc0438) {
         if (value < 1.0f) return (float)asin(value); return DAT_00f4c824;
@@ -7160,6 +7400,8 @@ struct Loader
     void FUN_0046fa90(int a, bool flag, int b);
 };
 
+// pdb: BGSSceneInfo::CollectSceneDataFromNode | BGSSceneInfo.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apNode, abIncludeAddonNodes, abTrackActors
 void Loader::FUN_0046fa90(int a, bool flag, int b)
 {
     DAT_00f4bf88.FUN_006bd950();
@@ -7251,6 +7493,8 @@ inline FUN_00478ce0_Node* FUN_00478ce0_Obj::vf08() {
     return unk0C;
 }
 
+// pdb: SetPhase | GlobalFunc.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: GetCollisionObjectIndexInSceneGraph)
+// pdb params: apNode, afPhase
 void __cdecl FUN_00478ce0(FUN_00478ce0_Obj* object, float value) {
     if (object == 0) {
         return;
@@ -7304,6 +7548,7 @@ struct FUN_0047d0a0_Obj {
 
 extern FUN_0047d0a0_Result* __cdecl FUN_00c0050a(int, int, int, int, int);
 
+// pdb: ItemChange::GetItemCharge | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 float FUN_0047d0a0_Obj::FUN_0047d0a0() {
     FUN_0047d0a0_Result* result = FUN_00c0050a(unk08, 0, 0xF460FC, 0xF46A4C, 0);
     if (result != 0) {
@@ -7324,6 +7569,8 @@ float FUN_0047d0a0_Obj::FUN_0047d0a0() {
 // @f3 0x00475910 (community match, verified in this file)
 #include <math.h>
 namespace f3m_00475910 {
+// pdb: ClampAngle | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afAngle
 float __cdecl FUN_00475910(float value){
  if(value < 0.0f) {value=(float)(value+6.2831854820251465);value=(float)fmod((double)value,6.2831854820251465);*(volatile float*)&value=value;return value;}
  else if(value >= 6.2831854820251465) {value=(float)fmod((double)value,6.2831854820251465);*(volatile float*)&value=value;return value;}
@@ -7350,6 +7597,7 @@ struct Pn4afe
 
 // Decrements unk0A while the last entry of the unk04 pointer array is null, stopping at the first non-null entry or zero.
 // @fnv 0x004afe50
+// pdb: NiTArray<NiPointer<NiAVObject>,NiTNewInterface<NiPointer<NiAVObject> > >::UpdateSize | BipedAnim.obj | fnv360_0822_retail, call_seq, medium
 void Pn4afe::FUN_00470e10()
 {
     while (unk0A > 0)
@@ -7409,6 +7657,8 @@ struct Owner47e310 {
     void* FUN_0047e310(int key, int* out);
 };
 
+// pdb: InventoryChanges::GetObjectbyPackObjType | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aeObjectType, ainumb
 void* Owner47e310::FUN_0047e310(int key, int* out)
 {
     Container47e310* container = baseForm ? baseForm->FUN_004e66c0() : 0;
@@ -7478,6 +7728,8 @@ struct Element46e5c0 {
     int unk3C;
 };
 
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::_MoveItems | PathSmootherPOV.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apDestAddr, apSrcAddr, aiCount
 void __stdcall FUN_0046e5c0(Element46e5c0* dest, Element46e5c0* source, unsigned int count)
 {
     if (count > 0) {
@@ -7501,6 +7753,7 @@ struct Point475280 {
     Point475280 FUN_00475280(const Point475280& p) const;
 };
 
+// pdb: NiPoint3::Cross | BGSGrassManager.obj | tesv_win, call_gap, low
 Point475280 Point475280::FUN_00475280(const Point475280& p) const
 {
     Point475280 r(y * p.z - z * p.y, z * p.X() - x * p.z, x * p.y - y * p.X());
@@ -7512,17 +7765,18 @@ Point475280 Point475280::FUN_00475280(const Point475280& p) const
 struct Item47f6a0 { short FUN_0047dca0(); };
 struct Obj47f6a0 { virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void v8();virtual void v9();virtual void v10();virtual void v11();virtual void v12();virtual void v13();virtual void v14();virtual void v15();virtual void v16();virtual void v17();virtual void v18();virtual void v19();virtual void v20();virtual void v21();virtual void v22();virtual void v23();virtual void v24();virtual void v25();virtual void v26();virtual void v27();virtual void v28();virtual void v29();virtual void v30();virtual void v31();virtual void v32();virtual void v33();virtual void v34();virtual void v35();virtual void v36();virtual void v37();virtual void v38();virtual void v39();virtual void v40();virtual void v41();virtual void v42();virtual void v43();virtual void v44();virtual void v45();virtual void v46();virtual void v47();virtual void v48();virtual void v49();virtual void v50();virtual void v51();virtual void v52();virtual void v53();virtual void v54();virtual void v55();virtual void v56();virtual void v57();virtual void v58();virtual void v59();virtual void v60();virtual void v61();virtual void v62();virtual void v63();virtual void v64();virtual void v65();virtual void v66();virtual void v67();virtual void v68();virtual void v69();virtual void v70();virtual void v71();virtual void v72();virtual void v73();virtual void v74();virtual void v75(); virtual int GetId(); };
 struct Ent47f6a0 { int form; char kind; char idb[4]; };
-struct Data47f6a0 { char pad[0x88]; Ent47f6a0* ent; bool FUN_006daa00(); };
+struct Data47f6a0 { char pad[0x88]; Ent47f6a0* ent; bool TESSaveLoadGame_UseSaveGameBlocks(); };
 struct Node47f6a0 { Item47f6a0* item; Node47f6a0* next; bool Empty() const { return next == 0 && item == 0; } Item47f6a0* Get() const { return item; } };
 struct List47f6a0 { Node47f6a0* head; unsigned short FUN_0047f6a0(); };
 extern Data47f6a0* DAT_01079ca4;
 extern bool DAT_01079d20;
-Obj47f6a0* __cdecl FUN_00455190(int form);
+Obj47f6a0* __cdecl TESForm_GetFormByNumericID(int form);
 void __cdecl FUN_00c24b70(const char* fmt, ...);
+// pdb: InventoryChanges::GetSaveSize | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
 unsigned short List47f6a0::FUN_0047f6a0()
 {
     unsigned short size = 0;
-    if (DAT_01079ca4->FUN_006daa00()) size = 6;
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) size = 6;
     size += 2;
     for (Node47f6a0* n = head; n; n = n->next) {
         if (n->Empty()) break;
@@ -7532,7 +7786,7 @@ unsigned short List47f6a0::FUN_0047f6a0()
     if (DAT_01079d20) {
         Ent47f6a0* e = DAT_01079ca4->ent;
         if (e) {
-            Obj47f6a0* o = FUN_00455190(e->form);
+            Obj47f6a0* o = TESForm_GetFormByNumericID(e->form);
             FUN_00c24b70("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s", size, e->form, o->GetId(), *(int*)e->idb, 0x236a, "c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp");
         }
     }
@@ -7569,27 +7823,29 @@ struct GridCoords_464e60
 };
 struct GridOwner_464e60
 {
-    GridCoords_464e60* FUN_004d5270(GridOrigin_464e60* out, int mode);
-    int FUN_004d3430();
-    int FUN_004d3450();
+    GridCoords_464e60* TESObjectCELL_GetLand(GridOrigin_464e60* out, int mode);
+    int TESObjectCELL_GetDataX();
+    int TESObjectCELL_GetDataY();
 };
 
+// pdb: BGSAutoWater::WhichCellEdge | BGSAutoWater.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apCell, arVert
 int __cdecl FUN_00464e60(GridOwner_464e60* object, float x, float y)
 {
     int result = 0;
     GridState_464e60 state;
-    object->FUN_004d5270(&state.origin, 0)->FUN_004c8ff0();
+    object->TESObjectCELL_GetLand(&state.origin, 0)->FUN_004c8ff0();
     x += state.origin.x;
     y += state.origin.y;
 
-    state.corners.x0 = (float)(object->FUN_004d3430() << 12);
-    state.corners.y0 = (float)(object->FUN_004d3450() << 12);
-    state.corners.x1 = (float)((object->FUN_004d3430() + 1) << 12);
-    state.corners.y0again = (float)(object->FUN_004d3450() << 12);
-    state.corners.x0again = (float)(object->FUN_004d3430() << 12);
-    state.corners.y1 = (float)((object->FUN_004d3450() + 1) << 12);
-    state.corners.x1again = (float)((object->FUN_004d3430() + 1) << 12);
-    state.corners.y1again = (float)((object->FUN_004d3450() + 1) << 12);
+    state.corners.x0 = (float)(object->TESObjectCELL_GetDataX() << 12);
+    state.corners.y0 = (float)(object->TESObjectCELL_GetDataY() << 12);
+    state.corners.x1 = (float)((object->TESObjectCELL_GetDataX() + 1) << 12);
+    state.corners.y0again = (float)(object->TESObjectCELL_GetDataY() << 12);
+    state.corners.x0again = (float)(object->TESObjectCELL_GetDataX() << 12);
+    state.corners.y1 = (float)((object->TESObjectCELL_GetDataY() + 1) << 12);
+    state.corners.x1again = (float)((object->TESObjectCELL_GetDataX() + 1) << 12);
+    state.corners.y1again = (float)((object->TESObjectCELL_GetDataY() + 1) << 12);
 
     if (x == state.corners.x0 && y == state.corners.y0)
         result = 9;
@@ -7645,6 +7901,8 @@ public:
     void FUN_005b8560(Element* destination, const Element* source, unsigned count);
     void FUN_00466a70(unsigned index, const Element& value);
 };
+// pdb: BSSimpleArray<BSSimpleArray<NiPoint3,1024>,1024>::Insert | BGSAutoWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiIndex, aValue
 void ElementArray::FUN_00466a70(unsigned index, const Element& value)
 {
     unsigned destination;
@@ -7820,6 +8078,8 @@ struct BipedAnim {
     void FUN_00472f70(Race*, SEX);
 };
 // @fnv 0x004ab250
+// pdb: BipedAnim::InitNaked | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRace, aeSex
 void BipedAnim::FUN_00472f70(Race* race, SEX sex)
 {
     if (!race)
@@ -7921,6 +8181,7 @@ extern FixedStringInitializer1546* DAT_0106e890;
 extern FixedStringInitializer1546* DAT_0106e894;
 extern FixedStringInitializer1546* DAT_0106e898;
 
+// pdb: FixedStrings::InitSDM | GlobalFunc.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: FixedStrings::FixedStrings)
 void FUN_00476920()
 {
     DAT_0106e7c4 = new FixedStringInitializer1546("Bip01");
@@ -7983,6 +8244,8 @@ void FUN_00476920()
 namespace f3m_00475550 {
 extern int __cdecl FUN_00c00b52(int value);
 
+// pdb: BSstristr | GlobalFunc.obj | fnv360_0822_debug, caller, medium
+// pdb params: apString1, apString2
 char* __cdecl FUN_00475550(char* text, char* pattern)
 {
     int textLength = strlen(text);
@@ -8112,6 +8375,8 @@ public:
     unsigned short capacity;
     unsigned short count;
 };
+// pdb: TintScenegraph | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRoot, aColor, apTextureEffectData
 void FUN_00478620(AVObject478620* object, const Color478620* color, Material478620* material)
 {
     NiPointer<Material478620> spMaterial = material;
@@ -8252,6 +8517,8 @@ struct BoxObj {
     void FUN_0046d230(NiPoint3* ext);
 };
 
+// pdb: BGSPrimitiveBox::SetRadii | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aRadii
 void BoxObj::FUN_0046d230(NiPoint3* ext)
 {
     ext->x = fabs(ext->x);
@@ -8345,6 +8612,8 @@ public:
     void FUN_00470d10(int flags, int a2, int a3);
 };
 
+// pdb: BipedAnim::QueueSkinTextures | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiModelSkinFlags, aePriority, apParent
 void QOwner::FUN_00470d10(int flags, int a2, int a3)
 {
     char name[0x104];
@@ -8660,6 +8929,7 @@ struct Actor472310 {
     void FUN_00472310();
 };
 
+// pdb: BipedAnim::RemoveBipedWeapon | BipedAnim.obj | fnv360_0822_retail, call_gap, low
 void Actor472310::FUN_00472310()
 {
     if (unk7C && (unk7C->flags100 & 0x10) && unkA4)
@@ -8735,6 +9005,7 @@ public:
     }
     void FUN_0047b650();
 };
+// pdb: GridCellArray::UpdateManagedNodeTransforms | GridCell.obj | fnv360_0822_retail, call_seq, medium
 void CellGrid::FUN_0047b650()
 {
     unsigned int size = width;
@@ -8796,13 +9067,14 @@ struct InvNode {
     InvEntry* item;
     InvNode* next;
 };
-bool __cdecl FUN_00452670(Form* form);
+bool __cdecl TESContainer_IsGold(Form* form);
 struct Owner {
     InvNode* entries;
     BaseForm* baseForm;
     int FUN_0047e810();
 };
 
+// pdb: InventoryChanges::GetGoldAmount | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
 int Owner::FUN_0047e810()
 {
     int total = 0;
@@ -8812,7 +9084,7 @@ int Owner::FUN_0047e810()
             if (!node->next && !node->item)
                 break;
             Form* form = node->item->form;
-            if (form && FUN_00452670(form)) {
+            if (form && TESContainer_IsGold(form)) {
                 InvNode* n = entries;
                 bool searching = true;
                 while (n && searching) {
@@ -8835,7 +9107,7 @@ int Owner::FUN_0047e810()
         if (!n->next && !n->item)
             break;
         Form* form = n->item->form;
-        if (form && FUN_00452670(form)) {
+        if (form && TESContainer_IsGold(form)) {
             if (!container || (!container->FUN_004528c0(form) && n->item->countDelta > 0))
                 total += n->item->countDelta;
         }
@@ -9006,6 +9278,8 @@ public:
     void FUN_0046cae0(DebugPoint1564* dimensions);
 };
 
+// pdb: BGSPrimitivePlane::SetRadii | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aRadii
 void DebugBox1564::FUN_0046cae0(DebugPoint1564* dimensions)
 {
     dimensions->x = (float)fabs(dimensions->x);
@@ -9124,6 +9398,8 @@ public:
     NamedSlot slots[5];
     void FUN_00470c20(NamedObject* input);
 };
+// pdb: BipedAnim::InitRoot | BipedAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apNode
 void NamedObjectSet::FUN_00470c20(NamedObject* input)
 {
     root = FUN_00aab350(input, DAT_00dbe948, true);
@@ -9158,7 +9434,7 @@ struct Entry460af0
 };
 extern Entry460af0 DAT_00f5aca8[];
 
-int FUN_0054b780(unsigned char id);
+int TESAnimGroup_GetType(unsigned char id);
 
 class Item460af0
 {
@@ -9254,6 +9530,8 @@ __declspec(noinline) bool Map460af0::FUN_0045c6e0(unsigned short key, Item460af0
     return true;
 }
 
+// pdb: Animation::StartGroup | Animation.obj | fnv360_0822_retail, call_gap, low
+// pdb params: asNewGroup, aeSection
 void* Owner460af0::FUN_00460af0(unsigned short id, int kind)
 {
     Item460af0* res;
@@ -9262,7 +9540,7 @@ void* Owner460af0::FUN_00460af0(unsigned short id, int kind)
     long obj;
     obj = kind;
     if (-1 == obj)
-        obj = DAT_00f5aca8[FUN_0054b780((unsigned char)id)].kind00;
+        obj = DAT_00f5aca8[TESAnimGroup_GetType((unsigned char)id)].kind00;
     void* x;
     switch (obj)
     {
@@ -9322,6 +9600,8 @@ public:
     QShapeBase* FUN_0046d620(const QPt& r);
 };
 
+// pdb: BGSPrimitiveBox::MakeMultiBoundShape | BGSPrimitive.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BGSPrimitiveBox::MakeOcclusionBox)
+// pdb params: akAngle
 QShapeBase* QOwner620::FUN_0046d620(const QPt& r)
 {
     bool rotated = false;
@@ -9347,6 +9627,8 @@ struct QArr {
     void Alloc(unsigned int n);
     QArr(unsigned int n = 0) { vtable00 = &DAT_00dbe764; data04 = 0; size08 = 0; capacity0C = 0; if (n) Alloc(n); }
 };
+// pdb: BSSimpleArray<BSSimpleArray<NiPoint3,1024>,1024>::Add | BGSAutoWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aValue
 void __stdcall FUN_00465250(QArr* items, unsigned int count)
 {
     for (unsigned int i = 0; i < count; ++i)
@@ -9368,6 +9650,8 @@ struct QOwner {
     QNode* head;
     QItem* FUN_0047e180(int key, int unused, int formKey);
 };
+// pdb: InventoryChanges::GetObjectInList | InventoryChanges.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apObj, ableveled, aId
 QItem* QOwner::FUN_0047e180(int key, int unused, int formKey)
 {
     QNode* n = head;
@@ -9422,7 +9706,7 @@ public:
     int unk14;
     short unk18;
     FUN_0040eda0();
-    void FUN_0041b3c0(FUN_0040eda0* item);
+    void ExtraDataList_DuplicateExtraListForContainer(FUN_0040eda0* item);
     static void* operator new(unsigned int bytes) { return DAT_01090a78.FUN_0086b930(bytes); }
 };
 
@@ -9433,13 +9717,15 @@ struct FUN_0047fd60 {
     FUN_0047fd60(const FUN_0047fd60& src);
 };
 
+// pdb: ItemChange::ItemChange | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCopy
 FUN_0047fd60::FUN_0047fd60(const FUN_0047fd60& src)
 {
     unk08 = src.unk08;
     unk00 = new Node();
     for (Node* n = src.unk00; n && n->item; n = n->next) {
         FUN_0040eda0* obj = new FUN_0040eda0();
-        obj->FUN_0041b3c0(n->item);
+        obj->ExtraDataList_DuplicateExtraListForContainer(n->item);
         if (obj) {
             Node* tail = unk00;
             while (tail->next)
@@ -9468,6 +9754,8 @@ struct Object {
  Object();
  static void* operator new(unsigned size) {return DAT_01090a78.FUN_0086b930(size);}
 };
+// pdb: BGSPrimitive::CreatePlane | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aSize, aColor
 Object* FUN_0046dd60(const float* values,unsigned ui) {
  Object* p=new Object;
  p->Configure(ui);
@@ -9494,10 +9782,11 @@ struct Grid1253 {
  virtual void MoveItem(unsigned int,unsigned int,unsigned int,unsigned int);
  int iHorizontalPixelCenterObj,iCenterPixelY;
  unsigned int uiDimension;
- void FUN_0047af80(int,int);
+ void GridArray_Shift(int,int);
 };
 // @fnv 0x004b9f70
-void Grid1253::FUN_0047af80(int aiShiftX, int aiShiftY)
+// pdb: GridArray::Shift | GridArray.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Grid1253::GridArray_Shift(int aiShiftX, int aiShiftY)
 {
     unsigned int j = 0;
     unsigned int i = 0;
@@ -9612,6 +9901,7 @@ static inline BSAnimNoteReceiver::BSAnimNoteReceiverType* RemoveEnd(BSAnimNoteRe
     return element;
 }
 
+// pdb: BSAnimNoteReceiver::~BSAnimNoteReceiver | BSAnimNoteReceiver.obj | fnv360_0822_retail, call_seq, high
 BSAnimNoteReceiver::~BSAnimNoteReceiver()
 {
     unsigned int count = m_kReceivers.m_usSize;
@@ -9706,6 +9996,7 @@ public:
     hkArray<hkpWorldRayCastOutput> m_hits;
 };
 
+// pdb: hkpAllRayHitCollector::~hkpAllRayHitCollector | BGSDecalManager.obj | fnv360_0822_retail, call_seq, medium
 hkpAllRayHitCollector::~hkpAllRayHitCollector()
 {
 }
@@ -9719,6 +10010,8 @@ namespace f3m_004766a0 {
 
 extern "C" void FUN_00a29680(const char* format, ...);
 
+// pdb: XSetFileCacheSize | filemisc.obj | fnv360_0721_retail, objrun_prop, low, conflict (skyrim: FillUserNameGlobal)
+// pdb params: dwCacheSize
 void __cdecl FUN_004766a0(const char* arg)
 {
     DWORD size = 260;
@@ -9744,6 +10037,7 @@ struct Owner0420 {
     void FUN_00470060();
     ~Owner0420();
 };
+// pdb: BGSTextureUseMap::~BGSTextureUseMap | BGSTextureUseMap.obj | fnv360_0721_beta, call_seq, medium
 Owner0420::~Owner0420()
 {
     FUN_00470060();
@@ -9756,6 +10050,7 @@ struct Node1000 { void FUN_006c8220(); };
 struct Heap1000 { void FUN_0086ba60(void* object); };
 extern Heap1000 DAT_01090a78;
 struct Owner1000 { Node1000* head00; void FUN_0047fd30(); };
+// pdb: ItemChange::~ItemChange | InventoryChanges.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSTArray<struct TESRegionSound *,class BSTArrayHeapAllocator>::operator[])
 void Owner1000::FUN_0047fd30() {
     if (head00) head00->FUN_006c8220();
     Node1000* node = head00;
@@ -9785,6 +10080,7 @@ struct FUN_00465540 {
     void* unk04;
     int unk08;
     int unk0C;
+    // pdb: BSSimpleArray<NiPoint3,1024>::`scalar deleting destructor' | BGSAutoWater.obj | fnv360_0822_retail, vtable, medium
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
 
@@ -9819,6 +10115,7 @@ extern void FUN_00dbf320();
 extern void (__stdcall* DAT_00dbf328)(void*);
 extern a43840_Mem DAT_01090a78;
 
+// pdb: BSSimpleArray<SCENE_INFO_DATA_STRUCT,1024>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_retail, vtable, medium
 FUN_0046f420_Class* FUN_0046f420_Class::FUN_0046f420(unsigned char flag) {
     unk00 = (int)(void*)&FUN_00dbf320;
 
@@ -9867,9 +10164,10 @@ class Visitor_470620
 public:
     Cell_470620* cell;
     void FUN_004704a0(void* data, int arg);
-    void FUN_00470620(int arg);
+    void BGSTextureUseMap_CollectTextureUseDataForLoadedArea(int arg);
 };
-void Visitor_470620::FUN_00470620(int arg)
+// pdb: BGSTextureUseMap::CollectTextureUseDataForLoadedArea | BGSTextureUseMap.obj | fnv360_0822_retail, call_gap + skyrim(call_gap_sim), high
+void Visitor_470620::BGSTextureUseMap_CollectTextureUseDataForLoadedArea(int arg)
 {
     Cell_470620* c = DAT_0107a0d8->cached;
     if (c)
@@ -9929,6 +10227,8 @@ struct Owner
 }
 extern f3m_00474a70::Heap DAT_01090a78;
 namespace f3m_00474a70 {
+// pdb: BSAnimNoteReceiver::Register | BSAnimNoteReceiver.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeType, apCallbackFunc
 bool Owner::FUN_00474a70(int a, int b)
 {
     if (FUN_004748f0(a, b) == -1)
@@ -9976,6 +10276,8 @@ struct Obj34 {
     static void* operator new(unsigned int n) throw() { return DAT_01090a78.FUN_0086b930(n); }
 };
 
+// pdb: BGSPrimitive::CreateSphere | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afRadius, aColor
 Obj34* FUN_0046deb0(float f, int n)
 {
     Obj34* p = new Obj34();
@@ -10005,6 +10307,8 @@ struct FUN_0047cdc0_cls {
     FUN_0047cdc0_cls* FUN_0047cdc0(void* a, int b);
 };
 
+// pdb: ItemChange::ItemChange | InventoryChanges.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apObject, aiNumber
 FUN_0047cdc0_cls* FUN_0047cdc0_cls::FUN_0047cdc0(void* a, int b)
 {
     unk08 = a;
@@ -10041,6 +10345,7 @@ public:
     int unk0C;
 };
 
+// pdb: BSSimpleArray<BSSimpleArray<NiPoint3,1024>,1024>::~BSSimpleArray<BSSimpleArray<NiPoint3,1024>,1024> | BGSAutoWater.obj | fnv360_0822_retail, call_seq, medium
 Arr4654::~Arr4654()
 {
     if (unk04 != 0) {
@@ -10110,6 +10415,7 @@ struct FUN_00464240 : FUN_00464240_Base {
     virtual ~FUN_00464240();
 };
 
+// pdb: AnimSequenceMultiple::~AnimSequenceMultiple | Animation.obj | fnv360_0822_retail, call_seq, medium
 FUN_00464240::~FUN_00464240()
 {
     FUN_00464240_Buf buf;
@@ -10168,6 +10474,8 @@ struct FUN_0042cd20_owner {
 
 extern FUN_0042cd20_owner* DAT_0106ca70;
 
+// pdb: BipedAnim::QueueHelmetLoad | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aePriority, apParent, aeBipedObject
 void FUN_00471e50_cls::FUN_00471e50(int a1, int a2, int a3)
 {
     FUN_00471e50_ref tmp;
@@ -10203,6 +10511,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 
 extern "C" char __cdecl FUN_00477BC0(int a1, int a2, int a3, float a4, int a5);
 
+// pdb: PickDistance | GlobalFunc.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apPick, aOrigin, aDir, afDistance, apTarget, abClearResults
 char __cdecl FUN_00479b50(NiPick* a1, int a2, int a3, float a4, int a5, char a6)
 {
     char result = 0;
@@ -10379,7 +10689,7 @@ struct WaterTerrain {
 };
 struct WaterWorld { bool FUN_00501180(); };
 struct WaterCell {
-    WaterTerrain* FUN_004d5270();
+    WaterTerrain* TESObjectCELL_GetLand();
     float FUN_004d5350();
     WaterWorld* FUN_004d3780();
 };
@@ -10398,8 +10708,9 @@ __forceinline void addBoundary(FUN_004654e0& boundaryGroups,int a,int b,const Wa
     else if ((a&8) && (b&8)) boundaryGroups[3].append(point);
 }
 
-void __cdecl FUN_00466b80(WaterCell* cell) {
-    WaterTerrain* terrain=cell->FUN_004d5270();
+// pdb: BGSAutoWater::GatherLineSegments | BGSAutoWater.obj | fnv360_0721_beta, udata, high
+void __cdecl BGSAutoWater_GatherLineSegments(WaterCell* cell) {
+    WaterTerrain* terrain=cell->TESObjectCELL_GetLand();
     float water=cell->FUN_004d5350();
     if (!DAT_0106dedc) DAT_0106dedc=new WaterPoints;
     else DAT_0106dedc->clear();
@@ -10588,6 +10899,7 @@ void __cdecl FUN_00466b80(WaterCell* cell) {
     }
 }
 
+// pdb: NiPlane::WhichSide | BSTempEffectSimpleDecal.obj | tesv_win, call_seq, medium
 inline int FUN_00832f70::FUN_00464cf0(const WaterPoint& p) {
     float d=normal.x*p.x+normal.y*p.y+normal.z*p.z-constant;
     if(d<0.0f) return 2;
@@ -10632,6 +10944,8 @@ public:
     void FUN_0047b9c0(int arg);
 };
 
+// pdb: GridCellArray::ShowPrimitives | GridCell.obj | fnv360_0822_retail, objrun, low
+// pdb params: abShow
 void Owner47b9c0::FUN_0047b9c0(int arg)
 {
     if (!DAT_01071564)
@@ -10679,9 +10993,10 @@ struct Smart {
 };
 struct Owner {
  unsigned unk000; unsigned unk004; unsigned unk008; unsigned unk00c; unsigned unk010; unsigned unk014; unsigned unk018; unsigned unk01c; unsigned unk020; unsigned unk024; unsigned unk028; unsigned unk02c; unsigned unk030; unsigned unk034; unsigned unk038; unsigned unk03c; unsigned unk040; unsigned unk044; unsigned unk048; unsigned unk04c; unsigned unk050; unsigned unk054; unsigned unk058; unsigned unk05c; unsigned unk060; unsigned unk064; unsigned unk068; unsigned unk06c; unsigned unk070; unsigned unk074; unsigned unk078; unsigned unk07c; unsigned unk080; unsigned unk084; unsigned unk088; unsigned unk08c; unsigned unk090; unsigned unk094; unsigned unk098; unsigned unk09c; unsigned unk0a0; unsigned unk0a4; unsigned unk0a8; unsigned unk0ac; unsigned unk0b0; unsigned unk0b4; unsigned unk0b8; unsigned unk0bc; unsigned unk0c0; unsigned unk0c4; unsigned unk0c8; unsigned unk0cc; unsigned unk0d0; unsigned unk0d4; unsigned unk0d8; unsigned unk0dc; unsigned unk0e0; unsigned unk0e4; unsigned unk0e8; unsigned unk0ec; unsigned unk0f0; unsigned unk0f4; unsigned unk0f8; unsigned unk0fc; unsigned unk100; unsigned unk104; unsigned unk108; unsigned unk10c; unsigned unk110; unsigned unk114; unsigned unk118;Smart current;
- void FUN_004635f0(); void FUN_00464b10(unsigned,unsigned,unsigned);
+ void FUN_004635f0(); void Animation_SpecialIdleReplace(unsigned,unsigned,unsigned);
 };
-void Owner::FUN_00464b10(unsigned first,unsigned second,unsigned third) {
+// pdb: Animation::SpecialIdleReplace | Animation.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Owner::Animation_SpecialIdleReplace(unsigned first,unsigned second,unsigned third) {
  TagScope tag(0x33);
  if(!DAT_01079858->Alternate()) current=new FUN_00460ba0(first,third,0,second,0,this);
  else current=new FUN_00460ba0(first,third,0,second,1,0);
@@ -10802,6 +11117,8 @@ void FUN_00ade300(FUN_0083f750*, unsigned int, unsigned int);
 __forceinline void* __cdecl operator new[](unsigned n) { return task1545::DAT_01090a78.FUN_0086b930(n); }
 namespace task1545 {
 // @fnv 0x004b3890
+// pdb: MakeLine | GlobalFunc.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: TES::AddTempDebugObject)
+// pdb params: aStart, aStartColor, aEnd, aEndColor, abWithNoLightingProp
 FUN_0083f750* __cdecl FUN_0047a4e0(const FUN_006815c0& aStartVertex, const FUN_0046c350& startColor,
                                    const FUN_006815c0& aEndVertex, const FUN_0046c350& endColor, bool addShader)
 {
@@ -10837,6 +11154,8 @@ struct Calendar1232 {
     unsigned short day;
 };
 
+// pdb: Date::CalculateFullDate | Date.obj | fnv360_0822_retail, objrun, medium
+// pdb params: asDate
 Calendar1232 __cdecl FUN_00475140(unsigned short value) {
     unsigned short day = value;
     unsigned short month = 1;
@@ -10873,6 +11192,7 @@ struct FUN_0046dc90: FUN_0046c770 {
  virtual ~FUN_0046dc90();
  FUN_0046dc90();
 };
+// pdb: BGSPrimitiveSphere::BGSPrimitiveSphere | BGSPrimitive.obj | fnv360_0822_retail, uvref, medium
 FUN_0046dc90::FUN_0046dc90(){
  first.Reset();
  second.Reset();
@@ -10899,6 +11219,8 @@ struct FUN_0046c0f0:FUN_00825800 {
  unsigned char flagE4,flagE5,unkE6,unkE7,unkE8,unkE9,flagEA;
  FUN_0046c0f0(Point&,Pair&,Matrix&);virtual ~FUN_0046c0f0();
 };
+// pdb: BSOcclusionPlane::BSOcclusionPlane | BGSPrimitive.obj | fnv360_0822_retail, call_seq, high
+// pdb params: arCenter, arHalfExtents, arRotation
 FUN_0046c0f0::FUN_0046c0f0(Point&a,Pair&b,Matrix&c):center(a),pair(b),matrix(c){flagE4=1;flagE5=1;value40=0;flagEA=1;}
 }
 }   // namespace f3m_0046c0f0
@@ -11043,6 +11365,8 @@ void __cdecl FUN_00ade300(NiAVObject* apObject, int a, int b);
 
 // Builds a three-vertex FUN_0083f490 from three points and a color, optionally attaching a lighting property and initializing the geometry shader.
 // @fnv 0x004b3570
+// pdb: MakeTriangle | GlobalFunc.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aPt1, aPt2, aPt3, aColor, abWithNoLightingProp
 FUN_0083f490* __cdecl FUN_0047a320(NiPoint3V kP0, NiPoint3V kP1, NiPoint3V kP2, const FUN_0046c350& kColor,
                                  bool bEnableLighting)
 {
@@ -11137,6 +11461,7 @@ struct Owner {
         slot.handle=0;
     }
 };
+// pdb: BipedAnim::RemoveAllParts | BipedAnim.obj | fnv360_0721_beta, call_seq, medium
 void Owner::FUN_00472af0()
 {
     DAT_00d9b09c(&DAT_0106e334);
@@ -11252,7 +11577,7 @@ struct Table {
 struct Reference {
     Table* table;
     Inventory* FUN_004e66c0();
-    unsigned short FUN_006f4cd0();
+    unsigned short Actor_GetLevel();
     unsigned FUN_004ec070(int);
     __forceinline bool IsSpecial(){return table->isSpecial(this);}
 };
@@ -11261,12 +11586,13 @@ struct Owner {
     bool FUN_0047f300(unsigned);
     void FUN_0047f350();
 };
+// pdb: InventoryChanges::InitLeveledItems | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
 void Owner::FUN_0047f350() {
     Inventory* inventory=reference?reference->FUN_004e66c0():0;
     Node* node=inventory->Head();
     unsigned index=0;
     unsigned level;
-    if(reference->IsSpecial()) level=reference->FUN_006f4cd0();
+    if(reference->IsSpecial()) level=reference->Actor_GetLevel();
     else level=reference->FUN_004ec070(1);
     for(;node;node=node->next) {
         if(!node->next && !node->item) break;
@@ -11310,11 +11636,12 @@ struct Node : AV {unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;un
 bool IsVisual(){return visual && visual->value!=0.0f;} unsigned Size(){return count;} AV* At(unsigned i){return children[i];}
 };
 void __cdecl FUN_00ade300(AV*,int,int);
-void __cdecl FUN_0047adc0(AV* object){
+// pdb: PrepareObjectWithNoLightingRecurse | GlobalFunc.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void __cdecl PrepareObjectWithNoLightingRecurse(AV* object){
 if(object->GetGeometry() && !object->FUN_00826590(3)) {
 FUN_00af2240* prop=new FUN_00af2240;
 prop->SetFlag(0x30,true);object->FUN_004236f0(prop);object->FUN_008268a0();FUN_00ade300(object,0,0);
-}else{Node* node=object->GetNode();if(node && node->IsVisual())for(unsigned i=0;i<node->Size();i++){AV* child=node->At(i);if(child)FUN_0047adc0(child);}}
+}else{Node* node=object->GetNode();if(node && node->IsVisual())for(unsigned i=0;i<node->Size();i++){AV* child=node->At(i);if(child)PrepareObjectWithNoLightingRecurse(child);}}
 }
 }
 }   // namespace f3m_0047adc0
@@ -11458,6 +11785,8 @@ struct FUN_00af2240 : NiObject
 void __cdecl FUN_00ade300(NiAVObject* apObject, int a, int b);
 
 // @fnv 0x004b2eb0
+// pdb: MakeQuadBox | GlobalFunc.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aPoint1, aPoint2, aPoint3, aPoint4, aPoint5, aPoint6, aPoint7, aPoint8, aColor, abWithNoLightingProp
 FUN_0083f490* FUN_00479f20(const NiPoint3V& aCorner0, const NiPoint3V& aCorner1, const NiPoint3V& aCorner2, const NiPoint3V& aCorner3,
                       const NiPoint3V& aCorner4, const NiPoint3V& aCorner5, const NiPoint3V& aCorner6, const NiPoint3V& aCorner7,
                       const FUN_0046c350& color, bool extra)
@@ -11629,6 +11958,7 @@ __forceinline void DeleteAll(Map& map)
     }
 }
 
+// pdb: BGSTextureUseMap::ClearAllTexUseData | BGSTextureUseMap.obj | fnv360_0721_beta, callee_sim, low
 void Owner::FUN_00470060()
 {
     DeleteAll(map);
@@ -11645,8 +11975,8 @@ public:
 
     bool FUN_0040c080(int flag);
     short FUN_0040ac80();
-    int FUN_0040a2d0();
-    void FUN_0040b910();
+    int BaseExtraList_ItemsInList();
+    void ExtraDataList_RemoveCount();
 };
 
 struct ListNode
@@ -11664,6 +11994,7 @@ struct EntryData
     int FUN_0047fee0();
 };
 
+// pdb: ItemChange::GetAmountNonDefaultExtra | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 int EntryData::FUN_0047fee0()
 {
     ListNode* node = extendData;
@@ -11674,8 +12005,8 @@ int EntryData::FUN_0047fee0()
         if (!item->FUN_0040c080(0) && item->FUN_0040ac80() > 0)
             count++;
         node = node->next;
-        if (item->FUN_0040a2d0() == 1 && item->FUN_0040ac80() > 1) {
-            item->FUN_0040b910();
+        if (item->BaseExtraList_ItemsInList() == 1 && item->FUN_0040ac80() > 1) {
+            item->ExtraDataList_RemoveCount();
             extendData->FUN_00421610(&key);
             delete item;
             node = extendData;
@@ -11708,6 +12039,7 @@ struct Owner46ff60 {
     int FUN_0046ff60();
 };
 
+// pdb: BGSTextureUseMap::GetTotalTextureSize | BGSTextureUseMap.obj | fnv360_0822_retail, call_gap, low
 int Owner46ff60::FUN_0046ff60()
 {
     int sum = 0;
@@ -11744,6 +12076,7 @@ struct FUN_00460e20 : Base {
     FUN_00424aa0 entries[2];
     virtual ~FUN_00460e20();
 };
+// pdb: AnimIdle::~AnimIdle | Animation.obj | fnv360_0822_retail, call_seq, medium
 FUN_00460e20::~FUN_00460e20() { FUN_0045fd30(this); }
 }
 }   // namespace f3m_00460e20
@@ -11844,6 +12177,8 @@ struct Obj47e0 {
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
     Link47e0 link;
 };
+// pdb: InventoryChanges::GetInventoryChanges | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef
 FUN_0047df80* __cdecl FUN_0047e090(Obj47e0* obj)
 {
     FUN_0047df80* result = 0;
@@ -11888,6 +12223,8 @@ struct Owner461 {
     bool FUN_00461a10(Ref461* p, int unused);
 };
 
+// pdb: AnimSequenceMultiple::RemoveSequence | Animation.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSeq, abReleaseModelLoader
 bool Owner461::FUN_00461a10(Ref461* p, int unused)
 {
     Ref461* q = *(Ref461* volatile*)&p;
@@ -11933,6 +12270,7 @@ struct Ref {
 struct Grid:GridBase {Point position;bool loaded;unsigned char unk21,unk22,unk23;Ref world;
     virtual void v0();Grid();
 };
+// pdb: GridCellArray::GridCellArray | GridCell.obj | fnv360_0822_retail, call_gap, low
 Grid::Grid(){
     if(DAT_0106e9cc<5)DAT_0106e9cc=5;else if(!(DAT_0106e9cc&1))++DAT_0106e9cc;
     dimension=DAT_0106e9cc;
@@ -11945,7 +12283,6 @@ Grid::Grid(){
 }   // namespace f3m_0047bab0
 
 // @f3 0x0046a820 (community match, verified in this file)
-extern unsigned int DAT_00dbea44[];
 namespace f3m_0046a820 {
 namespace Collector2089 {
 struct __declspec(align(16)) Normal {float x,y,z,w;};
@@ -11963,6 +12300,7 @@ struct InplaceHits {Entry* data;unsigned int count,capacity,unk0C;Entry entries[
 };
 struct Collector:RayBase {InplaceHits hits;virtual void AddRayHit();Collector();};
 typedef char EntrySize[(sizeof(Entry)==0x60)?1:-1];
+// pdb: hkpAllRayHitCollector::hkpAllRayHitCollector | BGSDecalManager.obj | fnv360_0822_retail, call_gap, medium
 Collector::Collector(){earlyOut=1.0f;hits.count=0;}
 }
 }   // namespace f3m_0046a820
@@ -11971,16 +12309,17 @@ Collector::Collector(){earlyOut=1.0f;hits.count=0;}
 namespace f3m_0047ce10 {
 struct Object984 {
     virtual ~Object984();
-    void FUN_0040a250(bool enabled);
+    void BaseExtraList_RemoveAll(bool enabled);
 };
 struct Node984 { Object984* object00; Node984* next04; };
 struct Owner984 { Node984* head00; void FUN_0047ce10(); };
+// pdb: BSSimpleList<CasinoData *>::`scalar deleting destructor' | PlayerCharacter.obj | fnv360_0822_debug, call_seq, low, conflict (bridge: TeleportPath::Clear)
 void Owner984::FUN_0047ce10() {
     Node984* node = head00;
     while (node && node->object00) {
         Object984* object = node->object00;
         node = node->next04;
-        object->FUN_0040a250(true);
+        object->BaseExtraList_RemoveAll(true);
         delete object;
     }
 }
@@ -12052,6 +12391,7 @@ struct Owner_0046d060 {
     void FUN_0046d060();
 };
 
+// pdb: BGSPrimitiveBox::Build | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 void Owner_0046d060::FUN_0046d060()
 {
     if (m_obj == 0) {
@@ -12106,7 +12446,7 @@ __forceinline void ReleaseVal46a9(RefObj46a9* p)
     }
 }
 
-extern "C" void FUN_0056a290();
+extern "C" void DecalCaster_ClearInstance();
 
 struct FUN_00abb340 { char pad[12]; ~FUN_00abb340(); };
 struct FUN_00bd12d0 { char pad[12]; __declspec(nothrow) ~FUN_00bd12d0(); };
@@ -12121,9 +12461,10 @@ struct FUN_0046a9a0 {
     ~FUN_0046a9a0();
 };
 
+// pdb: BGSDecalManager::~BGSDecalManager | BGSDecalManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_0046a9a0::~FUN_0046a9a0()
 {
-    FUN_0056a290();
+    DecalCaster_ClearInstance();
     if (DAT_0106dfbc) {
         ReleaseVal46a9(DAT_0106dfbc);
         DAT_0106dfbc = 0;
@@ -12168,6 +12509,7 @@ inline Iface_fb10* Get_fb10()
     }
     return l;
 }
+// pdb: BGSSceneInfo::ReloadBudgetCaps | BGSSceneInfo.obj | fnv360_0721_beta, call_seq, medium
 void __cdecl FUN_0046fb10()
 {
     for (int* p = &DAT_00f4be24[0].b; (int)p < (int)&DAT_00f4be24[16].b; p += 5) {
@@ -12546,7 +12888,7 @@ unsigned int unk050;
 unsigned int unk054;
 unsigned int unk058;
 unsigned int unk05c;
-Process* process;Process* GetProcess(){return process;}void FUN_00701ab0(bool);Animation* FUN_006f8f30();bool FUN_006f6c70();
+Process* process;Process* GetProcess(){return process;}void FUN_00701ab0(bool);Animation* Actor_GetAnimation();bool FUN_006f6c70();
 bool FUN_0076cd40(Owner*);Node* FUN_0076ff40(bool);Owner* FUN_0076cd20(bool);Animation* FUN_0076cce0(bool);
 };
 struct LoadState {
@@ -13237,6 +13579,8 @@ unsigned int unk2a8;
 unsigned int unk2ac;
 Actor* actor;void FUN_00472220(Form*);void FUN_004724d0(Form*);
 };
+// pdb: BipedAnim::AttachBipedWeapon | BipedAnim.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apWeapon, iModSlots
 void Owner::FUN_004724d0(Form* weapon){
 if(!weapon || (int)weapon->GetFormType()!=0x28 || (weapon==parent && scene))return;
 FUN_00472220(weapon);
@@ -13254,10 +13598,10 @@ if(proc && !DAT_0106cdcc->loading && this!=DAT_0107a104->FUN_0076cd20(true))a->F
 if(proc && !DAT_01079858->Blocked()){
 Animation* anim=0;
 if(actor==DAT_0107a104 && this==DAT_0107a104->FUN_0076cd20(true))anim=DAT_0107a104->FUN_0076cce0(true);
-else anim=a->FUN_006f8f30();
+else anim=a->Actor_GetAnimation();
 if(anim)anim->FUN_0045e4c0(4,false);
 if(actor==DAT_0107a104 && this==DAT_0107a104->FUN_0076cd20(true))a->GetProcess()->UpdateWeaponDrawn(a->FUN_006f6c70(),this,DAT_0107a104->FUN_0076cce0(true),a);
-else a->GetProcess()->UpdateWeaponDrawn(a->FUN_006f6c70(),this,a->FUN_006f8f30(),a);
+else a->GetProcess()->UpdateWeaponDrawn(a->FUN_006f6c70(),this,a->Actor_GetAnimation(),a);
 }}
 }
 }
@@ -13333,6 +13677,7 @@ struct Holder {
     }
     void FUN_004609a0();
 };
+// pdb: Animation::ShutdownAllAnimIdles | Animation.obj | fnv360_0822_retail, call_gap, low
 void Holder::FUN_004609a0()
 {
     fcd = true;
@@ -13407,6 +13752,8 @@ struct Actor472220 {
     void FUN_00472220(Form472220* form);
 };
 
+// pdb: BipedAnim::SetBipedWeapon | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apWeapon, iModSlots
 void Actor472220::FUN_00472220(Form472220* form)
 {
     if (!form || form->type04 != 0x28)
@@ -13449,7 +13796,7 @@ struct TagScope {
 
 struct Obj47b860B { void FUN_004cfe50(); };
 struct Cell47b860 {
-    Obj47b860B* FUN_004d5270();
+    Obj47b860B* TESObjectCELL_GetLand();
     void FUN_004dc950();
 };
 
@@ -13472,6 +13819,7 @@ struct Grid47b860 {
     void FUN_0047b860();
 };
 
+// pdb: GridCellArray::AttachAllLand3D | GridCell.obj | fnv360_0822_retail, call_gap, low
 void Grid47b860::FUN_0047b860()
 {
     if (done)
@@ -13482,7 +13830,7 @@ void Grid47b860::FUN_0047b860()
         for (unsigned int y = 0; y < n; ++y) {
             Cell47b860** p = GetAt(x, y);
             if (p && *p) {
-                (*p)->FUN_004d5270()->FUN_004cfe50();
+                (*p)->TESObjectCELL_GetLand()->FUN_004cfe50();
                 (*p)->FUN_004dc950();
             }
         }
@@ -13579,7 +13927,7 @@ struct Buf {
     char* m14;
     char pad18[0x70];
     Rec* m88;
-    bool FUN_006daa00();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
     void FUN_006db460(const void* p, unsigned int n);
     void FUN_006defa0(const void* p, unsigned int n);
 };
@@ -13587,7 +13935,7 @@ extern Buf* DAT_01079ca4;
 extern bool DAT_01079d20;
 extern char DAT_00dc0bd0[];
 extern char DAT_00db5d40[];
-Form* __cdecl FUN_00455190(int id);
+Form* __cdecl TESForm_GetFormByNumericID(int id);
 void __cdecl FUN_00c24b70(const char* fmt, ...);
 struct Item { void FUN_00412920(int a, int b); };
 struct Node { Item* m0; Node* m4; };
@@ -13598,12 +13946,13 @@ struct Self {
     Owner* m8;
     void FUN_0047dd50();
 };
+// pdb: ItemChange::SaveGame | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
 void Self::FUN_0047dd50()
 {
     short size = 0;
     char* start = DAT_01079ca4->m14;
     char* sizePos = 0;
-    if (DAT_01079ca4->FUN_006daa00())
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks())
     {
         int tag = 0x424c4f4b;
         DAT_01079ca4->FUN_006db460(&tag, 4);
@@ -13628,11 +13977,11 @@ void Self::FUN_0047dd50()
         char* cur = DAT_01079ca4->m14;
         if (r)
         {
-            Form* f = FUN_00455190(r->m0);
+            Form* f = TESForm_GetFormByNumericID(r->m0);
             FUN_00c24b70(DAT_00db5d40, cur - start, r->m0, f->V130(), *(int*)r->m5, 0x54f, DAT_00dc0bd0);
         }
     }
-    if (DAT_01079ca4->FUN_006daa00())
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks())
         *(short*)sizePos = (short)(DAT_01079ca4->m14 - sizePos);
 }
 }
@@ -13712,6 +14061,8 @@ struct Animation
     void FUN_00460090(bool abFreeQueued, bool abForceDelete);
 };
 
+// pdb: Animation::SpecialIdleFree | Animation.obj | fnv360_0822_retail, ustr, medium
+// pdb params: abFreeQueued, abForceDelete
 void Animation::FUN_00460090(bool abFreeQueued, bool abForceDelete)
 {
     if (LocalInput)
@@ -13979,6 +14330,8 @@ inline Prop479* GetTexturing(AV479* o)
 }
 }
 using namespace n479030;
+// pdb: SwapPlatformLanguageTextures | GlobalFunc.obj | fnv360_0822_debug, caller, medium
+// pdb params: ap3D
 bool __cdecl FUN_00479030(AV479* object)
 {
     bool changed = false;
@@ -14039,6 +14392,8 @@ inline int GetPlatform()
     return 0;
 }
 
+// pdb: SwapPlatformLanguageTexturePath | GlobalFunc.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apInPath, apOutPath, aiOutPathSize
 bool __cdecl FUN_00478d70(const char* path, char* out, unsigned int outSize)
 {
     if (!path || !out || !outSize)
@@ -14121,7 +14476,6 @@ bool __cdecl FUN_00478d70(const char* path, char* out, unsigned int outSize)
 }   // namespace f3m_00478d70
 
 // @f3 0x0046e340 (community match, verified in this file)
-extern const double DAT_00db75d0;
 namespace f3m_0046e340 {
 namespace F3ModifierDispatch {
 struct Point {
@@ -14140,6 +14494,8 @@ int __cdecl FUN_0046dd60(const Point*,Parameters*);
 int __cdecl FUN_0046de00(const Point*,Parameters*);
 int __cdecl FUN_0046deb0(float,Parameters*);
 
+// pdb: BGSPrimitive::Copy | BGSPrimitive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCopy
 int __cdecl FUN_0046e340(const Request* request)
 {
     int result=0;
@@ -14203,6 +14559,8 @@ struct Obj {
     static void* operator new(unsigned int size) { return DAT_01090a78.FUN_0086b930(size); }
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
+// pdb: BGSPrimitive::CreateBox | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aSize, aColor
 Obj* __cdecl FUN_0046de00(Vec3* pos, int value) {
     Obj* obj = new Obj;
     obj->vf08(value);
@@ -14527,11 +14885,13 @@ public:
     NiControllerManagerPtr controllerManager;
     AnimSequenceMap* sequences;
 
-    bool FUN_0045cc40();
+    bool Animation_ShouldQueueSequenceCloning();
     void FUN_00461a70(KFModel* model, bool queue);
     bool FUN_00464330(FileList* files, NiNode* rootNode, TESObjectREFR* actor, bool activate);
 };
 
+// pdb: Animation::Init | Animation.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFileList, apRoot, apRef, abUpdate3D
 bool Animation::FUN_00464330(FileList* files, NiNode* rootNode, TESObjectREFR* actor, bool activate)
 {
     AutoMemContext context(0x33);
@@ -14547,7 +14907,7 @@ bool Animation::FUN_00464330(FileList* files, NiNode* rootNode, TESObjectREFR* a
             nodes[i] = FUN_00aab350(rootNode, DAT_00f5c78c[i], true);
     root->flags &= ~2;
     controllerManager = new NiControllerManager(root, true);
-    bool queue = FUN_0045cc40();
+    bool queue = Animation_ShouldQueueSequenceCloning();
     while (!files->FUN_00645c20())
     {
         const char* file = files->item;
@@ -14656,6 +15016,7 @@ struct FUN_0046b560 {
     NiPointer<FUN_0083b6d0> unk24;
     FUN_0046b560();
 };
+// pdb: BGSDecalManager::BGSDecalManager | BGSDecalManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_0046b560::FUN_0046b560()
 {
     unk20 = new FUN_00ae9090(0x63, 1, 0x2f7);
@@ -14681,21 +15042,22 @@ struct Data47f750 {
     int unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C;
     int unk50, unk54, unk58, unk5C, unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84;
     Ent47f750* ent;
-    bool FUN_006daa00();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
     void FUN_006db460(const void* data, int size);
 };
 struct Node47f750 { Item47f750* item; Node47f750* next; bool Empty() const { return next == 0 && item == 0; } Item47f750* Get() const { return item; } };
 struct List47f750 { Node47f750* head; void FUN_0047f750(); };
 extern Data47f750* DAT_01079ca4;
 extern bool DAT_01079d20;
-Obj47f750* __cdecl FUN_00455190(int form);
+Obj47f750* __cdecl TESForm_GetFormByNumericID(int form);
 void __cdecl FUN_00c24b70(const char* fmt, ...);
+// pdb: InventoryChanges::SaveGame | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
 void List47f750::FUN_0047f750()
 {
     short blockSize = 0;
     char* start = DAT_01079ca4->pos;
     char* sizePos = 0;
-    if (DAT_01079ca4->FUN_006daa00()) {
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
         int tag = 'BLOK';
         DAT_01079ca4->FUN_006db460(&tag, 4);
         sizePos = DAT_01079ca4->pos;
@@ -14717,11 +15079,11 @@ void List47f750::FUN_0047f750()
         Ent47f750* e = DAT_01079ca4->ent;
         char* end = DAT_01079ca4->pos;
         if (e) {
-            Obj47f750* o = FUN_00455190(e->form);
+            Obj47f750* o = TESForm_GetFormByNumericID(e->form);
             FUN_00c24b70("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s", end - start, e->form, o->GetId(), *(int*)e->idb, 0x2386, "c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp");
         }
     }
-    if (DAT_01079ca4->FUN_006daa00())
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks())
         *(short*)sizePos = (short)DAT_01079ca4->pos - (short)sizePos;
 }
 }
@@ -14768,7 +15130,7 @@ struct ModelForm {
     SceneObject* FUN_008257a0(LoadOptions*);
 };
 struct SceneRoot {
-    void FUN_00459180(SceneObject*);
+    void TESModelTextureSwap_SwapTextures(SceneObject*);
 };
 struct AttachProvider {
     virtual void Slot00();
@@ -14857,6 +15219,8 @@ struct Owner {
     Entry entries[4];
     SceneObject* FUN_00471ca0(const void* enabled,ModelForm* model,unsigned index);
 };
+// pdb: BipedAnim::CloneHelmet | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apfgModel, apNode, aeBipedObject
 SceneObject* Owner::FUN_00471ca0(const void* enabled,ModelForm* model,unsigned index)
 {
     if (entries[index].existing || !enabled || !model)
@@ -14879,7 +15243,7 @@ SceneObject* Owner::FUN_00471ca0(const void* enabled,ModelForm* model,unsigned i
         if (entries[index].attachment) {
             SceneRoot* root=entries[index].attachment->GetRoot();
             if (root)
-                root->FUN_00459180(scene);
+                root->TESModelTextureSwap_SwapTextures(scene);
         }
         if (entries[index].updateOwner && entries[index].updateOwner->CheckUpdate())
             FUN_00479030(scene);
@@ -14913,6 +15277,8 @@ public:
     void FUN_0046e5c0(Element* destination, Element* source, unsigned count);
     void FUN_0046f820(unsigned index, const Element& value);
 };
+// pdb: BSSimpleArray<SCENE_INFO_DATA_STRUCT,1024>::Insert | BGSSceneInfo.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiIndex, aValue
 void ElementArray::FUN_0046f820(unsigned index, const Element& value)
 {
     unsigned destination;
@@ -15220,6 +15586,8 @@ struct Owner {
     void FUN_00463650();
     void FUN_004649f0(unsigned first, Actor* actor, int type, unsigned mode);
 };
+// pdb: Animation::SpecialIdleAuto | Animation.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apIdleForm, apActor, aeSection, aeType
 void Owner::FUN_004649f0(unsigned first, Actor* actor, int type, unsigned mode)
 {
     TagScope tag(0x33);
@@ -15253,6 +15621,8 @@ struct Owner {
  BaseForm* baseForm;
  bool FUN_0047e9d0(unsigned refID);
 };
+// pdb: InventoryChanges::HasObjectId | InventoryChanges.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aId
 bool Owner::FUN_0047e9d0(unsigned refID) {
  int count = 0;
  Container* container = baseForm ? baseForm->FUN_004e66c0() : 0;
@@ -15425,6 +15795,8 @@ struct Owner {
     }
     int FUN_0047f050(bool includeQuestItems, bool includeCaps);
 };
+// pdb: InventoryChanges::GetInventoryValue | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abCountQuest, abCountGold
 int Owner::FUN_0047f050(bool includeQuestItems, bool includeCaps)
 {
     int total = 0;
@@ -15719,6 +16091,8 @@ struct Obj {
     bool b10;
     Obj* FUN_0047df80(Ref* r);
 };
+// pdb: InventoryChanges::InventoryChanges | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef
 Obj* Obj::FUN_0047df80(Ref* r)
 {
     TlsTagGuard guard(0x36);
@@ -15785,6 +16159,8 @@ void __cdecl FUN_00ade300(NiAVObject* apObject, int a, int b);
 }
 using namespace n47a660;
 
+// pdb: MakeRectangle | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afDrawSize, aColor, abWithNoLightingProp
 FUN_0083f750* FUN_0047a660(float size, const FUN_0046c350& color, bool lighting)
 {
     Pt3_47a660* verts = new Pt3_47a660[4];
@@ -15832,7 +16208,7 @@ struct Ref {
     void* unk3c;
     Model* FUN_004e8880();
 };
-struct Counter { void FUN_00410170(int n); };
+struct Counter { void ExtraDataList_SetCount(int n); };
 struct Result {
     virtual void w0(); virtual void w1(); virtual void w2(); virtual void w3(); virtual void w4(); virtual void w5(); virtual void w6(); virtual void w7(); virtual void w8(); virtual void w9(); virtual void w10(); virtual void w11(); virtual void w12(); virtual void w13(); virtual void w14(); virtual void w15(); virtual void w16(); virtual void w17();
     virtual void SetFlags(int f);
@@ -15847,6 +16223,8 @@ extern NiPt DAT_0108ec68;
 }
 using namespace n47cc10;
 
+// pdb: InventoryChanges::DropItemIntoWorld | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRef, apObject, ainumber, apCreatedRef, apPoint, apRotate
 Result* __stdcall FUN_0047cc10(Ref* ref, int a2, int count, int a4, NiPt* pos, NiPt* rot)
 {
     NiPt p;
@@ -15865,7 +16243,7 @@ Result* __stdcall FUN_0047cc10(Ref* ref, int a2, int count, int a4, NiPt* pos, N
     if (!rot) rot = ref ? &ref->rot : &n47cc10::DAT_0108ec68;
     void* u = ref->unk3c; NiPt r = *rot;
     Result* result = n47cc10::DAT_0106cdcc->FUN_0043def0(a2, &p, &r, u, ref->FUN_004e8880(), a4, 0, 0);
-    if (count > 1) result->counter.FUN_00410170(count);
+    if (count > 1) result->counter.ExtraDataList_SetCount(count);
     result->SetFlags(0x400);
     return result;
 }
@@ -15895,7 +16273,7 @@ template <class T> struct RefPtr {
 struct Sound;
 struct Controller {
     void FUN_0044db80(Sound* sound, float time);
-    void FUN_0045c7f0(float time);
+    void NiControllerManager_DeactivateAll(float time);
 };
 struct Sound {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
@@ -15954,10 +16332,10 @@ public:
     bool unk114;
     RefPtr<RefObject> unk118;
     RefPtr<RefObject> unk11C;
-    void FUN_0045db50(int slot, float time);
+    void Animation_ClearGroup(int slot, float time);
     void FUN_0045dca0();
     void FUN_0045feb0(RefPtr<RefObject>* ptr);
-    void FUN_004610b0();
+    void Animation_ClearBlendInterps();
     void FUN_0045e360(int a);
     void FUN_00461190(int unused);
     __forceinline void StopAnim(int i)
@@ -15973,19 +16351,21 @@ public:
         unk6C[i].unk00 = -1;
     }
 };
+// pdb: Animation::Revert | Animation.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef
 void Process::FUN_00461190(int unused)
 {
     if (FUN_006191f0() != 1) {
-        FUN_0045db50(7, 0.0f);
+        Animation_ClearGroup(7, 0.0f);
         if (!unk114)
-            FUN_0045db50(0, 0.0f);
+            Animation_ClearGroup(0, 0.0f);
     }
-    FUN_0045db50(1, 0.0f);
+    Animation_ClearGroup(1, 0.0f);
     if (FUN_006191f0() != 1)
-        FUN_0045db50(2, 0.0f);
-    FUN_0045db50(3, 0.0f);
-    FUN_0045db50(5, 0.0f);
-    FUN_0045db50(6, 0.0f);
+        Animation_ClearGroup(2, 0.0f);
+    Animation_ClearGroup(3, 0.0f);
+    Animation_ClearGroup(5, 0.0f);
+    Animation_ClearGroup(6, 0.0f);
     StopAnim(0);
     FUN_0045dca0();
     if (unk118)
@@ -15997,9 +16377,9 @@ void Process::FUN_00461190(int unused)
     unkFC = 0;
     StopAnim(1);
     if (unkD8)
-        unkD8->FUN_0045c7f0(0.0f);
+        unkD8->NiControllerManager_DeactivateAll(0.0f);
     FUN_0045e290(unk08);
-    FUN_004610b0();
+    Animation_ClearBlendInterps();
     FUN_0045e360(1);
 }
 }
@@ -16030,6 +16410,8 @@ struct NiFrustumPlanes {
     void FUN_0083f470(NiCamera* cam);
     NiPlane GetPlane(unsigned int i) const { return m_akCullingPlanes[i]; }
 };
+// pdb: BoundInFrustum | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aBound, apCamera
 bool FUN_00476780(const NiBound* bound, NiCamera* cam)
 {
     if (!cam)
@@ -16117,7 +16499,7 @@ struct QHolder {
     TESBoundObject* unk1C;
 };
 struct Loader {
-    void FUN_0042ca20(Part* part, int a, int b, int c, bool d, int e, int f);
+    void ModelLoader_QueueModel(Part* part, int a, int b, int c, bool d, int e, int f);
     void FUN_0042cac0(const char* name, int a, int b, int c, bool d, int e, int f);
 };
 extern Loader* DAT_0106ca70;
@@ -16153,6 +16535,8 @@ public:
     void FUN_00470d10(int flags, int a, int b);
     void FUN_004715f0(int a, ModelPtr* out, int b);
 };
+// pdb: BipedAnim::QueueBipedParts | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aePriority, aspQueuedHelmet, apParent
 void Owner::FUN_004715f0(int a, ModelPtr* out, int b)
 {
     ModelPtr spModel;
@@ -16170,9 +16554,9 @@ void Owner::FUN_004715f0(int a, ModelPtr* out, int b)
                     if (unk2B0 == DAT_0107a104) {
                         Part* other = FUN_00470b00(i, part);
                         if (other != slots[i].part)
-                            DAT_0106ca70->FUN_0042ca20(other, a, b, 3, true, 0, 0);
+                            DAT_0106ca70->ModelLoader_QueueModel(other, a, b, 3, true, 0, 0);
                     }
-                    DAT_0106ca70->FUN_0042ca20(slots[i].part, a, b, 3, true, 0, 0);
+                    DAT_0106ca70->ModelLoader_QueueModel(slots[i].part, a, b, 3, true, 0, 0);
                     Form* form = FUN_00451da0(slots[i].formId);
                     if (form) {
                         const char* name = form->unkC4.GetName();
@@ -16216,6 +16600,7 @@ template <class T> struct Ptr {
 using namespace f3m_004635f0;
 struct Owner1236 {int unk000,unk004,unk008,unk00C,unk010,unk014,unk018,unk01C,unk020,unk024,unk028,unk02C,unk030,unk034,unk038,unk03C,unk040,unk044,unk048,unk04C,unk050,unk054,unk058,unk05C,unk060,unk064,unk068,unk06C,unk070,unk074,unk078,unk07C,unk080,unk084,unk088,unk08C,unk090,unk094,unk098,unk09C,unk0A0,unk0A4,unk0A8,unk0AC,unk0B0,unk0B4,unk0B8,unk0BC,unk0C0,unk0C4,unk0C8,unk0CC,unk0D0,unk0D4,unk0D8,unk0DC,unk0E0,unk0E4,unk0E8,unk0EC,unk0F0,unk0F4,unk0F8,unk0FC,unk100,unk104,unk108,unk10C,unk110,unk114,unk118;
  Ptr<Task1236> task; bool FUN_00461a70(void*,int); bool FUN_004635f0();};
+// pdb: Animation::SpecialIdleReplace | Animation.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSTempEffectSimpleDecal::CheckOcclusionQueryResults)
 bool Owner1236::FUN_004635f0()
 {
     Task1236* current = task.m_pObject;
@@ -16348,6 +16733,8 @@ struct BipedAnim {
     void FUN_00472ce0(Form* pForm, Model* pModel, BIPED_OBJECT eBipedObject);
 };
 
+// pdb: BipedAnim::SetBipedPart | BipedAnim.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apParent, apModel, aeObjectSlot
 void BipedAnim::FUN_00472ce0(Form* pForm, Model* pModel, BIPED_OBJECT eBipedObject) {
     BipedModelForm* pBipedModel = FUN_00451da0(pForm);
     ArmorAddon* pArmorAddon = FUN_00c0050a(pForm, 0, DAT_00f46078, DAT_00f494b8, 0);
@@ -16481,7 +16868,8 @@ extern void* DAT_0106e814;
 extern void* DAT_0106e818;
 extern void* DAT_0106e81c;
 extern const char DAT_00dc09a4[];
-bool __cdecl FUN_00478350(Node_478* node)
+// pdb: RemoveEditorMarkers | GlobalFunc.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|ustr_rel), high
+bool __cdecl RemoveEditorMarkers(Node_478* node)
 {
     bool result = false;
     if (!node)
@@ -16518,7 +16906,7 @@ bool __cdecl FUN_00478350(Node_478* node)
         if (child) {
             Node_478* sub = child->GetAsNiNode();
             if (sub) {
-                result = FUN_00478350(sub);
+                result = RemoveEditorMarkers(sub);
                 if (result) {
                     if (DAT_0106e99c == node) {
                         DAT_0106e99c = 0;
@@ -16600,6 +16988,8 @@ struct AFHavokBody {
     void FUN_00469bd0(const AFPoint3& point);
 };
 
+// pdb: TESObjectCELL::Pick | TESObjectCELL.obj | fnv360_0721_beta, call_gap, low
+// pdb params: arResult
 void AFHavokBody::FUN_00469bd0(const AFPoint3& point)
 {
     AFVector4 scaled;
@@ -16620,7 +17010,7 @@ struct __declspec(align(16)) Vector1186 {
 };
 struct Output1186 { float x,y,z,w; void FUN_00469050(const Input1186*); };
 void Output1186::FUN_00469050(const Input1186* input) {
- volatile Vector1186 value(*input);
+ Vector1186 value(*input);
  x=value.x; y=value.y; z=value.z; w=value.w;
 }
 }   // namespace f3m_00469050
@@ -16657,6 +17047,8 @@ struct Node
 };
 
 // @fnv 0x004a9240
+// pdb: BGSSceneInfo::GetHavokFaceCount | BGSSceneInfo.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apShape
 int __cdecl FUN_0046e750(Node* node)
 {
     if (node == 0)
@@ -17298,6 +17690,7 @@ struct ImpactTask
     void FUN_0046b830();
 };
 
+// pdb: BGSDecalEmitter::Update | BGSDecalManager.obj | fnv360_0822_retail, call_gap, low
 void ImpactTask::FUN_0046b830()
 {
     if (ConsoleManager::Instance(true)->IsVisible() || IsStartMenuFlag1Set())
@@ -17472,6 +17865,7 @@ struct FUN_00474e90
     RefList list;
     ~FUN_00474e90();
 };
+// pdb: BSClonePools::ClonePool::~ClonePool | BSClonePool.obj | fnv360_0721_beta, objrun, medium
 FUN_00474e90::~FUN_00474e90()
 {
     header = 0;
@@ -18017,6 +18411,8 @@ struct DecalManager
     bool FUN_00469ce0(DecalRequest* apRequest);
 };
 
+// pdb: BGSDecalManager::AddGeometryDecalRecurse | BGSDecalManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: arDecalData
 bool DecalManager::FUN_00469ce0(DecalRequest* apRequest)
 {
     if (DAT_0106def4 >= DAT_0106df74)
@@ -18126,7 +18522,7 @@ extern bool DAT_0106ea1c;
 namespace f3m_0047b5a0 {
 namespace f3m_0047b5a0 {
 void __cdecl FUN_004d7360(float t);
-class GridCell { public: void FUN_004df9a0(float t, bool off); };
+class GridCell { public: void TESObjectCELL_UpdateManagedNodes(float t, bool off); };
 class CellGrid
 {
 public:
@@ -18141,6 +18537,8 @@ public:
     }
     void FUN_0047b5a0(float t);
 };
+// pdb: GridCellArray::UpdateManagedNodes | GridCell.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: GridCellArray::UpdateManagedNodeTransforms)
+// pdb params: afTime
 void CellGrid::FUN_0047b5a0(float t)
 {
     FUN_004d7360(t);
@@ -18161,7 +18559,7 @@ void CellGrid::FUN_0047b5a0(float t)
             }
             GridCell* cell = *At(x, y);
             if (cell)
-                cell->FUN_004df9a0(t, !update);
+                cell->TESObjectCELL_UpdateManagedNodes(t, !update);
         }
     }
 }
@@ -18229,7 +18627,7 @@ struct Box
 };
 struct Manager
 {
-    Box* FUN_00435b30(float* position);
+    Box* TES_GetLandGeometry(float* position);
 };
 extern Manager* DAT_0107a0d8;
 extern const double DAT_00db88e8;
@@ -18249,6 +18647,8 @@ inline WorldObject* GetPhantom(const Collidable* c)
 using namespace f3m_004780d0;
 NiRef* __cdecl FUN_004779d0(Entity* body);
 NiRef* __cdecl FUN_00477a30(WorldObject* phantom);
+// pdb: GetAVObjectForCollidable | GlobalFunc.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aphkCol
 void* __cdecl FUN_004780d0(Collidable* collidable)
 {
     void* result = 0;
@@ -18265,7 +18665,7 @@ void* __cdecl FUN_004780d0(Collidable* collidable)
                 pos[1] = (float)(body->y * DAT_00db88e8);
                 // scale first: the original multiplies z the other way round
                 pos[2] = (float)(DAT_00db88e8 * body->z);
-                Box* box = f3m_004780d0::DAT_0107a0d8->FUN_00435b30(pos);
+                Box* box = f3m_004780d0::DAT_0107a0d8->TES_GetLandGeometry(pos);
                 if (box && box->object)
                     result = box->object;
             }
@@ -18286,7 +18686,7 @@ namespace ModelAttach471ef0 {
 extern long (__stdcall* DAT_00d9b064)(long*);
 extern long (__stdcall* DAT_00d9b068)(long*);
 struct Scene;
-struct TextureSwap { void FUN_00459180(Scene*); };
+struct TextureSwap { void TESModelTextureSwap_SwapTextures(Scene*); };
 struct Model {
     virtual void Slot00();
     virtual void Slot04();
@@ -18384,13 +18784,15 @@ extern int DAT_00f4c3d0[];
 extern const void* DAT_00f4c35c[];
 bool FUN_00478250(Scene*);
 void FUN_00479030(Scene*);
-void FUN_004708d0(Scene*,Scene*,int,Actor*);
+void BipedAnim_AddAddonNodes(Scene*,Scene*,int,Actor*);
 void FUN_004ef0a0(Scene*);
 bool FUN_00424d20(const void*,Scene*);
 bool FUN_0045cd20(Scene*);
 void FUN_00887da0(const char*,...);
 void FUN_00471830(Scene*,Scene*,Scene*,int,int,int);
 Scene* FUN_00470720(Scene*,const void*);
+// pdb: BipedAnim::LoadAndAttachAddOn | BipedAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apObject, apModel, aeAttachmentType, apRequester, apObj3D
 Scene* __cdecl FUN_00471ef0(Form* form,Model* model,int slot,Actor* actor,Scene* root)
 {
     if(!model || !actor) return 0;
@@ -18408,9 +18810,9 @@ Scene* __cdecl FUN_00471ef0(Form* form,Model* model,int slot,Actor* actor,Scene*
         result=copy.object;
     } else result=loaded->FUN_008257a0(&context);
     TextureSwap* swap=model->GetAsModelTextureSwap();
-    if(swap) swap->FUN_00459180(result);
+    if(swap) swap->TESModelTextureSwap_SwapTextures(result);
     if(form && form->CheckUpdate()) FUN_00479030(result);
-    FUN_004708d0(loaded,result,slot,actor);
+    BipedAnim_AddAddonNodes(loaded,result,slot,actor);
     FUN_004ef0a0(result);
     Retained extra(result->FUN_00824a50(DAT_0106e804));
     result->FUN_00824c30();
@@ -18491,6 +18893,7 @@ struct Self {
     void FUN_0046ef10(void* node, Entry* e, int a, int b);
     void FUN_0046f930();
 };
+// pdb: BGSSceneInfo::CollectSceneDataFromAddonNodes | BGSSceneInfo.obj | fnv360_0822_retail, call_seq, medium
 void Self::FUN_0046f930()
 {
     unsigned int n = DAT_0106cdcc->Count();
@@ -18543,7 +18946,8 @@ struct W2A {
   void FUN_004345e0(W2Obj*);
   bool FUN_007fba00(W2Pt*, void*, bool);
 };
-bool __cdecl FUN_00477bc0(W2A* a, W2Pt* origin, void* arg2, float radius, W2Obj* obj)
+// pdb: PickDistanceRecursive | GlobalFunc.obj | fnv360_0822_retail, call_gap + skyrim(call_gap), high
+bool __cdecl PickDistanceRecursive(W2A* a, W2Pt* origin, void* arg2, float radius, W2Obj* obj)
 {
   bool result = false;
   if (a && obj && (!a->unk11 || !(obj->flags & 1))) {
@@ -18558,7 +18962,7 @@ bool __cdecl FUN_00477bc0(W2A* a, W2Pt* origin, void* arg2, float radius, W2Obj*
         int cnt = n->count;
         for (int i = 0; i < cnt; i++) {
           W2Obj* child = n->children[i];
-          if (FUN_00477bc0(a, origin, arg2, radius, child))
+          if (PickDistanceRecursive(a, origin, arg2, radius, child))
             result = true;
         }
       } else {
@@ -18717,7 +19121,7 @@ void __cdecl FUN_004781c0(Node* n);
 void __cdecl FUN_00887da0(const char* fmt, ...);
 void __cdecl FUN_008da420(Node* n, int a);
 const char* __cdecl FUN_008242a0(const char* s);
-void __cdecl FUN_008d7b20(Node* n, int a, int b);
+void __cdecl bhkWorld_KillHavok(Node* n, int a, int b);
 T* __cdecl FUN_00424fe0(Node* n);
 void __cdecl FUN_008d7b90(Node* n, int a, int b, int c, int d);
 
@@ -18727,6 +19131,8 @@ struct FStr {
     ~FStr() { if (s.p != DAT_00e207a8) ::InterlockedDecrement((LONG*)s.p - 2); }
 };
 
+// pdb: BipedAnim::AttachToParent | BipedAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apSkeleton, apNode, apClonedFromNode, apBipedAnim, aeBipedObject, apfgModel
 void __cdecl FUN_00471830(Root* a0, Node* obj, Node* flag, void* a3, int a4)
 {
     Node* parent = 0;
@@ -18792,7 +19198,7 @@ void __cdecl FUN_00471830(Root* a0, Node* obj, Node* flag, void* a3, int a4)
 
     if (a3) {
         if (a3 == DAT_0107a104->FUN_0076cd20(1)) {
-            FUN_008d7b20(obj, 1, 1);
+            bhkWorld_KillHavok(obj, 1, 1);
             return;
         }
     }
@@ -19058,6 +19464,8 @@ struct Data {
     bool FUN_0047eae0(Form* exactForm,int category,int required,int* outValue,unsigned int formID,Reference* candidate);
 };
 
+// pdb: InventoryChanges::ContainerHasObjects | InventoryChanges.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apObj, aeObjectType, ainumber, aeMatchId, aId, apRef
 bool Data::FUN_0047eae0(Form* exactForm,int category,int required,int* outValue,unsigned int formID,Reference* candidate)
 {
     int total=0;
@@ -19162,7 +19570,7 @@ struct FUN_00460340_anim {
     void* unk54;
     int unk58;
     void FUN_0044db80(int p, float f);
-    void FUN_0045c7f0(float f);
+    void NiControllerManager_DeactivateAll(float f);
 };
 struct FUN_00460340_act {
     virtual void v00();
@@ -19232,7 +19640,6 @@ struct FUN_00460340_heap { void FUN_0086ba60(void* p); };
 extern FUN_00460340_heap g_heap460340;
 extern int (__stdcall* FUN_00d9b064)(void*);
 int __cdecl FUN_006191f0();
-void __cdecl FUN_006c8220_x();
 struct FUN_00460340_list { void FUN_006c8220(); };
 
 struct FUN_00460340_cls {
@@ -19322,26 +19729,28 @@ struct FUN_00460340_cls {
     void* unk120;
     void* unk124;
     FUN_00460340_node unk128;
-    void FUN_0045db50(int i, float f);
+    void Animation_ClearGroup(int i, float f);
     void FUN_0045dca0();
     void FUN_0045feb0(FUN_00460340_res** p);
     void FUN_00460340(int a);
 };
 
+// pdb: Animation::Revert | Animation.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLoadGameBuffer
 void FUN_00460340_cls::FUN_00460340(int a)
 {
     unk114 = 0;
     if (FUN_006191f0() != 1) {
-        FUN_0045db50(7, 0.0f);
+        Animation_ClearGroup(7, 0.0f);
         if (unk114 == 0)
-            FUN_0045db50(0, 0.0f);
+            Animation_ClearGroup(0, 0.0f);
     }
-    FUN_0045db50(1, 0.0f);
+    Animation_ClearGroup(1, 0.0f);
     if (FUN_006191f0() != 1)
-        FUN_0045db50(2, 0.0f);
-    FUN_0045db50(3, 0.0f);
-    FUN_0045db50(5, 0.0f);
-    FUN_0045db50(6, 0.0f);
+        Animation_ClearGroup(2, 0.0f);
+    Animation_ClearGroup(3, 0.0f);
+    Animation_ClearGroup(5, 0.0f);
+    Animation_ClearGroup(6, 0.0f);
     if (unkd8 && unkf0 && unkf0->unk44) {
         if (unkf0->unk58)
             unkd8->FUN_0044db80(unkf0->unk58, 0.0f);
@@ -19368,7 +19777,7 @@ void FUN_00460340_cls::FUN_00460340(int a)
     *(volatile unsigned short*)&unkaa = 0xff;
     *(volatile int*)&unk78 = -1;
     FUN_00460340_anim* an = *(FUN_00460340_anim* volatile*)&unkd8;
-    if (an) an->FUN_0045c7f0(0.0f);
+    if (an) an->NiControllerManager_DeactivateAll(0.0f);
     for (FUN_00460340_node* n = &unk128; n; n = n->unk04)
         g_heap460340.FUN_0086ba60(n->unk00);
     ((FUN_00460340_list*)&unk128)->FUN_006c8220();
@@ -19383,10 +19792,11 @@ struct Mat33 { float m[3][3]; };
 
 struct Mat33_This {
     float m[3][3];
-    bool __thiscall FUN_00475380(Mat33* d);
+    bool __thiscall NiMatrix3_Inverse(Mat33* d);
 };
 
-bool __thiscall Mat33_This::FUN_00475380(Mat33* d)
+// pdb: NiMatrix3::Inverse | GlobalFunc.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(caller), high
+bool __thiscall Mat33_This::NiMatrix3_Inverse(Mat33* d)
 {
     d->m[0][0] = m[2][2] * m[1][1] - m[2][1] * m[1][2];
     d->m[0][1] = m[2][1] * m[0][2] - m[0][1] * m[2][2];
@@ -19494,10 +19904,9 @@ struct EffectItem {
     int unk0C;
     int unk10;
     EffectSetting* setting;
-    int FUN_004022f0();
+    int EffectItem_GetMagnitude();
 };
 
-struct EffectEntry;
 struct EffectNode {
     EffectItem* item;
     EffectNode* next;
@@ -19610,7 +20019,7 @@ float CostOwner::FUN_0047d610(bool applyPerks, Actor* actor, bool isPlayer)
                             if (setting->IsFlag8())
                                 mag = (int)*g_settingF.FUN_00401eb0();
                             else
-                                mag = item->FUN_004022f0();
+                                mag = item->EffectItem_GetMagnitude();
                             result += setting->cost * mag;
                             EffectNode* n = p->head.next;
                             p = n ? (EffectItemList*)((char*)n - 4) : 0;
@@ -19774,6 +20183,8 @@ struct Owner {
 };
 
 
+// pdb: AnimIdle::Loaded | Animation.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apKFModel
 void Owner::FUN_004647c0(Idle* idle)
 {
     TagScope tag(0x33);
@@ -19899,6 +20310,7 @@ struct CmpPtrArray
 };
 
 // @fnv 0x00c63030
+// pdb: NiTArray<NiPointer<NiAVObject>,NiTNewInterface<NiPointer<NiAVObject> > >::Compact | BipedAnim.obj | fnv360_0822_retail, call_seq, high
 void CmpPtrArray::FUN_004712a0()
 {
     if (m_usESize == m_usSize)
@@ -20270,12 +20682,14 @@ unsigned unk058;
 Scene*scene;bool FUN_0076cd40(Holder*);Node*GetRefNode(){Node*r;if(scene)r=scene->node;else r=0;return r;}Node*Get3DSimple(){if(this==DAT_0117c000.actor)return DAT_0117c000.node;return GetRefNode();}};extern Actor*DAT_0107a104;
 struct Bone{unsigned char flags;Node*pParent;};struct Object{Form*pParent;void*model;Node*m_pSceneObject;bool bHasAnimation;};
 extern unsigned DAT_00f4c3d0[];extern const char*DAT_00f4c380[];extern const char DAT_00dbfeb4[];
-void __cdecl FUN_00471830(Node*,Node*,Node*,Holder*,int,Face*);void __cdecl FUN_004f37d0(Node*);
+void __cdecl FUN_00471830(Node*,Node*,Node*,Holder*,int,Face*);void __cdecl TESObjectREFR_AddAddonNodes(Node*);
 struct Holder{Node*root;Bone bone[5];Object object[20];Object previous[20];float fade;Actor*m_pActor;
 Node*FUN_00473ab0(Node*,int,bool,bool,Face*);
-void ApplyReferenceExtraData(Node*model,Node*clone,int,Actor*){Extra*e=model->FUN_00824a50(DAT_0116d6e0);if(e&&e->Test())FUN_004f37d0(clone);}
+void ApplyReferenceExtraData(Node*model,Node*clone,int,Actor*){Extra*e=model->FUN_00824a50(DAT_0116d6e0);if(e&&e->Test())TESObjectREFR_AddAddonNodes(clone);}
 void FUN_00473c50(Face*,Node*,int);
 };
+// pdb: BipedAnim::AttachHelmet | BipedAnim.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apfgModel, apNode, aeBipedObject
 void Holder::FUN_00473c50(Face* apFaceGenModel, Node* apNode, int aeBipedObject)
 {
     Node* pcloneNode = 0;
@@ -20444,9 +20858,10 @@ struct Proc {
     EntryList f128;
     void FUN_00460090(int a, int b);
     bool FUN_00461a70(Target* t, int a);
-    void* FUN_00461690(int a, int b, int c, int d);
+    void* Animation_PlayGroup(int a, int b, int c, int d);
     bool FUN_00463650();
 };
+// pdb: Animation::SpecialIdlePlay | Animation.obj | fnv360_0721_beta, call_seq, medium
 bool Proc::FUN_00463650()
 {
     if (f11c)
@@ -20466,14 +20881,14 @@ bool Proc::FUN_00463650()
             {
                 int a4 = f118->f14;
                 Inner* o = t->f8;
-                r = FUN_00461690(o->FUN_0054bef0(), 1, -1, a4);
+                r = Animation_PlayGroup(o->FUN_0054bef0(), 1, -1, a4);
             }
             else
             {
                 int a4 = f118->f14;
                 Form* f = f118->f2c;
                 Inner* o = t->f8;
-                r = FUN_00461690(o->FUN_0054bef0(), 1, f->FUN_00552ad0(), a4);
+                r = Animation_PlayGroup(o->FUN_0054bef0(), 1, f->FUN_00552ad0(), a4);
             }
             if (r)
             {
@@ -20955,11 +21370,13 @@ public:
     int unk2a8;
     int unk2ac;
     TESObjectREFR* m_pRequester;                      // +0x2b0
-    static BSShaderPPLightingProperty* FindLightingShaderProperty(NiAVObject* obj);             // FUN_00470900
+    static BSShaderPPLightingProperty* FindLightingShaderProperty(NiAVObject* obj);             // BipedAnim_GetLightingProperty
     static BIPED_OBJECT GetSkinBipedObject(NiAVObject* obj, BSShaderPPLightingProperty* prop); // FUN_00470960
     void FUN_004730a0(NiAVObject* apObj, bool abForceReadjust);
 };
 
+// pdb: BipedAnim::AdjustSkinComplexion | BipedAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apObj, abForceReadjust
 void BipedAnim::FUN_004730a0(NiAVObject* apObj, bool abForceReadjust)
 {
     BSShaderPPLightingProperty* plightprop = FindLightingShaderProperty(apObj);
@@ -21031,6 +21448,8 @@ int __cdecl FUN_0058ef70(String* name,int,int,int,int,int,int);
 struct Loader {
     int FUN_00471b70(int index);
 };
+// pdb: BipedAnim::LoadFaceGenModel | BipedAnim.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeBipedObject
 int Loader::FUN_00471b70(int index) {
     DAT_00d9b09c(&DAT_0106e334);
     Model* model=*reinterpret_cast<Model**>(reinterpret_cast<char*>(this)+(index+3)*16);
@@ -21069,7 +21488,7 @@ struct ZObj {
     void* FUN_00825200(void* rtti);
     void FUN_00825110(void* o);
     void FUN_008a8d50();
-    void FUN_0045c7f0(float t);
+    void NiControllerManager_DeactivateAll(float t);
     ZObj* unk2C;
 };
 
@@ -21131,10 +21550,6 @@ extern ZMgr* DAT_0106ca70;
 
 extern int DAT_01091f0c;
 extern int DAT_01091f6c;
-
-struct ZHolder {
-    void FUN_004609a0();
-};
 
 struct FUN_004613b0 {
     int unk00;
@@ -21218,6 +21633,7 @@ struct FUN_004613b0 {
 
 using namespace f3m_004613b0;
 
+// pdb: Animation::~Animation | Animation.obj | fnv360_0822_retail, call_seq, medium
 FUN_004613b0::~FUN_004613b0()
 {
     FUN_004609a0();
@@ -21229,7 +21645,7 @@ FUN_004613b0::~FUN_004613b0()
             unk08.p->FUN_00825110(a);
         if (b)
             unk08.p->FUN_00825110(b);
-        unkD8->FUN_0045c7f0(0.0f);
+        unkD8->NiControllerManager_DeactivateAll(0.0f);
         unkD8->FUN_008a8d50();
         ZObj* o = unkD8->unk2C;
         if (o && o->v0C())
@@ -21278,7 +21694,7 @@ struct S47f4b0_Form {
     int unk00;
     unsigned char type;               // 0x04
     unsigned int flags;               // 0x08
-    bool FUN_00518c40(void* a, int b);
+    bool Script_Run(void* a, int b);
     bool IsFlag3() const { return (flags >> 3) & 1; }
 };
 
@@ -21305,7 +21721,7 @@ struct S47f4b0_ItemNode {
 
 struct S47f4b0_Sub {
     void FUN_0040b510(int);
-    void FUN_0040a6b0(int);
+    void ExtraDataList_RemoveAllCopyableExtra(int);
 };
 
 struct S47f4b0_Triple { int a, b, c; };
@@ -21317,7 +21733,7 @@ struct S47f4b0_Glob {
     int unk3c;                        // 0x3c
     S47f4b0_Sub unk40;                // 0x40
     void FUN_004e72f0(void* p);
-    void FUN_004e8670(int v);
+    void TESObjectREFR_SetObjectReference(int v);
 };
 namespace S47f4b0_g { extern S47f4b0_Glob* DAT_0106ea24; }
 using S47f4b0_g::DAT_0106ea24;
@@ -21350,6 +21766,8 @@ struct S47f4b0_Owner {
     bool FUN_0047f4b0(S47f4b0_Param* param);
 };
 
+// pdb: InventoryChanges::RunScripts | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pOwner
 bool S47f4b0_Owner::FUN_0047f4b0(S47f4b0_Param* param)
 {
     unk10 = false;
@@ -21377,11 +21795,11 @@ bool S47f4b0_Owner::FUN_0047f4b0(S47f4b0_Param* param)
                 if (form && form->IsFlag3()) {
                     if (form->type == 0x11) {
                         DAT_0106ea24->FUN_004e72f0(e);
-                        DAT_0106ea24->FUN_004e8670(item->unk08);
-                        if (form->FUN_00518c40(DAT_0106ea24, e->FUN_0040ad00(param, 0)))
+                        DAT_0106ea24->TESObjectREFR_SetObjectReference(item->unk08);
+                        if (form->Script_Run(DAT_0106ea24, e->FUN_0040ad00(param, 0)))
                             result = true;
                         DAT_0106ea24->unk40.FUN_0040b510(0);
-                        DAT_0106ea24->unk40.FUN_0040a6b0(1);
+                        DAT_0106ea24->unk40.ExtraDataList_RemoveAllCopyableExtra(1);
                     }
                     if (unk10)
                         break;
@@ -21394,7 +21812,7 @@ bool S47f4b0_Owner::FUN_0047f4b0(S47f4b0_Param* param)
             node = node->unk04;
         }
         DAT_0106ea24->unk3c = 0;
-        DAT_0106ea24->FUN_004e8670(0);
+        DAT_0106ea24->TESObjectREFR_SetObjectReference(0);
     }
     DAT_0106ea80.Unlock();
     return result;
@@ -21429,6 +21847,8 @@ struct Entry {
 
 
 namespace S0047cf30_ {
+// pdb: ItemChange::GetItemHealth | InventoryChanges.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: BGSBipedModelList::GetFormAsBipedModelList)
+// pdb params: abPercentage
 float Entry::FUN_0047cf30(bool percent)
 {
     TESHealthForm* base = FUN_004566c0(object);
@@ -21571,6 +21991,8 @@ struct ScaledShapeD {
     void FUN_0046d800(float scale);
 };
 
+// pdb: BGSPrimitiveSphere::SetRadius | BGSPrimitive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: fRadius
 void ScaledShapeD::FUN_0046d800(float scale)
 {
     scale = fabs(scale);
@@ -21734,6 +22156,8 @@ struct FUN_0083f490
 
 void __cdecl FUN_00ade300(FUN_0083f490* shape, int a, int b);
 
+// pdb: MakeTriPoint | GlobalFunc.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afDrawSize, aColor, abWithNoLightingProp
 FUN_0083f490* FUN_00479c00(float radius, const FUN_0046c350* color, bool addProperty)
 {
     NiPoint3* vertices = (NiPoint3*)DAT_01090a78.FUN_0086b930(6 * sizeof(NiPoint3));
@@ -21868,10 +22292,12 @@ struct Owner {
         animIdA2[i * 3] = 0xff;
         unk68[i].unk00 = -1;
     }
-    void FUN_00461690(int id, int a, int b, int c);
+    void Animation_PlayGroup(int id, int a, int b, int c);
     void FUN_004617a0(float t);
 };
 
+// pdb: Animation::SetLipTime | Animation.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: afPercent
 void Owner::FUN_004617a0(float t)
 {
     if (t == 0.0f) {
@@ -21882,7 +22308,7 @@ void Owner::FUN_004617a0(float t)
         return;
     }
     if (!anims[0].anim) {
-        FUN_00461690(0xa6, 1, -1, -1);
+        Animation_PlayGroup(0xa6, 1, -1, -1);
         if (anims[0].anim)
             anims[0].anim->FUN_008ae930(anims[0].anim->unk2C + unkD0, true);
     }
@@ -21983,6 +22409,7 @@ struct FUN_00460660 {
     FUN_00460660();
 };
 
+// pdb: Animation::Animation | Animation.obj | fnv360_0822_retail, call_gap, medium
 FUN_00460660::FUN_00460660() : unk108(0), unk12c(0)
 {
     unk08 = 0;
@@ -22060,6 +22487,8 @@ inline bool IsKindOf7e00(U7e00* o, const TypeInfo* type)
     return false;
 }
 
+// pdb: FindHeaviestRigidBody | GlobalFunc.obj | fnv360_0822_retail, objrun, medium
+// pdb params: ap3D
 T7e00* __cdecl FUN_00477e00(T7e00* obj)
 {
     if (obj)
@@ -22378,6 +22807,8 @@ struct Owner
     void FUN_004704a0(Object* object, bool force);
 };
 
+// pdb: BGSTextureUseMap::CollectTexUseDataRecursive | BGSTextureUseMap.obj | fnv360_0822_retail, call_gap, low
+// pdb params: ap3D, abCheckActors
 void Owner::FUN_004704a0(Object* object, bool force)
 {
     Pair pair;
@@ -22481,6 +22912,7 @@ struct F3List_478ab0
     int iSaved14;
 };
 
+// pdb: GetHavokWorldObjectIndex | GlobalFunc.obj | fnv360_0822_retail, objrun, low
 void __cdecl FUN_00478ab0(void* pHolder, F3List_478ab0* pList)
 {
     F3Node_478ab0* pNode = *(F3Node_478ab0**)((char*)pHolder + 0x10);
@@ -22517,10 +22949,11 @@ struct Manager {
     unsigned short unk10;
     unsigned short count;
 
-    void FUN_00474930(Arg* arg);
+    void BSAnimNoteReceiver_Update(Arg* arg);
 };
 
-void Manager::FUN_00474930(Arg* arg)
+// pdb: BSAnimNoteReceiver::Update | BSAnimNoteReceiver.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Manager::BSAnimNoteReceiver_Update(Arg* arg)
 {
     for (unsigned int i = 0; i < count; ++i) {
         Entry* entry = entries[i];
@@ -22573,7 +23006,7 @@ struct Data {
     int unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
     int unk80, unk84;
     Ent* ent;
-    bool FUN_006daa00();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
 };
 
 struct Node {
@@ -22592,13 +23025,14 @@ extern Data* DAT_01079ca4;
 extern bool DAT_01079d20;
 extern const char DAT_00dc0bd0[];
 extern const char DAT_00db4360[];
-Obj* __cdecl FUN_00455190(int form);
+Obj* __cdecl TESForm_GetFormByNumericID(int form);
 void __cdecl FUN_00c24b70(const char* fmt, ...);
 
+// pdb: ItemChange::GetSaveSize | InventoryChanges.obj | fnv360_0721_retail, call_seq, medium
 unsigned short Item::FUN_0047dca0()
 {
     unsigned short size = 0;
-    if (DAT_01079ca4->FUN_006daa00())
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks())
         size = 6;
     size += 12;
     for (Node* n = head; n; n = n->next) {
@@ -22609,7 +23043,7 @@ unsigned short Item::FUN_0047dca0()
     if (DAT_01079d20) {
         Ent* e = DAT_01079ca4->ent;
         if (e) {
-            Obj* o = FUN_00455190(e->form);
+            Obj* o = TESForm_GetFormByNumericID(e->form);
             FUN_00c24b70(DAT_00db4360, size, e->form, o->GetId(), *(int*)&e->b5, 0x530, DAT_00dc0bd0);
         }
     }
@@ -22623,6 +23057,8 @@ namespace Visit47df50 {
 struct Item {void FUN_00419d30(void*,void*);};
 struct Node {Item* item;Node* next;};
 struct List {Node* head;int unk04;void* context;void FUN_0047df50(void*);};
+// pdb: ItemChange::InitLoadGame | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apLoadGameBuffer
 void List::FUN_0047df50(void* arg){for(Node* node=head;node;node=node->next){if(node->item)node->item->FUN_00419d30(arg,context);}}
 }
 }   // namespace f3m_0047df50
@@ -22637,6 +23073,7 @@ struct Object {
  void FUN_0047b180(float a,float b,float c);
 };
 inline unsigned bits(float f) { return *reinterpret_cast<unsigned*>(&f); }
+// pdb: Actor::ModHeading | Actor.obj | tesv_win, objrun_open, low
 void Object::FUN_0047b180(float a,float b,float c) {
  struct Triple {float x,y,z;}; volatile Triple local;
  local.x=a; x=*reinterpret_cast<volatile unsigned*>(&local.x);
@@ -22653,6 +23090,7 @@ namespace Visit478b30 {
 struct Item {int unk00,unk04;void* value;};
 struct Input {int unk00,unk04,unk08,unk0c;Item* item;};
 struct Output {int unk00,unk04,unk08;int count;void* selected;int target;};
+// pdb: GetHavokWorldObjectByIndex | GlobalFunc.obj | fnv360_0822_retail, objrun, low
 void FUN_00478b30(Input* input,Output* output) {
  Item* item=input->item;
  if(item) {
@@ -22674,6 +23112,8 @@ struct Entry {unsigned first,second;};
 struct Object {int unk00,unk04,unk08;Entry** data;unsigned short capacity,count;
  int FUN_004748f0(unsigned first,unsigned second);
 };
+// pdb: BSAnimNoteReceiver::Registered | BSAnimNoteReceiver.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aeType, apCallbackFunc
 int Object::FUN_004748f0(unsigned first,unsigned second) {
  int result=-1;
  for(unsigned i=0;i<count;++i)if(data[i]->first==first && data[i]->second==second)result=i;
@@ -22691,9 +23131,10 @@ struct Object {
  virtual void v10();virtual void v14();virtual void v18();virtual void remove(unsigned,unsigned);
  int unk04,unk08;unsigned dimension;Item** data;
  Item** at(unsigned row,unsigned col){if(row<dimension && col<dimension)return data+row*dimension+col;return 0;}
- void FUN_0047b370(unsigned,unsigned);
+ void GridCellArray_Detach(unsigned,unsigned);
 };
-void Object::FUN_0047b370(unsigned row,unsigned col) {
+// pdb: GridCellArray::Detach | GridCell.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable_prefix), high
+void Object::GridCellArray_Detach(unsigned row,unsigned col) {
  Item* item=*at(row,col);
  if(item){item->FUN_004e50d0(1);remove(row,col);}
 }
@@ -22767,6 +23208,7 @@ virtual bool predicate();};struct CastResult {int unk00;float value;};
 extern char DAT_00f4621c[],DAT_00f460fc[];extern float DAT_00db38b8;
 CastResult* FUN_00c0050a(Base*,int,void*,void*,int);
 struct Object {int unk00,unk04;Base* object;float FUN_0047cb80(void*,void*,void*);};
+// pdb: InventoryChanges::ResetCachedWeights | InventoryChanges.obj | fnv360_1110_retail, objrun, medium
 float Object::FUN_0047cb80(void*,void*,void*){float result=DAT_00db38b8;CastResult* cast=FUN_00c0050a(object,0,DAT_00f460fc,DAT_00f4621c,0);if(cast){result=cast->value;if(object->predicate())result=0;}return result;}
 }
 
@@ -22776,11 +23218,12 @@ namespace f3m_00468d80 {
 namespace n468d80 {
 struct Matrix3 {
     float m[3][3];
-    void FUN_00468d80(float angle);
+    void NiMatrix3_MakeZRotation(float angle);
 };
 }
 
-void n468d80::Matrix3::FUN_00468d80(float angle)
+// pdb: NiMatrix3::MakeZRotation | BGSDecalManager.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_gap) + skyrim(call_gap), high
+void n468d80::Matrix3::NiMatrix3_MakeZRotation(float angle)
 {
     float s,c;
     fnv_SinCos(angle,s,c);
@@ -22827,16 +23270,18 @@ struct Node {
 };
 struct Owner {
     int unk00;
-    bool FUN_0045cc40();
+    bool Animation_ShouldQueueSequenceCloning();
     void FUN_00461a70(int value, bool flag);
     void FUN_004646a0(Node* list);
 };
+// pdb: Animation::AddAnimationsFromList | Animation.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apFileList
 void Owner::FUN_004646a0(Node* list)
 {
     if (!list)
         return;
     TagScope scope(0x33);
-    bool flag = FUN_0045cc40();
+    bool flag = Animation_ShouldQueueSequenceCloning();
     while (!list->FUN_00645c20()) {
         Item* item = list->item;
         int value=DAT_0106ca70->FUN_0042cff0(item);
@@ -22893,6 +23338,8 @@ struct Owner {
     void FUN_00460600(Item* item, int unused);
 };
 
+// pdb: AnimSequenceMultiple::SetSequence | Animation.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSeq, abReleaseModelLoader
 void Owner::FUN_00460600(Item* item, int unused)
 {
     item->IncRef();
@@ -22906,7 +23353,7 @@ namespace c47def0 {
 struct Stream {
     void FUN_006e17e0(int value, int flags);
     void FUN_006e1830(void* data, int size, int flags);
-    int FUN_006e16c0();
+    int BGSSaveGameBuffer_StartVariableSizedValue();
     void FUN_006e16e0(int count, int position);
 };
 struct Item { void FUN_00415080(Stream* stream); };
@@ -22921,12 +23368,14 @@ struct Owner {
     void FUN_0047def0(Stream* stream);
 };
 
+// pdb: ItemChange::SaveGame | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSaveGameBuffer
 void Owner::FUN_0047def0(Stream* stream)
 {
     stream->FUN_006e17e0(unk08, 0);
     stream->FUN_006e1830(&unk04, 4, 0);
     int count = 0;
-    int position = stream->FUN_006e16c0();
+    int position = stream->BGSSaveGameBuffer_StartVariableSizedValue();
     for (Node* node = head; node; node = node->next) {
         if (node->item) {
             node->item->FUN_00415080(stream);
@@ -22994,6 +23443,7 @@ void* FUN_0089eb90(unsigned);void FUN_0089e850(void*);extern char DAT_00f72574,D
 struct Pair {float x,y;Pair(float a,float b):x(a),y(b){}};
 struct FUN_0046c0f0 {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; int unkdc; int unke0; int unke4; int unke8; int unkec; int unkf0; int unkf4; int unkf8;FUN_0046c0f0(void*,const Pair&,void*);static void* operator new(unsigned n){return FUN_0089eb90(n);}static void operator delete(void*p){FUN_0089e850(p);}};
 struct Object {int unk00,unk04,unk08,unk0c,unk10,unk14;float x;int unk1c;float y;FUN_0046c0f0* FUN_0046c200();};
+// pdb: BGSPrimitivePlane::MakeOcclusionPlane | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
 FUN_0046c0f0* Object::FUN_0046c200(){return new FUN_0046c0f0(&DAT_0108ec68,Pair(x,y),&DAT_00f72574);}
 }
 }   // namespace f3m_0046c200
@@ -23003,6 +23453,8 @@ namespace f3m_00477fa0 {
 namespace Find331 {
 struct Controller {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18;int type;};struct Object{virtual void v0();virtual void v4();virtual void v8();virtual Object* node();virtual void v10();virtual void v14();virtual void* leaf();int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; Object** children;unsigned short capacity,count;Controller* FUN_00826590(int);};
 int valid(Controller* c){return c->type>=7&&c->type<=11;}
+// pdb: FindPerPixelLighting_Recurse | GlobalFunc.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apNode
 Controller* FUN_00477fa0(Object* object){unsigned short count=object->count;Controller* result=0;if(!count)return 0;for(unsigned i=0;i<count&&!result;++i){Object* child=object->children[i];if(child){if(child->node())result=FUN_00477fa0(child);else if(child->leaf()){Controller* c=child->FUN_00826590(3);if(c){c=valid(c)?c:0;if(c)return c;}}}}return result;}
 }
 }   // namespace f3m_00477fa0
@@ -23010,6 +23462,8 @@ Controller* FUN_00477fa0(Object* object){unsigned short count=object->count;Cont
 // @f3 0x004775e0 (community match, verified in this file)
 namespace f3m_004775e0 {
 namespace Insert340 {
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned int,VertexDist> >,unsigned int,VertexDist>::SetAt | GlobalFunc.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: key, val
 struct Vec3{float x,y,z;};struct Node{Node* next;int key;Vec3 value;};struct Map{virtual void v0();virtual unsigned hash(int);virtual bool equal(int,int);virtual void initialize(Node*,int,Vec3);virtual void v10();virtual Node* create();unsigned capacity;Node** table;unsigned size;void FUN_004775e0(int,Vec3);};void Map::FUN_004775e0(int key,Vec3 value){unsigned index=hash(key);Node* node=table[index];while(node){if(equal(key,node->key)){node->value=value;return;}node=node->next;}node=create();initialize(node,key,value);node->next=table[index];table[index]=node;++size;}
 }
 }   // namespace f3m_004775e0
@@ -23017,7 +23471,8 @@ struct Vec3{float x,y,z;};struct Node{Node* next;int key;Vec3 value;};struct Map
 // @f3 0x0047b460 (community match, verified in this file)
 namespace f3m_0047b460 {
 namespace Swap345 {
-struct Matrix{virtual void v0();virtual void v4();virtual void v8();virtual void vc();virtual void v10();virtual void v14();virtual void v18();virtual void clear(unsigned,unsigned);int unk04,unk08;unsigned size;int* data;int* get(unsigned r,unsigned c){return r<size&&c<size?data+r*size+c:0;}void set(unsigned r,unsigned c,const int* value){if(r<size&&c<size){if(value)data[r*size+c]=*value;else clear(r,c);}}void FUN_0047b460(unsigned,unsigned,unsigned,unsigned);};void Matrix::FUN_0047b460(unsigned r,unsigned c,unsigned r2,unsigned c2){int temp=*get(r,c);set(r,c,get(r2,c2));set(r2,c2,&temp);}
+// pdb: GridCellArray::SwapItem | GridCell.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable_prefix), high
+struct Matrix{virtual void v0();virtual void v4();virtual void v8();virtual void vc();virtual void v10();virtual void v14();virtual void v18();virtual void clear(unsigned,unsigned);int unk04,unk08;unsigned size;int* data;int* get(unsigned r,unsigned c){return r<size&&c<size?data+r*size+c:0;}void set(unsigned r,unsigned c,const int* value){if(r<size&&c<size){if(value)data[r*size+c]=*value;else clear(r,c);}}void GridCellArray_SwapItem(unsigned,unsigned,unsigned,unsigned);};void Matrix::GridCellArray_SwapItem(unsigned r,unsigned c,unsigned r2,unsigned c2){int temp=*get(r,c);set(r,c,get(r2,c2));set(r2,c2,&temp);}
 }
 }   // namespace f3m_0047b460
 
@@ -23029,6 +23484,7 @@ struct Ref{virtual void v0();virtual void destroy();volatile long refs;void rele
 struct Ptr{Ref* p;void clear(){Ref* old=p;if(old){old->release();p=0;}}};
 struct Base{Base();virtual ~Base();int kind,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;Ptr a;int unk28;Ptr b;};
 struct FUN_0046db30:Base{FUN_0046db30();virtual ~FUN_0046db30();};
+// pdb: BGSPrimitivePlane::BGSPrimitivePlane | BGSPrimitive.obj | fnv360_0822_retail, uvref, medium
 FUN_0046db30::FUN_0046db30(){a.clear();b.clear();kind=3;}
 }
 
@@ -23093,10 +23549,11 @@ struct Owner
         return FUN_0045ba50(object, arg);
     }
 
-    const char* FUN_0047d500(int arg);
+    const char* ItemChange_GetIconOne(int arg);
 };
 
-const char* Owner::FUN_0047d500(int arg)
+// pdb: ItemChange::GetIconOne | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+const char* Owner::ItemChange_GetIconOne(int arg)
 {
     const char* path = GetModelPath(arg);
     if (path && *path)
@@ -23131,9 +23588,10 @@ class Grid47b { public:                                   // ORIG: thiscall memb
                       void** dataAt10;               // +0x10: a POINTER FIELD that their build LOADS before indexing ('mov ecx,dword ptr [ecx+10h]' ✗✓ then 'lea eax,[ecx+eax*4]' off
                                      //     that loaded base ✓ ) - my second pass had this as an inline array member and so emitted no load at all, costing two bytes of extent ✗✓ It is a pointer to the row-major cell run, not the cells
                                      //     themselves ✓ (that extra indirection is also why their index math adds four-times-the-combined-index to a REGISTER rather than to the receiver with a displacement ✓ ) 
-                      void FUN_0047b250(unsigned long row, unsigned long column, void* value); };   // ORIG: three stack parameters, callee cleans twelve bytes ✗✓ all of them full
+                      void GridCellArray_Set(unsigned long row, unsigned long column, void* value); };   // ORIG: three stack parameters, callee cleans twelve bytes ✗✓ all of them full
                                                   //     32-bit values here - no movzx anywhere on those operands ✓ 
-void Grid47b::FUN_0047b250(unsigned long row, unsigned long column, void* value) {   // ORIG: 'push edi ; mov edi,[esp+4+arg_8] ; test edi,edi' ✓✗→✓ the
+// pdb: GridCellArray::Set | GridCell.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap_sim), high
+void Grid47b::GridCellArray_Set(unsigned long row, unsigned long column, void* value) {   // ORIG: 'push edi ; mov edi,[esp+4+arg_8] ; test edi,edi' ✓✗→✓ the
                                      //     third parameter fetched into a saved register FIRST and tested against null before anything else in the function ✗ 
     if (value != 0) {                               // v3 POLARITY FIX ✓✗→✓✓ their build is 'test edi,edi ; je L_0038' - the virtual path being a block placed at the END of
                                        //     the function that the null case JUMPS TO ✓ while the storing path is the fall-through ✗ My second pass wrote the inverse condition and this compiler put the store in a jumped-over middle
@@ -23183,6 +23641,7 @@ struct Holder {
     RefObj* c;
     void FUN_0046c840();
 };
+// pdb: BGSPrimitive::ClearGeometryData | BGSPrimitive.obj | fnv360_0822_retail, call_gap, low
 void Holder::FUN_0046c840()
 {
     if (a) { RefObj* p = a; if (InterlockedDecrement(&p->refCount) == 0) p->DeleteThis(); a = 0; }
@@ -23205,7 +23664,8 @@ public:
     virtual void* vf18();                            
     struct Child470* FUN_00826590(unsigned int kind);   
 };
-void* FUN_00470900(Object470* object) {
+// pdb: BipedAnim::GetLightingProperty | BipedAnim.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void* BipedAnim_GetLightingProperty(Object470* object) {
  if(object && object->vf18()) {
   object->FUN_00826590(2);
   object->FUN_00826590(5);
@@ -23242,6 +23702,8 @@ struct Owner_4707c0 {
 };
 struct Finder_4707c0 { bool FUN_0055f640(Owner_4707c0* owner, int key, char* out); };
 
+// pdb: BipedAnim::QueueSkinTexture | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNpc, aeBipedObject, aePriority, apParent
 void __stdcall FUN_004707c0(Owner_4707c0* owner, int key, int a3, int a4)
 {
     char path[0x104];
@@ -23389,9 +23851,10 @@ struct Owner {
     unsigned int unk100;
     FUN_006c8220 pending;
     bool FUN_0045c980();
-    void FUN_004610b0();
+    void Animation_ClearBlendInterps();
 };
-void Owner::FUN_004610b0() {
+// pdb: Animation::ClearBlendInterps | Animation.obj | fnv360_0822_retail, udata + bridge(call_gap|call_gap), high
+void Owner::Animation_ClearBlendInterps() {
     if (graph) {
         unsigned int count = graph->size;
         for (int i = 0; i < count; ++i) {
@@ -23522,6 +23985,8 @@ struct Owner {
     float FUN_0047cf30(int mode);
     float FUN_0047d400(int unused);
 };
+// pdb: ItemChange::GetModifiedArmorRating | InventoryChanges.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apActor
 float Owner::FUN_0047d400(int unused) {
     float result = -1.0f;
     Form* item = form;
@@ -23615,6 +24080,7 @@ struct Owner {
     Source* source;
     bool FUN_0047ed10();
 };
+// pdb: InventoryChanges::HasQuestObject | InventoryChanges.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: InventoryChanges::RemoveDefaultLeveledItems)
 bool Owner::FUN_0047ed10() {
     bool found = false;
     BaseData* data = source ? source->FUN_004e66c0() : 0;
@@ -23713,6 +24179,8 @@ struct FUN_00461930 : Base
     FUN_00461930(Source* source);
 };
 
+// pdb: AnimSequenceMultiple::AnimSequenceMultiple | Animation.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSingleSeq
 FUN_00461930::FUN_00461930(Source* source)
 {
     *(void***)this = DAT_00dbe448;
@@ -24145,6 +24613,8 @@ bool __cdecl FUN_004eb950(SceneObject* object); CollisionResult* __cdecl FUN_004
 void __cdecl FUN_0046e700(int key,int amount,int** counter);
 struct Statistics { unsigned int unk00; Counters counters; void FUN_0046ef10(SceneObject* object,Counters* supplied,bool descendActors,Node* parent); };
 static __forceinline int TextureKindValue(Property* property) { if(!property || property->kind < 7 || property->kind > 11) return 0; return 1; }
+// pdb: BGSSceneInfo::CollectSceneDataRecursive | BGSSceneInfo.obj | fnv360_0822_retail, ustr, medium
+// pdb params: ap3D, pStructToFill, abTrackActors, apParent
 void Statistics::FUN_0046ef10(SceneObject* object, Counters* supplied, bool descendActors, Node* parent)
 {
     Counters* stats = supplied ? supplied : &counters;
@@ -24290,11 +24760,13 @@ void Statistics::FUN_0046ef10(SceneObject* object, Counters* supplied, bool desc
 #pragma pack(pop)
 namespace f3m_0047f8b0 {
 namespace Small528 {
-struct Writer {virtual unsigned Position();unsigned unk04,unk08,unk0c,unk10;unsigned char unk14,unk15,unk16;unsigned char flags17[4];unsigned char unk1b,unk1c,unk1d,unk1e,unk1f;unsigned position20;unsigned& Flags(){return *reinterpret_cast<unsigned*>(flags17);}unsigned FUN_006e16c0();void FUN_006e16e0(unsigned,unsigned);};
+struct Writer {virtual unsigned Position();unsigned unk04,unk08,unk0c,unk10;unsigned char unk14,unk15,unk16;unsigned char flags17[4];unsigned char unk1b,unk1c,unk1d,unk1e,unk1f;unsigned position20;unsigned& Flags(){return *reinterpret_cast<unsigned*>(flags17);}unsigned BGSSaveGameBuffer_StartVariableSizedValue();void FUN_006e16e0(unsigned,unsigned);};
 struct Item {void FUN_0047def0(Writer*);};
 struct Node {Item* item;Node* next;};
 struct Owner {Node* head;void FUN_0047f8b0(Writer*);};
-void Owner::FUN_0047f8b0(Writer* writer){unsigned oldPosition=writer->Position();unsigned oldFlags=writer->Flags();unsigned count=0;writer->position20=0;writer->Flags()=0x400;unsigned marker=writer->FUN_006e16c0();for(Node* node=head;node;node=node->next){if(node->item){node->item->FUN_0047def0(writer);++count;}}writer->FUN_006e16e0(count,marker);writer->position20=oldPosition;writer->Flags()=oldFlags;}
+// pdb: InventoryChanges::SaveGame | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSaveGameBuffer
+void Owner::FUN_0047f8b0(Writer* writer){unsigned oldPosition=writer->Position();unsigned oldFlags=writer->Flags();unsigned count=0;writer->position20=0;writer->Flags()=0x400;unsigned marker=writer->BGSSaveGameBuffer_StartVariableSizedValue();for(Node* node=head;node;node=node->next){if(node->item){node->item->FUN_0047def0(writer);++count;}}writer->FUN_006e16e0(count,marker);writer->position20=oldPosition;writer->Flags()=oldFlags;}
 }
 
 }   // namespace f3m_0047f8b0
@@ -24304,6 +24776,8 @@ void Owner::FUN_0047f8b0(Writer* writer){unsigned oldPosition=writer->Position()
 namespace f3m_00464d70 {
 namespace Small533 {
 struct Point {float x,y,z;};
+// pdb: CloseTo | BGSAutoWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arP1, arP2, afEpsilon
 int __cdecl FUN_00464d70(const Point* a,const Point* b,float tolerance){float x=a->x-b->x;x=(float)fabs(x);if(x<=tolerance){float y=a->y-b->y;y=(float)fabs(y);if(y<=tolerance){float z=a->z-b->z;z=(float)fabs(z);if(z<=tolerance)return 1;}}return 0;}
 }
 }   // namespace f3m_00464d70
@@ -24337,7 +24811,8 @@ struct Table {
 };
 Table* FUN_0046b690();
 extern int DAT_0106def4, DAT_0106def8, DAT_0106defc, DAT_0106df00;
-void FUN_0046b790() {
+// pdb: BGSDecalManager::RemoveAllDecals | BGSDecalManager.obj | fnv360_0822_retail, udata, high
+void BGSDecalManager_RemoveAllDecals() {
     DAT_0106def4 = 0;
     DAT_0106def8 = 0;
     DAT_0106defc = 0;
@@ -24783,9 +25258,9 @@ unsigned unk050;
 unsigned unk054;
 unsigned unk058;
 unsigned unk05c;
-FUN_004f9970();static void* operator new(unsigned n) throw(){return DAT_01090a78.FUN_0086b930(n);} static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);}void FUN_004e8670(void*);void FUN_004553b0();void FUN_004fa540();};
+FUN_004f9970();static void* operator new(unsigned n) throw(){return DAT_01090a78.FUN_0086b930(n);} static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);}void TESObjectREFR_SetObjectReference(void*);void FUN_004553b0();void FUN_004fa540();};
 struct Terrain {Vec* FUN_004c8ff0(Vec*,int);};
-struct Cell {Terrain* FUN_004d5270();float FUN_004d5350();World* FUN_004d5710();void FUN_004e52d0(FUN_004f9970*,int);};
+struct Cell {Terrain* TESObjectCELL_GetLand();float FUN_004d5350();World* TESObjectCELL_GetWaterType();void TESObjectCELL_AddReference(FUN_004f9970*,int);};
 struct Work {unsigned unk000,unk004,unk008,unk00c,unk010,unk014,unk018,unk01c,unk020,unk024,unk028;Object* first;Geometry* second;Object* GetFirst(){return first;} Geometry* GetSecond(){return second;} void FUN_00aabf90();};
 struct Node {Node* next;Node* prev;Work* data;};
 struct List {Node* first;Node* last;unsigned count;void FUN_005878f0();void FUN_00469b60();void FUN_00ade560(Node*);
@@ -24793,10 +25268,12 @@ __forceinline void Remove(Node* node){if(node==first)FUN_005878f0();else if(node
 };extern List* DAT_0106dee0;
 extern bool DAT_01072a48;
 void FUN_00ade300(Object*,int,int);
+// pdb: BGSAutoWater::GeneratePlaceableWater | BGSAutoWater.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apCell
 void FUN_00466330(Cell* cell){
  Assign464b10::TagScope tag(0x1d);
  if(DAT_0106dee0){
- float x,y;{Vec b1;x=cell->FUN_004d5270()->FUN_004c8ff0(&b1,0)->x;Vec b2;y=cell->FUN_004d5270()->FUN_004c8ff0(&b2,0)->y;}
+ float x,y;{Vec b1;x=cell->TESObjectCELL_GetLand()->FUN_004c8ff0(&b1,0)->x;Vec b2;y=cell->TESObjectCELL_GetLand()->FUN_004c8ff0(&b2,0)->y;}
  float z=cell->FUN_004d5350();
  Vec position(x,y,z);bool updated=false;
  Node* node=DAT_0106dee0->first;if(node)do {
@@ -24808,7 +25285,7 @@ void FUN_00466330(Cell* cell){
    work->second->FUN_004236f0(new FUN_00aedf60);
    FUN_00ade300(work->first,0,0);
    Material* material=new Material;material->flags|=0xc00;work->second->FUN_004236f0(material);
-   reference->FUN_004e8670(cell->FUN_004d5710()->FUN_004fe240());
+   reference->TESObjectREFR_SetObjectReference(cell->TESObjectCELL_GetWaterType()->FUN_004fe240());
    FUN_00ad2a40* root=new FUN_00ad2a40;root->unk030|=0x8000;reference->SetRoot(root,1);
    root->unk058=position;reference->unk02c=position;
    FUN_00aa0b10* shape=new FUN_00aa0b10;
@@ -24825,7 +25302,7 @@ void FUN_00466330(Cell* cell){
    FUN_00aaa070* object=new FUN_00aaa070;object->Shape()=holder;
    root->Attach(object,1);object->Attach(work->first,1);
    struct Update {float time;bool b0,b1,b2,b3,b4;} update={0,false,false,false,false,false};root->FUN_008264c0(&update);
-   cell->FUN_004e52d0(reference,0);reference->FUN_004553b0();
+   cell->TESObjectCELL_AddReference(reference,0);reference->FUN_004553b0();
    if(DAT_01072a48&&!updated){reference->FUN_004fa540();updated=true;}
    work->FUN_00aabf90();DAT_01090a78.FUN_0086ba60(work);
    DAT_0106dee0->Remove(node);
@@ -24864,6 +25341,8 @@ struct Entry {
  }
  float FUN_0047d300(void*,float,int);
 };
+// pdb: ItemChange::GetModifiedAttackDamage | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActor, afDamageMultiplier, abIgnoreExplosion
 float Entry::FUN_0047d300(void* target,float mult,int flags) {
  if(object->type==40) {
   Form* form=object;
@@ -24884,6 +25363,8 @@ struct Model {virtual void v00(); unsigned u04,u08,u0c,u10,u14;void FUN_00459610
 extern Model DAT_0106e350[20];
 bool __stdcall FUN_00470a30(Model*,char*);
 inline Model* GetModel(int index){return &DAT_0106e350[index];}
+// pdb: BipedAnim::Get1stPersonModel | BipedAnim.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aeBipedObject, apModel
 Model* __stdcall FUN_00470b00(int index,Model* source){
  char path[260];
  if(source!=&DAT_0106e350[index] && FUN_00470a30(source,path)) {DAT_0106e350[index].FUN_00459610(path);return &DAT_0106e350[index];}
@@ -25266,7 +25747,7 @@ struct Heap47bbc0 {
 };
 extern Heap47bbc0 DAT_01090a78;
 void __cdecl FUN_007f97f0();
-void __cdecl FUN_004d46f0();
+void __cdecl TESObjectCELL_KillStatics();
 
 struct __declspec(novtable) Base47aef0 {
     virtual void v00();
@@ -25291,16 +25772,17 @@ struct Ptr24 {
 struct FUN_0047bbc0 : Base47aef0 {
     Ptr24 unk24;
     void FUN_0047ba30();
-    void FUN_0047b2f0() {
+    void GridCellArray_KillAll() {
         FUN_007f97f0();
         if (GameState47bbc0::Get()->IsFlag5A9())
-            FUN_004d46f0();
+            TESObjectCELL_KillStatics();
     }
     ~FUN_0047bbc0();
 };
 
+// pdb: GridCellArray::~GridCellArray | GridCell.obj | fnv360_0822_retail, call_seq, high
 FUN_0047bbc0::~FUN_0047bbc0() {
-    FUN_0047b2f0();
+    GridCellArray_KillAll();
     FUN_0047ba30();
     void* data = data10;
     DAT_01090a78.FUN_0086ba60(data);
@@ -25314,6 +25796,8 @@ struct Object;struct Children {int unk00; int unk04; int unk08; int unk0c; int u
 struct Controller {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18;unsigned kind;int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c;int value;};
 struct Object {virtual void v000(); virtual void v004(); virtual void v008();virtual Children* children();virtual void v010(); virtual void v014();virtual int isLeaf();Controller* FUN_00826590(int);};
 __forceinline int valid(Controller* c){if(!c)return 0;switch(c->kind){case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:case 9:case 10:case 11:return 1;default:return 0;}}__forceinline Controller* cast(Controller* c){return valid(c)?c:0;}
+// pdb: SetReferenceIDOnScenegraph | GlobalFunc.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apObject, auiID
 void FUN_00478c40(Object* object,int value){if(object){if(object->isLeaf()){Controller* c=cast(object->FUN_00826590(3));if(c)c->value=value;}else{Children* c=object->children();if(c){for(unsigned i=0;i<c->count;++i)FUN_00478c40(c->data[i],value);}}}}
 }
 
@@ -25347,6 +25831,8 @@ struct bhkMouseSpringAction : ::bhkUnaryAction {
     bhkMouseSpringAction(void*);
     virtual ~bhkMouseSpringAction();
 };
+// pdb: bhkMouseSpringAction::bhkMouseSpringAction | GlobalFunc.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: arInfo
 bhkMouseSpringAction::bhkMouseSpringAction(void* p){FUN_008f9170(p);++DAT_010f31c4;}
 
 // @f3 0x004784f0 (community match, verified in this file)
@@ -25402,6 +25888,8 @@ struct StringKey {
     }
 };
 
+// pdb: FindTimeForNoteKey | GlobalFunc.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pObject, pcSequenceName, pcKeyName
 float FUN_004784f0(Object* object, const char* key, const char* prefix)
 {
     if (!object)
@@ -25470,6 +25958,8 @@ struct Process {
     PointerMap<Object*>* clones; PointerMap<bool>* states; unsigned int copyType; unsigned char append;
     Process* FUN_00471430(unsigned int n);
 };
+// pdb: NiCloningProcess::NiCloningProcess | BipedAnim.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: uiHashSize
 Process* Process::FUN_00471430(unsigned int n) {
     clones = new PointerMap<Object*>(n);
     states = new PointerMap<bool>(n);
@@ -25528,6 +26018,8 @@ struct F7Owner {
     bool FUN_0047fa70(F7Iter* s, void** out, unsigned int flags);
 };
 
+// pdb: InventoryChanges::GetNextItem | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arIterator, arpItemChange, aiIterateFlags
 bool F7Owner::FUN_0047fa70(F7Iter* s, void** out, unsigned int flags)
 {
     if (s->done)
@@ -25622,9 +26114,10 @@ bool F7Owner::FUN_0047fa70(F7Iter* s, void** out, unsigned int flags)
 // @f3 0x0047b2e0 (community match, verified in this file)
 namespace f3m_0047b2e0 {
 namespace Forward47 {
-void FUN_0047af00();
+void GridArray_Init();
 void FUN_004e2320();
-void FUN_0047b2e0() { FUN_0047af00(); FUN_004e2320(); }
+// pdb: GridCellArray::Init | GridCell.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+void FUN_0047b2e0() { GridArray_Init(); FUN_004e2320(); }
 }
 }   // namespace f3m_0047b2e0
 
@@ -25718,6 +26211,8 @@ public:
     NiAVObject* FUN_00473360(NiAVObject* obj, NiAVObject* parent, int index, bool a3, bool a4, FaceModel* a5);
     NiAVObject* FUN_00473ab0(NiAVObject* obj, int index, bool a3, bool a4, FaceModel* a5);
 };
+// pdb: BipedAnim::ApplySkinnedObjects | BipedAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apClone, aeBipedObject, abFirstPerson, abPipboy, apfgModel
 NiAVObject* Attacher::FUN_00473ab0(NiAVObject* obj, int index, bool a3, bool a4, FaceModel* a5)
 {
     NiAVObject* result = obj;
@@ -25762,6 +26257,7 @@ struct FUN_0047aee0 {
     void* vftable;
     FUN_0047aee0();
 };
+// pdb: GridArray::GridArray | GridArray.obj | fnv360_0721_beta, callee_sim, low
 FUN_0047aee0::FUN_0047aee0()
 {
     vftable = &DAT_00dc0b1c;
@@ -25849,6 +26345,7 @@ struct Owner {
     InvEntry* FUN_0047e570();
 };
 
+// pdb: InventoryChanges::GetBestFood | InventoryChanges.obj | fnv360_0822_retail, caller_sim, low
 InvEntry* Owner::FUN_0047e570()
 {
     S47e570_MemContext context(0x36);
@@ -25911,7 +26408,6 @@ done:
 }
 
 // @f3 0x0046c9b0 (community match, verified in this file)
-extern const double DAT_00dbf098;
 namespace f3m_0046c9b0 {
 namespace DebugColor2245 {
 struct Color {float r,g,b,a;};
@@ -25992,6 +26488,8 @@ struct Owner {
     Flags* secondary;
     void FUN_0046c9b0(const Color&);
 };
+// pdb: BGSPrimitivePlane::SetColor | BGSPrimitive.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aColor
 void Owner::FUN_0046c9b0(const Color& value) {
     color=value;
     Mesh* mesh=primary;
@@ -26107,6 +26605,8 @@ struct Obj {
     void FUN_0047ffd0(float value, QOwner* owner, FUN_0040eda0* target, bool flag);
 };
 
+// pdb: ItemChange::SetItemHealth | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afHealth, pchange, apextra, abdelete
 void Obj::FUN_0047ffd0(float value, QOwner* owner, FUN_0040eda0* target, bool flag)
 {
 
@@ -26195,6 +26695,7 @@ struct S_004750b0 {
     short m;
     short FUN_004750b0();
 };
+// pdb: Date::GetYear | Date.obj | fnv360_0822_retail, call_gap, low
 short S_004750b0::FUN_004750b0()
 {
     return m;
@@ -26207,6 +26708,7 @@ struct S_004750a0 {
     short m;
     short FUN_004750a0();
 };
+// pdb: Date::GetDate | Date.obj | fnv360_0822_retail, call_gap, low
 short S_004750a0::FUN_004750a0()
 {
     return m;
@@ -26277,10 +26779,12 @@ struct WaterCell468bd0 {
 struct PointList468bd0 { void FUN_00bd12d0(); };
 extern f3m_00466b80::WaterPoints* DAT_0106dedc;
 extern PointList468bd0* DAT_0106dee0;
-void __cdecl FUN_00466b80(WaterCell468bd0* cell);
+void __cdecl BGSAutoWater_GatherLineSegments(WaterCell468bd0* cell);
 void __cdecl FUN_004655b0(WaterCell468bd0* cell);
 void __cdecl FUN_00466330(WaterCell468bd0* cell);
 }
+// pdb: BGSAutoWater::GeneratePlaceableWaterForCell | BGSAutoWater.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apCell
 void __cdecl FUN_00468bd0(f3m_00468bd0::WaterCell468bd0* cell)
 {
     using namespace f3m_00468bd0;
@@ -26291,7 +26795,7 @@ void __cdecl FUN_00468bd0(f3m_00468bd0::WaterCell468bd0* cell)
         DAT_0106dedc->clear();
     if (DAT_0106dee0)
         DAT_0106dee0->FUN_00bd12d0();
-    FUN_00466b80(cell);
+    BGSAutoWater_GatherLineSegments(cell);
     FUN_004655b0(cell);
     FUN_00466330(cell);
 }
@@ -26386,6 +26890,8 @@ struct Owner {
     void FUN_00460ed0(unsigned idle, unsigned section);
 };
 
+// pdb: Animation::SpecialIdleQueue | Animation.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apIdleForm, aeSection
 void Owner::FUN_00460ed0(unsigned idle, unsigned section)
 {
     AutoMemContext context(0x33);
@@ -26514,6 +27020,8 @@ struct FUN_00460ba0 : ::ObRefObject {
     ~FUN_00460ba0();
 };
 
+// pdb: AnimIdle::AnimIdle | Animation.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apIdleForm, aeSection, aeType, apActor, abForceLoad, apAnimation
 FUN_00460ba0::FUN_00460ba0(n460ba0::IdleForm* idle, int sectionArg, int typeArg, n460ba0::Actor* actorArg, bool forceLoad, int animationArg)
 {
     sequence = 0;
@@ -26602,6 +27110,8 @@ struct PairMap:MapBase{PairMap(unsigned n):MapBase(n){}virtual ~PairMap();
 Point* FUN_00477d30(Geometry*); bool FUN_00408df0(float,float,float);Point FUN_00468cd0(float,const Point&);extern Geometry* DAT_0106e9a0;
 }
 // @fnv 0x004b3e60
+// pdb: FixNormals | GlobalFunc.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSource, apDest, afTolerance, abDisplayMatches, abExtrudeMatches
 bool __cdecl FUN_0047a850(match3069::Geometry* source, match3069::Geometry* target, float threshold, float unused, bool adjust)
 {
     match3069::PairMap map30(37);
@@ -27010,10 +27520,11 @@ __forceinline void Texture::WriteUsage(BSFile& file, Usage* result)
 struct TextureUseMap {
     unsigned unk00;
     UsageMap map;
-    bool FUN_00470190(const char* path);
+    bool BGSTextureUseMap_WriteToFile(const char* path);
 };
 
-bool TextureUseMap::FUN_00470190(const char* path)
+// pdb: BGSTextureUseMap::WriteToFile | BGSTextureUseMap.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+bool TextureUseMap::BGSTextureUseMap_WriteToFile(const char* path)
 {
     bool success=false;
     {
@@ -27376,6 +27887,8 @@ inline bool IsKindOf(const NiRTTI* target, NiObject* obj)
     return false;
 }
 
+// pdb: Animation::AddAnimation | Animation.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apKFModel, abDelaySequenceClone
 bool Animation::FUN_00461a70(KFModel* model, bool queue)
 {
     NiPointer<NiControllerSequence> group(model->controllerSequence);
@@ -27503,7 +28016,7 @@ struct ExtraList {
     int unk00;
     int unk04;
     ExtraLev* FUN_0040ac60();
-    void FUN_0040ecb0(ExtraLev* extra, int flag);
+    void BaseExtraList_RemoveExtra(ExtraLev* extra, int flag);
     bool IsEmpty() { return unk04 == 0; }
 };
 struct Heap { void FUN_0086ba60(void* memory); };
@@ -27564,7 +28077,7 @@ ExtraLev* FUN_0047ff70_cls::FUN_0047ff70()
         ExtraList* extra = node->GetItem();
         if (extra && extra->FUN_0040ac60()) {
             result = extra->FUN_0040ac60();
-            extra->FUN_0040ecb0(result, 0);
+            extra->BaseExtraList_RemoveExtra(result, 0);
             if (extra->IsEmpty())
                 lists->FUN_00421610(extra);
             node = lists;
@@ -27609,6 +28122,8 @@ Property* __cdecl FUN_00477fa0(Node* node);
 }
 using namespace f3m_00478040;
 
+// pdb: FindPerPixelLighting | GlobalFunc.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apNode
 Property* __cdecl FUN_00478040(Node* node)
 {
     if (!node->GetChildCount())
@@ -27652,7 +28167,7 @@ float __cdecl FUN_0045c010(TESForm* form);
 struct ContainerEntry { int count; TESForm* form; };
 struct ContainerNode { ContainerEntry* item; ContainerNode* next; };
 struct Container { int unk00; ContainerNode list; bool FUN_004528c0(TESForm* form); };
-struct InventoryEntry { void* extraLists; int countDelta; TESForm* form; bool FUN_0047d260(bool highOnly); };
+struct InventoryEntry { void* extraLists; int countDelta; TESForm* form; bool ItemChange_GetWorn(bool highOnly); };
 struct InventoryNode { InventoryEntry* item; InventoryNode* next; };
 struct ActorValueOwner { int unk00; };
 void __cdecl FUN_006f9560(ActorValueOwner* owner, int index, float oldValue, float delta, int unk);
@@ -27683,6 +28198,8 @@ struct InventoryChanges {
     }
     float FUN_0047ee00();
 };
+// pdb: InventoryChanges::GetInventoryWeight | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abIsHardcore
 float InventoryChanges::FUN_0047ee00()
 {
     Actor* actor = 0;
@@ -27730,7 +28247,7 @@ float InventoryChanges::FUN_0047ee00()
                 if (form && form->type04 == 0x18)
                     armor = form;
                 int count = e->countDelta;
-                if (actor && armor && e->FUN_0047d260(false)) {
+                if (actor && armor && e->ItemChange_GetWorn(false)) {
                     // Fake match: keep the copy and nested count guard rather than flattening the condition.
                     float worn = weight;
                     if (count > 0) {
@@ -27850,6 +28367,8 @@ struct Form {
 
 }
 
+// pdb: BSClonePools::MakeClones | BSClonePool.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apLoadedObject, aiCloneCount
 void w52::Manager::FUN_00474c70(Form* form, unsigned int count)
 {
     if (!form)
@@ -27952,6 +28471,8 @@ inline int valid(int kind)
 }
 }
 
+// pdb: RecursivelyRemoveAllDecals | GlobalFunc.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apRoot
 void __cdecl FUN_00478bb0(ns_00478bb0::Object* object)
 {
     if (object) {
@@ -28045,6 +28566,8 @@ __declspec(noinline) void EntryList_4f10::FUN_00421610(Entry_4f10* const& value)
 }
 
 // Drop up to count references from the entry of key; an entry left empty is removed from the list and deleted.
+// pdb: BSClonePools::KillClones | BSClonePool.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLoadedObject, aiCloneCount
 void EntryList_4f10::FUN_00474f10(void* key, unsigned int count)
 {
     if (!key)
@@ -28078,7 +28601,7 @@ struct Form {
     unsigned char typeID;
     unsigned char GetType() { return typeID; }
 };
-struct Extra { bool FUN_0040aed0(bool flag); };
+struct Extra { bool ExtraDataList_GetWorn(bool flag); };
 struct ExtraNode { Extra* item; ExtraNode* next; Extra* GetItem() { return item; } ExtraNode* GetNext() { return next; } };
 struct Entry {
     ExtraNode* extras;
@@ -28088,7 +28611,7 @@ struct Entry {
         ExtraNode* cur = extras;
         while (cur && cur->GetItem()) {
             Extra* pextra = cur->GetItem();
-            if (pextra && pextra->FUN_0040aed0(flag))
+            if (pextra && pextra->ExtraDataList_GetWorn(flag))
                 return true;
             cur = cur->GetNext();
         }
@@ -28102,7 +28625,6 @@ struct Node { Entry* item; Node* next;
     Node* GetNext() { return next; }
 };
 inline Form* FormOf(Entry* e) { return e->form; }
-struct Keyed { int unk00, unk04, key; };
 struct Proc {
     virtual void v000();
     virtual void v004();
@@ -28199,10 +28721,12 @@ float __cdecl FUN_0045c010(Form* form);
 void* __cdecl FUN_00c0050a(void* object, int unused, const void* baseType, const void* targetType, int flags);
 struct List {
     Node* head;
-    int FUN_0047e4f0(Form* form);
+    int InventoryChanges_GetObjectCount(Form* form);
     float FUN_0047f1e0(Actor* actor);
 };
 
+// pdb: InventoryChanges::GetEquippedWeight | InventoryChanges.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apOwner
 float List::FUN_0047f1e0(Actor* actor)
 {
     float total = 0.0f;
@@ -28219,9 +28743,9 @@ float List::FUN_0047f1e0(Actor* actor)
             // the original. The tested condition is a guess: it leaves no instruction.
             int count;
             if (form->GetType() == 0x18)
-                count = FUN_0047e4f0(item->GetObject());
+                count = InventoryChanges_GetObjectCount(item->GetObject());
             else
-                count = FUN_0047e4f0(item->GetObject());
+                count = InventoryChanges_GetObjectCount(item->GetObject());
             if (form->GetType() == 0x18) {
                 FUN_00c0050a(form, 0, DAT_00f4611c, DAT_00f46b3c, 0);
             } else if (form->GetType() == 0x28) {
@@ -28690,6 +29214,8 @@ struct Owner { Node* root; int unk04,unk08,unk0c; Object* unk10;
 Object* FUN_00aab440(Node*,const S473_FixedString*,int);
 void FUN_00887da0(const char*,...);
 struct Processor { void FUN_00596070(Map*,Object*,int); };
+// pdb: BipedAnim::AttachSkinnedObject | BipedAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apNode, apParentNode, aeBipedObject, abFirstPerson, abPipboy, apfgModel
 Object* Owner::FUN_00473360(Node* model,Node* dest,int slot,bool upper,bool off,void* processor)
 {
  Object* result=0; Node* destination=dest; Ptr retained;
@@ -28847,7 +29373,7 @@ public:
     unsigned int unk74;
     NiControllerSequence();
     void FUN_00424390();
-    void FUN_0045c7f0(float value);
+    void NiControllerManager_DeactivateAll(float value);
     void FUN_008aecd0(int,int,float,float,int,int);
     void FUN_0049cd70(LoadStream*,float);
 };
@@ -28889,7 +29415,7 @@ public:
         return false;
     }
 };
-class BlendLoad { public: void FUN_0044db80(NiControllerSequence*,float); void FUN_0045c7f0(float); };
+class BlendLoad { public: void FUN_0044db80(NiControllerSequence*,float); void NiControllerManager_DeactivateAll(float); };
 namespace IdleTaskLoad {
 class FUN_00460ba0 {
 public:
@@ -29528,7 +30054,7 @@ public:
     virtual void s0(); virtual void s4(); virtual void s8(); virtual ActorLoad* GetActor();
     unsigned int unk04,unk08,position;
     void FUN_006e0750(void*,unsigned);
-    unsigned int FUN_006e08a0();
+    unsigned int BGSLoadGameBuffer_LoadVariableSizedValue();
     unsigned int FUN_006e0670();
     bool FUN_006e06d0(unsigned int*);
 };
@@ -29563,7 +30089,7 @@ struct FlagLoad { unsigned int unk00,unk04,unk08; unsigned short flags;
 };
 extern FlagLoad* __cdecl FUN_008f1d20(void*);
 extern void __cdecl FUN_008f1d80(bool,void*);
-extern TESForm* __cdecl FUN_00455190(unsigned int);
+extern TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 extern int __cdecl FUN_006191f0();
 
 class ModelLoad { public: void FUN_0049de40(float); void FUN_0049dd70(float,NodeLoad*); };
@@ -29611,7 +30137,7 @@ public:
     IdleEntry* idleHead;
     IdleNode* idleNext;
     void FUN_00461a70(NiControllerSequence*,int);
-    void FUN_0045db50(int,float);
+    void Animation_ClearGroup(int,float);
     void FUN_0045f220(float,VectorLoad*,int);
     void FUN_0045ce90();
     void FUN_0045dca0();
@@ -29641,14 +30167,15 @@ public:
         otherIds[i] = 0xff;
         channelData[i] = -1;
     }
-    void FUN_004637f0(LoadStream* stream);
+    void Animation_LoadGame(LoadStream* stream);
 };
 static __forceinline bool QueryModelFlag(ModelLoad* model)
 {
     FlagLoad* flags=FUN_008f1d20(model);
     return flags && flags->Has20() && !flags->Has40();
 }
-void AnimState::FUN_004637f0(LoadStream* stream)
+// pdb: Animation::LoadGame | Animation.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void AnimState::Animation_LoadGame(LoadStream* stream)
 {
     if (!GetModel()) return;
     ActorLoad* actor = stream->GetActor();
@@ -29668,12 +30195,12 @@ void AnimState::FUN_004637f0(LoadStream* stream)
     actor->process->Attach(actor,this);
     if(actor->IsSpecial(0) || actor->IsOther()) {
         if(FUN_006191f0()!=1) {
-            FUN_0045db50(7,0.0f);
-            if(!initialized) FUN_0045db50(0,0.0f);
+            Animation_ClearGroup(7,0.0f);
+            if(!initialized) Animation_ClearGroup(0,0.0f);
         }
-        FUN_0045db50(1,0.0f);
-        if(FUN_006191f0()!=1) FUN_0045db50(2,0.0f);
-        FUN_0045db50(3,0.0f); FUN_0045db50(5,0.0f); FUN_0045db50(6,0.0f);
+        Animation_ClearGroup(1,0.0f);
+        if(FUN_006191f0()!=1) Animation_ClearGroup(2,0.0f);
+        Animation_ClearGroup(3,0.0f); Animation_ClearGroup(5,0.0f); Animation_ClearGroup(6,0.0f);
         StopAnim(4);
         NiControllerSequence* p;
         if(lookup->FUN_0045c6e0(0xa5,p) && p->Get(-1)) {
@@ -29712,19 +30239,19 @@ FlagLoad* flags = FUN_008f1d20(GetModel());
     if(oldFlag) FUN_008f1d80(false,GetModel());
     FUN_0045ce90();
     if(oldFlag) FUN_008f1d80(oldFlag,GetModel());
-    if(FUN_006191f0()!=1) { FUN_0045db50(7,0.0f); if(!initialized) FUN_0045db50(0,0.0f); }
-    FUN_0045db50(1,0.0f);
-    if(FUN_006191f0()!=1) FUN_0045db50(2,0.0f);
-    FUN_0045db50(3,0.0f); FUN_0045db50(5,0.0f); FUN_0045db50(6,0.0f);
+    if(FUN_006191f0()!=1) { Animation_ClearGroup(7,0.0f); if(!initialized) Animation_ClearGroup(0,0.0f); }
+    Animation_ClearGroup(1,0.0f);
+    if(FUN_006191f0()!=1) Animation_ClearGroup(2,0.0f);
+    Animation_ClearGroup(3,0.0f); Animation_ClearGroup(5,0.0f); Animation_ClearGroup(6,0.0f);
     StopAnim2(4);
     FUN_0045dca0();
-    if(blender) blender->FUN_0045c7f0(0.0f);
+    if(blender) blender->NiControllerManager_DeactivateAll(0.0f);
     stream->FUN_006e0750(&unk10C,4); stream->FUN_006e0750(&unk110,4); stream->FUN_006e0750(&unk10,12);
     stream->FUN_006e0750(&unk48,4); stream->FUN_006e0750(&enabled,1); stream->FUN_006e0750(&unkD4,4); stream->FUN_006e0750(&unk116,2);
-    unsigned count=stream->FUN_006e08a0();
+    unsigned count=stream->BGSLoadGameBuffer_LoadVariableSizedValue();
     for(unsigned i=0;i<count;++i) {
         IdleEntry* e=(IdleEntry*)((LoadHeap*)&f3m_00477d30::DAT_01090a78)->FUN_0086b930(8);
-        e->form=dynamic_cast<TESIdleForm*>(FUN_00455190(stream->FUN_006e0670()));
+        e->form=dynamic_cast<TESIdleForm*>(TESForm_GetFormByNumericID(stream->FUN_006e0670()));
         stream->FUN_006e0750(&e->value,4);
         if(idleHead) {
             IdleNode* n=new IdleNode(idleHead);
@@ -29733,12 +30260,12 @@ FlagLoad* flags = FUN_008f1d20(GetModel());
         idleHead=e;
     }
     TESIdleForm* idle=0;
-    if(stream->FUN_006e06d0((unsigned int*)&idle)) stream->position+=stream->FUN_006e08a0();
+    if(stream->FUN_006e06d0((unsigned int*)&idle)) stream->position+=stream->BGSLoadGameBuffer_LoadVariableSizedValue();
     else if(idle) {
-        idle=dynamic_cast<TESIdleForm*>(FUN_00455190((unsigned int)idle));
-        if(!idle) stream->position+=stream->FUN_006e08a0();
+        idle=dynamic_cast<TESIdleForm*>(TESForm_GetFormByNumericID((unsigned int)idle));
+        if(!idle) stream->position+=stream->BGSLoadGameBuffer_LoadVariableSizedValue();
         else {
-            stream->FUN_006e08a0();
+            stream->BGSLoadGameBuffer_LoadVariableSizedValue();
             IdleTaskLoad::FUN_00460ba0* fresh=new IdleTaskLoad::FUN_00460ba0(idle,7,1,actor,1,0);
             IdleTaskLoad::FUN_00460ba0* old=task;
             if(old!=fresh) {
@@ -29768,7 +30295,7 @@ FlagLoad* flags = FUN_008f1d20(GetModel());
                 else {
                     BSAnimGroupSequence temporary;
                     temporary.FUN_0049cd70(stream,time);
-                    FUN_0045db50(index,0.0f);
+                    Animation_ClearGroup(index,0.0f);
                 }
             }
         }
@@ -30261,6 +30788,8 @@ struct DWork
 };
 // Checks limits and object conditions, may create decal effects, and returns a status.
 // @fnv 0x004a2070
+// pdb: BGSDecalManager::AddProjectedDecalRecurse | BGSDecalManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: arDecalData
 bool DWork::FUN_0046a080(DArg* arg)
 {
     if (*DAT_0106df58.FUN_00403e20() <= 0.0)
@@ -30676,6 +31205,8 @@ struct S46ad40_DecalManager {
     void FUN_0046ad40(S46ad40_Request* apRequest, int aiType, bool abForce);
 };
 
+// pdb: BGSDecalManager::AddDecal | BGSDecalManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: arDecalData, aeDecalType, abForceAdd
 void S46ad40_DecalManager::FUN_0046ad40(S46ad40_Request* apRequest, int aiType, bool abForce)
 {
     S46ad40_MemContext kContext(7);
@@ -30957,6 +31488,8 @@ struct S46f470_Owner {
 
 namespace s46f470 {
 
+// pdb: BGSSceneInfo::CollectWaterSceneDataFromCell | BGSSceneInfo.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apCell
 void S46f470_Owner::FUN_0046f470(S46f470_Ref* ref)
 {
     S46f470_Cell* tmp = ((S46f470_Game*)s46f470::DAT_0107a0d8)->unk64;
@@ -31320,6 +31853,7 @@ struct Grid47 {
     void FUN_0047bc90();
 };
 
+// pdb: GridCellArray::RecreateCanopyShadowMaskTexture | GridCell.obj | fnv360_0822_retail, call_gap, low
 void Grid47::FUN_0047bc90()
 {
     MemContext47 context(0x20);
@@ -31540,7 +32074,7 @@ struct Retained {
     void FUN_008e9650(Obj* p);
 };
 struct Obj3 { void FUN_00ad2840(unsigned); };
-struct Root { void FUN_00459180(Obj*); };
+struct Root { void TESModelTextureSwap_SwapTextures(Obj*); };
 struct Obj {
     virtual ~Obj();
     virtual void DeleteThis();
@@ -31647,7 +32181,7 @@ struct Actor {
     bool FUN_0076cd40(Owner* o);
     Owner* FUN_0076cd20(bool b);
     Animation* FUN_0076cce0(bool b);
-    Animation* FUN_006f8f30();
+    Animation* Actor_GetAnimation();
     bool FUN_006f6c70();
     void FUN_004f5750(Form0* w);
     const char* FUN_004e9a10();
@@ -31792,7 +32326,7 @@ __declspec(noinline) int __cdecl FUN_00403a00(String* out, const char* fmt, ...)
     va_start(args, fmt);
     return out->FormatArgs(fmt, args);
 }
-void __cdecl FUN_004f37d0(Obj* n);
+void __cdecl TESObjectREFR_AddAddonNodes(Obj* n);
 void __cdecl FUN_00542160(int k, Obj* n);
 
 // NiPointer<T>::operator= (0x8e9650) is header template code, so its body was visible in the original file.
@@ -31845,6 +32379,8 @@ void Owner::ReleasePending(Entry& pend)
     pend.form = 0;
 }
 
+// pdb: BipedAnim::LoadBipedParts | BipedAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: abForceLoadImmediate
 void Owner::FUN_00473ea0(bool deferred)
 {
     bool isPlayerX = false;
@@ -31916,7 +32452,7 @@ void Owner::FUN_00473ea0(bool deferred)
         if (entries[i].form) {
             Root* root2 = (entries[i].form)->GetRoot();
             if (root2)
-                root2->FUN_00459180(node);
+                root2->TESModelTextureSwap_SwapTextures(node);
         }
         if (cur.owner && cur.owner->CheckUpdate())
             FUN_00479030(node);
@@ -31964,7 +32500,7 @@ void Owner::FUN_00473ea0(bool deferred)
                         proc->UpdateWeaponDrawn(a->FUN_006f6c70(), this, DAT_0107a104->FUN_0076cce0(true), a);
                     } else {
                         Process* proc = a->process;
-                        proc->UpdateWeaponDrawn(a->FUN_006f6c70(), this, a->FUN_006f8f30(), a);
+                        proc->UpdateWeaponDrawn(a->FUN_006f6c70(), this, a->Actor_GetAnimation(), a);
                     }
                 }
             }
@@ -31974,7 +32510,7 @@ void Owner::FUN_00473ea0(bool deferred)
         ((NameTarget*)attached)->FUN_008245d0(FixedStr(str.ptr));
         Extra* extra = model->FUN_00824a50(DAT_0116d6e0);
         if (extra && extra->IsFlag4())
-            FUN_004f37d0(node);
+            TESObjectREFR_AddAddonNodes(node);
         if (!cur.hidden && attached->GetAsNode()) {
             Obj* parent = attached->parent;
             if (slotIdx == -1) {
@@ -32343,6 +32879,8 @@ struct DecalCamera
 
 using namespace D469230;
 
+// pdb: BGSDecalManager::IssueDecalOcclusionQuery | BGSDecalManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apDecal
 void DecalCamera::FUN_00469230(DecalInput* input)
 {
     Vec3 direction = input->GetDirection();
@@ -32543,7 +33081,7 @@ struct TESObjectLAND {
     NiPoint3 FUN_004c8ff0(int aiBlock);  // GetWorldOffsetForBlock
 };
 struct TESObjectCELL {
-    TESObjectLAND* FUN_004d5270();  // GetLand
+    TESObjectLAND* TESObjectCELL_GetLand();  // GetLand
     float FUN_004d5350();           // GetWaterHeight
 };
 
@@ -32658,6 +33196,8 @@ struct MemContext {
     ~MemContext() { f3m_00464330::g_tls.allocTag = saved; }
 };
 
+// pdb: BGSAutoWater::GeneratePolygons | BGSAutoWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCell
 void __cdecl FUN_004655b0(TESObjectCELL* apCell)
 {
     MemContext tempMemContext(0x1d);
@@ -32712,7 +33252,7 @@ void __cdecl FUN_004655b0(TESObjectCELL* apCell)
                 }
             }
         }
-        NiPoint3 worldtranslate(apCell->FUN_004d5270()->FUN_004c8ff0(0).x, apCell->FUN_004d5270()->FUN_004c8ff0(0).y, apCell->FUN_004d5350());
+        NiPoint3 worldtranslate(apCell->TESObjectCELL_GetLand()->FUN_004c8ff0(0).x, apCell->TESObjectCELL_GetLand()->FUN_004c8ff0(0).y, apCell->FUN_004d5350());
         if (bclosed) {
             FUN_00aad1b0* pnewPoly = new FUN_00aad1b0(poutline);
             if (pnewPoly->GetNumVertices() > 2) {
@@ -32979,6 +33519,8 @@ public:
     static void operator delete(void* memory) { DAT_01090a78.FUN_0086ba60(memory); }
 };
 
+// pdb: BGSSceneInfo::CollectSceneDataForLoadedArea | BGSSceneInfo.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afOutTNumber, afOutMNumber, abCollectTextures, abIncludeAddonNodes
 void __cdecl FUN_0046fbd0(float* afOutTNumber, float* afOutMNumber, bool abCollectTextures, bool abIncludeAddonNodes)
 {
     *afOutTNumber = 0.0f;
@@ -33074,6 +33616,8 @@ struct BipedAnim_471570 {
     void FUN_00471570(n471570::BipedObject* part, bool clear, n471570::Model* replacement);
 };
 
+// pdb: BipedAnim::RemovePart | BipedAnim.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObj, abClear, aiClearValue
 void BipedAnim_471570::FUN_00471570(n471570::BipedObject* part, bool clear, n471570::Model* replacement)
 {
     if (part->scene) {
@@ -33108,6 +33652,8 @@ struct Obj {
     void FUN_00471430(int flags);
     Obj* FUN_00471550(float value);
 };
+// pdb: BSCloningProcess::BSCloningProcess | BipedAnim.obj | fnv360_0822_retail, call_seq, high
+// pdb params: afScale
 Obj* Obj::FUN_00471550(float value) {
     FUN_00471430(0x101);
     unk10 = unk14 = unk18 = value;
@@ -33166,7 +33712,7 @@ struct Obj46ab00 {
     NameHolder46ab00* extra;
 
     bool FUN_005b5b10();
-    void FUN_005b6500();
+    void BSTempEffectSimpleDecal_FinalizeGeometry();
     void FUN_005b6bd0(const Color46ab00& color, int mode);
     void IncRefCount() {
         ::InterlockedIncrement(&m_uiRefCount);
@@ -33244,6 +33790,7 @@ struct Manager46ab00 {
 
 extern void __cdecl FUN_00887da0(const char*, ...);
 
+// pdb: BGSDecalManager::UpdateSimpleDecals | BGSDecalManager.obj | fnv360_0822_retail, ustr, medium
 void f3m_0046ab00::Manager46ab00::FUN_0046ab00()
 {
     if (m_list.m_uiCount <= 0)
@@ -33287,7 +33834,7 @@ void f3m_0046ab00::Manager46ab00::FUN_0046ab00()
             }
 
             if (obj->unk19 && !obj->unk18)
-                obj->FUN_005b6500();
+                obj->BSTempEffectSimpleDecal_FinalizeGeometry();
 
             if (obj->unk18)
             {

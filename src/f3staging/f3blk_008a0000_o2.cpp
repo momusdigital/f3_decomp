@@ -16,6 +16,8 @@ struct A8b110Allocator
 
 extern A8b110Allocator DAT_011f6238;
 
+// pdb: NiControllerSequence::GetViewerString | NiControllerSequence.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apPrefix, aeState
 void* __cdecl FUN_008ab100(const char* pcText, unsigned int uType)
 {
     void* pBuffer = DAT_011f6238.FUN_00aa3e40((unsigned int)strlen(pcText) + 0x20);
@@ -86,6 +88,8 @@ struct FUN_00a457d0_shell
 };
 
 // @fnv 0x00a457d0
+// pdb: NiUVData::GetViewerStrings | NiUVData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a457d0_shell::FUN_008bf920(StrArr* apViewerStrings)
 {
     char* pString;
@@ -131,24 +135,29 @@ void FUN_00a457d0_shell::FUN_008bf920(StrArr* apViewerStrings)
 namespace f3m_008ab1a0 {
 namespace f3m_008ab1a0 { extern unsigned char DAT_00e2d338; }
 struct O8ab1a0 { int a0, a4, a8; unsigned char c; unsigned char d; O8ab1a0* FUN_008ab1a0(); };
+// pdb: NiControllerSequence::InterpArrayItem::InterpArrayItem | NiControllerSequence.obj | tesv_win, hash, low
 O8ab1a0* O8ab1a0::FUN_008ab1a0() { a0 = 0; a4 = 0; a8 = 0; c = f3m_008ab1a0::DAT_00e2d338; d = 0xff; return this; }
 }   // namespace f3m_008ab1a0
 
 // @f3 0x008a0810 (community match, verified in this file)
 namespace f3m_008a0810 {
 namespace f3m_008a0810 { extern unsigned char DAT_01091e99; void __cdecl FUN_0089f7c0(); void __cdecl FUN_0089ec60(); }
-void __cdecl FUN_008a0810() { using namespace f3m_008a0810; if (!DAT_01091e99) { DAT_01091e99 = 1; FUN_0089f7c0(); FUN_0089ec60(); } }
+// pdb: NiSystemSDM::Init | NiSystemSDM.obj | fnv360_0822_debug, udata + bridge(call_seq|call_seq) + skyrim(hash), high
+void __cdecl NiSystemSDM_Init() { using namespace f3m_008a0810; if (!DAT_01091e99) { DAT_01091e99 = 1; FUN_0089f7c0(); FUN_0089ec60(); } }
 }   // namespace f3m_008a0810
 
 // @f3 0x008a0830 (community match, verified in this file)
 namespace f3m_008a0830 {
 namespace f3m_008a0830 { extern unsigned char DAT_01091e99; void __cdecl FUN_0089ecc0(); void __cdecl FUN_00c24b70(); }
-void __cdecl FUN_008a0830() { using namespace f3m_008a0830; if (DAT_01091e99) { DAT_01091e99 = 0; FUN_0089ecc0(); FUN_00c24b70(); } }
+// pdb: NiSystemSDM::Shutdown | NiSystemSDM.obj | fnv360_0822_retail, udata + bridge(call_seq|call_seq) + skyrim(udata), high
+void __cdecl NiSystemSDM_Shutdown() { using namespace f3m_008a0830; if (DAT_01091e99) { DAT_01091e99 = 0; FUN_0089ecc0(); FUN_00c24b70(); } }
 }   // namespace f3m_008a0830
 
 // @f3 0x008a86b0 (community match, verified in this file)
 namespace f3m_008a86b0 {
 int __cdecl FUN_0089eb00(int a, int b);
+// pdb: NiTStringTemplateMap<NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> >,NiPointer<BSFaceGenModelMap::Entry> >::IsKeysEqual | BSFaceGenManager.obj | fnv360_0822_retail, vtable, high
+// pdb params: pcKey1, pcKey2
 int __stdcall FUN_008a86b0(int a, int b) { return FUN_0089eb00(a, b) == 0; }
 }   // namespace f3m_008a86b0
 
@@ -156,6 +165,7 @@ int __stdcall FUN_008a86b0(int a, int b) { return FUN_0089eb00(a, b) == 0; }
 namespace f3m_008a8440 {
 namespace f3m_008a8440 { extern int DAT_01091ef0; void __cdecl FUN_008a7b60(); void __cdecl FUN_008a8130(); void __cdecl FUN_0089f820(void (__cdecl* a)(), void (__cdecl* b)()); }
 struct O8a8440 { O8a8440* FUN_008a8440(); };
+// pdb: NiAnimationSDM::NiAnimationSDM | NiAnimationSDM.obj | fnv360_0822_retail, caller_sim, low
 O8a8440* O8a8440::FUN_008a8440() { using namespace f3m_008a8440; if (DAT_01091ef0++ == 0) FUN_0089f820(FUN_008a7b60, FUN_008a8130); return this; }
 }   // namespace f3m_008a8440
 
@@ -183,6 +193,8 @@ struct Object {
     void FUN_008d13b0(NameArray*);
     void FUN_008bf080(NameArray*);
 };
+// pdb: NiVisController::GetViewerStrings | NiVisController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkStrings
 void Object::FUN_008bf080(NameArray* names) {
     FUN_008d13b0(names);
     void* value=FUN_00847b50(DAT_01092748);
@@ -216,6 +228,8 @@ struct Object {
     void FUN_008b20a0(NameArray*);
     void FUN_008bb3b0(NameArray*);
 };
+// pdb: NiBlendTransformInterpolator::GetViewerStrings | NiBlendTransformInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void Object::FUN_008bb3b0(NameArray* names) {
     FUN_008b20a0(names);
     void* value=FUN_00847b50(DAT_010926b4);
@@ -249,6 +263,8 @@ struct Object {
     void FUN_008b6de0(NameArray*);
     void FUN_008b96b0(NameArray*);
 };
+// pdb: NiPathInterpolator::GetViewerStrings | NiPathInterpolator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void Object::FUN_008b96b0(NameArray* names) {
     FUN_008b6de0(names);
     void* value=FUN_00847b50(DAT_01092698);
@@ -282,6 +298,8 @@ struct Object {
     void FUN_008d0d30(NameArray*);
     void FUN_008b6de0(NameArray*);
 };
+// pdb: NiKeyBasedInterpolator::GetViewerStrings | NiKeyBasedInterpolator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkStrings
 void Object::FUN_008b6de0(NameArray* names) {
     FUN_008d0d30(names);
     void* value=FUN_00847b50(DAT_01091f98);
@@ -315,6 +333,8 @@ struct Object {
     void FUN_008d1230(NameArray*);
     void FUN_008bd0d0(NameArray*);
 };
+// pdb: BSFrustumFOVController::GetViewerStrings | BSFrustumFOVController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void Object::FUN_008bd0d0(NameArray* names) {
     FUN_008d1230(names);
     void* value=FUN_00847b50(DAT_01092708);
@@ -348,6 +368,8 @@ struct Object {
     void FUN_008b2830(NameArray*);
     void FUN_008b0870(NameArray*);
 };
+// pdb: NiTransformController::GetViewerStrings | NiTransformController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void Object::FUN_008b0870(NameArray* names) {
     FUN_008b2830(names);
     void* value=FUN_00847b50(DAT_01091f44);
@@ -392,6 +414,8 @@ class FUN_00a32940_cls
 
 // Stores a NiRefStubB5652 pointer at index idx in m_04, updating m_0a, m_0c and reference counts as needed.
 // @fnv 0x00a32940
+// pdb: NiTArray<NiPointer<NiInterpController>,NiTNewInterface<NiPointer<NiInterpController> > >::SetAt | NiControllerSequence.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: uiIndex, element
 void FUN_00a32940_cls::FUN_008ac8c0(unsigned int uiIndex, NiRefStubB5652** apNewStub)
 {
     static StaticKeyB5652 key(0);
@@ -488,6 +512,8 @@ struct Object {
     void FUN_008a8570(NameArray*);
     void FUN_008aa4f0(NameArray*);
 };
+// pdb: NiMultiTargetTransformController::GetViewerStrings | NiMultiTargetTransformController.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Object::FUN_008aa4f0(NameArray* names) {
     FUN_008a8570(names);
     void* handle=FUN_00847b50(DAT_01091f0c);
@@ -514,6 +540,7 @@ struct Table {
  void FUN_008a8640();
 };
 // @fnv 0x00a2e460
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,NiControllerSequence *>,NiControllerSequence *>::~NiTStringTemplateMap<NiTPointerMap<char const *,NiControllerSequence *>,NiControllerSequence *> | NiControllerManager.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: BSTScatterTableBase<struct BSTScatterTableTraits<class BSFixedStringCI,class NiControllerSequence *,struct BSTScatterTableDefaultKVStorage,struct BSTScatterTableDefaultHashPolicy<class BSFixedStringCI>,struct BSTScatterTableHeapAllocator<struct BSTScatterTableEntry<class BSFixedStringCI,class NiControllerSequence *,struct BSTScatterTableDefaultKVStorage> >,8> >::~BSTScatterTableBase<struct BSTScatterTableTraits<class BSFixedStringCI,class NiControllerSequence *,struct BSTScatterTableDefaultKVStorage,struct BSTScatterTableDefaultHashPolicy<class BSFixedStringCI>,struct BSTScatterTableHeapAllocator<struct BSTScatterTableEntry<class BSFixedStringCI,class NiControllerSequence *,struct BSTScatterTableDefaultKVStorage> >,8> >)
 void Table::FUN_008a8640()
 {
     m_ppVirtualMethodTable = &DAT_00e2cdac;
@@ -590,12 +617,13 @@ struct TreadInterpolator : FUN_008a8490
 
 struct TreadController
 {
-    TreadInterpolator* __thiscall FUN_008b4040(unsigned int index);
+    TreadInterpolator* __thiscall BSMultiTargetTreadTransfController_CreateClone(unsigned int index);
     void __thiscall FUN_008a8470(TreadInterpolator* interp, unsigned int index);
 };
 
 // @fnv 0x00a35a10
-TreadInterpolator* TreadController::FUN_008b4040(unsigned int index)
+// pdb: BSMultiTargetTreadTransfController::CreateClone | BSMultiTargetTreadTransfController.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+TreadInterpolator* TreadController::BSMultiTargetTreadTransfController_CreateClone(unsigned int index)
 {
     TreadInterpolator* interp = new TreadInterpolator;
     FUN_008a8470(interp, index);
@@ -658,6 +686,8 @@ static inline Obj8bb750* Cast8bb750(Obj8bb750* o) {
     return DAT_01091f90.isSuperClass(o->vf08()) ? o : 0;
 }
 
+// pdb: NiFloatExtraDataController::SynchronizePoseInterpolator | NiFloatExtraDataController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkInterp, usIndex
 void Owner8bb750::FUN_008bb750(Obj8bb750* object, int unused) {
     Cast8bb750(object)->FUN_008b6690(unk3c->unk0c);
 }
@@ -723,6 +753,8 @@ struct Owner_9700 {
 }
 using namespace f3m_008b9700;
 
+// pdb: NiPathInterpolator::CreateClone | NiPathInterpolator.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: kCloning
 Obj_9700* Owner_9700::FUN_008b9700(int arg)
 {
     Obj_9700* obj = new Obj_9700();
@@ -789,6 +821,8 @@ struct C_8b05a0
     void FUN_008b05a0(TargetObj* pTarget, int unkArg);
 };
 
+// pdb: NiTransformController::SynchronizePoseInterpolator | NiTransformController.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkInterp, usIndex
 void C_8b05a0::FUN_008b05a0(TargetObj* pTarget, int unkArg)
 {
     TargetObj* pSel;
@@ -901,6 +935,7 @@ public:
     float           m_fUnk58;
 };
 
+// pdb: NiPathInterpolator::CreateObject | NiPathInterpolator.obj | fnv360_0822_retail, objrun, medium
 NiPathInterpolator* FUN_008b9600()
 {
     return new NiPathInterpolator;
@@ -919,9 +954,10 @@ struct Owner
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34;
     Inner* inner38;
-    unsigned short FUN_008b4dc0() const;
+    unsigned short NiGeomMorpherController_GetInterpolatorCount() const;
 };
-unsigned short Owner::FUN_008b4dc0() const
+// pdb: NiGeomMorpherController::GetInterpolatorCount | NiGeomMorpherController.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+unsigned short Owner::NiGeomMorpherController_GetInterpolatorCount() const
 {
     return inner38 ? inner38->value08 : static_cast<unsigned short>(0);
 }
@@ -933,6 +969,7 @@ unsigned short Owner::FUN_008b4dc0() const
 extern int DAT_00e2e65c;
 namespace f3m_008be9e0 {
 struct ResetB_008be9e0 { int* vtable; void FUN_00825830(); void FUN_008be9e0(); };
+// pdb: BSAnimNote::~BSAnimNote | BSAnimNote.obj | fnv360_0822_retail, objrun_prop, low
 void ResetB_008be9e0::FUN_008be9e0() { vtable = &DAT_00e2e65c; FUN_00825830(); }
 }   // namespace f3m_008be9e0
 
@@ -948,6 +985,7 @@ struct Owner
     void FUN_008b6c10();
 };
 
+// pdb: NiKeyBasedInterpolator::~NiKeyBasedInterpolator | NiKeyBasedInterpolator.obj | fnv360_0822_retail, call_seq, high
 void Owner::FUN_008b6c10()
 {
     *(int*)this = (int)&FUN_00e2d9b4;
@@ -968,6 +1006,7 @@ struct Owner
     void FUN_008bd140();
 };
 
+// pdb: BSBlendTreadTransfInterpolator::~BSBlendTreadTransfInterpolator | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
 void Owner::FUN_008bd140()
 {
     *(int*)this = (int)&FUN_00e2e36c;
@@ -978,6 +1017,7 @@ void Owner::FUN_008bd140()
 
 // @f3 0x008b7b50 (community match, verified in this file)
 namespace f3m_008b7b50 {
+// pdb: NiPSysEmitterCtlr::GetInterpolatorCount | NiPSysEmitterCtlr.obj | fnv360_0721_beta, vtable, medium
 unsigned short __cdecl FUN_008b7b50()
 {
     return 2;
@@ -1073,6 +1113,7 @@ public:
     int unk78;
     FUN_008a9230();
 };
+// pdb: NiControllerManager::NiControllerManager | NiControllerManager.obj | fnv360_0822_retail, caller_sim, medium
 FUN_008a9230::FUN_008a9230()
     : m_kArray(0, 10), m_kMap(37, false), m_bFlag(false), unk78(0)
 {

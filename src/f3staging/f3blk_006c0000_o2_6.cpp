@@ -155,6 +155,8 @@ struct Value
     void SetRaw(unsigned int v) { second = 0; unk08 = 0; first = 0; value = v; }
 };
 
+// pdb: BGSSaveLoadInitialData::LoadInitialDataStruct | BGSSaveLoadInitialData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apBuffer, aeType, apInitialDataBuffer
 int __cdecl FUN_006d3530(const void* src, int type, Value* out)
 {
     unsigned int size = DAT_00f6cfb8[type].size;

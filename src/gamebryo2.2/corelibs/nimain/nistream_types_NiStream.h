@@ -143,8 +143,8 @@ class NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {
   public:
     unsigned int* m_pBase;               // +0x0, 4 bytes
-    unsigned int m_uiElementCount;       // +0x4, 4 bytes
-    unsigned int m_uiAllocatedCapacity;  // +0x8, 4 bytes
+    unsigned int m_uiAlloced;       // +0x4, 4 bytes  // src: FNV360_PDB +0x4 (old: m_uiElementCount)
+    unsigned int m_uiUsed;  // +0x8, 4 bytes  // src: FNV360_PDB +0x8 (old: m_uiAllocatedCapacity)
     // NiTSet<unsigned int,NiTMallocInterface<unsigned int> >
     // void __cdecl NiTSet<unsigned int,NiTMallocInterface<unsigned int> >::*()
     // unsigned int __cdecl NiTSet<unsigned int,NiTMallocInterface<unsigned int> >::*()
@@ -167,8 +167,8 @@ class NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___) == 12);
 FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_pBase) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiElementCount) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiAllocatedCapacity) == 8);
+FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiAlloced) == 4);
+FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiUsed) == 8);
 #pragma pack(push, 4)
 class NiTPrimitiveSet_unsigned_int_ : public NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {
@@ -203,44 +203,44 @@ class NiStream
 {
   public:
     void** m_ppVirtualMethodTable;                                     // +0x0, 4 bytes
-    BSStreamHeader m_kHeader;                            // +0x4, 196 bytes
-    NiTPrimitiveArray_NiObjectGroup___ m_kObjectGroups;  // +0xC8, 16 bytes
-    unsigned int m_uiNifVersion;                         // +0xD8, 4 bytes
-    unsigned int StreamFileInfo;                         // +0xDC, 4 bytes
-    char m_acInputFilePath[260];                         // +0xE0, 260 bytes
-    bool m_bFirstStreamFlag;                             // +0x1E4, 1 bytes
-    bool m_bSecondStreamFlag;                            // +0x1E5, 1 bytes
+    BSStreamHeader m_BSStreamHeader;                            // +0x4, 196 bytes  // src: FNV360_PDB +0x4 (old: m_kHeader)
+    NiTPrimitiveArray_NiObjectGroup___ m_kGroups;  // +0xC8, 16 bytes  // src: FNV360_PDB +0xC8 (old: m_kObjectGroups)
+    unsigned int m_uiNifFileVersion;                         // +0xD8, 4 bytes  // src: FNV360_PDB +0xD8 (old: m_uiNifVersion)
+    unsigned int m_uiNifFileUserDefinedVersion;                         // +0xDC, 4 bytes  // src: FNV360_PDB +0xDC (old: StreamFileInfo)
+    char m_acFileName[260];                         // +0xE0, 260 bytes  // src: FNV360_PDB +0xE0 (old: m_acInputFilePath)
+    bool m_bSaveLittleEndian;                             // +0x1E4, 1 bytes  // src: FNV360_PDB +0x1E4 (old: m_bFirstStreamFlag)
+    bool m_bSourceIsLittleEndian;                            // +0x1E5, 1 bytes  // src: FNV360_PDB +0x1E5 (old: m_bSecondStreamFlag)
     unsigned char layoutPadding1E6[2];
-    NiSearchPath* m_pSearchPath;                                             // +0x1E8, 4 bytes
-    NiTLargeObjectArray_NiPointer_NiObject___ m_kThirdFollowingStreamField;  // +0x1EC, 24 bytes
-    NiTLargePrimitiveArray<unsigned int> ObjectSerializationStream;          // +0x204, 24 bytes
-    NiTLargeObjectArray_NiPointer_NiObject___ m_kTopLevelObjects;            // +0x21C, 24 bytes
-    NiTLargeObjectArray_NiFixedString_ m_kStringTable;                       // +0x234, 24 bytes
-    NiBinaryStream* m_pUnderlyingStream;                                     // +0x24C, 4 bytes
-    NiBinaryStream* m_pBackingStream;                                        // +0x250, 4 bytes
-    NiTPrimitiveSet_unsigned_int_ m_kSecondFollowingStreamField;             // +0x254, 12 bytes
-    unsigned int StreamObjectIndex;                                          // +0x260, 4 bytes
-    NiTPrimitiveSet_unsigned_int_ m_kSecondUnsignedIntSet;                   // +0x264, 12 bytes
-    unsigned int m_uiObjectIndexCount;                                       // +0x270, 4 bytes
-    NiTPointerMap<const NiObject*, unsigned int> m_kObjectToIndexMap;        // +0x274, 16 bytes
-    unsigned short m_usAVObjectFlags;                                        // +0x284, 2 bytes
-    unsigned short m_usTimeControllerFlags;                                  // +0x286, 2 bytes
-    unsigned short m_usPropertyFlags;                                        // +0x288, 2 bytes
+    NiSearchPath* m_pkSearchPath;                                             // +0x1E8, 4 bytes  // src: FNV360_PDB +0x1E8 (old: m_pSearchPath)
+    NiTLargeObjectArray_NiPointer_NiObject___ m_kObjects;  // +0x1EC, 24 bytes  // src: FNV360_PDB +0x1EC (old: m_kThirdFollowingStreamField)
+    NiTLargePrimitiveArray<unsigned int> m_kObjectSizes;          // +0x204, 24 bytes  // src: FNV360_PDB +0x204 (old: ObjectSerializationStream)
+    NiTLargeObjectArray_NiPointer_NiObject___ m_kTopObjects;            // +0x21C, 24 bytes  // src: FNV360_PDB +0x21C (old: m_kTopLevelObjects)
+    NiTLargeObjectArray_NiFixedString_ m_kFixedStrings;                       // +0x234, 24 bytes  // src: FNV360_PDB +0x234 (old: m_kStringTable)
+    NiBinaryStream* m_pkIstr;                                     // +0x24C, 4 bytes  // src: FNV360_PDB +0x24C (old: m_pUnderlyingStream)
+    NiBinaryStream* m_pkOstr;                                        // +0x250, 4 bytes  // src: FNV360_PDB +0x250 (old: m_pBackingStream)
+    NiTPrimitiveSet_unsigned_int_ m_kLinkIDs;             // +0x254, 12 bytes  // src: FNV360_PDB +0x254 (old: m_kSecondFollowingStreamField)
+    unsigned int m_uiLinkIndex;                                          // +0x260, 4 bytes  // src: FNV360_PDB +0x260 (old: StreamObjectIndex)
+    NiTPrimitiveSet_unsigned_int_ m_kLinkIDBlocks;                   // +0x264, 12 bytes  // src: FNV360_PDB +0x264 (old: m_kSecondUnsignedIntSet)
+    unsigned int m_uiLinkBlockIndex;                                       // +0x270, 4 bytes  // src: FNV360_PDB +0x270 (old: m_uiObjectIndexCount)
+    NiTPointerMap<const NiObject*, unsigned int> m_kRegisterMap;        // +0x274, 16 bytes  // src: FNV360_PDB +0x274 (old: m_kObjectToIndexMap)
+    unsigned short m_usNiAVObjectFlags;                                        // +0x284, 2 bytes  // src: FNV360_PDB +0x284 (old: m_usAVObjectFlags)
+    unsigned short m_usNiTimeControllerFlags;                                  // +0x286, 2 bytes  // src: FNV360_PDB +0x286 (old: m_usTimeControllerFlags)
+    unsigned short m_usNiPropertyFlags;                                        // +0x288, 2 bytes  // src: FNV360_PDB +0x288 (old: m_usPropertyFlags)
     unsigned char layoutPadding28A[2];
-    NiStream__ThreadStatus m_eStreamThreadStatus;  // +0x28C, 4 bytes
-    bool m_bThreadActive;                          // +0x290, 1 bytes
+    NiStream__ThreadStatus m_eBackgroundLoadStatus;  // +0x28C, 4 bytes  // src: FNV360_PDB +0x28C (old: m_eStreamThreadStatus)
+    bool m_bBackgroundLoadExitStatus;                          // +0x290, 1 bytes  // src: FNV360_PDB +0x290 (old: m_bThreadActive)
     unsigned char layoutPadding291[3];
-    unsigned int StreamThreadContext;                       // +0x294, 4 bytes
-    unsigned int m_uiBackgroundLoadState;                   // +0x298, 4 bytes
-    unsigned int BackgroundLoadThreadInfo;                  // +0x29C, 4 bytes
-    NiThread* m_pBackgroundLoadThread;                      // +0x2A0, 4 bytes
-    NiStream__BackgroundLoadProcedure* BackgroundLoadTask;  // +0x2A4, 4 bytes
-    NiThread__Priority m_eThreadPriority;                   // +0x2A8, 4 bytes
-    ProcessorAffinityInfo m_kBackgroundLoadSemaphore;       // +0x2AC, 8 bytes
-    char m_acLoadPath[260];                                 // +0x2B4, 260 bytes
-    unsigned int m_uiNativeThreadId;                        // +0x3B8, 4 bytes
-    char m_acSecondPathBuffer[260];                         // +0x3BC, 260 bytes
-    char m_acFilePathBuffer[260];                           // +0x4C0, 260 bytes
+    unsigned int m_uiLoad;                       // +0x294, 4 bytes  // src: FNV360_PDB +0x294 (old: StreamThreadContext)
+    unsigned int m_uiLink;                   // +0x298, 4 bytes  // src: FNV360_PDB +0x298 (old: m_uiBackgroundLoadState)
+    unsigned int m_uiPostLink;                  // +0x29C, 4 bytes  // src: FNV360_PDB +0x29C (old: BackgroundLoadThreadInfo)
+    NiThread* m_pkThread;                      // +0x2A0, 4 bytes  // src: FNV360_PDB +0x2A0 (old: m_pBackgroundLoadThread)
+    NiStream__BackgroundLoadProcedure* m_pkBGLoadProc;  // +0x2A4, 4 bytes  // src: FNV360_PDB +0x2A4 (old: BackgroundLoadTask)
+    NiThread__Priority m_ePriority;                   // +0x2A8, 4 bytes  // src: FNV360_PDB +0x2A8 (old: m_eThreadPriority)
+    ProcessorAffinityInfo m_kAffinity;       // +0x2AC, 8 bytes  // src: FNV360_PDB +0x2AC (old: m_kBackgroundLoadSemaphore)
+    char m_acLastLoadedRTTI[260];                                 // +0x2B4, 260 bytes  // src: FNV360_PDB +0x2B4 (old: m_acLoadPath)
+    unsigned int m_uiLastError;                        // +0x3B8, 4 bytes  // src: FNV360_PDB +0x3B8 (old: m_uiNativeThreadId)
+    char m_acLastErrorMessage[260];                         // +0x3BC, 260 bytes  // src: FNV360_PDB +0x3BC (old: m_acSecondPathBuffer)
+    char m_acFilePath[260];                           // +0x4C0, 260 bytes  // src: FNV360_PDB +0x4C0 (old: m_acFilePathBuffer)
     // NiStream
     // void __cdecl NiStream::*(NiObject*)
     // void __cdecl NiStream::*(NiObject*)
@@ -333,39 +333,39 @@ class NiStream
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiStream) == 1476);
 FNV_STATIC_ASSERT(offsetof(NiStream, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kHeader) == 4);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kObjectGroups) == 200);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiNifVersion) == 216);
-FNV_STATIC_ASSERT(offsetof(NiStream, StreamFileInfo) == 220);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acInputFilePath) == 224);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_bFirstStreamFlag) == 484);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_bSecondStreamFlag) == 485);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pSearchPath) == 488);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kThirdFollowingStreamField) == 492);
-FNV_STATIC_ASSERT(offsetof(NiStream, ObjectSerializationStream) == 516);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kTopLevelObjects) == 540);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kStringTable) == 564);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 588);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pBackingStream) == 592);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kSecondFollowingStreamField) == 596);
-FNV_STATIC_ASSERT(offsetof(NiStream, StreamObjectIndex) == 608);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kSecondUnsignedIntSet) == 612);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiObjectIndexCount) == 624);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kObjectToIndexMap) == 628);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_usAVObjectFlags) == 644);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_usTimeControllerFlags) == 646);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_usPropertyFlags) == 648);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_eStreamThreadStatus) == 652);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_bThreadActive) == 656);
-FNV_STATIC_ASSERT(offsetof(NiStream, StreamThreadContext) == 660);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiBackgroundLoadState) == 664);
-FNV_STATIC_ASSERT(offsetof(NiStream, BackgroundLoadThreadInfo) == 668);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pBackgroundLoadThread) == 672);
-FNV_STATIC_ASSERT(offsetof(NiStream, BackgroundLoadTask) == 676);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_eThreadPriority) == 680);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_kBackgroundLoadSemaphore) == 684);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acLoadPath) == 692);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiNativeThreadId) == 952);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acSecondPathBuffer) == 956);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_acFilePathBuffer) == 1216);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_BSStreamHeader) == 4);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kGroups) == 200);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiNifFileVersion) == 216);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiNifFileUserDefinedVersion) == 220);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_acFileName) == 224);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_bSaveLittleEndian) == 484);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_bSourceIsLittleEndian) == 485);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_pkSearchPath) == 488);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kObjects) == 492);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kObjectSizes) == 516);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kTopObjects) == 540);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kFixedStrings) == 564);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_pkIstr) == 588);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_pkOstr) == 592);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kLinkIDs) == 596);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiLinkIndex) == 608);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kLinkIDBlocks) == 612);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiLinkBlockIndex) == 624);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kRegisterMap) == 628);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_usNiAVObjectFlags) == 644);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_usNiTimeControllerFlags) == 646);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_usNiPropertyFlags) == 648);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_eBackgroundLoadStatus) == 652);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_bBackgroundLoadExitStatus) == 656);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiLoad) == 660);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiLink) == 664);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiPostLink) == 668);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_pkThread) == 672);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_pkBGLoadProc) == 676);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_ePriority) == 680);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_kAffinity) == 684);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_acLastLoadedRTTI) == 692);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_uiLastError) == 952);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_acLastErrorMessage) == 956);
+FNV_STATIC_ASSERT(offsetof(NiStream, m_acFilePath) == 1216);
 #endif

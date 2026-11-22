@@ -9,148 +9,12 @@
 // original image, so it is only declared here.
 extern const double DAT_010c9300;
 // arg1: the six float vector
-struct FUN_00d6ce70_Vector
-{
-    float f00;
-    float f04;
-    float f08;
-    float f0c;
-    float f10;
-    float f14;
-};
 // arg2: the scale struct, the two floats at +4 and +8 are read
-struct FUN_00d6ce70_Scale
-{
-    float unk00;
-    float f04;
-    float f08;
-};
 // arg3: the destination struct, the product is stored at +0x1c
-struct FUN_00d6ce70_Dest
-{
-    float unk00;
-    float unk04;
-    float unk08;
-    float unk0c;
-    float unk10;
-    float unk14;
-    float unk18;
-    float f1c;
-};
 // the 0x40 byte matrix block the cursor walks over
-struct FUN_00d6ce70_Matrix
-{
-    float m00;
-    float m01;
-    float m02;
-    float m03;
-    float m10;
-    float m11;
-    float m12;
-    float m13;
-    float m20;
-    float m21;
-    float m22;
-    float m23;
-    float m30;
-    float m31;
-    float m32;
-    float m33;
-};
 // arg4: the cursor pointing at the next matrix block
-struct FUN_00d6ce70_Cursor
-{
-    FUN_00d6ce70_Matrix* matrix;
-};
-void FUN_00d6ce70(FUN_00d6ce70_Vector* v, FUN_00d6ce70_Scale* s, FUN_00d6ce70_Dest* dest, FUN_00d6ce70_Cursor* cursor);
-struct WriterContext
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-};
-struct WriterArgs
-{
-    unsigned int value_bits;
-    unsigned char flag;
-};
-struct WriterRecord
-{
-    unsigned char type;
-    unsigned char flag;
-    unsigned short unk02;
-    unsigned short low;
-    unsigned short high;
-    unsigned int value;
-    unsigned int whole;
-};
 extern double _DAT_010c9300;
-static void WriteFloatRecord(WriterContext* object, float** cursor, WriterArgs args);
-void RecordWrite_use(WriterContext* object, float** cursor, WriterArgs args);
-struct S00d6d990_Src
-{
-    unsigned char unk00;
-    unsigned char unk01;
-    unsigned char m02;
-    unsigned char m03;
-    unsigned char m04;
-    unsigned char unk05;
-    unsigned char unk06;
-    unsigned char unk07;
-    float m08;
-};
-struct S00d6d990_Tmp
-{
-    int key;
-    int ctx;
-    float f;
-    unsigned int val;
-};
-struct S00d6d990_Rec
-{
-    unsigned char type;
-    unsigned char unk01;
-    unsigned char unk02;
-    unsigned char unk03;
-    unsigned char flag;
-    unsigned char unk05;
-    unsigned char unk06;
-    unsigned char unk07;
-    float unk08;
-    float unk0c;
-};
-void S00d6d990_Sink(S00d6d990_Tmp* t, WriterContext* obj, S00d6d990_Rec** cur);
-static void FUN_00d6d990(S00d6d990_Src* src, S00d6d990_Rec** cur, WriterContext* obj, int a1);
-void S00d6d990_Caller(S00d6d990_Src* s, S00d6d990_Rec** c, WriterContext* o, int a);
 extern double _DAT_010c9300;
-static void FUN_00d6ea30(WriterContext* object, float** cursor, WriterArgs args);
-void RecordWriteAlt_use(WriterContext* object, float** cursor, WriterArgs args);
 
 #include <xmmintrin.h>
 struct S00d6e280_Obj
@@ -255,11 +119,10 @@ struct S00d6e280_Rec
     int i0c;
 };
 
-extern "C" void FUN_00dcf100(S00d6e280_Call* p, S00d6e280_Other* o, S00d6e280_Rec** cursor);
-
 // @f3 0x009fb410 (community match, verified in this file)
 extern "C" void FUN_00a4e900(S00d6e280_Call* p, S00d6e280_Other* o, S00d6e280_Rec** cursor);
 extern const double FUN_00e20408;
+// pdb: buildJacobianFromLinFrictionAtom | hkpBuildJacobianFromAtoms.obj | fnv360_0822_retail, objrun, medium
 static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* table, S00d6e280_Obj* self,
                                               S00d6e280_Other* other, const S00d6e280_Arg* a1)
 {
@@ -313,30 +176,6 @@ void __fastcall S00d6e280_Wrap(S00d6e280_Obj* self, S00d6e280_Other* other, S00d
 struct FourFloatVector
 {
     float x, y, z, w;
-};
-union AlignedVector
-{
-    __m128 vec;
-    FourFloatVector components;
-};
-struct NodeKind
-{
-    unsigned short kind;
-};
-struct FnvNode
-{
-    short unk00;
-    short unk02;
-    int unk04;
-    int unk08;
-    int unk0c;
-    short unk10;
-    unsigned short unk12;
-    NodeKind* unk14;
-    int unk18;
-    int unk1c;
-    FourFloatVector vec1;
-    FourFloatVector vec2;
 };
 struct FnvSubObject
 {
@@ -410,108 +249,10 @@ struct FnvPacket
     int unk78;
     int unk7c;
 };
-union DispatchArgs
-{
-    unsigned int raw;
-    unsigned char flag;
-};
-void __cdecl FUN_00dced90(__m128* a, __m128* b, void* dest);
-void __cdecl FUN_00d72190(NodeKind* node, FnvPacket* packet, DispatchArgs args, void* dest);
-void __cdecl FUN_00d6f460(NodeKind* node, DispatchArgs args, FnvPacket* packet, void* dest);
 
 // @fnv 0x00d6ecb0
-static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNode* node)
-{
-    FnvPacket localPacket = *arg1;
-    AlignedVector v1;
-    v1.components = node->vec1;
-    AlignedVector v2;
-    v2.components = node->vec2;
-    NodeKind* kind = node->unk14;
-    DispatchArgs args;
-    args.raw = node->unk12;
-    FnvSubObject obj1;
-    obj1.FUN_00d71f90(arg1->unk30);
-    FnvSubObject obj2;
-    obj2.FUN_00d71f90(arg1->unk34);
-    obj1.vec = _mm_mul_ps(obj1.vec, v1.vec);
-    obj2.vec = _mm_mul_ps(obj2.vec, v2.vec);
-    localPacket.unk30 = &obj1;
-    localPacket.unk34 = &obj2;
-    FUN_00dced90(&obj1.vec, &obj2.vec, arg2);
-    if (kind->kind == 0x16)
-    {
-        args.flag = 1;
-        FUN_00d72190(kind, &localPacket, args, arg2);
-    }
-    else
-    {
-        FUN_00d6f460(kind, args, &localPacket, arg2);
-    }
-    FUN_00dced90(&arg1->unk30->vec, &arg1->unk34->vec, arg2);
-}
-extern "C" FnvNode* FetchNode();
 FnvPacket* volatile sourcePacket;
 void* volatile sourceDest;
-void TargetCaller()
-{
-    FUN_00d6ecb0(sourcePacket, sourceDest, FetchNode());
-}
-
-extern const __m128 DAT_010c44d0;
-struct Body337
-{
-    __m128 unk00, unk10, unk20;
-    __m128 inverseInertia;
-    __m128 unk40;
-    __m128 basisX, basisY, basisZ;
-};
-struct Pair337
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    unsigned int unk10, unk14, unk18, unk1c;
-    unsigned int unk20, unk24, unk28, unk2c;
-    const Body337* first;
-    const Body337* second;
-};
-struct Jacobian337
-{
-    __m128 first, second;
-};
-// @fnv 0x00d6cc80
-static __declspec(noinline) void FUN_00d6cc80(const Pair337* pair, Jacobian337* output, const __m128* direction,
-                                              float* effectiveMass)
-{
-    __m128 value = *direction;
-    const Body337* second = pair->second;
-    const Body337* first = pair->first;
-    __m128 negative = _mm_xor_ps(value, DAT_010c44d0);
-    __m128 rowA = _mm_mul_ps(_mm_shuffle_ps(*direction, *direction, 0x55), first->basisY);
-    rowA = _mm_add_ps(rowA, _mm_mul_ps(_mm_shuffle_ps(*direction, *direction, 0), first->basisX));
-    rowA = _mm_add_ps(rowA, _mm_mul_ps(_mm_shuffle_ps(*direction, *direction, 0xaa), first->basisZ));
-    output->first = rowA;
-    __m128 rowB = _mm_mul_ps(_mm_shuffle_ps(negative, negative, 0x55), second->basisY);
-    rowB = _mm_add_ps(rowB, _mm_mul_ps(_mm_shuffle_ps(negative, negative, 0), second->basisX));
-    rowB = _mm_add_ps(rowB, _mm_mul_ps(_mm_shuffle_ps(negative, negative, 0xaa), second->basisZ));
-    output->second = rowB;
-    __m128 contributionA = _mm_mul_ps(output->first, output->first);
-    contributionA = _mm_mul_ps(contributionA, first->inverseInertia);
-    __m128 contributionB = _mm_mul_ps(rowB, rowB);
-    contributionB = _mm_mul_ps(contributionB, second->inverseInertia);
-    __m128 total = _mm_add_ps(contributionA, contributionB);
-    __m128 sum = _mm_add_ss(_mm_shuffle_ps(total, total, 0x55), total);
-    sum = _mm_add_ss(_mm_shuffle_ps(total, total, 0xaa), sum);
-    float scalar;
-    _mm_store_ss(&scalar, sum);
-    float denominator = (float)(scalar + DAT_010c9300);
-    float reciprocal = 1.0f / denominator;
-    output->first.m128_f32[3] = reciprocal;
-    *effectiveMass = reciprocal;
-}
-void BuildJacobian337(const Pair337* pair, Jacobian337* output, const __m128* direction, float* mass)
-{
-    FUN_00d6cc80(pair, output, direction, mass);
-}
 
 extern "C" float __cdecl Atan2(float a, float b);
 extern const unsigned char DAT_010d33c1[];
@@ -592,17 +333,7 @@ static __declspec(noinline) int FUN_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* 
     return 1;
 }
 
-extern Obj* g_obj;
-extern Src* g_src;
-extern Mat* g_a2;
-extern Mat* g_a3;
-extern Out* g_out;
 int g_sink;
-
-void zz_probe_call()
-{
-    g_sink = FUN_00d6d2e0(g_obj, g_src, g_a2, g_a3, g_out);
-}
 
 struct S00d6f300_A
 {
@@ -757,6 +488,7 @@ struct S00d6f300_Vec
 }
 
 
+// pdb: buildJacobianFromLinMotorAtom | hkpBuildJacobianFromAtoms.obj | tesv_win, caller_sim, low
 static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S00d6f300_B* a2, __m128* a3,
                                               S00d6f300_Cmd** p)
 {

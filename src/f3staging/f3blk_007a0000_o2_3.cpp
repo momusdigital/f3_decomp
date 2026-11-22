@@ -267,6 +267,8 @@ struct FUN_007d87e0:Allocated {
  unsigned int unk060;
  FUN_007d87e0();
 };
+// pdb: CombatProcedure::CreateProcedure | CombatProcedure.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiType
 void* __cdecl FUN_007ab5e0(int kind){
  switch(kind){
  case 0: return new FUN_007d6500();

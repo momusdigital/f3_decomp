@@ -71,6 +71,8 @@ struct RayNode
 };
 // Updates the context when a6 differs from m_0x88, rejects via context.IntersectRay, then returns the first child Test result >= 1, else 0.
 // @fnv 0x00eb9430
+// pdb: NiOBBNode::FindIntersections | NiOBBNode.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: origin, dir, pick, bIntersects, pObj, uiChangeStamp
 int RayNode::TestChildren(void* a1, void* a2, int a3, int a4, void* a5, int a6)
 {
     if (a6 != m_0x88)
@@ -161,6 +163,8 @@ struct SwapNode
 };
 
 // @fnv 0x00eb9a50
+// pdb: NiOBBNode::CollisionCallback | NiOBBNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: intr
 int __stdcall RunSwapTests(SwapNode* pNode)
 {
     int iResult0 = 0;
@@ -339,6 +343,8 @@ struct RayNodeW7
 };
 
 // @fnv 0x00eb94e0
+// pdb: NiOBBNode::ComputeOBB | NiOBBNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pRoot, pTriList, pVertex, pArea, pCentroid, i0, i1, pISplit
 void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* apVertices, int a3, int a4, int a5,
                                       int aiEndTri, int* apiTriMap)
 {
@@ -438,6 +444,8 @@ struct PlainPoint3
 
 // Accumulates weighted centroid and covariance over triangles a7[a5..a6], stores the centroid in center and the covariance matrix in out.
 // @fnv 0x00eb8ae0
+// pdb: NiOBBNode::ComputeCovarianceAndMean | NiOBBNode.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pTriList, pVertex, pArea, pCentroid, i0, i1, pISplit
 void RayNodeW7::ComputeWeightedCovariance(void* pCovariance, unsigned short* pIndices, V3* pVertices, int pWeights,
                                           int pCentroids, int iStart, int iEnd, int* pTriList)
 {
@@ -541,6 +549,8 @@ struct MyNode
 
 // Recursively compares this node's context with another node's, refreshing cached ids, and descends into child nodes up to the given depths.
 // @fnv 0x00eb9180
+// pdb: NiOBBNode::TestCollision | NiOBBNode.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pTestNode, pkObj0, pkObj1, iMaxDepth, iTestMaxDepth, uiChangeStamp0, uiChangeStamp1
 bool MyNode::CompareTreeRecursive(MyNode* other, char* apThisData, char* apOtherData, int depthA, int depthB, int idA,
                                   int idB)
 {
@@ -633,7 +643,7 @@ struct OBBShape
 struct OBBContext
 {
     int unk00;
-    int FUN_00ebc2a0(OBBContext* pkOther, float* pfTime, NiPoint3* pkPoint);
+    int NiOBBox_FindIntersection(OBBContext* pkOther, float* pfTime, NiPoint3* pkPoint);
     void ProjectOntoAxes(NiPoint3* pkPoint, NiPoint3* pkNormal);
 };
 
@@ -690,6 +700,8 @@ struct OBBLeaf
 
 // On a collision, sets pbHit, projects the contact point onto both contexts' axes, and runs swap tests.
 // @fnv 0x00eb9b00
+// pdb: NiOBBLeaf::FaceFaceCollision | NiOBBLeaf.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pTestLeaf, pkRoot0, pkRoot1, pkObj0, pkObj1, bCollision
 int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, int iA, int iB, int iC, int iD, bool* pbHit)
 {
     OBBCollisionRecord kRecord;
@@ -714,7 +726,7 @@ int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, int iA, int iB, int iC, int iD, bool
     }
     else
     {
-        iCollide = m_kContext.FUN_00ebc2a0(&pkOther->m_kContext, &kRecord.m_fTime, &kRecord.m_kPoint);
+        iCollide = m_kContext.NiOBBox_FindIntersection(&pkOther->m_kContext, &kRecord.m_fTime, &kRecord.m_kPoint);
     }
     if (iCollide)
     {
@@ -852,6 +864,8 @@ struct RayNodeW7_Derived : RayNodeW7
 };
 
 // @f3 0x0081bb70 (community match, verified in this file)
+// pdb: NiOBBNode::DivideTriangles | NiOBBNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pCentroid, i0, i1, pISplit, j0, j1, pOSplit
 void RayNodeW7_Derived::FUN_00eb8dc0(const V3* vertices, int first, int last, const int* srcIndices, int* outLeft,
                                      int* outRight, int* dstIndices)
 {
@@ -958,6 +972,8 @@ struct S00eb9fa0_Leaf : S00eb9fa0_Node
 };
 // Recursively partitions the inclusive range [iStart, iEnd] into child nodes or leaves stored in m_0x80 and m_0x84.
 // @fnv 0x00eb9fa0
+// pdb: NiOBBNode::CreateRecursive | NiOBBNode.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pRoot, pTriList, pVertex, pWVertex, pArea, pCentroid, i0, i1, pISplit, pOSplit, iBinSize
 void S00eb9fa0_Node::BuildNode(void* a0, const unsigned short* apIndices, const V3* apVertices, const V3* a3, float* a4,
                                V3* a5, int iStart, int iEnd, int* a7, int* apOrder, int iMin)
 {

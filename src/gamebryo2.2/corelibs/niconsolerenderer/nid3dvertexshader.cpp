@@ -24,20 +24,13 @@ struct FUN_00e89ac0_Class
     void FUN_00e89ac0();
 };
 // @fnv 0x00e89ac0
+// pdb: NiD3DPixelShader::DestroyRendererData | NiD3DPixelShader.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiD3DVertexShader::DestroyRendererData)
 void FUN_00e89ac0_Class::FUN_00e89ac0()
 {
     if (unk34 != 0)
     {
         ((FUN_00e69970_Class*)unk24)->ClearShader(this);
     }
-}
-
-extern void __cdecl FUN_00e92ee0(int value);
-
-// @fnv 0x00e89ad0
-void __fastcall FUN_00e89ad0(int value)
-{
-    FUN_00e92ee0(value);
 }
 
 extern "C" void* __cdecl memmove(void* pvDest, const void* pvSrc, unsigned int uiSize);

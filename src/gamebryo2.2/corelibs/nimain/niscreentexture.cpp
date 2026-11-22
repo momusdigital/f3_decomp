@@ -5,7 +5,8 @@
 extern const void* g_011f5ee0;
 
 // @fnv 0x00a955f0
-const void* __cdecl FUN_00a955f0()
+// pdb: NiScreenSpaceCamera::GetRTTI | NiOldScreenSpace.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+const void* __cdecl NiScreenSpaceCamera_GetRTTI()
 {
     return &g_011f5ee0;
 }
@@ -48,6 +49,8 @@ struct NiScreenTexture : NiObject
 };
 // Calls NiObject::RegisterStreamables on the stream, then registers the texturing property's streamables; returns false if the base call fails.
 // @fnv 0x00a954f0
+// pdb: NiXenonRenderer::RemoveScreenTextureRendererData | NiScreenTexture.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkScreenTexture
 bool NiScreenTexture::FUN_00a954f0(NiStream& kStream)
 {
     if (!NiObject::RegisterStreamables(kStream))
@@ -148,6 +151,7 @@ struct MyHost
     void FUN_00a95590();
 };
 // @fnv 0x00a95590
+// pdb: NiScreenTexture::~NiScreenTexture | NiScreenTexture.obj | fnv360_0822_retail, objrun, medium
 void MyHost::FUN_00a95590()
 {
     __vf = (void*)&DAT_010a048c;
@@ -173,6 +177,7 @@ struct NiScreenTexture
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00a95590, then if flags has bit 1 set frees this with size 0x20, and returns this.
 // @fnv 0x00a95740
+// pdb: NiScreenTexture::`scalar deleting destructor' | NiScreenTexture.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall NiScreenTexture::FUN_00a95740(unsigned int flags)
 {
     FUN_00a95590();
@@ -359,6 +364,8 @@ struct ScreenTex_shell
 };
 // Links the object to the stream, writes the rect count, then serializes each rect's shorts and color, and saves the link ID.
 // @fnv 0x00a95a90
+// pdb: NiScreenTexture::SaveBinary | NiScreenTexture.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void ScreenTex_shell::FUN_00a95a90(NiStream& kStream)
 {
     ((RendererDataBase_s*)this)->LinkObject(kStream);
@@ -391,6 +398,8 @@ struct ScreenRectArray
 };
 
 // @fnv 0x00a95520
+// pdb: NiTSet<NiScreenTexture::ScreenRect,NiTMallocInterface<NiScreenTexture::ScreenRect> >::Realloc | NiScreenTexture.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiNewSize
 void ScreenRectArray::Resize(unsigned int uiNewCapacity)
 {
     if (uiNewCapacity != m_uiElementCount)
@@ -457,6 +466,8 @@ struct ScreenCopy
     void CopyTo(ScreenCopy* dest, void* cloning);
 };
 // @fnv 0x00a95760
+// pdb: NiScreenTexture::CopyMembers | NiScreenTexture.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkDest, kCloning
 void ScreenCopy::CopyTo(ScreenCopy* dest, void* cloning)
 {
     ((CopyBase*)this)->CreateVertexBufferSet(dest, cloning);
@@ -496,6 +507,7 @@ struct SpawnedObject
 };
 
 // @f3 0x00860d40 (community match, verified in this file)
+// pdb: NiScreenTexture::CreateObject | NiScreenTexture.obj | fnv360_0822_retail, objrun, medium
 SpawnedObject* __cdecl FUN_00a958b0()
 {
     SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x20);
@@ -563,6 +575,8 @@ struct NiScreenTexture : NiObject
 
 // Links the stream's NiTexturingProperty into the screen texture, releasing the old property and incrementing the new one's ref count.
 // @fnv 0x00a95600
+// pdb: NiScreenTexture::LinkObject | NiScreenTexture.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void NiScreenTexture::LinkTexturingProperty(NiStream& kStream)
 {
     NiObject::LinkObject(kStream);
@@ -749,7 +763,7 @@ struct ReadNiStream
     unsigned int unk244;
     unsigned int unk248;
     ReadBinaryStream* input;
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 
 template <class T> inline void ReadBinaryValue(ReadNiStream& kStream, T& value)
@@ -789,6 +803,8 @@ struct FUN_00a958f0_Class
 };
 // Reads a count and that many screen rects from the stream, appending each to rects and growing the array as needed.
 // @fnv 0x00a958f0
+// pdb: NiScreenTexture::LoadBinary | NiScreenTexture.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00a958f0_Class::ReadScreenRects(ReadNiStream& stream)
 {
     ReadGroup(stream);
@@ -814,7 +830,7 @@ void FUN_00a958f0_Class::ReadScreenRects(ReadNiStream& stream)
         arr.buffer[arr.used] = rect;
         ++arr.used;
     }
-    stream.FUN_00a645b0();
+    stream.NiStream_ReadLinkID();
 }
 
 struct S_00a95660_Color
@@ -868,6 +884,8 @@ struct S_00a95660_Foo
 };
 // Checks base equality and capacity, examines rectangle fields and colors, then returns the texturing-property comparison.
 // @fnv 0x00a95660
+// pdb: NiScreenTexture::IsEqual | NiScreenTexture.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkObject
 bool S_00a95660_Foo::Equals(S_00a95660_Foo* apOther)
 {
     if (!IsSameAs(apOther))
@@ -940,6 +958,8 @@ struct ScreenHost : ScreenCopy
 
 // Allocates a ScreenTextureClone, copies the source ScreenCopy into it via CopyTo, and returns the new object.
 // @fnv 0x00a95c10
+// pdb: NiScreenTexture::CreateClone | NiScreenTexture.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kCloning
 ScreenTextureClone* ScreenHost::FUN_00a95c10(void* apSource)
 {
     ScreenTextureClone* object = new ScreenTextureClone;

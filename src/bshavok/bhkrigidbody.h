@@ -22,6 +22,8 @@ unsigned int bhkRigidBody::GetInstanceSize()
 
 #pragma optimize("", on)
 // @fnv 0x00c8d170
+// pdb: bhkRigidBody::SetPosition | bhkRigidBody.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: arPos
 void bhkRigidBody::SetPosition(const NiPoint3& p)
 {
     if (this)
@@ -36,6 +38,8 @@ void bhkRigidBody::SetPosition(const NiPoint3& p)
     }
 }
 // @fnv 0x00c8d1a0
+// pdb: bhkRigidBody::SetRotation | bhkRigidBody.obj | fnv360_0822_retail, call_seq, high
+// pdb params: arRot
 void bhkRigidBody::SetRotation(const NiQuaternion& p)
 {
     if (this)
@@ -93,6 +97,8 @@ BhkRigidBody::BhkRigidBody()
     rigidBody.m_fRestitution = DAT_010c60d8;
 }
 // @fnv 0x00c8d1d0
+// pdb: bhkRigidBody::SetPosRot | bhkRigidBody.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arPos, arRot
 void bhkRigidBody::FUN_00c8d1d0(const NiPoint3& p, const NiQuaternion& q)
 {
     if (this)

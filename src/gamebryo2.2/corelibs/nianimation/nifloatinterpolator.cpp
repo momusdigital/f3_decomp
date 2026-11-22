@@ -20,6 +20,8 @@ NiFloatInterpolator::NiFloatInterpolator(NiFloatData* pkFloatData)
 
 // Loads the float value and a NiFloatData reference from the stream, releasing the old data and incrementing the new one's ref count.
 // @fnv 0x00a3c800
+// pdb: NiFloatInterpolator::LoadBinary | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kStream
 void NiFloatInterpolator::LoadBinary(NiStream& kStream)
 {
     NiKeyBasedInterpolator::LoadBinary(kStream);
@@ -40,6 +42,8 @@ void NiFloatInterpolator::LoadBinary(NiStream& kStream)
 }
 
 // @fnv 0x00a3c3c0
+// pdb: NiFloatInterpolator::GetKeyCount | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, medium
+// pdb params: usChannel
 int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
 {
     void* pData = *(void**)((char*)thisPtr + 0x10);
@@ -49,6 +53,8 @@ int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
 }
 
 // @fnv 0x00a3c3d0
+// pdb: NiFloatInterpolator::GetKeyArray | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, medium
+// pdb params: usChannel
 unsigned char __fastcall FUN_00a3c3d0(const void* self, int, unsigned short)
 {
     const char* p = *(const char**)((const char*)self + 0x10);
@@ -64,6 +70,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3738;
 
 // @fnv 0x00a3c380
+// pdb: BSMultiBoundAABB::GetRTTI | BGSPrimitive.obj | fnv360_0822_retail, vtable_prefix, medium
 const GlobalObjectO2_00a7b610* __cdecl FUN_00a3c380()
 {
     return &g_011f3738;
@@ -81,6 +88,8 @@ struct FloatInterpView
 
 // If m_spFloatData is set, forwards the two float arguments to its FUN_00a3cc40 method.
 // @fnv 0x00a3c540
+// pdb: NiFloatInterpolator::SetPoseValue | NiFloatInterpolator.obj | fnv360_0822_debug, objrun_sim, low, conflict (skyrim: NiFloatInterpolator::GuaranteeTimeRange)
+// pdb params: fPoseValue
 void __fastcall FUN_00a3c540(FloatInterpView* self, int edx, float m_fStartTime, float m_fMaximumDistance)
 {
     if (self->m_spFloatData)
@@ -94,6 +103,8 @@ struct FUN_00a3c500_shell : NiFloatInterpolator
 
 // Releases the NiFloatData pointer at offset 0x10 if set, then stores value at offset 0xc.
 // @fnv 0x00a3c500
+// pdb: NiFloatInterpolator::SetPoseValue | NiFloatInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fPoseValue
 void FUN_00a3c500_shell::SetFloatValue(float value)
 {
     if (reinterpret_cast<NiPointer<NiFloatData>*>(reinterpret_cast<char*>(this) + 0x10)->m_pObject)
@@ -123,6 +134,8 @@ struct S_00a3c340_Class
 };
 
 // @fnv 0x00a3c340
+// pdb: NiFloatInterpolator::NiFloatInterpolator | NiFloatInterpolator.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pkFloatData
 S_00a3c340_Class* S_00a3c340_Class::Initialize(int arg)
 {
     FUN_00a3ca10();
@@ -154,6 +167,8 @@ class FUN_00a3c390 : public NiKeyBasedInterpolator
 
 // Constructs a float interpolator, initialising the pose value from the argument and clearing the float data pointer and the extra field.
 // @fnv 0x00a3c390
+// pdb: NiFloatInterpolator::NiFloatInterpolator | NiFloatInterpolator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: fPoseValue
 FUN_00a3c390::FUN_00a3c390(float fPoseValue) : m_fFloatValue(fPoseValue), m_spFloatData(0), m_uiLastKeyIndex(0)
 {}
 
@@ -167,6 +182,8 @@ struct NiFloatInterpolatorShell_00a3c3f0 : NiFloatInterpolator
 
 // Returns 0 if m_spFloatData.m_pObject is set or m_fFloatValue equals DAT_0109a918, otherwise returns 1.
 // @fnv 0x00a3c3f0
+// pdb: NiFloatInterpolator::GetKeyStride | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiFloatInterpolator::GetChannelPosed)
+// pdb params: usChannel
 unsigned char NiFloatInterpolatorShell_00a3c3f0::FUN_00a3c3f0(unsigned int unused) const
 {
     if (m_spFloatData.m_pObject)
@@ -213,6 +230,8 @@ struct NiFloatInterpolatorEquality : NiFloatInterpolator
     bool FUN_00a3c5e0(const NiObject* otherObject);
 };
 // @fnv 0x00a3c5e0
+// pdb: NiFloatInterpolator::RegisterStreamables | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiFloatInterpolator::IsEqual)
+// pdb params: kStream
 bool NiFloatInterpolatorEquality::FUN_00a3c5e0(const NiObject* otherObject)
 {
     if (!reinterpret_cast<NiBaseEqualityView*>(this)->FUN_00c85800(otherObject))
@@ -294,6 +313,7 @@ class A3C640Interpolator
 };
 
 // @fnv 0x00a3c640
+// pdb: NiFloatInterpolator::`scalar deleting destructor' | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (bridge: NiFloatInterpolator::GetSequenceInterpolator)
 A3C640Interpolator* A3C640Interpolator::FUN_00a3c640(float m_fStartTime, float m_fMaximumDistance) const
 {
     A3C640Interpolator* pkSeqInterp = FUN_00a57050(m_fStartTime, m_fMaximumDistance);
@@ -353,6 +373,8 @@ class BA3C6D0Interpolator
 };
 
 // @fnv 0x00a3c6d0
+// pdb: NiFloatInterpolator::GetSequenceInterpolator | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiFloatInterpolator::Update)
+// pdb params: fStartTime, fEndTime
 bool BA3C6D0Interpolator::EvaluateFloatAtTime(float fTime, void* pkInterpTarget, float& fValue)
 {
     if (!TimeHasChanged(fTime))
@@ -389,6 +411,8 @@ struct FUN_00a3c780_cls : NiFloatInterpolator
 };
 
 // @fnv 0x00a3c780
+// pdb: NiFloatInterpolator::Update | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiFloatInterpolator::CopyMembers)
+// pdb params: fTime, pkInterpTarget, fValue
 void FUN_00a3c780_cls::FUN_00a3c780(NiFloatInterpolator* dst, unsigned int uiArg)
 {
     CopyBase(dst, uiArg);
@@ -472,6 +496,8 @@ class C940FloatInterpolator
 
 // Appends the base viewer strings plus the class name, m_fFloatValue and m_spFloatData entries to pkStrings.
 // @fnv 0x00a3c940
+// pdb: NiFloatInterpolator::GetViewerStrings | NiFloatInterpolator.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void C940FloatInterpolator::FUN_00a3c940(C940StringArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
@@ -555,6 +581,8 @@ class NiFloatInterpolatorW : public FUN_00a95ca0_helper
 };
 
 // @fnv 0x00a3c880
+// pdb: NiFloatInterpolator::SaveBinary | NiFloatInterpolator.obj | fnv360_0721_beta, objrun, high
+// pdb params: kStream
 void NiFloatInterpolatorW::SaveToStream(NiStreamW& kStream)
 {
     FUN_00a95ca0(&kStream);
@@ -608,12 +636,14 @@ extern float DAT_0109a918;
 class FUN_00a3c420_cls : public NiFloatInterpolator
 {
   public:
-    void CollapseConstantKeys();
+    void NiFloatInterpolator_Collapse();
 };
 
 // When the key data is empty or collapsible, clears m_spFloatData and stores a float value in m_fFloatValue.
 // @fnv 0x00a3c420
-void FUN_00a3c420_cls::CollapseConstantKeys()
+// pdb: NiFloatInterpolator::Collapse | NiFloatInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb: NiFloatInterpolator::Collapse | NiFloatInterpolator.obj | fnv360_0822_retail, objrun, high (was: CollapseConstantKeys)
+void FUN_00a3c420_cls::NiFloatInterpolator_Collapse()
 {
     if (m_spFloatData.m_pObject)
     {
@@ -680,6 +710,8 @@ struct A3C8D0_Owner
 };
 // Allocates an A3C8D0_Object, calls FUN_00a3c780 with the object and arg, and returns the object.
 // @fnv 0x00a3c8d0
+// pdb: NiFloatInterpolator::CreateClone | NiFloatInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: kCloning
 A3C8D0_Object* A3C8D0_Owner::CreateObject(int arg)
 {
     A3C8D0_Object* object = new A3C8D0_Object;

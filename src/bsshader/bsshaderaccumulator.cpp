@@ -1,4 +1,4 @@
-// bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
+// bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (33 functions)
 #include "f3_common.h"
 #include "bsshaderaccumulator_types.h"
 
@@ -25,6 +25,8 @@ class AccumWIP : public BSShaderAccumulator
 };
 
 // @fnv 0x00b639e0
+// pdb: BSShaderAccumulator::RenderGeometryGroup | BSShaderAccumulator.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: auiGeometryGroup, abAlphaPass
 void AccumWIP::SetShaderPassEnabled(unsigned int uiGroupIndex, bool bFlag)
 {
     GroupView* pkGroup = reinterpret_cast<BRView*>(m_pGroupRenderer[0])->m_pGeometryGroups[uiGroupIndex];
@@ -54,6 +56,7 @@ FNV_STATIC_ASSERT(offsetof(BSShaderAccumulatorPassIndexList, m_item) == 0);
 FNV_STATIC_ASSERT(offsetof(BSShaderAccumulatorPassIndexList, m_pkNext) == 4);
 
 // @fnv 0x00b64ec0
+// pdb: BSSimpleList<unsigned short>::RemoveAll | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, high
 template <> void BSSimpleList<unsigned short>::RemoveAll()
 {
     while (m_pkNext)
@@ -73,6 +76,7 @@ template <> void BSSimpleList<unsigned short>::RemoveAll()
 
 // Iterates over the active passes and calls RemoveAll on each pass's list.
 // @fnv 0x00b65580
+// pdb: BSShaderAccumulator::ClearBloodSplatter | BSShaderAccumulator.obj | fnv360_0822_debug, objopen_prop, low
 void BSShaderAccumulator::ClearActivePasses()
 {
     for (unsigned int i = 0; i < m_uiRendererCount; ++i)
@@ -127,6 +131,8 @@ struct BatchRendererDummy
 };
 
 // @f3 0x00ae6dc0 (community match, verified in this file)
+// pdb: BSShaderAccumulator::StartGroupingAlphas | BSShaderAccumulator.obj | fnv360_0721_beta, call_gap_sim, medium
+// pdb params: aBound, abZPrePass
 void FUN_00b63500_shell::RenderBound(void* aBound, bool abZPrePass)
 {
     unsigned int uiIndex = *(unsigned int*)&tls_data[0x2a4] % *(unsigned int*)((char*)this + 0x18c);
@@ -144,6 +150,7 @@ extern int DAT_011ff9e4;
 extern float DAT_01200458;
 
 // @fnv 0x00b64e30
+// pdb: BSShaderAccumulator::RenderDecals | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap_sim, medium
 void __fastcall FUN_00b64e30(AccumWIP* pAccumWIP)
 {
     if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(pAccumWIP) + 0x16C) &&
@@ -212,6 +219,8 @@ struct BSBatchRendererView
 };
 
 // @fnv 0x00b64f20
+// pdb: BSBatchRenderer::ClearAlphaLists | BSShaderAccumulator.obj | fnv360_0822_retail, caller, medium
+// pdb params: aiSide
 void __fastcall FUN_00b64f20(BSBatchRendererView* pThis, int, unsigned int uiIndex)
 {
     pThis->pAlphaGroups[uiIndex]->ClearPassTextureSlots();
@@ -261,6 +270,7 @@ struct Self_00b655b0
 // @f3 0x00ae87d0 (community match, verified in this file)
 extern unsigned int DAT_0106e5a4;
 extern long (__stdcall* DAT_00d9b06c)(long volatile*, long, long);
+// pdb: BSShaderAccumulator::ClearAllBoundVolumes | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap, low
 void __fastcall FUN_00b655b0(Self_00b655b0* self)
 {
     while (self->count != 0)
@@ -451,6 +461,8 @@ struct BSRenderStateManager
 };
 
 // @fnv 0x00b65e80
+// pdb: BSShaderAccumulator::FinishAccumulating_Interface | BSShaderAccumulator.obj | fnv360_1110_retail, caller_sim, medium
+// pdb params: apAccumulator
 void __cdecl FUN_00b65e80(void* pObject)
 {
     if (*(int*)((unsigned char*)pObject + 8))
@@ -462,18 +474,7 @@ void __cdecl FUN_00b65e80(void* pObject)
     }
 }
 
-struct NiGPUProgram : public NiRefObject
-{
-};
 struct NiRenderer;
-struct BloodSplatterBeamShader
-{
-    static NiGPUProgram* __cdecl CreateShader();
-};
-struct ReleaseStub
-{
-    void DrawSlots(int);
-};
 struct TlsBlock
 {
     char pad[0x2b4];
@@ -494,22 +495,6 @@ struct PoolModeGuard
     }
 };
 extern NiRenderer* DAT_011f9508;
-extern NiPointer<NiGPUProgram> DAT_011f956c;
-// If a renderer exists, creates the shader when missing and then calls DrawSlots(0) on it.
-// @fnv 0x00b55a10
-void FUN_00b55a10()
-{
-    if (DAT_011f9508)
-    {
-        if (!DAT_011f956c.m_pObject)
-        {
-            PoolModeGuard guard(5);
-            DAT_011f956c = BloodSplatterBeamShader::CreateShader();
-        }
-        if (DAT_011f956c.m_pObject)
-            ((ReleaseStub*)DAT_011f956c.m_pObject)->DrawSlots(0);
-    }
-}
 
 struct FUN_00b63090_shell : public BSShaderAccumulator
 {
@@ -527,6 +512,7 @@ struct AccumStub
 };
 extern __declspec(thread) unsigned int g_threadIndex;
 // @fnv 0x00b63090
+// pdb: BSShaderAccumulator::StopGroupingAlphas | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap_sim, low
 void FUN_00b63090_shell::DispatchBatchRenderer()
 {
     AccumStub* a = reinterpret_cast<AccumStub*>(this);
@@ -555,6 +541,7 @@ struct AccumStub
 };
 // For each of the three entries, queries the stub, releases and deallocates it, clears the pointer and flag, then clears m_b40.
 // @fnv 0x00b63620
+// pdb: BSFileCache::ForceResumeFileCaching | Main.obj | fnv360_0822_debug, call_gap, low
 void __fastcall FUN_00b63620(AccumStub* self)
 {
     for (int i = 0; i < 3; ++i)
@@ -620,6 +607,8 @@ void __fastcall FUN_00c4ed40(void*);
 
 // Looks up a volume by id in the accumulator's list, optionally runs its query, and returns/caches the volume's boolean state.
 // @fnv 0x00b63680
+// pdb: BSShaderAccumulator::IsBoundVolumeOccluded | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: auiReferenceID, abRunTest
 bool FUN_00b63680_shell::CheckVolumeState(unsigned int uiVolumeId, bool abRunQuery)
 {
     AccumView* v = reinterpret_cast<AccumView*>(this);
@@ -701,6 +690,7 @@ struct AccumStub
 };
 // Calls FUN_00b99a10 on each of the m_uiCount batch renderers, passing m_i8 and m_c31.
 // @fnv 0x00b63a50
+// pdb: BSShaderAccumulator::SortAlphaPasses | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap_sim, medium
 void __fastcall FUN_00b63a50(AccumStub* pAccum)
 {
     for (unsigned int i = 0; i < pAccum->m_uiCount; ++i)
@@ -714,6 +704,7 @@ struct BSShaderLightingProperty
     void ClearLights();
 };
 // @fnv 0x00b65570
+// pdb: NiTPointerMap<unsigned int,ChangeData *>::NewItem | TESSaveLoadGame.obj | fnv360_0822_retail, vtable, medium
 void __fastcall FUN_00b65570(char* self, int unused)
 {
     reinterpret_cast<BSShaderLightingProperty*>(self + 0xc)->ClearLights();
@@ -723,7 +714,8 @@ void __fastcall FUN_00b65570(char* self, int unused)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011fa000;
 // @fnv 0x00b65a80
-GlobalObjectO2_00a7b610* __cdecl FUN_00b65a80()
+// pdb: NiCullingProperty::GetRTTI | NiCullingProperty.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+GlobalObjectO2_00a7b610* __cdecl NiCullingProperty_GetRTTI()
 {
     return &g_011fa000;
 }
@@ -731,6 +723,8 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00b65a80()
 void __cdecl FUN_00b65ae0(void*);
 void __cdecl FUN_00b65c60(void*);
 // @fnv 0x00b665a0
+// pdb: BSShaderAccumulator::FinishAccumulating_Standard | BSShaderAccumulator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apAccumulator
 void __cdecl FUN_00b665a0(void* p)
 {
     FUN_00b65ae0(p);
@@ -965,10 +959,6 @@ struct OMMember1a4
         FUN_00ba8cd0((char*)this);
     }
 };
-struct OMPolyObj
-{
-    virtual void* Destroy(unsigned int);
-};
 struct OMObjC4
 {
     ~OMObjC4()
@@ -1016,92 +1006,6 @@ struct OMCS
         DeleteCriticalSection(&m_kCS);
     }
 };
-struct FUN_00a9b4a0
-{
-    virtual ~FUN_00a9b4a0();
-    char pad[0x88];
-};
-struct OMSlot48
-{
-    OMObjC4* m_p;
-    char pad[0x10];
-};
-struct FUN_00b656e0 : public FUN_00a9b4a0
-{
-    OMPod* m_p8c;
-    OMList m_kList90;
-    BSBatchRenderer__PassList m_aPassA[4];
-    BSBatchRenderer__PassList m_aPassB[4];
-    OMRefPtr m_sp13c;
-    OMList m_kList140;
-    char pad14c[0x24];
-    OMObjD9* m_p170;
-    OMPolyObj* m_p174;
-    OMPolyObj* m_p178;
-    OMPod* m_p17c;
-    OMPod* m_p180;
-    OMPod* m_p184;
-    OMPod* m_p188;
-    char pad18c[0xc];
-    OMRefPtr m_sp198;
-    unsigned int m_u19c;
-    OMRefPtr m_sp1a0;
-    OMMember1a4 m_k1a4;
-    OMMap m_kMap1b4;
-    char pad1c4[0x3c];
-    OMCS m_kCS;
-    virtual ~FUN_00b656e0();
-};
-// @fnv 0x00b656e0
-FUN_00b656e0::~FUN_00b656e0()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        m_aPassA[i].Reset();
-        m_aPassB[i].Reset();
-    }
-    delete[] m_p8c;
-    while (m_kList140.m_uiCount)
-    {
-        OMData140* pkData = (OMData140*)m_kList140.m_pkHead->m_element;
-        if (pkData)
-        {
-            if (pkData->m_p14)
-            {
-                delete pkData->m_p14;
-                pkData->m_p14 = 0;
-            }
-            delete pkData;
-        }
-        m_kList140.RemoveHead();
-    }
-    m_sp13c = 0;
-    OMSlot48* pkSlots = (OMSlot48*)((char*)this + 0x48);
-    for (int iSlotIndex = 0; iSlotIndex < 3; iSlotIndex++)
-    {
-        if (pkSlots[iSlotIndex].m_p)
-        {
-            delete pkSlots[iSlotIndex].m_p;
-            pkSlots[iSlotIndex].m_p = 0;
-        }
-    }
-    if (m_p170)
-    {
-        delete m_p170;
-        m_p170 = 0;
-    }
-    if (m_p174)
-        m_p174->Destroy(1);
-    if (m_p178)
-        m_p178->Destroy(1);
-    delete[] m_p17c;
-    delete[] m_p180;
-    delete[] m_p184;
-    delete[] m_p188;
-    m_sp1a0 = 0;
-    m_kMap1b4.RemoveAll();
-    m_sp198 = 0;
-}
 }  // namespace fnv_00b656e0
 
 namespace fnv_00b65c60 {
@@ -1141,6 +1045,8 @@ extern BSRenderedTexture* DAT_011f943c;
 extern NiRenderer* DAT_011f9508;
 
 // @fnv 0x00b65c60
+// pdb: BSShaderAccumulator::FinishAccumulating_Standard_PostResolveDepth | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apAccumulator
 void FUN_00b65c60(AccumWIP* apAccum)
 {
     if (*((unsigned char*)apAccum + 0x38) && ((AccumStub*)apAccum)->FUN_00b63120(0x288, 0x2ce))
@@ -1186,13 +1092,15 @@ extern int DAT_011a9608;
 void __cdecl _FUN_00b98280(int, int, int, int, int, int, int);
 struct AccumView
 {
-    void* CreateRenderPassesNode();
+    void* BSShaderAccumulator_CreateRenderPassTree();
     void FUN_00b63a50();
     void UpdatePasses(bool);
     void FUN_00b64e30();
 };
 
 // @fnv 0x00b65ae0
+// pdb: BSShaderAccumulator::FinishAccumulating_Standard_PreResolveDepth | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apAccumulator
 void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
 {
     if (pAccum->m_pkAccumulationCamera)
@@ -1216,7 +1124,7 @@ void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
         pAccum->SetShaderPassEnabled(10, false);
         if (DAT_011f9fc1 && *(int*)(raw + 0x19c) != 7)
         {
-            DAT_011fa008 = ((AccumView*)pAccum)->CreateRenderPassesNode();
+            DAT_011fa008 = ((AccumView*)pAccum)->BSShaderAccumulator_CreateRenderPassTree();
             DAT_011f9fc1 = false;
         }
         if (*(bool*)(raw + 0x164))
@@ -1279,7 +1187,6 @@ struct NiGlobalStringTable
 };
 
 extern char* _EmptyFS;
-extern unsigned int _data_011c16bc;
 
 extern "C" __declspec(dllimport) void __stdcall _free(void*);
 
@@ -1299,7 +1206,9 @@ struct NiFixedString
 
 // Creates a NiNode named "RenderPasses", initializes a NiUpdateData with zeroed flags, updates the node, and returns it.
 // @fnv 0x00b63420
-NiNode* __cdecl CreateRenderPassesNode()
+// pdb: BSShaderAccumulator::CreateRenderPassTree | BSShaderAccumulator.obj | fnv360_0822_retail, ustr, high
+// pdb: BSShaderAccumulator::CreateRenderPassTree | BSShaderAccumulator.obj | fnv360_0822_retail, ustr, high (was: CreateRenderPassesNode)
+NiNode* __cdecl BSShaderAccumulator_CreateRenderPassTree()
 {
     NiUpdateData UpdateData;
     NiNode* pNode = new NiNode(0);
@@ -1382,6 +1291,8 @@ struct Candidate : BSShaderAccumulator
     void RenderGeometryPass(void* geometry, unsigned int index, void* camera);
 };
 // @fnv 0x00b64bf0
+// pdb: BSShaderAccumulator::DoSunOcclusionQueury | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSunGeometry, aiTestNumber, apCamera
 void Candidate::RenderGeometryPass(void* geometry, unsigned int index, void* camera)
 {
     if (m_bSkipGeometryPass || index >= 3 || m_akRenderQueryStates[index].m_bQueryPending)
@@ -1482,6 +1393,8 @@ struct RenderAccumulator : BSShaderAccumulator
 };
 // Runs each renderer's passes in priority order, choosing the next pass by pass id, sub-index and flag, then finalizes the groups.
 // @fnv 0x00b63770
+// pdb: BSShaderAccumulator::RenderBatches | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aePass, aePassEnd, abAlphaPass, aeGroup
 void RenderAccumulator::FUN_00b63770(unsigned int uiFirstPass, unsigned int last, bool flag, int group)
 {
     RenderBatch* renderers[2];
@@ -1563,17 +1476,6 @@ void RenderAccumulator::FUN_00b63770(unsigned int uiFirstPass, unsigned int last
     FUN_00b988e0();
 }
 
-class BSShaderAccumulatorPassIndexList_W : public BSSimpleList<unsigned short>
-{
-  public:
-    void FUN_00b64f10();
-};
-// @fnv 0x00b64f10
-void BSShaderAccumulatorPassIndexList_W::FUN_00b64f10()
-{
-    RemoveAll();
-}
-
 void FUN_00b988e0();
 extern float DAT_01015f5c;
 struct FlagB
@@ -1603,6 +1505,8 @@ struct ViewX
 };
 // Runs both passes while either returns a value above the float minimum, then finalizes each active pass.
 // @fnv 0x00b650c0
+// pdb: BSShaderAccumulator::RenderAlphaGeometry | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: aeSide
 void ViewX::UpdatePasses(void* p)
 {
     FUN_00b988e0();
@@ -1685,6 +1589,8 @@ class RefVolAccum : public BSShaderAccumulator
 };
 
 // @fnv 0x00b65f60
+// pdb: BSShaderAccumulator::AddAndUpdateBoundVolume | BSShaderAccumulator.obj | fnv360_0721_beta, call_gap_sim, low
+// pdb params: auiReferenceID, aBound, abRunTest
 void RefVolAccum::UpdateOrAddItem(unsigned int key, const RefVolSrc* src, bool flag)
 {
     RefVolList* list = (RefVolList*)&m_kReferenceVolumeList;
@@ -2100,6 +2006,8 @@ struct FUN_00b64a00_Pass
 
 // Sets a white background, configures the accumulation camera, and issues pass commands, optionally using pkOther's frustum.
 // @fnv 0x00b64a00
+// pdb: BSShaderAccumulator::RenderDepth | BSShaderAccumulator.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apWorldCamera, ap1stPersonCamera
 void FUN_00b64a00_Pass::FUN_00b64a00(ShCamera* pkCamera, ShCamera* pkOther)
 {
     ShRenderer* pkRenderer = g_pShRenderer;
@@ -2476,129 +2384,6 @@ void __cdecl FUN_00b6b790();
 void __cdecl FUN_00b6b8d0(int aiType, int aiValue);
 extern ShRenderer* g_pShRenderer;
 
-struct Sh651_BaseA
-{
-    virtual void v00();
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-};
-struct Sh651_BaseB
-{
-    int unk00;
-};
-struct Sh651_Accum : Sh651_BaseA, Sh651_BaseB
-{
-    ShManager* FUN_00b63c60();
-    void FUN_00b63d10();
-};
-struct Sh651_Cam
-{
-    int unk00;
-    char unk04;
-    bool m_bValueAt0C;
-    short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    ShColor m_kFogTint;
-};
-struct Sh651_Scene
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    Sh651_Cam* m_pkCam;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    Sh651_BaseB* m_pkAccum;
-};
-struct Sh651_Holder
-{
-    int unk00;
-    int unk04;
-    Sh651_Scene* m_pkScene;
-    void FUN_00b97550(int aiPass, ShRenderer* pkRenderer, ShManager* pkA, ShManager* pkB, int aiC, int aiD);
-};
-extern Sh651_Holder* g_pSh651Holder;
-extern bool g_bSh651Flag;
-
 struct Sh651_Pass;
 void __cdecl FUN_00ba8ec0(Sh651_Pass* pkPass, int a, int b, int c, int d, int e);
 struct Sh651_Pass
@@ -2628,11 +2413,6 @@ inline void Sh651_Pass::Apply(unsigned short usPass)
     g_pkSh651Pass = this;
     m_usPass = usPass;
     g_iSh651Pass = m_usPass;
-}
-inline void SetPass651(Sh651_Pass* p)
-{
-    g_iSh651Pass = p->m_usPass;
-    g_pkSh651Pass = p;
 }
 struct Sh651_Geom
 {
@@ -2795,155 +2575,7 @@ struct Sh651_List
         return pkElement;
     }
 };
-struct Sh651_Batch
-{
-    virtual void v000();
-    virtual void v004();
-    virtual void v008();
-    virtual void v00C();
-    virtual void v010();
-    virtual void v014();
-    virtual void v018();
-    virtual void v01C();
-    virtual void v020();
-    virtual void v024();
-    virtual void v028();
-    virtual void v02C();
-    virtual void v030();
-    virtual void v034();
-    virtual void v038();
-    virtual void v03C();
-    virtual void v040();
-    virtual void v044();
-    virtual void v048();
-    virtual void v04C();
-    virtual void v050();
-    virtual void v054();
-    virtual void v058();
-    virtual void v05C();
-    virtual void v060();
-    virtual void v064();
-    virtual void v068();
-    virtual void v06C();
-    virtual void v070();
-    virtual void v074();
-    virtual void v078();
-    virtual void v07C();
-    virtual void v080();
-    virtual void v084();
-    virtual void v088();
-    virtual void v08C();
-    virtual void v090();
-    virtual void v094();
-    virtual void v098();
-    virtual void v09C();
-    virtual void v0A0();
-    virtual void Prepare();
-    int unk04;
-    ShCamera* m_pkAccumulationCamera;
-    int unk0C;
-    int unk10;
-    int unk14;
-    Sh651_List* m_pkList;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    Sh651_List m_kList;
-    bool FUN_00b651e0(ShCamera* pkCamera, ShManager* pkManager);
-};
 
-// Renders items whose geometry passes the type check, issuing selected passes and updating fog state.
-// @fnv 0x00b651e0
-bool Sh651_Batch::FUN_00b651e0(ShCamera* pkCamera, ShManager* pkManager)
-{
-    unsigned int ItemUpdateArray = m_kList.m_uiCount;
-    if (ItemUpdateArray > 0)
-    {
-        if (g_pShRenderer->m_iRendererState)
-            FUN_00b6b790();
-        ShRenderer* pkRenderer = g_pShRenderer;
-        ShColor kSaved;
-        ShManager* pkAccumMgr = static_cast<Sh651_Accum*>(g_pSh651Holder->m_pkScene->m_pkAccum)->FUN_00b63c60();
-        Sh651_Pass kPass;
-        bool bFlag = g_bSh651Flag;
-        ShCamera* pkSavedCamera = m_pkAccumulationCamera;
-        m_pkAccumulationCamera = pkCamera;
-        pkRenderer->GetBackgroundColor(kSaved);
-        pkRenderer->SetBackgroundColor(ShColor(0.0f, 0.0f, 0.0f, 1.0f));
-        m_pkList = &m_kList;
-        Prepare();
-        kPass.m_usPass = 0x25b;
-        Sh651_Node* pkNode = m_kList.m_pkHead;
-        while (pkNode)
-        {
-            Sh651_Item* pkItem = m_kList.GetNext(pkNode);
-            Sh651_Geom* pkGeom = pkItem->m_pkGeom;
-            if (pkGeom && pkGeom->IsType())
-            {
-                pkGeom = pkItem->m_pkGeom;
-                if (pkGeom)
-                {
-                    FUN_00b6b8d0(3, pkAccumMgr->FUN_00b6b260());
-                    pkRenderer->SetCurrentCamera(
-                        m_pkAccumulationCamera->m_kWorldTranslate, m_pkAccumulationCamera->m_kWorldRotate,
-                        m_pkAccumulationCamera->m_kViewFrustum, m_pkAccumulationCamera->m_kPort);
-                    if (bFlag)
-                    {
-                        SetPass651(&kPass);
-                        pkItem->Render(g_pShRenderer);
-                    }
-                    else
-                    {
-                        kPass.m_usPass = 0x25a;
-                        SetPass651(&kPass);
-                        pkItem->Render(g_pShRenderer);
-                        kPass.m_usPass = 0x259;
-                        SetPass651(&kPass);
-                        pkItem->Render(g_pShRenderer);
-                    }
-                    FUN_00b6b790();
-                    FUN_00b6b8d0(0, pkManager->FUN_00b6b260());
-                    ShColor kColor = pkGeom->m_kFogTint;
-                    Sh651_Cam* pkCam = g_pSh651Holder->m_pkScene->m_pkCam;
-                    pkCam->m_bValueAt0C = true;
-                    pkCam->m_kFogTint = kColor;
-                    g_pSh651Holder->FUN_00b97550(0xd, pkRenderer, pkManager, pkManager, 0, 1);
-                }
-            }
-        }
-        m_kList.FUN_00b71300();
-        pkRenderer->SetBackgroundColor(kSaved);
-        m_pkAccumulationCamera = pkSavedCamera;
-        static_cast<Sh651_Accum*>(g_pSh651Holder->m_pkScene->m_pkAccum)->FUN_00b63d10();
-    }
-    return ItemUpdateArray > 0;
-}
 }  // namespace fnv_00b651e0
 
 struct QueryEntry_b64d
@@ -2971,6 +2603,7 @@ class QueryOwner_b64d
 
 // Processes pending query entries, aggregates visibility and pixel counts, and resets entries when no queries are waiting.
 // @fnv 0x00b64d60
+// pdb: BSShaderAccumulator::ResetSunOcclusion | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, medium
 void QueryOwner_b64d::UpdateQueries()
 {
     float fMaxVisibility = 0.0f;
@@ -3028,7 +2661,7 @@ void __fastcall FUN_00b64e30(AccumWIP*);
 class AccumWIP2 : public AccumWIP
 {
   public:
-    void* CreateRenderPassesNode();
+    void* BSShaderAccumulator_CreateRenderPassTree();
     void FUN_00b63a50();
     void UpdatePasses(int);
 };
@@ -3081,6 +2714,8 @@ struct VtblSlot41
 
 // Renders accumulation render passes for acc, toggling UpdatePasses based on a byte at offset 0x167 and disabling the depth buffer for a second pass group.
 // @fnv 0x00b65dc0
+// pdb: BSShaderAccumulator::FinishAccumulating_FirstPerson | BSShaderAccumulator.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apAccumulator
 void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
 {
     if (!apAccumWIP->m_pkAccumulationCamera)
@@ -3088,7 +2723,7 @@ void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
 
     if (DAT_011f9fc1)
     {
-        DAT_011fa008 = apAccumWIP->CreateRenderPassesNode();
+        DAT_011fa008 = apAccumWIP->BSShaderAccumulator_CreateRenderPassTree();
         DAT_011f9fc1 = false;
     }
 
@@ -3240,6 +2875,8 @@ class S00b66050_cls
 
 // Finds the entry with the given key in the linked list, frees its object and the entry itself, then removes the node from the list.
 // @fnv 0x00b66050
+// pdb: BSShaderAccumulator::RemoveBoundVolume | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: auiReferenceID
 void S00b66050_cls::RemoveEntry(unsigned int key)
 {
     S00b66050_node* node = m_kNode.m_pFirstNode;
@@ -3288,6 +2925,8 @@ class SunQueryAccum : public BSShaderAccumulator
 };
 // Polls a pending render query, stores its value when status is 1, and releases it for other nonzero statuses.
 // @fnv 0x00b63540
+// pdb: BSShaderAccumulator::EvaluateSunOcclusionResults | BSShaderAccumulator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiTestNumber
 void SunQueryAccum::PollQuery(unsigned int uiSlot)
 {
     if (uiSlot >= 3)
@@ -3781,6 +3420,8 @@ struct DepthAccumulator : BSShaderAccumulator
 };
 // Processes geometry groups using a depth surface and may update a lighting shader texture; restores the saved rectangle and camera.
 // @fnv 0x00b64570
+// pdb: BSShaderAccumulator::RenderNormals | BSShaderAccumulator.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apCamera, apCurRenderTarget
 bool DepthAccumulator::FUN_00b64570(NiCamera* camera, TextureView* target)
 {
     if (!target)
@@ -4020,7 +3661,6 @@ struct Map16
     }
     ~Map16();
 };
-extern void** vftable_BSShaderAccumulator;
 extern void* DAT_010adfbc[];
 extern void* DAT_010adfd8[];
 struct LocalColor
@@ -4250,51 +3890,3 @@ struct RenderTLS
     unsigned int poolState;
 };
 extern __declspec(thread) RenderTLS g_renderTLS;
-// @fnv 0x00b660d0
-FUN_00b660d0::FUN_00b660d0(int flags, unsigned count, unsigned pass)
-    : silhouette(0, 0, 0, 0), alpha(0, 0x2f5, true, 0, 0)
-{
-    accumulate = true;
-    firstPerson = false;
-    noShader = true;
-    queries = (void**)g_memoryManager.Allocate(200);
-    queryCount = 0;
-    querySize = 50;
-    for (int i = 0; i < 50; i++)
-        queries[i] = 0;
-    fog.FUN_00b71300();
-    sunPercent = 1;
-    sunWaiting = false;
-    sunPixels = 0;
-    for (int j = 0; j < 3; j++)
-    {
-        sun[j].query = 0;
-        sun[j].waiting = false;
-        sun[j].percent = 0;
-        sun[j].pixels = 0;
-        sun[j].frame = 0;
-    }
-    lastRef = 0;
-    lastResult = false;
-    instance = new FUN_00bd9120;
-    batchCount = count;
-    passCount = pass;
-    batch = new FUN_00b9a5b0(passCount, flags);
-    if (batchCount == 2)
-    {
-        batch2 = new FUN_00b9a5b0(passCount, flags);
-    }
-    else
-        batch2 = 0;
-    passes = new unsigned[batchCount];
-    buckets = new int[batchCount];
-    firsts = new bool[batchCount];
-    actives = new bool[batchCount];
-    renderMode = 0;
-    shadow.clear();
-    g_renderTLS.poolState = 0;
-    decals = true;
-    waterTarget.clear();
-    depth = false;
-    silhouette = LocalColor(0.3f, 0.3f, 0.3f, 1.0f);
-}

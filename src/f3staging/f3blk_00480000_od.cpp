@@ -75,6 +75,8 @@ struct Virt55 {
     virtual void __stdcall v54();
     virtual void __stdcall v55(int zero, D3DXPLANE* plane);
 };
+// pdb: TESWaterSystem::SetClipPlane | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afData, aiPlane
 void __stdcall FUN_00494aa0(float a, float b, float c, float d, int unused)
 {
     D3DXMATRIX mat1;

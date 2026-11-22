@@ -5,6 +5,7 @@
 int __cdecl FUN_00921850(int, int, int, int);
 extern int DAT_01169800;
 
+// pdb: `dynamic initializer for 'HK_SHAPE_DISPLAY_VIEWER_DEFAULT_OBJECT_COLOR'' | hkpShapeDisplayViewer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void FUN_00d7e4a0()
 {
     DAT_01169800 = FUN_00921850(240, 240, 240, 255);
@@ -15,6 +16,7 @@ void FUN_00d7e4a0()
 int FUN_00921850(int, int, int, int);
 extern int DAT_01169804;
 
+// pdb: `dynamic initializer for 'HK_SHAPE_DISPLAY_VIEWER_DEFAULT_FIXED_OBJECT_COLOR'' | hkpShapeDisplayViewer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 __declspec(noinline) void FUN_00d7e4d0()
 {
     DAT_01169804 = FUN_00921850(0x78, 0x78, 0x78, 0xff);
@@ -25,6 +27,7 @@ __declspec(noinline) void FUN_00d7e4d0()
 int __cdecl FUN_00921850(int, int, int, int);
 extern int DAT_01169810;
 
+// pdb: `dynamic initializer for 'HK_DEFAULT_SWEPT_TRANSFORM_COLOR_T1'' | hkpSweptTransformDisplayViewer.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: `dynamic initializer for 'HK_DEFAULT_PHANTOM_COLOR'')
 void FUN_00d7e4f0()
 {
     DAT_01169810 = FUN_00921850(240, 200, 0, 200);
@@ -35,6 +38,7 @@ void FUN_00d7e4f0()
 int __cdecl FUN_00921850(int, int, int, int);
 extern int DAT_0116982c;
 
+// pdb: `dynamic initializer for 'HK_DEFAULT_OBJECT_COLOR'' | hkpConvexRadiusViewer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void FUN_00d7e530()
 {
     DAT_0116982c = FUN_00921850(140, 240, 140, 140);
@@ -45,6 +49,7 @@ void FUN_00d7e530()
 int __cdecl FUN_00921850(int, int, int, int);
 extern int DAT_01169830;
 
+// pdb: `dynamic initializer for 'HK_DEFAULT_FIXED_OBJECT_COLOR'' | hkpConvexRadiusViewer.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void FUN_00d7e560()
 {
     DAT_01169830 = FUN_00921850(70, 200, 70, 140);
@@ -59,6 +64,7 @@ void __stdcall FUN_00c01f76(void*, int, int, void (__cdecl*)(), void (__cdecl*)(
 void __cdecl FUN_00d99670();
 int __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'BSShaderManager::pspShader'' | BSShaderManager.obj | fnv360_0822_retail, objrun, high
 void FUN_00d83c40()
 {
     FUN_00c01f76(&ARG_0116f338, 4, 35, FUN_004280b0, FUN_00424aa0);
@@ -70,6 +76,7 @@ struct V4 { float a, b, c, d; };
 
 extern V4 DAT_0116fe40[37];
 
+// pdb: `dynamic initializer for 'ISQRT_ADDITIVE_CONSTANT'' | BSShaderLightingProperty.obj | fnv360_0822_debug, objrun_open, low
 void FUN_00d83ed0()
 {
     V4* p = DAT_0116fe40;

@@ -23,6 +23,7 @@ struct B_0089be80 { void* vp; unsigned n; void* p8; int fc; char b10;
     __forceinline static void* operator new(unsigned s) throw() { return DAT_01090a78.FUN_0086b930(s); } };
 struct Base_0089be80 { void* vp; Base_0089be80(); };
 struct C_0089be80 : Base_0089be80 { char pad[0x20]; int f24; A_0089be80* f28; char pad2[4]; B_0089be80* f30; char pad3[0x4c]; char f80[0x18]; C_0089be80(); };
+// pdb: NiD3DShaderFactory::Create | NiD3DShaderFactory.obj | fnv360_0822_retail, call_gap, low
 C_0089be80::C_0089be80()
 {
     vp = &DAT_00e2c0d4;
@@ -41,6 +42,7 @@ extern void* DAT_01090a4c;
 extern char DAT_00e2c150[];
 void __cdecl FUN_00c24b70(const char*);
 
+// pdb: NiD3DShaderFactory::_SDMInit | NiD3DShaderFactory.obj | fnv360_0822_retail, ustr, medium
 __declspec(noinline) void FUN_0089bff0()
 {
     if (DAT_01091ca0 == 0)
@@ -59,6 +61,7 @@ __declspec(noinline) void FUN_0089bff0()
 bool __cdecl FUN_008a2f30(char*, char*);
 struct M_008a3350 { bool FUN_007ff810(char*); };
 
+// pdb: NiBezRotKey::Equal | NiBezRotKey.obj | tesv_win, hash, low
 __declspec(noinline) bool FUN_008a3350(char* a, char* b)
 {
     bool r = FUN_008a2f30(a, b);
@@ -97,6 +100,8 @@ struct Q { void FUN_008f3850(); void FUN_008f37f0(); };
 struct P { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual Q* get(); };
 struct B { char pad[0xc]; int on; };
 }
+// pdb: bhkWorld::AdjustForceAddCount | bhkWorld.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: apCollision, arData
 __declspec(noinline) void __cdecl FUN_008d31f0(n_008d31f0::P* p, n_008d31f0::B* b)
 {
     if (p)
@@ -120,6 +125,8 @@ struct O_008d59f0 { void** vt; };
 struct R_008d59f0 { char pad[0x10]; unsigned f; };
 struct S_008d59f0 { char pad[0x10]; O_008d59f0* o; };
 struct T_008d59f0 { char pad[0xc]; int f; };
+// pdb: bhkWorld::DoSetRestitution | bhkWorld.obj | fnv360_0822_retail, objrun_sim, low, conflict (skyrim: bhkWorld::DoSetFriction)
+// pdb params: apCollision, arData
 void FUN_008d59f0(S_008d59f0* p, T_008d59f0* q)
 {
     O_008d59f0* o = p->o;

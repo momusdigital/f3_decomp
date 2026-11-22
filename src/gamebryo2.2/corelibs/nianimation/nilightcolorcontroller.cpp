@@ -5,6 +5,8 @@
 extern "C" bool __stdcall FUN_00a57780(void*);
 
 // @fnv 0x00a461c0
+// pdb: Ni2DBuffer::IsEqual | Ni2DBuffer.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkObject
 char __stdcall FUN_00a461c0(void* kStream)
 {
     char result = 0;
@@ -19,6 +21,7 @@ struct FUN_00a4d1b0_shell
 };
 
 // @fnv 0x00a4d1b0
+// pdb: NiLightColorController::GetCtlrID | NiLightColorController.obj | fnv360_0822_retail, ustr_rel, medium
 const char* __thiscall FUN_00a4d1b0_shell::GetLightTypeName()
 {
     unsigned char flag = *(unsigned char*)((char*)this + 0x38);
@@ -26,15 +29,6 @@ const char* __thiscall FUN_00a4d1b0_shell::GetLightTypeName()
     if (!(flag & 1))
         result = "Diffuse";
     return result;
-}
-
-struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f3fa8;
-
-// @fnv 0x00a4d200
-GlobalObjectO2_00a7b610* __cdecl FUN_00a4d200()
-{
-    return &g_011f3fa8;
 }
 
 struct BSFadeNode
@@ -48,21 +42,6 @@ struct NiLightColorController
 };
 
 extern int DAT_01098dd4;
-
-// @fnv 0x00a4d500
-void* __cdecl FUN_00a4d500()
-{
-    void* p = BSFadeNode::operator new(0x3c);
-    if (p)
-    {
-        NiLightColorController* pController = (NiLightColorController*)p;
-        pController->FUN_00a57c80();
-        *(short*)((char*)p + 0x38) = 0;
-        *(void**)p = &DAT_01098dd4;
-        return p;
-    }
-    return 0;
-}
 
 struct NiPoint3
 {
@@ -92,6 +71,8 @@ struct S00a4d150
 };
 // Reads the light's first or second color depending on the flag and writes its RGB components into kValue.
 // @fnv 0x00a4d150
+// pdb: NiLightColorController::GetTargetPoint3Value | NiLightColorController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kValue
 void S00a4d150::GetLightColor(NiPoint3& kValue)
 {
     NiColor kColor;
@@ -118,6 +99,8 @@ struct FUN_00a4d1d0_holder
 };
 // Checks pkObject via FUN_00a57c10, then compares bit 0 of the inverted byte at offset 0x38 with the byte at this+0x38 and returns the result.
 // @fnv 0x00a4d1d0
+// pdb: NiLightColorController::IsEqual | NiLightColorController.obj | fnv360_0822_retail, objrun, low
+// pdb params: pkObject
 bool __thiscall FUN_00a4d1d0_holder::FUN_00a4d1d0(NiObject* pkObject)
 {
     NiLightColorController* pkControl = (NiLightColorController*)pkObject;
@@ -144,6 +127,8 @@ struct NiObjectNET
 };
 // Walks the RTTI chain of pkTarget and returns true if it reaches g_011f4a68_arg1, false if pkTarget is null or the chain ends.
 // @fnv 0x00a4d210
+// pdb: NiLightColorController::InterpTargetIsCorrectType | NiLightColorController.obj | fnv360_0721_retail, objrun, medium
+// pdb params: pkTarget
 bool __stdcall FUN_00a4d210(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
@@ -156,36 +141,7 @@ bool __stdcall FUN_00a4d210(NiObjectNET* pkTarget)
     return false;
 }
 
-void __cdecl _delete(void*, unsigned int);
-struct B462
-{
-    void __thiscall FUN_00a6d290();
-};
-struct R462
-{
-    virtual void f0();
-    virtual void f1();
-};
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-struct H462
-{
-    void* __thiscall DestroyAndFree(unsigned int);
-};
-// @fnv 0x00a4d460
-void* __thiscall H462::DestroyAndFree(unsigned int auiFlags)
-{
-    *(void* volatile*)this = (void*)&DAT_01098dd4;
-    void* p = *(void* volatile*)((char*)this + 0x34);
-    if (p)
-    {
-        if (InterlockedDecrement((long volatile*)((char*)p + 4)) == 0)
-            ((R462*)p)->f1();
-    }
-    ((B462*)this)->FUN_00a6d290();
-    if (auiFlags & 1)
-        _delete(this, 0x3c);
-    return this;
-}
 
 struct CloningProcess
 {
@@ -199,10 +155,11 @@ struct CloneHost
 {
     char _pad[0x38];
     unsigned short m_uiObjectFlags;
-    void* __thiscall FUN_00a4d4b0(CloningProcess&);
+    void* __thiscall NiLightColorController_CreateClone(CloningProcess&);
 };
 // @fnv 0x00a4d4b0
-void* __thiscall CloneHost::FUN_00a4d4b0(CloningProcess& kCloning)
+// pdb: NiLightColorController::CreateClone | NiLightColorController.obj | fnv360_0721_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+void* __thiscall CloneHost::NiLightColorController_CreateClone(CloningProcess& kCloning)
 {
     CloneHost* pkObject = (CloneHost*)BSFadeNode::operator new(0x3c);
     if (pkObject)
@@ -218,26 +175,6 @@ void* __thiscall CloneHost::FUN_00a4d4b0(CloningProcess& kCloning)
     ((NiAlphaController*)this)->CopyMemberData((NiAlphaController*)pkObject, kCloning);
     pkObject->m_uiObjectFlags = m_uiObjectFlags;
     return pkObject;
-}
-
-struct StrArr
-{
-    unsigned short m_uiItemCount;
-    unsigned short m_iElementCount;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-void __stdcall FUN_00a57d10(StrArr*);
-char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
-// @fnv 0x00a4d5a0
-void __stdcall FUN_00a4d5a0(StrArr* pkStrings)
-{
-    FUN_00a57d10(pkStrings);
-    char* p = FUN_00a7d330(*(GlobalObjectO2_00a7b610**)&g_011f3fa8);
-    unsigned int uiIndex = ((unsigned short*)pkStrings)[5];
-    if (uiIndex >= ((unsigned short*)pkStrings)[4])
-        pkStrings->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
-    pkStrings->SetAt(uiIndex, p);
 }
 
 struct NiBinaryStream
@@ -263,6 +200,8 @@ struct Stand840 : Base840
     void __thiscall WriteToStream(NiStream&);
 };
 // @fnv 0x00a4b840
+// pdb: NiLightColorController::SaveBinary | NiLightColorController.obj | fnv360_0721_beta, objrun, high
+// pdb params: kStream
 void __thiscall Stand840::WriteToStream(NiStream& stream)
 {
     Base840::FUN_00a57c00(stream);
@@ -414,6 +353,8 @@ struct Host
 };
 // Reads a stream, and for older versions creates a RefObject from it, swaps it into activeObject with reference counting, then activates it.
 // @fnv 0x00a4d3a0
+// pdb: NiLightColorController::LinkObject | NiLightColorController.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kStream
 void __thiscall Host::LoadActiveObject(VersionedDataBlock* stream)
 {
     FUN_00a57630(stream);
@@ -440,18 +381,6 @@ void __thiscall Host::LoadActiveObject(VersionedDataBlock* stream)
 
 extern float DAT_01096324;
 extern NiColor DAT_011f4998;
-extern FakeRTTI g_011f4a28;
-
-struct NiControllerOutput_00a4d240
-{
-    void __thiscall FUN_004bc280(const NiPoint3& value);
-    void __thiscall SetEffectColor(const NiColor& value);
-};
-
-struct DynCastObj : NiObject
-{
-    NiControllerOutput_00a4d240* __thiscall DynamicCast(FakeRTTI* type);
-};
 
 struct Controller34
 {
@@ -478,8 +407,8 @@ struct NiTimeController
     Controller34* controller34;
     unsigned int flags38;
 
-    bool __thiscall FUN_00a36250(float value);
-    void __thiscall EvaluateAndApplyOutput(float& parameter);
+    bool __thiscall NiTimeController_DontDoUpdate(float value);
+    void __thiscall NiLightColorController_Update(float& parameter);
 };
 
 // Evaluates the controller output into a clamped 0..1 vector and writes it to the output object, swapping vector/color when flags38 bit 0 is set.
@@ -495,7 +424,10 @@ struct OutputStandIn_0047
 };
 void* __cdecl FUN_00424d50(FakeRTTI* type, NiObject* obj);
 
-void NiTimeController::EvaluateAndApplyOutput(float& parameter)
+// pdb: NiLightColorController::Update | NiLightColorController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: UpdateData
+// pdb: NiLightColorController::Update | NiLightColorController.obj | fnv360_0822_retail, caller_sim, high (was: EvaluateAndApplyOutput)
+void NiTimeController::NiLightColorController_Update(float& parameter)
 {
     if ((unsigned char)(flags08 >> 5) & 1)
         value28 = DAT_01096324;
@@ -687,7 +619,7 @@ struct Stream_d530 : VersionedDataBlock
     unsigned short unk284;
     unsigned short legacyFlags;
 
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 
 struct LoadHost_d530 : Host
@@ -699,6 +631,8 @@ struct LoadHost_d530 : Host
 };
 
 // @fnv 0x00a4d530
+// pdb: NiLightColorController::LoadBinary | NiLightColorController.obj | fnv360_0721_retail, objrun, medium
+// pdb params: kStream
 void LoadHost_d530::ReadFromStream(Stream_d530& stream)
 {
     FUN_00a57c70(stream);
@@ -711,5 +645,5 @@ void LoadHost_d530::ReadFromStream(Stream_d530& stream)
         stream.input->ReadFlags(flags);
     }
     if (stream.version < 0x0a010068)
-        stream.FUN_00a645b0();
+        stream.NiStream_ReadLinkID();
 }

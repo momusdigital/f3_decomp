@@ -7,14 +7,15 @@
 
 // @f3 0x0076dbf0 (community match, verified in this file)
 namespace f3m_0076dbf0 {
-int __cdecl FUN_004c2660(int handle);
+int __cdecl ImageSpaceModifierInstance_Stop(int handle);
 
+// pdb: PlayerCharacter::StopIronSightsImageSpace | PlayerCharacter.obj | fnv360_0822_retail, call_gap_sim, low
 void __fastcall FUN_0076dbf0(void* pThis)
 {
     int file = *(int*)((char*)pThis + 0x578);
     if (file)
     {
-        FUN_004c2660(file);
+        ImageSpaceModifierInstance_Stop(file);
         *(int*)((char*)pThis + 0x578) = 0;
     }
 }

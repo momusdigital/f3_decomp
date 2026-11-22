@@ -5,22 +5,6 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct FUN_00d65970_stub
-{
-    void FUN_00d65970(int);
-};
-struct FUN_00d65f70_class
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    void FUN_00d65f70();
-};
 struct S_00c6d840_Pair
 {
     int m_kPointA;
@@ -70,58 +54,6 @@ struct S_00c6d840
     int m_uiItemCount;
     S_00c6d840_Pair FindEntry(int key, int unused);
 };
-struct FUN_00cb1a60_t
-{
-    void ResetEntries();
-};
-struct FUN_00d653e0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    FUN_00cb1a60_t sub54;
-    void FUN_00d653e0();
-};
-struct FUN_00d655e0_Item
-{
-    int key;
-};
-struct FUN_00d655e0_class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    FUN_00d655e0_Item** items30;
-    int count34;
-    int FindItemIndex(int key);
-};
 struct Allocator
 {
     virtual void reserved();
@@ -133,10 +65,6 @@ struct BSAudio
     Allocator* allocator;
 };
 void* __cdecl FUN_00c85750();
-struct FUN_00d657d0_class
-{
-    FUN_00d657d0_class* FUN_00d657d0(int);
-};
 void* __cdecl FUN_00d65910(void* context);
 struct FUN_00dd9380_class
 {
@@ -145,23 +73,8 @@ struct FUN_00dd9380_class
 struct hkProcessFactory : FUN_00dd9380_class
 {
 };
-struct GlobalObjectO2_00d472a0
-{
-};
 extern hkProcessFactory* FUN_00dd9380;
-extern GlobalObjectO2_00d472a0 g_01268f2c;
 extern void* __cdecl FUN_00d65910(void*);
-void RegisterShapesProcess();
-struct Target
-{
-    void FUN_00d65970();
-};
-struct Adjustor
-{
-    void FUN_00d65fb0();
-};
-extern int g_D661D0Value;
-int __cdecl FUN_00d661d0();
 struct FUN_00d652a0_cls
 {
     virtual void v00() = 0;
@@ -177,81 +90,7 @@ struct FUN_00d652a0_cls
     int m_18;
     void FUN_00d652a0(int arg);
 };
-extern int vftbl_010d1b04;
-extern int vftbl_010d1ae4;
-extern int vftbl_010d1ad4;
-extern int vftbl_010d1ab8;
-extern int vftbl_010d1aa8;
-extern int vftbl_010ccf7c;
-extern int vftbl_0102f13c;
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, int aiSize) throw();
-};
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 struct BSAudio;
-struct SpawnedBuf
-{
-    int unk00;
-    int unk04;
-    int unk08;
-
-    void ProcessArgument(AudioAllocator* apAlloc);
-    void FUN_00a29680();
-};
-struct FUN_00d66080_cls
-{
-    int m_vptr00;
-    int unk04;
-    int m_vptr08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int m_vptr20;
-    int unk24;
-    int m_vptr28;
-    int m_vptr2c;
-    int* m_pData;
-    int m_iArrayLength;
-    unsigned int m_uiObjectFlags;
-    SpawnedBuf m_buf3c;
-    SpawnedBuf m_buf48;
-    SpawnedBuf m_buf54;
-
-    void FUN_00d65fc0(int aiIndex);
-    void FUN_00ddcc60();
-    void Destroy();
-};
-struct OwnerObject
-{
-    int FindItemIndex(int);
-    void FUN_00d65fc0(int);
-};
-struct FUN_00d66160_cls
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    void FUN_00d66160(int arg);
-};
 struct D66180PropertyValue
 {
     void* m_ptr;
@@ -260,51 +99,6 @@ struct D66180PropertyValue
     D66180PropertyValue()
     {}
 };
-struct D66180Property
-{
-    unsigned int m_key;
-    int m_uiAlignmentPadding;
-    int m_value0;
-    int m_value1;
-};
-struct D66180Entity
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    D66180Property* m_kProperties;
-    int m_iPropertyCount;
-
-    D66180PropertyValue getProperty(unsigned int key, void* lockCheck = 0) const;
-};
-void* __cdecl GetProperty1134(D66180Entity* entity);
 struct SpawnAlloc
 {
     virtual void v00();
@@ -317,17 +111,6 @@ struct AllocHolder
     int unk08;
     int unk0C;
     SpawnAlloc* m_pAllocator;
-};
-struct SpawnSub
-{
-    virtual void v00();
-    virtual void v04(void* p);
-};
-struct SpawnList
-{
-    void** m_data;
-    int m_uiItemCount;
-    unsigned int m_capBits;
 };
 struct SpawnOwner
 {
@@ -350,12 +133,6 @@ struct SpawnOwner
     void FUN_00c93820(void* p);
     void FUN_00c93920(void* p);
 };
-struct SpawnSublist
-{
-    void** m_data;
-    int m_uiItemCount;
-};
-void __cdecl ResizeAudioStream(void* allocator, void* list, unsigned int elemSize);
 struct PendingNode
 {
     SpawnOwner* m_pSharedOwner;
@@ -381,47 +158,6 @@ template <class T> inline void hkArrayConstruct(T* p, int n, const T& t)
     for (int i = 0; i < n; ++i)
         p[i] = t;
 }
-struct FUN_00d64650_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    SpawnSub m_28;
-    int m_2c;
-    SpawnList m_30;
-
-    void FUN_00d64650(SpawnOwner* a1);
-};
-extern int DAT_01268fe0;
-struct D65610Obj
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10(void* a, void* b, int c);
-};
-struct D65610Prim
-{
-    virtual void p00();
-    D65610Obj* m_pEntryObject;
-    int unk08, unk0c, unk10, unk14;
-};
-struct D65610Sec
-{
-    virtual void FUN_00d65610(D66180Entity* e);
-};
-struct D65610Self : D65610Prim, D65610Sec
-{
-    void FUN_00d65610(D66180Entity* e);
-};
 static inline bool HasProperty(const S_00c6d840* props, int key)
 {
     for (int i = 0; i < props->m_uiItemCount; i++)
@@ -432,7 +168,6 @@ static inline bool HasProperty(const S_00c6d840* props, int key)
     return false;
 }
 static int FUN_00d652c0(S_00c6d840* props, bool checkOverride, bool* usedDefault);
-int PropertyQueryCaller(S_00c6d840* props, bool checkOverride, bool* usedDefault);
 struct ShapeList
 {
     struct ShapeItem** data;
@@ -447,59 +182,7 @@ struct ShapeItem
         return 0;
     }
 };
-struct ShapeSub
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    void EnsureCapacity(int value, int zero);
-};
-extern char DAT_0102f13c[];
-extern char DAT_010ccf7c[];
-extern char DAT_010d1b04[];
-extern char DAT_010d1ae4[];
-extern char DAT_010d1ad4[];
-extern char DAT_010d1ab8[];
-extern char DAT_010d1aa8[];
-extern float DAT_01012054;
-extern int DAT_01268fe8;
-extern int DAT_01268fe4;
 void* __cdecl FUN_00c85750();
-int __cdecl FUN_00cb0fa0(const char* name, void* obj);
-struct FUN_00d657d0_cls
-{
-    void* m_vptr00;
-    int unk04;
-    void* m_vptr08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    void* m_vptr20;
-    int unk24;
-    void* m_vptr28;
-    void* m_vptr2c;
-    int m_30;
-    int m_34;
-    unsigned int m_38;
-    ShapeSub m_3c;
-    ShapeSub m_48;
-    ShapeSub m_54;
-    unsigned char m_60;
-    unsigned char m_61;
-    unsigned char m_62;
-    unsigned char m_63;
-    unsigned char m_64;
-    unsigned char m_65;
-    unsigned char m_66;
-    float m_68;
-    int m_6c;
-    int m_70;
-
-    void FUN_00ddccb0(ShapeList* a1);
-    FUN_00d657d0_cls* FUN_00d657d0(ShapeList* a1);
-};
 struct Mem_d65f
 {
     virtual void v00();
@@ -574,24 +257,9 @@ struct Node_d65f
         Router_d65f::FUN_00c85750().heap().deallocateChunk(p, sizeof(Node_d65f));
     }
 };
-struct Base_d65f
-{
-    virtual void v00();
-    int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
-};
 struct Listener_d65f
 {
     virtual void l00();
-};
-struct Watch_d65f
-{
-    int unk00;
-};
-struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
-{
-    hkArray_d65f<Node_d65f*> m_kNodeCollection;
-    void FUN_00d65750(int index);
-    void FUN_00d65fc0(int index);
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -658,32 +326,6 @@ static void __forceinline TtPushEvent(const char* name)
         data->m_cur = rec + 1;
     }
 }
-struct D661E0Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d661e0();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-struct D661E0Secondary
-{
-    virtual void FUN_00d661e0();
-};
-struct D661E0Object : D661E0Primary, D661E0Secondary
-{
-    D661E0Object();
-
-// @fnv 0x00d661e0
-    virtual void FUN_00d661e0();
-};
-D661E0Object::D661E0Object()
-{}
 // sub ecx,8; jmp FUN_00d661f0: adjustor thunk from multiple inheritance.
 struct PrimaryBase
 {
@@ -710,33 +352,6 @@ Derived::Derived()
 // base lands at +0x28.  The override is DECLARED ONLY, so this thunk
 // is the single defined function symbol carrying the name FUN_00d66200; a defined
 // key function makes the vftable that references the thunk be emitted here.
-struct A1_00d66200
-{
-    A1_00d66200();
-    virtual void FUN_00d66200();
-    char pad[0x24];
-};
-struct A2_00d66200
-{
-    A2_00d66200();
-// @fnv 0x00d66200
-    virtual void FUN_00d66200();
-};
-struct Own_00d66200 : A1_00d66200, A2_00d66200
-{
-    Own_00d66200();
-    virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d66200();    // the shared override - declared only
-};
-Own_00d66200::Own_00d66200()
-{}
-void Own_00d66200::key_fn()
-{}
-Own_00d66200* make_00d66200()
-{
-    static Own_00d66200 o;
-    return &o;
-}
 struct OutVec
 {
     int unk00;
@@ -755,29 +370,6 @@ struct OutVec
     int unk34;
     int unk38;
     int unk3c;
-};
-struct Visitor
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04(OutVec* out, const void* item, int g);
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
 };
 struct S8
 {
@@ -879,81 +471,6 @@ struct Item
     int unkD8;
     int unkDC;
     SubObj m_e0;
-};
-struct ItemList
-{
-    Item** m_items;
-    int m_uiItemCount;
-};
-struct Group
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    ItemList m_kNode;
-};
-struct Node
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    Group** m_28;
-    int m_2c;
-    float FUN_00c91020();
-};
-class S00d653f0_Obj
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    float m_68;
-    void FUN_00d653f0(Visitor* a1, Node* a2);
 };
 
 #include <xmmintrin.h>
@@ -1062,25 +579,6 @@ struct S65_Map
         FUN_00cb1870(&s65Router().heap(), key, val);
     }
 };
-struct S65_Ref
-{
-    void FUN_00c905b0();
-};
-struct S65_Val
-{
-    int phi;
-    int theta;
-    void FUN_00ddfb70();
-};
-struct S65_Str
-{
-    int s00;
-    int s04;
-    int s08;
-    void FUN_00cb1600(char* buf, int size);
-    void FUN_00cc01c0(const char* s);
-    void FUN_00cc00e0();
-};
 struct S65_Elem
 {
     virtual ~S65_Elem();
@@ -1111,16 +609,6 @@ struct S65_Vec
     int count;
     int cap;
     S65_Elem* inlineBuf[8];
-};
-struct S65_Work
-{
-    int w00;
-    int w04;
-    int w08;
-    int w0c;
-    int w10;
-    void FUN_00ddfb80(S65_Val* p);
-    void FUN_00de0f90(void* v, S65_Vec* vec);
 };
 union S65_V4
 {
@@ -1169,10 +657,6 @@ struct S65_Item
     int i00;
     S65_IntArr arr;
 };
-
-extern S65_Err* DAT_01268360;
-extern const char str_010d196c[];
-extern const char str_010d1b18[];
 
 static __declspec(noinline) void* FUN_00d652c0(S65_Param* p, bool flag, unsigned char* out)
 {

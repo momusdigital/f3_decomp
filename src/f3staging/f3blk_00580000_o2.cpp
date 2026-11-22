@@ -60,6 +60,8 @@ void __stdcall FUN_0058dd60(SlotRecordU58d* first, SlotRecordU58d* last)
 
 // @f3 0x0058a990 (community match, verified in this file)
 #include <string.h>
+// pdb: BSFaceGenManager::ResetQuantityArray | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apQuantities, aiNumQuantities, abForceZero
 void __cdecl FUN_0058a990(float* values, unsigned int count, bool zero)
 {
     if (values && count)
@@ -197,6 +199,8 @@ struct MotionU587 {
  float timer, vx, vy;
  void __thiscall FUN_00587170(int state,float* x,float* y,float dt);
 };
+// pdb: BSFaceGenAnimationData::ModifyEyeHeadingAndPitchBasedOnExpression | BSFaceGenAnimationData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aexp, afHeading, afPitch, afTime
 void MotionU587::FUN_00587170(int state,float* x,float* y,float dt) {
  timer = dt = timer-dt;
  if (dt<=0.0f) {
@@ -434,7 +438,7 @@ struct Subject {
  Vec pos; __forceinline Vec GetPos() {return pos;}
 };
 struct Controller {
- void FUN_00ba1310(float,float,float); void FUN_00ba6b90(float); void FUN_00ba6a30(); float FUN_00ba1440(); void FUN_00ba2070(State*,float); short FUN_00ba1ec0(float); short FUN_00ba14a0(); Controller* FUN_00ba12f0(); int FUN_00ba6d10(int*);
+ void FUN_00ba1310(float,float,float); void FUN_00ba6b90(float); void CSpeedTreeRT_ComputeLodLevel(); float CSpeedTreeRT_GetLodLevel(); void CSpeedTreeRT_GetBSGeometryLODData(State*,float); short FUN_00ba1ec0(float); short FUN_00ba14a0(); Controller* FUN_00ba12f0(); int FUN_00ba6d10(int*);
 };
 struct Output {void FUN_00b352e0(int,int);};
 struct Settings {
@@ -450,6 +454,8 @@ Settings* FUN_0059baa0(int); bool FUN_0051df70(); extern bool DAT_01073c88;
 struct Owner {
  int f00,f04,f08; Controller* ctrl; int f10,f14,f18,f1c; Output* output; short FUN_0059c3d0(); void FUN_0059c5e0(Subject*);
 };
+// pdb: BSTreeModel::Update | BSTreeModel.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode
 void Owner::FUN_0059c5e0(Subject* obj) {
  State state;
  int value=0;
@@ -457,8 +463,8 @@ void Owner::FUN_0059c5e0(Subject* obj) {
   Vec position=obj->GetPos(); ctrl->FUN_00ba1310(position.x,position.y,position.z);
   float weight;
   if(FUN_0059baa0(1)->mode) { ctrl->FUN_00ba6b90(1.0f); weight=1.0f; }
-  else {ctrl->FUN_00ba6a30(); weight=ctrl->FUN_00ba1440();}
-  ctrl->FUN_00ba2070(&state,weight);
+  else {ctrl->CSpeedTreeRT_ComputeLodLevel(); weight=ctrl->CSpeedTreeRT_GetLodLevel();}
+  ctrl->CSpeedTreeRT_GetBSGeometryLODData(&state,weight);
   bool changed=false;
   if(state.ff0) {changed=true;obj->v13c((unsigned char)state.ffc);}
   obj->v130(changed);
@@ -467,7 +473,7 @@ void Owner::FUN_0059c5e0(Subject* obj) {
    changed=false;
    short count=FUN_0059c3d0();
    if(count>0) {
-    short current=ctrl->FUN_00ba1ec0(ctrl->FUN_00ba1440());
+    short current=ctrl->FUN_00ba1ec0(ctrl->CSpeedTreeRT_GetLodLevel());
     for(short i=0;i<count;++i) {
      if(current==i) {changed=true;obj->v134(i,(unsigned char)state.f38);}
      else obj->v134(i,255);
@@ -750,14 +756,16 @@ struct Owner {
     void FUN_00599c30(bool);
     void FUN_00599550(Context*); void FUN_005992d0(Context*); void FUN_00599370(Context*); void FUN_005995f0(Context*);
 };
-extern void* FUN_0058ada0(Actor*);
+extern void* BSFaceGenManager_GetFaceGenMorphDataHead(Actor*);
 extern void FUN_0058ae60(Actor*,Data*);
-extern Vec* FUN_00599260();
+extern Vec* BSFaceGenManager_GetCameraPosition();
 extern bool FUN_00619160();
 extern void* DAT_01073b7c;
 extern float DAT_01073b38,DAT_01073b44;
 extern bool DAT_0107a0f2;
 struct AnimList { int unk00,unk04,unk08; float* values; unsigned count; __forceinline bool get(unsigned i,float& out){if(i<count){out=values[i];return true;}return false;} };
+// pdb: BSFaceGenNiNode::UpdateAllChildrenMorphData | BSFaceGenNiNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abChanged
 void Owner::FUN_00599c30(bool force) {
  Context ctx;
  unsigned n=count;
@@ -767,7 +775,7 @@ void Owner::FUN_00599c30(bool force) {
   if(!entry) continue;
   ctx.actor=entry->resolve();
   if(!ctx.actor || !ctx.actor->controller) continue;
-  ctx.helper=FUN_0058ada0(ctx.actor);
+  ctx.helper=BSFaceGenManager_GetFaceGenMorphDataHead(ctx.actor);
   if(!ctx.helper) continue;
   ctx.keyword=ctx.actor?ctx.actor->FUN_00824a50(DAT_01073b7c):0;
   if(!ctx.keyword) continue;
@@ -776,7 +784,7 @@ void Owner::FUN_00599c30(bool force) {
   ctx.count=ctx.actor->controller->count;
   if(force || reset) { FUN_0058ae60(ctx.actor,&ctx.data);ctx.loaded=true;reset=false; }
   bool completed=false,acted=false;
-  Vec pos=*FUN_00599260();
+  Vec pos=*BSFaceGenManager_GetCameraPosition();
   Vec delta; delta.x=pos.x-unk8c;delta.y=pos.y-unk90;delta.z=pos.z-unk94;
   float distance=delta.FUN_00432bd0();
   float nearThreshold=DAT_01073b38,farThreshold=DAT_01073b44;
@@ -919,6 +927,8 @@ struct Owner586 {
  short unk18c; bool disabled;
  void FUN_00586720(const float* src,float weight);
 };
+// pdb: BSFaceGenAnimationData::AddModifiersKeyframe | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apQuantities, afTime
 void Owner586::FUN_00586720(const float* src,float weight) {
  Keyframe586 temp(2,17);
  if(!disabled && src && !(weight<0.0f)) {
@@ -955,6 +965,8 @@ namespace Settings350 {
 extern float DAT_00f62bf8;
 extern float DAT_00f62bec;
 }
+// pdb: MagicFormulas::CalcMedicineEffectivenessMult | MagicFormulas.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: apActor
 float __cdecl FUN_00585a00(Actor350* actor) {
     float ratio = static_cast<float>(actor->FUN_005a28e0(0x25) / 100.0);
     return Settings350::DAT_00f62bf8 * ratio + Settings350::DAT_00f62bec;
@@ -976,6 +988,8 @@ struct Owner351 {
     void FUN_0082d9f0(unsigned int value);
     void FUN_0059fcc0(unsigned int value);
 };
+// pdb: BSTreeNode::OnVisible | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arCuller
 void Owner351::FUN_0059fcc0(unsigned int value) {
     if (StateGlobals351::DAT_01073c88 && FUN_0059baa0(1)->enabled) FUN_0082d9f0(value);
 }
@@ -1048,6 +1062,7 @@ public:
 struct FUN_0058a380 : public Base452 {
     virtual ~FUN_0058a380();
 };
+// pdb: BSFaceGenKeyframeMultiple::~BSFaceGenKeyframeMultiple | BSFaceGenKeyframe.obj | fnv360_0822_retail, call_seq, medium
 FUN_0058a380::~FUN_0058a380() {
     if (storage.count) {
         if (storage.data) {
@@ -1071,6 +1086,8 @@ struct Obj_59ff40 {
     void* FUN_0059ff40(unsigned short index);
 };
 
+// pdb: BSTreeNode::GetBranchLevel | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: asLevel
 void* Obj_59ff40::FUN_0059ff40(unsigned short index)
 {
     if (m_e4 && m_e8) {
@@ -1160,6 +1177,8 @@ struct FUN_00589700:Base487 {
     FUN_00589700(RefObject487*);
     virtual ~FUN_00589700();
 };
+// pdb: BSFaceGenImage::BSFaceGenImage | BSFaceGenImage.obj | fnv360_0721_beta, call_gap, low
+// pdb params: apImage
 FUN_00589700::FUN_00589700(RefObject487* value) {
 
     object.Assign(value);
@@ -1181,6 +1200,8 @@ struct BSFaceGenNiNode : public NiNode {
     virtual void FUN_0059a2b0(NiUpdateData& data);
 };
 
+// pdb: BSFaceGenNiNode::UpdateTransformAndBounds | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, medium
+// pdb params: UpdateData
 void BSFaceGenNiNode::FUN_0059a2b0(NiUpdateData& data)
 {
     FUN_00599f90(data);
@@ -1200,6 +1221,7 @@ struct Vector595b00 {
     void FUN_00594b00(Element595b00* from, Element595b00* to);
     void FUN_00595b00();
 };
+// pdb: std::vector<FffModeTexS,std::allocator<FffModeTexS> >::clear | BSFaceGenModel.obj | fnv360_0822_retail, call_gap_sim, low
 void Vector595b00::FUN_00595b00() {
     Element595b00* eraseLast = last;
     if (first > eraseLast)
@@ -1659,6 +1681,8 @@ __forceinline TreeCollisionShape* MakeTreeShape(const float& radius, const float
     return FUN_008f2e60(radius, halfHeight);
 }
 
+// pdb: BSTreeModel::CreateGeometry | BSTreeModel.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apTreeObj
 void TreeCollisionSetup::FUN_0059f650(TreeSource* source)
 {
     if (!sourceData || state == 2)
@@ -1752,6 +1776,8 @@ struct Actor_5847e0 {
 };
 
 
+// pdb: GamePlayFormulas::GetActorFlySpeed | GamePlayFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor, afEncumbrance
 float FUN_005847e0(Actor_5847e0* actor, float arg2)
 {
     float val = actor->GetActorValue(0x15) * DAT_00dcf568;
@@ -1903,6 +1929,8 @@ struct FUN_005880c0_cls {
     char FUN_005880c0(float dt);
 };
 
+// pdb: BSFaceGenAnimationData::Update | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTime
 char FUN_005880c0_cls::FUN_005880c0(float dt)
 {
     Guard* gp = &g;
@@ -1965,6 +1993,8 @@ struct PackageU596 {
     unsigned char FUN_00596e90(int, int, int, int, int, int);
 };
 
+// pdb: BSFaceGenModel::LoadModel | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apEGMFilename, apNIFFilename, apTRIFilename, apEGTFilename, aeHairPart, abIsAccessory
 unsigned char PackageU596::FUN_00596e90(int param1, int param2, int param3,
                                        int param4, int param5, int param6)
 {
@@ -1988,6 +2018,7 @@ public:
     int FUN_0059ff10();
 };
 
+// pdb: BSTreeNode::GetBranchNode | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
 int Foo::FUN_0059ff10() {
     return *unkA0;
 }
@@ -2046,6 +2077,7 @@ struct OuterU59ff {
     int FUN_0059ff20();
 };
 
+// pdb: BSTreeNode::GetLeafNode | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
 int OuterU59ff::FUN_0059ff20()
 {
     return unkA0->unk04;
@@ -2060,6 +2092,7 @@ struct Foo59ff30 {
     int FUN_0059ff30();
 };
 
+// pdb: BSTreeNode::GetBillboardNode | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
 int Foo59ff30::FUN_0059ff30() {
     return ptr->c;
 }
@@ -2074,6 +2107,8 @@ public:
     void FUN_00587ff0(unsigned char value);
 };
 
+// pdb: BSFaceGenAnimationData::SetMustUpdate | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSFaceGenAnimationData::Tag)
+// pdb params: abMustUpdate
 void Foo::FUN_00587ff0(unsigned char value) {
     field = value;
 }
@@ -2087,6 +2122,8 @@ struct Foo {
     void FUN_005998d0(unsigned char);
 };
 
+// pdb: BSFaceGenNiNode::SetApplyRotToParent | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, medium
+// pdb params: abApply
 void Foo::FUN_005998d0(unsigned char a) {
     unkD8 = a;
 }
@@ -2098,6 +2135,8 @@ struct S5998f0 {
     void FUN_005998f0(char a);
 };
 
+// pdb: BSFaceGenNiNode::SetFixedNormals | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, medium
+// pdb params: abFixedNormals
 void S5998f0::FUN_005998f0(char a) {
     *(char*)((char*)this + 0xd5) = a;
 }
@@ -2113,6 +2152,8 @@ struct FUN_005946d0 {
     FUN_005946d0();
 };
 
+// pdb: std::_Vector_iterator<std::_Vector_val<SFrondGuide,std::allocator<SFrondGuide> > >::operator+ | FrondEngine.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: _Off
 FUN_005946d0::FUN_005946d0() {
     unk04 = 0;
     unk08 = 0;
@@ -2129,6 +2170,8 @@ struct C0059b350 {
     unsigned int FUN_0059b350(unsigned int value);
 };
 
+// pdb: LockFreeMap<MobileObject *,NiPointer<LipTask> >::GetBucketForKey | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, low
+// pdb params: aKey
 unsigned int C0059b350::FUN_0059b350(unsigned int value) {
     return value % unk8;
 }
@@ -2184,6 +2227,7 @@ struct U599900 {
     int FUN_00599900();
 };
 
+// pdb: CombatController::GetCurrentCombatGoal | CombatController.obj | fnv360_0721_beta, call_seq, medium
 int U599900::FUN_00599900()
 {
     return unkAC;
@@ -2316,6 +2360,8 @@ struct PhonemeAnimation {
     void FUN_00586520(float*, float);
 };
 // @fnv 0x0064aa00
+// pdb: BSFaceGenAnimationData::AddPhonemeKeyframe | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apQuantities, afTime
 void PhonemeAnimation::FUN_00586520(float* values, float time)
 {
     FUN_0058a210 frame(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_PHONEME, 16);
@@ -2339,6 +2385,8 @@ extern float DAT_00f6582c;
 extern float DAT_00f65814;
 namespace f3m_00585c80 {
 
+// pdb: BSFaceGenAnimationData::GetTrackDeadZoneXYMinMax | BSFaceGenAnimationData.obj | fnv360_0822_debug, objrun, medium
+// pdb params: afMinOut, afMaxOut
 float* __cdecl FUN_00585c80(float* a1, float* a2) {
     float v = DAT_00f6582c * 0.01745329238474369;
     *a2 = v;
@@ -2367,6 +2415,7 @@ namespace f3m_0058ef50 {
 
 extern void* FUN_0058EE80();
 
+// pdb: BSFaceGenManager::GetInstance | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
 void* FUN_0058ef50()
 {
     if (dword_1073A08 == 0)
@@ -2380,6 +2429,7 @@ extern float DAT_00f60fa8;
 extern float DAT_00f60fb4;
 namespace f3m_005838d0 {
 struct Actor350 { float FUN_005a28e0(unsigned int value); };
+// pdb: CombatFormulas::GetGrenadeBounceTime | CombatFormulas.obj | tesv_win, objrun_open, low
 float __cdecl FUN_005838d0(Actor350* actor) {
     float ratio = static_cast<float>(1.0 - actor->FUN_005a28e0(0x23) / 100.0);
     float diff = DAT_00f60fb4 - DAT_00f60fa8;
@@ -2397,6 +2447,8 @@ inline float* GetSetting583720(unsigned int index) {
  DAT_0116d104=0.0f;
  return &DAT_0116d104;
 }
+// pdb: CombatFormulas::GetWeaponConditionReloadJamMult | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiCondition
 float FUN_00583720(unsigned int index) {
  float result=0.0f;
  if(index<=9) result=*GetSetting583720(index);
@@ -2405,6 +2457,8 @@ float FUN_00583720(unsigned int index) {
 
 // @f3 0x00581aa0 (community match, verified in this file)
 namespace f3m_00581aa0 {
+// pdb: BSSimpleArray<FollowerDist,1024>::QuickSortFunction | AiFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apPtr1, apPtr2
 int FUN_00581aa0(float *a1, float *a2)
 {
     if (a1[2] == a2[2] ? a1[1] > a2[1] : a1[2] > a2[2])
@@ -2442,6 +2496,8 @@ struct Element5944c0 {
     int unk0C;
     Str5944c0 text;
 };
+// pdb: std::_Destroy_range<std::allocator<FffTriDiffMorphS> > | BSFaceGenModel.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: _First, _Last, _Al, __formal
 void __cdecl FUN_005944c0(Element5944c0* first, Element5944c0* last)
 {
     for (; first != last; ++first)
@@ -2480,6 +2536,7 @@ __forceinline float Blend(float coefficient, float sum)
     return static_cast<float>((1.0f - coefficient) + coefficient * sum * 0.5);
 }
 
+// pdb: BSTreeManager::UpdateWindMatrices | BSTreeManager.obj | fnv360_0822_retail, call_gap, low
 void WaveState::FUN_0059aa00()
 {
     static float previousMagnitude = magnitude;
@@ -2551,6 +2608,8 @@ extern double DAT_00dc2d10;
 extern double DAT_00db8c48;
 extern "C" Provider_5827f0* FUN_0044a2d0();
 
+// pdb: CombatFormulas::CheckKnockdown | CombatFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, aiDamage
 bool FUN_005827f0(OwnerAV_5827f0* owner, int value)
 {
     bool result2 = false;
@@ -2699,6 +2758,7 @@ struct FieldOwner00588000
     unsigned char FUN_00588000() const;
 };
 
+// pdb: BSFaceGenAnimationData::GetDead | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
 unsigned char FieldOwner00588000::FUN_00588000() const
 {
     return value18e;
@@ -2768,6 +2828,7 @@ struct FieldOwner005998a0
     unsigned char FUN_005998a0() const;
 };
 
+// pdb: BSFaceGenNiNode::GetAnimationUpdate | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, low
 unsigned char FieldOwner005998a0::FUN_005998a0() const
 {
     return valued6;
@@ -2836,6 +2897,7 @@ struct FieldOwner005998c0
     unsigned char FUN_005998c0() const;
 };
 
+// pdb: BSFaceGenNiNode::GetApplyRotToParent | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, medium
 unsigned char FieldOwner005998c0::FUN_005998c0() const
 {
     return valued8;
@@ -2904,6 +2966,7 @@ struct FieldOwner005998e0
     unsigned char FUN_005998e0() const;
 };
 
+// pdb: BSFaceGenNiNode::GetFixedNormals | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, low
 unsigned char FieldOwner005998e0::FUN_005998e0() const
 {
     return valued5;
@@ -2976,6 +3039,8 @@ struct Owner59 {
     void FUN_005998b0(char value);
 };
 
+// pdb: BSFaceGenNiNode::SetAnimationUpdate | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, medium
+// pdb params: abUpdate
 void Owner59::FUN_005998b0(char value)
 {
     unkD6 = value;
@@ -3022,6 +3087,7 @@ struct U589e80 {
     void FUN_00589e80();
 };
 
+// pdb: BSFaceGenKeyframeMultiple::SetToZero | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
 void U589e80::FUN_00589e80()
 {
     FUN_0058a9d0(values, count);
@@ -3067,6 +3133,8 @@ struct KeyA080 {
     bool FUN_0058a080(unsigned int index);
 };
 
+// pdb: BSFaceGenKeyframeMultiple::IsValidQuantity | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiWhichMorph
 bool KeyA080::FUN_0058a080(unsigned int index)
 {
     return index < count && values[index] >= 0.0f && values[index] <= 1.0f;
@@ -3081,6 +3149,7 @@ struct Holder587500
 extern Holder587500* DAT_01073968;
 extern char* DAT_0109b220;
 
+// pdb: BSFaceGenAnimationData::KillSDM | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00587500()
 {
     Holder587500* guard = DAT_01073968;
@@ -3118,6 +3187,7 @@ struct NameHolder {
     }
 };
 
+// pdb: BSFaceGenModelExtraData::InitSDM | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 void FUN_00593380()
 {
     DAT_01073b5c = new NameHolder("FMD");
@@ -3134,6 +3204,8 @@ public:
     bool FUN_00589a20(int value);
 };
 
+// pdb: BSFaceGenKeyframe::SetType | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeType
 bool Setter589a20::FUN_00589a20(int value)
 {
     if (value != m_unk04) {
@@ -3158,6 +3230,8 @@ struct S82150 {
     float unkC8;
 };
 
+// pdb: CombatFormulas::ChooseDodge | CombatFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCombatStyle, aiWalkSpeed, afFatiguePercent, abTargetAttacking
 float FUN_00582150(S82150* a, int n, float f, bool flag)
 {
     float v = a->unkBC + a->unkC0 * n;
@@ -3202,6 +3276,7 @@ int __cdecl FUN_00585130(int a)
 struct FooU58a820 { char pad[0xdac]; int value; };
 extern FooU58a820* DAT_01073a08;
 
+// pdb: BSFaceGenManager::GetModelCache | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, medium
 int __cdecl FUN_0058a820()
 {
     FooU58a820* p = DAT_01073a08;
@@ -3214,6 +3289,8 @@ int __cdecl FUN_0058a820()
 extern float FUN_00f5ef20;
 namespace f3m_00581a30 {
 
+// pdb: AiFormulas::GetFollowRadiusWalk | AiFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afbasePackRadius
 float __cdecl FUN_00581a30(float a)
 {
     return FUN_00f5ef20 * a;
@@ -3224,6 +3301,8 @@ float __cdecl FUN_00581a30(float a)
 extern float FUN_00f5ef2c;
 namespace f3m_00581a80 {
 
+// pdb: AiFormulas::GetFollowRadiusMatchSpeed | AiFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afbasePackRadius
 float FUN_00581a80(float a) {
     a += FUN_00f5ef2c;
     return a;
@@ -3234,6 +3313,8 @@ float FUN_00581a80(float a) {
 extern float FUN_00f601ec;
 namespace f3m_005827d0 {
 
+// pdb: CombatFormulas::CalcWeaponReach | CombatFormulas.obj | fnv360_1110_retail, call_seq, medium
+// pdb params: afReachMultiplier
 float __cdecl FUN_005827d0(float x)
 {
     x = FUN_00f601ec * x;
@@ -3243,6 +3324,8 @@ float __cdecl FUN_005827d0(float x)
 
 // @f3 0x00584590 (community match, verified in this file)
 namespace f3m_00584590 {
+// pdb: GamePlayFormulas::GetActorClothingDesirability | GamePlayFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiClothingValue
 float __cdecl FUN_00584590(unsigned int value)
 {
     return (float)value;
@@ -3253,6 +3336,8 @@ float __cdecl FUN_00584590(unsigned int value)
 namespace f3m_00585290 {
 double DAT_01012638 = 60.0;
 
+// pdb: GamePlayFormulas::PainChangePerSecond | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afDamagePercent
 float FUN_00585290(float a)
 {
     a = (float)(a * DAT_01012638);
@@ -3262,6 +3347,8 @@ float FUN_00585290(float a)
 
 // @f3 0x005852b0 (community match, verified in this file)
 namespace f3m_005852b0 {
+// pdb: GamePlayFormulas::GetPainCausedByWound | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afLimbWoundPercent
 float FUN_005852b0(float a)
 {
     return a * 0.5;
@@ -3274,6 +3361,7 @@ extern int DAT_01268fb8;
 namespace f3m_0058a850 {
 extern void (__stdcall *DAT_0xd9b09c)(void*);
 
+// pdb: BSFaceGenManager::LockFaceGenAccess | BSFaceGenManager.obj | fnv360_0822_retail, call_dedup, medium
 void __cdecl FUN_0058a850()
 {
     DAT_0xd9b09c(&DAT_01073ab4);
@@ -3285,6 +3373,8 @@ void __cdecl FUN_0058a850()
 extern const float FUN_00f612c0;
 namespace f3m_00585000 {
 
+// pdb: GamePlayFormulas::SwimBreathDamage | GamePlayFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiMaxHealth
 float FUN_00585000(int a)
 {
     float x = (float)a;
@@ -3304,6 +3394,8 @@ struct Cls593290 {
     int unk14;
     int FUN_00593290(unsigned char flag);
 };
+// pdb: BSFaceGenBaseMorphExtraData::GetVertexCount | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abMeshOnly
 int Cls593290::FUN_00593290(unsigned char flag) {
     if (flag) return unk14;
     return unk10;
@@ -3369,6 +3461,8 @@ struct FloatArrayHolder
     float FUN_00587eb0(int index);
 };
 
+// pdb: BSFaceGenAnimationData::GetExpressionValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeExpression
 float FloatArrayHolder::FUN_00587eb0(int index)
 {
     float value;
@@ -3384,6 +3478,8 @@ float FloatArrayHolder::FUN_00587eb0(int index)
 extern const float DAT_00f5ef9c;
 namespace f3m_00580ec0 {
 
+// pdb: AiFormulas::GetActorDetectionSize | AiFormulas.obj | fnv360_0721_beta, objrun, medium
+// pdb params: afHeightOrLength
 int FUN_00580ec0(float value)
 {
     int result = 1;
@@ -3440,6 +3536,8 @@ struct FloatSet {
     bool FUN_00589d50(FloatSet* other);
 };
 
+// pdb: BSFaceGenKeyframeMultiple::Compare | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apOther
 bool FloatSet::FUN_00589d50(FloatSet* other)
 {
     if (other && other->v44() && other->v04() == v04())
@@ -3481,6 +3579,8 @@ inline double ReadModifier_584aa0(ModifierSetting_584aa0& setting)
     return *setting.FUN_00401eb0();
 }
 
+// pdb: GamePlayFormulas::CalculatePotionDurationMagnitude | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: GamePlayFormulas::CalculatePotionMagnitude)
+// pdb params: aiMagnitude, aiDuration, afEffectCost, afPotionStrength, aiEquipment, bhostile, afRetortQuality, afAlembicQuality, afCalcinatorQuality, abPoison
 void __cdecl FUN_00584aa0(float* first, float* second, float divisor, float numerator,
                           int mode, bool alternate, float primary, float secondary,
                           float tertiary, bool skip)
@@ -3556,6 +3656,8 @@ void __cdecl FUN_00584aa0(float* first, float* second, float divisor, float nume
 #include <string.h>
 namespace f3m_0058a9d0 {
 
+// pdb: BSFaceGenManager::SetToZero | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apQuantities, aiNumQuantities
 void __cdecl FUN_0058a9d0(float* values, unsigned int count)
 {
     if (values && count)
@@ -3569,6 +3671,8 @@ void __cdecl FUN_0058a9d0(float* values, unsigned int count)
 namespace f3m_00581b50 {
 extern void __cdecl FUN_005817e0(int, int, int);
 
+// pdb: AiFormulas::AVDeriveSkill | AiFormulas.obj | fnv360_0822_debug, caller_sim, low
+// pdb params: apActor, aiWhich
 void __cdecl FUN_00581b50(int a, int b)
 {
     FUN_005817e0(a, b, 0);
@@ -3580,7 +3684,8 @@ extern char* DAT_01073a0c;
 extern Vec DAT_0108ec68;
 namespace f3m_00599260 {
 
-Vec* FUN_00599260() {
+// pdb: BSFaceGenManager::GetCameraPosition | BSFaceGenNiNode.obj | fnv360_0721_beta, udata, high
+Vec* BSFaceGenManager_GetCameraPosition() {
     if (DAT_01073a0c) {
         return (Vec*)(DAT_01073a0c + 0x8c);
     }
@@ -3622,6 +3727,8 @@ struct Scale583920 {
     unsigned short unk60;
     unsigned char unk62;
 };
+// pdb: CombatFormulas::CalcTargetedLimbDamage | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTarget, apBodyPart, afHealthDamage
 float FUN_00583920(ActorValue583920* actor, Scale583920* data, float amount) {
     float result=0.0f;
     if(actor && data) {
@@ -3725,6 +3832,7 @@ inline void Clear580(CodexObject580* object) {
         object->unk74.FUN_004019c0(DAT_0108f3fc,0);
     }
 }
+// pdb: Sun::RemoveTextures | Sun.obj | fnv360_0822_retail, call_gap_sim, low
 void CodexOwner580::FUN_00580ae0() {
     Clear580(Cast580(unk10->FUN_00826590(3)));
     Clear580(Cast580(unk14->FUN_00826590(3)));
@@ -3744,6 +3852,8 @@ struct FloatArray00587ef0 {
     void FUN_00587ef0(int index, float value);
 };
 
+// pdb: BSFaceGenAnimationData::SetExpressionValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeExpression, afValue
 void FloatArray00587ef0::FUN_00587ef0(int index, float value)
 {
     if (index < 15)
@@ -3770,6 +3880,8 @@ struct FloatArray00588010 {
     void FUN_00588010(int index, float value);
 };
 
+// pdb: BSFaceGenAnimationData::SetAnimExpressionValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeExpression, afValue
 void FloatArray00588010::FUN_00588010(int index, float value)
 {
     if (index < 15)
@@ -3801,6 +3913,8 @@ struct FloatArray00588030 {
     void FUN_00588030(int index, float value);
 };
 
+// pdb: BSFaceGenAnimationData::SetAnimModifierValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeModifier, afValue
 void FloatArray00588030::FUN_00588030(int index, float value)
 {
     if (index < 17)
@@ -3837,6 +3951,8 @@ struct FloatArray00588050 {
     void FUN_00588050(int index, float value);
 };
 
+// pdb: BSFaceGenAnimationData::SetAnimPhonemeValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aePhoneme, afValue
 void FloatArray00588050::FUN_00588050(int index, float value)
 {
     if (index < 16)
@@ -3878,6 +3994,8 @@ struct FloatArray00588070 {
     void FUN_00588070(int index, float value);
 };
 
+// pdb: BSFaceGenAnimationData::SetAnimCustomMorphValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeCustomMorph, afValue
 void FloatArray00588070::FUN_00588070(int index, float value)
 {
     if (index < 1)
@@ -3893,6 +4011,8 @@ extern "C" float FUN_00dc076c;
 extern "C" double FUN_00dc0438;
 namespace f3m_00585c20 {
 
+// pdb: BSFaceGenAnimationData::GetTrackEyeZMinMax | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afMinOut, afMaxOut
 void __cdecl FUN_00585c20(float* a, float* b) {
     float tmp = (float)(FUN_00f65820 * FUN_00dc2df0);
     *b = tmp;
@@ -3909,6 +4029,8 @@ void __cdecl FUN_00585c20(float* a, float* b) {
 // @f3 0x00593e00 (community match, verified in this file)
 namespace f3m_00593e00 {
 struct Record593 { short unk00; short unk02; short unk04; };
+// pdb: std::allocator<FffModeTexS>::allocate | BSFaceGenModel.obj | fnv360_0721_retail, objrun, medium
+// pdb params: _Count
 Record593* __cdecl FUN_00593e00(Record593* first, Record593* last, Record593* dest) {
  for (; first != last; ++first, ++dest) { if (dest) *dest = *first; }
  return dest;
@@ -3944,6 +4066,8 @@ public:
 };
 
 
+// pdb: AiFormulas::AVDeriveCriticalChance | AiFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, aiWhich
 float __cdecl FUN_005816a0(Obj5816a0* obj) {
     float r = obj->FUN_005a28e0(0xb) * flt_00f5f080 + flt_00f5f074;
     return r;
@@ -4079,6 +4203,8 @@ float __cdecl FUN_00582f00(CodexActor2F0* actor,CodexWeapon2F0* weapon,int count
 // @f3 0x0058a940 (community match, verified in this file)
 extern const double DAT_00dc0438;
 namespace f3m_0058a940 {
+// pdb: BSFaceGenManager::FixExclusiveValues | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afNeg, afPos, afOutNeg, afOutPos
 void FUN_0058a940(float a,float b,float* left,float* right){a=a*DAT_00dc0438+b;if(a>=0.0f){*left=0.0f;*right=a;}else{*left=a*DAT_00dc0438;*right=0.0f;}}
 }   // namespace f3m_0058a940
 
@@ -4181,6 +4307,8 @@ namespace match59fb50 {
 struct Vector59fb50 {float x,y,z;};
 struct Link59fb50 {Vector59fb50* FUN_0091dda0();};
 struct Owner59fb50 {int unk00;int unk04;Link59fb50* link;void FUN_0059fb50(Vector59fb50*);};
+// pdb: bhkCharacterProxy::GetLinearVelocity | BSTreeNode.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: arVel
 void Owner59fb50::FUN_0059fb50(Vector59fb50* result) {
  if(this && link) {
   Vector59fb50* vector=link->FUN_0091dda0();
@@ -4232,7 +4360,8 @@ void Vector5941::FUN_00594190(){values.erase(values.begin(),values.end());}
 namespace f3m_0058c300 {
 struct Child58c3 {void FUN_0058c200();};
 struct Owner58c3 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; int unk578; int unk57C; int unk580; int unk584; int unk588; int unk58C; int unk590; int unk594; int unk598; int unk59C; int unk5A0; int unk5A4; int unk5A8; int unk5AC; int unk5B0; int unk5B4; int unk5B8; int unk5BC; int unk5C0; int unk5C4; int unk5C8; int unk5CC; int unk5D0; int unk5D4; int unk5D8; int unk5DC; int unk5E0; int unk5E4; int unk5E8; int unk5EC; int unk5F0; int unk5F4; int unk5F8; int unk5FC; int unk600; int unk604; int unk608; int unk60C; int unk610; int unk614; int unk618; int unk61C; int unk620; int unk624; int unk628; int unk62C; int unk630; int unk634; int unk638; int unk63C; int unk640; int unk644; int unk648; int unk64C; int unk650; int unk654; int unk658; int unk65C; int unk660; int unk664; int unk668; int unk66C; int unk670; int unk674; int unk678; int unk67C; int unk680; int unk684; int unk688; int unk68C; int unk690; int unk694; int unk698; int unk69C; int unk6A0; int unk6A4; int unk6A8; int unk6AC; int unk6B0; int unk6B4; int unk6B8; int unk6BC; int unk6C0; int unk6C4; int unk6C8; int unk6CC; int unk6D0; int unk6D4; int unk6D8; int unk6DC; int unk6E0; int unk6E4; int unk6E8; int unk6EC; int unk6F0; int unk6F4; int unk6F8; int unk6FC; int unk700; int unk704; int unk708; int unk70C; int unk710; int unk714; int unk718; int unk71C; int unk720; int unk724; int unk728; int unk72C; int unk730; int unk734; int unk738; int unk73C; int unk740; int unk744; int unk748; int unk74C; int unk750; int unk754; int unk758; int unk75C; int unk760; int unk764; int unk768; int unk76C; int unk770; int unk774; int unk778; int unk77C; int unk780; int unk784; int unk788; int unk78C; int unk790; int unk794; int unk798; int unk79C; int unk7A0; int unk7A4; int unk7A8; int unk7AC; int unk7B0; int unk7B4; int unk7B8; int unk7BC; int unk7C0; int unk7C4; int unk7C8; int unk7CC; int unk7D0; int unk7D4; int unk7D8; int unk7DC; int unk7E0; int unk7E4; int unk7E8; int unk7EC; int unk7F0; int unk7F4; int unk7F8; int unk7FC; int unk800; int unk804; int unk808; int unk80C; int unk810; int unk814; int unk818; int unk81C; int unk820; int unk824; int unk828; int unk82C; int unk830; int unk834; int unk838; int unk83C; int unk840; int unk844; int unk848; int unk84C; int unk850; int unk854; int unk858; int unk85C; int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C; int unk880; int unk884; int unk888; int unk88C; int unk890; int unk894; int unk898; int unk89C; int unk8A0; int unk8A4; int unk8A8; int unk8AC; int unk8B0; int unk8B4; int unk8B8; int unk8BC; int unk8C0; int unk8C4; int unk8C8; int unk8CC; int unk8D0; int unk8D4; int unk8D8; int unk8DC; int unk8E0; int unk8E4; int unk8E8; int unk8EC; int unk8F0; int unk8F4; int unk8F8; int unk8FC; int unk900; int unk904; int unk908; int unk90C; int unk910; int unk914; int unk918; int unk91C; int unk920; int unk924; int unk928; int unk92C; int unk930; int unk934; int unk938; int unk93C; int unk940; int unk944; int unk948; int unk94C; int unk950; int unk954; int unk958; int unk95C; int unk960; int unk964; int unk968; int unk96C; int unk970; int unk974; int unk978; int unk97C; int unk980; int unk984; int unk988; int unk98C; int unk990; int unk994; int unk998; int unk99C; int unk9A0; int unk9A4; int unk9A8; int unk9AC; int unk9B0; int unk9B4; int unk9B8; int unk9BC; int unk9C0; int unk9C4; int unk9C8; int unk9CC; int unk9D0; int unk9D4; int unk9D8; int unk9DC; int unk9E0; int unk9E4; int unk9E8; int unk9EC; int unk9F0; int unk9F4; int unk9F8; int unk9FC; int unkA00; int unkA04; int unkA08; int unkA0C; int unkA10; int unkA14; int unkA18; int unkA1C; int unkA20; int unkA24; int unkA28; int unkA2C; int unkA30; int unkA34; int unkA38; int unkA3C; int unkA40; int unkA44; int unkA48; int unkA4C; int unkA50; int unkA54; int unkA58; int unkA5C; int unkA60; int unkA64; int unkA68; int unkA6C; int unkA70; int unkA74; int unkA78; int unkA7C; int unkA80; int unkA84; int unkA88; int unkA8C; int unkA90; int unkA94; int unkA98; int unkA9C; int unkAA0; int unkAA4; int unkAA8; int unkAAC; int unkAB0; int unkAB4; int unkAB8; int unkABC; int unkAC0; int unkAC4; int unkAC8; int unkACC; int unkAD0; int unkAD4; int unkAD8; int unkADC; int unkAE0; int unkAE4; int unkAE8; int unkAEC; int unkAF0; int unkAF4; int unkAF8; int unkAFC; int unkB00; int unkB04; int unkB08; int unkB0C; int unkB10; int unkB14; int unkB18; int unkB1C; int unkB20; int unkB24; int unkB28; int unkB2C; int unkB30; int unkB34; int unkB38; int unkB3C; int unkB40; int unkB44; int unkB48; int unkB4C; int unkB50; int unkB54; int unkB58; int unkB5C; int unkB60; int unkB64; int unkB68; int unkB6C; int unkB70; int unkB74; int unkB78; int unkB7C; int unkB80; int unkB84; int unkB88; int unkB8C; int unkB90; int unkB94; int unkB98; int unkB9C; int unkBA0; int unkBA4; int unkBA8; int unkBAC; int unkBB0; int unkBB4; int unkBB8; int unkBBC; int unkBC0; int unkBC4; int unkBC8; int unkBCC; int unkBD0; int unkBD4; int unkBD8; int unkBDC; int unkBE0; int unkBE4; int unkBE8; int unkBEC; int unkBF0; int unkBF4; int unkBF8; int unkBFC; int unkC00; int unkC04; int unkC08; int unkC0C; int unkC10; int unkC14; int unkC18; int unkC1C; int unkC20; int unkC24; int unkC28; int unkC2C; int unkC30; int unkC34; int unkC38; int unkC3C; int unkC40; int unkC44; int unkC48; int unkC4C; int unkC50; int unkC54; int unkC58; int unkC5C; int unkC60; int unkC64; int unkC68; int unkC6C; int unkC70; int unkC74; int unkC78; int unkC7C; int unkC80; int unkC84; int unkC88; int unkC8C; int unkC90; int unkC94; int unkC98; int unkC9C; int unkCA0; int unkCA4; int unkCA8; int unkCAC; int unkCB0; int unkCB4; int unkCB8; int unkCBC; int unkCC0; int unkCC4; int unkCC8; int unkCCC; int unkCD0; int unkCD4; int unkCD8; int unkCDC; int unkCE0; int unkCE4; int unkCE8; int unkCEC; int unkCF0; int unkCF4; int unkCF8; int unkCFC; int unkD00; int unkD04; int unkD08; int unkD0C; int unkD10; int unkD14; int unkD18; int unkD1C; int unkD20; int unkD24; int unkD28; int unkD2C; int unkD30; int unkD34; int unkD38; int unkD3C; int unkD40; int unkD44; int unkD48; int unkD4C; int unkD50; int unkD54; int unkD58; int unkD5C; int unkD60; int unkD64; int unkD68; int unkD6C; int unkD70; int unkD74; int unkD78; int unkD7C; int unkD80; int unkD84; int unkD88; int unkD8C; int unkD90; int unkD94; int unkD98; int unkD9C; int unkDA0; int unkDA4; int unkDA8; Child58c3* unkDAC;};extern Owner58c3* DAT_01073a08;
-void FUN_0058c300(){if(DAT_01073a08&&DAT_01073a08->unkDAC)DAT_01073a08->unkDAC->FUN_0058c200();}
+// pdb: BSFaceGenManager::ClearEGTCache | BSFaceGenManager.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void BSFaceGenManager_ClearEGTCache(){if(DAT_01073a08&&DAT_01073a08->unkDAC)DAT_01073a08->unkDAC->FUN_0058c200();}
 }   // namespace f3m_0058c300
 
 // @f3 0x0058aa00 (community match, verified in this file)
@@ -4241,6 +4370,8 @@ struct InputAA00;
 struct ContextAA00 { void FUN_0055f490(InputAA00*,char*); void FUN_0055f580(InputAA00*,char*,char*); };
 struct InputAA00 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; ContextAA00* context; };
 extern void __cdecl FUN_00829790(char*);
+// pdb: BSFaceGenManager::ClearBodyTexturesFromPalette | BSFaceGenManager.obj | fnv360_0822_retail, caller, low, conflict (bridge: AutoPauseFileCaching::AutoPauseFileCaching)
+// pdb params: apNPC
 void FUN_0058aa00(InputAA00* input) { char first[260]; char second[260]; input->context->FUN_0055f490(input,first); input->context->FUN_0055f580(input,first,second); FUN_00829790(second); }
 }   // namespace f3m_0058aa00
 
@@ -4326,6 +4457,8 @@ struct CodexFloatArrayOwner {
         return 0.0;
     }
 };
+// pdb: BSFaceGenAnimationData::GetCustomMorphValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeCustomMorph
 float CodexFloatArrayOwner::FUN_00587f90(int index) {
     return (float)Value(index);
 }
@@ -4422,6 +4555,8 @@ struct CodexToggleObject {
     CodexToggleVtable* table;
     bool FUN_0059fbc0(bool);
 };
+// pdb: BSTreeNode::SetVisibilityForLeaves | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abVisible
 bool CodexToggleObject::FUN_0059fbc0(bool enabled) {
     CodexToggleFlags* state=table->getFlags(this);
     if (!state) return false;
@@ -4448,6 +4583,8 @@ struct FloatVector58da30 {
  void FUN_0058da30(const float*);
 };
 inline Iterator58da30::Iterator58da30(FloatVector58da30* v,float* p):owner(v),current(p) {}
+// pdb: std::vector<float,std::allocator<float> >::push_back | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: _Val, _Val
 void FloatVector58da30::FUN_0058da30(const float* value) {
  if(Size()<Capacity()) { float* destination=last; *destination=*value; last=destination+1; return; }
  { float* position=last; if(first>position) FUN_00c01e8b(); FUN_0058d9a0(Iterator58da30(this,position),value); }
@@ -4580,6 +4717,8 @@ struct Caller59fc70 {
     bool FUN_0059fc70(int arg1, unsigned char arg2);
 };
 
+// pdb: BSTreeNode::SetVisibilityOnLeaf | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: asLevel, acTest
 bool Caller59fc70::FUN_0059fc70(int arg1, unsigned char arg2)
 {
     Geom59fc70* obj = slot114(arg1);
@@ -4617,6 +4756,8 @@ extern int DAT_00f62310;
 extern int DAT_00f6231c;
 namespace f3m_005850f0 {
 
+// pdb: GamePlayFormulas::GetRequiredExperiencePoints | GamePlayFormulas.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: SortObjectsByDepth<class TESForm *,int __cdecl(class TESForm *,class TESForm *),class BSTArrayHeapAllocator>)
+// pdb params: aiWhichLevel
 int FUN_005850f0(int count)
 {
     if (count <= 1)
@@ -4637,6 +4778,7 @@ int FUN_005850f0(int count)
 // @f3 0x0058c7c0 (community match, verified in this file)
 namespace f3m_0058c7c0 {
 extern int DAT_00dfbe90;struct Owner58c7 {int* unk00;void FUN_0058b870();Owner58c7* FUN_0058c7c0(unsigned);};
+// pdb: BSTCaseInsensitiveStringMap<NiPointer<BSFaceGenModelMap::Entry> >::`scalar deleting destructor' | BSFaceGenManager.obj | fnv360_0822_retail, vtable, medium
 Owner58c7* Owner58c7::FUN_0058c7c0(unsigned flags){unk00=&DAT_00dfbe90;FUN_0058b870();if(flags&1)Helpers452::DAT_01090a78.FUN_0086ba60(this);return this;}
 }   // namespace f3m_0058c7c0
 
@@ -4644,6 +4786,8 @@ Owner58c7* Owner58c7::FUN_0058c7c0(unsigned flags){unk00=&DAT_00dfbe90;FUN_0058b
 namespace f3m_00587580 {
 struct Vector5875 {float unk00,unk04,unk08;bool FUN_00914770(const Vector5875*);};extern Vector5875 DAT_0108ec68;
 struct Owner5875 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; Vector5875 unk124; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174;float unk178;int unk17C,unk180,unk184;unsigned char unk188,unk189;void FUN_00587580(Vector5875,int);};
+// pdb: BSFaceGenAnimationData::SetHeadTrackVector | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aPoint, abInstant
 void Owner5875::FUN_00587580(Vector5875 value,int unused){if(unk124.unk00==DAT_0108ec68.unk00&&unk124.unk04==DAT_0108ec68.unk04&&unk124.unk08==DAT_0108ec68.unk08&&value.FUN_00914770(&DAT_0108ec68)){unk174=1;unk178=0.0f;}if(value.unk00==DAT_0108ec68.unk00&&value.unk04==DAT_0108ec68.unk04&&value.unk08==DAT_0108ec68.unk08)unk174=0;unk124=value;unk189=1;}
 }   // namespace f3m_00587580
 
@@ -4699,6 +4843,7 @@ struct Record593ca0 {
 struct Pair593ca0 {int unk00;std::vector<Record593ca0> groups[2];};
 struct Link593ca0 {int unk00;int unk04;Pair593ca0* data;};
 struct Owner593ca0 {int unk00;int unk04;int unk08;Link593ca0* link;unsigned int FUN_00593ca0();};
+// pdb: BSFaceGenModel::GetEGTDataSize | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, low
 unsigned int Owner593ca0::FUN_00593ca0() {
  unsigned int total=0;
  if(link && link->data) {
@@ -4719,6 +4864,8 @@ extern int __cdecl FUN_00c007fc(char*,unsigned,const char*);
 extern char* __cdecl FUN_00c010d0(const char*,int);
 extern int __cdecl FUN_00403230(char*,unsigned,const char*,...);
 struct Text58c660 { const char* text; void FUN_004019c0(const char*,unsigned); };
+// pdb: BSFaceGenManager::GetAsNIFFileHighLOD | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aOutFilename, apModel
 const char* __cdecl FUN_0058c660(Text58c660* text,const char* input) {
  char prefix[260]; char result[260];
  if(!input) return 0;
@@ -4737,6 +4884,8 @@ struct Setting5836 { int unk00; float value; };
 extern Setting5836* DAT_00f5f1e0[10];
 extern float DAT_0116d104;
 __forceinline float& SettingValue5836(Setting5836* setting) { if(setting) return setting->value; DAT_0116d104=0.0f; return DAT_0116d104; }
+// pdb: CombatFormulas::GetWeaponConditionJamMult | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiCondition
 float __cdecl FUN_005836d0(unsigned index) {
  float result=0.0f;
  if(index<=9) result=SettingValue5836(DAT_00f5f1e0[index]);
@@ -4748,6 +4897,7 @@ namespace f3m_0058f300 {
 namespace AccessF300 {
 struct State { int unk00; int unk04; int value; }; extern State* DAT_01073a08;
 extern void __cdecl FUN_0058ee80();
+// pdb: BSFaceGenManager::GetFaceGenCoord | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSEffectShaderData::SetBlockOutTexture)
 int* FUN_0058f300() { if(!DAT_01073a08) FUN_0058ee80(); return &DAT_01073a08->value; }
 }
 }   // namespace f3m_0058f300
@@ -4765,6 +4915,8 @@ void __stdcall FUN_00594990(Buffer5949* buffer) {
 // @f3 0x00582720 (community match, verified in this file)
 extern float DAT_00f60dd4,DAT_00f60de0;
 namespace f3m_00582720 {
+// pdb: CombatFormulas::CalcArmorRating | CombatFormulas.obj | fnv360_0822_retail, caller, medium
+// pdb params: asArmorRating, afcondition
 float __cdecl FUN_00582720(unsigned short count,float t) { return count*(DAT_00f60de0+(DAT_00f60dd4-DAT_00f60de0)*t); }
 }   // namespace f3m_00582720
 
@@ -4772,6 +4924,8 @@ float __cdecl FUN_00582720(unsigned short count,float t) { return count*(DAT_00f
 namespace f3m_00585b00 {
 namespace match585b00 {
 struct Owner585b00 {int unk00;int unk04;int unk08;float* data;unsigned count;bool FUN_00585b00(unsigned,float);};
+// pdb: BSFaceGenKeyframeMultiple::SetQuantity | BSFaceGenAnimationData.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: aiWhichMorph, afQuantity
 bool Owner585b00::FUN_00585b00(unsigned index,float value) {
  if(index<count && data[index]!=value) {data[index]=value;return true;}
  return false;
@@ -4786,6 +4940,8 @@ extern float DAT_00f602d0;
 extern float DAT_00f602c4;
 namespace f3m_00582980 {
 struct CodexScaledActor { float FUN_005a28e0(unsigned); };
+// pdb: CombatFormulas::GetKnockbackSpeed | CombatFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apActor, aiDamage
 float __cdecl FUN_00582980(CodexScaledActor* actor,int input) {
     float factor=(float)(actor->FUN_005a28e0(10)*10.0);
     float amount=input*DAT_00f602e8+DAT_00f602dc;
@@ -4819,6 +4975,8 @@ struct Container {
     Iterator FUN_00595900(Iterator first, Iterator last);
 };
 
+// pdb: std::_Destroy_range<std::allocator<FffModeGS> > | BSFaceGenModel.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: _First, _Last, _Al, __formal
 Iterator Container::FUN_00595900(Iterator first, Iterator last) {
     if (!first.owner || first.owner != last.owner)
         FUN_00c01e8b();
@@ -4839,6 +4997,8 @@ extern float flt_00f622ec;
 namespace f3m_005850b0 {
 // 0x005850b0 -- normalise a value and optionally apply a linear correction.
 
+// pdb: GamePlayFormulas::GetHealingRate | GamePlayFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afHealingRate, abIsSleeping
 float FUN_005850b0(float value, bool adjust)
 {
     float v = value / dbl_00db3e18;
@@ -4859,6 +5019,8 @@ struct CodexStandardMatrix {
     void FUN_0055a0a0(unsigned,float);
     CodexStandardMatrix* FUN_0058daa0(const CodexStandardMatrix*);
 };
+// pdb: FR2MatrixVTC<float>::operator= | BSFaceGenManager.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: m
 CodexStandardMatrix* CodexStandardMatrix::FUN_0058daa0(const CodexStandardMatrix* other) {
     if (this != other) {
         rows=other->rows;
@@ -4877,6 +5039,8 @@ extern float DAT_00f65838,DAT_00f65820;
 extern const double DAT_00dc2df0,DAT_00dfb5e8,DAT_00dc0438;
 extern const float DAT_00dc076c;
 namespace f3m_00585d40 {
+// pdb: BSFaceGenAnimationData::GetTrackDeadZoneZMinMax | BSFaceGenAnimationData.obj | fnv360_0822_debug, objrun, medium
+// pdb params: afMinOut, afMaxOut
 void __cdecl FUN_00585d40(float* left,float* right) {
  *right=(float)(DAT_00f65838*0.01745329238474369);
  if(*right<0.0f) *right=0.0f;
@@ -4897,6 +5061,8 @@ namespace Toggle74C0 {
 struct Owner;
 struct Table { void* unk00; void* unk04; void* unk08; void* unk0C; void* unk10; void* unk14; void* unk18; void* unk1C; void* unk20; void* unk24; void* unk28; void* unk2C; void* unk30; void* unk34; void* unk38; void* unk3C; void* unk40; void* unk44; void* unk48; void* unk4C; void* unk50; void* unk54; void* unk58; void* unk5C; void* unk60; void* unk64; void* unk68; void* unk6C; void* unk70; void* unk74; void* unk78; void* unk7C; void* unk80; void* unk84; void* unk88; void* unk8C; void* unk90; void* unk94; void* unk98; void* unk9C; void* unkA0; void* unkA4; void* unkA8; void* unkAC; void* unkB0; void* unkB4; void* unkB8; void (__thiscall *Reset)(Owner*,float,int,int,int,int); };
 struct Owner { Table* table; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; unsigned char unk18C; unsigned char unk18D; unsigned char unk18E; bool enabled; void FUN_005874c0(bool); };
+// pdb: BSFaceGenAnimationData::SetAnimHeadCulled | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abCulled
 void Owner::FUN_005874c0(bool value) { if(value!=enabled) { if(value) table->Reset(this,0,1,1,1,1); enabled=value; } }
 }
 }   // namespace f3m_005874c0
@@ -4959,6 +5125,8 @@ struct Manager58f580 {
  Part58f580 part;
 };
 extern Manager58f580* DAT_01073a08;void FUN_0058ee80();
+// pdb: BSFaceGenManager::GetFaceCoordAttribute | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCoord, aeFanAttribute, aeFanType
 unsigned FUN_0058f580(void* a,void* b,void* c) {if(!DAT_01073a08) FUN_0058ee80();return DAT_01073a08->part.FUN_00bdc9c0(0,b,c,a);}
 }
 }   // namespace f3m_0058f580
@@ -4973,18 +5141,22 @@ struct Input { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14;
 extern "C" void* __cdecl __RTDynamicCast(void*,long,void*,void*,int);
 extern char DAT_00f5c824; extern char DAT_00f47aa8;
 extern float __cdecl FUN_00582460(void*,Input*,int);
-float FUN_00584110(void* object,Input* input,float amount) { float result; if(input->kind<=2) { float base=input->base; result=Multiplier(amount)*base; } else { float factor=Multiplier(amount); result=FUN_00582460(__RTDynamicCast(object,0,&DAT_00f5c824,&DAT_00f47aa8,0),input,1)*factor; } return input->count*result; }
+// pdb: CombatFormulas::GetWeaponRateOfFire | CombatFormulas.obj | fnv360_0822_retail, objrun + bridge(call_gap|call_gap_sim), high
+float CombatFormulas_GetWeaponRateOfFire(void* object,Input* input,float amount) { float result; if(input->kind<=2) { float base=input->base; result=Multiplier(amount)*base; } else { float factor=Multiplier(amount); result=FUN_00582460(__RTDynamicCast(object,0,&DAT_00f5c824,&DAT_00f47aa8,0),input,1)*factor; } return input->count*result; }
 }
 
 // @f3 0x00593770 (community match, verified in this file)
 #include <vector>
 namespace f3m_00593770 {
 struct Small5937 {int unk00,unk04,unk08;};struct Large5937 {unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0C; unsigned unk10; unsigned unk14; unsigned unk18; unsigned unk1C; unsigned unk20; unsigned unk24; unsigned unk28; unsigned unk2C; };struct Owner5937 {std::vector<Small5937> unk00;int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; std::vector<Large5937> unk90;unsigned FUN_00593770();};
+// pdb: FffTriFileDataS::numModelVtx | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 unsigned Owner5937::FUN_00593770(){unsigned result=unk00.size();for(unsigned i=0;i<unk90.size();++i)if(unk90[i].unk1C<result)result=unk90[i].unk1C;return result;}
 }   // namespace f3m_00593770
 
 // @f3 0x0059fcf0 (community match, verified in this file)
 namespace f3m_0059fcf0 {
+// pdb: BSTreeNode::CheckForCollision | BSTreeNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afTime
 extern unsigned char DAT_01073d64; extern float DAT_00f66104; extern int DAT_00f660f8; struct Timer59FC { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; float next; bool FUN_0059fcf0(float); }; bool Timer59FC::FUN_0059fcf0(float elapsed) { if(elapsed==0.0f) return true; if(next==0.0f) { next=elapsed+DAT_00f66104+(DAT_00f66104/DAT_00f660f8)*DAT_01073d64; DAT_01073d64=(unsigned char)(DAT_01073d64+1)%DAT_00f660f8; return true; } bool result=false; if(next<elapsed) { next=elapsed+DAT_00f66104; result=true; } return result; }
 
 }   // namespace f3m_0059fcf0
@@ -5046,6 +5218,8 @@ struct Object58aef0 {
 };
 struct Manager58aef0 {void FUN_00597850(Object58aef0*,int,float);};
 Manager58aef0* FUN_0058ae00(Object58aef0*);void FUN_0058ae60(Object58aef0*,State58aef0*);
+// pdb: BSFaceGenManager::ApplyHairMorph | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSFaceGenUtils::CopyToBackBufferFunctor::operator())
+// pdb params: apGeom, afModifierValue
 void FUN_0058aef0(Object58aef0* object,float value) {
  if(!object || value<0.0f) return;
  Manager58aef0* manager=FUN_0058ae00(object);
@@ -5096,6 +5270,8 @@ bool Vector594530::FUN_00594530(unsigned int count) {
 // @f3 0x00596870 (community match, verified in this file)
 namespace f3m_00596870 {
 struct Ref5968;typedef void (__thiscall *Destroy5968)(Ref5968*);struct Table5968 {int unk00;Destroy5968 unk04;};extern long (__stdcall *DAT_00d9b064)(long*);struct Ref5968 {Table5968* unk00;long unk04;void IncRefCount();void DecRefCount(){if(!DAT_00d9b064(&unk04))unk00->unk04(this);}};struct Owner5968 {bool FUN_00593970(NiPointer<Ref5968>*);bool FUN_00596070(void*,Ref5968*,bool);bool FUN_00596870(void*,NiPointer<Ref5968>*);};
+// pdb: BSFaceGenModel::ApplyCoordinateToNewMesh | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCoord, aspReturnMesh
 bool Owner5968::FUN_00596870(void* input,NiPointer<Ref5968>* output){if(!input)return false;if(!FUN_00593970(output))return false;if(!FUN_00596070(input,*output,true)){*output=(Ref5968*)0;return false;}return true;}
 }   // namespace f3m_00596870
 
@@ -5123,6 +5299,8 @@ public:
     void FUN_00597850(void* object, int arg, float value);
 };
 
+// pdb: BSFaceGenMorphDataHair::ApplyMorph | BSFaceGenMorphData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apExtraData, afModifierValue
 void FUN_00597850_owner::FUN_00597850(void* object, int arg, float value) {
     if (target && object && !(value < 0.0f)) target->v01(object, arg, value);
 }
@@ -5155,6 +5333,8 @@ struct Vt589c20 {
  void (__thiscall* resize)(Obj589c20*,unsigned int,int);
 };
 struct Obj589c20 {Vt589c20* vtable;int unk04;float unk08;float* unk0C;unsigned int count;bool FUN_00589c20(int);};
+// pdb: BSFaceGenKeyframeMultiple::ClearData | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abForceZero
 bool Obj589c20::FUN_00589c20(int arg) {
  bool changed=false;
  if(vtable->get(this)!=0.0f) changed=true;
@@ -5211,6 +5391,8 @@ struct CodexValues7F1 {
     float* values;
     void FUN_00587f10(int,float);
 };
+// pdb: BSFaceGenAnimationData::SetModifierValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeModifier, afValue
 void CodexValues7F1::FUN_00587f10(int index,float value) {
     if(index<17) values[index]=value;
 }
@@ -5249,6 +5431,7 @@ struct Record58ab30 {
  int unk30;
 };
 struct Owner58ab30 {std::vector<Record58ab30> values;Record58ab30* FUN_0058ab30(unsigned int);};
+// pdb: FR2MatrixVTC<float>::~FR2MatrixVTC<float> | ModelLoader.obj | fnv360_0721_beta, call_gap_sim, low
 Record58ab30* Owner58ab30::FUN_0058ab30(unsigned int index) {return &values[index];}
 }   // namespace f3m_0058ab30
 
@@ -5257,6 +5440,8 @@ extern const double DAT_00db38b0;
 extern float DAT_00f61098;
 namespace f3m_00584710 {
 extern float __cdecl FUN_005845b0(int,float,int,int,int,int);
+// pdb: GamePlayFormulas::GetActorRunSpeed | GamePlayFormulas.obj | fnv360_0822_debug, objrun, medium
+// pdb params: apActor, pWeap, pArmor, abNoWeapon, abIsNpc, abIsSneaking, abOverEncumbered
 float __cdecl FUN_00584710(int a,float b,int c,int d,int e,int f) { float result=(float)(FUN_005845b0(a,b,e,c,d,f)+DAT_00db38b0); result=DAT_00f61098*result; return result; }
 
 }   // namespace f3m_00584710
@@ -5301,6 +5486,7 @@ struct FUN_005977d0 : RefBase5977d0 {
     virtual ~FUN_005977d0();
 };
 
+// pdb: BSFaceGenMorphDataHair::~BSFaceGenMorphDataHair | BSFaceGenMorphData.obj | fnv360_0822_retail, call_seq, medium
 FUN_005977d0::~FUN_005977d0() {
     if (unk08) delete unk08;
 }
@@ -5320,7 +5506,8 @@ void __stdcall FUN_00594b00(Entry594b00* first,Entry594b00* last) {
 extern float DAT_00f62904;
 extern int DAT_00f62b98;
 namespace f3m_005859c0 {
-bool __cdecl FUN_005859c0(int value,float scale) {
+// pdb: MagicFormulas::CheckTargetLevelMagnitude | MagicFormulas.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+bool __cdecl MagicFormulas_CheckTargetLevelMagnitude(int value,float scale) {
  scale=DAT_00f62904*scale;
  if(scale>=DAT_00f62b98) return true;
  return value<=scale;
@@ -5350,6 +5537,7 @@ struct Item58e6f0 {
 inline void Destroy58e6f0(Item58e6f0* first,Item58e6f0* last){while(first!=last){first->FUN_0058d760();++first;}}
 struct Heap58e6f0 {void FUN_0086ba60(void*);};extern Heap58e6f0 DAT_01090a78;
 struct Owner58e6f0 {int unk00;Item58e6f0* first;Item58e6f0* last;Item58e6f0* end;void FUN_0058e6f0();};
+// pdb: NiFloatData::CreateObject | NiFloatData.obj | tesv_win, objopen_prop, low
 void Owner58e6f0::FUN_0058e6f0() {
  if(first) {Destroy58e6f0(first,last);DAT_01090a78.FUN_0086ba60(first);}
  first=0;last=0;end=0;
@@ -5359,6 +5547,8 @@ void Owner58e6f0::FUN_0058e6f0() {
 
 // @f3 0x00588090 (community match, verified in this file)
 namespace f3m_00588090 {
+// pdb: BSFaceGenAnimationData::ClearHeadTracking | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abInstant
 struct Position5880 { float x; float y; float z; }; extern Position5880 DAT_0108ec68; struct Owner5880 { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; Position5880 position; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; bool enabled; void FUN_00588090(bool); }; void Owner5880::FUN_00588090(bool state){ position=DAT_0108ec68; enabled=state; }
 }   // namespace f3m_00588090
 
@@ -5368,6 +5558,8 @@ struct Foo {
     unsigned char FUN_00587540(int a);
 };
 
+// pdb: BSFaceGenAnimationData::IsSpeechKeyframeListEmpty | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeType
 unsigned char Foo::FUN_00587540(int a)
 {
     switch (a) {
@@ -5397,6 +5589,8 @@ Entry594b70* __cdecl FUN_00594b70(Entry594b70* first,Entry594b70* last,Entry594b
 extern float DAT_00f61098;
 namespace f3m_00584790 {
 float __cdecl FUN_005845b0(void*,float,int,int,int,int);
+// pdb: GamePlayFormulas::GetActorSwimRunSpeed | GamePlayFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, pWeap, pArmor, abNoWeapon, abIsNpc, abOverEncumbered
 float __cdecl FUN_00584790(void* object,float input,int third,int fourth,int fifth) {
     float adjusted=(float)(FUN_005845b0(object,input,0,third,fourth,fifth)+0.0);
     return DAT_00f61098*adjusted;
@@ -5426,6 +5620,8 @@ struct CodexScopedReader {
     CodexScopedReader(const char* path) { FUN_00bce1a0(path,0,0,0); }
     ~CodexScopedReader() { FUN_00bce1e0(); }
 };
+// pdb: BSSystemFile::GetSizeOfFile | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apcPath, auiSize
 void* __cdecl FUN_005932b0(const char* path,CodexOutputPair* output) {
     CodexScopedReader reader(path);
     if (!reader.status) {
@@ -5457,6 +5653,7 @@ public:
     void FUN_00594db0();
 };
 
+// pdb: TESEffectShader::CalculateFillEffectPulse | TESEffectShader.obj | tesv_win, objrun_open, low
 void FUN_00594db0_owner::FUN_00594db0() {
     if (data) {
         Destroy594db0 op;
@@ -5500,6 +5697,7 @@ struct Cand_00589e40 {
     bool FUN_00589e40();
 };
 
+// pdb: BSFaceGenKeyframeMultiple::IsEmpty | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
 bool Cand_00589e40::FUN_00589e40() {
     unsigned int i;
     for (i = 0; i < count; i++) {
@@ -5626,6 +5824,8 @@ class BSFaceGenAnimationData
 };
 
 // @fnv 0x0064a770
+// pdb: BSFaceGenAnimationData::ResetAnimCurrentMorphs | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTime, abResetExpression, abResetPhoneme, abResetModifier, abResetCustomMorph
 void BSFaceGenAnimationData::FUN_00586310(float time, bool expression, bool phoneme, bool modifier, bool custom)
 {
     vfn_104(expression, phoneme, modifier, custom);
@@ -5686,6 +5886,7 @@ struct FUN_0059c330 : Base59c330 {
     virtual ~FUN_0059c330();
 };
 
+// pdb: LockFreeMap<TESObjectREFR *,BSTreeNode *>::~LockFreeMap<TESObjectREFR *,BSTreeNode *> | BSTreeManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_0059c330::~FUN_0059c330() {
     FUN_004312c0(1);
     void* a = unk0c;
@@ -5714,6 +5915,8 @@ struct Actor5814 { void** table; int unk04; int unk08; int unk0C; int unk10; int
  bool Second(){return ((bool(__thiscall*)(Actor5814*))table[215])(this);}
  bool FUN_006f4a60();
 };
+// pdb: AiFormulas::CalculateDerivedHealth | AiFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor, afEndurance
 float __cdecl FUN_005814d0(Owner5814* owner,float score){
  float result=0.0f;
  Actor5814* actor=owner?(Actor5814*)((char*)owner - offsetof(Actor5814,owner)):0;
@@ -5747,12 +5950,15 @@ struct Record593400 {
  int unk2C;
 };
 struct Owner593400 {std::vector<Record593400> values;unsigned int FUN_00593400();};
+// pdb: std::vector<SFrondGuide,std::allocator<SFrondGuide> >::size | FrondEngine.obj | fnv360_0822_retail, objrun_prop, low
 unsigned int Owner593400::FUN_00593400() {return values.size();}
 }   // namespace f3m_00593400
 
 // @f3 0x0059b360 (community match, verified in this file)
 namespace f3m_0059b360 {
 struct Owner59b3;typedef bool (__thiscall *Test59b3)(Owner59b3*,unsigned,int);struct Table59b3 {int unk00,unk04,unk08,unk0C,unk10,unk14;Test59b3 unk18;};struct Owner59b3 {Table59b3* unk00;int unk04;unsigned unk08;bool FUN_0059b360(int);};
+// pdb: LockFreeMap<PathingRequest *,PathingTaskData *>::Remove | PathManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aData
 bool Owner59b3::FUN_0059b360(int value){bool result=false;for(unsigned i=0;i<unk08&&!result;++i)result=unk00->unk18(this,i,value);return result;}
 }   // namespace f3m_0059b360
 
@@ -5765,6 +5971,7 @@ struct Member58d890 { void* table; unsigned count; void* buffer; unsigned size; 
  __forceinline void Init() { table=&DAT_00dfbde4; count=37; size=0; buffer=FUN_0089e810(148); FUN_00c00610(buffer,0,count*4); flag=1; table=&DAT_00dfbe90; }
 };
 struct Owner58d890 { void* unk00; void* unk04; unsigned count; void* buffer; unsigned size; unsigned char unk14; unsigned char unk15; unsigned short unk16; unsigned unk18; unsigned unk1C; unsigned char unk20; Owner58d890* FUN_0058d890(); };
+// pdb: BSFaceGenModelMap::BSFaceGenModelMap | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
 Owner58d890* Owner58d890::FUN_0058d890() { unk00=&DAT_00dfbeb0; ((Member58d890*)&unk04)->Init(); unk18=0x10000000; unk1C=0x10000000; unk20=0; return this; }
 }   // namespace f3m_0058d890
 
@@ -5779,11 +5986,14 @@ Element588d* FUN_00588d10(unsigned count){if(count<=0)count=0;else if((unsigned(
 // @f3 0x0058c1e0 (community match, verified in this file)
 namespace f3m_0058c1e0 {
 struct Child58c1 {void FUN_0058bb80();};struct Owner58c1 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; int unk578; int unk57C; int unk580; int unk584; int unk588; int unk58C; int unk590; int unk594; int unk598; int unk59C; int unk5A0; int unk5A4; int unk5A8; int unk5AC; int unk5B0; int unk5B4; int unk5B8; int unk5BC; int unk5C0; int unk5C4; int unk5C8; int unk5CC; int unk5D0; int unk5D4; int unk5D8; int unk5DC; int unk5E0; int unk5E4; int unk5E8; int unk5EC; int unk5F0; int unk5F4; int unk5F8; int unk5FC; int unk600; int unk604; int unk608; int unk60C; int unk610; int unk614; int unk618; int unk61C; int unk620; int unk624; int unk628; int unk62C; int unk630; int unk634; int unk638; int unk63C; int unk640; int unk644; int unk648; int unk64C; int unk650; int unk654; int unk658; int unk65C; int unk660; int unk664; int unk668; int unk66C; int unk670; int unk674; int unk678; int unk67C; int unk680; int unk684; int unk688; int unk68C; int unk690; int unk694; int unk698; int unk69C; int unk6A0; int unk6A4; int unk6A8; int unk6AC; int unk6B0; int unk6B4; int unk6B8; int unk6BC; int unk6C0; int unk6C4; int unk6C8; int unk6CC; int unk6D0; int unk6D4; int unk6D8; int unk6DC; int unk6E0; int unk6E4; int unk6E8; int unk6EC; int unk6F0; int unk6F4; int unk6F8; int unk6FC; int unk700; int unk704; int unk708; int unk70C; int unk710; int unk714; int unk718; int unk71C; int unk720; int unk724; int unk728; int unk72C; int unk730; int unk734; int unk738; int unk73C; int unk740; int unk744; int unk748; int unk74C; int unk750; int unk754; int unk758; int unk75C; int unk760; int unk764; int unk768; int unk76C; int unk770; int unk774; int unk778; int unk77C; int unk780; int unk784; int unk788; int unk78C; int unk790; int unk794; int unk798; int unk79C; int unk7A0; int unk7A4; int unk7A8; int unk7AC; int unk7B0; int unk7B4; int unk7B8; int unk7BC; int unk7C0; int unk7C4; int unk7C8; int unk7CC; int unk7D0; int unk7D4; int unk7D8; int unk7DC; int unk7E0; int unk7E4; int unk7E8; int unk7EC; int unk7F0; int unk7F4; int unk7F8; int unk7FC; int unk800; int unk804; int unk808; int unk80C; int unk810; int unk814; int unk818; int unk81C; int unk820; int unk824; int unk828; int unk82C; int unk830; int unk834; int unk838; int unk83C; int unk840; int unk844; int unk848; int unk84C; int unk850; int unk854; int unk858; int unk85C; int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C; int unk880; int unk884; int unk888; int unk88C; int unk890; int unk894; int unk898; int unk89C; int unk8A0; int unk8A4; int unk8A8; int unk8AC; int unk8B0; int unk8B4; int unk8B8; int unk8BC; int unk8C0; int unk8C4; int unk8C8; int unk8CC; int unk8D0; int unk8D4; int unk8D8; int unk8DC; int unk8E0; int unk8E4; int unk8E8; int unk8EC; int unk8F0; int unk8F4; int unk8F8; int unk8FC; int unk900; int unk904; int unk908; int unk90C; int unk910; int unk914; int unk918; int unk91C; int unk920; int unk924; int unk928; int unk92C; int unk930; int unk934; int unk938; int unk93C; int unk940; int unk944; int unk948; int unk94C; int unk950; int unk954; int unk958; int unk95C; int unk960; int unk964; int unk968; int unk96C; int unk970; int unk974; int unk978; int unk97C; int unk980; int unk984; int unk988; int unk98C; int unk990; int unk994; int unk998; int unk99C; int unk9A0; int unk9A4; int unk9A8; int unk9AC; int unk9B0; int unk9B4; int unk9B8; int unk9BC; int unk9C0; int unk9C4; int unk9C8; int unk9CC; int unk9D0; int unk9D4; int unk9D8; int unk9DC; int unk9E0; int unk9E4; int unk9E8; int unk9EC; int unk9F0; int unk9F4; int unk9F8; int unk9FC; int unkA00; int unkA04; int unkA08; int unkA0C; int unkA10; int unkA14; int unkA18; int unkA1C; int unkA20; int unkA24; int unkA28; int unkA2C; int unkA30; int unkA34; int unkA38; int unkA3C; int unkA40; int unkA44; int unkA48; int unkA4C; int unkA50; int unkA54; int unkA58; int unkA5C; int unkA60; int unkA64; int unkA68; int unkA6C; int unkA70; int unkA74; int unkA78; int unkA7C; int unkA80; int unkA84; int unkA88; int unkA8C; int unkA90; int unkA94; int unkA98; int unkA9C; int unkAA0; int unkAA4; int unkAA8; int unkAAC; int unkAB0; int unkAB4; int unkAB8; int unkABC; int unkAC0; int unkAC4; int unkAC8; int unkACC; int unkAD0; int unkAD4; int unkAD8; int unkADC; int unkAE0; int unkAE4; int unkAE8; int unkAEC; int unkAF0; int unkAF4; int unkAF8; int unkAFC; int unkB00; int unkB04; int unkB08; int unkB0C; int unkB10; int unkB14; int unkB18; int unkB1C; int unkB20; int unkB24; int unkB28; int unkB2C; int unkB30; int unkB34; int unkB38; int unkB3C; int unkB40; int unkB44; int unkB48; int unkB4C; int unkB50; int unkB54; int unkB58; int unkB5C; int unkB60; int unkB64; int unkB68; int unkB6C; int unkB70; int unkB74; int unkB78; int unkB7C; int unkB80; int unkB84; int unkB88; int unkB8C; int unkB90; int unkB94; int unkB98; int unkB9C; int unkBA0; int unkBA4; int unkBA8; int unkBAC; int unkBB0; int unkBB4; int unkBB8; int unkBBC; int unkBC0; int unkBC4; int unkBC8; int unkBCC; int unkBD0; int unkBD4; int unkBD8; int unkBDC; int unkBE0; int unkBE4; int unkBE8; int unkBEC; int unkBF0; int unkBF4; int unkBF8; int unkBFC; int unkC00; int unkC04; int unkC08; int unkC0C; int unkC10; int unkC14; int unkC18; int unkC1C; int unkC20; int unkC24; int unkC28; int unkC2C; int unkC30; int unkC34; int unkC38; int unkC3C; int unkC40; int unkC44; int unkC48; int unkC4C; int unkC50; int unkC54; int unkC58; int unkC5C; int unkC60; int unkC64; int unkC68; int unkC6C; int unkC70; int unkC74; int unkC78; int unkC7C; int unkC80; int unkC84; int unkC88; int unkC8C; int unkC90; int unkC94; int unkC98; int unkC9C; int unkCA0; int unkCA4; int unkCA8; int unkCAC; int unkCB0; int unkCB4; int unkCB8; int unkCBC; int unkCC0; int unkCC4; int unkCC8; int unkCCC; int unkCD0; int unkCD4; int unkCD8; int unkCDC; int unkCE0; int unkCE4; int unkCE8; int unkCEC; int unkCF0; int unkCF4; int unkCF8; int unkCFC; int unkD00; int unkD04; int unkD08; int unkD0C; int unkD10; int unkD14; int unkD18; int unkD1C; int unkD20; int unkD24; int unkD28; int unkD2C; int unkD30; int unkD34; int unkD38; int unkD3C; int unkD40; int unkD44; int unkD48; int unkD4C; int unkD50; int unkD54; int unkD58; int unkD5C; int unkD60; int unkD64; int unkD68; int unkD6C; int unkD70; int unkD74; int unkD78; int unkD7C; int unkD80; int unkD84; int unkD88; int unkD8C; int unkD90; int unkD94; int unkD98; int unkD9C; int unkDA0; int unkDA4; int unkDA8; Child58c1* unkDAC;};extern Owner58c1* DAT_01073a08;
-void FUN_0058c1e0(){if(DAT_01073a08&&DAT_01073a08->unkDAC)DAT_01073a08->unkDAC->FUN_0058bb80();}
+// pdb: BSFaceGenManager::ClearModelCache | BSFaceGenManager.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void BSFaceGenManager_ClearModelCache(){if(DAT_01073a08&&DAT_01073a08->unkDAC)DAT_01073a08->unkDAC->FUN_0058bb80();}
 }   // namespace f3m_0058c1e0
 
 // @f3 0x0059fb90 (community match, verified in this file)
 namespace f3m_0059fb90 {
+// pdb: BSTreeNode::SetVisibilityForBranches | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abVisible
 struct Object59FB { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; unsigned flags; }; struct Owner59FB {void** table; bool FUN_0059fb90(bool);}; bool Owner59FB::FUN_0059fb90(bool enabled){Object59FB* object=((Object59FB*(__thiscall*)(Owner59FB*))table[65])(this);if(!object)return false;if(!enabled){object->flags|=1;return true;}object->flags&=~1u;return true;}
 }   // namespace f3m_0059fb90
 
@@ -5809,6 +6019,8 @@ struct Record593440 {
  int unk3C;
 };
 struct Owner593440 {std::vector<Record593440> values;Record593440* FUN_00593440(unsigned int);};
+// pdb: BSFaceGenManager::LoadEGTData | BSFaceGenManager.obj | fnv360_1110_retail, callee_sim, low
+// pdb params: apModel
 Record593440* Owner593440::FUN_00593440(unsigned int index) {return &values[index];}
 }   // namespace f3m_00593440
 
@@ -5819,7 +6031,8 @@ extern float flt_00f5e6e0;
 extern const double DAT_00db7de8;
 namespace f3m_005812e0 {
 
-float __cdecl FUN_005812e0(int value)
+// pdb: AiFormulas::ComputeTimeTillNextWander | AiFormulas.obj | fnv360_0822_retail, objrun + bridge(call_gap|objrun), high
+float __cdecl AiFormulas_ComputeTimeTillNextWander(int value)
 {
     float t = value * flt_00f5e6ec + flt_00f5e6e0;
     return (flt_00f5e6f8 - t) * DAT_00db7de8;
@@ -5877,6 +6090,8 @@ struct ActorV {
 struct Helper97740 {
     void FUN_00597740(int, int, Actor*, int, float);
 };
+// pdb: BSFaceGenNiNode::ApplyFacialCustomMorphs | BSFaceGenNiNode.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: BSTArray<unsigned char,class BSTSmallArrayHeapAllocator<4> >::ConstructItems<unsigned char const &>)
+// pdb params: arObjData
 void Owner::FUN_005995f0(Context* ctx)
 {
     Actor* actor = getActor();
@@ -5901,6 +6116,8 @@ extern const double DAT_00dcf568;
 namespace f3m_005855b0 {
 
 
+// pdb: GamePlayFormulas::GetSellValuePercentage | GamePlayFormulas.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: aiTargetMercantileSkill, aiTargetDispostion
 float __cdecl FUN_005855b0(int a, int b)
 {
     double t;
@@ -5925,6 +6142,8 @@ float __cdecl FUN_005855b0(int a, int b)
 extern float DAT_00f5f194;extern float DAT_00f5f1a0;
 namespace f3m_005819b0 {
 struct Owner5819 {void** table;};
+// pdb: AiFormulas::AVDeriveUnarmedDamage | AiFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, aiWhich
 float __cdecl FUN_005819b0(Owner5819* owner,unsigned selector){float result=0.0f;if(selector==0x38)result=((float(__thiscall*)(Owner5819*,int))owner->table[3])(owner,0x2d)*DAT_00f5f194+DAT_00f5f1a0;return result;}
 }   // namespace f3m_005819b0
 
@@ -5933,6 +6152,8 @@ namespace f3m_00580be0 {
 struct Random580be0 {unsigned int FUN_0086c4b0(int);};
 Random580be0* __cdecl FUN_0044a2d0();
 inline float Wrap580be0(float value) {float wrapped=(float)(value-24.0);if(wrapped>=0.0f) return wrapped;return value;}
+// pdb: AiFormulas::RandomHour | AiFormulas.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: afMin, afMax
 float __cdecl FUN_00580be0(float first,float second) {
  double upper=first>second ? second+24.0 : second;
  Random580be0* generator=FUN_0044a2d0();
@@ -5950,6 +6171,7 @@ namespace heap596610 {struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01
 struct Data596610 {void FUN_00595d30();};
 struct State596610 {int unk00;int unk04;Data596610* data;int unk0C;int unk10;int unk14;int unk18;int unk1C;unsigned int count;};
 struct Owner596610 {int unk00;int unk04;State596610* state;bool FUN_00596610();};
+// pdb: BSFaceGenModel::UnloadEGMData | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 bool Owner596610::FUN_00596610() {
  State596610* local=state;
  if(local) {
@@ -5968,6 +6190,8 @@ bool Owner596610::FUN_00596610() {
 
 // @f3 0x00585810 (community match, verified in this file)
 namespace f3m_00585810 {
+// pdb: MagicFormulas::GetMagicTargetResistance | MagicFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afTargetMagicTypeResistance, afTargetEffectResistance
 float FUN_00585810(float a, float b) {
     if (a >= 100.0) {
         return 0.0f;
@@ -6006,6 +6230,8 @@ struct CodexDestroyVector {
     CodexFortyEightElement* capacity;
     void FUN_00594e00();
 };
+// pdb: std::_Destroy_range<std::allocator<FffTriStatMorphS> > | BSFaceGenModel.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: _First, _Last, _Al, __formal
 void CodexDestroyVector::FUN_00594e00() {
     if (begin) {
         CodexDestroyRange(begin,end);
@@ -6064,6 +6290,8 @@ namespace f3m_00581b70 {
 namespace match581b70 {
 struct Owner581b70;extern void* DAT_00de8124;extern void (__thiscall *DAT_00de812c)(Owner581b70*,void*);
 struct Owner581b70 {void* vtable;void* data;unsigned count,capacity;void FUN_00581b70();};
+// pdb: BSSimpleArray<FollowerDist,1024>::BSSimpleArray<FollowerDist,1024> | AiFormulas.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: aiInitialSize
 void Owner581b70::FUN_00581b70() {vtable=&DAT_00de8124;if(data){DAT_00de812c(this,data);data=0;capacity=0;count=0;}}
 }
 }   // namespace f3m_00581b70
@@ -6086,6 +6314,8 @@ struct BSFaceGenNiNode : public NiNode {
     void FUN_0059a280(NiUpdateData& data, unsigned int flags);
 };
 
+// pdb: BSFaceGenNiNode::UpdateDownwardPass | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: BSDamageStage::UpdateDownwardPass)
+// pdb params: UpdateData, uFlags
 void BSFaceGenNiNode::FUN_0059a280(NiUpdateData& data, unsigned int flags)
 {
     if (!(flags30 & 1))
@@ -6126,6 +6356,7 @@ struct X : Base {
     }
 };
 
+// pdb: BSTreeModel::CreateAlphaProperty | BSTreeModel.obj | fnv360_0822_retail, call_dedup, low
 X* FUN_0059c550() {
     X* p = new X;
     p->f18 = (unsigned short)((p->f18 & 0xf3fe) | 0x1200);
@@ -6181,6 +6412,8 @@ struct This58 {
     Ref58* FUN_0058ac70();
 };
 
+// pdb: BSFaceGenManager::GetFaceGenMorphData | BSFaceGenManager.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeom
 Ref58* This58::FUN_0058ac70()
 {
     return m_holder ? m_holder->m_sp : Ptr58();
@@ -6222,6 +6455,8 @@ struct FUN_00585ab0_cls {
     int FUN_00585ab0(const FUN_00585ab0_cls& other) const;
 };
 
+// pdb: NiPointer<NiRotData>::operator= | NiQuaternionInterpolator.obj | fnv360_0721_beta, objopen_prop, low, conflict (skyrim: NiQuaternion::operator!=)
+// pdb params: pObject
 int FUN_00585ab0_cls::FUN_00585ab0(const FUN_00585ab0_cls& other) const {
     if (x != other.x || y != other.y || z != other.z || w != other.w) {
         return 1;
@@ -6239,6 +6474,7 @@ struct FUN_00589ea0_cls {
     bool FUN_00589ea0();
 };
 
+// pdb: BSFaceGenKeyframeMultiple::IsTargetAvailable | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
 bool FUN_00589ea0_cls::FUN_00589ea0() {
     for (unsigned int i = 0; i < count; ++i) {
         float v = values[i];
@@ -6253,6 +6489,8 @@ bool FUN_00589ea0_cls::FUN_00589ea0() {
 // @f3 0x00581950 (community match, verified in this file)
 namespace f3m_00581950 {
 struct Object5819 {float FUN_005a28e0(int);};extern const float DAT_00f5f188,DAT_00f5f17c,DAT_00f5f170,DAT_00f5f164;
+// pdb: AiFormulas::AVDeriveResistance | AiFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, aiWhich
 float FUN_00581950(Object5819* object,int type){float result=0.0f;switch(type){case 19:result=(object->FUN_005a28e0(7)+DAT_00f5f170)*DAT_00f5f164;break;case 20:result=(object->FUN_005a28e0(7)+DAT_00f5f188)*DAT_00f5f17c;break;}return result;}
 }   // namespace f3m_00581950
 
@@ -6328,6 +6566,8 @@ struct Operations {
  void (__thiscall* second)(DispatchOwner*,int,int,int,int);
 };
 struct DispatchOwner { Operations* operations; void FUN_00586c30(int a,int b,int c,int d); };
+// pdb: BSFaceGenAnimationData::ClearKeyframeLists | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abClearExpression, abClearPhonemes, abClearModifiers, abClearCustomMorphs
 void DispatchOwner::FUN_00586c30(int a,int b,int c,int d) { operations->first(this,a,b,c,d); operations->second(this,a,b,c,d); }
 
 }   // namespace f3m_00586c30
@@ -6340,6 +6580,8 @@ struct FUN_00587f70_cls {
     void FUN_00587f70(int index, float value);
 };
 
+// pdb: BSFaceGenAnimationData::SetPhonemeValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aePhoneme, afValue
 void FUN_00587f70_cls::FUN_00587f70(int index, float value) {
     if (index < 16) {
         values[index] = value;
@@ -6470,6 +6712,8 @@ struct BSFaceGenAnimationData {
     void FUN_00586b20(BS_FACEGEN_MORPH_TYPE, float, bool);
 };
 // @fnv 0x0064ad20
+// pdb: BSFaceGenAnimationData::AddSpeechEmptyKeyframe | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeType, afTime, abForceZero
 void BSFaceGenAnimationData::FUN_00586b20(BS_FACEGEN_MORPH_TYPE type, float time, bool unused)
 {
     if (dead)
@@ -6506,6 +6750,8 @@ namespace PathC5B0 {
 struct Text { char* data; unsigned length; bool FUN_004019c0(const char*,unsigned); };
 extern int __cdecl FUN_00c007fc(char*,unsigned,const char*); extern char* __cdecl FUN_00c010d0(char*,int);
 extern int __cdecl FUN_00403230(char*,unsigned,const char*,...); extern const char DAT_00dfbe84[];
+// pdb: BSFaceGenManager::GetAsEGTFile | BSFaceGenManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aOutFilename, apModel
 char* FUN_0058c5b0(Text* output,const char* input) { char path[260]; char formatted[260]; if(!input) return 0; FUN_00c007fc(path,260,input); char* separator=FUN_00c010d0(path,'.'); if(!separator) return 0; *separator=0; FUN_00403230(formatted,260,DAT_00dfbe84,path); output->FUN_004019c0(formatted,0); return output->data; }
 }
 }   // namespace f3m_0058c5b0
@@ -6558,6 +6804,8 @@ struct ResultObject {
     virtual void* slot37();
     ResultObject* FUN_0058ac70();
 };
+// pdb: BSFaceGenManager::GetFaceGenMorphDataHair | BSFaceGenManager.obj | fnv360_0822_debug, udata, medium
+// pdb params: apGeom
 NiObject* FUN_0058ae00(f3m_00599c30::Actor* actor)
 {
     if (!actor) goto failed;
@@ -6581,6 +6829,8 @@ extern float DAT_00f624e4;
 extern float DAT_00f624f0;
 namespace f3m_00585790 {
 
+// pdb: MagicFormulas::GetMagicSpellLevel | MagicFormulas.obj | fnv360_0822_retail, objrun, low
+// pdb params: afSpellCost
 int FUN_00585790(float value) {
     value = value * DAT_00f624c0 + DAT_00f624b4;
     if (value < DAT_00f624cc) {
@@ -6611,11 +6861,15 @@ std::vector<Triple41E0>::iterator Vector41E0::FUN_005941e0(std::vector<Triple41E
 // @f3 0x00583840 (community match, verified in this file)
 #include <math.h>
 namespace f3m_00583840 {
+// pdb: CombatFormulas::CalcExplosionDamageDistance | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afExplosionRadius, afBaseExplosionDamage, afActualDamage
 float FUN_00583840(float amplitude,float radius,float distance) { float factor=distance/radius; if(factor>1) return 0; factor=1-factor; if(factor<0) factor=0; else factor=sqrtf(factor)*amplitude; return factor; }
 }   // namespace f3m_00583840
 
 // @f3 0x00585210 (community match, verified in this file)
 namespace f3m_00585210 {
+// pdb: GamePlayFormulas::CalculateToolResistance | GamePlayFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afResistanceTime, afMagnitude, afMouseScalar, afInjuryPercent, afPainPercent, aiMedicineSkill
 void FUN_00585210(float* first,float* second,float* third,float x,float y,int n){float value=(float)n;float output=(float)((value/(100.0))*(0.69999998807907104)+(1.0-x)*(0.20000000298023224)+(1.0-y)*(0.10000000149011612));*first=output;*second=(float)((((100.0)-value)/(100.0))*(0.69999998807907104)+x*(0.20000000298023224)+y*(0.10000000149011612));*third=output;}
 }   // namespace f3m_00585210
 
@@ -6635,6 +6889,8 @@ public:
 };
 float FUN_005a26d0(int actorValue, float value);
 void FUN_005814d0(ActorValueOwner581b10* owner, float value);
+// pdb: AiFormulas::AVDeriveHealth | AiFormulas.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apActor, aiWhich
 void FUN_00581b10(ActorValueOwner581b10* owner) {
     float value = owner->GetActorValue(7);
     float scaled = FUN_005a26d0(7, value);
@@ -6651,6 +6907,8 @@ float FUN_00585060(float value){if(value>DAT_00f622c8)return 0.0f;value=1.0f-val
 // @f3 0x005992d0 (community match, verified in this file)
 namespace f3m_005992d0 {
 struct Provider5992;typedef float (__thiscall *Weight5992)(Provider5992*,int);struct ProviderTable5992 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; Weight5992 unk94;};struct Provider5992 {ProviderTable5992* unk00;};struct Owner5992;typedef Provider5992* (__thiscall *Get5992)(Owner5992*);struct Table5992 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; Get5992 unk100;};struct Receiver5992 {void FUN_00597740(int,int,void*,unsigned,float);};struct Vector5992 {float unk00,unk04,unk08;};struct Payload5992 {void* unk00;Vector5992 unk04;Receiver5992* unk10;unsigned unk14;int unk18;bool unk1C;};extern void __cdecl FUN_0058ae60(void*,Vector5992*);struct Owner5992 {Table5992* unk00;void FUN_005992d0(Payload5992*);};
+// pdb: BSFaceGenNiNode::ApplyFacialExpressions | BSFaceGenNiNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arObjData
 void Owner5992::FUN_005992d0(Payload5992* payload){for(int i=0;i<15;++i){Provider5992* provider=unk00->unk100(this);float weight=provider->unk00->unk94(provider,i);if(weight>0.0f&&weight<=1.0f){if(!payload->unk1C){FUN_0058ae60(payload->unk00,&payload->unk04);payload->unk1C=true;}payload->unk10->FUN_00597740(1,i,payload->unk00,payload->unk14,weight);}}}
 }   // namespace f3m_005992d0
 
@@ -6667,6 +6925,7 @@ public:
     FUN_0058a280* FUN_0058a6a0();
     int data[5];
 };
+// pdb: BSFaceGenKeyframeMultiple::CreateCopy | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
 FUN_0058a280* FUN_0058a280::FUN_0058a6a0() {
     return new FUN_0058a280(*this);
 }
@@ -6686,7 +6945,8 @@ static inline float& SettingValue581730(Setting581730* setting) {
     DAT_0116d104 = 0.0f;
     return DAT_0116d104;
 }
-void FUN_00581730(int index, int* outId, float* outValue) {
+// pdb: AiFormulas::AVGetDerivedSkillPrimaryAttributeAndBase | AiFormulas.obj | fnv360_0822_retail, udata, high
+void AiFormulas_AVGetDerivedSkillPrimaryAttributeAndBase(int index, int* outId, float* outValue) {
     *outId = DAT_00f5e0ec[index];
     *outValue = SettingValue581730(DAT_00f5e124[index]);
 }
@@ -6828,6 +7088,8 @@ struct Owner599280 {
     void FUN_00599280(Blob599280* src);
 };
 
+// pdb: BSFaceGenNiNode::SetBaseRotation | BSFaceGenNiNode.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aRot
 void Owner599280::FUN_00599280(Blob599280* src)
 {
     mb0 = *src;
@@ -6848,6 +7110,7 @@ struct Obj {
     void* FUN_00588820(unsigned int flags);
 };
 
+// pdb: BSFaceGenAnimationData::`scalar deleting destructor' | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, high
 void* Obj::FUN_00588820(unsigned int flags)
 {
     FUN_00587d50();
@@ -6869,6 +7132,8 @@ struct Unk00587fd0 {
     void FUN_00587fd0(int index, float value);
 };
 
+// pdb: BSFaceGenAnimationData::SetCustomMorphValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeCustomMorph, afValue
 void Unk00587fd0::FUN_00587fd0(int index, float value)
 {
     if (index < 1)
@@ -6878,6 +7143,7 @@ void Unk00587fd0::FUN_00587fd0(int index, float value)
 
 // @f3 0x00583800 (community match, verified in this file)
 namespace f3m_00583800 {
+// pdb: TESImageSpaceModifier::GetExplosionInFace | Explosion.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: CombatFormulas::CalcExplosionPower)
 float FUN_00583800(float a, float b) {
     float result = 0.0f;
     if (a >= b) {
@@ -6891,6 +7157,8 @@ float FUN_00583800(float a, float b) {
 
 // @f3 0x00582700 (community match, verified in this file)
 namespace f3m_00582700 {
+// pdb: CombatFormulas::CalcDamageToArmor | CombatFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: afHealthDamage, afArmorRatingPercent
 namespace Scale2700 { extern float DAT_00f5fc1c; float FUN_00582700(float a,float b) { return a*b*DAT_00f5fc1c; } }
 }   // namespace f3m_00582700
 
@@ -6898,6 +7166,8 @@ namespace Scale2700 { extern float DAT_00f5fc1c; float FUN_00582700(float a,floa
 namespace f3m_0058a8b0 {
 namespace Global58a8 {extern void* DAT_01073b5c;}
 struct Result58a8 {void**table;};struct Input58a8{Result58a8* FUN_00824a50(void*);};
+// pdb: BSFaceGenManager::GetFaceGenModel | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom
 void* __cdecl FUN_0058a8b0(Input58a8*input){if(input){Result58a8*result=input->FUN_00824a50(Global58a8::DAT_01073b5c);if(result)return ((void*(__thiscall*)(Result58a8*))result->table[37])(result);}return 0;}
 }   // namespace f3m_0058a8b0
 
@@ -6906,6 +7176,7 @@ extern float DAT_00f5fbb0;extern float DAT_00f60d50;extern float DAT_00f60d5c;ex
 namespace f3m_00584330 {
 struct Owner5843 {void** table;float FUN_005a28e0(int);float Query(int selector){return ((float(__thiscall*)(Owner5843*,int))table[3])(this,selector);}};
 extern float __cdecl FUN_00582b90(Owner5843*,int);
+// pdb: CombatFormulas::CalcDamageToWeapon | CombatFormulas.obj | fnv360_0721_beta, call_gap, low
 void __cdecl FUN_00584330(Owner5843* owner,bool skipSecondary,float* first,float* second){
  float base=DAT_00f5fbb0;float extra=0.0f;
  if(owner)extra=(float)(owner->Query(0x38)+0.0);
@@ -6922,6 +7193,8 @@ void __cdecl FUN_00584330(Owner5843* owner,bool skipSecondary,float* first,float
 namespace Formula5530 {
 extern const double DAT_00dba730; extern const double DAT_00db8b00; extern const double DAT_00dcf568;
 extern float DAT_00f612cc; extern float DAT_00f612e4; extern float DAT_00f61320;
+// pdb: GamePlayFormulas::GetBuyValuePercentage | GamePlayFormulas.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: aiTargetMercantileSkill, aiTargetDispostion
 float FUN_00585530(int input,int level) { double capped=DAT_00dba730<input ? DAT_00dba730 : input; double base=DAT_00f612cc; float value=(float)(base-sqrt(DAT_00db8b00-capped)*DAT_00f612e4-((level-50)/10)*(double)DAT_00f61320); return value*DAT_00dcf568; }
 }
 
@@ -6954,6 +7227,7 @@ struct DataObj {
     unsigned int count;
     float FUN_00589df0();
 };
+// pdb: BSFaceGenKeyframeMultiple::GetStrength | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
 float DataObj::FUN_00589df0() {
     float result = 0.0f;
     for (unsigned int i = 0; i < count; ++i) {
@@ -7014,6 +7288,8 @@ namespace f3m_0058c320 {
 namespace Path115{
 extern int __cdecl FUN_00403230(char*,unsigned int,const char*,...);
 struct String115{char* data;void FUN_004019c0(const char*,int);};
+// pdb: BSFaceGenManager::GetAsEGMFile | BSFaceGenManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aOutFilename, apModel, aeHairPart
 char* __cdecl FUN_0058c320(String115* output,const char* path,int mode){
  char base[260],name[260];
  if(!path)return 0;
@@ -7028,6 +7304,8 @@ char* __cdecl FUN_0058c320(String115* output,const char* path,int mode){
 // @f3 0x00582b30 (community match, verified in this file)
 namespace f3m_00582b30 {
 struct Owner95{virtual void slot00();virtual void slot01();virtual void slot02();virtual float GetValue(int);};
+// pdb: CombatFormulas::GetBodyPartCondition | CombatFormulas.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apActor, aiWhich, abRaw
 float __cdecl FUN_00582b30(Owner95* owner,int index,bool fractional){
  float result=1.0f;
  switch(index){case 25:case 26:case 27:case 28:case 29:case 30:case 31:{
@@ -7043,6 +7321,8 @@ float __cdecl FUN_00582b30(Owner95* owner,int index,bool fractional){
 // @f3 0x005853d0 (community match, verified in this file)
 extern float DAT_00f62430,DAT_00f6243c;
 namespace f3m_005853d0 {
+// pdb: GamePlayFormulas::GetSpeechFailPenalty | GamePlayFormulas.obj | fnv360_0721_retail, objrun, medium
+// pdb params: aiSuccessChance
 float __cdecl FUN_005853d0(int value){return -DAT_00f62430-(1.0-value/100.0)*DAT_00f6243c;}
 }   // namespace f3m_005853d0
 
@@ -7058,6 +7338,7 @@ struct Owner141{
  static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}
 };
 extern Owner141* DAT_01073b7c;
+// pdb: BSFaceGenBaseMorphExtraData::InitSDM | BSFaceGenMorphData.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_005978a0(){DAT_01073b7c=new Owner141;}
 }
 
@@ -7224,6 +7505,8 @@ unsigned int unkc0;
 Factory181* factory;
 };
 struct Owner181{unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;void* context;void FUN_0082d9f0(Object181*);void FUN_005999e0(Object181*);};
+// pdb: BSFaceGenNiNode::OnVisible | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, medium
+// pdb params: arCuller
 void Owner181::FUN_005999e0(Object181* object){
  Factory181* factory=object->factory;void* active=factory->active;
  if(!active)factory->FUN_00ae6dc0(context?context:&DAT_0108edc8,0);
@@ -7295,6 +7578,8 @@ unsigned int unke0;
 Header184* header;unsigned int unkE8;void** data;
 void* FUN_0059ff80(unsigned short);
 };
+// pdb: BSTreeNode::GetLeafLevel | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: asLevel
 void* Owner184::FUN_0059ff80(unsigned short index){if(header&&data&&index<header->FUN_0059c3f0())return data[index];return 0;}
 }   // namespace f3m_0059ff80
 
@@ -7302,6 +7587,7 @@ void* Owner184::FUN_0059ff80(unsigned short index){if(header&&data&&index<header
 namespace f3m_005949c0 {
 struct Block4830 { unsigned unk00,unk04,unk08,unk0c; Block4830& FUN_00594830(const Block4830&); };
 struct Value49c0 { float scale; unsigned unk04,unk08,unk0c; Block4830 blocks[3]; Value49c0& FUN_005949c0(const Value49c0&); };
+// pdb: FffModeTexS::~FffModeTexS | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, medium
 Value49c0& Value49c0::FUN_005949c0(const Value49c0& source) {
  scale=source.scale; unk04=source.unk04; unk08=source.unk08; unk0c=source.unk0c;
  for(unsigned i=0;i<3;++i) blocks[i].FUN_00594830(source.blocks[i]);
@@ -7318,6 +7604,8 @@ struct Text { unsigned char allocator; union { char buffer[16]; char* heap; }; u
 struct FUN_005946d0 { unsigned allocator; void* first; void* last; void* end; FUN_005946d0(); ~FUN_005946d0(); };
 struct FUN_00595c60 { unsigned header; FUN_005946d0 blocks[2]; FUN_00595c60(const char*); };
 void __cdecl FUN_00bdf740(Text*, FUN_00595c60*,FUN_005946d0*,FUN_005946d0*);
+// pdb: EGMData::EGMData | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apEGMFilename
 FUN_00595c60::FUN_00595c60(const char* filename) { Text path(filename); FUN_00bdf740(&path,this,&blocks[0],&blocks[1]); }
 }
 }   // namespace f3m_00595c60
@@ -7335,12 +7623,16 @@ extern long (__stdcall *DAT_00d9b064)(long*);extern long (__stdcall *DAT_00d9b06
 struct Ref599a30 {void** table;long refs;void IncRefCount(){DAT_00d9b068(&refs);}void DecRefCount(){if(!DAT_00d9b064(&refs))((void(__thiscall*)(Ref599a30*))table[1])(this);}};
 struct State599a30 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;};
 struct Owner599a30 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;int unk34;int unk38;int unk3C;int unk40;int unk44;int unk48;int unk4C;int unk50;int unk54;int unk58;int unk5C;int unk60;int unk64;int unk68;int unk6C;int unk70;int unk74;int unk78;int unk7C;int unk80;int unk84;int unk88;int unk8C;int unk90;int unk94;int unk98;int unk9C;int unkA0;int unkA4;int unkA8; NiPointer<Ref599a30> ref;State599a30 state;unsigned char unkD4;unsigned char unkD5;unsigned char unkD6;unsigned char unkD7;int unkD8;float unkDC;unsigned char unkE0;unsigned char unkE1;void FUN_0082daa0(Owner599a30*,void*);void FUN_00599a30(Owner599a30*,void*);};
+// pdb: BSFaceGenNiNode::CopyMembers | BSFaceGenNiNode.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apDest, arCloneData
 void Owner599a30::FUN_00599a30(Owner599a30* out,void* context){if(out){FUN_0082daa0(out,context);out->ref=ref;out->state=state;out->unkD4=unkD4;out->unkD5=unkD5;out->unkD6=unkD6;out->unkD7=unkD7;out->unkDC=unkDC;out->unkE0=unkE0;out->unkE1=unkE1;}}
 }   // namespace f3m_00599a30
 
 // @f3 0x00584840 (community match, verified in this file)
 extern float DAT_00f61290,DAT_00f61284;
 namespace f3m_00584840 {
+// pdb: GamePlayFormulas::GetFatigueReturnRate | GamePlayFormulas.obj | fnv360_0822_retail, call_seq, low
+// pdb params: afActorEndurance
 float FUN_00584840(float value){return (float)(value*DAT_00dc2d10*DAT_00f61290+DAT_00f61284);}
 }   // namespace f3m_00584840
 
@@ -7355,6 +7647,7 @@ struct Holder192{
  static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}
 };
 extern Holder192* DAT_01073b5c;
+// pdb: BSFaceGenModelExtraData::KillSDM | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, medium
 void __cdecl FUN_00593d70(){delete DAT_01073b5c;DAT_01073b5c=0;}
 }
 
@@ -7368,6 +7661,7 @@ struct Owner194{
  void* vtable;void* data;unsigned int capacity,length;
  void* FUN_00581ba0(unsigned int flags);
 };
+// pdb: BSSimpleArray<FollowerDist,1024>::`scalar deleting destructor' | AiFormulas.obj | fnv360_0822_retail, vtable, medium
 void* Owner194::FUN_00581ba0(unsigned int flags){
  vtable=&DAT_00de8124;
  if(data){DAT_00de812c(data);data=0;length=0;capacity=0;}
@@ -7397,6 +7691,8 @@ namespace StreamAc40 {
 struct Item; struct ItemOps { void (__thiscall* Release)(Item*,int); }; struct Item { ItemOps* ops; };
 struct Stream; struct StreamOps { void* unk00; void* unk04; void* unk08; void* unk0c; bool (__thiscall* Read)(Stream*,unsigned,Item**,int); }; struct Stream { StreamOps* ops; };
 struct Owner { unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18; Stream* stream; void FUN_0059ac40(unsigned,Item*); };
+// pdb: BSTreeManager::AddBackgroundLoadedTree | BSTreeManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef, apTreeNode
 void Owner::FUN_0059ac40(unsigned key,Item* item) { if(!stream->ops->Read(stream,key,&item,0)) {if(item) item->ops->Release(item,1);} }
 }
 }   // namespace f3m_0059ac40
@@ -7521,6 +7817,8 @@ struct WeightService {void FUN_00597740(int,int,unsigned,unsigned,float);};
 struct WeightState {unsigned handle;unsigned unk04,unk08,unk0C;WeightService* service;unsigned argument;unsigned unk18;bool initialized;};
 void __cdecl FUN_0058ae60(unsigned,void*);
 struct WeightOwner {OwnerOperations* operations;void FUN_00599550(WeightState*);};
+// pdb: BSFaceGenNiNode::ApplyFacialPhonemes | BSFaceGenNiNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arObjData
 void WeightOwner::FUN_00599550(WeightState* state) {
  for(int i=0;i<16;++i) {
   WeightProvider* provider=operations->provider(this);
@@ -7552,6 +7850,8 @@ extern float flt_00f5ef2c;
 extern const double DAT_00db7de8;
 namespace f3m_00581a60 {
 
+// pdb: AiFormulas::GetFollowRadiusStartMoving | AiFormulas.obj | fnv360_0721_beta, objrun, medium
+// pdb params: afbasePackRadius
 float FUN_00581a60(float x)
 {
     return flt_00f5ef2c * DAT_00db7de8 + x;
@@ -7562,6 +7862,8 @@ float FUN_00581a60(float x)
 namespace f3m_005813f0 {
 struct Setting5813 {int type;float value;};extern Setting5813* DAT_00f5e13c[];extern Setting5813* DAT_00f5e154[];extern float DAT_0116d104,DAT_00f5edf4,DAT_00f5ee30,DAT_00f5ee6c;struct Random5813 {unsigned FUN_0086c4b0(unsigned);};Random5813* __cdecl FUN_0044a2d0();
 __forceinline float& Get5813(Setting5813* setting){if(setting)return setting->value;DAT_0116d104=0.0f;return DAT_0116d104;}
+// pdb: AiFormulas::ComputeRandomSandboxSubProcessDuration | AiFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiEngergyLevel, aiProcIndex
 float __cdecl FUN_005813f0(int level,unsigned category){float flevel=(float)level;float base=Get5813(DAT_00f5e13c[category])*DAT_00f5edf4;float growth=Get5813(DAT_00f5e154[category])*DAT_00f5ee30;base=base*(1.0f+growth*flevel);float low=(1.0f-DAT_00f5ee6c)*base;float high=(1.0f+DAT_00f5ee6c)*base;Random5813* generator=FUN_0044a2d0();unsigned random=generator->FUN_0086c4b0(0xffffffff);float result=(float)(low+(high-low)*(float)random*(1.0/4294967296.0));return result;}
 }   // namespace f3m_005813f0
 
@@ -7570,8 +7872,10 @@ namespace f3m_005843d0 {
 namespace Match843 {
 struct Object {int unk000;int unk004;int unk008;int unk00c;int unk010;int unk014;int unk018;int unk01c;int unk020;int unk024;int unk028;int unk02c;int unk030;int unk034;int unk038;int unk03c;int unk040;int unk044;int unk048;int unk04c;int unk050;int unk054;int unk058;int unk05c;int unk060;int unk064;int unk068;int unk06c;int unk070;int unk074;int unk078;int unk07c;int unk080;int unk084;int unk088;int unk08c;int unk090;int unk094;int unk098;int unk09c;int unk0a0;int unk0a4;int unk0a8;int unk0ac;int unk0b0;int unk0b4;int unk0b8;int unk0bc;int unk0c0;int unk0c4;int unk0c8;int unk0cc;int unk0d0;int unk0d4;int unk0d8;int unk0dc;int unk0e0;int unk0e4;int unk0e8;int unk0ec;int unk0f0;unsigned char kind;unsigned char unk0f5;unsigned char unk0f6;unsigned char unk0f7;unsigned char unk0f8;unsigned char unk0f9;unsigned char unk0fa;unsigned char unk0fb;unsigned char unk0fc;unsigned char unk0fd;unsigned char unk0fe;unsigned char unk0ff;unsigned char flags;};extern void* DAT_0107a104;
 __forceinline void* Context(){return DAT_0107a104?(char*)DAT_0107a104+0x9c:0;}
-float __cdecl FUN_00583a40(void*,Object*,float,float,int,int);void __cdecl FUN_00543420(int,void*,Object*,void*,float*);float __cdecl FUN_00584110(void*,Object*,float);
-float __cdecl FUN_005843d0(Object* object,float input){float result=0.0f;if(object && (object->flags&2) && object->kind<=2){object->flags&=~2;result=FUN_00583a40(Context(),object,input,1.0f,0,0);object->flags|=2;}else result=FUN_00583a40(Context(),object,input,1.0f,0,0);FUN_00543420(0,DAT_0107a104,object,DAT_0107a104,&result);if((object->flags&2) && object->kind>2)result=FUN_00584110(Context(),object,input)*result;return result;}
+float __cdecl FUN_00583a40(void*,Object*,float,float,int,int);void __cdecl FUN_00543420(int,void*,Object*,void*,float*);float __cdecl CombatFormulas_GetWeaponRateOfFire(void*,Object*,float);
+// pdb: CombatFormulas::CalcWeaponDamageForDisplay | CombatFormulas.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apWeapon, afCondition, apItem, apLoadedAmmo
+float __cdecl FUN_005843d0(Object* object,float input){float result=0.0f;if(object && (object->flags&2) && object->kind<=2){object->flags&=~2;result=FUN_00583a40(Context(),object,input,1.0f,0,0);object->flags|=2;}else result=FUN_00583a40(Context(),object,input,1.0f,0,0);FUN_00543420(0,DAT_0107a104,object,DAT_0107a104,&result);if((object->flags&2) && object->kind>2)result=CombatFormulas_GetWeaponRateOfFire(Context(),object,input)*result;return result;}
 }
 }   // namespace f3m_005843d0
 
@@ -7599,11 +7903,14 @@ struct __declspec(novtable) Base5969 {int unk04;virtual ~Base5969() throw(){rein
 struct First5969 {~First5969(){FUN_00596690();}void FUN_00596690();static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
 struct Second5969 {~Second5969(){FUN_005967e0();}void FUN_005967e0();static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
 struct FUN_00596940:Base5969 {First5969* unk08;Second5969* unk0C;~FUN_00596940();};
+// pdb: BSFaceGenModel::~BSFaceGenModel | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, high
 FUN_00596940::~FUN_00596940(){delete unk08;delete unk0C;}
 }
 
 // @f3 0x0059c2f0 (community match, verified in this file)
 namespace f3m_0059c2f0 {
+// pdb: LockFreeMap<PathingRequest *,PathingTaskData *>::Remove | PathManager.obj | fnv360_0822_retail, vtable, low, conflict (bridge: bhkObstacleRemovalListener::entityRemovedCallback)
+// pdb params: aiBucket, aData
 struct Owner59C2;struct Thread59C2 {int FUN_0059b9a0(void*,unsigned*);};struct Manager59C2 {int unk00;unsigned key;Thread59C2* FUN_0042ba10(Owner59C2*);};extern Thread59C2* (__stdcall *DAT_00d9b080)(unsigned);struct Owner59C2 {int unk00;int unk04;int unk08;int unk0C;int unk10;Manager59C2* manager;int FUN_0059c2f0(void*,unsigned);};int Owner59C2::FUN_0059c2f0(void* input,unsigned value){Manager59C2* owner=manager;Thread59C2* thread=DAT_00d9b080(owner->key);if(!thread)thread=owner->FUN_0042ba10(this);return thread->FUN_0059b9a0(input,&value);}
 }   // namespace f3m_0059c2f0
 
@@ -7615,6 +7922,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct Object58ad;struct Table58ad {void* unk00;void (__thiscall *unk04)(Object58ad*);};
 struct Object58ad {Table58ad* unk00;long unk04;void IncRefCount(){InterlockedIncrement(&unk04);}void DecRefCount(){if(InterlockedDecrement(&unk04)==0)unk00->unk04(this);}};
 struct Manager58ad {int unk000;int unk004;int unk008;int unk00C;int unk010;int unk014;int unk018;int unk01C;int unk020;int unk024;int unk028;int unk02C;int unk030;int unk034;int unk038;int unk03C;int unk040;int unk044;int unk048;int unk04C;int unk050;int unk054;int unk058;int unk05C;int unk060;int unk064;int unk068;int unk06C;int unk070;int unk074;int unk078;int unk07C;int unk080;int unk084;int unk088;int unk08C;int unk090;int unk094;int unk098;int unk09C;int unk0A0;int unk0A4;int unk0A8;int unk0AC;int unk0B0;int unk0B4;int unk0B8;int unk0BC;int unk0C0;int unk0C4;int unk0C8;int unk0CC;int unk0D0;int unk0D4;int unk0D8;int unk0DC;int unk0E0;int unk0E4;int unk0E8;int unk0EC;int unk0F0;int unk0F4;int unk0F8;int unk0FC;int unk100;int unk104;int unk108;int unk10C;int unk110;int unk114;int unk118;int unk11C;int unk120;int unk124;int unk128;int unk12C;int unk130;int unk134;int unk138;int unk13C;int unk140;int unk144;int unk148;int unk14C;int unk150;int unk154;int unk158;int unk15C;int unk160;int unk164;int unk168;int unk16C;int unk170;int unk174;int unk178;int unk17C;int unk180;int unk184;int unk188;int unk18C;int unk190;int unk194;int unk198;int unk19C;int unk1A0;int unk1A4;int unk1A8;int unk1AC;int unk1B0;int unk1B4;int unk1B8;int unk1BC;int unk1C0;int unk1C4;int unk1C8;int unk1CC;int unk1D0;int unk1D4;int unk1D8;int unk1DC;int unk1E0;int unk1E4;int unk1E8;int unk1EC;int unk1F0;int unk1F4;int unk1F8;int unk1FC;int unk200;int unk204;int unk208;int unk20C;int unk210;int unk214;int unk218;int unk21C;int unk220;int unk224;int unk228;int unk22C;int unk230;int unk234;int unk238;int unk23C;int unk240;int unk244;int unk248;int unk24C;int unk250;int unk254;int unk258;int unk25C;int unk260;int unk264;int unk268;int unk26C;int unk270;int unk274;int unk278;int unk27C;int unk280;int unk284;int unk288;int unk28C;int unk290;int unk294;int unk298;int unk29C;int unk2A0;int unk2A4;int unk2A8;int unk2AC;int unk2B0;int unk2B4;int unk2B8;int unk2BC;int unk2C0;int unk2C4;int unk2C8;int unk2CC;int unk2D0;int unk2D4;int unk2D8;int unk2DC;int unk2E0;int unk2E4;int unk2E8;int unk2EC;int unk2F0;int unk2F4;int unk2F8;int unk2FC;int unk300;int unk304;int unk308;int unk30C;int unk310;int unk314;int unk318;int unk31C;int unk320;int unk324;int unk328;int unk32C;int unk330;int unk334;int unk338;int unk33C;int unk340;int unk344;int unk348;int unk34C;int unk350;int unk354;int unk358;int unk35C;int unk360;int unk364;int unk368;int unk36C;int unk370;int unk374;int unk378;int unk37C;int unk380;int unk384;int unk388;int unk38C;int unk390;int unk394;int unk398;int unk39C;int unk3A0;int unk3A4;int unk3A8;int unk3AC;int unk3B0;int unk3B4;int unk3B8;int unk3BC;int unk3C0;int unk3C4;int unk3C8;int unk3CC;int unk3D0;int unk3D4;int unk3D8;int unk3DC;int unk3E0;int unk3E4;int unk3E8;int unk3EC;int unk3F0;int unk3F4;int unk3F8;int unk3FC;int unk400;int unk404;int unk408;int unk40C;int unk410;int unk414;int unk418;int unk41C;int unk420;int unk424;int unk428;int unk42C;int unk430;int unk434;int unk438;int unk43C;int unk440;int unk444;int unk448;int unk44C;int unk450;int unk454;int unk458;int unk45C;int unk460;int unk464;int unk468;int unk46C;int unk470;int unk474;int unk478;int unk47C;int unk480;int unk484;int unk488;int unk48C;int unk490;int unk494;int unk498;int unk49C;int unk4A0;int unk4A4;int unk4A8;int unk4AC;int unk4B0;int unk4B4;int unk4B8;int unk4BC;int unk4C0;int unk4C4;int unk4C8;int unk4CC;int unk4D0;int unk4D4;int unk4D8;int unk4DC;int unk4E0;int unk4E4;int unk4E8;int unk4EC;int unk4F0;int unk4F4;int unk4F8;int unk4FC;int unk500;int unk504;int unk508;int unk50C;int unk510;int unk514;int unk518;int unk51C;int unk520;int unk524;int unk528;int unk52C;int unk530;int unk534;int unk538;int unk53C;int unk540;int unk544;int unk548;int unk54C;int unk550;int unk554;int unk558;int unk55C;int unk560;int unk564;int unk568;int unk56C;int unk570;int unk574;int unk578;int unk57C;int unk580;int unk584;int unk588;int unk58C;int unk590;int unk594;int unk598;int unk59C;int unk5A0;int unk5A4;int unk5A8;int unk5AC;int unk5B0;int unk5B4;int unk5B8;int unk5BC;int unk5C0;int unk5C4;int unk5C8;int unk5CC;int unk5D0;int unk5D4;int unk5D8;int unk5DC;int unk5E0;int unk5E4;int unk5E8;int unk5EC;int unk5F0;int unk5F4;int unk5F8;int unk5FC;int unk600;int unk604;int unk608;int unk60C;int unk610;int unk614;int unk618;int unk61C;int unk620;int unk624;int unk628;int unk62C;int unk630;int unk634;int unk638;int unk63C;int unk640;int unk644;int unk648;int unk64C;int unk650;int unk654;int unk658;int unk65C;int unk660;int unk664;int unk668;int unk66C;int unk670;int unk674;int unk678;int unk67C;int unk680;int unk684;int unk688;int unk68C;int unk690;int unk694;int unk698;int unk69C;int unk6A0;int unk6A4;int unk6A8;int unk6AC;int unk6B0;int unk6B4;int unk6B8;int unk6BC;int unk6C0;int unk6C4;int unk6C8;int unk6CC;int unk6D0;int unk6D4;int unk6D8;int unk6DC;int unk6E0;int unk6E4;int unk6E8;int unk6EC;int unk6F0;int unk6F4;int unk6F8;int unk6FC;int unk700;int unk704;int unk708;int unk70C;int unk710;int unk714;int unk718;int unk71C;int unk720;int unk724;int unk728;int unk72C;int unk730;int unk734;int unk738;int unk73C;int unk740;int unk744;int unk748;int unk74C;int unk750;int unk754;int unk758;int unk75C;int unk760;int unk764;int unk768;int unk76C;int unk770;int unk774;int unk778;int unk77C;int unk780;int unk784;int unk788;int unk78C;int unk790;int unk794;int unk798;int unk79C;int unk7A0;int unk7A4;int unk7A8;int unk7AC;int unk7B0;int unk7B4;int unk7B8;int unk7BC;int unk7C0;int unk7C4;int unk7C8;int unk7CC;int unk7D0;int unk7D4;int unk7D8;int unk7DC;int unk7E0;int unk7E4;int unk7E8;int unk7EC;int unk7F0;int unk7F4;int unk7F8;int unk7FC;int unk800;int unk804;int unk808;int unk80C;int unk810;int unk814;int unk818;int unk81C;int unk820;int unk824;int unk828;int unk82C;int unk830;int unk834;int unk838;int unk83C;int unk840;int unk844;int unk848;int unk84C;int unk850;int unk854;int unk858;int unk85C;int unk860;int unk864;int unk868;int unk86C;int unk870;int unk874;int unk878;int unk87C;int unk880;int unk884;int unk888;int unk88C;int unk890;int unk894;int unk898;int unk89C;int unk8A0;int unk8A4;int unk8A8;int unk8AC;int unk8B0;int unk8B4;int unk8B8;int unk8BC;int unk8C0;int unk8C4;int unk8C8;int unk8CC;int unk8D0;int unk8D4;int unk8D8;int unk8DC;int unk8E0;int unk8E4;int unk8E8;int unk8EC;int unk8F0;int unk8F4;int unk8F8;int unk8FC;int unk900;int unk904;int unk908;int unk90C;int unk910;int unk914;int unk918;int unk91C;int unk920;int unk924;int unk928;int unk92C;int unk930;int unk934;int unk938;int unk93C;int unk940;int unk944;int unk948;int unk94C;int unk950;int unk954;int unk958;int unk95C;int unk960;int unk964;int unk968;int unk96C;int unk970;int unk974;int unk978;int unk97C;int unk980;int unk984;int unk988;int unk98C;int unk990;int unk994;int unk998;int unk99C;int unk9A0;int unk9A4;int unk9A8;int unk9AC;int unk9B0;int unk9B4;int unk9B8;int unk9BC;int unk9C0;int unk9C4;int unk9C8;int unk9CC;int unk9D0;int unk9D4;int unk9D8;int unk9DC;int unk9E0;int unk9E4;int unk9E8;int unk9EC;int unk9F0;int unk9F4;int unk9F8;int unk9FC;int unkA00;int unkA04;int unkA08;int unkA0C;int unkA10;int unkA14;int unkA18;int unkA1C;int unkA20;int unkA24;int unkA28;int unkA2C;int unkA30;int unkA34;int unkA38;int unkA3C;int unkA40;int unkA44;int unkA48;int unkA4C;int unkA50;int unkA54;int unkA58;int unkA5C;int unkA60;int unkA64;int unkA68;int unkA6C;int unkA70;int unkA74;int unkA78;int unkA7C;int unkA80;int unkA84;int unkA88;int unkA8C;int unkA90;int unkA94;int unkA98;int unkA9C;int unkAA0;int unkAA4;int unkAA8;int unkAAC;int unkAB0;int unkAB4;int unkAB8;int unkABC;int unkAC0;int unkAC4;int unkAC8;int unkACC;int unkAD0;int unkAD4;int unkAD8;int unkADC;int unkAE0;int unkAE4;int unkAE8;int unkAEC;int unkAF0;int unkAF4;int unkAF8;int unkAFC;int unkB00;int unkB04;int unkB08;int unkB0C;int unkB10;int unkB14;int unkB18;int unkB1C;int unkB20;int unkB24;int unkB28;int unkB2C;int unkB30;int unkB34;int unkB38;int unkB3C;int unkB40;int unkB44;int unkB48;int unkB4C;int unkB50;int unkB54;int unkB58;int unkB5C;int unkB60;int unkB64;int unkB68;int unkB6C;int unkB70;int unkB74;int unkB78;int unkB7C;int unkB80;int unkB84;int unkB88;int unkB8C;int unkB90;int unkB94;int unkB98;int unkB9C;int unkBA0;int unkBA4;int unkBA8;int unkBAC;int unkBB0;int unkBB4;int unkBB8;int unkBBC;int unkBC0;int unkBC4;int unkBC8;int unkBCC;int unkBD0;int unkBD4;int unkBD8;int unkBDC;int unkBE0;int unkBE4;int unkBE8;int unkBEC;int unkBF0;int unkBF4;int unkBF8;int unkBFC;int unkC00;int unkC04;int unkC08;int unkC0C;int unkC10;int unkC14;int unkC18;int unkC1C;int unkC20;int unkC24;int unkC28;int unkC2C;int unkC30;int unkC34;int unkC38;int unkC3C;int unkC40;int unkC44;int unkC48;int unkC4C;int unkC50;int unkC54;int unkC58;int unkC5C;int unkC60;int unkC64;int unkC68;int unkC6C;int unkC70;int unkC74;int unkC78;int unkC7C;int unkC80;int unkC84;int unkC88;int unkC8C;int unkC90;int unkC94;int unkC98;int unkC9C;int unkCA0;int unkCA4;int unkCA8;int unkCAC;int unkCB0;int unkCB4;int unkCB8;int unkCBC;int unkCC0;int unkCC4;int unkCC8;int unkCCC;int unkCD0;int unkCD4;int unkCD8;int unkCDC;int unkCE0;int unkCE4;int unkCE8;int unkCEC;int unkCF0;int unkCF4;int unkCF8;int unkCFC;int unkD00;int unkD04;int unkD08;int unkD0C;int unkD10;int unkD14;int unkD18;int unkD1C;int unkD20;int unkD24;int unkD28;int unkD2C;int unkD30;int unkD34;int unkD38;int unkD3C;int unkD40;int unkD44;int unkD48;int unkD4C;int unkD50;int unkD54;int unkD58;int unkD5C;int unkD60;int unkD64;int unkD68;int unkD6C;int unkD70;int unkD74;int unkD78;int unkD7C;int unkD80;int unkD84;int unkD88;int unkD8C;int unkD90;int unkD94;int unkD98;int unkD9C;int unkDA0;int unkDA4;int unkDA8;int unkDAC;NiPointer<Object58ad> unkDB0;};extern Manager58ad* DAT_01073a08;
+// pdb: BSFaceGenManager::GetHairTeethAlphaProperty | BSFaceGenManager.obj | fnv360_0822_debug, call_gap, medium
 Object58ad* FUN_0058ad40(){return DAT_01073a08?DAT_01073a08->unkDB0:NiPointer<Object58ad>();}
 }
 }   // namespace f3m_0058ad40
@@ -7630,6 +7938,8 @@ Owner58cd& Owner58cd::FUN_0058cd90(float scale){for(std::vector<float>::iterator
 extern float DAT_00f5e6bc,DAT_00f5e6b0,DAT_00f5e6a4,DAT_00f5e698,DAT_00f5e6d4,DAT_00f5e6c8,DAT_00f5e710,DAT_00f5e71c;
 namespace f3m_00581240 {
 namespace match581240 {
+// pdb: AiFormulas::ComputePickpocketSuccess | AiFormulas.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiSneakSkillModed, aiTargetSneakModed, fAmountofItem
 int FUN_00581240(int first,int second,float third){
  double total=(float)(second*DAT_00f5e6bc+DAT_00f5e6b0);
  total+=(float)(first*DAT_00f5e6a4+DAT_00f5e698);
@@ -7651,6 +7961,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct Object5999;struct Table5999 {void* unk00;void (__thiscall *unk04)(Object5999*);};
 struct Object5999 {Table5999* unk00;long unk04;void IncRefCount(){InterlockedIncrement(&unk04);}void DecRefCount(){if(InterlockedDecrement(&unk04)==0)unk00->unk04(this);}};
 struct Owner5999 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;int unk34;int unk38;int unk3C;int unk40;int unk44;int unk48;int unk4C;int unk50;int unk54;int unk58;int unk5C;int unk60;int unk64;int unk68;int unk6C;int unk70;int unk74;int unk78;int unk7C;int unk80;int unk84;int unk88;int unk8C;int unk90;int unk94;int unk98;int unk9C;int unkA0;int unkA4;int unkA8;NiPointer<Object5999> unkAC;void FUN_00599910(Object5999*);};
+// pdb: BSFaceGenNiNode::SetAnimationData | BSFaceGenNiNode.obj | fnv360_0822_debug, vtable, medium
+// pdb params: apData
 void Owner5999::FUN_00599910(Object5999* object){unkAC=object;}
 }
 }   // namespace f3m_00599910
@@ -7717,6 +8029,8 @@ unsigned unk0dc;
 unsigned unk0e0;
 unsigned unk0e4;
 float* values; unsigned count; float FUN_00587f30(int);};
+// pdb: BSFaceGenAnimationData::GetPhonemeValue | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aePhoneme
 float Values7f30::FUN_00587f30(int index){return index<16 && (unsigned)index<count ? values[index] : 0.0f;}
 }   // namespace f3m_00587f30
 
@@ -7733,6 +8047,8 @@ public:
 };
 typedef std::basic_string<char,std::char_traits<char>,Allocator944<char> > Text944;
 struct Entry944 {int unk00;Text944 text;};
+// pdb: std::_Destroy_range<std::allocator<FffTriVtxLabelS> > | BSFaceGenModel.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: _First, _Last, _Al, __formal
 void __cdecl FUN_00594470(Entry944* first,Entry944* last){for(;first!=last;++first)first->text.~Text944();}
 }   // namespace f3m_00594470
 
@@ -7768,6 +8084,8 @@ CopyElement64* CopyOwner64::FUN_00595b80(CopyElement64* first,CopyElement64* las
 // @f3 0x005851e0 (community match, verified in this file)
 extern float DAT_00f6225c;
 namespace f3m_005851e0 {
+// pdb: GamePlayFormulas::GetForceLockChance | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiPlayerSkill, aiLockLevelMax
 int __cdecl FUN_005851e0(int add,int subtract){int value=(int)DAT_00f6225c-subtract+add;if(value>=100)return 100;if(value<=0)value=0;return value;}
 }   // namespace f3m_005851e0
 
@@ -7779,6 +8097,8 @@ extern float DAT_00f62b74;
 extern float DAT_00f62490;
 namespace f3m_005856a0 {
 
+// pdb: MagicFormulas::GetMagicEffectCost | MagicFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afBaseEffectCost, aiArea, aiDuration, aiMagnitude, abIsRangeTarget
 float __cdecl FUN_005856a0(float a, int b, int c, int d, bool e)
 {
     float x = b * DAT_00f62478;
@@ -7794,11 +8114,14 @@ float __cdecl FUN_005856a0(float a, int b, int c, int d, bool e)
 
 // @f3 0x005968e0 (community match, verified in this file)
 namespace f3m_005968e0 {
+// pdb: BSFaceGenModel::KillTextureData | BSFaceGenModel.obj | fnv360_0721_beta, objrun_prop, low
 namespace N5968 {struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;struct Value{void FUN_00595df0();};struct Storage {int unk00,unk04;Value* value;void FUN_005967e0();};struct Owner{int unk00,unk04,unk08;Storage* storage;void FUN_005968e0();};void Owner::FUN_005968e0(){if(storage){Value* value=storage->value;if(value){value->FUN_00595df0();DAT_01090a78.FUN_0086ba60(value);}storage->value=0;Storage* old=storage;if(old){old->FUN_005967e0();DAT_01090a78.FUN_0086ba60(old);}storage=0;}}}
 }   // namespace f3m_005968e0
 
 // @f3 0x0059fc20 (community match, verified in this file)
 namespace f3m_0059fc20 {
+// pdb: BSTreeNode::SetVisibilityOnBranch | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: asLevel, acTest
 struct Extra59FC{unsigned char unk00;unsigned char unk01;unsigned char unk02;unsigned char unk03;unsigned char unk04;unsigned char unk05;unsigned char unk06;unsigned char unk07;unsigned char unk08;unsigned char unk09;unsigned char unk0A;unsigned char unk0B;unsigned char unk0C;unsigned char unk0D;unsigned char unk0E;unsigned char unk0F;unsigned char unk10;unsigned char unk11;unsigned char unk12;unsigned char unk13;unsigned char unk14;unsigned char unk15;unsigned char unk16;unsigned char unk17;unsigned char unk18;unsigned char unk19;unsigned char value;};struct Record59FC{int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;unsigned flags;Extra59FC* FUN_00826590(int);};struct Owner59FC;struct Vtable59FC{void* unk000;void* unk004;void* unk008;void* unk00C;void* unk010;void* unk014;void* unk018;void* unk01C;void* unk020;void* unk024;void* unk028;void* unk02C;void* unk030;void* unk034;void* unk038;void* unk03C;void* unk040;void* unk044;void* unk048;void* unk04C;void* unk050;void* unk054;void* unk058;void* unk05C;void* unk060;void* unk064;void* unk068;void* unk06C;void* unk070;void* unk074;void* unk078;void* unk07C;void* unk080;void* unk084;void* unk088;void* unk08C;void* unk090;void* unk094;void* unk098;void* unk09C;void* unk0A0;void* unk0A4;void* unk0A8;void* unk0AC;void* unk0B0;void* unk0B4;void* unk0B8;void* unk0BC;void* unk0C0;void* unk0C4;void* unk0C8;void* unk0CC;void* unk0D0;void* unk0D4;void* unk0D8;void* unk0DC;void* unk0E0;void* unk0E4;void* unk0E8;void* unk0EC;void* unk0F0;void* unk0F4;void* unk0F8;void* unk0FC;void* unk100;void* unk104;void* unk108;void* unk10C;Record59FC* (__thiscall *Lookup)(Owner59FC*,unsigned);};struct Owner59FC{Vtable59FC* vtable;bool FUN_0059fc20(unsigned,unsigned char);};bool Owner59FC::FUN_0059fc20(unsigned key,unsigned char value){Record59FC* record=vtable->Lookup(this,key);if(!record)return false;if(value==0xff){record->flags|=1;return true;}record->flags&=~1u;Extra59FC* extra=record->FUN_00826590(0);if(extra)extra->value=value;return true;}
 }   // namespace f3m_0059fc20
 
@@ -7829,6 +8152,8 @@ void InitGridU58e(GridU58e& grid, int rows)
     grid.values.resize(rows, 0.0f);
 }
 
+// pdb: BSFaceGenManager::InitFaceGenCoord | BSFaceGenManager.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: NiFloatData::GetSequenceData)
+// pdb params: apCoord
 void __cdecl FUN_0058e100(GridSetU58e* p)
 {
     if (!p)
@@ -7990,6 +8315,8 @@ struct Obj59ffc0
     void FUN_0059ffc0(void* arg);
 };
 
+// pdb: BSTreeNode::SetBillboard | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apGeom
 void Obj59ffc0::FUN_0059ffc0(void* arg)
 {
     if (!arg)
@@ -8018,13 +8345,15 @@ struct Owner2 : Owner {
     void FUN_00599670(int);
 };
 
-Vec* FUN_00599260() {
+Vec* BSFaceGenManager_GetCameraPosition() {
     if (DAT_01073a0c) return (Vec*)((char*)DAT_01073a0c + 0x8c);
     return (Vec*)DAT_0108ec68;
 }
 
+// pdb: BSFaceGenNiNode::CheckLOD | BSFaceGenNiNode.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aiForceLOD
 void Owner2::FUN_00599670(int param) {
-    Vec pos = *FUN_00599260();
+    Vec pos = *BSFaceGenManager_GetCameraPosition();
     Vec delta;
     delta.x = pos.x - unk8c;
     delta.y = pos.y - unk90;
@@ -8096,6 +8425,8 @@ extern const float DAT_00f62748;
 namespace f3m_005858d0 {
 
 
+// pdb: MagicFormulas::CalcSunDamage | MagicFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afMagnitude, afTimeOfDay, afSunrise, afSunset, abSunVisible, afWeatherScale, abUnderWater
 float FUN_005858d0(float arg1, float arg2, float arg3, float arg4, char arg5, float arg6, char arg7)
 {
     if (arg2 < arg3 || arg2 > arg4)
@@ -8135,6 +8466,8 @@ struct FUN_00aa5140 {
 namespace fnvc_adapt { extern "C" FUN_00aa5140& __cdecl FUN_0044a2d0(void); }
 extern "C" float __cdecl FUN_00580be0(float, float);
 
+// pdb: AiFormulas::ComputeRandomSandboxActivityStartAndDuration | AiFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiActivity, afStartOut, afDurationOut
 void FUN_00581310(int index, float* pOutA, float* pOutB)
 {
     S5813Entry* e = &DAT_00f5ef58[index];
@@ -8168,6 +8501,8 @@ extern float DAT_00f5e44c;
 extern float DAT_00f5e458;
 namespace f3m_00580c80 {
 
+// pdb: AiFormulas::GetActorDispositiontoTarget | AiFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiActorBaseDisp, aiCharismaTarget, aiResponActor, aiKarmaTarget, aiRaceReactionTarget, aiFactionReactionTarget, aiFactionRankTarget, aiWeaponStatusTarget, aiDiseaseStatusTarget, aiTargetMod, abcreature
 int __cdecl FUN_00580c80(int a0, int a1, int a2, int a3, int a4, int a5, int a6,
                          int a7, int a8, int a9, bool b)
 {
@@ -8228,6 +8563,7 @@ struct PartU587100 {
     int FUN_00587100();
 };
 
+// pdb: BSFaceGenAnimationData::GetCurrentExpression | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_seq, medium
 int PartU587100::FUN_00587100()
 {
     float best = 0.0f;
@@ -8264,6 +8600,8 @@ void __cdecl FUN_00593e50(void* first, void* volatile position, void* dest)
 // @f3 0x00589a40 (community match, verified in this file)
 namespace f3m_00589a40 {
 struct Owner589a{int unk00;int unk04;float value;bool FUN_00589a40(float);};
+// pdb: BSFaceGenKeyframe::SetTime | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTime
 bool Owner589a::FUN_00589a40(float next){if(next!=value){value=next;return true;}return false;}
 }   // namespace f3m_00589a40
 
@@ -8319,7 +8657,8 @@ struct FUN_0058ada0_Node {
 };
 void* __cdecl FUN_00424d50(void* table, void* key);
 
-void* __cdecl FUN_0058ada0(FUN_0058ada0_Node* node)
+// pdb: BSFaceGenManager::GetFaceGenMorphDataHead | BSFaceGenManager.obj | fnv360_0822_retail, udata + bridge(udata|udata), high
+void* __cdecl BSFaceGenManager_GetFaceGenMorphDataHead(FUN_0058ada0_Node* node)
 {
     void* r = 0;
     if (node) {
@@ -8340,6 +8679,7 @@ struct Heap665 { void FUN_0086ba60(void*); };
 struct Child665 { void FUN_00595df0(); };
 struct Link665 { int unk00; int unk04; Child665* unk08; };
 struct Owner665 { int unk00; int unk04; int unk08; Link665* unk0c; void FUN_00596650(); };
+// pdb: BSFaceGenModel::UnloadEGTData | BSFaceGenModel.obj | fnv360_0822_retail, call_dedup, low
 void Owner665::FUN_00596650() { if(unk0c) { Child665* p=unk0c->unk08; if(p) { p->FUN_00595df0(); DAT_01090a78.FUN_0086ba60(p); unk0c->unk08=0; } } }
 }   // namespace f3m_00596650
 
@@ -8347,6 +8687,7 @@ void Owner665::FUN_00596650() { if(unk0c) { Child665* p=unk0c->unk08; if(p) { p-
 struct HeapB5 { void FUN_0086ba60(void*); };
 struct GlobalB5 { void FUN_0059b000(); ~GlobalB5() { FUN_0059b000(); } void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); } };
 extern GlobalB5* DAT_01073c1c;
+// pdb: BSTreeManager::Destroy | BSTreeManager.obj | fnv360_0822_retail, call_gap, low
 void FUN_0059b5f0() { if(DAT_01073c1c) { delete DAT_01073c1c; DAT_01073c1c=0; } }
 
 // @f3 0x00594d60 (community match, verified in this file)
@@ -8356,6 +8697,7 @@ struct Owner;struct DestroyPolicy {};
 void FUN_00594470(void*,unsigned,Owner*,DestroyPolicy);
 struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct Owner {int unk00;void* data;unsigned count,capacity;void FUN_00594d60();};
+// pdb: TESEffectShader::CalculateEdgeEffectPulse | TESEffectShader.obj | tesv_win, objrun_open, low
 void Owner::FUN_00594d60(){DestroyPolicy policy;if(data){FUN_00594470(data,count,this,policy);DAT_01090a78.FUN_0086ba60(data);}data=0;count=0;capacity=0;}
 }
 }   // namespace f3m_00594d60
@@ -8366,6 +8708,8 @@ namespace f3m_0058f2a0 {
 struct Entry58f2{int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;};
 struct Owner58f2{int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;int unk34;int unk38;int unk3C;int unk40;int unk44;int unk48;int unk4C;int unk50;int unk54;int unk58;int unk5C;int unk60;int unk64;int unk68;int unk6C;int unk70;int unk74;int unk78;int unk7C;int unk80;int unk84;std::vector<Entry58f2>values[4][2];};
 namespace Global58f2{extern Owner58f2* DAT_01073a08;}void __cdecl FUN_0058ee80();
+// pdb: BSFaceGenManager::GetMaxControlID | BSFaceGenManager.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aeFanType, aeFanSymm
 unsigned __cdecl FUN_0058f2a0(unsigned row,unsigned column){if(!Global58f2::DAT_01073a08)FUN_0058ee80();return Global58f2::DAT_01073a08->values[row][column].size()-1;}
 }   // namespace f3m_0058f2a0
 
@@ -8373,6 +8717,8 @@ unsigned __cdecl FUN_0058f2a0(unsigned row,unsigned column){if(!Global58f2::DAT_
 #include <vector>
 namespace f3m_0058dd90 {
 struct Owner8DD {std::vector<float> values;unsigned a,b;Owner8DD(unsigned,unsigned);Owner8DD FUN_0058dd90(float);};
+// pdb: FR2MatrixVTC<float>::operator* | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: d
 Owner8DD Owner8DD::FUN_0058dd90(float scale){Owner8DD result(a,b);std::vector<float>::iterator input=values.begin();std::vector<float>::iterator output=result.values.begin();for(;input!=values.end();++input,++output)*output=*input*scale;return result;}
 }   // namespace f3m_0058dd90
 
@@ -8383,6 +8729,8 @@ extern const char* DAT_00f65724;
 namespace f3m_00585a30 {
 
 
+// pdb: MenuGameSettings::GetDamagedByPlayerBodyPartMessage | MenuGamesettings.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiWhich, apBodyPartName, apBuffer, aiMaxBufferSize
 void __cdecl FUN_00585a30(int kind, const char* part, char* out, unsigned int size)
 {
     if (!out)
@@ -8442,6 +8790,8 @@ struct ScaleSource {
     float scale;
 };
 
+// pdb: CombatFormulas::CalcExplosionDamage | CombatFormulas.obj | fnv360_0721_retail, call_seq, low
+// pdb params: pExplosion
 float __cdecl FUN_005838a0(const ScaleSource* source, float value)
 {
     float scale = source ? source->scale : 0.0f;
@@ -8459,6 +8809,7 @@ void* unk04;
 virtual __forceinline ~BSFaceGenMorphStatistical() { if(unk04) DAT_01090a78.FUN_0086ba60(unk04); }
 BSFaceGenMorphStatistical* FUN_00597420(unsigned flags);
 };
+// pdb: BSFaceGenMorphStatistical::`scalar deleting destructor' | BSFaceGenMorph.obj | fnv360_0822_retail, vtable, medium
 BSFaceGenMorphStatistical* BSFaceGenMorphStatistical::FUN_00597420(unsigned flags) { this->BSFaceGenMorphStatistical::~BSFaceGenMorphStatistical(); if(flags&1) DAT_01090a78.FUN_0086ba60(this); return this; }
 }   // namespace f3m_00597420
 
@@ -8542,6 +8893,8 @@ struct Obj586470 {
     void FUN_00586470(bool on, bool instant);
 };
 
+// pdb: BSFaceGenAnimationData::SetDead | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abDead, abInstant
 void Obj586470::FUN_00586470(bool on, bool instant)
 {
     if (on) {
@@ -8654,6 +9007,8 @@ struct Base0059fbf0
     bool FUN_0059fbf0(bool enable);
 };
 
+// pdb: BSTreeNode::SetVisibilityForBillboards | BSTreeNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abVisible
 bool Base0059fbf0::FUN_0059fbf0(bool enable)
 {
     Obj0059fbf0* object = Get();
@@ -8675,6 +9030,8 @@ namespace f3m_005816c0 {
 
 struct Actor5816c0 { float FUN_005a28e0(unsigned int value); };
 
+// pdb: AiFormulas::AVDeriveFromPrimary | AiFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor, aiWhich
 float FUN_005816c0(Actor5816c0* actor, int type)
 {
     float result = 0.0f;
@@ -8733,6 +9090,7 @@ struct FUN_0058c7f0 {
     Member m_04;
     virtual ~FUN_0058c7f0();
 };
+// pdb: BSFaceGenModelMap::~BSFaceGenModelMap | BSFaceGenManager.obj | fnv360_0822_debug, call_seq, medium
 FUN_0058c7f0::~FUN_0058c7f0() { m_04.FUN_006bd950(); }
 }
 }   // namespace f3m_0058c7f0
@@ -8765,6 +9123,7 @@ struct FUN_0058b870 : FUN_0058b800
     virtual ~FUN_0058b870();
 };
 // @fnv 0x00a0d2a0
+// pdb: NiTStringTemplateMap<NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> >,NiPointer<BSFaceGenModelMap::Entry> >::~NiTStringTemplateMap<NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> >,NiPointer<BSFaceGenModelMap::Entry> > | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_0058b870::~FUN_0058b870()
 {
     if (m_bCopy) {
@@ -8840,6 +9199,7 @@ struct FUN_0059fde0 : public FUN_00ad2ad0 {
     NiPointer<NiRefObject> m_spF0;
     virtual ~FUN_0059fde0();
 };
+// pdb: BSTreeNode::~BSTreeNode | BSTreeNode.obj | fnv360_0822_retail, call_seq, medium
 FUN_0059fde0::~FUN_0059fde0()
 {
     if (m_pE8) {
@@ -8867,6 +9227,7 @@ struct FixedString {
         Helpers452::DAT_01090a78.FUN_0086ba60(memory);
     }
 };
+// pdb: BSFaceGenBaseMorphExtraData::KillSDM | BSFaceGenMorphData.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSTArray<unsigned char,class BSTSmallArrayHeapAllocator<4> >::DestructItems)
 void FUN_00597b50() {
     delete (FixedString*)f3m_00599c30::DAT_01073b7c;
     f3m_00599c30::DAT_01073b7c = 0;
@@ -8899,6 +9260,7 @@ public:
  Iterator FUN_00595900(Iterator,Iterator);
  void FUN_00595ac0();
 };
+// pdb: std::vector<FffModeGS,std::allocator<FffModeGS> >::clear | BSFaceGenModel.obj | fnv360_0822_retail, call_gap_sim, low
 void Vector::FUN_00595ac0() { FUN_00595900(begin(),end()); }
 }
 }   // namespace f3m_00595ac0
@@ -8914,6 +9276,7 @@ struct TreeModel {
     Controller* controller0c;
     unsigned short FUN_0059c3d0();
 };
+// pdb: BSTreeModel::GetNumBranchLODLevels | BSTreeModel.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 unsigned short TreeModel::FUN_0059c3d0() {
     return controller0c ? controller0c->FUN_00ba1490() : 0;
 }
@@ -8969,6 +9332,8 @@ __forceinline It58& It58::operator+=(int off){
     if(!(ptr+off<=cont->last && ptr+off>=cont->first))_invalid_parameter_noinfo();
     ptr+=off;return *this;
 }
+// pdb: std::vector<float,std::allocator<float> >::push_back | IndexedGeometry.obj | fnv360_0721_beta, callee_sim, low
+// pdb params: _Val
 It58 Vec58::FUN_0058d9a0(It58 where,void* const& val){
     unsigned int off=size()==0?0:where-begin();
     FUN_00559c90(where,1,val);
@@ -9006,6 +9371,8 @@ struct C665be0_shell
 extern "C" void __cdecl FUN_00aaace0(void*);
 
 // @fnv 0x00665be0
+// pdb: BSTreeManager::RemoveBackgroundLoadedTree | BSTreeManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef
 void C665be0_shell::FUN_0059ac70(int value)
 {
     void* result = 0;
@@ -9054,6 +9421,8 @@ namespace f3m_00584a00 {
 
 float __cdecl FUN_0047ca30(float, float);
 
+// pdb: GamePlayFormulas::GetRepairCost | GamePlayFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiVendorRepairSkill, afCondition, afValue
 int __cdecl FUN_00584a00(int percent, float value, float scale)
 {
     int count = 0;
@@ -9076,6 +9445,8 @@ extern float DAT_00f5ef14;
 extern float DAT_00f5ef08;
 namespace f3m_005819e0 {
 static __forceinline float Max58(float a,float b){return a>b?a:b;}
+// pdb: AiFormulas::GetFollowRadiusStop | AiFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afbasePackRadius
 float __cdecl FUN_005819e0(float x){
     return Max58(x*DAT_00f5ef14,x-DAT_00f5ef08);
 }
@@ -9133,6 +9504,7 @@ struct FUN_00599780 : NiNode {
     FUN_00599780();
 };
 
+// pdb: BSFaceGenNiNode::BSFaceGenNiNode | BSFaceGenNiNode.obj | fnv360_0822_debug, call_seq, medium
 FUN_00599780::FUN_00599780() : NiNode(0), m_spAC(0)
 {
     m_fDC = -1.0f;
@@ -9167,6 +9539,8 @@ struct Owner58cde0 {
  };
  Owner58cde0* FUN_0058cde0(Owner58cde0* other);
 };
+// pdb: FR2MatrixVTC<float>::operator+= | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: m
 Owner58cde0* Owner58cde0::FUN_0058cde0(Owner58cde0* other) {
  if(width!=other->width || height!=other->height)FUN_00bdc3d0(DAT_00dfbef0,0x24f);
  Iter i(this,Begin());Iter j(other,other->Begin());
@@ -9412,6 +9786,8 @@ struct Owner {
     bool dead;
     void FUN_00586c80(float*);
 };
+// pdb: BSFaceGenAnimationData::SetExpressionTarget | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apQuantities
 void Owner::FUN_00586c80(float* quantities) {
     if(dead || quantities==0) {Reset();return;}
     if(target) delete target;
@@ -9522,6 +9898,8 @@ virtual void v120();
 unsigned unk04,unk08; Frame* target; Frame current;
 void FUN_00586e80(int expression,float quantity);
 };
+// pdb: BSFaceGenAnimationData::SetExpressionTarget | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeExpression, afValue
 void Animation::FUN_00586e80(int expression,float quantity) {
  if(expression < -1 || expression > 15 || quantity < 0.0 || quantity > 1.0) return;
  if(target) target->v20(true);
@@ -9606,6 +9984,7 @@ struct FUN_00599960 : n599960::Base {
     unsigned int unke4;
     n599960::ClearPtr clear;
 };
+// pdb: BSFaceGenNiNode::~BSFaceGenNiNode | BSFaceGenNiNode.obj | fnv360_0822_retail, call_seq, high
 FUN_00599960::~FUN_00599960()
 {
 }
@@ -9625,6 +10004,8 @@ __forceinline bool FileExists(const char* name) { return DAT_011785d0 && DAT_011
 }
 using namespace a4_58caf0;
 
+// pdb: BSFaceGenManager::GetAsNearestDetailDDSFile | BSFaceGenManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aOutFilename, aeSex, acAge, apModel
 char* __cdecl FUN_0058caf0(Str* out, int mode, unsigned char percent, const char* path)
 {
     char base[260];
@@ -10117,6 +10498,8 @@ struct Mat58de30 : ::FUN_0058dc00
     ::FUN_0058dc00 FUN_0058de30(::FUN_0058dc00& b);
 };
 
+// pdb: FR2MatrixVTC<float>::operator* | BSFaceGenManager.obj | fnv360_0822_retail, objrun, medium
+// pdb params: m
 ::FUN_0058dc00 Mat58de30::FUN_0058de30(::FUN_0058dc00& b)
 {
     if (cols != b.rows)
@@ -10185,6 +10568,8 @@ struct QCache {
     QPtr* FUN_0059b620(int key);
     void FUN_0059b750(int key, int key2, QPtr& out);
 };
+// pdb: BSTreeManager::GetModel | BSTreeManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTree, aiSeed, aspBSTreeModel
 void QCache::FUN_0059b750(int key, int key2, QPtr& out)
 {
     EnterCriticalSection(&DAT_01073c68);
@@ -10230,6 +10615,8 @@ struct Actor {
 };
 float __cdecl FUN_00582b30(Actor* actor, int index, bool fractional);
 
+// pdb: GamePlayFormulas::GetActorWalkSpeed | GamePlayFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor, pWeap, pArmor, abSneaking, abNoWeapon, abIsNpc, abOverEncumbered
 float __cdecl FUN_005845b0(Actor* actor, float level, bool flagA, bool flagB, bool flagC, bool skip)
 {
     level = (level > DAT_00f610b0) ? DAT_00f610b0 : level;
@@ -10260,6 +10647,7 @@ float __cdecl FUN_005845b0(Actor* actor, float level, bool flagA, bool flagB, bo
 #include <vector>
 namespace f3m_0058c730 {
 struct Matrix58c730 {std::vector<float> values;unsigned int rows;unsigned int columns;float At(unsigned int i,unsigned int j) {return (&values[0])[i*(*(volatile unsigned int*)&columns)+j];}float FUN_0058c730();};
+// pdb: FR2MatrixVTC<float>::lengthSqr | BSFaceGenManager.obj | fnv360_0822_retail, call_gap_sim, low
 float Matrix58c730::FUN_0058c730() {
  float total=0.0f;
  for(unsigned int i=0;i<rows;++i) for(unsigned int j=0;j<columns;++j) {
@@ -10337,6 +10725,8 @@ FUN_0058e790::FUN_0058e790() { NiPointer<NiRefObject> p; }
 extern float DAT_00f612e4; extern float DAT_00f612cc; extern const float DAT_00f612f0; extern const float DAT_00f612d8;
 namespace f3m_005854e0 {
 namespace f3m_005854e0 {
+// pdb: GamePlayFormulas::GetBarterMultipliers | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiBarterSkill, afBuyMult, afSellMult
 void __cdecl FUN_005854e0(int level, float* first, float* second) {
     *first = (float)level * DAT_00f612e4 / 100.0 + DAT_00f612cc;
     *second = (float)level * DAT_00f612f0 / 100.0 + DAT_00f612d8;
@@ -10474,6 +10864,8 @@ struct Cls {
     void FUN_00587960(bool a, bool b, bool c, bool d);
 };
 
+// pdb: BSFaceGenAnimationData::ClearSpeechKeyframeLists | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abClearExpression, abClearPhonemes, abClearModifiers, abClearCustomMorphs
 void Cls::FUN_00587960(bool a, bool b, bool c, bool d) {
     QItem* it;
     if (a) this->Action();
@@ -10569,6 +10961,8 @@ struct Owner58bc80 {
     bool FUN_0058bc80(const char* name);
 };
 
+// pdb: BSFaceGenModelMap::KillModelTextureData | BSFaceGenManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apKey
 bool Owner58bc80::FUN_0058bc80(const char* name)
 {
     if (!name || !*name)
@@ -10711,6 +11105,8 @@ int unk188;
  unsigned short unk18c; bool dead;
  void FUN_00586a40(float*,float);
 };
+// pdb: BSFaceGenAnimationData::AddCustomMorphKeyframe | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apQuantities, afTime
 void Owner::FUN_00586a40(float* quantities,float time) {
  Keyframe keyframe(3,1);
  if(dead || quantities==0 || time<0.0) return;
@@ -10728,6 +11124,8 @@ struct String { char* data; void FUN_004019c0(const char*,unsigned int); };
 extern "C" int __cdecl strcpy_s(char*,unsigned int,const char*);
 extern "C" char* __cdecl strrchr(const char*,int);
 extern "C" int __cdecl sprintf_s(char*,unsigned int,const char*,...);
+// pdb: BSFaceGenManager::GetAsNIFFile | BSFaceGenManager.obj | fnv360_0822_debug, objrun, medium
+// pdb params: aOutFilename, apModel
 const char* __cdecl FUN_0058c410(String& result,const char* path) {
     char normalPath[260];
     char sourcePath[260];
@@ -10759,6 +11157,8 @@ int unk18;
 int unk1c;
 int unk20;
 FUN_00594ff0(unsigned);static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
+// pdb: EGTData::Create | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: `anonymous namespace'::CreateNiColorA)
+// pdb params: apEGTFilename
 FUN_00594ff0* __cdecl FUN_005950c0(unsigned arg){return new FUN_00594ff0(arg);}
 }
 }   // namespace f3m_005950c0
@@ -10771,6 +11171,8 @@ extern const char str_00dfbe78[];
 namespace f3m_0058c4c0 {
 int __cdecl FUN_00403230(char*,unsigned,const char*,...);
 struct Filename { char* text; void FUN_004019c0(const char*,unsigned); };
+// pdb: BSFaceGenManager::GetAsTRIFile | BSFaceGenManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aOutFilename, apModel, aeHairPart
 const char* __cdecl FUN_0058c4c0(Filename* output,const char* source,int variant) {
  char base[260];
  char result[260];
@@ -11024,7 +11426,7 @@ int unk9c;
  void FUN_00ba63b0(int); void FUN_00ba6500(int); void FUN_00ba6280(int); void FUN_00ba5d50(int); void FUN_00ba5fb0(int); void FUN_00ba5e80(int);
  void FUN_00ba1470(float,float);
  bool FUN_00ba7860(int,void*,int);
- void FUN_00ba3550(); unsigned FUN_00ba5c50(); float FUN_00ba13e0(); float FUN_00ba13c0();
+ void FUN_00ba3550(); unsigned CSpeedTreeRT_GetSeed(); float FUN_00ba13e0(); float FUN_00ba13c0();
  void FUN_00ba5ae0(); void FUN_00ba6be0(); void FUN_00ba46f0();
 };
 struct Name59 { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual const char* name(); };
@@ -11036,6 +11438,8 @@ struct Owner59 {
  int unk04,active; Resource59* resource; int unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c; unsigned handle; int unk44; float width,height;
  bool FUN_0059c9c0(Input59*,Arg59);
 };
+// pdb: BSTreeModel::InitFromBase | BSTreeModel.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apTreeObj, aiSeed
 bool Owner59::FUN_0059c9c0(Input59* input,Arg59 arg) {
  if (!input || !input->name.name() || !*input->name.name() || active) return true;
  MemScope scope(31);
@@ -11056,7 +11460,7 @@ bool Owner59::FUN_0059c9c0(Input59* input,Arg59 arg) {
   }
   active=1;resource=r;attach(input);
   bool started=r->FUN_00ba7860(0,arg.p,1); if(!started) return started;
-  r->FUN_00ba3550();handle=r->FUN_00ba5c50();width=r->FUN_00ba13e0();height=r->FUN_00ba13c0();notify(input);
+  r->FUN_00ba3550();handle=r->CSpeedTreeRT_GetSeed();width=r->FUN_00ba13e0();height=r->FUN_00ba13c0();notify(input);
   r->FUN_00ba5ae0();r->FUN_00ba6be0();r->FUN_00ba46f0();return true;
  }
  delete r;return false;
@@ -11261,7 +11665,7 @@ struct Context59 {
     ~Context59() {DAT_0117c298=old;}
 };
 struct GuardObject59 {void IncRefCount(); void DecRefCount();};
-struct BSShaderManager {static void BuildTexturePath(char*,const char*,const char*,bool);};
+struct BSShaderManager {static void GetModifiedTextureFilename(char*,const char*,const char*,bool);};
 struct Manager59 {void FUN_004353f0(const char*,SetRef59*,int,int);};
 extern Manager59* DAT_0107a0d8;
 extern const char DAT_00dfcd1c[],DAT_00dfcd04[],DAT_00dbfbf8[];
@@ -11274,6 +11678,8 @@ struct Owner59 {
     float unk3c;
     void FUN_0059f1b0(Tree59* tree);
 };
+// pdb: BSTreeModel::ApplyBaseObject | BSTreeModel.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apTreeObj
 void Owner59::FUN_0059f1b0(Tree59* tree)
 {
     NiPointer<GuardObject59> guard;
@@ -11305,7 +11711,7 @@ void Owner59::FUN_0059f1b0(Tree59* tree)
         strcat_s(path,260,info.path);
         unsigned n=(unsigned)strlen(path);
         path[n-3]='d';path[n-2]='d';path[n-1]='s';
-        BSShaderManager::BuildTexturePath(normal,path,DAT_00dbfbf8,true);
+        BSShaderManager::GetModifiedTextureFilename(normal,path,DAT_00dbfbf8,true);
         branch.FUN_008e9650(new BSShaderTextureSet);
         branch.ptr->SetTexture(0,path);
         branch.ptr->SetTexture(1,normal);
@@ -11427,6 +11833,7 @@ public:
     unsigned int unk1A4;
 };
 
+// pdb: BSFaceGenAnimationData::BSFaceGenAnimationData | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_gap, low
 BSFaceGenAnimationData::BSFaceGenAnimationData() :
     NiExtraData(*DAT_01073968),
     keyframe10(1, 15), keyframe24(1, 15), keyframe38(2, 17),
@@ -11566,6 +11973,8 @@ public:
     BSFaceGenMorphDifferential* differential;
 };
 
+// pdb: BSFaceGenMorphDataHair::BSFaceGenMorphDataHair | BSFaceGenMorphData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFaceGenTri
 BSFaceGenMorphDataHair::BSFaceGenMorphDataHair(FaceGenMorphFile* input) :
     differential(0)
 {
@@ -11697,8 +12106,8 @@ public:
 };
 
 void __cdecl FUN_00ba67f0(unsigned int value);
-void __cdecl FUN_00ba1460(unsigned int value);
-void __cdecl FUN_00ba1930(unsigned int value);
+void __cdecl CSpeedTreeRT_SetDropToBillboard(unsigned int value);
+void __cdecl CSpeedTreeRT_SetTextureFlip(unsigned int value);
 extern unsigned char DAT_01073c98;
 extern unsigned int DAT_01073cfc;
 extern float DAT_01173610;
@@ -11740,8 +12149,8 @@ TreeRenderResources::TreeRenderResources() : timer(0.0f)
 
     flags = new BSXFlags(3);
     FUN_00ba67f0(4);
-    FUN_00ba1460(1);
-    FUN_00ba1930(1);
+    CSpeedTreeRT_SetDropToBillboard(1);
+    CSpeedTreeRT_SetTextureFlip(1);
     DAT_01173610 = static_cast<float>(DAT_01073cfc);
     instances = new LockFreeMap<TESObjectREFR*, BSTreeNode*>(2, 0x25, 0xc);
 }
@@ -11775,6 +12184,7 @@ struct S_0059acd0 {
     S_0059acd0();
 };
 
+// pdb: BSReadWriteLock::BSReadWriteLock | BSReadWriteLock.obj | fnv360_0721_beta, call_dedup, medium
 S_0059acd0::S_0059acd0() {
     field0 = 0;
     field4 = 0;
@@ -11787,6 +12197,7 @@ extern char DAT_01073ab4[];
 extern int DAT_01268fb8;
 extern void (__stdcall *DAT_00d9b0a0)(const char*);
 
+// pdb: BSFaceGenManager::UnlockFaceGenAccess | BSFaceGenManager.obj | fnv360_0822_retail, caller, medium
 void __cdecl FUN_0058a890()
 {
     DAT_00d9b0a0(DAT_01073ab4);
@@ -11906,6 +12317,8 @@ extern const float DAT_00f6240c;
 extern const float DAT_00f623f4;
 extern const double DAT_00dba730;
 
+// pdb: GamePlayFormulas::GetSpeechChallengeChance | GamePlayFormulas.obj | fnv360_0721_retail, objrun, medium
+// pdb params: afPlayerSpeech, afTargetDisposition, aiTopicDifficulty
 int FUN_00585330(float a, float b, int n)
 {
     float t1 = (a - DAT_00f62418) * DAT_00f62400 / DAT_00dba730 + 1.0f;
@@ -11952,6 +12365,7 @@ public:
     ~Obj5967();
 };
 
+// pdb: NiRefObject::~NiRefObject | Animation.obj | fnv360_0822_debug, call_dedup, low
 Obj5967::~Obj5967()
 {
     delete m_p;
@@ -11968,6 +12382,8 @@ struct Settings {
 extern Settings* DAT_01073c1c;
 void FUN_0059b8e0(int);
 
+// pdb: BSTreeManager::GetInstance | BSTreeManager.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: NiAVObject::UpdateObjectControllers)
+// pdb params: abCreateIfNotFound
 Settings* FUN_0059baa0(int a) {
     Settings* p = DAT_01073c1c;
     if (p == 0) {
@@ -11994,6 +12410,7 @@ public:
  virtual __forceinline ~BSFaceGenMorphDifferential() { if(unk04) DAT_01090a78.Deallocate(unk04); }
  void* FUN_00597040(unsigned int flags);
 };
+// pdb: BSFaceGenMorphDifferential::`scalar deleting destructor' | BSFaceGenMorph.obj | fnv360_0822_retail, vtable, medium
 void* BSFaceGenMorphDifferential::FUN_00597040(unsigned int flags) {
  this->BSFaceGenMorphDifferential::~BSFaceGenMorphDifferential();
  if(flags&1) DAT_01090a78.Deallocate(this);
@@ -12060,6 +12477,7 @@ struct Holder : Base
     ~Holder();
 };
 
+// pdb: BSFaceGenModelMap::Entry::~Entry | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
 Holder::~Holder()
 {
 }
@@ -12074,6 +12492,8 @@ namespace match596ef0 {
 struct Heap596ef0 {void* FUN_0086b930(unsigned);};extern Heap596ef0 DAT_01090a78;
 struct Vector596ef0 {float x,y,z;static void* operator new[](size_t bytes){return DAT_01090a78.FUN_0086b930(bytes);}};
 struct Owner596ef0:BSFaceGenMorph {Vector596ef0* data;unsigned count;Owner596ef0(unsigned);};
+// pdb: BSFaceGenMorphDifferential::BSFaceGenMorphDifferential | BSFaceGenMorph.obj | fnv360_0721_beta, call_gap, low
+// pdb params: aiVertsCount
 Owner596ef0::Owner596ef0(unsigned size) {vtable=&DAT_00dfc304;count=size;if(size)data=new Vector596ef0[size];else data=0;}
 }
 }   // namespace f3m_00596ef0
@@ -12145,6 +12565,8 @@ struct FUN_00cb83f0 : public FUN_00c86720
     FUN_00cb83f0(int a2);
 };
 
+// pdb: bhkMultiSphereShape::bhkMultiSphereShape | BSTreeNode.obj | fnv360_0721_beta, objrun, medium
+// pdb params: arInfo
 FUN_00cb83f0::FUN_00cb83f0(int a2)
 {
     FUN_0092a320(a2);
@@ -12159,6 +12581,7 @@ struct Text593 {char*text;unsigned short length,capacity;Text593():text(0),lengt
 struct RefObject593 {void** table;long refs;};
 struct Ref593 {RefObject593*p;Ref593():p(0){} __forceinline void Clear(){RefObject593* old=p;if(old){if(!InterlockedDecrement(&old->refs))((void(__thiscall*)(RefObject593*))old->table[1])(old);p=0;}} ~Ref593(){Clear();}};
 struct Owner593 {Text593 text;int unk08;Ref593 first;Ref593 second;int unk14;int unk18;Ref593 third;int unk20;Owner593();};
+// pdb: BSFaceGenModelMeshData::BSFaceGenModelMeshData | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 Owner593::Owner593(){unk08=0;second.Clear();first.Clear();third.Clear();unk14=0;unk18=0;unk20=0;}
 }   // namespace f3m_00593eb0
 
@@ -12168,6 +12591,8 @@ namespace f3m_0059fd90 {
 namespace match59fd90 {
 struct Vector {float x,y,z,w; Vector():x(0),y(0),z(0),w(0){} void Set(float a,float b,float c,float d){x=a;y=b;z=c;w=d;} };
 struct State {int unk00;float weight;int unk08;int unk0C;Vector first,second;State();};
+// pdb: bhkCapsuleShape::bhkCapsuleShape | BSTreeNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arInfo
 State::State():unk00(0),weight(DAT_00f7a690){first.Set(0,0,0,0);second.Set(1,0,0,0);}
 
 }
@@ -13280,6 +13705,8 @@ unsigned unkda0;
 unsigned unkda4;
 unsigned unkda8;
 Target* target; }; extern Manager* DAT_01073a08;
+// pdb: BSFaceGenManager::LoadEGTData | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apModel
 bool __cdecl FUN_0058d650(void* argument) { Guard scope; bool result; if(!DAT_01073a08) result=false; else if(!DAT_01073a08->target) result=false; else result=DAT_01073a08->target->FUN_0058d480(argument); return result; }
 }
 }   // namespace f3m_0058d650
@@ -13294,6 +13721,8 @@ struct Base {void* vtable;unsigned count;void** buckets;unsigned used;
  Base(unsigned n):vtable(&DAT_00dfc954),count(n),used(0){buckets=static_cast<void**>(FUN_0089e810(n*sizeof(void*)));memset(buckets,0,count*sizeof(void*));}
 };
 struct Owner:Base {Owner(unsigned);};
+// pdb: NiTPointerMap<TESObjectTREE *,NiPointer<BSTreeModel> *>::NiTPointerMap<TESObjectTREE *,NiPointer<BSTreeModel> *> | BSTreeManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: uiHashSize
 Owner::Owner(unsigned n):Base(n){vtable=&DAT_00dfc974;}
 }
 }   // namespace f3m_0059b140
@@ -13384,6 +13813,8 @@ struct GrowthOwner {
  void FUN_0058c020(unsigned,GrowthContext*);
  void FUN_0058c9d0(GrowthContext*);
 };
+// pdb: BSFaceGenModelMap::VerifyData | BSFaceGenManager.obj | fnv360_0721_beta, caller, medium
+// pdb params: aspNewEntry
 void GrowthOwner::FUN_0058c9d0(GrowthContext* context) {
  unsigned margin=0;
  EnterCriticalSection(&DAT_01073ab4);++DAT_010739fc;
@@ -13585,6 +14016,8 @@ struct Context593f{unsigned previous;Context593f():previous(tls593f.context){tls
 namespace Heap593f{struct Heap{void* FUN_0086b930(unsigned);};extern Heap DAT_01090a78;}
 struct String593f{char*text;unsigned short length,capacity;int unk08;String593f():text(0),length(0),capacity(0),unk08(0){}static void*operator new(unsigned size){return Heap593f::DAT_01090a78.FUN_0086b930(size);}void FUN_004019c0(const char*,int);};
 struct Owner593f{int unk00;int unk04;int unk08;String593f*value;bool FUN_00593f80(const char*);};
+// pdb: BSFaceGenModel::LoadModelTexture | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apEGTFilename
 bool Owner593f::FUN_00593f80(const char*text){if(!value&&text){Context593f scope;value=new String593f;value->FUN_004019c0(text,0);}return true;}
 }   // namespace f3m_00593f80
 
@@ -13657,6 +14090,8 @@ public:
     FUN_00593850(RefObject59* value);
 };
 
+// pdb: BSFaceGenModelExtraData::BSFaceGenModelExtraData | BSFaceGenModel.obj | fnv360_0822_retail, uvref, high
+// pdb params: apModel
 FUN_00593850::FUN_00593850(RefObject59* value)
 {
     m_ptr.Assign(value);
@@ -13704,6 +14139,7 @@ struct Big0058e040 {
     Big0058e040();
 };
 
+// pdb: FanGenCtlsGrpC::FanGenCtlsGrpC | BSFaceGenManager.obj | fnv360_0822_retail, call_gap_sim, low
 Big0058e040::Big0058e040()
     : flag(false)
 {
@@ -13756,6 +14192,7 @@ struct Obj5ef20 {
     static void operator delete(void* p) { Helpers452::DAT_01090a78.FUN_0086ba60(p); }
 };
 extern Obj5ef20* DAT_01073a08;
+// pdb: BSFaceGenManager::DestroySystem | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
 void FUN_0058ef20()
 {
     if (DAT_01073a08)
@@ -13783,7 +14220,8 @@ struct Name_585b40 {
 
 extern Name_585b40* DAT_01073968;
 
-void __cdecl FUN_00585b40() {
+// pdb: BSFaceGenAnimationData::InitSDM | BSFaceGenAnimationData.obj | fnv360_0822_retail, udata, high
+void __cdecl BSFaceGenAnimationData_InitSDM() {
     DAT_01073968 = new Name_585b40("FAD");
 }
 }   // namespace f3m_00585b40
@@ -13800,6 +14238,8 @@ struct FUN_0058f8a0_Mgr {
 extern FUN_0058f8a0_Mgr* DAT_01073a08;
 void FUN_0058ee80();
 
+// pdb: BSFaceGenManager::RandomizeFaceGenetic | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afVariation, apBaseFaceCoord, apOutCoord
 void __cdecl FUN_0058f8a0(float value, void* a, void* b)
 {
     if (b && a) {
@@ -13828,6 +14268,7 @@ extern TryEnterCriticalSectionFn DAT_00d9b108;
 extern CriticalSectionRtl DAT_01073ab4;
 extern int DAT_010739fc;
 
+// pdb: BSFaceGenManager::TryLockFaceGenAccess | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: GarbageCollector::CanRunGarbageCollector)
 bool FUN_0058a870()
 {
     bool entered = DAT_00d9b108(&DAT_01073ab4) != 0;
@@ -13871,12 +14312,14 @@ struct CDC40LevelA : public CDC40Root, public CDC40Payload {
     CDC40LevelA() : unk10(0) { ++DAT_012680f8; }
 };
 
-struct FUN_00c8bed0_cls : public CDC40LevelA {
+struct bhkTransformShape : public CDC40LevelA { // src: F3_EXE vtable 0x00dfcfd4 (old: FUN_00c8bed0_cls)
     void FUN_008fe050(hkGeometry* geometry);
-    FUN_00c8bed0_cls(hkGeometry* geometry);
+    bhkTransformShape(hkGeometry* geometry);
 };
 
-FUN_00c8bed0_cls::FUN_00c8bed0_cls(hkGeometry* geometry)
+// pdb: bhkTransformShape::bhkTransformShape | BSTreeNode.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arInfo
+bhkTransformShape::bhkTransformShape(hkGeometry* geometry)
 {
     FUN_008fe050(geometry);
     ++DAT_012681b0;
@@ -14767,6 +15210,8 @@ struct ScopedManager {
  ScopedService* service;
 };
 extern ScopedManager* DAT_01073a08;
+// pdb: BSFaceGenManager::LoadEGMData | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apModel
 bool __cdecl FUN_0058d5c0(void* argument) {
  ScopedContext context;
  if(!DAT_01073a08)return false;
@@ -14789,6 +15234,8 @@ struct Owner109:Base109{
  Owner109(unsigned int,unsigned int);
 };
 struct Element109{void* value;static void* operator new[](unsigned int size){return DAT_01090a78.FUN_0086b930(size);}};
+// pdb: BSFaceGenMorphStatistical::BSFaceGenMorphStatistical | BSFaceGenMorph.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiVertsCount, aiFirstIndex
 Owner109::Owner109(unsigned int size,unsigned int flags){
  vtable=&DAT_00dfc310;count=size;mode=flags;
  if(count)data=new void*[count];else data=0;
@@ -14829,6 +15276,7 @@ struct Obj596690 : Base596690 {
     ~Obj596690();
 };
 
+// pdb: BSFaceGenModelMeshData::~BSFaceGenModelMeshData | BSFaceGenModel.obj | fnv360_0822_retail, callee_sim, low
 Obj596690::~Obj596690()
 {
     sp10 = (NiRefObject*)0;
@@ -14947,6 +15395,7 @@ struct Cls {
     ~Cls();
 };
 
+// pdb: FffTriFileDataS::~FffTriFileDataS | BSFaceGenModel.obj | fnv360_0822_retail, call_gap_sim, low
 Cls::~Cls() {
 }
 }   // namespace f3m_00595ed0
@@ -15017,6 +15466,8 @@ char* End() {char* p=end; if(begin>p) FUN_00c01e8b(); return p;}
 char* Begin() {char* p=begin; if(p>end) FUN_00c01e8b(); return p;}
 void FUN_00589680(int count,Values896* source);
 };
+// pdb: std::vector<BSFaceGenRGBA,std::allocator<BSFaceGenRGBA> >::_Assign_n | BSFaceGenImage.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: _Count, _Val
 void Vec896::FUN_00589680(int count,Values896* source) {
 Values896 value=*source;
 char* last=End(); char* first=Begin();
@@ -15035,6 +15486,7 @@ struct Scope5957 { unsigned int old; Scope5957(){old=thread5957.unk298;thread595
 struct String5957 { char* text; unsigned short length; unsigned short unk06; void* compiled; unsigned int Length(){return length==0xffff ? strlen(text) : length;} };
 extern void* __cdecl FUN_005950c0(void*);
 struct Owner5957 { int unk00; int unk04; int unk08; String5957* string; char FUN_005957f0(); };
+// pdb: BSFaceGenModel::LoadEGTData | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 char Owner5957::FUN_005957f0(){Scope5957 scope; if(!string)return 0;if(!string->compiled){if(!string->Length())return 0;void* text=string->text; string->compiled=FUN_005950c0(text);}return 1;}
 }   // namespace f3m_005957f0
 
@@ -15050,6 +15502,7 @@ struct Object : FUN_00845a20 {
  __forceinline virtual ~Object() { if(data0c) DAT_01090a78.FUN_0086ba60(data0c); }
  Object* FUN_00597ad0(unsigned);
 };
+// pdb: BSFaceGenBaseMorphExtraData::`scalar deleting destructor' | BSFaceGenMorphData.obj | fnv360_0822_retail, vtable, high
 Object* Object::FUN_00597ad0(unsigned flags) {
  this->Object::~Object();
  if(flags&1) FUN_0089ec10(this,0x18);
@@ -15090,6 +15543,8 @@ public:
  virtual void slot_bhkCapsuleShape();
 };
 
+// pdb: bhkCapsuleShape::bhkCapsuleShape | BSTreeNode.obj | fnv360_0721_beta, objrun, high
+// pdb params: arInfo
 bhkCapsuleShape::bhkCapsuleShape(int arg) { FUN_0091db00(arg); ++DAT_010f334c; }
 }   // namespace f3m_0059fa80
 
@@ -15250,6 +15705,8 @@ int unk19c;
 Lock lock;
 void FUN_00585fb0(float t,bool expr,bool phon,bool mod,bool cust,bool death);
 };
+// pdb: BSFaceGenAnimationData::ResetCurrentMorphs | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTime, abResetExpression, abResetPhoneme, abResetModifier, abResetCustomMorph, abForDeath
 void Anim::FUN_00585fb0(float t,bool expr,bool phon,bool mod,bool cust,bool death) {
 lock.FUN_00409a80(0);
 first(t,expr,phon,mod,cust,death);
@@ -15389,6 +15846,8 @@ int unk90;
 Key1397 modifier,phoneme,custom;
 void FUN_00586130(float,bool,bool,bool,bool,bool);
 };
+// pdb: BSFaceGenAnimationData::ResetSpeechCurrentMorphs | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTime, abResetExpression, abResetPhoneme, abResetModifier, abResetCustomMorph, abForDeath
 void Face1397::FUN_00586130(float time,bool exp,bool phon,bool mod,bool cust,bool death){
 float pmods[17];
 Begin(exp,phon,mod,cust);
@@ -15439,6 +15898,8 @@ struct FUN_0058a280
 };
 // Blends this frame's quantities with frames a and b using weight clamped to [0,1], copying or interpolating per index, and returns the last FUN_00585b00 result.
 // @fnv 0x0064f0b0
+// pdb: BSFaceGenKeyframeMultiple::MergeMorphDataFrom | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSource1, apSource2, afBlend
 bool FUN_0058a280::FUN_0058a410(FUN_0058a280* apLeft, FUN_0058a280* apRight, float weight)
 {
     FUN_0058a280* leftX = apLeft && apLeft->IsValid() ? apLeft : 0;
@@ -15533,6 +15994,7 @@ struct FUN_00595bb0 : Base595bb0 {
     FUN_00595bb0();
 };
 
+// pdb: FffTriFileDataS::FffTriFileDataS | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 FUN_00595bb0::FUN_00595bb0() { if (0) throw 1; }
 }   // namespace f3m_00595bb0
 
@@ -15593,6 +16055,7 @@ struct FUN_0059d930 : Base59d930 {
     virtual ~FUN_0059d930();
 };
 
+// pdb: BSTreeModel::~BSTreeModel | BSTreeModel.obj | fnv360_0822_retail, call_seq, medium
 FUN_0059d930::~FUN_0059d930()
 {
     FUN_0059cd10();
@@ -16663,6 +17126,7 @@ struct FUN_0058ea10 {
  static void operator delete(void* p){DAT_01090a78.FUN_0086b9f0(p);}
 };
 extern FUN_0058ea10* DAT_01073a08;
+// pdb: BSFaceGenManager::GetInstance | BSFaceGenManager.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: NiPointer<class BSTextureSet>::operator=)
 void FUN_0058ee80(){ScopedContext scope(55);if(!DAT_01073a08) DAT_01073a08=new FUN_0058ea10;}
 }
 
@@ -16671,6 +17135,8 @@ namespace f3m_00593db0 {
 namespace Task1596 {
 struct Record {unsigned short x,y,z;};
 inline Record* CopyLoop(Record* first,Record* last,Record* out){for(;first!=last;++out,++first)*out=*first;return out;}
+// pdb: std::allocator<signed char>::allocate | BSFaceGenModel.obj | fnv360_0721_retail, objrun, medium
+// pdb params: _Count
 Record* __cdecl FUN_00593db0(Record* first,Record* last,Record* out){Record* result=out+(last-first);CopyLoop(first,last,out);return result;}
 }
 }   // namespace f3m_00593db0
@@ -16685,6 +17151,7 @@ struct Base16{virtual ~Base16();virtual void Slot004();virtual void Slot008();vi
 struct Morph20{unsigned int unk00,unk04,unk08,unk0C,unk10;~Morph20();};
 struct List12{void* head;void* tail;unsigned int count;~List12() throw();};
 struct Animation:Base16{Morph20 first,second,third,fourth,fifth,sixth;List12 firstList;Morph20 seventh,eighth;List12 secondList;Morph20 ninth,tenth;List12 thirdList;Morph20 eleventh,twelfth;~Animation();};
+// pdb: BSFaceGenAnimationData::~BSFaceGenAnimationData | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_seq, high
 Animation::~Animation(){Header* header=(Header*)this;header->vtable->first(this,true,true,true,true);header->vtable->second(this,true,true,true,true);}
 }
 }   // namespace f3m_00587d50
@@ -16869,6 +17336,8 @@ struct Slot7Form
     Slot7Attachment* FUN_006f74c0();
 };
 float __cdecl FUN_00583cb0(void*, Slot7Actor*, float, int);
+// pdb: CombatFormulas::CalcCombatWeaponDPS | CombatFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apActorForm, apWeapon, afCondition, apCombatStyle, apItem, apAmmo
 float __cdecl FUN_00584210(Slot7Form* form, Slot7Actor* actor, float value, Slot7Attachment* attachment)
 {
     float result;
@@ -16950,6 +17419,8 @@ class BSFaceGenModelMap::Entry:public RefObject2009 {public:
 typedef BSFaceGenModelMap::Entry FaceEntry2009;
 struct FaceMap2009 {void FUN_00899cf0(const char*);void FUN_0058cea0(const char*,RefPointer2009<FaceEntry2009>);};
 struct FaceCache2009 {unsigned int unk00;FaceMap2009 map;void FUN_0058c9d0(FaceEntry2009*);void FUN_0058d0d0(const char*,RefObject2009*);};
+// pdb: BSFaceGenModelMap::SetAt | BSFaceGenManager.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apcKey, apModel
 void FaceCache2009::FUN_0058d0d0(const char* name,RefObject2009* model){
  FUN_00d9b09c(&DAT_01073ab4);++DAT_010739fc;
  RefPointer2009<FaceEntry2009> entry;
@@ -16977,6 +17448,8 @@ struct Node;
 struct FUN_0059acc0 {Node* head;FUN_0059acc0();};
 struct FUN_005e5280 {unsigned int unk00,unk04,unk08,unk0C;FUN_005e5280(unsigned int);};
 struct Map:InterfacedClass {Node** deletedBuffers;unsigned int bucketCount;FUN_0059acc0* buckets;unsigned int deleteBatchSize;FUN_005e5280* manager;volatile unsigned int itemUpdates;Map(unsigned int,unsigned int,unsigned int);virtual ~Map();};
+// pdb: LockFreeMap<TESObjectREFR *,BSTreeNode *>::LockFreeMap<TESObjectREFR *,BSTreeNode *> | BSTreeManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiMaxThreads, aiNumBuckets, aiDeleteBatchSize
 Map::Map(unsigned int threads,unsigned int count,unsigned int batch){
  MemoryContext context;
  itemUpdates=0;
@@ -16998,6 +17471,7 @@ struct Owner5975 : f3m_005977d0::RefBase5977d0 {
     f3m_005977d0::Owned5977d0** unk14;
     virtual ~Owner5975();
 };
+// pdb: BSFaceGenMorphDataHead::~BSFaceGenMorphDataHead | BSFaceGenMorphData.obj | fnv360_0822_retail, call_seq, medium
 Owner5975::~Owner5975() {
     if (unk08) {
         for (unsigned i = 0; i < 15; ++i)
@@ -17048,6 +17522,8 @@ FUN_0058db20::FUN_0058db20(const FUN_0058db20* source) {
 extern double FUN_00db38b0;
 extern double FUN_00db38a8;
 namespace f3m_005852d0 {
+// pdb: GamePlayFormulas::GetRadiationLevel | GamePlayFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afRadiation, afRadius, afDistance
 float FUN_005852d0(float a, float b, float c)
 {
     float r = (b - c) / b;
@@ -17064,6 +17540,8 @@ extern const float FUN_00f625b0;
 extern const float FUN_00f625c8;
 namespace f3m_00585870 {
 
+// pdb: MagicFormulas::CheckExplosionStrength | MagicFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiCost, aiArea, afDistance, aiAgility, aiLuck, afFatiguePercentage
 float FUN_00585870(int level, int count, float value, int penalty)
 {
     float scale;
@@ -17094,6 +17572,8 @@ extern double DAT_00db38a8;
 namespace f3m_00582a60 {
 
 
+// pdb: CombatFormulas::GetDeathForce | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afDamage, abRanged
 float FUN_00582a60(float x, bool flag) {
     float a, b, c, d;
     if (flag) {
@@ -17130,6 +17610,8 @@ struct ActorValueOwner {
     virtual int GetActorValueInt(int av);
 };
 
+// pdb: GamePlayFormulas::GetLevelUpSkillPoints | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apActor
 int FUN_00585620(ActorValueOwner* owner) {
     const int v = owner->GetActorValueInt(9) - 1;
     return (v >= 10 ? 10 : v) * DAT_00f62334 + DAT_00f62328;
@@ -17207,6 +17689,8 @@ struct Numeric581f40 {
     float Get84(bool include) { return include ? unk84 : 0.0f; }
     float Get88(bool include) { return include ? unk88 : 0.0f; }
 };
+// pdb: CombatFormulas::ChooseAttack | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCombatStyle, aiSkill, aiLuck, abTargetAttacking, abHandToHand, abTargetRecoiling, abTargetUnconscious, abTargetBlocking
 float FUN_00581f40(Numeric581f40* data, int percent, int unused, bool useFirst, bool include88, bool include80, bool include84, bool includeFC)
 {
     float scale = (float)(percent / 100.0);
@@ -17250,6 +17734,8 @@ static inline float Rand5839b0(float lo, float hi)
     return (float)(lo + (float)r * (hi - lo) * 2.3283064365386963e-10);
 }
 
+// pdb: CombatFormulas::GetScreenSplatterCount | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: fDamage
 int __cdecl FUN_005839b0(float t)
 {
     float a = flt_00f60c9c;
@@ -17270,7 +17756,8 @@ extern Owner59c260* DAT_01073c1c;extern NiPointer<Ref59c260> DAT_0116f3d4;
 struct Manager59c260 {void FUN_00435310(const char*,int);};extern Manager59c260* DAT_0107a0d8;extern const char DAT_00dfc9ec[];
 void FUN_0059b8e0(int);
 inline Owner59c260* Get59c260(){if(!DAT_01073c1c)FUN_0059b8e0(0);return DAT_01073c1c;}
-void FUN_0059c260() {
+// pdb: BSTreeManager::ClearCanopyShadow | BSTreeManager.obj | fnv360_0822_debug, ustr_rel + bridge(ustr_rel|ustr_rel), high
+void BSTreeManager_ClearCanopyShadow() {
  Owner59c260* o=Get59c260();
  if(((RawOwner59c260*)o)->raw) {o->object=(Ref59c260*)0;DAT_0116f3d4=(Ref59c260*)0;DAT_0107a0d8->FUN_00435310(DAT_00dfc9ec,0);}
 }
@@ -17294,6 +17781,8 @@ extern float DAT_00f5e1e8,DAT_00f5e1f4,DAT_00f5e2c0,DAT_00f5e2cc,DAT_00f5e224,DA
 namespace f3m_00580d50 {
 namespace Match580d50 {
 inline float MaxValue(float a,float b) { float result=a; if (b>a) result=b; return result; }
+// pdb: AiFormulas::GetDetectedEvent | AiFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiPercep, aiLineofSite, afDistance, aiBlindess, aiLightLevel, absleeping, abAlert, abInCombat, aiActionSound, aiVisual, abExterior
 int __cdecl FUN_00580d50(int unused0,int kind,float distance,int percent,int skill,int unused5,int unused6,int unused7,int scaleCount,int contribution,bool boosted)
 {
     float base=DAT_00f5e1e8;
@@ -17397,6 +17886,7 @@ struct FUN_00595d30
     Vec5d30 lists[2];
     ~FUN_00595d30();
 };
+// pdb: EGMData::~EGMData | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, medium
 FUN_00595d30::~FUN_00595d30()
 {
     lists[0].Clear();
@@ -17602,6 +18092,8 @@ struct Obj {
   static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
 extern Obj* DAT_01073c1c;
+// pdb: BSTreeManager::Create | BSTreeManager.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: abRecreateIfFound
 void __cdecl FUN_0059b8e0(bool flag) {
   TlsSaver guard;
   if (DAT_01073c1c) {
@@ -17632,6 +18124,7 @@ struct Owner {
  void FUN_0059cd10();
 };
 }
+// pdb: BSTreeModel::ClearModel | BSTreeModel.obj | fnv360_0822_retail, vtable, medium
 void Release59::Owner::FUN_0059cd10() {
  if(first){delete[] first;first=0;}
  if(second){delete[] second;second=0;}
@@ -17650,6 +18143,8 @@ namespace f3m_00584860 {
 extern float __cdecl FUN_0047ca30(float, float);
 inline float Min584(float a, float b) { return a < b ? a : b; }
 inline float Scale584(float a) { return a * DAT_00f61914; }
+// pdb: GamePlayFormulas::GetRepairedCondition | GamePlayFormulas.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiRepairSkill, afCondition1, afCondition2, apiMinSkillNeeded
 float __cdecl FUN_00584860(int skill, float a, float b, int* output)
 {
     a = a / 10.0;
@@ -17704,6 +18199,8 @@ using namespace f3m_00589f00;
 
 __declspec(noinline) float Blend::FUN_0051df00(unsigned int index) { return index < count ? values[index] : 0.0f; }
 
+// pdb: BSFaceGenKeyframeMultiple::UpdateToTarget | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTime, apTarget
 bool Blend::FUN_00589f00(float step, Blend* other)
 {
     Blend* target = (other && other->IsBlendable()) ? other : 0;
@@ -17952,6 +18449,8 @@ unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;
 };
 
 // @fnv 0x00652510
+// pdb: BSFaceGenManager::CycleFaceGenCoordValue | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActor
 void FUN_0058f5c0(FG652_Actor* apActor)
 {
     FG652_NPC* pNPC4 = apActor->FUN_007af430();
@@ -18031,6 +18530,8 @@ struct ScaleInput2139 {
     unsigned index;
 };
 
+// pdb: GamePlayFormulas::AdjustExperiencePoints | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afXP, aeDifficulty
 float __cdecl FUN_00585650(ScaleInput2139 input) {
     input.scale *= ScaleSetting2139::RoundedValue(ScaleSetting2139::DAT_00f60fe8[input.index]);
     return static_cast<const volatile float&>(input.scale);
@@ -18616,6 +19117,8 @@ bool hidden(){return (flags&1)!=0;}
 bool active(){return ((flags>>1)&1)!=0;}
 void FUN_00599f90(Update* u);
 };
+// pdb: BSFaceGenNiNode::UpdateMorphing | BSFaceGenNiNode.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: UpdateData
 void Node::FUN_00599f90(Update* u) {
 if(hidden()) return;
 bool changed=false;
@@ -18737,6 +19240,8 @@ struct Actor2fd0 {
 };
 
 
+// pdb: CombatFormulas::CheckDismemberOrExplode | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apAttacker, apWeapon, aiExplodeChance, aiDismemberBonus, aiExplodeBonus, abExplodeChanceAbsolute, abDismember, abExplode
 void __cdecl FUN_00582fd0(void* a_pUnused, Actor2fd0* a_pActor, int a_iChance, int a_iBase, int a_iBonus, bool a_bFlat,
                           bool* a_pbSecond, bool* a_pbFirst) {
     *a_pbSecond = false;
@@ -18782,6 +19287,8 @@ extern float DAT_00f619c8, DAT_00f619bc;
 extern ModifierSetting_584aa0 DAT_00f619ac, DAT_00f619c4, DAT_00f619b8;
 namespace f3m_00584d20 {
 
+// pdb: GamePlayFormulas::CalculatePotionDuration | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiDuration, afEffectCost, afPotionStrength, aiEquipment, bhostile, afRetortQuality, afAlembicQuality, afCalcinatorQuality, abPoison
 void __cdecl FUN_00584d20(float* out, float a, float b, int type, bool alternate,
                           float primary, float secondary, float tertiary, bool skip)
 {
@@ -18888,6 +19395,8 @@ struct FrameList
     __forceinline void Append(FUN_0058a280* item) { FUN_006e9670(&item); }
 };
 
+// pdb: BSFaceGenKeyframeMultiple::AddToList | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apList
 bool FUN_0058a280::FUN_0058a730(FrameList* list)
 {
     if (!list)
@@ -18940,6 +19449,8 @@ static __forceinline float RandomWeight(float weight)
     return weight * DAT_00f5f31c * static_cast<float>(roll);
 }
 
+// pdb: CombatFormulas::SelectDodgeDirection | CombatFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apCombatStyle, abDodgerAttacking, abTargetAttacking, fTargetDistance, fWeaponReach, abFavorLeftRight, abTargetUsingRanged, asMovementRestrictions
 unsigned short FUN_005821e0(const WeightedChoice* weights, bool secondAlternate,
     bool firstAlternate, float current, float reference, bool doubleThird,
     bool suppressFirst, unsigned int inputMask)
@@ -19020,6 +19531,8 @@ struct Map {
     bool keepKey;
     void FUN_0058cea0(unsigned int key, Ptr val);
 };
+// pdb: NiTStringTemplateMap<NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> >,NiPointer<BSFaceGenModelMap::Entry> >::SetAt | BSFaceGenManager.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: pcKey, val
 void Map::FUN_0058cea0(unsigned int key, Ptr val)
 {
     unsigned int idx = KeyToHashIndex(key);
@@ -19163,6 +19676,8 @@ class NiMemObject {public:static void* operator new(unsigned int);static void op
 struct FUN_00597960:NiMemObject {int a,b,c,d,e,f;FUN_00597960(Node*,int,int);};
 struct FUN_00593850:NiMemObject {int a,b,c,d;FUN_00593850(Owner*);};
 struct Owner {int a,b;Holder* data;bool FUN_00593970(Pointer<Node>&);};
+// pdb: BSFaceGenModel::CreateNewMesh | BSFaceGenModel.obj | fnv360_1110_retail, objrun, medium
+// pdb params: aspReturnMesh
 bool Owner::FUN_00593970(Pointer<Node>& out){
  Pointer<GeometryData> modelData;Pointer<SkinPartition> skinPartition;
  out.Clear();
@@ -19189,6 +19704,8 @@ bool Owner::FUN_00593970(Pointer<Node>& out){
 
 // @f3 0x00585400 (community match, verified in this file)
 namespace f3m_00585400 {
+// pdb: GamePlayFormulas::GetSurgeryAutoAttemptPercentages | GamePlayFormulas.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: afLimbHealPercent, afHealthDamagePercent, aiMedicineSkill, abMorphineUsed, afWoundPercent
 void __cdecl FUN_00585400(float* first, float* second, int level,
                            unsigned char flag, float scale)
 {
@@ -19302,12 +19819,12 @@ public:
 
 class Get5817e0 {
 public:
-    void* FUN_006f5800();
+    void* Actor_GetClass();
 };
 
 class Get2_5817e0 {
 public:
-    void* FUN_006f5800(int index);
+    void* Actor_GetClass(int index);
 };
 
 class Check5817e0 {
@@ -19325,6 +19842,8 @@ extern f3m_005817e0::Setting5817e0 DAT_00f5f154;
 float FUN_00581770(float, float, float);
 float FUN_005a26d0(int, float);
 
+// pdb: AiFormulas::AVDeriveSkill | AiFormulas.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apActor, aiWhich, abBaseDerivation
 float __cdecl FUN_005817e0(f3m_005817e0::Actor5817e0* obj, unsigned int index, bool flag)
 {
     volatile float result = 0.0f;
@@ -19352,8 +19871,8 @@ float __cdecl FUN_005817e0(f3m_005817e0::Actor5817e0* obj, unsigned int index, b
 
     f3m_005817e0::Tail5817e0* ctx = obj->v09();
     if (ctx && ctx->f0() && ctx->f4()
-        && ((f3m_005817e0::Get5817e0*)ctx)->FUN_006f5800()
-        && ((f3m_005817e0::Check5817e0*)((f3m_005817e0::Get2_5817e0*)ctx)->FUN_006f5800(index))->FUN_0051dfb0())
+        && ((f3m_005817e0::Get5817e0*)ctx)->Actor_GetClass()
+        && ((f3m_005817e0::Check5817e0*)((f3m_005817e0::Get2_5817e0*)ctx)->Actor_GetClass(index))->FUN_0051dfb0())
     {
         result += *DAT_00f5f154.FUN_00401eb0();
     }
@@ -19373,6 +19892,8 @@ extern float flt_00f619ec;
 extern float flt_00f619e0;
 extern float flt_00f62484;
 extern float flt_00f62b74;
+// pdb: GamePlayFormulas::CalculatePotionMagnitude | GamePlayFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiMagnitude, afEffectCost, afPotionStrength, aiEquipment, bhostile, afRetortQuality, afAlembicQuality, afCalcinatorQuality, abPoison
 void __cdecl FUN_00584e70(float* out, float a2, float a3, int type, bool b5, float f6, float f7, float f8, bool b9)
 {
     float x = a3 / a2 / flt_00f62484;
@@ -19448,6 +19969,7 @@ struct Self {
     Obj* m1c;
     ~Self();
 };
+// pdb: BSTreeManager::~BSTreeManager | BSTreeManager.obj | fnv360_0822_retail, call_seq, medium
 Self::~Self()
 {
     FUN_0059ace0(0);
@@ -19470,6 +19992,8 @@ struct Obj582040 {
     int u98,u9c,ua0,ua4,ua8,uac,ub0,ub4,ub8,ubc,uc0,uc4,uc8,ucc,ud0,ud4,ud8,udc,ue0,ue4,ue8,uec,uf0,uf4,uf8,ufc;
     float f100,f104;
 };
+// pdb: CombatFormulas::ChoosePowerAttack | CombatFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCombatStyle, afFatiguePercent, abTargetRecoiling, abTargetUnconscious, abEncumbered
 bool __cdecl FUN_00582040(Obj582040* obj, float scale, bool use90, bool use94, bool disabled)
 {
     if (disabled) return false;
@@ -19509,7 +20033,7 @@ extern Player2460* DAT_0107a104;
 extern int DAT_00f4eb6c[];
 
 unsigned short __cdecl FUN_0054b730(int a_iFirst, int a_iSecond, unsigned int a_uiThird, int a_iFourth);
-unsigned int __cdecl FUN_0054b780(unsigned short a_usIndex);
+unsigned int __cdecl TESAnimGroup_GetType(unsigned short a_usIndex);
 
 struct Item2460 {
     int unk000;
@@ -19609,6 +20133,8 @@ inline bool IsGun2460(char a_cType) {
     return a_cType >= 3 && a_cType <= 9;
 }
 
+// pdb: CombatFormulas::GetWeaponShotsPerSecond | CombatFormulas.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActorRef, apWeapon, abUseReload, apItem
 float __cdecl FUN_00582460(void* a_pObject, Item2460* a_pItem, bool a_bAverage) {
     float fRate = 0.0f;
     float fUse = 0.0f;
@@ -19620,7 +20146,7 @@ float __cdecl FUN_00582460(void* a_pObject, Item2460* a_pItem, bool a_bAverage) 
             uiSkill = 0x8e;
         unsigned int uiKeyId = FUN_0054b730(0, DAT_00f4eb6c[a_pItem->GetType()], uiSkill, 0);
         unsigned short usIndex = pStats->FUN_0045d6a0(uiKeyId, 0);
-        if (FUN_0054b780(usIndex) == uiSkill) {
+        if (TESAnimGroup_GetType(usIndex) == uiSkill) {
             Entry2460* pEntry = pStats->FUN_0045dd90(usIndex);
             if (pEntry) {
                 float fBase = a_pItem->fBase;
@@ -19635,7 +20161,7 @@ float __cdecl FUN_00582460(void* a_pObject, Item2460* a_pItem, bool a_bAverage) 
             uiKey = 0x20;
         unsigned int uiKeyId = FUN_0054b730(0, DAT_00f4eb6c[a_pItem->GetType()], uiKey, 0);
         unsigned short usIndex = pStats->FUN_0045d6a0(uiKeyId, 0);
-        if (FUN_0054b780(usIndex) == uiKey)
+        if (TESAnimGroup_GetType(usIndex) == uiKey)
         {
             Entry2460* pEntry = pStats->FUN_0045dd90(usIndex);
             fRate = 1.0f / pEntry->FUN_0054bb40(3);
@@ -19672,6 +20198,8 @@ static inline float& Value(Entry* e) {
     DAT_0116d104 = 0.0f;
     return DAT_0116d104;
 }
+// pdb: GamePlayFormulas::GetDifficultyMultiplier | GamePlayFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeDifficulty, aiWhich, abToPC
 float __cdecl FUN_00585150(int index, int type, bool flag) {
     float r = 1.0f;
     switch (type) {
@@ -19747,6 +20275,8 @@ struct FaceModelCache {
     void FUN_0058c020(unsigned type, ModelEntry* exclude);
 };
 
+// pdb: BSFaceGenModelMap::FreeLRUData | BSFaceGenManager.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aDataType, aspNewEntry
 void FaceModelCache::FUN_0058c020(unsigned type, ModelEntry* exclude)
 {
     NiPointer<ModelEntry> entry;
@@ -19873,6 +20403,8 @@ Table tables[1];
 };
 extern Manager* DAT_01073a08;void FUN_0058ee80();
 inline Manager* Get(){if(!DAT_01073a08)FUN_0058ee80();return DAT_01073a08;}
+// pdb: BSFaceGenManager::GetFaceCoordValue | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCoord, aeFanType, aeFanSymm, aiCtrlID
 float FUN_0058f320(Bucket* owner,unsigned a,unsigned b,unsigned index){
  float result=0;
  if(owner){Manager* manager=Get();unsigned slot=b+a*2;
@@ -19975,6 +20507,8 @@ struct BSFaceGenBaseMorphExtraData : w597960::FUN_00845b60 {
 };
 
 
+// pdb: BSFaceGenBaseMorphExtraData::BSFaceGenBaseMorphExtraData | BSFaceGenMorphData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apMesh, apAdditionalVertices, aiAdditionalVerticesCount
 BSFaceGenBaseMorphExtraData::BSFaceGenBaseMorphExtraData(w597960::Actor* actor, w597960::Elem* extra, unsigned int extraCount)
     : FUN_00845b60(DAT_01073b7c)
 {
@@ -20036,6 +20570,7 @@ struct FUN_0059c410 : n59c410::RefBase {
     FUN_0059c410();
     virtual ~FUN_0059c410();
 };
+// pdb: BSTreeModel::BSTreeModel | BSTreeModel.obj | fnv360_0822_retail, call_gap, medium
 FUN_0059c410::FUN_0059c410()
 {
     unk0C = 0;
@@ -20108,6 +20643,7 @@ struct Owner58bef0 {
 }
 using namespace n58bef0;
 
+// pdb: BSFaceGenModelMap::UnloadAllEGMAndEGTData | BSFaceGenManager.obj | fnv360_0822_retail, caller, medium
 void Owner58bef0::FUN_0058bef0()
 {
     unsigned int key = 0;
@@ -20168,6 +20704,8 @@ struct Cache58d4 {
     void FUN_0058c9d0(Entry58d4*);
     bool FUN_0058d480(Request58d4* request);
 };
+// pdb: BSFaceGenModelMap::LoadEGTData | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apModel
 bool Cache58d4::FUN_0058d480(Request58d4* request)
 {
     RefPointer58d4<Entry58d4> entry;
@@ -20230,6 +20768,8 @@ struct Cache58d2 {
     void FUN_0058c9d0(Entry58d2*);
     bool FUN_0058d230(const char* name, NiPointer<Model58d2>& model);
 };
+// pdb: BSFaceGenModelMap::GetAt | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apcKey, aspModel
 bool Cache58d2::FUN_0058d230(const char* name, NiPointer<Model58d2>& model)
 {
     FUN_00d9b09c(&DAT_01073ab4);
@@ -20289,6 +20829,8 @@ struct FUN_00594ff0
     FUN_00594ff0(const char*);
 };
 void __cdecl FUN_00bde750(Text*, FUN_00594ff0*, FUN_005946d0*, FUN_005946d0*);
+// pdb: EGTData::EGTData | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiColorA::operator/)
+// pdb params: apEGTFilename
 FUN_00594ff0::FUN_00594ff0(const char* filename)
 {
     Text path(filename);
@@ -20301,6 +20843,8 @@ FUN_00594ff0::FUN_00594ff0(const char* filename)
 extern const float DAT_00f5f14c, DAT_00f5f0a4;
 namespace f3m_00581770 {
 
+// pdb: AiFormulas::CalculateDerivedSkillValue | AiFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afSkillBase, afPrimaryAttribute, afLuck
 float __cdecl FUN_00581770(float a, float b, float c)
 {
     const float base = DAT_00f5f14c * b;
@@ -20320,6 +20864,8 @@ namespace NativeValueBuffer {
 typedef float Item58a0c0;
 extern void __cdecl FUN_0058a990(Item58a0c0*,unsigned,bool);
 struct Owner58a0c0 { int unk00; int unk04; int unk08; Item58a0c0* buffer; unsigned count; void FUN_0058a0c0(unsigned,bool); };
+// pdb: BSFaceGenKeyframeMultiple::ResetQuantityArray | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiNumQuantities, abForceZero
 void Owner58a0c0::FUN_0058a0c0(unsigned size,bool value) {
  if(size!=count) {
   if(buffer) { DAT_01090a78.FUN_0086ba60(buffer); buffer=0; }
@@ -20386,6 +20932,8 @@ struct BoundingSphere {
 };
 }
 
+// pdb: BSFaceGenManager::ComputeModelBound | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arBound, arIterator, aiVertices
 void __cdecl FUN_0058af90(n58af90::BoundingSphere* sphere, n58af90::PointIterator* points, int count)
 {
     using namespace n58af90;
@@ -20473,6 +21021,7 @@ struct Owner
     Text* text;
     bool FUN_00596530();
 };
+// pdb: BSFaceGenModel::LoadEGMData | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 bool Owner::FUN_00596530()
 {
     Tag tag;
@@ -20529,6 +21078,8 @@ public:
     unsigned int count;
 };
 
+// pdb: BSFaceGenKeyframeMultiple::MergeMorphDataFrom | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSource, afBlend, abMergeZeroes, abClearValueIfNoUpdate
 bool ValueSet589a70::FUN_00589a70(ValueSet589a70* other, float factor, bool includeZero, bool clearUnset)
 {
     ValueSet589a70* source = (other && other->IsUsable()) ? other : 0;
@@ -20564,6 +21115,8 @@ namespace W06_2146 {
 struct Key {virtual ~Key();virtual int Type();virtual void v8();virtual float Value();virtual void Set(float);virtual void v14();virtual void v18();virtual bool Apply(Key*,float,int,bool);};
 struct Node {Node* next;Node* prev;Key* data;};
 struct List {Node* first;Node* last;unsigned count;Key** GetHead(){return &first->data;}Key* FUN_005878f0();unsigned Count(){return count;}};
+// pdb: BSFaceGenAnimationData::UpdateKeyframeList | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afTime, apList, apDest, abClearDestValueIfNoUpdate
 bool FUN_00587bc0(float amount,List* list,Key* key,bool flag){
  bool result=false;
  if(!key || !list) return false;
@@ -20634,6 +21187,8 @@ struct Owner
     bool FUN_0058ba60(const char* key, NiPointer<Inner>* inner, NiPointer<Leaf>* leaf);
 };
 
+// pdb: BSFaceGenModelMap::GetAt | BSFaceGenManager.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apcKey, aspModel, aspModelMeshData
 bool Owner::FUN_0058ba60(const char* key, NiPointer<Inner>* inner, NiPointer<Leaf>* leaf)
 {
     EnterCriticalSection(&DAT_01073ab4);
@@ -20704,6 +21259,8 @@ struct FaceOwner {
     void FUN_0058d000(RefObject* object);
 };
 
+// pdb: NiAVObject::DetachProperty | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkProperty
 void FaceOwner::FUN_0058d000(RefObject* object)
 {
     const RetainedInput retained(object);
@@ -20724,6 +21281,7 @@ struct Growth {
     Data* data;
     unsigned int FUN_00593b90();
 };
+// pdb: BSFaceGenModel::GetEGMDataSize | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, medium
 unsigned int Growth::FUN_00593b90()
 {
     unsigned int total = 0;
@@ -21085,6 +21643,8 @@ float FUN_00401e20(float,float); float FUN_0090d870(float,float); float FUN_0058
 inline bool IsGun(Weapon* w){unsigned char k=w->kind;return k>=3 && k<=9;}
 inline bool IsRanged(Weapon* w){unsigned char k=w->kind;return (unsigned char)(k-3)<=9;}
 inline float Min(float a,float b){return a<b?a:b;}
+// pdb: CombatFormulas::GetVATSChanceToHit | CombatFormulas.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apActor, apTarget, apWeapon, afWeaponCondition, afReach, afGunSkill, apTargetedLimb, apTargetedWeapon, afScreenPercentage, afTargetRange, afTargetSize, apDebugText
 float FUN_005830a0(ActorValueOwner* attacker,Ref* target,Weapon* weapon,void* unused14,void* unused18,float spreadBonus,Ammo* ammo,Weapon* mod,float damage,float distance,float bound,Log* log)
 {
     float finalValue=0.0f;
@@ -21270,6 +21830,8 @@ __declspec(noinline) void Map::FUN_00ad3cc0(MapItem*& position, const char*& key
     position = 0;
 }
 
+// pdb: BSFaceGenModelMap::OutputModelMapContents | BSFaceGenManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFile
 void Outer::FUN_0058c860(Param* param)
 {
     Map* mapPtr = &map;
@@ -21309,6 +21871,8 @@ struct Owner {
 };
 template<class T> inline void Clamp(T& v, T lo, T hi) { if (v > hi) v = hi; else if (v < lo) v = lo; }
 struct P2 { float x, y; };
+// pdb: BSFaceGenAnimationData::UpdateEyeTracking | BSFaceGenAnimationData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: afTime, apHeadNode
 bool Owner::FUN_00587a50(float dt, int) {
   lock.FUN_00409a80(0);
   bool active = !disabled;
@@ -21539,7 +22103,7 @@ struct Follower {
     unsigned int unk38;
     unsigned int unk3c;
     FollowerList list;
-    FollowerPackage* FUN_00766020();
+    FollowerPackage* MobileObject_GetCurrentPackage();
     float FUN_006f9ec0();
 };
 
@@ -21558,7 +22122,7 @@ float __cdecl FUN_00581bf0(Follower* wanted, Follower* owner)
         if (!node->next && !node->follower)
             goto finish;
         for (FollowerNode* n = set->head; n; n = n->next) {
-            FollowerPackage* package = n->follower->FUN_00766020();
+            FollowerPackage* package = n->follower->MobileObject_GetCurrentPackage();
             if (package && package->type == 1)
                 ++count;
         }
@@ -21568,7 +22132,7 @@ float __cdecl FUN_00581bf0(Follower* wanted, Follower* owner)
         unsigned int index = 0;
         for (node = set->head; node; node = node->next) {
             Follower* follower = node->follower;
-            FollowerPackage* package = follower->FUN_00766020();
+            FollowerPackage* package = follower->MobileObject_GetCurrentPackage();
             if (package && package->type == 1) {
                 FollowerDist& entry = distances.entries[index];
                 entry.follower = follower;
@@ -21651,6 +22215,8 @@ struct Owner58bde0 {
 }
 using namespace n58bde0;
 
+// pdb: BSFaceGenModelMap::GetTotalDataSize | BSFaceGenManager.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aDataType
 unsigned int Owner58bde0::FUN_0058bde0(unsigned int type)
 {
     NiPointer<Ref58bde0> val;
@@ -21701,7 +22267,8 @@ struct Grid {
     Matrix cells[2][2];
 };
 
-void __cdecl FUN_0058e170(const Grid* source, Grid* destination, bool first, bool second)
+// pdb: BSFaceGenManager::CopyFaceGenCoord | BSFaceGenManager.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller), high
+void __cdecl BSFaceGenManager_CopyFaceGenCoord(const Grid* source, Grid* destination, bool first, bool second)
 {
     if (!source || !destination)
         return;
@@ -22187,7 +22754,7 @@ inline FaceGenModel* GetFaceGenModelFromGeom(AVObj* pkGeom)
     return 0;
 }
 
-__declspec(noalias) void __cdecl FUN_0058e170(int* pkSrc, FaceGenCoord* pkCoord, bool a, bool b);
+__declspec(noalias) void __cdecl BSFaceGenManager_CopyFaceGenCoord(int* pkSrc, FaceGenCoord* pkCoord, bool a, bool b);
 __declspec(noalias) const char* __cdecl FUN_0058c410(BSString* pkOut, const char* pcPath);
 __declspec(noalias) const char* __cdecl FUN_0058c660(BSString* pkOut, const char* pcPath);
 __declspec(noalias) const char* __cdecl FUN_0058cc20(BSString* pkOut, const char* pcPath);
@@ -22203,6 +22770,8 @@ void __cdecl FUN_0058af90(void* pkBound, VertexIter* pkIter, int usVerts);
 // BSFaceGenManager::ReplaceFaceMeshLOD: for each FaceGenFace child, loads the high or low LOD face model, builds a new
 // FaceGenFace mesh from it, copies the transform and shader property and replaces the child.
 // FNV twin: FUN_00653e50 (racesexmenu.cpp).
+// pdb: BSFaceGenManager::ReplaceFaceMeshLOD | BSFaceGenManager.obj | fnv360_0822_retail, ustr_rel, medium
+// pdb params: apNode, aDetail
 void __cdecl FUN_0058f8e0(Node* apFaceNode, int aiLOD)
 {
     for (unsigned int i = 0; i < apFaceNode->GetArrayCount(); i++)
@@ -22223,7 +22792,7 @@ void __cdecl FUN_0058f8e0(Node* apFaceNode, int aiLOD)
                 BSString kTextureName;
                 FaceGenCoord akCoord[4];
                 int* pkCoordSrc = GetFaceGenCoordSrc();
-                FUN_0058e170(pkCoordSrc, akCoord, false, false);
+                BSFaceGenManager_CopyFaceGenCoord(pkCoordSrc, akCoord, false, false);
                 FUN_0058c410(&kBaseNIFName, pkSampleModel->GetFileName());
                 switch (aiLOD)
                 {
@@ -22488,6 +23057,8 @@ struct DumpNode {
     void FUN_0082ee90(DumpArray*);
     void FUN_0059a350(DumpArray*);
 };
+// pdb: BSFaceGenNiNode::GetViewerStrings | BSFaceGenNiNode.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void DumpNode::FUN_0059a350(DumpArray* out)
 {
     FUN_0082ee90(out);
@@ -23094,6 +23665,8 @@ struct Model
     FUN_005a0330* FUN_0059e860(float scale);
 };
 
+// pdb: BSTreeModel::CreateArt | BSTreeModel.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afScale
 FUN_005a0330* Model::FUN_0059e860(float scale)
 {
     Scope scope(30);
@@ -23476,6 +24049,8 @@ void __cdecl AppendNormalMapSuffix(const char*, char*);
 struct TESTexture { static void ConvertTexturePath(const char*, char*); };
 __declspec(noalias) char* __cdecl BuildDetailPath(String*, int, unsigned char, const char*);
 
+// pdb: BSFaceGenManager::QueueHeadParts | BSFaceGenManager.obj | fnv360_0822_retail, caller, medium
+// pdb params: apNPC, aePriority, apParent
 void __cdecl FUN_00591e20(TESActorBase* apNPC, int aePriority, QueuedFile* apParent)
 {
     ScopedContext tempMemContext(0x37);
@@ -24440,6 +25015,7 @@ struct Ref {virtual void v0();virtual void Delete();volatile long refs;void DecR
 struct RefPtr{Ref*p;~RefPtr(){if(p)p->DecRef();}};
 struct Child {virtual ~Child();void FUN_0058bb80();void FUN_0058bef0();};
 struct FUN_0058e8d0:FUN_0058e800 {ItemArray items;FUN_0058d8f0 member;Child*child;RefPtr ref0,ref1,ref2;~FUN_0058e8d0();};extern FUN_0058e8d0*DAT_01073a08;
+// pdb: BSFaceGenManager::~BSFaceGenManager | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_0058e8d0::~FUN_0058e8d0(){if(DAT_01073a08 && DAT_01073a08->child)DAT_01073a08->child->FUN_0058bb80();if(child)child->FUN_0058bef0();delete child;child=0;}
 }
 }   // namespace f3m_0058e8d0
@@ -24453,6 +25029,8 @@ struct Obj {
     virtual float Get(int index);
 };
 
+// pdb: CombatFormulas::GetArmCondition | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActor, aeWeaponType
 float __cdecl FUN_00582b90(Obj* obj, int idx)
 {
     switch (idx) {
@@ -24524,6 +25102,8 @@ struct QCache {
     QPtr* FUN_0059b620(int key);
 };
 
+// pdb: BSTreeManager::GetModelArray | BSTreeManager.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apTree
 QPtr* QCache::FUN_0059b620(int key)
 {
     ArenaGuard guard;
@@ -24710,6 +25290,7 @@ public:
     unsigned int unk1bc;
 };
 
+// pdb: BSFaceGenAnimationData::CreateCopyBS | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_gap_sim, low
 BSFaceGenAnimationData* BSFaceGenAnimationData::FUN_00588850()
 {
     BSFaceGenAnimationData* copy = new BSFaceGenAnimationData;
@@ -24794,6 +25375,8 @@ struct Matrix {
 };
 typedef Matrix Pair[2];
 
+// pdb: BSFaceGenManager::OffsetFaceGenCoord | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCopyCoordOld, apCopyCoordNew, apCopyToCoord, abNoTextureOffset
 void __cdecl FUN_0058e510(Pair* a, Pair* b, Pair* out, bool copy)
 {
     if (!a || !b || !out)
@@ -24852,6 +25435,7 @@ struct FUN_0058dfa0_Matrix : FUN_0058dc00 {
     FUN_0058dc00 FUN_0058dfa0();
 };
 
+// pdb: FR2MatrixVTC<float>::transpose | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_0058dc00 FUN_0058dfa0_Matrix::FUN_0058dfa0()
 {
     FUN_0058dc00 result(cols, rows);
@@ -25023,6 +25607,8 @@ extern int DAT_0108d0a0;
 float __cdecl FUN_00582b90(WeaponValueOwner_583a40* owner, int kind);
 float __cdecl FUN_005838a0(WeaponEffect_583a40* effect, float condition);
 
+// pdb: CombatFormulas::CalcWeaponDamage | CombatFormulas.obj | fnv360_0822_retail, caller, medium
+// pdb params: apActor, apWeapon, afCondition, afDamageMultiplier, abIgnoreFatigue, abIgnoreExplosion, apItem, abUseCurrentAmmo
 float __cdecl FUN_00583a40(WeaponValueOwner_583a40* owner, Weapon_583a40* weapon,
                           float condition, float multiplier, bool, bool skipEffect)
 {
@@ -25184,6 +25770,8 @@ static __forceinline void Limit(float& value)
         value = 0.0f;
     value = (float)(value > DAT_00dfb5f0 ? (value < DAT_00dfb5e8 ? value : DAT_00dfb5e8) : DAT_00dfb5f0);
 }
+// pdb: BSFaceGenAnimationData::GetModifierValuesAsRotation | BSFaceGenAnimationData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arQuat
 int Owner::FUN_00585e00(Quaternion* rotation) const
 {
     float a[3];
@@ -25356,6 +25944,7 @@ struct FUN_00589560 : RefBase589560 {
     ~FUN_00589560();
 };
 
+// pdb: BSFaceGenImage::~BSFaceGenImage | BSFaceGenImage.obj | fnv360_0822_retail, call_seq, medium
 FUN_00589560::~FUN_00589560() {
     Vector589560* vector = &vec;
     void* last = vector->last;
@@ -26503,6 +27092,8 @@ factory58::LeaveCriticalSection(&DAT_01073ab4); --DAT_010739fc;
 if(entry && !InterlockedDecrement(&entry->refs)) entry->Destroy();
 return found;
 }
+// pdb: BSFaceGenManager::GetFaceGenModel | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apEGMFilename, apNIFFilename, apTRIFilename, apEGTFilename, abAllowCreate, aeHairPart, abIsAccessory
 FUN_00593340* __cdecl FUN_0058ef70(void* key,int a2,int a3,void* fallback,bool create,int a6,int a7) {
 MemContext context(0x37);
 ResultPtr result;
@@ -26542,6 +27133,8 @@ extern float DAT_00f65814;
 extern float DAT_00f65820;
 namespace f3m_00587660 {
 
+// pdb: BSFaceGenAnimationData::GetTrackEyeXYMinMax | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afMinOut, afMaxOut
 void __cdecl FUN_00585bc0(float* minValue, float* maxValue)
 {
     float tmp = (float)(DAT_00f65814 * DAT_00dc2df0);
@@ -26589,6 +27182,8 @@ struct S00587660_Owner {
     void FUN_00587660(float newX, float newY);
 };
 
+// pdb: BSFaceGenAnimationData::SetEyePosition | BSFaceGenAnimationData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afHeading, afPitch
 void S00587660_Owner::FUN_00587660(float newX, float newY)
 {
     if (DAT_01073a00) {
@@ -27084,6 +27679,8 @@ struct S0059e5a0_Owner {
  void FUN_0059e5a0(Holder* holder);
 };
 
+// pdb: BSTreeModel::CreateBillboardGeometry | BSTreeModel.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apTreeObj
 void S0059e5a0_Owner::FUN_0059e5a0(Holder* holder)
 {
  State st;
@@ -27174,6 +27771,8 @@ extern Controller* DAT_01073c1c;
 extern CriticalSection DAT_01073c68;
 void FUN_0059b8e0(int);
 inline Controller* GetController(){if(!DAT_01073c1c)FUN_0059b8e0(0);return DAT_01073c1c;}
+// pdb: BSTreeManager::ClearModelCache | BSTreeManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abClearManagerOnlyHeldOnly
 void __cdecl FUN_0059ace0(int selective) {
  if(!GetController()->map)return;
  FUN_00d9b09c(&DAT_01073c68);
@@ -27234,6 +27833,8 @@ Table tables[1];
 extern Manager* DAT_01073a08;void FUN_0058ee80();
 inline Manager* Get(){if(!DAT_01073a08)FUN_0058ee80();return DAT_01073a08;}
 float FUN_0058f320(Matrix* owner,unsigned a,unsigned b,unsigned index);
+// pdb: BSFaceGenManager::SetFaceCoordValue | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCoord, aeFanType, aeFanSymm, aiCtrlID, afValue
 void FUN_0058f420(Matrix* owner,unsigned a,unsigned b,unsigned index,float value){
  if(owner){Manager* manager=Get();unsigned slot=b+a*2;
  if(index<manager->tables[slot].Size()){
@@ -27279,6 +27880,8 @@ struct Model {
 };
 }
 
+// pdb: BSFaceGenModelMap::LoadEGMData | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apModel
 bool f3m_0058d5c0::ScopedService::FUN_0058d340(void* argument)
 {
     using namespace f3m_0058d0d0;
@@ -27519,6 +28122,8 @@ __forceinline WaveState* GetWaveState()
 }
 
 
+// pdb: BSTreeManager::Update | BSTreeManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCamera, abMenuMode
 void __cdecl FUN_0059bd60(const Transform* transform, bool skipSimulation)
 {
     if (!skipSimulation) {
@@ -27595,6 +28200,8 @@ struct FUN_00401b10 {
     }
 };
 __declspec(noalias) int __cdecl FUN_00403a00(FUN_00401b10* out, const char* format, ...);
+// pdb: BSFaceGenManager::GetAsNIFFileLowLOD | BSFaceGenManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aOutFilename, apModel
 const char* FUN_0058cc20(S58cc20::Name* name, const char* path) {
     FUN_00401b10 fullPath;
     if (!path) return 0;
@@ -27671,6 +28278,7 @@ struct Name59bfa0 {
 };
 Texture59bfa0* __cdecl FUN_0082f6d0(PixelData59bfa0*, char*, const Format59bfa0&);
 
+// pdb: BSTreeManager::GetCanopyShadow | BSTreeManager.obj | fnv360_0822_retail, ustr, medium
 Texture59bfa0* FUN_0059bfa0()
 {
     Context59bfa0 context(30);
@@ -27716,6 +28324,7 @@ struct List5878f0
     void* FUN_005878f0();
 };
 
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,RaceSexMenu::MenuOption *>::RemoveHead | RaceSexMenu.obj | fnv360_0822_retail, call_seq, low
 void* List5878f0::FUN_005878f0()
 {
     typedef PoolAllocatorBase<unsigned int> Pool;
@@ -27746,7 +28355,8 @@ namespace f3m_00584fe0 {
 // Scales a fixed-point value into world units.
 
 
-float __cdecl FUN_00584fe0(int iValue)
+// pdb: GamePlayFormulas::SwimBreathTime | GamePlayFormulas.obj | fnv360_0721_retail, objrun + bridge(call_gap|call_gap_sim), high
+float __cdecl GamePlayFormulas_SwimBreathTime(int iValue)
 {
     float fResult = (float)iValue * DAT_00f612b4 + DAT_00f612a8;
     return fResult;
@@ -27801,6 +28411,8 @@ struct Vec {
     Vec& FUN_0058a140(const Vec& other);
 };
 
+// pdb: BSFaceGenKeyframeMultiple::operator= | BSFaceGenKeyframe.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aOther
 Vec& Vec::FUN_0058a140(const Vec& other)
 {
     if (v04() == other.v04()) {
@@ -27822,7 +28434,8 @@ extern float DAT_00f624a8;
 extern float DAT_00f6249c;
 }
 
-float __cdecl FUN_00585750(float a, int b) {
+// pdb: MagicFormulas::AdjustMagicSpellCost | MagicFormulas.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+float __cdecl MagicFormulas_AdjustMagicSpellCost(float a, int b) {
     float f = (float)(b / DAT_00dba730);
     f = (1.0f - f) * f3m_00585750::DAT_00f624a8 + f3m_00585750::DAT_00f6249c;
     f = f * a;
@@ -27867,6 +28480,8 @@ extern float DAT_00f5f2a4;
 extern float DAT_00f5f28c;
 namespace f3m_00581e60 {
 
+// pdb: CombatFormulas::ChooseMeleeWeapon | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afWeaponDamage, aiArmorRating, abHandToHand
 float __cdecl FUN_00581e60(float value, int unused, bool reverse)
 {
     if (reverse)
@@ -27887,6 +28502,8 @@ namespace Create59a2d0 {
 void* FUN_0089eb90(unsigned);
 struct FUN_00599780 {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; int unkdc; int unke0; int unke4; int unke8; int unkec; FUN_00599780();static void* operator new(unsigned n){return FUN_0089eb90(n);}static void operator delete(void*);};
 struct Object {virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c(); virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c(); virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c(); virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c(); virtual void v50(); virtual void v54(); virtual void v58(); virtual void v5c(); virtual void v60(); virtual void v64(); virtual void notify(int);void FUN_00599a30(FUN_00599780*,int);FUN_00599780* FUN_0059a2d0(int);};
+// pdb: BSFaceGenNiNode::CreateClone | BSFaceGenNiNode.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 FUN_00599780* Object::FUN_0059a2d0(int value){FUN_00599780* p=new FUN_00599780;FUN_00599a30(p,value);notify(value);return p;}
 }
 }   // namespace f3m_0059a2d0
@@ -27895,6 +28512,8 @@ FUN_00599780* Object::FUN_0059a2d0(int value){FUN_00599780* p=new FUN_00599780;F
 namespace f3m_00581ea0 {
 namespace Compute326 {
 struct Data {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; signed char bias;unsigned char unk7d;short unk7e;int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; float scale,offset,yes,no;};extern double DAT_00dba730;extern float DAT_00dbea4c,DAT_00f601d4;
+// pdb: CombatFormulas::ChooseBlock | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCombatStyle, aiSkill, aiLuck, abHasShield, abTargetAttacking
 float FUN_00581ea0(Data* data,int amount,int unused,bool direct,bool option){float normalized=(float)(amount/DAT_00dba730);float value=normalized*data->scale+(data->offset+data->bias);float factor=option?data->yes:data->no;value=value*factor;return direct?value:DAT_00f601d4*value*(option?1.0f:DAT_00dbea4c);}
 }
 
@@ -27910,6 +28529,7 @@ struct Owner58c200 {
     void FUN_0058c200();
 };
 
+// pdb: BSFaceGenModelMap::ClearEGTData | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
 void Owner58c200::FUN_0058c200()
 {
     n58bef0::EnterCriticalSection(&n58bef0::DAT_01073ab4);
@@ -27947,6 +28567,8 @@ struct Entry {
  int unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c;
  void FUN_005949c0(const Entry*);
 };
+// pdb: std::_Destroy_range<std::allocator<FffModeTexS> > | BSFaceGenModel.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: _First, _Last, _Al
 Entry* FUN_00594f40(Entry* first,Entry* last,unsigned outputAddress) {
  Entry* end=(Entry*)outputAddress+(last-first);
  if(first!=last){outputAddress-=(unsigned)first; do{((Entry*)((unsigned)first+outputAddress))->FUN_005949c0(first);++first;}while(first!=last);}
@@ -28002,6 +28624,8 @@ struct Geom_58ae60 {
     Extra_58ae60* FUN_00824a50(void* key);
 };
 
+// pdb: BSFaceGenManager::RefreshMeshFromBaseMorphExtraData | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, arIterator
 void __cdecl FUN_0058ae60(Geom_58ae60* geom, Desc_58ae60* desc)
 {
     if (!geom)
@@ -28031,6 +28655,8 @@ extern const char* DAT_00f65d3c[];
 namespace f3m_0058aa70 {
 namespace f3m_0058aa70 {
 
+// pdb: BSFaceGenManager::GetHairName | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apHairName, aeHairPart
 char* __cdecl FUN_0058aa70(char* name, unsigned int variant)
 {
     strcpy(name, DAT_00de5070);
@@ -28083,6 +28709,8 @@ struct Weapon_582640 {
     bool TestFlag(unsigned int bit) const { return (flags12c >> bit) & 1; }
 };
 
+// pdb: CombatFormulas::CalcDamageToWeapon | CombatFormulas.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActor
 float __cdecl FUN_00582640(Weapon_582640* weapon)
 {
     float mult = 1.0f;
@@ -28150,6 +28778,7 @@ struct FUN_00595df0
     ~FUN_00595df0();
 };
 
+// pdb: EGTData::~EGTData | BSFaceGenModel.obj | fnv360_0822_retail, call_seq, low
 FUN_00595df0::~FUN_00595df0()
 {
     unk04[0].Clear();
@@ -28164,6 +28793,8 @@ namespace f3m_00592370 {
 namespace Small537 {
 struct Part {float FUN_00bdc9c0(int,int,void*,void*);void FUN_00bdcab0(int,void*,float*,void*);};
 struct Manager {unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;unsigned unk14;unsigned unk18;unsigned unk1c;unsigned unk20;unsigned unk24;unsigned unk28;unsigned unk2c;unsigned unk30;unsigned unk34;unsigned unk38;unsigned unk3c;unsigned unk40;unsigned unk44;unsigned unk48;unsigned unk4c;unsigned unk50;unsigned unk54;unsigned unk58;unsigned unk5c;unsigned unk60;unsigned unk64;unsigned unk68;unsigned unk6c;unsigned unk70;unsigned unk74;unsigned unk78;unsigned unk7c;unsigned unk80;unsigned unk84;unsigned unk88;unsigned unk8c;unsigned unk90;unsigned unk94;unsigned unk98;unsigned unk9c;unsigned unka0;unsigned unka4;unsigned unka8;unsigned unkac;unsigned unkb0;unsigned unkb4;unsigned unkb8;unsigned unkbc;unsigned unkc0;unsigned unkc4; Part part;};extern Manager* DAT_01073a08;void FUN_0058ee80();
+// pdb: BSFaceGenManager::SetFaceCoordAttribute | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCoord, aeFanAttribute, aeFanType, afValue
 void __cdecl FUN_00592370(void* owner,int axis,void* key,float value){float values[2];for(int i=0;i<2;++i){if(i==axis)values[i]=value;else {if(!DAT_01073a08)FUN_0058ee80();values[i]=DAT_01073a08->part.FUN_00bdc9c0(0,i,key,owner);}}if(!DAT_01073a08)FUN_0058ee80();DAT_01073a08->part.FUN_00bdcab0(0,key,values,owner);}
 }
 }   // namespace f3m_00592370
@@ -28186,6 +28817,7 @@ struct Object {
     void FUN_005957f0();
     void FUN_005959c0();
 };
+// pdb: BSFaceGenModel::ForceLoadModelTexture | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
 void Object::FUN_005959c0()
 {
     char path[260];
@@ -28236,6 +28868,8 @@ struct Renderer {
     void FUN_008790c0();
 };
 extern Renderer* DAT_0108f048;
+// pdb: BSFaceGenManager::PrecacheFaceGeometry | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: `anonymous namespace'::PrecacheFaceGeometry)
+// pdb params: apObj, aiShaderIndex, aiCompressFlags
 void __cdecl FUN_0058b640(Object* object, int unused, bool flag)
 {
     if (!object)
@@ -28286,6 +28920,8 @@ struct FloatArray
     }
     void FUN_00589c90(FloatArray* other);
 };
+// pdb: BSFaceGenKeyframeMultiple::CopyFrom | BSFaceGenKeyframe.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFrom
 void FloatArray::FUN_00589c90(FloatArray* other)
 {
     if (!other || !other->v44())
@@ -28518,6 +29154,8 @@ struct Node
     void FUN_00599b10(BoneMap* map, bool warn);
 };
 
+// pdb: BSFaceGenNiNode::FixSkinInstances | BSFaceGenNiNode.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apRoot, abWarnOnFail
 void Node::FUN_00599b10(BoneMap* map, bool warn)
 {
     if (!map)
@@ -28591,6 +29229,8 @@ struct Row58d6e0 {
     void __thiscall FUN_0058cd90(float value);
 };
 
+// pdb: BSFaceGenManager::ScaleFaceCoord | BSFaceGenManager.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: afScaleAmount, apCoordToScale, abNoTextureScale
 void __cdecl FUN_0058d6e0(float value, Row58d6e0* rows, bool skip)
 {
     if (!rows)
@@ -29281,6 +29921,8 @@ struct GradientTextureBuilder {
 
 };
 
+// pdb: BSFaceGenImage::GetCompressedImage | BSFaceGenImage.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: afUncompressedMin, afUncompressedMax, afScale, aFormat
 NiSourceTexture* GradientTextureBuilder::FUN_00588ee0(float lower,float upper,float scale,TextureRequest* output){
  if(cached.Get()==0 && colors.size()!=0 && width!=0 && height!=0 && lower<upper){
   FUN_00a7b110 converter;TextureRef texture;NiPixelData* image=0;NiPixelData* converted=0;
@@ -29590,6 +30232,8 @@ bool __cdecl FUN_0058d5c0(Owner* owner);
 void FUN_0058a890();
 void FUN_00c01e8b();
 
+// pdb: BSFaceGenModel::ApplyCoordinateToExistingMesh | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCoord, apMesh, abForceBaseMorph
 bool Owner::FUN_00596070(CoordinateMode* coordinate, Geometry* geometry, bool includeZero)
 {
     Point3* uPtr0 = 0;
@@ -29745,6 +30389,7 @@ struct Map {
     void FUN_00899cf0(const char* key);
 };
 struct Cache { unsigned unk00; Map map; void FUN_0058bb80(); };
+// pdb: BSFaceGenModelMap::RemoveAllUnusedModels | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
 void Cache::FUN_0058bb80() {
     FUN_00d9b09c(&DAT_01073ab4);
     ++DAT_010739fc;
@@ -29764,6 +30409,8 @@ void Cache::FUN_0058bb80() {
 
 // @f3 0x00581a50 (community match, verified in this file)
 namespace f3m_00581a50 {
+// pdb: AiFormulas::GetFollowRadiusSlow | AiFormulas.obj | fnv360_0721_beta, call_gap, low
+// pdb params: afbasePackRadius
 float __cdecl FUN_00581a50(float p0)
 {
     return p0;
@@ -29772,6 +30419,8 @@ float __cdecl FUN_00581a50(float p0)
 
 // @f3 0x00582630 (community match, verified in this file)
 namespace f3m_00582630 {
+// pdb: CombatFormulas::CalcCreatureDamage | CombatFormulas.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: afFatiguePercent, aiBaseDamage
 float __cdecl FUN_00582630(int p0, int p1)
 {
     return (float)p1;
@@ -29844,7 +30493,7 @@ struct FUN_0059c410 : S0059bac0_Target {
     static void operator delete(void* p) { FUN_0089ebe0(p); }
     int unk48; int unk4C;
     FUN_0059c410();
-    bool FUN_0059ed00(S0059bac0_Target* source);
+    bool BSTreeModel_InitAsInstance(S0059bac0_Target* source);
 };
 
 struct QPtr {
@@ -29877,6 +30526,8 @@ struct S0059bac0_Owner {
     S0059bac0_Result* FUN_0059bac0(S0059bac0_Actor* actor, S0059bac0_Input* input);
 };
 
+// pdb: BSTreeManager::CreateTreeForReference | BSTreeManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTreeRefr, apTreeObj
 S0059bac0_Result* S0059bac0_Owner::FUN_0059bac0(S0059bac0_Actor* actor, S0059bac0_Input* input)
 {
     S0059bac0_TlsSaver guard;
@@ -29897,7 +30548,7 @@ S0059bac0_Result* S0059bac0_Owner::FUN_0059bac0(S0059bac0_Actor* actor, S0059bac
         return 0;
     if (((S0059bac0_Target*)entry)->GetRefCount() > 2) {
         target = new FUN_0059c410;
-        if (!((FUN_0059c410*)target)->FUN_0059ed00(entry)) {
+        if (!((FUN_0059c410*)target)->BSTreeModel_InitAsInstance(entry)) {
             delete target;
             return 0;
         }
@@ -29979,6 +30630,8 @@ inline int CompareName5969(const char* a, const char* b) { return _stricmp(a, b)
 struct Update5969 { float time; bool a,b,c,d,e; };
 struct Owner5969 { int unk00,unk04; State5969* unk08; bool FUN_005969d0(void*,const char*,const char*,int,bool); };
 
+// pdb: BSFaceGenModel::LoadModelMesh | BSFaceGenModel.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apEGMFilename, apNIFFilename, apTRIFilename, aeHairPart, abIsAccessory
 bool Owner5969::FUN_005969d0(void* input,const char* path,const char* streamPath,int mode,bool skip) {
     if(unk08 || !input) return true;
     MemScope5969 mem;
@@ -30121,6 +30774,7 @@ struct Owner5897e0 {
     n5897e0::ColorVec colors;
     n5897e0::ColorVec& FUN_005897e0();
 };
+// pdb: BSFaceGenImage::GetUncompressedImage | BSFaceGenImage.obj | fnv360_0721_beta, call_gap, low
 n5897e0::ColorVec& Owner5897e0::FUN_005897e0() {
     if (colors.size() != 0 || !unk08)
         return colors;
@@ -30146,6 +30800,8 @@ n5897e0::ColorVec& Owner5897e0::FUN_005897e0() {
 inline float MaxF(float a,float b) { return a>b?a:b; }
 struct Setting580ef0 { void* vtbl; float f; const char* name; float GetFloat() const { return f; } };
 extern Setting580ef0 DAT_00f5e1e4, DAT_00f5e1f0, DAT_00f5e1fc, DAT_00f5e208, DAT_00f5e214, DAT_00f5e220, DAT_00f5e22c, DAT_00f5e238, DAT_00f5e244, DAT_00f5e25c, DAT_00f5e268, DAT_00f5e274, DAT_00f5e280, DAT_00f5e28c, DAT_00f5e298, DAT_00f5e2a4, DAT_00f5e2b0, DAT_00f5e2bc, DAT_00f5e2c8, DAT_00f5e2d4, DAT_00f5e664, DAT_00f5e670, DAT_00f5e67c, DAT_00f5efa4;
+// pdb: AiFormulas::GetActorDetectedTarget | AiFormulas.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiPercepA, aiSneakB, aiLineofSite, aiVisual, afDistance, aiLightLevelB, aiBlindess, abInvisibilityB, aiBootweightB, abMovingB, abSneakingB, abRunning, absleeping, abAlert, aiActionSound, aiTargetSize, bExterior, abInCombat, aiAmbushValue, afSoundSubtotal, afVisualSubtotal, afSkillSubtotal, iLevelA, iLevelB, iArmorB
 int FUN_00580ef0(int skill, int penalty, int limb, int damage, float distance, int spread, int resistance, bool automatic, int stat, bool flag10, bool flag11, bool flag12, bool flag13, bool flag14, int bonus, int count, bool flag17, bool flag18, int type, float* out1, float* out2, float* out3)
 {
  float result=DAT_00f5e1e4.f;
@@ -30318,7 +30974,7 @@ struct BSTreeModel : NiRefObject
     float unk3c;
     unsigned int unk40, unk44;
     float unk48, unk4c;
-    // The two section conditions in FUN_0059ed00 read the source's arrays through these accessors
+    // The two section conditions in BSTreeModel_InitAsInstance read the source's arrays through these accessors
     // while the loops read the members directly. That mix is a guess at the source: it is kept
     // because it gives the model pointer its register (edi); direct reads in the conditions
     // compile to the same instructions with edi/ebx/ebp exchanged through the whole function.
@@ -30328,10 +30984,11 @@ struct BSTreeModel : NiRefObject
     NiPointer<NiNode>* GetLeafNodes() const { return leafNodes; }
     unsigned short FUN_0059c3d0();   // branch count: runtime ? runtime->FUN_00ba1490() : 0
     unsigned short GetLeafCount() { return runtime ? runtime->FUN_00ba14a0() : 0; }
-    bool FUN_0059ed00(BSTreeModel* model);
+    bool BSTreeModel_InitAsInstance(BSTreeModel* model);
 };
 
-bool BSTreeModel::FUN_0059ed00(BSTreeModel* model)
+// pdb: BSTreeModel::InitAsInstance | BSTreeModel.obj | fnv360_0822_debug, udata + bridge(udata|call_gap), high
+bool BSTreeModel::BSTreeModel_InitAsInstance(BSTreeModel* model)
 {
     EnterCriticalSection(&DAT_01073d3c);
     AutoMemContext context(31);
@@ -30876,6 +31533,8 @@ void __cdecl FUN_00543420(int,CombatActor*,Weapon*,CombatActor*,float*);
 struct WeaponSelector : Weapon { int FUN_0073b220(); };
 
 // input is the weapon condition; once the condition factor is applied it holds the attack time.
+// pdb: CombatFormulas::CalcWeaponDamagePerSecond | CombatFormulas.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor, apWeapon, afCondition, abRunEntryPoint, apItem, bForceReloadCalc, bForceJamTime, weapSkillOverride, fCritChanceOverride, fCritDamageModifier, bForceSneakAttackCrit, bForceNinjaCrit, apAmmo
 float __cdecl FUN_00583cb0(SkillOwner* owner, WeaponSelector* weapon, float input, bool applyPerks)
 {
  if(input <= 0.0f) return 0.0f;
@@ -31036,6 +31695,8 @@ struct Morph597 {
  int unk00; Point597* values; unsigned count;
  void FUN_005970c0(Mesh597*,int,float);
 };
+// pdb: BSFaceGenMorphDifferential::ApplyMorph | BSFaceGenMorph.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apGeom, apExtraData, afModifierValue
 void Morph597::FUN_005970c0(Mesh597* mesh,int unused,float weight) {
  if (!mesh || weight <= 0.0f || weight > 1.0f) return;
  Data597* data=mesh->data;
@@ -31072,18 +31733,20 @@ struct Matrix58e230 {
 struct MatrixSet58e230 {
     Matrix58e230 matrices[2][2];
 };
-void __cdecl FUN_0058e170(MatrixSet58e230* source, MatrixSet58e230* out, bool first, bool second);
+void __cdecl BSFaceGenManager_CopyFaceGenCoord(MatrixSet58e230* source, MatrixSet58e230* out, bool first, bool second);
+// pdb: BSFaceGenManager::MergeFaceGenCoord | BSFaceGenManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCopyFromCoord1, apCopyFromCoord2, apCopyToCoord, abNoTextureMerge, afClampVal
 void __cdecl FUN_0058e230(MatrixSet58e230* a, MatrixSet58e230* b, MatrixSet58e230* out, bool copyFirst, float maxRms)
 {
     if (!out)
         return;
     if (!a) {
         if (b)
-            FUN_0058e170(b, out, false, false);
+            BSFaceGenManager_CopyFaceGenCoord(b, out, false, false);
         return;
     }
     if (!b) {
-        FUN_0058e170(a, out, false, false);
+        BSFaceGenManager_CopyFaceGenCoord(a, out, false, false);
         return;
     }
     MatrixSet58e230* target = out;
@@ -31165,6 +31828,8 @@ struct Owner {
 };
 
 
+// pdb: LockFreeMap<PathingRequest *,PathingTaskData *>::LockFreeMapInterface::Remove | PathManager.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aiBucket, arData
 bool Owner::FUN_0059b9a0(int bucket, int* key) {
     bool result;
     for (;;) {
@@ -32241,6 +32906,7 @@ struct FUN_0058ea10 {
     FUN_0058ea10();
 };
 
+// pdb: BSFaceGenManager::BSFaceGenManager | BSFaceGenManager.obj | fnv360_0822_retail, ustr, medium
 FUN_0058ea10::FUN_0058ea10()
     : m_spAlpha(0), m_spBaseTexture(0), m_spDetailTexture(0)
 {
@@ -32352,7 +33018,7 @@ struct ColorA {
 
 struct Matrix3 {
     float m[3][3];
-    void FUN_00468d80(float angle);
+    void NiMatrix3_MakeZRotation(float angle);
     void FUN_00423fd0(float angle);
     Matrix3 FUN_00424020(const Matrix3& rhs) const;
     __forceinline void MakeZ(float angle) {
@@ -32501,10 +33167,11 @@ public:
     bool unk24;
     void FUN_00634f80(Sky* sky, float dt);
     float FUN_0057ff70();
-    void FUN_00580050(Sky* sky, float dt);
+    void Sun_Update(Sky* sky, float dt);
 };
 
-void Sun::FUN_00580050(Sky* sky, float dt)
+// pdb: Sun::Update | Sun.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Sun::Sun_Update(Sky* sky, float dt)
 {
     FUN_00402b80 scope;
     float dayTime = sky->unkEC;
@@ -32529,7 +33196,7 @@ void Sun::FUN_00580050(Sky* sky, float dt)
         Matrix3 rot = DAT_00f72574;
         AngleSource* src = DAT_0107a0d8 ? DAT_0107a0d8->GetSource() : 0;
         if (src) {
-            rot.FUN_00468d80((float)src->FUN_004d4de0() * 0.017453292f);
+            rot.NiMatrix3_MakeZRotation((float)src->FUN_004d4de0() * 0.017453292f);
             Matrix3 tilt;
             tilt.FUN_00423fd0((float)src->FUN_004d4e20() * 0.017453292f);
             rot = rot.FUN_00424020(tilt);
@@ -33882,6 +34549,8 @@ __forceinline FUN_00593340* S58ff_GetLoader(const char* path, const char* name, 
     return loader;
 }
 
+// pdb: BSFaceGenManager::AttachHairToHead | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apOutNodeBiped, apOutNodeSkinned, aNpcData, abForceNoSkinning
 void __cdecl FUN_0058ff50(S58ff_Parent** parent0, S58ff_Parent** parent1, S58ff_Source* source, bool reset)
 {
     S58ff_Context context(0x37);
@@ -34376,6 +35045,8 @@ __forceinline FaceModel* LoadModel(const char* egm, const BSString& nif, const c
 
 // For each eye model of pkData: load the cached FaceGen model, morph it into spEye, name it, give its shader the
 // eye texture, then parent it under *ppkNode (no skin instance, or bReset clears it) or under *ppkOtherNode.
+// pdb: BSFaceGenManager::AttachEyesToHead | BSFaceGenManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apOutNodeBiped, apOutNodeSkinned, aNpcData, abForceNoSkinning
 void __cdecl FUN_00590860(Node** ppkNode, Node** ppkOtherNode, FaceData* pkData, bool bReset)
 {
     MemContext context(0x37);
@@ -34811,7 +35482,7 @@ S591_Model* __cdecl FUN_0058a8b0(void* source);
 void __cdecl FUN_00ade300(S591_Node*, int, int);
 void __cdecl FUN_0058b640(S591_Node*, int, int);
 char* __cdecl FUN_0058caf0(S591_String* out, int mode, unsigned char percent, const char* path);
-void __cdecl FUN_0045bbf0(S591_String* out, const char* path);
+void __cdecl TESTexture_GetAsNormalFile(S591_String* out, const char* path);
 S591_Ref* __cdecl FUN_00470bc0();
 // Visible bodies, written from the image and marked as stand-ins: the string members (0x004019c0 set, 0x00402540
 // append, 0x00403a00 format, 0x00403870 its va_list worker), the path builder FUN_0058caf0 (a copy of the unit's
@@ -34960,6 +35631,8 @@ __declspec(noinline) char* __cdecl FUN_0058caf0(S591_String* out, int mode, unsi
 }
 }
 
+// pdb: BSFaceGenManager::PrepareHeadForShaders | BSFaceGenManager.obj | fnv360_0822_retail, strset, low
+// pdb params: apNode, arNpcData
 void __cdecl FUN_00591330(S591::S591_Root* ref, S591::S591_Data* data)
 {
     using namespace S591;
@@ -35024,7 +35697,7 @@ void __cdecl FUN_00591330(S591::S591_Root* ref, S591::S591_Data* data)
                 model->FUN_00595130(data, &baseTexture, S591::DAT_01073a6c);
             const char* fullPath = path.pString;
             S591::DAT_0107a0d8->FUN_004353f0(fullPath, &loaded, 1, 1);
-            S591::FUN_0045bbf0(&texturePath, fullPath);
+            S591::TESTexture_GetAsNormalFile(&texturePath, fullPath);
         } else {
             if (!data->unka4.size || !*data->unka4.GetAtPointer(i))
                 model->FUN_00595130(data, &baseTexture, S591::DAT_01073a6c);
@@ -35529,6 +36202,8 @@ struct BSTreeModel : NiRefObject
     void FUN_0059ce80(TreeSource* source);
 };
 
+// pdb: BSTreeModel::CreateLeafGeometry | BSTreeModel.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTreeObj
 void BSTreeModel::FUN_0059ce80(TreeSource* source)
 {
     LeafCardData leafData;
@@ -35756,7 +36431,7 @@ struct ModelFile {
     Text name;
     unsigned GetLength() const { return name.m_len == 0xFFFF ? strlen(name.m_data) : name.m_len; }
     const char* GetName() const { return name.m_data ? name.m_data : DAT_00db3438; }
-    void FUN_00459180(struct Geometry* geom);
+    void TESModelTextureSwap_SwapTextures(struct Geometry* geom);
 };
 
 template <class T> struct Array {
@@ -36193,7 +36868,8 @@ void __cdecl FUN_0058ff50(Node** mainParent, Node** otherParent, FaceData* info,
 void __cdecl FUN_00590860(Node** mainParent, Node** otherParent, FaceData* info, bool attachFirst);
 extern const char DAT_00dfbf7c[], DAT_00dfbfb4[];
 
-bool __cdecl FUN_005923f0(Node** mainParent, Node** otherParent, FaceData* info, bool attachFirst)
+// pdb: BSFaceGenManager::CreateFaceGenHead | BSFaceGenManager.obj | fnv360_0822_debug, ustr_rel + bridge(ustr_rel|ustr_rel), high
+bool __cdecl BSFaceGenManager_CreateFaceGenHead(Node** mainParent, Node** otherParent, FaceData* info, bool attachFirst)
 {
     MemContext memContext(0x37);
     FUN_00593340* faceModel = 0;
@@ -36318,7 +36994,7 @@ bool __cdecl FUN_005923f0(Node** mainParent, Node** otherParent, FaceData* info,
         if (faceModel && faceModel->FUN_00596870(info, &geom) && geom) {
             geom->SetRotate(rot);
             (*mainParent)->AttachChild(geom, true);
-            link->item->file.FUN_00459180(geom);
+            link->item->file.TESModelTextureSwap_SwapTextures(geom);
             geom->FUN_008245d0(FixedString(DAT_00dfbfb4));
         }
         link = link->next;
@@ -36435,6 +37111,8 @@ public:
     virtual ~FUN_00597b90();
 };
 
+// pdb: BSFaceGenMorphDataHead::BSFaceGenMorphDataHead | BSFaceGenMorphData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFaceGenTri
 FUN_00597b90::FUN_00597b90(FaceGenTriFile* input)
     : expressions(0), modifiers(0), phonemes(0), custom(0)
 {
@@ -36877,6 +37555,8 @@ inline int FixedCoefficient(const Record& record)
     return (int)(record.coefficient * ::g_scale256_00595130);
 }
 
+// pdb: BSFaceGenModel::ApplyCoordinateTexturingToMesh | BSFaceGenModel.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: TESEffectShader::ResetEffectShaderData)
+// pdb params: apCoord, aspReturnBaseMod, aiForceBasisSize
 bool Model::FUN_00595130(Context* context, TexturePtr* output, unsigned limit)
 {
     ImagePtr image;

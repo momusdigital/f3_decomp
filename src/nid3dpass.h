@@ -76,6 +76,8 @@ FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_pkRenderStateEntries) == 8);
 FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_uiFreeEntryCount) == 12);
 FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_pkFreeEntries) == 16);
 // @fnv 0x00b80040
+// pdb: NiD3DPass::SetSrcDestBlendRenderState | BSShaderBloodSplatter.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: auiSrcValue, auiDestValue, abSave
 void NiD3DPass::SetAlphaBlendMode(unsigned int uiSrcBlend, unsigned int uiDestBlend, bool bSrcAlpha)
 {
     if (!m_pRenderStateGroup)

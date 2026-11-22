@@ -2,20 +2,41 @@
 #include "f3_common.h"
 #include "nibsplinedata_decls.h"
 
+// MATCH-PENDING stand-in: the game reads the count through a pointer and computes the byte count after the allocation,
+// which neither NiStreamLoadBinary nor a reference helper reproduces.
+class BSDBinaryView
+{
+  public:
+    void* m_pVtable;
+    unsigned int m_uiStreamFlags;
+    unsigned int(__cdecl* m_pfnRead)(BSDBinaryView*, void*, unsigned int, const unsigned int&, unsigned int);
+};
+class BSDStreamView
+{
+  public:
+    unsigned char m_opaque000[0x24c];
+    BSDBinaryView* m_pUnderlyingStream;
+};
+struct FUN_00a52870_shell : public NiBSplineData
+{
+    void LoadBinary(BSDStreamView& stream);
+};
 // Reads the control point count and compact control point count from the stream, allocating and reading the corresponding float and short arrays.
 // @fnv 0x00a52870
-void NiBSplineData::LoadBinary(NiStream& stream)
+// pdb: NiBSplineData::LoadBinary | NiBSplineData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
+void FUN_00a52870_shell::LoadBinary(BSDStreamView& stream)
 {
-    ReadGroup(stream);
+    ((NiObject*)this)->NiObject::LoadBinary((NiStream&)stream);
 
-    NiBinaryStream* pStream = stream.m_pUnderlyingStream;
+    BSDBinaryView* pStream = stream.m_pUnderlyingStream;
     unsigned int* puiControlPointCount = &m_uiControlPointCount;
     pStream->m_uiStreamFlags += pStream->m_pfnRead(pStream, puiControlPointCount, 4, 4, 1);
     if (*puiControlPointCount)
     {
-        float* pfControlPoints = (float*)FUN_00aa1070(*puiControlPointCount * 4);
+        float* pfControlPoints = (float*)_NiMalloc(*puiControlPointCount * 4);
         unsigned int controlPointBytes = *puiControlPointCount * 4;
-        m_pfControlPoints = pfControlPoints;
+        m_pafControlPoints = pfControlPoints;
         pStream = stream.m_pUnderlyingStream;
         pStream->m_uiStreamFlags += pStream->m_pfnRead(pStream, pfControlPoints, controlPointBytes, 4, 1);
     }
@@ -25,9 +46,9 @@ void NiBSplineData::LoadBinary(NiStream& stream)
     pStream->m_uiStreamFlags += pStream->m_pfnRead(pStream, puiControlPointCount, 4, 4, 1);
     if (*puiControlPointCount)
     {
-        short* psCompactControlPoints = (short*)FUN_00aa1070(*puiControlPointCount * 2);
+        short* psCompactControlPoints = (short*)_NiMalloc(*puiControlPointCount * 2);
         unsigned int compactControlPointBytes = *puiControlPointCount * 2;
-        m_psCompactControlPoints = psCompactControlPoints;
+        m_pasCompactControlPoints = psCompactControlPoints;
         pStream = stream.m_pUnderlyingStream;
         pStream->m_uiStreamFlags += pStream->m_pfnRead(pStream, psCompactControlPoints, compactControlPointBytes, 2, 1);
     }
@@ -35,24 +56,26 @@ void NiBSplineData::LoadBinary(NiStream& stream)
 
 // Evaluates the B-spline at the given time using the basis weights and control points, accumulating the weighted result into value.
 // @fnv 0x00a526b0
-void NiBSplineData::CalculateSplineValue(float time, float* value, unsigned int dimension,
+// pdb: NiBSplineData::GetCompactedValueDegree3 | NiBSplineData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fTime, afPos, uiDimension, pkBasisData, kControlPointHandle, fOffset, fHalfRange
+void FUN_00a526b0_shell::CalculateSplineValue(float time, float* value, unsigned int dimension,
                                          NiBSplineBasisData* basisData, unsigned int handle, float offset,
                                          float halfRange)
 {
-    NiBSplineBasis_float_3_& basis = basisData->GetBSplineBasis();
+    NiBSplineBasis<float, 3>& basis = basisData->GetDegree3Basis();
     int iCount, max;
     basis.Compute(time, iCount, max);
     float points[16];
-    FUN_00a89650(m_psCompactControlPoints + dimension * iCount + handle, dimension * 4, offset, halfRange, points,
+    NiCompUtility_DecompressFloatArray(m_pasCompactControlPoints + dimension * iCount + handle, dimension * 4, offset, halfRange, points,
                  dimension * 4);
     unsigned int index = 0;
-    time = basis.weights[0];
+    time = basis.m_afValue[0];
     for (unsigned int j = 0; j < dimension; ++j)
         value[j] = points[index++] * time;
     int i = iCount + 1;
     if (i <= max)
     {
-        float* pfNextWeight = &basis.weights[i - iCount];
+        float* pfNextWeight = &basis.m_afValue[i - iCount];
         iCount = max - i + 1;
         do
         {
@@ -70,6 +93,7 @@ void __fastcall FUN_00a5d3d0(void*);
 void __cdecl FUN_00aa1460(void*, unsigned int);
 
 // @fnv 0x00a52510
+// pdb: NiBSplineData::`scalar deleting destructor' | NiBSplineData.obj | fnv360_0822_retail, objrun, high
 void* __fastcall FUN_00a52510(void** pThis, int, unsigned int flags)
 {
     *pThis = &DAT_01099e54;
@@ -91,11 +115,14 @@ struct NiBSplineData_shell : NiBSplineData
 };
 
 // @fnv 0x00a51e50
-bool NiBSplineData_shell::FUN_00a51e50(NiObject* pkObject)
+// pdb: NiBSplineData::IsEqual | NiBSplineData.obj | fnv360_0822_retail, objrun_open, low
+// F3_EXE: NiBSplineData vtable slot 23 (IsEqual)
+// pdb params: pkObject
+bool NiBSplineData::IsEqual(NiObject* pkObject)
 {
-    if (IsSameAs(pkObject))
+    if (NiObject::IsEqual(pkObject))
     {
-        NiBSplineData* pkData = static_cast<NiBSplineData*>(pkObject);
+        NiBSplineData* pkData = (NiBSplineData*)pkObject;
         if (pkData->m_uiControlPointCount == m_uiControlPointCount &&
             pkData->m_uiCompactControlPointCount == m_uiCompactControlPointCount)
             return true;
@@ -146,6 +173,8 @@ struct FUN_00a52950_cls : NiBSplineData
 
 // Loads the base spline data, then reads the control point count and its array, followed by the compact control point count and its array.
 // @fnv 0x00a52950
+// pdb: NiBSplineData::SaveBinary | NiBSplineData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void FUN_00a52950_cls::LoadControlPoints(NiStream& stream)
 {
     reinterpret_cast<NiBSplineBaseStand*>(this)->LoadStream(stream);
@@ -153,14 +182,14 @@ void FUN_00a52950_cls::LoadControlPoints(NiStream& stream)
     pStreamView->m_pUnderlyingStream->Load(&m_uiControlPointCount);
     if (m_uiControlPointCount != 0)
     {
-        void* buf = m_pfControlPoints;
+        void* buf = m_pafControlPoints;
         unsigned int bytes = m_uiControlPointCount * 4;
         pStreamView->m_pUnderlyingStream->LoadArray(buf, bytes, 4);
     }
     pStreamView->m_pUnderlyingStream->Load(&m_uiCompactControlPointCount);
     if (m_uiCompactControlPointCount != 0)
     {
-        pStreamView->m_pUnderlyingStream->LoadArray(m_psCompactControlPoints, m_uiCompactControlPointCount * 2, 2);
+        pStreamView->m_pUnderlyingStream->LoadArray(m_pasCompactControlPoints, m_uiCompactControlPointCount * 2, 2);
     }
 }
 
@@ -203,6 +232,8 @@ class FUN_00a52a20_cls
 };
 
 // @fnv 0x00a52a20
+// pdb: NiBSplineData::GetViewerStrings | NiBSplineData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a52a20_cls::LoadFromStream(ArrayArg& kStream)
 {
     reinterpret_cast<NiBase_stand*>(this)->LoadStream(kStream);
@@ -244,17 +275,19 @@ class SplData : public NiBSplineData
 
 // Evaluates a B-spline at fTime by accumulating weighted control points into afPos using basis weights and uiDimension.
 // @fnv 0x00a52550
+// pdb: NiBSplineData::GetValueDegree3 | NiBSplineData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fTime, afPos, uiDimension, pkBasisData, kControlPointHandle
 void SplData::FUN_00a52550(float fTime, float* afPos, unsigned int uiDimension, NiBSplineBasisData* pkBasisData,
                            unsigned int uiControlPointOffset)
 {
-    NiBSplineBasis_float_3_& kBasis = pkBasisData->GetBSplineBasis();
+    NiBSplineBasis<float, 3>& kBasis = pkBasisData->GetDegree3Basis();
     int iMax;
     int& iMin = (int&)fTime;
     kBasis.Compute(fTime, iMin, iMax);
 
     const int iFirst = iMin;
-    const float* pkSource = &m_pfControlPoints[uiControlPointOffset + iFirst * uiDimension];
-    float fBasisValue = kBasis.weights[0];
+    const float* pkSource = &m_pafControlPoints[uiControlPointOffset + iFirst * uiDimension];
+    float fBasisValue = kBasis.m_afValue[0];
     unsigned int j;
     for (j = 0; j < uiDimension; j++)
         afPos[j] = fBasisValue * (*pkSource++);
@@ -262,7 +295,7 @@ void SplData::FUN_00a52550(float fTime, float* afPos, unsigned int uiDimension, 
     int i = iFirst + 1;
     if (i <= iMax)
     {
-        const float* pfW = &kBasis.weights[i - iFirst];
+        const float* pfW = &kBasis.m_afValue[i - iFirst];
         int& n = iMin;
         n = iMax - i + 1;
         do

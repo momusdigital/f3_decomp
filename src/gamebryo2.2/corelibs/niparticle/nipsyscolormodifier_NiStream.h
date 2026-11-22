@@ -1,6 +1,6 @@
 // Authored declaration for the Nif particle stream helper closure.
-#ifndef FNV_NISTREAM_H
-#define FNV_NISTREAM_H
+#ifndef FNV_NISTREAM_LOCAL_H
+#define FNV_NISTREAM_LOCAL_H
 #include "f3_common.h"
 #include "NiObject.h"
 

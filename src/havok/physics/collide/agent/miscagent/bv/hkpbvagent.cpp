@@ -27,6 +27,8 @@ struct FUN_00d452a0
 };
 // Calls v10(f, g, arg) on p1, and also on p2 when p2 is non-null.
 // @fnv 0x00d452a0
+// pdb: hkpBvAgent::warpTime | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: oldTime, newTime, input
 void FUN_00d452a0::Method(float afValue, float agValue, void* arg)
 {
     p1->v10(afValue, agValue, arg);
@@ -37,43 +39,9 @@ void FUN_00d452a0::Method(float afValue, float agValue, void* arg)
 void __cdecl FUN_00d45f30();
 void __cdecl FUN_00d46010();
 void __cdecl FUN_00d46050();
-void __cdecl FUN_00d46090();
-void __cdecl FUN_00d45480();
 void __cdecl FUN_00d45dd0();
 void __cdecl FUN_00d45af0();
-void __cdecl FUN_00d45800();
-struct FUN_00cfbbe0_vtbl
-{
-    void* v0;
-    void* v1;
-    void* v2;
-    void* v3;
-    char b1;
-    char b2;
-};
-struct FUN_00cfbbe0
-{
-    void Method(FUN_00cfbbe0_vtbl* p, int a, int b);
-};
-// @fnv 0x00d45f80
-void __cdecl ConfigureVtblHandlers(FUN_00cfbbe0* p)
-{
-    FUN_00cfbbe0_vtbl t1;
-    t1.v0 = (void*)FUN_00d45f30;
-    t1.v1 = (void*)FUN_00d46010;
-    t1.v2 = (void*)FUN_00d46050;
-    t1.v3 = (void*)FUN_00d46090;
-    t1.b1 = 1;
-    t1.b2 = 1;
-    p->Method(&t1, -1, 0x1b);
-    t1.v0 = (void*)FUN_00d45480;
-    t1.v1 = (void*)FUN_00d45dd0;
-    t1.v2 = (void*)FUN_00d45af0;
-    t1.v3 = (void*)FUN_00d45800;
-    t1.b1 = 0;
-    t1.b2 = 1;
-    p->Method(&t1, 0x1b, -1);
-}
+void __cdecl hkpBvAgent_staticLinearCast();
 
 struct TargetVtbl
 {
@@ -95,12 +63,13 @@ struct TargetClass
     TargetVtbl* p1;
     TargetVtbl* p2;
 
-    void FUN_00d45230(void* arg);
+    void hkpBvAgent_cleanup(void* arg);
 };
 
 // Calls v7(arg) on p1 and, if set, on p2 (then clears p2), and finally deletes this object.
 // @fnv 0x00d45230
-void TargetClass::FUN_00d45230(void* arg)
+// pdb: hkpBvAgent::cleanup | hkpBvAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void TargetClass::hkpBvAgent_cleanup(void* arg)
 {
     p1->v7(arg);
     if (p2)
@@ -129,11 +98,12 @@ struct Worker
     int a, b, c;
     WorkerIface* p1;
     WorkerIface* p2;
-    void __thiscall FUN_00d45270(void* value);
+    void __thiscall hkpBvAgent_invalidateTim(void* value);
 };
 // Forwards value to the v9 method of p1 and, if p2 is non-null, to the v9 method of p2.
 // @fnv 0x00d45270
-void Worker::FUN_00d45270(void* value)
+// pdb: hkpBvAgent::invalidateTim | hkpBvAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Worker::hkpBvAgent_invalidateTim(void* value)
 {
     p1->v9(value);
     if (p2)
@@ -224,12 +194,15 @@ struct D45350Agent
     D45350Collector* m_collectorA;
     D45350Collector* m_collectorB;
 
-    void ProcessShapeChildren(const D45350CdBody& body, void* a, void* b, void* c);
+    void hkpBvAgent_updateShapeCollectionFilter(const D45350CdBody& body, void* a, void* b, void* c);
 };
 
 // Builds a child body from the shape's m_childA and m_childB and passes it to m_collectorA and, if present, m_collectorB.
 // @fnv 0x00d45350
-void D45350Agent::ProcessShapeChildren(const D45350CdBody& body, void* apArg1, void* apArg2, void* apArg3)
+// pdb: hkpBvAgent::updateShapeCollectionFilter | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, constraintOwner
+// pdb: hkpBvAgent::updateShapeCollectionFilter | hkpBvAgent.obj | fnv360_0822_retail, vtable, high (was: ProcessShapeChildren)
+void D45350Agent::hkpBvAgent_updateShapeCollectionFilter(const D45350CdBody& body, void* apArg1, void* apArg2, void* apArg3)
 {
     const D45350Shape* shape = body.m_pCollisionShape;
     D45350CdBody child(&body);
@@ -255,6 +228,8 @@ void __cdecl FUN_00d45dd0(int a, int b, int c, Functor_d46010* f);
 
 // Builds a Functor_d46010 with the given value and a false flag, then passes it with b, a and c to FUN_00d45dd0.
 // @fnv 0x00d46010
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiSphereAgent>::staticGetPenetrations | hkpMultiSphereAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d46010(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     Functor_d46010 f;
@@ -288,11 +263,14 @@ struct FUN_00d452f0_cls
     int unk0C;
     FUN_00d452f0_vt* m_p2;
 
-    void DispatchToVt(void* arg);
+    void hkpBvAgent_removePoint(void* arg);
 };
 
 // @fnv 0x00d452f0
-void FUN_00d452f0_cls::DispatchToVt(void* arg)
+// pdb: hkpBvAgent::removePoint | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: idToRemove
+// pdb: hkpBvAgent::removePoint | hkpBvAgent.obj | fnv360_0822_retail, vtable, high (was: DispatchToVt)
+void FUN_00d452f0_cls::hkpBvAgent_removePoint(void* arg)
 {
     if (m_p2)
     {
@@ -328,19 +306,20 @@ struct FUN_00d45330_cls
     int unk0c;
     SlotVt* m_pFlagTarget;
 
-    void CallSlotVt13(void* arg);
+    void hkpBvAgent_createZombie(void* arg);
 };
 
 // @fnv 0x00d45330
-void FUN_00d45330_cls::CallSlotVt13(void* arg)
+// pdb: hkpBvAgent::createZombie | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: idTobecomeZombie
+// pdb: hkpBvAgent::createZombie | hkpBvAgent.obj | fnv360_0822_retail, vtable, high (was: CallSlotVt13)
+void FUN_00d45330_cls::hkpBvAgent_createZombie(void* arg)
 {
     if (m_pFlagTarget != 0)
     {
         m_pFlagTarget->v13(arg);
     }
 }
-
-extern char DAT_010cf3cc;
 
 struct FUN_00d453d0_args
 {
@@ -366,6 +345,8 @@ class FUN_00d453d0_cls
 // Initialises the object's vtable and fields, builds an argument struct from a1/a2/a3, and calls a function pointer selected by an index from a table.
 // @f3 0x009d3530 (community match, verified in this file)
 extern int DAT_00e7f5c4;
+// pdb: hkpBvAgent::hkpBvAgent | hkpBvAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, input, mgr
 FUN_00d453d0_cls* FUN_00d453d0_cls::Construct(FUN_00d452a0* a1, void* apArg2, void* apArg3, int aiValue)
 {
     m_06 = 1;
@@ -433,23 +414,6 @@ class D45480ReferencedObject
     short m_sReferenceCount;
 };
 
-class D45480Object : public D45480ReferencedObject
-{
-  public:
-    __declspec(nothrow) D45480Object(void* a, void* b, void* c, void* d);
-
-    int unk08;
-    int unk0C;
-    int unk10;
-};
-
-// Allocates a D45480Object via its four-argument constructor and returns the new object.
-// @fnv 0x00d45480
-D45480Object* __cdecl FUN_00d45480(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
-{
-    return new D45480Object(apArg1, apArg2, apArg3, apArg4);
-}
-
 extern float DAT_0104da48;
 extern char DAT_010ce7fc;
 
@@ -462,6 +426,8 @@ struct FUN_00d46050_cls
 
 // Builds a FUN_00d46050_cls from DAT_0104da48 and a4, then calls FUN_00d45af0 with a2, a1, a3 and a pointer to it.
 // @fnv 0x00d46050
+// pdb: hkpSymmetricAgentLinearCast<hkpBvAgent>::staticGetClosestPoints | hkpBvAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d46050(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     FUN_00d46050_cls local;
@@ -473,17 +439,19 @@ void __cdecl FUN_00d46050(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 
 struct CallTarget_00d45350
 {
-    int ProcessShapeChildren(int, int, int, int);
+    int hkpBvAgent_updateShapeCollectionFilter(int, int, int, int);
 };
 struct SearchObject
 {
     int FUN_00d46180(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d46180
+// pdb: hkpSymmetricAgentLinearCast<hkpBvAgent>::updateShapeCollectionFilter | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, constraintOwner
 int SearchObject::FUN_00d46180(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
     unsigned int callResult0 =
-        (unsigned int)((CallTarget_00d45350*)this)->ProcessShapeChildren((int)arg1, (int)arg0, (int)arg2, (int)arg3);
+        (unsigned int)((CallTarget_00d45350*)this)->hkpBvAgent_updateShapeCollectionFilter((int)arg1, (int)arg0, (int)arg2, (int)arg3);
     return (int)callResult0;
 }
 
@@ -509,6 +477,8 @@ struct FUN_00d461a0_Owner
 
 // Builds an argument struct from DAT_010ce81c and a4, then forwards a2, a1, a3 and the struct to FUN_00d45c50.
 // @fnv 0x00d461a0
+// pdb: hkpSymmetricAgentLinearCast<hkpMultiSphereAgent>::getPenetrations | hkpMultiSphereAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 void FUN_00d461a0_Owner::DispatchWithArgs(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00d461a0_Args l;
@@ -537,6 +507,8 @@ struct FUN_00d461e0_Cls
 
 // Builds a Rec from a4, DAT_0104da48 and DAT_010ce7fc, then calls GetPenetrations with a2, a1, a3 and the Rec.
 // @fnv 0x00d461e0
+// pdb: hkpSymmetricAgentLinearCast<hkpBvAgent>::getClosestPoints | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 void FUN_00d461e0_Cls::FUN_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     Rec rec;
@@ -827,101 +799,9 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 };
 extern "C"
 {
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
     __m128 _mm_mul_ps(__m128, __m128);
     __m128 _mm_add_ps(__m128, __m128);
     __m128 _mm_xor_ps(__m128, __m128);
-}
-
-extern __m128 DAT_010c4c00;
-
-struct SimplexVertex
-{
-    __m128 m_kPointA;
-    __m128 m_kPointB;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-};
-
-struct DimNibbles
-{
-    unsigned char m_ucLowNibble : 4;
-    unsigned char m_ucHighNibble : 4;
-};
-
-struct Simplex
-{
-    SimplexVertex* m_kRayEnd;
-    int unk04;
-    int unk08;
-    int unk0C;
-    SimplexVertex m_kVertices[256];
-    int unk3010;
-    int unk3014;
-    int unk3018;
-    int unk301C;
-    __m128 m_vHitNormal;
-    float m_fClosestPointDistanceSquared;
-    int unk3034;
-    int unk3038;
-    int unk303C;
-    unsigned short m_ids[4];
-    unsigned char m_ucDimensionA;
-    unsigned char m_ucDimensionB;
-    DimNibbles m_dims;
-};
-
-struct AgentBase
-{
-    void FUN_00d454c0(int a, int b, int c, Simplex* s);
-};
-
-struct Agent : AgentBase
-{
-    void FUN_00d46220(int a, int b, int c, Simplex* s);
-};
-
-// Calls base FUN_00d454c0, then updates vertex SIMD data and swaps simplex dimension and id fields when the closest point distance changed.
-// @fnv 0x00d46220
-void Agent::FUN_00d46220(int a, int b, int c, Simplex* apSimplex)
-{
-    SimplexVertex* pVertex = apSimplex->m_kRayEnd;
-    float oldDistance = apSimplex->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d454c0(b, a, c, apSimplex);
-    for (; pVertex < apSimplex->m_kRayEnd; pVertex++)
-    {
-        const __m128* pb = &pVertex->m_kPointB;
-        __m128 w = _mm_shuffle_ps(*pb, *pb, 0xff);
-        pVertex->m_kPointA = _mm_add_ps(_mm_mul_ps(w, pVertex->m_kPointB), pVertex->m_kPointA);
-        pVertex->m_kPointB = _mm_xor_ps(pVertex->m_kPointB, DAT_010c4c00);
-    }
-    if (oldDistance != apSimplex->m_fClosestPointDistanceSquared)
-    {
-        __m128* n = &apSimplex->m_vHitNormal;
-        *n = _mm_xor_ps(*n, DAT_010c4c00);
-        {
-            unsigned char t = apSimplex->m_dims.m_ucLowNibble;
-            apSimplex->m_dims.m_ucLowNibble = apSimplex->m_dims.m_ucHighNibble;
-            apSimplex->m_dims.m_ucHighNibble = t;
-        }
-        {
-            unsigned char t = apSimplex->m_ucDimensionA;
-            apSimplex->m_ucDimensionA = apSimplex->m_ucDimensionB;
-            apSimplex->m_ucDimensionB = t;
-        }
-        int last = apSimplex->m_ucDimensionA + apSimplex->m_ucDimensionB - 1;
-        unsigned short t0 = apSimplex->m_ids[0];
-        apSimplex->m_ids[0] = apSimplex->m_ids[last];
-        apSimplex->m_ids[last] = t0;
-        if ((apSimplex->m_ucDimensionA & apSimplex->m_ucDimensionB) == 2)
-        {
-            unsigned short t1 = apSimplex->m_ids[1];
-            apSimplex->m_ids[1] = apSimplex->m_ids[2];
-            apSimplex->m_ids[2] = t1;
-        }
-    }
 }
 
 extern char DAT_010cebe0;
@@ -983,7 +863,8 @@ typedef void(__cdecl* CollideFn5)(CdBody* a, CdBody* b, CollisionInput* input, v
 
 // Tests bodyA's bounding shape against bodyB via a dispatched collide function, then if a hit is found, re-tests the contained shape.
 // @fnv 0x00d45800
-void __cdecl FUN_00d45800(CdBody* bodyA, CdBody* bodyB, CollisionInput* input, void* c, void* d)
+// pdb: hkpBvAgent::staticLinearCast | hkpBvAgent.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void __cdecl hkpBvAgent_staticLinearCast(CdBody* bodyA, CdBody* bodyB, CollisionInput* input, void* c, void* d)
 {
     volatile unsigned int ticks;
     D458Begin(DAT_010cf414, DAT_010cf404, ticks);
@@ -1009,8 +890,6 @@ void __cdecl FUN_00d45800(CdBody* bodyA, CdBody* bodyB, CollisionInput* input, v
 }
 
 extern float DAT_0104da48;
-extern const __m128 DAT_010c44d0;
-extern unsigned int DAT_010ce80c;
 
 struct __declspec(align(16)) Key_d2e9
 {
@@ -1040,35 +919,7 @@ struct Record_d2e9
     int m_uiFilterValue;
 };
 
-void __cdecl FUN_00d45800(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
-
-// Copies input, XORs its m_vComponents with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d45800 with a second record when a5 is non-zero.
-// @fnv 0x00d46090
-void __cdecl FUN_00d46090(int a2, int a1, const Input_d2e9* input, int a4, int a5)
-{
-    Input_d2e9 local = *input;
-    local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
-
-    Record_d2e9 rec;
-    rec.m_vtbl = &DAT_010ce80c;
-    rec.m_fScalar = DAT_0104da48;
-    rec.m_key = input->m_key;
-    rec.m_uiFilterValue = a4;
-
-    if (a5 != 0)
-    {
-        Record_d2e9 rec2;
-        rec2.m_vtbl = &DAT_010ce80c;
-        rec2.m_fScalar = DAT_0104da48;
-        rec2.m_key = input->m_key;
-        rec2.m_uiFilterValue = a5;
-        FUN_00d45800(a1, a2, &local, &rec, &rec2);
-    }
-    else
-    {
-        FUN_00d45800(a1, a2, &local, &rec, 0);
-    }
-}
+void __cdecl hkpBvAgent_staticLinearCast(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
 
 #include <windows.h>
 
@@ -1213,8 +1064,6 @@ __forceinline S_00d45970_Agent* S_00d45970_Dispatcher::getNewCollisionAgent(cons
     return f(bodyA, bodyB, input, mgr);
 }
 
-struct S_00d45970_Output;
-
 struct S_00d45970_Agent
 {
     virtual void v0();
@@ -1262,6 +1111,8 @@ static __forceinline S_00d45970_Agent* CreateNativeContainedAgent(
     return create(bodyA, bodyB, input, manager);
 }
 
+// pdb: hkpBvAgent::getClosestPoints | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 void S_00d45970_BvAgent::GetPenetrations(const S_00d45970_CdBody& bodyA, const S_00d45970_CdBody& bodyB,
                                          const S_00d45970_Input& input, S_00d45970_CollectorBase& result)
 {
@@ -2000,7 +1851,7 @@ class Agent228
     BvHost* m_0c;
     BvHost* m_10;
 
-    void CheckBvShape(BvA* a1, BvB* a2, BvC* a3, DWORD a4, DWORD a5);
+    void hkpBvAgent_linearCast(BvA* a1, BvB* a2, BvC* a3, DWORD a4, DWORD a5);
 };
 
 // Profiles and runs a Havok BV shape check against a2/a3, caching the result host in m_10 and invoking its v5 callback when a contact is found.
@@ -2024,7 +1875,10 @@ struct F3ClosestCollector
 extern void* (__stdcall* DAT_00d9b080)(unsigned long);
 extern unsigned long DAT_0116913c;
 
-void Agent228::CheckBvShape(BvA* a1, BvB* a2, BvC* a3, DWORD a4, DWORD a5)
+// pdb: hkpBvAgent::linearCast | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, pointDetails, startCollector
+// pdb: hkpBvAgent::linearCast | hkpBvAgent.obj | fnv360_0822_retail, vtable, high (was: CheckBvShape)
+void Agent228::hkpBvAgent_linearCast(BvA* a1, BvB* a2, BvC* a3, DWORD a4, DWORD a5)
 {
     volatile DWORD tick;
     BvProfBuf* pBuf = (BvProfBuf*)DAT_00d9b080(DAT_0116913c);
@@ -2156,8 +2010,6 @@ void* __cdecl FUN_00d45f30(int a1, int a2, int a3, int a4)
 }
 }  // namespace fnv_00d45f30
 
-extern "C" void _mm_store_ps(float*, __m128);
-
 extern float DAT_0104da48;
 
 struct __declspec(align(16)) Vec4
@@ -2204,40 +2056,3 @@ struct __declspec(align(16)) Event
     Vec4 m_vec;
     int m_kCollisionBody;
 };
-
-struct Host
-{
-    void Dispatch(int a, int b, Block* blk, Event* ev, Event* ctx);
-};
-
-struct Owner
-{
-    void FUN_00d46340(int a1, int a2, const Block* p, int a4, int a5);
-};
-
-// Copies p with its m_vec XORed by DAT_010c44d0, builds an Event from a4 (and a second from a5 if non-zero), and calls Host::Dispatch(a2, a1, ...).
-// @fnv 0x00d46340
-void Owner::FUN_00d46340(int a1, int a2, const Block* p, int a4, int a5)
-{
-    Event ev;
-    ev.m_fHitFraction = DAT_0104da48;
-    Block blk = *p;
-    ev.m_vec = p->m_vec;
-    ev.m_kCollisionBody = a4;
-    _mm_store_ps((float*)&blk.m_vec, _mm_xor_ps(*(const __m128*)&p->m_vec, DAT_010c44d0));
-    ev.vtbl = &DAT_010ce80c;
-
-    Event ctx;
-    if (a5 != 0)
-    {
-        ctx.vtbl = &DAT_010ce80c;
-        ctx.m_fHitFraction = DAT_0104da48;
-        ctx.m_vec = p->m_vec;
-        ctx.m_kCollisionBody = a5;
-        reinterpret_cast<Host*>(this)->Dispatch(a2, a1, &blk, &ev, &ctx);
-    }
-    else
-    {
-        reinterpret_cast<Host*>(this)->Dispatch(a2, a1, &blk, &ev, 0);
-    }
-}

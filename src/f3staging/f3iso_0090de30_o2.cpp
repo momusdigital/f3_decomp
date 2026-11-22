@@ -33,11 +33,12 @@ struct ShapePhantom {
         Shape* shape;
         char beforeTransform[0xa0 - 0x14];
         float transform[4][4];
-        void FUN_0090de30(void* aabbOut) const;
+        void hkpShapePhantom_calcAabb(void* aabbOut) const;
     };
 
 
-void ShapePhantom::FUN_0090de30(void* aabbOut) const {
+// pdb: hkpShapePhantom::calcAabb | hkpShapePhantom.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void ShapePhantom::hkpShapePhantom_calcAabb(void* aabbOut) const {
     shape->getAabb(&transform,static_cast<float>(world->collisionInput->tolerance*0.5),aabbOut);
 }
 }

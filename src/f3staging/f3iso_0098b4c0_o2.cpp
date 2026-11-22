@@ -95,6 +95,8 @@ struct FUN_0098b4c0 : Island98ConstraintOwner
     virtual ~FUN_0098b4c0();
     FUN_0098b4c0(hkpWorldQ* world);
 };
+// pdb: hkpSimulationIsland::hkpSimulationIsland | hkpSimulationIsland.obj | fnv360_0822_retail, call_gap, high
+// pdb params: world
 FUN_0098b4c0::FUN_0098b4c0(hkpWorldQ* world)
     : m_world(world), m_dirtyListIndex(0xffff),
       m_splitCheckRequested(0), m_actionListCleanupNeeded(0),

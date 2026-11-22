@@ -77,6 +77,7 @@ class BillboardNode : public FUN_00a5ecb0
     }
 };
 // @fnv 0x00a7e770
+// pdb: NiBillboardNode::CreateObject | NiBillboardNode.obj | fnv360_0822_retail, objrun, medium
 BillboardNode* FUN_00a7e770()
 {
     return new BillboardNode;

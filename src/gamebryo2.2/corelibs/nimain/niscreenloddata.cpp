@@ -1,7 +1,8 @@
-// gamebryo2.2/corelibs/nimain/niscreenloddata.cpp: NiScreenLODData, Fake, Holder, LodPart_cls and more (17 functions)
+// gamebryo2.2/corelibs/nimain/niscreenloddata.cpp: NiScreenLODData, Fake, Holder, LodPart_cls and more (16 functions)
 #include "f3_common.h"
 #include "niscreenloddata_decls.h"
 // @fnv 0x00a86530
+// pdb: NiSkinInstance::UpdateModelBound | NiSkinInstance.obj | tesv_win, caller_sim, low
 void NiScreenLODData::UpdateScreenBound(NiBound& bound)
 {
     ScreenBone* bone = data->bones;
@@ -27,18 +28,7 @@ void NiScreenLODData::UpdateScreenBound(NiBound& bound)
     bound.TransformPoint(inverse);
 }
 
-struct FUN_00a95cb0_shell : public NiScreenLODData
-{
-    void* FUN_00a95cb0();
-};
-
 extern "C" void* g_011f5ee8;
-
-// @fnv 0x00a95cb0
-void* FUN_00a95cb0_shell::FUN_00a95cb0()
-{
-    return &g_011f5ee8;
-}
 
 struct FUN_00a95c80_shell : public NiScreenLODData
 {
@@ -46,6 +36,8 @@ struct FUN_00a95c80_shell : public NiScreenLODData
 };
 
 // @fnv 0x00a95c80
+// pdb: NiScreenLODData::GetLODIndex | NiScreenLODData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: iLODLevel
 int FUN_00a95c80_shell::ClampToLODCount(int aiIndex)
 {
     if (aiIndex < 0)
@@ -70,6 +62,7 @@ struct Fake
 };
 // Sets the vtable, frees prop, calls FUN_00aa09c0, and if f has bit 0 set deletes this with size 0x30, returning this.
 // @fnv 0x00a95d20
+// pdb: NiScreenLODData::`scalar deleting destructor' | NiScreenLODData.obj | fnv360_0822_retail, objrun, medium
 void* Fake::Destroy(unsigned int auiFlags)
 {
     vtable = (void*)&DAT_010a051c;
@@ -98,6 +91,7 @@ struct Holder
     void UpdateWorldBound(NiLODNode*);
 };
 // @fnv 0x00a961a0
+// pdb: NiScreenLODData::~NiScreenLODData | NiScreenLODData.obj | fnv360_0822_debug, objrun_open, low
 void Holder::UpdateWorldBound(NiLODNode* pkLOD)
 {
     if (m_kBound.radius == 0.0f)
@@ -118,6 +112,8 @@ struct FUN_00a95d60_shell : public NiScreenLODData
 
 // Resizes the proportions array to count floats, copying the existing entries, or frees it and clears the count when count is zero.
 // @fnv 0x00a95d60
+// pdb: NiScreenLODData::SetNumProportions | NiScreenLODData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiNumProportions
 void FUN_00a95d60_shell::SetProportionCount(unsigned int count)
 {
     if (count != *(unsigned int*)((char*)this + 0x28))
@@ -153,6 +149,7 @@ struct FUN_00a95cc0_shell
 };
 
 // @fnv 0x00a95f20
+// pdb: NiScreenLODData::CreateObject | NiScreenLODData.obj | fnv360_0721_beta, objrun, medium
 void* AllocateAndConstruct()
 {
     void* p = A51BF0Base::operator new(0x30);
@@ -192,6 +189,8 @@ struct LodPart_cls
 };
 
 // @fnv 0x00a95fb0
+// pdb: NiScreenLODData::AutoSetBound | NiScreenLODData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: pkLOD
 void LodPart_cls::MergeBoundsFromSource(ScreenSrc_cls* apSource)
 {
     NiTransform local;
@@ -445,6 +444,8 @@ class A960A0Data : public A960A0Object
 // SaveBinary
 // Saves the base object, both bounding spheres, the index count and each index to the stream.
 // @fnv 0x00a960a0
+// pdb: NiScreenLODData::SaveBinary | NiScreenLODData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kStream
 void A960A0Data::FUN_00a960a0(A960A0Stream& kStream)
 {
     A960A0Object::SaveBinary(kStream);
@@ -477,6 +478,8 @@ struct FUN_00a96130_cls
 };
 
 // @fnv 0x00a96130
+// pdb: NiScreenLODData::IsEqual | NiScreenLODData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkObject
 bool FUN_00a96130_cls::Equals(FUN_00a96130_cls* other)
 {
     if (m_08.FUN_00a926b0(&other->m_08))
@@ -534,6 +537,7 @@ struct FUN_00a95cc0_shell : public NiScreenLODData
 };
 
 // @fnv 0x00a95cc0
+// pdb: NiScreenLODData::NiScreenLODData | NiScreenLODData.obj | fnv360_0822_retail, objrun, high
 FUN_00a95cc0_shell* FUN_00a95cc0_shell::InitializeScreenLODData()
 {
     S_00a95cc0_Foo* p = reinterpret_cast<S_00a95cc0_Foo*>(this);
@@ -577,6 +581,8 @@ void SetProportionCount(unsigned int count);
 
 // Allocates a new object, copies the NiBound center and radius, copies m_28 entries from m_2c, and returns the new object.
 // @fnv 0x00a96030
+// pdb: NiScreenLODData::CreateClone | NiScreenLODData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: kCloning
 void* FUN_00a96030_cls::CloneWithBounds(unsigned int unused)
 {
     FUN_00a96030_cls* result;
@@ -611,6 +617,8 @@ struct FUN_00a95ca0_shell : public S_00a58160_Foo
     void FUN_00a95ca0(S_00a58160_Stream& s);
 };
 // @fnv 0x00a95ca0
+// pdb: PlayerCharacter::GetBaseValueOverride | PlayerCharacter.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aiWhich, abExists
 void FUN_00a95ca0_shell::FUN_00a95ca0(S_00a58160_Stream& s)
 {
     FUN_00a724d0(s);
@@ -631,6 +639,7 @@ struct FUN_00a95f40_cls
 
 // Allocates a 0x30-byte copy, copies m_08..m_14, calls SetProportionCount with m_28, then memmoves m_28*4 bytes from m_2c into the copy and returns it.
 // @fnv 0x00a95f40
+// pdb: NiScreenLODData::Duplicate | NiScreenLODData.obj | fnv360_0721_beta, objrun, low, conflict (bridge: NiScreenLODData::AutoSetBound)
 void* FUN_00a95f40_cls::Clone()
 {
     FUN_00a95f40_cls* dst;
@@ -830,6 +839,8 @@ struct FUN_00a961d0_cls
     void LoadFromStream(StreamOwner* owner);
 };
 // @fnv 0x00a961d0
+// pdb: NiScreenLODData::LoadBinary | NiScreenLODData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00a961d0_cls::LoadFromStream(StreamOwner* owner)
 {
     FUN_00a88a40(owner);
@@ -922,6 +933,8 @@ struct Obj96270
 };
 // Adds the global string, Bound and World Bound strings, and one formatted proportion string per m_28 entry into pkStrings.
 // @f3 0x008616f0 (community match, verified in this file)
+// pdb: NiScreenLODData::GetViewerStrings | NiScreenLODData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Obj96270::FUN_00a96270(StrArray* pkStrings)
 {
     pkStrings->AddCall(FUN_00a7d330(*(const char**)&g_011f5ee8));
@@ -1032,6 +1045,8 @@ struct WorkerScreen
 };
 // Computes a camera-scaled extent from the radius and returns the first threshold value less than or equal to it.
 // @fnv 0x00a95de0
+// pdb: NiScreenLODData::GetLODLevel | NiScreenLODData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkCamera, pkLOD
 unsigned int WorkerScreen::FUN_00a95de0(WorkerCamera* camera, int unused)
 {
     WorkerPoint delta = position - camera->position;

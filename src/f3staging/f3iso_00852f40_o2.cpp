@@ -46,6 +46,8 @@ inline void AddViewerString(StrArr* strings, char* value)
 }
 }
 
+// pdb: NiScreenElementsData::GetViewerStrings | NiScreenElementsData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void ScreenElementsData::FUN_00852f40(void* pkStrings)
 {
     StrArr* strings = static_cast<StrArr*>(pkStrings);

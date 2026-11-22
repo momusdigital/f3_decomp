@@ -164,8 +164,8 @@ unsigned unk250;
 unsigned short version,unk256;unsigned unk258,chunkSize;
 unsigned GetChunkSize(){return chunkSize;}
     unsigned short GetFormVersion(){return version;}
-    int FUN_004487d0();
-    bool FUN_00447020();
+    int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     bool FUN_00448800(unsigned int*);
     bool FUN_00447d60(void*, unsigned int);
 };
@@ -254,8 +254,8 @@ class TESForm
     virtual void v130();
     virtual void SetEditorID(const char*);
     void FUN_00454410(TESFile*);
-    void FUN_00454240(bool);
-    void FUN_00454d10(TESFile*, void*, unsigned short);
+    void TESForm_SetInitialized(bool);
+    void TESForm_LoadData(TESFile*, void*, unsigned short);
     unsigned char m_ucFormType;
     unsigned int m_uiFormFlags;
     unsigned int iFormID;
@@ -310,7 +310,7 @@ class TESModelTextureSwap : public TESModel
 class TESTexture
 {
   public:
-    static void __cdecl FUN_0045bab0(TESTexture*, TESFile*);
+    static void __cdecl TESTexture_LoadTextureChunk(TESTexture*, TESFile*);
     void* pVtbl;
     char* pTexture;
     unsigned short sLen;
@@ -377,12 +377,14 @@ struct FUN_004a3cc0_cobj : public TESBoundObjectBase,
     bool FUN_004a3cc0(TESFile* apFile);
 };
 // @fnv 0x004f96f0
+// pdb: BGSConstructibleObject::Load | BGSConstructibleObject.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool FUN_004a3cc0_cobj::FUN_004a3cc0(TESFile* apFile)
 {
     FUN_00454410(apFile);
-    FUN_00454240(false);
+    TESForm_SetInitialized(false);
     LocalChunkId chunkid;
-    while ((chunkid = apFile->FUN_004487d0()) != 0)
+    while ((chunkid = apFile->TESFile_GetTESChunk()) != 0)
     {
         switch (chunkid)
         {
@@ -412,7 +414,7 @@ bool FUN_004a3cc0_cobj::FUN_004a3cc0(TESFile* apFile)
             break;
         }
         case 0x4e4f4349:
-            TESTexture::FUN_0045bab0(this, apFile);
+            TESTexture::TESTexture_LoadTextureChunk(this, apFile);
             break;
         case 0x4f43494d:
             BGSMessageIcon::FUN_0044d910(this, apFile);
@@ -429,7 +431,7 @@ bool FUN_004a3cc0_cobj::FUN_004a3cc0(TESFile* apFile)
             BGSDestructibleObjectForm::FUN_0044c110(this, apFile);
             break;
         case 0x41544144:
-            FUN_00454d10(apFile, 0, 0);
+            TESForm_LoadData(apFile, 0, 0);
             break;
         case 0x4d414e52: {
             unsigned int itempint = 0;
@@ -444,7 +446,7 @@ bool FUN_004a3cc0_cobj::FUN_004a3cc0(TESFile* apFile)
             break;
         }
         }
-        if (!apFile->FUN_00447020())
+        if (!apFile->TESFile_NextChunk())
             break;
     }
     return true;

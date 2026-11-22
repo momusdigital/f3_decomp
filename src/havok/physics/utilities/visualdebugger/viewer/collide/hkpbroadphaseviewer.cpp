@@ -12,6 +12,8 @@ struct Owner
 };
 // Passes a pointer to this+8 (or null when this equals 0x20) to container->ClearValue and returns its result.
 // @fnv 0x00d6a910
+// pdb: hkpContactPointViewer::worldRemovedCallback | hkpContactPointViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: w
 int Owner::FUN_00d6a910(Container* container)
 {
     void* value;
@@ -22,26 +24,10 @@ int Owner::FUN_00d6a910(Container* container)
     return container->ClearValue(value);
 }
 
-struct FUN_00dd9380_StandIn
-{
-    int FUN_00dd9380(const char* name, void* constructor);
-};
-extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
-extern char DAT_010c65b0;
 void FUN_00d6ad00();
-// @fnv 0x00d6ad40
-void __cdecl FUN_00d6ad40()
-{
-    DAT_01269028 = DAT_01269cd0->FUN_00dd9380(&DAT_010c65b0, (void*)&FUN_00d6ad00);
-}
 
 extern int DAT_01269028;
-// @fnv 0x00d6ad60
-int FUN_00d6ad60()
-{
-    return DAT_01269028;
-}
 
 struct Target
 {
@@ -64,6 +50,8 @@ struct FUN_00d6a8e0_cls
 
 // Passes a pointer derived from this (this+8, or null when this-0x20 is null) to apTarget's FUN_00c93920.
 // @fnv 0x00d6a8e0
+// pdb: hkpContactPointViewer::worldAddedCallback | hkpContactPointViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: w
 void FUN_00d6a8e0_cls::CallTargetWithSelfOffset(Target* apTarget)
 {
     apTarget->FUN_00c93920(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
@@ -210,6 +198,8 @@ struct FUN_00d6a940 : WorldViewerBase, PostSimListener
 };
 
 // @fnv 0x00d6a940
+// pdb: hkpBroadphaseViewer::hkpBroadphaseViewer | hkpBroadphaseViewer.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: contexts
 FUN_00d6a940::FUN_00d6a940(void* a) : WorldViewerBase(a)
 {
     // The three flags are written through a pointer: that gives the stores an
@@ -250,75 +240,6 @@ struct AudioHolder
 
 AudioHolder* __cdecl FUN_00c85750();
 
-struct SpawnedItem
-{
-    virtual void v00(int aiFlags);
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-};
-
-struct OwnerNode
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    Container** m_ppItems;
-    int m_iArrayLength;
-};
-
 struct PrimaryBase
 {
     virtual void unk00();
@@ -326,69 +247,11 @@ struct PrimaryBase
     ~PrimaryBase();
 };
 
-struct MidBase
-{
-    virtual void unk00();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-};
-
-struct TailBase
-{
-    virtual void unk00();
-    OwnerNode* m_pSharedOwner;
-};
-
 struct SubObject
 {
     virtual ~SubObject()
     {}
 };
-
-struct FUN_00d6ac40_cls : PrimaryBase, MidBase, TailBase, SubObject
-{
-    SpawnedItem* m_pData;
-    int m_iField30;
-    unsigned int m_uiObjectFlags;
-
-    ~FUN_00d6ac40_cls() throw();
-};
-
-// @fnv 0x00d6ac40
-FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
-{
-    if (m_pSharedOwner != 0)
-    {
-        for (int i = 0; i < m_pSharedOwner->m_iArrayLength; ++i)
-        {
-            m_pSharedOwner->m_ppItems[i]->ClearValue(static_cast<SubObject*>(this));
-        }
-    }
-    AudioHolder* pAudioHolder = FUN_00c85750();
-    AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
-    SpawnedItem* p = m_pData;
-    if (m_iField30 > 0)
-    {
-        int iRemaining = m_iField30;
-        do
-        {
-            p->v00(0);
-            ++p;
-            --iRemaining;
-        } while (iRemaining != 0);
-    }
-    m_iField30 = 0;
-    unsigned int uiAllocFlags = m_uiObjectFlags;
-    if ((uiAllocFlags & 0x80000000u) == 0)
-    {
-        pAllocator->FreeData(m_pData, (uiAllocFlags & 0x3fffffffu) * 0x80);
-    }
-    m_pData = 0;
-    m_uiObjectFlags = 0x80000000u;
-}
 
 namespace fnv_00d6ad00 {
 struct AllocatorIface
@@ -470,62 +333,6 @@ Derived::Derived()
 {}
 }  // namespace fnv_00d6ad70
 
-struct D6AD80Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d6ad80();
-
-    int unk04;
-};
-
-struct D6AD80Secondary
-{
-    virtual void FUN_00d6ad80();
-};
-
-struct D6AD80Object : D6AD80Primary, D6AD80Secondary
-{
-    D6AD80Object();
-
-// @fnv 0x00d6ad80
-    virtual void FUN_00d6ad80();
-};
-
-D6AD80Object::D6AD80Object()
-{}
-
-struct D6AD90Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d6ad90();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-};
-
-struct D6AD90Secondary
-{
-    virtual void FUN_00d6ad90();
-};
-
-struct D6AD90Object : D6AD90Primary, D6AD90Secondary
-{
-    D6AD90Object();
-
-// @fnv 0x00d6ad90
-    virtual void FUN_00d6ad90();
-};
-
-D6AD90Object::D6AD90Object()
-{}
-
 namespace fnv_00d6ada0 {
 struct S_00d6ada0_Allocator
 {
@@ -561,13 +368,4 @@ struct S_00d6ada0_ReferencedObject
     {}
 };
 
-struct FUN_00d6ada0 : S_00d6ada0_ReferencedObject
-{
-    FUN_00d6ada0();
-    virtual ~FUN_00d6ada0();
-};
-
-// @fnv 0x00d6ada0
-FUN_00d6ada0::FUN_00d6ada0()
-{}
 }  // namespace fnv_00d6ada0

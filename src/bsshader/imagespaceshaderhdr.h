@@ -5,6 +5,7 @@
 #include "imagespaceshaderhdr_support.h"
 
 // @fnv 0x00b90720
+// pdb: ImageSpaceShaderHDRBrightPassFilter::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantFive::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -42,6 +43,7 @@ void ImageSpaceShaderHDRVariantFive::SetupShader()
 }
 
 // @fnv 0x00b908a0
+// pdb: ImageSpaceShaderHDRDownSample16::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantSix::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -79,6 +81,7 @@ void ImageSpaceShaderHDRVariantSix::SetupShader()
 }
 
 // @fnv 0x00b90590
+// pdb: ImageSpaceShaderHDRBlur::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantFour::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -116,6 +119,7 @@ void ImageSpaceShaderHDRVariantFour::SetupShader()
 }
 
 // @fnv 0x00b90a30
+// pdb: ImageSpaceShaderHDRDownSample9::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void HDRBaseImageSpaceShaderVariant4::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -153,6 +157,7 @@ void HDRBaseImageSpaceShaderVariant4::SetupShader()
 }
 
 // @fnv 0x00b90bc0
+// pdb: ImageSpaceShaderHDRDownSample4::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void HDRBaseImageSpaceShaderVariant1::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -190,6 +195,7 @@ void HDRBaseImageSpaceShaderVariant1::SetupShader()
 }
 
 // @fnv 0x00b90d50
+// pdb: ImageSpaceShaderHDRLightAdapt::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void HDRBaseImageSpaceShaderVariant5::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -227,6 +233,7 @@ void HDRBaseImageSpaceShaderVariant5::SetupShader()
 }
 
 // @fnv 0x00b90ee0
+// pdb: ImageSpaceShaderHDRLumClamp::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void HDRBaseImageSpaceShaderVariant6::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -264,6 +271,7 @@ void HDRBaseImageSpaceShaderVariant6::SetupShader()
 }
 
 // @fnv 0x00b91070
+// pdb: ImageSpaceShaderHDRDownSample4LightAdapt::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void HDRBaseImageSpaceShaderVariant2::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -305,6 +313,7 @@ void HDRBaseImageSpaceShaderVariant2::SetupShader()
 }
 
 // @fnv 0x00b91210
+// pdb: ImageSpaceShaderHDRDownSample4LumClamp::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void HDRBaseImageSpaceShaderVariant3::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -346,6 +355,7 @@ void HDRBaseImageSpaceShaderVariant3::SetupShader()
 }
 
 // @fnv 0x00b913b0
+// pdb: ImageSpaceShaderHDRDownSample16LightAdapt::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantSeven::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -387,6 +397,7 @@ void ImageSpaceShaderHDRVariantSeven::SetupShader()
 }
 
 // @fnv 0x00b91550
+// pdb: ImageSpaceShaderHDRDownSample16LumClamp::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantEight::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -428,6 +439,7 @@ void ImageSpaceShaderHDRVariantEight::SetupShader()
 }
 
 // @fnv 0x00b90060
+// pdb: ImageSpaceShaderHDRBlendInShader::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantOne::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -471,6 +483,7 @@ void ImageSpaceShaderHDRVariantOne::SetupShader()
 }
 
 // @fnv 0x00b90200
+// pdb: ImageSpaceShaderHDRBlendInShaderCinematic::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantTwo::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -518,6 +531,7 @@ void ImageSpaceShaderHDRVariantTwo::SetupShader()
 }
 
 // @fnv 0x00b903a0
+// pdb: ImageSpaceShaderHDRBlendInShaderCinematicAlphamask::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void ImageSpaceShaderHDRVariantThree::SetupShader()
 {
     ImageSpaceShaderHDRMacro vertexShader;
@@ -567,6 +581,7 @@ void ImageSpaceShaderHDRVariantThree::SetupShader()
 }
 
 // @fnv 0x00b90190
+// pdb: ImageSpaceShaderHDRBlendInShader::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderHDRVariantTwo::ImageSpaceShaderHDRVariantTwo()
 {
     textures.SetSize(4);
@@ -579,48 +594,56 @@ ImageSpaceShaderHDRVariantThree::ImageSpaceShaderHDRVariantThree()
 }
 
 // @fnv 0x00b90520
+// pdb: ImageSpaceShaderRadialBlurMedium::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderHDRVariantFour::ImageSpaceShaderHDRVariantFour()
 {
     textures.SetSize(2);
 }
 
 // @fnv 0x00b906b0
+// pdb: ImageSpaceShaderHDRBlendInShaderCinematicAlphamask::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderHDRVariantFive::ImageSpaceShaderHDRVariantFive()
 {
     textures.SetSize(2);
 }
 
 // @fnv 0x00b90830
+// pdb: ImageSpaceShaderHDRBlur::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderHDRVariantSix::ImageSpaceShaderHDRVariantSix()
 {
     textures.SetSize(2);
 }
 
 // @fnv 0x00b909c0
+// pdb: ImageSpaceShaderHDRBrightPassFilter::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 HDRBaseImageSpaceShaderVariant4::HDRBaseImageSpaceShaderVariant4()
 {
     textures.SetSize(2);
 }
 
 // @fnv 0x00b90b50
+// pdb: ImageSpaceShaderHDRDownSample16::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 HDRBaseImageSpaceShaderVariant1::HDRBaseImageSpaceShaderVariant1()
 {
     textures.SetSize(2);
 }
 
 // @fnv 0x00b91000
+// pdb: ImageSpaceShaderHDRLumClamp::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 HDRBaseImageSpaceShaderVariant2::HDRBaseImageSpaceShaderVariant2()
 {
     textures.SetSize(3);
 }
 
 // @fnv 0x00b911a0
+// pdb: ImageSpaceShaderHDRLightAdapt::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 HDRBaseImageSpaceShaderVariant3::HDRBaseImageSpaceShaderVariant3()
 {
     textures.SetSize(2);
 }
 
 // @fnv 0x00b91340
+// pdb: ImageSpaceShaderHDRDownSample4LumClamp::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 ImageSpaceShaderHDRVariantSeven::ImageSpaceShaderHDRVariantSeven()
 {
     textures.SetSize(3);
@@ -639,6 +662,7 @@ HDRBaseImageSpaceShaderVariant5::HDRBaseImageSpaceShaderVariant5()
 }
 
 // @fnv 0x00b90e70
+// pdb: ImageSpaceShaderHDRDownSample9::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 HDRBaseImageSpaceShaderVariant6::HDRBaseImageSpaceShaderVariant6()
 {
     textures.SetSize(2);

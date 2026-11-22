@@ -10,6 +10,8 @@
 #include <new>
 namespace f3m_005f1350 {
 extern int DAT_00e02090;struct Element5f13 {int* unk00;int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; void FUN_005fc3f0();Element5f13(){FUN_005fc3f0();unk00=&DAT_00e02090;}~Element5f13();};
+// pdb: BSSimpleArray<PathingCoverLocation,1024>::_MoveItems | Pathfind.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apDestAddr, apSrcAddr, aiCount
 void __stdcall FUN_005f1350(Element5f13* buffer,unsigned count){for(unsigned i=0;i<count;++i)new(buffer+i) Element5f13;}
 }   // namespace f3m_005f1350
 
@@ -105,6 +107,7 @@ BSSimpleArray<T>::~BSSimpleArray()
     if (pBuffer) { ((BSSimpleArray<T>*)this)->FUN_slot2(pBuffer); pBuffer = 0; uiAllocSize = 0; uiSize = 0; }
 }
 
+// pdb: BSScrapArray<NavMeshObstacleEdge *,1024>::~BSScrapArray<NavMeshObstacleEdge *,1024> | NavMeshObstacleCutter.obj | fnv360_0822_debug, call_seq, low
 template <class T>
 FUN_005e0120<T>::~FUN_005e0120()
 {
@@ -152,6 +155,8 @@ struct Cls5ec {
     int FUN_005ec000(int a, int b);
 };
 
+// pdb: PathingSolution::AddVirtualPathingNode | PathBuilder.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aLocation, apNavMeshInfo
 int Cls5ec::FUN_005ec000(int a, int b) {
     unsigned int idx = arr.Add();
     Elem5ec* p = (Elem5ec*)((char*)arr.data + idx * 0x30);
@@ -234,6 +239,7 @@ public:
     ~CellOwner();
 };
 
+// pdb: PathingLOSGrid::~PathingLOSGrid | PathingLOSGridMap.obj | fnv360_0822_retail, call_seq, medium
 CellOwner::~CellOwner()
 {
     for (unsigned int i = 0; i < m_cells.GetSize(); i++)
@@ -263,6 +269,8 @@ struct Record {
     int kind;
     float FUN_005fbea0(Point* point) const;
 };
+// pdb: PathingAvoidNode::GetCostForPoint | PathingAvoidNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arPoint
 float Record::FUN_005fbea0(Point* point) const
 {
     float radiusSquared = radius * radius;

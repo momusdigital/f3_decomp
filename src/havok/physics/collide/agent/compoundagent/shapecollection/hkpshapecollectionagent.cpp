@@ -1,4 +1,5 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -13,6 +14,8 @@ struct hkpShapeCollectionAgent
 };
 
 // @fnv 0x00d436f0
+// pdb: hkpShapeCollectionAgent::cleanup | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: info
 void hkpShapeCollectionAgent::FUN_00d436f0(int arg)
 {
     for (int i = 0; i < count; ++i)
@@ -53,11 +56,14 @@ class FUN_00d43730_cls
     ShapeEntry* m_entries;  // +0xc
     int m_uiItemCount;      // +0x10
 
-    void CallShapeItems(int arg);
+    void hkpShapeCollectionAgent_invalidateTim(int arg);
 };
 
 // @fnv 0x00d43730
-void FUN_00d43730_cls::CallShapeItems(int arg)
+// pdb: hkpShapeCollectionAgent::invalidateTim | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: input
+// pdb: hkpShapeCollectionAgent::invalidateTim | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable, high (was: CallShapeItems)
+void FUN_00d43730_cls::hkpShapeCollectionAgent_invalidateTim(int arg)
 {
     int i = 0;
     if (m_uiItemCount > 0)
@@ -101,11 +107,14 @@ class FUN_00d43760_cls
     ShapeEntry* m_entries;  // +0xc
     int m_uiItemCount;      // +0x10
 
-    void DispatchToEntries(float a, float b, int c);
+    void hkpShapeCollectionAgent_warpTime(float a, float b, int c);
 };
 
 // @fnv 0x00d43760
-void FUN_00d43760_cls::DispatchToEntries(float afArg1, float afArg2, int aiArg3)
+// pdb: hkpShapeCollectionAgent::warpTime | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: oldTime, newTime, input
+// pdb: hkpShapeCollectionAgent::warpTime | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable, high (was: DispatchToEntries)
+void FUN_00d43760_cls::hkpShapeCollectionAgent_warpTime(float afArg1, float afArg2, int aiArg3)
 {
     int i = 0;
     if (m_uiItemCount > 0)
@@ -312,7 +321,10 @@ struct Task1499Context
     int m_unk04;
     hkpShapeCollectionFilter* m_pCollisionFilter;
 };
-void __cdecl GetClosestPointsShapeCollection(const hkpCdBody* bodyA, const hkpCdBody* bodyB,
+// pdb: hkpShapeCollectionAgent::staticGetClosestPoints | hkpShapeCollectionAgent.obj | fnv360_0822_retail, objrun, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpShapeCollectionAgent::staticGetClosestPoints | hkpShapeCollectionAgent.obj | fnv360_0822_retail, objrun, high (was: GetClosestPointsShapeCollection)
+void __cdecl hkpShapeCollectionAgent_staticGetClosestPoints(const hkpCdBody* bodyA, const hkpCdBody* bodyB,
                                              const CollisionAgentContext* input, void* collector)
 {
     hkTimerBegin("TtShapeCollection");
@@ -353,6 +365,8 @@ void __cdecl GetClosestPointsShapeCollection(const hkpCdBody* bodyA, const hkpCd
 extern "C" void __cdecl QueryClosestPoints();
 
 // @fnv 0x00d36920
+// pdb: bhkBlendCollisionObjectAddRotation::LoadBinary | bhkBlendCollisionObjectAddRotation.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void __cdecl FUN_00d36920()
 {
     QueryClosestPoints();
@@ -360,12 +374,12 @@ void __cdecl FUN_00d36920()
 
 void FUN_00d34790();
 // @fnv 0x00d36990
+// pdb: bhkBlendCollisionObjectAddRotation::RegisterStreamables | bhkBlendCollisionObjectAddRotation.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arStream
 void FUN_00d36990()
 {
     FUN_00d34790();
 }
-
-extern char DAT_010cf318[];
 
 struct hkBoolS
 {
@@ -419,10 +433,6 @@ struct CollisionInputS;
 struct ContactMgrS;
 struct AgentS;
 
-struct CollidableFilterS
-{
-    virtual void v00();
-};
 struct ShapeCollectionFilterS
 {
     virtual void v00();
@@ -614,6 +624,8 @@ inline void S9d1db0_Reserve(AgentArray* a, int n)
     }
 }
 
+// pdb: hkpShapeCollectionAgent::hkpShapeCollectionAgent | hkpShapeCollectionAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, input, mgr
 FUN_00d440f0::FUN_00d440f0(const CdBodyS& bodyA, const CdBodyS& bodyB, const CollisionInputS& input,
                            ContactMgrS* mgr)
     : CollisionAgentS(mgr)
@@ -1231,17 +1243,7 @@ extern "C" unsigned long g_tlsIndex;
 
 void Agent::FUN_00d43aa0(Holder* holder, int a, int b, int c, int d)
 {
-    ProfilerBuf* pb = (ProfilerBuf*)TlsGetValue(g_tlsIndex);
-    Rec* cur = pb->cur;
-    if (cur < pb->end)
-    {
-        volatile unsigned int t;
-        cur->name = "TtShapeCollection";
-        _ReadWriteBarrier();
-        t = (unsigned int)__rdtsc();
-        cur->ticks = t;
-        pb->cur = cur + 1;
-    }
+    HK_TIMER_BEGIN("ShapeCollection", HK_NULL);
     Queryable* q = ((Source_w137*)holder->unk00)->v14();
     Packet packet;
     B512 buf;
@@ -1257,17 +1259,7 @@ void Agent::FUN_00d43aa0(Holder* holder, int a, int b, int c, int d)
         p->handler->v14(&packet, a, b, c, d);
         p++;
     }
-    pb = (ProfilerBuf*)TlsGetValue(g_tlsIndex);
-    cur = pb->cur;
-    if (cur < pb->end)
-    {
-        volatile unsigned int t;
-        cur->name = "Et";
-        _ReadWriteBarrier();
-        t = (unsigned int)__rdtsc();
-        cur->ticks = t;
-        pb->cur = cur + 1;
-    }
+    HK_TIMER_END();
 }
 
 
@@ -1378,7 +1370,7 @@ struct S_00d43cd0
     int unk08;
     S_00d43cd0_Entry* m_entries;
     int m_iElementCount;
-    void ProcessCollisionEntries(const S_00d43cd0_CdBody& bodyA, const S_00d43cd0_CdBody& bodyB,
+    void hkpShapeCollectionAgent_getPenetrations(const S_00d43cd0_CdBody& bodyA, const S_00d43cd0_CdBody& bodyB,
                                  const S_00d43cd0_Input& input, S_00d43cd0_Collector& collector);
 };
 
@@ -1394,7 +1386,10 @@ struct Task1445ShapeView
     virtual const S_00d43cd0_Container* GetShapeContainer() const;
 };
 
-void S_00d43cd0::ProcessCollisionEntries(const S_00d43cd0_CdBody& bodyA, const S_00d43cd0_CdBody& bodyB,
+// pdb: hkpShapeCollectionAgent::getPenetrations | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
+// pdb: hkpShapeCollectionAgent::getPenetrations | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable, high (was: ProcessCollisionEntries)
+void S_00d43cd0::hkpShapeCollectionAgent_getPenetrations(const S_00d43cd0_CdBody& bodyA, const S_00d43cd0_CdBody& bodyB,
                                          const S_00d43cd0_Input& input, S_00d43cd0_Collector& collector)
 {
     S_00d43cd0_Timer("TtShapeCollection");
@@ -1729,6 +1724,8 @@ struct S_00d43dc0_CollisionInputFix
     const S_00d43dc0_CollisionFilterFix* m_iFilter;
 };
 
+// pdb: hkpShapeCollectionAgent::staticGetPenetrations | hkpShapeCollectionAgent.obj | fnv360_0822_retail, objrun, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d43dc0(const S_00d43dc0_CdBody& bodyA, const S_00d43dc0_CdBody& bodyB,
                           const S_00d43dc0_CollisionInput& input, S_00d43dc0_CdBodyPairCollector& collector)
 {
@@ -1784,20 +1781,6 @@ struct ProfBuf
     ProfRec* m_pRecordEnd;
 };
 
-struct ShapeResult
-{
-    DWORD m_ret;
-    DWORD m_key;
-    DWORD m_pMotionState;
-    void* m_parent;
-};
-
-struct KeyedPointerEntry
-{
-    DWORD m_key;
-    void* m_pEntryObject;
-};
-
 __declspec(align(16)) struct ShapeKeyBuf
 {
     DWORD m_key;
@@ -1812,100 +1795,6 @@ __declspec(align(16)) struct ShapeKeyBuf
         unk1E0, unk1E4, unk1E8, unk1EC, unk1F0;
 };
 
-class ShapeSource
-{
-  public:
-    virtual void vtbl00(void);
-    virtual void vtbl04(void);
-    virtual void vtbl08(void);
-    virtual void vtbl0C(void);
-    virtual void* vtbl10(void);
-};
-
-class ShapeKeyHandler
-{
-  public:
-    virtual void vtbl00(void);
-    virtual void vtbl04(void);
-    virtual void vtbl08(void);
-    virtual void vtbl0C(void);
-    virtual void vtbl10(void);
-    virtual DWORD vtbl14(DWORD key, ShapeKeyBuf* pOut);
-};
-
-class ShapeObject
-{
-  public:
-    virtual void vtbl00(void);
-    virtual void vtbl04(void);
-    virtual void vtbl08(void);
-    virtual void vtbl0C(void);
-    virtual void vtbl10(void* pKey, DWORD a1, DWORD a2, DWORD a3);
-};
-
-struct ShapeHolder
-{
-    ShapeSource* m_pSrc;
-    DWORD unk04;
-    DWORD m_dw08;
-};
-
-struct FUN_00d43880_cls : public hkpShapeCollectionAgent
-{
-    void FUN_00d43880(ShapeHolder* pHolder, DWORD a1, DWORD a2, DWORD a3);
-};
-
-// Between profiler records, loops count pairs: pHandler->vtbl14 fills a result for each key, then the pair's object receives it via vtbl10 with a1, a2, a3.
-// @fnv 0x00d43880
-void FUN_00d43880_cls::FUN_00d43880(ShapeHolder* pHolder, DWORD a1, DWORD a2, DWORD a3)
-{
-    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = pBuf->m_pCur;
-        pRec->m_pName = "TtShapeCollection";
-        _ReadWriteBarrier();
-        volatile DWORD tick = (DWORD)__rdtsc();
-        pRec->m_iTick = tick;
-        pBuf->m_pCur = pRec + 1;
-    }
-
-    ShapeKeyHandler* pHandler = (ShapeKeyHandler*)pHolder->m_pSrc->vtbl10();
-    ShapeResult res;
-    res.m_pMotionState = pHolder->m_dw08;
-    int i = this->count - 1;
-    res.m_parent = pHolder;
-    KeyedPointerEntry* apPairs = (KeyedPointerEntry*)this->p2;
-    ShapeKeyBuf keyBuf;
-    if (i >= 0)
-    {
-        do
-        {
-            DWORD key = apPairs->m_key;
-            res.m_ret = pHandler->vtbl14(key, &keyBuf);
-            res.m_key = key;
-            ShapeObject* pObj = (ShapeObject*)apPairs->m_pEntryObject;
-            pObj->vtbl10(&res, a1, a2, a3);
-            apPairs++;
-            i--;
-        } while (i >= 0);
-    }
-
-    pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = pBuf->m_pCur;
-        pRec->m_pName = "Et";
-        _ReadWriteBarrier();
-        volatile DWORD tick = (DWORD)__rdtsc();
-        pRec->m_iTick = tick;
-        pBuf->m_pCur = pRec + 1;
-    }
-}
-
-extern const char str_010cf300[];
-extern const char str_010c41f8[];
-
 __declspec(align(16)) struct hkpShapeBuffer
 {
     unsigned long m_data[125];
@@ -1913,45 +1802,6 @@ __declspec(align(16)) struct hkpShapeBuffer
 
 typedef void(__cdecl* LinearCastFunc)(const hkpCdBody* local_body, const hkpCdBody* bodyB,
                                       const CollisionAgentContext* input, void* a4, void* a5);
-
-// Iterates each shape in bodyA's collection, dispatches the linear-cast agent for enabled shapes against bodyB, and times the work.
-// @fnv 0x00d43b90
-void __cdecl FUN_00d43b90(const hkpCdBody* bodyA, const hkpCdBody* bodyB, const CollisionAgentContext* input, void* a4,
-                          void* a5)
-{
-    hkTimerBegin(str_010cf300);
-
-    hkpShapeCollection* collection = const_cast<hkpShape*>(bodyA->m_pCollisionShape)->GetShapeContainer();
-    hkpCdBody localBody;
-    localBody.m_pMotionState = bodyA->m_pMotionState;
-    localBody.m_parent = bodyA;
-
-    int typeB = bodyB->m_pCollisionShape->m_type;
-    unsigned int key = collection->GetFirstKey();
-    if (key != -1)
-    {
-        do
-        {
-            if (input->m_pCollisionFilter->m_shapeCollectionFilter
-                    .IsCollisionEnabled(*input, *bodyB, *bodyA, *collection, key)
-                    .m_cBooleanValue)
-            {
-                hkpShapeBuffer buffer;
-                const hkpShape* childShape = collection->GetShapeForKey(key, &buffer);
-                localBody.m_pCollisionShape = childShape;
-                localBody.m_uiCollisionShapeKey = key;
-
-                int typeA = childShape->m_type;
-                unsigned char agentType = input->m_pCollisionDispatcher->m_agentTable[typeA][typeB];
-                LinearCastFunc func = (LinearCastFunc)input->m_pCollisionDispatcher->m_agentFuncs[agentType].m_func1;
-                func(&localBody, bodyB, input, a4, a5);
-            }
-            key = collection->GetNextShapeKey(key);
-        } while (key != -1);
-    }
-
-    hkTimerBegin(str_010c41f8);
-}
 
 extern "C" void _ReadWriteBarrier(void);
 
@@ -1993,7 +1843,7 @@ struct CollectionProcessBody
 
 struct CollectionProcessAgent : hkpShapeCollectionAgent
 {
-    void FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsigned int a1, unsigned int a2);
+    void hkpShapeCollectionAgent_processCollision(ShapeArg* arg, unsigned int a0, unsigned int a1, unsigned int a2);
 };
 
 // Records a TtShapeCollection profiler tick, calls v14 on each shape, dispatches results via v18, then records an Et profiler tick.
@@ -2007,18 +1857,10 @@ struct CollectionShapeF3
     virtual void v10(void);
     virtual CollectionProcessHandler* getContainer(void);
 };
-void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsigned int a1, unsigned int a2)
+// pdb: hkpShapeCollectionAgent::processCollision | hkpShapeCollectionAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void CollectionProcessAgent::hkpShapeCollectionAgent_processCollision(ShapeArg* arg, unsigned int a0, unsigned int a1, unsigned int a2)
 {
-    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = pBuf->m_pCur;
-        pRec->m_pName = "TtShapeCollection";
-        _ReadWriteBarrier();
-        volatile DWORD tick = (DWORD)__rdtsc();
-        pRec->m_iTick = tick;
-        pBuf->m_pCur = pRec + 1;
-    }
+    HK_TIMER_BEGIN("ShapeCollection", HK_NULL);
 
     CollectionProcessHandler* pRes = ((CollectionShapeF3*)arg->pHandler)->getContainer();
     CollectionProcessBody pair;
@@ -2036,15 +1878,6 @@ void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsign
         pEntry++;
     }
 
-    pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = pBuf->m_pCur;
-        pRec->m_pName = "Et";
-        _ReadWriteBarrier();
-        volatile DWORD tick = (DWORD)__rdtsc();
-        pRec->m_iTick = tick;
-        pBuf->m_pCur = pRec + 1;
-    }
+    HK_TIMER_END();
 }
 

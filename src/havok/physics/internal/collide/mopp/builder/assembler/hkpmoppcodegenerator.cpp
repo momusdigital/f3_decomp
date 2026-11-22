@@ -7,8 +7,6 @@ extern "C"
     void* __cdecl FUN_00c85750(void);
     void __cdecl FUN_00c856c0(void*, void*);
 }
-extern int DAT_0102e388;
-extern void* DAT_010ea5b4;
 struct Buffer
 {
     void* data;
@@ -28,32 +26,6 @@ struct Buffer
         capacity = 0x80000000u;
     }
 };
-struct SomeClass
-{
-    void* vtable;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* unk10;
-    Buffer buffer;
-    void Destroy();
-};
-// Resets the vtable, frees unk10 through the allocator if set, clears buffer, then sets the vtable to DAT_0102e388.
-// @fnv 0x00e06650
-void SomeClass::Destroy()
-{
-    void* p = unk10;
-    vtable = &DAT_010ea5b4;
-    if (p)
-    {
-        void* q = FUN_00c85750();
-        FUN_00c856c0(*(void**)((char*)q + 0x10), p);
-    }
-    void* s = FUN_00c85750();
-    void* t = *(void**)((char*)s + 0x10);
-    buffer.clear(t);
-    vtable = &DAT_0102e388;
-}
 
 struct E06490Allocator;
 
@@ -71,8 +43,6 @@ struct E06490MemoryRouter
     }
 };
 
-extern "C" E06490MemoryRouter& __cdecl E06490GetMemoryRouter();
-char* __cdecl AllocateWithHeader(E06490Allocator* alloc, int numBytes);
 void __cdecl FUN_00c856c0(E06490Allocator* alloc, void* p);
 extern "C" void __cdecl FUN_00cb1280(void* dst, int c, int n);
 extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
@@ -85,7 +55,7 @@ struct E06490Stack
     int unk0C;
     char* m_buffer;
 
-    void GrowBuffer();
+    void hkpMoppCodeGenerator_resize();
 };
 
 // @f3 0x00a85cb0 (community match, verified in this file)
@@ -98,7 +68,9 @@ struct FUN_008f6f60_obj
     void FUN_008f6f90(void* p);
 };
 
-void E06490Stack::GrowBuffer()
+// pdb: hkpMoppCodeGenerator::resize | hkpMoppCodeGenerator.obj | fnv360_0822_retail, call_seq, high
+// pdb: hkpMoppCodeGenerator::resize | hkpMoppCodeGenerator.obj | fnv360_0822_retail, call_seq, high (was: GrowBuffer)
+void E06490Stack::hkpMoppCodeGenerator_resize()
 {
     void* (__stdcall* tlsGetValue)(unsigned long) = FUN_00d9b080;
     int newCapacity = m_pRayCursor * 2;
@@ -170,10 +142,6 @@ FUN_00e065f0::FUN_00e065f0(int iSize)
     m_uiLogicalSize = iSize;
     m_iUsed = 0;
 }
-
-// @fnv 0x00e06480
-extern "C" void __cdecl FUN_00e06480()
-{}
 
 #include <xmmintrin.h>
 extern "C" void __cdecl FUN_00c908c0(void* heap, void* arr, int n, int elemSize);
@@ -265,29 +233,6 @@ struct S_00e064f0_Obj : S_00e064f0_Ref
     virtual void vfn00();
 };
 
-struct FUN_00e064f0_class
-{
-    int unk00, unk04, unk08, unk0C, unk10;
-    S_00e064f0_Obj* FUN_00e064f0();
-};
-
-// Allocates an S_00e064f0_Obj, copies unk0C bytes from unk08+(unk10-unk0C) into its array, frees unk10, clears unk10 and unk0C, and sets unk08 to the old count.
-// @fnv 0x00e064f0
-S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
-{
-    int n = unk0C;
-    S_00e064f0_Obj* pNewObj = new S_00e064f0_Obj;
-    pNewObj->m_aiIndexedValues.reserveExactly(n);
-    pNewObj->m_aiIndexedValues.SetSizeAndGrow(n);
-    FUN_00cb1260(pNewObj->m_aiIndexedValues.m_data, (char*)unk08 + (unk10 - unk0C), n);
-    void* pOldBuffer = (void*)unk10;
-    FUN_00c856c0(S_00e064f0_Router::GetMonitorStream().m10, pOldBuffer);
-    unk10 = 0;
-    unk0C = 0;
-    unk08 = n;
-    return pNewObj;
-}
-
 namespace fnv_00e066c0 {
 struct CpuAllocator
 {
@@ -304,25 +249,6 @@ struct CpuAllocatorHolder
     CpuAllocator* allocator;
 };
 CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void Destroy();
-    CpuObject* FUN_00e066c0(unsigned int flags);
-};
-// Calls Destroy, then if the low bit of flags is set, invokes the global CpuAllocator with this and size, and returns this.
-// @fnv 0x00e066c0
-CpuObject* CpuObject::FUN_00e066c0(unsigned int flags)
-{
-    Destroy();
-    if (flags & 1)
-    {
-        CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00e066c0
 
 // @f3 0x00a85c40 (community match, verified in this file)
@@ -343,6 +269,8 @@ class FUN_00e065f0 : public hkReferencedObjectE06
     int m_iUsed;
     void* m_pData;
 };
+// pdb: hkpMoppCodeGenerator::hkpMoppCodeGenerator | hkpMoppCodeGenerator.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: size
 FUN_00e065f0::FUN_00e065f0(int iSize)
 {
     hkMemAllocStandIn* pkHeap = reinterpret_cast<hkMemAllocStandIn*>(TlsGetValue(DAT_010f3170));

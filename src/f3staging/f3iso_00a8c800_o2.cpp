@@ -27,6 +27,7 @@ struct Owner
 
 int __cdecl FUN_00cb0fa0(const char*, const char*);
 
+// pdb: hkFindNextChildByName | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, call_gap_sim, low
 static __declspec(noinline) Entry* __cdecl FUN_00a8c800(Owner* ownerHandle, Entry* keyHandle, const char* name)
 {
     Owner* owner = ownerHandle;

@@ -7,6 +7,8 @@ struct P_00864a70 { char pad[0x250]; S_00864a70* st; };
 struct C_00864a70 { char pad[0xc]; int v; void FUN_008459d0(P_00864a70*); void FUN_00864a70(P_00864a70*); };
 
 __forceinline void W_00864a70(S_00864a70* s, void* b, int len) { int n = len; s->pos += s->fn(s, b, len, &n, 1); }
+// pdb: NiFloatExtraData::SaveBinary | NiFloatExtraData.obj | fnv360_0822_retail, vtable, high
+// pdb params: kStream
 void C_00864a70::FUN_00864a70(P_00864a70* p)
 {
     FUN_008459d0(p);
@@ -19,6 +21,8 @@ struct V_008da210 { virtual void v0(); virtual void v1(); virtual void v2(); vir
 struct C_008da210 { char p0[0xc]; unsigned short s; char p1[2]; V_008da210* f10; bool FUN_0084a7c0(C_008da210*); bool FUN_008da210(C_008da210*); };
 __forceinline bool Call_008da210(V_008da210* p, void* a) { return p->Eq(a); }
 
+// pdb: bhkNiCollisionObject::IsEqual | bhkNiCollisionObject.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apObject
 bool C_008da210::FUN_008da210(C_008da210* o)
 {
     bool r = FUN_0084a7c0(o);
@@ -38,6 +42,8 @@ struct D_008da6f0 { char p0[0x24c]; O_008da6f0* o; void FUN_0082b560(); };
 struct C_008da6f0 { char p0[0xc]; char f[4]; void FUN_00a9f0c0(D_008da6f0*); void FUN_008da6f0(D_008da6f0*); };
 
 __forceinline void W_008da6f0(O_008da6f0* o, void* b, int len) { int n = len; o->cnt += o->fn(o, b, len, &n, 1); }
+// pdb: bhkNiCollisionObject::LoadBinary | bhkNiCollisionObject.obj | fnv360_0721_beta, objrun, medium
+// pdb params: arStream
 void C_008da6f0::FUN_008da6f0(D_008da6f0* d)
 {
     FUN_00a9f0c0(d);
@@ -53,6 +59,8 @@ struct D_008da740 { virtual void v0(); virtual void v1(); virtual void v2(); vir
 struct C_008da740 { char p0[0xc]; char f[4]; void* g; void FUN_0084a7a0(D_008da740*); void FUN_008da740(D_008da740*); };
 
 __forceinline void W_008da740(O_008da740* o, void* b, int len) { int n = len; o->cnt += o->fn(o, b, len, &n, 1); }
+// pdb: bhkNiCollisionObject::SaveBinary | bhkNiCollisionObject.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arStream
 void C_008da740::FUN_008da740(D_008da740* d)
 {
     FUN_0084a7a0(d);
@@ -64,6 +72,8 @@ void C_008da740::FUN_008da740(D_008da740* d)
 
 
 
+// pdb: BSShaderAccumulator::IsShadowPass | BSShaderAccumulator.obj | fnv360_0822_retail, caller, medium
+// pdb params: auiPassEnum
 __declspec(noinline) bool __cdecl FUN_00ae6910(unsigned a)
 {
     if ((a >= 0x1c4u && a <= 0x1c7u) || (a >= 0x231u && a <= 0x234u) || (a >= 0x284u && a <= 0x287u))
@@ -78,6 +88,8 @@ __declspec(noinline) bool __cdecl FUN_00ae6910(unsigned a)
 extern int g1, g2;
 struct S_00b59540 { char pad[0x12]; unsigned short n; char pad2[4]; void** arr; void __thiscall FUN_00b59480(int); unsigned __thiscall FUN_00b59540(void* p); };
 __declspec(noinline) void S_00b59540::FUN_00b59480(int i) { g1 = (int)(((__int64)g2 * g1) >> 32); }
+// pdb: NiTStringPointerMap<NiPointer<TallGrassShaderProperty::CachedGeometry> >::NiTStringPointerMap<NiPointer<TallGrassShaderProperty::CachedGeometry> > | TallGrassShaderProperty.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: uiHashSize, bCopy
 unsigned S_00b59540::FUN_00b59540(void* p)
 {
     for (int i = n - 1; i >= 0; --i) {
@@ -95,14 +107,15 @@ namespace n_00b85e70 {
 struct B { void* vptr; B(); };
 extern void* VT[];
 struct C : B { char pad[0x54]; char b58, b59, b5a; int i5c, i60, i64; C(); };
+// pdb: ImageSpaceEffectSunbeams::ImageSpaceEffectSunbeams | ImageSpaceEffectSunbeams.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 C::C()
 {
     *(void* volatile*)this = VT;
-    volatile char* p = &b58;
+    char* p = &b58;
     p[0] = 0;
     p[1] = 0;
     p[2] = 0;
-    volatile int* q = &i5c;
+    int* q = &i5c;
     q[0] = 0;
     q[1] = 0;
     q[2] = 0;
@@ -772,21 +785,29 @@ void FUN_00ad2680();
 void FUN_00ad2430();
 void FUN_00ad2440();
 
+// pdb: MissileProjectile::InitLoadGame | MissileProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 __declspec(noinline) void FUN_007c11e0()
 {
     FUN_007c9630();
 }
 
+// pdb: NiLines::SaveBinary | NiLines.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 __declspec(noinline) void FUN_0083f800()
 {
     FUN_0084b970();
 }
 
+// pdb: BSResizableTriShape::IsEqual | BSResizableTriShape.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 __declspec(noinline) void FUN_0085bf60()
 {
     FUN_00863120();
 }
 
+// pdb: NiXenonFragmentShader::PreProcessPipeline | NiXenonFragmentShader.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: NiXenonFragmentShader::SetupRenderingPass)
+// pdb params: pkGeometry, pkSkin, pkRendererData, pkState, pkEffects, kWorld, kWorldBound
 __declspec(noinline) void FUN_00886230()
 {
     FUN_0088d3a0();
@@ -797,131 +818,174 @@ __declspec(noinline) void FUN_008862c0()
     FUN_0088dfc0();
 }
 
+// pdb: NiXenonFragmentShader::PrepareGeometryForRendering | NiXenonFragmentShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkGeometry, pkPartition, pkRendererData, pkState
 __declspec(noinline) void FUN_008862d0()
 {
     FUN_0088e0e0();
 }
 
+// pdb: NiXenonFragmentShader::FirstPass | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_sim, low
 __declspec(noinline) void FUN_008862e0()
 {
     FUN_0085a270();
 }
 
+// pdb: NiXenonFragmentShader::DestroyRendererData | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_sim, low, conflict (bridge: NiXenonFragmentShader::PrepareGeometryForRendering)
 __declspec(noinline) void FUN_00886300()
 {
     FUN_0088d370();
 }
 
+// pdb: NiXenonFragmentShader::SetupRenderingPass | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: NiXenonFragmentShader::FirstPass)
+// pdb params: pkGeometry, pkSkin, pkRendererData, pkState, pkEffects, kWorld, kWorldBound
 __declspec(noinline) void FUN_00886310()
 {
     FUN_0088d380();
 }
 
+// pdb: NiXenonFragmentShader::RecreateRendererData | NiXenonFragmentShader.obj | fnv360_0721_beta, objrun_sim, low, conflict (bridge: NiXenonFragmentShader::NextPass)
 __declspec(noinline) void FUN_00886320()
 {
     FUN_0088e260();
 }
 
+// pdb: NiD3DHLSLVertexShader::RecreateRendererData | NiD3DHLSLVertexShader.obj | fnv360_0721_beta, objopen_prop, low
 __declspec(noinline) void FUN_00898b60()
 {
     FUN_0089de80();
 }
 
+// pdb: NiD3DHLSLPixelShader::RecreateRendererData | NiD3DHLSLPixelShader.obj | fnv360_0721_beta, objopen_prop, low, conflict (bridge: NiD3DHLSLVertexShader::RecreateRendererData)
 __declspec(noinline) void FUN_00899140()
 {
     FUN_0089dff0();
 }
 
-__declspec(noinline) void FUN_008c2520()
+// pdb: NiRollController::LoadBinary | NiRollController.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+__declspec(noinline) void NiRollController_LoadBinary()
 {
     FUN_008d1520();
 }
 
+// pdb: NiRollController::LinkObject | NiRollController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: stream
 __declspec(noinline) void FUN_008c2530()
 {
     FUN_008d1620();
 }
 
+// pdb: NiRollController::RegisterStreamables | NiRollController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: stream
 __declspec(noinline) void FUN_008c2540()
 {
     FUN_008d1680();
 }
 
+// pdb: NiRollController::SaveBinary | NiRollController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: stream
 __declspec(noinline) void FUN_008c2550()
 {
     FUN_008d16b0();
 }
 
+// pdb: NiRollController::IsEqual | NiRollController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pObject
 __declspec(noinline) void FUN_008c2560()
 {
     FUN_008d16d0();
 }
 
+// pdb: NiColorExtraDataController::RegisterStreamables | NiColorExtraDataController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 __declspec(noinline) void FUN_008c8f20()
 {
     FUN_008d0d80();
 }
 
+// pdb: NiBoolTimelineInterpolator::RegisterStreamables | NiBoolTimelineInterpolator.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiBoolTimelineInterpolator::LoadBinary)
+// pdb params: kStream
 __declspec(noinline) void FUN_008ccbf0()
 {
     FUN_008cd460();
 }
 
+// pdb: NiBoolTimelineInterpolator::RegisterStreamables | NiBoolTimelineInterpolator.obj | fnv360_1110_retail, objrun_open, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_008ccc00()
 {
     FUN_008b6740();
 }
 
-__declspec(noinline) void FUN_008ccc10()
+// pdb: NiBoolTimelineInterpolator::SaveBinary | NiBoolTimelineInterpolator.obj | fnv360_0822_retail, objrun_prop + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+__declspec(noinline) void NiBoolTimelineInterpolator_SaveBinary()
 {
     FUN_008cd4e0();
 }
 
-__declspec(noinline) void FUN_008ccc20()
+// pdb: NiBoolTimelineInterpolator::IsEqual | NiBoolTimelineInterpolator.obj | fnv360_0822_retail, objrun_prop + bridge(vtable|objrun_sim) + skyrim(caller_sim), high
+__declspec(noinline) void NiBoolTimelineInterpolator_IsEqual()
 {
     FUN_008cd0d0();
 }
 
+// pdb: bhkCollisionObject::IsEqual | bhkCollisionObject.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apObject
 __declspec(noinline) void FUN_008d1f50()
 {
     FUN_008da210();
 }
 
+// pdb: BSPSysMultiTargetEmitterCtlr::LinkObject | BSPSysMultiTargetEmitterCtlr.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 __declspec(noinline) void FUN_00ab4b70()
 {
     FUN_00abbe90();
 }
 
+// pdb: BSPSysArrayEmitter::LinkObject | BSPSysArrayEmitter.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 __declspec(noinline) void FUN_00abf8d0()
 {
     FUN_00ac6230();
 }
 
+// pdb: BSPSysArrayEmitter::RegisterStreamables | BSPSysArrayEmitter.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 __declspec(noinline) void FUN_00abf8e0()
 {
     FUN_00ac6250();
 }
 
+// pdb: NiPSysPlanarCollider::RegisterStreamables | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: CreateNS_NiPSysPositionModifier::Create)
+// pdb params: kStream
 __declspec(noinline) void FUN_00ac91e0()
 {
     FUN_00ad1ee0();
 }
 
-__declspec(noinline) void FUN_00aca1a0()
+// pdb: NiPSysModifierActiveCtlr::LinkObject | NiPSysModifierActiveCtlr.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+__declspec(noinline) void NiPSysModifierActiveCtlr_LinkObject()
 {
     FUN_00ad2460();
 }
 
+// pdb: NiPSysAirFieldAirFrictionCtlr::LinkObject | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0822_retail, objopen_prop, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00acf830()
 {
     FUN_00ad2680();
 }
 
+// pdb: NiPSysAirFieldAirFrictionCtlr::SaveBinary | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 __declspec(noinline) void FUN_00ad0c00()
 {
     FUN_00ad2430();
 }
 
+// pdb: NiPSysAirFieldAirFrictionCtlr::IsEqual | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 __declspec(noinline) void FUN_00ad0c10()
 {
     FUN_00ad2440();
@@ -2555,36 +2619,43 @@ extern char DAT_0116edc8;
 extern char DAT_0116ee98;
 extern char DAT_0116eeb0;
 
+// pdb: NiLines::GetRTTI | NiLines.obj | fnv360_0822_retail, objrun_prop, low
 __declspec(noinline) void* FUN_0083f810()
 {
     return &DAT_0108f448;
 }
 
-__declspec(noinline) void* FUN_0085bf70()
+// pdb: NiScreenPolygon::GetRTTI | NiOldScreenSpace.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+__declspec(noinline) void* NiScreenPolygon_GetRTTI()
 {
     return &DAT_0109085c;
 }
 
+// pdb: NiFloatController::GetRTTI | NiRollController.obj | fnv360_0822_retail, objopen_prop, low
 __declspec(noinline) void* FUN_008c2570()
 {
     return &DAT_01092a30;
 }
 
-__declspec(noinline) void* FUN_008ccc30()
+// pdb: NiBoolTimelineInterpolator::GetRTTI | NiBoolTimelineInterpolator.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+__declspec(noinline) void* NiBoolTimelineInterpolator_GetRTTI()
 {
     return &DAT_01092884;
 }
 
-__declspec(noinline) void* FUN_00aca1b0()
+// pdb: NiPSysModifierActiveCtlr::GetRTTI | NiPSysModifierActiveCtlr.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+__declspec(noinline) void* NiPSysModifierActiveCtlr_GetRTTI()
 {
     return &DAT_0116edc8;
 }
 
+// pdb: NiPSysAirFieldSpreadCtlr::GetRTTI | NiPSysAirFieldSpreadCtlr.obj | tesv_win, objrun_open, low
 __declspec(noinline) void* FUN_00acf840()
 {
     return &DAT_0116ee98;
 }
 
+// pdb: NiPSysAirFieldAirFrictionCtlr::GetRTTI | NiPSysAirFieldAirFrictionCtlr.obj | tesv_win, objrun_open, low
 __declspec(noinline) void* FUN_00ad0c20()
 {
     return &DAT_0116eeb0;
@@ -2963,30 +3034,35 @@ extern const char DAT_00e1eca4;
 extern S_00430ff0 DAT_0108d7d8;
 void __cdecl FUN_00d98110(void);
 
+// pdb: `dynamic initializer for 'fHealthBarSpeed'' | HighProcess.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf7e30()
 {
     DAT_0107b5c8.FUN_00430ff0(&DAT_00e15ba8, DAT_00e01f4c);
     atexit(FUN_00d97860);
 }
 
+// pdb: `dynamic initializer for 'VATS::fVATSLightLevelMin'' | VATS.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc730()
 {
     DAT_0108d08c.FUN_00430ff0(&DAT_00e1ceac, DAT_00db8d0c);
     atexit(FUN_00d97fa0);
 }
 
+// pdb: `dynamic initializer for 'VATS::fVATSLightLevelMax'' | VATS.obj | fnv360_0822_debug, ustr, high
 void FUN_00cfc760()
 {
     DAT_0108d044.FUN_00430ff0(&DAT_00e1cec4, DAT_00e00d5c);
     atexit(FUN_00d97fb0);
 }
 
+// pdb: `dynamic initializer for 'fINIRunningAvoidanceConeAngle'' | DetailedActorPathHandler.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfe630()
 {
     DAT_0108d788.FUN_00430ff0(&DAT_00e1ec80, DAT_00db99c8);
     atexit(FUN_00d98100);
 }
 
+// pdb: `dynamic initializer for 'fINIRepathingWaitDistance'' | DetailedActorPathHandler.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cfe660()
 {
     DAT_0108d7d8.FUN_00430ff0(&DAT_00e1eca4, DAT_00db8d0c);
@@ -3072,19 +3148,22 @@ void FUN_009cbfb0(int, char*);
 void FUN_009cbff0(int, char*);
 void FUN_009cc030(int, char*);
 
-void FUN_009bc9c0(int a, char* b)
+// pdb: hkConvexListAgent3::removePoint | hkpConvexListAgent3.obj | fnv360_0822_retail, caller_sim + bridge(caller_sim|caller_sim) + skyrim(caller_sim), high
+void hkConvexListAgent3_removePoint(int a, char* b)
 {
     if (b[0xb] & 0x20)
         FUN_009cbfb0(a, b);
 }
 
-void FUN_009bc9e0(int a, char* b)
+// pdb: hkConvexListAgent3::commitPotential | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void hkConvexListAgent3_commitPotential(int a, char* b)
 {
     if (b[0xb] & 0x20)
         FUN_009cbff0(a, b);
 }
 
-void FUN_009bca00(int a, char* b)
+// pdb: hkConvexListAgent3::createZombie | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void hkConvexListAgent3_createZombie(int a, char* b)
 {
     if (b[0xb] & 0x20)
         FUN_009cc030(a, b);

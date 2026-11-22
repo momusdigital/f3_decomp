@@ -131,6 +131,8 @@ struct FNV_PhysObj
 extern int ComputeContactTime(FNV_PhysObj* a, FNV_PhysObj* b, int* c, FNV_Vec3* d);
 
 // @fnv 0x00eb85d0
+// pdb: NiOBBNode::BoxBoxCollision | NiOBBNode.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pTestNode, pkRoot0, pkRoot1, pkObj0, pkObj1, bCollision
 int FNV_PhysObj::FUN_00eb85d0(FNV_PhysObj* pObj, FNV_Shape* pShape0, FNV_Shape* pShape1, FNV_Shape* pShape2,
                               FNV_Shape* pShape3, unsigned char* pbResult)
 {
@@ -209,6 +211,8 @@ struct S_00eb8680_Obj
 };
 
 // @fnv 0x00eb8680
+// pdb: NiOBBLeaf::TestCollision | NiOBBLeaf.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pTestNode, pkObj0, pkObj1, iMaxDepth, iTestMaxDepth, uiChangeStamp0, uiChangeStamp1
 bool S_00eb8680_Obj::FUN_00eb8680(S_00eb8680_Obj* other, unsigned char* pDataA, unsigned char* pDataB, void* a4,
                                   unsigned count, int k1, int k2)
 {
@@ -319,6 +323,8 @@ struct S_00eb8790_Node
 };
 
 // @fnv 0x00eb8790
+// pdb: NiOBBLeaf::FindCollisions | NiOBBLeaf.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pTestNode, pkRoot0, pkRoot1, pkObj0, pkObj1, iMaxDepth, iTestMaxDepth, uiChangeStamp0, uiChangeStamp1, bCollision
 int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA,
                                   S_00eb8790_Body* bodyB, int a5, int depth, int stampA, int stampB, int a9)
 {
@@ -391,6 +397,7 @@ void ComputeBarycentric(const Vec3f* apVertex0, const Vec3f* apVertex1, const Ve
 }
 
 // @fnv 0x00ee8990
+// pdb: NiObject::StreamCanSkip | NiObject.obj | fnv360_0721_beta, vtable, medium
 bool FUN_00ee8990()
 {
     return false;
@@ -546,6 +553,8 @@ struct FUN_00eb8930_cls : Owner
 
 // Calls an intersection helper and, on success, stores its returned point and parameter in a node, with an optional triangle normal.
 // @fnv 0x00eb8930
+// pdb: NiOBBLeaf::FindIntersections | NiOBBLeaf.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: origin, dir, pick, bIntersects, pObj, uiChangeStamp
 int FUN_00eb8930_cls::FUN_00eb8930(Vec3* a1, Vec3* a2, Rec* apRec, unsigned char* pOutHit, Obj5* apObj5, int a6)
 {
     if (a6 != m_88)
@@ -904,6 +913,8 @@ struct FUN_00eb6b90 : S_eb6b90_Node
 
 // Initializes a triangle node by computing its bounding box center, basis axes, and extents from three vertices.
 // @fnv 0x00eb6b90
+// pdb: NiOBBLeaf::NiOBBLeaf | NiOBBLeaf.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pRoot, pTriList, pVertex, pWVertex, usTriangle
 FUN_00eb6b90::FUN_00eb6b90(S_eb6b90_Root* pkRoot, unsigned short* pusTriList, S_eb6b90_Point* pkVertex,
                            S_eb6b90_Point* pkWorldVertex, unsigned short m_usTriangleID)
 {

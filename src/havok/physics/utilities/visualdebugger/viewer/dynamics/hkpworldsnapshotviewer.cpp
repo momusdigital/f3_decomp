@@ -30,6 +30,7 @@ struct FUN_00d63210_class
 };
 
 // @fnv 0x00d63210
+// pdb: hkpWorldSnapshotViewer::getProcessTag | hkpWorldSnapshotViewer.obj | fnv360_0822_retail, vtable, medium
 int FUN_00d63210_class::GetValueByFlag()
 {
     if (*(char*)((char*)this + 0x20))
@@ -53,22 +54,15 @@ void __cdecl AllocateRecordWithData();
 
 // Registers the two world-snapshot commands with the profile registry, storing their returned handles in DAT_01268fc4 and DAT_01268fc0.
 // @fnv 0x00d63000
-void __cdecl RegisterSnapshotCommands()
+// pdb: hkpWorldSnapshotViewer::registerViewer | hkpWorldSnapshotViewer.obj | fnv360_0822_debug, udata, high
+// pdb: hkpWorldSnapshotViewer::registerViewer | hkpWorldSnapshotViewer.obj | fnv360_0822_debug, udata, high (was: RegisterSnapshotCommands)
+void __cdecl hkpWorldSnapshotViewer_registerViewer()
 {
     DAT_01268fc4 = DAT_01269cd0->FUN_00dd9380("* Grab World Snapshot Native", FUN_00d62f20);
     DAT_01268fc0 = DAT_01269cd0->FUN_00dd9380("* Grab World Snapshot PC", AllocateRecordWithData);
 }
 
 struct FUN_00c7be20_cls;
-
-struct FUN_00c7be20_holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
 
 struct FUN_00c7be20_src
 {
@@ -86,7 +80,6 @@ struct FUN_00c7be20_arr
 };
 
 void* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c908c0(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 
 struct FUN_00c7be20_cls
 {
@@ -117,6 +110,8 @@ struct FUN_00c7be20_cls
 // @f3 0x008e2fd0 (community match, verified in this file)
 void __cdecl FUN_00901e90(FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 
+// pdb: bhkRagdollController::GetRBForBones | bhkRagdollController.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arBoneRBA
 void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
 {
     FUN_00c7be20_src* pSource = m_48;
@@ -173,6 +168,7 @@ struct FUN_00d62fa0_class
 };
 
 // @fnv 0x00d62fa0
+// pdb: hkpWorldSnapshotViewer::init | hkpWorldSnapshotViewer.obj | fnv360_0822_retail, vtable, medium
 void __thiscall FUN_00d62fa0_class::ProcessContainerItems()
 {
     if (m_container)
@@ -215,58 +211,7 @@ struct FUN_00d63250_cls
     static void operator delete(void* apMemory) throw();
 };
 
-// Calls FUN_00d62fe0, then if acFlags bit 0 is set frees this via the allocator from FUN_00c85750 using m_uSize, and returns this.
-// @fnv 0x00d63250
-FUN_00d63250_cls* FUN_00d63250_cls::Destroy(unsigned char acFlags)
-{
-    FUN_00d62fe0();
-    if (acFlags & 1)
-    {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
-    }
-    return this;
-}
 }  // namespace fnv_00d63250
-
-extern int DAT_010d1794;
-extern int DAT_010d1774;
-extern int DAT_010d1764;
-
-struct SubObject
-{
-    void Init(int a, int b);
-};
-
-struct FUN_00d63280_cls
-{
-    void* m_vtbl0;
-    int unk04;
-    void* m_vtbl8;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    void* m_vtbl20;
-    int unk24;
-    SubObject m_sub28;
-
-    void Setup(int b);
-    FUN_00d63280_cls* FUN_00d63280(int a, int b);
-};
-
-// @fnv 0x00d63280
-FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, int b)
-{
-    Setup(b);
-    m_vtbl0 = (void*)&DAT_010d1794;
-    m_vtbl8 = (void*)&DAT_010d1774;
-    m_vtbl20 = (void*)&DAT_010d1764;
-    m_sub28.Init(a, 0x7a120);
-    return this;
-}
 
 // Adjustor thunk for virtual FUN_00d63230 (sub ecx,8; jmp to the Derived implementation).
 struct PrimaryBase
@@ -288,34 +233,4 @@ struct ThunkOwner : PrimaryBase, SecondaryBase
 };
 
 ThunkOwner::ThunkOwner()
-{}
-
-struct D63240Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d63240();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-
-struct D63240Secondary
-{
-    virtual void FUN_00d63240();
-};
-
-struct D63240Object : D63240Primary, D63240Secondary
-{
-    D63240Object();
-
-// @fnv 0x00d63240
-    virtual void FUN_00d63240();
-};
-
-D63240Object::D63240Object()
 {}

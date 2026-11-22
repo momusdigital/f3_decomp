@@ -13,6 +13,8 @@ struct VersionedDataBlock
 };
 // Reads up to size bytes in chunks of at most 512 into a local buffer, stopping on a zero-length read, and returns the number of bytes read.
 // @fnv 0x00cb14f0
+// pdb: hkStreamReader::skip | hkStreamReader.obj | fnv360_0822_retail, vtable, high
+// pdb params: nbytes
 int VersionedDataBlock::ReadBytes(int size)
 {
     unsigned int buffer[128];
@@ -39,6 +41,7 @@ class Stream
 };
 
 // @fnv 0x00cb1550
+// pdb: hkStreamReader::readChar | hkStreamReader.obj | fnv360_0822_retail, call_seq, medium
 int Stream::ReadChar()
 {
     char c;
@@ -49,22 +52,25 @@ int Stream::ReadChar()
 
 struct S_00cb1570
 {
-    int FUN_00cb1570(void* pArg);
+    int hkEntitySelectorAll_isEntityOk(void* pArg);
 };
 // @fnv 0x00cb1570
-int S_00cb1570::FUN_00cb1570(void* pArg)
+// pdb: `anonymous namespace'::hkEntitySelectorAll::isEntityOk | hkpSaveContactPointsUtil.obj | fnv360_0721_beta, vtable + skyrim(vtable), high
+int S_00cb1570::hkEntitySelectorAll_isEntityOk(void* pArg)
 {
     return 1;
 }
 
 // @fnv 0x00cb1580
+// pdb: Random::nelems | IdvRandom.obj | fnv360_0721_beta, vtable, medium
 int __cdecl FUN_00cb1580()
 {
     return 1;
 }
 
 // @fnv 0x00cb15c0
-void __stdcall FUN_00cb15c0(char* p)
+// pdb: hkStreamReader::markSupported | hkStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkStreamReader_markSupported(char* p)
 {
     *p = 0;
 }
@@ -75,6 +81,8 @@ struct CB1590Object
 };
 
 // @fnv 0x00cb1590
+// pdb: hkFileSystem::listDirectory | HavokStream.obj | fnv360_0721_beta, vtable, medium
+// pdb params: basePath, listingOut
 int CB1590Object::FUN_00cb1590(const void* a, const void* b) const
 {
     return 1;
@@ -92,16 +100,19 @@ struct CB15B0Bool
 
 struct CB15B0Object
 {
-    virtual CB15B0Bool FUN_00cb15b0() const;
+    virtual CB15B0Bool hkStreamWriter_seekTellSupported() const;
 };
 
 // @fnv 0x00cb15b0
-CB15B0Bool CB15B0Object::FUN_00cb15b0() const
+// pdb: hkStreamWriter::seekTellSupported | hkStreamWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+CB15B0Bool CB15B0Object::hkStreamWriter_seekTellSupported() const
 {
     return false;
 }
 
 // @fnv 0x00cb15a0
+// pdb: MagicSystem::MagicSchoolToSkill | MagicSystem.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aeSchool
 int FUN_00cb15a0()
 {
     return -1;

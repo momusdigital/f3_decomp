@@ -1,9 +1,10 @@
-// bsshader/bsshader.cpp: Zero4, ShaderDerived (27 functions)
+// bsshader/bsshader.cpp: Zero4, ShaderDerived (26 functions)
 #include "f3_common.h"
 #include "bsshader_decls.h"
 
 // Initializes the object by zeroing the first element of an array and setting a flag to false.
 // @fnv 0x00be2200
+// pdb: BSShader::BSShader | BSShader.obj | fnv360_0822_retail, call_dedup, medium
 BSShader::BSShader()
 {
     spRenderPass[0] = 0;
@@ -18,6 +19,8 @@ extern void __splitpath_s(const char*, char*, unsigned, char*, unsigned, char*, 
 extern void FUN_00ec825b(char*, unsigned, const char*, const char*, const char*, const char*);
 
 // @fnv 0x00be0c00
+// pdb: BSShader::MakePath | BSShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFile, apResult
 void FUN_00be0c00(const char* path, char* result)
 {
     char drive[0x10];
@@ -38,6 +41,8 @@ extern char DAT_011f9308[260];
 
 // Builds a cache path from the default or configured directory, an optional "HDR." prefix, and the cache name, writing it into apCachePath.
 // @fnv 0x00be0dc0
+// pdb: ShaderBuffer::Get | ShaderBuffer.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apName
 void __cdecl BuildCachePath(char* apCachePath, const char* apFileName, const char* apCacheName)
 {
     if (apCachePath && apFileName && apCacheName)
@@ -73,6 +78,8 @@ void __cdecl FUN_00b97e30(unsigned int, unsigned int);
 void __cdecl FUN_00b97e80(unsigned int, unsigned int);
 
 // @fnv 0x00be0e50
+// pdb: BSShader::SetupGeometryNonFirstPass | BSShader.obj | fnv360_0721_beta, caller_sim, low, conflict (bridge: BSShader::RestoreGeometryNonFirstPass)
+// pdb params: apState
 void __stdcall FUN_00be0e50(int)
 {
     if (DAT_011f91e4 < 0x252 || DAT_011f91e4 > 0x256)
@@ -139,6 +146,8 @@ void __cdecl FUN_00b98610(int, int);
 
 // Walks the linked list at DAT_0126f74c+0x30's +0x10 and calls FUN_00b98610 with each node's m_val and 0.
 // @fnv 0x00be0ee0
+// pdb: BSShader::ResetFiltering | BSShader.obj | fnv360_0822_debug, objrun_sim, low, conflict (bridge: ShaderIncludes::Close)
+// pdb params: apStage, aiAddressValue
 void __stdcall FUN_00be0ee0(int)
 {
     int p1 = *(int*)(DAT_0126f74c + 0x30);
@@ -201,6 +210,8 @@ public:
     bool m_bGood;
 };
 
+// pdb: ShaderIncludes::Open | BSShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: IncludeType, pFileName, pParentData, ppData, pBytes, pFullPath, cbFullPath
 long __stdcall ReadFileIntoMemory(void* pThis, int aiUnused, const char* pFileName,
                                   int aiUnused2, const void** appData, unsigned int* apuiBytes) {
     char fullPath[260];
@@ -348,6 +359,8 @@ struct NiD3DPass_Ex : NiD3DPass
 
 // Iterates the pass list at DAT_0126f74c and calls ShutdownPools_Ex(false) on each non-null pass that is flagged and has a nonzero field at offset 8.
 // @fnv 0x00be2170
+// pdb: BSShader::SetupPassRenderStates | BSShader.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: auiCurrentPass
 void __cdecl FUN_00be2170()
 {
     int p = DAT_0126f74c;
@@ -495,6 +508,8 @@ struct BeamStage
 };
 
 // @fnv 0x00be0cf0
+// pdb: NiD3DTextureStage::CreateNewStage | NiD3DTextureStage.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aspD3DTextureStage
 void __cdecl ConfigureBeamStage(BeamStage* stage, unsigned int uiValue, unsigned int arg3, unsigned int arg4,
                                 bool bFlag)
 {
@@ -531,6 +546,8 @@ struct M64Outer
 };
 // For each item in o->items, if the item's fc is not 1, sets its f8 to 0.
 // @fnv 0x00be0fb0
+// pdb: BSShader::ClearPass | BSShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apPass
 void __stdcall FUN_00be0fb0(M64Outer* pOuter)
 {
     if (pOuter)
@@ -564,6 +581,8 @@ struct StructA
 
 // Derives two booleans from param_1's prop10/prop0 flags and DAT_011f91e4, then calls FUN_00b984d0 and FUN_00b97ed0 with them.
 // @fnv 0x00be20e0
+// pdb: BSShader::SetupGeometryRenderStates | BSShader.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: apState, abFirstPass
 void __stdcall FUN_00be20e0(StructA* pStruct, bool bCheckProp0)
 {
     unsigned int v = DAT_011f91e4;
@@ -622,6 +641,8 @@ extern StagePool* DAT_0126f6cc;
 
 // Gets a StageReturn from DAT_0126f6cc, marks it, and refcount-swaps it into output, releasing the previous one.
 // @fnv 0x00e7edf0
+// pdb: NiPointer<NiD3DPass>::operator= | NiD3DPass.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: ptr
 void AssignStageFromPool(StageReturn*& output)
 {
     StageReturn* stage = DAT_0126f6cc->Get();
@@ -1216,6 +1237,8 @@ struct PixelSourceFile
     unsigned int Read(void* data, unsigned int size) { return ((NiBinaryStream*)this)->Read(data, size); }
 };
 
+// pdb: BSShader::CompilePixelShaderHLSL | BSShader.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFilename, apMacro, apTarget, apCacheName
 NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMacro, char* apTarget, char* apCacheName)
 {
     bool bSourceExists;
@@ -1554,12 +1577,15 @@ class BBDF6C0Shader
         return (m_uiFlags2 & (1 << (uiBit - 32))) > 0;
     }
 
-    void AddPasses(BBDF6C0Geometry* pkGeometry, bool bSkipDefault);
+    void BSShaderPPLightingProperty_AddSilhouettePass_2x(BBDF6C0Geometry* pkGeometry, bool bSkipDefault);
 };
 
 // Adds a render pass chosen by shader flags (or the geometry's default pass) and sets the first pass's lighting type from the flags.
 // @fnv 0x00bdf6c0
-void BBDF6C0Shader::AddPasses(BBDF6C0Geometry* pkGeometry, bool bSkipDefault)
+// pdb: BSShaderPPLightingProperty::AddSilhouettePass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, objrun, high
+// pdb params: apGeom, abSkinned
+// pdb: BSShaderPPLightingProperty::AddSilhouettePass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, objrun, high (was: AddPasses)
+void BBDF6C0Shader::BSShaderPPLightingProperty_AddSilhouettePass_2x(BBDF6C0Geometry* pkGeometry, bool bSkipDefault)
 {
     if (GetFlag(14))
     {
@@ -1699,6 +1725,8 @@ struct FUN_00b71b90_class : LodShaderBase
 };
 
 // @fnv 0x00be08b0
+// pdb: NiParticles::CopyMembers | NiParticles.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pDest, kCloning
 void FUN_00b71b90_class::FUN_00be08b0()
 {
     FUN_00e814b0();
@@ -1724,6 +1752,8 @@ void __cdecl FUN_00b97fa0(int, int);
 void __cdecl AddToTwoCounters(int, int, int);
 // Reads alpha and data from input, checks flags and alpha values, then calls FUN_00b97fa0 and AddToTwoCounters with blend or default counters.
 // @fnv 0x00be1ff0
+// pdb: BSShader::SetupGeometryAlphaBlending | BSShader.obj | fnv360_1110_retail, objrun_prop, low
+// pdb params: apState
 void __stdcall FUN_00be1ff0(Input818* input)
 {
     Alpha818* alpha = input->alpha;
@@ -1857,6 +1887,7 @@ struct ShaderDerived : ShaderBase
 };
 // Releases the referenced ShaderPassTarget when its count reaches zero, then calls a method on the shader manager.
 // @fnv 0x00be0f10
+// pdb: BSShader::~BSShader | BSShader.obj | fnv360_0822_retail, call_seq, medium
 ShaderDerived::~ShaderDerived()
 {
     ShaderPassTarget* p = m_akPasses[0].m_pObject;
@@ -1871,38 +1902,6 @@ ShaderDerived::~ShaderDerived()
 }  // namespace fnv_00be0f10
 
 namespace fnv_00be0fe0 {
-class VertexShaderFile
-{
-  public:
-    virtual ~VertexShaderFile();
-    virtual void FileMethod1();
-    virtual void FileMethod2();
-    virtual void FileMethod3();
-    virtual void FileMethod4();
-    virtual void FileMethod5();
-    virtual void FileMethod6();
-    virtual void FileMethod7();
-    virtual void FileMethod8();
-    virtual void FileMethod9();
-    virtual unsigned int GetSize();
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    bool valid;
-    unsigned int ReadBytes(void*, unsigned int);
-};
-struct CacheEntryView
-{
-    char name[260];
-    char data[1];
-};
 class VertexDevice
 {
   public:
@@ -2170,74 +2169,8 @@ class VertexRendererView
         return device;
     }
 };
-class FUN_00be0b30 : public NiMemObjectAllocation
-{
-  public:
-    FUN_00be0b30(GraphicsRenderer*);
-    virtual void ShaderMethod0();
-    virtual void ShaderMethod1();
-    virtual void ShaderMethod2();
-    virtual void ShaderMethod3();
-    virtual void ShaderMethod4();
-    virtual void ShaderMethod5();
-    virtual void ShaderMethod6();
-    virtual void ShaderMethod7();
-    virtual void ShaderMethod8();
-    virtual void ShaderMethod9();
-    virtual void ShaderMethod10();
-    virtual void ShaderMethod11();
-    virtual void ShaderMethod12();
-    virtual void ShaderMethod13();
-    virtual void ShaderMethod14();
-    virtual void ShaderMethod15();
-    virtual void ShaderMethod16();
-    virtual void ShaderMethod17();
-    virtual void ShaderMethod18();
-    virtual void ShaderMethod19();
-    virtual void ShaderMethod20();
-    virtual void ShaderMethod21();
-    virtual void ShaderMethod22();
-    virtual void ShaderMethod23();
-    virtual void ShaderMethod24();
-    virtual void ShaderMethod25();
-    virtual void ShaderMethod26();
-    virtual void ShaderMethod27();
-    virtual void ShaderMethod28();
-    virtual void ShaderMethod29();
-    virtual void ShaderMethod30();
-    virtual void ShaderMethod31();
-    virtual void ShaderMethod32();
-    virtual void ShaderMethod33();
-    virtual void SetShader(void*);
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-};
 extern "C" void HasFileInArchives(const char*);
-extern "C" void _ReadWriteBarrier();
 extern "C" void BuildCachePath(char*, const char*, const char*, const char*);
-inline bool IsEmptyDirectory(const char* path)
-{
-    const char* empty = 0;
-    return empty == path || !*path;
-}
-inline void Cat(char* d, unsigned n, const char* s)
-{
-    strcat_s(d, n, s);
-}
-extern "C" int FUN_00406d00(char*, int, const char*, ...);
-extern "C" void* memset(void*, int, unsigned int);
 class FileView;
 struct FileViewMethods
 {
@@ -2259,223 +2192,4 @@ class FileView
     FileViewMethods* methods;
 };
 
-// Compiles a vertex shader source file with macros and profile, caches the bytecode to disk, and creates a shader object on the device.
-// @fnv 0x00be0fe0
-FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, const char* profile,
-                                     const char* shaderName)
-{
-    ShaderBufferRecord* pCacheEntry = 0;
-    ShaderCodeBuffer_be1750* pCompiledShader = 0;
-    ShaderCodeBuffer_be1750* pCompileErrors = 0;
-    FUN_00be0b30* result = 0;
-    ID3DXConstantTable* constants = 0;
-    unsigned int bytecodeSize = 0;
-    void* d3dShader;
-    char cachePath[260];
-    char message[260];
-    char defines[1300];
-    char errorMessage[260];
-    char commandLine[1300];
-    char diagnostic[1300];
-    BuildCachePath(cachePath, source, shaderName, (const char*)DAT_010bc868);
-    bool useCache = true;
-    bool cacheExists = false;
-    if (DAT_011f9498)
-        pCacheEntry = DAT_011f9498->Get(shaderName);
-    if (DAT_011ae638 && !pCacheEntry)
-    {
-        _ReadWriteBarrier();
-        _FILETIME ftSourceTime;
-        _FILETIME ftCacheTime;
-        memset(&ftSourceTime, 0, sizeof(ftSourceTime));
-        memset(&ftCacheTime, 0, sizeof(ftCacheTime));
-        cacheExists = FileFinder::GetFileTime(cachePath, ftCacheTime, 32);
-        bool sourceExists = FileFinder::GetFileTime(source, ftSourceTime, 32);
-        if (!cacheExists && DAT_011f94a7)
-        {
-            if (IsEmptyDirectory(DAT_011f9200))
-            {
-                strcpy_s(DAT_011f9200, 260, (const char*)DAT_010bc860);
-                BuildCachePath(cachePath, source, shaderName, (const char*)DAT_010bc868);
-            }
-            cacheExists = FileFinder::GetFileTime(cachePath, ftCacheTime, 32);
-        }
-        if (!sourceExists)
-            FUN_00406d00(message, 260, (const char*)DAT_010bc82c, source);
-        if (!cacheExists)
-            useCache = false;
-    }
-    bool owned = false;
-    char* bytecode = 0;
-    if (pCacheEntry)
-    {
-        bytecode = ((CacheEntryView*)pCacheEntry)->data;
-    }
-    else if (!useCache)
-    {
-        _D3DXMACRO* addedMacro = 0;
-        if (DAT_011f941e)
-        {
-            _D3DXMACRO* pMacro = macros;
-            if (pMacro->Name)
-            {
-                _D3DXMACRO* next = macros + 1;
-                do
-                {
-                    pMacro = next++;
-                } while (pMacro->Name);
-            }
-            pMacro->Name = (const char*)DAT_010bc828;
-            pMacro->Definition = (const char*)DAT_01011584;
-            addedMacro = pMacro;
-        }
-        VertexShaderFile* pSourceFile = (VertexShaderFile*)FileFinder::GetFile(source, NiFile::READ_ONLY, 0x4000, 32);
-        if (!pSourceFile || !pSourceFile->valid)
-        {
-            if (pSourceFile)
-                delete pSourceFile;
-            FUN_00406d00(message, 260, (const char*)DAT_010bc7b8, source);
-            goto failure;
-        }
-        unsigned int sourceSize = pSourceFile->GetSize();
-        char* sourceData = (char*)g_memoryManager.Allocate(sourceSize);
-        pSourceFile->ReadBytes(sourceData, sourceSize);
-        struct IncludeHandler
-        {
-            const unsigned char* methods;
-            const char* source;
-        } include;
-        include.methods = DAT_010bc610;
-        include.source = source;
-        defines[0] = 0;
-        commandLine[0] = 0;
-        for (int i = 0; i < 8; i++)
-        {
-            if (macros[i].Name)
-            {
-                Cat(defines, 1300, macros[i].Name);
-                Cat(commandLine, 1300, (const char*)DAT_010bc824);
-                Cat(commandLine, 1300, macros[i].Name);
-                if (macros[i].Definition && macros[i].Definition[0])
-                {
-                    Cat(defines, 1300, (const char*)DAT_01063ec8);
-                    Cat(defines, 1300, macros[i].Definition);
-                    Cat(commandLine, 1300, (const char*)DAT_01063ec8);
-                    Cat(commandLine, 1300, macros[i].Definition);
-                }
-                else
-                {
-                    Cat(commandLine, 1300, (const char*)DAT_010bc820);
-                }
-                Cat(defines, 1300, (const char*)DAT_01012630);
-            }
-        }
-        FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc808, source, profile, defines);
-        long lCompileStatus =
-            D3DXCompileShader(sourceData, sourceSize, macros, (ID3DXInclude*)&include, (const char*)DAT_01094d90,
-                              profile, 0, (ID3DXBuffer**)&pCompiledShader, (ID3DXBuffer**)&pCompileErrors, &constants);
-        delete pSourceFile;
-        g_memoryManager.Deallocate(sourceData);
-        if (pCompileErrors && !pCompiledShader)
-        {
-            defines[0] = 0;
-            for (int i = 0; i < 8 && macros[i].Name; i++)
-            {
-                Cat(defines, 1300, macros[i].Name);
-                if (macros[i].Definition && macros[i].Definition[0])
-                {
-                    Cat(defines, 1300, (const char*)DAT_01063ec8);
-                    Cat(defines, 1300, macros[i].Definition);
-                }
-                Cat(defines, 1300, (const char*)DAT_01012630);
-            }
-            FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc7fc, source, defines,
-                         pCompileErrors->GetBufferPointer());
-            pCompileErrors->Release();
-            pCompileErrors = 0;
-        }
-        if (!lCompileStatus && pCompiledShader)
-        {
-            _iobuf* pOutputFile = fopen(cachePath, (const char*)DAT_0106e798);
-            if (pOutputFile)
-            {
-                bytecodeSize = pCompiledShader->GetBufferSize();
-                fwrite(pCompiledShader->GetBufferPointer(), bytecodeSize, 1, pOutputFile);
-                fclose(pOutputFile);
-                HasFileInArchives(cachePath);
-            }
-            else
-            {
-                FUN_00406d00(message, 255, (const char*)DAT_010bc7e4, cachePath);
-            }
-            bytecode = (char*)pCompiledShader->GetBufferPointer();
-        }
-        else
-        {
-            if (!cacheExists)
-                goto failure;
-            VertexShaderFile* pCacheFile =
-                (VertexShaderFile*)FileFinder::GetFile(cachePath, NiFile::READ_ONLY, 0x4000, 32);
-            if (!pCacheFile)
-                goto failure;
-            if (pCacheFile->valid)
-            {
-                bytecodeSize = pCacheFile->GetSize();
-                bytecode = (char*)g_memoryManager.Allocate(bytecodeSize);
-                owned = true;
-                pCacheFile->ReadBytes(bytecode, bytecodeSize);
-            }
-            delete pCacheFile;
-            if (!bytecode)
-                goto failure;
-        }
-        if (addedMacro)
-        {
-            addedMacro->Name = 0;
-            addedMacro->Definition = 0;
-        }
-    }
-    else
-    {
-        VertexShaderFile* pCacheFile = (VertexShaderFile*)FileFinder::GetFile(cachePath, NiFile::READ_ONLY, 0x4000, 32);
-        if (pCacheFile)
-        {
-            if (pCacheFile->valid)
-            {
-                FileView* pFileView = (FileView*)pCacheFile;
-                bytecodeSize = pFileView->methods->size(pFileView);
-                bytecode = (char*)g_memoryManager.Allocate(bytecodeSize);
-                owned = true;
-                pCacheFile->ReadBytes(bytecode, bytecodeSize);
-            }
-            delete pCacheFile;
-        }
-        else
-        {
-            FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc754, cachePath);
-            goto failure;
-        }
-    }
-    if (bytecode)
-    {
-        if (DAT_011f9494)
-            DAT_011f9494->Add(shaderName, bytecode, bytecodeSize);
-        else
-        {
-            VertexDevice* device = ((VertexRendererView*)g_pkRenderer)->GetDevice();
-            if (device->CreateVertexShader(bytecode, &d3dShader))
-                goto deviceError;
-            result = new FUN_00be0b30(g_pkRenderer);
-            result->SetShader(d3dShader);
-        }
-    }
-    if (owned)
-        g_memoryManager.Deallocate(bytecode);
-    return result;
-deviceError:
-    FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc784, cachePath);
-failure:
-    _ReadWriteBarrier();
-    return result;
-}
 }  // namespace fnv_00be0fe0

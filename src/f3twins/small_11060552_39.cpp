@@ -21,6 +21,7 @@ void FUN_00d010e0()
 extern int DAT_00f77f4c;
 extern float DAT_01091ea8;
 
+// pdb: `dynamic initializer for 'NiPosKey::ms_fSampleDelta'' | NiPosKey.obj | tesv_win, objrun_prop, low
 void FUN_00d011f0()
 {
     DAT_01091ea8 = 1.0f / DAT_00f77f4c;

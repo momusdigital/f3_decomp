@@ -1,13 +1,4 @@
-// Source layout: TESFullName. PC corrections are in generate_headers.py.
-#ifndef FNV_TESFULLNAME_H
-#define FNV_TESFULLNAME_H
+// fallout_shared/TESFullName.h: this directory's own layout_support.h first (the units here are built against it), then
+// the shared declaration.
 #include "layout_support.h"
-#include "BaseFormComponent.h"
-class TESFullName : public BaseFormComponent
-{
-  public:
-    BSStringT<char> m_kName;  // +0x4
-};
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
-#endif
+#include "../../include/TESFullName.h"

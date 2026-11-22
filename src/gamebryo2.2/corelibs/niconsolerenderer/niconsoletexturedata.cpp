@@ -1,29 +1,5 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct NiRefObject
-{
-    virtual ~NiRefObject();
-};
-
-struct NiTexture_RendererData : NiRefObject
-{
-    void* __thiscall FUN_00a981a0(unsigned int flags);
-};
-
-extern "C" void _delete(void* p, unsigned int size);
-
-// Sets the vtable pointer, calls the NiRefObject destructor, and frees the object with _delete when flags has bit 0 set; returns pThis.
-// @fnv 0x00a981a0
-void* __thiscall NiTexture_RendererData::FUN_00a981a0(unsigned int flags)
-{
-    NiTexture_RendererData* pThis = this;
-    *reinterpret_cast<void**>(pThis) = reinterpret_cast<void*>(0x010a080c);
-    pThis->NiRefObject::~NiRefObject();
-    if (flags & 1)
-        _delete(pThis, 0x60);
-    return pThis;
-}
-
 struct S_00a981d0_Base
 {
     S_00a981d0_Base() throw();
@@ -78,6 +54,7 @@ struct FUN_00a981d0 : S_00a981d0_Mid
 };
 // Initializes the three base integer fields unk08, unk0c and unk10 to zero.
 // @fnv 0x00a981d0
+// pdb: NiPersistentSrcTextureRendererData::NiPersistentSrcTextureRendererData | NiPersistentSrcTextureRendererData.obj | fnv360_0822_retail, caller_sim, high
 FUN_00a981d0::FUN_00a981d0() throw()
 {
     unk08 = 0;

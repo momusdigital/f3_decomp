@@ -22,11 +22,13 @@ struct NiD3DVertexDeclaration
     void* m_pkD3DVertexDeclaration;
     char m_flag;
     void Construct();
-    char FUN_00e78c60(NiRenderer*, unsigned int, unsigned int);
+    char NiD3DShaderDeclaration_Initialize(NiRenderer*, unsigned int, unsigned int);
     virtual void vfn(int);
 };
 
 // @fnv 0x00e76700
+// pdb: NiXenonShaderDeclaration::Create | NiXenonShaderDeclaration.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiDX9ShaderDeclaration::Create)
+// pdb params: pkRenderer, uiMaxStreamEntryCount, uiStreamCount
 NiD3DVertexDeclaration* FUN_00e76700(NiRenderer* renderer, unsigned int maxStreamEntries, unsigned int streamCount)
 {
     if (streamCount > renderer->m_maxStreamEntries)
@@ -40,7 +42,7 @@ NiD3DVertexDeclaration* FUN_00e76700(NiRenderer* renderer, unsigned int maxStrea
         *reinterpret_cast<void**>(reinterpret_cast<char*>(pkShaderDeclaration) + 0x2c) = 0;
         *reinterpret_cast<void**>(reinterpret_cast<char*>(pkShaderDeclaration) + 0x30) = 0;
         *reinterpret_cast<char*>(reinterpret_cast<char*>(pkShaderDeclaration) + 0x34) = 0;
-        if (!pkShaderDeclaration->FUN_00e78c60(renderer, maxStreamEntries, streamCount))
+        if (!pkShaderDeclaration->NiD3DShaderDeclaration_Initialize(renderer, maxStreamEntries, streamCount))
         {
             pkShaderDeclaration->vfn(1);
             pkShaderDeclaration = 0;

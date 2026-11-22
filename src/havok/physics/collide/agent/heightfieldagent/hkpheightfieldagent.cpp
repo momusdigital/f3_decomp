@@ -2,8 +2,6 @@
 // src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern char DAT_010ceaa8[];
-
 struct hkMemoryAllocator {
     virtual ~hkMemoryAllocator();
 };
@@ -16,17 +14,6 @@ struct BSAudio {
 BSAudio* FUN_00c85750();
 
 void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
-
-struct SizeSource {
-    virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
-    virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
-    virtual void v08(); virtual void v09(); virtual void v10();
-    virtual int GetCount();
-};
-
-struct SourceRef {
-    SizeSource* m_p;
-};
 
 struct hkArrayU16 {
     unsigned short* m_data;
@@ -57,31 +44,6 @@ struct hkArrayU16 {
     }
 };
 
-struct FUN_00d32060_Class {
-    void* m_vtbl;
-    short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    int m_flag;
-    hkArrayU16 m_aiIndexedValues;
-
-    FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
-};
-
-// Sets the vtable, flag and count fields, initialises the array, and if flag is set fills it with 0xffff up to src.m_p->GetCount().
-// @fnv 0x00d32060
-FUN_00d32060_Class* FUN_00d32060_Class::Init(const SourceRef& aSource, int aiUnused1, int aiUnused2, int aiFlags)
-{
-    m_sReferenceCount = 1;
-    m_flag = aiFlags;
-    m_vtbl = DAT_010ceaa8;
-    m_aiIndexedValues.init();
-    if (aiFlags) {
-        int n = aSource.m_p->GetCount();
-        m_aiIndexedValues.SetSizeAndGrow(n, 0xffff);
-    }
-    return this;
-}
-
 namespace fnv_00d32110 {
 struct Allocator {
     virtual void unk0();
@@ -98,76 +60,22 @@ struct BSAudio {
 
 BSAudio* FUN_00c85750();
 
-struct TargetObj {
-    int unk00;
-    unsigned short size;
-    TargetObj* FUN_00d32060(void* a1, void* a2, void* a3, void* a4);
-};
-
-// Allocates a 0x18-byte TargetObj from the BSAudio allocator, sets its size to 0x18, and returns the result of FUN_00d32060(a1, a2, a3, a4).
-// @fnv 0x00d32110
-TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
-    BSAudio* audio = FUN_00c85750();
-    TargetObj* obj = (TargetObj*)audio->allocator->Allocate(0x18);
-    obj->size = 0x18;
-    return obj->FUN_00d32060(apArg1, apArg2, apArg3, apArg4);
-}
 }  // namespace fnv_00d32110
 
 extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
 // @fnv 0x00d32170
-void __stdcall FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
+// pdb: hkpHeightFieldAgent::getClosestPoints | hkpHeightFieldAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpHeightFieldAgent_getClosestPoints(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
     FUN_00d319e0(apArg1, apArg2, apArg3, apArg4);
 }
 
 typedef void (*S_00d321e0_Func)();
 
-void FUN_00d32190();
 void FUN_00d32370();
 void FUN_00d323b0();
-void FUN_00d323f0();
-void AllocateTargetObj();
 void FUN_00d317d0();
 void FUN_00d319e0();
 void FUN_00d31d30();
-
-struct S_00d321e0_AgentFuncs {
-    S_00d321e0_Func m_pCreateFunc;
-    S_00d321e0_Func m_pQueryPenetrationsFunc;
-    S_00d321e0_Func m_pGetPenetrationsFunc;
-    S_00d321e0_Func m_pLinearCastFunc;
-    bool m_bIsFlipped;
-    bool m_bIsPredictive;
-};
-
-struct S_00d321e0_Dispatcher {
-    void FUN_00cfbbe0(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
-};
-
-// @fnv 0x00d321e0
-void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher)
-{
-    {
-        S_00d321e0_AgentFuncs af;
-        af.m_pCreateFunc = FUN_00d32190;
-        af.m_pQueryPenetrationsFunc = FUN_00d32370;
-        af.m_pGetPenetrationsFunc = FUN_00d323b0;
-        af.m_pLinearCastFunc = FUN_00d323f0;
-        af.m_bIsFlipped = true;
-        af.m_bIsPredictive = true;
-        dispatcher->FUN_00cfbbe0(af, 0x19, 0x1a);
-    }
-    {
-        S_00d321e0_AgentFuncs af;
-        af.m_pCreateFunc = AllocateTargetObj;
-        af.m_pQueryPenetrationsFunc = FUN_00d317d0;
-        af.m_pGetPenetrationsFunc = FUN_00d319e0;
-        af.m_pLinearCastFunc = FUN_00d31d30;
-        af.m_bIsFlipped = false;
-        af.m_bIsPredictive = true;
-        dispatcher->FUN_00cfbbe0(af, 0x1a, 0x19);
-    }
-}
 
 extern float g_D323B0MaxDistance;
 
@@ -194,6 +102,8 @@ void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector);
 
 // Constructs a D323B0Collector from d and passes it with b, a, c to FUN_00d319e0.
 // @fnv 0x00d323b0
+// pdb: hkpSymmetricAgentLinearCast<hkpHeightFieldAgent>::staticGetClosestPoints | hkpHeightFieldAgent.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d323b0(int aiArg1, int aiArg2, int aiArg3, int aiData)
 {
     D323B0Collector collector(aiData);
@@ -214,11 +124,14 @@ struct Owner {
     Handler* callback;
     unsigned short* indices;
     int count;
-    void NotifyAndClear(int value);
+    void hkpHeightFieldAgent_cleanup(int value);
 };
 // Invokes callback->invoke for each non-0xffff entry in indices, then calls clear(1).
 // @fnv 0x00d31770
-void Owner::NotifyAndClear(int value) {
+// pdb: hkpHeightFieldAgent::cleanup | hkpHeightFieldAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: constraintOwner
+// pdb: hkpHeightFieldAgent::cleanup | hkpHeightFieldAgent.obj | fnv360_0822_retail, vtable, high (was: NotifyAndClear)
+void Owner::hkpHeightFieldAgent_cleanup(int value) {
     if (callback) {
         for(int index=0; index<count; ++index) {
             unsigned short item=indices[index];
@@ -232,6 +145,8 @@ void Owner::NotifyAndClear(int value) {
 extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
+// pdb: hkpHeightFieldAgent::linearCast | hkpHeightFieldAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: csBody, hfBody, input, collector, startCollector
 extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
@@ -239,6 +154,8 @@ extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void*
 
 extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
+// pdb: hkpHeightFieldAgent::getPenetrations | hkpHeightFieldAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: csBody, hfBody, input, collector
 extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d317d0(arg0, arg1, arg2, arg3);
@@ -256,6 +173,8 @@ struct FUN_00d32370_cls {
 
 // Builds a FUN_00d32370_cls with vt set to DAT_010ce81c and d set to a4, then calls FUN_00d317d0 with a2, a1, a3 and the struct.
 // @fnv 0x00d32370
+// pdb: hkpSymmetricAgentLinearCast<hkpHeightFieldAgent>::staticGetPenetrations | hkpHeightFieldAgent.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d32370(int aiArg1, int aiArg2, int aiArg3, int a4) {
     FUN_00d32370_cls local;
     local.flag = 0;
@@ -285,35 +204,8 @@ struct Argument {
     int identifier;
     unsigned int unk24, unk28, unk2c;
 };
-extern "C" const float DAT_0104da48;
-extern "C" const __m128 DAT_010c44d0;
-extern "C" const char UNK_010ce80c;
 extern "C" void __cdecl FUN_00d31d30(int, int, const CopyPacket*, const Argument*, const Argument*);
 
-// Copies a CopyPacket with its orientation sign-flipped and calls FUN_00d31d30 with one or two Argument descriptors built from the source.
-// @fnv 0x00d323f0
-void __cdecl FUN_00d323f0(int a, int b, const CopyPacket* source, int id1, int id2) {
-    __m128 orient = _mm_load_ps(&source->orientation.x);
-    __m128 inverted = _mm_xor_ps(orient, DAT_010c44d0);
-    Argument first;
-    first.scale = DAT_0104da48;
-    CopyPacket copy = *source;
-    _mm_store_ps(&copy.orientation.x, inverted);
-    const void* vptr = &UNK_010ce80c;
-    first.vtable = vptr;
-    first.orientation = source->orientation;
-    first.identifier = id1;
-    if (id2) {
-        Argument second;
-        second.vtable = vptr;
-        second.scale = DAT_0104da48;
-        second.orientation = source->orientation;
-        second.identifier = id2;
-        FUN_00d31d30(b, a, &copy, &first, &second);
-    } else {
-        FUN_00d31d30(b, a, &copy, &first, 0);
-    }
-}
 }  // namespace fnv_00d323f0
 
 namespace N {
@@ -321,17 +213,9 @@ union __declspec(intrin_type) __declspec(align(16)) __m128 {float m128_f32[4];};
 extern "C" {
 __m128 _mm_add_ps(__m128,__m128); __m128 _mm_mul_ps(__m128,__m128);
 __m128 _mm_shuffle_ps(__m128,__m128,int); __m128 _mm_unpackhi_ps(__m128,__m128);
-__m128 _mm_load_ss(const float*);
 }
 }
 extern unsigned long DAT_0126835c;
-extern const char DAT_010cea38[];
-extern const char DAT_010cea7c[];
-extern const char DAT_010cea6c[];
-extern const char DAT_010cea60[];
-extern const char DAT_010cea54[];
-extern const char DAT_010cea48[];
-extern const char DAT_01076f38[];
 extern const char str_010cea1c[];
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
@@ -509,13 +393,6 @@ struct ContactPointPair {
     __forceinline ContactPointPair(const hkpCdBody* a, const hkpCdBody* b) : m_pBodyA(a), m_pBodyB(b) {}
 };
 
-struct hkpCdPointCollector {
-    virtual void v00();
-    virtual void AddCdPoint(const ContactPointPair& point);
-};
-
-struct CollisionScratch { hkTransform transform; ContactPointPair contact; };
-
 struct hkpCdBodyPairCollector {
     virtual void v00();
     virtual void AddCdBodyPair(const hkpCdBody& bodyA, const hkpCdBody& bodyB);
@@ -593,25 +470,4 @@ struct AllocHolder {
 
 AllocHolder* __cdecl FUN_00c85750() throw();
 
-extern char DAT_010ceaf4[];
-
-struct FUN_00d32190_cls {
-    void* m_vptr;
-    unsigned short m_w04;
-    unsigned short m_w06;
-
-    void FUN_00d32060(int a1, int a2, int a3, int a4);
-};
-
-// Allocates a 0x18 byte object via m_pAllocator, sets m_w04 to 0x18, calls FUN_00d32060, and sets m_vptr to DAT_010ceaf4.
-// @fnv 0x00d32190
-FUN_00d32190_cls* __cdecl FUN_00d32190(int a1, int a2, int a3, int a4)
-{
-    AllocHolder* holder = FUN_00c85750();
-    FUN_00d32190_cls* obj = (FUN_00d32190_cls*)holder->m_pAllocator->Alloc(0x18);
-    obj->m_w04 = 0x18;
-    obj->FUN_00d32060(a2, a1, a3, a4);
-    obj->m_vptr = DAT_010ceaf4;
-    return obj;
-}
 }  // namespace fnv_00d32190

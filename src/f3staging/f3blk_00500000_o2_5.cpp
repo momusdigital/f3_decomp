@@ -11,6 +11,8 @@ struct Owner50d090 {
  int unk00;int unk04;int unk08;String50d090 unk0C;String50d090 unk18;String50d090 unk24;String50d090 unk30;String50d090 unk3C;String50d090 unk48;
  void FUN_0050d090(unsigned int,const char*);
 };
+// pdb: BGSTextureSet::SetTextureFilename | BGSTextureSet.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiType, aFilename
 void Owner50d090::FUN_0050d090(unsigned int selector,const char* text) {
  switch(selector) {
  case 0:unk0C.FUN_004019c0(text,0);break;

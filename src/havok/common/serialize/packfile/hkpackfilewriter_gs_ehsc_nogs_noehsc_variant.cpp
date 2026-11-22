@@ -5,7 +5,7 @@
 
 // src/havok/common/serialize/packfile/hkpackfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/hkpackfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl Vsnprintf(void*, void*, const char*, int, int, int, const char*);
+extern "C" void __cdecl hkString_snprintf(void*, void*, const char*, int, int, int, const char*);
 void __cdecl FUN_00dbda20(void* a, void* b);
 struct FUN_00dbdd40_s
 {
@@ -23,7 +23,7 @@ struct FUN_00dbdf30_s
 {
     int m_kPointA;
     int m_kPointB;
-    void __thiscall FUN_00dbdf30(int a, int b);
+    void __thiscall hkPackfileWriter_setSectionForClass(int a, int b);
 };
 struct MemoryRouter
 {
@@ -100,7 +100,7 @@ struct FUN_00dbda80_s
     unsigned int unk18;
     unsigned int unk1c;
     DepthLimit firstDepth;
-    void FUN_00dbda80(void* key, int value);
+    void hkPackfileWriter_addImport(void* key, int value);
 };
 extern int DAT_0102e388;
 struct FUN_00dbdb10_buf
@@ -129,13 +129,13 @@ struct FUN_00e02ef0_Obj
 };
 struct FUN_00e02a80_Obj
 {
-    void FUN_00e02a80(void* a, void* b, void* c, void* d);
+    void hkPlatformObjectWriter_writeObject(void* a, void* b, void* c, void* d);
 };
 struct FUN_00e02c70_Obj
 {
     void FUN_00e02c70();
 };
-void __cdecl FUN_00dbdb10(void* a, void* b, void* c);
+void __cdecl chasePointers(void* a, void* b, void* c);
 extern "C" void __cdecl GetOrAddString(void);
 void __cdecl FUN_00dbdef0();
 struct DbFirst
@@ -221,7 +221,7 @@ struct hkStringMapDB7
 class hkPackfileWriterDB7
 {
   public:
-    int RegisterObject(void* pvObject, const hkClassDB7* pkClass) throw();
+    int hkPackfileWriter_notDuplicateMetaData(void* pvObject, const hkClassDB7* pkClass) throw();
     int unk00;
     int unk04;
     int unk08;
@@ -576,7 +576,7 @@ struct Cls
     virtual void v1();
     virtual void v2();
     virtual void vf3(void* a, void* b, void* r, void* c);
-    void FUN_00dbda50(void* a, void* b, void* c);
+    void hkPackfileWriter_setContents(void* a, void* b, void* c);
 };
 struct S00dbddc0_Base
 {
@@ -878,7 +878,8 @@ template <class T> struct F3LocalArray : F3Array<T>
         data[size++] = value;
     }
 };
-Ragdoll* __cdecl FUN_00cea810(Skeleton* skeleton, const Array<RigidBody*>& bodies,
+// pdb: hkaRagdollUtils::createRagdollInstanceFromSkeleton | hkaRagdollUtils.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+Ragdoll* __cdecl hkaRagdollUtils_createRagdollInstanceFromSkeleton(Skeleton* skeleton, const Array<RigidBody*>& bodies,
                               const Array<Constraint*>& constraints)
 {
     struct SkeletonLayout { int unk00; short* parents; int unk08; Bone** bones; int boneCount; };

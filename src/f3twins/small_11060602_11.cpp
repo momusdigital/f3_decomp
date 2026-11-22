@@ -8,6 +8,8 @@ struct N_00b0fbd0 { N_00b0fbd0* a; N_00b0fbd0* b; int c; };
 struct P_00b0fbd0 { int count; N_00b0fbd0* FUN_00423640(); };
 struct L_00b0fbd0 { int p0; N_00b0fbd0* p4; N_00b0fbd0* p8; N_00b0fbd0* free; P_00b0fbd0 pool; };
 struct C_00b0fbd0 { L_00b0fbd0 lists[5]; int total; int FUN_00b0fbd0(int idx, int data); };
+// pdb: BSBatchRenderer::PassGroup::AddTail | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiBucket, apRenderPass
 int C_00b0fbd0::FUN_00b0fbd0(int idx, int data)
 {
     L_00b0fbd0* l = &lists[idx];
@@ -39,15 +41,17 @@ int C_00b0fbd0::FUN_00b0fbd0(int idx, int data)
 
 struct H_00bea7b0 { void FUN_00bea7b0(int, int*); };
 struct E_00b0f540 { void FUN_00b0f540(int); };
-struct T_00b10420 { void FUN_00b10420(int*, int, int); };
+struct T_00b10420 { void BSBatchRenderer_PrepareNextRenderPass(int*, int, int); };
 
 struct C_00b10750 { void FUN_00b10750(int* a1, int a2, int a3, int a4); };
+// pdb: BSBatchRenderer::SkipNextRenderPass | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: auiPass, aiBucket, abFirstPass, abAlphaPass
 void C_00b10750::FUN_00b10750(int* a1, int a2, int a3, int a4)
 {
     int idx = 0;
     ((H_00bea7b0*)((char*)this + 0xc))->FUN_00bea7b0(*a1, &idx);
     ((E_00b0f540*)(*(char**)((char*)this + 8) + idx * 0x68))->FUN_00b0f540(0);
-    ((T_00b10420*)this)->FUN_00b10420(a1, a2, a3);
+    ((T_00b10420*)this)->BSBatchRenderer_PrepareNextRenderPass(a1, a2, a3);
 }
 
 // ---- family f391
@@ -64,6 +68,7 @@ struct D_00b3a3f0 : B_00b3a3f0
     virtual void vf();
     D_00b3a3f0();
 };
+// pdb: ImageSpaceEffectInterface::ImageSpaceEffectInterface | ImageSpaceEffectInterface.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 D_00b3a3f0::D_00b3a3f0()
 {
     ((S28_00b3a3f0*)((char*)this + 0x28))->FUN_00555790(5);
@@ -84,6 +89,8 @@ struct C { char p0[0x1c]; Z* z; char p1[0x2c - 0x20]; X* x; bool FUN_00b3b7f0(vo
 }
 extern int DAT_011765d8, DAT_011765e0, DAT_011765dc;
 extern float DAT_0106894c, DAT_011765c4, DAT_01068948, DAT_011765d4, DAT_011765d0, DAT_011765cc, DAT_011765c8;
+// pdb: ImageSpaceEffectVATSScan::UpdateParams | ImageSpaceEffectVATSScan.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pParam
 __declspec(noinline) bool n_00b3b7f0::C::FUN_00b3b7f0(void*)
 {
     x->oc->S(DAT_011765d8);
@@ -100,6 +107,8 @@ __declspec(noinline) bool n_00b3b7f0::C::FUN_00b3b7f0(void*)
 
 
 struct C_00b43cc0 { void FUN_00b43cc0(int a); };
+// pdb: BoltShaderProperty::RemoveSegments | BoltShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: aiRemoveSegments
 void C_00b43cc0::FUN_00b43cc0(int a)
 {
     int n = *(int*)((char*)this + 0x140);
@@ -130,6 +139,8 @@ void C_00b43cc0::FUN_00b43cc0(int a)
 
 
 struct C_00b43d20 { void FUN_00b43d20(int a); };
+// pdb: BoltShaderProperty::CleanupSegments | BoltShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: aiRemoveSegments
 void C_00b43d20::FUN_00b43d20(int a)
 {
     int* f = (int*)this;
@@ -153,6 +164,8 @@ void C_00b43d20::FUN_00b43d20(int a)
 namespace n_00b43d70 {
 struct C { char p0[0x70]; float f70; char p1[0x78 - 0x74]; int i78; int i7c; char p2[0x140 - 0x80]; int i140; char p3[0x174 - 0x144]; bool b174; char p4[0x180 - 0x175]; float f180; int i184; int i188; void FUN_00b43d70(float, float); };
 }
+// pdb: BoltShaderProperty::CleanupBolt | BoltShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afTimeDelta, afSpeed
 __declspec(noinline) void n_00b43d70::C::FUN_00b43d70(float a, float b)
 {
     float t = a * b;
@@ -180,6 +193,7 @@ extern V_00b46280 DAT_0108ec68;
 
 struct B_00b46280 { virtual void vb(); char pad[0xa8]; B_00b46280(); };
 struct D_00b46280 : B_00b46280 { V_00b46280 v; float f; bool c; D_00b46280(); virtual void vd(); };
+// pdb: BSOrderedNode::BSOrderedNode | BSOrderedNode.obj | fnv360_0721_beta, objrun_prop, low
 D_00b46280::D_00b46280()
 {
     v = DAT_0108ec68;
@@ -231,6 +245,8 @@ extern float DAT_00dc27fc;
 struct O_00b46940 { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual bool v9c(float, void*, float*); virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51(); virtual void v52(); virtual bool vd4(); };
 struct Q_00b46940 { char pad[0xe4]; int r; };
 struct T_00b46940 { char pad8[8]; unsigned short fl; char pad9[0x1e]; float f28; Q_00b46940* q; char pad30[4]; O_00b46940* o; bool FUN_008b0270(float); void FUN_00b46940(float*); };
+// pdb: BSRefractionFirePeriodController::Update | BSRefractionFirePeriodController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: UpdateData
 void T_00b46940::FUN_00b46940(float* pf)
 {
     if ((unsigned char)(fl >> 5) & 1) {

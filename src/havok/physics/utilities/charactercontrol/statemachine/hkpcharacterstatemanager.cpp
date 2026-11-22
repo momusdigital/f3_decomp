@@ -8,30 +8,6 @@ struct hkReferencedObject
     void removeReference();
 };
 
-struct hkpCharacterStateManager
-{
-    int m_auiShapeKeys[2];
-    hkReferencedObject* m_states[32];
-    void FUN_00cbc4e0(hkReferencedObject* object, int index);
-};
-
-// @fnv 0x00cbc4e0
-void hkpCharacterStateManager::FUN_00cbc4e0(hkReferencedObject* object, int index)
-{
-    object->RetainReference();
-    if (m_states[index])
-        m_states[index]->removeReference();
-    m_states[index] = object;
-}
-
-extern int DAT_010c9194;
-extern int _DAT_0102e388;
-
-struct DDCC60World
-{
-    void removeReference();
-};
-
 struct FUN_00cbc4a0
 {
     int* m_ppVirtualMethodTable;
@@ -54,6 +30,7 @@ class FUN_00cd1e70
     virtual ~FUN_00cd1e70() {}
 };
 
+// pdb: hkpBroadPhaseBorder::~hkpBroadPhaseBorder | hkpBroadPhaseBorder.obj | fnv360_0822_retail, call_seq, medium
 FUN_00cbc4a0::~FUN_00cbc4a0()
 {
     *(int**)((char*)this + 0x00) = (int*)0xe7dabc;
@@ -80,45 +57,12 @@ struct hkpCharacterStateView
 {
     int m_auiShapeKeys[2];
     hkReferencedObject* m_states[32];
-    hkReferencedObject* FUN_00cbc510(int index);
+    hkReferencedObject* hkpCharacterStateManager_getState(int index);
 };
 
 // @fnv 0x00cbc510
-hkReferencedObject* hkpCharacterStateView::FUN_00cbc510(int index)
+// pdb: hkpCharacterStateManager::getState | hkpCharacterStateManager.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+hkReferencedObject* hkpCharacterStateView::hkpCharacterStateManager_getState(int index)
 {
     return m_states[index];
-}
-
-struct FnvCpu_FUN_00cbc520_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00cbc520_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00cbc520_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00cbc520_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00cbc520_CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00cbc4a0();
-    FnvCpu_FUN_00cbc520_CpuObject* FUN_00cbc520(unsigned int flags);
-};
-// @fnv 0x00cbc520
-FnvCpu_FUN_00cbc520_CpuObject* FnvCpu_FUN_00cbc520_CpuObject::FUN_00cbc520(unsigned int flags)
-{
-    FUN_00cbc4a0();
-    if (flags & 1)
-    {
-        FnvCpu_FUN_00cbc520_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
 }

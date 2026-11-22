@@ -1,20 +1,16 @@
-// bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
+// bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (8 functions)
 #include "f3_common.h"
 #include "tallgrassshaderproperty_decls.h"
 #pragma optimize("", off)
-// @fnv 0x0057ce60
-unsigned long TallGrassShaderProperty::GetCacheIdentifier()
-{
-    return DAT_011c9f6c;
-}
 #pragma optimize("", on)
 // Iterates the grass map, destroys each grass entry, then clears the map and resets two globals.
 // @fnv 0x00b62970
+// pdb: TallGrassShaderProperty::RemoveAllGrass | TallGrassShaderProperty.obj | fnv360_0822_retail, call_gap, low
 void TallGrassShaderProperty::ClearCacheData()
 {
     struct Traversal
     {
-        TallGrassCacheData* volatile value;
+        TallGrassCacheData* value;
         void* pos;
         unsigned long key;
     } traversal;
@@ -36,6 +32,7 @@ void TallGrassShaderProperty::ClearCacheData()
 
 // Iterates the cached geometry entries, releasing unowned geometries and their data, then removes all entries from the map.
 // @fnv 0x00b62a20
+// pdb: TallGrassShaderProperty::ClearStaticMaps | TallGrassShaderProperty.obj | fnv360_0822_retail, call_dedup, medium
 void TallGrassShaderProperty::ClearCaches()
 {
     ClearCacheData();
@@ -88,6 +85,8 @@ struct Holder
 };
 // Reads a string from the stream, stores it into mStr, then frees the temporary buffer.
 // @fnv 0x00b60fc0
+// pdb: TallGrassShaderProperty::LoadBinary | TallGrassShaderProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void Holder::ReadStringFromStream(NiStream& stream)
 {
     ((Helper*)this)->FUN_00b70260(stream);
@@ -287,13 +286,15 @@ struct NiVBSet
 {
     void Create(unsigned int key, void* val);
 };
-GeometryCacheEntry* __cdecl FUN_00b61980(IntegerDataBlock* p);
+GeometryCacheEntry* __cdecl TallGrassShaderProperty_GetCachedGeometry(IntegerDataBlock* p);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Looks up a cached grass group for the cell, creating and attaching a new one to the node when none has remaining capacity, and returns its remaining count.
 // @f3 0x00ae0e70 (community match, verified in this file)
 struct NiTStringPointerMap_00e93020;
 NiTStringPointerMap_00e93020* __cdecl GetArrayHolder();
+// pdb: TallGrassShaderProperty::GetGrassGroup | TallGrassShaderProperty.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: apGrassParam, aiCellX, aiCellY, apGrassGroup, apGrassNode
 unsigned short __cdecl GetOrCreateGrassGroup(IntegerDataBlock* apGrassParam, int aiCellX, int aiCellY,
                                              FUN_00bd8f90** apGrassGroup, NiNodeStub* apGrassNode)
 {
@@ -304,7 +305,7 @@ unsigned short __cdecl GetOrCreateGrassGroup(IntegerDataBlock* apGrassParam, int
     GeometryCacheEntry* pcachedGeom;
     FUN_00bd8f90* pgrassgroup;
     *apGrassGroup = 0;
-    pcachedGeom = FUN_00b61980(apGrassParam);
+    pcachedGeom = TallGrassShaderProperty_GetCachedGeometry(apGrassParam);
     if (!pcachedGeom)
         return 0;
     pGrassCache = 0;
@@ -391,6 +392,7 @@ struct FUN_00b60f50 : BSFadeNode
 };
 // Allocates and constructs a new FUN_00b60f50 instance, returning the new object.
 // @fnv 0x00b60f50
+// pdb: TallGrassShaderProperty::CreateObject | TallGrassShaderProperty.obj | fnv360_0721_beta, caller_sim, medium
 FUN_00b60f50* FUN_00b60f50_Create()
 {
     return new FUN_00b60f50;
@@ -458,6 +460,8 @@ struct PointerMap
     void FUN_00b61010(const char* key, MapPointer value);
 };
 // @fnv 0x00b61010
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,NiPointer<NiShaderLibrary> >,NiPointer<NiShaderLibrary> >::SetAt | NiD3DShaderFactory.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pcKey, val
 void PointerMap::FUN_00b61010(const char* key, MapPointer value)
 {
     unsigned int hash = Hash(key);
@@ -526,6 +530,8 @@ inline float FloorF(float f)
 
 // Adds entries using supplied positions and scales, derives a fourth instance value from parameters and random values, then creates a vertex buffer set.
 // @fnv 0x00b62de0
+// pdb: TallGrassShaderProperty::AddGrass | TallGrassShaderProperty.obj | fnv360_0822_retail, call_gap, low
+// pdb params: alTerrainChunkSeed, aiCellX, aiCellY, apGrassNode, apGrassParam, apPositions, afColors, aiNumPositions
 void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNodeStub* apGrassNode,
                                     GrassParamF* apParam, float (*apPositions)[3], float* apScales,
                                     unsigned short auiCount)
@@ -577,7 +583,6 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
 namespace fnv_00b61170 {
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00ec61c0(void* p, int fill, unsigned int size);
-int __cdecl FUN_00ec658f(void(__cdecl* fn)());
 
 struct ArrayHolderBase
 {
@@ -604,6 +609,7 @@ struct ArrayHolder : ArrayHolderBase
 
 // Returns a pointer to a static ArrayHolder instance.
 // @fnv 0x00b61170
+// pdb: TallGrassShaderProperty::GetGrassMap | TallGrassShaderProperty.obj | fnv360_0822_retail, caller, medium
 ArrayHolder* __cdecl GetArrayHolder()
 {
     static ArrayHolder obj;

@@ -3,6 +3,7 @@
 #include "nid3ddefaultshader_decls.h"
 // Initializes the default shader: clears state flags and pointers, sets the vtable, assigns the shader name string, and marks the best implementation.
 // @fnv 0x00e7c6b0
+// pdb: NiD3DDefaultShader::NiD3DDefaultShader | NiD3DDefaultShader.obj | fnv360_0822_retail, ustr, medium
 NiD3DDefaultShader::NiD3DDefaultShader()
 {
     usesRenderState = false;
@@ -64,6 +65,8 @@ struct ShaderStandIn
 };
 // Calls the virtual function at vtable slot 59 on this, then forwards all arguments to CreateShaderPass and returns its result.
 // @fnv 0x00e7cc10
+// pdb: NiD3DDefaultShader::UpdatePipeline | NiD3DDefaultShader.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkGeometry, pkSkin, pkRendererData, pkState, pkEffects, kWorld, kWorldBound
 unsigned int ShaderStandIn::FUN_00e7cc10(void* pkGeometry, void* pkSkin, void* pkRendererData, void* pkState,
                                          void* pkEffects, void* kWorld, void* kWorldBound)
 {
@@ -115,6 +118,8 @@ struct FakeShader
 };
 // Calls Set(0x89, m_uiOld, 0, 0) on the renderer, then forwards all arguments to FUN_00e805f0 and returns its result.
 // @fnv 0x00e7c580
+// pdb: NiD3DDefaultShader::PreProcessPipeline | NiD3DDefaultShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkGeometry, pkSkin, pkRendererData, pkState, pkEffects, kWorld, kWorldBound
 unsigned int FakeShader::FUN_00e7c580(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     m_pOwnerShader->Set(0x89, m_uiOld, 0, 0);
@@ -785,6 +790,8 @@ struct S_00e7c720_Shader
 };
 // Calls f02 on unk1c, invokes ApplyRenderModes on unk18->unk8c8 with a5 and a4->unk14, runs FUN_00e81170, stores unk1c->f27(0x89) in unk4c and returns its result.
 // @fnv 0x00e7c720
+// pdb: NiD3DDefaultShader::PreProcessPipeline | NiD3DDefaultShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkGeometry, pkSkin, pkRendererData, pkState, pkEffects, kWorld, kWorldBound
 unsigned int S_00e7c720_Shader::FUN_00e7c720(void* apArg1, void* apArg2, void* apArg3, S_00e7c720_State* apState,
                                              void* apArg5, void* apArg6, void* apArg7)
 {
@@ -830,6 +837,8 @@ struct ShaderCls
 };
 
 // @fnv 0x00e7c790
+// pdb: NiD3DDefaultShader::OpenNewPass | NiD3DDefaultShader.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: eSrcBlend, eDestBlend, bReturnBaseTextureAlpha, bReturnVertexColorAlpha
 void ShaderCls::FUN_00e7c790(int aiUnused1, int aiUnused2, unsigned char a3, unsigned char a4)
 {
     ShaderOwner* p = 0;
@@ -946,6 +955,8 @@ struct ShaderPassBuilder
 
 // Prepares a pass slot, configures render states and texture binding from the material, registers the pass, and returns it.
 // @fnv 0x00e7c830
+// pdb: NiD3DDefaultShader::AddTextureStage | NiD3DDefaultShader.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkMap, uiIndex
 ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int value)
 {
     if (!DAT_0126f74c || !DAT_0126f74c->Prepare(1, material != 0))
@@ -1043,6 +1054,8 @@ struct FUN_00e7ca20_cls
 
 // If the global is set and m_3c is nonzero with a valid p, configures the holder's setter based on a byte from p and m_40, then clears m_44 and m_48.
 // @fnv 0x00e7ca20
+// pdb: NiD3DDefaultShader::ClosePass | NiD3DDefaultShader.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkBaseMap
 void FUN_00e7ca20_cls::FUN_00e7ca20(void* p)
 {
     if (DAT_0126f74c != 0)
@@ -1235,6 +1248,8 @@ struct ShaderX
                                   void* kWorld, void* kWorldBound);
 };
 // @fnv 0x00e7cac0
+// pdb: NiD3DDefaultShader::ConstructPipeline | NiD3DDefaultShader.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkGeometry, pkSkin, pkBuffData, pkState, pkEffects, kWorld, kWorldBound
 unsigned int ShaderX::CreateShaderPass(GeomX* pkGeometry, void* pkSkin, DataX* pkData, StateX* pkState, void* pkEffects,
                                        void* kWorld, void* kWorldBound)
 {

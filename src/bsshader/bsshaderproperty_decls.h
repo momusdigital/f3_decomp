@@ -42,7 +42,7 @@ class BSShaderProperty::ShaderPassEntry
     ShadowSceneLight** m_ppShadowSceneLights;
 
     ShaderPassEntry(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ...);
-    void __cdecl FUN_00ba8c50(unsigned char, ShadowSceneLight*, ...);
+    void __cdecl BSShaderProperty_RenderPass_SetLights(unsigned char, ShadowSceneLight*, ...);
     void SetPassEnum(unsigned short value)
     {
         m_usShaderPassType = value;

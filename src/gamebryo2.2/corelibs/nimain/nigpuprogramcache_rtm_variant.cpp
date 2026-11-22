@@ -13,28 +13,12 @@ struct S_00a8d8b0
     unsigned int(__cdecl* fn)(S_00a8d8b0*, void*, unsigned int, unsigned int*, unsigned int);
 };
 void __cdecl AdvancePosition(S_00a8d8b0* apState, void* b, unsigned int c);
-struct NiTFixedStringMap_NiAVObject___
-{
-    void RemoveAll();
-};
-void _NiFreeAlias(void*);
 struct MemoryManager
 {
     void _DeallocateAlias(void*);
 };
 extern MemoryManager g_memoryManager;
-extern int DAT_01101378;
-extern int DAT_01101388;
-struct SomeClass
-{
-    void* FUN_00ee90b0(unsigned int);
-};
-void __cdecl FUN_00ee9a60();
 void __cdecl operator delete(void*, unsigned int);
-struct FUN_00ee9ca0_shell
-{
-    void* __thiscall FUN_00ee9ca0(unsigned int flags);
-};
 struct FUN_00a5e3a0_Helper
 {
     void* FUN_00aa3e40(unsigned int);
@@ -48,12 +32,6 @@ void* __cdecl NiStandardAllocator::operator new(unsigned int n)
 {
     return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->FUN_00aa3e40(n);
 }
-struct FUN_00aa2200
-{
-    NiStandardAllocator* object;
-    unsigned char initialized;
-    FUN_00aa2200();
-};
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern char* _EmptyFS;
@@ -123,8 +101,6 @@ class FixedStringMap
 
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
-bool __cdecl FUN_00aa2cc0(const char*) throw();
-bool __cdecl FUN_00aa2d10(char*, unsigned int) throw();
 int __cdecl BuildAbsolutePath(char*, unsigned int, const char*, const char*) throw();
 struct S_00ee8af0_String : NiFixedString
 {
@@ -150,52 +126,6 @@ struct S_00ee8af0_String : NiFixedString
     using NiFixedString::operator=;
     S_00ee8af0_String& operator=(const char* str) throw();
 };
-struct S_00ee8af0
-{
-    virtual void vfn00();
-    virtual void vfn01();
-    virtual void vfn02();
-    virtual void vfn03();
-    virtual void vfn04();
-    virtual void vfn05();
-    virtual void vfn06();
-    virtual void vfn07();
-    virtual void vfn08();
-    virtual void vfn09();
-    virtual void vfn0A();
-    virtual void vfn0B();
-    virtual void vfn0C();
-    virtual void vfn0D();
-    virtual void vfn0E();
-    virtual void vfn0F();
-    virtual void vfn10();
-    virtual void vfn11();
-    virtual void vfn12();
-    virtual void vfn13();
-    virtual void vfn14();
-    virtual void vfn15();
-    virtual void vfn16();
-    virtual void vfn17();
-    virtual void vfn18();
-    virtual void vfn19();
-    virtual void vfn1A();
-    virtual void vfn1B();
-    virtual void vfn1C();
-    virtual void vfn1D();
-    virtual void vfn1E();
-    virtual void vfn1F();
-    virtual void vfn20() throw();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    S_00ee8af0_String m_kString;
-
-    bool SetString(const NiFixedString& s) throw();
-};
 // ---------------------------------------------------------------------------
 // stand-in for the game's "path" map class.
 //
@@ -203,71 +133,12 @@ struct S_00ee8af0
 // vptr / m_uiHashSize / m_ppkHashTable) that keeps three fixed strings
 // (+0x18, +0x1c, +0x20) and two flag bytes at +0x39 / +0x3a.
 // ---------------------------------------------------------------------------
-class FixedPathMap : public FixedStringMap
-{
-  public:
-    int unk0c;
-    int unk10;
-    int unk14;
-    NiFixedString m_18;
-    NiFixedString m_1c;
-    NiFixedString m_20;
-    void* unk24;
-    void* unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    unsigned char unk38;
-    unsigned char m_39;
-    unsigned char m_3a;
-
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void onStringChanged();
-
-    void UpdatePathString();
-};
 // helpers of the game (declared only)
 void __cdecl BuildAbsolutePath(char* buffer, unsigned int size, char* a, char* b);
 char* __cdecl FUN_00a5b690(char* str);
-class FUN_00ee8fe0_cls
-{
-  public:
-    NiRefObject** m_ppkTable;
-    unsigned int unk04;
-    unsigned int m_uiSize;
-
-    void RemoveAt(unsigned int idx);
-};
 extern void* DAT_11ac230;
 void __cdecl FUN_00aa1ab0();
 void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
-bool __stdcall FUN_00ee92d0(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3);
 struct S_00ee97e0_Stream
 {
     int unk00;
@@ -275,99 +146,15 @@ struct S_00ee97e0_Stream
     int unk08;
     unsigned int(__cdecl* fn)(S_00ee97e0_Stream*, void*, unsigned int, unsigned int*, unsigned int);
 };
-struct S_00ee97e0_Elem
-{
-    int* FUN_00a62660();
-    int* FUN_00eea4f0();
-    int* FUN_00eea500();
-    int* FUN_00eea510();
-    int* FUN_00eea520();
-    int FUN_00be0ad0();
-    int FUN_00aa1ac0();
-    int FUN_00dbbc00();
-    int FUN_00eea530();
-};
-struct S_00ee97e0_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00ee97e0_Elem** unk0c;
-    int unk10;
-    unsigned int unk14;
-};
 __forceinline void S_00ee97e0_Write(S_00ee97e0_Stream* s, void* data)
 {
     unsigned int sz = 4;
     s->pos += s->fn(s, data, 4, &sz, 1);
 }
-struct S_00ee97e0_Cls
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1c();
-    virtual void vf20();
-    virtual void vf24();
-    virtual void vf28();
-    virtual void vf2c();
-    virtual void vf30();
-    virtual void vf34();
-    virtual void vf38();
-    virtual void vf3c();
-    virtual void vf40();
-    virtual void vf44();
-    virtual void vf48();
-    virtual void vf4c();
-    virtual void vf50();
-    virtual void vf54();
-    virtual void vf58();
-    virtual void vf5c();
-    virtual void vf60();
-    virtual void vf64();
-    virtual void vf68();
-    virtual void vf6c();
-    virtual void vf70();
-    virtual void vf74();
-    virtual void vf78();
-    virtual void vf7c();
-    virtual void vf80();
-    virtual void vf84();
-    virtual void vf88();
-    virtual void vf8c();
-    virtual bool vf90(S_00ee97e0_Stream* s, int v);
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    bool WriteToStream(S_00ee97e0_Stream* s, S_00ee97e0_Obj* o, int* v);
-    void FUN_00ee9230(S_00ee97e0_Stream* s, int v);
-};
 // CreateRecordPair - allocate a 12 byte record from the global allocator
 // (DAT_011f6238) and clear its two counter fields.  When the allocation
 // fails the pointer is replaced by a null pointer which is then written
 // through, exactly like the original code does.
-struct RecordPair
-{
-    unsigned int unk00;
-    unsigned int m_i04;
-    unsigned int m_i08;
-};
-extern "C" FUN_00a5e3a0_Helper DAT_011f6238;
-RecordPair* __cdecl CreateRecordPair();
 char* __cdecl FUN_00a5b690(const char*);
 struct FixedStringDtor
 {
@@ -427,18 +214,12 @@ struct ItemWithDtor
         g_memoryManager._DeallocateAlias(p);
     }
 };
-void __stdcall ClearAndDeleteItem(ItemWithDtor* pItem);
 extern long DAT_011f4400;
 extern char* DAT_0109b220;
-void __cdecl FreeTable(void* p);
 void __cdecl FreeBlock(void* p);
 struct ReleaseHelper
 {
     void Release();
-};
-struct MapClearHelper
-{
-    void FUN_00ee8e10();
 };
 class SpawnedRoot
 {
@@ -467,44 +248,7 @@ class SpawnedObject : public SpawnedBase
         reinterpret_cast<ReleaseHelper*>(this)->Release();
     }
 };
-class FUN_00ee9a60_cls : public SpawnedRoot
-{
-  public:
-    virtual ~FUN_00ee9a60_cls() throw();
-    int unk04;
-    SpawnedObject m_sub;
-    int unk14;
-    NiFixedString m_s0;
-    NiFixedString m_s1;
-    NiFixedString m_s2;
-    NiFixedString m_s3;
-    unsigned int m_mapHead;
-};
 extern "C" int __cdecl strcmp(const char*, const char*);
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-struct KeyObj
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual unsigned int CountKeys();
-    virtual const char* GetKey(unsigned int index);
-};
 struct KeyEntry
 {
     char** FUN_00eea510();
@@ -518,34 +262,8 @@ struct KeyEntry
         return strcmp(hk, key) == 0;
     }
 };
-struct FUN_00ee90f0_cls
-{
-    KeyEntry** m_ppEntries;
-    unsigned int unk04;
-    unsigned int m_uiItemCount;
-    void RemoveAt(int index);
-};
-bool __stdcall RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList);
 // 0x00ee8a70  unit_e3a382715159.cpp  /MT /O2 /GS /EHsc /Gy
 // target: 8D 41 28 C3   lea eax,[ecx+0x28] ; ret   (4 bytes, thiscall getter)
-struct C00ee8a70
-{
-    char pad00[0x28];
-    int field28;
-    int* FUN_00ee8a70();
-};
-struct FnvCpu_FUN_00ee8a80_CpuObject
-{
-    char* FUN_00ee8a80();
-};
-struct FnvCpu_FUN_00ee8a90_CpuObject
-{
-    char* FUN_00ee8a90();
-};
-struct FUN_00ee8aa0_shell
-{
-    char __thiscall FUN_00ee8aa0();
-};
 class NiFile
 {
   public:
@@ -625,47 +343,7 @@ class NiFileLoaderW
     char m_pad04[0x1c];
     FixedStr m_pcFileName;
 };
-struct FnvCpu_FUN_00ee8ab0_CpuObject
-{
-    unsigned int unk0000;
-    unsigned int unk0004;
-    unsigned int unk0008;
-    unsigned int unk000c;
-    unsigned int unk0010;
-    unsigned int unk0014;
-    unsigned int unk0018;
-    unsigned int unk001c;
-    unsigned int unk0020;
-    unsigned int unk0024;
-    unsigned int unk0028;
-    unsigned int unk002c;
-    unsigned int unk0030;
-    unsigned int unk0034;
-    unsigned char unk0038;
-    unsigned char unk0039;
-    unsigned char value;
-    unsigned char FUN_00ee8ab0();
-};
 #include <windows.h>
-struct RefObject
-{
-    virtual void V0();
-    virtual void Destroy();
-    volatile LONG refs;
-};
-struct Node
-{
-    Node* next;
-    unsigned int key;
-    RefObject* value;
-};
-struct Map
-{
-    int unk00;
-    unsigned int bucketCount;
-    Node** buckets;
-    bool Lookup(unsigned int*, RefObject**);
-};
 struct S_00ee9230_Stream
 {
     int unk0;
@@ -692,14 +370,9 @@ class NiFileE93
     virtual void vf18();
     virtual unsigned int GetFileSize();
 };
-extern bool DAT_011c2fdd;
 bool __cdecl FUN_00aa1ab0(const char* pcName);
 bool __cdecl FUN_00aa1bb0(const char* pcName);
-NiFileE93* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
 void __cdecl AdvancePosition(NiFileE93* pkFile, char* pcBuffer, unsigned int uiLen);
-int __cdecl FUN_00aa1360(const char* pc1, const char* pc2);
-void __cdecl InvokeAndAccumulate(NiFileE93* pkFile, bool* pbValue);
-void __cdecl FUN_00a575b0(NiFileE93* pkFile, unsigned int* puiValue);
 class NiFixedStringE93
 {
   public:
@@ -709,66 +382,8 @@ class NiFixedStringE93
     }
     const char* m_kHandle;
 };
-class NiGPUProgramCacheE93 : public FixedStringMap
-{
-  public:
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1c();
-    virtual void vf20();
-    virtual void vf24();
-    virtual void vf28();
-    virtual void vf2c();
-    virtual void vf30();
-    virtual void vf34();
-    virtual void vf38();
-    virtual void vf3c();
-    virtual void vf40();
-    virtual void vf44();
-    virtual void vf48();
-    virtual void vf4c();
-    virtual void vf50();
-    virtual const NiFixedStringE93& GetPlatformName();
-    virtual void vf58();
-    virtual void vf5c();
-    virtual const char* GetRendererName();
-    virtual const char* GetShaderType();
-    virtual void vf68();
-    virtual void Clear();
-    virtual void vf70();
-    virtual void vf74();
-    virtual void vf78();
-    virtual void vf7c();
-    virtual void vf80();
-    virtual void vf84();
-    virtual void vf88();
-    virtual bool FiveIntegerLoadRecord(NiFileE93* pkFile, bool* pbUpdated);
-
-    bool FUN_00ee92d0(NiFileE93* pkFile, char* pcBuffer, unsigned int uiBufferSize);
-    bool LoadCacheFile();
-
-    void* m_pkEntryMap;
-    unsigned int m_uiStreamIndex;
-    unsigned int m_uiEntryMax;
-    unsigned int m_uiGrowBy;
-    NiFixedStringE93 m_pcWorkingDir;
-    NiFixedStringE93 m_pcCacheFileName;
-    unsigned int m_uiMaxSize;
-    unsigned int m_uiNextBlockSize;
-    unsigned int m_uiValue1;
-    unsigned int m_uiBufferSize;
-    unsigned int m_uiReserved;
-    bool m_bAutoWrite;
-    bool m_bLoadComplete;
-};
-extern "C" size_t strlen(const char*);
 extern char* _EmptyFS;
 bool __cdecl FUN_00aa1bb0(const char* h);
-void __cdecl FUN_00e984d0(void* s, const char* name, unsigned int len);
 struct StreamObj : public NiFile
 {
     unsigned int m_pos;
@@ -795,27 +410,6 @@ struct OwnerMap : public FixedStringMap
     MapItem* FUN_00ee8ac0();
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
-__declspec(noinline) void OwnerMap::GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val)
-{
-    MapItem* item = pos;
-    key = item->m_key;
-    val = item->m_val;
-    if (item->m_pkNext)
-    {
-        pos = item->m_pkNext;
-        return;
-    }
-    unsigned int bucket = (unsigned int)item->m_key.m_kHandle % m_uiHashSize + 1;
-    for (; bucket < m_uiHashSize; ++bucket)
-    {
-        if (m_ppkHashTable[bucket])
-        {
-            pos = m_ppkHashTable[bucket];
-            return;
-        }
-    }
-    pos = 0;
-}
 struct PathString
 {
     char* handle;

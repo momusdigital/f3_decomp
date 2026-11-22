@@ -287,6 +287,8 @@ struct Owner {
     FUN_00cbc810_cls head;
     void FUN_007edb10(ArgObj* arg);
 };
+// pdb: FleePackage::UpdateAvoidedRefList | FleePackage.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apProcess
 void Owner::FUN_007edb10(ArgObj* arg) {
     Owner* self = this;
     float local = DAT_00f5ebc0;

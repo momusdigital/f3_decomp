@@ -496,6 +496,7 @@ __declspec(noinline) void FUN_00d7afd0()
     DAT_0105e750 = v;
 }
 
+// pdb: `dynamic initializer for 'hkpMeshShape_SubpartClass_Members'' | hkpCollidehkpMeshShapeReflections.obj | tesv_win, objrun_open, low
 __declspec(noinline) void FUN_00d7e270()
 {
     void* v = DAT_01062868;

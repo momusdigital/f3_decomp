@@ -7,6 +7,8 @@
 
 // Updates the blend interpolator for the given time and target, delegating to single or multi-interpolator update paths and storing the last time.
 // @fnv 0x00a40810
+// pdb: NiBlendFloatInterpolator::Update | NiBlendFloatInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkInterpTarget, fValue
 bool NiBlendFloatInterpolator::Update(float time, NiObjectNET* target, float& value)
 {
     bool result = false;
@@ -28,6 +30,8 @@ __forceinline void ReadFloat(NiBinaryStream* input, float* value)
 }
 // Calls the base NiBlendInterpolator::LoadBinary, then reads a float from the stream into m_fFloatValue.
 // @fnv 0x00a40870
+// pdb: NiBlendFloatInterpolator::LoadBinary | NiBlendFloatInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: kStream
 void NiBlendFloatInterpolator::LoadBinary(NiStream& stream)
 {
     NiBlendInterpolator::LoadBinary(stream);
@@ -35,13 +39,15 @@ void NiBlendFloatInterpolator::LoadBinary(NiStream& stream)
 }
 
 // @fnv 0x00a40640
+// pdb: NiBlendFloatInterpolator::StoreSingleValue | NiBlendFloatInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: fTime, pkInterpTarget, fValue
 bool NiBlendFloatInterpolator::UpdateAccumulatedTransform(float time, NiObjectNET* target, float& value)
 {
     if (m_uiObjectFlags & 1)
         time = m_fSingleInterpolatorTime;
     if (time == DAT_0109696c)
         return false;
-    if (m_pSingleInterpolator->vfn_09c(time, target, m_fFloatValue))
+    if (m_pSingleInterpolator->Update(time, target, m_fFloatValue))
     {
         value = m_fFloatValue;
         return true;
@@ -62,6 +68,8 @@ __forceinline bool NiBlendInterpolator::GetBlendUpdateTime(float& time, NiBlendI
 
 // Blends weighted float values from the interpolator array into m_fFloatValue, normalizing by total weight, and writes the result to value.
 // @fnv 0x00a406c0
+// pdb: NiBlendFloatInterpolator::BlendValues | NiBlendFloatInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkInterpTarget, fValue
 bool NiBlendFloatInterpolator::UpdateSingleInterpolator(float time, NiObjectNET* target, float& value)
 {
     m_fFloatValue = 0.0f;
@@ -77,7 +85,7 @@ bool NiBlendFloatInterpolator::UpdateSingleInterpolator(float time, NiObjectNET*
             float updateTime = time;
             if (!GetBlendUpdateTime(updateTime, item))
                 totalWeight -= item.m_fNormalizedWeight;
-            else if (interpolator->vfn_09c(updateTime, target, currentValue))
+            else if (interpolator->Update(updateTime, target, currentValue))
             {
                 valid = true;
                 m_fFloatValue += m_pInterpArray[i].m_fNormalizedWeight * currentValue;
@@ -110,6 +118,8 @@ struct Vtable_00a40560
 
 // Calls the function pointer at offset 0xa8 in pkInterpolator's vtable and returns its bool result.
 // @fnv 0x00a40560
+// pdb: NiBlendFloatInterpolator::InterpolatorIsCorrectType | NiBlendFloatInterpolator.obj | fnv360_0721_beta, objrun_sim, low
+// pdb params: pkInterpolator
 bool FUN_00a40560_shell::FUN_00a40560(NiInterpolator* pkInterpolator)
 {
     return (**(Vtable_00a40560**)pkInterpolator).fn(pkInterpolator);
@@ -123,6 +133,8 @@ struct FUN_00a40520 : NiBlendInterpolator
 };
 // Constructs the interpolator via NiBlendInterpolator and initializes m_fFloatValue from DAT_0109a918.
 // @fnv 0x00a40520
+// pdb: NiBlendFloatInterpolator::NiBlendFloatInterpolator | NiBlendFloatInterpolator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: bManagerControlled, fWeightThreshold, ucArraySize
 FUN_00a40520::FUN_00a40520(bool onlyUseHighestWeight, float weightThreshold, unsigned char arraySize)
     : NiBlendInterpolator(onlyUseHighestWeight, weightThreshold, arraySize)
 {
@@ -160,6 +172,8 @@ struct M76Obj
 };
 // Returns true if FUN_00a36fd0 succeeds and this object's m_fFloatValue equals the passed object's m_fFloatValue.
 // @fnv 0x00a405b0
+// pdb: NiBlendFloatInterpolator::IsEqual | NiBlendFloatInterpolator.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: pkObject
 bool M76Obj::IsFloatValueEqual(M76Obj* pkObject)
 {
     if (!FUN_00a36fd0(pkObject))
@@ -176,7 +190,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f3e58;
 // @fnv 0x00a405e0
-void* __cdecl FUN_00a405e0()
+// pdb: bhkMouseSpringAction::GetRTTI | GlobalFunc.obj | fnv360_0822_retail, udata + bridge(vtable_prefix|vtable), high
+void* __cdecl bhkMouseSpringAction_GetRTTI()
 {
     return &g_011f3e58;
 }
@@ -198,10 +213,11 @@ struct M76Obj
 {
     void FUN_00a37ec0(M76Stream*);
     char pad[0x30 - 0];
-    void FUN_00a408b0(M76Stream*);
+    void NiBlendFloatInterpolator_SaveBinary(M76Stream*);
 };
 // @fnv 0x00a408b0
-void __fastcall FUN_00a408b0(M76Obj* self, int, M76Stream* stream)
+// pdb: NiBlendFloatInterpolator::SaveBinary | NiBlendFloatInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+void __fastcall NiBlendFloatInterpolator_SaveBinary(M76Obj* self, int, M76Stream* stream)
 {
     self->FUN_00a37ec0(stream);
     M76Bin* __restrict out = stream->output;
@@ -244,6 +260,8 @@ char* __cdecl FUN_00a7d330(M76Glob*);
 char* __cdecl FUN_00a7d550(const char*, float);
 // Calls FUN_00a38080 on self, then appends the result of FUN_00a7d330(g_011f3e58) and a formatted "m_fFloatValue" string to pkStrings.
 // @fnv 0x00a408f0
+// pdb: NiBlendFloatInterpolator::GetViewerStrings | NiBlendFloatInterpolator.obj | fnv360_0822_retail, ustr_rel, medium
+// pdb params: pkStrings
 void __fastcall AppendFloatValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 {
     self->FUN_00a38080(pkStrings);
@@ -267,6 +285,8 @@ struct BlendFloatSource : NiBlendFloatInterpolator
 
 // Allocates a NiBlendFloatInterpolator, initialises it, copies members from this via FUN_00a37510, and returns the clone.
 // @fnv 0x00a405f0
+// pdb: NiBlendFloatInterpolator::InterpolatorIsCorrectType | NiBlendFloatInterpolator.obj | fnv360_0822_debug, objrun, low, conflict (skyrim: NiBlendFloatInterpolator::CreateClone)
+// pdb params: pkInterpolator
 NiBlendFloatInterpolator* BlendFloatSource::FUN_00a405f0(void* pCloningProcess)
 {
     NiBlendFloatInterpolator* copy =

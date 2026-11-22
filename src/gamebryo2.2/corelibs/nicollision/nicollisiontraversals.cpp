@@ -10,6 +10,8 @@ extern float DAT_0126fa78;
 
 // Stores f and the three components of p into globals and returns a pointer to DAT_0126fa68.
 // @fnv 0x00e9c7d0
+// pdb: NiHalfSpaceBV::operator!= | NiHalfSpaceBV.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: NiCollisionConvert::ConvertToSphereBV_Fast)
+// pdb params: kABV
 int* __cdecl FUN_00e9c7d0(float afValue, int* apComponents)
 {
     DAT_0126fa78 = afValue;
@@ -35,6 +37,7 @@ struct Obj
     Obj* InitFromParams(float, int*);
 };
 // @fnv 0x00e9c800
+// pdb: NiHalfSpaceBV::Clone | NiHalfSpaceBV.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: NiCollisionConvert::ConvertToSphereBV_Safe)
 Obj* FUN_00e9c800(float afValue, int* p)
 {
     void* pMemory = g_memoryManager.Allocate(20);
@@ -120,6 +123,8 @@ struct ItemOwner
 bool __cdecl FUN_00e9c490(int a1, int a2, SpawnParam* p, int item);
 
 // @fnv 0x00e9c680
+// pdb: NiCollisionTraversals::FindIntersectionsSwitchNode | NiCollisionTraversals.obj | fnv360_0721_beta, caller, medium
+// pdb params: kOrigin, kDir, kPick, pkSwitch
 bool __cdecl FUN_00e9c680(int a1, int a2, SpawnParam* p, ItemOwner* owner)
 {
     bool result = false;
@@ -237,6 +242,8 @@ bool __cdecl FUN_00e9c490(int a1, int a2, SpawnParam* p, int item);
 bool __cdecl FUN_00e9c680(int a1, int a2, SpawnParam* p, ItemOwner* owner);
 
 // @fnv 0x00e9c6f0
+// pdb: NiCollisionTraversals::FindIntersectionsNode | NiCollisionTraversals.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kOrigin, kDir, kPick, pkNode
 bool __cdecl FUN_00e9c6f0(int a1, int a2, SpawnParam* pSpawnParam, ItemOwner* owner)
 {
     if (pSpawnParam->unk08 == 0 && pSpawnParam->m_iType == 1)
@@ -388,6 +395,8 @@ bool __cdecl RaycastShape(S_00e9c490_Pt* p1, S_00e9c490_Pt* p2, S_00e9c490_Ctx* 
 bool __cdecl FUN_0043b300(const void* rtti, S_00e9c490_Node* node);
 
 // @fnv 0x00e9c490
+// pdb: NiCollisionTraversals::FindIntersections | NiCollisionTraversals.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kOrigin, kDir, kPick, pkRoot
 bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9c490_Ctx* pContext,
                           S_00e9c490_Node* node)
 {
@@ -432,7 +441,8 @@ bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9
 }
 
 // @fnv 0x00e9c7c0
-int FUN_00e9c7c0()
+// pdb: hkStreamReader::tell | hkStreamReader.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int hkStreamReader_tell()
 {
     return -1;
 }
@@ -642,9 +652,9 @@ struct GeometryData
     NiPoint2* texcoords;
     struct Provider* provider;
     bool FUN_00a67360(bool);
-    void FUN_00a673d0();
-    void FUN_00a67410(Buffer*);
-    void GetBounds(Buffer*);
+    void NiGeometryData_UnlockPackedVertexData();
+    void NiGeometryData_GetVerticesIterator(Buffer*);
+    void NiGeometryData_GetNormalsIterator(Buffer*);
     void FUN_00a67660(Buffer*);
     void GetKeyAndMode(unsigned, Buffer*);
     unsigned short* FUN_00a7b850();
@@ -800,7 +810,10 @@ struct RayOriginMatrix : Matrix
     }
 };
 
-bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, Geometry* geometry)
+// pdb: NiCollisionTraversals::FindIntersectionsTriShapeFastPath | NiCollisionTraversals.obj | fnv360_0822_retail, objrun, high
+// pdb params: kOrigin, kDir, kPick, pkTBG
+// pdb: NiCollisionTraversals::FindIntersectionsTriShapeFastPath | NiCollisionTraversals.obj | fnv360_0822_retail, objrun, high (was: RaycastGeometry)
+bool __cdecl NiCollisionTraversals_FindIntersectionsTriShapeFastPath(const P3* origin, const P3* direction, Pick* pick, Geometry* geometry)
 {
     Transform& worldTransform = geometry->world;
     P3 delta;
@@ -904,7 +917,7 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
         if (pick->GetPlaneNormal())
         {
             Buffer normalBuffer;
-            data->GetBounds(&normalBuffer);
+            data->NiGeometryData_GetNormalsIterator(&normalBuffer);
             if (normalBuffer.data)
             {
                 P3 n0 = normalBuffer.Point(i0), n1 = normalBuffer.Point(i1), n2 = normalBuffer.Point(i2);
@@ -1046,6 +1059,8 @@ struct OrientedBoxBound
 };
 // Computes the box center, axes, and extents from points, with an axis-aligned fallback for degenerate dimensions.
 // @fnv 0x00eadf30
+// pdb: NiBox::CreateFromData | NiBox.obj | fnv360_0822_retail, udata, high
+// pdb params: usQuantity, pkVertex
 void OrientedBoxBound::ComputeFromPoints(unsigned short count, const NiPoint3* apPoints)
 {
     const NiPoint3* points = apPoints;
@@ -1203,11 +1218,6 @@ struct Vec3
         return r;
     }
 };
-
-inline Vec3 ScalePoint(float f, const Vec3& v)
-{
-    return v * f;
-}
 
 struct Vec2
 {
@@ -1449,15 +1459,15 @@ struct Mesh
 
     bool FUN_00a67360(int);
 
-    void FUN_00a67410(BufferView*);
+    void NiGeometryData_GetVerticesIterator(BufferView*);
 
     unsigned short* FUN_00a75f10();
 
-    void FUN_00a673d0();
+    void NiGeometryData_UnlockPackedVertexData();
 
     void GetKeyAndMode(int, BufferView*);
 
-    void GetBounds(BufferView*);
+    void NiGeometryData_GetNormalsIterator(BufferView*);
 
     void FUN_00a67660(BufferView*);
 };
@@ -1486,206 +1496,6 @@ extern bool __cdecl FUN_00eadb90(const Vec3*, const Vec3*, const Vec3*, const Ve
 extern Vec4 DAT_011a9be0;
 extern Vec3 DAT_011f426c;
 extern Vec2 DAT_011f4980;
-// @fnv 0x00e993d0
-bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Options* options, Shape* shape)
-{
-    const Transform& xform = shape->world;
-    double cachedm01 = xform.rotation.m01;
-    double cachedm02 = xform.rotation.m02;
-    double cachedm10 = xform.rotation.m10;
-    Vec3 difference = *rayStart - xform.translation;
-    float invScale = 1.0f / xform.scale;
-    difference = xform.rotation.InverseRotate(difference.x, difference.y, difference.z);
-    Vec3 localStart = difference * invScale;
-    difference = xform.rotation.RotateCaptured(*rayDirection, cachedm01, cachedm02, cachedm10);
-    Vec3 localDirection = difference * invScale;
-    bool anyHit = false;
-    const unsigned short triangleCount = shape->mesh->GetTriangleTotal();
-    bool ownsPositions = false;
-    Mesh* mesh = shape->mesh;
-    BufferView positions = {0, 0, false};
-    Vec3* directVertices = mesh->vertices;
-    if (!directVertices)
-    {
-        Stream* stream = mesh->stream;
-        if (stream && stream->Available())
-        {
-            ownsPositions = mesh->FUN_00a67360(1);
-            mesh->FUN_00a67410(&positions);
-        }
-    }
-    unsigned short* triangles = mesh->FUN_00a75f10();
-    if (triangles && (directVertices || positions.data))
-    {
-        for (unsigned short tri = 0; tri < triangleCount; ++tri)
-        {
-            unsigned short a, b, c;
-            if (tri & 1)
-            {
-                a = triangles[tri + 1];
-                b = triangles[tri];
-            }
-            else
-            {
-                a = triangles[tri];
-                b = triangles[tri + 1];
-            }
-            c = triangles[tri + 2];
-            if (a == b || b == c)
-                continue;
-            Vec3 va, vb, vc;
-            if (!directVertices)
-            {
-                va = *(Vec3*)((unsigned char*)positions.data + a * positions.stride);
-                vb = *(Vec3*)((unsigned char*)positions.data + b * positions.stride);
-                vc = *(Vec3*)((unsigned char*)positions.data + c * positions.stride);
-            }
-            else
-            {
-                const Vec3& aVertex = directVertices[a];
-                va = aVertex;
-                const Vec3& bVertex = directVertices[b];
-                vb = bVertex;
-                const Vec3& cVertex = directVertices[c];
-                vc = cVertex;
-            }
-            Vec3 point;
-            float distance, u, v;
-            bool frontOnly = options->unk10;
-            if (!FUN_00eadb90(&localStart, &localDirection, &va, &vb, &vc, frontOnly, &point, &distance, &u, &v))
-                continue;
-            anyHit = true;
-            QueryResult* result = options->output.GetTexture(shape);
-            if (options->coordinateMode == 1)
-            {
-                point = ScalePoint(xform.scale, xform.rotation.FUN_004b4500(point)).Added(xform.translation);
-            }
-            result->point = point;
-            result->distance = distance;
-            result->triangle = tri;
-            result->a = a;
-            result->b = b;
-            result->c = c;
-            float weight = 1.0f - (u + v);
-            if (options->needsUV)
-            {
-                BufferView uv = {0, 0, false};
-                mesh->GetKeyAndMode(0, &uv);
-                if (uv.data)
-                {
-                    const Vec2* pa = (Vec2*)((unsigned char*)uv.data + a * uv.stride);
-                    const Vec2* pb = (Vec2*)((unsigned char*)uv.data + b * uv.stride);
-                    const Vec2* pc = (Vec2*)((unsigned char*)uv.data + c * uv.stride);
-                    Vec2 tc = *pc;
-                    tc *= v;
-                    Vec2 tb = *pb;
-                    tb *= u;
-                    Vec2 ta = *pa;
-                    ta *= weight;
-                    Vec2 sum = ta;
-                    sum += tb;
-                    Vec2 value = sum;
-                    value += tc;
-                    result->uv = value;
-                }
-                else
-                {
-                    Vec2* texcoords = shape->mesh->texcoords;
-                    if (texcoords)
-                    {
-                        Vec2 sum = FUN_00532fd0(weight, texcoords[a]) + FUN_00532fd0(u, texcoords[b]) +
-                                   FUN_00532fd0(v, texcoords[c]);
-                        result->uv = sum;
-                    }
-                    else
-                        result->uv = DAT_011f4980;
-                }
-            }
-            else
-            {
-                result->uv = DAT_011f4980;
-            }
-            if (options->needsNormal)
-            {
-                BufferView normals = {0, 0, false};
-                mesh->GetBounds(&normals);
-                Normal normal;
-                if (normals.data)
-                {
-                    Vec3 na = *(Vec3*)((unsigned char*)normals.data + a * normals.stride);
-                    Vec3 nb = *(Vec3*)((unsigned char*)normals.data + b * normals.stride);
-                    Vec3 nc = *(Vec3*)((unsigned char*)normals.data + c * normals.stride);
-                    const Vec3& sum = ((na * weight).Added(nb * u)).Added(nc * v);
-                    normal = sum;
-                }
-                else
-                {
-                    Vec3* directNormals;
-                    if (options->needsTangent && (directNormals = shape->mesh->normals) != 0)
-                        normal = FUN_004a3760(weight, directNormals[a]) + FUN_004a3760(u, directNormals[b]) +
-                                 FUN_004a3760(v, directNormals[c]);
-                    else
-                    {
-                        Vec3 edge1, edge2;
-                        edge1 = vb - va;
-                        edge2 = vc - va;
-                        normal = edge1.FUN_004b3800(edge2);
-                    }
-                }
-                normal.FUN_004a0c10();
-                if (options->coordinateMode == 1)
-                    static_cast<Vec3&>(normal) = xform.rotation.FUN_004b4500(normal);
-                result->normal.AssignOutput(normal);
-            }
-            else
-                result->normal = DAT_011f426c;
-            if (options->needsColor)
-            {
-                BufferView colors = {0, 0, false};
-                mesh->FUN_00a67660(&colors);
-                if (colors.data)
-                {
-                    Vec4 ca, cb, cc;
-                    colors.FUN_00534780(a, &ca);
-                    colors.FUN_00534780(b, &cb);
-                    colors.FUN_00534780(c, &cc);
-                    Vec4 sum = FUN_00532f40(weight, ca) + FUN_00532f40(u, cb) + FUN_00532f40(v, cc);
-                    result->tangent = sum;
-                }
-                else
-                {
-                    Vec4* directColors = shape->mesh->colors;
-                    if (directColors)
-                    {
-                        Vec4 sum = FUN_00532f40(weight, directColors[a]) + FUN_00532f40(u, directColors[b]) +
-                                   FUN_00532f40(v, directColors[c]);
-                        result->tangent = sum;
-                    }
-                    else
-                        result->tangent = DAT_011a9be0;
-                }
-            }
-            else
-                result->tangent = DAT_011a9be0;
-            if (options->mode == 1 && options->stopAtFirst == 1)
-            {
-                if (ownsPositions)
-                    mesh->FUN_00a673d0();
-                return true;
-            }
-        }
-        if (ownsPositions)
-            mesh->FUN_00a673d0();
-        return anyHit;
-    }
-
-    QueryResult* result = options->output.GetTexture(shape);
-    Vec3 delta = shape->world.translation - *rayStart;
-    float squared = delta.y * delta.y + delta.x * delta.x + delta.z * delta.z;
-    squared = sqrt(squared);
-    result->distance = squared;
-    return true;
-}
 }  // namespace fnv_00e993d0
 
 #include <math.h>
@@ -1924,10 +1734,10 @@ struct Mesh
     int unk34, unk38, unk3C, unk40;
     unsigned short unk44;
     bool FUN_00a67360(int);
-    void FUN_00a67410(BufferView*);
-    void FUN_00a673d0();
+    void NiGeometryData_GetVerticesIterator(BufferView*);
+    void NiGeometryData_UnlockPackedVertexData();
     void GetKeyAndMode(int, BufferView*);
-    void GetBounds(BufferView*);
+    void NiGeometryData_GetNormalsIterator(BufferView*);
     void FUN_00a67660(BufferView*);
 };
 
@@ -1953,12 +1763,8 @@ struct Shape
     int unkBC;
 };
 
-class GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f4a20;
-extern GlobalObjectO2_00a7b610 g_011f4a40;
 bool FUN_0043b300(const void*, Shape*);
-bool __cdecl RaycastGeometry(const NiPoint3*, const NiPoint3*, Options*, Shape*);
-bool __cdecl IntersectShape(const NiPoint3*, const NiPoint3*, Options*, Shape*);
+bool __cdecl NiCollisionTraversals_FindIntersectionsTriShapeFastPath(const NiPoint3*, const NiPoint3*, Options*, Shape*);
 
 extern bool __cdecl FUN_00eadb90(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*,
                                  bool, NiPoint3*, float*, float*, float*);
@@ -1966,7 +1772,6 @@ extern bool __cdecl FUN_00eadb90(const NiPoint3*, const NiPoint3*, const NiPoint
 extern Vec4 DAT_011a9be0;
 extern NiPoint3 DAT_011f426c;
 extern Vec2 DAT_011f4980;
-extern Bound DAT_011f4288;
 
 inline bool IsKindOfType(const void* rtti, Shape* shape)
 {
@@ -2306,7 +2111,7 @@ extern const NiPoint3 DAT_0108ec68;
 
 
 
-bool __cdecl RaycastGeometry(const NiPoint3*,const NiPoint3*,Options*,Shape*);
+bool __cdecl NiCollisionTraversals_FindIntersectionsTriShapeFastPath(const NiPoint3*,const NiPoint3*,Options*,Shape*);
 
 
 struct ZType { int unk00; ZType* parent; };
@@ -2315,7 +2120,7 @@ extern ZType DAT_0108f414;
 extern int DAT_0108f440;
 inline bool ZIsKindOfType(const ZType* wanted, Shape* shape) { ZType* t=shape->GetType(); while(t) {if(t==wanted)return true; t=t->parent;}return false; }
 extern bool __cdecl FUN_00424d20(const void*,Shape*);
-extern bool __cdecl FUN_007fbff0(const NiPoint3*,const NiPoint3*,Options*,Shape*);
+extern bool __cdecl NiCollisionTraversals_FindIntersectionsOneStripFastPath(const NiPoint3*,const NiPoint3*,Options*,Shape*);
 extern NiPoint3 __cdecl FUN_00475320(const NiPoint3&,const Matrix*);
 struct Bound { NiPoint3 center; float radius; };
 extern Bound DAT_0108edc8;
@@ -2333,6 +2138,8 @@ __forceinline NiPoint3 ZLocalStart(const NiPoint3& start,const Transform& xform,
 }
 } // namespace w324
 
+// pdb: NiCollisionTraversals::FindIntersectionsTriBasedGeom | NiCollisionTraversals.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kOrigin, kDir, kPick, pkTBG
 bool __cdecl ::fnv_00e9b4f0::RaycastShape(const ::fnv_00e9b4f0::NiPoint3* startArg,const ::fnv_00e9b4f0::NiPoint3* dirArg,::fnv_00e9b4f0::Options* optArg,::fnv_00e9b4f0::Shape* shapeArg)
 {
     const w324::NiPoint3* rayStart = reinterpret_cast<const w324::NiPoint3*>(startArg);
@@ -2346,10 +2153,10 @@ bool __cdecl ::fnv_00e9b4f0::RaycastShape(const ::fnv_00e9b4f0::NiPoint3* startA
         if (w324::ZIsKindOfType(&w324::DAT_0108f414, shape))
         {
             if (shape->data->unk44 == 1)
-                return w324::FUN_007fbff0(rayStart, rayDirection, options, shape);
+                return w324::NiCollisionTraversals_FindIntersectionsOneStripFastPath(rayStart, rayDirection, options, shape);
         }
         else if (w324::FUN_00424d20(&w324::DAT_0108f440, shape))
-            return w324::RaycastGeometry(rayStart, rayDirection, options, shape);
+            return w324::NiCollisionTraversals_FindIntersectionsTriShapeFastPath(rayStart, rayDirection, options, shape);
         const w324::Transform& xform = shape->world;
         float invScale;
         w324::NiPoint3 localStart = w324::ZLocalStart(*rayStart,xform,invScale);
@@ -2588,6 +2395,8 @@ struct Helper
 };
 // Builds temporary bounds from code and point, allocates a NiBoundingVolume, then copies the bounds into it.
 // @fnv 0x00e9c850
+// pdb: NiCollisionConvert::ConvertToBoxBV | NiCollision.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: usQuantity, pkVertex
 NiBoundingVolume* __cdecl FUN_00e9c850(unsigned int code, int* point)
 {
     if ((unsigned short)code == 0 || point == 0)

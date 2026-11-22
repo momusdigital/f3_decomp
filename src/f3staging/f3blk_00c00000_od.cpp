@@ -23,6 +23,7 @@ struct IMAGE_SECTION_HEADER_ {
 };
 extern "C" int __cdecl FUN_00c16370(unsigned char* pImageBase);
 extern "C" IMAGE_SECTION_HEADER_* __cdecl FUN_00c163a0(unsigned char* pImageBase, unsigned long rva);
+// pdb: _IsNonwritableInCurrentImage | pesect.obj | tesv_win, call_gap, low
 extern "C" int __cdecl FUN_00c163f0(unsigned char* pTarget)
 {
     unsigned char* pImageBase;

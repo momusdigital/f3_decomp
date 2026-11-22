@@ -46,68 +46,8 @@ int __thiscall FUN_00d27260_standin::FUN_00d27260(const void* data, int size)
     return size;
 }
 
-struct FUN_00d27420_class
-{
-    virtual void m0() = 0;
-    virtual void m1() = 0;
-    virtual void m2() = 0;
-    virtual void m3(const char*, void*, int) = 0;
-    virtual void m4() = 0;
-    virtual void m5(int, const char*, void*, void*, int) = 0;
-
-    void WriteToStream(FUN_00d27420_class*, int);
-};
-
-// Writes the Buffer and stream members to the given stream via its virtual methods.
-// @fnv 0x00d27420
-void FUN_00d27420_class::WriteToStream(FUN_00d27420_class* stream, int)
-{
-    stream->m5(1, "Buffer", *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x0c),
-               *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x14), 0);
-
-    stream->m3("stream", *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08), 0);
-}
-
-struct DDCC60World
-{
-    void removeReference();
-};
-
-void __cdecl FUN_00d272e0();
+void __cdecl hkBufferedStreamWriter_flush();
 void* __cdecl _D1A0E0GetMemoryRouter();
-void __cdecl FUN_00c85660(void*, void*);
-
-extern int DAT_010ce448;
-extern int _DAT_0102e388;
-
-struct FUN_00d27520
-{
-    void* m_vtbl;           // +0x00
-    int m_04;               // +0x04
-    DDCC60World* m_pWorld;  // +0x08
-    void* m_pData;          // +0x0c
-    int m_10;               // +0x10
-    int m_14;               // +0x14
-    char m_18;              // +0x18
-
-    ~FUN_00d27520();
-};
-
-// @fnv 0x00d27520
-FUN_00d27520::~FUN_00d27520()
-{
-    m_vtbl = &DAT_010ce448;
-    FUN_00d272e0();
-    if (m_pWorld)
-        m_pWorld->removeReference();
-    if (m_18)
-    {
-        void* pData = m_pData;
-        void* router = _D1A0E0GetMemoryRouter();
-        FUN_00c85660(*(void**)((char*)router + 0x10), pData);
-    }
-    m_vtbl = &_DAT_0102e388;
-}
 
 namespace fnv_00d27570 {
 struct FUN_00d27570Router
@@ -125,34 +65,12 @@ struct FUN_00d27570MemoryRouter
 
 FUN_00d27570MemoryRouter* __cdecl _D1A0E0GetMemoryRouter();
 
-struct FUN_00d27570Writer
-{
-    void* vftable;
-    unsigned short id;
-
-    void FUN_00d27520();
-    void* DestroyWriter(unsigned char deletingFlag);
-};
-
-// Calls FUN_00d27520, then if deletingFlag has bit 0 set, deallocates this through the memory router using id, and returns this.
-// @fnv 0x00d27570
-void* FUN_00d27570Writer::DestroyWriter(unsigned char deletingFlag)
-{
-    FUN_00d27520();
-
-    if (deletingFlag & 1)
-    {
-        FUN_00d27570MemoryRouter* memoryRouter = _D1A0E0GetMemoryRouter();
-        memoryRouter->router->deallocate(this, id);
-    }
-
-    return this;
-}
 }  // namespace fnv_00d27570
 
 extern int DAT_012689e4;
 
 // @fnv 0x00d27560
+// pdb: getVtablehkpPhysicsData | hkpPhysicsDataClass.obj | fnv360_0822_retail, objrun_open, low
 void* __cdecl FUN_00d27560()
 {
     return &DAT_012689e4;
@@ -177,6 +95,7 @@ struct StreamBufferD27210
     int FlushToDestination();
 };
 // @fnv 0x00d27210
+// pdb: hkBufferedStreamWriter::flushBuffer | hkBufferedStreamWriter.obj | fnv360_0822_retail, call_seq, medium
 int StreamBufferD27210::FlushToDestination()
 {
     if (m_destination != 0)
@@ -196,43 +115,44 @@ int StreamBufferD27210::FlushToDestination()
     return 0;
 }
 
+class hkClass;
+class hkStatisticsCollector;
+// hkStreamWriter: the slots of the Fallout 3 vtable (hkBufferedStreamWriter, 0x00e7e028), named as the New Vegas
+// Xbox 360 PDB names them.
 struct FUN_00d272e0_target
 {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual void vf14();
+    virtual ~FUN_00d272e0_target();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual char isOk() const;
+    virtual int write(const void* buf, int nbytes);
+    virtual void flush();
 };
 
+// hkBufferedStreamWriter
 struct FUN_00d272e0_class
 {
-    virtual void vf00()
-    {}
-    virtual void vf04()
-    {}
-    virtual void vf08()
-    {}
-    virtual void vf0C()
-    {}
-    virtual void vf10()
-    {}
+    virtual ~FUN_00d272e0_class();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual char isOk() const;
+    virtual int write(const void* buf, int nbytes);
 
     int unk04;
     FUN_00d272e0_target* unk08;
 
-    void FUN_00d272e0();
+    void hkBufferedStreamWriter_flush();
 };
 
 // @fnv 0x00d272e0
-void FUN_00d272e0_class::FUN_00d272e0()
+// pdb: hkBufferedStreamWriter::flush | hkBufferedStreamWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void FUN_00d272e0_class::hkBufferedStreamWriter_flush()
 {
     reinterpret_cast<FUN_00d27260_standin*>(this)->FlushToDestination();
 
     if (unk08 != 0)
     {
-        return unk08->vf14();
+        return unk08->flush();
     }
 }
 
@@ -264,11 +184,13 @@ class hkObjD273
     int m_10;
     int m_14;
 
-    hkBoolD273 GetBool();
+    hkBoolD273 hkBufferedStreamWriter_isOk();
 };
 
 // @fnv 0x00d27300
-hkBoolD273 hkObjD273::GetBool()
+// pdb: hkBufferedStreamWriter::isOk | hkBufferedStreamWriter.obj | fnv360_0822_retail, vtable, high
+// pdb: hkBufferedStreamWriter::isOk | hkBufferedStreamWriter.obj | fnv360_0822_retail, vtable, high (was: GetBool)
+hkBoolD273 hkObjD273::hkBufferedStreamWriter_isOk()
 {
     return m_pObservedSource ? m_pObservedSource->IsStreamValid() : hkBoolD273(m_10 != m_14);
 }
@@ -370,6 +292,8 @@ class FUN_00d274c0 : public hkReferencedObjectD274
 };
 
 // @fnv 0x00d274c0
+// pdb: hkBufferedStreamWriter::hkBufferedStreamWriter | hkBufferedStreamWriter.obj | fnv360_0822_retail, call_seq, high
+// pdb params: mem, memSize, memoryIsString
 FUN_00d274c0::FUN_00d274c0(void* pvMem, int aiSize, hkBool bMemoryIsString) throw()
 {
     m_offset = 0;
@@ -404,6 +328,7 @@ class FUN_00d27340_cls
 
 // Returns m_inner->isValid() when m_inner is non-null, otherwise true.
 // @fnv 0x00d27340
+// pdb: hkBufferedStreamWriter::seekTellSupported | hkBufferedStreamWriter.obj | fnv360_0822_retail, vtable, high
 hkBoolD273 FUN_00d27340_cls::IsValid() const
 {
     return m_inner ? m_inner->isValid() : hkBoolD273(true);
@@ -431,12 +356,13 @@ class FUN_00d273f0_cls
     int unk0C;
     int m_base;
 
-    int FUN_00d273f0() const;
+    int hkBufferedStreamWriter_tell() const;
 };
 
 // Returns m_base plus the child count from m_inner, or -1 when the count is negative.
 // @fnv 0x00d273f0
-int FUN_00d273f0_cls::FUN_00d273f0() const
+// pdb: hkBufferedStreamWriter::tell | hkBufferedStreamWriter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int FUN_00d273f0_cls::hkBufferedStreamWriter_tell() const
 {
     int n = m_inner ? m_inner->getNumChildren() : 0;
     if (n >= 0)
@@ -458,9 +384,7 @@ struct hkMemoryRouterD274
     }
 };
 namespace hkRouterD274 {
-extern "C" hkMemoryRouterD274& __cdecl FUN_00c85750() throw();
 }
-void* __cdecl FUN_00c85620(hkMemoryAllocatorD274& alloc, int iSize, int iAlign) throw();
 class hkBaseObjectD274
 {
   public:
@@ -486,25 +410,3 @@ class hkStreamWriterD274 : public hkRefObjD274
     virtual ~hkStreamWriterD274() throw()
     {}
 };
-class hkBufStreamWriterD274 : public hkStreamWriterD274
-{
-  public:
-    hkBufStreamWriterD274(hkStreamWriterD274* s, int bufSize) throw();
-    virtual ~hkBufStreamWriterD274() throw();
-    hkStreamWriterD274* m_stream;
-    char* m_buf;
-    int m_iBufferPosition;
-    int m_bufSize;
-    hkBoolD273 m_bIsOk;
-};
-// Stores s, allocates bufSize bytes with alignment argument 0x40, and initializes the buffer size and position.
-// @fnv 0x00d27460
-hkBufStreamWriterD274::hkBufStreamWriterD274(hkStreamWriterD274* apStream, int aiBufferSize) throw()
-    : m_stream(apStream), m_bIsOk(true)
-{
-    if (m_stream)
-        m_stream->FUN_00c90510();
-    m_buf = (char*)FUN_00c85620(hkRouterD274::FUN_00c85750().heap(), aiBufferSize, 0x40);
-    m_bufSize = aiBufferSize;
-    m_iBufferPosition = 0;
-}

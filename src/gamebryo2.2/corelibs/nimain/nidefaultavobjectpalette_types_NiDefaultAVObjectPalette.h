@@ -5,6 +5,7 @@
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObjectNET.h"
+#include "NiAVObjectPalette.h"
 class DFALL_NiTMapItem_NiFixedString_NiAVObject_____;
 class NiAVObject;
 class NiAVObjectPalette;
@@ -14,26 +15,6 @@ class NiDefaultAVObjectPalette;
 class NiTFixedStringMap_NiAVObject___;
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject___;
 class NiTFixedStringMapBase_DFALL_NiTMapItem_NiFixedString_NiAVObject______NiAVObject_____AntiBloatAllocator;
-#pragma pack(push, 4)
-class NiAVObjectPalette : public NiObject
-{
-  public:
-    // base NiObject at +0x0, size 8
-    // const NiRTTI* __cdecl NiAVObjectPalette::*()
-    // void __cdecl NiAVObjectPalette::*(NiAVObjectPalette*, CloningProcess&)
-    // void __cdecl NiAVObjectPalette::*(NiStream&)
-    // void __cdecl NiAVObjectPalette::*(NiStream&)
-    // bool __cdecl NiAVObjectPalette::*(NiStream&)
-    // void __cdecl NiAVObjectPalette::*(NiStream&)
-    // bool __cdecl NiAVObjectPalette::*(NiObject*)
-    // void __cdecl NiAVObjectPalette::*(NiTPrimitiveArray<char *>*)
-    // NiAVObjectPalette
-    // void __cdecl NiAVObjectPalette::*()
-    // NiAVObjectPalette& __cdecl NiAVObjectPalette::*(const NiAVObjectPalette&)
-    // void __cdecl NiAVObjectPalette::*()
-};
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiAVObjectPalette) == 8);
 #pragma pack(push, 4)
 class DFALL_NiTMapItem_NiFixedString_NiAVObject_____
 {
@@ -120,43 +101,9 @@ class NiDefaultAVObjectPalette : public NiAVObjectPalette
   public:
     void BuildPalette();
     void ProcessCloneBase(CloningProcess&);
-    virtual void vfn_08();
-    virtual void vfn_0c();
-    virtual void vfn_10();
-    virtual void vfn_14();
-    virtual void vfn_18();
-    virtual void vfn_1c();
-    virtual void vfn_20();
-    virtual void vfn_24();
-    virtual void vfn_28();
-    virtual void vfn_2c();
-    virtual void vfn_30();
-    virtual void vfn_34();
-    virtual void vfn_38();
-    virtual void vfn_3c();
-    virtual void vfn_40();
-    virtual void vfn_44();
-    virtual void vfn_48();
-    virtual void vfn_4c();
-    virtual void vfn_50();
-    virtual void vfn_54();
-    virtual void vfn_58();
-    virtual void vfn_5c();
-    virtual void vfn_60();
-    virtual void vfn_64();
-    virtual void vfn_68();
-    virtual void vfn_6c();
-    virtual void vfn_70();
-    virtual void vfn_74();
-    virtual void vfn_78();
-    virtual void vfn_7c();
-    virtual void vfn_80();
-    virtual void vfn_84();
-    virtual void vfn_88();
-    virtual void vfn_8c();
-    virtual void AddNamedAVObject(const NiFixedString&, NiAVObject*);
+    virtual void SetAVObject(NiFixedString& kName, NiAVObject* pkObj);
     virtual void LoadBinary(NiStream&);
-    virtual void ProcessClone(CloningProcess*);
+    virtual void ProcessClone(NiCloningProcess& kCloning);
     // base NiAVObjectPalette at +0x0, size 8
     NiTFixedStringMap_NiAVObject___ m_kObjectMap;  // +0x8, 16 bytes
     NiAVObject* m_pkScene;                         // +0x18, 4 bytes

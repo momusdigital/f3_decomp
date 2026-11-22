@@ -4,43 +4,19 @@
 
 #include "havok/hkpGroupFilter.h"
 
-extern int DAT_0102e388;
-extern int DAT_010c3b80;
-extern int DAT_010c3b8c;
-extern int DAT_010c3b98;
-extern int DAT_010c3bac;
-
-struct FUN_00e48a80_struct
+struct FUN_00e48970_struct : public hkpGroupFilter
 {
-    int* p0;
-    int* p1;
-    int* p2;
-    int* p3;
-    int* p4;
-    int* p5;
-    void InitGroupFilterPointers();
-};
-
-// @fnv 0x00e48a80
-void FUN_00e48a80_struct::InitGroupFilterPointers()
-{
-    p5 = &DAT_010c3b8c;
-    p4 = &DAT_010c3bac;
-    p3 = &DAT_010c3b98;
-    p2 = &DAT_010c3b80;
-    p0 = &DAT_0102e388;
-}
-
-struct FUN_00e48970_struct
-{
-    void ClearMaskedBits(unsigned int, unsigned int);
+    void hkpGroupFilter_disableCollisionsUsingBitfield(unsigned int, unsigned int);
 };
 
 // @f3 0x00a76990 (community match, verified in this file)
-void FUN_00e48970_struct::ClearMaskedBits(unsigned int auiMaskA, unsigned int auiMaskB)
+// pdb: hkpGroupFilter::disableCollisionsUsingBitfield | hkpGroupFilter.obj | fnv360_0822_retail, objrun, high
+// pdb params: layerBitsA, layerBitsB
+// pdb: hkpGroupFilter::disableCollisionsUsingBitfield | hkpGroupFilter.obj | fnv360_0822_retail, objrun, high (was: ClearMaskedBits)
+void FUN_00e48970_struct::hkpGroupFilter_disableCollisionsUsingBitfield(unsigned int auiMaskA, unsigned int auiMaskB)
 {
     int i = 0;
-    unsigned int* mask = reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x34);
+    unsigned int* mask = m_uiCollisionGroupMasks;
 
     for (; i < 32; ++i)
     {
@@ -55,37 +31,6 @@ void FUN_00e48970_struct::ClearMaskedBits(unsigned int auiMaskA, unsigned int au
     }
 }
 
-
-struct FUN_00e48830_class
-{
-    void ShouldCollide(int* value, int value0, int value1);
-};
-
-struct FUN_00e48b60_arg2
-{
-    int unknown_00[7];
-    int value_1c;
-};
-
-struct FUN_00e48b60_arg1
-{
-    int unknown_00[9];
-    int value_24;
-};
-
-struct FUN_00e48b60_class
-{
-    int* FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2);
-};
-
-// Calls ShouldCollide on the object 0x14 bytes before this, passing value, arg1->value_24 and arg2->value_1c, then returns value.
-// @fnv 0x00e48b60
-int* FUN_00e48b60_class::FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2)
-{
-    reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 0x14)
-        ->ShouldCollide(value, arg1->value_24, arg2->value_1c);
-    return value;
-}
 
 struct hkBoolRet
 {
@@ -102,6 +47,8 @@ class GroupFilter : public hkpGroupFilter
 
 // Checks whether two collision filter infos may collide, using group/subgroup masks or the group filter table.
 // @fnv 0x00e48830
+// pdb: hkpGroupFilter::isCollisionEnabled | hkpGroupFilter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: infoA, infoB
 hkBoolRet GroupFilter::ShouldCollide(unsigned int infoA, unsigned int infoB)
 {
     if (((infoA ^ infoB) & 0xffff0000) == 0 && (infoA & 0xffff0000) != 0)
@@ -116,45 +63,6 @@ hkBoolRet GroupFilter::ShouldCollide(unsigned int infoA, unsigned int infoB)
     }
 
     return (m_uiCollisionGroupMasks[infoA & 0x1f] & (1 << (infoB & 0x1f))) != 0;
-}
-
-struct FUN_00e488a0_data
-{
-    int unknown00;
-    int unknown04;
-    int unknown08;
-    int unknown0c;
-    int unknown10;
-    int unknown14;
-    int unknown18;
-    int unknown1c;
-    int value20;
-};
-
-struct FUN_00e488a0_object
-{
-    virtual void ReportDiagnostic();
-    virtual void unused1();
-    virtual void unused2();
-    virtual void FlushUsageData();
-    virtual int getValue(int input);
-};
-
-struct FUN_00e488a0_class
-{
-    int* CallGetValueAndDispatch(int* value, FUN_00e488a0_data* data, int unused, FUN_00e488a0_object* object,
-                                 int input);
-};
-
-// Calls object->getValue(input), then forwards value and data->value20 with the result to ShouldCollide on the owner at this-16, returning value.
-// @fnv 0x00e488a0
-int* FUN_00e488a0_class::CallGetValueAndDispatch(int* value, FUN_00e488a0_data* data, int unused,
-                                                 FUN_00e488a0_object* object, int input)
-{
-    int result = object->getValue(input);
-    FUN_00e48830_class* owner = reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 16);
-    owner->ShouldCollide(value, data->value20, result);
-    return value;
 }
 
 class hkpGroupFilterE489
@@ -180,30 +88,12 @@ class hkpGroupFilterE489
 
 // Clears the collision bit for iLayerB in row iLayerA and the bit for iLayerA in row iLayerB of the layer mask table.
 // @fnv 0x00e48940
+// pdb: hkpGroupFilter::disableCollisionsBetween | hkpGroupFilter.obj | fnv360_0822_retail, objrun, medium
+// pdb params: layerA, layerB
 void hkpGroupFilterE489::DisableCollisionPair(int iLayerA, int iLayerB)
 {
     m_uiCollisionGroupMasks[iLayerA] &= ~(1 << iLayerB);
     m_uiCollisionGroupMasks[iLayerB] &= ~(1 << iLayerA);
-}
-
-struct FUN_00e48ab0_value
-{
-    int unknown_00[7];
-    int value_1c;
-};
-
-struct FUN_00e48ab0_class
-{
-    int* __thiscall FUN_00e48ab0(int* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
-};
-
-// Calls ShouldCollide on the object at this-8, passing value and the value_1c fields of arg2 and arg3, then returns value.
-// @fnv 0x00e48ab0
-int* FUN_00e48ab0_class::FUN_00e48ab0(int* value, FUN_00e48ab0_value* pFirstValue, FUN_00e48ab0_value* pSecondValue)
-{
-    reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 8)
-        ->ShouldCollide(value, pFirstValue->value_1c, pSecondValue->value_1c);
-    return value;
 }
 
 struct hkBoolE48B
@@ -217,24 +107,11 @@ struct hkBoolE48B
 
 typedef __declspec(align(16)) unsigned int hkpShapeBufferE48B[128];
 
-struct hkpShapeContainerE48B
-{
-    virtual ~hkpShapeContainerE48B() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual hkUint32 GetFilterInfoForKey(hkUint32 uiKey) const throw();
-};
-
 class hkpShapeE48B : public hkReferencedObject
 {
   public:
     hkUlong m_ulUserData;
     int m_type;
-};
-
-class hkpShapeCollectionE48B : public hkpShapeE48B, public hkpShapeContainerE48B
-{
 };
 
 struct hkpCollidableE48B;
@@ -302,90 +179,6 @@ struct hkpCollisionDispatcherE48B
         return m_auiAlternateTypeFlags[iType] & (1 << iAlternate);
     }
 };
-
-struct hkpCollisionInputE48B
-{
-    hkpCollisionDispatcherE48B* m_pCollisionDispatcher;
-};
-
-const hkpShapeContainerE48B* __cdecl FUN_00d2d4b0(const hkpCdBodyE48B* pkBody, hkpShapeBufferE48B& kBuffer) throw();
-
-struct hkpCollidableCollidableFilterE48B
-{
-    virtual void V0() throw();
-};
-
-struct hkpShapeCollectionFilterE48B
-{
-    virtual hkBoolE48B ShapeCollectionFilter(const hkpCollisionInputE48B& kInput, const hkpCdBodyE48B& kA,
-                                             const hkpCdBodyE48B& kB, const hkpShapeContainerE48B& kBContainer,
-                                             hkUint32 uiBKey) const throw();
-};
-
-class hkpGroupFilterE48B : public hkReferencedObject,
-                           public hkpCollidableCollidableFilterE48B,
-                           public hkpShapeCollectionFilterE48B
-{
-  public:
-    hkBoolE48B ShouldCollide(hkUint32 uiInfoA, hkUint32 uiInfoB) const throw();
-    virtual hkBoolE48B ShapeCollectionFilter(const hkpCollisionInputE48B& kInput, const hkpCdBodyE48B& kA,
-                                             const hkpCdBodyE48B& kB, const hkpShapeContainerE48B& kBContainer,
-                                             hkUint32 uiBKey) const throw();
-};
-
-// Computes the collision filter info for both bodies, walking up the parent chain for alternate shape types, then tests the pair with ShouldCollide.
-// @fnv 0x00e48b90
-hkBoolE48B hkpGroupFilterE48B::ShapeCollectionFilter(const hkpCollisionInputE48B& kInput, const hkpCdBodyE48B& kA,
-                                                     const hkpCdBodyE48B& kB, const hkpShapeContainerE48B& kBContainer,
-                                                     hkUint32 uiBKey) const throw()
-{
-    hkUint32 uiInfoB = kBContainer.GetFilterInfoForKey(uiBKey);
-    if (uiInfoB == 0xffffffff)
-        uiInfoB = kB.getRootCollidable()->GetFilterInfoForKey();
-
-    hkUint32 uiInfoA;
-    if (kA.getParent() == 0)
-    {
-        uiInfoA = kA.getRootCollidable()->GetFilterInfoForKey();
-    }
-    else
-    {
-        const hkpCdBodyE48B* pkChild = &kA;
-        const hkpCdBodyE48B* pkParent = kA.getParent();
-        do
-        {
-            const int iType = pkParent->getShape()->m_type;
-            if (kInput.m_pCollisionDispatcher->hasAlternateType(iType, 7))
-            {
-                const hkpShapeCollectionE48B* pkCollection =
-                    static_cast<const hkpShapeCollectionE48B*>(pkParent->getShape());
-                uiInfoA = pkCollection->GetFilterInfoForKey(pkChild->getShapeKey());
-                goto done;
-            }
-            else if (kInput.m_pCollisionDispatcher->hasAlternateType(iType, 8))
-            {
-                hkpShapeBufferE48B kBuffer;
-                const hkpShapeContainerE48B* pkContainer = FUN_00d2d4b0(pkParent, kBuffer);
-                uiInfoA = pkContainer->GetFilterInfoForKey(pkChild->getShapeKey());
-                goto done;
-            }
-            else if (kInput.m_pCollisionDispatcher->hasAlternateType(iType, 21))
-            {
-                uiInfoA = kA.getRootCollidable()->GetFilterInfoForKey();
-                goto done;
-            }
-            else if (kInput.m_pCollisionDispatcher->hasAlternateType(iType, 22))
-            {
-                return true;
-            }
-            pkChild = pkParent;
-            pkParent = pkParent->getParent();
-        } while (pkParent);
-        uiInfoA = static_cast<const hkpCollidableE48B*>(pkChild)->GetFilterInfoForKey();
-    }
-done:
-    return ShouldCollide(uiInfoA, uiInfoB);
-}
 
 class hkBoolE48
 {
@@ -470,31 +263,17 @@ class hkpGroupFilterE48 : public hkReferencedObjectE48,
                                    const hkpShapeContainerE48& containerShapeB, unsigned int keyA,
                                    unsigned int keyB) const;
 };
-// Resolves per-shape or root-collidable filter info for two shapes and returns whether they should collide via ShouldCollide.
-// @fnv 0x00e48ae0
-hkBoolE48 hkpGroupFilterE48::FUN_00e48ae0(const hkpCollisionInputE48& input, const hkpCdBodyE48& a,
-                                          const hkpCdBodyE48& b, const hkpShapeContainerE48& containerShapeA,
-                                          const hkpShapeContainerE48& containerShapeB, unsigned int keyA,
-                                          unsigned int keyB) const
-{
-    unsigned int infoA = containerShapeA.GetFilterInfoForKey(keyA);
-    if (infoA == USE_COLLIDABLE_FILTER_INFO)
-        infoA = a.getRootCollidable()->GetFilterInfoForKey();
-    unsigned int infoB = containerShapeB.GetFilterInfoForKey(keyB);
-    if (infoB == USE_COLLIDABLE_FILTER_INFO)
-        infoB = b.getRootCollidable()->GetFilterInfoForKey();
-    return ShouldCollide(infoA, infoB);
-}
 
 class GFilterE488 : public hkpGroupFilter
 {
   public:
-    void FUN_00e488e0(hkUint32 infoA, hkUint32 infoB);
+    void hkpGroupFilter_enableCollisionsUsingBitfield(hkUint32 infoA, hkUint32 infoB);
 };
 
 // For each of 32 collision groups, if infoA has the bit set, OR infoB into the group mask, and if infoB has the bit set, OR infoA into it.
 // @f3 0x00a768f0 (community match, verified in this file)
-void GFilterE488::FUN_00e488e0(hkUint32 infoA, hkUint32 infoB) {
+// pdb: hkpGroupFilter::enableCollisionsUsingBitfield | hkpGroupFilter.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+void GFilterE488::hkpGroupFilter_enableCollisionsUsingBitfield(hkUint32 infoA, hkUint32 infoB) {
     for (int i = 0; i < 32; ++i) {
         hkUint32 mask = 1U << i;
         if (infoA & mask) m_uiCollisionGroupMasks[i] |= infoB;
@@ -553,6 +332,7 @@ class FUN_00e489b0 : public S00e489b0_A, public S00e489b0_B, public S00e489b0_C,
 };
 
 // @fnv 0x00e489b0
+// pdb: hkpGroupFilter::hkpGroupFilter | hkpGroupFilter.obj | fnv360_0822_retail, objrun, medium
 FUN_00e489b0::FUN_00e489b0()
 {
     m_iMode = 2;
@@ -640,32 +420,3 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {}
 }  // namespace fnv_00e00c20
-
-// FUN_00e00c30 : MSVC this-adjusting thunk  (sub ecx, 0x0c ; jmp <impl>)
-struct A1_00e00c30
-{
-    A1_00e00c30();
-    virtual void FUN_00e00c30();
-    char pad[0x08];
-};
-struct A2_00e00c30
-{
-    A2_00e00c30();
-    virtual void FUN_00e00c30();
-};
-struct Own_00e00c30 : A1_00e00c30, A2_00e00c30
-{
-    Own_00e00c30();
-    virtual void key_fn();
-// @fnv 0x00e00c30
-    void FUN_00e00c30();
-};
-Own_00e00c30::Own_00e00c30()
-{}
-void Own_00e00c30::key_fn()
-{}
-Own_00e00c30* make_00e00c30()
-{
-    static Own_00e00c30 o;
-    return &o;
-}

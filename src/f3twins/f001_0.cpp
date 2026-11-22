@@ -848,6 +848,7 @@ void FUN_00c8b960()
     DAT_0106e590 = (float)(DAT_00db3698 / s);
 }
 
+// pdb: bhkConvert::`dynamic initializer for 'fBS2HkScaleSC'' | GlobalFunc.obj | fnv360_0822_debug, objopen_prop, low
 void FUN_00c8b9e0()
 {
     float s = (float)sqrt(DAT_00db36a0);

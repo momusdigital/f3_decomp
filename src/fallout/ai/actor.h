@@ -422,7 +422,7 @@ void Actor::UpdateActorMovement(float delta)
                     NiControllerSequence* sequence = pCurrentAnimation->GetControllerSequence(1);
                     if (sequence)
                     {
-                        sequence->FUN_0098adb0(sequence->FUN_00508100());
+                        sequence->hkpSimulationIsland_markForWrite(sequence->FUN_00508100());
                         pCurrentAnimation->Update(this, 0.0f, sequence->FUN_00508100());
                         pCurrentAnimation->UpdateMovement(this);
                     }

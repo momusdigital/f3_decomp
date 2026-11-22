@@ -8,17 +8,10 @@ struct NiRenderer
 };
 
 // @fnv 0x00a62ae0
-void __cdecl FUN_00a62ae0()
+// pdb: NiRenderer::_SDMShutdown | NiRenderer.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_dedup) + skyrim(call_gap_sim), high
+void __cdecl NiRenderer__SDMShutdown()
 {
     NiRenderer::ms_pRenderer = 0;
-}
-
-extern char const* const g_0126f0f0_arg1;
-
-// @fnv 0x00a62b50
-char const* const* __cdecl FUN_00a62b50()
-{
-    return &g_0126f0f0_arg1;
 }
 
 void __cdecl FUN_00a62b60();
@@ -29,32 +22,13 @@ struct FUN_00a63230_shell
 };
 // Calls FUN_00a62b60, then if flags has bit 1 set frees this with size 0x280, and returns this.
 // @fnv 0x00a63230
+// pdb: NiRenderer::`scalar deleting destructor' | NiRenderer.obj | fnv360_0822_retail, objrun_prop, high
 void* __thiscall FUN_00a63230_shell::Destroy(unsigned int flags)
 {
     FUN_00a62b60();
     if (flags & 1)
         _delete(this, 0x280);
     return this;
-}
-
-struct StrArr
-{
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
-};
-void __stdcall AppendCameraPathEntries(StrArr*);
-char* __cdecl _FUN_00a7d330(const char*);
-// Appends the string returned by _FUN_00a7d330 to the StrArr, growing its size when it is full.
-// @fnv 0x00a63260
-void __stdcall FUN_00a63260(StrArr* pkStrings)
-{
-    AppendCameraPathEntries(pkStrings);
-    char* psz = _FUN_00a7d330(g_0126f0f0_arg1);
-    unsigned int uSize = *(unsigned short*)((char*)pkStrings + 0xA);
-    unsigned int uMax = *(unsigned short*)((char*)pkStrings + 8);
-    if (uSize >= uMax)
-        pkStrings->SetSize(uSize + *(unsigned short*)((char*)pkStrings + 0xE));
-    pkStrings->SetAt(uSize, psz);
 }
 
 struct CriticalSectionA62
@@ -176,6 +150,7 @@ extern FUN_00a62b60* DAT_011f4748;
 
 // Clears the global DAT_011f4748 pointer to null as part of the FUN_00a62b60 destructor.
 // @fnv 0x00a62b60
+// pdb: NiRenderer::~NiRenderer | NiRenderer.obj | fnv360_0822_retail, objrun, high
 FUN_00a62b60::~FUN_00a62b60()
 {
     DAT_011f4748 = 0;
@@ -284,6 +259,8 @@ inline float AcosClamped(float v)
 
 // Computes four corner points and right/up axes around a center, using a basis or target direction and a given width.
 // @fnv 0x00a62be0
+// pdb: NiRenderer::PackParticleStripUtil_GetVerts | NiRenderer.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aPreviousDir, aPoint, aNextPoint, afSize, aOutPoint, aOutNormal, aOutDir
 bool __cdecl FUN_00a62be0(const NiPoint3** basis, const NiPoint3* apCenter, const NiPoint3* target, float width,
                           NiPoint3* corners, NiPoint3* axes, NiPoint3& direction)
 {

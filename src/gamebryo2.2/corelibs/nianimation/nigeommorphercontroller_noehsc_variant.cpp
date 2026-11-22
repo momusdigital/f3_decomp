@@ -189,8 +189,8 @@ struct MorphStream
     unsigned int unk280;
     unsigned short unk284;
     unsigned short legacyFlags;
-    void FUN_00a645b0();
-    void FUN_00a64670();
+    void NiStream_ReadLinkID();
+    void NiStream_ReadMultipleLinkIDs();
     NiInterpolator* FUN_00a64620();
 };
 struct LoadBase : NiInterpController
@@ -223,6 +223,8 @@ struct MorphLoad : LoadBase
     void FUN_00a3b150(MorphStream& stream);
 };
 // @fnv 0x00a3b150
+// pdb: NiGeomMorpherController::LoadBinary | NiGeomMorpherController.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void MorphLoad::FUN_00a3b150(MorphStream& stream)
 {
     LoadBase::LoadBinary(stream);
@@ -230,7 +232,7 @@ void MorphLoad::FUN_00a3b150(MorphStream& stream)
         m_uiObjectFlags = (stream.legacyFlags >> 5) & 0x3f;
     else
         stream.reader->Read(&m_uiObjectFlags, 2);
-    stream.FUN_00a645b0();
+    stream.NiStream_ReadLinkID();
     if (stream.version >= 0x04000002)
     {
         unsigned char value;
@@ -241,7 +243,7 @@ void MorphLoad::FUN_00a3b150(MorphStream& stream)
     {
         if (stream.version < 0x14010003)
         {
-            stream.FUN_00a64670();
+            stream.NiStream_ReadMultipleLinkIDs();
         }
         else
         {

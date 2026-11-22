@@ -19,6 +19,8 @@ struct __declspec(align(16)) Vec4
 };
 
 
+// pdb: hkpGsk::checkTriangleBoundaries | hkpGsk.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: findClosestTriangleBackup)
+// pdb params: a, b, checkSupport
 static __declspec(noinline) int FUN_00a2ec80(const Vec4* av, const Vec4* ap, float* ad)
 {
     for (int i = 0; i < 3; i++)

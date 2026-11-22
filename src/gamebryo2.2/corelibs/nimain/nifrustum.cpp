@@ -20,6 +20,8 @@ struct NiFrustum
 
 // Allocates a buffer sized from the prefix length and formats the frustum's near, far, left, right, top, bottom and ortho values into it, returning the string.
 // @fnv 0x00a71bc0
+// pdb: NiFrustum::GetViewerString | NiFrustum.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix
 char* NiFrustum::FUN_00a71bc0(const char* pcPrefix)
 {
     char* pcString;

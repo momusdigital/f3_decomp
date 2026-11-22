@@ -89,6 +89,7 @@ class FUN_00d4f000
 
 // Constructs the object by initialising its embedded shape members; the zero-fill branch is never taken because pcBegin equals pcEnd.
 // @fnv 0x00d4f000
+// pdb: hkpWheelConstraintData::Atoms::Atoms | hkpWheelConstraintData.obj | tesv_win, objrun_open, low
 FUN_00d4f000::FUN_00d4f000() throw()
 {
     char* pcBegin = (char*)&m_sB0;
@@ -135,6 +136,8 @@ struct FUN_00d4d340 : FUN_00cf4d80
 };
 // Calls the base constructor, sets the vtable, m_fMass to 1.0, spring constant and damping from globals, and sets both bool flags to true.
 // @fnv 0x00d4d340
+// pdb: hkpSpringAction::hkpSpringAction | hkpSpringAction.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: entityA, entityB, userData
 FUN_00d4d340::FUN_00d4d340(void* a, void* b, unsigned long c) : FUN_00cf4d80(a, b, c)
 {
     float* __restrict pf = &m_fSpringConstant;
@@ -197,49 +200,6 @@ struct hkTransformD4D3
     hkVector4D4D3 m_rotation[3];
     hkVector4D4D3 m_vTranslation;
 };
-
-struct hkpEntityD4D3
-{
-    unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
-    unsigned int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
-    unsigned int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C;
-    unsigned int unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
-    unsigned int unkC0, unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC, unkE0, unkE4, unkE8, unkEC;
-    hkTransformD4D3 m_kMotionTransform;
-};
-
-class hkBaseObjectD4D3
-{
-  public:
-    virtual ~hkBaseObjectD4D3() throw();
-};
-
-class hkpStiffSpringWrapperD4D3 : public hkBaseObjectD4D3
-{
-  public:
-    void UpdatePivotsAndRestLength(const hkVector4D4D3& kPivotAW, const hkVector4D4D3& kPivotBW);
-
-    unsigned int unk04, unk08, unk0C, unk10, unk14;
-    hkpEntityD4D3* m_pEntityA;
-    hkpEntityD4D3* m_pEntityB;
-    unsigned int unk20, unk24, unk28, unk2C;
-    hkVector4D4D3 m_kPivotInA;
-    hkVector4D4D3 m_kPivotInB;
-    float m_fSpringRestLength;
-};
-
-// Transforms world-space pivots into local entity space, then stores their 3D distance as the spring rest length.
-// @fnv 0x00d4d390
-void hkpStiffSpringWrapperD4D3::UpdatePivotsAndRestLength(const hkVector4D4D3& kPivotAW, const hkVector4D4D3& kPivotBW)
-{
-    hkpEntityD4D3* pkA = m_pEntityA;
-    hkpEntityD4D3* pkB = m_pEntityB;
-    m_kPivotInA.FUN_00c7f690(pkA->m_kMotionTransform, kPivotAW);
-    m_kPivotInB.FUN_00c7f690(pkB->m_kMotionTransform, kPivotBW);
-    hkVector4D4D3 kDiff;
-    kDiff.setSub4(kPivotAW, kPivotBW);
-    m_fSpringRestLength = kDiff.length3();
-}
 
 namespace fnv_00d4d410 {
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -304,52 +264,6 @@ struct hkTransformD4D41
     hkVector4D4D41 m_vTranslation;
 };
 
-struct hkpEntityD4D41
-{
-    unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
-    unsigned int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
-    unsigned int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C;
-    unsigned int unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
-    unsigned int unkC0, unkC4, unkC8, unkCC, unkD0, unkD4, unkD8, unkDC, unkE0, unkE4, unkE8, unkEC;
-    hkTransformD4D41 m_kMotionTransform;
-};
-
-class hkBaseObjectD4D41
-{
-  public:
-    virtual ~hkBaseObjectD4D41() throw();
-};
-
-class hkpStiffSpringWrapperD4D41 : public hkBaseObjectD4D41
-{
-  public:
-    void SetPivots(const hkVector4D4D41& kPivotA, const hkVector4D4D41& kPivotB);
-
-    unsigned int unk04, unk08, unk0C, unk10, unk14;
-    hkpEntityD4D41* m_pEntityA;
-    hkpEntityD4D41* m_pEntityB;
-    unsigned int unk20, unk24, unk28, unk2C;
-    hkVector4D4D41 m_kPivotInA;
-    hkVector4D4D41 m_kPivotInB;
-    float m_fSpringRestLength;
-};
-
-// Stores the given pivot vectors and computes the spring rest length from the world-space distance between the two pivots.
-// @fnv 0x00d4d410
-void hkpStiffSpringWrapperD4D41::SetPivots(const hkVector4D4D41& kPivotA, const hkVector4D4D41& kPivotB)
-{
-    hkpEntityD4D41* pkA = m_pEntityA;
-    hkpEntityD4D41* pkB = m_pEntityB;
-    m_kPivotInA = kPivotA;
-    m_kPivotInB = kPivotB;
-    hkVector4D4D41 kPivotAW;
-    kPivotAW.FUN_00c7f640(pkA->m_kMotionTransform, kPivotA);
-    hkVector4D4D41 kPivotBW;
-    kPivotBW.FUN_00c7f640(pkB->m_kMotionTransform, kPivotB);
-    hkVector4D4D41 kDiff;
-    kDiff.setSub4(kPivotAW, kPivotBW);
-    m_fSpringRestLength = kDiff.length3();
-}
 }  // namespace fnv_00d4d410
 
 namespace fnv_00d4d4a0 {
@@ -436,28 +350,4 @@ struct S00d4d4a0_Obj
     unsigned short unk5E;
 };
 
-// Returns null unless argA.m_type is 2 and argB.m_type is 0; else builds a copy on argA's entity pair and copies pivots, rest length, spring, damping and flags.
-// @fnv 0x00d4d4a0
-S00d4d4a0_Obj* S00d4d4a0_Obj::FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hkpCloneArgD4A0& argB) const
-{
-    if (argA.m_type != 2)
-        return 0;
-
-    if (argB.m_type != 0)
-        return 0;
-
-    S00d4d4a0_Obj* clone = new S00d4d4a0_Obj;
-
-    clone = clone->FUN_00d4d340(argA.m_kActorEntries->m_pEntityA, argA.m_kActorEntries->m_pEntityB, m_ulUserData);
-
-    clone->m_kPivotInA = m_kPivotInA;
-    clone->m_kPivotInB = m_kPivotInB;
-    clone->m_fRestLength = m_fRestLength;
-    clone->m_fSpringStrength = m_fSpringStrength;
-    clone->m_fMotorDamping = m_fMotorDamping;
-    clone->m_bSpringEnabled = m_bSpringEnabled;
-    clone->m_bElastic = m_bElastic;
-
-    return clone;
-}
 }  // namespace fnv_00d4d4a0

@@ -213,6 +213,8 @@ struct FUN_00a88f00_Class
 
 // Reads point00, point0c, unk08, a value into unk44 and point14 from the stream, then sets loaded to true.
 // @fnv 0x00a88f00
+// pdb: NiTextureTransform::LoadBinary | NiTextureTransform.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: kStream
 void FUN_00a88f00_Class::FUN_00a88f00(NiStream& stream)
 {
     point00.LoadBinary(stream);
@@ -430,6 +432,8 @@ class FUN_00a88f80_cls
 
 // Reads point00, point0c, unk08, unk44 and point14 from the stream in that order.
 // @fnv 0x00a88f80
+// pdb: NiTextureTransform::SaveBinary | NiTextureTransform.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kStream
 void FUN_00a88f80_cls::FUN_00a88f80(NiStream& stream)
 {
     point00.LoadStream(stream);

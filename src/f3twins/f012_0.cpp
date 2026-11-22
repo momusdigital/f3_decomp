@@ -6,58 +6,73 @@ void* __cdecl FUN_0089e890(void*);
 
 struct B_0044bb20 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0044bb20() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0044bb20 : B_0044bb20 { virtual ~D_0044bb20(); };
+// pdb: NiTMap<TESObjectREFR *,unsigned int>::~NiTMap<TESObjectREFR *,unsigned int> | BGSDestructibleObjectForm.obj | fnv360_0822_debug, call_seq, medium
 D_0044bb20::~D_0044bb20() { FUN_006bd950(); }
 
 struct B_004558b0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004558b0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004558b0 : B_004558b0 { virtual ~D_004558b0(); };
+// pdb: NiTMap<char const *,TESForm *>::~NiTMap<char const *,TESForm *> | TESForm.obj | fnv360_0822_debug, call_seq, low
 D_004558b0::~D_004558b0() { FUN_006bd950(); }
 
 struct B_00455ba0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00455ba0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00455ba0 : B_00455ba0 { virtual ~D_00455ba0(); };
+// pdb: NiTPointerMap<unsigned int,TESForm *>::~NiTPointerMap<unsigned int,TESForm *> | TESForm.obj | fnv360_0822_debug, call_seq, medium
 D_00455ba0::~D_00455ba0() { FUN_006bd950(); }
 
 struct B_00460570 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00460570() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00460570 : B_00460570 { virtual ~D_00460570(); };
+// pdb: NiTPointerMap<unsigned short,AnimSequenceBase *>::NiTPointerMap<unsigned short,AnimSequenceBase *> | Animation.obj | fnv360_1110_retail, objrun, low
+// pdb params: uiHashSize
 D_00460570::~D_00460570() { FUN_006bd950(); }
 
 struct B_0046e9b0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0046e9b0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0046e9b0 : B_0046e9b0 { virtual ~D_0046e9b0(); };
+// pdb: NiTMap<int,int>::~NiTMap<int,int> | BGSSceneInfo.obj | fnv360_0822_debug, call_seq, medium
 D_0046e9b0::~D_0046e9b0() { FUN_006bd950(); }
 
 struct B_0046ea40 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0046ea40() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0046ea40 : B_0046ea40 { virtual ~D_0046ea40(); };
+// pdb: NiTMap<NiTexture *,bool>::~NiTMap<NiTexture *,bool> | BGSSceneInfo.obj | fnv360_0822_debug, call_seq, high
 D_0046ea40::~D_0046ea40() { FUN_006bd950(); }
 
 struct B_0046eb10 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0046eb10() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0046eb10 : B_0046eb10 { virtual ~D_0046eb10(); };
+// pdb: NiTMap<TESActorBase *,bool>::~NiTMap<TESActorBase *,bool> | BGSSceneInfo.obj | fnv360_0822_debug, call_seq, medium
 D_0046eb10::~D_0046eb10() { FUN_006bd950(); }
 
 struct B_0046eba0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0046eba0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0046eba0 : B_0046eba0 { virtual ~D_0046eba0(); };
+// pdb: NiTMap<ShadowSceneLight *,int>::~NiTMap<ShadowSceneLight *,int> | BGSSceneInfo.obj | fnv360_0822_debug, call_seq, medium
 D_0046eba0::~D_0046eba0() { FUN_006bd950(); }
 
 struct B_0046ec30 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0046ec30() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0046ec30 : B_0046ec30 { virtual ~D_0046ec30(); };
+// pdb: NiTMap<NiTexture *,TEX_USER_DATA *>::~NiTMap<NiTexture *,TEX_USER_DATA *> | BGSSceneInfo.obj | fnv360_0822_debug, call_seq, high
 D_0046ec30::~D_0046ec30() { FUN_006bd950(); }
 
 struct B_0046ecc0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0046ecc0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0046ecc0 : B_0046ecc0 { virtual ~D_0046ecc0(); };
+// pdb: NiTMap<TESObjectCELL *,bool>::~NiTMap<TESObjectCELL *,bool> | BGSSceneInfo.obj | fnv360_0822_debug, call_seq, medium
 D_0046ecc0::~D_0046ecc0() { FUN_006bd950(); }
 
 struct B_00471130 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00471130() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00471130 : B_00471130 { virtual ~D_00471130(); };
+// pdb: NiTPointerMap<NiObject *,NiObject *>::~NiTPointerMap<NiObject *,NiObject *> | BipedAnim.obj | fnv360_0822_debug, call_seq, medium
 D_00471130::~D_00471130() { FUN_006bd950(); }
 
 struct B_004711a0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004711a0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004711a0 : B_004711a0 { virtual ~D_004711a0(); };
+// pdb: NiTPointerMap<NiObject *,bool>::~NiTPointerMap<NiObject *,bool> | BipedAnim.obj | fnv360_0822_debug, call_seq, medium
 D_004711a0::~D_004711a0() { FUN_006bd950(); }
 
 struct B_00479a90 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00479a90() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00479a90 : B_00479a90 { virtual ~D_00479a90(); };
+// pdb: NiTMap<unsigned int,VertexDist>::~NiTMap<unsigned int,VertexDist> | GlobalFunc.obj | fnv360_0822_debug, call_seq, medium
 D_00479a90::~D_00479a90() { FUN_006bd950(); }
 
 struct B_0047fc80 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0047fc80() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0047fc80 : B_0047fc80 { virtual ~D_0047fc80(); };
+// pdb: NiTMap<TESObject *,bool>::~NiTMap<TESObject *,bool> | InventoryChanges.obj | fnv360_0822_debug, call_seq, medium
 D_0047fc80::~D_0047fc80() { FUN_006bd950(); }
 
 struct B_0048ccf0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0048ccf0() { FUN_006bd950(); FUN_0089e890(t); } };
@@ -66,262 +81,331 @@ D_0048ccf0::~D_0048ccf0() { FUN_006bd950(); }
 
 struct B_00494d50 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00494d50() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00494d50 : B_00494d50 { virtual ~D_00494d50(); };
+// pdb: NiTPointerMap<TESObjectREFR *,TESObjectREFR *>::~NiTPointerMap<TESObjectREFR *,TESObjectREFR *> | TESWater.obj | fnv360_0822_debug, call_seq, medium
 D_00494d50::~D_00494d50() { FUN_006bd950(); }
 
 struct B_00494de0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00494de0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00494de0 : B_00494de0 { virtual ~D_00494de0(); };
+// pdb: NiTPointerMap<TESWaterForm *,bool>::~NiTPointerMap<TESWaterForm *,bool> | TESWater.obj | fnv360_0822_debug, call_seq, medium
 D_00494de0::~D_00494de0() { FUN_006bd950(); }
 
 struct B_00494e70 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00494e70() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00494e70 : B_00494e70 { virtual ~D_00494e70(); };
+// pdb: NiTPointerMap<TESObjectREFR *,WadingWaterData *>::~NiTPointerMap<TESObjectREFR *,WadingWaterData *> | TESWater.obj | fnv360_0822_debug, call_seq, medium
 D_00494e70::~D_00494e70() { FUN_006bd950(); }
 
 struct B_004b8480 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004b8480() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004b8480 : B_004b8480 { virtual ~D_004b8480(); };
+// pdb: NiTPointerMap<int,bool>::~NiTPointerMap<int,bool> | TESObjectDOOR.obj | fnv360_0822_debug, call_seq, medium
 D_004b8480::~D_004b8480() { FUN_006bd950(); }
 
 struct B_004c08a0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004c08a0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004c08a0 : B_004c08a0 { virtual ~D_004c08a0(); };
+// pdb: NiTMap<unsigned int,TESObjectREFR *>::~NiTMap<unsigned int,TESObjectREFR *> | BGSLoadedReferenceCollection.obj | fnv360_0822_debug, call_seq, medium
 D_004c08a0::~D_004c08a0() { FUN_006bd950(); }
 
 struct B_004cde90 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004cde90() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004cde90 : B_004cde90 { virtual ~D_004cde90(); };
+// pdb: NiTPointerMap<unsigned int,TESGrassAreaParam * *>::~NiTPointerMap<unsigned int,TESGrassAreaParam * *> | TESLand.obj | fnv360_0822_debug, call_seq, medium
 D_004cde90::~D_004cde90() { FUN_006bd950(); }
 
 struct B_004d8c00 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004d8c00() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004d8c00 : B_004d8c00 { virtual ~D_004d8c00(); };
+// pdb: NiTMap<TESObjectREFR *,NiNode *>::~NiTMap<TESObjectREFR *,NiNode *> | TESObjectCELL.obj | fnv360_0822_debug, call_seq, medium
 D_004d8c00::~D_004d8c00() { FUN_006bd950(); }
 
 struct B_004d8c90 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004d8c90() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004d8c90 : B_004d8c90 { virtual ~D_004d8c90(); };
+// pdb: NiTMap<TESForm *,TESObjectREFR *>::~NiTMap<TESForm *,TESObjectREFR *> | TESObjectCELL.obj | fnv360_0822_debug, call_seq, medium
 D_004d8c90::~D_004d8c90() { FUN_006bd950(); }
 
 struct B_004d8d40 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004d8d40() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004d8d40 : B_004d8d40 { virtual ~D_004d8d40(); };
+// pdb: NiTMap<TESObjectREFR *,NiPointer<BSMultiBoundNode> >::~NiTMap<TESObjectREFR *,NiPointer<BSMultiBoundNode> > | TESObjectCELL.obj | fnv360_0822_debug, call_seq, medium
 D_004d8d40::~D_004d8d40() { FUN_006bd950(); }
 
 struct B_004d8dd0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004d8dd0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004d8dd0 : B_004d8dd0 { virtual ~D_004d8dd0(); };
+// pdb: NiTMap<TESObjectREFR *,TESObjectREFR *>::~NiTMap<TESObjectREFR *,TESObjectREFR *> | TESObjectCELL.obj | fnv360_0822_debug, call_seq, medium
 D_004d8dd0::~D_004d8dd0() { FUN_006bd950(); }
 
 struct B_004d8e60 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004d8e60() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004d8e60 : B_004d8e60 { virtual ~D_004d8e60(); };
+// pdb: NiTMap<NiAVObject *,TESObjectCELL::QUEUED_ATTACH>::~NiTMap<NiAVObject *,TESObjectCELL::QUEUED_ATTACH> | TESObjectCELL.obj | fnv360_0822_debug, call_seq, medium
 D_004d8e60::~D_004d8e60() { FUN_006bd950(); }
 
 struct B_004f05d0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_004f05d0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_004f05d0 : B_004f05d0 { virtual ~D_004f05d0(); };
+// pdb: NiTPointerMap<TESObjectREFR *,bool>::~NiTPointerMap<TESObjectREFR *,bool> | TESObjectREFR.obj | fnv360_0822_debug, call_seq, medium
 D_004f05d0::~D_004f05d0() { FUN_006bd950(); }
 
 struct B_00502b60 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00502b60() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00502b60 : B_00502b60 { virtual ~D_00502b60(); };
+// pdb: NiTPointerMap<unsigned int,BSSimpleList<TESObjectREFR *> *>::~NiTPointerMap<unsigned int,BSSimpleList<TESObjectREFR *> *> | TESWorldSpace.obj | fnv360_0822_debug, call_seq, high
 D_00502b60::~D_00502b60() { FUN_006bd950(); }
 
 struct B_00502bf0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00502bf0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00502bf0 : B_00502bf0 { virtual ~D_00502bf0(); };
+// pdb: BSSimpleList<TESRegionGrassObject::GenGrass *>::AddHead | TESWorldSpace.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiTMap<class TESFile *,struct TESWorldSpace::OFFSET_DATA *>::~NiTMap<class TESFile *,struct TESWorldSpace::OFFSET_DATA *>)
+// pdb params: item
 D_00502bf0::~D_00502bf0() { FUN_006bd950(); }
 
 struct B_00504c90 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00504c90() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00504c90 : B_00504c90 { virtual ~D_00504c90(); };
+// pdb: NiTPointerMap<int,TESObjectCELL *>::NiTPointerMap<int,TESObjectCELL *> | TESWorldSpace.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiTPointerMap<int,class TESObjectCELL *>::~NiTPointerMap<int,class TESObjectCELL *>)
+// pdb params: uiHashSize
 D_00504c90::~D_00504c90() { FUN_006bd950(); }
 
 struct B_00553ea0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00553ea0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00553ea0 : B_00553ea0 { virtual ~D_00553ea0(); };
+// pdb: NiTMap<char const *,IDLE_ANIM_ROOT *>::~NiTMap<char const *,IDLE_ANIM_ROOT *> | TESIdleManager.obj | fnv360_0822_debug, call_seq, high
 D_00553ea0::~D_00553ea0() { FUN_006bd950(); }
 
 struct B_00567b20 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00567b20() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00567b20 : B_00567b20 { virtual ~D_00567b20(); };
+// pdb: NiTMap<TESObjectREFR *,int>::~NiTMap<TESObjectREFR *,int> | BGSAcousticSpaceListener.obj | fnv360_0822_debug, call_seq, medium
 D_00567b20::~D_00567b20() { FUN_006bd950(); }
 
 struct B_0056d150 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0056d150() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0056d150 : B_0056d150 { virtual ~D_0056d150(); };
+// pdb: NiTMap<bhkRigidBody *,unsigned short>::~NiTMap<bhkRigidBody *,unsigned short> | LoadedAreaBound.obj | fnv360_0822_debug, call_seq, medium
 D_0056d150::~D_0056d150() { FUN_006bd950(); }
 
 struct B_00572ca0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00572ca0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00572ca0 : B_00572ca0 { virtual ~D_00572ca0(); };
+// pdb: NiTMap<hkpRigidBody *,bool>::~NiTMap<hkpRigidBody *,bool> | TESWaterListener.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: BSTArray<class NiPointer<class bhkMouseSpringAction>,class BSTSmallArrayHeapAllocator<16> >::Clear)
 D_00572ca0::~D_00572ca0() { FUN_006bd950(); }
 
 struct B_0058b800 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0058b800() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0058b800 : B_0058b800 { virtual ~D_0058b800(); };
+// pdb: NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> >::~NiTMap<char const *,NiPointer<BSFaceGenModelMap::Entry> > | BSFaceGenManager.obj | fnv360_0822_debug, call_seq, low
 D_0058b800::~D_0058b800() { FUN_006bd950(); }
 
 struct B_0059b190 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0059b190() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0059b190 : B_0059b190 { virtual ~D_0059b190(); };
+// pdb: NiTPointerMap<TESObjectTREE *,NiPointer<BSTreeModel> *>::DeleteItem | BSTreeManager.obj | fnv360_0721_beta, objrun, low
+// pdb params: pkItem
 D_0059b190::~D_0059b190() { FUN_006bd950(); }
 
 struct B_005b8f90 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005b8f90() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005b8f90 : B_005b8f90 { virtual ~D_005b8f90(); };
+// pdb: NiTMap<unsigned short,NavMeshPOVData>::~NiTMap<unsigned short,NavMeshPOVData> | NavMesh.obj | fnv360_0822_debug, call_seq, medium
 D_005b8f90::~D_005b8f90() { FUN_006bd950(); }
 
 struct B_005b9390 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005b9390() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005b9390 : B_005b9390 { virtual ~D_005b9390(); };
+// pdb: NiTMap<unsigned short,NiPointer<ObstacleData> >::~NiTMap<unsigned short,NiPointer<ObstacleData> > | NavMesh.obj | fnv360_0822_debug, call_seq, medium
 D_005b9390::~D_005b9390() { FUN_006bd950(); }
 
 struct B_005be760 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005be760() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005be760 : B_005be760 { virtual ~D_005be760(); };
+// pdb: NiTMap<FastNavMeshVertHandle,POVVertexData *>::~NiTMap<FastNavMeshVertHandle,POVVertexData *> | NavMesh_Util.obj | fnv360_0822_debug, call_seq, medium
 D_005be760::~D_005be760() { FUN_006bd950(); }
 
 struct B_005c8a70 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005c8a70() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005c8a70 : B_005c8a70 { virtual ~D_005c8a70(); };
+// pdb: NiTMap<NavMesh *,NiPointer<NiNode> >::~NiTMap<NavMesh *,NiPointer<NiNode> > | NavMeshRender.obj | fnv360_0822_debug, call_seq, medium
 D_005c8a70::~D_005c8a70() { FUN_006bd950(); }
 
 struct B_005c8c40 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005c8c40() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005c8c40 : B_005c8c40 { virtual ~D_005c8c40(); };
+// pdb: NiTMap<TESObjectCELL *,NiPointer<NiNode> >::~NiTMap<TESObjectCELL *,NiPointer<NiNode> > | NavMeshRender.obj | fnv360_0822_debug, call_seq, medium
 D_005c8c40::~D_005c8c40() { FUN_006bd950(); }
 
 struct B_005d9cb0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005d9cb0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005d9cb0 : B_005d9cb0 { virtual ~D_005d9cb0(); };
+// pdb: NiTPointerMap<unsigned int,NavMeshInfo *>::~NiTPointerMap<unsigned int,NavMeshInfo *> | NavMeshInfoMap.obj | fnv360_0822_debug, call_seq, medium
 D_005d9cb0::~D_005d9cb0() { FUN_006bd950(); }
 
 struct B_005d9d40 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005d9d40() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005d9d40 : B_005d9d40 { virtual ~D_005d9d40(); };
+// pdb: NiTMap<unsigned int,NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *> *>::~NiTMap<unsigned int,NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *> *> | NavMeshInfoMap.obj | fnv360_0822_debug, call_seq, medium
 D_005d9d40::~D_005d9d40() { FUN_006bd950(); }
 
 struct B_005da100 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005da100() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005da100 : B_005da100 { virtual ~D_005da100(); };
+// pdb: NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *>::~NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *> | NavMeshInfoMap.obj | fnv360_0822_debug, call_seq, medium
 D_005da100::~D_005da100() { FUN_006bd950(); }
 
 struct B_005e4db0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005e4db0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005e4db0 : B_005e4db0 { virtual ~D_005e4db0(); };
+// pdb: NiTMap<unsigned int,NiPointer<ReferenceObstacleArray> >::~NiTMap<unsigned int,NiPointer<ReferenceObstacleArray> > | NavMeshObstacleManager.obj | fnv360_0822_debug, call_seq, medium
 D_005e4db0::~D_005e4db0() { FUN_006bd950(); }
 
 struct B_005e4eb0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005e4eb0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005e4eb0 : B_005e4eb0 { virtual ~D_005e4eb0(); };
+// pdb: NiTMap<bhkRigidBody *,NiPointer<ObstacleData> >::~NiTMap<bhkRigidBody *,NiPointer<ObstacleData> > | NavMeshObstacleManager.obj | fnv360_0822_debug, call_seq, medium
 D_005e4eb0::~D_005e4eb0() { FUN_006bd950(); }
 
 struct B_005e4f40 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005e4f40() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005e4f40 : B_005e4f40 { virtual ~D_005e4f40(); };
+// pdb: NiTMap<unsigned int,ObstacleTaskData *>::~NiTMap<unsigned int,ObstacleTaskData *> | NavMeshObstacleManager.obj | fnv360_0822_debug, call_seq, medium
 D_005e4f40::~D_005e4f40() { FUN_006bd950(); }
 
 struct B_005fe310 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005fe310() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005fe310 : B_005fe310 { virtual ~D_005fe310(); };
+// pdb: NiTMap<unsigned int,PathingLOSGrid *>::~NiTMap<unsigned int,PathingLOSGrid *> | PathingLOSGridMap.obj | fnv360_0822_debug, call_seq, medium
 D_005fe310::~D_005fe310() { FUN_006bd950(); }
 
 struct B_005fffa0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_005fffa0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_005fffa0 : B_005fffa0 { virtual ~D_005fffa0(); };
+// pdb: NiTMap<unsigned int,unsigned int>::~NiTMap<unsigned int,unsigned int> | PathingLOSMap.obj | fnv360_0822_debug, call_seq, medium
 D_005fffa0::~D_005fffa0() { FUN_006bd950(); }
 
 struct B_006a0300 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006a0300() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006a0300 : B_006a0300 { virtual ~D_006a0300(); };
+// pdb: NiTMap<unsigned int,IDebugTextPage *>::~NiTMap<unsigned int,IDebugTextPage *> | DebugTextManager.obj | fnv360_0822_debug, call_seq, medium
 D_006a0300::~D_006a0300() { FUN_006bd950(); }
 
 struct B_006bdd80 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006bdd80() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006bdd80 : B_006bdd80 { virtual ~D_006bdd80(); };
+// pdb: NiTPointerMap<unsigned int,BSSoundHandle *>::~NiTPointerMap<unsigned int,BSSoundHandle *> | FalloutAudio.obj | fnv360_0822_debug, call_seq, medium
 D_006bdd80::~D_006bdd80() { FUN_006bd950(); }
 
 struct B_006c6480 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006c6480() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006c6480 : B_006c6480 { virtual ~D_006c6480(); };
+// pdb: NiTPointerMap<int,unsigned int>::~NiTPointerMap<int,unsigned int> | ImpactMixer.obj | fnv360_0822_debug, call_seq, medium
 D_006c6480::~D_006c6480() { FUN_006bd950(); }
 
 struct B_006ca500 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006ca500() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006ca500 : B_006ca500 { virtual ~D_006ca500(); };
+// pdb: NiTMap<unsigned int,ReconstructFormData>::~NiTMap<unsigned int,ReconstructFormData> | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006ca500::~D_006ca500() { FUN_006bd950(); }
 
 struct B_006ca590 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006ca590() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006ca590 : B_006ca590 { virtual ~D_006ca590(); };
+// pdb: NiTMap<unsigned int,BGSReconstructFormsMap *>::~NiTMap<unsigned int,BGSReconstructFormsMap *> | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006ca590::~D_006ca590() { FUN_006bd950(); }
 
 struct B_006ca620 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006ca620() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006ca620 : B_006ca620 { virtual ~D_006ca620(); };
+// pdb: NiTMap<unsigned int,BGSReconstructCellsMap *>::~NiTMap<unsigned int,BGSReconstructCellsMap *> | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006ca620::~D_006ca620() { FUN_006bd950(); }
 
 struct B_006ca6b0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006ca6b0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006ca6b0 : B_006ca6b0 { virtual ~D_006ca6b0(); };
+// pdb: NiTMap<unsigned int,BGSReconstructCellSubBlocksMap *>::~NiTMap<unsigned int,BGSReconstructCellSubBlocksMap *> | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006ca6b0::~D_006ca6b0() { FUN_006bd950(); }
 
 struct B_006ca740 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006ca740() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006ca740 : B_006ca740 { virtual ~D_006ca740(); };
+// pdb: NiTMap<unsigned int,BGSReconstructCellBlocksMap *>::~NiTMap<unsigned int,BGSReconstructCellBlocksMap *> | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006ca740::~D_006ca740() { FUN_006bd950(); }
 
 struct B_006ca7d0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006ca7d0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006ca7d0 : B_006ca7d0 { virtual ~D_006ca7d0(); };
+// pdb: NiTMap<TESFile *,BGSReconstructFormsInFileMap *>::~NiTMap<TESFile *,BGSReconstructFormsInFileMap *> | BGSReconstructFormsInAllFilesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006ca7d0::~D_006ca7d0() { FUN_006bd950(); }
 
 struct B_006cd3d0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006cd3d0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006cd3d0 : B_006cd3d0 { virtual ~D_006cd3d0(); };
+// pdb: NiTPointerMap<unsigned int,BGSFormChanges *>::~NiTPointerMap<unsigned int,BGSFormChanges *> | BGSSaveLoadChangesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006cd3d0::~D_006cd3d0() { FUN_006bd950(); }
 
 struct B_006cf100 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006cf100() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006cf100 : B_006cf100 { virtual ~D_006cf100(); };
+// pdb: NiTMap<unsigned int,Actor *>::~NiTMap<unsigned int,Actor *> | BGSSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006cf100::~D_006cf100() { FUN_006bd950(); }
 
 struct B_006cf190 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006cf190() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006cf190 : B_006cf190 { virtual ~D_006cf190(); };
+// pdb: NiTMap<__int64,int>::~NiTMap<__int64,int> | BGSSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006cf190::~D_006cf190() { FUN_006bd950(); }
 
 struct B_006d1ba0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006d1ba0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006d1ba0 : B_006d1ba0 { virtual ~D_006d1ba0(); };
+// pdb: NiTMap<TESGlobal *,bool>::~NiTMap<TESGlobal *,bool> | BGSSaveLoadGlobalData.obj | fnv360_0822_debug, call_seq, medium
 D_006d1ba0::~D_006d1ba0() { FUN_006bd950(); }
 
 struct B_006d6510 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006d6510() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006d6510 : B_006d6510 { virtual ~D_006d6510(); };
+// pdb: NiTMap<unsigned int,BSSimpleArray<unsigned int,1024> *>::~NiTMap<unsigned int,BSSimpleArray<unsigned int,1024> *> | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006d6510::~D_006d6510() { FUN_006bd950(); }
 
 struct B_006d65a0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006d65a0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006d65a0 : B_006d65a0 { virtual ~D_006d65a0(); };
+// pdb: NiTPointerMap<unsigned int,unsigned int>::~NiTPointerMap<unsigned int,unsigned int> | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006d65a0::~D_006d65a0() { FUN_006bd950(); }
 
 struct B_006d6630 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006d6630() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006d6630 : B_006d6630 { virtual ~D_006d6630(); };
+// pdb: NiTPointerMap<unsigned int,BGSCellNumericIDArrayMap *>::~NiTPointerMap<unsigned int,BGSCellNumericIDArrayMap *> | BGSSaveLoadReferencesMap.obj | fnv360_0822_debug, call_seq, medium
 D_006d6630::~D_006d6630() { FUN_006bd950(); }
 
 struct B_006d6f60 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006d6f60() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006d6f60 : B_006d6f60 { virtual ~D_006d6f60(); };
+// pdb: NiTMap<enum ENUM_FORM_ID,BSSimpleList<SavedFormData *> *>::~NiTMap<enum ENUM_FORM_ID,BSSimpleList<SavedFormData *> *> | BGSSaveLoadStructs.obj | fnv360_0822_debug, call_seq, high
 D_006d6f60::~D_006d6f60() { FUN_006bd950(); }
 
 struct B_006dc060 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006dc060() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006dc060 : B_006dc060 { virtual ~D_006dc060(); };
+// pdb: NiTPointerMap<unsigned int,ChangeData *>::~NiTPointerMap<unsigned int,ChangeData *> | TESSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006dc060::~D_006dc060() { FUN_006bd950(); }
 
 struct B_006dc0f0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006dc0f0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006dc0f0 : B_006dc0f0 { virtual ~D_006dc0f0(); };
+// pdb: NiTPointerMap<unsigned int,BSSimpleList<unsigned int> *>::~NiTPointerMap<unsigned int,BSSimpleList<unsigned int> *> | TESSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006dc0f0::~D_006dc0f0() { FUN_006bd950(); }
 
 struct B_006dc180 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006dc180() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006dc180 : B_006dc180 { virtual ~D_006dc180(); };
+// pdb: NiTPointerMap<unsigned int,BSSimpleList<ExteriorCellReferenceData *> *>::~NiTPointerMap<unsigned int,BSSimpleList<ExteriorCellReferenceData *> *> | TESSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006dc180::~D_006dc180() { FUN_006bd950(); }
 
 struct B_006dc210 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006dc210() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006dc210 : B_006dc210 { virtual ~D_006dc210(); };
+// pdb: NiTPointerMap<unsigned int,void *>::~NiTPointerMap<unsigned int,void *> | TESSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006dc210::~D_006dc210() { FUN_006bd950(); }
 
 struct B_006dc2c0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006dc2c0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006dc2c0 : B_006dc2c0 { virtual ~D_006dc2c0(); };
+// pdb: NiTMap<unsigned int,BSSimpleList<ExpiredCellData *> *>::~NiTMap<unsigned int,BSSimpleList<ExpiredCellData *> *> | TESSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006dc2c0::~D_006dc2c0() { FUN_006bd950(); }
 
 struct B_006dd6f0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006dd6f0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006dd6f0 : B_006dd6f0 { virtual ~D_006dd6f0(); };
+// pdb: NiTPointerMap<unsigned char,BSSimpleList<LoadFormHeader *> *>::~NiTPointerMap<unsigned char,BSSimpleList<LoadFormHeader *> *> | TESSaveLoadGame.obj | fnv360_0822_debug, call_seq, medium
 D_006dd6f0::~D_006dd6f0() { FUN_006bd950(); }
 
 struct B_006e0ea0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_006e0ea0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_006e0ea0 : B_006e0ea0 { virtual ~D_006e0ea0(); };
+// pdb: NiTMap<TESForm *,BGSLoadGameSubBuffer>::~NiTMap<TESForm *,BGSLoadGameSubBuffer> | BGSLoadGameSubBuffer.obj | fnv360_0822_debug, call_seq, medium
 D_006e0ea0::~D_006e0ea0() { FUN_006bd950(); }
 
 struct B_0074e360 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0074e360() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0074e360 : B_0074e360 { virtual ~D_0074e360(); };
+// pdb: NiTMap<LowProcess *,LP_LOCK_DATA>::~NiTMap<LowProcess *,LP_LOCK_DATA> | LowProcess.obj | fnv360_0822_debug, call_seq, medium
 D_0074e360::~D_0074e360() { FUN_006bd950(); }
 
 struct B_00774d90 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00774d90() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00774d90 : B_00774d90 { virtual ~D_00774d90(); };
+// pdb: NiTMap<unsigned int,unsigned char>::~NiTMap<unsigned int,unsigned char> | PlayerCharacter.obj | fnv360_0822_debug, call_seq, high
 D_00774d90::~D_00774d90() { FUN_006bd950(); }
 
 struct B_0079c260 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_0079c260() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_0079c260 : B_0079c260 { virtual ~D_0079c260(); };
+// pdb: NiTMap<unsigned int,ReservedCoverLocation *>::~NiTMap<unsigned int,ReservedCoverLocation *> | CombatCoverMap.obj | fnv360_0822_debug, call_seq, medium
 D_0079c260::~D_0079c260() { FUN_006bd950(); }
 
 struct B_007a8a70 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_007a8a70() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_007a8a70 : B_007a8a70 { virtual ~D_007a8a70(); };
+// pdb: NiTMap<Actor *,__int64>::NiTMap<Actor *,__int64> | CombatManager.obj | fnv360_1110_retail, objrun, low
+// pdb params: uiHashSize
 D_007a8a70::~D_007a8a70() { FUN_006bd950(); }
 
 struct B_007b5b80 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_007b5b80() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_007b5b80 : B_007b5b80 { virtual ~D_007b5b80(); };
+// pdb: NiTMap<Actor *,CombatTargetData *>::~NiTMap<Actor *,CombatTargetData *> | CombatTargetMap.obj | fnv360_0822_debug, call_seq, medium
 D_007b5b80::~D_007b5b80() { FUN_006bd950(); }
 
 struct B_007b69f0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_007b69f0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_007b69f0 : B_007b69f0 { virtual ~D_007b69f0(); };
+// pdb: NiTMap<unsigned int,CombatThreat *>::~NiTMap<unsigned int,CombatThreat *> | CombatThreatMap.obj | fnv360_0822_debug, call_seq, medium
 D_007b69f0::~D_007b69f0() { FUN_006bd950(); }
 
 struct B_007f9e60 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_007f9e60() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_007f9e60 : B_007f9e60 { virtual ~D_007f9e60(); };
+// pdb: NiTMap<char const *,char *>::~NiTMap<char const *,char *> | MoviePlayer_Xenon.obj | fnv360_0822_debug, call_seq, low
 D_007f9e60::~D_007f9e60() { FUN_006bd950(); }
 
 struct B_008dbaa0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_008dbaa0() { FUN_006bd950(); FUN_0089e890(t); } };
@@ -354,10 +438,12 @@ D_00ae69d0::~D_00ae69d0() { FUN_006bd950(); }
 
 struct B_00b02240 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00b02240() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00b02240 : B_00b02240 { virtual ~D_00b02240(); };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,char const *,ShaderBufferEntry *>::RemoveAll | ShaderBuffer.obj | fnv360_0721_beta, call_dedup, low
 D_00b02240::~D_00b02240() { FUN_006bd950(); }
 
 struct B_00bd0ae0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00bd0ae0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00bd0ae0 : B_00bd0ae0 { virtual ~D_00bd0ae0(); };
+// pdb: BSAudioManager::~BSAudioManager | BSAudioManager.obj | fnv360_0822_debug, objopen_prop, low
 D_00bd0ae0::~D_00bd0ae0() { FUN_006bd950(); }
 
 struct B_00bd0b70 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00bd0b70() { FUN_006bd950(); FUN_0089e890(t); } };
@@ -366,24 +452,30 @@ D_00bd0b70::~D_00bd0b70() { FUN_006bd950(); }
 
 struct B_00bd0cb0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00bd0cb0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00bd0cb0 : B_00bd0cb0 { virtual ~D_00bd0cb0(); };
+// pdb: BSSemaphore::~BSSemaphore | TESDataHandler.obj | fnv360_0822_debug, objopen_prop, low
 D_00bd0cb0::~D_00bd0cb0() { FUN_006bd950(); }
 
 struct B_00beb4a0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00beb4a0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00beb4a0 : B_00beb4a0 { virtual ~D_00beb4a0(); };
+// pdb: NiTPointerMap<Tile::Value *,Tile::Reaction *>::~NiTPointerMap<Tile::Value *,Tile::Reaction *> | Tile.obj | fnv360_0822_debug, call_seq, medium
 D_00beb4a0::~D_00beb4a0() { FUN_006bd950(); }
 
 struct B_00beb530 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00beb530() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00beb530 : B_00beb530 { virtual ~D_00beb530(); };
+// pdb: NiTPointerMap<char const *,int>::~NiTPointerMap<char const *,int> | Tile.obj | fnv360_0822_debug, call_seq, low
 D_00beb530::~D_00beb530() { FUN_006bd950(); }
 
 struct B_00beb650 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00beb650() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00beb650 : B_00beb650 { virtual ~D_00beb650(); };
+// pdb: NiTPointerMap<int,int>::~NiTPointerMap<int,int> | Tile.obj | fnv360_0822_debug, call_seq, medium
 D_00beb650::~D_00beb650() { FUN_006bd950(); }
 
 struct B_00bfccb0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00bfccb0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00bfccb0 : B_00bfccb0 { virtual ~D_00bfccb0(); };
+// pdb: NiTPointerMap<char const *,XMLStorage *>::~NiTPointerMap<char const *,XMLStorage *> | Menu.obj | fnv360_0822_debug, call_seq, low
 D_00bfccb0::~D_00bfccb0() { FUN_006bd950(); }
 
 struct B_00bfcdd0 { unsigned h; void** t; void FUN_006bd950(); virtual ~B_00bfcdd0() { FUN_006bd950(); FUN_0089e890(t); } };
 struct D_00bfcdd0 : B_00bfcdd0 { virtual ~D_00bfcdd0(); };
+// pdb: NiTPointerMap<char const *,Tile::BuildStorage *>::~NiTPointerMap<char const *,Tile::BuildStorage *> | Menu.obj | fnv360_0822_debug, call_seq, low
 D_00bfcdd0::~D_00bfcdd0() { FUN_006bd950(); }

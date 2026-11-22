@@ -162,6 +162,7 @@ template <class T> __forceinline S8d8150_Array<T>::~S8d8150_Array()
     }
 }
 
+// pdb: bhkWorld::~bhkWorld | bhkWorld.obj | fnv360_0822_retail, udata, high
 FUN_008d8150::~FUN_008d8150()
 {
     extern int DAT_010f2a64;

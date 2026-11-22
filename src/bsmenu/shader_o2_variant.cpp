@@ -21,6 +21,8 @@ struct LogSink
 };
 
 // @fnv 0x00aa0020
+// pdb: NiShaderFactory::ReportError | NiShaderFactory.obj | fnv360_0822_debug, caller, medium
+// pdb params: eError, bRecoverable, pacFmt
 int __cdecl FUN_00aa0020(int a1, int a2, const char* fmt, ...)
 {
     char buf[0x800];

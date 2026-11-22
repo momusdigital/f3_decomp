@@ -33,6 +33,7 @@ class NiTPointerListSingleThread_ShadowSceneLight___;
 class NiShadeProperty : public NiProperty
 {
   public:
+    virtual int Type() const;
     // base NiProperty at +0x0, size 24
     unsigned short m_uiObjectFlags;  // +0x18, 2 bytes
     unsigned char layoutPadding1A[2];
@@ -240,7 +241,7 @@ class NiTPointerListSingleThread_ShadowSceneLight___
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTPointerListSingleThread_ShadowSceneLight___) == 12);
 #pragma pack(push, 4)
-class BSShaderLightingProperty : public BSShaderProperty, public NiMemObjectAllocation
+class BSShaderLightingProperty : public BSShaderProperty
 {
   public:
     ShadowSceneLight* GetFirstActiveLight(void*& iter);

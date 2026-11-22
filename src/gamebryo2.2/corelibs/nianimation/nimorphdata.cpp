@@ -6,7 +6,8 @@ extern "C" void* g_011f3e74;
 
 // Returns the address of the global g_011f3e74.
 // @fnv 0x00a415e0
-void* __cdecl FUN_00a415e0()
+// pdb: NiMorphData::GetRTTI | NiMorphData.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+void* __cdecl NiMorphData_GetRTTI()
 {
     return &g_011f3e74;
 }
@@ -28,6 +29,7 @@ struct NiMorphData
     void* FUN_00a41a00(unsigned int);
 };
 // @fnv 0x00a41a00
+// pdb: NiMorphData::`scalar deleting destructor' | NiMorphData.obj | fnv360_0822_retail, objrun, high
 void* NiMorphData::FUN_00a41a00(unsigned int auiFlags)
 {
     void* p = m_pMorphTargets;
@@ -75,6 +77,8 @@ struct NiMorphData : NiObject
 };
 // Registers the base object's streamables, then streams the _04 field of each morph target, returning false if registration fails.
 // @fnv 0x00a41710
+// pdb: NiMorphData::RegisterStreamables | NiMorphData.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: stream
 bool __thiscall NiMorphData::FUN_00a41710(NiStream& kStream)
 {
     if (!NiObject::RegisterStreamables(kStream))
@@ -109,6 +113,8 @@ struct FUN_00a57850_shell
 };
 
 // @fnv 0x00a57850
+// pdb: NiTextKey::RegisterStreamables | NiTextKey.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: stream
 void FUN_00a57850_shell::FUN_00a57850(NiStream& kStream)
 {
     kStream.RegisterStreamable((void*)((char*)this + 4));
@@ -124,6 +130,7 @@ struct Object
     Object* __thiscall FUN_00a415f0();
 };
 // @fnv 0x00a415f0
+// pdb: NiMorphData::MorphTarget::MorphTarget | NiMorphData.obj | tesv_win, objrun_open, low
 Object* __thiscall Object::FUN_00a415f0()
 {
     field_00 = 0;
@@ -162,6 +169,8 @@ class FUN_00a41610_cls
 };
 
 // @fnv 0x00a41610
+// pdb: NiMorphData::ReplaceTargets | NiMorphData.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: aMorphTargets, uiNumTargets, uiNumVertsPerTarget
 void FUN_00a41610_cls::ReleaseResources()
 {
     ((GlobalMgr_b9415*)&DAT_011f6238)->FUN_00aa4060(m_00);
@@ -204,6 +213,7 @@ struct Owner_00a41660
     void* __thiscall FUN_00a41660(unsigned char flags);
 };
 // @fnv 0x00a41660
+// pdb: NiMorphData::~NiMorphData | NiMorphData.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: NiMorphData::MorphTarget::`vector deleting destructor')
 void* __thiscall Owner_00a41660::FUN_00a41660(unsigned char flags)
 {
     if (flags & 2)
@@ -236,25 +246,6 @@ void* __thiscall Owner_00a41660::FUN_00a41660(unsigned char flags)
 }
 }  // namespace fnv_00a41660
 
-struct MorphBuffer
-{
-    void* unk00;
-    unsigned int used;
-    void* unk08;
-    int(__cdecl* append)(MorphBuffer*, void*, unsigned int, const unsigned int*, int);
-};
-static __forceinline unsigned int countBytes(const volatile unsigned int& count)
-{
-    return count * 4;
-}
-// @fnv 0x00a417b0
-void __cdecl FUN_00a417b0(void* owner, void* source, unsigned int elementCount)
-{
-    MorphBuffer* __restrict buffer = *reinterpret_cast<MorphBuffer**>(reinterpret_cast<char*>(owner) + 0x250);
-    unsigned int stride = 4;
-    buffer->used += buffer->append(buffer, source, countBytes(elementCount), &stride, 1);
-}
-
 struct FUN_00a417f0_vec3
 {
     float x;
@@ -270,6 +261,8 @@ struct FUN_00a417f0_cls
     bool Equals(FUN_00a417f0_cls* other, unsigned int n);
 };
 // @fnv 0x00a417f0
+// pdb: NiMorphData::MorphTarget::IsEqual | NiMorphData.obj | fnv360_0822_retail, objrun_sim, medium
+// pdb params: pkOther, uiNumVerts
 bool FUN_00a417f0_cls::Equals(FUN_00a417f0_cls* other, unsigned int n)
 {
     for (unsigned int i = 0; i < n; ++i)
@@ -530,11 +523,12 @@ struct NiMorphDataX : NiObjBase
     MorphTgt* m_pMorphTargets;
     bool m_bTargetsAreRelative;
 
-    void FUN_00a41d90(NiStreamM& kStream);
+    void NiMorphData_SaveBinary(NiStreamM& kStream);
 };
 
 // @fnv 0x00a41d90
-void NiMorphDataX::FUN_00a41d90(NiStreamM& kStream)
+// pdb: NiMorphData::SaveBinary | NiMorphData.obj | fnv360_0822_retail, objrun + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void NiMorphDataX::NiMorphData_SaveBinary(NiStreamM& kStream)
 {
     SaveBinaryBase(kStream);
     SerializeValue(kStream, m_uiNumTargets);
@@ -632,6 +626,8 @@ struct NiMorphDataV : NiObjectBase
 
 // Appends the base object's strings, the target and vertex counts, a MorphTargets header, and each target's name to pkStrings.
 // @fnv 0x00a41ea0
+// pdb: NiMorphData::GetViewerStrings | NiMorphData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void NiMorphDataV::AppendToStrings(ViewerStrings* pkStrings)
 {
     NiObjectBase::AppendCameraPathEntries(pkStrings);
@@ -662,6 +658,8 @@ template <class T> inline unsigned int FNVReadElements(FNVBinaryInput& stream, c
 }
 // Reads count unsigned int elements from the stream pointed to by context->unk24C via FNVReadElements.
 // @fnv 0x00a41770
+// pdb: NiStreamLoadBinary<float> | BSDecalPVExtraData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: kStream, pValue, uiNumEls
 void __cdecl ReadElements(NiStreamM* apStreamContext, const unsigned int* data, unsigned int count)
 {
     FNVBinaryInput* stream = reinterpret_cast<FNVBinaryInput*>(apStreamContext->unk24C);
@@ -847,8 +845,8 @@ struct NiStreamL_a41940
     int unk244;
     int unk248;
     NiBinIstr_a41940* m_pUnderlyingStream;
-    void FUN_00a64ea0(NiFixedStrL_a41940& kString);
-    void FUN_00a64df0(NiFixedStrL_a41940& kString);
+    void NiStream_LoadCStringAsFixedString(NiFixedStrL_a41940& kString);
+    void NiStream_LoadFixedString(NiFixedStrL_a41940& kString);
 };
 struct NiPoint3_a41940
 {
@@ -867,12 +865,14 @@ struct MorphTarget_a41940
 };
 // Reads m_kName, optionally m_fMorphWeight, and allocates and fills m_aVerts from kStream based on m_uiNifVersion.
 // @fnv 0x00a41940
+// pdb: NiMorphData::MorphTarget::LoadBinary | NiMorphData.obj | fnv360_0822_retail, objrun, high
+// pdb params: kStream, uiNumVerts
 void MorphTarget_a41940::Load(NiStreamL_a41940& kStream, unsigned int m_uiScaleCount)
 {
     if (kStream.m_uiNifVersion < 0x14010001)
-        kStream.FUN_00a64ea0(m_kName);
+        kStream.NiStream_LoadCStringAsFixedString(m_kName);
     else
-        kStream.FUN_00a64df0(m_kName);
+        kStream.NiStream_LoadFixedString(m_kName);
     if (kStream.m_uiNifVersion >= 0x0A010068 && kStream.m_uiNifVersion < 0x14010003)
         NiBinIstrLoad_a41940(kStream.m_pUnderlyingStream, &m_fMorphWeight, 1);
     m_aVerts = new NiPoint3_a41940[m_uiScaleCount];
@@ -902,7 +902,7 @@ struct MorphEqualData
     MorphEqualTarget* m_10;
     unsigned char m_14;
     bool IsSameAs(MorphEqualData* other);
-    bool FUN_00a418a0(MorphEqualData* other);
+    bool NiMorphData_IsEqual(MorphEqualData* other);
 };
 
 __declspec(noinline) bool MorphEqualTarget::Equals(MorphEqualTarget* other, unsigned int val)
@@ -919,7 +919,8 @@ __declspec(noinline) bool MorphEqualTarget::Equals(MorphEqualTarget* other, unsi
 
 // Compares two MorphEqualData instances by checking m_08, m_0c, m_14 and each MorphEqualTarget in m_10 via Equals.
 // @fnv 0x00a418a0
-bool MorphEqualData::FUN_00a418a0(MorphEqualData* other)
+// pdb: NiMorphData::IsEqual | NiMorphData.obj | fnv360_0822_retail, objrun_sim + bridge(vtable|objrun_open) + skyrim(caller_sim), high
+bool MorphEqualData::NiMorphData_IsEqual(MorphEqualData* other)
 {
     if (!IsSameAs(other))
     {

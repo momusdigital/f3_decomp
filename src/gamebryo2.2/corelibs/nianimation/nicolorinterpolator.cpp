@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nianimation/nicolorinterpolator.cpp: NiColorInterpolator (17 functions)
+// gamebryo2.2/corelibs/nianimation/nicolorinterpolator.cpp: NiColorInterpolator (16 functions)
 #include "f3_common.h"
 #include "NiObject.h"
 
@@ -65,6 +65,8 @@ class NiColorInterpolator : public NiKeyBasedInterpolator
 };
 
 // @fnv 0x00a3bfb0
+// pdb: NiColorInterpolator::Update | NiColorInterpolator.obj | fnv360_0721_retail, objrun, medium, conflict (bridge: NiTCBRotKey::Equal)
+// pdb params: fTime, pkInterpTarget, kValue
 bool NiColorInterpolator::Update(float fTime, NiObjectNET*, RgbaColor& kValue)
 {
     if (m_fLastTime == fTime)
@@ -114,6 +116,8 @@ extern int DAT_011a943c;
 __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 
 // @fnv 0x00a3bd10
+// pdb: NiColorInterpolator::NiColorInterpolator | NiColorInterpolator.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pkColorData
 NiColorInterpolator* __fastcall NiColorInterpolatorConstructor(NiColorInterpolator* pThis, int, void* pkColorData)
 {
     reinterpret_cast<NiKeyBasedInterpolator*>(pThis)->NiKeyBasedInterpolator::NiKeyBasedInterpolator();
@@ -129,18 +133,7 @@ NiColorInterpolator* __fastcall NiColorInterpolatorConstructor(NiColorInterpolat
 }
 }  // namespace fnv_00a3bd10
 
-struct FUN_00a3bd70_shell : public NiColorInterpolator
-{
-    void* FUN_00a3bd70();
-};
-
 extern "C" void* g_011f3730;
-
-// @fnv 0x00a3bd70
-void* FUN_00a3bd70_shell::FUN_00a3bd70()
-{
-    return &g_011f3730;
-}
 
 struct FUN_00a487f0_shell
 {
@@ -148,6 +141,8 @@ struct FUN_00a487f0_shell
 };
 
 // @fnv 0x00a487f0
+// pdb: NiQuaternionInterpolator::GetKeyArray | NiQuaternionInterpolator.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: usChannel
 void* __thiscall FUN_00a487f0_shell::GetNestedPointer(void* apUnused)
 {
     void* ptr = *(void**)((char*)this + 0x1c);
@@ -164,6 +159,8 @@ struct FUN_00a3bc60_shell : public NiKeyBasedInterpolator
 };
 // Clears m_spColorData and stores the given color value in m_kColorValue.
 // @fnv 0x00a3bc60
+// pdb: NiColorInterpolator::SetPoseValue | NiColorInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kPoseValue
 void FUN_00a3bc60_shell::SetColorValue(RgbaColor akColorValue)
 {
     m_spColorData = 0;
@@ -180,6 +177,8 @@ struct HostA3BCB0 : NiColorInterpolator
 };
 // If m_spColorData is set, forwards the two float arguments to its FUN_00a3d0e0 method.
 // @fnv 0x00a3bcb0
+// pdb: NiColorInterpolator::GuaranteeTimeRange | NiColorInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fStartTime, fEndTime
 void HostA3BCB0::FUN_00a3bcb0(float afArg1, float afArg2)
 {
     if ((NiColorData*)m_spColorData)
@@ -212,10 +211,11 @@ struct NiColorA_SaveHelper
 };
 struct FUN_00a3bce0_shell : NiColorInterpolator
 {
-    void FUN_00a3bce0(NiStream&);
+    void NiColorInterpolator_SaveBinary(NiStream&);
 };
 // @fnv 0x00a3bce0
-void FUN_00a3bce0_shell::FUN_00a3bce0(NiStream& kStream)
+// pdb: NiColorInterpolator::SaveBinary | NiColorInterpolator.obj | fnv360_0721_beta, objrun + bridge(vtable|objrun_prop) + skyrim(caller_sim), high
+void FUN_00a3bce0_shell::NiColorInterpolator_SaveBinary(NiStream& kStream)
 {
     ((FUN_00a95ca0_helper*)this)->FUN_00a95ca0(&kStream);
     ((NiColorA_SaveHelper*)&m_kColorValue)->SaveBinary(&kStream);
@@ -239,6 +239,8 @@ extern int DAT_011a9434;
 extern int DAT_011a9438;
 extern int DAT_011a943c;
 // @fnv 0x00a3c130
+// pdb: NiColorInterpolator::IsEqual | NiColorInterpolator.obj | fnv360_0721_retail, objrun, low, conflict (skyrim: NiColorInterpolator::CreateObject)
+// pdb params: pkObject
 BSFadeNode* FUN_00a3c130()
 {
     BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x24);
@@ -281,6 +283,8 @@ struct FUN_00a48990_StandIn : NiKeyBasedInterpolator
 };
 // Loads the base interpolator and color value from the stream, then stores the stream's next object as the color data pointer.
 // @fnv 0x00a48990
+// pdb: NiColorInterpolator::LoadBinary | NiColorInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: kStream
 void FUN_00a48990_StandIn::FUN_00a48990(NiStream& kStream)
 {
     ((NiKeyBasedInterpolator_LoadBinary_Helper*)this)->NiKeyBasedInterpolator_LoadBinary_Helper::LoadBinary(kStream);
@@ -324,6 +328,8 @@ struct FUN_00a489f0_StandIn : NiColorInterpolator
     bool FUN_00a489f0(NiStream*);
 };
 // @fnv 0x00a489f0
+// pdb: NiColorInterpolator::RegisterStreamables | NiColorInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 bool FUN_00a489f0_StandIn::FUN_00a489f0(NiStream* pkStream)
 {
     if (!((HC1Base*)this)->FUN_00aa0ad0(pkStream))
@@ -365,6 +371,8 @@ struct FUN_00a3bd80 : public NiKeyBasedInterpolator, public ColorValueWords
 
 // Constructs a color interpolator, initializing the base interpolator, the RGBA color words, an empty color data pointer and a zeroed field.
 // @fnv 0x00a3bd80
+// pdb: NiColorInterpolator::NiColorInterpolator | NiColorInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: kPoseValue
 FUN_00a3bd80::FUN_00a3bd80(unsigned int auiColorR, unsigned int auiColorG, unsigned int auiColorB,
                            unsigned int auiColorA)
     : NiKeyBasedInterpolator(), ColorValueWords(auiColorR, auiColorG, auiColorB, auiColorA), m_spColorData(),
@@ -388,12 +396,14 @@ inline ColorAnimationKey* ComputePositionAtTime(NiColorData* d, unsigned int& n,
 
 struct HostA3BDC0 : NiColorInterpolator
 {
-    void CollapseConstantColorKeys();
+    void NiColorInterpolator_Collapse();
 };
 
 // If the color data has zero or one key, or all keys are equal for linear/step interpolation, clears m_spColorData and stores the single color value.
 // @fnv 0x00a3bdc0
-void HostA3BDC0::CollapseConstantColorKeys()
+// pdb: NiColorInterpolator::Collapse | NiColorInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb: NiColorInterpolator::Collapse | NiColorInterpolator.obj | fnv360_0822_retail, objrun, high (was: CollapseConstantColorKeys)
+void HostA3BDC0::NiColorInterpolator_Collapse()
 {
     if (m_spColorData)
     {
@@ -441,11 +451,14 @@ struct FUN_00a3d270_helper : NiColorData
 };
 struct FUN_00a3bef0_shell : NiColorInterpolator
 {
-    NiColorInterpolator* CreateClippedInterpolator(float startTime, float endTime);
+    NiColorInterpolator* NiColorInterpolator_GetSequenceInterpolator(float startTime, float endTime);
 };
 // Creates a color interpolator for the given time range and, if color data exists, clips it and assigns the clipped data to the new interpolator.
 // @fnv 0x00a3bef0
-NiColorInterpolator* FUN_00a3bef0_shell::CreateClippedInterpolator(float startTime, float endTime)
+// pdb: NiColorInterpolator::GetSequenceInterpolator | NiColorInterpolator.obj | fnv360_0721_retail, objrun, high
+// pdb params: fStartTime, fEndTime
+// pdb: NiColorInterpolator::GetSequenceInterpolator | NiColorInterpolator.obj | fnv360_0721_retail, objrun, high (was: CreateClippedInterpolator)
+NiColorInterpolator* FUN_00a3bef0_shell::NiColorInterpolator_GetSequenceInterpolator(float startTime, float endTime)
 {
     NiColorInterpolator* interpolator = reinterpret_cast<FUN_00a57050_helper*>(this)->FUN_00a57050(startTime, endTime);
     if (m_spColorData.m_pObject)
@@ -467,6 +480,7 @@ struct FUN_00a3c0a0_shell : NiColorInterpolator
     void FUN_00a3c0a0(FUN_00a3c0a0_shell* dst, void* proc);
 };
 // @fnv 0x00a3c0a0
+// pdb: NiColorInterpolator::CreateObject | NiColorInterpolator.obj | fnv360_0721_retail, objrun, low, conflict (skyrim: NiQuaternionInterpolator::CopyMembers)
 void FUN_00a3c0a0_shell::FUN_00a3c0a0(FUN_00a3c0a0_shell* apDest, void* proc)
 {
     FUN_00aa0ab0(apDest, proc);
@@ -516,6 +530,8 @@ struct FUN_00a3c270_cls
 };
 
 // @f3 0x008b7a80 (community match, verified in this file)
+// pdb: NiColorInterpolator::GetViewerStrings | NiColorInterpolator.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
 {
     this->FUN_00a3cbf0(out);
@@ -565,6 +581,8 @@ struct Owner488
 };
 // Allocates a NiColorInterpolator with null color data, initializes it via FUN_00a3c0a0 with arg, and returns it.
 // @fnv 0x00a3c1f0
+// pdb: NiColorInterpolator::CreateClone | NiColorInterpolator.obj | fnv360_0721_retail, objrun, medium, conflict (bridge: NiColorInterpolator::CreateObject)
+// pdb params: kCloning
 NiColorInterpolator* Owner488::CreateColorInterpolator(int arg)
 {
     void* memory = FUN_00aa13e0(sizeof(NiColorInterpolator));
@@ -626,6 +644,7 @@ class FUN_00a3c190_C : public NiObjA3C
 
 // Returns false when the base check, color check, or color-data check fails; otherwise returns true.
 // @fnv 0x00a3c190
+// pdb: NiColorInterpolator::`scalar deleting destructor' | NiColorInterpolator.obj | fnv360_0721_retail, objrun, low, conflict (skyrim: NiColorInterpolator::IsEqual)
 bool FUN_00a3c190_C::FUN_00a3c190(NiObjA3C* pkObject)
 {
     if (!FUN_00c85800(pkObject))

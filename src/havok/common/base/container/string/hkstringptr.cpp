@@ -2,9 +2,8 @@
 // src/havok/common/base/container/string/hkstringptr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstringptr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-int __cdecl FUN_00cb10d0(const char* s);
+int __cdecl hkString_strLen(const char* s);
 char* __cdecl AllocateWithHeader(void* alloc, int size);
-void __cdecl FUN_00cb1090(char* dst, const char* src);
 
 // @f3 0x00923640 (community match, verified in this file)
 typedef void* (__stdcall *TlsGetter385)(unsigned long index);
@@ -38,15 +37,7 @@ FUN_00cb0a60::FUN_00cb0a60()
     unk00 = g_01268358;
 }
 
-int __cdecl FUN_00c856c0(int, int);
-// @fnv 0x00cb1190
-int __cdecl CallSwappedArgs(unsigned int arg0, unsigned int arg1)
-{
-    unsigned int callResult0 = (unsigned int)FUN_00c856c0((int)arg1, (int)arg0);
-    return (int)callResult0;
-}
-
-int __cdecl FUN_00cb10d0(const char* s);
+int __cdecl hkString_strLen(const char* s);
 
 struct WriterCC0
 {
@@ -59,10 +50,11 @@ struct WriterCC0
 
 // Writes the string s to w, or the literal "(null)" when s is null.
 // @fnv 0x00cc0080
+// pdb: writeString | hkOStream.obj | tesv_win, hash, low
 static __declspec(noinline) void FUN_00cc0080(WriterCC0* apWriter, const char* apString)
 {
     if (apString)
-        apWriter->Write(apString, FUN_00cb10d0(apString));
+        apWriter->Write(apString, hkString_strLen(apString));
     else
         apWriter->Write("(null)", 6);
 }
@@ -86,6 +78,7 @@ struct SinkOwner
 };
 
 // @fnv 0x00cc01c0
+// pdb: hkOstream::operator<< | hkOStream.obj | tesv_win, hash, low
 SinkOwner* SinkOwner::FUN_00cc01c0(const char* text)
 {
     FUN_00cc0080(writer, text);
@@ -97,9 +90,8 @@ namespace fnv_00cb11b0 {
 
 extern "C"
 {
-    void* __cdecl FUN_00cb10d0(void* p);
+    void* __cdecl hkString_strLen(void* p);
     void* __cdecl AllocateWithHeader(void* p, int n);
-    void* __cdecl CopyIfNonEmpty(void* p, void* q, int n);
 }
 
 // Copies up to n2 characters from p1 into a new null-terminated buffer allocated from p3 and returns it.
@@ -110,6 +102,7 @@ void __cdecl FUN_009233d0(void* destination, const void* source, int length);
 
 void* __cdecl FUN_00cb11b0(void* apSource, int anMaxLen, void* apAllocator);
 namespace fnv_00cb11b0 { void* __cdecl FUN_00cb11b0(void* apSource, int anMaxLen, void* apAllocator); }
+// pdb: strNdup | hkStringPtr.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* __cdecl ::fnv_00cb11b0::FUN_00cb11b0(void* apSource, int anMaxLen, void* apAllocator)
 {
     int length = (int)FUN_009233f0(static_cast<const char*>(apSource));

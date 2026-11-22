@@ -310,7 +310,7 @@ class hkpCollisionFilter : public hkReferencedObject, public hkpCollidableCollid
 class hkpWorld
 {
 public:
-    void FUN_00907d50(const hkpCollidable* collA, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector) const;
+    void hkpWorld_getPenetrations(const hkpCollidable* collA, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector) const;
 
     __forceinline const hkpCollisionInput* getCollisionInput() const { return m_collisionInput; }
     __forceinline const hkpCollisionFilter* getCollisionFilter() const { return m_collisionFilter; }
@@ -344,7 +344,8 @@ public:
     hkpCollisionFilter* m_collisionFilter;
 };
 
-void hkpWorld::FUN_00907d50(const hkpCollidable* collA, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector) const
+// pdb: hkpWorld::getPenetrations | hkpWorld.obj | fnv360_0822_retail, ustr + skyrim(ustr), high
+void hkpWorld::hkpWorld_getPenetrations(const hkpCollidable* collA, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector) const
 {
     {
         hkMonitorStream& mStream = hkMonitorStream::getInstance();

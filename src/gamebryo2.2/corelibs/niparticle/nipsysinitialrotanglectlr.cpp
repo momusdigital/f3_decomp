@@ -3,13 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 struct NiRTTI;
-extern NiRTTI g_012026f0;
-
-// @fnv 0x00c2a1a0
-const NiRTTI* __cdecl FUN_00c2a1a0()
-{
-    return &g_012026f0;
-}
 
 struct NiRTTI
 {
@@ -46,40 +39,23 @@ struct NiObjectNET : B00c1bff0
 };
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
+    bool NiPSysModifierCtlr_InterpTargetIsCorrectType(NiObjectNET*);
 };
 struct NiPSysInitialRotAngleCtlr : BaseStandIn
 {
     bool IsModifierOfType(NiObjectNET*);
 };
 // @fnv 0x00c2a210
+// pdb: NiPSysInitialRotAngleCtlr::InterpTargetIsCorrectType | NiPSysInitialRotAngleCtlr.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkTarget
 bool NiPSysInitialRotAngleCtlr::IsModifierOfType(NiObjectNET* pkTarget)
 {
-    if (!BaseStandIn::IsTargetParticleSystem(pkTarget))
+    if (!BaseStandIn::NiPSysModifierCtlr_InterpTargetIsCorrectType(pkTarget))
         return false;
     NiPSysModifier* pkModifier = (NiPSysModifier*)pkTarget->FUN_00c1b0f0((void*)((char*)this + 0x38));
     if (!pkModifier)
         return false;
     return pkModifier->IsKindOfType(&_g_01202528);
-}
-
-struct StrArr
-{
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-char* __cdecl FUN_00a7d330(const char*);
-void __stdcall FUN_00c32f60(StrArr*);
-// @fnv 0x00c2a260
-void __stdcall FUN_00c2a260(StrArr* pkStrings)
-{
-    FUN_00c32f60(pkStrings);
-    char* pStr = FUN_00a7d330(g_012026f0.m_pcName);
-    unsigned int iCount = *(unsigned short*)((char*)pkStrings + 10);
-    unsigned int iSize = *(unsigned short*)((char*)pkStrings + 8);
-    if (iCount >= iSize)
-        pkStrings->SetSize(iCount + *(unsigned short*)((char*)pkStrings + 14));
-    pkStrings->SetAt(iCount, pStr);
 }
 
 extern char DAT_010befbc;
@@ -98,6 +74,7 @@ struct SpawnedCtlr
 
 // Allocates a 0x40-byte SpawnedObject, initialises it, passes it to FUN_00c32de0 with pArg, and returns it (or null on allocation failure).
 // @fnv 0x00c2a1c0
+// pdb: NiPSysInitialRotAngleCtlr::CreateClone | NiPSysInitialRotAngleCtlr.obj | tesv_win, caller_sim, low
 SpawnedObject* SpawnedCtlr::CreateSpawnedObject(void* pArg)
 {
     SpawnedObject* pkObj = (SpawnedObject*)FUN_00aa13e0(0x40);

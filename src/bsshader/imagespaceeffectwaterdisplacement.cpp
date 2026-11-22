@@ -353,7 +353,7 @@ struct GameObject
     float accumulated;
     float step;
 
-    void FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4);
+    void ImageSpaceEffectWaterDisplacement_Render(void* arg1, void* arg2, int arg3, int arg4);
 };
 
 extern float DAT_010313d4;
@@ -683,7 +683,8 @@ __forceinline void EffectState::UpdatePasses(void* arg1, void* arg2, int arg3, i
         tex64.FUN_00b22530();
     }
 }
-void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
+// pdb: ImageSpaceEffectWaterDisplacement::Render | ImageSpaceEffectWaterDisplacement.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void GameObject::ImageSpaceEffectWaterDisplacement_Render(void* arg1, void* arg2, int arg3, int arg4)
 {
     ((EffectState*)this)->UpdatePasses(arg1,arg2,arg3,arg4);
 }
@@ -850,6 +851,8 @@ struct ImageSpaceEffect
 
 // Initializes the effect's texture array and shader parameters from the TextureManager fields in initData.
 // @fnv 0x00ba4940
+// pdb: ImageSpaceEffectFullScreenBlur::Setup | ImageSpaceEffectBlur.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void ImageSpaceEffect::InitFromEffectInitData(EffectInitData* initData, int unused)
 {
     SetTextureArraySize(11);
@@ -1142,6 +1145,8 @@ class ImageSpaceEffect
 };
 // Initializes nine ImageSpaceShaderParam entries with values from config->m_08 fields f1a4 through f1c4, setting texture array size to 9.
 // @fnv 0x00ba04c0
+// pdb: ImageSpaceEffectWaterDisplacement::Setup | ImageSpaceEffectWaterDisplacement.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apManager, apParam
 void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
 {
     SetTextureArraySize(9);
@@ -1278,6 +1283,8 @@ struct DrawOwner384
 
 // Begins a draw pass, iterates over m_parts to recursively draw, and ends the pass.
 // @fnv 0x00ba4d20
+// pdb: ImageSpaceEffectFullScreenBlur::Render | ImageSpaceEffectBlur.obj | fnv360_1110_retail, caller_sim, low
+// pdb params: apGeometry, apRenderer, apParam, abEndFrame
 void DrawOwner384::Draw(void* apArg1, void* apArg2, void* a3, bool abFlag)
 {
     Begin(a3);

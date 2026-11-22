@@ -4,6 +4,8 @@
 extern "C" int __cdecl FUN_00eccbdc(int, int);
 
 // @fnv 0x00aa2d10
+// pdb: D3DXShader::CRegisterEntryNode::operator delete | cassembler.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: NiPath::GetCurrentWorkingDirectory)
+// pdb params: pAddress
 int FUN_00aa2d10(int aiValue1, int aiValue2)
 {
     int r = FUN_00eccbdc(aiValue1, aiValue2);
@@ -21,6 +23,8 @@ extern char DAT_01013444[];
 
 // Skips a leading drive letter or path prefix in s and returns the pointer past it.
 // @fnv 0x00aa2c50
+// pdb: NiPath::StripAbsoluteBase | NiPath_Xenon.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pcAbsolutePath
 char* __cdecl SkipPathPrefix(char* szPath)
 {
     if (FUN_00aa1370(szPath, str_010a2564, 2) == 0)
@@ -53,6 +57,8 @@ done:
 int __cdecl FUN_00eca7f4(int);
 // Returns false for slash-prefixed paths or a drive letter followed by a colon in the first two characters; otherwise true.
 // @fnv 0x00aa2cc0
+// pdb: D3DXShader::RegisterHash | cassembler.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: NiPath::IsRelative)
+// pdb params: pId
 bool __cdecl FUN_00aa2cc0(const char* pcPath)
 {
     char c1stChar;

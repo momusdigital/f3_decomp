@@ -365,6 +365,8 @@ extern S96bca0_Src DAT_01092a50;
 extern const double DAT_00e7c718;
 
 
+// pdb: bhkCharacterStateSwimming::Update | bhkCharacterStateSwimming.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arInput
 void __stdcall FUN_0096bca0(S96bca0_Ctrl* c)
 {
     S96bca0_Input in;

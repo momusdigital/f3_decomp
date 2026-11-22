@@ -4,39 +4,10 @@
 
 // src/fallout_shared/tes.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tes.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct GlobalObject_00a7b610
-{
-};
-extern GlobalObject_00a7b610 g_01202df8;
-struct NiRTTI
-{
-};
-struct FUN_00450620_shell
-{
-    const NiRTTI* GetNiRTTI() const;
-};
-struct BSTempNodeManager
-{
-    virtual ~BSTempNodeManager();
-    void* FUN_00450630(unsigned int flags);
-};
-extern "C" void __cdecl FUN_00c44e20(BSTempNodeManager*);
-extern void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-struct FUN_004512a0_shell
-{
-    unsigned char m_ucState;
-    void SetState(unsigned char ucState);
-};
-extern char DAT_01189184;
-void FUN_00451520(unsigned char value);
 struct NP
 {
     NP& operator=(void*);
 };
-extern NP DAT_011f95e8;
-void FUN_00451570(void* arg);
-extern unsigned char DAT_011ad86c;
-void FUN_00451590(unsigned char value);
 struct AlchemyItem;
 struct BGSAddonNode;
 struct BGSDebris;
@@ -437,10 +408,6 @@ struct TESDataHandler
     TESEffectShader* m_pThirdEffectShader;
 };
 typedef char _sizecheck_TESDataHandler[sizeof(TESDataHandler) == 1596 ? 1 : -1];
-struct FUN_004516b0_shell : public TESDataHandler
-{
-    bool FUN_004516b0();
-};
 struct Actor;
 struct BGSLoadFormBuffer;
 struct BGSReconstructFormsInAllFilesMap;
@@ -548,88 +515,8 @@ struct BGSSaveLoadGame
     char _pad_249[3];
 };
 typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
-struct FUN_004523c0_shell : public BGSSaveLoadGame
-{
-    bool FUN_004523c0();
-};
-int __fastcall GetByteAtOffset38(void*);
-struct FUN_00452420_shell
-{
-    unsigned int pad0;   // +0x00
-    unsigned int pad1;   // +0x04
-    unsigned int pad2;   // +0x08
-    unsigned int pad3;   // +0x0C
-    unsigned int flags;  // +0x10
-    bool GetFlag(unsigned int aiFlags) const;
-};
-struct FUN_00452440_shell
-{
-    bool __thiscall FUN_00452440();
-};
-struct FUN_004e32c0_shell
-{
-    bool __thiscall HasFlags(int arg);
-};
-struct PlaceableWaterData
-{
-    unsigned int flags;
-};
-struct BGSPlaceableWater
-{
-    PlaceableWaterData* FUN_00624700();
-    bool __thiscall HasFlags(unsigned int flags);
-};
-extern unsigned char DAT_0119b8c8;
-unsigned char FUN_00452480();
-int __fastcall FUN_009938b0(void*);
-struct FUN_00453470_shell
-{
-    int __thiscall FUN_00453470(void);
-};
-struct FUN_004534f0_shell
-{
-    void __thiscall FUN_004534f0(unsigned int);
-};
-struct FUN_00453500_shell
-{
-    void FUN_00453500(bool set);
-};
 struct BSAudio;
 BSAudio* DAT_011f6d98;
-BSAudio* FUN_00453a70();
-extern unsigned char DAT_011f9427;
-void FUN_00454440(unsigned char value);
-struct FNStub
-{
-    char const* GetFullName() const;
-};
-struct FUN_00454b50_shell
-{
-    char const* FUN_00454b50() const;
-};
-struct TESFaction_RankDataView
-{
-    unsigned char* GetRankDataList(void);
-    bool FUN_00455620(void);
-};
-extern int DAT_011c56e8;
-void FUN_00455680();
-struct FUN_004565f0_shell
-{
-    float m_f;
-    float GetFloat();
-};
-extern const void* const g_01202e00;
-struct FUN_00458f20_shell
-{
-    const void* const* FUN_00458f20() const;
-};
-extern "C" void __fastcall FUN_00a5e930(void*);
-extern int DAT_01017d24;
-struct FUN_00458f70_shell
-{
-    void __thiscall FUN_00458f70();
-};
 struct AnimIdle;
 struct Animation;
 struct AttachDistant3DTask;
@@ -773,86 +660,20 @@ struct ModelLoader
     char _pad_2d[3];
 };
 typedef char _sizecheck_ModelLoader[sizeof(ModelLoader) == 48 ? 1 : -1];
-struct FUN_0045a5e0_shell : public ModelLoader
-{
-    void FUN_0045a5e0(char*);
-};
-void __cdecl CreateCSDFadeNode(void);
-void __cdecl CreateSpdFadeNode(void);
-void __cdecl FUN_004f92e0(void);
-void __cdecl FUN_00649e40(void);
-void __cdecl FUN_0065c570(void);
-void __cdecl FUN_00662760(void);
-void __cdecl FUN_0045b020(void);
-struct FUN_0045c650_shell
-{
-    void* FUN_0045c650();
-};
 struct Flt
 {
     operator unsigned int(void) const;
 };
-extern Flt g_011deb7c;
-unsigned int FUN_0045c670();
 struct TESObjectREFR;
-void FUN_00578060(TESObjectREFR* self);
-void FUN_00578170(TESObjectREFR* self);
-void FUN_0045c680(TESObjectREFR* arg, bool flag);
-extern "C" double _gModifierZero;
 struct NiPoint3
 {
     float x;
     float y;
     float z;
 };
-struct NiCamera
-{
-    float x;
-    float y;
-    float z;
-    float w;
-    int __thiscall ClassifyPoint(const NiPoint3* other);
-};
-struct FUN_00451cd0_shell
-{
-    unsigned char FUN_00451cd0();
-};
 struct TESObjectCELL
 {
     bool IsInterior(void);
-};
-struct TESObjectCELL_AddToInteriorBuffer
-{
-    void AddCellToInteriorBuffer(TESObjectCELL* cell);
-};
-struct TESObjectCELL_AddToExteriorBuffer
-{
-    void AddCellToExteriorBuffer(TESObjectCELL* cell);
-};
-struct FUN_00454b90_shell
-{
-    void AddCellToBuffer(TESObjectCELL* cell);
-};
-struct FUN_00458f30_shell
-{
-    void FUN_00458f70();
-    void* DestroyIfFlagged(unsigned int flags);
-};
-void _delete(void* obj, unsigned int size);
-struct FUN_00459840_shell
-{
-    void FUN_00458f90();
-    void FUN_00459840(unsigned int a);
-};
-struct FUN_0045a730_shell
-{
-    char* FUN_0045a730();
-};
-extern "C" void __cdecl _Deallocate(void*);
-struct FUN_0045ae20_shell
-{
-    void FUN_0045ae50();
-    void* FUN_0045ae20(unsigned int flags);
 };
 
 struct ShaderBufferRecord;
@@ -870,6 +691,8 @@ struct TallGrassShaderProperty
     static NiTStringPointerMap_00e93060* __cdecl GetCacheDataMap();
 };
 // @fnv 0x00b617b0
+// pdb: TallGrassShaderProperty::ContainsChunk | TallGrassShaderProperty.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: aiGrassID, alTerrainChunkSeed
 bool __cdecl FUN_00b617b0(char const* a, char const* b)
 {
     ShaderBufferRecord* pn = 0;
@@ -880,72 +703,6 @@ bool __cdecl FUN_00b617b0(char const* a, char const* b)
 
 // Release one update lock; when the last lock goes away, process (a budgeted part of) the pending queue
 // or flush it, then run the post-update steps.
-
-class C6B540Item;
-
-extern bool g_bC6B540Processing;
-extern unsigned int g_uiC6B540MaxPerFrame;
-
-class C6B540Manager
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    unsigned int m_uiLockCount;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    C6B540Item** m_ppkPending;
-    unsigned int m_uiPendingCount;
-
-    void ProcessPending(C6B540Item** ppkItems, unsigned int ItemUpdateArray);
-    void FlushPending();
-    void UpdateA();
-    void UpdateB();
-    void UpdateC();
-    void FUN_00c6b540(bool bProcess);
-};
-
-// @fnv 0x00c6b540
-void C6B540Manager::FUN_00c6b540(bool bProcess)
-{
-    if (m_uiLockCount > 0)
-    {
-        if (--m_uiLockCount == 0)
-        {
-            if (bProcess)
-            {
-                if (m_uiPendingCount > 0 && !g_bC6B540Processing)
-                {
-                    if (m_uiPendingCount >= 3000)
-                        m_uiPendingCount = 3000;
-                    unsigned int ItemUpdateArray =
-                        m_uiPendingCount < g_uiC6B540MaxPerFrame ? m_uiPendingCount : g_uiC6B540MaxPerFrame;
-                    unsigned int uiRemaining = m_uiPendingCount - ItemUpdateArray;
-                    ProcessPending(&m_ppkPending[uiRemaining], ItemUpdateArray);
-                    m_uiPendingCount = uiRemaining;
-                    g_bC6B540Processing = true;
-                }
-            }
-            else
-            {
-                FlushPending();
-            }
-            UpdateA();
-            UpdateB();
-            UpdateC();
-        }
-    }
-    else if (m_uiPendingCount > 0 && !bProcess)
-    {
-        FlushPending();
-    }
-}
 
 struct QueryStub
 {
@@ -1079,6 +836,7 @@ struct FUN_00b631d0_cls
 };
 
 // @fnv 0x00b631d0
+// pdb: BSShaderAccumulator::ClearAllQueries | BSShaderAccumulator.obj | fnv360_0822_retail, call_gap, low
 void FUN_00b631d0_cls::FUN_00b631d0()
 {
     unsigned int state;
@@ -1284,6 +1042,8 @@ struct NativeItemManager {
     int unknown64, unknown68;
     NativePendingList pending;
 };
+// pdb: BSTextureManager::ReturnRenderedTexture | BSTextureManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTexToReturn
 void Manager::FUN_00b6da10(Item* item)
 {
     NativeItemManager& native = *reinterpret_cast<NativeItemManager*>(this);

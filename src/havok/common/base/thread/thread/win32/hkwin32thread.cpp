@@ -11,6 +11,7 @@ class FUN_00d87920_cls
 };
 
 // @fnv 0x00d87920
+// pdb: hkThread::stopThread | hkWin32Thread.obj | tesv_win, hash, low
 void FUN_00d87920_cls::FUN_00d87920()
 {
     if (m_hHandle != 0)

@@ -66,15 +66,19 @@ struct C_00409e90 { void FUN_00409e90(); };
 void C_00409e90::FUN_00409e90() { *(void**)this = (void*)&DAT_00db5760; }
 
 struct C_00449f20 { void FUN_00449f20(); };
+// pdb: BGSBipedModelList::~BGSBipedModelList | BGSBipedModelList.obj | fnv360_0822_retail, call_gap, low
 void C_00449f20::FUN_00449f20() { *(void**)this = (void*)&DAT_00dbb0e0; }
 
 struct C_0044a140 { void FUN_0044a140(); };
+// pdb: BGSClipRoundsForm::~BGSClipRoundsForm | BGSClipRoundsForm.obj | fnv360_0822_retail, call_gap, low
 void C_0044a140::FUN_0044a140() { *(void**)this = (void*)&DAT_00dbb25c; }
 
 struct C_0045bf20 { void FUN_0045bf20(); };
+// pdb: TESValueForm::~TESValueForm | TESValueForm.obj | fnv360_0721_beta, call_seq, medium
 void C_0045bf20::FUN_0045bf20() { *(void**)this = (void*)&DAT_00dbdf90; }
 
 struct C_0045c0b0 { void FUN_0045c0b0(); };
+// pdb: TESWeightForm::~TESWeightForm | TESWeightForm.obj | fnv360_0721_beta, call_seq, medium
 void C_0045c0b0::FUN_0045c0b0() { *(void**)this = (void*)&DAT_00dbdfbc; }
 
 struct C_0045c180 { void FUN_0045c180(); };
@@ -84,9 +88,11 @@ struct C_004748b0 { void FUN_004748b0(); };
 void C_004748b0::FUN_004748b0() { *(void**)this = (void*)&DAT_00dc02a4; }
 
 struct C_0047aef0 { void FUN_0047aef0(); };
+// pdb: GridArray::GridArray | GridArray.obj | fnv360_0822_retail, call_gap, low
 void C_0047aef0::FUN_0047aef0() { *(void**)this = (void*)&DAT_00dc0b1c; }
 
 struct C_0049e900 { void FUN_0049e900(); };
+// pdb: TESRegionData::~TESRegionData | TESRegionData.obj | fnv360_0822_retail, call_dedup, low
 void C_0049e900::FUN_0049e900() { *(void**)this = (void*)&DAT_00dc36f4; }
 
 struct C_004c10e0 { void FUN_004c10e0(); };
@@ -153,6 +159,7 @@ struct C_00679680 { void FUN_00679680(); };
 void C_00679680::FUN_00679680() { *(void**)this = (void*)&DAT_00e07ffc; }
 
 struct C_006c0980 { void FUN_006c0980(); };
+// pdb: RiffChunk::GetDataSize | FalloutAudioMedia.obj | fnv360_0822_debug, objrun_open, low
 void C_006c0980::FUN_006c0980() { *(void**)this = (void*)&DAT_00e0c8c4; }
 
 struct C_006ef220 { void FUN_006ef220(); };
@@ -183,30 +190,38 @@ struct C_007f9360 { void FUN_007f9360(); };
 void C_007f9360::FUN_007f9360() { *(void**)this = (void*)&DAT_00e20044; }
 
 struct C_007f97e0 { void FUN_007f97e0(); };
+// pdb: BSCacheDriveSystemUtility::~BSCacheDriveSystemUtility | BSCacheDriveSystemUtility.obj | fnv360_0822_retail, objrun_open, low
 void C_007f97e0::FUN_007f97e0() { *(void**)this = (void*)&DAT_00e2006c; }
 
 struct C_007f9850 { void FUN_007f9850(); };
+// pdb: BSGameDataSystemUtility::~BSGameDataSystemUtility | BSGameDataSystemUtility.obj | fnv360_0822_retail, objrun_open, low
 void C_007f9850::FUN_007f9850() { *(void**)this = (void*)&DAT_00e2007c; }
 
 struct C_007f98b0 { void FUN_007f98b0(); };
+// pdb: BSDiscBootSystemUtility::~BSDiscBootSystemUtility | BSDiscBootSystemUtility.obj | fnv360_0822_retail, objrun_open, low
 void C_007f98b0::FUN_007f98b0() { *(void**)this = (void*)&DAT_00e20098; }
 
 struct C_00811450 { void FUN_00811450(); };
+// pdb: NiIntersector::~NiIntersector | NiIntersector.obj | fnv360_0822_retail, objrun_prop, medium
 void C_00811450::FUN_00811450() { *(void**)this = (void*)&DAT_00e20660; }
 
 struct C_008337f0 { void FUN_008337f0(); };
+// pdb: NiCullingProcess::~NiCullingProcess | NiCullingProcess.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSTSingletonSDMBase<struct BSTSDMTraits<struct MovementControllerSetDescriptions,struct BSTSingletonSDMOpStaticBuffer<struct MovementControllerSetDescriptions> > >::QInstancePtr)
 void C_008337f0::FUN_008337f0() { *(void**)this = (void*)&DAT_00e21a24; }
 
 struct C_0086c3f0 { void FUN_0086c3f0(); };
+// pdb: BSCoreMessage::BSCoreMessage | BSCoreMessage.obj | fnv360_0822_retail, call_seq, high
 void C_0086c3f0::FUN_0086c3f0() { *(void**)this = (void*)&DAT_00e27ebc; }
 
 struct C_0086d120 { void FUN_0086d120(); };
 void C_0086d120::FUN_0086d120() { *(void**)this = (void*)&DAT_00e27f54; }
 
 struct C_0089f4e0 { void FUN_0089f4e0(); };
+// pdb: NiBinaryStream::~NiBinaryStream | NiBinaryStream.obj | fnv360_0822_retail, call_seq, high
 void C_0089f4e0::FUN_0089f4e0() { *(void**)this = (void*)&DAT_00e2c508; }
 
 struct C_0089fca0 { void FUN_0089fca0(); };
+// pdb: NiSearchPath::~NiSearchPath | NiSearchPath.obj | fnv360_0822_retail, call_gap_sim, high
 void C_0089fca0::FUN_0089fca0() { *(void**)this = (void*)&DAT_00e2c5a4; }
 
 struct C_008d36c0 { void FUN_008d36c0(); };
@@ -219,45 +234,56 @@ struct C_008dba10 { void FUN_008dba10(); };
 void C_008dba10::FUN_008dba10() { *(void**)this = (void*)&DAT_00e32abc; }
 
 struct C_009161d0 { void FUN_009161d0(); };
+// pdb: hkpBoxShape::~hkpBoxShape | hkpBoxShape.obj | tesv_win, callee_sim, low
 void C_009161d0::FUN_009161d0() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_00917200 { void FUN_00917200(); };
+// pdb: hkArrayUtil::destruct<int> | bhkRagdollPenetrationUtil.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: t, n, __formal
 void C_00917200::FUN_00917200() { *(void**)this = (void*)&DAT_00e36550; }
 
 struct C_0092e800 { void FUN_0092e800(); };
 void C_0092e800::FUN_0092e800() { *(void**)this = (void*)&DAT_00e3726c; }
 
 struct C_0097f0f0 { void FUN_0097f0f0(); };
+// pdb: hkpSimulation::~hkpSimulation | hkpSimulation.obj | fnv360_0822_retail, callee_sim, high
 void C_0097f0f0::FUN_0097f0f0() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_00986640 { void FUN_00986640(); };
+// pdb: hkpReportContactMgr::~hkpReportContactMgr | hkpReportContactMgr.obj | tesv_win, callee_sim, low
 void C_00986640::FUN_00986640() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_009a5e50 { void FUN_009a5e50(); };
+// pdb: hkpSampledHeightFieldShape::~hkpSampledHeightFieldShape | hkpSampledHeightFieldShape.obj | tesv_win, callee_sim, low
 void C_009a5e50::FUN_009a5e50() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_009b31d0 { void FUN_009b31d0(); };
+// pdb: hkObjectCopier::~hkObjectCopier | hkObjectCopier.obj | fnv360_0822_retail, call_gap_sim, high
 void C_009b31d0::FUN_009b31d0() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_00a28300 { void FUN_00a28300(); };
+// pdb: hkpDefaultToiResourceMgr::~hkpDefaultToiResourceMgr | hkpDefaultToiResourceMgr.obj | tesv_win, callee_sim, low
 void C_00a28300::FUN_00a28300() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_00a86200 { void FUN_00a86200(); };
 void C_00a86200::FUN_00a86200() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_00a89190 { void FUN_00a89190(); };
+// pdb: hkpMoppDefaultSplitter::~hkpMoppDefaultSplitter | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, objrun, high
 void C_00a89190::FUN_00a89190() { *(void**)this = (void*)&DAT_00dcc494; }
 
 struct C_00aa2570 { void FUN_00aa2570(); };
 void C_00aa2570::FUN_00aa2570() { *(void**)this = (void*)&DAT_00e895e0; }
 
 struct C_00ba9550 { void FUN_00ba9550(); };
+// pdb: CIdvCamera::~CIdvCamera | Camera.obj | fnv360_0822_retail, call_seq, medium
 void C_00ba9550::FUN_00ba9550() { *(void**)this = (void*)&DAT_00ea7c04; }
 
 struct C_00bbd1d0 { void FUN_00bbd1d0(); };
 void C_00bbd1d0::FUN_00bbd1d0() { *(void**)this = (void*)&DAT_00ea7dec; }
 
 struct C_00bce610 { void FUN_00bce610(); };
+// pdb: BSFileCache::~BSFileCache | BSFileCache.obj | fnv360_0721_beta, objrun_sim, low
 void C_00bce610::FUN_00bce610() { *(void**)this = (void*)&DAT_00ea83e4; }
 
 struct C_00bcf3b0 { void FUN_00bcf3b0(); };

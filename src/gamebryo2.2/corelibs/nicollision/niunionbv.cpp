@@ -79,6 +79,7 @@ class NiD3DShaderProgram : public NiGPUProgram
 };
 
 // @fnv 0x0DBBC10
+// pdb: hkpTriSampledHeightFieldCollection::getHeightFieldShape | hkpTriSampledHeightFieldCollection.obj | fnv360_0822_retail, objrun_prop, low
 NiUInt32 NiD3DShaderProgram::GetCodeSize() const
 {
     return m_uiProgramCodeSize;
@@ -95,27 +96,13 @@ struct S
     S* FUN_00e9ee60(void*);
 };
 // @fnv 0x00e9efb0
+// pdb: NiHalfSpaceBV::`scalar deleting destructor' | NiHalfSpaceBV.obj | fnv360_0822_debug, objrun_open, low
 S* __fastcall FUN_00e9efb0(void* self)
 {
     S* p = (S*)g_memoryManager.Allocate(0x18);
     if (p)
         return p->FUN_00e9ee60(self);
     return 0;
-}
-
-// FUN_00e9ecc0 - 6-byte leaf stub of the retail binary.
-//
-// The original code is "mov eax, 4 ; ret": the function simply hands the
-// constant 4 back to its caller.  A plain "return 4;" is folded by VC9 at the
-// pack's /O1 into the shorter "push 4 ; pop eax ; ret" sequence, so the value
-// is materialised from a relocated address expression instead.  That keeps
-// the original six-byte "mov eax, <imm32> ; ret" shape byte for byte.
-extern int g_fnv_00e9ecc0_value_anchor;
-
-// @fnv 0x00e9ecc0
-int FUN_00e9ecc0()
-{
-    return (int)(&g_fnv_00e9ecc0_value_anchor) + 4;
 }
 
 #pragma optimize("gty", on)
@@ -141,6 +128,7 @@ class S00e9e860_Obj
 
 // Deletes each item in m_ppItems, nulls the pointers, and resets m_uCount and m_u10 to zero.
 // @fnv 0x00e9e860
+// pdb: NiUnionBV::RemoveAllBoundingVolumes | NiUnionBV.obj | fnv360_0822_retail, objopen_prop, medium
 void S00e9e860_Obj::FUN_00e9e860()
 {
     {

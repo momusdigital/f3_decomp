@@ -1381,7 +1381,6 @@ const hkpShape* hkpTransformCollapseUtil::FUN_00a04480 (const hkpShape* transfor
 		}
 		default:
 		{
-			;
 		}
 	}
 	const hkpShapeType childShapeType = childShape->getType();
@@ -2572,6 +2571,8 @@ extern "C" void __cdecl hkPoweredChain_ScanAndEnableMotors( const hkpChainSolver
 extern "C" void __cdecl hkPoweredChain_ScanAndDisableMotors( const hkpChainSolverInfo& info, int& constraintIndex, int& coordinateIndex, hkReal& impulse, hkp3dAngularMotorSolverInfo* motorsState );
 extern "C" void __cdecl hkPoweredChain_UpdateLuDecomposition( int constraintIndex, int numConstraints, hkp3dAngularMotorSolverInfo* motorsState, hkpConstraintChainMatrix6Triple* triples );
 extern "C" void __cdecl hkPoweredChain_RestoreVelocityValue( int constraintIndex, int coordinateIndex, const hkpChainSolverInfo& info, hkVector8* velocities );
+// pdb: hkSolver_solvePoweredChain | hkpSolver.obj | fnv360_0822_retail, objrun, medium
+// pdb params: solverInfo, temp, accums, chain, sr
 void __cdecl FUN_00a0e5d0( const hkpSolverInfo& solverInfo, const hkSolver::SolverStepTemp& temp, hkpVelocityAccumulator* accums, hkpJacobianPoweredChainSchema* chain, hkpSolverElemTemp* sr )
 {
 	hkpChainSolverInfo info( solverInfo );
@@ -2651,7 +2652,6 @@ void __cdecl FUN_00a0e5d0( const hkpSolverInfo& solverInfo, const hkSolver::Solv
 			break;
 		}
 	}
-	;
 	{
 		hkVector8* g = info.m_gTempBuffer + 1;
 		hkVector8 imp; imp.setZero8();
@@ -3637,6 +3637,8 @@ static __forceinline void __cdecl integrateVelocities( const hkpSolverInfo& info
 		}
 	}
 }
+// pdb: hkSolveIntegrateVelocitiesByTheSteps | hkpSolver.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: info, currentSolverStep, accumulators, accumulatorsEnd, outSolveFinished
 int __cdecl FUN_00a0d700( const hkpSolverInfo& info, int currentSolverStep, hkpVelocityAccumulator* accumulators, hkpVelocityAccumulator* accumulatorsEnd, hkBool& outSolveFinished )
 {
 	hkVector4 gravity = info.m_globalAccelerationPerSubStep;
@@ -6734,6 +6736,7 @@ case_SCHEMA_TYPE_1D_LINEAR_MOTOR:
 		}
 	}
 }
+// pdb: hkSolveStepJacobians | hkpSolver.obj | tesv_win, call_gap, low
 void __cdecl FUN_00a0f4d0( const hkpSolverInfo& info, const hkpJacobianSchema* schemas, hkpVelocityAccumulator* accumulators, hkpSolverElemTemp* tmp )
 {
 	hkSolver::SolverStepTemp temp;
@@ -8968,6 +8971,8 @@ case_SCHEMA_TYPE_1D_LINEAR_MOTOR:
 }
 extern hkBool HK_flyingcolors_solver;
 extern "C" bool __cdecl processFlyingColors( int );
+// pdb: hkSolveConstraintsByTheSteps | hkpSolver.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: info, currentSolverStep, currentSolverMicroStep, schemas, accumulators, elemTemp
 int __cdecl FUN_00a1b9f0( const hkpSolverInfo& info, int currentSolverStep, int currentSolverMicroStep, const hkpJacobianSchema* schemas, hkpVelocityAccumulator* accumulators, hkpSolverElemTemp* elemTemp )
 {
 	if ( !HK_flyingcolors_solver )

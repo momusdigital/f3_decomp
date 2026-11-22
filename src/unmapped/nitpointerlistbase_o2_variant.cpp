@@ -13,6 +13,7 @@ struct A5E9C0RTTI
 extern A5E9C0RTTI g_A5E9C0RTTI;
 
 // @fnv 0x00a5e9c0
+// pdb: BaseProcess::GetWeaponLastPos | BaseProcess.obj | fnv360_0822_retail, objrun, low
 const A5E9C0RTTI* __cdecl FUN_00a5e9c0()
 {
     return &g_A5E9C0RTTI;
@@ -39,6 +40,8 @@ struct AlphaList
 };
 
 // @fnv 0x00e7db70
+// pdb: NiTPointerListBase<DFALL<NiTListItem<BSAnimGroupSequence const *> >,BSAnimGroupSequence const *>::Remove | Animation.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: BSTempEffectSimpleDecal::ClipMesh)
+// pdb params: element
 unsigned int AlphaList::FUN_00e7db70(unsigned int* keyPtr)
 {
     AlphaNode* sel;
@@ -209,6 +212,7 @@ class FUN_00a5e930 : public A5E930Base
 };
 
 // @fnv 0x00a5e930
+// pdb: NiNode::~NiNode | NiNode.obj | fnv360_0822_retail, call_seq, high
 FUN_00a5e930::~FUN_00a5e930() throw()
 {
     for (unsigned int i = 0; i < m_usChildCount; i++)

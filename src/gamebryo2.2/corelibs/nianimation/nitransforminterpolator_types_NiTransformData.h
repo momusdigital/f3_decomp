@@ -27,16 +27,16 @@ class NiTransformData : public NiObject
     unsigned short m_usNumPosKeys;    // +0xA, 2 bytes
     unsigned short m_usNumScaleKeys;  // +0xC, 2 bytes
     unsigned char layoutPaddingE[2];
-    NiAnimationKey__KeyType m_eRotationKeyType;  // +0x10, 4 bytes
-    NiAnimationKey__KeyType m_ePositionKeyType;  // +0x14, 4 bytes
-    NiAnimationKey__KeyType m_eScaleKeyType;     // +0x18, 4 bytes
-    unsigned char m_ucRotationKeySize;           // +0x1C, 1 bytes
-    unsigned char m_ucPositionKeySize;           // +0x1D, 1 bytes
-    unsigned char m_ucScaleKeySize;              // +0x1E, 1 bytes
+    NiAnimationKey__KeyType m_eRotType;  // +0x10, 4 bytes  // src: FNV360_PDB +0x10 (old: m_eRotationKeyType)
+    NiAnimationKey__KeyType m_ePosType;  // +0x14, 4 bytes  // src: FNV360_PDB +0x14 (old: m_ePositionKeyType)
+    NiAnimationKey__KeyType m_eScaleType;     // +0x18, 4 bytes  // src: FNV360_PDB +0x18 (old: m_eScaleKeyType)
+    unsigned char m_ucRotSize;           // +0x1C, 1 bytes  // src: FNV360_PDB +0x1C (old: m_ucRotationKeySize)
+    unsigned char m_ucPosSize;           // +0x1D, 1 bytes  // src: FNV360_PDB +0x1D (old: m_ucPositionKeySize)
+    unsigned char m_ucScaleSize;              // +0x1E, 1 bytes  // src: FNV360_PDB +0x1E (old: m_ucScaleKeySize)
     unsigned char layoutPadding1F[1];
-    TimedRotationKey* m_pkRotationKeys;         // +0x20, 4 bytes
-    PositionKeyInterpolator* m_pkPositionKeys;  // +0x24, 4 bytes
-    TimedAnimationKey* m_pkScaleKeyArray;       // +0x28, 4 bytes
+    TimedRotationKey* m_pkRotKeys;         // +0x20, 4 bytes  // src: FNV360_PDB +0x20 (old: m_pkRotationKeys)
+    PositionKeyInterpolator* m_pkPosKeys;  // +0x24, 4 bytes  // src: FNV360_PDB +0x24 (old: m_pkPositionKeys)
+    TimedAnimationKey* m_pkScaleKeys;       // +0x28, 4 bytes  // src: FNV360_PDB +0x28 (old: m_pkScaleKeyArray)
     // const NiRTTI* __cdecl NiTransformData::*()
     // void __cdecl NiTransformData::*(NiStream&)
     // void __cdecl NiTransformData::*(NiStream&)
@@ -60,13 +60,13 @@ FNV_STATIC_ASSERT(sizeof(NiTransformData) == 44);
 FNV_STATIC_ASSERT(offsetof(NiTransformData, m_usNumRotKeys) == 8);
 FNV_STATIC_ASSERT(offsetof(NiTransformData, m_usNumPosKeys) == 10);
 FNV_STATIC_ASSERT(offsetof(NiTransformData, m_usNumScaleKeys) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eRotationKeyType) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ePositionKeyType) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eScaleKeyType) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucRotationKeySize) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucPositionKeySize) == 29);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucScaleKeySize) == 30);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkRotationKeys) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkPositionKeys) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkScaleKeyArray) == 40);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eRotType) == 16);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ePosType) == 20);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eScaleType) == 24);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucRotSize) == 28);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucPosSize) == 29);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucScaleSize) == 30);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkRotKeys) == 32);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkPosKeys) == 36);
+FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkScaleKeys) == 40);
 #endif

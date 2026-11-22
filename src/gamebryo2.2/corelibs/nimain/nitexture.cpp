@@ -4,6 +4,8 @@
 
 // Removes the extra-data entry at index under a critical section, releasing its reference and shifting the remaining entries down.
 // @fnv 0x00a5b990
+// pdb: NiObjectNET::RemoveExtraDataAt | NiObjectNET.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: NiObjectNET::DeleteExtraData)
+// pdb params: usExtraDataIndex
 void NiObjectNET::DeleteExtraData(unsigned short index)
 {
     fnv_EnterCriticalSection(&DAT_011f4380);
@@ -28,6 +30,8 @@ void NiObjectNET::DeleteExtraData(unsigned short index)
 }
 
 // @fnv 0x00a47350
+// pdb: Stars::Initialize | Stars.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSkyRoot
 void NiTexture::LoadBinary(NiStream& stream)
 {
     NiObjectNET::LoadBinary(stream);
@@ -50,6 +54,7 @@ class NiProperty : public BSFadeNode
 
 // Allocates a 0x18-byte NiProperty, runs its constructor, installs the vtable at DAT_010983bc, and returns it (or null on allocation failure).
 // @fnv 0x00a47380
+// pdb: NiSequenceStreamHelper::CreateObject | NiSequenceStreamHelper.obj | fnv360_0721_retail, objopen_prop, low
 void* __cdecl FUN_00a47380()
 {
     NiProperty* p = (NiProperty*)BSFadeNode::operator new(0x18);
@@ -77,6 +82,7 @@ extern Pool00a91290* DAT_011f5e50;
 
 // Allocates a Pool00a91290, zeroes its first four fields, sets the last two to 8, and stores it in DAT_011f5e50 (or null on failure).
 // @fnv 0x00a91290
+// pdb: NiScreenGeometryData::_SDMInit | NiOldScreenSpace.obj | fnv360_0822_retail, call_gap, medium
 void __cdecl FUN_00a91290()
 {
     Pool00a91290* p = (Pool00a91290*)g_memoryManager.Allocate(sizeof(Pool00a91290));
@@ -98,7 +104,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3f38;
 // Returns a pointer to the global object g_011f3f38, ignoring both arguments.
 // @fnv 0x00a47370
-GlobalObjectO2_00a7b610* __fastcall FUN_00a47370(void*, int)
+// pdb: NiSequenceStreamHelper::GetRTTI | NiSequenceStreamHelper.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+GlobalObjectO2_00a7b610* __fastcall NiSequenceStreamHelper_GetRTTI(void*, int)
 {
     return &g_011f3f38;
 }
@@ -106,6 +113,7 @@ GlobalObjectO2_00a7b610* __fastcall FUN_00a47370(void*, int)
 void __fastcall DestroyFogProperty(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00a473b0
+// pdb: NiColorData::`scalar deleting destructor' | TESImageSpaceModifier.obj | fnv360_0822_retail, vtable, high
 void* __fastcall FUN_00a473b0(void* self, int, unsigned int flags)
 {
     DestroyFogProperty(self);
@@ -138,6 +146,8 @@ struct FUN_00a62a40_this
 ActorCombatGroup* __cdecl FUN_00a7d330(const char*);
 ActorCombatGroup* __cdecl FUN_00a7d4d0(const char*, unsigned int);
 // @fnv 0x00a62a40
+// pdb: NiTexture::GetViewerStrings | NiTexture.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void __fastcall FUN_00a62a40(FUN_00a62a40_this* self, int, CGArray* apArray)
 {
     self->FUN_00a5ca80(apArray);
@@ -183,6 +193,7 @@ class FUN_00a62670_cls
 };
 
 // @fnv 0x00a62670
+// pdb: NiTexture::GetMemorySize | NiTexture.obj | fnv360_0822_retail, objrun_open, low
 int FUN_00a62670_cls::FUN_00a62670()
 {
     unsigned int result = 0;
@@ -205,6 +216,8 @@ extern int GetTextureForType(int, int);
 
 // Returns 0 when a2's high bit is clear; otherwise lazily installs GetTextureForType as DAT_011a9600 and calls it with a1 and a2.
 // @fnv 0x00a62a10
+// pdb: NiTexture::RendererData::GetReplacementData | NiTexture.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkTexture, eFailure, bReport
 int __cdecl DispatchIfHighBitSet(int a1, int a2, int aUnused)
 {
     if ((a2 & 0x80000000u) == 0)
@@ -233,6 +246,8 @@ extern const char DAT_011f4600[];
 int CreateCheckerboardTexture(const TextureColor*, const TextureColor*, const char*, unsigned int);
 // Looks up a cached texture for a type index, generating it from per-type color pairs via CreateCheckerboardTexture when not yet cached, and returns the cached value.
 // @fnv 0x00a62690
+// pdb: NiTexture::RendererData::DefaultTextureFailureCallback | NiTexture.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkTexture, eFailure
 int GetTextureForType(int unused, int type)
 {
     unsigned int index = (unsigned int)type & 0x7fffffff;
@@ -292,6 +307,7 @@ int GetTextureForType(int unused, int type)
 
 extern "C" void __cdecl FUN_00a5c0e0();
 // @fnv 0x00a47360
+// pdb: CreateNS_NiFloatData::Create | NiFloatData.obj | tesv_win, objrun_open, low
 extern "C" void __cdecl FUN_00a47360()
 {
     FUN_00a5c0e0();
@@ -388,6 +404,8 @@ class Elements : public ElementsBase
 
 // Calls base RegisterFields, then adds class name, m_bPixelAccurate, and m_usNumElements to pkStrings.
 // @fnv 0x00a912d0
+// pdb: NiScreenGeometryData::GetViewerStrings | NiOldScreenSpace.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Elements::FUN_00a912d0(ViewerStrings* pkStrings)
 {
     ElementsBase::RegisterFields(pkStrings);
@@ -400,8 +418,9 @@ void Elements::FUN_00a912d0(ViewerStrings* pkStrings)
 }
 
 // @f3twin 0x00c24260 of 0x0093e450
-struct F3Twin_00c24260 : public FUN_00a62660_cls { const int& F3_FUN_00c24260() ; };
-const int& F3Twin_00c24260::F3_FUN_00c24260() 
+struct F3Twin_00c24260 : public FUN_00a62660_cls { const int& NiExtraData_GetName() ; };
+// pdb: NiExtraData::GetName | NiExtraData.obj | fnv360_0721_beta, call_seq + skyrim(call_seq), high
+const int& F3Twin_00c24260::NiExtraData_GetName() 
 {
     return m_08;
 }

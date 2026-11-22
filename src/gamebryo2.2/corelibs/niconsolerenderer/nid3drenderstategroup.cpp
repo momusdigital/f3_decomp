@@ -3,6 +3,7 @@
 #include "nid3drenderstategroup_decls.h"
 // Returns the render state group from DAT_0126f718, setting its flag to true if it was false.
 // @fnv 0x00e7f5d0
+// pdb: NiD3DRenderStateGroup::GetFreeRenderStateGroup | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_dedup, medium
 D3DRenderStateGroup* D3DRenderStateGroup::GetCurrentRenderStateGroup()
 {
     D3DRenderStateGroup* group = DAT_0126f718->Get();
@@ -61,6 +62,7 @@ struct Group00e7ef40
     unsigned int FUN_00e7ef40();
 };
 // @fnv 0x00e7ef40
+// pdb: NiD3DRenderStateGroup::RestoreRenderStates | NiD3DRenderStateGroup.obj | fnv360_0822_retail, objrun_prop, medium
 unsigned int Group00e7ef40::FUN_00e7ef40()
 {
     Entry00e7ef40* pkRSEntry = m_pkSaved;
@@ -79,11 +81,13 @@ struct Group00e7eed0
 {
     char _pad0[16];
     Entry00e7ef40* m_pkSaved;
-    unsigned int ApplyGroupEntries();
+    unsigned int NiD3DRenderStateGroup_SetRenderStates();
 };
 // Iterates the group's entry list calling DAT_0126f714->Set with flag 0, then the saved list with flag 1, and returns 0.
 // @fnv 0x00e7eed0
-unsigned int Group00e7eed0::ApplyGroupEntries()
+// pdb: NiD3DRenderStateGroup::SetRenderStates | NiD3DRenderStateGroup.obj | fnv360_0822_retail, objrun_sim, high
+// pdb: NiD3DRenderStateGroup::SetRenderStates | NiD3DRenderStateGroup.obj | fnv360_0822_retail, objrun_sim, high (was: ApplyGroupEntries)
+unsigned int Group00e7eed0::NiD3DRenderStateGroup_SetRenderStates()
 {
     Entry00e7ef40* entry = *(Entry00e7ef40**)((char*)this + 8);
     while (entry)
@@ -225,6 +229,7 @@ typedef void(__thiscall* CommitState)(RenderOwner*);
 
 // Builds two RenderBuffers, applies and commits them via virtual calls, then sets render states 0x1b, 0x13 and 0x14 on the group's state.
 // @fnv 0x00b925b0
+// pdb: ImageSpaceShaderVATSScan::ReloadShaders | ImageSpaceManager.obj | fnv360_0822_retail, ustr, medium
 void RenderOwner::ApplyRenderState()
 {
     RenderBuffer currentBuffer;
@@ -271,7 +276,7 @@ struct StateGroup
     StateNode* tailA;
     unsigned int countB;
     StateNode* tailB;
-    StateNode* FindNodeByKey(unsigned int, bool&);
+    StateNode* NiD3DRenderStateGroup_FindRenderStateEntry(unsigned int, bool&);
     void FUN_00e7efc0(StateNode*);
     void FUN_00e7ef80(StateNode*);
     void AddA(StateNode* node)
@@ -299,10 +304,12 @@ struct StateGroup
     void SetNodeValue(unsigned int, unsigned int, bool);
 };
 // @fnv 0x00e7f430
+// pdb: NiD3DRenderStateGroup::SetRenderState | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: uiRenderState, uiValue, bSave
 void StateGroup::SetNodeValue(unsigned int key, unsigned int value, bool target)
 {
     bool foundType = false;
-    StateNode* node = FindNodeByKey(key, foundType);
+    StateNode* node = NiD3DRenderStateGroup_FindRenderStateEntry(key, foundType);
     if (node)
     {
         bool currentType = foundType;
@@ -354,6 +361,7 @@ struct B92D20Obj
     void ConfigureRenderState();
 };
 // @fnv 0x00b92d20
+// pdb: ImageSpaceShaderWaterWadingHeightmap::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, low
 void B92D20Obj::ConfigureRenderState()
 {
     if (DAT_011ad832)
@@ -420,10 +428,12 @@ struct StateGroupE7F5 : public StateGroup
 
 // Finds a node by uiKey, removes it from list A or B, and releases it back to the pool.
 // @fnv 0x00e7f550
+// pdb: NiD3DRenderStateGroup::RemoveRenderState | NiD3DRenderStateGroup.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: uiRenderState
 void StateGroupE7F5::RemoveNodeByKey(unsigned int uiKey)
 {
     bool bInB = false;
-    StateNode* pkNode = FindNodeByKey(uiKey, bInB);
+    StateNode* pkNode = NiD3DRenderStateGroup_FindRenderStateEntry(uiKey, bInB);
     if (pkNode)
     {
         if (bInB)
@@ -464,6 +474,7 @@ struct RenderOwnerEntryB8F160 : RenderOwner
 
 // Ensures the group's state object exists, then sets render states 0xA8 to 0 and 0xBE to 0xF with save enabled.
 // @fnv 0x00b8f160
+// pdb: ImageSpaceShaderCopyRenderTarget1::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, low
 void RenderOwnerEntryB8F160::FUN_00b8f160()
 {
     GroupState* pass = group;
@@ -481,6 +492,7 @@ extern int DAT_011ae680;
 
 // Ensures the owner's group state exists and sets node values 0x34, 0x38, and 0x39 to 1, 4, and DAT_011ae680 respectively.
 // @fnv 0x00b8f2f0
+// pdb: ImageSpaceShaderStencilCopy::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 void __fastcall FUN_00b8f2f0(RenderOwner* owner)
 {
     GroupState* group = owner->group;
@@ -502,6 +514,7 @@ void __fastcall FUN_00b8f2f0(RenderOwner* owner)
 
 // If owner->group->state is null, assigns FUN_00e7f5d0() to it, then sets node values 14, 52, and 56.
 // @fnv 0x00b8f4b0
+// pdb: ImageSpaceShaderStencilCopyNoTextureNoDepth::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0822_debug, objrun, low, conflict (bridge: ImageSpaceShaderRestoreEDRAM::SetState)
 void __fastcall FUN_00b8f4b0(RenderOwner* owner)
 {
     GroupState* group = owner->group;

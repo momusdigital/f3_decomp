@@ -2,14 +2,6 @@
 // src/bsshader/particleshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/particleshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int g_01200434;
-
-// @fnv 0x00ba7f10
-int& __cdecl FUN_00ba7f10()
-{
-    return g_01200434;
-}
-
 template <class T> class NiTMallocInterface
 {
 };
@@ -19,25 +11,6 @@ template <class T, class A> class NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-struct BaseStr
-{
-    void WriteToSettingArray(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-};
-struct ParticleShaderProperty : BaseStr
-{
-    void FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
-};
-char* __cdecl _FUN_00a7d330(const char*);
-// @fnv 0x00ba7f20
-void ParticleShaderProperty::FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* apStrings)
-{
-    WriteToSettingArray(apStrings);
-    char* str = _FUN_00a7d330((const char*)g_01200434);
-    unsigned int size = *(unsigned short*)((char*)apStrings + 0xA);
-    if (size >= *(unsigned short*)((char*)apStrings + 8))
-        apStrings->SetSize(size + *(unsigned short*)((char*)apStrings + 0xE));
-    apStrings->SetAt(size, str);
-}
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern int DAT_0101fbcc;
@@ -194,6 +167,7 @@ struct FUN_00ba7f70 : FUN_00ba8e50
 };
 // Initialises particle system fields to defaults, clears kArray, allocates pParticles for the shader's particle count and zeroes it.
 // @f3 0x00b2a1f0 (community match, verified in this file)
+// pdb: ParticleShaderProperty::ParticleShaderProperty | ParticleShaderProperty.obj | fnv360_0822_retail, call_gap, low
 FUN_00ba7f70::FUN_00ba7f70() : kArray(10, 10)
 {
     spRetainedObject = 0;
@@ -328,6 +302,8 @@ struct ParticleEmitter : ParticleSystemBase
 };
 
 // @fnv 0x00ba6cf0
+// pdb: ParticleShaderProperty::RewindTimer | ParticleShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afNewTime
 void ParticleEmitter::AdvanceParticleTimes(float fTime)
 {
     float fTimeSinceScaleStart = fTime - fScaleTime;
@@ -359,6 +335,7 @@ struct FloatQuad
 };
 
 // @fnv 0x00ba73a0
+// pdb: ParticleShaderProperty::GetInstanceIndex | ParticleShaderProperty.obj | fnv360_0721_beta, call_seq, medium
 int __cdecl GetFloatQuadTable()
 {
     char** ppTable = reinterpret_cast<char**>(&DAT_01200420);
@@ -424,12 +401,15 @@ struct ShaderArrayOwner
     int unk38;
     ShaderArrayHolder* m_pHolder;
     void Prep(int);
-    ShaderArrayHolder* EnsureShaderArrayEntries(int, int, int, int, int, int);
+    ShaderArrayHolder* ParticleShaderProperty_GetRenderPasses(int, int, int, int, int, int);
 };
 
 // Calls Prep(-1); if the holder's count is zero, inserts two entries (0x41 and 0x241) and sets each new entry's m_06 to 0xe and 1, then returns the holder.
 // @fnv 0x00ba7420
-ShaderArrayHolder* ShaderArrayOwner::EnsureShaderArrayEntries(int p1, int, int, int, int, int)
+// pdb: ParticleShaderProperty::GetRenderPasses | ParticleShaderProperty.obj | fnv360_0822_retail, objrun, high
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
+// pdb: ParticleShaderProperty::GetRenderPasses | ParticleShaderProperty.obj | fnv360_0822_retail, objrun, high (was: EnsureShaderArrayEntries)
+ShaderArrayHolder* ShaderArrayOwner::ParticleShaderProperty_GetRenderPasses(int p1, int, int, int, int, int)
 {
     Prep(-1);
     ShaderArrayHolder* h = m_pHolder;
@@ -466,6 +446,8 @@ struct ParticleInitializer : FUN_00ba7f70
 };
 // Initializes each particle's fields with randomized life, angle, rotation and speed variations, sets fScaleTime, and resets iParticleCount to 0.
 // @fnv 0x00ba6e00
+// pdb: ParticleShaderProperty::InitParticleData | ParticleShaderProperty.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afTime
 void ParticleInitializer::InitParticles(float time)
 {
     unsigned int count = FUN_00ba52d0();
@@ -634,23 +616,10 @@ struct PickSrc
     PickObj** m_ppObjs;
 };
 
-struct PickView
-{
-    unsigned int u0;
-    unsigned int u4;
-    unsigned char u8;
-};
 struct ArrView
 {
     char* base;
     unsigned int stride;
-    unsigned char flag;
-};
-struct ArrView2
-{
-    char* base;
-    unsigned int stride;
-    unsigned int unk08;
     unsigned char flag;
 };
 struct ThreeComponentPoint
@@ -729,9 +698,9 @@ struct PickShape
     int unk2C;
     PickMesh* m_pMesh;
     bool FUN_00a67360(int);
-    void FUN_00a67410(void*);
-    void GetBounds(void*);
-    void FUN_00a673d0();
+    void NiGeometryData_GetVerticesIterator(void*);
+    void NiGeometryData_GetNormalsIterator(void*);
+    void NiGeometryData_UnlockPackedVertexData();
 };
 
 struct PickMover
@@ -807,6 +776,8 @@ struct EmitterPick : ParticleEmitter
 };
 
 // @fnv 0x00ba74a0
+// pdb: ParticleShaderProperty::GenerateFromGeometry | ParticleShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiIndex
 void EmitterPick::PickParticle(int aiIndex)
 {
     PickVector a = DAT_011f426c;
@@ -865,15 +836,15 @@ void EmitterPick::PickParticle(int aiIndex)
                 scratch.other.view.flag = 0;
                 if (pShape->FUN_00a67360(1) != 0)
                 {
-                    pShape->FUN_00a67410(&scratch.work.view);
-                    pShape->GetBounds(&scratch.other.view);
+                    pShape->NiGeometryData_GetVerticesIterator(&scratch.work.view);
+                    pShape->NiGeometryData_GetNormalsIterator(&scratch.other.view);
                     PickVector* __restrict pVecA =
                         (PickVector*)((char*)scratch.work.view.base + scratch.work.view.stride * uiRemainder);
                     a = *pVecA;
                     PickVector* __restrict pVecB =
                         (PickVector*)((char*)scratch.other.view.base + scratch.other.view.stride * uiRemainder);
                     b = *pVecB;
-                    pShape->FUN_00a673d0();
+                    pShape->NiGeometryData_UnlockPackedVertexData();
                 }
             }
             else
@@ -965,6 +936,8 @@ struct ParticleUpdater : FUN_00ba7f70
 };
 // Ages and emits particles, optionally compensating for parent node movement.
 // @fnv 0x00ba7b60
+// pdb: ParticleShaderProperty::UpdateParticles | ParticleShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afTime, abNeedsOffset, abGenerateNew
 void ParticleUpdater::FUN_00ba7b60(float time, bool compensate, bool emit)
 {
     float delta = time - fScaleTime;
@@ -1289,6 +1262,8 @@ inline float RandomSigned71()
 }
 // Computes a particle position and direction from the first object in kArray, transforms them if enabled, and writes them into pParticles at the given index.
 // @fnv 0x00ba71d0
+// pdb: ParticleShaderProperty::GenerateFromRay | ParticleShaderProperty.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: aiIndex
 void Target71::FUN_00ba71d0(unsigned int index)
 {
     Point71 position;
@@ -1326,7 +1301,6 @@ void Target71::FUN_00ba71d0(unsigned int index)
     pParticles[index].dz = direction.z;
 }
 
-extern int DAT_010b8250;
 void __fastcall FUN_00baa0e0(void*);
 struct MemoryManagerDealloc
 {
@@ -1400,6 +1374,7 @@ struct FUN_00ba7df0 : FUN_00ba8e50
 
 // Releases the retained object, removes array entries, deletes the particle array, and deallocates a global pointer when a global counter reaches zero.
 // @fnv 0x00ba7df0
+// pdb: ParticleShaderProperty::~ParticleShaderProperty | ParticleShaderProperty.obj | fnv360_0822_retail, udata, high
 FUN_00ba7df0::~FUN_00ba7df0()
 {
 

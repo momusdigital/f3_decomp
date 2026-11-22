@@ -51,6 +51,7 @@ struct V_00d84220 { float a, b, c, d; };
 struct A_00d84220 { V_00d84220 v[11]; };
 extern A_00d84220 DAT_01175248;
 
+// pdb: `dynamic initializer for 'ISQRT_ADDITIVE_CONSTANT'' | MTRenderingSystem.obj | fnv360_0822_debug, objrun_open, low
 void FUN_00d84220()
 {
     V_00d84220* p = &DAT_01175248.v[0];

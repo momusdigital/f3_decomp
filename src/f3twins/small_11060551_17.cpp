@@ -37,11 +37,13 @@ extern S_00836cd0 DAT_01091f34;
 extern const float DAT_00db7260;
 extern S_00836cd0 DAT_01092a08;
 
+// pdb: `dynamic initializer for 'NiQuatTransform::INVALID_ROTATE'' | NiQuatTransform.obj | tesv_win, objopen_prop, low
 void FUN_00d01320()
 {
     DAT_01091f34.FUN_00836cd0(DAT_00e2d108, DAT_00e2d108, DAT_00e2d108, DAT_00e2d108);
 }
 
+// pdb: `dynamic initializer for 'NiInterpolator::INVALID_QUATERNION'' | NiInterpolator.obj | fnv360_0822_debug, objrun_open, low
 void FUN_00d01d50()
 {
     DAT_01092a08.FUN_00836cd0(DAT_00db7260, DAT_00db7260, DAT_00db7260, DAT_00db7260);

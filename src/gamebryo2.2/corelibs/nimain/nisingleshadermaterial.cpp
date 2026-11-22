@@ -3,6 +3,8 @@
 #include "nisingleshadermaterial_decls.h"
 // Creates a NiDepthStencilBuffer when format.format is 15, sets width/height, and returns it or 0 if CreateRendererData fails.
 // @fnv 0x00a9fe90
+// pdb: NiDepthStencilBuffer::Create | NiDepthStencilBuffer.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: uiWidth, uiHeight, pkRenderer, kFormat, eMSAAPref
 NiDepthStencilBuffer* NiDepthStencilBuffer::Create(unsigned int width, unsigned int height, NiRenderer*,
                                                    const NiPixelFormat& format, unsigned int samples)
 {
@@ -22,7 +24,8 @@ NiDepthStencilBuffer* NiDepthStencilBuffer::Create(unsigned int width, unsigned 
 extern "C" void* g_011f6048;
 
 // @fnv 0x00aa06e0
-void* __cdecl FUN_00aa06e0()
+// pdb: NiIntegersExtraData::GetRTTI | BSWArray.obj | fnv360_0822_retail, vtable + skyrim(objrun_open), high
+void* __cdecl NiIntegersExtraData_GetRTTI()
 {
     return &g_011f6048;
 }
@@ -85,6 +88,8 @@ struct StandInUnload
 };
 // If not manual, decrements the shader's reference count, calls its release when it hits zero, and clears m_sp.
 // @fnv 0x00aa0830
+// pdb: NiSingleShaderMaterial::IsShaderCurrent | NiSingleShaderMaterial.obj | fnv360_0721_beta, objrun_sim, low
+// pdb params: pkShader, __formal, __formal, __formal, __formal, uiMaterialExtraData
 void StandInUnload::ReleaseShader()
 {
     if (!m_bManual)
@@ -135,6 +140,8 @@ struct FUN_00aa06f0_shell
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 // @fnv 0x00aa06f0
+// pdb: NiSingleShaderMaterial::NiSingleShaderMaterial | NiSingleShaderMaterial.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kName, pcName, bPreloadShader
 FUN_00aa06f0_shell* FUN_00aa06f0_shell::FUN_00aa06f0(void* arg1, char const* apcString, bool abCreateShader)
 {
     reinterpret_cast<FUN_00a8f950_shell*>(this)->FUN_00a8f950(arg1);
@@ -356,6 +363,8 @@ ShaderEntry* __cdecl FUN_00a8fe20(const char* const& pcName) throw();
 
 // Looks up a ShaderEntry by pcName via FUN_00a8fe20 and returns it, otherwise allocates a new ShaderEntry with pcName and bFlag.
 // @fnv 0x00aa08d0
+// pdb: NiSingleShaderMaterial::Create | NiSingleShaderMaterial.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pcName, bPreloadShader
 ShaderEntry* __cdecl FindOrCreateShaderEntry(const char* pcName, bool bFlag)
 {
     ShaderEntry* pkFound = FUN_00a8fe20(BSFixedString(pcName));

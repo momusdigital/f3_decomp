@@ -6,12 +6,6 @@ struct NiRTTI;
 
 extern NiRTTI g_012708ec;
 
-// @fnv 0x00ee8530
-NiRTTI* __cdecl FUN_00ee8530()
-{
-    return &g_012708ec;
-}
-
 struct NiPixelFormat;
 struct NiRenderTargetGroup
 {
@@ -19,6 +13,7 @@ struct NiRenderTargetGroup
 };
 
 // @fnv 0x00ee8600
+// pdb: NiRenderTargetGroup::GetDepthStencilPixelFormat | NiRenderTargetGroup.obj | fnv360_0822_retail, objrun_open, low
 const NiPixelFormat* __thiscall NiRenderTargetGroup::GetPixelFormat() const
 {
     NiRenderTargetGroup* p = const_cast<NiRenderTargetGroup*>(this);
@@ -43,6 +38,7 @@ struct StandIn
     void FUN_00ee8460(RendererData* pkRendererData);
 };
 // @fnv 0x00ee8460
+// pdb: NiRenderTargetGroup::SetRendererData | NiRenderTargetGroup.obj | tesv_win, hash, low
 void StandIn::FUN_00ee8460(RendererData* pkRendererData)
 {
     if (m_pTextureRendererData)
@@ -70,6 +66,7 @@ struct NiRenderTargetGroup
 };
 
 // @fnv 0x00ee84d0
+// pdb: NiRenderTargetGroup::GetDepthStencilWidth | NiRenderTargetGroup.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiRenderTargetGroup::GetDepthStencilBufferRendererData)
 int NiRenderTargetGroup::FUN_00ee84d0() const
 {
     const NiMemObject* p =
@@ -89,6 +86,7 @@ struct NiRenderTargetGroup
 };
 
 // @fnv 0x00ee84e0
+// pdb: NiRenderTargetGroup::GetDepthStencilHeight | NiRenderTargetGroup.obj | fnv360_0822_retail, objrun_open, low
 int NiRenderTargetGroup::FUN_00ee84e0() const
 {
     void* p =
@@ -114,6 +112,7 @@ struct NiRenderTargetGroup
 };
 
 // @fnv 0x00ee84f0
+// pdb: NiRenderTargetGroup::GetDepthStencilBuffer | NiRenderTargetGroup.obj | fnv360_0721_beta, objopen_prop, low
 NiMemObject* __thiscall NiRenderTargetGroup::FUN_00ee84f0(unsigned int uiIndex) const
 {
     return m_pBuffers[uiIndex];
@@ -134,11 +133,6 @@ struct NiRenderTargetGroup : NiMemObject
     void __thiscall FUN_00ee8550(bool abResolve);
 };
 
-// @fnv 0x00ee8550
-void __thiscall NiRenderTargetGroup::FUN_00ee8550(bool abResolve)
-{
-    m_bNeedsResolve = abResolve;
-}
 }  // namespace fnv_00ee8550
 
 namespace fnv_00ee86e0 {
@@ -194,6 +188,8 @@ struct StrArr
 void __stdcall AppendCameraPathEntries(StrArr*);
 char* __cdecl FUN_00a7d330(const char*);
 // @fnv 0x00ee8800
+// pdb: NiPSysGravityStrengthCtlr::GetViewerStrings | NiPSysGravityStrengthCtlr.obj | fnv360_0721_retail, objrun_open, low
+// pdb params: pkStrings
 void __stdcall FUN_00ee8800(StrArr* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
@@ -224,6 +220,7 @@ class EE8490Pass
 };
 
 // @fnv 0x00ee8490
+// pdb: NiRenderTargetGroup::GetDepthStencilWidth | NiRenderTargetGroup.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void* EE8490Pass::GetStageTexture(unsigned int uiStage)
 {
     EE8490Stage* pkStage = m_apkStages[uiStage];
@@ -266,6 +263,7 @@ struct NiRenderTargetGroupStand
 };
 
 // @fnv 0x00ee84b0
+// pdb: NiRenderTargetGroup::GetDepthStencilHeight | NiRenderTargetGroup.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiRenderTargetGroup::GetBufferRendererData)
 void* NiRenderTargetGroupStand::FUN_00ee84b0(unsigned int index)
 {
     FNV_Entry84B0* pEntry = m_ppEntries[index];
@@ -297,6 +295,7 @@ struct FUN_00ee8560
 };
 // Releases the renderer data, the depth buffer and the four render buffers via refcount decrement, then calls FUN_00a5d3d0.
 // @fnv 0x00ee8560
+// pdb: NiRenderTargetGroup::~NiRenderTargetGroup | NiRenderTargetGroup.obj | fnv360_0822_retail, objrun_open, medium
 FUN_00ee8560::~FUN_00ee8560()
 {
     delete m_pTextureRendererData;
@@ -335,6 +334,7 @@ class FUN_00ee85e0_cls
 };
 
 // @fnv 0x00ee85e0
+// pdb: NiRenderTargetGroup::GetDepthStencilPixelFormat | NiRenderTargetGroup.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: NiRenderTargetGroup::GetPixelFormat)
 void* FUN_00ee85e0_cls::GetEntryValue(unsigned int index)
 {
     FUN_00ee85e0_Entry* pEntry = m_entries[index];
@@ -448,7 +448,10 @@ class ShaderLevelEE8
 };
 
 // @fnv 0x00ee8710
-ShaderLevelEE8* __cdecl CreateShaderLevel(unsigned int uiTreeBlockIndex, RendererEE8* pkRenderer)
+// pdb: NiRenderTargetGroup::Create | NiRenderTargetGroup.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: uiNumBuffers, apkRenderer
+// pdb: NiRenderTargetGroup::Create | NiRenderTargetGroup.obj | fnv360_0822_retail, call_gap_sim, high (was: CreateShaderLevel)
+ShaderLevelEE8* __cdecl NiRenderTargetGroup_Create(unsigned int uiTreeBlockIndex, RendererEE8* pkRenderer)
 {
     if (!pkRenderer)
         return 0;
@@ -578,6 +581,8 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 SpawnedObject* __fastcall FUN_00ee8500(void* mem);
 
 // @fnv 0x00ee8760
+// pdb: NiRenderTargetGroup::Create | NiRenderTargetGroup.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: pkBuffer, apkRenderer, pkDSBuffer
 SpawnedObject* __cdecl FUN_00ee8760(void* a1, SourceObject* apSource, void* a3)
 {
     if (apSource == 0)
@@ -673,6 +678,7 @@ class AA1AC0Class
 };
 
 // @fnv 0x00aa1ac0
+// pdb: BGSSaveFormBuffer::GetForm | BGSSaveFormBuffer.obj | fnv360_0822_retail, vtable, medium
 unsigned int AA1AC0Class::FUN_00aa1ac0()
 {
     return unk20;
@@ -684,6 +690,7 @@ struct StandIn_00ee8540
 };
 
 // @fnv 0x00ee8540
+// pdb: TESAIForm::GetMood | TESAIForm.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: NiRenderTargetGroup::GetResolveDepthBufferMode)
 unsigned char __thiscall StandIn_00ee8540::FUN_00ee8540() const
 {
     return *reinterpret_cast<const unsigned char*>(reinterpret_cast<const char*>(this) + 8);
@@ -759,6 +766,7 @@ class FUN_00ee8620_cls
 
 // Replaces the item at uiIndex with pNew, decrementing the old item's ref count and incrementing the new one's.
 // @fnv 0x00ee8620
+// pdb: NiRenderTargetGroup::AttachBuffer | NiRenderTargetGroup.obj | tesv_win, objrun_open, low
 bool FUN_00ee8620_cls::SetItem(RefCountedObj* apItem, unsigned int uiIndex)
 {
     v49(0);
@@ -798,6 +806,7 @@ struct RTG_Host
 };
 // Replaces the host's depth-stencil buffer, releasing the old one and acquiring a reference to the new one.
 // @fnv 0x00ee8690
+// pdb: NiRenderTargetGroup::AttachDepthStencilBuffer | NiRenderTargetGroup.obj | tesv_win, objrun_open, low
 bool __thiscall RTG_Host::SetDepthStencilBuffer(NiDepthStencilBuffer* pkDepthBuffer)
 {
     ((void(__thiscall**)(void*, int))(*(void***)this))[49](this, 0);

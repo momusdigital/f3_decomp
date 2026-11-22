@@ -3,7 +3,9 @@
 
 // Copies the base collider and the three collider parameters into dest, then clones and ref-counts the collider at offset 0x28.
 // @fnv 0x00c32510
-void NiPSysPlanarCollider::CopyMemberData(NiPSysPlanarCollider* dest, CloningProcess& process)
+// pdb: NiPSysCollider::CopyMembers | NiPSysCollider.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkDest, kCloning
+void NiPSysPlanarCollider::CopyMemberData(NiPSysPlanarCollider* dest, NiCloningProcess& process)
 {
     NiPSysCollider::CreateVertexBufferSet(dest, process);
 
@@ -14,7 +16,7 @@ void NiPSysPlanarCollider::CopyMemberData(NiPSysPlanarCollider* dest, CloningPro
     NiPSysCollider* sourceNext = *reinterpret_cast<NiPSysCollider**>(reinterpret_cast<char*>(this) + 0x28);
     if (sourceNext)
     {
-        NiPSysCollider* next = sourceNext->Clone(process);
+        NiPSysCollider* next = (NiPSysCollider*)sourceNext->CreateClone(process);
 
         NiPSysCollider* destNext = *reinterpret_cast<NiPSysCollider**>(reinterpret_cast<char*>(dest) + 0x28);
         if (destNext != next)
@@ -32,6 +34,8 @@ void NiPSysPlanarCollider::CopyMemberData(NiPSysPlanarCollider* dest, CloningPro
 
 // Loads the planar collider's stream fields: two floats, then two NiColor values, after the base collider's LoadBinary.
 // @fnv 0x00c29770
+// pdb: NiPSysPlanarCollider::LoadBinary | NiPSysPlanarCollider.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiPSysPlanarCollider::LoadBinary(NiStream& stream)
 {
     NiPSysCollider::LoadBinary(stream);
@@ -42,19 +46,8 @@ void NiPSysPlanarCollider::LoadBinary(NiStream& stream)
     reinterpret_cast<NiColor*>(&m_kSecondPlaneVector)->LoadBinary(stream);
 }
 
-struct FUN_00c299d0_shell : public NiPSysPlanarCollider
-{
-    void* FUN_00c299d0();
-};
-
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026c8;
-
-// @fnv 0x00c299d0
-void* FUN_00c299d0_shell::FUN_00c299d0()
-{
-    return &g_012026c8;
-}
 
 void __cdecl _delete(void*, unsigned int);
 struct FUN_00c299e0_Holder
@@ -65,6 +58,7 @@ struct FUN_00c299e0_Holder
 };
 // Releases m_pObject, destroys the NiRefObject base, and frees this with _delete when uiFlags has bit 0 set; returns this.
 // @fnv 0x00c299e0
+// pdb: NiPSysPlanarCollider::`scalar deleting destructor' | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun, medium
 void* FUN_00c299e0_Holder::DestroyHolder(unsigned int uiFlags)
 {
     if (m_pObject)
@@ -131,12 +125,15 @@ struct BoundDataBlock
 };
 struct PlanarColliderResponse : NiPSysPlanarCollider
 {
-    void FUN_00c32490(float, BoundDataBlock*, unsigned short);
-    void ApplyPlanarCollision(float, BoundDataBlock*, unsigned short);
+    void NiPSysCollider_Update(float, BoundDataBlock*, unsigned short);
+    void NiPSysPlanarCollider_Update(float, BoundDataBlock*, unsigned short);
 };
-// Projects the particle velocity onto the plane normal and reflects or removes the normal component, then calls FUN_00c32490.
+// Projects the particle velocity onto the plane normal and reflects or removes the normal component, then calls NiPSysCollider_Update.
 // @fnv 0x00c29320
-void PlanarColliderResponse::ApplyPlanarCollision(float time, BoundDataBlock* particles, unsigned short index)
+// pdb: NiPSysPlanarCollider::Update | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun, high
+// pdb params: fTime, pkData, usCurParticle
+// pdb: NiPSysPlanarCollider::Update | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun, high (was: ApplyPlanarCollision)
+void PlanarColliderResponse::NiPSysPlanarCollider_Update(float time, BoundDataBlock* particles, unsigned short index)
 {
     NiPoint3& velocity = particles->velocities[index].velocity;
     float dot = m_kHalfSpacePlane.m_kPlaneNormal.Dot(velocity);
@@ -158,7 +155,7 @@ void PlanarColliderResponse::ApplyPlanarCollision(float time, BoundDataBlock* pa
         velocity.z = (float)(velocity.z - twice.z);
         velocity *= m_fBounceFactor;
     }
-    FUN_00c32490(time, particles, index);
+    NiPSysCollider_Update(time, particles, index);
 }
 
 class FUN_00c297f0_owner
@@ -355,12 +352,13 @@ class FUN_00c297f0_cls
     FUN_00c297f0_sub m_38;
     FUN_00c297f0_sub m_44;
     void Pre(FUN_00c297f0_owner* o);
-    void FUN_00c297f0(FUN_00c297f0_owner* o);
+    void NiPSysPlanarCollider_SaveBinary(FUN_00c297f0_owner* o);
 };
 
 // Calls Pre, writes m_2c via o->v30, then reads 4 bytes into m_30 and m_34 through o->m_250's read callback, and calls m_38 and m_44.
 // @fnv 0x00c297f0
-void FUN_00c297f0_cls::FUN_00c297f0(FUN_00c297f0_owner* apOwner)
+// pdb: NiPSysPlanarCollider::SaveBinary | NiPSysPlanarCollider.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void FUN_00c297f0_cls::NiPSysPlanarCollider_SaveBinary(FUN_00c297f0_owner* apOwner)
 {
     Pre(apOwner);
     apOwner->v30(m_2c);
@@ -419,6 +417,8 @@ class SpawnedObject
 
 // Allocates a 0x100-byte SpawnedObject, initialises it, passes it to FUN_00c32510, then copies m_f30..m_v44 from this into it and returns it.
 // @fnv 0x00c29a30
+// pdb: NiPSysPlanarCollider::CreateClone | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun, high
+// pdb params: kCloning
 SpawnedObject* SpawnedObject::CreateAndCopy(void* param)
 {
     SpawnedObject* obj;
@@ -458,7 +458,8 @@ struct CollisionHelper
 extern CollisionHelper* __cdecl FUN_00aa13e0(unsigned int);
 
 // @fnv 0x00c29af0
-int __cdecl FUN_00c29af0()
+// pdb: NiPSysPlanarCollider::CreateObject | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun + bridge(hash|objrun) + skyrim(caller_sim), high
+int __cdecl NiPSysPlanarCollider_CreateObject()
 {
     CollisionHelper* helper = FUN_00aa13e0(0x100);
     if (helper)
@@ -484,6 +485,8 @@ struct FUN_00c27ac0_shell : public NiPSysPlanarCollider
 };
 
 // @fnv 0x00c27ac0
+// pdb: NiPSysPlanarCollider::LinkObject | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kStream
 void FUN_00c27ac0_shell::LinkColliderObject(NiStream& kStream)
 {
     reinterpret_cast<NiPSysColliderLinkBase*>(this)->LinkObject(kStream);
@@ -548,6 +551,8 @@ struct NiPSysPlanarColliderView : public NiPSysPlanarCollider
 
 // Appends the base collider strings plus collider object name, width, height and X/Y axis strings to pkStrings.
 // @f3 0x00ac9fe0 (community match, verified in this file)
+// pdb: NiPSysPlanarCollider::GetViewerStrings | NiPSysPlanarCollider.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void NiPSysPlanarColliderView::FUN_00c29b70(NiViewerStringsArray* pkStrings)
 {
     static_cast<NiPSysColliderView*>(static_cast<NiPSysCollider*>(this))->GetViewerStrings(pkStrings);
@@ -601,13 +606,14 @@ struct Coll
     float m_f34;
     Call_439090_tgt m_k38;
     Call_439090_tgt m_k44;
-    bool FUN_00c326b0(Coll* p);
-    bool FUN_00c29870(Coll* p);
+    bool NiPSysCollider_IsEqual(Coll* p);
+    bool NiPSysPlanarCollider_IsEqual(Coll* p);
 };
 // @fnv 0x00c29870
-bool Coll::FUN_00c29870(Coll* p)
+// pdb: NiPSysPlanarCollider::IsEqual | NiPSysPlanarCollider.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool Coll::NiPSysPlanarCollider_IsEqual(Coll* p)
 {
-    if (!FUN_00c326b0(p))
+    if (!NiPSysCollider_IsEqual(p))
         return false;
     if ((m_spSub && !p->m_spSub) || (!m_spSub && p->m_spSub) ||
         (m_spSub && p->m_spSub && !m_spSub->IsEqual(p->m_spSub)))
@@ -627,20 +633,13 @@ struct FUN_00c28d00_cls
     bool FUN_00c28d00(void* a1);
 };
 // @fnv 0x00c28d00
+// pdb: NiKeyBasedInterpolator::CopyMembers | NiKeyBasedInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkDest, kCloning
 bool FUN_00c28d00_cls::FUN_00c28d00(void* a1)
 {
     return reinterpret_cast<FUN_00c32680_Obj*>(this)->FUN_00c32680(a1);
 }
 
-extern "C" double __cdecl fabs(double);
-extern "C" double __cdecl pow(double, double);
-inline float absf(float x)
-{
-    return (float)fabs(x);
-}
-extern "C" const double DAT_01012060;
-extern "C" unsigned int DAT_012026c4;
-extern "C" float DAT_012026c0;
 struct PlaneVector : NiPoint3
 {
     PlaneVector()
@@ -702,25 +701,6 @@ inline PlaneVector operator*(float s, const PlaneVector& p)
     return r;
 }
 
-inline PlaneVector ScaleVectorD(const PlaneVector& v, float s)
-{
-    PlaneVector r;
-    const float* a = &v.z;
-    float* b = &r.z;
-    for (int i = -2; i < 1; ++i)
-        b[i] = s * a[i];
-    return r;
-}
-inline float SpecialLength(const PlaneVector& p)
-{
-    double b = p.y;
-    double a = p.x;
-    double c = p.z;
-    double d = a * a;
-    d += b * b;
-    d += c * c;
-    return d;
-}
 struct CollisionPlane : NiPlane
 {
     float Distance(const NiPoint3& p) const
@@ -729,130 +709,6 @@ struct CollisionPlane : NiPlane
         return d - m_fPlaneConstant;
     }
 };
-struct RotationHelper
-{
-    void FUN_004b4500(PlaneVector* result, const NiPoint3* direction);
-};
-struct PlanarColliderExt : NiPSysPlanarCollider
-{
-    NiPSysCollider* FUN_00c28d10(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
-    NiPSysCollider* ResolveTail(float time, float* collisionTime, BoundDataBlock* data, unsigned short particleId);
-};
-// Tests a particle against the planar collider's half-space plane, computes a collision fraction if crossing, and falls back to ResolveTail.
-// @fnv 0x00c28d10
-NiPSysCollider* PlanarColliderExt::FUN_00c28d10(float time, float* collisionTime, BoundDataBlock* data,
-                                                unsigned short particleId)
-{
-    bool bCollided = false;
-    const PlaneVector& particle = reinterpret_cast<const PlaneVector*>(data->unk20)[particleId];
-    const PlaneVector& velocity = reinterpret_cast<const PlaneVector&>(data->velocities[particleId].velocity);
-    const PlaneVector& normal = reinterpret_cast<const PlaneVector&>(m_kHalfSpacePlane.m_kPlaneNormal);
-    double planeSum;
-    planeSum = normal.y * particle.y;
-    const float* planeN = &normal.y;
-    const float* planeP = &particle.y;
-    for (int i = 2; i < 3; ++i)
-        planeSum += planeN[i - 3] * planeP[i - 3];
-    const float* nz = &normal.y;
-    const float* pz = &particle.z;
-    for (int j = 0; 1 > j; ++j)
-        planeSum += nz[j + 1] * pz[j + 0];
-    float distance = (float)planeSum;
-    distance -= m_kHalfSpacePlane.m_fPlaneConstant;
-    if (DAT_010beaf8 > distance && DAT_010beaf8 > -distance)
-    {
-        PlaneVector relative = particle - reinterpret_cast<const PlaneVector&>(m_kPathOffset);
-        PlaneVector xAxis, yAxis;
-        reinterpret_cast<RotationHelper*>(layoutPadding74)->FUN_004b4500(&xAxis, &m_kFirstVector);
-        reinterpret_cast<RotationHelper*>(layoutPadding74)->FUN_004b4500(&yAxis, &m_kSecondPlaneVector);
-        NiPoint3 kAlongX = (NiPoint3)xAxis * (double)(relative * xAxis);
-        NiPoint3 kAlongY = (NiPoint3)yAxis * (double)(yAxis * relative);
-        if (kAlongX.Dot(kAlongX) < m_fWidthSquared && kAlongY.Dot(kAlongY) < m_fHeightSquared)
-        {
-            *collisionTime = time;
-            m_fSpawnRate = time;
-            reinterpret_cast<PlaneVector&>(m_kCollisionPosition) = particle;
-            return this;
-        }
-    }
-    else
-    {
-        float duration;
-        duration = *collisionTime - time;
-        PlaneVector delta;
-        delta.x = duration * velocity.x;
-        delta.y = duration * velocity.y;
-        delta.z = duration * velocity.z;
-        double projectedSum = delta.y * planeN[0];
-        const float* nn1 = &normal.x;
-        const float* dd1 = &delta.x;
-        for (int l1 = 2; l1 < 3; ++l1)
-            projectedSum += nn1[l1 - (2)] * dd1[l1 - (2)];
-        const float* nn2 = &normal.z;
-        const float* dd2 = &delta.z;
-        for (int l2 = 2; l2 < 3; ++l2)
-            projectedSum += nn2[l2 - (2)] * dd2[l2 - (2)];
-        float projected = (float)projectedSum;
-        float terminalDistance = projected + distance;
-        if (absf(terminalDistance) < DAT_010beaf8)
-            terminalDistance = 0.0f;
-        if (terminalDistance * distance < DAT_01012060)
-        {
-            float fraction = (-distance * duration) / projected;
-            PlaneVector hitDelta;
-            hitDelta.x = fraction * velocity.x;
-            hitDelta.y = fraction * velocity.y;
-            hitDelta.z = fraction * velocity.z;
-            PlaneVector hit;
-            hit.x = particle.x + hitDelta.x;
-            hit.y = particle.y + hitDelta.y;
-            hit.z = particle.z + hitDelta.z;
-            if (!(DAT_012026c4 & 1u))
-            {
-                DAT_012026c4 |= 1u;
-                double fTolInit = (float)pow(2.0, -21.0);
-                DAT_012026c0 = fTolInit;
-            }
-            float adjustedDistance;
-            adjustedDistance = reinterpret_cast<const CollisionPlane&>(m_kHalfSpacePlane).Distance(hit);
-            if (adjustedDistance * distance < DAT_01012060)
-            {
-                double absX = absf(hit.x);
-                float maxCoord = absX;
-                float fAbsY = absf(hit.y);
-                if (fAbsY > maxCoord)
-                    maxCoord = fAbsY;
-                float fAbsZ;
-                fAbsZ = absf(hit.z);
-                maxCoord = (fAbsZ > maxCoord) ? fAbsZ : maxCoord;
-                if (distance < 0.0f)
-                {
-                    hit -= ScaleVectorD(normal, maxCoord * DAT_012026c0);
-                }
-                else
-                {
-                    hit += (maxCoord * DAT_012026c0) * normal;
-                }
-            }
-            PlaneVector relative = hit - reinterpret_cast<const PlaneVector&>(m_kPathOffset);
-            PlaneVector xAxis, yAxis;
-            reinterpret_cast<RotationHelper*>(layoutPadding74)->FUN_004b4500(&xAxis, &m_kFirstVector);
-            reinterpret_cast<RotationHelper*>(layoutPadding74)->FUN_004b4500(&yAxis, &m_kSecondPlaneVector);
-            PlaneVector kAlongX = xAxis * (relative * xAxis);
-            PlaneVector kAlongY = yAxis * (yAxis * relative);
-            if (SpecialLength(kAlongX) < m_fWidthSquared && SpecialLength(kAlongY) < m_fHeightSquared)
-            {
-                *collisionTime = fraction + time;
-                reinterpret_cast<PlaneVector&>(m_kCollisionPosition) = hit;
-                bCollided = true;
-                m_fSpawnRate = fraction + time;
-            }
-        }
-    }
-    NiPSysCollider* result;
-    result = ResolveTail(time, collisionTime, data, particleId);
-    return result ? result : (bCollided ? this : 0);
-}
 
 struct Mat36
 {
@@ -880,6 +736,8 @@ struct DummyTransform
 
 // Calls the base initializer, stores the collider object and axis vectors, initializes plane and matrix data, and resets two transforms.
 // @fnv 0x00c29900
+// pdb: NiPSysPlanarCollider::NiPSysPlanarCollider | NiPSysPlanarCollider.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: fBounce, bSpawnOnCollide, bDieOnCollide, pkSpawnModifier, pkColliderObj, fWidth, fHeight, kXAxis, kYAxis
 void* __fastcall FUN_00c29900(void* this_ptr, int, float fBounce, int bSpawnOnCollide, int bDieOnCollide,
                               void* pkSpawnModifier, void* pkColliderObj, float m_fGlyphWidthInPixels, float m_fGlyphExtent, NiPoint3 kXAxis,
                               NiPoint3 kYAxis)

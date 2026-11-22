@@ -48,6 +48,8 @@ struct FUN_00b6dd00_Owner
 };
 
 // @f3 0x00af1070 (community match, verified in this file)
+// pdb: BSTextureManager::Update | BSTextureManager.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apCamera, abMenuMode
 void FUN_00b6dd00_Owner::FUN_00b6dd00(int iArg1, bool bArg2)
 {
     typedef NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> ListT;
@@ -242,6 +244,7 @@ struct FUN_00b6dd80
     FUN_00b6dd80();
 };
 // @f3 0x00af10f0 (community match, verified in this file)
+// pdb: BSTextureManager::BSTextureManager | BSTextureManager.obj | fnv360_0822_retail, call_gap, medium
 FUN_00b6dd80::FUN_00b6dd80()
 {
     Renderer* renderer = DAT_011f9508;
@@ -719,6 +722,8 @@ struct NativeOwner1765
 
 };
 
+// pdb: BSTextureManager::ReturnFrustumShadowTexture | BSTextureManager.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: ShadowSceneNode::RemoveQueuedShadowLight)
+// pdb params: apTexToReturn
 void MultiBoundOwner::FUN_00b6d4c0(BSMultiBound* pkBound)
 {
     NativeOwner1765* native=(NativeOwner1765*)this;
@@ -1262,6 +1267,8 @@ extern bool DAT_0116ef92;
 
 
 }
+// pdb: BSTextureManager::BorrowRenderedTexture | BSTextureManager.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apRenderer, auiWidth, auiHeight, auFlags, aiD3DFormat, aiEDRAMFormat, aeType, aeMSAAType, apAliasTex, uiAliasOffset
 RenderTexture* RenderTargetManager::FUN_00b6d5e0(NiRenderer* pkRenderer, unsigned int uiWidth, unsigned int uiHeight,
                                                  unsigned int uiFlags, int eFormat, int iUsage, int a7, int a8, int a9,
                                                  int a10)

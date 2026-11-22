@@ -253,7 +253,7 @@ struct SpringStep
 };
 struct SpringAction : hkpSpringAction
 {
-    void __thiscall FUN_00d4d530(const SpringStep& step);
+    void __thiscall hkpSpringAction_applyAction(const SpringStep& step);
 };
 static __m128 dot3(__m128 a, __m128 b)
 {
@@ -305,7 +305,7 @@ extern const float DAT_00db7df0;
 
 struct __declspec(align(16)) NativeSpringVector {
     float x, y, z, w;
-    void FUN_008d28e0(const hkTransform* transform, const hkVector4* local);
+    void hkVector4_setTransformedPos(const hkTransform* transform, const hkVector4* local);
 
     void SetDifference(const NativeSpringVector& a, const NativeSpringVector& b)
     {
@@ -379,13 +379,14 @@ static __forceinline void SetSpringForce(hkVector4& force, const NativeSpringVec
     force.w = direction.w * magnitude;
 }
 
-void SpringAction::FUN_00d4d530(const SpringStep& step)
+// pdb: hkpSpringAction::applyAction | hkpSpringAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void SpringAction::hkpSpringAction_applyAction(const SpringStep& step)
 {
     NativeSpringBody* a = reinterpret_cast<NativeSpringBody*>(m_pEntityA);
     NativeSpringBody* b = reinterpret_cast<NativeSpringBody*>(m_pEntityB);
     NativeSpringVector pointA, pointB, direction, velocityA, velocityB;
-    pointA.FUN_008d28e0(&a->transform, &m_kPositionA);
-    pointB.FUN_008d28e0(&b->transform, &m_kPositionB);
+    pointA.hkVector4_setTransformedPos(&a->transform, &m_kPositionA);
+    pointB.hkVector4_setTransformedPos(&b->transform, &m_kPositionB);
     direction.SetDifference(pointB, pointA);
     float length = direction.Length3();
     if (DAT_00db7df0 > length)

@@ -57,7 +57,6 @@ struct S_00ddfcd0_Obj : S_00ddfcd0_RefObj
     {}
     virtual ~S_00ddfcd0_Obj() throw();
 };
-S_00ddfcd0_RefObj* FUN_00ddfcd0();
 
 #include <xmmintrin.h>
 struct __declspec(align(16)) Mat4
@@ -80,10 +79,6 @@ struct Node
     void applyX(void* shape, Mat4* m, XfResult* r);
     void FUN_00de0f90(void* shape, XfResult* result);
 };
-__declspec(noinline) void Node::resetX()
-{
-    unk10 = 0;
-}
 // @f3 0x00a6a690 (community match, verified in this file)
 struct View438 {
     int unk00, unk04, unk08, count;
@@ -91,6 +86,8 @@ struct View438 {
     void FUN_00a694a0(void* shape, const Mat4* matrix, XfResult* result);
 };
 __declspec(noinline) void View438::FUN_00a68e20() { count = 0; }
+// pdb: hkpConvexRadiusBuilder::buildDisplayGeometries | hkpConvexRadiusBuilder.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: shape, displayGeometries
 void Node::FUN_00de0f90(void* shape, XfResult* result) {
     __declspec(align(16)) Mat4 matrix;
     matrix.m[0][0] = 0.0f;

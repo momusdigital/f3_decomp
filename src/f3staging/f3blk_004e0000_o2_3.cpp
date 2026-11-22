@@ -28,6 +28,8 @@ struct RefForm4E7B
 
 RefForm4E7B* FUN_004e7b90(RefNode4E7B* start);
 
+// pdb: GrenadeProjectile::ReportCollision | GrenadeProjectile.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apTargetController, aContactPoint, aContactNormal
 int FUN_004eb6f0(RefNode4E7B* node)
 {
     int result = 0;

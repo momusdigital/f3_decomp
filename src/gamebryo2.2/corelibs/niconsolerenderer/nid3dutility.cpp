@@ -6,6 +6,8 @@ extern unsigned int __cdecl __splitpath_s(const char* filename, char* drive, uns
 
 // Splits pcFilename into drive, directory, file name and extension buffers via __splitpath_s and returns true.
 // @fnv 0x00e983f0
+// pdb: NiD3DUtility::GetSplitPath | NiD3DUtility.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pcFilename, pcDrive, pcDir, pcFname, pcExt
 bool __cdecl FUN_00e983f0(const char* pcPath, char* pcDriveOut, char* pcDirOut, char* pcFnameOut, char* pcExtOut)
 {
     __splitpath_s(pcPath, pcDriveOut, 3, pcDirOut, 0x104, pcFnameOut, 0x104, pcExtOut, 0x100);
@@ -24,6 +26,8 @@ struct SplitPathOutputBuffers
 
 // Extracts the file extension from pcFilename via __splitpath_s and copies it into pcDest, returning true.
 // @fnv 0x00e98430
+// pdb: NiD3DUtility::GetFileExtension | NiD3DUtility.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pcFilename, pcExt, uiMaxLen
 bool __cdecl FUN_00e98430(const char* pcFilename, char* pcDest, unsigned int uiDestSize)
 {
     SplitPathOutputBuffers buffers;

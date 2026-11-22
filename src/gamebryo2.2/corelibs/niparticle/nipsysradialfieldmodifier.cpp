@@ -5,7 +5,8 @@
 extern "C" void* g_012026b0;
 
 // @fnv 0x00c285c0
-void* __cdecl FUN_00c285c0()
+// pdb: NiSequence::GetRTTI | NiSequence.obj | fnv360_0721_beta, udata + bridge(vtable|udata) + skyrim(udata), high
+void* __cdecl NiSequence_GetRTTI()
 {
     return &g_012026b0;
 }
@@ -33,6 +34,8 @@ struct NiPSysRadialFieldModifier : NiPSysFieldModifier
     void FUN_00c27770(NiStream&);
 };
 // @fnv 0x00c27770
+// pdb: NiPSysRadialFieldModifier::SaveBinary | NiPSysRadialFieldModifier.obj | fnv360_0721_beta, objrun, low
+// pdb params: kStream
 void NiPSysRadialFieldModifier::FUN_00c27770(NiStream& kStream)
 {
     NiPSysFieldModifier::SaveBinary(kStream);
@@ -61,10 +64,11 @@ struct NiPSysFieldModifier
 struct NiPSysRadialFieldModifier : NiPSysFieldModifier
 {
     float m_fBoundRadius;
-    void FUN_00c28760(NiStream&);
+    void NiPSysRadialFieldModifier_LoadBinary(NiStream&);
 };
 // @fnv 0x00c28760
-void NiPSysRadialFieldModifier::FUN_00c28760(NiStream& stream)
+// pdb: NiPSysRadialFieldModifier::LoadBinary | NiPSysRadialFieldModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void NiPSysRadialFieldModifier::NiPSysRadialFieldModifier_LoadBinary(NiStream& stream)
 {
     NiPSysFieldModifier::LoadBinary(stream);
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
@@ -91,6 +95,7 @@ struct FUN_00c31ff0 : NiPSysPositionModifier
 };
 // Initializes the position modifier's fields to zero and installs the vtable pointer from DAT_010c0b5c.
 // @fnv 0x00c31ff0
+// pdb: NiPSysFieldModifier::NiPSysFieldModifier | NiPSysFieldModifier.obj | fnv360_0822_retail, call_seq, high
 FUN_00c31ff0::FUN_00c31ff0() : _m18(0), _m1c(0.0f), _m20(0.0f), _m24(0), _m28(0.0f), _m2c(0.0f)
 {
     *(int*)this = (int)&DAT_010c0b5c;
@@ -99,6 +104,8 @@ FUN_00c31ff0::FUN_00c31ff0() : _m18(0), _m1c(0.0f), _m20(0.0f), _m24(0), _m28(0.
 extern "C" char __stdcall FUN_00c32060(void*);
 
 // @fnv 0x00c285a0
+// pdb: BSMultiBoundAABB::RegisterStreamables | BSMultiBoundAABB.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 unsigned char __stdcall FUN_00c285a0(void* p)
 {
     return FUN_00c32060(p) != 0;
@@ -147,6 +154,8 @@ __forceinline void S_00c28a90_Add(S_00c28a90_Arr* a, char* s)
     a->FUN_0096ae90(i, s);
 }
 // @fnv 0x00c28a90
+// pdb: NiPSysRadialFieldModifier::GetViewerStrings | NiPSysRadialFieldModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void S_00c28a90::WriteToArray(S_00c28a90_Arr* pArray)
 {
     FUN_00c322b0(pArray);
@@ -279,6 +288,8 @@ struct FieldMod
 };
 // Applies a time-scaled field influence to each active particle's position using the delta between the field object and target transforms.
 // @fnv 0x00c28620
+// pdb: NiPSysRadialFieldModifier::UpdateNoAttenuationNoDirNoDist | NiPSysRadialFieldModifier.obj | fnv360_0721_beta, objrun_prop, medium
+// pdb params: fTime, pkData
 void FieldMod::Update(float fTime, NiPSysDataStandIn* pkData)
 {
     NiTransform kField = m_pkFieldObject->m_kWorldSpaceTransform;

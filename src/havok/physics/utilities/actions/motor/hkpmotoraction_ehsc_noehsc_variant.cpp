@@ -60,7 +60,7 @@ class hkpMotorActionMA : public hkpMotorAction
 
     hkpMotorActionMA(hkpRigidBody* body, const hkVector4& axis, hkReal spinRate, hkReal gain);
 
-    hkpAction* FUN_00d4d7f0(const hkArrayMA<hkpEntity*>& newEntities, const hkArrayMA<hkpPhantom*>& newPhantoms) const;
+    hkpAction* hkpMotorAction_clone(const hkArrayMA<hkpEntity*>& newEntities, const hkArrayMA<hkpPhantom*>& newPhantoms) const;
 };
 
 // @f3 0x009da400 (community match, verified in this file)
@@ -78,7 +78,8 @@ struct hkpMotorActionMAInit
                                               hkReal spinRate, hkReal gain);
 };
 
-hkpAction* hkpMotorActionMA::FUN_00d4d7f0(const hkArrayMA<hkpEntity*>& newEntities,
+// pdb: hkpMotorAction::clone | hkpMotorAction.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+hkpAction* hkpMotorActionMA::hkpMotorAction_clone(const hkArrayMA<hkpEntity*>& newEntities,
                                           const hkArrayMA<hkpPhantom*>& newPhantoms) const
 {
     if (newEntities.GetLogicalSize() != 1)

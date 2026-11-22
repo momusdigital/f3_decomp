@@ -59,6 +59,7 @@ struct ThreadMemory
 {
     void* FUN_008f6d30(unsigned int size, int tag);
 };
+// pdb: hkpPositionConstraintMotor::clone | hkpPositionConstraintMotor.obj | fnv360_0822_retail, vtable, high
 PositionConstraintMotor* __thiscall PositionConstraintMotor::Clone()
 {
     ThreadMemory* tls = (ThreadMemory*)TlsGetValue(DAT_010f3170);

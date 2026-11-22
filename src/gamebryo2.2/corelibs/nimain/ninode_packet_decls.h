@@ -44,6 +44,7 @@ class NiUpdateData
     bool forceUpdate;
 };
 class NiCullingProcess;
+struct NiRenderer;
 class NiBound;
 class CloningProcess;
 class ShaderBufferRecord;
@@ -59,12 +60,20 @@ template <class T, class U> class NiTArray
 {
   public:
     unsigned int m_unknown;
-    NiAVObject** m_children;
+    NiAVObject** m_pBase;  // src: FNV360_PDB +0x4 (old: m_children)
     unsigned short m_usMaxSize;
-    unsigned short m_usArraySize;
-    unsigned short m_usEffectiveSize;
+    unsigned short m_usSize;  // src: FNV360_PDB +0xA (old: m_usArraySize)
+    unsigned short m_usESize;  // src: FNV360_PDB +0xC (old: m_usEffectiveSize)
     unsigned short m_usGrowBy;
     void SetSize(unsigned int size);
+    unsigned int GetSize() const
+    {
+        return m_usSize;
+    }
+    NiAVObject* GetAt(unsigned int uiIndex) const
+    {
+        return m_pBase[uiIndex];
+    }
 };
 
 template <class T> class NiTStringPointerMap
@@ -83,13 +92,13 @@ class NiAVObject
 {
   public:
     unsigned char pad[0x14];
-    NiNode* m_pParentNode;
+    NiNode* m_pkParent;  // src: FNV360_PDB +0x18 (old: m_pParentNode)
     void* m_spCollisionObject;
-    NiBound* m_pkWorldBound;
+    NiBound* m_kWorldBound;  // src: FNV360_PDB +0x20 (old: m_pkWorldBound)
     unsigned char padFlags[0x0C];
     union
     {
-        unsigned int m_uiObjectFlags;
+        unsigned int m_uFlags;  // src: FNV360_PDB +0x30 (old: m_uiObjectFlags)
         struct
         {
             unsigned int m_flagPad0 : 13;
@@ -122,7 +131,7 @@ class NiAVObject
     void FUN_00a5ac90(NiAVObject*, CloningProcess&);
     virtual void LoadBinary(NiStream& stream);
     virtual void LinkObject(NiStream& stream);
-    virtual void Slot21();
+    virtual bool RegisterStreamables(NiStream& kStream);
     virtual void Slot22();
     virtual void Slot23();
     virtual void Slot24();
@@ -136,7 +145,7 @@ class NiAVObject
     virtual void Slot32();
     virtual void Slot33();
     virtual void Slot34();
-    virtual void Slot35();
+    virtual void UpdateControllers(NiUpdateData& kData);
     virtual void Slot36();
     virtual void Slot37();
     virtual void Slot38();
@@ -157,28 +166,28 @@ class NiAVObject
     virtual void Slot51();
     virtual void Slot52();
     virtual void OnVisible(NiCullingProcess& culler);
-    virtual void Slot54();
+    virtual void PurgeRendererData(NiRenderer* pkRenderer);
     void Cull(NiCullingProcess& culler);
     void EnsureWorldBound();
     unsigned char SelectedFlag() const
     {
-        return (m_uiObjectFlags >> 1) & 1;
+        return (m_uFlags >> 1) & 1;
     }
     unsigned char RigidFlag() const
     {
-        return (m_uiObjectFlags >> 4) & 1;
+        return (m_uFlags >> 4) & 1;
     }
     unsigned char TransformFlag() const
     {
-        return (m_uiObjectFlags >> 2) & 1;
+        return (m_uFlags >> 2) & 1;
     }
     unsigned char BoundFlag13() const
     {
-        return (m_uiObjectFlags >> 13) & 1;
+        return (m_uFlags >> 13) & 1;
     }
     unsigned char BoundFlag19() const
     {
-        return (m_uiObjectFlags >> 19) & 1;
+        return (m_uFlags >> 19) & 1;
     }
 };
 
@@ -191,19 +200,19 @@ class NiBound
 {
   public:
     NiPoint3 m_kCenter;
-    float m_fBoundRadius;
+    float m_fRadius;  // src: FNV360_PDB +0xC (old: m_fBoundRadius)
     void Merge(const NiBound* other);
     void Set(const NiPoint3& center, float radius)
     {
         m_kCenter = center;
-        m_fBoundRadius = radius;
+        m_fRadius = radius;
     }
 };
 
 extern NiBound DAT_011f4288;
 inline const NiBound& GetBound(NiAVObject* object)
 {
-    return object->m_pkWorldBound ? *object->m_pkWorldBound : DAT_011f4288;
+    return object->m_kWorldBound ? *object->m_kWorldBound : DAT_011f4288;
 }
 
 class NiNode : public NiAVObject
@@ -213,7 +222,7 @@ class NiNode : public NiAVObject
     virtual void UpdateDownwardPass(NiUpdateData&, unsigned int);
     virtual void UpdateSelectedDownwardPass(NiUpdateData&, unsigned int);
     virtual void UpdatePropertiesDownwardPass(NiPropertyState*);
-    NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > > m_kChildList;
+    NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > > m_kChildren;  // src: FNV360_PDB +0x9C (old: m_kChildList)
     virtual void LoadBinary(NiStream& stream);
     virtual void LinkObject(NiStream& stream);
     virtual void ProcessClone(CloningProcess& process);

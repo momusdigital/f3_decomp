@@ -15,31 +15,8 @@ struct hkpCachingShapePhantomStandIn
     void FUN_00d4d090();
 };
 
-void __cdecl SortEntriesByCollisionKey(void*, int, int, int);
-
-// @fnv 0x00d4d090
-void hkpCachingShapePhantomStandIn::FUN_00d4d090()
-{
-    if (m_bOrderDirty)
-    {
-        int size = m_collisionDetailsSize;
-
-        union
-        {
-            unsigned char byteValue;
-            unsigned int value;
-        } seed;
-
-        seed.byteValue = 0;
-
-        if (size > 1)
-            SortEntriesByCollisionKey(m_kCollisionDetails, 0, size - 1, seed.value);
-
-        m_bOrderDirty = 0;
-    }
-}
-
 // @fnv 0x00d4c910
+// pdb: hkpCapsuleShape::getNumCollisionSpheresImpl | hkpCapsuleShape.obj | fnv360_0822_retail, objrun_open, low
 int FUN_00d4c910()
 {
     return 2;
@@ -47,19 +24,6 @@ int FUN_00d4c910()
 
 struct GskAgentInput;
 struct WorldOperationEntry;
-
-struct hkpWorld
-{
-    int unk00, unk04, unk08, unk0C;
-    int unk10, unk14, unk18, unk1C;
-    int unk20, unk24, unk28, unk2C;
-    int unk30, unk34, unk38, unk3C;
-    int unk40, unk44, unk48, unk4C;
-    int unk50, unk54, unk58, unk5C;
-    int unk60, unk64, unk68, unk6C;
-    int unk70, unk74;
-    GskAgentInput* m_pCollisionInput;
-};
 
 class hkpCollisionAgent
 {
@@ -220,6 +184,8 @@ struct W67Phantom
     int m_iCapacityState;
 };
 
+// pdb: hkpCachingShapePhantom::getClosestPoints | hkpCachingShapePhantom.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collector, input
 void hkpCachingShapePhantomEx::DispatchCollisionAgents(WorldOperationEntry& output, GskAgentInput* input)
 {
     W67Phantom* self = (W67Phantom*)this;
@@ -237,41 +203,6 @@ void hkpCachingShapePhantomEx::DispatchCollisionAgents(WorldOperationEntry& outp
 
 namespace fnv_00d4c980 {
 struct CollisionAgentContext;
-
-struct hkpWorldStandIn
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    void* unk10;
-    void* unk14;
-    void* unk18;
-    void* unk1C;
-    void* unk20;
-    void* unk24;
-    void* unk28;
-    void* unk2C;
-    void* unk30;
-    void* unk34;
-    void* unk38;
-    void* unk3C;
-    void* unk40;
-    void* unk44;
-    void* unk48;
-    void* unk4C;
-    void* unk50;
-    void* unk54;
-    void* unk58;
-    void* unk5C;
-    void* unk60;
-    void* unk64;
-    void* unk68;
-    void* unk6C;
-    void* unk70;
-    void* unk74;
-    CollisionAgentContext* m_pCollisionInput;
-};
 
 struct hkpCdBodyPairCollector
 {
@@ -294,37 +225,6 @@ struct CollisionAgentPair
     hkpCollidable* m_kCollidable;
 };
 
-struct hkpCachingShapePhantomStandIn2 : public hkpShapePhantom
-{
-    hkArray<CollisionAgentPair> m_kCollisionDetails;
-    hkBool m_bOrderDirty;
-    char pad16D;
-    char pad16E;
-    char pad16F;
-
-    void GetPenetrations(hkpCdBodyPairCollector& collector, const CollisionAgentContext* input);
-};
-
-// Iterates the cached collision agent/collidable pairs and calls getPenetrations on each, stopping early if the collector signals an early-out hit.
-// @fnv 0x00d4c980
-void hkpCachingShapePhantomStandIn2::GetPenetrations(hkpCdBodyPairCollector& collector,
-                                                     const CollisionAgentContext* input)
-{
-    if (!input)
-    {
-        input = ((hkpWorldStandIn*)m_pOwningWorld)->m_pCollisionInput;
-    }
-
-    for (int i = m_kCollisionDetails.m_iElementCount - 1; i >= 0; i--)
-    {
-        CollisionAgentPair* detail = &m_kCollisionDetails.m_data[i];
-        detail->m_pCollisionAgent->getPenetrations(m_kCollidable, *detail->m_kCollidable, *input, collector);
-        if (collector.m_earlyOutHit)
-        {
-            break;
-        }
-    }
-}
 }  // namespace fnv_00d4c980
 
 struct hkBoolD4C9
@@ -459,6 +359,8 @@ class hkpCachingShapePhantomD4C9
 
 // Searches the collision detail array for an entry whose collidable pointer equals pkCollidable and returns true if found, otherwise false.
 // @f3 0x009d9570 (community match, verified in this file)
+// pdb: hkpCachingShapePhantom::isOverlappingCollidableAdded | hkpCachingShapePhantom.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collidable
 hkBoolD4C9 hkpCachingShapePhantomD4C9::ContainsCollidable(const hkpCollidableD4C9* collidable) const
 {
     const hkArrayD4C9<hkpCollisionDetailD4C9>& details =
@@ -472,8 +374,6 @@ hkBoolD4C9 hkpCachingShapePhantomD4C9::ContainsCollidable(const hkpCollidableD4C
 
 
 class hkClassD4CD;
-
-extern const hkClassD4CD DAT_0126902c;
 
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 
@@ -550,7 +450,7 @@ class hkpCachingShapePhantomD4CD : public FUN_00d08130
     hkArrayD4CD<hkpCollisionDetailD4CD> m_kCollisionDetails;
     hkBool m_bOrderDirty;
 
-    void __thiscall AddToCollector(hkStatisticsCollectorD4CD* pkCollector) const throw();
+    void __thiscall hkpCachingShapePhantom_calcContentStatistics(hkStatisticsCollectorD4CD* pkCollector) const throw();
 };
 
 // Adds this phantom's base data and its AgentPtr array to the collector, then reports each collision agent as a child object under "agents".
@@ -653,13 +553,16 @@ struct View557 {
     int unk14C;
     Detail557* details;
     int count,capacity;
-    void FUN_00989a20(Collector557*) const;
+    void hkpPhantom_calcContentStatistics(Collector557*) const;
 };
-void hkpCachingShapePhantomD4CD::AddToCollector(hkStatisticsCollectorD4CD* collector) const throw() {
+// pdb: hkpCachingShapePhantom::calcContentStatistics | hkpCachingShapePhantom.obj | fnv360_0822_retail, ustr, high
+// pdb params: collector, cls
+// pdb: hkpCachingShapePhantom::calcContentStatistics | hkpCachingShapePhantom.obj | fnv360_0822_retail, ustr, high (was: AddToCollector)
+void hkpCachingShapePhantomD4CD::hkpCachingShapePhantom_calcContentStatistics(hkStatisticsCollectorD4CD* collector) const throw() {
     const View557* self=reinterpret_cast<const View557*>(this);
     Collector557* out=reinterpret_cast<Collector557*>(collector);
     out->Begin(&DAT_00e801c8,2,self);
-    self->FUN_00989a20(out);
+    self->hkpPhantom_calcContentStatistics(out);
     if((self->capacity & 0x80000000u)==0) {
         int allocated=self->capacity & 0x3fffffff;
         allocated+=allocated;allocated+=allocated;allocated+=allocated;
@@ -833,62 +736,6 @@ class FUN_00d4ce10 : public hkpWorldObjectD4D0
 
 typedef char fnv_check_d4d0d0[(sizeof(FUN_00d4ce10) == 0x170) ? 1 : -1];
 
-// @fnv 0x00d4d0d0
-hkpWorldObjectD4D0* FUN_00d4ce10::FUN_00d4d0d0() const throw()
-{
-    const hkpCollidableD4D0* pkCollidable = getCollidable();
-    FUN_00d4ce10* pkPhantom =
-        new FUN_00d4ce10(pkCollidable->getShape(), getTransform(), pkCollidable->GetFilterInfoForKey());
-    pkPhantom->m_kPhantomOverlapListeners = m_kPhantomOverlapListeners;
-    pkPhantom->m_kPhantomListeners = m_kPhantomListeners;
-    pkPhantom->CopyEntriesFrom(this);
-    return pkPhantom;
-}
-
-struct CollisionTarget
-{
-    int unknown00;
-    int unknown04;
-    int unknown08;
-    int unknown0c;
-    int unknown10;
-    unsigned int collisionKey;
-};
-struct CollisionKeyEntry
-{
-    int shapeKey;
-    CollisionTarget* target;
-};
-// Recursively quicksorts entries by their target's collisionKey, partitioning around a pivot and swapping out-of-order elements.
-// @fnv 0x00d4d250
-void __cdecl SortEntriesByCollisionKey(CollisionKeyEntry* entries, int left, int right, int context)
-{
-    int i = left;
-    int iRight = right;
-    __declspec(align(16)) CollisionKeyEntry pivotEntry = entries[(i + iRight) >> 1];
-    do
-    {
-        while (entries[i].target->collisionKey < pivotEntry.target->collisionKey)
-            ++i;
-        while (pivotEntry.target->collisionKey < entries[iRight].target->collisionKey)
-            --iRight;
-        if (iRight < i)
-            break;
-        if (iRight != i)
-        {
-            CollisionKeyEntry tempEntry = entries[iRight];
-            entries[iRight] = entries[i];
-            entries[i] = tempEntry;
-        }
-        --iRight;
-        ++i;
-    } while (i <= iRight);
-    if (left < iRight)
-        SortEntriesByCollisionKey(entries, left, iRight, context);
-    if (i < right)
-        SortEntriesByCollisionKey(entries, i, right, context);
-}
-
 namespace fnv_00d4d310 {
 struct FnvCpu_FUN_00d4d310_CpuAllocator
 {
@@ -905,92 +752,9 @@ struct FnvCpu_FUN_00d4d310_CpuAllocatorHolder
     FnvCpu_FUN_00d4d310_CpuAllocator* allocator;
 };
 FnvCpu_FUN_00d4d310_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00d4d310_CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00d4ce60();
-    FnvCpu_FUN_00d4d310_CpuObject* FUN_00d4d310(unsigned int flags);
-};
-// @fnv 0x00d4d310
-FnvCpu_FUN_00d4d310_CpuObject* FnvCpu_FUN_00d4d310_CpuObject::FUN_00d4d310(unsigned int flags)
-{
-    FUN_00d4ce60();
-    if (flags & 1)
-    {
-        FnvCpu_FUN_00d4d310_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00d4d310
 
 #include <xmmintrin.h>
-struct Aligned_00d4cc50
-{
-    __m128 column0, column1, column2;
-};
-struct FUN_00d4cc50_cls
-{
-    int field000;
-    int field004;
-    int field008;
-    int field00c;
-    int field010;
-    int field014;
-    int field018;
-    int field01c;
-    int field020;
-    int field024;
-    int field028;
-    int field02c;
-    int field030;
-    int field034;
-    int field038;
-    int field03c;
-    int field040;
-    int field044;
-    int field048;
-    int field04c;
-    int field050;
-    int field054;
-    int field058;
-    int field05c;
-    int field060;
-    int field064;
-    int field068;
-    int field06c;
-    int field070;
-    int field074;
-    int field078;
-    int field07c;
-    int field080;
-    int field084;
-    int field088;
-    int field08c;
-    int field090;
-    int field094;
-    int field098;
-    int field09c;
-    int field0a0;
-    int field0a4;
-    int field0a8;
-    int field0ac;
-    __m128 output0;
-    __m128 output1;
-    __m128 output2;
-    void FUN_00d4cab0(const void* additional, int a, int b, int c);
-    void CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c);
-};
-// Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source + 0x30 and a, b, c.
-// @fnv 0x00d4cc50
-void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c)
-{
-    output0 = source->column0;
-    output1 = source->column1;
-    output2 = source->column2;
-    FUN_00d4cab0(reinterpret_cast<const char*>(source) + 0x30, a, b, c);
-}
 
 extern int DAT_010ccebc;
 
@@ -1255,6 +1019,8 @@ struct WorldFn_d4cc
     hkArrayFn_d4cc m_entries;
     unsigned char m_bValueAt0C;
 };
+// pdb: hkpCachingShapePhantom::removeOverlappingCollidable | hkpCachingShapePhantom.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: collidable
 void World_d4cc::FUN_00d4cca0(Owned_d4cc* apOwned)
 {
     Visitor_d4cc visitor;
@@ -1305,15 +1071,6 @@ template <typename T> struct hkArrayD4CF
     {
         return _expandOne(FUN_00c85750().heap());
     }
-};
-
-struct hkpShapeD4CF
-{
-    void* m_ppVirtualMethodTable;
-    hkUint16 m_usMemSizeAndFlags;
-    hkInt16 m_sReferenceCount;
-    hkUlong m_ulUserData;
-    int m_type;
 };
 
 struct hkpProcessCollisionInputD4CF;
@@ -1414,56 +1171,6 @@ struct hkpProcessCollisionInputD4CF : public hkpCollisionInputD4CF
     void FUN_00cfa7d0(const hkpProcessCollisionInputD4CF& kOther);
 };
 
-__forceinline hkpCollisionAgentD4CF* hkpCollisionDispatcherD4CF::getNewCollisionAgent(
-    const hkpCdBody& kBodyA, const hkpCdBody& kBodyB, const hkpProcessCollisionInputD4CF& kInput, void* pvMgr) const
-{
-    int iTypeA = ((hkpShapeD4CF*)kBodyA.m_pCollisionShape)->m_type;
-    int iTypeB = ((hkpShapeD4CF*)kBodyB.m_pCollisionShape)->m_type;
-    hkpCreateAgentFuncD4CF pfnCreate = getNewCollisionAgentFunc(iTypeA, iTypeB, kInput.m_bCreatePredictiveAgents);
-    return pfnCreate(kBodyA, kBodyB, kInput, pvMgr);
-}
-
-struct hkpWorldD4CF
-{
-    int m_unk000, m_unk004, m_unk008, m_unk00c, m_unk010, m_unk014, m_unk018, m_unk01c;
-    int m_unk020, m_unk024, m_unk028, m_unk02c, m_unk030, m_unk034, m_unk038, m_unk03c;
-    int m_unk040, m_unk044, m_unk048, m_unk04c, m_unk050, m_unk054, m_unk058, m_unk05c;
-    int m_unk060, m_unk064, m_unk068, m_unk06c, m_unk070, m_unk074;
-    hkpProcessCollisionInputD4CF* m_pCollisionInput;
-};
-
-struct hkpCollisionDetailD4CF
-{
-    hkpCollisionAgentD4CF* m_pCollisionAgent;
-    hkpCollidable* m_kCollidable;
-};
-
-class hkpCachingShapePhantomD4CF : public hkpShapePhantom
-{
-  public:
-    hkArrayD4CF<hkpCollisionDetailD4CF> m_kCollisionDetails;
-    hkBool m_bOrderDirty;
-
-    int FUN_00ca94c0(hkpCollidable* pkCollidable) throw();
-    void FUN_00d4cf10(hkpCollidable* pkCollidable) throw();
-};
-
-// @fnv 0x00d4cf10
-void hkpCachingShapePhantomD4CF::FUN_00d4cf10(hkpCollidable* pkCollidable) throw()
-{
-    if (pkCollidable->m_pCollisionShape != 0 && FUN_00ca94c0(pkCollidable) == 0)
-    {
-        hkpCollisionDetailD4CF& kDetail = m_kCollisionDetails.AllocatePair();
-        hkpProcessCollisionInputD4CF kInput = *((hkpWorldD4CF*)m_pOwningWorld)->m_pCollisionInput;
-        kInput.m_bCreatePredictiveAgents = false;
-        kInput.m_pCollisionQualityInfo = kInput.m_pCollisionDispatcher->getCollisionQualityInfo(0);
-        kDetail.m_pCollisionAgent =
-            kInput.m_pCollisionDispatcher->getNewCollisionAgent(m_kCollidable, *pkCollidable, kInput, 0);
-        kDetail.m_kCollidable = pkCollidable;
-        m_bOrderDirty = true;
-    }
-}
-
 #include <string.h>
 extern int DAT_010ccebc;
 
@@ -1504,6 +1211,7 @@ struct Ca30Derived : public hkpCachingShapePhantomStandIn
 // @f3 0x009d9670 (community match, verified in this file)
 extern int DAT_00e7d9c4;
 
+// pdb: hkpCachingShapePhantom::updateShapeCollectionFilter | hkpCachingShapePhantom.obj | fnv360_0822_retail, objrun_open, low
 void Ca30Derived::QueryCollisionDetails()
 {
     QueryDC4A30 query;
@@ -1553,12 +1261,6 @@ namespace hkRouterD4D0 {
 extern "C" hkMemoryRouterD4D0& __cdecl FUN_00c85750() throw();
 }
 
-struct PairD4D0
-{
-    int m_kPointA;
-    int m_kPointB;
-};
-
 template <class T> class hkArrayD4D0
 {
   public:
@@ -1577,24 +1279,6 @@ template <class T> class hkArrayD4D0
     }
 };
 
-class hkOwnerD4D0
-{
-  public:
-    char unk000[0x160];
-    hkArrayD4D0<PairD4D0> m_ppData;
-
-    void FUN_00c9e820();
-    void FUN_00d4d030();
-};
-
-// Releases m_ppData's buffer when its element count is 0, then calls FUN_00c9e820.
-// @fnv 0x00d4d030
-void hkOwnerD4D0::FUN_00d4d030()
-{
-    if (m_ppData.m_iElementCount == 0)
-        m_ppData.ClearAndRelease();
-    FUN_00c9e820();
-}
 }  // namespace fnv_00d4d030
 
 namespace CastSimd {
@@ -1610,8 +1294,6 @@ extern "C"
     __m128 _mm_mul_ps(__m128, __m128);
     __m128 _mm_min_ps(__m128, __m128);
     __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
     __m128 _mm_add_ss(__m128, __m128);
     __m128 _mm_sqrt_ss(__m128);
     float _mm_cvtss_f32(__m128);
@@ -1619,8 +1301,6 @@ extern "C"
 }
 
 extern float DAT_0104da4c;
-
-class hkpCdPointCollector;
 
 struct hkAabb
 {
@@ -1698,79 +1378,3 @@ struct ShapeSweepParameters : public CollisionAgentContext
         m_pConfiguration = input.m_pConfiguration;
     }
 };
-
-struct LinearCastParameters
-{
-    hkVector4 m_vTo;
-    hkReal m_fMaxExtraPenetrationAgainstFixed;
-    hkReal m_fMaxExtraPenetration;
-};
-
-struct hkpCachingShapePhantomLocal : public hkpCachingShapePhantom
-{
-    void FUN_00d07ec0(const hkAabb& aabb);
-    void FUN_00d4cab0(const hkVector4& position, const LinearCastParameters& input, hkpCdPointCollector& castCollector,
-                      hkpCdPointCollector* startCollector);
-};
-
-class hkpCollisionAgentLinear : public hkpCollisionAgent
-{
-  public:
-    virtual void linearCast(const hkpCdBody& a, const hkpCdBody& b, const ShapeSweepParameters& input,
-                            hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector);
-};
-
-// Performs a linear cast against collidables by computing an expanded AABB and invoking linearCast on each collision agent pair.
-// @fnv 0x00d4cab0
-void hkpCachingShapePhantomLocal::FUN_00d4cab0(const hkVector4& position, const LinearCastParameters& input,
-                                               hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector)
-{
-    *(CastSimd::__m128*)&m_kMotionState.m_kMotionTransform.m_vTranslation = *(CastSimd::__m128*)&position;
-
-    hkAabb aabb;
-    hkReal tol =
-        (hkReal)(((hkpWorld*)m_pOwningWorld)->m_pCollisionInput->m_fScalar * 0.5) + input.m_fMaxExtraPenetration;
-    m_kCollidable.m_pCollisionShape->getAabb(m_kMotionState.m_kMotionTransform, tol, aabb);
-
-    CastSimd::__m128 path = CastSimd::_mm_sub_ps(*(CastSimd::__m128*)&input.m_vTo, *(CastSimd::__m128*)&position);
-
-    CastSimd::__m128 zero = CastSimd::_mm_setzero_ps();
-    CastSimd::__m128 minVal = CastSimd::_mm_min_ps(zero, path);
-    CastSimd::__m128 maxVal = CastSimd::_mm_max_ps(zero, path);
-
-    CastSimd::__m128 auiLowerBounds = *(CastSimd::__m128*)&aabb.m_kMinimumCorner;
-    CastSimd::__m128 auiUpperBounds = *(CastSimd::__m128*)&aabb.m_kMaximumCorner;
-
-    auiLowerBounds = CastSimd::_mm_add_ps(minVal, auiLowerBounds);
-    auiUpperBounds = CastSimd::_mm_add_ps(maxVal, auiUpperBounds);
-
-    *(CastSimd::__m128*)&aabb.m_kMinimumCorner = auiLowerBounds;
-    *(CastSimd::__m128*)&aabb.m_kMaximumCorner = auiUpperBounds;
-
-    FUN_00d07ec0(aabb);
-
-    ShapeSweepParameters linearInput;
-    linearInput.set(*((hkpWorld*)m_pOwningWorld)->m_pCollisionInput);
-
-    *(CastSimd::__m128*)&linearInput.m_path = path;
-
-    CastSimd::__m128 sq = CastSimd::_mm_mul_ps(path, path);
-    CastSimd::__m128 sh1 = CastSimd::_mm_shuffle_ps(sq, sq, 0x55);
-    CastSimd::__m128 sh2 = CastSimd::_mm_shuffle_ps(sq, sq, 0xAA);
-    CastSimd::__m128 add1 = CastSimd::_mm_add_ss(sh1, sq);
-    CastSimd::__m128 add2 = CastSimd::_mm_add_ss(sh2, add1);
-    CastSimd::__m128 len = CastSimd::_mm_sqrt_ss(add2);
-
-    linearInput.m_cachedDistances = CastSimd::_mm_cvtss_f32(len);
-
-    linearInput.m_fScalar = input.m_fMaxExtraPenetration;
-    linearInput.m_fMaxExtraPenetration = input.m_fMaxExtraPenetrationAgainstFixed;
-
-    for (int i = m_kCollisionDetails.m_iElementCount - 1; i >= 0; --i)
-    {
-        CollisionAgentPair* detail = &((CollisionAgentPair*)m_kCollisionDetails.m_data)[i];
-        ((hkpCollisionAgentLinear*)detail->m_pCollisionAgent)
-            ->linearCast(*(hkpCdBody*)&m_kCollidable, *detail->m_kCollidable, linearInput, castCollector,
-                         startCollector);
-    }
-}

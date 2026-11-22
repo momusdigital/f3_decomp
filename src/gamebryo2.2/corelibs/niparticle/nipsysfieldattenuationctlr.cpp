@@ -2,18 +2,10 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysfieldattenuationctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysfieldattenuationctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202720;
-
-// @fnv 0x00c2b230
-void* __cdecl FUN_00c2b230()
-{
-    return &g_01202720;
-}
-
 struct NiObjectNET;
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
+    bool NiPSysModifierCtlr_InterpTargetIsCorrectType(NiObjectNET*);
 };
 struct B00c1bff0
 {
@@ -35,9 +27,11 @@ struct NiPSysFieldAttenuationCtlr : BaseStandIn
 };
 // Calls the base check on pkTarget, resolves a NiPSysModifier from this+0x38, and returns true if its RTTI chain contains g_01202688_arg1.
 // @fnv 0x00c2b290
+// pdb: NiPSysFieldAttenuationCtlr::InterpTargetIsCorrectType | NiPSysFieldAttenuationCtlr.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkTarget
 bool NiPSysFieldAttenuationCtlr::FUN_00c2b290(NiObjectNET* pkTarget)
 {
-    if (!BaseStandIn::IsTargetParticleSystem(pkTarget))
+    if (!BaseStandIn::NiPSysModifierCtlr_InterpTargetIsCorrectType(pkTarget))
         return false;
     NiPSysModifier* pkModifier = (NiPSysModifier*)pkTarget->FUN_00c1b0f0((void*)((char*)this + 0x38));
     if (!pkModifier)
@@ -97,6 +91,8 @@ struct Owner
 
 // Allocates and constructs an AttenCtlr, passes it with pArg to FUN_00c32de0, and returns it as a NiPSysFieldAttenuationCtlr.
 // @fnv 0x00c2b240
+// pdb: NiPSysFieldAttenuationCtlr::CreateClone | NiPSysFieldAttenuationCtlr.obj | fnv360_0721_retail, objopen_prop, low
+// pdb params: kCloning
 NiPSysFieldAttenuationCtlr* Owner::CreateFieldAttenuationController(NiObjectNET* pArg)
 {
     AttenCtlr* pCtlr = (AttenCtlr*)NiMemAlloc(sizeof(AttenCtlr));
@@ -111,30 +107,4 @@ NiPSysFieldAttenuationCtlr* Owner::CreateFieldAttenuationController(NiObjectNET*
     }
     this->FUN_00c32de0(pCtlr, pArg);
     return (NiPSysFieldAttenuationCtlr*)pCtlr;
-}
-
-struct StrArr
-{
-    void* unk00;
-    char** data;
-    unsigned short capacity;
-    unsigned short index;
-    unsigned short count;
-    unsigned short growBy;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-char* __cdecl FUN_00a7d330(char*);
-void __stdcall FUN_00c32f60(StrArr*);
-// Appends the string returned by FUN_00a7d330(g_01202720) to the array, growing it if the index reaches capacity.
-// @fnv 0x00c2b2e0
-void __stdcall FUN_00c2b2e0(StrArr* array)
-{
-    FUN_00c32f60(array);
-    char* value = FUN_00a7d330(static_cast<char*>(g_01202720));
-    unsigned int index = array->index;
-    unsigned int capacity = array->capacity;
-    if (index >= capacity)
-        array->SetSize(index + array->growBy);
-    array->SetAt(index, value);
 }

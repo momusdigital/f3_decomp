@@ -10,6 +10,7 @@ extern char DAT_00e8ad88;
 extern char DAT_00e9ef80;
 
 struct C_006e05f0 { void* vt; void* f4; void FUN_006e05f0(); };
+// pdb: BGSLoadGameBuffer::~BGSLoadGameBuffer | BGSLoadGameBuffer.obj | fnv360_0822_retail, call_seq, medium
 void C_006e05f0::FUN_006e05f0()
 {
     vt = &DAT_00e10888;
@@ -17,6 +18,7 @@ void C_006e05f0::FUN_006e05f0()
 }
 
 struct C_006e1480 { void* vt; void* f4; void FUN_006e1480(); };
+// pdb: BGSSaveGameBuffer::~BGSSaveGameBuffer | BGSSaveGameBuffer.obj | fnv360_0822_retail, call_seq, high
 void C_006e1480::FUN_006e1480()
 {
     vt = &DAT_00e10b04;

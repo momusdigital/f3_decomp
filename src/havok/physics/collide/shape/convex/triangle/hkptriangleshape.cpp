@@ -4,16 +4,6 @@
 
 #include "havok/hkpTriangleShape.h"
 
-extern char const* const g_01268970_arg1;
-
-void __cdecl FUN_00c90360(char const*, char const* const*);
-
-// @fnv 0x00d1fee0
-void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2)
-{
-    FUN_00c90360(arg1, &g_01268970_arg1);
-}
-
 // FUN_00d1ff10: hkpTriangleShape helper returning (m_ucWeldingPadding + 1) * 3.
 class FUN_00d1ff10_cls : public hkpTriangleShape
 {
@@ -22,6 +12,7 @@ public:
 };
 
 // @fnv 0x00d1ff10
+// pdb: hkpTriangleShape::getNumCollisionSpheresImpl | hkpTriangleShape.obj | fnv360_0822_retail, objrun_open, low
 int FUN_00d1ff10_cls::FUN_00d1ff10()
 {
     return (m_ucWeldingPadding + 1) * 3;
@@ -29,6 +20,7 @@ int FUN_00d1ff10_cls::FUN_00d1ff10()
 
 // edge is a triangle edge index (0, 1, or 2).
 // @fnv 0x00d1fef0
+// pdb: getSingleEdgeBitcode | hkpTriangleShape.obj | fnv360_0822_retail, objrun_open, low
 static __declspec(noinline) int __cdecl FUN_00d1fef0(unsigned short weldingInfo, int edge)
 {
     char shift = edge * 5;
@@ -44,87 +36,17 @@ extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ss(const float* p);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern float DAT_0106c2e0;
-
-class FUN_00d1ff40_cls {
-public:
-    int pad00[8];
-    __m128 m_20;
-    __m128 m_30;
-    __m128 m_40;
-
-    void FUN_00d1ff40(hkVector4* out);
-};
-
-// Stores (m_20 + m_30 + m_40) multiplied by DAT_0106c2e0 into out.
-// @fnv 0x00d1ff40
-void FUN_00d1ff40_cls::FUN_00d1ff40(hkVector4* out)
-{
-    __m128 sum = _mm_add_ps(m_30, m_20);
-    _mm_store_ps(&out->x, sum);
-    __m128 total = _mm_add_ps(m_40, sum);
-    _mm_store_ps(&out->x, total);
-    __m128 half = _mm_load_ss(&DAT_0106c2e0);
-    half = _mm_shuffle_ps(half, half, 0);
-    _mm_store_ps(&out->x, _mm_mul_ps(half, total));
-}
-
-struct FUN_00d1ff20_s {
-    void CopyVector(float* dst);
-};
-
-// @fnv 0x00d1ff20
-void FUN_00d1ff20_s::CopyVector(float* dst)
-{
-    __m128 v = *(__m128*)((char*)this + 0x20);
-    *(__m128*)dst = v;
-}
 
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
 extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern const float DAT_01011d78;
-extern const float DAT_01017718;
-extern const float DAT_01016248;
 
 // Computes the normalized cross product of two edge vectors and writes the result to out.
 // @fnv 0x00d1ff80
-static __declspec(noinline) void FUN_00d1ff80(const __m128* apVertexA, const __m128* apVertexB, const __m128* apVertexC, __m128* apNormal)
-{
-    __m128 vb = *apVertexB;
-    __m128 va = *apVertexA;
-    __m128 q;
-    __m128& edge = q;
-    __m128 p = _mm_sub_ps(vb, va);
-    edge = _mm_sub_ps(*apVertexC, vb);
-    __m128 qz = _mm_shuffle_ps(q, q, 0xd2);
-    __m128 py = _mm_shuffle_ps(p, p, 0xc9);
-    __m128 qy = _mm_shuffle_ps(q, q, 0xc9);
-    __m128 pz = _mm_shuffle_ps(p, p, 0xd2);
-    __m128 crossProduct = _mm_sub_ps(_mm_mul_ps(py, qz), _mm_mul_ps(pz, qy));
-    __m128 squaredComponents = _mm_mul_ps(crossProduct, crossProduct);
-    __m128 xy = _mm_add_ss(_mm_shuffle_ps(squaredComponents, squaredComponents, 0x55), squaredComponents);
-    __m128 length = _mm_add_ss(_mm_shuffle_ps(squaredComponents, squaredComponents, 0xaa), xy);
-    __m128 r = _mm_rsqrt_ss(length);
-    __m128 r2 = _mm_mul_ss(_mm_mul_ss(length, r), r);
-    __m128 zero = _mm_set_ss(DAT_01011d78);
-    __m128 mask = _mm_cmpeq_ss(length, zero);
-    __m128 delta = _mm_sub_ss(_mm_set_ss(DAT_01017718), r2);
-    __m128 newtonFactor = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(DAT_01016248), r), delta);
-    __m128 scale = _mm_andnot_ps(mask, newtonFactor);
-    *apNormal = _mm_mul_ps(_mm_shuffle_ps(scale, scale, 0), crossProduct);
-}
 const __m128* volatile inputA;
 const __m128* volatile inputB;
 const __m128* volatile inputC;
 __m128* volatile outputV;
-void invokeTriangleNormal() { FUN_00d1ff80(inputA, inputB, inputC, outputV); }
 
 extern "C" __m128 _mm_max_ps(__m128, __m128);
 extern "C" __m128 _mm_min_ps(__m128, __m128);
@@ -140,67 +62,6 @@ struct SimdVector {
     __forceinline void difference(const SimdVector& a, const SimdVector& b) { value = _mm_sub_ps(a.value, b.value); }
     __forceinline void broadcast(float f) { __m128 scalar = _mm_load_ss(&f); value = _mm_shuffle_ps(scalar, scalar, 0); }
 };
-struct Bounds { SimdVector minimum, maximum; };
-struct TriangleBounds : hkpConvexShape {
-    unsigned short welding;
-    unsigned char weldingType;
-    unsigned char extruded;
-    unsigned int unk18;
-    unsigned int unk1c;
-    SimdVector vertexA, vertexB, vertexC, extrusion;
-    void FUN_00d20050(const void* transform, float tolerance, Bounds& out) const;
-};
-// Computes the axis-aligned bounding box of the triangle (and extrusion) under a transform, expanded by the sphere radius plus tolerance.
-// @fnv 0x00d20050
-void TriangleBounds::FUN_00d20050(const void* transform, float tolerance, Bounds& out) const {
-    SimdVector extent;
-    extent.broadcast(m_fSphereRadius + tolerance);
-    SimdVector a, b, c;
-    a.FUN_00c7f640(transform, vertexA);
-    b.FUN_00c7f640(transform, vertexB);
-    c.FUN_00c7f640(transform, vertexC);
-    out.minimum.lower(a,b);
-    out.maximum.upper(a,b);
-    out.minimum.lower(out.minimum,c);
-    out.maximum.upper(out.maximum,c);
-    SimdVector shifted;
-    shifted.value = _mm_add_ps(out.minimum.value,_mm_load_ps(extrusion.component));
-    out.minimum.lower(out.minimum,shifted);
-    shifted.value = _mm_add_ps(out.maximum.value,_mm_load_ps(extrusion.component));
-    out.maximum.upper(out.maximum,shifted);
-    out.minimum.difference(out.minimum,extent);
-    out.maximum.sum(out.maximum,extent);
-}
-
-class Cls_00d20110 : public hkpTriangleShape
-{
-public:
-    hkVector4* GetVertices(hkVector4* output);
-};
-
-// @fnv 0x00d20110
-hkVector4* Cls_00d20110::GetVertices(hkVector4* apVertices)
-{
-    *(__m128*)apVertices = *(const __m128*)&m_kVertexA;
-    apVertices->w = m_fSphereRadius;
-    *(__m128*)(apVertices + 1) = *(const __m128*)&m_kVertexB;
-    hkVector4* q = apVertices + 1;
-    q->w = m_fSphereRadius;
-    ++q;
-    *(__m128*)q = *(const __m128*)&m_kVertexC;
-    q->w = m_fSphereRadius;
-    ++q;
-    if (m_ucWeldingPadding != 0) {
-        *(__m128*)q = _mm_add_ps(*(const __m128*)&m_kVertexTransform, *(const __m128*)&m_kVertexA);
-        q->w = m_fSphereRadius;
-        ++q;
-        *(__m128*)q = _mm_add_ps(*(const __m128*)&m_kVertexTransform, *(const __m128*)&m_kVertexB);
-        q->w = m_fSphereRadius;
-        *(__m128*)&q[1] = _mm_add_ps(_mm_load_ps(reinterpret_cast<const float*>(&m_kVertexC.x)), *(const __m128*)&m_kVertexTransform);
-        q[1].w = m_fSphereRadius;
-    }
-    return apVertices;
-}
 
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C" void _mm_store_ss(float*, __m128);
@@ -210,245 +71,26 @@ extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
-__forceinline int rootSelect48(const float* sv)
-{
-    float L0=sv[0];
-    float L1=sv[1];
-    float L2=sv[2];
-    int idx;
-    float m;
-    if (L2 > L1) { m = L2; idx = 2; }
-    else { m = L1; idx = 1; }
-    if (L0 > m) idx = 0;
-    return idx;
-}
-
 struct SupportVector {
     union { __m128 vector; float components[4]; };
     __forceinline void add(const SupportVector& b) { vector = _mm_add_ps(vector, b.vector); }
 };
 
-struct TriangleSupport : hkpTriangleShape {
-    void FUN_00d20270(float const* pf, float* out);
-};
-
-// Picks the triangle vertex with the largest projection of pf, adds m_kVertexTransform if its dot with pf is positive, and stores the index in out[3].
-// @fnv 0x00d20270
-void TriangleSupport::FUN_00d20270(float const* pf, float* out)
-{
-    __m128 v0 = *reinterpret_cast<const __m128*>(&m_kVertexA);
-    __m128 v1 = *reinterpret_cast<const __m128*>(&m_kVertexB);
-    __m128 v4 = *reinterpret_cast<const __m128*>(&m_kVertexC);
-    __m128 tp = _mm_unpacklo_ps(v0, v1);
-    __m128 ct = _mm_unpackhi_ps(v0, v1);
-    v0 = _mm_movelh_ps(tp, v4);
-    v1 = _mm_shuffle_ps(_mm_movehl_ps(v0, tp), v4, 0xd4);
-    v4 = _mm_shuffle_ps(ct, v4, 0xe4);
-    __m128 d = _mm_load_ps(pf);
-    __m128 v2 = d;
-    v2 = _mm_shuffle_ps(v2, d, 0x55);
-    v2 = _mm_mul_ps(v2, v1);
-    __m128 v3 = d;
-    v3 = _mm_shuffle_ps(v3, d, 0);
-    v2 = _mm_add_ps(v2, _mm_mul_ps(v3, v0));
-    v2 = _mm_add_ps(v2, _mm_mul_ps(_mm_shuffle_ps(d, d, 0xaa), v4));
-    __m128 s = v2;
-    float sv[4];
-    _mm_store_ps(sv, s);
-    int idx = rootSelect48(sv);
-    _mm_store_ps(out, reinterpret_cast<const __m128*>(&m_kVertexA)[idx]);
-    __m128 vD = *reinterpret_cast<const __m128*>(&m_kVertexTransform);
-    __m128 vP = _mm_mul_ps(_mm_load_ps(pf), vD);
-    __m128 e = _mm_add_ss(_mm_shuffle_ps(vP, vP, 0xaa), _mm_add_ss(_mm_shuffle_ps(vP, vP, 0x55), vP));
-    float fE;
-    _mm_store_ss(&fE, e);
-    if (fE > 0.0f) {
-        idx += 3;
-        reinterpret_cast<SupportVector*>(out)->add(*reinterpret_cast<const SupportVector*>(&m_kVertexTransform));
-    }
-    ((int*)out)[3] = idx | 0x3f000000;
-}
-
 #include <math.h>
 
 
 
-extern "C" __m128 _mm_load_ps1(const float*);
 extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 extern "C" int _mm_movemask_ps(__m128);
 
-extern int DAT_011b3b4c[];
-extern int DAT_011b3b50[];
-extern float DAT_011b3b38[];
 // hkpWeldingUtility sin/cos table: cosAccept0, sinAccept0, cosSnap0, cosSnap1, cosAccept1, sinAccept1
 struct FloatArray6 { float value[6]; };
-extern FloatArray6 DAT_01269210[];
 
 static __forceinline float scalar(__m128 v) { float out; _mm_store_ss(&out, v); return out; }
 static __forceinline __m128 splat(__m128 v) { return _mm_shuffle_ps(v, v, 0); }
-static __forceinline __m128 horizontal3(__m128 p) {
-    __m128 y = _mm_shuffle_ps(p, p, 0x55);
-    __m128 xy = _mm_add_ss(y, p);
-    __m128 z = _mm_shuffle_ps(p, p, 0xaa);
-    return _mm_add_ss(z, xy);
-}
-static __forceinline __m128 dot3(__m128 a, __m128 b) { return horizontal3(_mm_mul_ps(a, b)); }
-static __forceinline __m128 cross3(__m128 a, __m128 b) {
-    return _mm_sub_ps(
-        _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2)),
-        _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9)));
-}
-static __forceinline __m128 normalized3(__m128 v) {
-    __m128 length = dot3(v, v);
-    __m128 estimate = _mm_rsqrt_ss(length);
-    __m128 zero = _mm_set_ss(DAT_01011d78);
-    __m128 three = _mm_set_ss(DAT_01017718);
-    __m128 half = _mm_set_ss(DAT_01016248);
-    __m128 zeroMask = _mm_cmpeq_ss(length, zero);
-    __m128 product = _mm_mul_ss(_mm_mul_ss(length, estimate), estimate);
-    __m128 correction = _mm_mul_ss(_mm_mul_ss(half, estimate), _mm_sub_ss(three, product));
-    return _mm_mul_ps(splat(_mm_andnot_ps(zeroMask, correction)), v);
-}
-
-static __forceinline bool shouldSnapOneSided(unsigned int type, const __m128& face, const __m128& normal, const float* limits) {
-    float alignment = scalar(dot3(face, normal));
-    if (type == 0) return alignment < limits[type];
-    return alignment > limits[type];
-}
-static __forceinline int getSector(unsigned int code, const __m128& face, const __m128& normal) {
-    float alignment = scalar(dot3(face, normal));
-    int cone;
-    if (alignment >= DAT_01269210[code].value[0]) cone = 1;
-    else if (alignment >= DAT_01269210[code].value[2]) cone = 0;
-    else if (alignment >= DAT_01269210[code].value[3]) cone = 2;
-    else if (alignment >= DAT_01269210[code].value[4]) cone = 4;
-    else cone = 3;
-    return cone;
-}
-struct VectorOperations {
-    __m128 value;
-    void FUN_00c7f700(const hkRotation*, const __m128*);
-    void FUN_00c7f690(const hkTransform*, const hkVector4*);
-    void FUN_00c7f640(const hkTransform*, const VectorOperations&);
-};
-struct SupportShape {
-    virtual void slot00(); virtual void slot04(); virtual void slot08();
-    virtual void slot0c(); virtual void slot10(); virtual void slot14();
-    virtual void slot18(); virtual void slot1c(); virtual void slot20();
-    virtual void slot24(); virtual void slot28(); virtual void slot2c();
-    virtual void slot30(); virtual void slot34(); virtual void slot38();
-    virtual void slot3c(); virtual void slot40();
-    virtual void getSupport(VectorOperations*);
-};
-extern float __cdecl FUN_00c9e0f0(float, float);
-
-class TriangleWelding : public hkpTriangleShape {
-public:
-    int FUN_00d203f0(unsigned short* indices, unsigned char* count,
-        const hkVector4* position, const hkTransform* transform,
-        SupportShape* source, const hkTransform* sourceTransform, hkVector4* output);
-};
-
-// Welds a triangle edge against a support shape, adjusting the face normal and separation based on welding type and sector cone.
-// @fnv 0x00d203f0
-int TriangleWelding::FUN_00d203f0(unsigned short* indices, unsigned char* count,
-    const hkVector4* position, const hkTransform* transform,
-    SupportShape* source, const hkTransform* sourceTransform, hkVector4* output) {
-    unsigned int weldingType = m_eWeldingType;
-    if (weldingType == 6) return 2;
-    int edge = DAT_011b3b4c[indices[0]];
-    unsigned char sectors = *count;
-    if (sectors > 1) {
-        int other = DAT_011b3b4c[indices[1]];
-        if (sectors == 3) {
-            if (indices[0] + indices[1] + indices[2] == 3) return 2;
-            if (other == edge) other = DAT_011b3b4c[indices[2]];
-            *count = 2;
-            indices[0] = (unsigned short)edge;
-            indices[1] = (unsigned short)other;
-        }
-        if (DAT_011b3b50[edge] != other) edge = other;
-    }
-
-    VectorOperations corrected;
-    *(hkVector4*)&corrected = *output;
-    __m128 v0 = *(const __m128*)&transform->m_rotation.m_kColumn0;
-    __m128 v1 = *(const __m128*)&transform->m_rotation.m_kColumn1;
-    __m128 v4 = *(const __m128*)&transform->m_rotation.m_kColumn2;
-    __m128 tp = _mm_unpacklo_ps(v0, v1);
-    __m128 ct = _mm_unpackhi_ps(v0, v1);
-    v0 = _mm_movelh_ps(tp, v4);
-    v1 = _mm_shuffle_ps(_mm_movehl_ps(v0, tp), v4, 0xd4);
-    v4 = _mm_shuffle_ps(ct, v4, 0xe4);
-    __m128 d = corrected.value;
-    __m128 v2 = d;
-    v2 = _mm_shuffle_ps(v2, d, 0x55);
-    v2 = _mm_mul_ps(v2, v1);
-    __m128 v3 = d;
-    v3 = _mm_shuffle_ps(v3, d, 0);
-    v2 = _mm_add_ps(v2, _mm_mul_ps(v3, v0));
-    v2 = _mm_add_ps(v2, _mm_mul_ps(_mm_shuffle_ps(d, d, 0xaa), v4));
-    __m128 localNormal = v2;
-    SimdVector normalStore;
-    normalStore.value = v2;
-
-    VectorOperations faceTemporary;
-    FUN_00d1ff80((const __m128*)&m_kVertexA, (const __m128*)&m_kVertexB, (const __m128*)&m_kVertexC, &faceTemporary.value);
-    __m128 face = faceTemporary.value;
-    __m128 faceProduct = _mm_mul_ps(face, localNormal);
-    float separation = (float)fabs(scalar(horizontal3(faceProduct))) * ((const hkVector4*)&corrected)->w;
-    __m128 edgeDirection = normalized3(_mm_sub_ps(((const __m128*)&m_kVertexA)[DAT_011b3b50[edge]], ((const __m128*)&m_kVertexA)[edge]));
-    unsigned int code = (m_kWeldingInfo >> ((signed char)edge * (signed char)5)) & 31;
-
-    if (weldingType != 5) {
-        if (!shouldSnapOneSided(weldingType, face, localNormal, DAT_01269210[code].value)) return 2;
-        const float* limits = DAT_01269210[code].value;
-        __m128 angleCos = _mm_load_ss(limits + weldingType);
-        __m128 angleSin = _mm_load_ss(limits + weldingType + 1);
-        corrected.value = normalized3(_mm_add_ps(
-            _mm_mul_ps(cross3(edgeDirection, face), splat(angleSin)),
-            _mm_mul_ps(splat(angleCos), face)));
-        corrected.FUN_00c7f700(&transform->m_rotation, &corrected.value);
-        if (m_ucWeldingPadding) {
-            faceTemporary.value = _mm_mul_ps(_mm_load_ps1(DAT_011b3b38 + weldingType), faceTemporary.value);
-            VectorOperations localPosition;
-            localPosition.FUN_00c7f690(transform, position);
-            separation = FUN_00c9e0f0(scalar(dot3(_mm_sub_ps(localPosition.value, *(const __m128*)&m_kVertexA), faceTemporary.value)), separation);
-        } else {
-            VectorOperations support;
-            source->getSupport(&support);
-            support.FUN_00c7f640(sourceTransform, support);
-            __m128 projection = dot3(_mm_sub_ps(*(const __m128*)position, support.value), corrected.value);
-            if ((_mm_movemask_ps(projection) & 1) == 0) return 0;
-        }
-    } else {
-        int cone = getSector(code, face, localNormal);
-        switch (cone) {
-        case 0:
-        case 4: break;
-        case 2: return 0;
-        default: return 2;
-        }
-        if (*count == 1) return 0;
-        const FloatArray6& entry = DAT_01269210[code];
-        __m128 angleCos = _mm_load_ss(&entry.value[cone]);
-        __m128 angleSin = _mm_load_ss(&entry.value[cone + 1]);
-        __m128 correction = normalized3(_mm_add_ps(
-            _mm_mul_ps(cross3(edgeDirection, face), splat(angleSin)),
-            _mm_mul_ps(splat(angleCos), face)));
-        __m128 blend = _mm_add_ps(
-            _mm_mul_ps(splat(dot3(edgeDirection, localNormal)), edgeDirection),
-            _mm_mul_ps(splat(dot3(correction, localNormal)), correction));
-        normalStore.value = normalized3(blend);
-        corrected.FUN_00c7f700(&transform->m_rotation, &normalStore.value);
-    }
-    *(__m128*)output = corrected.value;
-    output->w = separation;
-    return 1;
-}
 
 typedef unsigned char hkUint8_S;
 typedef unsigned short hkUint16_S;
@@ -574,15 +216,9 @@ extern __m128 _mm_rcp_ps(__m128 _A);
 extern __m128 _mm_and_ps(__m128 _A,__m128 _B);
 
 extern __m128 _mm_or_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_xor_ps(__m128 _A,__m128 _B);
-
-extern __m128 _mm_cmpeq_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmplt_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmple_ps(__m128 _A,__m128 _B);
 
 extern int _mm_movemask_ps(__m128 _A);
 
-extern __m128 _mm_setr_ps(float _A,float _B,float _C,float _D);
 extern __m128 _mm_setzero_ps(void);};
 typedef __m128 hkQuadReal;
 class hkVector4_S;
@@ -647,7 +283,6 @@ hkQuadReal e=_mm_rcp_ps(r);
 return _mm_sub_ps(_mm_add_ps(e,e),_mm_mul_ps(_mm_mul_ps(e,r),e));
 }
 }
-extern const hkQuadReal g_kQuadRealConstant;
 class hkTransform_S;
 class hkVector4_S
 {
@@ -687,157 +322,13 @@ operator hkQuadReal()const
 return m_vComponents;
 }
 };
-inline hkQuadReal&hkVector4_S::getQuad()
-{
-return m_vComponents;
-}
-inline const hkQuadReal&hkVector4_S::getQuad()const
-{
-return m_vComponents;
-}
 inline void hkVector4_S::operator=(const hkVector4_S&v)
 {
 m_vComponents=v.m_vComponents;
 }
-inline void hkVector4_S::set(hkReal_S a,hkReal_S b,hkReal_S c,hkReal_S d)
-{
-m_vComponents=_mm_setr_ps(a,b,c,d);
-}
-inline void hkVector4_S::SetAllComponents(hkSimdRealParameter a)
-{
-m_vComponents=_mm_shuffle_ps(a.getQuad(),a.getQuad(),(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-}
-inline void hkVector4_S::setZero4()
-{
-m_vComponents=_mm_setzero_ps();
-}
-inline void hkVector4_S::sub4(const hkVector4_S&v)
-{
-m_vComponents=_mm_sub_ps(m_vComponents,v.m_vComponents);
-}
-inline void hkVector4_S::setSub4(const hkVector4_S&v0,const hkVector4_S&v1)
-{
-m_vComponents=_mm_sub_ps(v0.m_vComponents,v1.m_vComponents);
-}
-inline void hkVector4_S::mul4(const hkVector4_S&v)
-{
-m_vComponents=_mm_mul_ps(m_vComponents,v.m_vComponents);
-}
-inline void hkVector4_S::setMul4(const hkVector4_S&a,const hkVector4_S&b)
-{
-m_vComponents=_mm_mul_ps(a.m_vComponents,b.m_vComponents);
-}
-inline void hkVector4_S::mul4(hkSimdRealParameter s)
-{
-m_vComponents=_mm_mul_ps(s.broadcast(),m_vComponents);
-}
-inline void hkVector4_S::addMul4(hkSimdRealParameter r,const hkVector4_S&v1)
-{
-m_vComponents=_mm_add_ps(m_vComponents,
-_mm_mul_ps(r.broadcast(),v1.m_vComponents));
-}
-inline void hkVector4_S::addMul4(const hkVector4_S&x,const hkVector4_S&y)
-{
-m_vComponents=_mm_add_ps(m_vComponents,
-_mm_mul_ps(x.m_vComponents,y.m_vComponents));
-}
-inline void hkVector4_S::setCross(const hkVector4_S&v0,const hkVector4_S&v1)
-{
-hkQuadReal cross0;
-cross0=_mm_mul_ps(
-_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))),
-_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))));
-hkQuadReal cross1;
-cross1=_mm_mul_ps(
-_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))),
-_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))));
-m_vComponents=_mm_sub_ps(cross0,cross1);}
-inline Vector4Comparison hkVector4_S::compareLessThan4(hkVector4Parameter a)const
-{
-Vector4Comparison m;m.m_uiMask=_mm_cmplt_ps(m_vComponents,a.m_vComponents);
-return m;
-}
-inline Vector4Comparison hkVector4_S::compareEqual4(hkVector4Parameter a)const
-{
-Vector4Comparison m;m.m_uiMask=_mm_cmpeq_ps(m_vComponents,a.m_vComponents);
-return m;
-}
-inline Vector4Comparison hkVector4_S::compareLessThanEqual4(const hkVector4_S&a)const
-{
-Vector4Comparison m;m.m_uiMask=_mm_cmple_ps(m_vComponents,a.m_vComponents);
-return m;
-}
-inline VectorComponentValue hkVector4_S::dot3(const hkVector4_S&a)const
-{
-hkQuadReal x2=_mm_mul_ps(m_vComponents,a.m_vComponents);
-hkQuadReal xySum=_mm_add_ss(_mm_shuffle_ps(x2,x2,(((1)<<6)|((1)<<4)|((1)<<2)|((1)))),x2);
-return _mm_add_ss(_mm_shuffle_ps(x2,x2,(((2)<<6)|((2)<<4)|((2)<<2)|((2)))),xySum);}
-inline VectorComponentValue hkVector4_S::lengthSquared3()const
-{
-return this->dot3(*this);
-}
-inline VectorComponentValue hkVector4_S::lengthInverse3()const
-{
-const hkQuadReal half=_mm_set_ss(0.5f);
-const hkQuadReal three=_mm_set_ss(3.0f);
-const hkQuadReal zero=_mm_set_ss(0.0f);
-const hkQuadReal len2=this->dot3(*this).getQuad();
-const hkQuadReal len2EqualsZero=_mm_cmpeq_ss(len2,zero);
-const hkQuadReal approx=_mm_rsqrt_ss(len2);
-const hkQuadReal refined=_mm_mul_ss(
-_mm_mul_ss(half,approx),
-_mm_sub_ss(three,_mm_mul_ss(_mm_mul_ss(len2,approx),approx)));
-return _mm_andnot_ps(len2EqualsZero,refined);}
-inline void hkVector4_S::normalize3()
-{
-hkQuadReal lenInv=lengthInverse3().broadcast();
-m_vComponents=_mm_mul_ps(lenInv,m_vComponents);
-}
 inline hkReal_S&hkVector4_S::operator()(int a)
 {
 return reinterpret_cast<hkReal_S*>(&m_vComponents)[a];
-}
-inline void hkVector4_S::setReciprocal4(const hkVector4_S&vec)
-{
-m_vComponents=MathUtilities::quadReciprocal(vec.m_vComponents);
-}
-inline VectorComponentValue hkVector4_S::getSimdAt(int i)const
-{
-switch(i)
-{
-case 0:
-return m_vComponents;
-case 1:
-return _mm_shuffle_ps(m_vComponents,m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
-case 2:
-return _mm_shuffle_ps(m_vComponents,m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
-case 3:
-default:
-return _mm_shuffle_ps(m_vComponents,m_vComponents,(((3)<<6)|((3)<<4)|((3)<<2)|((3))));
-}
-}
-inline void hkVector4_S::setBroadcast(const hkVector4_S&v,int i)
-{
-if(i==0)
-{
-m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-}
-else if(i==1)
-{
-m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
-}
-else if(i==2)
-{
-m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
-}
-else if(i==3)
-{
-m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((3)<<6)|((3)<<4)|((3)<<2)|((3))));
-}
-}
-inline Vector4Comparison hkVector4_S::compareGreaterThanEqual4(hkVector4Parameter a)const
-{
-return a.compareLessThanEqual4(*this);
 }
 class StringCursor
 {
@@ -1171,113 +662,6 @@ hkVector4_S m_vTo[3];};
 namespace hkVector4Util_S
 {
 __forceinline void __cdecl mulSigns4(hkVector4_S&inout,const hkVector4_S&signsSource);}
-inline void __cdecl hkVector4Util_S::mulSigns4(hkVector4_S&inout,const hkVector4_S&signs)
-{
-static __declspec(align(16))const hkUint32_S signmask[4]=
-{0x80000000,0x80000000,0x80000000,0x80000000};
-inout.getQuad()=_mm_xor_ps(inout.getQuad(),
-_mm_and_ps(signs.getQuad(),*(const hkQuadReal*)&signmask));}
-static void diffCrossDiffDotNormal(const hkVector4_S&p_i,const hkVector4_S&p_j,const hkVector4_S*hitPoints,const hkVector4_S&normal,hkVector4_S&dotsOut)
-{
-hkVector4_S A[3];
-hkVector4_S B[3];
-A[0].setBroadcast(p_i,0);
-A[0].sub4(hitPoints[0]);
-A[2].sub4(hitPoints[2]);
-B[0].setBroadcast(p_j,0);
-B[2].sub4(hitPoints[2]);
-hkVector4_S temp;
-hkVector4_S dots;
-hkVector4_S cp;
-dots.setZero4();
-dots.addMul4(normal.getSimdAt(0),cp);
-cp.setMul4(A[2],B[0]);temp.setMul4(A[0],B[2]);cp.sub4(temp);
-dots.addMul4(normal.getSimdAt(2),cp);
-dotsOut=dots;}
-// @fnv 0x00d20e70
-Vector4Comparison hkpTriangleShape_S::FUN_00d20e70(const ShapeRayBundleCastInput&input,ShapeRayCastOutputArray&results,hkVector4ComparisonParameter mask)const
-{
-const hkpTriangleShape_S*thisObj=this;
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "rayBundleTriangle";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock54;
-;
-Vector4Comparison kComparisonMask=mask;
-const hkVector4_S&vert0=thisObj->getVertex(0);
-const hkVector4_S&vert1=thisObj->getVertex(1);
-const hkVector4_S&vert2=thisObj->getVertex(2);
-hkVector4_S v10;v10.setSub4(vert1,vert0);
-hkVector4_S v20;v20.setSub4(vert2,vert0);
-hkVector4_S triangleNormal;triangleNormal.setCross(v10,v20);
-hkVector4_S dist;dist.SetAllComponents(vert0.dot3(triangleNormal));
-hkVector4_S dist_a;dist_a.setZero4();
-hkVector4_S dist_b;dist_b.setZero4();
-dist_a.addMul4(triangleNormal.getSimdAt(0),input.m_vFrom[0]);
-dist_b.addMul4(triangleNormal.getSimdAt(0),input.m_vTo[0]);
-dist_a.addMul4(triangleNormal.getSimdAt(1),input.m_vFrom[1]);
-dist_b.addMul4(triangleNormal.getSimdAt(1),input.m_vTo[1]);
-dist_a.addMul4(triangleNormal.getSimdAt(2),input.m_vFrom[2]);
-dist_b.addMul4(triangleNormal.getSimdAt(2),input.m_vTo[2]);
-dist_a.sub4(dist);
-dist_b.sub4(dist);
-Vector4Comparison distMask;
-{
-hkVector4_S distProd;distProd.setMul4(dist_a,dist_b);
-hkVector4_S zero;zero.setZero4();
-Vector4Comparison distProdGteZero=distProd.compareGreaterThanEqual4(zero);
-Vector4Comparison distAEqZero=dist_a.compareEqual4(zero);
-Vector4Comparison distBEqZero=dist_b.compareEqual4(zero);
-Vector4Comparison distBNeqZero;distBNeqZero.setNot(distBEqZero);
-distAEqZero.setOr(distAEqZero,distBNeqZero);
-distProdGteZero.setAnd(distProdGteZero,distAEqZero);
-distMask.setNot(distProdGteZero);
-}
-kComparisonMask.setAnd(kComparisonMask,distMask);
-hkVector4_S proj_length;proj_length.setSub4(dist_a,dist_b);
-hkVector4_S distance;distance.setReciprocal4(proj_length);
-distance.mul4(dist_a);
-hkVector4_S oneMinusDistance;oneMinusDistance.getQuad()=g_kQuadRealConstant;
-oneMinusDistance.sub4(distance);
-const hkQuadReal edgeToleranceMul={-1e-4f,-1e-4f,-1e-4f,-1e-4f};
-hkVector4_S edge_tolerance;edge_tolerance.getQuad()=edgeToleranceMul;
-edge_tolerance.mul4(triangleNormal.lengthSquared3());
-{
-hkVector4_S earlyOutFractions;earlyOutFractions.set(results.m_akRayOutputs[0].m_fHitFraction,results.m_akRayOutputs[1].m_fHitFraction,results.m_akRayOutputs[2].m_fHitFraction,results.m_akRayOutputs[3].m_fHitFraction);
-Vector4Comparison closeEnough=distance.compareLessThan4(earlyOutFractions);
-kComparisonMask.setAnd(kComparisonMask,closeEnough);
-}
-hkVector4_S point[3];
-point[0].setMul4(oneMinusDistance,input.m_vFrom[0]);
-point[0].addMul4(distance,input.m_vTo[0]);
-point[1].setMul4(oneMinusDistance,input.m_vFrom[1]);
-point[1].addMul4(distance,input.m_vTo[1]);
-point[2].setMul4(oneMinusDistance,input.m_vFrom[2]);
-point[2].addMul4(distance,input.m_vTo[2]);
-hkVector4_S dots01;
-diffCrossDiffDotNormal(vert0,vert1,point,triangleNormal,dots01);
-Vector4Comparison ok01=dots01.compareGreaterThanEqual4(edge_tolerance);
-kComparisonMask.setAnd(kComparisonMask,ok01);
-hkVector4_S dots12;
-diffCrossDiffDotNormal(vert1,vert2,point,triangleNormal,dots12);
-Vector4Comparison ok12=dots12.compareGreaterThanEqual4(edge_tolerance);
-kComparisonMask.setAnd(kComparisonMask,ok12);
-hkVector4_S dots20;
-diffCrossDiffDotNormal(vert2,vert0,point,triangleNormal,dots20);
-Vector4Comparison ok20=dots20.compareGreaterThanEqual4(edge_tolerance);
-kComparisonMask.setAnd(kComparisonMask,ok20);
-for(int i=0;i<4;i++)
-{
-if(kComparisonMask.anyIsSet(Vector4Comparison::ms_kLaneMasks[i]))
-{
-triangleNormal.normalize3();
-results.m_akRayOutputs[i].m_fHitFraction=distance(i);
-hkVector4_S dist_a4;dist_a4.setBroadcast(dist_a,i);
-hkVector4_S tempNormal;tempNormal=triangleNormal;
-hkVector4Util_S::mulSigns4(tempNormal,dist_a4);
-results.m_akRayOutputs[i].m_vHitNormal=tempNormal;
-results.m_akRayOutputs[i].setKey(0xffffffff);
-}
-}
-return kComparisonMask;
-}
 
 extern "C" __m128 _mm_setzero_ps();
 
@@ -1318,122 +702,8 @@ public:
     }
 };
 
-// @fnv 0x00d201a0
-static __declspec(noinline) void FUN_00d201a0(const LaneVector& first,const LaneVector& second,const LaneVector* rows,const LaneVector& weight,LaneVector& output)
-{
-    LaneVector left[3];
-    LaneVector right[3];
-    left[0].broadcast(first,0); left[0].subtract(rows[0]);
-    left[1].broadcast(first,1); left[1].subtract(rows[1]);
-    left[2].broadcast(first,2); left[2].subtract(rows[2]);
-    right[0].broadcast(second,0); right[0].subtract(rows[0]);
-    right[1].broadcast(second,1); right[1].subtract(rows[1]);
-    right[2].broadcast(second,2); right[2].subtract(rows[2]);
-    LaneVector scratch;
-    LaneVector sum;
-    LaneVector component;
-    sum.clear();
-    component.product(left[1],right[2]); scratch.product(left[2],right[1]); component.subtract(scratch);
-    sum.accumulate(weight.scalar(0),component);
-    component.product(left[2],right[0]); scratch.product(left[0],right[2]); component.subtract(scratch);
-    sum.accumulate(weight.scalar(1),component);
-    component.product(left[0],right[1]); scratch.product(left[1],right[0]); component.subtract(scratch);
-    sum.accumulate(weight.scalar(2),component);
-    output=sum;
-}
-
-extern const LaneVector* obtainVector();
-extern LaneVector* obtainOutput();
-void keepEdgeTest() { FUN_00d201a0(*obtainVector(),*obtainVector(),obtainVector(),*obtainVector(),*obtainOutput()); }
-
 extern "C" void _mm_store_ss(float*, __m128);
 struct ShapeRayCastQuery {
     hkVector4_S m_vFrom;
     hkVector4_S m_vTo;
 };
-class TriangleRayCast : public hkpTriangleShape_S {
-public:
-    hkBool_S FUN_00d20a70(const ShapeRayCastQuery&, ShapeRayCastOutput&) const;
-};
-static __forceinline float rayScalar(const VectorComponentValue& value) {
-    float result;
-    _mm_store_ss(&result, value.getQuad());
-    return result;
-}
-static __forceinline void rayInterpolate(hkVector4_S& out, const hkVector4_S& a, const hkVector4_S& b, float fraction) {
-    static __declspec(align(16)) const float ones[4] = {1,1,1,1};
-    __m128 scalar = _mm_load_ss(&fraction);
-    __m128 t = _mm_shuffle_ps(scalar,scalar,0);
-    __m128 s = _mm_sub_ps(*(const __m128*)ones,t);
-    out.getQuad() = _mm_add_ps(_mm_mul_ps(s,a.getQuad()),_mm_mul_ps(t,b.getQuad()));
-}
-static __forceinline void rayNegate(hkVector4_S& out, const hkVector4_S& a) {
-    static __declspec(align(16)) const unsigned int signs[4] = {0x80000000,0x80000000,0x80000000,0x80000000};
-    out.getQuad() = _mm_xor_ps(a.getQuad(),*(const __m128*)signs);
-}
-// Tests a ray against this triangle, writing hit fraction and normal to results and returning whether the ray hits inside the triangle.
-// @fnv 0x00d20a70
-hkBool_S TriangleRayCast::FUN_00d20a70(const ShapeRayCastQuery&input,ShapeRayCastOutput&results)const
-{
-const hkpTriangleShape_S*thisObj=this;
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "rcTriangle";h->setTime();mStream.setEnd((char*)(h+1));}};
-const hkVector4_S&vert0=thisObj->getVertex(0);
-const hkVector4_S&vert1=thisObj->getVertex(1);
-const hkVector4_S&vert2=thisObj->getVertex(2);
-hkVector4_S v10;v10.setSub4(vert1,vert0);
-hkVector4_S v20;v20.setSub4(vert2,vert0);
-hkVector4_S triangleNormal;triangleNormal.setCross(v10,v20);
-const hkReal_S dist=rayScalar(vert0.dot3(triangleNormal));
-hkReal_S dist_a=rayScalar(triangleNormal.dot3(input.m_vFrom));
-dist_a-=dist;
-hkReal_S dist_b=rayScalar(triangleNormal.dot3(input.m_vTo));
-dist_b-=dist;
-if(dist_a*dist_b>=0.0f)
-{
-if(dist_a !=0.0f || dist_b==0.0f)
-{
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
-return false;
-}
-}
-const hkReal_S proj_length=dist_a-dist_b;
-const hkReal_S distance=dist_a / proj_length;
-if(distance<results.m_fHitFraction)
-{
-hkReal_S edge_tolerance=rayScalar(triangleNormal.lengthSquared3());
-edge_tolerance*=-0.0001f;
-hkVector4_S point;rayInterpolate(point,input.m_vFrom,input.m_vTo,distance);
-{
-hkVector4_S v0p;v0p.setSub4(vert0,point);
-hkVector4_S v1p;v1p.setSub4(vert1,point);
-hkVector4_S cp0;cp0.setCross(v0p,v1p);
-if(rayScalar(cp0.dot3(triangleNormal))>=edge_tolerance)
-{
-hkVector4_S v2p;v2p.setSub4(vert2,point);
-hkVector4_S cp1;cp1.setCross(v1p,v2p);
-if(rayScalar(cp1.dot3(triangleNormal))>=edge_tolerance)
-{
-hkVector4_S cp2;cp2.setCross(v2p,v0p);
-if(rayScalar(cp2.dot3(triangleNormal))>=edge_tolerance)
-{
-results.m_fHitFraction=distance;
-if(dist_a>0.0f)
-{
-results.m_vHitNormal=triangleNormal;
-}
-else
-{
-rayNegate(results.m_vHitNormal,triangleNormal);
-}
-results.m_vHitNormal.normalize3();
-results.setKey(0xffffffff);
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
-return true;
-}
-}
-}
-}
-}
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
-return false;
-}

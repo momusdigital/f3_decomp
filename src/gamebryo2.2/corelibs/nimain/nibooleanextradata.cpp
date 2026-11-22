@@ -7,7 +7,8 @@ struct NiRTTI;
 extern NiRTTI g_011f5f5c;
 
 // @fnv 0x00a9af30
-NiRTTI* __cdecl FUN_00a9af30()
+// pdb: NiRangeLODData::GetRTTI | NiRangeLODData.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+NiRTTI* __cdecl NiRangeLODData_GetRTTI()
 {
     return &g_011f5f5c;
 }
@@ -25,7 +26,8 @@ struct BSFadeNode
 extern int DAT_010a112c;
 
 // @fnv 0x00a9af90
-void* __cdecl FUN_00a9af90()
+// pdb: NiBooleanExtraData::CreateObject | NiBooleanExtraData.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+void* __cdecl NiBooleanExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)
@@ -53,6 +55,7 @@ extern void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 extern void* DAT_010a112c;
 
 // @fnv 0x00a9afc0
+// pdb: NiBooleanExtraData::`scalar deleting destructor' | NiBooleanExtraData.obj | fnv360_0822_retail, objrun, high
 void* __thiscall NiBooleanExtraData::FUN_00a9afc0(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &DAT_010a112c;
@@ -78,6 +81,8 @@ struct NiBooleanExtraData : NiExtraData
 };
 
 // @fnv 0x00a9af10
+// pdb: NiBooleanExtraData::IsEqual | NiBooleanExtraData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pObject
 bool NiBooleanExtraData::IsEqualTo(NiObject* pObject)
 {
     NiBooleanExtraData* pExtra = static_cast<NiBooleanExtraData*>(pObject);
@@ -107,11 +112,12 @@ struct S_00a9af40 : NiExtraData
         unkC = false;
     }
     void FUN_00a7b330(S_00a9af40* pkClone, CloningProcess* pkCloning);
-    S_00a9af40* FUN_00a9af40(CloningProcess* pkCloning);
+    S_00a9af40* NiBooleanExtraData_CreateClone(CloningProcess* pkCloning);
 };
 
 // @fnv 0x00a9af40
-S_00a9af40* S_00a9af40::FUN_00a9af40(CloningProcess* pkCloning)
+// pdb: NiBooleanExtraData::CreateClone | NiBooleanExtraData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+S_00a9af40* S_00a9af40::NiBooleanExtraData_CreateClone(CloningProcess* pkCloning)
 {
     S_00a9af40* pkClone = new S_00a9af40;
     FUN_00a7b330(pkClone, pkCloning);
@@ -310,6 +316,8 @@ struct FUN_00a9aff0_cls
 
 // Calls the base NiExtraDataBase read, then reads one byte from the stream and stores whether it is nonzero in m_bValue.
 // @fnv 0x00a9aff0
+// pdb: NiBooleanExtraData::LoadBinary | NiBooleanExtraData.obj | fnv360_0721_beta, objrun, high
+// pdb params: kStream
 void FUN_00a9aff0_cls::ReadFromStream(NiStream* istr)
 {
     ((NiExtraDataBase_cls*)this)->FUN_00a7b4a0(istr);
@@ -487,11 +495,12 @@ struct FnVNode
     int unk08;
     unsigned char unk0c;
     void helper_b2c0(FnVArg* a);
-    void FUN_00a9b040(FnVArg* s);
+    void NiBooleanExtraData_SaveBinary(FnVArg* s);
 };
 
 // @fnv 0x00a9b040
-void FnVNode::FUN_00a9b040(FnVArg* s)
+// pdb: NiBooleanExtraData::SaveBinary | NiBooleanExtraData.obj | fnv360_0721_beta, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+void FnVNode::NiBooleanExtraData_SaveBinary(FnVArg* s)
 {
     this->helper_b2c0(s);
     unsigned char ucValue = this->unk0c;
@@ -531,6 +540,8 @@ struct FUN_00a9b090_cls
 
 // Calls Touch, then appends the RTTI pointer for DAT_011f5f5c and the result of LookupName(str_010a11c0, m_0C) to the array, growing it when full.
 // @fnv 0x00a9b090
+// pdb: NiBooleanExtraData::GetViewerStrings | NiBooleanExtraData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a9b090_cls::AppendRttiAndName(ObjArray* pArray)
 {
     this->Touch(pArray);

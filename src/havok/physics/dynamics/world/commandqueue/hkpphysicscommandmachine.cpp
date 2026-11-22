@@ -49,6 +49,8 @@ static __forceinline void AddFwd(int a, const volatile int& y, CommandObject* x)
 }
 // Iterates a range of CommandRecord entries and dispatches each by tag to AddFwd or FUN_00cb3da0, stopping on an unknown tag.
 // @fnv 0x00df25f0
+// pdb: hkPhysicsCommandMachineProcess | hkpPhysicsCommandMachine.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: world, begin, size
 void FUN_00df25f0(int aiContext, CommandRecord* apRecords, int c)
 {
     CommandRecord* pEnd = (CommandRecord*)((char*)apRecords + c);

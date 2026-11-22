@@ -132,6 +132,8 @@ void __cdecl FUN_00b799a0(Matrix132*, const char*);
 Matrix132* __stdcall FUN_00ee6de0(Matrix132*, const Matrix132*, const Matrix132*);
 Matrix132* __stdcall FUN_00ee6dd4(Matrix132*, const Matrix132*);
 // @fnv 0x00b7b730
+// pdb: ShadowLightShader::SetupGeometryConstants_ObjToCube | ShadowLightShader.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apRenderPass, epass, apSkin, aWorld
 void Owner132::FUN_00b7b730(Group132* group, unsigned int slot, int skipLoad, const char* name)
 {
     Matrix132 matrix, result, temporary;
@@ -347,6 +349,8 @@ extern ClipMatrix* __stdcall FUN_00c20844(ClipMatrix*, float*, const ClipMatrix*
 extern ClipPlane16* __stdcall FUN_00c20838(ClipPlane16*, const ClipPlane16*);
 extern ClipPlane16* __stdcall FUN_00c20832(ClipPlane16*, const ClipPlane16*, const ClipMatrix*);
 extern ClipRenderer* DAT_0108f048;
+// pdb: ShadowLightShader::SetupGeometryConstants_SimpleShadowClipPlanes | ShadowLightShader.obj | fnv360_0822_retail, call_gap, low
+// pdb params: epass
 void ClipManager::FUN_00b7be00(unsigned int state)
 {
     if (state >= 0x231 && state <= 0x234)
@@ -722,6 +726,8 @@ extern NiShaderConstantMapEntry* DAT_01174978;
 extern unsigned int DAT_01172a00[], DAT_01171e20[];
 extern RendererData* DAT_01091980;
 extern D3DXVECTOR4 DAT_01170000, DAT_01170010, DAT_00f73210, DAT_01173738, DAT_01173748, DAT_01173758;
+// pdb: ShadowLightShader::SetupPassConstants | ShadowLightShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: auiCurrentPass
 void BSShaderPass::FUN_00b7b450(unsigned int uiPass)
 {
     if (uiPass == 0x250 || uiPass == 0x251)

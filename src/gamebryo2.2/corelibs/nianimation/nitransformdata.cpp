@@ -5,7 +5,10 @@
 // replacement in the opposite order.
 // Releases the previous rotation keys via the per-type deleter, then stores the new keys, count and interpolation type, or clears them.
 // @fnv 0x00a4e2e0
-void NiTransformData::SetRotationKeys(TimedRotationKey* keys, unsigned int count, AnimationKey::KeyType type)
+// pdb: NiTransformData::ReplaceRotAnim | NiTransformData.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: pkKeys, uiNumKeys, eType
+// pdb: NiTransformData::ReplaceRotAnim | NiTransformData.obj | fnv360_0822_retail, call_gap_sim, high (was: SetRotationKeys)
+void NiTransformData::ReplaceRotAnim(TimedRotationKey* keys, unsigned int count, AnimationKey::KeyType type)
 {
     TimedRotationKey* oldKeys = m_pkRotationKeys;
     if (oldKeys)
@@ -31,7 +34,10 @@ void NiTransformData::SetRotationKeys(TimedRotationKey* keys, unsigned int count
 }
 
 // @fnv 0x00a4e350
-void NiTransformData::SetPositionKeys(PositionKeyInterpolator* keys, unsigned int count, AnimationKey::KeyType eKeyType)
+// pdb: NiTransformData::ReplacePosAnim | NiTransformData.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: pkKeys, uiNumKeys, eType
+// pdb: NiTransformData::ReplacePosAnim | NiTransformData.obj | fnv360_0822_retail, call_gap_sim, high (was: SetPositionKeys)
+void NiTransformData::ReplacePosAnim(PositionKeyInterpolator* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pkPositionKeys)
         DAT_011f38b8[m_ePositionKeyType](m_pkPositionKeys);
@@ -53,7 +59,10 @@ void NiTransformData::SetPositionKeys(PositionKeyInterpolator* keys, unsigned in
 
 // Releases the previous scale keys and stores the new key array, count and interpolation type, or clears them when keys or count is zero.
 // @fnv 0x00a4e3b0
-void NiTransformData::SetScaleKeys(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType type)
+// pdb: NiTransformData::ReplaceScaleAnim | NiTransformData.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: pkKeys, uiNumKeys, eType
+// pdb: NiTransformData::ReplaceScaleAnim | NiTransformData.obj | fnv360_0822_retail, call_gap_sim, high (was: SetScaleKeys)
+void NiTransformData::ReplaceScaleAnim(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType type)
 {
     if (m_pkScaleKeyArray)
         DAT_011f38a0[m_eScaleKeyType](m_pkScaleKeyArray);
@@ -78,23 +87,15 @@ void NiTransformData::SetScaleKeys(TimedAnimationKey* keys, unsigned int count, 
 #include "nitransformdata_types_NiRTTI.h"
 
 // @fnv 0x00a4ead0
+// pdb: NiFloatInterpController::InterpolatorIsCorrectType | NiFloatInterpController.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: pkInterpolator, usIndex
 bool NiFloatsExtraDataPoint3Controller::ControlsTransform(NiInterpolator* interpolator, unsigned short index) const
 {
     return interpolator->IsPoint3ValueSupported();
 }
 
-// Returns true if the base controller and the floats extra data index both match the given object's.
-// @fnv 0x00a4eb10
-bool NiFloatsExtraDataController::IsEqual(NiObject* object) const
-{
-    if (!NiExtraDataController::IsEqual(object))
-        return false;
-    if (m_iFloatsExtraDataIndex != static_cast<NiFloatsExtraDataController*>(object)->m_iFloatsExtraDataIndex)
-        return false;
-    return true;
-}
-
 // @fnv 0x00a4eb40
+// pdb: TileMenu::GetTypeName | TESScriptFunctions.obj | fnv360_0721_retail, objrun, medium
 const NiRTTI* NiFloatsExtraDataPoint3Controller::GetRTTI() const
 {
     return &ms_kRTTI;
@@ -113,6 +114,7 @@ struct NiObject_Helper : public NiObject
 };
 
 // @fnv 0x00a4e270
+// pdb: NiTransformData::~NiTransformData | NiTransformData.obj | fnv360_0822_retail, caller_sim, medium
 void FUN_00a4e270_shell::DestroyTransformData()
 {
     *reinterpret_cast<int**>(this) = &DAT_01099004;
@@ -148,6 +150,7 @@ void __cdecl FUN_00aa1460(void*, unsigned int);
 
 // Calls DestroyTransformData on pThis, then if flags has bit 1 set calls FUN_00aa1460 with 0x2c, and returns pThis.
 // @fnv 0x00a4e5b0
+// pdb: NiAdditionalGeometryData::`scalar deleting destructor' | TESLand.obj | fnv360_0822_retail, vtable, high
 void* __fastcall FUN_00a4e5b0(void* pThis, int, unsigned int flags)
 {
     DestroyTransformData(pThis);
@@ -159,6 +162,7 @@ void* __fastcall FUN_00a4e5b0(void* pThis, int, unsigned int flags)
 extern "C" const NiRTTI g_011f3fbc;
 
 // @fnv 0x00a4e0a0
+// pdb: Tile::GetTypeName | TESScriptFunctions.obj | fnv360_0721_retail, objrun, low
 const NiRTTI* __cdecl FUN_00a4e0a0()
 {
     return &g_011f3fbc;
@@ -179,6 +183,8 @@ struct BlendPoint3Stub
     BlendPoint3Stub* FUN_00a55a10(bool, float, unsigned char);
 };
 // @fnv 0x00a4eaa0
+// pdb: NiFloatsExtraDataPoint3Controller::CreateBlendInterpolator | NiFloatsExtraDataPoint3Controller.obj | fnv360_1110_retail, objopen_prop, low
+// pdb params: usIndex, bManagerControlled, bAccumulateAnimations, fWeightThreshold, ucArraySize
 NiBlendInterpolator* FUN_00a4eaa0_shell::FUN_00a4eaa0(unsigned short usIndex, bool bManagerControlled,
                                                       bool bAccumulateAnimations, float fWeightThreshold,
                                                       unsigned char ucArraySize)
@@ -195,60 +201,13 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
-struct _Call_a5d3a0 : BSFadeNode
-{
-    _Call_a5d3a0() throw();
-};
-
 extern int DAT_01099004;
 
-struct Obj : _Call_a5d3a0
-{
-    void* mVtable;
-    int m4;
-    short mS08;
-    short mS0a;
-    short mS0c;
-    int mI10;
-    int mI14;
-    int mI18;
-    char mC1c;
-    char mC1d;
-    char mC1e;
-    int mI20;
-    int mI24;
-    int mI28;
-
-    Obj() throw();
-};
-
-inline Obj::Obj() throw()
-{
-    mS08 = 0;
-    mI20 = 0;
-    mI10 = 0;
-    mC1c = 0;
-    mI24 = 0;
-    mI14 = 0;
-    mC1d = 0;
-    mI28 = 0;
-    mI18 = 0;
-    mC1e = 0;
-    mVtable = &DAT_01099004;
-    mS0a = 0;
-    mS0c = 0;
-}
-
-// Allocates and default-constructs a new Obj, returning the pointer.
-// @fnv 0x00a4e040
-Obj* FUN_00a4e040()
-{
-    return new Obj;
-}
 }  // namespace fnv_00a4e040
 
 // Iterates three slots, deletes each non-null key via the function at DAT_011f38a0 indexed by the slot's index, then zeroes the key, index and count fields.
 // @fnv 0x00a29ad0
+// pdb: NiEulerRotKey::CleanUp | NiEulerRotKey.obj | fnv360_0822_retail, call_seq, medium
 void TimedRotationKey::ClearFloatKeys()
 {
     int* p = (int*)((char*)this + 0x30);
@@ -265,54 +224,6 @@ void TimedRotationKey::ClearFloatKeys()
         *(p - 7) = 0;
         *(p - 4) = 0;
         ++p;
-    }
-}
-
-struct FUN_00a4e0b0_Holder
-{
-    void FUN_00a4e0b0(void*, int, char*);
-};
-// Stores a1, a2 and a3 into fields at offsets 0x24, 0xa and 0x14, plus a byte from a3, or clears them when a1 or a2 is null.
-// @fnv 0x00a4e0b0
-void FUN_00a4e0b0_Holder::FUN_00a4e0b0(void* a1, int a2, char* a3)
-{
-    if (a1 && a2)
-    {
-        *(short*)((char*)this + 0xa) = (short)a2;
-        *(void**)((char*)this + 0x24) = a1;
-        *(void**)((char*)this + 0x14) = a3;
-        *(char*)((char*)this + 0x1d) = a3[0x11f375e];
-    }
-    else
-    {
-        *(short*)((char*)this + 0xa) = 0;
-        *(void**)((char*)this + 0x24) = 0;
-        *(void**)((char*)this + 0x14) = 0;
-        *(char*)((char*)this + 0x1d) = 0;
-    }
-}
-
-struct FUN_00a4e0f0_shell
-{
-    void InitFromParams(unsigned int, unsigned int, unsigned int);
-};
-
-// @fnv 0x00a4e0f0
-void FUN_00a4e0f0_shell::InitFromParams(unsigned int a, unsigned int b, unsigned int pSource)
-{
-    if (a && b)
-    {
-        *(unsigned short*)((char*)this + 0xc) = (unsigned short)b;
-        *(unsigned int*)((char*)this + 0x28) = a;
-        *(unsigned int*)((char*)this + 0x18) = pSource;
-        *(unsigned char*)((char*)this + 0x1e) = *(unsigned char*)((char*)pSource + 0x11f3758);
-    }
-    else
-    {
-        *(unsigned short*)((char*)this + 0xc) = 0;
-        *(unsigned int*)((char*)this + 0x28) = 0;
-        *(unsigned char*)((char*)this + 0x1e) = 0;
-        *(unsigned int*)((char*)this + 0x18) = 0;
     }
 }
 
@@ -353,6 +264,8 @@ char* __cdecl FUN_00a7d490(const char*, unsigned short);
 extern const char* g_011f3fbc;
 
 // @fnv 0x00a4e990
+// pdb: NiTransformData::GetViewerStrings | NiTransformData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a4e990_shell::AppendTransformKeyCounts(void* pStrArr)
 {
     StrArr* apViewerStrings = (StrArr*)pStrArr;
@@ -371,6 +284,8 @@ struct TransformRange : NiTransformData
     void FUN_00a4df40(float start, float end);
 };
 // @fnv 0x00a4df40
+// pdb: NiTransformData::GuaranteeKeysAtStartAndEnd | NiTransformData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fStartTime, fEndTime
 void TransformRange::FUN_00a4df40(float start, float end)
 {
     unsigned int count;
@@ -413,11 +328,12 @@ struct NiObjectBaseEq : NiObject
 
 struct TransformDataEqual : NiTransformData
 {
-    bool FUN_00a4e130(NiObject* pkObject);
+    bool NiTransformData_IsEqual(NiObject* pkObject);
 };
 
 // @fnv 0x00a4e130
-bool TransformDataEqual::FUN_00a4e130(NiObject* pkObject)
+// pdb: NiTransformData::IsEqual | NiTransformData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool TransformDataEqual::NiTransformData_IsEqual(NiObject* pkObject)
 {
     if (!((NiObjectBaseEq*)this)->IsSameAs(pkObject))
         return false;
@@ -524,7 +440,7 @@ class PSysData4e4 : public PSysRef4e4
     void FUN_00a4e3b0(int iA, int iB, void* pvSrc);
 };
 
-void __cdecl FUN_00a3d630(int iKind, void* pvData, void* pvExtra, unsigned int ItemUpdateArray, float fA, float fB, int* piOutA,
+void __cdecl NiAnimationKey_CopySequence(int iKind, void* pvData, void* pvExtra, unsigned int ItemUpdateArray, float fA, float fB, int* piOutA,
                           int* piOutB);
 
 struct FUN_00a4e410_shell
@@ -543,7 +459,7 @@ struct FUN_00a4e410_shell
     void* m_pvExtra1;
     void* m_pvExtra2;
 
-    void FUN_00a5d510(PSysData4e4** ppkData);
+    void NiObject_CreateDeepCopy(PSysData4e4** ppkData);
     void FUN_00a4e410(float fA, float fB, PSysPtr4e4<PSysData4e4>& spOut);
 };
 
@@ -551,7 +467,7 @@ struct FUN_00a4e410_shell
 void FUN_00a4e410_shell::FUN_00a4e410(float fA, float fB, PSysPtr4e4<PSysData4e4>& spOut)
 {
     PSysData4e4* pkData = 0;
-    FUN_00a5d510(&pkData);
+    NiObject_CreateDeepCopy(&pkData);
     PSysData4e4* pkResult = pkData;
     if (pkResult)
         pkResult->IncRefCount();
@@ -559,17 +475,17 @@ void FUN_00a4e410_shell::FUN_00a4e410(float fA, float fB, PSysPtr4e4<PSysData4e4
     int iOutB = 0;
     if (m_usCount0 > 0)
     {
-        FUN_00a3d630(2, m_pvData0, m_pvExtra0, m_usCount0, fA, fB, &iOutA, &iOutB);
+        NiAnimationKey_CopySequence(2, m_pvData0, m_pvExtra0, m_usCount0, fA, fB, &iOutA, &iOutB);
         pkResult->FUN_00a4e2e0(iOutA, iOutB, m_pvData0);
     }
     if (m_usCount1 > 0)
     {
-        FUN_00a3d630(1, m_pvData1, m_pvExtra1, m_usCount1, fA, fB, &iOutA, &iOutB);
+        NiAnimationKey_CopySequence(1, m_pvData1, m_pvExtra1, m_usCount1, fA, fB, &iOutA, &iOutB);
         pkResult->FUN_00a4e350(iOutA, iOutB, m_pvData1);
     }
     if (m_usCount2 > 0)
     {
-        FUN_00a3d630(0, m_pvData2, m_pvExtra2, m_usCount2, fA, fB, &iOutA, &iOutB);
+        NiAnimationKey_CopySequence(0, m_pvData2, m_pvExtra2, m_usCount2, fA, fB, &iOutA, &iOutB);
         pkResult->FUN_00a4e3b0(iOutA, iOutB, m_pvData2);
     }
     spOut = pkResult;
@@ -754,11 +670,12 @@ extern PositionSave g_011f3a68[];
 extern ScaleSave g_011f3a50[];
 struct TransformSaveQuery : NiTransformData
 {
-    void FUN_00a4e810(NiStream& stream);
+    void NiTransformData_SaveBinary(NiStream& stream);
 };
 // Saves the transform data's rotation, position and scale key counts and key arrays to the stream via the per-type save function tables.
 // @fnv 0x00a4e810
-void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
+// pdb: NiTransformData::SaveBinary | NiTransformData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+void TransformSaveQuery::NiTransformData_SaveBinary(NiStream& stream)
 {
     NiObject::SaveBinary(stream);
     unsigned int count = m_usNumRotKeys;
@@ -790,25 +707,10 @@ void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
 extern void FUN_00a57630();
 
 // @fnv 0x00a4eaf0
+// pdb: BGSTerrainManager::ShowNormalDetail | BGSTerrainManager.obj | fnv360_0822_retail, call_gap, low
 void FUN_00a4eaf0()
 {
     FUN_00a57630();
-}
-
-struct FUN_00a57100_Caller
-{
-    bool FUN_00a57100(NiStream&);
-};
-
-struct FUN_00a4eb00_Caller : FUN_00a57100_Caller
-{
-    bool FUN_00a4eb00(NiStream&);
-};
-
-// @fnv 0x00a4eb00
-bool FUN_00a4eb00_Caller::FUN_00a4eb00(NiStream& kStream)
-{
-    return FUN_00a57100(kStream);
 }
 
 struct TransformDataBinaryInputView
@@ -1036,11 +938,12 @@ void __cdecl FUN_00a29680(const char* message);
 class TransformDataLoader : public NiTransformData
 {
   public:
-    void FUN_00a4e5d0(NiStream& stream);
+    void NiTransformData_LoadBinary(NiStream& stream);
 };
 // Reads rotation, position, and scale key data from a NiStream, creating and loading each key set via type-specific factory and load functions.
 // @fnv 0x00a4e5d0
-void TransformDataLoader::FUN_00a4e5d0(NiStream& stream)
+// pdb: NiTransformData::LoadBinary | NiTransformData.obj | fnv360_0822_retail, ustr + bridge(vtable|ustr) + skyrim(ustr), high
+void TransformDataLoader::NiTransformData_LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
     unsigned int numKeys;
@@ -1057,7 +960,7 @@ void TransformDataLoader::FUN_00a4e5d0(NiStream& stream)
             numKeys = 65535;
             FUN_00a29680("Transform data loading has more than 65535 rotation keys!");
         }
-        SetRotationKeys(keys, numKeys, type);
+        ReplaceRotAnim(keys, numKeys, type);
     }
     reinterpret_cast<TransformDataInputView&>(stream).Read(&numKeys, 4);
     if (numKeys > 0)
@@ -1072,7 +975,7 @@ void TransformDataLoader::FUN_00a4e5d0(NiStream& stream)
             numKeys = 65535;
             FUN_00a29680("Transform data loading has more than 65535 position keys!");
         }
-        SetPositionKeys(keys, numKeys, type);
+        ReplacePosAnim(keys, numKeys, type);
     }
     reinterpret_cast<TransformDataInputView&>(stream).Read(&numKeys, 4);
     if (numKeys > 0)
@@ -1087,6 +990,6 @@ void TransformDataLoader::FUN_00a4e5d0(NiStream& stream)
             numKeys = 65535;
             FUN_00a29680("Transform data loading has more than 65535 scale keys!");
         }
-        SetScaleKeys(keys, numKeys, type);
+        ReplaceScaleAnim(keys, numKeys, type);
     }
 }

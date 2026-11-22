@@ -7,6 +7,7 @@ void FUN_0089ec10(void*, int);
 void __fastcall FUN_00825830(void*);
 
 struct C_00aa6880 { void* FUN_00aa6880(unsigned char); };
+// pdb: BSReference::`scalar deleting destructor' | BSStream.obj | fnv360_0822_debug, vtable, high
 void* C_00aa6880::FUN_00aa6880(unsigned char f)
 {
     FUN_00aa6820(this);
@@ -15,6 +16,7 @@ void* C_00aa6880::FUN_00aa6880(unsigned char f)
 }
 
 struct C_00aad640 { void* FUN_00aad640(unsigned char); };
+// pdb: BSMultiBoundShape::`scalar deleting destructor' | BSMultiBoundShape.obj | fnv360_0822_retail, vtable, medium
 void* C_00aad640::FUN_00aad640(unsigned char f)
 {
     FUN_00825830(this);
@@ -29,6 +31,7 @@ void FUN_0089ec10(void*, int);
 void __fastcall FUN_00c220f0(void*);
 
 struct C_00ab6c40 { void* FUN_00ab6c40(unsigned char); };
+// pdb: BSMultiBoundCapsule::`scalar deleting destructor' | BSMultiBoundCapsule.obj | fnv360_0822_retail, vtable, medium
 void* C_00ab6c40::FUN_00ab6c40(unsigned char f)
 {
     FUN_00825830(this);
@@ -37,6 +40,7 @@ void* C_00ab6c40::FUN_00ab6c40(unsigned char f)
 }
 
 struct C_00c22370 { void* FUN_00c22370(unsigned char); };
+// pdb: NiRenderTargetGroup::`scalar deleting destructor' | NiRenderTargetGroup.obj | fnv360_0822_retail, objopen_prop, high
 void* C_00c22370::FUN_00c22370(unsigned char f)
 {
     FUN_00c220f0(this);
@@ -51,6 +55,7 @@ void __cdecl FUN_0089ec10(void*, unsigned int);
 void __fastcall FUN_00b62e90(void*);
 
 struct C_00ab8570 { void* FUN_00ab8570(unsigned char f); };
+// pdb: BSPSysArrayEmitter::`scalar deleting destructor' | BSPSysArrayEmitter.obj | fnv360_0822_debug, vtable, high
 void* C_00ab8570::FUN_00ab8570(unsigned char f)
 {
     FUN_00ab8500(this);
@@ -59,6 +64,7 @@ void* C_00ab8570::FUN_00ab8570(unsigned char f)
 }
 
 struct C_00b64200 { void* FUN_00b64200(unsigned char f); };
+// pdb: BSShader::`scalar deleting destructor' | BSShader.obj | fnv360_0822_retail, objrun_prop, low
 void* C_00b64200::FUN_00b64200(unsigned char f)
 {
     FUN_00b62e90(this);
@@ -73,6 +79,7 @@ void __cdecl FUN_0089ec10(void*, unsigned int);
 void __fastcall FUN_00c22d70(void*);
 
 struct C_00ab8f40 { void* FUN_00ab8f40(unsigned char f); };
+// pdb: BSParentVelocityModifier::`scalar deleting destructor' | BSParentVelocityModifier.obj | fnv360_0822_retail, vtable, medium
 void* C_00ab8f40::FUN_00ab8f40(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -95,12 +102,16 @@ void __fastcall FUN_0082b620(void*);
 void __stdcall FUN_00ac5fa0(void*);
 void __fastcall FUN_0082b560(void*);
 
+// pdb: BSNodeReferences::LoadBinary | BSReference.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arStream
 __declspec(noinline) void __stdcall FUN_00ab9b70(void* p)
 {
     FUN_00825ad0(p);
     FUN_0082b620(p);
 }
 
+// pdb: NiPSysColliderManager::LoadBinary | NiPSysColliderManager.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 __declspec(noinline) void __stdcall FUN_00acd430(void* p)
 {
     FUN_00ac5fa0(p);
@@ -144,6 +155,7 @@ void __cdecl FUN_0089ec10(void*, unsigned int);
 void __fastcall FUN_00aee3c0(void*);
 
 struct C_00acccb0 { void* FUN_00acccb0(unsigned char f); };
+// pdb: NiPSysDragFieldModifier::`scalar deleting destructor' | NiPSysDragFieldModifier.obj | fnv360_0721_retail, objrun, medium
 void* C_00acccb0::FUN_00acccb0(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -152,6 +164,7 @@ void* C_00acccb0::FUN_00acccb0(unsigned char f)
 }
 
 struct C_00aee980 { void* FUN_00aee980(unsigned char f); };
+// pdb: BSRenderedTexture::`scalar deleting destructor' | BSRenderedTexture.obj | fnv360_0822_retail, objrun, medium
 void* C_00aee980::FUN_00aee980(unsigned char f)
 {
     FUN_00aee3c0(this);
@@ -168,6 +181,7 @@ struct B2_00b16710 { virtual void v2(); };
 struct B_00b16710 : B0_00b16710, B2_00b16710 { B_00b16710(); };
 struct M_00b16710 { M_00b16710(int); char p[8]; };
 struct D_00b16710 : B_00b16710 { D_00b16710(); char q[0x24]; M_00b16710 m; };
+// pdb: ImageSpaceShaderHDRDownSample16LumClamp::`scalar deleting destructor' | ImageSpaceManager.obj | fnv360_0721_beta, objrun, medium
 D_00b16710::D_00b16710() : m(5) {}
 
 struct B0_00b17550 { virtual ~B0_00b17550(); char p[0x68]; };

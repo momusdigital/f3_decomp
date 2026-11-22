@@ -7,12 +7,12 @@ extern void CreateAgent();
 extern void InvokeDispatch();
 extern void FUN_00d922a0();
 extern void FUN_00d922c0();
-extern void CallIfaceMethod();
+extern void hkAgent3Bridge_createZombie();
 extern void FUN_00d92200();
 extern void AddChildAgent2ToCollector();
-extern void CallObjectVirtual();
-extern void DispatchVirtualCall();
-extern void CallVirtualWithVectorArgs();
+extern void hkAgent3Bridge_invalidateTim();
+extern void hkAgent3Bridge_warpTime();
+extern void hkAgent3Bridge_process();
 struct __declspec(align(16)) CallbackTable
 {
     Callback callback00;
@@ -49,15 +49,15 @@ void __cdecl FUN_00d923b0(void* context)
     table.callback28 = 0;
     table.callback08 = 0;
     table.callback10 = FUN_00d922c0;
-    table.callback14 = CallIfaceMethod;
+    table.callback14 = hkAgent3Bridge_createZombie;
     table.callback0c = FUN_00d922a0;
     table.callback00 = CreateAgent;
-    table.callback2c = CallVirtualWithVectorArgs;
+    table.callback2c = hkAgent3Bridge_process;
     table.callback04 = InvokeDispatch;
     table.callback18 = FUN_00d92200;
     table.callback1c = AddChildAgent2ToCollector;
-    table.callback20 = CallObjectVirtual;
-    table.callback24 = DispatchVirtualCall;
+    table.callback20 = hkAgent3Bridge_invalidateTim;
+    table.callback24 = hkAgent3Bridge_warpTime;
     table.flag30 = 1;
     ((Context*)context)->AddEntry(&table, -1, -1);
 }

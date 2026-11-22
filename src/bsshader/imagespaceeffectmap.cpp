@@ -75,6 +75,8 @@ struct S_00baa330_Cls
 };
 
 // @fnv 0x00baa330
+// pdb: ImageSpaceEffectMap::UpdateParams | ImageSpaceEffectMap.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apParam
 bool S_00baa330_Cls::FUN_00baa330(int aiUnused)
 {
     S_Dst* dst = *m1c;
@@ -226,6 +228,8 @@ struct FUN_00baa240_cls
 };
 
 // @fnv 0x00baa240
+// pdb: ImageSpaceEffectMap::Setup | ImageSpaceEffectMap.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apManager, apParam
 void FUN_00baa240_cls::Initialize(FUN_00baa240_cls* a1, int aiArg)
 {
     SetTextureArraySize(1);

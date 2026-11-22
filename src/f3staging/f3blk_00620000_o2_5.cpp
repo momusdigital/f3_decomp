@@ -68,6 +68,8 @@ struct CharGenInputMenu
 };
 
 // @fnv 0x00754150
+// pdb: CharGenMenu::DoGamepad | CharGenMenu.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiButton, afValue
 bool CharGenInputMenu::FUN_00635750(int a1, float amount)
 {
     bool result = false;
@@ -157,6 +159,8 @@ struct NavigationList : NavigationBase, NavigationNode
 float __cdecl FUN_0047ca30(float value, float step);
 int FUN_00bea9e0(const char*);int FUN_00becd70(const char*,int);
 // @fnv 0x007214b0
+// pdb: ListBox<enum MiscStatManager::MiscStatID>::GetHighlightTarget | MenuManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeButton
 NavigationTile* NavigationList::FUN_0062ec80(unsigned int action)
 {
     NavigationTile* result = 0;

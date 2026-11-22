@@ -1,19 +1,16 @@
-// gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp: NiGlobalStringTable, NiPlaybackFile (3 functions)
+// gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp: NiGlobalStringTable, NiPlaybackFile (1 function)
 #include "f3_common.h"
 #include "niglobalstringtable_decls.h"
 
 #pragma optimize("", off)
-// @fnv 0x004f31b0
-void NiGlobalStringTable::AddString()
-{
-    ++m_uiLockCount;
-}
 
 #pragma intrinsic(strlen)
 #pragma optimize("gt", on)
 #pragma optimize("y", on)
 // Looks up or allocates a reference-counted copy of s in the global string table under a critical section and returns the string pointer.
 // @f3 0x008242a0 (community match, verified in this file)
+// pdb: NiGlobalStringTable::AddString | NiGlobalStringTable.obj | fnv360_0721_beta, udata, medium, conflict (skyrim: BSFixedString::BSFixedString)
+// pdb params: pcString
 __pragma(intrinsic(strlen))
 
 char* NiGlobalStringTable::AddString(const char* s)
@@ -54,63 +51,3 @@ char* NiGlobalStringTable::AddString(const char* s)
 #pragma optimize("", off)
 
 #pragma function(strlen, strcpy)
-// Checks a non-empty name, resolves its path, opens the Bink file with preload/force flags, warns on failure, and returns whether it opened.
-// @fnv 0x00ec0ac0
-bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, bool force)
-{
-
-    struct Local
-    {
-        unsigned uiCurrentThreadID;
-        int* piTimestamp;
-        NiPlaybackStat kStat;
-        unsigned uiFlags;
-        char pad[2];
-        bool bSuccess;
-        bool bOtherThread;
-    } local;
-    char acPath[260];
-
-    if (!strlen(name))
-        return false;
-    if (!DAT_0126fac4->GetNameByKey(name, acPath))
-    {
-        strcpy(acPath, "Data\\Video\\");
-        FUN_00ec6380(acPath, name);
-    }
-    local.uiFlags = 0;
-    if (preload || force)
-    {
-        unsigned reserved;
-        if (FUN_00ec923c(acPath, &local.kStat) != -1)
-        {
-            local.piTimestamp = &DAT_0126fad4 ? &DAT_0126fad4.timestamp : &(DAT_01202800 = 0);
-            if (local.kStat.timestamp <= *local.piTimestamp || force)
-                local.uiFlags |= 0x2000;
-        }
-    }
-    local.bOtherThread = false;
-    local.uiCurrentThreadID = GetCurrentThreadId();
-    if (local.uiCurrentThreadID != DAT_0126fac4->vfn_3c())
-    {
-        local.bOtherThread = true;
-        local.uiFlags |= 0x08000000;
-    }
-    DAT_0126fac4->vfn_14();
-    handle = BinkOpen(acPath, local.uiFlags);
-    local.bSuccess = true;
-    if (!handle)
-    {
-        if (!handle)
-        {
-            if (!silent)
-                Warning("Could not open %s for playback.", name);
-            state = 0;
-            local.bSuccess = false;
-        }
-    }
-    if (local.bOtherThread)
-        DAT_0126fac4->FUN_00ec1a00();
-    DAT_0126fac4->vfn_18();
-    return local.bSuccess;
-}

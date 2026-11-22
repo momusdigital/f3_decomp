@@ -19,6 +19,8 @@ void* _NiMalloc(unsigned int);
 int NiSprintf(char*, unsigned int, const char*, ...);
 // Formats and returns a string containing the prefix, center coordinates, and bound radius.
 // @fnv 0x00a7fb20
+// pdb: NiBound::GetViewerString | NiBound.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pPrefix
 char* NiBound::FUN_00a7fb20(const char* pPrefix)
 {
     char* pString;

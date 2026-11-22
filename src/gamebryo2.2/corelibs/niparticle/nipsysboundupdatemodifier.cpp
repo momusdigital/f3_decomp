@@ -10,6 +10,8 @@ struct NiPSysModifier_shell
 };
 // Clears the flag at offset 0xd9 on the previously attached system, sets it on the new system, then calls FUN_00c31640.
 // @fnv 0x00c2dc70
+// pdb: NiPSysBoundUpdateModifier::SetSystemPointer | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkTarget
 void NiPSysModifier_shell::FUN_00c2dc70(NiParticleSystem* system)
 {
     NiParticleSystem* pOldSystem = *(NiParticleSystem**)((char*)this + 0x10);
@@ -37,6 +39,7 @@ struct NiPSysBoundUpdateModifier
 };
 // Restores the vtable, frees the stored pointer via the memory manager, calls FUN_00c31750, and optionally deletes this with size 0x20.
 // @fnv 0x00c2dca0
+// pdb: NiPSysBoundUpdateModifier::`scalar deleting destructor' | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, objrun, high
 void* NiPSysBoundUpdateModifier::Destroy(unsigned int auiFlags)
 {
     void* p = m_pkBounds;
@@ -76,7 +79,7 @@ struct NiPSysBoundUpdateModifier : NiPSysPositionModifier
     void* m_pkBounds;
     NiPSysBoundUpdateModifier() throw();
     void SetUpdateSkipCounter(int);
-    NiObject* FUN_00c2dec0(CloningProcess&);
+    NiObject* NiPSysBoundUpdateModifier_CreateClone(CloningProcess&);
 };
 inline NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier() throw()
 {
@@ -86,7 +89,8 @@ inline NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier() throw()
     m_pkBounds = 0;
 }
 // @fnv 0x00c2dec0
-NiObject* NiPSysBoundUpdateModifier::FUN_00c2dec0(CloningProcess& kCloning)
+// pdb: NiPSysBoundUpdateModifier::CreateClone | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+NiObject* NiPSysBoundUpdateModifier::NiPSysBoundUpdateModifier_CreateClone(CloningProcess& kCloning)
 {
     NiPSysBoundUpdateModifier* pkObject = new NiPSysBoundUpdateModifier;
     CopyMemberData(pkObject, kCloning);
@@ -119,6 +123,8 @@ struct NiPSysBoundUpdateModifier : NiPSysModifier
     void FUN_00c2e3f0(NiStream&);
 };
 // @fnv 0x00c2e3f0
+// pdb: NiPSysBoundUpdateModifier::SaveBinary | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, objrun, medium, conflict (bridge: NiPSysColliderManager::SaveBinary)
+// pdb params: kStream
 void NiPSysBoundUpdateModifier::FUN_00c2e3f0(NiStream& stream)
 {
     FUN_00c31950(stream);
@@ -318,7 +324,7 @@ class BC2E370Emitter : public BC2E370Modifier
 {
   public:
     virtual void LoadBinary(BC2E370Stream& kStream);
-    void FUN_00c2e370(BC2E370Stream& kStream);
+    void NiPSysBoundUpdateModifier_LoadBinary(BC2E370Stream& kStream);
     void SetFlags(unsigned short usFlags);
 
     int unk04;
@@ -331,7 +337,8 @@ class BC2E370Emitter : public BC2E370Modifier
 
 // Loads the modifier base data, then reads the flags (or a local usFlags on older file versions) and applies them via SetFlags.
 // @fnv 0x00c2e370
-void BC2E370Emitter::FUN_00c2e370(BC2E370Stream& kStream)
+// pdb: NiPSysBoundUpdateModifier::LoadBinary | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, uconst + bridge(vtable|uconst) + skyrim(uconst), high
+void BC2E370Emitter::NiPSysBoundUpdateModifier_LoadBinary(BC2E370Stream& kStream)
 {
     BC2E370Modifier::LoadBinary(kStream);
     if (kStream.m_uiFileVersion <= 0x0A010064)
@@ -386,6 +393,8 @@ struct FUN_00c2e430_shell : Base00c319e0, NiPSysBoundUpdateModifier
 };
 
 // @fnv 0x00c2e430
+// pdb: NiPSysBoundUpdateModifier::GetViewerStrings | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00c2e430_shell::FUN_00c2e430(NiStream& stream)
 {
     Base00c319e0::FUN_00c319e0(reinterpret_cast<StrArr*>(&stream));
@@ -527,6 +536,8 @@ struct ModifierHost
 
 // Merges particle bounds into the current bound slot, resets the remaining slots, and advances m_usCurrentBound cyclically.
 // @fnv 0x00c2dce0
+// pdb: NiPSysBoundUpdateModifier::UpdateMeshBounds | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkMeshData
 void ModifierHost::FUN_00c2dce0(float fTime, NiParticleSystem* pkTarget)
 {
     unsigned short usNumParticles = pkTarget->m_usNumParticles;
@@ -624,11 +635,11 @@ struct FUN_00c25db0_shell
 };
 struct FUN_00c25e40_shell
 {
-    float FUN_00c25e40(unsigned short, unsigned short);
+    float BSStripPSysData_GetPointRadii(unsigned short, unsigned short);
 };
 struct FUN_00c25e20_shell
 {
-    float GetInnerValue(unsigned short, unsigned short);
+    float BSStripPSysData_GetPointSize(unsigned short, unsigned short);
 };
 struct TESBoundObjectBounds
 {
@@ -658,6 +669,8 @@ struct BoundUpdater
 };
 // Computes the bounding sphere for the current bound slot from position and radius data, merges it into the overall bound, and advances the current bound index.
 // @fnv 0x00c2d880
+// pdb: NiPSysBoundUpdateModifier::UpdateStripBounds | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkStripData
 void BoundUpdater::FUN_00c2d880(float time, TESBoundObjectBounds* apBounds)
 {
     unsigned short count = apBounds->count;
@@ -677,8 +690,8 @@ void BoundUpdater::FUN_00c2d880(float time, TESBoundObjectBounds* apBounds)
         for (unsigned short j = 0; j < n; ++j)
         {
             NiPoint3* p = apBounds->GetSlotData((unsigned short)i, j);
-            float r = ((FUN_00c25e40_shell*)apBounds)->FUN_00c25e40((unsigned short)i, j) *
-                      ((FUN_00c25e20_shell*)apBounds)->GetInnerValue((unsigned short)i, j);
+            float r = ((FUN_00c25e40_shell*)apBounds)->BSStripPSysData_GetPointRadii((unsigned short)i, j) *
+                      ((FUN_00c25e20_shell*)apBounds)->BSStripPSysData_GetPointSize((unsigned short)i, j);
             double fTemp;
             fTemp = p->x - r;
             lx = kFirstBoundsPointEntry(lx, (float)fTemp);
@@ -810,6 +823,8 @@ struct BoundUpdateModifier
 };
 // Computes the particle system's bounding sphere from sampled positions and radii, merging previous samples and storing the result in pkData->m_kBound.
 // @fnv 0x00c2df20
+// pdb: NiPSysBoundUpdateModifier::Update | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, objrun, high
+// pdb params: fTime, pkData
 void BoundUpdateModifier::UpdateBounds(float fTime, NiPSysData* pkData)
 {
     unsigned short usNumParticles = pkData->m_usNumParticles;

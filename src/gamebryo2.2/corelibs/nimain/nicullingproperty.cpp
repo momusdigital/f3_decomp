@@ -3,13 +3,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f5d20;
-
-// @fnv 0x00a8f520
-GlobalObjectO2_00a7b610* __cdecl FUN_00a8f520()
-{
-    return &g_011f5d20;
-}
 
 struct BSFadeNode
 {
@@ -24,7 +17,8 @@ extern int DAT_011f5e40;
 
 // Allocates a 0x14-byte BSFadeNode, runs its constructor, and stores the resulting pointer in DAT_011f5e40 (or 0 if allocation fails).
 // @fnv 0x00a8fd80
-void __cdecl FUN_00a8fd80()
+// pdb: NiSingleShaderMaterialLibrary::_SDMInit | NiSingleShaderMaterialLibrary.obj | fnv360_0822_retail, udata + bridge(hash|call_dedup), high
+void __cdecl NiSingleShaderMaterialLibrary__SDMInit()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p)
@@ -61,6 +55,8 @@ struct NiCullingProperty : NiProperty
 };
 // Allocates a NiCullingProperty, initialises its vtable and flags, runs the cloning routine, then copies m_flags and returns it.
 // @fnv 0x00a8f530
+// pdb: NiCullingProperty::CreateClone | NiCullingProperty.obj | fnv360_1110_retail, objrun, medium
+// pdb params: kCloning
 NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
 {
     NiCullingProperty* p = static_cast<NiCullingProperty*>(BSFadeNode::operator new(0x1c));
@@ -101,6 +97,8 @@ struct NiCullingProperty : NiProperty
 };
 // Calls NiProperty::LoadBinary then reads 2 bytes from the stream into m_usFlags, advancing the stream position.
 // @fnv 0x00a8f650
+// pdb: NiCullingProperty::LoadBinary | NiCullingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void __thiscall NiCullingProperty::FUN_00a8f650(NiStream& stream)
 {
     NiProperty::LoadBinary(stream);
@@ -110,8 +108,6 @@ void __thiscall NiCullingProperty::FUN_00a8f650(NiStream& stream)
 }
 }  // namespace fnv_00a8f650
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
-extern "C" void __fastcall FUN_00a5c200(void*);
 extern int DAT_0109f68c;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -166,26 +162,6 @@ struct GlobalObjectO2_00a7b610
     NiPointerProperty cullingProperty;
 };
 
-// Allocates a NiPropertyMem, initialises it via FUN_00a5c200, clears flag bit 0, sets its vtable, and assigns it to g_011f5d20.cullingProperty.
-// @fnv 0x00a8f5b0
-void __cdecl CreateCullingProperty()
-{
-    NiPropertyMem* allocated = static_cast<NiPropertyMem*>(FUN_00aa13e0(sizeof(NiPropertyMem)));
-    NiPropertyMem* fresh;
-    if (allocated)
-    {
-        FUN_00a5c200(allocated);
-        allocated->flags &= 0xfffe;
-        allocated->vtable = &DAT_0109f68c;
-        fresh = allocated;
-    }
-    else
-    {
-        fresh = 0;
-    }
-    g_011f5d20.cullingProperty = fresh;
-}
-
 struct NiRefCountedObj
 {
     virtual void v00();
@@ -197,6 +173,7 @@ extern NiRefCountedObj* DAT_011f5d28;
 
 // If the global ref-counted object exists, decrements its reference count, destroys it when the count reaches zero, and clears the global pointer.
 // @fnv 0x00a8f620
+// pdb: NiCullingProperty::_SDMShutdown | NiCullingProperty.obj | fnv360_0822_retail, call_seq, medium
 void __cdecl FUN_00a8f620()
 {
     if (DAT_011f5d28 != 0)
@@ -277,6 +254,7 @@ struct FUN_00a90a50 : FUN_00a7b690
 
 // Constructor that zero-initialises unk58, unk59 and unk5c and default-constructs the member60 array.
 // @fnv 0x00a90a50
+// pdb: NiScreenElementsData::NiScreenElementsData | NiScreenElementsData.obj | fnv360_0822_retail, caller_sim, low
 FUN_00a90a50::FUN_00a90a50() : unk58(0), unk59(0), unk5c(0)
 {}
 
@@ -328,6 +306,8 @@ class BA8F690Property
 
 // Appends the class name and a "bCulled" string derived from bit 0 of m_ucFlags to the viewer string array.
 // @fnv 0x00a8f690
+// pdb: NiShadeProperty::GetViewerStrings | NiShadeProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void BA8F690Property::GetViewerStrings(BA8F690StringArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
@@ -343,6 +323,7 @@ inline void* __cdecl operator new(unsigned int, void* p)
 }
 // Allocates a NiProperty, clears the low bit of the 0x18 field, sets the vtable to DAT_0109f68c, and returns it.
 // @fnv 0x00a8f580
+// pdb: NiCullingProperty::CreateObject | NiCullingProperty.obj | fnv360_1110_retail, objrun, medium
 NiProperty* __cdecl CreateProperty()
 {
     NiProperty* pProperty = (NiProperty*)BSFadeNode::operator new(0x1c);

@@ -2,14 +2,6 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysairfieldairfrictionctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysairfieldairfrictionctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int g_012027b8;
-
-// @fnv 0x00c307c0
-int* __cdecl FUN_00c307c0()
-{
-    return &g_012027b8;
-}
-
 struct NiPSysModifierFloatCtlr
 {
     NiPSysModifierFloatCtlr();
@@ -26,20 +18,13 @@ struct NiPSysAirFieldAirFrictionCtlr : NiPSysModifierFloatCtlr
 };
 
 // @fnv 0x00c307d0
+// pdb: NiPSysAirFieldAirFrictionCtlr::GetTargetFloatValue | NiPSysAirFieldAirFrictionCtlr.obj | tesv_win, objrun_open, low
 void NiPSysAirFieldAirFrictionCtlr::FUN_00c307d0(float& rfValue)
 {
     NiPSysModifierFloatCtlr* pTarget = *(NiPSysModifierFloatCtlr**)((char*)this + 0x3c);
     rfValue = *(float*)((char*)pTarget + 0x58);
 }
 
-struct StrArr
-{
-    char _pad[8];
-    unsigned short m_usAlloc;
-    unsigned short m_usSize;
-    unsigned short _pad1;
-    unsigned short m_usGrow;
-};
 template <class T> struct NiTMallocInterface
 {
 };
@@ -53,27 +38,11 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl _FUN_00a7d330(int);
-// @fnv 0x00c30880
-void __stdcall FUN_00c30880(StrArr* pkStrings)
-{
-    FUN_00c32f60(pkStrings);
-    char* pcStr = _FUN_00a7d330(g_012027b8);
-    unsigned int uiSize = pkStrings->m_usSize;
-    unsigned int uiAlloc = pkStrings->m_usAlloc;
-    typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > Arr;
-    if (uiSize >= uiAlloc)
-    {
-        ((Arr*)pkStrings)->SetSize(uiSize + ((Arr*)pkStrings)->m_usGrow);
-    }
-    ((Arr*)pkStrings)->SetAt(uiSize, pcStr);
-}
 
 struct NiObjectNET;
 struct BaseStandIn
 {
-    bool IsTargetParticleSystem(NiObjectNET*);
+    bool NiPSysModifierCtlr_InterpTargetIsCorrectType(NiObjectNET*);
 };
 struct NiPSysModifier;
 struct PsStandIn
@@ -101,9 +70,11 @@ struct FUN_00c306f0_class : BaseStandIn
     bool HasModifierAfter(NiObjectNET*);
 };
 // @fnv 0x00c306f0
+// pdb: NiPSysAirFieldAirFrictionCtlr::InterpTargetIsCorrectType | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkTarget
 bool FUN_00c306f0_class::HasModifierAfter(NiObjectNET* target)
 {
-    if (!IsTargetParticleSystem(target))
+    if (!NiPSysModifierCtlr_InterpTargetIsCorrectType(target))
         return false;
     NiPSysModifier* modifier = target->FUN_00c1b0f0((char*)this + 0x38);
     if (!modifier)
@@ -134,6 +105,7 @@ struct WorkerAirFriction : NiPSysAirFieldAirFrictionCtlr
 };
 // Clamps value to [0,1] and stores it in target->targetValue.
 // @fnv 0x00c307e0
+// pdb: NiPSysAirFieldAirFrictionCtlr::SetTargetFloatValue | NiPSysAirFieldAirFrictionCtlr.obj | tesv_win, hash, low
 void WorkerAirFriction::FUN_00c307e0(float value)
 {
     WorkerTarget* pTarget = target;
@@ -181,6 +153,7 @@ class FUN_00c30830_cls
 
 // Allocates a 0x40-byte SpawnedObject, initialises it, passes it to FUN_00c32de0 with arg, and returns it.
 // @fnv 0x00c30830
+// pdb: NiPSysAirFieldAirFrictionCtlr::CreateClone | NiPSysAirFieldAirFrictionCtlr.obj | tesv_win, caller_sim, low
 SpawnedObject* FUN_00c30830_cls::CreateSpawnedObject(unsigned int arg)
 {
     SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);
@@ -203,6 +176,8 @@ struct NiStream;
 void __cdecl LoadBinaryWithVersionCheck(NiPSysModifierCtlr*, int, NiStream&);
 
 // @fnv 0x00c29e80
+// pdb: NiXenonRenderer::Do_BatchRenderShape | NiXenonRenderer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkTriShape
 void __cdecl FUN_00c29e80(NiPSysModifierCtlr* a1, int a2, NiStream& a3)
 {
     LoadBinaryWithVersionCheck(a1, a2, a3);
@@ -211,6 +186,8 @@ void __cdecl FUN_00c29e80(NiPSysModifierCtlr* a1, int a2, NiStream& a3)
 extern "C" void __cdecl FUN_00a44cd0();
 
 // @fnv 0x00c29f80
+// pdb: NiXenonFragmentShader::PreProcessPipeline | NiXenonFragmentShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pkGeometry, pkSkin, pkRendererData, pkState, pkEffects, kWorld, kWorldBound
 void __cdecl FUN_00c29f80()
 {
     FUN_00a44cd0();
@@ -219,6 +196,8 @@ void __cdecl FUN_00c29f80()
 void __cdecl FUN_00c32e10();
 
 // @fnv 0x00c2b450
+// pdb: NiXenonPersistentSrcTextureRendererData::LinkObject | NiXenonPersistentSrcTextureRendererData.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiDX9PersistentSrcTextureRendererData::LinkObject)
+// pdb params: kStream
 void __cdecl FUN_00c2b450()
 {
     FUN_00c32e10();
@@ -226,15 +205,9 @@ void __cdecl FUN_00c2b450()
 
 void __cdecl FUN_00a41220();
 // @fnv 0x00c2b8a0
+// pdb: NiXenonPersistentSrcTextureRendererData::SaveBinary | NiXenonPersistentSrcTextureRendererData.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiDX9PersistentSrcTextureRendererData::SaveBinary)
+// pdb params: kStream
 void __cdecl FUN_00c2b8a0()
 {
     FUN_00a41220();
-}
-
-bool __cdecl FUN_00c32df0(int, int);
-
-// @fnv 0x00c2a190
-bool __cdecl FUN_00c2a190(int param_1, int param_2)
-{
-    return FUN_00c32df0(param_1, param_2);
 }

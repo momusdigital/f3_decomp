@@ -3,18 +3,29 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 extern "C" void __cdecl FUN_00d21a60(void* atom, unsigned short index, unsigned int arg);
+// hkpSimpleContactConstraintAtom: m_sizeOfAllAtoms at +0x02 (New Vegas Xbox 360 PDB).
+struct D927B0Atom
+{
+    unsigned short m_type;
+    unsigned short m_sizeOfAllAtoms;
+};
+// hkpSimpleContactConstraintData: m_atom at +0x28 (New Vegas Xbox 360 PDB).
 struct FUN_00d927b0_class
 {
+    char unk00[0x28];
+    D927B0Atom* m_atom;
     void FUN_00d927b0(unsigned int arg);
 };
 // @fnv 0x00d927b0
+// pdb: hkpSimpleContactConstraintData::getConstraintInfo | hkpSimpleContactConstraintData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: infoOut
 void FUN_00d927b0_class::FUN_00d927b0(unsigned int arg)
 {
-    void* atom = *(void**)((char*)this + 0x28);
-    FUN_00d21a60(atom, *(unsigned short*)((char*)atom + 2), arg);
+    FUN_00d21a60(m_atom, m_atom->m_sizeOfAllAtoms, arg);
 }
 
 // @fnv 0x00d927d0
+// pdb: hkpSimpleContactConstraintData::getRuntimeInfo | hkpSimpleContactConstraintData.obj | tesv_win, objrun_open, low
 void __stdcall FUN_00d927d0(int, int* paiValues)
 {
     paiValues[0] = 0;
@@ -51,10 +62,7 @@ struct S_00d92690
     unsigned char unkB;
     unsigned short maxCapacity;
 };
-S_00d92690* AllocateBlock(int cap, int a, int b, int maxCap);
-void FUN_00d925b0(S_00d92690* dst, S_00d92690* src);
-int RoundUpToBucketSize(int size);
-S_00d92690_Mgr* FUN_00c85750();
+S_00d92690* hkpSimpleContactConstraintAtomUtil_allocateAtom(int cap, int a, int b, int maxCap);
 
 // @f3 0x00a26b70 (community match, verified in this file)
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
@@ -64,7 +72,7 @@ struct HeapD926F3
     void FUN_008f6d90(void* p, unsigned int bytes, unsigned int tag);
 };
 S_00d92690* FUN_00a269d0(int cap, int a, int b, int maxCap);
-void FUN_00a26a60(S_00d92690* dst, S_00d92690* src);
+void hkpSimpleContactConstraintAtomUtil_copyContents(S_00d92690* dst, S_00d92690* src);
 S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
 {
     S_00d92690* result = apContainer;
@@ -77,7 +85,7 @@ S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
         if (iNewCapacity >= apContainer->maxCapacity)
             iNewCapacity = apContainer->maxCapacity;
         result = FUN_00a269d0(iNewCapacity, apContainer->unk8, apContainer->unk9, apContainer->maxCapacity);
-        FUN_00a26a60(result, apContainer);
+        hkpSimpleContactConstraintAtomUtil_copyContents(result, apContainer);
         HeapD926F3* heap = (HeapD926F3*)TlsGetValue(DAT_010f3170);
         heap->FUN_008f6d90(apContainer, apContainer->unk2, 4);
         pContainer = result;
@@ -93,6 +101,7 @@ S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
 
 
 // @fnv 0x00d92810
+// pdb: hkpSimpleContactConstraintData::getType | hkpSimpleContactConstraintData.obj | tesv_win, objrun_open, low
 int __cdecl FUN_00d92810()
 {
     return 11;
@@ -103,8 +112,6 @@ void __stdcall FUN_00d92800(bool* p)
 {
     *p = true;
 }
-
-extern unsigned char DAT_010cc934;
 
 struct PacketResult
 {
@@ -147,6 +154,8 @@ struct FUN_00d92f20
 // Initialises the object's vtable and fields, allocates a buffer sized from first[0xd1] and second[0xd1], and zeroes the packet result header fields.
 // @f3 0x00a268d0 (community match, verified in this file)
 extern unsigned char DAT_00e7d7c8;
+// pdb: hkpSimpleContactConstraintData::hkpSimpleContactConstraintData | hkpSimpleContactConstraintData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: constraint, bodyA, bodyB
 FUN_00d92f20::FUN_00d92f20(void* atom, const unsigned char* first, const unsigned char* second)
 {
     active06 = 1;
@@ -160,7 +169,7 @@ FUN_00d92f20::FUN_00d92f20(void* atom, const unsigned char* first, const unsigne
     unsigned int lenA = first[0xbd];
     unsigned int lenB = second[0xbd];
     unsigned int bytesPerEntry = (lenA + lenB) * 4 + 0x14;
-    buffer28 = AllocateBlock(1, lenA, lenB, (unsigned short)(0x1400 / (int)bytesPerEntry));
+    buffer28 = hkpSimpleContactConstraintAtomUtil_allocateAtom(1, lenA, lenB, (unsigned short)(0x1400 / (int)bytesPerEntry));
 
     PacketResult* result = reinterpret_cast<PacketResult*>(buffer28);
     result->state10 = 0;
@@ -188,11 +197,6 @@ struct S_00d92fd0_Atom
     void FUN_00d21fc0(int a, float b, int c, int d, int e, int f);
     void FUN_00d22260(int a, float b, int c, int d, int e, int f);
 };
-struct S_00d92fd0_Alloc : S_00d92690_Alloc
-{
-    virtual void v3();
-    virtual void Free2(void* p, int size);
-};
 struct S_00d92fd0_Arr
 {
     S_00d92fd0_Atom** data;
@@ -206,63 +210,8 @@ struct S_00d92fd0_Arr
         cap = 0x80000010;
     }
 };
-struct S_00d92fd0_Holder
-{
-    int unk00, unk04, unk08, unk0c;
-    S_00d92fd0_Atom* head;
-};
 void __cdecl ResizeAudioStream(S_00d92690_Alloc* a, S_00d92fd0_Arr* arr, int elem);
 
-struct S_00d92fd0_This
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    S_00d92fd0_Holder* holder;
-    void DispatchAtomHandlers(int p1, float p2, int p3, int p4, int p5, int p6);
-};
-
-// Collects atoms from holder->head with type >= 0x17 into a temporary array, then dispatches each in reverse order to a handler chosen by type.
-// @fnv 0x00d92fd0
-void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6)
-{
-    if (!holder->head)
-        return;
-    S_00d92fd0_Arr arr;
-    S_00d92fd0_Atom* a = holder->head;
-    while (a->type >= 0x17)
-    {
-        S_00d92690_Mgr* pMgr = FUN_00c85750();
-        if (arr.size == (arr.cap & 0x3fffffff))
-            ResizeAudioStream(pMgr->GetAllocator(), &arr, 4);
-        arr.data[arr.size] = a;
-        arr.size++;
-        a = a->next;
-    }
-    for (int i = arr.size - 1; i >= 0; i--)
-    {
-        S_00d92fd0_Atom* x = arr.data[i];
-        switch (x->type)
-        {
-        case 0x18:
-            x->FUN_00d21d00(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
-            break;
-        case 0x17:
-            x->FUN_00d21d10(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
-            break;
-        case 0x1a:
-            x->FUN_00d21fc0(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
-            break;
-        case 0x1c:
-            x->FUN_00d22260(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
-            break;
-        }
-    }
-    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)FUN_00c85750()->GetAllocator();
-    arr.size = 0;
-    if ((arr.cap & 0x80000000) == 0)
-        pAlloc->Free2(arr.data, (arr.cap & 0x3fffffff) * 4);
-}
-
-extern "C" void _ReadWriteBarrier(void);
 void __cdecl ResizeAudioStream(void*, void*, int);
 
 struct FUN_00d93140_cls
@@ -270,13 +219,16 @@ struct FUN_00d93140_cls
     unsigned char* m_data;
     unsigned int m_len;
     unsigned int m_cap;
-    unsigned int ReplaceOrAppendByte(unsigned char value);
+    unsigned int hkpDynamicsCpIdMgr_newId(unsigned char value);
 };
 
 // @f3 0x00a26970 (community match, verified in this file)
 void __cdecl FUN_00901f10(void* array, int sizeOfElement);
 
-unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
+// pdb: hkpDynamicsCpIdMgr::newId | hkpSimpleContactConstraintData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: value
+// pdb: hkpDynamicsCpIdMgr::newId | hkpSimpleContactConstraintData.obj | fnv360_0822_retail, call_seq, high (was: ReplaceOrAppendByte)
+unsigned int FUN_00d93140_cls::hkpDynamicsCpIdMgr_newId(unsigned char value)
 {
     int i = (int)m_len - 1;
     while (i >= 0)
@@ -302,88 +254,6 @@ unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
 int __stdcall FUN_00d927f0(int arg)
 {
     return 0;
-}
-
-struct FUN_00d92820_cls
-{
-    int unk00;
-    char* FUN_00d92820();
-};
-
-// @fnv 0x00d92820
-char* FUN_00d92820_cls::FUN_00d92820()
-{
-    return (char*)this - 0x14;
-}
-
-struct hkNodeX
-{
-    unsigned short type;
-    unsigned short unk02;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    hkNodeX* next;
-
-    void ScaleInverseInertia(int a1, int a2, int a3, int a4, int a5);
-    void SetGlobalVectors(int a1, int a2, int a3, int a4, int a5);
-    void FUN_00d21f50(int a1, int a2, int a3, int a4, int a5);
-    void FUN_00d22160(int a1, int a2, int a3, int a4, int a5);
-};
-
-struct hkHolderX
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkNodeX* unk10;
-};
-
-struct hkClsX
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    hkHolderX* unk24;
-
-    void DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5);
-};
-
-// Walks the hkNodeX list from the holder's unk10 while type is at least 0x17, calling a type-specific function for types 0x17, 0x18, 0x1A and 0x1C.
-// @fnv 0x00d92830
-void hkClsX::DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5)
-{
-    hkHolderX* pHolder = unk24;
-    if (pHolder->unk10 == 0)
-        return;
-    hkNodeX* node = pHolder->unk10;
-    while (node->type >= 0x17)
-    {
-        switch (node->type)
-        {
-        case 0x18:
-            node->ScaleInverseInertia(a1, a2, a3, a4, a5);
-            break;
-        case 0x17:
-            node->SetGlobalVectors(a1, a2, a3, a4, a5);
-            break;
-        case 0x1A:
-            node->FUN_00d21f50(a1, a2, a3, a4, a5);
-            break;
-        case 0x1C:
-            node->FUN_00d22160(a1, a2, a3, a4, a5);
-            break;
-        }
-        node = node->next;
-    }
 }
 
 struct hkVector4f
@@ -463,7 +333,7 @@ class hkBool
     }
 };
 hkpSimpleContactConstraintAtom* FUN_00d92690(hkpSimpleContactConstraintAtom* atom, hkBool* atomReallocated);
-void __cdecl ReplaceEntry(void* constraint, hkpSimpleContactConstraintAtom* oldAtom,
+void __cdecl hkpWorldConstraintUtil_updateFatherOfMovedAtom(void* constraint, hkpSimpleContactConstraintAtom* oldAtom,
                           hkpSimpleContactConstraintAtom* newAtom, int newSize);
 
 struct GenericConstraintAtomScheme
@@ -488,14 +358,14 @@ struct GenericConstraintAtomScheme
 };
 struct hkpConstraintOwner
 {
-    void AccumulateStats(void* constraint, GenericConstraintAtomScheme& info);
+    void hkpConstraintOwner_addConstraintInfo(void* constraint, GenericConstraintAtomScheme& info);
 };
 struct MutableByteArray
 {
     unsigned char* m_iSlotIds;
     int m_iElementCount;
     int m_iCapacityState;
-    int ReplaceOrAppendByte(int index);
+    int hkpDynamicsCpIdMgr_newId(int index);
 };
 
 struct hkpSimpleContactConstraintData
@@ -561,15 +431,15 @@ int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintO
         {
             info.add(0x40, 1, 1);
         }
-        constraintOwner.AccumulateStats(m_pHavokConstraint, info);
+        constraintOwner.hkpConstraintOwner_addConstraintInfo(m_pHavokConstraint, info);
     }
 
     if (atomReallocated)
     {
-        ReplaceEntry(m_pHavokConstraint, oldAtom, m_pAtom, localAtom->m_usSizeOfAllAtoms);
+        hkpWorldConstraintUtil_updateFatherOfMovedAtom(m_pHavokConstraint, oldAtom, m_pAtom, localAtom->m_usSizeOfAllAtoms);
         m_iAtomSize = localAtom->m_usSizeOfAllAtoms;
     }
-    return m_kAtoms.ReplaceOrAppendByte(size);
+    return m_kAtoms.hkpDynamicsCpIdMgr_newId(size);
 }
 
 // Dispatch contact callbacks and prepare new contact solver state.
@@ -583,13 +453,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 
-extern float DAT_01017870;   // 0.3f
-extern float DAT_0104da48;   // HK_REAL_MAX
-extern float DAT_010cc3b0;   // distance for disabled points
 extern double DAT_010cc8d0;  // 1/128
-extern double DAT_010cc8d8;  // -0.2
-extern double DAT_0109cc78;  // 1e-10
-extern double DAT_010d3dc0;  // -1.3
 extern float DAT_010c7948[];
 
 struct S00d92900_Config
@@ -985,43 +849,7 @@ struct S00d92900_Accum
         return &m_com.x;
     }
 };
-struct S00d92900_QueryIn
-{
-    float m_fQueryInputValue;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    S00d92900_Accum* m_pBodyA;
-    S00d92900_Accum* m_pBodyB;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    S00d92900_Instance* m_pConstraintChainInstance;
-};
 struct S00d92900_Mgr;
-struct S00d92900_Data
-{
-    S00d92900_Mgr* FUN_00d92820();
-};
-__declspec(noinline) S00d92900_Mgr* S00d92900_Data::FUN_00d92820()
-{
-    return (S00d92900_Mgr*)((char*)this - 0x14);
-}
 
 struct S00d92900_CollisionEvent
 {
@@ -1060,20 +888,6 @@ struct S00d92900_Event : S00d92900_CollisionEvent
         m_pVelocityAccumulatorA[1] = accB;
     }
 };
-struct S00d92900_CollideParams
-{
-    float m_fSlipAngle;
-    float m_fElasticity;
-    float m_usFlags;
-    float m_fFirstAdditionalValue;
-    float m_fSecondAdditionalValue;
-    float m_fThirdAdditionalValue;
-    S00d92900_Bool m_bCollisionOption;
-};
-struct S00d92900_Output
-{
-    float m_fContactImpulse;
-};
 struct __declspec(align(16)) S00d92900_BreachInfo
 {
     unsigned short m_type;
@@ -1090,155 +904,3 @@ struct __declspec(align(16)) S00d92900_BreachInfo
         m_kProperties = properties;
     }
 };
-
-extern float FUN_00df2510(const S00d92900_Body* a, const S00d92900_Body* b, const float* comA, const float* comB,
-                          const S00d92900_ContactPoint* cp);
-extern void FUN_00d00ca0(S00d92900_World* world, S00d92900_Event& event);
-extern void FUN_00cfff00(S00d92900_Body* entity, S00d92900_Event& event);
-extern void FUN_00d9ee50(S00d92900_Data* data, const S00d92900_ContactPoint& cp, S00d92900_CollideParams& params,
-                         S00d92900_Body* rbA, S00d92900_Body* rbB, S00d92900_Accum* accA, S00d92900_Accum* accB,
-                         S00d92900_Output& output);
-extern void FUN_00d01700(S00d92900_World* world, const S00d92900_BreachInfo* info, int num);
-
-static __forceinline void S00d92900_fireEntity(S00d92900_Body* entity, S00d92900_Event& event)
-{
-    if (entity->m_contactListenersSize)
-    {
-        FUN_00cfff00(entity, event);
-    }
-}
-
-static __forceinline float S00d92900_fselectGreaterZero(float testVar, float ifTrue, float ifFalse)
-{
-    return (testVar > 0.0f) ? ifTrue : ifFalse;
-}
-
-template <typename T> static __forceinline T* S00d92900_addByteOffset(T* base, int offset)
-{
-    return (T*)((char*)base + offset);
-}
-
-static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const S00d92900_QueryIn* in,
-                                           S00d92900_Atom* atom, int type, int& bound)
-{
-    S00d92900_Instance* instance = in->m_pConstraintChainInstance;
-    S00d92900_Body* rbA = instance->getRigidBodyA();
-    S00d92900_Body* rbB = instance->getRigidBodyB();
-    S00d92900_World* world = rbA->getWorld();
-    S00d92900_Accum* accA = in->m_pBodyA;
-    S00d92900_Accum* accB = in->m_pBodyB;
-    S00d92900_Bool fireCallbacksForNewPoints = (instance->m_pConstraintInternal->m_ucCallbackRequest & 8) > 0;
-
-    S00d92900_PropsStream* cpp = atom->getContactPointPropertiesStream();
-    S00d92900_PropsStream* prevCpp = 0;
-    const int cppStriding = atom->getContactPointPropertiesStriding();
-    S00d92900_ContactPoint* cp = atom->getContactPoints();
-    const int nA = atom->m_usNumContactPoints;
-    __assume(nA >= 0);
-    bound = nA - 1;
-
-    for (int i = bound; i >= 0; cp++, prevCpp = cpp, cpp = S00d92900_addByteOffset(cpp, cppStriding), i--)
-    {
-        unsigned char& flags = cpp->asProperties()->m_flags;
-        if (flags & 1)
-        {
-            float projectedVel = FUN_00df2510(rbA, rbB, in->m_pBodyA->getCenterOfMassInWorld(),
-                                              in->m_pBodyB->getCenterOfMassInWorld(), cp);
-            {
-                unsigned int* extendedUserData = cpp->asProperties()->getStartOfExtendedUserData(atom);
-                S00d92900_Event event(2, rbA, rbB, constraintData->FUN_00d92820(), type, cp, cpp->asProperties(),
-                                      &projectedVel, 0, fireCallbacksForNewPoints, i == bound, i == 0, extendedUserData,
-                                      accA, accB);
-                FUN_00d00ca0(world, event);
-                event.m_pObservedSource = 0;
-                S00d92900_fireEntity(rbA, event);
-                event.m_pObservedSource = 1;
-                S00d92900_fireEntity(rbB, event);
-            }
-
-            if (i < bound && prevCpp->asProperties()->m_usFlags != 0)
-            {
-                flags &= ~2;
-            }
-
-            if (flags & 8)
-            {
-                cp->setDistance(DAT_010cc3b0);
-                cpp->asProperties()->m_fAccumulatedImpulse = 0.0f;
-                cpp->asProperties()->m_fImpulseLimit = 0.0f;
-                cpp->asProperties()->m_uiUserData = 0.0f;
-            }
-            else
-            {
-                const S00d92900_Config* config = world->getCollisionInput()->m_pConfiguration;
-                const float restitution = cpp->asProperties()->getRestitution();
-                const float minRestitution = DAT_01017870;
-                if (projectedVel < -config->m_fContactRestingVelocity && restitution > minRestitution)
-                {
-                    S00d92900_CollideParams params;
-                    params.m_fSlipAngle = cpp->asProperties()->getFriction();
-                    params.m_fElasticity = restitution;
-                    params.m_fSecondAdditionalValue = 0.0f;
-                    params.m_fThirdAdditionalValue = 0.0f;
-                    params.m_fFirstAdditionalValue = projectedVel;
-                    params.m_usFlags = DAT_0104da48;
-                    if (cpp->asProperties()->m_usFlags)
-                    {
-                        params.m_usFlags = cpp->asProperties()->getMaxImpulsePerStep();
-                    }
-                    S00d92900_Accum* bodyA = in->m_pBodyA;
-                    S00d92900_Accum* bodyB = in->m_pBodyB;
-                    S00d92900_Output output;
-                    FUN_00d9ee50(constraintData, *cp, params, rbA, rbB, bodyA, bodyB, output);
-                    S00d92900_Props* props = cpp->asProperties();
-                    if (params.m_bCollisionOption)
-                    {
-                        S00d92900_BreachInfo bi;
-                        bi.set(in->m_pConstraintChainInstance, props, cp, false);
-                        FUN_00d01700(world, &bi, 1);
-                    }
-                    cpp->asProperties()->m_fAccumulatedImpulse = 0.0f;
-                    cpp->asProperties()->m_uiUserData = 0.0f;
-                }
-                else
-                {
-                    float sumInvMass = rbA->getMassInv() + rbB->getMassInv();
-                    float mass = 1.0f / (sumInvMass + DAT_0109cc78);
-                    cpp->asProperties()->m_fAccumulatedImpulse =
-                        mass * DAT_010cc8d8 * projectedVel * (1.0f + cpp->asProperties()->getRestitution());
-                    float rhs = restitution * projectedVel * in->m_fQueryInputValue;
-                    rhs = rhs * DAT_010d3dc0;
-                    cpp->asProperties()->m_fImpulseLimit = rhs;
-                    cpp->asProperties()->m_uiUserData =
-                        S00d92900_fselectGreaterZero(restitution, cp->getDistance() + rhs, 0.0f);
-                }
-            }
-            flags &= ~1;
-        }
-        else if (fireCallbacksForNewPoints)
-        {
-            unsigned int* extendedUserData = cpp->asProperties()->getStartOfExtendedUserData(atom);
-            S00d92900_Event event(2, rbA, rbB, constraintData->FUN_00d92820(), type, cp, cpp->asProperties(), 0, 0,
-                                  true, i == bound, i == 0, extendedUserData, accA, accB);
-            FUN_00d00ca0(world, event);
-            event.m_pObservedSource = 0;
-            S00d92900_fireEntity(rbA, event);
-            event.m_pObservedSource = 1;
-            S00d92900_fireEntity(rbB, event);
-
-            if (i < bound && prevCpp->asProperties()->m_usFlags != 0)
-            {
-                flags &= ~2;
-            }
-        }
-    }
-    instance->m_pConstraintInternal->m_ucCallbackRequest &= ~9;
-}
-
-// Wraps dispatchContacts to process contact points for a constraint atom, firing events and resolving collisions.
-// @fnv 0x00d92900
-void FUN_00d92900(S00d92900_Data* constraintData, const S00d92900_QueryIn* in, S00d92900_Atom* atom, int type)
-{
-    int bound;
-    dispatchContacts(constraintData, in, atom, type, bound);
-}

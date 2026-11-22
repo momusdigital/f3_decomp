@@ -735,6 +735,8 @@ int unk038;
  unsigned int FUN_00894b50(unsigned int,Mapping*,NiAVObjectCall*,void*,Properties*,Effects*,void*,unsigned int);
 };
 extern "C" void _ReadWriteBarrier();
+// pdb: NiD3DShaderConstantMap::SetupDefinedConstantValue | NiD3DShaderConstantMap.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: uiOperatorNum, pkEntry, pkGeometry, pkSkin, pkState, pkEffects, kWorld, kWorldBound
 unsigned int ConstantMapView::FUN_00894b50(unsigned int slot, Mapping* apMapping, NiAVObjectCall* geometry, void* skin,
                                            Properties* state, Effects* effects, void*, unsigned int)
 {

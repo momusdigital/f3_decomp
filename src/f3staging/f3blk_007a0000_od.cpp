@@ -147,6 +147,7 @@ Entry* entries;
 unsigned count;
 void FUN_007a6880();
 };
+// pdb: CombatGroupData::SortRangedMembers | CombatGroupStrategy.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_007a6880() {
 unsigned n=count;
 Vec* points=(Vec*)_alloca(n*sizeof(Vec));
@@ -390,7 +391,7 @@ unsigned unk68;
 unsigned unk6c;
 unsigned unk70;
 float gridPosition;
-int FUN_00449cb0();
+int TESForm_GetFormEditorIDLength();
 const char* Name() { const char* p=editorName; return p?p:DAT_00db3438; }
 unsigned ID() {return unk0c();}
 unsigned unk0c() {return formID;}
@@ -549,8 +550,8 @@ unsigned unk38;
 unsigned unk3c;
 Liquid(S1fc*);
 };
-void FUN_008d7790(Obj*,int,int);
-bool FUN_004e8d80(void*);void FUN_004ef0a0(void*);void FUN_0047adc0(Obj*);void FUN_00837ec0(Obj*);
+void bhkWorld_UpdatePosition(Obj*,int,int);
+bool FUN_004e8d80(void*);void FUN_004ef0a0(void*);void PrepareObjectWithNoLightingRecurse(Obj*);void FUN_00837ec0(Obj*);
 extern RTTI DAT_01091f04;
 struct Map {__declspec(noalias) bool FUN_00bea7b0(void*,Seq*&);};
 extern FixedStr** DAT_0106e7e4;
@@ -576,7 +577,7 @@ unsigned unk4c;
 Map sequences;
 Ctrl* GetNext() {return next;}
 Seq* FUN_0047a520(FixedStr* a) {Seq* s;if(sequences.FUN_00bea7b0(a,s))return s;return 0;}
-void FUN_0045c7f0(float);
+void NiControllerManager_DeactivateAll(float);
 void FUN_0047aa40(int f) {flags|=8;}
 };
 inline bool IsKind(RTTI* type,Ctrl* p) {RTTI* r=p->GetRTTI();while(r) {if(r==type)return true;r=r->parent;}return false;}
@@ -658,6 +659,7 @@ FNV_STATIC_ASSERT(offsetof(Proj, editorName) == 0x34);
 FNV_STATIC_ASSERT(offsetof(Proj, gridPosition) == 0x74);
 FNV_STATIC_ASSERT(offsetof(Obj, unk1e) == 0x1e);
 FNV_STATIC_ASSERT(offsetof(Obj, children) == 0xa0);
+// pdb: Explosion::Init3D | Explosion.obj | fnv360_0822_retail, ustr, medium
 void Explosion::FUN_007be880()
 {
     GenerateNiNode(false);
@@ -682,7 +684,7 @@ void Explosion::FUN_007be880()
             else
             {
                 const char* name;
-                if (FUN_004181e0()->FUN_00449cb0())
+                if (FUN_004181e0()->TESForm_GetFormEditorIDLength())
                 {
                     VBase* base = (VBase*)FUN_004181e0();
                     name = (const char*)base->V130();
@@ -747,7 +749,7 @@ void Explosion::FUN_007be880()
             if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0())
             {
                 FUN_008d6f30()->FUN_004543c0();
-                FUN_008d7790(obj, 1, 1);
+                bhkWorld_UpdatePosition(obj, 1, 1);
                 Upd update;
                 update.Ctor(0.0f, 0, 0);
                 obj->FUN_008264c0(&update);
@@ -758,7 +760,7 @@ void Explosion::FUN_007be880()
         if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0())
         {
             FUN_008d6f30()->FUN_004543c0();
-            FUN_008d7790(obj, 1, 1);
+            bhkWorld_UpdatePosition(obj, 1, 1);
             Upd update;
             update.Ctor(0.0f, 0, 0);
             obj->FUN_008264c0(&update);
@@ -771,7 +773,7 @@ void Explosion::FUN_007be880()
         {
             Obj* world = (Obj*)FUN_008d6f30()->FUN_004543c0();
             world->Vd8(obj, 1);
-            FUN_0047adc0(obj);
+            PrepareObjectWithNoLightingRecurse(obj);
         }
         Ctrl* ctrl = (Ctrl*)obj->FUN_0043b230();
         if (!ctrl)
@@ -793,7 +795,7 @@ void Explosion::FUN_007be880()
         Seq* sequence;
         if (manager && (sequence = (Seq*)manager->FUN_0047a520(FUN_005c1490())) != 0)
         {
-            manager->FUN_0045c7f0(0.0f);
+            manager->NiControllerManager_DeactivateAll(0.0f);
             Start(manager, sequence, 0, 0, 1.0f, 0.0f, 0);
             manager->FUN_0047aa40(1);
             sequence->Free();
@@ -1647,7 +1649,7 @@ struct Query
 Query* __cdecl FUN_0056a180(float radius, int flag);
 void __cdecl FUN_008f4400(unsigned int a, unsigned int b, bool c);
 float __cdecl FUN_0044a330(float lo, float hi);
-float __cdecl FUN_00468fd0();
+float __cdecl RandomFloatTwoPi();
 bool __cdecl FUN_004768c0(NiPoint3 pos, Shape* camera, float radius);
 void* __cdecl FUN_004756f0(hkpCollidable* ref);
 Shape* __cdecl FUN_008f1bf0(hkpCollidable* ref);
@@ -1816,6 +1818,7 @@ class Obj
     }
 };
 
+// pdb: Explosion::ApplyImpactDecals | Explosion.obj | fnv360_0822_retail, call_seq, medium
 void Obj::FUN_007bfe30()
 {
     if (unk98 == 0)
@@ -1969,7 +1972,7 @@ void Obj::FUN_007bfe30()
                                     NodeList nl;
                                     qq->FUN_00569c60(&pos, &nl);
                                     int n = nl.unk0c;
-                                    float fade = FUN_00468fd0();
+                                    float fade = RandomFloatTwoPi();
                                     unsigned char cc = (unsigned char)Floor(FUN_0044a330(0.0f, 4.0f));
                                     for (int k = 0; k < n; k++)
                                     {

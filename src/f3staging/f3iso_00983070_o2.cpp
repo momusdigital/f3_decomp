@@ -11,6 +11,7 @@ struct Quality { char prefix[0x20]; unsigned short priority; };
 struct Entity { char prefix[0xb8]; Quality* quality; };
 struct Pair { int key; Entity* first; Entity* second; };
 struct HavokBool { char value; HavokBool(bool b) : value(b) {} };
+// pdb: islandLess | hkpWorldOperationQueue.obj | tesv_win, objrun_open, low
 HavokBool FUN_00983070(const Pair& a,const Pair& b) {
     unsigned int pa=a.first->quality->priority,pb=b.first->quality->priority;
     return pa<pb || (pa==pb && a.second->quality->priority<b.second->quality->priority);

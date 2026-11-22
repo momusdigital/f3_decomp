@@ -2,6 +2,8 @@
 #include "nipsysboundupdatemodifier_decls.h"
 
 // @fnv 0x00c2d720
+// pdb: NiPSysBoundUpdateModifier::SetUpdateSkip | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: sUpdateSkip
 void NiPSysBoundUpdateModifier::SetUpdateSkipCounter(int iUpdateSkip)
 {
     m_usUpdateSkip = (short)iUpdateSkip;

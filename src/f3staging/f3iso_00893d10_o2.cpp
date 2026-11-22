@@ -108,6 +108,8 @@ struct LightScratch
     LightRotationOps inverseLightRotation;
     NiTransform modelLightWorld;
 };
+// pdb: NiD3DShaderConstantMap::GetDynamicEffectData | NiD3DShaderConstantMap.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pvData, uiDataSize, eMapping, pkDynEffect, pkGeometry, pkSkin, pkPartition, pkBuffData, pkState, pkEffects, kWorld, kWorldBound, uiPass
 bool __cdecl FUN_00893d10(void* apConstantData, unsigned int uiConstantDataSize, unsigned int uiMapping,
                                    void* pSource, NiGeometry* m_pShaderGeometry, const NiSkinInstance* pSkinInstance,
                                    const NiSkinPartition::Partition* pPartition, NiGeometryBufferData* pBuffData,

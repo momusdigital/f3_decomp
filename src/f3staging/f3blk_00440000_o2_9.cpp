@@ -23,6 +23,8 @@ public:
     unsigned char FUN_00450be0(const FilterForm* form);
 };
 
+// pdb: TESAIForm::SellBuysItem | TESAIForm.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject
 unsigned char FormFilter::FUN_00450be0(const FilterForm* form)
 {
     unsigned char result = 0;

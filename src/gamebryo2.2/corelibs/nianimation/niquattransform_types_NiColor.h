@@ -1,6 +1,6 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
-#ifndef FNV_NICOLOR_H
-#define FNV_NICOLOR_H
+#ifndef FNV_NIQUATTRANSFORM_TYPES_NICOLOR_LOCAL_H
+#define FNV_NIQUATTRANSFORM_TYPES_NICOLOR_LOCAL_H
 #include "f3_common.h"
 #include "layout_support.h"
 class NiStream;

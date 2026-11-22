@@ -4,12 +4,6 @@
 
 extern "C" void* g_01202760;
 
-// @fnv 0x00c2baa0
-void* __cdecl FUN_00c2baa0()
-{
-    return &g_01202760;
-}
-
 extern void(__cdecl* DAT_011f38a0[])(void*);
 extern unsigned char DAT_011f3758[];
 struct FUN_00c2bb70_shell
@@ -19,10 +13,11 @@ struct FUN_00c2bb70_shell
     void* m_pKeyArray;
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
-    void FUN_00c2bb70(void* keys, unsigned int numKeys, int type);
+    void NiPSysEmitterCtlrData_ReplaceBirthRateKeys(void* keys, unsigned int numKeys, int type);
 };
 // @fnv 0x00c2bb70
-void FUN_00c2bb70_shell::FUN_00c2bb70(void* keys, unsigned int numKeys, int type)
+// pdb: NiPSysEmitterCtlrData::ReplaceBirthRateKeys | NiPSysEmitterCtlrData.obj | fnv360_0822_retail, call_gap_sim + bridge(call_seq|call_gap_sim) + skyrim(call_seq), high
+void FUN_00c2bb70_shell::NiPSysEmitterCtlrData_ReplaceBirthRateKeys(void* keys, unsigned int numKeys, int type)
 {
     if (m_pKeyArray)
         DAT_011f38a0[m_eRequestType](m_pKeyArray);
@@ -53,18 +48,28 @@ struct NiRefObject
 void __cdecl _delete(void*, unsigned int);
 struct NiPSysEmitterCtlrData
 {
+    void* unk00;
+    unsigned int unk04;
+    unsigned int m_uiNumBirthRateKeys;  // src: FNV360_PDB +0x8
+    void* m_pkBirthRateKeys;  // src: FNV360_PDB +0xC
+    int m_eBirthRateKeyType;  // src: FNV360_PDB +0x10
+    unsigned char m_ucBirthRateSize;  // src: FNV360_PDB +0x14
+    unsigned int m_uiNumEmitterActiveKeys;  // src: FNV360_PDB +0x18
+    void* m_pkEmitterActiveKeys;  // src: FNV360_PDB +0x1C
+    int m_eEmitterActiveKeyType;  // src: FNV360_PDB +0x20
     void* Destroy(unsigned int);
 };
 // @fnv 0x00c2bc30
+// pdb: NiPSysEmitterCtlrData::`scalar deleting destructor' | NiPSysEmitterCtlrData.obj | fnv360_0822_retail, objrun, high
 void* NiPSysEmitterCtlrData::Destroy(unsigned int flags)
 {
-    void* pkKeys = *(void**)((char*)this + 0xc);
+    void* pkKeys = m_pkBirthRateKeys;
     *(void**)this = (void*)&DAT_010bfd54;
     if (pkKeys)
-        DAT_011f38a0[*(int*)((char*)this + 0x10)](pkKeys);
-    pkKeys = *(void**)((char*)this + 0x1c);
+        DAT_011f38a0[m_eBirthRateKeyType](pkKeys);
+    pkKeys = m_pkEmitterActiveKeys;
     if (pkKeys)
-        DAT_011f3918[*(int*)((char*)this + 0x20)]((AnimationKey*)pkKeys);
+        DAT_011f3918[m_eEmitterActiveKeyType]((AnimationKey*)pkKeys);
     ((NiRefObject*)this)->NiRefObject::~NiRefObject();
     if (flags & 1)
         _delete(this, 0x28);
@@ -101,6 +106,8 @@ char* __cdecl FUN_00a7d510(char const*, unsigned int);
 char* __cdecl FUN_00a7d5e0(char const*, char const*);
 
 // @f3 0x00acc390 (community match, verified in this file)
+// pdb: NiPSysEmitterCtlrData::GetViewerStrings | NiPSysEmitterCtlrData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00c2bf00_shell::AppendBirthRateKeys(StrArr* pkStrings)
 {
     unsigned int uiIndex;
@@ -181,6 +188,8 @@ struct S_00c2bab0
 extern bool(__cdecl* DAT_011f3ae0[])(unsigned char*, unsigned char*);
 
 // @fnv 0x00c2bab0
+// pdb: NiPSysEmitterCtlrData::IsEqual | NiPSysEmitterCtlrData.obj | fnv360_0822_retail, objrun_sim, high
+// pdb params: pkObject
 bool S_00c2bab0::Equals(S_00c2bab0* other)
 {
     if (!IsSameAs(other))
@@ -235,10 +244,11 @@ struct AnimationKeyTrack
     void* m_pKeyArray;
     int m_eRequestType;
     unsigned char m_ucKeyDataSize;
-    void FUN_00c2bbd0(void* keys, unsigned int numKeys, int type);
+    void NiPSysEmitterCtlrData_ReplaceEmitterActiveKeys(void* keys, unsigned int numKeys, int type);
 };
 // @fnv 0x00c2bbd0
-void AnimationKeyTrack::FUN_00c2bbd0(void* keys, unsigned int numKeys, int type)
+// pdb: NiPSysEmitterCtlrData::ReplaceEmitterActiveKeys | NiPSysEmitterCtlrData.obj | fnv360_0822_retail, call_gap_sim + bridge(call_seq|call_gap_sim) + skyrim(call_seq), high
+void AnimationKeyTrack::NiPSysEmitterCtlrData_ReplaceEmitterActiveKeys(void* keys, unsigned int numKeys, int type)
 {
     if (m_pKeyArray)
         DAT_011f38a0[m_eRequestType](m_pKeyArray);
@@ -318,12 +328,13 @@ class NiPSysEmitterCtlrDataStub : public NiObjectStub
     void* m_pVisibilityKeys;
     unsigned int m_uiNumVisibilityKeys;
 
-    void FUN_00c2bdf0(NiStream& kStream);
+    void NiPSysEmitterCtlrData_SaveBinary(NiStream& kStream);
 };
 
 // Loads the emitter controller data from kStream: key count and keys via DAT_011f3a50, then a loop reading values via DAT_011f3ac8.
 // @fnv 0x00c2bdf0
-void NiPSysEmitterCtlrDataStub::FUN_00c2bdf0(NiStream& kStream)
+// pdb: NiPSysEmitterCtlrData::SaveBinary | NiPSysEmitterCtlrData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+void NiPSysEmitterCtlrDataStub::NiPSysEmitterCtlrData_SaveBinary(NiStream& kStream)
 {
     NiObjectStub::LoadBinary(kStream);
 
@@ -542,7 +553,6 @@ enum KeyType
 };
 
 struct AnimationKey;
-struct TimedAnimationKey;
 
 extern void*(__cdecl* DAT_011f3db0[])(NiStreamView&, unsigned int);
 extern void(__cdecl* DAT_011f3780[])(void*, unsigned int, unsigned char);
@@ -580,13 +590,14 @@ inline unsigned char GetKeySize2(KeyType e)
 void __stdcall ReadGroup(NiStreamView&);
 struct FUN_00c2bc90_shell : FUN_00c2bb70_shell
 {
-    void FUN_00c2bbd0(void*, unsigned int, int);
-    void FUN_00c2bc90(NiStreamView& kStream);
+    void NiPSysEmitterCtlrData_ReplaceEmitterActiveKeys(void*, unsigned int, int);
+    void NiPSysEmitterCtlrData_LoadBinary(NiStreamView& kStream);
 };
 
 // Reads birth rate and emitter active key groups from the stream, creating and filling keys based on the key type and format version.
 // @fnv 0x00c2bc90
-void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
+// pdb: NiPSysEmitterCtlrData::LoadBinary | NiPSysEmitterCtlrData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(udata), high
+void FUN_00c2bc90_shell::NiPSysEmitterCtlrData_LoadBinary(NiStreamView& kStream)
 {
     ReadGroup(kStream);
 
@@ -602,7 +613,7 @@ void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
         void* pkKeys = cf(kStream, uiNumBirthRateKeys);
         FillDerivedValsFunction pfnFill = GetFill1(eType);
         pfnFill(pkKeys, uiNumBirthRateKeys, ucSize);
-        FUN_00c2bb70(pkKeys, uiNumBirthRateKeys, eType);
+        NiPSysEmitterCtlrData_ReplaceBirthRateKeys(pkKeys, uiNumBirthRateKeys, eType);
     }
 
     unsigned int uiNumEmitterActiveKeys;
@@ -620,6 +631,6 @@ void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
         void* pkKeys = cf(kStream, uiNumEmitterActiveKeys);
         FillDerivedValsFunction pfnFill = GetFill2(eType);
         pfnFill(pkKeys, uiNumEmitterActiveKeys, ucSize);
-        FUN_00c2bbd0(pkKeys, uiNumEmitterActiveKeys, eType);
+        NiPSysEmitterCtlrData_ReplaceEmitterActiveKeys(pkKeys, uiNumEmitterActiveKeys, eType);
     }
 }

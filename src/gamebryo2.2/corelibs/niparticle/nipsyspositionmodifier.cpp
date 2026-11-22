@@ -1,22 +1,15 @@
-// gamebryo2.2/corelibs/niparticle/nipsyspositionmodifier.cpp: NiPSysPositionModifier, Helper, NiPSysModifier (9 functions)
+// gamebryo2.2/corelibs/niparticle/nipsyspositionmodifier.cpp: NiPSysPositionModifier, Helper, NiPSysModifier (7 functions)
 #include "f3_common.h"
 #include "nipsyspositionmodifier_decls.h"
 
 // @fnv 0x00c31720
+// pdb: NiPSysModifier::NiPSysModifier | NiPSysModifier.obj | fnv360_1110_retail, objrun, high
 NiPSysPositionModifier::NiPSysPositionModifier()
 {
     m_kName = EmptyFS;
     m_uiUpdateOrder = 0;
     m_pkTarget = 0;
     m_bModifierActive = true;
-}
-
-extern "C" void* g_012026b8;
-
-// @fnv 0x00c28b90
-void* __cdecl FUN_00c28b90()
-{
-    return &g_012026b8;
 }
 
 void __cdecl FUN_00c31750(void);
@@ -27,42 +20,13 @@ struct Helper
 };
 // Calls FUN_00c31750, then deletes this with size 0x18 when bit 0 of flags is set, and returns this.
 // @fnv 0x00c28ba0
+// pdb: bhkShapePhantom::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_retail, vtable_prefix, high
 void* Helper::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00c31750();
     if (flags & 1)
         _delete(this, 0x18);
     return this;
-}
-
-char* __cdecl FUN_00a7d330(const char*);
-struct StrArr
-{
-    char _pad[8];
-    unsigned short _s8;
-    unsigned short _sa;
-    unsigned short _sc;
-    unsigned short _se;
-    void SetSize(unsigned int);
-    void SetAt(unsigned int, char*&);
-};
-struct Base00c319e0
-{
-    void FUN_00c319e0(StrArr*);
-};
-struct Holder00c28cb0 : Base00c319e0
-{
-    void AppendString(StrArr*);
-};
-// @fnv 0x00c28cb0
-void Holder00c28cb0::AppendString(StrArr* pkStrings)
-{
-    FUN_00c319e0(pkStrings);
-    char* pcStr = FUN_00a7d330((const char*)g_012026b8);
-    unsigned int uiIdx = pkStrings->_sa;
-    if (uiIdx >= pkStrings->_s8)
-        pkStrings->SetSize(uiIdx + pkStrings->_se);
-    pkStrings->SetAt(uiIdx, pcStr);
 }
 
 struct FnvV3
@@ -163,6 +127,8 @@ struct FnvMod
 
 // Advances each particle position by its velocity times the elapsed time since its last update, then stores the new time.
 // @fnv 0x00c28bc0
+// pdb: NiPSysPositionModifier::Update | NiPSysPositionModifier.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: fTime, pkData
 void __stdcall IntegrateParticlePositions(float fTime, FnvMod* pMod)
 {
     pMod->Slot43();
@@ -213,11 +179,12 @@ class BC28C60GravityModifier : public BC28C60Modifier
     virtual ~BC28C60GravityModifier();
 
     void CopyMemberData(BC28C60GravityModifier* pkDest, BC28C60CloningProcess& kCloning);
-    BC28C60GravityModifier* FUN_00c28c60(BC28C60CloningProcess& kCloning);
+    BC28C60GravityModifier* NiPSysPositionModifier_CreateClone(BC28C60CloningProcess& kCloning);
 };
 
 // @fnv 0x00c28c60
-BC28C60GravityModifier* BC28C60GravityModifier::FUN_00c28c60(BC28C60CloningProcess& kCloning)
+// pdb: NiPSysPositionModifier::CreateClone | NiPSysPositionModifier.obj | fnv360_0822_retail, objopen_prop + bridge(vtable|objopen_prop) + skyrim(caller_sim), high
+BC28C60GravityModifier* BC28C60GravityModifier::NiPSysPositionModifier_CreateClone(BC28C60CloningProcess& kCloning)
 {
     BC28C60GravityModifier* pkClone = new BC28C60GravityModifier;
     CopyMemberData(pkClone, kCloning);
@@ -232,6 +199,8 @@ class NiPSysModifier
     void FUN_00c28b50(NiStream& a1);
 };
 // @fnv 0x00c28b50
+// pdb: NiAmbientLight::IsEqual | NiAmbientLight.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: pObject
 void NiPSysModifier::FUN_00c28b50(NiStream& a1)
 {
     LoadBinary(a1);
@@ -239,7 +208,8 @@ void NiPSysModifier::FUN_00c28b50(NiStream& a1)
 
 void __cdecl FUN_00c31830();
 // @fnv 0x00c28b80
-void __cdecl FUN_00c28b80()
+// pdb: NiAlphaAccumulator::RegisterStreamables | NiAlphaAccumulator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void __cdecl NiAlphaAccumulator_RegisterStreamables()
 {
     FUN_00c31830();
 }
@@ -247,6 +217,8 @@ void __cdecl FUN_00c28b80()
 void __cdecl FUN_00c31950();
 
 // @fnv 0x00c28b70
+// pdb: BSMultiBoundOBB::LinkObject | BSMultiBoundOBB.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 void __cdecl FUN_00c28b70()
 {
     FUN_00c31950();

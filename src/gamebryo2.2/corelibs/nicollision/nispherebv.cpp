@@ -20,11 +20,12 @@ struct NiSphere
 struct NiSphereBV : NiObject
 {
     NiSphere m_kBoundingSphere;
-    void FUN_00eab860(NiStream& kStream);
+    void NiPosKey_LoadBinary(NiStream& kStream);
 };
 
 // @fnv 0x00eab860
-void NiSphereBV::FUN_00eab860(NiStream& kStream)
+// pdb: NiPosKey::LoadBinary | NiPosKey.obj | fnv360_0822_retail, caller_sim + bridge(call_seq|call_seq) + skyrim(caller_sim), high
+void NiSphereBV::NiPosKey_LoadBinary(NiStream& kStream)
 {
     NiObject::LinkObject(kStream);
     m_kBoundingSphere.LoadBinary(kStream);
@@ -47,6 +48,8 @@ struct NiSphereBV : NiBoundingVolume
 };
 
 // @fnv 0x00eab880
+// pdb: NiColorKey::LoadBinary | NiColorKey.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 void NiSphereBV::FUN_00eab880(NiStream& kStream)
 {
     NiBoundingVolume::SaveBinary(kStream);
@@ -79,6 +82,8 @@ struct NiSphereBV : NiBoundingVolume
 
 // Copies the sphere (center and radius) from the given bounding volume into this sphere bounding volume.
 // @fnv 0x00eab8d0
+// pdb: NiSphereBV::Copy | NiSphereBV.obj | fnv360_1110_retail, objrun, low
+// pdb params: kABV
 void NiSphereBV::CopySphereFrom(const NiBoundingVolume& kABV)
 {
     NiSphereBV* kSBV = this;
@@ -116,6 +121,8 @@ struct Proxy00eab8a0
 };
 // Sets the vtable pointer, copies three ints from p into slots 1-3, stores f in slot 4, and returns this.
 // @fnv 0x00eab8a0
+// pdb: NiSphereBV::NiSphereBV | NiSphereBV.obj | fnv360_1110_retail, objrun, high
+// pdb params: fRadius, kCenter
 Proxy00eab8a0* Proxy00eab8a0::InitFromParams(float afValue, int const* paiParams)
 {
     *(int*)this = (int)&DAT_010f1854;
@@ -144,6 +151,8 @@ struct FUN_00eac170_Ret
     float r;
 };
 // @fnv 0x00eac170
+// pdb: NiSphereBV::CreateFromStream | NiSphereBV.obj | fnv360_1110_retail, objrun, low
+// pdb params: kStream
 FUN_00eac170_Ret* FUN_00eac170(NiStream& kStream)
 {
     void* mem = g_memoryManager.Allocate(20);
@@ -177,6 +186,7 @@ struct FUN_00eac1d0_shell
 };
 // Sets m_p to DAT_010f16f4, frees this via g_memoryManager.Deallocate when b has bit 0 set, and returns this.
 // @fnv 0x00eac1d0
+// pdb: IBSAnimNoteReceiver::`scalar deleting destructor' | BSAnimNoteReceiver.obj | fnv360_0822_retail, vtable, high
 void* FUN_00eac1d0_shell::InitAndMaybeFree(bool abFree)
 {
     m_p = &DAT_010f16f4;
@@ -199,6 +209,7 @@ extern int DAT_011f4274;
 struct NiBoundingVolume;
 // Allocates 0x14 bytes, initialises a vtable pointer and four fields (including a float set to 1.0), and returns the new NiBoundingVolume or null.
 // @fnv 0x00eac200
+// pdb: NiSphereBV::Create | NiSphereBV.obj | fnv360_1110_retail, objrun, low
 NiBoundingVolume* CreateNiBoundingVolume()
 {
     void* p = g_memoryManager.Allocate(0x14);
@@ -238,6 +249,7 @@ struct BVClone
 };
 // Allocates a 20-byte BVClone, sets its vtable pointer and copies the S16 at offset 4 from this, returning the clone or 0.
 // @fnv 0x00eacac0
+// pdb: NiSphereBV::Clone | NiSphereBV.obj | fnv360_1110_retail, objrun, low
 BVClone* BVClone::Clone()
 {
     BVClone* pkClone = (BVClone*)g_memoryManager.Allocate(20);
@@ -295,6 +307,8 @@ struct S_00eab900 : S_00eab900_Bound
 };
 // Transforms the bound's center by the transform's rotation and scale plus translation, and scales its radius.
 // @fnv 0x00eab900
+// pdb: NiSphereBV::UpdateWorldData | NiSphereBV.obj | fnv360_1110_retail, objrun, medium
+// pdb params: kModelABV, kWorld
 void S_00eab900::TransformBound(const S_00eab900_Bound& aBound, const S_00eab900_Xform& aXform)
 {
     c = aXform.scale * (aXform.rot * aBound.c) + aXform.trans;
@@ -346,6 +360,8 @@ struct SphereBVLite : BoundVolLite
 
 // Tests whether two moving spheres overlap within fTime by comparing squared centre distance against the squared sum of radii.
 // @fnv 0x00eab9d0
+// pdb: NiSphereBV::SphereSphereTestIntersect | NiSphereBV.obj | fnv360_1110_retail, objrun, medium
+// pdb params: fTime, kABV0, kV0, kABV1, kV1
 bool SphereBVLite::CheckSweptSphereOverlap(float fTime, const BoundVolLite& kBV0, const Point3Lite& kV0,
                                            const BoundVolLite& kBV1, const Point3Lite& kV1)
 {
@@ -405,6 +421,8 @@ struct Display0
     void AppendFormattedText(char* text, Stream0* out);
 };
 // @fnv 0x00eacbe0
+// pdb: NiSphereBV::AddViewerStrings | NiSphereBV.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, pkStrings
 void Display0::AppendFormattedText(char* text, Stream0* out)
 {
     char* original;
@@ -468,6 +486,8 @@ float GetSquaredDistanceToTriangle(const Point3Lite&, const Triangle3&, float*, 
 
 // Builds a triangle from three points and tests whether the sphere's center swept along kV0-kV1 over fTime comes within the sphere radius of the triangle.
 // @fnv 0x00eac240
+// pdb: NiSphereBV::SphereTriTestIntersect | NiSphereBV.obj | fnv360_1110_retail, objrun, medium
+// pdb params: fTime, kABV0, kV0, kVert0, kVert1, kVert2, kV1
 bool SphereTriangleSweepTest(float fTime, const SphereBVLite& kBV0, const Point3Lite& kV0, const Point3Lite& kTriP0,
                              const Point3Lite& kTriP1, const Point3Lite& kTriP2, const Point3Lite& kV1)
 {
@@ -686,6 +706,8 @@ struct ObjB0
 
 // Reads three NiColor values and three floats from kStream, then allocates and returns an ObjB0 built from the first color and the third float.
 // @fnv 0x00eacb00
+// pdb: NiSphereBV::ConvertLozengeToSphereBoundingVolume | NiSphereBV.obj | fnv360_1110_retail, objrun, low, conflict (bridge: NiPSysGravityFieldModifier::LoadBinary)
+// pdb params: kStream
 ObjB0* ReadObjB0(NiStream& kStream)
 {
     NiColor a, b, c;
@@ -762,6 +784,8 @@ inline V3 ScaleLife(const float& f, const V3& v)
 }
 // Tests sphere separation over fDur and writes contact data on a hit; normal outputs are conditional on flag in some branches.
 // @fnv 0x00eabb20
+// pdb: NiSphereBV::SphereSphereFindIntersect | NiSphereBV.obj | fnv360_1110_retail, objrun, medium
+// pdb params: fTime, kABV0, kV0, kABV1, kV1, fIntrTime, kIntrPt, bCalcNormals, kNormal0, kNormal1
 bool IntersectSpheres(float afDuration, const Sphere0& A, const V3& B, const Sphere0& C, const V3& D, float& time,
                       V3& point, bool flag, V3& normal0, V3& normal1)
 {
@@ -993,6 +1017,8 @@ struct Query
 };
 // Computes the time and point of collision between a moving sphere and a moving triangle, returning true if they intersect.
 // @fnv 0x00eac3f0
+// pdb: NiSphereBV::SphereTriFindIntersect | NiSphereBV.obj | fnv360_1110_retail, objrun, medium
+// pdb params: fTime, kABV0, kV0, kVert0, kVert1, kVert2, kV1, fIntrTime, kIntrPt, bCalcNormals, kNormal0, kNormal1
 bool __cdecl SphereTriangleCollision(float time, Sphere const& sphere, Pt3 const& sphereVelocity, Pt3 const& v0,
                                      Pt3 const& v1, Pt3 const& v2, Pt3 const& triangleVelocity, float& contactTime,
                                      Pt3& contactPoint, bool calcNormals, Pt3& sphereNormal, Pt3& triangleNormal)

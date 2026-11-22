@@ -1,33 +1,56 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl FUN_00da3510(void*, void*);
+extern "C" void __cdecl hkAgent1nMachine_InvalidateTim(void*, void*);
 
-struct hkpConvexListAgent
+// hkpGskfAgent and hkpConvexListAgent: the members the agent's functions here use, at their Fallout 3 offsets (names
+// from the New Vegas Xbox 360 PDB). Outside GSK mode the agent keeps its hkpAgent1nTrack in the bytes of the GSK
+// manifold, whose first word is the track's sector array.
+struct hkpGskfAgent
+{
+    int unk00;
+    int unk04;
+    void* m_contactMgr;         // +0x08
+    char unk0C[0x24];
+    char m_manifold[0x50];      // +0x30
+    void __thiscall hkpGskfAgent_commitPotential(int a);
+};
+struct hkpConvexListAgentData : hkpGskfAgent
+{
+    void* m_dispatcher;         // +0x80
+    char m_inGskMode;           // +0x84 hkBool
+    char m_processFunctionCalled;
+    short m_inStreamModeCounter;
+};
+struct hkpConvexListAgent : hkpConvexListAgentData
 {
     void __thiscall RemovePoint(int a);
     void __thiscall FUN_00d33770(int a);
 };
 
 // @fnv 0x00d33770
+// pdb: hkpConvexListAgent::invalidateTim | hkpConvexListAgent.obj | fnv360_0822_retail, vtable_prefix, high
+// pdb params: input
 void __thiscall hkpConvexListAgent::FUN_00d33770(int a)
 {
-    if (*(char*)((char*)this + 0x84))
+    if (m_inGskMode)
         RemovePoint(a);
     else
-        FUN_00da3510(this + 0x30, (void*)a);
+        hkAgent1nMachine_InvalidateTim(m_manifold, (void*)a);
 }
 
 extern "C" void __cdecl FUN_00d339d0(int, int, int, int);
 
 struct FUN_00d33b70_cls
 {
-    void __thiscall FUN_00d33b70(int a, int b, int c, int d);
+    void __thiscall hkpConvexListAgent_getClosestPoints(int a, int b, int c, int d);
 };
 
 // @fnv 0x00d33b70
-void __thiscall FUN_00d33b70_cls::FUN_00d33b70(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+// pdb: hkpConvexListAgent::getClosestPoints | hkpConvexListAgent.obj | fnv360_0822_retail, vtable_prefix + bridge(vtable_prefix|vtable) + skyrim(vtable_prefix), high
+void __thiscall FUN_00d33b70_cls::hkpConvexListAgent_getClosestPoints(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00d339d0(aiArg1, aiArg2, aiArg3, aiArg4);
 }
@@ -39,146 +62,96 @@ extern "C"
 
 struct FUN_00d33c80_class
 {
-    void __thiscall FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void __thiscall hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
 };
 
 // @fnv 0x00d33c80
-void __thiscall FUN_00d33c80_class::FUN_00d33c80(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+// pdb: hkpConvexListAgent::getPenetrations | hkpConvexListAgent.obj | fnv360_0822_retail, vtable_prefix + bridge(vtable_prefix|vtable) + skyrim(vtable_prefix), high
+void __thiscall FUN_00d33c80_class::hkpConvexListAgent_getPenetrations(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00d33b90(apArg1, apArg2, apArg3, apArg4);
 }
 
-struct hkpCollisionDispatcher
-{
-    struct CollisionAgentFunctionTable
-    {
-        void* pfnA;
-        void* pfnB;
-        void* pfnC;
-        void* pfnD;
-        char b1;
-        char b2;
-    };
-    void __thiscall FUN_00cfbbe0(CollisionAgentFunctionTable* a, int b, int c);
-};
-extern void* __cdecl CreateConvexListAgent();
-extern void* __cdecl InitSpawnedBuffer();
-extern void* __cdecl FUN_00d34970();
-extern void* __cdecl FUN_00d349b0();
-extern void* __cdecl FUN_00d343f0();
-extern void* __cdecl _FUN_00d33b90();
-extern void* __cdecl _FUN_00d339d0();
+extern void* __cdecl hkpConvexListAgent_createConvexListConvexAgent();
 extern void* __cdecl FUN_00d33ca0();
-extern void* __cdecl FUN_00d34510();
-// Fills a collision-function table three times and registers it with the dispatcher for the 0x16/0x12, 0x12/0x16 and 0x16/0x16 type pairs.
-// @fnv 0x00d346b0
-void __cdecl RegisterConvexListAgentCollisionFuncs(hkpConvexListAgent* self)
-{
-    hkpCollisionDispatcher::CollisionAgentFunctionTable funcTable;
-    funcTable.pfnA = (void*)CreateConvexListAgent;
-    funcTable.pfnB = (void*)InitSpawnedBuffer;
-    funcTable.pfnC = (void*)FUN_00d34970;
-    funcTable.pfnD = (void*)FUN_00d349b0;
-    funcTable.b1 = 1;
-    funcTable.b2 = 1;
-    ((hkpCollisionDispatcher*)self)->FUN_00cfbbe0(&funcTable, 0x16, 0x12);
-    funcTable.pfnA = (void*)FUN_00d343f0;
-    funcTable.pfnB = (void*)_FUN_00d33b90;
-    funcTable.pfnC = (void*)_FUN_00d339d0;
-    funcTable.pfnD = (void*)FUN_00d33ca0;
-    funcTable.b1 = 0;
-    funcTable.b2 = 1;
-    ((hkpCollisionDispatcher*)self)->FUN_00cfbbe0(&funcTable, 0x12, 0x16);
-    funcTable.pfnA = (void*)FUN_00d34510;
-    funcTable.pfnB = (void*)_FUN_00d33b90;
-    funcTable.pfnC = (void*)_FUN_00d339d0;
-    funcTable.pfnD = (void*)FUN_00d33ca0;
-    funcTable.b1 = 0;
-    funcTable.b2 = 1;
-    ((hkpCollisionDispatcher*)self)->FUN_00cfbbe0(&funcTable, 0x16, 0x16);
-}
 
-struct FUN_00d337f0_self
+struct FUN_00d337f0_self : hkpConvexListAgentData
 {
     void __thiscall FUN_00dacb20(int a);
-    void __thiscall FUN_00d337f0(int a);
+    void __thiscall hkpConvexListAgent_removePoint(int a);
 };
 
 // @fnv 0x00d337f0
-void __thiscall FUN_00d337f0_self::FUN_00d337f0(int a)
+// pdb: hkpConvexListAgent::removePoint | hkpConvexListAgent.obj | fnv360_0822_retail, vtable_prefix + bridge(vtable_prefix|vtable) + skyrim(vtable_prefix), high
+void __thiscall FUN_00d337f0_self::hkpConvexListAgent_removePoint(int a)
 {
-    if (*(char*)((char*)this + 0x84))
+    if (m_inGskMode)
         FUN_00dacb20(a);
 }
 
-struct hkpGskfAgent
+struct FUN_00d33810_cls : hkpConvexListAgentData
 {
-    void __thiscall AddPotential(int a);
-};
-
-struct FUN_00d33810_cls : hkpGskfAgent
-{
-    void __thiscall FUN_00d33810(int a);
+    void __thiscall hkpConvexListAgent_commitPotential(int a);
 };
 
 // @fnv 0x00d33810
-void FUN_00d33810_cls::FUN_00d33810(int a)
+// pdb: hkpConvexListAgent::commitPotential | hkpConvexListAgent.obj | fnv360_0822_retail, vtable_prefix + bridge(vtable_prefix|vtable) + skyrim(vtable_prefix), high
+void FUN_00d33810_cls::hkpConvexListAgent_commitPotential(int a)
 {
-    if (*(char*)((char*)this + 0x84))
-        hkpGskfAgent::AddPotential(a);
+    if (m_inGskMode)
+        hkpGskfAgent::hkpGskfAgent_commitPotential(a);
 }
 
 namespace fnv_00d33830 {
-struct FUN_00d33830_cls
-{
-    void __thiscall FUN_00d33830(int a);
-};
-
 struct hkpGskfAgent
 {
-    void __thiscall ClearSlotById(int a);
+    void __thiscall hkpGskfAgent_createZombie(int a);
+};
+// hkpConvexListAgent, as above.
+struct FUN_00d33830_cls : ::hkpConvexListAgentData
+{
+    void __thiscall FUN_00d33830(int a);
 };
 
 // @fnv 0x00d33830
 void __thiscall FUN_00d33830_cls::FUN_00d33830(int aiArg)
 {
-    if (*(char*)((char*)this + 0x84))
-        ((hkpGskfAgent*)this)->ClearSlotById(aiArg);
+        if (m_inGskMode)
+        ((fnv_00d33830::hkpGskfAgent*)this)->hkpGskfAgent_createZombie(aiArg);
 }
 }  // namespace fnv_00d33830
 
-extern void __cdecl FUN_00d97250(void*, void*, void*);
-
-struct FUN_00d33740_cls
+struct FUN_00d33740_cls : hkpConvexListAgentData
 {
     void __thiscall FUN_00d33740(int a);
 };
 
-// If the byte at offset 0x84 is zero, calls FUN_00d97250 with this+0x30, the pointer at a+8 and a.
+// Outside GSK mode, passes the agent track, the pointer at a+4 and a to FUN_00a26d90.
 // @f3 0x009bd500 (community match, verified in this file)
 extern void __cdecl FUN_00a26d90(void*, void*, void*);
 
 void __thiscall FUN_00d33740_cls::FUN_00d33740(int a)
 {
-    if (*(char*)((char*)this + 0x84) == 0)
+    if (m_inGskMode == 0)
     {
-        FUN_00a26d90((char*)this + 0x30, *(void**)(a + 4), (void*)a);
+        FUN_00a26d90(m_manifold, *(void**)(a + 4), (void*)a);
     }
 }
 
 
-void __cdecl FUN_00da42b0(void*, int, int, int);
-struct FUN_00d33850_cls
+void __cdecl hkAgent1nMachine_Destroy(void*, int, int, int);
+struct FUN_00d33850_cls : hkpConvexListAgentData
 {
-    void __thiscall FUN_00d33850(int a);
+    void __thiscall hkpConvexListAgent_switchToGskMode(int a);
 };
-// Calls FUN_00da42b0 with fields at offsets 0x30, 0x80 and 8 plus a, then clears the field at 0x30 and sets the byte at 0x84 to 1.
+// Destroys the agent track with the dispatcher and contact manager, clears it and switches to GSK mode.
 // @fnv 0x00d33850
-void __thiscall FUN_00d33850_cls::FUN_00d33850(int a)
+// pdb: hkpConvexListAgent::switchToGskMode | hkpConvexListAgent.obj | fnv360_0822_retail, objrun + bridge(hash|objrun) + skyrim(hash), high
+void __thiscall FUN_00d33850_cls::hkpConvexListAgent_switchToGskMode(int a)
 {
-    FUN_00da42b0(this + 0x30, *(int*)(this + 0x80), *(int*)(this + 8), a);
-    *(int*)(this + 0x30) = 0;
-    *(char*)(this + 0x84) = 1;
+    hkAgent1nMachine_Destroy(m_manifold, (int)m_dispatcher, (int)m_contactMgr, a);
+    *(int*)m_manifold = 0;
+    m_inGskMode = 1;
 }
 
 // Forwards all five arguments to FUN_00d33ca0 and returns its result.
@@ -186,20 +159,6 @@ void __thiscall FUN_00d33850_cls::FUN_00d33850(int a)
 void* __stdcall FUN_00d33da0(void* a, void* b, void* c, void* d, void* e)
 {
     return ((void*(__cdecl*)(void*, void*, void*, void*, void*))FUN_00d33ca0)(a, b, c, d, e);
-}
-
-struct hkpSimpleClosestContactCollector
-{
-    void Reset();
-};
-
-// @fnv 0x00d34770
-void hkpSimpleClosestContactCollector::Reset()
-{
-    float max = 3.402820018375656e+38f;
-    *(char*)((char*)this + 8) = 0;
-    *(float*)((char*)this + 0x2c) = max;
-    *(float*)((char*)this + 4) = max;
 }
 
 struct D338e0Agent
@@ -273,29 +232,34 @@ struct D338e0Owner
     int unk80;
     unsigned char unk84;
 
-    void __thiscall FUN_00d338e0(int param1, int param2, int param3, int param4);
+    void __thiscall hkpConvexListAgent_updateShapeCollectionFilter(int param1, int param2, int param3, int param4);
 };
 
-extern "C" void __cdecl FUN_00da48e0(int*, D338e0Local*);
+extern "C" void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(int*, D338e0Local*);
 
 inline void D338e0Dispatch(D338e0Local* local, int* ownerField, int result)
 {
     local->field0C = result;
-    FUN_00da48e0(ownerField, local);
+    hkAgent1nMachine_UpdateShapeCollectionFilter(ownerField, local);
 }
 
-// If unk84 is zero, fills a D338e0Local from the parameters and unk08, calls vf10 on the agent at param2, and dispatches the result with unk30.
+// Outside GSK mode, fills the visitor input from the parameters and the contact manager (unk08), takes body B's shape container, and updates the agent track (unk30).
 // @f3 0x009bd6a0 (community match, verified in this file)
+class hkClass;
+class hkStatisticsCollector;
+// hkpShape: the Fallout 3 slots up to getContainer (the order of the shape vtables, hkpSphereShape 0x00e7c8d4; names
+// from the New Vegas Xbox 360 PDB).
 struct D338e0AgentF3
 {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual int vf14();
+    virtual ~D338e0AgentF3();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual float getMaximumProjection(const void* direction) const;
+    virtual void castRayWithCollectorImpl(const void* input, const void* cdBody, void* collector) const;
+    virtual int getContainer() const;
 };
-void __thiscall D338e0Owner::FUN_00d338e0(int aiArg1, int apAgentPtr, int aiArg3, int aiArg4)
+// pdb: hkpConvexListAgent::updateShapeCollectionFilter | hkpConvexListAgent.obj | fnv360_0822_retail, vtable_prefix + bridge(vtable_prefix|vtable) + skyrim(vtable_prefix), high
+void __thiscall D338e0Owner::hkpConvexListAgent_updateShapeCollectionFilter(int aiArg1, int apAgentPtr, int aiArg3, int aiArg4)
 {
     if (*(char*)&unk84 == 0)
     {
@@ -307,7 +271,7 @@ void __thiscall D338e0Owner::FUN_00d338e0(int aiArg1, int apAgentPtr, int aiArg3
         local.field18 = aiArg4;
 
         D338e0AgentF3** ppAgent = reinterpret_cast<D338e0AgentF3**>(apAgentPtr);
-        int result = (*ppAgent)->vf14();
+        int result = (*ppAgent)->getContainer();
 
         D338e0Dispatch(&local, &unk30, result);
     }
@@ -438,7 +402,10 @@ static __forceinline hkpCollisionAgentD33D* AllocAgent(unsigned int uiSize)
     return p;
 }
 
-hkpCollisionAgentD33D* __cdecl CreateConvexListAgent(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB,
+// pdb: hkpConvexListAgent::createConvexListConvexAgent | hkpConvexListAgent.obj | fnv360_0822_debug, objrun, high
+// pdb params: bodyA, bodyB, input, mgr
+// pdb: hkpConvexListAgent::createConvexListConvexAgent | hkpConvexListAgent.obj | fnv360_0822_debug, objrun, high (was: CreateConvexListAgent)
+hkpCollisionAgentD33D* __cdecl hkpConvexListAgent_createConvexListConvexAgent(const hkpCdBodyD33D& kBodyA, const hkpCdBodyD33D& kBodyB,
                                                      const hkpCollisionInputD33D& kInput,
                                                      hkpContactMgrD33D* pkMgr) throw()
 {
@@ -464,7 +431,7 @@ hkpCollisionAgentD33D* __cdecl CreateConvexListAgent(const hkpCdBodyD33D& kBodyA
 }
 
 
-void __cdecl ReleaseAllEntries(void* out, void* src, void* arg);
+void __cdecl hkGskManifold_cleanup(void* out, void* src, void* arg);
 void InitBlockPool(void* p);
 
 struct hkArrayD33E
@@ -518,14 +485,15 @@ struct hkObjD33E
     char unk85;
     short m_86;
 
-    void FUN_00d33ef0(void* arg);
+    void hkpConvexListAgent_switchToStreamMode(void* arg);
 };
 
 // Reinitializes the embedded array, clears m_84 and m_3c, and sets m_86 to 0x19.
 // @fnv 0x00d33ef0
-void hkObjD33E::FUN_00d33ef0(void* arg)
+// pdb: hkpConvexListAgent::switchToStreamMode | hkpConvexListAgent.obj | fnv360_0822_retail, objrun + bridge(call_dedup|objrun) + skyrim(call_gap), high
+void hkObjD33E::hkpConvexListAgent_switchToStreamMode(void* arg)
 {
-    ReleaseAllEntries(&m_ppData, m_pObservedSource, arg);
+    hkGskManifold_cleanup(&m_ppData, m_pObservedSource, arg);
     m_84 = 0;
     new (&m_ppData) hkArrayD33E();
     InitBlockPool(&m_ppData);
@@ -630,25 +598,6 @@ class hkpPredGskfAgentD343 : public FUN_00dacbd0
     virtual ~hkpPredGskfAgentD343() throw();
 };
 
-// @fnv 0x00d343f0
-hkpCollisionAgentD343* __cdecl FUN_00d343f0(const hkpCdBodyD343& kBodyA, const hkpCdBodyD343& kBodyB,
-                                            const hkpCollisionInputD343& kInput, hkpContactMgrD343* pkMgr) throw()
-{
-    if (pkMgr)
-    {
-        switch (kInput.m_pConvexListCollisionFilter->ShouldBodiesCollide(kBodyB, kBodyA, kInput))
-        {
-        case 0:
-            return new FUN_00d33940(kBodyA, kBodyB, kInput, pkMgr);
-        case 1:
-            return new hkpSymmetricAgentD343(kBodyA, kBodyB, kInput, pkMgr);
-        case 2:
-            return new hkpPredGskfAgentD343(kBodyA, kBodyB, pkMgr);
-        }
-        return 0;
-    }
-    return new hkpSymmetricAgentD343(kBodyA, kBodyB, kInput, 0);
-}
 }  // namespace fnv_00d343f0
 
 class hkCollectorBaseD347
@@ -675,6 +624,8 @@ extern "C" void __cdecl FUN_00d43dc0(void* a, void* b, void* c, hkCollectorBaseD
 
 // Constructs an hkCollectorD347 with the given filter and passes it to FUN_00d43dc0 along with a, b and c.
 // @fnv 0x00d34790
+// pdb: hkpSymmetricAgentLinearCast<hkpShapeCollectionAgent>::staticGetPenetrations | hkpConvexListAgent.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: bodyA, bodyB, input, collector
 void __cdecl FUN_00d34790(void* b, void* a, void* c, int filter)
 {
     hkCollectorD347 collector(filter);
@@ -682,18 +633,13 @@ void __cdecl FUN_00d34790(void* b, void* a, void* c, int filter)
 }
 
 extern "C" void __cdecl FUN_00d34810();
-// @fnv 0x00d36930
-extern "C" void __cdecl FUN_00d36930()
-{
-    FUN_00d34810();
-}
 
 struct hkMemberD337
 {
     int unk00;
 };
 
-void __cdecl FUN_00da35f0(hkMemberD337* member, float a, float b, int c);
+void __cdecl hkAgent1nMachine_WarpTime(hkMemberD337* member, float a, float b, int c);
 
 class hkObjD337
 {
@@ -703,22 +649,24 @@ class hkObjD337
     int unk34[20];
     bool m_84;
 
-    void SetValueIfExpected(float a, float b, int c);
+    void hkpGskBaseAgent_warpTime(float a, float b, int c);
     void SetValue(float a, float b, int c);
 };
 
-// Sets a value on the object, calling SetValueIfExpected when m_84 is true, otherwise delegating to FUN_00da35f0 on m_30.
+// Sets a value on the object, calling hkpGskBaseAgent_warpTime when m_84 is true, otherwise delegating to hkAgent1nMachine_WarpTime on m_30.
 // @fnv 0x00d337a0
+// pdb: hkpConvexListAgent::warpTime | hkpConvexListAgent.obj | fnv360_0822_retail, vtable_prefix, high
+// pdb params: oldTime, newTime, input
 void hkObjD337::SetValue(float a, float b, int c)
 {
     if (m_84)
-        SetValueIfExpected(a, b, c);
+        hkpGskBaseAgent_warpTime(a, b, c);
     else
-        FUN_00da35f0(&m_30, a, b, c);
+        hkAgent1nMachine_WarpTime(&m_30, a, b, c);
 }
 
 // @fnv 0x00d33890
-extern void __cdecl ReleaseAllEntries(void*, int, void*);
+extern void __cdecl hkGskManifold_cleanup(void*, int, void*);
 struct ContactAgent
 {
     virtual void Invalidate(int);
@@ -760,11 +708,11 @@ void ContactAgent::FUN_00d33890(void* input)
 {
     if (flag84)
     {
-        ReleaseAllEntries(&contact30, collidable08, input);
+        hkGskManifold_cleanup(&contact30, collidable08, input);
     }
     else
     {
-        FUN_00da42b0(&contact30, state80, collidable08, (int)input);
+        hkAgent1nMachine_Destroy(&contact30, state80, collidable08, (int)input);
     }
     Invalidate(1);
 }
@@ -848,6 +796,8 @@ struct S00d33940_Obj : S00d33940_Base
 
 // Calls FUN_00dacbd0(a, b, d), sets vt to DAT_010cebf0 and unk80 to *c, sets unk84/85, calls FUN_00dafcd0 on unk0c, and sets unk18 and unk2c to DAT_01012054.
 // @fnv 0x00d33940
+// pdb: hkpConvexListAgent::hkpConvexListAgent | hkpConvexListAgent.obj | fnv360_0822_retail, uvref, high
+// pdb params: bodyA, bodyB, input, mgr
 S00d33940_Obj* S00d33940_Obj::FUN_00d33940(int* a, int* b, int* c, void* d)
 {
     FUN_00dacbd0(a, b, d);
@@ -894,71 +844,41 @@ struct HitCollector
     bool m_bHit;
 };
 
-void __cdecl TestGsk(void* a, void* b, void* c, HitCollector* col);
+void __cdecl hkpGskBaseAgent_staticGetPenetrations(void* a, void* b, void* c, HitCollector* col);
 void __cdecl FUN_00d34790(void* a, void* b, void* c, void* d);
 
-// Writes timer entries (LtCvxList/StcheckHull, Stchildren, lt), calls TestGsk with a collector, and calls FUN_00d34790 if the collector registered a hit.
+// Writes timer entries (LtCvxList/StcheckHull, Stchildren, lt), calls hkpGskBaseAgent_staticGetPenetrations with a collector, and calls FUN_00d34790 if the collector registered a hit.
 // @fnv 0x00d33b90
+// pdb: hkpConvexListAgent::staticGetPenetrations | hkpConvexListAgent.obj | fnv360_0822_retail, call_seq, high
+// pdb params: bodyA, bodyB, input, collector
 extern "C" void __cdecl FUN_00d33b90(void* a, void* b, void* c, void* d)
 {
-    volatile DWORD tick;
-    ProfBuf* pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = (ProfRec*)pBuf->m_pCur;
-        pRec->m_pName = "LtCvxList";
-        pRec->m_pName2 = "StcheckHull";
-        _ReadWriteBarrier();
-        tick = (DWORD)__rdtsc();
-        pRec->m_iTick = tick;
-        pBuf->m_pCur = (char*)pRec + 0x10;
-    }
+    HK_TIMER_BEGIN_LIST("CvxList", "checkHull");
 
     HitCollector col;
     col.m_vtbl = &DAT_010cebd0;
     col.m_bHit = false;
-    TestGsk(a, b, c, &col);
+    hkpGskBaseAgent_staticGetPenetrations(a, b, c, &col);
     if (col.m_bHit)
     {
-        pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-        if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-        {
-            ProfRec* pRec = (ProfRec*)pBuf->m_pCur;
-            pRec->m_pName = "Stchildren";
-            _ReadWriteBarrier();
-            tick = (DWORD)__rdtsc();
-            pRec->m_iTick = tick;
-            pBuf->m_pCur = (char*)pRec + 0xc;
-        }
+        HK_TIMER_SPLIT_LIST("children");
         FUN_00d34790(a, b, c, d);
     }
 
-    pBuf = (ProfBuf*)TlsGetValue(DAT_0126835c);
-    if (pBuf->m_pCur < pBuf->m_pRecordEnd)
-    {
-        ProfRec* pRec = (ProfRec*)pBuf->m_pCur;
-        pRec->m_pName = "lt";
-        _ReadWriteBarrier();
-        tick = (DWORD)__rdtsc();
-        pRec->m_iTick = tick;
-        pBuf->m_pCur = (char*)pRec + 0xc;
-    }
+    HK_TIMER_END_LIST();
 }
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 
 extern unsigned long DAT_0126835c;
-extern const char str_010cec28[];
 extern const char str_01076f38[];
 extern int DAT_010c476c;
 extern float DAT_0104da48;
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
-extern "C" int __cdecl TestGsk(const void* a, const void* b, const void* c, void* d);
-extern "C" void __cdecl FUN_00dac450(const void* a, const void* b, const void* c, void* d);
-extern "C" void __cdecl QueryClosestPoints(const void* a, const void* b, const void* c, void* d);
+extern "C" int __cdecl hkpGskBaseAgent_staticGetPenetrations(const void* a, const void* b, const void* c, void* d);
 
 struct StringCursor
 {
@@ -1076,7 +996,7 @@ struct hkpCdPointCollector
     virtual void AddCdPoint(const ContactPointPair& point) = 0;
 };
 
-// If TestGsk reports a hit calls QueryClosestPoints; else adds the closest point to a4 when its distance exceeds b's shape threshold, otherwise calls QueryClosestPoints.
+// If hkpGskBaseAgent_staticGetPenetrations reports a hit calls QueryClosestPoints; else adds the closest point to a4 when its distance exceeds b's shape threshold, otherwise calls QueryClosestPoints.
 // @f3 0x009bd790 (community match, verified in this file)
 extern "C" void __cdecl FUN_00a34cf0(const void* a, const void* b, const void* c, void* d);
 extern "C" void __cdecl FUN_00a34e90(const void* a, const void* b, const void* c, void* d);
@@ -1111,6 +1031,8 @@ struct ClosestCollectorQ
     int unk4C;
 };
 
+// pdb: hkpConvexListAgent::staticGetClosestPoints | hkpConvexListAgent.obj | fnv360_0822_retail, call_seq, high
+// pdb params: bodyA, bodyB, input, collector
 extern "C" void __cdecl FUN_00d339d0(int apBodyA, int apBodyB, int a3, int apCollector)
 {
     {
@@ -1323,95 +1245,4 @@ typedef void*(__thiscall* PfnDacbd0)(void* self, void* bodyA, void* bodyB, void*
 typedef void*(__thiscall* PfnD440f0)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
 typedef void*(__thiscall* PfnD33940)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
 
-struct AgentCollisionDispatcher
-{
-    virtual void* vfunc0();
-    virtual void* vfunc1();
-    virtual void* vfunc2();
-    virtual int getCollisionType(void* bodyA, void* bodyB, void* input);
-};
-
-struct AgentCollisionInput
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    AgentCollisionDispatcher* m_pCollisionDispatcher;
-};
-
-struct AgentHeader
-{
-    void* vtable;
-    unsigned short m_usMemSizeAndFlags;
-    short m_iObjectReferenceCount;
-};
-
-// Dispatches on collision type to allocate and initialize the appropriate agent object for the given body pair and contact manager.
-// @fnv 0x00d34510
-void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input, void* contactMgr)
-{
-    if (contactMgr)
-    {
-        switch (input->m_pCollisionDispatcher->getCollisionType(bodyA, bodyB, input))
-        {
-        case 0: {
-            MemoryRouter* pMemoryRouter = FUN_00c85750();
-            int iAllocSize = 0x90;
-            void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
-            ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-            ((PfnD33940)FUN_00d33940)(agent, bodyB, bodyA, input, contactMgr);
-            *(void**)agent = (void*)0x10cec68;
-            return agent;
-        }
-        case 1: {
-            MemoryRouter* pMemoryRouter = FUN_00c85750();
-            int iAllocSize = 0x38;
-            void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
-            ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-            return ((PfnD440f0)FUN_00d440f0)(agent, bodyA, bodyB, input, contactMgr);
-        }
-        case 2: {
-            switch (input->m_pCollisionDispatcher->getCollisionType(bodyB, bodyA, input))
-            {
-            case 0: {
-                MemoryRouter* pMemoryRouter = FUN_00c85750();
-                int iAllocSize = 0x90;
-                void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
-                ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-                return ((PfnD33940)FUN_00d33940)(agent, bodyA, bodyB, input, contactMgr);
-            }
-            case 1: {
-                MemoryRouter* pMemoryRouter = FUN_00c85750();
-                int iAllocSize = 0x38;
-                void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
-                ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-                ((PfnD440f0)FUN_00d440f0)(agent, bodyB, bodyA, input, contactMgr);
-                *(void**)agent = (void*)0x10ce8b0;
-                return agent;
-            }
-            case 2: {
-                MemoryRouter* pMemoryRouter = FUN_00c85750();
-                int iAllocSize = 0x80;
-                void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
-                ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-                ((PfnDacbd0)FUN_00dacbd0)(agent, bodyA, bodyB, contactMgr);
-                *(void**)agent = (void*)0x10ceb94;
-                return agent;
-            }
-            }
-            break;
-        }
-        }
-        return 0;
-    }
-    else
-    {
-        MemoryRouter* pMemoryRouter = FUN_00c85750();
-        int iAllocSize = 0x38;
-        void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
-        ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
-        return ((PfnD440f0)FUN_00d440f0)(agent, bodyA, bodyB, input, 0);
-    }
-}
 }  // namespace fnv_00d34510

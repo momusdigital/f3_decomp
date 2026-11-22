@@ -45,6 +45,7 @@ struct Owner {
     int FUN_00772370();
 };
 
+// pdb: PlayerCharacter::GetCurrentPotionCount | PlayerCharacter.obj | fnv360_0822_retail, call_seq, medium
 int Owner::FUN_00772370()
 {
     Owner* self = this;

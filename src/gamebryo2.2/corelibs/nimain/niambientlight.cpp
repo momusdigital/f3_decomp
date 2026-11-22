@@ -10,6 +10,7 @@ struct S00
 void __cdecl _delete(void*, unsigned int);
 // Calls _FUN_00a72010, then if flags has bit 1 set deletes this with size 0xF0, and returns this.
 // @fnv 0x00a9b3a0
+// pdb: BSFaceGenNiNode::`scalar deleting destructor' | BSFaceGenNiNode.obj | fnv360_0822_retail, vtable_prefix, high
 void* S00::DestroyIfFlagged(unsigned int flags)
 {
     _FUN_00a72010();
@@ -33,6 +34,8 @@ char* __cdecl _FUN_00a7d330(void const*);
 extern void const* const g_011f5f6c;
 // Appends the string returned by _FUN_00a7d330(g_011f5f6c) to the StrArr, growing it via SetSize when the size reaches the max.
 // @fnv 0x00a9b430
+// pdb: NiPoint3InterpController::GetViewerStrings | NiPoint3InterpController.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkStrings
 void __stdcall FUN_00a9b430(StrArr* pStrArr)
 {
     AppendEffectProperties(pStrArr);
@@ -48,17 +51,11 @@ void __stdcall FUN_00a9b430(StrArr* pStrArr)
 void __cdecl FUN_00a72080();
 
 // @fnv 0x00a75c00
+// pdb: MagicShaderHitEffect::InitLoadGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void __cdecl FUN_00a75c00()
 {
     FUN_00a72080();
-}
-
-void FUN_00a90010();
-
-// @fnv 0x00a75c10
-void FUN_00a75c10()
-{
-    FUN_00a90010();
 }
 
 class CloningProcessA9B3;
@@ -99,6 +96,8 @@ class CloneA9B3 : public FUN_00a71f60
 
 // Allocates a new CloneA9B3, calls FUN_00a71ec0 with the instance and cloning argument, then returns it.
 // @fnv 0x00a9b3d0
+// pdb: NiAmbientLight::CreateClone | NiAmbientLight.obj | fnv360_1110_retail, objrun, medium
+// pdb params: kCloning
 CloneA9B3* CloneA9B3::FUN_00a9b3d0(CloningProcessA9B3& cloning)
 {
     CloneA9B3* p = new CloneA9B3;

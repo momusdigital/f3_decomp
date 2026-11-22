@@ -88,25 +88,14 @@ class NiD3DPixelShader : public NiD3DShaderProgram
 };
 
 // @fnv 0x00BE0B20
+// pdb: NiD3DPixelShader::SetShaderHandle | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: hShader
 void NiD3DPixelShader::SetD3DPixelShader(GeometryRelatedType* const pixelShader)
 {
     m_pD3DPixelShader = pixelShader;
 }
 
 struct NiD3DPixelShader;
-
-void __cdecl FUN_00e92f30(NiD3DPixelShader*);
-
-struct FUN_00e898d0_shell : NiD3DPixelShader
-{
-    void FUN_00e898d0();
-};
-
-// @fnv 0x00e898d0
-void __thiscall FUN_00e898d0_shell::FUN_00e898d0()
-{
-    FUN_00e92f30(this);
-}
 
 // ---- stand-ins for identities not defined in this unit ----
 struct FakeShader;
@@ -121,6 +110,7 @@ struct FUN_00e898c0_shell : NiD3DPixelShader
 };
 
 // @fnv 0x00e898c0
+// pdb: NiD3DVertexShader::DestroyRendererData | NiD3DVertexShader.obj | fnv360_0721_beta, objopen_prop, low
 void FUN_00e898c0_shell::FUN_00e898c0()
 {
     if (m_pD3DPixelShader)

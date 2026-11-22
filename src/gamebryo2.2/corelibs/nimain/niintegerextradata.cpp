@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/nimain/niintegerextradata.cpp: NiIntegerExtraData, ExtraDataOwner (7 functions)
+// gamebryo2.2/corelibs/nimain/niintegerextradata.cpp: NiIntegerExtraData, ExtraDataOwner (6 functions)
 #include "f3_common.h"
 #include "niintegerextradata_decls.h"
 // Calls NiExtraData::LoadBinary then reads m_iValue from the stream.
 // @fnv 0x00a99d30
+// pdb: NiFloatExtraData::LoadBinary | NiFloatExtraData.obj | fnv360_0822_retail, vtable, high
+// pdb params: kStream
 void NiIntegerExtraData::LoadBinary(NiStream& stream)
 {
     NiExtraData::LoadBinary(stream);
@@ -12,6 +14,7 @@ void NiIntegerExtraData::LoadBinary(NiStream& stream)
 extern char const* const g_01202de0_arg1;
 
 // @fnv 0x00a99c60
+// pdb: NiIntegerExtraData::GetRTTI | BSXFlags.obj | fnv360_0822_retail, vtable, medium
 char const* const* __cdecl FUN_00a99c60()
 {
     return &g_01202de0_arg1;
@@ -19,19 +22,6 @@ char const* const* __cdecl FUN_00a99c60()
 
 extern "C" void __cdecl FUN_00a7b300();
 extern int DAT_010a0d24;
-
-struct FUN_00a99c70_shell
-{
-    int* m_val;
-    void __thiscall FUN_00a99c70();
-};
-
-// @fnv 0x00a99c70
-void __thiscall FUN_00a99c70_shell::FUN_00a99c70()
-{
-    m_val = &DAT_010a0d24;
-    FUN_00a7b300();
-}
 
 struct BSFadeNode
 {
@@ -44,6 +34,7 @@ struct NiExtraDataShell : NiExtraData
 };
 
 // @fnv 0x00a99cd0
+// pdb: NiIntegerExtraData::CreateObject | NiIntegerExtraData.obj | fnv360_0822_retail, objrun_prop, low
 NiExtraData* FUN_00a99cd0()
 {
     NiExtraData* pExtraData = static_cast<NiExtraData*>(BSFadeNode::operator new(0x10));
@@ -63,6 +54,7 @@ struct FUN_00a99d00_shell
     void* __thiscall Destroy(unsigned int);
 };
 // @fnv 0x00a99d00
+// pdb: NiIntegerExtraData::`scalar deleting destructor' | BSXFlags.obj | fnv360_0822_retail, vtable, high
 void* __thiscall FUN_00a99d00_shell::Destroy(unsigned int auiFlags)
 {
     *(int**)this = &DAT_010a0d24;
@@ -103,6 +95,8 @@ struct FUN_00a99d70_shell
 
 // Appends the base viewer strings plus a formatted "m_iValue" entry to the string array, growing it as needed.
 // @fnv 0x00a99d70
+// pdb: NiIntegerExtraData::GetViewerStrings | NiIntegerExtraData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pStrings
 void FUN_00a99d70_shell::FUN_00a99d70(A89C70StringArray* apViewerStrings)
 {
     reinterpret_cast<A89C70Base*>(this)->GetViewerStrings(apViewerStrings);
@@ -130,10 +124,13 @@ struct ExtraDataOwner
     int unk08;
     int m_iValue;
     void __thiscall FUN_00a7b330(NiIntegerExtraData*, unsigned int);
-    NiIntegerExtraData* __thiscall CreateIntegerExtraData(unsigned int);
+    NiIntegerExtraData* __thiscall NiIntegerExtraData_CreateClone(unsigned int);
 };
 // @fnv 0x00a99c80
-NiIntegerExtraData* ExtraDataOwner::CreateIntegerExtraData(unsigned int argument)
+// pdb: NiIntegerExtraData::CreateClone | NiIntegerExtraData.obj | fnv360_0822_retail, vtable, high
+// pdb params: kCloning
+// pdb: NiIntegerExtraData::CreateClone | NiIntegerExtraData.obj | fnv360_0822_retail, vtable, high (was: CreateIntegerExtraData)
+NiIntegerExtraData* ExtraDataOwner::NiIntegerExtraData_CreateClone(unsigned int argument)
 {
     NiIntegerExtraData* result;
     NiIntegerExtraData* allocated = (NiIntegerExtraData*)FUN_00aa13e0(16);

@@ -4,12 +4,6 @@
 
 extern "C" void* g_012026d8;
 
-// @fnv 0x00c29e90
-void* __cdecl FUN_00c29e90()
-{
-    return &g_012026d8;
-}
-
 void __cdecl FUN_00c31260(void);
 extern int DAT_010c0e44;
 
@@ -19,6 +13,7 @@ struct FUN_00c32d80
 };
 
 // @fnv 0x00c32d80
+// pdb: NiPSysModifierFloatCtlr::NiPSysModifierFloatCtlr | NiPSysModifierFloatCtlr.obj | tesv_win, uvref, medium
 FUN_00c32d80::FUN_00c32d80()
 {
     FUN_00c31260();
@@ -26,32 +21,6 @@ FUN_00c32d80::FUN_00c32d80()
 }
 
 extern "C" void* g_012026d8;
-void __stdcall FUN_00c32f60(void* p);
-void* __cdecl FUN_00a7d330(void* p);
-
-struct FUN_00c29f00_Array
-{
-    void* unk00;
-    void* unk04;
-    unsigned short unk08;
-    unsigned short unk0A;
-    unsigned short unk0C;
-    unsigned short unk0E;
-    void FUN_0096ad30(unsigned int size);
-    void FUN_0096ae90(unsigned int index, void** item);
-};
-
-// Grows the array if its count has reached capacity, then stores the item obtained from g_012026d8 at the current count.
-// @fnv 0x00c29f00
-void __stdcall FUN_00c29f00(FUN_00c29f00_Array* arr)
-{
-    FUN_00c32f60(arr);
-    void* item = FUN_00a7d330(g_012026d8);
-    unsigned int count = arr->unk0A;
-    if (count >= arr->unk08)
-        arr->FUN_0096ad30(count + arr->unk0E);
-    arr->FUN_0096ae90(count, &item);
-}
 
 extern "C" char DAT_010becbc;
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -70,6 +39,7 @@ struct SpawnedHost
 
 // Allocates a 0x40-byte SpawnedCtlr, initialises it and its vtable, passes it to FUN_00c32de0 with a1, and returns it.
 // @fnv 0x00c29eb0
+// pdb: NiPSysInitialRotSpeedVarCtlr::CreateClone | NiPSysInitialRotSpeedVarCtlr.obj | tesv_win, caller_sim, low
 SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
 {
     SpawnedCtlr* obj = (SpawnedCtlr*)FUN_00aa13e0(0x40);

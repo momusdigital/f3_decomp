@@ -851,7 +851,7 @@ enum Result { RES_SUCCESS = 0, RES_FAILURE = 1 };
 class BvTreeAgent : public Agent
 {
 	public:
-		void FUN_009b8ba0( const CdBody& bodyA, const CdBody& bodyB, const ProcessInput& input, ProcessOutput& result );
+		void hkpBvTreeAgent_processCollision( const CdBody& bodyA, const CdBody& bodyB, const ProcessInput& input, ProcessOutput& result );
 		static __forceinline Result __cdecl calcAabbAndQueryTree( const CdBody& bodyA, const CdBody& bodyB, const Transform& bTa,
 			const Vec4& linearTimInfo, const ProcessInput& input, Aabb* cachedAabb, Array<Key>& hitListOut );
 	protected:
@@ -995,7 +995,8 @@ inline void BvTreeAgent::prepareCollisionPartnersProcess( const CdBody& bodyA, c
 	}
 }
 
-void BvTreeAgent::FUN_009b8ba0( const CdBody& bodyA, const CdBody& bodyB, const ProcessInput& input, ProcessOutput& result )
+// pdb: hkpBvTreeAgent::processCollision | hkpBvTreeAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void BvTreeAgent::hkpBvTreeAgent_processCollision( const CdBody& bodyA, const CdBody& bodyB, const ProcessInput& input, ProcessOutput& result )
 {
 	{
 		Monitor& mStream = Monitor::getInstance();
@@ -1287,6 +1288,7 @@ struct SimplexSolverInfo
     hkpSimplexSolverInput* m_input;
 };
 
+// pdb: hkSimplexSolverSolve1d | hkpSimplexSolver.obj | tesv_win, call_dedup, low
 static __declspec(noinline) void FUN_009a4830(const SimplexSolverInfo& info, const hkpSurfaceConstraintInfo& sci,
                                               const hkVector4& velocityIn, hkVector4& velocityOut)
 {
@@ -1605,10 +1607,11 @@ struct ListAgent
     void* contactMgr;
     int unk0c;
     Track agentTrack;
-    void FUN_009bede0(const CdBody& bodyA, const CdBody& bodyB, const ProcessCollisionInput& input, void* result);
+    void hkpListAgent_processCollision(const CdBody& bodyA, const CdBody& bodyB, const ProcessCollisionInput& input, void* result);
 };
 
-void ListAgent::FUN_009bede0(const CdBody& bodyA, const CdBody& bodyB, const ProcessCollisionInput& input, void* result)
+// pdb: hkpListAgent::processCollision | hkpListAgent.obj | fnv360_0822_retail, objrun_prop + skyrim(objrun_prop), high
+void ListAgent::hkpListAgent_processCollision(const CdBody& bodyA, const CdBody& bodyB, const ProcessCollisionInput& input, void* result)
 {
     const ListShape* lShape = bodyB.shape;
     ProcessInput in;
@@ -1781,8 +1784,8 @@ class __declspec(align(16)) hkVector4
             set(nx, ny, nz, 0.0f);
         }
         __forceinline void setRotatedDir(const hkQuaternion& quat, const hkVector4& direction);
-        void FUN_008d28e0(const hkTransform& t, const hkVector4& b);
-        __forceinline void setTransformedPos(const hkTransform& t, const hkVector4& b) { FUN_008d28e0(t, b); }
+        void hkVector4_setTransformedPos(const hkTransform& t, const hkVector4& b);
+        __forceinline void setTransformedPos(const hkTransform& t, const hkVector4& b) { hkVector4_setTransformedPos(t, b); }
 
         hkReal x;
         hkReal y;
@@ -2315,7 +2318,7 @@ class Vec4
     __forceinline Real& operator()(int i) { return (&x)[i]; }
     __forceinline const Real& operator()(int i) const { return (&x)[i]; }
 
-    void FUN_008d2a00(const Rotation& r, const Vec4& v);   // setRotatedDir, out of line
+    void hkVector4_setRotatedDir(const Rotation& r, const Vec4& v);   // setRotatedDir, out of line
     void FUN_00477880(const Rotation& r, const Vec4& v);   // setRotatedInverseDir, out of line
     __forceinline void _setRotatedDir(const Rotation& r, const Vec4& v);
 
@@ -2367,7 +2370,7 @@ class Rotation
 {
   public:
     __forceinline const Vec4& getColumn(int i) const { return (&m_col0)[i]; }
-    void FUN_00924b40(const Quaternion& q);   // set from a quaternion
+    void hkRotation_set(const Quaternion& q);   // set from a quaternion
 
     Vec4 m_col0;
     Vec4 m_col1;
@@ -2380,7 +2383,7 @@ class Transform
     __forceinline Rotation& getRotation() { return m_rotation; }
     __forceinline const Rotation& getRotation() const { return m_rotation; }
     __forceinline Vec4& getTranslation() { return m_translation; }
-    __forceinline void setRotation(const Quaternion& q) { m_rotation.FUN_00924b40(q); }
+    __forceinline void setRotation(const Quaternion& q) { m_rotation.hkRotation_set(q); }
     __forceinline static const Vec4& getIdentityColumn0() { return DAT_010f3370; }
 
     Rotation m_rotation;
@@ -2407,7 +2410,7 @@ class Quaternion
     Vec4 m_vec;
 };
 
-UInt32 __cdecl FUN_00a0a120(const Vec4& q);   // pack a quaternion into 32 bits
+UInt32 __cdecl hkVector4Util_packQuaternionIntoInt32(const Vec4& q);   // pack a quaternion into 32 bits
 
 class SweptTransform
 {
@@ -2799,7 +2802,7 @@ static __forceinline int checkDeactivation(const SolverInfo& si, Motion& motion)
             pos.zeroElement(3);
             refPosition = pos;
         }
-        refOrientation = FUN_00a0a120(currentRotation.m_vec);
+        refOrientation = hkVector4Util_packQuaternionIntoInt32(currentRotation.m_vec);
     }
 END_OF_FUNCTION:
     return Math::max2(motion.getNumInactiveFrames(0), motion.getNumInactiveFrames(1));
@@ -2809,7 +2812,8 @@ END_OF_FUNCTION:
 
 using namespace N9ac100;
 
-int __cdecl FUN_009ac100(const SolverInfo& solverInfo, const StepInfo& info, const Accumulator* accumulators,
+// pdb: hkRigidMotionUtilApplyAccumulators | hkpRigidMotionUtil.obj | fnv360_0822_debug, caller + bridge(call_gap|call_seq) + skyrim(call_gap), high
+int __cdecl hkRigidMotionUtilApplyAccumulators(const SolverInfo& solverInfo, const StepInfo& info, const Accumulator* accumulators,
                          Motion* const* motions, int numMotions, int motionOffset)
 {
     const Accumulator* accu = accumulators;
@@ -2832,20 +2836,20 @@ int __cdecl FUN_009ac100(const SolverInfo& solverInfo, const StepInfo& info, con
             Vec4 in;
             in.setReciprocal4(tbm->m_inertiaAndMassInv);
             angVelLocalSpace.mul4(in);
-            angularMomentum.FUN_008d2a00(tbm->getTransform().getRotation(), angVelLocalSpace);
+            angularMomentum.hkVector4_setRotatedDir(tbm->getTransform().getRotation(), angVelLocalSpace);
         }
         case Motion::MOTION_BOX_INERTIA: {
             motion->m_linearVelocity = accu->m_linearVel;
             motion->m_angularVelocity._setRotatedDir(motion->getTransform().getRotation(), accu->m_angularVel);
             integrationLinearVelocity = accu->getSumLinearVel();
-            integrationAngularVelocity.FUN_008d2a00(motion->getTransform().getRotation(), accu->getSumAngularVel());
+            integrationAngularVelocity.hkVector4_setRotatedDir(motion->getTransform().getRotation(), accu->getSumAngularVel());
             goto sphereInertia;
         }
         case Motion::MOTION_STABILIZED_BOX_INERTIA: {
             motion->m_linearVelocity = accu->getSumLinearVel();
             motion->m_angularVelocity = accu->getSumAngularVel();
             integrationLinearVelocity = accu->getSumLinearVel();
-            integrationAngularVelocity.FUN_008d2a00(motion->getTransform().getRotation(), accu->getSumAngularVel());
+            integrationAngularVelocity.hkVector4_setRotatedDir(motion->getTransform().getRotation(), accu->getSumAngularVel());
             goto sphereInertia;
         }
         case Motion::MOTION_STABILIZED_SPHERE_INERTIA: {
@@ -2886,7 +2890,7 @@ int __cdecl FUN_009ac100(const SolverInfo& solverInfo, const StepInfo& info, con
             Vec4 h;
             h.FUN_00477880(tbm->getTransform().getRotation(), angularMomentum);
             h.mul4(tbm->m_inertiaAndMassInv);
-            tbm->m_angularVelocity.FUN_008d2a00(tbm->getTransform().getRotation(), h);
+            tbm->m_angularVelocity.hkVector4_setRotatedDir(tbm->getTransform().getRotation(), h);
         }
         clipVelocities(motion->m_motionState, motion->m_linearVelocity, motion->m_angularVelocity);
         numInactiveFrames = Math::min2(numInactiveFrames, checkDeactivation(solverInfo, *motion));
@@ -2962,7 +2966,7 @@ class Vec4
     __forceinline Real& operator()(int i) { return (&x)[i]; }
     __forceinline const Real& operator()(int i) const { return (&x)[i]; }
 
-    void FUN_008d2a00(const Rotation& r, const Vec4& v);   // setRotatedDir, out of line
+    void hkVector4_setRotatedDir(const Rotation& r, const Vec4& v);   // setRotatedDir, out of line
     void FUN_00477880(const Rotation& r, const Vec4& v);   // setRotatedInverseDir, out of line
     __forceinline void _setRotatedDir(const Rotation& r, const Vec4& v);
 
@@ -3016,7 +3020,7 @@ class Rotation
   public:
     __forceinline const Vec4& getColumn(int i) const { return (&m_col0)[i]; }
     __forceinline const Real& operator()(int row, int col) const { return getColumn(col)(row); }
-    void FUN_00924b40(const Quaternion& q);   // set from a quaternion
+    void hkRotation_set(const Quaternion& q);   // set from a quaternion
 
     Vec4 m_col0;
     Vec4 m_col1;
@@ -3029,7 +3033,7 @@ class Transform
     __forceinline Rotation& getRotation() { return m_rotation; }
     __forceinline const Rotation& getRotation() const { return m_rotation; }
     __forceinline Vec4& getTranslation() { return m_translation; }
-    __forceinline void setRotation(const Quaternion& q) { m_rotation.FUN_00924b40(q); }
+    __forceinline void setRotation(const Quaternion& q) { m_rotation.hkRotation_set(q); }
     __forceinline static const Vec4& getIdentityColumn0() { return DAT_010f3370; }
 
     Rotation m_rotation;
@@ -3057,7 +3061,7 @@ class Quaternion
     Vec4 m_vec;
 };
 
-UInt32 __cdecl FUN_00a0a120(const Vec4& q);   // pack a quaternion into 32 bits
+UInt32 __cdecl hkVector4Util_packQuaternionIntoInt32(const Vec4& q);   // pack a quaternion into 32 bits
 
 class SweptTransform
 {
@@ -3459,7 +3463,7 @@ static __forceinline int checkDeactivation(const SolverInfo& si, Motion& motion)
             pos.zeroElement(3);
             refPosition = pos;
         }
-        refOrientation = FUN_00a0a120(currentRotation.m_vec);
+        refOrientation = hkVector4Util_packQuaternionIntoInt32(currentRotation.m_vec);
     }
 END_OF_FUNCTION:
     return Math::max2(motion.getNumInactiveFrames(0), motion.getNumInactiveFrames(1));
@@ -3472,7 +3476,8 @@ END_OF_FUNCTION:
 
 using namespace N9aa3e0;
 
-int __cdecl FUN_009aa3e0(const SolverInfo& solverInfo, const StepInfo& info, const Vec4& deltaVel,
+// pdb: hkRigidMotionUtilApplyForcesAndStep | hkpRigidMotionUtil.obj | fnv360_0822_retail, objrun + skyrim(objrun), high
+int __cdecl hkRigidMotionUtilApplyForcesAndStep(const SolverInfo& solverInfo, const StepInfo& info, const Vec4& deltaVel,
                          Motion* const* motions, int numMotions, int motionOffset)
 {
     // Fake match: three dead locals (see the clip helper). They only shift the compiler symbol numbering, which
@@ -3507,7 +3512,7 @@ int __cdecl FUN_009aa3e0(const SolverInfo& solverInfo, const StepInfo& info, con
                 Vec4 in;
                 in.setReciprocal4(tbm->m_inertiaAndMassInv);
                 h.mul4(in);
-                angularMomentum.FUN_008d2a00(rot, h);
+                angularMomentum.hkVector4_setRotatedDir(rot, h);
             }
 
             stepMotionState(info, tbm->m_linearVelocity, tbm->m_angularVelocity, tbm->m_motionState);
@@ -3518,7 +3523,7 @@ int __cdecl FUN_009aa3e0(const SolverInfo& solverInfo, const StepInfo& info, con
                 h.FUN_00477880(rot, angularMomentum);
                 // Fake match: the three-operand multiply supplies the body-space product boundary.
                 h.setMul4(tbm->m_inertiaAndMassInv, h);
-                tbm->m_angularVelocity.FUN_008d2a00(rot, h);
+                tbm->m_angularVelocity.hkVector4_setRotatedDir(rot, h);
             }
             clipVelocities(tbm);
             break;
@@ -3558,7 +3563,7 @@ int __cdecl FUN_009aa3e0(const SolverInfo& solverInfo, const StepInfo& info, con
 // libraries (statement structure as in the New Vegas decompilation's counterpart): A's box in B's space widened by
 // the tolerance and, with continuous physics, by the second-order rotation error and clipped to a sphere around A's
 // mass centre, extended along the time-of-impact path; then compared with and stored into the cached box.
-// The member is named FUN_009b5ea0 inside its class (its virtual processCollision of the base class is not
+// The member is named hkpBvTreeStreamAgent_processCollision inside its class (its virtual processCollision of the base class is not
 // overridden here, which changes no byte of the function).
 // This file is built from the Havok 5.5.0 SDK's own headers: the function was compiled with the real headers, and
 // the preprocessed source was cut down mechanically to the declarations the code needs (whole declarations by
@@ -4915,7 +4920,7 @@ class hkpBvTreeStreamAgent : public hkpCollisionAgent
 		static void __cdecl registerAgent(hkpCollisionDispatcher* dispatcher);
 		static void __cdecl registerConvexListAgent(hkpCollisionDispatcher* dispatcher);
 		static void __cdecl registerMultiRayAgent(hkpCollisionDispatcher* dispatcher);
-		virtual void FUN_009b5ea0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
+		virtual void hkpBvTreeStreamAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& result);
 		virtual void cleanup(hkpConstraintOwner& info);
 		virtual void getPenetrations( const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector );
 		virtual void getClosestPoints( const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector ) ;
@@ -5156,7 +5161,8 @@ __forceinline hkResult __cdecl hkpBvTreeAgent::calcAabbAndQueryTree( const hkpCd
 	bvB->queryAabb( aabb, hitListOut );
 	return HK_SUCCESS;
 }
-void hkpBvTreeStreamAgent::FUN_009b5ea0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& output)
+// pdb: hkpBvTreeStreamAgent::processCollision | hkpBvTreeStreamAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpBvTreeStreamAgent::hkpBvTreeStreamAgent_processCollision(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& output)
 {
 	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerBeginListCommand* h = reinterpret_cast<hkMonitorStream::TimerBeginListCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "L" "t" "BvTree3"; h->m_nameOfFirstSplit = "S" "t" "QueryTree"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } };
 	hkpAgent3ProcessInput in3;
@@ -5188,7 +5194,6 @@ void hkpBvTreeStreamAgent::FUN_009b5ea0(const hkpCdBody& bodyA, const hkpCdBody&
 			return;
 		}
 		hkAlgorithm::quickSort( hitList.begin(), hitList.getSize() );
-		;
 		const hkpBvTreeShape* bvB = static_cast<const hkpBvTreeShape*>( bodyB.getShape() );
 		const hkpShapeContainer* shapeContainer = bvB->getContainer();
 		hkAgent1nMachine_Process( m_agentTrack, 0, in3, shapeContainer, hitList.begin(), output );
@@ -5555,6 +5560,7 @@ static void FUN_009a4830( const hkSimplexSolverInfo& info, const hkpSurfaceConst
 	}
 	velocityOut.setAdd4( relativeVelocity, groundVelocity );
 }
+// pdb: hkSimplexSolverSolve2d | hkpSimplexSolver.obj | tesv_win, call_dedup, low
 static void FUN_009a4d00( hkSimplexSolverInfo& info, const hkpSurfaceConstraintInfo& sci0, const hkpSurfaceConstraintInfo& sci1, const hkVector4& velocityIn, hkVector4& velocityOut )
 {
 	hkVector4 axis; axis.setCross( sci0.m_plane, sci1.m_plane );
@@ -5748,9 +5754,9 @@ class hkVector4
 		__forceinline void mul4(hkSimdRealParameter a);
 		__forceinline void setMul4(hkSimdRealParameter r, const hkVector4& a);
 		__forceinline void setCross( const hkVector4& a, const hkVector4& b );
-		void FUN_008d2a00(const hkRotation& a, const hkVector4& b);
+		void hkVector4_setRotatedDir(const hkRotation& a, const hkVector4& b);
 		void FUN_00477880(const hkRotation& a, const hkVector4& b);
-		void FUN_008d28e0(const hkTransform& a, const hkVector4& b);
+		void hkVector4_setTransformedPos(const hkTransform& a, const hkVector4& b);
 		void FUN_008d2970(const hkTransform& a, const hkVector4& b);
 		__forceinline void _setRotatedInverseDir(const hkRotation& a, const hkVector4& b);
 		__forceinline hkSimdReal dot3(const hkVector4& a) const;
@@ -6277,7 +6283,7 @@ int hkpTriangleShape::FUN_009a0160( hkpVertexId* featurePoints, hkUint8& numFeat
 		if ( hkpWeldingUtility::shouldSnapOneSided( weldingType, triangleNormal, sepNormalLocal, edgeBitcode ) )
 		{
 			hkpWeldingUtility::calcSnapVectorOneSided( triangleNormal, edge, edgeBitcode, weldingType, sepNormal );
-			sepNormal.FUN_008d2a00( thisObjTransform->getRotation(), sepNormal );
+			sepNormal.hkVector4_setRotatedDir( thisObjTransform->getRotation(), sepNormal );
 			if ( thisObj->m_isExtruded )
 			{
 				{
@@ -6295,7 +6301,7 @@ RETURN_ACCEPT_CONTACT_POINT_MODIFIED:
 			else
 			{
 				hkVector4 centreOfObjectA; collidingShape->getCentre( centreOfObjectA );
-				centreOfObjectA.FUN_008d28e0( *collidingTransform, centreOfObjectA );
+				centreOfObjectA.hkVector4_setTransformedPos( *collidingTransform, centreOfObjectA );
 				hkVector4 centreToPlane; centreToPlane.setSub4( contactPointWs, centreOfObjectA );
 				if ( sepNormal.dot3( centreToPlane ) <= 0.0f )
 				{
@@ -6325,9 +6331,9 @@ RETURN_ACCEPT_CONTACT_POINT_MODIFIED:
 }
 
 // @f3 0x009bbf40 (community match, verified in this file)
-// FUN_009bbf40 = Havok 5.5.0 hkpHeightFieldAgent::processCollision (hkpCollide.lib, hkpHeightFieldAgent.obj).
+// hkpHeightFieldAgent_processCollision = Havok 5.5.0 hkpHeightFieldAgent::processCollision (hkpCollide.lib, hkpHeightFieldAgent.obj).
 // Body reconstructed from the hybrid library object's debug records on the SDK's own inline bodies; cut with hktrim.py.
-// The member is renamed FUN_009bbf40 (the pack symbol) inside namespace f3m_009bbf40.
+// The member is renamed hkpHeightFieldAgent_processCollision (the pack symbol) inside namespace f3m_009bbf40.
 extern "C" {
 	__declspec(dllimport) void* _stdcall TlsGetValue( unsigned long dwTlsIndex );
 }
@@ -7415,7 +7421,7 @@ struct hkpProcessCollisionOutput: public hkpProcessCollisionData
 class hkpHeightFieldAgent : public hkpCollisionAgent
 {
 	public:
-        void FUN_009bbf40(const hkpCdBody& csBody, const hkpCdBody& hfBody, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& processOutput);
+        void hkpHeightFieldAgent_processCollision(const hkpCdBody& csBody, const hkpCdBody& hfBody, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& processOutput);
 		virtual void getPenetrations(const  hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdBodyPairCollector& collector );
 		virtual void getClosestPoints( const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpCollisionInput& input, hkpCdPointCollector& collector);
 		virtual void linearCast( const hkpCdBody& bodyA, const hkpCdBody& bodyB, const hkpLinearCastCollisionInput& input, hkpCdPointCollector& collector, hkpCdPointCollector* startCollector );
@@ -7502,7 +7508,8 @@ inline void __cdecl hkVector4Util::transformSpheres( const hkTransform& t, const
 }
 
 
-void hkpHeightFieldAgent::FUN_009bbf40(const hkpCdBody& csBody, const hkpCdBody& hfBody, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& processOutput)
+// pdb: hkpHeightFieldAgent::processCollision | hkpHeightFieldAgent.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void hkpHeightFieldAgent::hkpHeightFieldAgent_processCollision(const hkpCdBody& csBody, const hkpCdBody& hfBody, const hkpProcessCollisionInput& input, hkpProcessCollisionOutput& processOutput)
 {
 	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerCommand* h = reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "T" "t" "HeightField"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } }
 	hkTimeFunctionHelper timeblock96; // HK_TIME_CODE_BLOCK at original source line 96.

@@ -14,8 +14,8 @@ struct RequestReceiver
     int unk00;
     int unk04;
     FUN_00cc05f0Target* unk08;
-    RequestReceiver* InvokeFromRequest(void* request);
-    void InvokeFromRequest(unsigned int sourceRow, unsigned int sourceColumn, unsigned int destinationRow, unsigned int destinationColumn);
+    RequestReceiver* GridCellArray_MoveItem(void* request);
+    void GridCellArray_MoveItem(unsigned int sourceRow, unsigned int sourceColumn, unsigned int destinationRow, unsigned int destinationColumn);
 };
 // @f3 0x0047b400 (community match, verified in this file)
 namespace rr_0047b400 {
@@ -38,7 +38,10 @@ struct Grid
 };
 }
 
-void RequestReceiver::InvokeFromRequest(unsigned int sourceRow, unsigned int sourceColumn,
+// pdb: GridCellArray::MoveItem | GridCell.obj | fnv360_0822_retail, vtable, high
+// pdb params: aiX1, aiY1, aiX2, aiY2
+// pdb: GridCellArray::MoveItem | GridCell.obj | fnv360_0822_retail, vtable, high (was: InvokeFromRequest)
+void RequestReceiver::GridCellArray_MoveItem(unsigned int sourceRow, unsigned int sourceColumn,
                                         unsigned int destinationRow, unsigned int destinationColumn)
 {
     rr_0047b400::Grid* self = (rr_0047b400::Grid*)this;
@@ -62,6 +65,7 @@ void RequestReceiver::InvokeFromRequest(unsigned int sourceRow, unsigned int sou
 static unsigned char* volatile g_out_slot;
 static unsigned int volatile g_val_slot;
 // @fnv 0x00da2eb0
+// pdb: hkIsDigit | hkBsdSocket.obj | fnv360_0822_debug, objrun, low, conflict (bridge: connect)
 static __declspec(noinline) unsigned char* FUN_00da2eb0(unsigned char* out, unsigned int c)
 {
     *out = c >= 0x30u && c <= 0x39u;

@@ -17,6 +17,7 @@ struct FnvBounds
 };
 // Checks each of the first three axes for non-finite min/max or min greater than max, writing 1 to valid if all pass and 0 otherwise.
 // @fnv 0x00da0b30
+// pdb: hkAabb::isValid | hkAabb.obj | tesv_win, objrun_prop, low
 char* FnvBounds::ValidateBounds(char* pbValid)
 {
     FnvFinitePair pair;

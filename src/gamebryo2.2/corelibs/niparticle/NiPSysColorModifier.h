@@ -2,8 +2,8 @@
 #ifndef FNV_NIPSYSCOLORMODIFIER_H
 #define FNV_NIPSYSCOLORMODIFIER_H
 #include "f3_common.h"
-#include "NiStream.h"
-#include "NiPSysModifier.h"
+#include "nipsyscolormodifier_NiStream.h"
+#include "nipsyscolormodifier_NiPSysModifier.h"
 
 class NiColorData;
 

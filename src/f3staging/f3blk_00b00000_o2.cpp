@@ -42,6 +42,8 @@ struct FUN_00b0fc40
     FUN_00b0fc40(void* owner);
 };
 
+// pdb: BSBatchRenderer::GeometryGroup::GeometryGroup | BSBatchRenderer.obj | fnv360_0822_retail, call_gap, low
+// pdb params: auiPassCount
 FUN_00b0fc40::FUN_00b0fc40(void* owner)
 {
     flag = 0;
@@ -1169,6 +1171,7 @@ public:
     void FUN_00b19570();
 };
 
+// pdb: ImageSpaceManager::InitEffects | ImageSpaceManager.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void EffectManager::FUN_00b19570() {
     { PoolEffect* effect = new FUN_00c05680; effects.FUN_005b3880(13, effect); }
     { PoolEffect* effect = new RefractionImageSpaceEffect; effects.FUN_005b3880(2, effect); }
@@ -1386,11 +1389,12 @@ struct BatchRenderer
     int unk00, unk04;
     BatchGroup* groups;
     BatchPassMap<unsigned int, unsigned int> map;
-    bool FUN_00b10420(unsigned&, int&, bool&);
-    bool FUN_00b104b0(unsigned&, int&, bool&, int);
+    bool BSBatchRenderer_PrepareNextRenderPass(unsigned&, int&, bool&);
+    bool BSBatchRenderer_RenderNextRenderPass(unsigned&, int&, bool&, int);
 };
 // @fnv 0x00b9a120
-bool BatchRenderer::FUN_00b104b0(unsigned& key, int& bucket, bool& kind, int flags)
+// pdb: BSBatchRenderer::RenderNextRenderPass | BSBatchRenderer.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+bool BatchRenderer::BSBatchRenderer_RenderNextRenderPass(unsigned& key, int& bucket, bool& kind, int flags)
 {
     unsigned index = 0;
     map.GetAt(key, index);
@@ -1466,7 +1470,7 @@ bool BatchRenderer::FUN_00b104b0(unsigned& key, int& bucket, bool& kind, int fla
     FUN_00b0e190(0, 0);
     bool result = true;
     if (!found)
-        result = FUN_00b10420(key, bucket, kind);
+        result = BSBatchRenderer_PrepareNextRenderPass(key, bucket, kind);
     return result;
 }
 }   // namespace f3m_00b104b0
@@ -1728,6 +1732,8 @@ class BatchRendererQ
 
 // Iterates active passes in range, renders matching groups via RenderGroup, then resets renderer state.
 // @fnv 0x00b99e20
+// pdb: BSBatchRenderer::RenderBatches | BSBatchRenderer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aePass, aePassEnd, abAlphaPass
 void BatchRendererQ::FUN_00b0f700(unsigned int uiMinPass, unsigned int uiMaxPass, int arg3)
 {
     unsigned int minPass = uiMinPass;
@@ -2547,6 +2553,8 @@ inline bool S00b99110_IsExact(void* rtti, SkinInstance* obj)
 }
 // Sets up the renderer and shader, then iterates skin partitions to draw geometry with optional alpha, depth, and blend state handling.
 // @fnv 0x00b99110
+// pdb: BSBatchRenderer::RenderPassImmediately_Skinned | BSBatchRenderer.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apRenderPass, abAlphaTest, abAlphaPass, abGeometryRenderStates
 void __cdecl FUN_00b0ee50(DrawPass* pass, bool depth, bool alpha, bool blend)
 {
     unsigned int passId = pass->pass;
@@ -2807,6 +2815,8 @@ class RX
     void FUN_00b00430(ArgX* a);
 };
 // @fnv 0x00b7dab0
+// pdb: ShadowLightShader::SetupGeometryConstants | ShadowLightShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void RX::FUN_00b00430(ArgX* apArg)
 {
     StX* s = DAT_0116efd0;
@@ -2984,6 +2994,8 @@ struct BSBatchRenderer_AlphaDepth {
     float FUN_00b0e8b0(int,SortCamera*,bool);
 };
 // @fnv 0x00b98c80
+// pdb: BSBatchRenderer::GetNextAlphaDepth | BSBatchRenderer.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: aiIndex, apCamera, abGetSortByClosestPoint
 float BSBatchRenderer_AlphaDepth::FUN_00b0e8b0(int iIndex, SortCamera* pkCamera, bool bUseRadius)
 {
     SortPt kWorldPosition = pkCamera->GetWorldTranslation();
@@ -3111,6 +3123,7 @@ struct FUN_00b10160 : FUN_00825830
 };
 
 // @fnv 0x00b9aa80
+// pdb: BSBatchRenderer::~BSBatchRenderer | BSBatchRenderer.obj | fnv360_0822_debug, caller_sim, low
 FUN_00b10160::~FUN_00b10160()
 {
     ((BSBatchRenderer*)this)->FUN_00b0f640(0);
@@ -3226,7 +3239,8 @@ struct SortPass
     SortGeom* pGeom;
 };
 // @fnv 0x00b98b20
-int __cdecl FUN_00b0e750(const void* apA, const void* apB)
+// pdb: RenderPassDepthSort | BSBatchRenderer.obj | fnv360_0822_retail, udata + bridge(udata|udata), high
+int __cdecl RenderPassDepthSort(const void* apA, const void* apB)
 {
     SortPass* pA = *(SortPass**)apA;
     SortPass* pB = *(SortPass**)apB;
@@ -3289,6 +3303,8 @@ struct FUN_00b99630_shell : public BSBatchRenderer__PassList
 };
 
 // @fnv 0x00b99630
+// pdb: BSTPersistentList<NiTPointerAllocator<unsigned int>,BSShaderProperty::RenderPass *>::Sort | BSBatchRenderer.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apFunc
 void FUN_00b99630_shell::FUN_00b0ea50(int(__cdecl* cmp)(const void*, const void*))
 {
     FUN_00ae7440();
@@ -3555,11 +3571,13 @@ extern bool DAT_0116f211;
 extern Shader_b994f0* DAT_01175eb4;
 extern unsigned int DAT_01175eb8;
 int __cdecl FUN_00b0e190(int, int);
-void __cdecl FUN_00b0f0d0(unsigned int, Shader_b994f0*);
+void __cdecl BSBatchRenderer_BeginPass(unsigned int, Shader_b994f0*);
 void __cdecl FUN_00b0ee50(Pass_b994f0*, bool, bool, bool);
 void __cdecl FUN_00b0ebc0(Pass_b994f0*, bool, bool, bool);
 
 // @fnv 0x00b994f0
+// pdb: BSBatchRenderer::RenderPassImmediately | BSBatchRenderer.obj | fnv360_0822_retail, call_gap, low
+// pdb params: prenderpass, uicurrentPass, balphaTest, abAlphaPass, abGeometryRenderStates
 void FUN_00b0f230(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTest, bool abAlphaPass,
                   bool abGeometryRenderStates)
 {
@@ -3572,7 +3590,7 @@ void FUN_00b0f230(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
     if (DAT_01175eb8 != uiPassId || uiPassId == 0x2f6 || pshader != DAT_01175eb4)
     {
         bfirstpass = true;
-        FUN_00b0f0d0(uiPassId, pshader);
+        BSBatchRenderer_BeginPass(uiPassId, pshader);
     }
     if (DAT_0116f211)
     {
@@ -3646,8 +3664,9 @@ struct RenderTaskThread : FUN_007240a0 {
     static void* operator new(unsigned n) {return DAT_01090a78.FUN_0086b930(n);}
     static void operator delete(void* p) {DAT_01090a78.FUN_0086ba60(p);}
 };
-struct Owner {RenderTaskThread* threads[2];void FUN_00b0cf00(int,unsigned,void (__cdecl*)(),const char*,unsigned);};
-void Owner::FUN_00b0cf00(int index,unsigned affinity,void (__cdecl* task)(),const char* name,unsigned stackSize) {
+struct Owner {RenderTaskThread* threads[2];void MTRenderingSystem_AddThread(int,unsigned,void (__cdecl*)(),const char*,unsigned);};
+// pdb: MTRenderingSystem::AddThread | MTRenderingSystem.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void Owner::MTRenderingSystem_AddThread(int index,unsigned affinity,void (__cdecl* task)(),const char* name,unsigned stackSize) {
     if(index<3 && index<2 && !threads[index]) {
         threads[index]=new RenderTaskThread(task);
         threads[index]->FUN_0086ce90(stackSize,name);
@@ -3758,6 +3777,8 @@ struct OwnerB0 {
     CacheB0 cache68;
     void FUN_00b0c890(void*,void*,void*,void*);
 };
+// pdb: ImageSpaceEffectNoise::Render | ImageSpaceEffectNoise.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apGeometry, apRenderer, apParam, abEndFrame
 void OwnerB0::FUN_00b0c890(void* first,void* second,void* context,void* unused)
 {
     if(dirty05) dirty05=Refresh1c(context);
@@ -4339,7 +4360,7 @@ extern int DAT_01175a6c;
 
 
 
-void __cdecl FUN_00b0f370(int* p, int a);
+void __cdecl BSBatchRenderer_RenderPersistentPassList(int* p, int a);
 
 void __cdecl FUN_00b0da80(int a, int b);
 
@@ -4413,7 +4434,7 @@ struct Renderer_af60
 
     List2_af60 m_78[2];
 
-    void FUN_00b10b50(int idx, Cam_af60* cam, bool flag, float maxDist);
+    void BSBatchRenderer_RenderNextAlpha(int idx, Cam_af60* cam, bool flag, float maxDist);
 
 };
 
@@ -4493,7 +4514,8 @@ static __forceinline float CalcDist(Item_af60* a, const Point3_af60& dir, bool f
 
 // @fnv 0x00b9af60
 
-void Renderer_af60::FUN_00b10b50(int idx, Cam_af60* cam, bool abUseRadius, float maxDist)
+// pdb: BSBatchRenderer::RenderNextAlpha | BSBatchRenderer.obj | fnv360_0822_retail, udata + bridge(call_seq|caller_sim), high
+void Renderer_af60::BSBatchRenderer_RenderNextAlpha(int idx, Cam_af60* cam, bool abUseRadius, float maxDist)
 
 {
 
@@ -4531,7 +4553,7 @@ void Renderer_af60::FUN_00b10b50(int idx, Cam_af60* cam, bool abUseRadius, float
 
             {
 
-                FUN_00b0f370(&e->m_0c, 1);
+                BSBatchRenderer_RenderPersistentPassList(&e->m_0c, 1);
 
             }
 
@@ -4864,6 +4886,7 @@ extern ConstantPointer<ConstantReference> DAT_011749fc;
 extern ConstantPointer<ConstantReference> DAT_01174a00;
 extern ConstantPointer<ConstantReference> DAT_01174a04;
 
+// pdb: ShadowLightShader::CreateConstantMaps | ShadowLightShader.obj | fnv360_0822_retail, ustr, medium
 void ShaderConstants1517::FUN_00b00c30()
 {
     if (!vertex34.pointer) {
@@ -5328,6 +5351,8 @@ class FUN_00b0fc90 : public FUN_00825800
 };
 
 // @fnv 0x00b9a5b0
+// pdb: BSBatchRenderer::BSBatchRenderer | BSBatchRenderer.obj | fnv360_0822_retail, call_gap, low
+// pdb params: auiPassCount, aeBatchRendererCreationType
 FUN_00b0fc90::FUN_00b0fc90(unsigned int aiPassCount, int mode) : map((vptr = DAT_00e96928, 0))
 {
     MemGuard context(0x26);
@@ -5578,6 +5603,8 @@ struct ImageSpaceOwner
 };
 
 // @fnv 0x00b8c980
+// pdb: ImageSpaceManager::RenderEffect | ImageSpaceManager.obj | fnv360_1110_retail, call_seq, medium
+// pdb params: apEffect, apRenderer, apSourceBuffer, apDestinationBuffer, apParam, abEndFrame
 void ImageSpaceOwner::FUN_00b1cca0(ISEffectShader* apShader, void* apArg2, NiTexture* apSource,
                                    BSRenderedTexture* apDest, void* apArg5, void* apArg6)
 {
@@ -5769,7 +5796,8 @@ extern void __cdecl FUN_00b0da30(bool first,int second);
 
 
 
-void __cdecl FUN_00b0f0d0(unsigned int pass,PassSetupFast::Shader* shader)
+// pdb: BSBatchRenderer::BeginPass | BSBatchRenderer.obj | fnv360_0822_retail, udata + bridge(call_gap|udata), high
+void __cdecl BSBatchRenderer_BeginPass(unsigned int pass,PassSetupFast::Shader* shader)
 
 {
 
@@ -5995,6 +6023,8 @@ struct Owner {
     void FUN_00b10860(const Plane& plane, bool mode, const Transform* transform, bool subtractOffset);
 };
 
+// pdb: BSBatchRenderer::StartGroupingAlphas | BSBatchRenderer.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aBound, abZPrePass, apCamera, abGetSortByClosestPoint
 void Owner::FUN_00b10860(const Plane& plane, bool newMode, const Transform* transform, bool subtractOffset)
 {
     if (!requestCount && transform) {
@@ -6203,6 +6233,8 @@ struct S00b99c90_Shell
     void FUN_00b102a0(RenderPass99* pkPass, unsigned int uiPassEnum);
 };
 // Classifies the pass using shader, stencil, and alpha state, ensures its pass enum has a group index, then adds it to a pass bucket.
+// pdb: BSBatchRenderer::RegisterPass | BSBatchRenderer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apRenderPass, auiPassEnum
 void S00b99c90_Shell::FUN_00b102a0(RenderPass99* pkPass, unsigned int uiPassEnum)
 {
     if (!pkPass || !pkPass->m_pkRenderableGeometry)
@@ -6288,10 +6320,11 @@ struct FUN_00b0fc40 {
   void* owner;
   int unk08;
   SimpleArray items;
-  void FUN_00b0fa90();
+  void BSBatchRenderer_GeometryGroup_ClearPasses();
 };
 
-void FUN_00b0fc40::FUN_00b0fa90() {
+// pdb: BSBatchRenderer::GeometryGroup::ClearPasses | BSBatchRenderer.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+void FUN_00b0fc40::BSBatchRenderer_GeometryGroup_ClearPasses() {
   items.FUN_00ae7440();
   items.Reset();
   if (unk08 != 0)
@@ -6322,6 +6355,7 @@ struct Container {
     void FUN_00b0f430();
 };
 
+// pdb: BSSimpleList<unsigned short>::RemoveHead | BSBatchRenderer.obj | fnv360_0822_retail, call_gap, low
 void Container::FUN_00b0f430()
 {
     Node* node = items;
@@ -6398,6 +6432,8 @@ struct FUN_00b0f5d0_List
     void FUN_00b0f5d0(void* const& value);
 };
 
+// pdb: BSTPersistentList<NiTPointerAllocator<unsigned int>,BSShaderProperty::RenderPass *>::AddHead | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: atElement
 void FUN_00b0f5d0_List::FUN_00b0f5d0(void* const& value)
 {
     FUN_00b0f5d0_Node* node;
@@ -6660,6 +6696,8 @@ struct OwnerB0EB {
 
 struct DescriptionB0EB { OwnerB0EB* owner00; unsigned short selector04; unsigned char unk06; unsigned char tag07; };
 
+// pdb: BSBatchRenderer::RenderPassImmediately_Standard | BSBatchRenderer.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apRenderPass, abAlphaTest, abAlphaPass, abGeometryRenderStates
 void __cdecl FUN_00b0ebc0(DescriptionB0EB* description,bool applyFirst,bool applySecond,bool applyTag)
 {
     unsigned int selector = description->selector04;
@@ -6733,6 +6771,7 @@ struct U {
     void FUN_00b1f310();
 };
 
+// pdb: hkArrayBase<hkpWorldRayCastOutput>::clear | BGSDecalManager.obj | fnv360_0822_debug, objrun_open, low
 void U::FUN_00b1f310()
 {
     void* eax = p4;
@@ -6797,6 +6836,8 @@ struct ObjectB1ce20 {
  unsigned unkb0;
  void FUN_00b1ce20(unsigned x);
 };
+// pdb: ImageSpaceManager::SetOverrideBaseParameterData | ImageSpaceManager.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: Script::GetHeader)
+// pdb params: apParameterData
 void ObjectB1ce20::FUN_00b1ce20(unsigned x) {
  unsigned old=g_tlsAllocTag;
  unkb0=x;
@@ -6818,6 +6859,8 @@ struct CallerB1d860 {
  void FUN_00b1cb50(void*,int,int,int,int,int);
  void FUN_00b1d860(unsigned,int,int,int,int,int);
 };
+// pdb: ImageSpaceManager::RenderEffect | ImageSpaceManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiEffect, apRenderer, apSourceBuffer, apDestinationBuffer, apParam, abEndFrame
 void CallerB1d860::FUN_00b1d860(unsigned index,int b,int c,int d,int e,int f) {
  AllocationTagGuardB1d860 guard(0x27);
  FUN_00b1cb50(entries[index],b,c,d,e,f);
@@ -6838,6 +6881,8 @@ struct CallerB1d900 {
  void FUN_00b1cca0(void*,int,int,int,int,int);
  void FUN_00b1d900(unsigned,int,int,int,int,int);
 };
+// pdb: ImageSpaceManager::RenderEffect | ImageSpaceManager.obj | fnv360_1110_retail, call_gap, low
+// pdb params: aiEffect, apRenderer, apSourceBuffer, apDestinationBuffer, apParam, abEndFrame
 void CallerB1d900::FUN_00b1d900(unsigned index,int b,int c,int d,int e,int f) {
  AllocationTagGuardB1d900 guard(0x27);
  FUN_00b1cca0(entries[index],b,c,d,e,f);
@@ -6903,6 +6948,8 @@ struct f3m_00b0f640_Owner
     void FUN_00b0f640(int unused);
 };
 
+// pdb: BSBatchRenderer::ClearRenderPasses | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abReportUnrendered
 void f3m_00b0f640_Owner::FUN_00b0f640(int unused)
 {
     f3m_00b0f640::MapIterator pos = m_kMap.GetFirstPos();
@@ -6947,6 +6994,8 @@ struct Owner {
  Node* head;
  void FUN_00b0eb60(Owner*);
 };
+// pdb: BSSimpleList<unsigned short>::AddHead | BSBatchRenderer.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: item
 void Owner::FUN_00b0eb60(Owner* arg) {
  unsigned short nextCount=arg->count;
  if(nextCount) {
@@ -7006,6 +7055,8 @@ struct ListB0F {                                    // 'this' (ESI) ✓✓
     void FUN_00b0f580(void** parameter);            // thiscall with one stack parameter (retn 4) ✓✓ the parameter is dereferenced once to obtain the payload pointer ✓✓
 };
 
+// pdb: BSTPersistentList<NiTPointerAllocator<unsigned int>,BSShaderProperty::RenderPass *>::AddTail | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: atElement
 void ListB0F::FUN_00b0f580(void** parameter) {
     struct NodeB0F* node;
 
@@ -7089,10 +7140,11 @@ int unk28;
 State state;
 };
 struct Payload { int unk00; };
-void FUN_00b0f370(Payload*,void*);
-struct Object { unsigned char flags,unk01; unsigned short count; int unk04; Target* target; Payload payload; void FUN_00b0fad0(void*); };
-void Object::FUN_00b0fad0(void* value) {
- if((flags&1)>0u) FUN_00b0f370(&payload,value);
+void BSBatchRenderer_RenderPersistentPassList(Payload*,void*);
+struct Object { unsigned char flags,unk01; unsigned short count; int unk04; Target* target; Payload payload; void BSBatchRenderer_GeometryGroup_Render(void*); };
+// pdb: BSBatchRenderer::GeometryGroup::Render | BSBatchRenderer.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Object::BSBatchRenderer_GeometryGroup_Render(void* value) {
+ if((flags&1)>0u) BSBatchRenderer_RenderPersistentPassList(&payload,value);
  else { Target* object=target; if(object) object->action(1,0x2f1,value); }
  Target* object=target;
  if(object) object->state.FUN_00ae8980();
@@ -7120,6 +7172,7 @@ struct Array {
  }
 };
 struct FUN_00b0fa10 {int unk00,unk04;Target* target;Array array;~FUN_00b0fa10();};
+// pdb: BSBatchRenderer::GeometryGroup::~GeometryGroup | BSBatchRenderer.obj | fnv360_0822_retail, call_dedup, low
 FUN_00b0fa10::~FUN_00b0fa10(){if(target){delete target;target=0;}}
 }
 
@@ -7129,8 +7182,9 @@ FUN_00b0fa10::~FUN_00b0fa10(){if(target){delete target;target=0;}}
 namespace f3m_00b10420 {
 namespace Query299 {
 struct Leaf {int unk00;char unk04,unk05,unk06,value;};struct Value {int unk00,unk04;Leaf* leaf;};struct Cell {int unk00;Value* value;int unk08,unk0c,unk10;};struct Row {Cell cells[5];int tail;};struct Map {void FUN_00bea7b0(void*,int*);};
-struct Object {int unk00,unk04;Row* rows;Map map;bool FUN_00b0e710(int,int*);bool FUN_00b0f980(void**,int*);bool FUN_00b10420(void**,int*,char*);};
-bool Object::FUN_00b10420(void** key,int* column,char* out){bool result=true;int row=0;if(!*key){result=FUN_00b0f980(key,column);}else{map.FUN_00bea7b0(*key,&row);if(!FUN_00b0e710(row,column))result=FUN_00b0f980(key,column);}if(result){map.FUN_00bea7b0(*key,&row);*out=rows[row].cells[*column].value->leaf->value;}return result;}
+struct Object {int unk00,unk04;Row* rows;Map map;bool FUN_00b0e710(int,int*);bool FUN_00b0f980(void**,int*);bool BSBatchRenderer_PrepareNextRenderPass(void**,int*,char*);};
+// pdb: BSBatchRenderer::PrepareNextRenderPass | BSBatchRenderer.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+bool Object::BSBatchRenderer_PrepareNextRenderPass(void** key,int* column,char* out){bool result=true;int row=0;if(!*key){result=FUN_00b0f980(key,column);}else{map.FUN_00bea7b0(*key,&row);if(!FUN_00b0e710(row,column))result=FUN_00b0f980(key,column);}if(result){map.FUN_00bea7b0(*key,&row);*out=rows[row].cells[*column].value->leaf->value;}return result;}
 }
 
 }   // namespace f3m_00b10420
@@ -7142,6 +7196,8 @@ struct Class00b0e710 {
     char* m_pTable;
     bool FUN_00b0e710(int row, int* outIndex);
 };
+// pdb: BSBatchRenderer::PrepareNextRenderPass_SetNextBucket | BSBatchRenderer.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: auiIndex, aiBucket
 bool Class00b0e710::FUN_00b0e710(int row, int* outIndex)
 {
     int i;
@@ -7284,6 +7340,8 @@ struct Group {
 unsigned char flags,unk01; unsigned short count; void* owner; FUN_00b0fc90* map; List list;
 void FUN_00b107a0(Item*,bool);
 };
+// pdb: BSBatchRenderer::GeometryGroup::RegisterPass | BSBatchRenderer.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apRenderPass, abAddToFront
 void Group::FUN_00b107a0(Item* item,bool front) {
  if((flags&1u)>0) {
   if(front) list.FUN_00b0f5d0(&item);
@@ -7311,7 +7369,8 @@ struct List {
 };
 void FUN_00b0e510();
 void FUN_00b0f230(Item*,unsigned,int,int,int);
-void FUN_00b0f370(List* list,int context) {
+// pdb: BSBatchRenderer::RenderPersistentPassList | BSBatchRenderer.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller_sim), high
+void BSBatchRenderer_RenderPersistentPassList(List* list,int context) {
  if(list->count>0) {
   FUN_00b0e510();
   Node* position=list->head;
@@ -7348,6 +7407,8 @@ struct Node {
  void FUN_00b0eb60(unsigned*);
  void FUN_00b0f470(unsigned,int (__cdecl*)(unsigned short,unsigned short));
 };
+// pdb: BSSimpleList<unsigned short>::Insert | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apNewItem, apCompareFn
 void Node::FUN_00b0f470(unsigned value,int (__cdecl* compare)(unsigned short,unsigned short)) {
  const unsigned input=*(volatile unsigned*)&value;
  if((unsigned short)input) {
@@ -7397,6 +7458,7 @@ struct R {
     unsigned short* s94;
     void FUN_00b10ab0();
 };
+// pdb: BSBatchRenderer::StopGroupingAlphas | BSBatchRenderer.obj | fnv360_0822_retail, call_seq, medium
 void R::FUN_00b10ab0()
 {
     int v = Max(cnt - 1, 0);

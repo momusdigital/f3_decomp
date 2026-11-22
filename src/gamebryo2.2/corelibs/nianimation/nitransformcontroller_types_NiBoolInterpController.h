@@ -160,7 +160,7 @@ class NiBoolInterpController : public NiSingleInterpController
 {
   public:
     void CopyMemberData(NiBoolInterpController*, CloningProcess&);
-    void FUN_00a35a80(NiBoolInterpController*, CloningProcess&);
+    void BSMultiTargetTreadTransfController_AllocateStorage(NiBoolInterpController*, CloningProcess&);
     // base NiSingleInterpController at +0x0, size 56
     // const NiRTTI* __cdecl NiBoolInterpController::*()
     // void __cdecl NiBoolInterpController::*(NiBoolInterpController*, CloningProcess&)

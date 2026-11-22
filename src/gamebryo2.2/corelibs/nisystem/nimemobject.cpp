@@ -1,12 +1,6 @@
-// gamebryo2.2/corelibs/nisystem/nimemobject.cpp: NiPoint2 (3 functions)
+// gamebryo2.2/corelibs/nisystem/nimemobject.cpp: NiPoint2 (2 functions)
 #include "f3_common.h"
 #include "nimemobject_decls.h"
-
-// @fnv 0x004393c0
-void Flag512Receiver::SetFlag512(bool enabled)
-{
-    FUN_00633ba0(enabled, 0x200);
-}
 
 // Initializes the point's x and y components from the two float arguments.
 // @fnv 0x00452dc0
@@ -26,6 +20,8 @@ struct _NiAllocatorDummy
     virtual void Deallocate(void* pvMemory, int aiAllocationType, size_t stSizeInBytes);
 };
 
+// pdb: NiMemObject::operator delete[] | NiMemObject.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pvMem, stElementSize
 __pragma(optimize("gsty", on))
 // @fnv 0x00aa1490
     void __cdecl FUN_00aa1490(void* apMemory, unsigned int stElementSize)

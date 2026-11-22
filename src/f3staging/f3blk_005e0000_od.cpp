@@ -310,6 +310,8 @@ __forceinline void EraseFunnelSpan(BSScrapArray<NavMeshSearchNode,1024>* current
     links.Erase(i, s);
 }
 
+// pdb: Pathing::ComputeApproximatePathingDistance | Pathfind.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aStartLocation, aGoalLocation, apAvoidNodeArray, apReturnDistance, apReturnNodes
 bool __cdecl FUN_005f69c0(PathingLocation* a, PathingLocation* b, void* options,
                          float* distance, BSScrapArray<NavMeshSearchNode,1024>* out) {
     FUN_00cbadb0_Obj cnt;

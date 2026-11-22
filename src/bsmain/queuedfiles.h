@@ -1,8 +1,8 @@
 // Authored reconstruction of the bsmain/queuedfiles.h unit (Doc Speech30 aid
-// segment): QueuedFile::HandleChildCompletion and QueuedFile::SetParent.
+// segment): QueuedFile::HandleChildCompletion and QueuedFile::NiAVObject_AttachParent.
 //
 // covered PC functions as QueuedFile::HandleChildCompletion (0x0043bde0, 37
-// bytes) and QueuedFile::SetParent (0x00443aa0, 65 bytes). Class layouts come
+// bytes) and QueuedFile::NiAVObject_AttachParent (0x00443aa0, 65 bytes). Class layouts come
 // from the same extraction: QueuedFile is a 40-byte IOTask with aeMemoryContext at
 // +0x18, m_pParent at +0x1c, pChildren at +0x20 and pAdditionalParents at
 // +0x24; QueuedFile's introducing virtuals occupy vtable offsets 0x20
@@ -152,7 +152,7 @@ class QueuedFile : public IOTask
     virtual void HandleChildCompletion(QueuedFile* apChild);  // vtable offset 0x24
     virtual void OnChildCompletion();                         // vtable offset 0x28
 
-    void SetParent(QueuedFile* apParent);
+    void NiAVObject_AttachParent(QueuedFile* apParent);
     void AddAdditionalParent(QueuedFile* apParent);
     unsigned int GetChildCount();
     unsigned int GetChildCountFinished();

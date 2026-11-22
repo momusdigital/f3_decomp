@@ -110,6 +110,7 @@ struct FUN_00a77940 : CollisionFilterE4
     }
     virtual ~FUN_00a77940() throw();
 };
+// pdb: hkpCollisionFilterList::~hkpCollisionFilterList | hkpCollisionFilterList.obj | fnv360_0822_retail, call_seq, high
 FUN_00a77940::~FUN_00a77940() throw()
 {
     for (int i = 0; i < filters.size; ++i)

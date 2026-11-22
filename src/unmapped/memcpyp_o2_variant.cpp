@@ -21,6 +21,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 // @fnv 0x00a76a60
+// pdb: NiPointer<NiPalette>::operator= | NiXenonSourceTextureData.obj | fnv360_0721_beta, call_gap, low, conflict (skyrim: NiPixelData::SetPalette)
+// pdb params: pObject
 void Owner::FUN_00a76a60(Item* replacement)
 {
     Item* previous = item;

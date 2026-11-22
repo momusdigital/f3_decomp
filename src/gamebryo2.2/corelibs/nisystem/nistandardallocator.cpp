@@ -2,21 +2,6 @@
 // src/gamebryo2.2/corelibs/nisystem/nistandardallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nistandardallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-// Swaps two adjacent ints at a and b when the pointers differ.
-// @fnv 0x00aa3530
-void __cdecl SwapIntPairs(int* paiFirst, int* paiSecond)
-{
-    if (paiFirst != paiSecond)
-    {
-        int tmp0 = *paiFirst;
-        int tmp1 = *(paiFirst + 1);
-        *paiFirst = *paiSecond;
-        *(paiFirst + 1) = *(paiSecond + 1);
-        *(paiSecond + 1) = tmp1;
-        *paiSecond = tmp0;
-    }
-}
-
 struct P03MM
 {
     void Deallocate(void*);
@@ -24,7 +9,8 @@ struct P03MM
 extern P03MM g_memoryManager;
 
 // @fnv 0x00aa3370
-void __stdcall FUN_00aa3370(void* apBlock, int e, unsigned int s)
+// pdb: NiStandardAllocator::DeallocateExternal | NiStandardAllocator.obj | fnv360_0822_retail, objrun_open + bridge(vtable|objopen_prop) + skyrim(vtable), high
+void __stdcall NiStandardAllocator_DeallocateExternal(void* apBlock, int e, unsigned int s)
 {
     if (apBlock)
     {
@@ -50,7 +36,9 @@ struct NiStandardAllocator
 };
 
 // @fnv 0x00aa3430
-void __cdecl AllocateStandardAllocator()
+// pdb: NiStandardAllocator::Initialize | NiStandardAllocator.obj | fnv360_0822_retail, uconst, high
+// pdb: NiStandardAllocator::Initialize | NiStandardAllocator.obj | fnv360_0822_retail, uconst, high (was: AllocateStandardAllocator)
+void __cdecl NiStandardAllocator_Initialize()
 {
     void* p = g_memoryManager.Allocate(0x10080);
     if (p)
@@ -66,6 +54,8 @@ void __cdecl AllocateStandardAllocator()
 
 // Reads four bytes from pMemory into an unsigned int and returns it.
 // @fnv 0x00aa3090
+// pdb: NiSmallObjectAllocator::Allocate | NiSmallObjectAllocator.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiStandardAllocator::GetSizeFromAddress)
+// pdb params: stNumBytes
 unsigned int __cdecl ReadUInt32(void* pMemory)
 {
     char* pBytes;
@@ -88,6 +78,8 @@ extern SmallAlloc* DAT_011f622c;
 unsigned int __cdecl ReadUInt32(void* p);
 void __cdecl FreeAllocatorBlock(void* p);
 // @fnv 0x00aa3150
+// pdb: NiStandardAllocator::Deallocate | NiStandardAllocator.obj | fnv360_0822_retail, objrun_open, medium, conflict (bridge: NiStandardAllocator::Allocate)
+// pdb params: pvMemory, eEventType, stSizeInBytes
 void __stdcall FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
 {
     if (pvMemory)
@@ -131,6 +123,8 @@ union Pun
 // 0x00aa30c0: writes a 4-byte count into a buffer obtained from the memory
 // manager, when the record is a 4-byte type and the caller's flag is clear.
 // @fnv 0x00aa30c0
+// pdb: NiStandardAllocator::Allocate | NiStandardAllocator.obj | fnv360_0822_retail, objrun_open, medium, conflict (bridge: NiStandardAllocator::Deallocate)
+// pdb params: stSizeInBytes, stAlignment, eEventType, bProvideAccurateSizeOnDeallocate, pcFile, iLine, pcFunction
 unsigned char* __stdcall FUN_00aa30c0(unsigned int* pCount, int* pType, int eType, unsigned char bFlag, int a4, int a5,
                                       int a6)
 {
@@ -270,7 +264,9 @@ struct AA3460Pools
 
 // Deletes the AA3460Pools object at DAT_011f622c and clears the pointer.
 // @fnv 0x00aa3460
-void __cdecl DestroySmallAllocPools()
+// pdb: NiStandardAllocator::Shutdown | NiStandardAllocator.obj | fnv360_0822_retail, objrun_open, high
+// pdb: NiStandardAllocator::Shutdown | NiStandardAllocator.obj | fnv360_0822_retail, objrun_open, high (was: DestroySmallAllocPools)
+void __cdecl NiStandardAllocator_Shutdown()
 {
     delete reinterpret_cast<AA3460Pools*>(DAT_011f622c);
     DAT_011f622c = 0;
@@ -300,6 +296,8 @@ struct FUN_00aa34b0_cls
 
 // Searches the entry array outward from m_18 for an entry whose [m_base, m_base + m_04*m_00) range contains p, returning it or null.
 // @fnv 0x00aa34b0
+// pdb: NiFixedAllocator::VicinityFind | NiSmallObjectAllocator.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: p
 FUN_00aa34b0_entry* FUN_00aa34b0_cls::FindEntryContaining(unsigned int auiAddress)
 {
     FUN_00aa34b0_entry* back = m_18;
@@ -371,6 +369,8 @@ struct StdAllocator
 };
 
 // @fnv 0x00aa31b0
+// pdb: NiStandardAllocator::Reallocate | NiStandardAllocator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pvMemory, stSizeInBytes, stAlignment, eEventType, bProvideAccurateSizeOnDeallocate, stSizeCurrent, pcFile, iLine, pcFunction
 void* StdAllocator::FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, unsigned int& stAlignment,
                                  int aiAllocationType, bool bProvideAccurateSizeOnDeallocate,
                                  unsigned int stSizeCurrent, const char* pcFile, int iLine, const char* pcFunction)
@@ -483,6 +483,7 @@ struct FUN_00aa3560
 };
 // Frees each allocated block in m_ptr, then frees the m_ptr array and deletes the critical section.
 // @fnv 0x00aa3560
+// pdb: NiFixedAllocator::~NiFixedAllocator | NiSmallObjectAllocator.obj | fnv360_0822_retail, objrun_open, medium
 FUN_00aa3560::~FUN_00aa3560()
 {
     for (unsigned int i = 0; i < m_cnt; ++i)
@@ -498,7 +499,8 @@ struct MMHeap
 
 // Allocates and zeroes a block, applying the requested alignment when iType is 0xd.
 // @fnv 0x00aa3300
-void* __stdcall FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
+// pdb: NiStandardAllocator::AllocateExternal | NiStandardAllocator.obj | fnv360_0822_retail, objrun_open + bridge(vtable|objrun_open) + skyrim(vtable), high
+void* __stdcall NiStandardAllocator_AllocateExternal(unsigned int puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
                              int iUnkValue, int iNewUnk)
 {
     MMHeap* pkHeap = (MMHeap*)&_g_memoryManager;

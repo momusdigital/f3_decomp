@@ -142,10 +142,11 @@ struct CachedShapeMediator
     int m_memSizeAndFlags;
     KdopArray m_entries;
 
-    void FUN_00a55490(const SphereRepShape* shape, unsigned int key, const SplittingDirection* directions, int numDirections);
+    void hkpMoppCachedShapeMediator_addConvexShape(const SphereRepShape* shape, unsigned int key, const SplittingDirection* directions, int numDirections);
 };
 
-void CachedShapeMediator::FUN_00a55490(const SphereRepShape* shape, unsigned int key, const SplittingDirection* directions, int numDirections)
+// pdb: hkpMoppCachedShapeMediator::addConvexShape | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void CachedShapeMediator::hkpMoppCachedShapeMediator_addConvexShape(const SphereRepShape* shape, unsigned int key, const SplittingDirection* directions, int numDirections)
 {
     int numSpheres = shape->getNumCollisionSpheres();
     hkSphere* spheres = (hkSphere*)getThreadMemory()->allocateStack(numSpheres);

@@ -11,12 +11,6 @@ struct ImageSpaceManager
 
 extern ImageSpaceManager* DAT_011f91ac;
 
-// @fnv 0x00b4f430
-void __cdecl FUN_00b4f430(int arg)
-{
-    DAT_011f91ac->SetValue(arg);
-}
-
 struct BSRenderedTexture;
 struct BSTextureManager
 {
@@ -27,6 +21,7 @@ extern BSRenderedTexture* DAT_011f949c;
 
 // If the global rendered texture is set, passes it to the texture manager and clears the global pointer.
 // @fnv 0x00b4f510
+// pdb: BSShaderManager::ReturnVelocityBuffers | BSShaderManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSShaderManager::GetSceneDepthTexture)
 void FUN_00b4f510()
 {
     if (DAT_011f949c)
@@ -43,17 +38,12 @@ struct ImageSpaceTexture
 struct ImageSpaceManager;
 extern ImageSpaceManager* DAT_011f91ac;
 
-// @fnv 0x00b540b0
-void FUN_00b540b0()
-{
-    ((ImageSpaceTexture*)((char*)DAT_011f91ac + 0x204))->AddRenderedTexture();
-}
-
 extern int DAT_011ffa0c;
 extern int DAT_011ffa10;
 void __cdecl AddToCounterIfIdle(unsigned int, unsigned int);
 
 // @fnv 0x00b540d0
+// pdb: BSShaderManager::DisableFullScreenScissor | BSShaderManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSShaderManager::~BSShaderManager)
 void __cdecl FUN_00b540d0()
 {
     DAT_011ffa10 -= 1;
@@ -62,16 +52,6 @@ void __cdecl FUN_00b540d0()
 }
 
 extern int DAT_011f9168;
-extern int* DAT_011f9170;
-
-// @fnv 0x00b540f0
-int __cdecl PopNextInt()
-{
-    int index = DAT_011f9168;
-    int* p = DAT_011f9170 + index;
-    DAT_011f9168 = DAT_011f9168 + 1;
-    return *p;
-}
 
 struct FUN_00b58110_Class
 {
@@ -82,6 +62,7 @@ struct FUN_00b58110_Class
 void __cdecl _delete(void* p, unsigned int size);
 
 // @fnv 0x00b58110
+// pdb: ObstacleData::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00b58110_Class::FUN_00b58110(int flags)
 {
     FUN_00b57ff0();
@@ -101,6 +82,7 @@ struct FUN_00b58400_class
     void* __thiscall FUN_00b58400(int flag);
 };
 // @fnv 0x00b58400
+// pdb: StatsMenu::StatusDataList::`scalar deleting destructor' | EffectItemList.obj | fnv360_0822_debug, vtable, medium
 void* __thiscall FUN_00b58400_class::FUN_00b58400(int flag)
 {
     FUN_00b580a0();
@@ -120,6 +102,7 @@ struct BGSDecalNode
 
 // Calls FUN_00b581c0, deletes this with size 0x34 when flags has bit 0 set, and returns this.
 // @fnv 0x00b584c0
+// pdb: NiBSplineColorInterpolator::`scalar deleting destructor' | NiBSplineColorInterpolator.obj | fnv360_0721_retail, objrun, medium
 BGSDecalNode* BGSDecalNode::FUN_00b584c0(unsigned int flags)
 {
     FUN_00b581c0();
@@ -136,6 +119,7 @@ struct FUN_00b5a3f0_Class
 };
 
 // @fnv 0x00b5a3f0
+// pdb: ImageSpaceEffectRadialBlur::ImageSpaceEffectRadialBlur | ImageSpaceEffectRadialBlur.obj | fnv360_0721_beta, objrun, medium
 int __thiscall FUN_00b5a3f0_Class::FUN_00b5a3f0()
 {
     if (*(float*)((char*)this + 0x6c) > 0.0f && DAT_011f968c)
@@ -155,6 +139,7 @@ struct FUN_00b5a480_Class
     void* FUN_00b5a480(unsigned char flag);
 };
 // @fnv 0x00b5a480
+// pdb: EffectSetting::`scalar deleting destructor' | EffectSetting.obj | fnv360_0822_retail, vtable, medium
 void* FUN_00b5a480_Class::FUN_00b5a480(unsigned char flag)
 {
     FUN_00b59c20();
@@ -165,6 +150,7 @@ void* FUN_00b5a480_Class::FUN_00b5a480(unsigned char flag)
 }  // namespace fnv_00b5a480
 
 // @fnv 0x00b5a980
+// pdb: DetectionState::QLOSLocation | Actor.obj | tesv_win, objrun_open, low
 int __cdecl FUN_00b5a980(int* piLeft, int* piRight)
 {
     return *piLeft == *piRight;
@@ -177,6 +163,7 @@ struct FUN_00b5a9d0_class
 
 // Stores the three int arguments at offsets 0x100, 0x104 and 0x108 of this object.
 // @fnv 0x00b5a9d0
+// pdb: Actor::IsPointInViewCone | Actor.obj | tesv_win, objopen_prop, low
 void FUN_00b5a9d0_class::SetTripleInts(int aiFirst, int aiSecond, int aiThird)
 {
     *(int*)((char*)this + 0x100) = aiFirst;
@@ -195,6 +182,7 @@ struct FUN_00b5f980_class
 
 // Calls FUN_00b5e5a0, then deletes this with size 0x200 when flag's low bit is set, and returns this.
 // @fnv 0x00b5f980
+// pdb: ShadowSceneNode::`scalar deleting destructor' | ShadowSceneNode.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: BSShaderAccumulator::FinishAccumulating_WaterDepth)
 void* __thiscall FUN_00b5f980_class::FUN_00b5f980(bool abDelete)
 {
     FUN_00b5e5a0();
@@ -208,6 +196,8 @@ struct FUN_00b57fe0_class
     void __thiscall FUN_00b57fe0(int value);
 };
 // @fnv 0x00b57fe0
+// pdb: DistantLODShaderProperty::SetClampNI | DistantLODShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aClampMode
 void __thiscall FUN_00b57fe0_class::FUN_00b57fe0(int value)
 {
     *(int*)((char*)this + 0x84) = value;
@@ -223,6 +213,8 @@ struct FUN_00b58570_Class
 };
 // Allocates a node from the pool at this+8, links it after the current tail (this+4) or as the first node, and returns it.
 // @fnv 0x00b58570
+// pdb: NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiAVObject *>::AddTail | Main.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: element
 void* __thiscall FUN_00b58570_Class::FUN_00b58570(void* source)
 {
     void* node = ((NodePoolView*)((char*)this + 8))->AddHead();
@@ -243,6 +235,7 @@ void* __thiscall FUN_00b58570_Class::FUN_00b58570(void* source)
 }
 
 // @fnv 0x00b5aa70
+// pdb: AIProcess::StoreDismemberedLimbNode | AIProcess_MiddleHigh.obj | tesv_win, objrun_open, low
 int CompareFloatAtOffsetC(int* pLeft, int* pRight)
 {
     float x = *(float*)((char*)pLeft[0] + 0xc);
@@ -275,6 +268,8 @@ struct FUN_00b584e0_Class
 
 // Allocates a 12-byte node, stores the value pointed to by pData, links it before pTail, and updates pHead/pTail and the count.
 // @fnv 0x00b584e0
+// pdb: NiTPointerListBase<DFALL<NiTListItem<TESObjectCELL *> >,TESObjectCELL *>::AddTail | TESObjectCELL.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: element
 FUN_00b584e0_Node* FUN_00b584e0_Class::FUN_00b584e0(void* pData)
 {
     FUN_00b584e0_Node* pNewNode =
@@ -329,6 +324,8 @@ struct FUN_00b5a8d0_List
 };
 // Unlinks node a from the list and reinserts it immediately before node b, updating head, tail and neighbour links.
 // @fnv 0x00b5a8d0
+// pdb: NiTListBase<NiTPointerAllocator<unsigned int>,NiPointer<ShadowSceneLight> >::MoveToAfter | ShadowSceneNode.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: kObjectToMove, kDestination
 void __thiscall FUN_00b5a8d0_List::MoveBefore(FUN_00b5a8d0_Node* pNodeToMove, FUN_00b5a8d0_Node* pInsertBefore)
 {
     if (pNodeToMove != pInsertBefore)
@@ -358,11 +355,12 @@ struct NiTPrimitiveArray_int___
 
 struct FUN_00b5a3a0_Class
 {
-    void FUN_00b5a3a0();
+    void ImageSpaceEffectDepthRadialBlur_ReturnTextures();
 };
 
 // @fnv 0x00b5a3a0
-void FUN_00b5a3a0_Class::FUN_00b5a3a0()
+// pdb: ImageSpaceEffectDepthRadialBlur::ReturnTextures | ImageSpaceEffectRadialBlur.obj | fnv360_0721_beta, objrun + bridge(hash|caller_sim), high
+void FUN_00b5a3a0_Class::ImageSpaceEffectDepthRadialBlur_ReturnTextures()
 {
     int iZero;
     ImageSpaceTexture* tex = *(ImageSpaceTexture**)((char*)this + 0x2c);
@@ -379,6 +377,8 @@ void __cdecl AccumulateAndDispatch(unsigned int, unsigned int, unsigned int, uns
 
 // Calls AccumulateAndDispatch with the four arguments and 1, then calls AddToCounterIfIdle with 1 and 1.
 // @fnv 0x00b4f540
+// pdb: BSShaderManager::EnableFullScreenScissor | BSShaderManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSShaderManager::GetNextAvailableShadowMapAccumulator)
+// pdb params: uiX0, uiY0, uiX1, uiY1
 void __cdecl FUN_00b4f540(unsigned int a, unsigned int b, unsigned int c, unsigned int d)
 {
     AccumulateAndDispatch(a, b, c, d, 1);
@@ -476,15 +476,10 @@ FUN_00b4e1e0::~FUN_00b4e1e0()
 
 extern int DAT_011f9168;
 
-// @fnv 0x00b4f570
-void __cdecl FUN_00b4f570()
-{
-    DAT_011f9168 = 0;
-}
-
 extern int DAT_011f95ec;
 
 // @fnv 0x00b4f5c0
+// pdb: BSShaderManager::GetAccumulator | BSShaderManager.obj | fnv360_0822_retail, call_seq, medium
 int FUN_00b4f5c0()
 {
     return DAT_011f95ec;
@@ -497,6 +492,7 @@ struct FUN_00b54620_This
 };
 
 // @fnv 0x00b54620
+// pdb: DoorTeleportData::~DoorTeleportData | TeleportData.obj | fnv360_0721_beta, call_seq, medium
 void FUN_00b54620_This::FUN_00b54620()
 {
     this->unk00 = 0;
@@ -597,6 +593,8 @@ class B55480Node : public B55480AVObject
 };
 
 // @fnv 0x00b55480
+// pdb: BSShaderManager::SetExternalEmittanceRecurse | BSShaderManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, aColor
 void SetPropertyValueRecursive(B55480AVObject* pkObject, int iValue)
 {
     if (!pkObject)
@@ -634,6 +632,7 @@ struct S_00b57e70_Class
 };
 
 // @fnv 0x00b57e70
+// pdb: DistantLODShaderProperty::DistantLODParam::DistantLODParam | DistantLODShaderProperty.obj | fnv360_0822_retail, call_seq, medium
 S_00b57e70_Class* __thiscall S_00b57e70_Class::FUN_00b57e70()
 {
     unk08 = 0;
@@ -802,6 +801,7 @@ struct FUN_00b57f90 : public FUN_00b7c000_Base
 
 // Constructor: initialises the base and sets m_i32 and m_i31 to 0, m_i22 to 3 and m_i07 to 2.
 // @fnv 0x00b57f90
+// pdb: DistantLODShaderProperty::DistantLODShaderProperty | DistantLODShaderProperty.obj | fnv360_0822_retail, call_gap_sim, low
 FUN_00b57f90::FUN_00b57f90() : FUN_00b7c000_Base()
 {
     m_i32 = 0;
@@ -813,6 +813,7 @@ FUN_00b57f90::FUN_00b57f90() : FUN_00b7c000_Base()
 // FUN_00b57fd0 : a one-line function - getter
 extern int g_target_00b57fd0;
 // @fnv 0x00b57fd0
+// pdb: NiColorExtraData::GetRTTI | NiColorExtraData.obj | fnv360_0822_retail, udata, medium
 void* FUN_00b57fd0()
 {
     return &g_target_00b57fd0;
@@ -884,6 +885,7 @@ class FUN_00b57ff0 : public B57FF0Base
 };
 
 // @fnv 0x00b57ff0
+// pdb: DistantLODShaderProperty::~DistantLODShaderProperty | DistantLODShaderProperty.obj | fnv360_0822_retail, objrun, medium
 FUN_00b57ff0::~FUN_00b57ff0()
 {
     m_iFadeIndex = 0;
@@ -922,6 +924,8 @@ class B58070AVObject
 extern B58070AVObject* g_pkB58070Root;
 
 // @fnv 0x00b58070
+// pdb: DistantLODShaderProperty::SetDistantLODCulled | DistantLODShaderProperty.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abDistLODStatus
 bool SetRootAppCulled(bool bCulled)
 {
     B58070AVObject* pkRoot = g_pkB58070Root;
@@ -968,6 +972,7 @@ struct CpuObject
     int FUN_00b58090();
 };
 // @fnv 0x00b58090
+// pdb: hkDisplayCone::getNumSegments | hkDisplayCone.obj | fnv360_0822_retail, objrun_open, low
 int CpuObject::FUN_00b58090()
 {
     return value;
@@ -994,6 +999,7 @@ struct FUN_00b580a0 : NiTMapBaseStub
 
 // Destructor that calls RemoveAll() to clear the hash table entries.
 // @fnv 0x00b580a0
+// pdb: NiTMap<char const *,Setting *>::~NiTMap<char const *,Setting *> | EffectItem.obj | fnv360_0822_debug, call_seq, high
 FUN_00b580a0::~FUN_00b580a0()
 {
     RemoveAll();
@@ -1118,6 +1124,8 @@ struct PointerMap
 };
 // Looks up key in the hash bucket; if found, replaces its value, otherwise allocates a new node, assigns key/value, links it into the bucket and increments count.
 // @fnv 0x00b582b0
+// pdb: NiTMapBase<DFALL<NiTMapItem<bhkRigidBody *,NiPointer<ObstacleData> > >,bhkRigidBody *,NiPointer<ObstacleData> >::SetAt | NavMeshObstacleManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: key, val
 void PointerMap::InsertOrAssign(unsigned int key, NiPointer<MapRefObject> value)
 {
     unsigned int hash = Hash(key);
@@ -1206,6 +1214,8 @@ struct FUN_00b58420_cls
 
 // Allocates a BlobObj, initializes it via CopyTo with arg, and returns the object.
 // @fnv 0x00b58420
+// pdb: DistantLODShaderProperty::CreateClone | DistantLODShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arCloneData
 BlobObj* FUN_00b58420_cls::CreateBlobObj(unsigned int arg)
 {
     BlobObj* obj = new BlobObj;
@@ -1238,6 +1248,7 @@ struct FUN_00b58530_cls
 
 // Walks the linked list from m_00, clearing each node's m_08 and freeing it, then resets m_00, m_04 and m_08.
 // @fnv 0x00b58530
+// pdb: NiTPointerListBase<DFALL<NiTListItem<QueuedRemoval *> >,QueuedRemoval *>::RemoveAll | TESWaterListener.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00b58530_cls::FUN_00b58530()
 {
     ListNode_b4009* cur = m_00;
@@ -1368,6 +1379,7 @@ class FUN_00b595b0_cls
 
 // Releases the held reference object, clears the queue, deletes all entry pointers in the list, then removes the list nodes.
 // @fnv 0x00b595b0
+// pdb: DistantLODShaderProperty::CachedDistantLOD::~CachedDistantLOD | DistantLODShaderProperty.obj | fnv360_0822_retail, call_gap, low
 FUN_00b595b0_cls::~FUN_00b595b0_cls()
 {
     m_pReferencedObject = 0;
@@ -1494,6 +1506,8 @@ struct Effect
 };
 // Writes camera near/far plane derived values into value60/64/68 and sets four-component parameters on both shader params, returning true.
 // @fnv 0x00b5a220
+// pdb: ImageSpaceEffectDepthRadialBlur::UpdateParams | ImageSpaceEffectRadialBlur.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apParam
 bool Effect::UpdateShaderParams(int)
 {
     ImageSpaceShaderParam* pSecondParam = parameters->second;
@@ -1511,18 +1525,6 @@ bool Effect::UpdateShaderParams(int)
     return true;
 }
 
-struct FUN_00ba3840_Class
-{
-    void __thiscall FUN_00ba3840(int value);
-};
-struct FUN_00ba3aa0_Class
-{
-    void __thiscall FUN_00ba3aa0(int kind, void* value);
-};
-struct FUN_00ba37f0_Class
-{
-    void __thiscall FUN_00ba37f0(int value);
-};
 int __cdecl GetImageSpaceTexture();
 struct FUN_00b5a340_Class
 {
@@ -1548,6 +1550,8 @@ struct ImageSpaceTexture00b453c0
     void SetTexture(NiTexture00b453c0* apTexture);
 };
 
+// pdb: ImageSpaceEffectDepthRadialBlur::BorrowTextures | ImageSpaceEffectRadialBlur.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pParam
 void FUN_00b5a340_Class::InitSubObjects(int arg)
 {
     NiTexture00b453c0* pTexture = (NiTexture00b453c0*)((char*)this + 0xb4);
@@ -1570,6 +1574,7 @@ struct PaletteFieldFlags
 
 // Packs four zero-comparison results of bytes at offsets 0xe6-0xe9 into a 4-bit value, with 0xe6 as the lowest bit.
 // @fnv 0x00b5aa00
+// pdb: BSOcclusionPlane::QEdgeVisibleState | BSCompoundFrustum.obj | fnv360_0822_debug, objrun_open, low
 unsigned int __thiscall PaletteFieldFlags::GetPackedZeroFlags() const
 {
     const unsigned char* const fieldBytes = reinterpret_cast<const unsigned char*>(this);
@@ -1703,6 +1708,8 @@ struct FnvLookupOwner
 };
 // Walks the linked list from head and, for the first node whose record matches lookupKey, calls FUN_00b5d270 on that record and returns.
 // @fnv 0x00b5f080
+// pdb: ShadowSceneNode::UpdateLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apLight
 void FnvLookupOwner::FUN_00b5f080(int lookupKey)
 {
     FnvLookupNode* node = head;
@@ -1816,6 +1823,8 @@ class BB5F0C0Visitor
 };
 
 // @fnv 0x00b5f0c0
+// pdb: ShadowSceneNode::FindAndCullLightRecurse | ShadowSceneNode.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: ShadowSceneNode::RemoveObjectRecurse)
+// pdb params: apNode, abCull
 void BB5F0C0Visitor::VisitNodeChildren(BB5F0C0Node* pkNode, bool bAttach)
 {
     unsigned int ItemUpdateArray = pkNode->m_usSize;
@@ -1855,6 +1864,8 @@ struct FunSceneManager
 };
 
 // @fnv 0x00b5f150
+// pdb: ShadowSceneNode::FindAndCullLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNode, abCull
 void FunSceneManager::FUN_00b5f150(void* pTarget, int flag)
 {
     if (pTarget != 0)
@@ -1864,6 +1875,7 @@ void FunSceneManager::FUN_00b5f150(void* pTarget, int flag)
 extern int DAT_011f95f0;
 
 // @fnv 0x00b4f5d0
+// pdb: TESLevCreature::GetMaxLevelDifference | TESLevCreature.obj | fnv360_0822_retail, vtable, medium
 int FUN_00b4f5d0()
 {
     return DAT_011f95f0;
@@ -1927,6 +1939,7 @@ extern NiPointer<B57FF0RefObject> DAT_011f9544;
 extern NiPointer<B57FF0RefObject> DAT_011f95d4;
 
 // @f3 0x00ada690 (community match, verified in this file)
+// pdb: BSShaderManager::BSShaderManager | BSShaderManager.obj | fnv360_0822_retail, udata, medium, conflict (skyrim: BSShaderManager::State::State)
 FUN_00b54280::FUN_00b54280()
 {
     DAT_011f9308 = false;
@@ -2057,6 +2070,8 @@ NiTStringPointerMapB587* __cdecl GetNamedMapB587();
 
 // Looks up pcName in the named map and returns true if a non-null object is found.
 // @fnv 0x00b58720
+// pdb: DistantLODShaderProperty::HasCachedGeometry | DistantLODShaderProperty.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiFormID
 bool __cdecl IsNamedObjectPresent(const char* pcName)
 {
     bool bFound = false;
@@ -2106,6 +2121,7 @@ struct FUN_00b5a110 : FUN_00ba3d30
 };
 // Destructor that deletes the item at index 2 and the params at indices 1 and 0, clearing each slot via FUN_00ba3aa0.
 // @fnv 0x00b5a110
+// pdb: ImageSpaceEffectDepthRadialBlur::~ImageSpaceEffectDepthRadialBlur | ImageSpaceEffectRadialBlur.obj | fnv360_0822_retail, objrun, medium
 FUN_00b5a110::~FUN_00b5a110()
 {
     if (items.values[2])
@@ -2128,8 +2144,6 @@ FUN_00b5a110::~FUN_00b5a110()
     }
 }
 
-struct NiRenderer;
-extern NiRenderer* DAT_011f9508;
 namespace nb {
 struct Accum
 {
@@ -2195,10 +2209,6 @@ struct Rend
     char pad[0x8b8];
     Accum* m_8b8;
 };
-struct ISM
-{
-    void RenderEndOfFrameEffects(int a, int* b, int* c);
-};
 }
 // @f3 0x00adbec0 (community match, verified in this file)
 struct FrameEffects {
@@ -2206,6 +2216,8 @@ struct FrameEffects {
 };
 extern FrameEffects* DAT_0116ef9c;
 extern nb::Rend* DAT_0116f2f8;
+// pdb: BSShaderManager::RenderImageSpaceEffects | BSShaderManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRenderer, apScreenBuffer, apDestinationBuffer
 void FUN_00b55ac0(int a,int b,int c) {
     DAT_0116ef9c->FUN_00b1dc60(a,&b,&c);
     for (int i=0;i<8;i++)
@@ -2256,11 +2268,14 @@ class __declspec(novtable) FUN_00b581c0_cls : public SpawnedBase_b581c0
 };
 
 // @fnv 0x00b581c0
+// pdb: DistantLODShaderProperty::CachedGeometry::~CachedGeometry | DistantLODShaderProperty.obj | fnv360_0822_retail, objrun_open, low
 FUN_00b581c0_cls::~FUN_00b581c0_cls()
 {}
 
 void FUN_00b4df30();
 // @fnv 0x00b4e140
+// pdb: NiSequenceStreamHelper::LinkObject | NiSequenceStreamHelper.obj | fnv360_0822_retail, call_seq, high
+// pdb params: stream
 void FUN_00b4e140()
 {
     FUN_00b4df30();
@@ -2275,6 +2290,8 @@ struct FUN_00b595a0_cls
     void FUN_00b595a0();
 };
 // @fnv 0x00b595a0
+// pdb: NiSequenceStreamHelper::SaveBinary | NiSequenceStreamHelper.obj | fnv360_0822_retail, call_seq, high
+// pdb params: stream
 void FUN_00b595a0_cls::FUN_00b595a0()
 {
     reinterpret_cast<FUN_00b58530_Obj*>(this)->FUN_00b58530();
@@ -2311,6 +2328,7 @@ extern int DAT_011f963c;
 extern int DAT_011f9640;
 // Iterates the map from its first position, deletes each stored value, then removes all entries and resets DAT_011f963c and DAT_011f9640 to zero.
 // @fnv 0x00b59890
+// pdb: DistantLODShaderProperty::RemoveAllDistantLOD | DistantLODShaderProperty.obj | fnv360_0822_retail, call_gap, low
 void ClearMap()
 {
     B59890MapItem* pkItem = ((B59890Map*)B59890GetMap())->GetFirstPos();
@@ -2354,6 +2372,7 @@ struct FUN_00b5a410 : FUN_00ba4080
     virtual ~FUN_00b5a410();
 };
 // @fnv 0x00b5a410
+// pdb: ImageSpaceEffectRadialBlur::ImageSpaceEffectRadialBlur | ImageSpaceEffectRadialBlur.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00b5a410::FUN_00b5a410()
 {
     array28.FUN_00a90180(2);
@@ -2362,6 +2381,8 @@ FUN_00b5a410::FUN_00b5a410()
 }
 
 // @fnv 0x00b5a8c0
+// pdb: BSMultiBoundSphere::MakeDebugGeom | BSMultiBoundSphere.obj | fnv360_0721_beta, vtable_prefix, medium
+// pdb params: apLines, apShape, akBaseColor
 void __stdcall FUN_00b5a8c0(int, int, int, int, int, int)
 {}
 
@@ -2380,6 +2401,7 @@ struct FUN_00b59c20 : FUN_00ba3d30
 
 // Deletes the first Param in params.values and resets the params container when it is non-null.
 // @fnv 0x00b59c20
+// pdb: ImageSpaceEffectMap::~ImageSpaceEffectMap | ImageSpaceEffectMap.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 __thiscall FUN_00b59c20::~FUN_00b59c20()
 {
     if (params.values[0])
@@ -2726,6 +2748,8 @@ static __forceinline TextureNode* QFindTextureNode(List_b9fcc0& list, const RefP
     return 0;
 }
 
+// pdb: ShadowSceneNode::RemoveQueuedLight | ShadowSceneNode.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apSSLight
 void TextureOwner::FUN_00b5ef90(const RefPtr_b9fcc0& value)
 {
     TextureDesc* desc = value.ptr;
@@ -2775,6 +2799,7 @@ struct Map_00b585c0 : MapBase_00b585c0
 };
 // Returns a pointer to a static Map_00b585c0 instance initialized with a hash size of 37.
 // @fnv 0x00b585c0
+// pdb: DistantLODShaderProperty::GetDistantLODMap | DistantLODShaderProperty.obj | fnv360_0822_retail, call_dedup, low
 Map_00b585c0* __cdecl FUN_00b585c0()
 {
     static Map_00b585c0 map(37);
@@ -2814,6 +2839,7 @@ class NiTStringMapB58 : public NiTMapBaseB58
 
 // Returns a pointer to a static NiTStringMapB58 instance, creating it on first call.
 // @fnv 0x00b58670
+// pdb: DistantLODShaderProperty::GetCachedGeometryMap | DistantLODShaderProperty.obj | fnv360_0822_retail, call_gap, low
 NiTStringMapB58* __cdecl GetNiTStringMap()
 {
     static NiTStringMapB58 s_kMap;
@@ -2914,10 +2940,6 @@ struct Pending
         --alloc.count;
         return data;
     }
-};
-struct VisitedList : Pending
-{
-    ~VisitedList() throw();
 };
 __declspec(noinline) Link* LinkAllocator::AddHead()
 {
@@ -3422,11 +3444,13 @@ struct FrustumCalls {
  void FUN_00aa9020(Frustum*, Portal*);
  void FUN_00aa8280() throw();
 };
-struct PortalCalls { bool FUN_00a9eea0(int, Position*); int FUN_00aa7c10(); };
+struct PortalCalls { bool BSOcclusionPlane_WithinFrustumDistFirst(int, Position*); int FUN_00aa7c10(); };
 struct RegionCalls { void FUN_004344f0(Frustum*); };
 struct WorldCalls { void FUN_00ae2f10(Region*); };
 __forceinline Frustum::~Frustum() throw() { reinterpret_cast<FrustumCalls*>(this)->FUN_00aa8280(); }
 
+// pdb: ShadowSceneNode::UpdateRoomAndPortalVisibility | ShadowSceneNode.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apRoom, apCamera, apPlanes, abFirstRoom
 void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
 {
     VisibilityQueue unused;
@@ -3448,7 +3472,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
             {
                 Portal* portal = (Portal*)Next(pos);
                 if (portal && (portal->state == 1   ? true
-                               : portal->state == 0 ? reinterpret_cast<PortalCalls*>(portal)->FUN_00a9eea0(arg, &position)
+                               : portal->state == 0 ? reinterpret_cast<PortalCalls*>(portal)->BSOcclusionPlane_WithinFrustumDistFirst(arg, &position)
                                                     : false))
                 {
                     if (!begun)
@@ -3480,7 +3504,7 @@ void Traversal::UpdateVisibility(Region* start, View* view, int arg, bool reset)
         for (Link* pos = start->portals; pos;)
         {
             Portal* portal = (Portal*)Next(pos);
-            if (portal && (portal->state == 1 || (portal->state == 0 && reinterpret_cast<PortalCalls*>(portal)->FUN_00a9eea0(arg, &position))))
+            if (portal && (portal->state == 1 || (portal->state == 0 && reinterpret_cast<PortalCalls*>(portal)->BSOcclusionPlane_WithinFrustumDistFirst(arg, &position))))
             {
                 if (!begun)
                 {
@@ -3849,6 +3873,8 @@ static __forceinline bool Lookup(int k, RTEntry*& found)
 
 // Finds or creates an RTItem for key using a snapped position value, stores it in *out and returns usTotal minus usUsed.
 // @f3 0x00ad5100 (community match, verified in this file)
+// pdb: DistantLODShaderProperty::GetDistantLODGroup | DistantLODShaderProperty.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apDistantLODParam, aiCellChunk, apDistantLODGroup, apDistantLODNode
 unsigned short __cdecl GetOrCreateItem(RTKey* key, unsigned int pos, RTItem** ppItem)
 {
     int n = DAT_011f9654;
@@ -3906,27 +3932,4 @@ unsigned short __cdecl GetOrCreateItem(RTKey* key, unsigned int pos, RTItem** pp
         DAT_011f9644->Register((*ppItem)->unk00, 1);
     }
     return (*ppItem)->usTotal - (*ppItem)->usUsed;
-}
-
-
-// @f3twin 0x00bd1190 of 0x00ad3b80
-struct F3Twin_00bd1190 : public PointerMap { void F3_FUN_00bd1190(unsigned int key, NiPointer<MapRefObject> value) ; };
-void F3Twin_00bd1190::F3_FUN_00bd1190(unsigned int key, NiPointer<MapRefObject> value) 
-{
-    unsigned int hash = Hash(key);
-    PointerMapNode* node = buckets[hash];
-    while (node)
-    {
-        if (Equal(key, node->key))
-        {
-            node->value = value;
-            return;
-        }
-        node = node->next;
-    }
-    node = NewItem();
-    Assign(node, key, value);
-    node->next = buckets[hash];
-    buckets[hash] = node;
-    ++count;
 }

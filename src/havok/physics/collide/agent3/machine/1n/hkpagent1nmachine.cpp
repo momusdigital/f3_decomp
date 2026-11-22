@@ -3,12 +3,13 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 void ProcessEntryPair();
-void FUN_00da44d0(int, int, void*);
+void hkAgent1nMachine_VisitAllAgents(int, int, void*);
 
 // @fnv 0x00da48e0
-void FUN_00da48e0(int b, int a)
+// pdb: hkAgent1nMachine_UpdateShapeCollectionFilter | hkpAgent1nMachine.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void hkAgent1nMachine_UpdateShapeCollectionFilter(int b, int a)
 {
-    FUN_00da44d0(b, a, (void*)&ProcessEntryPair);
+    hkAgent1nMachine_VisitAllAgents(b, a, (void*)&ProcessEntryPair);
 }
 
 typedef unsigned int BlockPoolsize_t;
@@ -89,22 +90,6 @@ struct BlockPoolArray
         return m_data[m_iElementCount++];
     }
 };
-
-// Resets the block array, reserves room for 4 entries, allocates a 0x200-byte block and initialises its fields.
-// @fnv 0x00da4430
-void __cdecl InitBlockPool(BlockPoolArray* blocks)
-{
-    blocks->m_iElementCount = 0;
-    blocks->GrowArrayCapacity(FUN_00c85750().heap(), 4);
-    blocks->_expandOne(FUN_00c85750().heap());
-    BlockPoolBlock* block = new (FUN_00c85750().heap().AllocateMemoryBlock(0x200)) BlockPoolBlock();
-    blocks->m_data[0] = block;
-    block->unk13 = 0x10;
-    block->unk10 = 1;
-    block->unk18 = -1;
-    block->unk14 = -1;
-    block->unk00 = 0x10;
-}
 
 // hkAgentNmMachine: update the collision filter of one agent entry
 
@@ -1750,10 +1735,6 @@ struct S_00da40e0_FilterHolder : S_00da40e0_CollidableCollidableFilter
     int unk08;
 };
 
-struct S_00da40e0_Filter : S_00da40e0_FilterHolder, S_00da40e0_ShapeCollectionFilter
-{
-};
-
 struct S_00da40e0_Input
 {
     const S_00da40e0_CdBody* m_pBodyA;
@@ -1764,10 +1745,6 @@ struct S_00da40e0_Input
     S_00da40e0_ContactMgr* m_pContactManager;
     S_00da40e0_ConstraintOwner* m_pConstraintOwner;
 };
-
-const S_00da40e0_CdBody* __cdecl FUN_00cfe1d0(const S_00da40e0_CdBody* cdBody, S_00da40e0_CdBody* newCdBodies,
-                                              S_00da40e0_MotionState* newMotionStates, int numSlots,
-                                              unsigned char& changeCounter);
 
 // @f3 0x00a2b440 (community match, verified in this file)
 struct S_00da40e0_CollisionInputF3
@@ -1829,9 +1806,6 @@ struct ShapeCollectionFilter1n
                                                const S_00da40e0_ShapeContainer& containerShapeB, unsigned int keyA,
                                                unsigned int keyB) const = 0;
 };
-struct Filter1n : S_00da40e0_FilterHolder, ShapeCollectionFilter1n
-{
-};
 
 // @f3 0x00a2b310 (community match, verified in this file)
 struct S_00da40e0_CollisionInputFields
@@ -1881,8 +1855,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 };
 
 extern "C" __m128 _mm_setzero_ps(void);
-
-extern const float DAT_01012054;
 
 struct hkVector4
 {
@@ -1951,7 +1923,8 @@ struct CollisionAgentContext
 extern const float DAT_00db38b8;
 
 
-void FUN_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input)
+// pdb: hkAgent1nMachine_InvalidateTim | hkpAgent1nMachine.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void hkAgent1nMachine_InvalidateTim(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input)
 {
     hkpAgent1nSector* sector = agentTrack.m_kSectors[0];
     FourByteState* entry = sector->getBegin();
@@ -2009,7 +1982,8 @@ struct Da35Stream
 
 // Iterates through Da35Stream chunks, dispatching commands via function pointers and updating float fields based on fa and fb.
 // @f3 0x00a2a3a0 (community match, verified in this file)
-void __cdecl FUN_00da35f0(Da35Stream*** container, float fa, float fb, void** holder)
+// pdb: hkAgent1nMachine_WarpTime | hkpAgent1nMachine.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl hkAgent1nMachine_WarpTime(Da35Stream*** container, float fa, float fb, void** holder)
 {
     Da35Stream* stream = **container;
     unsigned char* p = (unsigned char*)stream + 0x10;
@@ -2196,7 +2170,8 @@ static __forceinline void ReleaseSectorF3(BlockPoolBlock* block)
     }
 }
 
-void FUN_00da42b0(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_00da40e0_ContactMgr* mgr,
+// pdb: hkAgent1nMachine_Destroy | hkpAgent1nMachine.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void hkAgent1nMachine_Destroy(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_00da40e0_ContactMgr* mgr,
                   S_00da40e0_ConstraintOwner& owner)
 {
     BlockPoolBlock** sectors = blocks->m_data;
@@ -2266,17 +2241,6 @@ finished:
 
 
 #include <string.h>
-struct StreamAllocator : BlockPoolAllocator
-{
-    virtual void ReleaseBlock(void*, int);
-};
-struct StreamRecord
-{
-    int first;
-    int second;
-    void* third;
-    void* fourth;
-};
 struct StreamHeader
 {
     void* a;
@@ -2302,7 +2266,6 @@ __forceinline static void streamCopy(void* dst, const void* src, int count)
         s += 4;
     } while (--count > 0);
 }
-void __cdecl FUN_00d2cc70(void*, const void*, unsigned int);
 typedef unsigned char*(__cdecl* StreamTransform)(void*, unsigned char*, unsigned char*);
 // Walks records in the BlockPoolArray blocks, copies them into new 512-byte blocks, applies the callback to some record types, and replaces the array contents.
 // @f3 0x00a2afc0 (community match, verified in this file)
@@ -2367,7 +2330,8 @@ __forceinline BlockPoolBlock** expandAt(BlockPoolArray* blocks, int count)
     return src;
 }
 
-void FUN_00da44d0(int apBlocks, int apHeader, void* apTransform)
+// pdb: hkAgent1nMachine_VisitAllAgents | hkpAgent1nMachine.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void hkAgent1nMachine_VisitAllAgents(int apBlocks, int apHeader, void* apTransform)
 {
     BlockPoolArray* blocks = (BlockPoolArray*)apBlocks;
     BlockPoolBlock* input = blocks->m_data[0];
@@ -2453,7 +2417,6 @@ extern "C"
     __m128 _mm_unpackhi_ps(__m128, __m128);
     __m128 _mm_movelh_ps(__m128, __m128);
     __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
 struct __declspec(align(16)) TOIBody
 {
@@ -2466,6 +2429,7 @@ struct __declspec(align(16)) TOIBody
 // @f3 0x00a2a620 (community match, verified in this file)
 extern double DAT_00db38a8, DAT_00e7d368, DAT_00dc1238, DAT_00dc0ac8, DAT_00dd8ac8;
 struct __declspec(align(16)) TOIVec { float x, y, z, w; };
+// pdb: contactPointIsValid | hkpAgent1nMachine.obj | tesv_win, objrun_open, low
 static __declspec(noinline) int FUN_00da37d0(const TOIBody* b, const TOIBody* a, float tolerance, const float* speed, float bias)
 {
     const float* bp = b->m_pos.m128_f32;

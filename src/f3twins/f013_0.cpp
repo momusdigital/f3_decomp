@@ -305,6 +305,8 @@ void C_004d8e40::FUN_004d8e40()
 }
 
 struct C_00502b40 { void* vt; int f4; void* f8; void FUN_00502b40(); };
+// pdb: NiTPointerMap<unsigned int,BSSimpleList<TESObjectREFR *> *>::DeleteItem | TESWorldSpace.obj | fnv360_0721_beta, objrun, medium
+// pdb params: pkItem
 void C_00502b40::FUN_00502b40()
 {
     vt = &DAT_00dcfc68;
@@ -313,6 +315,8 @@ void C_00502b40::FUN_00502b40()
 }
 
 struct C_00502bd0 { void* vt; int f4; void* f8; void FUN_00502bd0(); };
+// pdb: NiTMap<TESFile *,TESWorldSpace::OFFSET_DATA *>::DeleteItem | TESWorldSpace.obj | fnv360_0721_beta, objrun, medium
+// pdb params: pkItem
 void C_00502bd0::FUN_00502bd0()
 {
     vt = &DAT_00dcfc88;
@@ -337,6 +341,7 @@ void C_00553e80::FUN_00553e80()
 }
 
 struct C_00567b00 { void* vt; int f4; void* f8; void FUN_00567b00(); };
+// pdb: NiTMap<TESObjectREFR *,int>::NewItem | BGSAcousticSpaceListener.obj | fnv360_0721_beta, objrun, medium
 void C_00567b00::FUN_00567b00()
 {
     vt = &DAT_00de6dac;
@@ -465,6 +470,7 @@ void C_005fe2f0::FUN_005fe2f0()
 }
 
 struct C_005fff80 { void* vt; int f4; void* f8; void FUN_005fff80(); };
+// pdb: NiTMap<unsigned int,unsigned int>::NewItem | PathingLOSMap.obj | fnv360_0721_beta, objrun, medium
 void C_005fff80::FUN_005fff80()
 {
     vt = &DAT_00e022ec;
@@ -689,6 +695,7 @@ void C_007b5b60::FUN_007b5b60()
 }
 
 struct C_007b69d0 { void* vt; int f4; void* f8; void FUN_007b69d0(); };
+// pdb: NiTMap<unsigned int,CombatThreat *>::NewItem | CombatThreatMap.obj | fnv360_0721_beta, objrun, medium
 void C_007b69d0::FUN_007b69d0()
 {
     vt = &DAT_00e1b064;

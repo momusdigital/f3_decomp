@@ -6,49 +6,8 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkReferencedObject.h"
-struct FUN_00c903b0_class
-{
-    void** m_pVTable;
-    short m_uiObjectFlags;
-    short m_uCount;
-    void ReleaseReference();
-};
-struct FUN_00c903a0_class
-{
-    void FUN_00c903a0();
-};
 extern int DAT_012681d4;
-void __cdecl FUN_00c90410(int v);
-extern int DAT_0102e388;
-int* __cdecl FUN_00c903d0();
-struct DDCC60World
-{
-    void removeReference();
-};
-struct RefObj
-{
-    void RetainReference();
-};
-struct FUN_00cd29c0_class
-{
-    void FUN_00cd29c0(RefObj*);
-};
-struct FUN_00cdf6e0_class
-{
-    void** m_pVTable;
-    short m_uiObjectFlags;
-    short m_uCount;
-    char m_auiShapeKeys[4];
-    hkReferencedObject* m_pObject;
-    void SetReferencedObject(hkReferencedObject* pObject);
-};
-struct FUN_00cdf6e0_Ref : hkReferencedObject
-{
-    void RetainReference();
-    void removeReference();
-};
 extern int DAT_012681d4;
-int __cdecl FUN_00c90480();
 struct ThreadMode_9bf0
 {
     unsigned int unk000;
@@ -227,17 +186,6 @@ struct ThreadMode_9bf0
     unsigned int m_currentMode;
 };
 __declspec(thread) ThreadMode_9bf0 tls_9bf0;
-struct Object_9bf0
-{
-    void FUN_00c90510();
-    void FUN_00c905b0();
-};
-struct Owner_9bf0
-{
-    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
-    Object_9bf0* m_object;
-    void FUN_00c89bf0(Object_9bf0* next);
-};
 struct RestoreMode_9bf0
 {
     unsigned int original;
@@ -271,57 +219,16 @@ struct Mgr
     }
 };
 Mgr* FUN_00c85750();
-void CreateAndInitObj();
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
 extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long index, void* value);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
 extern int DAT_012681d4;
 extern int DAT_012681d8;
-struct FUN_00c90490_state
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int m_0c;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-void __cdecl EnterTlsGuard();
 extern int DAT_012681d4;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long dwTlsIndex, void* pvValue);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* pkSection);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* pkSection);
-struct hkCriticalSectionDataC905
-{
-    void* m_debugInfo;
-    long m_lLockCount;
-    long m_recursionCount;
-    void* m_owningThread;
-    void* m_lockSemaphore;
-    unsigned long m_spinCount;
-};
-struct hkReferencedObjectLockC905
-{
-    int unk00;
-    int unk04;
-    int m_multiThreaded;
-    int m_lLockCount;
-    int unk10;
-    int unk14;
-    hkCriticalSectionDataC905 m_kCriticalSection;
-};
-class hkReferencedObjectC905 : public hkReferencedObject
-{
-  public:
-    void FUN_00c905b0();
-};
-struct ObjectRef
-{
-    void FUN_00c90510();
-    void FUN_00c905b0();
-};
 extern __declspec(thread) int g_threadFlag;
 struct ThreadFlagGuard
 {
@@ -334,15 +241,6 @@ struct ThreadFlagGuard
     {
         g_threadFlag = previousFlag;
     }
-};
-struct FUN_00ca9b40_class
-{
-    void** m_pVTable;
-    short m_uiObjectFlags;
-    short m_uCount;
-    int m_extraneousState;
-    ObjectRef* m_pObject;
-    void FUN_00ca9b40(ObjectRef* pObject);
 };
 struct DeviceCallback
 {
@@ -379,13 +277,6 @@ struct InputObject
     }
 };
 Resource* __cdecl FUN_00cf4af0(InputObject*);
-struct FUN_00ca9ce0_class
-{
-    int unk00;
-    DeviceOwner* m_pOwnerObject;
-    void FUN_00c8a230(InputObject*);
-    void ProcessInput(InputObject*);
-};
 struct FUN_00d1df70
 {
     void FUN_00c90510() throw();
@@ -434,11 +325,6 @@ struct HeapLessE3EE
     }
 };
 void __cdecl SiftDownHeap(HeapEntryE3EE* pArr, int k, int n, HeapLessE3EE cmpLess);
-struct Ref_00c89b60
-{
-    void __thiscall FUN_00c90510();
-    void __thiscall FUN_00c905b0();
-};
 struct Tls_00c89b60
 {
     int unk000;
@@ -630,16 +516,6 @@ struct Scope_00c89b60
         tls_00c89b60.unk2b4 = saved;
     }
 };
-struct Obj_00c89b60
-{
-    void* unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    Ref_00c89b60* m_pReference;
-    void __thiscall FUN_00c89b60(Ref_00c89b60* r);
-};
 class hkMemoryAllocatorC904
 {
   public:
@@ -695,34 +571,7 @@ namespace hkSingletonC904 {
 extern FUN_00c90830* DAT_012681d4;
 }
 
-static inline void replaceInstanceC904(FUN_00c90830* p)
-{
-    if (hkSingletonC904::DAT_012681d4)
-        hkSingletonC904::DAT_012681d4->ReleaseReference();
-    hkSingletonC904::DAT_012681d4 = p;
-}
-
 // @fnv 0x00c90420
-void __cdecl FUN_00c90420(int value)
-{
-    if (!hkSingletonC904::DAT_012681d4)
-    {
-        FUN_00c90830* p = new FUN_00c90830();
-        p->m_08 = value;
-        replaceInstanceC904(p);
-    }
-    else
-    {
-        hkSingletonC904::DAT_012681d4->m_08 = value;
-    }
-}
-struct FUN_00c90510_class
-{
-    void** m_pVTable;
-    short m_uiObjectFlags;
-    short m_uCount;
-    void FUN_00c90510();
-};
 extern int DAT_012681d4;
 extern int DAT_012681d8;
 extern int(__stdcall* DAT_00fdf044)(int);
@@ -767,29 +616,7 @@ class hkRefCC4
 class hkShapeCC4 : public hkRefCC4
 {
 };
-class hkpWorldObjectCC4
-{
-  public:
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
-    int m_iLayer;
-    unsigned char m_ucFlags;
-
-    void FUN_00cc49b0(hkShapeCC4* pkShape) throw();
-};
-class FUN_00d53200_class
-{
-  public:
-    virtual ~FUN_00d53200_class();
-    void FUN_00c8a230(NiStream& kStream);
-};
 hkShapeCC4* __cdecl FUN_00cf4af0(NiStream& kStream) throw();
-class bhkWorldObjectCC4 : public FUN_00d53200_class
-{
-  public:
-    hkpWorldObjectCC4* m_pPointer;
-
-    void FUN_00cc4e10(NiStream& kStream);
-};
 struct RcObject
 {
     void FUN_00c90510();
@@ -802,7 +629,6 @@ struct SortEntry
     int value;
 };
 void __cdecl SiftDownHeap(SortEntry* entries, int index, int count, int compare);
-void __cdecl HeapSort(SortEntry* entries, int count, int compare);
 
 #include <xmmintrin.h>
 struct FUN_00c90e60_cls
@@ -831,6 +657,7 @@ struct FUN_00c90e60_cls
 __forceinline float Round501(float value) {return value;}
 extern double DAT_00db7de8;
 
+// pdb: hkReferencedObject::addReference | hkReferencedObject.obj | fnv360_0721_beta, call_gap, low, conflict (skyrim: hkpConstraintQueryIn::set)
 void FUN_00c90e60_cls::FUN_00c90e60(float fRadius, float m_fGlyphExtent)
 {
     float fHalfRadius;

@@ -109,11 +109,11 @@ struct FUN_00a33bf0_s : NiObject
 };
 struct FUN_00a2e420_shell
 {
-    unsigned char FUN_00a2e420(float);
+    unsigned char NiControllerManager_StopTransSourceSequence(float);
 };
 struct FUN_00a30540_shell
 {
-    void FUN_00a30540();
+    void NiControllerSequence_DetachInterpolators();
 };
 extern float DAT_01015f5c;
 extern double DAT_010241b0;
@@ -123,7 +123,7 @@ struct FUN_00a35030_shell : NiControllerSequence
 };
 struct FUN_00a30900_shell
 {
-    void FUN_00a30900(char m_ucRegionPriority);
+    void NiControllerSequence_AttachInterpolators(char m_ucRegionPriority);
 };
 struct A51BF0Base
 {
@@ -332,9 +332,9 @@ struct SequenceA30970 : NiObject
 struct FUN_00a30c80_shell
 {
     unsigned __int64 __thiscall IsNotInChain(void* arg);
-    bool __thiscall FUN_00a30c80(void* arg);
+    bool __thiscall NiControllerSequence_CanSyncTo(void* arg);
 };
-bool __stdcall MatchesTextKeys(void* arg);
+bool __stdcall NiControllerSequence_VerifyMatchingMorphKeys(void* arg);
 struct FUN_00a30cc0_target
 {
     virtual void V00();
@@ -416,7 +416,7 @@ struct ObjectView
 {
     int vtable;
     int refs;
-    bool FUN_00a5d2f0(StreamView&);
+    bool NiObject_RegisterStreamables(StreamView&);
 };
 struct ItemView
 {
@@ -462,7 +462,7 @@ struct SequenceView : ObjectView
     int unk68;
     RefView** notes;
     unsigned short noteCount;
-    bool FUN_00a30ea0(StreamView&);
+    bool NiControllerSequence_RegisterStreamables(StreamView&);
 };
 __declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
@@ -804,7 +804,7 @@ struct SeqA34f20
         return bWasInactive;
     }
 
-    bool StartSequence(char m_ucRegionPriority, bool bStartOver, float fWeight, float fEaseInTime,
+    bool NiControllerSequence_Activate(char m_ucRegionPriority, bool bStartOver, float fWeight, float fEaseInTime,
                        SeqA34f20* pkTimeSyncSeq, bool bTransition);
 };
 struct SomeObjectB3718
@@ -1133,7 +1133,7 @@ struct UpdateNote
 };
 struct UpdateNoteManager
 {
-    void DispatchByKey(UpdateNote* note);
+    void BSAnimNoteListener_Update(UpdateNote* note);
 };
 struct UpdateOwner
 {
@@ -1195,9 +1195,9 @@ struct AnimationSequence : S_00a30880_Base
     unsigned short unk6a;
     UpdateNote** notes;
     unsigned short noteCount;
-    float GetMorphedTime(AnimationSequence*, float);
+    float NiControllerSequence_FindCorrespondingMorphFrame(AnimationSequence*, float);
     float FUN_00a30970(float, bool);
-    void FUN_00a32290(float, float, float);
+    void NiControllerSequence_SetInterpsWeightAndTime(float, float, float);
     void FUN_00a34ba0(float time, bool update);
     __forceinline bool SetState(int value)
     {
@@ -1393,7 +1393,7 @@ extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00a344f0_cls
 {
     void __thiscall FUN_00a33570(void* obj, unsigned int param);
-    void* FUN_00a344f0(unsigned int param);
+    void* NiControllerSequence_CreateClone(unsigned int param);
 };
 extern const float DAT_010141cc;
 struct FUN_00a350d0_seq : SeqA34f20
@@ -1531,6 +1531,8 @@ struct ControllerSequence : SeqNiObject
 };
 
 // @fnv 0x00a32a10
+// pdb: NiControllerSequence::NiControllerSequence | NiControllerSequence.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kName, uiArraySize, uiArrayGrowBy
 ControllerSequence::ControllerSequence(const SeqFixedString& kName, unsigned int uiArraySize,
                                        unsigned int uiArrayGrowBy)
     : m_uiNumControlledBlocks(uiArraySize), m_uiNumIDTags(uiArrayGrowBy), m_pInterpArray(0), m_pkSeqTagArray(0),

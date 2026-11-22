@@ -187,6 +187,8 @@ public:
     RecordReference reference;
     void FUN_005c3590(EndianFile* file, const unsigned int* data);
 };
+// pdb: EdgeExtraInfo::SetFromBufferOld | NavMeshEdgeExtraInfo.obj | fnv360_0822_debug, caller_sim, low
+// pdb params: apFile, apChunkBuffer
 void ReadRecord::FUN_005c3590(EndianFile* file, const unsigned int* data)
 {
     identifier = *data;
@@ -212,8 +214,8 @@ public:
     unsigned int unk1c;
     unsigned int unk20;
     unsigned char flags;
-    unsigned int FUN_004d3450();
-    unsigned int FUN_004d3430();
+    unsigned int TESObjectCELL_GetDataY();
+    unsigned int TESObjectCELL_GetDataX();
     unsigned int FUN_004d3780(unsigned int key);
 };
 unsigned int FUN_00501240(unsigned int first, unsigned int second);
@@ -234,6 +236,8 @@ public:
     LookupItem* FUN_005d9b20(unsigned int key);
     LookupItem* FUN_005d9f10(LookupItem* item);
 };
+// pdb: NavMeshInfoMap::FindNavMeshInfoForCell | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apCell
 LookupItem* LookupOwner::FUN_005d9f10(LookupItem* item) {
     LookupItem* original = *reinterpret_cast<LookupItem* volatile*>(&item);
     if (!original)
@@ -245,7 +249,7 @@ LookupItem* LookupOwner::FUN_005d9f10(LookupItem* item) {
             reinterpret_cast<unsigned int>(original), reinterpret_cast<void*&>(item)) ? item : 0;
     }
     return FUN_005d9b20(original->FUN_004d3780(
-        FUN_00501240(original->FUN_004d3430(), original->FUN_004d3450())));
+        FUN_00501240(original->TESObjectCELL_GetDataX(), original->TESObjectCELL_GetDataY())));
 }
 
 // @f3 0x005d5130 (community match, verified in this file)
@@ -312,6 +316,8 @@ struct Bound {
  Vec lo,hi; unsigned unk18; unsigned short* indices; unsigned count; unsigned unk24,unk28; Vec* points; unsigned mesh;
  Vec FUN_005c29f0(const Vec& p);
 };
+// pdb: NavMeshBounds::DistanceFromPointToBounds | NavMeshBounds.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aPoint
 Vec Bound::FUN_005c29f0(const Vec& p) {
  if(mesh) {
   float best=3.402823466e38F;
@@ -362,6 +368,8 @@ struct Owner384 {
     void FUN_005c26a0(int index);
 };
 
+// pdb: NavMeshArray::RemoveNavMeshByIndex | NavMeshArray.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiNavMeshIndex
 void Owner384::FUN_005c26a0(int index)
 {
     Item384** slot = &items[index];
@@ -414,6 +422,8 @@ struct CopyRecord5C
     void FUN_005c3ca0(CopyRecord5C* destination);
 };
 
+// pdb: NavMeshGrid::CopyTo | NavMeshGrid.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apGrid
 void CopyRecord5C::FUN_005c3ca0(CopyRecord5C* destination)
 {
     if (destination->items)
@@ -524,6 +534,8 @@ struct Self {
     void FUN_005c1080(unsigned i);
     bool FUN_005c13b0(unsigned idx, void* arg);
 };
+// pdb: NavMesh::RemoveObstacle | NavMesh_Util.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiUndoDataIndex, aPortalSwaps
 bool Self::FUN_005c13b0(unsigned idx, void* arg)
 {
     Entry* e = unkD4[idx];
@@ -621,6 +633,8 @@ inline float UnitRandom(FUN_0086c440& generator)
     return static_cast<float>(static_cast<float>(generator.FUN_0086c4b0(0xffffffffu)) * (1.0 / 4294967296.0));
 }
 
+// pdb: NavMeshMath::RandomPointOnTriangle | NavMeshMath.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aVert0, aVert1, aVert2
 Point __cdecl FUN_005def10(const Point& origin, const Point& second, const Point& third)
 {
     const Point firstEdge = second - origin;
@@ -671,6 +685,7 @@ struct FUN_005d2e20_Dat {
     void __thiscall FUN_0086ba60(void* value);
 };
 
+// pdb: AStarSearch<PathSmootherPOVNode,PathSmootherPOVLink>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 unsigned int* __thiscall FUN_005d2e20_Obj::FUN_005d2e20(unsigned char flag)
 {
     unk00 = 0x00e012ac;
@@ -757,6 +772,8 @@ struct FUN_005c32b0_cls {
     void FUN_005c32b0(const unsigned int* src, EndianFile* file, int unused);
 };
 
+// pdb: NavMeshBounds::SetFromBoundsChunk | NavMeshBounds.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apChunkBuffer, apFile, aiFileVersionNumber
 void FUN_005c32b0_cls::FUN_005c32b0(const unsigned int* src, EndianFile* file, int unused)
 {
     Base();
@@ -817,6 +834,7 @@ struct FUN_005d0e70_Obj {
 
 void __cdecl FUN_005cc4f0();
 
+// pdb: NavMeshSearchSLPoint::~NavMeshSearchSLPoint | NavMeshSearchSLPoint.obj | fnv360_0822_retail, caller_sim, low
 void FUN_005d0e70_Obj::FUN_005d0e70()
 {
     reinterpret_cast<unsigned int*>(this)[0] = 0xe01268;
@@ -827,6 +845,7 @@ void FUN_005d0e70_Obj::FUN_005d0e70()
 
 // @f3 0x005c1270 (community match, verified in this file)
 namespace f3m_005c1270 {
+// pdb: NiTMap<Actor *,__int64>::NewItem | CombatManager.obj | fnv360_0822_retail, vtable, medium
 void* FUN_005c1270()
 {
     return DAT_01090a78.FUN_0086b930(0x10);
@@ -842,6 +861,7 @@ struct Class_005ce510 {
     void FUN_005ce510();
 };
 
+// pdb: NavMeshSearchFlee::~NavMeshSearchFlee | NavMeshSearchFlee.obj | fnv360_0721_beta, objrun, medium
 void Class_005ce510::FUN_005ce510() {
     unk0 = 0x00e01080;
     ((Callee_00a57a70*)((char*)this + 4))->FUN_00a57a70();
@@ -942,6 +962,7 @@ struct Link5c4490 {
  int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54;
  Link5c4490** prev; Link5c4490* next;
 };
+// pdb: AStarNodeHeap<NavMeshPOVSearchNode,NavMeshPOVSearchLink,512>::hkpMoppDefaultSplitter_createTerminal | NavMeshPOVSearch.obj | fnv360_0721_beta, caller, medium
 void __stdcall FUN_005c4490(Link5c4490* node) {
  if(node->prev) *node->prev=node->next;
  if(node->next) node->next->prev=node->prev;
@@ -1010,6 +1031,7 @@ struct FUN_005c9200
 
 extern FUN_005c9200* DAT_01074570;
 
+// pdb: NavMeshRender::InitSDM | NavMeshRender.obj | fnv360_0822_retail, call_gap, medium
 void FUN_005cc010()
 {
     DAT_01074570 = new FUN_005c9200;
@@ -1372,6 +1394,7 @@ struct S5c2d40 {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
     unsigned FUN_005c2d40();
 };
+// pdb: NavMeshBounds::GetBoundsChunkSize | NavMeshBounds.obj | fnv360_0822_retail, call_seq, low
 unsigned S5c2d40::FUN_005c2d40() {
     unsigned eax = unk30;
     unsigned ecx = unk20;
@@ -1608,6 +1631,7 @@ public:
     NavMeshSearchMaxCost* FUN_005d0170();
 };
 
+// pdb: NavMeshSearchMaxCost::NavMeshSearchMaxCost | NavMeshSearchMaxCost.obj | fnv360_0822_retail, call_gap, low
 NavMeshSearchMaxCost* NavMeshSearchMaxCost::FUN_005d0170()
 {
     BaseInit();
@@ -1644,6 +1668,7 @@ struct S5d89c0 {
     unsigned int FUN_005d89c0();
 };
 
+// pdb: NavMeshInfo::GetPortalChunkSize | NavMeshInfo.obj | fnv360_0822_retail, call_seq, low
 unsigned int S5d89c0::FUN_005d89c0() {
     return (unk4c + unk3c + unk2c) * 4 + 0xc;
 }
@@ -1657,6 +1682,7 @@ struct Foo_005c41d0 {
     unsigned char FUN_005c41d0();
 };
 
+// pdb: NavMeshTriangleEdgePortal::IsValid | NavMeshPortal.obj | fnv360_0822_retail, call_gap, low
 unsigned char Foo_005c41d0::FUN_005c41d0() {
     if (unk00 == 0)
         return 0;
@@ -1666,6 +1692,8 @@ unsigned char Foo_005c41d0::FUN_005c41d0() {
 
 // @f3 0x005c4630 (community match, verified in this file)
 namespace f3m_005c4630 {
+// pdb: NavMeshPOVSearch::IsGoalNode | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode
 int __stdcall FUN_005c4630(void* a)
 {
     return *(int*)*(void**)((char*)a + 8) == 4;
@@ -1674,6 +1702,8 @@ int __stdcall FUN_005c4630(void* a)
 
 // @f3 0x005d20c0 (community match, verified in this file)
 namespace f3m_005d20c0 {
+// pdb: PathSmootherPOVSearch::IsGoalNode | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode
 int __stdcall FUN_005d20c0(void* arg)
 {
     return *(int*)*(void**)((char*)arg + 8) == 3;
@@ -1705,6 +1735,8 @@ struct Item5C
     int unk0c;
 };
 
+// pdb: BSSimpleArray<BSSimpleArray<FastNavMeshVertHandle,1024>,1024>::_InitialSetup | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiReserveSize, aiInitialSize
 void __stdcall FUN_005c5c60(Item5C* destination, unsigned int count)
 {
     for (unsigned int i = 0; i < count; ++i)
@@ -1752,6 +1784,7 @@ struct Owner {
     unsigned int FUN_005df3b0();
 };
 
+// pdb: NavMeshObstacleCutter::GetTrianglesMaxObstacleCount | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
 unsigned int Owner::FUN_005df3b0()
 {
     Inner8* inner = inner8;
@@ -1788,6 +1821,7 @@ struct Cls_005d03f0 {
     void* FUN_005d03f0(int flags);
 };
 
+// pdb: BSSimpleArray<NavMeshSearchNode,1024>::`scalar deleting destructor' | NavMeshSearchMaxCost.obj | fnv360_0822_retail, vtable, medium
 void* Cls_005d03f0::FUN_005d03f0(int flags)
 {
     unk00 = 0xe011dc;
@@ -1812,11 +1846,12 @@ namespace f3m_005d01b0 {
 struct StandIn_5d01b0 {
     char pad[0x20a8];
     unsigned char flag;
-    bool FUN_005d01b0(int a);
+    bool NavMeshSearchMaxCost_IsGoalNode(int a);
     bool FUN_005cc250(int a);
 };
 
-bool StandIn_5d01b0::FUN_005d01b0(int a) {
+// pdb: NavMeshSearchMaxCost::IsGoalNode | NavMeshSearchMaxCost.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool StandIn_5d01b0::NavMeshSearchMaxCost_IsGoalNode(int a) {
     if (flag == 0)
         return false;
     return this->FUN_005cc250(a);
@@ -1829,6 +1864,8 @@ struct Allocator {
 };
 extern Allocator _g_memoryManager;
 
+// pdb: BSSimpleArray<NavMeshBounds::NavMeshBoundsTriangle,1024>::_Allocate | NavMeshBounds.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 void* __stdcall FUN_005c2f20(unsigned int count)
 {
     return _g_memoryManager.Allocate(count * 6);
@@ -1858,6 +1895,8 @@ public:
     void* FUN_005df800(int a2, int a3, int a4);
 };
 
+// pdb: NavMeshObstacleCutter::CreateEdge | NavMeshObstacleCutter.obj | fnv360_0721_beta, objrun, low
+// pdb params: apVert1, apVert2, aeEdgeType
 void* FUN_005df800_owner::FUN_005df800(int a2, int a3, int a4)
 {
     void* result = ((FUN_00aa54a0_s*)((char*)this + 12))->Allocate(0x30, DAT_010a2720);
@@ -1955,6 +1994,7 @@ struct Heap5c4ea0 {void FUN_0086ba60(void*);};
 extern Heap5c4ea0 DAT_01090a78;
 struct Part5c4ea0 {void FUN_0086caa0();};
 struct Object5c4ea0 {void* vtable; Part5c4ea0 part; Object5c4ea0* FUN_005c4ea0(unsigned);};
+// pdb: AStarSearch<NavMeshPOVSearchNode,NavMeshPOVSearchLink>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 Object5c4ea0* Object5c4ea0::FUN_005c4ea0(unsigned flags) {
  vtable=&DAT_00e00e58;
  part.FUN_0086caa0();
@@ -1997,6 +2037,8 @@ struct Array {
     void FUN_005df840(unsigned int index, bool shrink);
 };
 
+// pdb: BSSimpleArray<NavMeshEdgeHandle,1024>::Remove | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiIndex, abShrink
 void Array::FUN_005df840(unsigned int index, bool shrink) {
     if (shrink && ShouldShrink()) {
         unsigned int newCapacity = capacity > 0x800 ? capacity - 0x400 : capacity >> 1;
@@ -2027,6 +2069,8 @@ struct Owner4650 {
 int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C; int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; int unk0050; int unk0054; int unk0058; int unk005C; int unk0060; int unk0064; int unk0068; int unk006C; int unk0070; int unk0074; int unk0078; int unk007C; int unk0080; int unk0084; int unk0088; int unk008C; int unk0090; int unk0094; int unk0098; int unk009C; int unk00A0; int unk00A4; int unk00A8; int unk00AC; int unk00B0; int unk00B4; int unk00B8; int unk00BC; int unk00C0; int unk00C4; int unk00C8; int unk00CC; int unk00D0; int unk00D4; int unk00D8; int unk00DC; int unk00E0; int unk00E4; int unk00E8; int unk00EC; int unk00F0; int unk00F4; int unk00F8; int unk00FC; int unk0100; int unk0104; int unk0108; int unk010C; int unk0110; int unk0114; int unk0118; int unk011C; int unk0120; int unk0124; int unk0128; int unk012C; int unk0130; int unk0134; int unk0138; int unk013C; int unk0140; int unk0144; int unk0148; int unk014C; int unk0150; int unk0154; int unk0158; int unk015C; int unk0160; int unk0164; int unk0168; int unk016C; int unk0170; int unk0174; int unk0178; int unk017C; int unk0180; int unk0184; int unk0188; int unk018C; int unk0190; int unk0194; int unk0198; int unk019C; int unk01A0; int unk01A4; int unk01A8; int unk01AC; int unk01B0; int unk01B4; int unk01B8; int unk01BC; int unk01C0; int unk01C4; int unk01C8; int unk01CC; int unk01D0; int unk01D4; int unk01D8; int unk01DC; int unk01E0; int unk01E4; int unk01E8; int unk01EC; int unk01F0; int unk01F4; int unk01F8; int unk01FC; int unk0200; int unk0204; int unk0208; int unk020C; int unk0210; int unk0214; int unk0218; int unk021C; int unk0220; int unk0224; int unk0228; int unk022C; int unk0230; int unk0234; int unk0238; int unk023C; int unk0240; int unk0244; int unk0248; int unk024C; int unk0250; int unk0254; int unk0258; int unk025C; int unk0260; int unk0264; int unk0268; int unk026C; int unk0270; int unk0274; int unk0278; int unk027C; int unk0280; int unk0284; int unk0288; int unk028C; int unk0290; int unk0294; int unk0298; int unk029C; int unk02A0; int unk02A4; int unk02A8; int unk02AC; int unk02B0; int unk02B4; int unk02B8; int unk02BC; int unk02C0; int unk02C4; int unk02C8; int unk02CC; int unk02D0; int unk02D4; int unk02D8; int unk02DC; int unk02E0; int unk02E4; int unk02E8; int unk02EC; int unk02F0; int unk02F4; int unk02F8; int unk02FC; int unk0300; int unk0304; int unk0308; int unk030C; int unk0310; int unk0314; int unk0318; int unk031C; int unk0320; int unk0324; int unk0328; int unk032C; int unk0330; int unk0334; int unk0338; int unk033C; int unk0340; int unk0344; int unk0348; int unk034C; int unk0350; int unk0354; int unk0358; int unk035C; int unk0360; int unk0364; int unk0368; int unk036C; int unk0370; int unk0374; int unk0378; int unk037C; int unk0380; int unk0384; int unk0388; int unk038C; int unk0390; int unk0394; int unk0398; int unk039C; int unk03A0; int unk03A4; int unk03A8; int unk03AC; int unk03B0; int unk03B4; int unk03B8; int unk03BC; int unk03C0; int unk03C4; int unk03C8; int unk03CC; int unk03D0; int unk03D4; int unk03D8; int unk03DC; int unk03E0; int unk03E4; int unk03E8; int unk03EC; int unk03F0; int unk03F4; int unk03F8; int unk03FC; int unk0400; int unk0404; int unk0408; int unk040C; int unk0410; int unk0414; int unk0418; int unk041C; int unk0420; int unk0424; int unk0428; int unk042C; int unk0430; int unk0434; int unk0438; int unk043C; int unk0440; int unk0444; int unk0448; int unk044C; int unk0450; int unk0454; int unk0458; int unk045C; int unk0460; int unk0464; int unk0468; int unk046C; int unk0470; int unk0474; int unk0478; int unk047C; int unk0480; int unk0484; int unk0488; int unk048C; int unk0490; int unk0494; int unk0498; int unk049C; int unk04A0; int unk04A4; int unk04A8; int unk04AC; int unk04B0; int unk04B4; int unk04B8; int unk04BC; int unk04C0; int unk04C4; int unk04C8; int unk04CC; int unk04D0; int unk04D4; int unk04D8; int unk04DC; int unk04E0; int unk04E4; int unk04E8; int unk04EC; int unk04F0; int unk04F4; int unk04F8; int unk04FC; int unk0500; int unk0504; int unk0508; int unk050C; int unk0510; int unk0514; int unk0518; int unk051C; int unk0520; int unk0524; int unk0528; int unk052C; int unk0530; int unk0534; int unk0538; int unk053C; int unk0540; int unk0544; int unk0548; int unk054C; int unk0550; int unk0554; int unk0558; int unk055C; int unk0560; int unk0564; int unk0568; int unk056C; int unk0570; int unk0574; int unk0578; int unk057C; int unk0580; int unk0584; int unk0588; int unk058C; int unk0590; int unk0594; int unk0598; int unk059C; int unk05A0; int unk05A4; int unk05A8; int unk05AC; int unk05B0; int unk05B4; int unk05B8; int unk05BC; int unk05C0; int unk05C4; int unk05C8; int unk05CC; int unk05D0; int unk05D4; int unk05D8; int unk05DC; int unk05E0; int unk05E4; int unk05E8; int unk05EC; int unk05F0; int unk05F4; int unk05F8; int unk05FC; int unk0600; int unk0604; int unk0608; int unk060C; int unk0610; int unk0614; int unk0618; int unk061C; int unk0620; int unk0624; int unk0628; int unk062C; int unk0630; int unk0634; int unk0638; int unk063C; int unk0640; int unk0644; int unk0648; int unk064C; int unk0650; int unk0654; int unk0658; int unk065C; int unk0660; int unk0664; int unk0668; int unk066C; int unk0670; int unk0674; int unk0678; int unk067C; int unk0680; int unk0684; int unk0688; int unk068C; int unk0690; int unk0694; int unk0698; int unk069C; int unk06A0; int unk06A4; int unk06A8; int unk06AC; int unk06B0; int unk06B4; int unk06B8; int unk06BC; int unk06C0; int unk06C4; int unk06C8; int unk06CC; int unk06D0; int unk06D4; int unk06D8; int unk06DC; int unk06E0; int unk06E4; int unk06E8; int unk06EC; int unk06F0; int unk06F4; int unk06F8; int unk06FC; int unk0700; int unk0704; int unk0708; int unk070C; int unk0710; int unk0714; int unk0718; int unk071C; int unk0720; int unk0724; int unk0728; int unk072C; int unk0730; int unk0734; int unk0738; int unk073C; int unk0740; int unk0744; int unk0748; int unk074C; int unk0750; int unk0754; int unk0758; int unk075C; int unk0760; int unk0764; int unk0768; int unk076C; int unk0770; int unk0774; int unk0778; int unk077C; int unk0780; int unk0784; int unk0788; int unk078C; int unk0790; int unk0794; int unk0798; int unk079C; int unk07A0; int unk07A4; int unk07A8; int unk07AC; int unk07B0; int unk07B4; int unk07B8; int unk07BC; int unk07C0; int unk07C4; int unk07C8; int unk07CC; int unk07D0; int unk07D4; int unk07D8; int unk07DC; int unk07E0; int unk07E4; int unk07E8; int unk07EC; int unk07F0; int unk07F4; int unk07F8; int unk07FC; int unk0800; int unk0804; int unk0808; int unk080C; int unk0810; int unk0814; int unk0818; int unk081C; int unk0820; int unk0824; int unk0828; int unk082C; int unk0830; int unk0834; int unk0838; int unk083C; int unk0840; int unk0844; int unk0848; int unk084C; int unk0850; int unk0854; int unk0858; int unk085C; int unk0860; int unk0864; int unk0868; int unk086C; int unk0870; int unk0874; int unk0878; int unk087C; int unk0880; int unk0884; int unk0888; int unk088C; int unk0890; int unk0894; int unk0898; int unk089C; int unk08A0; int unk08A4; int unk08A8; int unk08AC; int unk08B0; int unk08B4; int unk08B8; int unk08BC; int unk08C0; int unk08C4; int unk08C8; int unk08CC; int unk08D0; int unk08D4; int unk08D8; int unk08DC; int unk08E0; int unk08E4; int unk08E8; int unk08EC; int unk08F0; int unk08F4; int unk08F8; int unk08FC; int unk0900; int unk0904; int unk0908; int unk090C; int unk0910; int unk0914; int unk0918; int unk091C; int unk0920; int unk0924; int unk0928; int unk092C; int unk0930; int unk0934; int unk0938; int unk093C; int unk0940; int unk0944; int unk0948; int unk094C; int unk0950; int unk0954; int unk0958; int unk095C; int unk0960; int unk0964; int unk0968; int unk096C; int unk0970; int unk0974; int unk0978; int unk097C; int unk0980; int unk0984; int unk0988; int unk098C; int unk0990; int unk0994; int unk0998; int unk099C; int unk09A0; int unk09A4; int unk09A8; int unk09AC; int unk09B0; int unk09B4; int unk09B8; int unk09BC; int unk09C0; int unk09C4; int unk09C8; int unk09CC; int unk09D0; int unk09D4; int unk09D8; int unk09DC; int unk09E0; int unk09E4; int unk09E8; int unk09EC; int unk09F0; int unk09F4; int unk09F8; int unk09FC; int unk0A00; int unk0A04; int unk0A08; int unk0A0C; int unk0A10; int unk0A14; int unk0A18; int unk0A1C; int unk0A20; int unk0A24; int unk0A28; int unk0A2C; int unk0A30; int unk0A34; int unk0A38; int unk0A3C; int unk0A40; int unk0A44; int unk0A48; int unk0A4C; int unk0A50; int unk0A54; int unk0A58; int unk0A5C; int unk0A60; int unk0A64; int unk0A68; int unk0A6C; int unk0A70; int unk0A74; int unk0A78; int unk0A7C; int unk0A80; int unk0A84; int unk0A88; int unk0A8C; int unk0A90; int unk0A94; int unk0A98; int unk0A9C; int unk0AA0; int unk0AA4; int unk0AA8; int unk0AAC; int unk0AB0; int unk0AB4; int unk0AB8; int unk0ABC; int unk0AC0; int unk0AC4; int unk0AC8; int unk0ACC; int unk0AD0; int unk0AD4; int unk0AD8; int unk0ADC; int unk0AE0; int unk0AE4; int unk0AE8; int unk0AEC; int unk0AF0; int unk0AF4; int unk0AF8; int unk0AFC; int unk0B00; int unk0B04; int unk0B08; int unk0B0C; int unk0B10; int unk0B14; int unk0B18; int unk0B1C; int unk0B20; int unk0B24; int unk0B28; int unk0B2C; int unk0B30; int unk0B34; int unk0B38; int unk0B3C; int unk0B40; int unk0B44; int unk0B48; int unk0B4C; int unk0B50; int unk0B54; int unk0B58; int unk0B5C; int unk0B60; int unk0B64; int unk0B68; int unk0B6C; int unk0B70; int unk0B74; int unk0B78; int unk0B7C; int unk0B80; int unk0B84; int unk0B88; int unk0B8C; int unk0B90; int unk0B94; int unk0B98; int unk0B9C; int unk0BA0; int unk0BA4; int unk0BA8; int unk0BAC; int unk0BB0; int unk0BB4; int unk0BB8; int unk0BBC; int unk0BC0; int unk0BC4; int unk0BC8; int unk0BCC; int unk0BD0; int unk0BD4; int unk0BD8; int unk0BDC; int unk0BE0; int unk0BE4; int unk0BE8; int unk0BEC; int unk0BF0; int unk0BF4; int unk0BF8; int unk0BFC; int unk0C00; int unk0C04; int unk0C08; int unk0C0C; int unk0C10; int unk0C14; int unk0C18; int unk0C1C; int unk0C20; int unk0C24; int unk0C28; int unk0C2C; int unk0C30; int unk0C34; int unk0C38; int unk0C3C; int unk0C40; int unk0C44; int unk0C48; int unk0C4C; int unk0C50; int unk0C54; int unk0C58; int unk0C5C; int unk0C60; int unk0C64; int unk0C68; int unk0C6C; int unk0C70; int unk0C74; int unk0C78; int unk0C7C; int unk0C80; int unk0C84; int unk0C88; int unk0C8C; int unk0C90; int unk0C94; int unk0C98; int unk0C9C; int unk0CA0; int unk0CA4; int unk0CA8; int unk0CAC; int unk0CB0; int unk0CB4; int unk0CB8; int unk0CBC; int unk0CC0; int unk0CC4; int unk0CC8; int unk0CCC; int unk0CD0; int unk0CD4; int unk0CD8; int unk0CDC; int unk0CE0; int unk0CE4; int unk0CE8; int unk0CEC; int unk0CF0; int unk0CF4; int unk0CF8; int unk0CFC; int unk0D00; int unk0D04; int unk0D08; int unk0D0C; int unk0D10; int unk0D14; int unk0D18; int unk0D1C; int unk0D20; int unk0D24; int unk0D28; int unk0D2C; int unk0D30; int unk0D34; int unk0D38; int unk0D3C; int unk0D40; int unk0D44; int unk0D48; int unk0D4C; int unk0D50; int unk0D54; int unk0D58; int unk0D5C; int unk0D60; int unk0D64; int unk0D68; int unk0D6C; int unk0D70; int unk0D74; int unk0D78; int unk0D7C; int unk0D80; int unk0D84; int unk0D88; int unk0D8C; int unk0D90; int unk0D94; int unk0D98; int unk0D9C; int unk0DA0; int unk0DA4; int unk0DA8; int unk0DAC; int unk0DB0; int unk0DB4; int unk0DB8; int unk0DBC; int unk0DC0; int unk0DC4; int unk0DC8; int unk0DCC; int unk0DD0; int unk0DD4; int unk0DD8; int unk0DDC; int unk0DE0; int unk0DE4; int unk0DE8; int unk0DEC; int unk0DF0; int unk0DF4; int unk0DF8; int unk0DFC; int unk0E00; int unk0E04; int unk0E08; int unk0E0C; int unk0E10; int unk0E14; int unk0E18; int unk0E1C; int unk0E20; int unk0E24; int unk0E28; int unk0E2C; int unk0E30; int unk0E34; int unk0E38; int unk0E3C; int unk0E40; int unk0E44; int unk0E48; int unk0E4C; int unk0E50; int unk0E54; int unk0E58; int unk0E5C; int unk0E60; int unk0E64; int unk0E68; int unk0E6C; int unk0E70; int unk0E74; int unk0E78; int unk0E7C; int unk0E80; int unk0E84; int unk0E88; int unk0E8C; int unk0E90; int unk0E94; int unk0E98; int unk0E9C; int unk0EA0; int unk0EA4; int unk0EA8; int unk0EAC; int unk0EB0; int unk0EB4; int unk0EB8; int unk0EBC; int unk0EC0; int unk0EC4; int unk0EC8; int unk0ECC; int unk0ED0; int unk0ED4; int unk0ED8; int unk0EDC; int unk0EE0; int unk0EE4; int unk0EE8; int unk0EEC; int unk0EF0; int unk0EF4; int unk0EF8; int unk0EFC; int unk0F00; int unk0F04; int unk0F08; int unk0F0C; int unk0F10; int unk0F14; int unk0F18; int unk0F1C; int unk0F20; int unk0F24; int unk0F28; int unk0F2C; int unk0F30; int unk0F34; int unk0F38; int unk0F3C; int unk0F40; int unk0F44; int unk0F48; int unk0F4C; int unk0F50; int unk0F54; int unk0F58; int unk0F5C; int unk0F60; int unk0F64; int unk0F68; int unk0F6C; int unk0F70; int unk0F74; int unk0F78; int unk0F7C; int unk0F80; int unk0F84; int unk0F88; int unk0F8C; int unk0F90; int unk0F94; int unk0F98; int unk0F9C; int unk0FA0; int unk0FA4; int unk0FA8; int unk0FAC; int unk0FB0; int unk0FB4; int unk0FB8; int unk0FBC; int unk0FC0; int unk0FC4; int unk0FC8; int unk0FCC; int unk0FD0; int unk0FD4; int unk0FD8; int unk0FDC; int unk0FE0; int unk0FE4; int unk0FE8; int unk0FEC; int unk0FF0; int unk0FF4; int unk0FF8; int unk0FFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; int unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; int unk2054; int unk2058; int unk205C; int unk2060; int unk2064; int unk2068; int unk206C; int unk2070; int unk2074; int unk2078; Position4650* origin;
 void FUN_005c4650(Result4650* result, Position4650* point, int a, int b);
 };
+// pdb: AStarSearch<PathSmootherPOVNode,PathSmootherPOVLink>::GetOrCreateAStarNode | PathSmootherPOV.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiKey, afCost, aRetNode
 void Owner4650::FUN_005c4650(Result4650* result, Position4650* point, int a, int b) {
 result->point=point; result->unk0C=a; result->unk10=b;
 Point4650 delta=point->point-origin->point;
@@ -2036,6 +2080,8 @@ result->distance=delta.Length()*0.75;
 
 // @f3 0x005dcac0 (community match, verified in this file)
 namespace f3m_005dcac0 {
+// pdb: NavMeshMath::Get2DBaryCentricCoord | NavMeshMath.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSNavmeshMath::Get2DBaryCentricCoord)
+// pdb params: aV0, aV1, aV2, aLoc, aCoord
 bool __cdecl FUN_005dcac0(const float* apVertexA, const float* apVertexB, const float* apVertexC,
                                            const float* position, float* weights)
 {
@@ -2098,6 +2144,7 @@ struct CodexArrayCleanup {
 struct CodexArrayDerived : CodexArrayBase {
     void FUN_005c5bd0();
 };
+// pdb: BSScrapArray<AStarNode<NavMeshPOVSearchNode,NavMeshPOVSearchLink> *,1024>::~BSScrapArray<AStarNode<NavMeshPOVSearchNode,NavMeshPOVSearchLink> *,1024> | NavMeshPOVSearch.obj | fnv360_0822_debug, call_seq, medium
 void CodexArrayDerived::FUN_005c5bd0() {
     CodexArrayCleanup cleanup(this);
     if (data) {
@@ -2112,6 +2159,8 @@ void CodexArrayDerived::FUN_005c5bd0() {
 // @f3 0x005dba40 (community match, verified in this file)
 namespace f3m_005dba40 {
 struct Arg5dba {int unk00; int unk04; int unk08;}; struct Compare5dba {
+// pdb: NavMeshInfoSearch::IsGoalNode | NavMeshInfoSearch.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSOcclusionShape::ResetCullResult)
+// pdb params: apNode
 int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; int unk578; int unk57C; int unk580; int unk584; int unk588; int unk58C; int unk590; int unk594; int unk598; int unk59C; int unk5A0; int unk5A4; int unk5A8; int unk5AC; int unk5B0; int unk5B4; int unk5B8; int unk5BC; int unk5C0; int unk5C4; int unk5C8; int unk5CC; int unk5D0; int unk5D4; int unk5D8; int unk5DC; int unk5E0; int unk5E4; int unk5E8; int unk5EC; int unk5F0; int unk5F4; int unk5F8; int unk5FC; int unk600; int unk604; int unk608; int unk60C; int unk610; int unk614; int unk618; int unk61C; int unk620; int unk624; int unk628; int unk62C; int unk630; int unk634; int unk638; int unk63C; int unk640; int unk644; int unk648; int unk64C; int unk650; int unk654; int unk658; int unk65C; int unk660; int unk664; int unk668; int unk66C; int unk670; int unk674; int unk678; int unk67C; int unk680; int unk684; int unk688; int unk68C; int unk690; int unk694; int unk698; int unk69C; int unk6A0; int unk6A4; int unk6A8; int unk6AC; int unk6B0; int unk6B4; int unk6B8; int unk6BC; int unk6C0; int unk6C4; int unk6C8; int unk6CC; int unk6D0; int unk6D4; int unk6D8; int unk6DC; int unk6E0; int unk6E4; int unk6E8; int unk6EC; int unk6F0; int unk6F4; int unk6F8; int unk6FC; int unk700; int unk704; int unk708; int unk70C; int unk710; int unk714; int unk718; int unk71C; int unk720; int unk724; int unk728; int unk72C; int unk730; int unk734; int unk738; int unk73C; int unk740; int unk744; int unk748; int unk74C; int unk750; int unk754; int unk758; int unk75C; int unk760; int unk764; int unk768; int unk76C; int unk770; int unk774; int unk778; int unk77C; int unk780; int unk784; int unk788; int unk78C; int unk790; int unk794; int unk798; int unk79C; int unk7A0; int unk7A4; int unk7A8; int unk7AC; int unk7B0; int unk7B4; int unk7B8; int unk7BC; int unk7C0; int unk7C4; int unk7C8; int unk7CC; int unk7D0; int unk7D4; int unk7D8; int unk7DC; int unk7E0; int unk7E4; int unk7E8; int unk7EC; int unk7F0; int unk7F4; int unk7F8; int unk7FC; int unk800; int unk804; int unk808; int unk80C; int unk810; int unk814; int unk818; int unk81C; int unk820; int unk824; int unk828; int unk82C; int unk830; int unk834; int unk838; int unk83C; int unk840; int unk844; int unk848; int unk84C; int unk850; int unk854; int unk858; int unk85C; int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C; int unk880; int unk884; int unk888; int unk88C; int unk890; int unk894; int unk898; int unk89C; int unk8A0; int unk8A4; int unk8A8; int unk8AC; int unk8B0; int unk8B4; int unk8B8; int unk8BC; int unk8C0; int unk8C4; int unk8C8; int unk8CC; int unk8D0; int unk8D4; int unk8D8; int unk8DC; int unk8E0; int unk8E4; int unk8E8; int unk8EC; int unk8F0; int unk8F4; int unk8F8; int unk8FC; int unk900; int unk904; int unk908; int unk90C; int unk910; int unk914; int unk918; int unk91C; int unk920; int unk924; int unk928; int unk92C; int unk930; int unk934; int unk938; int unk93C; int unk940; int unk944; int unk948; int unk94C; int unk950; int unk954; int unk958; int unk95C; int unk960; int unk964; int unk968; int unk96C; int unk970; int unk974; int unk978; int unk97C; int unk980; int unk984; int unk988; int unk98C; int unk990; int unk994; int unk998; int unk99C; int unk9A0; int unk9A4; int unk9A8; int unk9AC; int unk9B0; int unk9B4; int unk9B8; int unk9BC; int unk9C0; int unk9C4; int unk9C8; int unk9CC; int unk9D0; int unk9D4; int unk9D8; int unk9DC; int unk9E0; int unk9E4; int unk9E8; int unk9EC; int unk9F0; int unk9F4; int unk9F8; int unk9FC; int unkA00; int unkA04; int unkA08; int unkA0C; int unkA10; int unkA14; int unkA18; int unkA1C; int unkA20; int unkA24; int unkA28; int unkA2C; int unkA30; int unkA34; int unkA38; int unkA3C; int unkA40; int unkA44; int unkA48; int unkA4C; int unkA50; int unkA54; int unkA58; int unkA5C; int unkA60; int unkA64; int unkA68; int unkA6C; int unkA70; int unkA74; int unkA78; int unkA7C; int unkA80; int unkA84; int unkA88; int unkA8C; int unkA90; int unkA94; int unkA98; int unkA9C; int unkAA0; int unkAA4; int unkAA8; int unkAAC; int unkAB0; int unkAB4; int unkAB8; int unkABC; int unkAC0; int unkAC4; int unkAC8; int unkACC; int unkAD0; int unkAD4; int unkAD8; int unkADC; int unkAE0; int unkAE4; int unkAE8; int unkAEC; int unkAF0; int unkAF4; int unkAF8; int unkAFC; int unkB00; int unkB04; int unkB08; int unkB0C; int unkB10; int unkB14; int unkB18; int unkB1C; int unkB20; int unkB24; int unkB28; int unkB2C; int unkB30; int unkB34; int unkB38; int unkB3C; int unkB40; int unkB44; int unkB48; int unkB4C; int unkB50; int unkB54; int unkB58; int unkB5C; int unkB60; int unkB64; int unkB68; int unkB6C; int unkB70; int unkB74; int unkB78; int unkB7C; int unkB80; int unkB84; int unkB88; int unkB8C; int unkB90; int unkB94; int unkB98; int unkB9C; int unkBA0; int unkBA4; int unkBA8; int unkBAC; int unkBB0; int unkBB4; int unkBB8; int unkBBC; int unkBC0; int unkBC4; int unkBC8; int unkBCC; int unkBD0; int unkBD4; int unkBD8; int unkBDC; int unkBE0; int unkBE4; int unkBE8; int unkBEC; int unkBF0; int unkBF4; int unkBF8; int unkBFC; int unkC00; int unkC04; int unkC08; int unkC0C; int unkC10; int unkC14; int unkC18; int unkC1C; int unkC20; int unkC24; int unkC28; int unkC2C; int unkC30; int unkC34; int unkC38; int unkC3C; int unkC40; int unkC44; int unkC48; int unkC4C; int unkC50; int unkC54; int unkC58; int unkC5C; int unkC60; int unkC64; int unkC68; int unkC6C; int unkC70; int unkC74; int unkC78; int unkC7C; int unkC80; int unkC84; int unkC88; int unkC8C; int unkC90; int unkC94; int unkC98; int unkC9C; int unkCA0; int unkCA4; int unkCA8; int unkCAC; int unkCB0; int unkCB4; int unkCB8; int unkCBC; int unkCC0; int unkCC4; int unkCC8; int unkCCC; int unkCD0; int unkCD4; int unkCD8; int unkCDC; int unkCE0; int unkCE4; int unkCE8; int unkCEC; int unkCF0; int unkCF4; int unkCF8; int unkCFC; int unkD00; int unkD04; int unkD08; int unkD0C; int unkD10; int unkD14; int unkD18; int unkD1C; int unkD20; int unkD24; int unkD28; int unkD2C; int unkD30; int unkD34; int unkD38; int unkD3C; int unkD40; int unkD44; int unkD48; int unkD4C; int unkD50; int unkD54; int unkD58; int unkD5C; int unkD60; int unkD64; int unkD68; int unkD6C; int unkD70; int unkD74; int unkD78; int unkD7C; int unkD80; int unkD84; int unkD88; int unkD8C; int unkD90; int unkD94; int unkD98; int unkD9C; int unkDA0; int unkDA4; int unkDA8; int unkDAC; int unkDB0; int unkDB4; int unkDB8; int unkDBC; int unkDC0; int unkDC4; int unkDC8; int unkDCC; int unkDD0; int unkDD4; int unkDD8; int unkDDC; int unkDE0; int unkDE4; int unkDE8; int unkDEC; int unkDF0; int unkDF4; int unkDF8; int unkDFC; int unkE00; int unkE04; int unkE08; int unkE0C; int unkE10; int unkE14; int unkE18; int unkE1C; int unkE20; int unkE24; int unkE28; int unkE2C; int unkE30; int unkE34; int unkE38; int unkE3C; int unkE40; int unkE44; int unkE48; int unkE4C; int unkE50; int unkE54; int unkE58; int unkE5C; int unkE60; int unkE64; int unkE68; int unkE6C; int unkE70; int unkE74; int unkE78; int unkE7C; int unkE80; int unkE84; int unkE88; int unkE8C; int unkE90; int unkE94; int unkE98; int unkE9C; int unkEA0; int unkEA4; int unkEA8; int unkEAC; int unkEB0; int unkEB4; int unkEB8; int unkEBC; int unkEC0; int unkEC4; int unkEC8; int unkECC; int unkED0; int unkED4; int unkED8; int unkEDC; int unkEE0; int unkEE4; int unkEE8; int unkEEC; int unkEF0; int unkEF4; int unkEF8; int unkEFC; int unkF00; int unkF04; int unkF08; int unkF0C; int unkF10; int unkF14; int unkF18; int unkF1C; int unkF20; int unkF24; int unkF28; int unkF2C; int unkF30; int unkF34; int unkF38; int unkF3C; int unkF40; int unkF44; int unkF48; int unkF4C; int unkF50; int unkF54; int unkF58; int unkF5C; int unkF60; int unkF64; int unkF68; int unkF6C; int unkF70; int unkF74; int unkF78; int unkF7C; int unkF80; int unkF84; int unkF88; int unkF8C; int unkF90; int unkF94; int unkF98; int unkF9C; int unkFA0; int unkFA4; int unkFA8; int unkFAC; int unkFB0; int unkFB4; int unkFB8; int unkFBC; int unkFC0; int unkFC4; int unkFC8; int unkFCC; int unkFD0; int unkFD4; int unkFD8; int unkFDC; int unkFE0; int unkFE4; int unkFE8; int unkFEC; int unkFF0; int unkFF4; int unkFF8; int unkFFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; int unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; int unk2054; int unk2058; int unk205C; int unk2060; int unk2064; int unk2068; int unk206C; int unk2070; int unk2074; int FUN_005dba40(Arg5dba*); }; int Compare5dba::FUN_005dba40(Arg5dba* a){return a->unk08==unk2074;}
 }   // namespace f3m_005dba40
 
@@ -2131,8 +2180,8 @@ void SimplePOVArray5D::FUN_005d39d0() {
 extern unsigned DAT_00e27ed4;
 namespace f3m_005d0310 {
 struct CodexAllocatorD03 {
-    void* FUN_0086c710(unsigned,unsigned);
-    void FUN_0086c7b0(void*);
+    void* ScrapHeap_Allocate(unsigned,unsigned);
+    void ScrapHeap_Deallocate(void*);
 };
 struct CodexStorageD03 {
     int unk00;
@@ -2142,10 +2191,12 @@ struct CodexStorageD03 {
     CodexAllocatorD03* unk10;
     void* FUN_005d0310(void*,unsigned);
 };
+// pdb: BSScrapArray<NavMeshSearchNode,1024>::_Reallocate | NavMeshSearchMaxCost.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuffer, aiNewSizeInItem
 void* CodexStorageD03::FUN_005d0310(void* oldData,unsigned capacity) {
-    void* data=unk10->FUN_0086c710(capacity*20,DAT_00e27ed4);
+    void* data=unk10->ScrapHeap_Allocate(capacity*20,DAT_00e27ed4);
     memmove(data,oldData,unk08*20);
-    unk10->FUN_0086c7b0(oldData);
+    unk10->ScrapHeap_Deallocate(oldData);
     return data;
 }
 }   // namespace f3m_005d0310
@@ -2156,6 +2207,7 @@ namespace f3m_005c2fd0 {
 struct Vec2FD0 { float x,y,z; Vec2FD0(float v):x(v),y(v),z(v) {} };
 struct Array2FD0 { virtual void slot00(); virtual void slot04(); virtual void Free(void*); void* data; unsigned count; unsigned capacity; void Clear() { if(data) { Free(data); data=0; capacity=0; count=0; } } };
 struct Bounds2FD0 { Vec2FD0 maximum; Vec2FD0 minimum; Array2FD0 first; Array2FD0 second; void FUN_005c2fd0(); };
+// pdb: NavMeshBounds::Clear | NavMeshBounds.obj | fnv360_0721_beta, call_dedup, low
 void Bounds2FD0::FUN_005c2fd0() { maximum=Vec2FD0(-FLT_MAX); minimum=Vec2FD0(FLT_MAX); second.Clear(); first.Clear(); }
 }   // namespace f3m_005c2fd0
 
@@ -2194,6 +2246,8 @@ struct FUN_005df1f0_shell
     bool FUN_005df1f0(unsigned short key);
 };
 // Adapted from the FNV map-removal reference.
+// pdb: NiTMapBase<DFALL<NiTMapItem<unsigned short,NiPointer<ObstacleData> > >,unsigned short,NiPointer<ObstacleData> >::RemoveAt | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: key
 bool FUN_005df1f0_shell::FUN_005df1f0(unsigned short key)
 {
     unsigned int hashIndex = KeyToHashIndex(key);
@@ -2239,6 +2293,8 @@ struct Node5c6180 { int unk00; int unk04; Point5c6180 position; Edge5c6180 edge;
 struct Points5c6180 { int unk00; Point5c6180* data; void FUN_005bb760(unsigned,bool); __forceinline Point5c6180* At(int i) { return &data[i]; } };
 struct Edges5c6180 { int unk00; Edge5c6180* data; void FUN_005d3e70(unsigned,bool); __forceinline Edge5c6180* At(int i) { return &data[i]; } };
 struct Owner5c6180 { bool FUN_005c6180(Node5c6180*,Points5c6180*,Edges5c6180*); };
+// pdb: AStarSearch<PathSmootherPOVNode,PathSmootherPOVLink>::GetPathToNode | PathSmootherPOV.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apFinalNode, apReturnArray, apReturnLinkArray
 bool Owner5c6180::FUN_005c6180(Node5c6180* node,Points5c6180* points,Edges5c6180* edges) {
  if(!node) return false;
  int count=0; Node5c6180* p=node;
@@ -2258,6 +2314,8 @@ namespace Allocation1490
     extern Heap DAT_01090a78;
 }
 struct Allocator1490 { void* FUN_005c58c0(unsigned int); };
+// pdb: BSSimpleArray<SandBoxChoiceListItem,1024>::_Allocate | SandBoxPackage.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 void* Allocator1490::FUN_005c58c0(unsigned int count)
 {
     return Allocation1490::DAT_01090a78.FUN_0086b930(count*16);
@@ -2270,6 +2328,8 @@ namespace Allocation1491
     extern Heap DAT_01090a78;
 }
 struct Allocator1491 { void* FUN_005d2e00(unsigned int); };
+// pdb: BSSimpleArray<BGSDistantTreeBlock::InstanceData,1024>::_Allocate | BGSDistantTreeBlock.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 void* Allocator1491::FUN_005d2e00(unsigned int count)
 {
     return Allocation1491::DAT_01090a78.FUN_0086b930(count*32);
@@ -2280,6 +2340,8 @@ namespace f3m_005d9b20 {
 struct Map5d9b {bool FUN_00bea7b0(unsigned,void**);};
 struct Key5d9b {int unk00,unk04,unk08;unsigned unk0C;};
 struct Owner5d9b {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; Map5d9b unk2C;void* FUN_005d9b20(Key5d9b*,unsigned);};
+// pdb: NavMeshInfoMap::FindNavMeshInfoForCellKey | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apWorldSpace, aiCellKey
 void* Owner5d9b::FUN_005d9b20(Key5d9b* item,unsigned key){unsigned id=item->unk0C; void* map=item; if(!unk2C.FUN_00bea7b0(id,(void**)&item))return 0;map=item;bool found=((Map5d9b*)map)->FUN_00bea7b0(key,(void**)&item);return found?item:0;}
 }   // namespace f3m_005d9b20
 
@@ -2303,6 +2365,7 @@ struct Array5D
     void* FUN_005dbd60(int flag);
 };
 
+// pdb: BSSimpleArray<AStarNode<NavMeshInfo const *,TESObjectREFR *> *,1024>::`scalar deleting destructor' | NavMeshInfoSearch.obj | fnv360_0822_retail, vtable, medium
 void* Array5D::FUN_005dbd60(int flag)
 {
     vtable = &DAT_00e01a0c;
@@ -2343,6 +2406,8 @@ namespace f3m_005d0e90 {
 struct Block0E90 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; float scale; int unk38; int unk3C; void FUN_005fc480(Block0E90*); };
 struct Input0E90 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; Block0E90 block; float start; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; float durationA; float durationB; };
 struct Owner0E90 { int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C; int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; int unk0050; int unk0054; int unk0058; int unk005C; int unk0060; int unk0064; int unk0068; int unk006C; int unk0070; int unk0074; int unk0078; int unk007C; int unk0080; int unk0084; int unk0088; int unk008C; int unk0090; int unk0094; int unk0098; int unk009C; int unk00A0; int unk00A4; int unk00A8; int unk00AC; int unk00B0; int unk00B4; int unk00B8; int unk00BC; int unk00C0; int unk00C4; int unk00C8; int unk00CC; int unk00D0; int unk00D4; int unk00D8; int unk00DC; int unk00E0; int unk00E4; int unk00E8; int unk00EC; int unk00F0; int unk00F4; int unk00F8; int unk00FC; int unk0100; int unk0104; int unk0108; int unk010C; int unk0110; int unk0114; int unk0118; int unk011C; int unk0120; int unk0124; int unk0128; int unk012C; int unk0130; int unk0134; int unk0138; int unk013C; int unk0140; int unk0144; int unk0148; int unk014C; int unk0150; int unk0154; int unk0158; int unk015C; int unk0160; int unk0164; int unk0168; int unk016C; int unk0170; int unk0174; int unk0178; int unk017C; int unk0180; int unk0184; int unk0188; int unk018C; int unk0190; int unk0194; int unk0198; int unk019C; int unk01A0; int unk01A4; int unk01A8; int unk01AC; int unk01B0; int unk01B4; int unk01B8; int unk01BC; int unk01C0; int unk01C4; int unk01C8; int unk01CC; int unk01D0; int unk01D4; int unk01D8; int unk01DC; int unk01E0; int unk01E4; int unk01E8; int unk01EC; int unk01F0; int unk01F4; int unk01F8; int unk01FC; int unk0200; int unk0204; int unk0208; int unk020C; int unk0210; int unk0214; int unk0218; int unk021C; int unk0220; int unk0224; int unk0228; int unk022C; int unk0230; int unk0234; int unk0238; int unk023C; int unk0240; int unk0244; int unk0248; int unk024C; int unk0250; int unk0254; int unk0258; int unk025C; int unk0260; int unk0264; int unk0268; int unk026C; int unk0270; int unk0274; int unk0278; int unk027C; int unk0280; int unk0284; int unk0288; int unk028C; int unk0290; int unk0294; int unk0298; int unk029C; int unk02A0; int unk02A4; int unk02A8; int unk02AC; int unk02B0; int unk02B4; int unk02B8; int unk02BC; int unk02C0; int unk02C4; int unk02C8; int unk02CC; int unk02D0; int unk02D4; int unk02D8; int unk02DC; int unk02E0; int unk02E4; int unk02E8; int unk02EC; int unk02F0; int unk02F4; int unk02F8; int unk02FC; int unk0300; int unk0304; int unk0308; int unk030C; int unk0310; int unk0314; int unk0318; int unk031C; int unk0320; int unk0324; int unk0328; int unk032C; int unk0330; int unk0334; int unk0338; int unk033C; int unk0340; int unk0344; int unk0348; int unk034C; int unk0350; int unk0354; int unk0358; int unk035C; int unk0360; int unk0364; int unk0368; int unk036C; int unk0370; int unk0374; int unk0378; int unk037C; int unk0380; int unk0384; int unk0388; int unk038C; int unk0390; int unk0394; int unk0398; int unk039C; int unk03A0; int unk03A4; int unk03A8; int unk03AC; int unk03B0; int unk03B4; int unk03B8; int unk03BC; int unk03C0; int unk03C4; int unk03C8; int unk03CC; int unk03D0; int unk03D4; int unk03D8; int unk03DC; int unk03E0; int unk03E4; int unk03E8; int unk03EC; int unk03F0; int unk03F4; int unk03F8; int unk03FC; int unk0400; int unk0404; int unk0408; int unk040C; int unk0410; int unk0414; int unk0418; int unk041C; int unk0420; int unk0424; int unk0428; int unk042C; int unk0430; int unk0434; int unk0438; int unk043C; int unk0440; int unk0444; int unk0448; int unk044C; int unk0450; int unk0454; int unk0458; int unk045C; int unk0460; int unk0464; int unk0468; int unk046C; int unk0470; int unk0474; int unk0478; int unk047C; int unk0480; int unk0484; int unk0488; int unk048C; int unk0490; int unk0494; int unk0498; int unk049C; int unk04A0; int unk04A4; int unk04A8; int unk04AC; int unk04B0; int unk04B4; int unk04B8; int unk04BC; int unk04C0; int unk04C4; int unk04C8; int unk04CC; int unk04D0; int unk04D4; int unk04D8; int unk04DC; int unk04E0; int unk04E4; int unk04E8; int unk04EC; int unk04F0; int unk04F4; int unk04F8; int unk04FC; int unk0500; int unk0504; int unk0508; int unk050C; int unk0510; int unk0514; int unk0518; int unk051C; int unk0520; int unk0524; int unk0528; int unk052C; int unk0530; int unk0534; int unk0538; int unk053C; int unk0540; int unk0544; int unk0548; int unk054C; int unk0550; int unk0554; int unk0558; int unk055C; int unk0560; int unk0564; int unk0568; int unk056C; int unk0570; int unk0574; int unk0578; int unk057C; int unk0580; int unk0584; int unk0588; int unk058C; int unk0590; int unk0594; int unk0598; int unk059C; int unk05A0; int unk05A4; int unk05A8; int unk05AC; int unk05B0; int unk05B4; int unk05B8; int unk05BC; int unk05C0; int unk05C4; int unk05C8; int unk05CC; int unk05D0; int unk05D4; int unk05D8; int unk05DC; int unk05E0; int unk05E4; int unk05E8; int unk05EC; int unk05F0; int unk05F4; int unk05F8; int unk05FC; int unk0600; int unk0604; int unk0608; int unk060C; int unk0610; int unk0614; int unk0618; int unk061C; int unk0620; int unk0624; int unk0628; int unk062C; int unk0630; int unk0634; int unk0638; int unk063C; int unk0640; int unk0644; int unk0648; int unk064C; int unk0650; int unk0654; int unk0658; int unk065C; int unk0660; int unk0664; int unk0668; int unk066C; int unk0670; int unk0674; int unk0678; int unk067C; int unk0680; int unk0684; int unk0688; int unk068C; int unk0690; int unk0694; int unk0698; int unk069C; int unk06A0; int unk06A4; int unk06A8; int unk06AC; int unk06B0; int unk06B4; int unk06B8; int unk06BC; int unk06C0; int unk06C4; int unk06C8; int unk06CC; int unk06D0; int unk06D4; int unk06D8; int unk06DC; int unk06E0; int unk06E4; int unk06E8; int unk06EC; int unk06F0; int unk06F4; int unk06F8; int unk06FC; int unk0700; int unk0704; int unk0708; int unk070C; int unk0710; int unk0714; int unk0718; int unk071C; int unk0720; int unk0724; int unk0728; int unk072C; int unk0730; int unk0734; int unk0738; int unk073C; int unk0740; int unk0744; int unk0748; int unk074C; int unk0750; int unk0754; int unk0758; int unk075C; int unk0760; int unk0764; int unk0768; int unk076C; int unk0770; int unk0774; int unk0778; int unk077C; int unk0780; int unk0784; int unk0788; int unk078C; int unk0790; int unk0794; int unk0798; int unk079C; int unk07A0; int unk07A4; int unk07A8; int unk07AC; int unk07B0; int unk07B4; int unk07B8; int unk07BC; int unk07C0; int unk07C4; int unk07C8; int unk07CC; int unk07D0; int unk07D4; int unk07D8; int unk07DC; int unk07E0; int unk07E4; int unk07E8; int unk07EC; int unk07F0; int unk07F4; int unk07F8; int unk07FC; int unk0800; int unk0804; int unk0808; int unk080C; int unk0810; int unk0814; int unk0818; int unk081C; int unk0820; int unk0824; int unk0828; int unk082C; int unk0830; int unk0834; int unk0838; int unk083C; int unk0840; int unk0844; int unk0848; int unk084C; int unk0850; int unk0854; int unk0858; int unk085C; int unk0860; int unk0864; int unk0868; int unk086C; int unk0870; int unk0874; int unk0878; int unk087C; int unk0880; int unk0884; int unk0888; int unk088C; int unk0890; int unk0894; int unk0898; int unk089C; int unk08A0; int unk08A4; int unk08A8; int unk08AC; int unk08B0; int unk08B4; int unk08B8; int unk08BC; int unk08C0; int unk08C4; int unk08C8; int unk08CC; int unk08D0; int unk08D4; int unk08D8; int unk08DC; int unk08E0; int unk08E4; int unk08E8; int unk08EC; int unk08F0; int unk08F4; int unk08F8; int unk08FC; int unk0900; int unk0904; int unk0908; int unk090C; int unk0910; int unk0914; int unk0918; int unk091C; int unk0920; int unk0924; int unk0928; int unk092C; int unk0930; int unk0934; int unk0938; int unk093C; int unk0940; int unk0944; int unk0948; int unk094C; int unk0950; int unk0954; int unk0958; int unk095C; int unk0960; int unk0964; int unk0968; int unk096C; int unk0970; int unk0974; int unk0978; int unk097C; int unk0980; int unk0984; int unk0988; int unk098C; int unk0990; int unk0994; int unk0998; int unk099C; int unk09A0; int unk09A4; int unk09A8; int unk09AC; int unk09B0; int unk09B4; int unk09B8; int unk09BC; int unk09C0; int unk09C4; int unk09C8; int unk09CC; int unk09D0; int unk09D4; int unk09D8; int unk09DC; int unk09E0; int unk09E4; int unk09E8; int unk09EC; int unk09F0; int unk09F4; int unk09F8; int unk09FC; int unk0A00; int unk0A04; int unk0A08; int unk0A0C; int unk0A10; int unk0A14; int unk0A18; int unk0A1C; int unk0A20; int unk0A24; int unk0A28; int unk0A2C; int unk0A30; int unk0A34; int unk0A38; int unk0A3C; int unk0A40; int unk0A44; int unk0A48; int unk0A4C; int unk0A50; int unk0A54; int unk0A58; int unk0A5C; int unk0A60; int unk0A64; int unk0A68; int unk0A6C; int unk0A70; int unk0A74; int unk0A78; int unk0A7C; int unk0A80; int unk0A84; int unk0A88; int unk0A8C; int unk0A90; int unk0A94; int unk0A98; int unk0A9C; int unk0AA0; int unk0AA4; int unk0AA8; int unk0AAC; int unk0AB0; int unk0AB4; int unk0AB8; int unk0ABC; int unk0AC0; int unk0AC4; int unk0AC8; int unk0ACC; int unk0AD0; int unk0AD4; int unk0AD8; int unk0ADC; int unk0AE0; int unk0AE4; int unk0AE8; int unk0AEC; int unk0AF0; int unk0AF4; int unk0AF8; int unk0AFC; int unk0B00; int unk0B04; int unk0B08; int unk0B0C; int unk0B10; int unk0B14; int unk0B18; int unk0B1C; int unk0B20; int unk0B24; int unk0B28; int unk0B2C; int unk0B30; int unk0B34; int unk0B38; int unk0B3C; int unk0B40; int unk0B44; int unk0B48; int unk0B4C; int unk0B50; int unk0B54; int unk0B58; int unk0B5C; int unk0B60; int unk0B64; int unk0B68; int unk0B6C; int unk0B70; int unk0B74; int unk0B78; int unk0B7C; int unk0B80; int unk0B84; int unk0B88; int unk0B8C; int unk0B90; int unk0B94; int unk0B98; int unk0B9C; int unk0BA0; int unk0BA4; int unk0BA8; int unk0BAC; int unk0BB0; int unk0BB4; int unk0BB8; int unk0BBC; int unk0BC0; int unk0BC4; int unk0BC8; int unk0BCC; int unk0BD0; int unk0BD4; int unk0BD8; int unk0BDC; int unk0BE0; int unk0BE4; int unk0BE8; int unk0BEC; int unk0BF0; int unk0BF4; int unk0BF8; int unk0BFC; int unk0C00; int unk0C04; int unk0C08; int unk0C0C; int unk0C10; int unk0C14; int unk0C18; int unk0C1C; int unk0C20; int unk0C24; int unk0C28; int unk0C2C; int unk0C30; int unk0C34; int unk0C38; int unk0C3C; int unk0C40; int unk0C44; int unk0C48; int unk0C4C; int unk0C50; int unk0C54; int unk0C58; int unk0C5C; int unk0C60; int unk0C64; int unk0C68; int unk0C6C; int unk0C70; int unk0C74; int unk0C78; int unk0C7C; int unk0C80; int unk0C84; int unk0C88; int unk0C8C; int unk0C90; int unk0C94; int unk0C98; int unk0C9C; int unk0CA0; int unk0CA4; int unk0CA8; int unk0CAC; int unk0CB0; int unk0CB4; int unk0CB8; int unk0CBC; int unk0CC0; int unk0CC4; int unk0CC8; int unk0CCC; int unk0CD0; int unk0CD4; int unk0CD8; int unk0CDC; int unk0CE0; int unk0CE4; int unk0CE8; int unk0CEC; int unk0CF0; int unk0CF4; int unk0CF8; int unk0CFC; int unk0D00; int unk0D04; int unk0D08; int unk0D0C; int unk0D10; int unk0D14; int unk0D18; int unk0D1C; int unk0D20; int unk0D24; int unk0D28; int unk0D2C; int unk0D30; int unk0D34; int unk0D38; int unk0D3C; int unk0D40; int unk0D44; int unk0D48; int unk0D4C; int unk0D50; int unk0D54; int unk0D58; int unk0D5C; int unk0D60; int unk0D64; int unk0D68; int unk0D6C; int unk0D70; int unk0D74; int unk0D78; int unk0D7C; int unk0D80; int unk0D84; int unk0D88; int unk0D8C; int unk0D90; int unk0D94; int unk0D98; int unk0D9C; int unk0DA0; int unk0DA4; int unk0DA8; int unk0DAC; int unk0DB0; int unk0DB4; int unk0DB8; int unk0DBC; int unk0DC0; int unk0DC4; int unk0DC8; int unk0DCC; int unk0DD0; int unk0DD4; int unk0DD8; int unk0DDC; int unk0DE0; int unk0DE4; int unk0DE8; int unk0DEC; int unk0DF0; int unk0DF4; int unk0DF8; int unk0DFC; int unk0E00; int unk0E04; int unk0E08; int unk0E0C; int unk0E10; int unk0E14; int unk0E18; int unk0E1C; int unk0E20; int unk0E24; int unk0E28; int unk0E2C; int unk0E30; int unk0E34; int unk0E38; int unk0E3C; int unk0E40; int unk0E44; int unk0E48; int unk0E4C; int unk0E50; int unk0E54; int unk0E58; int unk0E5C; int unk0E60; int unk0E64; int unk0E68; int unk0E6C; int unk0E70; int unk0E74; int unk0E78; int unk0E7C; int unk0E80; int unk0E84; int unk0E88; int unk0E8C; int unk0E90; int unk0E94; int unk0E98; int unk0E9C; int unk0EA0; int unk0EA4; int unk0EA8; int unk0EAC; int unk0EB0; int unk0EB4; int unk0EB8; int unk0EBC; int unk0EC0; int unk0EC4; int unk0EC8; int unk0ECC; int unk0ED0; int unk0ED4; int unk0ED8; int unk0EDC; int unk0EE0; int unk0EE4; int unk0EE8; int unk0EEC; int unk0EF0; int unk0EF4; int unk0EF8; int unk0EFC; int unk0F00; int unk0F04; int unk0F08; int unk0F0C; int unk0F10; int unk0F14; int unk0F18; int unk0F1C; int unk0F20; int unk0F24; int unk0F28; int unk0F2C; int unk0F30; int unk0F34; int unk0F38; int unk0F3C; int unk0F40; int unk0F44; int unk0F48; int unk0F4C; int unk0F50; int unk0F54; int unk0F58; int unk0F5C; int unk0F60; int unk0F64; int unk0F68; int unk0F6C; int unk0F70; int unk0F74; int unk0F78; int unk0F7C; int unk0F80; int unk0F84; int unk0F88; int unk0F8C; int unk0F90; int unk0F94; int unk0F98; int unk0F9C; int unk0FA0; int unk0FA4; int unk0FA8; int unk0FAC; int unk0FB0; int unk0FB4; int unk0FB8; int unk0FBC; int unk0FC0; int unk0FC4; int unk0FC8; int unk0FCC; int unk0FD0; int unk0FD4; int unk0FD8; int unk0FDC; int unk0FE0; int unk0FE4; int unk0FE8; int unk0FEC; int unk0FF0; int unk0FF4; int unk0FF8; int unk0FFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; int unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; int unk2054; int unk2058; int unk205C; int unk2060; int unk2064; int unk2068; int unk206C; int unk2070; int unk2074; int unk2078; int unk207C; int unk2080; int unk2084; int unk2088; int unk208C; int unk2090; int unk2094; int unk2098; int unk209C; int unk20A0; Block0E90 block; int unk20E4; int unk20E8; int unk20EC; float timeA; float timeB; float start; float scale; void FUN_005cd600(Input0E90*,int,int,int,int,int); void FUN_005d0e90(Input0E90*,int,int,int,int); };
+// pdb: NavMeshSearchSLPoint::BuildPathToSafeStraightLine | NavMeshSearchSLPoint.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apRequest, aStartNode, aGoalNode, apNodes, apLinks
 void Owner0E90::FUN_005d0e90(Input0E90* input,int a,int b,int c,int d) { block.FUN_005fc480(&input->block); start=input->start; timeB=input->durationB+input->start; timeA=input->durationA+input->start; scale=input->block.scale; FUN_005cd600(input,a,b,c,d,0); }
 }   // namespace f3m_005d0e90
 
@@ -2350,6 +2415,7 @@ void Owner0E90::FUN_005d0e90(Input0E90* input,int a,int b,int c,int d) { block.F
 extern int DAT_00e01180;
 namespace f3m_005cebd0 {
 struct Owner5ceb {int* unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; int unk578; int unk57C; int unk580; int unk584; int unk588; int unk58C; int unk590; int unk594; int unk598; int unk59C; int unk5A0; int unk5A4; int unk5A8; int unk5AC; int unk5B0; int unk5B4; int unk5B8; int unk5BC; int unk5C0; int unk5C4; int unk5C8; int unk5CC; int unk5D0; int unk5D4; int unk5D8; int unk5DC; int unk5E0; int unk5E4; int unk5E8; int unk5EC; int unk5F0; int unk5F4; int unk5F8; int unk5FC; int unk600; int unk604; int unk608; int unk60C; int unk610; int unk614; int unk618; int unk61C; int unk620; int unk624; int unk628; int unk62C; int unk630; int unk634; int unk638; int unk63C; int unk640; int unk644; int unk648; int unk64C; int unk650; int unk654; int unk658; int unk65C; int unk660; int unk664; int unk668; int unk66C; int unk670; int unk674; int unk678; int unk67C; int unk680; int unk684; int unk688; int unk68C; int unk690; int unk694; int unk698; int unk69C; int unk6A0; int unk6A4; int unk6A8; int unk6AC; int unk6B0; int unk6B4; int unk6B8; int unk6BC; int unk6C0; int unk6C4; int unk6C8; int unk6CC; int unk6D0; int unk6D4; int unk6D8; int unk6DC; int unk6E0; int unk6E4; int unk6E8; int unk6EC; int unk6F0; int unk6F4; int unk6F8; int unk6FC; int unk700; int unk704; int unk708; int unk70C; int unk710; int unk714; int unk718; int unk71C; int unk720; int unk724; int unk728; int unk72C; int unk730; int unk734; int unk738; int unk73C; int unk740; int unk744; int unk748; int unk74C; int unk750; int unk754; int unk758; int unk75C; int unk760; int unk764; int unk768; int unk76C; int unk770; int unk774; int unk778; int unk77C; int unk780; int unk784; int unk788; int unk78C; int unk790; int unk794; int unk798; int unk79C; int unk7A0; int unk7A4; int unk7A8; int unk7AC; int unk7B0; int unk7B4; int unk7B8; int unk7BC; int unk7C0; int unk7C4; int unk7C8; int unk7CC; int unk7D0; int unk7D4; int unk7D8; int unk7DC; int unk7E0; int unk7E4; int unk7E8; int unk7EC; int unk7F0; int unk7F4; int unk7F8; int unk7FC; int unk800; int unk804; int unk808; int unk80C; int unk810; int unk814; int unk818; int unk81C; int unk820; int unk824; int unk828; int unk82C; int unk830; int unk834; int unk838; int unk83C; int unk840; int unk844; int unk848; int unk84C; int unk850; int unk854; int unk858; int unk85C; int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C; int unk880; int unk884; int unk888; int unk88C; int unk890; int unk894; int unk898; int unk89C; int unk8A0; int unk8A4; int unk8A8; int unk8AC; int unk8B0; int unk8B4; int unk8B8; int unk8BC; int unk8C0; int unk8C4; int unk8C8; int unk8CC; int unk8D0; int unk8D4; int unk8D8; int unk8DC; int unk8E0; int unk8E4; int unk8E8; int unk8EC; int unk8F0; int unk8F4; int unk8F8; int unk8FC; int unk900; int unk904; int unk908; int unk90C; int unk910; int unk914; int unk918; int unk91C; int unk920; int unk924; int unk928; int unk92C; int unk930; int unk934; int unk938; int unk93C; int unk940; int unk944; int unk948; int unk94C; int unk950; int unk954; int unk958; int unk95C; int unk960; int unk964; int unk968; int unk96C; int unk970; int unk974; int unk978; int unk97C; int unk980; int unk984; int unk988; int unk98C; int unk990; int unk994; int unk998; int unk99C; int unk9A0; int unk9A4; int unk9A8; int unk9AC; int unk9B0; int unk9B4; int unk9B8; int unk9BC; int unk9C0; int unk9C4; int unk9C8; int unk9CC; int unk9D0; int unk9D4; int unk9D8; int unk9DC; int unk9E0; int unk9E4; int unk9E8; int unk9EC; int unk9F0; int unk9F4; int unk9F8; int unk9FC; int unkA00; int unkA04; int unkA08; int unkA0C; int unkA10; int unkA14; int unkA18; int unkA1C; int unkA20; int unkA24; int unkA28; int unkA2C; int unkA30; int unkA34; int unkA38; int unkA3C; int unkA40; int unkA44; int unkA48; int unkA4C; int unkA50; int unkA54; int unkA58; int unkA5C; int unkA60; int unkA64; int unkA68; int unkA6C; int unkA70; int unkA74; int unkA78; int unkA7C; int unkA80; int unkA84; int unkA88; int unkA8C; int unkA90; int unkA94; int unkA98; int unkA9C; int unkAA0; int unkAA4; int unkAA8; int unkAAC; int unkAB0; int unkAB4; int unkAB8; int unkABC; int unkAC0; int unkAC4; int unkAC8; int unkACC; int unkAD0; int unkAD4; int unkAD8; int unkADC; int unkAE0; int unkAE4; int unkAE8; int unkAEC; int unkAF0; int unkAF4; int unkAF8; int unkAFC; int unkB00; int unkB04; int unkB08; int unkB0C; int unkB10; int unkB14; int unkB18; int unkB1C; int unkB20; int unkB24; int unkB28; int unkB2C; int unkB30; int unkB34; int unkB38; int unkB3C; int unkB40; int unkB44; int unkB48; int unkB4C; int unkB50; int unkB54; int unkB58; int unkB5C; int unkB60; int unkB64; int unkB68; int unkB6C; int unkB70; int unkB74; int unkB78; int unkB7C; int unkB80; int unkB84; int unkB88; int unkB8C; int unkB90; int unkB94; int unkB98; int unkB9C; int unkBA0; int unkBA4; int unkBA8; int unkBAC; int unkBB0; int unkBB4; int unkBB8; int unkBBC; int unkBC0; int unkBC4; int unkBC8; int unkBCC; int unkBD0; int unkBD4; int unkBD8; int unkBDC; int unkBE0; int unkBE4; int unkBE8; int unkBEC; int unkBF0; int unkBF4; int unkBF8; int unkBFC; int unkC00; int unkC04; int unkC08; int unkC0C; int unkC10; int unkC14; int unkC18; int unkC1C; int unkC20; int unkC24; int unkC28; int unkC2C; int unkC30; int unkC34; int unkC38; int unkC3C; int unkC40; int unkC44; int unkC48; int unkC4C; int unkC50; int unkC54; int unkC58; int unkC5C; int unkC60; int unkC64; int unkC68; int unkC6C; int unkC70; int unkC74; int unkC78; int unkC7C; int unkC80; int unkC84; int unkC88; int unkC8C; int unkC90; int unkC94; int unkC98; int unkC9C; int unkCA0; int unkCA4; int unkCA8; int unkCAC; int unkCB0; int unkCB4; int unkCB8; int unkCBC; int unkCC0; int unkCC4; int unkCC8; int unkCCC; int unkCD0; int unkCD4; int unkCD8; int unkCDC; int unkCE0; int unkCE4; int unkCE8; int unkCEC; int unkCF0; int unkCF4; int unkCF8; int unkCFC; int unkD00; int unkD04; int unkD08; int unkD0C; int unkD10; int unkD14; int unkD18; int unkD1C; int unkD20; int unkD24; int unkD28; int unkD2C; int unkD30; int unkD34; int unkD38; int unkD3C; int unkD40; int unkD44; int unkD48; int unkD4C; int unkD50; int unkD54; int unkD58; int unkD5C; int unkD60; int unkD64; int unkD68; int unkD6C; int unkD70; int unkD74; int unkD78; int unkD7C; int unkD80; int unkD84; int unkD88; int unkD8C; int unkD90; int unkD94; int unkD98; int unkD9C; int unkDA0; int unkDA4; int unkDA8; int unkDAC; int unkDB0; int unkDB4; int unkDB8; int unkDBC; int unkDC0; int unkDC4; int unkDC8; int unkDCC; int unkDD0; int unkDD4; int unkDD8; int unkDDC; int unkDE0; int unkDE4; int unkDE8; int unkDEC; int unkDF0; int unkDF4; int unkDF8; int unkDFC; int unkE00; int unkE04; int unkE08; int unkE0C; int unkE10; int unkE14; int unkE18; int unkE1C; int unkE20; int unkE24; int unkE28; int unkE2C; int unkE30; int unkE34; int unkE38; int unkE3C; int unkE40; int unkE44; int unkE48; int unkE4C; int unkE50; int unkE54; int unkE58; int unkE5C; int unkE60; int unkE64; int unkE68; int unkE6C; int unkE70; int unkE74; int unkE78; int unkE7C; int unkE80; int unkE84; int unkE88; int unkE8C; int unkE90; int unkE94; int unkE98; int unkE9C; int unkEA0; int unkEA4; int unkEA8; int unkEAC; int unkEB0; int unkEB4; int unkEB8; int unkEBC; int unkEC0; int unkEC4; int unkEC8; int unkECC; int unkED0; int unkED4; int unkED8; int unkEDC; int unkEE0; int unkEE4; int unkEE8; int unkEEC; int unkEF0; int unkEF4; int unkEF8; int unkEFC; int unkF00; int unkF04; int unkF08; int unkF0C; int unkF10; int unkF14; int unkF18; int unkF1C; int unkF20; int unkF24; int unkF28; int unkF2C; int unkF30; int unkF34; int unkF38; int unkF3C; int unkF40; int unkF44; int unkF48; int unkF4C; int unkF50; int unkF54; int unkF58; int unkF5C; int unkF60; int unkF64; int unkF68; int unkF6C; int unkF70; int unkF74; int unkF78; int unkF7C; int unkF80; int unkF84; int unkF88; int unkF8C; int unkF90; int unkF94; int unkF98; int unkF9C; int unkFA0; int unkFA4; int unkFA8; int unkFAC; int unkFB0; int unkFB4; int unkFB8; int unkFBC; int unkFC0; int unkFC4; int unkFC8; int unkFCC; int unkFD0; int unkFD4; int unkFD8; int unkFDC; int unkFE0; int unkFE4; int unkFE8; int unkFEC; int unkFF0; int unkFF4; int unkFF8; int unkFFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; int unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; int unk2054; int unk2058; int unk205C; int unk2060; int unk2064; int unk2068; int unk206C; int unk2070; int unk2074; int unk2078; int unk207C; int unk2080; int unk2084; int unk2088; int unk208C; int unk2090; int unk2094; int unk2098; int unk209C; int unk20A0; int unk20A4; void FUN_005cc480();Owner5ceb* FUN_005cebd0();};
+// pdb: NavMeshSearchHide::NavMeshSearchHide | NavMeshSearchHide.obj | fnv360_0822_retail, caller_sim, low
 Owner5ceb* Owner5ceb::FUN_005cebd0(){FUN_005cc480();unk00=&DAT_00e01180;unk20A4=0;return this;}
 }   // namespace f3m_005cebd0
 
@@ -2525,6 +2591,8 @@ struct Manager5C87 { int unk00;
  int unk1F4;
  int unk1F8;
  int unk1FC;
+ // pdb: NavMeshRender::SetDraw | NavMeshRender.obj | fnv360_0822_retail, call_gap, low
+ // pdb params: abDraw
  Member2005C87 member; bool enabled; void FUN_005c8720(bool); }; void Owner5C87::FUN_005c8720(bool state) { if(state) { DAT_01074598->FUN_008268a0(); Options5C87 options; DAT_01074598->FUN_008264c0(&options); } else { DAT_01074598->member.FUN_00aaab30(); DAT_01074598->FUN_008268a0(); Options5C87 options; DAT_01074598->FUN_008264c0(&options); member.FUN_006bd950(); } enabled=state; }
 
 }   // namespace f3m_005c8720
@@ -2538,6 +2606,7 @@ struct Cleanup5d3b60 {
  void* unk00; void* unk04; int unk08; int unk0C;
  Cleanup5d3b60* FUN_005d3b60(unsigned);
 };
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 Cleanup5d3b60* Cleanup5d3b60::FUN_005d3b60(unsigned flags) {
  unk00=&DAT_00e012e4;
  if(unk04) { DAT_00e012ec(unk04); unk04=0; unk0C=0; unk08=0; }
@@ -2561,6 +2630,7 @@ struct Node5cc0b0 {
     Node5cc0b0* next;
 };
 
+// pdb: AStarNodeHeap<NavMeshSearchNode,NavMeshSearchLink,512>::hkpMoppDefaultSplitter_createTerminal | NavMeshSearch.obj | fnv360_0822_retail, caller, medium
 void __stdcall FUN_005cc0b0(Node5cc0b0* node) {
     if (node->pprev) *node->pprev = node->next;
     if (node->next) node->next->pprev = node->pprev;
@@ -2576,6 +2646,7 @@ struct VTable5d0d90 {void* unk00;void* unk04;void (__thiscall *free)(Owner5d0d90
 extern VTable5d0d90 DAT_00e01240;extern void* DAT_00dc4dc0;
 struct Item5d0d90 {void* vtable;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;};
 struct Owner5d0d90 {VTable5d0d90* vtable;Item5d0d90* data;unsigned count,capacity;void FUN_005d0d90();};
+// pdb: BSSimpleArray<PathingLocation,1024>::~BSSimpleArray<PathingLocation,1024> | NavMeshSearchMultipleGoals.obj | fnv360_0822_debug, call_seq, low
 void Owner5d0d90::FUN_005d0d90() {
  vtable=&DAT_00e01240;
  if(data) {
@@ -2592,6 +2663,7 @@ namespace f3m_005ce520 {
 struct Member5ce520 { void FUN_0086caa0(); };
 struct Heap5ce520 { void FUN_0086ba60(void*); };
 struct Owner5ce520 { void* unk00; Member5ce520 member; Owner5ce520* FUN_005ce520(unsigned); };
+// pdb: NavMeshSearchFlee::`scalar deleting destructor' | NavMeshSearchFlee.obj | fnv360_0822_retail, vtable, medium
 Owner5ce520* Owner5ce520::FUN_005ce520(unsigned flags) { unk00=&DAT_00e01080; member.FUN_0086caa0(); if(flags&1) ((Heap5ce520*)&DAT_01090a78)->FUN_0086ba60(this); return this; }
 }   // namespace f3m_005ce520
 
@@ -2628,6 +2700,8 @@ struct FUN_005c44c0_shell
 };
 
 // @fnv 0x006949d0
+// pdb: BSSimpleArray<BSSimpleArray<NavMeshPOV *,1024>,1024>::SetSize | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiNewSize, abFreeMemory
 void S5460::FUN_005c5730(unsigned int uiNewSize, bool bShrinkCapacity)
 {
     if (uiNewSize == 0)
@@ -2694,6 +2768,7 @@ struct FUN_005d3bb0_Class {
     unsigned int* FUN_005d3bb0(unsigned char flag);
 };
 
+// pdb: BSSimpleArray<PathSmootherPOVSearch::PathEdgeVert,1024>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 unsigned int* __thiscall FUN_005d3bb0_Class::FUN_005d3bb0(unsigned char flag) {
     FUN_005d3bb0_Obj* self = reinterpret_cast<FUN_005d3bb0_Obj*>(this);
     self->unk00 = 0xe012f8;
@@ -2717,6 +2792,8 @@ namespace Realloc4FA0 {
 struct Array;
 struct Table { void* unk00; void* (__thiscall *Allocate)(Array*,unsigned); void (__thiscall *Free)(Array*,void*); void* (__thiscall *Reallocate)(Array*,void*,unsigned); };
 struct Array { Table* table; void* data; unsigned size; unsigned capacity; void FUN_005c44f0(void*,void*,unsigned); void FUN_005c4fa0(unsigned,unsigned); };
+// pdb: BSSimpleArray<PathingNode,1024>::_ReallocateBuffer | NavMeshPOVSearch.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aiNewSize, aiCopyCount
 void Array::FUN_005c4fa0(unsigned newCapacity,unsigned copyCount) { if(data) { if(copyCount==capacity) { data=table->Reallocate(this,data,newCapacity); return; } void* buffer=table->Allocate(this,newCapacity); FUN_005c44f0(buffer,data,copyCount); table->Free(this,data); data=buffer; } else { void* buffer=table->Allocate(this,newCapacity); capacity=newCapacity; data=buffer; } }
 }
 }   // namespace f3m_005c4fa0
@@ -2752,6 +2829,7 @@ struct Owner5c3620 {
  int unk00;int unk04;int unk08;float unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;Element5c3620* elements;
  void FUN_005c3620();
 };
+// pdb: NavMeshGrid::Clear | NavMeshGrid.obj | fnv360_0822_retail, call_gap_sim, low
 void Owner5c3620::FUN_005c3620() {
  if(elements) {delete[] elements;elements=0;}
  unk0C=DAT_00db9568;unk00=0;
@@ -2780,6 +2858,8 @@ struct ItemVTable5c4ed0 {void (__thiscall *destroy)(Item5c4ed0*,unsigned);};
 struct Item5c4ed0 {ItemVTable5c4ed0* vtable;int unk04;int unk08;int unk0C;};
 struct OwnerVTable5c4ed0 {void* unk00;void* unk04;void (__thiscall *free)(Owner5c4ed0*,void*);};
 struct Owner5c4ed0 {OwnerVTable5c4ed0* vtable;Item5c4ed0* data;unsigned count,capacity;void FUN_005c4ed0(bool);};
+// pdb: BSSimpleArray<BSSimpleArray<NavMeshPOV *,1024>,1024>::Clear | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: abFreeMemory
 void Owner5c4ed0::FUN_005c4ed0(bool release) {
  Item5c4ed0* item=data;
  if(item) {
@@ -2795,6 +2875,8 @@ void Owner5c4ed0::FUN_005c4ed0(bool release) {
 // @f3 0x005df790 (community match, verified in this file)
 namespace f3m_005df790 {
 struct Count5df7 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; unsigned unk28;};struct Owner5df7 {int unk00,unk04;Count5df7* unk08;bool FUN_005df790(void*);};extern const float DAT_00dbeb38,DAT_00dc216c;extern bool __cdecl FUN_005e4620(void*,int*,float,float);
+// pdb: NavMeshObstacleCutter::IsPointInObstacleArea | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aPoint
 bool Owner5df7::FUN_005df790(void* input){for(unsigned i=0;i<unk08->unk28;++i)if(FUN_005e4620(input,&unk04,DAT_00dc216c,DAT_00dbeb38))return true;return false;}
 }   // namespace f3m_005df790
 
@@ -2802,6 +2884,8 @@ bool Owner5df7::FUN_005df790(void* input){for(unsigned i=0;i<unk08->unk28;++i)if
 namespace f3m_005dd180 {
 class NiPoint3 { public: float x, y, z; };
 
+// pdb: NavMeshMath::IsPointInsideTriangle | NavMeshMath.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSNavmeshMath::IsPointInsideTriangle)
+// pdb params: aTriVert1Loc, aTriVert2Loc, aTriVert3Loc, aLocation, afZDiff, afMaxZdistAbove, afMaxZdistBelow
 bool FUN_005dd180(const NiPoint3& kP0, const NiPoint3& kP1, const NiPoint3& kP2, const NiPoint3& akPoint,
                   float& fHeightDiff, float fAbove, float fBelow)
 {
@@ -2871,6 +2955,8 @@ struct EdgeCBC0 { int a,b,c; };
 struct NodeCBC0 { int unk00; int unk04; RecordCBC0 record; EdgeCBC0 edge; NodeCBC0* next; };
 struct RecordsCBC0 { void* table; RecordCBC0* data; void FUN_005cc870(unsigned,bool); };
 struct EdgesCBC0 { void* table; EdgeCBC0* data; void FUN_005bb760(unsigned,bool); };
+// pdb: AStarSearch<NavMeshSearchNode,NavMeshSearchLink>::Search | NavMeshSearch.obj | fnv360_0721_beta, call_gap, low
+// pdb params: apReturnArray, apReturnLinkArray, abReturnBestPathIfFailed
 bool __stdcall FUN_005ccbc0(NodeCBC0* node,RecordsCBC0* records,EdgesCBC0* edges) { if(!node) return false; void* first=node; unsigned count=0; for(NodeCBC0* p=node;p;p=p->next) ++count; records->FUN_005cc870(count,true); edges->FUN_005bb760(count-1,true); int index=count-1; for(NodeCBC0* current=(NodeCBC0*)first;current;current=current->next,--index) { records->data[index]=current->record; if(index>0) edges->data[index-1]=current->edge; } return true; }
 }   // namespace f3m_005ccbc0
 
@@ -2882,7 +2968,7 @@ public:
 };
 class TESObjectCELL : public TESForm {
 };
-TESForm* __cdecl FUN_00455190(unsigned int formID);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 
 class FUN_005d96e0_owner {
 public:
@@ -2893,9 +2979,10 @@ public:
     TESObjectCELL* FUN_005d96e0();
 };
 
+// pdb: NavMeshInfo::GetInteriorCell | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, low
 TESObjectCELL* FUN_005d96e0_owner::FUN_005d96e0() {
     TESForm* form = cell;
-    if (!form) form = FUN_00455190(cellID);
+    if (!form) form = TESForm_GetFormByNumericID(cellID);
     return dynamic_cast<TESObjectCELL*>(form);
 }
 }   // namespace f3m_005d96e0
@@ -2904,6 +2991,8 @@ TESObjectCELL* FUN_005d96e0_owner::FUN_005d96e0() {
 namespace f3m_005c44f0 {
 struct Record44F0 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; };
 extern void* __cdecl FUN_00c01530(void*,const void*,unsigned);
+// pdb: BSSimpleArray<PathingNode,1024>::_MoveItems | NavMeshPOVSearch.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apDestAddr, apSrcAddr, aiCount
 void __stdcall FUN_005c44f0(Record44F0* target,const Record44F0* source,unsigned count) { if(count>0) { if(target<source) { for(unsigned i=0;i<count;++i) FUN_00c01530(target+i,source+i,sizeof(Record44F0)); } else if(target>source) { for(int i=count-1;i>=0;--i) FUN_00c01530(target+i,source+i,sizeof(Record44F0)); } } }
 }   // namespace f3m_005c44f0
 
@@ -2925,6 +3014,8 @@ public:
     unsigned int FUN_005cc130(Point2* p);
 };
 
+// pdb: BSSimpleArray<NavMeshSearchLink,1024>::_ReallocateBuffer | NavMeshSearch.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: aiNewSize, aiCopyCount
 unsigned int C_5cc130::FUN_005cc130(Point2* p)
 {
     float total = p->x + p->y;
@@ -2937,6 +3028,7 @@ unsigned int C_5cc130::FUN_005cc130(Point2* p)
 // @f3 0x005ce4f0 (community match, verified in this file)
 namespace f3m_005ce4f0 {
 extern int DAT_00e01154;struct Owner5ce4 {int* unk00;int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; int unk578; int unk57C; int unk580; int unk584; int unk588; int unk58C; int unk590; int unk594; int unk598; int unk59C; int unk5A0; int unk5A4; int unk5A8; int unk5AC; int unk5B0; int unk5B4; int unk5B8; int unk5BC; int unk5C0; int unk5C4; int unk5C8; int unk5CC; int unk5D0; int unk5D4; int unk5D8; int unk5DC; int unk5E0; int unk5E4; int unk5E8; int unk5EC; int unk5F0; int unk5F4; int unk5F8; int unk5FC; int unk600; int unk604; int unk608; int unk60C; int unk610; int unk614; int unk618; int unk61C; int unk620; int unk624; int unk628; int unk62C; int unk630; int unk634; int unk638; int unk63C; int unk640; int unk644; int unk648; int unk64C; int unk650; int unk654; int unk658; int unk65C; int unk660; int unk664; int unk668; int unk66C; int unk670; int unk674; int unk678; int unk67C; int unk680; int unk684; int unk688; int unk68C; int unk690; int unk694; int unk698; int unk69C; int unk6A0; int unk6A4; int unk6A8; int unk6AC; int unk6B0; int unk6B4; int unk6B8; int unk6BC; int unk6C0; int unk6C4; int unk6C8; int unk6CC; int unk6D0; int unk6D4; int unk6D8; int unk6DC; int unk6E0; int unk6E4; int unk6E8; int unk6EC; int unk6F0; int unk6F4; int unk6F8; int unk6FC; int unk700; int unk704; int unk708; int unk70C; int unk710; int unk714; int unk718; int unk71C; int unk720; int unk724; int unk728; int unk72C; int unk730; int unk734; int unk738; int unk73C; int unk740; int unk744; int unk748; int unk74C; int unk750; int unk754; int unk758; int unk75C; int unk760; int unk764; int unk768; int unk76C; int unk770; int unk774; int unk778; int unk77C; int unk780; int unk784; int unk788; int unk78C; int unk790; int unk794; int unk798; int unk79C; int unk7A0; int unk7A4; int unk7A8; int unk7AC; int unk7B0; int unk7B4; int unk7B8; int unk7BC; int unk7C0; int unk7C4; int unk7C8; int unk7CC; int unk7D0; int unk7D4; int unk7D8; int unk7DC; int unk7E0; int unk7E4; int unk7E8; int unk7EC; int unk7F0; int unk7F4; int unk7F8; int unk7FC; int unk800; int unk804; int unk808; int unk80C; int unk810; int unk814; int unk818; int unk81C; int unk820; int unk824; int unk828; int unk82C; int unk830; int unk834; int unk838; int unk83C; int unk840; int unk844; int unk848; int unk84C; int unk850; int unk854; int unk858; int unk85C; int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C; int unk880; int unk884; int unk888; int unk88C; int unk890; int unk894; int unk898; int unk89C; int unk8A0; int unk8A4; int unk8A8; int unk8AC; int unk8B0; int unk8B4; int unk8B8; int unk8BC; int unk8C0; int unk8C4; int unk8C8; int unk8CC; int unk8D0; int unk8D4; int unk8D8; int unk8DC; int unk8E0; int unk8E4; int unk8E8; int unk8EC; int unk8F0; int unk8F4; int unk8F8; int unk8FC; int unk900; int unk904; int unk908; int unk90C; int unk910; int unk914; int unk918; int unk91C; int unk920; int unk924; int unk928; int unk92C; int unk930; int unk934; int unk938; int unk93C; int unk940; int unk944; int unk948; int unk94C; int unk950; int unk954; int unk958; int unk95C; int unk960; int unk964; int unk968; int unk96C; int unk970; int unk974; int unk978; int unk97C; int unk980; int unk984; int unk988; int unk98C; int unk990; int unk994; int unk998; int unk99C; int unk9A0; int unk9A4; int unk9A8; int unk9AC; int unk9B0; int unk9B4; int unk9B8; int unk9BC; int unk9C0; int unk9C4; int unk9C8; int unk9CC; int unk9D0; int unk9D4; int unk9D8; int unk9DC; int unk9E0; int unk9E4; int unk9E8; int unk9EC; int unk9F0; int unk9F4; int unk9F8; int unk9FC; int unkA00; int unkA04; int unkA08; int unkA0C; int unkA10; int unkA14; int unkA18; int unkA1C; int unkA20; int unkA24; int unkA28; int unkA2C; int unkA30; int unkA34; int unkA38; int unkA3C; int unkA40; int unkA44; int unkA48; int unkA4C; int unkA50; int unkA54; int unkA58; int unkA5C; int unkA60; int unkA64; int unkA68; int unkA6C; int unkA70; int unkA74; int unkA78; int unkA7C; int unkA80; int unkA84; int unkA88; int unkA8C; int unkA90; int unkA94; int unkA98; int unkA9C; int unkAA0; int unkAA4; int unkAA8; int unkAAC; int unkAB0; int unkAB4; int unkAB8; int unkABC; int unkAC0; int unkAC4; int unkAC8; int unkACC; int unkAD0; int unkAD4; int unkAD8; int unkADC; int unkAE0; int unkAE4; int unkAE8; int unkAEC; int unkAF0; int unkAF4; int unkAF8; int unkAFC; int unkB00; int unkB04; int unkB08; int unkB0C; int unkB10; int unkB14; int unkB18; int unkB1C; int unkB20; int unkB24; int unkB28; int unkB2C; int unkB30; int unkB34; int unkB38; int unkB3C; int unkB40; int unkB44; int unkB48; int unkB4C; int unkB50; int unkB54; int unkB58; int unkB5C; int unkB60; int unkB64; int unkB68; int unkB6C; int unkB70; int unkB74; int unkB78; int unkB7C; int unkB80; int unkB84; int unkB88; int unkB8C; int unkB90; int unkB94; int unkB98; int unkB9C; int unkBA0; int unkBA4; int unkBA8; int unkBAC; int unkBB0; int unkBB4; int unkBB8; int unkBBC; int unkBC0; int unkBC4; int unkBC8; int unkBCC; int unkBD0; int unkBD4; int unkBD8; int unkBDC; int unkBE0; int unkBE4; int unkBE8; int unkBEC; int unkBF0; int unkBF4; int unkBF8; int unkBFC; int unkC00; int unkC04; int unkC08; int unkC0C; int unkC10; int unkC14; int unkC18; int unkC1C; int unkC20; int unkC24; int unkC28; int unkC2C; int unkC30; int unkC34; int unkC38; int unkC3C; int unkC40; int unkC44; int unkC48; int unkC4C; int unkC50; int unkC54; int unkC58; int unkC5C; int unkC60; int unkC64; int unkC68; int unkC6C; int unkC70; int unkC74; int unkC78; int unkC7C; int unkC80; int unkC84; int unkC88; int unkC8C; int unkC90; int unkC94; int unkC98; int unkC9C; int unkCA0; int unkCA4; int unkCA8; int unkCAC; int unkCB0; int unkCB4; int unkCB8; int unkCBC; int unkCC0; int unkCC4; int unkCC8; int unkCCC; int unkCD0; int unkCD4; int unkCD8; int unkCDC; int unkCE0; int unkCE4; int unkCE8; int unkCEC; int unkCF0; int unkCF4; int unkCF8; int unkCFC; int unkD00; int unkD04; int unkD08; int unkD0C; int unkD10; int unkD14; int unkD18; int unkD1C; int unkD20; int unkD24; int unkD28; int unkD2C; int unkD30; int unkD34; int unkD38; int unkD3C; int unkD40; int unkD44; int unkD48; int unkD4C; int unkD50; int unkD54; int unkD58; int unkD5C; int unkD60; int unkD64; int unkD68; int unkD6C; int unkD70; int unkD74; int unkD78; int unkD7C; int unkD80; int unkD84; int unkD88; int unkD8C; int unkD90; int unkD94; int unkD98; int unkD9C; int unkDA0; int unkDA4; int unkDA8; int unkDAC; int unkDB0; int unkDB4; int unkDB8; int unkDBC; int unkDC0; int unkDC4; int unkDC8; int unkDCC; int unkDD0; int unkDD4; int unkDD8; int unkDDC; int unkDE0; int unkDE4; int unkDE8; int unkDEC; int unkDF0; int unkDF4; int unkDF8; int unkDFC; int unkE00; int unkE04; int unkE08; int unkE0C; int unkE10; int unkE14; int unkE18; int unkE1C; int unkE20; int unkE24; int unkE28; int unkE2C; int unkE30; int unkE34; int unkE38; int unkE3C; int unkE40; int unkE44; int unkE48; int unkE4C; int unkE50; int unkE54; int unkE58; int unkE5C; int unkE60; int unkE64; int unkE68; int unkE6C; int unkE70; int unkE74; int unkE78; int unkE7C; int unkE80; int unkE84; int unkE88; int unkE8C; int unkE90; int unkE94; int unkE98; int unkE9C; int unkEA0; int unkEA4; int unkEA8; int unkEAC; int unkEB0; int unkEB4; int unkEB8; int unkEBC; int unkEC0; int unkEC4; int unkEC8; int unkECC; int unkED0; int unkED4; int unkED8; int unkEDC; int unkEE0; int unkEE4; int unkEE8; int unkEEC; int unkEF0; int unkEF4; int unkEF8; int unkEFC; int unkF00; int unkF04; int unkF08; int unkF0C; int unkF10; int unkF14; int unkF18; int unkF1C; int unkF20; int unkF24; int unkF28; int unkF2C; int unkF30; int unkF34; int unkF38; int unkF3C; int unkF40; int unkF44; int unkF48; int unkF4C; int unkF50; int unkF54; int unkF58; int unkF5C; int unkF60; int unkF64; int unkF68; int unkF6C; int unkF70; int unkF74; int unkF78; int unkF7C; int unkF80; int unkF84; int unkF88; int unkF8C; int unkF90; int unkF94; int unkF98; int unkF9C; int unkFA0; int unkFA4; int unkFA8; int unkFAC; int unkFB0; int unkFB4; int unkFB8; int unkFBC; int unkFC0; int unkFC4; int unkFC8; int unkFCC; int unkFD0; int unkFD4; int unkFD8; int unkFDC; int unkFE0; int unkFE4; int unkFE8; int unkFEC; int unkFF0; int unkFF4; int unkFF8; int unkFFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; int unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; int unk2054; int unk2058; int unk205C; int unk2060; int unk2064; int unk2068; int unk206C; int unk2070; int unk2074; int unk2078; int unk207C; unsigned char unk2080;void FUN_005cc350();Owner5ce4* FUN_005ce4f0();};
+// pdb: NavMeshSearchFlee::NavMeshSearchFlee | NavMeshSearchFlee.obj | fnv360_0822_retail, uvref, medium
 Owner5ce4* Owner5ce4::FUN_005ce4f0(){FUN_005cc350();unk2058=0;unk2080=0;unk00=&DAT_00e01154;return this;}
 }   // namespace f3m_005ce4f0
 
@@ -3086,6 +3178,8 @@ namespace f3m_005c3540 {
 struct PartC5c3540 { int unk00; int unk04; int unk08; int unk0C; void FUN_005c30a0(PartC5c3540*); };
 struct PartB5c3540 { void FUN_005bb9a0(PartB5c3540*); };
 struct Owner5c3540 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; PartC5c3540 partC; PartB5c3540 partB; void FUN_005c3540(Owner5c3540*); };
+// pdb: NavMeshBounds::CopyTo | NavMeshBounds.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apDestBounds
 void Owner5c3540::FUN_005c3540(Owner5c3540* dest) {
  dest->unk00=unk00; dest->unk04=unk04; dest->unk08=unk08; dest->unk0C=unk0C; dest->unk10=unk10; dest->unk14=unk14;
  partB.FUN_005bb9a0(&dest->partB); partC.FUN_005c30a0(&dest->partC);
@@ -3098,12 +3192,15 @@ namespace match5c5a00 {
 struct Owner5c5a00;extern void* DAT_00e00ed4;extern void (__thiscall *DAT_00e00edc)(Owner5c5a00*,void*);
 struct Heap5c5a00 {void FUN_0086ba60(void*);};extern Heap5c5a00 DAT_01090a78;
 struct Owner5c5a00 {void* vtable;void* data;unsigned count,capacity;Owner5c5a00* FUN_005c5a00(unsigned);};
+// pdb: BSSimpleArray<NavMeshPOVSearchLink,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 Owner5c5a00* Owner5c5a00::FUN_005c5a00(unsigned flags) {vtable=&DAT_00e00ed4;if(data){DAT_00e00edc(this,data);data=0;capacity=0;count=0;}if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 }   // namespace f3m_005c5a00
 
 // @f3 0x005c6fb0 (community match, verified in this file)
 namespace f3m_005c6fb0 {
+// pdb: AStarSearch<NavMeshPOVSearchNode,NavMeshPOVSearchLink>::Search | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun, low, conflict (bridge: AStarSearch<PathSmootherPOVNode,PathSmootherPOVLink>::AddStartNode)
+// pdb params: apReturnArray, apReturnLinkArray, abReturnBestPathIfFailed
 struct Vector5C6F { float x,y,z; }; struct Item5C6F { int unk00; float score; Vector5C6F position; }; struct List5C6F { void FUN_005d3ca0(Item5C6F*); }; struct Owner5C6F { int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C; int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; int unk0050; int unk0054; int unk0058; int unk005C; int unk0060; int unk0064; int unk0068; int unk006C; int unk0070; int unk0074; int unk0078; int unk007C; int unk0080; int unk0084; int unk0088; int unk008C; int unk0090; int unk0094; int unk0098; int unk009C; int unk00A0; int unk00A4; int unk00A8; int unk00AC; int unk00B0; int unk00B4; int unk00B8; int unk00BC; int unk00C0; int unk00C4; int unk00C8; int unk00CC; int unk00D0; int unk00D4; int unk00D8; int unk00DC; int unk00E0; int unk00E4; int unk00E8; int unk00EC; int unk00F0; int unk00F4; int unk00F8; int unk00FC; int unk0100; int unk0104; int unk0108; int unk010C; int unk0110; int unk0114; int unk0118; int unk011C; int unk0120; int unk0124; int unk0128; int unk012C; int unk0130; int unk0134; int unk0138; int unk013C; int unk0140; int unk0144; int unk0148; int unk014C; int unk0150; int unk0154; int unk0158; int unk015C; int unk0160; int unk0164; int unk0168; int unk016C; int unk0170; int unk0174; int unk0178; int unk017C; int unk0180; int unk0184; int unk0188; int unk018C; int unk0190; int unk0194; int unk0198; int unk019C; int unk01A0; int unk01A4; int unk01A8; int unk01AC; int unk01B0; int unk01B4; int unk01B8; int unk01BC; int unk01C0; int unk01C4; int unk01C8; int unk01CC; int unk01D0; int unk01D4; int unk01D8; int unk01DC; int unk01E0; int unk01E4; int unk01E8; int unk01EC; int unk01F0; int unk01F4; int unk01F8; int unk01FC; int unk0200; int unk0204; int unk0208; int unk020C; int unk0210; int unk0214; int unk0218; int unk021C; int unk0220; int unk0224; int unk0228; int unk022C; int unk0230; int unk0234; int unk0238; int unk023C; int unk0240; int unk0244; int unk0248; int unk024C; int unk0250; int unk0254; int unk0258; int unk025C; int unk0260; int unk0264; int unk0268; int unk026C; int unk0270; int unk0274; int unk0278; int unk027C; int unk0280; int unk0284; int unk0288; int unk028C; int unk0290; int unk0294; int unk0298; int unk029C; int unk02A0; int unk02A4; int unk02A8; int unk02AC; int unk02B0; int unk02B4; int unk02B8; int unk02BC; int unk02C0; int unk02C4; int unk02C8; int unk02CC; int unk02D0; int unk02D4; int unk02D8; int unk02DC; int unk02E0; int unk02E4; int unk02E8; int unk02EC; int unk02F0; int unk02F4; int unk02F8; int unk02FC; int unk0300; int unk0304; int unk0308; int unk030C; int unk0310; int unk0314; int unk0318; int unk031C; int unk0320; int unk0324; int unk0328; int unk032C; int unk0330; int unk0334; int unk0338; int unk033C; int unk0340; int unk0344; int unk0348; int unk034C; int unk0350; int unk0354; int unk0358; int unk035C; int unk0360; int unk0364; int unk0368; int unk036C; int unk0370; int unk0374; int unk0378; int unk037C; int unk0380; int unk0384; int unk0388; int unk038C; int unk0390; int unk0394; int unk0398; int unk039C; int unk03A0; int unk03A4; int unk03A8; int unk03AC; int unk03B0; int unk03B4; int unk03B8; int unk03BC; int unk03C0; int unk03C4; int unk03C8; int unk03CC; int unk03D0; int unk03D4; int unk03D8; int unk03DC; int unk03E0; int unk03E4; int unk03E8; int unk03EC; int unk03F0; int unk03F4; int unk03F8; int unk03FC; int unk0400; int unk0404; int unk0408; int unk040C; int unk0410; int unk0414; int unk0418; int unk041C; int unk0420; int unk0424; int unk0428; int unk042C; int unk0430; int unk0434; int unk0438; int unk043C; int unk0440; int unk0444; int unk0448; int unk044C; int unk0450; int unk0454; int unk0458; int unk045C; int unk0460; int unk0464; int unk0468; int unk046C; int unk0470; int unk0474; int unk0478; int unk047C; int unk0480; int unk0484; int unk0488; int unk048C; int unk0490; int unk0494; int unk0498; int unk049C; int unk04A0; int unk04A4; int unk04A8; int unk04AC; int unk04B0; int unk04B4; int unk04B8; int unk04BC; int unk04C0; int unk04C4; int unk04C8; int unk04CC; int unk04D0; int unk04D4; int unk04D8; int unk04DC; int unk04E0; int unk04E4; int unk04E8; int unk04EC; int unk04F0; int unk04F4; int unk04F8; int unk04FC; int unk0500; int unk0504; int unk0508; int unk050C; int unk0510; int unk0514; int unk0518; int unk051C; int unk0520; int unk0524; int unk0528; int unk052C; int unk0530; int unk0534; int unk0538; int unk053C; int unk0540; int unk0544; int unk0548; int unk054C; int unk0550; int unk0554; int unk0558; int unk055C; int unk0560; int unk0564; int unk0568; int unk056C; int unk0570; int unk0574; int unk0578; int unk057C; int unk0580; int unk0584; int unk0588; int unk058C; int unk0590; int unk0594; int unk0598; int unk059C; int unk05A0; int unk05A4; int unk05A8; int unk05AC; int unk05B0; int unk05B4; int unk05B8; int unk05BC; int unk05C0; int unk05C4; int unk05C8; int unk05CC; int unk05D0; int unk05D4; int unk05D8; int unk05DC; int unk05E0; int unk05E4; int unk05E8; int unk05EC; int unk05F0; int unk05F4; int unk05F8; int unk05FC; int unk0600; int unk0604; int unk0608; int unk060C; int unk0610; int unk0614; int unk0618; int unk061C; int unk0620; int unk0624; int unk0628; int unk062C; int unk0630; int unk0634; int unk0638; int unk063C; int unk0640; int unk0644; int unk0648; int unk064C; int unk0650; int unk0654; int unk0658; int unk065C; int unk0660; int unk0664; int unk0668; int unk066C; int unk0670; int unk0674; int unk0678; int unk067C; int unk0680; int unk0684; int unk0688; int unk068C; int unk0690; int unk0694; int unk0698; int unk069C; int unk06A0; int unk06A4; int unk06A8; int unk06AC; int unk06B0; int unk06B4; int unk06B8; int unk06BC; int unk06C0; int unk06C4; int unk06C8; int unk06CC; int unk06D0; int unk06D4; int unk06D8; int unk06DC; int unk06E0; int unk06E4; int unk06E8; int unk06EC; int unk06F0; int unk06F4; int unk06F8; int unk06FC; int unk0700; int unk0704; int unk0708; int unk070C; int unk0710; int unk0714; int unk0718; int unk071C; int unk0720; int unk0724; int unk0728; int unk072C; int unk0730; int unk0734; int unk0738; int unk073C; int unk0740; int unk0744; int unk0748; int unk074C; int unk0750; int unk0754; int unk0758; int unk075C; int unk0760; int unk0764; int unk0768; int unk076C; int unk0770; int unk0774; int unk0778; int unk077C; int unk0780; int unk0784; int unk0788; int unk078C; int unk0790; int unk0794; int unk0798; int unk079C; int unk07A0; int unk07A4; int unk07A8; int unk07AC; int unk07B0; int unk07B4; int unk07B8; int unk07BC; int unk07C0; int unk07C4; int unk07C8; int unk07CC; int unk07D0; int unk07D4; int unk07D8; int unk07DC; int unk07E0; int unk07E4; int unk07E8; int unk07EC; int unk07F0; int unk07F4; int unk07F8; int unk07FC; int unk0800; int unk0804; int unk0808; int unk080C; int unk0810; int unk0814; int unk0818; int unk081C; int unk0820; int unk0824; int unk0828; int unk082C; int unk0830; int unk0834; int unk0838; int unk083C; int unk0840; int unk0844; int unk0848; int unk084C; int unk0850; int unk0854; int unk0858; int unk085C; int unk0860; int unk0864; int unk0868; int unk086C; int unk0870; int unk0874; int unk0878; int unk087C; int unk0880; int unk0884; int unk0888; int unk088C; int unk0890; int unk0894; int unk0898; int unk089C; int unk08A0; int unk08A4; int unk08A8; int unk08AC; int unk08B0; int unk08B4; int unk08B8; int unk08BC; int unk08C0; int unk08C4; int unk08C8; int unk08CC; int unk08D0; int unk08D4; int unk08D8; int unk08DC; int unk08E0; int unk08E4; int unk08E8; int unk08EC; int unk08F0; int unk08F4; int unk08F8; int unk08FC; int unk0900; int unk0904; int unk0908; int unk090C; int unk0910; int unk0914; int unk0918; int unk091C; int unk0920; int unk0924; int unk0928; int unk092C; int unk0930; int unk0934; int unk0938; int unk093C; int unk0940; int unk0944; int unk0948; int unk094C; int unk0950; int unk0954; int unk0958; int unk095C; int unk0960; int unk0964; int unk0968; int unk096C; int unk0970; int unk0974; int unk0978; int unk097C; int unk0980; int unk0984; int unk0988; int unk098C; int unk0990; int unk0994; int unk0998; int unk099C; int unk09A0; int unk09A4; int unk09A8; int unk09AC; int unk09B0; int unk09B4; int unk09B8; int unk09BC; int unk09C0; int unk09C4; int unk09C8; int unk09CC; int unk09D0; int unk09D4; int unk09D8; int unk09DC; int unk09E0; int unk09E4; int unk09E8; int unk09EC; int unk09F0; int unk09F4; int unk09F8; int unk09FC; int unk0A00; int unk0A04; int unk0A08; int unk0A0C; int unk0A10; int unk0A14; int unk0A18; int unk0A1C; int unk0A20; int unk0A24; int unk0A28; int unk0A2C; int unk0A30; int unk0A34; int unk0A38; int unk0A3C; int unk0A40; int unk0A44; int unk0A48; int unk0A4C; int unk0A50; int unk0A54; int unk0A58; int unk0A5C; int unk0A60; int unk0A64; int unk0A68; int unk0A6C; int unk0A70; int unk0A74; int unk0A78; int unk0A7C; int unk0A80; int unk0A84; int unk0A88; int unk0A8C; int unk0A90; int unk0A94; int unk0A98; int unk0A9C; int unk0AA0; int unk0AA4; int unk0AA8; int unk0AAC; int unk0AB0; int unk0AB4; int unk0AB8; int unk0ABC; int unk0AC0; int unk0AC4; int unk0AC8; int unk0ACC; int unk0AD0; int unk0AD4; int unk0AD8; int unk0ADC; int unk0AE0; int unk0AE4; int unk0AE8; int unk0AEC; int unk0AF0; int unk0AF4; int unk0AF8; int unk0AFC; int unk0B00; int unk0B04; int unk0B08; int unk0B0C; int unk0B10; int unk0B14; int unk0B18; int unk0B1C; int unk0B20; int unk0B24; int unk0B28; int unk0B2C; int unk0B30; int unk0B34; int unk0B38; int unk0B3C; int unk0B40; int unk0B44; int unk0B48; int unk0B4C; int unk0B50; int unk0B54; int unk0B58; int unk0B5C; int unk0B60; int unk0B64; int unk0B68; int unk0B6C; int unk0B70; int unk0B74; int unk0B78; int unk0B7C; int unk0B80; int unk0B84; int unk0B88; int unk0B8C; int unk0B90; int unk0B94; int unk0B98; int unk0B9C; int unk0BA0; int unk0BA4; int unk0BA8; int unk0BAC; int unk0BB0; int unk0BB4; int unk0BB8; int unk0BBC; int unk0BC0; int unk0BC4; int unk0BC8; int unk0BCC; int unk0BD0; int unk0BD4; int unk0BD8; int unk0BDC; int unk0BE0; int unk0BE4; int unk0BE8; int unk0BEC; int unk0BF0; int unk0BF4; int unk0BF8; int unk0BFC; int unk0C00; int unk0C04; int unk0C08; int unk0C0C; int unk0C10; int unk0C14; int unk0C18; int unk0C1C; int unk0C20; int unk0C24; int unk0C28; int unk0C2C; int unk0C30; int unk0C34; int unk0C38; int unk0C3C; int unk0C40; int unk0C44; int unk0C48; int unk0C4C; int unk0C50; int unk0C54; int unk0C58; int unk0C5C; int unk0C60; int unk0C64; int unk0C68; int unk0C6C; int unk0C70; int unk0C74; int unk0C78; int unk0C7C; int unk0C80; int unk0C84; int unk0C88; int unk0C8C; int unk0C90; int unk0C94; int unk0C98; int unk0C9C; int unk0CA0; int unk0CA4; int unk0CA8; int unk0CAC; int unk0CB0; int unk0CB4; int unk0CB8; int unk0CBC; int unk0CC0; int unk0CC4; int unk0CC8; int unk0CCC; int unk0CD0; int unk0CD4; int unk0CD8; int unk0CDC; int unk0CE0; int unk0CE4; int unk0CE8; int unk0CEC; int unk0CF0; int unk0CF4; int unk0CF8; int unk0CFC; int unk0D00; int unk0D04; int unk0D08; int unk0D0C; int unk0D10; int unk0D14; int unk0D18; int unk0D1C; int unk0D20; int unk0D24; int unk0D28; int unk0D2C; int unk0D30; int unk0D34; int unk0D38; int unk0D3C; int unk0D40; int unk0D44; int unk0D48; int unk0D4C; int unk0D50; int unk0D54; int unk0D58; int unk0D5C; int unk0D60; int unk0D64; int unk0D68; int unk0D6C; int unk0D70; int unk0D74; int unk0D78; int unk0D7C; int unk0D80; int unk0D84; int unk0D88; int unk0D8C; int unk0D90; int unk0D94; int unk0D98; int unk0D9C; int unk0DA0; int unk0DA4; int unk0DA8; int unk0DAC; int unk0DB0; int unk0DB4; int unk0DB8; int unk0DBC; int unk0DC0; int unk0DC4; int unk0DC8; int unk0DCC; int unk0DD0; int unk0DD4; int unk0DD8; int unk0DDC; int unk0DE0; int unk0DE4; int unk0DE8; int unk0DEC; int unk0DF0; int unk0DF4; int unk0DF8; int unk0DFC; int unk0E00; int unk0E04; int unk0E08; int unk0E0C; int unk0E10; int unk0E14; int unk0E18; int unk0E1C; int unk0E20; int unk0E24; int unk0E28; int unk0E2C; int unk0E30; int unk0E34; int unk0E38; int unk0E3C; int unk0E40; int unk0E44; int unk0E48; int unk0E4C; int unk0E50; int unk0E54; int unk0E58; int unk0E5C; int unk0E60; int unk0E64; int unk0E68; int unk0E6C; int unk0E70; int unk0E74; int unk0E78; int unk0E7C; int unk0E80; int unk0E84; int unk0E88; int unk0E8C; int unk0E90; int unk0E94; int unk0E98; int unk0E9C; int unk0EA0; int unk0EA4; int unk0EA8; int unk0EAC; int unk0EB0; int unk0EB4; int unk0EB8; int unk0EBC; int unk0EC0; int unk0EC4; int unk0EC8; int unk0ECC; int unk0ED0; int unk0ED4; int unk0ED8; int unk0EDC; int unk0EE0; int unk0EE4; int unk0EE8; int unk0EEC; int unk0EF0; int unk0EF4; int unk0EF8; int unk0EFC; int unk0F00; int unk0F04; int unk0F08; int unk0F0C; int unk0F10; int unk0F14; int unk0F18; int unk0F1C; int unk0F20; int unk0F24; int unk0F28; int unk0F2C; int unk0F30; int unk0F34; int unk0F38; int unk0F3C; int unk0F40; int unk0F44; int unk0F48; int unk0F4C; int unk0F50; int unk0F54; int unk0F58; int unk0F5C; int unk0F60; int unk0F64; int unk0F68; int unk0F6C; int unk0F70; int unk0F74; int unk0F78; int unk0F7C; int unk0F80; int unk0F84; int unk0F88; int unk0F8C; int unk0F90; int unk0F94; int unk0F98; int unk0F9C; int unk0FA0; int unk0FA4; int unk0FA8; int unk0FAC; int unk0FB0; int unk0FB4; int unk0FB8; int unk0FBC; int unk0FC0; int unk0FC4; int unk0FC8; int unk0FCC; int unk0FD0; int unk0FD4; int unk0FD8; int unk0FDC; int unk0FE0; int unk0FE4; int unk0FE8; int unk0FEC; int unk0FF0; int unk0FF4; int unk0FF8; int unk0FFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; List5C6F list; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; Item5C6F* current; int FUN_005c5e80(Item5C6F*,float,Item5C6F**); Item5C6F* FUN_005c6fb0(Item5C6F*,const Vector5C6F*,float); }; Item5C6F* Owner5C6F::FUN_005c6fb0(Item5C6F* item,const Vector5C6F* position,float score){ switch(FUN_005c5e80(item,0.0f,&item)){case 0: { Item5C6F* updated=item;updated->score=score;updated->position=*position;list.FUN_005d3ca0(updated);current=updated;return updated; }case 1:return item;case 2:return 0;default:return 0;} }
 
 }   // namespace f3m_005c6fb0
@@ -3127,6 +3224,8 @@ struct FUN_005c19f0_cls {
     bool FUN_005c19f0(int key, int value);
 };
 
+// pdb: NavMesh::RemoveObstacle | NavMesh_Util.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObstacle, aPortalSwaps
 bool FUN_005c19f0_cls::FUN_005c19f0(int key, int value) {
     int index = FUN_005be340(key);
     if (index == -1) {
@@ -3139,6 +3238,7 @@ bool FUN_005c19f0_cls::FUN_005c19f0(int key, int value) {
 // @f3 0x005c5b10 (community match, verified in this file)
 namespace f3m_005c5b10 {
 extern int DAT_00e00e7c;extern void (__stdcall *DAT_00e00e84)(void*);namespace Heap5c5b {struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;}struct Buffer5c5b {int* unk00;void* unk04;int unk08,unk0C;Buffer5c5b* FUN_005c5b10(unsigned);};
+// pdb: BSSimpleArray<AStarNode<NavMeshPOVSearchNode,NavMeshPOVSearchLink> *,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 Buffer5c5b* Buffer5c5b::FUN_005c5b10(unsigned flags){unk00=&DAT_00e00e7c;if(unk04){DAT_00e00e84(unk04);unk04=0;unk0C=0;unk08=0;}if(flags&1)Heap5c5b::DAT_01090a78.FUN_0086ba60(this);return this;}
 }   // namespace f3m_005c5b10
 
@@ -3153,6 +3253,7 @@ struct CodexDeleteArrayD {
     unsigned capacity;
     CodexDeleteArrayD* FUN_005d3c00(unsigned);
 };
+// pdb: BSSimpleArray<NavMesh *,1024>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 CodexDeleteArrayD* CodexDeleteArrayD::FUN_005d3c00(unsigned flags) {
     vtable = DAT_00e0130c;
     if (data) {
@@ -3179,6 +3280,7 @@ struct AStarSearch {
 };
 
 
+// pdb: AStarSearch<NavMeshInfo const *,TESObjectREFR *>::`scalar deleting destructor' | NavMeshInfoSearch.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: TES::RangedNodeVisibilityChangedCB)
 AStarSearch* AStarSearch::FUN_005dbb10(int flags)
 {
     S4* p = (S4*)((char*)this + 4);
@@ -3726,6 +3828,7 @@ struct Owner5d0f00 {void* vtable;
 
 };
 
+// pdb: NavMeshSearchSLPoint::`scalar deleting destructor' | NavMeshSearchSLPoint.obj | fnv360_0822_retail, vtable, high
 Owner5d0f00* Owner5d0f00::FUN_005d0f00(unsigned flags) {vtable=&DAT_00e01268;secondaryVtable=&DAT_00dc4dc0;FUN_005cc4f0();if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 
 }
@@ -3809,6 +3912,8 @@ struct CodexRemoveOwner {
     CodexRemoveArray array;
     void FUN_005c1080(unsigned);
 };
+// pdb: BSSimpleArray<NiPointer<ObstacleUndoData>,1024>::RemoveFast | NavMesh_Util.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiIndex, aiHowMany
 void CodexRemoveOwner::FUN_005c1080(unsigned index) { array.Remove(index); }
 }   // namespace f3m_005c1080
 
@@ -3821,6 +3926,7 @@ struct Member5c4e20 { int unk00; int unk04; int unk08; int unk0C; void FUN_0086c
 struct Large5c4e20 { int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C; int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; int unk0050; int unk0054; int unk0058; int unk005C; int unk0060; int unk0064; int unk0068; int unk006C; int unk0070; int unk0074; int unk0078; int unk007C; int unk0080; int unk0084; int unk0088; int unk008C; int unk0090; int unk0094; int unk0098; int unk009C; int unk00A0; int unk00A4; int unk00A8; int unk00AC; int unk00B0; int unk00B4; int unk00B8; int unk00BC; int unk00C0; int unk00C4; int unk00C8; int unk00CC; int unk00D0; int unk00D4; int unk00D8; int unk00DC; int unk00E0; int unk00E4; int unk00E8; int unk00EC; int unk00F0; int unk00F4; int unk00F8; int unk00FC; int unk0100; int unk0104; int unk0108; int unk010C; int unk0110; int unk0114; int unk0118; int unk011C; int unk0120; int unk0124; int unk0128; int unk012C; int unk0130; int unk0134; int unk0138; int unk013C; int unk0140; int unk0144; int unk0148; int unk014C; int unk0150; int unk0154; int unk0158; int unk015C; int unk0160; int unk0164; int unk0168; int unk016C; int unk0170; int unk0174; int unk0178; int unk017C; int unk0180; int unk0184; int unk0188; int unk018C; int unk0190; int unk0194; int unk0198; int unk019C; int unk01A0; int unk01A4; int unk01A8; int unk01AC; int unk01B0; int unk01B4; int unk01B8; int unk01BC; int unk01C0; int unk01C4; int unk01C8; int unk01CC; int unk01D0; int unk01D4; int unk01D8; int unk01DC; int unk01E0; int unk01E4; int unk01E8; int unk01EC; int unk01F0; int unk01F4; int unk01F8; int unk01FC; int unk0200; int unk0204; int unk0208; int unk020C; int unk0210; int unk0214; int unk0218; int unk021C; int unk0220; int unk0224; int unk0228; int unk022C; int unk0230; int unk0234; int unk0238; int unk023C; int unk0240; int unk0244; int unk0248; int unk024C; int unk0250; int unk0254; int unk0258; int unk025C; int unk0260; int unk0264; int unk0268; int unk026C; int unk0270; int unk0274; int unk0278; int unk027C; int unk0280; int unk0284; int unk0288; int unk028C; int unk0290; int unk0294; int unk0298; int unk029C; int unk02A0; int unk02A4; int unk02A8; int unk02AC; int unk02B0; int unk02B4; int unk02B8; int unk02BC; int unk02C0; int unk02C4; int unk02C8; int unk02CC; int unk02D0; int unk02D4; int unk02D8; int unk02DC; int unk02E0; int unk02E4; int unk02E8; int unk02EC; int unk02F0; int unk02F4; int unk02F8; int unk02FC; int unk0300; int unk0304; int unk0308; int unk030C; int unk0310; int unk0314; int unk0318; int unk031C; int unk0320; int unk0324; int unk0328; int unk032C; int unk0330; int unk0334; int unk0338; int unk033C; int unk0340; int unk0344; int unk0348; int unk034C; int unk0350; int unk0354; int unk0358; int unk035C; int unk0360; int unk0364; int unk0368; int unk036C; int unk0370; int unk0374; int unk0378; int unk037C; int unk0380; int unk0384; int unk0388; int unk038C; int unk0390; int unk0394; int unk0398; int unk039C; int unk03A0; int unk03A4; int unk03A8; int unk03AC; int unk03B0; int unk03B4; int unk03B8; int unk03BC; int unk03C0; int unk03C4; int unk03C8; int unk03CC; int unk03D0; int unk03D4; int unk03D8; int unk03DC; int unk03E0; int unk03E4; int unk03E8; int unk03EC; int unk03F0; int unk03F4; int unk03F8; int unk03FC; int unk0400; int unk0404; int unk0408; int unk040C; int unk0410; int unk0414; int unk0418; int unk041C; int unk0420; int unk0424; int unk0428; int unk042C; int unk0430; int unk0434; int unk0438; int unk043C; int unk0440; int unk0444; int unk0448; int unk044C; int unk0450; int unk0454; int unk0458; int unk045C; int unk0460; int unk0464; int unk0468; int unk046C; int unk0470; int unk0474; int unk0478; int unk047C; int unk0480; int unk0484; int unk0488; int unk048C; int unk0490; int unk0494; int unk0498; int unk049C; int unk04A0; int unk04A4; int unk04A8; int unk04AC; int unk04B0; int unk04B4; int unk04B8; int unk04BC; int unk04C0; int unk04C4; int unk04C8; int unk04CC; int unk04D0; int unk04D4; int unk04D8; int unk04DC; int unk04E0; int unk04E4; int unk04E8; int unk04EC; int unk04F0; int unk04F4; int unk04F8; int unk04FC; int unk0500; int unk0504; int unk0508; int unk050C; int unk0510; int unk0514; int unk0518; int unk051C; int unk0520; int unk0524; int unk0528; int unk052C; int unk0530; int unk0534; int unk0538; int unk053C; int unk0540; int unk0544; int unk0548; int unk054C; int unk0550; int unk0554; int unk0558; int unk055C; int unk0560; int unk0564; int unk0568; int unk056C; int unk0570; int unk0574; int unk0578; int unk057C; int unk0580; int unk0584; int unk0588; int unk058C; int unk0590; int unk0594; int unk0598; int unk059C; int unk05A0; int unk05A4; int unk05A8; int unk05AC; int unk05B0; int unk05B4; int unk05B8; int unk05BC; int unk05C0; int unk05C4; int unk05C8; int unk05CC; int unk05D0; int unk05D4; int unk05D8; int unk05DC; int unk05E0; int unk05E4; int unk05E8; int unk05EC; int unk05F0; int unk05F4; int unk05F8; int unk05FC; int unk0600; int unk0604; int unk0608; int unk060C; int unk0610; int unk0614; int unk0618; int unk061C; int unk0620; int unk0624; int unk0628; int unk062C; int unk0630; int unk0634; int unk0638; int unk063C; int unk0640; int unk0644; int unk0648; int unk064C; int unk0650; int unk0654; int unk0658; int unk065C; int unk0660; int unk0664; int unk0668; int unk066C; int unk0670; int unk0674; int unk0678; int unk067C; int unk0680; int unk0684; int unk0688; int unk068C; int unk0690; int unk0694; int unk0698; int unk069C; int unk06A0; int unk06A4; int unk06A8; int unk06AC; int unk06B0; int unk06B4; int unk06B8; int unk06BC; int unk06C0; int unk06C4; int unk06C8; int unk06CC; int unk06D0; int unk06D4; int unk06D8; int unk06DC; int unk06E0; int unk06E4; int unk06E8; int unk06EC; int unk06F0; int unk06F4; int unk06F8; int unk06FC; int unk0700; int unk0704; int unk0708; int unk070C; int unk0710; int unk0714; int unk0718; int unk071C; int unk0720; int unk0724; int unk0728; int unk072C; int unk0730; int unk0734; int unk0738; int unk073C; int unk0740; int unk0744; int unk0748; int unk074C; int unk0750; int unk0754; int unk0758; int unk075C; int unk0760; int unk0764; int unk0768; int unk076C; int unk0770; int unk0774; int unk0778; int unk077C; int unk0780; int unk0784; int unk0788; int unk078C; int unk0790; int unk0794; int unk0798; int unk079C; int unk07A0; int unk07A4; int unk07A8; int unk07AC; int unk07B0; int unk07B4; int unk07B8; int unk07BC; int unk07C0; int unk07C4; int unk07C8; int unk07CC; int unk07D0; int unk07D4; int unk07D8; int unk07DC; int unk07E0; int unk07E4; int unk07E8; int unk07EC; int unk07F0; int unk07F4; int unk07F8; int unk07FC; int unk0800; int unk0804; int unk0808; int unk080C; int unk0810; int unk0814; int unk0818; int unk081C; int unk0820; int unk0824; int unk0828; int unk082C; int unk0830; int unk0834; int unk0838; int unk083C; int unk0840; int unk0844; int unk0848; int unk084C; int unk0850; int unk0854; int unk0858; int unk085C; int unk0860; int unk0864; int unk0868; int unk086C; int unk0870; int unk0874; int unk0878; int unk087C; int unk0880; int unk0884; int unk0888; int unk088C; int unk0890; int unk0894; int unk0898; int unk089C; int unk08A0; int unk08A4; int unk08A8; int unk08AC; int unk08B0; int unk08B4; int unk08B8; int unk08BC; int unk08C0; int unk08C4; int unk08C8; int unk08CC; int unk08D0; int unk08D4; int unk08D8; int unk08DC; int unk08E0; int unk08E4; int unk08E8; int unk08EC; int unk08F0; int unk08F4; int unk08F8; int unk08FC; int unk0900; int unk0904; int unk0908; int unk090C; int unk0910; int unk0914; int unk0918; int unk091C; int unk0920; int unk0924; int unk0928; int unk092C; int unk0930; int unk0934; int unk0938; int unk093C; int unk0940; int unk0944; int unk0948; int unk094C; int unk0950; int unk0954; int unk0958; int unk095C; int unk0960; int unk0964; int unk0968; int unk096C; int unk0970; int unk0974; int unk0978; int unk097C; int unk0980; int unk0984; int unk0988; int unk098C; int unk0990; int unk0994; int unk0998; int unk099C; int unk09A0; int unk09A4; int unk09A8; int unk09AC; int unk09B0; int unk09B4; int unk09B8; int unk09BC; int unk09C0; int unk09C4; int unk09C8; int unk09CC; int unk09D0; int unk09D4; int unk09D8; int unk09DC; int unk09E0; int unk09E4; int unk09E8; int unk09EC; int unk09F0; int unk09F4; int unk09F8; int unk09FC; int unk0A00; int unk0A04; int unk0A08; int unk0A0C; int unk0A10; int unk0A14; int unk0A18; int unk0A1C; int unk0A20; int unk0A24; int unk0A28; int unk0A2C; int unk0A30; int unk0A34; int unk0A38; int unk0A3C; int unk0A40; int unk0A44; int unk0A48; int unk0A4C; int unk0A50; int unk0A54; int unk0A58; int unk0A5C; int unk0A60; int unk0A64; int unk0A68; int unk0A6C; int unk0A70; int unk0A74; int unk0A78; int unk0A7C; int unk0A80; int unk0A84; int unk0A88; int unk0A8C; int unk0A90; int unk0A94; int unk0A98; int unk0A9C; int unk0AA0; int unk0AA4; int unk0AA8; int unk0AAC; int unk0AB0; int unk0AB4; int unk0AB8; int unk0ABC; int unk0AC0; int unk0AC4; int unk0AC8; int unk0ACC; int unk0AD0; int unk0AD4; int unk0AD8; int unk0ADC; int unk0AE0; int unk0AE4; int unk0AE8; int unk0AEC; int unk0AF0; int unk0AF4; int unk0AF8; int unk0AFC; int unk0B00; int unk0B04; int unk0B08; int unk0B0C; int unk0B10; int unk0B14; int unk0B18; int unk0B1C; int unk0B20; int unk0B24; int unk0B28; int unk0B2C; int unk0B30; int unk0B34; int unk0B38; int unk0B3C; int unk0B40; int unk0B44; int unk0B48; int unk0B4C; int unk0B50; int unk0B54; int unk0B58; int unk0B5C; int unk0B60; int unk0B64; int unk0B68; int unk0B6C; int unk0B70; int unk0B74; int unk0B78; int unk0B7C; int unk0B80; int unk0B84; int unk0B88; int unk0B8C; int unk0B90; int unk0B94; int unk0B98; int unk0B9C; int unk0BA0; int unk0BA4; int unk0BA8; int unk0BAC; int unk0BB0; int unk0BB4; int unk0BB8; int unk0BBC; int unk0BC0; int unk0BC4; int unk0BC8; int unk0BCC; int unk0BD0; int unk0BD4; int unk0BD8; int unk0BDC; int unk0BE0; int unk0BE4; int unk0BE8; int unk0BEC; int unk0BF0; int unk0BF4; int unk0BF8; int unk0BFC; int unk0C00; int unk0C04; int unk0C08; int unk0C0C; int unk0C10; int unk0C14; int unk0C18; int unk0C1C; int unk0C20; int unk0C24; int unk0C28; int unk0C2C; int unk0C30; int unk0C34; int unk0C38; int unk0C3C; int unk0C40; int unk0C44; int unk0C48; int unk0C4C; int unk0C50; int unk0C54; int unk0C58; int unk0C5C; int unk0C60; int unk0C64; int unk0C68; int unk0C6C; int unk0C70; int unk0C74; int unk0C78; int unk0C7C; int unk0C80; int unk0C84; int unk0C88; int unk0C8C; int unk0C90; int unk0C94; int unk0C98; int unk0C9C; int unk0CA0; int unk0CA4; int unk0CA8; int unk0CAC; int unk0CB0; int unk0CB4; int unk0CB8; int unk0CBC; int unk0CC0; int unk0CC4; int unk0CC8; int unk0CCC; int unk0CD0; int unk0CD4; int unk0CD8; int unk0CDC; int unk0CE0; int unk0CE4; int unk0CE8; int unk0CEC; int unk0CF0; int unk0CF4; int unk0CF8; int unk0CFC; int unk0D00; int unk0D04; int unk0D08; int unk0D0C; int unk0D10; int unk0D14; int unk0D18; int unk0D1C; int unk0D20; int unk0D24; int unk0D28; int unk0D2C; int unk0D30; int unk0D34; int unk0D38; int unk0D3C; int unk0D40; int unk0D44; int unk0D48; int unk0D4C; int unk0D50; int unk0D54; int unk0D58; int unk0D5C; int unk0D60; int unk0D64; int unk0D68; int unk0D6C; int unk0D70; int unk0D74; int unk0D78; int unk0D7C; int unk0D80; int unk0D84; int unk0D88; int unk0D8C; int unk0D90; int unk0D94; int unk0D98; int unk0D9C; int unk0DA0; int unk0DA4; int unk0DA8; int unk0DAC; int unk0DB0; int unk0DB4; int unk0DB8; int unk0DBC; int unk0DC0; int unk0DC4; int unk0DC8; int unk0DCC; int unk0DD0; int unk0DD4; int unk0DD8; int unk0DDC; int unk0DE0; int unk0DE4; int unk0DE8; int unk0DEC; int unk0DF0; int unk0DF4; int unk0DF8; int unk0DFC; int unk0E00; int unk0E04; int unk0E08; int unk0E0C; int unk0E10; int unk0E14; int unk0E18; int unk0E1C; int unk0E20; int unk0E24; int unk0E28; int unk0E2C; int unk0E30; int unk0E34; int unk0E38; int unk0E3C; int unk0E40; int unk0E44; int unk0E48; int unk0E4C; int unk0E50; int unk0E54; int unk0E58; int unk0E5C; int unk0E60; int unk0E64; int unk0E68; int unk0E6C; int unk0E70; int unk0E74; int unk0E78; int unk0E7C; int unk0E80; int unk0E84; int unk0E88; int unk0E8C; int unk0E90; int unk0E94; int unk0E98; int unk0E9C; int unk0EA0; int unk0EA4; int unk0EA8; int unk0EAC; int unk0EB0; int unk0EB4; int unk0EB8; int unk0EBC; int unk0EC0; int unk0EC4; int unk0EC8; int unk0ECC; int unk0ED0; int unk0ED4; int unk0ED8; int unk0EDC; int unk0EE0; int unk0EE4; int unk0EE8; int unk0EEC; int unk0EF0; int unk0EF4; int unk0EF8; int unk0EFC; int unk0F00; int unk0F04; int unk0F08; int unk0F0C; int unk0F10; int unk0F14; int unk0F18; int unk0F1C; int unk0F20; int unk0F24; int unk0F28; int unk0F2C; int unk0F30; int unk0F34; int unk0F38; int unk0F3C; int unk0F40; int unk0F44; int unk0F48; int unk0F4C; int unk0F50; int unk0F54; int unk0F58; int unk0F5C; int unk0F60; int unk0F64; int unk0F68; int unk0F6C; int unk0F70; int unk0F74; int unk0F78; int unk0F7C; int unk0F80; int unk0F84; int unk0F88; int unk0F8C; int unk0F90; int unk0F94; int unk0F98; int unk0F9C; int unk0FA0; int unk0FA4; int unk0FA8; int unk0FAC; int unk0FB0; int unk0FB4; int unk0FB8; int unk0FBC; int unk0FC0; int unk0FC4; int unk0FC8; int unk0FCC; int unk0FD0; int unk0FD4; int unk0FD8; int unk0FDC; int unk0FE0; int unk0FE4; int unk0FE8; int unk0FEC; int unk0FF0; int unk0FF4; int unk0FF8; int unk0FFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int count; __forceinline void Clear() { count=0; FUN_00c00610(this,0,0x1fdc); } };
 struct Small5c4e20 { int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C; int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; __forceinline void Clear() { FUN_00c00610(this,0,0x50); } };
 struct Owner5c4e20 { void* table; Member5c4e20 member; Large5c4e20 large; float unk1FF4; Small5c4e20 small; int unk2048; int unk204C; int unk2050; unsigned char unk2054; Owner5c4e20* FUN_005c4e20(); };
+// pdb: AStarSearch<NavMeshPOVSearchNode,NavMeshPOVSearchLink>::AStarSearch<NavMeshPOVSearchNode,NavMeshPOVSearchLink> | NavMeshPOVSearch.obj | fnv360_0721_beta, call_seq, medium
 Owner5c4e20* Owner5c4e20::FUN_005c4e20() { table=&DAT_00e00e58; member.FUN_0086cb90(0xd000); large.Clear(); unk1FF4=DAT_00db38b8; small.Clear(); unk2048=0; unk204C=0; unk2050=0; unk2054=0; return this; }
 }   // namespace f3m_005c4e20
 
@@ -3852,6 +3958,8 @@ void* Array5c39f0::FUN_005c39f0(unsigned int flags) {
 // @f3 0x005dbef0 (community match, verified in this file)
 namespace f3m_005dbef0 {
 struct Node5dbe {int unk00;float unk04;unsigned unk08;};struct List5dbe {void FUN_007aa190(Node5dbe*);};struct Owner5dbe {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; int unk578; int unk57C; int unk580; int unk584; int unk588; int unk58C; int unk590; int unk594; int unk598; int unk59C; int unk5A0; int unk5A4; int unk5A8; int unk5AC; int unk5B0; int unk5B4; int unk5B8; int unk5BC; int unk5C0; int unk5C4; int unk5C8; int unk5CC; int unk5D0; int unk5D4; int unk5D8; int unk5DC; int unk5E0; int unk5E4; int unk5E8; int unk5EC; int unk5F0; int unk5F4; int unk5F8; int unk5FC; int unk600; int unk604; int unk608; int unk60C; int unk610; int unk614; int unk618; int unk61C; int unk620; int unk624; int unk628; int unk62C; int unk630; int unk634; int unk638; int unk63C; int unk640; int unk644; int unk648; int unk64C; int unk650; int unk654; int unk658; int unk65C; int unk660; int unk664; int unk668; int unk66C; int unk670; int unk674; int unk678; int unk67C; int unk680; int unk684; int unk688; int unk68C; int unk690; int unk694; int unk698; int unk69C; int unk6A0; int unk6A4; int unk6A8; int unk6AC; int unk6B0; int unk6B4; int unk6B8; int unk6BC; int unk6C0; int unk6C4; int unk6C8; int unk6CC; int unk6D0; int unk6D4; int unk6D8; int unk6DC; int unk6E0; int unk6E4; int unk6E8; int unk6EC; int unk6F0; int unk6F4; int unk6F8; int unk6FC; int unk700; int unk704; int unk708; int unk70C; int unk710; int unk714; int unk718; int unk71C; int unk720; int unk724; int unk728; int unk72C; int unk730; int unk734; int unk738; int unk73C; int unk740; int unk744; int unk748; int unk74C; int unk750; int unk754; int unk758; int unk75C; int unk760; int unk764; int unk768; int unk76C; int unk770; int unk774; int unk778; int unk77C; int unk780; int unk784; int unk788; int unk78C; int unk790; int unk794; int unk798; int unk79C; int unk7A0; int unk7A4; int unk7A8; int unk7AC; int unk7B0; int unk7B4; int unk7B8; int unk7BC; int unk7C0; int unk7C4; int unk7C8; int unk7CC; int unk7D0; int unk7D4; int unk7D8; int unk7DC; int unk7E0; int unk7E4; int unk7E8; int unk7EC; int unk7F0; int unk7F4; int unk7F8; int unk7FC; int unk800; int unk804; int unk808; int unk80C; int unk810; int unk814; int unk818; int unk81C; int unk820; int unk824; int unk828; int unk82C; int unk830; int unk834; int unk838; int unk83C; int unk840; int unk844; int unk848; int unk84C; int unk850; int unk854; int unk858; int unk85C; int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C; int unk880; int unk884; int unk888; int unk88C; int unk890; int unk894; int unk898; int unk89C; int unk8A0; int unk8A4; int unk8A8; int unk8AC; int unk8B0; int unk8B4; int unk8B8; int unk8BC; int unk8C0; int unk8C4; int unk8C8; int unk8CC; int unk8D0; int unk8D4; int unk8D8; int unk8DC; int unk8E0; int unk8E4; int unk8E8; int unk8EC; int unk8F0; int unk8F4; int unk8F8; int unk8FC; int unk900; int unk904; int unk908; int unk90C; int unk910; int unk914; int unk918; int unk91C; int unk920; int unk924; int unk928; int unk92C; int unk930; int unk934; int unk938; int unk93C; int unk940; int unk944; int unk948; int unk94C; int unk950; int unk954; int unk958; int unk95C; int unk960; int unk964; int unk968; int unk96C; int unk970; int unk974; int unk978; int unk97C; int unk980; int unk984; int unk988; int unk98C; int unk990; int unk994; int unk998; int unk99C; int unk9A0; int unk9A4; int unk9A8; int unk9AC; int unk9B0; int unk9B4; int unk9B8; int unk9BC; int unk9C0; int unk9C4; int unk9C8; int unk9CC; int unk9D0; int unk9D4; int unk9D8; int unk9DC; int unk9E0; int unk9E4; int unk9E8; int unk9EC; int unk9F0; int unk9F4; int unk9F8; int unk9FC; int unkA00; int unkA04; int unkA08; int unkA0C; int unkA10; int unkA14; int unkA18; int unkA1C; int unkA20; int unkA24; int unkA28; int unkA2C; int unkA30; int unkA34; int unkA38; int unkA3C; int unkA40; int unkA44; int unkA48; int unkA4C; int unkA50; int unkA54; int unkA58; int unkA5C; int unkA60; int unkA64; int unkA68; int unkA6C; int unkA70; int unkA74; int unkA78; int unkA7C; int unkA80; int unkA84; int unkA88; int unkA8C; int unkA90; int unkA94; int unkA98; int unkA9C; int unkAA0; int unkAA4; int unkAA8; int unkAAC; int unkAB0; int unkAB4; int unkAB8; int unkABC; int unkAC0; int unkAC4; int unkAC8; int unkACC; int unkAD0; int unkAD4; int unkAD8; int unkADC; int unkAE0; int unkAE4; int unkAE8; int unkAEC; int unkAF0; int unkAF4; int unkAF8; int unkAFC; int unkB00; int unkB04; int unkB08; int unkB0C; int unkB10; int unkB14; int unkB18; int unkB1C; int unkB20; int unkB24; int unkB28; int unkB2C; int unkB30; int unkB34; int unkB38; int unkB3C; int unkB40; int unkB44; int unkB48; int unkB4C; int unkB50; int unkB54; int unkB58; int unkB5C; int unkB60; int unkB64; int unkB68; int unkB6C; int unkB70; int unkB74; int unkB78; int unkB7C; int unkB80; int unkB84; int unkB88; int unkB8C; int unkB90; int unkB94; int unkB98; int unkB9C; int unkBA0; int unkBA4; int unkBA8; int unkBAC; int unkBB0; int unkBB4; int unkBB8; int unkBBC; int unkBC0; int unkBC4; int unkBC8; int unkBCC; int unkBD0; int unkBD4; int unkBD8; int unkBDC; int unkBE0; int unkBE4; int unkBE8; int unkBEC; int unkBF0; int unkBF4; int unkBF8; int unkBFC; int unkC00; int unkC04; int unkC08; int unkC0C; int unkC10; int unkC14; int unkC18; int unkC1C; int unkC20; int unkC24; int unkC28; int unkC2C; int unkC30; int unkC34; int unkC38; int unkC3C; int unkC40; int unkC44; int unkC48; int unkC4C; int unkC50; int unkC54; int unkC58; int unkC5C; int unkC60; int unkC64; int unkC68; int unkC6C; int unkC70; int unkC74; int unkC78; int unkC7C; int unkC80; int unkC84; int unkC88; int unkC8C; int unkC90; int unkC94; int unkC98; int unkC9C; int unkCA0; int unkCA4; int unkCA8; int unkCAC; int unkCB0; int unkCB4; int unkCB8; int unkCBC; int unkCC0; int unkCC4; int unkCC8; int unkCCC; int unkCD0; int unkCD4; int unkCD8; int unkCDC; int unkCE0; int unkCE4; int unkCE8; int unkCEC; int unkCF0; int unkCF4; int unkCF8; int unkCFC; int unkD00; int unkD04; int unkD08; int unkD0C; int unkD10; int unkD14; int unkD18; int unkD1C; int unkD20; int unkD24; int unkD28; int unkD2C; int unkD30; int unkD34; int unkD38; int unkD3C; int unkD40; int unkD44; int unkD48; int unkD4C; int unkD50; int unkD54; int unkD58; int unkD5C; int unkD60; int unkD64; int unkD68; int unkD6C; int unkD70; int unkD74; int unkD78; int unkD7C; int unkD80; int unkD84; int unkD88; int unkD8C; int unkD90; int unkD94; int unkD98; int unkD9C; int unkDA0; int unkDA4; int unkDA8; int unkDAC; int unkDB0; int unkDB4; int unkDB8; int unkDBC; int unkDC0; int unkDC4; int unkDC8; int unkDCC; int unkDD0; int unkDD4; int unkDD8; int unkDDC; int unkDE0; int unkDE4; int unkDE8; int unkDEC; int unkDF0; int unkDF4; int unkDF8; int unkDFC; int unkE00; int unkE04; int unkE08; int unkE0C; int unkE10; int unkE14; int unkE18; int unkE1C; int unkE20; int unkE24; int unkE28; int unkE2C; int unkE30; int unkE34; int unkE38; int unkE3C; int unkE40; int unkE44; int unkE48; int unkE4C; int unkE50; int unkE54; int unkE58; int unkE5C; int unkE60; int unkE64; int unkE68; int unkE6C; int unkE70; int unkE74; int unkE78; int unkE7C; int unkE80; int unkE84; int unkE88; int unkE8C; int unkE90; int unkE94; int unkE98; int unkE9C; int unkEA0; int unkEA4; int unkEA8; int unkEAC; int unkEB0; int unkEB4; int unkEB8; int unkEBC; int unkEC0; int unkEC4; int unkEC8; int unkECC; int unkED0; int unkED4; int unkED8; int unkEDC; int unkEE0; int unkEE4; int unkEE8; int unkEEC; int unkEF0; int unkEF4; int unkEF8; int unkEFC; int unkF00; int unkF04; int unkF08; int unkF0C; int unkF10; int unkF14; int unkF18; int unkF1C; int unkF20; int unkF24; int unkF28; int unkF2C; int unkF30; int unkF34; int unkF38; int unkF3C; int unkF40; int unkF44; int unkF48; int unkF4C; int unkF50; int unkF54; int unkF58; int unkF5C; int unkF60; int unkF64; int unkF68; int unkF6C; int unkF70; int unkF74; int unkF78; int unkF7C; int unkF80; int unkF84; int unkF88; int unkF8C; int unkF90; int unkF94; int unkF98; int unkF9C; int unkFA0; int unkFA4; int unkFA8; int unkFAC; int unkFB0; int unkFB4; int unkFB8; int unkFBC; int unkFC0; int unkFC4; int unkFC8; int unkFCC; int unkFD0; int unkFD4; int unkFD8; int unkFDC; int unkFE0; int unkFE4; int unkFE8; int unkFEC; int unkFF0; int unkFF4; int unkFF8; int unkFFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; List5dbe unk1FF4;int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; Node5dbe* unk2050;int FUN_005dbc20(Node5dbe*,float,Node5dbe**);Node5dbe* FUN_005dbef0(Node5dbe*,unsigned*,float);};
+// pdb: AStarSearch<CombatPlanNode *,CombatPlanLink *>::AddStartNode | CombatPlanner.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiKey, aNodeData, afHeuristic
 Node5dbe* Owner5dbe::FUN_005dbef0(Node5dbe* node,unsigned* value,float weight){switch(FUN_005dbc20(node,0.0f,&node)){case 0:{unsigned data=*value;Node5dbe* selected=node;selected->unk04=weight;selected->unk08=data;unk1FF4.FUN_007aa190(selected);unk2050=selected;return selected;}case 1:return node;case 2:return 0;}return 0;}
 }   // namespace f3m_005dbef0
 
@@ -4386,6 +4494,7 @@ struct Base5cc4f0 {void* vtable;Lock5cc4f0 lock;
 };
 struct Owner5cc4f0:Base5cc4f0 {Map5cc4f0 map;void FUN_005cc4f0();};
 struct Cleanup5cc4f0 {Base5cc4f0* object;Cleanup5cc4f0(Base5cc4f0* p):object(p){object->vtable=&DAT_00e010a4;}~Cleanup5cc4f0(){object->~Base5cc4f0();}};
+// pdb: NavMeshSearch::~NavMeshSearch | NavMeshSearch.obj | fnv360_0822_retail, call_seq, medium
 void Owner5cc4f0::FUN_005cc4f0() {Cleanup5cc4f0 cleanup(this);map.FUN_004a9e80();}
 }
 
@@ -4403,6 +4512,8 @@ struct FUN_005df910_cls {
     void* FUN_005df910(void* data, unsigned int count);
 };
 
+// pdb: BSSimpleArray<CombatSearchLocation,1024>::_Reallocate | CombatGroup.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuffer, aiNewSizeInItem
 void* FUN_005df910_cls::FUN_005df910(void* data, unsigned int count) {
     return H5df910::DAT_01090a78.FUN_0086bae0(data, count * sizeof(Element5df910));
 }
@@ -4497,6 +4608,7 @@ struct FUN_005cc350 {
     virtual void Unk00();
 };
 
+// pdb: AStarSearch<NavMeshSearchNode,NavMeshSearchLink>::AStarSearch<NavMeshSearchNode,NavMeshSearchLink> | NavMeshSearch.obj | fnv360_0822_retail, call_seq, medium
 FUN_005cc350::FUN_005cc350() : pool(0x7800) {
     scale = -1.0f;
     memset(table, 0, sizeof(table));
@@ -4510,6 +4622,7 @@ FUN_005cc350::FUN_005cc350() : pool(0x7800) {
 // @f3 0x005df1b0 (community match, verified in this file)
 namespace f3m_005df1b0 {
 struct Value5df1b0 {int unk00;int unk04;unsigned short first;unsigned short second;int unk0C;unsigned int kind;bool FUN_005df1b0();};
+// pdb: NavMeshObstacleEdge::CanBeUsed | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap_sim, low
 bool Value5df1b0::FUN_005df1b0() {
  if(first==0xffff) return true;
  if(second==0xffff && kind!=1 && kind!=3 && kind!=4) return true;
@@ -4531,6 +4644,7 @@ struct CopyItem5C
     CopyItem5C* FUN_005cec00(unsigned int flags);
 };
 CopyItem5C::~CopyItem5C() { FUN_005cc4f0(); }
+// pdb: NavMeshSearchHide::`scalar deleting destructor' | NavMeshSearchHide.obj | fnv360_0822_retail, vtable, high
 CopyItem5C* CopyItem5C::FUN_005cec00(unsigned int flags)
 {
     this->CopyItem5C::~CopyItem5C();
@@ -4572,6 +4686,7 @@ namespace f3m_005d2070 {
 struct Counter5d2070 { void** table; long refs; __forceinline void Release() { if(!InterlockedDecrement(&refs)) ((void (__thiscall *)(Counter5d2070*))table[1])(this); } };
 struct Resource5d2070 { int unk00; int unk04; int unk08; int unk0C; Counter5d2070 counter; };
 struct Owner5d2070 { Resource5d2070* object; void FUN_005d2070(); };
+// pdb: NiPointer<PathingAvoidNodeArray>::~NiPointer<PathingAvoidNodeArray> | PathSmootherPOV.obj | fnv360_0822_retail, call_gap, low
 void Owner5d2070::FUN_005d2070() { if(object) object->counter.Release(); }
 }   // namespace f3m_005d2070
 
@@ -4833,6 +4948,7 @@ extern void* DAT_00e019fc[];extern float DAT_00db38b8;struct FUN_0086cb90 {int u
  int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C;
  int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C;
  int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC;
+ // pdb: AStarSearch<NavMeshInfo const *,TESObjectREFR *>::AStarSearch<NavMeshInfo const *,TESObjectREFR *> | NavMeshInfoSearch.obj | fnv360_0822_retail, call_seq, medium
  int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int count;Region5DBA(){count=0;memset(this,0,0x1fdc);} };struct FUN_005dba90 {void** table;FUN_0086cb90 storage;Region5DBA region;float unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; bool unk2054;FUN_005dba90();};FUN_005dba90::FUN_005dba90():table(DAT_00e019fc),storage(0x4800){unk1FF4=DAT_00db38b8;void* bytes=&unk1FF8;memset(bytes,0,0x50);unk2048=0;unk204C=0;unk2050=0;unk2054=false;}
 }   // namespace f3m_005dba90
 
@@ -4844,6 +4960,7 @@ struct AStarSearch {
  AStarSearch* FUN_005cc350();
 };
 struct NavMeshSearchClosePoint : AStarSearch { unsigned unk2058; NavMeshSearchClosePoint* FUN_005cdc40(); };
+// pdb: NavMeshSearchClosePoint::NavMeshSearchClosePoint | NavMeshSearchClosePoint.obj | fnv360_0822_retail, uvref, medium
 NavMeshSearchClosePoint* NavMeshSearchClosePoint::FUN_005cdc40() { FUN_005cc350();vtable=DAT_00e0111c;unk2058=0;return this; }
 }   // namespace f3m_005cdc40
 
@@ -4851,20 +4968,24 @@ NavMeshSearchClosePoint* NavMeshSearchClosePoint::FUN_005cdc40() { FUN_005cc350(
 namespace f3m_005c3820 {
 struct Array5c382 {void**table;unsigned short*data;unsigned size;unsigned capacity;__forceinline unsigned Find(unsigned short key){for(unsigned i=0;i<size;++i)if(data&&data[i]==key)return i;return (unsigned)-1;}};
 struct Owner5c382 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;Array5c382*arrays;bool FUN_005c3820(unsigned short,unsigned);};
+// pdb: NavMeshGrid::IsTriangleInGridCell | NavMeshGrid.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiTriangle, aiIndex
 bool Owner5c382::FUN_005c3820(unsigned short key,unsigned index){return arrays[index].Find(key)!=(unsigned)-1;}
 }   // namespace f3m_005c3820
 
 // @f3 0x005d02f0 (community match, verified in this file)
 extern unsigned DAT_00e27ed4;
 namespace f3m_005d02f0 {
-struct NodeAllocator { void* FUN_0086c710(unsigned,unsigned); };
+struct NodeAllocator { void* ScrapHeap_Allocate(unsigned,unsigned); };
 struct NodeOwner {
  unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0C;
  NodeAllocator* allocator;
  void* FUN_005d02f0(unsigned count);
 };
+// pdb: BSScrapArray<NavMeshSearchNode,1024>::_Allocate | NavMeshSearchMaxCost.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 void* NodeOwner::FUN_005d02f0(unsigned count) {
- return allocator->FUN_0086c710(count*20,DAT_00e27ed4);
+ return allocator->ScrapHeap_Allocate(count*20,DAT_00e27ed4);
 }
 }   // namespace f3m_005d02f0
 
@@ -4904,10 +5025,11 @@ struct O5cf590
     unsigned char flag;      // 0x2074
     char pad75[0x2080 - 0x2075];
     V5cf590 here;            // 0x2080
-    void FUN_005cf590(D5cf590* dest, M5cf590* mesh, unsigned short index);
+    void NavMeshSearchLOS_SetNodeData(D5cf590* dest, M5cf590* mesh, unsigned short index);
 };
 
-void O5cf590::FUN_005cf590(D5cf590* dest, M5cf590* mesh, unsigned short index)
+// pdb: NavMeshSearchLOS::SetNodeData | NavMeshSearchLOS.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap_sim), high
+void O5cf590::NavMeshSearchLOS_SetNodeData(D5cf590* dest, M5cf590* mesh, unsigned short index)
 {
     float res;
     V5cf590 c;
@@ -4951,6 +5073,8 @@ Ref reference;void IncRefCount(){reference.Inc();}void DecRefCount(){reference.D
 struct Entry {void FUN_0044f280(int);};
 void FUN_006e35e0(Entry**);
 struct Owner {int unk00;Entry** entries;int FUN_005c25e0(NiPointer<Thing>);void FUN_0041a520(unsigned,unsigned);void FUN_005c2740(NiPointer<Thing>);};
+// pdb: NavMeshArray::RemoveNavMesh | NavMeshArray.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNavMesh
 void Owner::FUN_005c2740(NiPointer<Thing> value){
  int index=FUN_005c25e0(value);
  if(index!=-1){unsigned offset=index*sizeof(Entry*);
@@ -4972,6 +5096,7 @@ public:
     void FUN_00bf4bf0(unsigned int newCapacity, unsigned int oldCount);
     unsigned int FUN_005d3d10();
 };
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::AddUninitialized | PathSmootherPOV.obj | fnv360_0721_beta, objopen_prop, low
 unsigned int FUN_005d3d10_Array::FUN_005d3d10() {
     if (count == capacity) {
         if (!capacity) {
@@ -5011,6 +5136,7 @@ public:
     int FUN_005cc130(Node5d3ca0* node);
     void FUN_005d3ca0(Node5d3ca0* node);
 };
+// pdb: BSSimpleArray<NavMeshSearchLink,1024>::AddUninitialized | PathSmootherPOV.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: AStarQueue<PathSmootherPOVNode,PathSmootherPOVLink>::AddNode)
 void Buckets5d3ca0::FUN_005d3ca0(Node5d3ca0* node) {
     Node5d3ca0** link = &buckets[FUN_005cc130(node)];
     if (*link) {
@@ -5044,6 +5170,8 @@ public:
     unsigned int FUN_005e5350();
     void FUN_005d4860(void* const& value);
 };
+// pdb: BSSimpleArray<TESObjectREFR *,1024>::SetAt | BGSTerrainManager.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: aiIndex, aValue
 void Array5d4860::FUN_005d4860(void* const& value) {
     unsigned int index = FUN_005e5350();
     data[index] = value;
@@ -5054,6 +5182,8 @@ void Array5d4860::FUN_005d4860(void* const& value) {
 namespace f3m_005c3790 {
 struct Vector5C37 {float x,y,z;};
 struct Owner5C37 {int unk00;float scaleX;float scaleY;float offsetX;float offsetY;float z;Vector5C37 FUN_005c3790(unsigned,unsigned);};
+// pdb: NavMeshGrid::GetGridPosition | NavMeshGrid.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiColumn, aiRow
 Vector5C37 Owner5C37::FUN_005c3790(unsigned x,unsigned y){Vector5C37 result;result.x=scaleX*x+offsetX;result.y=scaleY*y+offsetY;result.z=z;return result;}
 }   // namespace f3m_005c3790
 
@@ -5063,6 +5193,7 @@ namespace MatchCC7 {
 struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct Table {void* unk00;void* unk04;void (__stdcall* free)(void*);};extern Table DAT_00e01090;
 struct Owner {Table* table;void* data;unsigned count;unsigned capacity;Owner* FUN_005cc720(unsigned);};
+// pdb: BSSimpleArray<AStarNode<NavMeshSearchNode,NavMeshSearchLink> *,1024>::`scalar deleting destructor' | NavMeshSearch.obj | fnv360_0822_retail, vtable, medium
 Owner* Owner::FUN_005cc720(unsigned flags){table=&DAT_00e01090;if(data){DAT_00e01090.free(data);data=0;capacity=0;count=0;}if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 }   // namespace f3m_005cc720
@@ -5297,6 +5428,8 @@ struct Owner34 {
     Manager34 manager;
     void FUN_005c8f20(void*);
 };
+// pdb: NavMeshRender::RemoveDrawOnlyNavMeshes | NavMeshRender.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCell
 void Owner34::FUN_005c8f20(void* argument) {
     Ref34 object;
     if(manager.FUN_005c8b00(argument,&object.value)) {
@@ -5322,6 +5455,7 @@ struct Owner61 {
     unsigned int count,capacity;
     void FUN_005c56d0();
 };
+// pdb: BSSimpleArray<BSSimpleArray<NavMeshPOV *,1024>,1024>::~BSSimpleArray<BSSimpleArray<NavMeshPOV *,1024>,1024> | NavMeshPOVSearch.obj | fnv360_0822_retail, call_seq, medium
 void Owner61::FUN_005c56d0() {
     vtable=&DAT_00e00eac;
     Entry61* current=data;
@@ -5350,6 +5484,8 @@ struct Array71 {
     unsigned int count;
     unsigned int FUN_005c25e0(Smart71 item);
 };
+// pdb: NavMeshArray::GetNavMeshIndex | NavMeshArray.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apNavMesh
 unsigned int Array71::FUN_005c25e0(Smart71 item) {
     for(unsigned int index=0;index<count;++index)if(data[index]==item.value)return index;
     return -1;
@@ -5365,6 +5501,7 @@ struct Owner104{
  unsigned int unk10,unk14,unk18,unk1c,unk20,unk24;
  Owner104* FUN_005c3600();
 };
+// pdb: NavMeshGrid::NavMeshGrid | NavMeshGrid.obj | fnv360_0822_retail, call_gap_sim, low
 Owner104* Owner104::FUN_005c3600(){distance=FLT_MAX;unk00=0;unk24=0;return this;}
 }   // namespace f3m_005c3600
 
@@ -5378,6 +5515,7 @@ struct Owner110{
  void FUN_005cc4f0();
  void* FUN_005d01d0(unsigned int);
 };
+// pdb: NavMeshSearchMaxCost::`scalar deleting destructor' | NavMeshSearchMaxCost.obj | fnv360_0822_retail, vtable, high
 void* Owner110::FUN_005d01d0(unsigned int flags){vtable=&DAT_00e011cc;FUN_005cc4f0();if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 
@@ -5418,6 +5556,8 @@ struct Owner143{
  void FUN_005c2800(void*,void*,unsigned int);
  void FUN_005c2f60(unsigned int size,unsigned int length);
 };
+// pdb: BSSimpleArray<NavMeshBounds::NavMeshBoundsTriangle,1024>::SetSize | NavMeshBounds.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aiNewSize, abFreeMemory
 void Owner143::FUN_005c2f60(unsigned int size,unsigned int length){
  if(data){
   if(length==count)data=Reallocate(data,size);
@@ -5440,6 +5580,8 @@ unsigned short index,unk2076;
 Vec145 position;
 bool FUN_005cc250(const Input145*);
 };
+// pdb: NavMeshSearch::IsGoalNode | NavMeshSearch.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode
 bool Owner145::FUN_005cc250(const Input145* input){
  if(settings&&settings->time>100.0){
   Vec145 origin;origin.x=input->position.x;origin.y=input->position.y;origin.z=input->position.z;
@@ -5463,6 +5605,7 @@ struct Owner168{
  void* vtable;void* data;unsigned int capacity,length;
  void* FUN_005c3150(unsigned int flags);
 };
+// pdb: BSSimpleArray<NavMeshBounds::NavMeshBoundsTriangle,1024>::`scalar deleting destructor' | NavMeshBounds.obj | fnv360_0822_retail, vtable, medium
 void* Owner168::FUN_005c3150(unsigned int flags){
  vtable=&DAT_00e00ddc;
  if(data){DAT_00e00de4(data);data=0;length=0;capacity=0;}
@@ -5482,6 +5625,7 @@ struct Owner170{
  void* vtable;void* data;unsigned int capacity,length;
  void* FUN_005c9160(unsigned int flags);
 };
+// pdb: BSSimpleArray<NiColorA,1024>::`scalar deleting destructor' | NavMeshRender.obj | fnv360_0822_retail, vtable, medium
 void* Owner170::FUN_005c9160(unsigned int flags){
  vtable=&DAT_00e00ff4;
  if(data){DAT_00e00ffc(data);data=0;length=0;capacity=0;}
@@ -5505,6 +5649,7 @@ struct Owner176 {
     unsigned int count,capacity;
     void FUN_005c5860();
 };
+// pdb: BSSimpleArray<BSSimpleArray<FastNavMeshVertHandle,1024>,1024>::~BSSimpleArray<BSSimpleArray<FastNavMeshVertHandle,1024>,1024> | NavMeshPOVSearch.obj | fnv360_0822_retail, call_seq, medium
 void Owner176::FUN_005c5860() {
     vtable=&DAT_00e00ee8;
     Entry176* current=data;
@@ -5551,6 +5696,7 @@ extern void (__thiscall *DAT_00e01220)(Base5d0360*,void*);extern void (__thiscal
 struct Base5d0360 {void* vtable;void* data;unsigned count,capacity;~Base5d0360(){vtable=&DAT_00e011f0;if(data){DAT_00e011f8(this,data);data=0;capacity=0;count=0;}}};
 struct Owner5d0360:Base5d0360 {void FUN_005d0360();};
 struct Cleanup5d0360 {Base5d0360* object;Cleanup5d0360(Base5d0360* p):object(p){object->vtable=&DAT_00e01218;}~Cleanup5d0360(){object->~Base5d0360();}};
+// pdb: BSScrapArray<NavMeshSearchLink,1024>::~BSScrapArray<NavMeshSearchLink,1024> | NavMeshSearchMaxCost.obj | fnv360_0822_debug, call_seq, medium
 void Owner5d0360::FUN_005d0360() {Cleanup5d0360 cleanup(this);if(data){DAT_00e01220(this,data);data=0;capacity=0;count=0;}}
 }
 }   // namespace f3m_005d0360
@@ -5559,6 +5705,8 @@ void Owner5d0360::FUN_005d0360() {Cleanup5d0360 cleanup(this);if(data){DAT_00e01
 namespace f3m_005dba10 {
 struct Input5dba {unsigned key;};struct Map5dba{void FUN_00880f70(unsigned,Input5dba*);};
 struct Owner5dba{void**table;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;Map5dba map;void FUN_005db4a0(Input5dba*);void FUN_005dba10(Input5dba*);};
+// pdb: NavMeshInfoMap::AddNavMeshInfo | NavMeshInfoMap.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apNavMeshInfo
 void Owner5dba::FUN_005dba10(Input5dba*input){map.FUN_00880f70(input->key,input);FUN_005db4a0(input);((void(__thiscall*)(Owner5dba*,int))table[50])(this,1);}
 }   // namespace f3m_005dba10
 
@@ -5591,6 +5739,8 @@ struct SpatialHash
     void FUN_005cc410(HashNode* node);
 };
 
+// pdb: AStarQueue<NavMeshSearchNode,NavMeshSearchLink>::AddNode | NavMeshSearch.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apNode
 void SpatialHash::FUN_005cc410(HashNode* node)
 {
     HashNode** slot = &buckets[FUN_005cc130(node)];
@@ -5676,6 +5826,7 @@ struct Owner
     int FUN_005d8750();
 };
 
+// pdb: NavMeshInfo::GetInfoChunkSize | NavMeshInfo.obj | fnv360_0822_retail, call_seq, low
 int Owner::FUN_005d8750()
 {
     int size = 0x1c;
@@ -5718,6 +5869,7 @@ FUN_005c3070::~FUN_005c3070()
 // @f3 0x005df930 (community match, verified in this file)
 namespace f3m_005df930 {
 struct Array5df9 {void**table;void*data;unsigned size;unsigned capacity;void FUN_005df2d0(void*,void*,unsigned);void FUN_005df930(unsigned,unsigned);};
+// pdb: BSSimpleArray<CombatSearchLocation,1024>::AddUninitialized | CombatGroup.obj | fnv360_0822_retail, call_seq, low
 void Array5df9::FUN_005df930(unsigned nextCapacity,unsigned copyCount){if(data){if(copyCount==capacity)data=((void*(__thiscall*)(Array5df9*,void*,unsigned))table[3])(this,data,nextCapacity);else{void*next=((void*(__thiscall*)(Array5df9*,unsigned))table[1])(this,nextCapacity);FUN_005df2d0(next,data,copyCount);((void(__thiscall*)(Array5df9*,void*))table[2])(this,data);data=next;}}else{void*next=((void*(__thiscall*)(Array5df9*,unsigned))table[1])(this,nextCapacity);capacity=nextCapacity;data=next;}}
 }   // namespace f3m_005df930
 
@@ -5726,6 +5878,8 @@ namespace f3m_005da2c0 {
 namespace MatchDA2 {
 struct Map {bool FUN_00bea7b0(unsigned,unsigned&);void FUN_00899cf0(unsigned);};
 struct Owner;struct Table {void* unk00;void* unk04;void* unk08;void* unk0c;void* unk10;void* unk14;void* unk18;void* unk1c;void* unk20;void* unk24;void* unk28;void* unk2c;void* unk30;void* unk34;void* unk38;void* unk3c;void* unk40;void* unk44;void* unk48;void* unk4c;void* unk50;void* unk54;void* unk58;void* unk5c;void* unk60;void* unk64;void* unk68;void* unk6c;void* unk70;void* unk74;void* unk78;void* unk7c;void* unk80;void* unk84;void* unk88;void* unk8c;void* unk90;void* unk94;void* unk98;void* unk9c;void* unka0;void* unka4;void* unka8;void* unkac;void* unkb0;void* unkb4;void* unkb8;void* unkbc;void* unkc0;void* unkc4;void (__thiscall* Update)(Owner*,bool);};struct Owner {Table* table;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;Map map;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int enabled;void FUN_005d9f90(unsigned);void FUN_005da2c0(unsigned);};
+// pdb: NavMeshInfoMap::RemoveNavMeshInfo | NavMeshInfoMap.obj | fnv360_0721_beta, objrun, medium
+// pdb params: auiNavMeshID
 void Owner::FUN_005da2c0(unsigned key){unsigned original=key;unsigned found;if(map.FUN_00bea7b0(original,found)){map.FUN_00899cf0(original);if(enabled)FUN_005d9f90(found);table->Update(this,true);}}
 }
 }   // namespace f3m_005da2c0
@@ -5734,6 +5888,8 @@ void Owner::FUN_005da2c0(unsigned key){unsigned original=key;unsigned found;if(m
 namespace f3m_005c44c0 {
 struct Item44c0; struct Ops44c0 {void (__thiscall* Reset)(Item44c0*,int);};
 struct Item44c0 {Ops44c0* ops; unsigned unk04,unk08,unk0c;};
+// pdb: BSSimpleArray<BSSimpleArray<NavMeshPOV *,1024>,1024>::_DestructItems | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apFirstAddr, aiCount
 void __stdcall FUN_005c44c0(Item44c0* items,unsigned count){for(unsigned i=0;i<count;++i) items[i].ops->Reset(&items[i],0);}
 }   // namespace f3m_005c44c0
 
@@ -5795,6 +5951,8 @@ public:
     int unk2050;
     void FUN_005cc3c0();
 };
+// pdb: BSSimpleArray<NavMeshSearchNode,1024>::Clear | NavMeshSearch.obj | fnv360_0721_beta, call_gap, low
+// pdb params: abFreeMemory
 void Manager5cc3c0::FUN_005cc3c0() {
     buffer.Clear();
     memset(slots, 0, sizeof(slots));
@@ -5806,6 +5964,7 @@ void Manager5cc3c0::FUN_005cc3c0() {
 
 // @f3 0x005cc6d0 (community match, verified in this file)
 namespace f3m_005cc6d0 {
+// pdb: BSSimpleArray<NavMeshStaticAvoidNode *,1024>::`scalar deleting destructor' | NavMeshSearch.obj | fnv360_0822_retail, vtable, medium
 namespace N5CC6 {struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;extern int DAT_00e010b4;extern void (__stdcall *DAT_00e010bc)(void*);struct Object {void* vtable;void* data;unsigned size;unsigned capacity;void* FUN_005cc6d0(unsigned);};void* Object::FUN_005cc6d0(unsigned mode){vtable=&DAT_00e010b4;if(data){DAT_00e010bc(data);data=0;capacity=0;size=0;}if(mode&1)DAT_01090a78.FUN_0086ba60(this);return this;}}
 
 }   // namespace f3m_005cc6d0
@@ -5848,8 +6007,10 @@ int unk78;
 int unk7C;
 int unk80;
 int unk84;
-Map5c25 map;void FUN_005c1a20();bool FUN_005c25b0(unsigned short,Value5c25&);};
-bool Owner5c25::FUN_005c25b0(unsigned short key,Value5c25&out){if(!map.count)FUN_005c1a20();return map.FUN_005bcdd0(key,out);}
+Map5c25 map;void NavMesh_CreatePOVs();bool FUN_005c25b0(unsigned short,Value5c25&);};
+// pdb: NavMesh::GetPOVForVertex | NavMesh_Util.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: ausVertex, aRetData
+bool Owner5c25::FUN_005c25b0(unsigned short key,Value5c25&out){if(!map.count)NavMesh_CreatePOVs();return map.FUN_005bcdd0(key,out);}
 }   // namespace f3m_005c25b0
 
 // @f3 0x005d9910 (community match, verified in this file)
@@ -5858,6 +6019,8 @@ namespace Match5d99 {
 struct Value5d99 {void FUN_0078c030(int);};struct Node5d99;
 struct Container5d99 {int unk00;unsigned unk04;Node5d99** unk08;Node5d99* Begin(){for(unsigned i=0;i<unk04;++i)if(unk08[i])return unk08[i];return 0;}void FUN_0089a5d0(Node5d99**,unsigned*,Value5d99**);};
 struct Owner5d99 {int unk00,unk04,unk08,unk0C,unk10,unk14,unk18;Container5d99 unk1C;void FUN_00455c50(bool);void FUN_005d9910(bool);};
+// pdb: NavMeshInfoMap::SetAltered | NavMeshInfoMap.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abVal
 void Owner5d99::FUN_005d9910(bool enabled){FUN_00455c50(enabled);if(!enabled){Node5d99* cursor=unk1C.Begin();while(cursor){unsigned key;Value5d99* value;unk1C.FUN_0089a5d0(&cursor,&key,&value);value->FUN_0078c030(0);}}}
 }
 }   // namespace f3m_005d9910
@@ -5872,6 +6035,8 @@ struct ResizeArray {
  void FUN_005b8620(unsigned,unsigned);void FUN_005c86f0(ResizeElement*,unsigned);
  void FUN_005c9070(unsigned,bool);
 };
+// pdb: BSSimpleArray<NiColorA,1024>::SetSize | NavMeshRender.obj | fnv360_0721_beta, call_gap, low
+// pdb params: aiNewSize, abFreeMemory
 void ResizeArray::FUN_005c9070(unsigned requested,bool release) {
  if(requested==0) {
   if(data) {
@@ -5986,6 +6151,7 @@ extern void (__thiscall *DAT_00e01afc)(Base5dff70*,void*);extern void (__thiscal
 struct Base5dff70 {void* vtable;void* data;unsigned count,capacity;~Base5dff70(){vtable=&DAT_00e01ac4;if(data){DAT_00e01acc(this,data);data=0;capacity=0;count=0;}}};
 struct Owner5dff70:Base5dff70 {void FUN_005dff70();};
 struct Cleanup5dff70 {Base5dff70* object;Cleanup5dff70(Base5dff70* p):object(p){object->vtable=&DAT_00e01af4;}~Cleanup5dff70(){object->~Base5dff70();}};
+// pdb: BSScrapArray<NavMeshObstacleVertex *,1024>::~BSScrapArray<NavMeshObstacleVertex *,1024> | NavMeshObstacleCutter.obj | fnv360_0822_debug, call_seq, low
 void Owner5dff70::FUN_005dff70() {Cleanup5dff70 cleanup(this);if(data){DAT_00e01afc(this,data);data=0;capacity=0;count=0;}}
 }
 }   // namespace f3m_005dff70
@@ -6008,6 +6174,7 @@ namespace f3m_005c59b0 {
 struct Owner5c59b0;extern void* DAT_00e00ec0;extern void(__thiscall *DAT_00e00ec8)(Owner5c59b0*,void*);
 
 struct Owner5c59b0 {void** table;void* data;unsigned count;unsigned capacity;void* FUN_005c59b0(unsigned);};
+// pdb: BSSimpleArray<NavMeshPOVSearchNode,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 void* Owner5c59b0::FUN_005c59b0(unsigned flags){table=&DAT_00e00ec0;if(data){DAT_00e00ec8(this,data);data=0;capacity=0;count=0;}if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }   // namespace f3m_005c59b0
 
@@ -6017,6 +6184,7 @@ namespace f3m_005d3ac0 {
 extern void (__stdcall* DAT_00e012c4)(void*);
 struct ArrayFreeHeap {void FUN_0086ba60(void*);};
 struct DeletingArray {void** table;void* data;unsigned size,capacity;DeletingArray* FUN_005d3ac0(unsigned);};
+// pdb: BSSimpleArray<PathSmootherPOV *,1024>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 DeletingArray* DeletingArray::FUN_005d3ac0(unsigned flags) {
  void* storage=data;table=DAT_00e012bc;
  if(storage) {DAT_00e012c4(storage);data=0;capacity=0;size=0;}
@@ -6064,6 +6232,7 @@ struct FUN_005c3220 {
     ~FUN_005c3220();
 };
 
+// pdb: NavMeshBounds::~NavMeshBounds | NavMeshBounds.obj | fnv360_0721_beta, objrun, medium
 FUN_005c3220::~FUN_005c3220() {}
 }   // namespace f3m_005c3220
 
@@ -6086,6 +6255,8 @@ struct SlotOwner
     void FUN_005d1eb0(unsigned short slot, unsigned short value, bool flag4, bool flag5);
 };
 
+// pdb: NavMeshTriangle::SetEdgeCover | NavMeshTriangle.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiEdge, aiData, abLeftSide, abRightSide
 void SlotOwner::FUN_005d1eb0(unsigned short slot, unsigned short value, bool flag4, bool flag5)
 {
     if (slot == 2) return;
@@ -6112,7 +6283,7 @@ namespace f3m_005d9710 {
 
 struct Found005d9710;
 
-extern "C" void* __cdecl FUN_00455190(void* key);
+extern "C" void* __cdecl TESForm_GetFormByNumericID(void* key);
 extern "C" void* __cdecl FUN_00c0050a(void* a, int b, void* c, void* d, int e);
 
 struct Found005d9710
@@ -6134,11 +6305,12 @@ struct Self005d9710
     void FUN_005d9710();
 };
 
+// pdb: NavMeshInfo::GetCell | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, low
 void Self005d9710::FUN_005d9710()
 {
     void* p = unk1c;
     if (!p)
-        p = FUN_00455190((void*)unk04);
+        p = TESForm_GetFormByNumericID((void*)unk04);
     Found005d9710* found = (Found005d9710*)FUN_00c0050a(p, 0, &DAT_00f46078, &DAT_00f47a58, 0);
     if (found)
     {
@@ -6147,7 +6319,7 @@ void Self005d9710::FUN_005d9710()
     }
     void* q = unk1c;
     if (!q)
-        q = FUN_00455190((void*)unk04);
+        q = TESForm_GetFormByNumericID((void*)unk04);
     FUN_00c0050a(q, 0, &DAT_00f46078, &DAT_00f47a3c, 0);
 }
 }   // namespace f3m_005d9710
@@ -6195,6 +6367,7 @@ struct FUN_005d0260 : SimpleArrayStub<NavMeshSearchNode, 1024>
     void* m_pAlloc;
 };
 
+// pdb: BSScrapArray<NavMeshSearchNode,1024>::~BSScrapArray<NavMeshSearchNode,1024> | NavMeshSearchMaxCost.obj | fnv360_0822_debug, call_seq, medium
 FUN_005d0260::~FUN_005d0260()
 {
     if (pBuffer)
@@ -6309,6 +6482,8 @@ public:
     FUN_005dfed0(unsigned int auiCapacity, unsigned int auiSize, Context* apContext);
 };
 
+// pdb: BSScrapArray<NavMeshObstacleVertex *,1024>::BSScrapArray<NavMeshObstacleVertex *,1024> | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiReserveSize, aiInitialSize, apHeap
 FUN_005dfed0::FUN_005dfed0(unsigned int auiCapacity, unsigned int auiSize, Context* apContext)
 {
     m_pContext = apContext ? apContext : ((MemoryManager*)&DAT_01090a78)->GetCtx();
@@ -6343,6 +6518,7 @@ struct Self {
 
 }
 
+// pdb: AStarNodeHeap<CombatPlanNode *,CombatPlanLink *,512>::hkpMoppDefaultSplitter_createTerminal | CombatPlanner.obj | fnv360_0822_retail, caller, medium
 void __stdcall FUN_005dba60(f3m_005dba60::Self* self)
 {
     if (self->unk14)
@@ -6379,6 +6555,7 @@ struct FUN_005c5ac0_Vtbl_T
 
 extern FUN_005c5ac0_Vtbl_T vtbl_005c5ac0;
 
+// pdb: BSSimpleArray<RemoveIndex,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 FUN_005c5ac0_Obj* FUN_005c5ac0_Obj::FUN_005c5ac0(unsigned int flags)
 {
     void* buffer = unk04;
@@ -6433,6 +6610,8 @@ struct Owner
     bool FUN_005df730(Vec* point);
 };
 
+// pdb: NavMeshObstacleCutter::IsPointInOverlappedArea | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aPoint
 bool Owner::FUN_005df730(Vec* point)
 {
     unsigned int i = 0;
@@ -6548,6 +6727,7 @@ public:
  virtual __forceinline ~BSScrapArray() {if(pBuffer) {DAT_00e010d0(pBuffer);pBuffer=0;capacity=0;size=0;}}
  void FUN_005cc7e0();
 };
+// pdb: BSScrapArray<AStarNode<NavMeshSearchNode,NavMeshSearchLink> *,1024>::~BSScrapArray<AStarNode<NavMeshSearchNode,NavMeshSearchLink> *,1024> | NavMeshSearch.obj | fnv360_0822_debug, call_seq, medium
 void BSScrapArray<Segment5cc7e0,1024>::FUN_005cc7e0() {
  this->BSScrapArray::~BSScrapArray();
 }
@@ -6631,6 +6811,7 @@ struct Self
     void FUN_005df430();
 };
 
+// pdb: NavMeshObstacleCutter::SetObstacleCount | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
 void Self::FUN_005df430()
 {
     for (unsigned int i = range->start; i < range->start + range->count; ++i)
@@ -6657,6 +6838,7 @@ extern void* DAT_00e01320[];
 namespace f3m_005d3c50 {
 extern void (__stdcall *DAT_00e01328)(void*);
 struct BufferD3 { void** unk00; void* unk04; unsigned unk08; unsigned unk0c; BufferD3* FUN_005d3c50(unsigned flags); };
+// pdb: BSSimpleArray<AStarNode<PathSmootherPOVNode,PathSmootherPOVLink> *,1024>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 BufferD3* BufferD3::FUN_005d3c50(unsigned flags) { unk00 = DAT_00e01320; if (unk04) { DAT_00e01328(unk04); unk04=0; unk0c=0; unk08=0; } if(flags&1) DAT_01090a78.FUN_0086ba60(this); return this; }
 }   // namespace f3m_005d3c50
 
@@ -6666,6 +6848,7 @@ namespace f3m_005c5a70 {
 extern void (__stdcall* DAT_00e00e98)(void*);
 struct ArrayFreeHeap {void FUN_0086ba60(void*);};
 struct DeletingArray {void** table;void* data;unsigned size,capacity;DeletingArray* FUN_005c5a70(unsigned);};
+// pdb: BSSimpleArray<FastNavMeshVertHandle,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
 DeletingArray* DeletingArray::FUN_005c5a70(unsigned flags) {
  void* storage=data;table=DAT_00e00e90;
  if(storage) {DAT_00e00e98(storage);data=0;capacity=0;size=0;}
@@ -6743,6 +6926,7 @@ private:
     unsigned int   count;     // 0x38
 };
 
+// pdb: NavMeshObstacleCutter::ConnectTriangles | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
 void LinkTable::FUN_005df4f0()
 {
     for (unsigned int i = 0; i < count; ++i)
@@ -6770,6 +6954,8 @@ void LinkTable::FUN_005df4f0()
 // @f3 0x005d9780 (community match, verified in this file)
 namespace f3m_005d9780 {
 bool __stdcall FUN_00453fe0(void*);
+// pdb: NavMeshInfoMap::SavesBefore | NavMeshInfoMap.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apForm
 bool __stdcall FUN_005d9780(void* p) { if (*((unsigned char*)p+4)==0x43) return true; return FUN_00453fe0(p); }
 }   // namespace f3m_005d9780
 
@@ -6795,6 +6981,7 @@ struct FUN_005d9e90 : FUN_00455a70 {
     virtual ~FUN_005d9e90();
     void FUN_005d9990();
 };
+// pdb: NavMeshInfoMap::~NavMeshInfoMap | NavMeshInfoMap.obj | fnv360_0822_retail, call_seq, medium
 FUN_005d9e90::~FUN_005d9e90() {
     FUN_005d9990();
 }
@@ -6823,6 +7010,7 @@ struct Tail2058 {
 struct FUN_005cc480 : FUN_005cc350 {
     FUN_005cc480();
 };
+// pdb: NavMeshSearch::NavMeshSearch | NavMeshSearch.obj | fnv360_0822_retail, call_seq, medium
 FUN_005cc480::FUN_005cc480() {
     *(int**)this = &DAT_00e010a4;
     Tail2058* fields = (Tail2058*)((char*)this + 0x2058);
@@ -6849,6 +7037,8 @@ struct FUN_005c5800_cls {
 
 // Ensures capacity by allocating or growing the buffer when full, then increments the count and returns the previous index.
 // @fnv 0x00a11ee0
+// pdb: BSSimpleArray<PathSmootherPOVDebugPOV,1024>::Add | NavMeshPOVSearch.obj | fnv360_0822_debug, objrun_sim, low
+// pdb params: aValue
 unsigned int FUN_005c5800_cls::FUN_005c5800() {
     unsigned int unkC, tmp0, a0;
     unsigned int cap;
@@ -6880,6 +7070,8 @@ unsigned int FUN_005c5800_cls::FUN_005c5800() {
 // @f3 0x005ddda0 (community match, verified in this file)
 namespace f3m_005ddda0 {
 struct IntersectPoint { float x,y,z; };
+// pdb: NavMeshMath::LineSegmentToLine2DIntersection | NavMeshMath.obj | fnv360_0721_beta, objrun, medium
+// pdb params: arSegment1, arSegment2, arLine1, arLine2, apReturnIntersection
 bool __cdecl FUN_005ddda0(const IntersectPoint* a,const IntersectPoint* b,const IntersectPoint* c,const IntersectPoint* d,IntersectPoint* out)
 {
     IntersectPoint cross = { d->x-c->x, d->y-c->y, 0.0f };
@@ -6888,7 +7080,7 @@ bool __cdecl FUN_005ddda0(const IntersectPoint* a,const IntersectPoint* b,const 
     float determinant = dx*vy-vx*dy;
     if (determinant==0.0f) return false;
     IntersectPoint offset={a->x-c->x,a->y-c->y,0.0f};
-    volatile float numerator = offset.x*dy-offset.y*dx;
+    float numerator = offset.x*dy-offset.y*dx;
     float lineRatio = numerator/determinant;
     if (lineRatio < 0.0f || lineRatio > 1.0f) return false;
     if (out) {
@@ -6940,6 +7132,7 @@ void NodeGrid::Reset()
     memset(cells, 0, sizeof(cells));
 }
 
+// pdb: AStarSearch<PathSmootherPOVNode,PathSmootherPOVLink>::AStarSearch<PathSmootherPOVNode,PathSmootherPOVLink> | PathSmootherPOV.obj | fnv360_0822_retail, caller_sim, low
 FUN_005d2d60::FUN_005d2d60()
 {
     m_list.FUN_0086cb90(0xD000);
@@ -6980,6 +7173,7 @@ struct FUN_005d3de0 : n5d3de0::ArrayBase {
     virtual void Free(void* p);
 };
 
+// pdb: BSScrapArray<AStarNode<PathSmootherPOVNode,PathSmootherPOVLink> *,1024>::~BSScrapArray<AStarNode<PathSmootherPOVNode,PathSmootherPOVLink> *,1024> | PathSmootherPOV.obj | fnv360_0822_debug, call_seq, medium
 FUN_005d3de0::~FUN_005d3de0()
 {
     if (data) {
@@ -7034,6 +7228,8 @@ struct This36 {
     int FUN_005d4830(int arg);
 };
 
+// pdb: BSSimpleArray<TESObjectREFR *,1024>::GetAt | BGSTerrainManager.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: aiIndex
 int This36::FUN_005d4830(int arg) {
     int v = FUN_0046eeb0();
     unk04[v].FUN_005c4570(arg);
@@ -7070,6 +7266,8 @@ struct QGrid3660 {
     void FUN_005c3660(const float* point, QCell3660** out);
 };
 
+// pdb: NavMeshGrid::GetTriangleData | NavMeshGrid.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aLoc, apArray
 void QGrid3660::FUN_005c3660(const float* point, QCell3660** out) {
     if (!(point[0] < minX || point[0] > maxX || point[1] < minY || point[1] > maxY)) {
         float dx = point[0] - minX;
@@ -7102,6 +7300,8 @@ struct QRec5c41 {
     QVec5c41 pos;
     QRec5c41* FUN_005c4190(const QRec5c41& other);
 };
+// pdb: NavMeshEdgeLocation::NavMeshEdgeLocation | NavMeshHandles.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aFastEdgeLocation
 QRec5c41* QRec5c41::FUN_005c4190(const QRec5c41& other) {
     form = ((QForm5c41*)other.form)->FUN_005b84c0();
     unk04 = other.unk04;
@@ -7215,6 +7415,8 @@ static inline void Expand(QPt& mn, QPt& mx, const QPt& p) {
     if (p.y < mn.y) mn.y = p.y;
     if (p.y > mx.y) mx.y = p.y;
 }
+// pdb: NavMesh::AddTrianglesToGrid | NavMesh_Util.obj | fnv360_0822_retail, call_gap, low
+// pdb params: ausFirstTriangleIndex, ausLastTriangleIndex
 bool QNav::FUN_005c03c0(unsigned short first, unsigned short last)
 {
     unsigned int i = first;
@@ -7392,6 +7594,7 @@ public:
     ~FUN_005c8d30();
 };
 
+// pdb: NavMeshRender::~NavMeshRender | NavMeshRender.obj | fnv360_0822_retail, call_seq, low
 FUN_005c8d30::~FUN_005c8d30()
 {
     for (int i = 0; i < 17; i++) {
@@ -7424,6 +7627,8 @@ struct Item5C4F30
     int unk0c;
 };
 
+// pdb: BSSimpleArray<SandBoxChoiceListItem,1024>::_ReallocateBuffer | SandBoxPackage.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiNewSize, aiCopyCount
 void __stdcall FUN_005c4f30(Item5C4F30* destination, unsigned int count)
 {
     for (unsigned int i = 0; i < count; ++i)
@@ -7443,6 +7648,8 @@ struct QP3 {
     QP3 operator*(float s) const { return QP3(x * s, y * s, z * s); }
     float Dot(const QP3& o) const { return x * o.x + y * o.y + z * o.z; }
 };
+// pdb: NavMeshMath::ProjectPointOntoSegment | NavMeshMath.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aPoint, aLineStart, aLineEnd
 QP3 FUN_005dd040(const QP3& p, const QP3& a, const QP3& b)
 {
     QP3 ab = b - a;
@@ -7464,6 +7671,8 @@ namespace f3m_005dd6d0 {
 namespace f3m_005dd6d0 {
 struct IntersectPoint { float x, y, z; };
 
+// pdb: NavMeshMath::Find2DIntersectionStable | NavMeshMath.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aSegment1Start, aSegment1End, aSegment2Start, aSegment2End, apReturnIntersection
 bool __cdecl FUN_005dd6d0(const IntersectPoint* a, const IntersectPoint* b, const IntersectPoint* c, const IntersectPoint* d, IntersectPoint* out)
 {
     float t1 = (a->x - d->x) * (b->y - d->y) - (a->y - d->y) * (b->x - d->x);
@@ -7520,6 +7729,8 @@ struct Point {
     }
 };
 
+// pdb: NavMeshMath::SegmentCircleIntersection | NavMeshMath.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aSegmentStart, aSegmentEnd, aCircleCenter, afCircleRadius
 bool __cdecl FUN_005de000(const Point& origin, const Point& second, const Point& third, float radius)
 {
     const Point direction = second - origin;
@@ -7581,6 +7792,8 @@ void* location;
 FUN_005c31a0* bounds;
 void FUN_005d9080(Owner*);
 };
+// pdb: NavMeshInfo::CopyTo | NavMeshInfo.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apDestInfo
 void Owner::FUN_005d9080(Owner* other) {
 other->navID=navID;
 other->parentID=parentID;
@@ -7616,6 +7829,7 @@ struct FUN_005dbbb0 : Base {
     Member member;
     ~FUN_005dbbb0();
 };
+// pdb: NavMeshInfoSearch::~NavMeshInfoSearch | NavMeshInfoSearch.obj | fnv360_0822_debug, call_seq, low
 FUN_005dbbb0::~FUN_005dbbb0() {}
 }
 }   // namespace f3m_005dbbb0
@@ -7641,6 +7855,8 @@ struct Container {int unk00;Ref* data;
 };
 int Container::FUN_006b5880(const Ref* value){int i=FUN_005e5350();new(&data[i])Ref;data[i]=*value;return i;}
 struct Owner {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; Container container;int FUN_005c16b0(Object*);};
+// pdb: NavMesh::AddObstacleUndoData | NavMesh_Util.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apUndoData
 int Owner::FUN_005c16b0(Object* value){return container.FUN_006b5880(&Ref(value));}
 }
 }   // namespace f3m_005c16b0
@@ -7685,6 +7901,8 @@ public:
     F3Derived5DA0B0(unsigned int n);
 };
 
+// pdb: NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *>::NiTMap<unsigned int,BSSimpleArray<NavMeshInfo *,1024> *> | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, low
+// pdb params: uiHashSize
 F3Derived5DA0B0::F3Derived5DA0B0(unsigned int n)
     : F3Base5DA0B0(n)
 {
@@ -7698,6 +7916,8 @@ struct MM {
 };
 extern MM _g_memoryManager;
 
+// pdb: BSSimpleArray<NavMeshBounds::NavMeshBoundsTriangle,1024>::_Reallocate | NavMeshBounds.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuffer, aiNewSizeInItem
 void* __stdcall FUN_005c2f40(void* memory, unsigned int count)
 {
     return _g_memoryManager.FUN_00aa4150(memory, count * 6);
@@ -7782,6 +8002,7 @@ struct ArrayBaseCleanup {
   if(storage) { DAT_00e01a14(owner,storage);owner->data=0;owner->capacity=0;owner->size=0; }
  }
 };
+// pdb: BSScrapArray<AStarNode<NavMeshInfo const *,TESObjectREFR *> *,1024>::~BSScrapArray<AStarNode<NavMeshInfo const *,TESObjectREFR *> *,1024> | NavMeshInfoSearch.obj | fnv360_0822_debug, call_seq, medium
 void SmallArray::FUN_005dbe20() {
  ArrayBaseCleanup cleanup(this);
  if(data) {DAT_00e01a38(data);data=0;capacity=0;size=0;}
@@ -7795,11 +8016,13 @@ namespace f3m_005d3b10 {
 extern int DAT_00e012d0;
 extern void (__stdcall *DAT_00e012d8)(void*);
 struct Owner5d3b10 { void* table; void* buffer; unsigned count,capacity; Owner5d3b10* FUN_005d3b10(unsigned); };
+// pdb: BSSimpleArray<PathSmootherPOVNode,1024>::`scalar deleting destructor' | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
 Owner5d3b10* Owner5d3b10::FUN_005d3b10(unsigned flags) { table=&DAT_00e012d0; if(buffer) { DAT_00e012d8(buffer); buffer=0; capacity=0; count=0; } if(flags&1) DAT_01090a78.FUN_0086ba60(this); return this; }
 }   // namespace f3m_005d3b10
 
 // @f3 0x005cf880 (community match, verified in this file)
 namespace f3m_005cf880 {
+// pdb: NavMeshSearchLOS::~NavMeshSearchLOS | NavMeshSearchLOS.obj | fnv360_0822_retail, call_seq, high
 extern int DAT_00e011a8,DAT_00e01080;struct Ref5cf8;typedef void (__thiscall *Delete5cf8)(Ref5cf8*);struct Table5cf8 {int unk00;Delete5cf8 unk04;};extern long (__stdcall *DAT_00d9b064)(long*);struct Ref5cf8 {Table5cf8* unk00;long unk04;void IncRefCount();void DecRefCount(){if(!DAT_00d9b064(&unk04))unk00->unk04(this);}};struct Storage5cf8 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; int unk578; int unk57C; int unk580; int unk584; int unk588; int unk58C; int unk590; int unk594; int unk598; int unk59C; int unk5A0; int unk5A4; int unk5A8; int unk5AC; int unk5B0; int unk5B4; int unk5B8; int unk5BC; int unk5C0; int unk5C4; int unk5C8; int unk5CC; int unk5D0; int unk5D4; int unk5D8; int unk5DC; int unk5E0; int unk5E4; int unk5E8; int unk5EC; int unk5F0; int unk5F4; int unk5F8; int unk5FC; int unk600; int unk604; int unk608; int unk60C; int unk610; int unk614; int unk618; int unk61C; int unk620; int unk624; int unk628; int unk62C; int unk630; int unk634; int unk638; int unk63C; int unk640; int unk644; int unk648; int unk64C; int unk650; int unk654; int unk658; int unk65C; int unk660; int unk664; int unk668; int unk66C; int unk670; int unk674; int unk678; int unk67C; int unk680; int unk684; int unk688; int unk68C; int unk690; int unk694; int unk698; int unk69C; int unk6A0; int unk6A4; int unk6A8; int unk6AC; int unk6B0; int unk6B4; int unk6B8; int unk6BC; int unk6C0; int unk6C4; int unk6C8; int unk6CC; int unk6D0; int unk6D4; int unk6D8; int unk6DC; int unk6E0; int unk6E4; int unk6E8; int unk6EC; int unk6F0; int unk6F4; int unk6F8; int unk6FC; int unk700; int unk704; int unk708; int unk70C; int unk710; int unk714; int unk718; int unk71C; int unk720; int unk724; int unk728; int unk72C; int unk730; int unk734; int unk738; int unk73C; int unk740; int unk744; int unk748; int unk74C; int unk750; int unk754; int unk758; int unk75C; int unk760; int unk764; int unk768; int unk76C; int unk770; int unk774; int unk778; int unk77C; int unk780; int unk784; int unk788; int unk78C; int unk790; int unk794; int unk798; int unk79C; int unk7A0; int unk7A4; int unk7A8; int unk7AC; int unk7B0; int unk7B4; int unk7B8; int unk7BC; int unk7C0; int unk7C4; int unk7C8; int unk7CC; int unk7D0; int unk7D4; int unk7D8; int unk7DC; int unk7E0; int unk7E4; int unk7E8; int unk7EC; int unk7F0; int unk7F4; int unk7F8; int unk7FC; int unk800; int unk804; int unk808; int unk80C; int unk810; int unk814; int unk818; int unk81C; int unk820; int unk824; int unk828; int unk82C; int unk830; int unk834; int unk838; int unk83C; int unk840; int unk844; int unk848; int unk84C; int unk850; int unk854; int unk858; int unk85C; int unk860; int unk864; int unk868; int unk86C; int unk870; int unk874; int unk878; int unk87C; int unk880; int unk884; int unk888; int unk88C; int unk890; int unk894; int unk898; int unk89C; int unk8A0; int unk8A4; int unk8A8; int unk8AC; int unk8B0; int unk8B4; int unk8B8; int unk8BC; int unk8C0; int unk8C4; int unk8C8; int unk8CC; int unk8D0; int unk8D4; int unk8D8; int unk8DC; int unk8E0; int unk8E4; int unk8E8; int unk8EC; int unk8F0; int unk8F4; int unk8F8; int unk8FC; int unk900; int unk904; int unk908; int unk90C; int unk910; int unk914; int unk918; int unk91C; int unk920; int unk924; int unk928; int unk92C; int unk930; int unk934; int unk938; int unk93C; int unk940; int unk944; int unk948; int unk94C; int unk950; int unk954; int unk958; int unk95C; int unk960; int unk964; int unk968; int unk96C; int unk970; int unk974; int unk978; int unk97C; int unk980; int unk984; int unk988; int unk98C; int unk990; int unk994; int unk998; int unk99C; int unk9A0; int unk9A4; int unk9A8; int unk9AC; int unk9B0; int unk9B4; int unk9B8; int unk9BC; int unk9C0; int unk9C4; int unk9C8; int unk9CC; int unk9D0; int unk9D4; int unk9D8; int unk9DC; int unk9E0; int unk9E4; int unk9E8; int unk9EC; int unk9F0; int unk9F4; int unk9F8; int unk9FC; int unkA00; int unkA04; int unkA08; int unkA0C; int unkA10; int unkA14; int unkA18; int unkA1C; int unkA20; int unkA24; int unkA28; int unkA2C; int unkA30; int unkA34; int unkA38; int unkA3C; int unkA40; int unkA44; int unkA48; int unkA4C; int unkA50; int unkA54; int unkA58; int unkA5C; int unkA60; int unkA64; int unkA68; int unkA6C; int unkA70; int unkA74; int unkA78; int unkA7C; int unkA80; int unkA84; int unkA88; int unkA8C; int unkA90; int unkA94; int unkA98; int unkA9C; int unkAA0; int unkAA4; int unkAA8; int unkAAC; int unkAB0; int unkAB4; int unkAB8; int unkABC; int unkAC0; int unkAC4; int unkAC8; int unkACC; int unkAD0; int unkAD4; int unkAD8; int unkADC; int unkAE0; int unkAE4; int unkAE8; int unkAEC; int unkAF0; int unkAF4; int unkAF8; int unkAFC; int unkB00; int unkB04; int unkB08; int unkB0C; int unkB10; int unkB14; int unkB18; int unkB1C; int unkB20; int unkB24; int unkB28; int unkB2C; int unkB30; int unkB34; int unkB38; int unkB3C; int unkB40; int unkB44; int unkB48; int unkB4C; int unkB50; int unkB54; int unkB58; int unkB5C; int unkB60; int unkB64; int unkB68; int unkB6C; int unkB70; int unkB74; int unkB78; int unkB7C; int unkB80; int unkB84; int unkB88; int unkB8C; int unkB90; int unkB94; int unkB98; int unkB9C; int unkBA0; int unkBA4; int unkBA8; int unkBAC; int unkBB0; int unkBB4; int unkBB8; int unkBBC; int unkBC0; int unkBC4; int unkBC8; int unkBCC; int unkBD0; int unkBD4; int unkBD8; int unkBDC; int unkBE0; int unkBE4; int unkBE8; int unkBEC; int unkBF0; int unkBF4; int unkBF8; int unkBFC; int unkC00; int unkC04; int unkC08; int unkC0C; int unkC10; int unkC14; int unkC18; int unkC1C; int unkC20; int unkC24; int unkC28; int unkC2C; int unkC30; int unkC34; int unkC38; int unkC3C; int unkC40; int unkC44; int unkC48; int unkC4C; int unkC50; int unkC54; int unkC58; int unkC5C; int unkC60; int unkC64; int unkC68; int unkC6C; int unkC70; int unkC74; int unkC78; int unkC7C; int unkC80; int unkC84; int unkC88; int unkC8C; int unkC90; int unkC94; int unkC98; int unkC9C; int unkCA0; int unkCA4; int unkCA8; int unkCAC; int unkCB0; int unkCB4; int unkCB8; int unkCBC; int unkCC0; int unkCC4; int unkCC8; int unkCCC; int unkCD0; int unkCD4; int unkCD8; int unkCDC; int unkCE0; int unkCE4; int unkCE8; int unkCEC; int unkCF0; int unkCF4; int unkCF8; int unkCFC; int unkD00; int unkD04; int unkD08; int unkD0C; int unkD10; int unkD14; int unkD18; int unkD1C; int unkD20; int unkD24; int unkD28; int unkD2C; int unkD30; int unkD34; int unkD38; int unkD3C; int unkD40; int unkD44; int unkD48; int unkD4C; int unkD50; int unkD54; int unkD58; int unkD5C; int unkD60; int unkD64; int unkD68; int unkD6C; int unkD70; int unkD74; int unkD78; int unkD7C; int unkD80; int unkD84; int unkD88; int unkD8C; int unkD90; int unkD94; int unkD98; int unkD9C; int unkDA0; int unkDA4; int unkDA8; int unkDAC; int unkDB0; int unkDB4; int unkDB8; int unkDBC; int unkDC0; int unkDC4; int unkDC8; int unkDCC; int unkDD0; int unkDD4; int unkDD8; int unkDDC; int unkDE0; int unkDE4; int unkDE8; int unkDEC; int unkDF0; int unkDF4; int unkDF8; int unkDFC; int unkE00; int unkE04; int unkE08; int unkE0C; int unkE10; int unkE14; int unkE18; int unkE1C; int unkE20; int unkE24; int unkE28; int unkE2C; int unkE30; int unkE34; int unkE38; int unkE3C; int unkE40; int unkE44; int unkE48; int unkE4C; int unkE50; int unkE54; int unkE58; int unkE5C; int unkE60; int unkE64; int unkE68; int unkE6C; int unkE70; int unkE74; int unkE78; int unkE7C; int unkE80; int unkE84; int unkE88; int unkE8C; int unkE90; int unkE94; int unkE98; int unkE9C; int unkEA0; int unkEA4; int unkEA8; int unkEAC; int unkEB0; int unkEB4; int unkEB8; int unkEBC; int unkEC0; int unkEC4; int unkEC8; int unkECC; int unkED0; int unkED4; int unkED8; int unkEDC; int unkEE0; int unkEE4; int unkEE8; int unkEEC; int unkEF0; int unkEF4; int unkEF8; int unkEFC; int unkF00; int unkF04; int unkF08; int unkF0C; int unkF10; int unkF14; int unkF18; int unkF1C; int unkF20; int unkF24; int unkF28; int unkF2C; int unkF30; int unkF34; int unkF38; int unkF3C; int unkF40; int unkF44; int unkF48; int unkF4C; int unkF50; int unkF54; int unkF58; int unkF5C; int unkF60; int unkF64; int unkF68; int unkF6C; int unkF70; int unkF74; int unkF78; int unkF7C; int unkF80; int unkF84; int unkF88; int unkF8C; int unkF90; int unkF94; int unkF98; int unkF9C; int unkFA0; int unkFA4; int unkFA8; int unkFAC; int unkFB0; int unkFB4; int unkFB8; int unkFBC; int unkFC0; int unkFC4; int unkFC8; int unkFCC; int unkFD0; int unkFD4; int unkFD8; int unkFDC; int unkFE0; int unkFE4; int unkFE8; int unkFEC; int unkFF0; int unkFF4; int unkFF8; int unkFFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; int unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; int unk2054; int unk2058; int unk205C; int unk2060; int unk2064; int unk2068; void FUN_0086caa0();};struct Core5cf8 {int* unk00;Storage5cf8 unk04;~Core5cf8(){unk00=&DAT_00e01080;unk04.FUN_0086caa0();}};struct Owner5cf8 {Core5cf8 core;NiPointer<Ref5cf8> unk2070;~Owner5cf8();};Owner5cf8::~Owner5cf8(){core.unk00=&DAT_00e011a8;}
 }   // namespace f3m_005cf880
 
@@ -8343,6 +8566,7 @@ int unk207C;
 int unk2080;
 Member member;NavMeshInfoSearch();virtual ~NavMeshInfoSearch();
 };
+// pdb: NavMeshInfoSearch::NavMeshInfoSearch | NavMeshInfoSearch.obj | fnv360_0822_retail, call_gap, low
 NavMeshInfoSearch::NavMeshInfoSearch(){unk2078=0;unk2064=0;unk2074=0;}
 }   // namespace f3m_005dbb40
 
@@ -8352,6 +8576,8 @@ template<>class BSSimpleArray<NavMeshEdgeHandle,1024>;typedef BSSimpleArray<NavM
 extern void(__thiscall* DAT_00e00d84)(Array5c0f*,void*);
 template<>class BSSimpleArray<NavMeshEdgeHandle,1024>{public:virtual __forceinline ~BSSimpleArray(){if(buffer){DAT_00e00d84(this,buffer);buffer=0;capacity=0;size=0;}}NavMeshEdgeHandle*buffer;unsigned size;unsigned capacity;};
 struct Owner5c0f{Array5c0f first;Array5c0f second;~Owner5c0f();};
+// pdb: BSSimpleArray<NavMeshEdgeHandle,1024>::Clear | NavMesh_Util.obj | fnv360_0721_beta, call_dedup, low
+// pdb params: abFreeMemory
 Owner5c0f::~Owner5c0f(){}
 
 // @f3 0x005c5910 (community match, verified in this file)
@@ -8371,6 +8597,8 @@ struct Arr
     unsigned int capacity;
 };
 
+// pdb: BSSimpleArray<BSSimpleArray<FastNavMeshVertHandle,1024>,1024>::_Reallocate | NavMeshPOVSearch.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apBuffer, aiNewSizeInItem
 Arr::~Arr()
 {
     if (data)
@@ -8392,6 +8620,7 @@ struct FUN_005d0440
     virtual ~FUN_005d0440();
     virtual void GetSize();
     virtual void Deallocate(void* p);
+    // pdb: BSSimpleArray<NavMeshSearchLink,1024>::`scalar deleting destructor' | NavMeshSearchMaxCost.obj | fnv360_0822_retail, vtable, medium
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
     void* unk04;
     unsigned int unk08;
@@ -8448,6 +8677,7 @@ struct TrackedObject5C
 
 extern TrackedObject5C* DAT_01074570;
 
+// pdb: NavMeshRender::KillSDM | NavMeshRender.obj | fnv360_0822_retail, udata, medium
 void FUN_005cc090()
 {
     delete DAT_01074570;
@@ -8510,6 +8740,7 @@ struct FUN_005c5940
     unsigned int m_uiSize;
     unsigned int m_uiMaxSize;
 
+    // pdb: BSSimpleArray<NavMeshPOV *,1024>::`scalar deleting destructor' | NavMeshPOVSearch.obj | fnv360_0822_retail, vtable, medium
     static void operator delete(void* pointer) { g_memoryManager.Deallocate(pointer); }
 };
 
@@ -8538,6 +8769,7 @@ struct Scrap04D0 : Simple04D0 {
     Scrap04D0();
     virtual ~Scrap04D0();
 };
+// pdb: BSScrapArray<NavMeshSearchNode,1024>::BSScrapArray<NavMeshSearchNode,1024> | NavMeshSearchMaxCost.obj | fnv360_0822_retail, call_gap, low
 Scrap04D0::Scrap04D0()
 {
     allocator = DAT_01090a78.FUN_0086bcb0();
@@ -8578,6 +8810,7 @@ struct FUN_005d3f30 : FUN_005d2d60 {
  unsigned int unk210c;
  FUN_005d3f30();virtual ~FUN_005d3f30();
 };
+// pdb: PathSmootherPOVSearch::PathSmootherPOVSearch | PathSmootherPOV.obj | fnv360_0822_retail, caller_sim, low
 FUN_005d3f30::FUN_005d3f30() {
  currentPOV=0;unk207c=0;unk2080=0;goalPOV=0;unk20c4=0;unk20c8=0;searching=false;unk210c=0;
 }
@@ -8668,6 +8901,8 @@ struct Owner {
     Value* fieldb4;
     void FUN_005c8890(bool);
 };
+// pdb: NavMeshRender::SetTransparentOverLayMode | NavMeshRender.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abTransparent
 void Owner::FUN_005c8890(bool enabled) {
     if(enabled) {
         float first=0.10000000149011612f;
@@ -8742,6 +8977,8 @@ struct Self {
     bool FUN_005df580(VertexRef* v0, VertexRef* v1, VertexRef* v2);
 };
 
+// pdb: NavMeshObstacleCutter::CheckTriangleAgainstObstacle | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apVert1, apVert2, apVert3
 bool Self::FUN_005df580(VertexRef* v0, VertexRef* v1, VertexRef* v2)
 {
     Vec3 p0 = mesh->vertices[v0->idx];
@@ -8812,6 +9049,8 @@ bool FUN_005ded10(Sph* a, Arc* c, Sph* b) {
 // @f3 0x005d3e70 (community match, verified in this file)
 namespace f3m_005d3e70 {
 struct Array5d3e70 { virtual void v00(); virtual void* Allocate(unsigned); virtual void Free(void*); void* buffer; unsigned count,capacity; void FUN_0046e640(unsigned,unsigned); __forceinline void SetCount(unsigned value) { count=value; } void FUN_005d3e70(unsigned,bool); };
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::SetSize | PathSmootherPOV.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aiNewSize, abFreeMemory
 void Array5d3e70::FUN_005d3e70(unsigned size,bool exact) {
  if(!size) { if(buffer) { if(exact) { Free(buffer); buffer=0; capacity=0; } count=0; } return; }
  if(size>capacity) {
@@ -8842,6 +9081,8 @@ struct Vec3x {
     Vec3x operator*(float s) const { Vec3x r = {x*s,y*s,z*s}; return r; }
     float cross(const Vec3x& p) const { return x*p.y-y*p.x; }
 };
+// pdb: NavMeshMath::LineToLineSegment2DIntersection | NavMeshMath.obj | fnv360_0721_beta, objrun, medium
+// pdb params: arLine1, arLine2, arSegment1, arSegment2, apReturnIntersection
 bool FUN_005ddc30(const Vec3x* a, const Vec3x* b, const Vec3x* c, const Vec3x* d, Vec3x* out)
 {
     Vec3x u = *b - *a;
@@ -9505,6 +9746,8 @@ inline QueryDelta QuerySubtract(const Vec& a,const Vec& b) {
 struct QueryOwner : Owner {
     float FUN_005c48c0(QueryObject*,Vec*,Vec*,QueryObject*);
 };
+// pdb: NavMeshPOVSearch::DrawArc | NavMeshPOVSearch.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aCenter, afRadius, aStartAngle, aGoalAngle, aDirection, aColor
 float QueryOwner::FUN_005c48c0(QueryObject* source,Vec* pos,Vec* end,QueryObject* ignored) {
     for(unsigned i=0;i<unk2070;++i) {
         for(unsigned j=0;j<((QueryLinks*)unk206c)[i].count;++j) {
@@ -9539,6 +9782,7 @@ struct A {
     int FUN_005d4800(const Elem12& p);
 };
 
+// pdb: BGSTerrainManager::KillSDM | BGSTerrainManager.obj | fnv360_0822_debug, objrun_open, low
 int A::FUN_005d4800(const Elem12& p)
 {
     int idx = FUN_007a1650();
@@ -9556,6 +9800,8 @@ struct Object87 {
     int unk08;
     unsigned int flags;
 };
+// pdb: NavMeshRender::GetTriangleColor | NavMeshRender.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apTri
 int __stdcall FUN_005c87e0(Object87* object)
 {
     int result = 0;
@@ -9635,6 +9881,8 @@ public:
     void FUN_005db3b0(EventArray* out);
 };
 }
+// pdb: NavMeshInfoMap::GetAllNavMeshInfo | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apReturnArray
 void N5db3b0::Manager::FUN_005db3b0(EventArray* out) {
     out->Clear();
     out->Reserve(0x800);
@@ -9673,6 +9921,7 @@ struct QOwner {
     int unk54; int unk58;
     QOwner();
 };
+// pdb: NavMeshInfo::NavMeshInfo | NavMeshInfo.obj | fnv360_0822_retail, call_dedup, low
 QOwner::QOwner()
 {
     unk08 = 0; unk00 = 0; unk04 = 0; unk1C = 0; unk0C = 0xdeaddead;
@@ -9689,8 +9938,9 @@ struct RangeObject { void FUN_004d45e0(RangeVec*,unsigned); };
 struct RangeResult { int unk00; float weight; RangeObject* object; unsigned short index,unk0E; RangeVec position; };
 struct RangeOwner {
 int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C; int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; int unk0050; int unk0054; int unk0058; int unk005C; int unk0060; int unk0064; int unk0068; int unk006C; int unk0070; int unk0074; int unk0078; int unk007C; int unk0080; int unk0084; int unk0088; int unk008C; int unk0090; int unk0094; int unk0098; int unk009C; int unk00A0; int unk00A4; int unk00A8; int unk00AC; int unk00B0; int unk00B4; int unk00B8; int unk00BC; int unk00C0; int unk00C4; int unk00C8; int unk00CC; int unk00D0; int unk00D4; int unk00D8; int unk00DC; int unk00E0; int unk00E4; int unk00E8; int unk00EC; int unk00F0; int unk00F4; int unk00F8; int unk00FC; int unk0100; int unk0104; int unk0108; int unk010C; int unk0110; int unk0114; int unk0118; int unk011C; int unk0120; int unk0124; int unk0128; int unk012C; int unk0130; int unk0134; int unk0138; int unk013C; int unk0140; int unk0144; int unk0148; int unk014C; int unk0150; int unk0154; int unk0158; int unk015C; int unk0160; int unk0164; int unk0168; int unk016C; int unk0170; int unk0174; int unk0178; int unk017C; int unk0180; int unk0184; int unk0188; int unk018C; int unk0190; int unk0194; int unk0198; int unk019C; int unk01A0; int unk01A4; int unk01A8; int unk01AC; int unk01B0; int unk01B4; int unk01B8; int unk01BC; int unk01C0; int unk01C4; int unk01C8; int unk01CC; int unk01D0; int unk01D4; int unk01D8; int unk01DC; int unk01E0; int unk01E4; int unk01E8; int unk01EC; int unk01F0; int unk01F4; int unk01F8; int unk01FC; int unk0200; int unk0204; int unk0208; int unk020C; int unk0210; int unk0214; int unk0218; int unk021C; int unk0220; int unk0224; int unk0228; int unk022C; int unk0230; int unk0234; int unk0238; int unk023C; int unk0240; int unk0244; int unk0248; int unk024C; int unk0250; int unk0254; int unk0258; int unk025C; int unk0260; int unk0264; int unk0268; int unk026C; int unk0270; int unk0274; int unk0278; int unk027C; int unk0280; int unk0284; int unk0288; int unk028C; int unk0290; int unk0294; int unk0298; int unk029C; int unk02A0; int unk02A4; int unk02A8; int unk02AC; int unk02B0; int unk02B4; int unk02B8; int unk02BC; int unk02C0; int unk02C4; int unk02C8; int unk02CC; int unk02D0; int unk02D4; int unk02D8; int unk02DC; int unk02E0; int unk02E4; int unk02E8; int unk02EC; int unk02F0; int unk02F4; int unk02F8; int unk02FC; int unk0300; int unk0304; int unk0308; int unk030C; int unk0310; int unk0314; int unk0318; int unk031C; int unk0320; int unk0324; int unk0328; int unk032C; int unk0330; int unk0334; int unk0338; int unk033C; int unk0340; int unk0344; int unk0348; int unk034C; int unk0350; int unk0354; int unk0358; int unk035C; int unk0360; int unk0364; int unk0368; int unk036C; int unk0370; int unk0374; int unk0378; int unk037C; int unk0380; int unk0384; int unk0388; int unk038C; int unk0390; int unk0394; int unk0398; int unk039C; int unk03A0; int unk03A4; int unk03A8; int unk03AC; int unk03B0; int unk03B4; int unk03B8; int unk03BC; int unk03C0; int unk03C4; int unk03C8; int unk03CC; int unk03D0; int unk03D4; int unk03D8; int unk03DC; int unk03E0; int unk03E4; int unk03E8; int unk03EC; int unk03F0; int unk03F4; int unk03F8; int unk03FC; int unk0400; int unk0404; int unk0408; int unk040C; int unk0410; int unk0414; int unk0418; int unk041C; int unk0420; int unk0424; int unk0428; int unk042C; int unk0430; int unk0434; int unk0438; int unk043C; int unk0440; int unk0444; int unk0448; int unk044C; int unk0450; int unk0454; int unk0458; int unk045C; int unk0460; int unk0464; int unk0468; int unk046C; int unk0470; int unk0474; int unk0478; int unk047C; int unk0480; int unk0484; int unk0488; int unk048C; int unk0490; int unk0494; int unk0498; int unk049C; int unk04A0; int unk04A4; int unk04A8; int unk04AC; int unk04B0; int unk04B4; int unk04B8; int unk04BC; int unk04C0; int unk04C4; int unk04C8; int unk04CC; int unk04D0; int unk04D4; int unk04D8; int unk04DC; int unk04E0; int unk04E4; int unk04E8; int unk04EC; int unk04F0; int unk04F4; int unk04F8; int unk04FC; int unk0500; int unk0504; int unk0508; int unk050C; int unk0510; int unk0514; int unk0518; int unk051C; int unk0520; int unk0524; int unk0528; int unk052C; int unk0530; int unk0534; int unk0538; int unk053C; int unk0540; int unk0544; int unk0548; int unk054C; int unk0550; int unk0554; int unk0558; int unk055C; int unk0560; int unk0564; int unk0568; int unk056C; int unk0570; int unk0574; int unk0578; int unk057C; int unk0580; int unk0584; int unk0588; int unk058C; int unk0590; int unk0594; int unk0598; int unk059C; int unk05A0; int unk05A4; int unk05A8; int unk05AC; int unk05B0; int unk05B4; int unk05B8; int unk05BC; int unk05C0; int unk05C4; int unk05C8; int unk05CC; int unk05D0; int unk05D4; int unk05D8; int unk05DC; int unk05E0; int unk05E4; int unk05E8; int unk05EC; int unk05F0; int unk05F4; int unk05F8; int unk05FC; int unk0600; int unk0604; int unk0608; int unk060C; int unk0610; int unk0614; int unk0618; int unk061C; int unk0620; int unk0624; int unk0628; int unk062C; int unk0630; int unk0634; int unk0638; int unk063C; int unk0640; int unk0644; int unk0648; int unk064C; int unk0650; int unk0654; int unk0658; int unk065C; int unk0660; int unk0664; int unk0668; int unk066C; int unk0670; int unk0674; int unk0678; int unk067C; int unk0680; int unk0684; int unk0688; int unk068C; int unk0690; int unk0694; int unk0698; int unk069C; int unk06A0; int unk06A4; int unk06A8; int unk06AC; int unk06B0; int unk06B4; int unk06B8; int unk06BC; int unk06C0; int unk06C4; int unk06C8; int unk06CC; int unk06D0; int unk06D4; int unk06D8; int unk06DC; int unk06E0; int unk06E4; int unk06E8; int unk06EC; int unk06F0; int unk06F4; int unk06F8; int unk06FC; int unk0700; int unk0704; int unk0708; int unk070C; int unk0710; int unk0714; int unk0718; int unk071C; int unk0720; int unk0724; int unk0728; int unk072C; int unk0730; int unk0734; int unk0738; int unk073C; int unk0740; int unk0744; int unk0748; int unk074C; int unk0750; int unk0754; int unk0758; int unk075C; int unk0760; int unk0764; int unk0768; int unk076C; int unk0770; int unk0774; int unk0778; int unk077C; int unk0780; int unk0784; int unk0788; int unk078C; int unk0790; int unk0794; int unk0798; int unk079C; int unk07A0; int unk07A4; int unk07A8; int unk07AC; int unk07B0; int unk07B4; int unk07B8; int unk07BC; int unk07C0; int unk07C4; int unk07C8; int unk07CC; int unk07D0; int unk07D4; int unk07D8; int unk07DC; int unk07E0; int unk07E4; int unk07E8; int unk07EC; int unk07F0; int unk07F4; int unk07F8; int unk07FC; int unk0800; int unk0804; int unk0808; int unk080C; int unk0810; int unk0814; int unk0818; int unk081C; int unk0820; int unk0824; int unk0828; int unk082C; int unk0830; int unk0834; int unk0838; int unk083C; int unk0840; int unk0844; int unk0848; int unk084C; int unk0850; int unk0854; int unk0858; int unk085C; int unk0860; int unk0864; int unk0868; int unk086C; int unk0870; int unk0874; int unk0878; int unk087C; int unk0880; int unk0884; int unk0888; int unk088C; int unk0890; int unk0894; int unk0898; int unk089C; int unk08A0; int unk08A4; int unk08A8; int unk08AC; int unk08B0; int unk08B4; int unk08B8; int unk08BC; int unk08C0; int unk08C4; int unk08C8; int unk08CC; int unk08D0; int unk08D4; int unk08D8; int unk08DC; int unk08E0; int unk08E4; int unk08E8; int unk08EC; int unk08F0; int unk08F4; int unk08F8; int unk08FC; int unk0900; int unk0904; int unk0908; int unk090C; int unk0910; int unk0914; int unk0918; int unk091C; int unk0920; int unk0924; int unk0928; int unk092C; int unk0930; int unk0934; int unk0938; int unk093C; int unk0940; int unk0944; int unk0948; int unk094C; int unk0950; int unk0954; int unk0958; int unk095C; int unk0960; int unk0964; int unk0968; int unk096C; int unk0970; int unk0974; int unk0978; int unk097C; int unk0980; int unk0984; int unk0988; int unk098C; int unk0990; int unk0994; int unk0998; int unk099C; int unk09A0; int unk09A4; int unk09A8; int unk09AC; int unk09B0; int unk09B4; int unk09B8; int unk09BC; int unk09C0; int unk09C4; int unk09C8; int unk09CC; int unk09D0; int unk09D4; int unk09D8; int unk09DC; int unk09E0; int unk09E4; int unk09E8; int unk09EC; int unk09F0; int unk09F4; int unk09F8; int unk09FC; int unk0A00; int unk0A04; int unk0A08; int unk0A0C; int unk0A10; int unk0A14; int unk0A18; int unk0A1C; int unk0A20; int unk0A24; int unk0A28; int unk0A2C; int unk0A30; int unk0A34; int unk0A38; int unk0A3C; int unk0A40; int unk0A44; int unk0A48; int unk0A4C; int unk0A50; int unk0A54; int unk0A58; int unk0A5C; int unk0A60; int unk0A64; int unk0A68; int unk0A6C; int unk0A70; int unk0A74; int unk0A78; int unk0A7C; int unk0A80; int unk0A84; int unk0A88; int unk0A8C; int unk0A90; int unk0A94; int unk0A98; int unk0A9C; int unk0AA0; int unk0AA4; int unk0AA8; int unk0AAC; int unk0AB0; int unk0AB4; int unk0AB8; int unk0ABC; int unk0AC0; int unk0AC4; int unk0AC8; int unk0ACC; int unk0AD0; int unk0AD4; int unk0AD8; int unk0ADC; int unk0AE0; int unk0AE4; int unk0AE8; int unk0AEC; int unk0AF0; int unk0AF4; int unk0AF8; int unk0AFC; int unk0B00; int unk0B04; int unk0B08; int unk0B0C; int unk0B10; int unk0B14; int unk0B18; int unk0B1C; int unk0B20; int unk0B24; int unk0B28; int unk0B2C; int unk0B30; int unk0B34; int unk0B38; int unk0B3C; int unk0B40; int unk0B44; int unk0B48; int unk0B4C; int unk0B50; int unk0B54; int unk0B58; int unk0B5C; int unk0B60; int unk0B64; int unk0B68; int unk0B6C; int unk0B70; int unk0B74; int unk0B78; int unk0B7C; int unk0B80; int unk0B84; int unk0B88; int unk0B8C; int unk0B90; int unk0B94; int unk0B98; int unk0B9C; int unk0BA0; int unk0BA4; int unk0BA8; int unk0BAC; int unk0BB0; int unk0BB4; int unk0BB8; int unk0BBC; int unk0BC0; int unk0BC4; int unk0BC8; int unk0BCC; int unk0BD0; int unk0BD4; int unk0BD8; int unk0BDC; int unk0BE0; int unk0BE4; int unk0BE8; int unk0BEC; int unk0BF0; int unk0BF4; int unk0BF8; int unk0BFC; int unk0C00; int unk0C04; int unk0C08; int unk0C0C; int unk0C10; int unk0C14; int unk0C18; int unk0C1C; int unk0C20; int unk0C24; int unk0C28; int unk0C2C; int unk0C30; int unk0C34; int unk0C38; int unk0C3C; int unk0C40; int unk0C44; int unk0C48; int unk0C4C; int unk0C50; int unk0C54; int unk0C58; int unk0C5C; int unk0C60; int unk0C64; int unk0C68; int unk0C6C; int unk0C70; int unk0C74; int unk0C78; int unk0C7C; int unk0C80; int unk0C84; int unk0C88; int unk0C8C; int unk0C90; int unk0C94; int unk0C98; int unk0C9C; int unk0CA0; int unk0CA4; int unk0CA8; int unk0CAC; int unk0CB0; int unk0CB4; int unk0CB8; int unk0CBC; int unk0CC0; int unk0CC4; int unk0CC8; int unk0CCC; int unk0CD0; int unk0CD4; int unk0CD8; int unk0CDC; int unk0CE0; int unk0CE4; int unk0CE8; int unk0CEC; int unk0CF0; int unk0CF4; int unk0CF8; int unk0CFC; int unk0D00; int unk0D04; int unk0D08; int unk0D0C; int unk0D10; int unk0D14; int unk0D18; int unk0D1C; int unk0D20; int unk0D24; int unk0D28; int unk0D2C; int unk0D30; int unk0D34; int unk0D38; int unk0D3C; int unk0D40; int unk0D44; int unk0D48; int unk0D4C; int unk0D50; int unk0D54; int unk0D58; int unk0D5C; int unk0D60; int unk0D64; int unk0D68; int unk0D6C; int unk0D70; int unk0D74; int unk0D78; int unk0D7C; int unk0D80; int unk0D84; int unk0D88; int unk0D8C; int unk0D90; int unk0D94; int unk0D98; int unk0D9C; int unk0DA0; int unk0DA4; int unk0DA8; int unk0DAC; int unk0DB0; int unk0DB4; int unk0DB8; int unk0DBC; int unk0DC0; int unk0DC4; int unk0DC8; int unk0DCC; int unk0DD0; int unk0DD4; int unk0DD8; int unk0DDC; int unk0DE0; int unk0DE4; int unk0DE8; int unk0DEC; int unk0DF0; int unk0DF4; int unk0DF8; int unk0DFC; int unk0E00; int unk0E04; int unk0E08; int unk0E0C; int unk0E10; int unk0E14; int unk0E18; int unk0E1C; int unk0E20; int unk0E24; int unk0E28; int unk0E2C; int unk0E30; int unk0E34; int unk0E38; int unk0E3C; int unk0E40; int unk0E44; int unk0E48; int unk0E4C; int unk0E50; int unk0E54; int unk0E58; int unk0E5C; int unk0E60; int unk0E64; int unk0E68; int unk0E6C; int unk0E70; int unk0E74; int unk0E78; int unk0E7C; int unk0E80; int unk0E84; int unk0E88; int unk0E8C; int unk0E90; int unk0E94; int unk0E98; int unk0E9C; int unk0EA0; int unk0EA4; int unk0EA8; int unk0EAC; int unk0EB0; int unk0EB4; int unk0EB8; int unk0EBC; int unk0EC0; int unk0EC4; int unk0EC8; int unk0ECC; int unk0ED0; int unk0ED4; int unk0ED8; int unk0EDC; int unk0EE0; int unk0EE4; int unk0EE8; int unk0EEC; int unk0EF0; int unk0EF4; int unk0EF8; int unk0EFC; int unk0F00; int unk0F04; int unk0F08; int unk0F0C; int unk0F10; int unk0F14; int unk0F18; int unk0F1C; int unk0F20; int unk0F24; int unk0F28; int unk0F2C; int unk0F30; int unk0F34; int unk0F38; int unk0F3C; int unk0F40; int unk0F44; int unk0F48; int unk0F4C; int unk0F50; int unk0F54; int unk0F58; int unk0F5C; int unk0F60; int unk0F64; int unk0F68; int unk0F6C; int unk0F70; int unk0F74; int unk0F78; int unk0F7C; int unk0F80; int unk0F84; int unk0F88; int unk0F8C; int unk0F90; int unk0F94; int unk0F98; int unk0F9C; int unk0FA0; int unk0FA4; int unk0FA8; int unk0FAC; int unk0FB0; int unk0FB4; int unk0FB8; int unk0FBC; int unk0FC0; int unk0FC4; int unk0FC8; int unk0FCC; int unk0FD0; int unk0FD4; int unk0FD8; int unk0FDC; int unk0FE0; int unk0FE4; int unk0FE8; int unk0FEC; int unk0FF0; int unk0FF4; int unk0FF8; int unk0FFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C; int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C; int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C; int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC; int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC; int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4; int unk10F8; int unk10FC; int unk1100; int unk1104; int unk1108; int unk110C; int unk1110; int unk1114; int unk1118; int unk111C; int unk1120; int unk1124; int unk1128; int unk112C; int unk1130; int unk1134; int unk1138; int unk113C; int unk1140; int unk1144; int unk1148; int unk114C; int unk1150; int unk1154; int unk1158; int unk115C; int unk1160; int unk1164; int unk1168; int unk116C; int unk1170; int unk1174; int unk1178; int unk117C; int unk1180; int unk1184; int unk1188; int unk118C; int unk1190; int unk1194; int unk1198; int unk119C; int unk11A0; int unk11A4; int unk11A8; int unk11AC; int unk11B0; int unk11B4; int unk11B8; int unk11BC; int unk11C0; int unk11C4; int unk11C8; int unk11CC; int unk11D0; int unk11D4; int unk11D8; int unk11DC; int unk11E0; int unk11E4; int unk11E8; int unk11EC; int unk11F0; int unk11F4; int unk11F8; int unk11FC; int unk1200; int unk1204; int unk1208; int unk120C; int unk1210; int unk1214; int unk1218; int unk121C; int unk1220; int unk1224; int unk1228; int unk122C; int unk1230; int unk1234; int unk1238; int unk123C; int unk1240; int unk1244; int unk1248; int unk124C; int unk1250; int unk1254; int unk1258; int unk125C; int unk1260; int unk1264; int unk1268; int unk126C; int unk1270; int unk1274; int unk1278; int unk127C; int unk1280; int unk1284; int unk1288; int unk128C; int unk1290; int unk1294; int unk1298; int unk129C; int unk12A0; int unk12A4; int unk12A8; int unk12AC; int unk12B0; int unk12B4; int unk12B8; int unk12BC; int unk12C0; int unk12C4; int unk12C8; int unk12CC; int unk12D0; int unk12D4; int unk12D8; int unk12DC; int unk12E0; int unk12E4; int unk12E8; int unk12EC; int unk12F0; int unk12F4; int unk12F8; int unk12FC; int unk1300; int unk1304; int unk1308; int unk130C; int unk1310; int unk1314; int unk1318; int unk131C; int unk1320; int unk1324; int unk1328; int unk132C; int unk1330; int unk1334; int unk1338; int unk133C; int unk1340; int unk1344; int unk1348; int unk134C; int unk1350; int unk1354; int unk1358; int unk135C; int unk1360; int unk1364; int unk1368; int unk136C; int unk1370; int unk1374; int unk1378; int unk137C; int unk1380; int unk1384; int unk1388; int unk138C; int unk1390; int unk1394; int unk1398; int unk139C; int unk13A0; int unk13A4; int unk13A8; int unk13AC; int unk13B0; int unk13B4; int unk13B8; int unk13BC; int unk13C0; int unk13C4; int unk13C8; int unk13CC; int unk13D0; int unk13D4; int unk13D8; int unk13DC; int unk13E0; int unk13E4; int unk13E8; int unk13EC; int unk13F0; int unk13F4; int unk13F8; int unk13FC; int unk1400; int unk1404; int unk1408; int unk140C; int unk1410; int unk1414; int unk1418; int unk141C; int unk1420; int unk1424; int unk1428; int unk142C; int unk1430; int unk1434; int unk1438; int unk143C; int unk1440; int unk1444; int unk1448; int unk144C; int unk1450; int unk1454; int unk1458; int unk145C; int unk1460; int unk1464; int unk1468; int unk146C; int unk1470; int unk1474; int unk1478; int unk147C; int unk1480; int unk1484; int unk1488; int unk148C; int unk1490; int unk1494; int unk1498; int unk149C; int unk14A0; int unk14A4; int unk14A8; int unk14AC; int unk14B0; int unk14B4; int unk14B8; int unk14BC; int unk14C0; int unk14C4; int unk14C8; int unk14CC; int unk14D0; int unk14D4; int unk14D8; int unk14DC; int unk14E0; int unk14E4; int unk14E8; int unk14EC; int unk14F0; int unk14F4; int unk14F8; int unk14FC; int unk1500; int unk1504; int unk1508; int unk150C; int unk1510; int unk1514; int unk1518; int unk151C; int unk1520; int unk1524; int unk1528; int unk152C; int unk1530; int unk1534; int unk1538; int unk153C; int unk1540; int unk1544; int unk1548; int unk154C; int unk1550; int unk1554; int unk1558; int unk155C; int unk1560; int unk1564; int unk1568; int unk156C; int unk1570; int unk1574; int unk1578; int unk157C; int unk1580; int unk1584; int unk1588; int unk158C; int unk1590; int unk1594; int unk1598; int unk159C; int unk15A0; int unk15A4; int unk15A8; int unk15AC; int unk15B0; int unk15B4; int unk15B8; int unk15BC; int unk15C0; int unk15C4; int unk15C8; int unk15CC; int unk15D0; int unk15D4; int unk15D8; int unk15DC; int unk15E0; int unk15E4; int unk15E8; int unk15EC; int unk15F0; int unk15F4; int unk15F8; int unk15FC; int unk1600; int unk1604; int unk1608; int unk160C; int unk1610; int unk1614; int unk1618; int unk161C; int unk1620; int unk1624; int unk1628; int unk162C; int unk1630; int unk1634; int unk1638; int unk163C; int unk1640; int unk1644; int unk1648; int unk164C; int unk1650; int unk1654; int unk1658; int unk165C; int unk1660; int unk1664; int unk1668; int unk166C; int unk1670; int unk1674; int unk1678; int unk167C; int unk1680; int unk1684; int unk1688; int unk168C; int unk1690; int unk1694; int unk1698; int unk169C; int unk16A0; int unk16A4; int unk16A8; int unk16AC; int unk16B0; int unk16B4; int unk16B8; int unk16BC; int unk16C0; int unk16C4; int unk16C8; int unk16CC; int unk16D0; int unk16D4; int unk16D8; int unk16DC; int unk16E0; int unk16E4; int unk16E8; int unk16EC; int unk16F0; int unk16F4; int unk16F8; int unk16FC; int unk1700; int unk1704; int unk1708; int unk170C; int unk1710; int unk1714; int unk1718; int unk171C; int unk1720; int unk1724; int unk1728; int unk172C; int unk1730; int unk1734; int unk1738; int unk173C; int unk1740; int unk1744; int unk1748; int unk174C; int unk1750; int unk1754; int unk1758; int unk175C; int unk1760; int unk1764; int unk1768; int unk176C; int unk1770; int unk1774; int unk1778; int unk177C; int unk1780; int unk1784; int unk1788; int unk178C; int unk1790; int unk1794; int unk1798; int unk179C; int unk17A0; int unk17A4; int unk17A8; int unk17AC; int unk17B0; int unk17B4; int unk17B8; int unk17BC; int unk17C0; int unk17C4; int unk17C8; int unk17CC; int unk17D0; int unk17D4; int unk17D8; int unk17DC; int unk17E0; int unk17E4; int unk17E8; int unk17EC; int unk17F0; int unk17F4; int unk17F8; int unk17FC; int unk1800; int unk1804; int unk1808; int unk180C; int unk1810; int unk1814; int unk1818; int unk181C; int unk1820; int unk1824; int unk1828; int unk182C; int unk1830; int unk1834; int unk1838; int unk183C; int unk1840; int unk1844; int unk1848; int unk184C; int unk1850; int unk1854; int unk1858; int unk185C; int unk1860; int unk1864; int unk1868; int unk186C; int unk1870; int unk1874; int unk1878; int unk187C; int unk1880; int unk1884; int unk1888; int unk188C; int unk1890; int unk1894; int unk1898; int unk189C; int unk18A0; int unk18A4; int unk18A8; int unk18AC; int unk18B0; int unk18B4; int unk18B8; int unk18BC; int unk18C0; int unk18C4; int unk18C8; int unk18CC; int unk18D0; int unk18D4; int unk18D8; int unk18DC; int unk18E0; int unk18E4; int unk18E8; int unk18EC; int unk18F0; int unk18F4; int unk18F8; int unk18FC; int unk1900; int unk1904; int unk1908; int unk190C; int unk1910; int unk1914; int unk1918; int unk191C; int unk1920; int unk1924; int unk1928; int unk192C; int unk1930; int unk1934; int unk1938; int unk193C; int unk1940; int unk1944; int unk1948; int unk194C; int unk1950; int unk1954; int unk1958; int unk195C; int unk1960; int unk1964; int unk1968; int unk196C; int unk1970; int unk1974; int unk1978; int unk197C; int unk1980; int unk1984; int unk1988; int unk198C; int unk1990; int unk1994; int unk1998; int unk199C; int unk19A0; int unk19A4; int unk19A8; int unk19AC; int unk19B0; int unk19B4; int unk19B8; int unk19BC; int unk19C0; int unk19C4; int unk19C8; int unk19CC; int unk19D0; int unk19D4; int unk19D8; int unk19DC; int unk19E0; int unk19E4; int unk19E8; int unk19EC; int unk19F0; int unk19F4; int unk19F8; int unk19FC; int unk1A00; int unk1A04; int unk1A08; int unk1A0C; int unk1A10; int unk1A14; int unk1A18; int unk1A1C; int unk1A20; int unk1A24; int unk1A28; int unk1A2C; int unk1A30; int unk1A34; int unk1A38; int unk1A3C; int unk1A40; int unk1A44; int unk1A48; int unk1A4C; int unk1A50; int unk1A54; int unk1A58; int unk1A5C; int unk1A60; int unk1A64; int unk1A68; int unk1A6C; int unk1A70; int unk1A74; int unk1A78; int unk1A7C; int unk1A80; int unk1A84; int unk1A88; int unk1A8C; int unk1A90; int unk1A94; int unk1A98; int unk1A9C; int unk1AA0; int unk1AA4; int unk1AA8; int unk1AAC; int unk1AB0; int unk1AB4; int unk1AB8; int unk1ABC; int unk1AC0; int unk1AC4; int unk1AC8; int unk1ACC; int unk1AD0; int unk1AD4; int unk1AD8; int unk1ADC; int unk1AE0; int unk1AE4; int unk1AE8; int unk1AEC; int unk1AF0; int unk1AF4; int unk1AF8; int unk1AFC; int unk1B00; int unk1B04; int unk1B08; int unk1B0C; int unk1B10; int unk1B14; int unk1B18; int unk1B1C; int unk1B20; int unk1B24; int unk1B28; int unk1B2C; int unk1B30; int unk1B34; int unk1B38; int unk1B3C; int unk1B40; int unk1B44; int unk1B48; int unk1B4C; int unk1B50; int unk1B54; int unk1B58; int unk1B5C; int unk1B60; int unk1B64; int unk1B68; int unk1B6C; int unk1B70; int unk1B74; int unk1B78; int unk1B7C; int unk1B80; int unk1B84; int unk1B88; int unk1B8C; int unk1B90; int unk1B94; int unk1B98; int unk1B9C; int unk1BA0; int unk1BA4; int unk1BA8; int unk1BAC; int unk1BB0; int unk1BB4; int unk1BB8; int unk1BBC; int unk1BC0; int unk1BC4; int unk1BC8; int unk1BCC; int unk1BD0; int unk1BD4; int unk1BD8; int unk1BDC; int unk1BE0; int unk1BE4; int unk1BE8; int unk1BEC; int unk1BF0; int unk1BF4; int unk1BF8; int unk1BFC; int unk1C00; int unk1C04; int unk1C08; int unk1C0C; int unk1C10; int unk1C14; int unk1C18; int unk1C1C; int unk1C20; int unk1C24; int unk1C28; int unk1C2C; int unk1C30; int unk1C34; int unk1C38; int unk1C3C; int unk1C40; int unk1C44; int unk1C48; int unk1C4C; int unk1C50; int unk1C54; int unk1C58; int unk1C5C; int unk1C60; int unk1C64; int unk1C68; int unk1C6C; int unk1C70; int unk1C74; int unk1C78; int unk1C7C; int unk1C80; int unk1C84; int unk1C88; int unk1C8C; int unk1C90; int unk1C94; int unk1C98; int unk1C9C; int unk1CA0; int unk1CA4; int unk1CA8; int unk1CAC; int unk1CB0; int unk1CB4; int unk1CB8; int unk1CBC; int unk1CC0; int unk1CC4; int unk1CC8; int unk1CCC; int unk1CD0; int unk1CD4; int unk1CD8; int unk1CDC; int unk1CE0; int unk1CE4; int unk1CE8; int unk1CEC; int unk1CF0; int unk1CF4; int unk1CF8; int unk1CFC; int unk1D00; int unk1D04; int unk1D08; int unk1D0C; int unk1D10; int unk1D14; int unk1D18; int unk1D1C; int unk1D20; int unk1D24; int unk1D28; int unk1D2C; int unk1D30; int unk1D34; int unk1D38; int unk1D3C; int unk1D40; int unk1D44; int unk1D48; int unk1D4C; int unk1D50; int unk1D54; int unk1D58; int unk1D5C; int unk1D60; int unk1D64; int unk1D68; int unk1D6C; int unk1D70; int unk1D74; int unk1D78; int unk1D7C; int unk1D80; int unk1D84; int unk1D88; int unk1D8C; int unk1D90; int unk1D94; int unk1D98; int unk1D9C; int unk1DA0; int unk1DA4; int unk1DA8; int unk1DAC; int unk1DB0; int unk1DB4; int unk1DB8; int unk1DBC; int unk1DC0; int unk1DC4; int unk1DC8; int unk1DCC; int unk1DD0; int unk1DD4; int unk1DD8; int unk1DDC; int unk1DE0; int unk1DE4; int unk1DE8; int unk1DEC; int unk1DF0; int unk1DF4; int unk1DF8; int unk1DFC; int unk1E00; int unk1E04; int unk1E08; int unk1E0C; int unk1E10; int unk1E14; int unk1E18; int unk1E1C; int unk1E20; int unk1E24; int unk1E28; int unk1E2C; int unk1E30; int unk1E34; int unk1E38; int unk1E3C; int unk1E40; int unk1E44; int unk1E48; int unk1E4C; int unk1E50; int unk1E54; int unk1E58; int unk1E5C; int unk1E60; int unk1E64; int unk1E68; int unk1E6C; int unk1E70; int unk1E74; int unk1E78; int unk1E7C; int unk1E80; int unk1E84; int unk1E88; int unk1E8C; int unk1E90; int unk1E94; int unk1E98; int unk1E9C; int unk1EA0; int unk1EA4; int unk1EA8; int unk1EAC; int unk1EB0; int unk1EB4; int unk1EB8; int unk1EBC; int unk1EC0; int unk1EC4; int unk1EC8; int unk1ECC; int unk1ED0; int unk1ED4; int unk1ED8; int unk1EDC; int unk1EE0; int unk1EE4; int unk1EE8; int unk1EEC; int unk1EF0; int unk1EF4; int unk1EF8; int unk1EFC; int unk1F00; int unk1F04; int unk1F08; int unk1F0C; int unk1F10; int unk1F14; int unk1F18; int unk1F1C; int unk1F20; int unk1F24; int unk1F28; int unk1F2C; int unk1F30; int unk1F34; int unk1F38; int unk1F3C; int unk1F40; int unk1F44; int unk1F48; int unk1F4C; int unk1F50; int unk1F54; int unk1F58; int unk1F5C; int unk1F60; int unk1F64; int unk1F68; int unk1F6C; int unk1F70; int unk1F74; int unk1F78; int unk1F7C; int unk1F80; int unk1F84; int unk1F88; int unk1F8C; int unk1F90; int unk1F94; int unk1F98; int unk1F9C; int unk1FA0; int unk1FA4; int unk1FA8; int unk1FAC; int unk1FB0; int unk1FB4; int unk1FB8; int unk1FBC; int unk1FC0; int unk1FC4; int unk1FC8; int unk1FCC; int unk1FD0; int unk1FD4; int unk1FD8; int unk1FDC; int unk1FE0; int unk1FE4; int unk1FE8; int unk1FEC; int unk1FF0; int unk1FF4; int unk1FF8; int unk1FFC; int unk2000; int unk2004; int unk2008; int unk200C; int unk2010; int unk2014; int unk2018; int unk201C; int unk2020; int unk2024; int unk2028; int unk202C; int unk2030; int unk2034; int unk2038; int unk203C; int unk2040; int unk2044; int unk2048; int unk204C; int unk2050; int unk2054; int unk2058; int unk205C; int unk2060; int unk2064; int unk2068; int unk206C; int unk2070; int unk2074; int unk2078; int unk207C; int unk2080; int unk2084; int unk2088;
-RangeVec pos; float radius; void FUN_005cd9e0(RangeResult*,RangeObject*,unsigned); };
-void RangeOwner::FUN_005cd9e0(RangeResult* out,RangeObject* object,unsigned index) {
+RangeVec pos; float radius; void NavMeshSearchClosePoint_SetNodeData(RangeResult*,RangeObject*,unsigned); };
+// pdb: NavMeshSearchClosePoint::SetNodeData | NavMeshSearchClosePoint.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void RangeOwner::NavMeshSearchClosePoint_SetNodeData(RangeResult* out,RangeObject* object,unsigned index) {
   RangeVec p; out->object=object; out->index=(unsigned short)index; object->FUN_004d45e0(&p,index);
   out->position.x=p.x; out->position.y=p.y; out->position.z=p.z;
   RangeVec d = p - pos;
@@ -9752,6 +10002,7 @@ struct FUN_005c6220 : FUN_005c4e20 {
     FUN_005c6220();
     virtual ~FUN_005c6220();
 };
+// pdb: NavMeshPOVSearch::NavMeshPOVSearch | NavMeshPOVSearch.obj | fnv360_0822_retail, caller_sim, low
 FUN_005c6220::FUN_005c6220()
 {
 }
@@ -10306,6 +10557,7 @@ struct Location {void* vtable;unsigned int unk04,unk08,unk0C,unk10,unk14,unk18,u
 struct Search:SearchBase {PovArray pov;SearchState state;Location start,end;NodeArray nodes;LinkArray links;
     ~Search();
 };
+// pdb: NavMeshPOVSearch::~NavMeshPOVSearch | NavMeshPOVSearch.obj | fnv360_0822_retail, call_seq, medium
 Search::~Search(){}
 }
 
@@ -10322,6 +10574,7 @@ struct Owner5df9a0 {
  Array5df9a0 entries;
  void FUN_005df9a0();
 };
+// pdb: NavMeshObstacleCutter::RemoveInvalidEdges | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
 void Owner5df9a0::FUN_005df9a0() {
  for(unsigned i=0;i<entries.count;++i) {
   Entry5df9a0* e=entries.data[i];
@@ -10506,6 +10759,8 @@ struct O5cc190
     void FUN_005cc190(D5cc190* dest, M5cc190* mesh, unsigned int index);
 };
 
+// pdb: NavMeshSearch::SetNodeData | NavMeshSearch.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apNode, apNavMesh, aiTriangle
 void O5cc190::FUN_005cc190(D5cc190* dest, M5cc190* mesh, unsigned int index)
 {
     D5cc190* target=*(D5cc190* volatile*)&dest;
@@ -10544,6 +10799,8 @@ struct Tri {
     void FUN_005df730(const NiPoint3& p);
     void FUN_005dfb10(const unsigned short& i0, const unsigned short& i1, const unsigned short& i2);
 };
+// pdb: NavMeshObstacleCutter::CheckTriangleAgainstOverlapped | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apVert1, apVert2, apVert3
 void Tri::FUN_005dfb10(const unsigned short& i0, const unsigned short& i1, const unsigned short& i2)
 {
     NiPoint3 a = mesh->verts[i0];
@@ -10559,7 +10816,7 @@ void Tri::FUN_005dfb10(const unsigned short& i0, const unsigned short& i1, const
 namespace f3m_005d8b90 {
 namespace Fix8b90 {
 class TESForm;
-TESForm* __cdecl FUN_00455190(unsigned int formID);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 struct FixupArray {
     void** vtable;
     TESForm** data;
@@ -10573,13 +10830,14 @@ struct FixupOwner {
     FixupArray forms;
     void FUN_005d8b90();
 };
+// pdb: NavMeshInfo::InitDoorPointers | NavMeshInfo.obj | fnv360_0822_retail, call_gap, low
 void FixupOwner::FUN_005d8b90()
 {
     unsigned int count = forms.count;
     for (unsigned int i = 0; i < count; i++) {
         TESForm** entry = &forms.data[i];
         unsigned int id = *(volatile unsigned int*)&forms.data[i];
-        *entry = FUN_00455190(id);
+        *entry = TESForm_GetFormByNumericID(id);
         if (forms.data[i] == 0) {
             forms.FUN_005e4fb0(i, 1);
             count--;
@@ -10593,6 +10851,8 @@ void FixupOwner::FUN_005d8b90()
 // @f3 0x005dd580 (community match, verified in this file)
 namespace f3m_005dd580 {
 typedef f3m_005dd6d0::f3m_005dd6d0::IntersectPoint Point;
+// pdb: NavMeshMath::Find2DIntersection | NavMeshMath.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aSegment1Start, aSegment1End, aSegment2Start, aSegment2End, apReturnIntersection
 bool __cdecl FUN_005dd580(const Point* a, const Point* b, const Point* c, const Point* d, Point* out)
 {
     float t1 = (a->x-d->x)*(b->y-d->y) - (a->y-d->y)*(b->x-d->x);
@@ -10619,7 +10879,7 @@ namespace f3m_005d8d70 {
 struct RefMap_5d8d70 { bool FUN_00bea7b0(unsigned int id, void** out); };
 struct Registry_5d8d70 { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18; RefMap_5d8d70 map; };
 class RecordManager_5d8d70 { public: void* FUN_00433ff0(EndianFile*,const void*); Registry_5d8d70* FUN_00433ff0(); };
-void __cdecl FUN_00454a40(unsigned int*, EndianFile*);
+void __cdecl TESForm_AddCompileIndex(unsigned int*, EndianFile*);
 struct Array_5d8d70 {
  virtual void dummy();
  virtual void** allocate(unsigned int);
@@ -10637,12 +10897,14 @@ struct Object_5d8d70 {
  Array_5d8d70 first,second,third;
  void FUN_005d8d70(unsigned int* p,EndianFile* file,int version);
 };
+// pdb: NavMeshInfo::SetFromPortalChunk | NavMeshInfo.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apChunkBuffer, apFile, aiFileVersionNumber
 void Object_5d8d70::FUN_005d8d70(unsigned int* p,EndianFile* file,int version) {
  unsigned int n=*p; if(file->swapWords)n=_byteswap_ulong(n);
  first.resize(n); ++p;
  for(unsigned int i=0;i<n;++i,++p) {
  unsigned int id=*p; if(file->swapWords)id=_byteswap_ulong(id);
- FUN_00454a40(&id,file);
+ TESForm_AddCompileIndex(&id,file);
  unsigned int key=id; if(key) { Registry_5d8d70* r=reinterpret_cast<RecordManager_5d8d70*>(DAT_0107a0d8)->FUN_00433ff0(); void* value; bool found=r->map.FUN_00bea7b0(key,&value); first.data[i]=found?value:0; } else first.data[i]=0;
  }
  if(version>=11) {
@@ -10650,7 +10912,7 @@ void Object_5d8d70::FUN_005d8d70(unsigned int* p,EndianFile* file,int version) {
  second.resize(n);++p;
  for(unsigned int i=0;i<n;++i,++p) {
  unsigned int id=*p; if(file->swapWords)id=_byteswap_ulong(id);
- FUN_00454a40(&id,file);
+ TESForm_AddCompileIndex(&id,file);
  unsigned int key=id; if(key) { Registry_5d8d70* r=reinterpret_cast<RecordManager_5d8d70*>(DAT_0107a0d8)->FUN_00433ff0(); void* value; bool found=r->map.FUN_00bea7b0(key,&value); second.data[i]=found?value:0; } else second.data[i]=0;
  }
  }
@@ -10658,7 +10920,7 @@ void Object_5d8d70::FUN_005d8d70(unsigned int* p,EndianFile* file,int version) {
  third.resize(n);++p;
  for(unsigned int i=0;i<n;++i,++p) {
  unsigned int id=*p;if(file->swapWords)id=_byteswap_ulong(id);
- FUN_00454a40(&id,file);third.data[i]=(void*)id;
+ TESForm_AddCompileIndex(&id,file);third.data[i]=(void*)id;
  }
 }
 }   // namespace f3m_005d8d70
@@ -10787,6 +11049,8 @@ struct Bounds
     const void* mesh;
     bool FUN_005c2870(const Point*) const;
 };
+// pdb: NavMeshBounds::IsPointInBounds | NavMeshBounds.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aPoint
 bool Bounds::FUN_005c2870(const Point* point) const
 {
     if (point->x >= lower.x && point->x <= upper.x &&
@@ -11110,10 +11374,11 @@ struct Hit
     unsigned int unk2080, unk2084, unk2088, unk208C, unk2090, unk2094, unk2098, unk209C;
     unsigned int unk20A0, unk20A4, unk20A8, unk20AC, unk20B0, unk20B4, unk20B8;
     float unk20BC, unk20C0, unk20C4, unk20C8;
-    void FUN_005cec30(Result* result, Mesh* mesh, unsigned short triangle);
+    void NavMeshSearchHide_SetNodeData(Result* result, Mesh* mesh, unsigned short triangle);
 };
 
-void Hit::FUN_005cec30(Result* result, Mesh* mesh, unsigned short triangle)
+// pdb: NavMeshSearchHide::SetNodeData | NavMeshSearchHide.obj | fnv360_0721_beta, objrun + bridge(call_gap|call_gap), high
+void Hit::NavMeshSearchHide_SetNodeData(Result* result, Mesh* mesh, unsigned short triangle)
 {
     result->unk08 = mesh;
     result->unk0c = triangle;
@@ -11152,6 +11417,8 @@ struct CodexAngle43E {
     float FUN_005c43e0(float);
 };
 
+// pdb: NavMeshPOVSearch::CheckArcAgainstPOVs | NavMeshPOVSearch.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apThisPOV, aArc, apIgnorePOV
 float CodexAngle43E::FUN_005c43e0(float scale) {
     float angle=Angle();
     if(!unk10) {
@@ -11452,6 +11719,8 @@ struct Hit
     void FUN_005ce140(Result* result, Mesh* mesh, unsigned short triangle);
 };
 
+// pdb: NavMeshSearchFlee::SetNodeData | NavMeshSearchFlee.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apNode, apNavMesh, aiTriangle
 void Hit::FUN_005ce140(Result* result, Mesh* mesh, unsigned short triangle)
 {
     result->unk08 = mesh;
@@ -11483,6 +11752,8 @@ struct Record { short unk00,unk02,unk04; unsigned short a,b,c; unsigned flags; }
 struct Entry { int unk00; void* target; int unk08; };
 struct Array { virtual void unused(); virtual int* Allocate(unsigned); virtual void Free(int*); int* data; unsigned size; unsigned capacity; void FUN_00799ae0(unsigned,unsigned); };
 struct Owner { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38; Record* records; unsigned count; int unk44,unk48; Entry* entries; bool FUN_005c1280(void*,Array*); };
+// pdb: NavMesh::FindPortalTriangles | NavMesh_Util.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNavMeshInfo, apReturnArray
 bool Owner::FUN_005c1280(void* target, Array* out) {
  if(out->data) { out->Free(out->data); out->data=0; out->capacity=0; out->size=0; }
  if(out->capacity != 100) { if(out->size>100) out->size=100; out->FUN_00799ae0(100,out->size); out->capacity=100; }
@@ -11543,6 +11814,8 @@ class SphereTangents
 
 inline float FUN_004019b0(float x) {return (float)sqrt(x);}
 // @fnv 0x006bb570
+// pdb: NavMeshMath::ComputeTangentPoints | NavMeshMath.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aCircle1, aCircle2, aDirection, aResults
 int FUN_005dea40(const Sphere& aSphereA, const Sphere& aSphereB, ANGLE_DIRECTION direction,
                                          SphereTangents& aTangents)
 {
@@ -11725,6 +11998,8 @@ FNV_STATIC_ASSERT(offsetof(Entry5d89e0, unk54) == 0x54);
 FNV_STATIC_ASSERT(offsetof(Form5d89e0, formID) == 0x0c);
 FNV_STATIC_ASSERT(offsetof(Form5d89e0, ref) == 0x1c);
 
+// pdb: NavMeshInfo::FillPortalChunk | NavMeshInfo.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apChunkBuffer
 void Owner5d89e0::FUN_005d89e0(unsigned* out) {
     unsigned raw = unk2C;
     if (DAT_0106dd0e)
@@ -11797,6 +12072,8 @@ struct Vec2 {
     Vec2 operator+(const Vec2& o) const { Vec2 r = *this; r.x += o.x; r.y += o.y; return r; }
     Vec2 operator*(float s) const { Vec2 r = *this; r.x *= s; r.y *= s; return r; }
 };
+// pdb: NavMeshMath::Find2DIntersection | NavMeshMath.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSNavmeshMath::Find2DIntersection)
+// pdb params: aSegment1Start, aSegment1End, aSegment2Start, aSegment2End, apReturnIntersection
 bool __cdecl FUN_005dd320(const Vec2* p1, const Vec2* p2, const Vec2* q1, const Vec2* q2, Vec2* out)
 {
     float d1 = (p1->x - q2->x) * (p2->y - q2->y) - (p1->y - q2->y) * (p2->x - q2->x);
@@ -11860,6 +12137,7 @@ struct Obj_005d8c80 {
     C58* bounds;
     ~Obj_005d8c80();
 };
+// pdb: NavMeshInfo::~NavMeshInfo | NavMeshInfo.obj | fnv360_0822_retail, call_gap, low
 Obj_005d8c80::~Obj_005d8c80()
 {
     Location* current = location;
@@ -11884,11 +12162,11 @@ struct Manager {
 extern Manager* DAT_01074598;
 struct Member200 { int unk00; int unk04; int unk08; int unk0C; void FUN_006bd950(); };
 struct Form;
-struct Grid { Form* FUN_00501d20(); };
+struct Grid { Form* TESWorldSpace_GetCellFromCellCoord(); };
 struct Cell {
  int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20;
  unsigned char flags;
- int FUN_004d3430(); int FUN_004d3450(); Grid* FUN_004d3780(int x, int y);
+ int TESObjectCELL_GetDataX(); int TESObjectCELL_GetDataY(); Grid* FUN_004d3780(int x, int y);
 };
 struct World { Cell* FUN_00435750(); };
 extern World* DAT_0107a0d8;
@@ -11900,6 +12178,7 @@ struct Owner {
  void FUN_005cbe40();
 };
 extern Owner* DAT_01074570;
+// pdb: NavMeshRender::UpdateRenderOnlyNavMeshes | NavMeshRender.obj | fnv360_0822_retail, call_dedup, low
 void Owner::FUN_005cbe40() {
  DAT_01074598->member.FUN_00aaab30();
  DAT_01074598->FUN_008268a0();
@@ -11910,9 +12189,9 @@ void Owner::FUN_005cbe40() {
  if (cell) {
   if (!(cell->flags & 1)) {
    int half = (DAT_0106e9cc - 1) / 2;
-   for (int x = cell->FUN_004d3430() - half; x <= cell->FUN_004d3430() + half; x++)
-    for (int y = cell->FUN_004d3450() - half; y <= cell->FUN_004d3450() + half; y++) {
-     Form* form = cell->FUN_004d3780(x, y)->FUN_00501d20();
+   for (int x = cell->TESObjectCELL_GetDataX() - half; x <= cell->TESObjectCELL_GetDataX() + half; x++)
+    for (int y = cell->TESObjectCELL_GetDataY() - half; y <= cell->TESObjectCELL_GetDataY() + half; y++) {
+     Form* form = cell->FUN_004d3780(x, y)->TESWorldSpace_GetCellFromCellCoord();
      FUN_005c9bf0(form, false);
     }
   } else {
@@ -11978,6 +12257,7 @@ public:
     virtual ~FUN_005da1d0();
 };
 
+// pdb: NavMeshInfoMap::NavMeshInfoMap | NavMeshInfoMap.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: TES::GetNavMeshInfoMap)
 FUN_005da1d0::FUN_005da1d0() : unk18(0), unk3C(0) {
     unk04 = 0x38;
 }
@@ -12129,12 +12409,14 @@ struct Owner5c2490 {
  int unk98;
  unsigned short* unk9C;
  unsigned int unkA0;
- void FUN_005c1a20();
+ void NavMesh_CreatePOVs();
  unsigned int FUN_005c2490(unsigned short index, Output5c1190* out);
 };
 
+// pdb: NavMesh::GetPOVsForTriangle | NavMesh_Util.obj | fnv360_0822_retail, objrun, medium
+// pdb params: ausTriangle, aRetPOVs
 unsigned int Owner5c2490::FUN_005c2490(unsigned short index, Output5c1190* out) {
- if (!map.count) FUN_005c1a20();
+ if (!map.count) NavMesh_CreatePOVs();
  if (out->buffer) out->size = 0;
  unsigned int found = 0;
  Face5c1190* face = unk3C + index;
@@ -12438,6 +12720,8 @@ struct Owner {
     int unk2104;
     void FUN_005d4a70(A* a, B* b);
 };
+// pdb: BSSimpleArray<PathSmootherPOVLink,1024>::Add | PathSmootherPOV.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: aValue
 void Owner::FUN_005d4a70(A* a, B* b) {
     Entry t(*a, *b, unk2104, unk20f4);
     arr.Add(t);
@@ -12482,6 +12766,8 @@ struct Point {
     }
 };
 
+// pdb: NavMeshMath::DistanceFromLine | NavMeshMath.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aPoint, aLineStart, aLineEnd
 float __cdecl FUN_005dcb80(const Point& apPoint, const Point& apOrigin, const Point& apSecond)
 {
     const Point direction = apSecond - apOrigin;
@@ -12524,6 +12810,7 @@ public:
     NavMeshSearchLOS();
     virtual ~NavMeshSearchLOS();
 };
+// pdb: NavMeshSearchLOS::NavMeshSearchLOS | NavMeshSearchLOS.obj | fnv360_0822_retail, caller_sim, low
 NavMeshSearchLOS::NavMeshSearchLOS() {
     unk2058 = 0;
     unk2074 = false;
@@ -12661,7 +12948,7 @@ struct Ref
     BaseObject* GetObjectReference() { return baseForm; }
 };
 
-void* __cdecl FUN_00455190(unsigned int formID);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 
 struct DoorAccessData
 {
@@ -12813,7 +13100,7 @@ struct LOSSearch
     __declspec(noalias) int FUN_005cc560(unsigned int key, float cost, SearchNode** out);
     __declspec(noinline) void InitNavMeshPoint(SearchNode* node, NavMesh* mesh, unsigned short tri);
     static unsigned int MakeKey(NavMesh* mesh, unsigned short tri) { return (mesh->GetID() << 16) | tri; }
-    bool FUN_005cf920(SearchNode* origin, NodeArray* output);
+    bool NavMeshSearchLOS_GetNodeConnections(SearchNode* origin, NodeArray* output);
 };
 
 void LOSSearch::InitNavMeshPoint(SearchNode* dest, NavMesh* mesh, unsigned short index)
@@ -12839,7 +13126,8 @@ void LOSSearch::InitNavMeshPoint(SearchNode* dest, NavMesh* mesh, unsigned short
     }
 }
 
-bool LOSSearch::FUN_005cf920(SearchNode* origin, NodeArray* output)
+// pdb: NavMeshSearchLOS::GetNodeConnections | NavMeshSearchLOS.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool LOSSearch::NavMeshSearchLOS_GetNodeConnections(SearchNode* origin, NodeArray* output)
 {
     Pt3 originPos(origin->pos.x, origin->pos.y, origin->pos.z);
     for (int edgeIndex = 0; edgeIndex < 3; ++edgeIndex)
@@ -12863,7 +13151,7 @@ bool LOSSearch::FUN_005cf920(SearchNode* origin, NodeArray* output)
                 if (query->IsNoDoors())
                     continue;
                 unsigned int materialID = connectedMesh->GetDoorInfo(connectedTri)->formID;
-                Ref* door = (Ref*)FUN_00455190(materialID);
+                Ref* door = (Ref*)TESForm_GetFormByNumericID(materialID);
                 if (door)
                 {
                     bool inside;
@@ -13142,9 +13430,10 @@ struct Picker5cf640 {
     n5cf640::Pick* blocked;
     n5cf640::Pick* nearest;
     float nearestDist;
-    bool FUN_005cf640(n5cf640::Pick* pick);
+    bool NavMeshSearchLOS_IsGoalNode(n5cf640::Pick* pick);
 };
-bool Picker5cf640::FUN_005cf640(n5cf640::Pick* pick)
+// pdb: NavMeshSearchLOS::IsGoalNode | NavMeshSearchLOS.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool Picker5cf640::NavMeshSearchLOS_IsGoalNode(n5cf640::Pick* pick)
 {
     unsigned int key = pick->form->id;
     unsigned short index = pick->index;
@@ -13340,6 +13629,7 @@ int unk14;
 int unk18;
 int unk1c;
 ArrayC5c entries; unsigned FUN_005c5cf0(void*,void*);};
+// pdb: BSSimpleArray<PathingNode,1024>::AddUninitialized | NavMeshPOVSearch.obj | fnv360_0721_beta, call_gap_sim, low
 unsigned OwnerC5c::FUN_005c5cf0(void* a,void* b) { const unsigned i = entries.FUN_005c5800(); EntryC5c* slot = entries.data + i; new (slot) EntryC5c(a,b); return i; }
 
 
@@ -13555,6 +13845,8 @@ namespace f3m_005d1f20 {
 
 
 
+// pdb: NavMeshTriangle::GetCoverLevel | NavMeshTriangle.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afHeight, abRoundDown, abRoundClosest
 unsigned int __cdecl FUN_005d1f20(float scale, bool a, bool b)
 {
     unsigned int result;
@@ -13600,6 +13892,8 @@ struct Owner {
     bool FUN_005df730(const Vec3&);
     bool FUN_005dfc00(Vertex*,Vertex*);
 };
+// pdb: NavMeshObstacleCutter::CheckPotentialEdgeAgainstRunningEdgeList | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apVert1, apVert2
 bool Owner::FUN_005dfc00(Vertex* a,Vertex* b) {
     if(a->flag2 && b->flag2) return false;
     if(!a->flag2 && a->flag6) return false;
@@ -13909,6 +14203,7 @@ struct Owner : Base {
     virtual __forceinline ~Owner() { }
     void FUN_005d4080();
 };
+// pdb: PathSmootherPOVSearch::~PathSmootherPOVSearch | PathSmootherPOV.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_005d4080()
 {
     this->Owner::~Owner();
@@ -13928,6 +14223,8 @@ struct V3d {
     float dot(const V3d& o) const { return x * o.x + y * o.y + z * o.z; }
 };
 }
+// pdb: NavMeshMath::SegmentPlaneIntersection | NavMeshMath.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aLineStart, aLineEnd, aPlaneV0, aPlaneNormal, apRet
 int FUN_005dccb0(f3m_005dccb0::V3d* p1, f3m_005dccb0::V3d* p2, f3m_005dccb0::V3d* p3, f3m_005dccb0::V3d* n,
                  f3m_005dccb0::V3d* out)
 {
@@ -14107,6 +14404,7 @@ struct Owner {
     Map<InnerMap> map2;
     void FUN_005d9990();
 };
+// pdb: NavMeshInfoMap::Clear | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap_sim, low
 void Owner::FUN_005d9990()
 {
     void* pos = map1.GetFirstPos();
@@ -14147,7 +14445,7 @@ namespace f3m_005dc8d0 {
 
 extern int (__cdecl*DAT_00d9b070)(void);
 extern "C" void* __cdecl FUN_00bce1f0(void);
-extern "C" void* __cdecl FUN_00455190(void* key);
+extern "C" void* __cdecl TESForm_GetFormByNumericID(void* key);
 extern "C" void* __cdecl FUN_00c0050a(void* a, int b, void* c, void* d, int e);
 
 struct ItemA
@@ -14224,6 +14522,8 @@ public:
         void* p6, void* p7, void* p8);
 };
 
+// pdb: NavMeshInfoSearch::Pathfind | NavMeshInfoSearch.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActorLockData, aStartLocation, apStartMesh, aGoalLocation, apGoalMesh, apReturnNodes, apReturnLinks, aeDoorLockDisposition
 bool OwnerC8D0::FUN_005dc8d0(void* p0, ItemA* p1, ItemB* p2, ItemA* p3, ItemB* p4,
     void* p6, void* p7, void* p8)
 {
@@ -14239,12 +14539,12 @@ bool OwnerC8D0::FUN_005dc8d0(void* p0, ItemA* p1, ItemB* p2, ItemA* p3, ItemB* p
     this->unk207C = p8;
     this->flag2080 = false;
 
-    if (FUN_00c0050a(p2->unk1C ? (void*)p2->unk1C : FUN_00455190((void*)p2->unk04),
+    if (FUN_00c0050a(p2->unk1C ? (void*)p2->unk1C : TESForm_GetFormByNumericID((void*)p2->unk04),
         0, &DAT_00f46078, &DAT_00f47a58, 0))
     {
-        unsigned a = (unsigned)FUN_00c0050a(p2->unk1C ? (void*)p2->unk1C : FUN_00455190((void*)p2->unk04),
+        unsigned a = (unsigned)FUN_00c0050a(p2->unk1C ? (void*)p2->unk1C : TESForm_GetFormByNumericID((void*)p2->unk04),
             0, &DAT_00f46078, &DAT_00f47a58, 0);
-        unsigned b = (unsigned)FUN_00c0050a(p4->unk1C ? (void*)p4->unk1C : FUN_00455190((void*)p4->unk04),
+        unsigned b = (unsigned)FUN_00c0050a(p4->unk1C ? (void*)p4->unk1C : TESForm_GetFormByNumericID((void*)p4->unk04),
             0, &DAT_00f46078, &DAT_00f47a58, 0);
         if (a == b)
             this->flag2080 = true;
@@ -14299,6 +14599,8 @@ struct NiPoint2 {
     float SqrLength() const { return x * x + y * y; }
 };
 
+// pdb: NavMeshMath::ClosestPointOnSegmentToLine | NavMeshMath.obj | fnv360_0721_beta, call_gap, low
+// pdb params: aSegmentStart, aSegmentEnd, aLineStart, aLineEnd
 NiPoint2 __cdecl FUN_005dd850(const NiPoint2& a, const NiPoint2& b, const NiPoint2& c, const NiPoint2& p)
 {
     float t1 = (p.y - b.y) * (c.x - b.x) - (p.x - b.x) * (c.y - b.y);
@@ -14351,6 +14653,8 @@ struct Owner {
  Element* elements;
  void FUN_005c3860(const Point& a, const Point& b, unsigned int distance);
 };
+// pdb: NavMeshGrid::SetBoundingExtents | NavMeshGrid.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aMin, aMax, aiNumTriangles
 void Owner::FUN_005c3860(const Point& a, const Point& b, unsigned int distance) {
  start = a;
  end = b;
@@ -14428,7 +14732,7 @@ struct NavMesh {
     EdgeData* GetEdgeData(unsigned short i) { return &edges[i]; }
     unsigned short GetEdgeIndex(unsigned short t, int e) const { return triangles[t].edgeDataIndex[e]; }
     EdgeData* GetTriEdge(unsigned short t, int e) { if (GetEdgeIndex(t,e) == 0xffff) return 0; return GetEdgeData(GetEdgeIndex(t,e)); }
-    bool FUN_005b8a30(unsigned short, int, NavMesh**, unsigned short*, int*);
+    bool NavMesh_GetMatchingEdge(unsigned short, int, NavMesh**, unsigned short*, int*);
     unsigned* FUN_005be410(unsigned short);
 };
 struct TriangleRef {
@@ -14454,7 +14758,7 @@ struct Door {
     unsigned unk018;
     DoorRecord* record;
 };
-Door* __cdecl FUN_00455190(unsigned);
+Door* __cdecl TESForm_GetFormByNumericID(unsigned);
 struct DoorCheck {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14;
     void FUN_004a9de0(Door*);
@@ -14512,10 +14816,11 @@ struct Search : f3m_005cdc40::AStarSearch {
     SearchConfig* config;
     enum NodeStatus { Created, Existing };
     NodeStatus FUN_005cc560(unsigned key, float cost, Node** result);
-    void FUN_005cd9e0(Node*, NavMesh*, unsigned short);
-    bool FUN_005cdc60(Node* source, Output* output);
+    void NavMeshSearchClosePoint_SetNodeData(Node*, NavMesh*, unsigned short);
+    bool NavMeshSearchClosePoint_GetNodeConnections(Node* source, Output* output);
 };
-bool Search::FUN_005cdc60(Node* source, Output* output)
+// pdb: NavMeshSearchClosePoint::GetNodeConnections | NavMeshSearchClosePoint.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool Search::NavMeshSearchClosePoint_GetNodeConnections(Node* source, Output* output)
 {
     Random* random = FUN_0044a2d0();
     int direction = random->FUN_0086c4b0(~0u) % 6u;
@@ -14527,7 +14832,7 @@ bool Search::FUN_005cdc60(Node* source, Output* output)
         NavMesh* adjacent;
         unsigned short triangle;
         int linked;
-        if (source->location.mesh->FUN_005b8a30(source->location.triangle, edge, &adjacent, &triangle, &linked)) {
+        if (source->location.mesh->NavMesh_GetMatchingEdge(source->location.triangle, edge, &adjacent, &triangle, &linked)) {
             NavMesh* mesh = source->location.mesh;
             unsigned short oldTriangle = source->location.triangle;
             if (mesh->triangles[oldTriangle].flags.raw & (1u << edge)) {
@@ -14541,7 +14846,7 @@ bool Search::FUN_005cdc60(Node* source, Output* output)
                 if (config->rejectDoors)
                     continue;
                 unsigned formID = *adjacent->FUN_005be410(triangle);
-                Door* door = FUN_00455190(formID);
+                Door* door = TESForm_GetFormByNumericID(formID);
                 if (door) {
                     DoorCheck check(door);
                     bool detail;
@@ -14565,7 +14870,7 @@ bool Search::FUN_005cdc60(Node* source, Output* output)
             Node* destination = node;
             switch (status) {
             case Created:
-                FUN_005cd9e0(destination, adjacent, triangle);
+                NavMeshSearchClosePoint_SetNodeData(destination, adjacent, triangle);
             case Existing:
                 destination->predecessor = source->location;
                 destination->predecessorEdge = edge;
@@ -14754,10 +15059,11 @@ struct Seeker {
  Config* config;
  int unk20A8, unk20AC, unk20B0, unk20B4, unk20B8, unk20BC, unk20C0, unk20C4, unk20C8;
  Point target;
- bool FUN_005ced20(Location* loc);
+ bool NavMeshSearchHide_IsGoalNode(Location* loc);
 };
 
-bool Seeker::FUN_005ced20(Location* loc)
+// pdb: NavMeshSearchHide::IsGoalNode | NavMeshSearchHide.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool Seeker::NavMeshSearchHide_IsGoalNode(Location* loc)
 {
  Mesh* mesh = loc->mesh;
  Triangle* tri = &mesh->triangles[loc->triangle];
@@ -14803,7 +15109,7 @@ struct ChildQ310 {
 struct ItemQ310 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18;
     RefQ310 reference;
-    ChildQ310* FUN_00455470(int index);
+    ChildQ310* TESForm_GetFile(int index);
 };
 
 struct SmartQ310 {
@@ -14844,10 +15150,11 @@ struct OwnerQ310 {
     int unk04, unk08, unk0C, unk10, unk14, unk18;
     MapQ310 map;
     void FUN_005d9f90(EntryQ310* entry);
-    void FUN_005da310(unsigned int key);
+    void NavMeshInfoMap_DeleteNavMeshInfo(unsigned int key);
 };
 
-void OwnerQ310::FUN_005da310(unsigned int key)
+// pdb: NavMeshInfoMap::DeleteNavMeshInfo | NavMeshInfoMap.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void OwnerQ310::NavMeshInfoMap_DeleteNavMeshInfo(unsigned int key)
 {
     ItemQ310* found;
     if (!map.FUN_00bea7b0(key, found))
@@ -14858,7 +15165,7 @@ void OwnerQ310::FUN_005da310(unsigned int key)
     SmartQ310 item;
     FUN_005b87d0(&item, entry->unk54);
     if (entry->unk54) {
-        ChildQ310* child = item.value->FUN_00455470(0);
+        ChildQ310* child = item.value->TESForm_GetFile(0);
         if (child && child->FUN_00446f00())
             update = true;
     }
@@ -14873,7 +15180,7 @@ void OwnerQ310::FUN_005da310(unsigned int key)
 // @f3 0x005d97a0 (community match, verified in this file)
 namespace slot25d97a0 {
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;extern bool DAT_0106dd0e;
-void __cdecl FUN_00455710(unsigned,int);void __cdecl FUN_004548c0(unsigned,const void*,unsigned);
+void __cdecl FUN_00455710(unsigned,int);void __cdecl TESForm___AddChunkData(unsigned,const void*,unsigned);
 struct Data{unsigned FUN_005c2d40();};
 struct Record {
  unsigned id;
@@ -14912,6 +15219,7 @@ struct Header {
  __declspec(noinline) void FUN_00446e50(){tag=_byteswap_ulong(tag);size=_byteswap_ulong(size);flags=_byteswap_ulong(flags);form=_byteswap_ulong(form);stamp=_byteswap_ulong(stamp);version=_byteswap_ushort(version);unknown=_byteswap_ushort(unknown);}
 };
 extern Header* DAT_0106dd20;extern unsigned DAT_0106dd24;
+// pdb: NavMeshInfoMap::Save | NavMeshInfoMap.obj | fnv360_0822_retail, vtable, medium
 void Owner::FUN_005d97a0()
 {
  FUN_004547d0();
@@ -14923,7 +15231,7 @@ void Owner::FUN_005d97a0()
   unsigned size=item->FUN_005d8750();
   void* buffer=DAT_01090a78.FUN_0086b930(size);
   item->FUN_005d8770(buffer);
-  FUN_004548c0('IMVN',buffer,size);
+  TESForm___AddChunkData('IMVN',buffer,size);
   DAT_01090a78.FUN_0086ba60(buffer);
  }
  }
@@ -14937,7 +15245,7 @@ void Owner::FUN_005d97a0()
   if(DAT_0106dd0e)id=_byteswap_ulong(id);
   *buffer=id;
   item->FUN_005d89e0(buffer+1);
-  FUN_004548c0('ICVN',buffer,size);
+  TESForm___AddChunkData('ICVN',buffer,size);
   DAT_01090a78.FUN_0086ba60(buffer);
  }
  }
@@ -15053,6 +15361,7 @@ struct Owner {
     void FUN_005da8c0();
     bool FUN_005db860();
 };
+// pdb: NavMeshInfoMap::ProcessBeforeSave | NavMeshInfoMap.obj | fnv360_0822_retail, vtable, medium
 bool Owner::FUN_005db860()
 {
     if ((unsigned char)(flags >> 1) & 1) {
@@ -15096,6 +15405,8 @@ struct TanPt {
     TanPt(float ax, float ay, float az) : x(ax), y(ay), z(az) {}
     TanPt operator-(const TanPt& o) const { return TanPt(x - o.x, y - o.y, z - o.z); }
 };
+// pdb: NavMeshMath::ComputeTangentPointsToCircleFromPoint | NavMeshMath.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aCircleCenter, afCircleRadius, aPoint, aRetPoint1, aRetPoint2
 bool __cdecl FUN_005ddee0(const TanPt* a, float r, const TanPt* b, TanPt* o1, TanPt* o2)
 {
     TanPt idx;
@@ -15136,10 +15447,11 @@ struct Target { int unk00; int unk04; RObj* obj; short id; short unk0e; Vec pos;
 struct Sett { int unk0000; int unk0004; int unk0008; int unk000c; Vec pos; int unk001c; int unk0020; int unk0024; int unk0028; int unk002c; int unk0030; Finder finder; int unk0038; int unk003c; int unk0040; int unk0044; int unk0048; int unk004c; int unk0050; int unk0054; int unk0058; int unk005c; int unk0060; int unk0064; int unk0068; int unk006c; int unk0070; int unk0074; int unk0078; int unk007c; int unk0080; int unk0084; int unk0088; int unk008c; int unk0090; Probe* probe; int unk0098; int unk009c; int unk00a0; int unk00a4; int unk00a8; int unk00ac; float range;
   __forceinline bool InRange(const Vec& p) { Vec a = pos; Vec d = a - p; float d2 = d.x * d.x + d.y * d.y; return d2 < range * range; } };
 struct Self { int unk0000; int unk0004; int unk0008; int unk000c; int unk0010; int unk0014; int unk0018; int unk001c; int unk0020; int unk0024; int unk0028; int unk002c; int unk0030; int unk0034; int unk0038; int unk003c; int unk0040; int unk0044; int unk0048; int unk004c; int unk0050; int unk0054; int unk0058; int unk005c; int unk0060; int unk0064; int unk0068; int unk006c; int unk0070; int unk0074; int unk0078; int unk007c; int unk0080; int unk0084; int unk0088; int unk008c; int unk0090; int unk0094; int unk0098; int unk009c; int unk00a0; int unk00a4; int unk00a8; int unk00ac; int unk00b0; int unk00b4; int unk00b8; int unk00bc; int unk00c0; int unk00c4; int unk00c8; int unk00cc; int unk00d0; int unk00d4; int unk00d8; int unk00dc; int unk00e0; int unk00e4; int unk00e8; int unk00ec; int unk00f0; int unk00f4; int unk00f8; int unk00fc; int unk0100; int unk0104; int unk0108; int unk010c; int unk0110; int unk0114; int unk0118; int unk011c; int unk0120; int unk0124; int unk0128; int unk012c; int unk0130; int unk0134; int unk0138; int unk013c; int unk0140; int unk0144; int unk0148; int unk014c; int unk0150; int unk0154; int unk0158; int unk015c; int unk0160; int unk0164; int unk0168; int unk016c; int unk0170; int unk0174; int unk0178; int unk017c; int unk0180; int unk0184; int unk0188; int unk018c; int unk0190; int unk0194; int unk0198; int unk019c; int unk01a0; int unk01a4; int unk01a8; int unk01ac; int unk01b0; int unk01b4; int unk01b8; int unk01bc; int unk01c0; int unk01c4; int unk01c8; int unk01cc; int unk01d0; int unk01d4; int unk01d8; int unk01dc; int unk01e0; int unk01e4; int unk01e8; int unk01ec; int unk01f0; int unk01f4; int unk01f8; int unk01fc; int unk0200; int unk0204; int unk0208; int unk020c; int unk0210; int unk0214; int unk0218; int unk021c; int unk0220; int unk0224; int unk0228; int unk022c; int unk0230; int unk0234; int unk0238; int unk023c; int unk0240; int unk0244; int unk0248; int unk024c; int unk0250; int unk0254; int unk0258; int unk025c; int unk0260; int unk0264; int unk0268; int unk026c; int unk0270; int unk0274; int unk0278; int unk027c; int unk0280; int unk0284; int unk0288; int unk028c; int unk0290; int unk0294; int unk0298; int unk029c; int unk02a0; int unk02a4; int unk02a8; int unk02ac; int unk02b0; int unk02b4; int unk02b8; int unk02bc; int unk02c0; int unk02c4; int unk02c8; int unk02cc; int unk02d0; int unk02d4; int unk02d8; int unk02dc; int unk02e0; int unk02e4; int unk02e8; int unk02ec; int unk02f0; int unk02f4; int unk02f8; int unk02fc; int unk0300; int unk0304; int unk0308; int unk030c; int unk0310; int unk0314; int unk0318; int unk031c; int unk0320; int unk0324; int unk0328; int unk032c; int unk0330; int unk0334; int unk0338; int unk033c; int unk0340; int unk0344; int unk0348; int unk034c; int unk0350; int unk0354; int unk0358; int unk035c; int unk0360; int unk0364; int unk0368; int unk036c; int unk0370; int unk0374; int unk0378; int unk037c; int unk0380; int unk0384; int unk0388; int unk038c; int unk0390; int unk0394; int unk0398; int unk039c; int unk03a0; int unk03a4; int unk03a8; int unk03ac; int unk03b0; int unk03b4; int unk03b8; int unk03bc; int unk03c0; int unk03c4; int unk03c8; int unk03cc; int unk03d0; int unk03d4; int unk03d8; int unk03dc; int unk03e0; int unk03e4; int unk03e8; int unk03ec; int unk03f0; int unk03f4; int unk03f8; int unk03fc; int unk0400; int unk0404; int unk0408; int unk040c; int unk0410; int unk0414; int unk0418; int unk041c; int unk0420; int unk0424; int unk0428; int unk042c; int unk0430; int unk0434; int unk0438; int unk043c; int unk0440; int unk0444; int unk0448; int unk044c; int unk0450; int unk0454; int unk0458; int unk045c; int unk0460; int unk0464; int unk0468; int unk046c; int unk0470; int unk0474; int unk0478; int unk047c; int unk0480; int unk0484; int unk0488; int unk048c; int unk0490; int unk0494; int unk0498; int unk049c; int unk04a0; int unk04a4; int unk04a8; int unk04ac; int unk04b0; int unk04b4; int unk04b8; int unk04bc; int unk04c0; int unk04c4; int unk04c8; int unk04cc; int unk04d0; int unk04d4; int unk04d8; int unk04dc; int unk04e0; int unk04e4; int unk04e8; int unk04ec; int unk04f0; int unk04f4; int unk04f8; int unk04fc; int unk0500; int unk0504; int unk0508; int unk050c; int unk0510; int unk0514; int unk0518; int unk051c; int unk0520; int unk0524; int unk0528; int unk052c; int unk0530; int unk0534; int unk0538; int unk053c; int unk0540; int unk0544; int unk0548; int unk054c; int unk0550; int unk0554; int unk0558; int unk055c; int unk0560; int unk0564; int unk0568; int unk056c; int unk0570; int unk0574; int unk0578; int unk057c; int unk0580; int unk0584; int unk0588; int unk058c; int unk0590; int unk0594; int unk0598; int unk059c; int unk05a0; int unk05a4; int unk05a8; int unk05ac; int unk05b0; int unk05b4; int unk05b8; int unk05bc; int unk05c0; int unk05c4; int unk05c8; int unk05cc; int unk05d0; int unk05d4; int unk05d8; int unk05dc; int unk05e0; int unk05e4; int unk05e8; int unk05ec; int unk05f0; int unk05f4; int unk05f8; int unk05fc; int unk0600; int unk0604; int unk0608; int unk060c; int unk0610; int unk0614; int unk0618; int unk061c; int unk0620; int unk0624; int unk0628; int unk062c; int unk0630; int unk0634; int unk0638; int unk063c; int unk0640; int unk0644; int unk0648; int unk064c; int unk0650; int unk0654; int unk0658; int unk065c; int unk0660; int unk0664; int unk0668; int unk066c; int unk0670; int unk0674; int unk0678; int unk067c; int unk0680; int unk0684; int unk0688; int unk068c; int unk0690; int unk0694; int unk0698; int unk069c; int unk06a0; int unk06a4; int unk06a8; int unk06ac; int unk06b0; int unk06b4; int unk06b8; int unk06bc; int unk06c0; int unk06c4; int unk06c8; int unk06cc; int unk06d0; int unk06d4; int unk06d8; int unk06dc; int unk06e0; int unk06e4; int unk06e8; int unk06ec; int unk06f0; int unk06f4; int unk06f8; int unk06fc; int unk0700; int unk0704; int unk0708; int unk070c; int unk0710; int unk0714; int unk0718; int unk071c; int unk0720; int unk0724; int unk0728; int unk072c; int unk0730; int unk0734; int unk0738; int unk073c; int unk0740; int unk0744; int unk0748; int unk074c; int unk0750; int unk0754; int unk0758; int unk075c; int unk0760; int unk0764; int unk0768; int unk076c; int unk0770; int unk0774; int unk0778; int unk077c; int unk0780; int unk0784; int unk0788; int unk078c; int unk0790; int unk0794; int unk0798; int unk079c; int unk07a0; int unk07a4; int unk07a8; int unk07ac; int unk07b0; int unk07b4; int unk07b8; int unk07bc; int unk07c0; int unk07c4; int unk07c8; int unk07cc; int unk07d0; int unk07d4; int unk07d8; int unk07dc; int unk07e0; int unk07e4; int unk07e8; int unk07ec; int unk07f0; int unk07f4; int unk07f8; int unk07fc; int unk0800; int unk0804; int unk0808; int unk080c; int unk0810; int unk0814; int unk0818; int unk081c; int unk0820; int unk0824; int unk0828; int unk082c; int unk0830; int unk0834; int unk0838; int unk083c; int unk0840; int unk0844; int unk0848; int unk084c; int unk0850; int unk0854; int unk0858; int unk085c; int unk0860; int unk0864; int unk0868; int unk086c; int unk0870; int unk0874; int unk0878; int unk087c; int unk0880; int unk0884; int unk0888; int unk088c; int unk0890; int unk0894; int unk0898; int unk089c; int unk08a0; int unk08a4; int unk08a8; int unk08ac; int unk08b0; int unk08b4; int unk08b8; int unk08bc; int unk08c0; int unk08c4; int unk08c8; int unk08cc; int unk08d0; int unk08d4; int unk08d8; int unk08dc; int unk08e0; int unk08e4; int unk08e8; int unk08ec; int unk08f0; int unk08f4; int unk08f8; int unk08fc; int unk0900; int unk0904; int unk0908; int unk090c; int unk0910; int unk0914; int unk0918; int unk091c; int unk0920; int unk0924; int unk0928; int unk092c; int unk0930; int unk0934; int unk0938; int unk093c; int unk0940; int unk0944; int unk0948; int unk094c; int unk0950; int unk0954; int unk0958; int unk095c; int unk0960; int unk0964; int unk0968; int unk096c; int unk0970; int unk0974; int unk0978; int unk097c; int unk0980; int unk0984; int unk0988; int unk098c; int unk0990; int unk0994; int unk0998; int unk099c; int unk09a0; int unk09a4; int unk09a8; int unk09ac; int unk09b0; int unk09b4; int unk09b8; int unk09bc; int unk09c0; int unk09c4; int unk09c8; int unk09cc; int unk09d0; int unk09d4; int unk09d8; int unk09dc; int unk09e0; int unk09e4; int unk09e8; int unk09ec; int unk09f0; int unk09f4; int unk09f8; int unk09fc; int unk0a00; int unk0a04; int unk0a08; int unk0a0c; int unk0a10; int unk0a14; int unk0a18; int unk0a1c; int unk0a20; int unk0a24; int unk0a28; int unk0a2c; int unk0a30; int unk0a34; int unk0a38; int unk0a3c; int unk0a40; int unk0a44; int unk0a48; int unk0a4c; int unk0a50; int unk0a54; int unk0a58; int unk0a5c; int unk0a60; int unk0a64; int unk0a68; int unk0a6c; int unk0a70; int unk0a74; int unk0a78; int unk0a7c; int unk0a80; int unk0a84; int unk0a88; int unk0a8c; int unk0a90; int unk0a94; int unk0a98; int unk0a9c; int unk0aa0; int unk0aa4; int unk0aa8; int unk0aac; int unk0ab0; int unk0ab4; int unk0ab8; int unk0abc; int unk0ac0; int unk0ac4; int unk0ac8; int unk0acc; int unk0ad0; int unk0ad4; int unk0ad8; int unk0adc; int unk0ae0; int unk0ae4; int unk0ae8; int unk0aec; int unk0af0; int unk0af4; int unk0af8; int unk0afc; int unk0b00; int unk0b04; int unk0b08; int unk0b0c; int unk0b10; int unk0b14; int unk0b18; int unk0b1c; int unk0b20; int unk0b24; int unk0b28; int unk0b2c; int unk0b30; int unk0b34; int unk0b38; int unk0b3c; int unk0b40; int unk0b44; int unk0b48; int unk0b4c; int unk0b50; int unk0b54; int unk0b58; int unk0b5c; int unk0b60; int unk0b64; int unk0b68; int unk0b6c; int unk0b70; int unk0b74; int unk0b78; int unk0b7c; int unk0b80; int unk0b84; int unk0b88; int unk0b8c; int unk0b90; int unk0b94; int unk0b98; int unk0b9c; int unk0ba0; int unk0ba4; int unk0ba8; int unk0bac; int unk0bb0; int unk0bb4; int unk0bb8; int unk0bbc; int unk0bc0; int unk0bc4; int unk0bc8; int unk0bcc; int unk0bd0; int unk0bd4; int unk0bd8; int unk0bdc; int unk0be0; int unk0be4; int unk0be8; int unk0bec; int unk0bf0; int unk0bf4; int unk0bf8; int unk0bfc; int unk0c00; int unk0c04; int unk0c08; int unk0c0c; int unk0c10; int unk0c14; int unk0c18; int unk0c1c; int unk0c20; int unk0c24; int unk0c28; int unk0c2c; int unk0c30; int unk0c34; int unk0c38; int unk0c3c; int unk0c40; int unk0c44; int unk0c48; int unk0c4c; int unk0c50; int unk0c54; int unk0c58; int unk0c5c; int unk0c60; int unk0c64; int unk0c68; int unk0c6c; int unk0c70; int unk0c74; int unk0c78; int unk0c7c; int unk0c80; int unk0c84; int unk0c88; int unk0c8c; int unk0c90; int unk0c94; int unk0c98; int unk0c9c; int unk0ca0; int unk0ca4; int unk0ca8; int unk0cac; int unk0cb0; int unk0cb4; int unk0cb8; int unk0cbc; int unk0cc0; int unk0cc4; int unk0cc8; int unk0ccc; int unk0cd0; int unk0cd4; int unk0cd8; int unk0cdc; int unk0ce0; int unk0ce4; int unk0ce8; int unk0cec; int unk0cf0; int unk0cf4; int unk0cf8; int unk0cfc; int unk0d00; int unk0d04; int unk0d08; int unk0d0c; int unk0d10; int unk0d14; int unk0d18; int unk0d1c; int unk0d20; int unk0d24; int unk0d28; int unk0d2c; int unk0d30; int unk0d34; int unk0d38; int unk0d3c; int unk0d40; int unk0d44; int unk0d48; int unk0d4c; int unk0d50; int unk0d54; int unk0d58; int unk0d5c; int unk0d60; int unk0d64; int unk0d68; int unk0d6c; int unk0d70; int unk0d74; int unk0d78; int unk0d7c; int unk0d80; int unk0d84; int unk0d88; int unk0d8c; int unk0d90; int unk0d94; int unk0d98; int unk0d9c; int unk0da0; int unk0da4; int unk0da8; int unk0dac; int unk0db0; int unk0db4; int unk0db8; int unk0dbc; int unk0dc0; int unk0dc4; int unk0dc8; int unk0dcc; int unk0dd0; int unk0dd4; int unk0dd8; int unk0ddc; int unk0de0; int unk0de4; int unk0de8; int unk0dec; int unk0df0; int unk0df4; int unk0df8; int unk0dfc; int unk0e00; int unk0e04; int unk0e08; int unk0e0c; int unk0e10; int unk0e14; int unk0e18; int unk0e1c; int unk0e20; int unk0e24; int unk0e28; int unk0e2c; int unk0e30; int unk0e34; int unk0e38; int unk0e3c; int unk0e40; int unk0e44; int unk0e48; int unk0e4c; int unk0e50; int unk0e54; int unk0e58; int unk0e5c; int unk0e60; int unk0e64; int unk0e68; int unk0e6c; int unk0e70; int unk0e74; int unk0e78; int unk0e7c; int unk0e80; int unk0e84; int unk0e88; int unk0e8c; int unk0e90; int unk0e94; int unk0e98; int unk0e9c; int unk0ea0; int unk0ea4; int unk0ea8; int unk0eac; int unk0eb0; int unk0eb4; int unk0eb8; int unk0ebc; int unk0ec0; int unk0ec4; int unk0ec8; int unk0ecc; int unk0ed0; int unk0ed4; int unk0ed8; int unk0edc; int unk0ee0; int unk0ee4; int unk0ee8; int unk0eec; int unk0ef0; int unk0ef4; int unk0ef8; int unk0efc; int unk0f00; int unk0f04; int unk0f08; int unk0f0c; int unk0f10; int unk0f14; int unk0f18; int unk0f1c; int unk0f20; int unk0f24; int unk0f28; int unk0f2c; int unk0f30; int unk0f34; int unk0f38; int unk0f3c; int unk0f40; int unk0f44; int unk0f48; int unk0f4c; int unk0f50; int unk0f54; int unk0f58; int unk0f5c; int unk0f60; int unk0f64; int unk0f68; int unk0f6c; int unk0f70; int unk0f74; int unk0f78; int unk0f7c; int unk0f80; int unk0f84; int unk0f88; int unk0f8c; int unk0f90; int unk0f94; int unk0f98; int unk0f9c; int unk0fa0; int unk0fa4; int unk0fa8; int unk0fac; int unk0fb0; int unk0fb4; int unk0fb8; int unk0fbc; int unk0fc0; int unk0fc4; int unk0fc8; int unk0fcc; int unk0fd0; int unk0fd4; int unk0fd8; int unk0fdc; int unk0fe0; int unk0fe4; int unk0fe8; int unk0fec; int unk0ff0; int unk0ff4; int unk0ff8; int unk0ffc; int unk1000; int unk1004; int unk1008; int unk100c; int unk1010; int unk1014; int unk1018; int unk101c; int unk1020; int unk1024; int unk1028; int unk102c; int unk1030; int unk1034; int unk1038; int unk103c; int unk1040; int unk1044; int unk1048; int unk104c; int unk1050; int unk1054; int unk1058; int unk105c; int unk1060; int unk1064; int unk1068; int unk106c; int unk1070; int unk1074; int unk1078; int unk107c; int unk1080; int unk1084; int unk1088; int unk108c; int unk1090; int unk1094; int unk1098; int unk109c; int unk10a0; int unk10a4; int unk10a8; int unk10ac; int unk10b0; int unk10b4; int unk10b8; int unk10bc; int unk10c0; int unk10c4; int unk10c8; int unk10cc; int unk10d0; int unk10d4; int unk10d8; int unk10dc; int unk10e0; int unk10e4; int unk10e8; int unk10ec; int unk10f0; int unk10f4; int unk10f8; int unk10fc; int unk1100; int unk1104; int unk1108; int unk110c; int unk1110; int unk1114; int unk1118; int unk111c; int unk1120; int unk1124; int unk1128; int unk112c; int unk1130; int unk1134; int unk1138; int unk113c; int unk1140; int unk1144; int unk1148; int unk114c; int unk1150; int unk1154; int unk1158; int unk115c; int unk1160; int unk1164; int unk1168; int unk116c; int unk1170; int unk1174; int unk1178; int unk117c; int unk1180; int unk1184; int unk1188; int unk118c; int unk1190; int unk1194; int unk1198; int unk119c; int unk11a0; int unk11a4; int unk11a8; int unk11ac; int unk11b0; int unk11b4; int unk11b8; int unk11bc; int unk11c0; int unk11c4; int unk11c8; int unk11cc; int unk11d0; int unk11d4; int unk11d8; int unk11dc; int unk11e0; int unk11e4; int unk11e8; int unk11ec; int unk11f0; int unk11f4; int unk11f8; int unk11fc; int unk1200; int unk1204; int unk1208; int unk120c; int unk1210; int unk1214; int unk1218; int unk121c; int unk1220; int unk1224; int unk1228; int unk122c; int unk1230; int unk1234; int unk1238; int unk123c; int unk1240; int unk1244; int unk1248; int unk124c; int unk1250; int unk1254; int unk1258; int unk125c; int unk1260; int unk1264; int unk1268; int unk126c; int unk1270; int unk1274; int unk1278; int unk127c; int unk1280; int unk1284; int unk1288; int unk128c; int unk1290; int unk1294; int unk1298; int unk129c; int unk12a0; int unk12a4; int unk12a8; int unk12ac; int unk12b0; int unk12b4; int unk12b8; int unk12bc; int unk12c0; int unk12c4; int unk12c8; int unk12cc; int unk12d0; int unk12d4; int unk12d8; int unk12dc; int unk12e0; int unk12e4; int unk12e8; int unk12ec; int unk12f0; int unk12f4; int unk12f8; int unk12fc; int unk1300; int unk1304; int unk1308; int unk130c; int unk1310; int unk1314; int unk1318; int unk131c; int unk1320; int unk1324; int unk1328; int unk132c; int unk1330; int unk1334; int unk1338; int unk133c; int unk1340; int unk1344; int unk1348; int unk134c; int unk1350; int unk1354; int unk1358; int unk135c; int unk1360; int unk1364; int unk1368; int unk136c; int unk1370; int unk1374; int unk1378; int unk137c; int unk1380; int unk1384; int unk1388; int unk138c; int unk1390; int unk1394; int unk1398; int unk139c; int unk13a0; int unk13a4; int unk13a8; int unk13ac; int unk13b0; int unk13b4; int unk13b8; int unk13bc; int unk13c0; int unk13c4; int unk13c8; int unk13cc; int unk13d0; int unk13d4; int unk13d8; int unk13dc; int unk13e0; int unk13e4; int unk13e8; int unk13ec; int unk13f0; int unk13f4; int unk13f8; int unk13fc; int unk1400; int unk1404; int unk1408; int unk140c; int unk1410; int unk1414; int unk1418; int unk141c; int unk1420; int unk1424; int unk1428; int unk142c; int unk1430; int unk1434; int unk1438; int unk143c; int unk1440; int unk1444; int unk1448; int unk144c; int unk1450; int unk1454; int unk1458; int unk145c; int unk1460; int unk1464; int unk1468; int unk146c; int unk1470; int unk1474; int unk1478; int unk147c; int unk1480; int unk1484; int unk1488; int unk148c; int unk1490; int unk1494; int unk1498; int unk149c; int unk14a0; int unk14a4; int unk14a8; int unk14ac; int unk14b0; int unk14b4; int unk14b8; int unk14bc; int unk14c0; int unk14c4; int unk14c8; int unk14cc; int unk14d0; int unk14d4; int unk14d8; int unk14dc; int unk14e0; int unk14e4; int unk14e8; int unk14ec; int unk14f0; int unk14f4; int unk14f8; int unk14fc; int unk1500; int unk1504; int unk1508; int unk150c; int unk1510; int unk1514; int unk1518; int unk151c; int unk1520; int unk1524; int unk1528; int unk152c; int unk1530; int unk1534; int unk1538; int unk153c; int unk1540; int unk1544; int unk1548; int unk154c; int unk1550; int unk1554; int unk1558; int unk155c; int unk1560; int unk1564; int unk1568; int unk156c; int unk1570; int unk1574; int unk1578; int unk157c; int unk1580; int unk1584; int unk1588; int unk158c; int unk1590; int unk1594; int unk1598; int unk159c; int unk15a0; int unk15a4; int unk15a8; int unk15ac; int unk15b0; int unk15b4; int unk15b8; int unk15bc; int unk15c0; int unk15c4; int unk15c8; int unk15cc; int unk15d0; int unk15d4; int unk15d8; int unk15dc; int unk15e0; int unk15e4; int unk15e8; int unk15ec; int unk15f0; int unk15f4; int unk15f8; int unk15fc; int unk1600; int unk1604; int unk1608; int unk160c; int unk1610; int unk1614; int unk1618; int unk161c; int unk1620; int unk1624; int unk1628; int unk162c; int unk1630; int unk1634; int unk1638; int unk163c; int unk1640; int unk1644; int unk1648; int unk164c; int unk1650; int unk1654; int unk1658; int unk165c; int unk1660; int unk1664; int unk1668; int unk166c; int unk1670; int unk1674; int unk1678; int unk167c; int unk1680; int unk1684; int unk1688; int unk168c; int unk1690; int unk1694; int unk1698; int unk169c; int unk16a0; int unk16a4; int unk16a8; int unk16ac; int unk16b0; int unk16b4; int unk16b8; int unk16bc; int unk16c0; int unk16c4; int unk16c8; int unk16cc; int unk16d0; int unk16d4; int unk16d8; int unk16dc; int unk16e0; int unk16e4; int unk16e8; int unk16ec; int unk16f0; int unk16f4; int unk16f8; int unk16fc; int unk1700; int unk1704; int unk1708; int unk170c; int unk1710; int unk1714; int unk1718; int unk171c; int unk1720; int unk1724; int unk1728; int unk172c; int unk1730; int unk1734; int unk1738; int unk173c; int unk1740; int unk1744; int unk1748; int unk174c; int unk1750; int unk1754; int unk1758; int unk175c; int unk1760; int unk1764; int unk1768; int unk176c; int unk1770; int unk1774; int unk1778; int unk177c; int unk1780; int unk1784; int unk1788; int unk178c; int unk1790; int unk1794; int unk1798; int unk179c; int unk17a0; int unk17a4; int unk17a8; int unk17ac; int unk17b0; int unk17b4; int unk17b8; int unk17bc; int unk17c0; int unk17c4; int unk17c8; int unk17cc; int unk17d0; int unk17d4; int unk17d8; int unk17dc; int unk17e0; int unk17e4; int unk17e8; int unk17ec; int unk17f0; int unk17f4; int unk17f8; int unk17fc; int unk1800; int unk1804; int unk1808; int unk180c; int unk1810; int unk1814; int unk1818; int unk181c; int unk1820; int unk1824; int unk1828; int unk182c; int unk1830; int unk1834; int unk1838; int unk183c; int unk1840; int unk1844; int unk1848; int unk184c; int unk1850; int unk1854; int unk1858; int unk185c; int unk1860; int unk1864; int unk1868; int unk186c; int unk1870; int unk1874; int unk1878; int unk187c; int unk1880; int unk1884; int unk1888; int unk188c; int unk1890; int unk1894; int unk1898; int unk189c; int unk18a0; int unk18a4; int unk18a8; int unk18ac; int unk18b0; int unk18b4; int unk18b8; int unk18bc; int unk18c0; int unk18c4; int unk18c8; int unk18cc; int unk18d0; int unk18d4; int unk18d8; int unk18dc; int unk18e0; int unk18e4; int unk18e8; int unk18ec; int unk18f0; int unk18f4; int unk18f8; int unk18fc; int unk1900; int unk1904; int unk1908; int unk190c; int unk1910; int unk1914; int unk1918; int unk191c; int unk1920; int unk1924; int unk1928; int unk192c; int unk1930; int unk1934; int unk1938; int unk193c; int unk1940; int unk1944; int unk1948; int unk194c; int unk1950; int unk1954; int unk1958; int unk195c; int unk1960; int unk1964; int unk1968; int unk196c; int unk1970; int unk1974; int unk1978; int unk197c; int unk1980; int unk1984; int unk1988; int unk198c; int unk1990; int unk1994; int unk1998; int unk199c; int unk19a0; int unk19a4; int unk19a8; int unk19ac; int unk19b0; int unk19b4; int unk19b8; int unk19bc; int unk19c0; int unk19c4; int unk19c8; int unk19cc; int unk19d0; int unk19d4; int unk19d8; int unk19dc; int unk19e0; int unk19e4; int unk19e8; int unk19ec; int unk19f0; int unk19f4; int unk19f8; int unk19fc; int unk1a00; int unk1a04; int unk1a08; int unk1a0c; int unk1a10; int unk1a14; int unk1a18; int unk1a1c; int unk1a20; int unk1a24; int unk1a28; int unk1a2c; int unk1a30; int unk1a34; int unk1a38; int unk1a3c; int unk1a40; int unk1a44; int unk1a48; int unk1a4c; int unk1a50; int unk1a54; int unk1a58; int unk1a5c; int unk1a60; int unk1a64; int unk1a68; int unk1a6c; int unk1a70; int unk1a74; int unk1a78; int unk1a7c; int unk1a80; int unk1a84; int unk1a88; int unk1a8c; int unk1a90; int unk1a94; int unk1a98; int unk1a9c; int unk1aa0; int unk1aa4; int unk1aa8; int unk1aac; int unk1ab0; int unk1ab4; int unk1ab8; int unk1abc; int unk1ac0; int unk1ac4; int unk1ac8; int unk1acc; int unk1ad0; int unk1ad4; int unk1ad8; int unk1adc; int unk1ae0; int unk1ae4; int unk1ae8; int unk1aec; int unk1af0; int unk1af4; int unk1af8; int unk1afc; int unk1b00; int unk1b04; int unk1b08; int unk1b0c; int unk1b10; int unk1b14; int unk1b18; int unk1b1c; int unk1b20; int unk1b24; int unk1b28; int unk1b2c; int unk1b30; int unk1b34; int unk1b38; int unk1b3c; int unk1b40; int unk1b44; int unk1b48; int unk1b4c; int unk1b50; int unk1b54; int unk1b58; int unk1b5c; int unk1b60; int unk1b64; int unk1b68; int unk1b6c; int unk1b70; int unk1b74; int unk1b78; int unk1b7c; int unk1b80; int unk1b84; int unk1b88; int unk1b8c; int unk1b90; int unk1b94; int unk1b98; int unk1b9c; int unk1ba0; int unk1ba4; int unk1ba8; int unk1bac; int unk1bb0; int unk1bb4; int unk1bb8; int unk1bbc; int unk1bc0; int unk1bc4; int unk1bc8; int unk1bcc; int unk1bd0; int unk1bd4; int unk1bd8; int unk1bdc; int unk1be0; int unk1be4; int unk1be8; int unk1bec; int unk1bf0; int unk1bf4; int unk1bf8; int unk1bfc; int unk1c00; int unk1c04; int unk1c08; int unk1c0c; int unk1c10; int unk1c14; int unk1c18; int unk1c1c; int unk1c20; int unk1c24; int unk1c28; int unk1c2c; int unk1c30; int unk1c34; int unk1c38; int unk1c3c; int unk1c40; int unk1c44; int unk1c48; int unk1c4c; int unk1c50; int unk1c54; int unk1c58; int unk1c5c; int unk1c60; int unk1c64; int unk1c68; int unk1c6c; int unk1c70; int unk1c74; int unk1c78; int unk1c7c; int unk1c80; int unk1c84; int unk1c88; int unk1c8c; int unk1c90; int unk1c94; int unk1c98; int unk1c9c; int unk1ca0; int unk1ca4; int unk1ca8; int unk1cac; int unk1cb0; int unk1cb4; int unk1cb8; int unk1cbc; int unk1cc0; int unk1cc4; int unk1cc8; int unk1ccc; int unk1cd0; int unk1cd4; int unk1cd8; int unk1cdc; int unk1ce0; int unk1ce4; int unk1ce8; int unk1cec; int unk1cf0; int unk1cf4; int unk1cf8; int unk1cfc; int unk1d00; int unk1d04; int unk1d08; int unk1d0c; int unk1d10; int unk1d14; int unk1d18; int unk1d1c; int unk1d20; int unk1d24; int unk1d28; int unk1d2c; int unk1d30; int unk1d34; int unk1d38; int unk1d3c; int unk1d40; int unk1d44; int unk1d48; int unk1d4c; int unk1d50; int unk1d54; int unk1d58; int unk1d5c; int unk1d60; int unk1d64; int unk1d68; int unk1d6c; int unk1d70; int unk1d74; int unk1d78; int unk1d7c; int unk1d80; int unk1d84; int unk1d88; int unk1d8c; int unk1d90; int unk1d94; int unk1d98; int unk1d9c; int unk1da0; int unk1da4; int unk1da8; int unk1dac; int unk1db0; int unk1db4; int unk1db8; int unk1dbc; int unk1dc0; int unk1dc4; int unk1dc8; int unk1dcc; int unk1dd0; int unk1dd4; int unk1dd8; int unk1ddc; int unk1de0; int unk1de4; int unk1de8; int unk1dec; int unk1df0; int unk1df4; int unk1df8; int unk1dfc; int unk1e00; int unk1e04; int unk1e08; int unk1e0c; int unk1e10; int unk1e14; int unk1e18; int unk1e1c; int unk1e20; int unk1e24; int unk1e28; int unk1e2c; int unk1e30; int unk1e34; int unk1e38; int unk1e3c; int unk1e40; int unk1e44; int unk1e48; int unk1e4c; int unk1e50; int unk1e54; int unk1e58; int unk1e5c; int unk1e60; int unk1e64; int unk1e68; int unk1e6c; int unk1e70; int unk1e74; int unk1e78; int unk1e7c; int unk1e80; int unk1e84; int unk1e88; int unk1e8c; int unk1e90; int unk1e94; int unk1e98; int unk1e9c; int unk1ea0; int unk1ea4; int unk1ea8; int unk1eac; int unk1eb0; int unk1eb4; int unk1eb8; int unk1ebc; int unk1ec0; int unk1ec4; int unk1ec8; int unk1ecc; int unk1ed0; int unk1ed4; int unk1ed8; int unk1edc; int unk1ee0; int unk1ee4; int unk1ee8; int unk1eec; int unk1ef0; int unk1ef4; int unk1ef8; int unk1efc; int unk1f00; int unk1f04; int unk1f08; int unk1f0c; int unk1f10; int unk1f14; int unk1f18; int unk1f1c; int unk1f20; int unk1f24; int unk1f28; int unk1f2c; int unk1f30; int unk1f34; int unk1f38; int unk1f3c; int unk1f40; int unk1f44; int unk1f48; int unk1f4c; int unk1f50; int unk1f54; int unk1f58; int unk1f5c; int unk1f60; int unk1f64; int unk1f68; int unk1f6c; int unk1f70; int unk1f74; int unk1f78; int unk1f7c; int unk1f80; int unk1f84; int unk1f88; int unk1f8c; int unk1f90; int unk1f94; int unk1f98; int unk1f9c; int unk1fa0; int unk1fa4; int unk1fa8; int unk1fac; int unk1fb0; int unk1fb4; int unk1fb8; int unk1fbc; int unk1fc0; int unk1fc4; int unk1fc8; int unk1fcc; int unk1fd0; int unk1fd4; int unk1fd8; int unk1fdc; int unk1fe0; int unk1fe4; int unk1fe8; int unk1fec; int unk1ff0; int unk1ff4; int unk1ff8; int unk1ffc; int unk2000; int unk2004; int unk2008; int unk200c; int unk2010; int unk2014; int unk2018; int unk201c; int unk2020; int unk2024; int unk2028; int unk202c; int unk2030; int unk2034; int unk2038; int unk203c; int unk2040; int unk2044; int unk2048; int unk204c; Target* last; int unk2054; Sett* settings; int unk205c; int unk2060; int unk2064; int unk2068; int unk206c; int unk2070; int unk2074; int unk2078; int unk207c; char active; char unk2081; char unk2082; char unk2083; Vec point;
-  bool FUN_005ce230(Target* t); };
+  bool NavMeshSearchFlee_IsGoalNode(Target* t); };
 }
 using namespace q5ce230;
-bool q5ce230::Self::FUN_005ce230(Target* t)
+// pdb: NavMeshSearchFlee::IsGoalNode | NavMeshSearchFlee.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool q5ce230::Self::NavMeshSearchFlee_IsGoalNode(Target* t)
 {
     Finder* fd = &settings->finder;
     if (active) {
@@ -15334,6 +15646,7 @@ struct Owner5d9b {
     Outer5d9b unk2C;
     bool FUN_005d9b60();
 };
+// pdb: NavMeshInfoMap::CheckAllNavmeshBoundingBoxes | NavMeshInfoMap.obj | fnv360_0721_beta, call_gap_sim, low
 bool Owner5d9b::FUN_005d9b60()
 {
     bool result = true;
@@ -15524,6 +15837,7 @@ struct FUN_005c9200
     FUN_005c9200();
 };
 
+// pdb: NavMeshRender::NavMeshRender | NavMeshRender.obj | fnv360_0822_retail, call_seq, medium
 FUN_005c9200::FUN_005c9200()
 {
     m_b210 = false;
@@ -15707,7 +16021,7 @@ class TESObjectREFR
     TESObjectDOOR* GetObjectReference() { return baseForm; }
     ExtraDataList* GetExtraData() { return &extraList; }
     bool FUN_004e91a0();
-    TeleportData* FUN_004e74a0();
+    TeleportData* TESObjectREFR_GetTeleport();
 };
 
 struct NavMeshInfoLookup
@@ -15810,7 +16124,7 @@ struct ScrapHeapBuffer
     char* m_pCurrentPosition;
     char* m_pBufferLimit;
     void* m_pBufferHeader;
-    void* FUN_0086c710(unsigned int size, unsigned int align);
+    void* ScrapHeap_Allocate(unsigned int size, unsigned int align);
 };
 extern unsigned int DAT_00e27ed4;
 
@@ -15890,7 +16204,7 @@ __declspec(noinline) int AStarSearch::FUN_005dbc20(unsigned int key, float cost,
             return ASTARNODE_UNCHANGED;
         }
     }
-    AStarNode* pNew = (AStarNode*)m_kNodeAllocator.FUN_0086c710(sizeof(AStarNode), DAT_00e27ed4);
+    AStarNode* pNew = (AStarNode*)m_kNodeAllocator.ScrapHeap_Allocate(sizeof(AStarNode), DAT_00e27ed4);
     if (pNew)
     {
         pNew->m_fPathingCostCur = 0.0f;
@@ -15909,6 +16223,8 @@ __declspec(noinline) int AStarSearch::FUN_005dbc20(unsigned int key, float cost,
     return ASTARNODE_CREATED;
 }
 
+// pdb: NavMeshInfoSearch::GetNodeConnections | NavMeshInfoSearch.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode, apRetNodes
 bool NavMeshInfoSearch::FUN_005dc1c0(const AStarNode* pNode, NodeArray* pConnections)
 {
     float fInitialCost = pNode->m_fPathingCostCur;
@@ -16001,9 +16317,9 @@ bool NavMeshInfoSearch::FUN_005dc1c0(const AStarNode* pNode, NodeArray* pConnect
                 fDoorCost = DAT_00e01a40;
             if (m_eDoorLockDisposition == PENALIZE_LOCKS && pPathNodeDoor->FUN_004e91a0())
                 continue;
-            if (!pPathNodeDoor->FUN_004e74a0())
+            if (!pPathNodeDoor->TESObjectREFR_GetTeleport())
                 continue;
-            TeleportData* pTeleport = pPathNodeDoor->FUN_004e74a0();
+            TeleportData* pTeleport = pPathNodeDoor->TESObjectREFR_GetTeleport();
             TESObjectREFR* m_pLinkedDoorReference = pTeleport->FUN_004237e0();
             if (!m_pLinkedDoorReference)
                 continue;
@@ -16018,8 +16334,8 @@ bool NavMeshInfoSearch::FUN_005dc1c0(const AStarNode* pNode, NodeArray* pConnect
                                                                               : m_pNavigationMesh->m_kNavMeshPosition;
                     NiPoint3 Goal = pNextMesh == m_pGoalNavMeshInfo ? m_kGoalPosition : pNextMesh->m_kNavMeshPosition;
                     float fConnectionCost =
-                        (m_pLinkedDoorReference->FUN_004e74a0()->FUN_00bd8090() - Start).Length() +
-                        S5dc1c0_Length(Goal - pPathNodeDoor->FUN_004e74a0()->FUN_00bd8090());
+                        (m_pLinkedDoorReference->TESObjectREFR_GetTeleport()->FUN_00bd8090() - Start).Length() +
+                        S5dc1c0_Length(Goal - pPathNodeDoor->TESObjectREFR_GetTeleport()->FUN_00bd8090());
                     fConnectionCost *= fCostMultiplier;
                     fConnectionCost *= 3.0;
                     fConnectionCost += fInitialCost;
@@ -16073,6 +16389,8 @@ public:
     Point FUN_005bf020(const Point& point, float factor);
 };
 
+// pdb: NavMesh::FindRandomPointWithinRadius | NavMesh_Util.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aStartLocation, aRadius, apRet1
 bool Query::FUN_005c0690(const Point* origin, float radius, Point* output)
 {
     bool found = false;
@@ -16235,6 +16553,8 @@ struct NavMesh {
     void FUN_005c08a0(const ObstacleRef&, const Vec3&, TriangleIndices*);
     bool FUN_005c1740(unsigned door, Obstacle* obstacle);
 };
+// pdb: NavMesh::AddClosedDoor | NavMesh_Util.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiDoorID, apData
 bool NavMesh::FUN_005c1740(unsigned door, Obstacle* obstacle)
 {
     Vec3 extent = obstacle->boundsMax - obstacle->boundsMin;
@@ -16640,6 +16960,8 @@ public:
     bool FUN_005cdf00(Config* config, const Location* location, Output* first, Output* second);
 };
 
+// pdb: NavMeshSearchClosePoint::BuildNodePath | NavMeshSearchClosePoint.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRequest, aStartNode, apReturnNodeArray, apReturnLinkArray
 bool Search::FUN_005cdf00(Config* config, const Location* location, Output* first, Output* second)
 {
     mode = config;
@@ -16731,6 +17053,8 @@ struct Shape {
     unsigned int numVerts;
     void FUN_005c2d60(char* out);
 };
+// pdb: NavMeshBounds::FillBoundsChunk | NavMeshBounds.obj | fnv360_1110_retail, objrun, medium
+// pdb params: apChunkBuffer
 void Shape::FUN_005c2d60(char* out)
 {
     unsigned int x = a.x, y = a.y, z = a.z;
@@ -17201,6 +17525,8 @@ struct Builder5d {
     NodeArray5d all;
     void FUN_005d4d10(Chain5d* chain,unsigned int index,bool reverse);
 };
+// pdb: PathSmootherPOVSearch::CheckAddPOVForVert | PathSmootherPOV.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aVerts, aiIndex, abLeft
 void Builder5d::FUN_005d4d10(Chain5d* chain,unsigned int index,bool reverse)
 {
     NiPoint3 position=chain->GetPoint(index);
@@ -17245,6 +17571,8 @@ namespace f3m_005df140 {
 namespace Copy5df140 {
 struct Vec2 {float x,y;Vec2(const Vec2& v):x(v.x),y(v.y){}};
 void FUN_005dcac0(Vec2*,Vec2*,Vec2*,Vec2*,void*);
+// pdb: NavMeshMath::Get2DBaryCentricCoord | NavMeshMath.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: BSNavmeshMath::Get2DBaryCentricCoord)
+// pdb params: aV0, aV1, aV2, aLoc, aCoord
 void FUN_005df140(const Vec2* a,const Vec2* b,const Vec2* c,const Vec2* d,void* output){Vec2 vd(*d),vc(*c),vb(*b),va(*a);FUN_005dcac0(&va,&vb,&vc,&vd,output);}
 }
 }   // namespace f3m_005df140
@@ -17312,6 +17640,8 @@ struct Mgr5c4d50 {
 extern Mgr5c4d50* DAT_01074554;
 Obj5c4d50* __cdecl FUN_0047a4e0(int a1, int a3_1, int a2, int a3_2, int flag);
 
+// pdb: NavMeshPOVSearch::DrawLine | NavMeshPOVSearch.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aStart, aGoal, aColor
 void __cdecl FUN_005c4d50(int a1, int a2, int a3) {
     RefPtr5c4d50 ptr(FUN_0047a4e0(a1, a3, a2, a3, 1));
     Options5c4d50 options;
@@ -17327,6 +17657,8 @@ namespace c5df2d0 {
 struct Record { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; };
 extern void* __cdecl FUN_00c01530(void*, const void*, unsigned);
 }
+// pdb: BSSimpleArray<CombatSearchLocation,1024>::_ReallocateBuffer | CombatGroup.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiNewSize, aiCopyCount
 void __stdcall FUN_005df2d0(c5df2d0::Record* target, const c5df2d0::Record* source, unsigned count)
 {
     if (count > 0) {
@@ -17348,6 +17680,8 @@ struct Data {unsigned a,b,c,d,e;};struct Node {int unk00;float value;Data positi
 struct Container {void FUN_005cc410(Node*);};
 struct Object {int unk0000;int unk0004;int unk0008;int unk000c;int unk0010;int unk0014;int unk0018;int unk001c;int unk0020;int unk0024;int unk0028;int unk002c;int unk0030;int unk0034;int unk0038;int unk003c;int unk0040;int unk0044;int unk0048;int unk004c;int unk0050;int unk0054;int unk0058;int unk005c;int unk0060;int unk0064;int unk0068;int unk006c;int unk0070;int unk0074;int unk0078;int unk007c;int unk0080;int unk0084;int unk0088;int unk008c;int unk0090;int unk0094;int unk0098;int unk009c;int unk00a0;int unk00a4;int unk00a8;int unk00ac;int unk00b0;int unk00b4;int unk00b8;int unk00bc;int unk00c0;int unk00c4;int unk00c8;int unk00cc;int unk00d0;int unk00d4;int unk00d8;int unk00dc;int unk00e0;int unk00e4;int unk00e8;int unk00ec;int unk00f0;int unk00f4;int unk00f8;int unk00fc;int unk0100;int unk0104;int unk0108;int unk010c;int unk0110;int unk0114;int unk0118;int unk011c;int unk0120;int unk0124;int unk0128;int unk012c;int unk0130;int unk0134;int unk0138;int unk013c;int unk0140;int unk0144;int unk0148;int unk014c;int unk0150;int unk0154;int unk0158;int unk015c;int unk0160;int unk0164;int unk0168;int unk016c;int unk0170;int unk0174;int unk0178;int unk017c;int unk0180;int unk0184;int unk0188;int unk018c;int unk0190;int unk0194;int unk0198;int unk019c;int unk01a0;int unk01a4;int unk01a8;int unk01ac;int unk01b0;int unk01b4;int unk01b8;int unk01bc;int unk01c0;int unk01c4;int unk01c8;int unk01cc;int unk01d0;int unk01d4;int unk01d8;int unk01dc;int unk01e0;int unk01e4;int unk01e8;int unk01ec;int unk01f0;int unk01f4;int unk01f8;int unk01fc;int unk0200;int unk0204;int unk0208;int unk020c;int unk0210;int unk0214;int unk0218;int unk021c;int unk0220;int unk0224;int unk0228;int unk022c;int unk0230;int unk0234;int unk0238;int unk023c;int unk0240;int unk0244;int unk0248;int unk024c;int unk0250;int unk0254;int unk0258;int unk025c;int unk0260;int unk0264;int unk0268;int unk026c;int unk0270;int unk0274;int unk0278;int unk027c;int unk0280;int unk0284;int unk0288;int unk028c;int unk0290;int unk0294;int unk0298;int unk029c;int unk02a0;int unk02a4;int unk02a8;int unk02ac;int unk02b0;int unk02b4;int unk02b8;int unk02bc;int unk02c0;int unk02c4;int unk02c8;int unk02cc;int unk02d0;int unk02d4;int unk02d8;int unk02dc;int unk02e0;int unk02e4;int unk02e8;int unk02ec;int unk02f0;int unk02f4;int unk02f8;int unk02fc;int unk0300;int unk0304;int unk0308;int unk030c;int unk0310;int unk0314;int unk0318;int unk031c;int unk0320;int unk0324;int unk0328;int unk032c;int unk0330;int unk0334;int unk0338;int unk033c;int unk0340;int unk0344;int unk0348;int unk034c;int unk0350;int unk0354;int unk0358;int unk035c;int unk0360;int unk0364;int unk0368;int unk036c;int unk0370;int unk0374;int unk0378;int unk037c;int unk0380;int unk0384;int unk0388;int unk038c;int unk0390;int unk0394;int unk0398;int unk039c;int unk03a0;int unk03a4;int unk03a8;int unk03ac;int unk03b0;int unk03b4;int unk03b8;int unk03bc;int unk03c0;int unk03c4;int unk03c8;int unk03cc;int unk03d0;int unk03d4;int unk03d8;int unk03dc;int unk03e0;int unk03e4;int unk03e8;int unk03ec;int unk03f0;int unk03f4;int unk03f8;int unk03fc;int unk0400;int unk0404;int unk0408;int unk040c;int unk0410;int unk0414;int unk0418;int unk041c;int unk0420;int unk0424;int unk0428;int unk042c;int unk0430;int unk0434;int unk0438;int unk043c;int unk0440;int unk0444;int unk0448;int unk044c;int unk0450;int unk0454;int unk0458;int unk045c;int unk0460;int unk0464;int unk0468;int unk046c;int unk0470;int unk0474;int unk0478;int unk047c;int unk0480;int unk0484;int unk0488;int unk048c;int unk0490;int unk0494;int unk0498;int unk049c;int unk04a0;int unk04a4;int unk04a8;int unk04ac;int unk04b0;int unk04b4;int unk04b8;int unk04bc;int unk04c0;int unk04c4;int unk04c8;int unk04cc;int unk04d0;int unk04d4;int unk04d8;int unk04dc;int unk04e0;int unk04e4;int unk04e8;int unk04ec;int unk04f0;int unk04f4;int unk04f8;int unk04fc;int unk0500;int unk0504;int unk0508;int unk050c;int unk0510;int unk0514;int unk0518;int unk051c;int unk0520;int unk0524;int unk0528;int unk052c;int unk0530;int unk0534;int unk0538;int unk053c;int unk0540;int unk0544;int unk0548;int unk054c;int unk0550;int unk0554;int unk0558;int unk055c;int unk0560;int unk0564;int unk0568;int unk056c;int unk0570;int unk0574;int unk0578;int unk057c;int unk0580;int unk0584;int unk0588;int unk058c;int unk0590;int unk0594;int unk0598;int unk059c;int unk05a0;int unk05a4;int unk05a8;int unk05ac;int unk05b0;int unk05b4;int unk05b8;int unk05bc;int unk05c0;int unk05c4;int unk05c8;int unk05cc;int unk05d0;int unk05d4;int unk05d8;int unk05dc;int unk05e0;int unk05e4;int unk05e8;int unk05ec;int unk05f0;int unk05f4;int unk05f8;int unk05fc;int unk0600;int unk0604;int unk0608;int unk060c;int unk0610;int unk0614;int unk0618;int unk061c;int unk0620;int unk0624;int unk0628;int unk062c;int unk0630;int unk0634;int unk0638;int unk063c;int unk0640;int unk0644;int unk0648;int unk064c;int unk0650;int unk0654;int unk0658;int unk065c;int unk0660;int unk0664;int unk0668;int unk066c;int unk0670;int unk0674;int unk0678;int unk067c;int unk0680;int unk0684;int unk0688;int unk068c;int unk0690;int unk0694;int unk0698;int unk069c;int unk06a0;int unk06a4;int unk06a8;int unk06ac;int unk06b0;int unk06b4;int unk06b8;int unk06bc;int unk06c0;int unk06c4;int unk06c8;int unk06cc;int unk06d0;int unk06d4;int unk06d8;int unk06dc;int unk06e0;int unk06e4;int unk06e8;int unk06ec;int unk06f0;int unk06f4;int unk06f8;int unk06fc;int unk0700;int unk0704;int unk0708;int unk070c;int unk0710;int unk0714;int unk0718;int unk071c;int unk0720;int unk0724;int unk0728;int unk072c;int unk0730;int unk0734;int unk0738;int unk073c;int unk0740;int unk0744;int unk0748;int unk074c;int unk0750;int unk0754;int unk0758;int unk075c;int unk0760;int unk0764;int unk0768;int unk076c;int unk0770;int unk0774;int unk0778;int unk077c;int unk0780;int unk0784;int unk0788;int unk078c;int unk0790;int unk0794;int unk0798;int unk079c;int unk07a0;int unk07a4;int unk07a8;int unk07ac;int unk07b0;int unk07b4;int unk07b8;int unk07bc;int unk07c0;int unk07c4;int unk07c8;int unk07cc;int unk07d0;int unk07d4;int unk07d8;int unk07dc;int unk07e0;int unk07e4;int unk07e8;int unk07ec;int unk07f0;int unk07f4;int unk07f8;int unk07fc;int unk0800;int unk0804;int unk0808;int unk080c;int unk0810;int unk0814;int unk0818;int unk081c;int unk0820;int unk0824;int unk0828;int unk082c;int unk0830;int unk0834;int unk0838;int unk083c;int unk0840;int unk0844;int unk0848;int unk084c;int unk0850;int unk0854;int unk0858;int unk085c;int unk0860;int unk0864;int unk0868;int unk086c;int unk0870;int unk0874;int unk0878;int unk087c;int unk0880;int unk0884;int unk0888;int unk088c;int unk0890;int unk0894;int unk0898;int unk089c;int unk08a0;int unk08a4;int unk08a8;int unk08ac;int unk08b0;int unk08b4;int unk08b8;int unk08bc;int unk08c0;int unk08c4;int unk08c8;int unk08cc;int unk08d0;int unk08d4;int unk08d8;int unk08dc;int unk08e0;int unk08e4;int unk08e8;int unk08ec;int unk08f0;int unk08f4;int unk08f8;int unk08fc;int unk0900;int unk0904;int unk0908;int unk090c;int unk0910;int unk0914;int unk0918;int unk091c;int unk0920;int unk0924;int unk0928;int unk092c;int unk0930;int unk0934;int unk0938;int unk093c;int unk0940;int unk0944;int unk0948;int unk094c;int unk0950;int unk0954;int unk0958;int unk095c;int unk0960;int unk0964;int unk0968;int unk096c;int unk0970;int unk0974;int unk0978;int unk097c;int unk0980;int unk0984;int unk0988;int unk098c;int unk0990;int unk0994;int unk0998;int unk099c;int unk09a0;int unk09a4;int unk09a8;int unk09ac;int unk09b0;int unk09b4;int unk09b8;int unk09bc;int unk09c0;int unk09c4;int unk09c8;int unk09cc;int unk09d0;int unk09d4;int unk09d8;int unk09dc;int unk09e0;int unk09e4;int unk09e8;int unk09ec;int unk09f0;int unk09f4;int unk09f8;int unk09fc;int unk0a00;int unk0a04;int unk0a08;int unk0a0c;int unk0a10;int unk0a14;int unk0a18;int unk0a1c;int unk0a20;int unk0a24;int unk0a28;int unk0a2c;int unk0a30;int unk0a34;int unk0a38;int unk0a3c;int unk0a40;int unk0a44;int unk0a48;int unk0a4c;int unk0a50;int unk0a54;int unk0a58;int unk0a5c;int unk0a60;int unk0a64;int unk0a68;int unk0a6c;int unk0a70;int unk0a74;int unk0a78;int unk0a7c;int unk0a80;int unk0a84;int unk0a88;int unk0a8c;int unk0a90;int unk0a94;int unk0a98;int unk0a9c;int unk0aa0;int unk0aa4;int unk0aa8;int unk0aac;int unk0ab0;int unk0ab4;int unk0ab8;int unk0abc;int unk0ac0;int unk0ac4;int unk0ac8;int unk0acc;int unk0ad0;int unk0ad4;int unk0ad8;int unk0adc;int unk0ae0;int unk0ae4;int unk0ae8;int unk0aec;int unk0af0;int unk0af4;int unk0af8;int unk0afc;int unk0b00;int unk0b04;int unk0b08;int unk0b0c;int unk0b10;int unk0b14;int unk0b18;int unk0b1c;int unk0b20;int unk0b24;int unk0b28;int unk0b2c;int unk0b30;int unk0b34;int unk0b38;int unk0b3c;int unk0b40;int unk0b44;int unk0b48;int unk0b4c;int unk0b50;int unk0b54;int unk0b58;int unk0b5c;int unk0b60;int unk0b64;int unk0b68;int unk0b6c;int unk0b70;int unk0b74;int unk0b78;int unk0b7c;int unk0b80;int unk0b84;int unk0b88;int unk0b8c;int unk0b90;int unk0b94;int unk0b98;int unk0b9c;int unk0ba0;int unk0ba4;int unk0ba8;int unk0bac;int unk0bb0;int unk0bb4;int unk0bb8;int unk0bbc;int unk0bc0;int unk0bc4;int unk0bc8;int unk0bcc;int unk0bd0;int unk0bd4;int unk0bd8;int unk0bdc;int unk0be0;int unk0be4;int unk0be8;int unk0bec;int unk0bf0;int unk0bf4;int unk0bf8;int unk0bfc;int unk0c00;int unk0c04;int unk0c08;int unk0c0c;int unk0c10;int unk0c14;int unk0c18;int unk0c1c;int unk0c20;int unk0c24;int unk0c28;int unk0c2c;int unk0c30;int unk0c34;int unk0c38;int unk0c3c;int unk0c40;int unk0c44;int unk0c48;int unk0c4c;int unk0c50;int unk0c54;int unk0c58;int unk0c5c;int unk0c60;int unk0c64;int unk0c68;int unk0c6c;int unk0c70;int unk0c74;int unk0c78;int unk0c7c;int unk0c80;int unk0c84;int unk0c88;int unk0c8c;int unk0c90;int unk0c94;int unk0c98;int unk0c9c;int unk0ca0;int unk0ca4;int unk0ca8;int unk0cac;int unk0cb0;int unk0cb4;int unk0cb8;int unk0cbc;int unk0cc0;int unk0cc4;int unk0cc8;int unk0ccc;int unk0cd0;int unk0cd4;int unk0cd8;int unk0cdc;int unk0ce0;int unk0ce4;int unk0ce8;int unk0cec;int unk0cf0;int unk0cf4;int unk0cf8;int unk0cfc;int unk0d00;int unk0d04;int unk0d08;int unk0d0c;int unk0d10;int unk0d14;int unk0d18;int unk0d1c;int unk0d20;int unk0d24;int unk0d28;int unk0d2c;int unk0d30;int unk0d34;int unk0d38;int unk0d3c;int unk0d40;int unk0d44;int unk0d48;int unk0d4c;int unk0d50;int unk0d54;int unk0d58;int unk0d5c;int unk0d60;int unk0d64;int unk0d68;int unk0d6c;int unk0d70;int unk0d74;int unk0d78;int unk0d7c;int unk0d80;int unk0d84;int unk0d88;int unk0d8c;int unk0d90;int unk0d94;int unk0d98;int unk0d9c;int unk0da0;int unk0da4;int unk0da8;int unk0dac;int unk0db0;int unk0db4;int unk0db8;int unk0dbc;int unk0dc0;int unk0dc4;int unk0dc8;int unk0dcc;int unk0dd0;int unk0dd4;int unk0dd8;int unk0ddc;int unk0de0;int unk0de4;int unk0de8;int unk0dec;int unk0df0;int unk0df4;int unk0df8;int unk0dfc;int unk0e00;int unk0e04;int unk0e08;int unk0e0c;int unk0e10;int unk0e14;int unk0e18;int unk0e1c;int unk0e20;int unk0e24;int unk0e28;int unk0e2c;int unk0e30;int unk0e34;int unk0e38;int unk0e3c;int unk0e40;int unk0e44;int unk0e48;int unk0e4c;int unk0e50;int unk0e54;int unk0e58;int unk0e5c;int unk0e60;int unk0e64;int unk0e68;int unk0e6c;int unk0e70;int unk0e74;int unk0e78;int unk0e7c;int unk0e80;int unk0e84;int unk0e88;int unk0e8c;int unk0e90;int unk0e94;int unk0e98;int unk0e9c;int unk0ea0;int unk0ea4;int unk0ea8;int unk0eac;int unk0eb0;int unk0eb4;int unk0eb8;int unk0ebc;int unk0ec0;int unk0ec4;int unk0ec8;int unk0ecc;int unk0ed0;int unk0ed4;int unk0ed8;int unk0edc;int unk0ee0;int unk0ee4;int unk0ee8;int unk0eec;int unk0ef0;int unk0ef4;int unk0ef8;int unk0efc;int unk0f00;int unk0f04;int unk0f08;int unk0f0c;int unk0f10;int unk0f14;int unk0f18;int unk0f1c;int unk0f20;int unk0f24;int unk0f28;int unk0f2c;int unk0f30;int unk0f34;int unk0f38;int unk0f3c;int unk0f40;int unk0f44;int unk0f48;int unk0f4c;int unk0f50;int unk0f54;int unk0f58;int unk0f5c;int unk0f60;int unk0f64;int unk0f68;int unk0f6c;int unk0f70;int unk0f74;int unk0f78;int unk0f7c;int unk0f80;int unk0f84;int unk0f88;int unk0f8c;int unk0f90;int unk0f94;int unk0f98;int unk0f9c;int unk0fa0;int unk0fa4;int unk0fa8;int unk0fac;int unk0fb0;int unk0fb4;int unk0fb8;int unk0fbc;int unk0fc0;int unk0fc4;int unk0fc8;int unk0fcc;int unk0fd0;int unk0fd4;int unk0fd8;int unk0fdc;int unk0fe0;int unk0fe4;int unk0fe8;int unk0fec;int unk0ff0;int unk0ff4;int unk0ff8;int unk0ffc;int unk1000;int unk1004;int unk1008;int unk100c;int unk1010;int unk1014;int unk1018;int unk101c;int unk1020;int unk1024;int unk1028;int unk102c;int unk1030;int unk1034;int unk1038;int unk103c;int unk1040;int unk1044;int unk1048;int unk104c;int unk1050;int unk1054;int unk1058;int unk105c;int unk1060;int unk1064;int unk1068;int unk106c;int unk1070;int unk1074;int unk1078;int unk107c;int unk1080;int unk1084;int unk1088;int unk108c;int unk1090;int unk1094;int unk1098;int unk109c;int unk10a0;int unk10a4;int unk10a8;int unk10ac;int unk10b0;int unk10b4;int unk10b8;int unk10bc;int unk10c0;int unk10c4;int unk10c8;int unk10cc;int unk10d0;int unk10d4;int unk10d8;int unk10dc;int unk10e0;int unk10e4;int unk10e8;int unk10ec;int unk10f0;int unk10f4;int unk10f8;int unk10fc;int unk1100;int unk1104;int unk1108;int unk110c;int unk1110;int unk1114;int unk1118;int unk111c;int unk1120;int unk1124;int unk1128;int unk112c;int unk1130;int unk1134;int unk1138;int unk113c;int unk1140;int unk1144;int unk1148;int unk114c;int unk1150;int unk1154;int unk1158;int unk115c;int unk1160;int unk1164;int unk1168;int unk116c;int unk1170;int unk1174;int unk1178;int unk117c;int unk1180;int unk1184;int unk1188;int unk118c;int unk1190;int unk1194;int unk1198;int unk119c;int unk11a0;int unk11a4;int unk11a8;int unk11ac;int unk11b0;int unk11b4;int unk11b8;int unk11bc;int unk11c0;int unk11c4;int unk11c8;int unk11cc;int unk11d0;int unk11d4;int unk11d8;int unk11dc;int unk11e0;int unk11e4;int unk11e8;int unk11ec;int unk11f0;int unk11f4;int unk11f8;int unk11fc;int unk1200;int unk1204;int unk1208;int unk120c;int unk1210;int unk1214;int unk1218;int unk121c;int unk1220;int unk1224;int unk1228;int unk122c;int unk1230;int unk1234;int unk1238;int unk123c;int unk1240;int unk1244;int unk1248;int unk124c;int unk1250;int unk1254;int unk1258;int unk125c;int unk1260;int unk1264;int unk1268;int unk126c;int unk1270;int unk1274;int unk1278;int unk127c;int unk1280;int unk1284;int unk1288;int unk128c;int unk1290;int unk1294;int unk1298;int unk129c;int unk12a0;int unk12a4;int unk12a8;int unk12ac;int unk12b0;int unk12b4;int unk12b8;int unk12bc;int unk12c0;int unk12c4;int unk12c8;int unk12cc;int unk12d0;int unk12d4;int unk12d8;int unk12dc;int unk12e0;int unk12e4;int unk12e8;int unk12ec;int unk12f0;int unk12f4;int unk12f8;int unk12fc;int unk1300;int unk1304;int unk1308;int unk130c;int unk1310;int unk1314;int unk1318;int unk131c;int unk1320;int unk1324;int unk1328;int unk132c;int unk1330;int unk1334;int unk1338;int unk133c;int unk1340;int unk1344;int unk1348;int unk134c;int unk1350;int unk1354;int unk1358;int unk135c;int unk1360;int unk1364;int unk1368;int unk136c;int unk1370;int unk1374;int unk1378;int unk137c;int unk1380;int unk1384;int unk1388;int unk138c;int unk1390;int unk1394;int unk1398;int unk139c;int unk13a0;int unk13a4;int unk13a8;int unk13ac;int unk13b0;int unk13b4;int unk13b8;int unk13bc;int unk13c0;int unk13c4;int unk13c8;int unk13cc;int unk13d0;int unk13d4;int unk13d8;int unk13dc;int unk13e0;int unk13e4;int unk13e8;int unk13ec;int unk13f0;int unk13f4;int unk13f8;int unk13fc;int unk1400;int unk1404;int unk1408;int unk140c;int unk1410;int unk1414;int unk1418;int unk141c;int unk1420;int unk1424;int unk1428;int unk142c;int unk1430;int unk1434;int unk1438;int unk143c;int unk1440;int unk1444;int unk1448;int unk144c;int unk1450;int unk1454;int unk1458;int unk145c;int unk1460;int unk1464;int unk1468;int unk146c;int unk1470;int unk1474;int unk1478;int unk147c;int unk1480;int unk1484;int unk1488;int unk148c;int unk1490;int unk1494;int unk1498;int unk149c;int unk14a0;int unk14a4;int unk14a8;int unk14ac;int unk14b0;int unk14b4;int unk14b8;int unk14bc;int unk14c0;int unk14c4;int unk14c8;int unk14cc;int unk14d0;int unk14d4;int unk14d8;int unk14dc;int unk14e0;int unk14e4;int unk14e8;int unk14ec;int unk14f0;int unk14f4;int unk14f8;int unk14fc;int unk1500;int unk1504;int unk1508;int unk150c;int unk1510;int unk1514;int unk1518;int unk151c;int unk1520;int unk1524;int unk1528;int unk152c;int unk1530;int unk1534;int unk1538;int unk153c;int unk1540;int unk1544;int unk1548;int unk154c;int unk1550;int unk1554;int unk1558;int unk155c;int unk1560;int unk1564;int unk1568;int unk156c;int unk1570;int unk1574;int unk1578;int unk157c;int unk1580;int unk1584;int unk1588;int unk158c;int unk1590;int unk1594;int unk1598;int unk159c;int unk15a0;int unk15a4;int unk15a8;int unk15ac;int unk15b0;int unk15b4;int unk15b8;int unk15bc;int unk15c0;int unk15c4;int unk15c8;int unk15cc;int unk15d0;int unk15d4;int unk15d8;int unk15dc;int unk15e0;int unk15e4;int unk15e8;int unk15ec;int unk15f0;int unk15f4;int unk15f8;int unk15fc;int unk1600;int unk1604;int unk1608;int unk160c;int unk1610;int unk1614;int unk1618;int unk161c;int unk1620;int unk1624;int unk1628;int unk162c;int unk1630;int unk1634;int unk1638;int unk163c;int unk1640;int unk1644;int unk1648;int unk164c;int unk1650;int unk1654;int unk1658;int unk165c;int unk1660;int unk1664;int unk1668;int unk166c;int unk1670;int unk1674;int unk1678;int unk167c;int unk1680;int unk1684;int unk1688;int unk168c;int unk1690;int unk1694;int unk1698;int unk169c;int unk16a0;int unk16a4;int unk16a8;int unk16ac;int unk16b0;int unk16b4;int unk16b8;int unk16bc;int unk16c0;int unk16c4;int unk16c8;int unk16cc;int unk16d0;int unk16d4;int unk16d8;int unk16dc;int unk16e0;int unk16e4;int unk16e8;int unk16ec;int unk16f0;int unk16f4;int unk16f8;int unk16fc;int unk1700;int unk1704;int unk1708;int unk170c;int unk1710;int unk1714;int unk1718;int unk171c;int unk1720;int unk1724;int unk1728;int unk172c;int unk1730;int unk1734;int unk1738;int unk173c;int unk1740;int unk1744;int unk1748;int unk174c;int unk1750;int unk1754;int unk1758;int unk175c;int unk1760;int unk1764;int unk1768;int unk176c;int unk1770;int unk1774;int unk1778;int unk177c;int unk1780;int unk1784;int unk1788;int unk178c;int unk1790;int unk1794;int unk1798;int unk179c;int unk17a0;int unk17a4;int unk17a8;int unk17ac;int unk17b0;int unk17b4;int unk17b8;int unk17bc;int unk17c0;int unk17c4;int unk17c8;int unk17cc;int unk17d0;int unk17d4;int unk17d8;int unk17dc;int unk17e0;int unk17e4;int unk17e8;int unk17ec;int unk17f0;int unk17f4;int unk17f8;int unk17fc;int unk1800;int unk1804;int unk1808;int unk180c;int unk1810;int unk1814;int unk1818;int unk181c;int unk1820;int unk1824;int unk1828;int unk182c;int unk1830;int unk1834;int unk1838;int unk183c;int unk1840;int unk1844;int unk1848;int unk184c;int unk1850;int unk1854;int unk1858;int unk185c;int unk1860;int unk1864;int unk1868;int unk186c;int unk1870;int unk1874;int unk1878;int unk187c;int unk1880;int unk1884;int unk1888;int unk188c;int unk1890;int unk1894;int unk1898;int unk189c;int unk18a0;int unk18a4;int unk18a8;int unk18ac;int unk18b0;int unk18b4;int unk18b8;int unk18bc;int unk18c0;int unk18c4;int unk18c8;int unk18cc;int unk18d0;int unk18d4;int unk18d8;int unk18dc;int unk18e0;int unk18e4;int unk18e8;int unk18ec;int unk18f0;int unk18f4;int unk18f8;int unk18fc;int unk1900;int unk1904;int unk1908;int unk190c;int unk1910;int unk1914;int unk1918;int unk191c;int unk1920;int unk1924;int unk1928;int unk192c;int unk1930;int unk1934;int unk1938;int unk193c;int unk1940;int unk1944;int unk1948;int unk194c;int unk1950;int unk1954;int unk1958;int unk195c;int unk1960;int unk1964;int unk1968;int unk196c;int unk1970;int unk1974;int unk1978;int unk197c;int unk1980;int unk1984;int unk1988;int unk198c;int unk1990;int unk1994;int unk1998;int unk199c;int unk19a0;int unk19a4;int unk19a8;int unk19ac;int unk19b0;int unk19b4;int unk19b8;int unk19bc;int unk19c0;int unk19c4;int unk19c8;int unk19cc;int unk19d0;int unk19d4;int unk19d8;int unk19dc;int unk19e0;int unk19e4;int unk19e8;int unk19ec;int unk19f0;int unk19f4;int unk19f8;int unk19fc;int unk1a00;int unk1a04;int unk1a08;int unk1a0c;int unk1a10;int unk1a14;int unk1a18;int unk1a1c;int unk1a20;int unk1a24;int unk1a28;int unk1a2c;int unk1a30;int unk1a34;int unk1a38;int unk1a3c;int unk1a40;int unk1a44;int unk1a48;int unk1a4c;int unk1a50;int unk1a54;int unk1a58;int unk1a5c;int unk1a60;int unk1a64;int unk1a68;int unk1a6c;int unk1a70;int unk1a74;int unk1a78;int unk1a7c;int unk1a80;int unk1a84;int unk1a88;int unk1a8c;int unk1a90;int unk1a94;int unk1a98;int unk1a9c;int unk1aa0;int unk1aa4;int unk1aa8;int unk1aac;int unk1ab0;int unk1ab4;int unk1ab8;int unk1abc;int unk1ac0;int unk1ac4;int unk1ac8;int unk1acc;int unk1ad0;int unk1ad4;int unk1ad8;int unk1adc;int unk1ae0;int unk1ae4;int unk1ae8;int unk1aec;int unk1af0;int unk1af4;int unk1af8;int unk1afc;int unk1b00;int unk1b04;int unk1b08;int unk1b0c;int unk1b10;int unk1b14;int unk1b18;int unk1b1c;int unk1b20;int unk1b24;int unk1b28;int unk1b2c;int unk1b30;int unk1b34;int unk1b38;int unk1b3c;int unk1b40;int unk1b44;int unk1b48;int unk1b4c;int unk1b50;int unk1b54;int unk1b58;int unk1b5c;int unk1b60;int unk1b64;int unk1b68;int unk1b6c;int unk1b70;int unk1b74;int unk1b78;int unk1b7c;int unk1b80;int unk1b84;int unk1b88;int unk1b8c;int unk1b90;int unk1b94;int unk1b98;int unk1b9c;int unk1ba0;int unk1ba4;int unk1ba8;int unk1bac;int unk1bb0;int unk1bb4;int unk1bb8;int unk1bbc;int unk1bc0;int unk1bc4;int unk1bc8;int unk1bcc;int unk1bd0;int unk1bd4;int unk1bd8;int unk1bdc;int unk1be0;int unk1be4;int unk1be8;int unk1bec;int unk1bf0;int unk1bf4;int unk1bf8;int unk1bfc;int unk1c00;int unk1c04;int unk1c08;int unk1c0c;int unk1c10;int unk1c14;int unk1c18;int unk1c1c;int unk1c20;int unk1c24;int unk1c28;int unk1c2c;int unk1c30;int unk1c34;int unk1c38;int unk1c3c;int unk1c40;int unk1c44;int unk1c48;int unk1c4c;int unk1c50;int unk1c54;int unk1c58;int unk1c5c;int unk1c60;int unk1c64;int unk1c68;int unk1c6c;int unk1c70;int unk1c74;int unk1c78;int unk1c7c;int unk1c80;int unk1c84;int unk1c88;int unk1c8c;int unk1c90;int unk1c94;int unk1c98;int unk1c9c;int unk1ca0;int unk1ca4;int unk1ca8;int unk1cac;int unk1cb0;int unk1cb4;int unk1cb8;int unk1cbc;int unk1cc0;int unk1cc4;int unk1cc8;int unk1ccc;int unk1cd0;int unk1cd4;int unk1cd8;int unk1cdc;int unk1ce0;int unk1ce4;int unk1ce8;int unk1cec;int unk1cf0;int unk1cf4;int unk1cf8;int unk1cfc;int unk1d00;int unk1d04;int unk1d08;int unk1d0c;int unk1d10;int unk1d14;int unk1d18;int unk1d1c;int unk1d20;int unk1d24;int unk1d28;int unk1d2c;int unk1d30;int unk1d34;int unk1d38;int unk1d3c;int unk1d40;int unk1d44;int unk1d48;int unk1d4c;int unk1d50;int unk1d54;int unk1d58;int unk1d5c;int unk1d60;int unk1d64;int unk1d68;int unk1d6c;int unk1d70;int unk1d74;int unk1d78;int unk1d7c;int unk1d80;int unk1d84;int unk1d88;int unk1d8c;int unk1d90;int unk1d94;int unk1d98;int unk1d9c;int unk1da0;int unk1da4;int unk1da8;int unk1dac;int unk1db0;int unk1db4;int unk1db8;int unk1dbc;int unk1dc0;int unk1dc4;int unk1dc8;int unk1dcc;int unk1dd0;int unk1dd4;int unk1dd8;int unk1ddc;int unk1de0;int unk1de4;int unk1de8;int unk1dec;int unk1df0;int unk1df4;int unk1df8;int unk1dfc;int unk1e00;int unk1e04;int unk1e08;int unk1e0c;int unk1e10;int unk1e14;int unk1e18;int unk1e1c;int unk1e20;int unk1e24;int unk1e28;int unk1e2c;int unk1e30;int unk1e34;int unk1e38;int unk1e3c;int unk1e40;int unk1e44;int unk1e48;int unk1e4c;int unk1e50;int unk1e54;int unk1e58;int unk1e5c;int unk1e60;int unk1e64;int unk1e68;int unk1e6c;int unk1e70;int unk1e74;int unk1e78;int unk1e7c;int unk1e80;int unk1e84;int unk1e88;int unk1e8c;int unk1e90;int unk1e94;int unk1e98;int unk1e9c;int unk1ea0;int unk1ea4;int unk1ea8;int unk1eac;int unk1eb0;int unk1eb4;int unk1eb8;int unk1ebc;int unk1ec0;int unk1ec4;int unk1ec8;int unk1ecc;int unk1ed0;int unk1ed4;int unk1ed8;int unk1edc;int unk1ee0;int unk1ee4;int unk1ee8;int unk1eec;int unk1ef0;int unk1ef4;int unk1ef8;int unk1efc;int unk1f00;int unk1f04;int unk1f08;int unk1f0c;int unk1f10;int unk1f14;int unk1f18;int unk1f1c;int unk1f20;int unk1f24;int unk1f28;int unk1f2c;int unk1f30;int unk1f34;int unk1f38;int unk1f3c;int unk1f40;int unk1f44;int unk1f48;int unk1f4c;int unk1f50;int unk1f54;int unk1f58;int unk1f5c;int unk1f60;int unk1f64;int unk1f68;int unk1f6c;int unk1f70;int unk1f74;int unk1f78;int unk1f7c;int unk1f80;int unk1f84;int unk1f88;int unk1f8c;int unk1f90;int unk1f94;int unk1f98;int unk1f9c;int unk1fa0;int unk1fa4;int unk1fa8;int unk1fac;int unk1fb0;int unk1fb4;int unk1fb8;int unk1fbc;int unk1fc0;int unk1fc4;int unk1fc8;int unk1fcc;int unk1fd0;int unk1fd4;int unk1fd8;int unk1fdc;int unk1fe0;int unk1fe4;int unk1fe8;int unk1fec;int unk1ff0;
 Container container;int unk1ff8,unk1ffc,unk2000,unk2004,unk2008,unk200c,unk2010,unk2014,unk2018,unk201c,unk2020,unk2024,unk2028,unk202c,unk2030,unk2034,unk2038,unk203c,unk2040,unk2044,unk2048,unk204c;Node* latest;int FUN_005cc560(Node*,float,Node**);Node* FUN_005cc950(Node*,const Data*,float);};
+// pdb: AStarSearch<NavMeshSearchNode,NavMeshSearchLink>::AddStartNode | NavMeshSearch.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiKey, aNodeData, afHeuristic
 Node* Object::FUN_005cc950(Node* node,const Data* position,float value){switch(FUN_005cc560(node,0,&node)){case 0:{Node* created=node;created->value=value;created->position=*position;container.FUN_005cc410(created);latest=created;return created;}case 1:return node;case 2:return 0;default:return 0;}}
 }
 
@@ -17361,6 +17695,7 @@ namespace f3m_005dd4c0 {
 
 struct Point_5dd4c0 { float x, y, z; };
 
+// pdb: BSSimpleArray<unsigned short,1024>::AddUninitialized | NavMesh.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSNavmeshMath::Find2DIntersection)
 bool __cdecl FUN_005dd4c0(const Point_5dd4c0* a, const Point_5dd4c0* b, const Point_5dd4c0* c, const Point_5dd4c0* p)
 {
     float d1 = (a->x - p->x) * (b->y - p->y) - (a->y - p->y) * (b->x - p->x);
@@ -17383,9 +17718,11 @@ namespace Small529 {
 struct Record {unsigned short index;unsigned char kind,a,b,valid,unk06,unk07;};
 struct Vector {float x,y,z;};
 struct Table {unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28;Vector* points;};
-struct Pool {void* FUN_0086c710(unsigned,unsigned);};
+struct Pool {void* ScrapHeap_Allocate(unsigned,unsigned);};
 struct Owner {Table* table;unsigned unk04,unk08;Pool pool;bool FUN_005df730(Vector*);Record* FUN_005dfdc0(unsigned short,unsigned char,unsigned char,unsigned char);};
-Record* Owner::FUN_005dfdc0(unsigned short index,unsigned char kind,unsigned char a,unsigned char b){Record* p=(Record*)pool.FUN_0086c710(sizeof(Record),DAT_00e27ed4);if(p){p->index=index;p->kind=kind;p->a=a;p->b=b;p->valid=0;p->unk06=0;}bool valid;if(!p->a&&!p->b)valid=FUN_005df730(&table->points[p->index]);else valid=true;p->valid=valid;return p;}
+// pdb: NavMeshObstacleCutter::CreateEdge | NavMeshObstacleCutter.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apVert1, apVert2, aeEdgeType
+Record* Owner::FUN_005dfdc0(unsigned short index,unsigned char kind,unsigned char a,unsigned char b){Record* p=(Record*)pool.ScrapHeap_Allocate(sizeof(Record),DAT_00e27ed4);if(p){p->index=index;p->kind=kind;p->a=a;p->b=b;p->valid=0;p->unk06=0;}bool valid;if(!p->a&&!p->b)valid=FUN_005df730(&table->points[p->index]);else valid=true;p->valid=valid;return p;}
 }
 
 }   // namespace f3m_005dfdc0
@@ -17427,6 +17764,7 @@ struct FUN_005c5010 {
     FUN_005c5010();
 };
 
+// pdb: NavMeshPOV::NavMeshPOV | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun_prop, low
 FUN_005c5010::FUN_005c5010() : id00(-1), position04(DAT_0108ec68), value10(0.0f), scale2C(1.0f)
 {
     children30 = new Children;
@@ -17441,6 +17779,7 @@ namespace Distance5d20e0 {
 struct Vec {float x,y,z;};inline Vec operator-(const Vec&a,const Vec&b){Vec r;r.x=a.x-b.x;r.y=a.y-b.y;r.z=a.z-b.z;return r;}
 struct Item {int unk00;Vec pos;};struct Record {int unk00;float distance;Item* item;int value;};
 struct Object {int unk0000; int unk0004; int unk0008; int unk000c; int unk0010; int unk0014; int unk0018; int unk001c; int unk0020; int unk0024; int unk0028; int unk002c; int unk0030; int unk0034; int unk0038; int unk003c; int unk0040; int unk0044; int unk0048; int unk004c; int unk0050; int unk0054; int unk0058; int unk005c; int unk0060; int unk0064; int unk0068; int unk006c; int unk0070; int unk0074; int unk0078; int unk007c; int unk0080; int unk0084; int unk0088; int unk008c; int unk0090; int unk0094; int unk0098; int unk009c; int unk00a0; int unk00a4; int unk00a8; int unk00ac; int unk00b0; int unk00b4; int unk00b8; int unk00bc; int unk00c0; int unk00c4; int unk00c8; int unk00cc; int unk00d0; int unk00d4; int unk00d8; int unk00dc; int unk00e0; int unk00e4; int unk00e8; int unk00ec; int unk00f0; int unk00f4; int unk00f8; int unk00fc; int unk0100; int unk0104; int unk0108; int unk010c; int unk0110; int unk0114; int unk0118; int unk011c; int unk0120; int unk0124; int unk0128; int unk012c; int unk0130; int unk0134; int unk0138; int unk013c; int unk0140; int unk0144; int unk0148; int unk014c; int unk0150; int unk0154; int unk0158; int unk015c; int unk0160; int unk0164; int unk0168; int unk016c; int unk0170; int unk0174; int unk0178; int unk017c; int unk0180; int unk0184; int unk0188; int unk018c; int unk0190; int unk0194; int unk0198; int unk019c; int unk01a0; int unk01a4; int unk01a8; int unk01ac; int unk01b0; int unk01b4; int unk01b8; int unk01bc; int unk01c0; int unk01c4; int unk01c8; int unk01cc; int unk01d0; int unk01d4; int unk01d8; int unk01dc; int unk01e0; int unk01e4; int unk01e8; int unk01ec; int unk01f0; int unk01f4; int unk01f8; int unk01fc; int unk0200; int unk0204; int unk0208; int unk020c; int unk0210; int unk0214; int unk0218; int unk021c; int unk0220; int unk0224; int unk0228; int unk022c; int unk0230; int unk0234; int unk0238; int unk023c; int unk0240; int unk0244; int unk0248; int unk024c; int unk0250; int unk0254; int unk0258; int unk025c; int unk0260; int unk0264; int unk0268; int unk026c; int unk0270; int unk0274; int unk0278; int unk027c; int unk0280; int unk0284; int unk0288; int unk028c; int unk0290; int unk0294; int unk0298; int unk029c; int unk02a0; int unk02a4; int unk02a8; int unk02ac; int unk02b0; int unk02b4; int unk02b8; int unk02bc; int unk02c0; int unk02c4; int unk02c8; int unk02cc; int unk02d0; int unk02d4; int unk02d8; int unk02dc; int unk02e0; int unk02e4; int unk02e8; int unk02ec; int unk02f0; int unk02f4; int unk02f8; int unk02fc; int unk0300; int unk0304; int unk0308; int unk030c; int unk0310; int unk0314; int unk0318; int unk031c; int unk0320; int unk0324; int unk0328; int unk032c; int unk0330; int unk0334; int unk0338; int unk033c; int unk0340; int unk0344; int unk0348; int unk034c; int unk0350; int unk0354; int unk0358; int unk035c; int unk0360; int unk0364; int unk0368; int unk036c; int unk0370; int unk0374; int unk0378; int unk037c; int unk0380; int unk0384; int unk0388; int unk038c; int unk0390; int unk0394; int unk0398; int unk039c; int unk03a0; int unk03a4; int unk03a8; int unk03ac; int unk03b0; int unk03b4; int unk03b8; int unk03bc; int unk03c0; int unk03c4; int unk03c8; int unk03cc; int unk03d0; int unk03d4; int unk03d8; int unk03dc; int unk03e0; int unk03e4; int unk03e8; int unk03ec; int unk03f0; int unk03f4; int unk03f8; int unk03fc; int unk0400; int unk0404; int unk0408; int unk040c; int unk0410; int unk0414; int unk0418; int unk041c; int unk0420; int unk0424; int unk0428; int unk042c; int unk0430; int unk0434; int unk0438; int unk043c; int unk0440; int unk0444; int unk0448; int unk044c; int unk0450; int unk0454; int unk0458; int unk045c; int unk0460; int unk0464; int unk0468; int unk046c; int unk0470; int unk0474; int unk0478; int unk047c; int unk0480; int unk0484; int unk0488; int unk048c; int unk0490; int unk0494; int unk0498; int unk049c; int unk04a0; int unk04a4; int unk04a8; int unk04ac; int unk04b0; int unk04b4; int unk04b8; int unk04bc; int unk04c0; int unk04c4; int unk04c8; int unk04cc; int unk04d0; int unk04d4; int unk04d8; int unk04dc; int unk04e0; int unk04e4; int unk04e8; int unk04ec; int unk04f0; int unk04f4; int unk04f8; int unk04fc; int unk0500; int unk0504; int unk0508; int unk050c; int unk0510; int unk0514; int unk0518; int unk051c; int unk0520; int unk0524; int unk0528; int unk052c; int unk0530; int unk0534; int unk0538; int unk053c; int unk0540; int unk0544; int unk0548; int unk054c; int unk0550; int unk0554; int unk0558; int unk055c; int unk0560; int unk0564; int unk0568; int unk056c; int unk0570; int unk0574; int unk0578; int unk057c; int unk0580; int unk0584; int unk0588; int unk058c; int unk0590; int unk0594; int unk0598; int unk059c; int unk05a0; int unk05a4; int unk05a8; int unk05ac; int unk05b0; int unk05b4; int unk05b8; int unk05bc; int unk05c0; int unk05c4; int unk05c8; int unk05cc; int unk05d0; int unk05d4; int unk05d8; int unk05dc; int unk05e0; int unk05e4; int unk05e8; int unk05ec; int unk05f0; int unk05f4; int unk05f8; int unk05fc; int unk0600; int unk0604; int unk0608; int unk060c; int unk0610; int unk0614; int unk0618; int unk061c; int unk0620; int unk0624; int unk0628; int unk062c; int unk0630; int unk0634; int unk0638; int unk063c; int unk0640; int unk0644; int unk0648; int unk064c; int unk0650; int unk0654; int unk0658; int unk065c; int unk0660; int unk0664; int unk0668; int unk066c; int unk0670; int unk0674; int unk0678; int unk067c; int unk0680; int unk0684; int unk0688; int unk068c; int unk0690; int unk0694; int unk0698; int unk069c; int unk06a0; int unk06a4; int unk06a8; int unk06ac; int unk06b0; int unk06b4; int unk06b8; int unk06bc; int unk06c0; int unk06c4; int unk06c8; int unk06cc; int unk06d0; int unk06d4; int unk06d8; int unk06dc; int unk06e0; int unk06e4; int unk06e8; int unk06ec; int unk06f0; int unk06f4; int unk06f8; int unk06fc; int unk0700; int unk0704; int unk0708; int unk070c; int unk0710; int unk0714; int unk0718; int unk071c; int unk0720; int unk0724; int unk0728; int unk072c; int unk0730; int unk0734; int unk0738; int unk073c; int unk0740; int unk0744; int unk0748; int unk074c; int unk0750; int unk0754; int unk0758; int unk075c; int unk0760; int unk0764; int unk0768; int unk076c; int unk0770; int unk0774; int unk0778; int unk077c; int unk0780; int unk0784; int unk0788; int unk078c; int unk0790; int unk0794; int unk0798; int unk079c; int unk07a0; int unk07a4; int unk07a8; int unk07ac; int unk07b0; int unk07b4; int unk07b8; int unk07bc; int unk07c0; int unk07c4; int unk07c8; int unk07cc; int unk07d0; int unk07d4; int unk07d8; int unk07dc; int unk07e0; int unk07e4; int unk07e8; int unk07ec; int unk07f0; int unk07f4; int unk07f8; int unk07fc; int unk0800; int unk0804; int unk0808; int unk080c; int unk0810; int unk0814; int unk0818; int unk081c; int unk0820; int unk0824; int unk0828; int unk082c; int unk0830; int unk0834; int unk0838; int unk083c; int unk0840; int unk0844; int unk0848; int unk084c; int unk0850; int unk0854; int unk0858; int unk085c; int unk0860; int unk0864; int unk0868; int unk086c; int unk0870; int unk0874; int unk0878; int unk087c; int unk0880; int unk0884; int unk0888; int unk088c; int unk0890; int unk0894; int unk0898; int unk089c; int unk08a0; int unk08a4; int unk08a8; int unk08ac; int unk08b0; int unk08b4; int unk08b8; int unk08bc; int unk08c0; int unk08c4; int unk08c8; int unk08cc; int unk08d0; int unk08d4; int unk08d8; int unk08dc; int unk08e0; int unk08e4; int unk08e8; int unk08ec; int unk08f0; int unk08f4; int unk08f8; int unk08fc; int unk0900; int unk0904; int unk0908; int unk090c; int unk0910; int unk0914; int unk0918; int unk091c; int unk0920; int unk0924; int unk0928; int unk092c; int unk0930; int unk0934; int unk0938; int unk093c; int unk0940; int unk0944; int unk0948; int unk094c; int unk0950; int unk0954; int unk0958; int unk095c; int unk0960; int unk0964; int unk0968; int unk096c; int unk0970; int unk0974; int unk0978; int unk097c; int unk0980; int unk0984; int unk0988; int unk098c; int unk0990; int unk0994; int unk0998; int unk099c; int unk09a0; int unk09a4; int unk09a8; int unk09ac; int unk09b0; int unk09b4; int unk09b8; int unk09bc; int unk09c0; int unk09c4; int unk09c8; int unk09cc; int unk09d0; int unk09d4; int unk09d8; int unk09dc; int unk09e0; int unk09e4; int unk09e8; int unk09ec; int unk09f0; int unk09f4; int unk09f8; int unk09fc; int unk0a00; int unk0a04; int unk0a08; int unk0a0c; int unk0a10; int unk0a14; int unk0a18; int unk0a1c; int unk0a20; int unk0a24; int unk0a28; int unk0a2c; int unk0a30; int unk0a34; int unk0a38; int unk0a3c; int unk0a40; int unk0a44; int unk0a48; int unk0a4c; int unk0a50; int unk0a54; int unk0a58; int unk0a5c; int unk0a60; int unk0a64; int unk0a68; int unk0a6c; int unk0a70; int unk0a74; int unk0a78; int unk0a7c; int unk0a80; int unk0a84; int unk0a88; int unk0a8c; int unk0a90; int unk0a94; int unk0a98; int unk0a9c; int unk0aa0; int unk0aa4; int unk0aa8; int unk0aac; int unk0ab0; int unk0ab4; int unk0ab8; int unk0abc; int unk0ac0; int unk0ac4; int unk0ac8; int unk0acc; int unk0ad0; int unk0ad4; int unk0ad8; int unk0adc; int unk0ae0; int unk0ae4; int unk0ae8; int unk0aec; int unk0af0; int unk0af4; int unk0af8; int unk0afc; int unk0b00; int unk0b04; int unk0b08; int unk0b0c; int unk0b10; int unk0b14; int unk0b18; int unk0b1c; int unk0b20; int unk0b24; int unk0b28; int unk0b2c; int unk0b30; int unk0b34; int unk0b38; int unk0b3c; int unk0b40; int unk0b44; int unk0b48; int unk0b4c; int unk0b50; int unk0b54; int unk0b58; int unk0b5c; int unk0b60; int unk0b64; int unk0b68; int unk0b6c; int unk0b70; int unk0b74; int unk0b78; int unk0b7c; int unk0b80; int unk0b84; int unk0b88; int unk0b8c; int unk0b90; int unk0b94; int unk0b98; int unk0b9c; int unk0ba0; int unk0ba4; int unk0ba8; int unk0bac; int unk0bb0; int unk0bb4; int unk0bb8; int unk0bbc; int unk0bc0; int unk0bc4; int unk0bc8; int unk0bcc; int unk0bd0; int unk0bd4; int unk0bd8; int unk0bdc; int unk0be0; int unk0be4; int unk0be8; int unk0bec; int unk0bf0; int unk0bf4; int unk0bf8; int unk0bfc; int unk0c00; int unk0c04; int unk0c08; int unk0c0c; int unk0c10; int unk0c14; int unk0c18; int unk0c1c; int unk0c20; int unk0c24; int unk0c28; int unk0c2c; int unk0c30; int unk0c34; int unk0c38; int unk0c3c; int unk0c40; int unk0c44; int unk0c48; int unk0c4c; int unk0c50; int unk0c54; int unk0c58; int unk0c5c; int unk0c60; int unk0c64; int unk0c68; int unk0c6c; int unk0c70; int unk0c74; int unk0c78; int unk0c7c; int unk0c80; int unk0c84; int unk0c88; int unk0c8c; int unk0c90; int unk0c94; int unk0c98; int unk0c9c; int unk0ca0; int unk0ca4; int unk0ca8; int unk0cac; int unk0cb0; int unk0cb4; int unk0cb8; int unk0cbc; int unk0cc0; int unk0cc4; int unk0cc8; int unk0ccc; int unk0cd0; int unk0cd4; int unk0cd8; int unk0cdc; int unk0ce0; int unk0ce4; int unk0ce8; int unk0cec; int unk0cf0; int unk0cf4; int unk0cf8; int unk0cfc; int unk0d00; int unk0d04; int unk0d08; int unk0d0c; int unk0d10; int unk0d14; int unk0d18; int unk0d1c; int unk0d20; int unk0d24; int unk0d28; int unk0d2c; int unk0d30; int unk0d34; int unk0d38; int unk0d3c; int unk0d40; int unk0d44; int unk0d48; int unk0d4c; int unk0d50; int unk0d54; int unk0d58; int unk0d5c; int unk0d60; int unk0d64; int unk0d68; int unk0d6c; int unk0d70; int unk0d74; int unk0d78; int unk0d7c; int unk0d80; int unk0d84; int unk0d88; int unk0d8c; int unk0d90; int unk0d94; int unk0d98; int unk0d9c; int unk0da0; int unk0da4; int unk0da8; int unk0dac; int unk0db0; int unk0db4; int unk0db8; int unk0dbc; int unk0dc0; int unk0dc4; int unk0dc8; int unk0dcc; int unk0dd0; int unk0dd4; int unk0dd8; int unk0ddc; int unk0de0; int unk0de4; int unk0de8; int unk0dec; int unk0df0; int unk0df4; int unk0df8; int unk0dfc; int unk0e00; int unk0e04; int unk0e08; int unk0e0c; int unk0e10; int unk0e14; int unk0e18; int unk0e1c; int unk0e20; int unk0e24; int unk0e28; int unk0e2c; int unk0e30; int unk0e34; int unk0e38; int unk0e3c; int unk0e40; int unk0e44; int unk0e48; int unk0e4c; int unk0e50; int unk0e54; int unk0e58; int unk0e5c; int unk0e60; int unk0e64; int unk0e68; int unk0e6c; int unk0e70; int unk0e74; int unk0e78; int unk0e7c; int unk0e80; int unk0e84; int unk0e88; int unk0e8c; int unk0e90; int unk0e94; int unk0e98; int unk0e9c; int unk0ea0; int unk0ea4; int unk0ea8; int unk0eac; int unk0eb0; int unk0eb4; int unk0eb8; int unk0ebc; int unk0ec0; int unk0ec4; int unk0ec8; int unk0ecc; int unk0ed0; int unk0ed4; int unk0ed8; int unk0edc; int unk0ee0; int unk0ee4; int unk0ee8; int unk0eec; int unk0ef0; int unk0ef4; int unk0ef8; int unk0efc; int unk0f00; int unk0f04; int unk0f08; int unk0f0c; int unk0f10; int unk0f14; int unk0f18; int unk0f1c; int unk0f20; int unk0f24; int unk0f28; int unk0f2c; int unk0f30; int unk0f34; int unk0f38; int unk0f3c; int unk0f40; int unk0f44; int unk0f48; int unk0f4c; int unk0f50; int unk0f54; int unk0f58; int unk0f5c; int unk0f60; int unk0f64; int unk0f68; int unk0f6c; int unk0f70; int unk0f74; int unk0f78; int unk0f7c; int unk0f80; int unk0f84; int unk0f88; int unk0f8c; int unk0f90; int unk0f94; int unk0f98; int unk0f9c; int unk0fa0; int unk0fa4; int unk0fa8; int unk0fac; int unk0fb0; int unk0fb4; int unk0fb8; int unk0fbc; int unk0fc0; int unk0fc4; int unk0fc8; int unk0fcc; int unk0fd0; int unk0fd4; int unk0fd8; int unk0fdc; int unk0fe0; int unk0fe4; int unk0fe8; int unk0fec; int unk0ff0; int unk0ff4; int unk0ff8; int unk0ffc; int unk1000; int unk1004; int unk1008; int unk100c; int unk1010; int unk1014; int unk1018; int unk101c; int unk1020; int unk1024; int unk1028; int unk102c; int unk1030; int unk1034; int unk1038; int unk103c; int unk1040; int unk1044; int unk1048; int unk104c; int unk1050; int unk1054; int unk1058; int unk105c; int unk1060; int unk1064; int unk1068; int unk106c; int unk1070; int unk1074; int unk1078; int unk107c; int unk1080; int unk1084; int unk1088; int unk108c; int unk1090; int unk1094; int unk1098; int unk109c; int unk10a0; int unk10a4; int unk10a8; int unk10ac; int unk10b0; int unk10b4; int unk10b8; int unk10bc; int unk10c0; int unk10c4; int unk10c8; int unk10cc; int unk10d0; int unk10d4; int unk10d8; int unk10dc; int unk10e0; int unk10e4; int unk10e8; int unk10ec; int unk10f0; int unk10f4; int unk10f8; int unk10fc; int unk1100; int unk1104; int unk1108; int unk110c; int unk1110; int unk1114; int unk1118; int unk111c; int unk1120; int unk1124; int unk1128; int unk112c; int unk1130; int unk1134; int unk1138; int unk113c; int unk1140; int unk1144; int unk1148; int unk114c; int unk1150; int unk1154; int unk1158; int unk115c; int unk1160; int unk1164; int unk1168; int unk116c; int unk1170; int unk1174; int unk1178; int unk117c; int unk1180; int unk1184; int unk1188; int unk118c; int unk1190; int unk1194; int unk1198; int unk119c; int unk11a0; int unk11a4; int unk11a8; int unk11ac; int unk11b0; int unk11b4; int unk11b8; int unk11bc; int unk11c0; int unk11c4; int unk11c8; int unk11cc; int unk11d0; int unk11d4; int unk11d8; int unk11dc; int unk11e0; int unk11e4; int unk11e8; int unk11ec; int unk11f0; int unk11f4; int unk11f8; int unk11fc; int unk1200; int unk1204; int unk1208; int unk120c; int unk1210; int unk1214; int unk1218; int unk121c; int unk1220; int unk1224; int unk1228; int unk122c; int unk1230; int unk1234; int unk1238; int unk123c; int unk1240; int unk1244; int unk1248; int unk124c; int unk1250; int unk1254; int unk1258; int unk125c; int unk1260; int unk1264; int unk1268; int unk126c; int unk1270; int unk1274; int unk1278; int unk127c; int unk1280; int unk1284; int unk1288; int unk128c; int unk1290; int unk1294; int unk1298; int unk129c; int unk12a0; int unk12a4; int unk12a8; int unk12ac; int unk12b0; int unk12b4; int unk12b8; int unk12bc; int unk12c0; int unk12c4; int unk12c8; int unk12cc; int unk12d0; int unk12d4; int unk12d8; int unk12dc; int unk12e0; int unk12e4; int unk12e8; int unk12ec; int unk12f0; int unk12f4; int unk12f8; int unk12fc; int unk1300; int unk1304; int unk1308; int unk130c; int unk1310; int unk1314; int unk1318; int unk131c; int unk1320; int unk1324; int unk1328; int unk132c; int unk1330; int unk1334; int unk1338; int unk133c; int unk1340; int unk1344; int unk1348; int unk134c; int unk1350; int unk1354; int unk1358; int unk135c; int unk1360; int unk1364; int unk1368; int unk136c; int unk1370; int unk1374; int unk1378; int unk137c; int unk1380; int unk1384; int unk1388; int unk138c; int unk1390; int unk1394; int unk1398; int unk139c; int unk13a0; int unk13a4; int unk13a8; int unk13ac; int unk13b0; int unk13b4; int unk13b8; int unk13bc; int unk13c0; int unk13c4; int unk13c8; int unk13cc; int unk13d0; int unk13d4; int unk13d8; int unk13dc; int unk13e0; int unk13e4; int unk13e8; int unk13ec; int unk13f0; int unk13f4; int unk13f8; int unk13fc; int unk1400; int unk1404; int unk1408; int unk140c; int unk1410; int unk1414; int unk1418; int unk141c; int unk1420; int unk1424; int unk1428; int unk142c; int unk1430; int unk1434; int unk1438; int unk143c; int unk1440; int unk1444; int unk1448; int unk144c; int unk1450; int unk1454; int unk1458; int unk145c; int unk1460; int unk1464; int unk1468; int unk146c; int unk1470; int unk1474; int unk1478; int unk147c; int unk1480; int unk1484; int unk1488; int unk148c; int unk1490; int unk1494; int unk1498; int unk149c; int unk14a0; int unk14a4; int unk14a8; int unk14ac; int unk14b0; int unk14b4; int unk14b8; int unk14bc; int unk14c0; int unk14c4; int unk14c8; int unk14cc; int unk14d0; int unk14d4; int unk14d8; int unk14dc; int unk14e0; int unk14e4; int unk14e8; int unk14ec; int unk14f0; int unk14f4; int unk14f8; int unk14fc; int unk1500; int unk1504; int unk1508; int unk150c; int unk1510; int unk1514; int unk1518; int unk151c; int unk1520; int unk1524; int unk1528; int unk152c; int unk1530; int unk1534; int unk1538; int unk153c; int unk1540; int unk1544; int unk1548; int unk154c; int unk1550; int unk1554; int unk1558; int unk155c; int unk1560; int unk1564; int unk1568; int unk156c; int unk1570; int unk1574; int unk1578; int unk157c; int unk1580; int unk1584; int unk1588; int unk158c; int unk1590; int unk1594; int unk1598; int unk159c; int unk15a0; int unk15a4; int unk15a8; int unk15ac; int unk15b0; int unk15b4; int unk15b8; int unk15bc; int unk15c0; int unk15c4; int unk15c8; int unk15cc; int unk15d0; int unk15d4; int unk15d8; int unk15dc; int unk15e0; int unk15e4; int unk15e8; int unk15ec; int unk15f0; int unk15f4; int unk15f8; int unk15fc; int unk1600; int unk1604; int unk1608; int unk160c; int unk1610; int unk1614; int unk1618; int unk161c; int unk1620; int unk1624; int unk1628; int unk162c; int unk1630; int unk1634; int unk1638; int unk163c; int unk1640; int unk1644; int unk1648; int unk164c; int unk1650; int unk1654; int unk1658; int unk165c; int unk1660; int unk1664; int unk1668; int unk166c; int unk1670; int unk1674; int unk1678; int unk167c; int unk1680; int unk1684; int unk1688; int unk168c; int unk1690; int unk1694; int unk1698; int unk169c; int unk16a0; int unk16a4; int unk16a8; int unk16ac; int unk16b0; int unk16b4; int unk16b8; int unk16bc; int unk16c0; int unk16c4; int unk16c8; int unk16cc; int unk16d0; int unk16d4; int unk16d8; int unk16dc; int unk16e0; int unk16e4; int unk16e8; int unk16ec; int unk16f0; int unk16f4; int unk16f8; int unk16fc; int unk1700; int unk1704; int unk1708; int unk170c; int unk1710; int unk1714; int unk1718; int unk171c; int unk1720; int unk1724; int unk1728; int unk172c; int unk1730; int unk1734; int unk1738; int unk173c; int unk1740; int unk1744; int unk1748; int unk174c; int unk1750; int unk1754; int unk1758; int unk175c; int unk1760; int unk1764; int unk1768; int unk176c; int unk1770; int unk1774; int unk1778; int unk177c; int unk1780; int unk1784; int unk1788; int unk178c; int unk1790; int unk1794; int unk1798; int unk179c; int unk17a0; int unk17a4; int unk17a8; int unk17ac; int unk17b0; int unk17b4; int unk17b8; int unk17bc; int unk17c0; int unk17c4; int unk17c8; int unk17cc; int unk17d0; int unk17d4; int unk17d8; int unk17dc; int unk17e0; int unk17e4; int unk17e8; int unk17ec; int unk17f0; int unk17f4; int unk17f8; int unk17fc; int unk1800; int unk1804; int unk1808; int unk180c; int unk1810; int unk1814; int unk1818; int unk181c; int unk1820; int unk1824; int unk1828; int unk182c; int unk1830; int unk1834; int unk1838; int unk183c; int unk1840; int unk1844; int unk1848; int unk184c; int unk1850; int unk1854; int unk1858; int unk185c; int unk1860; int unk1864; int unk1868; int unk186c; int unk1870; int unk1874; int unk1878; int unk187c; int unk1880; int unk1884; int unk1888; int unk188c; int unk1890; int unk1894; int unk1898; int unk189c; int unk18a0; int unk18a4; int unk18a8; int unk18ac; int unk18b0; int unk18b4; int unk18b8; int unk18bc; int unk18c0; int unk18c4; int unk18c8; int unk18cc; int unk18d0; int unk18d4; int unk18d8; int unk18dc; int unk18e0; int unk18e4; int unk18e8; int unk18ec; int unk18f0; int unk18f4; int unk18f8; int unk18fc; int unk1900; int unk1904; int unk1908; int unk190c; int unk1910; int unk1914; int unk1918; int unk191c; int unk1920; int unk1924; int unk1928; int unk192c; int unk1930; int unk1934; int unk1938; int unk193c; int unk1940; int unk1944; int unk1948; int unk194c; int unk1950; int unk1954; int unk1958; int unk195c; int unk1960; int unk1964; int unk1968; int unk196c; int unk1970; int unk1974; int unk1978; int unk197c; int unk1980; int unk1984; int unk1988; int unk198c; int unk1990; int unk1994; int unk1998; int unk199c; int unk19a0; int unk19a4; int unk19a8; int unk19ac; int unk19b0; int unk19b4; int unk19b8; int unk19bc; int unk19c0; int unk19c4; int unk19c8; int unk19cc; int unk19d0; int unk19d4; int unk19d8; int unk19dc; int unk19e0; int unk19e4; int unk19e8; int unk19ec; int unk19f0; int unk19f4; int unk19f8; int unk19fc; int unk1a00; int unk1a04; int unk1a08; int unk1a0c; int unk1a10; int unk1a14; int unk1a18; int unk1a1c; int unk1a20; int unk1a24; int unk1a28; int unk1a2c; int unk1a30; int unk1a34; int unk1a38; int unk1a3c; int unk1a40; int unk1a44; int unk1a48; int unk1a4c; int unk1a50; int unk1a54; int unk1a58; int unk1a5c; int unk1a60; int unk1a64; int unk1a68; int unk1a6c; int unk1a70; int unk1a74; int unk1a78; int unk1a7c; int unk1a80; int unk1a84; int unk1a88; int unk1a8c; int unk1a90; int unk1a94; int unk1a98; int unk1a9c; int unk1aa0; int unk1aa4; int unk1aa8; int unk1aac; int unk1ab0; int unk1ab4; int unk1ab8; int unk1abc; int unk1ac0; int unk1ac4; int unk1ac8; int unk1acc; int unk1ad0; int unk1ad4; int unk1ad8; int unk1adc; int unk1ae0; int unk1ae4; int unk1ae8; int unk1aec; int unk1af0; int unk1af4; int unk1af8; int unk1afc; int unk1b00; int unk1b04; int unk1b08; int unk1b0c; int unk1b10; int unk1b14; int unk1b18; int unk1b1c; int unk1b20; int unk1b24; int unk1b28; int unk1b2c; int unk1b30; int unk1b34; int unk1b38; int unk1b3c; int unk1b40; int unk1b44; int unk1b48; int unk1b4c; int unk1b50; int unk1b54; int unk1b58; int unk1b5c; int unk1b60; int unk1b64; int unk1b68; int unk1b6c; int unk1b70; int unk1b74; int unk1b78; int unk1b7c; int unk1b80; int unk1b84; int unk1b88; int unk1b8c; int unk1b90; int unk1b94; int unk1b98; int unk1b9c; int unk1ba0; int unk1ba4; int unk1ba8; int unk1bac; int unk1bb0; int unk1bb4; int unk1bb8; int unk1bbc; int unk1bc0; int unk1bc4; int unk1bc8; int unk1bcc; int unk1bd0; int unk1bd4; int unk1bd8; int unk1bdc; int unk1be0; int unk1be4; int unk1be8; int unk1bec; int unk1bf0; int unk1bf4; int unk1bf8; int unk1bfc; int unk1c00; int unk1c04; int unk1c08; int unk1c0c; int unk1c10; int unk1c14; int unk1c18; int unk1c1c; int unk1c20; int unk1c24; int unk1c28; int unk1c2c; int unk1c30; int unk1c34; int unk1c38; int unk1c3c; int unk1c40; int unk1c44; int unk1c48; int unk1c4c; int unk1c50; int unk1c54; int unk1c58; int unk1c5c; int unk1c60; int unk1c64; int unk1c68; int unk1c6c; int unk1c70; int unk1c74; int unk1c78; int unk1c7c; int unk1c80; int unk1c84; int unk1c88; int unk1c8c; int unk1c90; int unk1c94; int unk1c98; int unk1c9c; int unk1ca0; int unk1ca4; int unk1ca8; int unk1cac; int unk1cb0; int unk1cb4; int unk1cb8; int unk1cbc; int unk1cc0; int unk1cc4; int unk1cc8; int unk1ccc; int unk1cd0; int unk1cd4; int unk1cd8; int unk1cdc; int unk1ce0; int unk1ce4; int unk1ce8; int unk1cec; int unk1cf0; int unk1cf4; int unk1cf8; int unk1cfc; int unk1d00; int unk1d04; int unk1d08; int unk1d0c; int unk1d10; int unk1d14; int unk1d18; int unk1d1c; int unk1d20; int unk1d24; int unk1d28; int unk1d2c; int unk1d30; int unk1d34; int unk1d38; int unk1d3c; int unk1d40; int unk1d44; int unk1d48; int unk1d4c; int unk1d50; int unk1d54; int unk1d58; int unk1d5c; int unk1d60; int unk1d64; int unk1d68; int unk1d6c; int unk1d70; int unk1d74; int unk1d78; int unk1d7c; int unk1d80; int unk1d84; int unk1d88; int unk1d8c; int unk1d90; int unk1d94; int unk1d98; int unk1d9c; int unk1da0; int unk1da4; int unk1da8; int unk1dac; int unk1db0; int unk1db4; int unk1db8; int unk1dbc; int unk1dc0; int unk1dc4; int unk1dc8; int unk1dcc; int unk1dd0; int unk1dd4; int unk1dd8; int unk1ddc; int unk1de0; int unk1de4; int unk1de8; int unk1dec; int unk1df0; int unk1df4; int unk1df8; int unk1dfc; int unk1e00; int unk1e04; int unk1e08; int unk1e0c; int unk1e10; int unk1e14; int unk1e18; int unk1e1c; int unk1e20; int unk1e24; int unk1e28; int unk1e2c; int unk1e30; int unk1e34; int unk1e38; int unk1e3c; int unk1e40; int unk1e44; int unk1e48; int unk1e4c; int unk1e50; int unk1e54; int unk1e58; int unk1e5c; int unk1e60; int unk1e64; int unk1e68; int unk1e6c; int unk1e70; int unk1e74; int unk1e78; int unk1e7c; int unk1e80; int unk1e84; int unk1e88; int unk1e8c; int unk1e90; int unk1e94; int unk1e98; int unk1e9c; int unk1ea0; int unk1ea4; int unk1ea8; int unk1eac; int unk1eb0; int unk1eb4; int unk1eb8; int unk1ebc; int unk1ec0; int unk1ec4; int unk1ec8; int unk1ecc; int unk1ed0; int unk1ed4; int unk1ed8; int unk1edc; int unk1ee0; int unk1ee4; int unk1ee8; int unk1eec; int unk1ef0; int unk1ef4; int unk1ef8; int unk1efc; int unk1f00; int unk1f04; int unk1f08; int unk1f0c; int unk1f10; int unk1f14; int unk1f18; int unk1f1c; int unk1f20; int unk1f24; int unk1f28; int unk1f2c; int unk1f30; int unk1f34; int unk1f38; int unk1f3c; int unk1f40; int unk1f44; int unk1f48; int unk1f4c; int unk1f50; int unk1f54; int unk1f58; int unk1f5c; int unk1f60; int unk1f64; int unk1f68; int unk1f6c; int unk1f70; int unk1f74; int unk1f78; int unk1f7c; int unk1f80; int unk1f84; int unk1f88; int unk1f8c; int unk1f90; int unk1f94; int unk1f98; int unk1f9c; int unk1fa0; int unk1fa4; int unk1fa8; int unk1fac; int unk1fb0; int unk1fb4; int unk1fb8; int unk1fbc; int unk1fc0; int unk1fc4; int unk1fc8; int unk1fcc; int unk1fd0; int unk1fd4; int unk1fd8; int unk1fdc; int unk1fe0; int unk1fe4; int unk1fe8; int unk1fec; int unk1ff0; int unk1ff4; int unk1ff8; int unk1ffc; int unk2000; int unk2004; int unk2008; int unk200c; int unk2010; int unk2014; int unk2018; int unk201c; int unk2020; int unk2024; int unk2028; int unk202c; int unk2030; int unk2034; int unk2038; int unk203c; int unk2040; int unk2044; int unk2048; int unk204c; int unk2050; int unk2054; int unk2058; int unk205c; int unk2060; int unk2064; int unk2068; int unk206c; int unk2070; int unk2074; int unk2078; int unk207c; int unk2080; int unk2084; int unk2088; int unk208c; int unk2090; int unk2094; int unk2098; int unk209c; int unk20a0; int unk20a4; int unk20a8; int unk20ac; int unk20b0; int unk20b4; int unk20b8; int unk20bc; int unk20c0; int unk20c4; Item* origin;void FUN_005d20e0(Record&,Item*,int);};
+// pdb: BSSimpleArray<AStarNode<PathSmootherPOVNode,PathSmootherPOVLink> *,1024>::AddUninitialized | PathSmootherPOV.obj | fnv360_0721_beta, call_gap_sim, low
 void Object::FUN_005d20e0(Record& out,Item* item,int value){out.item=item;out.value=value;Vec d=item->pos-origin->pos;float sq=d.y * d.y+d.x*d.x+d.z*d.z;float len=(float)sqrt((double)sq);out.distance=(float)(len*DAT_00dc0ac8);}
 }
 }   // namespace f3m_005d20e0
@@ -17652,6 +17991,8 @@ __forceinline void SwapRange(unsigned short* p,unsigned short count) {
  for(unsigned short n=0;n<count;++n) {p[n]=SwapShort(p[n]);}
 }
 
+// pdb: NavMeshGrid::Load | NavMeshGrid.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apBuffer, aiBufferSize, apFile
 bool NavMeshGrid::FUN_005c3a70(unsigned char* source, unsigned int, InputFile* file)
 {
     memmove(&header, source, sizeof(header));
@@ -17712,7 +18053,7 @@ struct NodeAllocator5C5E {
     int unk04;
     int unk08;
     int unk0C;
-    void* FUN_0086c710(unsigned int size, unsigned int alignment);
+    void* ScrapHeap_Allocate(unsigned int size, unsigned int alignment);
 };
 
 struct List5C5E {
@@ -17749,7 +18090,7 @@ struct Item5C5E {
     Item5C5E* hashNext;
 
     void* operator new(size_t size, NodeAllocator5C5E& alloc) {
-        return alloc.FUN_0086c710(size, DAT_00e27ed4);
+        return alloc.ScrapHeap_Allocate(size, DAT_00e27ed4);
     }
 
     Item5C5E() {
@@ -17777,6 +18118,8 @@ struct Owner5C5E {
     int FUN_005c5e80(const void* id, float score, Item5C5E** outItem);
 };
 
+// pdb: AngleSinCosArc::GetLength | NavMeshPOVSearch.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: AStarSearch<PathSmootherPOVNode,PathSmootherPOVLink>::GetOrCreateAStarNode)
+// pdb params: afRadius
 int Owner5C5E::FUN_005c5e80(const void* id, float score, Item5C5E** outItem) {
     Item5C5E** bucket = &buckets[(size_t)id % 2039];
     Item5C5E* node = *bucket;
@@ -17977,9 +18320,10 @@ public:
  UShortArray closestBoundaryVertices;
  EdgeEndpoints FUN_005b8900(unsigned short,int);
  Point3 FUN_005bd6c0(unsigned short);
- void FUN_005c1a20();
+ void NavMesh_CreatePOVs();
 };
-void GridMesh::FUN_005c1a20() {
+// pdb: NavMesh::CreatePOVs | NavMesh_Util.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void GridMesh::NavMesh_CreatePOVs() {
  boundaryMap.FUN_006bd950();
  closestBoundaryVertices.ClearAndFree();
  IncidentMap incidents(37);
@@ -18173,7 +18517,7 @@ struct NavMesh {
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     Point3* vertices;
     void FUN_005b88c0(EdgeIds* out, unsigned short triangle, int edge);
-    bool FUN_005b8a30(unsigned short triangle, int edge, NavMesh** outMesh, unsigned short* outTriangle, int* outEdge);
+    bool NavMesh_GetMatchingEdge(unsigned short triangle, int edge, NavMesh** outMesh, unsigned short* outTriangle, int* outEdge);
 };
 
 struct PriorTriangle {
@@ -18254,6 +18598,7 @@ __declspec(noinline) void PathSmootherPOVSearch::FUN_005d4b00(const Vertex& v, c
     r.referenceIndex = other; r.unk18 = own; r.trailing = -1;
 }
 
+// pdb: PathSmootherPOVSearch::AddPOVsFromTrianglePath | PathSmootherPOV.obj | fnv360_0822_retail, caller_sim, low
 void PathSmootherPOVSearch::FUN_005d7510()
 {
     leftEdges.Clear(false);
@@ -18302,7 +18647,7 @@ void PathSmootherPOVSearch::FUN_005d7510()
             NavMesh* handle = 0;
             unsigned short edge5 = 0xffff;
             int edge = -1;
-            triangles->operator[](i - 1).mesh->FUN_005b8a30(
+            triangles->operator[](i - 1).mesh->NavMesh_GetMatchingEdge(
                 triangles->operator[](i - 1).triangle,
                 edges->operator[](i - 1).edge,
                 &handle, &edge5, &edge);
@@ -18579,7 +18924,8 @@ struct Owner5db660 {
 };
 
 void __cdecl FUN_00887da0(const char* fmt, ...);
-TESForm5db660* __cdecl FUN_00455190(unsigned int formID);
+TESForm5db660* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
+// pdb: NavMeshInfoMap::InitItem | NavMeshInfoMap.obj | fnv360_0822_retail, vtable, medium
 void Owner5db660::FUN_005db660()
 {
     Vec5db660 vec;
@@ -18589,7 +18935,7 @@ void Owner5db660::FUN_005db660()
     while (pos) {
         map.FUN_0089a5d0(&pos, &key, &value);
         bool missing = false;
-        TESForm5db660* form = FUN_00455190(value->unk04);
+        TESForm5db660* form = TESForm_GetFormByNumericID(value->unk04);
         if (!form) {
             FUN_00887da0(DAT_00e01998, value->unk04, key);
             missing = true;
@@ -18633,6 +18979,7 @@ struct Owner
     void FUN_005cebf0();
 };
 
+// pdb: NavMeshSearchHide::~NavMeshSearchHide | NavMeshSearchHide.obj | fnv360_0822_retail, caller_sim, low
 void Owner::FUN_005cebf0()
 {
     *(int*)this = (int)&FUN_00e01180;
@@ -18653,6 +19000,7 @@ struct Owner
     void FUN_005d01a0();
 };
 
+// pdb: NavMeshSearchMaxCost::~NavMeshSearchMaxCost | NavMeshSearchMaxCost.obj | fnv360_0822_retail, call_gap, low
 void Owner::FUN_005d01a0()
 {
     *(int*)this = (int)&FUN_00e011cc;
@@ -18679,7 +19027,7 @@ struct Segments { int unk00; Segment* data; int size; int cap; int GetSize()cons
 struct Params {
 int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; float radius; };
 extern int __cdecl FUN_005dea40(const Circle*,const Circle*,int,Tangents*);
-struct HeightManager { float FUN_00434200(P*,int); }; 
+struct HeightManager { float TES_GetWaterHeight(P*,int); }; 
 extern "C" void _ReadWriteBarrier();
 struct Walker {
 int unk0000; int unk0004; int unk0008; int unk000c; int unk0010; int unk0014; int unk0018; int unk001c; int unk0020; int unk0024; int unk0028; int unk002c; int unk0030; int unk0034; int unk0038; int unk003c; int unk0040; int unk0044; int unk0048; int unk004c; int unk0050; int unk0054; int unk0058; int unk005c; int unk0060; int unk0064; int unk0068; int unk006c; int unk0070; int unk0074; int unk0078; int unk007c; int unk0080; int unk0084; int unk0088; int unk008c; int unk0090; int unk0094; int unk0098; int unk009c; int unk00a0; int unk00a4; int unk00a8; int unk00ac; int unk00b0; int unk00b4; int unk00b8; int unk00bc; int unk00c0; int unk00c4; int unk00c8; int unk00cc; int unk00d0; int unk00d4; int unk00d8; int unk00dc; int unk00e0; int unk00e4; int unk00e8; int unk00ec; int unk00f0; int unk00f4; int unk00f8; int unk00fc; int unk0100; int unk0104; int unk0108; int unk010c; int unk0110; int unk0114; int unk0118; int unk011c; int unk0120; int unk0124; int unk0128; int unk012c; int unk0130; int unk0134; int unk0138; int unk013c; int unk0140; int unk0144; int unk0148; int unk014c; int unk0150; int unk0154; int unk0158; int unk015c; int unk0160; int unk0164; int unk0168; int unk016c; int unk0170; int unk0174; int unk0178; int unk017c; int unk0180; int unk0184; int unk0188; int unk018c; int unk0190; int unk0194; int unk0198; int unk019c; int unk01a0; int unk01a4; int unk01a8; int unk01ac; int unk01b0; int unk01b4; int unk01b8; int unk01bc; int unk01c0; int unk01c4; int unk01c8; int unk01cc; int unk01d0; int unk01d4; int unk01d8; int unk01dc; int unk01e0; int unk01e4; int unk01e8; int unk01ec; int unk01f0; int unk01f4; int unk01f8; int unk01fc; int unk0200; int unk0204; int unk0208; int unk020c; int unk0210; int unk0214; int unk0218; int unk021c; int unk0220; int unk0224; int unk0228; int unk022c; int unk0230; int unk0234; int unk0238; int unk023c; int unk0240; int unk0244; int unk0248; int unk024c; int unk0250; int unk0254; int unk0258; int unk025c; int unk0260; int unk0264; int unk0268; int unk026c; int unk0270; int unk0274; int unk0278; int unk027c; int unk0280; int unk0284; int unk0288; int unk028c; int unk0290; int unk0294; int unk0298; int unk029c; int unk02a0; int unk02a4; int unk02a8; int unk02ac; int unk02b0; int unk02b4; int unk02b8; int unk02bc; int unk02c0; int unk02c4; int unk02c8; int unk02cc; int unk02d0; int unk02d4; int unk02d8; int unk02dc; int unk02e0; int unk02e4; int unk02e8; int unk02ec; int unk02f0; int unk02f4; int unk02f8; int unk02fc; int unk0300; int unk0304; int unk0308; int unk030c; int unk0310; int unk0314; int unk0318; int unk031c; int unk0320; int unk0324; int unk0328; int unk032c; int unk0330; int unk0334; int unk0338; int unk033c; int unk0340; int unk0344; int unk0348; int unk034c; int unk0350; int unk0354; int unk0358; int unk035c; int unk0360; int unk0364; int unk0368; int unk036c; int unk0370; int unk0374; int unk0378; int unk037c; int unk0380; int unk0384; int unk0388; int unk038c; int unk0390; int unk0394; int unk0398; int unk039c; int unk03a0; int unk03a4; int unk03a8; int unk03ac; int unk03b0; int unk03b4; int unk03b8; int unk03bc; int unk03c0; int unk03c4; int unk03c8; int unk03cc; int unk03d0; int unk03d4; int unk03d8; int unk03dc; int unk03e0; int unk03e4; int unk03e8; int unk03ec; int unk03f0; int unk03f4; int unk03f8; int unk03fc; int unk0400; int unk0404; int unk0408; int unk040c; int unk0410; int unk0414; int unk0418; int unk041c; int unk0420; int unk0424; int unk0428; int unk042c; int unk0430; int unk0434; int unk0438; int unk043c; int unk0440; int unk0444; int unk0448; int unk044c; int unk0450; int unk0454; int unk0458; int unk045c; int unk0460; int unk0464; int unk0468; int unk046c; int unk0470; int unk0474; int unk0478; int unk047c; int unk0480; int unk0484; int unk0488; int unk048c; int unk0490; int unk0494; int unk0498; int unk049c; int unk04a0; int unk04a4; int unk04a8; int unk04ac; int unk04b0; int unk04b4; int unk04b8; int unk04bc; int unk04c0; int unk04c4; int unk04c8; int unk04cc; int unk04d0; int unk04d4; int unk04d8; int unk04dc; int unk04e0; int unk04e4; int unk04e8; int unk04ec; int unk04f0; int unk04f4; int unk04f8; int unk04fc; int unk0500; int unk0504; int unk0508; int unk050c; int unk0510; int unk0514; int unk0518; int unk051c; int unk0520; int unk0524; int unk0528; int unk052c; int unk0530; int unk0534; int unk0538; int unk053c; int unk0540; int unk0544; int unk0548; int unk054c; int unk0550; int unk0554; int unk0558; int unk055c; int unk0560; int unk0564; int unk0568; int unk056c; int unk0570; int unk0574; int unk0578; int unk057c; int unk0580; int unk0584; int unk0588; int unk058c; int unk0590; int unk0594; int unk0598; int unk059c; int unk05a0; int unk05a4; int unk05a8; int unk05ac; int unk05b0; int unk05b4; int unk05b8; int unk05bc; int unk05c0; int unk05c4; int unk05c8; int unk05cc; int unk05d0; int unk05d4; int unk05d8; int unk05dc; int unk05e0; int unk05e4; int unk05e8; int unk05ec; int unk05f0; int unk05f4; int unk05f8; int unk05fc; int unk0600; int unk0604; int unk0608; int unk060c; int unk0610; int unk0614; int unk0618; int unk061c; int unk0620; int unk0624; int unk0628; int unk062c; int unk0630; int unk0634; int unk0638; int unk063c; int unk0640; int unk0644; int unk0648; int unk064c; int unk0650; int unk0654; int unk0658; int unk065c; int unk0660; int unk0664; int unk0668; int unk066c; int unk0670; int unk0674; int unk0678; int unk067c; int unk0680; int unk0684; int unk0688; int unk068c; int unk0690; int unk0694; int unk0698; int unk069c; int unk06a0; int unk06a4; int unk06a8; int unk06ac; int unk06b0; int unk06b4; int unk06b8; int unk06bc; int unk06c0; int unk06c4; int unk06c8; int unk06cc; int unk06d0; int unk06d4; int unk06d8; int unk06dc; int unk06e0; int unk06e4; int unk06e8; int unk06ec; int unk06f0; int unk06f4; int unk06f8; int unk06fc; int unk0700; int unk0704; int unk0708; int unk070c; int unk0710; int unk0714; int unk0718; int unk071c; int unk0720; int unk0724; int unk0728; int unk072c; int unk0730; int unk0734; int unk0738; int unk073c; int unk0740; int unk0744; int unk0748; int unk074c; int unk0750; int unk0754; int unk0758; int unk075c; int unk0760; int unk0764; int unk0768; int unk076c; int unk0770; int unk0774; int unk0778; int unk077c; int unk0780; int unk0784; int unk0788; int unk078c; int unk0790; int unk0794; int unk0798; int unk079c; int unk07a0; int unk07a4; int unk07a8; int unk07ac; int unk07b0; int unk07b4; int unk07b8; int unk07bc; int unk07c0; int unk07c4; int unk07c8; int unk07cc; int unk07d0; int unk07d4; int unk07d8; int unk07dc; int unk07e0; int unk07e4; int unk07e8; int unk07ec; int unk07f0; int unk07f4; int unk07f8; int unk07fc; int unk0800; int unk0804; int unk0808; int unk080c; int unk0810; int unk0814; int unk0818; int unk081c; int unk0820; int unk0824; int unk0828; int unk082c; int unk0830; int unk0834; int unk0838; int unk083c; int unk0840; int unk0844; int unk0848; int unk084c; int unk0850; int unk0854; int unk0858; int unk085c; int unk0860; int unk0864; int unk0868; int unk086c; int unk0870; int unk0874; int unk0878; int unk087c; int unk0880; int unk0884; int unk0888; int unk088c; int unk0890; int unk0894; int unk0898; int unk089c; int unk08a0; int unk08a4; int unk08a8; int unk08ac; int unk08b0; int unk08b4; int unk08b8; int unk08bc; int unk08c0; int unk08c4; int unk08c8; int unk08cc; int unk08d0; int unk08d4; int unk08d8; int unk08dc; int unk08e0; int unk08e4; int unk08e8; int unk08ec; int unk08f0; int unk08f4; int unk08f8; int unk08fc; int unk0900; int unk0904; int unk0908; int unk090c; int unk0910; int unk0914; int unk0918; int unk091c; int unk0920; int unk0924; int unk0928; int unk092c; int unk0930; int unk0934; int unk0938; int unk093c; int unk0940; int unk0944; int unk0948; int unk094c; int unk0950; int unk0954; int unk0958; int unk095c; int unk0960; int unk0964; int unk0968; int unk096c; int unk0970; int unk0974; int unk0978; int unk097c; int unk0980; int unk0984; int unk0988; int unk098c; int unk0990; int unk0994; int unk0998; int unk099c; int unk09a0; int unk09a4; int unk09a8; int unk09ac; int unk09b0; int unk09b4; int unk09b8; int unk09bc; int unk09c0; int unk09c4; int unk09c8; int unk09cc; int unk09d0; int unk09d4; int unk09d8; int unk09dc; int unk09e0; int unk09e4; int unk09e8; int unk09ec; int unk09f0; int unk09f4; int unk09f8; int unk09fc; int unk0a00; int unk0a04; int unk0a08; int unk0a0c; int unk0a10; int unk0a14; int unk0a18; int unk0a1c; int unk0a20; int unk0a24; int unk0a28; int unk0a2c; int unk0a30; int unk0a34; int unk0a38; int unk0a3c; int unk0a40; int unk0a44; int unk0a48; int unk0a4c; int unk0a50; int unk0a54; int unk0a58; int unk0a5c; int unk0a60; int unk0a64; int unk0a68; int unk0a6c; int unk0a70; int unk0a74; int unk0a78; int unk0a7c; int unk0a80; int unk0a84; int unk0a88; int unk0a8c; int unk0a90; int unk0a94; int unk0a98; int unk0a9c; int unk0aa0; int unk0aa4; int unk0aa8; int unk0aac; int unk0ab0; int unk0ab4; int unk0ab8; int unk0abc; int unk0ac0; int unk0ac4; int unk0ac8; int unk0acc; int unk0ad0; int unk0ad4; int unk0ad8; int unk0adc; int unk0ae0; int unk0ae4; int unk0ae8; int unk0aec; int unk0af0; int unk0af4; int unk0af8; int unk0afc; int unk0b00; int unk0b04; int unk0b08; int unk0b0c; int unk0b10; int unk0b14; int unk0b18; int unk0b1c; int unk0b20; int unk0b24; int unk0b28; int unk0b2c; int unk0b30; int unk0b34; int unk0b38; int unk0b3c; int unk0b40; int unk0b44; int unk0b48; int unk0b4c; int unk0b50; int unk0b54; int unk0b58; int unk0b5c; int unk0b60; int unk0b64; int unk0b68; int unk0b6c; int unk0b70; int unk0b74; int unk0b78; int unk0b7c; int unk0b80; int unk0b84; int unk0b88; int unk0b8c; int unk0b90; int unk0b94; int unk0b98; int unk0b9c; int unk0ba0; int unk0ba4; int unk0ba8; int unk0bac; int unk0bb0; int unk0bb4; int unk0bb8; int unk0bbc; int unk0bc0; int unk0bc4; int unk0bc8; int unk0bcc; int unk0bd0; int unk0bd4; int unk0bd8; int unk0bdc; int unk0be0; int unk0be4; int unk0be8; int unk0bec; int unk0bf0; int unk0bf4; int unk0bf8; int unk0bfc; int unk0c00; int unk0c04; int unk0c08; int unk0c0c; int unk0c10; int unk0c14; int unk0c18; int unk0c1c; int unk0c20; int unk0c24; int unk0c28; int unk0c2c; int unk0c30; int unk0c34; int unk0c38; int unk0c3c; int unk0c40; int unk0c44; int unk0c48; int unk0c4c; int unk0c50; int unk0c54; int unk0c58; int unk0c5c; int unk0c60; int unk0c64; int unk0c68; int unk0c6c; int unk0c70; int unk0c74; int unk0c78; int unk0c7c; int unk0c80; int unk0c84; int unk0c88; int unk0c8c; int unk0c90; int unk0c94; int unk0c98; int unk0c9c; int unk0ca0; int unk0ca4; int unk0ca8; int unk0cac; int unk0cb0; int unk0cb4; int unk0cb8; int unk0cbc; int unk0cc0; int unk0cc4; int unk0cc8; int unk0ccc; int unk0cd0; int unk0cd4; int unk0cd8; int unk0cdc; int unk0ce0; int unk0ce4; int unk0ce8; int unk0cec; int unk0cf0; int unk0cf4; int unk0cf8; int unk0cfc; int unk0d00; int unk0d04; int unk0d08; int unk0d0c; int unk0d10; int unk0d14; int unk0d18; int unk0d1c; int unk0d20; int unk0d24; int unk0d28; int unk0d2c; int unk0d30; int unk0d34; int unk0d38; int unk0d3c; int unk0d40; int unk0d44; int unk0d48; int unk0d4c; int unk0d50; int unk0d54; int unk0d58; int unk0d5c; int unk0d60; int unk0d64; int unk0d68; int unk0d6c; int unk0d70; int unk0d74; int unk0d78; int unk0d7c; int unk0d80; int unk0d84; int unk0d88; int unk0d8c; int unk0d90; int unk0d94; int unk0d98; int unk0d9c; int unk0da0; int unk0da4; int unk0da8; int unk0dac; int unk0db0; int unk0db4; int unk0db8; int unk0dbc; int unk0dc0; int unk0dc4; int unk0dc8; int unk0dcc; int unk0dd0; int unk0dd4; int unk0dd8; int unk0ddc; int unk0de0; int unk0de4; int unk0de8; int unk0dec; int unk0df0; int unk0df4; int unk0df8; int unk0dfc; int unk0e00; int unk0e04; int unk0e08; int unk0e0c; int unk0e10; int unk0e14; int unk0e18; int unk0e1c; int unk0e20; int unk0e24; int unk0e28; int unk0e2c; int unk0e30; int unk0e34; int unk0e38; int unk0e3c; int unk0e40; int unk0e44; int unk0e48; int unk0e4c; int unk0e50; int unk0e54; int unk0e58; int unk0e5c; int unk0e60; int unk0e64; int unk0e68; int unk0e6c; int unk0e70; int unk0e74; int unk0e78; int unk0e7c; int unk0e80; int unk0e84; int unk0e88; int unk0e8c; int unk0e90; int unk0e94; int unk0e98; int unk0e9c; int unk0ea0; int unk0ea4; int unk0ea8; int unk0eac; int unk0eb0; int unk0eb4; int unk0eb8; int unk0ebc; int unk0ec0; int unk0ec4; int unk0ec8; int unk0ecc; int unk0ed0; int unk0ed4; int unk0ed8; int unk0edc; int unk0ee0; int unk0ee4; int unk0ee8; int unk0eec; int unk0ef0; int unk0ef4; int unk0ef8; int unk0efc; int unk0f00; int unk0f04; int unk0f08; int unk0f0c; int unk0f10; int unk0f14; int unk0f18; int unk0f1c; int unk0f20; int unk0f24; int unk0f28; int unk0f2c; int unk0f30; int unk0f34; int unk0f38; int unk0f3c; int unk0f40; int unk0f44; int unk0f48; int unk0f4c; int unk0f50; int unk0f54; int unk0f58; int unk0f5c; int unk0f60; int unk0f64; int unk0f68; int unk0f6c; int unk0f70; int unk0f74; int unk0f78; int unk0f7c; int unk0f80; int unk0f84; int unk0f88; int unk0f8c; int unk0f90; int unk0f94; int unk0f98; int unk0f9c; int unk0fa0; int unk0fa4; int unk0fa8; int unk0fac; int unk0fb0; int unk0fb4; int unk0fb8; int unk0fbc; int unk0fc0; int unk0fc4; int unk0fc8; int unk0fcc; int unk0fd0; int unk0fd4; int unk0fd8; int unk0fdc; int unk0fe0; int unk0fe4; int unk0fe8; int unk0fec; int unk0ff0; int unk0ff4; int unk0ff8; int unk0ffc; int unk1000; int unk1004; int unk1008; int unk100c; int unk1010; int unk1014; int unk1018; int unk101c; int unk1020; int unk1024; int unk1028; int unk102c; int unk1030; int unk1034; int unk1038; int unk103c; int unk1040; int unk1044; int unk1048; int unk104c; int unk1050; int unk1054; int unk1058; int unk105c; int unk1060; int unk1064; int unk1068; int unk106c; int unk1070; int unk1074; int unk1078; int unk107c; int unk1080; int unk1084; int unk1088; int unk108c; int unk1090; int unk1094; int unk1098; int unk109c; int unk10a0; int unk10a4; int unk10a8; int unk10ac; int unk10b0; int unk10b4; int unk10b8; int unk10bc; int unk10c0; int unk10c4; int unk10c8; int unk10cc; int unk10d0; int unk10d4; int unk10d8; int unk10dc; int unk10e0; int unk10e4; int unk10e8; int unk10ec; int unk10f0; int unk10f4; int unk10f8; int unk10fc; int unk1100; int unk1104; int unk1108; int unk110c; int unk1110; int unk1114; int unk1118; int unk111c; int unk1120; int unk1124; int unk1128; int unk112c; int unk1130; int unk1134; int unk1138; int unk113c; int unk1140; int unk1144; int unk1148; int unk114c; int unk1150; int unk1154; int unk1158; int unk115c; int unk1160; int unk1164; int unk1168; int unk116c; int unk1170; int unk1174; int unk1178; int unk117c; int unk1180; int unk1184; int unk1188; int unk118c; int unk1190; int unk1194; int unk1198; int unk119c; int unk11a0; int unk11a4; int unk11a8; int unk11ac; int unk11b0; int unk11b4; int unk11b8; int unk11bc; int unk11c0; int unk11c4; int unk11c8; int unk11cc; int unk11d0; int unk11d4; int unk11d8; int unk11dc; int unk11e0; int unk11e4; int unk11e8; int unk11ec; int unk11f0; int unk11f4; int unk11f8; int unk11fc; int unk1200; int unk1204; int unk1208; int unk120c; int unk1210; int unk1214; int unk1218; int unk121c; int unk1220; int unk1224; int unk1228; int unk122c; int unk1230; int unk1234; int unk1238; int unk123c; int unk1240; int unk1244; int unk1248; int unk124c; int unk1250; int unk1254; int unk1258; int unk125c; int unk1260; int unk1264; int unk1268; int unk126c; int unk1270; int unk1274; int unk1278; int unk127c; int unk1280; int unk1284; int unk1288; int unk128c; int unk1290; int unk1294; int unk1298; int unk129c; int unk12a0; int unk12a4; int unk12a8; int unk12ac; int unk12b0; int unk12b4; int unk12b8; int unk12bc; int unk12c0; int unk12c4; int unk12c8; int unk12cc; int unk12d0; int unk12d4; int unk12d8; int unk12dc; int unk12e0; int unk12e4; int unk12e8; int unk12ec; int unk12f0; int unk12f4; int unk12f8; int unk12fc; int unk1300; int unk1304; int unk1308; int unk130c; int unk1310; int unk1314; int unk1318; int unk131c; int unk1320; int unk1324; int unk1328; int unk132c; int unk1330; int unk1334; int unk1338; int unk133c; int unk1340; int unk1344; int unk1348; int unk134c; int unk1350; int unk1354; int unk1358; int unk135c; int unk1360; int unk1364; int unk1368; int unk136c; int unk1370; int unk1374; int unk1378; int unk137c; int unk1380; int unk1384; int unk1388; int unk138c; int unk1390; int unk1394; int unk1398; int unk139c; int unk13a0; int unk13a4; int unk13a8; int unk13ac; int unk13b0; int unk13b4; int unk13b8; int unk13bc; int unk13c0; int unk13c4; int unk13c8; int unk13cc; int unk13d0; int unk13d4; int unk13d8; int unk13dc; int unk13e0; int unk13e4; int unk13e8; int unk13ec; int unk13f0; int unk13f4; int unk13f8; int unk13fc; int unk1400; int unk1404; int unk1408; int unk140c; int unk1410; int unk1414; int unk1418; int unk141c; int unk1420; int unk1424; int unk1428; int unk142c; int unk1430; int unk1434; int unk1438; int unk143c; int unk1440; int unk1444; int unk1448; int unk144c; int unk1450; int unk1454; int unk1458; int unk145c; int unk1460; int unk1464; int unk1468; int unk146c; int unk1470; int unk1474; int unk1478; int unk147c; int unk1480; int unk1484; int unk1488; int unk148c; int unk1490; int unk1494; int unk1498; int unk149c; int unk14a0; int unk14a4; int unk14a8; int unk14ac; int unk14b0; int unk14b4; int unk14b8; int unk14bc; int unk14c0; int unk14c4; int unk14c8; int unk14cc; int unk14d0; int unk14d4; int unk14d8; int unk14dc; int unk14e0; int unk14e4; int unk14e8; int unk14ec; int unk14f0; int unk14f4; int unk14f8; int unk14fc; int unk1500; int unk1504; int unk1508; int unk150c; int unk1510; int unk1514; int unk1518; int unk151c; int unk1520; int unk1524; int unk1528; int unk152c; int unk1530; int unk1534; int unk1538; int unk153c; int unk1540; int unk1544; int unk1548; int unk154c; int unk1550; int unk1554; int unk1558; int unk155c; int unk1560; int unk1564; int unk1568; int unk156c; int unk1570; int unk1574; int unk1578; int unk157c; int unk1580; int unk1584; int unk1588; int unk158c; int unk1590; int unk1594; int unk1598; int unk159c; int unk15a0; int unk15a4; int unk15a8; int unk15ac; int unk15b0; int unk15b4; int unk15b8; int unk15bc; int unk15c0; int unk15c4; int unk15c8; int unk15cc; int unk15d0; int unk15d4; int unk15d8; int unk15dc; int unk15e0; int unk15e4; int unk15e8; int unk15ec; int unk15f0; int unk15f4; int unk15f8; int unk15fc; int unk1600; int unk1604; int unk1608; int unk160c; int unk1610; int unk1614; int unk1618; int unk161c; int unk1620; int unk1624; int unk1628; int unk162c; int unk1630; int unk1634; int unk1638; int unk163c; int unk1640; int unk1644; int unk1648; int unk164c; int unk1650; int unk1654; int unk1658; int unk165c; int unk1660; int unk1664; int unk1668; int unk166c; int unk1670; int unk1674; int unk1678; int unk167c; int unk1680; int unk1684; int unk1688; int unk168c; int unk1690; int unk1694; int unk1698; int unk169c; int unk16a0; int unk16a4; int unk16a8; int unk16ac; int unk16b0; int unk16b4; int unk16b8; int unk16bc; int unk16c0; int unk16c4; int unk16c8; int unk16cc; int unk16d0; int unk16d4; int unk16d8; int unk16dc; int unk16e0; int unk16e4; int unk16e8; int unk16ec; int unk16f0; int unk16f4; int unk16f8; int unk16fc; int unk1700; int unk1704; int unk1708; int unk170c; int unk1710; int unk1714; int unk1718; int unk171c; int unk1720; int unk1724; int unk1728; int unk172c; int unk1730; int unk1734; int unk1738; int unk173c; int unk1740; int unk1744; int unk1748; int unk174c; int unk1750; int unk1754; int unk1758; int unk175c; int unk1760; int unk1764; int unk1768; int unk176c; int unk1770; int unk1774; int unk1778; int unk177c; int unk1780; int unk1784; int unk1788; int unk178c; int unk1790; int unk1794; int unk1798; int unk179c; int unk17a0; int unk17a4; int unk17a8; int unk17ac; int unk17b0; int unk17b4; int unk17b8; int unk17bc; int unk17c0; int unk17c4; int unk17c8; int unk17cc; int unk17d0; int unk17d4; int unk17d8; int unk17dc; int unk17e0; int unk17e4; int unk17e8; int unk17ec; int unk17f0; int unk17f4; int unk17f8; int unk17fc; int unk1800; int unk1804; int unk1808; int unk180c; int unk1810; int unk1814; int unk1818; int unk181c; int unk1820; int unk1824; int unk1828; int unk182c; int unk1830; int unk1834; int unk1838; int unk183c; int unk1840; int unk1844; int unk1848; int unk184c; int unk1850; int unk1854; int unk1858; int unk185c; int unk1860; int unk1864; int unk1868; int unk186c; int unk1870; int unk1874; int unk1878; int unk187c; int unk1880; int unk1884; int unk1888; int unk188c; int unk1890; int unk1894; int unk1898; int unk189c; int unk18a0; int unk18a4; int unk18a8; int unk18ac; int unk18b0; int unk18b4; int unk18b8; int unk18bc; int unk18c0; int unk18c4; int unk18c8; int unk18cc; int unk18d0; int unk18d4; int unk18d8; int unk18dc; int unk18e0; int unk18e4; int unk18e8; int unk18ec; int unk18f0; int unk18f4; int unk18f8; int unk18fc; int unk1900; int unk1904; int unk1908; int unk190c; int unk1910; int unk1914; int unk1918; int unk191c; int unk1920; int unk1924; int unk1928; int unk192c; int unk1930; int unk1934; int unk1938; int unk193c; int unk1940; int unk1944; int unk1948; int unk194c; int unk1950; int unk1954; int unk1958; int unk195c; int unk1960; int unk1964; int unk1968; int unk196c; int unk1970; int unk1974; int unk1978; int unk197c; int unk1980; int unk1984; int unk1988; int unk198c; int unk1990; int unk1994; int unk1998; int unk199c; int unk19a0; int unk19a4; int unk19a8; int unk19ac; int unk19b0; int unk19b4; int unk19b8; int unk19bc; int unk19c0; int unk19c4; int unk19c8; int unk19cc; int unk19d0; int unk19d4; int unk19d8; int unk19dc; int unk19e0; int unk19e4; int unk19e8; int unk19ec; int unk19f0; int unk19f4; int unk19f8; int unk19fc; int unk1a00; int unk1a04; int unk1a08; int unk1a0c; int unk1a10; int unk1a14; int unk1a18; int unk1a1c; int unk1a20; int unk1a24; int unk1a28; int unk1a2c; int unk1a30; int unk1a34; int unk1a38; int unk1a3c; int unk1a40; int unk1a44; int unk1a48; int unk1a4c; int unk1a50; int unk1a54; int unk1a58; int unk1a5c; int unk1a60; int unk1a64; int unk1a68; int unk1a6c; int unk1a70; int unk1a74; int unk1a78; int unk1a7c; int unk1a80; int unk1a84; int unk1a88; int unk1a8c; int unk1a90; int unk1a94; int unk1a98; int unk1a9c; int unk1aa0; int unk1aa4; int unk1aa8; int unk1aac; int unk1ab0; int unk1ab4; int unk1ab8; int unk1abc; int unk1ac0; int unk1ac4; int unk1ac8; int unk1acc; int unk1ad0; int unk1ad4; int unk1ad8; int unk1adc; int unk1ae0; int unk1ae4; int unk1ae8; int unk1aec; int unk1af0; int unk1af4; int unk1af8; int unk1afc; int unk1b00; int unk1b04; int unk1b08; int unk1b0c; int unk1b10; int unk1b14; int unk1b18; int unk1b1c; int unk1b20; int unk1b24; int unk1b28; int unk1b2c; int unk1b30; int unk1b34; int unk1b38; int unk1b3c; int unk1b40; int unk1b44; int unk1b48; int unk1b4c; int unk1b50; int unk1b54; int unk1b58; int unk1b5c; int unk1b60; int unk1b64; int unk1b68; int unk1b6c; int unk1b70; int unk1b74; int unk1b78; int unk1b7c; int unk1b80; int unk1b84; int unk1b88; int unk1b8c; int unk1b90; int unk1b94; int unk1b98; int unk1b9c; int unk1ba0; int unk1ba4; int unk1ba8; int unk1bac; int unk1bb0; int unk1bb4; int unk1bb8; int unk1bbc; int unk1bc0; int unk1bc4; int unk1bc8; int unk1bcc; int unk1bd0; int unk1bd4; int unk1bd8; int unk1bdc; int unk1be0; int unk1be4; int unk1be8; int unk1bec; int unk1bf0; int unk1bf4; int unk1bf8; int unk1bfc; int unk1c00; int unk1c04; int unk1c08; int unk1c0c; int unk1c10; int unk1c14; int unk1c18; int unk1c1c; int unk1c20; int unk1c24; int unk1c28; int unk1c2c; int unk1c30; int unk1c34; int unk1c38; int unk1c3c; int unk1c40; int unk1c44; int unk1c48; int unk1c4c; int unk1c50; int unk1c54; int unk1c58; int unk1c5c; int unk1c60; int unk1c64; int unk1c68; int unk1c6c; int unk1c70; int unk1c74; int unk1c78; int unk1c7c; int unk1c80; int unk1c84; int unk1c88; int unk1c8c; int unk1c90; int unk1c94; int unk1c98; int unk1c9c; int unk1ca0; int unk1ca4; int unk1ca8; int unk1cac; int unk1cb0; int unk1cb4; int unk1cb8; int unk1cbc; int unk1cc0; int unk1cc4; int unk1cc8; int unk1ccc; int unk1cd0; int unk1cd4; int unk1cd8; int unk1cdc; int unk1ce0; int unk1ce4; int unk1ce8; int unk1cec; int unk1cf0; int unk1cf4; int unk1cf8; int unk1cfc; int unk1d00; int unk1d04; int unk1d08; int unk1d0c; int unk1d10; int unk1d14; int unk1d18; int unk1d1c; int unk1d20; int unk1d24; int unk1d28; int unk1d2c; int unk1d30; int unk1d34; int unk1d38; int unk1d3c; int unk1d40; int unk1d44; int unk1d48; int unk1d4c; int unk1d50; int unk1d54; int unk1d58; int unk1d5c; int unk1d60; int unk1d64; int unk1d68; int unk1d6c; int unk1d70; int unk1d74; int unk1d78; int unk1d7c; int unk1d80; int unk1d84; int unk1d88; int unk1d8c; int unk1d90; int unk1d94; int unk1d98; int unk1d9c; int unk1da0; int unk1da4; int unk1da8; int unk1dac; int unk1db0; int unk1db4; int unk1db8; int unk1dbc; int unk1dc0; int unk1dc4; int unk1dc8; int unk1dcc; int unk1dd0; int unk1dd4; int unk1dd8; int unk1ddc; int unk1de0; int unk1de4; int unk1de8; int unk1dec; int unk1df0; int unk1df4; int unk1df8; int unk1dfc; int unk1e00; int unk1e04; int unk1e08; int unk1e0c; int unk1e10; int unk1e14; int unk1e18; int unk1e1c; int unk1e20; int unk1e24; int unk1e28; int unk1e2c; int unk1e30; int unk1e34; int unk1e38; int unk1e3c; int unk1e40; int unk1e44; int unk1e48; int unk1e4c; int unk1e50; int unk1e54; int unk1e58; int unk1e5c; int unk1e60; int unk1e64; int unk1e68; int unk1e6c; int unk1e70; int unk1e74; int unk1e78; int unk1e7c; int unk1e80; int unk1e84; int unk1e88; int unk1e8c; int unk1e90; int unk1e94; int unk1e98; int unk1e9c; int unk1ea0; int unk1ea4; int unk1ea8; int unk1eac; int unk1eb0; int unk1eb4; int unk1eb8; int unk1ebc; int unk1ec0; int unk1ec4; int unk1ec8; int unk1ecc; int unk1ed0; int unk1ed4; int unk1ed8; int unk1edc; int unk1ee0; int unk1ee4; int unk1ee8; int unk1eec; int unk1ef0; int unk1ef4; int unk1ef8; int unk1efc; int unk1f00; int unk1f04; int unk1f08; int unk1f0c; int unk1f10; int unk1f14; int unk1f18; int unk1f1c; int unk1f20; int unk1f24; int unk1f28; int unk1f2c; int unk1f30; int unk1f34; int unk1f38; int unk1f3c; int unk1f40; int unk1f44; int unk1f48; int unk1f4c; int unk1f50; int unk1f54; int unk1f58; int unk1f5c; int unk1f60; int unk1f64; int unk1f68; int unk1f6c; int unk1f70; int unk1f74; int unk1f78; int unk1f7c; int unk1f80; int unk1f84; int unk1f88; int unk1f8c; int unk1f90; int unk1f94; int unk1f98; int unk1f9c; int unk1fa0; int unk1fa4; int unk1fa8; int unk1fac; int unk1fb0; int unk1fb4; int unk1fb8; int unk1fbc; int unk1fc0; int unk1fc4; int unk1fc8; int unk1fcc; int unk1fd0; int unk1fd4; int unk1fd8; int unk1fdc; int unk1fe0; int unk1fe4; int unk1fe8; int unk1fec; int unk1ff0; int unk1ff4; int unk1ff8; int unk1ffc; int unk2000; int unk2004; int unk2008; int unk200c; int unk2010; int unk2014; int unk2018; int unk201c; int unk2020; int unk2024; int unk2028; int unk202c; int unk2030; int unk2034; int unk2038; int unk203c; int unk2040; int unk2044; int unk2048; int unk204c; int unk2050; int unk2054; Params* params;
@@ -18725,7 +19073,7 @@ bool Walker::FUN_005d7000() {
    }
  }
  if (adjustHeight) {
-   scalar=((HeightManager*)DAT_0107a0d8)->FUN_00434200(&hit.p,hit.node->FUN_005b8480());
+   scalar=((HeightManager*)DAT_0107a0d8)->TES_GetWaterHeight(&hit.p,hit.node->FUN_005b8480());
    if (scalar>=hit.p.z) hit.p.z=scalar;
  }
  { P delta; delta.x=dest.x-start.p.x; delta.y=dest.y-start.p.y; delta.z=dest.z-start.p.z;
@@ -18747,7 +19095,7 @@ bool Walker::FUN_005d7000() {
 // @f3 0x005cc560 (community match, verified in this file)
 namespace n5cc560 {
 extern int DAT_00e27ed4;
-struct Pool { void* FUN_0086c710(unsigned int size, int tag); };
+struct Pool { void* ScrapHeap_Allocate(unsigned int size, int tag); };
 struct Entry {
     float value;
     float unk04;
@@ -18756,7 +19104,7 @@ struct Entry {
     unsigned int key;
     Entry* next;
     Entry() { value = 0.0f; unk04 = 0.0f; unk28 = 0; unk2C = 0; unk30 = 0; key = 0; next = 0; }
-    static void* operator new(unsigned int size, Pool& pool) throw() { return pool.FUN_0086c710(size, DAT_00e27ed4); }
+    static void* operator new(unsigned int size, Pool& pool) throw() { return pool.ScrapHeap_Allocate(size, DAT_00e27ed4); }
     static void operator delete(void* p, Pool& pool) {}
 };
 struct Lru { void FUN_005cc0b0(Entry* e); };
@@ -18778,6 +19126,8 @@ struct Cache {
     }
     int FUN_005cc560(unsigned int key, float value, Entry** out);
 };
+// pdb: AStarSearch<NavMeshSearchNode,NavMeshSearchLink>::GetOrCreateAStarNode | NavMeshSearch.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiKey, afCost, aRetNode
 int Cache::FUN_005cc560(unsigned int key, float value, Entry** out)
 {
     Entry** bucket = &buckets[key % 2039];
@@ -18897,6 +19247,8 @@ struct Planner
     void FUN_005ccbc0(int v, Rec* a3, unsigned int a4);
 };
 
+// pdb: NavMeshSearchHide::BuildNodePath | NavMeshSearchHide.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apRequest, aStartNode, apReturnNodeArray, apReturnLinkArray
 bool Planner::FUN_005cf370(Mover* m, Key* k, Rec* a3, unsigned int a4)
 {
     mover = m;
@@ -18968,6 +19320,8 @@ struct Finder {
     bool FUN_005d79d0(Node* node, void* arg);
 };
 
+// pdb: PathSmootherPOVSearch::GetNodeConnections | PathSmootherPOV.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode, apRetNodes
 bool Finder::FUN_005d79d0(Node* node, void* arg)
 {
     FUN_005d66a0(node, self20c8, arg);
@@ -19059,7 +19413,8 @@ struct FileResolver861 {
     unsigned char FUN_00447100();
 };
 
-__declspec(noinline) void __cdecl FUN_00454a40(unsigned* key, EndianFile* file) {
+// pdb: TESForm::AddCompileIndex | TESForm.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq) + skyrim(call_gap), high
+__declspec(noinline) void __cdecl TESForm_AddCompileIndex(unsigned* key, EndianFile* file) {
     unsigned id = *key;
     if (id && id <= 0x7ff) return;
     if (file) {
@@ -19083,6 +19438,8 @@ struct ResolvedHandle {
     void FUN_005c41f0(void* unused, EndianFile* file, SerializedHandle* input);
 };
 
+// pdb: NavMeshTriangleEdgePortal::Load | NavMeshPortal.obj | fnv360_0822_retail, callee_sim, low, conflict (bridge: ExtraDataList::SetRoomLinkedRefData)
+// pdb params: apOwner, apFile, pBuffer
 void ResolvedHandle::FUN_005c41f0(void* unused, EndianFile* file, SerializedHandle* input)
 {
     EndianFile* f = file;
@@ -19090,7 +19447,7 @@ void ResolvedHandle::FUN_005c41f0(void* unused, EndianFile* file, SerializedHand
     unsigned key = input->id;
     if (f->swapWords)
         key = _byteswap_ulong(key);
-    FUN_00454a40(&key, f);
+    TESForm_AddCompileIndex(&key, f);
     unsigned resolvedKey = *(volatile unsigned*)&key;
     if (resolvedKey) {
         HandleGroup* group = ((HandleManager*)DAT_0107a0d8)->FUN_00433ff0();
@@ -19246,6 +19603,8 @@ __forceinline Vec3 Cross(const Vec3& left, const Vec3& right)
                 left.x * right.y - left.y * right.x);
 }
 
+// pdb: PathSmootherPOVSearch::CheckAndAddNodeConnection | PathSmootherPOV.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: apNode, apPOV, apRetNodes
 void Owner::FUN_005d7c70()
 {
     FUN_005d4bb0();
@@ -19695,6 +20054,8 @@ __forceinline void Search::SetSample(const Mesh* selected, unsigned short sample
     sampled = true;
 }
 
+// pdb: NavMeshSearchMaxCost::BuildNodePath | NavMeshSearchMaxCost.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apRequest, aStartNode, aOptimalLocation, apReturnNodeArray, apReturnLinkArray
 bool Search::FUN_005d0840(unsigned int inputMode, const Location* location, Cell* cell,
                         Output* first, Output* second)
 {
@@ -19828,6 +20189,8 @@ __forceinline void CopyArray6::SetSize(unsigned int size, bool shrink)
     }
 }
 
+// pdb: BSSimpleArray<NavMeshBounds::NavMeshBoundsTriangle,1024>::CopyTo<1024> | NavMeshBounds.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aDestArray
 void CopyArray6::FUN_005c30a0(CopyArray6* apTarget)
 {
     apTarget->SetSize(iSize, true);
@@ -19995,6 +20358,7 @@ struct Owner516 {
 
 
 
+// pdb: NavMesh::ClearAllObstacles | NavMesh_Util.obj | fnv360_0721_beta, objrun, medium
 void Owner516::FUN_005c1610() {
     Pair516 pair;
     int count = unkd8;
@@ -20573,6 +20937,8 @@ public:
     bool FUN_005cdad0(QParam* p);
 };
 
+// pdb: NavMeshSearchClosePoint::IsGoalNode | NavMeshSearchClosePoint.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode
 bool QOwner::FUN_005cdad0(QParam* p)
 {
     QPoint pos(p->x, p->y, p->z);
@@ -20600,6 +20966,8 @@ bool QOwner::FUN_005cdad0(QParam* p)
 namespace f3m_005dda30 {
 struct S5dda30_Vec3 { float x, y, z; };
 
+// pdb: NavMeshMath::ClosestPointOnSegmentToLine | NavMeshMath.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aSegmentStart, aSegmentEnd, aLineStart, aLineEnd
 S5dda30_Vec3 __cdecl FUN_005dda30(const S5dda30_Vec3* a, const S5dda30_Vec3* b, const S5dda30_Vec3* c, const S5dda30_Vec3* d)
 {
     if (a->x == b->x && a->y == b->y && a->z == b->z) {
@@ -20652,7 +21020,7 @@ struct Mesh {
 };
 Point* __cdecl FUN_005dda30(Point*,const Point*,const Point*,const Point*,const Point*);
 bool __cdecl FUN_005dd580(const Point*,const Point*,const Point*,const Point*,Point*);
-struct Location {void* FUN_005fc730();};
+struct Location {void* PathingLocation_GetCell();};
 struct BackRecord {
  int unk00; Location unk04; Point unk08; int unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38;
  Point position(){return unk08;}
@@ -20676,7 +21044,7 @@ struct Route {
  BackRecord* back(){if(nodes.GetSize()==0)return 0;return &nodes.GetLastEdge();}
  void FUN_005c5cf0(const FUN_005fc5a0*,const Point*);
 };
-struct HeightQuery {float FUN_00434200(const Point*,void*);};
+struct HeightQuery {float TES_GetWaterHeight(const Point*,void*);};
 struct Walker {
  void FUN_005d4250(Mesh*,unsigned short,const Point*,const Point*);
  Route* route(){return *(Route**)((char*)this+0x205c);}
@@ -20717,7 +21085,7 @@ void Walker::FUN_005d4250(Mesh* mesh,unsigned short index,const Point* from,cons
     if((hit-start).square()>DAT_00dbf408 && (hit-end).square()>DAT_00dbf408) {
      if(route()->back() && (hit-route()->back()->position()).square()>DAT_00dbf408) {
       if(useHeight()) {
-       float height=((HeightQuery*)::DAT_0107a0d8)->FUN_00434200(&hit,route()->back()->unk04.FUN_005fc730());
+       float height=((HeightQuery*)::DAT_0107a0d8)->TES_GetWaterHeight(&hit,route()->back()->unk04.PathingLocation_GetCell());
        if(height>=hit.z) hit.z=height;
       }
       FUN_005fc5a0 point(&hit,here.mesh->FUN_005b84c0(),here.index);
@@ -20735,7 +21103,7 @@ void Walker::FUN_005d4250(Mesh* mesh,unsigned short index,const Point* from,cons
 // @f3 0x005d8840 (community match, verified in this file)
 #include <intrin.h>
 struct EndianFile;
-void FUN_00454a40(unsigned* id, EndianFile* file);
+void TESForm_AddCompileIndex(unsigned* id, EndianFile* file);
 namespace f3m_005d8840 {
 inline void Sw(unsigned* v) { *v = _byteswap_ulong(*v); }
 inline void SwV(unsigned* v) { *v = _byteswap_ulong(*(volatile unsigned*)v); }
@@ -20755,15 +21123,17 @@ struct Owner5d8840 {
     Bounds5d8840* bounds;
     void FUN_005d8840(const char* src, EndianFile* file, int version);
 };
+// pdb: NavMeshInfo::SetFromInfoChunk | NavMeshInfo.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apChunkBuffer, apFile, aiFileVersionNumber
 void Owner5d8840::FUN_005d8840(const char* src, EndianFile* file, int version)
 {
     flags = *(const unsigned*)src;
     bool sw = file->swapWords; if (sw) Sw(&flags);
     src += 4;
     Rd(&navID, src, file);
-    FUN_00454a40(&navID, file);
+    TESForm_AddCompileIndex(&navID, file);
     Rd(&parentID, src, file);
-    FUN_00454a40(&parentID, file);
+    TESForm_AddCompileIndex(&parentID, file);
     Rd(&pathFlags, src, file);
     pos0 = ((const unsigned*)src)[0];
     pos1 = ((const unsigned*)src)[1];
@@ -20794,7 +21164,7 @@ namespace f3m_005d9f90 {
 namespace f3m_005d9f90 {
 
 
-extern "C" void* __cdecl FUN_00455190(unsigned int id);
+extern "C" void* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 extern "C" void* __cdecl FUN_00c0050a(void* a, int b, void* c, void* d, int e);
 extern "C" bool __cdecl FUN_00b5a980(void* elem, void* ctx);
 
@@ -20841,6 +21211,8 @@ public:
     void FUN_005d9f90(Entry5d9f90* entry);
 };
 
+// pdb: NavMeshInfoMap::RemoveInfoFromCellKeyMap | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNavMeshInfo
 void Owner5d9f90::FUN_005d9f90(Entry5d9f90* entry)
 {
     unsigned obj;
@@ -20850,7 +21222,7 @@ void Owner5d9f90::FUN_005d9f90(Entry5d9f90* entry)
     if (e->unk1C)
         p = e->unk1C;
     else
-        p = FUN_00455190(e->unk04);
+        p = TESForm_GetFormByNumericID(e->unk04);
 
     Map5d9f90* cast = (Map5d9f90*)FUN_00c0050a(p, 0, &DAT_00f46078, &DAT_00f47a3c, 0);
     if (cast)
@@ -20860,7 +21232,7 @@ void Owner5d9f90::FUN_005d9f90(Entry5d9f90* entry)
 
     void* q = entry->unk1C;
     if (!q)
-        q = FUN_00455190(entry->unk04);
+        q = TESForm_GetFormByNumericID(entry->unk04);
     unsigned key;
     if (FUN_00c0050a(q, 0, &DAT_00f46078, &DAT_00f47a3c, 0))
         key = 0;
@@ -21315,6 +21687,8 @@ public:
 __forceinline float Distance(Point a, Point b) { return (a - b).Length(); }
 __forceinline float GetDistance(const Location* a, const Location* b) { return Distance(a->point, b->point); }
 
+// pdb: NavMeshSearch::BuildNodePath | NavMeshSearch.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRequest, aStartNode, aGoalNode, apReturnNodeArray, apReturnLinkArray, apHighLevelSolution
 bool Search::FUN_005cd600(Request* req, const Location* from, const Location* to, Output* first, Output* second,
                           EntryList* list)
 {
@@ -21424,6 +21798,7 @@ struct Owner5DFA {
     void FUN_005dfa80();
 };
 
+// pdb: NavMeshObstacleCutter::RemovePOVs | NavMeshObstacleCutter.obj | fnv360_0721_beta, objrun, medium
 void Owner5DFA::FUN_005dfa80()
 {
     for (unsigned i = 0; i < source->size; ++i) {
@@ -21697,6 +22072,8 @@ struct QueryOwner : Owner {
     float FUN_005c46e0(QueryObject* source, Arc arc, QueryObject* ignored);
 };
 
+// pdb: NavMeshPOVSearch::CheckArcAgainstNavMesh2 | NavMeshPOVSearch.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aEntryLocation, aSphere, aArc, apReturnLocation
 float QueryOwner::FUN_005c46e0(QueryObject* source, Arc arc, QueryObject* ignored)
 {
     Sph ss;
@@ -21749,7 +22126,7 @@ public:
     bool FUN_00501100();
 };
 namespace n5db4a0 {
-TESForm* __cdecl FUN_00455190(unsigned int formID);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 struct Heap { void* FUN_0086b930(unsigned int size); void FUN_0086ba60(void* p); };
 extern Heap DAT_01090a78;
 extern void* DAT_00e00d68;
@@ -21767,7 +22144,7 @@ struct Info {
     __forceinline TESObjectCELL* GetCell()
     {
         TESForm* form = parent;
-        if (!form) form = FUN_00455190(parentID);
+        if (!form) form = TESForm_GetFormByNumericID(parentID);
         return dynamic_cast<TESObjectCELL*>(form);
     }
 };
@@ -21861,6 +22238,8 @@ struct Owner {
 };
 }
 
+// pdb: NavMeshInfoMap::AddInfoToCellKeyMap | NavMeshInfoMap.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNavMeshInfo
 void n5db4a0::Owner::FUN_005db4a0(Info* info)
 {
     TESObjectCELL* cell = info->GetCell();
@@ -21872,7 +22251,7 @@ void n5db4a0::Owner::FUN_005db4a0(Info* info)
         if (!id) {
             hashSize = 1009;
         } else {
-            TESForm* form = FUN_00455190(id);
+            TESForm* form = TESForm_GetFormByNumericID(id);
             if (form && !form->FUN_00501100())
                 hashSize = 1009;
         }
@@ -21905,6 +22284,8 @@ public:
 };
 // Distance from a point to the segment start..end; *onSegment says whether the closest point lies
 // strictly inside the segment. The two dot products and their quotient are kept in double.
+// pdb: NavMeshMath::DistanceFromSegment | NavMeshMath.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aPoint, aLineStart, aLineEnd, apRetInSegment
 float FUN_005dce20(const NiPoint3& point, const NiPoint3& start, const NiPoint3& end, bool* onSegment)
 {
     NiPoint3 v = end - start;
@@ -22102,7 +22483,7 @@ struct SearchKey {
     int unk08;
 };
 
-struct World { float FUN_00434200(const Point* point, void* cell); };
+struct World { float TES_GetWaterHeight(const Point* point, void* cell); };
 extern World* DAT_0107a0d8;
 extern const float DAT_00de7c24;
 extern const float DAT_00dfcd00;
@@ -22163,6 +22544,8 @@ struct PathSmoother {
                       const Point* goal, Solution* solution, EdgeArray* output, int arg8);
 };
 
+// pdb: PathSmootherPOVSearch::SmoothPath | PathSmootherPOV.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apRequest, aTriSolution, aLinks, aStartLocation, aGoalLocation, apSolution, apBadNodeArray, apDetailedPathInfos
 bool PathSmoother::FUN_005d81b0(Request* request, TriangleArray* triangles, EdgeArray* edges, const Point* start,
                                 const Point* goal, Solution* solution, EdgeArray* output, int arg8)
 {
@@ -22178,7 +22561,7 @@ bool PathSmoother::FUN_005d81b0(Request* request, TriangleArray* triangles, Edge
     bool startOk;
     if (triangles->data[0].Cell()) {
         c.z = triangles->data[0].centerZ;
-        startOk = c.z < DAT_0107a0d8->FUN_00434200(start, triangles->data[0].mesh->FUN_005b8480()) + 50.0;
+        startOk = c.z < DAT_0107a0d8->TES_GetWaterHeight(start, triangles->data[0].mesh->FUN_005b8480()) + 50.0;
     } else {
         startOk = true;
     }
@@ -22191,7 +22574,7 @@ bool PathSmoother::FUN_005d81b0(Request* request, TriangleArray* triangles, Edge
     bool goalOk = false;
     if (!((unsigned)(request->flags5a & 2) > 0) && triangles->data[triangles->size - 1].Cell()) {
         c.z = triangles->data[triangles->size - 1].centerZ;
-        if (c.z < DAT_0107a0d8->FUN_00434200(goal, triangles->data[triangles->size - 1].mesh->FUN_005b8480()) + 50.0)
+        if (c.z < DAT_0107a0d8->TES_GetWaterHeight(goal, triangles->data[triangles->size - 1].mesh->FUN_005b8480()) + 50.0)
             goalOk = true;
     }
     if (!goalOk) {
@@ -22533,6 +22916,8 @@ inline Vec3 Scale(const Vec2& v, float f)
 
 // Walks around the sphere from 'from' towards 'to' in 15-degree steps (at most 24), querying the path grid at each
 // point on the rim, and finishes with the point along 'to'.  The last query result is always copied to 'out'.
+// pdb: PathSmootherPOVSearch::CheckArcAgainstNavMesh | PathSmootherPOV.obj | fnv360_0721_beta, call_gap, low
+// pdb params: aEntryLocation, aSphere, aArc, apReturnLocation
 bool Pather::FUN_005d2e50(const Loc* start, const Sphere* sph, Vec2 from, Vec2 to, int reverse, Loc* out)
 {
     float angle = reverse == 0 ? DAT_00e00ea4 : DAT_00e00ea0;
@@ -22596,8 +22981,8 @@ struct AirPoint3 {
  AirPoint3 operator-(const AirPoint3& b) const {AirPoint3 r=*this; r.x-=b.x;r.y-=b.y;r.z-=b.z;return r;}
  AirPoint3 operator+(const AirPoint3& b) const {AirPoint3 r=*this; r.x+=b.x;r.y+=b.y;r.z+=b.z;return r;}
  AirPoint3 operator*(float b) const {AirPoint3 r=*this; r.x*=b;r.y*=b;r.z*=b;return r;}
- float dot(const AirPoint3& b) const {float r=y*b.y+x*b.x+z*b.z;return r;}   // named result: see the note at FUN_005d1610
- float FUN_00457910();   // FUN_00432c00: Unitize (normalise in place, return the length)
+ float dot(const AirPoint3& b) const {float r=y*b.y+x*b.x+z*b.z;return r;}   // named result: see the note at NavMeshSearchSLPoint_IsGoalNode
+ float FUN_00457910();   // NiPoint3_UnitizeGetLength: Unitize (normalise in place, return the length)
 };
 // The callee body is visible (noinline): with it the compiler sees that temp.FUN_00457910() does not let
 // temp escape, which puts temp in the stack slot of d and start in its own slot, as in the original.
@@ -22637,12 +23022,13 @@ struct QueryVolume {
  AirPoint3 hit, axis, origin;
  float innerRadius,outerRadius,unk20f8,spacing;
  bool FUN_005d0f30(AirPoint3* point,AirPoint3* center,QueryMesh* mesh,AirPoint3* hit);
- bool FUN_005d1610(QueryInput* input);
+ bool NavMeshSearchSLPoint_IsGoalNode(QueryInput* input);
 };
 // Guess at the source: the named results (found, wide, the point reference, r in dot, v in GetVertexV) emit no
 // code; each adds one compiler number, and together they give the x product of the first dot its operand
 // order (fld [d.x] first at +0x269).
-bool QueryVolume::FUN_005d1610(QueryInput* input) {
+// pdb: NavMeshSearchSLPoint::IsGoalNode | NavMeshSearchSLPoint.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool QueryVolume::NavMeshSearchSLPoint_IsGoalNode(QueryInput* input) {
  unsigned short tri=input->triangle;
  QueryMesh* mesh=input->mesh;
  AirPoint3 out;
@@ -22880,7 +23266,7 @@ struct Context {
  ~Context(){TLSData.tag=oldTag;}
 };
 
-struct File:EndianFile {unsigned char FUN_00448cc0();int FUN_004487d0();void FUN_00447d60(void*,unsigned);bool FUN_00447020();};
+struct File:EndianFile {unsigned char TESFile_GetTESForm();int TESFile_GetTESChunk();void FUN_00447d60(void*,unsigned);bool TESFile_NextChunk();};
 struct Array {void* table;void* data;unsigned count,capacity;void*& GetAt(unsigned i) const {return ((void**)data)[i];} void SetAt(unsigned i,void* const& p){((void**)data)[i]=p;} void FUN_00602700(Array*);};
 extern char DAT_00e00d68[],DAT_00dd8fd0[];
 extern void (__thiscall *DAT_00e00d70)(Array*,void*);
@@ -22934,7 +23320,7 @@ __declspec(noinline) void Map::FUN_0089a5d0(Node** cursor,unsigned* key,FUN_005d
  while(bucket<count) {if(data[bucket]) {*cursor=data[bucket]; return;} ++bucket;}
  *cursor=0;
 }
-void __cdecl FUN_00454a40(unsigned*,File*);
+void __cdecl TESForm_AddCompileIndex(unsigned*,File*);
 struct Owner {
  virtual void v000();
  virtual void v004();
@@ -23019,6 +23405,8 @@ struct Owner {
  void FUN_00454410(File*);
  bool FUN_005da410(File*);
 };
+// pdb: NavMeshInfoMap::Load | NavMeshInfoMap.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Owner::FUN_005da410(File* file){
  Context context(0x2e);
  if(dirty){
@@ -23035,12 +23423,12 @@ bool Owner::FUN_005da410(File* file){
  }
  int capacity=0x9b0;
  void* buffer=DAT_01090a78.FUN_0086b930(capacity);
- if(file->FUN_00448cc0()!=0x38)return false;
+ if(file->TESFile_GetTESForm()!=0x38)return false;
  FUN_00454410(file);
  int version=1;
  FUN_005d8be0* connection;
  do{
-  switch(file->FUN_004487d0()){
+  switch(file->TESFile_GetTESChunk()){
   case 0x444e424f:ReadBounds(file);break;
   case 0x44494445:{
    char* id=(char*)_alloca(file->unk25C);
@@ -23052,7 +23440,7 @@ bool Owner::FUN_005da410(File* file){
    file->FUN_00447d60(buffer,bytes);
    unsigned id=*(unsigned*)buffer;
    if(file->swapWords)id=_byteswap_ulong(id);
-   FUN_00454a40(&id,file);
+   TESForm_AddCompileIndex(&id,file);
    if(!map.FUN_00bea7b0(id,connection))return false;
    if(version>=5)connection->FUN_005d8d70((unsigned*)buffer+1,file,version);
    break;
@@ -23090,7 +23478,7 @@ bool Owner::FUN_005da410(File* file){
    break;
   }
   }
- }while(file->FUN_00447020());
+ }while(file->TESFile_NextChunk());
  DAT_01090a78.FUN_0086ba60(buffer);
  return true;
 }
@@ -23217,7 +23605,7 @@ extern double DAT_00dbe5e0;
 namespace Sol61Local { extern PointZ DAT_0108ec68; }
 struct SceneZ { bool FUN_00606df0(RefZ*,bool); };
 SceneZ* __cdecl FUN_0044f4b0();
-NiNode* __cdecl FUN_00ab1a80(float,int,int,ColorZ*);
+NiNode* __cdecl BSTestObjects_CreateSphere(float,int,int,ColorZ*);
 void __cdecl FUN_0047acf0(NiNode*);
 void __cdecl FUN_00ade300(NiNode*,int,int);
 ThreadZ* __cdecl FUN_00bce1f0();
@@ -23234,6 +23622,8 @@ unsigned int unk20d8; unsigned int unk20dc; unsigned int unk20e0; unsigned int u
  void* FUN_005c5f90();void FUN_005c6180(void*,void*,void*);
  unsigned Count() const { return groupCount; } bool FUN_005c7ee0(FUN_005fc4d0*,FUN_005fc4d0*,void*,void*,OutputZ*);
 };
+// pdb: NavMeshPOVSearch::BuildPath | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aStartLocation, aGoalLocation, apList, apRequest, apSolution
 bool PathZ::FUN_005c7ee0(FUN_005fc4d0* from, FUN_005fc4d0* to, void* route, void* ctx, OutputZ* out)
 {
     context = ctx;
@@ -23255,7 +23645,7 @@ bool PathZ::FUN_005c7ee0(FUN_005fc4d0* from, FUN_005fc4d0* to, void* route, void
                 color.a = DAT_00e00f1c;
                 GroupZ* g1 = &groups[i];
                 EndpointZ*& er = g1->data[j];
-                RefZ node(FUN_00ab1a80(er->radius, 10, 10, &color));
+                RefZ node(BSTestObjects_CreateSphere(er->radius, 10, 10, &color));
                 node.p->position = groups[i].data[j]->pos;
                 NiAlphaProperty* alpha = new NiAlphaProperty;
                 alpha->flags |= 1;
@@ -23547,6 +23937,8 @@ struct Ctx0a80
     Ptv3 FUN_005d0a80(int unk2, const RefKey* a, const Ptv3* dflt, const RefKey* b, float f);
 };
 
+// pdb: NavMeshSearchMaxCost::FindClosestPoint | NavMeshSearchMaxCost.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aStartLocation, aStartNode, aGoalLocation, aGoalNode, afMaxDist
 Ptv3 Ctx0a80::FUN_005d0a80(int unk2, const RefKey* a, const Ptv3* dflt, const RefKey* b, float f)
 {
     Entry* e = &m_205c;
@@ -23665,7 +24057,7 @@ struct NavMesh {
     EdgeData* GetEdgeData(unsigned short i) { return &edges[i]; }
     unsigned short GetEdgeIndex(unsigned short t, int e) const { return triangles[t].edgeDataIndex[e]; }
     EdgeData* GetTriEdge(unsigned short t, int e) { if (GetEdgeIndex(t,e) == 0xffff) return 0; return GetEdgeData(GetEdgeIndex(t,e)); }
-    bool FUN_005b8a30(unsigned short, int, NavMesh**, unsigned short*, int*);
+    bool NavMesh_GetMatchingEdge(unsigned short, int, NavMesh**, unsigned short*, int*);
     Pt3* FUN_004d45e0(Pt3& output, unsigned short index) const;
     unsigned* FUN_005be410(unsigned short);
 };
@@ -23693,7 +24085,7 @@ struct Door {
     unsigned unk018;
     DoorRecord* record;
 };
-Door* __cdecl FUN_00455190(unsigned);
+Door* __cdecl TESForm_GetFormByNumericID(unsigned);
 struct DoorCheck {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14;
     void FUN_004a9de0(Door*);
@@ -23781,6 +24173,8 @@ __declspec(noinline) Pt3* NavMesh::FUN_004d45e0(Pt3& output, unsigned short inde
     output.y = (float)((float)((float)(output.y + second->y) + third->y) * scale);
     output.z = (float)((float)((float)(output.z + second->z) + third->z) * scale);
     return &output;
+// pdb: NavMeshSearchMaxCost::GetNodeConnections | NavMeshSearchMaxCost.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode, apRetNodes
 }bool Search::FUN_005d05b0(Node* source, Output* output)
 {
     for (int edge = 0; edge < 3; ++edge)
@@ -23788,7 +24182,7 @@ __declspec(noinline) Pt3* NavMesh::FUN_004d45e0(Pt3& output, unsigned short inde
         NavMesh* adjacent;
         unsigned short triangle;
         int linked;
-        if (source->location.mesh->FUN_005b8a30(source->location.triangle, edge, &adjacent, &triangle, &linked))
+        if (source->location.mesh->NavMesh_GetMatchingEdge(source->location.triangle, edge, &adjacent, &triangle, &linked))
         {
             NavMesh* mesh = source->location.mesh;
             unsigned short oldTriangle = source->location.triangle;
@@ -23810,7 +24204,7 @@ __declspec(noinline) Pt3* NavMesh::FUN_004d45e0(Pt3& output, unsigned short inde
                 if (config->rejectDoors)
                     continue;
                 unsigned formID = *adjacent->FUN_005be410(triangle);
-                Door* door = FUN_00455190(formID);
+                Door* door = TESForm_GetFormByNumericID(formID);
                 if (door) {
                     DoorCheck check(door);
                     bool detail;
@@ -23869,7 +24263,7 @@ class NiPoint3
     float GetSquaredXYLength() const { return x * x + y * y; }
     float FUN_004a7290() const { return x * x + y * y + z * z; }
     float Length() const { return sqrt(x * x + y * y + z * z); }
-    float FUN_00432c00();
+    float NiPoint3_UnitizeGetLength();
     void FUN_00468d00();
 };
 
@@ -23877,8 +24271,9 @@ class NiPoint3
 // (noinline, as the calls stay calls): with them hidden, every local passed by address counts as escaped,
 // which reorders the location copies, the FUN_005d25a0 call set-up and the node update, and changes the frame.
 
-// FUN_00432c00: unitize in place, return the length (inline NiPoint3 code emitted out of line)
-__declspec(noinline) float NiPoint3::FUN_00432c00()
+// NiPoint3_UnitizeGetLength: unitize in place, return the length (inline NiPoint3 code emitted out of line)
+// pdb: NiPoint3::UnitizeGetLength | TES.obj | fnv360_0822_debug, call_seq + skyrim(caller), high
+__declspec(noinline) float NiPoint3::NiPoint3_UnitizeGetLength()
 {
     float length = Length();
     if (length > 1e-06f)
@@ -23936,7 +24331,7 @@ class NavMesh
 class TES
 {
   public:
-    double FUN_00434200(const NiPoint3& pos, unsigned int moveMode);
+    double TES_GetWaterHeight(const NiPoint3& pos, unsigned int moveMode);
 };
 extern TES* DAT_0107a0d8;
 
@@ -24167,7 +24562,7 @@ class AStarNodeAllocator
     unsigned int m_uiCount;
     unsigned int m_uiFree;
     unsigned int m_uiSize;
-    void* FUN_0086c710(unsigned int size, unsigned int alignment);
+    void* ScrapHeap_Allocate(unsigned int size, unsigned int alignment);
 };
 
 class PathSmootherPOVSearch
@@ -24262,7 +24657,7 @@ __declspec(noinline) int PathSmootherPOVSearch::FUN_005c5e80(unsigned int key, f
             node = node->m_pHashNext;
         }
     }
-    POVNode* item = (POVNode*)m_kNodeAllocator.FUN_0086c710(sizeof(POVNode), DAT_00e27ed4);
+    POVNode* item = (POVNode*)m_kNodeAllocator.ScrapHeap_Allocate(sizeof(POVNode), DAT_00e27ed4);
     if (item)
     {
         item->m_fPathingCostCur = 0.0f;
@@ -24372,6 +24767,8 @@ __declspec(noinline) bool PathSmootherPOVSearch::FUN_005d25a0(const NavMeshEdgeP
     return true;
 }
 
+// pdb: PathSmootherPOVSearch::CheckAndAddNodeConnection | PathSmootherPOV.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apNode, apPOV, apRetNodes
 bool PathSmootherPOVSearch::FUN_005d66a0(const POVNode* node, PathSmootherPOVPoint* pov, POVNodeArray* connections)
 {
     const PathSmootherPOVAvoidanceNode& currentNode = node->FUN_00413f40();
@@ -24395,7 +24792,7 @@ bool PathSmootherPOVSearch::FUN_005d66a0(const POVNode* node, PathSmootherPOVPoi
         if (direction.FUN_004a7290() < pov->fRadius * pov->fRadius)
         {
             direction.z = 0.0f;
-            float radialDistance = direction.FUN_00432c00();
+            float radialDistance = direction.NiPoint3_UnitizeGetLength();
             NiPoint3 leftDirection, rightDirection;
             if (radialDistance < pov->fRadius * 0.5)
             {
@@ -24516,7 +24913,7 @@ bool PathSmootherPOVSearch::FUN_005d66a0(const POVNode* node, PathSmootherPOVPoi
                                                        3.402823466e38f, 3.402823466e38f, projectedPoint.z);
         float heightDelta = projectedPoint.z - endSphere.Center.z;
         if (!((entryLocation.Location.z <
-                   DAT_0107a0d8->FUN_00434200(entryLocation.Location,
+                   DAT_0107a0d8->TES_GetWaterHeight(entryLocation.Location,
                                               entryLocation.m_pLocationNavMesh->FUN_005b8480()) ||
                heightDelta > -64.0f) &&
               heightDelta < 180.0f))
@@ -24766,6 +25163,8 @@ struct Search {
     bool FUN_005c4a10(const EdgeLocation& from, const NiPoint3& target, EdgeLocation& result);
 };
 
+// pdb: NavMeshPOVSearch::CheckSegmentAgainstNavMesh | NavMeshPOVSearch.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aStartLocation, aEndLocation, apReturnLocation
 bool Search::FUN_005c4a10(const EdgeLocation& from, const NiPoint3& target, EdgeLocation& result)
 {
     NiPoint3 end = target;
@@ -25005,7 +25404,7 @@ struct NavMesh
     SimpleArray<NavTri> triangles;
     SimpleArray<EdgeInfo> edgeInfos;
 
-    bool FUN_005b8a30(unsigned short tri, int edge, NavMesh** outMesh, unsigned short* outTri, int* outEdge);
+    bool NavMesh_GetMatchingEdge(unsigned short tri, int edge, NavMesh** outMesh, unsigned short* outTri, int* outEdge);
     Pt3* FUN_004d45e0(Pt3* out, unsigned short tri);
     DoorInfo* FUN_005be410(unsigned short tri);
     unsigned int GetID() { return formID; }
@@ -25051,7 +25450,7 @@ struct DoorRef
     DoorBase* GetBase() { return baseForm; }
 };
 
-void* __cdecl FUN_00455190(unsigned int formID);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 
 struct DoorAccessData
 {
@@ -25135,7 +25534,7 @@ struct TriangleRef
 extern int DAT_00e27ed4;
 struct NodePool
 {
-    void* FUN_0086c710(unsigned int size, int tag);
+    void* ScrapHeap_Allocate(unsigned int size, int tag);
 };
 
 struct SearchNode
@@ -25157,7 +25556,7 @@ struct SearchNode
     SearchNode* hashNext;
     void* GetOwner() const { return positionOwner; }
     SearchNode() { cost = 0.0f; dist = 0.0f; positionOwner = 0; pprev = 0; qnext = 0; key = 0; hashNext = 0; }
-    static void* operator new(unsigned int size, NodePool& pool) throw() { return pool.FUN_0086c710(size, DAT_00e27ed4); }
+    static void* operator new(unsigned int size, NodePool& pool) throw() { return pool.ScrapHeap_Allocate(size, DAT_00e27ed4); }
     static void operator delete(void*, NodePool&) {}
 };
 
@@ -25216,7 +25615,7 @@ struct NavMeshSearchFlee
         return 2;
     }
     int FUN_005cc560(unsigned int key, float cost, SearchNode** result);
-    void FUN_005cec30(SearchNode* node, NavMesh* mesh, unsigned short tri);
+    void NavMeshSearchHide_SetNodeData(SearchNode* node, NavMesh* mesh, unsigned short tri);
     static unsigned int MakeKey(NavMesh* mesh, unsigned short tri) { return (mesh->GetID() << 16) | tri; }
     bool FUN_005cee70(SearchNode* origin, NodeArray* output);
 };
@@ -25244,7 +25643,7 @@ __declspec(noinline) int NavMeshSearchFlee::FUN_005cc560(unsigned int key, float
 }
 
 // Node initialisation of this search (same file, matched): centre, and the distance to the flee point clamped.
-__declspec(noinline) void NavMeshSearchFlee::FUN_005cec30(SearchNode* node, NavMesh* mesh, unsigned short tri)
+__declspec(noinline) void NavMeshSearchFlee::NavMeshSearchHide_SetNodeData(SearchNode* node, NavMesh* mesh, unsigned short tri)
 {
     node->mesh = mesh;
     node->tri = tri;
@@ -25266,6 +25665,8 @@ __declspec(noinline) void NavMeshSearchFlee::FUN_005cec30(SearchNode* node, NavM
 
 extern const double DAT_00e010e0;
 
+// pdb: NavMeshSearchHide::GetNodeConnections | NavMeshSearchHide.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode, apRetNodes
 bool NavMeshSearchFlee::FUN_005cee70(SearchNode* origin, NodeArray* output)
 {
     Pt3 originPosition = origin->GetOwner() ? Pt3(origin->pos.x, origin->pos.y, origin->pos.z) : fleeRequest->GetPosition();
@@ -25275,7 +25676,7 @@ bool NavMeshSearchFlee::FUN_005cee70(SearchNode* origin, NodeArray* output)
         NavMesh* connectedMesh;
         unsigned short connectedTri;
         int boundary;
-        if (origin->mesh->FUN_005b8a30(origin->tri, edgeIndex, &connectedMesh, &connectedTri, &boundary))
+        if (origin->mesh->NavMesh_GetMatchingEdge(origin->tri, edgeIndex, &connectedMesh, &connectedTri, &boundary))
         {
             EdgeInfo* edgeDetails = origin->mesh->GetEdgeInfo(origin->tri, edgeIndex);
             if (edgeDetails != 0 && edgeDetails->type == 1)
@@ -25289,7 +25690,7 @@ bool NavMeshSearchFlee::FUN_005cee70(SearchNode* origin, NodeArray* output)
                 if (fleeRequest->IsNoDoors())
                     continue;
                 unsigned int formID = connectedMesh->FUN_005be410(connectedTri)->formID;
-                DoorRef* door = (DoorRef*)FUN_00455190(formID);
+                DoorRef* door = (DoorRef*)TESForm_GetFormByNumericID(formID);
                 if (door)
                 {
                     bool inside;
@@ -25330,7 +25731,7 @@ bool NavMeshSearchFlee::FUN_005cee70(SearchNode* origin, NodeArray* output)
             switch (FUN_005cc560(MakeKey(connectedMesh, connectedTri), cost, &nextNode))
             {
             case 0:
-                FUN_005cec30(nextNode, connectedMesh, connectedTri);
+                NavMeshSearchHide_SetNodeData(nextNode, connectedMesh, connectedTri);
             case 1:
                 nextNode->linkMesh = origin->mesh;
                 nextNode->linkTri = origin->tri;
@@ -25378,7 +25779,7 @@ class NiPoint3
     float Length() const { float squared = x * x + y * y + z * z; float magnitude = (float)sqrt(squared); return magnitude; }
     float FUN_00432bd0() const;
     NiPoint3& FUN_006b1f50(float fScalar);
-    NiPoint3 FUN_004c8df0(const NiPoint3& pt) const;
+    NiPoint3 NiPoint3_UnitCross(const NiPoint3& pt) const;
 };
 
 // Header inline code the original emitted out of line: the calls stay calls (noinline), the bodies are visible to the
@@ -25396,8 +25797,9 @@ __declspec(noinline) NiPoint3& NiPoint3::FUN_006b1f50(float fScalar)
     z *= fScalar;
     return *this;
 }
-// FUN_004c8df0: UnitCross
-__declspec(noinline) NiPoint3 NiPoint3::FUN_004c8df0(const NiPoint3& pt) const
+// NiPoint3_UnitCross: UnitCross
+// pdb: NiPoint3::UnitCross | TESLand.obj | fnv360_0822_debug, caller + skyrim(call_seq), high
+__declspec(noinline) NiPoint3 NiPoint3::NiPoint3_UnitCross(const NiPoint3& pt) const
 {
     NiPoint3 cross(y * pt.z - z * pt.y, z * pt.x - x * pt.z, x * pt.y - y * pt.x);
     float fLength = cross.Length();
@@ -25644,6 +26046,8 @@ class QueryVolume
     bool FUN_005d0f30(const NiPoint3* point, const NiPoint3* center, NavMesh* mesh, NiPoint3* result);
 };
 
+// pdb: NavMeshSearchSLPoint::CheckPointOnGoalCircle | NavMeshSearchSLPoint.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aCheck, aTarget, apMesh, aOutValidPoint
 bool QueryVolume::FUN_005d0f30(const NiPoint3* point, const NiPoint3* center, NavMesh* mesh, NiPoint3* result)
 {
     NiPoint3 dir = *point;
@@ -25663,7 +26067,7 @@ bool QueryVolume::FUN_005d0f30(const NiPoint3* point, const NiPoint3* center, Na
     NiPoint3 goalPoint = *center;
     midPoint += *center;
     origin += *center;
-    axis = dir.FUN_004c8df0(DAT_00f725b0);
+    axis = dir.NiPoint3_UnitCross(DAT_00f725b0);
     float width = spacing;
     NiPoint3 side = axis * width;
     PathingLocation start(origin, mesh->FUN_005b84c0());
@@ -26055,6 +26459,8 @@ struct Searcher : f3m_005cdc40::AStarSearch {
     bool FUN_005d2160(const EdgePoint& in, const Point& dest, EdgePoint& out, float& ratio);
 };
 
+// pdb: PathSmootherPOVSearch::CheckSegmentAgainstNavMesh | PathSmootherPOV.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aStartLocation, aEndLocation, apReturnLocation, afRetPercentPreferred
 bool Searcher::FUN_005d2160(const EdgePoint& in, const Point& dest, EdgePoint& out, float& ratio)
 {
     Point start = in.point;
@@ -26268,7 +26674,7 @@ struct Ref
     BaseObject* GetObjectReference() { return baseForm; }
 };
 
-void* __cdecl FUN_00455190(unsigned int formID);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 
 struct DoorAccessData
 {
@@ -26364,7 +26770,7 @@ struct NodeAllocator
     int unk04;
     int unk08;
     int unk0c;
-    void* FUN_0086c710(unsigned int size, unsigned int align);
+    void* ScrapHeap_Allocate(unsigned int size, unsigned int align);
 };
 
 struct BucketQueue
@@ -26404,7 +26810,7 @@ struct Search
     // the node key as the New Vegas twin computes it (NavMeshSearch::GetKeyForNode, FNV 0x006a94f0), inlined here;
     // written in place at the call, &next and the triangle trade ecx/edx
     unsigned int GetKeyForNode(NavMesh* apNavMesh, unsigned short aiTri) { return (apNavMesh->GetID() << 16) | aiTri; }
-    bool FUN_005ce550(SearchNode* origin, NodeArray* output);
+    bool NavMeshSearchFlee_GetNodeConnections(SearchNode* origin, NodeArray* output);
 };
 
 // stand-in for 0x005cc560 (not matched yet): same writes through out and the same opaque calls
@@ -26425,7 +26831,7 @@ int Search::FUN_005cc560(unsigned int key, float cost, SearchNode** out)
             return 2;
         }
     }
-    SearchNode* created = (SearchNode*)allocator.FUN_0086c710(sizeof(SearchNode), DAT_00e27ed4);
+    SearchNode* created = (SearchNode*)allocator.ScrapHeap_Allocate(sizeof(SearchNode), DAT_00e27ed4);
     if (created)
     {
         created->cost = 0.0f;
@@ -26463,7 +26869,8 @@ void Search::FUN_005ce140(SearchNode* result, NavMesh* mesh, unsigned short tria
     result->dist = q;
 }
 
-bool Search::FUN_005ce550(SearchNode* origin, NodeArray* output)
+// pdb: NavMeshSearchFlee::GetNodeConnections | NavMeshSearchFlee.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool Search::NavMeshSearchFlee_GetNodeConnections(SearchNode* origin, NodeArray* output)
 {
     Pt3 originPos(origin->pos.x, origin->pos.y, origin->pos.z);
     Pt3 direction;
@@ -26492,7 +26899,7 @@ bool Search::FUN_005ce550(SearchNode* origin, NodeArray* output)
                 if (query->IsNoDoors())
                     continue;
                 unsigned int formID = mesh->GetDoorInfo(tri)->formID;
-                Ref* door = (Ref*)FUN_00455190(formID);
+                Ref* door = (Ref*)TESForm_GetFormByNumericID(formID);
                 if (door)
                 {
                     bool inside;
@@ -26642,8 +27049,8 @@ struct NiRefObject {
 
 struct TESObjectCELL {
     TESForm* FUN_004d3780();
-    int FUN_004d3430();
-    int FUN_004d3450();
+    int TESObjectCELL_GetDataX();
+    int TESObjectCELL_GetDataY();
 };
 
 
@@ -26727,6 +27134,8 @@ struct NavMeshInfo {
 
 // Rebuilds this info from its navmesh. Shape of the New Vegas twin NavMeshInfo::InitializeFromMeshSource
 // (FNV 0x006b5560): the "add" flag and one if (add) { preferred or connected Add } after the checks.
+// pdb: NavMeshInfo::CreateFromNavMesh | NavMeshInfo.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apNavMesh
 void NavMeshInfo::FUN_005d91a0(NavMesh* navMesh) {
     m_uiNavMeshID = navMesh->formID;
     m_pParentSpace = navMesh->FUN_005b8490();
@@ -26802,8 +27211,8 @@ void NavMeshInfo::FUN_005d91a0(NavMesh* navMesh) {
     }
 
     if (navMesh->FUN_005b8480()->FUN_004d3780())
-        m_uiPathingFlags = FUN_00501240(navMesh->FUN_005b8480()->FUN_004d3430(),
-                                        navMesh->FUN_005b8480()->FUN_004d3450());
+        m_uiPathingFlags = FUN_00501240(navMesh->FUN_005b8480()->TESObjectCELL_GetDataX(),
+                                        navMesh->FUN_005b8480()->TESObjectCELL_GetDataY());
     else
         m_uiPathingFlags = 0;
 
@@ -26935,7 +27344,7 @@ struct NavMesh
     SimpleArray<NavTri> triangles;
     SimpleArray<EdgeInfo> edgeInfos;
 
-    bool FUN_005b8a30(unsigned short tri, int edge, NavMesh** outMesh, unsigned short* outTri, int* adjEdge);
+    bool NavMesh_GetMatchingEdge(unsigned short tri, int edge, NavMesh** outMesh, unsigned short* outTri, int* adjEdge);
     Pt3* FUN_004d45e0(Pt3* out, unsigned short tri);
     DoorInfo* FUN_005be410(unsigned short tri);
     bool FUN_005ba770(unsigned short tri, StaticAvoidArray* out);
@@ -26983,7 +27392,7 @@ struct DoorRef
     bool FUN_004e9180();
 };
 
-void* __cdecl FUN_00455190(unsigned int formID);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 
 struct DoorAccess
 {
@@ -27078,7 +27487,7 @@ struct EdgeRef
 extern int DAT_00e27ed4;
 struct NodePool
 {
-    void* FUN_0086c710(unsigned int size, int tag);
+    void* ScrapHeap_Allocate(unsigned int size, int tag);
 };
 
 struct SearchNode
@@ -27093,7 +27502,7 @@ struct SearchNode
     unsigned int key;
     SearchNode* hashNext;
     SearchNode() { cost = 0.0f; dist = 0.0f; unk28 = 0; pprev = 0; qnext = 0; key = 0; hashNext = 0; }
-    static void* operator new(unsigned int size, NodePool& pool) throw() { return pool.FUN_0086c710(size, DAT_00e27ed4); }
+    static void* operator new(unsigned int size, NodePool& pool) throw() { return pool.ScrapHeap_Allocate(size, DAT_00e27ed4); }
     static void operator delete(void*, NodePool&) {}
     float GetCost() const { return cost; }
     TriLoc& Location() const { return const_cast<TriLoc&>(node); }
@@ -27228,6 +27637,8 @@ __declspec(noinline) void __cdecl FUN_00493030(float* value, float lower, float 
     }
 }
 
+// pdb: NavMeshSearch::GetNodeConnections | NavMeshSearch.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apNode, apRetNodes
 bool NavMeshSearch::FUN_005ccc70(SearchNode* current, NodeArray* connections)
 {
     const TriLoc& loc = current->Location();
@@ -27258,7 +27669,7 @@ bool NavMeshSearch::FUN_005ccc70(SearchNode* current, NodeArray* connections)
                 float revisit;
                 float cost;
                 SearchNode* result;
-                if (loc.mesh->FUN_005b8a30(loc.tri, edge, &adjMesh, &adjTri, &adjEdge))
+                if (loc.mesh->NavMesh_GetMatchingEdge(loc.tri, edge, &adjMesh, &adjTri, &adjEdge))
                 {
                     edgeData = loc.mesh->GetEdgeInfo(loc.tri, edge);
                     if (edgeData != 0 && edgeData->type == 1)
@@ -27283,7 +27694,7 @@ bool NavMeshSearch::FUN_005ccc70(SearchNode* current, NodeArray* connections)
                             bool inside;
                             const void* source;
                             unsigned int formID = adjMesh->FUN_005be410(adjTri)->formID;
-                            DoorRef* door = (DoorRef*)FUN_00455190(formID);
+                            DoorRef* door = (DoorRef*)TESForm_GetFormByNumericID(formID);
                             if (door != 0)
                             {
                                 if (!request->ignoreLocks)
@@ -27437,7 +27848,7 @@ struct FUN_005fc4d0 {NiPoint3 point;void* unk10;int unk14,unk18,unk1c,unk20,unk2
 struct Entry5 {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28;NiPoint3 offset;int unk38;};
 struct OutputArray5 {void* vtable;Entry5* entries;unsigned count;unsigned cap;bool Empty()const{return count==0;}Entry5& Back(){return entries[count-1];}Entry5* Last(){if(Empty())return 0;return &Back();} };
 struct Output5 {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;OutputArray5 array;int unk30,unk34,unk38,unk3c;bool closed; void FUN_005c5cf0(FUN_005fc4d0*,NiPoint3*);Entry5* last(){if(array.Empty())return 0;return &array.Back();} };
-struct Manager5 {float FUN_00434200(NiPoint3*,int);};
+struct Manager5 {float TES_GetWaterHeight(NiPoint3*,int);};
 extern float __cdecl FUN_00477b20(NiPoint3*);
 extern void __cdecl FUN_00493030(float*,float,float);
 inline float sqrt5(float x){return (float)sqrt(x);}
@@ -27737,6 +28148,8 @@ Segment5* segmentData; unsigned segmentCount;
  char*& settings(){return request;}
 };
 
+// pdb: PathSmootherPOVSearch::CreatePathingNodes | PathSmootherPOV.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: abFailed
 void Path5::FUN_005d5ef0(bool adjust)
 {
  // Node reads go through a named copy of this, and the named constants and named conditions below emit nothing:
@@ -27759,7 +28172,7 @@ void Path5::FUN_005d5ef0(bool adjust)
    Wedge5 wedge(Pair5(-1.5707963705062866f),Pair5(1.5707963705062866f));
    if((turn.Angle()*path->nod(i).radius->unk10)<minTurn && wedge.FUN_005c4370(&turn))valid=false;
    if(terrain()) {
-    float h=(((Manager5*)DAT_0107a0d8)->FUN_00434200(&sgm(i).p,sgm(i).start->FUN_005b8480()));
+    float h=(((Manager5*)DAT_0107a0d8)->TES_GetWaterHeight(&sgm(i).p,sgm(i).start->FUN_005b8480()));
     if(h>=sgm(i).p.z)sgm(i).p.z=h;
    }
   }
@@ -27776,7 +28189,7 @@ void Path5::FUN_005d5ef0(bool adjust)
    output()->FUN_005c5cf0(&location,&offset);
   }
   if(terrain() && (i<count()-1 || output()->closed || adjust)) {
-   float h=((Manager5*)DAT_0107a0d8)->FUN_00434200(&sgm(i).q,sgm(i).end->FUN_005b8480());
+   float h=((Manager5*)DAT_0107a0d8)->TES_GetWaterHeight(&sgm(i).q,sgm(i).end->FUN_005b8480());
    if(h>=sgm(i).q.z)sgm(i).q.z=h;
   }
   FUN_005fc4d0 location(&sgm(i).q,sgm(i).end->FUN_005b84c0());
@@ -27891,7 +28304,8 @@ struct Out {void* table;PtrList* data;unsigned count,capacity; unsigned Size()co
  void Reserve(unsigned n){FUN_005c5730(n+1,true);}
 };
 struct Ends {Vec* first;Vec* second; Vec* Start()const{return first;} Vec* End()const{return second;}};
-struct Face {unsigned short i0,i1,i2,unk06;unsigned unk08;unsigned flags; bool HasFlag(int e)const{return (flags&(1<<e))!=0;}};
+// pdb: hkClassMember::isNotOwner | hkClassMember.obj | fnv360_0822_retail, objrun, high (was: HasFlag)
+struct Face {unsigned short i0,i1,i2,unk06;unsigned unk08;unsigned flags; bool hkClassMember_isNotOwner(int e)const{return (flags&(1<<e))!=0;}};
 struct Graph {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28;Vec* points;int unk30,unk34,unk38;Face* faces;
  unsigned FUN_005c2490(unsigned short,UShortList*);unsigned FUN_005c1190(unsigned short,UShortList*);bool FUN_005c25b0(unsigned short,Encoded&);
  Ends FUN_005b8900(unsigned short,unsigned);
@@ -27922,6 +28336,8 @@ struct Owner {
 int unk0000;int unk0004;int unk0008;int unk000c;int unk0010;int unk0014;int unk0018;int unk001c;int unk0020;int unk0024;int unk0028;int unk002c;int unk0030;int unk0034;int unk0038;int unk003c;int unk0040;int unk0044;int unk0048;int unk004c;int unk0050;int unk0054;int unk0058;int unk005c;int unk0060;int unk0064;int unk0068;int unk006c;int unk0070;int unk0074;int unk0078;int unk007c;int unk0080;int unk0084;int unk0088;int unk008c;int unk0090;int unk0094;int unk0098;int unk009c;int unk00a0;int unk00a4;int unk00a8;int unk00ac;int unk00b0;int unk00b4;int unk00b8;int unk00bc;int unk00c0;int unk00c4;int unk00c8;int unk00cc;int unk00d0;int unk00d4;int unk00d8;int unk00dc;int unk00e0;int unk00e4;int unk00e8;int unk00ec;int unk00f0;int unk00f4;int unk00f8;int unk00fc;int unk0100;int unk0104;int unk0108;int unk010c;int unk0110;int unk0114;int unk0118;int unk011c;int unk0120;int unk0124;int unk0128;int unk012c;int unk0130;int unk0134;int unk0138;int unk013c;int unk0140;int unk0144;int unk0148;int unk014c;int unk0150;int unk0154;int unk0158;int unk015c;int unk0160;int unk0164;int unk0168;int unk016c;int unk0170;int unk0174;int unk0178;int unk017c;int unk0180;int unk0184;int unk0188;int unk018c;int unk0190;int unk0194;int unk0198;int unk019c;int unk01a0;int unk01a4;int unk01a8;int unk01ac;int unk01b0;int unk01b4;int unk01b8;int unk01bc;int unk01c0;int unk01c4;int unk01c8;int unk01cc;int unk01d0;int unk01d4;int unk01d8;int unk01dc;int unk01e0;int unk01e4;int unk01e8;int unk01ec;int unk01f0;int unk01f4;int unk01f8;int unk01fc;int unk0200;int unk0204;int unk0208;int unk020c;int unk0210;int unk0214;int unk0218;int unk021c;int unk0220;int unk0224;int unk0228;int unk022c;int unk0230;int unk0234;int unk0238;int unk023c;int unk0240;int unk0244;int unk0248;int unk024c;int unk0250;int unk0254;int unk0258;int unk025c;int unk0260;int unk0264;int unk0268;int unk026c;int unk0270;int unk0274;int unk0278;int unk027c;int unk0280;int unk0284;int unk0288;int unk028c;int unk0290;int unk0294;int unk0298;int unk029c;int unk02a0;int unk02a4;int unk02a8;int unk02ac;int unk02b0;int unk02b4;int unk02b8;int unk02bc;int unk02c0;int unk02c4;int unk02c8;int unk02cc;int unk02d0;int unk02d4;int unk02d8;int unk02dc;int unk02e0;int unk02e4;int unk02e8;int unk02ec;int unk02f0;int unk02f4;int unk02f8;int unk02fc;int unk0300;int unk0304;int unk0308;int unk030c;int unk0310;int unk0314;int unk0318;int unk031c;int unk0320;int unk0324;int unk0328;int unk032c;int unk0330;int unk0334;int unk0338;int unk033c;int unk0340;int unk0344;int unk0348;int unk034c;int unk0350;int unk0354;int unk0358;int unk035c;int unk0360;int unk0364;int unk0368;int unk036c;int unk0370;int unk0374;int unk0378;int unk037c;int unk0380;int unk0384;int unk0388;int unk038c;int unk0390;int unk0394;int unk0398;int unk039c;int unk03a0;int unk03a4;int unk03a8;int unk03ac;int unk03b0;int unk03b4;int unk03b8;int unk03bc;int unk03c0;int unk03c4;int unk03c8;int unk03cc;int unk03d0;int unk03d4;int unk03d8;int unk03dc;int unk03e0;int unk03e4;int unk03e8;int unk03ec;int unk03f0;int unk03f4;int unk03f8;int unk03fc;int unk0400;int unk0404;int unk0408;int unk040c;int unk0410;int unk0414;int unk0418;int unk041c;int unk0420;int unk0424;int unk0428;int unk042c;int unk0430;int unk0434;int unk0438;int unk043c;int unk0440;int unk0444;int unk0448;int unk044c;int unk0450;int unk0454;int unk0458;int unk045c;int unk0460;int unk0464;int unk0468;int unk046c;int unk0470;int unk0474;int unk0478;int unk047c;int unk0480;int unk0484;int unk0488;int unk048c;int unk0490;int unk0494;int unk0498;int unk049c;int unk04a0;int unk04a4;int unk04a8;int unk04ac;int unk04b0;int unk04b4;int unk04b8;int unk04bc;int unk04c0;int unk04c4;int unk04c8;int unk04cc;int unk04d0;int unk04d4;int unk04d8;int unk04dc;int unk04e0;int unk04e4;int unk04e8;int unk04ec;int unk04f0;int unk04f4;int unk04f8;int unk04fc;int unk0500;int unk0504;int unk0508;int unk050c;int unk0510;int unk0514;int unk0518;int unk051c;int unk0520;int unk0524;int unk0528;int unk052c;int unk0530;int unk0534;int unk0538;int unk053c;int unk0540;int unk0544;int unk0548;int unk054c;int unk0550;int unk0554;int unk0558;int unk055c;int unk0560;int unk0564;int unk0568;int unk056c;int unk0570;int unk0574;int unk0578;int unk057c;int unk0580;int unk0584;int unk0588;int unk058c;int unk0590;int unk0594;int unk0598;int unk059c;int unk05a0;int unk05a4;int unk05a8;int unk05ac;int unk05b0;int unk05b4;int unk05b8;int unk05bc;int unk05c0;int unk05c4;int unk05c8;int unk05cc;int unk05d0;int unk05d4;int unk05d8;int unk05dc;int unk05e0;int unk05e4;int unk05e8;int unk05ec;int unk05f0;int unk05f4;int unk05f8;int unk05fc;int unk0600;int unk0604;int unk0608;int unk060c;int unk0610;int unk0614;int unk0618;int unk061c;int unk0620;int unk0624;int unk0628;int unk062c;int unk0630;int unk0634;int unk0638;int unk063c;int unk0640;int unk0644;int unk0648;int unk064c;int unk0650;int unk0654;int unk0658;int unk065c;int unk0660;int unk0664;int unk0668;int unk066c;int unk0670;int unk0674;int unk0678;int unk067c;int unk0680;int unk0684;int unk0688;int unk068c;int unk0690;int unk0694;int unk0698;int unk069c;int unk06a0;int unk06a4;int unk06a8;int unk06ac;int unk06b0;int unk06b4;int unk06b8;int unk06bc;int unk06c0;int unk06c4;int unk06c8;int unk06cc;int unk06d0;int unk06d4;int unk06d8;int unk06dc;int unk06e0;int unk06e4;int unk06e8;int unk06ec;int unk06f0;int unk06f4;int unk06f8;int unk06fc;int unk0700;int unk0704;int unk0708;int unk070c;int unk0710;int unk0714;int unk0718;int unk071c;int unk0720;int unk0724;int unk0728;int unk072c;int unk0730;int unk0734;int unk0738;int unk073c;int unk0740;int unk0744;int unk0748;int unk074c;int unk0750;int unk0754;int unk0758;int unk075c;int unk0760;int unk0764;int unk0768;int unk076c;int unk0770;int unk0774;int unk0778;int unk077c;int unk0780;int unk0784;int unk0788;int unk078c;int unk0790;int unk0794;int unk0798;int unk079c;int unk07a0;int unk07a4;int unk07a8;int unk07ac;int unk07b0;int unk07b4;int unk07b8;int unk07bc;int unk07c0;int unk07c4;int unk07c8;int unk07cc;int unk07d0;int unk07d4;int unk07d8;int unk07dc;int unk07e0;int unk07e4;int unk07e8;int unk07ec;int unk07f0;int unk07f4;int unk07f8;int unk07fc;int unk0800;int unk0804;int unk0808;int unk080c;int unk0810;int unk0814;int unk0818;int unk081c;int unk0820;int unk0824;int unk0828;int unk082c;int unk0830;int unk0834;int unk0838;int unk083c;int unk0840;int unk0844;int unk0848;int unk084c;int unk0850;int unk0854;int unk0858;int unk085c;int unk0860;int unk0864;int unk0868;int unk086c;int unk0870;int unk0874;int unk0878;int unk087c;int unk0880;int unk0884;int unk0888;int unk088c;int unk0890;int unk0894;int unk0898;int unk089c;int unk08a0;int unk08a4;int unk08a8;int unk08ac;int unk08b0;int unk08b4;int unk08b8;int unk08bc;int unk08c0;int unk08c4;int unk08c8;int unk08cc;int unk08d0;int unk08d4;int unk08d8;int unk08dc;int unk08e0;int unk08e4;int unk08e8;int unk08ec;int unk08f0;int unk08f4;int unk08f8;int unk08fc;int unk0900;int unk0904;int unk0908;int unk090c;int unk0910;int unk0914;int unk0918;int unk091c;int unk0920;int unk0924;int unk0928;int unk092c;int unk0930;int unk0934;int unk0938;int unk093c;int unk0940;int unk0944;int unk0948;int unk094c;int unk0950;int unk0954;int unk0958;int unk095c;int unk0960;int unk0964;int unk0968;int unk096c;int unk0970;int unk0974;int unk0978;int unk097c;int unk0980;int unk0984;int unk0988;int unk098c;int unk0990;int unk0994;int unk0998;int unk099c;int unk09a0;int unk09a4;int unk09a8;int unk09ac;int unk09b0;int unk09b4;int unk09b8;int unk09bc;int unk09c0;int unk09c4;int unk09c8;int unk09cc;int unk09d0;int unk09d4;int unk09d8;int unk09dc;int unk09e0;int unk09e4;int unk09e8;int unk09ec;int unk09f0;int unk09f4;int unk09f8;int unk09fc;int unk0a00;int unk0a04;int unk0a08;int unk0a0c;int unk0a10;int unk0a14;int unk0a18;int unk0a1c;int unk0a20;int unk0a24;int unk0a28;int unk0a2c;int unk0a30;int unk0a34;int unk0a38;int unk0a3c;int unk0a40;int unk0a44;int unk0a48;int unk0a4c;int unk0a50;int unk0a54;int unk0a58;int unk0a5c;int unk0a60;int unk0a64;int unk0a68;int unk0a6c;int unk0a70;int unk0a74;int unk0a78;int unk0a7c;int unk0a80;int unk0a84;int unk0a88;int unk0a8c;int unk0a90;int unk0a94;int unk0a98;int unk0a9c;int unk0aa0;int unk0aa4;int unk0aa8;int unk0aac;int unk0ab0;int unk0ab4;int unk0ab8;int unk0abc;int unk0ac0;int unk0ac4;int unk0ac8;int unk0acc;int unk0ad0;int unk0ad4;int unk0ad8;int unk0adc;int unk0ae0;int unk0ae4;int unk0ae8;int unk0aec;int unk0af0;int unk0af4;int unk0af8;int unk0afc;int unk0b00;int unk0b04;int unk0b08;int unk0b0c;int unk0b10;int unk0b14;int unk0b18;int unk0b1c;int unk0b20;int unk0b24;int unk0b28;int unk0b2c;int unk0b30;int unk0b34;int unk0b38;int unk0b3c;int unk0b40;int unk0b44;int unk0b48;int unk0b4c;int unk0b50;int unk0b54;int unk0b58;int unk0b5c;int unk0b60;int unk0b64;int unk0b68;int unk0b6c;int unk0b70;int unk0b74;int unk0b78;int unk0b7c;int unk0b80;int unk0b84;int unk0b88;int unk0b8c;int unk0b90;int unk0b94;int unk0b98;int unk0b9c;int unk0ba0;int unk0ba4;int unk0ba8;int unk0bac;int unk0bb0;int unk0bb4;int unk0bb8;int unk0bbc;int unk0bc0;int unk0bc4;int unk0bc8;int unk0bcc;int unk0bd0;int unk0bd4;int unk0bd8;int unk0bdc;int unk0be0;int unk0be4;int unk0be8;int unk0bec;int unk0bf0;int unk0bf4;int unk0bf8;int unk0bfc;int unk0c00;int unk0c04;int unk0c08;int unk0c0c;int unk0c10;int unk0c14;int unk0c18;int unk0c1c;int unk0c20;int unk0c24;int unk0c28;int unk0c2c;int unk0c30;int unk0c34;int unk0c38;int unk0c3c;int unk0c40;int unk0c44;int unk0c48;int unk0c4c;int unk0c50;int unk0c54;int unk0c58;int unk0c5c;int unk0c60;int unk0c64;int unk0c68;int unk0c6c;int unk0c70;int unk0c74;int unk0c78;int unk0c7c;int unk0c80;int unk0c84;int unk0c88;int unk0c8c;int unk0c90;int unk0c94;int unk0c98;int unk0c9c;int unk0ca0;int unk0ca4;int unk0ca8;int unk0cac;int unk0cb0;int unk0cb4;int unk0cb8;int unk0cbc;int unk0cc0;int unk0cc4;int unk0cc8;int unk0ccc;int unk0cd0;int unk0cd4;int unk0cd8;int unk0cdc;int unk0ce0;int unk0ce4;int unk0ce8;int unk0cec;int unk0cf0;int unk0cf4;int unk0cf8;int unk0cfc;int unk0d00;int unk0d04;int unk0d08;int unk0d0c;int unk0d10;int unk0d14;int unk0d18;int unk0d1c;int unk0d20;int unk0d24;int unk0d28;int unk0d2c;int unk0d30;int unk0d34;int unk0d38;int unk0d3c;int unk0d40;int unk0d44;int unk0d48;int unk0d4c;int unk0d50;int unk0d54;int unk0d58;int unk0d5c;int unk0d60;int unk0d64;int unk0d68;int unk0d6c;int unk0d70;int unk0d74;int unk0d78;int unk0d7c;int unk0d80;int unk0d84;int unk0d88;int unk0d8c;int unk0d90;int unk0d94;int unk0d98;int unk0d9c;int unk0da0;int unk0da4;int unk0da8;int unk0dac;int unk0db0;int unk0db4;int unk0db8;int unk0dbc;int unk0dc0;int unk0dc4;int unk0dc8;int unk0dcc;int unk0dd0;int unk0dd4;int unk0dd8;int unk0ddc;int unk0de0;int unk0de4;int unk0de8;int unk0dec;int unk0df0;int unk0df4;int unk0df8;int unk0dfc;int unk0e00;int unk0e04;int unk0e08;int unk0e0c;int unk0e10;int unk0e14;int unk0e18;int unk0e1c;int unk0e20;int unk0e24;int unk0e28;int unk0e2c;int unk0e30;int unk0e34;int unk0e38;int unk0e3c;int unk0e40;int unk0e44;int unk0e48;int unk0e4c;int unk0e50;int unk0e54;int unk0e58;int unk0e5c;int unk0e60;int unk0e64;int unk0e68;int unk0e6c;int unk0e70;int unk0e74;int unk0e78;int unk0e7c;int unk0e80;int unk0e84;int unk0e88;int unk0e8c;int unk0e90;int unk0e94;int unk0e98;int unk0e9c;int unk0ea0;int unk0ea4;int unk0ea8;int unk0eac;int unk0eb0;int unk0eb4;int unk0eb8;int unk0ebc;int unk0ec0;int unk0ec4;int unk0ec8;int unk0ecc;int unk0ed0;int unk0ed4;int unk0ed8;int unk0edc;int unk0ee0;int unk0ee4;int unk0ee8;int unk0eec;int unk0ef0;int unk0ef4;int unk0ef8;int unk0efc;int unk0f00;int unk0f04;int unk0f08;int unk0f0c;int unk0f10;int unk0f14;int unk0f18;int unk0f1c;int unk0f20;int unk0f24;int unk0f28;int unk0f2c;int unk0f30;int unk0f34;int unk0f38;int unk0f3c;int unk0f40;int unk0f44;int unk0f48;int unk0f4c;int unk0f50;int unk0f54;int unk0f58;int unk0f5c;int unk0f60;int unk0f64;int unk0f68;int unk0f6c;int unk0f70;int unk0f74;int unk0f78;int unk0f7c;int unk0f80;int unk0f84;int unk0f88;int unk0f8c;int unk0f90;int unk0f94;int unk0f98;int unk0f9c;int unk0fa0;int unk0fa4;int unk0fa8;int unk0fac;int unk0fb0;int unk0fb4;int unk0fb8;int unk0fbc;int unk0fc0;int unk0fc4;int unk0fc8;int unk0fcc;int unk0fd0;int unk0fd4;int unk0fd8;int unk0fdc;int unk0fe0;int unk0fe4;int unk0fe8;int unk0fec;int unk0ff0;int unk0ff4;int unk0ff8;int unk0ffc;int unk1000;int unk1004;int unk1008;int unk100c;int unk1010;int unk1014;int unk1018;int unk101c;int unk1020;int unk1024;int unk1028;int unk102c;int unk1030;int unk1034;int unk1038;int unk103c;int unk1040;int unk1044;int unk1048;int unk104c;int unk1050;int unk1054;int unk1058;int unk105c;int unk1060;int unk1064;int unk1068;int unk106c;int unk1070;int unk1074;int unk1078;int unk107c;int unk1080;int unk1084;int unk1088;int unk108c;int unk1090;int unk1094;int unk1098;int unk109c;int unk10a0;int unk10a4;int unk10a8;int unk10ac;int unk10b0;int unk10b4;int unk10b8;int unk10bc;int unk10c0;int unk10c4;int unk10c8;int unk10cc;int unk10d0;int unk10d4;int unk10d8;int unk10dc;int unk10e0;int unk10e4;int unk10e8;int unk10ec;int unk10f0;int unk10f4;int unk10f8;int unk10fc;int unk1100;int unk1104;int unk1108;int unk110c;int unk1110;int unk1114;int unk1118;int unk111c;int unk1120;int unk1124;int unk1128;int unk112c;int unk1130;int unk1134;int unk1138;int unk113c;int unk1140;int unk1144;int unk1148;int unk114c;int unk1150;int unk1154;int unk1158;int unk115c;int unk1160;int unk1164;int unk1168;int unk116c;int unk1170;int unk1174;int unk1178;int unk117c;int unk1180;int unk1184;int unk1188;int unk118c;int unk1190;int unk1194;int unk1198;int unk119c;int unk11a0;int unk11a4;int unk11a8;int unk11ac;int unk11b0;int unk11b4;int unk11b8;int unk11bc;int unk11c0;int unk11c4;int unk11c8;int unk11cc;int unk11d0;int unk11d4;int unk11d8;int unk11dc;int unk11e0;int unk11e4;int unk11e8;int unk11ec;int unk11f0;int unk11f4;int unk11f8;int unk11fc;int unk1200;int unk1204;int unk1208;int unk120c;int unk1210;int unk1214;int unk1218;int unk121c;int unk1220;int unk1224;int unk1228;int unk122c;int unk1230;int unk1234;int unk1238;int unk123c;int unk1240;int unk1244;int unk1248;int unk124c;int unk1250;int unk1254;int unk1258;int unk125c;int unk1260;int unk1264;int unk1268;int unk126c;int unk1270;int unk1274;int unk1278;int unk127c;int unk1280;int unk1284;int unk1288;int unk128c;int unk1290;int unk1294;int unk1298;int unk129c;int unk12a0;int unk12a4;int unk12a8;int unk12ac;int unk12b0;int unk12b4;int unk12b8;int unk12bc;int unk12c0;int unk12c4;int unk12c8;int unk12cc;int unk12d0;int unk12d4;int unk12d8;int unk12dc;int unk12e0;int unk12e4;int unk12e8;int unk12ec;int unk12f0;int unk12f4;int unk12f8;int unk12fc;int unk1300;int unk1304;int unk1308;int unk130c;int unk1310;int unk1314;int unk1318;int unk131c;int unk1320;int unk1324;int unk1328;int unk132c;int unk1330;int unk1334;int unk1338;int unk133c;int unk1340;int unk1344;int unk1348;int unk134c;int unk1350;int unk1354;int unk1358;int unk135c;int unk1360;int unk1364;int unk1368;int unk136c;int unk1370;int unk1374;int unk1378;int unk137c;int unk1380;int unk1384;int unk1388;int unk138c;int unk1390;int unk1394;int unk1398;int unk139c;int unk13a0;int unk13a4;int unk13a8;int unk13ac;int unk13b0;int unk13b4;int unk13b8;int unk13bc;int unk13c0;int unk13c4;int unk13c8;int unk13cc;int unk13d0;int unk13d4;int unk13d8;int unk13dc;int unk13e0;int unk13e4;int unk13e8;int unk13ec;int unk13f0;int unk13f4;int unk13f8;int unk13fc;int unk1400;int unk1404;int unk1408;int unk140c;int unk1410;int unk1414;int unk1418;int unk141c;int unk1420;int unk1424;int unk1428;int unk142c;int unk1430;int unk1434;int unk1438;int unk143c;int unk1440;int unk1444;int unk1448;int unk144c;int unk1450;int unk1454;int unk1458;int unk145c;int unk1460;int unk1464;int unk1468;int unk146c;int unk1470;int unk1474;int unk1478;int unk147c;int unk1480;int unk1484;int unk1488;int unk148c;int unk1490;int unk1494;int unk1498;int unk149c;int unk14a0;int unk14a4;int unk14a8;int unk14ac;int unk14b0;int unk14b4;int unk14b8;int unk14bc;int unk14c0;int unk14c4;int unk14c8;int unk14cc;int unk14d0;int unk14d4;int unk14d8;int unk14dc;int unk14e0;int unk14e4;int unk14e8;int unk14ec;int unk14f0;int unk14f4;int unk14f8;int unk14fc;int unk1500;int unk1504;int unk1508;int unk150c;int unk1510;int unk1514;int unk1518;int unk151c;int unk1520;int unk1524;int unk1528;int unk152c;int unk1530;int unk1534;int unk1538;int unk153c;int unk1540;int unk1544;int unk1548;int unk154c;int unk1550;int unk1554;int unk1558;int unk155c;int unk1560;int unk1564;int unk1568;int unk156c;int unk1570;int unk1574;int unk1578;int unk157c;int unk1580;int unk1584;int unk1588;int unk158c;int unk1590;int unk1594;int unk1598;int unk159c;int unk15a0;int unk15a4;int unk15a8;int unk15ac;int unk15b0;int unk15b4;int unk15b8;int unk15bc;int unk15c0;int unk15c4;int unk15c8;int unk15cc;int unk15d0;int unk15d4;int unk15d8;int unk15dc;int unk15e0;int unk15e4;int unk15e8;int unk15ec;int unk15f0;int unk15f4;int unk15f8;int unk15fc;int unk1600;int unk1604;int unk1608;int unk160c;int unk1610;int unk1614;int unk1618;int unk161c;int unk1620;int unk1624;int unk1628;int unk162c;int unk1630;int unk1634;int unk1638;int unk163c;int unk1640;int unk1644;int unk1648;int unk164c;int unk1650;int unk1654;int unk1658;int unk165c;int unk1660;int unk1664;int unk1668;int unk166c;int unk1670;int unk1674;int unk1678;int unk167c;int unk1680;int unk1684;int unk1688;int unk168c;int unk1690;int unk1694;int unk1698;int unk169c;int unk16a0;int unk16a4;int unk16a8;int unk16ac;int unk16b0;int unk16b4;int unk16b8;int unk16bc;int unk16c0;int unk16c4;int unk16c8;int unk16cc;int unk16d0;int unk16d4;int unk16d8;int unk16dc;int unk16e0;int unk16e4;int unk16e8;int unk16ec;int unk16f0;int unk16f4;int unk16f8;int unk16fc;int unk1700;int unk1704;int unk1708;int unk170c;int unk1710;int unk1714;int unk1718;int unk171c;int unk1720;int unk1724;int unk1728;int unk172c;int unk1730;int unk1734;int unk1738;int unk173c;int unk1740;int unk1744;int unk1748;int unk174c;int unk1750;int unk1754;int unk1758;int unk175c;int unk1760;int unk1764;int unk1768;int unk176c;int unk1770;int unk1774;int unk1778;int unk177c;int unk1780;int unk1784;int unk1788;int unk178c;int unk1790;int unk1794;int unk1798;int unk179c;int unk17a0;int unk17a4;int unk17a8;int unk17ac;int unk17b0;int unk17b4;int unk17b8;int unk17bc;int unk17c0;int unk17c4;int unk17c8;int unk17cc;int unk17d0;int unk17d4;int unk17d8;int unk17dc;int unk17e0;int unk17e4;int unk17e8;int unk17ec;int unk17f0;int unk17f4;int unk17f8;int unk17fc;int unk1800;int unk1804;int unk1808;int unk180c;int unk1810;int unk1814;int unk1818;int unk181c;int unk1820;int unk1824;int unk1828;int unk182c;int unk1830;int unk1834;int unk1838;int unk183c;int unk1840;int unk1844;int unk1848;int unk184c;int unk1850;int unk1854;int unk1858;int unk185c;int unk1860;int unk1864;int unk1868;int unk186c;int unk1870;int unk1874;int unk1878;int unk187c;int unk1880;int unk1884;int unk1888;int unk188c;int unk1890;int unk1894;int unk1898;int unk189c;int unk18a0;int unk18a4;int unk18a8;int unk18ac;int unk18b0;int unk18b4;int unk18b8;int unk18bc;int unk18c0;int unk18c4;int unk18c8;int unk18cc;int unk18d0;int unk18d4;int unk18d8;int unk18dc;int unk18e0;int unk18e4;int unk18e8;int unk18ec;int unk18f0;int unk18f4;int unk18f8;int unk18fc;int unk1900;int unk1904;int unk1908;int unk190c;int unk1910;int unk1914;int unk1918;int unk191c;int unk1920;int unk1924;int unk1928;int unk192c;int unk1930;int unk1934;int unk1938;int unk193c;int unk1940;int unk1944;int unk1948;int unk194c;int unk1950;int unk1954;int unk1958;int unk195c;int unk1960;int unk1964;int unk1968;int unk196c;int unk1970;int unk1974;int unk1978;int unk197c;int unk1980;int unk1984;int unk1988;int unk198c;int unk1990;int unk1994;int unk1998;int unk199c;int unk19a0;int unk19a4;int unk19a8;int unk19ac;int unk19b0;int unk19b4;int unk19b8;int unk19bc;int unk19c0;int unk19c4;int unk19c8;int unk19cc;int unk19d0;int unk19d4;int unk19d8;int unk19dc;int unk19e0;int unk19e4;int unk19e8;int unk19ec;int unk19f0;int unk19f4;int unk19f8;int unk19fc;int unk1a00;int unk1a04;int unk1a08;int unk1a0c;int unk1a10;int unk1a14;int unk1a18;int unk1a1c;int unk1a20;int unk1a24;int unk1a28;int unk1a2c;int unk1a30;int unk1a34;int unk1a38;int unk1a3c;int unk1a40;int unk1a44;int unk1a48;int unk1a4c;int unk1a50;int unk1a54;int unk1a58;int unk1a5c;int unk1a60;int unk1a64;int unk1a68;int unk1a6c;int unk1a70;int unk1a74;int unk1a78;int unk1a7c;int unk1a80;int unk1a84;int unk1a88;int unk1a8c;int unk1a90;int unk1a94;int unk1a98;int unk1a9c;int unk1aa0;int unk1aa4;int unk1aa8;int unk1aac;int unk1ab0;int unk1ab4;int unk1ab8;int unk1abc;int unk1ac0;int unk1ac4;int unk1ac8;int unk1acc;int unk1ad0;int unk1ad4;int unk1ad8;int unk1adc;int unk1ae0;int unk1ae4;int unk1ae8;int unk1aec;int unk1af0;int unk1af4;int unk1af8;int unk1afc;int unk1b00;int unk1b04;int unk1b08;int unk1b0c;int unk1b10;int unk1b14;int unk1b18;int unk1b1c;int unk1b20;int unk1b24;int unk1b28;int unk1b2c;int unk1b30;int unk1b34;int unk1b38;int unk1b3c;int unk1b40;int unk1b44;int unk1b48;int unk1b4c;int unk1b50;int unk1b54;int unk1b58;int unk1b5c;int unk1b60;int unk1b64;int unk1b68;int unk1b6c;int unk1b70;int unk1b74;int unk1b78;int unk1b7c;int unk1b80;int unk1b84;int unk1b88;int unk1b8c;int unk1b90;int unk1b94;int unk1b98;int unk1b9c;int unk1ba0;int unk1ba4;int unk1ba8;int unk1bac;int unk1bb0;int unk1bb4;int unk1bb8;int unk1bbc;int unk1bc0;int unk1bc4;int unk1bc8;int unk1bcc;int unk1bd0;int unk1bd4;int unk1bd8;int unk1bdc;int unk1be0;int unk1be4;int unk1be8;int unk1bec;int unk1bf0;int unk1bf4;int unk1bf8;int unk1bfc;int unk1c00;int unk1c04;int unk1c08;int unk1c0c;int unk1c10;int unk1c14;int unk1c18;int unk1c1c;int unk1c20;int unk1c24;int unk1c28;int unk1c2c;int unk1c30;int unk1c34;int unk1c38;int unk1c3c;int unk1c40;int unk1c44;int unk1c48;int unk1c4c;int unk1c50;int unk1c54;int unk1c58;int unk1c5c;int unk1c60;int unk1c64;int unk1c68;int unk1c6c;int unk1c70;int unk1c74;int unk1c78;int unk1c7c;int unk1c80;int unk1c84;int unk1c88;int unk1c8c;int unk1c90;int unk1c94;int unk1c98;int unk1c9c;int unk1ca0;int unk1ca4;int unk1ca8;int unk1cac;int unk1cb0;int unk1cb4;int unk1cb8;int unk1cbc;int unk1cc0;int unk1cc4;int unk1cc8;int unk1ccc;int unk1cd0;int unk1cd4;int unk1cd8;int unk1cdc;int unk1ce0;int unk1ce4;int unk1ce8;int unk1cec;int unk1cf0;int unk1cf4;int unk1cf8;int unk1cfc;int unk1d00;int unk1d04;int unk1d08;int unk1d0c;int unk1d10;int unk1d14;int unk1d18;int unk1d1c;int unk1d20;int unk1d24;int unk1d28;int unk1d2c;int unk1d30;int unk1d34;int unk1d38;int unk1d3c;int unk1d40;int unk1d44;int unk1d48;int unk1d4c;int unk1d50;int unk1d54;int unk1d58;int unk1d5c;int unk1d60;int unk1d64;int unk1d68;int unk1d6c;int unk1d70;int unk1d74;int unk1d78;int unk1d7c;int unk1d80;int unk1d84;int unk1d88;int unk1d8c;int unk1d90;int unk1d94;int unk1d98;int unk1d9c;int unk1da0;int unk1da4;int unk1da8;int unk1dac;int unk1db0;int unk1db4;int unk1db8;int unk1dbc;int unk1dc0;int unk1dc4;int unk1dc8;int unk1dcc;int unk1dd0;int unk1dd4;int unk1dd8;int unk1ddc;int unk1de0;int unk1de4;int unk1de8;int unk1dec;int unk1df0;int unk1df4;int unk1df8;int unk1dfc;int unk1e00;int unk1e04;int unk1e08;int unk1e0c;int unk1e10;int unk1e14;int unk1e18;int unk1e1c;int unk1e20;int unk1e24;int unk1e28;int unk1e2c;int unk1e30;int unk1e34;int unk1e38;int unk1e3c;int unk1e40;int unk1e44;int unk1e48;int unk1e4c;int unk1e50;int unk1e54;int unk1e58;int unk1e5c;int unk1e60;int unk1e64;int unk1e68;int unk1e6c;int unk1e70;int unk1e74;int unk1e78;int unk1e7c;int unk1e80;int unk1e84;int unk1e88;int unk1e8c;int unk1e90;int unk1e94;int unk1e98;int unk1e9c;int unk1ea0;int unk1ea4;int unk1ea8;int unk1eac;int unk1eb0;int unk1eb4;int unk1eb8;int unk1ebc;int unk1ec0;int unk1ec4;int unk1ec8;int unk1ecc;int unk1ed0;int unk1ed4;int unk1ed8;int unk1edc;int unk1ee0;int unk1ee4;int unk1ee8;int unk1eec;int unk1ef0;int unk1ef4;int unk1ef8;int unk1efc;int unk1f00;int unk1f04;int unk1f08;int unk1f0c;int unk1f10;int unk1f14;int unk1f18;int unk1f1c;int unk1f20;int unk1f24;int unk1f28;int unk1f2c;int unk1f30;int unk1f34;int unk1f38;int unk1f3c;int unk1f40;int unk1f44;int unk1f48;int unk1f4c;int unk1f50;int unk1f54;int unk1f58;int unk1f5c;int unk1f60;int unk1f64;int unk1f68;int unk1f6c;int unk1f70;int unk1f74;int unk1f78;int unk1f7c;int unk1f80;int unk1f84;int unk1f88;int unk1f8c;int unk1f90;int unk1f94;int unk1f98;int unk1f9c;int unk1fa0;int unk1fa4;int unk1fa8;int unk1fac;int unk1fb0;int unk1fb4;int unk1fb8;int unk1fbc;int unk1fc0;int unk1fc4;int unk1fc8;int unk1fcc;int unk1fd0;int unk1fd4;int unk1fd8;int unk1fdc;int unk1fe0;int unk1fe4;int unk1fe8;int unk1fec;int unk1ff0;int unk1ff4;int unk1ff8;int unk1ffc;int unk2000;int unk2004;int unk2008;int unk200c;int unk2010;int unk2014;int unk2018;int unk201c;int unk2020;int unk2024;int unk2028;int unk202c;int unk2030;int unk2034;int unk2038;int unk203c;int unk2040;int unk2044;int unk2048;int unk204c;int unk2050;int unk2054;int unk2058;int unk205c;int unk2060;int unk2064;Out output;int unk2078,unk207c;Settings* settings;
 bool FUN_005c7020(Out*,Out*);
 };
+// pdb: NavMeshPOVSearch::BuildPOVListForTriangles | NavMeshPOVSearch.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apList, aRetPOVs
 bool Owner::FUN_005c7020(Out* input,Out* out) {
  output.Reserve(input->Size());
  Outer primary(output.Size());
@@ -27948,7 +28364,7 @@ bool Owner::FUN_005c7020(Out* input,Out* out) {
        p->kind=0;p->pos=r->graph->Point(r->index);p->radius=settings->GetRadius();p->index=r->index;
        Face* a=r->graph->FaceAt(ends.first.Triangle());
        Face* b=r->graph->FaceAt(ends.second.Triangle());
-       if(a->HasFlag(ends.first.Edge())||b->HasFlag(ends.second.Edge()))p->kind=1;
+       if(a->hkClassMember_isNotOwner(ends.first.Edge())||b->hkClassMember_isNotOwner(ends.second.Edge()))p->kind=1;
        Ends e1=r->graph->FUN_005b8900(ends.first.Triangle(),ends.first.Edge());
        Ends e2=r->graph->FUN_005b8900(ends.second.Triangle(),ends.second.Edge());
        p->first=*e1.End()-*e1.Start();p->second=*e2.End()-*e2.Start();
@@ -28138,6 +28554,8 @@ struct S5c3dd0_Grid {
     void FUN_005c3dd0(const float* point, float radius, S5c3dd0_ShortArray* out);
 };
 
+// pdb: NavMeshGrid::GetTriangleDataForAABB | NavMeshGrid.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aLocStart, aLocEnd, apReturnArray
 void S5c3dd0_Grid::FUN_005c3dd0(const float* point, float radius, S5c3dd0_ShortArray* out)
 {
     int x0 = (int)floor((float)(point[0] - minX) / cellW);
@@ -28175,7 +28593,7 @@ extern int DAT_00f47a3c;
 
 namespace w5da8c0 {
 
-extern "C" void* __cdecl FUN_00455190(unsigned int formID);
+extern "C" void* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 extern "C" void* __cdecl FUN_00c0050a(void* object, int offset, void* fromType, void* toType, int isReference);
 void __cdecl FUN_00887da0(const char* format, ...);
 extern const char DAT_00e01900[];
@@ -28452,7 +28870,7 @@ struct NavMeshInfo {
 
     unsigned int GetNavMeshID() { return navMeshID; }
     TESForm* GetParentSpace() {
-        return pParentSpace ? pParentSpace : (TESForm*)FUN_00455190(parentSpaceID);
+        return pParentSpace ? pParentSpace : (TESForm*)TESForm_GetFormByNumericID(parentSpaceID);
     }
     TESWorldSpace* GetParentWorldSpace() {
         return (TESWorldSpace*)FUN_00c0050a(GetParentSpace(), 0, &DAT_00f46078, &DAT_00f47a58, 0);
@@ -28508,6 +28926,7 @@ struct NavMeshInfoMap : TESForm {
     void FUN_005da8c0();
 };
 
+// pdb: NavMeshInfoMap::CheckMap | NavMeshInfoMap.obj | fnv360_0822_retail, ustr, medium
 void NavMeshInfoMap::FUN_005da8c0()
 {
     NavMeshInfoArray infosToRemove;
@@ -28669,6 +29088,7 @@ struct Obj {
     void FUN_005c8c40();
     Obj* FUN_005c9020(unsigned flags);
 };
+// pdb: NiTMap<TESObjectCELL *,NiPointer<NiNode> >::`scalar deleting destructor' | NavMeshRender.obj | fnv360_0822_debug, vtable, medium
 Obj* Obj::FUN_005c9020(unsigned flags) {
     FUN_005c8c40();
     if (flags & 1) DAT_01090a78.FUN_0086ba60(this);
@@ -29116,10 +29536,12 @@ struct Renderer {
 };
 inline float CoverHeight(unsigned value) { if (value > 15) value = 15; return value * 16.0f; }
 SceneObject* __cdecl FUN_00ab1490(const Point&, const Point&, float, float, float, float, const Color&, const Color*);
-SceneObject* __cdecl FUN_00ab1a80(float, int, int, const Color*);
+SceneObject* __cdecl BSTestObjects_CreateSphere(float, int, int, const Color*);
 void __cdecl FUN_0047acf0(Node*);
 void __cdecl FUN_00ade300(Node*, int, int);
 
+// pdb: NavMeshRender::AddDrawOnlyNavMeshes | NavMeshRender.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apCell, abUpdate
 void Renderer::FUN_005c9bf0(Cell* apCell, bool abUpdate)
 {
     MeshList* meshes;
@@ -29451,7 +29873,7 @@ void Renderer::FUN_005c9bf0(Cell* apCell, bool abUpdate)
         {
             AvoidSphere* avoid = &mesh->FUN_005b8e40(i);
             Color color(0.25f, 0.0f, 0.0f, 0.5f);
-            Pointer<SceneObject> sphere(FUN_00ab1a80(avoid->GetRadius(), 10, 10, &color));
+            Pointer<SceneObject> sphere(BSTestObjects_CreateSphere(avoid->GetRadius(), 10, 10, &color));
             Pointer<Alpha> alpha(new Alpha());
             alpha->flags |= 1;
             sphere->FUN_004236f0(alpha);
@@ -29689,6 +30111,8 @@ bool FUN_005f1280(const Point &, const Point &, const Point &, const Point &);
 bool FUN_005e4620(const Point &, const ObstacleRef &, float, float);
 bool FUN_005dd4c0(const Point2 &, const Point2 &, const Point2 &, const Point2 &);
 
+// pdb: NavMesh::GetOverlappedTriangleList | NavMesh_Util.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObstacle, afFudge, apRetTriangles
 void NavMesh::FUN_005c08a0(const ObstacleRef &obstacle, const Point &margin, TriList *result)
 {
     unsigned int startRow = 0;

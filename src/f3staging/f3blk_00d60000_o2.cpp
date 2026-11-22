@@ -252,6 +252,7 @@ extern "C" unsigned int FUN_00a07620();
 extern "C" void FUN_00a07600();
 extern "C" void FUN_00a075f0();
 
+// pdb: `dynamic initializer for 'hkpListShapeTypeInfo'' | hkpCollideReflections.obj | tesv_win, objrun_prop, low
 void FUN_00d7f8f0() {
     unsigned int result = FUN_00a07620();
     DAT_0116a7f4 = DAT_00e45128;
@@ -341,6 +342,7 @@ void* __cdecl FUN_009d6160();
 void __cdecl FUN_009d6180(void* object);
 unsigned int __cdecl FUN_009d6190();
 }
+// pdb: `dynamic initializer for 'hkpStorageExtendedMeshShapeMeshSubpartStorageTypeInfo'' | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objopen_prop, low
 void __cdecl FUN_00d7df50() {
     using namespace f3m_00d7df50;
     DAT_01169494.TypeInfo::TypeInfo(DAT_00e45178, FUN_009d6160, FUN_009d6180, FUN_009d6190());
@@ -362,6 +364,7 @@ void* __cdecl FUN_009d61b0();
 void __cdecl FUN_009d61d0(void* object);
 unsigned int __cdecl FUN_009d61e0();
 }
+// pdb: `dynamic initializer for 'hkpStorageExtendedMeshShapeShapeSubpartStorageTypeInfo'' | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objrun_prop, low
 void __cdecl FUN_00d7dfb0() {
     using namespace f3m_00d7dfb0;
     DAT_011694d4.TypeInfo::TypeInfo(DAT_00e451a8, FUN_009d61b0, FUN_009d61d0, FUN_009d61e0());
@@ -425,6 +428,7 @@ void* __cdecl FUN_009d6cd0();
 void __cdecl FUN_009d6cf0(void* object);
 unsigned int __cdecl FUN_009d6d00();
 }
+// pdb: `dynamic initializer for 'hkpStorageMeshShapeSubpartStorageTypeInfo'' | hkpCollidehkpMeshShapeReflections.obj | tesv_win, objrun_prop, low
 void __cdecl FUN_00d7e1b0() {
     using namespace f3m_00d7e1b0;
     DAT_01169624.TypeInfo::TypeInfo(DAT_00e453c8, FUN_009d6cd0, FUN_009d6cf0, FUN_009d6d00());
@@ -446,6 +450,7 @@ void* __cdecl FUN_009d6d20();
 void __cdecl FUN_009d6d40(void* object);
 unsigned int __cdecl FUN_009d6d50();
 }
+// pdb: `dynamic initializer for 'hkpStorageMeshShapeTypeInfo'' | hkpStorageMeshShapeClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void __cdecl FUN_00d7e210() {
     using namespace f3m_00d7e210;
     DAT_01169664.TypeInfo::TypeInfo(DAT_00e453ec, FUN_009d6d20, FUN_009d6d40, FUN_009d6d50());
@@ -463,13 +468,14 @@ struct TypeInfo {
 };
 extern TypeInfo DAT_011696d4;
 extern const char DAT_00e453a4[];
-void* __cdecl FUN_009d6d80();
+void* __cdecl finishLoadedObjecthkpMeshShape();
 void __cdecl FUN_009d6da0(void* object);
 unsigned int __cdecl FUN_009d6db0();
 }
+// pdb: `dynamic initializer for 'hkpMeshShapeTypeInfo'' | hkpMeshShapeClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void __cdecl FUN_00d7e2b0() {
     using namespace f3m_00d7e2b0;
-    DAT_011696d4.TypeInfo::TypeInfo(DAT_00e453a4, FUN_009d6d80, FUN_009d6da0, FUN_009d6db0());
+    DAT_011696d4.TypeInfo::TypeInfo(DAT_00e453a4, finishLoadedObjecthkpMeshShape, FUN_009d6da0, FUN_009d6db0());
 }
 
 // @f3 0x00d7e330 (community match, verified in this file)
@@ -509,6 +515,7 @@ void* __cdecl FUN_009f7b40();
 void __cdecl FUN_009f7b30(void* object);
 unsigned int __cdecl FUN_009f7b60();
 }
+// pdb: `dynamic initializer for 'hkpEntityTypeInfo'' | hkpDynamicsReflections.obj | tesv_win, objrun_prop, low
 void __cdecl FUN_00d7e610() {
     using namespace f3m_00d7e610;
     DAT_011698d4.TypeInfo::TypeInfo(DAT_00e45ffc, FUN_009f7b40, FUN_009f7b30, FUN_009f7b60());
@@ -572,6 +579,7 @@ void* __cdecl FUN_00a06890();
 void __cdecl FUN_00a06840(void* object);
 unsigned int __cdecl FUN_00a068c0();
 }
+// pdb: `dynamic initializer for 'hkpSerializedAgentNnEntryTypeInfo'' | hkpUtilitiesReflections.obj | tesv_win, objrun_prop, low
 void __cdecl FUN_00d7e910() {
     using namespace f3m_00d7e910;
     DAT_01169b14.TypeInfo::TypeInfo(DAT_00e46810, FUN_00a06890, FUN_00a06840, FUN_00a068c0());
@@ -635,6 +643,7 @@ void* __cdecl FUN_00a06b40();
 void __cdecl FUN_00a06b30(void* object);
 unsigned int __cdecl FUN_00a06b60();
 }
+// pdb: `dynamic initializer for 'hkpBallGunTypeInfo'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7eba0() {
     using namespace f3m_00d7eba0;
     DAT_01169d24.TypeInfo::TypeInfo(DAT_00e466a8, FUN_00a06b40, FUN_00a06b30, FUN_00a06b60());
@@ -698,6 +707,7 @@ void* __cdecl FUN_00a06d30();
 void __cdecl FUN_00a06d50(void* object);
 unsigned int __cdecl FUN_00a06d60();
 }
+// pdb: `dynamic initializer for 'hkpStiffSpringChainDataTypeInfo'' | hkpStiffSpringChainDataClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void __cdecl FUN_00d7ed80() {
     using namespace f3m_00d7ed80;
     DAT_01169ed4.TypeInfo::TypeInfo(DAT_00e45df0, FUN_00a06d30, FUN_00a06d50, FUN_00a06d60());
@@ -761,6 +771,7 @@ void* __cdecl FUN_00a06ec0();
 void __cdecl FUN_00a06ea0(void* object);
 unsigned int __cdecl FUN_00a06ee0();
 }
+// pdb: `dynamic initializer for 'hkpRotationalConstraintDataTypeInfo'' | hkpDynamicsReflections.obj | tesv_win, objopen_prop, low
 void __cdecl FUN_00d7ef30() {
     using namespace f3m_00d7ef30;
     DAT_0116a024.TypeInfo::TypeInfo(DAT_00e45c60, FUN_00a06ec0, FUN_00a06ea0, FUN_00a06ee0());
@@ -778,13 +789,14 @@ struct TypeInfo {
 };
 extern TypeInfo DAT_0116a094;
 extern const char DAT_00e45db0[];
-void* __cdecl FUN_00a06f20();
+void* __cdecl finishLoadedObjecthkpRagdollLimitsData();
 void __cdecl FUN_00a06f00(void* object);
 unsigned int __cdecl FUN_00a06f50();
 }
+// pdb: `dynamic initializer for 'hkpRagdollLimitsDataTypeInfo'' | hkpDynamicsReflections.obj | tesv_win, objopen_prop, low
 void __cdecl FUN_00d7efc0() {
     using namespace f3m_00d7efc0;
-    DAT_0116a094.TypeInfo::TypeInfo(DAT_00e45db0, FUN_00a06f20, FUN_00a06f00, FUN_00a06f50());
+    DAT_0116a094.TypeInfo::TypeInfo(DAT_00e45db0, finishLoadedObjecthkpRagdollLimitsData, FUN_00a06f00, FUN_00a06f50());
 }
 
 // @f3 0x00d7f050 (community match, verified in this file)
@@ -799,13 +811,14 @@ struct TypeInfo {
 };
 extern TypeInfo DAT_0116a104;
 extern const char DAT_00e45ba8[];
-void* __cdecl FUN_00a06f90();
+void* __cdecl finishLoadedObjecthkpRagdollConstraintData();
 void __cdecl FUN_00a06f70(void* object);
 unsigned int __cdecl FUN_00a06fc0();
 }
+// pdb: `dynamic initializer for 'hkpRagdollConstraintDataTypeInfo'' | hkpDynamicsReflections.obj | tesv_win, objopen_prop, low
 void __cdecl FUN_00d7f050() {
     using namespace f3m_00d7f050;
-    DAT_0116a104.TypeInfo::TypeInfo(DAT_00e45ba8, FUN_00a06f90, FUN_00a06f70, FUN_00a06fc0());
+    DAT_0116a104.TypeInfo::TypeInfo(DAT_00e45ba8, finishLoadedObjecthkpRagdollConstraintData, FUN_00a06f70, FUN_00a06fc0());
 }
 
 // @f3 0x00d7f0f0 (community match, verified in this file)
@@ -866,6 +879,7 @@ void* __cdecl FUN_00a070c0();
 void __cdecl FUN_00a070e0(void* object);
 unsigned int __cdecl FUN_00a070f0();
 }
+// pdb: `dynamic initializer for 'hkpPoweredChainDataTypeInfo'' | hkpPoweredChainDataClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void __cdecl FUN_00d7f270() {
     using namespace f3m_00d7f270;
     DAT_0116a2b4.TypeInfo::TypeInfo(DAT_00e45d80, FUN_00a070c0, FUN_00a070e0, FUN_00a070f0());
@@ -966,6 +980,7 @@ extern int FUN_00a07320();
 extern void FUN_00a072f0();
 extern void FUN_00a07310();
 
+// pdb: `dynamic initializer for 'hkpBallSocketChainDataTypeInfo'' | hkpBallSocketChainDataClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void FUN_00d7f5e0()
 {
     int r = FUN_00a07320();
@@ -2132,6 +2147,7 @@ extern Registry DAT_011694a4;
 extern char DAT_0116c3c0;
 extern char DAT_00e7fab8;
 }
+// pdb: `dynamic initializer for 'hkpStorageExtendedMeshShapeMeshSubpartStorageClass'' | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7df80()
 {
     using namespace f3m_00d7df80;
@@ -5715,6 +5731,7 @@ struct hkClass {
 extern hkClass DAT_01169ff4;
 extern const char DAT_00e45c3c[];
 
+// pdb: `dynamic initializer for 'hkpRotationalConstraintDataAtomsClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7ef00()
 {
     DAT_01169ff4.FUN_009b08a0(DAT_00e45c3c, 0, 0x80, 0, 0, 0, 0, 0xe822a8, 2, 0, 0, 0);
@@ -8967,6 +8984,7 @@ extern char DAT_00e4603c;
 extern char DAT_00e834d0;
 extern char DAT_0116ab14;
 }
+// pdb: `dynamic initializer for 'hkpNamedMeshMaterialClass'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7fbc0() {
     f3_00d7fbc0::DAT_0116aa54.FUN_009b08a0(&f3_00d7fbc0::DAT_00e4603c, &f3_00d7fbc0::DAT_0116ab14, 8, 0, 0, &f3_00d7fbc0::DAT_00e834d0, 1, 0, 0, 0, 0, 0);
 }
@@ -9273,6 +9291,7 @@ extern Obj_0116a7c4 DAT_0116a7c4;
 extern char DAT_00e45110;
 extern char DAT_00e82f88;
 }
+// pdb: `dynamic initializer for 'hkpListShapeChildInfoClass'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7f8c0() {
     f3_00d7f8c0::DAT_0116a7c4.FUN_009b08a0(&f3_00d7f8c0::DAT_00e45110, 0, 16, 0, 0, 0, 0, &f3_00d7f8c0::DAT_00e82f88, 4, 0, 0, 0);
 }
@@ -9486,6 +9505,7 @@ extern char DAT_00e44e78;
 extern char DAT_00e82d60;
 extern char DAT_01169a84;
 }
+// pdb: `dynamic initializer for 'hkpTypedBroadPhaseHandleClass'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7f700() {
     f3_00d7f700::DAT_0116a654.FUN_009b08a0(&f3_00d7f700::DAT_00e44e78, &f3_00d7f700::DAT_01169a84, 12, 0, 0, 0, 0, &f3_00d7f700::DAT_00e82d60, 4, 0, 0, 0);
 }
@@ -9627,6 +9647,7 @@ extern Obj_0116a544 DAT_0116a544;
 extern char DAT_00e45cf0;
 extern char DAT_00e82bc8;
 }
+// pdb: `dynamic initializer for 'hkpBallSocketChainDataConstraintInfoClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7f5b0() {
     f3_00d7f5b0::DAT_0116a544.FUN_009b08a0(&f3_00d7f5b0::DAT_00e45cf0, 0, 32, 0, 0, 0, 0, &f3_00d7f5b0::DAT_00e82bc8, 2, 0, 0, 0);
 }
@@ -9897,6 +9918,7 @@ extern Obj_0116a284 DAT_0116a284;
 extern char DAT_00e45d5c;
 extern char DAT_00e826b0;
 }
+// pdb: `dynamic initializer for 'hkpPoweredChainDataConstraintInfoClass'' | hkpDynamicshkpPoweredChainDataReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7f240() {
     f3_00d7f240::DAT_0116a284.FUN_009b08a0(&f3_00d7f240::DAT_00e45d5c, 0, 80, 0, 0, 0, 0, &f3_00d7f240::DAT_00e826b0, 6, 0, 0, 0);
 }
@@ -17775,6 +17797,7 @@ extern char DAT_00e4678c;
 extern char DAT_00e81a30;
 extern char DAT_01169b24;
 }
+// pdb: `dynamic initializer for 'hkpSerializedSubTrack1nInfoClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e8e0() {
     f3_00d7e8e0::DAT_01169ae4.FUN_009b08a0(&f3_00d7e8e0::DAT_00e4678c, &f3_00d7e8e0::DAT_01169b24, 32, 0, 0, 0, 0, &f3_00d7e8e0::DAT_00e81a30, 2, 0, 0, 0);
 }
@@ -22690,6 +22713,7 @@ extern const int DAT_00e813e8;
 extern InitObj_01169844 DAT_01169844;
 }
 
+// pdb: `dynamic initializer for 'hkpEntitySmallArraySerializeOverrideTypeClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e580()
 {
     f3m_00d7e580::DAT_01169844.FUN_009b08a0(&f3m_00d7e580::DAT_00e45f94, 0, 8, 0, 0, 0, 0, &f3m_00d7e580::DAT_00e813e8, 3, 0, 0, 0);
@@ -22705,6 +22729,7 @@ extern const int DAT_00e81430;
 extern InitObj_01169874 DAT_01169874;
 }
 
+// pdb: `dynamic initializer for 'hkpEntitySpuCollisionCallbackClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e5b0()
 {
     f3m_00d7e5b0::DAT_01169874.FUN_009b08a0(&f3m_00d7e5b0::DAT_00e45fc0, 0, 8, 0, 0, 0, 0, &f3m_00d7e5b0::DAT_00e81430, 4, 0, 0, 0);
@@ -22750,6 +22775,7 @@ extern const int DAT_00e81a00;
 extern InitObj_01169b24 DAT_01169b24;
 }
 
+// pdb: `dynamic initializer for 'hkpSerializedTrack1nInfoClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e8b0()
 {
     f3m_00d7e8b0::DAT_01169b24.FUN_009b08a0(&f3m_00d7e8b0::DAT_00e46770, 0, 24, 0, 0, 0, 0, &f3m_00d7e8b0::DAT_00e81a00, 2, 0, 0, 0);
@@ -22765,6 +22791,7 @@ extern const int DAT_00e81acc;
 extern InitObj_01169bc4 DAT_01169bc4;
 }
 
+// pdb: `dynamic initializer for 'hkpSerializedDisplayRbTransformsDisplayTransformPairClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e990()
 {
     f3m_00d7e990::DAT_01169bc4.FUN_009b08a0(&f3m_00d7e990::DAT_00e468cc, 0, 80, 0, 0, 0, 0, &f3m_00d7e990::DAT_00e81acc, 2, 0, 0, 0);
@@ -22780,6 +22807,7 @@ extern const int DAT_00e81b70;
 extern InitObj_01169c24 DAT_01169c24;
 }
 
+// pdb: `dynamic initializer for 'hkpDisplayBindingDataPhysicsSystemClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7ea50()
 {
     f3m_00d7ea50::DAT_01169c24.FUN_009b08a0(&f3m_00d7ea50::DAT_00e46848, 0, 16, 0, 0, 0, 0, &f3m_00d7ea50::DAT_00e81b70, 2, 0, 0, 0);
@@ -22795,6 +22823,7 @@ extern const int DAT_00e81ba0;
 extern InitObj_01169c54 DAT_01169c54;
 }
 
+// pdb: `dynamic initializer for 'hkpDisplayBindingDataClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7ea80()
 {
     f3m_00d7ea80::DAT_01169c54.FUN_009b08a0(&f3m_00d7ea80::DAT_00e46868, 0, 24, 0, 0, 0, 0, &f3m_00d7ea80::DAT_00e81ba0, 2, 0, 0, 0);
@@ -22874,6 +22903,7 @@ extern const int DAT_00e820e0;
 extern InitObj_01169ea4 DAT_01169ea4;
 }
 
+// pdb: `dynamic initializer for 'hkpStiffSpringChainDataConstraintInfoClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7ed50()
 {
     f3m_00d7ed50::DAT_01169ea4.FUN_009b08a0(&f3m_00d7ed50::DAT_00e45dc8, 0, 48, 0, 0, 0, 0, &f3m_00d7ed50::DAT_00e820e0, 3, 0, 0, 0);
@@ -23531,6 +23561,7 @@ extern Obj_011698a4 DAT_011698a4;
 extern char DAT_00e45fe0;
 extern char DAT_00e81490;
 }
+// pdb: `dynamic initializer for 'hkpEntityExtendedListenersClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e5e0() {
     f3_00d7e5e0::DAT_011698a4.FUN_009b08a0(&f3_00d7e5e0::DAT_00e45fe0, 0, 16, 0, 0, 0, 0, &f3_00d7e5e0::DAT_00e81490, 2, 0, 0, 0);
 }
@@ -23557,6 +23588,7 @@ extern Obj_01169bf4 DAT_01169bf4;
 extern char DAT_00e4682c;
 extern char DAT_00e81b28;
 }
+// pdb: `dynamic initializer for 'hkpDisplayBindingDataRigidBodyClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7ea20() {
     f3_00d7ea20::DAT_01169bf4.FUN_009b08a0(&f3_00d7ea20::DAT_00e4682c, 0, 80, 0, 0, 0, 0, &f3_00d7ea20::DAT_00e81b28, 3, 0, 0, 0);
 }
@@ -23570,6 +23602,7 @@ extern Obj_01169d34 DAT_01169d34;
 extern char DAT_00e46680;
 extern char DAT_00e81ca0;
 }
+// pdb: `dynamic initializer for 'hkpBallGunClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7eb70() {
     f3_00d7eb70::DAT_01169d34.FUN_009b08a0(&f3_00d7eb70::DAT_00e46680, 0, 8, 0, 0, 0, 0, &f3_00d7eb70::DAT_00e81ca0, 2, 0, 0, 0);
 }
@@ -38772,6 +38805,7 @@ extern const int DAT_01062880;
 extern InitObj_011696a4 DAT_011696a4;
 }
 
+// pdb: `dynamic initializer for 'hkpMeshShapeSubpartClass'' | hkpCollidehkpMeshShapeReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e280()
 {
     f3m_00d7e280::DAT_011696a4.FUN_009b08a0(&f3m_00d7e280::DAT_00e45390, 0, 56, 0, 0, 0, 0, &f3m_00d7e280::DAT_01062880, 15, &f3m_00d7e280::DAT_00e7fea8, 0, 0);
@@ -39263,6 +39297,7 @@ extern InitObj_01169524 DAT_01169524;
 extern const int DAT_011695f4;
 }
 
+// pdb: `dynamic initializer for 'hkpStorageExtendedMeshShapeClass'' | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e040()
 {
     f3m_00d7e040::DAT_01169524.FUN_009b08a0(&f3m_00d7e040::DAT_00e451d8, &f3m_00d7e040::DAT_011695f4, 224, 0, 0, 0, 0, &f3m_00d7e040::DAT_00e7fba8, 2, 0, 0, 0);
@@ -39396,6 +39431,7 @@ extern const char DAT_00e45b88;
 extern const char DAT_00e82414;
 extern const char DAT_00e82428;
 
+// pdb: `dynamic initializer for 'hkpRagdollConstraintDataAtomsClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7f020()
 {
     DAT_0116a0d4.FUN_009b08a0(&DAT_00e45b88, 0, 0x130, 0, 0, &DAT_00e82414, 1, &DAT_00e82428, 7, 0, 0, 0);
@@ -39428,6 +39464,7 @@ extern const char DAT_00e45d94;
 extern const char DAT_00e82340;
 extern const char DAT_00e82358;
 
+// pdb: `dynamic initializer for 'hkpRagdollLimitsDataAtomsClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7ef90()
 {
     DAT_0116a064.FUN_009b08a0(&DAT_00e45d94, 0, 0xb0, 0, 0, &DAT_00e82340, 1, &DAT_00e82358, 4, 0, 0, 0);
@@ -39554,6 +39591,7 @@ extern const char DAT_00e466a8;
 extern hkClass_d7ebd0 DAT_0116aeb4;
 extern const char DAT_00e81cd0;
 
+// pdb: `dynamic initializer for 'hkpGravityGunClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7ebd0()
 {
     DAT_01169d64.FUN_009b08a0(&DAT_00e466a8, &DAT_0116aeb4, 0x40, 0, 1, 0, 0, &DAT_00e81cd0, 1, 0, 0, 0);
@@ -39568,6 +39606,7 @@ extern hkClass_d7e9f0 DAT_01169b84;
 extern const char DAT_00e46904;
 extern const char DAT_00e81afc;
 
+// pdb: `dynamic initializer for 'hkpSerializedDisplayRbTransformsClass'' | hkpUtilitiesReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e9f0()
 {
     DAT_01169b84.FUN_009b08a0(&DAT_00e46904, &DAT_0116c3c0, 0x14, 0, 0, 0, 0, &DAT_00e81afc, 1, 0, 0, 0);
@@ -39659,6 +39698,7 @@ extern InitObj_01169914 DAT_01169914;
 extern const int DAT_0116a9c4;
 }
 
+// pdb: `dynamic initializer for 'hkpPhantomClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d7e680()
 {
     f3m_00d7e680::DAT_01169914.FUN_009b08a0(&f3m_00d7e680::DAT_00e46258, &f3m_00d7e680::DAT_0116a9c4, 152, 0, 0, 0, 0, &f3m_00d7e680::DAT_00e816a0, 2, 0, 0, 0);

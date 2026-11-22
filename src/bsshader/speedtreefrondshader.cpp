@@ -95,6 +95,7 @@ struct SpeedTreeFrondShader_s
 };
 
 // @fnv 0x00bd3000
+// pdb: SpeedTreeFrondShader::CreateConstantMaps | SpeedTreeFrondShader.obj | fnv360_0822_retail, ustr, medium
 void SpeedTreeFrondShader_s::CreateConstantMap()
 {
     if (!(m_spConstantMap == 0))
@@ -122,6 +123,8 @@ void SpeedTreeFrondShader_s::CreateConstantMap()
 
 extern "C" void __cdecl FUN_00b7b450();
 // @fnv 0x00bd3270
+// pdb: NiScreenGeometry::SaveBinary | NiOldScreenSpace.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00bd3270()
 {
     FUN_00b7b450();
@@ -152,6 +155,7 @@ struct BranchShader
     void FUN_00bd3280();
 };
 // @fnv 0x00bd3280
+// pdb: SpeedTreeBranchShader::LoadVertexShaders | SpeedTreeBranchShader.obj | fnv360_0822_retail, ustr, medium
 void BranchShader::FUN_00bd3280()
 {
     ShaderProgram shaderPrograms1x[10] = {{"lighting\\1x\\v\\base.v.hlsl", {"TREE", "", 0}},
@@ -260,6 +264,7 @@ struct Frond
 };
 // Builds ten shader entry descriptors, then for each one formats its name and creates a shader constant map stored in m_slots.
 // @fnv 0x00bd3c60
+// pdb: SpeedTreeBranchShader::LoadPixelShaders | SpeedTreeBranchShader.obj | fnv360_0822_retail, ustr, medium
 void Frond::CreateShaderConstantMaps()
 {
     char specMultBuf[0x160];

@@ -3,17 +3,7 @@
 #define FNV_NIREFOBJECT_H
 #include "layout_support.h"
 #include "NiMemObject.h"
-#ifndef FNV_NI_ATOMIC_DEFINED
-#define FNV_NI_ATOMIC_DEFINED
-inline unsigned int NiAtomicIncrement(unsigned int& value)
-{
-    return InterlockedIncrement(reinterpret_cast<volatile long*>(&value));
-}
-inline unsigned int NiAtomicSubtract(unsigned int& value)
-{
-    return InterlockedDecrement(reinterpret_cast<volatile long*>(&value));
-}
-#endif
+#include "NiAtomic.h"
 #pragma pack(push, 4)
 class NiRefObject : public NiMemObject
 {

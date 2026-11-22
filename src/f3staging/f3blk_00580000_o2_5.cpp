@@ -25,6 +25,8 @@ struct Entry { Table* table; };
 struct Owner; 
 struct Owner { int unk00; int unk04; Entry** group3; Entry** group2; Entry** group0; Entry** group1;
   void FUN_00597740(unsigned group,unsigned index,unsigned a,unsigned b,float value); };
+// pdb: BSFaceGenMorphDataHead::ApplyMorph | BSFaceGenMorphData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeType, aiIndex, apGeom, apBaseMorph, afModifier
 void Owner::FUN_00597740(unsigned group,unsigned index,unsigned a,unsigned b,float value)
 {
     Entry* entry;

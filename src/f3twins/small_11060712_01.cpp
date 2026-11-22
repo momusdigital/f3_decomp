@@ -13,6 +13,8 @@ class SF_0086ac40 : public NiRefObject { public: GCMap m_kGlobalConstantMap; sta
 struct Stub_0086ac40 { __declspec(noalias) void FUN_0085b7a0(NiFixedString* kKey); };
 extern char* DAT_00e207a8;
 
+// pdb: NiShaderFactory::ReleaseGlobalShaderConstant | NiShaderFactory.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kKey
 bool FUN_0086ac40(const NiFixedString* pkName)
 {
     SF_0086ac40* pkFactory = SF_0086ac40::ms_pkShaderFactory;
@@ -68,6 +70,8 @@ static inline unsigned int C6A2E0IsEnabled_008d6200(C6A2E0AVObject* pkObject) {
     C6A2E0Properties* pkProps = FUN_00aa60f0(pkObject);
     return pkProps ? (pkProps->m_uiFlags & 2) : 0;
 }
+// pdb: bhkWorld::DoObjects | bhkWorld.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: bhkWorld::StopBatchingAdds)
+// pdb params: apObject, arData, apFunc
 bool FUN_008d6200(C6A2E0AVObject* pkObject, CollisionObjectCountContext* pkContext, CollisionObjectCountCallback pfnCallback)
 {
     bool bHandled = false;
@@ -103,6 +107,7 @@ namespace AHMath {
 
 
 struct Q_008db810 { float m_vec[4]; float GetAngle() const; };
+// pdb: hkQuaternion::getAngle | NavMeshObstacleManager.obj | tesv_win, call_seq, medium
 float Q_008db810::GetAngle() const
 {
     float angle = AHMath::fabs(m_vec[3]);

@@ -60,6 +60,8 @@ public:
     Shape(const Info*);
     virtual ~Shape();
 };
+// pdb: hkNiTriStripsShape::hkNiTriStripsShape | hkNiTriStripsShape.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arInfo
 Shape::Shape(const Info* info):CollectionBase(0x1e) {
     radius=info->radius;
     Vector4 copiedScale(info->scale);
@@ -320,9 +322,11 @@ struct Body : Base {
     float unk188;
     void FUN_0090b500();
     void FUN_0090c670(int c);
-    void FUN_0090c830(void* p, Vec4* out);
+    void hkpRigidBody_updateCachedShapeInfo(void* p, Vec4* out);
     Body(const CInfo& info);
 };
+// pdb: hkpWorldObject::copyProperties | hkpRigidBody.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: hkpRigidBody::hkpRigidBody)
+// pdb params: otherObj
 Body::Body(const CInfo& info) : Base(info.shape)
 {
     unk80 = info.unk08;
@@ -354,7 +358,7 @@ Body::Body(const CInfo& info) : Base(info.shape)
     unk188 = info.unk98;
     if (unk10) {
         Vec4 v;
-        FUN_0090c830(unk10, &v);
+        hkpRigidBody_updateCachedShapeInfo(unk10, &v);
         if (unk58 <= 0.0f)
             FUN_0090c7b0((Collidable*)&unk10, v);
     }

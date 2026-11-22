@@ -7,26 +7,6 @@ struct Owner {
     unsigned int field20, field24, field28, field2c;
     void* payload;
 };
-struct Item {
-    unsigned int value;
-    unsigned char* first;
-    unsigned char* second;
-    unsigned int key;
-    unsigned short kind;
-    unsigned char flags;
-    unsigned char flagsHigh;
-    unsigned short firstSize;
-    unsigned short field16;
-    unsigned short secondSize;
-    unsigned short field1a;
-    unsigned int extra;
-    unsigned short extraKind;
-};
-struct Entry {
-    Item* item;
-    unsigned short firstIndex;
-    unsigned short secondIndex;
-};
 struct Record {
     unsigned int key;
     unsigned int value;
@@ -64,10 +44,6 @@ struct Group {
     Group* limit;
     unsigned int field24, field28, field2c;
 };
-struct BlockList { Block* head; unsigned int count; };
-struct EntryListNode { Entry* data; int count; };
-struct Special { Entry entry; Record* record; unsigned int field0c; };
-struct SpecialList { Special* data; int count; };
 struct Allocator { virtual void unused(); virtual void* allocate(unsigned int size); };
 struct AllocationContext { unsigned int field00, field04, field08, field0c; Allocator* allocator; void* allocate(unsigned int size) { return allocator->allocate(size); } };
 void* __cdecl FUN_00c85750();
@@ -75,107 +51,9 @@ inline void* Block::operator new(unsigned int) throw() { return ((AllocationCont
 inline void* Group::operator new(unsigned int) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x30); }
 
 struct SizePointer { unsigned int* value; SizePointer(unsigned int* p):value(p) {} unsigned int& operator*() const { return *value; } };
-// Allocates a Block, links it into the block list, copies entries into records, and optionally creates a Group tracking size ranges.
-// @fnv 0x00d94ec0
-void __cdecl FUN_00d94ec0(BlockList* blocks, Owner* owner, Group** groupHead, Block** blockTail,
-    Group** groupTail, Group** rangeBegin, Group** rangeEnd,
-    SizePointer firstSizeArg, unsigned int* secondSize, EntryListNode* entries,
-    void** currentState, void* state, unsigned short** count,
-    bool suppressHead, bool makeGroup, SpecialList* specials)
-{
-    unsigned int* firstSize = firstSizeArg.value;
-    unsigned int firstOffset = *firstSize;
-    unsigned int secondOffset = *secondSize;
-    Block* block = new Block;
-    if (*blockTail == 0) {
-        if (!suppressHead) {
-            blocks->head = block;
-            blocks->count = 0;
-        }
-    } else {
-        (*blockTail)->next = block;
-        (*blockTail)->firstEnd = *firstSize;
-    }
-    ++blocks->count;
-    block->owner = owner;
-    block->count = entries->count;
-    block->payload = owner->payload;
-    block->firstOffset = firstOffset;
-    int length = entries->count;
-    for (int i = 0; i < length; ++i) {
-        Record* record = &block->firstRecord + i;
-        Entry* entry = &entries->data[i];
-        Item* item = entry->item;
-        if (item->flags & 0x0b) {
-            int n = specials->count;
-            specials->count = n + 1;
-            Special* special = &specials->data[n];
-            special->entry = *entry;
-            special->record = record;
-            firstSize = *(unsigned int* volatile*)&firstSizeArg.value;
-        }
-        record->key = item->key;
-        record->kind = item->kind;
-        record->value = item->value;
-        record->extra = item->extra;
-        record->extraKind = item->extraKind;
-        unsigned int secondIndex = entry->secondIndex;
-        unsigned short firstIndex = entry->firstIndex;
-        record->firstIndex = firstIndex + 1;
-        record->secondIndex = secondIndex + 1;
-        record->first = item->first + 0xf0;
-        record->second = item->second + 0xf0;
-        *firstSize += item->firstSize;
-        *secondSize += item->secondSize * 4;
-    }
-    entries->count = 0;
-    *firstSize += 0x10;
-    block->firstEnd = *firstSize;
-    *secondSize = (*secondSize + 0xf) & ~0xf;
-    *blockTail = block;
-    if (makeGroup) {
-        Group* group = new Group;
-        if (*groupTail) (*groupTail)->next = group;
-        if (state != *currentState) {
-            if (!state) *groupHead = group;
-            *currentState = state;
-            if (*groupTail) {
-                Group* cursor = *rangeBegin;
-                unsigned short size = **count;
-                while (cursor && cursor != *rangeEnd) {
-                    cursor->count = size;
-                    cursor->limit = *rangeEnd;
-                    cursor = cursor->next;
-                }
-                (*groupTail)->boundary = true;
-                *count = &(*groupTail)->count;
-            }
-            *rangeBegin = *rangeEnd;
-            *rangeEnd = group;
-        }
-        ++**count;
-        group->owner = owner;
-        group->payload = owner->payload;
-        group->firstOffset = firstOffset;
-        group->secondOffset = secondOffset;
-        group->firstLength = *firstSize - firstOffset;
-        group->secondLength = *secondSize - secondOffset;
-        *groupTail = group;
-    }
-}
-
-void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blockTail,
-    Group** groupTail, Group** rangeBegin, Group** rangeEnd,
-    unsigned int* firstSize, unsigned int* secondSize, EntryListNode* entries,
-    void** currentState, void* state, unsigned short** count,
-    bool suppressHead, bool makeGroup, SpecialList* specials) {
-    FUN_00d94ec0(blocks, owner, groupHead, blockTail, groupTail, rangeBegin, rangeEnd,
-        firstSize, secondSize, entries, currentState, state, count, suppressHead, makeGroup, specials);
-}
 
 #include <xmmintrin.h>
 #include <windows.h>
-extern "C" void _ReadWriteBarrier();
 inline void* operator new(unsigned int, void* ptr) { return ptr; }
 __declspec(nothrow) void* FUN_00c85750();
 __declspec(nothrow) void FUN_00c908c0(void*,void*,int,int);
@@ -228,8 +106,6 @@ template<class T> __forceinline void defaultRange(T* p,int n) { for(int i=0;i<n;
 template<class T> __forceinline void copyRange(T* p,int n,const T& value) { for(int i=0;i<n;++i) new(p+i) T(value); }
 template<class T> __forceinline void destroyRange(T* p,int n) { for(int i=0;i<n;++i) (p+i)->~T(); }
 
-template<class T> __forceinline T bytesCopy(const T& src) { T dst; for(unsigned i=0;i<sizeof dst;++i) ((unsigned char*)&dst)[i]=((const unsigned char*)&src)[i]; return dst; }
-
 struct DelayInit {};
 template<class T> class TaskArrayBase {
 protected:
@@ -280,9 +156,6 @@ public:
         TaskArray<T>::closeArray();
     }
 };
-template<class T> T* taskTempAllocate(int n) { return (T*)TaskMemory::GetMonitorStream().temporary->allocate(n*int(sizeof(T))); }
-template<class T> void taskTempFree(T* ptr,int n) { TaskMemory::GetMonitorStream().temporary->release(ptr,n*int(sizeof(T))); }
-template<class T> T* taskHeapAllocate(int n,int) { return (T*)TaskMemory::GetMonitorStream().heap->allocate(n*int(sizeof(T))); }
 struct IndexPair { unsigned long key,value; };
 class EntityIndexMap {
     IndexPair* data;
@@ -299,16 +172,6 @@ public:
     void insert(unsigned long key,unsigned long val) { FUN_00cb1870(TaskMemory::GetMonitorStream().heap,key,val); }
     unsigned long FindValueForKey(unsigned long key,unsigned long value) const { return LookupHashEntry(key,value); }
 };
-__declspec(noinline) unsigned long EntityIndexMap::LookupHashEntry(unsigned long key,unsigned long fallback) const throw() {
- if(mask>0) {
-  unsigned i=((key>>4)*2654435761ul)&mask;
-  while(data[i].key!=~0ul) {
-   if(data[i].key==key) return data[i].value;
-   i=(i+1)&mask;
-  }
- }
- return fallback;
-}
 
 struct TaskEntity;
 struct __declspec(align(16)) InternalConstraint {
@@ -482,8 +345,6 @@ struct MonitorStream {
     char* GetStreamEnd() { return current; }
     void setEnd(char* ptr) { current=ptr; }
 };
-template<class T> T* byteAdvance(T* ptr,long offset) { return (T*)((char*)ptr+offset); }
-template<class A,class B> int byteDistance(A* first,B* last) { return (int)((char*)last-(char*)first); }
 struct __declspec(align(8)) ProbeEntry {
     const InternalConstraint* constraint;
     unsigned short firstIndex;
@@ -493,311 +354,10 @@ struct __declspec(align(16)) ProbeCallback : ProbeEntry {
     BuildTask::BuildTaskData* output;
 };
 
-template<bool Partial> static __forceinline void appendProbe(const JobHeader* header,
-    BuildCollection* builds, SolveCollection* solves,
-    BuildTask*& previousBuild, SolveTask*& previousSolve,
-    SolveTask*& priorBatch, SolveTask*& thisBatch,
-    unsigned char*& schema, int*& temporary,
-    StackArray<ProbeEntry>& pending, int& lastBatch, int batch, unsigned short*& batchSize,
-    FlagByte ppuOnly, FlagByte makeSolve, TaskArray<ProbeCallback>& callbacks)
-{
-    unsigned char* schemaBegin = schema;
-    int* tempBegin = temporary;
-    {
-        BuildTask* task = new BuildTask;
-        if (!previousBuild) {
-            if (!ppuOnly) { builds->m_pBuildTask = task; builds->m_iEntryCount = 0; }
-        } else {
-            previousBuild->m_next = task;
-            previousBuild->m_akBuildBuffer = schema;
-        }
-        builds->m_iEntryCount++;
-        int total;
-        if (Partial) {
-        JobHeader* metadata=bytesCopy(const_cast<JobHeader*>(header));
-        task->m_pJobHeader=metadata;
-        task->m_iBuildItemCount=pending.GetLogicalSize();
-        task->m_pVelocityAccumulatorA=metadata->m_pAccumulatorA;
-        task->m_akBufferStates=schemaBegin;
-        total=pending.GetLogicalSize();
-        } else {
-        task->m_pJobHeader = const_cast<JobHeader*>(header);
-        task->m_iBuildItemCount = pending.GetLogicalSize();
-        task->m_pVelocityAccumulatorA = header->m_pAccumulatorA;
-        task->m_akBufferStates = schemaBegin;
-        total = pending.GetLogicalSize();
-        }
-        for (int index = 0; index < total; ++index) {
-            ProbeEntry& entry = pending[index];
-            const InternalConstraint* constraint = entry.constraint;
-            BuildTask::BuildTaskData* output = &task->m_akBuildTaskEntries[index];
-            if (constraint->m_ucCallbackRequest & 11) {
-                ProbeCallback* callback = callbacks.expandByUnchecked(1);
-                *static_cast<ProbeEntry*>(callback) = entry;
-                callback->output = output;
-            }
-            output->m_kBridgeAtoms = constraint->getAtoms();
-            output->m_iAtomsSize = constraint->getAtomsSize();
-            output->ms_uiThreadLocalStorageIndex = constraint->m_pHavokConstraint;
-            output->m_pRuntime = constraint->m_pRuntime;
-            output->m_usTrailingValue = constraint->m_usTrailingValue;
-            int first = entry.firstIndex;
-            int second = entry.secondIndex;
-            output->m_usSecondTrailingValue = first + 1;
-            output->m_usThirdTrailingValue = second + 1;
-            output->m_kBodyALocalFrame = &constraint->m_kActorEntries[0]->getMotion()->getTransform();
-            output->m_kBodyBLocalFrame = &constraint->m_kActorEntries[1]->getMotion()->getTransform();
-            schema = byteAdvance(schema, constraint->m_iSchemaByteSize);
-            temporary += constraint->m_iSolverElementTemporaryCount;
-        }
-        pending.clear();
-        schema = byteAdvance(schema, 16);
-        task->m_akBuildBuffer = schema;
-        temporary = reinterpret_cast<int*>(((unsigned long)(temporary) + 15) & ~15);
-        previousBuild = task;
-    }
-    if (makeSolve) {
-        SolveTask* task = new SolveTask;
-        if (previousSolve) previousSolve->m_next = task;
-        if (batch != lastBatch) {
-            if (batch == 0) solves->m_pTasks = task;
-            lastBatch = batch;
-            if (previousSolve) {
-                SolveTask* walk = priorBatch;
-                unsigned short size = *batchSize;
-                while (walk && walk != thisBatch) {
-                    walk->m_usSolverElementCount = size;
-                    walk->m_pNextSolveTask = thisBatch;
-                    walk = walk->m_next;
-                }
-                previousSolve->m_kSolveTaskFlagByte = true;
-                batchSize = &previousSolve->m_usSolverElementCount;
-            }
-            priorBatch = thisBatch;
-            thisBatch = task;
-        }
-        ++*batchSize;
-        task->m_pJobHeader = const_cast<JobHeader*>(header);
-        task->m_pVelocityAccumulatorA = header->m_pAccumulatorA;
-        task->m_akBufferStates = schemaBegin;
-        task->m_pIntegerValues = tempBegin;
-        task->m_iFirstSolveTaskValue = byteDistance(schemaBegin, schema);
-        task->m_iSecondSolveTaskValue = byteDistance(tempBegin, temporary);
-        previousSolve = task;
-    }
-}
-
 extern const char str_010d3f1c[], str_010d3d60[], str_010d3f08[], str_010d3d70[], str_010c41f8[];
-
-union EarlyPhase { DWORD ticks; TaskEntity* const* bodies; int pass; };
-union FinalPhase { DWORD ticks; int bytes; };
-
-
 
 struct SceneInput { SceneInput(SceneIsland* v):p(v) {} SceneIsland* p;  operator SceneIsland*() const { return p; } SceneIsland* operator->() const { return p; } };
 
-
-static __forceinline void finalizeCounts(JobHeader* state) {
-        unsigned int amount = state->m_usTaskMetadata + 1;
-        state->m_pVelocityAccumulatorB = byteAdvance(state->m_pAccumulatorA, amount << 7);
-        state->m_usValueAt38 = ((amount-1) >> 7) + 1;
-        state->m_usValueAt3A = ((amount-1) >> 7) + 1;
-}
-
-// @fnv 0x00d95130
-void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
-    BuildCollection* builds, SolveCollection* solves)
-{
-    TaskArray<ProbeEntry,TempPolicy> normal((DelayInit())); TaskArray<ProbeEntry,TempPolicy> high((DelayInit()));
-     FinalPhase finalPhase;
-    const DWORD& initialTimerIndex=DAT_0126835c;
-    SceneIsland* scene = island;
-    {
-        MonitorStream& stream=*(MonitorStream*)TlsGetValue(initialTimerIndex);
-        if(stream.memoryAvailable()) {
-            MonitorStream::CommandTimingEntry* event=(MonitorStream::CommandTimingEntry*)bytesCopy(stream.GetStreamEnd());
-            event->m_pCommandName=str_010d3f1c; _ReadWriteBarrier();
-            DWORD ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
-            event->m_uiStartTicks=ticks;
-            stream.setEnd((char*)(event+1));
-        }
-    }
-    {
-    TaskEntity* const* bodies = scene->GetEntities().begin();
-    int bodyCount = scene->GetEntities().GetLogicalSize();
-    int normalCapacity=scene->m_iConstraintCount;
-    int& bodyBytes=finalPhase.bytes;
-    bodyBytes=bodyCount*4;
-    TaskEntity* const* bodyEnd=byteAdvance(bodies,bodyBytes);
-    new(&normal) TaskArray<ProbeEntry,TempPolicy>;
-    normal.reserve(normalCapacity);
-    int highCapacity=scene->m_iConstraintCount;
-    new(&high) TaskArray<ProbeEntry,TempPolicy>;
-    high.reserve(highCapacity);
-    StackArray<ProbeCallback> callbacks(scene->m_iConstraintCount);
-    int allNormal = 1;
-    {
-        int mapWords = 64;
-        while (mapWords < bodyCount) mapWords *= 2;
-        mapWords *= 4;
-        unsigned long* mapStorage = taskTempAllocate<unsigned long>(mapWords);
-        {
-            EntityIndexMap map(mapStorage, mapWords * sizeof(unsigned long));
-            for (int index = 0; index < bodyCount; ++index) map.insert((unsigned long)(bodies[index]), index);
-            TaskEntity* const* body = bodies;
-            unsigned int accumulatorOffset = 128;
-            int index;
-            for (body = bodies, index = 0; body < bodyEnd; ++body, ++index) {
-                TaskEntity* entity = *body;
-                if (accumulatorOffset != entity->m_uiFilterInfo) entity->m_uiFilterInfo = accumulatorOffset;
-                accumulatorOffset += 128;
-                const InternalConstraint* constraint = entity->getConstraintMasters().begin();
-                const InternalConstraint* end = entity->getConstraintMasters().end();
-                for (; constraint < end; ++constraint) {
-                    ProbeEntry entry;
-                    entry.constraint = constraint;
-                    {
-                        int slave = 1 - constraint->m_ucByteAfterTemporaryCount;
-                        unsigned short* indices = (&entry.firstIndex);
-                        indices[constraint->m_ucByteAfterTemporaryCount] = index;
-                        indices[slave] = (unsigned short)map.FindValueForKey((unsigned long)(constraint->m_kActorEntries[slave]), 0xffff);
-                    }
-                    allNormal &= constraint->m_kRuntimeFlagByte;
-                    if (constraint->m_priority < 4) normal.pushBackUnchecked(entry);
-                    else high.pushBackUnchecked(entry);
-                }
-            }
-            map.closeMap();
-        }
-        taskTempFree(mapStorage, mapWords);
-    }
-    {
-        MonitorStream& stream = MonitorStream::GetMonitorStream();
-        if (stream.memoryAvailable()) {
-            MonitorStream::CommandFilterEntry* event = reinterpret_cast<MonitorStream::CommandFilterEntry*>(stream.GetStreamEnd());
-            event->m_pCommandName = str_010d3d60;
-            event->m_uiFilterValue = (float)bodyCount;
-            stream.setEnd((char*)(event+1));
-        }
-    }
-    {
-        MonitorStream& stream = MonitorStream::GetMonitorStream();
-        if (stream.memoryAvailable()) {
-            MonitorStream::CommandFilterEntry* event = reinterpret_cast<MonitorStream::CommandFilterEntry*>(stream.GetStreamEnd());
-            SceneIsland* valueOwner=island.p;
-            event->m_pCommandName = str_010d3f08;
-            event->m_uiFilterValue = (float)valueOwner->m_iConstraintCount;
-            stream.setEnd((char*)(event+1));
-        }
-    }
-    {
-        MonitorStream& stream = MonitorStream::GetMonitorStream();
-        if (stream.memoryAvailable()) {
-            MonitorStream::CommandFilterEntry* event = reinterpret_cast<MonitorStream::CommandFilterEntry*>(stream.GetStreamEnd());
-            SceneIsland* valueOwner=island.p;
-            event->m_pCommandName = str_010d3d70;
-            event->m_uiFilterValue = (float)valueOwner->m_kConstraintInfo.m_iSolverResultCount;
-            stream.setEnd((char*)(event+1));
-        }
-    }
-    JobHeader* flagHeader=bytesCopy(header);
-    flagHeader->m_kSecondTaskFlagByte = allNormal == 0;
-    flagHeader->m_kFirstTaskFlagByte = bytesCopy(bool(flagHeader->m_kSecondTaskFlagByte));
-    FlagByte makeSolve = !flagHeader->m_kFirstTaskFlagByte;
-    unsigned char* schema = flagHeader->m_pByteArrayAt3C;
-    int* temporary = flagHeader->m_pIntegerArrayAt40;
-    int batch = -1;
-    int lastBatch = -1;
-    unsigned short* batchSize = &solves->m_usTaskCount;
-    *batchSize = 0;
-    BuildTask* previousBuild = 0;
-    SolveTask* previousSolve = 0;
-    SolveTask* priorBatch = 0;
-    SolveTask* thisBatch = 0;
-    StackArray<ProbeEntry> pending(144);
-    int* groups = (int*)TaskMemory::GetMonitorStream().temporary->allocate(finalPhase.bytes);
-    for (int pass = 0; pass < 2; ++pass) {
-        FlagByte ppuOnly = false;
-        TaskArray<ProbeEntry,TempPolicy>* source;
-        if (pass) source = &high;
-        else { source = &normal; previousBuild = 0; }
-        while (source->GetLogicalSize()) {
-            for (int index = 0; index < bodyCount; groups[index++] = 0) {}
-            int group = 1;
-            ++batch;
-            ProbeEntry* cursor = source->begin();
-            const ProbeEntry* end = source->end();
-            ProbeEntry* deferred = source->begin();
-            for (; cursor < end; ++cursor) {
-                const ProbeEntry& entry = *cursor;
-                int fixedGroup = 0;
-                int& a = entry.firstIndex == 0xffff ? fixedGroup : groups[entry.firstIndex];
-                int& b = entry.secondIndex == 0xffff ? fixedGroup : groups[entry.secondIndex];
-                if (pending.GetLogicalSize() == 144) {
-                    appendProbe<false>(header, builds, solves, previousBuild, previousSolve, priorBatch, thisBatch,
-                        schema, temporary, pending, lastBatch, batch, batchSize, ppuOnly, makeSolve, callbacks);
-                    group += bool(makeSolve);
-                }
-                if (coherent && group > 1) {
-                    for (; cursor < end; ++cursor) *deferred++ = *cursor;
-                    break;
-                }
-                if ((a && a != group) || (b && b != group)) *deferred++ = *cursor;
-                else { pending.pushBackUnchecked(entry); a = group; b = group; }
-            }
-            if (pending.GetLogicalSize()) appendProbe<true>(header, builds, solves, previousBuild, previousSolve, priorBatch,
-                thisBatch, schema, temporary, pending, lastBatch, batch, batchSize, ppuOnly, makeSolve, callbacks);
-            source->setSizeUnchecked(int(deferred - source->begin()));
-        }
-    }
-    TaskMemory::GetMonitorStream().temporary->release(groups,finalPhase.bytes);
-    if (makeSolve) {
-        SolveTask* walk = priorBatch;
-        unsigned short size = *batchSize;
-        while (walk && walk != thisBatch) {
-            walk->m_usSolverElementCount = size;
-            walk->m_pNextSolveTask = thisBatch;
-            walk = walk->m_next;
-        }
-        previousSolve->m_kSolveTaskFlagByte = true;
-        finalizeCounts(header);
-    }
-    builds->m_iEntryCapacity = 0;
-    builds->m_pInternalConstraint = 0;
-    int callbackCount = callbacks.GetLogicalSize();
-    if (callbackCount) {
-        BuildCollection::ConstraintBuildTaskLink* result = taskHeapAllocate<BuildCollection::ConstraintBuildTaskLink>(callbackCount,3);
-        builds->m_iEntryCapacity = callbackCount;
-        builds->m_pInternalConstraint = result;
-        for (int index = 0; index < callbackCount; ++index) {
-            result[index].m_pInternalConstraint = callbacks[index].constraint;
-            result[index].m_pBuildTaskEntry = callbacks[index].output;
-        }
-    }
-    pending.closeStack();
-    callbacks.closeStack();
-    high.closeArray();
-    normal.closeArray();
-    {
-        MonitorStream& stream=*(MonitorStream*)TlsGetValue(DAT_0126835c);
-        if(stream.memoryAvailable()) {
-            MonitorStream::CommandTimingEntry* event=(MonitorStream::CommandTimingEntry*)stream.GetStreamEnd();
-            event->m_pCommandName=str_010c41f8; _ReadWriteBarrier();
-            DWORD ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
-            event->m_uiStartTicks=ticks;
-            stream.setEnd((char*)(event+1));
-        }
-    }
-    }
-}
 
 namespace fnv_00d95cf0 {
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
@@ -872,8 +432,6 @@ __forceinline void MonitorStream::CommandTimingEntry::setTime() {
 }
 
 extern TlsSlot<MonitorStream*> DAT_0126835c;
-extern TlsSlot<int> DAT_012687c8;
-__forceinline MonitorStream& MonitorStream::GetMonitorStream() { return *DAT_0126835c.get(); }
 
 struct TaskAllocator {
     virtual ~TaskAllocator();
@@ -904,14 +462,6 @@ struct TaskMemory {
     __forceinline TaskAllocator& solver() { return *solverAlloc; }
 };
 
-template <class T> __forceinline T* solverBufAlloc(int& reqCountInOut) {
-    return TaskMemory::GetMonitorStream().solver().allocBuf<T>(reqCountInOut);
-}
-
-template <class T> __forceinline void solverBufFree(T* p, int count) {
-    TaskMemory::GetMonitorStream().solver().freeBuf<T>(p, count);
-}
-
 template <class T> struct TaskArrayBase {
     T* data;
     int count;
@@ -925,8 +475,6 @@ template <class T> struct TaskArrayBase {
 template <class T> struct TaskArray : TaskArrayBase<T> {
     __forceinline TaskArray() { this->data = 0; this->count = 0; this->capacityAndFlags = 0x80000000; }
 };
-
-template <class T> __forceinline T maxVal(T x, T y) { return x > y ? x : y; }
 
 enum PacketKind { PACKET_DYNAMICS = 0, PACKET_MAX = 16 };
 enum PacketMode { MODE_INVALID, MODE_ENABLED, MODE_DISABLED };
@@ -958,17 +506,6 @@ struct __declspec(align(16)) QueueStorage : Command {
     int unk120, unk124, unk128, unk12c, unk130, unk134, unk138, unk13c;
     int unk140, unk144, unk148, unk14c, unk150, unk154, unk158, unk15c;
     int unk160, unk164, unk168, unk16c;
-};
-
-struct Queue {
-    int __thiscall ForwardWithZero(Command& cmd, int waitMode);
-    void __thiscall FUN_00d04b50(Command& cmd, int priority);
-    void __thiscall FUN_00d04d80(const Command* cmd, int flag);
-    void* __thiscall FUN_00d04400(void* storage);
-    void __thiscall InsertItemAndNotify(void* token, const PacketBase& cmd, int priority);
-    void __thiscall FUN_00d04420(void* token);
-    int __thiscall FUN_00d05020(int kind, int priority, Command& next, int waitMode);
-    int __thiscall ProcessCallback(const PacketBase* prev, Command& next, int waitMode);
 };
 
 struct QueryStepBase {
@@ -1035,23 +572,6 @@ struct Settings {
     int unk1c0, unk1c4, unk1c8, unk1cc;
     Context context;
     __forceinline void* getCollisionInput() const { return collisionInput; }
-};
-
-struct SecondarySettings {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
-    int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0;
-    unsigned int constraintLimit;
-};
-
-struct TaskOwner {
-    Settings* settings;
-    int unk04, unk08, unk0c;
-    ConstraintQueryIn queryIn;
-    int unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc;
-    int unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8, unkdc, unke0, unke4, unke8, unkec, unkf0, unkf4, unkf8, unkfc;
-    int unk100, unk104, unk108, unk10c;
-    PaddedPtr<SecondarySettings*> secondary;
 };
 
 struct SceneIsland {
@@ -1183,357 +703,6 @@ struct FinishPacket : DynamicsPacket {
     }
 };
 
-struct AccumulatorsPacket : DynamicsPacket {
-    void* const* entitiesArray;
-    unsigned short firstEntityIdx;
-    unsigned short numEntities;
-};
-
-extern int __cdecl FUN_00d889f0(SceneIsland& island);
-extern int __cdecl FUN_00d28a30(const SolverParams& solver, const StepTiming& timing, const AccelVec& accel, void* const* entities, int numEntities, int offset);
-extern void __cdecl FUN_00d1a330(const void* input, void* const* entities, int numEntities);
-extern int __cdecl FUN_00d88b50(const StepTiming& timing, const SolverParams& solver, ConstraintQueryIn& queryIn, SceneIsland& island, void* buffer, int bufferSize, void* const* entities, int numEntities);
-extern void __cdecl ClearFlagsAndMarkDirty(SceneIsland* island, TaskArray<void*>& splitIslands);
-extern int __cdecl FUN_00d883c0(const SceneIsland& island, char* buffer, int bufferSize, JobHeader& header);
-
-__declspec(noinline) void __cdecl FUN_00d95130(SceneIsland* island, FlagByte onSpu, JobHeader* header, BuildCollection* builds, SolveCollection* solves)
-{
-    builds->numBuildTasks = island->numConstraints;
-    builds->buildTasks = header->buffer;
-    solves->numSolveTasks = onSpu ? 1 : 2;
-}
-
-__forceinline int estimateIslandSize(int numEntities, int numConstraints) { return maxVal(numEntities, numConstraints); }
-__forceinline bool checkIslandSparse(Settings* world, int size) { return size < int(world->minIslandSize); }
-
-// @fnv 0x00d95cf0
-int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
-{
-    const DynamicsPacket& currentJob = reinterpret_cast<DynamicsPacket&>(nextJobOut);
-    SceneIsland* island = currentJob.island;
-
-    int bufferSize;
-    int bufferCapacity;
-    char* buffer;
-    if (island->schemaSize)
-    {
-        bufferSize = FUN_00d889f0(*island);
-        bufferCapacity = bufferSize;
-        buffer = solverBufAlloc<char>(bufferCapacity);
-        while (!buffer)
-        {
-            Command retryJob;
-            int prevThread = DAT_012687c8.get();
-            DAT_012687c8.set(1);
-            int status = queue.ForwardWithZero(retryJob, 1);
-            DAT_012687c8.set(prevThread);
-            if (status == 0)
-            {
-                queue.FUN_00d04b50(nextJobOut, 1);
-                Command stopJob;
-                stopJob.kind = PACKET_DYNAMICS;
-                stopJob.subType = 16;
-                queue.FUN_00d04d80(&stopJob, 0);
-                nextJobOut = retryJob;
-                return 0;
-            }
-            {
-                volatile int spin;
-                for (int i = 0; i < 4000; i++)
-                {
-                    spin = i;
-                }
-            }
-            buffer = solverBufAlloc<char>(bufferCapacity);
-        }
-    }
-    else
-    {
-        bufferSize = 0;
-        bufferCapacity = 0;
-        buffer = 0;
-    }
-
-    {
-        MonitorStream& stream = MonitorStream::GetMonitorStream();
-        if (stream.memoryAvailable())
-        {
-            MonitorStream::SplitTimerCommand* ev = reinterpret_cast<MonitorStream::SplitTimerCommand*>(stream.GetStreamEnd());
-            ev->tag = DAT_010cc5c4;
-            ev->splitTag = DAT_010cc5bc;
-            ev->setTime();
-            stream.setEnd((char*)(ev + 1));
-        }
-    }
-
-    Context& stepCtx = owner.settings->context;
-    if (!owner.settings->skipObservers)
-    {
-        const TaskArrayBase<Observer*>& observers = island->observers;
-        {
-            MonitorStream& stream = MonitorStream::GetMonitorStream();
-            if (stream.memoryAvailable())
-            {
-                MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_010cc5b0;
-                ev->setTime();
-                stream.setEnd((char*)(ev + 1));
-            }
-        }
-        for (int j = 0; j < observers.GetLogicalSize(); j++)
-        {
-            Observer* obs = observers[j];
-            if (obs)
-            {
-                obs->apply(stepCtx);
-            }
-        }
-    }
-
-    JobHeader* header = new JobHeader;
-
-    {
-        MonitorStream& stream = MonitorStream::GetMonitorStream();
-        if (stream.memoryAvailable())
-        {
-            MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-            ev->tag = DAT_010d3f64;
-            ev->setTime();
-            stream.setEnd((char*)(ev + 1));
-        }
-    }
-
-    void* const* entities = island->GetEntities().begin();
-    unsigned int numEntities = island->GetEntities().GetLogicalSize();
-    header->numAllEntities = (unsigned short)numEntities;
-    header->allEntities = entities;
-    header->entitiesCapacity = (unsigned short)island->GetEntities().getCapacity();
-    header->unfinishedJobs = 0;
-    header->shouldDeactivate = 1;
-    header->buffer = 0;
-    header->impulseLimits = 0;
-    header->accumulatorsBase = 0;
-    header->tasks.buildTasks = 0;
-    header->schemasBase = 0;
-
-    int splitRequested = 0;
-
-    {
-        MonitorStream& stream = MonitorStream::GetMonitorStream();
-        if (stream.memoryAvailable())
-        {
-            MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-            ev->tag = DAT_010d3f54;
-            ev->setTime();
-            stream.setEnd((char*)(ev + 1));
-        }
-    }
-
-    island->splitCounter++;
-    SyncCheck::verify<bool>(0xF0000098, island->isSparse);
-    SyncCheck::verify<bool>(0xF0000099, island->sparseEnabled);
-    SyncCheck::verify(0xF000009A, island->splitCounter);
-    SyncCheck::verify(0xF000009B, owner.settings->wantSparseCheck);
-    if (!island->isSparse)
-    {
-        if (island->sparseEnabled && (island->splitCounter & 7) == 0 && owner.settings->wantSparseCheck)
-        {
-            splitRequested = 1;
-        }
-    }
-    else
-    {
-        int islandSize = estimateIslandSize(island->GetEntities().GetLogicalSize(), island->numConstraints);
-        FlagByte canBeSparse = checkIslandSparse(owner.settings, islandSize);
-        SyncCheck::verify(0xF000009C, islandSize);
-        SyncCheck::verify(0xF000009D, canBeSparse);
-        if (!canBeSparse)
-        {
-            island->isSparse = 0;
-            if ((island->splitCounter & 3) == 0)
-            {
-                splitRequested = 1;
-            }
-        }
-        else
-        {
-            if ((island->splitCounter & 7) == 0)
-            {
-                splitRequested = 1;
-            }
-        }
-    }
-
-    unsigned int estimatedConstraints;
-    if (!island->schemaSize)
-    {
-        if (owner.settings->directIntegrate)
-        {
-            header->buffer = 0;
-            header->bufferCapacity = 0;
-            header->schemasBase = 0;
-            header->solverTempBase = 0;
-            header->unk40 = 0;
-            header->impulseLimits = 0;
-            header->numSolverResults = island->numSolverResults;
-            header->numSolverElemTemps = island->numSolverElemTemps;
-            header->queryIn = &owner.queryIn;
-            header->bufferCapacity = bufferCapacity;
-            int motionJobs = (numEntities - 1) / 128 + 1;
-            header->unfinishedJobs = splitRequested + motionJobs;
-            header->splitRequested = (byte)splitRequested;
-            header->solveTasks.firstSolveTask = 0;
-
-            MotionPacket& motion = reinterpret_cast<MotionPacket&>(nextJobOut);
-            new (&motion) MotionPacket(currentJob, *header);
-            motion.header = header;
-            motion.applyForces = true;
-            motion.mode = MODE_ENABLED;
-            header->exportFinished = true;
-            header->openJobs = motionJobs;
-
-            {
-                MonitorStream& stream = MonitorStream::GetMonitorStream();
-                if (stream.memoryAvailable())
-                {
-                    MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                    ev->tag = DAT_01076f38;
-                    ev->setTime();
-                    stream.setEnd((char*)(ev + 1));
-                }
-            }
-
-            QueueStorage tempStorage;
-            void* token = queue.FUN_00d04400(&tempStorage);
-            if (splitRequested)
-            {
-                SplitPacket splitJob(currentJob, 0x20, 5);
-                queue.InsertItemAndNotify(token, splitJob, 0);
-            }
-            queue.FUN_00d04420(token);
-            return queue.FUN_00d05020(0, 0, nextJobOut, 0);
-        }
-
-        {
-            MonitorStream& stream = MonitorStream::GetMonitorStream();
-            if (stream.memoryAvailable())
-            {
-                MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_010d3f48;
-                ev->setTime();
-                stream.setEnd((char*)(ev + 1));
-            }
-        }
-        int inactiveFrames = FUN_00d28a30(stepCtx.solver, stepCtx.timing, stepCtx.gravityStep, island->GetEntities().begin(), island->GetEntities().GetLogicalSize(), 0xe0);
-        FUN_00d1a330(island->getWorld()->getCollisionInput(), island->GetEntities().begin(), island->GetEntities().GetLogicalSize());
-        if (inactiveFrames <= 5)
-        {
-            header->shouldDeactivate = 0;
-        }
-        goto FINISH_BROAD_PHASE;
-    }
-
-    estimatedConstraints = maxVal(island->numConstraints, island->GetEntities().GetLogicalSize());
-    if (estimatedConstraints < owner.secondary->constraintLimit)
-    {
-        {
-            MonitorStream& stream = MonitorStream::GetMonitorStream();
-            if (stream.memoryAvailable())
-            {
-                MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_010d3f38;
-                ev->setTime();
-                stream.setEnd((char*)(ev + 1));
-            }
-        }
-        {
-            ConstraintQueryIn localQuery = owner.queryIn;
-            int inactiveFrames = FUN_00d88b50(stepCtx.timing, stepCtx.solver, localQuery, *island, buffer, bufferSize, entities, numEntities);
-            if (inactiveFrames <= 5)
-            {
-                header->shouldDeactivate = 0;
-            }
-        }
-        solverBufFree<char>(buffer, bufferCapacity);
-
-FINISH_BROAD_PHASE:
-        SyncCheck::verify(0xF000009E, splitRequested);
-        if (splitRequested)
-        {
-            ClearFlagsAndMarkDirty(island, header->splitIslands);
-        }
-        {
-            MonitorStream& stream = MonitorStream::GetMonitorStream();
-            if (stream.memoryAvailable())
-            {
-                MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_01076f38;
-                ev->setTime();
-                stream.setEnd((char*)(ev + 1));
-            }
-        }
-        header->exportFinished = true;
-        new (&nextJobOut) BroadPacket(currentJob, header);
-        {
-            int status = queue.FUN_00d05020(0, 0, nextJobOut, 0);
-        }
-        return 0;
-    }
-
-    {
-        {
-            MonitorStream& stream = MonitorStream::GetMonitorStream();
-            if (stream.memoryAvailable())
-            {
-                MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_010d3f2c;
-                ev->setTime();
-                stream.setEnd((char*)(ev + 1));
-            }
-        }
-        FUN_00d883c0(*island, buffer, bufferSize, *header);
-        header->numSolverResults = island->numSolverResults;
-        header->numSolverElemTemps = island->numSolverElemTemps;
-        header->queryIn = &owner.queryIn;
-        header->bufferCapacity = bufferCapacity;
-        {
-            int motionJobs = (numEntities - 1) / 128 + 1;
-            header->unfinishedJobs = splitRequested + motionJobs;
-            header->splitRequested = (byte)splitRequested;
-            header->exportFinished = false;
-            header->openJobs = (numEntities - 1) / 128 + 2;
-
-            AccumulatorsPacket& accJob = reinterpret_cast<AccumulatorsPacket&>(nextJobOut);
-            accJob.subType = 1;
-            accJob.header = header;
-            accJob.entitiesArray = entities;
-            accJob.firstEntityIdx = 0;
-            accJob.numEntities = (unsigned short)numEntities;
-            accJob.mode = MODE_ENABLED;
-            queue.FUN_00d04b50(nextJobOut, 0);
-        }
-
-        BuildCollection outBuilds;
-        SolveCollection outSolves;
-        FUN_00d95130(island, stepCtx.buildOnSpu, header, &outBuilds, &outSolves);
-        {
-            MonitorStream& stream = MonitorStream::GetMonitorStream();
-            if (stream.memoryAvailable())
-            {
-                MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
-                ev->tag = DAT_01076f38;
-                ev->setTime();
-                stream.setEnd((char*)(ev + 1));
-            }
-        }
-        header->tasks = outBuilds;
-        header->solveTasks = outSolves;
-
-        FinishPacket FinalizePacket(currentJob, header);
-        int status = queue.ProcessCallback(&FinalizePacket, nextJobOut, 0);
-        return status;
-    }
-}
 }  // namespace fnv_00d95cf0
 
 // @f3 0x00a240d0 (community match, verified in this file)
@@ -1623,51 +792,7 @@ class hkEnum
 	private:
 		STORAGE m_storage;
 };
-template <typename TYPE>
-class hkPadSpu
-{
-	public:
-		__forceinline hkPadSpu() {}
-		__forceinline hkPadSpu(TYPE e)
-			: m_storage( e )
-		{
-		}
-		__forceinline void operator=(TYPE e)
-		{
-			m_storage = e;
-		}
-		__forceinline TYPE val() const
-		{
-			return m_storage;
-		}
-		__forceinline TYPE operator->() const
-		{
-			return m_storage;
-		}
-		__forceinline operator TYPE() const
-		{
-			return val();
-		}
-	private:
-		TYPE m_storage;
-};
-template<typename T>
-		class hkThreadLocalData
-		{
-			public:
-				hkThreadLocalData() { m_slotID =  TlsAlloc(); }
-				~hkThreadLocalData() { TlsFree(m_slotID); }
-				__forceinline T getData() const
-				{
-					return (T)(hkUlong)TlsGetValue(m_slotID) ;
-				}
-				__forceinline void setData(T p)
-				{
-					hkUlong v = hkUlong(p);
-					TlsSetValue( m_slotID, (void*)v );
-				}
-				unsigned long m_slotID;
-		};
+#include "havok/hkTimeFunctionHelper.h"
 enum HK_MEMORY_CLASS {
 	HK_MEMORY_CLASS_ROOT,
 	HK_MEMORY_CLASS_BASE,
@@ -1938,13 +1063,11 @@ class hkArray
 template <typename T>
 __forceinline T& hkArray<T>::operator[] (int i)
 {
-	;
 	return m_data[i];
 }
 template <typename T>
 __forceinline const T& hkArray<T>::operator[] (int i) const
 {
-	;
 	return m_data[i];
 }
 template <typename T>
@@ -2021,13 +1144,11 @@ __forceinline void hkArray<T>::clearAndDeallocate()
 template <typename T>
 __forceinline void hkArray<T>::pushBackUnchecked(const T& t)
 {
-	;
 	m_data[m_size++] = t;
 }
 template <typename T>
 __forceinline void hkArray<T>::setSizeUnchecked(int n)
 {
-	;
 	m_size = n;
 }
 template <typename T>
@@ -2135,8 +1256,6 @@ typename hkSmallArray<T>::const_iterator hkSmallArray<T>::end() const
 }
 int hkThreadMemory::constSizeToRow( int size )
 {
-	;
-	;
 	if (size <= 8 )	return 1;
 	else if (size <= 16 )	return 2;
 	else if (size <= 32 )	return 3;
@@ -2161,7 +1280,6 @@ int hkThreadMemory::constSizeToRow( int size )
 }
 void* hkThreadMemory::allocateChunkConstSize(int nbytes, HK_MEMORY_CLASS cl)
 {
-	;
 	int row = constSizeToRow(nbytes);
 	if( void* p = m_free_list[row].get() )
 	{
@@ -2260,81 +1378,6 @@ struct hkpSolverElemTemp
 	};
 };
 typedef void hkpConstraintRuntime;
-class hkMonitorStream
-{
-	public:
-		__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; return hkThreadMemory::getInstance().allocateChunkConstSize(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete(void* p) { if (p) hkThreadMemory::getInstance().deallocateChunkConstSize(p, sizeof(hkMonitorStream), HK_MEMORY_CLASS_MONITOR); } __forceinline void* __cdecl operator new[](hk_size_t nbytes) { return hkThreadMemory::getInstance().allocate(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete[](void* p) { hkThreadMemory::getInstance().deallocate(p); } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class MustEndWithSemiColon;
-		static hkMonitorStream& getInstance()
-		{
-			extern hkThreadLocalData<hkMonitorStream*> hkMonitorStream__m_instance;
-			return *hkMonitorStream__m_instance.getData();
-		}
-		void __cdecl reset();
-		void __cdecl resize( int newSize );
-	public:
-		__forceinline char* __cdecl getStart() { return m_start.val(); }
-		__forceinline char* __cdecl getEnd() { return m_end.val(); }
-		__forceinline char* __cdecl getCapacityMinus16() { return m_capacityMinus16.val(); }
-		__forceinline char* __cdecl getCapacity() { return m_capacity.val(); }
-		__forceinline hkBool __cdecl memoryAvailable( )
-		{
-			return getEnd() < getCapacityMinus16();
-		}
-		__forceinline int __cdecl getCurrentMonitorDataSize()
-		{
-			return (int)(m_end.val() - m_start.val());
-		}
-		__forceinline void* __cdecl expandby( int size ) { char* h = m_end.val(); char* newEnd = h + size; m_end = newEnd; return h; }
-		__forceinline void __cdecl setEnd(char* ptr) {  m_end = ptr; }
-		__forceinline hkBool __cdecl isBufferAllocatedOnTheHeap() { return m_isBufferAllocatedOnTheHeap; }
-		void __cdecl setStaticBuffer( char* buffer, int bufferSize );
-	public:
-		static void __cdecl init();
-		void __cdecl quit();
-	public:
-		hkPadSpu<char*> m_start;
-		hkPadSpu<char*> m_end;
-		hkPadSpu<char*> m_capacity;
-		hkPadSpu<char*> m_capacityMinus16;
-		hkBool		m_isBufferAllocatedOnTheHeap;
-	public:
-		struct Command
-		{
-			__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; return hkThreadMemory::getInstance().allocateChunkConstSize(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete(void* p) { if (p) hkThreadMemory::getInstance().deallocateChunkConstSize(p, sizeof(hkMonitorStream::Command), HK_MEMORY_CLASS_MONITOR); } __forceinline void* __cdecl operator new[](hk_size_t nbytes) { return hkThreadMemory::getInstance().allocate(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete[](void* p) { hkThreadMemory::getInstance().deallocate(p); } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class MustEndWithSemiColon;
-			const char* m_commandAndMonitor;
-		};
-		struct AddValueCommand : public hkMonitorStream::Command
-		{
-			__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; return hkThreadMemory::getInstance().allocateChunkConstSize(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete(void* p) { if (p) hkThreadMemory::getInstance().deallocateChunkConstSize(p, sizeof(hkMonitorStream::AddValueCommand), HK_MEMORY_CLASS_MONITOR); } __forceinline void* __cdecl operator new[](hk_size_t nbytes) { return hkThreadMemory::getInstance().allocate(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete[](void* p) { hkThreadMemory::getInstance().deallocate(p); } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class MustEndWithSemiColon;
-			float m_value;
-		};
-		struct TimerCommand : public hkMonitorStream::Command
-		{
-			__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; return hkThreadMemory::getInstance().allocateChunkConstSize(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete(void* p) { if (p) hkThreadMemory::getInstance().deallocateChunkConstSize(p, sizeof(hkMonitorStream::TimerCommand), HK_MEMORY_CLASS_MONITOR); } __forceinline void* __cdecl operator new[](hk_size_t nbytes) { return hkThreadMemory::getInstance().allocate(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete[](void* p) { hkThreadMemory::getInstance().deallocate(p); } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class MustEndWithSemiColon;
-			hkUint32	m_time0;
-			hkUint32	m_time1;
-			__forceinline void setTime();
-		};
-		struct TimerBeginListCommand : public hkMonitorStream::TimerCommand
-		{
-			__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; return hkThreadMemory::getInstance().allocateChunkConstSize(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete(void* p) { if (p) hkThreadMemory::getInstance().deallocateChunkConstSize(p, sizeof(hkMonitorStream::TimerBeginListCommand), HK_MEMORY_CLASS_MONITOR); } __forceinline void* __cdecl operator new[](hk_size_t nbytes) { return hkThreadMemory::getInstance().allocate(static_cast<int>(nbytes),HK_MEMORY_CLASS_MONITOR); } __forceinline void __cdecl operator delete[](void* p) { hkThreadMemory::getInstance().deallocate(p); } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class MustEndWithSemiColon;
-			const char* m_nameOfFirstSplit;
-		};
-};
-void hkMonitorStream::TimerCommand::setTime()
-{
-		unsigned int ticks;
-	__asm {
-		rdtsc
-		mov dword ptr[ticks], eax
-	}
-		m_time0 = ticks;
-}
-class  hkTimeFunctionHelper
-{
-	public:
-		__forceinline ~hkTimeFunctionHelper() { { hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerCommand* h = reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "E" "t" ""; h->setTime(); mStream.setEnd( (char*)(h+1) ); } }; }
-};
 template <typename T>
 class hkLocalArray : public hkArray<T>
 {
@@ -2348,7 +1391,6 @@ class hkLocalArray : public hkArray<T>
 		}
 		__forceinline void discardAndResize(int newsize)
 		{
-			;
 			hkDeallocateStack<T>( m_localMemory );
 			m_localMemory = this->m_data = hkAllocateStack<T>(newsize);
 			this->m_size = newsize;
@@ -2356,7 +1398,6 @@ class hkLocalArray : public hkArray<T>
 		}
 		void assertNotResized()
 		{
-			;
 		}
 		hkBool wasReallocated() const
 		{
@@ -2394,7 +1435,6 @@ template <typename T>
 __forceinline hkLocalBuffer<T>::hkLocalBuffer( int capacity, const char* what )
 {
 	this->m_data = hkAllocateStack<T>(capacity);
-	;
 }
 template <typename T>
 __forceinline hkLocalBuffer<T>::~hkLocalBuffer()
@@ -2404,13 +1444,11 @@ __forceinline hkLocalBuffer<T>::~hkLocalBuffer()
 template <typename T>
 __forceinline T& hkFixedArray<T>::operator[] (int i)
 {
-	;
 	return m_data[i];
 }
 template <typename T>
 __forceinline const T& hkFixedArray<T>::operator[] (int i) const
 {
-	;
 	return m_data[i];
 }
 template <typename T>
@@ -2616,11 +1654,7 @@ static __forceinline void createAndAppendNewTask( const hkpBuildJacobianTaskHead
 		hkpBuildJacobianTask* buildTask = new hkpBuildJacobianTask;
 		if ( !prevBuildTask )
 		{
-			if ( putOnPpuOnlyBuildJacobianTaskList )
-			{
-				;
-			}
-			else
+			if ( !putOnPpuOnlyBuildJacobianTaskList )
 			{
 				outBuildCollection->m_buildJacobianTasks = buildTask;
 				outBuildCollection->m_numBuildJacobianTasks = 0;
@@ -2655,7 +1689,6 @@ static __forceinline void createAndAppendNewTask( const hkpBuildJacobianTaskHead
 			atomInfo.m_transformB = &ci->m_entities[1]->getMotion()->getTransform();
 			schemas = hkAddByteOffset( schemas, ci->m_sizeOfSchemas );
 			elemTemp += ci->m_numSolverElemTemps;
-			;
 		}
 		constraintsForThisTask.clear();
 		schemas = hkAddByteOffset( schemas, 16 );
@@ -2672,7 +1705,6 @@ static __forceinline void createAndAppendNewTask( const hkpBuildJacobianTaskHead
 		}
 		if ( currentBatchIndex != batchIndexOfLastTask )
 		{
-			;
 			if ( currentBatchIndex == 0 )
 			{
 				outSolveCollection->m_firstSolveJacobiansTask = solveTask;
@@ -2680,7 +1712,6 @@ static __forceinline void createAndAppendNewTask( const hkpBuildJacobianTaskHead
 			batchIndexOfLastTask = currentBatchIndex;
 			if ( prevSolveTask )
 			{
-				;
 				hkpSolveConstraintBatchTask* aTaskFromPreviousBatch = firstTaskOfPreviousBatch;
 				hkUint16 batchSize = *ptrToBatchSize;
 				while ( aTaskFromPreviousBatch && aTaskFromPreviousBatch != firstTaskOfCurrentBatch )
@@ -2699,21 +1730,21 @@ static __forceinline void createAndAppendNewTask( const hkpBuildJacobianTaskHead
 		solveTask->m_taskHeader = const_cast<hkpBuildJacobianTaskHeader*>(taskHeader);
 		solveTask->m_accumulators = taskHeader->m_accumulatorsBase;
 		solveTask->m_schemas = schemaStart;
-		;
 		solveTask->m_solverElemTemp = elemTempStart;
 		solveTask->m_sizeOfSchemaBuffer = int( hkUlong(schemas) - hkUlong(schemaStart) );
 		solveTask->m_sizeOfSolverElemTempBuffer = int( hkUlong(elemTemp) - hkUlong(elemTempStart) );
 		prevSolveTask = solveTask;
 	}
 }
-static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstraintOrderingInSolver, JobHeader* headerArg, BuildCollection* buildsArg, SolveCollection* solvesArg)
+// pdb: createBuildJacobianAndSolveJacobianTaskCollection | hkpCpuIntegrateJob.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+static void createBuildJacobianAndSolveJacobianTaskCollection(SceneIsland* islandArg, FlagByte forceCoherentConstraintOrderingInSolver, JobHeader* headerArg, BuildCollection* buildsArg, SolveCollection* solvesArg)
 {
 	hkpSimulationIsland*const island = reinterpret_cast<hkpSimulationIsland*>(islandArg);
 	hkpBuildJacobianTaskHeader*const taskHeader = reinterpret_cast<hkpBuildJacobianTaskHeader*>(headerArg);
 	hkpBuildJacobianTaskCollection*const outBuildCollection = reinterpret_cast<hkpBuildJacobianTaskCollection*>(buildsArg);
 	hkpSolveJacobiansTaskCollection*const outSolveCollection = reinterpret_cast<hkpSolveJacobiansTaskCollection*>(solvesArg);
 
-	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::TimerCommand* h = reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "T" "t" "BuildJacTask"; h->setTime(); mStream.setEnd( (char*)(h+1) ); } }; hkTimeFunctionHelper timeblock270;
+	HK_TIME_CODE_BLOCK("BuildJacTask", HK_NULL);
 	hkpEntity*const*const bodies = island->m_entities.begin();
 	int numBodies = island->m_entities.getSize();
 	hkpEntity*const*const bodiesEnd = bodies + numBodies;
@@ -2728,7 +1759,6 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 		hkPointerMapBase<hkUlong> entityPtrToIndex( pointerBuffer.begin(), po2 * int(sizeof(hkUlong)) );
 		for (int bi = 0; bi < numBodies; bi++)
 		{
-			;
 			entityPtrToIndex.insert( hkUlong(bodies[bi]), bi );
 		}
 		hkpEntity*const* b = bodies;
@@ -2741,7 +1771,6 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 			{
 				body->m_solverData = accumOffset;
 			}
-			;
 			accumOffset += sizeof(hkpVelocityAccumulator);
 			const hkConstraintInternal* c = body->getConstraintMasters().begin();
 			const hkConstraintInternal* cEnd = body->getConstraintMasters().end();
@@ -2750,8 +1779,6 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 				hkConstraintInternalInfo info;
 				info.m_internal = c;
 				hkObjectIndex* entityIndices = &info.m_entityAIndex;
-				;
-				;
 				const int whoIsSlave = 1 - c->m_whoIsMaster;
 				entityIndices[c->m_whoIsMaster] = hkObjectIndex(bi);
 				entityIndices[whoIsSlave] = hkObjectIndex(entityPtrToIndex.getWithDefault( hkUlong(c->m_entities[whoIsSlave]), 0xffff ));
@@ -2771,9 +1798,9 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 			}
 		}
 	}
-	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::AddValueCommand* h = reinterpret_cast<hkMonitorStream::AddValueCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "M" "i" "NumEntities"; h->m_value = float(numBodies); mStream.setEnd( (char*)(h+1) ); } };
-	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::AddValueCommand* h = reinterpret_cast<hkMonitorStream::AddValueCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "M" "i" "NumConstraints"; h->m_value = float(island->m_numConstraints); mStream.setEnd( (char*)(h+1) ); } };
-	{ hkMonitorStream& mStream = hkMonitorStream::getInstance(); if ( mStream.memoryAvailable() ) { hkMonitorStream::AddValueCommand* h = reinterpret_cast<hkMonitorStream::AddValueCommand*>(mStream.getEnd()); h->m_commandAndMonitor = "M" "i" "NumJacobians"; h->m_value = float(island->m_constraintInfo.m_numSolverResults); mStream.setEnd( (char*)(h+1) ); } };
+	HK_MONITOR_ADD_VALUE("NumEntities", float(numBodies), HK_MONITOR_TYPE_INT);
+	HK_MONITOR_ADD_VALUE("NumConstraints", float(island->m_numConstraints), HK_MONITOR_TYPE_INT);
+	HK_MONITOR_ADD_VALUE("NumJacobians", float(island->m_constraintInfo.m_numSolverResults), HK_MONITOR_TYPE_INT);
 	taskHeader->m_solveInSingleThreadOnPpuOnly = !allConstraintsNormalType;
 	taskHeader->m_solveInSingleThread = taskHeader->m_solveInSingleThreadOnPpuOnly || hkBool(false);
 	hkBool generateSolveTasks = !taskHeader->m_solveInSingleThread;
@@ -2803,7 +1830,6 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 			{ for (int i = 0; i < numBodies; entityGroup[i++] = 0) { } }
 			int currentGroup = 1;
 			currentBatchIndex++;
-			;
 			hkConstraintInternalInfo* c = sourceConstraints->begin();
 			hkConstraintInternalInfo*const cEnd = sourceConstraints->end();
 			hkConstraintInternalInfo* nextConstraintLeftOut = sourceConstraints->begin();
@@ -2813,7 +1839,6 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 				int fixedEntityGroup = 0;
 				int& entityAGroup = info.m_entityAIndex == 0xffff ? fixedEntityGroup : entityGroup[info.m_entityAIndex];
 				int& entityBGroup = info.m_entityBIndex == 0xffff ? fixedEntityGroup : entityGroup[info.m_entityBIndex];
-				;
 				if ( constraintsForNextTask.getSize() == hkpBuildJacobianTask::MAX_NUM_ATOM_INFOS )
 				{
 					createAndAppendNewTask( taskHeader, outBuildCollection, outSolveCollection, prevBuildTask, prevSolveTask, firstTaskOfPreviousBatch, firstTaskOfCurrentBatch, schemas, elemTemp, constraintsForNextTask, batchIndexOfLastTask, currentBatchIndex, ptrToBatchSize, putOnPpuOnlyBuildJacobianTaskList, generateSolveTasks );
@@ -2848,13 +1873,10 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 			}
 			const int newSourceConstraintsSize = int( nextConstraintLeftOut - sourceConstraints->begin() );
 			sourceConstraints->setSizeUnchecked( newSourceConstraintsSize );
-			;
-			;
 		}
 	}
 	if ( generateSolveTasks )
 	{
-		;
 		hkpSolveConstraintBatchTask* aTaskFromPreviousBatch = firstTaskOfPreviousBatch;
 		hkUint16 batchSize = *ptrToBatchSize;
 		while ( aTaskFromPreviousBatch && aTaskFromPreviousBatch != firstTaskOfCurrentBatch )
@@ -2869,8 +1891,6 @@ static void FUN_00a240d0(SceneIsland* islandArg, FlagByte forceCoherentConstrain
 		taskHeader->m_numApplyGravityJobs = hkUint16( (numAccumulators - 1) / 128 + 1 );
 		taskHeader->m_numIntegrateVelocitiesJobs = hkUint16( (numAccumulators - 1) / 128 + 1 );
 	}
-	;
-	;
 	outBuildCollection->m_numCallbackConstraints = 0;
 	outBuildCollection->m_callbackConstraints = 0;
 	int numCC = callbackConstraints.getSize();
@@ -2892,7 +1912,7 @@ void hkCpuIntegrateJobCaller( SceneIsland* island, JobHeader* taskHeader, FlagBy
     hkpBuildJacobianTaskHeader* header = reinterpret_cast<hkpBuildJacobianTaskHeader*>(taskHeader);
     hkpBuildJacobianTaskCollection outBuildCollection = { 0 };
     hkpSolveJacobiansTaskCollection outSolveCollection = { 0 };
-    FUN_00a240d0( island, coherent, taskHeader, reinterpret_cast<BuildCollection*>(&outBuildCollection), reinterpret_cast<SolveCollection*>(&outSolveCollection) );
+    createBuildJacobianAndSolveJacobianTaskCollection( island, coherent, taskHeader, reinterpret_cast<BuildCollection*>(&outBuildCollection), reinterpret_cast<SolveCollection*>(&outSolveCollection) );
     header->m_tasks = outBuildCollection;
     header->m_solveTasks = outSolveCollection;
 }
@@ -2902,6 +1922,7 @@ namespace f3m_00a23e70 {
 namespace f3m_00a23e70
 {
 // 0x00a23e70 is Havok's createAndAppendNewTask compiled out of line (0x00a240d0 inlines it at both call sites).
+// pdb: createAndAppendNewTask | hkpCpuIntegrateJob.obj | fnv360_0822_retail, objrun_open, low
 static __declspec(noinline) void FUN_00a23e70( const hkpBuildJacobianTaskHeader* taskHeader, hkpBuildJacobianTaskCollection* outBuildCollection, hkpSolveJacobiansTaskCollection* outSolveCollection,
 	hkpBuildJacobianTask*& prevBuildTask, hkpSolveConstraintBatchTask*& prevSolveTask, hkpSolveConstraintBatchTask*& firstTaskOfPreviousBatch, hkpSolveConstraintBatchTask*& firstTaskOfCurrentBatch,
 	hkpJacobianSchema*& schemas, hkpSolverElemTemp*& elemTemp, hkLocalArray<hkConstraintInternalInfo>& constraintsForThisTask,
@@ -2914,11 +1935,7 @@ static __declspec(noinline) void FUN_00a23e70( const hkpBuildJacobianTaskHeader*
 		hkpBuildJacobianTask* buildTask = new hkpBuildJacobianTask;
 		if ( !prevBuildTask )
 		{
-			if ( putOnPpuOnlyBuildJacobianTaskList )
-			{
-				;
-			}
-			else
+			if ( !putOnPpuOnlyBuildJacobianTaskList )
 			{
 				outBuildCollection->m_buildJacobianTasks = buildTask;
 				outBuildCollection->m_numBuildJacobianTasks = 0;
@@ -2953,7 +1970,6 @@ static __declspec(noinline) void FUN_00a23e70( const hkpBuildJacobianTaskHeader*
 			atomInfo.m_transformB = &ci->m_entities[1]->getMotion()->getTransform();
 			schemas = hkAddByteOffset( schemas, ci->m_sizeOfSchemas );
 			elemTemp += ci->m_numSolverElemTemps;
-			;
 		}
 		constraintsForThisTask.clear();
 		schemas = hkAddByteOffset( schemas, 16 );
@@ -2970,7 +1986,6 @@ static __declspec(noinline) void FUN_00a23e70( const hkpBuildJacobianTaskHeader*
 		}
 		if ( currentBatchIndex != batchIndexOfLastTask )
 		{
-			;
 			if ( currentBatchIndex == 0 )
 			{
 				outSolveCollection->m_firstSolveJacobiansTask = solveTask;
@@ -2978,7 +1993,6 @@ static __declspec(noinline) void FUN_00a23e70( const hkpBuildJacobianTaskHeader*
 			batchIndexOfLastTask = currentBatchIndex;
 			if ( prevSolveTask )
 			{
-				;
 				hkpSolveConstraintBatchTask* aTaskFromPreviousBatch = firstTaskOfPreviousBatch;
 				hkUint16 batchSize = *ptrToBatchSize;
 				while ( aTaskFromPreviousBatch && aTaskFromPreviousBatch != firstTaskOfCurrentBatch )
@@ -2997,7 +2011,6 @@ static __declspec(noinline) void FUN_00a23e70( const hkpBuildJacobianTaskHeader*
 		solveTask->m_taskHeader = const_cast<hkpBuildJacobianTaskHeader*>(taskHeader);
 		solveTask->m_accumulators = taskHeader->m_accumulatorsBase;
 		solveTask->m_schemas = schemaStart;
-		;
 		solveTask->m_solverElemTemp = elemTempStart;
 		solveTask->m_sizeOfSchemaBuffer = int( hkUlong(schemas) - hkUlong(schemaStart) );
 		solveTask->m_sizeOfSolverElemTempBuffer = int( hkUlong(elemTemp) - hkUlong(elemTempStart) );

@@ -1,30 +1,50 @@
-// gamebryo2.2/corelibs/nimain/nicollisionobject.cpp: NiCollisionObject, MyColl, ClaimCls (10 functions)
+// gamebryo2.2/corelibs/nimain/nicollisionobject.cpp: NiCollisionObject (10 functions)
 #include "f3_common.h"
-#include "nicollisionobject_decls.h"
+#include "NiAVObject.h"
+#include "NiCollisionObject.h"
+#include "NiStream.h"
+#include "NiViewerStrings.h"
+
+class NiStream;
+struct FUN_00a80fd0_shell : public NiObject
+{
+    void FUN_00a80fd0(NiStream& kStream);
+};
 // @fnv 0x00a80fd0
-void NiCollisionObject::LoadBinary(NiStream& stream)
+// pdb: bhkExtraData::LoadBinary | bhkExtraData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
+void FUN_00a80fd0_shell::FUN_00a80fd0(NiStream& kStream)
 {
-    NiObject::LoadBinary(stream);
-    stream.ResetStreamState();
+    NiObject::LoadBinary(kStream);
+    kStream.ReadLinkID();
 }
+
 // @fnv 0x00a80ff0
-void NiCollisionObject::LinkObject(NiStream& stream)
+// pdb: NiCollisionObject::LinkObject | NiCollisionObject.obj | fnv360_0822_retail, call_seq, low
+// pdb params: kStream
+void NiCollisionObject::LinkObject(NiStream& kStream)
 {
-    NiObject::LinkObject(stream);
-    m_pkSceneObject = static_cast<NiAVObject*>(stream.GetLoadedObject());
+    NiObject::LinkObject(kStream);
+    m_pkSceneObject = (NiAVObject*)kStream.GetObjectFromLinkID();
 }
+
 // @fnv 0x00a810b0
-void NiCollisionObject::SetSceneObject(NiAVObject* object)
+// pdb: NiCollisionObject::SetSceneGraphObject | NiCollisionObject.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkSceneObject
+void NiCollisionObject::SetSceneGraphObject(NiAVObject* pkSceneObject)
 {
-    m_pkSceneObject = object;
-    if (object && object->m_spCollisionObject != this)
-        object->AssignCollisionObject(this);
+    m_pkSceneObject = pkSceneObject;
+    if (pkSceneObject && pkSceneObject->GetCollisionObject() != this)
+        pkSceneObject->SetCollisionObject(this);
 }
+
 // @fnv 0x00a810d0
-NiCollisionObject::NiCollisionObject(NiAVObject* apSceneObject) : m_pkSceneObject(apSceneObject)
+// pdb: NiCollisionObject::NiCollisionObject | NiCollisionObject.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkSceneObject
+NiCollisionObject::NiCollisionObject(NiAVObject* pkSceneObject) : m_pkSceneObject(pkSceneObject)
 {
-    if (apSceneObject && apSceneObject->m_spCollisionObject != this)
-        apSceneObject->AssignCollisionObject(this);
+    if (pkSceneObject && pkSceneObject->GetCollisionObject() != this)
+        pkSceneObject->SetCollisionObject(this);
 }
 
 extern char const* const g_01267b70_arg1;
@@ -35,133 +55,37 @@ char const* const* __cdecl FUN_00a810a0()
     return &g_01267b70_arg1;
 }
 
-struct NiObjectBase
-{
-    bool RegisterStreamables(NiStream&);
-};
-struct SceneObj
-{
-    virtual void f00()
-    {}
-    virtual void f01()
-    {}
-    virtual void f02()
-    {}
-    virtual void f03()
-    {}
-    virtual void f04()
-    {}
-    virtual void f05()
-    {}
-    virtual void f06()
-    {}
-    virtual void f07()
-    {}
-    virtual void f08()
-    {}
-    virtual void f09()
-    {}
-    virtual void f10()
-    {}
-    virtual void f11()
-    {}
-    virtual void f12()
-    {}
-    virtual void f13()
-    {}
-    virtual void f14()
-    {}
-    virtual void f15()
-    {}
-    virtual void f16()
-    {}
-    virtual void f17()
-    {}
-    virtual void f18()
-    {}
-    virtual void f19()
-    {}
-    virtual void f20()
-    {}
-    virtual bool RegisterStreamables(NiStream&)
-    {
-        return true;
-    }
-};
-struct MyColl : NiObject
-{
-    SceneObj* m_pkSceneObject;
-    bool FUN_00a81010(NiStream&);
-};
-// Registers the base streamables and, if m_pkSceneObject is set, registers the scene object's streamables; returns false if the base registration fails.
 // @fnv 0x00a81010
-bool MyColl::FUN_00a81010(NiStream& kStream)
+// pdb: NiCollisionObject::RegisterStreamables | NiCollisionObject.obj (F3_EXE vtable slot 21)
+bool NiCollisionObject::RegisterStreamables(NiStream& kStream)
 {
-    if (!((NiObjectBase*)this)->NiObjectBase::RegisterStreamables(kStream))
+    if (!NiObject::RegisterStreamables(kStream))
         return false;
     if (m_pkSceneObject)
         m_pkSceneObject->RegisterStreamables(kStream);
     return true;
 }
 
-struct FakeStream00a81040
-{
-    virtual void f0()
-    {}
-    virtual void f1()
-    {}
-    virtual void f2()
-    {}
-    virtual void f3()
-    {}
-    virtual void f4()
-    {}
-    virtual void f5()
-    {}
-    virtual void f6()
-    {}
-    virtual void f7()
-    {}
-    virtual void f8()
-    {}
-    virtual void f9()
-    {}
-    virtual void f10()
-    {}
-    virtual void f11()
-    {}
-    virtual void f12(void*)
-    {}
-};
-struct FakeThis00a81040 : NiObject
-{
-    void* unk08;
-    void FUN_00a81040(NiStream&);
-};
-// Links the object to the stream via NiObject::LinkObject, then calls the stream's f12 with unk08.
 // @fnv 0x00a81040
-void FakeThis00a81040::FUN_00a81040(NiStream& kStream)
+// pdb: NiCollisionObject::SaveBinary | NiCollisionObject.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
+void NiCollisionObject::SaveBinary(NiStream& kStream)
 {
-    NiObject::LinkObject(kStream);
-    ((FakeStream00a81040*)&kStream)->f12(unk08);
+    NiObject::SaveBinary(kStream);
+    kStream.SaveLinkID(m_pkSceneObject);
 }
 
-bool __stdcall IsSameAs(NiObject*);
-struct T_00a81060
-{
-    char _0[8];
-    void* _8;
-    bool FUN_00a81060(NiObject*);
-};
-// Returns false if IsSameAs fails or if _8 and pkObject disagree on being null; otherwise returns true.
+// Shipped as Gamebryo wrote it: the scene objects are compared for presence against the other object itself, not
+// against its scene object.
 // @fnv 0x00a81060
-bool T_00a81060::FUN_00a81060(NiObject* pkObject)
+// pdb: NiCollisionObject::IsEqual | NiCollisionObject.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkObject
+bool NiCollisionObject::IsEqual(NiObject* pkObject)
 {
-    if (!IsSameAs(pkObject))
+    if (!NiObject::IsEqual(pkObject))
         return false;
-    if (_8 && !pkObject)
-        return false;
-    if (!_8 && pkObject)
+    NiCollisionObject* pkOther = (NiCollisionObject*)pkObject;
+    if ((m_pkSceneObject && !pkOther) || (!m_pkSceneObject && pkOther))
         return false;
     return true;
 }
@@ -237,6 +161,8 @@ class BA81100Object : public BA81100Base
 
 // Appends the base viewer strings, the A81100 name string, and any extra viewer strings to pkStrings.
 // @fnv 0x00a81100
+// pdb: NiCollisionData::GetViewerStrings | NiCollisionData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkStrings
 void BA81100Object::FUN_00a81100(BA81100StringArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
@@ -244,52 +170,11 @@ void BA81100Object::FUN_00a81100(BA81100StringArray* pkStrings)
     AddExtraViewerStrings(pkStrings);
 }
 
-extern void* g_011f4ad4;
-
-void* __cdecl FUN_00a7d330(void* pv);
-void* __cdecl FUN_00a7d5a0(char const* pcName, void* pvObj);
-
-struct StreamShell
-{
-    unsigned char unk0[8];
-    unsigned short m_usSize;
-    unsigned short m_usPos;
-    unsigned short m_usHold;
-    unsigned short m_usAdd;
-
-    void FUN_0096ad30(unsigned int uiNewEnd);
-    void FUN_0096ae90(unsigned int uiPos, void* pvData);
-};
-
-class ClaimCls
-{
-  public:
-    unsigned char unk0[8];
-    void* m_pkSceneObject;
-    void WriteToStream(StreamShell& kStream);
-};
-
 // @fnv 0x00a81160
-void ClaimCls::WriteToStream(StreamShell& kStream)
+// pdb: NiCollisionObject::AddViewerStrings | NiCollisionObject.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
+void NiCollisionObject::AddViewerStrings(NiTPrimitiveArray<char*>* pkStrings)
 {
-    {
-        void* p = FUN_00a7d330(g_011f4ad4);
-        unsigned int uiPos = kStream.m_usPos;
-        unsigned int uiSize = kStream.m_usSize;
-        if (uiPos >= uiSize)
-        {
-            kStream.FUN_0096ad30(uiPos + kStream.m_usAdd);
-        }
-        kStream.FUN_0096ae90(uiPos, &p);
-    }
-    {
-        void* q = FUN_00a7d5a0("m_pkSceneObject", m_pkSceneObject);
-        unsigned int uiPos = kStream.m_usPos;
-        unsigned int uiSize = kStream.m_usSize;
-        if (uiPos >= uiSize)
-        {
-            kStream.FUN_0096ad30(uiPos + kStream.m_usAdd);
-        }
-        kStream.FUN_0096ae90(uiPos, &q);
-    }
+    pkStrings->Add(NiGetViewerString(ms_RTTI.GetName()));
+    pkStrings->Add(NiGetViewerString("m_pkSceneObject", m_pkSceneObject));
 }

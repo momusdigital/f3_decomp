@@ -11,6 +11,8 @@
 class hkpRagdollLimitsDataAtoms
 {
   public:
+    // The bytes up to the end of the last atom (Havok's hkGetByteOffsetInt(this, &m_kPlaneLimit + 1)).
+    int getSizeOfAllAtoms() const { return (int)((const char*)(&m_kPlaneLimit + 1) - (const char*)this); }
     enum Axis
     {
         AXIS_TWIST = 0,

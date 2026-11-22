@@ -51,6 +51,7 @@ class BloodSplatterBeamShader : public BeamShader
 };
 
 // @fnv 0x00bc4af0
+// pdb: BeamShader::CreateShader | BeamShader.obj | fnv360_0822_retail, call_gap, medium
 BSShader* BloodSplatterBeamShader::CreateShader()
 {
     NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create((NiRenderer*)g_pkRenderer, 5, 1);
@@ -106,6 +107,7 @@ class DistantLODShader
 
 // Creates the shader constant maps for the shader if not already present, setting constants on the first map.
 // @fnv 0x00bc4ed0
+// pdb: BeamShader::CreateConstantMaps | BeamShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void DistantLODShader::UpdateShaderConstants()
 {
     if (!m_spSecondShaderConstantMap.m_pShaderConstantMap)
@@ -126,6 +128,7 @@ void DistantLODShader::UpdateShaderConstants()
 #include "beamshader_pass.h"
 // Ensures the pass has a stage, then assigns vertex/pixel shaders and sets the pass render states.
 // @fnv 0x00bc4c00
+// pdb: BeamShader::PresetStages | BeamShader.obj | fnv360_0721_beta, objrun, medium
 void BeamPassShader::SetupPass()
 {
     BeamPassPointer p;
@@ -153,6 +156,7 @@ void BeamPassShader::SetupPass()
 }
 
 // @fnv 0x00bc4ea0
+// pdb: BeamShader::LoadStagesAndPasses | BeamShader.obj | fnv360_0822_retail, objrun_open, medium
 bool BeamPassShader::InitializePass()
 {
     if (!pass.m_pObject)
@@ -172,6 +176,7 @@ struct S
 };
 // Calls FUN_00bc49a0 on this, deletes this with size 0xc0 when flag has bit 0 set, and returns this.
 // @fnv 0x00bc4e70
+// pdb: PathingRequestOptimalLocation::`scalar deleting destructor' | PathingRequestOptimalLocation.obj | fnv360_0822_retail, vtable, medium
 void* S::DestroyIfFlagged(unsigned int auiFlags)
 {
     ((Holder*)this)->FUN_00bc49a0();
@@ -242,6 +247,7 @@ class FUN_00bc49a0 : public ShaderBaseStub
 
 // Clears the shared pointer and the pass and two other reference-counted pointers, releasing them.
 // @fnv 0x00bc49a0
+// pdb: BeamShader::~BeamShader | BeamShader.obj | fnv360_0721_beta, objrun, medium
 FUN_00bc49a0::~FUN_00bc49a0()
 {
     ms_spShared = 0;

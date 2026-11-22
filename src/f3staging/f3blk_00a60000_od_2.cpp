@@ -1345,13 +1345,13 @@ static __forceinline void hkSolverExportWriteResult128( hkReal impulse0, hkReal 
 	sr[1].m_impulseApplied = impulse1;
 	sr[1].m_internalSolverData = rhs1;
 }
-void __cdecl FUN_00a77a70( const hkpSolverInfo& info, const hkpSolverElemTemp* solverInputs, const hkpJacobianSchema* schemas, const hkpVelocityAccumulator* accums )
+// pdb: hkSolverExport::exportImpulsesAndRhs | hkpSolverExport.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+void __cdecl hkSolverExport_exportImpulsesAndRhs( const hkpSolverInfo& info, const hkpSolverElemTemp* solverInputs, const hkpJacobianSchema* schemas, const hkpVelocityAccumulator* accums )
 {
 	const hkpSolverElemTemp* solverIn = solverInputs;
 	const hkpJacobianSchema* com = schemas;
 	hkpSolverResults* solverOut = 0;
 	int solverResultStriding = 0;
-	;
 	const hkReal rhsFactorInfo = info.m_deltaTime * info.m_dampDivTau;
 	const hkReal frictionRhsFactor = info.m_deltaTime * info.m_dampDivFrictionTau;
 	const hkReal frameDeltaTime = info.m_numSteps * info.m_deltaTime;
@@ -1447,7 +1447,6 @@ void __cdecl FUN_00a77a70( const hkpSolverInfo& info, const hkpSolverElemTemp* s
 					{
 						while ( hkpJacobianSchema::getType( com ) > hkpJacobianSchema::SCHEMA_TYPE_SIMPLE_BEGIN && hkpJacobianSchema::getType( com ) < hkpJacobianSchema::SCHEMA_TYPE_SIMPLE_END )
 						{
-							;
 							solverIn += hkpJacobianSchema::getNumSolverElemTemps( com );
 							com = hkAddByteOffsetConst( com, hkpJacobianSchema::getSize( com ) );
 						}
@@ -1635,7 +1634,6 @@ exportAngularFriction1d:
 					doubleJacExtPtr = &schema->m_jac; hkpSolverResults* dsr; schema->unpackSolverResultsPtr( dsr );
 					usedImpulseFactor = solverIn[2].m_usedImpulseFactor;
 					com = reinterpret_cast<const hkpJacobianSchema*>( schema + 1 );
-					;
 					hkReal rhsOut0, rhsOut1;
 					hkSolverExport::integrateRhsPair( *mA, *mB, &doubleJacExtPtr->m_jac0, frictionRhsFactor, frameDeltaTime, rhsOut0, rhsOut1 );
 					hkSolverExportWriteResult128( solverIn[0].m_impulseApplied, rhsOut0 * usedImpulseFactor, solverIn[1].m_impulseApplied, rhsOut1 * usedImpulseFactor, dsr, srWriter );
@@ -1648,7 +1646,6 @@ exportAngularFriction1d:
 					tripleJacExtPtr = &schema->m_jac; hkpSolverResults* dsr; schema->unpackSolverResultsPtr( dsr );
 					usedImpulseFactor = solverIn[3].m_usedImpulseFactor;
 					com = reinterpret_cast<const hkpJacobianSchema*>( schema + 1 );
-					;
 					hkReal rhsOut0, rhsOut1;
 					hkSolverExport::integrateRhsPair( *mA, *mB, &tripleJacExtPtr->m_jac0, frictionRhsFactor, frameDeltaTime, rhsOut0, rhsOut1 );
 					hkReal rhsa = usedImpulseFactor * hkSolverExport::integrateAngularRhs( *mA, *mB, &tripleJacExtPtr->m_jac2, frictionRhsFactor, frameDeltaTime );
@@ -1850,6 +1847,8 @@ __forceinline void SetPlane(Vec4& plane,float x,float y,float z,float w)
     plane.w = w;
 }
 
+// pdb: hkpUserConvexRadiusBuilder::registerUserConvexRadiusDisplayBuilder | hkpConvexRadiusBuilder.obj | fnv360_0822_debug, objrun, low, conflict (bridge: _addBoundingPlanes)
+// pdb params: f, type
 static __declspec(noinline) void FUN_00a68e30(Shape* shape,Array<Vec4>* planes,float tolerance)
 {
     Aabb bounds;

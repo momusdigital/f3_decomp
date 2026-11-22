@@ -25,9 +25,10 @@ public:
     virtual void Warning(const char* type, int id, const char* message, const char* file, int line);
     virtual void Report(const char* type, int id, const char* message, const char* file, int line);
     bool FUN_0056be60(const char* file, int line);
-    int FUN_0056bf20(int level, int id, const char* message, const char* file, int line);
+    int HavokError_message(int level, int id, const char* message, const char* file, int line);
 };
-int Reporter56bf20::FUN_0056bf20(int level, int id, const char* message, const char* file, int line) {
+// pdb: HavokError::message | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int Reporter56bf20::HavokError_message(int level, int id, const char* message, const char* file, int line) {
     if (id == -1) {
         if (!FUN_0056be60(file, line)) {
             return 0;
@@ -498,7 +499,7 @@ struct NiTimeController : NiObject
     NiObject* m_pkModifier;
     NiTimeController* GetNext() const { return m_spNext; }
     NiObject* GetModifierPointer() const { return m_pkModifier; }
-    NiObject* FUN_00577f70();
+    NiObject* NiPSysEmitterCtlr_GetBirthRateInterpolator();
 };
 
 struct NiPSysModifier : NiObject
@@ -664,6 +665,8 @@ struct Precip
     NiTriShape* FUN_00578350(NiParticleSystem* pkPSys, const NiMatrix3& kRotate, unsigned char ucSnow);
 };
 
+// pdb: Precipitation::CreateShaderGeometry | Precipitation.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apParticleSystem, akWorldTransform, abSnow
 NiTriShape* Precip::FUN_00578350(NiParticleSystem* pkPSys, const NiMatrix3& kRotate, unsigned char ucSnow)
 {
     NiObject* pkMeshUpdate;
@@ -686,7 +689,7 @@ NiTriShape* Precip::FUN_00578350(NiParticleSystem* pkPSys, const NiMatrix3& kRot
         {
             NiTimeController* pkEmitterCtlr = pkCtlr;
             pkEmitter = (NiPSysEmitter*)NiObject::FUN_00424d50(&DAT_0116ec38, pkEmitterCtlr->GetModifierPointer());
-            NiObject* pkInterp = pkEmitterCtlr->FUN_00577f70();
+            NiObject* pkInterp = pkEmitterCtlr->NiPSysEmitterCtlr_GetBirthRateInterpolator();
             pkInterp->Update(0.0f, 0, fCount);
             fCount = pkEmitter->GetLifeSpan() * fCount;
             break;

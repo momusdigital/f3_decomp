@@ -2,6 +2,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cbfe20
+// pdb: hkMath::hkFloorToInt | hkMathTypes.obj | fnv360_0822_retail, objrun, medium
+// pdb params: r
 int __cdecl FUN_00cbfe20(float afValue)
 {
     union fiu
@@ -54,7 +56,8 @@ int __cdecl FUN_00cbfe20(float afValue)
 
 // Converts a float to int via bit manipulation, handling exponent, sign, and fractional truncation.
 // @fnv 0x00cbfef0
-int __cdecl FUN_00cbfef0(float value)
+// pdb: hkMath::hkFloatToInt | hkMathTypes.obj | fnv360_0822_retail, caller + bridge(call_seq|call_seq) + skyrim(call_seq), high
+int __cdecl hkMath_hkFloatToInt(float value)
 {
     union
     {

@@ -8,6 +8,7 @@ extern char DAT_00e32000;
 void __cdecl FUN_00d988c0();
 int __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: `dynamic initializer for 'sOnStartup'' | bhkWorld.obj | fnv360_0822_debug, objrun, medium
 __declspec(noinline) void FUN_00d01fa0()
 {
     DAT_010f2adc.FUN_00bce3e0(0);

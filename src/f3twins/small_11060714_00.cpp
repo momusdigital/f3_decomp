@@ -26,7 +26,8 @@ void __cdecl FUN_009cc0c0(void* agent, hkpShapeD32* shape, void* input, void* ou
 void __cdecl FUN_00a2b5b0(int* data, void* collector, void* input, void* output);
 void __cdecl FUN_009cc070();
 
-void __cdecl FUN_009bc980(void* agent, hkpShapeD32* shape, void* input, void* output, void* collector)
+// pdb: hkConvexListAgent3::destroy | hkpConvexListAgent3.obj | fnv360_0822_retail, objrun + bridge(hash|objrun) + skyrim(hash), high
+void __cdecl hkConvexListAgent3_destroy(void* agent, hkpShapeD32* shape, void* input, void* output, void* collector)
 {
     if (shape->m_flags & 0x20) {
         FUN_009cc0c0(agent, shape, input, output, collector);
@@ -35,7 +36,8 @@ void __cdecl FUN_009bc980(void* agent, hkpShapeD32* shape, void* input, void* ou
     FUN_00a2b5b0(&shape->m_data, collector, input, output);
 }
 
-void __cdecl FUN_009bc9b0(int a, int b, int c)
+// pdb: hkConvexListAgent3::cleanup | hkpConvexListAgent3.obj | fnv360_0822_retail, caller_sim + bridge(caller_sim|caller_sim) + skyrim(caller_sim), high
+void __cdecl hkConvexListAgent3_cleanup(int a, int b, int c)
 {
     FUN_009cc070();
 }

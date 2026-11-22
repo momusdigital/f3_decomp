@@ -399,6 +399,7 @@ __declspec(noinline) void FUN_00d7e070()
     DAT_01062570 = b;
 }
 
+// pdb: `dynamic initializer for 'BSShaderManager::WindDirection'' | BSShaderManager.obj | fnv360_0822_retail, objrun, high
 __declspec(noinline) void FUN_00d83ca0()
 {
     void* a = DAT_00f72ca4;
@@ -407,6 +408,7 @@ __declspec(noinline) void FUN_00d83ca0()
     DAT_0116f3d0 = b;
 }
 
+// pdb: `dynamic initializer for 'BSShaderManager::kGridArrayCenter'' | BSShaderManager.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00d83d70()
 {
     void* a = DAT_0108f390;
@@ -415,6 +417,7 @@ __declspec(noinline) void FUN_00d83d70()
     DAT_0116f420 = b;
 }
 
+// pdb: `dynamic initializer for 'BSShaderManager::kOldGridArrayCenter'' | BSShaderManager.obj | fnv360_0822_debug, objrun_open, low
 __declspec(noinline) void FUN_00d83d90()
 {
     void* a = DAT_0108f390;

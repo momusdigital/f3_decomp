@@ -12,12 +12,15 @@ struct FUN_00e0a070
     void* m_14;
     int m_18;
     void* m_1c;
-    void VisitNode(void* node);
+    void hkpMoppDefaultSplitter_releaseNode(void* node);
 };
 
 // Links node into one of two singly-linked lists on this, chosen by the byte at node+4, incrementing the matching count.
 // @fnv 0x00e0a070
-void FUN_00e0a070::VisitNode(void* node)
+// pdb: hkpMoppDefaultSplitter::releaseNode | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, vtable, high
+// pdb params: nodeToRelease
+// pdb: hkpMoppDefaultSplitter::releaseNode | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, vtable, high (was: VisitNode)
+void FUN_00e0a070::hkpMoppDefaultSplitter_releaseNode(void* node)
 {
     if (node)
     {
@@ -55,6 +58,7 @@ struct FUN_00e09ba0
 
 // Initializes the object: sets m_06 to 1, points m_00 at DAT_010ea610, and zeroes m_10, m_14, m_18, m_1c, m_08 and m_0c.
 // @fnv 0x00e09ba0
+// pdb: hkpMoppDefaultSplitter::hkpMoppDefaultSplitter | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, uvref, high
 FUN_00e09ba0::FUN_00e09ba0()
 {
     m_06 = 1;
@@ -69,6 +73,7 @@ FUN_00e09ba0::FUN_00e09ba0()
 
 extern int DAT_0102e388;
 // @fnv 0x00e09bd0
+// pdb: TESAttributes::~TESAttributes | TESAttributes.obj | fnv360_0721_beta, call_seq, medium
 void __fastcall FUN_00e09bd0(void* p, int)
 {
     *reinterpret_cast<void**>(p) = &DAT_0102e388;
@@ -77,10 +82,11 @@ void __fastcall FUN_00e09bd0(void* p, int)
 struct S_00e0a0a0
 {
     int unk0, unk4, unk8, unkC, unk10, unk14, unk18, unk1C;
-    int FUN_00e0a0a0();
+    int hkpMoppDefaultSplitter_getFreeNodes();
 };
 // @fnv 0x00e0a0a0
-int S_00e0a0a0::FUN_00e0a0a0()
+// pdb: hkpMoppDefaultSplitter::getFreeNodes | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int S_00e0a0a0::hkpMoppDefaultSplitter_getFreeNodes()
 {
     return unk1C + unk14;
 }
@@ -178,13 +184,16 @@ class FUN_00e09f80_class
     int unk30;
     hkAxisE09F* m_axes;
 
-    void FUN_00e098b0(hkRangeE09F* pkRange, hkNodeE09F* pkNode) throw();
-    hkNodeE09F* AllocateNode(int iOwner, hkRangeE09F* pkRange) throw();
+    void hkpMoppDefaultSplitter_calculateMaxMinId(hkRangeE09F* pkRange, hkNodeE09F* pkNode) throw();
+    hkNodeE09F* hkpMoppDefaultSplitter_createTerminal(int iOwner, hkRangeE09F* pkRange) throw();
 };
 
 // Pops a free node from the free list, resets its flags and range fields, links it to the owner, and registers its three key ranges with the axis handler.
 // @fnv 0x00e09f80
-hkNodeE09F* FUN_00e09f80_class::AllocateNode(int iOwner, hkRangeE09F* pkRange) throw()
+// pdb: hkpMoppDefaultSplitter::createTerminal | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: parentNode, params
+// pdb: hkpMoppDefaultSplitter::createTerminal | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_gap_sim, high (was: AllocateNode)
+hkNodeE09F* FUN_00e09f80_class::hkpMoppDefaultSplitter_createTerminal(int iOwner, hkRangeE09F* pkRange) throw()
 {
     hkNodeE09F* pkNode = m_kFreeListEntries;
     m_kFreeListEntries = pkNode->m_next;
@@ -200,7 +209,7 @@ hkNodeE09F* FUN_00e09f80_class::AllocateNode(int iOwner, hkRangeE09F* pkRange) t
     pkNode->m_uiBufferCapacity = true;
     pkNode->m_next = (hkNodeE09F*)iOwner;
     pkNode->unk60 = pkRange->m_kMinimumCorner;
-    FUN_00e098b0(pkRange, pkNode);
+    hkpMoppDefaultSplitter_calculateMaxMinId(pkRange, pkNode);
     for (int i = 0; i < 3; i++)
         m_handler->addRange(&m_axes[i], i, pkRange->m_kMinimumCorner, pkRange->m_kMaximumCorner,
                             &pkNode->m_keys[i].m_kMinimumCorner, &pkNode->m_keys[i].m_kMaximumCorner);
@@ -228,6 +237,7 @@ struct FNVResponse
     float ComputeResponse(FNVRange* range);
 };
 // @fnv 0x00e0a750
+// pdb: hkpMoppCostFunction::costUnbalancedPlaneRight | hkpMoppDefaultSplitter.obj | tesv_win, hash, low
 float FNVResponse::ComputeResponse(FNVRange* range)
 {
     float displacement = range->value - static_cast<float>((range->upper + range->lower) * DAT_01011588);
@@ -283,6 +293,8 @@ template <typename T> inline void swapE0AB(T& kA, T& kB)
 
 // Sorts the range [iD, iH] of pArr in place by m_key using a Hoare-style quicksort with a middle pivot, recursing on the left part and looping on the right.
 // @fnv 0x00e0ab60
+// pdb: hkAlgorithm::quickSortRecursive<hkpMoppCompilerPrimitive,hkAlgorithm::less<hkpMoppCompilerPrimitive> > | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pArr, d, h, cmpLess
 void __cdecl QuickSortElements(SortElemE0AB* pElements, int iLow, int iHigh, SortLessE0AB kCmpLess)
 {
 setRecursion:
@@ -317,11 +329,6 @@ setRecursion:
     }
 }
 
-struct FUN_00e09bd0_Obj
-{
-    void __thiscall FUN_00e09bd0();
-};
-
 struct FUN_00e0ac80_Alloc
 {
     virtual void FUN_00e0ac80_0();
@@ -340,28 +347,6 @@ struct BSAudio
 
 BSAudio* __cdecl FUN_00c85750(void);
 
-struct FUN_00e0ac80_class
-{
-    int unk00;
-    unsigned short m_04;
-
-    FUN_00e0ac80_class* __thiscall Construct(int flags);
-};
-
-// @fnv 0x00e0ac80
-FUN_00e0ac80_class* FUN_00e0ac80_class::Construct(int flags)
-{
-    reinterpret_cast<FUN_00e09bd0_Obj*>(this)->FUN_00e09bd0();
-
-    if (flags & 1)
-    {
-        BSAudio* audio = FUN_00c85750();
-        audio->unk10->FUN_00e0ac80_2(this, this->m_04);
-    }
-
-    return this;
-}
-
 struct Interval
 {
     float min, max;
@@ -377,11 +362,12 @@ struct Obj
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
     const char* unk34;
-    void FUN_00e09970(Node*, int*, float*);
+    void hkpMoppDefaultSplitter_resortAxis(Node*, int*, float*);
 };
 // Writes axes ordered by node extent length (x0.66 when unk60 equals unk34 plus 0, 32 or 64) and weights; identity order and zero weights if node is null.
 // @fnv 0x00e09970
-void Obj::FUN_00e09970(Node* node, int* axes, float* weights)
+// pdb: hkpMoppDefaultSplitter::resortAxis | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, objrun + bridge(call_seq|objrun) + skyrim(call_gap), high
+void Obj::hkpMoppDefaultSplitter_resortAxis(Node* node, int* axes, float* weights)
 {
     if (node)
     {
@@ -515,12 +501,14 @@ class NodePoolE0A
     NodeE0A* m_kFreeListEntries;
     int m_numFree;
 
-    NodeE0A* PopNode();
+    NodeE0A* hkpMoppDefaultSplitter_createNode();
 };
 
 // Pops a NodeE0A from the free list, resets its flags, indices, distances, and counts to defaults, and returns the node.
 // @fnv 0x00e0a020
-NodeE0A* NodePoolE0A::PopNode()
+// pdb: hkpMoppDefaultSplitter::createNode | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, objrun, high
+// pdb: hkpMoppDefaultSplitter::createNode | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, objrun, high (was: PopNode)
+NodeE0A* NodePoolE0A::hkpMoppDefaultSplitter_createNode()
 {
     NodeE0A* node = m_kFreeListEntries;
     m_kFreeListEntries = node->m_next;
@@ -546,8 +534,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern __m128 DAT_010c44d0;
 extern double DAT_01011588;
 
 struct FUN_00e0a950_E
@@ -583,13 +569,14 @@ struct Cls_00e0a950
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24;
     FUN_00e0a950_Sink* unk28;
-    void FUN_00e0a950(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5, FUN_00e0a950_E** a6,
+    void hkpMoppDefaultSplitter_sortLeftAndRight(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5, FUN_00e0a950_E** a6,
                       FUN_00e0a950_E** a7, FUN_00e0a950_E** a8);
 };
 
 // Switches on a0 (0-3) to adjust the pointers a3-a8 and swap or copy E records; case 3 calls unk28->v20 with a vector and its negation.
 // @f3 0x00a89f40 (community match, verified in this file)
-void Cls_00e0a950::FUN_00e0a950(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5,
+// pdb: hkpMoppDefaultSplitter::sortLeftAndRight | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq) + skyrim(call_seq), high
+void Cls_00e0a950::hkpMoppDefaultSplitter_sortLeftAndRight(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5,
                                 FUN_00e0a950_E** a6, FUN_00e0a950_E** a7, FUN_00e0a950_E** a8)
 {
     switch (a0)
@@ -793,17 +780,19 @@ class SplitBuilder
     int m_iValue;
     PositionEntry* m_kPlaneArray;
 
-    SplitNode* AllocateNode(SplitNode* parent, SplitList* list);
-    SplitNode* PopNode();
-    void FUN_00e09970(SplitNode* node, int* axes, float* offsets);
-    void FUN_00e09be0(SplitNode* node, PositionEntry* plane, SplitList* list, SplitRange* range, int depth);
-    void FUN_00e098b0(SplitList* list, SplitNode* node);
-    void FUN_00e0a0b0(SplitList* list, SplitNode* node, int depth, SplitList* left, SplitList* right);
+    SplitNode* hkpMoppDefaultSplitter_createTerminal(SplitNode* parent, SplitList* list);
+    SplitNode* hkpMoppDefaultSplitter_createNode();
+    void hkpMoppDefaultSplitter_resortAxis(SplitNode* node, int* axes, float* offsets);
+    void hkpMoppDefaultSplitter_findSplittingPlanePositions(SplitNode* node, PositionEntry* plane, SplitList* list, SplitRange* range, int depth);
+    void hkpMoppDefaultSplitter_calculateMaxMinId(SplitList* list, SplitNode* node);
+    void hkpMoppDefaultSplitter_groupPrimitives(SplitList* list, SplitNode* node, int depth, SplitList* left, SplitList* right);
     SplitNode* FUN_00e0a270(SplitNode* parent, SplitList* list, int side, int depth);
 };
 
 // Recursively builds a split tree node by classifying and sorting items against candidate planes, then splitting the list into left and right children.
 // @fnv 0x00e0a270
+// pdb: hkpMoppDefaultSplitter::split | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: parentNode, params, side, depth
 SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int side, int depth)
 {
     if (list->m_iElementCount == 1)
@@ -812,7 +801,7 @@ SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int si
         {
             m_monitor->step(m_pTreeNode, this, 0x800);
         }
-        return AllocateNode(parent, list);
+        return hkpMoppDefaultSplitter_createTerminal(parent, list);
     }
 
     if (m_settings->m_progress && m_14 == 0)
@@ -820,7 +809,7 @@ SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int si
         m_monitor->step(m_pTreeNode, this, 0x800);
     }
 
-    SplitNode* node = PopNode();
+    SplitNode* node = hkpMoppDefaultSplitter_createNode();
     node->m_uiItemCount = list->m_iElementCount;
     node->m_parent = parent;
     if (parent == 0)
@@ -847,7 +836,7 @@ SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int si
     PositionEntry* last = 0;
     int axes[3];
     float offsets[3];
-    FUN_00e09970(parent, axes, offsets);
+    hkpMoppDefaultSplitter_resortAxis(parent, axes, offsets);
 
     for (i = 0; i < 3; i++)
     {
@@ -864,7 +853,7 @@ SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int si
         new (&scratch.b.first) SplitLess();
         quickSortItems(list->m_data, list->m_iElementCount, scratch.b.first);
         last = scratch.a.plane;
-        FUN_00e09be0(node, scratch.a.plane, list, range, depth);
+        hkpMoppDefaultSplitter_findSplittingPlanePositions(node, scratch.a.plane, list, range, depth);
     }
     for (; i < 3; i++)
     {
@@ -885,10 +874,10 @@ SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int si
         new (&scratch.a.less) SplitLess();
         quickSortItems(list->m_data, list->m_iElementCount, scratch.a.less);
         last = plane;
-        FUN_00e09be0(node, plane, list, &range, depth);
+        hkpMoppDefaultSplitter_findSplittingPlanePositions(node, plane, list, &range, depth);
     }
 
-    FUN_00e098b0(list, node);
+    hkpMoppDefaultSplitter_calculateMaxMinId(list, node);
     if (last != node->m_kTriangleNormal)
     {
         PositionEntry* plane = node->m_kTriangleNormal;
@@ -899,20 +888,12 @@ SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int si
 
     SplitList right;
     SplitList left;
-    FUN_00e0a0b0(list, node, depth, &left, &right);
+    hkpMoppDefaultSplitter_groupPrimitives(list, node, depth, &left, &right);
     node->m_fMaximumU = FUN_00e0a270(node, &right, 1, depth + 1);
     node->m_fMinimumU = FUN_00e0a270(node, &left, 0, depth + 1);
     return node;
 }
 
-struct hkMemoryRouterE0A5
-{
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    void* m_10;
-};
 void* __cdecl AllocateWithHeader(void* pvAllocator, int iNumBytes);
 void __cdecl FUN_00c856c0(void* pvAllocator, void* pvMem);
 
@@ -1034,7 +1015,7 @@ class hkProcessorE0A5
     int m_iNumBits;
 
     int FUN_00e0a270(int a, hkJobE0A5* pkJob, int b, int c) throw();
-    int FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+    int hkpMoppDefaultSplitter_buildTree(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                      hkBuffersE0A5* pkBuffers) throw();
 };
 
@@ -1048,7 +1029,8 @@ struct StackAllocatorE0A5
 };
 extern StackAllocatorE0A5* (__stdcall *FUN_00d9b080)(void*);
 extern void* DAT_010f3170;
-int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
+// pdb: hkpMoppDefaultSplitter::buildTree | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int hkProcessorE0A5::hkpMoppDefaultSplitter_buildTree(hkInputE0A5* pkInput, int iArg, hkOutputE0A5* pkOutput, hkSettingsE0A5* pkSettings,
                                   hkBuffersE0A5* pkBuffers) throw()
 {
     m_settings = pkSettings;
@@ -1141,6 +1123,8 @@ struct FUN_00e0a6c0_Class
 
 // Scales |m_14 - m_34| by m_1c, adjusts it by m_00 < m_04 (returning 0 if negative), takes the 4th power and returns it times m_10.
 // @fnv 0x00e0a6c0
+// pdb: hkpMoppCostFunction::costUnbalancedPlaneRight | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: hkpMoppCostFunction::costNumUnBalanced)
+// pdb params: p
 float FUN_00e0a6c0_Class::FUN_00e0a6c0(const FUN_00e0a6c0_Parameters* parameters)
 {
     int difference = parameters->m_14 - parameters->m_34;
@@ -1192,21 +1176,6 @@ struct S00e098b0_Handler
     virtual int addRange(S00e098b0_Elem* elem, unsigned int* output);
 };
 
-struct S00e098b0_Owner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    S00e098b0_Handler* handler;
-};
-
 struct NodeBounds
 {
     void* next;
@@ -1221,11 +1190,12 @@ struct MatchOwner
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
     S00e098b0_Handler* handler;
-    void FUN_00e098b0(S00e098b0_Range* range, NodeBounds* node);
+    void hkpMoppDefaultSplitter_calculateMaxMinId(S00e098b0_Range* range, NodeBounds* node);
 };
 // Iterates a range of elements, calls handler->addRange on each, and accumulates min/max values and per-result bounds into the NodeBounds node.
 // @fnv 0x00e098b0
-void MatchOwner::FUN_00e098b0(S00e098b0_Range* range, NodeBounds* node)
+// pdb: hkpMoppDefaultSplitter::calculateMaxMinId | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_gap_sim) + skyrim(call_gap), high
+void MatchOwner::hkpMoppDefaultSplitter_calculateMaxMinId(S00e098b0_Range* range, NodeBounds* node)
 {
     S00e098b0_Elem* elem = range->data;
     unsigned int minimum = elem->unk00;
@@ -1347,13 +1317,14 @@ class ThisE0AC
     int unk30;
     TableE0AC* m_34;
 
-    void FUN_00e0acb0(SortElemE0AB** p0, SortElemE0AB** p1, SortElemE0AB** p2, SortElemE0AB** p3, SortElemE0AB** p4,
+    void hkpMoppDefaultSplitter_distributeMiddle(SortElemE0AB** p0, SortElemE0AB** p1, SortElemE0AB** p2, SortElemE0AB** p3, SortElemE0AB** p4,
                       SortElemE0AB** p5, BoxE0AC* box) throw();
 };
 
 // Picks the box axis with the largest extent (excluding one), sorts the p4..p5 range, then moves elements between the p0/p1 and p2/p3 ranges to rebalance them.
 // @fnv 0x00e0acb0
-void ThisE0AC::FUN_00e0acb0(SortElemE0AB** p0, SortElemE0AB** p1, SortElemE0AB** p2, SortElemE0AB** p3,
+// pdb: hkpMoppDefaultSplitter::distributeMiddle | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq) + skyrim(call_seq), high
+void ThisE0AC::hkpMoppDefaultSplitter_distributeMiddle(SortElemE0AB** p0, SortElemE0AB** p1, SortElemE0AB** p2, SortElemE0AB** p3,
                             SortElemE0AB** p4, SortElemE0AB** p5, BoxE0AC* box) throw()
 {
     int n = (int)(*p5 - *p4);
@@ -1498,7 +1469,7 @@ struct CandList
     Item20** data;
     Item20* last;
     void RemoveExpiredEntries(float value);
-    void FUN_00e09670(Item20* item);
+    void hkpMoppDefaultSplitter_hkpMoppMaxList_addElement(Item20* item);
 };
 struct LimitsObj
 {
@@ -1521,7 +1492,7 @@ struct SeqOwner
     ScorerObj* scorer;
     int unk24, unk28, unk2c, unk30, unk34;
     int field38;
-    void FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* range, int tag);
+    void hkpMoppDefaultSplitter_findSplittingPlanePositions(OutRec* out, ObjRef* obj, ItemSpan* span, float* range, int tag);
 };
 
 static __forceinline int computeEnd(int flag, int half, int cursor, int listCount, int& low)
@@ -1545,7 +1516,8 @@ static __forceinline int computeEnd(int flag, int half, int cursor, int listCoun
 }
 // For each item in span, scores candidates from the candidate list and updates out with the lowest cost found, then clears the list.
 // @fnv 0x00e09be0
-void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* range, int tag)
+// pdb: hkpMoppDefaultSplitter::findSplittingPlanePositions | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, call_gap + bridge(uconst|call_gap_sim) + skyrim(uconst), high
+void SeqOwner::hkpMoppDefaultSplitter_findSplittingPlanePositions(OutRec* out, ObjRef* obj, ItemSpan* span, float* range, int tag)
 {
     struct Indices
     {
@@ -1678,7 +1650,7 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
     dec_cursor:
         --indices.cursor;
     after:
-        this->list->FUN_00e09670(&span->data[indices.i]);
+        this->list->hkpMoppDefaultSplitter_hkpMoppMaxList_addElement(&span->data[indices.i]);
     }
     CandList* tail = this->list;
     for (int n = tail->count - 1; n > 0; --n)
@@ -1787,16 +1759,16 @@ struct QuadCenter
     float m_uiY;
 };
 
-int __cdecl FUN_00cbfef0(float f);
+int __cdecl hkMath_hkFloatToInt(float f);
 
 class QuadSplitter
 {
   public:
-    __declspec(noalias) void FUN_00e0a950(int quadrant, QuadCenter* center, int context, int* total, int* counter,
+    __declspec(noalias) void hkpMoppDefaultSplitter_sortLeftAndRight(int quadrant, QuadCenter* center, int context, int* total, int* counter,
                                           QuadElement** cur, QuadElement** mid, QuadElement** p2, QuadElement** p3);
-    __declspec(noalias) void FUN_00e0acb0(QuadElement** p0, QuadElement** mid, QuadElement** p2, QuadElement** p3,
+    __declspec(noalias) void hkpMoppDefaultSplitter_distributeMiddle(QuadElement** p0, QuadElement** mid, QuadElement** p2, QuadElement** p3,
                                           QuadElement** p4, QuadElement** p5, QuadCenter* center);
-    void FUN_00e0a0b0(QuadRange* in, QuadCenter* center, int context, QuadRange* outA, QuadRange* outB);
+    void hkpMoppDefaultSplitter_groupPrimitives(QuadRange* in, QuadCenter* center, int context, QuadRange* outA, QuadRange* outB);
 };
 
 // Partitions elements in in into outA and outB by quadrant relative to center, updating capacities and totals.
@@ -1848,7 +1820,7 @@ public:
  int unk2c,unk30;
  QuadTable* tables;
 };
-__declspec(noinline) void QuadSplitter::FUN_00e0acb0(QuadElement** p0,QuadElement** p1,QuadElement** p2,QuadElement** p3,QuadElement** p4,QuadElement** p5,QuadCenter* center) {
+__declspec(noinline) void QuadSplitter::hkpMoppDefaultSplitter_distributeMiddle(QuadElement** p0,QuadElement** p1,QuadElement** p2,QuadElement** p3,QuadElement** p4,QuadElement** p5,QuadCenter* center) {
  QuadCenterView* view = reinterpret_cast<QuadCenterView*>(center);
  QuadSplitterLayout* layout = reinterpret_cast<QuadSplitterLayout*>(this);
  int count=(int)(*p5-*p4);
@@ -1881,7 +1853,8 @@ __declspec(noinline) void QuadSplitter::FUN_00e0acb0(QuadElement** p0,QuadElemen
  }
 }
 
-void QuadSplitter::FUN_00e0a0b0(QuadRange* in, QuadCenter* center, int context, QuadRange* outA, QuadRange* outB)
+// pdb: hkpMoppDefaultSplitter::groupPrimitives | hkpMoppDefaultSplitter.obj | fnv360_0822_retail, caller_sim + bridge(call_seq|call_gap_sim) + skyrim(call_gap), high
+void QuadSplitter::hkpMoppDefaultSplitter_groupPrimitives(QuadRange* in, QuadCenter* center, int context, QuadRange* outA, QuadRange* outB)
 {
     int total = in->m_numTotal;
     int counter = 0;
@@ -1916,15 +1889,15 @@ void QuadSplitter::FUN_00e0a0b0(QuadRange* in, QuadCenter* center, int context, 
         else if (cur->extent.max > center->m_uiY)
             quadrant = 2;
 
-        FUN_00e0a950(quadrant, center, context, &total, &counter, &cur, &mid, &p2, &p3);
+        hkpMoppDefaultSplitter_sortLeftAndRight(quadrant, center, context, &total, &counter, &cur, &mid, &p2, &p3);
     }
 
     p4 = p3;
-    FUN_00e0acb0(&p0, &mid, &p2, &p4, &p3, &p5, center);
+    hkpMoppDefaultSplitter_distributeMiddle(&p0, &mid, &p2, &p4, &p3, &p5, center);
 
     pMid = mid;
     outA->m_iCapacity = pMid - p0;
-    outA->m_numTotal = FUN_00cbfef0((float)outA->m_iCapacity * total / in->m_iCapacity);
+    outA->m_numTotal = hkMath_hkFloatToInt((float)outA->m_iCapacity * total / in->m_iCapacity);
     outB->m_iCapacity = p4 - p2;
     outB->m_numTotal = total - outA->m_numTotal;
     outA->m_elements = p0;
@@ -1963,6 +1936,7 @@ struct FnvCurve
 };
 // Returns 0 if scale*phase is positive, otherwise an even polynomial in scale*phase times coefficient, with scale from p's bounds and threshold.
 // @fnv 0x00e0a850
+// pdb: hkpMoppCostFunction::costUnbalancedPlaneLeft | hkpMoppDefaultSplitter.obj | tesv_win, hash, low
 float FnvCurve::FUN_00e0a850(FnParams* apParams)
 {
     float phase = apParams->displacement - (float)((apParams->upper + apParams->lower) * DAT_01011588);

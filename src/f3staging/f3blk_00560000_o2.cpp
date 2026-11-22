@@ -25,6 +25,8 @@ struct FileFilter_be60 {
     bool FUN_0056be60(const char* path, int value);
 };
 
+// pdb: HavokError::isReportEnabled | HavokStream.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFile, aiLine
 bool FileFilter_be60::FUN_0056be60(const char* path, int value)
 {
     if (count) {
@@ -67,6 +69,8 @@ public:
 
 extern void* FUN_00db3438;
 
+// pdb: TESResponse::Copy | TESResponse.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCopy
 void __thiscall FUN_00562c40_Standin::FUN_00562c40(FUN_00562c40_Standin* source)
 {
     unk00 = source->unk00;
@@ -95,7 +99,8 @@ struct RefPart { unsigned short unk04, refs; RefPart() : refs(1) {} virtual ~Ref
 struct Triple { unsigned unk08, unk0c, unk10; Triple() : unk08(0), unk0c(0), unk10(0x80000000) {} ~Triple(); };
 struct HashCollection { unsigned unk00, unk04, unk08; HashCollection(); ~HashCollection(); void FUN_00922710(unsigned hash, bool value); };
 extern unsigned DAT_00de720c;
-struct FUN_0056b870 : RefPart { Triple fields; HashCollection hashes; bool ready; FUN_0056b870(); virtual ~FUN_0056b870(); void FUN_0056b7c0(unsigned*,unsigned); };
+struct FUN_0056b870 : RefPart { Triple fields; HashCollection hashes; bool ready; FUN_0056b870(); virtual ~FUN_0056b870(); void HavokError_disableReport(unsigned*,unsigned); };
+// pdb: HavokError::HavokError | HavokStream.obj | fnv360_0822_retail, uconst, low, conflict (skyrim: bhkCharacterProxy::Init)
 FUN_0056b870::FUN_0056b870() {
     hashes.FUN_00922710(0x6e8d163b, true);
     hashes.FUN_00922710(0x6cee9071, true);
@@ -138,17 +143,17 @@ FUN_0056b870::FUN_0056b870() {
     hashes.FUN_00922710(0x53fe2ebc, true);
     hashes.FUN_00922710(0x1f0690f0, true);
     hashes.FUN_00922710(0x56f80833, true);
-    FUN_0056b7c0(&DAT_00de720c, 0x26);
-    FUN_0056b7c0(&DAT_00de720c, 0x56);
-    FUN_0056b7c0(&DAT_00de720c, 0x5d);
-    FUN_0056b7c0(&DAT_00de720c, 0x6a);
-    FUN_0056b7c0(&DAT_00de720c, 0x6e);
-    FUN_0056b7c0(&DAT_00de720c, 0x73);
-    FUN_0056b7c0(&DAT_00de720c, 0x7e);
-    FUN_0056b7c0(&DAT_00de720c, 0x85);
-    FUN_0056b7c0(&DAT_00de720c, 0xbf);
-    FUN_0056b7c0(&DAT_00de720c, 0xf6);
-    FUN_0056b7c0(&DAT_00de720c, 0x115);
+    HavokError_disableReport(&DAT_00de720c, 0x26);
+    HavokError_disableReport(&DAT_00de720c, 0x56);
+    HavokError_disableReport(&DAT_00de720c, 0x5d);
+    HavokError_disableReport(&DAT_00de720c, 0x6a);
+    HavokError_disableReport(&DAT_00de720c, 0x6e);
+    HavokError_disableReport(&DAT_00de720c, 0x73);
+    HavokError_disableReport(&DAT_00de720c, 0x7e);
+    HavokError_disableReport(&DAT_00de720c, 0x85);
+    HavokError_disableReport(&DAT_00de720c, 0xbf);
+    HavokError_disableReport(&DAT_00de720c, 0xf6);
+    HavokError_disableReport(&DAT_00de720c, 0x115);
     ready = false;
 }
 
@@ -270,6 +275,7 @@ struct Sky {
  void FUN_0057b1b0(Color*,Samples*,float);
  void FUN_0057b700();
 };
+// pdb: Sky::UpdateColors | Sky.obj | fnv360_0822_retail, uconst, low
 void Sky::FUN_0057b700() {
  if(mode==0) {
   colors[4]=Color(.95f,.85f,.85f);
@@ -509,6 +515,8 @@ __forceinline bool filterMatches(Node<Filter>* head,bool force,Filter* filter,vo
  }
  return true;
 }
+// pdb: TESTopic::GetMatchingInfo | TESTopic.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTopic, abDispositionFailure, apSpeaker, apTarget, abIsConversation, apPreviousTopic, apConversationList
 Entry* __cdecl FUN_00564650(Context* context,bool* result,Subject* subject,void* object,bool force,Filter* filter,Node<Exclusion>* exclusions) {
  Holder* holder=(Holder*)context;
  if(context && (context->flags25 & 1)) { if(DAT_00f5d0f0<=5) holder=0; else holder=DAT_00f5d110->holder; }
@@ -688,8 +696,9 @@ struct ThreeByThreeMatrix { void MakeAxisAngleRotation(float,float,float,float);
 extern Clock DAT_01079f68; extern double DAT_00dc0760;
 extern float DAT_00f5e08c,DAT_00f5e098,DAT_00f5e0a4,DAT_00f5e0b0;
 void __stdcall FUN_00634f80(Arg*,float);
-struct Effect { unsigned int unk00; Obj* obj; Obj* node; float fade; void FUN_0057ebc0(Arg*,float); };
-void Effect::FUN_0057ebc0(Arg* a,float delta) {
+struct Effect { unsigned int unk00; Obj* obj; Obj* node; float fade; void Stars_Update(Arg*,float); };
+// pdb: Stars::Update | Stars.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Effect::Stars_Update(Arg* a,float delta) {
  if(!a->active) return;
  float time=a->time;
  fade=0;
@@ -886,8 +895,8 @@ struct File {
  int unk25c;
  int unk260;
  int version;
- unsigned char FUN_00448cc0(); bool FUN_00446f10(); int FUN_004487d0();
- void FUN_00447d60(void*,unsigned); void FUN_00448800(void*); bool FUN_00447020();
+ unsigned char TESFile_GetTESForm(); bool FUN_00446f10(); int TESFile_GetTESChunk();
+ void FUN_00447d60(void*,unsigned); void FUN_00448800(void*); bool TESFile_NextChunk();
 };
 struct List { int first, next; void FUN_0061c430(const unsigned*); };
 struct Conditions { int first,next; void FUN_005ae230(File*); };
@@ -1034,13 +1043,15 @@ struct Manager {
 extern Manager* DAT_01072508;
 extern char str_00de6ba8[];
 void FUN_00887da0(const char*,...);
-void FUN_00454a40(unsigned*,File*);
+void TESForm_AddCompileIndex(unsigned*,File*);
+// pdb: TESTopicInfo::Load | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Object::FUN_00566640(File* file) {
- if(file->FUN_00448cc0()!=0x46) return false;
+ if(file->TESFile_GetTESForm()!=0x46) return false;
  if(!file->FUN_00446f10()) version=file->version;
  unsigned value; int parent=-1; unsigned quest=0;
  FUN_00454410(file);
- int chunk=file->FUN_004487d0();
+ int chunk=file->TESFile_GetTESChunk();
  if(chunk) do {
  switch(chunk) {
  case 0x41544144: {
@@ -1050,17 +1061,17 @@ bool Object::FUN_00566640(File* file) {
  break;}
  case 0x41445443: conditions.FUN_005ae230(file); break;
  case 0x454d414e: {unsigned id=0;file->FUN_00448800(&id);value=id;list.FUN_0061c430(&value);break;}
- case 0x49545351: file->FUN_00448800(&quest);FUN_00454a40(&quest,file);break;
+ case 0x49545351: file->FUN_00448800(&quest);TESForm_AddCompileIndex(&quest,file);break;
  case 0x464c4354: {if(!extra) FUN_005660c0(0);unsigned id=0;file->FUN_00448800(&id);value=id;extra->a.FUN_0061c430(&value);break;}
  case 0x4d414e41: {unsigned id=0;file->FUN_00448800(&id);anam=id;break;}
  case 0x4d414e4b: {unsigned id=0;file->FUN_00448800(&id);knam=id;break;}
  case 0x4d414e44: {unsigned id;file->FUN_00448800(&id);if(id<6)dnam=id;if(!dnam)dnam=1;break;}
- case 0x4d414e50: {file->FUN_00448800(&parent);if(parent)FUN_00454a40((unsigned*)&parent,file);break;}
+ case 0x4d414e50: {file->FUN_00448800(&parent);if(parent)TESForm_AddCompileIndex((unsigned*)&parent,file);break;}
  case 0x544c4354: {if(!extra) FUN_005660c0(0);unsigned id=0;file->FUN_00448800(&id);value=id;extra->b.FUN_0061c430(&value);break;}
  case 0x4d414e52: {char buf[256];file->FUN_00447d60(buf,256);text.FUN_004019c0(buf,0);break;}
  }
- if(!file->FUN_00447020())break;
- chunk=file->FUN_004487d0();
+ if(!file->TESFile_NextChunk())break;
+ chunk=file->TESFile_GetTESChunk();
  }while(chunk);
  if(type==3)type=0;
  if(!deleted()) {
@@ -1313,8 +1324,10 @@ struct Temp {int vtable; bool flag; Entry* entries; int count; int capacity; Ent
 struct Pair {int id; unsigned int count; int getId(){return id;} };
 struct Queue {bool FUN_00571150(Obj*); void FUN_00571270(); Pair* FUN_00570e90();};
 struct Heap {void FUN_0086ba60(void*);}; extern Heap DAT_01090a78;
-Obj* FUN_0056fbf0(Obj*); int FUN_004756f0(Obj*); Obj* FUN_00455190(int); bool FUN_00518df0(Obj*,void*,unsigned int);
+Obj* FUN_0056fbf0(Obj*); int FUN_004756f0(Obj*); Obj* TESForm_GetFormByNumericID(int); bool Script_SetActionFlag(Obj*,void*,unsigned int);
 struct Owner {int field0,field4; char* source; Obj* owner; Queue queue; Obj* getOwner(){return owner;} bool FUN_00571650(int);};
+// pdb: TriggerEntry::Update | TESTrapListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: afDelta
 bool Owner::FUN_00571650(int unused) {
  bool changed=false;
  Obj* own=owner;
@@ -1334,7 +1347,7 @@ bool Owner::FUN_00571650(int unused) {
            if(object) {
              bool b=object->check() && FUN_004756f0(item);
              bool a=object->testA(0) || object->testB();
-             if((!b || a) && queue.FUN_00571150(object)) changed |= FUN_00518df0(object, owner->position(),0x10000000);
+             if((!b || a) && queue.FUN_00571150(object)) changed |= Script_SetActionFlag(object, owner->position(),0x10000000);
            }
          }
        }
@@ -1350,7 +1363,7 @@ bool Owner::FUN_00571650(int unused) {
          if(object) {
            bool b=object->check() && FUN_004756f0(item);
            bool a=object->testA(0) || object->testB();
-           if((!b || a) && queue.FUN_00571150(object)) changed |= FUN_00518df0(object,&getOwner()->field040,0x10000000);
+           if((!b || a) && queue.FUN_00571150(object)) changed |= Script_SetActionFlag(object,&getOwner()->field040,0x10000000);
          }
        }
      }
@@ -1360,9 +1373,9 @@ bool Owner::FUN_00571650(int unused) {
  Pair* pair=queue.FUN_00570e90();
  if(pair) {
    unsigned int flags=pair->count == 1 ? 0x20000000 : 0x40000000;
-   Obj* object=FUN_00455190(pair->getId());
+   Obj* object=TESForm_GetFormByNumericID(pair->getId());
    DAT_01090a78.FUN_0086ba60(pair);
-   if(object) {changed |= FUN_00518df0(object,&getOwner()->field040,flags); owner->FUN_004e8130(object);}
+   if(object) {changed |= Script_SetActionFlag(object,&getOwner()->field040,flags); owner->FUN_004e8130(object);}
  }
  return changed;
 }
@@ -1387,6 +1400,8 @@ struct Owner363 {
     CallbackState363* target;
     void FUN_0056b730(unsigned int first, unsigned int second);
 };
+// pdb: HavokFileStreambufReader::read | HavokStream.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuf, aiBytes
 void Owner363::FUN_0056b730(unsigned int first, unsigned int second) {
     target->Invoke(first, second);
 }
@@ -1405,6 +1420,8 @@ struct Entry409 {
     }
 };
 struct Array409 { Entry409* entries; int count; };
+// pdb: HavokError::KillArray | HavokStream.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: arArray
 void __stdcall FUN_0056c010(Array409* array) {
     for (int i = 0; i < array->count; ++i) {
         Entry409 current = array->entries[i];
@@ -1443,6 +1460,8 @@ struct Owner424 {
     }
     bool FUN_00570fb0(Argument424* argument, unsigned int kind);
 };
+// pdb: TESTrapListener::IsRefInTrigger | TESTrapListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef, apTrigger
 bool Owner424::FUN_00570fb0(Argument424* argument, unsigned int kind) {
     Node424* node = Find(kind);
     if (!node)
@@ -1473,15 +1492,17 @@ public:
     unsigned int unk2C;
     FUN_00aa5370(int mode);
 };
-class FUN_0057e870 : public FUN_00aa5370 {
+class SkyTask : public FUN_00aa5370 { // src: F3_EXE vtable 0x00de7f84 (old: FUN_0057e870)
 public:
-    virtual ~FUN_0057e870() throw();
+    virtual ~SkyTask() throw();
     void* value;
     void FUN_00aa5120(void* context);
     void FUN_00aa5440(int enabled);
-    FUN_0057e870(void* input, void* context);
+    SkyTask(void* input, void* context);
 };
-FUN_0057e870::FUN_0057e870(void* input, void* context) : FUN_00aa5370(3), value(input) {
+// pdb: SkyTextureManager::LoadTextureInBackground | SkyTextureManager.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apspTexture, apFilename
+SkyTask::SkyTask(void* input, void* context) : FUN_00aa5370(3), value(input) {
     FUN_00aa5120(context);
     FUN_00aa5440(1);
 }
@@ -1523,6 +1544,8 @@ struct FUN_00567ea0 : public Base_00567ea0 {
     FUN_00567ea0(int a1, int a2);
 };
 
+// pdb: TargetEntry::TargetEntry | BGSZoneTargetListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRef, apCol
 FUN_00567ea0::FUN_00567ea0(int a1, int a2)
     : Base_00567ea0(a1, a2), m_40(0x20)
 {
@@ -1580,6 +1603,7 @@ public:
     virtual ~FUN_0057f2b0();
 };
 
+// pdb: Sun::~Sun | Sun.obj | fnv360_0822_retail, call_seq, high
 FUN_0057f2b0::~FUN_0057f2b0()
 {
     m4 = 0;
@@ -1600,7 +1624,7 @@ FUN_0057f2b0::~FUN_0057f2b0()
 // @f3 0x0057b460 (community match, verified in this file)
 namespace f3m_0057b460 {
 struct Target_00bd0140 {
-    void __thiscall FUN_00bd0140();
+    void __thiscall BSSoundHandle_Stop();
 };
 struct Node_0057b460 {
     Target_00bd0140* unk00;
@@ -1674,13 +1698,14 @@ public:
     Node_0057b460* unkFC;
     void __thiscall FUN_0057b460();
 };
+// pdb: Sky::StopPlayingAllWeatherSounds | Sky.obj | fnv360_0822_retail, call_gap, low
 void __thiscall FUN_0057b460_cls::FUN_0057b460()
 {
     Node_0057b460* pNode = unkFC;
     while (pNode) {
         if (!pNode->unk00)
             break;
-        pNode->unk00->FUN_00bd0140();
+        pNode->unk00->BSSoundHandle_Stop();
         pNode = pNode->unk04;
     }
 }
@@ -1706,6 +1731,8 @@ struct Class_00567940 {
     bool FUN_00567940(TargetItem_00567940* item, bool flag);
 };
 
+// pdb: BGSAcousticSpaceListener::DequeueRemoval | BGSAcousticSpaceListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef, abDoRemoval
 bool Class_00567940::FUN_00567940(TargetItem_00567940* item, bool flag)
 {
     bool result = map.Remove(item);
@@ -1806,13 +1833,13 @@ struct Form {
  virtual void v134();
  virtual const char* v138();
  char unk04; char unk05,unk06,unk07; int unk08; unsigned unk0C;
- Form* FUN_00455470(int);
+ Form* TESForm_GetFile(int);
  Form* FUN_005642c0(Form*);
  __declspec(noalias) void FUN_00566950(Text*,bool);
 };
 Form* FUN_005643c0(Form*);
-void FUN_00454a40(unsigned*,Form*);
-Form* FUN_00455190(unsigned);
+void TESForm_AddCompileIndex(unsigned*,Form*);
+Form* TESForm_GetFormByNumericID(unsigned);
 __declspec(noinline) void FUN_00887da0(const char*,...) {}
 extern const char DAT_00de6120[],DAT_00de6ca8[],DAT_00de6c58[],DAT_00de6c08[];
 struct Node {
@@ -1822,15 +1849,17 @@ struct Node {
 };
 __forceinline bool IsTopic(Form* f) { return f && f->unk04=='E'; }
 struct Links {Node from,to;void FUN_00566de0(Form*);};
+// pdb: TESConversationData::InitItem | TESTopicInfo.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apOwner
 void Links::FUN_00566de0(Form* input) {
  Node* previous=0;
  Node* current=&to;
- Form* index=input?input->FUN_00455470(-1):0;
+ Form* index=input?input->TESForm_GetFile(-1):0;
  {
   while(current && current->data) {
    unsigned value=current->data;
-   FUN_00454a40(&value,index);
-   Form* resolved=FUN_00455190(value);
+   TESForm_AddCompileIndex(&value,index);
+   Form* resolved=TESForm_GetFormByNumericID(value);
    if(!IsTopic(resolved)) {
     Node* following=current->next;
     if(!following && previous) {
@@ -1872,8 +1901,8 @@ void Links::FUN_00566de0(Form* input) {
   current=&from;
   while(current && current->data) {
    unsigned value=current->data;
-   FUN_00454a40(&value,index);
-   Form* resolved=FUN_00455190(value);
+   TESForm_AddCompileIndex(&value,index);
+   Form* resolved=TESForm_GetFormByNumericID(value);
    if(!IsTopic(resolved)) {
     Node* following=current->next;
     if(!following && previous) {
@@ -1922,6 +1951,7 @@ struct Deleter_0056ae {
     Deleter_0056ae* FUN_0056ae10(int flags);
 };
 
+// pdb: FOIslandActivationListener::`scalar deleting destructor' | FOIslandActivationListener.obj | fnv360_0822_retail, vtable, high
 Deleter_0056ae* Deleter_0056ae::FUN_0056ae10(int flags)
 {
     unsigned int* p = (unsigned int*)((char*)this + 4);
@@ -1942,7 +1972,8 @@ namespace f3m_0056bd80 {
 void __cdecl FUN_00887da0(int format, const char* text, const char* name,
                           int value, const char* first, const char* second);
 
-void __stdcall FUN_0056bd80(const char* param1, int param2,
+// pdb: HavokError::warningMessage | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall HavokError_warningMessage(const char* param1, int param2,
                             const char* param3, const char* param4,
                             int param5)
 {
@@ -1965,6 +1996,8 @@ public:
     void __thiscall FUN_00568700();
 };
 
+// pdb: CameraCaster::SetPlayerGroup | CameraCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiGroup
 void __thiscall FUN_00568700_Standin::FUN_00568700()
 {
     unk00->FUN_008f9b90();
@@ -1986,6 +2019,7 @@ public:
     void __thiscall FUN_00578180();
 };
 
+// pdb: Precipitation::Initialize | Precipitation.obj | fnv360_0822_retail, objrun, low
 void __thiscall FUN_00578180_Standin::FUN_00578180()
 {
     unk0C = DAT_0107a424;
@@ -1994,6 +2028,8 @@ void __thiscall FUN_00578180_Standin::FUN_00578180()
 
 // @f3 0x00563f50 (community match, verified in this file)
 namespace f3m_00563f50 {
+// pdb: TESTopic::IsFormTypeChild | TESTopic.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aeType
 char __stdcall FUN_00563f50(char a1)
 {
     return a1 == 0x46;
@@ -2009,6 +2045,7 @@ struct FUN_00568660_Holder {
     int FUN_00568660();
 };
 
+// pdb: bhkCharacterProxy::operator* | MagicBallProjectile.obj | fnv360_0822_retail, call_gap_sim, low
 int FUN_00568660_Holder::FUN_00568660() {
     if (this != 0) return unk8;
     return 0;
@@ -2024,6 +2061,8 @@ struct SomeClass {
     void __thiscall FUN_00565da0(unsigned short a);
 };
 
+// pdb: TESTopicInfo::SetInfoIndex | TESTopicInfo.obj | fnv360_0822_retail, call_gap, low
+// pdb params: iIdx
 void __thiscall SomeClass::FUN_00565da0(unsigned short a) {
     unk20 = a;
 }
@@ -2045,6 +2084,7 @@ public:
     void* __thiscall FUN_00562c30();
 };
 
+// pdb: TESResponse::GetResponseText | TESResponse.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00562c30_Standin::FUN_00562c30()
 {
     void* value = unk18;
@@ -2065,6 +2105,7 @@ public:
     void* __thiscall FUN_00565110();
 };
 
+// pdb: TESTopic::GetFormEditorID | TESTopic.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall Standin_00565110::FUN_00565110() {
     void* eax = field38;
     if (eax == 0)
@@ -2127,6 +2168,8 @@ struct C00563c00 {
     int FUN_00563c00();
 };
 
+// pdb: TESTopic::SaveEdit | TESTopic.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: apFile
 int C00563c00::FUN_00563c00() {
     void **vt = *(void ***)this;
     return ((int (__thiscall *)(void *))vt[10])(this);
@@ -2149,6 +2192,7 @@ public:
     void FUN_00562d30();
 };
 
+// pdb: TESResponse::~TESResponse | TESResponse.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00562d30_owner::FUN_00562d30()
 {
     if (unk18 != 0)
@@ -2177,6 +2221,8 @@ struct Cont_00563e80 {
     unsigned int unk0C;
 };
 
+// pdb: TESTopic::ResetInfoIndexes | TESTopic.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apInfoArray
 int __cdecl FUN_00563e80(Cont_00563e80* a1)
 {
     int result;
@@ -2216,6 +2262,7 @@ struct S {
     int FUN_0056b3d0();
 };
 
+// pdb: HavokFileStreambufReader::sysGetFileSize | HavokStream.obj | fnv360_0822_retail, vtable, medium
 int S::FUN_0056b3d0() {
     if (this->obj)
         return this->obj->v024();
@@ -2262,10 +2309,11 @@ struct Result_00564bf0 {
 };
 
 struct Owner_00564bf0 {
-    Result_00564bf0* FUN_00564bf0(Subject* subject, void* object, Filter* filter, f3m_00564650::Node<f3m_00564650::Exclusion>* exclusions, bool flag);
+    Result_00564bf0* TESTopic_CreateDialogueItem(Subject* subject, void* object, Filter* filter, f3m_00564650::Node<f3m_00564650::Exclusion>* exclusions, bool flag);
 };
 
-Result_00564bf0* Owner_00564bf0::FUN_00564bf0(Subject* subject, void* object, Filter* filter, f3m_00564650::Node<f3m_00564650::Exclusion>* exclusions, bool flag)
+// pdb: TESTopic::CreateDialogueItem | TESTopic.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+Result_00564bf0* Owner_00564bf0::TESTopic_CreateDialogueItem(Subject* subject, void* object, Filter* filter, f3m_00564650::Node<f3m_00564650::Exclusion>* exclusions, bool flag)
 {
     bool result;
     Entry* entry = FUN_00564650((Context*)this, &result, subject, object, true, filter, exclusions);
@@ -2306,10 +2354,11 @@ struct Owner_00571980 {
     int unk18;
     int unk1c;
     Entry_00571980* head;
-    void FUN_00571980();
+    void TESTrapListener_EmptyTriggerList();
 };
 
-void Owner_00571980::FUN_00571980()
+// pdb: TESTrapListener::EmptyTriggerList | TESTrapListener.obj | fnv360_0822_retail, call_seq + bridge(call_seq|callee_sim) + skyrim(call_seq), high
+void Owner_00571980::TESTrapListener_EmptyTriggerList()
 {
     Entry_00571980* e = head;
     while (e) {
@@ -2495,6 +2544,7 @@ struct Obj_00565d10 {
     void FUN_00565d10();
 };
 
+// pdb: TESTopicInfo::SetSaidOnce | TESTopicInfo.obj | fnv360_0721_retail, objrun, low
 void Obj_00565d10::FUN_00565d10()
 {
     if (flagSet(flags25, 4))
@@ -2571,6 +2621,8 @@ public:
     void FUN_00563920(TESForm* form);
 };
 
+// pdb: TESSkill::Copy | TESSkill.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCopy
 void FUN_00563920_Standin::FUN_00563920(TESForm* form)
 {
     TESSkill* skill = dynamic_cast<TESSkill*>(form);
@@ -2603,6 +2655,7 @@ struct Cls_00569700 {
     void __thiscall FUN_00569700();
 };
 
+// pdb: CellMopp::Kill | CellMopp.obj | fnv360_0822_retail, call_gap, low
 void __thiscall Cls_00569700::FUN_00569700() {
     this->FUN_00569670();
     this->sub.FUN_00aaab30();
@@ -2618,6 +2671,7 @@ struct Standin_00561500 {
     void* __thiscall FUN_00561500();
 };
 
+// pdb: TESRace::GetFormEditorID | TESRace.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall Standin_00561500::FUN_00561500()
 {
     void* eax = unk4CC;
@@ -2640,6 +2694,7 @@ struct Standin_565d00 {
     void __thiscall FUN_00565d00();
 };
 
+// pdb: TESTopicInfo::AddTopicList | TESTopicInfo.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: NiFormArray::~NiFormArray)
 void Standin_565d00::FUN_00565d00() {
     ((Callee_77fdb0*)DAT_0107a104)->FUN_0077fdb0((char*)this + 0x30);
 }
@@ -2660,6 +2715,7 @@ struct FUN_0057ffc0_Holder {
     void __thiscall FUN_0057ffc0();
 };
 
+// pdb: Sun::StartSunOcclusion | Sun.obj | fnv360_0822_retail, call_gap, low
 void __thiscall FUN_0057ffc0_Holder::FUN_0057ffc0()
 {
     unk24 = 1;
@@ -2700,6 +2756,7 @@ public:
     ~FUN_005740e0();
 };
 
+// pdb: ViewCaster::ViewCaster | ViewCaster.obj | fnv360_0822_retail, call_gap, low
 FUN_005740e0::FUN_005740e0()
 {
     m0 = 0;
@@ -2710,7 +2767,8 @@ FUN_005740e0::FUN_005740e0()
 
 // @f3 0x0056bde0 (community match, verified in this file)
 namespace f3m_0056bde0 {
-void __stdcall FUN_0056bde0(int a) {
+// pdb: HavokError::showString | HavokStream.obj | fnv360_0822_retail, vtable + skyrim(vtable), high
+void __stdcall HavokError_showString(int a) {
     FUN_00887da0((const char*)4, a);
 }
 }   // namespace f3m_0056bde0
@@ -2748,6 +2806,8 @@ struct Holder_69d10 {
     void FUN_00569d10(int index, Vec3_69d10* out1, Vec3_69d10* out2);
 };
 
+// pdb: DecalCaster::GetCollisionData | DecalCaster.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiIndex, arPos, arNormal
 void Holder_69d10::FUN_00569d10(int index, Vec3_69d10* out1, Vec3_69d10* out2)
 {
     Entry_69d10* entry = &entries[index];
@@ -2808,6 +2868,7 @@ float* Holder6870::FUN_00568670() { if(this && child) return child->FUN_0091dd60
 extern unsigned int DAT_00dcd094, DAT_00de7160, DAT_00de7148;
 namespace f3m_0056adf0 {
 struct PairAdf0 { unsigned int* first; unsigned int* volatile second; PairAdf0* FUN_0056adf0(); };
+// pdb: FOIslandActivationListener::FOIslandActivationListener | FOIslandActivationListener.obj | fnv360_0822_retail, uvref, medium
 PairAdf0* PairAdf0::FUN_0056adf0() { second=&DAT_00dcd094; first=&DAT_00de7160; second=&DAT_00de7148; return this; }
 }   // namespace f3m_0056adf0
 
@@ -2820,6 +2881,8 @@ int TypeA330::FUN_0056a330() { unsigned type=flags&127; if(type==8 || type==29) 
 // @f3 0x00565ba0 (community match, verified in this file)
 namespace f3m_00565ba0 {
 struct Item5ba0 { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c; unsigned short unk20; unsigned char state; void FUN_0078c030(int); void FUN_00565ba0(int); };
+// pdb: TESTopicInfo::Revert | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void Item5ba0::FUN_00565ba0(int value) { FUN_0078c030(value); if((unsigned)value & 0x80000000) state=0; }
 }   // namespace f3m_00565ba0
 
@@ -2828,6 +2891,8 @@ namespace f3m_00565be0 {
 namespace batch07_05 {
 struct Input {unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;unsigned unk14;unsigned unk18;unsigned unk1c;unsigned unk20;unsigned unk24;unsigned unk28;unsigned flags;};
 struct Item {unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c; unsigned short unk20; unsigned char state;void FUN_0078c030(Input*); void FUN_00565be0(Input*);};
+// pdb: TESTopicInfo::Revert | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Item::FUN_00565be0(Input* value) { FUN_0078c030(value); if(value->flags&0x80000000) state=0; }
 }
 }   // namespace f3m_00565be0
@@ -2837,6 +2902,8 @@ namespace f3m_00565bc0 {
 namespace batch07_06 {
 struct Input {unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;char unk14,unk15,unk16,flags17;};
 struct Item {unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c; unsigned short unk20; unsigned char state;void FUN_00454390(Input*); void FUN_00565bc0(Input*);};
+// pdb: TESTopicInfo::LoadGame | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Item::FUN_00565bc0(Input* value) { FUN_00454390(value); if(*reinterpret_cast<unsigned*>(&value->flags17)&0x80000000) state=1; }
 }
 }   // namespace f3m_00565bc0
@@ -2845,6 +2912,8 @@ void Item::FUN_00565bc0(Input* value) { FUN_00454390(value); if(*reinterpret_cas
 namespace f3m_00565b80 {
 namespace batch07_07 {
 struct Item {unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c; unsigned short unk20; unsigned char state;void FUN_00455410(unsigned,int); void FUN_00565b80(unsigned,int);};
+// pdb: TESTopicInfo::LoadGame | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiCurrentFlags
 void Item::FUN_00565b80(unsigned value,int other) { FUN_00455410(value,other); if(value&0x80000000) state=1; }
 }
 }   // namespace f3m_00565b80
@@ -2853,8 +2922,9 @@ void Item::FUN_00565b80(unsigned value,int other) { FUN_00455410(value,other); i
 namespace f3m_00565540 {
 namespace batch07_08 {
 int __cdecl FUN_00564650(void*,int,int,int,int,int,int);
-struct Wrapper { int FUN_00565540(int,int,int); };
-int Wrapper::FUN_00565540(int a,int b,int c) { return FUN_00564650(this,a,b,c,0,0,0); }
+struct Wrapper { int TESTopic_GetMatchingInfo(int,int,int); };
+// pdb: TESTopic::GetMatchingInfo | TESTopic.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+int Wrapper::TESTopic_GetMatchingInfo(int a,int b,int c) { return FUN_00564650(this,a,b,c,0,0,0); }
 }
 }   // namespace f3m_00565540
 
@@ -2873,6 +2943,8 @@ extern unsigned DAT_00de6e40;
 namespace f3m_00567ef0 {
 namespace batch07_10 {
 struct Owner { unsigned* vtable; unsigned unk04,unk08; int second,first,unk14; Owner* FUN_00567ef0(int,int);};
+// pdb: ZoneEntry::ZoneEntry | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef, apCol
 Owner* Owner::FUN_00567ef0(int a,int b) { first=a; second=b; unk04=0;unk08=0;vtable=&DAT_00de6e40;unk14=0;return this;}
 }
 }   // namespace f3m_00567ef0
@@ -2884,6 +2956,7 @@ struct Detail {unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsig
 struct Result { unsigned unk00,unk04; Detail* detail;};
 struct Child {Result* FUN_0091ddd0();};
 struct Owner { unsigned unk00,unk04;Child* child;void* FUN_00568690();};
+// pdb: bhkCharacterController::GetWorld | CameraCaster.obj | fnv360_0822_retail, call_gap, low
 void* Owner::FUN_00568690() { Result* result=this && child ? child->FUN_0091ddd0():0; Detail* detail=result->detail; if(detail) return detail->value; return 0; }
 }
 }   // namespace f3m_00568690
@@ -2893,8 +2966,9 @@ extern unsigned DAT_00de6e28;
 namespace f3m_005685a0 {
 namespace batch07_12 {
 struct Manager {void FUN_0086ba60(void*);}; extern Manager DAT_01090a78;
-struct Owner { unsigned* vtable; void FUN_00568470(); Owner* FUN_005685a0(unsigned);};
-Owner* Owner::FUN_005685a0(unsigned flags) {vtable=&DAT_00de6e28;FUN_00568470();if(flags&1) DAT_01090a78.FUN_0086ba60(this);return this;}
+struct Owner { unsigned* vtable; void BGSZoneTargetListener_EmptyList(); Owner* FUN_005685a0(unsigned);};
+// pdb: BGSZoneTargetListener::`scalar deleting destructor' | BGSZoneTargetListener.obj | fnv360_0822_retail, vtable, high
+Owner* Owner::FUN_005685a0(unsigned flags) {vtable=&DAT_00de6e28;BGSZoneTargetListener_EmptyList();if(flags&1) DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 }   // namespace f3m_005685a0
 
@@ -2902,6 +2976,8 @@ Owner* Owner::FUN_005685a0(unsigned flags) {vtable=&DAT_00de6e28;FUN_00568470();
 namespace f3m_00562a90 {
 class TESForm {public: virtual void method();};
 class TESRaceForm {public: virtual void method(); void* race;};
+// pdb: TESRaceForm::GetFormRace | TESResponse.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: hkpBoxShape::getHalfExtents)
+// pdb params: apForm
 void* FUN_00562a90(TESForm* input){TESRaceForm* result=dynamic_cast<TESRaceForm*>(input);if(result)return result->race;return 0;}
 }   // namespace f3m_00562a90
 
@@ -2909,6 +2985,8 @@ void* FUN_00562a90(TESForm* input){TESRaceForm* result=dynamic_cast<TESRaceForm*
 namespace batch07_14 {
 struct Entry {void* value;unsigned unk04,unk08;};
 extern int DAT_00f5d0ec[]; extern Entry* DAT_00f5d10c[];
+// pdb: TESTopic::GetTopic | TESTopic.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: type, index
 void* FUN_00563cf0(int type,int index) {if(index<0)return 0;if(index>=DAT_00f5d0ec[type])return 0;return DAT_00f5d10c[type][index].value;}
 }
 
@@ -2918,6 +2996,7 @@ namespace batch07_15 {
 struct Owner; extern Owner* DAT_01072508;
 void __cdecl FUN_00455710(unsigned,unsigned);
 struct Owner {unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;unsigned unk14;unsigned unk18;unsigned unk1c;unsigned unk20;unsigned unk24;unsigned unk28;unsigned unk2c;unsigned unk30;unsigned value;void FUN_004547d0();void FUN_00454860();void FUN_00563bd0();};
+// pdb: TESTopic::Save | TESTopic.obj | fnv360_0822_retail, vtable, medium
 void Owner::FUN_00563bd0(){FUN_004547d0();FUN_00455710(0x58444958,value);DAT_01072508=this;FUN_00454860();}
 }
 }   // namespace f3m_00563bd0
@@ -2937,6 +3016,8 @@ namespace batch07_17 {
 struct Form {unsigned unk00;unsigned char type;};
 struct Input {unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;unsigned unk14;unsigned unk18;Form* form;};
 struct Owner {bool FUN_005633f0(Form*,int,int,int,int);bool FUN_00563590(Input*,int,int,int,int);};
+// pdb: TESResponse::GetAudioFullPath | TESResponse.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apSpeaker, apQuest, apOwnerTopic, apOwnerInfo, aFullPath
 bool Owner::FUN_00563590(Input* input,int b,int c,int d,int e){if(input){Form* form=input->form;unsigned kind=form->type;if(kind==22 || kind-42<=1)return FUN_005633f0(form,b,c,d,e);}return false;}
 }
 }   // namespace f3m_00563590
@@ -2996,6 +3077,7 @@ struct C56cc80
     void FUN_0056cc80();
 };
 
+// pdb: LoadedAreaBound::Clear | LoadedAreaBound.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: GridCellArray::GridCellArray)
 void C56cc80::FUN_0056cc80()
 {
     unk20 = 0;
@@ -3018,6 +3100,7 @@ struct Obj_56b700 {
     void* FUN_0056b700(unsigned int flags);
 };
 
+// pdb: HavokFileStreambufReader::`scalar deleting destructor' | HavokStream.obj | fnv360_0822_debug, vtable, medium
 void* Obj_56b700::FUN_0056b700(unsigned int flags)
 {
     FUN_0056b360();
@@ -3031,6 +3114,7 @@ void* Obj_56b700::FUN_0056b700(unsigned int flags)
 
 // @f3 0x0056b520 (community match, verified in this file)
 namespace f3m_0056b520 {
+// pdb: HavokFileStreambufReader::tell | HavokStream.obj | fnv360_0822_retail, vtable, medium
 namespace batch08 { struct Child { unsigned unk000; unsigned unk004; unsigned unk008; unsigned unk00c; unsigned unk010; unsigned unk014; unsigned unk018; unsigned unk01c; unsigned unk020; unsigned unk024; unsigned unk028; unsigned unk02c; unsigned unk030; unsigned unk034; unsigned value; unsigned unk03c; unsigned unk040; unsigned unk044; unsigned unk048; unsigned unk04c; unsigned unk050; unsigned unk054; unsigned unk058; unsigned unk05c; unsigned unk060; unsigned unk064; unsigned unk068; unsigned unk06c; unsigned unk070; unsigned unk074; unsigned unk078; unsigned unk07c; unsigned unk080; unsigned unk084; unsigned unk088; unsigned unk08c; unsigned unk090; unsigned unk094; unsigned unk098; unsigned unk09c; unsigned unk0a0; unsigned unk0a4; unsigned unk0a8; unsigned unk0ac; unsigned unk0b0; unsigned unk0b4; unsigned unk0b8; unsigned unk0bc; unsigned unk0c0; unsigned unk0c4; unsigned unk0c8; unsigned unk0cc; unsigned unk0d0; unsigned unk0d4; unsigned unk0d8; unsigned unk0dc; unsigned unk0e0; unsigned unk0e4; unsigned unk0e8; unsigned unk0ec; unsigned unk0f0; unsigned unk0f4; unsigned unk0f8; unsigned unk0fc; unsigned unk100; unsigned unk104; unsigned unk108; unsigned unk10c; unsigned unk110; unsigned unk114; unsigned unk118; unsigned unk11c; unsigned unk120; unsigned unk124; unsigned unk128; unsigned unk12c; unsigned unk130; unsigned unk134; unsigned unk138; unsigned unk13c; unsigned unk140; unsigned unk144; unsigned unk148; unsigned unk14c; unsigned fallback; }; struct Owner { unsigned unk00,unk04; Child* child; unsigned FUN_0056b520(); }; unsigned Owner::FUN_0056b520(){ Child* target=child; if(target){unsigned value=target->value; if(value==0xffffffff)return target->fallback;return value;}return 0;} }
 }   // namespace f3m_0056b520
 
@@ -3074,6 +3158,7 @@ struct FUN_00567d10 : AcousticListenerBase {
     AcousticMap map;
     FUN_00567d10();
 };
+// pdb: BGSAcousticSpaceListener::BGSAcousticSpaceListener | BGSAcousticSpaceListener.obj | fnv360_0822_retail, call_gap, low
 FUN_00567d10::FUN_00567d10() { unk14 = true; }
 
 }   // namespace f3m_00567d10
@@ -3097,6 +3182,7 @@ struct FUN_00577ff0 {
     int unk14;
     FUN_00577ff0();
 };
+// pdb: Precipitation::Precipitation | Precipitation.obj | fnv360_0822_retail, objrun, medium
 FUN_00577ff0::FUN_00577ff0() : unk00(&DAT_00de7ce8) {
     unk04 = 0;
     unk08 = 0;
@@ -3127,6 +3213,8 @@ struct Allocation572160 {
  Allocation572160():memory(DAT_01090a78.FUN_0086b930(32)) {}
  ~Allocation572160() { if(memory) DAT_01090a78.FUN_0086ba60(memory); }
 };
+// pdb: TESWaterListener::CreateZoneEntry | TESWaterListener.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apRef, apCol
 Object572160* __stdcall FUN_00572160(void* first,void* second) {
  Object572160* result;
  {
@@ -3144,8 +3232,9 @@ Object572160* __stdcall FUN_00572160(void* first,void* second) {
 namespace f3m_0056be30 {
 namespace batch09_01 {
 struct Hash { int FUN_009227d0(unsigned,int); };
-struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;Hash hash;bool* FUN_0056be30(bool*,unsigned);};
-bool* Owner::FUN_0056be30(bool* out,unsigned key){*out=hash.FUN_009227d0(key,0)==0;return out;}
+struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;Hash hash;bool* HavokError_isEnabled(bool*,unsigned);};
+// pdb: HavokError::isEnabled | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+bool* Owner::HavokError_isEnabled(bool* out,unsigned key){*out=hash.FUN_009227d0(key,0)==0;return out;}
 }
 }   // namespace f3m_0056be30
 
@@ -3155,6 +3244,7 @@ namespace batch09_03 {
 extern unsigned DAT_010f3170;
 struct Manager {void FUN_008f6d90(void*,unsigned,unsigned); void* FUN_008f6d30(unsigned,unsigned);};
 struct Item {unsigned unk00;unsigned short size;};
+// pdb: HavokFileStreambufWriter::write | HavokStream.obj | tesv_win, objrun_open, low
 void FUN_0056b600(Item* item){Manager* manager=static_cast<Manager*>(TlsGetValue(DAT_010f3170));manager->FUN_008f6d90(item,item->size,0x1a);}
 }
 
@@ -3164,6 +3254,8 @@ namespace batch09_04 {
 struct Part {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned value;};
 struct Child {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;Part part;};
 struct Owner {virtual void m0();virtual void m1();virtual void m2();virtual void m3();virtual void m4();virtual void m5();virtual void m6();virtual void m7();virtual void m8();virtual void m9();virtual void m10();virtual void m11();virtual void m12();virtual void m13();virtual void m14();virtual void m15();virtual void m16();virtual void m17();virtual void m18();virtual void m19();virtual void m20();virtual void m21();virtual void m22();virtual void m23();virtual void m24();virtual void m25();virtual void m26();virtual void m27();virtual void m28();virtual void m29();virtual void m30();virtual void m31();virtual void m32();virtual void m33();virtual void m34();virtual void m35();virtual void m36();virtual void m37();virtual void m38();virtual void m39();virtual void m40();virtual void m41();virtual void m42();virtual void m43();virtual void m44();virtual void m45();virtual void m46();virtual void m47();virtual void m48();unsigned unk04;Child* child;void FUN_0056c440(unsigned);};
+// pdb: bhkWorldObject::SetCollisionFilter | HitCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiFilter
 void Owner::FUN_0056c440(unsigned value){if(this && child){Part* p=&child->part;if(p)p->value=value;}m48();}
 }
 }   // namespace f3m_0056c440
@@ -3180,6 +3272,8 @@ struct FreedHeader00572d10 {
     unsigned char status;
 };
 
+// pdb: NiTMap<unsigned int,unsigned char>::DeleteItem | PlayerCharacter.obj | fnv360_0822_retail, vtable, high
+// pdb params: pkItem
 void __stdcall FUN_00572d10(FreedHeader00572d10* memory)
 {
     memory->status = 0;
@@ -3188,6 +3282,8 @@ void __stdcall FUN_00572d10(FreedHeader00572d10* memory)
 
 // @f3 0x0056fab0 (community match, verified in this file)
 namespace f3m_0056fab0 {
+// pdb: BSSimpleList<ArrowTargetGroup *>::BSSimpleList<ArrowTargetGroup *> | TESArrowTargetListener.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: item
 int __cdecl FUN_0056fab0(int value)
 {
     if (value < 6 || value == 8)
@@ -3201,6 +3297,8 @@ namespace f3m_0056b4f0 {
 namespace batch09_05 {
 struct Child {virtual void m0();virtual void m1();virtual void m2();virtual void m3();virtual void m4();virtual void m5(unsigned,unsigned);};
 struct Owner {unsigned unk00,unk04;Child* child;int FUN_0056b4f0(unsigned,unsigned);};
+// pdb: HavokFileStreambufReader::seek | HavokStream.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiOffset, aeWhence
 int Owner::FUN_0056b4f0(unsigned a,unsigned b){int result=1;if(child){child->m5(a,b);result=0;}return result;}
 }
 }   // namespace f3m_0056b4f0
@@ -3209,8 +3307,9 @@ int Owner::FUN_0056b4f0(unsigned a,unsigned b){int result=1;if(child){child->m5(
 namespace f3m_0056b620 {
 namespace batch09_06 {
 struct Hash {void FUN_00922d30(unsigned);void FUN_00922710(unsigned,int);};
-struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;Hash hash;void FUN_0056b620(unsigned,bool);};
-void Owner::FUN_0056b620(unsigned key,bool remove){if(remove)hash.FUN_00922d30(key);else hash.FUN_00922710(key,1);}
+struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;Hash hash;void HavokError_setEnabled(unsigned,bool);};
+// pdb: HavokError::setEnabled | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Owner::HavokError_setEnabled(unsigned key,bool remove){if(remove)hash.FUN_00922d30(key);else hash.FUN_00922710(key,1);}
 }
 }   // namespace f3m_0056b620
 
@@ -3218,14 +3317,16 @@ void Owner::FUN_0056b620(unsigned key,bool remove){if(remove)hash.FUN_00922d30(k
 namespace batch09_07 {
 extern unsigned DAT_00de728c;
 int __cdecl FUN_00887da0(int,void*,int,int,int,int);
-int __stdcall FUN_0056bdb0(int a,int b,int c,int d,int e){return FUN_00887da0(2,&DAT_00de728c,d,e,a,c);}
+// pdb: HavokError::programFlowMessage | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int __stdcall HavokError_programFlowMessage(int a,int b,int c,int d,int e){return FUN_00887da0(2,&DAT_00de728c,d,e,a,c);}
 }
 
 // @f3 0x0056bd50 (community match, verified in this file)
 namespace batch09_08 {
 extern unsigned DAT_00de728c;
 int __cdecl FUN_00887da0(int,void*,int,int,int,int);
-int __stdcall FUN_0056bd50(int a,int b,int c,int d,int e){return FUN_00887da0(0,&DAT_00de728c,d,e,a,c);}
+// pdb: HavokError::errorMessage | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int __stdcall HavokError_errorMessage(int a,int b,int c,int d,int e){return FUN_00887da0(0,&DAT_00de728c,d,e,a,c);}
 }
 
 // @f3 0x0056be00 (community match, verified in this file)
@@ -3233,7 +3334,8 @@ extern signed char DAT_00de729c[];
 namespace f3m_0056be00 {
 namespace batch09_09 {
 char* __cdecl FUN_00923470(char*,int);
-char* __stdcall FUN_0056be00(char* text){for(int i=0;i<2;i++){text=FUN_00923470(text,DAT_00de729c[i]);if(text)text++;}return text;}
+// pdb: HavokError::hkGetFileBaseName | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+char* __stdcall HavokError_hkGetFileBaseName(char* text){for(int i=0;i<2;i++){text=FUN_00923470(text,DAT_00de729c[i]);if(text)text++;}return text;}
 }
 }   // namespace f3m_0056be00
 
@@ -3244,6 +3346,7 @@ namespace batch09_10 {
 struct Manager {void FUN_0086ba60(void*);};extern Manager DAT_01090a78;
 struct FUN_00424aa0 {unsigned value;~FUN_00424aa0();static void operator delete[](void* p){DAT_01090a78.FUN_0086ba60(p);}};
 struct Owner {unsigned* vtable;FUN_00424aa0* items;void FUN_005696d0();};
+// pdb: NiTArray<NiPointer<bhkRigidBody>,NiTNewInterface<NiPointer<bhkRigidBody> > >::`scalar deleting destructor' | CellMopp.obj | fnv360_0721_beta, objrun, medium
 void Owner::FUN_005696d0(){vtable=&DAT_00de7084;delete[] items;}
 }
 }   // namespace f3m_005696d0
@@ -3252,6 +3355,8 @@ void Owner::FUN_005696d0(){vtable=&DAT_00de7084;delete[] items;}
 namespace f3m_00567e40 {
 namespace batch09_12 {
 struct Node {unsigned unk00;Node* next;Node* FUN_00567e40(Node*);};
+// pdb: bhkTTNode<TESObjectREFR>::RemoveFromList | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apHead
 Node* Node::FUN_00567e40(Node* head){if(this==head)return next;Node* previous=head;while(previous){Node* current=previous->next;if(this==current){previous->next=current->next;break;}previous=current;}return head;}
 }
 }   // namespace f3m_00567e40
@@ -3262,6 +3367,7 @@ namespace batch09_13 {
 extern unsigned DAT_010f3170;
 struct Manager {void FUN_008f6d90(void*,unsigned,unsigned); void* FUN_008f6d30(unsigned,unsigned);};
 struct Owner {unsigned unk00;unsigned short size;void FUN_0056c140();Owner* FUN_0056c1e0(unsigned);};
+// pdb: HavokError::`scalar deleting destructor' | HavokStream.obj | fnv360_0822_retail, vtable, high
 Owner* Owner::FUN_0056c1e0(unsigned flags){FUN_0056c140();if(flags&1){Manager* manager=static_cast<Manager*>(TlsGetValue(DAT_010f3170));manager->FUN_008f6d90(this,size,21);}return this;}
 }
 
@@ -3271,6 +3377,7 @@ namespace batch09_15 {
 extern unsigned DAT_010f3170;
 struct Manager {void FUN_008f6d90(void*,unsigned,unsigned); void* FUN_008f6d30(unsigned,unsigned);};
 struct Owner {unsigned unk00;unsigned short size;void FUN_0056b480();Owner* FUN_0056b760(unsigned);};
+// pdb: HavokFileStreambufWriter::`scalar deleting destructor' | HavokStream.obj | fnv360_0822_debug, vtable, high
 Owner* Owner::FUN_0056b760(unsigned flags){FUN_0056b480();if(flags&1){Manager* manager=static_cast<Manager*>(TlsGetValue(DAT_010f3170));manager->FUN_008f6d90(this,size,26);}return this;}
 }
 
@@ -3281,6 +3388,8 @@ extern unsigned DAT_010f3170;
 struct Manager {void FUN_008f6d90(void*,unsigned,unsigned); void* FUN_008f6d30(unsigned,unsigned);};
 extern unsigned DAT_00de7184;
 struct Item {unsigned* vtable;unsigned short size,refs;unsigned unk08;bool enabled;};
+// pdb: HavokStreambufFactory::openReader | HavokStream.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apName
 Item* __stdcall FUN_0056b650(int){Manager* manager=static_cast<Manager*>(TlsGetValue(DAT_010f3170));Item* p=static_cast<Item*>(manager->FUN_008f6d30(16,0x1a));p->size=16;p->refs=1;p->vtable=&DAT_00de7184;p->enabled=true;return p;}
 }
 
@@ -3289,6 +3398,8 @@ namespace f3m_00565910 {
 namespace batch09_17 {
 unsigned __cdecl FUN_00564650(void*,bool*,int,int,int,int,int);
 struct Owner {unsigned FUN_00565910(int,int);};
+// pdb: TESTopic::GetMatchingInfo | TESTopic.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apSpeaker, apTarget
 unsigned Owner::FUN_00565910(int a,int b){bool invalid=false;unsigned result=FUN_00564650(this,&invalid,a,b,0,0,0);return invalid?0:result;}
 }
 }   // namespace f3m_00565910
@@ -3299,6 +3410,8 @@ namespace batch09_18 {
 struct Item {void FUN_005641e0(void*);};
 struct Node {Item* item;Node* next;};
 struct Global {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned unk024;unsigned unk028;unsigned unk02c;unsigned unk030;unsigned unk034;unsigned unk038;unsigned unk03c;unsigned unk040;unsigned unk044;unsigned unk048;unsigned unk04c;unsigned unk050;unsigned unk054;unsigned unk058;unsigned unk05c;unsigned unk060;unsigned unk064;unsigned unk068;unsigned unk06c;unsigned unk070;unsigned unk074;unsigned unk078;unsigned unk07c;unsigned unk080;unsigned unk084;unsigned unk088;unsigned unk08c;unsigned unk090;unsigned unk094;unsigned unk098;unsigned unk09c;unsigned unk0a0;unsigned unk0a4;unsigned unk0a8;unsigned unk0ac;unsigned unk0b0;unsigned unk0b4;unsigned unk0b8;unsigned unk0bc;unsigned unk0c0;unsigned unk0c4;unsigned unk0c8;Node head;};extern Global* DAT_0106cdcc;
+// pdb: TESTopic::ClearAllSaidOnceInfosForQuest | TESTopic.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: TESTopic::GetFormEditorID)
+// pdb params: apQuest
 void FUN_00564230(void* arg){if(arg){Node* node=&DAT_0106cdcc->head;while(node){if(!node->next&&!node->item)break;node->item->FUN_005641e0(arg);node=node->next;}}}
 }
 }   // namespace f3m_00564230
@@ -3307,6 +3420,8 @@ void FUN_00564230(void* arg){if(arg){Node* node=&DAT_0106cdcc->head;while(node){
 namespace f3m_00569c20 {
 namespace batch09_19 {
 void __cdecl FUN_008f4480(unsigned,unsigned,unsigned);
+// pdb: DecalCaster::SetCustomPickCollisions | DecalCaster.obj | fnv360_0822_retail, uconst, low
+// pdb params: aeCustomPick
 void __stdcall FUN_00569c20(unsigned kind){switch(kind){case 0:FUN_008f4480(0x27,0x26636,0);break;case 1:FUN_008f4480(0x27,0x20000100,0);break;}}
 }
 }   // namespace f3m_00569c20
@@ -3315,6 +3430,7 @@ void __stdcall FUN_00569c20(unsigned kind){switch(kind){case 0:FUN_008f4480(0x27
 namespace f3m_00563cb0 {
 namespace batch09_20 {
 struct Entry {unsigned value,unk04,unk08;};extern int DAT_00f5d0ec[];extern Entry* DAT_00f5d10c[];
+// pdb: TESTopic::RemoveDefaultTopics | TESTopic.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: InventoryChanges::KillTempRef)
 void FUN_00563cb0(){for(int type=0;type<8;type++)for(int i=0;i<DAT_00f5d0ec[type];i++)DAT_00f5d10c[type][i].value=0;}
 }
 }   // namespace f3m_00563cb0
@@ -3341,6 +3457,8 @@ struct TrapTargetEntry {
     void* unk1c;
     int FUN_00570e20(int a2);
 };
+// pdb: TrapTargetEntry::Run | TESTrapListener.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apTrap
 int TrapTargetEntry::FUN_00570e20(int a2)
 {
     void* p = unk1c;
@@ -3426,6 +3544,8 @@ namespace f3m_0056fbf0 {
 namespace batch10_01 {
 void* FUN_008f1bf0(void*);
 void* FUN_004e7b90(void*);
+// pdb: TESHavokUtilities::FindCollidableRef | TEShavokUtilities.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCol
 void* FUN_0056fbf0(void* input) {
     void* result=0;
     if(input) {
@@ -3452,6 +3572,7 @@ struct Owner {
     Node* first;
     void FUN_00570df0();
 };
+// pdb: TrapEntry::Run | TESTrapListener.obj | fnv360_0822_retail, vtable, medium
 void Owner::FUN_00570df0() {
     Node* node=first;
     while(node) {
@@ -3529,6 +3650,8 @@ public:
 
 TESTopicInfo* __cdecl FUN_005643c0(TESTopicInfo*);
 
+// pdb: TESTopicInfo::SetAltered | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abVal
 void __thiscall TESTopicInfo::FUN_005659a0(bool a2)
 {
     if (!((unsigned char)(flags >> 14) & 1) && a2 && ((unsigned char)(flags >> 3) & 1)) {
@@ -3621,6 +3744,8 @@ int unkC4;
 int unkC8;
 int unkCC;
 Control1D10 control; void FUN_0090b500(); void FUN_00571d10(float value,int mode); };
+// pdb: hkpRigidBody::applyForce | TESWaterListener.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: deltaTime, force
 void Owner1D10::FUN_00571d10(float value,int mode) { FUN_0090b500(); control.Apply(value,mode); }
 }   // namespace f3m_00571d10
 
@@ -3635,6 +3760,7 @@ struct Owner571570 {
  void FUN_004ddfc0();
  Owner571570* FUN_00571570(unsigned);
 };
+// pdb: bhkTrapListener::`scalar deleting destructor' | TESTrapListener.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 Owner571570* Owner571570::FUN_00571570(unsigned flags) {
  Part571570* subobject=this ? &part : 0;
  subobject->vtable=&DAT_00de7434;
@@ -3651,6 +3777,8 @@ struct Owner56cc60 {
     unsigned int flags;
     void FUN_0056cc60(unsigned int mask, bool enabled);
 };
+// pdb: bhkCharacterController::SetQuickSimulate | MagicBallProjectile.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: abTF
 void Owner56cc60::FUN_0056cc60(unsigned int mask, bool enabled) {
     if (enabled) flags |= mask;
     else flags &= ~mask;
@@ -3733,6 +3861,8 @@ struct Owner0057ad20 {
     unsigned int flags;
     void FUN_0057ad20(bool enabled);
 };
+// pdb: Sky::SetFastTravel | Sky.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abOn
 void Owner0057ad20::FUN_0057ad20(bool enabled) {
     if (enabled) { unk1C = 0; flags |= 0x10; }
     else flags &= ~0x10;
@@ -3776,6 +3906,7 @@ struct Global57ad50 {
     unsigned char kind;
 };
 extern Global57ad50* DAT_01079ca4;
+// pdb: Sky::GetSaveSize | Sky.obj | fnv360_0822_retail, call_gap, low
 int __cdecl FUN_0057ad50() {
     int result = 12;
     unsigned char kind = DAT_01079ca4->kind;
@@ -3796,6 +3927,8 @@ struct Value565b20 {unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk
 struct Target565b20 {unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0C;};
 Target565b20* FUN_005643c0(void*);
 struct Owner565b20 {void FUN_00565b20(Value565b20*,Value565b20*);};
+// pdb: TESTopicInfo::CreateGroupData | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apOutGroupFORM, apParentGroup
 void Owner565b20::FUN_00565b20(Value565b20* output,Value565b20* input) {
  if(output) {
   output->unk00=0;
@@ -3860,6 +3993,8 @@ struct CodexOwner797 {
     CodexMap797 map;
     void FUN_00567970(int);
 };
+// pdb: BGSAcousticSpaceListener::DequeueAllRemovals | BGSAcousticSpaceListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abDoRemoval
 void CodexOwner797::FUN_00567970(int) {
     void* cursor=map.First();
     CodexKey797* key;
@@ -3880,6 +4015,8 @@ struct Value571d70 {
     Value571d70(void* value) : value(value) {}
 };
 void __cdecl FUN_0090a750(Value571d70 value);
+// pdb: TESWaterListener::entityRemovedCallback | TESWaterListener.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apEntity
 void __cdecl FUN_00571d70(Item571d70* item) {
     if (item)
         return FUN_0090a750(Value571d70(item->value));
@@ -3908,6 +4045,8 @@ struct CodexFindOwner {
         return entry;
     }
 };
+// pdb: BGSZoneTargetListener::RemoveTargetFromZone | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apZone, apTarget
 CodexFindNode* CodexFindOwner::FUN_00568540(unsigned key,void* remove) {
     CodexFindLink* entry=Find(key);
     CodexFindNode* node;
@@ -3949,6 +4088,8 @@ struct CodexParent1A8 { CodexSecond1A8* head; CodexComponent1A8 component; };
 inline CodexParent1A8* CodexComponent1A8::Parent() {
     return (CodexParent1A8*)((char*)this - offsetof(CodexParent1A8,component));
 }
+// pdb: TESTrapListener::Update | TESTrapListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: afDelta
 void CodexComponent1A8::FUN_00571a80(float value) {
     for(CodexFirst1A8* node=head;node;node=node->next) node->FUN_00571650(value);
     for(CodexSecond1A8* node=Parent()->head;node;node=node->Next()) node->table->unk04(node);
@@ -4012,6 +4153,7 @@ void FUN_00562ca0::Init()
     unk28 = 0;
 }
 
+// pdb: TESResponse::TESResponse | TESResponse.obj | fnv360_0822_retail, call_seq, medium
 FUN_00562ca0::FUN_00562ca0()
     : unk00(0)
     , unk04(0x32)
@@ -4031,6 +4173,8 @@ struct Array564270 { int unk00; int unk04; void** data; int unk0C; unsigned coun
 };
 struct Node564270 { Array564270* item; Node564270* next; };
 struct Owner564270 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; Node564270 head; Node564270* Head() { return &head; } Array564270* FUN_00564270(void*); };
+// pdb: TESTopic::GetQuestInfoElement | TESTopic.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apInfo
 Array564270* Owner564270::FUN_00564270(void* value) {
  for(Node564270* node=Head();node;) {
   Array564270* item=node->item; if(!item) break;
@@ -4055,6 +4199,7 @@ struct List570e40 { void** table; Node570e40* first; Node570e40* last; unsigned 
 };
 struct Heap570e40 { void FUN_0086ba60(void*); };
 struct Owner570e40 { int unk00; int unk04; int unk08; List570e40 list; void FUN_00570e40(); };
+// pdb: TriggerEntry::RefList::Reset | TESTrapListener.obj | fnv360_0822_retail, call_seq, low
 void Owner570e40::FUN_00570e40() {
  unk04=0;
  while(list.count) { void* value=list.RemoveHead(); ((Heap570e40*)&DAT_01090a78)->FUN_0086ba60(value); }
@@ -4275,6 +4420,8 @@ struct CodexPackedOwner {
     unsigned value;
     void FUN_0056c580(unsigned);
 };
+// pdb: HitCaster::SetShapeGroup | HitCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiGroup
 void CodexPackedOwner::FUN_0056c580(unsigned input) {
     CodexPackedComponent* target=component;
     unsigned old=CodexReadPacked(target);
@@ -4300,6 +4447,7 @@ struct Owner56b540 {
     bool* FUN_0056b540(bool* out);
 };
 
+// pdb: HavokFileStreambufReader::isOk | HavokStream.obj | fnv360_0822_retail, vtable, medium
 bool* Owner56b540::FUN_0056b540(bool* out) {
     *out = target ? target->value : false;
     return out;
@@ -4319,6 +4467,8 @@ struct Table { void* unk00; void* unk04; void* unk08; Children* (__thiscall *Get
 struct Node { Table* table; };
 struct Children { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; Node** nodes; unsigned short capacity; unsigned short count; };
 extern Wrapper* __cdecl FUN_00424fe0(Node*);
+// pdb: TESHavokUtilities::GetSceneGraphMass | TEShavokUtilities.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apObject
 float FUN_00570980(Node* node) { float total=0; if(node) { Wrapper* wrapper=FUN_00424fe0(node); if(wrapper && wrapper->detail) { Object* object=wrapper->detail->object; float value=object ? object->property.FUN_008f8410() : 0; total=value+DAT_00db38b0; } Children* children=node->table->GetChildren(node); if(children && children->count) { for(unsigned i=0;i<children->count;++i) { void* child=children->nodes[i]; total=FUN_00570980((Node*)child)+total; } } } return total; }
 }
 }   // namespace f3m_00570980
@@ -4351,6 +4501,7 @@ public:
     virtual ~FUN_0057eb20();
 };
 
+// pdb: Stars::~Stars | Stars.obj | fnv360_0822_retail, call_seq, high
 FUN_0057eb20::~FUN_0057eb20()
 {
     m_spTransformData = 0;
@@ -4547,6 +4698,8 @@ struct CodexAttachOwner {
     CodexAttachComponent* component;
     void FUN_0056c5e0(CodexAttachManager*);
 };
+// pdb: HitCaster::Add | HitCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apWorld
 void CodexAttachOwner::FUN_0056c5e0(CodexAttachManager* manager) {
     CodexAttachComponent* initial=component;
     if (initial) {
@@ -4636,6 +4789,8 @@ struct Object57acd0 {
  int unk118;
  void FUN_0057acd0(bool);
 };
+// pdb: Sky::SetAcceleration | Sky.obj | fnv360_0822_retail, objrun, medium
+// pdb params: abOn
 void Object57acd0::FUN_0057acd0(bool enabled) {
  if(enabled && unk14 && !(unk118&8)) {unk110=unkF4;unk118|=8;return;}
  if(!enabled || !unk14) {unk110=0.0f;unk118&=~8;}
@@ -4653,7 +4808,8 @@ struct CodexAlignedObject {
 };
 extern CodexAlignedObject* DAT_010727a8;
 extern CodexAlignedObject* DAT_010727a4;
-void __cdecl FUN_0056a290() {
+// pdb: DecalCaster::ClearInstance | DecalCaster.obj | fnv360_0822_retail, udata, high
+void __cdecl DecalCaster_ClearInstance() {
     if (DAT_010727a8) DAT_010727a8->Dispose();
     DAT_010727a8=0;
     if (DAT_010727a4) DAT_010727a4->Dispose();
@@ -4688,6 +4844,7 @@ struct Owner5710a0 {
  }
  void FUN_005710a0();
 };
+// pdb: TriggerEntry::RefList::~RefList | TESTrapListener.obj | fnv360_0822_retail, call_seq, medium
 void Owner5710a0::FUN_005710a0() {this->Owner5710a0::~Owner5710a0();}
 }   // namespace f3m_005710a0
 
@@ -4702,6 +4859,7 @@ struct TextField { char* value; unsigned size; bool FUN_004019c0(const char*,uns
 struct Object { Table* table; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; NiPointer<FUN_0057f2b0_Ref> reference; TextField text; bool IsKindOf(Type* wanted) { for(Type* type=table->GetType(this);type;type=type->parent) if(type==wanted) return true; return false; } };
 struct Holder { Object* FUN_00826590(int); };
 struct Owner { int unk00; int unk04; Holder* holders[20]; unsigned short count; void FUN_00576930(); };
+// pdb: Clouds::RemoveTextures | Clouds.obj | fnv360_0822_retail, call_gap, medium
 void Owner::FUN_00576930() { for(int i=0;i<count;++i) { Holder* holder=holders[i]; if(holder) { Object* object=holder->FUN_00826590(3); if(object) { Object* match=object->IsKindOf(&DAT_01176338) ? object : 0; if(match) { match->reference=0; match->text.FUN_004019c0(DAT_0108f3fc,0); } } } } }
 }
 }   // namespace f3m_00576930
@@ -4726,6 +4884,7 @@ struct FUN_0056b360 : hkBaseObject
     virtual ~FUN_0056b360();
 };
 
+// pdb: HavokFileStreambufReader::~HavokFileStreambufReader | HavokStream.obj | fnv360_0822_debug, call_seq, medium
 FUN_0056b360::~FUN_0056b360()
 {
     if (m_pObject != 0 && m_bOwnObject)
@@ -4747,9 +4906,10 @@ struct CodexNamedOwner {
     int unk04;
     CodexNamePair* entries;
     int count;
-    void FUN_0056c060(const char*,int);
+    void HavokError_enableReport(const char*,int);
 };
-void CodexNamedOwner::FUN_0056c060(const char* path,int value) {
+// pdb: HavokError::enableReport | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void CodexNamedOwner::HavokError_enableReport(const char* path,int value) {
     char name[128];
     char extension[32];
     _splitpath_s(path,0,0,0,0,name,128,extension,32);
@@ -4776,6 +4936,7 @@ extern const float DAT_00de7d0c;
 namespace f3m_0057a5d0 {
 struct Data57a5d0 { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; unsigned char unk50; unsigned char unk51; unsigned char unk52; unsigned char unk53; };
 struct Owner57a5d0 { int unk00; int unk04; int unk08; Data57a5d0* data; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; unsigned flags; float FUN_0057a5d0(); };
+// pdb: Sky::GetEndSunsetColors | Sky.obj | fnv360_0822_retail, call_gap, low
 float Owner57a5d0::FUN_0057a5d0() {
  if(flags&0x2000) {
   if((flags&0x800) && data) { DAT_01073010=(float)(data->unk53/DAT_00dd27a0); flags&=~0x800; }
@@ -4801,6 +4962,7 @@ namespace f3m_0057a550 {
 namespace CacheA550 {
 struct Input { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; unsigned char value; };
 struct Owner { int unk00; int unk04; int unk08; Input* input; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; unsigned flags; float FUN_0057a550(); };
+// pdb: Sky::GetBeginSunriseColors | Sky.obj | fnv360_0822_retail, call_gap, low
 float Owner::FUN_0057a550() { if(flags&0x1000) { if((flags&0x100) && input) { DAT_01073004=input->value/DAT_00dd27a0; flags&=~0x100u; } float value=DAT_01073004-DAT_00f5e030; DAT_01073014=value<DAT_00db38b0 ? 0 : value; flags&=~0x1000u; } return DAT_01073014; }
 }
 }   // namespace f3m_0057a550
@@ -4824,9 +4986,10 @@ __forceinline void CodexArrayB7C::Append(const CodexPairB7C& item) {
 struct CodexOwnerB7C {
     int unk00; int unk04;
     CodexArrayB7C array;
-    void FUN_0056b7c0(const char*,unsigned);
+    void HavokError_disableReport(const char*,unsigned);
 };
-void CodexOwnerB7C::FUN_0056b7c0(const char* path,unsigned value) {
+// pdb: HavokError::disableReport | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void CodexOwnerB7C::HavokError_disableReport(const char* path,unsigned value) {
     char fileName[128];
     char extension[32];
     _splitpath_s(path,0,0,0,0,fileName,128,extension,32);
@@ -4841,8 +5004,9 @@ void CodexOwnerB7C::FUN_0056b7c0(const char* path,unsigned value) {
 namespace f3m_0057dd10 {
 struct First57dd10 { void FUN_00576050(); };
 struct Second57dd10 { void FUN_00578190(); };
-struct Owner57dd10 { int unk000; int unk004; int unk008; int unk00C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; First57dd10* first; int unk30; int unk34; Second57dd10* second; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; int unk108; int unk10C; float unk110; int unk114; unsigned flags; void FUN_0057d5c0(); void FUN_0057dd10(); };
-void Owner57dd10::FUN_0057dd10() {
+struct Owner57dd10 { int unk000; int unk004; int unk008; int unk00C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; First57dd10* first; int unk30; int unk34; Second57dd10* second; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; int unk108; int unk10C; float unk110; int unk114; unsigned flags; void FUN_0057d5c0(); void Sky_ResetWeather(); };
+// pdb: Sky::ResetWeather | Sky.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Owner57dd10::Sky_ResetWeather() {
  unk110=0.0f;
  unsigned updated=(flags&~8u)|1;
  unk1C=0; unk14=0; unk10=0; flags=updated;
@@ -4855,6 +5019,8 @@ void Owner57dd10::FUN_0057dd10() {
 // @f3 0x0057c650 (community match, verified in this file)
 namespace f3m_0057c650 {
 struct Owner57c6;struct Callback57c6;typedef void (__thiscall *Invoke57c6)(Callback57c6*,Owner57c6*,float);struct Table57c6 {int unk00,unk04,unk08;Invoke57c6 unk0C;};struct Callback57c6 {Table57c6* unk00;};struct Owner57c6 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; Callback57c6* unk20;int unk24;Callback57c6* unk28;int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; void FUN_0057b700();void FUN_0057bac0();void FUN_0057c650(float);};extern void __cdecl FUN_0048fd80(void*);
+// pdb: Sky::UpdateInterior | Sky.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: afSecondsPassed
 void Owner57c6::FUN_0057c650(float delta){FUN_0057b700();FUN_0057bac0();if(unk20)unk20->unk00->unk0C(unk20,this,delta);if(unk28)unk28->unk00->unk0C(unk28,this,delta);FUN_0048fd80(&unk48);}
 }   // namespace f3m_0057c650
 
@@ -4862,6 +5028,7 @@ void Owner57c6::FUN_0057c650(float delta){FUN_0057b700();FUN_0057bac0();if(unk20
 namespace f3m_00576050 {
 struct Rtti5760 {const char* unk00;Rtti5760* unk04;};extern Rtti5760 DAT_01176338;struct Ref5760;typedef void (__thiscall *Delete5760)(Ref5760*);typedef Rtti5760* (__thiscall *Type5760)(Ref5760*);struct Table5760 {int unk00;Delete5760 unk04;Type5760 unk08;};extern long (__stdcall *DAT_00d9b064)(long*);struct Ref5760 {Table5760* unk00;long unk04;int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; float unk84;void IncRefCount();void DecRefCount(){if(!DAT_00d9b064(&unk04))unk00->unk04(this);}bool IsTarget(){for(Rtti5760* type=unk00->unk08(this);type;type=type->unk04)if(type==&DAT_01176338)return true;return false;}void FUN_00b30b10(int);};struct Source5760 {Ref5760* FUN_00826590(int);};
 struct Owner5760 {int unk00,unk04;Source5760* sources[4];NiPointer<Ref5760> outputs[4];int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; unsigned short unk58;void FUN_00576050();};
+// pdb: Clouds::ClearTransTextures | Clouds.obj | fnv360_0822_retail, call_gap, low
 void Owner5760::FUN_00576050(){for(int i=0;i<unk58;++i){outputs[i]=(Ref5760*)0;if(sources[i]){Ref5760* object=sources[i]->FUN_00826590(3);if(object){Ref5760* target=object->IsTarget()?object:0;if(target){target->FUN_00b30b10(0);target->unk84=0.0f;}}}}}
 }   // namespace f3m_00576050
 
@@ -4873,7 +5040,8 @@ __forceinline void __cdecl operator delete(void* pointer) throw(){ HeapAccess571
 extern void* DAT_00de7518[];
 struct FUN_00567ef0 { void** table; int unk04; int unk08; void* owner; void* context; int unk14; FUN_00567ef0(void*,void*); };
 struct Trap5714 : FUN_00567ef0 { Trap5714(void* a,void* b): FUN_00567ef0(a,b){ table=DAT_00de7518; } };
-Trap5714* __stdcall FUN_00571470(void* a,void* b){ return new Trap5714(a,b); }
+// pdb: TESTrapListener::CreateZoneEntry | TESTrapListener.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+Trap5714* __stdcall TESTrapListener_CreateZoneEntry(void* a,void* b){ return new Trap5714(a,b); }
 
 // @f3 0x00577f40 (community match, verified in this file)
 #include <stdlib.h>
@@ -4981,14 +5149,16 @@ struct FUN_005635c0 : BaseA5635c0, BaseB5635c0, BaseC5635c0 {
     virtual ~FUN_005635c0();
 };
 
+// pdb: TESSkill::`scalar deleting destructor' | TESSkill.obj | fnv360_0822_retail, caller_sim, low
 FUN_005635c0::~FUN_005635c0() {
 }
 }   // namespace f3m_005635c0
 
 // @f3 0x00576ab0 (community match, verified in this file)
 namespace f3m_00576ab0 {
-struct Owner576ab0 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; float center; float width; int unk64; int unk68; int unk6C; int unk70; float angle; float FUN_00576ab0(); };
-float Owner576ab0::FUN_00576ab0() {
+struct Owner576ab0 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; float center; float width; int unk64; int unk68; int unk6C; int unk70; float angle; float Moon_GetMoonShadowVisibility(); };
+// pdb: Moon::GetMoonShadowVisibility | Moon.obj | fnv360_0822_retail, call_gap + skyrim(call_gap_sim), high
+float Owner576ab0::Moon_GetMoonShadowVisibility() {
  float a=center; float b=center-width; float ar=(float)(180.0-a); float br=(float)(180.0-b);
  if(angle>180.0f) return 0.0f;
  if(angle<=a && angle>=b) return (angle-b)/(a-b);
@@ -5009,14 +5179,15 @@ struct Guard { Object* object; Guard(Object* p):object(p) {} ~Guard() { if(objec
 struct Target;
 struct Table { void* unk00; void* unk04; void* unk08; void* unk0C; void* unk10; void* unk14; void* unk18; void* unk1C; void* unk20; void* unk24; void* unk28; void* unk2C; void* unk30; void* unk34; void* unk38; void* unk3C; void* unk40; void* unk44; void* unk48; void* unk4C; void* unk50; void* unk54; void* unk58; void* unk5C; void* unk60; void* unk64; void* unk68; void* unk6C; void* unk70; void* unk74; void* unk78; void* unk7C; void* unk80; void* unk84; void* unk88; void* unk8C; void* unk90; void* unk94; void* unk98; void* unk9C; void* unkA0; void* unkA4; void* unkA8; void* unkAC; void* unkB0; void* unkB4; void* unkB8; void* unkBC; void* unkC0; void* unkC4; void* unkC8; void* unkCC; void* unkD0; void* unkD4; void* unkD8; void (__thiscall *Attach)(Target*,Object*,int); };
 struct Target { Table* table; };
-struct Owner { int unk00; NiPointer<Object> object; void FUN_0057e780(Target*); };
-void Owner::FUN_0057e780(Target* target) { Object* created; { Guard guard((Object*)FUN_0089eb90(sizeof(Object))); if(guard.object) created=guard.object->FUN_0082ea60(0); else created=0; guard.Detach(); } object=created; object->SetFlag(2); object->SetFlag(32); target->table->Attach(target,object,1); }
+struct Owner { int unk00; NiPointer<Object> object; void SkyObject_Initialize(Target*); };
+// pdb: SkyObject::Initialize | SkyObject.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Owner::SkyObject_Initialize(Target* target) { Object* created; { Guard guard((Object*)FUN_0089eb90(sizeof(Object))); if(guard.object) created=guard.object->FUN_0082ea60(0); else created=0; guard.Detach(); } object=created; object->SetFlag(2); object->SetFlag(32); target->table->Attach(target,object,1); }
 }
 }   // namespace f3m_0057e780
 
 // @f3 0x0056ff10 (community match, verified in this file)
 namespace f3m_0056ff10 {
-// FUN_0056ff10 - assign a reference-counted object to the smart pointer at +0x1c:
+// NiAVObject_SetCollisionObject - assign a reference-counted object to the smart pointer at +0x1c:
 // release the old target, store and add-ref the new one, then tell the new target
 // that this holder owns it (virtual slot at +0x8c), unless it already knows.
 
@@ -5075,10 +5246,11 @@ struct Holder_56ff10
     char pad[0x1c];             // +0x00
     Ref_56ff10* target;         // +0x1c
 
-    void FUN_0056ff10(Ref_56ff10* object);
+    void NiAVObject_SetCollisionObject(Ref_56ff10* object);
 };
 
-void Holder_56ff10::FUN_0056ff10(Ref_56ff10* object)
+// pdb: NiAVObject::SetCollisionObject | TEShavokUtilities.obj | fnv360_0721_beta, objrun + bridge(call_seq|call_seq) + skyrim(objrun_prop), high
+void Holder_56ff10::NiAVObject_SetCollisionObject(Ref_56ff10* object)
 {
     Ref_56ff10* previous = target;
     if (previous != object)
@@ -5334,6 +5506,8 @@ struct Actor56f9b0 {ActorVTable56f9b0* vtable;unsigned char type,unk05,unk06,unk
  bool Flag(){return (flags>>7)&1;}void FUN_007c8650();
 };
 extern Actor56f9b0** DAT_0107c0a8;extern unsigned DAT_0107c0c4;
+// pdb: TESArrowTargetListener::entityDeletedCallback | TESArrowTargetListener.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apEntity
 void __stdcall FUN_0056f9b0(Input56f9b0* input) {
  if(input && input->scene) {Scene56f9b0* scene=input->scene->Cast();if(scene && (scene->flags&0x100)) {
   Parent56f9b0* parent=FUN_004779d0(scene->object);FUN_004e7b90(parent?parent->parent:0);
@@ -5345,6 +5519,8 @@ void __stdcall FUN_0056f9b0(Input56f9b0* input) {
 // @f3 0x0057a650 (community match, verified in this file)
 namespace f3m_0057a650 {
 extern unsigned (__stdcall *DAT_00d9b090)();struct Owner57a6 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; unsigned unk18:31;unsigned unk18Flag:1;bool FUN_0057a650(unsigned);};
+// pdb: SkySound::HandleCheckTime | Sky.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiInterval
 bool Owner57a6::FUN_0057a650(unsigned delay){unsigned now=DAT_00d9b090();unsigned deadline=unk18;if(deadline>0x80000000u)deadline=0x80000000u;if(now>deadline){unk18=now+delay;return true;}return false;}
 }   // namespace f3m_0057a650
 
@@ -5352,6 +5528,8 @@ bool Owner57a6::FUN_0057a650(unsigned delay){unsigned now=DAT_00d9b090();unsigne
 namespace f3m_0057a9e0 {
 struct CodexWeatherSource { void* FUN_0057a400(int,int); };
 struct CodexWeatherSamples { void* first; void* second; void* third; void* fourth; };
+// pdb: Sky::FillCloudColorBlendColors | Sky.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aColorBlend, apCurrentWeather, apLastWeather, aiLayer, aeTime1, aeTime2
 void __stdcall FUN_0057a9e0(CodexWeatherSamples* output,CodexWeatherSource* primary,CodexWeatherSource* secondary,int category,const int* firstIndex,const int* secondIndex) {
     if (!primary) return;
     void* first=primary->FUN_0057a400(category,*firstIndex);
@@ -5381,7 +5559,7 @@ namespace f3m_00563630 {
 extern void __cdecl FUN_00455710(unsigned,unsigned);
 struct String5636 {char* text;unsigned short length;unsigned short capacity;};
 extern void __cdecl FUN_00453590(String5636*,unsigned);
-struct Name5636 {int unk00;int unk04;void FUN_004537a0();};
+struct Name5636 {int unk00;int unk04;void TESDescription_Save();};
 struct Icon5636 {int unk00;int unk04;int unk08;void FUN_0045b8e0(unsigned);};
 __forceinline void Swap5636(unsigned long& value){value=_byteswap_ulong(value);}
 struct Data5636 {unsigned long index;unsigned long a;unsigned long b;unsigned long values[2];
@@ -5392,8 +5570,9 @@ struct Owner5636 {
  String5636 a;String5636 b;String5636 c;String5636 d;
  void FUN_004547d0();void FUN_00454ab0(void*,unsigned);void FUN_00454860();void FUN_00563630();
 };
+// pdb: TESSkill::Save | TESSkill.obj | fnv360_0822_retail, vtable, medium
 void Owner5636::FUN_00563630(){
- FUN_004547d0();FUN_00455710('XDNI',data.index);name.FUN_004537a0();icon.FUN_0045b8e0('NOCI');
+ FUN_004547d0();FUN_00455710('XDNI',data.index);name.TESDescription_Save();icon.FUN_0045b8e0('NOCI');
  if(DAT_0106dd0e)data.Swap();FUN_00454ab0(&data,20);if(DAT_0106dd0e)data.Swap();
  FUN_00453590(&a,'MANA');FUN_00453590(&b,'MANJ');FUN_00453590(&c,'MANE');FUN_00453590(&d,'MANM');FUN_00454860();
 }
@@ -5407,7 +5586,8 @@ namespace AllocateB690 {
 struct Heap { void* FUN_008f6d30(unsigned,unsigned); void FUN_008f6d90(void*,unsigned,unsigned); };
 struct Object { int unk00; unsigned short size; unsigned short unk06; int unk08; int unk0C; Object* FUN_0056b3f0(void*); };
 struct Guard { Object* memory; Guard(Object* p):memory(p) {} ~Guard() { if(memory) ((Heap*)TlsGetValue(DAT_010f3170))->FUN_008f6d90(memory,16,26); } void Detach() { memory=0; } };
-Object* __stdcall FUN_0056b690(void* input) { Heap* heap=(Heap*)TlsGetValue(DAT_010f3170); Object* memory=(Object*)heap->FUN_008f6d30(16,26); memory->size=16; Guard guard(memory); Object* result=memory->FUN_0056b3f0(input); guard.Detach(); return result; }
+// pdb: HavokStreambufFactory::openWriter | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+Object* __stdcall HavokStreambufFactory_openWriter(void* input) { Heap* heap=(Heap*)TlsGetValue(DAT_010f3170); Object* memory=(Object*)heap->FUN_008f6d30(16,26); memory->size=16; Guard guard(memory); Object* result=memory->FUN_0056b3f0(input); guard.Detach(); return result; }
 }
 }   // namespace f3m_0056b690
 
@@ -5430,6 +5610,7 @@ struct FUN_00574120 : NiPointer<FUN_00574120_Ref> {
     ~FUN_00574120();
 };
 
+// pdb: ViewCaster::~ViewCaster | ViewCaster.obj | fnv360_0822_retail, call_gap, low
 FUN_00574120::~FUN_00574120()
 {
     FUN_00574120_Ref* q = m_pObject;
@@ -5609,6 +5790,8 @@ virtual const char* GetName();
 };
 struct TESResponse {static void FUN_00562ac0(TESQuest*,TESTopic*,char*,unsigned int);};
 // @fnv 0x006172c0
+// pdb: TESResponse::GetAudioQuestTopicCombined | TESResponse.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apQuest, apTopic, apOutBuffer, aiBufferSize
 void TESResponse::FUN_00562ac0(TESQuest* quest, TESTopic* topic, char* output, unsigned int capacity)
 {
     if (!output || !capacity)
@@ -5741,6 +5924,8 @@ struct FUN_0057aeb0_shell
 };
 
 // @fnv 0x0063eb70
+// pdb: Sky::SaveGame | Sky.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apSaveGameBuffer
 void FUN_0057aeb0_shell::FUN_0057aeb0(BGSSaveFormBuffer* buffer)
 {
     buffer->FUN_006e17e0(m10, 0);
@@ -5789,13 +5974,16 @@ namespace Heap5683 {struct Heap{void FUN_0086ba60(void*);};extern Heap DAT_01090
 template<class T>class bhkTTNode {public:T*object;bhkTTNode*next;};
 class ZoneEntry:public bhkTTNode<TESObjectREFR>{public:virtual __forceinline ~ZoneEntry(){FUN_00567f20();}void FUN_00567f20();};
 struct Owner5683 {int unk00;ZoneEntry*head;void FUN_005683f0(ZoneEntry*);};
+// pdb: BGSZoneTargetListener::RemoveZoneEntry | BGSZoneTargetListener.obj | fnv360_0721_beta, call_dedup, low
+// pdb params: apZone
 void Owner5683::FUN_005683f0(ZoneEntry*entry){if(entry){bhkTTNode<TESObjectREFR>*first=head;bhkTTNode<TESObjectREFR>*target=entry;if(target==first)first=target->next;else{bhkTTNode<TESObjectREFR>*prev=first;if(prev)do{bhkTTNode<TESObjectREFR>*next=prev->next;if(target==next){prev->next=next->next;break;}prev=next;}while(prev);}head=static_cast<ZoneEntry*>(first);entry->ZoneEntry::~ZoneEntry();Heap5683::DAT_01090a78.FUN_0086ba60(entry);}}
 }   // namespace f3m_005683f0
 
 // @f3 0x0056f6d0 (community match, verified in this file)
 namespace f3m_0056f6d0 {
-struct Node56f6 {int unk00,unk04,unk08;Node56f6* unk0C;int unk10,unk14,unk18;unsigned unk1C;};struct Other56f6 {int unk00,unk04,unk08,unk0C;float unk10;};union Flags56f6 {unsigned word;struct {unsigned short low,high;} parts;};struct Owner56f6 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; Flags56f6 unk70;float unk74;void FUN_00924050(Node56f6*,Other56f6*);void FUN_0056f6d0(Node56f6*,Other56f6*);};
-void Owner56f6::FUN_0056f6d0(Node56f6* input,Other56f6* other){Node56f6* root=input;while(root->unk0C)root=root->unk0C;unsigned flags=root->unk1C;if(((unk70.word^flags)&0x7f)||((unsigned short)(flags>>16)==unk70.parts.high)){if(unk74<=other->unk10)FUN_00924050(input,other);}}
+struct Node56f6 {int unk00,unk04,unk08;Node56f6* unk0C;int unk10,unk14,unk18;unsigned unk1C;};struct Other56f6 {int unk00,unk04,unk08,unk0C;float unk10;};union Flags56f6 {unsigned word;struct {unsigned short low,high;} parts;};struct Owner56f6 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; Flags56f6 unk70;float unk74;void FUN_00924050(Node56f6*,Other56f6*);void SpecificItemCollector_addRayHit(Node56f6*,Other56f6*);};
+// pdb: SpecificItemCollector::addRayHit | SpecificItemCollector.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Owner56f6::SpecificItemCollector_addRayHit(Node56f6* input,Other56f6* other){Node56f6* root=input;while(root->unk0C)root=root->unk0C;unsigned flags=root->unk1C;if(((unk70.word^flags)&0x7f)||((unsigned short)(flags>>16)==unk70.parts.high)){if(unk74<=other->unk10)FUN_00924050(input,other);}}
 }   // namespace f3m_0056f6d0
 
 // @f3 0x00565c00 (community match, verified in this file)
@@ -5810,18 +5998,20 @@ struct PerkEntryConditionSet {
     ~PerkEntryConditionSet() { FUN_005ae1d0(); }
 };
 struct ConditionList {
-    void FUN_005ae2d0(PerkEntryConditionSet*, PerkEntryConditionSet*);
+    void TESCondition_Copy(PerkEntryConditionSet*, PerkEntryConditionSet*);
 };
 struct TopicInfo {
     void FUN_00565c00(PerkEntryConditionSet* conditions);
 };
+// pdb: TESTopicInfo::SetInfoConditions | TESTopicInfo.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCond
 void TopicInfo::FUN_00565c00(PerkEntryConditionSet* conditions)
 {
     if (conditions)
-        ((ConditionList*)((char*)this + 0x18))->FUN_005ae2d0(conditions, (PerkEntryConditionSet*)this);
+        ((ConditionList*)((char*)this + 0x18))->TESCondition_Copy(conditions, (PerkEntryConditionSet*)this);
     else {
         PerkEntryConditionSet temp;
-        ((ConditionList*)((char*)this + 0x18))->FUN_005ae2d0(&temp, (PerkEntryConditionSet*)this);
+        ((ConditionList*)((char*)this + 0x18))->TESCondition_Copy(&temp, (PerkEntryConditionSet*)this);
     }
 }
 }
@@ -5837,6 +6027,7 @@ public:
     void FUN_00576050();
     virtual ~FUN_005761d0();
 };
+// pdb: Clouds::~Clouds | Clouds.obj | fnv360_0822_retail, call_seq, high
 FUN_005761d0::~FUN_005761d0() {
     FUN_00575df0();
     FUN_00576050();
@@ -5851,6 +6042,8 @@ struct FUN_008f7c10 {void** table;int unk04;int unk08;FUN_008f7c10();};
 struct Shape5692 : FUN_008f7c10 {int unk0C;int unk10;Shape5692(){table=DAT_00dcdbac;unk0C=0;unk10=0;++DAT_010f3174;}};
 struct TreeShape5692 : Shape5692 {TreeShape5692(){table=DAT_00de6ebc;++DAT_010f32c0;}~TreeShape5692();};
 struct FUN_005692e0 : TreeShape5692 {FUN_005692e0(void*);void FUN_00922340(void*);};
+// pdb: bhkTriSampledHeightFieldBvTreeShape::bhkTriSampledHeightFieldBvTreeShape | CellMopp.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arInfo
 FUN_005692e0::FUN_005692e0(void* shape){table=DAT_00de6f9c;FUN_00922340(shape);++DAT_010f3358;}
 }   // namespace f3m_005692e0
 
@@ -5859,6 +6052,7 @@ namespace f3m_00578190 {
 struct Ref5781 {void**table;long refs;};
 struct Manager5781 {void**table;};
 struct Owner5781 {int unk00;Ref5781*first;Ref5781*second;Manager5781*manager;void FUN_00578190();__forceinline void Release(Ref5781*&ref){Ref5781*old=ref;if(old){if(!InterlockedDecrement(&old->refs))((void(__thiscall*)(Ref5781*))old->table[1])(old);ref=0;}}};
+// pdb: Precipitation::FlushAll | Precipitation.obj | fnv360_0822_retail, call_gap, medium
 void Owner5781::FUN_00578190(){if(second){((void(__thiscall*)(Manager5781*,Ref5781*))manager->table[58])(manager,second);Release(second);}if(first){((void(__thiscall*)(Manager5781*,Ref5781*))manager->table[58])(manager,first);Release(first);}}
 }   // namespace f3m_00578190
 
@@ -5878,6 +6072,8 @@ struct Owner66 {
     Node66** FUN_00566170(int flags);
     void FUN_00566950(String66* output,bool single);
 };
+// pdb: TESTopicInfo::GetInfoDisplayText | TESTopicInfo.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: TESTopicInfo::SetTimeUntilReset)
+// pdb params: aString, abFirstOnly
 void Owner66::FUN_00566950(String66* output,bool single) {
     if(output->data)DAT_01090a78.FUN_0086ba60(output->data);
     output->data=0;output->capacity=0;output->length=0;
@@ -5914,6 +6110,8 @@ struct Owner79{
  List79 entries;
  void FUN_005733f0(void* key);
 };
+// pdb: TESWaterListener::RemoveWaterZoneForReference | TESWaterListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apWaterRef
 void Owner79::FUN_005733f0(void* key){
  Entry79* entry=FUN_00573390(key);
  if(entry){
@@ -6012,6 +6210,8 @@ Component80 component;
 void FUN_0090b500();
 void FUN_00571d40(float first,int second,int third);
 };
+// pdb: hkpRigidBody::applyAngularImpulse | Explosion.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: imp
 void Owner80::FUN_00571d40(float first,int second,int third){FUN_0090b500();component.Apply(first,second,third);}
 }   // namespace f3m_00571d40
 
@@ -6035,6 +6235,8 @@ unsigned int value34;
 unsigned int value38;
 Owner107& FUN_00568710(const Owner107&);
 };
+// pdb: hkpRootCdPoint::operator= | CameraCaster.obj | fnv360_0822_retail, objrun, medium
+// pdb params: __that
 Owner107& Owner107::FUN_00568710(const Owner107& other){
 value00=other.value00;
 value04=other.value04;
@@ -6150,6 +6352,7 @@ unsigned int unk110;
 unsigned int unk114;
 unsigned int flags;float FUN_0057a450();
 };
+// pdb: Sky::GetSunriseBegin | MediaLocationController.obj | fnv360_0822_retail, call_gap, low
 float Owner155::FUN_0057a450(){if((flags&0x100)&&actor){DAT_01073004=actor->value/6.0;flags&=~0x100;}return DAT_01073004;}
 }
 }   // namespace f3m_0057a450
@@ -6318,6 +6521,8 @@ unsigned int flags;
 };
 extern Manager179* DAT_01079858;
 struct Owner179{unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;Node179* first;void FUN_00570f30(unsigned int);};
+// pdb: TESTrapListener::ClearCurrentRefs | TESTrapListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef
 void Owner179::FUN_00570f30(unsigned int key){
  Node179* node=first;while(node){if(node->key==key){if(!(static_cast<unsigned char>(DAT_01079858->flags>>1)&1))node->component.FUN_00570c30(node->key);node->component.FUN_00570e40();return;}node=node->next;}
 }
@@ -6327,6 +6532,8 @@ void Owner179::FUN_00570f30(unsigned int key){
 #include <string.h>
 namespace f3m_00579d50 {
 struct Input579d;typedef void* (__thiscall *Create579d)(Input579d*,int,int,int,int,int,int);struct Table579d {int unk00,unk04,unk08,unk0C,unk10;Create579d unk14;};struct Input579d {Table579d* unk00;const char* unk04;unsigned short unk08;unsigned Length(){unsigned short length=unk08;if(length==0xffff)return (unsigned)strlen(unk04);return length;}};namespace Manager579d {struct Manager {void FUN_0042cac0(void*);};extern Manager* DAT_0106ca70;}struct Owner579d {int unk00,unk04,unk08,unk0C,unk10;Input579d* unk14;void FUN_00579b40(int);void FUN_00579d50(Input579d*);};
+// pdb: Precipitation::Load | Precipitation.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apPrecipNIF
 void Owner579d::FUN_00579d50(Input579d* input){if(!unk08){if(input&&input->Length()){void* created=input->unk00->unk14(input,0,0,0,0,0,0);Manager579d::DAT_0106ca70->FUN_0042cac0(created);unk14=input;}else FUN_00579b40(0);}}
 }   // namespace f3m_00579d50
 
@@ -6341,6 +6548,7 @@ struct FUN_00563b30 : FUN_00456190, FUN_00453910, FUN_0045bca0 {
  unsigned unk2c,unk30,unk34; float unk38,unk3c;
  FUN_00453910 ranks[4]; void FUN_00563ac0();
 };
+// pdb: TESSkill::TESSkill | TESSkill.obj | fnv360_0822_retail, call_gap, medium
 FUN_00563b30::FUN_00563b30() { type=15; FUN_00563ac0(); }
 }
 }   // namespace f3m_00563b30
@@ -6353,13 +6561,15 @@ namespace match57abf0 {
 bool FUN_00619160();bool FUN_0061a050();
 struct Handle {unsigned value;unsigned char flag;unsigned char unk05;unsigned char unk06;unsigned char unk07;unsigned data;
  Handle& operator=(const Handle& other){value=other.value;flag=other.flag;data=other.data;return *this;}
- bool FUN_00bd0390();bool FUN_00bd0160();void FUN_00bd00c0(bool);float FUN_00bd01f0();void FUN_00bd01c0(float);
+ bool BSSoundHandle_IsValid();bool FUN_00bd0160();void FUN_00bd00c0(bool);float FUN_00bd01f0();void FUN_00bd01c0(float);
 };
 struct Manager {Handle FUN_00bcfbb0(unsigned,unsigned);};extern Manager* DAT_011790c8;
 struct Owner {Handle handle;int unk0C;unsigned type;bool FUN_0057a650(unsigned);void FUN_0057abf0(float);};
+// pdb: SkySound::Play | Sky.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afVol
 void Owner::FUN_0057abf0(float value){
  if(FUN_00619160()||FUN_0061a050())return;
- if(!handle.FUN_00bd0390()){Handle updated=DAT_011790c8->FUN_00bcfbb0(handle.value,0x20);handle.value=updated.value;handle.flag=updated.flag;handle.data=updated.data;}
+ if(!handle.BSSoundHandle_IsValid()){Handle updated=DAT_011790c8->FUN_00bcfbb0(handle.value,0x20);handle.value=updated.value;handle.flag=updated.flag;handle.data=updated.data;}
  if(type==3){if(!handle.FUN_00bd0160())handle.FUN_00bd00c0(false);}
  else if(FUN_0057a650(1000)&&!handle.FUN_00bd0160())handle.FUN_00bd00c0(true);
  float difference=handle.FUN_00bd01f0()-value;
@@ -6376,6 +6586,7 @@ struct TriggerEntry {struct TriggerEvent;};
 template<class T>class BSListBase {public:virtual __forceinline ~BSListBase(){}void*head;void*tail;unsigned count;};
 template<class T>class BSPointerListBase:public BSListBase<T> {public:virtual __forceinline ~BSPointerListBase();void FUN_00571010();void FUN_005af680();};
 template<class T>BSPointerListBase<T>::~BSPointerListBase(){FUN_005af680();}
+// pdb: BSListBase<BSTempEffectDebris *>::RemoveAll | BSTempEffectDebris.obj | fnv360_0822_retail, call_dedup, low
 template<>void BSPointerListBase<TriggerEntry::TriggerEvent*>::FUN_00571010(){this->BSPointerListBase::~BSPointerListBase();}
 }   // namespace f3m_00571010
 
@@ -6385,6 +6596,7 @@ namespace Clear64b0 {
 struct Heap { void FUN_0086ba60(void*); }; extern Heap DAT_01090a78;
 struct Node { void* item; Node* next; bool FUN_00645c20(); void FUN_006c8220(); __forceinline void Clear() { while(this && !FUN_00645c20()) { Node* node=next; if(node) {next=node->next; item=node->item; node->next=0; node->FUN_006c8220(); DAT_01090a78.FUN_0086ba60(node); } else item=0; } } };
 struct Owner { unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c; Node list; void FUN_005664b0(); };
+// pdb: TESTopicInfo::ClearAddTopicList | TESTopicInfo.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_005664b0() { list.Clear(); }
 }
 }   // namespace f3m_005664b0
@@ -6498,6 +6710,7 @@ struct Clock_0057a4d0 {
 };
 
 
+// pdb: Sky::GetSunsetBegin | MediaLocationController.obj | fnv360_0822_retail, call_gap, low
 float Clock_0057a4d0::FUN_0057a4d0()
 {
     if ((flags & 0x400) != 0 && record != 0) {
@@ -6672,6 +6885,8 @@ class FUN_00571c40 : public FUN_00567ef0
 };
 
 // Adapted from FNV record 27201.
+// pdb: WaterZone::WaterZone | TESWaterListener.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apRef, apCol
 FUN_00571c40::FUN_00571c40(B631230Actor* pkActor, unsigned int uiType) : FUN_00567ef0(pkActor, uiType)
 {
     m_fStartValue = pkActor ? pkActor->GetStats()->m_fValue : 0.0f;
@@ -6685,8 +6900,9 @@ extern const void* DAT_00de6e40;
 struct Heap {void FUN_0086ba60(void*);}; extern Heap DAT_01090a78;
 struct Hook { unsigned unk00; Hook* next; };
 struct Node { const void* table; Hook link; void FUN_00567f20(); __forceinline ~Node() {table=&DAT_00de6e40; FUN_00567f20();} static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);} Node* Next(){return link.next ? (Node*)((char*)link.next-4) : 0;} };
-struct Owner {unsigned unk00; Node* head; void FUN_00568470();};
-void Owner::FUN_00568470(){Node* node=head; while(node){Node* next=node->Next(); delete node; node=next;} head=0;}
+struct Owner {unsigned unk00; Node* head; void BGSZoneTargetListener_EmptyList();};
+// pdb: BGSZoneTargetListener::EmptyList | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+void Owner::BGSZoneTargetListener_EmptyList(){Node* node=head; while(node){Node* next=node->Next(); delete node; node=next;} head=0;}
 }
 
 // @f3 0x0056b480 (community match, verified in this file)
@@ -6698,6 +6914,7 @@ struct TargetOperations {void (__thiscall* destroy)(OwnedTarget*,unsigned);};
 struct OwnedTarget {TargetOperations* operations;};
 struct ConditionalOwner {void** table;unsigned unk04;OwnedTarget* target;bool owns;void FUN_0056b480();};
 struct ConditionalBaseCleanup {ConditionalOwner* owner;ConditionalBaseCleanup(ConditionalOwner*p):owner(p){p->table=DAT_00de71c4;}~ConditionalBaseCleanup(){owner->table=DAT_00dcc494;}};
+// pdb: HavokFileStreambufWriter::~HavokFileStreambufWriter | HavokStream.obj | fnv360_0822_debug, call_seq, high
 void ConditionalOwner::FUN_0056b480() {
  ConditionalBaseCleanup cleanup(this);
  if(target&&owns)target->operations->destroy(target,1);
@@ -6727,6 +6944,8 @@ struct S_00629c10_Map
     void FUN_0056ca80(int key, unsigned short val);
 };
 // @fnv 0x00629c10
+// pdb: NiTMapBase<DFALL<NiTMapItem<bhkRigidBody *,unsigned short> >,bhkRigidBody *,unsigned short>::SetAt | LoadedAreaBound.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: key, val
 void S_00629c10_Map::FUN_0056ca80(int key, unsigned short ausValue)
 {
     unsigned idx = Hash(key);
@@ -6777,6 +6996,8 @@ public:
     Item* FUN_00567fd0(void* owner, int key);
 };
 }
+// pdb: BGSZoneTargetListener::AddZone | BGSZoneTargetListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apZone, apCol
 N567fd0::Item* N567fd0::Table::FUN_00567fd0(void* owner, int key) {
     Item* item = static_cast<Item*>(Find(key));
     if (item) {
@@ -6796,6 +7017,8 @@ struct Heap {void FUN_0086ba60(void*);}; extern Heap DAT_01090a78;
 struct Hook {unsigned unk00; Hook* next;};
 struct Node {unsigned unk00,unk04,unk08,unk0c; Hook link;};
 struct Owner {unsigned unk00,unk04,unk08,unk0c,unk10; Node* head; void FUN_00567f60(Node*);};
+// pdb: ZoneEntry::RemoveTargetEntry | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apTarget
 void Owner::FUN_00567f60(Node* node) {if(node) {Hook* first=head ? &head->link : 0; Hook* removed=&node->link;
  if(removed==first) first=removed->next;
  else {Hook* current=first; while(current) {Hook* next=current->next; if(removed==next) {current->next=next->next; break;} current=next;}}
@@ -6812,6 +7035,8 @@ void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
 struct Form5659f0 {void** table;unsigned char kind;unsigned GetKind(){return kind;}};
 Form5659f0* __cdecl FUN_005643c0(void*);
 struct Owner5659f0 {bool FUN_00453fe0(Form5659f0*);bool FUN_005659f0(Form5659f0*);};
+// pdb: TESTopicInfo::SavesBefore | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apForm
 bool Owner5659f0::FUN_005659f0(Form5659f0* input){bool result=false;switch(input->GetKind()){case 69:{Form5659f0* other=(Form5659f0*)FUN_00c0050a(input,0,&DAT_00f46078,&DAT_00f47bf4,0);if(other){Form5659f0* current=FUN_005643c0(this);if(current!=other)result=((bool(__thiscall*)(Form5659f0*,Form5659f0*))current->table[15])(current,other);}break;}case 70:{Form5659f0* other=(Form5659f0*)FUN_00c0050a(input,0,&DAT_00f46078,&DAT_00f47c0c,0);if(other){Form5659f0* current=FUN_005643c0(this);Form5659f0* next=FUN_005643c0(other);if(next &&next!=current)result=((bool(__thiscall*)(Form5659f0*,Form5659f0*))current->table[15])(current,next);}break;}default:result=FUN_00453fe0(input);}return result;}
 }   // namespace f3m_005659f0
 
@@ -6819,6 +7044,8 @@ bool Owner5659f0::FUN_005659f0(Form5659f0* input){bool result=false;switch(input
 namespace f3m_00570610 {
 struct Scene5706;struct SceneVT5706{void* unk00;void* unk04;void* unk08;int (__thiscall *HasChildren)(Scene5706*);};struct Scene5706{SceneVT5706* vtable;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;int unk34;int unk38;int unk3C;int unk40;int unk44;int unk48;int unk4C;int unk50;int unk54;int unk58;int unk5C;int unk60;int unk64;int unk68;int unk6C;int unk70;int unk74;int unk78;int unk7C;int unk80;int unk84;int unk88;int unk8C;int unk90;int unk94;int unk98;int unk9C;Scene5706** children;unsigned short unkA4;unsigned short count;};
 struct Counter5706;struct CounterVT5706{void* unk00;int (__thiscall *Count)(Counter5706*);};struct Counter5706{CounterVT5706* vtable;};struct Object5706;struct ObjectVT5706{void* unk00;void* unk04;void* unk08;void* unk0C;void* unk10;void* unk14;void* unk18;void* unk1C;void* unk20;int (__thiscall *Count)(Object5706*);};struct Object5706{ObjectVT5706* vtable;int unk04;int unk08;int type;Counter5706 counter;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;Object5706* target;};struct Link5706 {int unk00;int unk04;Object5706* object;};struct Item5706{int unk00;int unk04;Link5706* link;};struct Node5706{Item5706* item;Node5706* next;};struct Chain5706{int unk00;int unk04;int unk08;int unk0C;Node5706 head;__forceinline Node5706* Head(){return &head;}};struct Middle5706{int unk00;int unk04;Chain5706* chain;};struct Root5706{int unk00;int unk04;int unk08;int unk0C;Middle5706* middle;};Root5706* __cdecl FUN_00424fe0(Scene5706*);
+// pdb: TESHavokUtilities::InspectHavokObjects | TEShavokUtilities.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, aiConvexVerticesCount, aiShapeCollectionTriCount
 void __cdecl FUN_00570610(Scene5706* scene,int* first,int* second){if(!scene)return;Root5706* root=FUN_00424fe0(scene);if(root && root->middle && root->middle->chain){Node5706* node=root->middle->chain->Head();if(node && node->item && node->item->link && node->item->link->object){Object5706* object=node->item->link->object;if(object->type==0x16)*second+=object->counter.vtable->Count(&object->counter);else if(object->type==7)*first+=object->vtable->Count(object);else if(object->type==0xb && object->target){object=object->target;*second+=object->counter.vtable->Count(&object->counter);}}}if(scene->vtable->HasChildren(scene)){for(unsigned i=0;i<scene->count;++i)FUN_00570610(scene->children[i],first,second);}}
 
 }   // namespace f3m_00570610
@@ -6832,6 +7059,7 @@ struct Manager {const Ops* ops;char path[260];unsigned unk108,unk10c,unk110; Man
 extern Manager* DAT_01072b18;
 __forceinline Manager* GetManager(){if(!DAT_01072b18) DAT_01072b18=new Manager; return DAT_01072b18;}
 struct FUN_00575420 : Setting {virtual ~FUN_00575420();};
+// pdb: SettingT<BlendSettingCollection>::~SettingT<BlendSettingCollection> | XBlendSettings.obj | fnv360_0822_retail, call_seq, medium
 FUN_00575420::~FUN_00575420(){Manager* manager=GetManager(); manager->ops->Remove(manager,this);}
 }
 
@@ -7461,6 +7689,8 @@ World* __cdecl FUN_0056fbf0(void*); void __cdecl FUN_006bd6f0(void*);
 struct Event { unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c; void* payload; unsigned unk24; void* owner; };
 struct Queue {unsigned unk00; void FUN_00880f70(World*,int);};
 struct Owner {unsigned unk00,unk04,unk08,unk0c,unk10; unsigned char queued,unk15,unk16,unk17; Queue queue; bool FUN_00567c60(Event*);};
+// pdb: BGSAcousticSpaceListener::contactPointRemovedCallback | BGSAcousticSpaceListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: CPoint
 bool Owner::FUN_00567c60(Event* event) {
  World* target;
  if(DAT_0107a104->special) {Parent* parent=DAT_0107a104->parent; void* current=parent && parent->child ? (char*)parent->child+16 : 0; if(event->owner!=current) goto done; target=FUN_0056fbf0(event->payload);}
@@ -7642,12 +7872,14 @@ struct RecordFile {
  unsigned unk290;
  unsigned unk294;
  unsigned char unk298;bool swap;
- unsigned FUN_004487d0();void FUN_00447d60(void*,unsigned);
+ unsigned TESFile_GetTESChunk();void FUN_00447d60(void*,unsigned);
 };
 inline void SwapRecordWord(void* address) {unsigned* value=static_cast<unsigned*>(address);*value=_byteswap_ulong(*value);}
 struct RawRecord {unsigned first,second,third,unk0C,fifth,unk14;void FUN_00562be0(RecordFile*);};
+// pdb: TESResponse::Load | TESResponse.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFile
 void RawRecord::FUN_00562be0(RecordFile* file) {
- if(file&&file->FUN_004487d0()==0x54445254) {
+ if(file&&file->TESFile_GetTESChunk()==0x54445254) {
   file->FUN_00447d60(this,24);
   if(file->swap) {SwapRecordWord(&first);SwapRecordWord(&second);SwapRecordWord(&third);SwapRecordWord(&fifth);}
  }
@@ -7663,6 +7895,7 @@ struct Object569e;struct Table569e {void* unk00;void (__thiscall *unk04)(Object5
 struct Object569e {Table569e* unk00;long unk04;void IncRefCount(){InterlockedIncrement(&unk04);}void DecRefCount(){if(InterlockedDecrement(&unk04)==0)unk00->unk04(this);}};
 struct Base569e {int unk000;int unk004;int unk008;int unk00C;int unk010;int unk014;int unk018;int unk01C;int unk020;int unk024;int unk028;int unk02C;int unk030;int unk034;int unk038;int unk03C;int unk040;int unk044;int unk048;int unk04C;int unk050;int unk054;int unk058;int unk05C;int unk060;int unk064;int unk068;int unk06C;int unk070;int unk074;int unk078;int unk07C;int unk080;int unk084;int unk088;int unk08C;int unk090;int unk094;int unk098;int unk09C;int unk0A0;int unk0A4;int unk0A8;int unk0AC;int unk0B0;int unk0B4;int unk0B8;int unk0BC;int unk0C0;int unk0C4;int unk0C8;int unk0CC;int unk0D0;int unk0D4;int unk0D8;int unk0DC;int unk0E0;int unk0E4;int unk0E8;int unk0EC;int unk0F0;int unk0F4;int unk0F8;int unk0FC;int unk100;int unk104;int unk108;int unk10C;int unk110;int unk114;int unk118;int unk11C;int unk120;int unk124;int unk128;int unk12C;int unk130;int unk134;int unk138;int unk13C;int unk140;int unk144;int unk148;int unk14C;int unk150;int unk154;int unk158;int unk15C;int unk160;int unk164;int unk168;int unk16C;int unk170;int unk174;int unk178;int unk17C;int unk180;int unk184;int unk188;int unk18C;int unk190;int unk194;int unk198;int unk19C;int unk1A0;int unk1A4;int unk1A8;int unk1AC;int unk1B0;int unk1B4;int unk1B8;int unk1BC;int unk1C0;int unk1C4;int unk1C8;int unk1CC;int unk1D0;int unk1D4;int unk1D8;int unk1DC;int unk1E0;int unk1E4;int unk1E8;int unk1EC;int unk1F0;int unk1F4;int unk1F8;int unk1FC;int unk200;int unk204;int unk208;int unk20C;int unk210;int unk214;int unk218;int unk21C;void FUN_00568830();~Base569e(){FUN_00568830();}};
 struct FUN_00569eb0:Base569e {NiPointer<Object569e> unk220;~FUN_00569eb0();};
+// pdb: DecalCaster::~DecalCaster | DecalCaster.obj | fnv360_0822_retail, call_seq, medium
 FUN_00569eb0::~FUN_00569eb0(){}
 }
 }   // namespace f3m_00569eb0
@@ -7675,6 +7908,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 struct Object5780;struct Table5780 {void* unk00;void (__thiscall *unk04)(Object5780*);};
 struct Object5780 {Table5780* unk00;long unk04;void IncRefCount(){InterlockedIncrement(&unk04);}void DecRefCount(){if(InterlockedDecrement(&unk04)==0)unk00->unk04(this);}};
 struct FUN_005780a0 {virtual ~FUN_005780a0();NiPointer<Object5780> unk04,unk08;int unk0C,unk10,unk14;};
+// pdb: Precipitation::~Precipitation | Precipitation.obj | fnv360_0822_retail, call_seq, medium
 FUN_005780a0::~FUN_005780a0(){unk04=(Object5780*)0;unk08=(Object5780*)0;unk14=0;}
 }
 }   // namespace f3m_005780a0
@@ -7685,6 +7919,7 @@ namespace f3m_0057e6e0 {
 struct Ref57e6e0 {void** table;long refs;void IncRefCount(){InterlockedIncrement(&refs);}void DecRefCount(){if(!InterlockedDecrement(&refs))((void(__thiscall*)(Ref57e6e0*))table[1])(this);}};
 struct Owner57e6e0 {void** table;NiPointer<Ref57e6e0> ref;~Owner57e6e0(){}void FUN_0057e6e0();};
 struct Cleanup57e6e0 {Owner57e6e0* p;Cleanup57e6e0(Owner57e6e0* v):p(v){p->table=&DAT_00de7f64;}~Cleanup57e6e0(){p->~Owner57e6e0();}};
+// pdb: SkyObject::~SkyObject | SkyObject.obj | fnv360_0822_retail, call_seq, medium
 void Owner57e6e0::FUN_0057e6e0(){Cleanup57e6e0 guard(this);ref=(Ref57e6e0*)0;}
 }   // namespace f3m_0057e6e0
 
@@ -7744,7 +7979,7 @@ struct FUN_008f8410_Obj {
     int unkC8;
     int unkCC;
 
-    FUN_008f8410_Obj* __thiscall FUN_0090cdf0();
+    FUN_008f8410_Obj* __thiscall hkpRigidBody_getStoredDynamicMotion();
     float __thiscall FUN_008f8410();
 };
 
@@ -7756,10 +7991,11 @@ struct FUN_0056f860_Standin {
     float __thiscall FUN_0056f860();
 };
 
+// pdb: bhkRigidBody::GetDynamicMass | TESArrowTargetListener.obj | fnv360_0822_retail, call_gap, low
 float FUN_0056f860_Standin::FUN_0056f860() {
     if (this) {
         if (unk08) {
-            FUN_008f8410_Obj* provider = unk08->FUN_0090cdf0();
+            FUN_008f8410_Obj* provider = unk08->hkpRigidBody_getStoredDynamicMotion();
             if (provider) {
                 volatile float result = provider->FUN_008f8410();
                 return result;
@@ -7892,6 +8128,7 @@ struct FadeOwner_57a490 {
     float FUN_0057a490();
 };
 
+// pdb: Sky::GetSunriseEnd | MediaLocationController.obj | fnv360_0822_retail, call_gap, low
 float FadeOwner_57a490::FUN_0057a490()
 {
     if ((unk118 & 0x200) != 0 && unk0c != 0) {
@@ -8298,6 +8535,8 @@ struct Tgt569e40 {
 
 unsigned int PackBytesBigEndian(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
 
+// pdb: DecalCaster::Add | DecalCaster.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apWorld
 void Host569e40::FUN_00569e40(Tgt569e40* target)
 {
     Proc569e40* proc = unk220;
@@ -8403,6 +8642,7 @@ struct TESSkill_Standin
     void FUN_00563ac0();
 };
 
+// pdb: TESSkill::ResetData | TESSkill.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: TESTopicInfo::TESTopicInfo)
 void TESSkill_Standin::FUN_00563ac0()
 {
     float one = 1.0f;
@@ -8445,6 +8685,8 @@ struct FUN_00569250
     void FUN_00568b0(float f, int x);
 };
 
+// pdb: CameraCaster::CameraCaster | CameraCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afRadius, aiGroup
 FUN_00569250::FUN_00569250(float f, int x)
     : unk00(), unk04()
 {
@@ -8457,6 +8699,8 @@ namespace f3m_00570f80 {
 namespace batch11_01 {
 struct Node {unsigned unk00;Node* next;unsigned unk08,key;};
 struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;Node* head;bool FUN_00570f80(unsigned);};
+// pdb: TESTrapListener::IsCurrentTrigger | TESTrapListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRef
 bool Owner::FUN_00570f80(unsigned key){for(Node* p=head;p;p=p->next)if(p->key==key)return true;return false;}
 }
 }   // namespace f3m_00570f80
@@ -8475,6 +8719,8 @@ namespace batch11_03 {
 struct Entry {unsigned key;unsigned value;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned condition;};
 struct Node {Entry* item;Node* next;};
 struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned unk024;unsigned unk028;Node head;unsigned* FUN_00563e40(unsigned);};
+// pdb: TESTopic::GetInfoArray | TESTopic.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apQuest
 unsigned* Owner::FUN_00563e40(unsigned key){Node* node=&head;while(node){Entry* entry=node->item;if(!entry)break;node=node->next;if(entry->key==key && (key || entry->condition==0))return &entry->value;}return 0;}
 }
 }   // namespace f3m_00563e40
@@ -8485,6 +8731,7 @@ namespace batch11_04 {
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct Node {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned unk024;Node* next;void FUN_00562d30();};
 struct Owner {Node* head;void FUN_00565db0();};
+// pdb: ResponseListWrapper::ClearResponseList | TESTopicInfo.obj | fnv360_0822_retail, call_seq, low
 void Owner::FUN_00565db0(){Node* node=head;while(node){Node* next=node->next;node->FUN_00562d30();DAT_01090a78.FUN_0086ba60(node);node=next;}head=0;}
 }
 }   // namespace f3m_00565db0
@@ -8494,6 +8741,8 @@ namespace f3m_0056ada0 {
 namespace batch11_06 {
 struct Target {void FUN_00902b00(void*);void FUN_00902a60(void*);};
 struct Owner {unsigned unk00;unsigned part;void FUN_0056ada0(Target*);};
+// pdb: FOIslandActivationListener::RemoveFromWorld | FOIslandActivationListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apWorld
 void Owner::FUN_0056ada0(Target* target){if(target){target->FUN_00902b00(this);target->FUN_00902a60(this ? &part:0);}}
 }
 }   // namespace f3m_0056ada0
@@ -8503,6 +8752,8 @@ namespace f3m_0056ad60 {
 namespace batch11_07 {
 struct Target {void FUN_00903b60(void*);void FUN_00903ae0(void*);};
 struct Owner {unsigned unk00;unsigned part;void FUN_0056ad60(Target*);};
+// pdb: FOIslandActivationListener::AddToWorld | FOIslandActivationListener.obj | fnv360_0822_debug, objrun, medium
+// pdb params: apWorld
 void Owner::FUN_0056ad60(Target* target){if(target){target->FUN_00903b60(this);target->FUN_00903ae0(this ? &part:0);}}
 }
 }   // namespace f3m_0056ad60
@@ -8513,7 +8764,8 @@ namespace f3m_00568030 {
 namespace batch11_08 {
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct Item {unsigned* vtable;unsigned unk04,unk08;int second,first;unsigned unk14;};
-Item* __stdcall FUN_00568030(int first,int second){Item* p=static_cast<Item*>(DAT_01090a78.FUN_0086b930(24));if(p){p->first=first;p->second=second;p->unk04=0;p->unk08=0;p->vtable=&DAT_00de6e40;p->unk14=0;return p;}return 0;}
+// pdb: BGSZoneTargetListener::CreateZoneEntry | BGSZoneTargetListener.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+Item* __stdcall BGSZoneTargetListener_CreateZoneEntry(int first,int second){Item* p=static_cast<Item*>(DAT_01090a78.FUN_0086b930(24));if(p){p->first=first;p->second=second;p->unk04=0;p->unk08=0;p->vtable=&DAT_00de6e40;p->unk14=0;return p;}return 0;}
 }
 }   // namespace f3m_00568030
 
@@ -8523,6 +8775,7 @@ namespace batch11_09 {
 struct Node {Node* next;Node* previous;void* item;};
 struct Queue {virtual void m0();virtual void m1();virtual void Release(Node*);Node* head;Node* tail;unsigned count;__forceinline void* Pop(){Node* p=head;Node* n=p->next;head=n;if(n)n->previous=0;else tail=0;void* value=p->item;Release(p);--count;return value;}};
 struct Owner {unsigned unk00,unk04,unk08;Queue queue;void* FUN_00570e90();};
+// pdb: BSPointerListBase<BSTempEffectDebris *>::RemoveHead | BSTempEffectDebris.obj | fnv360_0822_retail, call_gap, low
 void* Owner::FUN_00570e90(){if(!queue.count)return 0;return queue.Pop();}
 }
 }   // namespace f3m_00570e90
@@ -8534,6 +8787,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Ref {virtual void m0();virtual void Destroy();long refs;};
 struct Owner {unsigned unk00,unk04;Ref* entries[4];void FUN_00575df0();};
+// pdb: Clouds::ZeroGeo | Clouds.obj | fnv360_0822_retail, call_gap, low
 void Owner::FUN_00575df0(){for(int i=0;i<4;++i){Ref* p=entries[i];if(p){if(InterlockedDecrement(&p->refs)==0)p->Destroy();entries[i]=0;}}}
 }
 }   // namespace f3m_00575df0
@@ -8545,6 +8799,8 @@ extern Object* DAT_01071564;
 struct Handle {Object* FUN_00410f00();};
 struct Data {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned flags;Handle handle;};
 struct Input {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned unk024;unsigned unk028;unsigned unk02c;unsigned unk030;unsigned unk034;unsigned unk038;Data* data;};
+// pdb: TESTrapListener::GetListener | TESTrapListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTrap
 void* FUN_00571330(Input* input){void* result=0;if(input){Data* data=input->data;if(data){Object* object;if(data->flags&1)object=data->handle.FUN_00410f00();else object=DAT_01071564;if(object){void* part=object->part;result=part?static_cast<char*>(part)-8:0;}}}return result;}
 }
 
@@ -8555,6 +8811,8 @@ struct Item {unsigned unk00,unk04,unk08,key;};
 struct Container {Item* FUN_00564340(unsigned,int);};
 struct Node {Container* item;Node* next;};
 struct Global {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned unk024;unsigned unk028;unsigned unk02c;unsigned unk030;unsigned unk034;unsigned unk038;unsigned unk03c;unsigned unk040;unsigned unk044;unsigned unk048;unsigned unk04c;unsigned unk050;unsigned unk054;unsigned unk058;unsigned unk05c;unsigned unk060;unsigned unk064;unsigned unk068;unsigned unk06c;unsigned unk070;unsigned unk074;unsigned unk078;unsigned unk07c;unsigned unk080;unsigned unk084;unsigned unk088;unsigned unk08c;unsigned unk090;unsigned unk094;unsigned unk098;unsigned unk09c;unsigned unk0a0;unsigned unk0a4;unsigned unk0a8;unsigned unk0ac;unsigned unk0b0;unsigned unk0b4;unsigned unk0b8;unsigned unk0bc;unsigned unk0c0;unsigned unk0c4;unsigned unk0c8;Node head;};extern Global* DAT_0106cdcc;
+// pdb: TESTopic::GetOwnerTopic | TESTopic.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pInfo
 Container* FUN_005643c0(Item* item){Node* node=&DAT_0106cdcc->head;while(node){Container* container=node->item;if(!container)break;node=node->next;if(container->FUN_00564340(item->key,0)==item)return container;}return 0;}
 }
 }   // namespace f3m_005643c0
@@ -8565,6 +8823,7 @@ namespace batch11_14 {
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct Node {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;char* next;};
 struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;Node* head;void FUN_00567f20();};
+// pdb: ZoneEntry::EmptyList | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_00567f20(){Node* node=head;while(node){char* link=node->next;Node* next=link?reinterpret_cast<Node*>(link-16):0;unsigned char adjustment=*(reinterpret_cast<unsigned char*>(node)-1);DAT_01090a78.FUN_0086ba60(reinterpret_cast<char*>(node)-adjustment);node=next;}head=0;}
 }
 }   // namespace f3m_00567f20
@@ -8586,6 +8845,8 @@ namespace batch11_16 {
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct Node {Node* next;Node* previous;unsigned value;};
 struct List {Node* head;Node* tail;unsigned count;Node* FUN_00573030(const unsigned&);};
+// pdb: NiTPointerListBase<DFALL<NiTListItem<TESForm *> >,TESForm *>::AddHead | TESDataHandler.obj | fnv360_0721_beta, call_gap, low, conflict (skyrim: NiTPointerListBase<class DFALL<class NiTListItem<class TESForm *> >,class TESForm *>::FindPos)
+// pdb params: element
 Node* List::FUN_00573030(const unsigned& value){Node* p=static_cast<Node*>(DAT_01090a78.FUN_0086b930(12));p->value=value;p->previous=0;p->next=head;if(head)head->previous=p;else tail=p;++count;head=p;return p;}
 }
 }   // namespace f3m_00573030
@@ -8596,6 +8857,7 @@ namespace batch11_17 {
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 extern unsigned DAT_00de7594;extern void (__stdcall *DAT_00de759c)(void*);
 struct Owner {unsigned* vtable;void* data;unsigned count,capacity;Owner* FUN_00573080(unsigned);};
+// pdb: BSSimpleArray<hkpCollidable const *,1024>::`scalar deleting destructor' | TESWaterListener.obj | fnv360_0822_retail, vtable, medium
 Owner* Owner::FUN_00573080(unsigned flags){vtable=&DAT_00de7594;if(data){DAT_00de759c(data);data=0;capacity=0;count=0;}if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 }   // namespace f3m_00573080
@@ -8606,6 +8868,7 @@ namespace batch11_18 {
 struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 extern unsigned DAT_00de7374;extern void (__stdcall *DAT_00de737c)(void*);
 struct Owner {unsigned* vtable;void* data;unsigned count,capacity;Owner* FUN_0056d7a0(unsigned);};
+// pdb: BSSimpleArray<bhkRigidBody *,1024>::`scalar deleting destructor' | LoadedAreaBound.obj | fnv360_0822_retail, vtable, medium
 Owner* Owner::FUN_0056d7a0(unsigned flags){vtable=&DAT_00de7374;if(data){DAT_00de737c(data);data=0;capacity=0;count=0;}if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 }   // namespace f3m_0056d7a0
@@ -8615,6 +8878,8 @@ extern unsigned __int64 DAT_010f2f98[];
 namespace f3m_0056f720 {
 namespace batch11_19 {
 struct Owner {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned unk024;unsigned unk028;unsigned unk02c;unsigned unk030;unsigned unk034;unsigned unk038;unsigned unk03c;unsigned unk040;unsigned unk044;unsigned unk048;unsigned unk04c;unsigned unk050;unsigned unk054;unsigned unk058;unsigned unk05c;unsigned unk060;unsigned unk064;unsigned unk068;unsigned unk06c;unsigned value;float zero;void FUN_0056f720(int,const unsigned&);};
+// pdb: SpecificItemCollector::Init | SpecificItemCollector.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aePick, arFilter
 void Owner::FUN_0056f720(int index,const unsigned& value){zero=0;unsigned copy=value;this->value=copy;if(index<0x23)index=0x27;DAT_010f2f98[index]=(static_cast<unsigned __int64>(1)<<(copy&0x7f))|0x22757;}
 }
 }   // namespace f3m_0056f720
@@ -8624,6 +8889,7 @@ extern unsigned DAT_00de7434,DAT_00de74a0,DAT_00de7488,DAT_00de7508,DAT_00de74e0
 namespace f3m_00571420 {
 namespace batch11_20 {
 struct Owner {unsigned* vtable;unsigned unk04;unsigned* volatile table08;unsigned unk0c;unsigned char enabled;unsigned char unk11,unk12,unk13;unsigned unk14,unk18;unsigned* volatile table1c;volatile unsigned unk20;void FUN_00567e30();Owner* FUN_00571420();};
+// pdb: TESTrapListener::TESTrapListener | TESTrapListener.obj | fnv360_0822_retail, uvref, low, conflict (skyrim: bhkTrapListener::bhkTrapListener)
 Owner* Owner::FUN_00571420(){FUN_00567e30();unk14=0;unk18=0;unk0c=0;enabled=1;table1c=&DAT_00de7434;table08=&DAT_00de74a0;table1c=&DAT_00de7488;unk20=0;vtable=&DAT_00de7508;table08=&DAT_00de74e0;table1c=&DAT_00de74c8;return this;}
 }
 }   // namespace f3m_00571420
@@ -8635,6 +8901,8 @@ namespace batch11_05 {
 struct Dest {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;float x,y,z;};
 struct Source {unsigned unk000;unsigned unk004;unsigned unk008;unsigned unk00c;unsigned unk010;unsigned unk014;unsigned unk018;unsigned unk01c;unsigned unk020;unsigned unk024;unsigned unk028;unsigned unk02c;float x,y,z;};
 void FUN_0056ac90(Dest*,const Source*);
+// pdb: HK2NI | FOIslandActivationListener.obj | fnv360_0822_retail, call_seq, high
+// pdb params: arNiTran, arhkTran
 Dest* FUN_0056ad20(Dest* dest,const Source* source){FUN_0056ac90(dest,source);const double scale=6.999040126800537;dest->x=static_cast<float>(source->x*scale);dest->y=static_cast<float>(source->y*scale);dest->z=static_cast<float>(source->z*scale);return dest;}
 }
 
@@ -8648,7 +8916,8 @@ struct Heap_568070 {
 };
 extern Heap_568070 g_alloc568070;
 
-f3m_00567ea0::FUN_00567ea0* __stdcall FUN_00568070(int a1, int a2)
+// pdb: BGSZoneTargetListener::CreateTargetEntry | BGSZoneTargetListener.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+f3m_00567ea0::FUN_00567ea0* __stdcall BGSZoneTargetListener_CreateTargetEntry(int a1, int a2)
 {
     unsigned char* raw = (unsigned char*)g_alloc568070.FUN_0086b930(0x60);
     unsigned char pad = (unsigned char)(0x10 - (unsigned char)((unsigned int)raw & 0xf));
@@ -8668,6 +8937,7 @@ struct C {
     int FUN_005742b0();
 };
 
+// pdb: CameraCaster::GetWorld | CameraCaster.obj | fnv360_0822_debug, call_gap_sim, low
 int C::FUN_005742b0() {
     int result = 0;
     ObjBase* v1 = obj;
@@ -8698,6 +8968,8 @@ struct FourRowMatrix_56ac90 {
     NiPoint4_56ac90 m_kRow[3];
 };
 
+// pdb: HK2NI | FOIslandActivationListener.obj | fnv360_0822_retail, call_seq, high
+// pdb params: arNiRot, arhkRot
 ThreeByThreeMatrix_56ac90* FUN_0056ac90(ThreeByThreeMatrix_56ac90* dst, const FourRowMatrix_56ac90* src)
 {
     NiPoint3_56ac90 kCol;
@@ -8726,6 +8998,8 @@ struct Target5687;struct Object5687{void**table;};
 unsigned __cdecl FUN_00921850(unsigned,unsigned,unsigned,unsigned);
 struct Target5687{void FUN_008d5730(Object5687*,unsigned);};
 struct Owner5687{Object5687*first;Object5687*second;void FUN_00568780(Target5687*);};
+// pdb: CameraCaster::Add | CameraCaster.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apWorld
 void Owner5687::FUN_00568780(Target5687*target){if(first){((void(__thiscall*)(Object5687*,Target5687*))first->table[39])(first,target);if(target){Object5687*saved=first;target->FUN_008d5730(saved,FUN_00921850(255,46,46,25));}}Object5687*current=second;if(current){((void(__thiscall*)(Object5687*,Target5687*))current->table[39])(current,target);if(target){Object5687*saved=second;target->FUN_008d5730(saved,FUN_00921850(255,46,46,25));}}}
 }   // namespace f3m_00568780
 
@@ -8754,6 +9028,7 @@ public:
     void FUN_0057ea50(float a, float b, float c, float d);
 };
 
+// pdb: NiMatrix3::MakeRotation | BSTerrainEffect.obj | tesv_win, caller_sim, low
 void FUN_0057ea50_owner::FUN_0057ea50(float a, float b, float c, float d)
 {
     component.FUN_00409b20(a, b, c, d);
@@ -8781,6 +9056,7 @@ public:
     float FUN_0057a510();
 };
 
+// pdb: Sky::GetSunsetEnd | MediaLocationController.obj | fnv360_0822_retail, call_gap, low
 float Class_0057a510::FUN_0057a510()
 {
     if (flags & 0x800)
@@ -8825,6 +9101,8 @@ struct Node56fad0 { Ext56fad0* ext; int unk4, unk8; Node56fad0* parent; char pad
 struct Mgr56fad0 { int FUN_00435d00(int a); };
 namespace n56fad0 { extern Mgr56fad0* DAT_0107a0d8; }
 int __cdecl FUN_008f1b80(Node56fad0* n);
+// pdb: TESHavokUtilities::GetMaterial | TEShavokUtilities.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arBody, arPosition
 int __cdecl FUN_0056fad0(Node56fad0* n, int a)
 {
     Info56fad0* info = n->ext ? n->ext->info : 0;
@@ -8932,6 +9210,8 @@ struct FUN_0061d820_shell
 };
 
 // @fnv 0x0061d820
+// pdb: TESTopicInfo::BelongsInGroup | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apGroupFORM, abAllowParentGroups, abCurrentOnly
 bool FUN_0061d820_shell::FUN_00565aa0(FormRecordHeader* apGroupFORM, bool abAllowParentGroups, bool abCurrentOnly)
 {
     bool bretval;
@@ -8976,6 +9256,8 @@ struct A564340 { int u0, u4; E564340** data; int uc; unsigned int count;
     E564340* Get(unsigned int i) const { return i < count ? data[i] : 0; } };
 struct N564340 { A564340* item; N564340* next; };
 struct FUN_00564340_cls { char pad[0x2c]; N564340 list; E564340* FUN_00564340(int key, bool reverse); };
+// pdb: TESTopic::GetInfoByID | TESTopic.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiInfoID, abReverse
 E564340* FUN_00564340_cls::FUN_00564340(int key, bool reverse)
 {
     for (N564340* n = &list; n; ) {
@@ -9033,6 +9315,7 @@ struct FUN_00573570 {
     }
 };
 extern FUN_00573570* DAT_01072a08;
+// pdb: TESWaterListener::GetExteriorListener | TESWaterListener.obj | fnv360_0822_retail, call_gap, low
 FUN_00573570& FUN_00573620() {
     if (!DAT_01072a08)
         DAT_01072a08 = new FUN_00573570;
@@ -9077,6 +9360,8 @@ struct FUN_00570cf0_shell
     bool FUN_00570cf0(RootContactPoint* arPoint);
 };
 // @fnv 0x0062dc80
+// pdb: TESTrapListener::contactPointAddedCallback | TESTrapListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arPoint
 bool FUN_00570cf0_shell::FUN_00570cf0(RootContactPoint* arPoint)
 {
     bool bres = false;
@@ -9130,6 +9415,7 @@ unsigned short unk20;
 unsigned char field22;
 void FUN_00565d30();
 };
+// pdb: TESTopicInfo::ResetSaidOnceFlags | TESTopicInfo.obj | fnv360_0822_retail, call_seq, medium
 void Topic::FUN_00565d30() {
  field22=0;
  v19(0x80000000u);
@@ -9333,6 +9619,8 @@ struct FUN_0056d6f0_cls {
     void FUN_0056d6f0(M56d6f0::Actor* actor);
 };
 
+// pdb: LoadedAreaBound::WarpActor | LoadedAreaBound.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apActor
 void FUN_0056d6f0_cls::FUN_0056d6f0(M56d6f0::Actor* actor) {
     M56d6f0::Vec3 pos;
     FUN_0056ccd0(actor, actor->A1F4(), &pos);
@@ -9386,6 +9674,8 @@ struct Ref {
 extern Data* DAT_01071564;
 }
 
+// pdb: TESWaterListener::FindWater | TESWaterListener.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apWater
 N573390::Item* FUN_00573390(N573390::Ref* ref) {
     N573390::Item* result = 0;
     if (ref && ref->base) {
@@ -9423,6 +9713,7 @@ struct Owner676 {
     }
     Owner676* FUN_00567e70(unsigned value);
 };
+// pdb: NiTMapBase<DFALL<NiTMapItem<TESObjectREFR *,int> >,TESObjectREFR *,int>::GetFirstPos | BGSAcousticSpaceListener.obj | fnv360_0822_debug, objrun_open, low
 Owner676* Owner676::FUN_00567e70(unsigned value)
 {
     Node676* node = Find(value);
@@ -9596,6 +9887,8 @@ extern Actor_56* __cdecl FUN_004e7b90(void*);
 extern bool __cdecl FUN_00724400();
 extern void __cdecl FUN_004de460(Actor_56*,Actor_56*);
 extern bool __cdecl FUN_00424d20(void*,void*);
+// pdb: FOIslandActivationListener::entityAddedCallback | FOIslandActivationListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apEntity
 void __stdcall FUN_0056ae40(Source_56* volatile source)
 {
  Source_56* self=source;
@@ -9638,7 +9931,8 @@ extern const char DAT_00de0480[];
 namespace f3m_00562d60 {
 int __cdecl FUN_00c00fcc(char* destination, unsigned int capacity, const char* source);
 struct Output589 { void FUN_004019c0(const char* text, int zero); };
-bool __stdcall FUN_00562d60(Output589* output, const char* first, const char* second, const char* third, const char* fourth, const char* fifth)
+// pdb: TESResponse::TestAudioFullPath | TESResponse.obj | fnv360_0822_retail, objrun + skyrim(call_gap), high
+bool __stdcall TESResponse_TestAudioFullPath(Output589* output, const char* first, const char* second, const char* third, const char* fourth, const char* fifth)
 {
     char buffer[260];
     buffer[0] = 0;
@@ -9668,6 +9962,7 @@ struct Node { Item* item; Node* next;
 struct Owner;
 struct Table { void* unk00; void* unk04; void* unk08; void* unk0C; void* unk10; void* unk14; void* unk18; void* unk1C; void* unk20; void* unk24; void* unk28; void* unk2C; void* unk30; void* unk34; void* unk38; void* unk3C; void* unk40; void* unk44; void* unk48; void* unk4C; void* unk50; void* unk54; void* unk58; void* unk5C; void* unk60; void* unk64; void* unk68; void* unk6C; void* unk70; void* unk74; void* unk78; void* unk7C; void* unk80; void* unk84; void (__thiscall *Update)(Owner*); };
 struct Owner { Table* table; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; Node head; Node* Head() { return &head; } bool FUN_00563eb0(); };
+// pdb: TESTopic::SortQuests | TESTopic.obj | fnv360_0822_retail, objrun, medium
 bool Owner::FUN_00563eb0() { table->Update(this); int count=Head()->Count(); for(int i=0; i<count-1; i++) Head()->Pass(); return true; }
 }
 }   // namespace f3m_00563eb0
@@ -10139,13 +10434,14 @@ struct Sky {
     Obj* node;
     NiPointer<Obj> clouds[20];
     short cloudCount;
-    void FUN_0057e780(Obj* target);
-    void FUN_00575e80(Obj* target);
+    void SkyObject_Initialize(Obj* target);
+    void Clouds_Initialize(Obj* target);
 };
 
-void Sky::FUN_00575e80(Obj* target)
+// pdb: Clouds::Initialize | Clouds.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Sky::Clouds_Initialize(Obj* target)
 {
-    FUN_0057e780(target);
+    SkyObject_Initialize(target);
     FUN_00424f20 stream;
     if (stream.FUN_00aa68a0("Meshes\\Sky\\Clouds.nif", 0)) {
         FUN_00427930 loader("Meshes\\Sky\\Clouds.nif", &stream, 0, 0);
@@ -10172,6 +10468,8 @@ void Sky::FUN_00575e80(Obj* target)
 extern float DAT_00f60aec, DAT_00f60af8, DAT_00f60b04, DAT_00f60b10, DAT_00f60b1c, DAT_00f60b28, DAT_00f60b34, DAT_00f60b40, DAT_00f60b4c;
 namespace f3m_0056fd20 {
 namespace m56fd20 {
+// pdb: TESHavokUtilities::GetDamageForImpact | TEShavokUtilities.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afMass, afSpeed
 float FUN_0056fd20(float a, float b) {
     a = (a < DAT_00f60aec) ? 0.0f : (a < DAT_00f60af8) ? DAT_00f60b10 : (a < DAT_00f60b04) ? DAT_00f60b1c : DAT_00f60b28;
     b = (b > DAT_00f60b4c) ? b * DAT_00f60b40 + DAT_00f60b34 : 0.0f;
@@ -10198,6 +10496,8 @@ struct Owner101{
  Filter101 filter;
  bool FUN_00567bd0(Entry101* entry);
 };
+// pdb: BGSAcousticSpaceListener::contactPointAddedCallback | BGSAcousticSpaceListener.obj | fnv360_0721_beta, objrun, medium
+// pdb params: CPoint
 bool Owner101::FUN_00567bd0(Entry101* entry){
  Item101* item;
  if(DAT_0107a104->active){
@@ -10308,6 +10608,7 @@ struct FUN_00561300 : TESForm, TESFullName, TESDescription, TESSpellList, TESRea
     virtual ~FUN_00561300();
 };
 
+// pdb: TESRace::~TESRace | TESRace.obj | fnv360_0822_retail, call_seq, medium
 FUN_00561300::~FUN_00561300()
 {
     FUN_0055fa30();
@@ -10353,6 +10654,7 @@ struct QSky {
     int mode;
     void FUN_0057aaa0();
 };
+// pdb: Sky::UpdateWind | Sky.obj | fnv360_0721_beta, call_seq, medium
 void QSky::FUN_0057aaa0()
 {
     if (current && (mode == 3 || mode == 2)) {
@@ -10420,6 +10722,8 @@ struct Owner {
     }
     Node* FUN_005681a0(unsigned,void*,unsigned);
 };
+// pdb: ZoneEntry::AddTrapTarget | BGSZoneTargetListener.obj | fnv360_0822_retail, uvref, low, conflict (skyrim: TrapTargetEntry::TrapTargetEntry)
+// pdb params: apTarget, apCol, aiFlags
 Node* Owner::FUN_005681a0(unsigned key,void* payload,unsigned flags) {
     Link* found=Find(key);
     if (found) {
@@ -10463,6 +10767,8 @@ struct CodexReferenceOwner {
     CodexReferenceCollection collection;
     bool FUN_005730d0(CodexRelativeReference*,int);
 };
+// pdb: TESWaterListener::collidableEnterCallback | TESWaterListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: collidableA, collidableB
 bool CodexReferenceOwner::FUN_005730d0(CodexRelativeReference* input,int unused) {
     NiPointer<FUN_0057f2b0_Ref> object(input->Object());
     collection.FUN_008f2610(&object);
@@ -10515,6 +10821,7 @@ struct Node564400 {
 
 bool FUN_00563d20(Item564400* a, Item564400* b, int arg);
 
+// pdb: TESTopic::TESTopic | TESTopic.obj | tesv_win, call_gap, low
 void FUN_00564400(Item564400* item, Node564400* list, int arg)
 {
     Item564400* p = *(Item564400* volatile*)&item;
@@ -10615,6 +10922,8 @@ struct FUN_00578250 : FUN_00825800
 };
 // Initializes the object: stores a in unk0c and n in unk10, allocates an array of n elements into unk14, clears unk1c and zeroes unk08 and unk18.
 // @fnv 0x00ba63e0
+// pdb: NiAdditionalGeometryData::NiAdditionalGeometryData | Precipitation.obj | fnv360_0822_retail, objrun, medium
+// pdb params: usVertexCount, uiDataStreamCount, uiD3DStream
 FUN_00578250::FUN_00578250(unsigned short a, unsigned int auiCount, int value)
 {
     unk08 = 0;
@@ -10638,6 +10947,7 @@ FUN_00bf5110 member;
 virtual ~FUN_00573a40();
 void FUN_005737a0(int,int,int);
 };
+// pdb: TESWaterListener::~TESWaterListener | TESWaterListener.obj | fnv360_0822_retail, objrun, medium
 FUN_00573a40::~FUN_00573a40() {FUN_005737a0(0,0,0);DAT_01090a78.FUN_0086ba60(memory);}
 }
 }   // namespace f3m_00573a40
@@ -10646,7 +10956,7 @@ FUN_00573a40::~FUN_00573a40() {FUN_005737a0(0,0,0);DAT_01090a78.FUN_0086ba60(mem
 namespace f3m_0057e480 {
 struct TESForm {virtual ~TESForm();};struct TESWeather:TESForm {};
 namespace task1250 {
-TESForm* __cdecl FUN_00455190(unsigned);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned);
 struct Buffer {virtual unsigned char GetVersion();unsigned FUN_006e0670();void FUN_006e0750(void*,unsigned);};
 struct Manager {unsigned u0;
 unsigned u4;
@@ -10889,8 +11199,10 @@ unsigned u10c;
 unsigned field110;
 unsigned u114;
 unsigned flags;
-void FUN_0057e480(Buffer*);void FUN_0057e0a0(float);void FUN_0057d5c0();};
+void FUN_0057e480(Buffer*);void Sky_Update(float);void FUN_0057d5c0();};
 // @fnv 0x0063ecb0
+// pdb: Sky::LoadGame | Sky.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apLoadGameBuffer
 void Sky::FUN_0057e480(Buffer* buffer)
 {
     if (DAT_01079858->Loading())
@@ -10902,10 +11214,10 @@ void Sky::FUN_0057e480(Buffer* buffer)
         m_pClouds->FUN_00576050();
         m_pClouds->Dirty();
     }
-    m_pRegionWeather = dynamic_cast<TESWeather*>(FUN_00455190(buffer->FUN_006e0670()));
-    m_pPreviousWeather = dynamic_cast<TESWeather*>(FUN_00455190(buffer->FUN_006e0670()));
-    m_pQueuedWeather = dynamic_cast<TESWeather*>(FUN_00455190(buffer->FUN_006e0670()));
-    m_pOverrideWeather = dynamic_cast<TESWeather*>(FUN_00455190(buffer->FUN_006e0670()));
+    m_pRegionWeather = dynamic_cast<TESWeather*>(TESForm_GetFormByNumericID(buffer->FUN_006e0670()));
+    m_pPreviousWeather = dynamic_cast<TESWeather*>(TESForm_GetFormByNumericID(buffer->FUN_006e0670()));
+    m_pQueuedWeather = dynamic_cast<TESWeather*>(TESForm_GetFormByNumericID(buffer->FUN_006e0670()));
+    m_pOverrideWeather = dynamic_cast<TESWeather*>(TESForm_GetFormByNumericID(buffer->FUN_006e0670()));
     buffer->FUN_006e0750(&m_fFogFarDistance, 4);
     buffer->FUN_006e0750(&fWeatherChance, 4);
     buffer->FUN_006e0750(&m_fWeatherBlend, 4);
@@ -10924,7 +11236,7 @@ void Sky::FUN_0057e480(Buffer* buffer)
     buffer->FUN_006e0750(&m_fFogNearDistance, 4);
     buffer->FUN_006e0750(&m_fFogPower, 4);
     buffer->FUN_006e0750(&eMode, 4);
-    FUN_0057e0a0(0.0f);
+    Sky_Update(0.0f);
     FUN_0057d5c0();
 }
 
@@ -11014,6 +11326,8 @@ public:
     virtual void Slot4();
 };
 
+// pdb: Moon::Moon | Moon.obj | fnv360_0822_retail, ustr, high
+// pdb params: apMoonName, afAngleFadeStart, afAngleFadeEnd, afAngleShadowEarlyFade, afSpeed, afZOffset, aiSize
 Moon::Moon(const char* prefix, float a, float b, float c, float d, float e, int value)
 {
     ScopedConstructorContext context(33);
@@ -11195,7 +11509,7 @@ class TESRace : public TESForm, public TESFullName, public TESDescription, publi
 public:
     TESRace();
     virtual ~TESRace();
-    void FUN_0055f840();
+    void TESRace_InitializeData();
 
     TESAttributes maleAttributes, femaleAttributes;
     RaceList list8C;
@@ -11220,10 +11534,11 @@ public:
     FaceGenUndoArray undo;
 };
 
+// pdb: TESRace::TESRace | TESRace.obj | fnv360_0822_retail, call_gap, low
 TESRace::TESRace()
 {
     formType = 12;
-    FUN_0055f840();
+    TESRace_InitializeData();
 }
 
 
@@ -11311,6 +11626,7 @@ int __cdecl FUN_00c0388a(char* destination, size_t capacity, const char* source,
 int __cdecl FUN_005adce0(int setting);
 void __cdecl FUN_008d30f0(int option);
 
+// pdb: InitHavokSystem | HavokStream.obj | fnv360_0822_retail, uvref, medium
 void __cdecl FUN_0056c210()
 {
     HavokMemoryContext context(0x10);
@@ -11359,7 +11675,7 @@ struct WaterRotation_571d90
 {
     float rows[3][3];
 
-    void FUN_00468d80(float angle);
+    void NiMatrix3_MakeZRotation(float angle);
 };
 
 struct WaterSound_571d90
@@ -11378,7 +11694,7 @@ struct WaterSound_571d90
         return *this;
     }
 
-    bool FUN_00bd0390();
+    bool BSSoundHandle_IsValid();
     bool FUN_00bd0290(float x, float y, float z);
     bool FUN_00bd00c0(int flags);
 };
@@ -11398,7 +11714,7 @@ public:
 class WaterCell_571d90
 {
 public:
-    WaterWorld_571d90* FUN_004d5710();
+    WaterWorld_571d90* TESObjectCELL_GetWaterType();
 };
 
 class WaterPlayer_571d90
@@ -11482,12 +11798,14 @@ extern float DAT_00f61b9c;
 extern unsigned int DAT_00f61b78;
 extern float DAT_00db75c8;
 
-float __cdecl FUN_00468fd0();
+float __cdecl RandomFloatTwoPi();
 void __cdecl FUN_005b4ef0(WaterCell_571d90* cell, float volume, unsigned int effect,
                          WaterRotation_571d90 rotation, WaterPosition_571d90 point, float size,
                          bool enabled, bool reserved);
 bool __cdecl FUN_00724400();
 
+// pdb: TESWaterListener::PlaySplashEffects | TESWaterListener.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BGSWaterCollisionManager::PlaySplashEffects)
+// pdb params: afSplashingBodySize, aSplashLocation
 void __cdecl FUN_00571d90(float depth, WaterPosition_571d90 position)
 {
     float scale = 1.0f;
@@ -11497,26 +11815,26 @@ void __cdecl FUN_00571d90(float depth, WaterPosition_571d90 position)
         sound = DAT_011790c8->FUN_00bcfcd0(DAT_00de7564, 0x102);
         scale = DAT_00f61b84;
     }
-    if (!sound.FUN_00bd0390() && depth > DAT_00f61b3c)
+    if (!sound.BSSoundHandle_IsValid() && depth > DAT_00f61b3c)
     {
         sound = DAT_011790c8->FUN_00bcfcd0(DAT_00de7554, 0x102);
         scale = DAT_00f61b90;
     }
-    if (!sound.FUN_00bd0390() && depth > DAT_00f61b48)
+    if (!sound.BSSoundHandle_IsValid() && depth > DAT_00f61b48)
     {
         sound = DAT_011790c8->FUN_00bcfcd0(DAT_00de7548, 0x102);
         scale = DAT_00f61b9c;
     }
-    if (sound.FUN_00bd0390())
+    if (sound.BSSoundHandle_IsValid())
     {
         sound.FUN_00bd0290(position.x, position.y, position.z);
         sound.FUN_00bd00c0(0);
         WaterCell_571d90* cell;
-        if (scale > 0.0f && (cell = DAT_0107a104->cell) && cell->FUN_004d5710() &&
-            !DAT_0107a104->cell->FUN_004d5710()->FUN_004fe210())
+        if (scale > 0.0f && (cell = DAT_0107a104->cell) && cell->TESObjectCELL_GetWaterType() &&
+            !DAT_0107a104->cell->TESObjectCELL_GetWaterType()->FUN_004fe210())
         {
             WaterRotation_571d90 rotation;
-            rotation.FUN_00468d80(FUN_00468fd0());
+            rotation.NiMatrix3_MakeZRotation(RandomFloatTwoPi());
             FUN_005b4ef0(DAT_0107a104->cell, 1.0f, DAT_00f61b78, rotation,
                          position, scale, true, false);
         }
@@ -11539,6 +11857,7 @@ public:
     Foo_567e30();
 };
 
+// pdb: BGSZoneTargetListener::BGSZoneTargetListener | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, medium
 Foo_567e30::Foo_567e30() {
     unk0 = 0xde6e28;
     unk4 = 0;
@@ -11734,6 +12053,7 @@ void* unk28;
 int unk2C;
 void* unk30;
 void FUN_0057e9d0(); };
+// pdb: SkyTask::Run | SkyTextureManager.obj | fnv360_0822_retail, vtable, medium
 void ObjE9::FUN_0057e9d0() { ScopeE9 guard; FUN_00adbc30(unk28,1,unk30,1,0); }
 }   // namespace f3m_0057e9d0
 
@@ -11944,7 +12264,7 @@ struct Tls57e3b0 {
 __declspec(thread) Tls57e3b0 tls={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,59};
 struct Context57e3b0 {unsigned old;Context57e3b0():old(tls.context){tls.context=33;}~Context57e3b0(){tls.context=old;}};
 extern void* DAT_00f47b84;extern void* DAT_00f46078;
-void* FUN_00455190(unsigned);void* FUN_00c0050a(void*,int,void*,void*,int);
+void* TESForm_GetFormByNumericID(unsigned);void* FUN_00c0050a(void*,int,void*,void*,int);
 struct Owner57e3b0 {
  unsigned unk000;
  unsigned unk004;
@@ -12017,16 +12337,17 @@ struct Owner57e3b0 {
  unsigned unk110;
  unsigned unk114;
  unsigned unk118;
- void FUN_0057dd10();void FUN_0057e3b0(void*,bool);
+ void Sky_ResetWeather();void Sky_SetCurrentClimate(void*,bool);
 };
-void Owner57e3b0::FUN_0057e3b0(void* value,bool force) {
+// pdb: Sky::SetCurrentClimate | Sky.obj | fnv360_0822_retail, call_gap + bridge(call_gap_sim|call_gap) + skyrim(call_gap), high
+void Owner57e3b0::Sky_SetCurrentClimate(void* value,bool force) {
  Context57e3b0 context;
  if(!value) {
   if(unk00C && !force) return;
-  value=FUN_00c0050a(FUN_00455190(0x15f),0,&DAT_00f46078,&DAT_00f47b84,0);
+  value=FUN_00c0050a(TESForm_GetFormByNumericID(0x15f),0,&DAT_00f46078,&DAT_00f47b84,0);
   if(!value) return;
  }
- if(unk00C!=value || force) {unk118|=0x3f00;unk00C=value;FUN_0057dd10();unk118|=0x40;}
+ if(unk00C!=value || force) {unk118|=0x3f00;unk00C=value;Sky_ResetWeather();unk118|=0x40;}
 }
 }
 
@@ -12040,6 +12361,8 @@ struct Data { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; 
 struct Sink { void FUN_00ae8590(Data*,int,int); };
 struct Transform { void FUN_008e9650(Sink*); };
 struct Owner { int unk00; int unk04; int unk08; int unk0C; Data* data; int unk14; int unk18; int unk1C; int unk20; unsigned char enabled; unsigned char unk25; unsigned short unk26; Transform transform; void FUN_0057fea0(int,Sink*,int); };
+// pdb: Sun::CalculateSunGlare | Sun.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiTestNumber, apAccumulator, apCamera
 void Owner::FUN_0057fea0(int first,Sink* sink,int third) { Scope scope; if(data && enabled && sink) { transform.FUN_008e9650(sink); Data* value=data; value->scale/=DAT_00de8060; sink->FUN_00ae8590(value,first,third); value->scale*=DAT_00de8060; } }
 }
 }   // namespace f3m_0057fea0
@@ -12075,6 +12398,7 @@ struct hkpAllCdPointCollector : hkpCdPointCollector {
     hkArrayRootCdPoint m_allPoints;
 };
 
+// pdb: hkpAllCdPointCollector::~hkpAllCdPointCollector | CameraCaster.obj | fnv360_0822_retail, call_gap, low
 hkpAllCdPointCollector::~hkpAllCdPointCollector() {
     if (!(m_allPoints.m_capacityAndFlags & 0x80000000)) {
         int capacityAndFlags = m_allPoints.m_capacityAndFlags;
@@ -12119,6 +12443,7 @@ struct Cls56c630
     ~Cls56c630();
 };
 
+// pdb: HitCaster::~HitCaster | HitCaster.obj | fnv360_0822_retail, call_seq, medium
 Cls56c630::~Cls56c630()
 {
     m_220 = 0;
@@ -12206,6 +12531,8 @@ struct Manager5752c0 {ManagerVTable5752c0* vtable;bool flag;unsigned char unk05,
 };
 extern Manager5752c0* DAT_01072b18;
 struct Owner5752c0:Setting {Owner5752c0(const char*,void*);};
+// pdb: SettingT<BlendSettingCollection>::SettingT<BlendSettingCollection> | XBlendSettings.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apID, apString
 Owner5752c0::Owner5752c0(const char* name,void* value):Setting(name,value) {
  vtable=&DAT_00de7728;
  if(!DAT_01072b18)DAT_01072b18=new Manager5752c0;
@@ -12222,6 +12549,7 @@ struct Ref;
 struct Table {void* unk00;void (__thiscall* destroy)(Ref*);};
 struct Ref {Table* vtable;long references;void IncRefCount();__forceinline void DecRefCount(){if(InterlockedDecrement(&references)==0)vtable->destroy(this);}};
 struct Owner {void* vtable;NiPointer<Ref> object;Owner();};
+// pdb: SkyObject::SkyObject | SkyObject.obj | fnv360_0822_retail, callee_sim, low
 Owner::Owner():vtable(&DAT_00de7f64){object=(Ref*)0;}
 }
 }   // namespace f3m_0057e660
@@ -12258,6 +12586,8 @@ struct Owner70:Bases70 {
     Text70 text;
     Owner70(bool enabled);
 };
+// pdb: TESTopic::TESTopic | TESTopic.obj | fnv360_0721_beta, call_gap_sim, low, conflict (skyrim: BSTArray<class BGSBaseAlias *,class BSTArrayHeapAllocator>::Add<class BGSLocAlias *>)
+// pdb params: type
 Owner70::Owner70(bool enabled){
     flags.raw=0;
     value=DAT_00dcf7dc;
@@ -12292,6 +12622,7 @@ volatile unsigned short flags;bool enabled;
 void FUN_00575df0();void FUN_00576050();
 Owner133();
 };
+// pdb: Clouds::Clouds | Clouds.obj | fnv360_0822_retail, objrun, medium
 Owner133::Owner133():Vtable133(&vtable,&DAT_00de7bec){value0=0.0f;
 value1=0.0f;
 value2=0.0f;
@@ -12334,6 +12665,7 @@ struct Temp570 : Base570 {
     virtual ~Temp570();
 };
 
+// pdb: hkpAllCdBodyPairCollector::~hkpAllCdBodyPairCollector | TESTrapListener.obj | fnv360_0822_retail, call_gap, low
 Temp570::~Temp570() {
     int cap = capacity;
     if (!(cap >> 31)) {
@@ -12378,6 +12710,7 @@ struct X_005697f0 : public NiRef_5697f0 {
     virtual ~X_005697f0();
 };
 
+// pdb: CellMopp::~CellMopp | CellMopp.obj | fnv360_0822_retail, call_seq, high
 X_005697f0::~X_005697f0() {
     DAT_01072784 = DAT_01072784 - 1;
     FUN_00569670();
@@ -12391,6 +12724,7 @@ extern void* DAT_00de6dec[];
 struct CleanupMember {void FUN_00567b20();};
 struct CleanupOwner {void** table;unsigned unk04,unk08,unk0C,unk10,unk14;CleanupMember member;void FUN_004ddfc0();void FUN_00567db0();};
 struct CleanupBase {CleanupOwner* owner;CleanupBase(CleanupOwner*p):owner(p){p->table=DAT_00de6dec;}~CleanupBase(){owner->FUN_004ddfc0();}};
+// pdb: BGSAcousticSpaceListener::~BGSAcousticSpaceListener | BGSAcousticSpaceListener.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void CleanupOwner::FUN_00567db0() {CleanupBase cleanup(this);member.FUN_00567b20();}
 }   // namespace f3m_00567db0
 
@@ -12443,6 +12777,8 @@ public:
     virtual ~WaterTargetEntry() {}
 };
 
+// pdb: WaterTargetEntry::WaterTargetEntry | TESWaterListener.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apRef, apCol
 WaterTargetEntry::WaterTargetEntry(int a, const hkpCollidable* c)
     : FUN_005734d0_Base(a, 0)
 {
@@ -12498,6 +12834,7 @@ public:
     Q57f120();
     virtual ~Q57f120();
 };
+// pdb: Sun::Sun | Sun.obj | fnv360_0822_retail, caller_sim, low
 Q57f120::Q57f120()
 {
     m4 = 0;
@@ -12571,6 +12908,7 @@ struct Q63d0 : FUN_00456190 {
     Q63d0(int kind);
 };
 
+// pdb: BSTArray<class TESForm *,class BSTArrayHeapAllocator>::Insert<class TESTopic *> | TESDataHandler.obj | tesv_win, call_gap, low
 Q63d0::Q63d0(int kind)
 {
     unk23.Clear();
@@ -12858,6 +13196,8 @@ struct Owner57 {
     FUN_00577ff0* unk38;
     void FUN_0057c230(FUN_00aaa070*,int);
 };
+// pdb: Sky::Initialize | Sky.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apRoot, apFog
 void Owner57::FUN_0057c230(FUN_00aaa070* node,int mode) {
     Memory57 memory;
     if(root) {
@@ -12989,6 +13329,8 @@ Child(void*,int,unsigned,int); static void* operator new(unsigned n){return DAT_
 };
 struct Base {virtual void v0();unsigned short unk04,state;Base():state(1){} ~Base();};
 struct Object:Base {Child* child;bool flag;virtual void v0();Object(void*);};
+// pdb: HavokFileStreambufWriter::HavokFileStreambufWriter | HavokStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: apName
 Object::Object(void* arg) {flag=1;child=new Child(arg,1,0x2800,0);}
 }
 }   // namespace f3m_0056b3f0
@@ -13002,10 +13344,11 @@ struct Log {virtual void v0();virtual void v1();virtual void v2();virtual int __
 struct Bool {char value;Bool(bool b):value(b){} Bool(const Bool& other):value(other.value){} };
 struct Handler {virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void Raise(int,Bool);
 int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;char m_acSdkPath[260];
-void FUN_0056bbd0(const char*,int,const char*,const char*,int);
+void HavokError_assertMessage(const char*,int,const char*,const char*,int);
 };
 // @fnv 0x00625790
-void Handler::FUN_0056bbd0(const char* pcPrefix, int aiSoundId, const char* pcMessage, const char* pcFile,
+// pdb: HavokError::assertMessage | HavokStream.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Handler::HavokError_assertMessage(const char* pcPrefix, int aiSoundId, const char* pcMessage, const char* pcFile,
                                     int iLine)
 {
     char acMsg[0x400];
@@ -13070,6 +13413,8 @@ struct LinkArray_564a60
     void FUN_00564a60(unsigned int index, unsigned int value);
 };
 
+// pdb: TopicInfoArray::InsertInfoAt | TESTopic.obj | fnv360_0822_retail, call_seq, high
+// pdb params: aiIndex, apInfo
 void LinkArray_564a60::FUN_00564a60(unsigned int index, unsigned int value)
 {
     FUN_0043eb00();
@@ -13099,6 +13444,8 @@ struct Link572d {int unk00;Link572d* unk04;int unk08;unsigned unk0C;};
 struct Node572d {int unk00,unk04,unk08,unk0C;Link572d unk10;int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; Array572d unk50;};
 struct Owner572d {int unk00,unk04,unk08,unk0C,unk10;Node572d* unk14;void FUN_00567f60(Node572d*);void FUN_00572d70(unsigned,void*);};
 
+// pdb: WaterZone::RemoveCollidable | TESWaterListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTarget, apCol
 void Owner572d::FUN_00572d70(unsigned key, void* value)
 {
     Node572d* node = unk14;
@@ -13166,6 +13513,8 @@ __declspec(noinline) void Node2E10::FUN_004c25a0(void* p)
     g_removeNodeSink();
 }
 
+// pdb: TESWaterListener::collidableLeaveCallback | TESWaterListener.obj | fnv360_0721_beta, objrun, medium
+// pdb params: collidableA, collidableB
 bool Owner2E10::FUN_00572e10(Input2E10* input, int unused)
 {
     FUN_0057f2b0_Ref* obj = (input->type == 1)
@@ -13184,6 +13533,7 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct Pool571ad0 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;int unk34;int unk38;int unk3C;int unk40;int unk44;int unk48;int unk4C;int unk50;int unk54;int unk58;int unk5C;int unk60;int unk64;int unk68;int unk6C;int unk70;int unk74;int unk78;int unk7C;int unk80;int unk84;int unk88;int unk8C;void* unk90;int unk94; void FUN_008f6890(unsigned,void*,unsigned);};
 struct Owner571ad0 {void* next;void FUN_005715d0();void* FUN_00571ad0(unsigned);};
 
+// pdb: hkpAllCdBodyPairCollector::`scalar deleting destructor' | TESTrapListener.obj | fnv360_0822_retail, caller_sim, low
 void* Owner571ad0::FUN_00571ad0(unsigned flags)
 {
     FUN_005715d0();
@@ -13300,6 +13650,8 @@ void __cdecl FUN_00403a00(char*,const char*,...);
 struct TypeInfo { const char* name; unsigned unk04,unk08; };
 extern TypeInfo FUN_00f4a74c[];
 extern const char DAT_00de6b94[],DAT_00de6b80[],DAT_00de6b70[],DAT_00de6b54[],FUN_00db3438[];
+// pdb: TESTopicInfo::GetFormDetailedString | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aString
 void Form::FUN_00566510(char* output) {
     char topic[260];
     char quest[260];
@@ -13337,9 +13689,10 @@ struct Third { virtual void Slot(); ~Third() {} };
 struct Part: FUN_004ddfc0,Third {};
 struct FUN_00571b30: FUN_005684c0,Part {
  virtual ~FUN_00571b30();
- void FUN_00571980();
+ void TESTrapListener_EmptyTriggerList();
 };
-FUN_00571b30::~FUN_00571b30(){FUN_00571980();}
+// pdb: TESTrapListener::~TESTrapListener | TESTrapListener.obj | fnv360_0822_retail, call_seq, high
+FUN_00571b30::~FUN_00571b30(){TESTrapListener_EmptyTriggerList();}
 }
 }   // namespace f3m_00571b30
 
@@ -13492,7 +13845,8 @@ struct Ref {
  virtual bool Check(int);
  virtual bool Other();
 };
-bool __cdecl FUN_0056fdc0(Ref* r,unsigned handle){
+// pdb: TESHavokUtilities::Should3DRagDoll | TEShavokUtilities.obj | fnv360_0721_retail, call_seq + bridge(call_gap|call_gap), high
+bool __cdecl TESHavokUtilities_Should3DRagDoll(Ref* r,unsigned handle){
  if(r && r->IsActor() && (r->Check(0)||r->Other()))return true;
  if(GetFlags(handle,0x48)==0x48)return true;
  return false;
@@ -13514,6 +13868,8 @@ namespace f3m_0056f8c0 {
 
 struct ActorByte08 { unsigned char pad[8]; unsigned char flags8; };
 
+// pdb: TESArrowTargetListener::entityRemovedCallback | TESArrowTargetListener.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: TESObjectREFRSync::Add)
+// pdb params: apEntity
 void __stdcall FUN_0056f8c0(match56f9b0::Input56f9b0* input) {
  if(input && input->scene) {match56f9b0::Scene56f9b0* scene=input->scene->Cast();if(scene && (scene->flags&0x100)) {
   match56f9b0::Parent56f9b0* parent=match56f9b0::FUN_004779d0(scene->object);match56f9b0::FUN_004e7b90(parent?parent->parent:0);
@@ -13536,6 +13892,7 @@ struct FUN_0057ea90: FUN_0057e660 {
  FUN_0057ea90();
  virtual ~FUN_0057ea90();
 };
+// pdb: Stars::Stars | Stars.obj | fnv360_0822_retail, caller_sim, low
 FUN_0057ea90::FUN_0057ea90() {data=0;value=0.0f;}
 }
 }   // namespace f3m_0057ea90
@@ -13695,6 +14052,8 @@ struct FUN_0056c880 {
  static void operator delete(void* p){unsigned char* raw=(unsigned char*)p;DAT_01090a78.FUN_0086ba60(raw-raw[-1]);}
 };
 extern FUN_0056c880* DAT_01072850;extern FUN_0056c880* DAT_01072854;
+// pdb: HitCaster::GetInstance | HitCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: eSize, abCreate
 FUN_0056c880* FUN_0056c910(int index,bool create){
  FUN_0056c880* object=0;
  if(index==0){
@@ -13744,6 +14103,8 @@ public:
     unsigned short capacity;
     unsigned short count;
 };
+// pdb: TESHavokUtilities::RemoveHavokFromSceneGraph | TEShavokUtilities.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject
 void __cdecl FUN_00570580(Obj570580* obj)
 {
     if (!obj) return;
@@ -13781,6 +14142,7 @@ struct FUN_0056c140 : Base56 {
     Mem56 mem;
     ~FUN_0056c140();
 };
+// pdb: HavokError::~HavokError | HavokStream.obj | fnv360_0822_retail, call_seq, high
 FUN_0056c140::~FUN_0056c140() { FUN_0056c010((Array409*)&arr); }
 }
 }   // namespace f3m_0056c140
@@ -13804,6 +14166,8 @@ struct QEntry565c {
  bool stopFlag(unsigned bit) const { return hid565c(flags25, bit); }
  bool FUN_00565c90(bool* result, int other, void* actor, void* object);
 };
+// pdb: TESTopicInfo::CheckCondition | TESTopicInfo.obj | fnv360_0822_retail, objrun, medium
+// pdb params: abDispositionFailure, apQuest, apActionRef, apTargetRef
 bool QEntry565c::FUN_00565c90(bool* result, int other, void* actor, void* object) {
  if(hid565c(unk08, 5)) return false;
  if(stopFlag(2) && unk22 != 0) return false;
@@ -13830,6 +14194,8 @@ struct Form564b20 {
     bool FUN_00564b20(Form564b20*);
 };
 Form564b20* __cdecl FUN_005643c0(void*);
+// pdb: TESTopic::SavesBefore | TESTopic.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apForm
 bool Form564b20::FUN_00564b20(Form564b20* input) {
     bool result = false;
     switch (input->GetKind()) {
@@ -13859,6 +14225,7 @@ bool Form564b20::FUN_00564b20(Form564b20* input) {
 // @f3 0x0056b5b0 (community match, verified in this file)
 namespace f3m_0056b5b0 {
 inline void Rel56b(HavokReferencedObject* o) { if (o->sizeAndFlags) { if (--o->references == 0) delete o; } }
+// pdb: hkReferencedObject::removeReferenceLockUnchecked | hkReferencedObject.obj | fnv360_0822_retail, call_gap, medium
 void __cdecl FUN_0056b5b0(HavokStreambufFactory* factory)
 {
     if (DAT_010f3368)
@@ -13899,6 +14266,7 @@ public:
     q567810::QText unk28;
     FUN_006c8220 unk30;
 };
+// pdb: TESTopicInfo::`scalar deleting destructor' | TESTopicInfo.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: TESTopicInfoEvent::TESTopicInfoEvent)
 FUN_00567810::~FUN_00567810() {
     FUN_005671f0();
 }
@@ -13927,6 +14295,7 @@ struct Group {
 };
 }
 
+// pdb: CellMopp::Remove | CellMopp.obj | fnv360_0822_retail, call_gap, low
 void n569670::Group::FUN_00569670()
 {
     if (!count)
@@ -14004,6 +14373,8 @@ struct Owner {
 }
 using namespace a264_005680e0;
 
+// pdb: ZoneEntry::AddTarget | BGSZoneTargetListener.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apTarget, apCol, aiFlags
 void Owner::FUN_005680e0(int key, int a2, unsigned flags)
 {
     if (Find(key))
@@ -14047,6 +14418,8 @@ struct Specific:Closest {
     Specific(int,Reference);virtual ~Specific();
 };
 typedef char BaseSize[(sizeof(Closest)==0x70)?1:-1];
+// pdb: SpecificItemCollector::SpecificItemCollector | SpecificItemCollector.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aePick, apMob
 Specific::Specific(int index,Reference reference) {
     if(reference.object) {
         reference.object->FUN_00766b00(&reference.handle);
@@ -14086,6 +14459,8 @@ struct Owner {
     NiBinaryStream* stream;
     void FUN_0056b790(const char* buffer, unsigned int length);
 };
+// pdb: HavokFileStreambufWriter::write | HavokStream.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuf, aiBytes
 void Owner::FUN_0056b790(const char* buffer, unsigned int length)
 {
     NiBinaryStreamSave(*stream, buffer, length);
@@ -14118,6 +14493,7 @@ struct ResetRecord {
     unsigned unk2C, unk30, unk34, value38, value3C, value40, value44, value48, value4C;
     void FUN_00566010();
 };
+// pdb: TESTopicInfo::InitializeData | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
 void ResetRecord::FUN_00566010() {
     unk23.Clear();
     value4C = 0;
@@ -14234,6 +14610,7 @@ struct FUN_005772f0 : Base72
     Elem72 arr18[8];
     virtual ~FUN_005772f0();
 };
+// pdb: Moon::~Moon | Moon.obj | fnv360_0822_retail, call_seq, high
 FUN_005772f0::~FUN_005772f0()
 {
     sp14 = 0;
@@ -14355,6 +14732,7 @@ struct Self {
     int unk118;
     void FUN_0057ad80();
 };
+// pdb: Sky::SaveGame | Sky.obj | fnv360_0822_retail, call_gap, medium
 void Self::FUN_0057ad80() {
     int a = 0;
     if (unk10)
@@ -14425,6 +14803,8 @@ struct Owner {
     float unk1C;
     void FUN_00572200(Actor* actor, float height);
 };
+// pdb: TESWaterListener::PlaySplashEffects | TESWaterListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apBody, afWaterHeight
 void Owner::FUN_00572200(Actor* actor, float height) {
     if (!actor) return;
     if (unk1C > 0.0f) return;
@@ -14523,6 +14903,7 @@ struct FUN_0057afc0
     int u128;
     FUN_0057afc0();
 };
+// pdb: Sky::Sky | Sky.obj | fnv360_0822_retail, call_seq, medium
 FUN_0057afc0::FUN_0057afc0() : vtable(&DAT_00de7d2c)
 {
     Vec7afc* q = pts_;
@@ -14596,6 +14977,8 @@ public:
  virtual ~FUN_00575370();
  FUN_00575370(const char*,float);
 };
+// pdb: SettingT<BlendSettingCollection>::SettingT<BlendSettingCollection> | XBlendSettings.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apID, afValue
 FUN_00575370::FUN_00575370(const char* name,float value):Setting(name,value) {
  if(!DAT_01072b18) DAT_01072b18=new BlendSettingCollection;
  DAT_01072b18->Add(this);
@@ -14658,6 +15041,7 @@ struct Queue {
     Node pending;
     void FUN_0056aa50();
 };
+// pdb: FOCollisionListener::DealObjectDamage | FOCollisionListener.obj | fnv360_0822_retail, call_gap_sim, low
 void Queue::FUN_0056aa50() {
     Node* list = &pending;
     if (!list) return;
@@ -14939,6 +15323,8 @@ struct Owner {
     EntryList pending;
     void FUN_0056a4d0(float amount, Effect* first, Effect* second, Ref* target, Ref* other);
 };
+// pdb: FOCollisionListener::StoreObjectDamage | FOCollisionListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: afProjectedVelocity, apBodyA, apBodyB, apRefA, apRefB
 void Owner::FUN_0056a4d0(float amount, Effect* first, Effect* second, Ref* target, Ref* other)
 {
     amount = (float)fabs(amount);
@@ -15127,6 +15513,7 @@ public:
     int unk0F8;
     List* unkFC;
 };
+// pdb: Sky::~Sky | Sky.obj | fnv360_0822_retail, call_seq, high
 FUN_0057b550::~FUN_0057b550() {
     delete unk20;
     delete unk24;
@@ -15209,6 +15596,7 @@ public:
     virtual ~FUN_00575630();
 };
 
+// pdb: Atmosphere::~Atmosphere | Atmosphere.obj | fnv360_0822_retail, call_seq, high
 FUN_00575630::~FUN_00575630() {
     mC = 0;
     m8 = 0;
@@ -15264,6 +15652,8 @@ __forceinline RigidBodyArray::RigidBodyArray(RefBase& owner, unsigned short rese
     table = DAT_00de708c;
 }
 
+// pdb: NiTObjectArray<NiPointer<bhkRigidBody> >::NiTObjectArray<NiPointer<bhkRigidBody> > | CellMopp.obj | fnv360_0822_retail, uvref, high
+// pdb params: uiMaxSize, uiGrowBy
 FUN_00569770::FUN_00569770() : bodies(*this, 0, 1)
 {
     ++DAT_01072784;
@@ -15597,32 +15987,32 @@ struct Reader {
 
 
 
-    Reader* FUN_00449c50();
-    bool FUN_00448f60(void* record);
+    Reader* TESFile_GetThreadSafeFile();
+    bool TESFile_SetOffset(void* record);
 
-    unsigned char FUN_00448cc0();
+    unsigned char TESFile_GetTESForm();
 
-    int FUN_004487d0();
+    int TESFile_GetTESChunk();
 
     void FUN_00448800(unsigned int* id);
 
     void FUN_00447d60(char* destination, unsigned int length);
 
-    bool FUN_00447020();
+    bool TESFile_NextChunk();
 
 };
 
 struct File {
 
-    Reader* FUN_00449c50();
+    Reader* TESFile_GetThreadSafeFile();
 
 };
 
 
 
-void __cdecl FUN_00454a40(unsigned int* id, Reader* reader);
+void __cdecl TESForm_AddCompileIndex(unsigned int* id, Reader* reader);
 
-Form* __cdecl FUN_00455190(unsigned int id);
+Form* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 
 
 
@@ -15736,7 +16126,7 @@ struct Topic {
 
     void* record;
 
-    Reader* FUN_00455470(int index);
+    Reader* TESForm_GetFile(int index);
 
     ResponseList* FUN_00566170(ResponseList* destination);
 
@@ -15745,6 +16135,8 @@ struct Topic {
 
 
 // @fnv 0x0061e780
+// pdb: TESTopicInfo::GetResponseList | TESTopicInfo.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apList
 ResponseList* Topic::FUN_00566170(ResponseList* pResponseList)
 {
     unsigned char form;
@@ -15767,17 +16159,17 @@ ResponseList* Topic::FUN_00566170(ResponseList* pResponseList)
             DAT_01072584 = this;
             DAT_01072678.FUN_00565db0();
         }
-        file = FUN_00455470(-1);
+        file = TESForm_GetFile(-1);
         if (!file || !record)
             return pResponseList ? pResponseList : &DAT_01072678;
-        file = file->FUN_00449c50();
-        if (!file->FUN_00448f60(record))
+        file = file->TESFile_GetThreadSafeFile();
+        if (!file->TESFile_SetOffset(record))
             return pResponseList ? pResponseList : &DAT_01072678;
-        form = file->FUN_00448cc0();
+        form = file->TESFile_GetTESForm();
         if (form != 0x46)
             return pResponseList ? pResponseList : &DAT_01072678;
         response = 0;
-        while (chunk = file->FUN_004487d0())
+        while (chunk = file->TESFile_GetTESChunk())
         {
             switch (chunk)
             {
@@ -15806,9 +16198,9 @@ ResponseList* Topic::FUN_00566170(ResponseList* pResponseList)
                     Form* idleForm;
                     formID = 0;
                     file->FUN_00448800(&formID);
-                    FUN_00454a40(&formID, file);
+                    TESForm_AddCompileIndex(&formID, file);
                     Form* idle = 0;
-                    idleForm = FUN_00455190(formID);
+                    idleForm = TESForm_GetFormByNumericID(formID);
                     if (idleForm && idleForm->type == 72)
                         idle = static_cast<Form*>(idleForm);
                     
@@ -15822,9 +16214,9 @@ ResponseList* Topic::FUN_00566170(ResponseList* pResponseList)
                     Form* idleForm;
                     formID = 0;
                     file->FUN_00448800(&formID);
-                    FUN_00454a40(&formID, file);
+                    TESForm_AddCompileIndex(&formID, file);
                     Form* idle = 0;
-                    idleForm = FUN_00455190(formID);
+                    idleForm = TESForm_GetFormByNumericID(formID);
                     if (idleForm && idleForm->type == 72)
                         idle = static_cast<Form*>(idleForm);
                     
@@ -15832,7 +16224,7 @@ ResponseList* Topic::FUN_00566170(ResponseList* pResponseList)
                 }
                 break;
             }
-            if (!file->FUN_00447020())
+            if (!file->TESFile_NextChunk())
                 break;
         }
         return pResponseList ? pResponseList : &DAT_01072678;
@@ -15909,6 +16301,8 @@ struct Node {
     void* FUN_005642c0(void* x);
 };
 struct Actor5642c0 { char unk00[0x3c]; Node* owner; };
+// pdb: TESTopic::GetOwnerQuest | TESTopic.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apInfo
 void* Node::FUN_005642c0(void* x)
 {
     if (!x)
@@ -15951,7 +16345,7 @@ struct Obj_00566d50 {
     int unk10, unk14, unk18, unk1C;
     int unk20;
     int unk24;
-    void __thiscall FUN_00518c40(Form_00566d50* form, void* extra, int a, int b);
+    void __thiscall Script_Run(Form_00566d50* form, void* extra, int a, int b);
 };
 
 struct Sub_00566d50 {
@@ -16068,6 +16462,8 @@ struct Rec_00566d50 {
 bool FUN_00516780();
 inline bool flagSet(unsigned flags, unsigned bit) { return (flags >> bit) & 1; }
 
+// pdb: TESTopicInfo::RunResult | TESTopicInfo.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: TESTopicInfo::SetSoundOutputModel)
+// pdb params: aeScript, apRef
 void __thiscall Rec_00566d50::FUN_00566d50(int a, Form_00566d50* form)
 {
     if (!form)
@@ -16075,7 +16471,7 @@ void __thiscall Rec_00566d50::FUN_00566d50(int a, Form_00566d50* form)
 
     Obj_00566d50* target = FUN_005669e0(a);
     if (FUN_00516780() && target && target->unk20) {
-        target->FUN_00518c40(form, form->unk40.FUN_0040ad00(), 0, 1);
+        target->Script_Run(form, form->unk40.FUN_0040ad00(), 0, 1);
     }
 
     if (!flagSet(flags25, 4)) {
@@ -16125,6 +16521,8 @@ struct Owner {
     void FUN_005684d0(unsigned key);
 };
 
+// pdb: BGSZoneTargetListener::RemoveTarget | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget
 void Owner::FUN_005684d0(unsigned key) {
     if (!key) return;
     Node* node = head;
@@ -16187,6 +16585,7 @@ struct Owner {
     int IsKind() { return unk14->FUN_00826590(3)->unk1c == 0xc; }
     float FUN_0057ffe0();
 };
+// pdb: Sun::GetIntensity | Sun.obj | fnv360_0822_retail, call_gap, low
 float Owner::FUN_0057ffe0() {
     if (unk14->FUN_00826590(3) ? unk14->FUN_00826590(3)->unk1c == 0xc : false) {
         Data* d = unk14->FUN_00826590(3);
@@ -17081,6 +17480,8 @@ void* __cdecl FUN_00c0050a(void*, long, void*, void*, int);
 Ref* __cdecl FUN_0056fbf0(void*);
 bool __cdecl FUN_00724400();
 
+// pdb: TESWaterListener::contactPointAddedCallback | TESWaterListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: CPoint
 bool Owner::FUN_00573ea0(Request* request)
 {
     Ref* destination = FUN_0056fbf0(request->destination);
@@ -17129,8 +17530,8 @@ public:
 
 namespace N564030 {
 
-TESForm* __cdecl FUN_00455190(unsigned formID);
-void __cdecl FUN_00454a40(unsigned* formID, TESFile* file);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned formID);
+void __cdecl TESForm_AddCompileIndex(unsigned* formID, TESFile* file);
 void __cdecl FUN_00887da0(const char* fmt, ...);
 
 struct TopicInfo
@@ -17336,11 +17737,12 @@ struct Topic
     bool GetInitialized() { return (flags >> 3) & 1; }
     bool IsRandom() { return ((unsigned int)topicFlags >> 1) & 1; }
     QuestInfoNode* GetQuestInfoList() { return &questInfoList; }
-    TESFile* FUN_00455470(int index);
-    void FUN_00454240(bool state);
+    TESFile* TESForm_GetFile(int index);
+    void TESForm_SetInitialized(bool state);
     void FUN_00564030();
 };
 
+// pdb: TESTopic::InitItem | TESTopic.obj | fnv360_0822_retail, vtable, medium
 void Topic::FUN_00564030()
 {
     if (GetInitialized())
@@ -17355,13 +17757,13 @@ void Topic::FUN_00564030()
             if (questInfo->pQuest)
             {
                 unsigned int uiChunkType = (unsigned int)questInfo->pQuest;
-                questInfo->pQuest = dynamic_cast<TESQuest*>(FUN_00455190(uiChunkType));
+                questInfo->pQuest = dynamic_cast<TESQuest*>(TESForm_GetFormByNumericID(uiChunkType));
             }
             else if (questInfo->pAlternateQuest)
             {
                 unsigned int formID = (unsigned int)questInfo->pAlternateQuest;
-                FUN_00454a40(&formID, FUN_00455470(-1));
-                questInfo->pAlternateQuest = dynamic_cast<TESQuest*>(FUN_00455190(formID));
+                TESForm_AddCompileIndex(&formID, TESForm_GetFile(-1));
+                questInfo->pAlternateQuest = dynamic_cast<TESQuest*>(TESForm_GetFormByNumericID(formID));
             }
             else
             {
@@ -17410,7 +17812,7 @@ void Topic::FUN_00564030()
 
     if (IsRandom())
         DAT_0107a104->FUN_00775c00(this, 0, 0);
-    FUN_00454240(true);
+    TESForm_SetInitialized(true);
 }
 
 }
@@ -17435,7 +17837,7 @@ class TESWeather : public TESForm
 
 namespace f3w_0057de00 {
 
-TESForm* __cdecl FUN_00455190(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 
 struct WeatherList
 {
@@ -17524,7 +17926,7 @@ struct Sky
     unsigned int u114;
     unsigned int flags;
     void FUN_0057d5c0();
-    void FUN_0057de00();
+    void Sky_UpdateWeather();
     void SetFlag8(bool abEnabled)
     {
         if (abEnabled && m_pPreviousWeather && !(flags & 8))
@@ -17540,7 +17942,8 @@ struct Sky
     }
 };
 
-void Sky::FUN_0057de00()
+// pdb: Sky::UpdateWeather | Sky.obj | fnv360_0721_beta, call_seq + bridge(call_gap|call_gap), high
+void Sky::Sky_UpdateWeather()
 {
     if (!m_pCurrentClimate)
         return;
@@ -17551,7 +17954,7 @@ void Sky::FUN_0057de00()
     {
         m_pQueuedWeather = m_pCurrentClimate->weathers.FUN_00500ad0();
         if (!m_pQueuedWeather)
-            m_pQueuedWeather = dynamic_cast<TESWeather*>(FUN_00455190(0x15e));
+            m_pQueuedWeather = dynamic_cast<TESWeather*>(TESForm_GetFormByNumericID(0x15e));
         TESRegionList* regions = DAT_0106cdcc->regionList;
         if (regions)
         {
@@ -17759,7 +18162,7 @@ struct ActorBase {
     unsigned int GetFormID() { return refID; }
 };
 
-void __cdecl FUN_005923f0(FaceGenNode** pA, FaceGenNode** pB, FaceGenAppearance* appearance, bool flag);
+void __cdecl BSFaceGenManager_CreateFaceGenHead(FaceGenNode** pA, FaceGenNode** pB, FaceGenAppearance* appearance, bool flag);
 void __cdecl FUN_00591330(FaceGenNode* node, FaceGenAppearance* appearance);
 
 struct FaceGenOwner561740 {
@@ -17769,6 +18172,8 @@ struct FaceGenOwner561740 {
 };
 
 
+// pdb: TESRace::CreateHead | TESRace.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSFaceGenAnimationData::SetExpressionTarget)
+// pdb params: apOutNodeBiped, apOutNodeSkinned, apNPC, abPrepareObjects, abForceNoSkinning, aeSex
 bool FaceGenOwner561740::FUN_00561740(FaceGenNode** pA, FaceGenNode** pB, ActorBase* actor, bool fSwap, bool fFlag,
                                       int sex)
 {
@@ -17788,7 +18193,7 @@ bool FaceGenOwner561740::FUN_00561740(FaceGenNode** pA, FaceGenNode** pB, ActorB
     (*pB)->SetFlag71(false);
     FaceGenAppearance appearance;
     FUN_00560dd0(actor, &appearance, sex, false);
-    FUN_005923f0(pA, pB, &appearance, fFlag);
+    BSFaceGenManager_CreateFaceGenHead(pA, pB, &appearance, fFlag);
     if (fSwap)
     {
         FUN_00591330(*pA, &appearance);
@@ -17840,6 +18245,8 @@ struct Queue {
     List list;
     bool FUN_00571150(Obj* object);
 };
+// pdb: TriggerEntry::RefList::Add | TESTrapListener.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apRef
 bool Queue::FUN_00571150(Obj* object) {
     int id = object->id;
     for (int i = 0; i < count; i++) {
@@ -17877,13 +18284,14 @@ bool Queue::FUN_00571150(Obj* object) {
 #include <float.h>
 extern const double DAT_00dbe7c0;
 namespace f3m_005736a0 {
-struct Cell5736a0 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;unsigned flags;float FUN_004d5350();int FUN_004d3430();int FUN_004d3450();};
+struct Cell5736a0 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;unsigned flags;float FUN_004d5350();int TESObjectCELL_GetDataX();int TESObjectCELL_GetDataY();};
 struct Provider5736a0 {Cell5736a0** FUN_0047b220(int,int);};
 struct Manager5736a0 {int unk00;int unk04;Provider5736a0* provider;int FUN_004343d0();};
 struct Grid5736a0 {int unk00;int unk04;bool active;unsigned char unk09;unsigned short unk0A;int unk0C;int unk10;int unk14;int unk18;int unk1C;float* values;float maximum;int size;int originX;int originY;};
 Grid5736a0* __cdecl FUN_00573620();
 __forceinline void FillColumn5736a0(Grid5736a0* grid,int n,int x){for(int y=0;y<n;++y){float value=-FLT_MAX;Cell5736a0* cell=*(((Manager5736a0*)DAT_0107a0d8)->provider->FUN_0047b220(x,y));if(cell &&(cell->flags&2))value=cell->FUN_004d5350();grid->values[y*grid->size+x]=(float)(value*DAT_00dbe7c0);if(grid->maximum<value)grid->maximum=value;}}
-void __cdecl FUN_005736a0(){Grid5736a0* grid=FUN_00573620();grid->maximum=-FLT_MAX;int n=grid->size;int x=0;if(n>0){do {FillColumn5736a0(grid,n,x);++x;}while(x<n);}Cell5736a0* cell=*(((Manager5736a0*)DAT_0107a0d8)->provider->FUN_0047b220(0,0));if(cell){grid->originX=cell->FUN_004d3430();grid->originY=cell->FUN_004d3450();}if(!((Manager5736a0*)DAT_0107a0d8)->FUN_004343d0() &&grid->maximum==-(double)FLT_MAX)grid->active=false;}
+// pdb: TESWaterListener::RefreshExteriorWaterHeights | TESWaterListener.obj | fnv360_0822_retail, call_seq, medium
+void __cdecl FUN_005736a0(){Grid5736a0* grid=FUN_00573620();grid->maximum=-FLT_MAX;int n=grid->size;int x=0;if(n>0){do {FillColumn5736a0(grid,n,x);++x;}while(x<n);}Cell5736a0* cell=*(((Manager5736a0*)DAT_0107a0d8)->provider->FUN_0047b220(0,0));if(cell){grid->originX=cell->TESObjectCELL_GetDataX();grid->originY=cell->TESObjectCELL_GetDataY();}if(!((Manager5736a0*)DAT_0107a0d8)->FUN_004343d0() &&grid->maximum==-(double)FLT_MAX)grid->active=false;}
 
 }   // namespace f3m_005736a0
 
@@ -17921,6 +18329,8 @@ struct Skill {
     bool FUN_00454550(Skill*);
     bool FUN_005639a0(void* form);
 };
+// pdb: TESSkill::Compare | TESSkill.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCompare
 bool Skill::FUN_005639a0(void* form)
 {
     Skill* other=static_cast<Skill*>(FUN_00c0050a(form,0,DAT_00f46078,DAT_00f499b0,0));
@@ -18110,6 +18520,8 @@ inline Data* GetData(Object* object) {
     return 0;
 }
 
+// pdb: TESHavokUtilities::GetTotalBuoyancy | TEShavokUtilities.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apBody
 float FUN_0056ff70(Object* object) {
     float total = 0.0f;
     Data* data = GetData(object);
@@ -18309,6 +18721,8 @@ struct FUN_0056a0f0 {
 };
 extern FUN_0056a0f0* DAT_010727a8;
 extern FUN_0056a0f0* DAT_010727a4;
+// pdb: DecalCaster::GetInstance | DecalCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afDecalRadius, abCreate
 FUN_0056a0f0* FUN_0056a180(float size, bool create){
  if(size>32.0f){
   if(!DAT_010727a8&&create)DAT_010727a8=new FUN_0056a0f0(256.0f,FUN_0051de60());
@@ -18515,7 +18929,7 @@ extern int DAT_00f65ae4;
 extern void* DAT_00f5cc3c[];
 
 void* FUN_0058f300();
-void FUN_0058e170(void* model, Output* output, int a, int b);
+void BSFaceGenManager_CopyFaceGenCoord(void* model, Output* output, int a, int b);
 
 inline void* GetBodyPartSlot(int part) { return DAT_00f5cc3c[part]; }
 inline int GetDefaultTexture() { return DAT_00f65ae4; }
@@ -18566,6 +18980,8 @@ struct Race
     void FUN_00560dd0(NPC* npc, Output* apOutput, int sex, bool skip);
 };
 
+// pdb: TESRace::GetFaceGenData | TESRace.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apNPC, arNpcData, aeSex, abNoModTextures
 void Race::FUN_00560dd0(NPC* npc, Output* apOutput, int sex, bool skip)
 {
     bool special = false;
@@ -18585,7 +19001,7 @@ void Race::FUN_00560dd0(NPC* npc, Output* apOutput, int sex, bool skip)
         void* model = GetFaceGenData(sex);
         if (!model)
             model = FUN_0058f300();
-        FUN_0058e170(model, apOutput, 0, 0);
+        BSFaceGenManager_CopyFaceGenCoord(model, apOutput, 0, 0);
     }
     if (npc)
     {
@@ -18707,6 +19123,8 @@ struct Owner9f0 {
     Map9f0 map;
     void FUN_005679f0(int);
 };
+// pdb: BGSAcousticSpaceListener::Update | BGSAcousticSpaceListener.obj | fnv360_0721_beta, objrun, medium
+// pdb params: afTime
 void Owner9f0::FUN_005679f0(int) {
     Item9f0* pos = map.First();
     while (pos) {
@@ -18818,6 +19236,7 @@ struct FUN_00565570 : TESForm, TESFullName {
     Text text38;
     virtual ~FUN_00565570();
 };
+// pdb: TESTopic::~TESTopic | TESTopic.obj | fnv360_0822_retail, call_seq, medium
 FUN_00565570::~FUN_00565570()
 {
     FUN_006c8220* list = &questInfos;
@@ -18852,6 +19271,8 @@ unsigned int __cdecl FUN_0056fbf0(Payload*);
 struct ReceiverA { void FUN_005684d0(unsigned int); };
 struct ReceiverB { void FUN_004e92f0(unsigned int); };
 struct Handler { void FUN_00570ed0(Input* input); };
+// pdb: TESTrapListener::entityRemovedCallback | TESTrapListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apEntity
 void Handler::FUN_00570ed0(Input* input)
 {
     Payload* payload = &input->payload;
@@ -18884,8 +19305,8 @@ public:
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50;
 };
 struct ScriptHolder {
-    void FUN_00519780(const Script& source);
-    void CopyScript(Script& source) { FUN_00519780(source); }
+    void Script_CopyResultScript(const Script& source);
+    void CopyScript(Script& source) { Script_CopyResultScript(source); }
 };
 struct ScriptScope { Script value; };
 extern ScriptHolder DAT_01072598;
@@ -18919,6 +19340,7 @@ extern Static2678 DAT_01072678;
 extern int DAT_01072584;
 extern int DAT_01072588;
 
+// pdb: TESTopicInfo::ClearData | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
 void __fastcall FUN_005671f0(Receiver* self, void*)
 {
     if (!((unsigned char)(*(volatile unsigned int*)&self->unk08 >> 14) & 1)) {
@@ -19073,6 +19495,7 @@ struct DataHandler { void FUN_0043bce0(void*); };
 extern DataHandler* DAT_0106cdcc;
 struct NameMap { void FUN_00402e60(const char*, void*); };
 extern NameMap* DAT_0106dd1c;
+// pdb: TESTopic::AddDefaultTopics | TESTopic.obj | fnv360_0822_retail, call_gap, low
 void FUN_00565360()
 {
     TlsTagGuard guard(0x35);
@@ -19140,10 +19563,11 @@ public:
     unsigned int unk2c;
     unsigned int unk30;
     NiObject* object; // +0x34
-    NiObject* FUN_00577f70();
+    NiObject* NiPSysEmitterCtlr_GetBirthRateInterpolator();
 };
 }
-N577f70::NiObject* N577f70::Owner::FUN_00577f70() {
+// pdb: NiPSysEmitterCtlr::GetBirthRateInterpolator | Precipitation.obj | fnv360_0822_retail, caller + bridge(call_seq|caller) + skyrim(call_gap), high
+N577f70::NiObject* N577f70::Owner::NiPSysEmitterCtlr_GetBirthRateInterpolator() {
     NiObject* current = object;
     if (current) {
         NiObject* found = IsKindOf(&DAT_01091f90, current) ? current : 0;
@@ -19211,11 +19635,11 @@ struct FUN_0056a0f0 {
     int unk228;
     int unk22C;
     FUN_0056a0f0(float a, int b);
-    void FUN_00569f30(float a, int b);
+    void DecalCaster_Init(float a, int b);
 };
 FUN_0056a0f0::FUN_0056a0f0(float a, int b)
 {
-    FUN_00569f30(a, b);
+    DecalCaster_Init(a, b);
 }
 }
 }
@@ -19230,6 +19654,7 @@ extern void* (__stdcall* DAT_00d9b080)(unsigned long);
 struct Pool5691f0 {int unk00;int unk04;int unk08;int unk0C;int unk10;int unk14;int unk18;int unk1C;int unk20;int unk24;int unk28;int unk2C;int unk30;int unk34;int unk38;int unk3C;int unk40;int unk44;int unk48;int unk4C;int unk50;int unk54;int unk58;int unk5C;int unk60;int unk64;int unk68;int unk6C;int unk70;int unk74;int unk78;int unk7C;int unk80;int unk84;int unk88;int unk8C;int unk90;int unk94;int unk98;int unk9C;void* freeList;int count; void FUN_008f6890(unsigned,void*,unsigned);};
 struct Owner5691f0 {void* next;void FUN_00568830();void* FUN_005691f0(unsigned);};
 
+// pdb: hkpAllCdPointCollector::`scalar deleting destructor' | CameraCaster.obj | fnv360_0822_retail, caller_sim, low
 void* Owner5691f0::FUN_005691f0(unsigned flags)
 {
     FUN_00568830();
@@ -19277,6 +19702,8 @@ struct FUN_005713a0 {
     FUN_005713a0();
 };
 
+// pdb: TriggerEntry::TriggerEntry | TESTrapListener.obj | fnv360_0822_retail, uvref, low
+// pdb params: apRef, apCol
 FUN_005713a0::FUN_005713a0()
 {
     capacity = 0x14;
@@ -19289,7 +19716,7 @@ namespace f3m_57db80 {
 struct Heap { void FUN_0086ba60(void*); };
 extern Heap DAT_01090a78;
 extern unsigned char DAT_01072f8c;
-struct Item { bool FUN_00bd0160(); void FUN_00bd0140(); void FUN_00bd03b0(); };
+struct Item { bool FUN_00bd0160(); void BSSoundHandle_Stop(); void BSSoundHandle_Release(); };
 struct Node {
   Item* m0; Node* m4;
   void FUN_006c8220();
@@ -19312,6 +19739,8 @@ struct Obj {
   void FUN_0057b4d0(); void FUN_0057d010(); void FUN_0057d5c0();
   void FUN_0057db80(int s);
 };
+// pdb: Sky::SetMode | Sky.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeNewMode
 void Obj::FUN_0057db80(int s) {
   if ((state == 0 || state == 1 || state == 4) && (s == 3 || s == 2)) {
     FUN_0057d010();
@@ -19323,8 +19752,8 @@ void Obj::FUN_0057db80(int s) {
     if (m04) m04->flags |= 1;
     if (m28) m28->f->flags |= 1;
     while (!list->IsEmpty()) {
-      if (list->m0->FUN_00bd0160()) list->m0->FUN_00bd0140();
-      list->m0->FUN_00bd03b0();
+      if (list->m0->FUN_00bd0160()) list->m0->BSSoundHandle_Stop();
+      list->m0->BSSoundHandle_Release();
       Item* p = list->m0;
       if (p) DAT_01090a78.FUN_0086ba60(p);
       list->RemoveHead();
@@ -19358,7 +19787,7 @@ virtual void slot10();
 virtual void slot11();
 virtual void slot12();
 virtual void slot13();
-virtual void GetBounds(const void*,Bounds*); };
+virtual void NiGeometryData_GetNormalsIterator(const void*,Bounds*); };
 struct BoundsGeometry {void* unk00; int unk04; BoundsShape* unk08;};
 struct BoundsLink {int unk00; int unk04; BoundsGeometry* unk08;};
 struct BoundsEntry {BoundsGeometry* unk00; int unk04; int unk08; int unk0c; int unk10; BoundsTransform transform;};
@@ -19504,6 +19933,8 @@ lo.w=lo.w<src.lo.w?lo.w:src.lo.w;
 }
 inline BoundsEntry* EntryOf(SceneObject* obj) {return obj && obj->link ? reinterpret_cast<BoundsEntry*>(reinterpret_cast<char*>(obj->link)+0x10):0;}
 __forceinline void SetAll(BoundsVec& out,const float& value) {out.x=value;out.y=value;out.z=value;out.w=value;}
+// pdb: LoadedAreaBound::GetBoundFromCell | LoadedAreaBound.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCell, apCellGrid, arBound
 bool __stdcall FUN_0056d2d0(BoundsInput* input,BoundsGrid* grid,Bounds* output)
 {
  bool found=false;
@@ -19522,7 +19953,7 @@ bool __stdcall FUN_0056d2d0(BoundsInput* input,BoundsGrid* grid,Bounds* output)
   for(int k=0;k<array->count;++k) {
    BoundsEntry* entry=reinterpret_cast<BoundsEntry*>(reinterpret_cast<char*>(array->data[k])+0x10);
    if(entry->unk00) {
-    scene->shape->GetBounds(&entry->transform,&temp);
+    scene->shape->NiGeometryData_GetNormalsIterator(&entry->transform,&temp);
     Accumulate(lower,upper,temp);
    }
   }
@@ -19537,7 +19968,7 @@ bool __stdcall FUN_0056d2d0(BoundsInput* input,BoundsGrid* grid,Bounds* output)
       SceneObject* child=children->data[k];
       BoundsEntry* entry=EntryOf(child);
       if(entry->unk00) {
-       if(child->GetScene()) scene->shape->GetBounds(&entry->transform,&temp);
+       if(child->GetScene()) scene->shape->NiGeometryData_GetNormalsIterator(&entry->transform,&temp);
        else {
         __declspec(align(16)) BoundsTransform transform;
         children->data[k]->GetTransform(&transform);
@@ -19659,6 +20090,8 @@ inline unsigned int GetVal_5741b0(Holder_5741b0* h)
     Payload_5741b0* p = GetPayload_5741b0(h);
     return p ? p->unk1c : 0;
 }
+// pdb: ViewCaster::SetShapeGroup | ViewCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiGroup
 void Target_5741b0::FUN_005741b0(int arg)
 {
     Holder_5741b0* h = unk00;
@@ -19891,7 +20324,8 @@ extern bool __cdecl FUN_00724400();
 extern void __cdecl FUN_004de460(Blob*, Slot55*);
 extern Blob* __cdecl FUN_004e7b90(void*);
 
-void __stdcall FUN_0056af90(Owner56x* p)
+// pdb: FOIslandActivationListener::islandActivatedCallback | FOIslandActivationListener.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall FOIslandActivationListener_islandActivatedCallback(Owner56x* p)
 {
     if (!p)
         return;
@@ -20177,6 +20611,8 @@ struct Object {
     Body* unka4;
 };
 
+// pdb: TESHavokUtilities::ConsolidateSimIslands | TEShavokUtilities.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pActor
 void FUN_00570ad0(Object* object) {
     if (!object) return;
     EntityArray entities;
@@ -20298,7 +20734,7 @@ struct Block60 {
     int unk58;
     int unk5c;
 };
-void __cdecl FUN_0058e170(Block60* src, Block60* dst, int a, int b);
+void __cdecl BSFaceGenManager_CopyFaceGenCoord(Block60* src, Block60* dst, int a, int b);
 
 }
 struct BaseCopy { void FUN_00454480(TESForm* form); };
@@ -20354,6 +20790,8 @@ public:
     void FUN_005607c0(TESForm* form);
 };
 
+// pdb: TESRace::Copy | TESRace.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCopy
 void TESRace::FUN_005607c0(TESForm* form)
 {
     TESRace* src = dynamic_cast<TESRace*>(form);
@@ -20417,8 +20855,8 @@ void TESRace::FUN_005607c0(TESForm* form)
         else tail->item = n->item;
     }
     }
-    f3m_005607c0::FUN_0058e170(&src->blk458, &blk458, 0, 0);
-    f3m_005607c0::FUN_0058e170(&src->blk3f8, &blk3f8, 0, 0);
+    f3m_005607c0::BSFaceGenManager_CopyFaceGenCoord(&src->blk458, &blk458, 0, 0);
+    f3m_005607c0::BSFaceGenManager_CopyFaceGenCoord(&src->blk3f8, &blk3f8, 0, 0);
     w4b8 = src->w4b8;
 }
 
@@ -20576,7 +21014,7 @@ int unk7c;
 int unk80;
 int unk84;
 VoiceForm* race;
-File* FUN_00455470(int);
+File* TESForm_GetFile(int);
 };
 struct RaceOwner {
 int unk000;
@@ -20885,15 +21323,17 @@ int unk4b8;
 VoiceForm* race;};
 RaceOwner* FUN_00562a90(VoiceForm*);
 struct Output {
- void FUN_00562e80(int,int,VoiceForm*,FUN_00401b10*);
- bool FUN_00562d60(void*,const char*,const char*,const char*,const char*,const char*);
+ void TESResponse_GetAudioFilename(int,int,VoiceForm*,FUN_00401b10*);
+ bool TESResponse_TestAudioFullPath(void*,const char*,const char*,const char*,const char*,const char*);
  bool FUN_005633f0(VoiceForm*,int,int,VoiceForm*,void*);
 };
+// pdb: TESResponse::GetAudioFullPath | TESResponse.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSpeakerBase, apQuest, apOwnerTopic, apOwnerInfo, aFullPath
 bool Output::FUN_005633f0(VoiceForm* form,int a,int b,VoiceForm* source,void* out) {
  FUN_00401b10 unused;
  FUN_00401b10 text;
- FUN_00562e80(a,b,source,&text);
- File* file=source->FUN_00455470(0);
+ TESResponse_GetAudioFilename(a,b,source,&text);
+ File* file=source->TESForm_GetFile(0);
  if(!file)return false;
  VoiceForm* race=0;
  if(source){VoiceForm* base=source->base;if(base)race=base->racePart.GetRace();}
@@ -20909,7 +21349,7 @@ bool Output::FUN_005633f0(VoiceForm* form,int a,int b,VoiceForm* source,void* ou
  const char* filename=file->name;
  if(!filename)return false;
  const char* d=DAT_010724b8; const char* t=text.data;
- FUN_00562d60(*(void* volatile*)&out,DAT_00de6158,filename,name,t,d);
+ TESResponse_TestAudioFullPath(*(void* volatile*)&out,DAT_00de6158,filename,name,t,d);
  return true;
 }
 }
@@ -20970,6 +21410,8 @@ extern double FUN_00db38b0;
 
 FnvHolder* __cdecl FUN_00424fe0(FnvAVBase* a);
 
+// pdb: TESHavokUtilities::AddAngularVelocity | TEShavokUtilities.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, aVelocity, abReset
 void __cdecl FUN_00570490(FnvAVBase* a, float* b, bool c)
 {
     if (!a)
@@ -21026,6 +21468,8 @@ struct FUN_00569b80_Owner {
     void FUN_00569b80(const FUN_00569b80_Vec* v);
 };
 
+// pdb: bhkShapePhantom::SetPosition | DecalCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arPos
 void FUN_00569b80_Owner::FUN_00569b80(const FUN_00569b80_Vec* v) {
     __declspec(align(16)) FUN_00569b80_Vec scaled;
     scaled.x = v->x * DAT_00dbe7c0;
@@ -21047,6 +21491,8 @@ namespace f3m_00570a80 {
 
 void __cdecl FUN_00570490(void* a, const float* v, int flag);
 
+// pdb: TESHavokUtilities::AddAngularVelocity | TEShavokUtilities.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, aVelocity, abReset
 void __cdecl FUN_00570a80(void* a, const float* src, int flag) {
     __declspec(align(16)) float v[3];
     v[0] = (float)(src[0] * 0.1428767293691635);
@@ -21066,6 +21512,8 @@ struct Map { Ret FUN_00477900(Key*); };
 struct Obj { unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0C; signed char off; };
 struct Rec { unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0C; unsigned unk10; unsigned unk14; unsigned unk18; unsigned unk1C; unsigned unk20; unsigned unk24; Obj* obj; unsigned unk2C; unsigned unk30; unsigned unk34; unsigned unk38; unsigned unk3C; };
 struct Owner { unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0C; Rec* recs; int FUN_00569cc0(int i); };
+// pdb: DecalCaster::GetAVObject | DecalCaster.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiIndex
 int Owner::FUN_00569cc0(int i)
 {
     int r = 0;
@@ -21084,7 +21532,7 @@ int Owner::FUN_00569cc0(int i)
 inline void SetTri(unsigned short* t,unsigned short a,unsigned short b,unsigned short c) { t[0]=a;t[1]=b;t[2]=c; }
 #include <math.h>
 class NiStream;
-class NiObjectNET { public: void FUN_0057e780(NiStream&); };
+class NiObjectNET { public: void SkyObject_Initialize(NiStream&); };
 class MemoryManagerAA2 { public: void* RawAllocate(unsigned int); };
 extern MemoryManagerAA2 g_kMemoryManagerAA2;
 extern float DAT_01073130;
@@ -21327,7 +21775,7 @@ struct QuadOwner:NiObjectNET {
  FUN_00e98f20* unk18;
  NiPointer<Light> unk1c;
  float unk20;
- void FUN_0057f4c0(NiStream&);
+ void Sun_Initialize(NiStream&);
 };
 inline void FillA(unsigned short* t,unsigned short two,unsigned short one) { t[0]=0; t[1]=one; t[2]=two; t[3]=two; t[4]=one; t[5]=3; }
 inline void FillB(unsigned short two,unsigned short one,unsigned short* t) { t[0]=0; t[1]=one; t[2]=two; t[3]=two; t[4]=one; t[5]=3; }
@@ -21338,9 +21786,10 @@ inline void FillF(unsigned short* t,unsigned short a,unsigned short b,unsigned s
 inline void FillG(unsigned short* t,unsigned short d,unsigned short c,unsigned short b,unsigned short a) { t[0]=a;t[1]=b;t[2]=c;t[3]=c;t[4]=b;t[5]=d; }
 inline void FillH(unsigned short* t,const unsigned short& two,const unsigned short& one) { t[0]=0; t[1]=one; t[2]=two; t[3]=two; t[4]=one; t[5]=3; }
 inline void FillI(unsigned short* t,unsigned short one,unsigned short two) { t[0]=0; t[2]=two; t[1]=one; t[3]=two; t[4]=one; t[5]=3; }
-void QuadOwner::FUN_0057f4c0(NiStream& stream) {
+// pdb: Sun::Initialize | Sun.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void QuadOwner::Sun_Initialize(NiStream& stream) {
  const Pt3_b899a0& kUp=*(const Pt3_b899a0*)&DAT_0108ec68;
- FUN_0057e780(stream);
+ SkyObject_Initialize(stream);
  Pt3_b899a0* p=(Pt3_b899a0*)g_kMemoryManagerAA2.RawAllocate(4*sizeof(Pt3_b899a0));
  p[0]=Pt3_b899a0(-1.0 * DAT_01073130,DAT_01073130,0.0f);
  p[1]=Pt3_b899a0(-1.0 * DAT_01073130,-1.0 * DAT_01073130,0.0f);
@@ -21413,6 +21862,8 @@ struct Owner2 { int unk00, unk04, unk08; Data* data; };
 struct Random { unsigned FUN_006e2ac0(); };
 extern Random DAT_01079f68;
 extern unsigned DAT_01072ec0;
+// pdb: Moon::UpdatePhase | Moon.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apSky
 bool FUN_00576ba0(Owner* owner) {
     
     Data* pForm = owner->Get();
@@ -21461,6 +21912,8 @@ public:
     NiTransform FUN_0056fe20(const NiTransform& xform) const;
 };
 
+// pdb: NiPointer<NiCollisionObject>::operator= | TEShavokUtilities.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiTransform::operator*)
+// pdb params: pObject
 NiTransform NiTransform::FUN_0056fe20(const NiTransform& xform) const
 {
     NiTransform res;
@@ -21872,8 +22325,9 @@ struct Node_ef20 {
     void FUN_008268a0();
 };
 struct Ref_ef20 { Node_ef20* p; void FUN_008e9650(void*); operator Node_ef20*() const { return p; } Node_ef20* operator->() const { return p; } };
-struct Owner_ef20 { int unk00; Ref_ef20 node; Ref_ef20 ref; void FUN_0057ef20(char*); };
-void Owner_ef20::FUN_0057ef20(char* name) {
+struct Owner_ef20 { int unk00; Ref_ef20 node; Ref_ef20 ref; void Stars_LoadGeometry(char*); };
+// pdb: Stars::LoadGeometry | Stars.obj | fnv360_0822_debug, ustr_rel + bridge(ustr_rel|ustr_rel), high
+void Owner_ef20::Stars_LoadGeometry(char* name) {
     if (name && *name) {
         String_ef20 str;
         FUN_00403a00(&str, "%s%s%s", DAT_00dbe3e4, "\\", name);
@@ -22002,6 +22456,8 @@ float FUN_00595fc0(){if((flags&0x400)&&climate){DAT_0107300c=climate->sunsetStar
 void FUN_0057a6a0(SkyInterpolationData*,TESWeather*,float,int*,int*);
 };
 // @fnv 0x0063b630
+// pdb: Sky::FillColorBlend | Sky.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aColorBlend, apCurrentWeather, afCurrentWeatherPct, aeTime1, aeTime2
 void SkyHelper::FUN_0057a6a0(SkyInterpolationData* pData, TESWeather* m_pWeatherObject, float fPct, int* pPhase,
                              int* pNextPhase)
 {
@@ -22101,12 +22557,14 @@ struct S00562f20_Info : ::Form {
     void FUN_00566950(::Text* text, bool full);
 };
 
+// pdb: TESResponse::InitItem | TESResponse.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apOwner
 void FUN_00562ca0::FUN_00562f20(Topic* owner)
 {
     if (unk08) {
         unsigned int id = (unsigned int)unk08;
-        FUN_00454a40(&id, owner->FUN_00455470(-1));
-        ::Form* form = ::FUN_00455190(id);
+        TESForm_AddCompileIndex(&id, owner->TESForm_GetFile(-1));
+        ::Form* form = ::TESForm_GetFormByNumericID(id);
         if (form && form->unk04 == 0x45)
             unk08 = (unsigned int)form;
         else
@@ -22128,8 +22586,8 @@ void FUN_00562ca0::FUN_00562f20(Topic* owner)
     }
     if (unk10) {
         unsigned int id = (unsigned int)unk10;
-        FUN_00454a40(&id, owner->FUN_00455470(-1));
-        ::Form* form = ::FUN_00455190(id);
+        TESForm_AddCompileIndex(&id, owner->TESForm_GetFile(-1));
+        ::Form* form = ::TESForm_GetFormByNumericID(id);
         if (form && form->unk04 == 0x0d)
             unk10 = (unsigned int)form;
         else
@@ -22150,8 +22608,8 @@ void FUN_00562ca0::FUN_00562f20(Topic* owner)
     }
     if (speaker) {
         unsigned int id = (unsigned int)speaker;
-        FUN_00454a40(&id, owner->FUN_00455470(-1));
-        ::Form* form = ::FUN_00455190(id);
+        TESForm_AddCompileIndex(&id, owner->TESForm_GetFile(-1));
+        ::Form* form = ::TESForm_GetFormByNumericID(id);
         if (form && form->unk04 == 0x48)
             speaker = (Form*)form;
         else
@@ -22172,8 +22630,8 @@ void FUN_00562ca0::FUN_00562f20(Topic* owner)
     }
     if (listener) {
         unsigned int id = (unsigned int)listener;
-        FUN_00454a40(&id, owner->FUN_00455470(-1));
-        ::Form* form = ::FUN_00455190(id);
+        TESForm_AddCompileIndex(&id, owner->TESForm_GetFile(-1));
+        ::Form* form = ::TESForm_GetFormByNumericID(id);
         if (form && form->unk04 == 0x48)
             listener = (Form*)form;
         else
@@ -22383,6 +22841,8 @@ struct Self {
     void FUN_00572200(Target* target, float f);
     void FUN_00572eb0(Entry* entry);
 };
+// pdb: TESWaterListener::RemoveReferenceFromZone | TESWaterListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apQR
 void Self::FUN_00572eb0(Entry* entry) {
     void* key = entry->unk0C ? entry->unk0C->unk1C : 0;
     if (entry->unk0C)
@@ -22889,13 +23349,14 @@ struct Atmosphere {
     NiPointer<NiObj> spSkyQuadNode;                               // +0x10
     NiPointer<NiObj> spSkyQuad;                                   // +0x14
     bool bUpdateFogDistance;                                      // +0x18
-    void FUN_0057e780(NiObj* apSkyRoot);                          // SkyObject init
-    void FUN_00575790(NiObj* apSkyRoot, NiObj* apFog);
+    void SkyObject_Initialize(NiObj* apSkyRoot);                          // SkyObject init
+    void Atmosphere_Initialize(NiObj* apSkyRoot, NiObj* apFog);
 };
 
-void Atmosphere::FUN_00575790(NiObj* apSkyRoot, NiObj* apFog)
+// pdb: Atmosphere::Initialize | Atmosphere.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Atmosphere::Atmosphere_Initialize(NiObj* apSkyRoot, NiObj* apFog)
 {
-    FUN_0057e780(apSkyRoot);
+    SkyObject_Initialize(apSkyRoot);
     if (!DAT_0116f20e) {
         FUN_00b265c0(&spSkyQuad);
         spSkyQuad->SetSelectiveUpdate();
@@ -22984,6 +23445,8 @@ public:
     void FUN_005678d0(struct Entry567* entry);       // ORIG: mov ecx,[esp+arg_0] / mov edx,[esp+arg_0] - the only parameter, used for its +0x10 interior address ✓✗→? 
 };
 
+// pdb: BGSAcousticSpaceListener::entityRemovedCallback | BGSAcousticSpaceListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apEntity
 void Owner567::FUN_005678d0(struct Entry567* entry) {
     if (DAT_0107a104 == 0)                           // ORIG: fetch the singleton, test it, and jump to the cold tail at +62h which is also where both success routes end ✓✓ 
         return;                                      // ORIG: 'retn 4' with nothing done ✓✓ 
@@ -23043,6 +23506,8 @@ void __stdcall FUN_0057a970(long* result, void* firstTable, void* secondTable, l
                                                      //     difference) arg_0 result block (four entries), arg_4 first table base, arg_8 second table base, arg_C the index scaled by four, arg_10 and arg_14 the two
                                                      //     cells whose values are added to that offset ✓✓ 
 
+// pdb: Sky::FillColorBlendColors | Sky.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aColorBlend, apCurrentWeather, apLastWeather, aeColorType, aeTime1, aeTime2
 void __stdcall FUN_0057a970(long* result, void* firstTable, void* secondTable, long which, long* firstIndexSource, long* secondIndexSource) {   // v2 fix: the definition has to REPEAT the callee-cleaning modifier or                                                     //     VC8 reports C2373 redefinition with different type modifiers ✓✗→✓✓ (the same family as repeating a virtual's return type out of
                                                      //     line, and the reason I now write the convention on both the declaration and the definition) 
     if (firstTable == 0)                             // ORIG: test edx,edx ; je the shared 'retn 18h' - nothing is written at all ✓✗→? 
@@ -23234,6 +23699,8 @@ int unk214;
 int unk218;
 int unk21c;
 Resource* resource;void FUN_00569c60(void*,Output*);};
+// pdb: DecalCaster::GetPenetrations | DecalCaster.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: arPos, arCollector
 void Object::FUN_00569c60(void* value,Output* output){if(resource){resource->FUN_00569b80(value);output->flag=0;Resource* current=resource;if(current){Target* target=current->target;if(target){current->FUN_00c24b70();target->dispatch(output,0);current->FUN_00c24b70();}}}}
 }
 }   // namespace f3m_00569c60
@@ -23256,6 +23723,8 @@ struct Object {
 virtual void v00();virtual void v04();virtual void v08();virtual void v0c();virtual void v10();virtual void v14();virtual void v18();virtual void v1c();virtual void v20();virtual void v24();virtual void v28();virtual void prepare();
 int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28;Node head;bool FUN_00563dc0(Stream*);
 };
+// pdb: TESTopic::Save | TESTopic.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: TESTopicInfo::BelongsInGroup)
+// pdb params: apFile
 bool Object::FUN_00563dc0(Stream* stream){prepare();stream->FUN_00448900(this);Node* node=&head;if(node){do{Array* a=node->data;if(!a)break;unsigned count=a->count;node=node->next;for(unsigned i=0;i<count;++i){void* item=a->items[i];if(item)DAT_0106cdcc->FUN_0043bb60(item,stream->FUN_00446f00());}}while(node);}return true;}
 }
 
@@ -23267,6 +23736,8 @@ namespace Reset271 {
 struct A {void FUN_00576050();};struct B {void FUN_00578190();};
 struct Player {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; int unkdc; int unke0; int unke4; int unke8; int unkec; int unkf0; int unkf4; int unkf8; int unkfc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int unk2b4; int unk2b8; int unk2bc; int unk2c0; int unk2c4; int unk2c8; int unk2cc; int unk2d0; int unk2d4; int unk2d8; int unk2dc; int unk2e0; int unk2e4; int unk2e8; int unk2ec; int unk2f0; int unk2f4; int unk2f8; int unk2fc; int unk300; int unk304; int unk308; int unk30c; int unk310; int unk314; int unk318; int unk31c; int unk320; int unk324; int unk328; int unk32c; int unk330; int unk334; int unk338; int unk33c; int unk340; int unk344; int unk348; int unk34c; int unk350; int unk354; int unk358; int unk35c; int unk360; int unk364; int unk368; int unk36c; int unk370; int unk374; int unk378; int unk37c; int unk380; int unk384; int unk388; int unk38c; int unk390; int unk394; int unk398; int unk39c; int unk3a0; int unk3a4; int unk3a8; int unk3ac; int unk3b0; int unk3b4; int unk3b8; int unk3bc; int unk3c0; int unk3c4; int unk3c8; int unk3cc; int unk3d0; int unk3d4; int unk3d8; int unk3dc; int unk3e0; int unk3e4; int unk3e8; int unk3ec; int unk3f0; int unk3f4; int unk3f8; int unk3fc; int unk400; int unk404; int unk408; int unk40c; int unk410; int unk414; int unk418; int unk41c; int unk420; int unk424; int unk428; int unk42c; int unk430; int unk434; int unk438; int unk43c; int unk440; int unk444; int unk448; int unk44c; int unk450; int unk454; int unk458; int unk45c; int unk460; int unk464; int unk468; int unk46c; int unk470; int unk474; int unk478; int unk47c; int unk480; int unk484; int unk488; int unk48c; int unk490; int unk494; int unk498; int unk49c; int unk4a0; int unk4a4; int unk4a8; int unk4ac; int unk4b0; int unk4b4; int unk4b8; int unk4bc; int unk4c0; int unk4c4; int unk4c8; int unk4cc; int unk4d0; int unk4d4; int unk4d8; int unk4dc; int unk4e0; int unk4e4; int unk4e8; int unk4ec; int unk4f0; int unk4f4; int unk4f8; int unk4fc; int unk500; int unk504; int unk508; int unk50c; int unk510; int unk514; int unk518; int unk51c; int unk520; int unk524; int unk528; int unk52c; int unk530; int unk534; int unk538; int unk53c; int unk540; int unk544; int unk548; int unk54c; int unk550; int unk554; int unk558; int unk55c; int unk560; int unk564; int unk568; int unk56c; int unk570; int unk574; int unk578; int unk57c; int unk580; int unk584; int unk588; int unk58c; int unk590; int unk594; int unk598; int unk59c; int unk5a0; int unk5a4; int unk5a8; int unk5ac; int unk5b0; int unk5b4; int unk5b8; int unk5bc; int unk5c0; int unk5c4; int unk5c8; int unk5cc; int unk5d0; int unk5d4; int unk5d8; int unk5dc; int unk5e0; int unk5e4; int unk5e8; int unk5ec; int unk5f0; int unk5f4; int unk5f8; int unk5fc; int unk600; int unk604; int unk608; int unk60c; int unk610; int unk614; int unk618; int unk61c; int unk620; int unk624; int unk628; int unk62c; int unk630; int unk634; int unk638; int unk63c; int unk640; int unk644; int unk648; int unk64c; int unk650; int unk654; int unk658; int unk65c; int unk660; int unk664; int unk668; int unk66c; int unk670; int unk674; int unk678; int unk67c; int unk680; int unk684; int unk688; int unk68c; int unk690; int unk694; int unk698; int unk69c; int unk6a0; int unk6a4; int unk6a8; int unk6ac; int unk6b0; int unk6b4; int unk6b8;int state;};extern Player* DAT_0107a104;
 struct Object {int unk00,unk04,unk08,unk0c;int value,state,first,second;int unk20,unk24,unk28;A* a;int unk30,unk34;B* b;int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; int unkdc; int unke0; int unke4; int unke8;float initial,current,scale;int unkf8; int unkfc; int unk100; int unk104; int unk108; int unk10c;float elapsed;int unk114;unsigned flags;void FUN_0057d5c0();void FUN_0057dd70(int,bool);};
+// pdb: Sky::ForceWeather | Sky.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: Sky::UnloadAllTextures)
+// pdb params: apWeather, abOverride
 void Object::FUN_0057dd70(int v,bool choice){value=v;if(choice){second=v;first=0;}else{first=v;second=0;}flags&=~8;elapsed=0;state=0;scale=1;current=initial;DAT_0107a104->state=0;flags=(flags&~1)|2;FUN_0057d5c0();if(a)a->FUN_00576050();if(b)b->FUN_00578190();}
 }
 }   // namespace f3m_0057dd70
@@ -23275,7 +23746,8 @@ void Object::FUN_0057dd70(int v,bool choice){value=v;if(choice){second=v;first=0
 namespace f3m_00562e80 {
 namespace Format353 {
 struct Text{void FUN_004019c0(const char*,int);};struct Form{int unk00,unk04,unk08;unsigned id;};void FUN_00562ac0(const char*,const char*,char*,unsigned);void FUN_00403a00(Text*,const char*,...);extern char DAT_00de5fe4[],DAT_00de5fd4[];
-struct Owner{int unk00,unk04,unk08;unsigned char index;void FUN_00562e80(const char*,const char*,Form*,Text*);};void Owner::FUN_00562e80(const char* a,const char* b,Form* form,Text* out){char buffer[260];if(a&&b&&form){unsigned n=index;if(n>0){FUN_00562ac0(a,b,buffer,260);FUN_00403a00(out,DAT_00de5fe4,buffer,form->id&0xffffff,n);}else out->FUN_004019c0(DAT_00de5fd4,0);}}
+// pdb: TESResponse::GetAudioFilename | TESResponse.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+struct Owner{int unk00,unk04,unk08;unsigned char index;void TESResponse_GetAudioFilename(const char*,const char*,Form*,Text*);};void Owner::TESResponse_GetAudioFilename(const char* a,const char* b,Form* form,Text* out){char buffer[260];if(a&&b&&form){unsigned n=index;if(n>0){FUN_00562ac0(a,b,buffer,260);FUN_00403a00(out,DAT_00de5fe4,buffer,form->id&0xffffff,n);}else out->FUN_004019c0(DAT_00de5fd4,0);}}
 }
 
 }   // namespace f3m_00562e80
@@ -23304,6 +23776,8 @@ class Table57a { public: char padTo60[0x60];   // +0x00 through +0x5F sized by s
                      unsigned long FUN_0057a400(int category, int kind); };   // v2: parameters declared SIGNED ints ✗✓ matching this packs own declaration of the routine as taking two ints and returning a void pointer inside struct CodexWeatherSource at line 5310 ✓ A sibling body at line 5314 calls it as (category, index) so my parameter ORDER is theirs too ✓ - I keep my own class only because their   // ORIG: 'mov esi,[esp+4+arg_4]' reads
                                              //     stack slot arg_4 first ✗✓ with slots ascending as declared parameters in a thiscall, so the declaration order is (index, kind) and that second one is what the three constant choices test ✓ Both are released by 'retn 8'
                                                 //     ✓ - no caller-side cleanup anywhere ✓ 
+// pdb: TESWeather::GetCloudColor | Sky.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aiLayer, aeColorTime
 unsigned long Table57a::FUN_0057a400(int category, int kind) {                   
     unsigned long addend;                                                                          
     if (kind == 1) addend = 0x9B9B9B;                       // ORIG: 'cmp esi,1 ; jnz' then 'mov eax, offset loc_9B9B9B' ✓✗→✓ IDA renders this immediate as a CODE
@@ -23399,6 +23873,7 @@ struct Queue
     void FUN_00571270();
 };
 
+// pdb: TriggerEntry::RefList::UpdateExitList | TESTrapListener.obj | fnv360_0822_retail, call_gap, low
 void Queue::FUN_00571270()
 {
     for (int i = 0; i < count; )
@@ -23443,10 +23918,11 @@ struct Sky
     int unk60, unk64, unk68, unk6c, unk70;
     float f74;
 
-    float FUN_005769e0();
+    float Moon_GetMoonVisibility();
 };
 
-float Sky::FUN_005769e0()
+// pdb: Moon::GetMoonVisibility | Moon.obj | fnv360_0822_retail, call_gap + skyrim(call_gap_sim), high
+float Sky::Moon_GetMoonVisibility()
 {
     float low = (float)(180.0 - f58);
     float high = (float)(180.0 - f5c);
@@ -23480,7 +23956,8 @@ extern struct Object56C* DAT_01072854;
 extern struct Object56C* DAT_01072850;               
 
 void Object56C::operator delete(void* p){char* block=(char*)p;block-=((unsigned char*)block)[-1];DAT_01090a78.FUN_0086ba60(block);}
-void FUN_0056ca20(){if(DAT_01072854)delete DAT_01072854;DAT_01072854=0;if(DAT_01072850)delete DAT_01072850;DAT_01072850=0;}
+// pdb: HitCaster::ClearInstance | HitCaster.obj | fnv360_0822_retail, udata, high
+void HitCaster_ClearInstance(){if(DAT_01072854)delete DAT_01072854;DAT_01072854=0;if(DAT_01072850)delete DAT_01072850;DAT_01072850=0;}
 }
 
 // @f3 0x00566050 (community match, verified in this file)
@@ -23528,6 +24005,8 @@ struct Receiver566 {Table566* FUN_00564270(Owner566* owner);};
                                                                                               
 int __cdecl FUN_00563e80(void* anchor);              
 
+// pdb: TESTopicInfo::RemoveInfoFromTopic | TESTopicInfo.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: BGSCameraPath::RemoveChildAtIndex)
+// pdb params: apTopic
 void Owner566::FUN_00566050(Receiver566* value) {  
     if (value == 0)                                  
         return;                                      
@@ -23574,6 +24053,8 @@ namespace f3m_00565ec0 {
 namespace Small520 {
 struct List {void* item;List* next;void FUN_006c8220();~List(){FUN_006c8220();}};
 struct Owner {List first,second;~Owner();};
+// pdb: TESConversationData::Copy | TESTopicInfo.obj | fnv360_0721_beta, objrun, low
+// pdb params: apOwner, apDataToCopy
 Owner::~Owner(){second.FUN_006c8220();first.FUN_006c8220();}
 }
 }   // namespace f3m_00565ec0
@@ -23586,6 +24067,8 @@ struct FUN_00929c70 {virtual ~FUN_00929c70();unsigned unk04,unk08,unk0c,unk10;FU
 struct FUN_00567e30 {virtual ~FUN_00567e30();unsigned unk04;FUN_00567e30();};
 struct Member {unsigned data,size,capacity;Member():capacity(0){data=0;size=0;}~Member();};
 struct FUN_005739a0:FUN_00929c70,FUN_00567e30 {float scale;float* memory;unsigned unk24,count,unk2c,unk30;Member member;virtual ~FUN_005739a0();FUN_005739a0(float);};
+// pdb: TESWaterListener::TESWaterListener | TESWaterListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afWaterLevel
 FUN_005739a0::FUN_005739a0(float value):scale(1.0f){count=1;float* p=(float*)DAT_01090a78.FUN_0086b930(4);double product=value*DAT_00dbe7c0;memory=p;*p=(float)product;unk2c=0;unk30=0;}
 }
 
@@ -23616,6 +24099,8 @@ struct Owner660c0 {
     void FUN_005660c0(void* item);
 };
 
+// pdb: TESTopicInfo::SetConversationData | TESTopicInfo.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apConversationData
 void Owner660c0::FUN_005660c0(void* item)
 {
     if (item) {
@@ -23650,8 +24135,8 @@ public:
     void FUN_0086ba60(void* memory);
 };
 extern Heap DAT_01090a78;
-Obj* __cdecl FUN_00455190(int id);
-bool __cdecl FUN_00518df0(Obj* object, void* position, unsigned int flags);
+Obj* __cdecl TESForm_GetFormByNumericID(int id);
+bool __cdecl Script_SetActionFlag(Obj* object, void* position, unsigned int flags);
 struct Pair { int id; unsigned int count; };
 struct FormId
 {
@@ -23664,6 +24149,8 @@ struct PairList
     int count;
     void FUN_00570c30(Obj* actor);
 };
+// pdb: TriggerEntry::RefList::ForceLeaveTrigger | TESTrapListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTriggerRef
 void PairList::FUN_00570c30(Obj* actor)
 {
     if (!count)
@@ -23673,9 +24160,9 @@ void PairList::FUN_00570c30(Obj* actor)
     for (int i = 0; i < count; i++)
         ids[i].id = data[i].id;
     for (unsigned int j = 0; j < (unsigned int)n; j++) {
-        Obj* object = FUN_00455190(ids[j].id);
+        Obj* object = TESForm_GetFormByNumericID(ids[j].id);
         if (object && object->v0f0()) {
-            FUN_00518df0(object, (*(Obj* volatile*)&actor)->position(), 0x40000000);
+            Script_SetActionFlag(object, (*(Obj* volatile*)&actor)->position(), 0x40000000);
             actor->FUN_004e8130(object);
             actor->FUN_004e6c50();
         }
@@ -23861,11 +24348,11 @@ struct Owner576 {
  float phase74,last78;
  void* Current(){Phase576 phase=DAT_01072ec0;return values18[phase.value].source;}
  void FUN_00634f80(Args576*,float);
- float FUN_005769e0();
- float FUN_00576ab0();
- void FUN_00576bf0(Args576*,float);
+ float Moon_GetMoonVisibility();
+ float Moon_GetMoonShadowVisibility();
+ void Moon_Update(Args576*,float);
 };
-__declspec(noinline) float Owner576::FUN_005769e0() {
+__declspec(noinline) float Owner576::Moon_GetMoonVisibility() {
  float mirroredStart=(float)(360.0-start58);
  float mirroredEnd=(float)(360.0-center5c);
  if(phase74<=180.0f)return 0.0f;
@@ -23874,7 +24361,8 @@ __declspec(noinline) float Owner576::FUN_005769e0() {
  if(phase74>start58 && phase74<mirroredStart)return 1.0f;
  return 0.0f;
 }
-void Owner576::FUN_00576bf0(Args576* args,float dt) {
+// pdb: Moon::Update | Moon.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable_prefix), high
+void Owner576::Moon_Update(Args576* args,float dt) {
  ScopedContext576 context;
  FUN_00634f80(args,dt);
  if(last78==3.4028234663852886e38) {last78=0;phase74=90;}
@@ -23890,8 +24378,8 @@ void Owner576::FUN_00576bf0(Args576* args,float dt) {
  while(phase74<0) phase74=(float)(phase74+360.0);
  while(phase74>=360.0f) phase74=(float)(phase74-360.0);
  last78=args->timeec;
- float a=FUN_005769e0();
- float b=FUN_00576ab0();
+ float a=Moon_GetMoonVisibility();
+ float b=Moon_GetMoonShadowVisibility();
  float limit=args->limit24->value0c;
  if(!(b<limit))b=limit;
  if(state70==2 || (state70==1 && a<=0.0f && b<=0.0f)) {
@@ -23987,6 +24475,8 @@ namespace WaterEntry5738 {
         Entry* FUN_00573890(unsigned key, const Collidable* value, unsigned flags);
     };
 
+    // pdb: WaterZone::AddTarget | TESWaterListener.obj | fnv360_0822_retail, vtable, medium
+    // pdb params: apTarget, apCol, aiFlags
     Entry* Owner::FUN_00573890(unsigned key, const Collidable* value, unsigned flags)
     {
         Entry* entry = 0;
@@ -24059,10 +24549,11 @@ struct Node_5719c0 {
 struct Owner_5719c0 {
     int unk00;
     Node_5719c0* head04;
-    void FUN_005719c0(Event_5719c0* event);
+    void TESTrapListener_phantomAddedCallback(Event_5719c0* event);
 };
 
-void Owner_5719c0::FUN_005719c0(Event_5719c0* event)
+// pdb: TESTrapListener::phantomAddedCallback | TESTrapListener.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Owner_5719c0::TESTrapListener_phantomAddedCallback(Event_5719c0* event)
 {
     Payload_5719c0* payload = &event->payload10;
     unsigned int type = payload->flags1c & 0x7f;
@@ -24116,6 +24607,7 @@ struct FUN_0056d200 : NiRefObject
     FUN_0056d150 map;
     virtual ~FUN_0056d200();
 };
+// pdb: LoadedAreaBound::~LoadedAreaBound | LoadedAreaBound.obj | fnv360_0822_retail, call_seq, high
 FUN_0056d200::~FUN_0056d200()
 {
     for (int i = 0; i < 6; i++)
@@ -24143,6 +24635,7 @@ struct FUN_00575540: FUN_0057e660 {
  FUN_00575540();
  virtual ~FUN_00575540();
 };
+// pdb: Atmosphere::Atmosphere | Atmosphere.obj | fnv360_0822_retail, caller_sim, low
 FUN_00575540::FUN_00575540() { first.Clear(); fourth.Clear(); third.Clear(); second.Clear(); enabled=true; }
 }
 }   // namespace f3m_00575540
@@ -24186,6 +24679,8 @@ struct Owner {
     void FUN_0056cb70(hkAabb& out);
 };
 
+// pdb: bhkAabbPhantom::GetAabb | LoadedAreaBound.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arB
 void Owner::FUN_0056cb70(hkAabb& out)
 {
     if (this) {
@@ -24263,6 +24758,8 @@ struct CastCollector {
     bool FUN_0056c470(const NiPoint3& start, const NiPoint3& direction, float length);
 };
 
+// pdb: HitCaster::CastShape | HitCaster.obj | fnv360_0822_retail, uconst, low
+// pdb params: aOrigin, aDirection, afPickDistance
 bool CastCollector::FUN_0056c470(const NiPoint3& start, const NiPoint3& direction, float length)
 {
     NiPoint3 end = start + direction * length;
@@ -24329,6 +24826,8 @@ struct CodexFindOwner {
 struct Codex570 {
     bool FUN_00570d50(Input* input);
 };
+// pdb: TESTrapListener::contactPointRemovedCallback | TESTrapListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arPoint
 bool Codex570::FUN_00570d50(Input* input) {
     bool result = false;
     void* a = FUN_0056fbf0(input->unk28);
@@ -24417,6 +24916,8 @@ public:
     void FUN_005641e0(unsigned int param);
 };
 
+// pdb: TESTopic::ClearSaidOnceInfosForQuest | TESTopic.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apQuest
 void TESTopic::FUN_005641e0(unsigned int param)
 {
     TopicInfoArray* list = FUN_00563e40(param);
@@ -24527,7 +25028,8 @@ extern Manager564490* DAT_0106cdcc;
 bool FUN_00563d20(Obj563* a, Obj563* b, bool flag);
 void FUN_00564400(Obj563* item, ns564490::Node564490* list, bool flag);
 
-void FUN_00564490(bool flag, ns564490::Node564490* list)
+// pdb: TESTopic::SortTopics | TESTopic.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void TESTopic_SortTopics(bool flag, ns564490::Node564490* list)
 {
     using namespace ns564490;
     
@@ -24633,6 +25135,8 @@ struct Owner {
     Ambient* ambient;
     void FUN_0057b1b0(Color*, const Blend*, float);
 };
+// pdb: Sky::SetColor | Sky.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aColor, apColorBlend, afAddFlash
 void Owner::FUN_0057b1b0(Color* out, const Blend* input, float amount)
 {
     float lo = 0.0f;
@@ -24703,6 +25207,7 @@ struct DualList {
     List listB;
     void FUN_00565f30(int unused, DualList* other);
 };
+// pdb: TESTopicInfo::InitializeData | TESTopicInfo.obj | fnv360_0721_beta, objrun, medium
 void DualList::FUN_00565f30(int unused, DualList* other) {
     if (other) {
         listB.FUN_006c8220();
@@ -24845,6 +25350,8 @@ __forceinline bool HasUsableKind(SceneProperties* p) {
     int kind = p ? p->type : 0;
     return kind != InvalidKind && p;
 }
+// pdb: TESWaterListener::GetRB | TESWaterListener.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apEntity
 RuntimeObject* __stdcall FUN_005723d0(SceneOwner* owner) {
  if(owner&&owner->object) {
   RuntimeObject* object=owner->object->Cast();
@@ -25001,6 +25508,7 @@ struct Sky {
  FUN_004c2010* field124;
  FUN_004c2010* field128;
 float FUN_0057a550(); float FUN_0057a490(); float FUN_0057a4d0(); float FUN_0057a5d0(); void FUN_0057d5c0(); };
+// pdb: Sky::ReloadAllTextures | Sky.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: Sky::UpdateHDRValues)
 void Sky::FUN_0057d5c0()
 {
     float tmp;
@@ -25337,6 +25845,8 @@ struct Stub579b40 {
  Node579* FUN_00578350(void* property,const Mat579& rotate,bool snow);
  void FUN_00579b40(const char* path);
 };
+// pdb: Precipitation::Load | Precipitation.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFilename
 void Stub579b40::FUN_00579b40(const char* path)
 {
  if(current){
@@ -25428,6 +25938,7 @@ struct Sky57bac0 {
  void FUN_0057bac0();
 };
 
+// pdb: Sky::UpdateFog | Sky.obj | fnv360_0721_beta, call_seq, medium
 void Sky57bac0::FUN_0057bac0() {
  Water57bac0* water = DAT_0106fd2c;
  if (DAT_0106fd49 || DAT_0106fd48) {
@@ -25674,6 +26185,8 @@ struct TESTopic {
 };
 extern TESTopic* DAT_01072508;
 
+// pdb: TESTopic::InsertInfo | TESTopic.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apQuest, apInfo, auiPrevInfoID
 bool TESTopic::FUN_00565210(TESQuest* quest, TESTopicInfo* info, unsigned int previousInfoID)
 {
     if (!quest || !info)
@@ -25798,6 +26311,8 @@ struct HeightGrid {
     bool FUN_00571ff0(Reference* ref, const Vector4& target, float radius, HeightSource* source, float* height);
 };
 
+// pdb: TESWaterListener::ShouldProcessRigidBody | TESWaterListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: phkBody, positionPlayer, fdistanceLODSquared, apZone, fwaterHeight
 bool HeightGrid::FUN_00571ff0(Reference* ref, const Vector4& target, float radius, HeightSource* source,
                               float* height)
 {
@@ -25901,7 +26416,7 @@ public:
         eState = rhs.eState;
         return *this;
     }
-    void FUN_00bd03b0();
+    void BSSoundHandle_Release();
 };
 
 class Audio {
@@ -25958,6 +26473,8 @@ public:
     void FUN_0057c080(Weather* pWeather);
 };
 
+// pdb: Sky::ActivateWeatherSounds | Sky.obj | fnv360_0822_retail, caller, medium
+// pdb params: apWeather
 void Sky::FUN_0057c080(Weather* pWeather)
 {
     if (!pWeather)
@@ -25991,7 +26508,7 @@ void Sky::FUN_0057c080(Weather* pWeather)
         }
         else
         {
-            sound.FUN_00bd03b0();
+            sound.BSSoundHandle_Release();
         }
         iter = iter->GetNext();
     }
@@ -26001,7 +26518,7 @@ void Sky::FUN_0057c080(Weather* pWeather)
 
 // @f3 0x0057c6b0 (community match, verified in this file)
 #include <string.h>
-// candidate for FUN_0057c6b0 : Sky texture/moon refresh (port of FNV Sky::FUN_0063ca20)
+// candidate for Sky_HandleClimateChange : Sky texture/moon refresh (port of FNV Sky::FUN_0063ca20)
 
 namespace skyalloc {
 struct Alloc {
@@ -26195,7 +26712,7 @@ struct Sky_QuadUpdate {
 };
 
 struct Sky_Stars {
-    void FUN_0057ef20(const char* text);
+    void Stars_LoadGeometry(const char* text);
 };
 
 void FUN_00adbc30(const char*, bool, Sky_Pointer*, bool, bool);
@@ -26278,14 +26795,15 @@ struct Sky_t {
     int unk110;
     int unk114;
     unsigned int flags;             // +0x118
-    void FUN_0057c6b0();
+    void Sky_HandleClimateChange();
 };
 
-void Sky_t::FUN_0057c6b0()
+// pdb: Sky::HandleClimateChange | Sky.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void Sky_t::Sky_HandleClimateChange()
 {
     if (flags & 0x40) {
         if (stars && (mode == 3 || mode == 2))
-            stars->FUN_0057ef20(climate->name.Get());
+            stars->Stars_LoadGeometry(climate->name.Get());
         if (sun && (mode == 3 || mode == 2)) {
             Sky_BSString name;
             Sky_SubTarget* texture = sun->owner0->FUN_00826590(3);
@@ -26387,6 +26905,8 @@ public:
     FUN_0056d7f0(float x, float y, float z, float w);
     virtual ~FUN_0056d7f0();
 };
+// pdb: LoadedAreaBound::LoadedAreaBound | LoadedAreaBound.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: afBoundOffset, afBoundDepth, afSideWallHeightOffset, afVelocityDampen
 FUN_0056d7f0::FUN_0056d7f0(float x, float y, float z, float w)
     : m_unk20(0), m_kBodies(37), m_fX(x), m_fY(y), m_fZ(z), m_fW(w)
 {
@@ -26624,7 +27144,7 @@ struct SkyClimate57 {
     const char* GetStarsName() { return climateSub.GetStarsName(); }
 };
 struct SkyStars57 {
-    void FUN_0057ef20(const char* name);
+    void Stars_LoadGeometry(const char* name);
 };
 struct SkySaveLoad57 {
     int unk000;
@@ -26795,6 +27315,7 @@ struct SkyView57 {
     void FUN_0057d010();
 };
 
+// pdb: Sky::ReloadAllTextures | Sky.obj | fnv360_0822_debug, ustr_rel, low
 void SkyView57::FUN_0057d010()
 {
     // Fake match: a named copy of this, used for every member read below. With the members read
@@ -26885,7 +27406,7 @@ void SkyView57::FUN_0057d010()
         self->m_pSun->FourthObject()->SetVisible(tex != 0);
     }
     if (self->m_pStars && self->m_pCurrentClimate)
-        self->m_pStars->FUN_0057ef20(self->m_pCurrentClimate->GetStarsName());
+        self->m_pStars->Stars_LoadGeometry(self->m_pCurrentClimate->GetStarsName());
 }
 
 } // namespace f3m_57db80
@@ -27045,7 +27566,7 @@ struct SceneHolder {
 
 struct Cell {
     float FUN_004d5350();
-    void* FUN_004d5710();
+    void* TESObjectCELL_GetWaterType();
 };
 
 struct WaterEntry {
@@ -27336,6 +27857,8 @@ struct Manager {
     bool FUN_00573170(Event* event);
 };
 
+// pdb: TESWaterListener::contactPointRemovedCallback | TESWaterListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: CPoint
 bool Manager::FUN_00573170(Event* event)
 {
     Ref* source = FUN_0056fbf0(event->reference);
@@ -27356,7 +27879,7 @@ bool Manager::FUN_00573170(Event* event)
                 TESBoundObject* ref = entry->GetRef()->GetBase();
                 SetWaterType(ref->GetWaterType());
             } else {
-                SetWaterType(DAT_0107a104->GetParentCell()->FUN_004d5710());
+                SetWaterType(DAT_0107a104->GetParentCell()->TESObjectCELL_GetWaterType());
             }
             return true;
         }
@@ -27423,13 +27946,14 @@ namespace f3_005684c0 {
 extern const void* DAT_00de6e28;
 struct Obj {
     const void* vftable;
-    void FUN_00568470();
+    void BGSZoneTargetListener_EmptyList();
     void FUN_005684c0();
 };
 
+// pdb: BGSZoneTargetListener::~BGSZoneTargetListener | BGSZoneTargetListener.obj | fnv360_0822_retail, call_seq, high
 void Obj::FUN_005684c0() {
     vftable = &DAT_00de6e28;
-    FUN_00568470();
+    BGSZoneTargetListener_EmptyList();
 }
 }
 
@@ -27668,9 +28192,9 @@ struct Owner : TESForm { TESForm* FUN_005642c0(Info*); };
 
 Owner* __cdecl FUN_005643c0(Info*);
 
-void __cdecl FUN_00454a40(unsigned*,int);
+void __cdecl TESForm_AddCompileIndex(unsigned*,int);
 
-TESForm* __cdecl FUN_00455190(unsigned);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned);
 
 void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
 
@@ -27700,13 +28224,13 @@ struct Info : TESForm {
 
  Node list; Attached* attached; TESForm* secondary; TESForm* finalRef;
 
- int FUN_00455470(int);
+ int TESForm_GetFile(int);
 
  __declspec(noalias) void FUN_00566950(Text*,bool);
 
  Response** FUN_00566170(int);
 
- void FUN_00454240(int);
+ void TESForm_SetInitialized(int);
 
  void FUN_005672e0();
 
@@ -27716,13 +28240,14 @@ inline bool Valid(Owner* owner,TESForm* parent){return owner && parent;}
 
 inline bool Valid2(TESForm* parent,Owner* owner){return owner && parent;}
 
+// pdb: TESTopicInfo::InitItem | TESTopicInfo.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: TESTopicInfo::RunResult)
 void Info::FUN_005672e0() {
 
  unsigned formFlags=flags;
 
  if((unsigned char)(formFlags >> 3) & 1) return;
 
- int file=FUN_00455470(-1);
+ int file=TESForm_GetFile(-1);
 
  unsigned secondaryId;
 
@@ -27734,9 +28259,9 @@ void Info::FUN_005672e0() {
 
   unsigned ref=node->value;
 
-  FUN_00454a40(&ref,file);
+  TESForm_AddCompileIndex(&ref,file);
 
-  TESForm* form=(TESTopic*)FUN_00c0050a(FUN_00455190(ref),0,&DAT_00f46078,&DAT_00f47bf4,0);
+  TESForm* form=(TESTopic*)FUN_00c0050a(TESForm_GetFormByNumericID(ref),0,&DAT_00f46078,&DAT_00f47bf4,0);
 
   if(!form) {
 
@@ -27788,9 +28313,9 @@ void Info::FUN_005672e0() {
 
  if(secondaryId) {
 
-  FUN_00454a40(&secondaryId,FUN_00455470(-1));
+  TESForm_AddCompileIndex(&secondaryId,TESForm_GetFile(-1));
 
-  secondary=(TESActorBase*)FUN_00c0050a(FUN_00455190(secondaryId),0,&DAT_00f46078,&DAT_00f47bbc,0);
+  secondary=(TESActorBase*)FUN_00c0050a(TESForm_GetFormByNumericID(secondaryId),0,&DAT_00f46078,&DAT_00f47bbc,0);
 
  }
 
@@ -27804,9 +28329,9 @@ void Info::FUN_005672e0() {
 
   unsigned ref=(unsigned)finalRef;
 
-  FUN_00454a40(&ref,FUN_00455470(-1));
+  TESForm_AddCompileIndex(&ref,TESForm_GetFile(-1));
 
-  TESForm* form=FUN_00455190(ref);
+  TESForm* form=TESForm_GetFormByNumericID(ref);
 
   TESForm* result=(BGSPerk*)FUN_00c0050a(form,0,&DAT_00f46078,&DAT_00f497d8,0);
 
@@ -27815,7 +28340,7 @@ void Info::FUN_005672e0() {
 
  }
 
- FUN_00454240(1);
+ TESForm_SetInitialized(1);
 
 }
 
@@ -27940,6 +28465,8 @@ struct Collection {
 struct ItemB8 { int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c; void* unk20; };
 struct ItemT { int unk000, unk004, unk008, unk00c, unk010, unk014, unk018, unk01c, unk020, unk024, unk028, unk02c, unk030, unk034, unk038, unk03c, unk040, unk044, unk048, unk04c, unk050, unk054, unk058, unk05c, unk060, unk064, unk068, unk06c, unk070, unk074, unk078, unk07c, unk080, unk084, unk088, unk08c, unk090, unk094, unk098, unk09c, unk0a0, unk0a4, unk0a8, unk0ac, unk0b0, unk0b4; ItemB8* unkb8; };
 
+// pdb: CellMopp::Create | CellMopp.obj | fnv360_0822_retail, uconst, low
+// pdb params: appStripArray, aiCount, afOffset
 bool Collection::FUN_005698c0(void** items, unsigned int count, float factor)
 {
     bool r = false;
@@ -27995,7 +28522,7 @@ struct Ref;
 struct ActorX { bool FUN_004e9160(); void FUN_004efdb0(int); void FUN_004e90b0(void*,int); };
 struct Controller { void FUN_00496d90(int,ActorX*,float); void FUN_00499af0(int,ActorX*,float); };
 struct Manager { void FUN_006f30a0(int,ActorX*,float); void FUN_006f3120(int,ActorX*,float); };
-struct TimeObj { float FUN_004d5350(); int FUN_004d5710(); };
+struct TimeObj { float FUN_004d5350(); int TESObjectCELL_GetWaterType(); };
 struct Player {
  void** f00;
  int f04;
@@ -28351,9 +28878,10 @@ struct Tracker {
  bool FUN_00571ff0(Item*,const AlignedVec*,float,Outer*,float*);
  int FUN_00572480(Item*,float,float,int);
  void FUN_005737a0(int,int,int);
- void FUN_00573ae0(float dt);
+ void TESWaterListener_Update(float dt);
 };
-void Tracker::FUN_00573ae0(float dt) {
+// pdb: TESWaterListener::Update | TESWaterListener.obj | fnv360_0822_retail, udata, high
+void Tracker::TESWaterListener_Update(float dt) {
  if(active) {
   timer-=dt;
   float radius=DAT_00f61af4;
@@ -28406,7 +28934,7 @@ void Tracker::FUN_00573ae0(float dt) {
  TimeObj* time=DAT_0107a104->f3c;
  if(time) {
   double threshold=limit->f94;
-  if(time->FUN_004d5350()>threshold) DAT_0106fd2c=DAT_0107a104->f3c->FUN_004d5710();
+  if(time->FUN_004d5350()>threshold) DAT_0106fd2c=DAT_0107a104->f3c->TESObjectCELL_GetWaterType();
  }
 }
 }
@@ -28444,7 +28972,7 @@ struct Sub40 { void* FUN_0040e3e0(); };
 
 struct Ref;
 
-struct Attachment { void FUN_004e3dc0(Ref* ref, int zero); };
+struct Attachment { void TESObjectCELL_AttachReference3D(Ref* ref, int zero); };
 
 
 
@@ -28696,7 +29224,8 @@ static int GetV(Entity* e, int& value)
 
 
 
-void __stdcall FUN_0056b0a0(World* world)
+// pdb: FOIslandActivationListener::islandDeactivatedCallback | FOIslandActivationListener.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall FOIslandActivationListener_islandDeactivatedCallback(World* world)
 
 {
 
@@ -28740,7 +29269,7 @@ void __stdcall FUN_0056b0a0(World* world)
 
                 if (ref->unk3c != 0)
 
-                    ref->unk3c->FUN_004e3dc0(ref, 0);
+                    ref->unk3c->TESObjectCELL_AttachReference3D(ref, 0);
 
                 if (ref->NeedsUpdate())
 
@@ -29154,19 +29683,19 @@ struct Reader {
 
  unsigned int unk298;
 
- Reader* FUN_00449c50();
+ Reader* TESFile_GetThreadSafeFile();
 
- bool FUN_00448f60(void*);
+ bool TESFile_SetOffset(void*);
 
- unsigned char FUN_00448cc0();
+ unsigned char TESFile_GetTESForm();
 
- unsigned int FUN_004487d0();
+ unsigned int TESFile_GetTESChunk();
 
  void FUN_00448800(unsigned int*);
 
  void FUN_00447d60(void*,unsigned int);
 
- bool FUN_00447020();
+ bool TESFile_NextChunk();
 
 };
 
@@ -29240,11 +29769,11 @@ struct ScriptCache {
 
  ScriptCache(){FUN_00517010();} ~ScriptCache(){FUN_00519960();}
 
- void FUN_00519780(ScriptCache*);
+ void Script_CopyResultScript(ScriptCache*);
 
  void FUN_004553b0();
 
- void FUN_00454240(int);
+ void TESForm_SetInitialized(int);
 
  void FUN_00517160(unsigned int,const void*);
 
@@ -29296,7 +29825,7 @@ struct Owner {
 
  void* unk4c;
 
- Reader* FUN_00455470(int);
+ Reader* TESForm_GetFile(int);
 
  ScriptCache* FUN_005669e0(int index);
 
@@ -29308,6 +29837,8 @@ extern ScriptCache DAT_01072598[2];
 
 extern Variable* DAT_01072698;
 
+// pdb: TESTopicInfo::GetResultScript | TESTopicInfo.obj | fnv360_0822_retail, uconst, low
+// pdb params: aeScript
 ScriptCache* Owner::FUN_005669e0(int index) {
 
  if(this==DAT_01072588) return &DAT_01072598[index];
@@ -29316,27 +29847,27 @@ ScriptCache* Owner::FUN_005669e0(int index) {
 
  ScriptCache temporary;
 
- DAT_01072598[0].FUN_00519780(&temporary);
+ DAT_01072598[0].Script_CopyResultScript(&temporary);
 
  DAT_01072598[0].FUN_004553b0(); DAT_01072598[0].header.changed=false;
 
- DAT_01072598[1].FUN_00519780(&temporary);
+ DAT_01072598[1].Script_CopyResultScript(&temporary);
 
  DAT_01072598[1].FUN_004553b0(); DAT_01072598[1].header.changed=false;
 
  if((unsigned char)(unk08>>13)&1) {
 
- DAT_01072598[0].FUN_00454240(0); DAT_01072598[1].FUN_00454240(0);
+ DAT_01072598[0].TESForm_SetInitialized(0); DAT_01072598[1].TESForm_SetInitialized(0);
 
- Reader* f=FUN_00455470(-1);
+ Reader* f=TESForm_GetFile(-1);
 
  if(f && unk4c) {
 
- f=f->FUN_00449c50();
+ f=f->TESFile_GetThreadSafeFile();
 
- if(f->FUN_00448f60(unk4c) && f->FUN_00448cc0()==0x46) {
+ if(f->TESFile_SetOffset(unk4c) && f->TESFile_GetTESForm()==0x46) {
 
- int chunk=f->FUN_004487d0();
+ int chunk=f->TESFile_GetTESChunk();
 
  if(chunk) {
 
@@ -29373,7 +29904,7 @@ ScriptCache* Owner::FUN_005669e0(int index) {
 
  case 0x44534c53: case 0x52564353:
 
- if(f->FUN_004487d0()==0x44534c53) {
+ if(f->TESFile_GetTESChunk()==0x44534c53) {
 
  DAT_01072698=new Variable;
 
@@ -29395,9 +29926,9 @@ ScriptCache* Owner::FUN_005669e0(int index) {
 
  }
 
- if(!f->FUN_00447020()) break;
+ if(!f->TESFile_NextChunk()) break;
 
- chunk=f->FUN_004487d0();
+ chunk=f->TESFile_GetTESChunk();
 
  } while(chunk);
 
@@ -29660,7 +30191,7 @@ struct TESForm {
     FormType GetFormType() { return (FormType)formType; }
     bool GetInitialized() { return (flags >> 3) & 1; }
     void FUN_00454480(TESForm* form);
-    void FUN_00454240(bool state);
+    void TESForm_SetInitialized(bool state);
 };
 
 struct TopicNode {
@@ -29727,7 +30258,7 @@ struct ResponseList {
 extern ResponseList DAT_01072678;
 
 struct Script {
-    void FUN_00519780(Script* source);
+    void Script_CopyResultScript(Script* source);
 };
 
 struct TopicInfoData {
@@ -29770,6 +30301,8 @@ struct TopicInfo : TESForm {
     void FUN_00567610(TESForm* form);
 };
 
+// pdb: TESTopicInfo::Copy | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCopy
 void TopicInfo::FUN_00567610(TESForm* form)
 {
     TopicInfo* topic = (TopicInfo*)FUN_00c0050a(form, 0, &DAT_00f46078, &DAT_00f47c0c, 0);
@@ -29809,14 +30342,14 @@ void TopicInfo::FUN_00567610(TESForm* form)
     }
     SetDifficultyLevel(topic->difficulty);
     SetSpeaker(topic->speaker);
-    FUN_005669e0(0)->FUN_00519780(topic->FUN_005669e0(0));
-    FUN_005669e0(1)->FUN_00519780(topic->FUN_005669e0(1));
+    FUN_005669e0(0)->Script_CopyResultScript(topic->FUN_005669e0(0));
+    FUN_005669e0(1)->Script_CopyResultScript(topic->FUN_005669e0(1));
     SetInfoIndex(topic->infoIndex);
     FUN_00565c00(&topic->conditions);
     if (topic->unk38)
         FUN_005660c0(topic->unk38);
     SetQuest(topic->quest);
-    FUN_00454240(topic->GetInitialized());
+    TESForm_SetInitialized(topic->GetInitialized());
 }
 
 }
@@ -29828,6 +30361,7 @@ struct S_0057f110 {
     unsigned char m;
     void FUN_0057f110();
 };
+// pdb: Sun::StopSunOcclusion | Sun.obj | fnv360_0822_retail, call_gap, low
 void S_0057f110::FUN_0057f110()
 {
     m = 0;
@@ -29874,6 +30408,8 @@ struct List_573460 {
     unsigned FUN_00573460(ListNode_573460** position);
 };
 
+// pdb: NiTPointerListBase<DFALL<NiTListItem<QueuedRemoval *> >,QueuedRemoval *>::RemovePos | TESWaterListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kPos
 unsigned List_573460::FUN_00573460(ListNode_573460** position) {
     ListNode_573460* node = *position;
     if (node == head) {
@@ -30190,7 +30726,7 @@ struct Settings {
     unsigned int unkf4;
     unsigned mode;
 };
-Settings* __cdecl FUN_0043c230();
+Settings* __cdecl Sky_GetInstance();
 void __cdecl FUN_00adbc30(const char*,bool,NiPointer<Ref>&,bool,bool);
 void __cdecl FUN_00ade300(Object*,bool,bool);
 struct Owner {
@@ -30219,9 +30755,11 @@ struct Owner {
     unsigned int unk68;
     unsigned count;
     unsigned state70;
-    void FUN_0057e780(Object*);
+    void SkyObject_Initialize(Object*);
     void FUN_00577490(Object*,const char*);
 };
+// pdb: Moon::Initialize | Moon.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSkyRoot, apName
 void Owner::FUN_00577490(Object* root,const char* name) {
     Context context(33);
     Point* normals=0;
@@ -30234,7 +30772,7 @@ void Owner::FUN_00577490(Object* root,const char* name) {
     FUN_0046c350* colors2=0;
     unsigned short* indices=0;
     unsigned short* indices2=0;
-    FUN_0057e780(root);
+    SkyObject_Initialize(root);
     normals=new Point[4];
     vertices=new Point[4];
     normals2=new Point[4];
@@ -30278,7 +30816,7 @@ void Owner::FUN_00577490(Object* root,const char* name) {
     shader.FUN_00b32320(source10,1);
     shader.unk90=7;
     shader.FUN_00b32320(source14,1);
-    if(FUN_0043c230()->mode==3 || FUN_0043c230()->mode==2) {
+    if(Sky_GetInstance()->mode==3 || Sky_GetInstance()->mode==2) {
         Property* property=source14->FUN_00826590(3);
         NiPointer<Ref> texture(0);
         FUN_00adbc30("Textures\\Sky\\MoonShadow.dds",true,texture,true,false);
@@ -30608,6 +31146,8 @@ struct ContactListener56a790 {
     void FUN_0056a790(ContactEvent* e);
 };
 
+// pdb: FOCollisionListener::contactPointAddedCallback | FOCollisionListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arEvent
 void ContactListener56a790::FUN_0056a790(ContactEvent* e)
 {
     ContactEvent* ev = *(ContactEvent* volatile*)&e;
@@ -30770,7 +31310,7 @@ struct R5724 {
     int unk90,unk94,unk98,unk9c,unka0,unka4,unka8,unkac,unkb0,unkb4,unkb8,unkbc;
     int unkc0,unkc4,unkc8,unkcc;
     M5724 motiond0;
-    int FUN_0090b210();
+    int hkpEntity_getNumConstraints();
     void FUN_0090b500();
     void FUN_00571d40(float,const V5724*,const V5724*);
     void FUN_00571d10(float,const V5724*);
@@ -30793,6 +31333,8 @@ struct C5724 {
     void FUN_00572200(O5724*,float);
     int FUN_00572480(R5724*,float,float,bool);
 };
+// pdb: TESWaterListener::ProcessRigidBody | TESWaterListener.obj | fnv360_0822_retail, call_gap, low
+// pdb params: phkBody, fwaterHeight, afTime, abPlaceableWater
 int C5724::FUN_00572480(R5724* r,float height,float step,bool alt) {
     int result=0;
     O5724* obj=r ? r->object0c : 0;
@@ -30825,7 +31367,7 @@ int C5724::FUN_00572480(R5724* r,float height,float step,bool alt) {
                 V5724 force;
                 force.scale(strength*mass,direction);
                 V5724 point;
-                if (!r->FUN_0090b210()) {
+                if (!r->hkpEntity_getNumConstraints()) {
                     B5724 local;
                     obj->FUN_008febc0(&local);
                     V5724 offset;
@@ -31116,7 +31658,7 @@ struct FogState {
     int unka0;
     int unka4;
     int unka8;
-    float FUN_004e9080();
+    float TESObjectREFR_GetRelevantWaterHeight();
 };
 
 struct PosSub {
@@ -31195,10 +31737,11 @@ struct Object {
     int unk14;
     bool update;
     void FUN_00634f80(Input*, float);
-    void FUN_00575a30(Input*, float);
+    void Atmosphere_Update(Input*, float);
 };
 
-void Object::FUN_00575a30(Input* in, float value) {
+// pdb: Atmosphere::Update | Atmosphere.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void Object::Atmosphere_Update(Input* in, float value) {
     if (in) {
         Fog* old = fog;
         if (FUN_00adb920(0) != old)
@@ -31209,7 +31752,7 @@ void Object::FUN_00575a30(Input* in, float value) {
                 return;
             FogState* st = (FogState*)DAT_0107a104;
             if (st && st->enabled) {
-                if (((FogMgr*)DAT_0107a224)->FUN_004d4690()->Position().z < st->FUN_004e9080()) {
+                if (((FogMgr*)DAT_0107a224)->FUN_004d4690()->Position().z < st->TESObjectREFR_GetRelevantWaterHeight()) {
                     *(V4*)DAT_01176110 = V4(in->p48.x, in->p48.y, in->p48.z, 1.0f);
                     *(V4*)DAT_01176120 = V4(in->p48.x, in->p48.y, in->p48.z, 1.0f);
                     *(V4*)DAT_01176130 = V4(in->p48.x, in->p48.y, in->p48.z, 1.0f);
@@ -31453,7 +31996,7 @@ struct Info564cd0 {
 struct Topic564cd0 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     signed char type;                       // 0x24
-    Item564cd0* FUN_00564bf0(Speaker564cd0* speaker, Speaker564cd0* target, Topic564cd0* previous,
+    Item564cd0* TESTopic_CreateDialogueItem(Speaker564cd0* speaker, Speaker564cd0* target, Topic564cd0* previous,
                              List564cd0<Item564cd0>* list, bool run);
 };
 
@@ -31601,6 +32144,8 @@ extern const char DAT_00de6824[];
 extern const char DAT_00de680c[];
 extern const char DAT_00de67ec[];
 
+// pdb: TESTopic::CreateConversation | TESTopic.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apSpeaker, apTarget, apConversationList, apStartingTopic
 int __cdecl FUN_00564cd0(Speaker564cd0* speaker, Speaker564cd0* target, List564cd0<Item564cd0>* list, Topic564cd0* topic)
 {
     if (!list)
@@ -31626,12 +32171,12 @@ int __cdecl FUN_00564cd0(Speaker564cd0* speaker, Speaker564cd0* target, List564c
         current = DAT_0106cdcc->FUN_0043bc90(0xd2);
     FUN_00c04d8d((unsigned int)FUN_00c04d51(0));
     while (current && list->FUN_0049fa20() < 100) {
-        Item564cd0* item = current->FUN_00564bf0(first, second, previous, list, false);
+        Item564cd0* item = current->TESTopic_CreateDialogueItem(first, second, previous, list, false);
         if (!item) {
             if (topic && topic->type != 1)
                 break;
             current = DAT_0106cdcc->FUN_0043bc90(0xd4);
-            item = current->FUN_00564bf0(first, second, previous, list, false);
+            item = current->TESTopic_CreateDialogueItem(first, second, previous, list, false);
             if (!item)
                 break;
         }
@@ -31685,7 +32230,7 @@ int __cdecl FUN_00564cd0(Speaker564cd0* speaker, Speaker564cd0* target, List564c
                     for (unsigned int i = 0; i < (unsigned int)count && done; i++)
                         if (!used[i])
                             done = false;
-                    next = current->FUN_00564bf0(first, second, previous, list, false);
+                    next = current->TESTopic_CreateDialogueItem(first, second, previous, list, false);
                 } else {
                     done = true;
                 }
@@ -31970,6 +32515,8 @@ struct Manager {
     void FUN_00572eb0(Item* item);
     void FUN_005737a0(Reference* target, bool checkHeight, bool keep);
 };
+// pdb: TESWaterListener::HandleQueuedRemovals | TESWaterListener.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSpecificReference, abCheckBound, abCancel
 void Manager::FUN_005737a0(Reference* target, bool checkHeight, bool keep)
 {
     ListNode* pos = m_list.GetHeadPos();
@@ -32296,6 +32843,8 @@ static unsigned int GetSubFlags(Shape2* p)
 static const bool kTraceImpulse = false;
 void TraceImpulseScale(const float& inverseLength);
 
+// pdb: TESHavokUtilities::AddExplosionImpulse | TEShavokUtilities.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObject, aLocation, afMagnitude, apHitData
 void __cdecl FUN_005700f0(Node* node, float* base, float scale, Ctx* ctx)
 {
     if (node == 0)
@@ -32416,7 +32965,7 @@ struct State {
     int unkfc, unk100, unk104, unk108, unk10c, unk110, unk114;
     unsigned char flags;
 };
-State* FUN_0043c230();
+State* Sky_GetInstance();
 
 struct RefObject;
 typedef void (__thiscall *DestroyRef)(RefObject*);
@@ -32517,7 +33066,7 @@ struct Player {
     Block16 unk00, unk10, unk20;
     int unk30, unk34, unk38;
     Cell* cell;
-    float FUN_004e9080();
+    float TESObjectREFR_GetRelevantWaterHeight();
 };
 extern Player* DAT_0107a104;
 
@@ -32561,9 +33110,11 @@ static __forceinline void Release(RefObject*& value) {
     }
 }
 
+// pdb: Precipitation::Update | Precipitation.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: afSecondsPassed
 void RainSystem::FUN_00579dc0(float elapsed) {
     float blend;
-    State* state = FUN_0043c230();
+    State* state = Sky_GetInstance();
     bool hide = state->mode == 1 || state->mode == 0;
     Weather* weatherA = state->currentWeather;
     Weather* weatherB = state->previousWeather;
@@ -32619,7 +33170,7 @@ void RainSystem::FUN_00579dc0(float elapsed) {
         if (player && (cell = player->cell) && (cell->flags & 2)) {
             Camera* camera = DAT_0107a224->GetCamera(0);
             double cameraHeight = camera->height;
-            if (cameraHeight < player->FUN_004e9080())
+            if (cameraHeight < player->TESObjectREFR_GetRelevantWaterHeight())
                 hide = true;
         }
 
@@ -32723,9 +33274,10 @@ void __cdecl FUN_00adbc30(const char*,int,NiPointer<Texture>*,int,int);
 void __cdecl FUN_0057e900(NiPointer<Texture>*,const char*);
 
 extern const char* DAT_00e207a8;const char* FUN_008242a0(const char*);struct FixedString {const char* p;FixedString(const char* text){p=text==0?DAT_00e207a8:FUN_008242a0(text);}~FixedString(){if(p!=DAT_00e207a8){long* r=(long*)(p-8);InterlockedDecrement(r);}}};
-struct Owner {unsigned unk00,unk04;Source* sources[4];NiPointer<Texture> outputs[4];Color colors[4];unsigned short count;bool dirty;void FUN_00634f80(Sky*,float);void FUN_00576280(Sky*,float);};
+struct Owner {unsigned unk00,unk04;Source* sources[4];NiPointer<Texture> outputs[4];Color colors[4];unsigned short count;bool dirty;void FUN_00634f80(Sky*,float);void Clouds_Update(Sky*,float);};
 inline float Lerp(float a,float b,double t){return a+t*(b-a);}
-void __fastcall FUN_00576280(Owner* self,void*,Sky* sky,float delta){
+// pdb: Clouds::Update | Clouds.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __fastcall Clouds_Update(Owner* self,void*,Sky* sky,float delta){
  self->FUN_00634f80(sky,delta);
  Weather* current=sky->weather;Weather* previous=sky->previous;
  if(!current)return;
@@ -32857,7 +33409,7 @@ void __cdecl FUN_0058e230(void*,void*,Matrix*,bool,float);
 
 void* __cdecl FUN_0058f300();
 
-void __cdecl FUN_0058e170(void*,Matrix*,bool,bool);
+void __cdecl BSFaceGenManager_CopyFaceGenCoord(void*,Matrix*,bool,bool);
 
 void __cdecl FUN_00829790(const char*);
 
@@ -33525,6 +34077,8 @@ struct Owner {
 
 };
 
+// pdb: TESRace::GetBodyTexture | TESRace.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aspOutBaseTexture, aspOutModTexture, apNPC, aePart, abForceCreate
 bool Owner::FUN_005619e0(Ptr& source,Ptr& texture,NPC* npc,int part,bool force) {
     ReferencePtr<FaceModel> faceModel;
     // referenceA/B/C are never assigned: the original builds and destroys three null smart pointers and pushes zeros.
@@ -33574,7 +34128,7 @@ bool Owner::FUN_005619e0(Ptr& source,Ptr& texture,NPC* npc,int part,bool force) 
         } else {
             void* fallback = FUN_0051dfe0(fallbackGender);
             if (!fallback) fallback=FUN_0058f300();
-            FUN_0058e170(fallback,coordinates,false,false);
+            BSFaceGenManager_CopyFaceGenCoord(fallback,coordinates,false,false);
         }
         if (force) FUN_00829790(texturePath);
         faceModel->FUN_00595130(coordinates,texture,DAT_01073a6c);
@@ -33688,7 +34242,7 @@ struct hkpMotion {
 struct hkpRigidBody {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC;
     hkpMotion motion;
-    int FUN_0090b210();
+    int hkpEntity_getNumConstraints();
     hkpConstraintInstance* FUN_0090b220(int index);
     void FUN_0090b500();
 };
@@ -33802,7 +34356,7 @@ struct EntityArray {
 };
 
 struct Process {
-    void FUN_00919380(int value);
+    void bhkRagdollPenetrationUtil_Initialize(int value);
 };
 
 struct Refr {
@@ -34012,6 +34566,8 @@ struct LocalArray : EntityArray {
     }
 };
 
+// pdb: LoadedAreaBound::WarpBody | LoadedAreaBound.obj | fnv360_1110_retail, objrun, medium
+// pdb params: apBody, arWarpedBodies
 void Owner::FUN_0056dba0(Wrapper* ref, EntityArray* out) {
     if (!ref || ref->IsDisabled()) return;
     Refr* refr = FUN_0056fbf0(ref->body ? &ref->body->unk10 : 0);
@@ -34024,7 +34580,7 @@ void Owner::FUN_0056dba0(Wrapper* ref, EntityArray* out) {
     NiPoint3 offset = pos - nt.GetTranslate();
     hkpRigidBody* body = ref->body;
     bool constrained = false;
-    for (int k = 0; k < body->FUN_0090b210(); ++k) {
+    for (int k = 0; k < body->hkpEntity_getNumConstraints(); ++k) {
         if (constrained) break;
         hkpConstraintInstance* c = body->FUN_0090b220(k);
         constrained = c->data->GetType() != 11;
@@ -34064,7 +34620,7 @@ void Owner::FUN_0056dba0(Wrapper* ref, EntityArray* out) {
             int tmp;
             int value = *refr->FUN_00766b00(&tmp);
             int resolved = refr->Resolve(value);
-            refr->process->FUN_00919380(resolved);
+            refr->process->bhkRagdollPenetrationUtil_Initialize(resolved);
         }
     }
     if (!constrained) {
@@ -34529,7 +35085,8 @@ struct Setting {
     union { bool b; int i; float f; } m_value;
     const char* m_pcName;
     int* FUN_004241e0();
-    bool* GetBool() { return &m_value.b; }
+    // pdb: hkBufferedStreamWriter::isOk | hkBufferedStreamWriter.obj | fnv360_0822_retail, vtable, high (was: GetBool)
+    bool* hkBufferedStreamWriter_isOk() { return &m_value.b; }
 };
 
 extern Setting DAT_01072aac;   // maximum shape hits
@@ -34565,6 +35122,8 @@ struct ViewCaster {
     TESObjectREFR* FUN_00574540(const NiPoint3* pkOrigin, const NiPoint3* pkDir, float fImpulseRadiusSquared, float* pfDistance, bool* pbAlternate);
 };
 
+// pdb: ViewCaster::FindActivateREFR | ViewCaster.obj | fnv360_0822_retail, uconst, low
+// pdb params: aOrigin, aDirection, afPickDistance, afObjectDistance, abIsFuzzy
 TESObjectREFR* ViewCaster::FUN_00574540(const NiPoint3* pkOrigin, const NiPoint3* pkDir, float fImpulseRadiusSquared,
                                          float* pfDistance, bool* pbAlternate)
 {
@@ -34606,7 +35165,7 @@ TESObjectREFR* ViewCaster::FUN_00574540(const NiPoint3* pkOrigin, const NiPoint3
         float fAlternateDistance = 3.402823466e+38f;
         float fAlternateOffset = 3.402823466e+38f;
         void* pvAlternateHit = 0;
-        bool bCheck = *DAT_01072ab8.GetBool();
+        bool bCheck = *DAT_01072ab8.hkBufferedStreamWriter_isOk();
         int iRays = 0;
         int iHits = 0;
         int iTargets = 0;
@@ -34918,10 +35477,10 @@ public:
     unsigned int iSoundID;
     bool bAssumeSuccess;
     unsigned int eState;
-    void FUN_00bd0140();
+    void BSSoundHandle_Stop();
     bool FUN_00bd0160();
-    bool FUN_00bd0390();
-    void FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Release();
 };
 
 class TESWeather {
@@ -34982,6 +35541,7 @@ public:
     void FUN_0057cae0();
 };
 
+// pdb: Sky::UpdateSound | Sky.obj | fnv360_0721_beta, call_seq, medium
 void Sky::FUN_0057cae0()
 {
     SkySound* pSound;
@@ -34998,7 +35558,7 @@ void Sky::FUN_0057cae0()
             {
                 if (pSound->eType == 3)
                     --DAT_01072f8c;
-                pSound->m_handle.FUN_00bd03b0();
+                pSound->m_handle.BSSoundHandle_Release();
                 delete pSound;
             }
             else
@@ -35011,7 +35571,7 @@ void Sky::FUN_0057cae0()
         while (pOldNode && (pOldSound = pOldNode->GetItem()))
         {
             pOldNode = pOldNode->GetNext();
-            if (pOldSound->m_handle.FUN_00bd0390())
+            if (pOldSound->m_handle.BSSoundHandle_IsValid())
             {
                 bool bStillInUse = false;
                 pCurrentNode = pSaveList;
@@ -35023,7 +35583,7 @@ void Sky::FUN_0057cae0()
                 }
                 if (!bStillInUse)
                 {
-                    pOldSound->m_handle.FUN_00bd03b0();
+                    pOldSound->m_handle.BSSoundHandle_Release();
                     delete pOldSound;
                 }
             }
@@ -35043,7 +35603,7 @@ void Sky::FUN_0057cae0()
         FUN_0057c080(m_pRegionWeather);
     while (pCurrentNode && (pSound = pCurrentNode->GetItem()))
     {
-        if (!pSound->m_handle.FUN_00bd0390())
+        if (!pSound->m_handle.BSSoundHandle_IsValid())
         {
             pCurrentNode = pCurrentNode->GetNext();
             continue;
@@ -35124,7 +35684,7 @@ void Sky::FUN_0057cae0()
             if (pSound->m_handle.FUN_00bd0160() &&
                 !FUN_0057b490(pSound->iSoundFormID,
                               pSound->m_pWeather == m_pRegionWeather ? m_pPreviousWeather : m_pRegionWeather))
-                pSound->m_handle.FUN_00bd0140();
+                pSound->m_handle.BSSoundHandle_Stop();
             pSound->SetDone();
             DAT_0107301c = true;
         }
@@ -35188,6 +35748,7 @@ int unk0a4;
 int unk0a8;
 int unk0ac;
 Model male[8];Model female[8];Model* Get(int sex,unsigned i){if(i>7)return 0;return sex ? &female[i]:&male[i];}void FUN_00560c20();};
+// pdb: TESRace::KillEGTData | TESRace.obj | fnv360_0822_debug, caller, medium
 void Race::FUN_00560c20() {
     String filename;
     char path[260];
@@ -35224,9 +35785,9 @@ struct TESFile
     unsigned int m_chunkSize;
     unsigned char unk260[0x39];
     bool m_swapEndian;
-    int FUN_00448cc0();
-    int FUN_004487d0();
-    bool FUN_00447020();
+    int TESFile_GetTESForm();
+    int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     void FUN_00447d60(void* buffer, unsigned int size);
     unsigned int GetChunkSize() const { return m_chunkSize; }
     bool IsSwapped() const { return m_swapEndian; }
@@ -35315,7 +35876,7 @@ public:
     virtual void SetEditorID(const char* editorID);
     unsigned char unk04[0x14];
     void FUN_00454410(TESFile* file);
-    void FUN_00454d10(TESFile* file, void* buffer, unsigned int size);
+    void TESForm_LoadData(TESFile* file, void* buffer, unsigned int size);
 };
 
 struct TESDescription
@@ -35331,7 +35892,7 @@ struct TESTexture
 };
 
 void __cdecl FUN_00453570(TESDescription* description, TESFile* file);
-void __cdecl FUN_0045bab0(TESTexture* texture, TESFile* file);
+void __cdecl TESTexture_LoadTextureChunk(TESTexture* texture, TESFile* file);
 
 inline void SwapValue(unsigned long& value)
 {
@@ -35367,16 +35928,18 @@ public:
 
 }
 
+// pdb: TESSkill::Load | TESSkill.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool f3m_00563730::TESSkill::FUN_00563730(TESFile* file)
 {
     int chunkID;
 
-    if (file->FUN_00448cc0() != 0x0f)
+    if (file->TESFile_GetTESForm() != 0x0f)
         return false;
 
     FUN_00454410(file);
 
-    while ((chunkID = file->FUN_004487d0()) != 0)
+    while ((chunkID = file->TESFile_GetTESChunk()) != 0)
     {
         switch (chunkID)
         {
@@ -35393,10 +35956,10 @@ bool f3m_00563730::TESSkill::FUN_00563730(TESFile* file)
             FUN_00453570(static_cast<TESDescription*>(this), file);
             break;
         case 0x4e4f4349:
-            FUN_0045bab0(static_cast<TESTexture*>(this), file);
+            TESTexture_LoadTextureChunk(static_cast<TESTexture*>(this), file);
             break;
         case 0x41544144:
-            FUN_00454d10(file, &m_data, 0x14);
+            TESForm_LoadData(file, &m_data, 0x14);
             break;
         case 0x4d414e41:
             FUN_00453570(&m_apprentice, file);
@@ -35415,7 +35978,7 @@ bool f3m_00563730::TESSkill::FUN_00563730(TESFile* file)
         if (chunkID == 0x41544144 && file->IsSwapped())
             m_data.SwapEndian();
 
-        if (!file->FUN_00447020())
+        if (!file->TESFile_NextChunk())
             break;
     }
 
@@ -35441,6 +36004,8 @@ struct Owner_00563f90 {
     bool FUN_00563f90(const char* s);
 };
 
+// pdb: TESTopic::SetFormEditorID | TESTopic.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEditorID
 bool Owner_00563f90::FUN_00563f90(const char* s)
 {
     unsigned int n = strlen(s) + 1;
@@ -35685,6 +36250,8 @@ struct Lookup {
     Node* FUN_00568260(Obj1* p1, void* p2, void* p3, void* p4, bool flag);
 };
 
+// pdb: BGSZoneTargetListener::AddZoneTargetPair | BGSZoneTargetListener.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arPoint, apZone, apTarget, aiFlags, abTrap
 Node* Lookup::FUN_00568260(Obj1* p1, void* p2, void* p3, void* p4, bool flag)
 {
     void* a = FUN_004780d0(p1->p20);
@@ -35910,6 +36477,8 @@ struct Obj568 {
     bool FUN_00568eb0(Ref* ref, const Vec3* pos, float radius, float zOffset);
 };
 
+// pdb: CameraCaster::KeepOutOfCharacter | CameraCaster.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apController, arPoint, afRadius, afScaleOffset
 bool Obj568::FUN_00568eb0(Ref* ref, const Vec3* pos, float radius, float zOffset)
 {
     bool result = false;
@@ -36150,6 +36719,8 @@ struct Sg005693d0 {
 };
 
 
+// pdb: CellMopp::Make | CellMopp.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apWorld, arPosition, arRotation
 bool Sg005693d0::FUN_005693d0(BhkWorldView* a1, Pt005693d0* pPos, int a3)
 {
     if (!a1)
@@ -36401,6 +36972,8 @@ struct C569 {
 extern "C" void _ReadWriteBarrier(void);
 extern void FUN_008f4480(int a, int b, int c);
 
+// pdb: DecalCaster::Pick | DecalCaster.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: arFrom, arTo, afRadius
 int C569::FUN_00569d60(Vec3* a, Vec3* b, float c)
 {
     if (c != 0.0f) {
@@ -36552,10 +37125,11 @@ struct Caster569f30 {
     int f1e0, f1e4, f1e8, f1ec, f1f0, f1f4, f1f8, f1fc;
     int f200, f204, f208, f20c, f210, f214, f218, f21c;
     NiPointer<FUN_004e64b0> m_spPhantom;
-    void FUN_00569f30(float afRadius, unsigned int auiLayer);
+    void DecalCaster_Init(float afRadius, unsigned int auiLayer);
 };
 
-void Caster569f30::FUN_00569f30(float afRadius, unsigned int auiLayer)
+// pdb: DecalCaster::Init | DecalCaster.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void Caster569f30::DecalCaster_Init(float afRadius, unsigned int auiLayer)
 {
     FUN_004e9520* pShape = new FUN_004e9520(afRadius, true);
     FUN_004f64e0 cinfo;
@@ -36864,6 +37438,8 @@ __forceinline bool boxOutside(const Aabb* other, const Aabb* box) {
     return (hi & lo & 0xE) == 0xE;
 }
 
+// pdb: LoadedAreaBound::CheckPhantomsOutsideAABB | LoadedAreaBound.obj | fnv360_1110_retail, objrun, low
+// pdb params: boundAABB, arPhantomA, apWorld
 void Hnd56::FUN_0056d930(Aabb* query, List56* list, Own56* owner) {
     for (int i = 0; i < list->size; ++i) {
         WObj56* obj = list->data[i];
@@ -36955,6 +37531,8 @@ struct Walls {
  int unk00,unk04; FUN_004e63f0* walls[6]; int unk20,unk24,unk28,unk2c,unk30; float radius,padding,height;
  void FUN_0056e2d0(Input*,const Bounds&);
 };
+// pdb: LoadedAreaBound::Create | LoadedAreaBound.obj | fnv360_1110_retail, objrun_prop, low
+// pdb params: apCell, arboundAABB
 void Walls::FUN_0056e2d0(Input* input,const Bounds& box) {
  void* system;
  if(input->flags&1) system=input->part.FUN_00410f00(); else system=DAT_01071564;
@@ -37037,6 +37615,8 @@ template<class T> struct ArrT56 {
 struct Node56 { unsigned unk00,unk04,unk08,unk0c,unk10,unk14; Owner56* owner;unsigned unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,unk44;ArrT56<Entry56*> entities; Owner56* getWorld() const {return owner;} const ArrT56<Entry56*>& getEntities() const {return entities;} };
 typedef ArrT56<Node56*> Nodes56;
 struct Filter56 { void FUN_0056dba0(unsigned,Array56*); void FUN_0056e770(const Box56*,const Nodes56&); };
+// pdb: LoadedAreaBound::SetBodiesMotionOutsideAABB | LoadedAreaBound.obj | fnv360_1110_retail, objrun, medium
+// pdb params: boundAABB, arSimIslandA
 void Filter56::FUN_0056e770(const Box56* query,const Nodes56& nodes) {
     Array56 candidates;
     for(int i=0;i<nodes.getSize();++i) {
@@ -37106,6 +37686,8 @@ struct NiNode : NiAVObject {
     unsigned short childCount;
 };
 Collision* __cdecl FUN_00424fe0(NiAVObject* obj);
+// pdb: TESHavokUtilities::AddVelocity | TEShavokUtilities.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, aVelocity, abReset
 void __cdecl FUN_005703a0(NiAVObject* obj, const Point3* pos, bool absolute)
 {
     if (!obj)
@@ -37239,6 +37821,8 @@ FNV_STATIC_ASSERT(offsetof(RefForm, xform) == 0x68);
 FNV_STATIC_ASSERT(offsetof(LoadedRef, node) == 0x10);
 FNV_STATIC_ASSERT(sizeof(NiTransform) == 0x34);
 
+// pdb: TESHavokUtilities::GetLocalPointWithinCollision | TEShavokUtilities.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apObject
 NiPoint3* FUN_005706d0(NiPoint3* out, RefForm* obj) {
     *out = NiPoint3::ZERO;
 
@@ -37381,6 +37965,8 @@ struct Owner {
     Node list;
     Item* FUN_00565120(unsigned id, int unused);
 };
+// pdb: TESTopic::InsertQuest | TESTopic.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apQuest, abReSort
 Item* Owner::FUN_00565120(unsigned id, int unused) {
     if (!id)
         return 0;
@@ -37500,6 +38086,7 @@ struct Target {
     ~Target();
     void* FUN_00572fe0(unsigned int flags);
 };
+// pdb: NiTMap<hkpRigidBody *,bool>::`scalar deleting destructor' | TESWaterListener.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: BSTArray<class NiPointer<class bhkMouseSpringAction>,class BSTSmallArrayHeapAllocator<16> >::~BSTArray<class NiPointer<class bhkMouseSpringAction>,class BSTSmallArrayHeapAllocator<16> >)
 void* Target::FUN_00572fe0(unsigned int flags) {
     this->~Target();
     if (flags & 1) {
@@ -37521,6 +38108,7 @@ struct Target {
     ~Target();
     void* FUN_0056d750(unsigned int flags);
 };
+// pdb: NiTMap<bhkRigidBody *,unsigned short>::`scalar deleting destructor' | LoadedAreaBound.obj | fnv360_0822_debug, vtable, medium
 void* Target::FUN_0056d750(unsigned int flags) {
     this->~Target();
     if (flags & 1) {
@@ -37567,6 +38155,8 @@ struct ListOwner {
     }
     void FUN_00565df0(Node* src);
 };
+// pdb: ResponseListWrapper::CopyResponseList | TESTopicInfo.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apHead
 void ListOwner::FUN_00565df0(Node* src) {
     Clear();
     Node* prev = 0;
@@ -37850,6 +38440,8 @@ inline void ToHavok(Vector4& dst, const Point3& src) {
     dst.z = src.z * scale;
 }
 
+// pdb: LoadedAreaBound::FindWarpLocation | LoadedAreaBound.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef, arCurLoc, arWarpLoc
 void LoadedAreaBound::FUN_0056ccd0(Reference* ref, const Point3& current, Point3& out) {
     void* location = 0;
     Cell* parentCell = cell;
@@ -37896,6 +38488,8 @@ struct __declspec(align(16)) Vec {
     float x, y, z;
 };
 void __cdecl FUN_005703a0(int a, Vec* v, int c);
+// pdb: TESHavokUtilities::AddVelocity | TEShavokUtilities.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject, aVelocity, abReset
 void __cdecl FUN_00570a30(int a, const float* v, int c)
 {
     Vec t;

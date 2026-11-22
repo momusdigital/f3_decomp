@@ -3,6 +3,8 @@
 #include "nialphaproperty_decls.h"
 
 // @fnv 0x00a5cf90
+// pdb: NiAlphaProperty::LoadBinary | NiAlphaProperty.obj | fnv360_0822_debug, vtable, high
+// pdb params: kStream
 void NiAlphaProperty::LoadBinary(NiStream& stream)
 {
     NiProperty::LoadBinary(stream);
@@ -23,6 +25,8 @@ struct EqBase
     bool FUN_00a62140(NiObject*);
 };
 // @fnv 0x00a5cb10
+// pdb: NiAlphaProperty::IsEqual | NiAlphaProperty.obj | fnv360_0822_debug, vtable, medium, conflict (bridge: NiZBufferProperty::IsEqual)
+// pdb params: pkObject
 unsigned char __fastcall IsAlphaPropertyEqual(NiAlphaProperty* self, int, NiObject* pkObject)
 {
     NiAlphaProperty* pkAlpha = reinterpret_cast<NiAlphaProperty*>(pkObject);
@@ -51,7 +55,8 @@ struct RefObj
 extern RefObj* DAT_011f4410;
 // If the global RefObj pointer is set, decrements its reference count and clears the pointer.
 // @fnv 0x00a5cf60
-void FUN_00a5cf60()
+// pdb: NiAlphaProperty::_SDMShutdown | NiAlphaProperty.obj | fnv360_0822_retail, call_seq + bridge(call_dedup|call_dedup) + skyrim(call_gap_sim), high
+void NiAlphaProperty__SDMShutdown()
 {
     if (DAT_011f4410)
     {
@@ -95,6 +100,7 @@ extern SdmBase* DAT_011f5e34;
 extern bool DAT_011f5d30;
 // Allocates 0x10 bytes, constructs an SdmDerived in place, stores it in DAT_011f5e34 and clears DAT_011f5d30.
 // @fnv 0x00a8fa50
+// pdb: NiSingleShaderMaterialLibrary::_SDMInit | NiSingleShaderMaterialLibrary.obj | fnv360_0721_beta, call_gap, low, conflict (bridge: NiMaterial::_SDMInit)
 void CreateSdmDerived()
 {
     void* pStorage = g_memoryManager.Allocate(0x10);
@@ -122,7 +128,8 @@ __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 // Allocates a 0x1c-byte NiAlphaProperty, initialises its vtable and flags, and stores it in DAT_011f4410 with reference counting.
 // @fnv 0x00a5cef0
-void FUN_00a5cef0()
+// pdb: NiAlphaProperty::_SDMInit | NiAlphaProperty.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_dedup) + skyrim(call_gap_sim), high
+void NiAlphaProperty__SDMInit()
 {
     char* pAlphaProperty = (char*)BSFadeNode::operator new(0x1c);
     if (pAlphaProperty)
@@ -155,6 +162,7 @@ struct A51BF0Base
 
 // @f3 0x008398c0 (community match, verified in this file)
 extern void* DAT_0101e07c;
+// pdb: NiStencilProperty::CreateObject | NiStencilProperty.obj | fnv360_0822_retail, objrun, medium
 NiAlphaProperty* __cdecl CreateNiAlphaProperty()
 {
     NiAlphaProperty* p = (NiAlphaProperty*)A51BF0Base::operator new(0x24);
@@ -378,6 +386,8 @@ class A5D020Property : public A5D020Base
 // SaveBinary
 // Calls the base save routine, then writes m_usFlags and m_ucMode to the stream.
 // @fnv 0x00a5d020
+// pdb: NiAlphaProperty::SaveBinary | NiAlphaProperty.obj | fnv360_0822_debug, vtable, high
+// pdb params: kStream
 void A5D020Property::SaveToStream(A5D020Stream& kStream)
 {
     FUN_00a5d7b0(kStream);
@@ -474,6 +484,8 @@ struct FUN_00a81600_cls
     void AppendString(NiArr* pkStrings);
 };
 
+// pdb: NiAlphaProperty::GetViewerStrings | NiAlphaProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void A5D080Property::AppendPropertyStrings(StrArr* pkStrings)
 {
     ((FUN_00a81600_cls*)this)->AppendString((NiArr*)pkStrings);
@@ -491,6 +503,8 @@ void A5D080Property::AppendPropertyStrings(StrArr* pkStrings)
 void __cdecl FUN_00a62130();
 
 // @fnv 0x00a99e40
+// pdb: NiScreenSpaceCamera::RegisterStreamables | NiOldScreenSpace.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: NiCamera::RegisterStreamables)
+// pdb params: kStream
 void __cdecl FUN_00a99e40()
 {
     FUN_00a62130();
@@ -512,12 +526,13 @@ struct S00a5ce30_cls
     unsigned char unk1a;
     void FUN_00a5c200();
     void FUN_00a5d7a0(S00a5ce30_cls* dst, int proc);
-    S00a5ce30_cls* FUN_00a5ce30(int a0);
+    S00a5ce30_cls* NiAlphaProperty_CreateClone(int a0);
 };
 void __stdcall CreateVertexBufferSet(S00a5ce30_cls* self, int proc);
 
 // @fnv 0x00a5ce30
-S00a5ce30_cls* S00a5ce30_cls::FUN_00a5ce30(int a0)
+// pdb: NiAlphaProperty::CreateClone | NiAlphaProperty.obj | fnv360_0822_debug, vtable + bridge(vtable|udata) + skyrim(caller_sim), high
+S00a5ce30_cls* S00a5ce30_cls::NiAlphaProperty_CreateClone(int a0)
 {
     if (unk0c == 0 && DAT_011f4404 == 0)
     {
@@ -547,6 +562,8 @@ int _NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string and formats it as "pcPrefix = ALPHA_..." based on the eFunc index, returning the new string.
 // @fnv 0x00a5cb90
+// pdb: NiAlphaProperty::GetViewerString | NiAlphaProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eFunc
 char* GetAlphaBlendFuncName(const char* pcPrefix, int aiFuncIndex)
 {
     char* pcString;
@@ -601,6 +618,8 @@ int __cdecl _NiSprintf(char* buffer, unsigned int size, const char* format, ...)
 
 // Allocates a buffer and formats a string like "name = TEST_LESS" based on the test code, returning the buffer.
 // @fnv 0x00a5cd00
+// pdb: NiAlphaProperty::GetViewerString | NiAlphaProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pcPrefix, eFunc
 char* FormatTestCondition(const char* name, int test)
 {
     unsigned int length = (unsigned int)strlen(name);

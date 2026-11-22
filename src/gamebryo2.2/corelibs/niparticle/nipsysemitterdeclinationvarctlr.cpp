@@ -1,14 +1,6 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationvarctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationvarctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202750;
-
-// @fnv 0x00c2b8b0
-void* __cdecl FUN_00c2b8b0()
-{
-    return &g_01202750;
-}
-
 struct NiPSysModifierFloatCtlr
 {
     char _pad[0x24];
@@ -65,16 +57,6 @@ struct StrArr
         return uiIndex;
     }
 };
-void __stdcall FUN_00c32f60(StrArr* pArr);
-char* FUN_00a7d330(char* s);
-
-// @fnv 0x00c2b920
-void __stdcall FUN_00c2b920(StrArr* pStringArray)
-{
-    FUN_00c32f60(pStringArray);
-    char* s = FUN_00a7d330((char*)g_01202750);
-    pStringArray->Add(s);
-}
 
 extern int DAT_010bfb54;
 
@@ -110,6 +92,7 @@ struct FUN_00c2b8d0_cls
 };
 
 // @fnv 0x00c2b8d0
+// pdb: NiPSysEmitterDeclinationVarCtlr::CreateClone | NiPSysEmitterDeclinationVarCtlr.obj | tesv_win, caller_sim, low
 SpawnedObject* FUN_00c2b8d0_cls::FUN_00c2b8d0(void* arg)
 {
     SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);

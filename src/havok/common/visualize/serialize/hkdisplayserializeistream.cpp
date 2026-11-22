@@ -10,20 +10,26 @@ struct DdabeTag
     {}
 };
 
+class hkClass;
+class hkStatisticsCollector;
+// hkIStream: the three slots of the Fallout 3 vtable of hkDisplaySerializeIStream (0x00e86d68).
 struct DdabeBase
 {
     DdabeBase(int a, DdabeTag t);
-    virtual void unk00();
+    virtual ~DdabeBase();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
 };
 
-struct FUN_00ddabe0 : DdabeBase
+struct hkDisplaySerializeIStreamDDAB : DdabeBase
 {
-    FUN_00ddabe0(int a);
-    virtual void unk00();
+    hkDisplaySerializeIStreamDDAB(int a);
 };
 
 // @fnv 0x00ddabe0
-FUN_00ddabe0::FUN_00ddabe0(int a) : DdabeBase(a, DdabeTag())
+// pdb: hkDisplaySerializeIStream::hkDisplaySerializeIStream | hkDisplaySerializeIStream.obj | fnv360_0822_retail, uvref, medium
+// pdb params: reader
+hkDisplaySerializeIStreamDDAB::hkDisplaySerializeIStreamDDAB(int a) : DdabeBase(a, DdabeTag())
 {}
 
 struct FUN_00ddac60_Obj
@@ -37,6 +43,8 @@ struct FUN_00ddac60_Obj
 void __stdcall FUN_00dd8fe0(FUN_00ddac60_Obj* obj, int a, int b);
 
 // @fnv 0x00ddac60
+// pdb: hkDisplaySerializeIStream::readQuadVector4 | hkDisplaySerializeIStream.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: `anonymous namespace'::Reader::readFloat)
+// pdb params: v
 void __stdcall FUN_00ddac60(FUN_00ddac60_Obj* obj)
 {
     FUN_00dd8fe0(obj, 4, 3);
@@ -54,21 +62,18 @@ struct ArrayPair
     ArrayRecord first;
     ArrayRecord second;
 };
-struct BSAudio
-{
-};
-BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int);
 struct FUN_00ddacd0_shell
 {
     void __thiscall FUN_00dd8fe0(void* output, int elementSize, int count);
     void __thiscall FUN_00ddac60(void* output);
-    void __thiscall FUN_00ddac00(void* output);
+    void __thiscall hkDisplaySerializeIStream_readTriangle(void* output);
     void __thiscall FUN_00ddacd0(ArrayPair* arrays);
 };
 // @f3 0x00a62a00 (community match, verified in this file)
 extern "C" void __cdecl FUN_00901e90(void*,int,int);
 struct F3ArrayReader {void FUN_00a62980(void*); void FUN_00a62920(void*);};
+// pdb: hkDisplaySerializeIStream::readGeometry | hkDisplaySerializeIStream.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: `anonymous namespace'::Reader::readBitfield)
+// pdb params: g
 void __thiscall FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
 {
     ArrayPair* originalArrays;
@@ -126,47 +131,6 @@ void __thiscall FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
 }
 
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-struct FUN_00dd9210_cls
-{
-    int unk00;
-    unsigned short m_uSize;
-    unsigned short m_u06;
-
-    void FUN_00dd91f0();
-
-    FUN_00dd9210_cls* FUN_00dd9210(unsigned char acFlags);
-};
-
-// Calls FUN_00dd91f0, then if acFlags bit 0 is set frees this via the allocator from FUN_00c85750 with m_uSize, and returns this.
-// @fnv 0x00dd9210
-FUN_00dd9210_cls* FUN_00dd9210_cls::FUN_00dd9210(unsigned char acFlags)
-{
-    FUN_00dd91f0();
-    if (acFlags & 1)
-    {
-        AudioHolder* pHolder = reinterpret_cast<AudioHolder*>(FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
-    }
-    return this;
-}
-
 #include <xmmintrin.h>
 struct __declspec(align(16)) Vec4
 {
@@ -216,6 +180,8 @@ struct FUN_008cd6a0_View
     float w;
 };
 
+// pdb: hkDisplaySerializeIStream::readTransform | hkDisplaySerializeIStream.obj | fnv360_0822_retail, objrun, medium
+// pdb params: t
 void hkDisplaySerializeIStream::FUN_00ddac80(FUN_008cd6a0_Class* target)
 {
     Vec4 source;
@@ -235,7 +201,8 @@ void hkDisplaySerializeIStream::FUN_00ddac80(FUN_008cd6a0_Class* target)
 
 // Reads three 4-byte integers via FUN_00dd8fe0 and stores them sequentially into the output buffer.
 // @fnv 0x00ddac00
-__declspec(noinline) void __thiscall FUN_00ddacd0_shell::FUN_00ddac00(void* output)
+// pdb: hkDisplaySerializeIStream::readTriangle | hkDisplaySerializeIStream.obj | fnv360_0822_retail, objrun + bridge(hash|caller_sim), high
+__declspec(noinline) void __thiscall FUN_00ddacd0_shell::hkDisplaySerializeIStream_readTriangle(void* output)
 {
     int* dst = (int*)output;
     {

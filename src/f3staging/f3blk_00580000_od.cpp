@@ -183,6 +183,7 @@ struct Owner59 {
  unsigned short GetNumBranchLODLevels() { return m_pTreeRuntime ? m_pTreeRuntime->FUN_00ba1490() : 0; }
  void FUN_0059da90();
 };
+// pdb: BSTreeModel::CreateBranchGeometry | BSTreeModel.obj | fnv360_0822_retail, call_gap, low
 void Owner59::FUN_0059da90()
 {
  unsigned int uiI;

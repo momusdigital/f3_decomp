@@ -26,6 +26,7 @@ struct ImageSpaceTextureSet
 };
 
 // @fnv 0x00ba1250
+// pdb: ImageSpaceEffectWaterFFT::FreeUpTextureMemory | ImageSpaceEffectWaterFFT.obj | fnv360_0822_retail, call_gap_sim, medium
 void ImageSpaceTextureSet::FUN_00ba1250()
 {
     if (m_kTextureSlot2.GetTexture())
@@ -252,6 +253,8 @@ struct ImageSpaceEffectX
 
 // Configures four shader passes with textures and parameters from src, using the default render target dimensions for inverse scale factors.
 // @fnv 0x00bd6bb0
+// pdb: ImageSpaceEffectDepthOfField::Setup | ImageSpaceEffectDepthOfField.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void ImageSpaceEffectX::SetupShaderPasses(EffectSource* apSource, int unused)
 {
     SetTextureArraySize(4);

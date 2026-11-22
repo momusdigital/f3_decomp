@@ -5,7 +5,8 @@
 #include "havok/hkpCylinderShape.h"
 
 // @fnv 0x00d571b0
-int __cdecl FUN_00d571b0()
+// pdb: hkpCylinderShape::getNumCollisionSpheresImpl | hkpCylinderShape.obj | fnv360_0822_retail, objrun + skyrim(objrun_open), high
+int __cdecl hkpCylinderShape_getNumCollisionSpheresImpl()
 {
     return 0x12;
 }
@@ -25,37 +26,33 @@ hkReal hkpCylinderShapeGetCylRadius::FUN_00d571a0() {
     return m_fCylinderRadius;
 }
 
-extern char DAT_01268940[];
-void __cdecl FUN_00c90360(void* item, const char* type);
-// @fnv 0x00d571c0
-void __cdecl FUN_00d571c0(void* item, const char*)
-{
-    FUN_00c90360(item, DAT_01268940);
-}
-
+// hkVector4: components through operator(), as the SDK writes them.
+struct __declspec(align(16)) Vector4C573 {
+    float m_quad[4];
+    float& operator()(int i) { return m_quad[i]; }
+};
+// hkpCylinderShape: the convex radius, the cylinder radius and the two end points (New Vegas Xbox 360 PDB names).
 struct C00d573e0 {
-    char  pad00[0x10];
-    volatile float f10;
-    float f14;
-    char  pad18[0x2c - 0x18];
-    float f2c;
-    char  pad30[0x3c - 0x30];
-    float f3c;
+    int unk00, unk04, unk08, unk0C;
+    float m_radius;       // +0x10
+    float m_cylRadius;    // +0x14
+    float m_cylBaseRadiusFactorForHeightFieldCollisions;
+    int unk1C;
+    Vector4C573 m_vertexA;  // +0x20
+    Vector4C573 m_vertexB;  // +0x30
     void SetValue(float v);
 };
 
 // @fnv 0x00d573e0
+// pdb: hkpCylinderShape::setCylinderRadius | hkpCylinderShape.obj | fnv360_0822_retail, objrun, high
+// pdb params: radius
 void C00d573e0::SetValue(float afValue) {
-    f14 = afValue;
-    f2c = f10 + afValue;
-    f3c = afValue + f10;
+        m_cylRadius = afValue;
+    m_vertexA(3) = m_radius + afValue;
+    m_vertexB(3) = afValue + m_radius;
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
-
-extern char DAT_010305a8;
-extern char DAT_010d0f1c;
-extern float DAT_011b5be8;
 
 static __declspec(noinline) float FUN_00d571d0()
 {
@@ -80,6 +77,8 @@ static __declspec(noinline) float FUN_009e5290()
     return 0.0f;
 }
 
+// pdb: hkpCylinderShape::hkpCylinderShape | hkpCylinderShape.obj | fnv360_0822_retail, objrun, high
+// pdb params: flag
 S00d57b20_Obj* __thiscall S00d57b20_Obj::FUN_00d57b20(int condition)
 {
     *(unsigned short*)((char*)this + 6) = 1;
@@ -137,117 +136,7 @@ struct Vec_d57220v {
     }
 };
 
-static inline float Abs_d57220v(float r) { return (float)fabs(r); }
-
-static __forceinline void Perp_d57220v(const Vec_d57220v& vectorIn, Vec_d57220v& biVectorOut)
-{
-    int minIdx = 0;
-    int ok1 = 1;
-    int ok2 = 2;
-    float a0 = Abs_d57220v(vectorIn(0));
-    float a1 = Abs_d57220v(vectorIn(1));
-    float a2 = Abs_d57220v(vectorIn(2));
-    if (a1 < a0) {
-        ok1 = 0;
-        minIdx = 1;
-        a0 = a1;
-    }
-    if (a2 < a0) {
-        ok2 = minIdx;
-        minIdx = 2;
-    }
-    biVectorOut.setZero4();
-    biVectorOut(ok1) = vectorIn(ok2);
-    biVectorOut(ok2) = -vectorIn(ok1);
-}
-
-struct Cyl_d57220 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    Vec_d57220v m_kVertexA;
-    Vec_d57220v m_kVertexB;
-    Vec_d57220v m_kPerpendicular1;
-    Vec_d57220v m_kPerpendicular2;
-    void InitPerpendiculars();
-};
-
-// Computes the direction between m_kVertexA and m_kVertexB, then derives two perpendicular vectors stored in m_kPerpendicular1 and m_kPerpendicular2.
-// @fnv 0x00d57220
-void Cyl_d57220::InitPerpendiculars()
-{
-    Vec_d57220v dir;
-    dir.q = _mm_sub_ps(m_kVertexB.q, m_kVertexA.q);
-    dir.normalize3();
-    Perp_d57220v(dir, m_kPerpendicular1);
-    m_kPerpendicular1.normalize3();
-    m_kPerpendicular2.setCross(dir, m_kPerpendicular1);
-}
 }  // namespace fnv_00d57220
-
-extern float DAT_01016248;
-
-struct S00d57830 {
-    void* m_ppVirtualMethodTable;
-    unsigned short m_usMemSizeAndFlags;
-    short m_sReferenceCount;
-    unsigned int m_ulUserData;
-    unsigned int m_type;
-    float m_fSphereRadius;
-    float m_fCylinderRadius;
-    float m_fCylinderRadiusSquared;
-    unsigned int m_auiShapeKeys;
-    __m128 m_kVertexA;
-    __m128 m_kVertexB;
-
-    void FUN_00d57830(__m128* out);
-};
-
-// Stores (m_kVertexA + m_kVertexB) scaled by DAT_01016248 into *out.
-// @fnv 0x00d57830
-void S00d57830::FUN_00d57830(__m128* out)
-{
-    __m128 a = this->m_kVertexA;
-    __m128 b = this->m_kVertexB;
-    __m128 sum = _mm_add_ps(b, a);
-
-    *out = sum;
-
-    __m128 c = _mm_load_ss(&DAT_01016248);
-    __m128 s = _mm_shuffle_ps(c, c, 0);
-
-    *out = _mm_mul_ps(s, sum);
-}
-
-struct FnvCpu_FUN_00d57870_CpuData0 {
-    __m128 field00;
-};
-struct FnvCpu_FUN_00d57870_CpuObject {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    __m128 field30;
-    void CopyField30(FnvCpu_FUN_00d57870_CpuData0* input0);
-};
-// @fnv 0x00d57870
-void FnvCpu_FUN_00d57870_CpuObject::CopyField30(FnvCpu_FUN_00d57870_CpuData0* apCpuData)
-{
-    apCpuData->field00 = this->field30;
-}
 
 namespace fnv_00d571d0 {
 namespace c571 { const float DAT_01056528 = 1.1f; }

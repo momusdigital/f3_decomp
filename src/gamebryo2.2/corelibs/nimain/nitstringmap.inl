@@ -1,6 +1,8 @@
 #include "f3_common.h"
 #include "nitstringmap_decls.h"
 
+// pdb: NiControllerManager::AddSequence | NiControllerManager.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiTStringTemplateMap<class NiTPointerMap<char const *,class NiObject * (__cdecl*)(void)>,class NiObject * (__cdecl*)(void)>::SetAt)
+// pdb params: pkSequence, kName, bStoreTargets
 template <>
 // @fnv 0x00a642a0
 void NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*>::SetAt(
@@ -28,6 +30,8 @@ void NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*>::Set
     ++map->m_kList.m_uiCount;
 }
 
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,unsigned short>,unsigned short>::SetAt | NiStream.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: pcKey, val
 template <>
 // @fnv 0x00a643e0
 void NiTStringTemplateMap<NiTPointerMap<const char*, unsigned short>, unsigned short>::SetAt(
@@ -76,6 +80,7 @@ void NiTStringTemplateMap<NiTPointerMap<const char*, int>, int>::SetValue(NiTMap
 
 #pragma optimize("", on)
 
+// pdb: NiTStringTemplateMap<NiTPointerMap<char const *,NiShader *>,NiShader *>::~NiTStringTemplateMap<NiTPointerMap<char const *,NiShader *>,NiShader *> | NiD3DShaderFactory.obj | fnv360_0822_retail, call_seq, medium
 template <>
 // @fnv 0x00b7fc50
 NiTStringPointerMap<ShaderBufferRecord*>::~NiTStringPointerMap()

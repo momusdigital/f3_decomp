@@ -11,6 +11,7 @@ struct D107A0RTTI
 extern D107A0RTTI g_D107A0RTTI;
 
 // @fnv 0x00d107a0
+// pdb: bhkVelocityConstraintMotor::GetRTTI | bhkVelocityConstraintMotor.obj | fnv360_0822_retail, objrun_open, low
 const D107A0RTTI* __cdecl FUN_00d107a0()
 {
     return &g_D107A0RTTI;

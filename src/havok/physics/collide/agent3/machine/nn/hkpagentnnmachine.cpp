@@ -36,7 +36,10 @@ struct LinkNode
 
 // Searches the smaller node's entry list for an entry whose key equals the other node and returns its value, else 0.
 // @f3 0x00998710 (community match, verified in this file)
-void* __cdecl FindEntryValue(LinkNode* apFirst, LinkNode* apSecond)
+// pdb: hkAgentNnMachine_FindAgent | hkpAgentNnMachine.obj | fnv360_0822_retail, call_seq, high
+// pdb params: collA, collB
+// pdb: hkAgentNnMachine_FindAgent | hkpAgentNnMachine.obj | fnv360_0822_retail, call_seq, high (was: FindEntryValue)
+void* __cdecl hkAgentNnMachine_FindAgent(LinkNode* apFirst, LinkNode* apSecond)
 {
     LinkNode* pSmaller;
     LinkNode* pOther;
@@ -74,6 +77,8 @@ struct unk_00cfddc0
 };
 
 // @fnv 0x00cfddc0
+// pdb: hkAgentNnMachine_AssertTrackValidity | hkpAgentNnMachine.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: track
 void FUN_00cfddc0(unk_00cfddc0* pArg)
 {
     int i = 0;
@@ -97,7 +102,7 @@ void FUN_00cfddc0(unk_00cfddc0* pArg)
     }
 }
 
-// GetNodePairValue (0x00cfdf60, 184 bytes)
+// hkAgentNnMachine_GetAgentType (0x00cfdf60, 184 bytes)
 //
 // Two "grid" objects are looked up in a 32-column byte table that is held by a
 // context object:
@@ -127,7 +132,10 @@ struct FnvCtx
 };
 
 // @f3 0x00998970 (community match, verified in this file)
-void GetNodePairValue(FnvNode** ppA, FnvNode** ppB, FnvCtx* pCtx, int* pOutVal, int* pOutFlag)
+// pdb: hkAgentNnMachine_GetAgentType | hkpAgentNnMachine.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: cdBodyA, cdBodyB, input, agentTypeOut, isFlippedOut
+// pdb: hkAgentNnMachine_GetAgentType | hkpAgentNnMachine.obj | fnv360_0822_retail, call_gap_sim, high (was: GetNodePairValue)
+void hkAgentNnMachine_GetAgentType(FnvNode** ppA, FnvNode** ppB, FnvCtx* pCtx, int* pOutVal, int* pOutFlag)
 {
     FnvNode* pNodeA = *ppA;
     FnvNode* pNodeB = *ppB;
@@ -231,14 +239,6 @@ static __declspec(noinline) char* AllocatePoolChunk(CFE820Pool* pool)
     return block;
 }
 
-// Caller so the file-static helper is emitted with its register calling convention.
-char* CFE820Allocate(CFE820Pool* pool)
-{
-    char* a = AllocatePoolChunk(pool);
-    char* b = AllocatePoolChunk(pool);
-    return a < b ? a : b;
-}
-
 // FUN_00cfeba0 - pick a per-shape handler out of a table and run it.
 //
 // The shape object carries a type byte and an index byte.  Depending on the
@@ -247,32 +247,6 @@ char* CFE820Allocate(CFE820Pool* pool)
 // masked type byte.
 
 typedef void(__cdecl* FUN_00cfeba0_Fn)(void*, void*, void*, void*, void*, void*, void*);
-
-struct FUN_00cfeba0_Obj
-{
-    unsigned char m_type;         // +0x00 shape type
-    unsigned char m_uiEdgeIndex;  // +0x01 handler index
-    int unk04;
-    int unk08;  // +0x08
-    int unk0c;
-    void* m_p10;  // +0x10
-    void* m_p14;  // +0x14
-    int unk18;
-    int unk1c;
-    int unk20;  // +0x20
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;  // +0x30
-};
-
-struct FUN_00cfeba0_Result
-{
-    void* unk00;
-    int unk04;
-    void* unk08;
-    void* unk0c;
-};
 
 struct __declspec(align(16)) FUN_00cfeba0_Node
 {
@@ -321,52 +295,6 @@ struct __declspec(align(16)) FUN_00cfeba0_Node
     int unka8;
     int unkac;
 };
-
-void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
-
-// @fnv 0x00cfeba0
-void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* a3)
-{
-    unsigned char flag;
-    void* p = 0;
-    FUN_00cfeba0_Result results[8];
-    FUN_00cfeba0_Node elems[8];
-    int type = self->m_type;
-    void* h1 = self->m_p10;
-    void* h2 = self->m_p14;
-
-    for (;;)
-    {
-        switch (type - 2)
-        {
-        case 0:
-        case 4:
-            p = (char*)self + 0x20;
-            break;
-        case 2:
-            p = (char*)self + 0x30;
-            break;
-        case 8:
-        case 10:
-        case 12:
-            h1 = FUN_00cfe1d0(h1, &results[0], &elems[0], 4, &flag);
-            h2 = FUN_00cfe1d0(h2, &results[4], &elems[4], 4, &flag);
-            type = (unsigned int)((unsigned char)type) & (unsigned int)0xf7;
-            continue;
-        default:
-            return;
-        }
-
-        {
-            FUN_00cfeba0_Fn fn = *(FUN_00cfeba0_Fn*)((char*)(*apCallbackTable) + 0x16c8 + self->m_uiEdgeIndex * 80);
-            if (fn)
-            {
-                fn(self, p, h1, h2, apCallbackTable, (void*)self->unk08, a3);
-            }
-        }
-        return;
-    }
-}
 
 namespace fnv_00cfeca0 {
 extern "C" void _ReadWriteBarrier();
@@ -552,6 +480,8 @@ typedef void(__cdecl* FUN_00cfdc90_Fn)(FUN_00cfdc90_Obj* self, void* p, float a,
 
 // Looks up a per-slot callback from ctx and invokes it with obj, a payload pointer, x and y; for types 4 and 12 it also updates obj->unk18 from x/y.
 // @f3 0x00998650 (community match, verified in this file)
+// pdb: hkAgentNnMachine_WarpTimeInAgent | hkpAgentNnMachine.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: entry, oldTime, newTime, input
 void __cdecl DispatchSlotCallback(FUN_00cfdc90_Obj* obj, float x, float y, void* ctx)
 {
     switch (obj->type)
@@ -871,9 +801,11 @@ struct hkpLinkedCollidableCFEA
 void __cdecl FUN_00cfe020(void* track, hkpAgentNnEntryCFEA* entry);
 
 // @f3 0x00999390 (community match, verified in this file)
+// pdb: hkAgentNnMachine_DestroyAgent | hkpAgentNnMachine.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: track, entry, dispatcher, constraintOwner
 void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionDispatcherCFEA* dispatch, void* constraintOwner)
 {
-    void __cdecl FUN_00901fb0(void* array, int elemSize, void* storage, int newCapacity);
+    void __cdecl hkArrayUtil__reduce(void* array, int elemSize, void* storage, int newCapacity);
     switch (entry->m_ucAgentType)
     {
     case 2:
@@ -906,7 +838,7 @@ void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionD
             int totalSize = in + 1;
             if (totalSize <= (entries.m_iCapacityState & 0x3fffffff))
             {
-                FUN_00901fb0(&entries, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
+                hkArrayUtil__reduce(&entries, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
             }
         }
     }
@@ -1009,7 +941,7 @@ void __cdecl CloneRecord(hkpAgentNnTrackCFF2* track, hkpAgentNnEntryCFF2* entry)
 
 extern unsigned int DAT_010f3170;
 extern "C" void _ReadWriteBarrier(void);
-void __cdecl FUN_00901fb0(hkSectorArrayCFF2* array, int elemSize, void* storage, int newCapacity);
+void __cdecl hkArrayUtil__reduce(hkSectorArrayCFF2* array, int elemSize, void* storage, int newCapacity);
 struct hkMemoryAllocatorCFF2F3
 {
     void __thiscall FUN_008f6d90(void* block, int size, int tag);
@@ -1045,9 +977,9 @@ void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appen
         {
             int newCapacity = hkNextPowerOf2CFF2(sectors->m_iElementCount + 4);
             if (newCapacity < 1)
-                FUN_00901fb0(sectors, sizeof(hkpAgentNnSectorCFF2*), sectors->m_kStorage, 1);
+                hkArrayUtil__reduce(sectors, sizeof(hkpAgentNnSectorCFF2*), sectors->m_kStorage, 1);
             else if (newCapacity < sectors->getCapacity())
-                FUN_00901fb0(sectors, sizeof(hkpAgentNnSectorCFF2*), 0, newCapacity);
+                hkArrayUtil__reduce(sectors, sizeof(hkpAgentNnSectorCFF2*), 0, newCapacity);
         }
     }
 
@@ -1231,7 +1163,7 @@ struct S_cfe020_Pool
 #include <windows.h>
 
 extern unsigned int DAT_010f3170;
-void __cdecl FUN_00901fb0(S_cfe020_Blocks* array, int elemSize, void* storage, int newCapacity);
+void __cdecl hkArrayUtil__reduce(S_cfe020_Blocks* array, int elemSize, void* storage, int newCapacity);
 
 struct S_cfe020_OwnerFix
 {
@@ -1296,11 +1228,11 @@ void FUN_00cfe020(S_cfe020_Pool* pool, S_cfe020_Entry* dest)
         int newCap = n + 1;
         if (newCap < 1)
         {
-            FUN_00901fb0(blocks, sizeof(char*), &blocks->local, 1);
+            hkArrayUtil__reduce(blocks, sizeof(char*), &blocks->local, 1);
         }
         else if (newCap < (blocks->cap & 0x3fffffff))
         {
-            FUN_00901fb0(blocks, sizeof(char*), 0, newCap);
+            hkArrayUtil__reduce(blocks, sizeof(char*), 0, newCap);
         }
     }
 }
@@ -1405,57 +1337,6 @@ struct AgentInput
     {}
 };
 typedef void(__cdecl* AgentCreateFunc)(AgentInput* input, CollisionAgentEntry* entry, void* subEntry);
-struct QualityEntry
-{
-    AgentCreateFunc m_pCreateFunc;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int m_flag28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-};
-struct Dispatcher
-{
-    char* m_tableBase;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    void* m_currentAgentEntry;
-};
 struct CollisionAgentEntry
 {
     unsigned char m_flags;
@@ -1475,59 +1356,6 @@ struct CollisionAgentEntry
     int unk1c;
     __m128 m_vSeparatingNormal;
 };
-// Allocates a CollisionAgentEntry from pool, links nodeA/nodeB, builds AgentInput, and calls the quality-level create function to initialize the agent.
-// @fnv 0x00cfe8a0
-CollisionAgentEntry* __cdecl FUN_00cfe8a0(CFE820Pool* pool, CollidableNode* nodeA, CollidableBody* bodyA,
-                                          CollidableNode* nodeB, CollidableBody* bodyB, unsigned char flags,
-                                          int qualityType, Dispatcher* dispatcher, void* island)
-{
-
-    char* initialTable = dispatcher->m_tableBase;
-    char* pAlloc = AllocatePoolChunk(pool);
-    CollisionAgentEntry* entry = (CollisionAgentEntry*)pAlloc;
-    entry->m_nodeA = nodeA;
-    entry->m_pCurrentSimulationIsland = island;
-    entry->m_nodeB = nodeB;
-    entry->m_agentIndexA = (unsigned short)nodeA->m_ppLinks.m_iElementCount;
-    entry->m_agentIndexB = (unsigned short)nodeB->m_ppLinks.m_iElementCount;
-    LinkEntry* linkA = nodeA->m_ppLinks.AddBack();
-    LinkEntry* linkB = nodeB->m_ppLinks.AddBack();
-    {
-        AgentInput input;
-        linkA->m_pIntegerData = entry;
-        linkB->m_pIntegerData = entry;
-        linkA->m_pKey = nodeB;
-        linkB->m_pKey = nodeA;
-        input.m_pBodyA = bodyA;
-        input.m_pBodyB = bodyB;
-        input.m_pContactManager = entry->m_pCurrentSimulationIsland;
-        input.m_pRayCastInput = dispatcher;
-        input.m_kTransform.FUN_00cb22f0(*bodyA->m_kMotionTransform, *bodyB->m_kMotionTransform);
-        char* tableBase = dispatcher->m_tableBase;
-        char agentType = tableBase[0x1bb0 + nodeA->m_type * 10 + nodeB->m_type];
-        entry->m_ucNnTrackType = agentType;
-        dispatcher->m_currentAgentEntry = dispatcher->m_tableBase + 0x1c20 + ((int)(signed char)agentType << 6);
-        QualityEntry* quality = (QualityEntry*)(initialTable + 0x16b0 + qualityType * 80);
-        entry->m_iAutoRemoveLevel = (unsigned char)qualityType;
-        void* subEntry;
-        if (quality->m_flag28 != 0)
-        {
-            entry->m_flags = flags | 4;
-            entry->m_fTimeOfImpact = -1.0f;
-            entry->m_vSeparatingNormal = _mm_setzero_ps();
-            subEntry = (char*)entry + 0x30;
-        }
-        else
-        {
-            entry->m_flags = flags | 2;
-            subEntry = (char*)entry + 0x20;
-        }
-        ((QualityEntry*)(initialTable + 0x16b0 + (unsigned char)qualityType * 80))
-            ->m_pCreateFunc(&input, entry, subEntry);
-    }
-    entry->m_iElementCount = 0x80;
-    return entry;
-}
 
 __inline __m128 quadZero()
 {
@@ -1617,7 +1445,6 @@ struct PairTemporary
     PairBody a, b;
     Transform ta, tb;
 };
-void __cdecl FUN_00cf1510(const SweptPose&, float, Transform&);
 
 // Computes swept transforms for both bodies, copies shapes and keys into temp bodies, and sets out fields from in and temp.
 // @f3 0x009987b0 (community match, verified in this file)
@@ -1628,13 +1455,14 @@ struct Task1440Input
     ValueWrapper<void*> manager;
     Transform relative;
 };
-void __cdecl FUN_00976cd0(const SweptPose&, float, Transform&);
+void __cdecl hkSweptTransformUtil_lerp2(const SweptPose&, float, Transform&);
+// pdb: hkAgentNnMachine_initInputAtTime | hkpAgentNnMachine.obj | tesv_win, caller_sim, low
 static __declspec(noinline) void FUN_00cfde10(PairInput& rawOut, PairInput& rawIn, PairTemporary& temp)
 {
     Task1440Input& out = reinterpret_cast<Task1440Input&>(rawOut);
     Task1440Input& in = reinterpret_cast<Task1440Input&>(rawIn);
-    FUN_00976cd0(in.bodyA->GetMotionState()->getSweptTransform(), in.context->step.start, temp.ta);
-    FUN_00976cd0(in.bodyB->GetMotionState()->getSweptTransform(), in.context->step.start, temp.tb);
+    hkSweptTransformUtil_lerp2(in.bodyA->GetMotionState()->getSweptTransform(), in.context->step.start, temp.ta);
+    hkSweptTransformUtil_lerp2(in.bodyB->GetMotionState()->getSweptTransform(), in.context->step.start, temp.tb);
     out.bodyA = &temp.a;
     out.bodyB = &temp.b;
     out.manager = in.manager;

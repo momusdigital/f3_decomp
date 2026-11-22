@@ -36,7 +36,8 @@ struct A1450MemoryManager {
 };
 
 
-void __cdecl FUN_0045bab0(Obj8* arg_8h, int* arg_ch) {
+// pdb: TESTexture::LoadTextureChunk | TESTexture.obj | fnv360_0822_retail, call_gap + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void __cdecl TESTexture_LoadTextureChunk(Obj8* arg_8h, int* arg_ch) {
     if (arg_ch != 0 && arg_8h != 0) {
         if (arg_ch[0x25c / 4] != 0) {
             char* buf = (char*)_alloca(arg_ch[0x25c / 4]);

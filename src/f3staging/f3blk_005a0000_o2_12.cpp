@@ -95,6 +95,8 @@ public:
     bool FUN_005a68a0(Ref* ref);
 };
 }
+// pdb: TESPackage::IsTargetAnActor | Package.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apActor
 bool N5a68a0::Condition::FUN_005a68a0(Ref* ref) {
     bool result = false;
     Owner* current = owner;
@@ -659,6 +661,8 @@ public:
     void* FUN_005a4c70(TESObjectREFR* ref);
 };
 
+// pdb: TESPackage::GetSecondLocationCell | Package.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apActor
 void* Quest::FUN_005a4c70(TESObjectREFR* ref)
 {
     void* result = 0;

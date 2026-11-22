@@ -5,6 +5,8 @@
 struct T_0086b930 { void FUN_0086b930(int); };
 extern T_0086b930 DAT_01090a78;
 
+// pdb: BSSimpleArray<DetailedActorPathHandler::ActorAvoidanceData,1024>::_Allocate | DetailedActorPathHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiSizeInItem
 __declspec(noinline) void __stdcall FUN_005b9530(int n)
 {
     DAT_01090a78.FUN_0086b930(n * 8);

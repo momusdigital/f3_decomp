@@ -80,13 +80,6 @@ template <class T> struct hkArray
     }
 };
 
-extern int __cdecl FUN_00dd6380(hkArray<hkVector4>* planes, int skip1, int skip2, int plane, Contact* contact);
-
-extern float DAT_0104da48;
-extern float DAT_0109afc4;
-extern double DAT_01032980;
-extern __m128 DAT_010c7160;
-
 // @f3 0x00a57480 (community match, verified in this file)
 extern const float DAT_00de6e60;
 extern const double DAT_00db5748;
@@ -164,49 +157,4 @@ hkBool __cdecl FUN_00dd66d0(const hkVector4* direction, hkArray<hkVector4>* plan
         }
     }
     return found;
-}
-
-
-extern "C" void __cdecl Atan2(float, float);
-
-static inline float Dot3(__m128 a, __m128 b)
-{
-    __m128 v = _mm_mul_ps(a, b);
-    __m128 s = _mm_add_ss(_mm_shuffle_ps(v, v, 0x55), v);
-    float f;
-    _mm_store_ss(&f, _mm_add_ss(_mm_shuffle_ps(v, v, 0xaa), s));
-    return f;
-}
-
-// @fnv 0x00ddd5a0
-void __cdecl FUN_00ddd5a0(const float* a, const float* b, const float* c)
-{
-    __m128 scale = _mm_load_ps(c);
-    float fB = Dot3(_mm_load_ps(b), scale);
-    float fA = Dot3(_mm_load_ps(a), scale);
-    Atan2(fB, fA);
-}
-
-extern __m128 DAT_010c44d0;
-
-struct S00dd2fd0_cls
-{
-    __m128 m_00;
-};
-
-// @fnv 0x00dd2fd0
-static __declspec(noinline) void FUN_00dd2fd0(S00dd2fd0_cls* self, __m128* out, __m128* a1, __m128* a2)
-{
-    __m128 d = _mm_sub_ps(*a1, self->m_00);
-    __m128 r = _mm_rcp_ps(d);
-    __m128 t = _mm_mul_ps(_mm_mul_ps(r, d), r);
-    r = _mm_sub_ps(_mm_add_ps(r, r), t);
-    *a2 = _mm_mul_ps(*a1, r);
-    *out = _mm_mul_ps(self->m_00, r);
-    *out = _mm_xor_ps(*out, DAT_010c44d0);
-}
-
-void S00dd2fd0_wrap(S00dd2fd0_cls* self, __m128* out, __m128* a1, __m128* a2)
-{
-    FUN_00dd2fd0(self, out, a1, a2);
 }

@@ -263,6 +263,8 @@ struct Shader
     FourFloatVector direction;
 };
 // @fnv 0x00baa850
+// pdb: TallGrassShader::RemoveAllShadowLights | TallGrassShader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apSkin, aWorld
 void Shader::FUN_00baa850(int identity, const Transform* transform)
 {
     AlignedMatrix world;

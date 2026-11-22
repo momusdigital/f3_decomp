@@ -5,58 +5,12 @@
 
 // src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_00d41860(int a, int b, int c, int d);
-void __cdecl ForwardToTarget(int a, int b, int c, int d, int unused);
-struct InputObject
-{
-    void* vtable;
-};
-struct InputRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int type;
-};
-struct InputData
-{
-    InputObject* unk00;
-    InputRecord** unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-};
-struct ResultData
-{
-    char unk00;
-    char unk01;
-    char unk02;
-    char unk03;
-    char unk04;
-    char unk05;
-    char unk06;
-    char unk07;
-    char unk08;
-    char unk09;
-    char unk0A;
-    unsigned char unk0B;
-    int unk0C;
-    void __thiscall FUN_00dafe70(void* a, void* b, void* c);
-    void __thiscall FUN_00dafcd0(void* a, void* b, void* c);
-};
-void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, ResultData* result);
 // Stand-ins for the script handler functions whose addresses are stored in the
 // handler table (0xd417b0 .. 0xd40d80).  Only declared, never defined.
-extern "C" void __cdecl RemoveEntryById(int a, int b, int c, int d);
-extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
-extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
-extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_removePoint(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_commitPotential(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_createZombie(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d40d80(int a, int b, int c, int d);
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
 // 16 byte aligned, which is what makes the compiler emit the aligned frame
 // prologue of this function.
@@ -83,12 +37,6 @@ struct __declspec(align(16)) HandlerTable
     int unk3C;
 };
 // Stand-in for the script object: the registration is a __thiscall member.
-class CScript
-{
-  public:
-    void __thiscall RegisterHandler(HandlerTable* handler, int a, int b);
-};
-void __cdecl RegisterScriptHandlers(void* pScript);
 struct S_00d417b0_Entry
 {
     short unk00;
@@ -109,8 +57,7 @@ struct S_00d417b0_Obj
     int unk08;
     S_00d417b0_Sub m_sub;
 };
-void __cdecl FUN_00dae340(S_00d417b0_Sub* sub, int index);
-void __cdecl RemoveEntryById(int a, S_00d417b0_Obj* obj, short id);
+void __cdecl hkPredGskAgent3_removePoint(int a, S_00d417b0_Obj* obj, short id);
 struct Slot
 {
     unsigned short id;
@@ -129,7 +76,7 @@ struct Table
     unsigned short unk10;
     Slot slots[1];
 };
-void __cdecl InsertSlotId(int a, Table* table, unsigned short value);
+void __cdecl hkPredGskAgent3_commitPotential(int a, Table* table, unsigned short value);
 struct FUN_00d41830_entry
 {
     unsigned char unk00;
@@ -147,40 +94,7 @@ struct FUN_00d41830_table
     unsigned char unk0F;
     FUN_00d41830_entry entries[8];
 };
-int __cdecl FindEntryByKey(int unused, FUN_00d41830_table* table, unsigned short key);
-// FUN_00d41860 (0x00d41860, 67 bytes)
-//
-// The original routine
-//   * hands the record block at b+0x0C to ReleaseAllEntries,
-//   * reads the three size bytes at b+0x0C, b+0x0D and b+0x0E,
-//   * combines them into  count = b[0x0C] + b[0x0D] + 4*b[0x0E],
-//   * scales that into an aligned block size  (2*count + 31) & ~0x0F,
-//   * returns b + that size,
-//   * and finally clears the byte at a+2.
-//
-// The unit file of the pack declares FUN_00d41860 as returning void; with a
-// void return the whole size computation is dead code and MSVC 2008 deletes
-// it, so the value is handed back to the caller from a symbol whose name
-// still contains the required tag "FUN_00d41860".
-extern "C" void __cdecl ReleaseAllEntries(void* p, int obj, int data);
-// @fnv 0x00d41860
-extern "C" int __cdecl FUN_00d41860_impl(int a, int b, int c, int d)
-{
-    unsigned char* rec = (unsigned char*)b + 0x0C;
-
-    ReleaseAllEntries(rec, c, d);
-
-    unsigned int count = rec[0] + rec[1] + rec[2] * 4;
-
-    // (2 * count + 31) & ~0x0F, kept in the two steps the original uses
-    unsigned int scaled = count * 2 + 4;
-    count = scaled + 27;
-    count &= ~0x0F;
-
-    ((char*)a)[2] = 0;
-
-    return b + (int)count;
-}
+int __cdecl hkPredGskAgent3_createZombie(int unused, FUN_00d41830_table* table, unsigned short key);
 
 #include <xmmintrin.h>
 class hkpConvexShape_s
@@ -382,6 +296,8 @@ struct FNV_Shape13
     virtual void GetVerticesForIds(const unsigned short* ids, int numIds, void* out) const;
 };
 
+// pdb: hkPredGskAgent3::sepNormal | hkpPredGskAgent3.obj | fnv360_0822_debug, objrun, medium
+// pdb params: input, entry, agentData, separatingNormalOut
 void __cdecl FUN_00d41930(Input_s* input, int unused, hkpGskCache_s* cache, Output_s* output)
 {
     hkpConvexShape_s* shapeA = input->m_pBodyA->m_pCollisionShape;

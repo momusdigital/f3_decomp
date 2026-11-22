@@ -2,20 +2,6 @@
 // src/havok/physics/collide/agent3/machine/hkpagentmachineutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/hkpagentmachineutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct FUN_00c91180_Class
-{
-    void __thiscall IncrementCounter();
-    void __thiscall FUN_00c91190();
-    int m_field;
-    void* m_ptr;
-};
-
-void __cdecl FUN_00d01d20(void* p);
-struct FUN_00d022b0_Class
-{
-    void __thiscall FUN_00d022b0(void* a, float c);
-};
-
 // If the field at offset 0x50 is set, calls IncrementCounter, FUN_00d01d20 and FUN_00c91190 on self, then forwards a and c to the object at offset 8.
 // @f3 0x006f8ab0 (community match, verified in this file)
 namespace f3m_006f8ab0 {
@@ -293,6 +279,8 @@ struct S6f8ab0
     int __thiscall FUN_006f8ab0(int a1, float a2, void* a3);
 };
 
+// pdb: Actor::SetPathfindingGoal | Actor.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apReference, afTargetRadius, apAvoidNodes
 int S6f8ab0::FUN_006f8ab0(int a1, float a2, void* a3)
 {
     if (a3 == 0)
@@ -300,10 +288,6 @@ int S6f8ab0::FUN_006f8ab0(int a1, float a2, void* a3)
     return this->f184->FUN_007e0140(a1, a2, a3);
 }
 
-int Emit6f8ab0(S6f8ab0* p)
-{
-    return p->FUN_006f8ab0(0, 0.0f, 0);
-}
 }   // namespace f3m_006f8ab0
 
 
@@ -384,7 +368,10 @@ struct StatsCollector
 };
 }
 
-void __cdecl CollectSectors(S_00d97360_Track& track, S_00d97360_Collector* collector)
+// pdb: hkpAgentMachineUtil::calcNnStatisticsContactMgrsOnly | hkpAgentMachineUtil.obj | fnv360_0822_retail, ustr, high
+// pdb params: track, collector
+// pdb: hkpAgentMachineUtil::calcNnStatisticsContactMgrsOnly | hkpAgentMachineUtil.obj | fnv360_0822_retail, ustr, high (was: CollectSectors)
+void __cdecl hkpAgentMachineUtil_calcNnStatisticsContactMgrsOnly(S_00d97360_Track& track, S_00d97360_Collector* collector)
 {
     N_a26e70::StatsCollector* stats = (N_a26e70::StatsCollector*)collector;
     if ((track.m_kSectors.m_iCapacityState & 0x80000000) == 0)
@@ -1948,61 +1935,11 @@ struct S_00d97130_Sectors
     }
 };
 
-struct S_00d97130_Track
-{
-    int m_bytesAllocatedInLastSector;
-    S_00d97130_Sectors m_kSectors;
-};
-
 // Returns a pointer to base advanced by offset bytes.
 // @fnv 0x00d97130
 template <typename T> inline T* hkAddByteOffset(T* base, int offset)
 {
     return (T*)((char*)base + offset);
-}
-void __cdecl FUN_00d97130(S_00d97130_Track& track, const S_00d97130_Input* input, S_00d97130_Collector* collector)
-{
-    for (int i = 0; i < track.m_kSectors.GetLogicalSize(); i++)
-    {
-        char* sector = track.m_kSectors[i];
-        int sizeUsed = (i + 1 == track.m_kSectors.GetLogicalSize()) ? track.m_bytesAllocatedInLastSector : 0x200;
-        collector->DispatchWithMode("Sector", sector, sizeUsed, 0x200);
-    }
-
-    for (int sectorIndex = 0; sectorIndex < track.m_kSectors.GetLogicalSize();)
-    {
-        S_00d97130_Entry* entry = (S_00d97130_Entry*)track.m_kSectors[sectorIndex];
-        sectorIndex++;
-        S_00d97130_Entry* endEntry = (sectorIndex == track.m_kSectors.GetLogicalSize())
-                                         ? hkAddByteOffset(entry, track.m_bytesAllocatedInLastSector)
-                                         : hkAddByteOffset(entry, 0x200);
-        for (; entry < endEntry; entry = hkAddByteOffset(entry, entry->m_iElementCount))
-        {
-            void* agentData;
-            switch (entry->m_ucAgentType)
-            {
-            case 2:
-            case 6:
-            case 10:
-            case 14:
-                agentData = hkAddByteOffset(entry, 0x20);
-                break;
-            case 4:
-            case 12:
-                agentData = hkAddByteOffset(entry, 0x30);
-                break;
-            default:
-                continue;
-            }
-            S_00d97130_CalcStatsFunc func =
-                input->m_pCollisionDispatcher->m_kAgent3FunctionTable[entry->m_ucNnTrackType].m_pCalcStats;
-            if (func)
-            {
-                func(entry, agentData, input, collector);
-            }
-            collector->AddObjectInstance("ContactMgr", entry->m_pContactManager, 0);
-        }
-    }
 }
 }  // namespace fnv_00d97130
 

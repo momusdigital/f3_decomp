@@ -5,12 +5,15 @@
 struct P_0086ba60 { void FUN_0086ba60(void*); };
 extern P_0086ba60 DAT_01090a78;
 
+// pdb: NiTArray<BipedAnim *,NiTNewInterface<BipedAnim *> >::`scalar deleting destructor' | GarbageCollector.obj | fnv360_0822_retail, vtable, medium
 struct C_006e31f0 { virtual ~C_006e31f0(); int f4; static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 C_006e31f0::~C_006e31f0() { DAT_01090a78.FUN_0086ba60((void*)f4); }
 
+// pdb: NiTArray<Animation *,NiTNewInterface<Animation *> >::`scalar deleting destructor' | GarbageCollector.obj | fnv360_0822_retail, vtable, medium
 struct C_006e3220 { virtual ~C_006e3220(); int f4; static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 C_006e3220::~C_006e3220() { DAT_01090a78.FUN_0086ba60((void*)f4); }
 
+// pdb: NiTArray<FurnitureMark,NiTNewInterface<FurnitureMark> >::`scalar deleting destructor' | BSFurnitureMarker.obj | fnv360_0822_retail, vtable, medium
 struct C_00ab0780 { virtual ~C_00ab0780(); int f4; static void operator delete(void* q) { DAT_01090a78.FUN_0086ba60(q); } };
 C_00ab0780::~C_00ab0780() { DAT_01090a78.FUN_0086ba60((void*)f4); }
 

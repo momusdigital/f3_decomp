@@ -20,6 +20,7 @@ struct Data {
     float mode;
 };
 struct Owner {int unk00;Data* data;int FUN_006e2c20();};
+// pdb: Calendar::GetSeason | calendar.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: `anonymous namespace'::FindTimeSpanForHour)
 int Owner::FUN_006e2c20() {
     int result=0;
     int mode=data ? (signed char)data->mode : 7;
@@ -443,13 +444,13 @@ struct Q6Obj {
     int unk28;
 };
 struct Q6Ai { bool FUN_007dde30(); void FUN_007df740(); };
-struct Q6List { void FUN_006b7240(); };
+struct Q6List { void MagicTarget_Dispel(); };
 struct Q6Mgr { void FUN_00882710(void*); };
-struct Q6Mgr2 { void FUN_006cebf0(void*, int); };
+struct Q6Mgr2 { void BGSSaveLoadGame_UnloadForm(void*, int); };
 extern Q6Ref* DAT_0107a104;
 extern Q6Mgr* DAT_01079ca4;
 extern Q6Mgr2* DAT_01079858;
-int FUN_00766d80();
+int MobileObject_GetDesiredProcessLevel();
 struct Q6Self {
     virtual void V000();
     virtual void V004();
@@ -696,22 +697,23 @@ struct Q6Self {
     int unk17C;
     int unk180;
     Q6Ai* unk184;
-    bool FUN_006fb550();
-    void FUN_004f9500();
+    bool Actor_ChangeProcessLevel();
+    void TESObjectREFR_Disable();
     bool FUN_004eb8f0();
     bool FUN_00722cc0();
-    void FUN_00722340();
-    void FUN_00722110(int);
+    void Actor_DispelPermanentMagic();
+    void Actor_CastPermanentMagic(int);
 };
 
-bool Q6Self::FUN_006fb550() {
+// pdb: Actor::ChangeProcessLevel | Actor.obj | fnv360_0822_retail, vtable_prefix + bridge(vtable_prefix|vtable_prefix), high
+bool Q6Self::Actor_ChangeProcessLevel() {
     if (!unk60) return false;
     int old = unk60->unk28;
-    int cur = FUN_00766d80();
+    int cur = MobileObject_GetDesiredProcessLevel();
     if (old == cur) return true;
     if (old == 0 && unk60->GetKind()) {
         if (unk60->GetKind() == 6) goto kill;
-        if (unk60->GetKind() == 5) { FUN_004f9500(); return false; }
+        if (unk60->GetKind() == 5) { TESObjectREFR_Disable(); return false; }
     }
     if (cur) {
         Q6Proc* p = unk60->GetProc();
@@ -726,11 +728,11 @@ bool Q6Self::FUN_006fb550() {
     common:
         if (FUN_004eb8f0()) return true;
         if (FUN_00722cc0() || !unk3C) goto kill;
-        FUN_00722340();
-        unk8C.FUN_006b7240();
-        FUN_00722110(0);
+        Actor_DispelPermanentMagic();
+        unk8C.MagicTarget_Dispel();
+        Actor_CastPermanentMagic(0);
         DAT_01079ca4->FUN_00882710(this);
-        DAT_01079858->FUN_006cebf0(this, 0);
+        DAT_01079858->BGSSaveLoadGame_UnloadForm(this, 0);
         goto kill;
     }
     return true;

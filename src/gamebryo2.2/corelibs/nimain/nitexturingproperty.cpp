@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp: Holder, NiTexturingProperty, Map, MyThis and more (44 functions)
+// gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp: Holder, NiTexturingProperty, Map, MyThis and more (40 functions)
 #include "f3_common.h"
 #include "nitexturingproperty_decls.h"
 
@@ -7,6 +7,8 @@
 // Same body as the historical exact draft. The only difference is that the
 // bump-map helper is a function-local class, so this source adds no name to
 // the enclosing namespace of the project's unit file.
+// pdb: NiTexturingProperty::LoadBinary | NiTexturingProperty.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void NiTexturingProperty::LoadBinary(NiStream& stream)
 {
     // Bump map as LoadBinary builds it: the Map base plus the luma and
@@ -138,6 +140,7 @@ void NiTexturingProperty::LoadBinary(NiStream& stream)
 
 
 // @fnv 0x00a6b410
+// pdb: NiTexturingProperty::_SDMInit | NiTexturingProperty.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSLightingShader::GetTechniqueName)
 void NiTexturingProperty::InitializePoint3()
 {
     ms_pDefaultProperty = new NiTexturingProperty;
@@ -155,6 +158,8 @@ void NiTexturingProperty::InitializePoint3()
 
 // Reads a texture map's clamp mode, filter mode, texture index, and optional transform from the stream based on its version.
 // @fnv 0x00a6b640
+// pdb: NiTexturingProperty::Map::LoadBinary | NiTexturingProperty.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void NiTexturingProperty::Map::LoadBinary(NiStream& stream)
 {
     stream.ResetStreamState();
@@ -223,6 +228,7 @@ class NiDynamicEffect
 };
 
 // @fnv 0x00a69030
+// pdb: NiDynamicEffect::~NiDynamicEffect | NiDynamicEffect.obj | fnv360_0822_retail, caller_sim, medium
 void __fastcall DestroyDynamicEffect(NiDynamicEffect* apEffect)
 {
     apEffect->~NiDynamicEffect();
@@ -231,6 +237,8 @@ void __fastcall DestroyDynamicEffect(NiDynamicEffect* apEffect)
 bool __fastcall VisitSkinGraphLinks(void* pThis, int, NiStream& kStream);
 
 // @fnv 0x00a6c680
+// pdb: NiBlendTransformInterpolator::LinkObject | NiBlendTransformInterpolator.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiBlendTransformInterpolator::IsEqual)
+// pdb params: kStream
 bool __fastcall FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
 {
     if (!VisitSkinGraphLinks(pThis, edx, kStream))
@@ -240,7 +248,8 @@ bool __fastcall FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
 
 extern const char* const g_011f4a28_arg1;
 // @fnv 0x00a69060
-const char* const* FUN_00a69060()
+// pdb: NiRenderer::GetRTTI | NiRenderer.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun), high
+const char* const* NiRenderer_GetRTTI()
 {
     return &g_011f4a28_arg1;
 }
@@ -255,6 +264,8 @@ struct FUN_00a69e00
     virtual void Dummy();
 };
 // @fnv 0x00a69e00
+// pdb: NiTexturingProperty::Map::Map | NiTexturingProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkTexture, uiIndex, eClampMode, eFilterMode, pkTextureTransform
 FUN_00a69e00::FUN_00a69e00(void* apTexture, unsigned short ausLowFlags, short asMidFlags, unsigned short ausHighFlags,
                            void* apXform)
 {
@@ -267,6 +278,7 @@ FUN_00a69e00::FUN_00a69e00(void* apTexture, unsigned short ausLowFlags, short as
 }
 
 // @fnv 0x00a6a000
+// pdb: CombatProcedureAttackLow::GetType | CombatProcedureAttackLow.obj | fnv360_0822_retail, vtable, high
 int FUN_00a6a000()
 {
     return 3;
@@ -275,7 +287,8 @@ int FUN_00a6a000()
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f49a4;
 // @fnv 0x00a6a140
-GlobalObjectO2_00a7b610* FUN_00a6a140()
+// pdb: NiZBufferProperty::GetRTTI | NiXenonRenderer.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+GlobalObjectO2_00a7b610* NiZBufferProperty_GetRTTI()
 {
     return &g_011f49a4;
 }
@@ -292,31 +305,11 @@ struct CloningProcess
     char _pad_d[3];
 };
 typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
-struct FUN_00a6c610_shell : public NiTexturingProperty
-{
-    NiObject* CloneTexturingProperty(CloningProcess*);
-};
 
 struct NiObject
 {
     void CopyMembersStream(NiObject*, CloningProcess*);
 };
-struct FUN_00a6bb00_holder
-{
-    void CloneTo(NiTexturingProperty*, CloningProcess*);
-};
-// @fnv 0x00a6c610
-NiObject* FUN_00a6c610_shell::CloneTexturingProperty(CloningProcess* pCloningProcess)
-{
-    if (*reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xc))
-    {
-        NiTexturingProperty* p = new NiTexturingProperty;
-        reinterpret_cast<FUN_00a6bb00_holder*>(this)->CloneTo(p, pCloningProcess);
-        return reinterpret_cast<NiObject*>(p);
-    }
-    reinterpret_cast<NiObject*>(this)->CopyMembersStream(reinterpret_cast<NiObject*>(this), pCloningProcess);
-    return reinterpret_cast<NiObject*>(this);
-}
 
 struct Elem4
 {
@@ -326,16 +319,17 @@ struct Elem4
 };
 struct EqObj
 {
-    bool FUN_00a864d0(EqObj*);
+    bool NiSkinInstance_IsEqual(EqObj*);
     unsigned int m_auiShapeKeys[13];
     unsigned int m_uiCount;
     Elem4* m_pElems;
 };
 // Returns true if the base comparison passes, the counts match, and every element's a, b and c fields are equal.
 // @fnv 0x00a6c6a0
-bool __fastcall FUN_00a6c6a0(EqObj* self, int, EqObj* other)
+// pdb: BSDismemberSkinInstance::IsEqual | BSDismemberSkinInstance.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+bool __fastcall BSDismemberSkinInstance_IsEqual(EqObj* self, int, EqObj* other)
 {
-    if (!self->FUN_00a864d0(other))
+    if (!self->NiSkinInstance_IsEqual(other))
         return false;
     if (self->m_uiCount != other->m_uiCount)
         return false;
@@ -355,6 +349,8 @@ extern "C" size_t __cdecl strlen(const char*);
 
 // Allocates a string and formats prefix with a texture address-mode suffix selected by mode, defaulting to UNKNOWN!!!.
 // @fnv 0x00a69b90
+// pdb: NiTexturingProperty::GetViewerString | NiTexturingProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eMode
 char* BuildTextureAddressModeString(const char* prefix, int mode)
 {
     char* result;
@@ -417,6 +413,8 @@ struct S8
 };
 // Returns 0 if IsEquivalent fails, otherwise returns whether _v equals o->_v.
 // @fnv 0x00a69f50
+// pdb: NiTexturingProperty::ShaderMap::IsEqual | NiTexturingProperty.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSLightingShader::MaterialSetupTextureFilterAniso)
+// pdb params: pkObject
 unsigned char S8::FUN_00a69f50(S8* pOther)
 {
     if (!IsEquivalent(pOther))
@@ -425,27 +423,7 @@ unsigned char S8::FUN_00a69f50(S8* pOther)
 }
 
 void __cdecl _NiFreeAlias(void*);
-struct DeallocHelper
-{
-    void _DeallocateAlias(void*);
-};
 extern int DAT_0109c394;
-struct S00a6a050
-{
-    void* vf;
-    void* p;
-    void* FUN_00a6a050(unsigned int);
-};
-// @fnv 0x00a6a050
-void* S00a6a050::FUN_00a6a050(unsigned int auiFlags)
-{
-    void* t = p;
-    vf = (void*)&DAT_0109c394;
-    _NiFreeAlias(t);
-    if (auiFlags & 1)
-        ((DeallocHelper*)&g_memoryManager)->_DeallocateAlias(this);
-    return this;
-}
 
 void _NiFreeAlias(void*);
 extern int DAT_0109c39c;
@@ -461,6 +439,7 @@ struct Holder
 };
 // Frees f1 via _NiFreeAlias, sets f0 to DAT_0109c39c, and deallocates this when a has bit 0 set; returns this.
 // @fnv 0x00a6a080
+// pdb: NiTArray<TESTexture *,NiTMallocInterface<TESTexture *> >::`scalar deleting destructor' | TESScriptFunctions.obj | fnv360_0822_retail, vtable, medium
 void* Holder::FUN_00a6a080(unsigned int auiFlags)
 {
     void* p = f1;
@@ -479,6 +458,7 @@ struct Holder
 };
 void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00a6ab90
+// pdb: ImageSpaceModifierInstanceDOF::`scalar deleting destructor' | ImageSpaceModifierInstance.obj | fnv360_0822_retail, vtable, medium
 void* Holder::DestroyIfFlagged(unsigned int flags)
 {
     NiTexturingPropertyDestructor();
@@ -500,6 +480,8 @@ struct MyThis
 };
 // Loads the base map from the stream, then reads a 4-byte value into the object at offset 0x10.
 // @fnv 0x00a6ba80
+// pdb: NiTexturingProperty::ShaderMap::LoadBinary | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: BSLightingShader::MaterialSetupPixelConstant)
+// pdb params: kStream
 void MyThis::LoadMapBinary(NiStream& stream)
 {
     ((NiTexturingProperty::Map*)this)->NiTexturingProperty::Map::LoadBinary(stream);
@@ -527,6 +509,7 @@ struct NiDX92DBufferData
     bool SetTextureSlot(void*, unsigned int);
 };
 // @fnv 0x00e7cd50
+// pdb: NiDX92DBufferData::SetRenderTarget | NiDX92DBufferData.obj | tesv_win, hash, low
 bool NiDX92DBufferData::SetTextureSlot(void* pDev, unsigned int auiIndex)
 {
     void* pTexture = m1;
@@ -557,6 +540,8 @@ struct S_A69F80
 };
 // Returns true if IsEquivalent succeeds and m_10 equals pkObject->m_10, otherwise false.
 // @fnv 0x00a69f80
+// pdb: NiTexturingProperty::ParallaxMap::IsEqual | NiTexturingProperty.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSLightingShader::MaterialSetupEnvironmentMappingMaskTexture)
+// pdb params: pkObject
 bool S_A69F80::MatchesValue(S_A69F80* pkObject)
 {
     if (!IsEquivalent(pkObject))
@@ -586,6 +571,8 @@ struct Holder
 };
 // Calls the base class stream writer, then writes the 4-byte value at this+16 to the stream and advances its position.
 // @fnv 0x00a6bac0
+// pdb: NiTexturingProperty::ShaderMap::SaveBinary | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: BSLightingShader::MaterialSetupVertexConstant)
+// pdb params: kStream
 void Holder::WriteToStream(class NiStream& aStream)
 {
     ((MapBase*)this)->FUN_00a6b830(aStream);
@@ -604,6 +591,8 @@ struct S8
 };
 
 // @fnv 0x00a69ed0
+// pdb: NiTexturingProperty::BumpMap::operator== | NiTexturingProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kObj
 bool S8::FUN_00a69ed0(S8* apOther)
 {
     if (IsEquivalent(apOther))
@@ -621,6 +610,8 @@ int _NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string sized to pcPrefix plus 30 and formats it as "<pcPrefix> = FILTER_..." based on eMode, defaulting to UNKNOWN!!!.
 // @fnv 0x00a69c50
+// pdb: NiTexturingProperty::GetViewerString | NiTexturingProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eMode
 char* BuildFilterModeString(const char* pcPrefix, unsigned int eMode)
 {
     char* pcString;
@@ -677,6 +668,7 @@ struct A51BF0Base
 };
 
 // @fnv 0x00a6ad40
+// pdb: NiTexturingProperty::CreateObject | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
 NiTexturingProperty* CreateTexturingProperty()
 {
     return new NiTexturingProperty();
@@ -684,27 +676,6 @@ NiTexturingProperty* CreateTexturingProperty()
 
 // NiTexturingProperty::BumpMap default constructor: identity luma, half-scale bump matrix.
 // (Declared here under the tag name so the checker can find it; layout mirrors BumpMap.)
-
-class FUN_00a69fb0 : public NiTexturingProperty::Map
-{
-  public:
-    float m_fLumaScale;
-    float m_fLumaOffset;
-    float m_fBumpMat00;
-    float m_fBumpMat01;
-    float m_fBumpMat10;
-    float m_fBumpMat11;
-
-    FUN_00a69fb0() throw();
-    virtual ~FUN_00a69fb0();
-};
-
-// Initializes the map's luma scale/offset and bump matrix fields to their default values.
-// @fnv 0x00a69fb0
-FUN_00a69fb0::FUN_00a69fb0() throw()
-    : m_fLumaScale(1.0f), m_fLumaOffset(0.0f), m_fBumpMat00(0.5f), m_fBumpMat01(0.0f), m_fBumpMat10(0.0f),
-      m_fBumpMat11(0.5f)
-{}
 
 class NiTexture
 {
@@ -740,6 +711,8 @@ struct FUN_00a6a560_cls : public NiTexturingProperty
 };
 
 // @fnv 0x00a6a560
+// pdb: NiTexturingProperty::RegisterStreamables | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 bool FUN_00a6a560_cls::ApplyTextures(unsigned int uiArg)
 {
     if (!FUN_00a62130(uiArg))
@@ -777,7 +750,6 @@ bool FUN_00a6a560_cls::ApplyTextures(unsigned int uiArg)
 }
 
 void* NiMalloc(unsigned int size);
-NiTexture* FUN_00a5ff10(void* pkPrefs, const char* pcName, void* pkOther);
 
 typedef NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> > CamPathArray;
 
@@ -957,6 +929,8 @@ struct NiTexturingPropertySave : public NiTexturingProperty
 
 // Saves the base map array and optional shader map array to the stream, writing a count and a presence flag plus data for each map.
 // @fnv 0x00a6b250
+// pdb: NiTexturingProperty::SaveBinary | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void NiTexturingPropertySave::FUN_00a6b250(NiStream& kStream)
 {
     reinterpret_cast<NiPropertySaveStub*>(this)->SaveBinary(kStream);
@@ -1211,6 +1185,8 @@ class A6B830Helper
 
 // Writes the target link ID, flags, a child-present flag and, if present, the child's binary data to the stream.
 // @fnv 0x00a6b830
+// pdb: NiTexturingProperty::Map::SaveBinary | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: BSLightingShader::GeometrySetupConstantTextureProj)
+// pdb params: kStream
 void A6B830Helper::FUN_00a6b830(A6B830Stream& kStream)
 {
     kStream.SaveLinkID(m_pkTarget);
@@ -1230,6 +1206,8 @@ class A6B8C0BumpMap : public NiTexturingProperty::BumpMap
 
 // Loads the base map data from kStream, then reads six float values into the bump map's luma and matrix fields.
 // @fnv 0x00a6b8c0
+// pdb: NiTexturingProperty::BumpMap::LoadBinary | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void A6B8C0BumpMap::FUN_00a6b8c0(NiStream& kStream)
 {
     Map::LoadBinary(kStream);
@@ -1424,6 +1402,8 @@ struct S_00a6b9a0
 };
 // Calls FUN_00a6b830, then reads six 4-byte values from the stream into unk10 through unk24.
 // @fnv 0x00a6b9a0
+// pdb: NiTexturingProperty::BumpMap::SaveBinary | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void S_00a6b9a0::ReadFromStream(S_00a6b9a0_Stream* pStream)
 {
     FUN_00a6b830(pStream);
@@ -1500,6 +1480,8 @@ class A9E60Desc
 };
 
 // @fnv 0x00a69e60
+// pdb: NiTexturingProperty::Map::operator== | NiTexturingProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kObj
 bool A9E60Desc::IsEquivalent(const A9E60Desc& kOther) const
 {
     if (!m_spSource && kOther.m_spSource)
@@ -1526,6 +1508,7 @@ bool A9E60Desc::IsEquivalent(const A9E60Desc& kOther) const
 extern int DAT_0109c514;
 // Sets the vtable, deletes the texture array elements and the second array, frees the base array and runs the NiProperty destructor.
 // @f3 0x00833be0 (community match, verified in this file)
+// pdb: NiTexturingProperty::~NiTexturingProperty | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
 void __fastcall NiTexturingPropertyDestructor(NiTexturingProperty* pThis)
 {
     *reinterpret_cast<void**>(pThis) = &DAT_0109c514;
@@ -1575,6 +1558,8 @@ struct FUN_00a6a5f0_cls
 };
 
 // @fnv 0x00a6a5f0
+// pdb: NiTexturingProperty::IsEqual | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkObject
 bool FUN_00a6a5f0_cls::Equals(FUN_00a6a5f0_cls* other)
 {
     if (!FUN_00a62140(other))
@@ -1680,6 +1665,8 @@ struct FUN_00a6a990 : A6A990Base
 
 // Constructs the base array object, forwarding the max size and growth increment to the A6A990Base constructor.
 // @fnv 0x00a6a990
+// pdb: NiTPrimitiveArray<TESRegion *>::NiTPrimitiveArray<TESRegion *> | PlayerCharacter.obj | fnv360_0822_retail, uvref, medium
+// pdb params: uiMaxSize, uiGrowBy
 FUN_00a6a990::FUN_00a6a990(unsigned int uiMaxSize, unsigned int uiGrowBy) : A6A990Base(uiMaxSize, uiGrowBy)
 {}
 
@@ -1742,10 +1729,6 @@ char* FUN_00a7d4d0(const char*, int);
 char* FUN_00a7d510(const char*, unsigned int);
 char* FUN_00a7d550(const char*, float);
 char* FUN_00a7d5a0(const char*, void*);
-struct FUN_00a62a40_this
-{
-    void AppendString(StrArr*);
-};
 struct PropertyViewer : NiTexturingProperty
 {
     void AppendPropertyInfo(StrArr*);
@@ -1810,6 +1793,8 @@ extern const char str_00e21d44[];
 extern const char str_00e21d3c[];
 struct PropertyViewerBaseCall { void FUN_00825cd0(StrArr*); };
 extern char* DAT_0108f398;
+// pdb: NiTexturingProperty::GetViewerStrings | NiTexturingProperty.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void PropertyViewer::AppendPropertyInfo(StrArr* strings)
 {
     reinterpret_cast<PropertyViewerBaseCall*>(this)->FUN_00825cd0(strings);
@@ -1952,6 +1937,8 @@ struct FUN_00a6a010 : public NiTexturingProperty::Map
 };
 // Constructs a parallax map, initializing m_fParallaxOffset to 0.5f.
 // @fnv 0x00a6a010
+// pdb: NiTPrimitiveArray<NiTexturingProperty::ShaderMap *>::NiTPrimitiveArray<NiTexturingProperty::ShaderMap *> | NiTexturingProperty.obj | fnv360_0721_beta, call_gap, low
+// pdb params: uiMaxSize, uiGrowBy
 FUN_00a6a010::FUN_00a6a010() throw() : m_fParallaxOffset(0.5f)
 {}
 
@@ -2016,7 +2003,7 @@ struct LinkArray
 };
 struct LinkStream : NiStream
 {
-    unsigned int FUN_00a63460();
+    unsigned int NiStream_GetNumberOfLinkIDs();
     LinkTexture* FUN_00a63430();
 };
 struct LinkProperty
@@ -2039,15 +2026,17 @@ struct LinkProperty
 };
 // Reads texture maps and shader maps from the stream, relocates maps 6 and 7 to slots 8 and 9 for older versions, and updates the flags count.
 // @fnv 0x00a6a240
+// pdb: NiTexturingProperty::LinkObject | NiTexturingProperty.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void LinkProperty::LoadFromStream(LinkStream& stream)
 {
     FUN_00a47360(stream);
-    unsigned int count = stream.FUN_00a63460();
+    unsigned int count = stream.NiStream_GetNumberOfLinkIDs();
     unsigned int i;
     flags &= 0xf00f;
     for (i = 0; i < count; ++i)
     {
-        if (stream.FUN_00a63460())
+        if (stream.NiStream_GetNumberOfLinkIDs())
         {
             LinkMap*& map = maps.data[i];
             map->texture = stream.FUN_00a63430();
@@ -2103,10 +2092,10 @@ void LinkProperty::LoadFromStream(LinkStream& stream)
     }
     if (stream.m_uiNifVersion >= 0x5000011)
     {
-        count = stream.FUN_00a63460();
+        count = stream.NiStream_GetNumberOfLinkIDs();
         for (i = 0; i < count; ++i)
         {
-            if (stream.FUN_00a63460())
+            if (stream.NiStream_GetNumberOfLinkIDs())
             {
                 LinkMap*& map = shaderMaps->data[i];
                 map->texture = stream.FUN_00a63430();
@@ -2128,12 +2117,6 @@ struct BSDismemberSkinInstance : NiSkinInstance
 void BSDismemberSkinInstance::FUN_00a6c670(NiStream& stream)
 {
     NiSkinInstance::FUN_00a6c670(stream);
-}
-
-// @fnv 0x00e7cd40
-int __cdecl FUN_00e7cd40()
-{
-    return 0;
 }
 
 // NiTexturingProperty::Map constructor.
@@ -2164,6 +2147,7 @@ class FUN_00a69dd0_cls
 
 // Initialises the object: sets m_vtbl, zeroes m_spTexture and m_pTextureTransform, and sets m_usFlags to 0x3100.
 // @fnv 0x00a69dd0
+// pdb: NiTexturingProperty::Map::Map | NiTexturingProperty.obj | fnv360_0822_retail, call_seq, medium
 FUN_00a69dd0_cls::FUN_00a69dd0_cls() : m_usFlags(0)
 {
     _ReadWriteBarrier();
@@ -2200,6 +2184,8 @@ struct S00a6a150_Tex : public NiTexturingProperty
 };
 
 // @fnv 0x00a6a150
+// pdb: NiTexturingProperty::SetDecalMap | NiTexturingProperty.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: uiIndex, pkMap
 void S00a6a150_Tex::FUN_00a6a150(unsigned int index, NiTexturingProperty::Map* map)
 {
     NiTexturingProperty::Map* newMap;
@@ -2387,6 +2373,8 @@ struct TexProp
 };
 // Copies texture map arrays and shader maps from this TexProp into pkDest, creating new TexMap, TexBumpMap, TexParallaxMap, and TexShaderMap objects.
 // @fnv 0x00a6bb00
+// pdb: NiTexturingProperty::CopyMembers | NiTexturingProperty.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pkDest, kCloning
 void TexProp::CloneTo(TexProp* pkDest, CloneProc& kCloning)
 {
     FUN_00a5d7a0(pkDest, kCloning);
@@ -2460,6 +2448,7 @@ struct MapScalarDtorCandidate : NiTexturingProperty::Map
 
 // Calls the base Map destructor, then frees this object via g_memoryManager when flags has bit 0 set, and returns this.
 // @fnv 0x00a6a9f0
+// pdb: NiTexturingProperty::BumpMap::`scalar deleting destructor' | NiTexturingProperty.obj | fnv360_0822_retail, objrun_open, low
 void* MapScalarDtorCandidate::FUN_00a6a9f0(unsigned int flags)
 {
     this->NiTexturingProperty::Map::~Map();

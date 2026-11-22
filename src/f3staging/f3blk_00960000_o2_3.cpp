@@ -99,6 +99,7 @@ struct ConstraintInstance : ReferencedObject
 
 }
 
+// pdb: hkpConstraintInstance::isConstrainedToWorld | hkpConstraintInstance.obj | fnv360_0822_retail, call_gap, low
 f3o_97a150::ConstraintInstance* f3o_97a150::ConstraintInstance::FUN_0097a150(Entity* newEntityA, Entity* newEntityB, CloningMode mode) const
 {
     if (mode == CLONE_INSTANCES_ONLY)

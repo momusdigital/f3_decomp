@@ -17,7 +17,8 @@ struct NiPoint3InterpolatorStandIn
 typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
 
 // @fnv 0x00a57c20
-void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
+// pdb: NiPoint3InterpController::CreatePoseInterpolator | NiPoint3InterpController.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+void* __fastcall NiPoint3InterpController_CreatePoseInterpolator(void* self, int, unsigned short usIndex)
 {
     NiPoint3 kValue;
     (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
@@ -29,24 +30,11 @@ void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
 }
 
 extern const char* const g_011f3f88_arg1;
-// @fnv 0x00a57ca0
-const char* const* FUN_00a57ca0()
-{
-    return &g_011f3f88_arg1;
-}
 
 namespace fnv_00a57cb0 {
-class NiRTTI;
-struct GlobalObjectO2_00a7b610;
-extern GlobalObjectO2_00a7b610 g_011f3f70;
 struct NiPoint3
 {
     float x, y, z;
-};
-class NiObject
-{
-  public:
-    NiObject* DynamicCast(const NiRTTI*) const;
 };
 struct NiPoint3InterpolatorStandIn
 {
@@ -54,16 +42,6 @@ struct NiPoint3InterpolatorStandIn
 };
 typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
 
-// Casts pkInterp to a NiPoint3 interpolator, reads a NiPoint3 from self via a virtual call, and passes it to the interpolator.
-// @fnv 0x00a57cb0
-void __fastcall FUN_00a57cb0(void* self, int, NiObject* pkInterp, int)
-{
-    NiPoint3InterpolatorStandIn* pkPoint3Interp =
-        !pkInterp ? 0 : (NiPoint3InterpolatorStandIn*)pkInterp->DynamicCast((const NiRTTI*)&g_011f3f70);
-    NiPoint3 kValue;
-    (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
-    pkPoint3Interp->FUN_00a494b0(kValue);
-}
 }  // namespace fnv_00a57cb0
 
 struct ActorCombatGroup;
@@ -77,23 +55,11 @@ template <class T, class A> struct NiTArray
 };
 typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > CombatGroupArray;
 extern const char* const g_011f3f88_arg1;
-void __stdcall FUN_00a390a0(CombatGroupArray* a);
-ActorCombatGroup* __cdecl FUN_00a7d330(const char* s);
-
-// @fnv 0x00a57d10
-void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
-{
-    FUN_00a390a0(pCombatGroups);
-    ActorCombatGroup* pGroup = FUN_00a7d330(g_011f3f88_arg1);
-    unsigned int uiIndex = *(unsigned short*)((char*)pCombatGroups + 0xa);
-    if (uiIndex >= *(unsigned short*)((char*)pCombatGroups + 8))
-        pCombatGroups->SetSize(*(unsigned short*)((char*)pCombatGroups + 0xe) + uiIndex);
-    pCombatGroups->SetAt(uiIndex, pGroup);
-}
 
 extern unsigned int DAT_011f404c;
 
 // @fnv 0x00a532c0
+// pdb: NiTask::GetRTTI | BSTECreateTask.obj | fnv360_0822_retail, vtable, medium
 unsigned int* __cdecl FUN_00a532c0()
 {
     return &DAT_011f404c;
@@ -115,6 +81,8 @@ struct S_00a53280_Foo
 extern void(__stdcall* FUN_00fdf1c0)(void*);
 
 // @fnv 0x00a53280
+// pdb: NiBoolInterpolator::NiBoolInterpolator | NiBoolInterpolator.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pkBoolData
 void* S_00a53280_Foo::FUN_00a53280(void* arg)
 {
     FUN_00a3ca10();

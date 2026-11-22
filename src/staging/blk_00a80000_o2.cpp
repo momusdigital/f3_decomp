@@ -19,6 +19,7 @@ NiCollisionObject::NiCollisionObject()
     _Call_a5d3a0();
 }
 // @fnv 0x00a80fa0
+// pdb: NiCollisionObject::NiCollisionObject | NiCollisionObject.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiAVObject::GetBit)
 NiCollisionObject* NiCollisionObject::Construct()
 {
     NiCollisionObject::NiCollisionObject();
@@ -31,6 +32,7 @@ extern unsigned char* DAT_011f5b04;
 void __cdecl FUN_00714960(int);
 
 // @fnv 0x00a81a20
+// pdb: NiParallelUpdateTaskManager::BeginUpdate | NiParallelUpdateTaskManager.obj | fnv360_0822_retail, call_gap_sim, low
 void __cdecl FUN_00a81a20()
 {
     if (DAT_011f5b04)
@@ -41,6 +43,8 @@ void __cdecl FUN_00a81a20()
 }
 
 // @fnv 0x00a81b80
+// pdb: NiSkinPartition::VertexInteractions::CompareWeights | NiSkinPartition.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiSkinPartition::BoneSet::CompareBones)
+// pdb params: pv0, pv1
 int __cdecl FUN_00a81b80(const unsigned short* ausLeft, const unsigned short* ausRight)
 {
     if (*ausLeft < *ausRight)
@@ -76,29 +80,13 @@ struct FUN_00a87900_class {
 };
 
 // @fnv 0x00a87900
+// pdb: NiScreenElementsData::UpdateBound | NiScreenElementsData.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiAVObject::Update)
 void FUN_00a87900_class::FUN_00a87900()
 {
     *(unsigned char*)((char*)this + 0x6e) = 0;
     if (*(unsigned short*)((char*)this + 8) > 0) {
         ((NiBound*)((char*)this + 0x10))->ComputeFromPoints(*(unsigned short*)((char*)this + 8), *(const NiPoint3**)((char*)this + 0x20));
     }
-}
-
-extern int DAT_011f5b84;
-void __cdecl InitializeGameSystems();
-void __cdecl FUN_00a8a280();
-void __cdecl FUN_00aa2060(void*, void*);
-struct FUN_00a8a5f0_class {
-    void* FUN_00a8a5f0();
-};
-// @fnv 0x00a8a5f0
-void* FUN_00a8a5f0_class::FUN_00a8a5f0()
-{
-    void* old = (void*)DAT_011f5b84;
-    ++DAT_011f5b84;
-    if (!old)
-        FUN_00aa2060((void*)&InitializeGameSystems, (void*)&FUN_00a8a280);
-    return this;
 }
 
 struct FUN_00a8f060_class {
@@ -108,6 +96,7 @@ struct FUN_00a8f060_class {
 extern "C" void NiFreeAlias(void*);
 
 // @fnv 0x00a8f060
+// pdb: NiPixelData::FreeData | NiPixelData_Xenon.obj | fnv360_0822_retail, objrun_prop, medium
 void FUN_00a8f060_class::FUN_00a8f060()
 {
     NiFreeAlias(*(void**)((char*)this + 0x50));
@@ -126,6 +115,7 @@ struct FUN_00a8f080_Class {
 };
 
 // @fnv 0x00a8f080
+// pdb: Ni2DBuffer::ResetDimensions | Ni2DBuffer.obj | tesv_win, call_seq, medium
 void FUN_00a8f080_Class::SetValues(int aiValue, int aiOther)
 {
     m_8 = aiValue;
@@ -150,6 +140,7 @@ void __thiscall FUN_00a8f730::Release()
 extern char DAT_011f5d30;
 
 // @fnv 0x00a8f750
+// pdb: NiMaterial::GetDefaultWorkingDirectory | NiMaterial.obj | fnv360_0822_retail, call_gap, medium
 int __cdecl GetGlobalDataPtr()
 {
     return DAT_011f5d30 ? (int)&DAT_011f5d30 : 0;
@@ -163,6 +154,7 @@ struct NiStreamLinkIDSet {
 };
 
 // @fnv 0x00a8ff30
+// pdb: NiMaterialLibrary::_SDMShutdown | NiMaterialLibrary.obj | fnv360_0822_retail, call_seq, medium
 void ResetStreamLinkIDSet()
 {
     DAT_011f5e4c = 0;
@@ -201,6 +193,8 @@ struct FUN_00a96440_class {
 };
 
 // @fnv 0x00a96440
+// pdb: NiParticlesData::ReplaceRadii | NiParticlesData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pfRadii
 void FUN_00a96440_class::SetField(void* pNew)
 {
     NiFreeAlias(m_pField);
@@ -214,6 +208,8 @@ struct FUN_00a96460_class {
     void FUN_00a96460(void* p);
 };
 // @fnv 0x00a96460
+// pdb: NiParticlesData::ReplaceSizes | NiParticlesData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pfSizes
 void FUN_00a96460_class::FUN_00a96460(void* apPointer)
 {
     NiFree(m_0x54);
@@ -228,6 +224,8 @@ struct FUN_00a96480_Class {
 };
 
 // @fnv 0x00a96480
+// pdb: NiParticlesData::ReplaceRotationAngles | NiParticlesData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pfRotationAngles
 void FUN_00a96480_Class::FUN_00a96480(void* p)
 {
     NiFreeAlias(*(void**)((char*)this + 0x5c));
@@ -242,6 +240,8 @@ struct FUN_00a964a0_Class {
 };
 
 // @fnv 0x00a964a0
+// pdb: NiParticlesData::ReplaceTextureIndices | NiParticlesData.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pucTextureIndices
 void FUN_00a964a0_Class::FUN_00a964a0(void* apValue) {
     NiFreeAlias(*(void**)((char*)this + 0x64));
     *(void**)((char*)this + 0x64) = apValue;
@@ -254,6 +254,7 @@ struct BSFadeNode {
 };
 
 // @fnv 0x00a982d0
+// pdb: NiPersistentSrcTextureRendererData::CreateObject | NiPersistentSrcTextureRendererData.obj | tesv_win, objrun, medium
 void* FUN_00a982d0()
 {
     void* p = BSFadeNode::operator new(0x94);
@@ -265,7 +266,6 @@ void* FUN_00a982d0()
 
 struct CloningProcess;
 struct NiBinaryExtraData;
-struct NiFloatsExtraData;
 struct NiExtraData {
     void* p;
     void FUN_00a7b330(void* dst, CloningProcess* cp);
@@ -274,6 +274,8 @@ struct FUN_00a99c40_shell : public NiExtraData {
     void FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp);
 };
 // @fnv 0x00a99c40
+// pdb: NiIntegerExtraData::CopyMembers | NiIntegerExtraData.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: pDest, kCloning
 void FUN_00a99c40_shell::FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp)
 {
     FUN_00a7b330(dst, cp);
@@ -299,6 +301,8 @@ BSFadeNode* FUN_00a81fb0()
 }
 
 // @fnv 0x00a88ac0
+// pdb: NiString::GetBestBufferSize | NiString.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: uiReqSize
 unsigned int __cdecl FUN_00a88ac0(unsigned int auiValue)
 {
     if (auiValue < 32)
@@ -336,7 +340,6 @@ void* __cdecl FUN_00a91fe0()
     return 0;
 }
 
-extern int DAT_010a02e4;
 struct NiProperty {
     void* vtbl;
     int m_iWordAt04;
@@ -349,22 +352,6 @@ struct NiProperty {
     int m_1c;
     NiProperty();
 };
-// Allocates a 0x1c-byte NiProperty, constructs it, sets m_18 to 0 and its vtbl to DAT_010a02e4, returning the object or null on allocation failure.
-// @fnv 0x00a95160
-NiProperty* __cdecl FUN_00a95160()
-{
-    NiProperty* p = 0;
-    if (void* mem = BSFadeNode::operator new(0x1c))
-    {
-        p = (NiProperty*)mem;
-        p->NiProperty::NiProperty();
-        p->m_18 = 0;
-        p->vtbl = &DAT_010a02e4;
-    }
-    else
-        return 0;
-    return p;
-}
 
 struct NiParticleMeshes {
     void* vft;
@@ -378,6 +365,7 @@ struct NiParticleMeshes {
 extern const void* DAT_010a0a6c;
 // Allocates a 0xcc-byte NiParticleMeshes, calls Init, sets its vtable and m_flag to 1, and returns it (or null on allocation failure).
 // @fnv 0x00a98e70
+// pdb: NiParticleMeshes::CreateObject | NiParticleMeshes.obj | fnv360_0822_retail, objrun, medium
 NiParticleMeshes* __cdecl FUN_00a98e70() {
     NiParticleMeshes* p = (NiParticleMeshes*)BSFadeNode::operator new(0xcc);
     if (p) {
@@ -391,28 +379,6 @@ NiParticleMeshes* __cdecl FUN_00a98e70() {
 
 void __cdecl NiFree(void*);
 void* __cdecl NiMalloc(unsigned int);
-struct FUN_00a99800_shell {
-    void* m_iWordAt00;
-    void* m_iWordAt04;
-    void* m_8;
-    unsigned int m_iThirdValue;
-    void* m_10;
-    void AssignPointerArray(unsigned int count, const void* src);
-};
-// @fnv 0x00a99800
-void FUN_00a99800_shell::AssignPointerArray(unsigned int count, const void* src)
-{
-    NiFree(m_10);
-    if (!src || count <= 0) {
-        m_iThirdValue = 0;
-        m_10 = 0;
-    } else {
-        m_iThirdValue = count;
-        m_10 = NiMalloc(count * 4);
-        for (unsigned int i = 0; i < count; ++i)
-            ((void**)m_10)[i] = (void*)((const void**)src)[i];
-    }
-}
 
 extern const void* DAT_010a12cc;
 
@@ -437,7 +403,9 @@ struct NiAlphaAccumulator {
 };
 // Allocates a 0x34-byte NiAlphaAccumulator, runs its constructor, sets the vtable and initializes bytes at offsets 0x30-0x32, returning the object or null.
 // @fnv 0x00a9b4b0
-NiAlphaAccumulator* CreateNiAlphaAccumulator()
+// pdb: NiAlphaAccumulator::CreateObject | NiAlphaAccumulator.obj | fnv360_0822_retail, objrun, high
+// pdb: NiAlphaAccumulator::CreateObject | NiAlphaAccumulator.obj | fnv360_0822_retail, objrun, high (was: CreateNiAlphaAccumulator)
+NiAlphaAccumulator* NiAlphaAccumulator_CreateObject()
 {
     NiAlphaAccumulator* p = static_cast<NiAlphaAccumulator*>(BSFadeNode::operator new(0x34));
     if (p) {
@@ -461,6 +429,8 @@ extern volatile long DAT_011f4400;
 extern const void* DAT_010a1478;
 extern const void* vftable_NiRefObject;
 // @fnv 0x00a9be80
+// pdb: NiShaderConstantMap::NiShaderConstantMap | NiShaderConstantMap.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: eType
 FUN_00a9be80::FUN_00a9be80(int data) {
     m_vft = &vftable_NiRefObject;
     m_ref = 0;
@@ -477,6 +447,7 @@ struct FUN_00a84c90_class {
 };
 
 // @fnv 0x00a84c90
+// pdb: __lvx | NiSkinInstance.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiSkinData::BoneVertData::BoneVertData)
 FUN_00a84c90_class* FUN_00a84c90_class::ResetFields()
 {
     field44 = 0;
@@ -557,6 +528,7 @@ struct FUN_00a85520_class {
 
 // Multiplies the nine floats starting at this by scale and writes the results to dst.
 // @fnv 0x00a85520
+// pdb: NiMatrix3::operator* | NiSkinInstance_Win32.obj | tesv_win, hash, low
 void FUN_00a85520_class::FUN_00a85520(float* afOut, float scale)
 {
     *afOut = *(float*)this * scale;
@@ -627,6 +599,7 @@ struct FUN_00a87140_class {
     void FUN_00a87140_ctor();
 };
 // @fnv 0x00a87140
+// pdb: BSSegmentedTriShape::CreateObject | BSSegmentedTriShape.obj | fnv360_0822_debug, objrun_open, low
 FUN_00a87140_class* FUN_00a87140() {
     FUN_00a87140_class* p = (FUN_00a87140_class*)BSFadeNode::operator new(0xd0);
     if (p) {
@@ -655,6 +628,7 @@ struct FUN_00a94c00_shell {
     void FUN_00a94c00(NiDirectionalLight* dst, CloningProcess& cp);
 };
 // @fnv 0x00a94c00
+// pdb: NiSpotLight::CopyMembers | NiSpotLight.obj | tesv_win, objrun_prop, low
 void FUN_00a94c00_shell::FUN_00a94c00(NiDirectionalLight* dst, CloningProcess& cp)
 {
     ((NiDirectionalLight*)this)->FUN_00a7d6a0(dst, cp);
@@ -686,6 +660,7 @@ struct FUN_00a96800_shell {
     void DestroyGeometryData();
 };
 // @fnv 0x00a96800
+// pdb: NiParticlesData::~NiParticlesData | NiParticlesData.obj | fnv360_0822_retail, caller_sim, medium
 void FUN_00a96800_shell::FUN_00a96800()
 {
     void* pOld = m_4c;
@@ -717,6 +692,7 @@ struct FUN_00a81bd0_class {
 };
 
 // @fnv 0x00a81bd0
+// pdb: NiSkinPartition::Partition::~Partition | NiSkinPartition.obj | fnv360_0822_retail, objrun_prop, medium
 void FUN_00a81bd0_class::FUN_00a81bd0()
 {
     m_iWordAt00 = &DAT_0109e470;
@@ -761,6 +737,8 @@ struct NiCullingProperty {
     void FUN_00a81430(void* dst, CloningProcess& proc);
 };
 // @fnv 0x00a81430
+// pdb: NiShadeProperty::CopyMembers | NiShadeProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pDest, kCloning
 void NiCullingProperty::FUN_00a81430(void* dst, CloningProcess& proc)
 {
     FUN_00a5d7a0(dst, proc);
@@ -774,6 +752,7 @@ struct FUN_00a8a670_shell {
     void FUN_00a8a670();
 };
 // @fnv 0x00a8a670
+// pdb: NiObjectGroup::~NiObjectGroup | NiObjectGroup.obj | fnv360_0822_retail, call_gap, high
 void FUN_00a8a670_shell::FUN_00a8a670()
 {
     NiFree(m_iWordAt04);
@@ -821,6 +800,7 @@ struct FUN_00a90260_class
 };
 
 // @fnv 0x00a90260
+// pdb: NiTArray<char const *,NiTMallocInterface<char const *> >::`scalar deleting destructor' | TESScriptFunctions.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00a90260_class::FUN_00a90260(int flags)
 {
     void* p = m_iWordAt04;
@@ -840,6 +820,7 @@ struct FUN_00a5a390_shell {
 void __cdecl operator delete(void* p, unsigned int);
 // Calls DestroyFogProperty, then deletes this with size 0x1c if bDel is set, and returns this.
 // @fnv 0x00a950f0
+// pdb: bhkRigidBody::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_retail, vtable_prefix, high
 FUN_00a5a390_shell* FUN_00a5a390_shell::FUN_00a950f0(bool bDel)
 {
     DestroyFogProperty();
@@ -867,6 +848,8 @@ struct NiCullingProperty {
 
 // Copies this NiCullingProperty's m_18, m_1c and m_20 into the destination after calling FUN_00a5d7a0.
 // @fnv 0x00a99e00
+// pdb: NiFogProperty::CopyMembers | NiFogProperty.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pkDest, kCloning
 void NiCullingProperty::FUN_00a99e00(
     void* destination, CloningProcess& cloningProcess)
 {
@@ -880,13 +863,6 @@ void NiCullingProperty::FUN_00a99e00(
 }  // namespace fnv_00a99e00
 
 void __cdecl FUN_00a9b8b0();
-void __cdecl FUN_00a9b9b0();
-// @fnv 0x00a9ba80
-void __cdecl FUN_00a9ba80()
-{
-    FUN_00a9b8b0();
-    FUN_00a9b9b0();
-}
 
 struct SpawnedRef {
     virtual void Vslot00();
@@ -924,6 +900,7 @@ struct FUN_00a80580_cls {
 
 // Releases the two SpawnedRef members via reference counting, cleans up m_sub9c, then calls BaseTeardown.
 // @fnv 0x00a80580
+// pdb: NiGeometry::~NiGeometry | NiGeometry.obj | fnv360_0822_retail, call_seq, high
 void FUN_00a80580_cls::FUN_00a80580()
 {
     *(void* volatile*)&m_vptr = (void*)&DAT_0109e04c;
@@ -950,19 +927,7 @@ void FUN_00a80580_cls::FUN_00a80580()
     BaseTeardown();
 }
 
-extern const void* DAT_0109e174;
-
 void FUN_00a5d3d0();
-
-struct FUN_00a80fc0_class {
-    void __thiscall FUN_00a80fc0();
-};
-
-// @fnv 0x00a80fc0
-void __thiscall FUN_00a80fc0_class::FUN_00a80fc0() {
-    *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_0109e174);
-    FUN_00a5d3d0();
-}
 
 extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
@@ -970,7 +935,8 @@ extern "C" double __cdecl fabs(double);
 
 // Computes the angle of the vector (x, y) using a polynomial approximation of atan, handling zero and quadrant cases.
 // @fnv 0x00a811f0
-float __cdecl FUN_00a811f0(float y, float x)
+// pdb: NiFastATan2 | NiMath.obj | fnv360_0822_retail, caller + bridge(uconst|call_seq) + skyrim(uconst), high
+float __cdecl NiFastATan2(float y, float x)
 {
     if (x == 0.0f && y == 0.0f)
         return 0.0f;
@@ -1012,35 +978,6 @@ float __cdecl FUN_00a811f0(float y, float x)
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-extern int DAT_0109e32c;
-
-struct FUN_00a81760_obj
-{
-    void* m_pVTable;
-    char unk04[0x54];
-    unsigned short m_58;
-    unsigned short m_5a;
-
-    void FUN_00a7b690();
-};
-
-// @fnv 0x00a81760
-FUN_00a81760_obj* __cdecl FUN_00a81760()
-{
-    FUN_00a81760_obj* p = (FUN_00a81760_obj*)FUN_00aa13e0(0x5c);
-    if (p != 0)
-    {
-        p->FUN_00a7b690();
-        p->m_58 = 0;
-        p->m_pVTable = (void*)&DAT_0109e32c;
-        p->m_5a = 0;
-    }
-    else
-    {
-        p = 0;
-    }
-    return p;
-}
 
 struct S_a819e0_O {
 virtual ~S_a819e0_O() {}
@@ -1085,6 +1022,7 @@ virtual void v38();
 virtual void v39();
 };
 // @fnv 0x00a819e0
+// pdb: NiParallelUpdateTaskManager::Shutdown | NiParallelUpdateTaskManager.obj | fnv360_0822_retail, call_gap_sim, low
 void FUN_00a819e0() {
     if (DAT_011f5b04) {
         ((S_a819e0_O*)DAT_011f5b04)->v39();
@@ -1110,7 +1048,7 @@ struct FUN_00a81ba0_cls
     unsigned int m_18;
     unsigned int unk1c;
     unsigned short unk20;
-    volatile unsigned short m_22;
+    unsigned short m_22;
     unsigned int unk24;
     unsigned int m_28;
 
@@ -1118,6 +1056,7 @@ struct FUN_00a81ba0_cls
 };
 
 // @fnv 0x00a81ba0
+// pdb: NiSkinPartition::Partition::Partition | NiSkinPartition.obj | fnv360_1110_retail, objrun_open, low
 FUN_00a81ba0_cls::FUN_00a81ba0_cls()
 {
     m_pVTable = (void*)&DAT_0109e470;
@@ -1138,6 +1077,7 @@ struct FUN_00a84c60_cls
 };
 
 // @fnv 0x00a84c60
+// pdb: NiSkinData::BoneVertData::BoneVertData | NiSkinData.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00a84c60_cls* FUN_00a84c60_cls::FUN_00a84c60()
 {
     m_00 = 0;
@@ -1195,6 +1135,7 @@ struct FUN_00a84ca0_class {
 
 // Iterates m_44 entries in the array at m_40, deallocating each entry's unk44 pointer and clearing it.
 // @fnv 0x00a84ca0
+// pdb: NiSkinData::FreeBoneVertData | NiSkinData.obj | fnv360_0822_retail, call_dedup, medium
 void FUN_00a84ca0_class::FreeEntryResources()
 {
     if (m_40 != 0) {
@@ -1222,11 +1163,14 @@ struct CloneObject {
     RefCountedObject* second;
 
     void CreateVertexBufferSet(CloneObject* destination, void* process);
-    void CopyRefCountedPointers(CloneObject* destination, void* process);
+    void NiSkinInstance_CopyMembers(CloneObject* destination, void* process);
 };
 
 // @fnv 0x00a86660
-void CloneObject::CopyRefCountedPointers(CloneObject* destination, void* process)
+// pdb: NiSkinInstance::CopyMembers | NiSkinInstance.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkDest, kCloning
+// pdb: NiSkinInstance::CopyMembers | NiSkinInstance.obj | fnv360_0822_retail, call_seq, high (was: CopyRefCountedPointers)
+void CloneObject::NiSkinInstance_CopyMembers(CloneObject* destination, void* process)
 {
     CreateVertexBufferSet(destination, process);
 
@@ -1279,7 +1223,8 @@ struct SpawnedObject
 
 // Allocates a 0x34-byte SpawnedObject, runs InitBase, installs the vtable, zeroes most fields, sets m18 to -1, and returns it (or null).
 // @fnv 0x00a866f0
-SpawnedObject* __cdecl FUN_00a866f0() throw()
+// pdb: NiSkinInstance::CreateObject | NiSkinInstance.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+SpawnedObject* __cdecl NiSkinInstance_CreateObject() throw()
 {
     SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x34);
     if (p != 0)
@@ -1367,6 +1312,8 @@ struct FUN_00a87790_cls
 };
 
 // @fnv 0x00a87790
+// pdb: NiScreenElements::Draw | NiScreenElements.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: pkRenderer
 void FUN_00a87790_cls::FUN_00a87790(int a)
 {
     this->Tail(a);
@@ -1401,6 +1348,8 @@ struct FUN_00a88c60_Class {
 };
 
 // @fnv 0x00a88c60
+// pdb: NiTextureTransform::operator!= | NiTextureTransform.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kXform
 int __thiscall FUN_00a88c60_Class::FUN_00a88c60(FUN_00a88c60_Class* other) {
     if (unk08 == other->unk08 && unk00 == other->unk00 && unk04 == other->unk04) {
         if (!unk0C.FUN_0051c330(&other->unk0C) && unk44 == other->unk44) {
@@ -1414,24 +1363,12 @@ int __thiscall FUN_00a88c60_Class::FUN_00a88c60(FUN_00a88c60_Class* other) {
 }
 
 // @fnv 0x00a89650
-void FUN_00a89650(const short* psCompressed, unsigned int uiUnused, float afBase, float fHalfRange, float* pfValues,
+// pdb: NiCompUtility::DecompressFloatArray | NiCompUtility.obj | fnv360_0822_retail, objrun_prop + bridge(call_gap|objrun_prop) + skyrim(call_seq), high
+void NiCompUtility_DecompressFloatArray(const short* psCompressed, unsigned int uiUnused, float afBase, float fHalfRange, float* pfValues,
                   unsigned int ItemUpdateArray)
 {
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
         pfValues[i] = (float)(psCompressed[i] / 32767.0 * fHalfRange + afBase);
-}
-
-struct FUN_00a89760_base {
-    virtual ~FUN_00a89760_base();
-};
-
-struct FUN_00a89760_cls : FUN_00a89760_base {
-    virtual ~FUN_00a89760_cls();
-};
-
-// @fnv 0x00a89760
-FUN_00a89760_cls::~FUN_00a89760_cls()
-{
 }
 
 struct BaseCls {
@@ -1464,6 +1401,8 @@ struct FUN_00a8a680_cls {
 };
 
 // @fnv 0x00a8a680
+// pdb: NiLinesData::NiLinesData | NiLinesData.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: usVertices, pkVertex, pkColor, pkTexture, usNumTextureSets, eNBTMethod, pkFlags
 void* FUN_00a8a680_cls::InitWithBuffer(int ausLength, int a1, int a2, int a3, int a4, int a5, int apBuffer)
 {
     ((BaseCls*)this)->FUN_00a67b20(ausLength, a1, 0, a2, a3, a4, a5);
@@ -1490,6 +1429,8 @@ struct Decoder {
 };
 // Decodes 8 input bytes through the lookup table, writing each pair's two bytes into the output buffer.
 // @fnv 0x00a8b4b0
+// pdb: NiTextureCodec::DecodeT3AlphaBlock | NiTextureCodec.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pucAlphas
 void Decoder::DecodeToOutput(unsigned int* output) {
  for(unsigned int i=0;i<8;++i) {
   *(unsigned char*)output=table[*input].first;
@@ -1517,6 +1458,8 @@ struct BlockColorDecoder {
 
 // Reads two 16-bit words into four RGB colors (two endpoints plus two interpolated), then writes 16 pixels selected by 2-bit indices from the cursor.
 // @f3 0x00856730 (community match, verified in this file)
+// pdb: NiTextureCodec::DecodeColorBlock | NiTextureCodec.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pucDest
 void BlockColorDecoder::DecodeBlockColors(unsigned char* output)
 {
     unsigned short first = (unsigned short)ReadWord();
@@ -1572,6 +1515,7 @@ public:
 
 // Initializes the object's fields, sets the callback to DecodeBlockColors, and fills a 256-entry table with scaled low/high nibble values.
 // @fnv 0x00a8bd20
+// pdb: NiTextureCodec::NiTextureCodec | NiTextureCodec.obj | fnv360_0822_retail, objopen_prop, low
 FUN_00a8bd20::FUN_00a8bd20() {
     double dMax = runtimeInitializationDouble5;
     unk00 = 0;
@@ -1596,6 +1540,8 @@ struct FUN_00a8bdf0_cls {
 
 // Fills a 0x40-byte buffer via m_00 and m_04, then copies a2*4 bytes from it into dst count times, advancing dst by m_0c and src by 0x10 each iteration.
 // @fnv 0x00a8bdf0
+// pdb: NiTextureCodec::DecodeBlock | NiTextureCodec.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pucDest, uiCols, uiRows
 void FUN_00a8bdf0_cls::FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count)
 {
     
@@ -1638,6 +1584,7 @@ public:
 
 // Assigns obj to m_10, releasing the previous reference and incrementing the new one's ref count.
 // @fnv 0x00a8f140
+// pdb: NiFloatInterpolator::~NiFloatInterpolator | TESImageSpaceModifier.obj | fnv360_0721_beta, objrun_prop, low, conflict (skyrim: Ni2DBuffer::SetRendererData)
 void FUN_00a8f140_cls::SetRefObject(NiRefObject* obj)
 {
     NiRefObject* old = m_10;
@@ -1672,6 +1619,7 @@ struct FUN_00a8f1c0_cls {
 
 // Sets the vtable, releases the reference at m_10 via an interlocked decrement and deletes it at zero, then calls BaseTeardown.
 // @fnv 0x00a8f1c0
+// pdb: Ni2DBuffer::~Ni2DBuffer | Ni2DBuffer.obj | fnv360_0822_retail, objrun, high
 void FUN_00a8f1c0_cls::FUN_00a8f1c0() {
     *(void* volatile*)&m_vptr00 = (void*)&DAT_0109f4dc;
     SpawnedRef* p = *(SpawnedRef* volatile*)&m_10;
@@ -1712,6 +1660,7 @@ struct S_00a8f2c0_Obj {
 
 // Allocates an object, stores a and b, then calls the sub-object and object methods with c and returns it; returns 0 if c or c->unk0c is null.
 // @fnv 0x00a8f2c0
+// pdb: Ni2DBuffer::Create | Ni2DBuffer.obj | tesv_win, call_gap, low
 S_00a8f2c0_Obj* __cdecl CreateFadeNodeFromArg(int aiValueA, int aiValueB, S_00a8f2c0_Arg* c) {
     if (c == 0) return 0;
     if (c->unk0c == 0) return 0;
@@ -1735,6 +1684,7 @@ struct FUN_00aa4060_class {
 };
 extern FUN_00aa4060_class DAT_011f6238;
 // @fnv 0x00a910f0
+// pdb: NiTArray<TESIdleForm *,NiTMallocInterface<TESIdleForm *> >::`scalar deleting destructor' | TESIdleManager.obj | fnv360_0822_retail, vtable, medium
 FUN_00a910f0_class* FUN_00a910f0_class::FUN_00a910f0(unsigned char flags) {
     vft = &DAT_0109f9bc;
     ReleaseObjectArray(buffer);
@@ -1772,6 +1722,8 @@ struct S_a91120 {
 };
 // Allocates a block of n items, appends each item pointer to unk00, growing via FUN_00a311e0 when full, then links the block into unk0c.
 // @fnv 0x00a91120
+// pdb: NiTPool<NiD3DRenderStateGroup,NiTNewInterface<NiD3DRenderStateGroup> >::CreateNewObjects | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiSize
 void S_a91120::AppendItems(unsigned int n) {
     S_a91120_Blk* pBlock = new S_a91120_Blk(n);
     for (unsigned int i = 0; i < n; i++) {
@@ -1838,6 +1790,7 @@ struct NiObjectShell {
     void FUN_00a98240();
 };
 // @fnv 0x00a98240
+// pdb: NiPersistentSrcTextureRendererData::~NiPersistentSrcTextureRendererData | NiPersistentSrcTextureRendererData.obj | fnv360_0822_retail, objrun_open, low
 void NiObjectShell::FUN_00a98240() {
     vtable = (void*)&DAT_010a08ac;
     NiRefObject* oldReference = reference;
@@ -1929,6 +1882,7 @@ struct NiParticleObject : NiParticleBase {
 extern void* __cdecl FUN_00aa13e0(unsigned int);
 extern const char DAT_010a1024;
 // @fnv 0x00a9aea0
+// pdb: NiBSPNode::NiBSPNode | NiBSPNode.obj | fnv360_0822_retail, caller_sim, medium
 NiParticleObject* __cdecl CreateNiParticleObject() {
     NiParticleObject* object =
         (NiParticleObject*)FUN_00aa13e0(0xcc);
@@ -1944,63 +1898,7 @@ NiParticleObject* __cdecl CreateNiParticleObject() {
     return 0;
 }
 
-extern int DAT_010a13ac;
-
 void __declspec(noreturn) FUN_00aa0dc0();
-
-struct FUN_00a9b4a0_Class {
-    void __thiscall FUN_00a9b4a0();
-};
-
-// @fnv 0x00a9b4a0
-void __thiscall FUN_00a9b4a0_Class::FUN_00a9b4a0() {
-    *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_010a13ac);
-    FUN_00aa0dc0();
-}
-
-extern unsigned short DAT_011f5f7c;
-extern unsigned short DAT_011f5f7e;
-extern unsigned short DAT_011f5f80;
-extern unsigned short DAT_011f5f82;
-extern unsigned short DAT_011f5f84;
-extern unsigned short DAT_011f5f86;
-extern unsigned short DAT_011f5f88;
-extern unsigned short DAT_011f5f8a;
-extern unsigned short DAT_011f5f8c;
-extern int DAT_011f5f90;
-extern int DAT_011f5f94;
-extern int DAT_011f5f98;
-extern int DAT_011f5f9c;
-extern int DAT_011f5fa0;
-extern int DAT_011f5fa4;
-extern int DAT_011f5fa8;
-extern int DAT_011f5fac;
-extern int DAT_011f5fb0;
-extern unsigned char DAT_011f6001;
-
-// @fnv 0x00a9b9b0
-void __cdecl FUN_00a9b9b0()
-{
-    DAT_011f5f90 = 0;
-    DAT_011f5f94 = 1;
-    DAT_011f5f7c = 0x0;
-    DAT_011f5f7e = 0x100;
-    DAT_011f5f80 = 0x200;
-    DAT_011f5f82 = 0x300;
-    DAT_011f5f84 = 0x400;
-    DAT_011f5f86 = 0x500;
-    DAT_011f5f88 = 0x600;
-    DAT_011f5f98 = 2;
-    DAT_011f5f9c = 3;
-    DAT_011f5fa0 = 4;
-    DAT_011f5fa4 = 5;
-    DAT_011f5fa8 = 6;
-    DAT_011f5fac = 7;
-    DAT_011f5fb0 = 8;
-    DAT_011f5f8a = 0x700;
-    DAT_011f5f8c = 0x800;
-    DAT_011f6001 = 1;
-}
 
 extern "C" void* DAT_0109b220;
 
@@ -2052,6 +1950,7 @@ extern unsigned int DAT_0109b220;
 extern FUN_00a9fda0_holder DAT_011f6238;
 
 // @fnv 0x00a9fda0
+// pdb: NiShaderConstantMap::_SDMShutdown | NiShaderConstantMap.obj | fnv360_0822_retail, call_seq, medium
 void DestroyPairArrays()
 {
     FUN_00a9fda0_pair* arr = DAT_011f602c;
@@ -2154,7 +2053,10 @@ int __cdecl FUN_00a9fe90(int a, int b, FUN_00a9ff00_Obj* c, int d, int e);
 
 // Validates a and b, reads two fields from a->unk10, calls b->v37 and passes the results to FUN_00a9fe90.
 // @fnv 0x00a9ff00
-int __cdecl ProcessArgWithObj(FUN_00a9ff00_Arg* a, FUN_00a9ff00_Obj* pObj)
+// pdb: NiDepthStencilBuffer::CreateCompatible | NiDepthStencilBuffer.obj | fnv360_0721_beta, objrun_prop, high
+// pdb params: pkBuffer, apkRenderer
+// pdb: NiDepthStencilBuffer::CreateCompatible | NiDepthStencilBuffer.obj | fnv360_0721_beta, objrun_prop, high (was: ProcessArgWithObj)
+int __cdecl NiDepthStencilBuffer_CreateCompatible(FUN_00a9ff00_Arg* a, FUN_00a9ff00_Obj* pObj)
 {
     if (a == 0 || pObj == 0)
     {
@@ -2330,6 +2232,7 @@ struct FnvQueueState {
 };
 
 // @fnv 0x00a81a80
+// pdb: NiParallelUpdateTaskManager::EndUpdate | NiParallelUpdateTaskManager.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_00a81a80()
 {
     FnvQueueState* s = (FnvQueueState*)DAT_011f5b04;
@@ -2397,6 +2300,7 @@ public:
 
 // Allocates and default-constructs a new BA87920Object, returning the pointer.
 // @fnv 0x00a87920
+// pdb: NiTriShapeDynamicData::CreateObject | NiTriShapeDynamicData.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiScreenElementsData::CreateObject)
 BA87920Object* __cdecl CreateBA87920Object()
 {
     return new BA87920Object;
@@ -2441,6 +2345,7 @@ struct TexXform {
 };
 
 // @fnv 0x00a88cd0
+// pdb: NiTextureTransform::UpdateMatrix | NiTextureTransform.obj | fnv360_0822_retail, call_seq, medium
 void TexXform::UpdateMatrix()
 {
     float fSin, fCos;
@@ -2500,6 +2405,7 @@ struct NiPairHolder {
 };
 
 // @fnv 0x00a8a700
+// pdb: NiLinesData::CreateObject | NiLinesData.obj | fnv360_0822_retail, objrun, medium
 NiPairHolder* __cdecl CreateNiPairHolder(void)
 {
     NiPairHolder* obj = (NiPairHolder*)BSFadeNode::operator new(0x44);
@@ -2520,6 +2426,8 @@ struct AlphaBlockDecoder {
 };
 
 // @fnv 0x00a8b5e0
+// pdb: NiTextureCodec::DecodeT5AlphaBlock | NiTextureCodec.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pucAlphas
 void AlphaBlockDecoder::DecodeAlphaBlock(unsigned char* output)
 {
     unsigned char alphaTable[8];
@@ -2565,32 +2473,6 @@ struct SdmBase {
     HashNode_cls** m_buckets;
 };
 
-// Looks up pKey's value in the global hash table's bucket chain and returns the matching node's stored value, or 0 if not found.
-// @fnv 0x00a8fe20
-unsigned int __cdecl FUN_00a8fe20(unsigned int* pKey)
-{
-    unsigned int key = *pKey;
-    if (key == (unsigned int)DAT_0109b220) goto zero;
-    unsigned int tag = *(unsigned int*)(key - 4);
-    if (tag == 0) return tag;
-    {
-        unsigned int result = 0;
-        unsigned int idx = key % DAT_011f5e34->m_bucketCount;
-        HashNode_cls** buckets = DAT_011f5e34->m_buckets;
-        HashNode_cls* node = buckets[idx];
-        while (node != 0) {
-            if (key == node->m_key) {
-                result = node->m_uiFilterValue;
-                break;
-            }
-            node = node->m_pNext;
-        }
-        return result;
-    }
-zero:
-    return 0;
-}
-
 extern const void* DAT_0109f7f4;
 extern unsigned int DAT_011f5e48;
 struct FNVObj {
@@ -2601,6 +2483,8 @@ struct FNVObj {
 };
 // Initializes the object's vtable and reference count, copies src into handle, and appends this to the global object array, growing it if full.
 // @fnv 0x00a8fe70
+// pdb: NiMaterialLibrary::NiMaterialLibrary | NiMaterialLibrary.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kName
 FNVObj* FNVObj::FUN_00a8fe70(const ReferenceHandle& src) {
     vft = &vftable_NiRefObject;
     references = 0;
@@ -2670,11 +2554,12 @@ struct Pair {
 };
 
 // @fnv 0x00a9bdf0
+// pdb: NiShaderConstantMap::PredefinedMapping::PredefinedMapping | NiShaderConstantMap.obj | fnv360_0822_retail, objrun_open, medium
 Pair* __thiscall Pair::Reset()
 {
     value = DAT_0109b220;
     id = 0;
-    volatile void* old = value;
+    void* old = value;
     if (old) {
         value = FUN_00a5b690(0);
         if (old != DAT_0109b220)
@@ -2744,6 +2629,8 @@ public:
 
 // Allocates a NiDepthStencilBufferA9F, stores the width, height and renderer data, and returns it.
 // @fnv 0x00a9ff60
+// pdb: Ni2DBuffer::Create | Ni2DBuffer.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiDepthStencilBuffer::Create)
+// pdb params: uiWidth, uiHeight, pkData
 NiDepthStencilBufferA9F* NiDepthStencilBufferA9F::FUN_00a9ff60(unsigned int uiWidth, unsigned int uiHeight,
     RendererDataA9F* pkRendererData)
 {
@@ -2757,6 +2644,7 @@ NiDepthStencilBufferA9F* NiDepthStencilBufferA9F::FUN_00a9ff60(unsigned int uiWi
 struct S{int a; float f;};
 // Compares the f fields of two S objects, returning -1 if the first is greater, 1 if smaller, and 0 if equal.
 // @fnv 0x00a81b30
+// pdb: NiSkinPartition::VertexInteractions::CompareWeights | NiSkinPartition.obj | tesv_win, objrun_open, low
 int CompareFloatDescending(S* pA, S* pB){ float a=pA->f; float b=pB->f; if(a>b) return -1; if(a<b) return 1; return 0; }
 
 struct CustomBlockDecoder {
@@ -2784,6 +2672,8 @@ static __forceinline unsigned short ReadWord565(unsigned char*& cursor)
     cursor += 2;
     return value;
 }
+// pdb: NiTextureCodec::DecodeColorAlphaBlock | NiTextureCodec.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pucDest
 void CustomBlockDecoder::DecodePaletteBlock(unsigned char* pDest)
 {
     unsigned char palette[16];
@@ -2947,6 +2837,7 @@ struct RleDecoder {
  void Decode(NiBinaryStream& stream, unsigned char* dest,unsigned int unused);
 };
 // @fnv 0x00a8d8e0
+// pdb: NiTGAReader::LoadRLERow | NiTGAReader.obj | tesv_win, call_seq, medium
 void RleDecoder::Decode(NiBinaryStream& stream,unsigned char* dest,unsigned int unused) {
  unsigned int i=0, n;
  for(; i < count; i += n) {
@@ -2983,15 +2874,11 @@ void RleDecoder::Decode(NiBinaryStream& stream,unsigned char* dest,unsigned int 
 void __stdcall FUN_00a85510(int, int, int, int, int, int, int, int) {
 }
 
-extern void __cdecl FUN_00a98ea0();
-// @fnv 0x00a877d0
-void __cdecl FUN_00a877d0() {
-    FUN_00a98ea0();
-}
-
 extern "C" void __cdecl FUN_00a71d10();
 
 // @fnv 0x00a877e0
+// pdb: Character::GetSaveSize | Character.obj | fnv360_0822_retail, vtable_prefix, medium
+// pdb params: aiFlags
 void __cdecl FUN_00a877e0()
 {
     FUN_00a71d10();
@@ -2999,6 +2886,7 @@ void __cdecl FUN_00a877e0()
 
 extern "C" void __cdecl ReadGroup();
 // @fnv 0x00a88a40
+// pdb: QueuedModel::GenerateKey | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 void __cdecl FUN_00a88a40()
 {
     ReadGroup();
@@ -3006,6 +2894,8 @@ void __cdecl FUN_00a88a40()
 
 // 0x00a89af0  ret 4
 // @fnv 0x00a89af0
+// pdb: NiObject::LinkObject | NiObject.obj | fnv360_0822_debug, call_dedup, low
+// pdb params: stream
 void __stdcall FUN_00a89af0(int) {
 }
 
@@ -3119,6 +3009,7 @@ struct ImageConverter {
 };
 // Grows the output and input buffers to fit pixelCount, reads pixel data from the stream by bitsPerPixel, and expands it into RGBA rows in outputBuffer.
 // @fnv 0x00a8da50
+// pdb: NiTGAReader::GetColormap | NiTGAReader.obj | tesv_win, call_seq, medium
 void ImageConverter::ReadPixels(S_00a8d8b0* stream)
 {
     if (outputCapacity < pixelCount) {
@@ -3202,6 +3093,7 @@ public:
 };
 // Destructor of a NiRefObject-derived class holding a StringHandle_a8f member; the member's destructor releases the string reference.
 // @fnv 0x00a8f490
+// pdb: NiShader::~NiShader | NiShader.obj | fnv360_0822_retail, caller, medium
 FUN_00a8f490::~FUN_00a8f490() {
 }
 
@@ -3210,6 +3102,7 @@ struct FUN_00a923a0_class {
 };
 
 // @fnv 0x00a923a0
+// pdb: NiTriStripsDynamicData::GetActiveTriangleCount | NiTriStripsDynamicData.obj | fnv360_0822_retail, objrun_sim, low
 unsigned short __thiscall FUN_00a923a0_class::FUN_00a923a0()
 {
     return *reinterpret_cast<unsigned short*>(this + 0x50);
@@ -3222,6 +3115,8 @@ extern "C" float epsilon;
 struct FUN_00a88970_q { float w, x, y, z; void Set(float fW, float fX, float fY, float fZ); };
 struct FUN_00a88970_v { void* m_pvVtbl; float x, y, z; };
 // @fnv 0x00a88970
+// pdb: NiQuaternion::Exp | NiQuaternion_Xenon.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: q
 FUN_00a88970_q FUN_00a88970(const FUN_00a88970_v& v)
 {
     float fScaleMultiplier = v.x * v.x + v.y * v.y + v.z * v.z;
@@ -3242,6 +3137,7 @@ struct FUN_00a81a40_shell {
 
 // Reads the 16-byte slot at this+8+ai*16; returns 0 if its +8 value is -1, otherwise a difference built from its +4, +8 and +12 values.
 // @fnv 0x00a81a40
+// pdb: NiTQueue<NiTask *,NiTMallocInterface<NiTask *> >::~NiTQueue<NiTask *,NiTMallocInterface<NiTask *> > | NiParallelUpdateTaskManager.obj | fnv360_0822_retail, objrun, medium
 int __thiscall FUN_00a81a40_shell::FUN_00a81a40(int ai)
 {
     char* pSlot = (char*)this + 8 + ai * 16;
@@ -3264,6 +3160,8 @@ struct FUN_00a8a620 {
 };
 // Initializes the buffer size, allocates m_pBuffer with NiMalloc if uiSize is non-zero, sets m_pCursor to m_pBuffer, and resets m_iUsed to 0.
 // @fnv 0x00a8a620
+// pdb: NiObjectGroup::NiObjectGroup | NiObjectGroup.obj | fnv360_0822_retail, call_dedup, high
+// pdb params: uiBytes
 FUN_00a8a620::FUN_00a8a620(unsigned int uiSize)
 {
     m_uiSize = uiSize;
@@ -3353,6 +3251,7 @@ struct ByteDecoder {
 
 // Subtracts bias from each of count/2 source bytes and writes the results to dst.
 // @fnv 0x00a8d460
+// pdb: NiTGAReader::Unpack4BitSourceRowPal | NiTGAReader.obj | tesv_win, objrun_open, low
 void ByteDecoder::DecodeBytes(unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < (count >> 1); i++) {
@@ -3364,6 +3263,8 @@ void ByteDecoder::DecodeBytes(unsigned char* src, unsigned char* dst)
 #include <string.h>
 // Returns 1 if a is null, -1 if b is null, otherwise returns the result of comparing the two strings pointed to by a and b.
 // @fnv 0x00a86280
+// pdb: CompareBoneNames | NiSkinInstance.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: pvName0, pvName1
 int __cdecl FUN_00a86280(const char** apStrA, const char** apStrB)
 {
     if (apStrA == 0)
@@ -3400,6 +3301,8 @@ public:
 
 // Sets the NiRefStub at idx, updating m_0a/m_0c and swapping the reference with ref-counted destroy/increment.
 // @fnv 0x00a9ba90
+// pdb: NiTArray<NiPointer<NiScreenTexture>,NiTNewInterface<NiPointer<NiScreenTexture> > >::SetAt | NiOldScreenSpace.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: uiIndex, element
 void FUN_00a9ba90_cls::FUN_00a9ba90(unsigned int idx, NiRefStubB5542** apRefStub) {
     static StaticKeyB5542 key(0);
     if (idx >= m_0a) {
@@ -3548,6 +3451,7 @@ template<class T> inline void ReadValue(NiBinaryStream& stream, T& value) {
     stream.position += stream.read(&stream, &value, sizeof(T), &componentSize, 1);
 }
 // @fnv 0x00a8e4b0
+// pdb: NiBMPReader::ReadHeader | NiBMPReader.obj | tesv_win, vtable, medium
 bool BitmapReader::ReadBitmapHeader(NiBinaryStream& stream, unsigned int& outWidth,
     unsigned int& outHeight, NiPixelFormat& outFormat, bool& outFlag, unsigned int& outMips)
 {
@@ -3741,6 +3645,7 @@ void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 void __cdecl NormalizePoints(NiPoint3*, unsigned int, unsigned int);
 // Applies per-bone weighted transforms to positions, normals, tangents and binormals, accumulating results into the destination arrays.
 // @fnv 0x00a855f0
+// pdb: NiSkinInstance::Deform | NiSkinInstance_Win32.obj | tesv_win, caller_sim, low
 void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* normals,
     unsigned int count, NiPoint3* dstPos, NiPoint3* dstNorm,
     NiPoint3* dstTan, NiPoint3* dstBin, unsigned int stride) const
@@ -3882,41 +3787,3 @@ extern int DAT_011f5e44;
 extern int DAT_011f5e4c;
 extern int (__stdcall* DAT_00fdf1c4)(void*);
 extern const void* vftable_NiRefObject;
-
-
-struct MaterialLibraryView {
-    void* vtbl;
-    int m_iWordAt04;
-    int m_8;
-    void FUN_00a8fdb0();
-};
-
-// Swap-removes this from the pointer array at DAT_011f5e44, releases m_8 via DAT_00fdf1c4 unless it is _EmptyFS, and sets the NiRefObject vtable.
-// @fnv 0x00a8fdb0
-void MaterialLibraryView::FUN_00a8fdb0()
-{
-    vtbl = &DAT_0109f7f4;
-    unsigned int count = DAT_011f5e4c;
-    unsigned int i = 0;
-    if (count > 0) {
-        int* arr = (int*)DAT_011f5e44;
-        do {
-            if (arr[i] == (int)this) {
-                if ((int)i >= 0) {
-                    count--;
-                    DAT_011f5e4c = count;
-                    arr[i] = arr[count];
-                }
-                break;
-            }
-            i++;
-        } while (i < count);
-    }
-    int h = m_8;
-    int (__stdcall* fn)(void*) = DAT_00fdf1c4;
-    if (h != (int)_EmptyFS) {
-        fn((void*)(h - 8));
-    }
-    vtbl = (void*)&vftable_NiRefObject;
-    fn((void*)&DAT_011f4400);
-}

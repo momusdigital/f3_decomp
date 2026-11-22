@@ -4,7 +4,7 @@
 
 #include "havok/hkpConvexVerticesConnectivity.h"
 
-// FUN_00e48de0  (hkpConvexVerticesConnectivity, vftable slot 2)
+// hkpConvexVerticesConnectivity_clear  (hkpConvexVerticesConnectivity, vftable slot 2)
 //
 //   xor eax, eax
 //   mov dword ptr [ecx + 0x0c], eax
@@ -18,11 +18,12 @@
 // real layout (the pack asserts sizeof(hkpConvexVerticesConnectivity) == 0x20).
 struct hkpCVCStandIn : public hkpConvexVerticesConnectivity
 {
-    void FUN_00e48de0();
+    void hkpConvexVerticesConnectivity_clear();
 };
 
 // @fnv 0x00e48de0
-void hkpCVCStandIn::FUN_00e48de0()
+// pdb: hkpConvexVerticesConnectivity::clear | hkpConvexVerticesConnectivity.obj | fnv360_0822_retail, vtable + skyrim(vtable), high
+void hkpCVCStandIn::hkpConvexVerticesConnectivity_clear()
 {
     m_kVertexIndices.m_iElementCount = 0;
     m_kNumVerticesPerFace.m_iElementCount = 0;
@@ -60,20 +61,3 @@ template <class T> struct hkArray_e48d
         m_iElementCount++;
     }
 };
-
-struct Writer_e48d
-{
-    int unk00, unk04;
-    hkArray_e48d<unsigned short> m_ppIndices;
-    hkArray_e48d<unsigned char> m_counts;
-    void FUN_00e48df0(const int* values, int count);
-};
-
-// Stores the element count and each index value into the m_counts and m_ppIndices arrays.
-// @fnv 0x00e48df0
-void Writer_e48d::FUN_00e48df0(const int* values, int count)
-{
-    m_counts.AddBack((unsigned char)count);
-    for (int i = 0; i < count; i++)
-        m_ppIndices.AddBack((unsigned short)values[i]);
-}

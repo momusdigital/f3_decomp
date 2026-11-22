@@ -43,6 +43,7 @@ inline void hkaRagdollInstance::operator delete(void* storage)
     memory->FUN_008f6d90(storage, object->m_memSizeAndFlags, Animation);
 }
 
+// pdb: hkaRagdollInstance::`scalar deleting destructor' | hkaRagdollInstance.obj | fnv360_0822_retail, vtable, high
 void* hkaRagdollInstance::FUN_00962850(unsigned int flags)
 {
     hkaRagdollInstance::~hkaRagdollInstance();

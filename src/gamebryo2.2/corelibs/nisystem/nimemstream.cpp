@@ -27,6 +27,8 @@ void __cdecl _NiFreeAlias(void* p);
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00aa2dd0
+// pdb: NiMemStream::MemRead | NiMemStream.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiMemStream::MemWrite)
+// pdb params: pBuffer, uiBytes
 unsigned int __fastcall FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes)
 {
     if (*(unsigned char*)(pThis + 0x20))
@@ -71,6 +73,8 @@ struct NiMemStream
 
 // Copies up to count bytes from the stream's buffer at m_pos into dest, advances m_pos, and returns the number of bytes copied.
 // @fnv 0x00aa2e60
+// pdb: NiMemStream::MemRead | NiMemStream.obj | fnv360_1110_retail, objrun, medium
+// pdb params: pBuffer, uiBytes
 unsigned int FUN_00aa2e60(NiMemStream* stream, void* dest, unsigned int count)
 {
     unsigned int available = stream->m_kRayEnd - stream->m_pos;
@@ -137,6 +141,8 @@ struct NiMemStream
 
 // Assigns the read and write function pointers based on bDoSwap, choosing one pair of handlers or the other.
 // @fnv 0x00aa2f80
+// pdb: NiMemStream::SetEndianSwap | NiMemStream.obj | fnv360_0822_retail, objrun, high
+// pdb params: bDoSwap
 void NiMemStream::SetSwapMode(bool bDoSwap)
 {
     if (bDoSwap)
@@ -189,6 +195,7 @@ struct FUN_00aa2d90 : NiBinaryStream
 
     void __thiscall FUN_00aa1d30();
     virtual ~FUN_00aa2d90();
+    // pdb: NiMemStream::`scalar deleting destructor' | NiMemStream.obj | fnv360_0822_retail, caller_sim, high
     static void operator delete(void* ptr)
     {
         DAT_011f6238.FUN_00aa4060(ptr);

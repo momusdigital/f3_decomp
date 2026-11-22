@@ -17,6 +17,7 @@ struct S_00d2b790
     void* DispatchToTarget(void* pArg);
 };
 // @fnv 0x00d2b790
+// pdb: hkSocket::ReaderAdapter::isOk | hkSocket.obj | fnv360_0822_retail, vtable, high
 void* S_00d2b790::DispatchToTarget(void* pArg)
 {
     m_pFlagTarget->v0C(pArg);
@@ -77,17 +78,10 @@ struct FUN_00c85750_context
     }* unk10;
 };
 FUN_00c85750_context* __cdecl FUN_00c85750();
-// @fnv 0x00d2b820
-void __cdecl CreateAllocatedValue()
-{
-    FUN_00c85750_context* context = FUN_00c85750();
-    FUN_00da30a0_class* value = context->unk10->allocate(0x24);
-    value->unk04 = 0x24;
-    value->InitWithParam(-1);
-}
 
 // @fnv 0x00d2b8b0
-int __stdcall FUN_00d2b8b0(int a, int b, int c)
+// pdb: hkSocket::asyncSelect | hkSocket.obj | fnv360_0721_beta, vtable + skyrim(objrun_sim), high
+int __stdcall hkSocket_asyncSelect(int a, int b, int c)
 {
     return 1;
 }
@@ -121,21 +115,6 @@ struct FUN_00d2b8c0_Class
 };
 void* DAT_0102e388;
 UnkRet* FUN_00c85750();
-// @fnv 0x00d2b8c0
-FUN_00d2b8c0_Class* FUN_00d2b8c0_Class::FUN_00d2b8c0(unsigned int flags)
-{
-    vptr14 = &DAT_0102e388;
-    vptr08 = &DAT_0102e388;
-    vptr00 = &DAT_0102e388;
-    if (flags & 1)
-    {
-        UnkRet* object = FUN_00c85750();
-        unsigned int count = refCount;
-        RetPart* part = object->part10;
-        part->Release(this, count);
-    }
-    return this;
-}
 }  // namespace fnv_00d2b8c0
 
 struct StreamIface
@@ -155,11 +134,12 @@ class FUN_00d2b740_cls
     unsigned int unk04;
     StreamIface* m_pBinaryStream;
 
-    int FUN_00d2b740(char* buf, int size);
+    int hkSocket_ReaderAdapter_read(char* buf, int size);
 };
 
 // @fnv 0x00d2b740
-int FUN_00d2b740_cls::FUN_00d2b740(char* apBuffer, int size)
+// pdb: hkSocket::ReaderAdapter::read | hkSocket.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int FUN_00d2b740_cls::hkSocket_ReaderAdapter_read(char* apBuffer, int size)
 {
     int total = 0;
     if (size > 0)
@@ -196,6 +176,7 @@ struct FUN_00d2b800_cls
 };
 
 // @fnv 0x00d2b800
+// pdb: hkSocket::WriterAdapter::isOk | hkSocket.obj | fnv360_0822_retail, vtable, high
 void* FUN_00d2b800_cls::ForwardToTarget(void* apArg)
 {
     m_08->v3(apArg);
@@ -252,6 +233,7 @@ class FUN_00d2b850 : public hkReferencedObjectD2B
 };
 
 // @fnv 0x00d2b850
+// pdb: hkSocket::hkSocket | hkSocket.obj | fnv360_0822_retail, uvref, high
 FUN_00d2b850::FUN_00d2b850() throw()
 {
     m_partA.m_pOwnerObject = this;

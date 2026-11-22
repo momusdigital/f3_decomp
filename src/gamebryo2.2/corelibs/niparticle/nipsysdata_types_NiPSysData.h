@@ -209,7 +209,7 @@ class NiParticlesData : public NiGeometryData
     // NiParticlesData& __cdecl NiParticlesData::*(const NiParticlesData&)
     // void __cdecl NiParticlesData::*()
     virtual void LoadBinary(NiStream&);
-    void SetRotations(NiQuaternion*);
+    void ReplaceRotations(NiQuaternion*);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiParticlesData) == 112);

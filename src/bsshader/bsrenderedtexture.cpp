@@ -2,6 +2,7 @@
 #include "f3_common.h"
 #include "bsrenderedtexture_decls.h"
 // @fnv 0x00b6b260
+// pdb: BSRenderedTexture::StopOffscreen | BSRenderedTexture.obj | fnv360_0822_debug, caller, low
 NiRenderTargetGroup* BSRenderedTexture::GetGroup()
 {
     if (!this)
@@ -84,6 +85,7 @@ class FUN_00b6fc90 : public B6FC90Property
 
 // Initializes the shader property: zeroes m_iFirst/m_iSecond, sets m_iMode to 3, clears the color, sets shader type/index and flags 31 and 32.
 // @f3 0x00af2240 (community match, verified in this file)
+// pdb: BSShaderNoLightingProperty::BSShaderNoLightingProperty | BSShaderNoLightingProperty.obj | fnv360_0822_retail, call_seq, high
 FUN_00b6fc90::FUN_00b6fc90() : m_iFirst(0), m_iSecond(0), m_iMode(3), m_kFogTint(0.0f, 0.0f, 0.0f, 0.0f)
 {
     m_iShaderType = 0x21;
@@ -219,6 +221,8 @@ extern RendererB6B8* DAT_011f4748;
 
 // Sets m_iFadeIndex to 2 when it is 0 and vfn_17C() returns true, then forwards to FUN_00b6b7d0.
 // @fnv 0x00b6b8d0
+// pdb: BSRenderedTexture::StartOffscreen | BSRenderedTexture.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiClearMode, apTarget
 bool __cdecl FUN_00b6b8d0(int iArg, NiRenderTargetGroup* pkGroup)
 {
     int& iState = gfxB6B8::DAT_011f4748->m_iFadeIndex;

@@ -229,6 +229,8 @@ struct __declspec(align(16)) ScalarContext
     int unk48;
     int unk4c;
 };
+// pdb: hkpIterativeLinearCastAgent::linearCast | hkpIterativeLinearCastAgent.obj | fnv360_0822_retail, vtable, medium
+// pdb params: bodyA, bodyB, input, collector, startCollector
 void hkpIterativeLinearCastAgent::FUN_00daf540(const hkpCdBody* bodyA, const hkpCdBody* bodyB,
                                                const ShapeSweepParameters* input, hkpCdPointCollector* castCollector,
                                                hkpCdPointCollector* startCollector)

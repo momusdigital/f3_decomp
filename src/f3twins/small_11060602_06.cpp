@@ -7,6 +7,8 @@ struct Y_008da420 { void __thiscall FUN_008f9be0(int); };
 struct O_008da420 { void** vt; };
 struct R_008da420 { char pad[0x10]; Y_008da420* y; };
 struct S_008da420 { char pad[0x1c]; O_008da420* o; };
+// pdb: bhkNiCollisionObject::EnableCollision | bhkNiCollisionObject.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, abEnable
 void FUN_008da420(S_008da420* p, int q)
 {
     O_008da420* o = p->o;
@@ -30,6 +32,8 @@ struct S_008dae80
     float a[16];
     void FUN_008dae80(int i, float v);
 };
+// pdb: bhkCharacterListener::AddSupportHeight | bhkCharacterListener.obj | fnv360_0721_beta, objrun_prop, medium
+// pdb params: aiIndex, afHeight
 void S_008dae80::FUN_008dae80(int i, float v)
 {
     if (a[i] == 1.17549435e-38f)
@@ -46,6 +50,8 @@ void S_008dae80::FUN_008dae80(int i, float v)
 
 
 struct S_008dc290 { char pad[0x43]; unsigned char c43; char pad2[0x21d - 0x44]; unsigned char c21d; unsigned char c21e; void __thiscall FUN_008dc290(int, char); };
+// pdb: bhkRagdollController::SetGrabIKEnabled | bhkRagdollController.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: bhkRagdollController::InitRagdollFeedback)
+// pdb params: arArm, abEnable
 void S_008dc290::FUN_008dc290(int i, char b)
 {
     if (b)
@@ -65,6 +71,8 @@ struct Q { char pad[0x18]; void* s; };
 struct S { char b0; };
 struct C { char pad0[0x4c]; P* p; char pad1[0x28c - 0x50]; char b28c; char b28d; char pad2[0x2a4 - 0x28e]; Q* q; void FUN_008dc910(S*); };
 }
+// pdb: bhkRagdollController::SetFeedbackData | bhkRagdollController.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: arFeedbackData
 __declspec(noinline) void n_008dc910::C::FUN_008dc910(S* s)
 {
     q->s = s;
@@ -91,6 +99,8 @@ struct B_008e8e90 { void* vt; B_008e8e90(); ~B_008e8e90(); };
 struct C_008e8e90 : B_008e8e90 { C_008e8e90(void*, void*); void FUN_00931ca0(void*, void*); };
 extern char DAT_00e333b4;
 
+// pdb: bhkListShape::bhkListShape | bhkCharacterController.obj | fnv360_0721_beta, callee_sim, low
+// pdb params: arInfo
 C_008e8e90::C_008e8e90(void* a, void* b)
 {
     vt = &DAT_00e333b4;
@@ -113,6 +123,8 @@ struct M1_0092c6a0 : B_0092c6a0 { M1_0092c6a0() { vt = &DAT_00dcdbac; fc = 0; f1
 struct M2_0092c6a0 : M1_0092c6a0 { M2_0092c6a0() { vt = &DAT_00dcdf0c; ++DAT_010f3258; } };
 struct M3_0092c6a0 : M2_0092c6a0 { M3_0092c6a0() { vt = &DAT_00dcdfec; ++DAT_010f3264; } };
 struct C_0092c6a0 : M3_0092c6a0 { C_0092c6a0(void*, void*, float); void FUN_0091d450(void*, void*, float); };
+// pdb: bhkCapsuleShape::bhkCapsuleShape | bhkRagdollTemplate.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: arTop, arBottom, afRad
 C_0092c6a0::C_0092c6a0(void* a, void* b, float f)
 {
     vt = &DAT_00dfd0b4;
@@ -124,6 +136,8 @@ C_0092c6a0::C_0092c6a0(void* a, void* b, float f)
 
 void __cdecl FUN_009cc070(int, int, int, int);
 
+// pdb: hkPredGskAgent3::destroy | hkpPredGskAgent3.obj | fnv360_0822_retail, objrun, medium
+// pdb params: entry, agentData, mgr, constraintOwner, dispatcher
 void __cdecl FUN_009cc0c0(int a, int b, int c, int d, int e)
 {
     FUN_009cc070(a, b, c, d);
@@ -132,17 +146,19 @@ void __cdecl FUN_009cc0c0(int a, int b, int c, int d, int e)
 // ---- family f315
 
 extern char DAT_00e7e9d4;
-struct O_009d4300 { void FUN_009d3da0(void*, void*, void*, void*); };
+struct O_009d4300 { void hkpBvAgent_getPenetrations(void*, void*, void*, void*); };
 
 struct T_009d4300 { const void* vt; unsigned char flag; unsigned int a4; };
 struct C_009d4300 { void __thiscall FUN_009d4300_(void* a1, void* a2, void* a3, unsigned int a4); };
+// pdb: hkpSymmetricAgentLinearCast<hkpBvAgent>::getPenetrations | hkpBvAgent.obj | fnv360_0822_retail, vtable, high
+// pdb params: bodyA, bodyB, input, collector
 void C_009d4300::FUN_009d4300_(void* a1, void* a2, void* a3, unsigned int a4)
 {
     T_009d4300 t;
     t.a4 = a4;
     t.flag = 0;
     t.vt = &DAT_00e7e9d4;
-    ((O_009d4300*)this)->FUN_009d3da0(a2, a1, a3, &t);
+    ((O_009d4300*)this)->hkpBvAgent_getPenetrations(a2, a1, a3, &t);
 }
 
 // ---- family f318
@@ -155,6 +171,8 @@ struct A3_009e29b0 { virtual void v0(A2_009e29b0*, R_009e29b0*); float f4; };
 void __stdcall FUN_008d2a80(int, R_009e29b0*);
 struct Q_009e29b0 { virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(char*, int, R_009e29b0*); };
 struct C_009e29b0 : Q_009e29b0 { void FUN_009e29b0(int a1, A2_009e29b0* a2, A3_009e29b0* a3); };
+// pdb: hkpPlaneShape::castRayWithCollectorImpl | hkpPlaneShape.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: inputLocal, cdBody, collector
 void C_009e29b0::FUN_009e29b0(int a1, A2_009e29b0* a2, A3_009e29b0* a3)
 {
     R_009e29b0 r;
@@ -177,6 +195,8 @@ struct V_00a73da0 { virtual void v0(); virtual void v1(); virtual void v2(); vir
 struct U_00a73ad0 { void FUN_00a73ad0(void*, int, int); };
 
 struct C_00a73da0 { void* FUN_00a73da0(void* a1, void* a2, char* a3, void* a4, V_00a73da0* a5, int a6); };
+// pdb: hkpGroupCollisionFilter::isCollisionEnabled | hkpGroupCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, a, b, bContainer, bKey
 void* C_00a73da0::FUN_00a73da0(void* a1, void* a2, char* a3, void* a4, V_00a73da0* a5, int a6)
 {
     int r = a5->v4(a6);
@@ -197,6 +217,8 @@ struct Cont { virtual unsigned v0(); virtual unsigned v1(); virtual unsigned v2(
 struct In; struct Bd;
 struct C { hkBool FUN_00a76800(unsigned, unsigned) const; hkBool FUN_00a76870(const In&, const Bd&, const Bd&, const Cont&, const Cont&, unsigned, unsigned) const; };
 }
+// pdb: hkpGroupFilter::isCollisionEnabled | hkpGroupFilter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
+// pdb params: input, collectionBodyA, collectionBodyB, containerShapeA, containerShapeB, keyA, keyB
 __declspec(noinline) n_00a76870::hkBool n_00a76870::C::FUN_00a76870(const n_00a76870::In& i, const n_00a76870::Bd& a, const n_00a76870::Bd& b, const n_00a76870::Cont& ca, const n_00a76870::Cont& cb, unsigned ka, unsigned kb) const
 {
     unsigned ia = ca.Key(ka);

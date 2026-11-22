@@ -82,6 +82,7 @@ struct MoppFindAllVirtualMachine
 };
 
 // @fnv 0x00e66600
+// pdb: hkpMoppFindAllVirtualMachine::queryOnTreeLeft | hkpMoppFindAllVirtualMachine.obj | tesv_win, objopen_prop, low
 void MoppFindAllVirtualMachine::FUN_00a9cb50(const MoppState* state, const unsigned char* code)
 
 {
@@ -401,6 +402,7 @@ struct __declspec(align(16)) State925 {
  M925 blocks[8]; M925 absolute[8];
  void FUN_00a93090(Out925*,const unsigned char*,const Pair925*);
 };
+// pdb: hkMoppUsingFloatAabbVirtualMachine_queryPlanes | hkpMoppMachine.obj | tesv_win, objopen_prop, low
 void FUN_00a92560(C925* context,In925* input,void* output,void* work) {
  const unsigned char* program=context->unk20;
  State925 state;
@@ -1303,6 +1305,7 @@ __forceinline int moppHighLast(int following, int leading, int last) {
     return ((following + (leading << 8)) << 8) + last;
 }
 
+// pdb: hkpMoppUsingFloatAabbVirtualMachine<class hkSphere,class hkMoppSphereQueryObjectOptimized>::queryMoppTree | hkpMoppMachine.obj | tesv_win, objopen_prop, low
 void MoppMachine::FUN_00a96780(const MoppState* state, const unsigned char* code, MoppBox* box)
 {
     MoppState localState;
@@ -1839,6 +1842,7 @@ public:
 
     void FUN_00a95770(const FloatAabbQueryInt* query, const unsigned char* PC, SphereTempAabb& fQueryL);
 };
+// pdb: hkpMoppUsingFloatAabbVirtualMachine<class hkSphere,class hkMoppSphereQueryObject>::queryMoppTree | hkpMoppMachine.obj | tesv_win, objopen_prop, low
 void SphereFloatAabbVirtualMachine::FUN_00a95770(const FloatAabbQueryInt* query, const unsigned char* PC, SphereTempAabb& fQueryL)
 {
     FloatAabbQueryInt scaledQuery;
@@ -2284,6 +2288,7 @@ struct S00a987c0_Matrix6
     void FUN_00a987c0(const S00a987c0_Matrix6& in);
 };
 
+// pdb: hkMatrix6::setInvert | hkMatrix6.obj | tesv_win, call_seq, medium
 void S00a987c0_Matrix6::FUN_00a987c0(const S00a987c0_Matrix6& in)
 {
     S00a987c0_Matrix6 tmp = in;

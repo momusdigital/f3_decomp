@@ -100,6 +100,8 @@ class hkSetE3A5
 // @f3 0x00a6fa50 (community match, verified in this file)
 extern "C" void __cdecl FUN_00901f10(void*, int);
 
+// pdb: hkpPoweredChainMapper::getMotors | hkpPoweredChainMapper.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: linkIndex, coordinateIndex, motorsOut
 void hkSetE3A5::CollectSlotValues(int range, int slot, hkArrayE3A5<int>& out)
 {
     const hkRangeE3A5& r = m_ranges[range];
@@ -148,7 +150,6 @@ struct FnMemory
 extern "C" FnMemory* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00c908c0(FnAllocator*, void*, int, int);
 extern "C" void __cdecl ResizeAudioStream(FnAllocator*, void*, int);
-extern "C" void* __cdecl FUN_00cb1280(void*, int, unsigned int);
 extern "C" int DAT_010e0654;
 
 template <class T> struct FnArray
@@ -302,9 +303,6 @@ struct FnMapper
     FnMapper() : vtable(&DAT_010e0654), refs(1)
     {}
 };
-extern "C" int __cdecl FUN_00e5ba30(hkArray<int>*, int, int, FnArray<int>*, FnArray<int>*);
-extern "C" FnObject* __cdecl FUN_00e5b510(FnArray<int>*, unsigned char);
-extern "C" int __cdecl CloneInstanceFromSource(int);
 struct FnDiagnostic
 {
     int stream;
@@ -512,7 +510,10 @@ template <class A> inline void setSizeTo(A* a, int n, int elemSize) throw()
     }
     a->size = n;
 }
-FnMapper* __cdecl BuildPoweredChainMapper(FnFlags flags, hkArray<int>* linkIds, hkArray<FnNodePair>* pairs, hkArray<int>* unlinked) throw()
+// pdb: hkpPoweredChainMapper::buildChainMapper | hkpPoweredChainMapper.obj | fnv360_0822_retail, ustr, high
+// pdb params: config, allConstraints, pairs, unusedConstraints
+// pdb: hkpPoweredChainMapper::buildChainMapper | hkpPoweredChainMapper.obj | fnv360_0822_retail, ustr, high (was: BuildPoweredChainMapper)
+FnMapper* __cdecl hkpPoweredChainMapper_buildChainMapper(FnFlags flags, hkArray<int>* linkIds, hkArray<FnNodePair>* pairs, hkArray<int>* unlinked) throw()
 {
     FnMapper* mapper = (FnMapper*)new FnMapperNew;
     HArr<FnVisit> visits;
@@ -664,23 +665,6 @@ struct hkpPoweredChainMapperLinkInfo
     int unk08;
 };
 
-struct SomeClass : public hkpPoweredChainMapper
-{
-    void SetLinkVector(int chainIndex, const __m128& vec);
-};
-
-// Writes vec into the runtime vector slot of every target belonging to the link at chainIndex.
-// @fnv 0x00e3a4d0
-void SomeClass::SetLinkVector(int chainIndex, const __m128& vec)
-{
-    hkpPoweredChainMapperLinkInfo& linkInfo = m_ppLinks.m_data[chainIndex];
-    for (int i = 0; i < linkInfo.m_iLinkIndex; ++i)
-    {
-        hkpPoweredChainMapperTarget& target = m_kTargets.m_data[linkInfo.m_iChainIndex + i];
-        target.m_pChainInstance->m_pRuntime[target.m_targetIndex].m_vVectorData = vec;
-    }
-}
-
 class hkMemoryAllocatorE3A3
 {
   public:
@@ -770,36 +754,6 @@ template <class T> class hkArrayE3A3
     }
 };
 
-class hkConstraintRefE3A3
-{
-  public:
-    void removeReference() throw();
-};
-
-struct hkpConstraintEntryE3A3
-{
-    hkConstraintRefE3A3* m_pHavokConstraint;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-};
-
 class hkReferencedObjectE3A3
 {
   public:
@@ -810,22 +764,7 @@ class hkReferencedObjectE3A3
 };
 
 namespace FUN_00e3a3d0 {
-class hkpConstraintChainMapperE3A3 : public hkReferencedObjectE3A3
-{
-  public:
-    hkArrayE3A3<hkpConstraintEntryE3A3> m_entries;
 
-    virtual ~hkpConstraintChainMapperE3A3() throw();
-};
-
-// Iterates over m_entries and calls removeReference on each m_pHavokConstraint.
-// @fnv 0x00e3a3d0
-hkpConstraintChainMapperE3A3::~hkpConstraintChainMapperE3A3() throw()
-{
-    const int iEntryIndex = m_entries.m_iElementCount;
-    for (int i = 0; i < iEntryIndex; i++)
-        m_entries[i].m_pHavokConstraint->removeReference();
-}
 }
 
 class hkMemoryAllocatorE3AD
@@ -927,15 +866,4 @@ class hkpPoweredChainMapper : public hkE3AD::hkReferencedObject
     hkArrayE3AD<hkE3AD::hkReferencedObject*> m_kChainInstances;
 };
 
-// @fnv 0x00e3ad80
-hkpPoweredChainMapper::~hkpPoweredChainMapper()
-{
-    for (int i = 0; i < m_ppLinks.GetLogicalSize(); i++)
-    {
-        if (m_ppLinks[i].m_pConstraintInstance)
-            m_ppLinks[i].m_pConstraintInstance->FUN_00c905b0();
-    }
-    for (int i = 0; i < m_kChainInstances.m_iElementCount; i++)
-        m_kChainInstances.m_data[i]->FUN_00c905b0();
-}
 }

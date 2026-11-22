@@ -8,7 +8,8 @@ extern "C"
 }
 
 // @fnv 0x00a56c00
-const void* __cdecl FUN_00a56c00()
+// pdb: BSTempEffectSimpleDecal::GetRTTI | BSTempEffectSimpleDecal.obj | fnv360_1110_retail, udata + bridge(vtable_prefix|udata), high
+const void* __cdecl BSTempEffectSimpleDecal_GetRTTI()
 {
     return &g_011f4100;
 }
@@ -25,6 +26,7 @@ struct FreeStore
     void FUN_00a56e60(int);
 };
 // @fnv 0x00a56f90
+// pdb: NiGeomMorpherUpdateTask::GetFreeObject | NiGeomMorpherUpdateTask.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: NiGeomMorpherUpdateTask::SetController)
 NiGeomMorpherUpdateTask* __cdecl PopMorpherUpdateTask()
 {
     EnterCriticalSection((void*)&DAT_011f4180);
@@ -142,6 +144,7 @@ struct NiGeomMorpherUpdateTask : BaseTask
 };
 // If the global flag is clear and the geometry's reference count exceeds one, calls MorphFunc on the morph controller, then Tail.
 // @fnv 0x00a56bb0
+// pdb: NiGeomMorpherUpdateTask::DoTask | NiGeomMorpherUpdateTask.obj | fnv360_0822_retail, objrun_prop, low
 void NiGeomMorpherUpdateTask::FUN_00a56bb0()
 {
     if (!DAT_011f5b08 && m_spReferencedObject->m_ref > 1)
@@ -168,6 +171,7 @@ struct S_00a56c10
 };
 // Releases the two NiRefObject pointers via DAT_00fdf1c4 and, when the refcount reaches zero, calls their Unk_04, then resets the vtable and destroys the base.
 // @fnv 0x00a56c10
+// pdb: NiGeomMorpherUpdateTask::~NiGeomMorpherUpdateTask | NiGeomMorpherUpdateTask.obj | fnv360_0822_retail, objrun, medium
 void S_00a56c10::ReleaseRefObjects()
 {
     int(__stdcall * f)(void*) = DAT_00fdf1c4;
@@ -195,6 +199,8 @@ struct S_00a56c60 : S_00a56c10
 };
 
 // @fnv 0x00a56c60
+// pdb: NiGeomMorpherUpdateTask::SetController | NiGeomMorpherUpdateTask.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkController, pkTarget
 void S_00a56c60::SetRefObjects(NiRefObject* nextFirst, NiRefObject* nextSecond)
 {
     int(__stdcall * decrement)(void*) = DAT_00fdf1c4;
@@ -334,6 +340,7 @@ extern int DAT_011a9420;
 
 // Clears DAT_011a9414, deletes the registry at DAT_011a9418, and copies DAT_011a9420 into DAT_011a941c.
 // @fnv 0x00a56df0
+// pdb: NiGeomMorpherUpdateTask::_SDMShutdown | NiGeomMorpherUpdateTask.obj | fnv360_0822_debug, call_seq, medium
 void ResetRegistry()
 {
     DAT_011a9414 = 0;
@@ -352,6 +359,7 @@ struct S_00a56f10 : S_00a56c10
 };
 
 // @fnv 0x00a56f10
+// pdb: NiGeomMorpherUpdateTask::Clear | NiGeomMorpherUpdateTask.obj | fnv360_0822_retail, objrun, medium
 bool S_00a56f10::ReleaseReferences()
 {
     int(__stdcall * dec)(void*) = DAT_00fdf1c4;
@@ -462,6 +470,8 @@ struct FUN_00a56e60_Block
     }
 };
 
+// pdb: NiTPool<NiScreenGeometryData::ScreenElement,NiTNewInterface<NiScreenGeometryData::ScreenElement> >::CreateNewObjects | NiOldScreenSpace.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: uiSize
 void NiStreamLinkIDSet::FUN_00a56e60(unsigned int uiTaskCount)
 {
     FUN_00a56e60_Block* pkBlock = new FUN_00a56e60_Block(uiTaskCount);

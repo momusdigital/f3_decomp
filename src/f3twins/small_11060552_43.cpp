@@ -9,6 +9,7 @@ extern char ARG_00e37620;
 void __cdecl FUN_00d98d90();
 int __cdecl FUN_00c00d1f(void (__cdecl*)());
 
+// pdb: hkHavokCurrentClasses::`dynamic initializer for 'hkHavokDefaultClassRegistry'' | hkBuiltinTypeRegistry.obj | tesv_win, hash, low
 void FUN_00d03200()
 {
     DAT_010f343c.FUN_009b0cc0(&ARG_00e7cb68, -1, &ARG_00e37620);

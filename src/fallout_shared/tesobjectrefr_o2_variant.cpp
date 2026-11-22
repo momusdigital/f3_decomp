@@ -3,13 +3,6 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include "tesobjectrefr_decls.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
 
 struct FUN_00c9c240_holder
 {
@@ -21,6 +14,7 @@ struct FUN_00c9c240_holder
 };
 
 // @fnv 0x00c9d600
+// pdb: bhkEntity::Deactivate | bhkEntity.obj | fnv360_0822_retail, call_gap_sim, low
 void FUN_00c9c240_holder::FUN_00c9d600()
 {
     if (this && m8)
@@ -28,12 +22,9 @@ void FUN_00c9c240_holder::FUN_00c9d600()
 }
 
 extern int DAT_0126810c;
-extern int DAT_01268208;
-extern int DAT_0126822c;
 extern int DAT_01268238;
 extern const void* DAT_01030394;
 extern const void* DAT_0103078c;
-extern const void* DAT_010306b4;
 struct bhkRefObject
 {
     void* vtbl;
@@ -44,32 +35,6 @@ struct bhkRefObject
     unsigned char f14;
     bhkRefObject* Initialize();
 };
-struct FUN_0056e2d0
-{
-    virtual ~FUN_0056e2d0();
-};
-extern const void* vftable_FUN_0056e2d0;
-struct FUN_00c6d190 : bhkRefObject
-{
-    FUN_00c6d190();
-};
-// @fnv 0x00c6d190
-FUN_00c6d190::FUN_00c6d190()
-{
-    Initialize();
-    vtbl = &DAT_01030394;
-    fc = 0;
-    f10 = 0;
-    ++DAT_0126810c;
-    vtbl = &DAT_0103078c;
-    ++DAT_01268238;
-    vtbl = &DAT_010306b4;
-    ++DAT_01268208;
-    f14 = 0;
-    vtbl = &vftable_FUN_0056e2d0;
-    ++DAT_0126822c;
-    f14 = 0;
-}
 
 struct ProjectileListener
 {
@@ -79,6 +44,7 @@ struct ProjectileListener
     void FUN_00c876a0();
 };
 // @fnv 0x00c876a0
+// pdb: bhkSerializable::Kill | bhkSerializable.obj | fnv360_0822_retail, vtable, medium
 void ProjectileListener::FUN_00c876a0()
 {
     typedef void(__thiscall * Fn)(void*, int);
@@ -92,31 +58,10 @@ struct hkReferencedObject
     void removeReference();
 };
 void FUN_00c876a0();
-struct FUN_00c9d4c0_holder
-{
-    void* m0;
-    void* m4;
-    void* m8;
-    void FUN_00c9d4c0();
-    void FUN_00c9c240();
-    void FUN_00c9d600();
-};
-// @fnv 0x00c9d4c0
-void FUN_00c9d4c0_holder::FUN_00c9d4c0()
-{
-    void* p = m8;
-    if (p)
-    {
-        if (*(void**)((char*)p + 0x210))
-            ((hkReferencedObject*)*(void**)((char*)p + 0x210))->removeReference();
-        *(void**)((char*)p + 0x210) = 0;
-    }
-    FUN_00c9c240();
-}
 
 struct CallRet
 {
-    void FUN_00c946e0(void* a, int b, int c);
+    void hkpWorld_updateCollisionFilterOnEntity(void* a, int b, int c);
 };
 struct Holder00c9d5d0
 {
@@ -164,11 +109,12 @@ struct Holder00c9d5d0
     void FUN_00c9d5d0();
 };
 // @fnv 0x00c9d5d0
+// pdb: bhkEntity::UpdateCFilter | bhkEntity.obj | fnv360_0822_retail, caller_sim, medium
 void Holder00c9d5d0::FUN_00c9d5d0()
 {
     CallRet* p = GetRet();
     if (p)
-        p->FUN_00c946e0(unk8, 0, 1);
+        p->hkpWorld_updateCollisionFilterOnEntity(unk8, 0, 1);
 }
 
 extern int DAT_01268238;
@@ -176,10 +122,6 @@ struct FUN_00c876a0_holder
 {
     virtual ~FUN_00c876a0_holder();
     void FUN_00c876a0();
-};
-struct bhkWorldObject
-{
-    void FUN_00c85790();
 };
 struct FUN_00c9f3b0 : FUN_00c876a0_holder
 {
@@ -194,7 +136,7 @@ FUN_00c9f3b0::~FUN_00c9f3b0()
 
 struct WorldHolder
 {
-    void UpdatePhantom(void* a, int b);
+    void hkpWorld_updateCollisionFilterOnPhantom(void* a, int b);
 };
 struct PhantomBase
 {
@@ -245,11 +187,12 @@ struct bhkAabbPhantom : PhantomBase
     void FUN_00c9f460();
 };
 // @fnv 0x00c9f460
+// pdb: bhkPhantom::UpdateCFilter | bhkPhantom.obj | fnv360_0822_retail, caller_sim, medium
 void bhkAabbPhantom::FUN_00c9f460()
 {
     WorldHolder* w = GetWorld();
     if (w)
-        w->UpdatePhantom(m8, 1);
+        w->hkpWorld_updateCollisionFilterOnPhantom(m8, 1);
 }
 
 extern float DAT_010c72bc;
@@ -270,7 +213,8 @@ struct OutS
     float f4;
 };
 // @fnv 0x00c9fb70
-void __fastcall FUN_00c9fb70(MyObj* _this, int, OutS* _out)
+// pdb: bhkConvexShape::CopyCinfo | bhkConvexShape.obj | fnv360_0822_retail, call_seq + bridge(hash|call_seq) + skyrim(objrun), high
+void __fastcall bhkConvexShape_CopyCinfo(MyObj* _this, int, OutS* _out)
 {
     _this->FUN_00c84e20(_out);
     if (_this && _this->p8)
@@ -341,75 +285,9 @@ struct bhkSphereShape
     virtual void f43();
     virtual void f44();
     virtual RetV* Target(char* p);
-    void __thiscall FUN_00c84df0(void* a, ArgB* b);
+    void __thiscall bhkShape_CopyMembers(void* a, ArgB* b);
     void __thiscall FUN_00ca0740(void* a, ArgB* b);
 };
-// @fnv 0x00ca0740
-void __thiscall bhkSphereShape::FUN_00ca0740(void* a, ArgB* b)
-{
-    unsigned int tmp;
-    RetV* r = Target((char*)&tmp + 3);
-    r->f4 *= b->f10;
-    FUN_00c84df0(a, b);
-}
-
-struct S_00cb3070
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v43b();
-    virtual void v44(int*);
-    void FUN_00c8ea30(int);
-    void FUN_00cb3070(int);
-};
-// @fnv 0x00cb3070
-void S_00cb3070::FUN_00cb3070(int a)
-{
-    FUN_00c8ea30(a);
-    v44(&a);
-}
 
 struct MM
 {
@@ -419,6 +297,7 @@ struct MM
 };
 extern MM _g_memoryManager;
 // @fnv 0x00cb30a0
+// pdb: bhkRagdollController::`scalar deleting destructor' | bhkRagdollController.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: Projectile::UpdateInstant)
 void* MM::FUN_00cb30a0(unsigned int f)
 {
     FUN_00cb2ff0();
@@ -458,6 +337,7 @@ struct FUN_00cb3860 : public bhkRefObject
     FUN_00cb3860();
 };
 // @fnv 0x00cb3860
+// pdb: bhkRigidBodyT::bhkRigidBodyT | bhkRigidBodyT.obj | fnv360_0822_retail, objrun, high
 FUN_00cb3860::FUN_00cb3860()
 {
     Initialize();
@@ -478,28 +358,6 @@ FUN_00cb3860::FUN_00cb3860()
 }  // namespace fnv_00cb3860
 
 extern int DAT_012681fc;
-struct FUN_00c9d620_holder : FUN_00c876a0_holder
-{
-    void* m0;
-    void* m4;
-    void* m8;
-    FUN_00c9d620_holder();
-    ~FUN_00c9d620_holder();
-};
-// @fnv 0x00c9d620
-FUN_00c9d620_holder::~FUN_00c9d620_holder()
-{
-    void* p = m4;
-    if (p)
-    {
-        void* q = *(void**)((char*)p + 0x210);
-        if (q)
-            ((hkReferencedObject*)q)->removeReference();
-        *(void**)((char*)p + 0x210) = 0;
-    }
-    FUN_00c876a0();
-    --DAT_012681fc;
-}
 
 extern int DAT_01268250;
 struct FUN_0056e780_Class
@@ -512,6 +370,7 @@ struct FUN_00c9fb00 : FUN_0056e780_Class
     virtual ~FUN_00c9fb00();
 };
 // @fnv 0x00c9fb00
+// pdb: bhkConvexShape::~bhkConvexShape | bhkConvexShape.obj | fnv360_0822_retail, call_seq, high
 FUN_00c9fb00::~FUN_00c9fb00()
 {
     FUN_00c876a0();
@@ -521,30 +380,6 @@ FUN_00c9fb00::~FUN_00c9fb00()
 extern int DAT_012680f8;
 extern int DAT_01268250;
 extern int DAT_0126825c;
-extern int DAT_01268274;
-extern void* DAT_0103093c;
-extern void* DAT_01030a24;
-extern void* DAT_01030b0c;
-extern void* DAT_01030bf4;
-struct FUN_00c9fde0 : bhkRefObject
-{
-    FUN_00c9fde0();
-};
-// @fnv 0x00c9fde0
-FUN_00c9fde0::FUN_00c9fde0()
-{
-    Initialize();
-    fc = 0;
-    f10 = 0;
-    vtbl = &DAT_01030bf4;
-    DAT_012680f8 += 1;
-    vtbl = &DAT_01030b0c;
-    DAT_01268274 += 1;
-    vtbl = &DAT_01030a24;
-    DAT_01268250 += 1;
-    vtbl = &DAT_0103093c;
-    DAT_0126825c += 1;
-}
 
 struct A51BF0Base
 {
@@ -582,6 +417,7 @@ struct Object_00c9f5a0 : S_00cb79d0_Base, A51BF0Base
 };
 
 // @f3 0x0090dfd0 (community match, verified in this file)
+// pdb: bhkAabbPhantom::CreateObject | bhkAabbPhantom.obj | fnv360_0822_retail, objrun, medium
 void* FUN_00c9f5a0()
 {
     return new Object_00c9f5a0;
@@ -602,6 +438,7 @@ void FUN_00c876a0();
 extern int DAT_012680f8;
 
 // @fnv 0x00c84c50
+// pdb: bhkShape::~bhkShape | bhkShape.obj | fnv360_0822_retail, call_seq, high
 FUN_00c84c50::~FUN_00c84c50()
 {
     FUN_00c876a0();
@@ -610,31 +447,8 @@ FUN_00c84c50::~FUN_00c84c50()
 
 extern int DAT_0126810c;
 
-class FUN_00c85790_base
-{
-  public:
-    virtual void unk00();
-    ~FUN_00c85790_base();
-    int unk04;
-};
-
-class FUN_00c85790 : public FUN_00c85790_base
-{
-  public:
-    virtual ~FUN_00c85790();
-    void unk08();
-};
-
-// @fnv 0x00c85790
-FUN_00c85790::~FUN_00c85790()
-{
-    this->unk08();
-    DAT_0126810c--;
-}
-
 extern __declspec(thread) unsigned int g_havokThreadMode;
 
-struct CollisionObject;
 struct CollisionResult
 {
     unsigned short kind;
@@ -724,79 +538,6 @@ struct ScopedMode
         g_havokThreadMode = oldValue;
     }
 };
-struct WorldObjectView
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual CollisionResult* GetResult(unsigned char* used);
-    void FUN_00c87600(int a, int b);
-    void FUN_00c85900(int a, int b);
-};
-
-// @fnv 0x00c85900
-void WorldObjectView::FUN_00c85900(int a, int b)
-{
-    ScopedMode mode;
-    unsigned char used;
-    CollisionResult* result = GetResult(&used);
-    result->state = 0;
-    CollisionRecord*& nextRecord = result->record;
-    CollisionRecord* record = nextRecord;
-    if (record)
-    {
-        CollisionHandler* handler = record->handler;
-        if (handler && !handler->IsAllowed(b))
-        {
-            CollisionValue* value = handler->Find(b);
-            result->record = value ? value->record : 0;
-        }
-    }
-    result->enabled = 0;
-    FUN_00c87600(a, b);
-}
 
 struct NiRTTI
 {
@@ -922,6 +663,8 @@ static __forceinline hkCdBodyStub* BodyOf(bhkBase_c878c0* o)
     return o ? o->GetBody() : 0;
 }
 
+// pdb: bhkWorldObject::GetViewerStrings | bhkWorldObject.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apStrings
 void bhkWorldObject_c86190::FUN_00c86190(DebugStrArray* arr)
 {
     BaseDebugInfo(arr);
@@ -957,15 +700,16 @@ class FUN_00c8bed0_base_cls
     int unk04;
 };
 
-class FUN_00c8bed0_cls : public FUN_00c8bed0_base_cls
+class bhkTransformShape : public FUN_00c8bed0_base_cls // src: F3_EXE vtable 0x00dfcfd4 (old: FUN_00c8bed0_cls)
 {
   public:
-    virtual ~FUN_00c8bed0_cls();
+    virtual ~bhkTransformShape();
     void unk08();
 };
 
 // @fnv 0x00c8bed0
-FUN_00c8bed0_cls::~FUN_00c8bed0_cls()
+// pdb: bhkTransformShape::~bhkTransformShape | bhkTransformShape.obj | fnv360_0822_retail, call_seq, medium
+bhkTransformShape::~bhkTransformShape()
 {
     this->unk08();
     DAT_012681b0--;
@@ -976,30 +720,12 @@ struct FUN_00c9eb30 : FUN_00c9f3b0
     virtual ~FUN_00c9eb30();
 };
 
-// @fnv 0x00c9eb30
-FUN_00c9eb30::~FUN_00c9eb30()
-{
-    FUN_00c876a0();
-    --DAT_01268208;
-}
-
 namespace fnv_00c9eec0 {
 struct FUN_00c9eb30 : FUN_00c876a0_holder
 {
     virtual ~FUN_00c9eb30();
 };
 
-struct FUN_00c9eec0 : FUN_00c9eb30
-{
-    virtual ~FUN_00c9eec0();
-};
-
-// @fnv 0x00c9eec0
-FUN_00c9eec0::~FUN_00c9eec0()
-{
-    FUN_00c876a0();
-    --DAT_0126822c;
-}
 }  // namespace fnv_00c9eec0
 
 struct TlsBlock_t
@@ -1205,23 +931,6 @@ struct TlsGuard_t
 inline void* operator new(unsigned int n)
 {
     return FUN_00aa13e0(n);
-}
-
-struct FUN_00c9efa0_cls
-{
-    void FUN_00c85900(FUN_00c6d190* p, unsigned int flag);
-    bhkRefObject* FUN_00c9efa0(unsigned int flag);
-};
-
-// @fnv 0x00c9efa0
-bhkRefObject* FUN_00c9efa0_cls::FUN_00c9efa0(unsigned int flag)
-{
-    TlsGuard_t guard;
-    FUN_00c876f0();
-    FUN_00c6d190* p = new FUN_00c6d190;
-    this->FUN_00c85900(p, flag);
-    FUN_00c87700();
-    return p;
 }
 
 struct S_00c9f1e0_Shape
@@ -1602,6 +1311,8 @@ struct R9_Obj
     int unk04;
     R9_Ctx* ctx;
 };
+// pdb: bhkSimpleShapePhantom::GetFixedClosestPoints | bhkSimpleShapePhantom.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: arCollector
 void S_00c9f1e0_Obj::FUN_00c9f1e0(S_00c9f1e0_Range* r)
 {
     R9_Holder* h = ((R9_Obj*)this)->GetWorld();
@@ -1642,7 +1353,6 @@ class C9F270MemContext
     int m_iPrevious;
 };
 
-extern const char* g_pcC9F270ClassName;
 extern "C" char* __cdecl FUN_00a7d330(const char* pcName);
 
 class C9F270StrArray
@@ -1667,21 +1377,6 @@ class C9F270StrArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 };
-
-class C9F270Object
-{
-  public:
-    void GetViewerStringsBase(C9F270StrArray* pkStrings);
-    void FUN_00c9f270(C9F270StrArray* pkStrings);
-};
-
-// @fnv 0x00c9f270
-void C9F270Object::FUN_00c9f270(C9F270StrArray* pkStrings)
-{
-    C9F270MemContext kContext(0x10);
-    GetViewerStringsBase(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcC9F270ClassName));
-}
 
 __declspec(thread) int tlsMode = 0x3b;
 struct ReleaseObject
@@ -1757,6 +1452,7 @@ struct Guard6ba760
     }
 };
 
+// pdb: SummonCreatureEffect::`scalar deleting destructor' | SummonCreatureEffect.obj | fnv360_0822_retail, caller_sim, low
 void FUN_00c9f320_object::FUN_00c9f320()
 {
     View6ba760* view = reinterpret_cast<View6ba760*>(this);
@@ -1783,60 +1479,6 @@ struct LinkedObject
         return *reinterpret_cast<PhysicsAction* const*>(reinterpret_cast<const char*>(this) + 0x350);
     }
 };
-struct FUN_00c9f420_Class
-{
-    virtual void slot0();
-    virtual void slot1();
-    virtual void slot2();
-    virtual void slot3();
-    virtual void slot4();
-    virtual void slot5();
-    virtual void slot6();
-    virtual void slot7();
-    virtual void slot8();
-    virtual void slot9();
-    virtual void slot10();
-    virtual void slot11();
-    virtual void slot12();
-    virtual void slot13();
-    virtual void slot14();
-    virtual void slot15();
-    virtual void slot16();
-    virtual void slot17();
-    virtual void slot18();
-    virtual void slot19();
-    virtual void slot20();
-    virtual void slot21();
-    virtual void slot22();
-    virtual void slot23();
-    virtual void slot24();
-    virtual void slot25();
-    virtual void slot26();
-    virtual void slot27();
-    virtual void slot28();
-    virtual void slot29();
-    virtual void slot30();
-    virtual void slot31();
-    virtual void slot32();
-    virtual void slot33();
-    virtual void slot34();
-    virtual void slot35();
-    virtual void slot36();
-    virtual LinkedObject* ResolveLinkedObject();
-    int unk4;
-    void* handle;
-    bool FUN_00c9f420();
-};
-// @fnv 0x00c9f420
-bool FUN_00c9f420_Class::FUN_00c9f420()
-{
-    bool result = false;
-    LinkedObject* linked = ResolveLinkedObject();
-    PhysicsAction* action = linked ? linked->GetAction() : 0;
-    if (action)
-        result = action->FUN_00c68cb0(handle);
-    return result;
-}
 
 void __cdecl FUN_00c876f0();
 void __cdecl FUN_00c87700();
@@ -1872,6 +1514,8 @@ struct PcFO3
     void FUN_008f9990(Object_00c9f5a0* projectile, int mode);
 };
 
+// pdb: bhkAabbPhantom::CreateClone | bhkAabbPhantom.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 Object_00c9f5a0* ProjectileCreator::FUN_00c9f640(int mode)
 {
     DAT_00d9b09c(&DAT_010f3194);
@@ -2099,73 +1743,6 @@ struct FUN_00cf2cb0
     FUN_00cf2cb0(void* contents, int tag);
 };
 extern "C" void __fastcall FUN_00c905b0(FUN_00cf2cb0*);
-struct Input
-{
-    int tag;
-    int unk4, unk8, unkc, unk10, unk14, unk18, unk1c;
-    int payload;
-};
-struct Receiver
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void dispatch(void*);
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void finish(void*);
-    void FUN_00c9f890(Input* input);
-};
-// @fnv 0x00c9f890
-void Receiver::FUN_00c9f890(Input* input)
-{
-    ThreadFlagGuard tlsGuard;
-    FUN_00cf2cb0* packet = new FUN_00cf2cb0(&input->payload, input->tag);
-    dispatch(packet);
-    FUN_00c905b0(packet);
-    finish(input);
-}
 
 extern __declspec(thread) int g_iC9F970AllocTag;
 
@@ -2210,25 +1787,7 @@ class BC9F970StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcC9F970Name;
-
 char* __cdecl FUN_00a7d330(const char* pcString);
-
-class FUN_00c9f970_cls
-{
-  public:
-    void FUN_00c9f480(BC9F970StringArray* pkArray);
-    void FUN_00c9f970(BC9F970StringArray* pkArray);
-};
-
-// @fnv 0x00c9f970
-void FUN_00c9f970_cls::FUN_00c9f970(BC9F970StringArray* pkArray)
-{
-    BC9F970AllocTagScope kScope(0x10);
-    FUN_00c9f480(pkArray);
-    char* pcName = FUN_00a7d330(g_pcC9F970Name);
-    pkArray->Add(pcName);
-}
 
 struct MemContextTLS
 {
@@ -2280,7 +1839,6 @@ char* CreateDebugString(const char* pcText);
 char* CreateDebugString(const char* pcPrefix, float fValue);
 
 extern float DAT_010c72bc;
-extern float DAT_011b15c0;
 
 struct SphereHkShape
 {
@@ -2310,6 +1868,8 @@ struct SphereShape : SphereShapeBase
 
 // @f3 0x0090c5a0 (community match, verified in this file)
 extern double FUN_00db88e8;
+// pdb: bhkConvexShape::GetViewerStrings | bhkConvexShape.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apStrings
 void SphereShape::FUN_00c9fc50(ViewerStringArray* apViewerStrings)
 {
     BaseGetViewerStrings(apViewerStrings);
@@ -2320,25 +1880,6 @@ void SphereShape::FUN_00c9fc50(ViewerStringArray* apViewerStrings)
 
 extern int DAT_0126825c;
 
-class FUN_00c9fd70_cls : public FUN_00c9fb00
-{
-  public:
-    virtual ~FUN_00c9fd70_cls();
-    void FUN_00c876a0();
-};
-
-// @fnv 0x00c9fd70
-FUN_00c9fd70_cls::~FUN_00c9fd70_cls()
-{
-    FUN_00c876a0();
-    --DAT_0126825c;
-}
-
-struct SphereScaleFields
-{
-    unsigned int m_00, m_04, m_08, m_0c;
-    float m_10, m_14, m_18, m_1c;
-};
 struct SphereScalingMethod : bhkSphereShape
 {
     void __thiscall FUN_00c9fea0(void* first, ArgB* second);
@@ -2349,6 +1890,8 @@ struct SphereScaleFieldsF3
     unsigned int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c;
     float m_20, m_24, m_28, m_2c;
 };
+// pdb: bhkNiTriStripsShape::CopyMembers | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: apDest, arCloneData
 void SphereScalingMethod::FUN_00c9fea0(void* first, ArgB* second)
 {
     char flag;
@@ -2362,7 +1905,7 @@ void SphereScalingMethod::FUN_00c9fea0(void* first, ArgB* second)
         result->m_28 *= scale;
         result->m_2c *= scale;
     }
-    FUN_00c84df0(first, second);
+    bhkShape_CopyMembers(first, second);
 }
 
 
@@ -2547,8 +2090,6 @@ extern __declspec(thread) Tls_ca0090 g_tls_ca0090;
 
 extern float DAT_010c72bc;
 extern char DAT_011f6238;
-extern char DAT_01267e30;
-extern int DAT_0126fd98;
 
 struct TlsGuard_ca0090
 {
@@ -2563,59 +2104,6 @@ struct TlsGuard_ca0090
         g_tls_ca0090.m_2b4 = m_saved;
     }
 };
-
-struct MemMgr_ca0090
-{
-    void* FUN_00aa3e40(unsigned int size);
-};
-
-struct Sub_ca0090
-{
-    void FUN_004b4db0(void* a);
-};
-
-struct FUN_00ca0090_cls
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    void* m08;
-    void* m0C;
-    void FUN_00c9fb70(void* a);
-    void* FUN_00ca0090(unsigned char* out);
-};
-
-// @fnv 0x00ca0090
-void* FUN_00ca0090_cls::FUN_00ca0090(unsigned char* out)
-{
-    TlsGuard_ca0090 guard;
-    bool GetObjectKind = (m0C == 0);
-    *out = GetObjectKind;
-    if (GetObjectKind)
-    {
-        unsigned char* raw = (unsigned char*)reinterpret_cast<MemMgr_ca0090*>(&DAT_011f6238)->FUN_00aa3e40(0x30);
-        unsigned char adj = (unsigned char)(0x10 - ((unsigned int)raw & 0xf));
-        raw[adj - 1] = adj;
-        *(unsigned int*)(raw + adj) = 0;
-        volatile float* p = (volatile float*)(raw + adj);
-        p[1] = DAT_010c72bc;
-        volatile float* v = (volatile float*)(raw + adj + 0x10);
-        v[0] = 0.0f;
-        v[1] = 0.0f;
-        v[2] = 0.0f;
-        v[3] = 0.0f;
-        v[0] = 1.0f;
-        v[1] = 1.0f;
-        v[2] = 1.0f;
-        m0C = (void*)(raw + adj);
-        if (m08 != 0)
-        {
-            FUN_00c9fb70(m0C);
-            void* q = (m08 != 0) ? (void*)((char*)m08 + 0x20) : (void*)&DAT_01267e30;
-            reinterpret_cast<Sub_ca0090*>((char*)raw + adj + 0x10)->FUN_004b4db0(q);
-        }
-    }
-    return m0C;
-}
 
 namespace fnv_00ca0410 {
 extern __declspec(thread) int g_tlsMemContext;
@@ -2653,61 +2141,6 @@ struct ViewerStrings
     }
 };
 
-struct HalfExtentVec
-{
-    float x, y, z, w;
-};
-
-struct PhantomPoint3
-{
-    float x, y, z;
-    char* FormatToBuffer(const char* pcPrefix);
-};
-
-PhantomPoint3 ConvertHalfExtent(const HalfExtentVec& v);
-extern HalfExtentVec g_zeroHalfExtent;
-
-struct AabbHavokObj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    HalfExtentVec halfExtent;
-};
-
-char* NiGetViewerStringName(const char* pcName);
-extern const char* g_aabbPhantomRttiName;
-
-struct ShapePhantomBase
-{
-    int unk00;
-    int unk04;
-    AabbHavokObj* m_pHavok;
-    void GetViewerStringsBase(ViewerStrings* apViewerStrings);
-};
-
-struct AabbPhantomVS : ShapePhantomBase
-{
-    void FUN_00ca0410(ViewerStrings* apViewerStrings);
-};
-
-// @fnv 0x00ca0410
-void AabbPhantomVS::FUN_00ca0410(ViewerStrings* apViewerStrings)
-{
-    MemContextGuard guard(0x10);
-    GetViewerStringsBase(apViewerStrings);
-    apViewerStrings->Add(NiGetViewerStringName(g_aabbPhantomRttiName));
-    AabbHavokObj* pObj = this ? m_pHavok : 0;
-    const HalfExtentVec& v = pObj ? pObj->halfExtent : g_zeroHalfExtent;
-    PhantomPoint3 kPt;
-    kPt = ConvertHalfExtent(v);
-    apViewerStrings->Add(kPt.FormatToBuffer("Half Extent"));
-}
 }  // namespace fnv_00ca0410
 
 class CA0540Base
@@ -2727,6 +2160,7 @@ class FUN_00ca0540 : public CA0540Base
 };
 
 // @fnv 0x00ca0540
+// pdb: bhkSimpleShapePhantom::~bhkSimpleShapePhantom | bhkSimpleShapePhantom.obj | fnv360_0822_retail, call_seq, high
 FUN_00ca0540::~FUN_00ca0540()
 {
     Shutdown();
@@ -2776,25 +2210,7 @@ class BCA05B0StringArray
     unsigned short m_usGrowBy;
 };
 
-extern const char* g_pcCA05B0Name;
-
 char* __cdecl FUN_00a7d330(const char* pcString);
-
-class FUN_00ca05b0_cls
-{
-  public:
-    void FUN_00c851c0(BCA05B0StringArray* pkArray);
-    void FUN_00ca05b0(BCA05B0StringArray* pkArray);
-};
-
-// @fnv 0x00ca05b0
-void FUN_00ca05b0_cls::FUN_00ca05b0(BCA05B0StringArray* pkArray)
-{
-    BCA05B0AllocTagScope kScope(0x10);
-    FUN_00c851c0(pkArray);
-    char* pcName = FUN_00a7d330(g_pcCA05B0Name);
-    pkArray->Add(pcName);
-}
 
 extern int DAT_01268280;
 
@@ -2814,6 +2230,7 @@ class FUN_00ca0660 : public FUN_00ca0660_base
 };
 
 // @fnv 0x00ca0660
+// pdb: bhkSphereShape::~bhkSphereShape | bhkSphereShape.obj | fnv360_0822_retail, call_seq, high
 FUN_00ca0660::~FUN_00ca0660()
 {
     this->unk08();
@@ -2862,32 +2279,6 @@ class CA0840Output
     float m_fValue;
 };
 
-class CA0840Constraint
-{
-  public:
-    int unk00;
-    int unk04;
-    void* m_pkWorld;
-    CA0840Output* m_pkOutput;
-
-    void SetOutput(CA0840Output* pkOutput);
-    CA0840Output* FUN_00ca0840(bool* pbCreated);
-};
-
-// @fnv 0x00ca0840
-CA0840Output* CA0840Constraint::FUN_00ca0840(bool* pbCreated)
-{
-    CA0840MemContext kContext(0x10);
-    *pbCreated = m_pkOutput == 0;
-    if (*pbCreated)
-    {
-        m_pkOutput = new CA0840Output;
-        if (m_pkWorld)
-            SetOutput(m_pkOutput);
-    }
-    return m_pkOutput;
-}
-
 class CAACF0Base
 {
   public:
@@ -2905,6 +2296,7 @@ class FUN_00caacf0 : public CAACF0Base
 };
 
 // @fnv 0x00caacf0
+// pdb: WeaponObject::Kill | WeaponObject.obj | tesv_win, objopen_prop, low
 FUN_00caacf0::~FUN_00caacf0()
 {
     Shutdown();
@@ -2914,6 +2306,7 @@ FUN_00caacf0::~FUN_00caacf0()
 extern int DAT_012683c8;
 
 // @fnv 0x00cb3060
+// pdb: bhkSpringAction::GetRTTI | bhkSpringAction.obj | fnv360_0822_retail, objrun_open, low
 void* FUN_00cb3060()
 {
     return &DAT_012683c8;
@@ -2959,86 +2352,6 @@ struct ThreadRouterScope
         threadMode = previousMode;
     }
 };
-struct World
-{
-    virtual void m00();
-    virtual void m01();
-    virtual void m02();
-    virtual void m03();
-    virtual void m04();
-    virtual void m05();
-    virtual void m06();
-    virtual void m07();
-    virtual void m08();
-    virtual void m09();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63(int active);
-    void FUN_00cb30d0(FUN_00cb3860* object, int flags);
-    FUN_00cb3860* FUN_00cb3a40(int flags);
-};
-// @fnv 0x00cb3a40
-FUN_00cb3860* World::FUN_00cb3a40(int flags)
-{
-    ThreadRouterScope threadScope;
-    FUN_00c876f0();
-    m63(0);
-    FUN_00cb3860* obj = new FUN_00cb3860;
-    FUN_00cb30d0(obj, flags);
-    m63(1);
-    return obj;
-}
 }  // namespace fnv_00cb3a40
 
 class CC2350Base
@@ -3049,49 +2362,20 @@ class CC2350Base
 
 extern int g_iCC2350Count;
 
-class FUN_00cc2350 : public CC2350Base
+class bhkCachingShapePhantom : public CC2350Base // src: F3_EXE vtable 0x00e3314c (old: FUN_00cc2350)
 {
   public:
     void Release();
 
-    virtual ~FUN_00cc2350();
+    virtual ~bhkCachingShapePhantom();
 };
 
 // @fnv 0x00cc2350
-FUN_00cc2350::~FUN_00cc2350()
+// pdb: bhkCachingShapePhantom::~bhkCachingShapePhantom | bhkCachingShapePhantom.obj | fnv360_0822_retail, caller_sim, high
+bhkCachingShapePhantom::~bhkCachingShapePhantom()
 {
     Release();
     --g_iCC2350Count;
-}
-
-extern int DAT_01268660;
-
-struct FUN_00cca8d0 : FUN_00c9fb00
-{
-    virtual ~FUN_00cca8d0();
-    void FUN_00c876a0();
-};
-
-// @fnv 0x00cca8d0
-FUN_00cca8d0::~FUN_00cca8d0()
-{
-    FUN_00c876a0();
-    --DAT_01268660;
-}
-
-extern int DAT_0126868c;
-
-struct FUN_00ccd080 : FUN_00c9fb00
-{
-    int unk04;
-    virtual ~FUN_00ccd080();
-};
-
-// @fnv 0x00ccd080
-FUN_00ccd080::~FUN_00ccd080()
-{
-    ((FUN_00c876a0_holder*)this)->FUN_00c876a0();
-    DAT_0126868c--;
 }
 
 extern int DAT_0126869c;
@@ -3126,35 +2410,24 @@ class FUN_00cce900 : public CCE900Base
 };
 
 // @fnv 0x00cce900
+// pdb: bhkConvexVerticesShape::~bhkConvexVerticesShape | bhkConvexVerticesShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00cce900::~FUN_00cce900()
 {
     Release();
     --g_iCCE900Count;
 }
 
-struct FUN_00ccf4f0_cls : FUN_00c9fb00
-{
-    int unk04;
-    virtual ~FUN_00ccf4f0_cls();
-};
-
-// @fnv 0x00ccf4f0
-FUN_00ccf4f0_cls::~FUN_00ccf4f0_cls()
-{
-    ((FUN_00c876a0_holder*)this)->FUN_00c876a0();
-}
-
 extern int DAT_012686c0;
 
-class FUN_00ccf740_cls : public FUN_00c9fb00
+class bhkConvexTransformShape : public FUN_00c9fb00 // src: F3_EXE vtable 0x00e7b8b4 (old: FUN_00ccf740_cls)
 {
   public:
-    virtual ~FUN_00ccf740_cls();
+    virtual ~bhkConvexTransformShape();
     void FUN_00c876a0();
 };
 
 // @fnv 0x00ccf740
-FUN_00ccf740_cls::~FUN_00ccf740_cls()
+bhkConvexTransformShape::~bhkConvexTransformShape()
 {
     FUN_00c876a0();
     --DAT_012686c0;
@@ -3189,93 +2462,14 @@ NiObjectC9E* NiControllerC9E::FUN_00c9ef30()
     return new NiControllerC9E;
 }
 
-extern const char* DAT_0126823c;
-// @fnv 0x00c9f480
-void FUN_00c9f970_cls::FUN_00c9f480(BC9F970StringArray* pkArray)
-{
-    TlsGuard_t kGuard;
-    ((bhkWorldObject_c86190*)this)->FUN_00c86190((DebugStrArray*)pkArray);
-    pkArray->Add(FUN_00a7d330(DAT_0126823c));
-}
-
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-struct HkResult_c6b
-{
-    int m_00;
-    int m_04;
-    HkResult_c6b();
-};
 struct HkFlags_c6b
 {
     int m_iFlags;
     HkFlags_c6b(int i) : m_iFlags(i)
     {}
 };
-struct HkWorld_c6b
-{
-    HkResult_c6b FUN_00cd2a50(const void* apKey);
-    void AddEntry(const void* apKey, void* apListener, HkFlags_c6b kFlags);
-};
-extern char DAT_01267b70[];
-struct World_c6b
-{
-    virtual void v00();
-    virtual void DeleteThis();
-    volatile long m_lRefCount;
-    HkWorld_c6b* m_pkWorld;
-    void Lock();
-    void Unlock();
-};
-struct FUN_00c6b980_cls
-{
-    int unk00, unk04, unk08, unk0c;
-    World_c6b* m_spWorld;
-    void FUN_00c6b980(World_c6b* apWorld);
-};
-// @fnv 0x00c6b980
-void FUN_00c6b980_cls::FUN_00c6b980(World_c6b* apWorld)
-{
-    if (m_spWorld == apWorld)
-        return;
-    World_c6b* pkOld = m_spWorld;
-    if (pkOld)
-    {
-        HkWorld_c6b* pkHk = pkOld->m_pkWorld;
-        if (pkHk)
-        {
-            pkOld->Lock();
-            pkHk->FUN_00cd2a50(DAT_01267b70);
-            pkOld->Unlock();
-        }
-    }
-    if (m_spWorld != apWorld)
-    {
-        if (m_spWorld)
-        {
-            World_c6b* p = m_spWorld;
-            if (InterlockedDecrement(&p->m_lRefCount) == 0)
-                p->DeleteThis();
-        }
-        m_spWorld = apWorld;
-        if (m_spWorld)
-            InterlockedIncrement(&m_spWorld->m_lRefCount);
-    }
-    World_c6b* pkNew = m_spWorld;
-    if (pkNew)
-    {
-        HkFlags_c6b kFlags(0);
-        HkWorld_c6b* pkHk = pkNew->m_pkWorld;
-        if (pkHk)
-        {
-            pkNew->Lock();
-            pkHk->AddEntry(DAT_01267b70, this, kFlags);
-            pkNew->Unlock();
-        }
-    }
-}
-
-extern int DAT_011f4280;
 
 struct S_00c85c10_pair
 {
@@ -3362,9 +2556,11 @@ struct FUN_009317a0_Obj
 struct FUN_00931740_Obj
 {
     int unk00;
-    void FUN_00931740(int* value, int* result, S_00c85c10_flag flag);
+    void hkpWorldObject_addProperty(int* value, int* result, S_00c85c10_flag flag);
 };
 
+// pdb: bhkWorldObject::SetAVObject | bhkWorldObject.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject, aiKey
 void S_00c85c10::FUN_00c85c10(int* result, int* value)
 {
     S_00c85c10_pair local;
@@ -3387,7 +2583,7 @@ void S_00c85c10::FUN_00c85c10(int* result, int* value)
         S_00c85c10_flag flag;
         if (this != 0 && unk08 != 0)
         {
-            reinterpret_cast<FUN_00931740_Obj*>(unk08)->FUN_00931740(value, result, flag);
+            reinterpret_cast<FUN_00931740_Obj*>(unk08)->hkpWorldObject_addProperty(value, result, flag);
         }
     }
 }
@@ -3926,6 +3122,7 @@ bool Query::FUN_008f8280() {
 
 }
 
+// pdb: bhkAction::Remove | bhkAction.obj | fnv360_0822_retail, vtable, medium
 bool ActionOwnerC9d590::FUN_00c9d590(){return reinterpret_cast<Task1423::Query*>(this)->FUN_008f8280();}
 
 
@@ -3944,22 +3141,6 @@ ObjectCA06* __cdecl FUN_00ca06d0()
     return new ObjectCA06;
 }
 
-extern const char* DAT_01268288;
-
-struct FUN_00ca0ac0_class : SphereShape
-{
-    void FUN_00ca0ac0(ViewerStringArray* strings);
-};
-
-// @fnv 0x00ca0ac0
-void FUN_00ca0ac0_class::FUN_00ca0ac0(ViewerStringArray* strings)
-{
-    TlsGuard_t context;
-    FUN_00c9fc50(strings);
-    char* text = FUN_00a7d330(DAT_01268288);
-    strings->Add(text);
-}
-
 extern int DAT_012686d0;
 
 struct FUN_00cd2de0 : FUN_00c84c50
@@ -3968,25 +3149,11 @@ struct FUN_00cd2de0 : FUN_00c84c50
     void FUN_00c876a0();
 };
 // @fnv 0x00cd2de0
+// pdb: bhkShapeCollection::~bhkShapeCollection | bhkShapeCollection.obj | fnv360_0822_retail, call_seq, medium
 FUN_00cd2de0::~FUN_00cd2de0()
 {
     FUN_00c876a0();
     --DAT_012686d0;
-}
-
-extern int DAT_01268f8c;
-
-struct FUN_00d54e60 : FUN_00c84c50
-{
-    virtual ~FUN_00d54e60();
-    void FUN_00c876a0();
-};
-
-// @fnv 0x00d54e60
-FUN_00d54e60::~FUN_00d54e60()
-{
-    FUN_00c876a0();
-    --DAT_01268f8c;
 }
 
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
@@ -4146,7 +3313,6 @@ struct MemRouter
         return *m_pStreamAllocator;
     }
 };
-MemRouter* MemRouter_getInstance();
 struct LoadObject
 {
     virtual void v0();
@@ -4228,6 +3394,8 @@ struct Arr_8f9cf0
 };
 }
 
+// pdb: bhkWorldObject::LoadBinary | bhkWorldObject.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void LoadObject::FUN_00c85f20(LoadStream* stream)
 {
     stream->Prepare();
@@ -4490,7 +3658,6 @@ struct Info
     unsigned int unk08;
     hkArr<Pair8> arr;
 };
-void __cdecl FUN_00cf0930(Info*, int, hkArr<Pair8>*);
 struct Stream86060
 {
     virtual void v0();
@@ -4676,7 +3843,7 @@ struct Obj86060
     virtual void vac();
     virtual void vb0();
     virtual Info* GetInfo(void**);
-    void SaveSerializeData(Stream86060&);
+    void bhkSerializable_SaveBinary(Stream86060&);
     void FUN_00c86060(Stream86060&);
 };
 // @f3 0x008f9de0 (community match, verified in this file)
@@ -4719,6 +3886,8 @@ __forceinline void ClearAndFree(hkArr<Pair8>* arr)
     arr->m_iCapacityState = (arr->m_iCapacityState & 0xc0000000) | 0x80000000;
 }
 
+// pdb: bhkWorldObject::SaveBinary | bhkWorldObject.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void Obj86060::FUN_00c86060(Stream86060& stream)
 {
     void* handle;
@@ -4738,18 +3907,6 @@ void Obj86060::FUN_00c86060(Stream86060& stream)
 
 
 extern int DAT_01268244;
-
-struct FUN_00c9f530 : FUN_00c9f3b0
-{
-    virtual ~FUN_00c9f530();
-};
-
-// @fnv 0x00c9f530
-FUN_00c9f530::~FUN_00c9f530()
-{
-    FUN_00c876a0();
-    DAT_01268244--;
-}
 
 struct Arg
 {
@@ -4955,6 +4112,8 @@ struct FUN_00c9f700_stand
 {
     void FUN_008f9cf0(Arg* a);
 };
+// pdb: bhkAabbPhantom::LoadBinary | bhkAabbPhantom.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: bhkAabbPhantom::SaveBinary)
+// pdb params: arStream
 void FUN_00c9f700_cls::FUN_00c9f700(Arg* volatile a)
 {
     Arg* p = a;
@@ -5197,6 +4356,8 @@ class C9F770Constraint
 };
 
 // @f3 0x0090e1b0 (community match, verified in this file)
+// pdb: bhkAabbPhantom::SaveBinary | bhkAabbPhantom.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void C9F770Constraint::FUN_00c9f770(C9F770Stream& kStream)
 {
     bool bIsValid;
@@ -5450,6 +4611,8 @@ struct Cls_00c9fbc0F3
 {
     void FUN_008f7490(Arg_00c9fbc0* a);
 };
+// pdb: bhkConvexShape::LoadBinary | bhkConvexShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void Cls_00c9fbc0::FUN_00c9fbc0(Arg_00c9fbc0* a1)
 {
     Arg_00c9fbc0* volatile* pa = &a1;
@@ -5845,6 +5008,8 @@ struct FUN_00c9ff00_cls
 };
 
 // @f3 0x009142c0 (community match, verified in this file)
+// pdb: bhkBoxShape::LoadBinary | bhkBoxShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void FUN_00c9ff00_cls::FUN_00c9ff00(FUN_00c9ff00_arg* volatile a1)
 {
     FUN_00c9ff00_arg* obj = a1;
@@ -6042,6 +5207,8 @@ struct FUN_00c9ff50_cls
 };
 
 // @f3 0x00914320 (community match, verified in this file)
+// pdb: bhkBoxShape::SaveBinary | bhkBoxShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void FUN_00c9ff50_cls::FUN_00c9ff50(FUN_00c9ff50_arg* a1)
 {
     unsigned int tmp;
@@ -6084,70 +5251,6 @@ struct FUN_0094dbb0
         return FUN_00aa13e0(size);
     }
 };
-struct CA0780Owner
-{
-    virtual void vf00();
-    virtual void vf01();
-    virtual void vf02();
-    virtual void vf03();
-    virtual void vf04();
-    virtual void vf05();
-    virtual void vf06();
-    virtual void vf07();
-    virtual void vf08();
-    virtual void vf09();
-    virtual void vf10();
-    virtual void vf11();
-    virtual void vf12();
-    virtual void vf13();
-    virtual void vf14();
-    virtual void vf15();
-    virtual void vf16();
-    virtual void vf17();
-    virtual void vf18();
-    virtual void vf19();
-    virtual void vf20();
-    virtual void vf21();
-    virtual void vf22();
-    virtual void vf23();
-    virtual void vf24();
-    virtual void vf25();
-    virtual void vf26();
-    virtual void vf27();
-    virtual void vf28();
-    virtual void vf29();
-    virtual void vf30();
-    virtual void vf31();
-    virtual void vf32();
-    virtual void vf33();
-    virtual void vf34();
-    virtual void vf35();
-    virtual void vf36();
-    virtual void vf37();
-    virtual void vf38();
-    virtual void vf39();
-    virtual void vf40();
-    virtual void vf41();
-    virtual void vf42();
-    virtual void vf43();
-    virtual void vf44();
-    virtual void vf45();
-    virtual void vf46();
-    virtual void vf47();
-    virtual void vf48();
-    virtual void vf49(FUN_0094dbb0* object, unsigned int argument);
-    FUN_0094dbb0* FUN_00ca0780(unsigned int argument);
-};
-// @fnv 0x00ca0780
-FUN_0094dbb0* CA0780Owner::FUN_00ca0780(unsigned int argument)
-{
-    TlsGuard_t guard;
-    FUN_00c876f0();
-    FUN_0094dbb0* object = new FUN_0094dbb0;
-    vf49(object, argument);
-    FUN_00c87700();
-    return object;
-}
 
 extern int DAT_012682cc;
 
@@ -6158,6 +5261,7 @@ struct FUN_00ca4da0 : FUN_00c84c50
 };
 
 // @fnv 0x00ca4da0
+// pdb: bhkBvTreeShape::~bhkBvTreeShape | bhkBvTreeShape.obj | fnv360_0822_retail, call_seq, high
 FUN_00ca4da0::~FUN_00ca4da0()
 {
     FUN_00c876a0();
@@ -6325,6 +5429,8 @@ struct FUN_00cb38c0 : bhkRigidBodyBase
 // @f3 0x009260d0 (community match, verified in this file)
 extern int DAT_010f33b0;
 struct RefAt9316e0 { void FUN_009316e0(); };
+// pdb: bhkRigidBodyT::bhkRigidBodyT | bhkRigidBodyT.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apBody
 FUN_00cb38c0::FUN_00cb38c0(bhkRigidBodyBase* source)
 {
     ++DAT_010f33b0;
@@ -6343,10 +5449,6 @@ FUN_00cb38c0::FUN_00cb38c0(bhkRigidBodyBase* source)
 
 
 struct FUN_00cbe9f0_Target;
-struct FUN_00c85c80_Class
-{
-    int FUN_00c85c80(int a);
-};
 struct S00cbe9f0_cls
 {
     int unk00;
@@ -6368,6 +5470,8 @@ namespace task1476 {
 struct Owner { int FUN_008f9c90(int); };
 struct Helpers { void FUN_0090e600(const void*); void FUN_008f9c30(int,int); };
 }
+// pdb: bhkCollisionBox::Init | bhkCollisionBox.obj | fnv360_0721_beta, objrun, medium
+// pdb params: arInfo, apCharController
 void S00cbe9f0_cls::FUN_00cbe9f0(int a1, FUN_00cbe9f0_Target* a2) {
  m1c=0;
  ((task1476::Helpers*)this)->FUN_0090e600((const void*)a1);
@@ -6439,6 +5543,8 @@ struct FUN_00c9d4f0_cls
 };
 
 // @f3 0x0090acd0 (community match, verified in this file)
+// pdb: bhkEntity::LoadBinary | bhkEntity.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arStream
 void FUN_00c9d4f0_cls::FUN_00c9d4f0(FUN_00c9d4f0_obj* p)
 {
     FUN_00c85f20(p);
@@ -6675,6 +5781,8 @@ struct FUN_00c9d530_cls
 };
 
 // @f3 0x0090ad10 (community match, verified in this file)
+// pdb: bhkEntity::SaveBinary | bhkEntity.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void FUN_00c9d530_cls::FUN_00c9d530(FUN_00c9d530_arg* a1)
 {
     FUN_00c9d530_arg* a = *(FUN_00c9d530_arg* volatile*)&a1;
@@ -6729,10 +5837,7 @@ struct StringArray
         SetAt(index, value);
     }
 };
-extern const char* DAT_01268200;
 char* __cdecl FUN_00a7d330(const char*);
-char* __cdecl FUN_00a7d370(const char*, bool);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
 struct Body
 {
     int unk00;
@@ -6830,6 +5935,8 @@ extern "C" char* __cdecl FUN_00847b90(const char*,unsigned char);
 extern "C" char* __cdecl FUN_00847e70(const char*,const char*);
 extern "C" int __cdecl FUN_00403230(char*,unsigned int,const char*,...);
 struct BodyIsActiveProxy { bool* FUN_0090b0e0(bool*); };
+// pdb: bhkEntity::GetViewerStrings | bhkEntity.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void Object::FUN_00c9d6b0(StringArray* strings)
 {
   FUN_008f9fc0(strings);
@@ -6921,7 +6028,6 @@ struct S_00ca09e0_Target
     virtual void v54();
     virtual void v55(S_00ca09e0_Shape* s, int f);
 };
-S_00ca09e0_Shape* __cdecl FUN_00c56680(float a, int b, int c, int d);
 char* __cdecl FUN_00a5b690(const char* s);
 extern char* _EmptyFS;
 struct S_00ca09e0_Str
@@ -6937,20 +6043,19 @@ struct S_00ca09e0_Str
             InterlockedDecrement((long*)(p - 8));
     }
 };
-extern float DAT_011b15c8;
 struct S_00ca09e0_Obj
 {
     int unk0;
     int unk4;
     S_00ca09e0_Inner* unk8;
-    void __thiscall FUN_00ca09e0(S_00ca09e0_Target* a);
+    void __thiscall bhkSphereShape_BuildDisplayGeometry(S_00ca09e0_Target* a);
 };
 // @f3 0x0090ebc0 (community match, verified in this file)
 extern float DAT_00f7a690;
 extern double DAT_00db88e8;
 extern char* DAT_00e207a8;
 char* __cdecl FUN_008242a0(const char*);
-S_00ca09e0_Shape* __cdecl FUN_00ab1a80(float, int, int, int);
+S_00ca09e0_Shape* __cdecl BSTestObjects_CreateSphere(float, int, int, int);
 
 namespace f3_sphere_display {
 struct ShapeName {
@@ -6981,7 +6086,8 @@ struct SphereSource {
 };
 }
 
-void S_00ca09e0_Obj::FUN_00ca09e0(S_00ca09e0_Target* target)
+// pdb: bhkSphereShape::BuildDisplayGeometry | bhkSphereShape.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|vtable), high
+void S_00ca09e0_Obj::bhkSphereShape_BuildDisplayGeometry(S_00ca09e0_Target* target)
 {
     using namespace f3_sphere_display;
     float radius;
@@ -6990,7 +6096,7 @@ void S_00ca09e0_Obj::FUN_00ca09e0(S_00ca09e0_Target* target)
     else
         radius = unk8->unk10;
     const float scaledRadius = static_cast<float>(radius * DAT_00db88e8);
-    S_00ca09e0_Shape* geometry = FUN_00ab1a80(scaledRadius, 10, 10, 0);
+    S_00ca09e0_Shape* geometry = BSTestObjects_CreateSphere(scaledRadius, 10, 10, 0);
     if (!geometry)
         return;
 
@@ -7122,6 +6228,8 @@ struct S00ca0900_Raw
     short refs;
 };
 typedef void (__thiscall* S00ca0900_Del)(void* self, unsigned int flags);
+// pdb: bhkSphereShape::Init | bhkSphereShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arInfo
 void S00ca0900_cls::FUN_00ca0900(S00ca0900_Arg* arg)
 {
     if (arg)
@@ -7142,8 +6250,6 @@ void S00ca0900_cls::FUN_00ca0900(S00ca0900_Arg* arg)
 namespace fnv_00cb3b20 {
 extern __declspec(thread) unsigned int tlsMode;
 extern void* DAT_012683c8;
-extern const char str_010c88a8[];
-extern const char str_010c889c[];
 void* FUN_00a7d330(void*);
 struct OutputList
 {
@@ -7160,17 +6266,6 @@ struct OutputList
         FUN_0096ae90(index, &value);
     }
 };
-struct RotationValue
-{
-    float w, x, y, z;
-    void* FUN_00a6e190(const char*);
-};
-struct PositionValue
-{
-    float x, y, z;
-    void* FUN_00a59af0(const char*);
-};
-void FUN_00458620(PositionValue*, const void*);
 struct ModeScope
 {
     unsigned int saved;
@@ -7193,23 +6288,6 @@ struct Target
     void FUN_00c8f870(OutputList*);
     void FUN_00cb3b20(OutputList*);
 };
-// @fnv 0x00cb3b20
-void Target::FUN_00cb3b20(OutputList* out)
-{
-    ModeScope scope;
-    FUN_00c8f870(out);
-    out->append(FUN_00a7d330(DAT_012683c8));
-    const float* rotation = reinterpret_cast<const float*>(reinterpret_cast<const char*>(this) + RotationOffset);
-    RotationValue value;
-    value.x = rotation[0];
-    value.y = rotation[1];
-    value.z = rotation[2];
-    value.w = rotation[3];
-    PositionValue position;
-    FUN_00458620(&position, reinterpret_cast<const char*>(this) + PositionOffset);
-    out->append(value.FUN_00a6e190(str_010c88a8));
-    out->append(position.FUN_00a59af0(str_010c889c));
-}
 }  // namespace fnv_00cb3b20
 
 struct B00c9fde0
@@ -7222,6 +6300,8 @@ struct B00c9fde0
     B00c9fde0();
 };
 // @fnv 0x00c9fe30
+// pdb: bhkSphereShape::CreateClone | bhkSphereShape.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: bhkSphereShape::CreateObject)
+// pdb params: arCloneData
 B00c9fde0* __cdecl FUN_00c9fe30()
 {
     return new B00c9fde0;
@@ -7251,6 +6331,7 @@ void __cdecl operator delete(void* ptr, S00cb39d0_S_00aa3e40& manager, unsigned 
 {}
 
 // @fnv 0x00cb39d0
+// pdb: bhkRigidBodyT::CreateObject | bhkRigidBodyT.obj | fnv360_0822_retail, objrun, medium, conflict (skyrim: bhkRigidBodyT::GetTransform)
 void __cdecl FUN_00cb39d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     new (*(S00cb39d0_S_00aa3e40*)&DAT_011f6238, 0x50) S00cb39d0_S_00cb3860();
@@ -7270,91 +6351,3 @@ struct ShapeViewerFields
     }
     void FUN_00c851c0(BCA05B0StringArray* output);
 };
-
-extern const char DAT_010c59cc[];
-extern "C" const char* DAT_01268100;
-char* __cdecl FUN_00a7d4d0(const char*, unsigned int);
-
-// @fnv 0x00c851c0
-void ShapeViewerFields::FUN_00c851c0(BCA05B0StringArray* output)
-{
-    TlsGuard_ca0090 context;
-    DebugStrArray* strings = reinterpret_cast<DebugStrArray*>(output);
-    reinterpret_cast<bhkBase_c878c0*>(this)->BaseDebugInfo(strings);
-    strings->Add(FUN_00a7d330(DAT_01268100));
-    strings->Add(FUN_00a7d4d0(DAT_010c59cc, reinterpret_cast<ShapeViewerFields*>(this)->Layer()));
-}
-
-struct Q00c9fde0
-{
-    void* m_pVtable;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    Q00c9fde0();
-};
-struct C9FFD0Owner
-{
-    virtual void vf00();
-    virtual void vf01();
-    virtual void vf02();
-    virtual void vf03();
-    virtual void vf04();
-    virtual void vf05();
-    virtual void vf06();
-    virtual void vf07();
-    virtual void vf08();
-    virtual void vf09();
-    virtual void vf10();
-    virtual void vf11();
-    virtual void vf12();
-    virtual void vf13();
-    virtual void vf14();
-    virtual void vf15();
-    virtual void vf16();
-    virtual void vf17();
-    virtual void vf18();
-    virtual void vf19();
-    virtual void vf20();
-    virtual void vf21();
-    virtual void vf22();
-    virtual void vf23();
-    virtual void vf24();
-    virtual void vf25();
-    virtual void vf26();
-    virtual void vf27();
-    virtual void vf28();
-    virtual void vf29();
-    virtual void vf30();
-    virtual void vf31();
-    virtual void vf32();
-    virtual void vf33();
-    virtual void vf34();
-    virtual void vf35();
-    virtual void vf36();
-    virtual void vf37();
-    virtual void vf38();
-    virtual void vf39();
-    virtual void vf40();
-    virtual void vf41();
-    virtual void vf42();
-    virtual void vf43();
-    virtual void vf44();
-    virtual void vf45();
-    virtual void vf46();
-    virtual void vf47();
-    virtual void vf48();
-    virtual void vf49(Q00c9fde0* object, unsigned int argument);
-    Q00c9fde0* FUN_00c9ffd0(unsigned int argument);
-};
-// @fnv 0x00c9ffd0
-Q00c9fde0* C9FFD0Owner::FUN_00c9ffd0(unsigned int argument)
-{
-    TlsGuard_t guard;
-    FUN_00c876f0();
-    Q00c9fde0* object = new Q00c9fde0;
-    vf49(object, argument);
-    FUN_00c87700();
-    return object;
-}

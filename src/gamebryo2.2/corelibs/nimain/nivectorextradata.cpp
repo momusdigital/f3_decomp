@@ -4,12 +4,6 @@
 
 extern int g_011f5e84;
 
-// @fnv 0x00a92070
-int* __cdecl FUN_00a92070()
-{
-    return &g_011f5e84;
-}
-
 struct NiObject
 {
     virtual ~NiObject();
@@ -23,6 +17,8 @@ struct NiVectorExtraData : NiObject
 };
 
 // @fnv 0x00a92020
+// pdb: NiVectorExtraData::IsEqual | NiVectorExtraData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pObject
 bool NiVectorExtraData::FUN_00a92020(NiObject* pObject)
 {
     if (pObject)
@@ -41,63 +37,13 @@ bool NiVectorExtraData::FUN_00a92020(NiObject* pObject)
     return false;
 }
 
-struct Holder00a92080
-{
-    void* FUN_00a92080(unsigned int);
-};
-void __cdecl FUN_00a7b300();
-void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109fb94;
-// @fnv 0x00a92080
-void* Holder00a92080::FUN_00a92080(unsigned int flags)
-{
-    *(void**)this = (void*)&DAT_0109fb94;
-    FUN_00a7b300();
-    if (flags & 1)
-        _delete(this, 0x1c);
-    return this;
-}
 
-struct NiExtraData
-{
-    void FUN_00a7b2e0();
-    void FUN_00a7b330(void*, void*);
-};
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
 };
-struct CloningProcess
-{
-};
 extern int DAT_0109fb94;
-struct FUN_00a920b0_shell : NiVectorExtraData
-{
-    NiObject* FUN_00a920b0(CloningProcess&);
-};
-// Allocates a NiVectorExtraData, initialises its four floats to zero, copies this object's four floats into it and returns it.
-// @fnv 0x00a920b0
-NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
-{
-    NiVectorExtraData* pkObject = (NiVectorExtraData*)BSFadeNode::operator new(sizeof(NiVectorExtraData));
-    if (pkObject)
-    {
-        ((NiExtraData*)pkObject)->FUN_00a7b2e0();
-        *(void**)pkObject = (void*)&DAT_0109fb94;
-        pkObject->m_afVectorComponents[0] = pkObject->m_afVectorComponents[1] = pkObject->m_afVectorComponents[2] =
-            pkObject->m_afVectorComponents[3] = 0.0f;
-    }
-    else
-    {
-        pkObject = 0;
-    }
-    ((NiExtraData*)this)->FUN_00a7b330(pkObject, &kCloning);
-    pkObject->m_afVectorComponents[0] = m_afVectorComponents[0];
-    pkObject->m_afVectorComponents[1] = m_afVectorComponents[1];
-    pkObject->m_afVectorComponents[2] = m_afVectorComponents[2];
-    pkObject->m_afVectorComponents[3] = m_afVectorComponents[3];
-    return pkObject;
-}
 
 struct StrArr
 {
@@ -129,6 +75,8 @@ struct FUN_00a92290_shell : NiVectorExtraData
 };
 
 // @f3 0x0085e0f0 (community match, verified in this file)
+// pdb: NiVectorExtraData::GetViewerStrings | NiVectorExtraData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pStrings
 void FUN_00a92290_shell::FUN_00a92290(StrArr* pStringArray)
 {
     reinterpret_cast<A89C70Base*>(this)->GetViewerStrings(pStringArray);
@@ -340,6 +288,8 @@ class FUN_00a921f0_cls : public NiVectorExtraData
 };
 
 // @fnv 0x00a921f0
+// pdb: NiVectorExtraData::SaveBinary | NiVectorExtraData.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void FUN_00a921f0_cls::SaveToStream(S_00a921f0_Stream& aStream)
 {
     Callee7b2c0(aStream);
@@ -378,6 +328,8 @@ class FUN_00a92110_cls : public NiVectorExtraData
 };
 
 // @fnv 0x00a92110
+// pdb: NiVectorExtraData::LoadBinary | NiVectorExtraData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void FUN_00a92110_cls::FUN_00a92110(S_00a921f0_Stream* s)
 {
     FUN_00a7b4a0(s);

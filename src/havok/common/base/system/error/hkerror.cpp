@@ -2,26 +2,11 @@
 // src/havok/common/base/system/error/hkerror.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/error/hkerror.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl __debugbreak();
 struct CharBuffer
 {
     char* begin;
     char* end;
     unsigned int capacity;
-};
-struct FUN_00cb1600_class
-{
-    void FUN_00cb1600(char* storage, unsigned int size);
-};
-struct FUN_00cc01c0_class
-{
-    FUN_00cc01c0_class* FUN_00cc01c0(const char* text);
-    FUN_00cc01c0_class* FUN_00cc0120(const void* value);
-    FUN_00cc01c0_class* WriteInt(int value);
-};
-struct FUN_00cc00e0_class
-{
-    void FUN_00cc00e0();
 };
 struct ErrorReporter
 {
@@ -46,7 +31,10 @@ struct S_Buf
 };
 extern ErrorReporter* DAT_010f3364;
 
-void __cdecl ReportReferenceCountError(const void* object, const char* context)
+// pdb: hkReferenceCountError | hkError.obj | fnv360_0822_retail, ustr, high
+// pdb params: o, why
+// pdb: hkReferenceCountError | hkError.obj | fnv360_0822_retail, ustr, high (was: ReportReferenceCountError)
+void __cdecl hkReferenceCountError(const void* object, const char* context)
 {
     CharBuffer message;
     unsigned int storage[128];
@@ -108,11 +96,16 @@ class CB1600MemoryStreamWriter : public CB1600ReferencedObject
     int unk1C;
 };
 
+class hkClass;
+class hkStatisticsCollector;
+// hkOstream: the three slots of the Fallout 3 vtables of hkOstream (0x00e7a270) and hkErrStream (0x00e36a08).
 class CB1600StreamBase
 {
   public:
     CB1600StreamBase(void* writer);
-    virtual void unk00();
+    virtual ~CB1600StreamBase();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
 
     int unk04;
     CB1600MemoryStreamWriter* m_pStreamWriter;
@@ -122,11 +115,12 @@ class FUN_00cb1600 : public CB1600StreamBase
 {
   public:
     FUN_00cb1600(void* buf, int bufSize);
-    virtual void unk00();
 };
 
 // Constructs a CB1600MemoryStreamWriter in place at the end of the buffer and stores it as the stream's writer, then removes its reference.
 // @f3 0x00923070 (community match, verified in this file)
+// pdb: hkErrStream::hkErrStream | hkError.obj | fnv360_0822_retail, uvref, high
+// pdb params: buf, bufSize
 FUN_00cb1600::FUN_00cb1600(void* apBuffer, int aiBufferSize) : CB1600StreamBase(0)
 {
     CB1600MemoryStreamWriter* writer =
@@ -170,14 +164,6 @@ struct S_00cb17b0_RefObj
         FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
-struct FUN_00cb17b0 : S_00cb17b0_RefObj
-{
-    FUN_00cb17b0();
-    virtual ~FUN_00cb17b0();
-};
-// @fnv 0x00cb17b0
-FUN_00cb17b0::FUN_00cb17b0()
-{}
 
 struct DiagBuffer
 {
@@ -201,7 +187,8 @@ struct DiagLogger
 extern const char str_010c85ac[];
 
 // @f3 0x009231a0 (community match, verified in this file)
-void FUN_00cb1750(const char* apMsg)
+// pdb: hkErrorMessage | hkError.obj | fnv360_0822_retail, uconst + bridge(uconst|uconst) + skyrim(uconst), high
+void hkErrorMessage(const char* apMsg)
 {
     DiagBuffer buf;
     buf.FUN_00cb1600(buf.m_buf, 0x200);

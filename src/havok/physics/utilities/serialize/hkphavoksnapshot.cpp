@@ -17,25 +17,6 @@ struct State
     CallbackInterface* interface10;
 };
 State* __cdecl FUN_00c85750();
-struct Object
-{
-    void* unk00;
-    unsigned short unk04;
-    void FUN_00cc0ae0();
-    Object* FUN_00cc0dd0(unsigned int flags);
-};
-// Calls FUN_00cc0ae0, and if flags has bit 0 set, notifies the interface from FUN_00c85750 with this and unk04; returns this.
-// @fnv 0x00cc0dd0
-Object* Object::FUN_00cc0dd0(unsigned int flags)
-{
-    FUN_00cc0ae0();
-    if (flags & 1)
-    {
-        State* state = FUN_00c85750();
-        state->interface10->notify(this, unk04);
-    }
-    return this;
-}
 
 struct D481D0StringPtr
 {
@@ -62,24 +43,6 @@ struct D481D0RefVariant
     const D481D0Class* GetVariantValue() const;
 };
 
-struct FUN_00d481d0
-{
-    D481D0StringPtr m_name;
-    D481D0StringPtr m_pClassName;
-    D481D0RefVariant m_pReferencedResource;
-
-    FUN_00d481d0(const char* name, D481D0ReferencedObject* object, const D481D0Class* pClassInfo);
-};
-
-// Stores the name, binds the object with its class, and caches the class name (or null) from the reference variant.
-// @fnv 0x00d481d0
-FUN_00d481d0::FUN_00d481d0(const char* name, D481D0ReferencedObject* object, const D481D0Class* apClass)
-{
-    m_name = name;
-    m_pReferencedResource.set(object, apClass);
-    m_pClassName = m_pReferencedResource.GetVariantValue() ? m_pReferencedResource.GetVariantValue()->getName() : 0;
-}
-
 struct CC0D30Result
 {
     CC0D30Result();
@@ -99,6 +62,8 @@ CC0D30Result __cdecl FUN_00cc0bc0(const void* data, const CC0D30Registry& regist
                                   int flags);
 
 // @fnv 0x00cc0d30
+// pdb: hkpHavokSnapshot::save | hkpHavokSnapshot.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: data, writer, binaryFormat, targetLayout
 CC0D30Result __cdecl FUN_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags)
 {
     return FUN_00cc0bc0(data, g_CC0D30DefaultRegistry, pClassInfo, out, flags);
@@ -119,11 +84,13 @@ struct S_00cc0d60_A
     int unk10;
     int unk14;
     void FUN_00d4c220();
-    void FUN_00d4c2d0(void* a, int b);
+    void hkpPhysicsData_populateFromWorld(void* a, int b);
     void FUN_00d4c250();
 };
 S_00cc0d60_R* FUN_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
 // @fnv 0x00cc0d60
+// pdb: hkpHavokSnapshot::save | hkpHavokSnapshot.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: world, writer, binaryFormat, targetLayout, saveContactPoints
 S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6)
 {
     S_00cc0d60_R res;
@@ -133,7 +100,7 @@ S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6)
     {
         S_00cc0d60_A obj;
         obj.FUN_00d4c220();
-        obj.FUN_00d4c2d0(c, a6);
+        obj.hkpPhysicsData_populateFromWorld(c, a6);
         char r = FUN_00cc0d30(&a2, &obj, a3, a4, a5)->v;
         obj.FUN_00d4c250();
         res.v = r;
@@ -144,12 +111,6 @@ S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6)
     }
     return res;
 }
-
-struct Allocator
-{
-    virtual void* unk0();
-    virtual void* allocate(unsigned int size);
-};
 
 struct hkBool
 {
@@ -165,7 +126,6 @@ struct hkBool
 };
 
 struct PtrList;
-void __cdecl ResizeAudioStream(void* a, PtrList* l, unsigned int n);
 
 struct PtrList
 {
@@ -187,50 +147,13 @@ struct PtrList
     }
 };
 
-struct Obj70
-{
-    unsigned int unk00;
-    unsigned short m_04;
-    Obj70* FUN_00d4bab0(void* v);
-};
-
-struct Obj110
-{
-    unsigned int unk00;
-    unsigned short m_04;
-    Obj110* FUN_00d4aa70(void* v);
-};
-
-struct Obj80
-{
-    unsigned int unk00;
-    unsigned short m_04;
-    Obj80* FUN_00d49750(void* v);
-};
-
-struct TypeMatcher
-{
-    hkBool FUN_00d46d80(void* v);
-};
-
-struct GlobalObjectO2_00d472a0 : TypeMatcher
-{
-};
-extern GlobalObjectO2_00d472a0 g_01268f2c;
-extern GlobalObjectO2_00d472a0 g_01268e24;
-extern GlobalObjectO2_00d472a0 g_01268c5c;
-extern GlobalObjectO2_00d472a0 g_01268bcc;
-extern GlobalObjectO2_00d472a0 g_01268eb4;
-extern GlobalObjectO2_00d472a0 g_01268d4c;
-extern GlobalObjectO2_00d472a0 g_01268c14;
-
 struct FUN_00cc08f0_cls
 {
     unsigned int unk00;
     unsigned int unk04;
     PtrList m_08;
 
-    void FUN_00cc08f0(void** a1, void** a2);
+    void hkpHavokSnapshot_ConvertListener_addObjectCallback(void** a1, void** a2);
 };
 
 // Checks type matchers on *a2, allocates and links a new object into m_08, or clears the pointer when the back-reference matches.
@@ -244,7 +167,7 @@ struct QHeap39
 };
 struct QMatcher39
 {
-    hkBool FUN_009b04e0(void* v);
+    hkBool hkClass_isSuperClass(void* v);
 };
 extern QMatcher39 DAT_011696e4;
 extern QMatcher39 DAT_011695f4;
@@ -293,9 +216,10 @@ static inline void* QAlloc39(unsigned int size)
     return h->FUN_008f6d30(size, 0x27);
 }
 
-void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
+// pdb: hkpHavokSnapshot::ConvertListener::addObjectCallback | hkpHavokSnapshot.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void FUN_00cc08f0_cls::hkpHavokSnapshot_ConvertListener_addObjectCallback(void** a1, void** a2)
 {
-    if (DAT_011696e4.FUN_009b04e0(*a2) && *a2 != (void*)&DAT_01169674)
+    if (DAT_011696e4.hkClass_isSuperClass(*a2) && *a2 != (void*)&DAT_01169674)
     {
         void* v = *a1;
         QObjA39* o = (QObjA39*)QAlloc39(0x70);
@@ -309,7 +233,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         *a1 = o;
         *a2 = (void*)&DAT_01169674;
     }
-    if (DAT_011695f4.FUN_009b04e0(*a2) && *a2 != (void*)&DAT_01169524)
+    if (DAT_011695f4.hkClass_isSuperClass(*a2) && *a2 != (void*)&DAT_01169524)
     {
         void* v = *a1;
         QObjB39* o = (QObjB39*)QAlloc39(0xe0);
@@ -324,7 +248,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         *a2 = (void*)&DAT_01169524;
         return;
     }
-    if (DAT_01169464.FUN_009b04e0(*a2) && *a2 != (void*)&DAT_01169434)
+    if (DAT_01169464.hkClass_isSuperClass(*a2) && *a2 != (void*)&DAT_01169434)
     {
         void* v = *a1;
         QObjC39* o = (QObjC39*)QAlloc39(0x70);
@@ -339,7 +263,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         *a2 = (void*)&DAT_01169434;
         return;
     }
-    if (DAT_011693f4.FUN_009b04e0(*a2))
+    if (DAT_011693f4.hkClass_isSuperClass(*a2))
     {
         QLink39* v = (QLink39*)*a1;
         QLink39* back = v->m_08;
@@ -353,10 +277,6 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
 
 
 namespace fnv_00cc0ae0 {
-struct PooledItem
-{
-    virtual void v00(int aiFlags);
-};
 
 struct FixedAllocator
 {
@@ -377,45 +297,7 @@ struct AllocHolder
 };
 
 AllocHolder* __cdecl FUN_00c85750() throw();
-extern int DAT_010c93e4;
-extern int DAT_0102e388;
 
-struct FUN_00cc0ae0_cls
-{
-    int m_vptr00;
-    unsigned int unk04;
-    PooledItem** m_pItems;
-    int m_iArrayLength;
-    unsigned int m_uCapBits;
-
-    void FUN_00cc0ae0();
-};
-
-// Sets the vtable pointer, calls v00(1) on each non-null item, frees the item array, empties it, and sets the vtable pointer to DAT_0102e388.
-// @fnv 0x00cc0ae0
-void FUN_00cc0ae0_cls::FUN_00cc0ae0()
-{
-    m_vptr00 = (int)&DAT_010c93e4;
-    for (int i = 0; i < m_iArrayLength; i++)
-    {
-        PooledItem* item = m_pItems[i];
-        if (item != 0)
-        {
-            item->v00(1);
-        }
-    }
-    AllocHolder* holder = FUN_00c85750();
-    FixedAllocator* alloc = holder->m_pAllocator;
-    unsigned int cap = m_uCapBits;
-    m_iArrayLength = 0;
-    if ((cap & 0x80000000u) == 0)
-    {
-        alloc->FreeArray(m_pItems, (cap & 0x3fffffffu) * 4);
-    }
-    m_pItems = 0;
-    m_uCapBits = 0x80000000u;
-    *(volatile int*)&m_vptr00 = (int)&DAT_0102e388;
-}
 }  // namespace fnv_00cc0ae0
 
 namespace fnv_00cc0b50 {

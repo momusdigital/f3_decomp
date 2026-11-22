@@ -119,6 +119,8 @@ struct MatchStream {
 extern Diagnostic* DAT_010f3364;
 extern const char DAT_00e85ef0[];
 extern const char DAT_00e891c4[];
+// pdb: hkpMoppModifyVirtualMachine::queryModicationPointsRecursive | hkpMoppModifyVirtualMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: query, PC, chunkOffset
 BoolResult* Interpreter::FUN_00e66950(BoolResult* __restrict result, const VMState* state, const Byte* code, int codeOffset)
 {
     VMState local;
@@ -350,6 +352,8 @@ struct FUN_00a9ce90_cls
     BoolResult FUN_00a9ce90(const VMState* state, const Byte* base, int offset);
 };
 
+// pdb: hkpMoppModifyVirtualMachine::queryAabb | hkpMoppModifyVirtualMachine.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: code, aabb, modifierOut
 void S00e67230_Machine::FUN_00e67230(const S00e67230_Code* codeIn, const S00e67230_Aabb& aabb, Visitor* modifierOut)
 {
     if (!DAT_0116d0a2) {

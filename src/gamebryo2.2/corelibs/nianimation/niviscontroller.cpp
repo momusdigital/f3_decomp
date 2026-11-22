@@ -14,18 +14,12 @@ struct NiVisController
 };
 
 // @fnv 0x00a44d00
+// pdb: NiVisController::GetTargetBoolValue | NiVisController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: bValue
 void NiVisController::GetVisibility(bool& abVisible)
 {
     NiBoolInterpController* p = *(NiBoolInterpController**)((char*)this + 0x2c);
     abVisible = !(*(unsigned char*)((char*)p + 0x30) & 1);
-}
-
-extern void* g_011f3f08;
-
-// @fnv 0x00a44eb0
-void* __cdecl FUN_00a44eb0()
-{
-    return &g_011f3f08;
 }
 
 struct BSFadeNode
@@ -42,6 +36,7 @@ extern void* DAT_01097e8c;
 
 // Allocates a 0x38-byte BSFadeNode, runs its constructor, sets its vtable to DAT_01097e8c, and returns the pointer or 0 on allocation failure.
 // @fnv 0x00a44f10
+// pdb: NiUVData::CreateObject | NiUVData.obj | fnv360_0822_retail, objrun_open, low
 void* __cdecl FUN_00a44f10()
 {
     void* mem = BSFadeNode::operator new(0x38);
@@ -57,7 +52,8 @@ void* __cdecl FUN_00a44f10()
 extern const char* const g_011f3ec8_arg1;
 
 // @fnv 0x00a57660
-const char* __cdecl FUN_00a57660()
+// pdb: bhkCharacterProxy::GetRTTI | bhkCharacterListenerSpell.obj | fnv360_0822_retail, udata + bridge(vtable_prefix|vtable), high
+const char* __cdecl bhkCharacterProxy_GetRTTI()
 {
     return (const char*)&g_011f3ec8_arg1;
 }
@@ -65,7 +61,8 @@ const char* __cdecl FUN_00a57660()
 extern const char* const g_011f3f08_arg1;
 
 // @fnv 0x00a577b0
-const char* const* __cdecl FUN_00a577b0()
+// pdb: MagicHitEffect::GetRTTI | MagicHitEffect.obj | fnv360_1110_retail, udata, high
+const char* const* __cdecl MagicHitEffect_GetRTTI()
 {
     return &g_011f3f08_arg1;
 }
@@ -78,6 +75,8 @@ struct NiStream
 void __stdcall FUN_00a57c70(NiStream*);
 void __stdcall FUN_00a44d20(NiStream* pStream);
 // @fnv 0x00a44d20
+// pdb: NiPSysModifierBoolCtlr::LoadBinary | NiPSysModifierBoolCtlr.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void __stdcall FUN_00a44d20(NiStream* pStream)
 {
     FUN_00a57c70(pStream);
@@ -103,6 +102,7 @@ struct NiTransformController
 };
 // Walks the target's RTTI base chain and returns true if it reaches g_011f4428_arg1, otherwise false.
 // @fnv 0x00a44de0
+// pdb: NiVisController::InterpTargetIsCorrectType | NiVisController.obj | tesv_win, objrun_open, low
 bool NiTransformController::IsTargetOfType(NiObjectNET* pkTarget) const
 {
     if (pkTarget)
@@ -121,22 +121,10 @@ bool NiTransformController::IsTargetOfType(NiObjectNET* pkTarget) const
     return false;
 }
 
-extern void* DAT_0109ab44;
 struct NiTimeController
 {
     void __thiscall SetControllerActive();
 };
-struct FUN_00a57640_shell : NiTimeController
-{
-    FUN_00a57640_shell* __thiscall FUN_00a57640();
-};
-// @fnv 0x00a57640
-FUN_00a57640_shell* __thiscall FUN_00a57640_shell::FUN_00a57640()
-{
-    SetControllerActive();
-    *(void**)(char*)this = &DAT_0109ab44;
-    return this;
-}
 
 extern int DAT_0109ac54;
 
@@ -150,30 +138,6 @@ FUN_00a57790::FUN_00a57790()
 {
     SetControllerActive();
     *(int**)this = (int*)&DAT_0109ac54;
-}
-
-struct StrArr
-{
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
-};
-
-void __stdcall FUN_00a57800(StrArr*);
-char* __cdecl _FUN_00a7d330(void*);
-
-// @fnv 0x00a44f40
-void __stdcall FUN_00a44f40(StrArr* pkStrings)
-{
-    FUN_00a57800(pkStrings);
-    char* pcStr = _FUN_00a7d330(g_011f3f08);
-    unsigned int uiElementCount = *(unsigned short*)((char*)pkStrings + 0xa);
-    unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 8);
-    if (uiElementCount >= uiSize)
-    {
-        unsigned int uiGrow = *(unsigned short*)((char*)pkStrings + 0xe);
-        pkStrings->SetSize(uiGrow + uiElementCount);
-    }
-    pkStrings->SetAt(uiElementCount, pcStr);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plValue);
@@ -368,6 +332,8 @@ class BA44D50Controller
 };
 
 // @fnv 0x00a44d50
+// pdb: NiVisController::LinkObject | NiVisController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void BA44D50Controller::LinkBoolInterpolator(BA44D50Stream& kStream)
 {
     BaseLinkObject(kStream);
@@ -404,6 +370,7 @@ struct OwnerA44
 };
 // Allocates a 0x38-byte CtlA44, constructs it in place, passes it with uiArg to FUN_00a57620, and returns it.
 // @fnv 0x00a44ec0
+// pdb: NiVisController::CreateClone | NiVisController.obj | tesv_win, caller_sim, low
 CtlA44* OwnerA44::CreateCtlA44(unsigned int uiArg)
 {
     void* pMem = BSFaceGenMorphData::operator new(0x38);
@@ -514,7 +481,7 @@ class NiVisControllerA44E
 {
   public:
     virtual void vfn_00();
-    bool FUN_00a36250(float fTime);
+    bool NiTimeController_DontDoUpdate(float fTime);
     void FUN_00a44e10(NiUpdateDataA44E& kUpdateData);
 
     bool GetManagerControlled() const
@@ -539,13 +506,15 @@ class NiVisControllerA44E
 };
 
 // @fnv 0x00a44e10
+// pdb: NiVisController::Update | NiVisController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: UpdateData
 void NiVisControllerA44E::FUN_00a44e10(NiUpdateDataA44E& kUpdateData)
 {
     if (GetManagerControlled())
     {
         m_fControllerTime = DAT_01096324;
     }
-    else if (FUN_00a36250(kUpdateData.m_fTime) &&
+    else if (NiTimeController_DontDoUpdate(kUpdateData.m_fTime) &&
              (!m_spControllerInterpolator || !m_spControllerInterpolator->AlwaysUpdate()))
     {
         return;

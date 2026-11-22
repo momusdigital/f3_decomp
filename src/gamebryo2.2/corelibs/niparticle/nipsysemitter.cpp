@@ -1,23 +1,25 @@
-// gamebryo2.2/corelibs/niparticle/nipsysemitter.cpp: NiPSysEmitter, Emitter (9 functions)
+// gamebryo2.2/corelibs/niparticle/nipsysemitter.cpp: NiPSysEmitter, Emitter (6 functions)
 #include "f3_common.h"
 #include "nipsysemitter_decls.h"
 #include "nipsysemitter_types.h"
 // @fnv 0x00c223b0
+// pdb: NiPSysEmitter::LoadBinary | NiPSysEmitter.obj | fnv360_0822_retail, uconst, high
+// pdb params: kStream
 void NiPSysEmitter::LoadBinary(NiStream& stream)
 {
     NiPSysModifier::LoadBinary(stream);
-    ReadFloat(stream, m_fEmissionSpeed);
-    ReadFloat(stream, m_fSpeedVariation);
-    ReadFloat(stream, m_fEmissionDeclination);
-    ReadFloat(stream, m_fDeclinationVariation);
-    ReadFloat(stream, m_fEmissionPlanarAngle);
-    ReadFloat(stream, m_fPlanarAngleVariation);
-    m_kParticleColor.LoadBinary(stream);
-    ReadFloat(stream, m_fEmissionRadius);
+    ReadFloat(stream, m_fSpeed);
+    ReadFloat(stream, m_fSpeedVar);
+    ReadFloat(stream, m_fDeclination);
+    ReadFloat(stream, m_fDeclinationVar);
+    ReadFloat(stream, m_fPlanarAngle);
+    ReadFloat(stream, m_fPlanarAngleVar);
+    m_kInitialColor.LoadBinary(stream);
+    ReadFloat(stream, m_fInitialRadius);
     if (stream.m_uiNifVersion >= 0x0A030002)
-        ReadFloat(stream, m_fRadiusVariation);
-    ReadFloat(stream, m_fYValue);
-    ReadFloat(stream, m_fLifeSpanVariation);
+        ReadFloat(stream, m_fRadiusVar);
+    ReadFloat(stream, m_fLifeSpan);
+    ReadFloat(stream, m_fLifeSpanVar);
 }
 
 void __cdecl FUN_00c31750(void);
@@ -35,142 +37,6 @@ void* __thiscall FUN_00c220a0_shell::FUN_00c220a0(unsigned int flags)
     if (flags & 1)
         _delete(this, 0x54);
     return this;
-}
-
-struct FUN_00c21fd0_shell : public NiPSysEmitter
-{
-    void* FUN_00c21fd0();
-};
-
-extern char const* const g_01202500_arg1;
-
-// @fnv 0x00c21fd0
-void* __thiscall FUN_00c21fd0_shell::FUN_00c21fd0()
-{
-    return (void*)&g_01202500_arg1;
-}
-
-struct StrArr
-{
-    void* m_pPadding[2];
-    unsigned short m_usCapacity;
-    unsigned short m_usElementCount;
-    unsigned short m_usUnknown;
-    unsigned short m_usGrowBy;
-
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
-};
-
-struct Base00c319e0
-{
-    void FUN_00c319e0(StrArr*);
-};
-
-struct FUN_00a69720_shell
-{
-    char* ToString(char const*);
-};
-
-char* __cdecl _FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d550(char const*, float);
-
-extern char const str_01044b18[];
-extern char const str_010bdf30[];
-extern char const str_010bdf44[];
-extern char const str_010bdf50[];
-extern char const str_010bdf64[];
-extern char const str_010bdf74[];
-extern char const str_010bdf84[];
-extern char const str_010bdf9c[];
-extern char const str_010bdfac[];
-extern char const str_010bdfc4[];
-extern char const str_010bdfd0[];
-
-struct FUN_00c22780_shell : public Base00c319e0
-{
-    void FUN_00c22780(StrArr* pkStrings);
-};
-
-// @fnv 0x00c22780
-void FUN_00c22780_shell::FUN_00c22780(StrArr* pkStrings)
-{
-    char* pString;
-    unsigned int index;
-
-    Base00c319e0::FUN_00c319e0(pkStrings);
-
-    pString = _FUN_00a7d330(g_01202500_arg1);
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_01044b18, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x18));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdfd0, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1c));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdfc4, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x20));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdfac, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdf9c, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x28));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdf84, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x2c));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = reinterpret_cast<FUN_00a69720_shell*>(reinterpret_cast<char*>(this) + 0x30)->ToString(str_010bdf74);
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdf64, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x40));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdf50, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x44));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdf44, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x48));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
-
-    pString = FUN_00a7d550(str_010bdf30, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x4c));
-    index = pkStrings->m_usElementCount;
-    if (index >= pkStrings->m_usCapacity)
-        pkStrings->SetSize(index + pkStrings->m_usGrowBy);
-    pkStrings->SetAt(index, pString);
 }
 
 // Equals: thiscall bool compare of two objects (float fields + sub-object)
@@ -210,6 +76,8 @@ class FUN_00c226a0_cls
 };
 
 // @fnv 0x00c226a0
+// pdb: NiPSysEmitter::IsEqual | NiPSysEmitter.obj | fnv360_0822_retail, call_seq, high
+// pdb params: pkObject
 bool FUN_00c226a0_cls::Equals(FUN_00c226a0_cls* other)
 {
     if (unk00c31830(other) && other->m_18 == m_18 && other->m_1c == m_1c && other->m_20 == m_20 &&
@@ -220,6 +88,8 @@ bool FUN_00c226a0_cls::Equals(FUN_00c226a0_cls* other)
 }
 
 // @fnv 0x00d070a0
+// pdb: CombatController::ForceFlee | CombatController.obj | fnv360_0721_beta, call_dedup, low
+// pdb params: apFleeFrom, abSwimFlee
 void __stdcall FUN_00d070a0(int, int)
 {}
 
@@ -261,7 +131,7 @@ struct Point3ParameterData
 {
     NiPoint3 m_kValue;
     float m_fXValue;
-    float m_fYValue;
+    float m_fLifeSpan;
     float m_fZValue;
     unsigned short m_usFlags;
     unsigned short m_usFirstValue;
@@ -321,7 +191,7 @@ class NiPSysData
     unsigned int unk1c;
     NiPoint3* m_pkVertex;
     unsigned int unk24;
-    RgbaColor* m_pkColor;
+    NiColorA* m_pkColor;
     unsigned int unk2c;
     unsigned int unk30;
     unsigned int unk34;
@@ -398,47 +268,8 @@ class NiParticleSystem
 class Emitter : public NiPSysEmitter
 {
   public:
-    virtual void slot03();
-    virtual void slot04();
-    virtual void slot05();
-    virtual void slot06();
-    virtual void slot07();
-    virtual void slot08();
-    virtual void slot09();
-    virtual void slot10();
-    virtual void slot11();
-    virtual void slot12();
-    virtual void slot13();
-    virtual void slot14();
-    virtual void slot15();
-    virtual void slot16();
-    virtual void slot17();
-    virtual void slot18();
-    virtual void slot19();
-    virtual void slot20();
-    virtual void slot21();
-    virtual void slot22();
-    virtual void slot23();
-    virtual void slot24();
-    virtual void slot25();
-    virtual void slot26();
-    virtual void slot27();
-    virtual void slot28();
-    virtual void slot29();
-    virtual void slot30();
-    virtual void slot31();
-    virtual void slot32();
-    virtual void slot33();
-    virtual void slot34();
-    virtual void slot35();
-    virtual void slot36();
-    virtual void slot37();
-    virtual void slot38();
-    virtual void slot39();
-    virtual void slot40();
-    virtual void slot41();
-    virtual void GetPositionAndDirection(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
-    void FUN_00c220c0(float fTime, unsigned short usNumParticles, const float* afAges);
+    virtual void ComputeInitialPositionAndVelocity(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
+    void NiPSysEmitter_EmitParticles(float fTime, unsigned short usNumParticles, const float* afAges);
 };
 inline float NiFastSin(float fAngleDifference)
 {
@@ -449,11 +280,12 @@ inline float NiFastCos(float fAngleDifference)
     return DAT_011f4ae0[(int)(fAngleDifference * (512.0 / DAT_011aeae8)) & 511];
 }
 // @fnv 0x00c220c0
-void Emitter::FUN_00c220c0(float fTime, unsigned short usNumParticles, const float* afAges)
+// pdb: NiPSysEmitter::EmitParticles | NiPSysEmitter.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(udata), high
+void Emitter::NiPSysEmitter_EmitParticles(float fTime, unsigned short usNumParticles, const float* afAges)
 {
     NiPSysData* pkData = m_pkTarget->m_spGeometryData;
     NiPoint3* pkVertex = pkData->m_pkVertex;
-    RgbaColor* pkColor = pkData->m_pkColor;
+    NiColorA* pkColor = pkData->m_pkColor;
     float* pfRadii = pkData->m_pfRadii;
     float* pfSizes = pkData->m_pfSizes;
     unsigned char* pucTex = pkData->m_pucTexIndex;
@@ -461,27 +293,27 @@ void Emitter::FUN_00c220c0(float fTime, unsigned short usNumParticles, const flo
     for (unsigned short us = 0; us < usNumParticles; us++)
     {
         float m_fFirstFloatValue = afAges[us];
-        float fLifeSpan = m_fYValue + (RandomFloat0To1() - 0.5) * m_fLifeSpanVariation;
+        float fLifeSpan = m_fLifeSpan + (RandomFloat0To1() - 0.5) * m_fLifeSpanVar;
         if (m_fFirstFloatValue > fLifeSpan)
             continue;
         unsigned short usNew = pkData->GetParticleVertexCount();
         if (usNew == DAT_010be248)
             break;
         Point3ParameterData* pkInfo = &pkData->m_pkParticleInfo[usNew];
-        float fSpeed = m_fEmissionSpeed + (RandomFloat0To1() - 0.5) * m_fSpeedVariation;
-        float fDec = m_fEmissionDeclination + m_fDeclinationVariation * NiSymmetricRandom();
-        float fPlanar = m_fEmissionPlanarAngle + m_fPlanarAngleVariation * NiSymmetricRandom();
+        float fSpeed = m_fSpeed + (RandomFloat0To1() - 0.5) * m_fSpeedVar;
+        float fDec = m_fDeclination + m_fDeclinationVar * NiSymmetricRandom();
+        float fPlanar = m_fPlanarAngle + m_fPlanarAngleVar * NiSymmetricRandom();
         float fSinDec = NiFastSin(fDec);
         NiPoint3 kWorldPosition(NiFastCos(fPlanar) * fSinDec, fSinDec * NiFastSin(fPlanar), NiFastCos(fDec));
         pkInfo->m_kValue = kWorldPosition * fSpeed;
         pkInfo->m_fXValue = m_fFirstFloatValue;
-        pkInfo->m_fYValue = fLifeSpan;
+        pkInfo->m_fLifeSpan = fLifeSpan;
         pkInfo->m_usFlags = 0;
-        GetPositionAndDirection(pkVertex[usNew], pkInfo->m_kValue);
+        ComputeInitialPositionAndVelocity(pkVertex[usNew], pkInfo->m_kValue);
         if (pkColor)
-            pkColor[usNew] = m_kParticleColor;
+            pkColor[usNew] = m_kInitialColor;
         if (pfRadii)
-            pfRadii[usNew] = (m_fEmissionRadius + m_fRadiusVariation * NiSymmetricRandom()) * m_fScale;
+            pfRadii[usNew] = (m_fInitialRadius + m_fRadiusVar * NiSymmetricRandom()) * m_fScale;
         if (pfSizes)
             pfSizes[usNew] = 1.0f;
         if (pucTex)
@@ -515,66 +347,9 @@ class BC21FE0FixedString
     char* m_kHandle;
 };
 
-class BC21FE0Color
-{
-  public:
-    float r;
-    float g;
-    float b;
-    float a;
-};
-
-class BC21FE0Modifier
-{
-  public:
-    BC21FE0Modifier(const BC21FE0FixedString& kName, unsigned int uiOrder) throw();
-    virtual ~BC21FE0Modifier();
-
-    int unk04;
-    char* m_kName;
-    unsigned int m_uiUpdateOrder;
-    void* m_pkTarget;
-    bool m_bModifierActive;
-};
-
-class FUN_00c21fe0_cls : public BC21FE0Modifier
-{
-  public:
-    FUN_00c21fe0_cls(const char* pcName, unsigned int uiOrder, float fSpeed, float fSpeedVar, float fDeclination,
-                     float fDeclinationVar, float fPlanarAngle, float fPlanarAngleVar, BC21FE0Color kInitialColor,
-                     float fInitialRadius, float fLifeSpan, float fLifeSpanVar, float fRadiusVar) throw();
-    virtual ~FUN_00c21fe0_cls();
-
-    float m_fEmissionSpeed;
-    float m_fSpeedVariation;
-    float m_fEmissionDeclination;
-    float m_fDeclinationVariation;
-    float m_fEmissionPlanarAngle;
-    float m_fPlanarAngleVariation;
-    BC21FE0Color m_kParticleColor;
-    float m_fEmissionRadius;
-    float m_fRadiusVariation;
-    float m_fYValue;
-    float m_fLifeSpanVariation;
-    float m_fScale;
-};
-
-// Constructs a particle emitter modifier, storing emission speed, declination, planar angle, color, radius, life span and their variations.
-// @fnv 0x00c21fe0
-FUN_00c21fe0_cls::FUN_00c21fe0_cls(const char* pcName, unsigned int uiOrder, float fEmissionSpeed, float fSpeedVar,
-                                   float fDeclination, float fDeclinationVar, float fPlanarAngle, float fPlanarAngleVar,
-                                   BC21FE0Color kInitialColor, float fInitialRadius, float fLifeSpan,
-                                   float fLifeSpanVar, float fRadiusVar) throw()
-    : BC21FE0Modifier(pcName, uiOrder), m_fEmissionSpeed(fEmissionSpeed), m_fSpeedVariation(fSpeedVar),
-      m_fEmissionDeclination(fDeclination), m_fDeclinationVariation(fDeclinationVar),
-      m_fEmissionPlanarAngle(fPlanarAngle), m_fPlanarAngleVariation(fPlanarAngleVar), m_kParticleColor(kInitialColor),
-      m_fEmissionRadius(fInitialRadius), m_fRadiusVariation(fRadiusVar), m_fYValue(fLifeSpan),
-      m_fLifeSpanVariation(fLifeSpanVar), m_fScale(1.0f)
-{}
-
 struct EmitterColorWriter
 {
-    void FUN_00a698a0(NiStream& stream);
+    void NiColorA_SaveBinary(NiStream& stream);
 };
 struct S_00c22530_BinaryStream : NiBinaryStream
 {
@@ -597,22 +372,23 @@ inline void S_00c22530_ReadFloat(S_00c22530_Stream& s, float& f)
 struct S_00c22530_Emitter : NiPSysEmitter
 {
     void FUN_00c31950(NiStream& stream);
-    void FUN_00c22530(S_00c22530_Stream& stream);
+    void NiPSysEmitter_SaveBinary(S_00c22530_Stream& stream);
 };
 // Calls FUN_00c31950, then reads emitter fields and particle color from the stream.
 // @fnv 0x00c22530
-void S_00c22530_Emitter::FUN_00c22530(S_00c22530_Stream& stream)
+// pdb: NiPSysEmitter::SaveBinary | NiPSysEmitter.obj | fnv360_0822_retail, call_seq + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void S_00c22530_Emitter::NiPSysEmitter_SaveBinary(S_00c22530_Stream& stream)
 {
     FUN_00c31950(stream);
-    S_00c22530_ReadFloat(stream, m_fEmissionSpeed);
-    S_00c22530_ReadFloat(stream, m_fSpeedVariation);
-    S_00c22530_ReadFloat(stream, m_fEmissionDeclination);
-    S_00c22530_ReadFloat(stream, m_fDeclinationVariation);
-    S_00c22530_ReadFloat(stream, m_fEmissionPlanarAngle);
-    S_00c22530_ReadFloat(stream, m_fPlanarAngleVariation);
-    reinterpret_cast<EmitterColorWriter*>(&m_kParticleColor)->FUN_00a698a0(stream);
-    S_00c22530_ReadFloat(stream, m_fEmissionRadius);
-    S_00c22530_ReadFloat(stream, m_fRadiusVariation);
-    S_00c22530_ReadFloat(stream, m_fYValue);
-    S_00c22530_ReadFloat(stream, m_fLifeSpanVariation);
+    S_00c22530_ReadFloat(stream, m_fSpeed);
+    S_00c22530_ReadFloat(stream, m_fSpeedVar);
+    S_00c22530_ReadFloat(stream, m_fDeclination);
+    S_00c22530_ReadFloat(stream, m_fDeclinationVar);
+    S_00c22530_ReadFloat(stream, m_fPlanarAngle);
+    S_00c22530_ReadFloat(stream, m_fPlanarAngleVar);
+    reinterpret_cast<EmitterColorWriter*>(&m_kInitialColor)->NiColorA_SaveBinary(stream);
+    S_00c22530_ReadFloat(stream, m_fInitialRadius);
+    S_00c22530_ReadFloat(stream, m_fRadiusVar);
+    S_00c22530_ReadFloat(stream, m_fLifeSpan);
+    S_00c22530_ReadFloat(stream, m_fLifeSpanVar);
 }

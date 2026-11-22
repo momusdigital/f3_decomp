@@ -27,7 +27,7 @@ class NiTimeController : public NiObject
 {
   public:
     // base NiObject at +0x0, size 8
-    unsigned short m_uiObjectFlags;  // +0x8, 2 bytes
+    unsigned short m_uFlags;  // +0x8, 2 bytes  // src: FNV360_PDB +0x8 (old: m_uiObjectFlags)
     unsigned char layoutPaddingA[2];
     float m_fFrequency;                              // +0xC, 4 bytes
     float m_fPhase;                                  // +0x10, 4 bytes
@@ -35,8 +35,8 @@ class NiTimeController : public NiObject
     float m_fHiKeyTime;                              // +0x18, 4 bytes
     float m_fStartTime;                              // +0x1C, 4 bytes
     float m_fLastTime;                               // +0x20, 4 bytes
-    float m_fWeightAdjustedLastTime;                 // +0x24, 4 bytes
-    float m_fControllerTime;                         // +0x28, 4 bytes
+    float m_fWeightedLastTime;                 // +0x24, 4 bytes  // src: FNV360_PDB +0x24 (old: m_fWeightAdjustedLastTime)
+    float m_fScaledTime;                         // +0x28, 4 bytes  // src: FNV360_PDB +0x28 (old: m_fControllerTime)
     NiObjectNET* m_pkTarget;                         // +0x2C, 4 bytes
     NiPointer<NiTimeController> m_spNextController;  // +0x30, 4 bytes
     virtual void SetTarget(NiObjectNET* target);
@@ -92,15 +92,15 @@ class NiTimeController : public NiObject
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
+FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uFlags) == 8);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 12);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fPhase) == 16);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLoKeyTime) == 20);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fHiKeyTime) == 24);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fStartTime) == 28);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLastTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightAdjustedLastTime) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
+FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightedLastTime) == 36);
+FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fScaledTime) == 40);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
 FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 48);
 #pragma pack(push, 4)
@@ -130,7 +130,7 @@ class NiSingleInterpController : public NiInterpController
 {
   public:
     // base NiInterpController at +0x0, size 52
-    NiPointer<NiInterpolator> m_spControllerInterpolator;  // +0x34, 4 bytes
+    NiPointer<NiInterpolator> m_spInterpolator;  // +0x34, 4 bytes  // src: FNV360_PDB +0x34 (old: m_spControllerInterpolator)
     // const NiRTTI* __cdecl NiSingleInterpController::*()
     // void __cdecl NiSingleInterpController::*(NiStream&)
     // void __cdecl NiSingleInterpController::*(NiStream&)
@@ -154,7 +154,7 @@ class NiSingleInterpController : public NiInterpController
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiSingleInterpController) == 56);
-FNV_STATIC_ASSERT(offsetof(NiSingleInterpController, m_spControllerInterpolator) == 52);
+FNV_STATIC_ASSERT(offsetof(NiSingleInterpController, m_spInterpolator) == 52);
 #pragma pack(push, 4)
 class NiFloatInterpController : public NiSingleInterpController
 {
@@ -184,13 +184,13 @@ class NiTextureTransformController : public NiFloatInterpController
 {
   public:
     // base NiFloatInterpController at +0x0, size 56
-    unsigned int m_uiLastKeyIndex;         // +0x38, 4 bytes
-    NiTexturingProperty__Map* m_pTaskMap;  // +0x3C, 4 bytes
-    bool m_bIsBumpMap;                     // +0x40, 1 bytes
+    unsigned int m_uiLastIdx;         // +0x38, 4 bytes  // src: FNV360_PDB +0x38 (old: m_uiLastKeyIndex)
+    NiTexturingProperty__Map* m_pkMap;  // +0x3C, 4 bytes  // src: FNV360_PDB +0x3C (old: m_pTaskMap)
+    bool m_bShaderMap;                     // +0x40, 1 bytes  // src: FNV360_PDB +0x40 (old: m_bIsBumpMap)
     unsigned char layoutPadding41[3];
-    unsigned int m_uiTextureMapIndex;                                  // +0x44, 4 bytes
-    NiTextureTransformController__TransformMember m_eTransformMember;  // +0x48, 4 bytes
-    char* m_pCachedControllerID;                                       // +0x4C, 4 bytes
+    unsigned int m_uiMapIndex;                                  // +0x44, 4 bytes  // src: FNV360_PDB +0x44 (old: m_uiTextureMapIndex)
+    NiTextureTransformController__TransformMember m_eMember;  // +0x48, 4 bytes  // src: FNV360_PDB +0x48 (old: m_eTransformMember)
+    char* m_pcCtlrID;                                       // +0x4C, 4 bytes  // src: FNV360_PDB +0x4C (old: m_pCachedControllerID)
     const char* GetControllerID();
     virtual void Update(NiUpdateData* data) throw();
     bool IsTextureMapValid();
@@ -223,10 +223,10 @@ class NiTextureTransformController : public NiFloatInterpController
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(NiTextureTransformController) == 80);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_uiLastKeyIndex) == 56);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_pTaskMap) == 60);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_bIsBumpMap) == 64);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_uiTextureMapIndex) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_eTransformMember) == 72);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_pCachedControllerID) == 76);
+FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_uiLastIdx) == 56);
+FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_pkMap) == 60);
+FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_bShaderMap) == 64);
+FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_uiMapIndex) == 68);
+FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_eMember) == 72);
+FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_pcCtlrID) == 76);
 #endif

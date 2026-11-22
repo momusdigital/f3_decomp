@@ -19,6 +19,8 @@ struct Exterior { Id ref; unsigned char pos[12],rot[12]; Id world; short x,y; };
 
 struct Decoded { unsigned ref,cell,world; int x,y; Vec pos,rot; unsigned char flag;
 void basic(const Basic&); void interior(const Interior&); void FUN_006d3130(const Exterior&); };
+// pdb: ReferenceInitialData::Initialize | BGSSaveLoadInitialData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apMovedReferenceInitialData
 void Decoded::FUN_006d3130(const Exterior& r){ref=r.ref.FUN_006d6cd0();cell=0;world=r.world.FUN_006d6cd0();x=r.x;y=r.y; memcpy(&pos,r.pos,sizeof(pos));memcpy(&rot,r.rot,sizeof(rot));flag=0;}
 }
 

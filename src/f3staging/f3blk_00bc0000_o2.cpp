@@ -34,6 +34,8 @@ public:
     void FUN_00bce370(ActionResource** resource);
 };
 
+// pdb: BSTaskletManager::DestroyTaskGroup | BSTaskletManager.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: aGroup
 void ActionResourceOwner::FUN_00bce370(ActionResource** resource)
 {
     if (*resource)
@@ -87,6 +89,8 @@ struct AFEventQueue {
     void FUN_00bd2ca0(int arg, unsigned short value);
 };
 
+// pdb: BSAudioManager::SetReverbAttenuation | BSAudioManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiSoundID, aiReverbAtt
 void AFEventQueue::FUN_00bd2ca0(int arg, unsigned short value)
 {
     Post(0x22, arg, value, 0, AFRefHandle(0), DAT_0108ec68);
@@ -143,11 +147,13 @@ struct Reader {
  std::vector<unsigned char> bytes;
  int FUN_00ba92d0();
  float FUN_00ba92a0();
- FUN_00bc2e20* FUN_00bab1a0();
+ FUN_00bc2e20* CTreeFileAccess_ParseBranchParameter();
  bool readBool() {
   return bytes[position++]!=0;
  }
 };
+// pdb: SIdvBranchInfo::Parse | BranchInfo.obj | fnv360_0822_retail, ustr, medium
+// pdb params: cFile
 FUN_00bc4c70* __cdecl FUN_00bc4f60(Reader* reader) {
  FUN_00bc4c70* result=new FUN_00bc4c70;
  if(reader->FUN_00ba92d0()!=1016)
@@ -155,15 +161,15 @@ FUN_00bc4c70* __cdecl FUN_00bc4f60(Reader* reader) {
  int token=reader->FUN_00ba92d0();
  do {
   switch(token) {
-   case 6000: result->unk50.set(reader->FUN_00bab1a0());break;
-   case 6001: result->unk54.set(reader->FUN_00bab1a0());break;
-   case 6002: result->unk58.set(reader->FUN_00bab1a0());break;
-   case 6003: result->unk5c.set(reader->FUN_00bab1a0());break;
-   case 6017: result->unk70.set(reader->FUN_00bab1a0());break;
-   case 6004: result->unk60.set(reader->FUN_00bab1a0());break;
-   case 6005: result->unk64.set(reader->FUN_00bab1a0());break;
-   case 6006: result->unk68.set(reader->FUN_00bab1a0());break;
-   case 6007: result->unk6c.set(reader->FUN_00bab1a0());break;
+   case 6000: result->unk50.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6001: result->unk54.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6002: result->unk58.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6003: result->unk5c.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6017: result->unk70.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6004: result->unk60.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6005: result->unk64.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6006: result->unk68.set(reader->CTreeFileAccess_ParseBranchParameter());break;
+   case 6007: result->unk6c.set(reader->CTreeFileAccess_ParseBranchParameter());break;
    case 6008: result->unk00=reader->FUN_00ba92d0();break;
    case 6009: result->unk04=reader->FUN_00ba92d0();break;
    case 6010: result->unk08=reader->FUN_00ba92a0();break;
@@ -188,6 +194,7 @@ public:
     int unk04;
 };
 
+// pdb: BSTaskletManager::QInstance | BSTaskletManager_Xenon.obj | fnv360_0822_retail, call_seq, medium
 BSTaskletManager* FUN_00bce1f0()
 {
     static BSTaskletManager s_manager(6);
@@ -301,6 +308,8 @@ public:
     bool FUN_00bd7c70(const Sortable_bd7c70* other) const;
 };
 
+// pdb: BSGameSound::SetInaudible | BSGameSound.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: abIn
 bool Sortable_bd7c70::FUN_00bd7c70(const Sortable_bd7c70* other) const
 {
     return key < other->key;
@@ -333,12 +342,13 @@ struct FNV_GlobalState {
 extern FNV_GlobalState* DAT_011790c8;
 
 struct FNV_Bd2d40_Obj {
-    void FUN_00bd2d40();
+    void SetCompletionCallback();
 };
 
 extern volatile int DAT_00bd2d40_effect;
 
-__declspec(noinline) void FNV_Bd2d40_Obj::FUN_00bd2d40() {
+// pdb: BSAudioManager::SetCompletionCallback | BSAudioManager.obj | fnv360_1110_retail, call_seq + bridge(call_gap|call_gap), high
+__declspec(noinline) void FNV_Bd2d40_Obj::SetCompletionCallback() {
     DAT_00bd2d40_effect = 1;
 }
 
@@ -350,6 +360,8 @@ struct FNV_Bd0510_Obj {
     void FUN_00bd0510(FNV_Callback callback, int value);
 };
 
+// pdb: BSSoundHandle::SetCompletionCallback | BSSoundHandle.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apfnCallback, apContext
 void FNV_Bd0510_Obj::FUN_00bd0510(FNV_Callback callback, int value) {
     if (DAT_011790c8->unk04 == 0 && callback != 0) {
         callback(value, 0);
@@ -358,7 +370,7 @@ void FNV_Bd0510_Obj::FUN_00bd0510(FNV_Callback callback, int value) {
     int result = unk00;
     if (result != -1) {
         result = FUN_00bd6800(result, callback, value);
-        ((FNV_Bd2d40_Obj*)result)->FUN_00bd2d40();
+        ((FNV_Bd2d40_Obj*)result)->SetCompletionCallback();
     }
 }
 
@@ -679,6 +691,8 @@ public:
     int FUN_00bcd540();
 };
 
+// pdb: NiFile::SetCurrentFilePos | BSFile_Xenon.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: aiPos
 int SomeOwner::FUN_00bcd540()
 {
     if (!field154)
@@ -730,6 +744,8 @@ public:
     bool FUN_00bce2c0(unsigned int* out);
 };
 
+// pdb: BSTaskletManager::CreateTaskGroup | BSTaskletManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aResult
 bool Source::FUN_00bce2c0(unsigned int* out)
 {
     bool result;
@@ -758,6 +774,8 @@ public:
     float* FUN_00bc4a00(float* dest, float* other);
 };
 
+// pdb: CRegion::operator+ | Region.obj | fnv360_0822_retail, call_gap, low
+// pdb params: cRegion
 float* FUN_00bc4a00_Object::FUN_00bc4a00(float* dest, float* other)
 {
     volatile int local = 0;
@@ -800,6 +818,8 @@ struct Handle_bd0410 {
     int m_handle;
     bool FUN_00bd0410(int param);
 };
+// pdb: BSSoundHandle::FadeOutAndRelease | BSSoundHandle.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: Actor::IsDeferredKill)
+// pdb params: aiMilliseconds
 bool Handle_bd0410::FUN_00bd0410(int param)
 {
     if (m_handle == -1)
@@ -870,27 +890,30 @@ struct Data1031 {
     int value44;
 };
 Data1031* __cdecl FUN_00bcb240(void* first, int third);
-void __cdecl FUN_00bce750(void* source, Output1031* output);
+void __cdecl FileFinder_PlatformGetFileTime(void* source, Output1031* output);
+// pdb: FileFinder::GetFileTime | FileFinder.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apFileName, arFileTime, aiArchiveType
 void __cdecl FUN_00bc77c0(void* source, Output1031* output, int third) {
     memset(output, 0, sizeof(*output));
     Data1031* data = FUN_00bcb240(source, third);
     if (data) source = &data->value44;
-    FUN_00bce750(source, output);
+    FileFinder_PlatformGetFileTime(source, output);
 }
 }   // namespace f3m_00bc77c0
 
 // @f3 0x00bd2cf0 (community match, verified in this file)
 namespace f3m_00bd2cf0 {
-// FUN_00bd2cf0 -- posts event 0x26 with one value and always succeeds.
+// BSAudioManager_Release -- posts event 0x26 with one value and always succeeds.
 // Same shape as AFEventQueue::FUN_00bd2ca0 in the pack unit (matched there);
 // this one has a single dword parameter, zero value/extra, and returns true.
 
 struct AFEventQueueDerived : AFEventQueue
 {
-    bool FUN_00bd2cf0(int arg);
+    bool BSAudioManager_Release(int arg);
 };
 
-bool AFEventQueueDerived::FUN_00bd2cf0(int arg)
+// pdb: BSAudioManager::Release | BSAudioManager.obj | fnv360_0822_debug, call_seq + bridge(call_gap|call_seq), high
+bool AFEventQueueDerived::BSAudioManager_Release(int arg)
 {
     Post(0x26, arg, 0, 0, AFRefHandle(0), DAT_0108ec68);
     return true;
@@ -938,6 +961,8 @@ public:
     F3Obj& FUN_00bc5430(const F3Obj& source);
 };
 
+// pdb: CBillboardLeaf::operator= | BillboardLeaf.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: cRight
 F3Obj& F3Obj::FUN_00bc5430(const F3Obj& source)
 {
     if (&source != this)
@@ -986,6 +1011,7 @@ struct Queue_00bd1ed0
     void FUN_00bd1ed0();
 };
 
+// pdb: AudioMessageStack::~AudioMessageStack | BSAudioManager.obj | fnv360_0721_retail, objrun, low
 void Queue_00bd1ed0::FUN_00bd1ed0()
 {
     while (head)
@@ -1316,6 +1342,8 @@ struct FUN_00bd2f30_cls
     void FUN_00bd2f30(int a, int b);
 };
 // @fnv 0x00adc360
+// pdb: BSAudioManager::SetSynchStartTime | BSAudioManager.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiSoundID, aiStartTime
 void FUN_00bd2f30_cls::FUN_00bd2f30(int a, int b)
 {
     FUN_00bd24f0(0x3c, a, b, b, 0, DAT_0108ec68);
@@ -1550,10 +1578,11 @@ struct ThisAD
     const char* FUN_00bc9260(int);
     void FUN_00bce980(BSHashA*);
     int FUN_00bce9e0(char*, const char*, BSHashA*);
-    int FUN_00bc9a80();
+    int Archive_FindNewerAndInvalidate();
 };
 // Clear matching archive entries; FNV reference adapted to Fallout 3.
-int ThisAD::FUN_00bc9a80()
+// pdb: Archive::FindNewerAndInvalidate | Archive.obj | fnv360_0822_retail, udata, high
+int ThisAD::Archive_FindNewerAndInvalidate()
 {
     int count = 0;
     int i;
@@ -1676,6 +1705,8 @@ struct LeafInfo
 };
 
 // @fnv 0x00b3cf40
+// pdb: SIdvLeafInfo::InitTables | LeafInfo.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: nNumTextures
 void LeafInfo::FUN_00bc0ab0(int size)
 {
     m_iElementCount = size;
@@ -1729,7 +1760,7 @@ struct ArcInflateReadState {
     unsigned char* m_pNextOutputByte;
     unsigned int m_uiAvailableOutputBytes;
 };
-int __cdecl FUN_00b9be60(ArcInflateReadState*,int);
+int __cdecl inflate(ArcInflateReadState*,int);
 int __cdecl FUN_00b9d230(ArcInflateReadState*);
 struct DecompReadFile {
     unsigned int unk000;
@@ -1867,7 +1898,7 @@ unsigned int DecompReadFile::FUN_00bca160(char* buffer, unsigned int size)
 
                 if (available != 0)
                 {
-                    status = FUN_00b9be60(state, 2);
+                    status = inflate(state, 2);
                     if (status == -2 || status == 2 || status == -3 || status == -4)
                     {
                         FUN_00b9d230(state);
@@ -2354,6 +2385,8 @@ class ArchiveManager
 
 
 // @fnv 0x00afdf20
+// pdb: FileFinder::GetFile | FileFinder.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: `anonymous namespace'::GetEffectsDispel)
+// pdb params: apName, aeMode, aiSize, aiArchiveType
 NiFile* FileFinder::FUN_00bc7fc0(const char* name, NiFile::OpenMode mode, unsigned int bufferSize, unsigned int archiveType)
 {
     // These local identifiers preserve MSVC9 stack-slot ordering.
@@ -2569,6 +2602,8 @@ class ArcStream
 
 // Returns the string at uiIndex, either from the loaded data block or by seeking and reading it from the stream.
 // @fnv 0x00af94c0
+// pdb: Archive::GetDirectoryString | Archive.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiDirectoryIndex
 char* ArcStream::FUN_00bc9260(unsigned int uiIndex)
 {
     if (IsLoaded())
@@ -2717,6 +2752,8 @@ class BSAudio
         return callback;
     }
 };
+// pdb: BSGameSound::GetNameHash | BSGameSound.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: pString
 unsigned int BSGameSound::FUN_00bd78b0(const char* pName)
 {
     unsigned int hash = 0;
@@ -2732,6 +2769,8 @@ unsigned int BSGameSound::FUN_00bd78b0(const char* pName)
 
 
 // @fnv 0x00ae9460
+// pdb: BSGameSound::SetFilename | BSGameSound.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFilename, abAllowDiskAccess
 bool BSGameSound::FUN_00bd78e0(const char* filename, bool resolve)
 {
     bool bResult = true;
@@ -2950,6 +2989,8 @@ struct SoundObj
 };
 
 // Adapted from FNV 0x00aefda0; verified bindings against Fallout 3.
+// pdb: BSXenonGameSound::BSXenonGameSound | BSXenonGameSound.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apFilename
 void SoundObj::FUN_00bd8460(float maxDist, float minDist)
 {
     float fScaledValue = maxDist;
@@ -2994,6 +3035,8 @@ namespace fo3_bccda0 {
 void __cdecl FUN_00bccb20(const char*,const char*,void*);
 struct NameHash {void* FUN_00bccda0(const char*,int);};
 // @fnv 0x00afd390
+// pdb: BSHash::BSHash | BSArchive.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apString, aeProcess
 void* NameHash::FUN_00bccda0(const char* path, int mode)
 {
     const char* pExt = 0;
@@ -3054,6 +3097,8 @@ extern "C" int __cdecl _splitpath_s(const char* source, char* drive, unsigned in
 extern "C" int __cdecl _makepath_s(char* result, unsigned int resultSize, const char* drive, const char* directory,
                                    const char* filename, const char* extension);
 // @fnv 0x00af4070
+// pdb: WildCard::MakeString | WildCard.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apDest, apSrc
 void __cdecl FUN_00bc83e0(char* result, const char* source)
 {
     if (DAT_011785d8 & 8)
@@ -3094,6 +3139,8 @@ public:
 
 int* __cdecl FUN_00bd6800();
 
+// pdb: BSGameSound::Copy | BSGameSound.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apToCopy, abPlayable
 void __thiscall ActionResourceCopyTarget::FUN_00bd7ab0(ActionResourceCopyTarget* src, int unused)
 {
     *(int*)((char*)this + 0x144) = *(int*)((char*)src + 0x144);
@@ -3135,6 +3182,8 @@ namespace f3m_00bccb20 {
 namespace Task0582 {
 struct FileNameHash { unsigned char unk00,unk01,unk02,unk03; unsigned int unk04; };
 int __cdecl FUN_00c00b52(int);
+// pdb: BSHash::Create | BSArchive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apString, apExtension, arHash
 void __cdecl FUN_00bccb20(const unsigned char* name, const unsigned char* extension, FileNameHash* out)
 {
     const unsigned char* p;
@@ -3412,6 +3461,7 @@ struct AudioLoadTask7050
 };
 
 // @fnv 0x00ae7050
+// pdb: AudioLoadTask::Run | BSAudioManager.obj | fnv360_0822_retail, caller_sim, low
 void AudioLoadTask7050::FUN_00bd6fd0()
 {
     bool bLoopSound = (m_pGameSound->GetAudioFlags() & 0x8000) != 0;
@@ -3527,6 +3577,8 @@ struct QFinder {
     int FUN_00bc7a40(char* path, unsigned int flags, unsigned int arg3);
 };
 
+// pdb: FileFinder::LookForFile | FileFinder.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apFilePath, aiFlags, aiArchiveType
 int QFinder::FUN_00bc7a40(char* path, unsigned int flags, unsigned int arg3)
 {
     if (!(flags & 1) && FUN_00bcb4a0(path, arg3))
@@ -3599,6 +3651,8 @@ public:
     float FUN_00bc22d0(float t);
 };
 
+// pdb: CIdvBezierSpline::ScaledVariance | IdvSpline.obj | fnv360_0721_beta, objrun, medium
+// pdb params: fPercent
 float QCurve::FUN_00bc22d0(float t)
 {
     float result = 0.0f;
@@ -3637,7 +3691,7 @@ struct QAudioMgr
     int unk10;
     QSoundList unk14;
 
-    void FUN_00bcff30(const char* name, unsigned int flags);
+    void BSAudio_Precache(const char* name, unsigned int flags);
 };
 
 struct QAudioThread
@@ -3656,20 +3710,22 @@ struct QAudioMenu
     void FUN_00bd71f0(int unused);
 };
 
+// pdb: BSAudioManager::Update | BSAudioManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: abPlayGameWorldSounds
 void QAudioMenu::FUN_00bd71f0(int unused)
 {
     if (!*((unsigned char*)this + 0x110))
     {
-        DAT_011790c8->FUN_00bcff30("UIMenuMode", 0);
-        DAT_011790c8->FUN_00bcff30("UIMenuFocus", 0x20000);
-        DAT_011790c8->FUN_00bcff30("UIMenuCancel", 0x20001);
-        DAT_011790c8->FUN_00bcff30("UIMenuTab", 0x20000);
-        DAT_011790c8->FUN_00bcff30("UIMenuOK", 0x20001);
-        DAT_011790c8->FUN_00bcff30("UIMenuPrevNext", 1);
-        DAT_011790c8->FUN_00bcff30("WPNRifleAssaultFire3D", 0x102);
-        DAT_011790c8->FUN_00bcff30("FXBulletImpactConc", 0x102);
-        DAT_011790c8->FUN_00bcff30("UILoadScreenMicroFiche01", 0x101);
-        DAT_011790c8->FUN_00bcff30("UILoadScreenInitial", 0x101);
+        DAT_011790c8->BSAudio_Precache("UIMenuMode", 0);
+        DAT_011790c8->BSAudio_Precache("UIMenuFocus", 0x20000);
+        DAT_011790c8->BSAudio_Precache("UIMenuCancel", 0x20001);
+        DAT_011790c8->BSAudio_Precache("UIMenuTab", 0x20000);
+        DAT_011790c8->BSAudio_Precache("UIMenuOK", 0x20001);
+        DAT_011790c8->BSAudio_Precache("UIMenuPrevNext", 1);
+        DAT_011790c8->BSAudio_Precache("WPNRifleAssaultFire3D", 0x102);
+        DAT_011790c8->BSAudio_Precache("FXBulletImpactConc", 0x102);
+        DAT_011790c8->BSAudio_Precache("UILoadScreenMicroFiche01", 0x101);
+        DAT_011790c8->BSAudio_Precache("UILoadScreenInitial", 0x101);
         *((unsigned char*)this + 0x110) = 1;
     }
     FUN_00bd1690();
@@ -3700,6 +3756,8 @@ struct Curve {
  Samples samples;
  float FUN_00bc2170(float t);
 };
+// pdb: CIdvBezierSpline::Evaluate | IdvSpline.obj | fnv360_0721_beta, call_gap, medium
+// pdb params: fPercent
 float Curve::FUN_00bc2170(float t) {
  float result = 0.0f;
  if (samples.size() == 500) {
@@ -3744,6 +3802,8 @@ public:
     void FUN_00bc5570(const Vec3f* values, bool scaled);
 };
 
+// pdb: CBillboardLeaf::SetColor | BillboardLeaf.obj | fnv360_0822_retail, objrun, medium
+// pdb params: cColor, bApplyDimming
 void F3Obj5570::FUN_00bc5570(const Vec3f* values, bool scaled)
 {
     Vec3f v = *values;
@@ -3877,6 +3937,7 @@ Ref ref;void DecRefCount(){ref.DecRefCount();}void IncRefCount(){ref.IncRefCount
 };
 struct Ptr {Archive* object;Ptr& operator=(Archive* p){if(object!=p){if(object)object->DecRefCount();object=p;if(object)object->IncRefCount();}return *this;}};
 extern FUN_00bc9050* DAT_011786f0;extern Array* DAT_011786f8;extern Array* DAT_011786fc;extern Ptr DAT_01178708[2][9];
+// pdb: ArchiveManager::CloseAll | Archive.obj | fnv360_0822_retail, udata, medium
 void FUN_00bca4b0(){
 unsigned i,j,k;
 if(DAT_011786f0){DAT_011786f0->FUN_00bca340();delete DAT_011786f0;DAT_011786f0=0;}
@@ -4285,13 +4346,6 @@ struct AudioBig_00ae5a50;extern AudioBig_00ae5a50* DAT_011790c8;
 extern float DAT_01179160;
 // reconstruction of 0x00ae5a50
 extern "C" char DAT_01090a78;  // MemoryManager singleton
-struct AudioSetting_00ae5a50
-{
-    void* vtable;
-    float value;
-    const char* name;
-};
-extern "C" AudioSetting_00ae5a50 DAT_011f6e68;  // Setting<float> object
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 extern "C" void __cdecl FUN_00887da0(const char*, ...);
@@ -4738,6 +4792,8 @@ typedef int(__cdecl* PFn1_00ae5a50)(R_00ae5a50*, void*, int*);
 typedef bool(__cdecl* PFn2_00ae5a50)(void*, int*, int*);
 
 // @fnv 0x00ae5a50
+// pdb: BSAudioManager::GetSoundHandleByFilename | BSAudioManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFilename, aiTypeFlags, apSettingsContext
 R_00ae5a50 Mgr_00ae5a50::FUN_00bd3720(char* apName, int aiFlags, void* ap5)
 {
     if (!AudioInstance_00ae5a50()->IsMT())
@@ -4825,6 +4881,8 @@ struct ArchiveDirScanner
     int FUN_00bce9e0(const char* apRoot, const char* apDirectory, const FILETIME* apSince);
 };
 
+// pdb: Archive::InvalidateOlderFilesByPath | Archive_Xenon.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apBasePath, apPath, apArchiveTime
 int ArchiveDirScanner::FUN_00bce9e0(const char* apRoot, const char* apDirectory, const FILETIME* apSince)
 {
     int iCount = 0;
@@ -4887,6 +4945,8 @@ struct FUN_00bcd0e0_Obj {
     int FUN_00bcd0e0(LARGE_INTEGER* out);
 };
 
+// pdb: BSSystemFile::DoGetSize | BSSystemFile_Xenon.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: GetFileSizeEx)
+// pdb params: auiSize
 int FUN_00bcd0e0_Obj::FUN_00bcd0e0(LARGE_INTEGER* out) {
     LARGE_INTEGER size;
     if (GetFileSizeEx(unk10, &size)) {
@@ -4903,7 +4963,8 @@ int FUN_00bcd0e0_Obj::FUN_00bcd0e0(LARGE_INTEGER* out) {
 // @f3 0x00bcd140 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_00bcd140 {
-int FUN_00bcd140(const char* path)
+// pdb: BSSystemFile::DeleteFileA | BSSystemFile_Xenon.obj | fnv360_0822_retail, call_gap + bridge(caller|caller) + skyrim(call_gap_sim), high
+int BSSystemFile_DeleteFileA(const char* path)
 {
     return DeleteFileA(path) ? 0 : 4;
 }
@@ -4942,6 +5003,8 @@ public:
     CBillboardLeaf(const f3m_00bc5370::Pos_5370& pos, bool b18, bool b10, float f44, int i48);
     virtual void Slot00();
 };
+// pdb: CBillboardLeaf::CBillboardLeaf | BillboardLeaf.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: cPos, nColorScale, nAngleIndex, fWindWeight, nWindGroup
 CBillboardLeaf::CBillboardLeaf(const f3m_00bc5370::Pos_5370& pos, bool b18, bool b10, float f44, int i48)
     : m_b10(b10), m_i14(-1), m_b18(b18), m_b40(false), m_f44(f44), m_i48(i48)
 {
@@ -4964,6 +5027,7 @@ struct FileInfo {
     SYSTEMTIME FUN_00bcd400();
 };
 
+// pdb: BSFile::GetLastSaveTime | BSFile_Xenon.obj | fnv360_0822_retail, call_gap_sim, low
 SYSTEMTIME FileInfo::FUN_00bcd400() {
     SYSTEMTIME local;
     if (unk24 == 0) {
@@ -5039,6 +5103,8 @@ class DetectOwner
 };
 
 // FNV member-call wrapper adapted to Fallout 3.
+// pdb: BSAudioManager::Pause | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundID
 bool DetectOwner::FUN_00bd2750(int iParam)
 {
     FUN_00bd24f0(3, iParam, 0, 0, DetectRefPtr(0), DAT_0108ec68);
@@ -5137,6 +5203,7 @@ struct JobThread
     void FUN_00bcf0d0();
 };
 // @fnv 0x00b02460
+// pdb: BSXenonTaskletManager::ProcessQueue | BSXenonTaskletManager.obj | fnv360_0822_retail, objopen_prop, medium
 void JobThread::FUN_00bcf0d0()
 {
     Job* pJobB;
@@ -5233,6 +5300,8 @@ struct PointerMap
 };
 // Looks up key in the hash bucket; if found, replaces its value, otherwise allocates a new node, assigns key/value, links it into the bucket and increments count.
 // @fnv 0x00b582b0
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,int,NiPointer<NiAVObject> >::SetAt | BSAudioManager.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: key, val
 void PointerMap::FUN_00bd1190(unsigned int key, NiPointer<MapRefObject> value)
 {
     unsigned int hash = Hash(key);
@@ -5297,6 +5366,8 @@ extern "C" int __cdecl _splitpath_s(const char* source, char* drive, unsigned in
                                     char* filename, unsigned int filenameSize,
                                     char* extension, unsigned int extensionSize);
 
+// pdb: FileFinder::CombineFileNames | FileFinder.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apBase, apAddition, apOutput
 void __cdecl FUN_00bc7800(const char* path, const char* rel, char* out)
 {
     char dir[260];
@@ -5489,6 +5560,8 @@ struct Reader078 {
  unsigned FUN_00bc9d80(char*,unsigned,unsigned);
 };
 // @fnv 0x00afb7a0
+// pdb: ArchiveFile::ReadFromArchive | Archive.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apReadBuffer, aiByteCount, aiOffset
 unsigned int Reader078::FUN_00bc9d80(char* output, unsigned int size, unsigned int offset)
 {
     int end;
@@ -5559,6 +5632,8 @@ extern unsigned int DAT_011785d8;
 namespace f3m_00bc81e0 {
 unsigned char __cdecl FUN_00bc81c0(char);
 // @fnv 0x00af3c40
+// pdb: WildCard::RecMatch | WildCard.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apString, apPattern
 int __cdecl FUN_00bc81e0(const char* pcString, const char* pcPattern)
 {
     char c3 = *pcPattern++;
@@ -5710,6 +5785,8 @@ struct E0Req
     char path[260];
 };
 
+// pdb: BSAudioManager::Precache | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFilenameToCache, aiFlags, apSettingsContext
 void AudMgrE0::FUN_00bd32e0(const char* path, unsigned int a2, unsigned int a3)
 {
     volatile unsigned int a3v = a3;
@@ -5779,6 +5856,8 @@ struct Owner {
  IdentifierState FUN_00bd66f0(unsigned int,unsigned int);
 };
 // @fnv 0x00ae5870
+// pdb: BSAudioManager::GetSoundHandleByNumericID | BSAudioManager.obj | fnv360_0721_beta, call_seq, low
+// pdb params: aiBaseID, aiTypeFlags
 IdentifierState Owner::FUN_00bd66f0(unsigned int soundId, unsigned int uiFlags)
 {
     unsigned int uiFileFlags_hk = 0;
@@ -5830,6 +5909,8 @@ struct InflateStream{unsigned char* nextInput;unsigned int inputAvailable,totalI
 int __cdecl FUN_00b9bd50(InflateStream*,const char*,int);int __cdecl FUN_00b9d230(InflateStream*);extern unsigned int DAT_011786f4;
 struct CompressedArchive:BaseArchive{InflateStream* stream;void* buffer;unsigned int compressedSize,capacity,compressedPosition,uncompressedPosition;CompressedArchive(const char*,Archive*,unsigned int,unsigned int,int);virtual ~CompressedArchive();};
 typedef char BaseSize[(sizeof(BaseArchive)==0x160)?1:-1];typedef char HeaderSize[(sizeof(InflateStream)==0x38)?1:-1];
+// pdb: CompressedArchiveFile::CompressedArchiveFile | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apFileName, apArchive, aiOffset, aiSize, aiBufferSize
 CompressedArchive::CompressedArchive(const char* name,Archive* archive,unsigned int offset,unsigned int size,int mode):BaseArchive(name,archive,offset,size,mode){
  read=&FUN_00bca320;write=&FUN_00bcd5a0;ReadHeader(&compressedSize,4);
  InflateStream* allocation=(InflateStream*)DAT_01090a78.FUN_0086b930(0x1be0);stream=allocation;
@@ -5907,6 +5988,7 @@ struct FUN_00bc4c70
 };
 
 // @fnv 0x00b3f310
+// pdb: SIdvBranchInfo::SIdvBranchInfo | BranchInfo.obj | fnv360_0822_retail, call_gap, medium
 FUN_00bc4c70::FUN_00bc4c70()
 {
     unk00 = 6;
@@ -6497,6 +6579,8 @@ bool IsArchiveFlag(){return (state & 8)!=0;}
 bool IsFileEntryValid(Entry1825* e,bool){return (e->IsOffsetFlag() == IsArchiveFlag()) && e->GetOffset()!=0;}
 File1825* FUN_00bcc220(Entry1825*,unsigned,unsigned);
 };
+// pdb: Archive::GetFileByFileEntry | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apFileEntry, aiBufferSize, apFileName
 File1825* Archive1825::FUN_00bcc220(Entry1825* entry,unsigned a,unsigned b){
 File1825* file=0;
 if(entry){if(IsFileEntryValid(entry,false)){
@@ -6726,7 +6810,8 @@ inline unsigned long TextLength(const char* text)
 }
 // Builds a comma-separated list of .bsa files from Plugins.txt, loads each archive and registers it by type, returning false if any archive fails to load.
 // @fnv 0x00af4550
-bool __cdecl FUN_00bcc370()
+// pdb: ArchiveManager::OpenMasterArchives | Archive.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+bool __cdecl ArchiveManager_OpenMasterArchives()
 {
     _iobuf* flags;
     char extra[260];
@@ -6913,6 +6998,8 @@ public:
     void FUN_00bc5700(const Vec3_bc5700& cTreeCenter, const Vec3_bc5700& cLightPos, float fLightScalar);
 };
 
+// pdb: CBillboardLeaf::AdjustStaticLighting | BillboardLeaf.obj | fnv360_0822_retail, objrun, medium
+// pdb params: cTreeCenter, cLightPos, fLightScalar
 void Leaf_bc5700::FUN_00bc5700(const Vec3_bc5700& cTreeCenter, const Vec3_bc5700& cLightPos, float fLightScalar)
 {
     float fDot;
@@ -7156,7 +7243,6 @@ struct FUN_00aee580_cls
 };
 
 extern double DAT_00dc8088;
-extern int DAT_01000000;
 
 // @fnv 0x00aee580
 bool FUN_00aee580_cls::FUN_00bdb390(int aiUnused)
@@ -7385,6 +7471,7 @@ struct Manager {
     unsigned int unknown13C,unknown140,initialized;
     Manager();
 };
+// pdb: BSAudioManager::BSAudioManager | BSAudioManager.obj | fnv360_0822_retail, call_gap, medium
 Manager::Manager(){
     volume11C=0.0f;volume120=0.0f;unknown114=0;precacheCompleted=false;
     volume124=0.0f;volume128=0.0f;initialized=1;volume12C=0.0f;state=0;volume130=0.0f;enabled=1;
@@ -7496,6 +7583,8 @@ struct Owner:BSTaskletManager {
     Owner(unsigned);
     virtual ~Owner();
 };
+// pdb: BSXenonTaskletManager::BSXenonTaskletManager | BSXenonTaskletManager.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: auiThreadMask
 Owner::Owner(unsigned count) {
     DWORD monitorId;
     monitor=0;
@@ -7890,7 +7979,6 @@ bool AF1430::FUN_00bda600()
 namespace Task2023 {
 struct Memory {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Memory DAT_01090a78;
 struct FUN_00bccda0 {unsigned low,high;FUN_00bccda0(const char*,int);static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
-extern void* DAT_00ea8244[];
 struct Array {virtual ~Array();virtual FUN_00bccda0** Allocate(unsigned);FUN_00bccda0** entries;unsigned count,capacity;Array(){InitArray(0,0);}void InitArray(unsigned allocated,unsigned size){entries=0;count=0;capacity=0;if(size>allocated)allocated=size;if(allocated>0){entries=Allocate(allocated);capacity=allocated;}if(size>0){count=size;}}static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}unsigned FUN_005e5350();unsigned Append(FUN_00bccda0* const& value){unsigned index=FUN_005e5350();entries[index]=value;return index;}};
 extern Array* DAT_011786fc;extern Array* DAT_011786f8;
 struct Stream {
@@ -7911,6 +7999,8 @@ unsigned readCount;unsigned (__cdecl* read)(Stream*,void*,unsigned,unsigned*,uns
 unsigned Read(void* buf,unsigned bytes){unsigned size=1;unsigned result=read(this,buf,bytes,&size,1);readCount+=result;return result;}
 };
 Stream* __cdecl FUN_00bc8120(const char*,int,unsigned);
+// pdb: ArchiveManager::LoadInvalidationFile | Archive.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apFileName
 void __cdecl FUN_00bcae90(const char* path) {
  Stream* file;
  if(path){
@@ -8062,6 +8152,8 @@ struct List {
 };
 extern List* DAT_011786f0;
 }
+// pdb: ArchiveManager::OpenArchive | Archive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apArchiveName, aiForceArchiveType, abInvalidateOtherArchives
 void* __cdecl FUN_00bcbf10(const char* path, unsigned short a2, int a3)
 {
     using namespace nbcbf10;
@@ -8152,6 +8244,8 @@ struct Queue {
     CRITICAL_SECTION cs;
     void FUN_00bd24f0(int a1, int a2, int a3, int a4, Ptr p, Vec3 v);
 };
+// pdb: BSAudioManager::ComposeMessage | BSAudioManager.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: BSPointerHandleManagerInterface<class TESObjectREFR,class HandleManager>::GetSmartPointer)
+// pdb params: aMsg, aiID, aiData, apPointerData, aspSmartPointerData, aVector
 void Queue::FUN_00bd24f0(int a1, int a2, int a3, int a4, Ptr p, Vec3 v)
 {
     if (DAT_011790c8->f5)
@@ -8326,6 +8420,8 @@ Left(y)=x;Parent(x)=y;
 }
 Iterator FUN_00bc3560(bool,Node*,const Value&);
 };
+// pdb: std::_Tree<std::_Tmap_traits<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CIdvBezierSpline *,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> >,0> >::_Insert | IdvSpline.obj | fnv360_0822_retail, ustr, medium
+// pdb params: _Addleft, _Wherenode, _Newnode
 Iterator Tree::FUN_00bc3560(bool addLeft, Node* parent, const Value& value)
 {
     if (0x7fffffe <= count)
@@ -8407,6 +8503,8 @@ Iterator Tree::FUN_00bc3560(bool addLeft, Node* parent, const Value& value)
 // @f3 0x00bc95f0 (community match, verified in this file)
 namespace f3m_00bc95f0 {
 namespace native2150 {
+// pdb: CompressedArchiveFile::Seek | Archive.obj | fnv360_0721_retail, objopen_prop, low
+// pdb params: aiByteCount, aiSeekFlags
 struct Key {unsigned __int64 value;int FUN_00bc8650(Key* rhs){if(value<rhs->value)return -1;else if(value>rhs->value)return 1;return 0;}};
 struct Entry{Key key;unsigned count;void* files;};
 extern bool DAT_011786e4;int __cdecl FUN_00c024fd(const char*,char*,unsigned,char*,unsigned,char*,unsigned,char*,unsigned);int __cdecl FUN_00c009eb(const char*,const char*);
@@ -8504,6 +8602,8 @@ int unk164;
 int unk168;
 unsigned flags16c;unsigned count;int unk174,unk178,unk17c,unk180;Entry* entries;int unk188,unk18c,unk190;unsigned cached;int status;int unk19c,unk1a0,unk1a4,unk1a8,unk1ac,unk1b0;unsigned flags1b4;
 Key* GetHash(unsigned i){return &entries[i].key;}const char* FUN_00bc9260(unsigned);bool FUN_00bc95f0(Key*,unsigned*,const char*);};
+// pdb: Archive::InvalidateFile | Archive.obj | fnv360_1110_retail, call_seq, low, conflict (bridge: Archive::FindDirectory)
+// pdb params: arDirectoryHash, arFileNameHash, apFileName
 bool Archive::FUN_00bc95f0(Key* key,unsigned* out,const char* path){
  if(flags1b4&1)return false;
  bool result=false;
@@ -8574,6 +8674,8 @@ struct FrondInfo
     void FUN_00bc08b0(ChunkReader* reader);
 };
 
+// pdb: CProjectedShadow::Parse | ProjectedShadow.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: cFile
 void FrondInfo::FUN_00bc08b0(ChunkReader* reader)
 {
     int token = reader->GetNextElement();
@@ -8638,6 +8740,8 @@ struct FUN_00bc53e0 {
 };
 }
 
+// pdb: CBillboardLeaf::Parse | BillboardLeaf.obj | fnv360_0822_retail, ustr, medium
+// pdb params: cFile
 nbc58c0::FUN_00bc53e0* __cdecl FUN_00bc58c0(nbc58c0::Reader* reader) {
  nbc58c0::FUN_00bc53e0* result=new nbc58c0::FUN_00bc53e0;
  int token=reader->FUN_00ba92d0();
@@ -8683,6 +8787,8 @@ struct CSpeedTreeWindInfo {
  float scale;
  void FUN_00bc5b10(Nbc5b10::WindReader* reader);
 };
+// pdb: SIdvWindInfo::Parse | WindInfo.obj | fnv360_0822_retail, ustr, medium
+// pdb params: cFile
 void CSpeedTreeWindInfo::FUN_00bc5b10(Nbc5b10::WindReader* reader) {
  Nbc5b10::Vec3 a, b, c, d, e;
  int token=reader->FUN_00ba92d0();
@@ -8708,6 +8814,8 @@ namespace f3m_00bc7380 {
 namespace task1119 {
 struct PosGen { virtual ~PosGen(); virtual float Next(); virtual char* Name(); virtual float Density(float) const; float xi; float* sx; float* m_pYValues; bool NotReady; void FUN_00bc7380(bool); };
 // @fnv 0x00b43710
+// pdb: PosGen::Build | RobertDavies_Random.obj | fnv360_0822_retail, ustr, medium
+// pdb params: sym
 void PosGen::FUN_00bc7380(bool symmetric)
 {
     int count;
@@ -8742,6 +8850,7 @@ namespace f3m_00bcd160 {
 
 namespace f3m_00bcd160 {
 
+// pdb: BSTranslateFileError | BSWin32FileUtils.obj | tesv_win, call_seq, medium
 static __declspec(noinline) int FUN_00bccf50(DWORD err)
 {
     switch (err)
@@ -8771,10 +8880,11 @@ struct Win32File
     HANDLE m_handle;
 
     int FUN_00bcd070(int lo, int hi, int origin, __int64* pos);
-    int FUN_00bcd160(const char* name);
+    int BSSystemFile_DoOpen(const char* name);
 };
 
-int Win32File::FUN_00bcd160(const char* name)
+// pdb: BSSystemFile::DoOpen | BSSystemFile_Xenon.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(caller_sim), high
+int Win32File::BSSystemFile_DoOpen(const char* name)
 {
     DWORD access = 0;
     DWORD disposition = 0;
@@ -9096,6 +9206,8 @@ struct SplinePath
     void FUN_00bc3e00(unsigned int count);
 };
 
+// pdb: CIdvBezierSpline::CreateEvenlySpacedPoints | IdvSpline.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: nNumPoints
 void SplinePath::FUN_00bc3e00(unsigned int count)
 {
     SplinePointVector c;
@@ -9223,6 +9335,7 @@ void Matcher::FUN_00bc68c0(std::vector<MatchNode*> nodes)
 #include <ctype.h>
 namespace f3m_00bc45a0 {
 
+// pdb: NextToken | IdvSpline.obj | fnv360_0822_retail, call_gap, low
 static __declspec(noinline) const char* FUN_00bc1e30(const char* p, char* buf)
 {
     while (isspace(*p))
@@ -9242,6 +9355,8 @@ public:
     void FUN_00bc45a0(const std::string& s);
 };
 
+// pdb: CIdvBezierSpline::Parse | IdvSpline.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: `anonymous namespace'::SetAnimationGraphVarFunctor::operator())
+// pdb params: strInput
 void QSpline::FUN_00bc45a0(const std::string& s)
 {
     char buf[256];
@@ -9414,7 +9529,7 @@ struct ArchiveNode
     ArchiveNode* m_pkNext;
 };
 
-const char* __cdecl FUN_00bce940(const char* apFileName);
+const char* __cdecl ArchiveManager_TrimFileName(const char* apFileName);
 unsigned int __cdecl FUN_00bc8b30(const char* apExtension);
 void __cdecl FUN_00bccca0(const char* apPath, FileNameHash& arDirHash, FileNameHash& arFileHash);
 
@@ -9435,6 +9550,8 @@ __declspec(noinline) bool Archive::FUN_00bc95f0(FileNameHash& arDirHash, unsigne
     return arDirHash.uiCRC != 0;
 }
 
+// pdb: ArchiveManager::GetFile | Archive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFileName, aiBufferSize, aeArchiveType
 void* __cdecl FUN_00bcc7a0(const char* apFileName, unsigned int auiBufferSize, unsigned int aeArchiveTypeFlags)
 {
     unsigned int uiFolderIndex = 0;
@@ -9442,7 +9559,7 @@ void* __cdecl FUN_00bcc7a0(const char* apFileName, unsigned int auiBufferSize, u
     FileNameHash kFileNameHash;
     FileNameHash kDirectoryNameHash;
 
-    apFileName = FUN_00bce940(apFileName);
+    apFileName = ArchiveManager_TrimFileName(apFileName);
     if (aeArchiveTypeFlags == 0xffff)
         aeArchiveTypeFlags = FUN_00bc8b30(apFileName + strlen(apFileName) - 3);
     FUN_00bccca0(apFileName, kDirectoryNameHash, kFileNameHash);
@@ -9536,6 +9653,8 @@ struct FUN_00bcacb0 : StreamBase {
     FUN_00bcacb0(const char* name, Archive* arch, unsigned offs, unsigned size, int mode);
     virtual ~FUN_00bcacb0();
 };
+// pdb: ArchiveFile::ArchiveFile | Archive.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apFileName, apArchive, aiOffset, aiSize, aiBufferSize
 FUN_00bcacb0::FUN_00bcacb0(const char* nm, Archive* arch, unsigned offs, unsigned size, int mode)
 {
     if (nm)
@@ -9575,7 +9694,6 @@ namespace f3m_00bc0080 {
 
 namespace f3m_00bc0080 {
 struct Elem { char d[0x54]; };
-struct Tag {};
 struct TagA {};
 struct TagB {};
 struct TagC {};
@@ -9649,6 +9767,8 @@ struct IdvReaderScope : IdvReader
 struct IdvParserA { bool FUN_00bddd20(IdvReader* reader, int* out); };
 struct IdvParserB { bool FUN_00bdcf90(IdvReader* reader, int* out); };
 }
+// pdb: fanReadCtlFile | FanCtlFile.obj | fnv360_0822_retail, ustr, medium
+// pdb params: fname, basisKeyGeo, basisKeyTex, basisSize, linCtl, genCtl
 bool FUN_00bdc530(const std::string& path, int* a, int* b, int* box, f3m_00bdc530::IdvParserA* first, f3m_00bdc530::IdvParserB* second)
 {
     f3m_00bdc530::IdvReaderScope reader("FRCTL001");
@@ -9790,6 +9910,8 @@ struct Spline {
     Point24 FUN_00bc2400(float t);
 };
 
+// pdb: CIdvBezierSpline::EvaluateRawPoint | IdvSpline.obj | fnv360_0721_beta, objrun, medium
+// pdb params: fPercent
 Point24 Spline::FUN_00bc2400(float t)
 {
     Point24 result(2);
@@ -9844,6 +9966,8 @@ struct List {
     }
 };
 
+// pdb: FileFinder::PlatformBuildFileList | FileFinder_Xenon.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSearchName, apBaseFilename, apFileList
 void __cdecl FUN_00bce7f0(const char* pattern, const char* path, List* list)
 {
     WIN32_FIND_DATAA data;
@@ -9902,6 +10026,8 @@ struct LeafInfo {
  float angle,dimming,spacing;int type;
  void FUN_00bc1390(LeafReader* reader);
 };
+// pdb: SIdvLeafInfo::Parse | LeafInfo.obj | fnv360_0822_retail, ustr, medium
+// pdb params: cFile
 void LeafInfo::FUN_00bc1390(LeafReader* reader) {
  int token=reader->FUN_00ba92d0();
  do {
@@ -10006,6 +10132,8 @@ void Vec::FUN_00bddc00(unsigned int n, Elem val)
 namespace f3m_00bddfa0 {
 int __cdecl FUN_00c01c9b(char* dest, unsigned size, const char* src, unsigned count);
 
+// pdb: std::_Vector_const_iterator<std::_Vector_val<FanLinCtlS,std::allocator<FanLinCtlS> > >::_Vector_const_iterator<std::_Vector_val<FanLinCtlS,std::allocator<FanLinCtlS> > > | FanControls.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __that
 char* __cdecl FUN_00bddfa0(char* first, char* last, char* dest) {
     int count = last - first;
     char* head = dest - count;
@@ -10046,6 +10174,8 @@ void __thiscall FUN_00bda5e0_Obj::FUN_00bda5e0(char value)
 // @f3 0x00bd2e80 (community match, verified in this file)
 namespace f3m_00bd2e80 {
 struct Queue_bd2e80 { void FUN_00bd2e80(int arg, AFRefCounted* handle); };
+// pdb: BSAudioManager::SetPriority | BSAudioManager.obj | fnv360_0721_beta, call_seq, low
+// pdb params: aiSoundID, aiPriority
 void Queue_bd2e80::FUN_00bd2e80(int arg, AFRefCounted* handle)
 {
     ((AFEventQueue*)this)->Post(0x27, arg, 0, 0, AFRefHandle(handle), DAT_0108ec68);
@@ -10056,6 +10186,7 @@ void Queue_bd2e80::FUN_00bd2e80(int arg, AFRefCounted* handle)
 namespace f3m_00bcf740 {
 struct Holder_bcf740 { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; float unk124; };
 Holder_bcf740* __cdecl FUN_00bd6800();
+// pdb: BSAudio::GetVoiceVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
 float FUN_00bcf740()
 {
     return FUN_00bd6800()->unk124;
@@ -10154,6 +10285,8 @@ public:
     int unk14C;
     unsigned int unk150;
 };
+// pdb: BSFile::WriteF | BSFile.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: InterfaceStrings::QFaderMenu)
+// pdb params: apBuffer, aiBytes
 void ProcessingState::FUN_00bcd560(void* data, unsigned int count)
 {
     unk150 += FUN_00aa1810(data, count);
@@ -10167,6 +10300,8 @@ struct FUN_00bc99d0_Obj
     int FUN_00bc99d0(unsigned int a, unsigned int b, unsigned int c);
 };
 
+// pdb: ArchiveManager::GetFileEntryForFileFromAllArchives | Archive.obj | fnv360_0822_debug, caller, low
+// pdb params: aeArchiveTypeIndex, arDirectoryHash, arFileNameHash, apFileName
 int __cdecl FUN_00bca5c0(unsigned int idx, unsigned int a, unsigned int b, unsigned int c)
 {
     int result = 0;
@@ -10242,9 +10377,11 @@ struct Archive
 extern BSSimpleList<NiPointer<Archive> >* DAT_011786f0;
 extern NiPointer<Archive> DAT_01178700;
 
-const char* __cdecl FUN_00bce940(const char* apPath);
+const char* __cdecl ArchiveManager_TrimFileName(const char* apPath);
 unsigned int __cdecl FUN_00bc8b30(const char* apExtension);
 
+// pdb: ArchiveManager::GetArchiveForFile | Archive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFileName, aeArchiveType
 Archive* __cdecl FUN_00bcb240(const char* apPath, unsigned int aeArchiveTypeFlags)
 {
     if (!DAT_011786f0)
@@ -10253,7 +10390,7 @@ Archive* __cdecl FUN_00bcb240(const char* apPath, unsigned int aeArchiveTypeFlag
     unsigned int uiFileIndex;
     FileNameHash kFileNameHash;
     FileNameHash kDirectoryNameHash;
-    apPath = FUN_00bce940(apPath);
+    apPath = ArchiveManager_TrimFileName(apPath);
     if (aeArchiveTypeFlags == 0xffff)
         aeArchiveTypeFlags = FUN_00bc8b30(apPath + strlen(apPath) - 3);
     FileNameHash::CreateDirectoryAndFileHashes(apPath, kDirectoryNameHash, kFileNameHash);
@@ -10292,6 +10429,8 @@ struct FUN_00bd04f0_Obj
     void FUN_00bd04f0(int param);
 };
 
+// pdb: BSSoundHandle::SetPriority | BSSoundHandle.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiPriority
 void FUN_00bd04f0_Obj::FUN_00bd04f0(int param)
 {
     if (value != -1)
@@ -10314,6 +10453,7 @@ public:
     void* __thiscall FUN_00bc4c50();
 };
 
+// pdb: CIdvRandom::CIdvRandom | IdvRandom.obj | fnv360_0822_retail, call_seq, high
 void* __thiscall Randomizer4c50::FUN_00bc4c50()
 {
     if (DAT_01178398 == 0)
@@ -10346,6 +10486,8 @@ struct F3_BC8F60 {
     unsigned char FUN_00bc8f60(int value1, int value2);
 };
 
+// pdb: ArchiveFile::Open | Archive.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: abWaitForOpen, abTextMode
 unsigned char F3_BC8F60::FUN_00bc8f60(int value1, int value2)
 {
     if (unk20 == 0)
@@ -10386,6 +10528,7 @@ public:
     void FUN_00bc6fb0();
 };
 
+// pdb: Normal::~Normal | RobertDavies_Random.obj | fnv360_0822_retail, call_seq, medium
 void __thiscall FUN_00bc6fb0_This::FUN_00bc6fb0() {
     int temp = 1;
     this->unk00 = 0xea8154;
@@ -10418,6 +10561,8 @@ struct FUN_00bc8a10_Heap {
     void* FUN_0086b930(unsigned int size);
 };
 
+// pdb: ArchiveManager::SetInvalidation | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: abInvalidate, apInvalidationFile
 void __cdecl FUN_00bc8a10(bool flag, const char* name) {
     DAT_01069081 = flag;
     if (name) {
@@ -10455,6 +10600,7 @@ struct Node_bcee30 {
     Node_bcee30();
 };
 
+// pdb: BSXenonTaskletManager::`scalar deleting destructor' | BSXenonTaskletManager.obj | fnv360_0822_retail, objrun_open, low
 bool __stdcall FUN_00bcee30(Node_bcee30** out)
 {
     Node_bcee30* p = new Node_bcee30();
@@ -10476,6 +10622,8 @@ struct Handle_bd00f0 {
     int flag08;
     bool FUN_00bd00f0(int a, int b);
 };
+// pdb: BSSoundHandle::PlayAfter | BSSoundHandle.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: LipSynchAnim::~LipSynchAnim)
+// pdb params: aiDelay, aiPlayFlags
 bool Handle_bd00f0::FUN_00bd00f0(int a, int b)
 {
     if (m_handle == -1)
@@ -10512,6 +10660,8 @@ struct Finder_bce980 {
     bool FUN_00bce980(int flag);
 };
 
+// pdb: Archive::PlatformGetLastWriteTime | Archive_Xenon.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apResult
 bool Finder_bce980::FUN_00bce980(int flag)
 {
     WIN32_FIND_DATAA findData;
@@ -10529,6 +10679,7 @@ struct FUN_00bc7020_Out {
     float value;
     int extra;
 };
+// pdb: Normal::Variance | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
 void __stdcall FUN_00bc7020(FUN_00bc7020_Out* out) {
     out->extra = 0;
     out->value = 1.0f;
@@ -10561,6 +10712,8 @@ struct FNV_Bd36_Obj {
 };
 FNV_Bd36_Obj* __stdcall FUN_00bd6800(int value);
 
+// pdb: BSAudio::SetListenerUnderwater | BSAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: abIsUnderwater
 void __stdcall FUN_00bcf570(int arg)
 {
     FUN_00bd6800(arg)->FUN_00bd36d0();
@@ -10575,6 +10728,7 @@ struct StubBC87
     unsigned int unk08, unk0c;
     StubBC87* FUN_00bc8760();
 };
+// pdb: ArchiveManager::SetRuntimeCollisions | Archive.obj | tesv_win, objrun_sim, low
 StubBC87* StubBC87::FUN_00bc8760()
 {
     unk08 = 0;
@@ -10599,6 +10753,8 @@ public:
     bool FUN_00bd03e0(int arg);
 };
 
+// pdb: BSSoundHandle::FadeInPlay | BSSoundHandle.obj | fnv360_0822_debug, objrun, low, conflict (skyrim: Actor::StartDeferredKill)
+// pdb params: aiMilliseconds
 bool FNV_Bd03e0_Obj::FUN_00bd03e0(int arg)
 {
     if (unk00 == -1) {
@@ -10733,6 +10889,8 @@ struct P010Object {
     void FUN_00bc8c10(bool flag);
 };
 
+// pdb: Archive::DeleteFilenameStringArray | Archive.obj | fnv360_0721_beta, objrun, medium
+// pdb params: abPreserveOffsets
 void P010Object::FUN_00bc8c10(bool flag) {
     if (!(unk1B4 & 4)) {
         if (unk1C0) {
@@ -10771,6 +10929,8 @@ struct Owner_bc2980 {
     void FUN_00bc2980();
 };
 
+// pdb: std::_Destroy_range<std::allocator<CVec> > | FrondEngine.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: _First, _Last, _Al
 void Owner_bc2980::FUN_00bc2980()
 {
     if (begin) {
@@ -10906,6 +11066,8 @@ struct FNV_Bd2e40_Obj
 
 FNV_Bd2e40_Obj* __stdcall FUN_00bd6800();
 
+// pdb: BSAudio::SetMasterVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afNewVol
 void __stdcall FUN_00bcf780(float value)
 {
     FNV_Bd2e40_Obj* object = FUN_00bd6800();
@@ -10933,6 +11095,8 @@ struct FNV_Bd0510_Obj_L {
     void FUN_00bd0470(int param_2);
 };
 
+// pdb: BSSoundHandle::SetObjectToFollow | BSSoundHandle.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: hkpBallSocketConstraintAtom::setVelocityStabilizationFactor)
+// pdb params: apObj
 void FNV_Bd0510_Obj_L::FUN_00bd0470(int param_2) {
     if (unk00 != -1 && param_2 != 0) {
         if (DAT_011790fc != NULL) {
@@ -10960,6 +11124,7 @@ public:
     int FUN_00bd7c60();
 };
 
+// pdb: BSGameSound::IsPaused | BSGameSound.obj | fnv360_0822_retail, objrun, medium
 int FUN_00bd7c60_Obj::FUN_00bd7c60()
 {
     return (unk10 >> 6) & 1;
@@ -11031,6 +11196,8 @@ struct FNV_Bd1cd0_Obj
     float __thiscall FUN_00bd1cd0(int value);
 };
 
+// pdb: BSAudioManager::GetVolume | BSAudioManager.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiSoundID
 float __thiscall FNV_Bd1cd0_Obj::FUN_00bd1cd0(int value)
 {
     float result = 0.0f;
@@ -11049,6 +11216,7 @@ float __thiscall FNV_Bd1cd0_Obj::FUN_00bd1cd0(int value)
 
 // @f3 0x00bd7890 (community match, verified in this file)
 namespace f3m_00bd7890 {
+// pdb: BSGameSound::Is2DRadiusSound | BSGameSound.obj | fnv360_0822_retail, call_gap_sim, medium
 bool __fastcall FUN_00bd7890(void* self, int)
 {
     unsigned int flags = *(unsigned int*)((char*)self + 8);
@@ -11107,7 +11275,8 @@ extern double DAT_011785c0;
 extern const double DAT_00dc2748;
 namespace f3m_00bc6e80 {
 namespace f3m_00bc6e80 {
-float FUN_00bc6e80() {
+// pdb: Random::Raw | RobertDavies_Random.obj | fnv360_0822_retail, udata, high
+float Random_Raw() {
     int seed = (int)DAT_011785c0;
     int value = seed * 16807 - (seed / 127773) * 2147483647;
     if (value <= 0) value += 2147483647;
@@ -11137,6 +11306,8 @@ struct Alloc {
     void construct(Elem6* ptr, const Elem6& value) { Construct(ptr, value); }
 };
 
+// pdb: std::_Uninitialized_default_fill_n<FR2Vect3TC<short> *,unsigned int,FR2Vect3TC<short>,std::allocator<FR2Vect3TC<short> > > | EgmFileIO.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: _First, _Count, _Pval, _Al
 void __cdecl FUN_00bdedc0(Elem6* first, unsigned int count, const Elem6& value, Alloc& al)
 {
     for (; 0 < count; --count, ++first)
@@ -11166,6 +11337,7 @@ struct Stream {
 };
 
 
+// pdb: BSFile::Exist | BSFile.obj | fnv360_0822_retail, call_gap, low
 long Stream::FUN_00bcd4a0()
 {
     size = 0;
@@ -11201,6 +11373,7 @@ struct Config {
     Config();
 };
 
+// pdb: SIdvTreeInfo::SIdvTreeInfo | TreeInfo.obj | fnv360_0822_retail, call_seq, medium
 Config::Config()
 {
     unk1c = 1100.0f;
@@ -11272,6 +11445,8 @@ Iter8& Iter8::operator+=(int off)
     return *this;
 }
 
+// pdb: std::vector<CLeafLodEngine::SLodEntry,std::allocator<CLeafLodEngine::SLodEntry> >::push_back | LeafLod.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: _Val
 Iter8 VecBC6410::FUN_00bc6410(Iter8 where, const Elem8& value)
 {
     unsigned int off = size() == 0 ? 0 : where - begin();
@@ -11286,6 +11461,8 @@ namespace f3m_00bcb4a0 {
 struct ArchiveRef;
 ArchiveRef* __cdecl FUN_00bcb240(const char* path, int mode);
 
+// pdb: ArchiveManager::FindFile | Archive.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apFileName, aeArchiveType
 bool __cdecl FUN_00bcb4a0(char* path, unsigned int mode)
 {
     return FUN_00bcb240(path, mode) ? true : false;
@@ -11305,6 +11482,8 @@ struct Handle {
     void FUN_00bd04d0(int context);
 };
 
+// pdb: BSSoundHandle::SetSynchStartTime | BSSoundHandle.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiStartTime
 void Handle::FUN_00bd04d0(int context)
 {
     if (id != -1)
@@ -11317,6 +11496,8 @@ void Handle::FUN_00bd04d0(int context)
 // @f3 0x00bc4b00 (community match, verified in this file)
 namespace f3m_00bc4b00 {
 namespace f3m_00bc4b00 {
+// pdb: Uniform::Density | IdvRandom.obj | fnv360_0822_retail, vtable, medium
+// pdb params: x
 float __stdcall FUN_00bc4b00(float value){
     if(value<0.0f || value>1.0f) value=0.0f;
     else value=1.0f;
@@ -11385,6 +11566,8 @@ struct Job {
     void FUN_00bd1590(int a1, int a2, int a3, int a4, Ptr p, Vec3 v);
 };
 
+// pdb: BSSoundMessage::Set | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: m, m, i, i, d, d, p, p, sp, sp, vec, vec
 void Job::FUN_00bd1590(int na1, int na2, int na3, int na4, Ptr p, Vec3 v)
 {
     a1 = na1;
@@ -11404,6 +11587,8 @@ void Job::FUN_00bd1590(int na1, int na2, int na3, int na4, Ptr p, Vec3 v)
 extern const char DAT_00ea822c[];
 namespace f3m_00bc8820 {
 
+// pdb: StandardizeTexturePath | Archive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apInPath, apOutPath, aiOutSize
 bool __cdecl FUN_00bc8820(const char* path, char* out, unsigned int size)
 {
     *out = 0;
@@ -11427,6 +11612,8 @@ struct Elem6 { unsigned short a, b, c; };
 struct V : std::vector<Elem6> {
     void FUN_00bdf110(size_type n, Elem6 v);
 };
+// pdb: std::vector<FR2Vect3TC<short>,std::allocator<FR2Vect3TC<short> > >::resize | EgmFileIO.obj | fnv360_1110_retail, call_gap, low
+// pdb params: _Newsize
 void V::FUN_00bdf110(size_type n, Elem6 v)
 {
     if (size() < n)
@@ -11444,6 +11631,8 @@ namespace f3m_00bddfd0 {
 struct CharVec {
     char* FUN_00bddfd0(char* from, char* to, char* dest);
 };
+// pdb: std::vector<FanLinCtlS,std::allocator<FanLinCtlS> >::_Make_iter | FanControls.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Where
 char* CharVec::FUN_00bddfd0(char* from, char* to, char* dest)
 {
     unsigned int count = to - from;
@@ -11512,6 +11701,8 @@ struct MyObj {
     bool FUN_00bd01c0(float value);
 };
 
+// pdb: BSSoundHandle::SetVolume | BSSoundHandle.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiNewVolume
 bool MyObj::FUN_00bd01c0(float value) {
     if (unk00 == -1)
         return false;
@@ -11532,6 +11723,7 @@ struct Obj {
     Source* source;
     Vec3 FUN_00bcf540();
 };
+// pdb: BSAudio::GetListenerPosition | BSAudio.obj | fnv360_0822_retail, call_gap, low
 Vec3 Obj::FUN_00bcf540()
 {
     return source ? source->GetPosition() : DAT_0108ec68;
@@ -11543,6 +11735,8 @@ namespace f3m_00bcf5f0 {
 namespace f3m_00bcf5f0 {
 struct Target { void FUN_00bd31f0(); };
 Target* __stdcall FUN_00bd6800(int handle, int context);
+// pdb: BSAudio::PauseAllOfType | BSAudio.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSSoundCategoryHandle::BSSoundCategoryHandle)
+// pdb params: aiType, abExactMatch
 void __stdcall FUN_00bcf5f0(int handle, int context)
 {
     FUN_00bd6800(handle, context)->FUN_00bd31f0();
@@ -11563,6 +11757,8 @@ struct Obj {
     Sink* sink;
     void FUN_00bcf6e0(Vec3 a, Vec3 b);
 };
+// pdb: BSAudio::OrientListener | BSAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aFront, aTop
 void Obj::FUN_00bcf6e0(Vec3 a, Vec3 b)
 {
     if (sink)
@@ -11632,6 +11828,8 @@ struct Win32File
     HANDLE m_handle;
     int FUN_00bccfb0(void* buffer, DWORD size, DWORD sizeHigh, __int64* bytesRead);
 };
+// pdb: BSSystemFile::DoRead | BSSystemFile_Xenon.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSSystemFile::Read)
+// pdb params: apvBuffer, auiBytes, auiRead
 int Win32File::FUN_00bccfb0(void* buffer, DWORD size, DWORD, __int64* bytesRead)
 {
     DWORD read = 0;
@@ -11660,6 +11858,8 @@ struct Handler {
     bool enabled;
     bool FUN_00bce350(Item* const& item);
 };
+// pdb: BSTaskletManager::CloseTaskGroup | BSTaskletManager.obj | fnv360_1110_retail, call_seq, medium
+// pdb params: aGroup
 bool Handler::FUN_00bce350(Item* const& item)
 {
     if (enabled && item)
@@ -11702,6 +11902,7 @@ struct Obj {
     void FUN_00bc91b0() throw();
     Obj* FUN_00bcac30(unsigned int flags);
 };
+// pdb: Archive::`scalar deleting destructor' | Archive.obj | fnv360_0822_retail, objrun, medium
 Obj* Obj::FUN_00bcac30(unsigned int flags)
 {
     FUN_00bc91b0();
@@ -11717,6 +11918,8 @@ Obj* Obj::FUN_00bcac30(unsigned int flags)
 extern const char DAT_00ea822c[];
 extern const char DAT_00ea8220[];
 namespace f3m_00bc8570 {
+// pdb: FindTexturePathOffset | Archive.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apPath, abStripTexture
 int __cdecl FUN_00bc8570(const char* path, bool skipMeshes)
 {
     const char* p = path;
@@ -11902,6 +12105,8 @@ namespace f3m_00bc8120 {
 namespace f3m_00bc8120 {
 struct Stream;
 Stream* __cdecl FUN_00bc7fc0(const char* path, int mode, unsigned int bufferSize, unsigned int flags);
+// pdb: FileFinder::GetFile | FileFinder.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apName, aeMode, aiSize
 Stream* __cdecl FUN_00bc8120(const char* path, int mode, unsigned int bufferSize)
 {
     return FUN_00bc7fc0(path, mode, bufferSize, 0xffff);
@@ -12048,9 +12253,6 @@ void ThisType::FUN_00bd7d20() {
 }
 
 void CallbackObj::Call(int value) {}
-void ReleaseObj::vf00() {}
-void ReleaseObj::vf04() {}
-void ReleaseObj::vf08() {}
 }   // namespace f3m_00bd7d20
 
 // @f3 0x00bc0e50 (community match, verified in this file)
@@ -12105,6 +12307,7 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::GetMasterVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
 float __cdecl FUN_00bcf720()
 {
     return f3m_00bcf720::FUN_00bd6800()->value;
@@ -12121,6 +12324,7 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::GetFootVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
 float __cdecl FUN_00bcf730()
 {
     return f3m_00bcf730::FUN_00bd6800()->value;
@@ -12137,6 +12341,7 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::GetEffectVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
 float __cdecl FUN_00bcf750()
 {
     return f3m_00bcf750::FUN_00bd6800()->value;
@@ -12153,6 +12358,7 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::GetMusicVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
 float __cdecl FUN_00bcf760()
 {
     return f3m_00bcf760::FUN_00bd6800()->value;
@@ -12169,6 +12375,7 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::GetRadioVolume | BSAudio.obj | fnv360_0822_retail, call_gap, low
 float __cdecl FUN_00bcf770()
 {
     return f3m_00bcf770::FUN_00bd6800()->value;
@@ -12186,6 +12393,8 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::SetFootVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afNewVol
 void __stdcall FUN_00bcf7a0(float value)
 {
     f3m_00bcf7a0::AudioManager* mgr = f3m_00bcf7a0::FUN_00bd6800();
@@ -12205,6 +12414,8 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::SetVoiceVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afNewVol
 void __stdcall FUN_00bcf7c0(float value)
 {
     f3m_00bcf7c0::AudioManager* mgr = f3m_00bcf7c0::FUN_00bd6800();
@@ -12224,6 +12435,8 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::SetEffectVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afNewVol
 void __stdcall FUN_00bcf7e0(float value)
 {
     f3m_00bcf7e0::AudioManager* mgr = f3m_00bcf7e0::FUN_00bd6800();
@@ -12243,6 +12456,8 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::SetMusicVolume | BSAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afNewVol
 void __stdcall FUN_00bcf800(float value)
 {
     f3m_00bcf800::AudioManager* mgr = f3m_00bcf800::FUN_00bd6800();
@@ -12262,6 +12477,8 @@ struct AudioManager {
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 }
 
+// pdb: BSAudio::SetRadioVolume | BSAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afNewVol
 void __stdcall FUN_00bcf820(float value)
 {
     f3m_00bcf820::AudioManager* mgr = f3m_00bcf820::FUN_00bd6800();
@@ -12286,6 +12503,7 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSAudio::IsListenerUnderwater | BSAudio.obj | fnv360_0822_retail, call_gap, low
 bool __cdecl FUN_00bcf840()
 {
     return f3m_00bcf840::FUN_00bd6800()->flag;
@@ -12303,11 +12521,12 @@ struct SoundHandle {
     int id;
     int unk04;
     int state;
-    bool FUN_00bd0390();
+    bool BSSoundHandle_IsValid();
 };
 }
 
-bool f3m_00bd0390::SoundHandle::FUN_00bd0390()
+// pdb: BSSoundHandle::IsValid | BSSoundHandle.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(call_seq), high
+bool f3m_00bd0390::SoundHandle::BSSoundHandle_IsValid()
 {
     if (id == -1)
         return false;
@@ -12330,6 +12549,7 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::Pause | BSSoundHandle.obj | fnv360_0822_retail, call_gap, medium
 bool f3m_00bd0120::SoundHandle::FUN_00bd0120()
 {
     if (id == -1)
@@ -12350,11 +12570,12 @@ struct SoundHandle {
     int id;
     int unk04;
     int state;
-    bool FUN_00bd0140();
+    bool BSSoundHandle_Stop();
 };
 }
 
-bool f3m_00bd0140::SoundHandle::FUN_00bd0140()
+// pdb: BSSoundHandle::Stop | BSSoundHandle.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap) + skyrim(call_seq), high
+bool f3m_00bd0140::SoundHandle::BSSoundHandle_Stop()
 {
     if (id == -1)
         return false;
@@ -12378,6 +12599,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetStaticAttenuation | BSSoundHandle.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiStaticAttenutation
 bool f3m_00bd0190::SoundHandle::FUN_00bd0190(int value)
 {
     if (id == -1)
@@ -12401,6 +12624,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetFrequencyVariance | BSSoundHandle.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiFreqVariance
 bool f3m_00bd0240::SoundHandle::FUN_00bd0240(int value)
 {
     if (id == -1)
@@ -12424,6 +12649,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetReverbAttenuation | BSSoundHandle.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiReverbAtt
 void f3m_00bd0370::SoundHandle::FUN_00bd0370(int value)
 {
     if (id != -1)
@@ -12446,6 +12673,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetFollowsListener | BSSoundHandle.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abFollowsListener
 void f3m_00bd04b0::SoundHandle::FUN_00bd04b0(int value)
 {
     if (id != -1)
@@ -12468,6 +12697,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetTimeConstraints | BSSoundHandle.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: AutoCacheCombatActorHandles::AutoCacheCombatActorHandles)
+// pdb params: aiStart, aiStop
 void f3m_00bd0440::SoundHandle::FUN_00bd0440(int a, int b)
 {
     if (id != -1)
@@ -12490,6 +12721,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSAudio::KillAllOfType | BSAudio.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiType, aiFadeTimeMS
 void __stdcall FUN_00bcf5d0(int a, int b)
 {
     f3m_00bcf5d0::FUN_00bd6800()->FUN_00bd3290(a, b);
@@ -12511,6 +12744,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSAudio::UnPauseAllOfType | BSAudio.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiType, abExactMatch
 void __stdcall FUN_00bcf610(int a, int b)
 {
     f3m_00bcf610::FUN_00bd6800()->FUN_00bd3240(a, b);
@@ -12532,7 +12767,8 @@ struct SoundHandle {
 };
 }
 
-void __stdcall FUN_00bcf590(int a, int b, int c)
+// pdb: BSAudio::MuteType | BSAudio.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap_sim), high
+void __stdcall BSAudio_MuteType(int a, int b, int c)
 {
     f3m_00bcf590::FUN_00bd6800()->FUN_00bd3150(a, b, c);
 }
@@ -12553,6 +12789,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSAudio::StopMovingSounds | BSAudio.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObj, afFadeSeconds, aiFlags
 void __stdcall FUN_00bcf630(int a, float b, int c)
 {
     f3m_00bcf630::FUN_00bd6800()->FUN_00bd27f0(a, b, c);
@@ -12575,6 +12813,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetModFrequency | BSSoundHandle.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afNewFrequency
 bool f3m_00bd0210::SoundHandle::FUN_00bd0210(float value)
 {
     if (id == -1)
@@ -12588,22 +12828,23 @@ namespace f3m_00bd03b0 {
 namespace f3m_00bd03b0 {
 struct Point3 { float x; float y; float z; };
 struct AudioManager {
-    bool FUN_00bd2cf0(int id);
+    bool BSAudioManager_Release(int id);
 };
 AudioManager* __cdecl FUN_00bd6800();   // audio manager singleton
 struct SoundHandle {
     int id;
     bool flag04;
     int state;
-    bool FUN_00bd03b0();
+    bool BSSoundHandle_Release();
 };
 }
 
-bool f3m_00bd03b0::SoundHandle::FUN_00bd03b0()
+// pdb: BSSoundHandle::Release | BSSoundHandle.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_gap) + skyrim(call_seq), high
+bool f3m_00bd03b0::SoundHandle::BSSoundHandle_Release()
 {
     if (id == -1)
         return false;
-    bool done = FUN_00bd6800()->FUN_00bd2cf0(id);
+    bool done = FUN_00bd6800()->BSAudioManager_Release(id);
     if (done)
         id = -1;
     return done;
@@ -12626,6 +12867,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSAudio::PositionListener | BSAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aNewPosition
 void __stdcall FUN_00bcf510(f3m_00bcf510::Point3 pos)
 {
     f3m_00bcf510::FUN_00bd6800()->FUN_00bd3690(pos);
@@ -12648,6 +12891,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::Play | BSSoundHandle.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSSoundHandle::SetPosition)
+// pdb params: abLoopPlayback
 bool f3m_00bd00c0::SoundHandle::FUN_00bd00c0(int value)
 {
     if (id == -1)
@@ -12673,6 +12918,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: bhkRigidBody::SetLinearVelocity | TESObjectREFR.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: TESObjectREFR::GetLocationOnReference)
+// pdb params: arVel
 bool f3m_00bd0160::SoundHandle::FUN_00bd0160()
 {
     if (id == -1)
@@ -12699,6 +12946,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetMinMax | BSSoundHandle.obj | fnv360_0721_beta, objrun, medium
+// pdb params: afMin, afMax
 void f3m_00bd0310::SoundHandle::FUN_00bd0310(float a, float b)
 {
     if (id != -1)
@@ -12722,6 +12971,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetAttenuationCurve | BSSoundHandle.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiPt1, aiPt2, aiPt3, aiPt4, aiPt5
 void f3m_00bd0340::SoundHandle::FUN_00bd0340(int a, int b, int c, int d, int e)
 {
     if (id != -1)
@@ -12745,6 +12996,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetPosition | BSSoundHandle.obj | fnv360_0721_beta, call_seq, low
+// pdb params: afX, afY, afZ
 bool f3m_00bd0290::SoundHandle::FUN_00bd0290(float x, float y, float z)
 {
     if (id == -1)
@@ -12769,6 +13022,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSSoundHandle::SetBeamEnd | BSSoundHandle.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSSoundHandle::SetReverbAttenuation)
+// pdb params: afX, afY, afZ
 bool f3m_00bd02d0::SoundHandle::FUN_00bd02d0(float x, float y, float z)
 {
     if (id == -1)
@@ -12794,6 +13049,7 @@ struct FUN_00bc7550_Owner
     float FUN_00bc7550();
 };
 
+// pdb: PosGen::Next | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
 float FUN_00bc7550_Owner::FUN_00bc7550()
 {
     if (m_10 != 0)
@@ -12823,6 +13079,8 @@ extern void* DAT_01069088;
 extern void* DAT_0106908c;
 }
 
+// pdb: ArchiveManager::SetRetainTables | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiDirString, aiFileString, aiFileOffset
 void __cdecl FUN_00bc85e0(void* a, void* b, void* c)
 {
     f3m_00bc85e0::DAT_01069084 = a;
@@ -12839,6 +13097,8 @@ struct ArchiveName
 };
 extern ArchiveName DAT_01069090[26];
 
+// pdb: ArchiveManager::GetArchiveTypeFromFileExtension | Archive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apExtension
 int __cdecl FUN_00bc8b30(const char* name)
 {
     unsigned int lo = 0;
@@ -12907,6 +13167,8 @@ public:
     unsigned int unk154;
 };
 
+// pdb: BSFile::BSFile | BSFile_Xenon.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apName, aeMode, aiBufferSize, abTextMode, apDevice
 FUN_00bcd300::FUN_00bcd300(const char* name, int mode, unsigned int bufferSize, bool flag)
 {
     FUN_00bcdc30(false);
@@ -12950,6 +13212,7 @@ struct Stand_bd7c40 {
     unsigned int FUN_00bd7c40() const;
 };
 
+// pdb: BSGameSound::IsPlaying | BSGameSound.obj | fnv360_0822_retail, objrun, low
 unsigned int Stand_bd7c40::FUN_00bd7c40() const {
     return (unk10 >> 5) & 1;
 }
@@ -12970,6 +13233,8 @@ struct Owner {
 };
 }
 
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,int,NiPointer<NiAVObject> >::GetAt | BSAudioManager.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: key, val
 void f3m_00bd14a0::Owner::FUN_00bd14a0(RefCounted** slot)
 {
     RefCounted* old = *slot;
@@ -13024,6 +13289,8 @@ public:
 };
 }
 
+// pdb: BSAudioManager::PositionListener | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aNewPosition
 void f3m_00bd3690::AudioManager::FUN_00bd3690(AudioPoint position)
 {
     FUN_00bd24f0(0x38, 0, 0, 0, Pointer<RefObject>(0), position);
@@ -13046,6 +13313,8 @@ struct SoundHandle {
 };
 }
 
+// pdb: BSAudio::UnMuteType | BSAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiType, aiFadeTimeMS
 void __stdcall FUN_00bcf5b0(int a, int b)
 {
     f3m_00bcf5b0::FUN_00bd6800()->FUN_00bd31a0(a, b);
@@ -13060,6 +13329,7 @@ struct Elem32 { int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c; };
 struct V : std::vector<Elem32> {
     Elem32& FUN_00bdfe10(size_type pos);
 };
+// pdb: file_ptr::close | binaryFile.obj | fnv360_0822_debug, objrun_open, low
 V::reference V::FUN_00bdfe10(size_type pos)
 {
     return (*this)[pos];
@@ -13077,9 +13347,10 @@ struct Finder {
     int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140;
     char pattern[0x104];
     int found;
-    int FUN_00bce100(const char* path);
+    int BSSystemDir_DoOpen(const char* path);
 };
-int Finder::FUN_00bce100(const char* path)
+// pdb: BSSystemDir::DoOpen | BSSystemDir_Xenon.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+int Finder::BSSystemDir_DoOpen(const char* path)
 {
     if (!path)
         return 2;
@@ -13114,6 +13385,7 @@ struct Sound : SoundBase {
     int unk20, unk24, unk28, unk2c, unk30, unk34;
     Sound();
 };
+// pdb: BSAudio::BSAudio | BSAudio.obj | fnv360_0822_retail, callee_sim, low, conflict (skyrim: BSAudioManager::UnRegisterObjectOutputOverride)
 Sound::Sound()
 {
     playing = false;
@@ -13143,6 +13415,7 @@ struct FUN_00bd7740_cls {
     void FUN_00bd7740();
 };
 
+// pdb: BSAudio::IsMultiThreaded | TESObjectDOOR.obj | fnv360_0822_debug, call_dedup, low
 void FUN_00bd7740_cls::FUN_00bd7740() {
     DWORD now = GetTickCount();
     if ((unk08 & 1) == 0)
@@ -13205,6 +13478,7 @@ public:
 };
 }
 
+// pdb: CompressedArchiveFile::`scalar deleting destructor' | Archive.obj | fnv360_0822_retail, caller_sim, medium
 f3m_00bca0b0::InflateFile* f3m_00bca0b0::InflateFile::FUN_00bca0b0(unsigned int flags)
 {
     this->InflateFile::~InflateFile();
@@ -13264,6 +13538,7 @@ public:
     void FUN_00bce260();
 };
 
+// pdb: BSTaskletManager::OnStartup | BSTaskletManager.obj | fnv360_0822_retail, objrun_open, low
 void F3Bce260Owner::FUN_00bce260()
 {
     int index = 0;
@@ -13318,6 +13593,7 @@ struct FlagsBD7C50 {
     unsigned flags;
     unsigned FUN_00bd7c50() const;
 };
+// pdb: BSGameSound::IsInDecay | BSGameSound.obj | fnv360_0822_retail, objrun, medium
 unsigned FlagsBD7C50::FUN_00bd7c50() const {
     return (flags >> 19) & 1u;
 }
@@ -13331,6 +13607,8 @@ struct FlagState {
     bool FUN_00bd7cb0();
 };
 
+// pdb: BSGameSound::PriorityTest | BSGameSound.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: aiToCompare
 bool FlagState::FUN_00bd7cb0() {
     flags |= 0x800u;
     return true;
@@ -13383,6 +13661,7 @@ void StateBD8210::FUN_00bd8210(float newValue) {
 extern unsigned DAT_011786f4;
 namespace f3m_00bc8600 {
 
+// pdb: ArchiveManager::SetStartupFinished | Archive.obj | fnv360_0822_retail, call_gap_sim, low
 void __cdecl FUN_00bc8600() {
     DAT_011786f4 = 0x20000u;
 }
@@ -13393,6 +13672,7 @@ namespace f3m_00bcd770 {
 void __cdecl FUN_0089edd0();
 void __cdecl FUN_00c03d8b(void*);
 
+// pdb: BSFile::Close | BSFile.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 void __fastcall FUN_00bcd770(void* self, int) {
     char* p = (char*)self;
     if (*(unsigned char*)(p + 0x2c) != 0 && *(int*)(p + 0x24) != 0) {
@@ -13416,7 +13696,8 @@ int __cdecl FUN_00c02e76(const char* text, const char* pattern, int length);
 namespace ArchiveLookup
 {
 
-const char* __cdecl FUN_00bce940(const char* apFileName)
+// pdb: ArchiveManager::TrimFileName | Archive_Xenon.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+const char* __cdecl ArchiveManager_TrimFileName(const char* apFileName)
 {
     const char* result = apFileName;
 
@@ -13534,6 +13815,7 @@ struct State00bc8fa0 {
     unsigned int value;
     int FUN_00bc8fa0() const;
 };
+// pdb: CompressedArchiveFile::Exist | Archive.obj | fnv360_0721_beta, objrun_sim, low
 int State00bc8fa0::FUN_00bc8fa0() const {
     return value != 0;
 }
@@ -13549,6 +13831,7 @@ struct State00bcf500 {
     Member00bcf500 member;
     void FUN_00bcf500();
 };
+// pdb: BSAudio::~BSAudio | BSAudio.obj | fnv360_0822_retail, caller_sim, low
 void State00bcf500::FUN_00bcf500() {
     table = &DAT_00ea84dc;
     member.FUN_00bd7760();
@@ -13594,10 +13877,12 @@ struct Owner00bcf700 {
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
-    Target00bcf700* volatile target;
+    Target00bcf700* target;
     void FUN_00bcf700(void* value);
 };
 
+// pdb: BSAudio::SetEnvironment | BSAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiEnviroType
 void Owner00bcf700::FUN_00bcf700(void* value) {
     Target00bcf700* current = target;
     if (current)
@@ -13611,6 +13896,8 @@ struct SortableBD7C90 : Sortable_bd7c70 {
     int FUN_00bd7c90(unsigned otherKey) const;
 };
 
+// pdb: BSGameSound::PriorityTest | BSGameSound.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: apToCompare
 int SortableBD7C90::FUN_00bd7c90(unsigned otherKey) const {
     return key < otherKey;
 }
@@ -13723,6 +14010,7 @@ struct Owner00bd7cc0 {
     Member00bd7cc0 member;
     void FUN_00bd7cc0();
 };
+// pdb: BSGameSound::~BSGameSound | BSGameSound.obj | fnv360_0822_retail, caller_sim, low
 void Owner00bd7cc0::FUN_00bd7cc0() {
     table = &DAT_00ea8924;
     member.FUN_00bd12d0();
@@ -13735,6 +14023,7 @@ struct ValueBC6F60 {
     float value;
     unsigned kind;
 };
+// pdb: PosGen::Mean | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
 ValueBC6F60* __stdcall FUN_00bc6f60(ValueBC6F60* output) {
     ValueBC6F60* result = *static_cast<ValueBC6F60* volatile*>(&output);
     result->value = 0.0f;
@@ -13891,6 +14180,8 @@ float CAF0290Sound::FUN_00bd8820()
 // @f3 0x00bc7240 (community match, verified in this file)
 #include <stdexcept>
 namespace f3m_00bc7240 {
+// pdb: Random::load | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
+// pdb params: __formal, __formal, __formal
 void __cdecl FUN_00bc7240() {
     throw std::logic_error("Newran: illegal combination");
 }
@@ -13902,15 +14193,17 @@ extern double DAT_011785c0;
 extern float DAT_011783c0[128];
 namespace f3m_00bc72b0 {
 
-float __cdecl FUN_00bc6e80();
+float __cdecl Random_Raw();
 
+// pdb: Random::Set | RobertDavies_Random.obj | fnv360_0822_retail, ustr, medium
+// pdb params: s
 void __cdecl FUN_00bc72b0(double seed)
 {
     if (seed >= 1.0 || seed <= 0.0)
         throw std::logic_error("Newran: seed out of range");
     DAT_011785c0 = static_cast<long>(seed * 2147483648L);
     for (int i = 0; i < 128; ++i)
-        DAT_011783c0[i] = FUN_00bc6e80();
+        DAT_011783c0[i] = Random_Raw();
 }
 }   // namespace f3m_00bc72b0
 
@@ -13934,6 +14227,8 @@ CopyObject::CopyObject(const CopyObject& other):FUN_0058db20(other),text(other.t
 // @f3 0x00bc5f80 (community match, verified in this file)
 #include <stdexcept>
 namespace f3m_00bc5f80 {
+// pdb: std::vector<bool,std::allocator<bool> >::_Trim | LeafLod.obj | fnv360_0822_retail, ustr, medium
+// pdb params: _Size
 void __cdecl FUN_00bc5f80()
 {
     throw std::length_error("vector<bool> too long");
@@ -13945,13 +14240,14 @@ void __cdecl FUN_00bc5f80()
 extern double DAT_011785c0;
 extern float DAT_011783c0[128];
 namespace f3m_00bc7180 {
-double __cdecl FUN_00bc6e80();
+double __cdecl Random_Raw();
+// pdb: Random::Next | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
 float __cdecl FUN_00bc7180() {
     if (DAT_011785c0 == 0.0)
         throw std::logic_error("Random number generator not initialised");
-    int i = (int)(FUN_00bc6e80() * 128.0);
+    int i = (int)(Random_Raw() * 128.0);
     float sample = DAT_011783c0[i];
-    DAT_011783c0[i] = (float)FUN_00bc6e80();
+    DAT_011783c0[i] = (float)Random_Raw();
     return sample;
 }
 }   // namespace f3m_00bc7180
@@ -14037,6 +14333,7 @@ class FileObject
 };
 
 // @fnv 0x00aff490
+// pdb: BSFile::CheckIsGood | BSFile.obj | fnv360_0822_retail, callee_sim, low
 void FileObject::FUN_00bcda40()
 {
     if (IsOpen())
@@ -14082,6 +14379,8 @@ struct Vector {
     Allocator allocator;
     Element* FUN_00bc29d0(Element* first,unsigned count,const Element& value);
 };
+// pdb: std::_Dest_val<std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> >,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> > | IdvSpline.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: _Alval, _Pdest
 Element* Vector::FUN_00bc29d0(Element* first,unsigned count,const Element& value) {
     FUN_00bc2930(first,count,value,allocator,PtrCat(first,first),CheckedTag());
     return first+count;
@@ -14221,6 +14520,8 @@ struct Owner {
     Pool pool;
     void FUN_00bd3970(void* element);
 };
+// pdb: BSGameSound::QueueMessage | BSAudioManager.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apMsg
 void Owner::FUN_00bd3970(void* element) {
     Node* node=pool.FUN_00423640();
     node->element=element;
@@ -14251,6 +14552,8 @@ struct Owner {
  bool FUN_00bd24f0(int,int,int,int,RefPtr,Vec3);
  bool FUN_00bd2ee0(int a,bool b);
 };
+// pdb: BSAudioManager::SetAtListener | BSAudioManager.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiSoundID, abSetAtListener
 bool Owner::FUN_00bd2ee0(int a,bool b){return FUN_00bd24f0(0x40,a,b,0,RefPtr(0),DAT_0108ec68);}
 }
 
@@ -14545,6 +14848,7 @@ struct FUN_00bc9ce0 : FUN_00bcd9b0 {
     f3m_00bc9ce0::TargetPtr target;
     ~FUN_00bc9ce0();
 };
+// pdb: ArchiveFile::~ArchiveFile | Archive.obj | fnv360_0822_retail, call_seq, medium
 FUN_00bc9ce0::~FUN_00bc9ce0()
 {
     if (buffer)
@@ -14711,6 +15015,8 @@ struct Stream {
     int total;
     void FUN_00bcdcd0(const BSString& str, bool withNull);
 };
+// pdb: BSFile::Write | BSFile.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: arString, abBinary
 void Stream::FUN_00bcdcd0(const BSString& str, bool withNull)
 {
     unsigned int len = str.Length();
@@ -14777,6 +15083,8 @@ struct Iter {
     }
 };
 int __cdecl FUN_00bc6320(Iter a, Iter b, int c);
+// pdb: std::_Vb_iter_base<std::allocator<bool> >::_Valid | LeafLod.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Inc
 int __cdecl FUN_00bc6510(Iter a, Iter b, int c)
 {
     return FUN_00bc6320(a, b, c);
@@ -14804,6 +15112,8 @@ struct Owner {
     FUN_00be0df0 FUN_00bc6640();
     FUN_00be0df0 FUN_00bc6dc0(FUN_00be0df0 v);
 };
+// pdb: CLeafLodEngine::ComputeNextLevel | LeafLod.obj | fnv360_0822_retail, call_gap, low
+// pdb params: vOrigLeafSet
 FUN_00be0df0 Owner::FUN_00bc6dc0(FUN_00be0df0 v)
 {
     FUN_00be0df0 r;
@@ -14819,7 +15129,7 @@ extern __declspec(thread) int g_tls[];
 namespace f3m_00bcfaf0 {
 
 struct Mgr {
-    void FUN_00bd0ef0();
+    void BSAudioManager_StartAudioThread();
     void FUN_00bd3c30();
 };
 Mgr* __cdecl FUN_00bd6800();
@@ -14838,6 +15148,8 @@ struct Thing {
     void FUN_00bcfaf0(bool value);
 };
 
+// pdb: BSAudio::SetMultiThreaded | BSAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abUseMultipleThreads
 void Thing::FUN_00bcfaf0(bool value)
 {
     TlsGuard guard;
@@ -14848,7 +15160,7 @@ void Thing::FUN_00bcfaf0(bool value)
             if (value)
             {
                 if (!f06)
-                    FUN_00bd6800()->FUN_00bd0ef0();
+                    FUN_00bd6800()->BSAudioManager_StartAudioThread();
             }
             else
             {
@@ -14892,6 +15204,7 @@ struct FUN_00bc53e0 {
     static void* operator new(unsigned int n) { return FUN_00401000(n); }
     static void operator delete(void* p) { FUN_00401010(p); }
 };
+// pdb: CBillboardLeaf::Clone | BillboardLeaf.obj | fnv360_0822_retail, objrun, medium
 FUN_00bc53e0* FUN_00bc53e0::FUN_00bc54b0() const
 {
     FUN_00bc53e0* p = new FUN_00bc53e0;
@@ -14961,6 +15274,8 @@ struct Queue {
     } signal;
     bool FUN_00bcef10(Item* item);
 };
+// pdb: BSSimpleArray<CachedFile *,1024>::_MoveItems | BSXenonFileCache.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: apDestAddr, apSrcAddr, aiCount
 bool Queue::FUN_00bcef10(Item* item)
 {
     if (item->job) {
@@ -14987,6 +15302,8 @@ bool Queue::FUN_00bcef10(Item* item)
 namespace f3m_00bd2650 {
 namespace f3m_00bd2650 {
 struct Queue : AFEventQueue { bool FUN_00bd2650(int arg, bool extra); };
+// pdb: BSAudioManager::Play | BSAudioManager.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiSoundID, abLoopPlayback
 bool Queue::FUN_00bd2650(int arg, bool extra)
 {
     if (extra) Post(0x2d, arg, 0, 0, AFRefHandle(0), ::DAT_0108ec68);
@@ -15080,6 +15397,7 @@ struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;extern void* DA
 struct Thread {void* vtable;unsigned unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c;void FUN_0086cf40();};
 struct Semaphore {int count;HANDLE handle;int maximum;void Release(){CloseHandle(handle);}};
 struct Worker:Thread {Semaphore start,finished;bool kill;void* FUN_00bd0eb0(unsigned flags);};
+// pdb: InitThread::`scalar deleting destructor' | Main.obj | fnv360_0822_retail, caller_sim, low
 void* Worker::FUN_00bd0eb0(unsigned flags){vtable=&DAT_00ea8668;finished.Release();start.Release();FUN_0086cf40();if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}
 }
 }   // namespace f3m_00bd0eb0
@@ -16225,6 +16543,8 @@ struct Controls {bool active;unsigned char unk01;unsigned short unk02;
  double FUN_00bdc9c0(int,int,int,int);
  void FUN_00bdcab0(int group,int kind,const float* input,OutputMatrix* output);
 };
+// pdb: FanGenCtlsGrpC::setAttributes | FanControls.obj | fnv360_0822_retail, call_gap, low
+// pdb params: race, type, val, coord
 void Controls::FUN_00bdcab0(int group,int kind,const float* input,OutputMatrix* output){
  if(group<5){}else FUN_00bdc3d0(DAT_00ea911c,266);
  if(!active)return;
@@ -16269,6 +16589,8 @@ struct FileFinder {
     FILE_LOCATION FUN_00bc7a40(char*,unsigned int,unsigned int);
     FILE_LOCATION FUN_00bc7d50(char* fileName,char* filePath,unsigned int flags,unsigned int archiveType);
 };
+// pdb: FileFinder::Locate | TES.obj | fnv360_0822_debug, call_seq, low, conflict (bridge: FileFinder::Exist)
+// pdb params: apName, apFilePath, aiFlags, aiArchiveType
 FileFinder::FILE_LOCATION FileFinder::FUN_00bc7d50(char* fileName,char* filePath,unsigned int flags,unsigned int archiveType)
 {
     char path[260];
@@ -16341,6 +16663,8 @@ namespace f3m_00bccca0 {
 struct Task2498NameHash;
 void __cdecl FUN_00bccb20(const char*, const char*, Task2498NameHash*);
 // @fnv 0x00afd270
+// pdb: BSHash::MakeDirAndFile | BSArchive.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: ArchiveManager::GetArchiveTypeFromFileExtension)
+// pdb params: apString, arDirHash, arFileHash
 void __cdecl FUN_00bccca0(const char* apString, Task2498NameHash* arDirHash, Task2498NameHash* arFileHash)
 {
     char pfile[260];
@@ -16395,6 +16719,8 @@ FileMatchList* FUN_00bc7b80(const char*,const char*,unsigned,FileMatchList*);
 void FUN_00bce7f0(const char*,const char*,FileMatchList*);
 void FUN_00bcb4c0(FileMatchList*,const char*,const char*,unsigned);
 // @fnv 0x00afe420
+// pdb: FileFinder::BuildFileList | FileFinder.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apSearchName, apBaseFilename, aiArchiveType, apFileList
 FileMatchList* FUN_00bc7e30(const char* pattern, const char* directory, unsigned int flags, FileMatchList* existing)
 {
     if (!pattern || !directory)
@@ -16449,6 +16775,8 @@ struct S_00aff7c0_File
 };
 
 // @fnv 0x00aff7c0
+// pdb: BSFile::Read | BSFile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arString, aiMaxLength
 unsigned int S_00aff7c0_File::FUN_00bcdb40(S_00aff7c0_Out* out, unsigned int maxLen)
 {
     if (!(bool)(unk24 != 0 ? 1 : 0))
@@ -16521,6 +16849,8 @@ class FileStream
 };
 
 // @fnv 0x00afde50
+// pdb: FileFinder::AccessFile | FileFinder.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apName, aeMode
 bool FUN_00bc7f00(const char* name, int mode)
 {
     if (mode == 0)
@@ -16753,6 +17083,8 @@ __forceinline int CompareSortKeys(SortKey* current, SortKey* other)
 }
 
 // @fnv 0x00af6e50
+// pdb: QuickSortHashArray | Archive.obj | fnv360_1110_retail, objrun, medium
+// pdb params: apHashArray, aiLeft, aiRight
 void __cdecl FUN_00bc8a60(SortKey** entries, int left, int right)
 {
     int e = left;
@@ -16857,6 +17189,8 @@ class AE8DE0_Class
     void FUN_00bd0c00(AE8DE0_Record* a1, int a2, NiObjPtr a3);
 };
 
+// pdb: BSSimpleList<AudioDebugString *>::ShellSort | BSAudioManager.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: apArray, apCompareFn, aiCount
 void AE8DE0_Class::FUN_00bd0c00(AE8DE0_Record* a1, int a2, NiObjPtr a3)
 {
     a1->m_04 = a2;
@@ -16880,6 +17214,8 @@ struct Bounds {
     Corner low,high;
     Bounds FUN_00bc48f0(const Vec3& point) const;
 };
+// pdb: CRegion::operator^ | Region.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: cVec
 Bounds Bounds::FUN_00bc48f0(const Vec3& point) const
 {
     Bounds result=*this;
@@ -16926,6 +17262,8 @@ struct FUN_00bc8d10_shell
     bool FUN_00bc8d10(FUN_00bc8d10_entry* entry, const char* name);
 };
 // @fnv 0x00afb190
+// pdb: Archive::GetDirectoryIndexForFileEntry | Archive.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apFileEntry
 bool FUN_00bc8d10_shell::FUN_00bc8d10(FUN_00bc8d10_entry* entry, const char* name)
 {
     char path[0x104];
@@ -16989,6 +17327,8 @@ struct FUN_00bd2a30_cls
     void FUN_00bd2a30(int a, float fB, float fC);
 };
 // @fnv 0x00adba70
+// pdb: BSAudioManager::SetMinMax | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundID, afMin, afMax
 void FUN_00bd2a30_cls::FUN_00bd2a30(int a, float fB, float fC)
 {
     FUN_00bd24f0(0x23, a, (unsigned int)(fB * 1000.0), (unsigned int)(fC * 1000.0), 0, DAT_0108ec68);
@@ -17118,6 +17458,7 @@ struct FUN_00bc91b0 : FUN_00bcd9b0, ArchiveRef {
     void FUN_00bc8c10(int);
     void FUN_00bc8ca0();
 };
+// pdb: Archive::~Archive | Archive.obj | fnv360_0822_retail, objrun_prop, medium
 FUN_00bc91b0::~FUN_00bc91b0()
 {
     FUN_00bc8bb0();
@@ -17225,6 +17566,7 @@ Ref ref;void DecRefCount(){ref.DecRefCount();}void IncRefCount(){ref.IncRefCount
 };
 struct ArcPtr {Archive* object; ArcPtr(Archive*p):object(p){if(object)object->IncRefCount();} ~ArcPtr(){if(object)object->DecRefCount();} ArcPtr& operator=(const ArcPtr&p){if(object!=p.object){if(object)object->DecRefCount();object=p.object;if(object)object->IncRefCount();}return *this;} };
 struct FUN_00bc9050 {ArcPtr item; FUN_00bc9050* next; ~FUN_00bc9050(); static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);} void FUN_00bca340();};
+// pdb: BSSimpleList<NiPointer<Archive> >::RemoveAll | Archive.obj | fnv360_0822_retail, call_seq, low
 void FUN_00bc9050::FUN_00bca340(){while(next){FUN_00bc9050* p=next->next;next->next=0;delete next;next=p;}item=ArcPtr(0);}
 }
 }   // namespace f3m_00bca340
@@ -17252,6 +17594,8 @@ struct FUN_00bcebe0_shell
 };
 
 // @fnv 0x00b01800
+// pdb: ArchiveFile::hkMemoryStreamReader_read | Archive_Xenon.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apReadBuffer, aiByteCount
 unsigned int FUN_00bcebe0_shell::FUN_00bcebe0(void* pDst, unsigned int uiSize)
 {
     unsigned int uiDone = 0;
@@ -17315,6 +17659,7 @@ struct FUN_00bc7710 : SymGen {
  virtual float Density(float) const;
  FUN_00bc7710();
 };
+// pdb: Normal::Normal | RobertDavies_Random.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00bc7710::FUN_00bc7710() {
   if(DAT_011785cc) { notReady=false; xi=DAT_011785c8; sx=DAT_011783b8; values=DAT_011783bc; }
   else { FUN_00bc7380(true); DAT_011785c8=xi; DAT_011783b8=sx; DAT_011783bc=values; }
@@ -17338,6 +17683,8 @@ struct SplinePointVector {
     void FUN_00bc32c0(unsigned int,FUN_00bbd270);
     void FUN_00bc3920(unsigned int n);
 };
+// pdb: std::vector<CVec,std::allocator<CVec> >::resize | IdvSpline.obj | fnv360_0721_beta, objrun_prop, low
+// pdb params: _Newsize
 void SplinePointVector::FUN_00bc3920(unsigned int n) { FUN_00bc32c0(n,FUN_00bbd270()); }
 }
 }   // namespace f3m_00bc3920
@@ -17447,6 +17794,7 @@ struct FUN_00bcd9b0 : FUN_0089eec0 {
         file=0;
     }
 };
+// pdb: BSFile::Close | BSFile.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: BSFile::~BSFile)
 FUN_00bcd9b0::~FUN_00bcd9b0() { Close(); }
 }
 
@@ -17455,6 +17803,8 @@ FUN_00bcd9b0::~FUN_00bcd9b0() { Close(); }
 namespace f3m_00bd8000 {
 namespace Worker2569 {
 struct AudioPathFixer { void FUN_00bd8000(char* name); };
+// pdb: Archive::CheckInvalidateFile | Archive.obj | fnv360_1110_retail, caller_sim, low
+// pdb params: apFile, apFileName
 void AudioPathFixer::FUN_00bd8000(char* name)
 {
     char buffer[260];
@@ -17472,6 +17822,7 @@ void AudioPathFixer::FUN_00bd8000(char* name)
 namespace f3m_00bcf850 {
 struct Audio2586 { void FUN_00bd24f0(int,int,int,int,AFRefHandle,AFEventTriple); };
 Audio2586* __cdecl FUN_00bd6800();
+// pdb: BSAudio::EnterDialogue | BSAudio.obj | fnv360_0822_retail, call_gap, low
 void FUN_00bcf850() {
  FUN_00bd6800()->FUN_00bd24f0(13,1,0,0,AFRefHandle(0),DAT_0108ec68);
 }
@@ -17523,6 +17874,8 @@ class AudioManagerD570
 };
 
 // @fnv 0x00add570
+// pdb: BSAudioManager::Precache | BSAudioManager.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apToCache, aiFlags
 void AudioManagerD570::FUN_00bd40e0(const char* pcName, unsigned int uiFlags)
 {
     unsigned int uiFlagsCopy = uiFlags;
@@ -17552,6 +17905,7 @@ StringMap::_Nodeptr StringMap::FUN_00bc2870(const key_type& key)const{_Nodeptr p
 
 // @f3 0x00bc5d60 (community match, verified in this file)
 namespace f3m_00bc5d60 {
+// pdb: std::_Iterator_base12::_Getcont | ModelLoader.obj | fnv360_0822_debug, objopen_prop, low
 void __cdecl FUN_00bc5d60(unsigned int* destination, unsigned int count,
                           const unsigned int* source)
 {
@@ -17720,6 +18074,8 @@ CRITICAL_SECTION m_kCS;
 bool FUN_00bd1d80(int,bool);
 };
 // @fnv 0x00add480
+// pdb: BSAudioManager::IsInCache | BSAudioManager.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aiSoundHash, abFuzzy
 bool ObjRegistry::FUN_00bd1d80(int m_uiSoundID, bool bCheckAlt)
 {
     if (m_uiSoundID == 0)
@@ -17792,6 +18148,7 @@ struct FUN_00bcf8e0_cls
     void FUN_00bcf8e0();
 };
 // @fnv 0x00ad8650
+// pdb: BSAudio::ExitDialogue | BSAudio.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00bcf8e0_cls::FUN_00bcf8e0()
 {
     FUN_00bd6800()->FUN_00bd24f0(0xd, 0, 0, 0, 0, DAT_0108ec68);
@@ -17958,6 +18315,8 @@ struct AudioScope2582 {
  ~AudioScope2582() { DAT_0117c298=old; }
 };
 struct Audio2582 { void FUN_00bd0030(char*,unsigned,void*); };
+// pdb: BSAudio::Precache | BSAudio.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFilenameToCache, aiFlags, apSettingsContext
 void Audio2582::FUN_00bd0030(char* name,unsigned flags,void* param) {
  AudioScope2582 scope(11);
  FUN_00bd6800().FUN_00bd32e0(name,flags,param);
@@ -17980,6 +18339,7 @@ struct FUN_00bcceb0_Obj {
     FUN_00bcceb0_Obj* FUN_00bcceb0();
 };
 
+// pdb: BSArchiveHeader::BSArchiveHeader | BSArchive.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00bcceb0_Obj* FUN_00bcceb0_Obj::FUN_00bcceb0()
 {
     FUN_00bcceb0_Obj* obj = this;
@@ -18171,7 +18531,8 @@ unsigned context;};
 __declspec(thread) ThreadData threadData;
 struct ScopedContext {unsigned previous;ScopedContext(unsigned v){previous=threadData.context;threadData.context=v;}~ScopedContext(){threadData.context=previous;}};
 struct AudioManager {void FUN_00bd40e0(char*,unsigned);};AudioManager* __cdecl FUN_00bd6800();
-struct Audio {void FUN_00bcff30(char*,unsigned);};void Audio::FUN_00bcff30(char* file,unsigned size){ScopedContext ctx(11);FUN_00bd6800()->FUN_00bd40e0(file,size);}
+// pdb: BSAudio::Precache | BSAudio.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+struct Audio {void BSAudio_Precache(char*,unsigned);};void Audio::BSAudio_Precache(char* file,unsigned size){ScopedContext ctx(11);FUN_00bd6800()->FUN_00bd40e0(file,size);}
 }
 }   // namespace f3m_00bcff30
 
@@ -18190,6 +18551,8 @@ inline float Raw() {
     DAT_011785c0=(double)iseed;
     return (float)DAT_011785c0 * 4.656612873077393e-10;
 }
+// pdb: Random::SetLong | RobertDavies_Random.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: s
 void FUN_00bc6ee0(long seed) {
     int i;
     DAT_011785c0=(double)seed;
@@ -18206,6 +18569,8 @@ struct Guard {int saved; __forceinline Guard(int n){saved=tls_memContext;tls_mem
 struct Manager {void FUN_00bd71f0(bool);};
 Manager& __cdecl FUN_00bd6800();
 struct Audio {void FUN_00bcfe20(bool);};
+// pdb: BSAudio::Update | BSAudio.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSSoundCategoryHandle::Pause)
+// pdb params: abPlayGameWorldSounds
 void Audio::FUN_00bcfe20(bool flag){Guard guard(11); FUN_00bd6800().FUN_00bd71f0(flag);}
 }
 }   // namespace f3m_00bcfe20
@@ -18436,6 +18801,8 @@ virtual unsigned Read(void*,unsigned);
 unsigned FUN_00bcd600(char*,unsigned,unsigned short);
 };
 // @fnv 0x00affc90
+// pdb: BSFile::GetLine | BSFile.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: pBuffer, uiMaxBytes, cMark
 unsigned int Reader::FUN_00bcd600(char* pBuffer, unsigned int maxLen, unsigned short usTerminator)
 {
     unsigned int ibytesRead;
@@ -18597,6 +18964,7 @@ struct FUN_00bc9050
 
 // Destructor that calls FUN_00bca340 and releases the held Archive through the NiPointer member.
 // @fnv 0x00afc7f0
+// pdb: BSSimpleList<NiPointer<Archive> >::~BSSimpleList<NiPointer<Archive> > | Archive.obj | fnv360_0822_retail, call_seq, low
 FUN_00bc9050::~FUN_00bc9050()
 {
     FUN_00bca340();
@@ -18651,7 +19019,8 @@ unsigned int unk0a0;
 FUN_00bd7d70(); ~FUN_00bd7d70();
 };
 extern FUN_00bd7d70* DAT_011790c8;
-void __cdecl FUN_00bd76b0() {static FUN_00bd7d70 obj; DAT_011790c8=&obj;}
+// pdb: BSAudio::QCreate | BSAudio_Xenon.obj | fnv360_0822_retail, udata, high
+void __cdecl BSAudio_QCreate() {static FUN_00bd7d70 obj; DAT_011790c8=&obj;}
 }
 
 // @f3 0x00bcffb0 (community match, verified in this file)
@@ -18665,6 +19034,8 @@ struct AudioScope2594 {
  ~AudioScope2594() { DAT_0117c298=old; }
 };
 struct Audio2594 { void FUN_00bcffb0(char*,unsigned); };
+// pdb: BSAudio::Precache | BSAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiFormID, aiFlags
 void Audio2594::FUN_00bcffb0(char* value,unsigned flags) {
  AudioScope2594 scope(11);
  FUN_00bd6800().FUN_00bd4170(value,flags);
@@ -18800,6 +19171,8 @@ void FUN_00bca3e0(NiPtr_af5480<Archive>& sp);
 
 };
 
+// pdb: BSSimpleList<NiPointer<Archive> >::AddTail | Archive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: item
 void LNode_af5480::FUN_00bca3e0(NiPtr_af5480<Archive>& sp)
 {
         if (!sp.m_pObject)
@@ -18924,6 +19297,7 @@ unsigned int unk144;
 FUN_00bd39d0(); void FUN_00bd1ff0();
 ~FUN_00bd39d0() {FUN_00bd1ff0();}
 };
+// pdb: BSAudioManager::QInstance | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_00bd39d0* FUN_00bd6800() { static FUN_00bd39d0 instance; return &instance; }
 }
 }   // namespace f3m_00bd6800
@@ -18931,7 +19305,8 @@ FUN_00bd39d0* FUN_00bd6800() { static FUN_00bd39d0 instance; return &instance; }
 // @f3 0x00bce750 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_00bce750 {
-bool FUN_00bce750(const char* path, FILETIME* apOutTime)
+// pdb: FileFinder::PlatformGetFileTime | FileFinder_Xenon.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+bool FileFinder_PlatformGetFileTime(const char* path, FILETIME* apOutTime)
 {
     void* h;
     WIN32_FIND_DATAA findData;
@@ -18976,6 +19351,8 @@ struct FUN_00b02220_Task
 };
 struct FUN_00b02220_Class { bool FUN_00bcef10(FUN_00b02220_Task*); bool FUN_00bcefa0(void*,void*,bool); };
 // @fnv 0x00b02220
+// pdb: BSSimpleArray<CachedFile *,1024>::_ReallocateBuffer | BSXenonFileCache.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: aiNewSize, aiCopyCount
 bool FUN_00b02220_Class::FUN_00bcefa0(void* pOwner, void* pTask, bool bClearPending)
 {
     FUN_00b02220_Owner* pkOwner = (FUN_00b02220_Owner*)pOwner;
@@ -19022,6 +19399,8 @@ struct FUN_00bcec80 {
  void FUN_00bceca0();
  ~FUN_00bcec80() { FUN_00bceca0(); }
 };
+// pdb: MessageHandler::Init | MessageHandler.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: BSFileCache::QInstance)
+// pdb params: abDisableWarningMessageBox, abAllowYesToAll, abSkipProgramFlows, abSkipInitializationFlows, apMessageBoxCallback
 FUN_00bcec80* FUN_00bccee0() {
  static FUN_00bcec80 instance;
  return &instance;
@@ -19032,6 +19411,8 @@ FUN_00bcec80* FUN_00bccee0() {
 // @f3 0x00bce6e0 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_00bce6e0 {
+// pdb: FileFinder::PlatformFindSingleFile | FileFinder_Xenon.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSearchName
 bool __cdecl FUN_00bce6e0(const char* pattern) {
 WIN32_FIND_DATAA data;
 HANDLE handle=FindFirstFileA(pattern,&data);
@@ -19186,6 +19567,8 @@ unsigned unk130;
 unsigned unk134;
 unsigned unk138;
 Entry* entries;unsigned count;bool FUN_00bd06e0(int,unsigned char);};
+// pdb: BSAudioManager::ClearPausedType | BSAudioManager.obj | fnv360_0721_retail, objrun, low
+// pdb params: aiType, bExact
 bool Owner::FUN_00bd06e0(int key,unsigned char one){int i=0;for(;i<count;++i){if(key==entries[i].key&&((!one&&entries[i].state==2)||(one&&entries[i].state==1))){entries[i].state=0;entries[i].key=0;return true;}}return false;}
 }
 }   // namespace f3m_00bd06e0
@@ -19210,6 +19593,7 @@ struct FUN_00bd1420 {
  SoundRef2613 object;
  ~FUN_00bd1420();
 };
+// pdb: BSSoundMessage::~BSSoundMessage | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
 FUN_00bd1420::~FUN_00bd1420() { if(object) FUN_00aaace0(object); }
 }   // namespace f3m_00bd1420
 
@@ -19344,6 +19728,7 @@ bool IsStatic() { return flags & 4; }
 void FUN_00bc8ca0();
 };
 // @fnv 0x00af9410
+// pdb: Archive::DeleteFileData | Archive.obj | fnv360_0721_beta, objrun, medium
 void Archive::FUN_00bc8ca0()
 {
     if (!IsStatic())
@@ -19402,6 +19787,7 @@ struct Iterator {
     }
 void FUN_00bc2640();
 };
+        // pdb: std::_Tree_unchecked_const_iterator<std::_Tree_val<std::_Tmap_traits<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CIdvBezierSpline *,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> >,0> >,std::_Iterator_base0>::operator++ | IdvSpline.obj | fnv360_0822_retail, call_gap, low
         void Iterator::FUN_00bc2640()
         {
             if (!_Has_container())
@@ -19468,6 +19854,7 @@ struct BSSearchPathSP : FUN_0089fc80
 };
 
 // @fnv 0x00b013f0
+// pdb: BSSearchPath::GetBSSearchPath | BSSearchPath.obj | fnv360_0822_retail, caller_sim, low
 void* FUN_00bce500()
 {
     return new BSSearchPathSP;
@@ -19521,6 +19908,8 @@ struct FUN_00bd3020_cls
     void FUN_00bd3020(int a, int b, unsigned int c);
 };
 // @fnv 0x00adc560
+// pdb: BSAudioManager::FadeOut | BSAudioManager.obj | fnv360_0822_debug, call_seq, low, conflict (skyrim: AIProcess::IsDeferredKill)
+// pdb params: aiID, aiMilliseconds, aiFollowUpAction
 void FUN_00bd3020_cls::FUN_00bd3020(int a, int b, unsigned int c)
 {
     FUN_00bd24f0(9, a, 0, b, 0, NiPoint3_audio((float)c, 0.0f, 0.0f));
@@ -19615,12 +20004,13 @@ class FUN_00bce590
     void* m_pFileCacheArray;
     void* m_pfnCacheProgress;
     void* m_pfnCacheStatus;
-    volatile FILE_CACHE_STATE m_eCacheState;
+    FILE_CACHE_STATE m_eCacheState;
     void* m_pCacheSyncObject;
 };
 
 
 // @fnv 0x00b00f20
+// pdb: BSFileCache::BSFileCache | BSFileCache.obj | fnv360_0721_retail, objrun_open, low
 FUN_00bce590::FUN_00bce590()
 {
     m_uiCacheIndex = 0;
@@ -19682,6 +20072,8 @@ void __cdecl FUN_00bffa60(void* p, unsigned int a, unsigned int b);
 int __cdecl FUN_0089f580(void*, unsigned int, void*, void*);
 
 // @fnv 0x00affa60
+// pdb: BSFile::WrSwap | BSFile.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apThis, apBuffer, aiBytes, apComponentSizes, aiNumComponents
 int __cdecl FUN_00bcd6e0(VTableV18_b7074* self, unsigned int a1, unsigned int auiSize, void* apExtra, void* a4)
 {
     if (auiSize <= 0)
@@ -19755,6 +20147,8 @@ template <class T> struct NiPointer_audio
 };
 typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
 struct Audio{bool FUN_00bd24f0(int,int,int,int,NiRefObjectPtr_audio,NiPoint3_audio);bool FUN_00bd2970(int,float,float,float);};
+// pdb: BSAudioManager::SetPosition | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiSoundID, afX, afY, afZ
 bool Audio::FUN_00bd2970(int id,float x,float y,float z){NiPoint3_audio p;p.x=x;p.y=y;p.z=z;FUN_00bd24f0(0x1e,id,0,0,NiRefObjectPtr_audio(0),p);return false;}
 }
 }   // namespace f3m_00bd2970
@@ -19821,6 +20215,8 @@ struct AudioManagerTarget
     bool FUN_00bd29d0(unsigned int id, float x, float y, float z);
 };
 // @fnv 0x00adb9f0
+// pdb: BSAudioManager::SetBeamEnd | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundID, afX, afY, afZ
 bool AudioManagerTarget::FUN_00bd29d0(unsigned int id, float x, float y, float z)
 {
     NiPoint32684 position(x, y, z);
@@ -19868,6 +20264,8 @@ struct FUN_00bd2de0_cls
     bool FUN_00bd2de0(int a, float fSeconds);
 };
 // @fnv 0x00adc0d0
+// pdb: BSAudioManager::SetVolume | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundID, afNewVolume
 bool FUN_00bd2de0_cls::FUN_00bd2de0(int a, float fSeconds)
 {
     FUN_00bd24f0(0x10, a, (int)(fSeconds * 1000.0), 0, 0, DAT_0108ec68);
@@ -19980,6 +20378,8 @@ unsigned int unk138;
 Slot* m_pkSlots; unsigned int m_uiSlotCount; bool FUN_00bd0680(void*,bool);
 };
 // @fnv 0x00ae6de0
+// pdb: BSAudioManager::SetPausedType | BSAudioManager.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: aiType, bExact
 bool SlotTable::FUN_00bd0680(void* pData, bool bPrimary)
 {
     for (unsigned int i = 0; i < m_uiSlotCount; i++)
@@ -20058,6 +20458,8 @@ struct AudioManagerTarget {
  void FUN_00bd24f0(int, unsigned int, int, unsigned int, NiPointer2695<NiAVObject2695>, NiPoint32695);
  bool FUN_00bd28c0(unsigned int id, float seconds);
 };
+// pdb: BSAudioManager::SetModFrequency | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundID, afNewFrequency
 bool AudioManagerTarget::FUN_00bd28c0(unsigned int id, float seconds) {
  FUN_00bd24f0(19,id,static_cast<int>(seconds * 1000.0),0,NiPointer2695<NiAVObject2695>(),DAT_0108ec68);
  return false;
@@ -20081,6 +20483,8 @@ unsigned int iCount; bool m_bBottomless; SoundMessageRecord* pTop; unsigned int 
 void PushOne(SoundMessageRecord* p) { SoundMessageRecord* top=pTop; p->pNext=top; pTop=p; iCount=iCount+1; }
 void FUN_00bd1f10(SoundMessageRecord*);
 };
+// pdb: AudioMessageStack::Push | BSAudioManager.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apMsg
 void Stack::FUN_00bd1f10(SoundMessageRecord* record) {
 if(record) {
 if(m_bBottomless && iCount>0x200) {
@@ -20107,6 +20511,8 @@ struct Tree {
  std::allocator<Node> allocator;
  void FUN_00bc2eb0(Node* root);
 };
+// pdb: std::_Tree<std::_Tmap_traits<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CIdvBezierSpline *,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> >,0> >::_Erase | IdvSpline.obj | fnv360_0822_retail, call_gap, low
+// pdb params: _Rootnode
 void Tree::FUN_00bc2eb0(Node* root) {
  for(Node* node=root; !node->isnil; root=node) {
   FUN_00bc2eb0(node->right);
@@ -20167,6 +20573,8 @@ struct S_adcb20
 };
 
 // @fnv 0x00adcb20
+// pdb: BSAudioManager::UnPauseAllOfType | BSAudioManager.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiType, abExactMatch
 void S_adcb20::FUN_00bd3240(int a1, bool a2)
 {
     if (a2)
@@ -20215,6 +20623,8 @@ template <class _Iter> inline _Iter _Checked_base(_Iter& _It)
 struct Elem { int id; int x,y,z,w,t; std::string name; };
 Elem* __cdecl FUN_00bdc710(Elem*, Elem*, Elem*, forward_iterator_tag, _Nonscalar_ptr_iterator_tag, _Range_checked_iterator_tag);
 // @fnv 0x00ac30c0
+// pdb: futMatInverse | FanControls.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: m
 Elem* __cdecl FUN_00bdce90(Elem* _First, Elem* _Last, Elem* _Dest, random_access_iterator_tag,
                            _Nonscalar_ptr_iterator_tag, _Range_checked_iterator_tag)
 {
@@ -20352,6 +20762,8 @@ unsigned char unk138, state;
 void FUN_00bd24f0(int,int,int,int,S_adcb20_Ptr,S_adcb20_Point3);
 void FUN_00bd36d0(unsigned char);
 };
+// pdb: BSAudioManager::SetListenerUnderwater | BSAudioManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: abIsUnderwater
 void Owner::FUN_00bd36d0(unsigned char value) {
 if(value != state) {
 state=value;
@@ -20478,6 +20890,7 @@ struct Owned {
  void *names,*extra;
  void FUN_00bc8bb0();
 };
+// pdb: Archive::DeleteDirectoryStringArray | Archive.obj | fnv360_0721_beta, objrun, medium
 void Owned::FUN_00bc8bb0() {
  if(!(flags&4)) {
   if(names) DAT_01090a78.FUN_0086ba60(names);
@@ -20495,6 +20908,8 @@ namespace task2715 {
 struct NodeB {NodeB* f0; NodeB* f4; NodeB* f8; std::string key; float value; char color; char isnil;};
 struct Owner {void* container; NodeB* head; unsigned int count; void FUN_00bc2700(NodeB*);};
 // @fnv 0x00b3b280
+// pdb: std::_Tree<std::_Tmap_traits<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CIdvBezierSpline *,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> >,0> >::_Rrotate | IdvSpline.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: _Wherenode
 void Owner::FUN_00bc2700(NodeB* pNode)
 {
     NodeB* pOld = pNode->f0;
@@ -20525,6 +20940,8 @@ void Owner::FUN_00bc2700(NodeB* pNode)
 // @f3 0x00bd31f0 (community match, verified in this file)
 namespace f3m_00bd31f0 {
 struct Audio2721 {void FUN_00bd24f0(int,int,int,int,AFRefHandle,AFEventTriple); void FUN_00bd31f0(int,bool);};
+// pdb: BSAudioManager::PauseAllOfType | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiType, abExactMatch
 void Audio2721::FUN_00bd31f0(int id,bool enabled) {
 if(enabled) FUN_00bd24f0(0x1c,0,id,0,AFRefHandle(0),DAT_0108ec68);
 else FUN_00bd24f0(0x1a,0,id,0,AFRefHandle(0),DAT_0108ec68);
@@ -20588,6 +21005,8 @@ struct Cache {
  CRITICAL_SECTION lock; bool FUN_00bd1d30(unsigned int);
 };
 // @fnv 0x00adc910
+// pdb: BSAudioManager::IsPlaying | BSAudioManager.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiSoundID
 bool Cache::FUN_00bd1d30(unsigned int uiKey)
 {
     Item* pkItem = 0;
@@ -20633,17 +21052,19 @@ struct Bce1a0Owner
     int unk08;
     unsigned char unk0C;
 
-    int FUN_00bcd160(int value);
+    int BSSystemFile_DoOpen(int value);
     Bce1a0Owner* FUN_00bce1a0(int first, int second, int third, unsigned char fourth);
 };
 
+// pdb: BSSystemFile::BSSystemFile | BSSystemFile.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apName, aeAccessMode, aeOpenMode, abAllowAsync
 Bce1a0Owner* Bce1a0Owner::FUN_00bce1a0(int first, int second, int third, unsigned char fourth)
 {
     unk04 = second;
     unk08 = third;
     unk00 = 0;
     unk0C = fourth;
-    unk00 = FUN_00bcd160(first);
+    unk00 = BSSystemFile_DoOpen(first);
     return this;
 }
 }   // namespace f3m_00bce1a0
@@ -20761,6 +21182,8 @@ int unk154;
 RefObj ro; };
 struct NP_afc { Archive* p; NP_afc* FUN_00bc9000(NP_afc*); };
 // @fnv 0x00afc770
+// pdb: NiPointer<Archive>::operator= | Archive.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: Archive::FindFile)
+// pdb params: ptr
 NP_afc* NP_afc::FUN_00bc9000(NP_afc* apOther)
 {
     if (p != apOther->p)
@@ -20792,6 +21215,8 @@ struct S_af9 {
  bool FUN_00bcac60(int,int,int*,int,int);
 };
 // @fnv 0x00af9bf0
+// pdb: Archive::FindFile | Archive.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: arDirectoryHash, arFileNameHash, ariDirectoryIndex, ariFileIndex, apFileName
 bool S_af9::FUN_00bcac60(int a, int b, int* c, int d, int e)
 {
     if (FUN_00bc95f0(a, c, e) && FUN_00bc97a0(*c, b, d, e, 0))
@@ -20857,6 +21282,8 @@ int unkbc;
 int unkc0;
 CRITICAL_SECTION m_kCS; int FUN_00bd1c80(unsigned int); };
 // @fnv 0x00adc830
+// pdb: BSAudioManager::GetDuration | BSAudioManager.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiSoundID
 int C_00adc830::FUN_00bd1c80(unsigned int uiKey)
 {
     int iValue = 0;
@@ -20938,6 +21365,8 @@ struct FUN_00bd3150_cls
     void FUN_00bd3150(int a, int b, int c);
 };
 // @fnv 0x00adba70
+// pdb: BSAudioManager::MuteAllOfType | BSAudioManager.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: aiTargetType, aiFadeTimeMS, aiMillibels
 void FUN_00bd3150_cls::FUN_00bd3150(int a, int b, int c)
 {
     FUN_00bd24f0(0x18, c, a, b, 0, DAT_0108ec68);
@@ -21138,6 +21567,8 @@ template <class T> struct NiPointer_audio
 typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
 extern NiPoint3_audio DAT_0108ec68;
 struct Audio { bool FUN_00bd24f0(int,int,int,int,NiRefObjectPtr_audio,NiPoint3_audio); void FUN_00bd2fd0(int,bool,bool); };
+// pdb: BSAudioManager::SetTimeConstraints | BSAudioManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: CombatController::CacheActorHandles)
+// pdb params: aiSoundID, aiStart, aiStop
 void Audio::FUN_00bd2fd0(int id,bool a,bool b){FUN_00bd24f0(0x3e,id,a,b,0,DAT_0108ec68);}
 }
 
@@ -21190,6 +21621,7 @@ struct SsArr2760 {
  unsigned int size;
  unsigned int capacity;
 };
+// pdb: BSSimpleArray<BSHash *,1024>::`scalar deleting destructor' | Archive.obj | fnv360_0721_beta, objrun_sim, low
 SsArr2760* __fastcall FUN_00bca460(SsArr2760* object, int, unsigned int flags) {
  object->SsArr2760::~SsArr2760();
  if (flags & 1) task2760::DAT_01090a78.FUN_0086ba60(object);
@@ -21203,6 +21635,8 @@ SsArr2760* __fastcall FUN_00bca460(SsArr2760* object, int, unsigned int flags) {
 // @f3 0x00bd3290 (community match, verified in this file)
 namespace f3m_00bd3290 {
 struct Audio2762 {void FUN_00bd24f0(int,int,int,int,AFRefHandle,AFEventTriple); void FUN_00bd3290(int,int);};
+// pdb: BSAudioManager::KillAllOfType | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiTargetType, aiFadeTimeMS
 void Audio2762::FUN_00bd3290(int a,int b) {FUN_00bd24f0(0x2a,0,a,b,AFRefHandle(0),DAT_0108ec68);}
 }   // namespace f3m_00bd3290
 
@@ -21458,6 +21892,8 @@ template <class T> struct NiPointer_audio
 typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
 extern NiPoint3_audio DAT_0108ec68;
 struct Audio { bool FUN_00bd24f0(int,int,int,int,NiRefObjectPtr_audio,NiPoint3_audio); void FUN_00bd31a0(int,int); };
+// pdb: BSAudioManager::UnMuteAllOfType | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiTargetType, aiFadeTimeMS
 void Audio::FUN_00bd31a0(int a,int b){FUN_00bd24f0(0x19,0,a,b,0,DAT_0108ec68);}
 }
 
@@ -21485,6 +21921,8 @@ struct Reader {
 };
 void __cdecl FUN_0089f580(void*,unsigned int,void*,void*);
 // @fnv 0x00affa10
+// pdb: BSFile::RdSwap | BSFile.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apThis, apBuffer, aiBytes, apComponentSizes, aiNumComponents
 int __cdecl FUN_00bcd5c0(Reader* p1, void* apData, unsigned int auiSize, void* apExtra, void* apExtraArg)
 {
     if (auiSize <= 0)
@@ -21551,6 +21989,8 @@ class DetectOwner
 };
 
 // FNV member-call wrapper adapted to Fallout 3.
+// pdb: BSAudioManager::Stop | BSAudioManager.obj | fnv360_0822_debug, objrun, medium
+// pdb params: aiSoundID
 bool DetectOwner::FUN_00bd27a0(int iParam)
 {
     FUN_00bd24f0(4, iParam, 0, 0, DetectRefPtr(0), DAT_0108ec68);
@@ -21598,6 +22038,8 @@ struct FUN_00bd2d90_cls
     bool FUN_00bd2d90(int a, int b, int c);
 };
 // @fnv 0x00bd2d90
+// pdb: BSAudioManager::SetPlayCallback | BSAudioManager.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: aiSoundID, apfnCallback, apSoundContext
 bool FUN_00bd2d90_cls::FUN_00bd2d90(int a, int b, int c)
 {
     FUN_00bd24f0(0x3b, a, c, b, 0, DAT_0108ec68);
@@ -21687,6 +22129,7 @@ struct Sound {
  float value;
  void FUN_00bd09c0(bool);
 };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,int,BSGameSound *>::GetFirstPos | BSAudioManager.obj | fnv360_0721_beta, objrun_prop, low
 void Sound::FUN_00bd09c0(bool enabled) {
  flags=enabled?(flags|0x400):(flags&0xfffffbff);
  Apply(value);
@@ -21700,6 +22143,7 @@ namespace f3m_00bdfe60 {
 namespace task2786 {
 struct Element { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28; };
 struct Vector : std::vector<Element> { Element& FUN_00bdfe60(unsigned); };
+// pdb: std::vector<FR2Vect3TC<float>,std::allocator<FR2Vect3TC<float> > >::clear | TriFileIO.obj | fnv360_0822_retail, call_gap_sim, low
 Element& Vector::FUN_00bdfe60(unsigned index){ return (*this)[index]; }
 }
 }   // namespace f3m_00bdfe60
@@ -21930,6 +22374,8 @@ int unk148;
 int unk14c;
 unsigned pos,size;int FUN_00bcebe0(void*,unsigned);int FUN_00bc8eb0(void*,unsigned);};
 // @fnv 0x00afbbf0
+// pdb: ArchiveFile::ReadF | Archive.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: apReadBuffer, aiByteCount
 int S_afbb::FUN_00bc8eb0(void* pBuffer, unsigned int count)
 {
     int r;
@@ -21958,6 +22404,8 @@ struct File {
  bool good;
  bool FUN_00bc8df0(bool,bool);
 };
+// pdb: ArchiveFile::Open | Archive.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: ArchiveManager::Shutdown)
+// pdb params: abWaitForOpen, abTextMode
 bool File::FUN_00bc8df0(bool,bool) {
  void* memory;
  if(buffer) return true;
@@ -22120,6 +22568,8 @@ class FUN_00b00b40_cls
 };
 
 // @fnv 0x00b00b40
+// pdb: BSTaskletManager::AttachTask | BSTaskletManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aGroup, aTask, abLastTask
 bool FUN_00b00b40_cls::FUN_00bce310(void** apFirst, void** b, bool abFlag)
 {
     bool flagTmp = m_04;
@@ -22167,6 +22617,8 @@ namespace f3m_00bd7840 {
 namespace f3_2824 {
 struct FlagState { int a,b,c,d; unsigned int flags; int e; bool FUN_00bd7840(bool); };
 // @fnv 0x00ae9c50
+// pdb: BSGameSound::OpenResult | BSGameSound.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: abResult
 bool FlagState::FUN_00bd7840(bool v)
 {
     if (v)
@@ -22196,6 +22648,7 @@ struct Matrix {
  float m[4][4];
  Matrix* __thiscall FUN_00bc1a20();
 };
+// pdb: CTransform::LoadIdentity | Transform.obj | fnv360_0822_retail, call_gap_sim, low
 Matrix* Matrix::FUN_00bc1a20() {
  m[0][0] = 1.0f;
  m[0][1] = 0.0f;
@@ -22313,6 +22766,7 @@ int unk15c;
 int unk160;
 int unk164;
 void (__cdecl *callback)(int,int);int unk16c;int context;};
+// pdb: BSGameSound::HandlePlayCallback | BSGameSound.obj | fnv360_0822_retail, objrun_sim, low
 void __fastcall FUN_00bd7bb0(Object*p){if(p->callback){int id=p->unk014;p->callback(p->context,id);p->context=0;p->callback=0;}}
 }
 }   // namespace f3m_00bd7bb0
@@ -22322,6 +22776,8 @@ namespace f3m_00bc8ef0 {
 struct Bc8ef0Stream : f3m_bcacb0::StreamBase {
     unsigned FUN_00bcebe0(void* destination, unsigned count);
 };
+// pdb: ArchiveFile::RdNoSwap | Archive.obj | fnv360_0721_beta, objrun_sim, low
+// pdb params: apThis, apBuffer, aiBytes, apNothing1, aiNothing2
 void __cdecl FUN_00bc8ef0(f3m_bcacb0::StreamBase* s, void* destination, unsigned count) {
     unsigned pos = s->unk150;
     unsigned limit = s->unk154;
@@ -22375,6 +22831,8 @@ struct RandomNumberGenerator { void FUN_00bc4b70(long seed); };
 static __forceinline float GenerateRandomFloat(float low,float high) {
  return (float)((high-low)*DAT_01068f90.FUN_00bc7180()+low);
 }
+// pdb: CIdvRandom::Reseed | IdvRandom.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: lSeed
 void RandomNumberGenerator::FUN_00bc4b70(long seed) {
  if(seed == -1) {
   long randomSeed=12345;
@@ -22498,6 +22956,8 @@ Pointer(Archive* a):p(a) { if(p) p->rc.Acquire(); }
 ~Pointer() { if(p) p->rc.Release(); }
 Archive* operator->() { return p; }
 };
+// pdb: ArchiveManager::GetFileByFileEntry | Archive.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: ArchiveManager::GetArchiveTypeFromFileExtension)
+// pdb params: aeArchiveTypeIndex, apFileEntry, aiBufferSize, apFileName
 File* FUN_00bcca60(int type,Entry* entry,unsigned int bufferSize,unsigned int name) {
 File* result=0;
 bool secondary=entry->IsSecondary();
@@ -22520,7 +22980,8 @@ extern unsigned DAT_011786f4;
 int __cdecl FUN_00c007fc(char*,unsigned,const char*);
 
 // @fnv 0x00af43a0
-void __cdecl FUN_00bc8960(bool abUseArchives, char* apMasterFilePath, char* apArchiveList,
+// pdb: ArchiveManager::Init | Archive.obj | fnv360_0822_retail, udata, high
+void __cdecl ArchiveManager_Init(bool abUseArchives, char* apMasterFilePath, char* apArchiveList,
                           unsigned int aiFileBufferSize)
 {
     int ilistSize;
@@ -22746,6 +23207,8 @@ Manager* __cdecl FUN_00bd6800();
 struct Audio {
     Handle FUN_00bcfd60(unsigned int,unsigned int,Vec3,unsigned int);
 };
+// pdb: BSAudio::SpawnSoundReference | BSAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiFormID, aiTypeFlags, aLoc, aiID
 Handle Audio::FUN_00bcfd60(unsigned int form, unsigned int flags, Vec3 pos, unsigned int id) {
     MemContextScope context(11);
     Handle h = FUN_00bd6800()->FUN_00bd66f0(form,flags);
@@ -23043,6 +23506,7 @@ struct Owner {
  bool active, flag5, flag6;
  void FUN_00bcfa50();
 };
+// pdb: BSAudio::Shutdown | BSAudio.obj | fnv360_0822_retail, objrun, low, conflict (bridge: BSGameSound::Copy)
 void Owner::FUN_00bcfa50() {
  ModeScope scope;
  if(active) {
@@ -23104,6 +23568,8 @@ struct Owner {
 unsigned int unk00,unk04,unk08,unk0c; NiObjPtr pointer;
 void FUN_00bd14f0(NiObjPtr value);
 };
+// pdb: BSSoundMessage::SetSPData | BSAudioManager.obj | fnv360_0721_retail, objrun_prop, low
+// pdb params: aspIn
 void Owner::FUN_00bd14f0(NiObjPtr value) { pointer=value; }
 
 }
@@ -23237,6 +23703,8 @@ struct File : FileBase {
 unsigned int value; Archive* archive; unsigned int offset;
 unsigned int FUN_00bc9f70(void*,unsigned int);
 };
+// pdb: CompressedArchiveFile::Seek | Archive.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: aiByteCount, aiSeekFlags
 unsigned int File::FUN_00bc9f70(void* buffer,unsigned int size) {
 unsigned int read=0;
 if(archive) EnterCriticalSection(&archive->cs);
@@ -23436,6 +23904,8 @@ struct Result {
 };
 struct Audio { Result FUN_00bd3720(char*,unsigned,void*); };
 Audio* __cdecl FUN_00bd6800();
+// pdb: BSAudio::GetSoundHandleByFilename | BSAudio.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSAudioManager::GetSoundHandle)
+// pdb params: apFilename, aiTypeFlags, apSettingsContext
 Result __stdcall FUN_00bcfc40(char* name,unsigned flags,void* param) {
  ModeScope scope;
  return FUN_00bd6800()->FUN_00bd3720(name,flags,param);
@@ -23469,6 +23939,7 @@ public:
     void FUN_00be4870();
     SmallString str1, str2;
 };
+// pdb: FutBinaryFileC::~FutBinaryFileC | FanCtlFile.obj | fnv360_0822_retail, call_seq, medium
 FUN_00bdc3f0::~FUN_00bdc3f0() { FUN_00be4870(); }
 }   // namespace f3m_00bdc3f0
 
@@ -23479,12 +23950,14 @@ struct TLSData {char pad[0x298];int context;};
 __declspec(thread) TLSData tls;
 struct Scope {int old;Scope(int n){old=tls.context;tls.context=n;}~Scope(){tls.context=old;}};
 struct Sound {int id,state,flags;};
-struct Manager {Sound FUN_00bd65f0(const char*,unsigned int);};
+struct Manager {Sound BSAudioManager_GetSoundHandleByName(const char*,unsigned int);};
 Manager* __cdecl FUN_00bd6800();
 struct Audio {Sound FUN_00bcfcd0(const char*,unsigned int);};
+// pdb: BSAudio::GetSoundHandleByName | BSAudio.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: FxResponseArgs<1>::Add)
+// pdb params: apSoundName, aiTypeFlags
 Sound Audio::FUN_00bcfcd0(const char* name,unsigned int flags) {
  Scope scope(11);
- return FUN_00bd6800()->FUN_00bd65f0(name,flags);
+ return FUN_00bd6800()->BSAudioManager_GetSoundHandleByName(name,flags);
 }
 }
 }   // namespace f3m_00bcfcd0
@@ -23520,6 +23993,8 @@ class ADD630Manager
 };
 
 // @fnv 0x00add630
+// pdb: BSAudioManager::Precache | BSAudioManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apToCache, aiFlags
 void ADD630Manager::FUN_00bd4170(unsigned int soundId, unsigned int uiFlags)
 {
     unsigned int uiResolvedFlags3 = uiFlags;
@@ -23718,6 +24193,8 @@ struct Sound { unsigned int id; bool looping; unsigned int state; };
 struct Manager { Sound FUN_00bd66f0(const char*,unsigned int); };
 Manager* FUN_00bd6800();
 struct Audio { Sound FUN_00bcfbb0(const char*,unsigned int); };
+// pdb: BSAudio::GetSoundHandleByNumericID | BSAudio.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiFormID, aiTypeFlags
 Sound Audio::FUN_00bcfbb0(const char* name,unsigned int flags) {
 ContextGuard context(0xb);
 return FUN_00bd6800()->FUN_00bd66f0(name,flags);
@@ -23730,6 +24207,8 @@ return FUN_00bd6800()->FUN_00bd66f0(name,flags);
 extern const char DAT_00ea8234[], DAT_00ea823c[], DAT_00dfcce8[];
 namespace f3m_00bc8870 {
 // @fnv 0x00af4250
+// pdb: StandardizeModelPath | Archive.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFileName, apStandardizedFileName, aiOutSize
 void __cdecl FUN_00bc8870(const char* pcSourcePath, char* pcDestPath, unsigned int uiDestSize)
 {
     unsigned int len = strlen(pcSourcePath);
@@ -23850,6 +24329,8 @@ return Write(string.Buffer(),(string.Length()+(terminator!=0))*sizeof(wchar_t));
 }
 unsigned int FUN_00bcdc60(const String*,bool);
 };
+// pdb: BSFile::Write | BSFile.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arString, abBinary
 unsigned int Writer::FUN_00bcdc60(const String* string,bool terminator) {
 unsigned int result=WriteString(*string,terminator);
 filePosition+=result;
@@ -23882,6 +24363,7 @@ void __cdecl FUN_00401010(void*) throw();
 struct Base {virtual __forceinline ~Base(){}};
 struct Mid:Base {float xi;float* a;float* b;bool notReady;virtual __forceinline ~Mid(){if(!notReady){FUN_00401010(a);FUN_00401010(b);}}};
 struct Derived:Mid {virtual __forceinline ~Derived(){if(--DAT_011785cc)notReady=true;}void* FUN_00bc7120(unsigned);};
+// pdb: Normal::`scalar deleting destructor' | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
 void* Derived::FUN_00bc7120(unsigned flags){this->Derived::~Derived();if(flags&1)FUN_00401010(this);return this;}
 }
 }   // namespace f3m_00bc7120
@@ -23921,6 +24403,8 @@ struct FUN_00bcae60_Obj
     void FUN_00bcae60(int value);
 };
 
+// pdb: CompressedArchiveFile::SetEndianSwap | Archive.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: bDoSwap
 void FUN_00bcae60_Obj::FUN_00bcae60(int value)
 {
     if ((unsigned char)value)
@@ -24020,6 +24504,8 @@ struct Target00bcd5a0 {
     virtual void Slot16();
     virtual void Dispatch(void*, void*);
 };
+// pdb: BSFile::WrNoSwap | BSFile.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apThis, apBuffer, aiBytes, apNothing1, aiNothing2
 void __cdecl FUN_00bcd5a0(Target00bcd5a0* target, void* first, void* second) {
     target->Dispatch(first, second);
 }
@@ -24047,6 +24533,8 @@ struct DispatchView_bcd580 {
     virtual int slot40(unsigned int first, unsigned int second);
 };
 
+// pdb: BSFile::RdNoSwap | BSFile.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apThis, apBuffer, aiBytes, apNothing1, aiNothing2
 int __cdecl FUN_00bcd580(DispatchView_bcd580* object, unsigned int first, unsigned int second)
 {
     return object->slot40(first, second);
@@ -24077,6 +24565,7 @@ struct State00bcd750 {
     unsigned int member;
     bool FUN_00bcd750();
 };
+// pdb: BSFile::Exist | BSFile.obj | fnv360_1110_retail, call_gap_sim, low
 bool State00bcd750::FUN_00bcd750() {
     return FUN_00c05a0f(&member, 0) != -1;
 }
@@ -24237,6 +24726,7 @@ struct ReleaseView_bce0c0 {
     unsigned int FUN_00bce0c0();
 };
 
+// pdb: BSSystemDir::DoClose | BSSystemDir_Xenon.obj | fnv360_0822_retail, call_seq, medium
 unsigned int ReleaseView_bce0c0::FUN_00bce0c0()
 {
     if (unk000 != -1)
@@ -24346,6 +24836,7 @@ int __cdecl FUN_00bdc180(State00bdc180* state) {
 // @f3 0x00bc7000 (community match, verified in this file)
 namespace f3m_00bc7000 {
 struct State00bc7000 { float value; unsigned int flags; };
+// pdb: Normal::Mean | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
 void __stdcall FUN_00bc7000(State00bc7000* state) {
     State00bc7000* current = *reinterpret_cast<State00bc7000* volatile*>(&state);
     current->value = 0.0f;
@@ -24390,6 +24881,7 @@ struct State00bd7760 {
     unsigned int value;
     void FUN_00bd7760();
 };
+// pdb: BSAudioSynchTimer::~BSAudioSynchTimer | BSAudioSynchTimer.obj | fnv360_0822_retail, call_seq, medium
 void State00bd7760::FUN_00bd7760() {
     value = 0;
     interval = 600000;
@@ -24401,6 +24893,8 @@ void State00bd7760::FUN_00bd7760() {
 namespace f3m_00bc81c0 {
 extern int __cdecl FUN_00c048fb(int);
 
+// pdb: WildCard::DoCase | WildCard.obj | fnv360_0822_retail, caller, medium
+// pdb params: acChar
 int FUN_00bc81c0(char value)
 {
     int result = value;
@@ -24451,6 +24945,8 @@ struct ActionResourceView_bd7bf0 {
     bool FUN_00bd7bf0(int mode);
 };
 
+// pdb: BSGameSound::CalculateHashes | BSGameSound.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: abAllowDiskAccess
 bool ActionResourceView_bd7bf0::FUN_00bd7bf0(int mode)
 {
     int* value = (int*)((char*)this + 0x36);
@@ -24464,6 +24960,8 @@ bool ActionResourceView_bd7bf0::FUN_00bd7bf0(int mode)
 #include <math.h>
 namespace f3m_00bc7040 {
 namespace f3m_00bc7040 {
+// pdb: Normal::Density | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
+// pdb params: x
 float __stdcall FUN_00bc7040(float value)
 {
     float absolute = (float)fabs(value);
@@ -24501,6 +24999,7 @@ struct Pool {
     unsigned long last;
     Item* FUN_00bd1f70();
 };
+// pdb: AudioMessageStack::Pop | BSAudioManager.obj | fnv360_0822_retail, caller, low
 Item* Pool::FUN_00bd1f70()
 {
     Item* result = 0;
@@ -24532,6 +25031,7 @@ struct FUN_00bc8770_Obj
     unsigned char FUN_00bc8770() const;
 };
 
+// pdb: ArchiveManager::SetRetainTables | Archive.obj | tesv_win, objrun_sim, low
 unsigned char FUN_00bc8770_Obj::FUN_00bc8770() const
 {
     if (DAT_01069088 == 1)
@@ -24547,6 +25047,7 @@ unsigned char FUN_00bc8770_Obj::FUN_00bc8770() const
 extern float DAT_00ea8078;
 namespace f3m_00bc4ae0 {
 struct PairView_bc4ae0 { float value; unsigned int extra; };
+// pdb: Random::Variance | IdvRandom.obj | fnv360_0822_retail, vtable, medium
 PairView_bc4ae0* __stdcall FUN_00bc4ae0(PairView_bc4ae0* volatile output)
 {
     PairView_bc4ae0* destination = output;
@@ -24560,6 +25061,8 @@ PairView_bc4ae0* __stdcall FUN_00bc4ae0(PairView_bc4ae0* volatile output)
 extern unsigned int DAT_010692a4;
 extern unsigned int DAT_010692a8;
 namespace f3m_00bce5f0 {
+// pdb: BSFileCache::SetFileCacheList | BSFileCache.obj | fnv360_0721_retail, call_gap_sim, low
+// pdb params: aEssentialFileCacheList, aUnessentialFileCacheList
 void __stdcall FUN_00bce5f0(unsigned int first, unsigned int second) {
     DAT_010692a4 = first;
     DAT_010692a8 = second;
@@ -24611,6 +25114,8 @@ void State00bd0550::FUN_00bd0550(float first, volatile unsigned int second) {
 
 // @f3 0x00bce0e0 (community match, verified in this file)
 namespace f3m_00bce0e0 {
+// pdb: BSSystemDir::MakeDir | BSSystemDir_Xenon.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apcPath
 int __cdecl FUN_00bce0e0(const char* path) {
     return CreateDirectoryA(path, 0) ? 0 : 4;
 }
@@ -24620,6 +25125,8 @@ int __cdecl FUN_00bce0e0(const char* path) {
 extern const char DAT_00ea9084[];
 namespace f3m_00bdc3d0 {
 extern int __cdecl FUN_00887da0(const char* format, ...);
+// pdb: fr2Assert | assert.obj | fnv360_0822_retail, ustr, medium
+// pdb params: fname, line
 int __cdecl FUN_00bdc3d0(const char* file, int line) {
     return FUN_00887da0(DAT_00ea9084, file, line);
 }
@@ -24630,6 +25137,7 @@ namespace f3m_00bcecf0 {
 struct Object00bcecf0 {
     virtual void Destroy(unsigned int flags);
 };
+// pdb: BSXenonFileCache::WaitDuringLoadingScreen | BSXenonFileCache.obj | fnv360_0721_beta, objrun_open, low
 void __stdcall FUN_00bcecf0(Object00bcecf0* object) {
     if (object)
         object->Destroy(1);
@@ -24751,6 +25259,7 @@ struct State00bd7720 {
     unsigned int value;
     State00bd7720* FUN_00bd7720();
 };
+// pdb: BSAudioSynchTimer::BSAudioSynchTimer | BSAudioSynchTimer.obj | fnv360_0822_retail, call_seq, medium
 State00bd7720* State00bd7720::FUN_00bd7720() {
     value = 0;
     interval = 600000;
@@ -24763,6 +25272,7 @@ State00bd7720* State00bd7720::FUN_00bd7720() {
 // @f3 0x00bc5af0 (community match, verified in this file)
 namespace f3m_00bc5af0 {
 struct Values_bc5af0 { float a00, b04, c08, d0c, e10, f14, g18; Values_bc5af0* FUN_00bc5af0(); };
+// pdb: SIdvWindInfo::SIdvWindInfo | WindInfo.obj | fnv360_0822_retail, call_seq, medium
 Values_bc5af0* Values_bc5af0::FUN_00bc5af0()
 {
     a00 = 0.5f;
@@ -24868,6 +25378,7 @@ struct Holder00bc8fb0 {
     Archive00bc8fb0* archive;
     Holder00bc8fb0* FUN_00bc8fb0(Archive00bc8fb0* value);
 };
+// pdb: Archive::GetDisabled | Archive.obj | fnv360_0822_debug, call_gap_sim, low
 Holder00bc8fb0* Holder00bc8fb0::FUN_00bc8fb0(Archive00bc8fb0* value) {
     archive = value;
     if (value)
@@ -24901,6 +25412,8 @@ struct Target00bce2f0 {
     unsigned char enabled;
     bool FUN_00bce2f0(void** input);
 };
+// pdb: BSTaskletManager::OpenTaskGroup | BSTaskletManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aGroup
 bool Target00bce2f0::FUN_00bce2f0(void** input) {
     if (enabled && *input)
         return Dispatch(*input);
@@ -24944,6 +25457,8 @@ struct State00bdc6e0 {
     void FUN_00ba93b0(unsigned int count, int value);
     void FUN_00bdc6e0(unsigned int target);
 };
+// pdb: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::assign | Tile.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: `anonymous namespace'::EndianWFX)
+// pdb params: _Right
 void State00bdc6e0::FUN_00bdc6e0(unsigned int target) {
     if (target <= size)
         FUN_0042a670(target, -1);
@@ -25062,6 +25577,7 @@ struct Holder00bc8fd0 {
     Archive00bc8fd0* archive;
     void FUN_00bc8fd0();
 };
+// pdb: NiPointer<Archive>::~NiPointer<Archive> | Archive.obj | fnv360_0721_beta, objrun, medium
 void Holder00bc8fd0::FUN_00bc8fd0() {
     if (archive) {
         Counter00bc8fd0* counter = &archive->counter;
@@ -25224,15 +25740,17 @@ struct InitView_bce160 {
     unsigned int unk24c;
     unsigned int unk250;
     unsigned int unk254;
-    void FUN_00bce100(unsigned int);
+    void BSSystemDir_DoOpen(unsigned int);
     InitView_bce160* FUN_00bce160(unsigned int);
 };
+// pdb: BSSystemDir::BSSystemDir | BSSystemDir.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apcPath
 InitView_bce160* InitView_bce160::FUN_00bce160(unsigned int value)
 {
     unk248 = 0;
     unk250 = 0;
     unk254 = 0;
-    FUN_00bce100(value);
+    BSSystemDir_DoOpen(value);
     return this;
 }
 }   // namespace f3m_00bce160
@@ -25273,7 +25791,7 @@ struct AudioThread {
  unsigned int unk44;
  bool running;
  void Signal(){if(running)pending.Signal();}
- void FUN_0086cf00();
+ void BSThread_Close();
 };
 struct Audio {
  unsigned int unk000;
@@ -25350,10 +25868,11 @@ struct Audio {
  void FUN_00bd24f0(int,unsigned int,int,int,ObjectPtr,Point);
  void FUN_00bd3cc0();
 };
+// pdb: BSAudioManager::StopAudioThread | BSAudioManager.obj | fnv360_0822_retail, objrun, medium
 void Audio::FUN_00bd3cc0(){
  if(thread)thread->Signal();
  FUN_00bd24f0(0x34,0,0,0,0,DAT_0108ec68);
- if(thread){thread->done.Wait();thread->FUN_0086cf00();}
+ if(thread){thread->done.Wait();thread->BSThread_Close();}
 }
 }
 
@@ -25372,6 +25891,7 @@ struct FUN_00bc4990 {
  FUN_00bbd270 minimum,maximum;
  FUN_00bc4990();
 };
+// pdb: CRegion::CRegion | Region.obj | fnv360_0822_retail, call_gap_sim, low
 FUN_00bc4990::FUN_00bc4990() {
  minimum.x=minimum.y=minimum.z=FLT_MAX;
  maximum.x=maximum.y=maximum.z=-FLT_MAX;
@@ -25396,6 +25916,8 @@ struct FUN_00bc8140 {
 };
 extern FUN_00bc8140* DAT_011785d0;
 extern bool DAT_011785d4;
+// pdb: MessageHandler::SetProgrammerOutputFileName | MessageHandler.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFileName
 FUN_00bc8140::FUN_00bc8140(int,int,bool flag) {
  if(!DAT_011785d0) DAT_011785d0=this;
  FUN_0089f340(FUN_00bc8120);
@@ -25469,6 +25991,7 @@ struct State00bced10 {
     unsigned int entries[6];
     bool FUN_00bced10(unsigned int value);
 };
+// pdb: BSFileCache::GetFinished | BSFileCache.obj | fnv360_0822_debug, objrun_open, low
 bool State00bced10::FUN_00bced10(unsigned int value) {
     for (unsigned int i = 0; i < 6; ++i)
         if (entries[i] == value)
@@ -25487,6 +26010,7 @@ struct Object_bcf6b0 {
     Member_bcf6b0 member14;
     Object_bcf6b0* FUN_00bcf6b0(unsigned int flags);
 };
+// pdb: BSAudio::`scalar deleting destructor' | BSAudio.obj | fnv360_0822_retail, objrun, medium
 Object_bcf6b0* Object_bcf6b0::FUN_00bcf6b0(unsigned int flags)
 {
     table = &DAT_00ea84dc;
@@ -25573,6 +26097,7 @@ struct Obj {
     void FUN_00bce610();
     Obj* FUN_00bcecc0(unsigned int flags);
 };
+// pdb: BSFileCache::`scalar deleting destructor' | BSFileCache.obj | fnv360_0822_debug, objrun_open, low
 Obj* Obj::FUN_00bcecc0(unsigned int flags)
 {
     table = &DAT_00ea8424;
@@ -25785,9 +26310,10 @@ struct Owner {
     int unk110;
     int handle;
     Worker* worker;
-    void FUN_00bd0ef0();
+    void BSAudioManager_StartAudioThread();
 };
-void Owner::FUN_00bd0ef0()
+// pdb: BSAudioManager::StartAudioThread | BSAudioManager.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void Owner::BSAudioManager_StartAudioThread()
 {
     if (!worker)
         return;
@@ -25829,6 +26355,7 @@ struct Obj {
     void* handle;
     Obj* FUN_00bced40(unsigned int flags);
 };
+// pdb: BSXenonTaskletManager::~BSXenonTaskletManager | BSXenonTaskletManager.obj | fnv360_0822_retail, objrun_open, low
 Obj* Obj::FUN_00bced40(unsigned int flags)
 {
     table = &DAT_00ea8464;
@@ -25872,6 +26399,8 @@ struct Owner {
     int FUN_00bd24f0(int kind, int a, int b, int c, Handle h, Vec3 v);
     bool FUN_00bd26e0(int a, unsigned int delay, int unused);
 };
+// pdb: BSAudioManager::PlayAfter | BSAudioManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiSoundID, aiDelay, aiPlayFlags
 bool Owner::FUN_00bd26e0(int a, unsigned int delay, int unused)
 {
     if (delay > 10000)
@@ -25890,6 +26419,8 @@ struct State00bc6580 {
     float third;
     State00bc6580* FUN_00bc6580(void* input, float a, float b, float c);
 };
+// pdb: CLeafLodEngine::CLeafLodEngine | LeafLod.obj | fnv360_0822_retail, call_gap, low
+// pdb params: sLeafInfo, fSpacingTolerance, fLeafReductionPercentage, fSizeIncreaseFactor
 State00bc6580* State00bc6580::FUN_00bc6580(void* input, float a, float b, float c) {
     first = a;
     unk04 = 0;
@@ -26133,6 +26664,7 @@ struct Object00bce290 {
 extern int DAT_01179044;
 extern Object00bce290* DAT_01179088[];
 struct State00bce290 { void FUN_00bce290(); };
+// pdb: BSTaskletManager::OnExit | BSTaskletManager.obj | fnv360_0822_retail, objrun_open, low
 void State00bce290::FUN_00bce290() {
     for (int i = 0; i < DAT_01179044; ++i) {
         Object00bce290* object = DAT_01179088[i];
@@ -26190,6 +26722,8 @@ struct State00bd1020 {
     Lookup00bd1020 lookup;
     bool FUN_00bd1020(unsigned int key);
 };
+// pdb: BSAudioManager::IsValid | BSAudioManager.obj | fnv360_0721_retail, objrun, medium
+// pdb params: aiSoundID
 bool State00bd1020::FUN_00bd1020(unsigned int key) {
     bool found = false;
     Node00bd1020* node = 0;
@@ -26424,6 +26958,8 @@ struct Mapper_bce6a0 {
     EntryList_bce6a0* list50;
     bool FUN_00bce6a0(const char* path);
 };
+// pdb: NiFile::InvokeReadErrorFunc | NiFile_Xenon.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFile
 bool Mapper_bce6a0::FUN_00bce6a0(const char* path)
 {
     int index = slot14(path);
@@ -26512,6 +27048,8 @@ struct ArchivePtr {
 };
 struct Node { Archive* object;Node* next; };
 extern Node* DAT_011786f0;
+// pdb: ArchiveManager::GetArchive | Archive.obj | fnv360_1110_retail, call_gap_sim, low
+// pdb params: apArchiveName
 Archive* __cdecl FUN_00bc90d0(const char* name){
  Node* node=DAT_011786f0;
  while(node){
@@ -26537,6 +27075,7 @@ struct Array {
 };
 struct FUN_00bc7960 {Array array;~FUN_00bc7960();};
 extern FUN_00bc7960* DAT_011785d0;
+// pdb: FileFinder::~FileFinder | FileFinder.obj | fnv360_0822_retail, call_gap_sim, low
 FUN_00bc7960::~FUN_00bc7960(){unsigned i=array.count;while(i--){const char* item=array.data[i];DAT_01090a78.FUN_0086ba60((void*)item);array.remove(i,1);}if(DAT_011785d0==this)DAT_011785d0=0;}
 }
 
@@ -26752,6 +27291,8 @@ virtual void v40();
 virtual void Add(FUN_00bd1060*);
 }; extern Queue* DAT_0116d138;
 struct Owner { bool FUN_00bd1d80(unsigned int,bool); void FUN_00bd1e00(Sound*); };
+// pdb: BSAudioManager::Precache | BSAudioManager.obj | fnv360_0721_retail, call_gap_sim, low
+// pdb params: apToCache
 void Owner::FUN_00bd1e00(Sound* sound) {
  if(DAT_011790c8->IsReady() && !(sound->flags&0x10000) && !FUN_00bd1d80(sound->GetID(),false)) {
   sound->SetFlags(sound->GetFlags()|0x8000);
@@ -26771,6 +27312,7 @@ struct Color_bc5520 {
     unsigned char red,green,blue;
     RGB_bc5520 FUN_00bc5520();
 };
+// pdb: CBillboardLeaf::GetColor | BillboardLeaf.obj | fnv360_0822_retail, objrun, medium
 RGB_bc5520 Color_bc5520::FUN_00bc5520() {
     RGB_bc5520 result = { (float)(red / 255.0), (float)(green / 255.0), (float)(blue / 255.0) };
     return result;
@@ -26793,6 +27335,8 @@ struct ThreadBCF : BaseBCF {
  ThreadBCF* FUN_00bcf210(unsigned int flags);
 };
 __forceinline ThreadBCF::~ThreadBCF() { CloseHandle(semaphore); DeleteCriticalSection(&lock); }
+// pdb: BSXenonTaskletManager::CreateTaskGroupData | BSXenonTaskletManager.obj | fnv360_0721_beta, objopen_prop, low
+// pdb params: apResult
 ThreadBCF* ThreadBCF::FUN_00bcf210(unsigned int flags) {
  this->ThreadBCF::~ThreadBCF();
  if (flags & 1) fo3_00bdaa50::DAT_01090a78.FUN_0086ba60(this);
@@ -26803,6 +27347,8 @@ ThreadBCF* ThreadBCF::FUN_00bcf210(unsigned int flags) {
 
 // @f3 0x00bc8900 (community match, verified in this file)
 namespace f3m_00bc8900 {
+// pdb: StandardizeDataPath | Archive.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apFileName, apStandardizedFileName, aiOutSize
 int __cdecl FUN_00bc8900(const char* path, char* destination, unsigned int size) {
  if (strlen(path) > 3 && path[1] == ':') path += 3;
  if (_strnicmp(path, "data\\", 5) == 0) path += 5;
@@ -26862,6 +27408,8 @@ struct Vec : std::vector<Element> {
     void FUN_00bdf610(unsigned int count, Element value);
 };
 Vec::iterator Vec::FUN_00595900(iterator first, iterator last) { return std::vector<Element>::erase(first, last); }
+// pdb: std::vector<FffModeGS,std::allocator<FffModeGS> >::resize | EgmFileIO.obj | fnv360_1110_retail, call_gap, low
+// pdb params: _Newsize
 void Vec::FUN_00bdf610(unsigned int count, Element value) {
     if (size() < count) FUN_00bdf2d0(end(), count - size(), value);
     else if (count < size()) FUN_00595900(begin() + count, end());
@@ -26889,6 +27437,8 @@ struct FUN_00bc4810 {
  void FUN_00bc3e00(int);
  void FUN_00bb6a50(FUN_00bc37d0*);
 };
+// pdb: CIdvBezierSpline::CIdvBezierSpline | IdvSpline.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: strInput
 FUN_00bc4810::FUN_00bc4810(Input* name){
  FUN_00bc37d0* cached=DAT_0117838c.FUN_00bc4710(name);
  if(!cached){
@@ -26914,6 +27464,8 @@ public:
     int FUN_00bc8690(Key8* o);
 };
 
+// pdb: BSHash::WildCardCompare | Archive.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: arHash
 int Key8::FUN_00bc8690(Key8* o)
 {
     if ((unk03 & 0x7f) == 0x2a)
@@ -27084,6 +27636,8 @@ struct FUN_00bc37d0 {
  void FUN_00bb6a50(void*);
  FUN_00bc37d0(void*);
 };
+// pdb: CIdvBezierSpline::CIdvBezierSpline | IdvSpline.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: cRight
 FUN_00bc37d0::FUN_00bc37d0(void* source) { FUN_00bb6a50(source); }
 
 }   // namespace f3m_00bc37d0
@@ -27223,6 +27777,7 @@ class BSAudioManagerBd3c30
     void FUN_00bd3c30();
 };
 
+// pdb: BSAudioManager::SuspendAudioThread | BSAudioManager.obj | fnv360_0822_retail, caller, low, conflict (bridge: BSAudioManager::SetStaticAttenuation)
 void BSAudioManagerBd3c30::FUN_00bd3c30()
 {
     if (m_pAudioThread)
@@ -27247,6 +27802,8 @@ struct OwnerBC8 {
  void FUN_00bcdc30(int value);
  void FUN_00bc8f30(int value);
 };
+// pdb: ArchiveFile::SetEndianSwap | Archive.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: bDoSwap
 void OwnerBC8::FUN_00bc8f30(int value) {
  if ((unsigned char)value != 0) FUN_00bcdc30(value);
  else { first=&FUN_00bc8ef0; second=&FUN_00bcd5a0; }
@@ -27259,6 +27816,7 @@ void OwnerBC8::FUN_00bc8f30(int value) {
 extern char DAT_00ea8564;
 namespace f3m_00bd1120 {
 struct Obj_bd1120 { void* table; void FUN_00aa53c0(); Obj_bd1120* FUN_00bd1120(unsigned int flags); };
+// pdb: AudioLoadTask::`scalar deleting destructor' | BSAudioManager.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: BSAudioManager::GetAudioThreadSleepTime)
 Obj_bd1120* Obj_bd1120::FUN_00bd1120(unsigned int flags) {
     table = &DAT_00ea8564;
     FUN_00aa53c0();
@@ -27274,6 +27832,8 @@ namespace f3m_00bdfea0 {
 struct Buffer_bdfea0 : std::vector<char> {
     char* FUN_00bdfea0(unsigned int index);
 };
+// pdb: std::operator!=<char,std::char_traits<char>,std::allocator<char> > | binaryFile.obj | fnv360_0822_debug, call_gap_sim, low
+// pdb params: _Left, _Right
 char* Buffer_bdfea0::FUN_00bdfea0(unsigned int index) {
     return &(*this)[index];
 }
@@ -27288,6 +27848,7 @@ struct Signal_bce3b0 {
     f3m_00bcf0d0::fo3_00bcf0d0::JobSemaphore completion;
     void FUN_00bce3b0();
 };
+// pdb: BSTaskletManager::SignalInstanceAvailable | BSTaskletManager.obj | fnv360_0822_debug, call_gap_sim, low
 void Signal_bce3b0::FUN_00bce3b0() { completion.Signal(); signaled=1; f9(); }
 }   // namespace f3m_00bce3b0
 
@@ -27322,6 +27883,7 @@ Record_00bdd7b0* __cdecl FUN_00bdd7b0(Record_00bdd7b0* first, Record_00bdd7b0* l
 extern float FUN_00dbe1e0;
 namespace f3m_00bc4ac0 {
 struct PV { float v; int z; };
+// pdb: Random::Mean | IdvRandom.obj | fnv360_0822_retail, vtable, medium
 void __stdcall FUN_00bc4ac0(PV *__restrict p)
 {
     p->v = FUN_00dbe1e0;
@@ -27343,6 +27905,7 @@ public:
     int FUN_00bd0270();
 };
 
+// pdb: BSSoundHandle::GetDuration | BSSoundHandle.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 int C::FUN_00bd0270()
 {
     int v = this->unk00;
@@ -27433,6 +27996,8 @@ struct f3m_00bd27f0_Obj
     void FUN_00bd27f0(f3m_00bd27f0::RefObject* obj, float seconds, int extra);
 };
 
+// pdb: BSAudioManager::StopMovingSounds | BSAudioManager.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apObj, afFadeSeconds, aiFlags
 void f3m_00bd27f0_Obj::FUN_00bd27f0(f3m_00bd27f0::RefObject* obj, float seconds, int extra)
 {
     FUN_00bd24f0(0x29, 0, (int)(seconds * 1000.0), extra, obj, NiPoint3::ZERO);
@@ -27505,6 +28070,8 @@ struct f3m_00bce4c0_Obj
     char m_acName[0x104];
     bool FUN_00bce4c0(char* dest, int unused);
 };
+// pdb: BSSearchPath::GetNextSearchPath | BSSearchPath.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apPath, uiStringLen
 bool f3m_00bce4c0_Obj::FUN_00bce4c0(char* dest, int unused)
 {
     if (m_iCount != 0)
@@ -27537,6 +28104,8 @@ struct f3m_00bcde70_File
     bool FUN_00bcde70(int unused, bool text);
 };
 
+// pdb: BSFile::Open | BSFile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abWaitForOpen, abTextMode
 bool f3m_00bcde70_File::FUN_00bcde70(int unused, bool text)
 {
     if (m_pFile != 0)
@@ -27634,6 +28203,8 @@ struct f3m_00bc5ed0_Vector
     f3m_00bc5ed0::Alloc m_kAlval;
     f3m_00bc5ed0::Elem* FUN_00bc5ed0(f3m_00bc5ed0::Elem* first, f3m_00bc5ed0::Elem* last, f3m_00bc5ed0::Elem* dest);
 };
+// pdb: std::_Vector_const_iterator<std::_Vector_val<CLeafLodEngine::SLodEntry,std::allocator<CLeafLodEngine::SLodEntry> > >::operator== | LeafLod.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Right
 f3m_00bc5ed0::Elem* f3m_00bc5ed0_Vector::FUN_00bc5ed0(f3m_00bc5ed0::Elem* first, f3m_00bc5ed0::Elem* last, f3m_00bc5ed0::Elem* dest)
 {
     return f3m_00bc5ed0::FUN_00bc5d30(first, last, dest, m_kAlval, f3m_00bc5ed0::PtrCat(first, dest), f3m_00bc5ed0::CheckedTag());
@@ -27674,6 +28245,8 @@ struct S {
     char buf[0x31];
     int FUN_00bc1a60();
 };
+// pdb: std::allocator<SIdvLeafTexture>::allocator<SIdvLeafTexture> | LeafInfo.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: __formal
 int S::FUN_00bc1a60()
 {
     buf[0x30] = 0;
@@ -27688,6 +28261,7 @@ struct S {
     int fld;
     int FUN_00bc8610();
 };
+// pdb: PlayerCharacter::GetDesiredTarget | PlayerCharacter.obj | fnv360_0822_retail, vtable, medium
 int S::FUN_00bc8610()
 {
     return fld;
@@ -27701,6 +28275,7 @@ struct S {
     int fld;
     int FUN_00bc8640();
 };
+// pdb: ArchiveFile::GetSize | Archive.obj | fnv360_0721_retail, objrun_open, low
 int S::FUN_00bc8640()
 {
     return fld;
@@ -27809,6 +28384,7 @@ public:
     int unk150;
 };
 
+// pdb: BSFile::BSFile | BSFile.obj | fnv360_0721_beta, objrun, medium
 FUN_00bcd680::FUN_00bcd680() {
     unk28 = 0;
     unk10 = 0;
@@ -28016,6 +28592,7 @@ struct AudioMgr {
     void FUN_00bd7330();
 };
 
+// pdb: BSAudioManager::Shutdown | BSAudioManager.obj | fnv360_0822_retail, objrun_prop, low
 void AudioMgr::FUN_00bd7330()
 {
     if (!DAT_011790c8->bIsMultiThreaded)
@@ -28198,6 +28775,8 @@ struct ItemPtr_b6 {
 struct Node_b6 { Item_b6* item; Node_b6* next; };
 extern Node_b6* g_itemList_b6;
 
+// pdb: ArchiveManager::InvalidateFileInArchives | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arDirectoryHash, arFileHash, aiArchiveTypes
 void __cdecl FUN_00bcb6b0(int a1, int a2, unsigned short mask)
 {
     Node_b6* node = g_itemList_b6;
@@ -28348,6 +28927,8 @@ struct Archive {
     bool FUN_00bc97a0(unsigned int auiFolderIndex, KeyRef apFileHash, unsigned int* apFileIndex, const char* apPath, bool abFlag);
 };
 
+// pdb: Archive::FindFileInDirectory | Archive.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: aiDirectoryIndex, arFileNameHash, ariFileIndex, apFileName, abSkipSecondaryArchiveCheck
 bool Archive::FUN_00bc97a0(unsigned int auiFolderIndex, KeyRef apFileHash, unsigned int* apFileIndex, const char* apPath, bool abFlag)
 {
     if (flags1b4 & 1)
@@ -28413,6 +28994,7 @@ struct FUN_00bd7880_cls
     int FUN_00bd7880();
 };
 
+// pdb: BSGameSound::Is3DSound | BSGameSound.obj | fnv360_0822_retail, call_gap_sim, medium
 int FUN_00bd7880_cls::FUN_00bd7880()
 {
     return (m_08 >> 1) & 1;
@@ -28446,6 +29028,7 @@ struct Obj {
     void* unk4C;
     void FUN_00bc0ee0();
 };
+// pdb: SIdvLeafInfo::~SIdvLeafInfo | LeafInfo.obj | fnv360_0822_retail, call_dedup, low
 void Obj::FUN_00bc0ee0()
 {
     Obj* self;
@@ -28535,6 +29118,7 @@ public:
     FUN_00bd7d70_Obj* FUN_00bd7d70();
 };
 
+// pdb: BSXenonAudio::BSXenonAudio | BSXenonAudio.obj | fnv360_0822_retail, call_seq, medium
 FUN_00bd7d70_Obj* FUN_00bd7d70_Obj::FUN_00bd7d70()
 {
     FUN_00bcf660();
@@ -28585,6 +29169,8 @@ struct FUN_00bd1340 {
     float unk1C;
     FUN_00bd1340(int a, int b, int c, int d, RefPtr_bd1340 x, float f1, float f2, float f3);
 };
+// pdb: BSSoundMessage::BSSoundMessage | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: m, i, d, p, sp, vec
 FUN_00bd1340::FUN_00bd1340(int a, int b, int c, int d, RefPtr_bd1340 x, float f1, float f2, float f3)
 {
     unk00 = a;
@@ -28732,6 +29318,8 @@ struct ScaleOwner {
     bool FUN_00bd87a0(float scale);
 };
 
+// pdb: CXAPOBase::ValidateFormatDefault | xapobase.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pFormat, fOverwrite
 bool ScaleOwner::FUN_00bd87a0(float scale)
 {
     long hr = 0x80004005;
@@ -29144,6 +29732,7 @@ struct SoundSystem
     void FUN_00bd1690();
 };
 
+// pdb: BSAudioManager::SynchVoiceStates | BSAudioManager.obj | fnv360_0822_retail, call_gap, medium
 void SoundSystem::FUN_00bd1690()
 {
     EnterCriticalSection(&lock);
@@ -29292,6 +29881,8 @@ static __declspec(noinline) int FUN_00bccf50(DWORD err)
     }
 }
 
+// pdb: BSSystemFile::DoSeek | BSSystemFile_Xenon.obj | fnv360_0822_retail, call_seq, low
+// pdb params: auiOffset, aeWhence, auiPos
 int __thiscall Win32FileObj::FUN_00bcd070(int lo, int hi, int origin, __int64* pos) {
 
     LARGE_INTEGER newFilePos;
@@ -29338,6 +29929,8 @@ struct FUN_00bc65b0_Obj
                                 int* current, int value);
 };
 
+// pdb: std::_Vector_const_iterator<std::_Vector_val<CBillboardLeaf *,std::allocator<CBillboardLeaf *> > >::operator+= | LeafLod.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: _Off
 void FUN_00bc65b0_Obj::FUN_00bc65b0(int value)
 {
 
@@ -29496,6 +30089,8 @@ void CObj::FUN_00bd9dc0(unsigned int index)
 // @f3 0x00bdd740 (community match, verified in this file)
 namespace f3m_00bddc00 { namespace f3m_00bddc00 {
 Elem* __cdecl FUN_00bdce90(Elem* first, Elem* last, Elem* dest);
+// pdb: std::vector<FanLinCtlS,std::allocator<FanLinCtlS> >::resize | FanControls.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: _Newsize
 Iter Vec::FUN_00bdd740(Iter a, Iter b) { Elem* f = a.ptr; Elem* l = b.ptr;
  if (!a.cont || a.cont != b.cont) FUN_00c01e8b();
  if (f != l) {
@@ -29527,6 +30122,7 @@ public:
 
 extern "C" void __declspec(noinline) __cdecl FUN_00bd7a00(void);
 
+// pdb: BSGameSound::BSGameSound | BSGameSound.obj | fnv360_0822_retail, objrun_prop, low
 Obj* Obj::FUN_00bd7c10() {
     m_ppVftable = (void**)&DAT_00ea8924;
     unk194 = 0;
@@ -29755,6 +30351,7 @@ struct D97 {
     Vec3R FUN_00bd9d70();
 };
 
+// pdb: BSFile::OpenByFilePointer | BSFile.obj | tesv_win, objrun_open, low
 Vec3R D97::FUN_00bd9d70() {
     if (!FUN_00bd7880() && !FUN_00bd7890())
         return Vec3R(0.0f, 0.0f, 0.0f);
@@ -29783,6 +30380,8 @@ struct List : std::vector<Elem> {
 }
 
 // std::vector<Elem>::resize(n, value) (VC8 release body)
+// pdb: std::vector<FffModeTexS,std::allocator<FffModeTexS> >::resize | EgtFileIO_Sdk.obj | fnv360_0822_debug, call_gap, low
+// pdb params: _Newsize
 void f3m_00bde650::List::FUN_00bde650(size_type newSize, Elem value)
 {
     if (size() < newSize)
@@ -29962,6 +30561,8 @@ class QArc
     char* FUN_00bc9390(unsigned int uiFolder, unsigned int uiFile);
 };
 
+// pdb: Archive::GetFileString | Archive.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aiDirectoryIndex, aiFileIndex
 char* QArc::FUN_00bc9390(unsigned int uiFolder, unsigned int uiFile)
 {
     if (m_ucFlags & 0x20)
@@ -30053,6 +30654,8 @@ struct List : std::vector<Elem> {
 }
 
 // std::vector::resize(n, value) (VC8 release body)
+// pdb: std::vector<signed char,std::allocator<signed char> >::resize | EgtFileIO_Sdk.obj | fnv360_0822_debug, call_gap, low
+// pdb params: _Newsize
 void f3m_00bde1d0::List::FUN_00bde1d0(size_type newSize, Elem value)
 {
     if (size() < newSize)
@@ -30093,6 +30696,7 @@ namespace f3m_00bc3850 {
 extern std::map<std::string, FUN_00bc2e20*> DAT_0117838c;   // global registry
 }
 
+// pdb: CIdvBezierSpline::ClearCache | IdvSpline.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_00bc3850()
 {
     std::map<std::string, FUN_00bc2e20*>& registry = f3m_00bc3850::DAT_0117838c;
@@ -30116,6 +30720,8 @@ struct Registry : std::map<std::string, FUN_00bc2e20*> {
 };
 }
 
+// pdb: std::map<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CIdvBezierSpline *,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> > >::operator[] | IdvSpline.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: _Keyval
 f3m_00bc4710::Registry::mapped_type& f3m_00bc4710::Registry::FUN_00bc4710(const key_type& key)
 {
     iterator where = lower_bound(key);
@@ -30138,6 +30744,8 @@ struct Registry : std::map<std::string, FUN_00bc2e20*> {
 };
 }
 
+// pdb: std::_Tree<std::_Tmap_traits<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,CIdvBezierSpline *,std::less<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >,std::allocator<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> > const ,CIdvBezierSpline *> >,0> >::erase | IdvSpline.obj | fnv360_0822_retail, ustr, medium
+// pdb params: _Where
 f3m_00bc2ab0::Registry::iterator f3m_00bc2ab0::Registry::FUN_00bc2ab0(iterator _Where)
 		{	// erase element at _Where
 
@@ -30374,6 +30982,7 @@ struct BoundsData
     int unk3c;
     BoundsData();
 };
+// pdb: CProjectedShadow::CProjectedShadow | ProjectedShadow.obj | fnv360_0822_retail, call_seq, medium
 BoundsData::BoundsData()
 {
     unk3c = 15;
@@ -30399,6 +31008,8 @@ struct Obj {
     Child* child;
     void FUN_00bd1150(int a, int b);
 };
+// pdb: AudioLoadTask::Cancel | BSAudioManager.obj | fnv360_0721_retail, objrun_open, low
+// pdb params: aePreviousState, apTaskOwner
 void Obj::FUN_00bd1150(int a, int b)
 {
     Child* c = child;
@@ -30466,6 +31077,8 @@ f3m_00bc3a50::Registry::_Pairib f3m_00bc3a50::Registry::FUN_00bc3a50(const value
 namespace f3m_00bc4b40 {
 namespace f3m_00bc4b40 {
 struct F3M_RngStandin { float FUN_00bc7180(); };
+// pdb: CIdvRandom::GetUniform | IdvRandom.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: fMin, fMax
 float __stdcall FUN_00bc4b40(float lo, float hi)
 {
     float fraction = ((F3M_RngStandin*)0x01068f90)->FUN_00bc7180();
@@ -30615,6 +31228,7 @@ struct BlendParams {
     int unk40; int unk44; int unk48; int unk4c;
     BlendParams();
 };
+// pdb: SIdvLeafInfo::SIdvLeafInfo | LeafInfo.obj | fnv360_0822_retail, call_seq, medium
 BlendParams::BlendParams() {
     unk04 = 1.0f;
     *(volatile unsigned char*)&unk00 = 1;
@@ -30662,6 +31276,7 @@ struct FUN_00bc3760 {
     FUN_00bc3760();
 };
 
+// pdb: CIdvBezierSpline::CIdvBezierSpline | IdvSpline.obj | fnv360_0822_retail, call_seq, medium
 FUN_00bc3760::FUN_00bc3760() : unk00(0.0f), unk04(1.0f), unk08(0.0f)
 {
 }
@@ -30691,6 +31306,8 @@ struct Table {
     bool FUN_00bc97a0(int, int, unsigned*, int, int);
     bool FUN_00bc9a30(int slot, int index, int unused);
 };
+// pdb: Archive::InvalidateFile | Archive.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aiDirectoryIndex, arFileNameHash, apFileName
 bool Table::FUN_00bc9a30(int slot, int index, int unused) {
     unsigned found;
     if (FUN_00bc97a0(slot, index, &found, 0, 0)) {
@@ -30746,6 +31363,8 @@ struct FUN_00bcdd30_cls
     bool FUN_00bcdd30(unsigned int a1);
 };
 
+// pdb: NiPointer<Archive>::operator= | Archive.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: BSFile::ChangeBufferSize)
+// pdb params: pObject
 bool FUN_00bcdd30_cls::FUN_00bcdd30(unsigned int a1)
 {
     bool result = true;
@@ -30821,6 +31440,8 @@ struct CE3 {
     CE3* FUN_00bce3e0(int flag);          // thiscall, one stack param (ret 4), returns the object
 };
 
+// pdb: BSTaskletManager::RegisterOnStartupCallback | BSTaskletManager.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: BSTaskletManagerCallback::BSTaskletManagerCallback)
+// pdb params: apCallback
 CE3* CE3::FUN_00bce3e0(int flag) {
     slot0 = (void**)&off_00e31ff4;
     int* holder = (int*)((char*)FUN_00bce1f0() + 8);      // ORIG: call ; add eax, 8
@@ -30857,6 +31478,7 @@ struct Array {
     unsigned Append(char* const& value){unsigned index=FUN_005e5350();entries[index]=value;return index;}
     void FUN_00bc7cc0(const char* path);
 };
+// pdb: FileFinder::~FileFinder | FileFinder.obj | fnv360_0721_beta, objrun, low
 void Array::FUN_00bc7cc0(const char* path){
     if(path){
         unsigned len=strlen(path);
@@ -30968,6 +31590,8 @@ struct Controls {
     float FUN_00bdc9c0(int group, int index, int kind, const OutputMatrix* output);
 };
 
+// pdb: FanGenCtlsGrpC::getAttribute | FanControls.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: race, att, type, coord
 float Controls::FUN_00bdc9c0(int group, int index, int kind, const OutputMatrix* output) {
     if (group < 5) {} else FUN_00bdc3d0(DAT_00ea911c, 0xc6);
     if (index < 2) {} else FUN_00bdc3d0(DAT_00ea911c, 0xc7);
@@ -30992,7 +31616,7 @@ struct Sub14 {
 };
 
 struct Mgr {
-    void FUN_00bd0ef0();
+    void BSAudioManager_StartAudioThread();
 };
 
 Mgr* __cdecl FUN_00bd6800();
@@ -31015,6 +31639,8 @@ struct Thing {
     void FUN_00bcf9b0(int unused);
 };
 
+// pdb: BSAudio::Init | BSAudio.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pHandle
 void Thing::FUN_00bcf9b0(int unused)
 {
     TlsGuard guard;
@@ -31024,7 +31650,7 @@ void Thing::FUN_00bcf9b0(int unused)
     } else {
         sub14.FUN_00bd7760();
         if (f06)
-            FUN_00bd6800()->FUN_00bd0ef0();
+            FUN_00bd6800()->BSAudioManager_StartAudioThread();
         f05 = true;
     }
 }
@@ -31072,6 +31698,8 @@ struct Archive {
     File* FUN_00bcc100(unsigned folder, unsigned index, unsigned a, unsigned b);
 };
 
+// pdb: Archive::GetFile | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiDirectoryIndex, aiFileIndex, aiBufferSize, apFileName
 File* Archive::FUN_00bcc100(unsigned folder, unsigned index, unsigned a, unsigned b)
 {
     File* file = 0;
@@ -31127,7 +31755,7 @@ class NiFile : public NiBinaryStream
 class BSFile : public NiFile
 {
   public:
-    unsigned int FUN_0048be50(void*,unsigned int);
+    unsigned int NiBinaryStream_Read(void*,unsigned int);
     virtual bool FUN_00bcde70(bool, bool);           // v20
     virtual unsigned int GetSize();          // v28
     // MSVC places overloads in reverse declaration order: Read(char) is v2C, Read(wchar_t) v30
@@ -31190,16 +31818,13 @@ struct NameOffsetList077
         ArcHeap()->FUN_0086ba60(p);
     }
 };
-extern unsigned int DAT_011f81d8;
 extern volatile long DAT_0108ed80;
 extern unsigned char DAT_01069081;
-extern bool DAT_011f8154;
 extern int DAT_011acdfc, DAT_011ace00, DAT_011ace04;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
-struct Directory077;
 struct FUN_00bc8760
 {
     unsigned int hashLow, hashHigh, size;
@@ -31365,7 +31990,7 @@ struct FUN_00bcb7c0 : Header077, FUN_00bcd300, NiRefObject077
     NameOffsetList077* fileOffsets;
     FUN_00bcb7c0(const char*, int, bool, bool);
     virtual ~FUN_00bcb7c0();
-    void FUN_00bc9a80();
+    void Archive_FindNewerAndInvalidate();
     bool FUN_00bcdd30(unsigned int);
     __forceinline void ReadArray(FUN_00bc8760* buffer, unsigned int count)
     {
@@ -31393,6 +32018,8 @@ struct FUN_00bcb7c0 : Header077, FUN_00bcd300, NiRefObject077
 };
 // Opens a BSA archive, reads its header and entries, optionally caches directory and file names, and prepares file lists by type.
 // @fnv 0x00af7eb0
+// pdb: Archive::Archive | Archive.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apArchiveName, aiBufferSize, abSecondaryArchive, abInvalidateOtherArchives
 FUN_00bcb7c0::FUN_00bcb7c0(const char* path, int mode, bool headerOnly, bool prepare)
     : FUN_00bcd300(path, 0, mode, false)
 {
@@ -31424,7 +32051,7 @@ FUN_00bcb7c0::FUN_00bcb7c0(const char* path, int mode, bool headerOnly, bool pre
     {
         unsigned int elapsedTmp = GetTickCount();
         entries = new FUN_00bc8760[Count()];
-        FUN_0048be50(entries, Count()*sizeof(FUN_00bc8760));
+        NiBinaryStream_Read(entries, Count()*sizeof(FUN_00bc8760));
         if (Has(1) && FUN_00bc87b0())
         {
             SetStatus<0x10>(true);
@@ -31446,14 +32073,14 @@ FUN_00bcb7c0::FUN_00bcb7c0(const char* path, int mode, bool headerOnly, bool pre
                 ArcLoadChars(*this, &length, 1);
                 if (FUN_00bc87b0())
                 {
-                    FUN_0048be50(directoryNames + dirOffset, length);
+                    NiBinaryStream_Read(directoryNames + dirOffset, length);
                     directoryOffsets[i].offset = dirOffset;
                     dirOffset += length;
                 }
                 else
                 {
                     char name[256];
-                    FUN_0048be50(name, length);
+                    NiBinaryStream_Read(name, length);
                 }
             }
             FUN_00bc8760* files = new FUN_00bc8760[FileCount(i)];
@@ -31466,7 +32093,7 @@ FUN_00bcb7c0::FUN_00bcb7c0(const char* path, int mode, bool headerOnly, bool pre
             namesOffset = TruePos();
             if (FUN_00bc87b0())
             {
-                FUN_0048be50(fileNames, FileNamesSize());
+                NiBinaryStream_Read(fileNames, FileNamesSize());
                 for (unsigned int i = 0; i < Count(); ++i)
                 {
                     fileOffsets[i].offsets = new NameOffset077[GetEntry(i)->size];
@@ -31488,7 +32115,7 @@ FUN_00bcb7c0::FUN_00bcb7c0(const char* path, int mode, bool headerOnly, bool pre
         if (DAT_01069081)
         {
             unsigned int uiElapsedTime = GetTickCount();
-            FUN_00bc9a80();
+            Archive_FindNewerAndInvalidate();
             uiElapsedTime = GetTickCount() - uiElapsedTime;
         }
         if (prepare)
@@ -31513,7 +32140,6 @@ namespace f3m_00bc0210 {
 // loop terminated by 1001, optional trailing chunk, then two member fix-ups.
 
 extern const char* DAT_01068eb0;    // expected file-format string
-extern float flt_00db38b8;          // -1.0f
 
 namespace fnv_bc0210 {
 
@@ -31606,6 +32232,8 @@ struct SpeedTreeInfo {
     void FUN_00bbfd70(ChunkReader* reader);
 };
 
+// pdb: CTreeEngine::Parse | TreeEngine.obj | fnv360_0822_retail, ustr, medium
+// pdb params: cFile
 bool SpeedTreeInfo::FUN_00bc0210(ChunkReader* reader)
 {
     if (reader->FUN_00ba92d0() != 1000)
@@ -31754,6 +32382,8 @@ struct Queue {
  void FUN_00bd24f0(int,int,int,int,AFRefHandle,AFEventTriple);
  void FUN_00bd2f80(int,int);
 };
+// pdb: BSAudioManager::SetPriority | BSAudioManager.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiSoundID, aiPriority
 void Queue::FUN_00bd2f80(int first,int second) {
  FUN_00bd24f0(0x41,first,second,0,AFRefHandle(0),DAT_0108ec68);
 }
@@ -31767,6 +32397,8 @@ struct Queue {
  void FUN_00bd24f0(int,int,int,int,AFRefHandle,AFEventTriple);
  bool FUN_00bd2920(int,unsigned char);
 };
+// pdb: BSAudioManager::SetFrequencyVariance | BSAudioManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiSoundID, aiFreqVariance
 bool Queue::FUN_00bd2920(int first,unsigned char second) {
  FUN_00bd24f0(0x14,first,second,0,AFRefHandle(0),DAT_0108ec68); return false;
 }
@@ -31798,6 +32430,7 @@ int unk40;
 unsigned char unk44,unk45,unk46,completed;int unk48,unk4c,unk50,unk54,unk58;volatile int state;void* worker;
 void FUN_00bce620();
 };
+// pdb: BSFileCache::ForcePauseAndWaitForIdle | BSFileCache.obj | fnv360_0721_beta, call_gap, low
 void Object::FUN_00bce620(){
 if(worker){if(state==1||state==2)state=3;if(state==2||state==3)while(!completed)Sleep(10);}
 }
@@ -31808,6 +32441,8 @@ if(worker){if(state==1||state==2)state=3;if(state==2||state==3)while(!completed)
 namespace f3m_00bc8e30 {
 namespace Seekbc8e30 {
 struct Object {int unk00,unk04,unk08,unk0c,unk10;unsigned size,absolute;int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; unsigned position,limit;void FUN_0089edd0();void FUN_00bc8e30(int,int);};
+// pdb: ArchiveFile::Seek | Archive.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aiByteCount, aiSeekFlags
 void Object::FUN_00bc8e30(int offset,int mode){unsigned old=position;switch(mode){case 1:position+=offset;if(position>limit)position=limit;break;case 2:{unsigned n=offset<0?-offset:offset;if(n>limit)n=limit;position=limit-n;break;}default:{unsigned n=offset;if(n>limit)n=limit;position=n;break;}}absolute+=position-old;if(absolute>size)FUN_0089edd0();}
 }
 }   // namespace f3m_00bc8e30
@@ -31817,6 +32452,8 @@ void Object::FUN_00bc8e30(int offset,int mode){unsigned old=position;switch(mode
 namespace f3m_00bce040 {
 namespace Findbce040 {
 struct Object {HANDLE handle;WIN32_FIND_DATAA data;char pattern[MAX_PATH];unsigned error;unsigned FUN_00bce040(bool*);};
+// pdb: BSSystemDir::NextEntry | BSSystemDir_Xenon.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: abIsComplete
 unsigned Object::FUN_00bce040(bool* finished){if(!handle){handle=FindFirstFileA(pattern,&data);if(handle==INVALID_HANDLE_VALUE)error=4;else error=0;return error;}if(handle==INVALID_HANDLE_VALUE){error=4;return error;}*finished=!FindNextFileA(handle,&data);return error;}
 }
 }   // namespace f3m_00bce040
@@ -31825,8 +32462,9 @@ unsigned Object::FUN_00bce040(bool* finished){if(!handle){handle=FindFirstFileA(
 extern int DAT_00e2c4d0,DAT_00e2c4d4,DAT_00e2c4d8;
 namespace f3m_00bcd270 {
 namespace Seekbcd270 {
-struct Object {virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c(); virtual void v20(); virtual int length();int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int direct;int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int position;void FUN_0089ef00(int,int);void FUN_00bcd270(int,int);};
-void Object::FUN_00bcd270(int offset,int mode){int target;if(mode==DAT_00e2c4d0){target=offset;if(!direct){mode=DAT_00e2c4d4;offset-=position;}}else if(mode==DAT_00e2c4d4)target=position+offset;else if(mode==DAT_00e2c4d8)target=length()-offset;else target=position;if(target!=position){FUN_0089ef00(offset,mode);position=target;}}
+struct Object {virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c(); virtual void v20(); virtual int length();int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int direct;int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int position;void FUN_0089ef00(int,int);void BSFile_Seek(int,int);};
+// pdb: BSFile::Seek | BSFile_Xenon.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc + skyrim(caller_sim), high
+void Object::BSFile_Seek(int offset,int mode){int target;if(mode==DAT_00e2c4d0){target=offset;if(!direct){mode=DAT_00e2c4d4;offset-=position;}}else if(mode==DAT_00e2c4d4)target=position+offset;else if(mode==DAT_00e2c4d8)target=length()-offset;else target=position;if(target!=position){FUN_0089ef00(offset,mode);position=target;}}
 }
 }   // namespace f3m_00bcd270
 
@@ -31837,6 +32475,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile lo
 namespace Copy325 {
 struct Ref {virtual void v0();virtual void destroy();volatile long refs;};struct Vec3 {float x,y,z;void copy(const Vec3&v){x=v.x;y=v.y;z=v.z;}};struct Shorts{unsigned short a,b,c,d,e;};
 struct Object {volatile int a,b,c,d;Ref* ref;Vec3 values;Object* FUN_00bd0f80(const Object*);};
+// pdb: BSSoundMessage::operator= | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: __that
 Object* Object::FUN_00bd0f80(const Object* src){a=src->a;b=src->b;c=src->c;d=src->d;Ref* old=*(Ref* volatile*)&ref;if(old!=src->ref){if(old&&!InterlockedDecrement(&old->refs))old->destroy();ref=src->ref;if(ref)InterlockedIncrement(&ref->refs);}values.copy(src->values);Shorts* dst=(Shorts*)&values;const Shorts* s=(const Shorts*)&src->values;dst->a=s->a;dst->b=s->b;dst->c=s->c;dst->d=s->d;dst->e=s->e;return this;}
 }
 
@@ -31850,6 +32490,8 @@ struct Queue {
     void FUN_00bd24f0(int, int, int, int, AFRefHandle, AFEventTriple);
     void FUN_00bd3090(int first, int second);
 };
+// pdb: BSAudioManager::FadeInPlay | BSAudioManager.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aiID, aiMilliseconds
 void Queue::FUN_00bd3090(int first, int second)
 {
     FUN_00bd24f0(7, first, 0, 0, AFRefHandle(0), DAT_0108ec68);
@@ -32069,6 +32711,8 @@ namespace f3m_00bc84f0 {
 namespace Small525 {
 void __cdecl FUN_00bc83e0(char*,const char*);
 int __cdecl FUN_00bc81e0(const char*,const char*);
+// pdb: WildCard::Match | WildCard.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apString, apPattern
 int __cdecl FUN_00bc84f0(const char* a,const char* b){char first[260],second[260];FUN_00bc83e0(first,a);FUN_00bc83e0(second,b);return FUN_00bc81e0(first,second)==1;}
 }
 }   // namespace f3m_00bc84f0
@@ -32088,6 +32732,8 @@ struct Queue {
     bool FUN_00bd24f0(int type, int arg, int value, int extra, RefHandle handle, Triple triple);
     bool FUN_00bd2860(int arg, unsigned int value);
 };
+// pdb: BSAudioManager::SetStaticAttenuation | BSAudioManager.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aiSoundID, aiStaticAttenutation
 bool Queue::FUN_00bd2860(int arg, unsigned int value)
 {
     unsigned short v = (unsigned short)value > 10000 ? 10000 : (unsigned short)value;
@@ -32126,9 +32772,10 @@ struct SoundHandle {
 };
 struct AudioManager {
     SoundHandle FUN_00bd3720(const char* path, unsigned int flags, int value);
-    SoundHandle FUN_00bd65f0(const char* name, unsigned int flags);
+    SoundHandle BSAudioManager_GetSoundHandleByName(const char* name, unsigned int flags);
 };
-SoundHandle AudioManager::FUN_00bd65f0(const char* name, unsigned int flags)
+// pdb: BSAudioManager::GetSoundHandleByName | BSAudioManager.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+SoundHandle AudioManager::BSAudioManager_GetSoundHandleByName(const char* name, unsigned int flags)
 {
     unsigned int outFlags = 0;
     if (DAT_011790c8->unk04) {
@@ -32235,6 +32882,7 @@ struct Worker {
  Sync sync;unsigned u38,u3c,u40,u44;bool active;
  void FUN_00bd7170();
 };
+// pdb: BSAudioManagerThread::ThreadProc | BSAudioManager.obj | fnv360_0721_retail, objrun, low
 void Worker::FUN_00bd7170(){
  sync.Wait();
  active=false;
@@ -32258,6 +32906,7 @@ struct FUN_00bc4e60_cls : FUN_00bc4c70 {
     void FUN_00bc4e60();
 };
 
+// pdb: SIdvBranchInfo::~SIdvBranchInfo | BranchInfo.obj | fnv360_0721_beta, objrun, high
 void FUN_00bc4e60_cls::FUN_00bc4e60()
 {
     if (unk58.ptr) delete unk58.ptr;
@@ -32374,6 +33023,8 @@ bool __cdecl FUN_00bcb4a0(const char* path, unsigned mode);
 }
 using namespace nbc7b80;
 
+// pdb: FileFinder::BuildSingleFileList | FileFinder.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSearchName, apBaseFilename, aiArchiveType, apFileList
 PathList* FUN_00bc7b80(const char* path, const char* base, unsigned mode, PathList* listArg)
 {
     PathList* list = listArg;
@@ -32449,6 +33100,8 @@ struct Owner {
     unsigned count;
     bool FUN_00bd0610(unsigned int mask);
 };
+// pdb: BSAudioManager::IsPausedType | BSAudioManager.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: aiType
 bool Owner::FUN_00bd0610(unsigned int mask) {
     unsigned int i = 0;
     for (; i < count; ++i) {
@@ -32489,6 +33142,7 @@ struct FUN_00bc2e20
     FUN_00bc2980_Vector records4C;
 };
 
+// pdb: CIdvBezierSpline::~CIdvBezierSpline | IdvSpline.obj | fnv360_0822_retail, call_gap, low
 FUN_00bc2e20::~FUN_00bc2e20()
 {
 }
@@ -32527,6 +33181,8 @@ struct Matrix {
 };
 float FUN_00be54b0();
 }
+// pdb: FanGenCtlsGrpC::geneticRandomSymmetrical | FanControls.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: randomness, currCoord, outCoord
 void __stdcall FUN_00bdccc0(float scale, f3m_00bdccc0::Matrix* src, f3m_00bdccc0::Matrix* dst)
 {
     using namespace f3m_00bdccc0;
@@ -32568,6 +33224,8 @@ struct Sub {
     int unk238;
     Sub* FUN_00bd0830(const Sub& other);
 };
+// pdb: BSSoundInfo::operator= | BSAudioManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: __that
 Sub* Sub::FUN_00bd0830(const Sub& other) {
 
     const char* src;
@@ -32706,6 +33364,7 @@ struct FUN_00bc53e0 : public FUN_00ba9530
 
 // @fnv 0x00b40150
 
+// pdb: CBillboardLeaf::CBillboardLeaf | BillboardLeaf.obj | fnv360_0822_retail, call_gap, medium
 FUN_00bc53e0::FUN_00bc53e0()
 
 {
@@ -32938,6 +33597,8 @@ struct DAT_00ea90ec : FUN_00bdc3f0
 
 static __forceinline FaceRegionPoint& clm_0f1b14eb_first_z_6(FaceRegionPointArray* a,unsigned i) { if(i>=a->size()) FUN_00c01e8b(); FaceRegionPoint*& data=a->begin; FaceRegionPoint*& q0=data; FaceRegionPoint*& q1=q0; return q1[i]; }
 
+// pdb: fffReadEgmFile | EgmFileIO.obj | fnv360_0822_retail, ustr, medium
+// pdb params: fname, basisKey, symm, asym
 unsigned char __cdecl FUN_00bdf740(const std::string& filename, int* metadata,
                                     FaceRegionEntryArray* first, FaceRegionEntryArray* second)
 {
@@ -33007,6 +33668,7 @@ struct Obj_bceca0 {
     void FUN_00bce610();
     void FUN_00bceca0();
 };
+// pdb: BSXenonFileCache::~BSXenonFileCache | BSXenonFileCache.obj | fnv360_0721_beta, objrun_prop, low
 void Obj_bceca0::FUN_00bceca0() {
     vtbl = &DAT_00ea8424;
     FUN_00bce610();
@@ -33026,6 +33688,7 @@ struct Obj
     void FUN_00bd7d10();
 };
 
+// pdb: BSXenonAudio::~BSXenonAudio | BSXenonAudio.obj | fnv360_0822_retail, caller_sim, low
 void Obj::FUN_00bd7d10()
 {
     vptr = DAT_00ea8998;
@@ -33715,7 +34378,6 @@ bool Parser::FUN_00bddd20(Reader* reader, int* box)
 
 // @f3 0x00bd1ff0 (community match, verified in this file)
 #include <windows.h>
-extern void* DAT_00ea8698;
 namespace f3m_00bd1ff0 {
 
 
@@ -33823,13 +34485,15 @@ void** __cdecl FUN_00bca680(Archive* apArchive, unsigned int auiCount, void** ap
                             FileNameHash* apDirectoryHash, FileNameHash* apFileHash,
                             Task2511::FileMatchList* apList, const char* apPath);
 
+// pdb: ArchiveManager::AddToFileList | Archive.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFileNameList, apSearchName, apBaseFilename, aeArchiveType
 void FUN_00bcb4c0(Task2511::FileMatchList* apList, const char* apPath, const char* apDirectory,
                   unsigned int aeArchiveTypeFlags)
 {
     if (!DAT_011786f0)
         return;
 
-    apPath = FUN_00bce940(apPath);
+    apPath = ArchiveManager_TrimFileName(apPath);
 
     char acDirectory[260];
     strcpy_s(acDirectory, 260, apDirectory);
@@ -34082,6 +34746,7 @@ struct VorbisStream_bdc0d0 {
     void FUN_00bdc0d0();
 };
 
+// pdb: XUserInterface::BringUpAchievementsUI | XUserInterface.obj | fnv360_0822_retail, objopen_prop, low
 void VorbisStream_bdc0d0::FUN_00bdc0d0() {
     if (isOpen) {
         FUN_00c21cbc(&vorbisFile);
@@ -34484,6 +35149,8 @@ struct AudioCache {
     CRITICAL_SECTION cacheLock;
     CachedSound* FUN_00bd3f00(unsigned int soundHash, unsigned int directoryHash, unsigned int flagsToApply);
 };
+// pdb: BSAudioManager::GetFromCache | BSAudioManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiSoundHash, aiDirectoryHash, aiFlagsToApply
 CachedSound* AudioCache::FUN_00bd3f00(unsigned int soundHash, unsigned int directoryHash, unsigned int flagsToApply)
 {
     bool randomize = false;
@@ -34769,6 +35436,7 @@ struct Owner {
     void FUN_00bd24f0(unsigned state,unsigned id,int,unsigned time,RetainedValue retained,Point3 point);
     void FUN_00bd3440();
 };
+// pdb: BSAudioManager::UpdateMovingSounds | BSAudioManager.obj | fnv360_0822_retail, uconst, low
 void Owner::FUN_00bd3440() {
     Sound* sound=0;
     ScopedValue current;
@@ -34824,7 +35492,6 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile lo
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 int __cdecl FUN_00bc8b30(const char*);
 inline unsigned ExtensionType(const char* p) { return FUN_00bc8b30(p + strlen(p) - 3); }
-struct LNode;
 
 struct ArchiveDirectoryKey {
     unsigned low, high;
@@ -34993,7 +35660,7 @@ struct PathArchiveNode {
     PathArchivePointer value;
     PathArchiveNode* next;
 };
-const char* FUN_00bce940(const char*);
+const char* ArchiveManager_TrimFileName(const char*);
 extern PathArchiveNode* DAT_011786f0;
 extern PathArchivePointer DAT_01178700;
 struct Random { unsigned FUN_0086c4b0(unsigned); };
@@ -35003,9 +35670,11 @@ inline const char* ResolveName(ArchiveDirectory& dir, PathArchivePointer& archiv
     unsigned count = dir.Count();
     return archive->FUN_00bc9390(index, FUN_0044a2d0()->FUN_0086c4b0(count));
 }
+// pdb: ArchiveManager::GetRandomFileNameForDirectory | Archive.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apDirectory, apFileName, aeArchiveType
 bool FUN_00bca900(const char* path, char* output, unsigned mask) {
     unsigned directoryIndex = 0;
-    path = FUN_00bce940(path);
+    path = ArchiveManager_TrimFileName(path);
     unsigned length = strlen(path);
     if (mask == 65535 && path[length - 1] != '\\') mask = ExtensionType(path);
     ArchiveDirectoryKey key(path, 1);
@@ -35052,7 +35721,6 @@ extern double DAT_00dc8088;
 extern double DAT_00dc2f10;
 extern double DAT_00db7de8;
 extern double DAT_00dbe5e0;
-extern float DAT_00db8ea4;
 namespace f3m_00bd8f90 {
 struct Point {
  float x,y,z;
@@ -35364,6 +36032,8 @@ __declspec(noinline) bool Archive::FUN_00bc97a0(unsigned int auiFolderIndex, con
     }
     return false;
 }
+// pdb: Archive::GetFileEntryForFile | Archive.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: arDirectoryHash, arFileNameHash, apFileName
 FileEntry* Archive::FUN_00bc99d0(const FileNameHash* apDirHash, const FileNameHash* apFileHash, const char* apPath)
 {
     unsigned int uiFolderIndex;
@@ -35421,6 +36091,8 @@ struct Qbd2ad0 {
     void FUN_00bd2ad0(int id, unsigned short a, unsigned short b, unsigned short c, unsigned short d, unsigned short e);
 };
 
+// pdb: BSAudioManager::SetAttenuationCurve | BSAudioManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiSoundID, aiPt1, aiPt2, aiPt3, aiPt4, aiPt5
 void Qbd2ad0::FUN_00bd2ad0(int id, unsigned short a, unsigned short b,
                            unsigned short c, unsigned short d, unsigned short e)
 {
@@ -35519,6 +36191,8 @@ void __cdecl FUN_00bc8a60(Hash** entries, int left, int right);
 
 // Adds to the list every file of the archive directory that matches fileHash and is not in the list yet.
 // results is the sorted array of the hashes of the list's items; it is built on the first call and handed back.
+// pdb: ArchiveManager::AddArchiveToFileList | Archive.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apArchive, aiNumFiles, apHashArray, arDirectoryHash, arSearchHash, apFileNameList, apBaseFilename
 Hash** __cdecl FUN_00bca680(Archive* archive, unsigned int count, Hash** results, Hash* directoryHash, Hash* fileHash,
                             PathList* list, const char* path)
 {
@@ -35792,6 +36466,8 @@ struct AudioCache {
     __forceinline bool OverBudget() const { return totalSize > (unsigned)(DAT_011791b4 << 10) && cache.allocator.count; }
     void FUN_00bd3d60(CachedSound* sound);
 };
+// pdb: BSAudioManager::AddToCache | BSAudioManager.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apToCache
 void AudioCache::FUN_00bd3d60(CachedSound* sound)
 {
     fnv_EnterCriticalSection(&cacheLock);
@@ -35891,6 +36567,8 @@ struct EGTRecord
 };
 
 
+// pdb: fffReadEgtFile | EgtFileIO_Sdk.obj | fnv360_0822_retail, ustr, medium
+// pdb params: fname, basisKey, symm, asym
 bool __cdecl FUN_00bde750(const std::string& fileName, unsigned int* outputValue, std::vector<EGTRecord>* primary,
                           std::vector<EGTRecord>* secondary)
 {
@@ -36916,7 +37594,6 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CritSecA*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CritSecA*);
 struct AE6DE0Slot { void* m_pResource; unsigned short m_usState,unk06; };
 extern int DAT_01202800;
-extern "C" void __cdecl FUN_005b5e40(const char*, int);
 
 struct AudioListener_adf080;
 
@@ -36984,8 +37661,6 @@ class NiPoint3
 };
 typedef NiPoint3 AudioVector_adf080;
 extern const AudioVector_adf080 DAT_0108ec68;
-extern double DAT_01088f48;
-extern char DAT_010a3488[];
 extern Setting_00ad9da0 DAT_01179168;
 extern Setting_00ad9da0 DAT_01179174;
 extern Setting_00ad9da0 DAT_01179180;
@@ -37722,6 +38397,8 @@ void SoundMessageRecord::FUN_00bd14f0(AudioRef_adf080 value)
 }
 
 // @fnv 0x00adf080
+// pdb: BSAudioManager::ProcessMessage | BSAudioManager.obj | fnv360_0721_retail, objrun, medium
+// pdb params: apMsg
 bool BSAudioManager_adf080::FUN_00bd4200(SoundMessageRecord* message)
 {
     AudioMemoryContext_adf080 m_uiMemoryContext(11);
@@ -38755,6 +39432,8 @@ struct Alloc {
     void FUN_00594990(Elem* p);   // destroy
 };
 
+// pdb: std::_Uninit_def_fill_n<FffModeGS *,unsigned int,FffModeGS,std::allocator<FffModeGS>,FffModeGS> | EgmFileIO.obj | fnv360_1110_retail, objrun, medium
+// pdb params: _First, _Count, __formal, _Al, __formal, __formal
 void __cdecl FUN_00bdf1e0(Elem* _First, unsigned _Count, const Elem& _Val, Alloc& _Al,
                           std::_Nonscalar_ptr_iterator_tag, std::_Range_checked_iterator_tag)
 {
@@ -38928,6 +39607,8 @@ struct FUN_00bc2da0 {
     FUN_00bc2da0(Node*,Node*,Node*,const Value&,char);
 };
 }
+// pdb: std::_Xlength_error | xthrow.obj | fnv360_0721_beta, call_gap, low
+// pdb params: _Message
 Node* Tree::FUN_00bc3220(Node* left,Node* parent,Node* right,const Value& value,char color)
 {
     Node* result = (Node*)f3m_00bc54b0::f3m_00bc54b0::FUN_00401000(sizeof(native_00bc3220::FUN_00bc2da0));
@@ -39005,6 +39686,7 @@ struct Win32GameSound : task2313::BSGameSound {
 LRESULT CALLBACK FUN_00bdb8f0(LPSTR, UINT, LPARAM, LPARAM);
 void __cdecl FUN_00887da0(const char* format, ...);
 
+// pdb: RiffFile::ScanRiff | RiffFileUtils.obj | tesv_win, uconst, low
 bool Win32GameSound::FUN_00bdba40()
 {
     Set1000(true);

@@ -7,6 +7,7 @@ struct FUN_00ca86c0_class
     unsigned char __thiscall FUN_00ca86c0();
 };
 // @f3 0x005af1d0 (community match, verified in this file)
+// pdb: NiTask::Clear | BSTECreateTask.obj | fnv360_0822_retail, vtable, medium
 unsigned char FUN_00ca86c0_class::FUN_00ca86c0()          // ORIG entry at 0x005af1d0, nineteen bytes ✓⚠',
 {                                                             //     their unit declares this struct with NO data ⚠✓',
     unsigned int kind = *(unsigned int*)((char*)this + 8);    //     members, and their own bodies cast through raw ✗✓',
@@ -26,115 +27,12 @@ struct FUN_00ca88c0_Class
 };
 
 // @f3 0x0090c710 (community match, verified in this file)
+// pdb: bhkConvexShape::GetCinfo | bhkConvexShape.obj | fnv360_0822_debug, objrun_open, low, conflict (bridge: hkpRigidBody::setMass)
 void FUN_00ca88c0_Class::FUN_00ca88c0(float afValue)
 {
     ((void(__thiscall*)(void*, float))(*(void**)(*(int*)((char*)this + 0xd0) + 12)))((char*)this + 0xd0, afValue);
 }
 
-
-struct FUN_00ca80c0_Class
-{
-    int __fastcall FUN_00ca80c0();
-};
-// @fnv 0x00ca80c0
-int __fastcall FUN_00ca80c0_Class::FUN_00ca80c0()
-{
-    return *(unsigned char*)(this + 0xe9) != 0xff;
-}
-
-struct FUN_00ca8900_Class
-{
-    void FUN_00ca8900(float f, int i);
-};
-
-// @fnv 0x00ca8900
-void FUN_00ca8900_Class::FUN_00ca8900(float f, int i)
-{
-    *(float*)((char*)this + 0x90) = f;
-}
-
-struct FUN_00ca8910_class
-{
-    void FUN_00ca8910(float v);
-};
-// @fnv 0x00ca8910
-void FUN_00ca8910_class::FUN_00ca8910(float v)
-{
-    *(float*)((char*)this + 0x94) = v;
-}
-
-struct FUN_00ca80b0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    int unke0;
-    int unke4;
-    int unke8;
-    int unkec;
-    int m_iValueAtF0;
-
-    int* FUN_00ca80b0();
-};
-
-// @fnv 0x00ca80b0
-int* FUN_00ca80b0_cls::FUN_00ca80b0()
-{
-    return &m_iValueAtF0;
-}
 
 extern float DAT_01016248;
 struct Vector3
@@ -163,6 +61,8 @@ struct Output_0090c7b0
         unk38, unk3c, unk40, unk44;
     float value;
 };
+// pdb: hkpEntity::setCachedShapeData | hkpEntity.obj | fnv360_0721_beta, call_gap, low, conflict (skyrim: estimateAllowedPenetrationDepth)
+// pdb params: world, shape
 void __fastcall ComputeScaledMinimum(const Vector3* values, Output* result)
 {
     float firstMinimum = lowerPair(values->x, values->y);
@@ -257,7 +157,7 @@ struct Owner
     unsigned int unkdc;
     Subobject subobjectE0;
     void FUN_00ca8150(unsigned int value, Vec4* result);
-    void FUN_00ca85f0(unsigned int value);
+    void hkpRigidBody_setCenterOfMassLocal(unsigned int value);
 };
 // @f3 0x0090cdb0 (community match, verified in this file)
 struct FUN_00ca85f0_Layout
@@ -270,161 +170,18 @@ struct FUN_00ca85f0_Layout
 
 struct FUN_00ca85f0_Self : Owner
 {
-    void FUN_0090c830(unsigned int value, Vec4* result);
+    void hkpRigidBody_updateCachedShapeInfo(unsigned int value, Vec4* result);
 };
 
-void Owner::FUN_00ca85f0(unsigned int value)
+// pdb: hkpRigidBody::setCenterOfMassLocal | hkpRigidBody.obj | fnv360_0822_retail, call_gap + bridge(caller_sim|caller_sim) + skyrim(call_gap), high
+void Owner::hkpRigidBody_setCenterOfMassLocal(unsigned int value)
 {
     Vec4 vec;
     FUN_00ca85f0_Layout* self = (FUN_00ca85f0_Layout*)this;
     self->m_sub.update(value);
-    ((FUN_00ca85f0_Self*)this)->FUN_0090c830(self->m_unk10, &vec);
+    ((FUN_00ca85f0_Self*)this)->hkpRigidBody_updateCachedShapeInfo(self->m_unk10, &vec);
 }
 
-
-struct CA86E0Object
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    int unkE0;
-    int unkE4;
-    unsigned char unkE8;
-    unsigned char unkE9;
-    unsigned char unkEA;
-    unsigned char unkEB;
-    int unkEC;
-    int unkF0;
-    int unkF4;
-    int unkF8;
-    int unkFC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    void* unk1F8;
-
-    void* FUN_00ca86e0();
-};
-
-// @fnv 0x00ca86e0
-void* CA86E0Object::FUN_00ca86e0()
-{
-    if (unkE8 == 4 || unkE8 == 5)
-        return unk1F8;
-    return 0;
-}
 
 struct AudioInterface;
 struct AudioInterfaceVTable
@@ -506,7 +263,7 @@ struct FUN_00ca8800_Class
     int unkD8;
     int unkDC;
     AudioInterface interfaceE0;
-    void FUN_00ca8800(int value);
+    void hkpRigidBody_setPosition(int value);
 };
 extern "C" void __cdecl FUN_00ca8700(FUN_00ca8800_Class* self);
 // Calls the interface's dispatch with value, then invokes FUN_00ca8700 on this object.
@@ -523,7 +280,8 @@ struct FUN_00ca8800_ClassOrig
     AudioInterface interface;
 };
 
-void FUN_00ca8800_Class::FUN_00ca8800(int value)
+// pdb: hkpRigidBody::setPosition | hkpRigidBody.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+void FUN_00ca8800_Class::hkpRigidBody_setPosition(int value)
 {
     FUN_00ca8800_ClassOrig* self = (FUN_00ca8800_ClassOrig*)this;
     self->interface.vtbl->dispatch(&self->interface, value);
@@ -560,14 +318,6 @@ struct CA8830Object
 
     void FUN_00ca8830(int value);
 };
-
-// Calls setValue on the member with value, then passes this to FUN_00ca8700.
-// @fnv 0x00ca8830
-void CA8830Object::FUN_00ca8830(int value)
-{
-    m_kMemberDescriptor.setValue(value);
-    FUN_00ca8700(this);
-}
 
 struct SubObject;
 
@@ -658,7 +408,7 @@ struct FUN_00ca8860_cls
     int unkd8;
     int unkdc;
     SubObject m_sub;
-    void FUN_00ca8860(int aiFirst, int aiSecond);
+    void hkpRigidBody_setPositionAndRotation(int aiFirst, int aiSecond);
 };
 
 // Calls the sub-object's Do virtual with aiFirst and aiSecond, then invokes FUN_00ca8700 on this.
@@ -720,202 +470,14 @@ struct FUN_00ca8860_body
     SubObject m_sub;
 };
 
-void FUN_00ca8860_cls::FUN_00ca8860(int aiFirst, int aiSecond)
+// pdb: hkpRigidBody::setPositionAndRotation | hkpRigidBody.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_gap), high
+void FUN_00ca8860_cls::hkpRigidBody_setPositionAndRotation(int aiFirst, int aiSecond)
 {
     FUN_00ca8860_body* body = (FUN_00ca8860_body*)this;
     body->m_sub.m_pVtbl->Do(&body->m_sub, aiFirst, aiSecond);
     FUN_00ca8700(this);
 }
 
-
-struct CA8B80Point3
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct CA8B80Command
-{
-    unsigned char m_type;
-    void* m_pOwnerObject;
-    float x;
-    float y;
-    float z;
-};
-
-struct CA8B80Queue
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    void* m_bSlotEnabled;
-
-    void Push(CA8B80Command* pkCommand);
-};
-
-struct CA8B80Handler
-{
-    virtual void vfunc000();
-    virtual void vfunc004();
-    virtual void vfunc008();
-    virtual void vfunc00C();
-    virtual void vfunc010();
-    virtual void vfunc014();
-    virtual void vfunc018();
-    virtual void vfunc01C();
-    virtual void vfunc020();
-    virtual void vfunc024();
-    virtual void vfunc028();
-    virtual void vfunc02C();
-    virtual void vfunc030();
-    virtual void vfunc034();
-    virtual void vfunc038();
-    virtual void vfunc03C();
-    virtual void vfunc040();
-    virtual void vfunc044();
-    virtual void vfunc048();
-    virtual void vfunc04C();
-    virtual void vfunc050();
-    virtual void SetPosition(const CA8B80Point3& kPos);
-};
-
-struct CA8B80Object
-{
-    int unk00;
-    int unk04;
-    CA8B80Queue* m_queue;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    CA8B80Handler m_handler;
-
-    void Update();
-    void FUN_00ca8b80(const CA8B80Point3& kPos);
-};
-
-// @fnv 0x00ca8b80
-void CA8B80Object::FUN_00ca8b80(const CA8B80Point3& kPos)
-{
-    if (m_queue && m_queue->m_bSlotEnabled)
-    {
-        CA8B80Command kCommand;
-        kCommand.m_type = 0x1d;
-        kCommand.x = kPos.x;
-        kCommand.m_pOwnerObject = this;
-        kCommand.y = kPos.y;
-        kCommand.z = kPos.z;
-        m_queue->Push(&kCommand);
-        return;
-    }
-    Update();
-    m_handler.SetPosition(kPos);
-}
-
-struct FUN_00ca9240_Base
-{
-    int unk04;
-    unsigned char type;
-    FUN_00ca9240_Base(int a, int b, int c);
-    virtual void unk00();
-};
-
-struct FUN_00ca9240 : FUN_00ca9240_Base
-{
-    FUN_00ca9240(int a, int b);
-    virtual void unk04();
-};
-
-// Constructs the base with a and b and a zero, then sets type to 7.
-// @fnv 0x00ca9240
-FUN_00ca9240::FUN_00ca9240(int aiValueA, int aiValueB) : FUN_00ca9240_Base(aiValueA, aiValueB, 0)
-{
-    type = 7;
-}
 
 struct BaseRecord
 {
@@ -934,24 +496,11 @@ struct FUN_00ca9270 : BaseRecord
 
 // Constructs the object by forwarding apFirst and apSecond to BaseRecord with flag 0, then sets m_c08 to 2.
 // @fnv 0x00ca9270
+// pdb: hkpSphereMotion::hkpSphereMotion | hkpRigidBody.obj | tesv_win, hash, low
 FUN_00ca9270::FUN_00ca9270(void* apFirst, void* apSecond) : BaseRecord(apFirst, apSecond, 0)
 {
     m_c08 = 2;
 }
-
-struct FUN_00ca80a0_base
-{
-    virtual ~FUN_00ca80a0_base();
-};
-
-struct FUN_00ca80a0_cls : FUN_00ca80a0_base
-{
-    virtual ~FUN_00ca80a0_cls();
-};
-
-// @fnv 0x00ca80a0
-FUN_00ca80a0_cls::~FUN_00ca80a0_cls()
-{}
 
 struct S_00ca8630_Owner
 {
@@ -1170,11 +719,11 @@ struct S_00ca8630_Sub
     unsigned char unk09;
     unsigned short unk0a;
     unsigned short unk0c;
-    void SetFlagBits(int a, int b, int c);
+    void hkpMotion_setWorldSelectFlagsNeg(int a, int b, int c);
     __forceinline void Set(unsigned char v, int a, int b, int c)
     {
         unk09 = v;
-        SetFlagBits(a, b, c);
+        hkpMotion_setWorldSelectFlagsNeg(a, b, c);
     }
 };
 struct S_00ca8630_Class
@@ -1514,6 +1063,8 @@ void View::Apply(int mode)
 }
 }
 
+// pdb: hkpRigidBody::enableDeactivation | hkpRigidBody.obj | fnv360_0822_retail, call_gap, medium, conflict (bridge: hkpMotion::enableDeactivation)
+// pdb params: _enableDeactivation
 void S_00ca8630_Class::FUN_00ca8630(bool f)
 {
     reinterpret_cast<n90c670::View*>(this)->Apply(*(int*)&f);
@@ -1606,92 +1157,6 @@ struct CA8890Object
 
     void FUN_00ca8890(int value);
 };
-
-// Calls setValue on the member with value, then calls FUN_00ca8700 on this object.
-// @fnv 0x00ca8890
-void CA8890Object::FUN_00ca8890(int value)
-{
-    m_kMemberDescriptor.setValue(value);
-    FUN_00ca8700(this);
-}
-
-struct SpawnedSub
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10(float f);
-};
-
-struct FUN_00ca88e0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    SpawnedSub m_sub;
-
-    void FUN_00ca88e0(float f);
-};
-
-// @fnv 0x00ca88e0
-void FUN_00ca88e0_cls::FUN_00ca88e0(float afValue)
-{
-    m_sub.v10(afValue);
-}
 
 struct CA92A0Allocator;
 
@@ -1821,8 +1286,6 @@ struct CA92A0Allocator
     virtual void* Alloc(unsigned int auiSize);
 };
 
-extern int DAT_010c6c64;
-
 static __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)
 {
     const unsigned int* s = (const unsigned int*)src;
@@ -1891,19 +1354,6 @@ __declspec(align(16)) struct FnvScratch
     void FUN_00cf5ea0();
 };
 
-struct FnvSubObj
-{
-    void FUN_00cb0c10(unsigned int auiFlags);
-};
-
-struct FnvThing
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void* v0C(void* pOwner);
-};
-
 struct FUN_00ca90c0_cls
 {
     int unk00;
@@ -1912,7 +1362,7 @@ struct FUN_00ca90c0_cls
     int unk0c;
 
     FUN_00ca90c0_cls* Clone();
-    void WriteToInfo(FnvScratch* pScratch);
+    void hkpRigidBody_getCinfo(FnvScratch* pScratch);
     FUN_00ca90c0_cls* FUN_00ca8c90(FnvScratch* pScratch);
     virtual void v00();
     virtual void v04();
@@ -1954,11 +1404,12 @@ static __forceinline void EntityCopyQuads(void* dst, const void* src, int numQua
     } while (--numQuads > 0);
 }
 
+// pdb: hkpRigidBody::clone | hkpRigidBody.obj | fnv360_0822_retail, vtable, medium
 FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
 {
     FnvScratch cinfo;
     cinfo.FUN_00cf5ea0();
-    WriteToInfo(&cinfo);
+    hkpRigidBody_getCinfo(&cinfo);
     EntityThreadMemory* mem = (EntityThreadMemory*)TlsGetValue(DAT_010f3170);
     FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)mem->alloc(0x200, 0x2d);
     *(unsigned short*)((char*)pBlock + 4) = 0x200;
@@ -1992,83 +1443,6 @@ class hkBoolCA8B
     }
     char m_cBooleanValue;
 };
-
-class hkpShapeContainerCA8B
-{
-  public:
-    virtual ~hkpShapeContainerCA8B();
-    virtual int GetNumChildShapes() const;
-};
-
-class hkpShapeCA8B
-{
-  public:
-    virtual ~hkpShapeCA8B();
-    virtual void vfn04();
-    virtual void vfn08();
-    virtual void vfn0C();
-    virtual const hkpShapeContainerCA8B* GetShapeContainer() const;
-    int unk04;
-    int unk08;
-    int m_type;
-};
-
-class hkpShapeCollectionCA8B : public hkpShapeCA8B, public hkpShapeContainerCA8B
-{
-};
-
-class HostCA8B
-{
-  public:
-    int unk00, unk04, unk08, unk0C;
-    const hkpShapeCA8B* m_pCollisionShape;
-    int unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
-    int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60, unk64, unk68, unk6C;
-    int unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
-    int unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC, unkC0, unkC4, unkC8, unkCC;
-    int unkD0, unkD4, unkD8, unkDC, unkE0, unkE4;
-    unsigned char m_bFlag;
-
-    hkBoolCA8B FUN_00ca8bf0() const;
-};
-
-// Returns false for a null shape, type 0xf, or types 7, 8, 9, 10, 0x17 with over 100 child shapes (8 and 10 are skipped when m_bFlag is 4 or 5); else true.
-// @fnv 0x00ca8bf0
-hkBoolCA8B HostCA8B::FUN_00ca8bf0() const
-{
-    const hkpShapeCA8B* shape = m_pCollisionShape;
-    if (!shape)
-        return false;
-
-    bool bOk = true;
-    int type = shape->m_type;
-    if (m_bFlag != 5 && m_bFlag != 4 && (type == 10 || type == 8))
-    {
-        if (shape->GetShapeContainer()->GetNumChildShapes() > 100)
-            bOk = false;
-    }
-
-    if (type == 0x17)
-    {
-        if (static_cast<const hkpShapeCollectionCA8B*>(m_pCollisionShape)->GetNumChildShapes() > 100)
-            bOk = false;
-    }
-    else if (type == 7)
-    {
-        if (static_cast<const hkpShapeCollectionCA8B*>(m_pCollisionShape)->GetNumChildShapes() > 100)
-            bOk = false;
-    }
-    else if (type == 0xf)
-    {
-        bOk = false;
-    }
-    else if (type == 9)
-    {
-        if (static_cast<const hkpShapeCollectionCA8B*>(shape)->GetNumChildShapes() > 100)
-            bOk = false;
-    }
-    return bOk;
-}
 
 struct S_00ca84b0_Shape
 {
@@ -2156,10 +1530,6 @@ struct S_00ca84b0_Vector4
     float x, y, z, w;
 };
 
-void FUN_00cb5c10(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
-void FUN_00cb59f0(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
-void NotifyShapeSet(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
-void FUN_00cffcf0(S_00ca84b0_Entity* entity);
 // Same-unit static helper (0x00ca80d0): the allowed penetration depth is a fifth of the
 // smallest extent, or 0.1 once that extent reaches 0.5.
 static __declspec(noinline) void ComputeScaledMinimum(void* pvCollidable, const S_00ca84b0_Vector4& kExtent)
@@ -2177,9 +1547,18 @@ static __declspec(noinline) void ComputeScaledMinimum(void* pvCollidable, const 
         *pfDepth = 0.1f;
 }
 
+class hkClass;
+class hkStatisticsCollector;
+// hkpRigidBody: the seven slots of its Fallout 3 vtable (0x00e35e28), named as the New Vegas Xbox 360 PDB names them.
 struct S_00ca84b0_Entity
 {
-    virtual void vf0();
+    virtual ~S_00ca84b0_Entity();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual int setShape(const S_00ca84b0_Shape* shape);
+    virtual void* getMotionState();
+    virtual void deallocateInternalArrays();
+    virtual S_00ca84b0_Entity* clone() const;
     int unk4;
     S_00ca84b0_World* m_pOwningWorld;
     int unkc;
@@ -2206,7 +1585,7 @@ struct S_00ca84b0_Entity
 
     void FUN_00ca8150(S_00ca84b0_Shape* shape, S_00ca84b0_Vector4* extentOut);
     void UpdateBoundingVolume(S_00ca84b0_World* world, S_00ca84b0_Shape* shape);
-    int FUN_00ca84b0(S_00ca84b0_Shape* shape);
+    int hkpRigidBody_setShape(S_00ca84b0_Shape* shape);
 };
 
 // Sets the entity's collision shape, updating penetration depth and notifying the owning world of the change.
@@ -2227,7 +1606,7 @@ struct S_00ca84b0_EntityStub
 
 {
 
-    void FUN_0090c830(S_00ca84b0_Shape* shape, S_00ca84b0_Vector4* extentOut);
+    void hkpRigidBody_updateCachedShapeInfo(S_00ca84b0_Shape* shape, S_00ca84b0_Vector4* extentOut);
 
     void FUN_0090b280(S_00ca84b0_World* world, S_00ca84b0_Shape* shape);
 
@@ -2237,7 +1616,7 @@ struct S_00ca84b0_RefShape
 
 {
 
-    virtual void vf0(int deleting);
+    virtual ~S_00ca84b0_RefShape();  // hkReferencedObject
 
     unsigned short refFlag;
 
@@ -2245,13 +1624,13 @@ struct S_00ca84b0_RefShape
 
 };
 
-void FUN_009282b0(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
+void hkpWorldOperationUtil_removeEntityBP(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
 
-void FUN_00928050(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
+void hkpWorldOperationUtil_addEntityBP(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
 
-void FUN_00988790(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
+void hkpWorldCallbackUtil_fireEntityShapeSet(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
 
-void FUN_00988020(S_00ca84b0_Entity* entity);
+void hkpEntityCallbackUtil_fireEntityShapeSet(S_00ca84b0_Entity* entity);
 
 static __forceinline float Minimum90c7(float a,float b){return a<b?a:b;}
 static __declspec(noinline) void FUN_0090c7b0(void* collidable,const S_00ca84b0_Vector4& extent){
@@ -2262,7 +1641,8 @@ static __declspec(noinline) void FUN_0090c7b0(void* collidable,const S_00ca84b0_
 
 
 
-int S_00ca84b0_Entity::FUN_00ca84b0(S_00ca84b0_Shape* shape)
+// pdb: hkpRigidBody::setShape | hkpRigidBody.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+int S_00ca84b0_Entity::hkpRigidBody_setShape(S_00ca84b0_Shape* shape)
 
 {
 
@@ -2296,7 +1676,7 @@ int S_00ca84b0_Entity::FUN_00ca84b0(S_00ca84b0_Shape* shape)
 
         m_pOwningWorld->unk84++;
 
-        FUN_009282b0(m_pOwningWorld, this);
+        hkpWorldOperationUtil_removeEntityBP(m_pOwningWorld, this);
 
     }
 
@@ -2320,7 +1700,7 @@ int S_00ca84b0_Entity::FUN_00ca84b0(S_00ca84b0_Shape* shape)
 
         if (oldRef->refCount == 0)
 
-            oldRef->vf0(1);
+            delete oldRef;
 
     }
 
@@ -2330,7 +1710,7 @@ int S_00ca84b0_Entity::FUN_00ca84b0(S_00ca84b0_Shape* shape)
 
         __declspec(align(16)) S_00ca84b0_Vector4 extent;
 
-        ((S_00ca84b0_EntityStub*)this)->FUN_0090c830(shape, &extent);
+        ((S_00ca84b0_EntityStub*)this)->hkpRigidBody_updateCachedShapeInfo(shape, &extent);
 
 
 
@@ -2348,15 +1728,15 @@ int S_00ca84b0_Entity::FUN_00ca84b0(S_00ca84b0_Shape* shape)
 
     if (m_pOwningWorld)
 
-        FUN_00988790(m_pOwningWorld, this);
+        hkpWorldCallbackUtil_fireEntityShapeSet(m_pOwningWorld, this);
 
-    FUN_00988020(this);
+    hkpEntityCallbackUtil_fireEntityShapeSet(this);
 
     if (m_pOwningWorld)
 
     {
 
-        FUN_00928050(m_pOwningWorld, this);
+        hkpWorldOperationUtil_addEntityBP(m_pOwningWorld, this);
 
         S_00ca84b0_World* world = m_pOwningWorld;
 
@@ -2390,167 +1770,6 @@ struct AllocHolder
 
 AllocHolder* __cdecl FUN_00c85750() throw();
 
-struct EventBlock
-{
-    unsigned char m_type;
-    void* m_pSender;
-    void* m_pData;
-};
-
-struct EventDispatcher
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int m_94;
-
-    void FUN_00c91160(EventBlock* ev);
-};
-
-struct EventSub
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1C();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2C();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3C();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4C();
-    virtual void v50(void* a1, void* a2);
-};
-
-struct FUN_00ca8af0_cls
-{
-    int unk00;
-    int unk04;
-    EventDispatcher* m_08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9C;
-    int unkA0;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    int unkB0;
-    int unkB4;
-    int unkB8;
-    int unkBC;
-    int unkC0;
-    int unkC4;
-    int unkC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-    EventSub m_e0;
-
-    void DispatchEvent(void* a1, void* a2);
-    void FUN_00c9c1d0();
-};
-
-// @fnv 0x00ca8af0
-void FUN_00ca8af0_cls::DispatchEvent(void* a1, void* a2)
-{
-    if (m_08 != 0)
-    {
-        if (m_08->m_94 != 0)
-        {
-            EventBlock ev;
-            ev.m_type = 0x1c;
-            ev.m_pSender = this;
-            AllocHolder* holder = FUN_00c85750();
-            ev.m_pData = holder->m_pAllocator->Alloc(0x20);
-            *(__m128*)ev.m_pData = *(__m128*)a2;
-            *(__m128*)((char*)ev.m_pData + 0x10) = *(__m128*)a1;
-            m_08->FUN_00c91160(&ev);
-            return;
-        }
-    }
-    FUN_00c9c1d0();
-    m_e0.v50(a1, a2);
-}
 }  // namespace fnv_00ca8af0
 
 struct S_00ca8f50_Vec
@@ -2580,7 +1799,7 @@ struct S_00ca8f50_Sub
     virtual void v3();
     virtual void v4();
     virtual void getTransform(S_00ca8f50_Transform& out);
-    float FUN_00c86430();
+    float hkpMotion_getMass();
     int unk4;
     unsigned char unk8;
     unsigned char unk9;
@@ -2600,7 +1819,6 @@ struct S_00ca8f50_Sub
     int unk38;
     int unk3C;
 };
-extern float DAT_010c7948[];
 struct S_00ca8f50_Info
 {
     int m0;
@@ -2638,7 +1856,7 @@ struct S_00ca8f50_Info
 struct S_00ca8f50_Src
 {
     bool FUN_00ca80c0();
-    void WriteToInfo(S_00ca8f50_Info* info);
+    void hkpRigidBody_getCinfo(S_00ca8f50_Info* info);
     int unk0;
     int unk4;
     int unk8;
@@ -2775,7 +1993,10 @@ static __forceinline void copyFloatC9(char* out,int od,const char* in,int sd)
 {
     *(float*)(out+od) = *(const float*)(in+sd);
 }
-void S_00ca8f50_Src::WriteToInfo(S_00ca8f50_Info* info)
+// pdb: hkpRigidBody::getCinfo | hkpRigidBody.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
+// pdb params: info
+// pdb: hkpRigidBody::getCinfo | hkpRigidBody.obj | fnv360_0822_retail, bridge_fnvpc, high (was: WriteToInfo)
+void S_00ca8f50_Src::hkpRigidBody_getCinfo(S_00ca8f50_Info* info)
 {
     char* dst=(char*)info;
     const char* src=(const char*)this;
@@ -2857,15 +2078,6 @@ struct S_00ca9210_RefObj
     }
 };
 
-struct FUN_00ca9210 : S_00ca9210_RefObj
-{
-    FUN_00ca9210();
-    virtual ~FUN_00ca9210() throw();
-};
-
-// @fnv 0x00ca9210
-FUN_00ca9210::FUN_00ca9210()
-{}
 }  // namespace fnv_00ca9210
 
 struct Entity;
@@ -3123,14 +2335,4 @@ void __cdecl FUN_00ca8700(Entity* apEntity)
     world->unk84 -= 1;
     if (world->unk84 == 0 && world->m_8c == 0 && world->unk80 != 0)
         world->FUN_00c91120();
-}
-
-
-// @fnv 0x00ca8920
-void __fastcall FUN_00ca8920(FUN_00ca8860_cls* body, void*, int inertia)
-{
-    SubObject* motion = &body->m_sub;
-    typedef void(__thiscall * SetInertia)(SubObject*, int);
-    SetInertia set = reinterpret_cast<SetInertia>(motion->m_pVtbl->fn1c);
-    set(motion, inertia);
 }

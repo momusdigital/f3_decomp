@@ -109,6 +109,8 @@ __forceinline bool Finish(EdiObj* edi, MainObj* pObj, V3& pos, V3 t)
     return !edi->method_C8(&s);
 }
 
+// pdb: MagicCaster::RunExplosionLOSPick | MagicCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aLocation, apTarget
 bool __stdcall FUN_006ae540(V3 pos, MainObj *pObj) {
     if (pObj == 0) return false;
 
@@ -206,6 +208,7 @@ struct QThis {
     void FUN_006bbc40();
 };
 
+// pdb: TelekinesisEffect::RemoveSpring | TelekinesisEffect.obj | fnv360_0822_retail, call_seq, medium
 void QThis::FUN_006bbc40() {
     QPlayer* player = DAT_0107a104;
     if (!player->ctrl) return;
@@ -1177,7 +1180,7 @@ public:
     virtual void v0c8();
     virtual void vcc(int a);
     void FUN_008e9e90(int time, S6b1280_Refr* owner);
-    void FUN_008ee870(S6b1280_Owner* owner);
+    void bhkCharacterController_SetWorld(S6b1280_Owner* owner);
     void FUN_004e94e0(void* obj);
     void* FUN_006a8fb0();
     void FUN_004e6580(S6b1280_Point3* pos);
@@ -1501,6 +1504,7 @@ public:
     int unk4ec;
 };
 
+// pdb: MagicFogProjectile::InitHavok | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
 void S6b1280_Refr::FUN_006b1280()
 {
     if (unk60 && unk60->unk28 == 0) {
@@ -1571,7 +1575,7 @@ void S6b1280_Refr::FUN_006b1280()
             ref->unk3c8 = DAT_00e0abd0;
         S6b1280_SceneNode* sceneNode = ref->GetScene()->unk08;
         void* node = sceneNode ? sceneNode->unk310 : 0;
-        ref->FUN_008ee870(owner);
+        ref->bhkCharacterController_SetWorld(owner);
         void* obj3D = v1d0();
         if (ref->GetCtrlObj() != obj3D) {
             ref->FUN_004e94e0(obj3D);

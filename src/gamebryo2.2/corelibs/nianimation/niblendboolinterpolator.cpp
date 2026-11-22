@@ -5,6 +5,8 @@
 #include "niblendboolinterpolator_NiBinaryStream.h"
 
 // @fnv 0x00a56880
+// pdb: NiBlendBoolInterpolator::Update | NiBlendBoolInterpolator.obj | fnv360_0822_retail, objrun, low
+// pdb params: fTime, pkInterpTarget, bValue
 bool NiBlendBoolInterpolator::Update(float time, NiObjectNET* target, bool& value)
 {
     bool updated = false;
@@ -28,6 +30,8 @@ struct FUN_00a565a0_shell : public NiBlendBoolInterpolator
 
 // Calls the virtual function at offset 0xa4 on pkInterpolator and returns its bool result.
 // @fnv 0x00a565a0
+// pdb: NiBlendBoolInterpolator::InterpolatorIsCorrectType | NiBlendBoolInterpolator.obj | fnv360_0721_beta, objrun_sim, low, conflict (skyrim: NiBlendBoolInterpolator::GetRTTI)
+// pdb params: pkInterpolator
 bool FUN_00a565a0_shell::FUN_00a565a0(NiInterpolator* pkInterpolator)
 {
     return (*(bool(__thiscall**)(NiInterpolator*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
@@ -43,6 +47,7 @@ void __fastcall FUN_00a36890(void* pThis);
 extern int DAT_0109a67c;
 
 // @fnv 0x00a565c0
+// pdb: NiBlendBoolInterpolator::InterpolatorIsCorrectType | NiBlendBoolInterpolator.obj | tesv_win, objrun, medium
 void* __cdecl FUN_00a565c0()
 {
     void* p = BSFadeNode::operator new(0x34);
@@ -63,6 +68,8 @@ struct FUN_00a568e0_shell : public NiBlendBoolInterpolator
 
 // Loads the base NiBlendInterpolator data from kStream, then reads one byte into this+0x30 and advances the stream position by the bytes read.
 // @fnv 0x00a568e0
+// pdb: NiBlendBoolInterpolator::SaveBinary | NiBlendBoolInterpolator.obj | fnv360_0822_debug, objrun, low, conflict (skyrim: NiBlendBoolInterpolator::LoadBinary)
+// pdb params: kStream
 void FUN_00a568e0_shell::FUN_00a568e0(NiStream* kStream)
 {
     NiBlendInterpolator::LoadBinary(*kStream);
@@ -76,6 +83,8 @@ void FUN_00a568e0_shell::FUN_00a568e0(NiStream* kStream)
 extern int DAT_0109a67c;
 // Constructs a NiBlendInterpolator with the given arguments, installs the vtable at DAT_0109a67c and sets byte 0x30 from DAT_0109a914.
 // @fnv 0x00a56560
+// pdb: NiBlendBoolInterpolator::NiBlendBoolInterpolator | NiBlendBoolInterpolator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: bManagerControlled, fWeightThreshold, ucArraySize
 NiBlendInterpolator* __fastcall ConstructBlendInterpolator(NiBlendInterpolator* self, int unused, bool a, float b,
                                                            unsigned char c)
 {
@@ -94,6 +103,8 @@ struct M76Obj
 };
 // Returns true if FUN_00a36fd0 succeeds and this object's m_bBoolValue equals the passed object's m_bBoolValue.
 // @fnv 0x00a565f0
+// pdb: NiBlendBoolInterpolator::CopyMembers | NiBlendBoolInterpolator.obj | fnv360_0822_debug, objrun_sim, low, conflict (skyrim: NiBlendBoolInterpolator::IsEqual)
+// pdb params: pkDest, kCloning
 bool M76Obj::IsBoolValueEqual(M76Obj* pkObject)
 {
     if (!FUN_00a36fd0(pkObject))
@@ -108,7 +119,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f407c;
 // @fnv 0x00a56620
-void* __cdecl FUN_00a56620()
+// pdb: BSTempEffectGeometryDecal::GetRTTI | BSTempEffectGeometryDecal.obj | fnv360_1110_retail, udata, high
+void* __cdecl BSTempEffectGeometryDecal_GetRTTI()
 {
     return &g_011f407c;
 }
@@ -117,6 +129,7 @@ void __fastcall DestroyInterpolatorArray(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // Calls DestroyInterpolatorArray on self, then if flags has bit 0 set calls __Dummy_00b6fef0 with self and 0x34, and returns self.
 // @fnv 0x00a56630
+// pdb: NiSequence::`scalar deleting destructor' | NiSequence.obj | fnv360_0822_retail, objrun, high
 void* __fastcall FUN_00a56630(void* self, int, unsigned int flags)
 {
     DestroyInterpolatorArray(self);
@@ -139,7 +152,8 @@ struct M76Obj
 };
 // Allocates and initialises an M76Obj, passes it to self's FUN_00a37510 with cloning, copies self's m_bBoolValue into it and returns it.
 // @fnv 0x00a56650
-M76Obj* __fastcall FUN_00a56650(M76Obj* self, int, void* cloning)
+// pdb: NiBlendBoolInterpolator::CreateClone | NiBlendBoolInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+M76Obj* __fastcall NiBlendBoolInterpolator_CreateClone(M76Obj* self, int, void* cloning)
 {
     M76Obj* pkObject = new M76Obj;
     if (pkObject)
@@ -216,10 +230,13 @@ struct M76Obj
     float m_fLastTime;
     char pad24[0xc];
     unsigned char m_bBoolValue;
-    bool UpdateInterpBool(float, void*, bool*);
+    bool NiBlendBoolInterpolator_StoreSingleValue(float, void*, bool*);
 };
 // @fnv 0x00a566a0
-bool M76Obj::UpdateInterpBool(float fTime, void* pkInterpTarget, bool* bValue)
+// pdb: NiBlendBoolInterpolator::StoreSingleValue | NiBlendBoolInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: fTime, pkInterpTarget, bValue
+// pdb: NiBlendBoolInterpolator::StoreSingleValue | NiBlendBoolInterpolator.obj | fnv360_0822_retail, objrun, high (was: UpdateInterpBool)
+bool M76Obj::NiBlendBoolInterpolator_StoreSingleValue(float fTime, void* pkInterpTarget, bool* bValue)
 {
     if (m_uiValue1 & 1)
         fTime = m_fLastTime;
@@ -257,6 +274,8 @@ struct M76Obj
 };
 // Writes the object's base data via FUN_00a37ec0, then writes one byte at offset 0x30 through the stream's output bin.
 // @fnv 0x00a56920
+// pdb: NiBlendBoolInterpolator::IsEqual | NiBlendBoolInterpolator.obj | fnv360_0822_debug, objrun, low, conflict (skyrim: NiBlendBoolInterpolator::SaveBinary)
+// pdb params: pkObject
 void __fastcall FUN_00a56920(M76Obj* self, int, M76Stream* stream)
 {
     self->FUN_00a37ec0(stream);
@@ -300,6 +319,8 @@ char* __cdecl FUN_00a7d330(M76Glob*);
 char* __cdecl FUN_00a7d410(const char*, unsigned int);
 // Calls FUN_00a38080, then appends the result of FUN_00a7d330 and the formatted "m_bBoolValue" string to pkStrings.
 // @fnv 0x00a56960
+// pdb: NiBlendBoolInterpolator::GetViewerStrings | NiBlendBoolInterpolator.obj | fnv360_0822_retail, ustr_rel, medium
+// pdb params: pkStrings
 void __fastcall AddBoolValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 {
     self->FUN_00a38080(pkStrings);
@@ -398,6 +419,8 @@ struct BlendBoolShell : public NiBlendBoolInterpolator
 
 // Accumulates successful interpolator updates by normalized weight; when any update succeeds, sets both boolean values using a 0.5 threshold.
 // @fnv 0x00a56710
+// pdb: NiBlendBoolInterpolator::BlendValues | NiBlendBoolInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkInterpTarget, bValue
 bool BlendBoolShell::FUN_00a56710(float fTime, NiObjectNET* pkInterpTarget, bool& bValue)
 {
     float fTotalValue = 0.0f;

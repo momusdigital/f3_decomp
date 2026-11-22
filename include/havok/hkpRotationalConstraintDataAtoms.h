@@ -10,6 +10,8 @@
 class hkpRotationalConstraintDataAtoms
 {
   public:
+    // The bytes up to the end of the last atom (Havok's hkGetByteOffsetInt(this, &m_vAngularConstraint + 1)).
+    int getSizeOfAllAtoms() const { return (int)((const char*)(&m_vAngularConstraint + 1) - (const char*)this); }
     hkpSetLocalRotationsConstraintAtom m_kLocalRotations;  // +0x0
     hkpAngConstraintAtom m_vAngularConstraint;             // +0x70
     char pad74[0xC];

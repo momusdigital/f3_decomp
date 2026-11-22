@@ -49,6 +49,8 @@ class FUN_00a779b0_info
 };
 
 // @fnv 0x00a8c6e0
+// pdb: NiDDSReader::Read24Bit | NiDDSReader.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: kIst, pkDest, kSrcFmt, kDestFmt, uiMipMapIdx, uiFaceIdx, bEndianConverted
 void __cdecl FUN_00a8c6e0(ReadCtx* ctx, ImgObj* self, NiPixelFormat fmtA, NiPixelFormat fmtB, unsigned int idx,
                           unsigned int scale)
 {

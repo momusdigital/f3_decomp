@@ -16,14 +16,6 @@ void __thiscall NiPSysFieldMagnitudeCtlr::FUN_00c29ea0(float& fValue)
     fValue = *(float*)(*(NiPSysModifierFloatCtlr**)((char*)this + 0x3C) + 0x1C);
 }
 
-extern "C" void* g_01202718;
-
-// @fnv 0x00c2b140
-void* __cdecl FUN_00c2b140()
-{
-    return &g_01202718;
-}
-
 struct NiPSysFieldMagnitudeCtlr_shell : NiPSysFieldMagnitudeCtlr
 {
     void __thiscall FUN_00c2b150(float value);
@@ -33,31 +25,6 @@ struct NiPSysFieldMagnitudeCtlr_shell : NiPSysFieldMagnitudeCtlr
 void __thiscall NiPSysFieldMagnitudeCtlr_shell::FUN_00c2b150(float value)
 {
     ((float*)*(int*)((char*)this + 0x3c))[7] = value;
-}
-
-struct StrArr
-{
-    void* m_pData;
-    int _m04;
-    unsigned short m_usAlloc;
-    unsigned short m_usSize;
-    unsigned short _m0C;
-    unsigned short m_usGrow;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
-};
-void __stdcall FUN_00c32f60(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
-// @fnv 0x00c2b1b0
-void __stdcall FUN_00c2b1b0(StrArr* pkStrings)
-{
-    FUN_00c32f60(pkStrings);
-    char* pcStr = FUN_00a7d330((const char*)g_01202718);
-    unsigned int uiSize = pkStrings->m_usSize;
-    unsigned int uiCap = pkStrings->m_usAlloc;
-    if (uiSize >= uiCap)
-        pkStrings->SetSize(pkStrings->m_usGrow + uiSize);
-    pkStrings->SetAt(uiSize, pcStr);
 }
 
 struct Base
@@ -83,6 +50,7 @@ struct Owner
 };
 
 // @fnv 0x00c2b160
+// pdb: NiPSysFieldMagnitudeCtlr::CreateClone | NiPSysFieldMagnitudeCtlr.obj | tesv_win, caller_sim, low
 Node* Owner::FUN_00c2b160(int arg)
 {
     Node* node = new Node();

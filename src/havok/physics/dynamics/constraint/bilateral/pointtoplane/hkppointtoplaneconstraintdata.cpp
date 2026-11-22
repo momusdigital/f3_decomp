@@ -6,6 +6,7 @@
 
 // Sets b[0] and b[1] to 8 and 1 when a is nonzero, otherwise to 0 and 0.
 // @fnv 0x00d84780
+// pdb: hkpPulleyConstraintData::getRuntimeInfo | hkpPulleyConstraintData.obj | tesv_win, objrun_open, low
 void __stdcall FUN_00d84780(unsigned char a, int* pData)
 {
     if (a)
@@ -22,18 +23,21 @@ void __stdcall FUN_00d84780(unsigned char a, int* pData)
 
 extern "C" void* __cdecl FUN_00d21a60(void*, int, int);
 
-struct FUN_00d84760
+struct FUN_00d84760 : public hkpPointToPlaneConstraintData
 {
     void* PopulateInfo(int a);
 };
 
 // @fnv 0x00d84760
+// pdb: hkpPointToPlaneConstraintData::getConstraintInfo | hkpPointToPlaneConstraintData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: infoOut
 void* FUN_00d84760::PopulateInfo(int a)
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x94, a);
+    return FUN_00d21a60(&m_kBridgeAtoms, m_kBridgeAtoms.getSizeOfAllAtoms(), a);
 }
 
 // @fnv 0x00d847b0
+// pdb: GuardActorPackageData::GetPackageType | GuardPackage.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_00d847b0()
 {
     return 14;
@@ -55,6 +59,7 @@ struct FUN_00d84b70
 };
 // Returns true if the Transform at offset 0x20 and the one at offset 0x60 both pass a 0.001 tolerance validation.
 // @fnv 0x00d84b70
+// pdb: hkpPointToPlaneConstraintData::isValid | hkpPointToPlaneConstraintData.obj | tesv_win, objrun_open, low
 ValidationResult FUN_00d84b70::CheckValid()
 {
     Transform* pFirstTransform = (Transform*)((char*)this + 0x20);
@@ -118,35 +123,6 @@ struct Vec_d849a0
     }
 };
 
-static inline float Abs_d849a0(float r)
-{
-    return (float)fabs(r);
-}
-
-static __forceinline void Perp_d849a0(const Vec_d849a0& vectorIn, Vec_d849a0& biVectorOut)
-{
-    int minIdx = 0;
-    int ok1 = 1;
-    int ok2 = 2;
-    float a0 = Abs_d849a0(vectorIn(0));
-    float a1 = Abs_d849a0(vectorIn(1));
-    float a2 = Abs_d849a0(vectorIn(2));
-    if (a1 < a0)
-    {
-        ok1 = 0;
-        minIdx = 1;
-        a0 = a1;
-    }
-    if (a2 < a0)
-    {
-        ok2 = minIdx;
-        minIdx = 2;
-    }
-    biVectorOut.setZero4();
-    biVectorOut(ok1) = vectorIn(ok2);
-    biVectorOut(ok2) = -vectorIn(ok1);
-}
-
 struct Rot_d849a0
 {
     Vec_d849a0 col0;
@@ -158,68 +134,6 @@ struct Rot_d849a0
     }
 };
 
-struct Out_d847c0 : public Vec_d849a0
-{
-    void setRotatedInverseDir(const Rot_d849a0& r, const Vec_d849a0& v);
-};
-
-struct Trans_d847c0
-{
-    Rot_d849a0 m_rotation;
-    Vec_d849a0 m_vTranslation;
-};
-
-struct Pos_d847c0 : public Vec_d849a0
-{
-    void SetTransformedPosition(const Trans_d847c0& t, const Vec_d849a0& v);
-};
-
-struct PointToPlane_d847c0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    Vec_d849a0 m_20;
-    Vec_d849a0 m_30;
-    Vec_d849a0 m_40;
-    Pos_d847c0 m_50;
-    Rot_d849a0 m_60;
-    Pos_d847c0 m_90;
-    unsigned short unkA0;
-    unsigned char m_a2;
-    void SetFromTransforms(const Trans_d847c0& bodyA, const Trans_d847c0& bodyB, const Vec_d849a0& pivot,
-                           const Vec_d849a0& normal);
-};
-
-// Stores pivot transformed by each body into m_50 and m_90, resets m_20/m_30/m_40 to unit axes, and builds m_60 from normal and bodyB's rotation.
-// @fnv 0x00d847c0
-void PointToPlane_d847c0::SetFromTransforms(const Trans_d847c0& bodyA, const Trans_d847c0& bodyB,
-                                            const Vec_d849a0& pivot, const Vec_d849a0& normal)
-{
-    m_50.SetTransformedPosition(bodyA, pivot);
-    m_90.SetTransformedPosition(bodyB, pivot);
-    m_20.setZero4();
-    m_30.setZero4();
-    m_40.setZero4();
-    m_20(0) = 1.0f;
-    m_30(1) = 1.0f;
-    m_40(2) = 1.0f;
-
-    Rot_d849a0& rot = m_60;
-    int n = m_a2;
-    static_cast<Out_d847c0&>(rot.getColumn(n)).setRotatedInverseDir(bodyB.m_rotation, normal);
-    int i1 = (n + 1) % 3;
-
-    Perp_d849a0(rot.getColumn(n), rot.getColumn(i1));
-    rot.getColumn(i1).normalize3();
-
-    rot.getColumn((n + 2) % 3).setCross(rot.getColumn(n), rot.getColumn(i1));
-}
 }  // namespace fnv_00d847c0
 
 namespace fnv_00d849a0 {
@@ -276,35 +190,6 @@ struct Vec_d849a0
     }
 };
 
-static inline float Abs_d849a0(float r)
-{
-    return (float)fabs(r);
-}
-
-static __forceinline void Perp_d849a0(const Vec_d849a0& vectorIn, Vec_d849a0& biVectorOut)
-{
-    int minIdx = 0;
-    int ok1 = 1;
-    int ok2 = 2;
-    float a0 = Abs_d849a0(vectorIn(0));
-    float a1 = Abs_d849a0(vectorIn(1));
-    float a2 = Abs_d849a0(vectorIn(2));
-    if (a1 < a0)
-    {
-        ok1 = 0;
-        minIdx = 1;
-        a0 = a1;
-    }
-    if (a2 < a0)
-    {
-        ok2 = minIdx;
-        minIdx = 2;
-    }
-    biVectorOut.setZero4();
-    biVectorOut(ok1) = vectorIn(ok2);
-    biVectorOut(ok2) = -vectorIn(ok1);
-}
-
 struct Rot_d849a0
 {
     Vec_d849a0 col0;
@@ -316,54 +201,11 @@ struct Rot_d849a0
     }
 };
 
-struct Cls_d849a0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    Vec_d849a0 m_20;
-    Vec_d849a0 m_30;
-    Vec_d849a0 m_40;
-    Vec_d849a0 m_50;
-    Rot_d849a0 m_60;
-    Vec_d849a0 m_90;
-    unsigned short unkA0;
-    unsigned char m_a2;
-    void SetBasis(const Vec_d849a0& a1, const Vec_d849a0& a2, const Vec_d849a0& a3);
-};
-
-// Stores a1 and a2 into m_50 and m_90, initializes m_20, m_30, m_40 to the identity basis, and builds the m_60 rotation from a3 and m_a2.
-// @fnv 0x00d849a0
-void Cls_d849a0::SetBasis(const Vec_d849a0& a1, const Vec_d849a0& a2, const Vec_d849a0& a3)
-{
-    m_50.q = a1.q;
-    m_90.q = a2.q;
-    m_20.setZero4();
-    m_30.setZero4();
-    m_40.setZero4();
-    m_20(0) = 1.0f;
-    m_30(1) = 1.0f;
-    m_40(2) = 1.0f;
-
-    Rot_d849a0& rot = m_60;
-    int n = m_a2;
-    rot.getColumn(n).q = a3.q;
-    int i1 = (n + 1) % 3;
-
-    Perp_d849a0(rot.getColumn(n), rot.getColumn(i1));
-    rot.getColumn(i1).normalize3();
-
-    int i2 = (n + 2) % 3;
-    rot.getColumn(i2).setCross(rot.getColumn(n), rot.getColumn(i1));
-}
 }  // namespace fnv_00d849a0
 
 // @f3twin 0x00a72440 of 0x007ee170
+// pdb: hkpSimpleMeshShape::initWeldingInfo | hkpSimpleMeshShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: weldingType
 int __cdecl F3_FUN_00a72440()
 {
     return 14;

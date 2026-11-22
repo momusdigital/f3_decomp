@@ -9,83 +9,9 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 } __m128;
 
 extern "C" __m128 _mm_setr_ps(float x, float y, float z, float w);
-extern "C" void _mm_store_ps(float* p, __m128 v);
-
-struct FUN_00d522b0_Ctx
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    void* m_10;
-};
-
-struct FUN_00d522b0_Vec
-{
-    void* m_ptr;
-    int m_uiItemCount;
-    int m_cap;
-};
-
-struct FUN_00d522b0_P
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    FUN_00d522b0_Vec m_verts;
-    FUN_00d522b0_Vec m_cmds;
-};
 
 extern void* __cdecl FUN_00c85750(void);
 extern void __cdecl ResizeAudioStream(void* apCtx, void* apVec, int aElemSize);
-
-struct FUN_00d522b0_cls
-{
-    int m_00;
-    FUN_00d522b0_P* m_04;
-    int AddVertexCommand(unsigned char aFlag, float aX, float aY);
-};
-
-// @fnv 0x00d522b0
-int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
-{
-    FUN_00d522b0_Vec* pCmds = &m_04->m_cmds;
-    FUN_00d522b0_Ctx* ctx = (FUN_00d522b0_Ctx*)FUN_00c85750();
-    if (pCmds->m_uiItemCount == (pCmds->m_cap & 0x3fffffff))
-        ResizeAudioStream(ctx->m_10, pCmds, 4);
-    int* piSlot = (int*)pCmds->m_ptr + pCmds->m_uiItemCount;
-    *piSlot = 0x11;
-    *piSlot = 0x11;
-    ++pCmds->m_uiItemCount;
-
-    int flag = aFlag;
-
-    pCmds = &m_04->m_cmds;
-    ctx = (FUN_00d522b0_Ctx*)FUN_00c85750();
-    if (pCmds->m_uiItemCount == (pCmds->m_cap & 0x3fffffff))
-        ResizeAudioStream(ctx->m_10, pCmds, 4);
-    int* piFlagSlot = (int*)pCmds->m_ptr + pCmds->m_uiItemCount;
-    *piFlagSlot = flag;
-    *piFlagSlot = flag;
-    ++pCmds->m_uiItemCount;
-
-    __m128 v = _mm_setr_ps(aX, aY, 0.0f, 0.0f);
-    int iOldVertexCount = m_04->m_verts.m_uiItemCount;
-
-    FUN_00d522b0_Vec* vert = &m_04->m_verts;
-    ctx = (FUN_00d522b0_Ctx*)FUN_00c85750();
-    if (vert->m_uiItemCount == (vert->m_cap & 0x3fffffff))
-        ResizeAudioStream(ctx->m_10, vert, 16);
-    _mm_store_ps((float*)((char*)vert->m_ptr + (vert->m_uiItemCount << 4)), v);
-    ++vert->m_uiItemCount;
-
-    FUN_00d522b0_P* p = m_04;
-    p->m_04 += 0x30;
-    p->m_08 += 1;
-    p->m_0c += 1;
-    return iOldVertexCount;
-}
 
 struct __declspec(align(16)) FUN_00c7f690_cls
 {
@@ -112,6 +38,7 @@ struct FUN_00d52140_cls
 };
 
 // @f3 0x009dfce0 (community match, verified in this file)
+// pdb: hkpConstraintConstructionKit::setPivotsHelper | hkpConstraintConstructionKit.obj | tesv_win, caller_sim, low
 int FUN_00d52140_cls::FUN_00d52140(char* a1, char* a2, const __m128* a3)
 {
     FUN_00c7f690_cls t1;
@@ -189,60 +116,12 @@ template <class T> struct hkArrayD
     }
 };
 
-struct hkGeometryBufferD
-{
-    unsigned int unk;
-    int m_iNumBytes;
-    int m_iNumCommands;
-    int m_iNumParams;
-    hkArrayD<hkVector4D521> m_params;
-    hkArrayD<int> m_commands;
-};
-
-class hkCommandWriterD
-{
-  public:
-    int FUN_00d521b0(unsigned char ucKind, float fX, float fY);
-
-    unsigned int unk;
-    hkGeometryBufferD* m_pBuffer;
-};
-
-// Appends a command and a 2D vector parameter to the geometry buffer, updates byte/command/param counts, and returns the parameter index.
-// @fnv 0x00d521b0
-int hkCommandWriterD::FUN_00d521b0(unsigned char ucKind, float fX, float fY)
-{
-    m_pBuffer->m_commands.AddBack(0x10);
-    m_pBuffer->m_commands.AddBack(ucKind);
-    const int iIndex = m_pBuffer->m_params.GetLogicalSize();
-    hkVector4D521 kParam;
-    kParam.set(fX, fY, 0.0f, 0.0f);
-    m_pBuffer->m_params.AddBack(kParam);
-    hkGeometryBufferD* pkBuffer = m_pBuffer;
-    pkBuffer->m_iNumBytes += 0x40;
-    pkBuffer->m_iNumCommands += 1;
-    pkBuffer->m_iNumParams += 1;
-    return iIndex;
-}
-
 #include <math.h>
 inline void FillWords328(int* dest, int n, const int& value)
 {
     for (int i = 0; i < n; ++i)
         dest[i] = value;
 }
-
-extern float DAT_01011d78;
-extern float DAT_01016410;
-
-struct Draw328_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAllocator;
-};
 
 struct Draw328_intarr
 {
@@ -288,6 +167,7 @@ struct __declspec(align(16)) Draw328_Vec4
     float z;
     float w;
 };
+// pdb: hkpConstraintConstructionKit::setConeLimit | hkpConstraintConstructionKit.obj | tesv_win, objrun_open, low
 unsigned int Draw328_cls::AppendHeaderAndVector(unsigned char a1, float a2)
 {
     Draw328_intarr* ints = &m_pMgr->m_auiHeaderValues;
@@ -435,6 +315,7 @@ static __forceinline void AppendGeomCommand(hkArr<int>* commands, const int& val
     ++commands->m_iElementCount;
 }
 
+// pdb: hkpConstraintConstructionKit::setTwistLimit | hkpConstraintConstructionKit.obj | tesv_win, objrun_open, low
 int GeomWriter::FUN_00d524d0(unsigned char a1, unsigned char a2, float a3, float a4)
 {
     AppendGeomCommand(&m_buffer->m_cmds, 0x13);

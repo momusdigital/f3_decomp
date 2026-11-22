@@ -181,7 +181,7 @@ class hkRotation : public hkMatrix3
 {
   public:
     __forceinline hkRotation() {}
-    void FUN_00924b40(const hkQuaternion& q);
+    void hkRotation_set(const hkQuaternion& q);
 };
 
 class hkTransform
@@ -206,11 +206,11 @@ class hkTransform
 
     __forceinline void set(const hkQuaternion& q, const hkVector4& t)
     {
-        m_rotation.FUN_00924b40(q);
+        m_rotation.hkRotation_set(q);
         m_translation = t;
     }
 
-    void FUN_009251b0(const hkTransform& a, const hkTransform& b);
+    void hkTransform_setMul(const hkTransform& a, const hkTransform& b);
 };
 
 void __cdecl FUN_004e5e40(hkTransform& aOut, const NiTransform& aIn);
@@ -594,6 +594,8 @@ class bhkPickData : public hkpShapeRayCastInput
     }
 };
 
+// pdb: Projectile::PickSceneGraph | Projectile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apPickData, apObject, abIgnoreHead, abSort
 bool __cdecl FUN_007c9760(bhkPickData* apPickData, NiAVObject* apObject, bool abIgnoreWeapon, bool abSortHits)
 {
     bool bHit = false;
@@ -633,7 +635,7 @@ bool __cdecl FUN_007c9760(bhkPickData* apPickData, NiAVObject* apObject, bool ab
                             hkTransform kLocalTransform;
                             hkTransform kWorldTransform(kTransform);
                             kLocalTransform.set(pRigidBodyT->GetLocalRot(), pRigidBodyT->GetLocalPos());
-                            kTransform.FUN_009251b0(kWorldTransform, kLocalTransform);
+                            kTransform.hkTransform_setMul(kWorldTransform, kLocalTransform);
                         }
                     }
                     else
@@ -1319,7 +1321,7 @@ struct UpVector
 
 struct UpOwner
 {
-    void FUN_0091ddb0(const UpVector& vector);
+    void hkpCharacterProxy_setLinearVelocity(const UpVector& vector);
 };
 
 extern const double DAT_00dbe7c0;
@@ -1712,17 +1714,17 @@ struct Controller
     void FUN_006a8f80(unsigned int enabled);
     void FUN_008e9e90(int duration, Actor* actor);
     World* FUN_00568690();
-    void FUN_008ee870(World* world);
+    void bhkCharacterController_SetWorld(World* world);
     Node* FUN_006a8fb0();
     void FUN_004e94e0(Node* node);
-    void FUN_008ea270(const hkVector4& position);
+    void bhkCharacterController_SetPosition(const hkVector4& position);
     __declspec(noinline) void FUN_004e6580(const Point& position)
     {
         hkVector4 v;
         v.x = position.x * DAT_00dbe7c0;
         v.y = position.y * DAT_00dbe7c0;
         v.z = position.z * DAT_00dbe7c0;
-        FUN_008ea270(v);
+        bhkCharacterController_SetPosition(v);
     }
     __declspec(noinline) CFilter FUN_0061f4f0()
     {
@@ -1909,6 +1911,7 @@ CollisionObject* __cdecl FUN_00477d90(Node* node);
 void __cdecl FUN_008d7720(Node* node, int first, int second);
 void __cdecl FUN_00aeeca0(Node* node, int enabled);
 
+// pdb: Projectile::InitHavok | Projectile.obj | fnv360_0822_retail, vtable, medium
 void Actor::FUN_007ca320()
 {
     Node* node = Get3D();
@@ -1991,7 +1994,7 @@ void Actor::FUN_007ca320()
         controller->flags294.Set(0x80000, true);
         UpVector up(DAT_00db7260, 0.0f, 0.0f, 0.0f);
         if (controller && controller->up08)
-            controller->up08->FUN_0091ddb0(up);
+            controller->up08->hkpCharacterProxy_setLinearVelocity(up);
         process60->SetController(controller);
         controller->FUN_008e9e90(1000, this);
         FUN_008d78f0(node, 0, 1, 0);
@@ -2001,7 +2004,7 @@ void Actor::FUN_007ca320()
     {
         controller->SetFallDistance((float)(middle->FUN_004d5350() * DAT_00dbe7c0));
         World* oldWorld = controller->FUN_00568690();
-        controller->FUN_008ee870(world);
+        controller->bhkCharacterController_SetWorld(world);
         Node* oldNode = controller->FUN_006a8fb0();
         if (oldNode != node)
         {
@@ -2795,6 +2798,7 @@ __declspec(noinline) bool S7cd730_Self::FUN_007cbc10(S7cd730_PickData* apPickDat
 }
 
 
+// pdb: Projectile::TestProjectileInTriggerZone | Projectile.obj | fnv360_0822_retail, call_seq, low
 bool S7cd730_Self::FUN_007cd730()
 {
     if (pTarget != DAT_0107a104)
@@ -3315,11 +3319,13 @@ extern NiRTTI DAT_010f3430;
 
 NiAVObject* __cdecl FUN_004780d0(const S7cc540_Collidable* collidable);
 S7cc540_Ref* __cdecl FUN_004e7b90(NiAVObject* node);
-void __cdecl FUN_00518df0(S7cc540_Ref* source, int* extra, unsigned int flags);
+void __cdecl Script_SetActionFlag(S7cc540_Ref* source, int* extra, unsigned int flags);
 S7cc540_ColObj* __cdecl FUN_00477d90(NiAVObject* node);
 bool __cdecl FUN_007c8ac0(S7cc540_Ref* ref, const S7cc540_Collidable* collidable, S7cc540_Projectile* projectile,
                           S7cc540_ProjBase* base);
 
+// pdb: Projectile::ProcessTargetPick | Projectile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apPickData, apProjectile, apProjectileBase, apHitFraction, bUseCharacterController, afWaterHitRatio
 NiAVObject* __cdecl FUN_007cc540(S7cc540_PickData* pick, S7cc540_Projectile* projectile, S7cc540_ProjBase* base,
                                  float* hitTime, bool acceptCharController, float maxTime)
 {
@@ -3355,9 +3361,9 @@ NiAVObject* __cdecl FUN_007cc540(S7cc540_PickData* pick, S7cc540_Projectile* pro
                     if (projectile && ref &&
                         (object->FUN_00424270().GetLayer() == 0x17 || object->FUN_00424270().GetLayer() == 0x18))
                     {
-                        FUN_00518df0(projectile, &ref->extra40, 0x80);
+                        Script_SetActionFlag(projectile, &ref->extra40, 0x80);
                         if (projectile->unkf0)
-                            FUN_00518df0(projectile->unkf0, &ref->extra40, 0x100);
+                            Script_SetActionFlag(projectile->unkf0, &ref->extra40, 0x100);
                     }
                     if (FUN_00424d20(&DAT_010f3430, object) ||
                         (acceptCharController && object->FUN_00424270().GetLayer() == 0x1e))
@@ -3897,6 +3903,8 @@ struct Response {RefActor* source;RefActor* target;int unk08,unk0c;int material;
  unsigned char FlagByte(){return (unsigned char)(flags>>11);}
  void FUN_007c3770(Other*);
 };
+// pdb: HitData::SetTargetedLimb | HitData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apProjectile
 void Response::FUN_007c3770(Other* other){
  if(!target || !target->eligible())return;
  MaterialMap* map=target->base->materialMap();
@@ -4040,7 +4048,7 @@ struct S007ceb30_Matrix3
     float m21;
     float m22;
 
-    void FUN_00468d80(float fAngle);
+    void NiMatrix3_MakeZRotation(float fAngle);
     void FUN_004bbca0(float fAngle);
     S007ceb30_Matrix3 operator*(const S007ceb30_Matrix3& kMat) const;
 
@@ -4579,7 +4587,7 @@ struct S007ceb30_Contact
 
 void* FUN_008f1bf0(S007ceb30_Collidable* apColl);
 S007ceb30_Ref* FUN_004e7b90(void* apObj);
-void FUN_00518df0(S007ceb30_Actor* apActor, int* apData, int aiSize);
+void Script_SetActionFlag(S007ceb30_Actor* apActor, int* apData, int aiSize);
 
 struct S007ceb30_Owner
 {
@@ -4736,6 +4744,8 @@ struct S007ceb30_Owner
     void FUN_007ceb30(S007ceb30_Contact* apContact);
 };
 
+// pdb: ProjectileListener::contactPointAddedCallback | ProjectileListener.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apProxy, point
 void S007ceb30_Owner::FUN_007ceb30(S007ceb30_Contact* apContact)
 {
     bool bMiss = true;
@@ -4767,11 +4777,11 @@ void S007ceb30_Owner::FUN_007ceb30(S007ceb30_Contact* apContact)
     if (pRef && pWorldObj &&
         (pWorldObj->GetCollisionFilterInline().GetLayer() == 0x17 || pWorldObj->FUN_00424270().GetLayer() == 0x18))
     {
-        FUN_00518df0(pActor, &pRef->unk40, 0x80);
+        Script_SetActionFlag(pActor, &pRef->unk40, 0x80);
         // Guess: identical-arms select on spilled pColl keeps stack slots identical while assigning pActor->unkF0 to ebx after esi and edi
         pActor = (S007ceb30_Actor*)(((int)pColl < 0) ? pActor->unkF0 : pActor->unkF0);
         if (pActor)
-            FUN_00518df0(pActor, &pRef->unk40, 0x100);
+            Script_SetActionFlag(pActor, &pRef->unk40, 0x100);
         return;
     }
 
@@ -4789,7 +4799,7 @@ void S007ceb30_Owner::FUN_007ceb30(S007ceb30_Contact* apContact)
                 S007ceb30_PickData kPick;
                 S007ceb30_Point3 kPos = *pActor->GetPos();
                 S007ceb30_Matrix3 kRot;
-                kRot.FUN_00468d80(pActor->GetAngleX(0));
+                kRot.NiMatrix3_MakeZRotation(pActor->GetAngleX(0));
                 S007ceb30_Matrix3 kRotZ;
                 kRotZ.FUN_004bbca0(pActor->FUN_00765430());
                 kRot = kRot * kRotZ;
@@ -5130,7 +5140,7 @@ struct S7cdd90_BaseForm
     int unk30;
     S7cdd90_String m_kName;
 
-    int FUN_00449cb0();
+    int TESForm_GetFormEditorIDLength();
 };
 
 struct S7cdd90_CollHolder
@@ -5285,6 +5295,7 @@ bool S7cdd90_Projectile::FUN_007cbc10(S7cdd90_PickData* apPickData, float* afWat
     return false;
 }
 
+// pdb: Projectile::RunTargetPick | Projectile.obj | fnv360_0822_retail, vtable, medium
 bool S7cdd90_Projectile::FUN_007cdd90()
 {
     if (!GetParentCell() || !GetParentCell()->GetWorld())
@@ -5342,7 +5353,7 @@ bool S7cdd90_Projectile::FUN_007cdd90()
         if (foriginRatio > 1.0f)
         {
             FUN_00887da0("COMBAT: Projectile %s is spawning outside of the broadphase.",
-                         GetBaseForm()->FUN_00449cb0() ? GetBaseForm()->GetFullName() : GetBaseForm()->m_kName.c_str());
+                         GetBaseForm()->TESForm_GetFormEditorIDLength() ? GetBaseForm()->GetFullName() : GetBaseForm()->m_kName.c_str());
         }
         else
         {
@@ -6005,6 +6016,7 @@ int __cdecl FUN_007cc540(bhkPickData* apPickData, FlameProjectile* apProjectile,
 BSDebugLine* __cdecl FUN_0047a4e0(const NiPoint3* apFrom, const NiColorA* apFromColor, const NiPoint3* apTo,
                                   const NiColorA* apToColor, bool abArg5);
 
+// pdb: FlameProjectile::RunTargetPick | FlameProjectile.obj | fnv360_0822_retail, vtable, medium
 bool FlameProjectile::FUN_007c16d0()
 {
     if (!GetParentCell() || !GetParentCell()->GetbhkWorld())

@@ -3,6 +3,7 @@
 #include "niactormanager_packet.h"
 // Assigns the interned strings "end" and "start" to DAT_011f3ec0 and DAT_011f3ec4, releasing the previous references when they differ.
 // @fnv 0x00a421c0
+// pdb: NiActorManager::_SDMInit | NiActorManager.obj | fnv360_0822_retail, call_seq, medium
 void ActorManagerPacket::InitializePoint3()
 {
     char* old = DAT_011f3ec0;
@@ -30,6 +31,7 @@ extern int DAT_011f3e7c;
 extern int DAT_011f3e80;
 // Walks the list at DAT_011f3e7c, calls FUN_00a2dd70(3) on each node, then zeroes DAT_011f3e80 and DAT_011f3e7c.
 // @fnv 0x00a2de40
+// pdb: NiTAbstractPoolAllocator<NiActorManager::TimelineData>::_SDMShutdown | NiAnimationSDM.obj | fnv360_0822_retail, call_seq, high
 void ClearNodeList()
 {
     NodeA2* pNode = *(NodeA2**)&DAT_011f3e7c;

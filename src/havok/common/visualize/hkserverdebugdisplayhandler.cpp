@@ -10,6 +10,7 @@ struct FUN_00dd97c0
     FUN_00dd97c0(char f);
 };
 // @fnv 0x00dd97c0
+// pdb: std::locale::facet::`scalar deleting destructor' | algs.obj | fnv360_0822_retail, vtable, high
 FUN_00dd97c0::FUN_00dd97c0(char acFlags)
 {
     m_p = &DAT_010d7cfc;
@@ -21,53 +22,13 @@ extern "C" __declspec(dllimport) void __stdcall _fnv_EnterCriticalSection(void* 
 extern "C" __declspec(dllimport) void __stdcall _fnv_LeaveCriticalSection(void* section);
 struct FUN_00d605d0_Class
 {
-    void FUN_00d60960(unsigned int value);
-    void FUN_00d605d0(unsigned int value);
+    void hkOArchive_write32u(unsigned int value);
+    void hkOArchive_write8u(unsigned int value);
     void FUN_00dda730(unsigned int value);
-    void FUN_00d609a0(__int64 value);
+    void hkOArchive_write64u(__int64 value);
     void WriteInt(unsigned int value);
     const char* ForwardValueToObject(unsigned int* value);
 };
-struct Record
-{
-    int unk00;
-    FUN_00d605d0_Class* config;
-    void* criticalSection;
-    bool SetConfigValues(unsigned int a, unsigned int b, unsigned int c, int d, unsigned int e);
-};
-// Locks the critical section, writes five values to config, reads back a string, and returns whether the read-back string is empty.
-// @fnv 0x00dd9b40
-bool Record::SetConfigValues(unsigned int uiValueA, unsigned int uiValueB, unsigned int uiValueC, int iValueD,
-                             unsigned int uiValueE)
-{
-    _fnv_EnterCriticalSection(criticalSection);
-    if (config)
-    {
-        config->FUN_00d60960(0x29);
-        config->FUN_00d605d0(8);
-        config->FUN_00dda730(uiValueA);
-        config->FUN_00dda730(uiValueB);
-        config->FUN_00d60960(uiValueC);
-        config->FUN_00d609a0(iValueD);
-        config->WriteInt(uiValueE);
-    }
-    bool hasValue;
-    if (config)
-    {
-        const char* value = config->ForwardValueToObject(&uiValueA);
-        if (value[0] == 0)
-            goto noValue;
-        hasValue = true;
-        goto valueChecked;
-    noValue:
-        hasValue = false;
-    valueChecked:;
-    }
-    else
-        hasValue = false;
-    _fnv_LeaveCriticalSection(criticalSection);
-    return !hasValue;
-}
 
 struct FUN_00dd9ab0_cls
 {
@@ -91,17 +52,19 @@ struct WorldLockStub
     void FUN_00908a00();
 };
 
+// pdb: hkServerDebugDisplayHandler::displayPoint | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: position, color, id, tag
 bool FUN_00dd9ab0_cls::FUN_00dd9ab0(unsigned int a1, unsigned int a2, int a3, unsigned int a4)
 {
     bool ok;
     static_cast<WorldLockStub*>(m_pWorldLock)->FUN_00908a00();
     if (m_pConfiguration != 0)
     {
-        m_pConfiguration->FUN_00d60960(0x21);
-        m_pConfiguration->FUN_00d605d0(8);
+        m_pConfiguration->hkOArchive_write32u(0x21);
+        m_pConfiguration->hkOArchive_write8u(8);
         m_pConfiguration->FUN_00dda730(a1);
         m_pConfiguration->FUN_00dda730(a2);
-        m_pConfiguration->FUN_00d60960(a3);
+        m_pConfiguration->hkOArchive_write32u(a3);
         m_pConfiguration->WriteInt(a4);
     }
     if (m_pConfiguration == 0)
@@ -141,14 +104,16 @@ struct FUN_00dd9be0_cls
 };
 
 // @f3 0x00a62120 (community match, verified in this file)
+// pdb: hkServerDebugDisplayHandler::sendMemStatsDump | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: data, length
 bool FUN_00dd9be0_cls::FUN_00dd9be0(unsigned int value, unsigned int length)
 {
     static_cast<WorldLockStub*>(m_cs)->FUN_00908a00();
     if (m_pConfiguration != 0)
     {
         unsigned int count = length;
-        m_pConfiguration->FUN_00d60960(count + 5);
-        m_pConfiguration->FUN_00d605d0(0xf);
+        m_pConfiguration->hkOArchive_write32u(count + 5);
+        m_pConfiguration->hkOArchive_write8u(0xf);
         m_pConfiguration->WriteInt(count);
         reinterpret_cast<ConfigExt*>(m_pConfiguration)->unk607b0(value, count);
     }
@@ -198,13 +163,14 @@ struct Cfg_w137 : FUN_00d605d0_Class
 };
 extern "C" __declspec(dllimport) void __stdcall _fnv_LeaveCriticalSection(void* section);
 
+// pdb: hkServerDebugDisplayHandler::holdImmediate | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, caller_sim, medium
 bool S_00dd9c60::FUN_00dd9c60()
 {
     ((CS_w137*)unk08)->FUN_00908a00();
     if (unk04)
     {
         ((Cfg_w137*)unk04)->FUN_009ee8f0(1);
-        unk04->FUN_00d605d0(0xb);
+        unk04->hkOArchive_write8u(0xb);
     }
     bool r;
     char c;
@@ -231,6 +197,7 @@ struct DD9D70StringArray
 };
 
 // @fnv 0x00dd9d70
+// pdb: _getGeometryByteSize | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, objrun_open, low
 static __declspec(noinline) int FUN_00dd9d70(const DD9D70StringArray& strings)
 {
     int size = 4;
@@ -251,59 +218,11 @@ int DD9D70ComputeSize(const DD9D70StringArray* a, const DD9D70StringArray* b)
 extern "C" __declspec(dllimport) void __stdcall _fnv_EnterCriticalSection(void* section);
 extern "C" __declspec(dllimport) void __stdcall _fnv_LeaveCriticalSection(void* section);
 
-class ConfigStub
-{
-  public:
-    void WriteShape(unsigned int value);
-};
-
-struct ItemList
-{
-    unsigned int* m_pItems;
-    int m_iArrayLength;
-};
-
-class FUN_00dd9da0_cls
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    FUN_00d605d0_Class* m_pConfig;
-    void* m_pUserData;
-
-    void ApplyItemList(ItemList* pList);
-};
-
-// @fnv 0x00dd9da0
-void FUN_00dd9da0_cls::ApplyItemList(ItemList* pItemList)
-{
-    int i;
-
-    _fnv_EnterCriticalSection(m_pUserData);
-    m_pConfig->WriteInt(pItemList->m_iArrayLength);
-    for (i = 0; i < pItemList->m_iArrayLength; i++)
-    {
-        ((ConfigStub*)m_pConfig)->WriteShape(pItemList->m_pItems[i]);
-    }
-    _fnv_LeaveCriticalSection(m_pUserData);
-}
-
 extern int DAT_010d7cfc;
 void __cdecl _Deallocate(void*);
 
 extern "C" __declspec(dllimport) void __stdcall _fnv_EnterCriticalSection(void* section);
 extern "C" __declspec(dllimport) void __stdcall _fnv_LeaveCriticalSection(void* section);
-
-struct ParentRec
-{
-    void ApplyItemList(unsigned int value);
-};
-
-struct ConfigAux
-{
-    void WriteTransform(unsigned int value);
-};
 
 unsigned int FUN_00dd9d70();
 
@@ -331,6 +250,8 @@ struct Lock95{
     void FUN_00908a00();
 };
 struct Parent95{void FUN_00a61800(unsigned int value);};
+// pdb: hkServerDebugDisplayHandler::displayGeometry | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: geometries, transform, color, id, tag
 bool FUN_00dd9df0_cls::FUN_00dd9df0(unsigned int a1,unsigned int a2,unsigned int a3,unsigned int a4){
     ((Lock95*)criticalSection)->FUN_00908a00();
     if(config){
@@ -375,10 +296,10 @@ bool FUN_00dd9f40_cls::SetAndCheck(unsigned int uiValue, unsigned int a2, int a3
     {
         unsigned int v = uiValue;
         m_pConfiguration->WriteInt(FUN_00dd9d70() + 0x11);
-        m_pConfiguration->FUN_00d605d0(6);
+        m_pConfiguration->hkOArchive_write8u(6);
         reinterpret_cast<FUN_00dd9da0_ext*>((char*)this - 8)->ApplyItemList(v);
-        m_pConfiguration->FUN_00d60960(a2);
-        m_pConfiguration->FUN_00d609a0((__int64)a3);
+        m_pConfiguration->hkOArchive_write32u(a2);
+        m_pConfiguration->hkOArchive_write64u((__int64)a3);
         m_pConfiguration->WriteInt(a4);
     }
     if (m_pConfiguration == 0)
@@ -400,110 +321,11 @@ done:
     return !ok;
 }
 
-struct FUN_00d605d0_ext
-{
-    void FUN_00d607b0(unsigned int a, unsigned int len);
-    void WriteUInt16(unsigned int len);
-};
+int hkString_strLen(unsigned int value);
 
-int FUN_00cb10d0(unsigned int value);
+int __cdecl hkString_strLen(const char* text);
 
-struct FUN_00dda0e0_cls
-{
-    int unk00;
-    FUN_00d605d0_Class* config;
-    void* criticalSection;
-    int FUN_00dda0e0(unsigned int a, unsigned int b, int c, unsigned int d);
-};
-
-// @fnv 0x00dda0e0
-int FUN_00dda0e0_cls::FUN_00dda0e0(volatile unsigned int auiValue, unsigned int b, int c, unsigned int d)
-{
-    _fnv_EnterCriticalSection(criticalSection);
-    if (config != 0)
-    {
-        unsigned int v = auiValue;
-        int len = FUN_00cb10d0(v);
-        int n = (len < 0xffff) ? len : 0xffff;
-        config->FUN_00d60960(n + 0x13);
-        config->FUN_00d605d0(9);
-        reinterpret_cast<FUN_00d605d0_ext*>(config)->WriteUInt16(n);
-        reinterpret_cast<FUN_00d605d0_ext*>(config)->FUN_00d607b0(v, n);
-        config->WriteInt(b);
-        config->FUN_00d609a0((__int64)c);
-        config->WriteInt(d);
-    }
-    bool ok = (config != 0) && (config->ForwardValueToObject((unsigned int*)&auiValue)[0] != 0);
-    _fnv_LeaveCriticalSection(criticalSection);
-    return !ok;
-}
-
-int __cdecl FUN_00cb10d0(const char* text);
-
-struct FUN_00d605d0_ext_cls
-{
-    void WriteUInt16(unsigned int value);
-    void FUN_00d607b0(const char* text, unsigned int length);
-    void HashUInt(float value);
-};
-
-struct FUN_00dda1a0_cls
-{
-    int unk00;
-    FUN_00d605d0_Class* config;
-    void* criticalSection;
-
-    bool WriteConfigEntry(const char* name, const float* vec, unsigned int a, int b, unsigned int c);
-};
-
-// @fnv 0x00dda1a0
-bool FUN_00dda1a0_cls::WriteConfigEntry(const char* name, const float* vec, unsigned int uiValueA, int iValueB,
-                                        unsigned int uiValueC)
-{
-    _fnv_EnterCriticalSection(criticalSection);
-    if (config != 0)
-    {
-        int n = FUN_00cb10d0(name);
-        int length = (n < 0xffff) ? n : 0xffff;
-        config->FUN_00d60960(length + 0x1f);
-        config->FUN_00d605d0(0x11);
-        reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->WriteUInt16(length);
-        reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->FUN_00d607b0(name, length);
-        config->WriteInt(uiValueA);
-        config->FUN_00d609a0((__int64)iValueB);
-        config->WriteInt(uiValueC);
-        reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->HashUInt(vec[0]);
-        reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->HashUInt(vec[1]);
-        reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->HashUInt(vec[2]);
-    }
-    bool result;
-    if (config == 0)
-    {
-        goto done;
-    }
-    {
-        unsigned int id;
-        const char* text = config->ForwardValueToObject(&id);
-        if (text[0] != 0)
-        {
-            result = true;
-            goto out;
-        }
-    }
-done:
-    result = false;
-out:
-    _fnv_LeaveCriticalSection(criticalSection);
-    return !result;
-}
-
-struct FUN_00dda290_ext
-{
-    void FUN_00d607b0(unsigned int a, unsigned int len);
-    void WriteUInt16(unsigned int len);
-};
-
-int FUN_00cb10d0(unsigned int value);
+int hkString_strLen(unsigned int value);
 
 struct FUN_00dda290_cls
 {
@@ -541,6 +363,8 @@ struct FUN_00dda290_cfg
 };
 int FUN_009233f0(unsigned int value);
 
+// pdb: hkServerDebugDisplayHandler::displayText | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: hkServerDebugDisplayHandler::displayAnnotation)
+// pdb params: text, color, id, tag
 int FUN_00dda290_cls::WriteConfigValue(unsigned int a, int aiValue, unsigned int c)
 {
     reinterpret_cast<FUN_00dda290_lock*>(criticalSection)->FUN_00908a00();
@@ -565,10 +389,6 @@ int FUN_00dda290_cls::WriteConfigValue(unsigned int a, int aiValue, unsigned int
 
 #include <xmmintrin.h>
 #include <windows.h>
-struct DD97E0Vector4
-{
-    __m128 m_vComponents;
-};
 
 struct __declspec(align(16)) DD97E0Point
 {
@@ -636,6 +456,8 @@ struct DD97E0LockF3
         LeaveCriticalSection(&m_kCriticalSection);
     }
 };
+// pdb: hkServerDebugDisplayHandler::addGeometryInstance | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: originalInstanceID, transform, id, tag, shapeIdHint
 int DD97E0DisplayHandler::FUN_00dd97e0(int aUnused, int bUnused, int c, int dUnused, int eUnused)
 {
     ((DD97E0LockF3*)m_pSynchronizationLock)->FUN_00908a00();
@@ -651,8 +473,8 @@ struct FUN_00d60940_Class
 };
 struct Stream : FUN_00d605d0_Class
 {
-    void FUN_00d60960(unsigned int);
-    void FUN_00d609a0(unsigned int, int);
+    void hkOArchive_write32u(unsigned int);
+    void hkOArchive_write64u(unsigned int, int);
     char* ForwardValueToObject(void*);
 };
 struct Output
@@ -676,15 +498,17 @@ struct W56Lock
     int unk1c;
     void FUN_00908a00();
 };
+// pdb: hkServerDebugDisplayHandler::displayLine | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: start, end, color, id, tag
 int Output::WriteRecord(unsigned int first, unsigned int second, unsigned int third)
 {
     ((W56Lock*)lock)->FUN_00908a00();
     if (stream)
     {
-        stream->FUN_00d60960(17);
-        stream->FUN_00d605d0(3);
-        stream->FUN_00d60960(first);
-        stream->FUN_00d609a0(second, 0);
+        stream->hkOArchive_write32u(17);
+        stream->hkOArchive_write8u(3);
+        stream->hkOArchive_write32u(first);
+        stream->hkOArchive_write64u(second, 0);
         ((FUN_00d60940_Class*)stream)->WriteInt(third);
     }
     bool failed = stream && *stream->ForwardValueToObject(&first);
@@ -707,39 +531,6 @@ struct S_00dd98c0_Bool
     S_00dd98c0_Bool()
     {}
 };
-struct S_00dd98c0_Target
-{
-    void FUN_00d60960(int a);
-    void FUN_00d605d0(int a);
-    void WriteTransform(int a);
-    void FUN_00d609a0(int a, int b);
-    void WriteInt(int a);
-    S_00dd98c0_Bool ForwardValueToObject();
-};
-struct S_00dd98c0
-{
-    int unk0;
-    S_00dd98c0_Target* unk4;
-    CRITICAL_SECTION* unk8;
-    S_00dd98c0_Result WriteValue(int a1, int a2, int a3);
-};
-// Writes a1, a2, a3 to unk4 under unk8, then returns SUCCESS if unk4 and ForwardValueToObject() are true, else FAILURE.
-// @fnv 0x00dd98c0
-S_00dd98c0_Result S_00dd98c0::WriteValue(int a1, int a2, int a3)
-{
-    EnterCriticalSection(unk8);
-    if (unk4)
-    {
-        unk4->FUN_00d60960(0x29);
-        unk4->FUN_00d605d0(2);
-        unk4->WriteTransform(a1);
-        unk4->FUN_00d609a0(a2, 0);
-        unk4->WriteInt(a3);
-    }
-    bool ok = unk4 && unk4->ForwardValueToObject().m_cBooleanValue;
-    LeaveCriticalSection(unk8);
-    return ok ? S_00dd98c0_SUCCESS : S_00dd98c0_FAILURE;
-}
 
 struct DD9950Bool
 {
@@ -807,6 +598,8 @@ struct DD9950LockF3
         LeaveCriticalSection(&m_kCriticalSection);
     }
 };
+// pdb: hkServerDebugDisplayHandler::updateGeometry | hkServerDebugDisplayHandler.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: hkServerDebugDisplayHandler::removeGeometry)
+// pdb params: transform, id, tag
 DD9950Result DD9950DisplayServer::FUN_00dd9950(unsigned long id, int tag, unsigned long shapeIdHint)
 {
     ((DD9950LockF3*)m_outStreamLock)->FUN_00908a00();
@@ -834,17 +627,6 @@ struct DD99D0Bool
     }
 };
 
-struct DD99D0OStream
-{
-    void writeUint32(unsigned int value);
-    void writeCommand(unsigned int value);
-    void writeVector(const void* v);
-    void writeFloat(float value);
-    void writeInt32(int value);
-    void WriteByteArray(const char* data, int length);
-    DD99D0Bool IsStreamValid();
-};
-
 struct DD99D0CriticalSection
 {
     CRITICAL_SECTION m_kCriticalSection;
@@ -859,47 +641,9 @@ struct DD99D0CriticalSection
     }
 };
 
-extern "C" int __cdecl FUN_00cb10d0(const char* str);
+extern "C" int __cdecl hkString_strLen(const char* str);
 
-struct DD99D0DisplayHandler
-{
-    int unk00;
-    DD99D0OStream* m_pDisplayStream;
-    DD99D0CriticalSection* m_pSynchronizationLock;
-
-    int WriteDisplayCommand(const void* a, const void* b, const void* c, float x, float y, float z, const char* text);
-};
-
-// Writes a display command with three vectors, three floats, and a text string to m_pDisplayStream under m_pSynchronizationLock.
-// @fnv 0x00dd99d0
-int DD99D0DisplayHandler::WriteDisplayCommand(const void* apVector1, const void* apVector2, const void* apVector3,
-                                              float x, float y, float z, const char* text)
-{
-    m_pSynchronizationLock->enter();
-    if (m_pDisplayStream)
-    {
-        int length = FUN_00cb10d0(text);
-        m_pDisplayStream->writeUint32(length + 0x33);
-        m_pDisplayStream->writeCommand(0xd);
-        m_pDisplayStream->writeVector(apVector1);
-        m_pDisplayStream->writeVector(apVector2);
-        m_pDisplayStream->writeVector(apVector3);
-        m_pDisplayStream->writeFloat(x);
-        m_pDisplayStream->writeFloat(y);
-        m_pDisplayStream->writeFloat(z);
-        m_pDisplayStream->writeInt32(length);
-        m_pDisplayStream->WriteByteArray(text, length);
-    }
-    bool ok = m_pDisplayStream && m_pDisplayStream->IsStreamValid();
-    m_pSynchronizationLock->leave();
-    return ok ? 0 : 1;
-}
 }  // namespace fnv_00dd99d0
-
-struct DD9FE0Vector4
-{
-    __m128 m_vComponents;
-};
 
 struct __declspec(align(16)) DD9FE0Point
 {
@@ -919,16 +663,6 @@ struct DD9FE0Bool
     }
 };
 
-struct DD9FE0OStream
-{
-    void writeCommand(unsigned int value);
-    void writeCount(unsigned int value);
-    void writeVector(const DD9FE0Point& v);
-    void writeUint64(unsigned __int64 value);
-    void writeTag(int value);
-    DD9FE0Bool IsStreamValid();
-};
-
 struct DD9FE0CriticalSection
 {
     CRITICAL_SECTION m_kCriticalSection;
@@ -942,46 +676,6 @@ struct DD9FE0CriticalSection
         LeaveCriticalSection(&m_kCriticalSection);
     }
 };
-
-struct DD9FE0DisplayHandler
-{
-    int unk00;
-    DD9FE0OStream* m_pDisplayStream;
-    DD9FE0CriticalSection* m_pSynchronizationLock;
-
-    int WriteTriangle(const DD9FE0Vector4& a, const DD9FE0Vector4& b, const DD9FE0Vector4& c, unsigned int color,
-                      int id, int tag);
-};
-
-// Writes three line segments forming a triangle to the display stream under a critical section, returning 0 on success or 1 if the stream is missing or invalid.
-// @fnv 0x00dd9fe0
-int DD9FE0DisplayHandler::WriteTriangle(const DD9FE0Vector4& a, const DD9FE0Vector4& b, const DD9FE0Vector4& c,
-                                        unsigned int color, int id, int tag)
-{
-    m_pSynchronizationLock->enter();
-    if (m_pDisplayStream)
-    {
-        DD9FE0Point verts[4];
-        *(__m128*)&verts[0] = a.m_vComponents;
-        *(__m128*)&verts[1] = b.m_vComponents;
-        *(__m128*)&verts[2] = c.m_vComponents;
-        *(__m128*)&verts[3] = a.m_vComponents;
-        unsigned __int64 id64 = id;
-        for (int i = 0; i < 3; i++)
-        {
-            m_pDisplayStream->writeCommand(0x29);
-            m_pDisplayStream->writeCount(8);
-            m_pDisplayStream->writeVector(verts[i]);
-            m_pDisplayStream->writeVector(verts[i + 1]);
-            m_pDisplayStream->writeCommand(color);
-            m_pDisplayStream->writeUint64(id64);
-            m_pDisplayStream->writeTag(tag);
-        }
-    }
-    bool ok = m_pDisplayStream && m_pDisplayStream->IsStreamValid();
-    m_pSynchronizationLock->leave();
-    return ok ? 0 : 1;
-}
 
 struct Vec4_dda340
 {
@@ -997,15 +691,6 @@ struct __declspec(align(16)) Transform_dda340
     Vec4_dda340 rotation1;
     Vec4_dda340 rotation2;
     Vec4_dda340 translation;
-};
-
-struct QsTransform_dda340
-{
-    Vec4_dda340 translation;
-    Vec4_dda340 rotation;
-    Vec4_dda340 scale;
-
-    void FUN_00ce5300(Transform_dda340* out);
 };
 
 struct MemoryAllocator_dda340
@@ -1068,146 +753,6 @@ class Array_dda340
         m_data[m_iElementCount++] = val;
     }
 };
-
-struct Config_dda340 : public FUN_00d605d0_Class
-{
-    void WriteUInt16(unsigned int value);
-    void FUN_00d607b0(const char* text, unsigned int length);
-    void WriteTransform(const Transform_dda340* t);
-};
-
-struct Writer_dda340
-{
-    int unk00;
-    Config_dda340* config;
-    void* criticalSection;
-
-    bool Write(const ArrayRef_dda340<unsigned int>& a1, const ArrayRef_dda340<unsigned int>& a2,
-               const ArrayRef_dda340<unsigned int>& a3, const ArrayRef_dda340<Vec4_dda340>& a4,
-               const ArrayRef_dda340<const char*>& a5, const ArrayRef_dda340<unsigned int>& a6,
-               const ArrayRef_dda340<unsigned int>& a7, const ArrayRef_dda340<QsTransform_dda340>& a8);
-};
-
-// Writes supplied data when a config exists; returns false only when the forwarded value is nonzero.
-// @fnv 0x00dda340
-bool Writer_dda340::Write(const ArrayRef_dda340<unsigned int>& a1, const ArrayRef_dda340<unsigned int>& a2,
-                          const ArrayRef_dda340<unsigned int>& a3, const ArrayRef_dda340<Vec4_dda340>& a4,
-                          const ArrayRef_dda340<const char*>& a5, const ArrayRef_dda340<unsigned int>& a6,
-                          const ArrayRef_dda340<unsigned int>& a7, const ArrayRef_dda340<QsTransform_dda340>& a8)
-{
-    _fnv_EnterCriticalSection(this->criticalSection);
-    if (this->config)
-    {
-        int size2 = a2.m_iElementCount;
-        int iVec4Count = a4.m_iElementCount;
-        int totalSize = ((size2 + iVec4Count * 2) * 2 + a8.m_iElementCount * 7 + a6.m_iElementCount + a7.m_iElementCount) * 4 + 25;
-        Array_dda340 stringLengths;
-        for (int i = 0; i < a5.m_iElementCount; ++i)
-        {
-            if (a5.m_data[i] != 0)
-            {
-                totalSize += 2;
-                int len = FUN_00cb10d0(a5.m_data[i]);
-                stringLengths.AddBack(len);
-                totalSize += len;
-            }
-            else
-            {
-                stringLengths.AddBack(0);
-            }
-        }
-
-        this->config->FUN_00d60960(totalSize);
-        this->config->FUN_00d605d0(0x12);
-        this->config->FUN_00d60960(size2);
-
-        for (int i = 0; i < a2.m_iElementCount; ++i)
-        {
-            this->config->FUN_00d60960(a1.m_data[i]);
-            this->config->FUN_00d60960(a2.m_data[i]);
-        }
-
-        this->config->FUN_00d60960(iVec4Count);
-
-        for (int i = 0; i < a4.m_iElementCount; ++i)
-        {
-            this->config->FUN_00d60960(a3.m_data[i]);
-            this->config->FUN_00dda730((unsigned int)&a4.m_data[i]);
-        }
-
-        this->config->FUN_00d60960((unsigned short)a5.m_iElementCount);
-
-        for (int i = 0; i < a5.m_iElementCount; ++i)
-        {
-            if (a5.m_data[i] != 0)
-            {
-                unsigned int len = stringLengths.m_data[i];
-                this->config->WriteUInt16(len);
-                this->config->FUN_00d607b0(a5.m_data[i], len);
-            }
-        }
-
-        this->config->FUN_00d60960(a8.m_iElementCount);
-
-        for (int i = 0; i < a8.m_iElementCount; ++i)
-        {
-            Transform_dda340 t;
-            a8.m_data[i].FUN_00ce5300(&t);
-            this->config->WriteTransform(&t);
-        }
-
-        this->config->FUN_00d60960(a6.m_iElementCount);
-
-        for (int i = 0; i < a6.m_iElementCount; ++i)
-        {
-            this->config->FUN_00d60960(a6.m_data[i]);
-        }
-
-        this->config->FUN_00d60960(a7.m_iElementCount);
-
-        for (int i = 0; i < a7.m_iElementCount; ++i)
-        {
-            this->config->FUN_00d60960(a7.m_data[i]);
-        }
-
-        stringLengths.ClearAndRelease();
-    }
-
-    char status;
-    bool failed = (this->config != 0 && *this->config->ForwardValueToObject((unsigned int*)&status) != 0);
-
-    _fnv_LeaveCriticalSection(this->criticalSection);
-    return !failed;
-}
-
-// FUN_00dda650 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)
-struct A1_00dda650
-{
-    A1_00dda650();
-    virtual void FUN_00dda650();
-    char pad[0x04];
-};
-struct A2_00dda650
-{
-    A2_00dda650();
-    virtual void FUN_00dda650();
-};
-struct Own_00dda650 : A1_00dda650, A2_00dda650
-{
-    Own_00dda650();
-    virtual void key_fn();
-// @fnv 0x00dda650
-    void FUN_00dda650();
-};
-Own_00dda650::Own_00dda650()
-{}
-void Own_00dda650::key_fn()
-{}
-Own_00dda650* make_00dda650()
-{
-    static Own_00dda650 o;
-    return &o;
-}
 
 namespace fnv_00dda660 {
 struct FUN_00dda660_Allocator
@@ -1286,11 +831,11 @@ bool SecondaryDisplay::FUN_00dd9e90(unsigned int a, unsigned int b, unsigned int
     {
         unsigned int a2 = a;
         config->WriteInt(FUN_00dd9d70() + 0x2d);
-        config->FUN_00d605d0(5);
+        config->hkOArchive_write8u(5);
         reinterpret_cast<FUN_00dd9da0_owner*>((char*)this - 8)->ApplyItemList(a2);
         config->WriteTransform(b);
-        config->FUN_00d60960(c);
-        config->FUN_00d609a0((__int64)d);
+        config->hkOArchive_write32u(c);
+        config->hkOArchive_write64u((__int64)d);
         config->WriteInt(e);
     }
     bool ok = config != 0 && config->ForwardValueToObject(&a)[0] != 0;

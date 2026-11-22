@@ -104,15 +104,17 @@ struct Matrix44_shell {
     int unk1C;
     int unk20;
     int unk24;
-    void FUN_00de9130(CB20B0_Class* a2);
+    void TESForm_LoadForm(CB20B0_Class* a2);
     char FUN_00515c10(CB20B0_Class* a2);
 };
 
+// pdb: TESGlobal::Load | TESGlobal.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 char Matrix44_shell::FUN_00515c10(CB20B0_Class* a2)
 {
     if (a2->GetType() != 6)
         return 0;
-    FUN_00de9130(a2);
+    TESForm_LoadForm(a2);
     int tag;
     while ((tag = a2->ReadTag()) != 0) {
         switch (tag) {
@@ -295,10 +297,12 @@ int unk24C;
 int unk250;
 int unk254;
 int unk258;
-unsigned chunkSize;unsigned char FUN_00448cc0();unsigned FUN_004487d0();bool FUN_00447020();void FUN_00447d60(void*,unsigned);};
-void __cdecl FUN_0045bab0(void*,File50ae*);
+unsigned chunkSize;unsigned char TESFile_GetTESForm();unsigned TESFile_GetTESChunk();bool TESFile_NextChunk();void FUN_00447d60(void*,unsigned);};
+void __cdecl TESTexture_LoadTextureChunk(void*,File50ae*);
 struct Owner50ae{void**table;int unk04;int unk08;int unk0C;int unk10;int unk14;int icon;void FUN_00454410(File50ae*);bool FUN_0050ae40(File50ae*);};
-bool Owner50ae::FUN_0050ae40(File50ae*file){if(file->FUN_00448cc0()!=5)return false;FUN_00454410(file);unsigned chunk=file->FUN_004487d0();while(chunk){switch(chunk){case 0x4e4f4349:FUN_0045bab0(this?&icon:0,file);break;case 0x444e424f:((void(__thiscall*)(Owner50ae*,File50ae*))table[56])(this,file);break;case 0x44494445:{char*text=(char*)_alloca(file->chunkSize);file->FUN_00447d60(text,512);((void(__thiscall*)(Owner50ae*,char*))table[77])(this,text);break;}}if(!file->FUN_00447020())break;chunk=file->FUN_004487d0();}return true;}
+// pdb: BGSMenuIcon::Load | BGSMenuIcon.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
+bool Owner50ae::FUN_0050ae40(File50ae*file){if(file->TESFile_GetTESForm()!=5)return false;FUN_00454410(file);unsigned chunk=file->TESFile_GetTESChunk();while(chunk){switch(chunk){case 0x4e4f4349:TESTexture_LoadTextureChunk(this?&icon:0,file);break;case 0x444e424f:((void(__thiscall*)(Owner50ae*,File50ae*))table[56])(this,file);break;case 0x44494445:{char*text=(char*)_alloca(file->chunkSize);file->FUN_00447d60(text,512);((void(__thiscall*)(Owner50ae*,char*))table[77])(this,text);break;}}if(!file->TESFile_NextChunk())break;chunk=file->TESFile_GetTESChunk();}return true;}
 }   // namespace f3m_0050ae40
 
 // @f3 0x0050aa60 (community match, verified in this file)
@@ -456,21 +460,25 @@ int unk24C;
 int unk250;
 int unk254;
 int unk258;
-unsigned chunkSize;void FUN_00448800(unsigned*);unsigned char FUN_00448cc0();unsigned FUN_004487d0();bool FUN_00447020();void FUN_00447d60(void*,unsigned);};
+unsigned chunkSize;void FUN_00448800(unsigned*);unsigned char TESFile_GetTESForm();unsigned TESFile_GetTESChunk();bool TESFile_NextChunk();void FUN_00447d60(void*,unsigned);};
 struct List50aa{void FUN_0061c430(unsigned*);};
-struct Owner50aa{void**table;int unk04;int unk08;int unk0C;int unk10;int unk14;List50aa list;void FUN_00454240(int);void FUN_00454410(File50aa*);bool FUN_0050aa60(File50aa*);};
-bool Owner50aa::FUN_0050aa60(File50aa*file){FUN_00454410(file);FUN_00454240(0);unsigned chunk=file->FUN_004487d0();while(chunk){switch(chunk){case 0x4d414e4c:{unsigned id=0;file->FUN_00448800(&id);unsigned value=id;list.FUN_0061c430(&value);break;}case 0x444e424f:((void(__thiscall*)(Owner50aa*,File50aa*))table[56])(this,file);break;case 0x44494445:{char*text=(char*)_alloca(file->chunkSize);file->FUN_00447d60(text,512);((void(__thiscall*)(Owner50aa*,char*))table[77])(this,text);break;}}if(!file->FUN_00447020())break;chunk=file->FUN_004487d0();}return true;}
+struct Owner50aa{void**table;int unk04;int unk08;int unk0C;int unk10;int unk14;List50aa list;void TESForm_SetInitialized(int);void FUN_00454410(File50aa*);bool FUN_0050aa60(File50aa*);};
+// pdb: BGSListForm::Load | BGSListForm.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
+bool Owner50aa::FUN_0050aa60(File50aa*file){FUN_00454410(file);TESForm_SetInitialized(0);unsigned chunk=file->TESFile_GetTESChunk();while(chunk){switch(chunk){case 0x4d414e4c:{unsigned id=0;file->FUN_00448800(&id);unsigned value=id;list.FUN_0061c430(&value);break;}case 0x444e424f:((void(__thiscall*)(Owner50aa*,File50aa*))table[56])(this,file);break;case 0x44494445:{char*text=(char*)_alloca(file->chunkSize);file->FUN_00447d60(text,512);((void(__thiscall*)(Owner50aa*,char*))table[77])(this,text);break;}}if(!file->TESFile_NextChunk())break;chunk=file->TESFile_GetTESChunk();}return true;}
 }   // namespace f3m_0050aa60
 
 // @f3 0x0050b9a0 (community match, verified in this file)
 #include <malloc.h>
 namespace f3m_0050b9a0 {
 extern "C" void* __cdecl _alloca(unsigned);
-struct Stream50b9 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; unsigned unk25C;unsigned FUN_004487d0();void FUN_00447d60(void*,unsigned);bool FUN_00447020();};
+struct Stream50b9 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; unsigned unk25C;unsigned TESFile_GetTESChunk();void FUN_00447d60(void*,unsigned);bool TESFile_NextChunk();};
 struct Owner50b9;struct Part50b9;typedef void (__thiscall *PartCall50b9)(Part50b9*,char*);struct PartTable50b9 {int unk00,unk04,unk08,unk0C;PartCall50b9 unk10;};struct Part50b9 {PartTable50b9* unk00;};
 typedef void (__thiscall *Read50b9)(Owner50b9*,Stream50b9*);typedef void (__thiscall *Name50b9)(Owner50b9*,char*);struct Table50b9 {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; Read50b9 unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int unkFC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; Name50b9 unk134;};
-struct Owner50b9 {Table50b9* unk00;int unk04,unk08,unk0C,unk10,unk14;Part50b9 unk18;void FUN_00454410(Stream50b9*);void FUN_00454240(int);bool FUN_0050b9a0(Stream50b9*);};
-bool Owner50b9::FUN_0050b9a0(Stream50b9* stream){FUN_00454410(stream);FUN_00454240(0);unsigned tag=stream->FUN_004487d0();while(tag){switch(tag){case 'MANF':{char* text=(char*)_alloca(stream->unk25C);stream->FUN_00447d60(text,0);unk18.unk00->unk10(&unk18,text);break;}case 'DNBO':unk00->unkE0(this,stream);break;case 'DIDE':{char* text=(char*)_alloca(stream->unk25C);stream->FUN_00447d60(text,0x200);unk00->unk134(this,text);break;}}if(!stream->FUN_00447020())break;tag=stream->FUN_004487d0();}return true;}
+struct Owner50b9 {Table50b9* unk00;int unk04,unk08,unk0C,unk10,unk14;Part50b9 unk18;void FUN_00454410(Stream50b9*);void TESForm_SetInitialized(int);bool FUN_0050b9a0(Stream50b9*);};
+// pdb: BGSMusicType::Load | BGSMusicType.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
+bool Owner50b9::FUN_0050b9a0(Stream50b9* stream){FUN_00454410(stream);TESForm_SetInitialized(0);unsigned tag=stream->TESFile_GetTESChunk();while(tag){switch(tag){case 'MANF':{char* text=(char*)_alloca(stream->unk25C);stream->FUN_00447d60(text,0);unk18.unk00->unk10(&unk18,text);break;}case 'DNBO':unk00->unkE0(this,stream);break;case 'DIDE':{char* text=(char*)_alloca(stream->unk25C);stream->FUN_00447d60(text,0x200);unk00->unk134(this,text);break;}}if(!stream->TESFile_NextChunk())break;tag=stream->TESFile_GetTESChunk();}return true;}
 }   // namespace f3m_0050b9a0
 
 // @f3 0x005066c0 (community match, verified in this file)
@@ -654,9 +662,9 @@ public:
     bool bHasGroups;
     bool bMustEndianConvert;
 
-    ENUM_FORM_ID FUN_00448cc0();
-    CHUNK_ID FUN_004487d0();
-    bool FUN_00447020();
+    ENUM_FORM_ID TESFile_GetTESForm();
+    CHUNK_ID TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     bool FUN_00447d60(void* pBuffer, unsigned int uiMaxSize);
     bool FUN_00448800(unsigned int& uiData);
 
@@ -813,7 +821,7 @@ public:
     unsigned int unk14;
 
     void FUN_00454410(TESFile* pFile);
-    void FUN_00454d10(TESFile* pFile, void* pData, unsigned int uiSize);
+    void TESForm_LoadData(TESFile* pFile, void* pData, unsigned int uiSize);
 };
 
 class BGSCameraPath : public TESForm
@@ -834,9 +842,11 @@ public:
     bool FUN_005066c0(TESFile* pFile);
 };
 
+// pdb: BGSCameraPath::Load | BGSCameraPath.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool BGSCameraPath::FUN_005066c0(TESFile* pFile)
 {
-    if (pFile->FUN_00448cc0() != ENUM_FORM_ID_CPTH_ID)
+    if (pFile->TESFile_GetTESForm() != ENUM_FORM_ID_CPTH_ID)
         return false;
 
     if (this == FUN_00507290())
@@ -852,7 +862,7 @@ bool BGSCameraPath::FUN_005066c0(TESFile* pFile)
 
     FUN_00454410(pFile);
 
-    while (CHUNK_ID eChunk = pFile->FUN_004487d0())
+    while (CHUNK_ID eChunk = pFile->TESFile_GetTESChunk())
     {
         switch (eChunk)
         {
@@ -867,7 +877,7 @@ bool BGSCameraPath::FUN_005066c0(TESFile* pFile)
             LoadObjectBound(pFile);
             break;
         case CHUNK_ID_DATA_ID:
-            FUN_00454d10(pFile, &data, sizeof(data));
+            TESForm_LoadData(pFile, &data, sizeof(data));
             break;
         case CHUNK_ID_CIDA_ID:
             GetConditions()->FUN_005ae230(pFile);
@@ -893,7 +903,7 @@ bool BGSCameraPath::FUN_005066c0(TESFile* pFile)
         }
         }
 
-        if (!pFile->FUN_00447020())
+        if (!pFile->TESFile_NextChunk())
             break;
     }
 

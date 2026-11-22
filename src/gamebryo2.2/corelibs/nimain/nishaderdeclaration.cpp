@@ -36,6 +36,7 @@ struct FUN_00ee8500
 };
 // Calls the base constructor, installs DAT_011010ec as the vtable pointer, and zeroes the byte at offset 8 and the dwords from offset 12 through 36.
 // @fnv 0x00ee8500
+// pdb: NiRenderTargetGroup::NiRenderTargetGroup | NiRenderTargetGroup.obj | fnv360_0822_retail, call_seq, medium
 FUN_00ee8500::FUN_00ee8500()
 {
     ((BaseStub*)this)->_Call_a5d3a0();

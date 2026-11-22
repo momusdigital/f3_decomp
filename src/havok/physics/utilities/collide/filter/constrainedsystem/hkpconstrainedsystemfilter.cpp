@@ -4,49 +4,6 @@
 
 #include "havok/hkpConstrainedSystemFilter.h"
 
-extern int g_unk0126d658;
-
-// @fnv 0x00dffaf0
-void* __cdecl FUN_00dffaf0()
-{
-    return &g_unk0126d658;
-}
-
-struct FnvCpu_FUN_00dffb00_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00dffb00_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00dffb00_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00dffb00_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00dffb00_CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00e46b80();
-    FnvCpu_FUN_00dffb00_CpuObject* FUN_00dffb00(unsigned int flags);
-};
-// Calls FUN_00e46b80, then if bit 0 of flags is set, invokes the allocator's Invoke on this with size, and returns this.
-// @fnv 0x00dffb00
-FnvCpu_FUN_00dffb00_CpuObject* FnvCpu_FUN_00dffb00_CpuObject::FUN_00dffb00(unsigned int flags)
-{
-    FUN_00e46b80();
-    if (flags & 1)
-    {
-        FnvCpu_FUN_00dffb00_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
-        pAllocatorHolder->allocator->Invoke(this, size);
-    }
-    return this;
-}
-
 struct hkBoolE46B
 {
     char m_cBooleanValue;
@@ -139,7 +96,7 @@ class hkpConstraintCollisionFilterE46B
     char unk00[0x2c];
     hkpCollisionFilterE46B* m_pChildFilter;
 
-    hkBoolE46B ConstraintCollisionFilter(const hkpCollidableE46B& a, const hkpCollidableE46B& b) const throw();
+    hkBoolE46B hkpConstrainedSystemFilter_isCollisionEnabled(const hkpCollidableE46B& a, const hkpCollidableE46B& b) const throw();
 };
 
 // Returns false if the collidable filter rejects the pair or a non-type-11 constraint links the two rigid bodies; true otherwise.
@@ -156,10 +113,13 @@ class Task1447ConstraintData
 class Task1447Entity
 {
   public:
-    int FUN_0090b210() throw();
-    int FUN_0090b250(int i) throw();
+    int hkpEntity_getNumConstraints() throw();
+    int hkpEntity_getConstraint(int i) throw();
 };
-hkBoolE46B hkpConstraintCollisionFilterE46B::ConstraintCollisionFilter(const hkpCollidableE46B& a,
+// pdb: hkpConstrainedSystemFilter::isCollisionEnabled | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b
+// pdb: hkpConstrainedSystemFilter::isCollisionEnabled | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, vtable, high (was: ConstraintCollisionFilter)
+hkBoolE46B hkpConstraintCollisionFilterE46B::hkpConstrainedSystemFilter_isCollisionEnabled(const hkpCollidableE46B& a,
                                                                        const hkpCollidableE46B& b) const throw()
 {
     FUN_00c9c3c0_Class* pkBodyA = hkGetRigidBodyE46B(&a);
@@ -171,15 +131,15 @@ hkBoolE46B hkpConstraintCollisionFilterE46B::ConstraintCollisionFilter(const hkp
     if (!pkBodyA || !pkBodyB)
         return true;
 
-    const bool bSwapBodies = reinterpret_cast<Task1447Entity*>(pkBodyA)->FUN_0090b210() > reinterpret_cast<Task1447Entity*>(pkBodyB)->FUN_0090b210();
+    const bool bSwapBodies = reinterpret_cast<Task1447Entity*>(pkBodyA)->hkpEntity_getNumConstraints() > reinterpret_cast<Task1447Entity*>(pkBodyB)->hkpEntity_getNumConstraints();
     FUN_00c9c3c0_Class* pkEntityA = bSwapBodies ? pkBodyB : pkBodyA;
     FUN_00c9c3c0_Class* pkEntityB = bSwapBodies ? pkBodyA : pkBodyB;
 
-    int numConstraints = reinterpret_cast<Task1447Entity*>(pkEntityA)->FUN_0090b210();
+    int numConstraints = reinterpret_cast<Task1447Entity*>(pkEntityA)->hkpEntity_getNumConstraints();
     for (int i = 0; i < numConstraints; i++)
     {
         const hkpConstraintInstanceE46B* pkConstraint =
-            reinterpret_cast<const hkpConstraintInstanceE46B*>(reinterpret_cast<Task1447Entity*>(pkEntityA)->FUN_0090b250(i));
+            reinterpret_cast<const hkpConstraintInstanceE46B*>(reinterpret_cast<Task1447Entity*>(pkEntityA)->hkpEntity_getConstraint(i));
         if (pkConstraint && reinterpret_cast<const Task1447ConstraintData*>(pkConstraint->m_data)->getType() != 11)
         {
             if (pkConstraint->m_pEntityA == pkEntityB || pkConstraint->m_pEntityB == pkEntityB)
@@ -215,6 +175,8 @@ struct ConstraintFilter
     FilterResult Evaluate(int, int, int, int, int);
 };
 // @fnv 0x00e46cf0
+// pdb: hkpConstrainedSystemFilter::isCollisionEnabled | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, a, b, bContainer, bKey
 FilterResult ConstraintFilter::Evaluate(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
 {
     FilterDelegate* const& ref = delegate;
@@ -258,6 +220,8 @@ class hkObjE46D
 
 // Returns true if the object has no world or its world's filter accepts the two arguments.
 // @fnv 0x00e46df0
+// pdb: hkpConstrainedSystemFilter::isCollisionEnabled | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, collidableB
 hkBoolE46D hkObjE46D::IsInWorldFilter(void* a, void* b)
 {
     return !m_pOwningWorld || m_pOwningWorld->m_iFilter.IsCollisionEnabled(a, b).m_cBooleanValue;
@@ -309,6 +273,8 @@ class hkListE46C
 
 // Returns true when m_iFilter is null or when m_iFilter->IsCollisionEnabled(a, b, c, d, e, f, g) is true.
 // @fnv 0x00e46d40
+// pdb: hkpConstrainedSystemFilter::isCollisionEnabled | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, collectionBodyA, collectionBodyB, containerShapeA, containerShapeB, keyA, keyB
 hkBoolE46C hkListE46C::FUN_00e46d40(const void* a, const void* b, const void* c, const void* d, const void* e,
                                     const void* f, const void* g) const
 {
@@ -360,24 +326,14 @@ class hkListE46D
 
 // Returns true when m_iFilter is null or when m_iFilter->IsCollisionEnabled(a, b, c, d) is true.
 // @fnv 0x00e46da0
+// pdb: hkpConstrainedSystemFilter::isCollisionEnabled | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: aInput, shape, bContainer, bKey
 hkBoolE46D hkListE46D::FUN_00e46da0(const void* a, const void* b, const void* c, const void* d) const
 {
     return !m_iFilter || m_iFilter->IsCollisionEnabled(a, b, c, d);
 }
 }  // namespace fnv_00e46da0
 
-struct Owner
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1C();
-    virtual int getType();
-};
 int __cdecl CallA(void*, void*);
 void __cdecl CallB(void*);
 // If the owner at +0xc has type other than 11, calls CallA with the +0x10 offsets of the pointers at +0x14 and +0x18, and passes a nonzero result to CallB.
@@ -390,7 +346,8 @@ struct OwnerT
     virtual void v0C();
     virtual int v10();
 };
-void __stdcall FUN_00e46e30(void* p)
+// pdb: hkpConstrainedSystemFilter::constraintAddedCallback | hkpConstrainedSystemFilter.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void __stdcall hkpConstrainedSystemFilter_constraintAddedCallback(void* p)
 {
     OwnerT* owner = *reinterpret_cast<OwnerT**>(reinterpret_cast<char*>(p) + 0xc);
     if (owner->v10() != 11)
@@ -404,10 +361,6 @@ void __stdcall FUN_00e46e30(void* p)
     }
 }
 
-
-// @fnv 0x00e46e70
-void __stdcall FUN_00e46e70(int a)
-{}
 
 // Adjustor thunk for FUN_00dffb30: "sub ecx, 8; jmp FUN_00dffb00".
 //
@@ -467,61 +420,6 @@ Derived::Derived()
 }  // namespace fnv_00dffb40
 
 // Adjustor thunk: the secondary-base (+0x10) vtable entry for an override defined on the derived class.
-
-class DFFB50Primary
-{
-  public:
-    virtual void FUN_00dffb50();
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-
-class DFFB50Secondary
-{
-  public:
-    virtual void FUN_00dffb50();
-};
-
-class DFFB50Listener : public DFFB50Primary, public DFFB50Secondary
-{
-  public:
-    DFFB50Listener();
-// @fnv 0x00dffb50
-    virtual void FUN_00dffb50();
-};
-
-DFFB50Listener::DFFB50Listener()
-{}
-
-// FUN_00dffb60 : MSVC this-adjusting thunk  (sub ecx, 0x30 ; jmp <impl>)
-struct A1_00dffb60
-{
-    A1_00dffb60();
-    virtual void FUN_00dffb60();
-    char pad[0x2c];
-};
-struct A2_00dffb60
-{
-    A2_00dffb60();
-    virtual void FUN_00dffb60();
-};
-struct Own_00dffb60 : A1_00dffb60, A2_00dffb60
-{
-    Own_00dffb60();
-    virtual void key_fn();
-// @fnv 0x00dffb60
-    void FUN_00dffb60();
-};
-Own_00dffb60::Own_00dffb60()
-{}
-void Own_00dffb60::key_fn()
-{}
-Own_00dffb60* make_00dffb60()
-{
-    static Own_00dffb60 o;
-    return &o;
-}
 
 namespace fnv_00dffb70 {
 // sub ecx,0x14; jmp FUN_00dffb00

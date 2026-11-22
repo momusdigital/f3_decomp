@@ -64,40 +64,6 @@ namespace hkRouterDD6E {
 extern "C" hkMemoryRouterDD6E& __cdecl FUN_00c85750() throw();
 }
 
-template <typename T> inline void hkDeallocateChunkDD6E(T* p, int n)
-{
-    hkRouterDD6E::FUN_00c85750().solver().ReleaseBlock(p, n * sizeof(T));
-}
-
-struct hkEntryDD6E
-{
-    int unk00[18];
-};
-
-class hkBufferDD6E
-{
-  public:
-    int* m_ppIndices;
-    hkEntryDD6E* m_entries;
-    int m_pRayCursor;
-
-    void FreeBuffers();
-};
-
-// Deallocates the two arrays when the first pointer is set, then nulls both pointers and the count.
-// @fnv 0x00dd6ec0
-void hkBufferDD6E::FreeBuffers()
-{
-    if (m_ppIndices)
-    {
-        hkDeallocateChunkDD6E(m_ppIndices, m_pRayCursor);
-        hkDeallocateChunkDD6E(m_entries, m_pRayCursor);
-    }
-    m_ppIndices = 0;
-    m_entries = 0;
-    m_pRayCursor = 0;
-}
-
 struct hkMemoryAllocatorQ
 {
     virtual void vf00();

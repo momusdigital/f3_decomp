@@ -121,9 +121,9 @@ class hkTargetCD0E
 class hkControllerCD0E
 {
   public:
-    void FUN_00d60960(int mode);
-    void FUN_00d605d0(unsigned int flags);
-    void HashUInt(float t);
+    void hkOArchive_write32u(int mode);
+    void hkOArchive_write8u(unsigned int flags);
+    void hkOArchive_writeFloat32(float t);
     hkTargetCD0E* FUN_00d60800();
 };
 class hkItemCD0E
@@ -151,7 +151,7 @@ class hkOwnerCD0E
     int unk0C;
     hkEntryCD0E* m_entries;
 
-    void ActivateEntry(int i, float t);
+    void hkVisualDebugger_writeStep(int i, float t);
 };
 template <class T> class hkArrayCD11
 {
@@ -302,7 +302,7 @@ struct VisualDebugger523 : DebuggerReference523
     bool running;
     unsigned char unk81, unk82, unk83;
     int numFrames;
-    void ActivateEntry(int, float);
+    void hkVisualDebugger_writeStep(int, float);
     void RemovePair(int);
     void FUN_00cd0ec0(float timeStep);
 };
@@ -327,11 +327,13 @@ struct View : DebuggerReference523
     unsigned char unk81, unk82, unk83;
     int numFrames;
     void FUN_009530f0(int,float);
-    void FUN_00953070(int);
+    void hkVisualDebugger_deleteClient(int);
 
 };
 
 }
+// pdb: hkVisualDebugger::step | hkVisualDebugger.obj | fnv360_0822_retail, vtable, medium
+// pdb params: frameTimeInMs
 void VisualDebugger523::FUN_00cd0ec0(float timeStep)
 {
     Task1679::View* self=(Task1679::View*)this;
@@ -372,7 +374,7 @@ void VisualDebugger523::FUN_00cd0ec0(float timeStep)
                 Task1679::DAT_010f3364->report(0, -1, buffer, ".\\hkVisualDebugger.cpp", 0x11c);
             }
             Task1679::DAT_010f3364->end();
-            self->FUN_00953070(index);
+            self->hkVisualDebugger_deleteClient(index);
         }
     }
     if (self->timingEnabled)

@@ -11,6 +11,8 @@ struct SPA_00b48f60 { A_00b48f60* p; SPA_00b48f60(); ~SPA_00b48f60(); };
 struct Z_00b48f60 { float v; Z_00b48f60() { v = 0.0f; } };
 struct Base_00b48f60 { virtual ~Base_00b48f60(); Base_00b48f60(); char pad[0x64]; };
 struct D_00b48f60 : Base_00b48f60 { int v68; SPA_00b48f60 a[3]; SPB_00b48f60 b[2]; SPB_00b48f60 c[2]; Z_00b48f60 f0, f1, f2, f3, f4, f5, f6, f7; D_00b48f60(); virtual ~D_00b48f60(); };
+// pdb: TileShader::TileShader | TileShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apShaderDecl, apShaderDeclVC
 D_00b48f60::D_00b48f60()
 {
     v68 = 0x13;
@@ -73,6 +75,7 @@ struct SP_00b50b30 { RC_00b50b30* p; ~SP_00b50b30(); };
 struct Base_00b50b30 { virtual ~Base_00b50b30(); char pad[0x88]; };
 struct D_00b50b30 : Base_00b50b30 { SP_00b50b30 a1[20]; SP_00b50b30 a2[33]; virtual ~D_00b50b30(); };
 extern R_00b50b30* DAT_01177fd0[33];
+// pdb: ParallaxShader::~ParallaxShader | ParallaxShader.obj | fnv360_0822_retail, objrun, high
 D_00b50b30::~D_00b50b30()
 {
     for (int i = 0; i < 20; i++) {

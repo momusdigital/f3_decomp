@@ -26,6 +26,8 @@ struct QActor {
     bool FUN_006f73e0(int which);
 };
 
+// pdb: Actor::ShouldSkipFallOutBehavior | Actor.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeFalloutType
 bool QActor::FUN_006f73e0(int which)
 {
     QForm* form = unk60->v138();

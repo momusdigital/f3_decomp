@@ -47,6 +47,8 @@ NiPoint3 NiPoint3::CrossProduct(const NiPoint3& kPoint) const
 
 #pragma optimize("gty", on)
 // @fnv 0x00a69990
+// pdb: NiPlane::NiPlane | NiPlane.obj | fnv360_0822_retail, call_gap, high
+// pdb params: kNormal, kPoint
 NiPlane::NiPlane(const NiPoint3& kNormal, const NiPoint3& kPoint)
     : m_kPlaneNormal(kNormal),
       m_fPlaneConstant(kNormal.x * kPoint.x + kNormal.y * kPoint.y + kNormal.z * kPoint.z)

@@ -23,6 +23,8 @@ struct FUN_00dd95b0_Outer
 };
 // Gets a byte buffer and count from source and feeds each byte to output.FUN_00cb1fb0.
 // @fnv 0x00dd95b0
+// pdb: hkCommandRouter::unregisterProcess | hkCommandRouter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: handler
 void FUN_00dd95b0_Outer::FUN_00dd95b0(FUN_00dd95b0_Source* source)
 {
     int count;
@@ -40,15 +42,6 @@ struct InputProvider
     virtual void reserved1();
     virtual void GetData(unsigned char** data, int* length);
 };
-struct MessageContext
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void* active;
-};
-MessageContext* __cdecl FUN_00c85750();
 struct MessageSink
 {
     void __thiscall FUN_00cb1870(void* active, unsigned int value, InputProvider* source);
@@ -67,6 +60,8 @@ struct FUN_00922710_Sink
     void __thiscall FUN_00922710(int value, InputProvider* source);
 };
 
+// pdb: hkCommandRouter::registerProcess | hkCommandRouter.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: hkMapBase<unsigned long,unsigned long,hkMapOperations<unsigned long> >::reserve)
+// pdb params: handler
 void MessageProcessor::ProcessInputData(InputProvider* source)
 {
     unsigned char* bytes = 0;
@@ -236,60 +231,3 @@ struct S_00dd9660_IArchive
         return c;
     }
 };
-
-struct S_00dd9660_Process
-{
-    virtual void vfn00();
-    virtual void vfn04();
-    virtual void vfn08();
-    virtual void ExecuteCommand(hkUint8 command);
-};
-
-struct S_00dd9660_CommandMap
-{
-    int LookupBucketValue(unsigned long key, S_00dd9660_Process** out);
-};
-
-struct S_00dd9660_Handler
-{
-    int unk00;
-    int unk04;
-    S_00dd9660_CommandMap m_kCommandMap;
-
-    S_00dd9660_Bool ReadCommands(S_00dd9660_IArchive* stream);
-};
-
-// @fnv 0x00dd9660
-S_00dd9660_Bool S_00dd9660_Handler::ReadCommands(S_00dd9660_IArchive* stream)
-{
-    hkUint8 command;
-    do
-    {
-        command = stream->read8u();
-        if (command != 0xf0)
-        {
-            S_00dd9660_Process* p;
-            if (m_kCommandMap.LookupBucketValue(command, &p) == 0 && p)
-            {
-                p->ExecuteCommand(command);
-            }
-            else
-            {
-                S_00dd9660_Vector4 v;
-                if (command == 0xb0)
-                {
-                    stream->FUN_00ddac60(v);
-                    hkUint64 id = stream->read64u();
-                }
-                else if (command == 0xb1)
-                {
-                    stream->FUN_00ddac60(v);
-                }
-                S_00dd9660_StringBuf buf;
-                buf.clear();
-                buf.FUN_00d61d00("VDB: Found a command (%x) with no handler. Could corrupt the stream.", command);
-            }
-        }
-    } while (stream->GetStreamResult() && command != 0xf0);
-    return true;
-}

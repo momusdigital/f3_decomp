@@ -5,6 +5,7 @@
 #include "havok/hkpBoxShape.h"
 
 // @fnv 0x00c9db70
+// pdb: CombatProcedureActivateObject::GetType | CombatProcedureActivateObject.obj | fnv360_0822_retail, vtable, medium
 int __cdecl FUN_00c9db70()
 {
     return 8;
@@ -12,6 +13,8 @@ int __cdecl FUN_00c9db70()
 
 // Returns the smaller of the two float arguments.
 // @fnv 0x00c9e0f0
+// pdb: BSMIN | ContainerItemExtra.obj | fnv360_0822_debug, call_gap, low, conflict (skyrim: hkMath::min2<float>)
+// pdb params: fA, fB
 float __cdecl FUN_00c9e0f0(float a, float b)
 {
     return a < b ? a : b;
@@ -37,52 +40,13 @@ struct MemoryManager
     virtual void Free(void* object, unsigned short size) = 0;
 };
 
-struct MemoryRouter
-{
-    unsigned char unknown1[16];
-    MemoryManager* manager;
-};
-
-struct FUN_00c9e1b0_class
-{
-    void* vftable;
-    unsigned short size;
-
-    int FUN_00c9db80();
-    void* FUN_00c9e1b0(unsigned char flags);
-};
-
-MemoryRouter* __cdecl _D1A0E0GetMemoryRouter();
-
-// Calls FUN_00c9db80, then if bit 0 of flags is set frees this through the memory router's manager, and returns this.
-// @fnv 0x00c9e1b0
-void* FUN_00c9e1b0_class::FUN_00c9e1b0(unsigned char flags)
-{
-    FUN_00c9db80();
-
-    if (flags & 1)
-    {
-        MemoryRouter* router = _D1A0E0GetMemoryRouter();
-        router->manager->Free(this, size);
-    }
-
-    return this;
-}
-
 // FUN_00c9e1a0: __stdcall stub returning constant 0x30 (two unused stack params).
 // @fnv 0x00c9e1a0
+// pdb: hkpBoxShape::calcSizeForSpu | hkpBoxShape.obj | fnv360_0721_beta, objrun_sim, medium
+// pdb params: input, spuBufferSizeLeft
 int __stdcall FUN_00c9e1a0(int a1, int a2)
 {
     return 0x30;
-}
-
-extern "C" int DAT_01268940;
-
-void __cdecl FUN_00c90360(int a, int* b);
-
-// @fnv 0x00c9db60
-void __cdecl FUN_00c9db60(int a, int* b) {
-    return FUN_00c90360(a, &DAT_01268940);
 }
 
 struct hkAabb;
@@ -96,12 +60,11 @@ struct FUN_00c9dc10_class : public hkpBoxShape
 
 // Computes the shape's AABB by calling ComputeAabbFromTransform with the transform, the shape's half extents and tolerance added to a stored value.
 // @fnv 0x00c9dc10
+// pdb: hkpBoxShape::getAabbImpl | hkpBoxShape.obj | tesv_win, objrun, medium
 void __thiscall FUN_00c9dc10_class::GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const
 {
     ComputeAabbFromTransform(transform, m_vHalfExtents, m_fSphereRadius + tolerance, out);
 }
-
-extern void* DAT_010c70b4;
 
 struct VectorExtents { float x, y, z, w; };
 
@@ -122,6 +85,8 @@ struct CenteredPointBounds {
 
 // @f3 0x00916750 (community match, verified in this file)
 extern void* FUN_00e36504;
+// pdb: hkpBoxShape::hkpBoxShape | hkpBoxShape.obj | fnv360_0822_retail, call_seq, high
+// pdb params: halfExtents, radius
 CenteredPointBounds* CenteredPointBounds::SetExtentsAndRadius(const float* extents, float radius)
 {
     m_fSphereRadius = radius;
@@ -141,36 +106,10 @@ CenteredPointBounds* CenteredPointBounds::SetExtentsAndRadius(const float* exten
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
 extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 extern "C" int _mm_movemask_ps(__m128);
 
 extern float DAT_010c44d0[4];
-
-struct S00c9dc40_Box : public hkpBoxShape
-{
-    void __thiscall FUN_00c9dc40(const float* src, float* dst);
-};
-
-// @fnv 0x00c9dc40
-void __thiscall S00c9dc40_Box::FUN_00c9dc40(const float* src, float* dst)
-{
-    hkVector4 e = m_vHalfExtents;
-    __m128 v = _mm_and_ps(_mm_load_ps(src), _mm_load_ps(DAT_010c44d0));
-    v = _mm_xor_ps(v, _mm_load_ps(&e.x));
-    _mm_store_ps(&e.x, v);
-    int m = _mm_movemask_ps(_mm_cmplt_ps(v, _mm_setzero_ps()));
-    *(unsigned*)&e.w = (m & 7) | 0x3F000000;
-    _mm_store_ps(dst, _mm_load_ps(&e.x));
-}
-
-// @fnv 0x00c9dcb0
-extern "C" void __stdcall ZeroResult(__m128* result)
-{
-    *result = _mm_setzero_ps();
-}
 
 namespace fnv_00c9e120 {
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
@@ -256,6 +195,8 @@ struct hkpBoxShape_Local : public hkpBoxShape
 
 // Copies halfExtents into m_vHalfExtents and stores the minimum of x, y, and z into the w component.
 // @f3 0x009161e0 (community match, verified in this file)
+// pdb: hkpBoxShape::getSupportingVertexImpl | hkpBoxShape.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpBoxShape::setHalfExtents)
+// pdb params: direction, supportingVertexOut
 void hkpBoxShape_Local::SetHalfExtents(const hkVector4& halfExtents)
 {
     m_vHalfExtents.x = halfExtents.x;
@@ -269,55 +210,10 @@ void hkpBoxShape_Local::SetHalfExtents(const hkVector4& halfExtents)
 }
 
 
-struct FUN_00c9dbf0_class
-{
-    unsigned char m_ucUnknownByte[0x20];
-    hkVector4 m_vHalfExtents;
-
-    void GetHalfExtents(hkVector4& result) const;
-};
-
-// @fnv 0x00c9dbf0
-void FUN_00c9dbf0_class::GetHalfExtents(hkVector4& result) const
-{
-    _mm_store_ps(reinterpret_cast<float*>(&result),
-                 _mm_load_ps(reinterpret_cast<const float*>(&m_vHalfExtents)));
-}
-
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
-
-extern "C" const __m128 DAT_010c7030[8];
-
-struct BoxShapeHelper : public hkpBoxShape
-{
-    void* FUN_00c9dd30(__m128* sphereBuffer) const;
-};
-
-// Multiplies the half-extents and sphere radius by DAT_010c7030 coefficients and writes the results into sphereBuffer.
-// @fnv 0x00c9dd30
-void* BoxShapeHelper::FUN_00c9dd30(__m128* sphereBuffer) const
-{
-    __declspec(align(16)) hkVector4 extents = m_vHalfExtents;
-    extents.w = m_fSphereRadius;
-
-    __m128 v = *(__m128*)&extents;
-    int i = 3;
-    const __m128* src = DAT_010c7030 + 1;
-    __m128* dst = sphereBuffer + 1;
-    for (; i >= 0; i--) {
-        __m128 b = _mm_mul_ps(src[0], v);
-        __m128 a = _mm_mul_ps(src[-1], v);
-        dst[-1] = a;
-        dst[0] = b;
-        src += 2; dst += 2;
-    }
-
-    return sphereBuffer;
-}
 
 extern "C"
 {
-    unsigned __int64 __rdtsc(void);
     void _ReadWriteBarrier(void);
     __m128 _mm_set_ps1(float);
     __m128 _mm_add_ps(__m128, __m128);
@@ -411,12 +307,6 @@ struct BRBool
     BRBool(bool b) : m_cBooleanValue(b) {}
 };
 
-struct BRRayCastInput
-{
-    BRVector4 m_vFrom;
-    BRVector4 m_vTo;
-};
-
 struct BRRayCastOutput
 {
     BRVector4 m_vHitNormal;
@@ -428,88 +318,3 @@ struct BRRayCastOutput
 
     void setKey(hkUint32 key) { m_uiShapeKeys[m_uiShapeKeyIndex] = key; }
 };
-
-struct RayBoxShape : hkpBoxShape
-{
-    BRBool FUN_00c9de40(const BRRayCastInput& input, BRRayCastOutput& results) const;
-};
-
-// @fnv 0x00c9de40
-BRBool RayBoxShape::FUN_00c9de40(const BRRayCastInput& input, BRRayCastOutput& results) const
-{
-    BRMonitorStream::GetMonitorStream().timerCommand("TtrcBox");
-
-    BRVector4 tolerance4;
-    tolerance4.SetAllComponents(m_fSphereRadius);
-    BRVector4 halfExtents;
-    halfExtents.setAdd4(tolerance4, *(const BRVector4*)&m_vHalfExtents);
-    BRVector4 negHalfExtents;
-    negHalfExtents.setNeg4(halfExtents);
-
-    int fromOutsidePos = halfExtents.compareLessThanEqual4(input.m_vFrom) & 7;
-    int fromOutsideNeg = input.m_vFrom.compareLessThanEqual4(negHalfExtents) & 7;
-    int toOutsidePos = halfExtents.compareLessThanEqual4(input.m_vTo) & 7;
-    int toOutsideNeg = input.m_vTo.compareLessThanEqual4(negHalfExtents) & 7;
-
-    if ((fromOutsidePos & toOutsidePos) || (fromOutsideNeg & toOutsideNeg) || !(fromOutsideNeg | fromOutsidePos))
-    {
-        BRMonitorStream::GetMonitorStream().timerCommandEarly("Et");
-        return false;
-    }
-
-    hkReal tEnter = 0.0f;
-    BRVector4 normal;
-
-    const int axisMasks[3] = { 1, 2, 4 };
-    int checkMask = fromOutsidePos | toOutsidePos;
-    int enterMask = fromOutsidePos;
-    hkReal tExit = results.m_fHitFraction;
-    hkReal sign = 1.0f;
-
-    for (int side = 1; side >= 0; side--)
-    {
-        int i = 0;
-        const float* component = &input.m_vFrom(2);
-        do
-        {
-            if (checkMask & axisMasks[i + 2])
-            {
-                hkReal ext = negHalfExtents(i + 2);
-                hkReal fromDist = component[0] * sign + ext;
-                hkReal toDist = component[4] * sign + ext;
-                hkReal t = fromDist / (fromDist - toDist);
-                if (enterMask & axisMasks[i + 2])
-                {
-                    if (t >= tEnter)
-                    {
-                        tEnter = t;
-                        normal.setZero4();
-                        normal(i + 2) = sign;
-                    }
-                }
-                else
-                {
-                    if (!(t > tExit))
-                    {
-                        tExit = t;
-                    }
-                }
-                if (tExit < tEnter)
-                {
-                    BRMonitorStream::GetMonitorStream().timerCommand("Et");
-                    return false;
-                }
-            }
-        } while (--component, --i >= -2);
-        checkMask = toOutsideNeg | fromOutsideNeg;
-        enterMask = fromOutsideNeg;
-        sign = -1.0f;
-    }
-
-    results.m_fHitFraction = tEnter;
-    results.m_vHitNormal = normal;
-    results.setKey(0xffffffff);
-
-    BRMonitorStream::GetMonitorStream().timerCommand("Et");
-    return true;
-}

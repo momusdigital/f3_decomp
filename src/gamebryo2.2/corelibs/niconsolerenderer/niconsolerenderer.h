@@ -43,6 +43,8 @@ unsigned int GraphicsRenderer::GetRenderTargetHeight()
 
 #pragma optimize("", on)
 // @fnv 0x00b6b2a0
+// pdb: NiXenonRenderer::BeginUsingRenderTargetGroup | BSRenderedTexture.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: NiDX9Renderer::BeginUsingRenderTargetGroup)
+// pdb params: pkTarget, uiClearMode
 bool GraphicsRenderer::BeginUsingRenderTargetGroup(NiRenderTargetGroup* group, unsigned int clear)
 {
     if ((m_iRendererState != 1 && m_iRendererState != 2) || m_bRendererFlagA)
@@ -61,6 +63,8 @@ bool GraphicsRenderer::BeginUsingRenderTargetGroup(NiRenderTargetGroup* group, u
     return result;
 }
 // @fnv 0x00a6fa30
+// pdb: NiXenonRenderer::MapWindowPointToBufferPoint | NiCamera.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: NiDX9Renderer::MapWindowPointToBufferPoint)
+// pdb params: uiX, uiY, fX, fY, pkTarget
 bool GraphicsRenderer::MapScreenCoordinates(unsigned int x, unsigned int y, float& outX, float& outY,
                                             NiRenderTargetGroup* group)
 {

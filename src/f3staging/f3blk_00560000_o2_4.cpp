@@ -8,7 +8,7 @@
 extern unsigned int DAT_00f4a768;extern int DAT_00f47bf4,DAT_00f46078;
 namespace f3m_00563c10 {
 namespace Message146{
-extern void* __cdecl FUN_00455190(unsigned int);
+extern void* __cdecl TESForm_GetFormByNumericID(unsigned int);
 extern void* __cdecl FUN_00c0050a(void*,int,const void*,const void*,int);
 struct Message146{unsigned int tag,unk04,id,action;};
 struct Owner146{virtual void slot0();
@@ -30,13 +30,15 @@ virtual bool Apply(void*);
 bool FUN_00455330(Message146*);
 bool FUN_00563c10(Message146*);
 };
+// pdb: TESTopicInfo::SavesBefore | TESTopicInfo.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apGroupFORM
 bool Owner146::FUN_00563c10(Message146* message){
  bool result=false;
  if(message&&message->tag==DAT_00f4a768){
   switch(message->action){
    case 0:result=FUN_00455330(message);break;
    case 1:case 2:case 3:case 4:case 5:case 6:result=false;break;
-   case 7:{void* object=FUN_00c0050a(FUN_00455190(message->id),0,&DAT_00f46078,&DAT_00f47bf4,0);if(object)result=Apply(object);break;}
+   case 7:{void* object=FUN_00c0050a(TESForm_GetFormByNumericID(message->id),0,&DAT_00f46078,&DAT_00f47bf4,0);if(object)result=Apply(object);break;}
   }
  }
  return result;

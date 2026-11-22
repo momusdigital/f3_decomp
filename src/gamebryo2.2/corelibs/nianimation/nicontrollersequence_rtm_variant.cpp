@@ -108,11 +108,11 @@ struct FUN_00a33bf0_s : NiObject
 };
 struct FUN_00a2e420_shell
 {
-    unsigned char FUN_00a2e420(float);
+    unsigned char NiControllerManager_StopTransSourceSequence(float);
 };
 struct FUN_00a30540_shell
 {
-    void FUN_00a30540();
+    void NiControllerSequence_DetachInterpolators();
 };
 extern float DAT_01015f5c;
 extern double DAT_010241b0;
@@ -122,7 +122,7 @@ struct FUN_00a35030_shell : NiControllerSequence
 };
 struct FUN_00a30900_shell
 {
-    void FUN_00a30900(char m_ucRegionPriority);
+    void NiControllerSequence_AttachInterpolators(char m_ucRegionPriority);
 };
 struct A51BF0Base
 {
@@ -331,9 +331,9 @@ struct SequenceA30970 : NiObject
 struct FUN_00a30c80_shell
 {
     unsigned __int64 __thiscall IsNotInChain(void* arg);
-    bool __thiscall FUN_00a30c80(void* arg);
+    bool __thiscall NiControllerSequence_CanSyncTo(void* arg);
 };
-bool __stdcall MatchesTextKeys(void* arg);
+bool __stdcall NiControllerSequence_VerifyMatchingMorphKeys(void* arg);
 struct FUN_00a30cc0_target
 {
     virtual void V00();
@@ -415,7 +415,7 @@ struct ObjectView
 {
     int vtable;
     int refs;
-    bool FUN_00a5d2f0(StreamView&);
+    bool NiObject_RegisterStreamables(StreamView&);
 };
 struct ItemView
 {
@@ -461,7 +461,7 @@ struct SequenceView : ObjectView
     int unk68;
     RefView** notes;
     unsigned short noteCount;
-    bool FUN_00a30ea0(StreamView&);
+    bool NiControllerSequence_RegisterStreamables(StreamView&);
 };
 __declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
@@ -803,7 +803,7 @@ struct SeqA34f20
         return bWasInactive;
     }
 
-    bool StartSequence(char m_ucRegionPriority, bool bStartOver, float fWeight, float fEaseInTime,
+    bool NiControllerSequence_Activate(char m_ucRegionPriority, bool bStartOver, float fWeight, float fEaseInTime,
                        SeqA34f20* pkTimeSyncSeq, bool bTransition);
 };
 struct SomeObjectB3718
@@ -1132,7 +1132,7 @@ struct UpdateNote
 };
 struct UpdateNoteManager
 {
-    void DispatchByKey(UpdateNote* note);
+    void BSAnimNoteListener_Update(UpdateNote* note);
 };
 struct UpdateOwner
 {
@@ -1194,9 +1194,9 @@ struct AnimationSequence : S_00a30880_Base
     unsigned short unk6a;
     UpdateNote** notes;
     unsigned short noteCount;
-    float GetMorphedTime(AnimationSequence*, float);
+    float NiControllerSequence_FindCorrespondingMorphFrame(AnimationSequence*, float);
     float FUN_00a30970(float, bool);
-    void FUN_00a32290(float, float, float);
+    void NiControllerSequence_SetInterpsWeightAndTime(float, float, float);
     void FUN_00a34ba0(float time, bool update);
     __forceinline bool SetState(int value)
     {
@@ -1392,7 +1392,7 @@ extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00a344f0_cls
 {
     void __thiscall FUN_00a33570(void* obj, unsigned int param);
-    void* FUN_00a344f0(unsigned int param);
+    void* NiControllerSequence_CreateClone(unsigned int param);
 };
 extern const float DAT_010141cc;
 struct FUN_00a350d0_seq : SeqA34f20
@@ -1437,7 +1437,7 @@ struct SeqIDTagOffsets
     OffsetString m_kCtlrType;
     OffsetString m_kCtlrID;
     OffsetString m_kInterpolatorID;
-    void LoadFromPalette(NiStringPalette* pkPalette, int iUnused);
+    void NiControllerSequence_IDTag_HandleDeprecatedExtraData(NiStringPalette* pkPalette, int iUnused);
 };
 __declspec(dllimport) long __stdcall InterlockedDecrement(long* plAddend);
 struct A31500Ref
@@ -1663,7 +1663,7 @@ struct Sequence31910
     void* partner;
     const char* rootName;
     Node31910* accum;
-    bool FUN_00a31910(Node31910*, Node31910*, int);
+    bool NiControllerSequence_ResolveTransformInterpolators(Node31910*, Node31910*, int);
 };
 extern Rtti31910 DAT_011f36bc, DAT_011f36e4, DAT_011f4a04, g_011f36ec;
 extern unsigned int DAT_011f36c8, DAT_011f36d0;
@@ -2211,7 +2211,7 @@ struct NiControllerSequenceT
     void* m_pkIDTags;
     float m_fWeight;
     NiTextKeyExtraData* m_spTextKeyData;
-    bool MatchesTextKeys(NiControllerSequenceT* pkOther);
+    bool NiControllerSequence_VerifyMatchingMorphKeys(NiControllerSequenceT* pkOther);
 };
 struct StaticKeyB5652
 {
@@ -2437,7 +2437,7 @@ struct BindSequence
     unsigned short unk70;
     bool missing;
     bool Attach(bool, BindObj*, bool);
-    bool FUN_00a32c70(bool arg);
+    bool NiControllerSequence_StoreTargets(bool arg);
 };
 extern int DAT_011f49e0;
 extern char DAT_01096614;
@@ -3011,7 +3011,7 @@ struct LegacyTag
     char* type;
     char* controller;
     char* interpolator;
-    void LoadFromPalette(RefObj*, NiStream&);
+    void NiControllerSequence_IDTag_HandleDeprecatedExtraData(RefObj*, NiStream&);
     void ResetStrings();
 };
 struct LegacyController : RefObj
@@ -3145,13 +3145,15 @@ struct LegacySequence : ::NiObject
     bool FUN_00a34480(char*, LegacyController*);
 };
 // @fnv 0x00a352f0
+// pdb: NiControllerSequence::PostLinkObject | NiControllerSequence.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 void LegacySequence::FUN_00a352f0(NiStream& stream)
 {
     ::NiObject::LinkObject(stream);
     if (stringPalette)
     {
         for (unsigned int i = 0; i < count; ++i)
-            tags[i].LoadFromPalette(stringPalette, stream);
+            tags[i].NiControllerSequence_IDTag_HandleDeprecatedExtraData(stringPalette, stream);
         if (stringPalette)
         {
             RefObj* palette = stringPalette;

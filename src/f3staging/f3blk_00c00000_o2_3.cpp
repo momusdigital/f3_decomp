@@ -11,6 +11,7 @@ struct LockEntry { void* lock; int kind; };
 extern "C" LockEntry DAT_0106bcc0[36];
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* cs);
 extern "C" void __cdecl FUN_00c064b8(void* p);
+// pdb: _mtdeletelocks | mlock.obj | tesv_win, call_seq, medium
 extern "C" void __cdecl FUN_00c164f4(void)
 {
     int locknum;
@@ -75,6 +76,8 @@ static __declspec(noinline) int FUN_00c09c55(EXCEPTION_POINTERS_* pExPtrs)
         return 1;
     return 0;
 }
+// pdb: __InternalCxxFrameHandler | frame.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: CallCatchBlock)
+// pdb params: pExcept, pRN, pContext, pDC, pFuncInfo, CatchDepth, pMarkerRN, recursive
 static __declspec(noinline) void* FUN_00c09dd5(EHExceptionRecord* pExcept, EHRegistrationNode* pRN, void* pContext, FuncInfo* pFuncInfo, void* handlerAddress, int CatchDepth, unsigned long NLGCode)
 {
     void* continuationAddress = handlerAddress;
@@ -136,6 +139,7 @@ namespace f3m_00c0b95e {
 namespace f3m_00c0b95e {
 extern "C" int __cdecl FUN_00c1bc08(unsigned int* currentControl, unsigned int newControl, unsigned int mask);
 extern "C" void __cdecl FUN_00c01d6b(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, unsigned int);
+// pdb: _setdefaultprecision | fp8.obj | tesv_win, caller_sim, low
 extern "C" void __cdecl FUN_00c0b95e(void)
 {
     if (FUN_00c1bc08(0, 0x10000, 0x30000) != 0)
@@ -158,6 +162,7 @@ struct tiddata_ {
 };
 extern "C" tiddata_* __cdecl FUN_00c0c229(void);
 extern "C" void __cdecl FUN_00c0ad65(void);
+// pdb: terminate | hooks.obj | tesv_win, hash, low
 extern "C" void __cdecl FUN_00c0c4e6(void)
 {
     tiddata_* ptd = FUN_00c0c229();
@@ -167,7 +172,6 @@ extern "C" void __cdecl FUN_00c0c4e6(void)
             (*pTerminate)();
         }
         __except (1) {
-            ;
         }
     }
     FUN_00c0ad65();
@@ -182,6 +186,7 @@ namespace f3m_00c0c532 {
 typedef void (__cdecl* terminate_function)(void);
 extern "C" void* __cdecl FUN_00c0c00d(void* p);
 extern "C" __declspec(noreturn) void __cdecl FUN_00c0c4e6(void);
+// pdb: terminate | hooks.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: _inconsistency)
 extern "C" void __cdecl FUN_00c0c532(void)
 {
     terminate_function inconsistencyFunction;
@@ -191,7 +196,6 @@ extern "C" void __cdecl FUN_00c0c532(void)
             inconsistencyFunction();
         }
         __except (1) {
-            ;
         }
     }
     FUN_00c0c4e6();
@@ -213,6 +217,8 @@ extern "C" int __stdcall FUN_00c1739b(void* lpCriticalSection, unsigned long dwS
 extern "C" __declspec(dllimport) void* __stdcall GetModuleHandleA(const char* name);
 extern "C" __declspec(dllimport) void* __stdcall GetProcAddress(void* h, const char* name);
 extern "C" __declspec(dllimport) void __stdcall SetLastError(unsigned long code);
+// pdb: __crtInitCritSecAndSpinCount | mlock.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: GLock::GLock)
+// pdb params: lpCriticalSection, dwSpinCount
 extern "C" int __cdecl FUN_00c173ab(void* lpCriticalSection, unsigned long dwSpinCount)
 {
     int ret;
@@ -280,6 +286,8 @@ extern "C" tiddata_* __cdecl FUN_00c0c229(void);
 extern "C" void __cdecl FUN_00c0c532(void);
 extern "C" void* __stdcall FUN_00c0c580(void* funcAddress, void* realFP, unsigned long NLGCode);
 extern "C" int __cdecl FUN_00c09b30(void* pExPtrs);
+// pdb: __FrameUnwindToEmptyState | trnsctrl.obj | fnv360_0822_debug, call_gap, low, conflict (skyrim: __FrameUnwindToState)
+// pdb params: pRN, pDC, pFuncInfo
 extern "C" void __cdecl FUN_00c09b74(EHRegistrationNode_* pRN, DispatcherContext_* pDC, FuncInfo_* pFuncInfo, int targetState)
 {
     int curState;
@@ -300,7 +308,6 @@ extern "C" void __cdecl FUN_00c09b74(EHRegistrationNode_* pRN, DispatcherContext
                 }
             }
             __except (FUN_00c09b30(_exception_info())) {
-                ;
             }
             curState = nxtState;
         }
@@ -352,6 +359,7 @@ extern "C" __declspec(dllimport) void* __stdcall GetStdHandle(unsigned long n);
 extern "C" __declspec(dllimport) unsigned int __stdcall SetHandleCount(unsigned int n);
 extern "C" int __cdecl FUN_00c173ab(CritSect* cs, unsigned long spin);
 extern "C" void* __cdecl FUN_00c0ab7f(unsigned int num, unsigned int size);
+// pdb: _ioinit | ioinit.obj | tesv_win, uimport, low
 extern "C" int __cdecl FUN_00c1270e(void)
 {
     StartupInfoW StartupInfo;
@@ -502,6 +510,8 @@ extern "C" void __cdecl FUN_00c1d511(int descriptor);
 
 extern "C" int __cdecl FUN_00c1d471(int descriptor);
 
+// pdb: _write | write.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: fh, buf, cnt
 extern "C" int __cdecl FUN_00c17a36(int fd, const void* buffer, unsigned count)
 {
     using namespace crt_write;
@@ -551,6 +561,7 @@ struct CritSect { void* debugInfo; long lockCount; long recursionCount; void* ow
 extern "C" LockEntry DAT_0106bcc0[36];
 extern "C" CritSect DAT_0117a330[];
 extern "C" int __cdecl FUN_00c173ab(void* cs, unsigned long spin);
+// pdb: _mtinitlocks | mlock.obj | fnv360_0822_retail, caller_sim, high
 extern "C" int __cdecl FUN_00c164ab(void)
 {
     int locknum;
@@ -585,6 +596,7 @@ struct EHExceptionRecord {
 };
 extern "C" void __stdcall FUN_00bffdf5(void* pthis, void* pmfn);
 extern "C" __declspec(noreturn) void __cdecl FUN_00c0c4e6(void);
+// pdb: __DestructExceptionObject | frame.obj | tesv_win, call_seq, medium
 extern "C" void __cdecl FUN_00c09c9a(EHExceptionRecord* pExcept, unsigned char fThrowNotAllowed)
 {
     if (pExcept != 0 && pExcept->ExceptionCode == 0xe06d7363 && pExcept->pThrowInfo != 0 && pExcept->pThrowInfo->pmfnUnwind != 0) {
@@ -620,6 +632,7 @@ extern "C" void* __cdecl FUN_00c09cee(void* pThis, const PMD& pmd);
 void __stdcall FUN_00bffdf5(void* pthis, void* pmfn, void* pthat);
 void __stdcall FUN_00bffdf5(void* pthis, void* pmfn, void* pthat, int val2);
 extern "C" __declspec(noreturn) void __cdecl FUN_00c0c4e6(void);
+// pdb: __BuildCatchObject | frame.obj | tesv_win, call_gap, low
 extern "C" void __cdecl FUN_00c0a0f0(EHExceptionRecord* pExcept, void* pRN, HandlerType* pCatch, CatchableType* pConv)
 {
     void** pCatchBuffer;
@@ -660,6 +673,7 @@ extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" void __cdecl FUN_00c064b8(void* p);
 extern "C" void __cdecl FUN_00c08d0f(LocInfo* p);
 extern "C" void __cdecl FUN_00c08b49(LocInfo* p);
+// pdb: _free_locale | setlocal.obj | tesv_win, uconst, low
 extern "C" void __cdecl FUN_00c08ec6(LocaleStruct* plocinfo)
 {
     if (plocinfo != 0) {
@@ -697,6 +711,8 @@ extern "C" void* __cdecl FUN_00c1669a(void* pBlock);
 extern "C" void __cdecl FUN_00c166c5(void* pHeader, void* pBlock);
 extern "C" int* __cdecl FUN_00c02a76(void);
 extern "C" int __cdecl FUN_00c02a3b(unsigned long oserr);
+// pdb: free | free.obj | fnv360_0822_retail, call_seq, low
+// pdb params: pBlock
 extern "C" void __cdecl FUN_00c064b8(void* pBlock)
 {
     int retval = 0;
@@ -738,6 +754,8 @@ extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" void* __cdecl FUN_00c1669a(void* pBlock);
 extern "C" int* __cdecl FUN_00c02a76(void);
 extern "C" void __cdecl FUN_00c01e67(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, unsigned int);
+// pdb: _msize | msize.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pblock
 extern "C" unsigned int __cdecl FUN_00c067da(void* pblock)
 {
     unsigned int retval;
@@ -790,6 +808,7 @@ extern "C" void __cdecl FUN_00c16621(int locknum);
 extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" void __cdecl FUN_00c064b8(void* p);
 extern "C" void __cdecl FUN_00c0687d(int code);
+// pdb: __updatetmbcinfo | mbctype.obj | tesv_win, hash, low
 extern "C" MbcInfo* __cdecl FUN_00c0ce55(void)
 {
     MbcInfo* ptmbci;
@@ -849,6 +868,8 @@ extern "C" int __cdecl FUN_00c0bf2a(void);
 extern "C" void __cdecl FUN_00c16621(int locknum);
 extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" void __cdecl FUN_00c08c89(void* p);
+// pdb: free | free.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: _initptd)
+// pdb params: pBlock
 extern "C" void __cdecl FUN_00c0c0f3(Tiddata* ptd, void* ptloci)
 {
     void* hKernel32 = GetModuleHandleA("KERNEL32.DLL");
@@ -888,6 +909,7 @@ extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" void __cdecl FUN_00c07bcc(int i, void* s);
 extern "C" void __cdecl FUN_00c07c30(int i, void* s);
 extern "C" int __cdecl FUN_00c07941(void* s);
+// pdb: flsall | fflush.obj | fnv360_0822_retail, call_gap_sim, low
 extern "C" int __cdecl FUN_00c07983(int flushflag)
 {
     int i;
@@ -948,6 +970,8 @@ extern "C" void __cdecl FUN_00c01e67(const wchar_t*, const wchar_t*, const wchar
 extern "C" long __cdecl FUN_00c181d0(int fh, long pos, int mthd);
 extern "C" int __cdecl FUN_00c1d471(int fh);
 extern "C" void __cdecl FUN_00c1d511(int fh);
+// pdb: _lseek | lseek.obj | fnv360_0822_retail, call_seq, high
+// pdb params: fh, pos, mthd
 extern "C" long __cdecl FUN_00c18242(int fh, long pos, int mthd)
 {
     long r;
@@ -1015,6 +1039,8 @@ extern "C" __declspec(dllimport) int __stdcall FlushFileBuffers(void* h);
 extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError(void);
 extern "C" int __cdecl FUN_00c1d471(int fh);
 extern "C" void __cdecl FUN_00c1d511(int fh);
+// pdb: _commit | commit.obj | fnv360_0822_retail, call_seq, high
+// pdb params: filedes
 extern "C" int __cdecl FUN_00c18480(int filedes)
 {
     int retval;
@@ -1084,6 +1110,8 @@ extern "C" void __cdecl FUN_00c01e67(const wchar_t*, const wchar_t*, const wchar
 extern "C" int __cdecl FUN_00c17b12(int fh, void* buf, unsigned cnt);
 extern "C" int __cdecl FUN_00c1d471(int fh);
 extern "C" void __cdecl FUN_00c1d511(int fh);
+// pdb: _read | read.obj | fnv360_0822_retail, call_seq, high
+// pdb params: fh, buf, cnt
 extern "C" int __cdecl FUN_00c180d3(int fh, void* buf, unsigned cnt)
 {
     int r;
@@ -1152,6 +1180,8 @@ extern "C" void* __cdecl FUN_00c00610(void* dst, int val, unsigned int count);
 extern "C" int __cdecl FUN_00c1715b(unsigned int size);
 extern "C" int* __cdecl FUN_00c02a76(void);
 extern "C" void __cdecl FUN_00c01e67(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, unsigned int);
+// pdb: _calloc_impl | calloc_impl.obj | fnv360_0822_retail, caller, medium
+// pdb params: num, size, errno_tmp
 extern "C" void* __cdecl FUN_00c1831e(unsigned int num, unsigned int size, int* errno_tmp)
 {
     unsigned int size_orig;
@@ -1222,6 +1252,7 @@ extern "C" void __cdecl FUN_00c07c30(int i, void* s);
 extern "C" void* __cdecl FUN_00c0ab3f(unsigned int size);
 extern "C" int __cdecl FUN_00c173ab(void* cs, unsigned long spin);
 extern "C" void __cdecl FUN_00c064b8(void* p);
+// pdb: _getstream | stream.obj | fnv360_0822_retail, call_gap_sim, high
 extern "C" FILE_* __cdecl FUN_00c12da8(void)
 {
     FILE_* retval = 0;
@@ -1297,6 +1328,7 @@ extern "C" int __cdecl FUN_00c1294e(FILE_* stream);
 extern "C" int __cdecl FUN_00c12649(FILE_* stream);
 extern "C" void __cdecl FUN_00c126df(int flag, FILE_* stream);
 extern "C" int __cdecl FUN_00c0d55e(FILE_* stream, const char* format, void* plocinfo, va_list ap);
+// pdb: fprintf | fprintf.obj | tesv_win, caller_sim, low
 extern "C" int __cdecl FUN_00c03bca(FILE_* str, const char* format, ...)
 {
     va_list arglist;
@@ -1372,6 +1404,8 @@ extern "C" void* __cdecl FUN_00c09cee(void* pThis, const PMD& pmd);
 extern "C" void* __cdecl FUN_00c01530(void* dst, const void* src, unsigned int count);
 extern "C" void __cdecl FUN_00c0c532(void);
 extern "C" __declspec(noreturn) void __cdecl FUN_00c0c4e6(void);
+// pdb: __BuildCatchObjectHelper | frame.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pExcept, pRN, pCatch, pConv
 extern "C" int __cdecl FUN_00c09f71(EHExceptionRecord* pExcept, void* pRN, HandlerType* pCatch, CatchableType* pConv)
 {
     int retval = 0;
@@ -1448,6 +1482,8 @@ extern "C" void __cdecl FUN_00c07b90(FILE_* stream);
 extern "C" void __cdecl FUN_00c07bfa(FILE_* stream);
 extern "C" int __cdecl FUN_00c1294e(FILE_* stream);
 extern "C" int __cdecl FUN_00c15880(FILE_* stream);
+// pdb: fgets | fgets.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: string, count, str
 extern "C" char* __cdecl FUN_00c05a70(char* string, int count, FILE_* str)
 {
     FILE_* stream;
@@ -1544,6 +1580,7 @@ extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" int __cdecl FUN_00c173ab(void* cs, unsigned long spin);
 extern "C" void* __cdecl FUN_00c0ab7f(unsigned int num, unsigned int size);
 extern "C" int __cdecl FUN_00c1d471(int fh);
+// pdb: _alloc_osfhnd | osfinfo.obj | fnv360_0822_retail, caller_sim, high
 extern "C" int __cdecl FUN_00c1d533(void)
 {
     int fh = -1;
@@ -1682,6 +1719,7 @@ extern "C" void __cdecl FUN_00c06b2f(void);
 extern "C" __declspec(noreturn) void __cdecl FUN_00c06b1e(int code);
 extern "C" void __cdecl FUN_00c06b3e(void);
 extern "C" int __cdecl FUN_00c159ec(unsigned long xcptnum, EXCEPTION_POINTERS_* pxcptinfoptrs);
+// pdb: __tmainCRTStartup | wincrt0.obj | tesv_win, udata, high
 extern "C" __declspec(noinline) int __cdecl FUN_00c05def(void)
 {
     int initret;
@@ -1801,6 +1839,8 @@ static __declspec(noinline) XCPT_ACTION* __cdecl FUN_00c17196(int signum, XCPT_A
         return (0);
 }
 
+// pdb: raise | winsig.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: signum
 extern "C" int __cdecl FUN_00c171d7(int signum)
 {
     _PHNDLR sigact;
@@ -1958,6 +1998,7 @@ static __declspec(noinline) int __cdecl FUN_00c0cef9(int codepage)
     return codepage;
 }
 
+// pdb: _setmbcp | mbctype.obj | tesv_win, hash, low
 extern "C" int __cdecl FUN_00c0d14c(int codepage)
 {
     int retcode = -1;
@@ -2054,6 +2095,8 @@ static __declspec(noinline) int __cdecl FUN_00c1d6d2(int* punlock_flag, int* pfh
     return 0;
 }
 
+// pdb: _sopen_helper | open.obj | fnv360_0822_retail, call_seq, high
+// pdb params: path, oflag, shflag, pmode, pfh, bSecure
 extern "C" int __cdecl FUN_00c1de2b(const char* path, int oflag, int shflag, int pmode, int* pfh, int bSecure)
 {
     int retval;
@@ -2147,6 +2190,7 @@ static __forceinline void SetTimezone(long v) { *FUN_00c1d2f6() = v; }
 static __forceinline void SetDaylight(int v) { *FUN_00c1d2ea() = v; }
 static __forceinline void SetDstbias(long v) { *FUN_00c1d2f0() = v; }
 
+// pdb: _tzset_nolock | tzset.obj | tesv_win, call_seq, medium
 extern "C" void __cdecl FUN_00c1cad2(void)
 {
     char* TZ;
@@ -2287,6 +2331,7 @@ extern "C" void __cdecl FUN_00c16621(int locknum);
 extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" void __cdecl FUN_00c08d0f(LocInfo* p);
 extern "C" void __cdecl FUN_00c08b49(LocInfo* p);
+// pdb: _tzset_nolock | tzset.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: _freefls)
 extern "C" void __stdcall FUN_00c0c241(void* data)
 {
     Tiddata* ptd;
@@ -2420,6 +2465,7 @@ static __declspec(noinline) char* __cdecl FUN_00c09769(LocInfo* ploci, int _cate
     return retval;
 }
 
+// pdb: setlocale | setlocal.obj | tesv_win, hash, low
 extern "C" char* __cdecl FUN_00c09937(int _category, const char* _locale)
 {
     char* retval = 0;
@@ -2505,6 +2551,8 @@ extern "C" void* __cdecl FUN_00bffa60(void* d, const void* s, unsigned int n);
 extern "C" int __cdecl FUN_00c1715b(unsigned int size);
 extern "C" int* __cdecl FUN_00c02a76(void);
 extern "C" int __cdecl FUN_00c02a3b(unsigned long oserr);
+// pdb: realloc | realloc.obj | fnv360_0721_beta, call_gap, medium
+// pdb params: pBlock, newsize
 extern "C" void* __cdecl FUN_00c06546(void* pBlock, unsigned int newsize)
 {
     void* pvReturn;
@@ -2638,6 +2686,8 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCri
 extern "C" void __cdecl FUN_00c16621(int locknum);
 extern "C" void __cdecl FUN_00c16549(int locknum);
 extern "C" int __cdecl FUN_00c173ab(void* lpCriticalSection, unsigned long dwSpinCount);
+// pdb: __lock_fhandle | osfinfo.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: fh
 extern "C" int __cdecl FUN_00c1d471(int fh)
 {
     ioinfo* pio = &DAT_0117a660[fh >> 5][fh & 31];

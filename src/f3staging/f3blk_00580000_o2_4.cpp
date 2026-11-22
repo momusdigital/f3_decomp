@@ -148,6 +148,8 @@ struct Owner {
     void FUN_00599370(Context*);
 };
 
+// pdb: BSFaceGenNiNode::ApplyFacialModifiers | BSFaceGenNiNode.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arObjData
 void Owner::FUN_00599370(Context* ctx)
 {
     float left, right;

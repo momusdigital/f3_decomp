@@ -13,7 +13,6 @@ extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_load_ps1(const float* p);
 extern "C" __m128 _mm_load_ss(const float* p);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 
@@ -62,32 +61,7 @@ struct hkVector4D230
     }
 };
 
-// @fnv 0x00d230e0
-int __cdecl FUN_00d230e0(const hkVector4D230& akPoint, const hkVector4D230& kA, const hkVector4D230& kB,
-                         hkVector4D230& kClosestOut)
-{
-    hkVector4D230 kAP;
-    kAP.setSub4(akPoint, kA);
-    hkVector4D230 kAB;
-    kAB.setSub4(kB, kA);
-    const float fProj = kAP.dot3(kAB);
-    const float fLen2 = kAB.dot3(kAB);
-    if (fProj <= 0.0f)
-    {
-        kClosestOut = kA;
-        return 8;
-    }
-    if (fLen2 <= fProj)
-    {
-        kClosestOut = kB;
-        return 4;
-    }
-    kClosestOut.setAddMul4(kA, kAB, fProj / fLen2);
-    return 0;
-}
-
 #include <math.h>
-extern "C" __m128 _mm_set_ps1(float);
 
 typedef float hkReal;
 
@@ -222,6 +196,7 @@ inline float scalarFabs(float r)
     return (float)fabs(r);
 }
 
+// pdb: findClosestTriangleBackup | hkpGsk.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: hkLineSegmentUtil::closestLineSegLineSeg)
 int FUN_00d22e40(const hkVector4& A, const hkVector4& dA, const hkVector4& B, const hkVector4& dB,
                  VectorPairResult& result)
 {

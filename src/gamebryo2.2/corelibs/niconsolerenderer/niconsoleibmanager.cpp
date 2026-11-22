@@ -4,6 +4,8 @@
 
 // Reuses or creates a D3D index buffer matching the requested format/usage/pool/size, copies the indices into it, and returns the buffer.
 // @fnv 0x00e8f200
+// pdb: NiXenonIndexBufferManager::PackBuffer | NiXenonIBManager.obj | fnv360_0721_retail, caller, low, conflict (F3 string "NiDX9IndexBufferManager::CreateIndexBuffer FAILED")
+// pdb params: pusTriList, uiLength, uiMaxLength, pkOldIB, uiIBSize, ePool, uiUsage
 COMBaseInterface* IndexBufferManager::PackBuffer(const unsigned short* pusIndices, unsigned int uiIndexCount,
                                                  unsigned int uiMaxIndexCount, COMBaseInterface* pkIB,
                                                  unsigned int& uiBufferSize, unsigned long ulPool, unsigned int uiUsage)

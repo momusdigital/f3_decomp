@@ -17,6 +17,7 @@ void __fastcall FUN_00aa6c20(void*);
 void __fastcall FUN_00ac5e40(void*);
 
 struct C_005698a0 { void* FUN_005698a0(unsigned char f); };
+// pdb: CellMopp::`scalar deleting destructor' | CellMopp.obj | fnv360_0822_retail, vtable, high
 void* C_005698a0::FUN_005698a0(unsigned char f)
 {
     FUN_005697f0(this);
@@ -25,6 +26,7 @@ void* C_005698a0::FUN_005698a0(unsigned char f)
 }
 
 struct C_00597920 { void* FUN_00597920(unsigned char f); };
+// pdb: BSFaceGenMorphDataHead::`scalar deleting destructor' | BSFaceGenMorphData.obj | fnv360_0822_retail, vtable, high
 void* C_00597920::FUN_00597920(unsigned char f)
 {
     FUN_005975f0(this);
@@ -33,6 +35,7 @@ void* C_00597920::FUN_00597920(unsigned char f)
 }
 
 struct C_006019a0 { void* FUN_006019a0(unsigned char f); };
+// pdb: BSSimpleArrayRefCounted<PathingAvoidNode,1024>::`scalar deleting destructor' | PathingRequest.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: BSTDerivedCreator<class PathingRequest,class BSPathingRequest>::BSTDerivedCreator<class PathingRequest,class BSPathingRequest>)
 void* C_006019a0::FUN_006019a0(unsigned char f)
 {
     FUN_006018f0(this);
@@ -41,6 +44,7 @@ void* C_006019a0::FUN_006019a0(unsigned char f)
 }
 
 struct C_0085f690 { void* FUN_0085f690(unsigned char f); };
+// pdb: NiSwitchStringExtraData::`scalar deleting destructor' | NiSwitchStringExtraData.obj | fnv360_0822_retail, objrun, high
 void* C_0085f690::FUN_0085f690(unsigned char f)
 {
     FUN_0085f530(this);
@@ -49,6 +53,7 @@ void* C_0085f690::FUN_0085f690(unsigned char f)
 }
 
 struct C_008b7ba0 { void* FUN_008b7ba0(unsigned char f); };
+// pdb: NiPosData::`scalar deleting destructor' | NiPathInterpolator.obj | fnv360_0822_retail, objopen_prop, high
 void* C_008b7ba0::FUN_008b7ba0(unsigned char f)
 {
     FUN_008c2ef0(this);
@@ -57,6 +62,7 @@ void* C_008b7ba0::FUN_008b7ba0(unsigned char f)
 }
 
 struct C_008be140 { void* FUN_008be140(unsigned char f); };
+// pdb: BSLookIKNote::`scalar deleting destructor' | BSLookIKNote.obj | fnv360_0822_retail, objrun, low
 void* C_008be140::FUN_008be140(unsigned char f)
 {
     FUN_008be9e0(this);
@@ -73,6 +79,7 @@ void* C_008c1530::FUN_008c1530(unsigned char f)
 }
 
 struct C_008e8b10 { void* FUN_008e8b10(unsigned char f); };
+// pdb: bhkCachingShapePhantom::`scalar deleting destructor' | bhkCharacterController.obj | fnv360_0822_retail, caller_sim, low
 void* C_008e8b10::FUN_008e8b10(unsigned char f)
 {
     FUN_00945800(this);
@@ -89,6 +96,7 @@ void* C_00945050::FUN_00945050(unsigned char f)
 }
 
 struct C_0094f090 { void* FUN_0094f090(unsigned char f); };
+// pdb: bhkExtendedMeshShape::`scalar deleting destructor' | bhkExtendedMeshShape.obj | fnv360_0822_retail, caller_sim, low
 void* C_0094f090::FUN_0094f090(unsigned char f)
 {
     FUN_0094eea0(this);
@@ -97,6 +105,7 @@ void* C_0094f090::FUN_0094f090(unsigned char f)
 }
 
 struct C_00aa6cb0 { void* FUN_00aa6cb0(unsigned char f); };
+// pdb: BSNodeReferences::`scalar deleting destructor' | BSStream.obj | fnv360_0822_retail, vtable, high
 void* C_00aa6cb0::FUN_00aa6cb0(unsigned char f)
 {
     FUN_00aa6c20(this);
@@ -105,6 +114,7 @@ void* C_00aa6cb0::FUN_00aa6cb0(unsigned char f)
 }
 
 struct C_00ac9080 { void* FUN_00ac9080(unsigned char f); };
+// pdb: NiPSysPositionModifier::`scalar deleting destructor' | NiPSysPositionModifier.obj | fnv360_0822_retail, objopen_prop, low
 void* C_00ac9080::FUN_00ac9080(unsigned char f)
 {
     FUN_00ac5e40(this);

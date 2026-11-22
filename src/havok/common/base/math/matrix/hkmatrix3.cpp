@@ -16,37 +16,6 @@ struct CD4AF0Bool
     }
 };
 
-struct CD4AF0Vector4
-{
-    float x;
-    float y;
-    float z;
-    float w;
-
-    CD4AF0Bool IsStreamValid() const;
-};
-
-struct CD4AF0Matrix3
-{
-    CD4AF0Vector4 m_kColumn0;
-    CD4AF0Vector4 m_kColumn1;
-    CD4AF0Vector4 m_kColumn2;
-
-    CD4AF0Bool FUN_00cd4af0() const;
-};
-
-// @fnv 0x00cd4af0
-CD4AF0Bool CD4AF0Matrix3::FUN_00cd4af0() const
-{
-    return m_kColumn0.IsStreamValid() && m_kColumn1.IsStreamValid() && m_kColumn2.IsStreamValid();
-}
-
-// @fnv 0x00cd4b50
-int __cdecl FUN_00cd4b50()
-{
-    return 0x1268370;
-}
-
 struct S_00cd4b60
 {
     float m[3][4];
@@ -59,6 +28,7 @@ static inline void S_00cd4b60_Swap(float& a, float& b)
     b = t;
 }
 // @fnv 0x00cd4b60
+// pdb: hkMatrix3::transpose | hkMatrix3.obj | fnv360_0822_retail, objrun, low, conflict (bridge: hkMatrix3::sub)
 void S_00cd4b60::FUN_00cd4b60()
 {
     S_00cd4b60_Swap(m[1][0], m[0][1]);
@@ -87,6 +57,8 @@ struct CD4BA0Matrix3
 
 // Copies the transpose of s into this matrix: diagonal entries copied directly, off-diagonal entries swapped, and the fourth column zeroed.
 // @fnv 0x00cd4ba0
+// pdb: hkMatrix3::setTranspose | hkMatrix3.obj | fnv360_0822_retail, call_seq, high
+// pdb params: s
 void CD4BA0Matrix3::Transpose(const CD4BA0Matrix3& s)
 {
     m_kColumn0[0] = s.m_kColumn0[0];
@@ -108,7 +80,7 @@ struct Matrix3x4
 class CMatrixOps
 {
   public:
-    bool FUN_00cd4e90(float epsilon);
+    bool FUN_00cd4e90(struct S_91db00* arInfo);
 
   private:
     Matrix3x4 m_mat;
@@ -169,23 +141,26 @@ class CMatrixOpsBridge
     void FUN_0091d450(const float* pB, const float* pA, float f);
 };
 
-bool CMatrixOps::FUN_00cd4e90(float epsilon)
+// The capsule's construction info: the radius and the two end points.
+struct S_91db00
 {
-    struct S_91db00
-    {
-        char pad_00[4];
-        float m_04;
-        char pad_08[8];
-        float m_10;
-        float m_14;
-        float m_18;
-        float m_1c;
-        float m_20;
-        float m_24;
-        float m_28;
-        float m_2c;
-    };
-    S_91db00* p = *reinterpret_cast<S_91db00**>(&epsilon);
+    int unk00;
+    float m_04;
+    int unk08;
+    int unk0C;
+    float m_10;
+    float m_14;
+    float m_18;
+    float m_1c;
+    float m_20;
+    float m_24;
+    float m_28;
+    float m_2c;
+};
+// pdb: bhkCapsuleShape::Init | bhkCapsuleShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: arInfo
+bool CMatrixOps::FUN_00cd4e90(S_91db00* p)
+{
     if (p != 0)
     {
         __declspec(align(16)) float a[4];
@@ -244,6 +219,8 @@ struct CdOwner_cls
 };
 
 // @fnv 0x00cd5880
+// pdb: hkMatrix3::changeBasis | hkMatrix3.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: r
 void FUN_00cd5880_cls::FUN_00cd5880(unsigned int a1)
 {
     CdBlob_cls blob;
@@ -329,52 +306,6 @@ class hkMatrix3CD4B
     hkVector4CD4B m_kColumn2;
 };
 
-__forceinline void hkVector4CD4B::_setRotatedDir(const hkMatrix3CD4B& r, const hkVector4CD4B& b)
-{
-    const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    const __m128 r0 = _mm_mul_ps(r.m_kColumn0.m_vComponents, b0);
-    const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    const __m128 r1 = _mm_mul_ps(r.m_kColumn1.m_vComponents, b1);
-    const __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    const __m128 r2 = _mm_mul_ps(r.m_kColumn2.m_vComponents, b2);
-    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
-}
-
-// Transposes kA, applies the transposed matrix to each column of kB, and stores those results here.
-// @fnv 0x00cd4bf0
-void hkMatrix3CD4B::FUN_00cd4bf0(const hkMatrix3CD4B& kA, const hkMatrix3CD4B& kB)
-{
-    hkMatrix3CD4B kATrans;
-    kATrans.m_kColumn0 = kA.m_kColumn0;
-    kATrans.m_kColumn1 = kA.m_kColumn1;
-    kATrans.m_kColumn2 = kA.m_kColumn2;
-    kATrans.transpose();
-    for (int i = 0; i < 3; i++)
-    {
-        hkVector4CD4B kCol = kB.getColumn(i);
-        getColumn(i)._setRotatedDir(kATrans, kCol);
-    }
-}
-
-struct S_V4
-{
-    __m128 q;
-};
-struct S_00cd4c70
-{
-    S_V4 r0, r1, r2;
-    const S_V4& Multiply(const S_V4& s);
-};
-// Multiplies each of r0, r1, r2 by the x component of s and returns s.
-// @fnv 0x00cd4c70
-const S_V4& S_00cd4c70::Multiply(const S_V4& apFactor)
-{
-    r0.q = _mm_mul_ps(_mm_shuffle_ps(apFactor.q, apFactor.q, 0), r0.q);
-    r1.q = _mm_mul_ps(_mm_shuffle_ps(apFactor.q, apFactor.q, 0), r1.q);
-    r2.q = _mm_mul_ps(_mm_shuffle_ps(apFactor.q, apFactor.q, 0), r2.q);
-    return apFactor;
-}
-
 #include <math.h>
 struct JacobiRot
 {
@@ -397,73 +328,14 @@ struct Mat34
     float m[3][4];
 };
 
-// Computes the c, s, p, q of a Jacobi rotation that zeroes a.m[p][q] of a 3x4 matrix, storing the result in outp.
-// @fnv 0x00cd5270
-static __declspec(noinline) void FUN_00cd5270(const Mat34& apMatrix, int q, int p, JacobiRot* apOut)
-{
-    JacobiRot* out = apOut;
-    JacobiRot** ppOut = &apOut;
-    out->q = q;
-    out->p = p;
-    if (apMatrix.m[p][q] != 0.0f)
-    {
-        float theta = (apMatrix.m[p][p] - apMatrix.m[q][q]) / (2.0f * apMatrix.m[p][q]);
-        float r = sqrtf(theta * theta + 1.0f);
-        r = 1.0f / (theta >= 0.0f ? theta + r : theta - r);
-        float c = 1.0f / sqrtf(r * r + 1.0f);
-        out->c = c;
-        out->s = c * r;
-    }
-    else
-    {
-        out->c = 1.0f;
-        out->s = 0.0f;
-    }
-}
-
 volatile int g_p5270;
 volatile int g_q5270;
 Mat34 g_m5270;
 JacobiRot g_r5270;
-void caller_cd5270()
-{
-    FUN_00cd5270(g_m5270, g_q5270, g_p5270, &g_r5270);
-}
-
-struct Mat
-{
-    float f00;
-    float f04;
-    float f08;
-    float f0c;
-    float f10;
-    float f14;
-    float f18;
-    float f1c;
-    float f20;
-    float f24;
-    float f28;
-    float f2c;
-};
 
 // Computes the Euclidean norm of the 3x3 block formed by the first three entries of each row.
 // @f3 0x00bbd320 (community match, verified in this file)
 #include <math.h>
-
-static __declspec(noinline) float FUN_00cd5340(const Mat* apMatrix)
-{
-    float sum = 0.0f;
-    const float* q = &apMatrix->f00 + 8;
-    for (int i = 3; i != 0; --i)
-    {
-        sum = q[-8] * q[-8] + sum;
-        sum = q[-4] * q[-4] + sum;
-        sum = q[0] * q[0] + sum;
-        q += 1;
-    }
-    return sqrtf(sum);
-}
-
 
 struct VectorNormBBD320
 {
@@ -473,6 +345,8 @@ struct VectorNormBBD320
     float FUN_00bbd320() const;
 };
 
+// pdb: CIdvBezierSpline::CIdvBezierSpline | IdvSpline.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: cRight
 float VectorNormBBD320::FUN_00bbd320() const
 {
     float sum = 0.0f;
@@ -482,34 +356,11 @@ float VectorNormBBD320::FUN_00bbd320() const
 }
 
 
-float MatNorm(const Mat* m)
-{
-    return FUN_00cd5340(m) * 2.0f;
-}
-
 struct S_00cd53a0_Matrix3
 {
     float m_col[3][4];
     float FUN_00cd53a0();
 };
-
-// Computes the Frobenius norm of the 3x3 matrix by summing the squares of the off-diagonal elements and returning the square root.
-// @fnv 0x00cd53a0
-float S_00cd53a0_Matrix3::FUN_00cd53a0()
-{
-    float sum = 0.0f;
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if (i != j)
-            {
-                sum += m_col[j][i] * m_col[j][i];
-            }
-        }
-    }
-    return sqrtf(sum);
-}
 
 namespace cd5400 {
 struct Vec4
@@ -529,29 +380,6 @@ struct Mat3
 // Finds the element with the largest absolute value in the upper triangle of m and stores its row and column indices.
 // @f3 0x007abac0 (community match, verified in this file)
 #include <math.h>
-
-// Later helper bodies in this unit still call the static pivot search whose
-// declaration sits in this function's slot, so it stays defined here.
-static void FUN_00cd5400(cd5400::Mat3& m, int& rowOut, int& colOut)
-{
-    float maxVal = 0.0f;
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if (i < j)
-            {
-                float v = fabsf(m(i, j));
-                if (v >= maxVal)
-                {
-                    rowOut = i;
-                    maxVal = v;
-                    colOut = j;
-                }
-            }
-        }
-    }
-}
 
 namespace w3_79a8e0 {
 struct Actor {
@@ -580,12 +408,13 @@ struct Ctl {
     float unk4C;
     Actor* FUN_007abac0();
 };
+// pdb: CombatState::GetBestCombatWeapon | CombatState.obj | fnv360_0822_retail, call_gap, low
 Actor* Ctl::FUN_007abac0()
 {
     float best = 0.0f;
     Actor* sel = 0;
     float v = unk38;
-    if (!(v > best)) {} else { sel = unk0C; best = v; }
+    if (v > best) { sel = unk0C; best = v; }
     v = unk3C;
     if (v > best) { sel = unk10; best = v; }
     v = unk40;
@@ -600,11 +429,6 @@ Actor* Ctl::FUN_007abac0()
 }
 }
 
-
-void cd5400_caller(cd5400::Mat3& m, int* r, int* c)
-{
-    FUN_00cd5400(m, *r, *c);
-}
 
 struct VProduct
 {
@@ -658,42 +482,6 @@ void MProduct::FUN_00cd55b0(const MProduct& aLeft, const MProduct& aRight)
 extern "C" __m128 _mm_setzero_ps(void);
 extern "C" void _mm_store_ps(float* p, __m128 a);
 
-struct SrcRec
-{
-    float unk00;
-    float unk04;
-    int unk08;
-    int unk0C;
-};
-
-struct Matrix34
-{
-    float m[12];
-};
-
-// Initializes a 3x4 matrix to identity, then replaces four elements using fields and indices from src.
-// @fnv 0x00cd54d0
-static __declspec(noinline) void FUN_00cd54d0(Matrix34* apMatrix, const SrcRec* src)
-{
-    _mm_store_ps(&apMatrix->m[0], _mm_setzero_ps());
-    _mm_store_ps(&apMatrix->m[4], _mm_setzero_ps());
-    _mm_store_ps(&apMatrix->m[8], _mm_setzero_ps());
-
-    apMatrix->m[0] = 1.0f;
-    apMatrix->m[5] = 1.0f;
-    apMatrix->m[10] = 1.0f;
-
-    apMatrix->m[src->unk08 * 5] = src->unk00;
-    apMatrix->m[src->unk0C * 4 + src->unk08] = src->unk04;
-    apMatrix->m[src->unk0C + src->unk08 * 4] = -src->unk04;
-    apMatrix->m[src->unk0C * 5] = src->unk00;
-}
-
-void S00cd54d0_wrap(const SrcRec* src, Matrix34* dest)
-{
-    FUN_00cd54d0(dest, src);
-}
-
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 struct S00cd4cc0_V
@@ -705,31 +493,10 @@ struct S00cd4cc0_V
     }
 };
 
-struct S00cd4cc0_M
-{
-    S00cd4cc0_V c0;
-    S00cd4cc0_V c1;
-    S00cd4cc0_V c2;
-    void FUN_00cd4cc0(const float* r);
-};
-
-// Builds the three column vectors of a cross-product matrix from the components of the input vector r.
-// @fnv 0x00cd4cc0
-void S00cd4cc0_M::FUN_00cd4cc0(const float* apVec)
-{
-    c0.set(0.0f, apVec[2], -apVec[1]);
-    c1.set(-apVec[2], 0.0f, apVec[0]);
-    c2.set(apVec[1], -apVec[0], 0.0f);
-}
-
-extern "C" double __cdecl fabs(double);
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ss(const float* p);
 extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_div_ss(__m128 a, __m128 b);
-
-extern float DAT_01012068;
 
 typedef __m128 VectorComponentValue;
 
@@ -799,33 +566,6 @@ struct hkMatrix3
 
     int FUN_00cd4f10(float epsilon);
 };
-
-// Computes the inverse of the matrix via cofactor columns and transpose, returning 0 on success or 1 if the determinant is near zero.
-// @fnv 0x00cd4f10
-int hkMatrix3::FUN_00cd4f10(float epsilon)
-{
-    hkVector4 r0;
-    r0.setCross(getColumn(1), getColumn(2));
-    hkVector4 r1;
-    r1.setCross(getColumn(2), getColumn(0));
-    hkVector4 r2;
-    r2.setCross(getColumn(0), getColumn(1));
-
-    VectorComponentValue det = getColumn(0).dot3(r0);
-    float d;
-    _mm_store_ss(&d, det);
-
-    if ((float)fabs(d) > epsilon * epsilon * epsilon)
-    {
-        VectorComponentValue dinv = _mm_div_ss(_mm_load_ss(&DAT_01012068), det);
-        getColumn(0).setMul4(dinv, r0);
-        getColumn(1).setMul4(dinv, r1);
-        getColumn(2).setMul4(dinv, r2);
-        transpose();
-        return 0;
-    }
-    return 1;
-}
 
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
@@ -905,25 +645,6 @@ void S_00cd55a0::FUN_00cd5050()
     m->getColumn(2).scale(d, r2);
 }
 
-struct FUN_00cd5180_cls
-{
-    __declspec(align(16)) float m_v[12];
-
-    const __m128* Subtract(const __m128* p);
-};
-
-// Subtracts the three __m128 values at p from the corresponding values in m_v, then returns p.
-// @fnv 0x00cd5180
-const __m128* FUN_00cd5180_cls::Subtract(const __m128* apVector)
-{
-    const __m128* b = apVector;
-    __m128* a = (__m128*)m_v;
-    a[0] = _mm_sub_ps(a[0], b[0]);
-    a[1] = _mm_sub_ps(a[1], b[1]);
-    a[2] = _mm_sub_ps(a[2], b[2]);
-    return apVector;
-}
-
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct DiagVec
 {
@@ -977,106 +698,8 @@ class DiagMat
         at(2, 2) = 1.0f;
     }
 };
-// Diagonalizes the matrix via Jacobi rotations, accumulating eigenvectors in vectors and eigenvalues in values, returning 1 on failure.
-// @fnv 0x00cd56c0
-int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int aiMaxIterations, float epsilon) const
-{
-    if (!((CMatrixOps*)this)->FUN_00cd4e90(epsilon))
-        return 1;
-    DiagMat current(*this);
-    apEigenvectors.identity();
-    float tolerance = FUN_00cd5340((const Mat*)this) * epsilon;
-    int iteration = 0;
-    float norm = current.offnorm();
-    while (!(norm < tolerance) && iteration < aiMaxIterations)
-    {
-        int p = 0, q = 0;
-        FUN_00cd5400((cd5400::Mat3&)current, p, q);
-        JacobiRot rotation;
-        FUN_00cd5270((const Mat34&)current, p, q, &rotation);
-        DiagMat jacobi;
-        FUN_00cd54d0((Matrix34*)&jacobi, (const SrcRec*)&rotation);
-        DiagMat transposed(jacobi);
-        transposed.FUN_00cd4b60();
-        current.FUN_00cd5680(jacobi);
-        current.FUN_00cd55b0(transposed, current);
-        apEigenvectors.FUN_00cd5680(jacobi);
-        ++iteration;
-        norm = current.offnorm();
-    }
-    apEigenvalues.q = _mm_setr_ps(current.c0.f[0], current.c1.f[1], current.c2.f[2], 0.0f);
-    if (norm > tolerance)
-        return 1;
-    return 0;
-}
 
-extern const float DAT_01011d78;
-
-class FUN_00cd51c0_cls
-{
-  public:
-    float m_00;
-    float unk04;
-    float unk08;
-    float unk0C;
-    float m_10;
-    float unk14;
-    float unk18;
-    float unk1C;
-    float m_20;
-    float unk24;
-    float unk28;
-    float unk2C;
-
-    __m128 FUN_00cd51c0();
-};
-
-// @fnv 0x00cd51c0
-__m128 FUN_00cd51c0_cls::FUN_00cd51c0()
-{
-    __m128 a = _mm_setr_ps(unk04, unk14, unk24, DAT_01011d78);
-    __m128 b = _mm_setr_ps(unk08, unk18, unk28, DAT_01011d78);
-    __m128 v = _mm_setr_ps(m_00, m_10, m_20, DAT_01011d78);
-
-    __m128 a4 = _mm_shuffle_ps(a, a, 0xD2);
-    __m128 b3 = _mm_shuffle_ps(b, b, 0xC9);
-    __m128 vProduct1 = _mm_mul_ps(b3, a4);
-    __m128 aS = _mm_shuffle_ps(a, a, 0xC9);
-    __m128 b2 = _mm_shuffle_ps(b, b, 0xD2);
-    __m128 vProduct2 = _mm_mul_ps(b2, aS);
-    __m128 c = _mm_sub_ps(vProduct2, vProduct1);
-    __m128 d = _mm_mul_ps(c, v);
-
-    __m128 t = _mm_add_ss(_mm_shuffle_ps(d, d, 0x55), d);
-    return _mm_add_ss(_mm_shuffle_ps(d, d, 0xAA), t);
-}
-
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 extern "C" __declspec(align(16)) const __m128 g_signClear;
-
-// Compares each column of m_mat against other within epsilon and stores the result as a byte in out.
-// @fnv 0x00cd4e00
-unsigned char* CMatrixOps::FUN_00cd4e00(unsigned char* apResult, const Matrix3x4* other, float epsilon)
-{
-    const hkMatrix3& lhs = *reinterpret_cast<const hkMatrix3*>(&m_mat);
-    const hkMatrix3& rhs = *reinterpret_cast<const hkMatrix3*>(other);
-    const __m128 scalar = _mm_load_ss(&epsilon);
-    const __m128 limit = _mm_shuffle_ps(scalar, scalar, 0);
-    bool ok =
-        ((_mm_movemask_ps(_mm_cmple_ps(
-              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn0.m_vComponents, rhs.m_kColumn0.m_vComponents), g_signClear), limit)) &
-          7) == 7) &&
-        ((_mm_movemask_ps(_mm_cmple_ps(
-              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn1.m_vComponents, rhs.m_kColumn1.m_vComponents), g_signClear), limit)) &
-          7) == 7) &&
-        ((_mm_movemask_ps(_mm_cmple_ps(
-              _mm_and_ps(_mm_sub_ps(lhs.m_kColumn2.m_vComponents, rhs.m_kColumn2.m_vComponents), g_signClear), limit)) &
-          7) == 7);
-    *static_cast<volatile unsigned char*>(apResult) = ok;
-    return apResult;
-}
 
 struct TransposeReceiver : CD4BA0Matrix3
 {
@@ -1129,20 +752,6 @@ void MatrixProduct::FUN_00cd5610(const hkMatrix3CD4B& apLeft, const CD4BA0Matrix
 
 extern "C" __m128 _mm_load_ps(float const* p);
 
-struct FUN_00cd55b0_cls
-{
-    void FUN_00cd55b0(const void* src, int arg);
-};
-
-struct FUN_00cd5680_cls
-{
-    __m128 m_v0;
-    __m128 m_v1;
-    __m128 m_v2;
-
-    void FUN_00cd5680(int arg);
-};
-
 struct __declspec(align(16)) FUN_00cd5680_tmp
 {
     unsigned int unk00;
@@ -1159,36 +768,7 @@ struct __declspec(align(16)) FUN_00cd5680_tmp
     unsigned int unk2C;
 };
 
-// Loads three 16-byte blocks from a temporary populated by FUN_00cd55b0 into m_v0, m_v1, and m_v2.
-// @fnv 0x00cd5680
-void FUN_00cd5680_cls::FUN_00cd5680(int arg)
-{
-    FUN_00cd5680_tmp tmp;
-    ((FUN_00cd55b0_cls*)&tmp)->FUN_00cd55b0(this, arg);
-    this->m_v0 = _mm_load_ps((float*)&tmp.unk00);
-    this->m_v1 = _mm_load_ps((float*)&tmp.unk10);
-    this->m_v2 = _mm_load_ps((float*)&tmp.unk20);
-}
-
 extern "C" __m128 _mm_load_ps(const float* p);
-
-struct MatrixAddReceiver : hkMatrix3
-{
-    const __m128* FUN_00cd5140(const __m128* rhs);
-};
-
-// Adds the three column vectors of rhs to the corresponding columns of this hkMatrix3 and returns rhs.
-// @fnv 0x00cd5140
-const __m128* MatrixAddReceiver::FUN_00cd5140(const __m128* apOther)
-{
-    _mm_store_ps((float*)&m_kColumn0.m_vComponents, _mm_add_ps(_mm_load_ps((const float*)apOther + 0),
-                                                               _mm_load_ps((const float*)&m_kColumn0.m_vComponents)));
-    _mm_store_ps((float*)&m_kColumn1.m_vComponents, _mm_add_ps(_mm_load_ps((const float*)apOther + 4),
-                                                               _mm_load_ps((const float*)&m_kColumn1.m_vComponents)));
-    m_kColumn2.m_vComponents =
-        _mm_add_ps(_mm_load_ps((const float*)apOther + 8), _mm_load_ps((const float*)&m_kColumn2.m_vComponents));
-    return apOther;
-}
 
 extern "C" __m128 _mm_load_ps(const float* p);
 
@@ -1389,10 +969,6 @@ struct ChainBody
     float gravity;
     ChainVec linearVelocity, angularVelocity, mass;
 };
-static inline float chainMaximum(float a, float b)
-{
-    return a > b ? a : b;
-}
 
 struct ProbeJac
 {
@@ -1403,53 +979,6 @@ struct ProbeJac
     __forceinline float pairedCore(const ChainBody& a, const ChainBody& b, const ProbeJac& q) const;
     __forceinline float shared(const ChainBody& a, const ProbeJac& q) const;
 };
-
-float ProbeJac::paired(const ChainBody& a, const ChainBody& b, const ProbeJac& q) const
-{
-    return pairedCore(a, b, q);
-}
-float ProbeJac::pairedCore(const ChainBody& a, const ChainBody& b, const ProbeJac& q) const
-{
-    const ProbeJac& p = *this;
-    ChainVec lin;
-    lin.product(p.linear, q.linear);
-    ChainVec ang0;
-    ang0.product(p.angular0, q.angular0);
-    ChainVec ang1;
-    ang1.product(p.angular1, q.angular1);
-    ChainVec ma;
-    ma.splat(a.mass, 3);
-    ChainVec mb;
-    mb.splat(b.mass, 3);
-    ChainVec la;
-    la.product(ma, lin);
-    ChainVec lb;
-    lb.product(mb, lin);
-    ang0.mul(a.mass);
-    ang1.mul(b.mass);
-    la.add(lb);
-    ang0.add(ang1);
-    ang0.add(la);
-    float result = ang0.sum();
-    return result;
-}
-
-float ProbeJac::shared(const ChainBody& a, const ProbeJac& q) const
-{
-    const ProbeJac& p = *this;
-    ChainVec lin;
-    lin.product(p.linear, q.linear);
-    ChainVec angular;
-    angular.product(p.angular1, q.angular0);
-    ChainVec mass;
-    mass.splat(a.mass, 3);
-    ChainVec weighted;
-    weighted.product(mass, lin);
-    angular.mul(a.mass);
-    angular.sub(weighted);
-    float result = angular.sum();
-    return result;
-}
 
 template <class T> __forceinline const T* offsetValue(const T* p, unsigned n)
 {
@@ -1469,71 +998,9 @@ struct ProbeRow
 };
 // Fills ProbeRow output with lower, diag, and upper matrices by computing paired and shared Jacobian terms over ChainBody offsets.
 // @fnv 0x00dd0660
-static __declspec(noinline) void FUN_00dd0660(int aiRowCount, float regularizer, ProbeJac* apJacobian,
-                                              ProbeOffset* offsets, const ChainBody* bodies, ProbeRow* output,
-                                              int bufferSize)
-{
-    ChainMat matPrevious;
-    matPrevious.zeroCached();
-    ChainMat upper;
-    upper.zeroCached();
-    for (int row = 0; row < aiRowCount; ++row)
-    {
-        int stride = 3;
-        int start = row * stride;
-        ChainMat diag;
-        for (int r = 0; r < 3; ++r)
-        {
-            for (int c = r; c < 3; ++c)
-            {
-                diag(c, r) = diag(r, c) = apJacobian[start + r].paired(
-                    offsets[row].body(bodies), offsets[row + 1].body(bodies), apJacobian[start + c]);
-            }
-            float& d = diag(r, r);
-            d += regularizer;
-        }
-        ChainMat matNext;
-        matNext.zeroCached();
-        if (row < aiRowCount - 1)
-        {
-            for (int r = 0; r < 3; ++r)
-            {
-                for (int c = 0; c < 3; ++c)
-                {
-                    matNext(r, c) =
-                        apJacobian[start + r].shared(offsets[row + 1].body(bodies), apJacobian[start + stride + c]);
-                }
-            }
-        }
-        else
-        {
-            matNext.col(0).zero();
-            matNext.col(1).zero();
-            matNext.col(2).zero();
-        }
-        output[row].lower.transpose(matPrevious);
-        ChainMat product;
-        product.product(output[row].lower, upper);
-        output[row].diag = diag;
-        output[row].diag.sub(product);
-        for (int i = 0; i < 3; ++i)
-        {
-            float& value = output[row].diag(i, i);
-            value = chainMaximum(value, 1.1920929e-7f);
-        }
-        FUN_00cd55a0(reinterpret_cast<void*>(&output[row].diag));
-        output[row].upper.product(output[row].diag, matNext);
-        matPrevious = matNext;
-        upper = output[row].upper;
-    }
-}
 volatile int probe_count;
 volatile float probe_cfm;
 ProbeJac* volatile probe_jac;
 ProbeOffset* volatile probe_offsets;
 const ChainBody* volatile probe_bodies;
 ProbeRow* volatile probe_rows;
-void native_entry()
-{
-    FUN_00dd0660(probe_count, probe_cfm, probe_jac, probe_offsets, probe_bodies, probe_rows, 0);
-}

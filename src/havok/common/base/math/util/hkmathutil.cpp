@@ -101,7 +101,7 @@ struct V4
 
 struct __declspec(align(16)) TB
 {
-    void FUN_00924b40(const void* p);
+    void hkRotation_set(const void* p);
     V4 r0;
     V4 r1;
     V4 r2;
@@ -146,6 +146,8 @@ struct TNode
     void FUN_00959ee0(TB* t);
 };
 
+// pdb: bhkRagdollController::bhkRagdollPoweredConstraintController::driveToPose | bhkRagdollController.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkaRagdollPoweredConstraintController::driveToPose)
+// pdb params: ragdoll, desiredPose
 void FUN_00c7a410(S_c7a410_Obj* obj, char* apBuffer)
 {
     int iCount = obj->unk2c->unk10;
@@ -165,7 +167,7 @@ void FUN_00c7a410(S_c7a410_Obj* obj, char* apBuffer)
         case 7:
         {
             TB tTransform;
-            tTransform.FUN_00924b40(apBuffer + 0x10 + iIndex * 0x30);
+            tTransform.hkRotation_set(apBuffer + 0x10 + iIndex * 0x30);
             p->FUN_00959ee0(&tTransform);
             break;
         }

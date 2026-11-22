@@ -3,6 +3,7 @@
 #include "geometrydecalshader_decls.h"
 
 // @fnv 0x00bcbf00
+// pdb: GeometryDecalShader::GeometryDecalShader | GeometryDecalShader.obj | fnv360_0822_retail, call_gap, medium
 GeometryDecalShader::GeometryDecalShader()
 {
     m_iPassId = 12;
@@ -16,6 +17,7 @@ GeometryDecalShader::GeometryDecalShader()
 
 // Lazily creates two NiD3DShaderConstantMap objects, adds shader constants to them, and stores the resulting entries in m_pkPass0/1/2.
 // @fnv 0x00bcc2b0
+// pdb: GeometryDecalShader::CreateConstantMaps | GeometryDecalShader.obj | fnv360_0822_retail, ustr, medium
 void GeometryDecalShader::UpdateShaderConstants()
 {
     if (!m_spFirstShaderConstantMap.m_pObject)
@@ -47,11 +49,12 @@ extern NiGPUProgram* DAT_012021e4;
 
 struct FUN_00bcbc90_shell
 {
-    NiGPUProgram* FUN_00bcbc90(void* obj, void* extra);
+    NiGPUProgram* GeometryDecalShader_GetShaderDecl(void* obj, void* extra);
 };
 
 // @fnv 0x00bcbc90
-NiGPUProgram* __thiscall FUN_00bcbc90_shell::FUN_00bcbc90(void* obj, void* extra)
+// pdb: GeometryDecalShader::GetShaderDecl | GeometryDecalShader.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+NiGPUProgram* __thiscall FUN_00bcbc90_shell::GeometryDecalShader_GetShaderDecl(void* obj, void* extra)
 {
     return *(NiGPUProgram**)((char*)obj + 0xbc) ? DAT_012021e4 : DAT_012021e0;
 }
@@ -66,6 +69,7 @@ struct FUN_00bcbc70_shell : public GeometryDecalShader
 };
 
 // @fnv 0x00bcbc70
+// pdb: GeometryDecalShader::ReloadShaders | GeometryDecalShader.obj | fnv360_0822_retail, objrun, medium
 void __thiscall FUN_00bcbc70_shell::FUN_00bcbc70()
 {
     CreateDecalShaders();
@@ -84,6 +88,7 @@ struct FUN_00bcc070_shell
 };
 // Calls FUN_00bcb210 on this, frees this with _delete when bit 0 of a is set, and returns this.
 // @fnv 0x00bcc070
+// pdb: TileShader::`scalar deleting destructor' | TileShader.obj | fnv360_0721_beta, objopen_prop, low
 void* FUN_00bcc070_shell::DestroyIfFlagged(unsigned int a)
 {
     ((FUN_00bcb210_shell*)this)->FUN_00bcb210();
@@ -123,6 +128,7 @@ inline void AssignRef(PassReference& dst, const PassReference& src)
 }
 
 // @fnv 0x00bcb4d0
+// pdb: GeometryDecalShader::LoadShaders | GeometryDecalShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bcb4d0_shell::CreateDecalShaders()
 {
     char pTempFileName[260];
@@ -329,6 +335,7 @@ struct DecalCls : public BSShader
 
 // Configures both passes: builds stage data when f18 < 2, assigns vertex/pixel shaders, and sets map constants via SetNodeValue.
 // @fnv 0x00bcb7f0
+// pdb: GeometryDecalShader::PresetPasses | GeometryDecalShader.obj | fnv360_0822_retail, objrun, medium
 void DecalCls::FUN_00bcb7f0()
 {
     PtrPass spRenderPass;
@@ -461,7 +468,10 @@ extern GlobalRendererState* DAT_0126f74c;
 
 // Copies the shader parameter at apInput->unk0c->unk7c into the pass's unk08 field, then calls ShutdownPools_Ex(false) on that pass.
 // @fnv 0x00bcbcb0
-void __stdcall ApplyShaderInputToPass(ShaderInput* apInput)
+// pdb: GeometryDecalShader::SetupGeometryTextures | GeometryDecalShader.obj | fnv360_0822_retail, objrun, high
+// pdb params: apState
+// pdb: GeometryDecalShader::SetupGeometryTextures | GeometryDecalShader.obj | fnv360_0822_retail, objrun, high (was: ApplyShaderInputToPass)
+void __stdcall GeometryDecalShader_SetupGeometryTextures(ShaderInput* apInput)
 {
     NiD3DPass_Ex* pPass = DAT_0126f74c->unk24->unk04;
     pPass->unk08 = apInput->unk0c->unk7c;
@@ -613,6 +623,7 @@ inline void SetProgram(NiGPUProgram*& destination, NiGPUProgram* object)
 }
 // Builds two GPU programs with entry points, creates a GeometryDecalShader, initializes its passes, and binds the first program.
 // @fnv 0x00bcc0a0
+// pdb: GeometryDecalShader::CreateShader | GeometryDecalShader.obj | fnv360_0822_retail, call_gap, medium
 GeometryDecalShader* __cdecl CreateGeometryDecalShader()
 {
     SetProgram(DAT_012021e0, FUN_00e76700(DAT_011f9508, 2, 1));
@@ -880,6 +891,8 @@ inline void fx_dispatch5c(Fx_Hook* h, Fx_Mgr* m, int l, int e, Fx_Param* a0, int
 }
 // Runs the sub-object, sets a global color from s->unkc0, stores 1-pow10(unkbc) and unk28, then dispatches hooks unk30 and unk34.
 // @fnv 0x00bcbce0
+// pdb: GeometryDecalShader::SetupGeometryConstants | GeometryDecalShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apState
 void Fx_Self::UpdateColorAndPower(Fx_Param* apParam)
 {
     Fx_Mgr* m = *DAT_011f91e0;

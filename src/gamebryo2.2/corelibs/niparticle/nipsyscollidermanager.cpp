@@ -2,14 +2,6 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsyscollidermanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsyscollidermanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* g_01202780;
-
-// @fnv 0x00c2d540
-void* __cdecl FUN_00c2d540()
-{
-    return &g_01202780;
-}
-
 struct NiPSysPositionModifier
 {
     void* vfn[6];
@@ -89,6 +81,7 @@ struct NiPSysColliderManager : NiPSysModifier
 };
 // Clones the modifier and, if a collider is set, clones it into pkDest, releasing the old collider and incrementing the clone's ref count.
 // @fnv 0x00c2d3b0
+// pdb: NiPSysColliderManager::CopyMembers | NiPSysColliderManager.obj | tesv_win, caller_sim, low
 void NiPSysColliderManager::CloneCollider(NiPSysColliderManager* pkDest, CloningProcess& kCloning)
 {
     NiPSysModifier::CopyMemberData(pkDest, kCloning);
@@ -151,6 +144,8 @@ struct NiPSysColliderManager : NiPSysModifier
 };
 // Calls the base modifier's ProcessClone, then forwards the clone request to the collider if one is set.
 // @fnv 0x00c2d410
+// pdb: NiPSysColliderManager::ProcessClone | NiPSysColliderManager.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: kCloning
 void NiPSysColliderManager::FUN_00c2d410(CloningProcess& kCloning)
 {
     NiPSysModifier::ProcessClone(kCloning);
@@ -185,6 +180,8 @@ struct NiPSysColliderManager : NiPSysModifier
 };
 // Links the modifier to the stream: calls NiPSysModifier::LinkObject, then swaps the referenced NiObject with refcount decrement/increment.
 // @fnv 0x00c2d440
+// pdb: NiPSysColliderManager::LinkObject | NiPSysColliderManager.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kStream
 void NiPSysColliderManager::FUN_00c2d440(NiStream& kStream)
 {
     NiPSysModifier::LinkObject(kStream);
@@ -285,6 +282,8 @@ struct NiPSysColliderManager : NiPSysModifier
     void FUN_00c2d4d0(NiStream&);
 };
 // @fnv 0x00c2d4d0
+// pdb: NiPSysColliderManager::SaveBinary | NiPSysColliderManager.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: kStream
 void NiPSysColliderManager::FUN_00c2d4d0(NiStream& kStream)
 {
     NiPSysModifier::FUN_00c31950(kStream);
@@ -339,7 +338,6 @@ struct StrArr
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
-char* __cdecl _FUN_00a7d330(void*);
 struct NiPSysCollider
 {
     virtual void f0();
@@ -378,17 +376,6 @@ struct NiPSysColliderManager : BaseMod
     NiPSysCollider* m_pFirstCollider;
     void FUN_00c2d630(StrArr*);
 };
-// @fnv 0x00c2d630
-void NiPSysColliderManager::FUN_00c2d630(StrArr* pkStrings)
-{
-    BaseMod::FUN_00c319e0(pkStrings);
-    char* pcString = _FUN_00a7d330(g_01202780);
-    unsigned int uiSize = pkStrings->_a;
-    if (uiSize >= pkStrings->_8)
-        pkStrings->SetSize(uiSize + pkStrings->_e);
-    pkStrings->SetAt(uiSize, pcString);
-    m_pFirstCollider->GetViewerStrings(pkStrings);
-}
 }  // namespace fnv_00c2d630
 
 struct Owner
@@ -497,6 +484,8 @@ struct FUN_00c2d300_cls
     void UpdateItems(float t, Data* d);
 };
 // @fnv 0x00c2d300
+// pdb: NiPSysColliderManager::Update | NiPSysColliderManager.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: fTime, pkData
 void FUN_00c2d300_cls::UpdateItems(float t, Data* d)
 {
     Ctl* pCtl = m_pCtl;
@@ -532,6 +521,7 @@ struct FUN_00c2d550_cls
 
 // Allocates and constructs a NiPSysPositionModifier, initializes its vtable and m_0x18, then passes it to CloneCollider with cp and returns it.
 // @fnv 0x00c2d550
+// pdb: NiPSysBoundUpdateModifier::CreateObject | NiPSysBoundUpdateModifier.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: NiPSysColliderManager::CreateClone)
 NiPSysPositionModifier* FUN_00c2d550_cls::CreatePositionModifier(CloningProcess& cp)
 {
     NiPSysPositionModifier* pkNew = (NiPSysPositionModifier*)NiPSysPositionModifier::operator new(0x1c);
@@ -585,6 +575,8 @@ struct FUN_00c2d4f0_cls : NiPSysColliderManager
 };
 
 // @fnv 0x00c2d4f0
+// pdb: NiPSysColliderManager::IsEqual | NiPSysColliderManager.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkObject
 bool FUN_00c2d4f0_cls::IsCompatibleWith(NiObject* other)
 {
     if (!FUN_00c31830(other))

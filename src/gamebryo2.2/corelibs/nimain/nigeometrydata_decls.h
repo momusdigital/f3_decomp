@@ -96,8 +96,8 @@ class NiAdditionalGeometryData : public NiObject
     virtual unsigned int GetDataStreamCount() const;
     virtual void* GetDataStream(unsigned int uiIndex);
     virtual bool IsDataStreamValid(unsigned int uiIndex) const;
-    void* FUN_00a72590(unsigned int, unsigned int*);
-    void* FUN_00a725d0(unsigned int);
+    void* NiAdditionalGeometryData_LockDataBlock(unsigned int, unsigned int*);
+    void* NiAdditionalGeometryData_UnlockDataBlock(unsigned int);
     virtual bool IsPacked() const;  // slot 35
 };
 
@@ -140,10 +140,10 @@ class NiGeometryData : public NiObject
         TEXTURE_SET_MASK = 1
     };
 
-    void SetDataConsistency(Consistency eConsistency);
-    void SetDirtyFlags(unsigned int uiDirtyFlags);
+    void SetConsistency(Consistency eConsistency);
+    void MarkAsChanged(unsigned int uiDirtyFlags);
     void SetCompressFlags(unsigned char ucCompressFlags);
-    bool IsGeometryDataStreamable(bool bWrite);
+    bool LockPackedVertexData(bool bWrite);
     virtual void LinkObject(NiStream& kStream);
     virtual bool RegisterStreamables(NiStream& kStream);
 

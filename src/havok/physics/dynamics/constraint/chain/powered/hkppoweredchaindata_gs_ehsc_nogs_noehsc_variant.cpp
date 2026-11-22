@@ -6,33 +6,6 @@
 // src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpPoweredChainData.h"
-struct FUN_00e3b720_s
-{
-    int pad0[3];
-    int m_iElementCount;  // +0xc
-    int pad1[3];
-    int m_uiItemCount;  // +0x1c
-    void FUN_00e3b720(int* info) const;
-};
-struct FUN_00e3b7d0_first
-{
-    int pad[7];
-    int count;
-};
-struct FUN_00e3b7d0_second
-{
-    int pad[7];
-    unsigned char* data;
-};
-struct FUN_00e3b7d0_object
-{
-    int pad0[3];
-    FUN_00e3b7d0_first* first;
-    int pad1[8];
-    FUN_00e3b7d0_second* second;
-};
-void FUN_00e3b7d0(FUN_00e3b7d0_object* object, int index, int bit);
-int __cdecl FUN_00e3b670();
 class hkRefObjE3B8
 {
   public:
@@ -71,22 +44,6 @@ template <typename T> struct hkArrayE3B8
     int m_iCapacityState;
     hkArrayE3B8() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
-};
-class FUN_00e3b8f0 : public hkBaseE3B8
-{
-  public:
-    FUN_00d21ce0_cls m_link;
-    hkArrayE3B8<void*> m_items;
-    float m_24;
-    float m_28;
-    float m_2c;
-    float m_30;
-    float m_34;
-    float m_38;
-    float m_3c;
-
-    FUN_00e3b8f0() throw();
-    virtual ~FUN_00e3b8f0() throw();
 };
 class FUN_00e3b9a0
 {
@@ -132,44 +89,7 @@ class hkObje3c210 : public FUN_00e3b9a0
 #include <xmmintrin.h>
 __declspec(align(16)) extern const float DAT_010c44d0[4];
 
-struct Vec4
-{
-    __m128 m_vComponents;
-};
-
-// @fnv 0x00e3b680
-static __declspec(noinline) void FUN_00e3b680(const Vec4& b, const Vec4& a, Vec4& r)
-{
-    {
-        __m128 v1 = a.m_vComponents;
-        __m128 v2 = b.m_vComponents;
-        __m128 c0 = _mm_mul_ps(_mm_shuffle_ps(v2, v2, 0xc9), _mm_shuffle_ps(v1, v1, 0xd2));
-        __m128 c1 = _mm_mul_ps(_mm_shuffle_ps(v2, v2, 0xd2), _mm_shuffle_ps(v1, v1, 0xc9));
-        r.m_vComponents = _mm_sub_ps(c0, c1);
-    }
-    {
-        __m128 aw = _mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xff);
-        aw = _mm_shuffle_ps(aw, aw, 0);
-        r.m_vComponents = _mm_add_ps(r.m_vComponents, _mm_mul_ps(aw, b.m_vComponents));
-    }
-    {
-        __m128 bw = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xff);
-        bw = _mm_shuffle_ps(bw, bw, 0);
-        r.m_vComponents = _mm_sub_ps(r.m_vComponents, _mm_mul_ps(bw, a.m_vComponents));
-    }
-    r.m_vComponents = _mm_add_ps(r.m_vComponents, r.m_vComponents);
-    __m128 p = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
-    __m128 q = _mm_add_ps(_mm_shuffle_ps(p, p, 0x4e), p);
-    __m128 w = _mm_add_ps(_mm_shuffle_ps(q, q, 0xb1), q);
-    if (_mm_movemask_ps(w) & 1)
-        r.m_vComponents = _mm_xor_ps(r.m_vComponents, *(const __m128*)DAT_010c44d0);
-}
-
 volatile int g_a, g_b, g_r;
-void caller_e3b680()
-{
-    FUN_00e3b680(*(Vec4*)g_b, *(Vec4*)g_a, *(Vec4*)g_r);
-}
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -188,7 +108,6 @@ struct Vector
     void FUN_00cb26e0(const hkRotation*);
     void FUN_00c66320(const Vector*, const Vector*);
 };
-extern const __m128 DAT_010c4c00;
 struct Rotation
 {
     Vector col[3];
@@ -259,10 +178,6 @@ struct MotorOutput
 {
     float a, b, c, d, e, f;
 };
-struct AngularResult
-{
-    float currentVelocity, zeroA, zeroB;
-};
 struct ChainMatrix
 {
     unsigned char status;
@@ -289,20 +204,10 @@ struct MemoryAllocator
     virtual void f3();
     virtual void freeBlock(void*, int);
 };
-struct MemoryRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    MemoryAllocator* heap;
-};
 void __cdecl FUN_00c908c0(MemoryAllocator*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 extern "C" void __cdecl AppendEventRecord(const QueryInput*, QueryOutput*, char*, int);
-char* __cdecl FUN_00dd13d0(char*);
 char* __cdecl FUN_00dd13e0(char*, int);
-void __cdecl FUN_00dcee70(QueryInput*);
-void __cdecl FUN_00dcfc00(Vector*, Vector*, float, QueryInput*, char*);
-void __cdecl FUN_00d6cd70(Vector*, QueryInput*, char*, float*);
-void __cdecl FUN_00dcfff0(void*, MotorInput*, MotorOutput*);
 void __cdecl WriteInputHeader(BuildInfo*, const QueryInput*, QueryOutput*);
 struct Entity
 {
@@ -473,7 +378,7 @@ struct PoweredChain : hkpPoweredChainData
     {
         return reinterpret_cast<ConstraintInfo*>(m_pConstraintInfo.m_data)[i];
     }
-    void FUN_00e3ba40(const QueryInput&, QueryOutput&);
+    void hkpPoweredChainData_buildJacobian(const QueryInput&, QueryOutput&);
 };
 // @f3 0x00a71810 (community match, verified in this file)
 struct QueryOutput;
@@ -490,7 +395,7 @@ struct F3ChainQuaternion {
 };
 struct F3ChainRotation {
  F3ChainQuaternion col[3];
- void FUN_00924b40(const F3ChainQuaternion*);
+ void hkRotation_set(const F3ChainQuaternion*);
 };
 struct F3ChainTransform { F3ChainRotation rotation; F3ChainQuaternion translation; };
 struct F3ConstraintInfo {
@@ -628,7 +533,8 @@ static __declspec(noinline) void FUN_00a71350(const F3ChainQuaternion& b, const 
     float dot=(float)(b.x*a.x+b.y*a.y+b.z*a.z+b.w*a.w);
     if(dot<0.0f) {out.x=-out.x;out.y=-out.y;out.z=-out.z;out.w=-out.w;}
 }
-void PoweredChain::FUN_00e3ba40(const QueryInput& rawInput, QueryOutput& output)
+// pdb: hkpPoweredChainData::buildJacobian | hkpPoweredChainData.obj | fnv360_0822_retail, objrun + bridge(caller_sim|vtable) + skyrim(caller_sim), high
+void PoweredChain::hkpPoweredChainData_buildJacobian(const QueryInput& rawInput, QueryOutput& output)
 {
     const F3QueryInput& input=reinterpret_cast<const F3QueryInput&>(rawInput);
     char* eventRuntime = input.runtime;
@@ -701,7 +607,7 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& rawInput, QueryOutput& output)
             oldError.x=-oldError.x; oldError.y=-oldError.y; oldError.z=-oldError.z;
         }
         F3ChainRotation axes;
-        axes.FUN_00924b40(&rotationB);
+        axes.hkRotation_set(&rotationB);
         for (int axis = 0; axis < 3; ++axis)
         {
             F3ChainQuaternion direction = axes.col[axis];

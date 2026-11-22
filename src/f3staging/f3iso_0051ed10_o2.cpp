@@ -16,6 +16,8 @@ struct QuitGameState
 extern QuitGameState* DAT_0107a0d4;
 extern void __cdecl FUN_006195d0(const char* format, ...);
 
+// pdb: Script::SaveIniFiles | TESScriptFunctions.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: apParameters, apCompiledParams, apRefObject, apContainer, apScript, apScriptLocals, afReturnValue, auiOffset
 bool __cdecl FUN_0051ed10(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*,
                            Script*, ScriptLocals*, double&, unsigned int&)
 {

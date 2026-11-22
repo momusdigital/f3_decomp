@@ -2279,6 +2279,7 @@ void FUN_00cf1930()
     DAT_0107916c = FUN_008a4550();
 }
 
+// pdb: `anonymous namespace'::`dynamic initializer for 'SpeechLock'' | TESAudio.obj | tesv_win, objrun_open, low
 void FUN_00cf1940()
 {
     DAT_010791b0 = FUN_008a48e0();

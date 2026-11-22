@@ -2,12 +2,16 @@
 #include "f3_common.h"
 #include "niskinpartition_decls.h"
 // @fnv 0x00d47a40
+// pdb: hkClass::setObjectSize | hkClass.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: size
 void NiAccumulator::SetSortingCamera(const NiCamera* camera)
 {
     m_pkAccumulationCamera = camera;
 }
 // Sums the strip lengths in m_pusStripLengths over m_usStrips entries and returns the total.
 // @fnv 0x00a81c20
+// pdb: NiTSet<NiSkinPartition::BoneSet *,NiTMallocInterface<NiSkinPartition::BoneSet *> >::ReplaceAt | NiSkinPartition.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: uiIndex, element
 unsigned int NiSkinPartition::Partition::GetStripIndexCount()
 {
     unsigned int sum = 0;
@@ -19,12 +23,14 @@ unsigned int NiSkinPartition::Partition::GetStripIndexCount()
 const void* g_011f5b1c;
 
 // @fnv 0x00a820d0
-const void* __cdecl FUN_00a820d0()
+// pdb: NiDirectionalLight::GetRTTI | NiDirectionalLight.obj | fnv360_0721_retail, objrun + bridge(vtable|objopen_prop) + skyrim(objrun_open), high
+const void* __cdecl NiDirectionalLight_GetRTTI()
 {
     return &g_011f5b1c;
 }
 
 // @fnv 0x00a82600
+// pdb: NiTMapBase<class NiTPointerAllocator<unsigned int>,unsigned int,float>::SetValue | NiSkinPartition.obj | tesv_win, vtable, medium
 void __stdcall FUN_00a82600(int pTarget, int b, float c)
 {
     *(float*)(pTarget + 8) = c;
@@ -39,6 +45,8 @@ struct Holder
     bool ContainsSortedSubset(const Holder* pkOther);
 };
 // @fnv 0x00a82190
+// pdb: NiSkinPartition::VertexInteractions::RemoveBone | NiSkinPartition.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiSkinPartition::BoneSet::Contains)
+// pdb params: uiBone
 bool Holder::ContainsSortedSubset(const Holder* pkOther)
 {
     unsigned int uiSrc = 0;
@@ -77,6 +85,7 @@ struct S : NiRefObject
     void __thiscall FUN_00a824d0();
 };
 // @fnv 0x00a824d0
+// pdb: NiSkinPartition::~NiSkinPartition | NiSkinPartition.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: NiSkinPartition::Partition::CreateTriangleList)
 void __thiscall S::FUN_00a824d0()
 {
     *(void**)this = (void*)&DAT_0109e47c;
@@ -115,6 +124,7 @@ struct LockValue
 extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, LockValue);
 extern unsigned int DAT_0106e5a4;
 
+// pdb: NiTPointerMap<unsigned int,float>::DeleteItem | NiSkinPartition.obj | tesv_win, vtable, medium
 void __stdcall PoolFreeUIntNode(void* apNode)
 {
     *(float*)((char*)apNode + 8) = 0.0f;
@@ -150,6 +160,7 @@ struct S0082670
 };
 // Sets the vtable, removes all map entries, frees the pointer at offset 8, and deallocates this when f has bit 0 set.
 // @fnv 0x00a82670
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned short,AnimSequenceBase *>::`scalar deleting destructor' | Animation.obj | fnv360_0822_retail, vtable, medium
 void* S0082670::Destroy(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_0109e50c;
@@ -173,6 +184,8 @@ struct FUN_00a82710_shell
 };
 
 // @fnv 0x00a82710
+// pdb: NiTSet<unsigned short,NiTMallocInterface<unsigned short> >::Realloc | NiSkinPartition.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiNewSize
 void FUN_00a82710_shell::FUN_00a82710(unsigned int n)
 {
     if (n != m_iElementCount)
@@ -200,6 +213,8 @@ struct FUN_00a82890_shell
 
 // Calls ContainsAllValues on three offsets into b taken from a, returning 0 if any call fails and 1 otherwise.
 // @fnv 0x00a82890
+// pdb: NiSkinPartition::BoneSet::ContainsVertex | NiSkinPartition.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiSkinPartition::BoneSet::ContainsTriangle)
+// pdb params: kVertex
 char __thiscall FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const void* apBase)
 {
     for (unsigned int i = 0; i < 3; ++i)
@@ -216,6 +231,7 @@ struct FUN_00a82c70_holder
 };
 // Calls FUN_00a824d0, then deletes this with size 0x10 when bit 0 of a is set, and returns this.
 // @fnv 0x00a82c70
+// pdb: bhkAction::`scalar deleting destructor' | GlobalFunc.obj | fnv360_0822_retail, vtable_prefix, high
 void* FUN_00a82c70_holder::DestroyIfFlagged(unsigned int auiFlags)
 {
     FUN_00a824d0();
@@ -262,11 +278,14 @@ struct C082d30
     unsigned int f4;
     unsigned int f8;
     void FUN_00a82710(unsigned int);
-    void AppendMatchingIndices(int, int*, unsigned int);
+    void NiSkinPartition_TriangleSet_AddTriangles(int, int*, unsigned int);
 };
 // Scans the first c entries of b and appends the index of each entry equal to a to f0, growing the buffer via FUN_00a82710 when full.
 // @fnv 0x00a82d30
-void C082d30::AppendMatchingIndices(int aiValue, int* paiValues, unsigned int c)
+// pdb: NiSkinPartition::TriangleSet::AddTriangles | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: uiPartition, puiTriangleToPartition, uiTriangles
+// pdb: NiSkinPartition::TriangleSet::AddTriangles | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high (was: AppendMatchingIndices)
+void C082d30::NiSkinPartition_TriangleSet_AddTriangles(int aiValue, int* paiValues, unsigned int c)
 {
     for (unsigned int i = 0; i < c; ++i)
     {
@@ -299,13 +318,15 @@ struct MyCls
     int _40;
     int _44;
     void _Call_a5d3a0();
-    void FUN_00a853c0(int);
+    void NiSkinData_ComputeBoneBounds(int);
     MyCls* InitFromData(int, int, const Dummy13&, int);
 };
 extern int DAT_0109e574;
-int __cdecl FUN_00a853c0();
-// Initialises the object: sets the vtable, clears _08, copies a3 into _0c, stores a2 and a1, then calls FUN_00a853c0(a4) and returns this.
+int __cdecl NiSkinData_ComputeBoneBounds();
+// Initialises the object: sets the vtable, clears _08, copies a3 into _0c, stores a2 and a1, then calls NiSkinData_ComputeBoneBounds(a4) and returns this.
 // @fnv 0x00a854c0
+// pdb: NiSkinData::NiSkinData | NiSkinData.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: uiBones, pkBoneData, kRootParentToSkin, pkVerts
 MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, int a4)
 {
     _Call_a5d3a0();
@@ -314,7 +335,7 @@ MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, int a4)
     _0c = aData;
     _40 = a2;
     _44 = a1;
-    FUN_00a853c0(a4);
+    NiSkinData_ComputeBoneBounds(a4);
     return this;
 }
 
@@ -330,6 +351,8 @@ struct FUN_00a826b0_shell
 };
 
 // @fnv 0x00a826b0
+// pdb: NiTSet<NiSkinPartition::Interaction,NiTMallocInterface<NiSkinPartition::Interaction> >::Realloc | NiSkinPartition.obj | fnv360_0822_retail, call_gap, medium, conflict (bridge: NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,float>::`scalar deleting destructor')
+// pdb params: uiNewSize
 void FUN_00a826b0_shell::FUN_00a826b0(unsigned int n)
 {
     if (n == m_uiItemCount)
@@ -387,6 +410,7 @@ struct FUN_00a81ff0_cls
 };
 
 // @fnv 0x00a81ff0
+// pdb: NiSkinPartition::IsEqual | NiSkinPartition.obj | tesv_win, caller_sim, low
 bool FUN_00a81ff0_cls::Equals(const FUN_00a81ff0_cls* other)
 {
     if (!IsSameAs(other))
@@ -442,6 +466,7 @@ S_00a82050_Base::~S_00a82050_Base()
 
 // Looks up the node matching iArg in the bucket at GetIndex(iArg) and sets its fValue to fArg, or inserts a new node at the bucket head and increments uCount.
 // @fnv 0x00a82050
+// pdb: NiTMapBase<class NiTPointerAllocator<unsigned int>,unsigned int,float>::SetAt | NiSkinPartition.obj | tesv_win, call_seq, medium
 void __thiscall S_00a82050_Class::FUN_00a82050(int aiKey, float afValue)
 {
     int iIndex;
@@ -522,6 +547,8 @@ struct FNV_This_821f0
 
 // Returns 0 if any usVal in pArg's array is not found in m_pusData via binary search, otherwise 1.
 // @fnv 0x00a821f0
+// pdb: NiSkinPartition::BoneSet::ContainsVertex | NiSkinPartition.obj | fnv360_0721_beta, caller_sim, low, conflict (bridge: NiSkinPartition::BoneSet::Contains)
+// pdb params: kVertex
 char __thiscall FNV_This_821f0::ContainsAllValues(FNV_Arg_821f0* pArg)
 {
     // The scratch slot that is handed to the search helper is address-taken, so
@@ -612,6 +639,8 @@ struct PartitionEx : NiSkinPartition::Partition
 
 // Builds an old-to-new vertex remap table from the partition's triangles, allocates the inverse new-to-old table, and stores the new vertex count.
 // @fnv 0x00a822d0
+// pdb: NiSkinPartition::Partition::CreateVertexMap | NiSkinPartition.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: NiSkinPartition::BoneSetMerger::GetNext)
+// pdb params: kTriangles, pkTriData
 unsigned short* PartitionEx::BuildVertexRemapTable(const TriIndexList& kTriangles, const GeomData* pkData)
 {
     unsigned short* pusOldToNew;
@@ -674,6 +703,8 @@ struct WeightedMap
 };
 // For each of three group indices, inserts each entry's key and weight into the map only if the key is absent or its stored weight is lower.
 // @fnv 0x00a82530
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,float>::GetNext | NiSkinPartition.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: NiSkinPartition::MakeBoneMap)
+// pdb params: pos, key, val
 void __stdcall MergeGroupWeights(WeightedMap* map, const unsigned short* groupIndices, EntryGroup* __restrict groups)
 {
     for (unsigned int groupIndex = 0; groupIndex < 3; ++groupIndex)
@@ -710,7 +741,10 @@ struct ItemSet
 
 // Scans the item set for an entry whose flags byte equals key and whose FUN_00a82890 check succeeds, marking it and returning its index, or -1 if none match.
 // @fnv 0x00a82c90
-int __cdecl FindMatchingItem(ItemSet* pItemSet, const unsigned short* a2, const void* a3, unsigned char* flags,
+// pdb: NiSkinPartition::AssignTriangle | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: kBoneSets, pusTriangle, pkVertexInteraction, pbAssigned, bAssign
+// pdb: NiSkinPartition::AssignTriangle | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high (was: FindMatchingItem)
+int __cdecl NiSkinPartition_AssignTriangle(ItemSet* pItemSet, const unsigned short* a2, const void* a3, unsigned char* flags,
                              unsigned char key)
 {
     for (unsigned int i = 0; i < pItemSet->m_uiItemCount; ++i)
@@ -740,6 +774,7 @@ struct FUN_00a833a0_cls
 };
 
 // @fnv 0x00a833a0
+// pdb: Conversation::Conversation | Conversation.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiSkinPartition::VertexInteractions::VertexInteractions)
 FUN_00a833a0_cls::FUN_00a833a0_cls()
 {
     m_i00 = 0;
@@ -847,6 +882,7 @@ class CA82250MergeIterator
 
 // Returns the smaller of the two cached values, advancing the corresponding index array and refreshing the cached values.
 // @fnv 0x00a82250
+// pdb: NiSkinPartition::BoneSetMerger::GetNext | NiSkinPartition.obj | fnv360_0822_retail, call_gap, medium, conflict (bridge: NiSkinPartition::BoneSet::ContainsVertex)
 unsigned int CA82250MergeIterator::GetNext()
 {
     if (m_usSecond < m_usFirst)
@@ -940,6 +976,8 @@ class A2400Partition
 
 // Allocates a triangle index list and fills it by fetching each triangle from the source and remapping its three indices through pusRemap.
 // @fnv 0x00a82400
+// pdb: NiSkinPartition::Partition::CreateTriangleList | NiSkinPartition.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: NiSkinPartition::Partition::CreateVertexMap)
+// pdb params: kTriangles, pkTriData, pusVertexPartitionIndex
 void A2400Partition::BuildTriangleList(A2400TriangleSet* pkSet, A2400Source* pkSource, unsigned short* pusRemap)
 {
     m_pusTriList = (unsigned short*)NiMalloc(m_usTriangles * 3 * sizeof(unsigned short));
@@ -1095,18 +1133,21 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(unsigned int, SkinItems*) throw();
-    bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
+    __declspec(nothrow) void NiSkinPartition_CreateInitialBoneSets(SkinGeom*, void*, SkinItems*, int*) throw();
+    __declspec(nothrow) void NiSkinPartition_MergeBoneSets(unsigned int, SkinItems*) throw();
+    bool NiSkinPartition_MakeBoneSets(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 // Builds a per-triangle set index mapping from group IDs or weights, compacts unused sets, and returns false if a triangle's vertices span three distinct groups.
 // @fnv 0x00a84310
-bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned int input, void* weights,
+// pdb: NiSkinPartition::MakeBoneSets | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: pkTriData, pkSkinData, ucBonesPerPartition, pkVertexInteraction, kBoneSets, puiTriangleToPartition, apWArray
+// pdb: NiSkinPartition::MakeBoneSets | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high (was: BuildTriangleSetMapping)
+bool SkinBuilder::NiSkinPartition_MakeBoneSets(SkinGeom* geom, void* unused, unsigned int input, void* weights,
                                           SkinItems* sets, int** mapping, int* groupIDs) throw()
 {
     unsigned int triangles = geom->triangleCount;
-    BuildBoneLODControllerSets(geom, weights, sets, groupIDs);
-    FUN_00a839d0(input, sets);
+    NiSkinPartition_CreateInitialBoneSets(geom, weights, sets, groupIDs);
+    NiSkinPartition_MergeBoneSets(input, sets);
     *mapping = (int*)NiMalloc(triangles * sizeof(int));
     unsigned int setCount = sets->count;
     unsigned char* pUsedFlags = (unsigned char*)NiMalloc(setCount);
@@ -1156,9 +1197,9 @@ bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned
                 (*mapping)[tri] = -1;
             else
             {
-                int selected = FindMatchingItem((ItemSet*)sets, indices, weights, pUsedFlags, 1);
+                int selected = NiSkinPartition_AssignTriangle((ItemSet*)sets, indices, weights, pUsedFlags, 1);
                 if (selected < 0)
-                    selected = FindMatchingItem((ItemSet*)sets, indices, weights, pUsedFlags, 0);
+                    selected = NiSkinPartition_AssignTriangle((ItemSet*)sets, indices, weights, pUsedFlags, 0);
                 (*mapping)[tri] = selected;
             }
         }
@@ -1264,6 +1305,8 @@ class SkinPartitionOwner : public SkinObjectBase
 
 // Appends the RTTI name and one line per partition listing its bone count to the viewer strings array.
 // @fnv 0x00a846e0
+// pdb: NiSkinPartition::GetViewerStrings | NiSkinPartition.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void SkinPartitionOwner::FUN_00a846e0(SkinViewerStrings* pkStrings)
 {
     SkinObjectBase::GetViewerStrings(pkStrings);
@@ -1332,6 +1375,8 @@ struct PartitionSave : NiSkinPartition::Partition
 };
 
 // @fnv 0x00a830d0
+// pdb: NiSkinPartition::Partition::SaveBinary | NiSkinPartition.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kStream
 void PartitionSave::WriteToStream(NiStreamFake& kStream)
 {
     SerializeValue(kStream, m_usVertices);
@@ -1405,7 +1450,7 @@ struct Skp_00a828d0_cls : NiSkinPartition::Partition
 {
     unsigned short* SplitTriangles(GeomData* pkData, void* pkSet);
     void ExpandTriangles(void* pkSet, void* pkSource, unsigned short* pusRemap);
-    void PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet, Skp_00a828d0_grp* pkGroups,
+    void NiSkinPartition_Partition_Create(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet, Skp_00a828d0_grp* pkGroups,
                           bool bWeights, bool bZeroPalette, unsigned char ucBonesPerVertex, unsigned int uiBones);
 };
 
@@ -1414,7 +1459,10 @@ void __cdecl FreeBlock(void* p);
 
 // Fills bone palette, vertex weights and bone indices from pkSrc and pkGroups, splitting and expanding triangles via SplitTriangles and ExpandTriangles.
 // @fnv 0x00a828d0
-void Skp_00a828d0_cls::PopulateSkinData(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet,
+// pdb: NiSkinPartition::Partition::Create | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: kTriangles, kBones, pkTriData, pkVertexInteraction, bNeedPalette, bForcePalette, ucBonesPerVertex, uiMaxBones
+// pdb: NiSkinPartition::Partition::Create | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high (was: PopulateSkinData)
+void Skp_00a828d0_cls::NiSkinPartition_Partition_Create(GeomData* pkData, Skp_00a828d0_src* pkSrc, void* pkSet,
                                         Skp_00a828d0_grp* pkGroups, bool bWeights, bool bZeroPalette,
                                         unsigned char ucBonesPerVertex, unsigned int uiBones)
 {
@@ -1712,6 +1760,8 @@ struct PartitionLoader : NiSkinPartition::Partition
 
 // Reads skin partition vertex, triangle, strip, weight and bone palette data from kStream, allocating buffers as needed.
 // @fnv 0x00a82d90
+// pdb: NiSkinPartition::Partition::LoadBinary | NiSkinPartition.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void PartitionLoader::FUN_00a82d90(NiStream& kStream)
 {
     ReadBinaryValue(kStream, &m_usVertices);
@@ -1856,6 +1906,8 @@ class SaverA83C : public FUN_00a89af0_helper
 
 // Calls FUN_00a89af0, reads m_uiCount, then calls WriteToStream on each element.
 // @fnv 0x00a83ce0
+// pdb: NiSkinPartition::SaveBinary | NiSkinPartition.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void SaverA83C::FUN_00a83ce0(NiStreamA83C& kStream)
 {
     FUN_00a89af0(kStream);
@@ -1878,6 +1930,7 @@ class NormalizedWeights
 };
 // Sums the entry weights and scales each by the reciprocal of that sum.
 // @fnv 0x00a820e0
+// pdb: NiSkinPartition::VertexInteractions::Unitize | NiSkinPartition.obj | fnv360_0822_retail, call_gap, high
 void NormalizedWeights::NormalizeWeights()
 {
     float sum = 0.0f;
@@ -2039,7 +2092,10 @@ struct NiStreamLinkIDSet
 };
 // Builds and deduplicates BoneLODControllerArray sets from mesh triangles and vertex bone weights, optionally remapping vertex indices.
 // @fnv 0x00a83d40
-void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
+// pdb: NiSkinPartition::CreateInitialBoneSets | NiSkinPartition.obj | fnv360_0822_retail, call_gap, high
+// pdb params: pkTriData, pkVertexInteraction, kBoneSets, apWArray
+// pdb: NiSkinPartition::CreateInitialBoneSets | NiSkinPartition.obj | fnv360_0822_retail, call_gap, high (was: BuildBoneLODControllerSets)
+void __stdcall NiSkinPartition_CreateInitialBoneSets(ScriptProgram* mesh, BoneWeights* weights,
                                           BoneArray<BoneLODControllerArray*>* sets, unsigned int* remap)
 {
     unsigned int triangleCount = mesh->triangles;
@@ -2181,6 +2237,8 @@ class CA82770MergeIterator
 
 // Iterates through the merged sequence of this and pkOther index arrays and returns the total number of elements visited.
 // @fnv 0x00a82770
+// pdb: NiSkinPartition::BoneSet::MergedSize | NiSkinPartition.obj | fnv360_0822_retail, call_gap, medium, conflict (bridge: NiTSet<unsigned short,NiTMallocInterface<unsigned short> >::Realloc)
+// pdb params: kThat
 unsigned int CA82770IndexArray::GetMergeCount(CA82770IndexArray* pkOther)
 {
     CA82770MergeIterator kIter(this, pkOther);
@@ -2215,6 +2273,8 @@ struct ListMergeIter
 
 // Appends values returned by kIter.Next to a new buffer, then replaces m_pusData and updates m_u4 and m_uiCount.
 // @fnv 0x00a827f0
+// pdb: NiSkinPartition::BoneSet::Merge | NiSkinPartition.obj | fnv360_0822_retail, call_gap, medium, conflict (bridge: NiSkinPartition::BoneSet::MergedSize)
+// pdb params: kThat
 void ListMerge::Merge(const ListMerge* pkOther)
 {
     ListMergeIter kIter;
@@ -2476,7 +2536,7 @@ struct Geometry
 struct Processor
 {
     __declspec(nothrow) void MergeGroupWeights(WeightMap*, const unsigned short*, Group*) throw();
-    bool ReduceGroupWeights(Geometry*, unsigned char, unsigned char, Group*);
+    bool NiSkinPartition_RemoveExcessInteractions(Geometry*, unsigned char, unsigned char, Group*);
 };
 
 struct State
@@ -2487,7 +2547,10 @@ struct State
 };
 // Limits bone weights per triangle and vertex by removing lowest-weight bones, returning false if a group becomes empty.
 // @fnv 0x00a833b0
-bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle, unsigned char maxVertex,
+// pdb: NiSkinPartition::RemoveExcessInteractions | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: pkTriData, ucBonesPerPartition, ucBonesPerVertex, pkVertexInteraction
+// pdb: NiSkinPartition::RemoveExcessInteractions | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, high (was: ReduceGroupWeights)
+bool Processor::NiSkinPartition_RemoveExcessInteractions(Geometry* geometry, unsigned char maxTriangle, unsigned char maxVertex,
                                    Group* groups)
 {
     State state;

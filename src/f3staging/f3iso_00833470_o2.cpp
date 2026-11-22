@@ -36,6 +36,8 @@ static __forceinline Item* NewItem()
     return item;
 }
 }
+// pdb: NiDynamicEffect::LinkObject | NiDynamicEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void NiDynamicEffect::FUN_00833470(NiStream& stream)
 {
     NiAVObject::FUN_00827480(stream);

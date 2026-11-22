@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/nitrishapedata.cpp: Obj, Blk, HolderA, HolderB and more (17 functions)
+// gamebryo2.2/corelibs/nimain/nitrishapedata.cpp: Obj, Blk, HolderA, HolderB and more (15 functions)
 #include "f3_common.h"
 #include "nitrishapedata_decls.h"
 
@@ -12,6 +12,7 @@ class NiMemObject
 
 // Calls FUN_00a7b8c0 on pThis, then frees pThis with NiMemObject::operator delete when flags has bit 1 set, and returns pThis.
 // @fnv 0x00a7b920
+// pdb: NiPSysVolumeEmitter::`scalar deleting destructor' | NiPSysVolumeEmitter.obj | fnv360_0822_retail, objrun, medium
 void* __fastcall FUN_00a7b920(void* pThis, int, unsigned int flags)
 {
     FUN_00a7b8c0(pThis);
@@ -32,6 +33,8 @@ struct FUN_00a7b6c0_T
 
 // Frees the previous c buffer if it differs from the new one, stores a and c, and sets b to a times 3.
 // @fnv 0x00a7b6c0
+// pdb: NiTriShapeData::Replace | NiTriShapeData.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: usTriangles, pusTriList
 void __fastcall FUN_00a7b6c0(FUN_00a7b6c0_T* self, int, unsigned short ausValue, unsigned short* apusBuffer)
 {
     if (apusBuffer != self->c && self->c)
@@ -50,6 +53,8 @@ struct FUN_00a7b700_T
 };
 
 // @fnv 0x00a7b700
+// pdb: NiTriShapeData::SetData | NiTriShapeData.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: usTriangles, pusTriList
 void __fastcall FUN_00a7b700(FUN_00a7b700_T* self, int, unsigned short ausValue, unsigned int auiValue)
 {
     self->a = ausValue;
@@ -65,6 +70,8 @@ struct FUN_00a7b720_T
 
 // Reads three consecutive unsigned shorts from self->c at offset i*3 and writes them to the three output pointers.
 // @fnv 0x00a7b720
+// pdb: NiTriShapeData::GetTriangleIndices | NiTriShapeData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: i, i0, i1, i2
 void __fastcall FUN_00a7b720(FUN_00a7b720_T* self, int, unsigned short i, unsigned short* i0, unsigned short* i1,
                              unsigned short* i2)
 {
@@ -83,6 +90,8 @@ struct FUN_00a7b760_T
 };
 
 // @fnv 0x00a7b760
+// pdb: NiTriShapeData::GetTriangleIndices | NiTriShapeData.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: NiTriShapeData::GetStripData)
+// pdb params: i, i0, i1, i2
 void __fastcall FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsigned int* p2, unsigned short** p3,
                              unsigned int* p4)
 {
@@ -93,12 +102,6 @@ void __fastcall FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsi
 }
 
 extern const char* const g_011f5af4_arg1;
-
-// @fnv 0x00a7b860
-const char* const* __fastcall FUN_00a7b860(void* self, int)
-{
-    return &g_011f5af4_arg1;
-}
 
 struct FUN_00a7b870_T
 {
@@ -140,6 +143,7 @@ struct MemoryManagerDeallocR
     Blk* Deallocate(void*);
 };
 
+// pdb: NiTriShapeData::SNAMemBlock::`scalar deleting destructor' | NiTriShapeData.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: NiTriShapeData::~NiTriShapeData)
 Blk* Blk::FreeBlock()
 {
     _NiFreeAlias(data);
@@ -247,6 +251,8 @@ struct Obj : Base1
 
 // Appends the base entry, a formatted m_uiTriListLength value and a formatted m_pusTriList pointer to the StrArr.
 // @fnv 0x00a7bd60
+// pdb: NiTriShapeData::GetViewerStrings | NiTriShapeData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Obj::AppendTriListInfo(StrArr* pStrArr)
 {
     AppendTrianglesInfo(pStrArr);
@@ -266,7 +272,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a7bbe0_shell : public NiTriShapeData
 {
-    void FUN_00a7bbe0(NiStream*);
+    void NiTriShapeData_SaveBinary(NiStream*);
 };
 
 struct BinStreamS
@@ -306,7 +312,8 @@ struct SharedNormalArrayS
 
 // Saves the triangle list length, its presence flag and data, then the shared-normal array sizes and entries to the stream.
 // @fnv 0x00a7bbe0
-void FUN_00a7bbe0_shell::FUN_00a7bbe0(NiStream* kStream)
+// pdb: NiTriShapeData::SaveBinary | NiTriShapeData.obj | fnv360_0822_retail, call_seq + bridge(vtable|call_seq) + skyrim(objopen_prop), high
+void FUN_00a7bbe0_shell::NiTriShapeData_SaveBinary(NiStream* kStream)
 {
     char* p = (char*)this;
     NiTriBasedGeomData::SaveBinary(*kStream);
@@ -342,7 +349,7 @@ struct NiTexture;
 struct NiThread;
 struct FUN_00a7b940_shell : public NiTriShapeData
 {
-    void FUN_00a7b940(NiStream*);
+    void NiTriShapeData_LoadBinary(NiStream*);
 };
 
 void* NiMalloc(unsigned int) throw();
@@ -400,9 +407,17 @@ struct IndexBufferBlock
     }
 };
 
+struct NiStream
+{
+    unsigned char unk000[0xd8];
+    unsigned int m_uiNifFileVersion;  // src: FNV360_PDB +0xD8
+    unsigned char unk0DC[0x24c - 0xdc];
+    NiBinaryStreamView* m_pkIstr;  // src: FNV360_PDB +0x24C
+};
+
 static inline NiBinaryStreamView* GetIstr(NiStream* kStream)
 {
-    return *(NiBinaryStreamView**)((char*)kStream + 0x24c);
+    return kStream->m_pkIstr;
 }
 
 inline unsigned int BinaryRead(NiBinaryStreamView& kStream, void* pvBuffer, unsigned int uiTotalBytes,
@@ -427,41 +442,42 @@ template <class T> inline void ReadBinaryValue(NiBinaryStreamView& kStream, T* p
 
 // Loads triangle data from the stream: reads a count, an optional list flag, the index array, and per-element arrays allocated from a shared block pool.
 // @fnv 0x00a7b940
-void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
+// pdb: NiTriShapeData::LoadBinary | NiTriShapeData.obj | fnv360_0721_beta, call_seq + bridge(vtable|objrun) + skyrim(objopen_prop), high
+void FUN_00a7b940_shell::NiTriShapeData_LoadBinary(NiStream* kStream)
 {
 
     ((NiTriBasedGeomData*)this)->LoadBinary(*(::NiStream*)kStream);
 
-    ReadBinaryValue(*GetIstr(kStream), (*(unsigned int*)((char*)this + 0x44)));
+    ReadBinaryValue(*GetIstr(kStream), m_uiTriListLength);
 
     unsigned char bHasList;
-    if (*(unsigned int*)((char*)kStream + 0xd8) >= 0x0A000111)
+    if (kStream->m_uiNifFileVersion >= 0x0A000111)
         ReadBinaryValue(*GetIstr(kStream), bHasList);
     else
         bHasList = 1;
 
-    if (bHasList && (*(unsigned int*)((char*)this + 0x44)) > 0)
+    if (bHasList && m_uiTriListLength > 0)
     {
-        (*(unsigned short**)((char*)this + 0x48)) =
-            (unsigned short*)NiMalloc((*(unsigned int*)((char*)this + 0x44)) * 2);
-        ReadBinaryValue(*GetIstr(kStream), (*(unsigned short**)((char*)this + 0x48)),
-                        (*(unsigned int*)((char*)this + 0x44)));
+        m_pusTriList =
+            (unsigned short*)NiMalloc(m_uiTriListLength * 2);
+        ReadBinaryValue(*GetIstr(kStream), m_pusTriList,
+                        m_uiTriListLength);
     }
 
-    ReadBinaryValue(*GetIstr(kStream), (*(unsigned short*)((char*)this + 0x50)));
-    if ((*(unsigned short*)((char*)this + 0x50)))
+    ReadBinaryValue(*GetIstr(kStream), m_usSharedNormalsArraySize);
+    if (m_usSharedNormalsArraySize)
     {
-        (*(FUN_00a7b870**)((char*)this + 0x4c)) = new FUN_00a7b870[(*(unsigned short*)((char*)this + 0x50))];
-        (*(IndexBufferBlock**)((char*)this + 0x54)) = new IndexBufferBlock((*(unsigned short*)((char*)this + 0x50)));
+        m_pkSharedNormals = new FUN_00a7b870[m_usSharedNormalsArraySize];
+        m_pkSNAMemoryBlocks = new IndexBufferBlock(m_usSharedNormalsArraySize);
 
-        for (unsigned short usI = 0; usI < (*(unsigned short*)((char*)this + 0x50)); usI++)
+        for (unsigned short usI = 0; usI < m_usSharedNormalsArraySize; usI++)
         {
             unsigned short m_usPassCountLocal;
             unsigned short* pusArray = 0;
             ReadBinaryValue(*GetIstr(kStream), m_usPassCountLocal);
             if (m_usPassCountLocal)
             {
-                IndexBufferBlock* pkBlock = (*(IndexBufferBlock**)((char*)this + 0x54));
+                IndexBufferBlock* pkBlock = ((IndexBufferBlock*)m_pkSNAMemoryBlocks);
                 while (pkBlock)
                 {
                     if (m_usPassCountLocal <= pkBlock->m_uiUsedIndexCount)
@@ -470,16 +486,16 @@ void FUN_00a7b940_shell::FUN_00a7b940(NiStream* kStream)
                 }
                 if (!pkBlock)
                 {
-                    pkBlock = new IndexBufferBlock((*(IndexBufferBlock**)((char*)this + 0x54))->m_uiIndexCapacity * 2);
-                    pkBlock->m_pkNext = (*(IndexBufferBlock**)((char*)this + 0x54));
-                    (*(IndexBufferBlock**)((char*)this + 0x54)) = pkBlock;
+                    pkBlock = new IndexBufferBlock(((IndexBufferBlock*)m_pkSNAMemoryBlocks)->m_uiIndexCapacity * 2);
+                    pkBlock->m_pkNext = ((IndexBufferBlock*)m_pkSNAMemoryBlocks);
+                    m_pkSNAMemoryBlocks = pkBlock;
                 }
                 pusArray = pkBlock->m_pCurrentIndex;
                 pkBlock->m_uiUsedIndexCount -= m_usPassCountLocal;
                 pkBlock->m_pCurrentIndex += m_usPassCountLocal;
                 ReadBinaryValue(*GetIstr(kStream), pusArray, m_usPassCountLocal);
             }
-            (*(FUN_00a7b870**)((char*)this + 0x4c))[usI].SetArray(m_usPassCountLocal, pusArray);
+            ((FUN_00a7b870*)m_pkSharedNormals)[usI].SetArray(m_usPassCountLocal, pusArray);
         }
     }
 }
@@ -522,9 +538,9 @@ class FUN_00a7b630 : public A7B630TriBasedGeomData
   public:
     unsigned int m_uiTriListLength;
     unsigned short* m_pusTriList;
-    void* m_pkSharedNormalArray;
-    unsigned short m_usSharedNormalCount;
-    void* m_pkSharedNormalArrayMemoryBlock;
+    void* m_pkSharedNormals;  // src: FNV360_PDB +0x4C (old: m_pkSharedNormalArray)
+    unsigned short m_usSharedNormalsArraySize;  // src: FNV360_PDB +0x50 (old: m_usSharedNormalCount)
+    void* m_pkSNAMemoryBlocks;  // src: FNV360_PDB +0x54 (old: m_pkSharedNormalArrayMemoryBlock)
 
     FUN_00a7b630(unsigned short usVertices, A7B630Point3* pkVertex, A7B630Point3* pkNormal, A7B630ColorA* pkColor,
                  A7B630Point2* pkTexture, unsigned short usNumTextureSets, int eNBTMethod, unsigned short usTriangles,
@@ -534,6 +550,8 @@ class FUN_00a7b630 : public A7B630TriBasedGeomData
 
 // Constructs the base geometry data, sets the triangle list length to 3*m_usTriangles, stores pusTriList and zeroes three members.
 // @fnv 0x00a7b630
+// pdb: NiTriShapeData::NiTriShapeData | NiTriShapeData.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod, usTriangles, pusTriList
 FUN_00a7b630::FUN_00a7b630(unsigned short usVertices, A7B630Point3* pkVertex, A7B630Point3* pkNormal,
                            A7B630ColorA* pkColor, A7B630Point2* pkTexture, unsigned short usNumTextureSets,
                            int eNBTMethod, unsigned short usTriangles, unsigned short* pusTriList)
@@ -542,9 +560,9 @@ FUN_00a7b630::FUN_00a7b630(unsigned short usVertices, A7B630Point3* pkVertex, A7
 {
     m_uiTriListLength = 3 * m_usTriangles;
     m_pusTriList = pusTriList;
-    m_pkSharedNormalArray = 0;
-    m_usSharedNormalCount = 0;
-    m_pkSharedNormalArrayMemoryBlock = 0;
+    m_pkSharedNormals = 0;
+    m_usSharedNormalsArraySize = 0;
+    m_pkSNAMemoryBlocks = 0;
 }
 
 struct Base_a7b
@@ -567,59 +585,11 @@ struct FUN_00a7b690 : Base_a7b
 
 // Initializes the object's pointer fields and the unsigned short field to zero.
 // @fnv 0x00a7b690
+// pdb: NiTriShapeData::NiTriShapeData | NiTriShapeData.obj | fnv360_0822_retail, call_seq, high
 FUN_00a7b690::FUN_00a7b690() : m_p44(0), m_p48(0), m_p4c(0), m_us50(0), m_p54(0)
 {}
 
-struct BaseA7b7e0
-{
-    bool MatchesTriangleCount(const void* pkOther);
-};
-struct NameA7b7e0 : BaseA7b7e0
-{
-    char pad000[0x44];
-    unsigned int m_uiNameHash;
-    char* m_pReferencedObject;
-
-    bool FUN_00a7b7e0(const NameA7b7e0* pkOther);
-};
-
-// @fnv 0x00a7b7e0
-bool NameA7b7e0::FUN_00a7b7e0(const NameA7b7e0* pkOther)
-{
-    if (!BaseA7b7e0::MatchesTriangleCount(pkOther))
-        return false;
-    if (m_uiNameHash != pkOther->m_uiNameHash)
-        return false;
-    unsigned int uiBytes = m_uiNameHash * 2;
-    unsigned int* pB = (unsigned int*)pkOther->m_pReferencedObject;
-    unsigned int* pA = (unsigned int*)m_pReferencedObject;
-    while (uiBytes >= 4)
-    {
-        if (*pA != *pB)
-            return false;
-        uiBytes -= 4;
-        pB++;
-        pA++;
-    }
-    if (uiBytes != 0)
-    {
-        char* cA = (char*)pA;
-        char* pcB = (char*)pB;
-        if (pcB[0] != cA[0])
-            return false;
-        if (uiBytes > 1)
-        {
-            if (pcB[1] != cA[1])
-                return false;
-            if (uiBytes > 2 && pcB[2] != cA[2])
-                return false;
-        }
-    }
-    return true;
-}
-
 namespace fnv_00ba3d30 {
-extern "C" char DAT_010b7fe4;
 
 void __cdecl FUN_00aa10f0(void*);
 
@@ -734,6 +704,7 @@ class FUN_00ba3d30
 
 // Frees each non-null element of m_holder38 via DAT_011f6238, clears it, then releases m_holder48.
 // @fnv 0x00ba3d30
+// pdb: ImageSpaceEffect::~ImageSpaceEffect | ImageSpaceEffect.obj | fnv360_0822_retail, call_seq, medium
 FUN_00ba3d30::~FUN_00ba3d30()
 {
 
@@ -775,6 +746,7 @@ struct FnvCpu_FUN_00a7b850_CpuObject
     int FUN_00a7b850();
 };
 // @fnv 0x00a7b850
+// pdb: LowProcess::GetSecondGenericLocation | HighProcess.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: NiTriShapeData::GetTriList)
 int FnvCpu_FUN_00a7b850_CpuObject::FUN_00a7b850()
 {
     return value;

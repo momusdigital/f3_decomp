@@ -17,6 +17,7 @@ struct FUN_00ca3980_class
 
 // Calls FUN_00ca3570, then if bit 0 of a is set frees this with size 0x30, and returns this.
 // @fnv 0x00ca3980
+// pdb: NiBlendInterpolator::`scalar deleting destructor' | NiBlendInterpolator.obj | tesv_win, vtable_prefix, medium
 FUN_00ca3980_class* __thiscall FUN_00ca3980_class::FUN_00ca3980(int aiFlags)
 {
     FUN_00ca3570();
@@ -26,22 +27,6 @@ FUN_00ca3980_class* __thiscall FUN_00ca3980_class::FUN_00ca3980(int aiFlags)
 }
 
 extern "C" void NiFreeAlias(void*);
-extern int DAT_010c759c;
-
-struct FUN_00ca4470_Class
-{
-    void* m_iWordAt00;
-    void* m_iWordAt04;
-    void __thiscall FUN_00ca4470();
-};
-
-// @fnv 0x00ca4470
-void __thiscall FUN_00ca4470_Class::FUN_00ca4470()
-{
-    void* p = m_iWordAt04;
-    m_iWordAt00 = &DAT_010c759c;
-    NiFreeAlias(p);
-}
 
 struct FUN_00ca5310_class
 {
@@ -52,6 +37,7 @@ struct FUN_00ca5310_class
 
 // Returns element 0x24 of the float array at m_p when a and m_p are non-null, otherwise 1.0f.
 // @fnv 0x00ca5310
+// pdb: bhkPackedNiTriStripsShape::GetScale | bhkPackedNiTriStripsShape.obj | fnv360_0822_retail, objrun_prop, low
 float __fastcall GetField24Float(struct FUN_00ca5310_class* pClass)
 {
     float result;
@@ -71,6 +57,7 @@ void __cdecl _delete(void* p, unsigned int size);
 
 // Calls FUN_00ca6590, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00ca6650
+// pdb: bhkEntity::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_retail, vtable_prefix, high
 FUN_00ca6590_t* __thiscall FUN_00ca6590_t::FUN_00ca6650(int flags)
 {
     FUN_00ca6590();
@@ -87,6 +74,8 @@ struct FUN_00ca9840_Class
 };
 
 // @fnv 0x00ca9840
+// pdb: hkMalleableConstraintCinfo::SetStrength | bhkMalleableConstraint.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: afStrength
 void FUN_00ca9840_Class::SetFieldValue(float afValue)
 {
     if (m_iWordAt04)
@@ -95,40 +84,10 @@ void FUN_00ca9840_Class::SetFieldValue(float afValue)
 
 extern int DAT_010c8288;
 
-struct FUN_00ca9a80
-{
-    int a, b, c, d, e;
-    FUN_00ca9a80();
-};
-
-// @fnv 0x00ca9a80
-FUN_00ca9a80::FUN_00ca9a80()
-{
-    b = 0;
-    c = 1;
-    d = 0;
-    e = 0;
-    a = (int)&DAT_010c8288;
-}
-
-extern "C" int __cdecl FUN_00cb10d0(int);
-
-struct FUN_00cb0a80_class
-{
-    int __thiscall FUN_00cb0a80();
-};
-
-// @fnv 0x00cb0a80
-int __thiscall FUN_00cb0a80_class::FUN_00cb0a80()
-{
-    int v = *(int*)this;
-    v &= 0xfffffffe;
-    if (v)
-        return FUN_00cb10d0(v);
-    return 0;
-}
+extern "C" int __cdecl hkString_strLen(int);
 
 // @fnv 0x00cb0f10
+// pdb: hkString::toUpper | hkString.obj | tesv_win, objrun_prop, low
 char ToUpperAscii(char acChar)
 {
     char r = acChar;
@@ -138,6 +97,7 @@ char ToUpperAscii(char acChar)
 }
 
 // @fnv 0x00cb0f30
+// pdb: hkString::toLower | hkString.obj | tesv_win, call_dedup, low
 char ToLowerAscii(char acChar)
 {
     if (acChar >= 'A' && acChar <= 'Z')
@@ -155,6 +115,7 @@ struct FUN_00cb9b60_class
 
 // Calls FUN_00cc9640, deletes this with size 0x10 when flag has bit 0 set, and returns this.
 // @fnv 0x00cb9b60
+// pdb: bhkConstraint::`scalar deleting destructor' | MissileProjectile.obj | fnv360_0822_retail, vtable_prefix, high
 FUN_00cb9b60_class* FUN_00cb9b60_class::DestroyIfFlagged(int aiFlags)
 {
     FUN_00cc9640();
@@ -196,6 +157,7 @@ struct FUN_00cbc8f0_cls
 
 // Scans the byte buffer at this+0xc backwards from this+0x10-1 and stops at the last index whose byte equals arg.
 // @fnv 0x00cbc8f0
+// pdb: hkpSimpleContactConstraintData::getContactPointIdAt | hkpCharacterRigidBody.obj | tesv_win, hash, low
 void FUN_00cbc8f0_cls::FUN_00cbc8f0(int aiValue)
 {
     int count = *(int*)((char*)this + 0x10) - 1;
@@ -213,52 +175,7 @@ void FUN_00cbc8f0_cls::FUN_00cbc8f0(int aiValue)
     }
 }
 
-struct GlobalObject_0045cfe0
-{
-    GlobalObject_0045cfe0(const char* name, int flags);
-    void* m_vtbl;
-    int m_kPointA;
-    int m_kPointB;
-    int m_iThirdValue;
-    int m_iFourthElementInteger;
-    int m_usTrailingValue;
-    int m_f;
-};
-
-struct FUN_00cbf400_class : GlobalObject_0045cfe0
-{
-    FUN_00cbf400_class();
-};
-
-// Constructs the "iNumThreads:HAVOK" setting object with flags 1 and zeroes its four trailing fields.
-// @fnv 0x00cbf400
-FUN_00cbf400_class::FUN_00cbf400_class() : GlobalObject_0045cfe0("iNumThreads:HAVOK", 1)
-{
-    m_iThirdValue = 0;
-    m_iFourthElementInteger = 0;
-    m_usTrailingValue = 0;
-    m_f = 0;
-}
-
 extern int DAT_010c7310;
-struct FUN_00ca0d40_class
-{
-    void __thiscall FUN_00ca0d40();
-};
-// Sets the vtable pointer to DAT_010c7310 and, if the pointer at offset 4 is set, calls the function at DAT_010c7310+8 on it and clears offsets 4, 8 and 12.
-// @fnv 0x00ca0d40
-void __thiscall FUN_00ca0d40_class::FUN_00ca0d40()
-{
-    void* p = *(void**)((char*)this + 4);
-    *(void**)((char*)this + 0) = &DAT_010c7310;
-    if (p)
-    {
-        ((void(__stdcall*)(void*)) * (void**)((char*)&DAT_010c7310 + 8))(p);
-        *(int**)((char*)this + 4) = 0;
-        *(int**)((char*)this + 12) = 0;
-        *(int**)((char*)this + 8) = 0;
-    }
-}
 
 void __cdecl FUN_00ca4490();
 struct MemoryManager
@@ -272,6 +189,7 @@ struct FUN_00ca4a90_Class
 };
 // Calls FUN_00ca4490, then if flags bit 0 is set and this is non-null, deallocates the block preceding this via _g_memoryManager, and returns this.
 // @fnv 0x00ca4a90
+// pdb: bhkWorld::`scalar deleting destructor' | bhkWorld.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00ca4a90_Class* __thiscall FUN_00ca4a90_Class::FUN_00ca4a90(int flags)
 {
     FUN_00ca4490();
@@ -284,41 +202,11 @@ struct bhkRefObject
 {
     int __thiscall Initialize();
 };
-struct bhkCapsuleShape : public bhkRefObject
-{
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
-    int f;
-    int __thiscall InitializeCapsuleShape();
-};
-extern int DAT_01030a24;
-extern int DAT_01030b0c;
 extern int DAT_01030bf4;
-extern int DAT_01066e2c;
 extern int DAT_012680f8;
 extern int DAT_01268250;
 extern int DAT_01268274;
 extern int DAT_01268324;
-
-// @fnv 0x00caad90
-int __thiscall bhkCapsuleShape::InitializeCapsuleShape()
-{
-    Initialize();
-    d = 0;
-    e = 0;
-    *reinterpret_cast<int**>(this) = &DAT_01030bf4;
-    ++DAT_012680f8;
-    *reinterpret_cast<int**>(this) = &DAT_01030b0c;
-    ++DAT_01268274;
-    *reinterpret_cast<int**>(this) = &DAT_01030a24;
-    ++DAT_01268250;
-    *reinterpret_cast<int**>(this) = &DAT_01066e2c;
-    ++DAT_01268324;
-    return (int)this;
-}
 
 namespace fnv_00cbc550 {
 extern int DAT_01268118;
@@ -358,6 +246,7 @@ struct FUN_00cbc550_cls : public bhkRefObject
 };
 
 // @fnv 0x00cbc550
+// pdb: bhkLiquidAction::bhkLiquidAction | bhkLiquidAction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 FUN_00cbc550_cls* __thiscall FUN_00cbc550_cls::FUN_00cbc550()
 {
     Initialize();
@@ -405,6 +294,7 @@ struct FUN_00cbc8b0 : NiTMapBaseStub
 };
 // Sets the vtable, calls RemoveAll, frees m_p, and if flags has bit 0 set deallocates this via g_memoryManager; returns this.
 // @fnv 0x00cbc8b0
+// pdb: NiTMapBase<DFALL<NiTMapItem<TESObjectCELL *,bool> >,TESObjectCELL *,bool>::`scalar deleting destructor' | BGSSceneInfo.obj | fnv360_0822_retail, vtable, medium
 FUN_00cbc8b0* __thiscall FUN_00cbc8b0::FUN_00cbc8b1(int flags)
 {
     m_vtbl = &DAT_010c91a8;
@@ -433,6 +323,8 @@ void __cdecl FUN_00d377d0(void*);
 void __cdecl FUN_00d2e760(void*);
 
 // @f3 0x00943530 (community match, verified in this file)
+// pdb: hkpAgentRegisterUtil::_registerTerminalAgents | hkpAgentRegisterUtil.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: dis
 void __cdecl FUN_00cbfcb0(void* pObject)
 {
     RegisterStaticCollisionAgent(pObject);
@@ -453,20 +345,6 @@ void __cdecl FUN_00cbfcb0(void* pObject)
 }
 
 
-struct FUN_00cbbfa0_class
-{
-    int m_iWordAt00;
-    int m_iWordAt04;
-    FUN_00cbbfa0_class();
-};
-
-// @fnv 0x00cbbfa0
-FUN_00cbbfa0_class::FUN_00cbbfa0_class()
-{
-    m_iWordAt00 = 0x32000;
-    m_iWordAt04 = 0x600000;
-}
-
 struct FUN_00ca5540_Class
 {
     int m_iWordAt00;
@@ -476,6 +354,8 @@ struct FUN_00ca5540_Class
 };
 
 // @f3 0x00911780 (community match, verified in this file)
+// pdb: bhkPackedNiTriStripsShape::QSubMaterial | bhkPackedNiTriStripsShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: aiKey
 int FUN_00ca5540_Class::GetEntryValue(int i)
 {
     unsigned char* p = (unsigned char*)(this ? *(unsigned int*)((char*)this + 8) : 0);
@@ -494,61 +374,7 @@ int FUN_00ca5540_Class::GetEntryValue(int i)
 }
 
 
-extern int DAT_010c8d14;
-struct FUN_00cba080_class
-{
-    int m_vtbl;
-    void* m_data;
-    int m_8;
-    int m_iThirdValue;
-    FUN_00cba080_class* __thiscall FUN_00cba080(int flag);
-};
-// @fnv 0x00cba080
-FUN_00cba080_class* FUN_00cba080_class::FUN_00cba080(int flag)
-{
-    void* old = m_data;
-    m_vtbl = (int)&DAT_010c8d14;
-    if (old)
-    {
-        ((void(__stdcall*)(void*)) * (void**)((char*)&DAT_010c8d14 + 8))(old);
-        m_data = 0;
-        m_iThirdValue = 0;
-        m_8 = 0;
-    }
-    if (flag & 1)
-        _g_memoryManager.Deallocate(this);
-    return this;
-}
-
-extern int DAT_010c8d00;
 extern void(__cdecl* DAT_010c8d08)(void*);
-
-struct FUN_00cba030_class
-{
-    int m_vtbl;
-    void* m_iWordAt04;
-    int m_8;
-    int m_iThirdValue;
-    FUN_00cba030_class* __thiscall FUN_00cba030(int flag);
-};
-
-// @fnv 0x00cba030
-FUN_00cba030_class* __thiscall FUN_00cba030_class::FUN_00cba030(int flag)
-{
-    m_vtbl = (int)&DAT_010c8d00;
-    if (m_iWordAt04)
-    {
-        ((void(__stdcall*)(void*))DAT_010c8d08)(m_iWordAt04);
-        m_iWordAt04 = 0;
-        m_iThirdValue = 0;
-        m_8 = 0;
-    }
-    if (flag & 1)
-    {
-        _g_memoryManager.Deallocate(this);
-    }
-    return this;
-}
 
 struct FUN_00ca2020_Class
 {
@@ -565,6 +391,7 @@ struct FUN_00ca20e0_Class
 };
 
 // @fnv 0x00ca20e0
+// pdb: bhkRagdollPenetrationUtil::Clear | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail, call_gap, medium
 void FUN_00ca20e0_Class::ClearAndFreeEntries()
 {
     unsigned int i;
@@ -591,24 +418,6 @@ void FUN_00ca20e0_Class::ClearAndFreeEntries()
     *(int*)((char*)this + 0x2c) = 0;
 }
 
-void __cdecl _NiFree(void*);
-struct FUN_00ca4440_Class
-{
-    void* m_vtbl;
-    void* m_data;
-    FUN_00ca4440_Class* __thiscall FUN_00ca4440(unsigned int flags);
-};
-// @fnv 0x00ca4440
-FUN_00ca4440_Class* __thiscall FUN_00ca4440_Class::FUN_00ca4440(unsigned int flags)
-{
-    void* old = m_data;
-    m_vtbl = (void*)&DAT_010c759c;
-    _NiFree(old);
-    if (flags & 1)
-        _g_memoryManager.Deallocate(this);
-    return this;
-}
-
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 extern void(__stdcall* DAT_00fdf1c0)(void*);
 
@@ -620,6 +429,8 @@ struct FUN_00ca47a0_Class
 };
 
 // @fnv 0x00ca47a0
+// pdb: NiPointer<NiTriStripsData>::operator= | BSTreeModel.obj | fnv360_0721_beta, call_dedup, low
+// pdb params: ptr
 FUN_00ca47a0_Class* __thiscall FUN_00ca47a0_Class::AssignFrom(FUN_00ca47a0_Class* other)
 {
     void* p = m_iWordAt00;
@@ -650,6 +461,7 @@ struct FUN_00ca5340_class
 
 // Calls FUN_00ca5290, and if flags has bit 0 set, frees this with size 0x14; returns this.
 // @fnv 0x00ca5340
+// pdb: bhkWorldObject::`scalar deleting destructor' | TESObjectREFR.obj | fnv360_0822_retail, vtable_prefix, high
 FUN_00ca5340_class* FUN_00ca5340_class::FUN_00ca5340(int flags)
 {
     FUN_00ca5290();
@@ -697,6 +509,7 @@ struct bhkPackedNiTriStripsShape : public S_00cb79d0_Base
 
 // Allocates and constructs a new bhkPackedNiTriStripsShape and returns it.
 // @fnv 0x00ca53b0
+// pdb: bhkNiTriStripsShape::CreateObject | bhkNiTriStripsShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 bhkPackedNiTriStripsShape* CreatePackedNiTriStripsShape()
 {
     return new bhkPackedNiTriStripsShape;
@@ -733,6 +546,8 @@ struct HC1Base
     bool FUN_00ca54c0(NiStream*);
 };
 // @fnv 0x00ca54c0
+// pdb: bhkExtendedMeshShape::RegisterStreamables | bhkExtendedMeshShape.obj | fnv360_0721_retail, objopen_prop, low
+// pdb params: arStream
 bool HC1Base::FUN_00ca54c0(NiStream* stream)
 {
     NiStream* s = this ? *(NiStream**)((char*)this + 8) : 0;
@@ -742,6 +557,7 @@ bool HC1Base::FUN_00ca54c0(NiStream* stream)
 
 // Returns the float at offset 0x80 of the object stored at p+8, or 1.0f if p or that object is null.
 // @fnv 0x00ca6620
+// pdb: bhkNiTriStripsShape::GetScale | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun_prop, medium
 float __fastcall FUN_00ca6620(void* p, int)
 {
     float v;
@@ -753,6 +569,7 @@ float __fastcall FUN_00ca6620(void* p, int)
 }
 
 // @fnv 0x00ca98e0
+// pdb: MagicSystem::GetChameleonMinRefraction | MagicSystem.obj | fnv360_0822_retail, call_seq, medium
 float __cdecl FUN_00ca98e0()
 {
     return 3.402820018375656e+38;
@@ -774,6 +591,7 @@ struct FUN_00ca9920_class
 };
 
 // @fnv 0x00ca9920
+// pdb: BSFaceGenModelExtraData::`scalar deleting destructor' | BSFaceGenModel.obj | fnv360_0822_retail, vtable, high
 FUN_00ca9920_class* __thiscall FUN_00ca9920_class::FUN_00ca9920(int flags)
 {
     FUN_00ca9860();
@@ -819,6 +637,8 @@ struct bhkConstraint : public S_00cb79d0_Base
 
 // Allocates and constructs a new bhkConstraint, returning the pointer.
 // @fnv 0x00ca99f0
+// pdb: hkMalleableConstraintCinfo::ApplyScale | bhkMalleableConstraint.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: afScale, apInfo
 bhkConstraint* FUN_00ca99f0()
 {
     return new bhkConstraint;
@@ -870,7 +690,7 @@ bhkConstraint* __cdecl FUN_00caa1c0()
 struct NiStream;
 struct FUN_00cac980_Holder
 {
-    void* FUN_00cac980();
+    void* hkpCharacterProxy_getShapePhantom();
 };
 struct BaseThunk
 {
@@ -884,9 +704,11 @@ struct FUN_00cac070_Stub : BaseThunk
     void FUN_00cac070(NiStream&);
 };
 // @f3 0x0092ab00 (community match, verified in this file)
+// pdb: bhkCharacterProxy::RegisterStreamables | bhkCharacterProxy.obj | fnv360_0721_beta, objrun, medium
+// pdb params: arStream
 void FUN_00cac070_Stub::FUN_00cac070(NiStream& stream) {
     if (this && m_8) {
-        void* resolved=m_8->FUN_00cac980();
+        void* resolved=m_8->hkpCharacterProxy_getShapePhantom();
         if (resolved) {
             void* object=*(void**)((char*)resolved + 0xc);
             if (object) ((void(__thiscall*)(void*, NiStream&))(*(void***)object)[21])(object, stream);
@@ -895,11 +717,6 @@ void FUN_00cac070_Stub::FUN_00cac070(NiStream& stream) {
     FUN_00a81fe0(stream);
 }
 
-
-struct hkpShapePhantom
-{
-    void __thiscall SetWorldPosition(void* body, float pos);
-};
 
 struct FUN_00cac920_Class
 {
@@ -1138,6 +955,7 @@ struct ScaledValueView6fbf40
 };
 }
 
+// pdb: Actor::GetShouldCheckMagicNode | Actor_Magic.obj | fnv360_0822_debug, callee_sim, low
 void FUN_00cac920_Class::FUN_00cac920(void* encodedValue)
 {
     f3m_006fbf40::ScaledValueView6fbf40* self = reinterpret_cast<f3m_006fbf40::ScaledValueView6fbf40*>(this);
@@ -1161,6 +979,8 @@ struct FUN_00cb9b30_class : FUN_00cb99a0_class
     FUN_00cb9b30_class(int a);
 };
 // @fnv 0x00cb9b30
+// pdb: bhkBallAndSocketConstraint::bhkBallAndSocketConstraint | bhkRagdollTemplate.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: arInfo
 FUN_00cb9b30_class::FUN_00cb9b30_class(int aiValue)
 {
     FUN_00cb99a0_class::FUN_00cb99a0(aiValue);
@@ -1184,54 +1004,13 @@ struct FUN_00cb9c10_class : FUN_00cc66b0
 
 // Calls the base destructor and, when flags has bit 0 set, frees this with size 0x10; returns this.
 // @fnv 0x00cb9c10
+// pdb: bhkHingeConstraint::`scalar deleting destructor' | MissileProjectile.obj | fnv360_0822_retail, vtable_prefix, high
 FUN_00cb9c10_class* FUN_00cb9c10_class::FUN_00cb9c10(int flags)
 {
     this->FUN_00cc66b0::~FUN_00cc66b0();
     if (flags & 1)
         _delete(this, 0x10);
     return this;
-}
-
-extern int DAT_010c8cc8;
-
-struct FUN_00cb9c30_class
-{
-    int m_vtbl;
-    int m_iWordAt04;
-    int m_8;
-    int m_iThirdValue;
-    int m_10;
-    FUN_00cb9c30_class();
-};
-
-// @fnv 0x00cb9c30
-FUN_00cb9c30_class::FUN_00cb9c30_class()
-{
-    m_iWordAt04 = 0;
-    m_8 = 1;
-    m_iThirdValue = 0;
-    m_10 = 0;
-    m_vtbl = (int)&DAT_010c8cc8;
-}
-
-extern int DAT_010c8ce4;
-struct FUN_00cb9c50_class
-{
-    int m_vtbl;
-    int m_iWordAt04;
-    int m_8;
-    int m_iThirdValue;
-    int m_10;
-    FUN_00cb9c50_class();
-};
-// @fnv 0x00cb9c50
-FUN_00cb9c50_class::FUN_00cb9c50_class()
-{
-    m_iWordAt04 = 0;
-    m_8 = 1;
-    m_iThirdValue = 0;
-    m_10 = 0;
-    m_vtbl = (int)&DAT_010c8ce4;
 }
 
 struct MemoryManagerReallocateHelper
@@ -1245,6 +1024,8 @@ struct FUN_00cb9cc0_class
 };
 
 // @fnv 0x00cb9cc0
+// pdb: BSSimpleArray<BGSBodyPart *,1024>::_Reallocate | HitData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apBuffer, aiNewSizeInItem
 void* FUN_00cb9cc0_class::ReallocateArray(void* pBuffer, unsigned int count)
 {
     return ((MemoryManagerReallocateHelper*)&_g_memoryManager)->Reallocate(pBuffer, count * 4);
@@ -1263,29 +1044,7 @@ void __stdcall FUN_00cb9d50(int* paiValues, unsigned int n)
     }
 }
 
-struct FUN_00cba000_class
-{
-    int m_vtbl;
-    void* m_data;
-    int m_8;
-    int m_iThirdValue;
-    ~FUN_00cba000_class();
-};
-
 extern void(__stdcall* DAT_010c8d1c)(void*);
-
-// @fnv 0x00cba000
-FUN_00cba000_class::~FUN_00cba000_class()
-{
-    m_vtbl = (int)&DAT_010c8d14;
-    if (m_data)
-    {
-        DAT_010c8d1c(m_data);
-        m_data = 0;
-        m_iThirdValue = 0;
-        m_8 = 0;
-    }
-}
 
 void __cdecl FUN_00cba1d0();
 
@@ -1295,6 +1054,7 @@ struct FUN_00cba6d0_class
 };
 
 // @fnv 0x00cba6d0
+// pdb: NiPSysAirFieldAirFrictionCtlr::`scalar deleting destructor' | NiPSysAirFieldAirFrictionCtlr.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00cba6d0_class* __thiscall FUN_00cba6d0_class::FUN_00cba6d0(int flags)
 {
     FUN_00cba1d0();
@@ -1342,6 +1102,7 @@ bhkConstraint::bhkConstraint() : S_00cb79d0_Base()
 
 // Allocates and constructs a new bhkConstraint object, returning the pointer.
 // @fnv 0x00cbdae0
+// pdb: bhkHingeConstraint::CreateObject | bhkHingeConstraint.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 bhkConstraint* __cdecl FUN_00cbdae0()
 {
     return new bhkConstraint();
@@ -1390,6 +1151,7 @@ class CA0CD0Manager
 };
 
 // @fnv 0x00ca0cd0
+// pdb: bhkRagdollPenetrationUtil::ResetSystems | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail, call_gap, medium
 void CA0CD0Manager::ResetEntries()
 {
     for (unsigned int i = 0; i < m_uiCount; i++)
@@ -1406,34 +1168,6 @@ extern int DAT_010c7310;
 extern void(__stdcall* DAT_010c7318)(void*);
 
 extern MemoryManager _g_memoryManager;
-
-struct FUN_00ca0d70_Class
-{
-    int m_vtbl;
-    void* m_iWordAt04;
-    int m_8;
-    int m_iThirdValue;
-    void* __thiscall FUN_00ca0d70(unsigned char flag);
-};
-
-// @fnv 0x00ca0d70
-void* __thiscall FUN_00ca0d70_Class::FUN_00ca0d70(unsigned char flag)
-{
-    void* v = m_iWordAt04;
-    m_vtbl = (int)&DAT_010c7310;
-    if (v != 0)
-    {
-        DAT_010c7318(v);
-        m_iWordAt04 = 0;
-        m_iThirdValue = 0;
-        m_8 = 0;
-    }
-    if (flag & 1)
-    {
-        _g_memoryManager.Deallocate(this);
-    }
-    return this;
-}
 
 struct SubObject04
 {
@@ -1488,6 +1222,7 @@ struct FUN_00ca0dc0_cls : GuardBase04
 
 // Constructor that zeroes m_18 through m_2c and frees m_sub04's unk04 pointer if set, resetting its fields.
 // @fnv 0x00ca0dc0
+// pdb: bhkRagdollPenetrationUtil::bhkRagdollPenetrationUtil | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail, call_gap, low
 FUN_00ca0dc0_cls::FUN_00ca0dc0_cls() : m_sub04()
 {
     SubObject04* pSubObject = &m_sub04;
@@ -1563,6 +1298,8 @@ class CA0E60Array
 
 // Resizes the destination array to this array's size and copies each element pointer into it.
 // @fnv 0x00ca0e60
+// pdb: BSSimpleArray<unsigned int,1024>::CopyTo<1024> | PathingRequestCoveredMove.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aDestArray
 void CA0E60Array::CopyTo(CA0E60Array& kDest) const
 {
     kDest.SetSize(m_uiSize);
@@ -1788,6 +1525,8 @@ inline NodeView1080* NodeAt1080(CA1080_NodeList* list,int index)
 {
     return reinterpret_cast<NodeView1080*>(list->GetAt(index));
 }
+// pdb: bhkRagdollPenetrationUtil::FindLeaves | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: arRigidBodies, arLeaves
 void __stdcall CollectMixedTypeNodes(CA1080_NodeList* list, CA1080_PtrArray* out)
 {
     for (int i = 0; i < list->count; i++)
@@ -1811,122 +1550,6 @@ void __stdcall CollectMixedTypeNodes(CA1080_NodeList* list, CA1080_PtrArray* out
 }
 
 
-extern int DAT_01267e64;
-extern int DAT_012681c0;
-extern int DAT_011f4428;
-
-struct SceneLookupBase_cls
-{
-    void* Find(const void* key);
-};
-
-struct SceneHost_cls : SceneLookupBase_cls
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    SceneHost_cls* m_10;
-};
-
-struct SceneLeaf_cls : SceneLookupBase_cls
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual int v37();
-};
-
-struct SceneNode_cls : SceneLookupBase_cls
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    SceneHost_cls* m_1c;
-    unsigned int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
-    unsigned int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
-    unsigned int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
-    unsigned int unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
-    SceneNode_cls** m_a0;
-    unsigned short unkA4;
-    unsigned short m_a6;
-};
-
-struct SceneWalker_cls
-{
-    void TraverseSceneNode(SceneNode_cls* node, int a2, int a3);
-    void CollectLeafObjects(SceneLeaf_cls* leaf, int a2, int a3);
-};
-
-// @fnv 0x00ca1f00
-void SceneWalker_cls::TraverseSceneNode(SceneNode_cls* node, int a2, int a3)
-{
-    if (node == 0)
-        return;
-    if (node->m_1c != 0)
-    {
-        SceneHost_cls* h2 = (SceneHost_cls*)node->m_1c->Find(&DAT_01267e64);
-        if (h2 != 0 && h2->m_10 != 0)
-        {
-            SceneLeaf_cls* leaf = (SceneLeaf_cls*)h2->m_10->Find(&DAT_012681c0);
-            if (leaf != 0 && leaf->v37() != 0)
-            {
-                CollectLeafObjects(leaf, a2, a3);
-            }
-        }
-    }
-    SceneNode_cls* arr = (SceneNode_cls*)node->Find(&DAT_011f4428);
-    if (arr != 0)
-    {
-        for (unsigned int i = 0; i < arr->m_a6; i++)
-        {
-            TraverseSceneNode(arr->m_a0[i], a2, a3);
-        }
-    }
-}
-
-struct FNVTaskElement
-{
-};
-extern "C" void __fastcall FUN_00d1fa10(FNVTaskElement* element);
 struct FNVTaskAllocator
 {
     virtual void fn00();
@@ -1945,35 +1568,6 @@ struct FNVTaskMemoryRouter
 };
 extern "C" FNVTaskMemoryRouter* __cdecl FUN_00c85750();
 
-struct FNVTaskDynamicBuffer
-{
-    void* entries;
-    int elementCount;
-    unsigned int capacityAndFlags;
-    void __thiscall Clear();
-};
-
-// @fnv 0x00ca1fb0
-void FNVTaskDynamicBuffer::Clear()
-{
-    FNVTaskAllocator* allocator = FUN_00c85750()->allocator;
-    char* entry = (char*)entries;
-    if (elementCount > 0)
-    {
-        int remaining = elementCount;
-        do
-        {
-            FUN_00d1fa10((FNVTaskElement*)entry);
-            entry += 48;
-        } while (--remaining);
-    }
-    elementCount = 0;
-    if ((capacityAndFlags & 0x80000000u) == 0)
-        allocator->Free(entries, (capacityAndFlags & 0x3fffffffu) * 48);
-    capacityAndFlags = 0x80000000u;
-    entries = 0;
-}
-
 extern __declspec(thread) int g_iCA2020AllocTag;
 
 struct CA2020AllocTagScope
@@ -1989,41 +1583,6 @@ struct CA2020AllocTagScope
     {
         g_iCA2020AllocTag = m_iSaved;
     }
-};
-
-class CA2020Object
-{
-  public:
-    virtual ~CA2020Object();
-};
-
-class CA2020Referenced
-{
-  public:
-    void removeReference();
-};
-
-class CA2020Array
-{
-  public:
-    ~CA2020Array();
-
-    void* m_pData;
-    int m_uiLogicalSize;
-    int m_iCapacityAndFlags;
-};
-
-class FUN_00ca2020_Holder
-{
-  public:
-    ~FUN_00ca2020_Holder();
-
-    int unk00;
-    CA2020Referenced* m_pkShape;
-    CA2020Object* m_pkFirst;
-    CA2020Object* m_pkSecond;
-    CA2020Referenced* m_pkBody;
-    CA2020Array m_kEntries;
 };
 
 // Destructor: deletes m_pkFirst and m_pkSecond, removes references from m_pkShape and m_pkBody, under an alloc-tag scope of 0x10.
@@ -2106,6 +1665,7 @@ struct Holder57B
     void FUN_0057b4d0();
 };
 
+// pdb: Sky::UnloadAllTextures | Sky.obj | fnv360_0822_retail, call_dedup, low
 void Holder57B::FUN_0057b4d0()
 {
     if (m_pkPart)
@@ -2156,6 +1716,7 @@ extern "C" char DAT_010c740c[];
 extern MemoryManager _g_memoryManager;
 
 // @fnv 0x00ca3570
+// pdb: hkPackedNiTriStripsData::~hkPackedNiTriStripsData | hkPackedNiTriStripsShape.obj | fnv360_1110_retail, objrun_open, low
 void __thiscall FUN_00ca3570_class::FUN_00ca3570()
 {
     m_vtbl = DAT_010c740c;
@@ -2174,13 +1735,6 @@ void __thiscall FUN_00ca3570_class::FUN_00ca3570()
 
     FUN_00a5d3d0_class::FUN_00a5d3d0();
 }
-
-struct Record
-{
-    int m_iValue;
-    int m_iField04;
-    int m_iField08;
-};
 
 struct Table
 {
@@ -2207,6 +1761,8 @@ struct Owner
 
 // Extracts a 24-bit-shifted index from a1, bounds-checks it against m_pTable->unk10, and returns the value at that index times 3 from m_pValues.
 // @fnv 0x00ca3670
+// pdb: hkPackedNiTriStripsShape::getCollisionFilterInfo | hkPackedNiTriStripsShape.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: aKey
 int Owner::GetValueByIndex(unsigned int a1)
 {
     Table* pSearchEntries = m_pTable;
@@ -2216,21 +1772,6 @@ int Owner::GetValueByIndex(unsigned int a1)
         return 0;
     }
     return pSearchEntries->m_pValues[iIndex * 3];
-}
-
-struct FUN_00ca3b10_cls
-{
-    int m_iWordAt00;
-    unsigned char m_iWordAt04;
-    int m_8;
-
-    bool FUN_00ca3b10();
-};
-
-// @fnv 0x00ca3b10
-bool FUN_00ca3b10_cls::FUN_00ca3b10()
-{
-    return m_iWordAt04 == 0;
 }
 
 namespace fnv_00ca40f0 {
@@ -2264,19 +1805,6 @@ struct FUN_00ca40f0_cls
     static void operator delete(void* apMemory) throw();
 };
 
-// Calls FUN_00ca3b90, then if bit 0 of acFlags is set frees this through the allocator from FUN_00c85750 using m_uSize, and returns this.
-// @fnv 0x00ca40f0
-FUN_00ca40f0_cls* FUN_00ca40f0_cls::FUN_00ca40f0(unsigned char acFlags)
-{
-    FUN_00ca3b90();
-    if (acFlags & 1)
-    {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
-    }
-    return this;
-}
 }  // namespace fnv_00ca40f0
 
 void __cdecl FUN_00aa10f0(void*) throw(...);
@@ -2372,6 +1900,7 @@ __forceinline CombinedBase::~CombinedBase() throw(...)
     ((MidDtorBase*)this)->MidDtorBase::~MidDtorBase();
 }
 
+// pdb: TESIdleManager::~TESIdleManager | TESIdleManager.obj | fnv360_0822_retail, call_dedup, low
 FUN_00ca4490::~FUN_00ca4490() throw(...)
 {
     ((DtorCallHelper*)this)->FUN_00554a50();
@@ -2512,6 +2041,8 @@ struct S_00ca49a0_Array
 
 // Stores element e at index idx, growing m_uiESize and adjusting m_uiCount when the slot's empty/non-empty state changes.
 // @fnv 0x00ca49a0
+// pdb: NiTLargeArray<hkNiTriStripsData,NiTMallocInterface<hkNiTriStripsData> >::SetAt | hkNiTriStripsShape.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: uiIndex, element
 void S_00ca49a0_Array::FUN_00ca49a0(unsigned int uiIndex, const S_00ca49a0_Elem& arElem)
 {
     if (uiIndex >= m_uiESize)
@@ -2612,6 +2143,8 @@ class HandleManager
 };
 
 // @fnv 0x00ca4ac0
+// pdb: hkNiTriStripsShape::getNextKey | hkNiTriStripsShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aOldKey
 int HandleManager::FUN_00ca4ac0(int handle)
 {
     unsigned int cur = (unsigned int)handle;
@@ -2671,6 +2204,7 @@ struct RecordArray
 };
 // Resets every record in the array to a default RecordEntry, then sets count and elementSize to zero.
 // @fnv 0x00ca4b20
+// pdb: NiTLargeArray<hkNiTriStripsData,NiTMallocInterface<hkNiTriStripsData> >::RemoveAll | hkNiTriStripsShape.obj | fnv360_0822_retail, call_seq, medium
 void RecordArray::ClearRecords()
 {
     for (unsigned int i = 0; i < count; ++i)
@@ -2772,6 +2306,8 @@ class FUN_00ca4d20_cls
 
 // Copies m_90 into the arg's m_04, resets and fills its m_08 sub-list from m_98 entries, and attaches m_80 to its m_20 sub-object.
 // @f3 0x00910c50 (community match, verified in this file)
+// pdb: hkNiTriStripsShape::CopyCinfo | hkNiTriStripsShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arInfo
 void FUN_00ca4d20_cls::CopyEntriesToArg(FNVArg* a1)
 {
     FNVSub2* s = &a1->m_08;
@@ -2792,13 +2328,6 @@ void FUN_00ca4d20_cls::CopyEntriesToArg(FNVArg* a1)
 }
 
 
-struct S_00ca4e10_T
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-};
 struct S_00ca4e10_Out
 {
     int unk00;
@@ -2820,7 +2349,7 @@ struct S_00ca4e10_Cls
     int unk04;
     S_00ca4e10_Obj* unk08;
     void FUN_00c84e20(S_00ca4e10_Out* out);
-    char* FUN_00ca4e10(S_00ca4e10_Out* out);
+    char* bhkBvTreeShape_CopyCinfo(S_00ca4e10_Out* out);
 };
 
 // Calls FUN_00c84e20 on out, then stores the object's v10() result minus 0x10 (or null) into out->unk04 and returns it.
@@ -2835,7 +2364,8 @@ struct S_008f75b0_Cls
     void FUN_008f75b0(S_00ca4e10_Out* out);
 };
 
-char* S_00ca4e10_Cls::FUN_00ca4e10(S_00ca4e10_Out* out)
+// pdb: bhkBvTreeShape::CopyCinfo | bhkBvTreeShape.obj | fnv360_0822_retail, objrun + bridge(caller_sim|call_seq) + skyrim(objopen_prop), high
+char* S_00ca4e10_Cls::bhkBvTreeShape_CopyCinfo(S_00ca4e10_Out* out)
 {
     ((S_008f75b0_Cls*)this)->FUN_008f75b0(out);
     char* r;
@@ -2862,6 +2392,7 @@ struct FUN_00ca5290 : FUN_00cd2de0
 };
 // Calls FUN_00c876a0 then decrements the global counter DAT_012682d8.
 // @fnv 0x00ca5290
+// pdb: bhkBvTreeShape::GetShapeCollection | TESObjectREFR.obj | tesv_win, objopen_prop, low
 FUN_00ca5290::~FUN_00ca5290()
 {
     FUN_00c876a0();
@@ -2871,7 +2402,8 @@ FUN_00ca5290::~FUN_00ca5290()
 extern int DAT_012682dc;
 
 // @fnv 0x00ca5300
-int* __cdecl FUN_00ca5300()
+// pdb: bhkRefObject::GetRTTI | bhkRefObject.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+int* __cdecl bhkRefObject_GetRTTI()
 {
     return &DAT_012682dc;
 }
@@ -2923,6 +2455,8 @@ struct MatchObject
 };
 // Calls FUN_00c84dc0(rhs); if it returns true, also compares value84 of this->data and rhs->data and returns that result.
 // @fnv 0x00ca54f0
+// pdb: bhkPackedNiTriStripsShape::IsEqual | bhkPackedNiTriStripsShape.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: bhkExtendedMeshShape::IsEqual)
+// pdb params: apObject
 bool __thiscall MatchObject::Equals(MatchObject* rhs)
 {
     bool result = FUN_00c84dc0(rhs);
@@ -2935,7 +2469,6 @@ bool __thiscall MatchObject::Equals(MatchObject* rhs)
     return result;
 }
 
-struct S_00ca59d0_Out;
 struct S_00ca59d0_Bin
 {
     int unk00;
@@ -3214,16 +2747,18 @@ struct S_00ca59d0_Self
     virtual void v45(int* out);
     int unk04;
     S_00ca59d0_Member* unk08;
-    void FUN_00c84d50(S_00ca59d0_Stream* s);
+    void bhkShape_SaveBinary(S_00ca59d0_Stream* s);
     void FUN_00ca59d0(S_00ca59d0_Stream* s);
 };
 // @fnv 0x00ca59d0
+// pdb: bhkPackedNiTriStripsShape::SaveBinary | bhkPackedNiTriStripsShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: arStream
 void S_00ca59d0_Self::FUN_00ca59d0(S_00ca59d0_Stream* pStream)
 {
     int out;
     v45(&out);
     S_00ca59d0_Member* m = unk08;
-    FUN_00c84d50(pStream);
+    bhkShape_SaveBinary(pStream);
     float f = m->unkA0;
     S_00ca59d0_Save(*pStream->unk250, &f, 1);
     S_00ca59d0_Save(*pStream->unk250, &m->unk90, 1);
@@ -3427,11 +2962,6 @@ struct TlsGuard_t
     }
 };
 
-struct Owned_t
-{
-    void Destroy();
-};
-
 struct PoolFree_t
 {
     void Free(void* p);
@@ -3439,38 +2969,10 @@ struct PoolFree_t
 
 extern PoolFree_t DAT_011f6238;
 
-struct FUN_00ca5a80_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    Owned_t* m_0c;
-
-    void ReleaseOwned(bool flag);
-};
-
-// If flag is set, destroys the owned object at m_0c, frees its allocation via DAT_011f6238.Free, and clears m_0c.
-// @fnv 0x00ca5a80
-void FUN_00ca5a80_cls::ReleaseOwned(bool abRelease)
-{
-    TlsGuard_t guard;
-    unsigned int unkLocal = 0;
-    if (abRelease)
-    {
-        Owned_t* p = m_0c;
-        if (p)
-        {
-            p->Destroy();
-            unsigned char n = ((unsigned char*)p)[-1];
-            DAT_011f6238.Free((char*)p - n);
-        }
-        m_0c = 0;
-    }
-}
-
 // FUN_00ca6600 : a one-line function - getter
 extern int g_target_00ca6600;
 // @fnv 0x00ca6600
+// pdb: bhkLimitedHingeConstraint::GetRTTI | WeaponObject.obj | fnv360_0721_beta, objrun_open, low
 void* FUN_00ca6600()
 {
     return &g_target_00ca6600;
@@ -3529,87 +3031,11 @@ struct SpawnedObject : public ChainB_cls
 
 // Allocates and constructs a SpawnedObject, returning the new instance.
 // @fnv 0x00ca6670
+// pdb: bhkNiTriStripsShape::CopyCinfo | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arInfo
 SpawnedObject* FUN_00ca6670()
 {
     return new SpawnedObject();
-}
-
-struct ArgB
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    float f10;
-};
-struct ca6720Target
-{
-    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    float f20, f24, f28, f2c;
-};
-class bhkSphereShape
-{
-  public:
-    virtual void vfn_00();
-    virtual void vfn_01();
-    virtual void vfn_02();
-    virtual void vfn_03();
-    virtual void vfn_04();
-    virtual void vfn_05();
-    virtual void vfn_06();
-    virtual void vfn_07();
-    virtual void vfn_08();
-    virtual void vfn_09();
-    virtual void vfn_10();
-    virtual void vfn_11();
-    virtual void vfn_12();
-    virtual void vfn_13();
-    virtual void vfn_14();
-    virtual void vfn_15();
-    virtual void vfn_16();
-    virtual void vfn_17();
-    virtual void vfn_18();
-    virtual void vfn_19();
-    virtual void vfn_20();
-    virtual void vfn_21();
-    virtual void vfn_22();
-    virtual void vfn_23();
-    virtual void vfn_24();
-    virtual void vfn_25();
-    virtual void vfn_26();
-    virtual void vfn_27();
-    virtual void vfn_28();
-    virtual void vfn_29();
-    virtual void vfn_30();
-    virtual void vfn_31();
-    virtual void vfn_32();
-    virtual void vfn_33();
-    virtual void vfn_34();
-    virtual void vfn_35();
-    virtual void vfn_36();
-    virtual void vfn_37();
-    virtual void vfn_38();
-    virtual void vfn_39();
-    virtual void vfn_40();
-    virtual void vfn_41();
-    virtual void vfn_42();
-    virtual void vfn_43();
-    virtual void vfn_44();
-    virtual ca6720Target* Target(char* out);
-    void FUN_00c84df0(void* a1, ArgB* a2);
-    void ScaleTarget(void* a1, ArgB* a2);
-};
-// Scales the target's four floats by a2->f10, then calls FUN_00c84df0 with a1 and a2.
-// @fnv 0x00ca6720
-void bhkSphereShape::ScaleTarget(void* apArg, ArgB* apArgB)
-{
-    unsigned char c;
-    ca6720Target* r = this->Target((char*)&c);
-    float v = apArgB->f10;
-    volatile float* first = &r->f20;
-    *first = *first * v;
-    r->f24 = r->f24 * v;
-    volatile float* third = &r->f28;
-    *third = *third * v;
-    r->f2c = r->f2c * v;
-    this->FUN_00c84df0(apArg, apArgB);
 }
 
 struct S_00ca6810_Callable
@@ -3703,6 +3129,8 @@ struct S_00ca6810_Class
 
 // Calls slot54(arg) on each callable in unk08->unk98 up to unk08->unkA0 entries, then calls FUN_00aa0ad0(arg).
 // @fnv 0x00ca6810
+// pdb: bhkNiTriStripsShape::RegisterStreamables | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: arStream
 void S_00ca6810_Class::FUN_00ca6810(int aiValue)
 {
     int count;
@@ -3796,6 +3224,8 @@ static inline int Val(S_00ca6880_Class* o)
 }
 // Calls FUN_00c84dc0 on arg; if it returns true, returns whether Val(this) equals Val(arg).
 // @fnv 0x00ca6880
+// pdb: bhkNiTriStripsShape::IsEqual | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun_sim, low, conflict (bridge: bhkPackedNiTriStripsShape::IsEqual)
+// pdb params: apObject
 char S_00ca6880_Class::IsEquivalent(S_00ca6880_Class* pOther)
 {
     char r = FUN_00c84dc0(pOther);
@@ -4043,73 +3473,6 @@ struct FNVShape : S_00cb79d0_Base
         ++DAT_012682e4;
     }
 };
-
-struct FNVShapeHost
-{
-    virtual void Slot00() = 0;
-    virtual void Slot04() = 0;
-    virtual void Slot08() = 0;
-    virtual void Slot0c() = 0;
-    virtual void Slot10() = 0;
-    virtual void Slot14() = 0;
-    virtual void Slot18() = 0;
-    virtual void Slot1c() = 0;
-    virtual void Slot20() = 0;
-    virtual void Slot24() = 0;
-    virtual void Slot28() = 0;
-    virtual void Slot2c() = 0;
-    virtual void Slot30() = 0;
-    virtual void Slot34() = 0;
-    virtual void Slot38() = 0;
-    virtual void Slot3c() = 0;
-    virtual void Slot40() = 0;
-    virtual void Slot44() = 0;
-    virtual void Slot48() = 0;
-    virtual void Slot4c() = 0;
-    virtual void Slot50() = 0;
-    virtual void Slot54() = 0;
-    virtual void Slot58() = 0;
-    virtual void Slot5c() = 0;
-    virtual void Slot60() = 0;
-    virtual void Slot64() = 0;
-    virtual void Slot68() = 0;
-    virtual void Slot6c() = 0;
-    virtual void Slot70() = 0;
-    virtual void Slot74() = 0;
-    virtual void Slot78() = 0;
-    virtual void Slot7c() = 0;
-    virtual void Slot80() = 0;
-    virtual void Slot84() = 0;
-    virtual void Slot88() = 0;
-    virtual void Slot8c() = 0;
-    virtual void Slot90() = 0;
-    virtual void Slot94() = 0;
-    virtual void Slot98() = 0;
-    virtual void Slot9c() = 0;
-    virtual void Slota0() = 0;
-    virtual void Slota4() = 0;
-    virtual void Slota8() = 0;
-    virtual void Slotac() = 0;
-    virtual void Slotb0() = 0;
-    virtual void Slotb4() = 0;
-    virtual void Slotb8() = 0;
-    virtual void Slotbc() = 0;
-    virtual void Slotc0() = 0;
-    virtual void AssignShape(FNVShape* shape, int flags) = 0;
-    FNVShape* CreateShape(int flags);
-};
-
-// Creates a new FNVShape, assigns it via AssignShape with the given flags, and returns it.
-// @fnv 0x00ca6990
-FNVShape* FNVShapeHost::CreateShape(int flags)
-{
-    AllocationContextGuard allocationScope;
-    FUN_00c876f0();
-    FNVShape* shape = new FNVShape();
-    AssignShape(shape, flags);
-    FUN_00c87700();
-    return shape;
-}
 
 namespace fnv_00ca6a80 {
 struct TlsBlock
@@ -4374,75 +3737,6 @@ struct FUN_00ca4bc0_obj
     unsigned int unkBC;
 };
 
-struct FUN_00c905b0_obj
-{
-    void __thiscall FUN_00c905b0();
-};
-
-class FUN_00ca6a80_cls
-{
-  public:
-    virtual void vfn_0();
-    virtual void vfn_4();
-    virtual void vfn_8();
-    virtual void vfn_c();
-    virtual void vfn_10();
-    virtual void vfn_14();
-    virtual void vfn_18();
-    virtual void vfn_1c();
-    virtual void vfn_20();
-    virtual void vfn_24();
-    virtual void vfn_28();
-    virtual void vfn_2c();
-    virtual void vfn_30();
-    virtual void vfn_34();
-    virtual void vfn_38();
-    virtual void vfn_3c();
-    virtual void vfn_40();
-    virtual void vfn_44();
-    virtual void vfn_48();
-    virtual void vfn_4c();
-    virtual void vfn_50();
-    virtual void vfn_54();
-    virtual void vfn_58();
-    virtual void vfn_5c();
-    virtual void vfn_60();
-    virtual void vfn_64();
-    virtual void vfn_68();
-    virtual void vfn_6c();
-    virtual void vfn_70();
-    virtual void vfn_74();
-    virtual void vfn_78();
-    virtual void vfn_7c();
-    virtual void vfn_80();
-    virtual void vfn_84();
-    virtual void vfn_88();
-    virtual void vfn_8c(void* obj);
-    virtual void vfn_90();
-    virtual void vfn_94();
-    virtual void vfn_98();
-    virtual void vfn_9c();
-    virtual void vfn_a0();
-    virtual void vfn_a4();
-    virtual void vfn_a8();
-    virtual void vfn_ac();
-    virtual void vfn_b0();
-    virtual void vfn_b4();
-    virtual void vfn_b8();
-    virtual void vfn_bc(int arg);
-    void InitWithArg(int arg);
-};
-
-// Allocates a FUN_00ca4bc0_obj with arg, passes it to vfn_8c, calls FUN_00c905b0 on it, then calls vfn_bc(arg) under a TLS flag guard.
-// @fnv 0x00ca6a80
-void FUN_00ca6a80_cls::InitWithArg(int arg)
-{
-    TlsFlagGuard guard;
-    FUN_00ca4bc0_obj* obj = new FUN_00ca4bc0_obj(arg);
-    vfn_8c(obj);
-    reinterpret_cast<FUN_00c905b0_obj*>(obj)->FUN_00c905b0();
-    vfn_bc(arg);
-}
 }  // namespace fnv_00ca6a80
 
 struct S_00ca7310_Arr
@@ -4497,6 +3791,7 @@ struct FUN_00ca7310 : S_00ca7310_Root
     FUN_00ca7310();
 };
 // @fnv 0x00ca7310
+// pdb: hkpMeshShapeCinfo::hkpMeshShapeCinfo | bhkNiTriStripsShape.obj | fnv360_0822_retail, call_gap, medium
 FUN_00ca7310::FUN_00ca7310()
 {}
 
@@ -4595,9 +3890,8 @@ struct MotionByte2
 {
     void FUN_0090aba0(const float*);
 };
-struct MotionInstance2 : MotionInstance
-{
-};
+// pdb: hkpRigidBody::createDynamicRigidMotion | hkpRigidBody.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: motionType, position, rotation, mass, inertiaLocal, centreOfMassLocal, maxLinearVelocity, maxAngularVelocity, motionBufferOut
 void FUN_00ca8240(int type, const void* position, const void* rotation, float mass, const float* inertia,
                   const void* center, float linearDamping, float angularDamping, MotionStorage* storage)
 {
@@ -4675,6 +3969,8 @@ struct C
 // Iterates m8c backwards from m90-1 and calls v1 on each non-null entry with a context holding a1, this and a2.
 // @f3 0x0091a580 (community match, verified in this file)
 namespace task1482 { struct Layout { char pad[0x80]; Obj** items; int count; }; }
+// pdb: hkpPhantom::fireCollidableRemoved | bhkAvoidBox.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: collidable, collidableWasAdded
 void C::NotifyAll(int value,char flag) {
  Ctx ctx;
  ctx.a1=value;
@@ -4692,30 +3988,10 @@ void C::NotifyAll(int value,char flag) {
 
 extern int DAT_0126830c;
 
-class FUN_00ca9860_base
-{
-  public:
-    virtual ~FUN_00ca9860_base();
-};
-
-class FUN_00ca9860_cls : public FUN_00ca9860_base
-{
-  public:
-    virtual ~FUN_00ca9860_cls();
-    void FUN_00c876a0();
-};
-
-// Calls FUN_00c876a0 and decrements the global counter DAT_0126830c.
-// @fnv 0x00ca9860
-FUN_00ca9860_cls::~FUN_00ca9860_cls()
-{
-    FUN_00c876a0();
-    --DAT_0126830c;
-}
-
 extern int DAT_01268310;
 
 // @fnv 0x00ca9910
+// pdb: WeaponObject::GetRTTI | WeaponObject.obj | fnv360_0822_retail, objrun_prop, low
 int __cdecl FUN_00ca9910()
 {
     return reinterpret_cast<int>(&DAT_01268310);
@@ -4740,8 +4016,6 @@ struct S_00ca9940_Obj
     int unk08;
     S_00ca9940_Child* m_pChildObject;
 };
-void __cdecl FUN_00cc96b0(float f, S_00ca9940_Child* c);
-void __cdecl FUN_00cbd9e0(float f, S_00ca9940_Child* c);
 
 // If o and its child are non-null and f is not 1.0, dispatches on the child's vfn_20 result to call FUN_00cc96b0 or FUN_00cbd9e0 with f.
 // @f3 0x0091b810 (community match, verified in this file)
@@ -4756,6 +4030,8 @@ struct S_00ca9940_Child2
 void __cdecl FUN_0094cda0(float f, S_00ca9940_Child* c);
 void __cdecl FUN_00930d80(float f, S_00ca9940_Child* c);
 
+// pdb: hkMalleableConstraintCinfo::ApplyScale | bhkMalleableConstraint.obj | fnv360_0822_retail, call_gap, low, conflict (bridge: bhkMalleableConstraint::`scalar deleting destructor')
+// pdb params: afScale, apInfo
 void __cdecl FUN_00ca9940(float afValue, S_00ca9940_Obj* pObj)
 {
     S_00ca9940_Child* c;
@@ -4846,25 +4122,6 @@ struct FnvCpu_FUN_00ca9b10_CpuAllocatorHolder
     FnvCpu_FUN_00ca9b10_CpuAllocator* allocator;
 };
 FnvCpu_FUN_00ca9b10_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00ca9b10_CpuObject
-{
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00cdf7a0();
-    FnvCpu_FUN_00ca9b10_CpuObject* FUN_00ca9b10(unsigned int flags);
-};
-// Calls FUN_00cdf7a0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
-// @fnv 0x00ca9b10
-FnvCpu_FUN_00ca9b10_CpuObject* FnvCpu_FUN_00ca9b10_CpuObject::FUN_00ca9b10(unsigned int flags)
-{
-    FUN_00cdf7a0();
-    if (flags & 1)
-    {
-        FnvCpu_FUN_00ca9b10_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00ca9b10
 
 class BCA9D50BinaryStream
@@ -5090,6 +4347,8 @@ class BCA9D50Wrapper : public BCA9D50Base
 };
 
 // @fnv 0x00ca9d50
+// pdb: hkMalleableConstraintCinfo::SaveBinary | bhkMalleableConstraint.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: arStream
 void BCA9D50Wrapper::FUN_00ca9d50(BCA9D50Stream& kStream)
 {
     BCA9D50Base::SaveBinary(kStream);
@@ -5378,6 +4637,8 @@ struct FUN_00ca9e50_Obj
 };
 
 // @fnv 0x00ca9e50
+// pdb: TESUseItemPackageData::InitLoadGame | PackageDataUseItem.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void __thiscall FUN_00ca9e50_Obj::FUN_00ca9e50(int value)
 {
     if (this->unk04 != 0)
@@ -5603,46 +4864,6 @@ struct S_ca9f40_Counters
         return DAT_011f6238.FUN_00aa3e40(n);
     }
 };
-struct S_ca9f40
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_ca9f40_Base* unk0c;
-    void CopyFromSource(S_ca9f40_Counters* c);
-    S_ca9f40_Base* GetOrCreateBase(bool* created);
-};
-// Returns unk0c, allocating and initialising a new S_ca9f40_Counters (setting *created) when unk0c is null, then calling CopyFromSource if unk08 is set.
-// @fnv 0x00ca9f40
-S_ca9f40_Base* S_ca9f40::GetOrCreateBase(bool* created)
-{
-    TlsGuard guard;
-    bool b = (unk0c == 0);
-    *created = b;
-    if (b)
-    {
-        S_ca9f40_Counters* c = new S_ca9f40_Counters;
-        S_ca9f40_Base* r;
-        if (c)
-        {
-            S_ca9f40_Base* bp = &c->base;
-            c->unk08 = 1;
-            c->unk0c = 0;
-            c->unk10 = 0;
-            c->unk00 = &DAT_010c8288;
-            bp->unk04 = 0;
-            r = bp;
-        }
-        else
-        {
-            r = 0;
-        }
-        unk0c = r;
-        if (unk08)
-            CopyFromSource(unk0c ? (S_ca9f40_Counters*)((char*)unk0c - 4) : 0);
-    }
-    return unk0c;
-}
 }  // namespace fnv_00ca9f40
 
 extern int DAT_01268318;
@@ -5688,6 +4909,8 @@ SpawnedObject20_b9537* CreateSpawnedObject20()
 
 // Packs four bytes into an unsigned int, shifting in d first, then a, b and c, and returns it.
 // @fnv 0x00cabb00
+// pdb: hkColor::rgbFromChars | hkColor.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: red, green, blue, alpha
 unsigned int __cdecl PackBytesBigEndian(unsigned char a, unsigned char b, unsigned char c, unsigned char d)
 {
     unsigned int result = d;
@@ -5697,115 +4920,7 @@ unsigned int __cdecl PackBytesBigEndian(unsigned char a, unsigned char b, unsign
     return result;
 }
 
-struct FUN_00cac9a0_Obj
-{
-    void __thiscall FUN_00cac9a0(int value);
-};
-
-struct FUN_00cabfd0_Obj
-{
-    int unk00;
-    int unk04;
-    FUN_00cac9a0_Obj* unk08;
-
-    void __thiscall FUN_00cabfd0(int value);
-};
-
-// @fnv 0x00cabfd0
-void __thiscall FUN_00cabfd0_Obj::FUN_00cabfd0(int value)
-{
-    if (this != 0 && this->unk08 != 0)
-    {
-        this->unk08->FUN_00cac9a0(value);
-    }
-}
-
-struct FUN_00cabff0_res
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-};
-
-struct FUN_00cabff0_cls
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6c();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7c();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8c();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual void v9c();
-    virtual void va0();
-    virtual void va4();
-    virtual void va8();
-    virtual void vac();
-    virtual void vb0();
-    virtual FUN_00cabff0_res* SlotB4(int* p);
-    void FUN_00c87650(int a);
-    void FUN_00cabff0(int a);
-};
-
-void __fastcall FUN_00a645b0(int a);
-
-// @fnv 0x00cabff0
-void FUN_00cabff0_cls::FUN_00cabff0(int a)
-{
-    int b = *(volatile int*)&a;
-    FUN_00a645b0(b);
-    FUN_00c87650(b);
-    FUN_00cabff0_res* r = SlotB4(&a);
-    r->m_48 = 0;
-}
+void __fastcall NiStream_ReadLinkID(int a);
 
 struct S_00cac0b0_Arg
 {
@@ -5837,7 +4952,7 @@ struct S_00cac0b0_Obj
     int unk00;
     int unk04;
     S_00cac0b0_Inner* unk08;
-    S_00cac0b0_Inner* FUN_00cac980();
+    S_00cac0b0_Inner* hkpCharacterProxy_getShapePhantom();
 };
 
 struct S_00cac0b0_cls
@@ -5846,17 +4961,19 @@ struct S_00cac0b0_cls
     int unk04;
     S_00cac0b0_Obj* unk08;
     void FUN_00cac0b0(S_00cac0b0_Arg* a);
-    void SaveSerializeData(S_00cac0b0_Arg* a);
+    void bhkSerializable_SaveBinary(S_00cac0b0_Arg* a);
 };
 
 // @f3 0x0092ab40 (community match, verified in this file)
+// pdb: bhkCharacterProxy::SaveBinary | bhkCharacterProxy.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void S_00cac0b0_cls::FUN_00cac0b0(S_00cac0b0_Arg* a)
 {
     S_00cac0b0_Inner* node = 0;
     if (this && unk08)
-        node = unk08->FUN_00cac980();
+        node = unk08->hkpCharacterProxy_getShapePhantom();
     a->v0c(node ? node->unk0c : 0);
-    SaveSerializeData(a);
+    bhkSerializable_SaveBinary(a);
 }
 
 
@@ -5904,6 +5021,8 @@ struct FUN_00cac110_Class
 };
 
 // @fnv 0x00cac110
+// pdb: BSShaderProperty::CopyTo | BSShaderProperty.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pDest
 void __thiscall FUN_00cac110_Class::FUN_00cac110()
 {
     this->FUN_00cac110();
@@ -6359,101 +5478,7 @@ struct TlsGuard_b9283
 extern "C" void __cdecl FUN_00c876f0(void);
 extern "C" void __cdecl FUN_00c87700(void);
 
-struct FUN_00cac250_cls
-{
-    void FUN_00c87600(FUN_00cac250_obj* o, int a1);
-    FUN_00cac250_obj* CreateObject(int a1);
-};
-
-// @fnv 0x00cac250
-FUN_00cac250_obj* FUN_00cac250_cls::CreateObject(int a1)
-{
-    TlsGuard_b9283 guard;
-    FUN_00cac250_obj* obj = 0;
-    FUN_00c876f0();
-    obj = new FUN_00cac250_obj();
-    FUN_00c87600(obj, a1);
-    FUN_00c87700();
-    return obj;
-}
 }  // namespace fnv_00cac250
-
-class CAC680World
-{
-  public:
-    void Update();
-};
-
-class CAC680Listener
-{
-  public:
-    virtual void vfunc00();
-    virtual void vfunc01();
-    virtual void OnUpdate();
-
-    int unk04;
-};
-
-class CAC680Object
-{
-  public:
-    virtual void vfunc00();
-    virtual void vfunc01();
-    virtual void vfunc02();
-    virtual void vfunc03();
-    virtual void vfunc04();
-    virtual void vfunc05();
-    virtual void vfunc06();
-    virtual void vfunc07();
-    virtual void vfunc08();
-    virtual void vfunc09();
-    virtual void vfunc0A();
-    virtual void vfunc0B();
-    virtual void vfunc0C();
-    virtual void vfunc0D();
-    virtual void vfunc0E();
-    virtual void vfunc0F();
-    virtual void vfunc10();
-    virtual void vfunc11();
-    virtual void vfunc12();
-    virtual void vfunc13();
-    virtual void vfunc14();
-    virtual void vfunc15();
-    virtual void vfunc16();
-    virtual void vfunc17();
-    virtual void vfunc18();
-    virtual void vfunc19();
-    virtual void vfunc1A();
-    virtual void vfunc1B();
-    virtual void vfunc1C();
-    virtual void vfunc1D();
-    virtual void vfunc1E();
-    virtual void vfunc1F();
-    virtual void vfunc20();
-    virtual void vfunc21();
-    virtual void vfunc22();
-    virtual void vfunc23();
-    virtual void vfunc24();
-    virtual void vfunc25();
-    virtual void Toggle();
-
-    int unk04;
-    CAC680World* m_pkWorld;
-    int unk0C;
-    CAC680Listener m_kListener;
-
-    void ToggleAndUpdate();
-};
-
-// Toggles the object, updates m_pkWorld, toggles again, then calls OnUpdate on m_kListener.
-// @fnv 0x00cac680
-void CAC680Object::ToggleAndUpdate()
-{
-    Toggle();
-    m_pkWorld->Update();
-    Toggle();
-    m_kListener.OnUpdate();
-}
 
 namespace fnv_00cb0ad0 {
 struct CB0AD0Allocator;
@@ -6480,7 +5505,7 @@ static inline char* CB0AD0AllocateChars(int iCount)
 // @fnv 0x00cb0ad0
 static __declspec(noinline) char* FUN_00cb0ad0(const char* pcSrc, int iMaxChars)
 {
-    int iLen = FUN_00cb10d0((int)pcSrc);
+    int iLen = hkString_strLen((int)pcSrc);
     if (iLen > iMaxChars)
         iLen = iMaxChars;
     char* pcCopy = CB0AD0AllocateChars(iLen + 1);
@@ -6489,10 +5514,6 @@ static __declspec(noinline) char* FUN_00cb0ad0(const char* pcSrc, int iMaxChars)
     return pcCopy;
 }
 
-char* CB0AD0Dup(const char* pcSrc, int iMaxChars)
-{
-    return FUN_00cb0ad0(pcSrc, iMaxChars);
-}
 }  // namespace fnv_00cb0ad0
 
 // Rect-like record used by InitRect and its helper.
@@ -6509,6 +5530,8 @@ void __cdecl ResizeBuffer(FUN_00cb0ed0_rect* pRect, int aFlag);
 
 // Resets the rect: clears its flag (calling ResizeBuffer if set), then sets its four bounds from nLeft and nSize.
 // @fnv 0x00cb0ed0
+// pdb: bhkPoseArray::bhkPoseArray | bhkPoseArray.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: hkMonitorStream::setStaticBuffer)
+// pdb params: auiNumBones, apBoneNameA, auiNumPose, apPoseA
 void __cdecl InitRect(FUN_00cb0ed0_rect* pRect, int nLeft, int nSize)
 {
     if (pRect->m_bValueAt0C)
@@ -6534,6 +5557,8 @@ static __declspec(noinline) char CB1030ToLower(char c)
 char(__cdecl* g_pfnCB1030ToLower)(char) = CB1030ToLower;
 
 // @fnv 0x00cb1030
+// pdb: hkString::strNcasecmp | hkString.obj | fnv360_0822_retail, objrun, medium
+// pdb params: a, b, n
 int __cdecl CompareCaseInsensitive(const char* pcA, const char* pcB, int n)
 {
     int i = 0;
@@ -6568,6 +5593,7 @@ struct FUN_00cb75d0_cls
 };
 
 // @fnv 0x00cb75d0
+// pdb: TESArrowTargetListener::TESArrowTargetListener | TESArrowTargetListener.obj | fnv360_0822_retail, uvref, low, conflict (skyrim: TESObjectREFRSync::ClearSyncControllerFrom3D)
 FUN_00cb75d0_cls::FUN_00cb75d0_cls()
 {
     m_iValue0c = 0;
@@ -6655,6 +5681,8 @@ struct S_00cb9770_Foo
 };
 
 // @fnv 0x00cb9770
+// pdb: bhkForceController::Update | bhkForceController.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: UpdateData
 void __thiscall S_00cb9770_Foo::UpdateActiveState(float* pfValue)
 {
     this->unk50 = DAT_010c8ae4;
@@ -6699,6 +5727,8 @@ struct FUN_00cb99a0 : FUN_00c87c30
 };
 // Sets the vtable, initializes unk0c, calls SpawnAndAttach with source+4 (or null), and increments DAT_01268188.
 // @fnv 0x00cb99a0
+// pdb: bhkConstraint::bhkConstraint | bhkRagdollTemplate.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arInfo
 FUN_00cb99a0::FUN_00cb99a0(char* source) : FUN_00c87c30(), unk0c()
 {
     vtable = &DAT_0108febc;
@@ -6746,21 +5776,6 @@ struct S_cb9a90_C : S_cb9a90_B
         DAT_01268250++;
     }
 };
-
-struct FUN_00cb9a90 : S_cb9a90_C
-{
-    void FUN_00cab0e0(int a, int b, float c);
-    FUN_00cb9a90(int a, int b, float c);
-    virtual ~FUN_00cb9a90();
-};
-
-// Increments DAT_01268324 and forwards the three constructor arguments to FUN_00cab0e0.
-// @fnv 0x00cb9a90
-FUN_00cb9a90::FUN_00cb9a90(int aiParam1, int aiParam2, float afValue)
-{
-    DAT_01268324++;
-    FUN_00cab0e0(aiParam1, aiParam2, afValue);
-}
 
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126864c;
@@ -6829,6 +5844,8 @@ class FUN_00cb9b80 : public CB9B80WorldObject
 
 // Initializes the object from pkInfo and increments the static instance count.
 // @fnv 0x00cb9b80
+// pdb: bhkMalleableConstraint::bhkMalleableConstraint | bhkRagdollTemplate.obj | fnv360_0822_retail, call_gap, low
+// pdb params: arInfo
 FUN_00cb9b80::FUN_00cb9b80(CB9B80Info* pkInfo)
 {
     Init(pkInfo);
@@ -6838,7 +5855,8 @@ FUN_00cb9b80::FUN_00cb9b80(CB9B80Info* pkInfo)
 struct CpuOpaque;
 extern CpuOpaque DAT_01268610;
 // @fnv 0x00cb9c00
-CpuOpaque* __cdecl FUN_00cb9c00()
+// pdb: hkPackedNiTriStripsData::GetRTTI | hkPackedNiTriStripsShape.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(udata), high
+CpuOpaque* __cdecl hkPackedNiTriStripsData_GetRTTI()
 {
     return &DAT_01268610;
 }
@@ -6885,6 +5903,8 @@ class FUN_00cb9c70_cls
 
 // Calls Check(a1); if it returns true, calls v21(a1) on each of the m_uiCount items in m_ppItems and returns the Check result.
 // @fnv 0x00cb9c70
+// pdb: bhkRagdollTemplate::RegisterStreamables | bhkRagdollTemplate.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arStream
 bool FUN_00cb9c70_cls::FUN_00cb9c70(int aiValue)
 {
     bool result = Check(aiValue);
@@ -6900,18 +5920,9 @@ bool FUN_00cb9c70_cls::FUN_00cb9c70(int aiValue)
 }
 
 namespace fnv_00cb9cb0 {
-struct S_00aa4060_Class
-{
-    void __thiscall FUN_00aa4060();
-};
 
 extern int DAT_011f6238;
 
-// @fnv 0x00cb9cb0
-void __cdecl FUN_00cb9cb0()
-{
-    ((S_00aa4060_Class*)&DAT_011f6238)->FUN_00aa4060();
-}
 }  // namespace fnv_00cb9cb0
 
 struct RefCountedStandIn
@@ -6939,6 +5950,8 @@ class FUN_00cb9ee0_cls
 
 // Calls FUN_00a7b3b0, then for each of m_14 slots swaps in arg->FUN_00a63430(), releasing the old ref and retaining the new one.
 // @fnv 0x00cb9ee0
+// pdb: bhkRagdollTemplate::LinkObject | bhkRagdollTemplate.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arStream
 void FUN_00cb9ee0_cls::AssignRefCountedArray(ArgStandIn* arg)
 {
     FUN_00a7b3b0(arg);
@@ -7191,6 +6204,8 @@ class BCB9F60LinkData : public BCB9F60ExtraData
 
 // Saves the base extra data, writes m_uiCount, then saves each link ID from m_ppkObjects.
 // @fnv 0x00cb9f60
+// pdb: bhkExtraData::SaveBinary | bhkExtraData.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: bhkRagdollTemplate::SaveBinary)
+// pdb params: arStream
 void BCB9F60LinkData::FUN_00cb9f60(BCB9F60Stream& kStream)
 {
     BCB9F60ExtraData::SaveBinary(kStream);
@@ -7203,31 +6218,6 @@ void BCB9F60LinkData::FUN_00cb9f60(BCB9F60Stream& kStream)
 // Releases the resource held by the object and resets it to its empty state.
 typedef void(__stdcall* FreeFn)(void*);
 
-struct FUN_00cb9fd0_cls
-{
-    void* m_ppVirtualMethodTable;
-    void* m_pData;
-    int m_i08;
-    int m_i0c;
-    void ResetAndFreeData();
-};
-
-// Sets the first pointer to DAT_010c8d00 and, if m_pData is non-null, frees it via DAT_010c8d08 and clears m_pData, m_i0c and m_i08.
-// @fnv 0x00cb9fd0
-void FUN_00cb9fd0_cls::ResetAndFreeData()
-{
-    void* pData = m_pData;
-    m_ppVirtualMethodTable = (void*)&DAT_010c8d00;
-    if (pData != 0)
-    {
-        FreeFn pFree = (FreeFn)DAT_010c8d08;
-        pFree(pData);
-        m_pData = 0;
-        m_i0c = 0;
-        m_i08 = 0;
-    }
-}
-
 class FUN_00cba0d0_cls
 {
   public:
@@ -7238,6 +6228,8 @@ class FUN_00cba0d0_cls
 
 // For each of count items, decrements the reference count and calls v1() when it reaches zero.
 // @fnv 0x00cba0d0
+// pdb: BSSimpleArray<NiPointer<NiNode>,1024>::_DestructItems | TaskQueueInterface.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: BSSimpleArray<NiPointer<bhkRagdollTemplateData>,1024>::~BSSimpleArray<NiPointer<bhkRagdollTemplateData>,1024>)
+// pdb params: apFirstAddr, aiCount
 void __stdcall ReleaseItems(FUN_00cba0d0_cls** items, unsigned int count)
 {
     for (unsigned int i = 0; i < count; ++i)
@@ -7337,14 +6329,6 @@ void* __cdecl FUN_00cba1c0()
     return &DAT_01268400;
 }
 
-extern unsigned int DAT_01268418;
-
-// @fnv 0x00cbbfb0
-void FUN_00cbbfb0(unsigned int a1)
-{
-    DAT_01268418 = a1;
-}
-
 namespace fnv_00cbc5e0 {
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 
@@ -7362,6 +6346,7 @@ struct FUN_00cbc550
 };
 // Allocates and constructs a new FUN_00cbc550 object, returning its pointer.
 // @fnv 0x00cbc5e0
+// pdb: bhkLiquidAction::CreateObject | bhkLiquidAction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00cbc550* __cdecl CreateFUN_00cbc550()
 {
     return new FUN_00cbc550;
@@ -7384,6 +6369,8 @@ struct FUN_00cbc7b0_cls
 };
 
 // @fnv 0x00cbc7b0
+// pdb: BSSimpleList<TESRegionData *>::AddHead | TESRegionDataList.obj | fnv360_0721_beta, objrun, high
+// pdb params: item
 void FUN_00cbc7b0_cls::PushItem(void** pItem)
 {
     void* item = *pItem;
@@ -7418,6 +6405,7 @@ extern void(__cdecl* DAT_01268430)(void*, void*);
 void __cdecl InsertIntoContext(void* pList, void* pContext);
 
 // @fnv 0x00cbd960
+// pdb: hkpFixedBufferCdPointCollector::registerDefaultAddCdPointFunction | hkpFixedBufferCdPointCollector.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: hkpHingeConstraintData::setMaxLinearImpulse)
 void __cdecl FUN_00cbd960(void)
 {
     DAT_01268430 = &InsertIntoContext;
@@ -7435,15 +6423,15 @@ struct HolderBase
     void Release();
 };
 
-struct FUN_00cbd970 : PrimaryBase
+struct bhkOrientHingedBodyAction : PrimaryBase // src: F3_EXE vtable 0x00e36e14 (old: FUN_00cbd970)
 {
     int unk04;
-    virtual ~FUN_00cbd970();
+    virtual ~bhkOrientHingedBodyAction();
 };
 
 // Releases the holder and decrements the global counter DAT_01268434.
 // @fnv 0x00cbd970
-FUN_00cbd970::~FUN_00cbd970()
+bhkOrientHingedBodyAction::~bhkOrientHingedBodyAction()
 {
     ((HolderBase*)this)->Release();
     DAT_01268434--;
@@ -7549,24 +6537,6 @@ class CBDCB0Child
     int unkAC;
 };
 
-class CBDCB0Owner
-{
-  public:
-    int unk00;
-    CBDCB0Child* m_pkChild;
-
-    int EnsureChild();
-};
-
-// Creates m_pkChild with a new CBDCB0Child if it is null, then returns sizeof(CBDCB0Child).
-// @fnv 0x00cbdcb0
-int CBDCB0Owner::EnsureChild()
-{
-    CBDCB0AllocTagScope kScope(0x10);
-    if (!m_pkChild)
-        m_pkChild = new CBDCB0Child();
-    return sizeof(CBDCB0Child);
-}
 }  // namespace fnv_00cbdcb0
 
 struct WriteStream
@@ -7585,6 +6555,8 @@ struct BufferOwner
 };
 // Calls FUN_00c8a280 on source, then writes two 64-byte blocks from buffer+0x20 and buffer+0x60 to the stream at source+0x250, accumulating transferred bytes.
 // @fnv 0x00cbdf10
+// pdb: hkHingeConstraintCinfo::SaveBinary | bhkHingeConstraint.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: arStream
 void BufferOwner::WriteToStream(void* source)
 {
     FUN_00c8a280(source);
@@ -7598,67 +6570,8 @@ void BufferOwner::WriteToStream(void* source)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern float DAT_0104da48;
 
-struct FUN_00cbe820_sub
-{
-    void Init(float* value);
-};
-
-struct FUN_00cbe820_cls
-{
-    short m_00;
-    int m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
-    int m_30, m_34, m_38, m_3c, m_40, m_44, m_48, m_4c, m_50, m_54, m_58, m_5c;
-    int m_60, m_64, m_68, m_6c, m_70, m_74, m_78, m_7c, m_80, m_84, m_88, m_8c;
-    short m_90;
-    short m_92;
-    short m_94;
-    unsigned char m_96;
-    FUN_00cbe820_sub m_97;
-    float m_98;
-
-    FUN_00cbe820_cls* FUN_00cbe820();
-};
-
-// Initialises the object: sets m_00 to 2, m_90 to 0xc, m_94 to 5, m_96 to 0, calls m_97.Init with 1.0f, sets m_98 to DAT_0104da48, and returns this.
-// @fnv 0x00cbe820
-FUN_00cbe820_cls* FUN_00cbe820_cls::FUN_00cbe820()
-{
-    float one = 1.0f;
-    *(volatile short*)&m_00 = 2;
-    _ReadWriteBarrier();
-    *(volatile short*)&m_90 = 0xc;
-    _ReadWriteBarrier();
-    float* pOne = &one;
-    m_94 = 5;
-    m_96 = 0;
-    m_97.Init(pOne);
-    m_98 = DAT_0104da48;
-    return this;
-}
-
-struct FUN_00cbe880_Class
-{
-    int m_iWordAt00;
-    void __thiscall FUN_00cbe880();
-};
-
-extern "C" void __cdecl FUN_00c9eec0();
-
-// @fnv 0x00cbe880
-void __thiscall FUN_00cbe880_Class::FUN_00cbe880()
-{
-    this->m_iWordAt00 = 0x10c477c;
-    FUN_00c9eec0();
-}
-
-unsigned char __stdcall FUN_00c85810(void*);
 void* __cdecl PackBytesBigEndian(int, int, int, int);
-struct FUN_00c68e30_cls
-{
-    void __thiscall FUN_00c68e30(void* a, void* b);
-};
 struct FUN_00cbe890_cls
 {
     int m_auiShapeKeys[7];
@@ -7698,6 +6611,8 @@ struct NativeView1474 {
 };
 void* FUN_00921850(int,int,int,int);
 struct NotifyTarget { void FUN_008d5730(void*,void*); };
+// pdb: bhkAvoidBox::Add | bhkAvoidBox.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apWorld
 unsigned char FUN_00cbe890_cls::FUN_00cbe890(void* a) {
     NativeView1474* self=reinterpret_cast<NativeView1474*>(this);
     unsigned char r = 0;
@@ -7736,17 +6651,6 @@ struct HolderClass
 
 HolderClass* FUN_00c85750();
 
-// If p is non-null, gets the holder from FUN_00c85750 and calls its allocator's v2 with p and size 0x1c0.
-// @fnv 0x00cbf2d0
-void __cdecl FUN_00cbf2d0(void* p)
-{
-    if (p)
-    {
-        HolderClass* holder = FUN_00c85750();
-        AllocClass* allocator = holder->m_pAllocator;
-        allocator->v2(p, 0x1c0);
-    }
-}
 }  // namespace fnv_00cbf2d0
 
 namespace fnv_00cbf2f0 {
@@ -7772,10 +6676,6 @@ struct ResourceOne
 {
     void __thiscall FUN_00d055c0();
 };
-struct ResourceTwo
-{
-    void __thiscall FUN_00c905b0();
-};
 struct ResourceDisposer
 {
     virtual void reserved0();
@@ -7788,36 +6688,6 @@ struct ResourceService
     ResourceDisposer* disposer;
 };
 extern "C" ResourceService* __cdecl FUN_00c85750();
-struct FUN_00cbf2f0_class
-{
-    int unk00, unk04, unk08;
-    int active;
-    int unk10;
-    ResourceOne* first;
-    ResourceTwo* second;
-    void __thiscall FUN_00cbf2f0();
-};
-// @fnv 0x00cbf2f0
-void FUN_00cbf2f0_class::FUN_00cbf2f0()
-{
-    MemoryContextScope m_uiMemoryContext(0x10);
-    if (active != 0)
-    {
-        ResourceOne* owned = first;
-        if (owned != 0)
-        {
-            owned->FUN_00d055c0();
-            ResourceService* s = FUN_00c85750();
-            ResourceDisposer* p = s->disposer;
-            p->dispose(owned, 0x1c0);
-        }
-        first = 0;
-        if (second != 0)
-            second->FUN_00c905b0();
-        second = 0;
-    }
-    active = 0;
-}
 }  // namespace fnv_00cbf2f0
 
 namespace fnv_00cbf3c0 {
@@ -7841,33 +6711,6 @@ struct AllocHolder
 
 AllocHolder* FUN_00c85750();
 
-struct FUN_00cbf3c0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pData;
-    int m_14;
-    unsigned int m_18;
-
-    void FreeData();
-};
-
-// @fnv 0x00cbf3c0
-void FUN_00cbf3c0_cls::FreeData()
-{
-    AllocHolder* holder = FUN_00c85750();
-    SpawnedAllocator* alloc = holder->m_pAllocator;
-    unsigned int flags = m_18;
-    m_14 = 0;
-    if ((flags & 0x80000000u) == 0)
-    {
-        alloc->Free(m_pData, (flags & 0x3fffffffu) * 4);
-    }
-    m_pData = 0;
-    m_18 = 0x80000000u;
-}
 }  // namespace fnv_00cbf3c0
 
 // Release the per-body lists: destroy every inner array, then free the outer array.
@@ -7969,32 +6812,6 @@ class hkBool
 
     char m_cBooleanValue;
 };
-
-class CBFC60Dispatcher
-{
-  public:
-    void SetEnableChecks(hkBool bEnable);
-};
-
-void __cdecl FUN_00d36c60(CBFC60Dispatcher* pkDispatcher);
-void __cdecl FUN_00d367d0(CBFC60Dispatcher* pkDispatcher);
-void __cdecl FUN_00d362c0(CBFC60Dispatcher* pkDispatcher);
-void __cdecl RegisterConvexListAgentCollisionFuncs(CBFC60Dispatcher* pkDispatcher);
-void __cdecl RegisterAgent3Entries(CBFC60Dispatcher* pkDispatcher);
-void __cdecl FUN_00d321e0(CBFC60Dispatcher* pkDispatcher);
-
-// @fnv 0x00cbfc60
-void __cdecl FUN_00cbfc60(CBFC60Dispatcher* pkDispatcher)
-{
-    FUN_00d36c60(pkDispatcher);
-    pkDispatcher->SetEnableChecks(false);
-    FUN_00d367d0(pkDispatcher);
-    FUN_00d362c0(pkDispatcher);
-    pkDispatcher->SetEnableChecks(true);
-    RegisterConvexListAgentCollisionFuncs(pkDispatcher);
-    RegisterAgent3Entries(pkDispatcher);
-    FUN_00d321e0(pkDispatcher);
-}
 
 struct TypedObj
 {
@@ -8105,8 +6922,6 @@ struct RttiObject
 {
     CastResult* DynamicCast(const void* type);
 };
-
-extern const int g_kShaderRtti;
 
 struct GeomNode;
 
@@ -8289,6 +7104,8 @@ struct ShaderProp { int unk00, unk04; ShaderData* pData; };
 struct CastResult { int unk00, unk04, unk08, unk0c; ShaderProp* pShader; };
 CastResult* __cdecl FUN_00424fe0(GeomNode* object);
 }
+// pdb: bhkRagdollPenetrationUtil::FindSystems | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject, arRoots
 void GeomCollector::CollectShaderNodes(GeomNode* pObj, GeomArray* pArray)
 {
     if (!pObj)
@@ -8452,6 +7269,8 @@ struct PtrEntryArray
 
 // Resizes the array to uiMaxSize: clears and shrinks the size if smaller, reallocates the buffer, copies existing entries and default-initialises the rest.
 // @fnv 0x00ca47f0
+// pdb: NiTLargeArray<hkNiTriStripsData,NiTMallocInterface<hkNiTriStripsData> >::SetSize | hkNiTriStripsShape.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: uiMaxSize
 void PtrEntryArray::Resize(unsigned int uiNewMaxSize)
 {
     if (uiNewMaxSize == m_uiMaxSize)
@@ -8505,8 +7324,6 @@ struct CA56B0AllocTagScope
         g_iCA56B0AllocTag = m_iSaved;
     }
 };
-void CA56B0Lock();
-void CA56B0Unlock();
 class CA56B0RefObject
 {
   public:
@@ -8555,73 +7372,6 @@ class CA56B0ListShape : public CA56B0MidShape
 
     static int ms_iCount;
 };
-class CA56B0Owner
-{
-  public:
-    virtual void Unk00();
-    virtual void Unk04();
-    virtual void Unk08();
-    virtual void Unk0C();
-    virtual void Unk10();
-    virtual void Unk14();
-    virtual void Unk18();
-    virtual void Unk1C();
-    virtual void Unk20();
-    virtual void Unk24();
-    virtual void Unk28();
-    virtual void Unk2C();
-    virtual void Unk30();
-    virtual void Unk34();
-    virtual void Unk38();
-    virtual void Unk3C();
-    virtual void Unk40();
-    virtual void Unk44();
-    virtual void Unk48();
-    virtual void Unk4C();
-    virtual void Unk50();
-    virtual void Unk54();
-    virtual void Unk58();
-    virtual void Unk5C();
-    virtual void Unk60();
-    virtual void Unk64();
-    virtual void Unk68();
-    virtual void Unk6C();
-    virtual void Unk70();
-    virtual void Unk74();
-    virtual void Unk78();
-    virtual void Unk7C();
-    virtual void Unk80();
-    virtual void Unk84();
-    virtual void Unk88();
-    virtual void Unk8C();
-    virtual void Unk90();
-    virtual void Unk94();
-    virtual void Unk98();
-    virtual void Unk9C();
-    virtual void UnkA0();
-    virtual void UnkA4();
-    virtual void UnkA8();
-    virtual void UnkAC();
-    virtual void UnkB0();
-    virtual void UnkB4();
-    virtual void UnkB8();
-    virtual void UnkBC();
-    virtual void UnkC0();
-    virtual void AddShape(CA56B0Shape* pkShape, int iIndex);
-
-    CA56B0Shape* CreateListShape(int iIndex);
-};
-// Allocates a CA56B0ListShape under an alloc tag and lock, adds it to the owner at iIndex, unlocks, and returns the shape.
-// @fnv 0x00ca56b0
-CA56B0Shape* CA56B0Owner::CreateListShape(int iIndex)
-{
-    CA56B0AllocTagScope kScope(0x10);
-    CA56B0Lock();
-    CA56B0Shape* pkShape = new CA56B0ListShape;
-    AddShape(pkShape, iIndex);
-    CA56B0Unlock();
-    return pkShape;
-}
 
 struct ReadBin
 {
@@ -8788,7 +7538,7 @@ struct ReadStream
     int unk244;
     int unk248;
     ReadBin* binary;
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 struct ReadData
 {
@@ -8848,8 +7598,10 @@ struct CA5940
     void FUN_00c84d00(ReadStream* stream);
     void ReadDataFromStream(ReadStream* stream);
 };
-// Reads a value and a 4-float vector from the stream into the object's ReadData, then calls FUN_00a645b0.
+// Reads a value and a 4-float vector from the stream into the object's ReadData, then calls NiStream_ReadLinkID.
 // @f3 0x0094f620 (community match, verified in this file)
+// pdb: bhkExtendedMeshShape::LoadBinary | bhkExtendedMeshShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void CA5940::ReadDataFromStream(ReadStream* stream)
 {
     char temporary;
@@ -8860,7 +7612,7 @@ void CA5940::ReadDataFromStream(ReadStream* stream)
         Load(*stream->binary, &data->value08, 1);
         unsigned int size2 = 4;
         stream->binary->Read(data->vector10, 16, &size2, 1);
-        stream->FUN_00a645b0();
+        stream->NiStream_ReadLinkID();
     }
 }
 
@@ -8903,27 +7655,6 @@ class CA6E60Data
     int unk04;
     CA6E60Buffer m_kBuffer;
 };
-class CA6E60Owner
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    CA6E60Data* m_pUserData;
-
-    void ReleaseData(bool bRelease);
-};
-// Sets the thread-local allocation tag to 0x10 and, when bRelease is true, deletes the owned data object and clears the pointer.
-// @fnv 0x00ca6e60
-void CA6E60Owner::ReleaseData(bool bRelease)
-{
-    CA6E60AllocTagScope kScope(0x10);
-    if (bRelease)
-    {
-        delete m_pUserData;
-        m_pUserData = 0;
-    }
-}
 
 struct StrArr
 {
@@ -8966,13 +7697,6 @@ extern char* DAT_012682e8;
 char* __cdecl FUN_00a7d330(char*);
 char* __cdecl FUN_00a7d510(const char*, unsigned int);
 char* __cdecl FUN_00a7d4d0(const char*, int);
-struct PartFlags
-{
-    void* vtable;
-    int references;
-    int unk08;
-    unsigned short flags;
-};
 struct PartValue
 {
     int value;
@@ -9063,6 +7787,8 @@ namespace q58
     char* __cdecl FUN_00a7d5e0(const char* s, const char* v);
 }
 using namespace q58;
+    // pdb: bhkNiTriStripsShape::GetViewerStrings | bhkNiTriStripsShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+    // pdb params: apStrings
     void DiagnosticShape::AppendSubpartDiagnostics(StrArr* output)
     {
         FUN_00cd2fd0(output);
@@ -9104,16 +7830,6 @@ struct LockFlag_t
     LockFlag_t(const LockFlag_t& o) : m_kPointB(o.m_kPointB)
     {}
 };
-
-struct WorldLock_t
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void Mark(unsigned int id, LockFlag_t flag);
-};
-extern WorldLock_t* g_pWorldLock_01268360;
 
 struct CAC300Allocator
 {
@@ -9244,20 +7960,6 @@ struct CAC300Owner
     void FUN_00cac300(int arg);
 };
 
-// Marks the world lock, allocates an hkReferencedObject with arg, hands it to SetObject, releases it, then calls Apply(arg).
-// @fnv 0x00cac300
-void CAC300Owner::FUN_00cac300(int arg)
-{
-    TlsGuard_t guard;
-    WorldLock_t* lock = g_pWorldLock_01268360;
-    lock->Mark(0x6cee9071, LockFlag_t(false));
-    hkReferencedObject* obj = new hkReferencedObject(arg);
-    lock->Mark(0x6cee9071, LockFlag_t(true));
-    SetObject(obj);
-    obj->removeReference();
-    Apply(arg);
-}
-
 // Prelude helper whose body the unit prelude omits.
 // Factory: create a new 0x40-byte object.
 class BA2D0Object
@@ -9316,23 +8018,19 @@ class FUN_00cbc740 : public CBC740MapBase
 };
 // Destructor that calls RemoveAll to clear the map's entries.
 // @fnv 0x00cbc740
+// pdb: NiTMap<unsigned int,TESFile *>::~NiTMap<unsigned int,TESFile *> | TESFile.obj | fnv360_0822_debug, call_seq, high
 FUN_00cbc740::~FUN_00cbc740()
 {
     RemoveAll();
 }
 
 namespace fnv_00cbdf80 {
-struct hkVector4
-{
-    float x, y, z, w;
-};
 class NiPoint3
 {
   public:
     float x, y, z;
     char* FUN_00a59af0(const char* label);
 };
-NiPoint3& __cdecl FUN_004a3970(NiPoint3& result, const hkVector4& value);
 struct StrArr
 {
     void* vtable;
@@ -9348,52 +8046,6 @@ struct StrArr
         SetAt(index, value);
     }
 };
-struct ConstraintVectors
-{
-    int unk00, unk04, unk08, unk0C;
-    int unk10, unk14, unk18, unk1C;
-    int unk20, unk24, unk28, unk2C;
-    hkVector4 perpendicular1;
-    hkVector4 perpendicular2;
-    hkVector4 pivotA;
-    hkVector4 axleB;
-    int unk70, unk74, unk78, unk7C;
-    int unk80, unk84, unk88, unk8C;
-    hkVector4 pivotB;
-};
-struct ConstraintOwner
-{
-    void* vtable;
-    ConstraintVectors* data;
-    void FUN_00c8a560(StrArr* output);
-    void AppendConstraintVectors(StrArr* output);
-};
-// @fnv 0x00cbdf80
-void ConstraintOwner::AppendConstraintVectors(StrArr* output)
-{
-    TlsGuard_t context;
-    FUN_00c8a560(output);
-    ConstraintVectors* vectors = data;
-    if (vectors)
-    {
-        NiPoint3 point;
-        FUN_004a3970(point, vectors->pivotA);
-        char* text = point.FUN_00a59af0("PivotInA");
-        output->Add(text);
-        FUN_004a3970(point, vectors->pivotB);
-        text = point.FUN_00a59af0("PivotInB");
-        output->Add(text);
-        FUN_004a3970(point, vectors->axleB);
-        text = point.FUN_00a59af0("AxleInB");
-        output->Add(text);
-        FUN_004a3970(point, vectors->perpendicular1);
-        text = point.FUN_00a59af0("Perp2AxleInA1");
-        output->Add(text);
-        FUN_004a3970(point, vectors->perpendicular2);
-        text = point.FUN_00a59af0("Perp2AxleInA2");
-        output->Add(text);
-    }
-}
 }  // namespace fnv_00cbdf80
 
 extern __declspec(thread) int g_iCBEA40AllocTag;
@@ -9436,23 +8088,7 @@ class BCBEA40StringArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 };
-extern const char* g_pcCBEA40Name;
 char* __cdecl FUN_00a7d330(const char* pcString);
-class BCBEA40Owner
-{
-  public:
-    void FUN_00c9f270(BCBEA40StringArray* pkArray);
-    void AddNameToArray(BCBEA40StringArray* pkArray);
-};
-// Sets an allocation tag scope, calls FUN_00c9f270 on the array, then appends the string from g_pcCBEA40Name to it.
-// @fnv 0x00cbea40
-void BCBEA40Owner::AddNameToArray(BCBEA40StringArray* pkArray)
-{
-    BCBEA40AllocTagScope kScope(0x10);
-    FUN_00c9f270(pkArray);
-    char* pcName = FUN_00a7d330(g_pcCBEA40Name);
-    pkArray->Add(pcName);
-}
 
 namespace fnv_00cbf540 {
 struct hkMemoryAllocatorStub
@@ -9781,34 +8417,6 @@ struct ObjD
     ObjD(CinfoC* info);
 };
 
-void __cdecl InitHookTable(ObjD* d);
-
-struct FUN_00cbf540_Owner
-{
-    int unk00;
-    int m_iWordAt04;
-    int unk08;
-    int m_iThirdValue;
-    int unk10;
-    ObjD* m_14;
-    ObjB* m_18;
-    void Setup();
-    void CreateObjects(int* key, int unused);
-};
-
-// @fnv 0x00cbf540
-void FUN_00cbf540_Owner::CreateObjects(int* key, int unused)
-{
-    TlsScopeGuard guard;
-    Setup();
-    m_iThirdValue = *key;
-    CinfoA a;
-    a.m_iWordAt00 = m_iWordAt04;
-    m_18 = new ObjB(&a);
-    CinfoC c;
-    m_14 = new ObjD(&c);
-    InitHookTable(m_14);
-}
 }  // namespace fnv_00cbf540
 
 // Registers a batch of classes with the registry while it is temporarily locked.
@@ -9832,6 +8440,8 @@ void __cdecl CBFC10RegisterC(CBFC10Registry* pkRegistry);
 void __cdecl CBFC10RegisterD(CBFC10Registry* pkRegistry);
 void __cdecl CBFC10RegisterE(CBFC10Registry* pkRegistry);
 // @fnv 0x00cbfc10
+// pdb: hkpAgentRegisterUtil::_registerBvTreeAgents | hkpAgentRegisterUtil.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: dis
 void __cdecl RegisterAll(CBFC10Registry* pkRegistry)
 {
     pkRegistry->Set(false);
@@ -9864,6 +8474,8 @@ struct FUN_00ca3dc0_cls
 
 // Serializes m_08, m_0c, a flag for m_20, m_10 and their buffers to the stream via S_00ca59d0_Save and Write.
 // @fnv 0x00ca3dc0
+// pdb: hkPackedNiTriStripsData::SaveBinary | hkPackedNiTriStripsShape.obj | fnv360_1110_retail, objrun_open, low
+// pdb params: arStream
 void __thiscall FUN_00ca3dc0_cls::FUN_00ca3dc0(S_00ca59d0_Stream* pStream)
 {
     S_00ca59d0_Save(*pStream->unk250, &m_08, 1);
@@ -9950,11 +8562,6 @@ struct SubObj046
     int unk00[0x21];
     Inner046* m_84;
 };
-struct NodePtr046
-{
-    void* m_p;
-    void AppendToViewerStrings(SArr046* arr);
-};
 
 extern int DAT_012682dc;
 char* __cdecl FUN_00a7d330(char* a);
@@ -10040,6 +8647,8 @@ char* __cdecl FUN_00847b50(const char* name);
 char* __cdecl FUN_00847d80(const char* format, unsigned int value);
 char* __cdecl FUN_00847dd0(const char* format, float value);
 
+// pdb: BSFurnitureMarker::GetViewerStrings | BSFurnitureMarker.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apStrings
 void ThisCls046::AppendSubpartNames(SArr046* arrRaw)
 {
     MarkListF3* self = reinterpret_cast<MarkListF3*>(this);
@@ -10059,74 +8668,6 @@ void ThisCls046::AppendSubpartNames(SArr046* arrRaw)
     }
 }
 
-
-struct bhkSerializable
-{
-    virtual ~bhkSerializable();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    int m_04;
-    int m_08;
-};
-
-struct bhkCharacterPointCollector
-{
-    ~bhkCharacterPointCollector();
-};
-
-extern int DAT_01268340;
-
-class FUN_00cabf50 : public bhkSerializable
-{
-  public:
-    virtual ~FUN_00cabf50();
-    int m_0c;
-    bhkCharacterPointCollector m_kCollector;
-    void FUN_00c876a0();
-};
-
-// @fnv 0x00cabf50
-FUN_00cabf50::~FUN_00cabf50()
-{
-    ((bhkSerializable*)this)->v37();
-    FUN_00c876a0();
-    --DAT_01268340;
-}
 
 struct LinkedObject
 {
@@ -10238,7 +8779,7 @@ struct FUN_00cb9d80_stream
 
 struct FUN_00a641f0_class
 {
-    void __thiscall WriteObjectLink(void* object);
+    void __thiscall NiStream_SaveFixedString(void* object);
 };
 
 void __stdcall FUN_00a89af0(void* context);
@@ -10266,11 +8807,13 @@ struct FUN_00cb9d80_class
 };
 
 // @fnv 0x00cb9d80
+// pdb: bhkRagdollTemplateData::SaveBinary | bhkRagdollTemplate.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void __thiscall FUN_00cb9d80_class::ReadFromStream(void* context)
 {
     FUN_00a89af0(context);
     unsigned int count = unk14;
-    ((FUN_00a641f0_class*)context)->WriteObjectLink(&unk08);
+    ((FUN_00a641f0_class*)context)->NiStream_SaveFixedString(&unk08);
 
     unsigned int size = 4;
 
@@ -10492,7 +9035,7 @@ struct StandInStream : public NiStream
     int unk248;
     StandInBinaryStream* m_pkIStream;
 
-    void FUN_00a64df0(void* pLinkID);
+    void NiStream_LoadFixedString(void* pLinkID);
 };
 
 template <class T> inline void StreamRead(StandInStream& kStream, T& val)
@@ -10526,9 +9069,6 @@ struct BaseCinfo
     virtual void v04();
     virtual void LoadBinary(NiStream& kStream);
 };
-
-extern int DAT_0108ff98;
-extern int DAT_010c5dc0;
 
 struct Cinfo_13 : public BaseCinfo
 {
@@ -10655,6 +9195,8 @@ static __forceinline void ReadCinfoArray1919(bhkRagdollTemplateData* self, const
     }
 }
 
+// pdb: bhkRagdollTemplateData::LoadBinary | bhkRagdollTemplate.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void bhkRagdollTemplateData::FUN_00cba340(StandInStream& kStream)
 {
     RagdollBase::ReadGroup(kStream);
@@ -10682,29 +9224,6 @@ void bhkRagdollTemplateData::FUN_00cba340(StandInStream& kStream)
     ReadCinfoArray1919(this,ItemUpdateArray,kStream);
 }
 
-
-struct FUN_00ca0ca0_Class
-{
-    void* m_vtbl;
-    FUN_00ca0ca0_Class* __thiscall FUN_00ca0ca0(int flags);
-};
-
-struct MemMgr_00aa4060
-{
-    void __thiscall FUN_00aa4060(FUN_00ca0ca0_Class* p);
-};
-
-extern int DAT_010c7304;
-
-// Sets the vtable pointer and, when flags has bit 0 set, passes this to FUN_00aa4060 on DAT_011f6238, then returns this.
-// @fnv 0x00ca0ca0
-FUN_00ca0ca0_Class* __thiscall FUN_00ca0ca0_Class::FUN_00ca0ca0(int flags)
-{
-    m_vtbl = &DAT_010c7304;
-    if (flags & 1)
-        ((MemMgr_00aa4060*)&DAT_011f6238)->FUN_00aa4060(this);
-    return this;
-}
 
 struct WalkPlacement
 {
@@ -10973,7 +9492,10 @@ struct LeafNode918
     int unk0c, unk10;
     LeafLink918 links;
 };
-void __stdcall CollectLeafObjects(WalkLeaf* leafIn, WalkArray* outObjectsIn, WalkArray* outBodiesIn)
+// pdb: bhkRagdollPenetrationUtil::AddToArrays | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail, call_seq, high
+// pdb params: apRB, arRigidBodies, arConstraints
+// pdb: bhkRagdollPenetrationUtil::AddToArrays | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail, call_seq, high (was: CollectLeafObjects)
+void __stdcall bhkRagdollPenetrationUtil_AddToArrays(WalkLeaf* leafIn, WalkArray* outObjectsIn, WalkArray* outBodiesIn)
 {
     LeafNode918* leaf = (LeafNode918*)leafIn;
     LeafArray918* outObjects = (LeafArray918*)outObjectsIn;
@@ -11049,33 +9571,11 @@ class Node_ca57
         return raw;
     }
 };
-class Owner_ca57
-{
-  public:
-    unsigned int unk00, unk04, m_08;
-    unsigned int* m_0c;
-    void FUN_00ca5360(unsigned int*);
-    unsigned int* GetOrCreateNode(bool*);
-};
-// Sets *out to whether m_0c is null; if so allocates a Node_ca57, stores it in m_0c, and calls FUN_00ca5360 when m_08 is nonzero; returns m_0c.
-// @fnv 0x00ca57a0
-unsigned int* Owner_ca57::GetOrCreateNode(bool* pbWasNull)
-{
-    TlsFlagGuard_ca57 guard;
-    *pbWasNull = (m_0c == 0);
-    if (*pbWasNull)
-    {
-        pbWasNull = (bool*)new Node_ca57();
-        m_0c = (unsigned int*)pbWasNull;
-        if (m_08 != 0)
-            FUN_00ca5360(m_0c);
-    }
-    return m_0c;
-}
 
 int __cdecl FUN_00c84ec0(int param_1);
 // @fnv 0x00ca6610
-int __cdecl FUN_00ca6610(int param_1)
+// pdb: NiBlendTransformInterpolator::CreateCloneInPlace | NiBlendTransformInterpolator.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq) + skyrim(call_seq), high
+int __cdecl NiBlendTransformInterpolator_CreateCloneInPlace(int param_1)
 {
     return FUN_00c84ec0(param_1);
 }
@@ -11116,88 +9616,6 @@ template <typename T> struct FNVArray
     }
 };
 
-struct FUN_00ca73c0
-{
-    int unk00[9];
-    FNVArray<int> unk24;
-    FNVArray<int> unk30;
-    FNVArray<int> unk3C;
-    FNVArray<int> unk48;
-    FNVArray<char> unk54;
-    FNVArray<int> unk60;
-    FNVArray<int> unk6C;
-    FNVArray<int> unk78;
-    FNVArray<int> unk84;
-    FNVArray<int> unk90;
-    FNVArray<int> unk9C;
-    FNVArray<int> unkA8;
-    ~FUN_00ca73c0();
-};
-
-// Destroys the object; the member arrays are released by their own destructors after this body runs.
-// @fnv 0x00ca73c0
-FUN_00ca73c0::~FUN_00ca73c0()
-{}
-
-struct PositionCommand
-{
-    unsigned char opcode;
-    void* sender;
-    float x;
-    float y;
-    float z;
-};
-
-struct PositionQueue
-{
-    void FUN_00c91160(PositionCommand* command);
-};
-
-struct PositionOwner
-{
-    int unk00;
-    int unk04;
-    PositionQueue* queue;
-
-    void OnTrigger(float* position);
-    void SendPositionCommand(float* position);
-};
-
-// @fnv 0x00ca89e0
-void PositionOwner::SendPositionCommand(float* position)
-{
-    PositionQueue* active = queue;
-    if (active && *(int*)((char*)active + 0x94))
-    {
-        PositionCommand command;
-        command.sender = this;
-        command.opcode = 0x19;
-        command.x = position[0];
-        command.y = position[1];
-        command.z = position[2];
-        active->FUN_00c91160(&command);
-    }
-    else
-    {
-        OnTrigger(position);
-    }
-}
-
-void __cdecl FUN_00c896b0();
-// @fnv 0x00ca98d0
-void __cdecl FUN_00ca98d0()
-{
-    FUN_00c896b0();
-}
-
-// @fnv 0x00ca98f0
-char FUN_00ca98f0()
-{
-    return 0xff;
-}
-
-unsigned int __cdecl PackColorBigEndian(float, float, float, float);
-
 struct RNG_cabbd0
 {
     int unk00;
@@ -11209,27 +9627,6 @@ struct RNG_cabbd0
         return m_uiState;
     }
 };
-
-// @fnv 0x00cabbd0
-unsigned int __cdecl FUN_00cabbd0(RNG_cabbd0* rng)
-{
-    float min = 0.0f;
-    float max = 1.0f;
-    unsigned int uRand1 = rng->Next();
-    unsigned int uRand2 = rng->Next();
-    unsigned int uRand3 = rng->Next();
-    return PackColorBigEndian((float)(min + (max - min) * (float)((float)uRand1 * 2.3283064365386963e-10)),
-                              (float)(min + (max - min) * (float)((float)uRand2 * 2.3283064365386963e-10)),
-                              (float)(min + (max - min) * (float)((float)uRand3 * 2.3283064365386963e-10)), 1.0f);
-}
-
-extern int DAT_011b1a58[8];
-extern char DAT_00ffffff;
-// @fnv 0x00cabcb0
-int __cdecl CombineIndexedMaskAndShift(int aiIndex, int aiHighByte)
-{
-    return (DAT_011b1a58[aiIndex & 0x1F] & (int)&DAT_00ffffff) | (aiHighByte << 0x18);
-}
 
 struct SomeClass
 {
@@ -11265,6 +9662,7 @@ struct SomeClass
 };
 
 // @fnv 0x00cac900
+// pdb: BGSExplosion::GetData | BGSExplosion.obj | fnv360_0822_retail, call_gap, low
 int* __fastcall FUN_00cac900(SomeClass* pThis)
 {
     return (int*)((char*)pThis + 0x74);
@@ -11272,10 +9670,11 @@ int* __fastcall FUN_00cac900(SomeClass* pThis)
 
 struct FnvCpu_FUN_00cac950_CpuObject
 {
-    char* FUN_00cac950();
+    char* hkpCharacterProxy_getLinearVelocity();
 };
 // @fnv 0x00cac950
-char* FnvCpu_FUN_00cac950_CpuObject::FUN_00cac950()
+// pdb: hkpCharacterProxy::getLinearVelocity | hkpCharacterProxy.obj | fnv360_0822_retail, objrun + bridge(call_dedup|call_gap) + skyrim(objrun), high
+char* FnvCpu_FUN_00cac950_CpuObject::hkpCharacterProxy_getLinearVelocity()
 {
     return reinterpret_cast<char*>(this) + 16;
 }
@@ -11330,6 +9729,8 @@ struct FUN_00CAFEC0_Class
 };
 // Reads a float from the table at unk60 using an index computed from param_2, param_3, unk64 and unk10, and adds unk68.
 // @fnv 0x00cafec0
+// pdb: hkBSHeightFieldShape::getHeightAtImpl | hkBSHeightFieldShape.obj | fnv360_0721_beta, objrun_open, low, conflict (skyrim: hkpCompressedSampledHeightFieldShape::getHeightAtImpl)
+// pdb params: aX, aZ
 float FUN_00CAFEC0_Class::GetTableValue(int param_2, int param_3)
 {
     int v0_64 = ((FUN_00CAFEC0_This*)this)->unk64;
@@ -11345,19 +9746,10 @@ float FUN_00CAFEC0_Class::GetTableValue(int param_2, int param_3)
     return val + ((FUN_00CAFEC0_This*)this)->unk68;
 }
 
-struct FUN_00cb0a70_Class
-{
-    void* FUN_00cb0a70(int a);
-};
-
-// @fnv 0x00cb0a70
-void* FUN_00cb0a70_Class::FUN_00cb0a70(int a)
-{
-    return this;
-}
-
 int __cdecl FUN_00ec6cc4(char*, const char*, char*);
 // @fnv 0x00cb0f80
+// pdb: hkString::sprintf | hkString.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: buf, fmt
 void __cdecl FUN_00cb0f80(char* a, const char* b, char* c)
 {
     FUN_00ec6cc4(a, b, (char*)&c);
@@ -11366,7 +9758,8 @@ void __cdecl FUN_00cb0f80(char* a, const char* b, char* c)
 extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
 
 // @fnv 0x00cb0fd0
-int __cdecl FUN_00cb0fd0(const char* s1, const char* s2, unsigned int count)
+// pdb: hkString::strNcmp | hkString.obj | fnv360_0822_retail, call_gap + skyrim(call_seq), high
+int __cdecl hkString_strNcmp(const char* s1, const char* s2, unsigned int count)
 {
     return FUN_00ec8a19(s1, s2, count);
 }
@@ -11382,7 +9775,10 @@ __declspec(noinline) char ToLowerAscii(char c)
 char(__cdecl* g_pfnCB0FE0ToLower)(char) = ToLowerAscii;
 
 // @fnv 0x00cb0fe0
-int CompareStringsCaseInsensitive(const char* pStringA, const char* pStringB)
+// pdb: hkString::strCasecmp | hkString.obj | fnv360_0822_retail, call_seq, high
+// pdb params: a, b
+// pdb: hkString::strCasecmp | hkString.obj | fnv360_0822_retail, call_seq, high (was: CompareStringsCaseInsensitive)
+int hkString_strCasecmp(const char* pStringA, const char* pStringB)
 {
     int off = (int)(pStringA - pStringB);
     for (;;)
@@ -11409,38 +9805,27 @@ int CompareStringsCaseInsensitive(const char* pStringA, const char* pStringB)
 }
 }  // namespace fnv_00cb0fe0
 
-void __stdcall FUN_00cd4af0(int a1);
-// @fnv 0x00cb2d70
-unsigned int __stdcall FUN_00cb2d70(unsigned int uiValue)
-{
-    FUN_00cd4af0((int)uiValue);
-    return uiValue;
-}
-
 void __cdecl FUN_00c87f60(void);
 // @fnv 0x00cb75f0
-void __cdecl FUN_00cb75f0(void)
+// pdb: BSRotAccumTransfInterpolator::IsEqual | BSRotAccumTransfInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void __cdecl BSRotAccumTransfInterpolator_IsEqual(void)
 {
     FUN_00c87f60();
 }
 
 void __cdecl FUN_00c87f80();
 // @fnv 0x00cb7600
+// pdb: BSMultiBound::GetViewerStrings | BSMultiBound.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apStrings
 void __cdecl FUN_00cb7600()
 {
     FUN_00c87f80();
 }
 
-void __cdecl FUN_00c87fa0();
-
-// @fnv 0x00cb7610
-void __cdecl FUN_00cb7610()
-{
-    FUN_00c87fa0();
-}
-
 bool __cdecl FUN_00c87fb0(int param_1, int param_2);
 // @fnv 0x00cb7630
+// pdb: BSMaterialEmittanceMultController::LoadBinary | BSMaterialEmittanceMultController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 bool __cdecl FUN_00cb7630(int param_1, int param_2)
 {
     return FUN_00c87fb0(param_1, param_2);
@@ -11460,6 +9845,7 @@ struct FUN_00cb83f0 : FUN_00c86720
 };
 
 // @fnv 0x00cb83f0
+// pdb: bhkMultiSphereShape::~bhkMultiSphereShape | bhkMultiSphereShape.obj | fnv360_0822_retail, call_seq, high
 FUN_00cb83f0::~FUN_00cb83f0()
 {
     FUN_00c876a0();
@@ -11476,6 +9862,8 @@ CpuOpaque* __cdecl FUN_00cb8460()
 
 void __cdecl FUN_00c86800();
 // @fnv 0x00cb8470
+// pdb: NiFloatsExtraDataPoint3Controller::LinkObject | NiFloatsExtraDataPoint3Controller.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void __cdecl FUN_00cb8470()
 {
     FUN_00c86800();
@@ -11490,6 +9878,7 @@ struct FUN_00cb8480_class
 };
 
 // @fnv 0x00cb8480
+// pdb: BSFaceGenModel::`scalar deleting destructor' | BSFaceGenModel.obj | fnv360_0822_retail, vtable, high
 FUN_00cb8480_class* FUN_00cb8480_class::FUN_00cb8480(char flag)
 {
     FUN_00cb83f0();
@@ -11592,6 +9981,8 @@ struct FUN_009ae1a0 {
     }
 };
 }
+// pdb: bhkOrientHingedBodyAction::Init | bhkOrientHingedBodyAction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arInfo
 void FUN_00cb88d0_owner::CreateShapeAndApply(void* parameters)
 {
     if (!parameters)
@@ -11605,27 +9996,12 @@ void FUN_00cb88d0_owner::CreateShapeAndApply(void* parameters)
 }
 
 
-extern GlobalObjectO2_00a7b610 g_012683ec;
 char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610* p);
-struct FUN_00cb89c0_cls
-{
-    void FUN_00c86b80(SArr046* arr);
-    void AppendGlobalReference(SArr046* arr);
-};
-// Calls FUN_00c86b80 on arr, then appends the reference returned by FUN_00a7d330 for g_012683ec to arr.
-// @fnv 0x00cb89c0
-void FUN_00cb89c0_cls::AppendGlobalReference(SArr046* pArray)
-{
-    TlsGuard_t guard;
-    char* value = 0;
-    FUN_00c86b80(pArray);
-    value = FUN_00a7d330(*reinterpret_cast<GlobalObjectO2_00a7b610**>(&g_012683ec));
-    pArray->AppendReference(value);
-}
 
 struct CpuOpaque;
 extern CpuOpaque DAT_012683f4;
 // @fnv 0x00cb9250
+// pdb: getVtablehkBaseObject | hkReferencedObject.obj | tesv_win, objrun_open, low
 CpuOpaque* __cdecl FUN_00cb9250()
 {
     return &DAT_012683f4;
@@ -11634,6 +10010,8 @@ CpuOpaque* __cdecl FUN_00cb9250()
 void __cdecl FUN_00a7b3d0();
 
 // @fnv 0x00cb9920
+// pdb: CombatProcedureUseCombatItem::InitLoadGame | CombatProcedureUseCombatItem.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void __cdecl FUN_00cb9920()
 {
     FUN_00a7b3d0();
@@ -11648,6 +10026,8 @@ class CBADDynamicArray : public CA0E60Array
 };
 
 // @fnv 0x00cbadf0
+// pdb: BSSimpleArray<NiPointer<ObstacleUndoData>,1024>::SetSize | NavMesh_LoadSave.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiNewSize, abFreeMemory
 void CBADDynamicArray::FUN_00cbadf0(unsigned int requestedSize, bool compact)
 {
     if (requestedSize == 0)
@@ -11703,6 +10083,7 @@ class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01268408;
 
 // @fnv 0x00cbaf80
+// pdb: bhkNiTriStripsShape::GetRTTI | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun_open, low
 GlobalObjectO2_00a7b610* __cdecl FUN_00cbaf80()
 {
     return &g_01268408;
@@ -11718,6 +10099,7 @@ struct FUN_00cbb130_Class : FUN_00cbaf90_Obj
     unsigned int __thiscall FUN_00cbb130(unsigned char flag);
 };
 // @fnv 0x00cbb130
+// pdb: ReferenceObstacleArray::`scalar deleting destructor' | NavMeshObstacleManager.obj | fnv360_0822_retail, vtable, medium
 unsigned int __thiscall FUN_00cbb130_Class::FUN_00cbb130(unsigned char flag)
 {
     FUN_00cbaf90();
@@ -11728,49 +10110,11 @@ unsigned int __thiscall FUN_00cbb130_Class::FUN_00cbb130(unsigned char flag)
     return reinterpret_cast<unsigned int>(this);
 }
 
-extern int DAT_010c9194;
-
-struct FUN_00cbc460
-{
-    void* m_ppVirtualMethodTable;
-    unsigned short m_04;
-    unsigned short m_w06;
-    // volatile keeps the vptr store ahead of the zero stores, as in the original
-    void* volatile m_p08;
-    void* volatile m_p0c;
-    void* volatile m_p10;
-    void* volatile m_p14;
-    void* volatile m_p18;
-    void* volatile m_p1c;
-    void* volatile m_p20;
-    void* volatile m_p24;
-    void* volatile m_p28;
-    void* volatile m_p2c;
-    void* volatile m_p30;
-    FUN_00cbc460();
-};
-
-// @fnv 0x00cbc460
-FUN_00cbc460::FUN_00cbc460()
-{
-    m_ppVirtualMethodTable = &DAT_010c9194;
-    m_w06 = 1;
-    m_p08 = 0;
-    m_p0c = 0;
-    m_p10 = 0;
-    m_p14 = 0;
-    m_p18 = 0;
-    m_p1c = 0;
-    m_p20 = 0;
-    m_p24 = 0;
-    m_p28 = 0;
-    m_p2c = 0;
-    m_p30 = 0;
-}
-
 void __cdecl ClearLists();
 
 // @fnv 0x00cbf530
+// pdb: BSBlendTreadTransfInterpolator::RegisterStreamables | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: arStream
 void __cdecl FUN_00cbf530()
 {
     ClearLists();
@@ -12095,6 +10439,8 @@ struct MyObj
 
 // Creates a ShapeData on first call, copies entries from unk08 or resets scale, and returns the stored ShapeData pointer.
 // @f3 0x00912ac0 (community match, verified in this file)
+// pdb: bhkPlaneShape::CopyCinfo | bhkPlaneShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arInfo
 ShapeData* MyObj::GetOrCreateShapeData(bool* created)
 {
     if (!unk0c)
@@ -12117,131 +10463,12 @@ ShapeData* MyObj::GetOrCreateShapeData(bool* created)
 }
 
 
-struct FNV_InnerObject
-{
-    virtual void __fastcall Call0(int);
-    virtual void __fastcall Call1(int);
-    virtual void __fastcall Call2(int);
-    virtual void __fastcall Call3(int);
-    virtual void __fastcall Call4(int);
-    virtual void __fastcall Call5(int);
-    virtual void __fastcall Call6(int);
-    virtual void __fastcall Call7(int);
-    virtual void __fastcall Call8(int);
-};
-struct FNV_OwnerObject
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    FNV_InnerObject inner;
-    void __fastcall FUN_00ca8940(int);
-};
-// @fnv 0x00ca8940
-void __fastcall FNV_OwnerObject::FUN_00ca8940(int forwarded)
-{
-    inner.Call8(forwarded);
-}
-
 struct NiPoint3
 {
     float x;
     float y;
     float z;
 };
-struct CA8B80Command;
-struct CA8B80Queue
-{
-    void __thiscall Push(CA8B80Command*);
-};
-struct FUN_00ca8a30_Class
-{
-    int m_iWordAt00;
-    int m_iWordAt04;
-    CA8B80Queue* m_8;
-    void __thiscall PushCommand(NiPoint3*);
-    void __thiscall FUN_00561800(NiPoint3*);
-};
-struct FUN_00ca8a30_Local
-{
-    unsigned char m_kPointB;
-    FUN_00ca8a30_Class* m_p;
-    float m_uiX;
-    float m_uiY;
-    float m_uiZ;
-};
-// If m_8 is set and its field at 0x94 is nonzero, pushes a command holding this and the coordinates onto m_8; otherwise calls FUN_00561800(p).
-// @fnv 0x00ca8a30
-void __thiscall FUN_00ca8a30_Class::PushCommand(NiPoint3* apPoint)
-{
-    if (m_8 && *(int*)((char*)m_8 + 0x94))
-    {
-        FUN_00ca8a30_Local localCmd;
-        localCmd.m_p = this;
-        localCmd.m_uiX = apPoint->x;
-        localCmd.m_kPointB = 0x1a;
-        localCmd.m_uiY = apPoint->y;
-        localCmd.m_uiZ = apPoint->z;
-        m_8->Push((CA8B80Command*)&localCmd);
-    }
-    else
-    {
-        FUN_00561800(apPoint);
-    }
-}
 
 extern int DAT_0108febc;
 extern int DAT_010c81ac;
@@ -12277,66 +10504,13 @@ struct Holder_ca9e60
     }
 };
 
-struct Host_ca9e60
-{
-    void* __thiscall FUN_00ca9e60(void* arg);
-    void __thiscall FUN_00c89730(void* a, void* b);
-};
-
-// Allocates a bhkRefObject, initializes it, increments two global counters, passes it and arg to FUN_00c89730, and returns it.
-// @fnv 0x00ca9e60
-void* Host_ca9e60::FUN_00ca9e60(void* arg)
-{
-    ScopedMemContext_ca9e60 context(0x10);
-    FUN_00c876f0();
-    bhkRefObject* obj;
-    void* p = FUN_00aa13e0(0x10);
-    {
-        Holder_ca9e60 h(p);
-        if (p)
-        {
-            ((bhkRefObject*)p)->Initialize();
-            *(void**)p = &DAT_0108febc;
-            int one = 1;
-            *((int*)p + 3) = 0;
-            DAT_01268188 += one;
-            *(void**)p = &DAT_010c81ac;
-            DAT_0126830c += one;
-            obj = (bhkRefObject*)p;
-        }
-        else
-        {
-            obj = NULL;
-        }
-        h.p = 0;
-    }
-    this->FUN_00c89730(obj, arg);
-    FUN_00c87700();
-    return obj;
-}
-
 void __cdecl DispatchToTarget();
 // @fnv 0x00caa1b0
+// pdb: BSMaterialEmittanceMultController::IsEqual | BSMaterialEmittanceMultController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: pkObject
 void __cdecl FUN_00caa1b0()
 {
     DispatchToTarget();
-}
-
-extern int DAT_01268334;
-extern int DAT_01268338;
-extern int DAT_0126833c;
-unsigned int __cdecl FUN_00cabbd0(int*);
-
-// @fnv 0x00cabe90
-unsigned int __cdecl FUN_00cabe90()
-{
-    if (!(DAT_0126833c & 1))
-    {
-        DAT_0126833c |= 1;
-        DAT_01268334 = 0;
-        DAT_01268338 = 0;
-    }
-    return FUN_00cabbd0(&DAT_01268334);
 }
 
 struct CA0F0Result
@@ -12350,10 +10524,11 @@ struct CA0F0Object : BaseThunk
     int __thiscall GetResultValue();
 };
 // @f3 0x0092ac20 (community match, verified in this file)
+// pdb: bhkCharacterProxy::GethkWorld | bhkCharacterProxy.obj | fnv360_0721_beta, objrun, medium
 int CA0F0Object::GetResultValue() {
     int value = 0;
     if (this && m_8) {
-        CA0F0Result* result = (CA0F0Result*)m_8->FUN_00cac980();
+        CA0F0Result* result = (CA0F0Result*)m_8->hkpCharacterProxy_getShapePhantom();
         if (result)
             value = result->m_8;
     }
@@ -12424,9 +10599,8 @@ struct WorldObjectCAC4B0
     int unk0B8;
     int unk0BC;
     void* m_pkUserData;
-    ShapeHolderCAC4B0* FUN_00cac980();
+    ShapeHolderCAC4B0* hkpCharacterProxy_getShapePhantom();
 };
-void __cdecl FUN_00cac410();
 struct RefObjectCAC4B0
 {
     void UpdateReference(bool bAdd);
@@ -12445,6 +10619,7 @@ struct ShapeRefCAC4B0 : public RefObjectCAC4B0
 
 // If bAdd, calls DAT_00fdf1c0 on the shape's refcount, else FUN_00cac410(); sets the Havok object's user data to this or null, then calls UpdateReference(bAdd).
 // @f3 0x0092ab80 (community match, verified in this file)
+// pdb: bhkCharacterProxy::AddbhkRefs | bhkCharacterProxy.obj | fnv360_0721_beta, objrun, low, conflict (bridge: bhkCharacterProxy::Link)
 void ShapeRefCAC4B0::FUN_00cac4b0(bool bAdd)
 {
     WorldObjectCAC4B0* pkObject = GetHavokObject();
@@ -12453,7 +10628,7 @@ void ShapeRefCAC4B0::FUN_00cac4b0(bool bAdd)
         WorldObjectCAC4B0* pkHavok = GetHavokObject();
         if (pkHavok)
         {
-            ShapeHolderCAC4B0* pkHolder = pkHavok->FUN_00cac980();
+            ShapeHolderCAC4B0* pkHolder = pkHavok->hkpCharacterProxy_getShapePhantom();
             if (pkHolder && pkHolder->m_pkShape)
                 InterlockedIncrement(&pkHolder->m_pkShape->m_iRefCount);
         }
@@ -12463,7 +10638,7 @@ void ShapeRefCAC4B0::FUN_00cac4b0(bool bAdd)
         WorldObjectCAC4B0* pkHavok = GetHavokObject();
         if (pkHavok)
         {
-            ShapeHolderCAC4B0* pkHolder = pkHavok->FUN_00cac980();
+            ShapeHolderCAC4B0* pkHolder = pkHavok->hkpCharacterProxy_getShapePhantom();
             if (pkHolder)
             {
                 RefCountedCAC4B0* pkShape = pkHolder->m_pkShape;
@@ -12523,33 +10698,6 @@ struct hkMemoryRouterC5E0
     hkMemoryAllocatorC5E0* m_pStreamAllocator;
 };
 
-hkMemoryRouterC5E0* __cdecl GetMemoryRouterC5E0();
-
-class BufferOwnerC5E0
-{
-  public:
-    void FreeBuffer(bool bFree);
-
-    int unk00;
-    int unk04;
-    int unk08;
-    void* pvContextData;
-};
-
-// If bFree is set, releases the pvContextData buffer through the memory router heap and nulls the pointer.
-// @fnv 0x00cac5e0
-void BufferOwnerC5E0::FreeBuffer(bool bFree)
-{
-    AutoMemContextC5E0 kContext(0x10);
-    if (bFree)
-    {
-        void* pvBuffer = pvContextData;
-        if (pvBuffer)
-            GetMemoryRouterC5E0()->heap().ReleaseBlock(pvBuffer, 0x80);
-        pvContextData = 0;
-    }
-}
-
 namespace fnv_00cac6b0 {
 // ---- FUN_00cac6b0 candidate ----
 
@@ -12557,10 +10705,8 @@ struct NiRTTI
 {
     char* m_pcName;
 };
-extern const NiRTTI g_01268344;
 
 extern float DAT_01267e30;
-extern "C" void __cdecl FUN_00458620(void* pvOut, const void* pkObj);
 
 class NiPoint3
 {
@@ -12569,109 +10715,9 @@ class NiPoint3
     char* FUN_00a59af0(const char* pcString);
 };
 
-struct FUN_00cac910_shell
-{
-    void* FUN_00cac910();
-};
-struct ProxyHolder
-{
-    const char* FUN_00cac950();
-};
-
-struct ProxyOwner
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-
-    int unk04;
-    FUN_00cac910_shell* m_8;
-
-    void FUN_00c878c0(SArr046* pkStrings);
-    void FUN_00cac6b0(SArr046* pkStrings);
-};
-
 static const char kCac6b0Pos[] = "Pos";
 static const char kCac6b0Vel[] = "Vel";
 
-// Appends to pkStrings the class name, then the Pos and Vel vectors read from the proxy m_8 when it is present.
-// @fnv 0x00cac6b0
-void ProxyOwner::FUN_00cac6b0(SArr046* pkStrings)
-{
-    TlsGuard_t guard;
-
-    this->FUN_00c878c0(pkStrings);
-
-    char* pcStr = FUN_00a7d330(g_01268344.m_pcName);
-    unsigned int uiIndex = pkStrings->m_usSize;
-    if (uiIndex >= pkStrings->m_usMaxSize)
-        pkStrings->FUN_0096ad30(uiIndex + pkStrings->m_usGrowBy);
-    pkStrings->FUN_0096ae90(uiIndex, pcStr);
-
-    NiPoint3 kVec;
-    FUN_00cac910_shell* pkProxy = this->m_8;
-    const void* pvSrc = &DAT_01267e30;
-    if (pkProxy)
-    {
-        this->v37();
-        pvSrc = pkProxy->FUN_00cac910();
-        this->v37();
-    }
-    FUN_00458620(&kVec, pvSrc);
-    pcStr = kVec.FUN_00a59af0(kCac6b0Pos);
-    uiIndex = pkStrings->m_usSize;
-    if (uiIndex >= pkStrings->m_usMaxSize)
-        pkStrings->FUN_0096ad30(uiIndex + pkStrings->m_usGrowBy);
-    pkStrings->FUN_0096ae90(uiIndex, pcStr);
-
-    FUN_00cac910_shell* pkProxy2 = this->m_8;
-    if (pkProxy2)
-    {
-        this->v37();
-        FUN_00458620(&kVec, ((ProxyHolder*)pkProxy2)->FUN_00cac950());
-        this->v37();
-    }
-    pcStr = kVec.FUN_00a59af0(kCac6b0Vel);
-    uiIndex = pkStrings->m_usSize;
-    if (uiIndex >= pkStrings->m_usMaxSize)
-        pkStrings->FUN_0096ad30(uiIndex + pkStrings->m_usGrowBy);
-    pkStrings->FUN_0096ae90(uiIndex, pcStr);
-}
 }  // namespace fnv_00cac6b0
 
 extern "C" int DAT_0126834c;
@@ -12685,6 +10731,7 @@ struct FUN_00caff80 : CAFBase
     void FUN_00c876a0();
 };
 // @fnv 0x00caff80
+// pdb: bhkCapsuleShape::~bhkCapsuleShape | bhkCapsuleShape.obj | fnv360_0822_retail, call_seq, medium
 FUN_00caff80::~FUN_00caff80()
 {
     FUN_00c876a0();
@@ -12693,12 +10740,12 @@ FUN_00caff80::~FUN_00caff80()
 
 // FUN_00cb0aa0: allocator-backed string dup. Takes the source string in the
 // caller's edi (private convention derived for this static noinline helper):
-// length via FUN_00cb10d0 (+1 for the NUL), block allocated through the task
+// length via hkString_strLen (+1 for the NUL), block allocated through the task
 // memory router's allocator, contents filled by FUN_00cb1090.
 
 struct FNVTaskMemoryRouter;
 
-extern "C" int __cdecl FUN_00cb10d0(int);
+extern "C" int __cdecl hkString_strLen(int);
 extern "C" FNVTaskMemoryRouter* __cdecl FUN_00c85750();
 extern "C" void* __cdecl AllocateWithHeader(void* allocator, unsigned int count);
 extern "C" void __cdecl FUN_00cb1090(void* block, int value);
@@ -12712,20 +10759,15 @@ struct CbobRouter
     void* allocator;
 };
 
-// Allocates a block of FUN_00cb10d0(s) + 1 units from the router's allocator, fills it from s via FUN_00cb1090, and returns it.
+// Allocates a block of hkString_strLen(s) + 1 units from the router's allocator, fills it from s via FUN_00cb1090, and returns it.
 // @fnv 0x00cb0aa0
 static __declspec(noinline) void* FUN_00cb0aa0(char* s)
 {
-    unsigned int count = (unsigned int)(FUN_00cb10d0((int)s) + 1);
+    unsigned int count = (unsigned int)(hkString_strLen((int)s) + 1);
     CbobRouter* router = (CbobRouter*)FUN_00c85750();
     void* block = AllocateWithHeader(router->allocator, count);
     FUN_00cb1090(block, (int)s);
     return block;
-}
-
-void zz_probe_call(char* s)
-{
-    FUN_00cb0aa0(s);
 }
 
 namespace fnv_00cb1200 {
@@ -12738,6 +10780,7 @@ __declspec(noinline) char ToLowerAscii(char c)
 
 // Converts every character in pcString to its lowercase ASCII equivalent in place and returns pcString.
 // @fnv 0x00cb1200
+// pdb: hkString::strLwr | hkString.obj | tesv_win, caller_sim, low
 char* FUN_00cb1200(char* pcString)
 {
     if (*pcString)
@@ -12763,6 +10806,7 @@ char __declspec(noinline) ToUpperAscii(char c)
 
 // Converts every character of the null-terminated string s to uppercase in place and returns s.
 // @fnv 0x00cb1230
+// pdb: hkString::strUpr | hkString.obj | tesv_win, objrun, medium
 char* __cdecl MakeUpperAscii(char* apString)
 {
     if (*apString)
@@ -12778,32 +10822,10 @@ char* __cdecl MakeUpperAscii(char* apString)
 }
 }  // namespace fnv_00cb1230
 
-struct Cb1b80Arr
-{
-    int* m_data;
-    int m_flags;
-    int m_uiItemCount;
-    Cb1b80Arr* FUN_00cb1b80(void* data, unsigned int size);
-};
-
-// @fnv 0x00cb1b80
-Cb1b80Arr* Cb1b80Arr::FUN_00cb1b80(void* data, unsigned int size)
-{
-    int n = size >> 4;
-    m_data = (int*)data;
-    m_flags = 0x80000000;
-    m_uiItemCount = n - 1;
-    for (int i = 0; i < n; ++i)
-    {
-        int* q = m_data;
-        q[4 * i] = -1;
-        q[4 * i + 1] = -1;
-    }
-    return this;
-}
-
 void __cdecl FUN_00c65820(void);
 // @fnv 0x00cb7620
+// pdb: BSMultiBoundRoom::IsEqual | BSMultiBoundRoom.obj | fnv360_0822_retail, vtable, high
+// pdb params: pkObject
 void __cdecl FUN_00cb7620(void)
 {
     FUN_00c65820();
@@ -12875,6 +10897,8 @@ int __thiscall FUN_00cb9260_Class::FUN_00cb9260(unsigned char flags)
 
 extern "C" void __cdecl FUN_00a7b330();
 // @fnv 0x00cb9910
+// pdb: NiBoolTimelineInterpolator::LinkObject | NiBoolTimelineInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void __cdecl FUN_00cb9910()
 {
     FUN_00a7b330();
@@ -12927,6 +10951,7 @@ struct FUN_00cbaec0_Obj
 };
 // Releases the held items, optionally deallocates this object when flags bit 0 is set, and returns this.
 // @fnv 0x00cbaec0
+// pdb: BSSimpleArray<NavMeshPtr,1024>::`scalar deleting destructor' | ExtraDataList.obj | fnv360_0822_retail, vtable, medium
 FUN_00cbaec0_Obj* __thiscall FUN_00cbaec0_Obj::ReleaseAndDestroy(unsigned char flags)
 {
     void* oldData = m_pData;
@@ -12982,6 +11007,7 @@ struct FUN_00cbaf90 : public ObjectCBAF90
 
 // Destructor that releases all items in m_kArray by calling RemoveAll.
 // @fnv 0x00cbaf90
+// pdb: bhkRagdollTemplate::~bhkRagdollTemplate | bhkRagdollTemplate.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 FUN_00cbaf90::~FUN_00cbaf90()
 {
     m_kArray.RemoveAll();
@@ -13000,8 +11026,10 @@ struct CBB050Object
     void FUN_00a7b4a0(ReadStream* stream);
     void FUN_00cbb050(ReadStream* stream);
 };
-// Calls FUN_00a7b4a0, loads a count from the stream, passes it to the array's FUN_00cbadf0, then calls stream->FUN_00a645b0 count times.
+// Calls FUN_00a7b4a0, loads a count from the stream, passes it to the array's FUN_00cbadf0, then calls stream->NiStream_ReadLinkID count times.
 // @fnv 0x00cbb050
+// pdb: bhkRagdollTemplate::LoadBinary | bhkRagdollTemplate.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void CBB050Object::FUN_00cbb050(ReadStream* stream)
 {
     FUN_00a7b4a0(stream);
@@ -13009,7 +11037,7 @@ void CBB050Object::FUN_00cbb050(ReadStream* stream)
     Load(*stream->binary, &count, 1);
     array.FUN_00cbadf0(count, true);
     for (unsigned int i = 0; i < count; ++i)
-        stream->FUN_00a645b0();
+        stream->NiStream_ReadLinkID();
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -13042,11 +11070,6 @@ FUN_00cbaf20_class* CreateNamedObject()
     return obj;
 }
 
-struct FUN_00cbf540_class
-{
-    void __thiscall CreateObjects(int* a, int b);
-};
-
 struct FUN_00cbf6b0_class
 {
     int m_iWordAt00;
@@ -13069,6 +11092,8 @@ struct Layout_5450_e950 {
     void FUN_00454330(void* value, unsigned int size);
 };
 
+// pdb: TESCreature::SaveGame | TESCreature.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void FUN_00cbf6b0_class::EnsureObjectsCreated(int flags)
 {
     Layout_5450_e950* self = (Layout_5450_e950*)this;
@@ -13090,6 +11115,7 @@ struct FUN_00cbf6e0_cls
 };
 
 // @fnv 0x00cbf6e0
+// pdb: LockFreeMap<char const *,KFModel *>::LockFreeMapIterator::`scalar deleting destructor' | ModelLoader.obj | fnv360_0822_retail, vtable, medium
 FUN_00cbf6e0_cls* FUN_00cbf6e0_cls::FUN_00cbf6e0(unsigned int flags)
 {
     m_ppVirtualMethodTable = &DAT_010c925c;
@@ -13107,6 +11133,7 @@ struct FUN_00ca5620
 
 // Destructor that releases the held RefCounted object by nulling m_pReferencedObject.
 // @fnv 0x00ca5620
+// pdb: hkExtendedMeshShapeCinfo::~hkExtendedMeshShapeCinfo | bhkExtendedMeshShape.obj | fnv360_1110_retail, objopen_prop, low
 FUN_00ca5620::~FUN_00ca5620()
 {
     m_pReferencedObject = (RefCounted*)0;
@@ -13301,8 +11328,6 @@ class NiNode
     virtual void AttachChildInAvailableSlot(NiAVObject* child, bool firstAvail);
 };
 
-void __cdecl SetupCollisionGeometry(NiTriStrips* strips, NiNode* parent, int layer, int arg);
-
 struct ShapeEntry
 {
     NiObject* m_pData;
@@ -13311,106 +11336,6 @@ struct ShapeEntry
 
 extern ShapeEntry DAT_012682f0;
 
-struct StripsShape
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6C;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7C;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8C;
-    int unk90;
-    int unk94;
-    ShapeEntry* m_pEntries;
-    int unk9C;
-    int m_iNumEntries;
-};
-
-class bhkNiTriStripsShape
-{
-  public:
-    int unk00;
-    int unk04;
-    StripsShape* m_pShape;
-    float GetScaleValue();
-    void FUN_00ca6b60(NiNode* parent, int arg);
-};
-
-static inline int GetNumStrips(bhkNiTriStripsShape* shape)
-{
-    return (shape && shape->m_pShape) ? shape->m_pShape->m_iNumEntries : 0;
-}
-
-static inline ShapeEntry& GetStrip(bhkNiTriStripsShape* shape, int i)
-{
-    return (shape && shape->m_pShape) ? shape->m_pShape->m_pEntries[i] : DAT_012682f0;
-}
-
-static inline bool IsTriStripsData(NiObject* obj)
-{
-    for (const NiRTTI* rtti = obj->GetRTTI(); rtti; rtti = rtti->m_pBaseRTTI)
-    {
-        if (rtti == &NiTriStripsData::ms_kRTTI)
-            return true;
-    }
-    return false;
-}
-
-// For each strip entry with NiTriStripsData, creates a NiTriStrips, sets its scale, calls SetupCollisionGeometry, and attaches it to parent.
-// @fnv 0x00ca6b60
-void bhkNiTriStripsShape::FUN_00ca6b60(NiNode* parent, int arg)
-{
-    ScopedMemContext context(0x10);
-    int count = GetNumStrips(this);
-    for (int i = 0; i < count; i++)
-    {
-        ShapeEntry& entry = GetStrip(this, i);
-        NiObject* obj = entry.m_pData;
-        if (obj)
-        {
-            NiTriStripsData* data = IsTriStripsData(obj) ? (NiTriStripsData*)obj : 0;
-            if (data)
-            {
-                NiTriStrips* strips = new NiTriStrips(data);
-                strips->SetName(NiFixedString("bhkNiTriStripsShape"));
-                strips->m_fScale = fabs(GetScaleValue());
-                int layer = entry.m_pData ? (entry.m_pData->m_usFlags >> 6) & 0x1f : 0;
-                SetupCollisionGeometry(strips, parent, layer, arg);
-                parent->AttachChildInAvailableSlot(strips, true);
-            }
-        }
-    }
-}
 }  // namespace fnv_00ca6b60
 
 extern __declspec(thread) unsigned int t_uiMemContextC520;
@@ -13506,41 +11431,7 @@ class BufferC520
     int unk7c;
 };
 
-class ConsumerC520
-{
-  public:
-    void SetBuffer(BufferC520* pkBuffer);
-};
-
-class BufferOwnerC520
-{
-  public:
-    BufferC520* GetBuffer(bool* pbCreated);
-
-    int unk00;
-    int unk04;
-    ConsumerC520* m_pkConsumer;
-    BufferC520* m_pCacheEntry;
-};
-
-// Sets *pbCreated if m_pCacheEntry was null; then creates a BufferC520 into it, passes it to m_pkConsumer if set, and returns m_pCacheEntry.
-// @fnv 0x00cac520
-BufferC520* BufferOwnerC520::GetBuffer(bool* pbCreated)
-{
-    AutoMemContextC520 kContext(0x10);
-    bool bCreate = m_pCacheEntry == 0;
-    *pbCreated = bCreate;
-    if (bCreate)
-    {
-        BufferC520* pkBuffer = new BufferC520;
-        m_pCacheEntry = pkBuffer;
-        if (m_pkConsumer)
-            m_pkConsumer->SetBuffer(pkBuffer);
-    }
-    return m_pCacheEntry;
-}
-
-// FUN_00cac980: __thiscall getter, 4 bytes: mov eax,[ecx+0x30]; ret
+// hkpCharacterProxy_getShapePhantom: __thiscall getter, 4 bytes: mov eax,[ecx+0x30]; ret
 // Original index entry spans 0xcac980..0xcac993 (20 bytes): this 4-byte getter,
 // 12 bytes of int3 COMDAT pad, then a byte-identical anonymous twin getter at
 // 0xcac990 (mov eax,[ecx+0x30]; ret) that the pack does not index.
@@ -13561,34 +11452,12 @@ struct FUN_00cac980_class
     int unk28;
     int unk2c;
     void* m_30;
-    void* FUN_00cac980();
+    void* hkpCharacterProxy_getShapePhantom();
 };
 
 // @fnv 0x00cac980
-void* FUN_00cac980_class::FUN_00cac980()
-{
-    return m_30;
-}
-
-struct CAC980_Twin_class
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    void* m_30;
-    void* TwinGet();
-};
-
-void* CAC980_Twin_class::TwinGet()
+// pdb: hkpCharacterProxy::getShapePhantom | hkpCharacterProxy.obj | fnv360_0721_beta, call_seq + skyrim(objrun), high
+void* FUN_00cac980_class::hkpCharacterProxy_getShapePhantom()
 {
     return m_30;
 }
@@ -13612,6 +11481,7 @@ struct GetterCAC990
 };
 
 // @fnv 0x00cac990
+// pdb: hkpCharacterProxy::getShapePhantom | hkpCharacterProxy.obj | fnv360_0822_retail, objrun, high
 int GetterCAC990::Get()
 {
     return m_30;
@@ -13645,6 +11515,7 @@ struct S00cafef0_Obj
 
 // Computes min/max of element ez values over m_10*m_14 elements and stores them offset by m_34 into m_18 and m_1c.
 // @fnv 0x00cafef0
+// pdb: hkBSHeightFieldShapeCinfo::CalcMinMax | hkBSHeightFieldShape.obj | fnv360_0822_retail, call_seq, medium
 void S00cafef0_Obj::UpdateBoundsFromElements()
 {
     S00cafef0_Elem* p = m_30;
@@ -13675,7 +11546,7 @@ extern "C" void __cdecl FUN_00c856c0(void*, void*);
 extern "C" void __cdecl CopyIfNonEmpty(char*, const char*, int);
 static __declspec(noinline) char* FUN_00cb0ad0(char* text, int count)
 {
-    int length = FUN_00cb10d0((int)text);
+    int length = hkString_strLen((int)text);
     if (length > count)
         length = count;
     char* result = (char*)AllocateWithHeader(FUN_00c85750()->allocator, length + 1);
@@ -13685,7 +11556,7 @@ static __declspec(noinline) char* FUN_00cb0ad0(char* text, int count)
 }
 static __declspec(noinline) void* FUN_00cb0aa0(char* text)
 {
-    int length = FUN_00cb10d0((int)text) + 1;
+    int length = hkString_strLen((int)text) + 1;
     void* result = AllocateWithHeader(FUN_00c85750()->allocator, length);
     FUN_00cb1090(result, (int)text);
     return result;
@@ -13717,28 +11588,6 @@ static __declspec(noinline) void FUN_00cb0b10(char* text, int count, StringSlot 
         }
     }
 }
-extern volatile int cbCount;
-extern char* volatile cbText;
-extern unsigned int* volatile cbOut;
-void cbAssignProbe()
-{
-    StringSlot slot = {cbOut};
-    FUN_00cb0b10(cbText, cbCount, slot);
-}
-struct CBString
-{
-    unsigned int m_data;
-    CBString* FUN_00cb0b80(char* text);
-};
-// Sets m_data to the empty-string sentinel, then calls FUN_00cb0b10 to copy text into m_data and returns this.
-// @fnv 0x00cb0b80
-CBString* CBString::FUN_00cb0b80(char* text)
-{
-    m_data = DAT_01268358;
-    StringSlot slot = {&m_data};
-    FUN_00cb0b10(text, -1, slot);
-    return this;
-}
 }  // namespace fnv_00cb0b80
 
 namespace fnv_00cb0ba0 {
@@ -13748,14 +11597,10 @@ extern "C" char* __cdecl FUN_00cb0ad0(const char* text, int count);
 
 static __declspec(noinline) void* FUN_00cb0aa0(char* s)
 {
-    int n = FUN_00cb10d0((int)s) + 1;
+    int n = hkString_strLen((int)s) + 1;
     void* block = AllocateWithHeader(FUN_00c85750()->allocator, n);
     FUN_00cb1090(block, (int)s);
     return block;
-}
-void zz_probe_call(char* s)
-{
-    FUN_00cb0aa0(s);
 }
 
 struct StringStorageCB
@@ -13795,15 +11640,6 @@ static __declspec(noinline) void FUN_00cb0b10(StringRefCB ref, const char* text,
     AssignStringCB(ref, text, count);
 }
 
-// Sets handle to DAT_01268358, then assigns text to handle via FUN_00cb0b10 and returns this.
-// @fnv 0x00cb0ba0
-StringStorageCB* StringStorageCB::FUN_00cb0ba0(const char* text, int count)
-{
-    handle = DAT_01268358;
-    StringRefCB ref = {this};
-    FUN_00cb0b10(ref, text, count);
-    return this;
-}
 }  // namespace fnv_00cb0ba0
 
 #ifndef _INCLUDED_MM2
@@ -13871,47 +11707,6 @@ struct S00cb87e0_Guard
         DAT_012722b4 = m_saved;
     }
 };
-
-struct S00cb87e0_Obj
-{
-    int unk00;
-    int unk04;
-    int m_08;
-    S00cb87e0_Node* m_0c;
-    void FUN_00cb84a0(S00cb87e0_Node* p);
-    void* GetNode(bool* out);
-};
-
-// Ensures m_0c points to a valid S00cb87e0_Node, allocating and initializing one if null, and sets *out to true when a new node was created.
-// @fnv 0x00cb87e0
-void* S00cb87e0_Obj::GetNode(bool* abCreated)
-{
-    S00cb87e0_Guard guard;
-    bool empty = (m_0c == 0);
-    *abCreated = empty;
-    if (empty)
-    {
-        unsigned char* raw = (unsigned char*)((MemoryManager_t*)&DAT_011f6238)->FUN_00aa3e40(sizeof(S00cb87e0_Node));
-        double defaultScale = DAT_01016248;
-        unsigned char low = (unsigned char)raw;
-        low &= 0x0f;
-        unsigned char padding = 0x10;
-        padding -= low;
-        raw += padding;
-        raw[-1] = padding;
-        S00cb87e0_Node* p = (S00cb87e0_Node*)raw;
-        p->unk00 = 0;
-        p->unk04 = 0;
-        p->v10 = DAT_01267e30;
-        p->v20 = DAT_01267e30;
-        p->f30 = defaultScale;
-        p->f34 = DAT_0101e2bc;
-        m_0c = p;
-        if (m_08)
-            FUN_00cb84a0(p);
-    }
-    return m_0c;
-}
 
 namespace fnv_00cb96c0 {
 // FUN_00cb96c0: CloneSpec::Clone(void* param) - allocate 0x70, 16-align with pad byte,
@@ -13981,16 +11776,6 @@ struct CloneSpec : public CloneableObj
     CloneSpec* FUN_00cb96c0(void* param);
 };
 
-// Allocates a new CloneSpec, calls FUN_00a6cfe0 on this with the new object and param, then copies m_u40 and m_f50 into it and returns it.
-// @fnv 0x00cb96c0
-CloneSpec* CloneSpec::FUN_00cb96c0(void* param)
-{
-    CloneSpec* obj = new CloneSpec();
-    FUN_00a6cfe0(obj, param);
-    obj->m_u40 = m_u40;
-    obj->m_f50 = m_f50;
-    return obj;
-}
 }  // namespace fnv_00cb96c0
 
 extern int DAT_010c81ac;
@@ -14004,21 +11789,6 @@ struct SpawnMidBase : FUN_00c87c30
         ++DAT_01268188;
     }
 };
-
-struct FUN_00cb9a10 : SpawnMidBase
-{
-    FUN_00cb9a10(char* source);
-    void SpawnAndAttach(char* source);
-};
-
-// Sets the vtable, calls SpawnAndAttach with source+4 or 0, and increments DAT_0126830c.
-// @fnv 0x00cb9a10
-FUN_00cb9a10::FUN_00cb9a10(char* source)
-{
-    vtable = &DAT_010c81ac;
-    SpawnAndAttach(source ? source + 4 : 0);
-    ++DAT_0126830c;
-}
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
@@ -14100,28 +11870,7 @@ FUN_00cba1d0::~FUN_00cba1d0()
     m_kUnsortedGeometryList.RemoveAll();
 }
 
-// @fnv 0x00cbb920
-void __cdecl FUN_00cbb920()
-{}
-
 extern int DAT_0126841c;
-
-struct CB920Entry
-{
-    void* m_uiFilterValue;
-    CB920Entry* m_pNext;
-
-    void Remove(void*& item);
-    void Cleanup();
-};
-
-struct CB920Map
-{
-    void GetAt(void* key, void** out) const;
-    void RemoveAt(void* key);
-};
-
-extern CB920Map DAT_011b2190;
 
 struct CB920Base
 {
@@ -14196,6 +11945,7 @@ struct FoundObj
     void FUN_00421610(void** p);
     void FUN_006c8220();
 };
+// pdb: bhkLiquidAction::~bhkLiquidAction | bhkLiquidAction.obj | fnv360_0822_retail, call_seq, medium
 FUN_00cbc920::~FUN_00cbc920()
 {
     Layout_cbc920* self = (Layout_cbc920*)this;
@@ -14299,13 +12049,10 @@ void __cdecl InsertIntoContext(void* pList, void* pContext)
     FUN_00cbd700((ChainSource*)pList, (ChainDest*)pContext);
 }
 
-// @fnv 0x00cbf190
-void __cdecl FUN_00cbf190()
-{}
-
 // Floors a float (rounds toward negative infinity) using integer bit manipulation of its IEEE-754 representation.
 // @fnv 0x00cbfd80
-float __cdecl FUN_00cbfd80(float value)
+// pdb: hkMath::hkFloor | hkMathTypes.obj | fnv360_0822_retail, call_gap + bridge(uconst|call_gap) + skyrim(call_seq), high
+float __cdecl hkMath_hkFloor(float value)
 {
     union
     {
@@ -14333,6 +12080,8 @@ extern double DAT_01030f38;
 extern double DAT_0101ff40;
 // Polynomial approximation of atan2 with x as numerator and y as denominator, adjusted using the signs of y and x.
 // @fnv 0x00cbff80
+// pdb: hkMath_atan2fApproximation | hkMathTypes.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: x, y
 float __cdecl Atan2(float x, float y)
 {
     float ax = (float)fabs(x);
@@ -14663,6 +12412,8 @@ struct FUN_00ca6780_cls
 };
 
 // @f3 0x009126d0 (community match, verified in this file)
+// pdb: bhkNiTriStripsShape::LoadCInfo | bhkNiTriStripsShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: arStream
 int FUN_00ca6780_cls::FUN_00ca6780(FUN_00ca6780_arg* a1)
 {
     unsigned char c;
@@ -14689,91 +12440,6 @@ int FUN_00ca6780_cls::FUN_00ca6780(FUN_00ca6780_arg* a1)
     return size;
 }
 
-
-struct BlockData
-{
-    __m128 position;
-    __m128 rotation;
-};
-struct Command
-{
-    unsigned char type;
-    void* owner;
-    BlockData* data;
-};
-struct QueueCA8960
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    void __thiscall FUN_00c91160(Command* cmd);
-};
-struct AllocCA8960
-{
-    virtual void v00();
-    virtual BlockData* Allocate(unsigned int bytes);
-};
-struct FUN_00ca8960_Class
-{
-    int unk00;
-    int unk04;
-    QueueCA8960* queue08;
-    void __thiscall FUN_00ca8860(const __m128* position, const __m128* rotation);
-    void EnqueueTransform(const __m128* position, const __m128* rotation);
-};
-// If queue08 is set and its unk94 is nonzero, queues a type 0x18 command holding position and rotation; otherwise calls FUN_00ca8860 with them.
-// @fnv 0x00ca8960
-void FUN_00ca8960_Class::EnqueueTransform(const __m128* position, const __m128* rotation)
-{
-    if (queue08 && queue08->unk94)
-    {
-        Command cmd;
-        cmd.type = 0x18;
-        cmd.owner = this;
-        FNVTaskMemoryRouter* router = FUN_00c85750();
-        cmd.data = ((AllocCA8960*)router->allocator)->Allocate(32);
-        cmd.data->position = *position;
-        cmd.data->rotation = *rotation;
-        queue08->FUN_00c91160(&cmd);
-    }
-    else
-        FUN_00ca8860(position, rotation);
-}
 
 namespace fnv_00cabf30 {
 // sub ecx,8; jmp FUN_00cac120  ==  MSVC adjustor thunk for a secondary base at offset 8.
@@ -14834,20 +12500,6 @@ struct CAC410_TLSState
 
 __declspec(thread) CAC410_TLSState g_CAC410_TLSState;
 
-struct CAC410_RefCounted
-{
-    virtual void Dummy();
-    virtual void Release();
-};
-
-struct FUN_00cac980_Result
-{
-    void* m_vtbl;
-    int m_iWordAt04;
-    int m_8;
-    CAC410_RefCounted* m_iThirdValue;
-};
-
 struct CAC410_ScopedValue
 {
     int m_oldValue;
@@ -14863,34 +12515,7 @@ struct CAC410_ScopedValue
     }
 };
 
-// Sets a scoped TLS value to 0x10, calls FUN_00cac980 on the holder at pThis+8, and drops one reference on the object in its result.
-// @fnv 0x00cac410
-void __fastcall FUN_00cac410(void* pThis)
-{
-    CAC410_ScopedValue scopedValue;
-
-    FUN_00cac980_Holder* holder = *reinterpret_cast<FUN_00cac980_Holder**>(reinterpret_cast<char*>(pThis) + 8);
-
-    if (holder)
-    {
-        void* result = holder->FUN_00cac980();
-        if (result)
-        {
-            CAC410_RefCounted* object = static_cast<FUN_00cac980_Result*>(result)->m_iThirdValue;
-
-            if (object)
-            {
-                if (InterlockedDecrement(reinterpret_cast<LONG volatile*>(reinterpret_cast<char*>(object) + 4)) == 0)
-                {
-                    object->Release();
-                }
-            }
-        }
-    }
-}
-
 extern int DAT_01268358;
-void CB0Free(void* p);
 int CB0Len(const char* s);
 
 struct CB0StringPtr
@@ -14923,43 +12548,6 @@ CB0StringPtr::CB0StringPtr(const CB0StringPtr& other)
     CB0SelfRef r;
     r.p = this;
     FUN_00cb0b10(r, other.cString(), -1);
-}
-
-struct CC3320Info
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    __m128 vec10, vec20;
-    float out30, out34;
-};
-struct CC3320Source
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    unsigned int unk10, unk14, unk18, unk1c;
-    __m128 vec20, vec30;
-    unsigned int unk40, unk44, unk48, unk4c;
-    float value50, value54;
-};
-struct CC3320Base
-{
-    int unk00;
-    void __thiscall GetInfo(CC3320Info* info);
-};
-struct FUN_00cb84a0_cls : CC3320Base
-{
-    int unk04;
-    CC3320Source* src08;
-    void FUN_00cb84a0(CC3320Info* info);
-};
-// Calls GetInfo, then copies vec20, vec30, value50 and value54 from src08 into info's vec10, vec20, out30 and out34.
-// @fnv 0x00cb84a0
-void FUN_00cb84a0_cls::FUN_00cb84a0(CC3320Info* info)
-{
-    GetInfo(info);
-    CC3320Source* src = this ? src08 : 0;
-    info->vec10 = src->vec20;
-    info->vec20 = src->vec30;
-    info->out30 = src->value50;
-    info->out34 = src->value54;
 }
 
 struct S00cb8590_Out
@@ -15107,8 +12695,6 @@ struct S00cb8590_Obj
     unsigned char unk1e5;
 };
 
-void __stdcall FUN_00c86790(S00cb8590_Obj* p);
-
 struct S00cb8590_cls
 {
     virtual void v00()
@@ -15235,6 +12821,8 @@ static __forceinline void S00cb8590_swapAll(S00cb8590_Out* p)
 // @f3 0x0092c220 (community match, verified in this file)
 void __stdcall FUN_008f88e0(S00cb8590_Obj* p);
 
+// pdb: bhkOrientHingedBodyAction::LoadBinary | bhkOrientHingedBodyAction.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: bhkMotorAction::LoadBinary)
+// pdb params: arStream
 void S00cb8590_cls::FUN_00cb8590(int a0)
 {
     S00cb8590_Obj* p = *(S00cb8590_Obj* volatile*)&a0;
@@ -15367,62 +12955,6 @@ struct FUN_00cb8610_Class
     void FUN_00c868b0(void* arg);
 };
 
-// If the byte at arg+0x1E4 is not 1, byte-swaps ten fields of the vfB4 result before and after calling FUN_00c868b0(arg).
-// @fnv 0x00cb8610
-void __thiscall FUN_00cb8610_Class::FUN_00cb8610(void* arg)
-{
-    unsigned char value;
-    FUN_00c868b0_Obj* result = vfB4(&value);
-
-    if (*((unsigned char*)arg + 0x1E4) != 1)
-    {
-        result->unk10 = _byteswap_ulong(result->unk10);
-        _ReadWriteBarrier();
-        result->unk14 = _byteswap_ulong(result->unk14);
-        _ReadWriteBarrier();
-        result->unk18 = _byteswap_ulong(result->unk18);
-        _ReadWriteBarrier();
-        result->unk1C = _byteswap_ulong(result->unk1C);
-        _ReadWriteBarrier();
-        result->unk20 = _byteswap_ulong(result->unk20);
-        _ReadWriteBarrier();
-        result->unk24 = _byteswap_ulong(result->unk24);
-        _ReadWriteBarrier();
-        result->unk28 = _byteswap_ulong(result->unk28);
-        _ReadWriteBarrier();
-        result->unk2C = _byteswap_ulong(result->unk2C);
-        _ReadWriteBarrier();
-        result->unk30 = _byteswap_ulong(result->unk30);
-        _ReadWriteBarrier();
-        result->unk34 = _byteswap_ulong(result->unk34);
-    }
-
-    FUN_00c868b0(arg);
-
-    if (*((unsigned char*)arg + 0x1E4) != 1)
-    {
-        result->unk10 = _byteswap_ulong(result->unk10);
-        _ReadWriteBarrier();
-        result->unk14 = _byteswap_ulong(result->unk14);
-        _ReadWriteBarrier();
-        result->unk18 = _byteswap_ulong(result->unk18);
-        _ReadWriteBarrier();
-        result->unk1C = _byteswap_ulong(result->unk1C);
-        _ReadWriteBarrier();
-        result->unk20 = _byteswap_ulong(result->unk20);
-        _ReadWriteBarrier();
-        result->unk24 = _byteswap_ulong(result->unk24);
-        _ReadWriteBarrier();
-        result->unk28 = _byteswap_ulong(result->unk28);
-        _ReadWriteBarrier();
-        result->unk2C = _byteswap_ulong(result->unk2C);
-        _ReadWriteBarrier();
-        result->unk30 = _byteswap_ulong(result->unk30);
-        _ReadWriteBarrier();
-        result->unk34 = _byteswap_ulong(result->unk34);
-    }
-}
-
 // bhkRagdollTemplate::bhkRagdollTemplate @ 0xcbaf20 (84 bytes)
 // ctor: NiExtraData base ctor (0xa7b2e0), derived vftable (0x10c8dcc), then member
 // BSSimpleArray<NiPointer<bhkRagdollTemplateData>,1024> (vftable 0x10c8d28 + three
@@ -15469,6 +13001,7 @@ AryType::AryType()
 
 // Default constructor for FUN_00cbaf20; the body is empty and the base class and m_data member are default-constructed implicitly.
 // @fnv 0x00cbaf20
+// pdb: NiColorExtraData::NiColorExtraData | NiColorExtraData.obj | fnv360_0822_retail, caller_sim, low
 FUN_00cbaf20::FUN_00cbaf20()
 {}
 
@@ -15792,6 +13325,8 @@ unsigned int* __cdecl SwapEndianBlocks(unsigned int* arg);
 
 // Calls FUN_00c8a230, reads two 0x40-byte blocks at offsets 0x20 and 0x60 of m04 via a1->m24C, and byte-swaps them unless a1->m1E5 is 1.
 // @fnv 0x00cbda30
+// pdb: hkHingeConstraintCinfo::LoadBinary | bhkHingeConstraint.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: arStream
 void FUN_00cbda30_cls::ReadRecord(FUN_00cbda30_arg* a1)
 {
     FUN_00c8a230(a1);
@@ -16172,7 +13707,6 @@ struct Ctx9bd0
     int d[3];
     float score;
 };
-extern "C" Item9bd0* __cdecl CreateF4A30Result(void* c, int k);
 struct Key9bd0
 {
     int value;
@@ -16211,7 +13745,7 @@ struct Item9bd0F3
 extern "C" Item9bd0F3* __cdecl FUN_0097a980(void* c, int k);
 struct Sub9bd0F3
 {
-    void FUN_009a1a00(void* rec);
+    void hkpBridgeConstraintAtom_init(void* rec);
 };
 struct Rec9bd0F3
 {
@@ -16245,6 +13779,8 @@ struct Owner9bd0F3
     Ctx9bd0* ctx;
     void FUN_008fc3f0(Rec9bd0F3*, int);
 };
+// pdb: hkMalleableConstraintCinfo::CloneData | bhkMalleableConstraint.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apData, arCloneData
 void Owner9bd0::FUN_00ca9bd0(Rec9bd0* apRecord, Key9bd0 key)
 {
     Owner9bd0F3* self = (Owner9bd0F3*)this;
@@ -16263,177 +13799,18 @@ void Owner9bd0::FUN_00ca9bd0(Rec9bd0* apRecord, Key9bd0 key)
         pItem->removeReference();
     }
     rec->score = c->score;
-    rec->sub.FUN_009a1a00(rec);
+    rec->sub.hkpBridgeConstraintAtom_init(rec);
     vself->FUN_008fc3f0(rec, k);
 }
 
 
-// 0x00cabcd0  340 B  /MT /O2 /GS /EHsc /Gy  - HSV ramp helper.
-extern double FUN_00ec6940(double);
-struct ColorOutput
-{
-    float* value;
-};
-
-// Converts HSV color components to RGB, writing the result to pR, pG, and out1, with a special case for zero saturation.
-// @fnv 0x00cabcd0
-static __declspec(noinline) void HsvToRgb(float* apRed, float afHue, float afSaturation, float afValue, float* apGreen,
-                                          float* apBlue)
-{
-    (void)apBlue;
-    (void)apGreen;
-    float*& red = apRed;
-    float p, q, t, f;
-    int i;
-    if (afSaturation == 0.0f)
-    {
-        *apBlue = afValue;
-        *apGreen = afValue;
-        *red = afValue;
-        return;
-    }
-    if (afHue == 1.0f)
-    {
-        i = 5;
-        afHue = 6.0f;
-    }
-    else
-    {
-        afHue = afHue * 6.0;
-        i = (int)(float)FUN_00ec6940(afHue);
-    }
-    f = afHue - i;
-    p = afValue * (1.0f - afSaturation);
-    q = afValue * (1.0f - afSaturation * f);
-    t = afValue * (1.0f - afSaturation * (1.0f - f));
-    switch (i)
-    {
-    case 0:
-        *red = afValue;
-        *apGreen = t;
-        *apBlue = p;
-        break;
-    case 1:
-        *red = q;
-        *apGreen = afValue;
-        *apBlue = p;
-        break;
-    case 2:
-        *red = p;
-        *apGreen = afValue;
-        *apBlue = t;
-        break;
-    case 3:
-        *red = p;
-        *apGreen = q;
-        *apBlue = afValue;
-        break;
-    case 4:
-        *red = t;
-        *apGreen = p;
-        *apBlue = afValue;
-        break;
-    default:
-        *red = afValue;
-        *apGreen = p;
-        *apBlue = q;
-        break;
-    }
-}
-
-void CallerHsv9(float* a, float h, float s, float v, float* r, float* g)
-{
-    HsvToRgb(a, h, s, v, g, r);
-}
-
-static inline float hkFloor(float x)
-{
-    return (float)floor((double)x);
-}
-
-static __declspec(noinline) void S00cabcd0_HSV(float* b, float h, float s, float v, float* g, float* r)
-{
-    float* const* pb = &b;
-    volatile float* vp = b;
-    (void)vp;
-    (void)pb;
-    int i;
-    float f, p, q, t;
-    if (s == 0.0f)
-    {
-        *r = *g = *b = v;
-        return;
-    }
-    if (h == 1.0f)
-    {
-        i = 5;
-        h = 6.0f;
-    }
-    else
-    {
-        h = h * 6.0;
-        i = (int)hkFloor(h);
-    }
-    f = h - i;
-    p = v * (1.0f - s);
-    q = v * (1.0f - s * f);
-    t = v * (1.0f - s * (1.0f - f));
-    switch (i)
-    {
-    case 0:
-        *r = v;
-        *g = t;
-        *b = p;
-        break;
-    case 1:
-        *r = q;
-        *g = v;
-        *b = p;
-        break;
-    case 2:
-        *r = p;
-        *g = v;
-        *b = t;
-        break;
-    case 3:
-        *r = p;
-        *g = q;
-        *b = v;
-        break;
-    case 4:
-        *r = t;
-        *g = p;
-        *b = v;
-        break;
-    default:
-        *r = v;
-        *g = p;
-        *b = q;
-        break;
-    }
-}
-
-// Converts h, s, v to RGB with S00cabcd0_HSV and returns PackColorBigEndian called with the three results (c.b, c.g, c.r) and a.
-// @fnv 0x00cabe30
-unsigned int __cdecl FUN_00cabe30(float h, float s, float v, float afAlpha)
-{
-    struct C
-    {
-        float r, g, b;
-    } c;
-    S00cabcd0_HSV(&c.b, h, s, v, &c.g, &c.r);
-    return PackColorBigEndian(c.b, c.g, c.r, afAlpha);
-}
-
-extern "C" void _ReadBarrier();
-extern "C" void _WriteBarrier();
 extern "C" void _ReadWriteBarrier();
 void __cdecl FUN_00c856c0(void*, void*);
 extern "C" void __cdecl CopyIfNonEmpty(void*, int, int);
 extern int DAT_01268358;
 static __declspec(noinline) void* FUN_00cb0ad0(char* s, int maxLen)
 {
-    int len = FUN_00cb10d0((int)s);
+    int len = hkString_strLen((int)s);
     if (len > maxLen)
         len = maxLen;
     char* p = (char*)AllocateWithHeader(FUN_00c85750()->allocator, len + 1);
@@ -16474,11 +13851,6 @@ static __declspec(noinline) void FUN_00cb0b10(StringSlot slotRef, char* apString
         return;
     }
     *slot = DAT_01268358;
-}
-void StringSetCaller(unsigned int* slot, char* s, int len)
-{
-    StringSlot r = {slot};
-    FUN_00cb0b10(r, s, len);
 }
 
 struct S_ca4520_Entry
@@ -16587,6 +13959,8 @@ union HandleKey
 
 // Looks up the entry for the key's slot, walks its runs to the key's index, and returns true if any two of the three consecutive values there are equal.
 // @fnv 0x00ca4520
+// pdb: hkNiTriStripsShape::isChildShapeDegenerate | hkNiTriStripsShape.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aKey
 bool S_ca4520::IsDegenerate(unsigned int key) const
 {
     bool result = false;
@@ -16623,12 +13997,6 @@ __declspec(noinline) static int FUN_00cb0b10(int a, int b, int c)
     g_helperSink = a + b + c;
     return g_helperSink;
 }
-// @fnv 0x00cb0c00
-void __fastcall FUN_00cb0c00(int p)
-{
-    int x = FUN_00cb0b10(0, -1, p);
-    (void)x;
-}
 
 struct SStringPtr
 {
@@ -16643,27 +14011,6 @@ static __declspec(noinline) void FUN_00cb0b10(SelfRef self, const char* s, int l
 {
     g_sink = (int)s + len;
     *(int*)self.p = g_sink;
-}
-// @fnv 0x00cb0c10
-void* SStringPtr::FUN_00cb0c10(const char* s)
-{
-    SelfRef ref;
-    ref.p = this;
-    FUN_00cb0b10(ref, s, -1);
-    return this;
-}
-
-struct Cb0StringCopy
-{
-    int m_pcText;
-    Cb0StringCopy* FUN_00cb0c30(const CB0StringPtr& other);
-};
-// @fnv 0x00cb0c30
-Cb0StringCopy* Cb0StringCopy::FUN_00cb0c30(const CB0StringPtr& other)
-{
-    CB0SelfRef self = {(CB0StringPtr*)this};
-    FUN_00cb0b10(self, other.cString(), -1);
-    return this;
 }
 
 namespace fnv_00cb0c50 {
@@ -16680,13 +14027,6 @@ static __declspec(noinline) void FUN_00cb0b10(SelfRef self, const char* s, int l
 {
     g_sink = (int)s + len;
     *(int*)self.p = g_sink;
-}
-// @fnv 0x00cb0c50
-void SStringPtr::FUN_00cb0c50(const char* apStr, int len)
-{
-    SelfRef ref;
-    ref.p = this;
-    FUN_00cb0b10(ref, apStr, len);
 }
 }  // namespace fnv_00cb0c50
 
@@ -16721,24 +14061,6 @@ struct ProbeMap64
 
     int FUN_00cb1c60(unsigned __int64 key);
 };
-
-// Searches the probe map for the given key and returns its index, or m_iPairCount + 1 if not found.
-// @fnv 0x00cb1c60
-int ProbeMap64::FUN_00cb1c60(unsigned __int64 key)
-{
-    if (m_iPairCount > 0)
-    {
-        for (unsigned i = OPS::hash(key, m_iPairCount); OPS::isValid(m_kPrimitiveElement[i].key);
-             i = (i + 1) & m_iPairCount)
-        {
-            if (OPS::equal(m_kPrimitiveElement[i].key, key))
-            {
-                return i;
-            }
-        }
-    }
-    return m_iPairCount + 1;
-}
 
 namespace fnv_00ca2140 {
 extern int DAT_010c7310;
@@ -16775,6 +14097,7 @@ struct FUN_00ca2140 : BaseState
 };
 // Destructor that only calls ClearAndFreeEntries on this.
 // @fnv 0x00ca2140
+// pdb: bhkRagdollPenetrationUtil::`scalar deleting destructor' | bhkRagdollPenetrationUtil.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00ca2140::~FUN_00ca2140()
 {
     ((FUN_00ca20e0_Class*)this)->ClearAndFreeEntries();
@@ -16951,7 +14274,7 @@ struct ExtraSerializer
     virtual void slotac();
     virtual void slotb0();
     virtual SerializedExtraBody* Acquire(int* token);
-    void FUN_00c84d50(S_00ca59d0_Stream* stream);
+    void bhkShape_SaveBinary(S_00ca59d0_Stream* stream);
     void FUN_00ca77f0(S_00ca59d0_Stream* stream);
 };
 inline void SaveR(S_00ca59d0_Bin& bin, const unsigned int* p)
@@ -16966,6 +14289,8 @@ inline void SaveRV(S_00ca59d0_Bin& bin, unsigned int value)
 }
 // Copies the acquired body's entries, writes each entry's link via stream->v12 and its unk04 value, byte-swapping the body when unk1E4 is not 1.
 // @f3 0x00913090 (community match, verified in this file)
+// pdb: bhkNiTriStripsShape::SaveBinary | bhkNiTriStripsShape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: arStream
 void ExtraSerializer::FUN_00ca77f0(S_00ca59d0_Stream* stream)
 {
 
@@ -16984,7 +14309,7 @@ void ExtraSerializer::FUN_00ca77f0(S_00ca59d0_Stream* stream)
     if (*(unsigned char*)&stream->unk1E4 != 1)
         body->Swap();
     }
-    FUN_00c84d50(stream);
+    bhkShape_SaveBinary(stream);
     S_00ca59d0_Save(*stream->unk250, &count, 1);
     for (int i = 0; i < count; ++i)
     {
@@ -17189,19 +14514,6 @@ cb86f0_obj* FUN_00cb86f0_class::FUN_00cb86f0(int a1)
 }
 
 
-class RagdollRaycastCleanup
-{
-  public:
-    void* m_vtbl;
-    void FUN_00ca0c30();
-};
-
-// @fnv 0x00ca0c30
-void RagdollRaycastCleanup::FUN_00ca0c30()
-{
-    m_vtbl = &DAT_010c7304;
-}
-
 struct S_ca5870_Alloc
 {
     virtual void unk00();
@@ -17276,76 +14588,7 @@ struct S_ca5870_Obj
     }
 };
 
-struct S_ca5870
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void unk10();
-    virtual void unk14();
-    virtual void unk18();
-    virtual void unk1C();
-    virtual void unk20();
-    virtual void unk24();
-    virtual void unk28();
-    virtual void unk2C();
-    virtual void unk30();
-    virtual void unk34();
-    virtual void unk38();
-    virtual void unk3C();
-    virtual void unk40();
-    virtual void unk44();
-    virtual void unk48();
-    virtual void unk4C();
-    virtual void unk50();
-    virtual void unk54();
-    virtual void unk58();
-    virtual void unk5C();
-    virtual void unk60();
-    virtual void unk64();
-    virtual void unk68();
-    virtual void unk6C();
-    virtual void unk70();
-    virtual void unk74();
-    virtual void unk78();
-    virtual void unk7C();
-    virtual void unk80();
-    virtual void unk84();
-    virtual void unk88();
-    virtual void SlotA(S_ca5870_Obj* obj);
-    virtual void unk90();
-    virtual void unk94();
-    virtual void unk98();
-    virtual void unk9C();
-    virtual void unkA0();
-    virtual void unkA4();
-    virtual void unkA8();
-    virtual void unkAC();
-    virtual void unkB0();
-    virtual void unkB4();
-    virtual void unkB8();
-    virtual void SlotB(void* arg);
-    void FUN_00ca5870(void* arg);
-};
-
-// Constructs a S_ca5870_Obj from arg, passes it to SlotA, calls FUN_00c905b0 on it, then calls SlotB with arg.
-// @fnv 0x00ca5870
-void S_ca5870::FUN_00ca5870(void* arg)
-{
-    TlsGuard_t guard;
-    S_ca5870_Obj* obj = new S_ca5870_Obj(arg);
-    this->SlotA(obj);
-    obj->FUN_00c905b0();
-    this->SlotB(arg);
-}
-
 extern "C" void __cdecl _ReadWriteBarrier(void);
-
-struct FUN_00cb1130_class
-{
-    static char* FUN_00cb1130(const char* str, const char* substr);
-};
 
 template <typename T> struct hkArray
 {
@@ -17367,65 +14610,6 @@ template <typename T> struct hkArray
     }
 };
 
-// Appends the offset of the first match of substr in str to indices, or of every match when findAll is nonzero; returns whether any match was found.
-// @fnv 0x00cb1440
-hkBool FUN_00cb1440(const char* str, const char* substr, hkArray<int>& indices, int findAll)
-{
-    int len = (int)strlen(substr);
-    char* match = FUN_00cb1130_class::FUN_00cb1130(str, substr);
-    hkBool result = false;
-    while (match != 0)
-    {
-        result = true;
-        indices.AddBack((int)(match - str));
-        if (!findAll)
-            break;
-        match = FUN_00cb1130_class::FUN_00cb1130(match + len, substr);
-    }
-    return result;
-}
-
-struct S_Source
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    float unk18;
-    int unk1c;
-    __m128 unk20;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    float unk58;
-    int unk5c;
-    int unk60;
-};
-
-struct S_D26450
-{
-    S_Source* FUN_00d26450();
-};
-
-struct S_00cb0030_Obj : S_00ca4e10_Obj
-{
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    S_D26450* unk18;
-};
-
 struct S_00cb0030_Out : S_00ca4e10_Out
 {
     int unk08;
@@ -17444,11 +14628,11 @@ struct S_00cb0030_Out : S_00ca4e10_Out
 
 struct S_00cb0030_Cls : S_00ca4e10_Cls
 {
-    void FUN_00ca4e10(S_00cb0030_Out* out);
+    void bhkBvTreeShape_CopyCinfo(S_00cb0030_Out* out);
     void FUN_00cb0030(S_00cb0030_Out* out);
 };
 
-// Calls FUN_00ca4e10, then if obj->unk18 yields a source, fills out unk10, unk20, unk24, unk28, unk2c and unk40 from its fields.
+// Calls bhkBvTreeShape_CopyCinfo, then if obj->unk18 yields a source, fills out unk10, unk20, unk24, unk28, unk2c and unk40 from its fields.
 // @f3 0x00921ba0 (community match, verified in this file)
 struct S_b173Src
 {
@@ -17491,6 +14675,8 @@ struct S_b173This
     void FUN_00910dc0(S_00cb0030_Out* out);
 };
 
+// pdb: bhkTriSampledHeightFieldBvTreeShape::CopyCinfo | bhkTriSampledHeightFieldBvTreeShape.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: bhkMoppBvTreeShape::CopyCinfo)
+// pdb params: arInfo
 void S_00cb0030_Cls::FUN_00cb0030(S_00cb0030_Out* out)
 {
     ((S_b173This*)this)->FUN_00910dc0(out);
@@ -17633,6 +14819,8 @@ struct DataHandler
 extern DataHandler* g_dataHandler;
 void FUN_004d5760(TESObjectCELL* cell, Texture*& texture, LockedRect*& rect);
 
+// pdb: TESObjectCELL::PlaceCanopyShadowInAdjacentCell | TESObjectCELL.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: TES::GetGridCellCell)
+// pdb params: aiX, aiY, apRect, aiIndex, aiValue
 void TESObjectCELL::FUN_004d58c0(int x, int y, LockedRect*& rect, int index, char value)
 {
     Texture* texture = 0;

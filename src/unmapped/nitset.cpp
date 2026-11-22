@@ -13,6 +13,8 @@ struct FUN_00a311e0_s
 };
 
 // @fnv 0x00a311e0
+// pdb: NiTSet<NiGeometryGroup *,NiTMallocInterface<NiGeometryGroup *> >::Realloc | NiD3DGeometryGroupManager.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSTArrayBase::AddUninitialized)
+// pdb params: uiNewSize
 void FUN_00a311e0_s::FUN_00a311e0(unsigned int uiCapacity)
 {
     if (uiCapacity != m_uiElementCount)

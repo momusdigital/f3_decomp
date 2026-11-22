@@ -13,6 +13,7 @@ struct FUN_00ba8690
 };
 
 // @fnv 0x00ba8690
+// pdb: SpeedTreeBillboardShaderProperty::`scalar deleting destructor' | SpeedTreeBillboardShaderProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_00ba8690::FUN_00ba8690(int flags)
 {
     m_p = (void*)&DAT_010b8330;
@@ -21,54 +22,7 @@ FUN_00ba8690::FUN_00ba8690(int flags)
         operator delete((void*)this, 0x104);
 }
 
-struct S_00ba8630_Base
-{
-    int unk4;
-    int unk8;
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    S_00ba8630_Base();
-    virtual ~S_00ba8630_Base();
-};
-
-struct FUN_00ba8630 : S_00ba8630_Base
-{
-    int unk58;
-    FUN_00ba8630();
-    virtual ~FUN_00ba8630();
-};
-
-// Initializes the object: sets unk58 to 1 and unk1C to 0xb.
-// @fnv 0x00ba8630
-FUN_00ba8630::FUN_00ba8630() : unk58(1)
-{
-    unk1C = 0xb;
-}
-
 extern int DAT_0120043c;
-
-// @fnv 0x00ba8680
-int* __cdecl FUN_00ba8680()
-{
-    return &DAT_0120043c;
-}
 
 void __stdcall FUN_00b665c0(void* apValue);
 
@@ -78,11 +32,6 @@ bool __stdcall FUN_00ba8670(void* apValue)
     FUN_00b665c0(apValue);
     return false;
 }
-
-struct ACS00bac
-{
-    void* m_p;
-};
 
 struct A5A040Cls
 {
@@ -141,6 +90,8 @@ struct BA86C0Owner
 
 // Calls FUN_00a5a040 when pArg+0x9c is null and clears unk58 when *unkAC is zero, then returns 0.
 // @fnv 0x00ba86c0
+// pdb: SkyShaderProperty::SetupGeometry | SkyShaderProperty.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: SpeedTreeBillboardShaderProperty::ClarifyShader)
+// pdb params: apGeometry
 int BA86C0Owner::FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3)
 {
     if ((char*)pArg + 0x9c == 0)
@@ -330,50 +281,9 @@ struct SpawnedObject : FUN_00aea2f0
 };
 struct Host { void FUN_00ae99b0(SpawnedObject*, int); };
 }
+// pdb: SpeedTreeBillboardShaderProperty::CreateClone | SpeedTreeBillboardShaderProperty.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: kCloning
 int* SpawnerHost::CreateSpawnedObject(int flags) { task1436::SpawnedObject* p=new task1436::SpawnedObject(); ((task1436::Host*)this)->FUN_00ae99b0(p,flags); return (int*)p; }
 
 
 extern int DAT_0120043c;
-void __stdcall FUN_00b690d0(void* p);
-void* __cdecl FUN_00a7d330(int v);
-
-struct ObjHdr
-{
-    int unk0;
-    int unk4;
-    unsigned short unk8;
-    unsigned short unkA;
-    unsigned short unkC;
-    unsigned short unkE;
-    void FUN_0096ad30(int v);
-    void FUN_0096ae90(unsigned int count, void** out);
-};
-
-// @fnv 0x00ba8780
-void __stdcall FUN_00ba8780(ObjHdr* apObj)
-{
-    ObjHdr* pObj = apObj;
-    FUN_00b690d0(pObj);
-    void* pValue = FUN_00a7d330(DAT_0120043c);
-    unsigned int count = pObj->unkA;
-    if (count >= pObj->unk8)
-    {
-        pObj->FUN_0096ad30((int)(pObj->unkE + count));
-    }
-    pObj->FUN_0096ae90(count, &pValue);
-}
-
-struct S_00b68ed0_Stream;
-struct S_00b68ed0_Obj
-{
-    void ReadFromStream(S_00b68ed0_Stream*);
-};
-struct FUN_00ba8660_S
-{
-    void FUN_00ba8660(S_00b68ed0_Stream*);
-};
-// @fnv 0x00ba8660
-void FUN_00ba8660_S::FUN_00ba8660(S_00b68ed0_Stream* p)
-{
-    ((S_00b68ed0_Obj*)this)->ReadFromStream(p);
-}

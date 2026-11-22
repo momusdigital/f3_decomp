@@ -12,6 +12,8 @@ bool NiD3DShaderInterface::Initialize()
 }
 
 // @fnv 0x00e818d0
+// pdb: NiD3DShaderInterface::SetD3DRenderer | NiD3DShaderInterface.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pkD3DRenderer
 void NiD3DShaderInterface::SetShaderObject(GraphicsRenderer* renderer)
 {
     m_pShaderObject = renderer;
@@ -47,6 +49,8 @@ void NiD3DShaderInterface::SetShaderObject(GraphicsRenderer* renderer)
 }
 
 // @fnv 0x00e81940
+// pdb: NiD3DShaderInterface::InitializeShaderSystem | NiD3DShaderInterface.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkD3DRenderer
 unsigned int NiD3DShaderInterface::InitializeShaderRenderer(GraphicsRenderer* renderer)
 {
     Direct3DDeviceInterface* device = renderer->m_pD3DDevice;
@@ -78,6 +82,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 
 // Sets the vtable and clears fields of the object, increments the global counter, then assigns the second vtable and initializes the remaining fields.
 // @fnv 0x00a8f440
+// pdb: NiShader::NiShader | NiShader.obj | fnv360_0822_retail, call_seq, medium
 void* __fastcall FUN_00a8f440(void* apObject)
 {
     *(int**)apObject = &vftable_NiRefObject;
@@ -92,14 +97,16 @@ void* __fastcall FUN_00a8f440(void* apObject)
 
 extern const char* const g_011f603c_arg1;
 // @fnv 0x00a8f1b0
-const char* const* __fastcall FUN_00a8f1b0(void* p, int)
+// pdb: BSSegmentedTriShape::GetRTTI | BSSegmentedTriShape.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+const char* const* __fastcall BSSegmentedTriShape_GetRTTI(void* p, int)
 {
     return &g_011f603c_arg1;
 }
 
 extern const char* const g_0126f75c_arg1;
 // @fnv 0x00a8f480
-const char* const* __fastcall FUN_00a8f480(void* p, int)
+// pdb: NiScreenElementsData::GetRTTI | NiScreenElementsData.obj | fnv360_0822_retail, udata + bridge(vtable|udata), high
+const char* const* __fastcall NiScreenElementsData_GetRTTI(void* p, int)
 {
     return &g_0126f75c_arg1;
 }
@@ -136,21 +143,22 @@ struct VF
     virtual void v27();
     virtual void Op(int);
 };
-void FUN_00aa0000();
-void DestroyProgram();
+void NiShaderFactory_ReleaseAllShaders();
+void NiD3DShaderProgramFactory_Shutdown();
 // @fnv 0x00e819f0
+// pdb: NiD3DShaderInterface::ShutdownShaderSystem | NiD3DShaderInterface.obj | fnv360_0822_retail, caller_sim, low
 int FUN_00e819f0()
 {
     VF* pShaderFactory = (VF*)NiD3DShaderFactory::GetShaderFactory();
     if (pShaderFactory)
     {
-        FUN_00aa0000();
+        NiShaderFactory_ReleaseAllShaders();
         pShaderFactory->Op(0);
     }
     FUN_00e7f920(0);
     FUN_00e7e8d0(0);
     DAT_0126f99c = 0;
-    DestroyProgram();
+    NiD3DShaderProgramFactory_Shutdown();
     FUN_00e92f70(0);
     FUN_00e93f50(0);
     NiD3DPass::SetActiveRenderer(0);
@@ -175,6 +183,7 @@ struct Obj
 void __fastcall FUN_00a8f490(Obj*);
 // Sets the object's vtable, clears r and s, releases dev if set, nulls dev, then calls FUN_00a8f490.
 // @fnv 0x00e81a50
+// pdb: NiD3DShaderInterface::~NiD3DShaderInterface | NiD3DShaderInterface.obj | fnv360_0822_retail, call_seq, medium
 void __fastcall FUN_00e81a50(Obj* pObj, int)
 {
     *(int**)pObj = &DAT_010ef39c;
@@ -206,6 +215,7 @@ struct Obj
 void __fastcall FUN_00a8f490(Obj*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00e81ab0
+// pdb: NiD3DShaderInterface::`scalar deleting destructor' | NiD3DShaderInterface.obj | fnv360_0721_beta, objrun_open, low
 Obj* __fastcall FUN_00e81ab0(Obj* o, int, unsigned int flags)
 {
     *(int**)o = &DAT_010ef39c;
@@ -232,6 +242,8 @@ extern void* DAT_0126fa2c;
 extern Rf* DAT_0126fa28;
 // Stores r in DAT_0126fa2c and, if r is non-null, releases the old DAT_0126fa28 and AddRefs the object at r+0x288; otherwise releases and clears DAT_0126fa28.
 // @fnv 0x00e93f50
+// pdb: NiD3DShaderProgramCreator::SetD3DRenderer | NiD3DShaderProgramCreator.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkD3DRenderer
 void FUN_00e93f50(void* apObject)
 {
     DAT_0126fa2c = apObject;
@@ -269,6 +281,7 @@ struct FUN_00a8f190_cls
 };
 
 // @fnv 0x00a8f190
+// pdb: Ni2DBuffer::Ni2DBuffer | Ni2DBuffer.obj | fnv360_0822_retail, call_gap, medium
 FUN_00a8f190_cls::FUN_00a8f190_cls()
 {
     Init();

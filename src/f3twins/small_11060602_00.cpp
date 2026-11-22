@@ -8,6 +8,8 @@ struct O_005cbfb0 { int u1, u2; RC_005cbfb0* sp; };
 struct P_005cbfb0 { void FUN_0086ba60(O_005cbfb0*); };
 extern P_005cbfb0 DAT_01090a78;
 
+// pdb: NiTMap<unsigned int,NiPointer<ReferenceObstacleArray> >::DeleteItem | NavMeshObstacleManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkItem
 void __stdcall FUN_005cbfb0(O_005cbfb0* o)
 {
     RC_005cbfb0** pp = &o->sp;
@@ -44,6 +46,8 @@ struct C_0080fff0
     bool FUN_0084a7c0(C_0080fff0* o);
     char FUN_0080fff0(C_0080fff0* o);
 };
+// pdb: NiCollisionData::IsEqual | NiCollisionData.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkObject
 char C_0080fff0::FUN_0080fff0(C_0080fff0* o)
 {
     if (!FUN_0084a7c0(o) || !o)
@@ -85,6 +89,7 @@ void* __cdecl FUN_0089eb90(unsigned int);
 extern char DAT_00e2165c;
 
 struct S_00830700 { void* v; char pad[0x44]; int f48; void __thiscall FUN_0082f3d0(void); };
+// pdb: NiSourceTexture::CreateObject | NiSourceTexture.obj | fnv360_0822_retail, caller_sim, medium
 void* FUN_00830700()
 {
     S_00830700* p = (S_00830700*)FUN_0089eb90(0x4c);
@@ -106,6 +111,8 @@ struct X { char pad[80]; X(unsigned a0, unsigned a1, unsigned a2, unsigned a3, u
 struct C { void* vt; void FUN_00855390(X*); C* FUN_0083c020(unsigned a0, unsigned a1, unsigned a2, unsigned a3, unsigned a4, unsigned a5, unsigned a6, unsigned a7, unsigned a8, unsigned a9, unsigned a10); };
 }
 extern char DAT_00e2260c;
+// pdb: NiTriStrips::NiTriStrips | NiTriStrips.obj | fnv360_0822_retail, call_gap, high
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod, usTriangles, usStrips, pusStripLengths, pusStripLists
 __declspec(noinline) n_0083c020::C* n_0083c020::C::FUN_0083c020(unsigned a0, unsigned a1, unsigned a2, unsigned a3, unsigned a4, unsigned a5, unsigned a6, unsigned a7, unsigned a8, unsigned a9, unsigned a10)
 {
     X* o = new X(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10);
@@ -123,6 +130,8 @@ struct X { char pad[88]; X(unsigned a0, unsigned a1, unsigned a2, unsigned a3, u
 struct C { void* vt; void FUN_00855390(X*); C* FUN_0083f490(unsigned a0, unsigned a1, unsigned a2, unsigned a3, unsigned a4, unsigned a5, unsigned a6, unsigned a7, unsigned a8); };
 }
 extern char DAT_00e22d8c;
+// pdb: NiTriShape::NiTriShape | NiTriShape.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod, usTriangles, pusTriList
 __declspec(noinline) n_0083f490::C* n_0083f490::C::FUN_0083f490(unsigned a0, unsigned a1, unsigned a2, unsigned a3, unsigned a4, unsigned a5, unsigned a6, unsigned a7, unsigned a8)
 {
     X* o = new X(a0, a1, a2, a3, a4, a5, a6, a7, a8);
@@ -137,8 +146,9 @@ extern char DAT_00e2468c;
 void* __cdecl FUN_0089eb90(unsigned int);
 struct O_00854090 { void* vt; void FUN_008459f0(); };
 
-struct C_00854090 { O_00854090* FUN_00854090(int arg); void FUN_00845a50(O_00854090* p, int arg); };
-O_00854090* C_00854090::FUN_00854090(int arg)
+struct C_00854090 { O_00854090* NiVertWeightsExtraData_CreateClone(int arg); void FUN_00845a50(O_00854090* p, int arg); };
+// pdb: NiVertWeightsExtraData::CreateClone | NiVertWeightsExtraData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun_open) + skyrim(caller_sim), high
+O_00854090* C_00854090::NiVertWeightsExtraData_CreateClone(int arg)
 {
     O_00854090* q = (O_00854090*)FUN_0089eb90(0xc);
     O_00854090* p = q ? (q->FUN_008459f0(), q->vt = &DAT_00e2468c, q) : 0;
@@ -150,9 +160,10 @@ O_00854090* C_00854090::FUN_00854090(int arg)
 
 void* __cdecl operator new(unsigned int);
 struct B_0085df10 { B_0085df10() throw(); virtual void v0(); int u1, u2; void FUN_00845a50(B_0085df10*, int); };
-struct D_0085df10 : B_0085df10 { float a, b, c, d; D_0085df10() { d = 0.0f; c = 0.0f; b = 0.0f; a = 0.0f; } D_0085df10* FUN_0085df10(int); };
+struct D_0085df10 : B_0085df10 { float a, b, c, d; D_0085df10() { d = 0.0f; c = 0.0f; b = 0.0f; a = 0.0f; } D_0085df10* NiVectorExtraData_CreateClone(int); };
 
-D_0085df10* D_0085df10::FUN_0085df10(int arg)
+// pdb: NiVectorExtraData::CreateClone | NiVectorExtraData.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+D_0085df10* D_0085df10::NiVectorExtraData_CreateClone(int arg)
 {
     D_0085df10* p = new D_0085df10;
     FUN_00845a50(p, arg);
@@ -169,8 +180,9 @@ extern char DAT_00e26484;
 void* __cdecl FUN_0089eb90(unsigned int);
 struct O_00863b80 { void* vt; int f4; int f8; int fc; int f10; void FUN_008459f0(); };
 
-struct C_00863b80 { O_00863b80* FUN_00863b80(int arg); void FUN_00863a70(O_00863b80* p, int arg); };
-O_00863b80* C_00863b80::FUN_00863b80(int arg)
+struct C_00863b80 { O_00863b80* NiIntegersExtraData_CreateClone(int arg); void FUN_00863a70(O_00863b80* p, int arg); };
+// pdb: NiIntegersExtraData::CreateClone | NiIntegersExtraData.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objrun_prop), high
+O_00863b80* C_00863b80::NiIntegersExtraData_CreateClone(int arg)
 {
     O_00863b80* q = (O_00863b80*)FUN_0089eb90(0x14);
     O_00863b80* p = q ? (q->FUN_008459f0(), q->vt = &DAT_00e26484, q->f10 = 0, q->fc = 0, q) : 0;
@@ -186,7 +198,8 @@ extern V4_00864dc0 DAT_00f73210;
 struct B_00864dc0 { B_00864dc0() throw(); virtual void v0(); int u1, u2; };
 struct D_00864dc0 : B_00864dc0 { V4_00864dc0 v; D_00864dc0() { v = DAT_00f73210; } };
 
-D_00864dc0* FUN_00864dc0()
+// pdb: NiColorExtraData::CreateObject | NiColorExtraData.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+D_00864dc0* NiColorExtraData_CreateObject()
 {
     return new D_00864dc0;
 }
@@ -195,6 +208,7 @@ D_00864dc0* FUN_00864dc0()
 
 
 
+// pdb: NiDX9Renderer::ExpandDeviceType | NiDX9Renderer.obj | tesv_win, hash, low
 bool __cdecl FUN_0086e610(int sel, int* out, unsigned* fl)
 {
     *fl &= 0xffffff0f;
@@ -214,6 +228,7 @@ bool __cdecl FUN_0086e610(int sel, int* out, unsigned* fl)
 
 
 
+// pdb: NiDX9Renderer::GetMultiSampleType | BSShaderAccumulator.obj | tesv_win, call_seq, medium
 __declspec(noinline) int FUN_0086ef20(int v)
 {
     if (v & 0x80000000)

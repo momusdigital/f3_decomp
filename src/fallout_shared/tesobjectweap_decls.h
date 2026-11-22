@@ -623,7 +623,7 @@ class TESObjectWEAP : public TESBoundObject,
     float GetModdedWeaponValue(WEAPON_MOD_EFFECT, unsigned char);
     bool GetHasScope();
     int GetReloadAnim(bool);
-    void FUN_0051f4b0(BGSProjectile*);
+    void Script_ToggleMagicStatsFunction(BGSProjectile*);
     SpellItem* GetField1CC();
     void FUN_0051f4f0(SpellItem*);
     SpellItem* GetVATSSpecialEffect();

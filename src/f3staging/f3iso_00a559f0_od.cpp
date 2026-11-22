@@ -23,6 +23,7 @@ __forceinline void setSub4(Vec4& r, const Vec4& a, const Vec4& b)
 __forceinline float lengthSquared3(const Vec4& v) { return v.x * v.x + v.y * v.y + v.z * v.z; }
 }
 
+// pdb: hkpMeshWeldingUtility::createSingularVertexArray | hkpMeshWeldingUtility.obj | tesv_win, call_gap, low
 int __cdecl FUN_00a559f0(const weld_a559f0::Vec4* triangle, const weld_a559f0::Vec4* other, int edgeIndex,
                          weld_a559f0::Vec4* vertices, int* ordered)
 {

@@ -136,6 +136,7 @@ struct Emitter
     void FUN_00bc2360();
 };
 // @fnv 0x00bc2360
+// pdb: BoltShaderProperty::InitSegmentData | BoltShaderProperty.obj | fnv360_0822_retail, call_seq, medium
 void Emitter::FUN_00bc2360()
 {
     int available = FUN_00bc0b40();

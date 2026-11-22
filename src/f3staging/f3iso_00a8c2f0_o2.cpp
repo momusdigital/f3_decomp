@@ -11,7 +11,7 @@ extern unsigned long DAT_010f3170;
 namespace f3m_00a8c2f0 {
 namespace monitor_stream {
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long slot) throw();
-extern int __cdecl FUN_009232c0(const char* first, const char* second);
+extern int __cdecl hkString_strCmp(const char* first, const char* second);
 
 struct ThreadMemory {
     struct FreeBlock {
@@ -86,12 +86,13 @@ struct FUN_00a8d060 {
 };
 typedef FUN_00a8d060 MonitorNode;
 
+// pdb: findChildWithHint | hkMonitorStreamAnalyzer.obj | fnv360_0822_retail, objrun, medium, conflict (skyrim: hkDefaultMemoryTracker::ClassAlloc::operator==)
 static __declspec(noinline) bool FUN_00a8c2f0(const char* name, int& hint, const MonitorNode* parent)
 {
-    if (parent->children.size > hint && FUN_009232c0(parent->children[hint]->name, name) == 0)
+    if (parent->children.size > hint && hkString_strCmp(parent->children[hint]->name, name) == 0)
         return true;
     for (int i = 0; i < parent->children.size; ++i) {
-        if (FUN_009232c0(parent->children[i]->name, name) == 0) {
+        if (hkString_strCmp(parent->children[i]->name, name) == 0) {
             hint = i;
             return true;
         }

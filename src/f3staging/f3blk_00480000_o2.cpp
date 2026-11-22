@@ -40,6 +40,7 @@ struct FUN_0049ec80_cls
     FUN_0049ec80_child* FUN_0049ec80();
 };
 
+// pdb: TESRegionDataGrass::Copy | TESRegionDataGrass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 FUN_0049ec80_child* FUN_0049ec80_cls::FUN_0049ec80()
 {
     return new FUN_0049ec80_child(this);
@@ -119,6 +120,8 @@ public:
     void FUN_0049dec0(FUN_0049dec0_Node* n);
 };
 
+// pdb: BSTransCon::RemoveControlledItems | BSBipNode.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apObject
 void FUN_0049dec0_Owner::FUN_0049dec0(FUN_0049dec0_Node* n)
 {
     if (n) {
@@ -151,14 +154,16 @@ public:
 
 extern FUN_0048c360_Obj* DAT_0106f2f8[26];
 
-FUN_0048c360_Obj* __cdecl FUN_00beaf00(int value);
+FUN_0048c360_Obj* __cdecl Tile_GetMenuByClass(int value);
 
+// pdb: InterfaceManager::SetStatsPageNumber | InterfaceManager.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: acTab
 void __cdecl FUN_0048c360(int param_1, unsigned int param_2) {
     if (param_1 < 0x1a) {
         FUN_0048c360_Obj* entry = DAT_0106f2f8[param_1];
         if (entry != 0) {
             entry->unk04 = param_2;
-            FUN_0048c360_Obj* owner = FUN_00beaf00(0x3eb);
+            FUN_0048c360_Obj* owner = Tile_GetMenuByClass(0x3eb);
             FUN_0048c360_Obj* target = owner->FUN_00beab90();
             if (target != 0) {
                 target->FUN_00685170(param_1);
@@ -194,6 +199,7 @@ struct NameOwner_49f1 {
     bool FUN_0049f170();
 };
 
+// pdb: TESRegionDataLandscape::Validate | TESRegionDataLandscape.obj | fnv360_0822_retail, objrun_open, low
 bool NameOwner_49f1::FUN_0049f170()
 {
     if (unk08 && unk08->unk04.Length())
@@ -233,14 +239,16 @@ struct Base_49f6 {
     virtual ~Base_49f6();
 };
 
-struct FUN_0049f660 : Base_49f6 {
+struct TESRegionDataLandscape : Base_49f6 { // src: F3_EXE vtable 0x00dc3798 (old: FUN_0049f660)
     NameHolder_49f6* unk08;
 
-    FUN_0049f660(const FUN_0049f660& other);
-    virtual ~FUN_0049f660();
+    TESRegionDataLandscape(const TESRegionDataLandscape& other);
+    virtual ~TESRegionDataLandscape();
 };
 
-FUN_0049f660::FUN_0049f660(const FUN_0049f660& other) : Base_49f6(other)
+// pdb: TESRegionDataLandscape::TESRegionDataLandscape | TESRegionDataLandscape.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aData
+TESRegionDataLandscape::TESRegionDataLandscape(const TESRegionDataLandscape& other) : Base_49f6(other)
 {
     unk08 = new NameHolder_49f6();
     unk08->unk04.Set(other.unk08->GetName(), 0);
@@ -313,6 +321,7 @@ public:
     void FUN_0049e730();
 };
 
+// pdb: TESRegion::ClearData | TESRegion.obj | fnv360_0822_retail, vtable, medium
 void OwnerStandIn_49e730::FUN_0049e730()
 {
     if (helper18)
@@ -417,6 +426,8 @@ __declspec(noinline) void ObjectQueue::FUN_004c25a0(const QueueReference& object
     }
 }
 
+// pdb: BSTempEffect::RemoveDecalFromList | BGSDecalNode.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: BSTempEffect::RemoveDecal)
+// pdb params: apDecal
 void FUN_0049c400(QueuedObject* object)
 {
     {
@@ -439,6 +450,7 @@ public:
     FUN_00493cf0_StandIn* __thiscall FUN_00493cf0();
 };
 
+// pdb: BSPortal::QMultiBoundRoomLeft | TESWater1.obj | tesv_win, objrun_open, low
 FUN_00493cf0_StandIn* __thiscall FUN_00493cf0_StandIn::FUN_00493cf0() {
     unk00 = 0;
     unk01 = 0;
@@ -454,6 +466,8 @@ FUN_00493cf0_StandIn* __thiscall FUN_00493cf0_StandIn::FUN_00493cf0() {
 struct LipPath { const char* value; };
 void __cdecl FUN_00403a00(LipPath* path, const char* format, ...);
 
+// pdb: LipSynchAnim::ChangeFilenameToLipSynch | LipSynchAnim.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aFilename
 bool FUN_0048c2d0(LipPath* path)
 {
     char buffer[0x104];
@@ -469,6 +483,7 @@ bool FUN_0048c2d0(LipPath* path)
 // @f3 0x0048c7a0 (community match, verified in this file)
 void _fnv_CopyFilePath(char* dst, unsigned int size, const char* src, unsigned int n);
 
+// pdb: BSstrncpy | ExtraDataObjects.obj | tesv_win, caller_sim, low
 void FUN_0048c7a0(char* dst, const char* src, unsigned int n)
 {
     _fnv_CopyFilePath(dst, n + 1, src, n);
@@ -505,6 +520,7 @@ class FUN_0049fb20_Queue
     void FUN_0049fb20();
 };
 
+// pdb: TESRegionDataList::Clear | TESRegionDataList.obj | fnv360_0822_retail, call_seq, medium
 void FUN_0049fb20_Queue::FUN_0049fb20()
 {
     if (FUN_0049fa20())
@@ -545,6 +561,7 @@ struct BufferStandIn48e {
     void FUN_0048ec40();
 };
 
+// pdb: RagDollData::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, call_seq, high
 void BufferStandIn48e::FUN_0048ec40()
 {
     g_memoryHeap.Free(unk04);
@@ -613,6 +630,7 @@ class MiscStatManager_c6b0
     MiscStatManager_c6b0* FUN_0048c6b0();
 };
 
+// pdb: MiscStatManager::MiscStatManager | MiscStats.obj | fnv360_0822_debug, udata, high
 MiscStatManager_c6b0* MiscStatManager_c6b0::FUN_0048c6b0()
 {
     if (!g_miscStats_c6b0[0]) {
@@ -627,6 +645,7 @@ extern unsigned char DAT_0106fcc4;
 extern unsigned int DAT_0106faf4;
 extern unsigned int DAT_0106fb74;
 
+// pdb: BSRenderer::Resize | BSRenderer.obj | tesv_win, objrun_open, low
 void __cdecl FUN_0048fd60(unsigned int param_1, unsigned int param_2) {
     if (DAT_0106fcc4 == 0) {
         DAT_0106faf4 = param_1;
@@ -762,6 +781,8 @@ struct RefItem496d90
 Entry496d90* __stdcall GetEntry493d50(void* key, RefItem496d90* ref, float value);
 void Notify4ef150(int id);
 
+// pdb: TESWaterSystem::AddTESObjectToWaterGroup | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apWaterRef, apObjectRef, afWaterHeight
 void __stdcall FUN_00496d90(void* key, RefItem496d90* ref, float value)
 {
     if (!key && !ref->unk3C)
@@ -821,6 +842,8 @@ struct Typed49FF
     virtual int GetType();
 };
 
+// pdb: TESRegionDataManager::IsRegionDataMap | TESRegionDataManager.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apData
 Typed49FF* __stdcall FUN_0049ff00(Typed49FF* object)
 {
     if (object && object->GetType() == 4)
@@ -835,6 +858,7 @@ struct Random_1730 {
 
 Random_1730* FUN_0044a2d0();
 
+// pdb: NiSymmetricRandom | Precipitation.obj | fnv360_0822_retail, call_gap_sim, low
 float FUN_00491730()
 {
     Random_1730* random = FUN_0044a2d0();
@@ -851,6 +875,8 @@ public:
     unsigned int size;
     int FUN_0048c740(void* item);
 };
+// pdb: NiFormArray::GetIndexForForm | NiFormArray.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apForm
 int PointerArray::FUN_0048c740(void* item) {
     int result = -1;
     if (item) {
@@ -874,6 +900,8 @@ public:
     unsigned char value;
     bool FUN_0049e960(unsigned char percent);
 };
+// pdb: TESRegionData::SetPriority | TESRegionData.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: Main::GetActive)
+// pdb params: acPriority
 bool PercentValue::FUN_0049e960(unsigned char percent) {
     if (percent <= 100) {
         value = percent;
@@ -889,6 +917,8 @@ public:
     unsigned char type;
     FUN_0049fa40(unsigned char value);
 };
+// pdb: TESRegionDataList::TESRegionDataList | TESRegionDataList.obj | fnv360_0721_beta, call_seq, low
+// pdb params: abOwnsDataMemory
 FUN_0049fa40::FUN_0049fa40(unsigned char value) : first(0), second(0), type(value) {}
 
 // @f3 0x0049dd00 (community match, verified in this file)
@@ -957,6 +987,8 @@ public:
     bool UpdatesProperties() const { return updateProperties != 0; }
     void FUN_0049dd00(unsigned int time, bool propertiesEnabled);
 };
+// pdb: NiAVObject::UpdateObjectControllers | BSBipNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: UpdateData, bProperties
 void UpdateOwner::FUN_0049dd00(unsigned int time, bool propertiesEnabled) {
     if (propertiesEnabled && UpdatesProperties()) {
         PropertyNode* node = properties;
@@ -1077,6 +1109,8 @@ public:
     void FUN_006e1830(void* buffer, unsigned int size, bool flag);
 };
 
+// pdb: MiscStatManager::SaveGame | MiscStats.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apSaveGameBuffer
 void FUN_0048c4b0(Writer48c4b0* writer)
 {
     unsigned int count = 0x1A;
@@ -1106,6 +1140,8 @@ public:
     unsigned char percent;
     bool FUN_0049e9b0(const ByteSettings* settings);
 };
+// pdb: TESRegionData::LoadRegionData | TESRegionData.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apData
 bool SettingsOwner::FUN_0049e9b0(const ByteSettings* settings) {
     if (!settings)
         return false;
@@ -1121,6 +1157,8 @@ namespace Selection211 {
 extern void* DAT_0116efac;
 extern void* DAT_0116efb0;
 }
+// pdb: BSShaderManager::GetShaderLevel | Renderer.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: b2xLevel
 void* FUN_0048f8f0(bool first) {
     if (first)
         return Selection211::DAT_0116efac;
@@ -1135,6 +1173,8 @@ public:
     unsigned int unk08, count;
     void* FUN_0048c780(unsigned int index);
 };
+// pdb: NiFormArray::GetFormAt | NiFormArray.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aiIndex
 void* CheckedArray221::FUN_0048c780(unsigned int index) {
     void* result = 0;
     if (index < count)
@@ -1149,6 +1189,7 @@ public:
     unsigned char first, second, value;
     FUN_0049e8b0();
 };
+// pdb: TESRegionData::TESRegionData | TESRegionData.obj | fnv360_0822_retail, call_seq, high
 FUN_0049e8b0::FUN_0049e8b0() {
     first = 0;
     value = 0x32;
@@ -1162,8 +1203,10 @@ struct FUN_0048b9f0_Obj {
     int unk04;
     float FUN_0048b9f0();
 };
+// pdb: BSSoundHandle::PlayAfter | BSSoundHandle.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aiDelay, aiPlayFlags
 float FUN_0048b9f0_Obj::FUN_0048b9f0() {
-    volatile float r;
+    float r;
     if (unk04 < 0) r = (float)(-unk04) * FUN_00dc0cf8;
     else r = 0.0f;
     return r;
@@ -1181,6 +1224,7 @@ struct FUN_0048ec10_Obj {
     int unk10;
     FUN_0048ec10_Obj* FUN_0048ec10();
 };
+// pdb: RagDollData::RagDollData | RagDollData.obj | fnv360_0822_retail, call_seq, medium
 FUN_0048ec10_Obj* FUN_0048ec10_Obj::FUN_0048ec10()
 {
     FUN_0048ec10_Obj* self = this;
@@ -1202,6 +1246,7 @@ struct FUN_0049e290_Owner {
     FUN_0049e290_Node* unk164;
 };
 extern FUN_0049e290_Owner* DAT_0106cdcc;
+// pdb: TESRegion::GetSaveSize | TESRegion.obj | fnv360_0822_retail, call_gap, medium
 int FUN_0049e290()
 {
     int count = 0;
@@ -1299,7 +1344,7 @@ virtual void slot74();
 virtual void slot75();
 virtual const char* Describe();
 };
-Form* __cdecl FUN_00455190(unsigned id);
+Form* __cdecl TESForm_GetFormByNumericID(unsigned id);
 void __cdecl FUN_00887da0(const char* format,...);
 struct Record { unsigned id; unsigned char unk04; unsigned char flags0,flags1,flags2,flags3; unsigned char version; unsigned flags() const {return *(const unsigned*)((const char*)this+5);} };
 struct Reader {
@@ -1335,21 +1380,22 @@ unsigned unk70;
 unsigned unk74;
 unsigned unk78;
 unsigned unk7c;
-unsigned char version; Record* record; bool FUN_006daa00(); void FUN_006db490(void*,unsigned); };
+unsigned char version; Record* record; bool TESSaveLoadGame_UseSaveGameBlocks(); void FUN_006db490(void*,unsigned); };
 extern Reader* DAT_01079ca4;
 struct Heap48 {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap48 DAT_01090a78;
-struct Child48 {virtual ~Child48(); void FUN_0040a250(bool); __forceinline void Dispose(){FUN_0040a250(true);delete this;}};
-__forceinline void DestroyChild48(Child48*c){c->FUN_0040a250(true);delete c;}
+struct Child48 {virtual ~Child48(); void BaseExtraList_RemoveAll(bool); __forceinline void Dispose(){BaseExtraList_RemoveAll(true);delete this;}};
+__forceinline void DestroyChild48(Child48*c){c->BaseExtraList_RemoveAll(true);delete c;}
 struct Node48 {Child48* data; Node48* next; void FUN_006c8220(); ~Node48(){FUN_006c8220();} static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);} };
 struct Entry48 {Node48* head; int count; void* form; Entry48():form(0){head=0;count=0;} void FUN_004804f0(); static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);} static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);} __forceinline void Destroy(){Node48* n=head;if(n){while(n && n->data){Child48* c=n->data;n=n->next;c->Dispose();} }if(head)head->FUN_006c8220();delete head;head=0;} };
 struct OuterNode48 {Entry48* data;OuterNode48*next;OuterNode48(Entry48*p):data(p),next(0){} static void*operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);} };
-struct Owner48 {OuterNode48* head;void FUN_00488b10();void FUN_0048af80();};
-void Owner48::FUN_0048af80(){
+struct Owner48 {OuterNode48* head;void FUN_00488b10();void InventoryChanges_LoadGame();};
+// pdb: InventoryChanges::LoadGame | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Owner48::InventoryChanges_LoadGame(){
 unsigned short blockBytes=0;unsigned blockStart=0;unsigned tag;
-if(DAT_01079ca4->FUN_006daa00()){DAT_01079ca4->FUN_006db490(&tag,4);if(tag!=0x424c4f4b){Record*r=DAT_01079ca4->record;if(r){Form*f=FUN_00455190(r->id);FUN_00887da0("SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X","c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x238d,r->id,f->Describe(),r->version,*(unsigned*)&r->flags0);}else FUN_00887da0("SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i","c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x238d,DAT_01079ca4->version);}
+if(DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()){DAT_01079ca4->FUN_006db490(&tag,4);if(tag!=0x424c4f4b){Record*r=DAT_01079ca4->record;if(r){Form*f=TESForm_GetFormByNumericID(r->id);FUN_00887da0("SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X","c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x238d,r->id,f->Describe(),r->version,*(unsigned*)&r->flags0);}else FUN_00887da0("SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i","c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x238d,DAT_01079ca4->version);}
 blockStart=DAT_01079ca4->pos;DAT_01079ca4->FUN_006db490(&blockBytes,2);}
 unsigned short count;DAT_01079ca4->FUN_006db490(&count,2);for(int i=0;i<count;i++){Entry48*e=new Entry48;e->FUN_004804f0();if(e->form){OuterNode48*h=head;if(h->data){OuterNode48*n=new OuterNode48(h->data);n->next=h->next;h->next=n;h->data=e;}else h->data=e;}else {e->Destroy();Entry48::operator delete(e);}}
-FUN_00488b10();if(DAT_01079ca4->FUN_006daa00()){Record*r=DAT_01079ca4->record;unsigned pos=DAT_01079ca4->pos;if(r){Form*f=FUN_00455190(r->id);if(pos>blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",pos-blockBytes-blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,r->id,f->Describe(),r->version,*(unsigned*)&r->flags0);else if(pos<blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",blockBytes-pos+blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,r->id,f->Describe(),r->version,*(unsigned*)&r->flags0);}else{if(pos>blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",pos-blockBytes-blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,DAT_01079ca4->version);else if(pos<blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",blockBytes-pos+blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,DAT_01079ca4->version);}}}
+FUN_00488b10();if(DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()){Record*r=DAT_01079ca4->record;unsigned pos=DAT_01079ca4->pos;if(r){Form*f=TESForm_GetFormByNumericID(r->id);if(pos>blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",pos-blockBytes-blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,r->id,f->Describe(),r->version,*(unsigned*)&r->flags0);else if(pos<blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",blockBytes-pos+blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,r->id,f->Describe(),r->version,*(unsigned*)&r->flags0);}else{if(pos>blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",pos-blockBytes-blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,DAT_01079ca4->version);else if(pos<blockStart+blockBytes)FUN_00887da0("SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",blockBytes-pos+blockStart,"c:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\InventoryChanges.cpp",0x23a0,DAT_01079ca4->version);}}}
 
 }
 
@@ -1468,12 +1514,12 @@ struct Reader {
  int f78;
  int f7c;
  unsigned char type; Record* rec;
- bool FUN_006daa00();
+ bool TESSaveLoadGame_UseSaveGameBlocks();
  void FUN_006db490(void*,unsigned);
  void FUN_006dcdd0(void*,unsigned);
 };
 extern Reader* DAT_01079ca4;
-extern RForm* __cdecl FUN_00455190(unsigned);
+extern RForm* __cdecl TESForm_GetFormByNumericID(unsigned);
 extern void __cdecl FUN_00887da0(const char*,...);
 extern char DAT_00dc0bd0[], DAT_00db6120[],DAT_00db5f90[],DAT_00db5f08[],DAT_00db5ea8[],DAT_00db5e48[];
 extern char DAT_00f460fc[],DAT_00f46078[];
@@ -1496,15 +1542,16 @@ struct List {
 struct Owner { List* list; unsigned value; void* form; void FUN_004804f0();
  __forceinline void LoadNode(Node* node) { node->FUN_00414660(0,0,0); list->FUN_0061c430(&node); }
 };
+// pdb: ItemChange::LoadGame | InventoryChanges.obj | fnv360_0822_retail, call_gap_sim, low
 void Owner::FUN_004804f0() {
  unsigned short size=0;
  unsigned start=0;
- if(DAT_01079ca4->FUN_006daa00()) {
+ if(DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
   unsigned tag;
   DAT_01079ca4->FUN_006db490(&tag,4);
   if(tag!=0x424c4f4b) {
    Record* r=DAT_01079ca4->rec;
-   if(r) FUN_00887da0(DAT_00db6120,DAT_00dc0bd0,0x555,r->id,FUN_00455190(r->id)->Describe(),r->f09,*(unsigned*)&r->f05);
+   if(r) FUN_00887da0(DAT_00db6120,DAT_00dc0bd0,0x555,r->id,TESForm_GetFormByNumericID(r->id)->Describe(),r->f09,*(unsigned*)&r->f05);
   }
   start=DAT_01079ca4->f14;
   DAT_01079ca4->FUN_006db490(&size,2);
@@ -1512,7 +1559,7 @@ void Owner::FUN_004804f0() {
  unsigned id;
  DAT_01079ca4->FUN_006dcdd0(&id,4);
  DAT_01079ca4->FUN_006db490(&value,4);
- form=__RTDynamicCast(FUN_00455190(id),0,DAT_00f46078,DAT_00f460fc,0);
+ form=__RTDynamicCast(TESForm_GetFormByNumericID(id),0,DAT_00f46078,DAT_00f460fc,0);
  list=0;
  int count;
  DAT_01079ca4->FUN_006db490(&count,4);
@@ -1522,11 +1569,11 @@ void Owner::FUN_004804f0() {
    LoadNode(new Node);
   }
  }
- if(DAT_01079ca4->FUN_006daa00()) {
+ if(DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
   Record* r=DAT_01079ca4->rec;
   unsigned end=DAT_01079ca4->f14;
   if(r) {
-   RForm* f=FUN_00455190(r->id);
+   RForm* f=TESForm_GetFormByNumericID(r->id);
    if(end>start+size) FUN_00887da0(DAT_00db5f90,end-size-start,DAT_00dc0bd0,0x579,r->id,f->Describe(),r->f09,*(unsigned*)&r->f05);
    else if(end<start+size) FUN_00887da0(DAT_00db5f08,size-end+start,DAT_00dc0bd0,0x579,r->id,f->Describe(),r->f09,*(unsigned*)&r->f05);
   } else {
@@ -1540,6 +1587,7 @@ void Owner::FUN_004804f0() {
 void __cdecl FUN_00b0dfd0(int a, int b);
 extern int DAT_01175aa0;
 
+// pdb: NiNode::QPreProcessedNode | BSCullingProcess.obj | fnv360_0822_debug, objrun_open, low
 void __cdecl FUN_00493270(int a1)
 {
     DAT_01175aa0 -= a1;
@@ -1553,6 +1601,7 @@ public:
     CountNode234* next;
     unsigned int FUN_0049fa20() const;
 };
+// pdb: VATS::GetCount | VATS.obj | fnv360_0822_retail, call_seq, low
 unsigned int CountNode234::FUN_0049fa20() const {
     unsigned int count = 0;
     for (const CountNode234* node = this; node; node = node->next)
@@ -1582,6 +1631,7 @@ struct IconComponent238 {
     void FUN_0049e910();
     void FUN_0049eff0();
 };
+// pdb: TESRegionDataLandscape::Save | TESRegionDataLandscape.obj | fnv360_0822_retail, caller_sim, medium
 void IconComponent238::FUN_0049eff0() {
     FUN_0049e910();
     writer->FUN_0045b8e0(0x4E4F4349);
@@ -1643,6 +1693,8 @@ struct Owner246 {
     void FUN_008ab870(unsigned int first, unsigned int data, unsigned int second);
     void FUN_0049cf90(unsigned int first, unsigned int second);
 };
+// pdb: BSAnimGroupSequence::ResolveTransformInterpolators | BSAnimGroupSequence.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNode, aiTransformControllerCount
 void Owner246::FUN_0049cf90(unsigned int first, unsigned int second) {
     unsigned int value = data->value78;
     FUN_008ab870(first, value, second);
@@ -1650,6 +1702,7 @@ void Owner246::FUN_0049cf90(unsigned int first, unsigned int second) {
 
 // @f3 0x00493010 (community match, verified in this file)
 double __cdecl FUN_00c03f30(double value);
+// pdb: BSSimpleArray<float,1024>::GetLast | Tile.obj | fnv360_0822_debug, callee_sim, low
 float __cdecl FUN_00493010(float value) {
     return static_cast<float>(FUN_00c03f30(value));
 }
@@ -1691,6 +1744,7 @@ struct Version269 {
     unsigned char version;
 };
 namespace VersionSize269 { extern Version269* DAT_01079ca4; }
+// pdb: BSAnimGroupSequence::GetSequenceSaveSize | BSAnimGroupSequence.obj | fnv360_0822_retail, call_seq, medium
 unsigned int __cdecl FUN_0049cb90() {
     unsigned int size = 8;
     if (VersionSize269::DAT_01079ca4->version < 0x71) size = 12;
@@ -1712,6 +1766,8 @@ struct Owner276 {
     Item276* item;
     bool FUN_0049faa0();
 };
+// pdb: BSSimpleList<TESRegionData *>::IsInList | TESRegionDataList.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: item
 bool Owner276::FUN_0049faa0() {
     if (this) {
         bool result;
@@ -1738,6 +1794,8 @@ void __cdecl FUN_004932b0(unsigned int count) {
 // @f3 0x0048f950 (community match, verified in this file)
 extern "C" char* __cdecl strcpy(char* destination, const char* source);
 namespace Text307 { extern char DAT_0106f500[]; }
+// pdb: Renderer::SetErrorString | Renderer.obj | fnv360_0822_debug, callee_sim, low, conflict (skyrim: BSRenderer::SetErrorString)
+// pdb params: apReason
 void __cdecl FUN_0048f950(const char* text) {
     Text307::DAT_0106f500[0] = 0;
     if (text) strcpy(Text307::DAT_0106f500, text);
@@ -1752,6 +1810,8 @@ public:
     unsigned char third;
     FUN_0049e8d0(const FUN_0049e8d0& other);
 };
+// pdb: TESRegionData::TESRegionData | TESRegionData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: aData
 FUN_0049e8d0::FUN_0049e8d0(const FUN_0049e8d0& other) {
     first = other.first;
     third = other.third;
@@ -1765,6 +1825,8 @@ struct Object309 {
     virtual void Slot08() = 0;
     virtual unsigned int GetType() = 0;
 };
+// pdb: TESRegionDataManager::IsRegionDataObjects | TESRegionDataManager.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apData
 Object309* __stdcall FUN_0049fea0(Object309* object) {
     if (object && object->GetType() == 2) return object;
     return 0;
@@ -1777,6 +1839,8 @@ struct Object310 {
     virtual void Slot08() = 0;
     virtual unsigned int GetType() = 0;
 };
+// pdb: TESRegionDataManager::IsRegionDataWeather | TESRegionDataManager.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apData
 Object310* __stdcall FUN_0049fed0(Object310* object) {
     if (object && object->GetType() == 3) return object;
     return 0;
@@ -1789,6 +1853,8 @@ struct Object311 {
     virtual void Slot08() = 0;
     virtual unsigned int GetType() = 0;
 };
+// pdb: TESRegionDataManager::IsRegionDataLandscape | TESRegionDataManager.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apData
 Object311* __stdcall FUN_0049ff30(Object311* object) {
     if (object && object->GetType() == 5) return object;
     return 0;
@@ -1801,6 +1867,8 @@ struct Object312 {
     virtual void Slot08() = 0;
     virtual unsigned int GetType() = 0;
 };
+// pdb: TESRegionDataManager::IsRegionDataGrass | TESRegionDataManager.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apData
 Object312* __stdcall FUN_0049ff60(Object312* object) {
     if (object && object->GetType() == 6) return object;
     return 0;
@@ -1813,6 +1881,8 @@ struct Object313 {
     virtual void Slot08() = 0;
     virtual unsigned int GetType() = 0;
 };
+// pdb: TESRegionDataManager::IsRegionDataSound | TESRegionDataManager.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apData
 Object313* __stdcall FUN_0049ff90(Object313* object) {
     if (object && object->GetType() == 7) return object;
     return 0;
@@ -1833,6 +1903,7 @@ struct Cls_0049cb60 {
     void FUN_0049cb60();
 };
 
+// pdb: BSAnimGroupSequence::ClearBlendInterp | BSAnimGroupSequence.obj | fnv360_0822_retail, call_gap_sim, low
 void Cls_0049cb60::FUN_0049cb60() {
     for (unsigned int i = 0; i < count; i++) {
         items[i].m_8 = 0;
@@ -1888,6 +1959,7 @@ extern unsigned char DAT_0106fcf4;
 extern GlobalOwner322* DAT_0106fd24;
 extern unsigned int DAT_0106fce8;
 }
+// pdb: ScreenSplatter::Clear | ScreenSplatter.obj | fnv360_0822_retail, callee_sim, low
 void __cdecl FUN_00491eb0() {
     if (State322::DAT_0106fcf4) {
         State322::DAT_0106fd24->component.FUN_00aaab30();
@@ -1924,6 +1996,8 @@ void __cdecl FUN_00492fe0() {
 }
 
 // @f3 0x0048c480 (community match, verified in this file)
+// pdb: MiscStatManager::GetAll | MiscStats.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: ExtraTextDisplayData::ReplaceQuestTagsInString)
+// pdb params: apValues
 void __cdecl FUN_0048c480(int* output) {
     for (int i = 0; i < 26; ++i) output[i] = DAT_0106f2f8[i]->unk04;
 }
@@ -1952,6 +2026,8 @@ struct Owner355 {
     float FUN_008aa930(float value, unsigned int mode);
     float FUN_0049cac0(float value);
 };
+// pdb: BSAnimGroupSequence::GetScaledTime | BSAnimGroupSequence.obj | fnv360_0822_retail, caller, medium
+// pdb params: afTime
 float Owner355::FUN_0049cac0(float value) {
     switch (kind) {
     case 1:
@@ -1971,9 +2047,10 @@ struct Owner359 {
     unsigned int unk00;
     unsigned int count;
     Callback359 callback;
-    void FUN_0048be50(unsigned int first, unsigned int second);
+    void NiBinaryStream_Read(unsigned int first, unsigned int second);
 };
-void Owner359::FUN_0048be50(unsigned int first, unsigned int second) {
+// pdb: NiBinaryStream::Read | LipSynchAnim.obj | fnv360_0721_beta, call_seq + bridge(call_seq|call_dedup) + skyrim(call_gap), high
+void Owner359::NiBinaryStream_Read(unsigned int first, unsigned int second) {
     int state = 1;
     count += callback(this, first, second, &state, 1);
 }
@@ -2122,6 +2199,8 @@ struct Arr48f6d0 {
     void FUN_0048f6d0(Param48f6d0* param);
     void FUN_0048f070(Value48f6d0* value, int* flag, int mode);
 };
+// pdb: RagDollData::CreateRagDollBoneArray | RagDollData.obj | fnv360_0721_beta, call_seq, low, conflict (skyrim: BSVisit::TraverseScenegraphAVObjects<struct `anonymous namespace'::ResetCollision>)
+// pdb params: apRef
 void Arr48f6d0::FUN_0048f6d0(Param48f6d0* param)
 {
     m_count = 0;
@@ -2353,6 +2432,8 @@ struct FUN_0048f3c0_Obj {
     Point48f3c0 angle;
     void FUN_0048f3c0(Ref48f3c0* ref);
 };
+// pdb: RagDollData::UpdateBip01NodeFromRagdollData | RagDollData.obj | fnv360_0822_debug, objrun, medium
+// pdb params: apRef
 void FUN_0048f3c0_Obj::FUN_0048f3c0(Ref48f3c0* ref)
 {
     if (angle == DAT_0108ec68)
@@ -2393,6 +2474,7 @@ struct FUN_0049e250_Obj {
     Node49e250* list;
     bool FUN_0049e250();
 };
+// pdb: TESRegion::Validate | TESRegion.obj | fnv360_0822_retail, vtable, medium
 bool FUN_0049e250_Obj::FUN_0049e250()
 {
     Node49e250* node = list;
@@ -2483,6 +2565,8 @@ public:
     void __thiscall FUN_0049cbb0(float value);
 };
 
+// pdb: BSAnimGroupSequence::SaveGame | BSAnimGroupSequence.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afTime
 void __thiscall FUN_0049cbb0_Obj::FUN_0049cbb0(float value)
 {
     value = unk48 + value;
@@ -2503,7 +2587,7 @@ namespace f3m_00486f50 {
 struct Item
 {
     virtual ~Item();
-    void FUN_0040a250(int a);
+    void BaseExtraList_RemoveAll(int a);
 };
 struct ItemNode
 {
@@ -2542,6 +2626,7 @@ public:
     Obj* obj;
     void FUN_00486f50();
 };
+// pdb: InventoryChanges::`scalar deleting destructor' | ExtraDataObjects.obj | fnv360_0822_debug, call_seq, low
 void Owner::FUN_00486f50()
 {
     for (ListNode* n = lists; n; )
@@ -2555,7 +2640,7 @@ void Owner::FUN_00486f50()
         {
             Item* item = in->item;
             in = in->next;
-            item->FUN_0040a250(1);
+            item->BaseExtraList_RemoveAll(1);
             delete item;
         }
         if (list->head)
@@ -2594,12 +2679,12 @@ struct WalkSource {
 };
 class WalkOwner {
 public:
-    void FUN_00495010(WalkSource* source, void* value);
+    void TESWaterSystem_UpdateWaterShaderProperties(WalkSource* source, void* value);
     void Visit(WalkSource* source, WalkEntry* node, WalkEntry*& result) {
         WalkEntry* next;
         if (node) {
             next = node->next;
-            FUN_00495010(source, node->value);
+            TESWaterSystem_UpdateWaterShaderProperties(source, node->value);
         } else {
             next = 0;
         }
@@ -2613,7 +2698,7 @@ void WalkOwner::FUN_00496d50(WalkSource* source) {
         do {
             WalkEntry* next = node ? node->next : 0;
             if (node)
-                FUN_00495010(source, node->value);
+                TESWaterSystem_UpdateWaterShaderProperties(source, node->value);
             node = next;
         } while (node);
     }
@@ -2749,6 +2834,7 @@ public:
 };
 
 
+// pdb: BSAnimGroupSequence::ValidateTargetsFromPalette | BSAnimGroupSequence.obj | fnv360_0822_retail, call_gap, low
 void Target_49cfb0::FUN_0049cfb0()
 {
     Helper_49cfb0* helper = unk40->unk78;
@@ -2795,6 +2881,8 @@ namespace f3m_0048c3f0 {
 
 void __cdecl FUN_00887da0(const char* message, ...);
 
+// pdb: MiscStatManager::GetIDByName | MiscStats.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSFurnitureMarker::GetAnimPropertyFromDisplayString)
+// pdb params: apName
 int __cdecl FUN_0048c3f0(const char* name)
 {
     for (int i = 0; i < 26; i++)
@@ -2843,11 +2931,13 @@ class Owner486d40
     void FUN_00486d40(int key, List486d40* out);
 };
 
+// pdb: InventoryChanges::GetItemGroup | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObj, apReturnList
 void Owner486d40::FUN_00486d40(int key, List486d40* out)
 {
     Owner486d40* self = this;
     Item486d40* node = self->FUN_00484430(0);
-    volatile unsigned int index = 1;
+    unsigned int index = 1;
     bool matched = false;
 
     if (key == 0)
@@ -2901,6 +2991,7 @@ struct Owner851 {
     void FUN_0049c490();
     Owner851* FUN_0049c840(unsigned int flags);
 };
+// pdb: BGSDecalNode::`scalar deleting destructor' | BGSDecalNode.obj | fnv360_0822_retail, vtable, high
 Owner851* Owner851::FUN_0049c840(unsigned int flags) {
     FUN_0049c490();
     if (flags & 1) FUN_0089ec10(this, 0xb4);
@@ -2917,6 +3008,8 @@ struct Setting
 };
 extern Setting* DAT_0106f2f8[26];
 
+// pdb: MiscStatManager::SetAll | MiscStats.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apValues
 void __cdecl FUN_0048c440(int* values)
 {
     for (int i = 0; i < 26; i++)
@@ -2926,13 +3019,15 @@ void __cdecl FUN_0048c440(int* values)
 
 // @f3 0x0048c3a0 (community match, verified in this file)
 namespace f3m_0048c3a0 {
+// pdb: MiscStatManager::Increment | MiscStats.obj | fnv360_0721_retail, call_seq, low, conflict (skyrim: MagicTarget::SetDisplacementSpell)
+// pdb params: aeID
 void __cdecl FUN_0048c3a0(int param_1, int param_2) {
     if (param_2) {
         if (param_1 < 0x1a) {
             FUN_0048c360_Obj* entry = DAT_0106f2f8[param_1];
             if (entry != 0) {
                 entry->unk04 += param_2;
-                FUN_0048c360_Obj* owner = FUN_00beaf00(0x3eb);
+                FUN_0048c360_Obj* owner = Tile_GetMenuByClass(0x3eb);
                 FUN_0048c360_Obj* target = owner->FUN_00beab90();
                 if (target != 0) {
                     target->FUN_00685170(param_1);
@@ -2954,12 +3049,12 @@ extern GameMemoryManager DAT_01090a78;
 
 struct Source;
 
-struct FUN_0049f660
+struct TESRegionDataLandscape // src: F3_EXE vtable 0x00dc3798 (old: FUN_0049f660)
 {
     void* operator new(unsigned int size) { return DAT_01090a78.FUN_0086b930(size); }
     void operator delete(void* memory) { DAT_01090a78.FUN_0086ba60(memory); }
 
-    FUN_0049f660(Source* source);
+    TESRegionDataLandscape(Source* source);
 
     int unk00;
     int unk04;
@@ -2968,12 +3063,13 @@ struct FUN_0049f660
 
 struct Source
 {
-    FUN_0049f660* FUN_0049f7c0();
+    TESRegionDataLandscape* FUN_0049f7c0();
 };
 
-FUN_0049f660* Source::FUN_0049f7c0()
+// pdb: TESRegionDataLandscape::Copy | TESRegionDataLandscape.obj | fnv360_0721_beta, caller_sim, low
+TESRegionDataLandscape* Source::FUN_0049f7c0()
 {
-    return new FUN_0049f660(this);
+    return new TESRegionDataLandscape(this);
 }
 }
 
@@ -3000,6 +3096,8 @@ struct Stream {
 
 using namespace f3m_0048c070;
 
+// pdb: LipSynchAnim::Decompress | LipSynchAnim.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apFile, apDest, aiBufferSize, aiDecompSize
 bool __cdecl FUN_0048c070(Stream* stream, unsigned char* out, unsigned int size)
 {
     bool result = true;
@@ -3068,6 +3166,8 @@ public:
 
 using namespace f3m_0048f350;
 
+// pdb: RagDollData::CountRagDollBones | RagDollData.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apNode
 unsigned char __cdecl FUN_0048f350(Node48f350* node)
 {
     unsigned char count = 0;
@@ -3142,6 +3242,8 @@ struct Object49c7a0
     static void* operator new(unsigned int bytes) { return FUN_0089eb90(bytes); }
     Object49c7a0();
 };
+// pdb: BGSDecalNode::CreateClone | BGSDecalNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arCloneData
 Object49c7a0* __stdcall FUN_0049c9f0(int unused)
 {
     return new Object49c7a0();
@@ -3169,18 +3271,20 @@ public:
     int unk38;
     int unk3C;
 
-    void FUN_00496e90(int param2, int result);
+    void TESWaterSystem_RemoveTESObjectFromWaterGroup(int param2, int result);
     void FUN_00499af0(int param1, void* param2, float param3);
 };
 
 int __stdcall FUN_00493d50(int param1, void* param2, float param3);
 
+// pdb: TESWaterSystem::RemoveTESObjectFromWaterGroup | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apWaterRef, apObjectRef, afWaterHeight
 void __thiscall FUN_00499af0_Obj::FUN_00499af0(int param1, void* param2, float param3)
 {
     if (param1 != 0 || (param2 != 0 && ((FUN_00499af0_Obj*)param2)->unk3C != 0)) {
         int result = FUN_00493d50(param1, param2, param3);
         if (result != 0) {
-            FUN_00496e90((int)param2, result);
+            TESWaterSystem_RemoveTESObjectFromWaterGroup((int)param2, result);
         }
     }
 }
@@ -3206,6 +3310,7 @@ struct FUN_00494380_Obj
     bool FUN_00494380();
 };
 
+// pdb: TESWaterSystem::CheckUpdateActorsInWater | TESWater.obj | fnv360_0822_retail, call_gap, low
 bool FUN_00494380_Obj::FUN_00494380()
 {
     if (DAT_0106fdb4)
@@ -3274,12 +3379,16 @@ inline ArrBase4969a0::ArrBase4969a0(unsigned int uiMaxSize, unsigned int uiGrowB
     else
         data = 0;
 }
+// pdb: NiTPrimitiveArray<enum BSTextureManager::eTextureType>::NiTPrimitiveArray<enum BSTextureManager::eTextureType> | TESWater.obj | fnv360_0822_retail, uvref, medium
+// pdb params: uiMaxSize, uiGrowBy
 FUN_004969a0::FUN_004969a0() {}
 }   // namespace f3m_004969a0
 
 // @f3 0x00493030 (community match, verified in this file)
 #include <math.h>
 namespace f3m_00493030 {
+// pdb: BSWrap | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aVal, aMin, aMax
 void __cdecl FUN_00493030(float* value, float lo, float hi)
 {
     if (!(lo > hi)) {
@@ -3338,6 +3447,8 @@ struct Holder49e7b0 {
     void FUN_00454420(Data* d);
     Data* FUN_0049e7b0(Data* d);
 };
+// pdb: TESRegion::Copy | TESRegion.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCopyInto
 Data* Holder49e7b0::FUN_0049e7b0(Data* d)
 {
     Data* r = d ? d : new Data();
@@ -3352,31 +3463,35 @@ Data* Holder49e7b0::FUN_0049e7b0(Data* d)
 
 // @f3 0x004930d0 (community match, verified in this file)
 #include <math.h>
-extern float DAT_00db88e0;
 namespace f3m_004930d0 {
 
+inline float NiSqrt(float fValue)
+{
+    return float(sqrt(fValue));
+}
 
 struct NiPoint2U4930 {
     float x;
     float y;
+    float Length() const { return NiSqrt(x * x + y * y); }
     float FUN_004930d0();
 };
 
+// pdb: NiPointer<NiScreenElementsData>::~NiPointer<NiScreenElementsData> | ImageSpaceEffectWaterDisplacement.obj | fnv360_0721_beta, call_gap, low, conflict (skyrim: NiPoint2::Unitize)
+// The body is Gamebryo's NiPoint2::Unitize (the Skyrim link).
 float NiPoint2U4930::FUN_004930d0()
 {
-    float sum = x * x + y * y;
-    volatile float raw = (float)sqrt((double)sum);
-    float len = raw;
-    if (DAT_00db88e0 < len) {
-        float inv = 1.0f / len;
-        x = x * inv;
-        y = y * inv;
-        return len;
+    float fLength = Length();
+    if (fLength > 1e-06f) {
+        float fRecip = 1.0f / fLength;
+        x *= fRecip;
+        y *= fRecip;
+    } else {
+        x = 0.0f;
+        y = 0.0f;
+        fLength = 0.0f;
     }
-    x = 0.0f;
-    y = 0.0f;
-    volatile float z = 0.0f;
-    return z;
+    return fLength;
 }
 }   // namespace f3m_004930d0
 
@@ -3399,15 +3514,17 @@ struct Holder_484c30 {
     Holder_484c30* FUN_004e66c0();
 };
 
-bool FUN_00452670(int value);
+bool TESContainer_IsGold(int value);
 
 struct FUN_00484c30_cls {
     Link_484c30* unk00;
     Holder_484c30* unk04;
-    void FUN_00481c10(int, int, int, int, int, int, int, int, int, int, int);
+    void InventoryChanges_RemoveItem(int, int, int, int, int, int, int, int, int, int, int);
     void FUN_00484c30(int a, int b, int c);
 };
 
+// pdb: InventoryChanges::RemoveGold | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRef, aiamount, apCont
 void FUN_00484c30_cls::FUN_00484c30(int a, int b, int c)
 {
     if (unk04 != 0) {
@@ -3420,8 +3537,8 @@ void FUN_00484c30_cls::FUN_00484c30(int a, int b, int c)
                         break;
                     }
                     int v = q->item->unk04;
-                    if (v != 0 && FUN_00452670(v)) {
-                        FUN_00481c10(a, v, 0, b, 0, 0, c, 0, 0, 1, 0);
+                    if (v != 0 && TESContainer_IsGold(v)) {
+                        InventoryChanges_RemoveItem(a, v, 0, b, 0, 0, c, 0, 0, 1, 0);
                         return;
                     }
                 }
@@ -3433,8 +3550,8 @@ void FUN_00484c30_cls::FUN_00484c30(int a, int b, int c)
             break;
         }
         int v = q->item->unk08;
-        if (v != 0 && FUN_00452670(v)) {
-            FUN_00481c10(a, v, 0, b, 0, 0, c, 0, 0, 1, 0);
+        if (v != 0 && TESContainer_IsGold(v)) {
+            InventoryChanges_RemoveItem(a, v, 0, b, 0, 0, c, 0, 0, 1, 0);
             return;
         }
     }
@@ -3452,6 +3569,8 @@ struct SaveStream48c5
 }
 using namespace f3m_0048c520;
 
+// pdb: MiscStatManager::LoadGame | MiscStats.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apLoadGameBuffer
 void __cdecl FUN_0048c520(SaveStream48c5* stream)
 {
     unsigned int count = 0x15;
@@ -3503,6 +3622,8 @@ struct Table_48ec60
     int unk10;
     void FUN_0048ec60(const Table_48ec60* other);
 };
+// pdb: RagDollData::Copy | RagDollData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCopy
 void Table_48ec60::FUN_0048ec60(const Table_48ec60* other)
 {
     if (other) {
@@ -3536,6 +3657,8 @@ struct FUN_0049f700_cls {
     void FUN_0049f700(FUN_0049f700_sink* s);
 };
 
+// pdb: TESRegionDataLandscape::GetCanopyShadowTexture | TESRegionDataLandscape.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aDest
 void FUN_0049f700_cls::FUN_0049f700(FUN_0049f700_sink* s)
 {
     if (unk08 == 0) {
@@ -3556,9 +3679,9 @@ namespace f3m_0049f010 {
 namespace f3m_0049f010 {
 struct Chunk_49f010
 {
-    int FUN_004487d0();
+    int TESFile_GetTESChunk();
 };
-void __cdecl FUN_0045bab0(int a, Chunk_49f010* b);
+void __cdecl TESTexture_LoadTextureChunk(int a, Chunk_49f010* b);
 struct Obj_49f010
 {
     int unk00;
@@ -3568,12 +3691,14 @@ struct Obj_49f010
 };
 }
 using namespace f3m_0049f010;
+// pdb: TESRegionDataLandscape::LoadRegionDataLandscape | TESRegionDataLandscape.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apFile
 bool Obj_49f010::FUN_0049f010(Chunk_49f010* chunk)
 {
     if (!chunk)
         return false;
-    if (chunk->FUN_004487d0() == 0x4e4f4349)
-        FUN_0045bab0(unk08, chunk);
+    if (chunk->TESFile_GetTESChunk() == 0x4e4f4349)
+        TESTexture_LoadTextureChunk(unk08, chunk);
     return true;
 }
 }   // namespace f3m_0049f010
@@ -3658,6 +3783,8 @@ public:
     void FUN_00a5e780(RefObj* p, RefPtr& ref);
 };
 
+// pdb: BGSDecalNode::DetachChild | BGSDecalNode.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: TESObjectREFR::RemoveMasterParticleAddonNodes)
+// pdb params: apDecal
 void S2::FUN_0049c950(Obj49c950* obj)
 {
     RefPtr ref;
@@ -3768,10 +3895,11 @@ public:
     Elem48ef90* unk04;
     NiPoint3_48ef90 unk08;
 
-    bool FUN_0048ef90(Obj48ef90* other);
+    bool RagDollData_Compare(Obj48ef90* other);
 };
 
-bool Obj48ef90::FUN_0048ef90(Obj48ef90* other)
+// pdb: RagDollData::Compare | RagDollData.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+bool Obj48ef90::RagDollData_Compare(Obj48ef90* other)
 {
 
     if (!other)
@@ -3838,6 +3966,8 @@ public:
     Node* list;
     void FUN_0049c660(int param);
 };
+// pdb: BGSDecalNode::OnVisible | BGSDecalNode.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arCuller
 void Owner::FUN_0049c660(int param)
 {
     if (info)
@@ -3911,6 +4041,8 @@ struct Obj {
     void FUN_0049a570(Ref* ref, Vec3B* pos, Mat3B* rot);
     void FUN_0049b050(Ref* ref);
 };
+// pdb: TESWaterSystem::AddPlaceableWater | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apWaterRef
 void Obj::FUN_0049b050(Ref* ref)
 {
     XformB* x = ref->GetXform();
@@ -3935,6 +4067,8 @@ struct Owner1046 {
     void FUN_00845b60(void* context);
     Owner1046* FUN_00491840(const Four1046* source);
 };
+// pdb: BSSplatterExtraData::BSSplatterExtraData | ScreenSplatter.obj | fnv360_0822_retail, uvref, high
+// pdb params: aSplatterData
 Owner1046* Owner1046::FUN_00491840(const Four1046* source) {
     FUN_00845b60(DAT_0106fcf0);
     vtable00 = &DAT_00dc275c;
@@ -4028,6 +4162,7 @@ public:
     void FUN_00493d10();
 };
 
+// pdb: TESWaterSystem::ResetStencilBitRefs | TESWater.obj | fnv360_0822_retail, call_gap, medium
 void Owner_493d10::FUN_00493d10() {
     int index = 1;
     Node_493d10* node = unk3C;
@@ -4277,6 +4412,8 @@ struct R_93f10 {
 };
 bool __cdecl FUN_004784d0(Node_93f10* n, int b);
 
+// pdb: TESWaterSystem::IsWaterNodeVisible | TESWater.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apWaterRef, apCamera
 bool __stdcall FUN_00493f10(A_93f10* a, int b)
 {
     Node_93f10* n = a->vf1D0();
@@ -4366,7 +4503,8 @@ struct Obj_0048f770 {
     virtual void vff4();
     virtual void vff8();
     virtual void vffc();
-    virtual bool vf100();
+    // pdb: TESForm::IsActor (slot 64; F3 TESForm vtable 78 slots = FNV360_PDB TESForm 78, Actor's slot 64 returns true)
+    virtual bool IsActor();
     virtual void vf104();
     virtual void vf108();
     virtual void vf10c();
@@ -4429,6 +4567,8 @@ public:
     bool FUN_0048f770(Obj_0048f770* p);
 };
 
+// pdb: RagDollData::UpdateDataFromReference | RagDollData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef
 bool Owner_0048f770::FUN_0048f770(Obj_0048f770* p)
 {
     int local = 0;
@@ -4437,7 +4577,7 @@ bool Owner_0048f770::FUN_0048f770(Obj_0048f770* p)
     if (p != 0 && p->vf1d0() != 0) {
         Result_0048f770* r = p->vf1d0();
         obj = r ? r->v0c() : 0;
-        if (p->vf100())
+        if (p->IsActor())
             FUN_0048f4c0(p);
         if (unk00 == 0) {
             FUN_0048f6d0(p);
@@ -4457,8 +4597,9 @@ done:
 // @f3 0x0049fa60 (community match, verified in this file)
 namespace f3m_0049fa60 {
 struct Entry1081 { virtual void Slot00(); virtual void Slot04(); virtual void Slot08(); virtual int Slot0C(); };
-struct Node1081 { Entry1081* value00; Node1081* next04; Entry1081* FUN_0049fa60(int key); };
-Entry1081* Node1081::FUN_0049fa60(int key) {
+struct Node1081 { Entry1081* value00; Node1081* next04; Entry1081* TESRegionDataList_Find(int key); };
+// pdb: TESRegionDataList::Find | TESRegionDataList.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+Entry1081* Node1081::TESRegionDataList_Find(int key) {
     Node1081* node = this;
     while (node) {
         Entry1081* entry = node->value00;
@@ -4535,6 +4676,8 @@ struct FUN_0049d750_cls {
 };
 
 
+// pdb: BSAnimGroupSequence::Deactivate | BSAnimGroupSequence.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afEaseOutTime, abTransition
 void FUN_0049d750_cls::FUN_0049d750(float p1, int p2)
 {
     if (unk60 != 0) {
@@ -4584,6 +4727,8 @@ struct FUN_0049f740_Cls {
     bool FUN_0049f740(const String_49f6& newName);
 };
 
+// pdb: TESRegionDataLandscape::SetCanopyShadowTexture | TESRegionDataLandscape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: aCanopyShadowTexture
 bool FUN_0049f740_Cls::FUN_0049f740(const String_49f6& newName)
 {
     if (unk08)
@@ -4664,6 +4809,8 @@ public:
     void FUN_0049df50(Df50Node* n);
 };
 
+// pdb: BSTransCon::RemoveTreadControlledItems | BSBipNode.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: apObject
 void Df50Owner::FUN_0049df50(Df50Node* n)
 {
     if (n) {
@@ -4707,6 +4854,8 @@ public:
     void FUN_00493ca0(RefObj493*& p);
 };
 
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,TESWaterForm *,bool>::GetAt | TESWater.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: key, val
 void Owner493::FUN_00493ca0(RefObj493*& p)
 {
     RefObj493* old = p;
@@ -4727,6 +4876,8 @@ namespace f3m_00491770 {
 struct FUN_00aa5140;
 FUN_00aa5140& FUN_0044a2d0();
 struct Generator1142 { unsigned int FUN_0086c4b0(unsigned int maximum); };
+// pdb: RandomBool | ScreenCustomSplatter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afPercentTrue
 int __cdecl FUN_00491770(float threshold) {
  Generator1142* generator=reinterpret_cast<Generator1142*>(&FUN_0044a2d0());
  unsigned int value=generator->FUN_0086c4b0(0xffffffffu);
@@ -4758,6 +4909,7 @@ struct Obj494150 {
 
 extern Obj494150* DAT_0106ff08;
 
+// pdb: TESWaterSystem::ClearWaterRoot | TESWater.obj | fnv360_0822_retail, call_gap, low
 void FUN_00494150()
 {
     if (DAT_0106ff08) {
@@ -4812,6 +4964,8 @@ virtual void v8C();
 virtual void v90();
 virtual void v94(); virtual Wrapper1154* Lookup(int); };
 struct Owner1154 { void FUN_0082eb10(Wrapper1154*); void FUN_0049c3a0(Source1154*,int); };
+// pdb: BGSDecalNode::AttachChild | BGSDecalNode.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: NiSwitchNode::AttachChild)
+// pdb params: apDecal, bFirstAvail
 void Owner1154::FUN_0049c3a0(Source1154* source,int index) {
  State1154* state=source->Lookup(3)->FUN_00826590();
  if(state)state->value5C=1.0f;
@@ -4831,6 +4985,8 @@ struct FUN_0048c280_Holder
     void* unk00;
 };
 
+// pdb: LipSynchAnim::LoadFromFile | LipSynchAnim.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: `anonymous namespace'::DispelEffectFunctor::operator())
+// pdb params: apFilename
 void* __cdecl FUN_0048c280(FUN_0048c280_Holder* h)
 {
     void* obj = h->unk00;
@@ -4885,6 +5041,8 @@ struct FUN_0049caf0_cls {
     unsigned char FUN_0049caf0(void* p, unsigned int* outIdx);
 };
 
+// pdb: BSAnimGroupSequence::GetPriority | BSAnimGroupSequence.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apBoneName, apReturnIndex
 unsigned char FUN_0049caf0_cls::FUN_0049caf0(void* p, unsigned int* outIdx)
 {
     for (unsigned int i = 0; i < unk0C; ++i) {
@@ -4934,7 +5092,8 @@ template <class T> struct RefPtr {
     }
 };
 extern RefPtr<FUN_006ef3f0> DAT_0107a33c;
-void __cdecl FUN_0048fa90()
+// pdb: Main::CreateMenuRootNode3D | Main.obj | fnv360_0721_beta, ustr + skyrim(ustr), high
+void __cdecl Main_CreateMenuRootNode3D()
 {
     DAT_0107a33c = new FUN_006ef3f0("3DMenu", 0, 0);
 }
@@ -5124,6 +5283,8 @@ public:
     void FUN_0049cd70(Stream_49cd70* stream, float base);
 };
 
+// pdb: BSAnimGroupSequence::LoadGame | BSAnimGroupSequence.obj | fnv360_0822_retail, caller, medium
+// pdb params: apLoadGameBuffer, afTime
 void Obj_49cd70::FUN_0049cd70(Stream_49cd70* stream, float base)
 {
     float value = 0.0f;
@@ -5184,10 +5345,11 @@ struct AnimationSaveFO3 {
     unsigned int unk4c;
     unsigned int unk50;
     unsigned int unk54;
-    void FUN_0049cd00(SaveBufferFO3* buffer, float value);
+    void BSAnimGroupSequence_SaveGame(SaveBufferFO3* buffer, float value);
 };
 
-void AnimationSaveFO3::FUN_0049cd00(SaveBufferFO3* buffer, float value)
+// pdb: BSAnimGroupSequence::SaveGame | BSAnimGroupSequence.obj | fnv360_1110_retail, call_seq + bridge(call_gap|objrun_prop), high
+void AnimationSaveFO3::BSAnimGroupSequence_SaveGame(SaveBufferFO3* buffer, float value)
 {
     float temp = time48 + value;
     buffer->FUN_006e1830(&temp, 4, 0);
@@ -5202,6 +5364,8 @@ void AnimationSaveFO3::FUN_0049cd00(SaveBufferFO3* buffer, float value)
 // @f3 0x0049c5d0 (community match, verified in this file)
 namespace f3m_0049c5d0 {
 struct Owner1287{int unk00,unk04,unk08,unk0C,unk10,unk14,unk18,unk1C,unk20,unk24,unk28,unk2C,unk30,unk34,unk38,unk3C,unk40,unk44,unk48,unk4C,unk50,unk54,unk58,unk5C,unk60,unk64,unk68,unk6C,unk70,unk74,unk78,unk7C,unk80,unk84,unk88,unk8C,unk90,unk94,unk98,unk9C,unkA0,unkA4,unkA8; ObjectQueue* queueAC;void FUN_0049c5d0(QueuedObject*);};
+// pdb: BGSDecalNode::RemoveFromDecalList | BGSDecalNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apDecal
 void Owner1287::FUN_0049c5d0(QueuedObject* object){QueueReference reference(object);queueAC->FUN_004c25a0(reference);}
 }   // namespace f3m_0049c5d0
 
@@ -5227,6 +5391,7 @@ public:
     OwnedHelper* m_pkHelper;
 };
 
+// pdb: TESRegionDataGrass::`scalar deleting destructor' | TESRegionDataGrass.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: TESRegionDataGrass::~TESRegionDataGrass)
 FUN_0049ead0::~FUN_0049ead0()
 {
     delete m_pkHelper;
@@ -5317,6 +5482,8 @@ public:
     void FUN_0049de40(float fTime);
 };
 
+// pdb: BSBipNode::UpdateAllButBip | BSBipNode.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afTime
 void CtrlOwner::FUN_0049de40(float fTime)
 {
     CtrlNode* node = unk0C;
@@ -5400,6 +5567,8 @@ struct Owner49f050 {
     void FUN_0049f050(int value);
 };
 
+// pdb: NiTexturingProperty::SetBaseClampMode | TESRegionDataLandscape.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: eMode
 void Owner49f050::FUN_0049f050(int value)
 {
     Property49f050* item = unk1C.GetAt(0);
@@ -5508,7 +5677,7 @@ struct QElem8ee70 {
     static void* operator new[](unsigned int size) { return DAT_01090a78.FUN_0086b930(size); }
 };
 struct QFile8ee70 {
-    int FUN_004487d0();
+    int TESFile_GetTESChunk();
     void FUN_00447d60(void* buffer, unsigned int size);
 };
 inline unsigned int Q8ee70Size(QFile8ee70* f) { return *(unsigned int*)((char*)f + 0x25c); }
@@ -5522,10 +5691,12 @@ struct QArr8ee70 {
 };
 }
 using namespace q8ee70;
+// pdb: RagDollData::Load | RagDollData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apFile
 bool QArr8ee70::FUN_0048ee70(QFile8ee70* file)
 {
     bool ok = false;
-    if (file->FUN_004487d0() == 0x44475258) {
+    if (file->TESFile_GetTESChunk() == 0x44475258) {
         unsigned int size = Q8ee70Size(file);
         unsigned char count = (unsigned char)(size / sizeof(QElem8ee70));
         m_count = count;
@@ -5548,7 +5719,7 @@ bool QArr8ee70::FUN_0048ee70(QFile8ee70* file)
             m_count = 0;
         }
     }
-    if (file->FUN_004487d0() == 0x42475258) {
+    if (file->TESFile_GetTESChunk() == 0x42475258) {
         file->FUN_00447d60(&unk08, 12);
         if (Q8ee70Swap(file)) {
             Q8ee70Swap4(&unk08);
@@ -5563,7 +5734,6 @@ bool QArr8ee70::FUN_0048ee70(QFile8ee70* file)
 // @f3 0x0048f4c0 (community match, verified in this file)
 namespace f3m_0048f4c0 {
 
-struct FUN_0048f4c0_Target;
 struct FUN_0048f4c0_Result;
 
 struct FUN_0048f4c0_Copy
@@ -5984,6 +6154,8 @@ struct FUN_0048f4c0_Owner
     void __thiscall FUN_0048f4c0(FUN_0048f4c0_V53* param_2);
 };
 
+// pdb: RagDollData::UpdateRagDollDataFromBip01Node | RagDollData.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apRef
 void __thiscall FUN_0048f4c0_Owner::FUN_0048f4c0(FUN_0048f4c0_V53* param_2)
 {
     if (param_2)
@@ -6011,9 +6183,6 @@ void __thiscall FUN_0048f4c0_Owner::FUN_0048f4c0(FUN_0048f4c0_V53* param_2)
 
 // @f3 0x0049cc40 (community match, verified in this file)
 namespace f3m_0049cc40 {
-struct Stream_49cc40 {
-    void FUN_006db490(void* buf, unsigned int size);
-};
 
 struct FUN_0049cc40_cls {
     int unk00;
@@ -6042,6 +6211,8 @@ struct FUN_0049cc40_cls {
     void FUN_0049cc40(float p);
 };
 
+// pdb: BSAnimGroupSequence::LoadGame | BSAnimGroupSequence.obj | fnv360_0822_debug, objrun, medium
+// pdb params: afTime
 void FUN_0049cc40_cls::FUN_0049cc40(float p)
 {
     float v;
@@ -6372,6 +6543,8 @@ struct QOwner {
     QForm* FUN_004941a0(QObj* obj);
     void FUN_00495a70(QData* data, int unused1, int unused2);
 };
+// pdb: TESWaterSystem::ClearReflectionTexturePointers | TESWater.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apGroup, abRemovingGroup, abRecurse
 void QOwner::FUN_00495a70(QData* data, int unused1, int unused2)
 {
     if (!data)
@@ -6408,10 +6581,11 @@ struct QQuat202 {
     float m_fX;
     float m_fY;
     float m_fZ;
-    void FUN_0049da00(QMatrix202& rot) const;
+    void NiQuaternion_ToRotation(QMatrix202& rot) const;
 };
 
-void QQuat202::FUN_0049da00(QMatrix202& rot) const
+// pdb: NiQuaternion::ToRotation | BSBipNode.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void QQuat202::NiQuaternion_ToRotation(QMatrix202& rot) const
 {
     float tx  = 2.0f*m_fX;
     float ty  = 2.0f*m_fY;
@@ -6482,6 +6656,7 @@ struct FUN_0049e150_Class
 
 void __cdecl FUN_00454890(unsigned int a, unsigned int b);
 
+// pdb: TESRegion::Save | TESRegion.obj | fnv360_0822_retail, vtable, medium
 void FUN_0049e150_Class::FUN_0049e150()
 {
     FUN_004547d0();
@@ -6641,9 +6816,10 @@ struct OuterNode { OuterNode* next; int unk4; Group* group; };
 struct Owner {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
     OuterNode* head;
-    bool FUN_00494020();
+    bool TESWaterSystem_EnableWaterSystem();
 };
-bool Owner::FUN_00494020() {
+// pdb: TESWaterSystem::EnableWaterSystem | TESWater.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller) + skyrim(objrun_prop), high
+bool Owner::TESWaterSystem_EnableWaterSystem() {
     DAT_01067ba9 = 1;
     if (FUN_00f4cf80 || !DAT_0106fdcc) return false;
     FUN_00f4cf80 = 1;
@@ -6672,6 +6848,7 @@ struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct FUN_0045bd00 {~FUN_0045bd00();static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);}};
 struct FUN_0049e900 {virtual ~FUN_0049e900();unsigned unk04;};
 struct FUN_0049f0f0:FUN_0049e900 {FUN_0045bd00* userData;virtual ~FUN_0049f0f0();};
+// pdb: TESRegionDataLandscape::`scalar deleting destructor' | TESRegionDataLandscape.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: TESRegionDataLandscape::~TESRegionDataLandscape)
 FUN_0049f0f0::~FUN_0049f0f0(){if(userData)delete userData;}
 }
 }   // namespace f3m_0049f0f0
@@ -6686,6 +6863,7 @@ public:
     void* unk04;
 };
 
+// pdb: TESRegionDataManager::TESRegionDataManager | TESRegionDataManager.obj | fnv360_0822_retail, uvref, low, conflict (skyrim: TESRegionDataManager::~TESRegionDataManager)
 TESRegionDataManager::TESRegionDataManager()
     : unk04(0)
 {
@@ -6756,6 +6934,7 @@ public:
 
 extern NiPointer<SceneGraph> g_menuSceneGraph_f9e0;
 
+// pdb: Main::CreateMenuRootNode | Main.obj | fnv360_0721_beta, call_gap, low
 void FUN_0048f9e0()
 {
     g_menuSceneGraph_f9e0 = new SceneGraph("Menu", true, 0);
@@ -7267,6 +7446,7 @@ extern int DAT_00f60c78,DAT_00f60c84,DAT_00f60c90;
 extern int DAT_0108ec68;
 extern const char DAT_00f725a4[];
 void __cdecl FUN_0057e900(int*,int);
+// pdb: ScreenCustomSplatter::Init | ScreenCustomSplatter.obj | fnv360_0822_retail, objrun, medium
 void FUN_00491a90() {
  ContextGuard guard(7);
  DAT_0106fcf4=DAT_0106fd0c;
@@ -7400,6 +7580,7 @@ struct FUN_00498980 {
  Tail498 tail;float f98;bool f9c;
  FUN_00498980();
 };
+// pdb: TESWaterSystem::TESWaterSystem | TESWater.obj | fnv360_0721_beta, udata, high
 FUN_00498980::FUN_00498980():m4c(37),m5c(37),m6c(37),m7c(37){
  f24=0.0f;
  DAT_01174e80=DAT_0106fea4;DAT_01067ba9=false;
@@ -7422,7 +7603,7 @@ struct MemScope { int old; MemScope(int v):old(g_tlsMemContext){g_tlsMemContext=
 class TESBoundObject { public: virtual ~TESBoundObject(); };
 class TESAmmo : public TESBoundObject {};
 struct Heap { void* FUN_0086b930(unsigned); }; extern Heap g_heap48;
-struct Extra { bool FUN_0040ac70(); };
+struct Extra { bool ExtraDataList_HasLeveledItem(); };
 struct Extras { Extra* data; Extras* next; Extras():data(0),next(0){} static void* operator new(unsigned n){return g_heap48.FUN_0086b930(n);} void FUN_0049fac0(Extras*); };
 
 struct Entry { Extras* extras; int count; TESBoundObject* form;
@@ -7434,12 +7615,14 @@ struct BaseItem { int count; TESBoundObject* form; };
 struct BaseNode { BaseItem* data; BaseNode* next; };
 struct Inventory { int unk00; BaseNode items; bool FUN_004528c0(TESBoundObject*); int FUN_00452c40(TESBoundObject*); };
 struct Base { Inventory* FUN_004e66c0(); };
-struct Actor { float FUN_0054ae70(TESAmmo*); };
+struct Actor { float TESActorBase_GetDesirability(TESAmmo*); };
 struct Owner { Changes* changes; Base* base;
 Entry* find(TESAmmo* form) { Changes* n=changes; bool searching=true; while(n && searching) { if(n->data && n->data->form==form) searching=false; else n=n->next; } return n?n->data:0; }
 Inventory* inventory(){return base?base->FUN_004e66c0():0;}
 Entry* FUN_00483b80(Actor* actor,int unused);
 };
+// pdb: InventoryChanges::GetBestAmmo | InventoryChanges.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apActorBase, abUseCanNotWear
 Entry* Owner::FUN_00483b80(Actor* actor,int unused) {
  MemScope scope(0x36);
  float best=-FLT_MAX;
@@ -7456,7 +7639,7 @@ Entry* Owner::FUN_00483b80(Actor* actor,int unused) {
      if(change->count+baseCount<=0 && baseCount>=0) goto baseNext;
     }
     {
-     float score=actor->FUN_0054ae70(ammo);
+     float score=actor->TESActorBase_GetDesirability(ammo);
      if(score>best) { best=score; selected=ammo; }
     }
    }
@@ -7470,17 +7653,17 @@ baseNext: n=n->next;
    if(ammo) {
     Extras* e=entry->extras;
     bool equipped=false;
-    while(e) { if(!e->data) break; if(e->data->FUN_0040ac70()) { equipped=true; break; } e=e->next; }
+    while(e) { if(!e->data) break; if(e->data->ExtraDataList_HasLeveledItem()) { equipped=true; break; } e=e->next; }
     if(equipped && entry->count<0) continue;
     if(entry->count==0) continue;
     if(inventory()->FUN_004528c0(ammo)) continue;
-    float score=actor->FUN_0054ae70(ammo);
+    float score=actor->TESActorBase_GetDesirability(ammo);
     if(score>best) { best=score; extraSelected=ammo; }
    }
   }
  }
  if(extraSelected && extraSelected!=selected) {
-  if(actor->FUN_0054ae70(extraSelected)>actor->FUN_0054ae70(selected)) selected=extraSelected;
+  if(actor->TESActorBase_GetDesirability(extraSelected)>actor->TESActorBase_GetDesirability(selected)) selected=extraSelected;
  }
  Entry* found=find(selected);
  Entry* result=0;
@@ -8121,6 +8304,7 @@ extern Host* DAT_0108f048;
 struct Counter {void FUN_00b0d230(int,int);};
 extern Counter DAT_01175720;
 struct Owner { void FUN_00494aa0(Vec,int); void FUN_004962b0(); };
+// pdb: TESWaterSystem::MTRenderSkyReflectionTexture | TESWater.obj | fnv360_0822_retail, call_gap, low
 void Owner::FUN_004962b0() {
  Context context(0x1d);
  if(!DAT_0106fe0c || !DAT_0106ff98) return; {
@@ -8186,11 +8370,12 @@ using namespace f3m_0049c7a0;
 struct FUN_0049c7a0 : Base {
     FUN_0049c7a0();
     virtual ~FUN_0049c7a0();
-    void FUN_0049c570();
+    void BGSDecalNode_Init();
 };
 
+// pdb: BGSDecalNode::BGSDecalNode | BGSDecalNode.obj | fnv360_0822_debug, call_seq, low, conflict (bridge: BGSDecalNode::Init)
 FUN_0049c7a0::FUN_0049c7a0() : Base(0) {
-    FUN_0049c570();
+    BGSDecalNode_Init();
     if (DAT_0106fffc) {
         Node* node = new Node(DAT_0106fffc);
         node->next = DAT_01070000;
@@ -8220,8 +8405,8 @@ struct GameState_49e1c0
 };
 extern GameState_49e1c0* DAT_0106cdcc;
 
-TESForm* __cdecl FUN_00455190(unsigned int id);
-void __cdecl FUN_00454a40(unsigned int* id, int file);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int id);
+void __cdecl TESForm_AddCompileIndex(unsigned int* id, int file);
 
 struct FUN_0049e1c0_cls
 {
@@ -8237,23 +8422,24 @@ struct FUN_0049e1c0_cls
 
     bool IsBit3() const { return (flags08 >> 3) & 1; }
     bool IsBit6() const { return (flags08 >> 6) & 1; }
-    int FUN_00455470(int a);
-    void FUN_00454240(int a);
+    int TESForm_GetFile(int a);
+    void TESForm_SetInitialized(int a);
     void FUN_0049e1c0();
 };
 
+// pdb: TESRegion::InitItem | TESRegion.obj | fnv360_0822_retail, vtable, medium
 void FUN_0049e1c0_cls::FUN_0049e1c0()
 {
     if (!IsBit3()) {
         unsigned int id = (unsigned int)unk20;
-        FUN_00454a40(&id, FUN_00455470(-1));
-        TESWorldSpace* ref = dynamic_cast<TESWorldSpace*>(FUN_00455190(id));
+        TESForm_AddCompileIndex(&id, TESForm_GetFile(-1));
+        TESWorldSpace* ref = dynamic_cast<TESWorldSpace*>(TESForm_GetFormByNumericID(id));
         if (ref) {
             unk20 = ref;
             if (IsBit6() && !DAT_0106cdcc->flag5AC)
                 ref->FUN_00501140(1);
         }
-        FUN_00454240(1);
+        TESForm_SetInitialized(1);
     }
 }
 }   // namespace f3m_0049e1c0
@@ -8281,6 +8467,7 @@ struct Arr48ece0 {
     Elem* items;
     void FUN_0048ece0();
 };
+// pdb: RagDollData::LoadGame | RagDollData.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: RagDollBone::Endian)
 void Arr48ece0::FUN_0048ece0()
 {
     DAT_01079ca4->FUN_006db490(this, 1);
@@ -8334,6 +8521,7 @@ struct Game {
 extern Game* DAT_0106cdcc;
 }
 
+// pdb: TESRegion::SaveGame | TESRegion.obj | fnv360_0822_retail, call_gap, medium
 void __cdecl FUN_0049e2c0()
 {
     using namespace f3m_0049e2c0;
@@ -8380,10 +8568,11 @@ struct FUN_0049c570_cls {
     void* unkAC;
     unsigned char unkB0;
     void FUN_008245d0(unsigned int v);
-    void FUN_0049c570();
+    void BGSDecalNode_Init();
 };
 
-void FUN_0049c570_cls::FUN_0049c570()
+// pdb: BGSDecalNode::Init | BGSDecalNode.obj | fnv360_0721_beta, udata, high
+void FUN_0049c570_cls::BGSDecalNode_Init()
 {
     unsigned int* p = (unsigned int*)reinterpret_cast<Heap_b0511&>(DAT_01090a78).FUN_0086b930(8);
     if (p) {
@@ -8450,6 +8639,7 @@ struct Derived : Base {
 }
 using namespace f3m_0049e090;
 
+// pdb: TESRegion::TESRegion | TESRegion.obj | fnv360_0822_retail, call_seq, high
 Derived::Derived()
 {
     part = new Part(true);
@@ -8523,6 +8713,7 @@ public:
     AnimGroupPointer animGroup;
 };
 
+// pdb: BSAnimGroupSequence::~BSAnimGroupSequence | BSAnimGroupSequence.obj | fnv360_0822_retail, call_seq, high
 BSAnimGroupSequence::~BSAnimGroupSequence()
 {
 }
@@ -8574,7 +8765,7 @@ void FUN_0048f950(char* s);
 void FUN_00829820();
 void FUN_00addd70();
 void FUN_0048f9e0();
-void FUN_0048fa90();
+void Main_CreateMenuRootNode3D();
 void FUN_0061ab60(int a);
 void FUN_0061abe0();
 void FUN_00619c40();
@@ -8621,7 +8812,7 @@ void FUN_0048fba0()
     ((Misc2*)h)->FUN_00530a20(FUN_00ad5a50());
     DAT_0107a224->FUN_00aaee20();
     FUN_0048f9e0();
-    FUN_0048fa90();
+    Main_CreateMenuRootNode3D();
     FUN_0061ab60(0);
     FUN_0061abe0();
     FUN_00619c40();
@@ -8868,10 +9059,11 @@ public:
 
     void FUN_0048f3c0(QRef* ref);
     bool FUN_0048f1c0(int val, int* out);
-    bool FUN_0048f530(QRef* ref);
+    bool RagDollData_UpdateReferenceFromData(QRef* ref);
 };
 
-bool Q48f530::FUN_0048f530(QRef* ref)
+// pdb: RagDollData::UpdateReferenceFromData | RagDollData.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+bool Q48f530::RagDollData_UpdateReferenceFromData(QRef* ref)
 {
     int out = 0;
     bool ok = true;
@@ -8924,6 +9116,7 @@ struct QTreeWindow {
     void FUN_0048ce10(int x, int y, int width, int height);
 };
 
+// pdb: WindowPointToRay | BSMath.obj | tesv_win, uimport, low
 void QTreeWindow::FUN_0048ce10(int x, int y, int width, int height)
 {
     QInitCC icc;
@@ -9045,6 +9238,8 @@ struct F3Owner48bd
     bool FUN_0048bd00(F3Obj48bd* obj, float amount);
 };
 
+// pdb: LipSynchAnim::ApplyToNode | LipSynchAnim.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apData, afEmptyAtEnd
 bool F3Owner48bd::FUN_0048bd00(F3Obj48bd* obj, float amount)
 {
     F3Buf40 buf1;
@@ -9123,6 +9318,7 @@ public:
 
 extern NiFixedString* DAT_0106fcf0;
 
+// pdb: BSSplatterExtraData::InitSDM | ScreenSplatter.obj | fnv360_0822_retail, call_gap_sim, low
 void __cdecl FUN_004917c0()
 {
     DAT_0106fcf0 = new NiFixedString("SPD");
@@ -9137,6 +9333,7 @@ struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap
 struct Base {Base();virtual ~Base();virtual void v0();unsigned char flags,priority,unknown;};
 struct Item {Item(int);~Item();int a,b,c,d,e;static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
 struct FUN_0049e9e0:Base {FUN_0049e9e0();~FUN_0049e9e0();virtual void v0();Item* item;};
+// pdb: TESRegionDataGrass::TESRegionDataGrass | TESRegionDataGrass.obj | fnv360_0822_retail, caller_sim, high
 FUN_0049e9e0::FUN_0049e9e0(){item=new Item(1);}
 }
 }   // namespace f3m_0049e9e0
@@ -9221,6 +9418,7 @@ struct String {char* data;unsigned short length,capacity;void FUN_004019c0(const
 struct Child {int unk00;String text04;Child();static void* operator new(unsigned int n){return Task1510::DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){Task1510::DAT_01090a78.FUN_0086ba60(p);}};
 struct Base {Base();virtual ~Base();int unk04;};
 struct FUN_0049f5b0:Base {Child* child08;FUN_0049f5b0();virtual ~FUN_0049f5b0();};
+// pdb: TESRegionDataLandscape::TESRegionDataLandscape | TESRegionDataLandscape.obj | fnv360_0822_retail, ustr, high
 FUN_0049f5b0::FUN_0049f5b0(){child08=new Child();child08->text04.FUN_004019c0(&Task1510::DAT_00dc37e0,0);}
 }
 
@@ -9314,7 +9512,7 @@ struct Base_49c870
 struct FUN_0049c870 : Base_49c870
 {
     virtual void vf00() {}
-    void FUN_0049c570();
+    void BGSDecalNode_Init();
     int unk04;
     int unk08;
     int unk0C;
@@ -9361,11 +9559,13 @@ struct FUN_0049c870 : Base_49c870
     unsigned char unkB0;
     FUN_0049c870(Param_49c870* p, unsigned char flag);
 };
+// pdb: BGSDecalNode::BGSDecalNode | BGSDecalNode.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apNode, abSkinnedNode
 FUN_0049c870::FUN_0049c870(Param_49c870* p, unsigned char flag) : Base_49c870(0)
 {
     Local_49c870 local;
     unkB0 = flag;
-    FUN_0049c570();
+    BGSDecalNode_Init();
     p->vfDC(this, 1);
     local.f = 0.0f;
     local.b04 = 0; local.b05 = 0; local.b06 = 0; local.b07 = 0; local.b08 = 0;
@@ -9625,6 +9825,8 @@ public:
     QCreatedObj* FUN_0049b7b0(QData* data, int unused, float scale);
 };
 
+// pdb: TESWaterSystem::CreateWadingWaterGeometry | TESWater.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apGroup, pParentNode, fMeshSize
 QCreatedObj* QOwner::FUN_0049b7b0(QData* data, int unused, float scale)
 {
     void* helperRes = FUN_0049b240(scale, scale, 0x200, 1, 1, 1);
@@ -10019,6 +10221,8 @@ public:
     void FUN_004965a0(PlaceableWaterGroup* group, unsigned short stencilMask);
 };
 
+// pdb: TESWaterSystem::MTRenderSelectiveDepthTexture | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apWaterGroup, auReadMask
 void TESWaterSystem::FUN_004965a0(PlaceableWaterGroup* group, unsigned short stencilMask)
 {
     AutoMemContext memCtx(0x1d);
@@ -10072,10 +10276,11 @@ namespace f3m_0048fd80 {
 struct Point48 { float x, y, z; };
 struct Color48 { float r, g, b, a; };
 struct Renderer48;
-struct RendererVtbl48_unused { void* unk000; void* unk004; void* unk008; void* unk00c; void* unk010; void* unk014; void* unk018; void* unk01c; void* unk020; void* unk024; void* unk028; void* unk02c; void* unk030; void* unk034; void* unk038; void* unk03c; void* unk040; void* unk044; void* unk048; void* unk04c; void* unk050; void* unk054; void* unk058; void* unk05c; void* unk060; void* unk064; void* unk068; void* unk06c; void* unk070; void* unk074; void* unk078; void* unk07c; void* unk080; void* unk084; void* unk088; void* unk08c; void* unk090; void* unk094; void* unk098; void* unk09c; void* unk0a0; void* unk0a4; void* unk0a8; void (__thiscall* SetClearColor)(Renderer48*, Color48*); };
 struct Renderer48 { virtual void unk000(); virtual void unk004(); virtual void unk008(); virtual void unk00c(); virtual void unk010(); virtual void unk014(); virtual void unk018(); virtual void unk01c(); virtual void unk020(); virtual void unk024(); virtual void unk028(); virtual void unk02c(); virtual void unk030(); virtual void unk034(); virtual void unk038(); virtual void unk03c(); virtual void unk040(); virtual void unk044(); virtual void unk048(); virtual void unk04c(); virtual void unk050(); virtual void unk054(); virtual void unk058(); virtual void unk05c(); virtual void unk060(); virtual void unk064(); virtual void unk068(); virtual void unk06c(); virtual void unk070(); virtual void unk074(); virtual void unk078(); virtual void unk07c(); virtual void unk080(); virtual void unk084(); virtual void unk088(); virtual void unk08c(); virtual void unk090(); virtual void unk094(); virtual void unk098(); virtual void unk09c(); virtual void unk0a0(); virtual void unk0a4(); virtual void unk0a8(); virtual void SetClearColor(Color48*); };
 extern Point48 DAT_0106f9d8;
 extern Renderer48* DAT_0106f8d8;
+// pdb: Renderer::SetBackgroundColor | Renderer.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: arColor
 bool __cdecl FUN_0048fd80(const Point48& color)
 {
     DAT_0106f9d8 = color;
@@ -10151,6 +10356,7 @@ struct FUN_00491490 : Base491490 {
     virtual ~FUN_00491490();
 };
 
+// pdb: SettingT<INIPrefSettingCollection>::~SettingT<INIPrefSettingCollection> | Renderer.obj | fnv360_0822_retail, call_seq, medium
 FUN_00491490::~FUN_00491490()
 {
     if (f3m_00491390::DAT_01179578 == 0) {
@@ -10188,6 +10394,7 @@ struct Window {
     void FUN_0048ce10(int,int,int,int);
     void FUN_0048e9a0(void*,int);
 };
+// pdb: NiParallelUpdateTaskManager::SignalRenderSema | InterfaceManager.obj | fnv360_0822_retail, call_gap, low
 Window::Window(void* application,void* parentWindow,void* rootObject,const char* text,int x,int y,int width,int height) {
     instance=application;
     parent=parentWindow;
@@ -10211,6 +10418,7 @@ struct Heap1160 { void FUN_0086ba60(void*); };
 extern Heap1160 DAT_01090a78;
 extern Entry1160* DAT_0106f2f8[26];
 
+// pdb: MiscStatManager::ReleaseMemory | MiscStats.obj | fnv360_0822_retail, call_gap_sim, low
 void __cdecl FUN_0048c5c0()
 {
     Entry1160** cursor = DAT_0106f2f8;
@@ -10302,6 +10510,7 @@ struct FUN_0049c490 : Base_c490 {
     virtual ~FUN_0049c490();
 };
 
+// pdb: BGSDecalNode::~BGSDecalNode | BGSDecalNode.obj | fnv360_0822_retail, call_seq, high
 FUN_0049c490::~FUN_0049c490()
 {
     Tmp_c490 tmp(this);
@@ -10371,6 +10580,7 @@ public:
     virtual ~FUN_0049e3a0_cls();
 };
 
+// pdb: TESRegion::~TESRegion | TESRegion.obj | fnv360_0822_retail, call_seq, medium
 FUN_0049e3a0_cls::~FUN_0049e3a0_cls()
 {
     Guard_e3a0 guard;
@@ -10439,10 +10649,12 @@ public:
     void FUN_00486e40(int a1, Pair486* list);
 };
 
+// pdb: InventoryChanges::GetRepairItemGroup | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apObj, apReturnList
 void Owner486::FUN_00486e40(int a1, Pair486* list)
 {
     Item486* esi = GetItem486(0);
-    volatile int i = 1;
+    int i = 1;
     if (a1 == 0)
         return;
     if (list == 0 || esi == 0)
@@ -10731,7 +10943,6 @@ struct AllocationScope_49b240 {
     }
     ~AllocationScope_49b240() { *(unsigned int*)(block+0x298)=previous; }
 };
-class QuadHeap_49b240 { public: void* FUN_0086b930(unsigned int n); void FUN_0086ba60(void* p); };
 
 extern "C" void* NiMalloc(unsigned int);
 extern "C" void* FUN_00aa13e0(unsigned int);
@@ -10788,6 +10999,8 @@ public:
     static void* operator new(unsigned int n) { return FUN_00aa13e0(n); }
     NiTriShapeData_49b240(unsigned short,QuadPoint_49b240*,QuadPoint_49b240*,RgbaColor_49b240*,QuadUV_49b240*,unsigned short,int,unsigned short,unsigned short*);
 };
+// pdb: TESWaterSystem::CreateQuadData | TESWater.obj | fnv360_0822_retail, ustr, medium
+// pdb params: afMeshSizeWidth, afMeshSizeHeight, textureSize, tile, bNormals, bColors
 NiTriShapeData_49b240* __stdcall FUN_0049b240(float width,float height,int unused,unsigned int tiles,bool withNormals,bool withColors)
 {
     AllocationScope_49b240 scope;
@@ -10917,6 +11130,7 @@ public:
     Pointer9a4 spObjecta8;
 };
 
+// pdb: PlaceableWaterGroup::PlaceableWaterGroup | TESWater.obj | fnv360_0822_retail, call_gap, low
 FUN_0049a420::FUN_0049a420() {
     spObject94 = 0;
     spObject98 = 0;
@@ -11429,7 +11643,7 @@ struct FUN_004f9970
     static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}
     static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}
     void FUN_004553b0();
-    void FUN_004e8670(void*);
+    void TESObjectREFR_SetObjectReference(void*);
     Form61* FUN_007af430(){return unk1c;}
 };
 struct Form61
@@ -11608,16 +11822,10 @@ struct World61
     unsigned unk78;
     float height;float FUN_0045cd80(){return height;}
 };
-struct Toggle61
-{
-    bool* FUN_00408d60();
-};
 extern World61* DAT_0107a0d8;
 extern Matrix61 DAT_00f72574;
 extern unsigned int DAT_0106fd3c;
 extern bool DAT_0106fee4;
-void* FUN_00438220();
-void* FUN_005d9660();
 void FUN_00ade300(FUN_00ad2a40*, int, int);
 struct Main61
 {
@@ -11640,10 +11848,12 @@ struct Main61
     int unk40;
     int unk44;
     FUN_0049a420* water;
-    void FUN_00494020();
+    void TESWaterSystem_EnableWaterSystem();
     FUN_004f9970* FUN_0049aa30(FUN_00ad2a40*, World61*, FUN_00ad2a40*, FUN_00ad2a40*, bool);
 };
 // @fnv 0x004e4c80
+// pdb: TESWaterSystem::AddLODWater | TESWater.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apLODWater, apWorldSpace, apWaterLODRoot, apBound, abLODWaterHeight
 FUN_004f9970* Main61::FUN_0049aa30(FUN_00ad2a40* geometry, World61* world, FUN_00ad2a40* parent, FUN_00ad2a40* intermediate,
                                           bool extra)
 {
@@ -11663,7 +11873,7 @@ FUN_004f9970* Main61::FUN_0049aa30(FUN_00ad2a40* geometry, World61* world, FUN_0
         material11->FUN_0049ee30(3);
         geometry->FUN_00827ac0(4);
         geometry->FUN_004236f0(material11);
-        reference2->FUN_004e8670(world->FUN_00501c90()->FUN_004fe380());
+        reference2->TESObjectREFR_SetObjectReference(world->FUN_00501c90()->FUN_004fe380());
         FUN_00ad2a40* node15 = new FUN_00ad2a40;
         FUN_00ad2a40* attachment2 = node15;
         if (intermediate)
@@ -11702,7 +11912,7 @@ FUN_004f9970* Main61::FUN_0049aa30(FUN_00ad2a40* geometry, World61* world, FUN_0
             water = created43;
         }
         parent->Attach(node15, 1);
-        FUN_00494020();
+        TESWaterSystem_EnableWaterSystem();
         return reference2;
     }
     return 0;
@@ -11875,6 +12085,8 @@ __declspec(noinline) void Owner::FUN_0049add0(Object* object, const Point* posit
     unk04 = position->x;
     unk08 = rotation->elements[0][0];
 }
+// pdb: TESWaterSystem::RemovePlaceableWater | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apWaterRef
 void Owner::FUN_0049b1d0(Object* object) {
     Point position = object->GetNode()->GetPosition();
     Matrix rotation = object->GetNode()->GetRotation();
@@ -11928,6 +12140,7 @@ Obj2::Obj2() { unk00 = unk04 = unk08 = 0; FUN_0049f5b0(); }
 Obj3::Obj3() { unk00 = unk04 = unk08 = 0; FUN_0049e9e0(); }
 Obj4::Obj4() { unk00 = unk04 = unk08 = unk0C = unk10 = 0; FUN_004a0aa0(); }
 
+// pdb: TESRegionDataManager::ConstructRegionData | TESRegionDataManager.obj | tesv_win, caller_sim, low
 void* __stdcall FUN_0049fd20(int type)
 {
     int idx = type - 3;
@@ -12011,6 +12224,7 @@ extern Factory* DAT_0116ef98;
 extern const float DAT_00dbe1e0;
 void __cdecl FUN_00aeec60(int,void*);
 void __cdecl FUN_00aeeb20();
+// pdb: TESWaterSystem::InitializeGreyTexture | TESWater.obj | fnv360_0822_retail, call_gap, low
 Token* __cdecl FUN_00494c20() {
     ContextGuard guard(0x1d);
     Vector prior;
@@ -12051,14 +12265,14 @@ struct Stream {
     int unk24;
     int unk28;
     int unk2c;
-    unsigned FUN_006e08a0();
+    unsigned BGSLoadGameBuffer_LoadVariableSizedValue();
 };
-struct Child {virtual ~Child(); void FUN_0040a250(bool); __forceinline void Dispose(){FUN_0040a250(true); delete this;}};
+struct Child {virtual ~Child(); void BaseExtraList_RemoveAll(bool); __forceinline void Dispose(){BaseExtraList_RemoveAll(true); delete this;}};
 struct Node {Child* data; Node* next; void FUN_006c8220(); ~Node(){FUN_006c8220();} static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);} };
 struct Entry {
     Node* head; int count; void* form;
     Entry():form(0){head=0;count=0;}
-    void FUN_004807d0(Stream* s);
+    void ItemChange_LoadGame(Stream* s);
     static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}
     static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}
     __forceinline void Destroy(){Node* n=head;if(n){while(n && n->data){Child* c=n->data;n=n->next;c->Dispose();}}if(head)head->FUN_006c8220();delete head;head=0;}
@@ -12068,6 +12282,8 @@ struct Owner {
     OuterNode* head;
     void FUN_00486980(Stream* s);
 };
+// pdb: InventoryChanges::LoadGame | InventoryChanges.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apLoadGameBuffer
 void Owner::FUN_00486980(Stream* s)
 {
     int v = s->v04();
@@ -12076,10 +12292,10 @@ void Owner::FUN_00486980(Stream* s)
     s->unk24 = 0;
     *(unsigned*)&s->unk17 = 0x400;
     s->unk2c = 0;
-    unsigned count = s->FUN_006e08a0();
+    unsigned count = s->BGSLoadGameBuffer_LoadVariableSizedValue();
     for (unsigned i = 0; i < count; i++) {
         Entry* e = new Entry;
-        e->FUN_004807d0(s);
+        e->ItemChange_LoadGame(s);
         if (!e->form) {
             e->Destroy();
             Entry::operator delete(e);
@@ -12168,6 +12384,8 @@ extern unsigned int DAT_00f60c6c;
 extern Secondary* DAT_0106fd24;
 
 
+// pdb: ScreenSplatter::Activate | ScreenSplatter.obj | fnv360_0822_retail, call_gap, low
+// pdb params: auiCount, afDuration, aeType
 void __cdecl FUN_00492e70(unsigned int count, float scale)
 {
     if (DAT_0106fcf4) {
@@ -12199,7 +12417,7 @@ struct Heap {void* FUN_0086b930(unsigned); void FUN_0086ba60(void*);};
 extern Heap DAT_01090a78;
 void FUN_00887da0(const char* fmt, ...);
 struct File {
-    int FUN_004487d0();
+    int TESFile_GetTESChunk();
     void FUN_00447d60(void* buffer, unsigned int size);
 };
 inline const char* FileName(File* f) { return (const char*)f + 0x20; }
@@ -12223,7 +12441,7 @@ struct Grass {
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
 struct GrassList {
-    void FUN_004a18d0();
+    void TESRegionGrassObjectList_AddTailSimple();
 };
 class Region {
 public:
@@ -12233,9 +12451,11 @@ public:
     virtual GrassList* v24(Grass* g);
     bool FUN_0049eb40(File* file);
 };
+// pdb: TESRegionDataGrass::LoadRegionDataGrass | TESRegionDataGrass.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apFile
 bool Region::FUN_0049eb40(File* file)
 {
-    if (!file || file->FUN_004487d0() != 0x53474452)
+    if (!file || file->TESFile_GetTESChunk() != 0x53474452)
         return false;
     unsigned int size = FileSize(file);
     unsigned int count = size >> 3;
@@ -12253,7 +12473,7 @@ bool Region::FUN_0049eb40(File* file)
             Grass* g = new Grass(d);
             if (g) {
                 if (g->v04())
-                    v24(g)->FUN_004a18d0();
+                    v24(g)->TESRegionGrassObjectList_AddTailSimple();
                 else
                     delete g;
             }
@@ -12438,7 +12658,7 @@ struct File {
     int unk294;
     unsigned char unk298;
     bool unk299;
-    int FUN_004487d0();
+    int TESFile_GetTESChunk();
     void FUN_00447d60(void* buffer, unsigned int size);
 };
 
@@ -12480,7 +12700,7 @@ bool Region::FUN_0049ffc0(File* file, Owner* owner)
     if (!file || !owner)
         return false;
     unk04 = owner;
-    switch (file->FUN_004487d0()) {
+    switch (file->TESFile_GetTESChunk()) {
     case 0x444d4452:
     case 0x44534452: {
         Loader* l = GetSound(DAT_01070110);
@@ -12587,7 +12807,7 @@ struct Form { int unk00; unsigned char typeID; };
 struct ObjA {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
     ObjA();
-    void FUN_00410170(unsigned short count);
+    void ExtraDataList_SetCount(unsigned short count);
     static void* operator new(unsigned int n) { return DAT_01090a78.FUN_0086b930(n); }
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
@@ -12653,6 +12873,7 @@ struct Cls {
     void FUN_004854d0();
 };
 
+// pdb: InventoryChanges::InitFromContainerExtra | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
 void Cls::FUN_004854d0()
 {
     Inventory* inv = unk04 ? unk04->FUN_004e66c0() : 0;
@@ -12664,7 +12885,7 @@ void Cls::FUN_004854d0()
         it = it->next;
         if (item->form && item->form->typeID != 0x34 && item->target) {
             ObjA* a = new ObjA;
-            a->FUN_00410170(item->count);
+            a->ExtraDataList_SetCount(item->count);
             item->target->FUN_00409030(a, FUN_004566c0(item->form));
             ObjC* c = new ObjC(item->form);
             c->AddHead(a);
@@ -12745,6 +12966,7 @@ extern float DAT_00f60be8;
 extern double DAT_00dc27f0;
 extern double DAT_00db38a8;
 
+// pdb: ScreenCustomSplatter::Update | ScreenCustomSplatter.obj | fnv360_0822_retail, call_gap_sim, low
 void __cdecl FUN_004918f0()
 {
     if (!DAT_0106fcf4)
@@ -13206,7 +13428,8 @@ extern List DAT_0106ff10;
 extern int DAT_0106fd60;
 extern Manager DAT_01175720;
 
-void __stdcall FUN_00497d30(void* target)
+// pdb: TESWaterSystem::MTSetupSkyReflectionTexture | TESWater.obj | fnv360_0721_beta, objrun + bridge(call_gap|call_gap), high
+void __stdcall TESWaterSystem_MTSetupSkyReflectionTexture(void* target)
 {
     HeapContext context;
     if (DAT_0106fe0c && target) {
@@ -13605,7 +13828,8 @@ struct NiControllerSequence
     float GetEndKeyTime() const { return m_fEndKeyTime; }
 };
 
-bool FUN_0049d080(NiControllerSequence* sequence, TESObjectREFR* reference)
+// pdb: BSAnimGroupSequence::PlaySounds | BSAnimGroupSequence.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+bool BSAnimGroupSequence_PlaySounds(NiControllerSequence* sequence, TESObjectREFR* reference)
 {
     bool result = false;
     if (sequence && sequence->GetState() == 1)
@@ -14274,6 +14498,8 @@ struct Counter {void FUN_00b0d230(int,int);};
 extern Counter DAT_01175720;
 struct Arg { int m0; float m4, m8, mc, m10; char pad14[0x40]; RefHolder m54; char pad58[0x3c]; int m94; int m98; int m9c; int ma0; Ref* ma4; };
 struct Owner { void FUN_00494aa0(Vec,int); void FUN_00496010(Arg* a); };
+// pdb: TESWaterSystem::MTRenderSelectiveReflectionTexture | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apWaterGroup
 void Owner::FUN_00496010(Arg* a) {
  Context context(0x1d);
  if(!DAT_0106fe0c || !a->ma4) return;
@@ -14726,6 +14952,7 @@ struct Owner {
     void FUN_00499b30();
 };
 
+// pdb: TESWaterSystem::UpdateWaterDisplacementSimulation | TESWater.obj | fnv360_0721_beta, objrun, medium
 void Owner::FUN_00499b30()
 {
     if (unk98 < 10.0) {
@@ -16067,9 +16294,10 @@ unsigned unk090;
 unsigned unk094;
 unsigned unk098;
 unsigned char flag09c; unsigned char unk09d,unk09e,unk09f;
-void FUN_00497910(void* input);
+void TESWaterSystem_MTSetupWorldReflectionTexture(void* input);
 };
-void RenderOwner::FUN_00497910(void* input)
+// pdb: TESWaterSystem::MTSetupWorldReflectionTexture | TESWater.obj | fnv360_0721_beta, objrun + bridge(call_gap|call_gap), high
+void RenderOwner::TESWaterSystem_MTSetupWorldReflectionTexture(void* input)
 {
  ContextScope context(29);
  if (!DAT_0106fe0c || !input) return;
@@ -16188,6 +16416,8 @@ public:
 
 void __cdecl FUN_008af710(int a, int b, NiPointer<RefObject>* out);
 
+// pdb: BSAnimGroupSequence::CreateSequenceFromFile | BSAnimGroupSequence.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: kStream, uiIndex, aspControllerSequence
 void __cdecl FUN_0049d910(int a, int b, NiPointer<RefObject>* target)
 {
     NiPointer<RefObject> value(0);
@@ -16377,6 +16607,8 @@ struct Owner {
 };
 extern Actor* DAT_0107a104;
 extern float DAT_0106fe40;
+// pdb: TESWaterSystem::ActorWithinRangeOfWadingWater | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apGroup
 bool __stdcall FUN_00494270(const Owner* owner)
 {
     Node* node=owner->head;
@@ -16411,7 +16643,7 @@ namespace f3m_00483eb0 {
 struct MemScope { int old; MemScope(int v):old(g_tlsMemContext){g_tlsMemContext=v;} ~MemScope(){g_tlsMemContext=old;} };
 struct TESForm { void* vtbl; unsigned char typeID; };
 struct Heap { void* FUN_0086b930(unsigned); }; extern Heap g_heap48;
-struct Extra { bool FUN_0040ac70(); bool FUN_0040aed0(int); short FUN_0040ac80(); };
+struct Extra { bool ExtraDataList_HasLeveledItem(); bool ExtraDataList_GetWorn(int); short FUN_0040ac80(); };
 struct Extras { Extra* data; Extras* next; Extras():data(0),next(0){} Extras(Extra* d):data(d),next(0){} static void* operator new(unsigned n){return g_heap48.FUN_0086b930(n);} void FUN_0049fac0(Extra**); };
 __declspec(noinline) void Extras::FUN_0049fac0(Extra** item) {
  if(!*item) return;
@@ -16425,12 +16657,14 @@ struct Entry { Extras* extras; int count; TESForm* form; TESForm* GetForm(){retu
 Entry(){form=0;extras=0;count=0;}
 static void* operator new(unsigned n){return g_heap48.FUN_0086b930(n);}
 void FUN_00480390(int, int, int);
-bool HasWorn() { Extras* e=extras; while(e) { if(!e->data) break; if(e->data->FUN_0040ac70()) return true; e=e->next; } return false; }
+bool HasWorn() { Extras* e=extras; while(e) { if(!e->data) break; if(e->data->ExtraDataList_HasLeveledItem()) return true; e=e->next; } return false; }
 };
 struct Changes { Entry* data; Changes* next; };
 struct Owner { Changes* changes;
 Entry* FUN_00483eb0(int slot, bool bOnlyArmor);
 };
+// pdb: InventoryChanges::GetWornItem | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeBodyPart, bOnlyArmor
 Entry* Owner::FUN_00483eb0(int slot, bool bOnlyArmor) {
  MemScope scope(0x36);
  Changes* node=changes;
@@ -16442,7 +16676,7 @@ Entry* Owner::FUN_00483eb0(int slot, bool bOnlyArmor) {
   if(entry->HasWorn() && entry->count<0) entry->FUN_00480390(0,0,1);
   while(extraNode && extraNode->data && !equipped) {
    found=extraNode->data;
-   if(found->FUN_0040aed0(0)) {
+   if(found->ExtraDataList_GetWorn(0)) {
     switch(slot) {
     case 5:
      if(entry->GetForm()->typeID==0x28) equipped=true;
@@ -17587,6 +17821,8 @@ public:
     void FUN_00497160(void* input, State* state, bool special);
 };
 
+// pdb: TESWaterSystem::MTSetupSelectiveReflectionTexture | TESWater.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apCamera, apWaterGroup, abLOD
 void Owner::FUN_00497160(void* input, State* state, bool special)
 {
     HeapContext context;
@@ -17981,6 +18217,8 @@ public:
     void FUN_00496d50(QData* data);
     void FUN_00499970(int param, bool force);
 };
+// pdb: TESWaterSystem::UpdateLODWater | TESWater.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apCamera, abForceUpdate
 void QOwner::FUN_00499970(int param, bool force)
 {
     if (!unk48)
@@ -18053,9 +18291,10 @@ struct Item {
 class Owner {
 public:
     Item* FUN_00484430(unsigned int index);
-    Item* FUN_00487010(int key);
+    Item* InventoryChanges_GetHotKeyItem(int key);
 };
-Item* Owner::FUN_00487010(int key)
+// pdb: InventoryChanges::GetHotKeyItem | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+Item* Owner::InventoryChanges_GetHotKeyItem(int key)
 {
     Context ctx(0x36);
     Item* found = 0;
@@ -18136,6 +18375,8 @@ struct Arr48f070 {
     bool FUN_0048f070(Node48f070* node, unsigned int* index, bool store);
 };
 
+// pdb: RagDollData::UpdateRagDollDataFromNode | RagDollData.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apNode, aiBoneIndex, abInit
 bool Arr48f070::FUN_0048f070(Node48f070* node, unsigned int* index, bool store)
 {
     bool result = true;
@@ -18245,10 +18486,11 @@ struct Owner48ad {
         }
         return n ? n->data : 0;
     }
-    bool FUN_0048ad70();
+    bool InventoryChanges_HasScript();
 };
 
-bool Owner48ad::FUN_0048ad70()
+// pdb: InventoryChanges::HasScript | InventoryChanges.obj | fnv360_0721_beta, call_seq + bridge(call_gap|call_gap), high
+bool Owner48ad::InventoryChanges_HasScript()
 {
     bool found = false;
     NiTMap<TESObject*, bool> seen(37);
@@ -18367,7 +18609,7 @@ extern bool DAT_0106dd0e;
 namespace n49eed0 {
 struct Heap { void* FUN_0086b930(unsigned int size); void FUN_0086ba60(void* memory); };
 extern Heap DAT_01090a78;
-void __cdecl FUN_004548c0(unsigned int tag, const void* data, unsigned int size);
+void __cdecl TESForm___AddChunkData(unsigned int tag, const void* data, unsigned int size);
 struct Form { int unk00; int unk04; int unk08; unsigned int refID; };
 struct Item {
     virtual void v00();
@@ -18397,6 +18639,7 @@ struct Owner {
     void FUN_0049eed0();
 };
 
+// pdb: TESRegionDataGrass::Save | TESRegionDataGrass.obj | fnv360_0822_retail, caller_sim, low
 void Owner::FUN_0049eed0()
 {
     Entry* entries = 0;
@@ -18424,7 +18667,7 @@ void Owner::FUN_0049eed0()
         for (unsigned int i = 0; i < count; ++i)
             entries[i].FUN_004a1220();
     }
-    FUN_004548c0(0x53474452, entries, count * sizeof(Entry));
+    TESForm___AddChunkData(0x53474452, entries, count * sizeof(Entry));
     if (DAT_0106dd0e)
     {
         for (unsigned int i = 0; i < count; ++i)
@@ -18532,9 +18775,9 @@ public:
 
     Ref486750* FUN_0040aba0();
     void FUN_0040fce0();
-    unsigned int FUN_0040a2d0();
+    unsigned int BaseExtraList_ItemsInList();
     short FUN_0040ac80();
-    void FUN_0040b910();
+    void ExtraDataList_RemoveCount();
     InventoryChanges486750* FUN_0040ab00();
     void* FUN_0040ace0();
 };
@@ -18630,6 +18873,7 @@ public:
 
 extern Ref486750* DAT_0107a104;
 
+// pdb: InventoryChanges::ClearAllChangeItems | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
 void InventoryChanges486750::FUN_00486750()
 {
     SimpleList486750<ItemChange486750*>* pIter = pListofChanges;
@@ -18651,8 +18895,8 @@ void InventoryChanges486750::FUN_00486750()
                 if (pOrigRef->FUN_004e66c0())
                 {
                     pExtraData->FUN_0040fce0();
-                    if (pExtraData->FUN_0040a2d0() < 2 && pExtraData->FUN_0040ac80() != 0)
-                        pExtraData->FUN_0040b910();
+                    if (pExtraData->BaseExtraList_ItemsInList() < 2 && pExtraData->FUN_0040ac80() != 0)
+                        pExtraData->ExtraDataList_RemoveCount();
                     pItemChange->GetExtraDataList()->FUN_00421610(pExtraData);
                     InventoryChanges486750* pOrigChanges = pOrigRef->GetExtra()->FUN_0040ab00();
                     bool bDelete = true;
@@ -18783,6 +19027,7 @@ struct PropertyPtr {
 };
 extern PropertyPtr DAT_0107010c;
 extern const double FUN_00dbeb78, FUN_00db38b0;
+// pdb: TESRegionDataLandscape::GetDefaultFullMaskTextureProp | TESRegionDataLandscape.obj | fnv360_0822_retail, ustr, medium
 Property* FUN_0049f1b0() {
  if(!DAT_0107010c.p) {
   NiPixelData& pixels=*new NiPixelData(64,64,DAT_011aa2a0,1,1);
@@ -18955,7 +19200,7 @@ struct Cell
     bool HasWater() const { return (flags >> 1) & 1; }
     float FUN_004d5350();
     bool FUN_004d3a10(const Pt3* apPos);
-    WaterForm* FUN_004d5710();
+    WaterForm* TESObjectCELL_GetWaterType();
 };
 
 struct World
@@ -19129,11 +19374,11 @@ struct SoundHandle
         state = h.state;
         return *this;
     }
-    bool FUN_00bd0390();
+    bool BSSoundHandle_IsValid();
     bool FUN_00bd0290(float x, float y, float z);
     bool FUN_00bd0160();
-    bool FUN_00bd0140();
-    bool FUN_00bd03b0();
+    bool BSSoundHandle_Stop();
+    bool BSSoundHandle_Release();
     bool FUN_00bd00c0(bool abLoop);
 };
 
@@ -19230,6 +19475,7 @@ struct WaterSound
     void FUN_004932e0();
 };
 
+// pdb: TESWaterSystem::UpdateWaterSounds | TESWater.obj | fnv360_0822_retail, call_gap, low
 void WaterSound::FUN_004932e0()
 {
     Cell* cell;
@@ -19319,7 +19565,7 @@ void WaterSound::FUN_004932e0()
         amount = amount * (float)((1.0 - height) * (float)GetIntValue());
         amount.x += DAT_0107a104->GetPosPtr()->x;
         amount.y += DAT_0107a104->GetPosPtr()->y;
-        if (handle.FUN_00bd0390())
+        if (handle.BSSoundHandle_IsValid())
         {
             if (DAT_0106fd54)
             {
@@ -19336,8 +19582,8 @@ void WaterSound::FUN_004932e0()
             if (handle.FUN_00bd0160() && height <= 0.0)
             {
                 DAT_0106ffd8 = 0;
-                handle.FUN_00bd0140();
-                handle.FUN_00bd03b0();
+                handle.BSSoundHandle_Stop();
+                handle.BSSoundHandle_Release();
             }
             else if (!handle.FUN_00bd0160() && height > 0.0)
             {
@@ -19346,21 +19592,21 @@ void WaterSound::FUN_004932e0()
             }
         }
         else if (height > 0.0 && DAT_0107a104 && DAT_0107a104->GetParentCell() &&
-                 DAT_0107a104->GetParentCell()->FUN_004d5710() &&
-                 DAT_0107a104->GetParentCell()->FUN_004d5710()->GetSound())
+                 DAT_0107a104->GetParentCell()->TESObjectCELL_GetWaterType() &&
+                 DAT_0107a104->GetParentCell()->TESObjectCELL_GetWaterType()->GetSound())
         {
             unsigned int sound;
-            Sound* flags = DAT_0107a104->GetParentCell()->FUN_004d5710()->GetSound();
+            Sound* flags = DAT_0107a104->GetParentCell()->TESObjectCELL_GetWaterType()->GetSound();
             sound = FUN_00541960(flags->CopyBig().flags);
             sound |= (flags->CopyBig().flags & 0x40) ? 0x8000001 : 2;
             handle = GetAudio()->FUN_00bcfbb0(
-                DAT_0107a104->GetParentCell()->FUN_004d5710()->GetSound()->GetFormID(), sound);
+                DAT_0107a104->GetParentCell()->TESObjectCELL_GetWaterType()->GetSound()->GetFormID(), sound);
         }
     }
-    else if (DAT_0106ffd8 && handle.FUN_00bd0390())
+    else if (DAT_0106ffd8 && handle.BSSoundHandle_IsValid())
     {
         DAT_0106ffd8 = 0;
-        handle.FUN_00bd0140();
+        handle.BSSoundHandle_Stop();
     }
     DAT_0106fd54 = 0;
 }
@@ -19425,6 +19671,8 @@ public:
     FUN_004913e0(const char* name, float value);
 };
 
+// pdb: INIPrefSetting::INIPrefSetting | Renderer.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apID, afValue
 FUN_004913e0::FUN_004913e0(const char* name, float value) : Setting(name, value)
 {
     using namespace NativeSettings4913e0;
@@ -19561,8 +19809,8 @@ struct ImageSpaceService { void FUN_00b0ac20(); };
 struct OtherService { void FUN_00c24b70(); };
 struct EmbeddedState
 {
-    bool FUN_00bd0390();
-    void FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Release();
 };
 
 extern unsigned char DAT_00f4cf80;
@@ -19594,6 +19842,8 @@ struct WaterOwner
     bool FUN_00495b90(bool release, bool keep);
 };
 
+// pdb: TESWaterSystem::DisableWaterSystem | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: abFreeMemory, abFinal
 bool WaterOwner::FUN_00495b90(bool release, bool keep)
 {
     DAT_00f4cf80 = 0;
@@ -19659,7 +19909,7 @@ bool WaterOwner::FUN_00495b90(bool release, bool keep)
         }
         if (DAT_011756ac) DAT_011756ac->FUN_00b0ac20();
         if (DAT_01175638) DAT_01175638->FUN_00c24b70();
-        if (state8c.FUN_00bd0390()) state8c.FUN_00bd03b0();
+        if (state8c.BSSoundHandle_IsValid()) state8c.BSSoundHandle_Release();
         if (DAT_011750f0) DAT_011750f0->texture24c.Clear();
     }
 
@@ -20121,6 +20371,8 @@ public:
     void FUN_0049b0c0(Reference* reference, void* unused, Target* target);
 };
 
+// pdb: BGSTerrainChunk::RemoveWaterFromSystem | BGSTerrainChunk.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abForce
 void Owner::FUN_0049b0c0(Reference* reference, void* unused, Target* target)
 {
     target->Accept(reference->GetToken());
@@ -20326,6 +20578,7 @@ struct FUN_0049a1c0 {
  NiPointer<Ref> ptra4,ptra8;
  ~FUN_0049a1c0();
 };
+// pdb: PlaceableWaterGroup::~PlaceableWaterGroup | TESWater.obj | fnv360_0822_retail, objrun, medium
 FUN_0049a1c0::~FUN_0049a1c0() {
  ptr94=0; ptr98=0;
  DAT_0107a0d8->owner->FUN_00495a70(this,1,0);
@@ -20411,21 +20664,21 @@ struct MoveExtra
     unsigned int presence08, presence0c, presence10, presence14, presence18;
     MoveExtra();
     bool IsEmpty() { return !m_data; }
-    bool FUN_0040af00();
-    bool FUN_0040aed0(bool worn);
+    bool ExtraDataList_GetCanNotWear();
+    bool ExtraDataList_GetWorn(bool worn);
     void FUN_0040b5e0(bool worn, bool wornLeft);
     signed char FUN_0040e260();
     void FUN_0040e1b0(char hotkey);
-    bool FUN_0040a7e0(MoveExtra* other, int flags);
+    bool ExtraDataList_CompareListForContainer(MoveExtra* other, int flags);
     static void* operator new(unsigned int size) { return DAT_01090a78.Allocate(size); }
     static void operator delete(void* memory) { DAT_01090a78.Deallocate(memory); }
-    unsigned int FUN_0040a2d0();
-    bool FUN_0040ac70();
+    unsigned int BaseExtraList_ItemsInList();
+    bool ExtraDataList_HasLeveledItem();
     void* FUN_0040abc0();
     short FUN_0040ac80();
     void FUN_0040ff30(void* owner);
-    void FUN_0040b8f0();
-    void FUN_00410170(unsigned short count);
+    void ExtraDataList_RemoveOwnership();
+    void ExtraDataList_SetCount(unsigned short count);
     TESBoundObject* FUN_0040bd70();
 };
 
@@ -20480,14 +20733,14 @@ struct MoveItem
     int FUN_0047ce40(bool worn);
     static void* operator new(unsigned int size) { return DAT_01090a78.Allocate(size); }
     static void operator delete(void* memory) { DAT_01090a78.Deallocate(memory); }
-    bool FUN_0047d260(bool worn);
+    bool ItemChange_GetWorn(bool worn);
     bool HasPerkEntry()
     {
         MoveExtraNode* node = head;
         while (node && node->GetItem())
         {
             MoveExtra* extra = node->GetItem();
-            if (extra && extra->FUN_0040ac70())
+            if (extra && extra->ExtraDataList_HasLeveledItem())
                 return true;
             node = node->GetNext();
         }
@@ -20730,7 +20983,7 @@ struct MoveOwner
     void FUN_004ed800();
     void FUN_00c24b70();
     void FUN_00701b40(void* node);
-    void* FUN_004f26c0();
+    void* TESObjectREFR_GetOwner();
     MoveContainer* FUN_004e66c0();
     unsigned int FUN_006f7c80(TESBoundObject* object, bool a, bool b);
 };
@@ -20768,7 +21021,7 @@ struct MoveFormInfo
     bool FUN_00451d90();
 };
 MoveFormInfo* FUN_00451da0(TESBoundObject* object);
-bool FUN_00452670(TESBoundObject* object);
+bool TESContainer_IsGold(TESBoundObject* object);
 int FUN_0045bd90(TESBoundObject* object);
 
 struct MoveSetting
@@ -20789,10 +21042,10 @@ struct MoveString
     ~MoveString();
     const char* String() { return pString; }
 };
-const char* FUN_004526e0(TESBoundObject* object);
+const char* TESFullName_GetFullName(TESBoundObject* object);
 void FUN_00403a00(MoveString* text, const char* format, ...);
 void FUN_0061b850(const char* text, int a, const char* icon, unsigned int sound, float seconds);
-void FUN_0061b500();
+void Interface_UpdateInventory();
 
 struct InventoryMove
 {
@@ -20842,9 +21095,9 @@ struct InventoryMove
         else
             return 0;
     }
-    bool FUN_00481490(bool* a0, TESBoundObject* a1, int iCount, MoveOwner* apActor, MoveExtra* apExtraList, bool abWorn,
+    bool InventoryChanges_RemoveWorn(bool* a0, TESBoundObject* a1, int iCount, MoveOwner* apActor, MoveExtra* apExtraList, bool abWorn,
                       bool a6);
-    void FUN_00481c10(MoveOwner* owner, TESBoundObject* object, bool retainOwner, int count, MoveExtra* extra, int a,
+    void InventoryChanges_RemoveItem(MoveOwner* owner, TESBoundObject* object, bool retainOwner, int count, MoveExtra* extra, int a,
                       MoveOwner* destination, int b, int c, bool d, int e);
     float FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool retainOwner, bool SetOwnerPointer,
                        bool clearOwner, bool silent);
@@ -20852,7 +21105,8 @@ struct InventoryMove
 
 // Same-file callee (FNV XHost17::FUN_004c0cf0): unequips and removes one stack of an item, merging its extra data
 // into a matching stack; the body is visible to the caller, so the removed flag it writes does not escape.
-__declspec(noinline) bool InventoryMove::FUN_00481490(bool* a0, TESBoundObject* a1, int iCount, MoveOwner* apActor,
+// pdb: InventoryChanges::RemoveWorn | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+__declspec(noinline) bool InventoryMove::InventoryChanges_RemoveWorn(bool* a0, TESBoundObject* a1, int iCount, MoveOwner* apActor,
                                                       MoveExtra* apExtraList, bool abWorn, bool a6)
 {
     ResetWeight();
@@ -20867,12 +21121,12 @@ __declspec(noinline) bool InventoryMove::FUN_00481490(bool* a0, TESBoundObject* 
     while (node1 != 0 && node1->GetItem() != 0)
     {
         MoveExtra* extra = node1->GetItem();
-        if (extra->FUN_0040af00() && !apActor->CanRemove(false))
+        if (extra->ExtraDataList_GetCanNotWear() && !apActor->CanRemove(false))
         {
             *a0 = 0;
             return result3;
         }
-        if (extra->FUN_0040aed0(abWorn) && (apExtraList == 0 || apExtraList == extra))
+        if (extra->ExtraDataList_GetWorn(abWorn) && (apExtraList == 0 || apExtraList == extra))
         {
             MoveItem* found = 0;
             MoveFormInfo* biped = FUN_00451da0(a1);
@@ -20920,12 +21174,12 @@ __declspec(noinline) bool InventoryMove::FUN_00481490(bool* a0, TESBoundObject* 
                 }
             }
             extra->FUN_0040b5e0(false, abWorn);
-            if (extra->FUN_0040a2d0() <= 1)
+            if (extra->BaseExtraList_ItemsInList() <= 1)
             {
                 if (extra->FUN_0040e260() >= 0)
-                    extra->FUN_00410170((short)(entry0->GetCount() - entry0->FUN_0047ce40(false)));
+                    extra->ExtraDataList_SetCount((short)(entry0->GetCount() - entry0->FUN_0047ce40(false)));
                 else
-                    extra->FUN_00410170((short)0);
+                    extra->ExtraDataList_SetCount((short)0);
             }
             if (extra->IsEmpty())
             {
@@ -20944,12 +21198,12 @@ __declspec(noinline) bool InventoryMove::FUN_00481490(bool* a0, TESBoundObject* 
                     MoveExtra* savedState3 = extra;
                     bool different2 = true;
                     if (savedState3 != 0)
-                        different2 = savedState3->FUN_0040a7e0(extra1, 0) || extra1->FUN_0040a7e0(savedState3, 0);
+                        different2 = savedState3->ExtraDataList_CompareListForContainer(extra1, 0) || extra1->ExtraDataList_CompareListForContainer(savedState3, 0);
                     if (different2 || extra == extra1)
                         node2 = node2->GetNext();
                     else
                     {
-                        extra1->FUN_00410170((short)(extra1->FUN_0040ac80() + iCount));
+                        extra1->ExtraDataList_SetCount((short)(extra1->FUN_0040ac80() + iCount));
                         if (extra->FUN_0040e260() >= 0)
                             extra1->FUN_0040e1b0(extra->FUN_0040e260());
                         if (extra1->IsEmpty())
@@ -20994,6 +21248,8 @@ __declspec(noinline) bool InventoryMove::FUN_00481490(bool* a0, TESBoundObject* 
     return result3;
 }
 
+// pdb: InventoryChanges::RemoveAllItems | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apRef, apStolenContainer, abStealing, abowner, abRemoveOwnership, abSilent, aiFormType, apDoNotRemoveList
 float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool retainOwner, bool SetOwnerPointer,
                                   bool clearOwner, bool silent)
 {
@@ -21010,12 +21266,12 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
         if (form3->IsQuestItem() && owner == DAT_0107a104)
         {
             MoveItem* quest = GetEntry(form3, 1, 0);
-            if (quest && quest->FUN_0047d260(false))
+            if (quest && quest->ItemChange_GetWorn(false))
             {
                 int baseCountScope1 = GetOriginalContainer()->FUN_00452c40(base5->GetItem()->form);
                 int countScope9 = quest->GetCount() + baseCountScope1;
                 bool removedScope4;
-                FUN_00481490(&removedScope4, form3, countScope9, owner, 0, false, false);
+                InventoryChanges_RemoveWorn(&removedScope4, form3, countScope9, owner, 0, false, false);
             }
         }
         else if (form3 && !leveled5 && (!infoScope1 || infoScope1->FUN_00451d90()))
@@ -21044,7 +21300,7 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                             while (nodeScope1 && nodeScope1->GetItem() && !lastScope1)
                             {
                                 MoveExtra* extraScope1 = nodeScope1->GetItem();
-                                if (extraScope1->FUN_0040a2d0() < 1)
+                                if (extraScope1->BaseExtraList_ItemsInList() < 1)
                                 {
                                     nodeScope1->FUN_00415d70();
                                     if (nodeScope1->IsEmpty())
@@ -21074,26 +21330,26 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                         ownershipScope5 = actorOwnerScope1;
                                     }
                                     else
-                                        ownershipScope5 = owner->FUN_004f26c0();
-                                    if ((retainOwner || SetOwnerPointer) && !FUN_00452670(form3))
+                                        ownershipScope5 = owner->TESObjectREFR_GetOwner();
+                                    if ((retainOwner || SetOwnerPointer) && !TESContainer_IsGold(form3))
                                     {
                                         if (!extraScope1->FUN_0040abc0())
                                             extraScope1->FUN_0040ff30(ownershipScope5);
                                     }
                                     else if (clearOwner)
                                     {
-                                        int sizeScope1 = extraScope1->FUN_0040a2d0();
+                                        int sizeScope1 = extraScope1->BaseExtraList_ItemsInList();
                                         if (extraScope1->FUN_0040abc0() &&
                                             ((extraScope1->FUN_0040ac80() > 1 && sizeScope1 <= 2) || sizeScope1 <= 1))
                                         {
-                                            extraScope1->FUN_0040b8f0();
+                                            extraScope1->ExtraDataList_RemoveOwnership();
                                             extraScope1 = 0;
                                         }
                                         else
-                                            extraScope1->FUN_0040b8f0();
+                                            extraScope1->ExtraDataList_RemoveOwnership();
                                     }
                                     countScope2 -= extraScope1->FUN_0040ac80();
-                                    FUN_00481c10(owner, form3, retainOwner, extraScope1->FUN_0040ac80(), extraScope1, 0,
+                                    InventoryChanges_RemoveItem(owner, form3, retainOwner, extraScope1->FUN_0040ac80(), extraScope1, 0,
                                                  destination, 0, 0, true, 0);
                                     changed2 = true;
                                     if (lastScope1)
@@ -21120,22 +21376,22 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                 ownershipScope5 = owner->GetObjectReference();
                             itemScope1->FUN_00480250(ownershipScope5);
                             MoveExtra* extraScope2 = itemScope1->GetExtraList()->GetItem();
-                            extraScope2->FUN_00410170(static_cast<unsigned short>(countScope2));
-                            FUN_00481c10(owner, form3, retainOwner, extraScope2->FUN_0040ac80(), extraScope2, 0,
+                            extraScope2->ExtraDataList_SetCount(static_cast<unsigned short>(countScope2));
+                            InventoryChanges_RemoveItem(owner, form3, retainOwner, extraScope2->FUN_0040ac80(), extraScope2, 0,
                                          destination, 0, 0, true, 0);
                         }
                         else
-                            FUN_00481c10(owner, form3, retainOwner, countScope2, 0, 0, destination, 0, 0, true, 0);
+                            InventoryChanges_RemoveItem(owner, form3, retainOwner, countScope2, 0, 0, destination, 0, 0, true, 0);
                         if (destination == DAT_0107a104)
                         {
                             if (form3 && !silent)
                             {
                                 MoveString messageScope1;
                                 if (countScope2 > 1)
-                                    FUN_00403a00(&messageScope1, "%i %s%s %s", countScope2, FUN_004526e0(form3),
+                                    FUN_00403a00(&messageScope1, "%i %s%s %s", countScope2, TESFullName_GetFullName(form3),
                                                  DAT_00f62d74.GetString(), DAT_00f62d8c.GetString());
                                 else
-                                    FUN_00403a00(&messageScope1, "%s %s", FUN_004526e0(form3), DAT_00f62d8c.GetString());
+                                    FUN_00403a00(&messageScope1, "%s %s", TESFullName_GetFullName(form3), DAT_00f62d8c.GetString());
                                 switch (form3->GetFormType())
                                 {
                                 case 25:
@@ -21157,7 +21413,7 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                     break;
                                 }
                             }
-                            FUN_0061b500();
+                            Interface_UpdateInventory();
                         }
                     }
                 }
@@ -21180,13 +21436,13 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
             {
                 if (itemScope6->GetForm()->IsQuestItem() && owner == DAT_0107a104)
                 {
-                    if (itemScope6 && itemScope6->FUN_0047d260(false))
+                    if (itemScope6 && itemScope6->ItemChange_GetWorn(false))
                     {
                         int countScope3 = itemScope6->GetCount();
                         bool removedScope6;
                         bool equipped7 = false;
-                        equipped7 = itemScope6->FUN_0047d260(true);
-                        FUN_00481490(&removedScope6, itemScope6->GetForm(), countScope3, owner, 0, equipped7, false);
+                        equipped7 = itemScope6->ItemChange_GetWorn(true);
+                        InventoryChanges_RemoveWorn(&removedScope6, itemScope6->GetForm(), countScope3, owner, 0, equipped7, false);
                     }
                     change = change->GetNext();
                 }
@@ -21212,7 +21468,7 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                 nodeScope2 = nodeScope2->GetNext();
                                 if (!nodeScope2)
                                 {
-                                    FUN_00481c10(owner, form3, retainOwner, itemScope6->count, 0, 0, destination, 0, 0,
+                                    InventoryChanges_RemoveItem(owner, form3, retainOwner, itemScope6->count, 0, 0, destination, 0, 0,
                                                  true, 0);
                                     removedItem5 = true;
                                     if (destination == DAT_0107a104)
@@ -21222,10 +21478,10 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                             MoveString messageScope2;
                                             if (countScope4 > 1)
                                                 FUN_00403a00(&messageScope2, "%i %s%s %s", itemScope6->count,
-                                                             FUN_004526e0(form3), DAT_00f62d74.GetString(),
+                                                             TESFullName_GetFullName(form3), DAT_00f62d74.GetString(),
                                                              DAT_00f62d8c.GetString());
                                             else
-                                                FUN_00403a00(&messageScope2, "%s %s", FUN_004526e0(form3),
+                                                FUN_00403a00(&messageScope2, "%s %s", TESFullName_GetFullName(form3),
                                                              DAT_00f62d8c.GetString());
                                             switch (form3->GetFormType())
                                             {
@@ -21250,14 +21506,14 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                                 break;
                                             }
                                         }
-                                        FUN_0061b500();
+                                        Interface_UpdateInventory();
                                     }
                                     countScope4 = 0;
                                     change = head;
                                     break;
                                 }
                             }
-                            else if (extraScope3->FUN_0040a2d0() < 1)
+                            else if (extraScope3->BaseExtraList_ItemsInList() < 1)
                             {
                                 nodeScope2->RemoveHead();
                                 if (nodeScope2->IsEmpty())
@@ -21286,28 +21542,28 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                     ownershipScope3 = actorOwnerScope2;
                                 }
                                 else
-                                    ownershipScope3 = owner->FUN_004f26c0();
-                                if ((retainOwner || SetOwnerPointer) && !FUN_00452670(form3))
+                                    ownershipScope3 = owner->TESObjectREFR_GetOwner();
+                                if ((retainOwner || SetOwnerPointer) && !TESContainer_IsGold(form3))
                                 {
                                     if (!extraScope3->FUN_0040abc0())
                                         extraScope3->FUN_0040ff30(ownershipScope3);
                                 }
                                 else if (clearOwner)
                                 {
-                                    int sizeScope2 = extraScope3->FUN_0040a2d0();
+                                    int sizeScope2 = extraScope3->BaseExtraList_ItemsInList();
                                     if (extraScope3->FUN_0040abc0() &&
                                         ((extraScope3->FUN_0040ac80() > 1 && sizeScope2 <= 2) || sizeScope2 <= 1))
                                     {
-                                        extraScope3->FUN_0040b8f0();
+                                        extraScope3->ExtraDataList_RemoveOwnership();
                                         extraScope3 = 0;
                                     }
                                     else
-                                        extraScope3->FUN_0040b8f0();
+                                        extraScope3->ExtraDataList_RemoveOwnership();
                                 }
                                 if (extraScope3)
                                 {
                                     countScope4 -= extraScope3->FUN_0040ac80();
-                                    FUN_00481c10(owner, form3, retainOwner, extraScope3->FUN_0040ac80(), extraScope3, 0,
+                                    InventoryChanges_RemoveItem(owner, form3, retainOwner, extraScope3->FUN_0040ac80(), extraScope3, 0,
                                                  destination, 0, 0, true, 0);
                                     removedItem5 = true;
                                     if (destination == DAT_0107a104)
@@ -21317,10 +21573,10 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                             MoveString messageScope3;
                                             if (countScope4 > 1)
                                                 FUN_00403a00(&messageScope3, "%i %s%s %s", extraScope3->FUN_0040ac80(),
-                                                             FUN_004526e0(form3), DAT_00f62d74.GetString(),
+                                                             TESFullName_GetFullName(form3), DAT_00f62d74.GetString(),
                                                              DAT_00f62d8c.GetString());
                                             else
-                                                FUN_00403a00(&messageScope3, "%s %s", FUN_004526e0(form3),
+                                                FUN_00403a00(&messageScope3, "%s %s", TESFullName_GetFullName(form3),
                                                              DAT_00f62d8c.GetString());
                                             switch (form3->GetFormType())
                                             {
@@ -21345,7 +21601,7 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                                 break;
                                             }
                                         }
-                                        FUN_0061b500();
+                                        Interface_UpdateInventory();
                                     }
                                 }
                                 itemScope6 = FUN_0047e180(form3, 1, 0);
@@ -21361,7 +21617,7 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                         }
                         if (countScope4 > 0)
                         {
-                            FUN_00481c10(owner, form3, retainOwner, countScope4, 0, 0, destination, 0, 0, true, 0);
+                            InventoryChanges_RemoveItem(owner, form3, retainOwner, countScope4, 0, 0, destination, 0, 0, true, 0);
                             change = head;
                             if (destination == DAT_0107a104)
                             {
@@ -21369,10 +21625,10 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                 {
                                     MoveString messageScope4;
                                     if (countScope4 > 1)
-                                        FUN_00403a00(&messageScope4, "%i %s%s %s", countScope4, FUN_004526e0(form3),
+                                        FUN_00403a00(&messageScope4, "%i %s%s %s", countScope4, TESFullName_GetFullName(form3),
                                                      DAT_00f62d74.GetString(), DAT_00f62d8c.GetString());
                                     else
-                                        FUN_00403a00(&messageScope4, "%s %s", FUN_004526e0(form3),
+                                        FUN_00403a00(&messageScope4, "%s %s", TESFullName_GetFullName(form3),
                                                      DAT_00f62d8c.GetString());
                                     switch (form3->GetFormType())
                                     {
@@ -21397,7 +21653,7 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                         break;
                                     }
                                 }
-                                FUN_0061b500();
+                                Interface_UpdateInventory();
                             }
                         }
                     }
@@ -21414,14 +21670,14 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                             ownershipScope5 = actorOwnerScope3;
                         }
                         else
-                            ownershipScope5 = owner->FUN_004f26c0();
-                        if ((retainOwner || SetOwnerPointer) && !FUN_00452670(form3))
+                            ownershipScope5 = owner->TESObjectREFR_GetOwner();
+                        if ((retainOwner || SetOwnerPointer) && !TESContainer_IsGold(form3))
                         {
                             extraScope8 = new MoveExtra;
                             extraScope8->FUN_0040ff30(ownershipScope5);
                         }
                         int countScope5 = itemScope6->GetCount();
-                        FUN_00481c10(owner, form3, retainOwner, itemScope6->GetCount(), extraScope8, 0, destination, 0,
+                        InventoryChanges_RemoveItem(owner, form3, retainOwner, itemScope6->GetCount(), extraScope8, 0, destination, 0,
                                      0, true, 0);
                         if (destination == DAT_0107a104)
                         {
@@ -21429,10 +21685,10 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                             {
                                 MoveString messageScope5;
                                 if (countScope5 > 1)
-                                    FUN_00403a00(&messageScope5, "%i %s%s %s", countScope5, FUN_004526e0(form3),
+                                    FUN_00403a00(&messageScope5, "%i %s%s %s", countScope5, TESFullName_GetFullName(form3),
                                                  DAT_00f62d74.GetString(), DAT_00f62d8c.GetString());
                                 else
-                                    FUN_00403a00(&messageScope5, "%s %s", FUN_004526e0(form3), DAT_00f62d8c.GetString());
+                                    FUN_00403a00(&messageScope5, "%s %s", TESFullName_GetFullName(form3), DAT_00f62d8c.GetString());
                                 switch (form3->GetFormType())
                                 {
                                 case 25:
@@ -21454,7 +21710,7 @@ float InventoryMove::FUN_00489d70(MoveOwner* owner, MoveOwner* destination, bool
                                     break;
                                 }
                             }
-                            FUN_0061b500();
+                            Interface_UpdateInventory();
                         }
                         change = head;
                     }
@@ -21524,9 +21780,9 @@ struct InvExtraList
     virtual ~InvExtraList();
     void* FUN_0040bd70();
     void FUN_0040bca0(InvRef* apRef);
-    bool FUN_0040a7e0(InvExtraList* apOther, bool abFlag);
+    bool ExtraDataList_CompareListForContainer(InvExtraList* apOther, bool abFlag);
     unsigned short FUN_0040ac80();
-    void FUN_00410170(unsigned short ausCount);
+    void ExtraDataList_SetCount(unsigned short ausCount);
 };
 
 struct InvExtraNode
@@ -21661,6 +21917,8 @@ struct InventoryChanges
     void FUN_00481940(InvChange* apChange, bool abDelete);
 };
 
+// pdb: InventoryChanges::AddChangeItem | InventoryChanges.obj | fnv360_0822_debug, caller, medium
+// pdb params: apChange, abDelete
 void InventoryChanges::FUN_00481940(InvChange* apChange, bool abDelete)
 {
     InvMemContext kContext(0x36);
@@ -21701,10 +21959,10 @@ void InventoryChanges::FUN_00481940(InvChange* apChange, bool abDelete)
                     InvExtraList* pCurrent = pChangeFirst->pItem;
                     bool bComp = true;
                     if (pCompare)
-                        bComp = pCompare->FUN_0040a7e0(pCurrent, false) || pCurrent->FUN_0040a7e0(pCompare, false);
+                        bComp = pCompare->ExtraDataList_CompareListForContainer(pCurrent, false) || pCurrent->ExtraDataList_CompareListForContainer(pCompare, false);
                     if (!bComp)
                     {
-                        pCurrent->FUN_00410170(pCurrent->FUN_0040ac80() + pCompare->FUN_0040ac80());
+                        pCurrent->ExtraDataList_SetCount(pCurrent->FUN_0040ac80() + pCompare->FUN_0040ac80());
                         if (pCompare)
                         {
                             apChange->pExtraLists->FUN_00421610(&pCompare);
@@ -21848,7 +22106,7 @@ struct XList {
     char FUN_0040e260();
     void FUN_0040e280();
     short FUN_0040ac80();
-    int FUN_0040a2d0();
+    int BaseExtraList_ItemsInList();
 };
 struct XNode {
     XList* item;
@@ -21897,6 +22155,8 @@ struct C4808d0 {
     n4808d0::ENode* list;
     void FUN_004808d0(n4808d0::Entry* ref, int key);
 };
+// pdb: InventoryChanges::RemoveHotKeyItem | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apItem, aiHotkey
 void C4808d0::FUN_004808d0(n4808d0::Entry* ref, int key)
 {
     void* form = ref->form;
@@ -21910,7 +22170,7 @@ void C4808d0::FUN_004808d0(n4808d0::Entry* ref, int key)
             if (xl) {
                 if (n4808d0::Matches(xl->FUN_0040e260(), key)) {
                     xl->FUN_0040e280();
-                    if (xl->m4 == 0 || (xl->FUN_0040ac80() > 1 && xl->FUN_0040a2d0() == 1)) {
+                    if (xl->m4 == 0 || (xl->FUN_0040ac80() > 1 && xl->BaseExtraList_ItemsInList() == 1)) {
                         e->extendData->FUN_00421610(&item);
                         n = e->extendData;
                         continue;
@@ -22213,7 +22473,7 @@ struct EntryNode {
 };
 
 struct Cell {
-    int FUN_004d5710();
+    int TESObjectCELL_GetWaterType();
 };
 
 struct Holder {
@@ -22258,6 +22518,8 @@ struct Owner {
     Entry* FUN_00493d50(Ref* ref, Holder* holder, float z);
 };
 
+// pdb: TESWaterSystem::FindWaterGroup | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apWaterRef, apObjectRef, afWaterHeight
 Entry* Owner::FUN_00493d50(Ref* ref, Holder* holder, float z)
 {
     Point normal(0.0f, 0.0f, 1.0f);
@@ -22274,7 +22536,7 @@ Entry* Owner::FUN_00493d50(Ref* ref, Holder* holder, float z)
         id = ref->unk1C->slot140();
     } else {
         pos = Point(0.0f, 0.0f, z);
-        id = holder->unk3C->FUN_004d5710();
+        id = holder->unk3C->TESObjectCELL_GetWaterType();
     }
     Plane plane;
     plane.FUN_00832f70(normal, pos);
@@ -22308,7 +22570,6 @@ Entry* Owner::FUN_00493d50(Ref* ref, Holder* holder, float z)
 
 // @f3 0x0049db10 (community match, verified in this file)
 #include <math.h>
-extern const double DAT_00db7268;
 namespace f3m_0049db10 {
 
 namespace f3m_0049db10 {
@@ -22329,7 +22590,7 @@ struct Quaternion {
     float x;
     float y;
     float z;
-    void FUN_0049da00(Matrix3* out) const;
+    void NiQuaternion_ToRotation(Matrix3* out) const;
 };
 
 struct QuatTransform {
@@ -22441,12 +22702,14 @@ __forceinline void Sequence::Apply(int i, AVObject* target, float time, QuatTran
         if (value.IsTranslateValid())
             target->translate = value.translate;
         if (value.IsRotateValid())
-            value.rotate.FUN_0049da00(&target->rotate);
+            value.rotate.NiQuaternion_ToRotation(&target->rotate);
         if (value.IsScaleValid())
             target->scale = fabs(value.scale);
     }
 }
 
+// pdb: BSTransCon::UpdateAllButTarget | BSBipNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afTime, abSkipSelectiveUpdateTest
 void Sequence::FUN_0049db10(float time, bool all)
 {
     if (!IsActive())
@@ -22906,6 +23169,7 @@ inline int GetMultiSample() { return DAT_0106f62c; }
 
 using namespace D3DModeSelect;
 
+// pdb: BSRenderer::ValidateSettings | BSRenderer.obj | tesv_win, ustr, medium
 unsigned char __cdecl FUN_0048fff0()
 {
     unsigned char success = 0;
@@ -23252,6 +23516,8 @@ struct Owner {
     Node<Group>* first;
     void FUN_00493f80(bool off, bool filter, bool toggle);
 };
+// pdb: TESWaterSystem::DisplayWater | TESWater.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: abVisible, abLOD, abInverseCull
 void Owner::FUN_00493f80(bool off, bool filter, bool toggle)
 {
     Node<Group>* group = first;
@@ -23407,16 +23673,16 @@ struct Extra
 	int unk14;
 	int unk18;
 	Extra();
-	unsigned int FUN_0040a2d0();           // FNV FUN_0040fe20
-	void* FUN_0040a4c0(unsigned int type);  // HasType
+	unsigned int BaseExtraList_ItemsInList();           // FNV FUN_0040fe20
+	void* BaseExtraList_GetExtraData(unsigned int type);  // HasType
 	Form* FUN_0040abc0();                  // FNV FUN_00418660
 	Leveled* FUN_0040ac60();               // GetExtraLeveledItem
-	bool FUN_0040ac70();                   // FNV FUN_00418750
+	bool ExtraDataList_HasLeveledItem();                   // FNV FUN_00418750
 	short FUN_0040ac80();                  // GetCount
 	void* FUN_0040ace0();                  // FNV FUN_00418800
 	float FUN_0040ad20();                  // FNV FUN_00418860
-	bool FUN_0040aed0(bool);               // IsWorn
-	void FUN_0040b8f0();                   // FNV FUN_0041aed0
+	bool ExtraDataList_GetWorn(bool);               // IsWorn
+	void ExtraDataList_RemoveOwnership();                   // FNV FUN_0041aed0
 	void FUN_0040b960();                   // RemoveExtraData30
 	void FUN_0040b970(bool);               // FNV FUN_0041b010
 	Ref* FUN_0040bab0();                   // FNV FUN_0041b320
@@ -23426,11 +23692,11 @@ struct Extra
 	signed char FUN_0040e260();            // GetExtraByteValue
 	void FUN_0040e280();                   // FNV FUN_0042dec0
 	void FUN_0040ff30(Form*);              // FNV FUN_00419700
-	void FUN_00410170(short);              // SetCount
+	void ExtraDataList_SetCount(short);              // SetCount
 	void FUN_00410af0(Ref*);               // FNV FUN_0041b2a0
 	void FUN_004117e0();                   // FNV FUN_0041c900
 	void FUN_00411870();                   // FNV FUN_0041d000
-	void FUN_0041b480(Extra*, bool);       // FNV FUN_00412490
+	void ExtraDataList_CopyListForReference(Extra*, bool);       // FNV FUN_00412490
 	bool IsEmpty() { return !data; }       // FNV FUN_004bca60
 	static void* operator new(unsigned int n) { return DAT_01090a78.FUN_0086b930(n); }
 	static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
@@ -23454,7 +23720,7 @@ struct Item
 	int GetCount() { return count; }
 	void SetCount(int n) { count = n; }
 	List<Extra>* GetExtraList() { return extras; }
-	bool FUN_0047d260(bool);  // IsWorn (FNV FUN_004bddd0)
+	bool ItemChange_GetWorn(bool);  // IsWorn (FNV FUN_004bddd0)
 	int FUN_0047ce40(bool);   // FNV FUN_004bc8f0
 	int FUN_0047fe70();       // FNV FUN_004bc980
 	void* FUN_0047d2a0();     // FNV FUN_004bde40
@@ -23464,7 +23730,7 @@ struct Item
 		List<Extra>* node = extras;
 		while (node && node->GetItem())
 		{
-			if (node->GetItem()->FUN_0040aed0(false))
+			if (node->GetItem()->ExtraDataList_GetWorn(false))
 				return true;
 			node = node->GetNext();
 		}
@@ -23475,7 +23741,7 @@ struct Item
 		List<Extra>* node = extras;
 		while (node && node->GetItem())
 		{
-			if (node->GetItem()->FUN_0040ac70())
+			if (node->GetItem()->ExtraDataList_HasLeveledItem())
 				return true;
 			node = node->GetNext();
 		}
@@ -23492,8 +23758,8 @@ struct Container
 
 struct Cell
 {
-	void* FUN_004daae0();      // FNV FUN_00546a40
-	bool FUN_004dab30(Ref*);   // FNV FUN_00546ca0
+	void* TESObjectCELL_GetOwner();      // FNV FUN_00546a40
+	bool TESObjectCELL_IsActorCellOwner(Ref*);   // FNV FUN_00546ca0
 };
 
 struct ValueOwner
@@ -23944,12 +24210,12 @@ struct Ref
 	Process* FUN_008d8520() { return process; }
 	Container* FUN_004e66c0();                         // GetContainer
 	void* FUN_004e6dc0();                              // FNV FUN_00567770
-	void FUN_004ebb30(float);                          // FNV FUN_00567490
+	void TESObjectREFR_SetScale(float);                          // FNV FUN_00567490
 	void FUN_004ebde0(Form*);                          // FNV FUN_00567ad0
-	Form* FUN_004f26c0();                              // FNV FUN_00567790
+	Form* TESObjectREFR_GetOwner();                              // FNV FUN_00567790
 	void* FUN_006f6c90();                              // FNV FUN_008a1710
 	bool FUN_0070da60(Form*, int, Extra*, int, int, int);  // FNV FUN_0088d7d0
-	void FUN_00713470(Form*, int, Extra*, int, int, int);  // FNV FUN_0088c830
+	void Actor_EquipObject(Form*, int, Extra*, int, int, int);  // FNV FUN_0088c830
 	void FUN_0076ca80(int);                            // FNV FUN_0094fd30
 	void FUN_00780f40(Form*, int);                     // FNV FUN_00966a70
 };
@@ -23961,8 +24227,8 @@ struct Setting
 };
 extern Setting DAT_00f5eeb0;
 
-bool __cdecl FUN_00452670(Form*);               // FNV FUN_00481f10
-void __cdecl FUN_00518df0(Ref*, Extra*, int);   // FNV FUN_005ac750
+bool __cdecl TESContainer_IsGold(Form*);               // FNV FUN_00481f10
+void __cdecl Script_SetActionFlag(Ref*, Extra*, int);   // FNV FUN_005ac750
 bool __cdecl FUN_00619b30();
 void __cdecl FUN_0061b850(const char*, int, const char*, int, float);
 int __cdecl FUN_0044f380(float);                // FNV FUN_0047e040
@@ -23977,7 +24243,7 @@ struct InventoryChanges
 	Item* FUN_0047e180(Form*, bool, int);  // GetOrCreateInventoryEntry
 	void FUN_00480a00(Item*, Extra*, int); // SetInventorySlotExtraData
 	Ref* FUN_0047cc10(Ref*, Form*, int, Ref*, void*, void*);  // PlaceObject
-	Ref* FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCount, Extra* apExtra, bool abCreateRef,
+	Ref* InventoryChanges_RemoveItem(Ref* apSource, Form* p1, bool p2, int aiCount, Extra* apExtra, bool abCreateRef,
 					  Ref* apTarget, void* p7, void* p8, bool p9, bool abRecurse);
 	__forceinline Item* Find(Form* f)
 	{
@@ -23997,7 +24263,8 @@ struct InventoryChanges
 	}
 };
 
-Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCount, Extra* apExtra,
+// pdb: InventoryChanges::RemoveItem | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+Ref* InventoryChanges::InventoryChanges_RemoveItem(Ref* apSource, Form* p1, bool p2, int aiCount, Extra* apExtra,
 									bool abCreateRef, Ref* apTarget, void* p7, void* p8, bool p9, bool abRecurse)
 {
 	MemScope memoryContext(0x36);
@@ -24031,7 +24298,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 	{
 		if (apExtra != 0)
 		{
-			if (apExtra->FUN_0040a4c0(0x4a))
+			if (apExtra->BaseExtraList_GetExtraData(0x4a))
 			{
 				if (aiCount == apExtra->FUN_0040ac80())
 					apExtra->FUN_0040e280();
@@ -24040,7 +24307,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 	}
 	if (apExtra != 0)
 	{
-		if (!apExtra->FUN_0040a2d0())
+		if (!apExtra->BaseExtraList_ItemsInList())
 		{
 			if (itemChange7 != 0 && itemChange7->extras != 0)
 				itemChange7->extras->Remove(apExtra);
@@ -24052,7 +24319,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 	baseCount48 = container11 ? container11->FUN_00452c40(p1) : 0;
 	if (itemChange7 != 0)
 	{
-		if (!itemChange7->FUN_0047d260(0))
+		if (!itemChange7->ItemChange_GetWorn(0))
 		{
 			if (baseCount48 + itemChange7->count > itemChange7->FUN_0047fe70() + itemChange7->FUN_0047ce40(0))
 			{
@@ -24093,7 +24360,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 		List<Extra>* extraNode6 = itemChange7->extras;
 		bool searchExtra78 = 1;
 
-		if (((apExtra != 0 && apExtra->FUN_0040a2d0()) || abRecurse != 0) && extraNode6 != 0 &&
+		if (((apExtra != 0 && apExtra->BaseExtraList_ItemsInList()) || abRecurse != 0) && extraNode6 != 0 &&
 			extraNode6->GetItem() != 0)
 		{
 			while (extraNode6 != 0 && extraNode6->GetItem() != 0 && searchExtra78)
@@ -24112,14 +24379,14 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 				searchExtra78 = 0;
 				stackCount10 = sourceExtra3->FUN_0040ac80();
 
-				if (sourceExtra3->FUN_0040aed0(0) && sourceExtra3->FUN_0040ac80() <= aiCount)
+				if (sourceExtra3->ExtraDataList_GetWorn(0) && sourceExtra3->FUN_0040ac80() <= aiCount)
 				{
 					bool onlyWorn39;
 					bool didUnequip10;
 					onlyWorn39 = 0;
-					if (sourceExtra3->FUN_0040a2d0() <= 1 ||
-						(sourceExtra3->FUN_0040a2d0() == 2 && sourceExtra3->FUN_0040ac80() > 1) ||
-						(sourceExtra3->FUN_0040ac70() && sourceExtra3->FUN_0040a2d0() == 2))
+					if (sourceExtra3->BaseExtraList_ItemsInList() <= 1 ||
+						(sourceExtra3->BaseExtraList_ItemsInList() == 2 && sourceExtra3->FUN_0040ac80() > 1) ||
+						(sourceExtra3->ExtraDataList_HasLeveledItem() && sourceExtra3->BaseExtraList_ItemsInList() == 2))
 						onlyWorn39 = 1;
 					didUnequip10 = 0;
 					if (apSource->Vcall100())
@@ -24141,9 +24408,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 					if (!didUnequip10 || onlyWorn39)
 						sourceExtra3 = 0;
 					itemChange7 = this->FUN_0047e180(p1, 1, 0);
-					if (itemChange7 == 0 || !itemChange7->FUN_0047d260(0))
+					if (itemChange7 == 0 || !itemChange7->ItemChange_GetWorn(0))
 					{
-						resultRef6 = this->FUN_00481c10(apSource, p1, p2, aiCount, sourceExtra3, abCreateRef, apTarget,
+						resultRef6 = this->InventoryChanges_RemoveItem(apSource, p1, p2, aiCount, sourceExtra3, abCreateRef, apTarget,
 														p7, p8, 1, 0);
 					}
 					if (itemChange7 != 0)
@@ -24154,7 +24421,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 							{
 								if (this->owner->Vcall100())
 								{
-									this->owner->FUN_00713470(itemChange7->GetObject(), stackCount10 - aiCount,
+									this->owner->Actor_EquipObject(itemChange7->GetObject(), stackCount10 - aiCount,
 															  sourceExtra3, 1, 0, 0);
 								}
 							}
@@ -24184,38 +24451,38 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 						}
 						else
 						{
-							if (sourceExtra3->FUN_0040ac70())
+							if (sourceExtra3->ExtraDataList_HasLeveledItem())
 							{
 								if (aiCount == stackCount10)
 								{
 									itemChange7->count -= stackCount10;
-									sourceExtra3->FUN_00410170(-1 * stackCount10);
+									sourceExtra3->ExtraDataList_SetCount(-1 * stackCount10);
 								}
 								else
 								{
 									itemChange7->count -= aiCount;
-									sourceExtra3->FUN_00410170(stackCount10 - aiCount);
+									sourceExtra3->ExtraDataList_SetCount(stackCount10 - aiCount);
 								}
 							}
 							else
 							{
 								itemChange7->count -= aiCount;
-								sourceExtra3->FUN_00410170(stackCount10 - aiCount);
+								sourceExtra3->ExtraDataList_SetCount(stackCount10 - aiCount);
 							}
 							{
 								transferExtra18 = new Extra;
 							}
-							transferExtra18->FUN_0041b480(sourceExtra3, 0);
+							transferExtra18->ExtraDataList_CopyListForReference(sourceExtra3, 0);
 							transferExtra18->FUN_00411870();
-							transferExtra18->FUN_00410170(aiCount);
-							if ((transferExtra18->FUN_0040a2d0() == 1 && transferExtra18->FUN_0040ac80() > 1) ||
-								transferExtra18->FUN_0040a2d0() == 0)
+							transferExtra18->ExtraDataList_SetCount(aiCount);
+							if ((transferExtra18->BaseExtraList_ItemsInList() == 1 && transferExtra18->FUN_0040ac80() > 1) ||
+								transferExtra18->BaseExtraList_ItemsInList() == 0)
 							{
 								delete transferExtra18;
 								transferExtra18 = 0;
 							}
 						}
-						FUN_00518df0(apSource, transferExtra18, 4);
+						Script_SetActionFlag(apSource, transferExtra18, 4);
 						stackCount10 = aiCount;
 						aiCount = aiCount - aiCount;
 					}
@@ -24241,7 +24508,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 							}
 						}
 						sourceExtra3 = 0;
-						FUN_00518df0(apSource, transferExtra18, 4);
+						Script_SetActionFlag(apSource, transferExtra18, 4);
 						if (transferExtra18->IsEmpty())
 						{
 							delete transferExtra18;
@@ -24253,7 +24520,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 				}
 				if (transferExtra18 != 0)
 				{
-					if (transferExtra18->FUN_0040aed0(0))
+					if (transferExtra18->ExtraDataList_GetWorn(0))
 					{
 						transferExtra18->FUN_0040b970(0);
 						if (transferExtra18->IsEmpty())
@@ -24267,7 +24534,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 				}
 				if (transferExtra18 != 0)
 				{
-					if (transferExtra18->FUN_0040a2d0())
+					if (transferExtra18->BaseExtraList_ItemsInList())
 					{
 						if (!transferEntry7->GetExtraList())
 						{
@@ -24285,14 +24552,14 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 						resultRef6->Vcall48(0x400);
 						if (transferExtra18 != 0)
 						{
-							if (transferExtra18->FUN_0040a2d0())
+							if (transferExtra18->BaseExtraList_ItemsInList())
 							{
 								bool flag69 = 1;
 								if (sourceExtra3 != 0)
 									flag69 = 0;
 								(void)flag69;
-								resultRef6->FUN_004ebb30(transferExtra18->FUN_0040ad20());
-								resultRef6->FUN_005d43c0()->FUN_0041b480(transferExtra18, 1);
+								resultRef6->TESObjectREFR_SetScale(transferExtra18->FUN_0040ad20());
+								resultRef6->FUN_005d43c0()->ExtraDataList_CopyListForReference(transferExtra18, 1);
 								resultRef6->FUN_005d43c0()->FUN_0040b960();
 							}
 						}
@@ -24302,9 +24569,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 						{
 							if (sourceCell30 != 0)
 							{
-								if (sourceCell30->FUN_004daae0())
+								if (sourceCell30->TESObjectCELL_GetOwner())
 								{
-									if (!sourceCell30->FUN_004dab30(apSource))
+									if (!sourceCell30->TESObjectCELL_IsActorCellOwner(apSource))
 										copyModel0 = 1;
 								}
 							}
@@ -24354,8 +24621,8 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 							bool copyExtra1 = 1;
 							if (sourceExtra3 != 0)
 								copyExtra1 = 0;
-							resultRef6->FUN_004ebb30(transferExtra18->FUN_0040ad20());
-							resultRef6->FUN_005d43c0()->FUN_0041b480(transferExtra18, copyExtra1);
+							resultRef6->TESObjectREFR_SetScale(transferExtra18->FUN_0040ad20());
+							resultRef6->FUN_005d43c0()->ExtraDataList_CopyListForReference(transferExtra18, copyExtra1);
 							resultRef6->FUN_005d43c0()->FUN_0040b960();
 							resultRef6->FUN_005d43c0()->FUN_004117e0();
 							if (resultRef6->FUN_005d43c0()->FUN_0040bab0() == 0)
@@ -24378,9 +24645,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 							{
 								if (referenceCell8 != 0)
 								{
-									if (referenceCell8->FUN_004daae0())
+									if (referenceCell8->TESObjectCELL_GetOwner())
 									{
-										if (!referenceCell8->FUN_004dab30(apSource))
+										if (!referenceCell8->TESObjectCELL_IsActorCellOwner(apSource))
 											copyReferenceModel20 = 1;
 									}
 								}
@@ -24430,11 +24697,11 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 									}
 									else
 									{
-										item88 = apSource->FUN_004f26c0();
+										item88 = apSource->TESObjectREFR_GetOwner();
 									}
 									if (p2 != 0)
 									{
-										if (!FUN_00452670(transferEntry7->GetObject()))
+										if (!TESContainer_IsGold(transferEntry7->GetObject()))
 											raw1ec->FUN_0040ff30(item88);
 									}
 								}
@@ -24460,15 +24727,15 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 								}
 								else
 								{
-									item90 = apSource->FUN_004f26c0();
+									item90 = apSource->TESObjectREFR_GetOwner();
 								}
 								if (p2 != 0)
 								{
-									if (!FUN_00452670(transferEntry7->GetObject()))
+									if (!TESContainer_IsGold(transferEntry7->GetObject()))
 									{
 										raw1ec = new Extra;
 										raw1ec->FUN_0040ff30(item90);
-										raw1ec->FUN_00410170(aiCount);
+										raw1ec->ExtraDataList_SetCount(aiCount);
 									}
 								}
 								apTarget->Vcall190(transferEntry7->GetObject(), raw1ec, stackCount10);
@@ -24496,7 +24763,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 				{
 					if (abRecurse != 0)
 					{
-						return this->FUN_00481c10(apSource, p1, p2, aiCount, 0, abCreateRef, apTarget, p7, p8, 1, 0);
+						return this->InventoryChanges_RemoveItem(apSource, p1, p2, aiCount, 0, abCreateRef, apTarget, p7, p8, 1, 0);
 					}
 				}
 				if (aiCount >= 1 && resultRef6 != 0)
@@ -24551,10 +24818,10 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 					{
 						cont = node_b0->GetItem();
 						short sh_bc = cont->FUN_0040ac80();
-						if (cont->FUN_0040aed0(0))
+						if (cont->ExtraDataList_GetWorn(0))
 						{
 							if (sh_bc > 1)
-								cont->FUN_00410170(sh_bc - aiCount);
+								cont->ExtraDataList_SetCount(sh_bc - aiCount);
 						}
 						(void)cnt_b4;
 						node_b0 = node_b0->GetNext();
@@ -24569,10 +24836,10 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 					{
 						hotkeyExtra37 = hotkeyNode5->GetItem();
 						short sh_cc = hotkeyExtra37->FUN_0040ac80();
-						if (hotkeyExtra37->FUN_0040ac70())
+						if (hotkeyExtra37->ExtraDataList_HasLeveledItem())
 						{
 							if (sh_cc > 1)
-								hotkeyExtra37->FUN_00410170(sh_cc - aiCount);
+								hotkeyExtra37->ExtraDataList_SetCount(sh_cc - aiCount);
 						}
 						(void)hotkeyCount26;
 						hotkeyNode5 = hotkeyNode5->GetNext();
@@ -24624,9 +24891,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 						{
 							if (plainCell18 != 0)
 							{
-								if (plainCell18->FUN_004daae0())
+								if (plainCell18->TESObjectCELL_GetOwner())
 								{
-									if (!plainCell18->FUN_004dab30(apSource))
+									if (!plainCell18->TESObjectCELL_IsActorCellOwner(apSource))
 										copyPlainModel42 = 1;
 								}
 							}
@@ -24673,9 +24940,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 					}
 					else
 					{
-						dc_dc = apSource->FUN_004f26c0();
+						dc_dc = apSource->TESObjectREFR_GetOwner();
 					}
-					if (p2 != 0 && !FUN_00452670(p1) &&
+					if (p2 != 0 && !TESContainer_IsGold(p1) &&
 						(FUN_00401170(p1) != 0x29 || apTarget != DAT_0107a104))
 					{
 						if (apExtra == 0)
@@ -24683,14 +24950,14 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 							apExtra = new Extra;
 						}
 						apExtra->FUN_0040ff30(dc_dc);
-						apExtra->FUN_00410170(transferCount2);
+						apExtra->ExtraDataList_SetCount(transferCount2);
 					}
 					if (apExtra != 0)
 					{
 						if (apTarget == DAT_0107a104)
 						{
 							if (FUN_00401170(p1) == 0x29)
-								apExtra->FUN_0040b8f0();
+								apExtra->ExtraDataList_RemoveOwnership();
 						}
 					}
 					apTarget->Vcall190(p1, apExtra, transferCount2);
@@ -24726,11 +24993,11 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 						validStack1 = 0;
 						remainingNode23 = remainingNode23->GetNext();
 					}
-					else if (sourceList32->FUN_0040aed0(0) && sourceList32->FUN_0040ac80() <= 1)
+					else if (sourceList32->ExtraDataList_GetWorn(0) && sourceList32->FUN_0040ac80() <= 1)
 					{
 						bool onlyWornFlag14 = 0;
-						if (sourceList32->FUN_0040a2d0() <= 1 ||
-							(sourceList32->FUN_0040a2d0() == 2 && sourceList32->FUN_0040ac80() > 1))
+						if (sourceList32->BaseExtraList_ItemsInList() <= 1 ||
+							(sourceList32->BaseExtraList_ItemsInList() == 2 && sourceList32->FUN_0040ac80() > 1))
 						{
 							apExtra = 0;
 							onlyWornFlag14 = 1;
@@ -24739,7 +25006,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 							apSource->Vcall188(itemChange7->GetObject(), sourceList32->FUN_0040ac80(), sourceList32);
 						if (unequipped41)
 						{
-							resultRef6 = this->FUN_00481c10(apSource, p1, p2, aiCount, apExtra, abCreateRef, apTarget,
+							resultRef6 = this->InventoryChanges_RemoveItem(apSource, p1, p2, aiCount, apExtra, abCreateRef, apTarget,
 															p7, p8, 1, 0);
 						}
 						else
@@ -24764,28 +25031,28 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 								if (aiCount == transferCount2 || aiCount > transferCount2)
 								{
 									itemChange7->count += -1 * transferCount2;
-									sourceList32->FUN_00410170(-1 * transferCount2);
+									sourceList32->ExtraDataList_SetCount(-1 * transferCount2);
 								}
 								else
 								{
 									itemChange7->count += -1 * aiCount;
-									sourceList32->FUN_00410170(transferCount2 - aiCount);
+									sourceList32->ExtraDataList_SetCount(transferCount2 - aiCount);
 								}
 							}
 							else
 							{
 								itemChange7->count -= aiCount;
-								sourceList32->FUN_00410170(transferCount2 - aiCount);
+								sourceList32->ExtraDataList_SetCount(transferCount2 - aiCount);
 							}
 							{
 								destinationList14 = new Extra;
 							}
-							destinationList14->FUN_0041b480(sourceList32, 0);
+							destinationList14->ExtraDataList_CopyListForReference(sourceList32, 0);
 							destinationList14->FUN_00411870();
 							if (transferCount2 < aiCount)
-								destinationList14->FUN_00410170(transferCount2);
+								destinationList14->ExtraDataList_SetCount(transferCount2);
 							else
-								destinationList14->FUN_00410170(aiCount);
+								destinationList14->ExtraDataList_SetCount(aiCount);
 							if (aiCount < transferCount2)
 								transferCount2 = aiCount;
 							aiCount = aiCount - transferCount2;
@@ -24842,9 +25109,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 									{
 										if (stackCell3 != 0)
 										{
-											if (stackCell3->FUN_004daae0())
+											if (stackCell3->TESObjectCELL_GetOwner())
 											{
-												if (!stackCell3->FUN_004dab30(apSource))
+												if (!stackCell3->TESObjectCELL_IsActorCellOwner(apSource))
 													copyStackModel11 = 1;
 											}
 										}
@@ -24870,10 +25137,10 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 								}
 								if (destinationList14 != 0)
 								{
-									if (destinationList14->FUN_0040a2d0())
+									if (destinationList14->BaseExtraList_ItemsInList())
 									{
-										resultRef6->FUN_004ebb30(destinationList14->FUN_0040ad20());
-										resultRef6->FUN_005d43c0()->FUN_0041b480(destinationList14, 1);
+										resultRef6->TESObjectREFR_SetScale(destinationList14->FUN_0040ad20());
+										resultRef6->FUN_005d43c0()->ExtraDataList_CopyListForReference(destinationList14, 1);
 										resultRef6->FUN_005d43c0()->FUN_0040b960();
 									}
 								}
@@ -24905,8 +25172,8 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 										bool flag41 = 1;
 										if (sourceList32 != 0)
 											flag41 = 0;
-										resultRef6->FUN_004ebb30(destinationList14->FUN_0040ad20());
-										resultRef6->FUN_005d43c0()->FUN_0041b480(destinationList14, flag41);
+										resultRef6->TESObjectREFR_SetScale(destinationList14->FUN_0040ad20());
+										resultRef6->FUN_005d43c0()->ExtraDataList_CopyListForReference(destinationList14, flag41);
 									}
 									resultRef6->FUN_005d43c0()->FUN_0040b960();
 									resultRef6->FUN_005d43c0()->FUN_004117e0();
@@ -24932,9 +25199,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 										{
 											if (stackReferenceCell32 != 0)
 											{
-												if (stackReferenceCell32->FUN_004daae0())
+												if (stackReferenceCell32->TESObjectCELL_GetOwner())
 												{
-													if (!stackReferenceCell32->FUN_004dab30(apSource))
+													if (!stackReferenceCell32->TESObjectCELL_IsActorCellOwner(apSource))
 														copyStackReferenceModel26 = 1;
 												}
 											}
@@ -24992,16 +25259,16 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 							}
 							else
 							{
-								item_100 = apSource->FUN_004f26c0();
+								item_100 = apSource->TESObjectREFR_GetOwner();
 							}
-							if (p2 != 0 && !FUN_00452670(transferEntry7->GetObject()))
+							if (p2 != 0 && !TESContainer_IsGold(transferEntry7->GetObject()))
 							{
 								item_fc->FUN_0040ff30(item_100);
-								item_fc->FUN_00410170(transferCount2);
+								item_fc->ExtraDataList_SetCount(transferCount2);
 							}
 							else
 							{
-								item_fc->FUN_0040b8f0();
+								item_fc->ExtraDataList_RemoveOwnership();
 							}
 							apTarget->Vcall190(transferEntry7->GetObject(), item_fc, transferCount2);
 
@@ -25045,7 +25312,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 	}
 
 	if (abRecurse != 0 && aiCount > 0)
-		return this->FUN_00481c10(apSource, p1, p2, aiCount, apExtra, abCreateRef, apTarget, p7, p8, 1, 0);
+		return this->InventoryChanges_RemoveItem(apSource, p1, p2, aiCount, apExtra, abCreateRef, apTarget, p7, p8, 1, 0);
 	if ((itemChange7 == 0 || hasRemainder15) && baseCount48 != 0)
 	{
 		if (itemChange7 != 0)
@@ -25065,9 +25332,9 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 				{
 					if (remainderCell3 != 0)
 					{
-						if (remainderCell3->FUN_004daae0())
+						if (remainderCell3->TESObjectCELL_GetOwner())
 						{
-							if (!remainderCell3->FUN_004dab30(apSource))
+							if (!remainderCell3->TESObjectCELL_IsActorCellOwner(apSource))
 								copyRemainderModel32 = 1;
 						}
 					}
@@ -25105,20 +25372,20 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 			}
 			else
 			{
-				item_114 = apSource->FUN_004f26c0();
+				item_114 = apSource->TESObjectREFR_GetOwner();
 			}
-			if (0 != p2 && !FUN_00452670(p1))
+			if (0 != p2 && !TESContainer_IsGold(p1))
 			{
 				if (apExtra == 0)
 				{
 					apExtra = new Extra;
 				}
 				apExtra->FUN_0040ff30(item_114);
-				apExtra->FUN_00410170(aiCount);
+				apExtra->ExtraDataList_SetCount(aiCount);
 			}
 			else if (apExtra != 0)
 			{
-				apExtra->FUN_0040b8f0();
+				apExtra->ExtraDataList_RemoveOwnership();
 			}
 			if (0 < aiCount)
 			{
@@ -25190,7 +25457,7 @@ Ref* InventoryChanges::FUN_00481c10(Ref* apSource, Form* p1, bool p2, int aiCoun
 		{
 			if (itemChange7->GetCount() + baseCount48 < 0)
 			{
-				if (!itemChange7->FUN_0047d260(0))
+				if (!itemChange7->ItemChange_GetWorn(0))
 				{
 					if (itemChange7->GetExtraList() != 0)
 					{
@@ -25220,10 +25487,11 @@ struct Owner
     int unk00, unk04;
     float value, previous;
     __declspec(noalias) void* FUN_0047e400(void*, int*);
-    void FUN_00481c10(int, void*, void*, int, int, int, int, int, int, int, int);
-    void FUN_00483b00(void*, void*, int);
+    void InventoryChanges_RemoveItem(int, void*, void*, int, int, int, int, int, int, int, int);
+    void InventoryChanges_RemoveItemType(void*, void*, int);
 };
-void Owner::FUN_00483b00(void* source, void* target, int remaining)
+// pdb: InventoryChanges::RemoveItemType | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Owner::InventoryChanges_RemoveItemType(void* source, void* target, int remaining)
 {
     previous = value;
     value = DAT_00db38b8;
@@ -25234,7 +25502,7 @@ void Owner::FUN_00483b00(void* source, void* target, int remaining)
         if (count > remaining)
             count = remaining;
         int chunk = count;
-        FUN_00481c10(0, data, target, chunk, 0, 0, 0, 0, 0, 1, 0);
+        InventoryChanges_RemoveItem(0, data, target, chunk, 0, 0, 0, 0, 0, 1, 0);
         remaining -= chunk;
     }
 }
@@ -25251,10 +25519,11 @@ struct Ref4959 { void* object; Ref4959& FUN_008e9600(const Ref4959&); };
 struct Resolved { virtual void f0(); virtual void f4(); virtual void* f8(); unsigned char IsExact(const void* type) { unsigned char equal=f8()==type; _ReadWriteBarrier(); return equal; } int a04,a08,a0c,a10,a14,a18,a1c,a20,a24,a28,a2c,a30,a34,a38,a3c,a40,a44,a48,a4c,a50,a54,a58,a5c,a60,a64,a68,a6c,a70,a74,a78,a7c,a80,a84,a88,a8c,a90,a94,a98,a9c,aa0,aa4,aa8,aac,ab0,ab4,ab8,abc,ac0,ac4,ac8,acc,ad0,ad4,ad8,adc,ae0,ae4,ae8,aec,af0,af4,af8,afc,b00,b04,b08,b0c,b10,b14,b18,b1c,b20,b24,b28,b2c,b30,b34,b38; Ref4959 reference; };
 struct Object { Resolved* FUN_00826590(int); };
 struct Arg { int a00,a04,a08,a0c,a10,a14,a18,a1c,a20; Node4959* list; int a28,a2c,a30,a34,a38,a3c,a40,a44,a48,a4c,a50; Ref4959 reference; Object* extra; char active; };
-struct Global { int a00,a04,a08,a0c,a10,a14,a18,a1c,a20,a24,a28,a2c,a30; int mode; };
 extern Ref4959 DAT_0106fdc0, DAT_0106ff0c;
 extern int DAT_0116fda0;
 struct Owner4959 { Object* FUN_004941a0(Entry4959*); void FUN_00495960(Arg*); };
+// pdb: TESWaterSystem::UpdateReflectionTexturePointers | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGroup
 void Owner4959::FUN_00495960(Arg* arg) {
     Node4959* node = arg->list;
     while (node) {
@@ -25346,6 +25615,7 @@ inline void ReleaseGlobal(QueuedObject*& pointer) {
         pointer=0;
     }
 }
+// pdb: TESWaterSystem::~TESWaterSystem | TESWater.obj | fnv360_0822_retail, call_gap, low
 FUN_00496ad0::~FUN_00496ad0() {
     FUN_00495b90(1,1);
     ReleaseGlobal(DAT_0106fec8);
@@ -25367,9 +25637,9 @@ extern const double FUN_00dc3780;
 namespace f3m_0049ecf0 {
 namespace n49ecf0 {
 struct Texture {
-    void FUN_004a18f0();
-    void FUN_004a19f0(Texture* source);
-    void FUN_004a1ac0(float weight, Texture* other, float otherWeight);
+    void TESRegionGrassObjectList_Clear();
+    void TESRegionGrassObjectList_Copy(Texture* source);
+    void TESRegionGrassObjectList_MergeLists(float weight, Texture* other, float otherWeight);
 };
 float __cdecl FUN_00403210(float value);
 class Layer {
@@ -25391,11 +25661,13 @@ public:
     __forceinline void CopyFrom(Layer* other) {
         enabled = other->enabled;
         FUN_0049e960(other->percent);
-        GetTexture()->FUN_004a18f0();
-        other->GetTexture()->FUN_004a19f0(GetTexture());
+        GetTexture()->TESRegionGrassObjectList_Clear();
+        other->GetTexture()->TESRegionGrassObjectList_Copy(GetTexture());
     }
     void FUN_0049ecf0(Layer* other, int apply);
 };
+// pdb: TESRegionDataGrass::BlendInto | TESRegionDataGrass.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apRegionData, aiTotalBlending
 void Layer::FUN_0049ecf0(Layer* other, int apply) {
     if (!other || other->GetType() != 6 || !apply)
         return;
@@ -25410,7 +25682,7 @@ void Layer::FUN_0049ecf0(Layer* other, int apply) {
         else {
             unsigned char yours = other->percent;
             unsigned char mine = percent;
-            GetTexture()->FUN_004a1ac0((float)mine, other->GetTexture(), (float)yours);
+            GetTexture()->TESRegionGrassObjectList_MergeLists((float)mine, other->GetTexture(), (float)yours);
             int t = percent;
             unsigned char o = ((volatile Layer*)other)->percent;
             int a = (100 - t) * o + t * t;
@@ -25509,7 +25781,7 @@ extern Vec3 DAT_01175118,DAT_01175128;
 extern float DAT_01175124,DAT_01175134;
 extern RefObject* DAT_0106fdc0;
 extern RefObject* DAT_0106ff0c;
-Scene* __cdecl FUN_0043c230();
+Scene* __cdecl Sky_GetInstance();
 struct Water {
     int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40;
     int active44;
@@ -25521,6 +25793,8 @@ struct Water {
     void FUN_004932e0();
     void FUN_0049bf80(Camera* camera,int unused);
 };
+// pdb: TESWaterSystem::UpdateWaterSystem | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCamera, apNode
 void Water::FUN_0049bf80(Camera* camera,int unused)
 {
     MemScope context(0x1d);
@@ -25557,16 +25831,16 @@ void Water::FUN_0049bf80(Camera* camera,int unused)
     } else DAT_0107a0d4->settings->valid=0;
     DAT_01174e84=DAT_0106fd49;
     {
-        Vec3 direction=FUN_0043c230()->part->link->node->GetDirection();
+        Vec3 direction=Sky_GetInstance()->part->link->node->GetDirection();
         direction.FUN_00468d00();
         DAT_01175118.x=direction.x;
         DAT_01175118.y=direction.y;
         DAT_01175118.z=direction.z;
     }
-    double amount=FUN_0043c230()->part->FUN_0057ffe0()*100.0;
+    double amount=Sky_GetInstance()->part->FUN_0057ffe0()*100.0;
     DAT_01175124=(float)Smaller(1.0,Larger(0.0,amount));
     {
-        Vec3 vector=FUN_0043c230()->GetVector();
+        Vec3 vector=Sky_GetInstance()->GetVector();
         DAT_01175128.x=vector.x;
         DAT_01175128.y=vector.y;
         DAT_01175128.z=vector.z;
@@ -25611,7 +25885,7 @@ namespace f3m_0048ed40 {
 struct Point { float x, y, z; bool operator!=(const Point& o) const { return x != o.x || y != o.y || z != o.z; } };
 extern bool DAT_0106dd0e;
 extern Point DAT_0108ec68;
-void __cdecl FUN_004548c0(unsigned int tag, const void* data, unsigned int size);
+void __cdecl TESForm___AddChunkData(unsigned int tag, const void* data, unsigned int size);
 void __cdecl FUN_00455b30(unsigned int tag, const void* data, unsigned int count);
 struct Entry {
     unsigned int unk00;
@@ -25633,6 +25907,7 @@ struct Owner {
     void FUN_0048ed40();
 };
 
+// pdb: RagDollData::Save | RagDollData.obj | fnv360_0822_retail, call_gap, low
 void Owner::FUN_0048ed40()
 {
     if (count) {
@@ -25640,7 +25915,7 @@ void Owner::FUN_0048ed40()
             for (unsigned int i = 0; i < count; ++i)
                 entries[i].Swap();
         }
-        FUN_004548c0(0x44475258, entries, count * sizeof(Entry));
+        TESForm___AddChunkData(0x44475258, entries, count * sizeof(Entry));
         if (DAT_0106dd0e) {
             for (unsigned int i = 0; i < count; ++i)
                 entries[i].Swap();
@@ -25770,13 +26045,13 @@ struct Armor484 : Form484 {
 };
 struct Component484 { bool FUN_00451d90(); };
 Component484* __cdecl FUN_00451da0(TESBoundObject*);
-struct Extra484 { bool FUN_0040ac70(); bool FUN_0040bfc0(); };
+struct Extra484 { bool ExtraDataList_HasLeveledItem(); bool FUN_0040bfc0(); };
 struct ExtraList484 { Extra484* item; ExtraList484* next; void FUN_006c8220();
- bool quest() { ExtraList484* n=this; return n->item->FUN_0040ac70(); } };
+ bool quest() { ExtraList484* n=this; return n->item->ExtraDataList_HasLeveledItem(); } };
 struct Entry484 {
  ExtraList484* extra; int count; TESBoundObject* form;
- bool IsWorn() { return extra && extra->item && extra->item->FUN_0040ac70(); }
- int FUN_0047fee0(); bool FUN_0047cf00(); int FUN_0047ce40(int); bool FUN_0047d260(int); void FUN_0047ce10();
+ bool IsWorn() { return extra && extra->item && extra->item->ExtraDataList_HasLeveledItem(); }
+ int FUN_0047fee0(); bool FUN_0047cf00(); int FUN_0047ce40(int); bool ItemChange_GetWorn(int); void FUN_0047ce10();
 };
 struct ChangeNode484 {
  Entry484* item; ChangeNode484* next;
@@ -25808,7 +26083,7 @@ struct Ref484 { Container484* FUN_004e66c0(); };
 struct Owner484 {
  ChangeNode484* changes; Ref484* ref;
  Container484* container() {return ref ? ref->FUN_004e66c0() : 0;}
- int FUN_004840d0(bool all);
+ int InventoryChanges_GetCount(bool all);
 };
 inline Entry484* find484(ChangeNode484* n,TESBoundObject* const& form) {
  bool searching=true;
@@ -25818,7 +26093,8 @@ inline Entry484* find484(ChangeNode484* n,TESBoundObject* const& form) {
  }
  return n ? n->item : 0;
 }
-int Owner484::FUN_004840d0(bool all) {
+// pdb: InventoryChanges::GetCount | InventoryChanges.obj | fnv360_1110_retail, call_seq + bridge(call_gap|caller), high
+int Owner484::InventoryChanges_GetCount(bool all) {
  int total=0;
  if(container()) {
   BaseNode484* n=&container()->list;
@@ -25845,7 +26121,7 @@ int Owner484::FUN_004840d0(bool all) {
        total+=e->FUN_0047fee0();
        if(e->FUN_0047cf00()) total++;
       }
-      if(e->FUN_0047ce40(0)<e->count+count && !e->FUN_0047d260(0) && !e->extra->quest()) total++;
+      if(e->FUN_0047ce40(0)<e->count+count && !e->ItemChange_GetWorn(0) && !e->extra->quest()) total++;
      }
     } else total++;
    }
@@ -25962,8 +26238,8 @@ public:
 };
 
 struct S485790_Script {
-    void* FUN_005195c0();
-    void FUN_00518c40(S485790_RefObj* ref, void* ev, int a, int b);
+    void* Script_CloneLocals();
+    void Script_Run(S485790_RefObj* ref, void* ev, int a, int b);
 };
 
 class S485790_ExtraScript {
@@ -25980,7 +26256,7 @@ public:
     void* FUN_0040ad00();
     void FUN_0040b480(S485790_Script* script);
     void FUN_0040b510(void* ev);
-    void FUN_00410170(int flag);
+    void ExtraDataList_SetCount(int flag);
     static void* operator new(unsigned int n) { return DAT_01090a78.FUN_0086b930(n); }
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
@@ -26061,10 +26337,11 @@ struct Obj485790 {
     f3m_00484c30::Holder_484c30* owner;
     S485790_ScriptHolder* FUN_0047e180(void* form, int one, int zero);
     void FUN_00481940(S485790_ScriptHolder* sm, int flag);
-    void FUN_00485790();
+    void InventoryChanges_InitScripts();
 };
 
-void Obj485790::FUN_00485790()
+// pdb: InventoryChanges::InitScripts | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Obj485790::InventoryChanges_InitScripts()
 {
     f3m_00484c30::Holder_484c30* holder = owner ? owner->FUN_004e66c0() : 0;
     for (f3m_00484c30::Link_484c30* link = &holder->head; link; link = link->next) {
@@ -26090,10 +26367,10 @@ void Obj485790::FUN_00485790()
                             break;
                         if (!extra->FUN_0040ace0()) {
                             extra->FUN_0040b480(script);
-                            extra->FUN_0040b510(extra->FUN_0040ace0()->FUN_005195c0());
+                            extra->FUN_0040b510(extra->FUN_0040ace0()->Script_CloneLocals());
                             S485790_RefObj* ref = new S485790_RefObj;
                             ref->FUN_004553b0();
-                            script->FUN_00518c40(ref, extra->FUN_0040ad00(), 0, 0);
+                            script->Script_Run(ref, extra->FUN_0040ad00(), 0, 0);
                             delete ref;
                             --count;
                         }
@@ -26102,13 +26379,13 @@ void Obj485790::FUN_00485790()
                 for (unsigned int i = 0; i < (unsigned int)count; ++i) {
                     S485790_ExtraScript* extra = new S485790_ExtraScript;
                     sm->AddHead(extra);
-                    extra->FUN_00410170(1);
+                    extra->ExtraDataList_SetCount(1);
                     if (extra && !extra->FUN_0040ace0()) {
                         extra->FUN_0040b480(script);
-                        extra->FUN_0040b510(extra->FUN_0040ace0()->FUN_005195c0());
+                        extra->FUN_0040b510(extra->FUN_0040ace0()->Script_CloneLocals());
                         S485790_RefObj* ref = new S485790_RefObj;
                         ref->FUN_004553b0();
-                        script->FUN_00518c40(ref, extra->FUN_0040ad00(), 0, 0);
+                        script->Script_Run(ref, extra->FUN_0040ad00(), 0, 0);
                         delete ref;
                     }
                 }
@@ -26121,7 +26398,7 @@ void Obj485790::FUN_00485790()
                         break;
                     S485790_RefObj* ref = new S485790_RefObj;
                     ref->FUN_004553b0();
-                    script->FUN_00518c40(ref, extra->FUN_0040ad00(), 0, 0);
+                    script->Script_Run(ref, extra->FUN_0040ad00(), 0, 0);
                     delete ref;
                 }
             }
@@ -26147,10 +26424,10 @@ void Obj485790::FUN_00485790()
                             break;
                         if (!extra->FUN_0040ace0()) {
                             extra->FUN_0040b480(script);
-                            extra->FUN_0040b510(extra->FUN_0040ace0()->FUN_005195c0());
+                            extra->FUN_0040b510(extra->FUN_0040ace0()->Script_CloneLocals());
                             S485790_RefObj* ref = new S485790_RefObj;
                             ref->FUN_004553b0();
-                            script->FUN_00518c40(ref, extra->FUN_0040ad00(), 0, 0);
+                            script->Script_Run(ref, extra->FUN_0040ad00(), 0, 0);
                             delete ref;
                             --count;
                         }
@@ -26159,13 +26436,13 @@ void Obj485790::FUN_00485790()
                 for (unsigned int i = 0; i < (unsigned int)count; ++i) {
                     S485790_ExtraScript* extra = new S485790_ExtraScript;
                     item->AddHead(extra);
-                    extra->FUN_00410170(1);
+                    extra->ExtraDataList_SetCount(1);
                     if (extra && !extra->FUN_0040ace0()) {
                         extra->FUN_0040b480(script);
-                        extra->FUN_0040b510(extra->FUN_0040ace0()->FUN_005195c0());
+                        extra->FUN_0040b510(extra->FUN_0040ace0()->Script_CloneLocals());
                         S485790_RefObj* ref = new S485790_RefObj;
                         ref->FUN_004553b0();
-                        script->FUN_00518c40(ref, extra->FUN_0040ad00(), 0, 0);
+                        script->Script_Run(ref, extra->FUN_0040ad00(), 0, 0);
                         delete ref;
                     }
                 }
@@ -26176,7 +26453,7 @@ void Obj485790::FUN_00485790()
                         break;
                     S485790_RefObj* ref = new S485790_RefObj;
                     ref->FUN_004553b0();
-                    script->FUN_00518c40(ref, extra->FUN_0040ad00(), 0, 0);
+                    script->Script_Run(ref, extra->FUN_0040ad00(), 0, 0);
                     delete ref;
                 }
             }
@@ -26512,7 +26789,6 @@ struct UpdData {
 struct TSub { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; unsigned int unk1C; };
 struct Chain2 { int unk00; int unk04; int unk08; int unk0C; TSub sub; };
 struct Chain1 { int unk00, unk04; Chain2* unk08; };
-struct Chain0 { int unk00, unk04, unk08, unk0C; Chain1* unk10; };
 
 struct TObj {
     int unk04, unk08;
@@ -26650,6 +26926,8 @@ struct TNode {
     virtual void vb8(UpdData* d);
 };
 
+// pdb: RagDollData::UpdateNodeFromRagDollData | RagDollData.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apNode, aiBoneIndex
 bool Q48::FUN_0048f1c0(TNode* node, unsigned int* idx)
 {
     bool result = true;
@@ -26964,6 +27242,7 @@ public:
 extern struct Obj49F* DAT_0107010C;                  // ORIG: mov eax,dword_107010C ✓✓ (a sibling body news up a property object into the neighbouring global at 0x107010c, line 18415) 
 extern struct Obj49F* DAT_01070104;                  // ORIG: mov eax,dword_1070104 ✓✓ 
 
+// pdb: TESRegionDataLandscape::ClearDefaultTextureProps | TESRegionDataLandscape.obj | fnv360_0822_retail, call_gap, low
 void FUN_0049f550() {
     if (DAT_0107010C != 0) {                         // ORIG: test eax,eax ; jz past - and the past target is AFTER the store of zero, so that store belongs inside this block ✓✓ 
         DAT_0107010C->Release();                     // ORIG: banked pointer in ESI, InterlockedDecrement through EDI-cached import address, virtual slot +0x04 when it reaches zero ✓✓ 
@@ -26976,7 +27255,6 @@ void FUN_0049f550() {
     }
 }
 
-void Obj49F::vfn00() {}                              // defined so the vtable exists with the slot at +0x04 in place ✓✓ 
 void Obj49F::vfn04() {} 
 
 }
@@ -26984,6 +27262,7 @@ void Obj49F::vfn04() {}
 
 // @f3 0x0048f820 (community match, verified in this file)
 namespace f3m_0048f820 {
+// pdb: NiDX9Renderer::GetD3DFormat | BSRenderer.obj | tesv_win, call_seq, medium
 int __cdecl FUN_0048f820(int x)
 {
     switch (x) {
@@ -27035,6 +27314,8 @@ int __cdecl FUN_0048f820(int x)
 namespace Clear48c590 {
 struct Item {int unk00;int value;};
 extern Item* DAT_0106f2f8[26];
+// pdb: MiscStatManager::Revert | MiscStats.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: BSMIN)
+// pdb params: apLoadGameBuffer
 void FUN_0048c590(){for(unsigned i=0;i<26;i++){if(DAT_0106f2f8[i]) DAT_0106f2f8[i]->value=0;}}
 }
 
@@ -27050,6 +27331,7 @@ struct Object {
  char* text;
  void FUN_0049ca60(char* const*);
 };
+// pdb: BSFixedString::operator= | BSFixedString.obj | tesv_win, call_gap, low
 void Object::FUN_0049ca60(char* const* input) {
  char* value=*input;
  if(text!=value) {
@@ -27175,10 +27457,11 @@ void FUN_0049c740(){Node* node=&DAT_0106fffc;do{Object* object=node->object;if(o
 extern char DAT_00dc371c;
 namespace f3m_0049ea60 {
 namespace Copy49ea60 {
-struct Item {Item* FUN_004a19f0(int);};
+struct Item {Item* TESRegionGrassObjectList_Copy(int);};
 struct FUN_0049e8d0 {void* vtable;int unk04;FUN_0049e8d0(const FUN_0049e8d0&);~FUN_0049e8d0();};
 struct FUN_0049ea60:FUN_0049e8d0 {Item* item;FUN_0049ea60(const FUN_0049ea60&);};
-FUN_0049ea60::FUN_0049ea60(const FUN_0049ea60& other):FUN_0049e8d0(other){vtable=&DAT_00dc371c;item=other.item->FUN_004a19f0(0);}
+// pdb: TESRegionDataGrass::Copy | TESRegionDataGrass.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: TESRegionDataGrass::TESRegionDataGrass)
+FUN_0049ea60::FUN_0049ea60(const FUN_0049ea60& other):FUN_0049e8d0(other){vtable=&DAT_00dc371c;item=other.item->TESRegionGrassObjectList_Copy(0);}
 }
 }   // namespace f3m_0049ea60
 
@@ -27189,6 +27472,7 @@ void FUN_0089e890(void*);extern char DAT_00dc2e34,DAT_00dc2dec,DAT_00dc2de4;
 struct First {void* vtable;void* data;int unk08,unk0c;~First(){void* buffer=data;vtable=&DAT_00dc2de4;FUN_0089e890(buffer);}};
 struct Second {void* vtable;void* data;int unk08,unk0c;~Second(){void* buffer=data;vtable=&DAT_00dc2dec;FUN_0089e890(buffer);}};
 struct FUN_00496a20 {void* vtable;First first;Second second;~FUN_00496a20();};
+// pdb: ImageSpaceEffectParam::~ImageSpaceEffectParam | TESWater.obj | fnv360_0822_debug, call_seq, medium
 FUN_00496a20::~FUN_00496a20(){vtable=&DAT_00dc2e34;}
 }
 
@@ -27197,6 +27481,8 @@ FUN_00496a20::~FUN_00496a20(){vtable=&DAT_00dc2e34;}
 // @f3 0x0048eb70 (community match, verified in this file)
 namespace f3m_0048eb70 {
 namespace Equal332 {
+// pdb: NiMatrix3::operator== | RagDollData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: mat
 struct Matrix{float a,b,c,d,e,f,g,h,i;int FUN_0048eb70(const Matrix*);};int Matrix::FUN_0048eb70(const Matrix* o){return a==o->a&&b==o->b&&c==o->c&&d==o->d&&e==o->e&&f==o->f&&g==o->g&&h==o->h&&i==o->i;}
 }
 }   // namespace f3m_0048eb70
@@ -27206,6 +27492,8 @@ namespace f3m_00493150 {
 namespace Matrix341 {
 struct Vec3{float x,y,z;Vec3(float a,float b,float c):x(a),y(b),z(c){}};
 struct Input{int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; float m00,m01,m02,m10,m11,m12,m20,m21,m22;Vec3 position;int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; Vec3 attribute;int unke8; int unkec; int unkf0; int unkf4; int unkf8; int unkfc; Vec3 other;};
+// pdb: NiXenonRenderer::SetCameraData | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pkCamera
 struct Owner{virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c(); virtual void v010(); virtual void v014(); virtual void v018(); virtual void v01c(); virtual void v020(); virtual void v024(); virtual void v028(); virtual void v02c(); virtual void v030(); virtual void v034(); virtual void v038(); virtual void v03c(); virtual void v040(); virtual void v044(); virtual void v048(); virtual void v04c(); virtual void v050(); virtual void v054(); virtual void v058(); virtual void v05c(); virtual void v060(); virtual void v064(); virtual void v068(); virtual void v06c(); virtual void v070(); virtual void v074(); virtual void v078(); virtual void v07c(); virtual void v080(); virtual void v084(); virtual void v088(); virtual void v08c(); virtual void v090(); virtual void v094(); virtual void v098(); virtual void v09c(); virtual void v0a0(); virtual void v0a4(); virtual void v0a8(); virtual void v0ac(); virtual void v0b0(); virtual void v0b4(); virtual void v0b8(); virtual void v0bc(); virtual void v0c0(); virtual void v0c4(); virtual void v0c8(); virtual void v0cc(); virtual void v0d0(); virtual void v0d4(); virtual void v0d8(); virtual void v0dc(); virtual void v0e0(); virtual void v0e4(); virtual void v0e8(); virtual void v0ec(); virtual void v0f0(); virtual void v0f4(); virtual void v0f8(); virtual void v0fc(); virtual void v100(); virtual void v104(); virtual void v108(); virtual void v10c(); virtual void v110(); virtual void v114(); virtual void v118(); virtual void v11c(); virtual void v120(); virtual void v124(); virtual void v128(); virtual void v12c(); virtual void v130(); virtual void v134(); virtual void v138(); virtual void v13c(); virtual void v140(); virtual void v144(); virtual void v148(); virtual void v14c(); virtual void v150(); virtual void v154(); virtual void v158(); virtual void v15c(); virtual void v160(); virtual void v164(); virtual void v168(); virtual void v16c(); virtual void v170(); virtual void v174(); virtual void v178(); virtual void v17c(); virtual void v180(); virtual void v184(); virtual void v188(); virtual void update(Vec3*,Vec3*,Vec3*,Vec3*,Vec3*,Vec3*);int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; int unk9c; int unka0; int unka4; int unka8; int unkac; int unkb0; int unkb4; int unkb8; int unkbc; int unkc0; int unkc4; int unkc8; int unkcc; int unkd0; int unkd4; int unkd8; int unkdc; int unke0; int unke4; int unke8; int unkec; int unkf0; int unkf4; int unkf8; int unkfc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int mode;int unk204;unsigned char enabled;void FUN_00493150(Input*);};void Owner::FUN_00493150(Input* p){Vec3 z(p->m02,p->m12,p->m22);Vec3 y(p->m01,p->m11,p->m21);Vec3 x(p->m00,p->m10,p->m20);if((mode==1||mode==2)&&enabled==1)update(&p->position,&x,&y,&z,&p->attribute,&p->other);}
 }
 }   // namespace f3m_00493150
@@ -27389,6 +27677,7 @@ struct Owner49cea0 {
     void __thiscall FUN_0049cea0();
 };
 
+// pdb: BSAnimGroupSequence::ValidateTargets | BSAnimGroupSequence.obj | fnv360_0822_retail, call_seq, medium
 void Owner49cea0::FUN_0049cea0() {
     if (!holder40) {
         return;
@@ -27423,13 +27712,13 @@ extern Heap DAT_01090a78;
 struct Stream {
     unsigned int FUN_006e0670();
     void FUN_006e0750(void*, unsigned int);
-    unsigned int FUN_006e08a0();
+    unsigned int BGSLoadGameBuffer_LoadVariableSizedValue();
 };
 
 struct FUN_0040eda0 {
     int f00, f04, f08, f0c, f10, f14, f18;
     FUN_0040eda0();
-    void FUN_00417a10(Stream* s);
+    void ExtraDataList_LoadGame(Stream* s);
     static void* operator new(unsigned int n) { return DAT_01090a78.FUN_0086b930(n); }
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
@@ -27446,18 +27735,19 @@ struct Owner {
     List* list;
     unsigned int value;
     void* form;
-    void FUN_004807d0(Stream* s);
+    void ItemChange_LoadGame(Stream* s);
     __forceinline void LoadNode(FUN_0040eda0* node, Stream* s) {
-        node->FUN_00417a10(s);
+        node->ExtraDataList_LoadGame(s);
         list->FUN_0061c430(&node);
     }
 };
 
-void Owner::FUN_004807d0(Stream* s)
+// pdb: ItemChange::LoadGame | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Owner::ItemChange_LoadGame(Stream* s)
 {
-    form = FUN_00c0050a(FUN_00455190(s->FUN_006e0670()), 0, DAT_00f46078, DAT_00f460fc, 0);
+    form = FUN_00c0050a(TESForm_GetFormByNumericID(s->FUN_006e0670()), 0, DAT_00f46078, DAT_00f460fc, 0);
     s->FUN_006e0750(&value, 4);
-    unsigned int count = s->FUN_006e08a0();
+    unsigned int count = s->BGSLoadGameBuffer_LoadVariableSizedValue();
     if (count) {
         list = new List();
         for (unsigned int i = 0; i < count; ++i) {
@@ -27472,11 +27762,12 @@ extern char DAT_00f4d34c,DAT_00f4d330;
 namespace f3m_0049e050 {
 namespace Small483 {
 void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
-struct List {void* FUN_0049fa60(int);};
+struct List {void* TESRegionDataList_Find(int);};
 struct Part {void* FUN_00500ad0();};
 struct Entry {int unk00,unk04;Part part;};
 struct Owner {int unk00,unk04,unk08,unk0c,unk10,unk14;List* list;int unk1c,unk20;void* value;void FUN_0049e050();};
-void Owner::FUN_0049e050(){value=0;if(list){Entry* entry=(Entry*)FUN_00c0050a(list->FUN_0049fa60(3),0,&DAT_00f4d330,&DAT_00f4d34c,0);if(entry)value=entry->part.FUN_00500ad0();}}
+// pdb: TESRegion::UpdateWeather | TESRegion.obj | fnv360_0822_retail, uvref, low, conflict (skyrim: TESRegion::GetWeatherOfType)
+void Owner::FUN_0049e050(){value=0;if(list){Entry* entry=(Entry*)FUN_00c0050a(list->TESRegionDataList_Find(3),0,&DAT_00f4d330,&DAT_00f4d34c,0);if(entry)value=entry->part.FUN_00500ad0();}}
 }
 }   // namespace f3m_0049e050
 
@@ -27499,6 +27790,8 @@ struct Table_48ba20 {
     Table_48ba20* FUN_0048ba20(unsigned int n, int value);
 };
 
+// pdb: LipSynchAnim::LipSynchAnim | LipSynchAnim.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aiNumFrames, aiStartingFrame
 Table_48ba20* Table_48ba20::FUN_0048ba20(unsigned int n, int value)
 {
     count = n;
@@ -27678,6 +27971,8 @@ struct Owner
     AVObject* FUN_004941a0(Ref* ref);
 };
 
+// pdb: TESWaterSystem::GetWaterGeometry | TESWater.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apWaterRef
 AVObject* Owner::FUN_004941a0(Ref* ref)
 {
     if (!ref || !ref->Get3D())
@@ -27710,7 +28005,7 @@ namespace f3m_00487120 {
 namespace ExtraLoop487120 {
 struct Form;
 struct Extra {
-    bool FUN_0040aed0(bool option);
+    bool ExtraDataList_GetWorn(bool option);
     short FUN_0040ac80();
 };
 struct ExtraNode { Extra* value; ExtraNode* next; };
@@ -27720,22 +28015,24 @@ struct Entry {
     Form* form;
     bool HasExtra() const {
         for(ExtraNode* p=extras;p && p->value;p=p->next)
-            if(p->value->FUN_0040aed0(false)) return true;
+            if(p->value->ExtraDataList_GetWorn(false)) return true;
         return false;
     }
     int GetCount() const {
         int count=1;
         for(ExtraNode* p=extras;p && p->value;p=p->next)
-            if(p->value->FUN_0040aed0(false)) { count=p->value->FUN_0040ac80(); break; }
+            if(p->value->ExtraDataList_GetWorn(false)) { count=p->value->FUN_0040ac80(); break; }
         return count;
     }
 };
 struct Node { Entry* entry; Node* next; };
 struct Owner {
     Node* first;
-    void FUN_00481490(bool& changed,Form*,int count,unsigned argument,bool firstFlag,bool secondFlag,bool thirdFlag);
+    void InventoryChanges_RemoveWorn(bool& changed,Form*,int count,unsigned argument,bool firstFlag,bool secondFlag,bool thirdFlag);
     void FUN_00487120(unsigned unused,unsigned argument);
 };
+// pdb: InventoryChanges::RemoveAllObjectsWorn | InventoryChanges.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: abSkipCanNotWear, apRef
 void Owner::FUN_00487120(unsigned unused,unsigned argument) {
     Node* position=first;
     while(position) {
@@ -27744,7 +28041,7 @@ void Owner::FUN_00487120(unsigned unused,unsigned argument) {
             bool changed=false;
             if(entry->HasExtra()) {
                 int count=entry->GetCount();
-                FUN_00481490(changed,entry->form,count,argument,false,false,true);
+                InventoryChanges_RemoveWorn(changed,entry->form,count,argument,false,false,true);
                 if(changed) position=first;
                 else position=position->next;
             } else position=position->next;
@@ -27761,6 +28058,7 @@ struct Heap {void* FUN_0086b930(unsigned);void FUN_0086ba60(void*);};extern Heap
 int __cdecl FUN_00403230(char*,unsigned,const char*,...);
 struct FUN_00403100 {unsigned unk00,unk04,unk08;FUN_00403100(char*,void*);static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
 struct FUN_0048c610 {FUN_00403100* object;unsigned value;FUN_0048c610(void*,unsigned,unsigned);};
+// pdb: MiscStatManager::MiscStatManager | MiscStats.obj | fnv360_0822_retail, ustr, medium
 FUN_0048c610::FUN_0048c610(void* input,unsigned id,unsigned state){value=state;char* text=(char*)DAT_01090a78.FUN_0086b930(13);FUN_00403230(text,13,&DAT_00dc0f98,id);object=new FUN_00403100(text,input);}
 }
 }   // namespace f3m_0048c610
@@ -27789,6 +28087,7 @@ extern NiPointer<Owner1e00> DAT_0106fd24;
 extern NiPointer<Scene1e00> DAT_0106fcfc;
 extern NiPointer<RefObject1e00> DAT_0106fd18[3];
 
+// pdb: ScreenCustomSplatter::Shutdown | ScreenCustomSplatter.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_00491e00()
 {
     if (DAT_0106fcf4) {
@@ -27817,6 +28116,8 @@ struct Table {
     float FUN_0048bb10(int index);
 };
 
+// pdb: LipSynchAnim::GetPuppetValue | LipSynchAnim.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: aiFrame
 float Table::FUN_0048bb10(int index)
 {
     int idx;
@@ -27915,6 +28216,8 @@ struct Owner {
     void FUN_00480250(void* input);
 };
 
+// pdb: ItemChange::SetItemOwnership | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apowner
 void Owner::FUN_00480250(void* input)
 {
     if (input) {
@@ -27950,6 +28253,8 @@ struct Obj48 {
 extern NiPointer<Obj48> g_ptr48;
 extern bool DAT_0116d6b3;
 void __cdecl FUN_00adaa30(bool);
+// pdb: Renderer::Kill | Renderer.obj | fnv360_0721_retail, udata, medium
+// pdb params: abFinalKill
 void __cdecl FUN_0048fb40(bool flag) {
     FUN_00adaa30(flag);
     if (flag) {
@@ -28039,6 +28344,8 @@ struct FUN_0049d7c0 : FUN_008ac9e0 {
     FUN_0049d7c0(RefObject* group, FUN_008ac9e0* source);
     virtual ~FUN_0049d7c0();
 };
+// pdb: BSAnimGroupSequence::BSAnimGroupSequence | BSAnimGroupSequence.obj | fnv360_0721_retail, caller, medium
+// pdb params: apAnimGroup, apSeq
 FUN_0049d7c0::FUN_0049d7c0(RefObject* group, FUN_008ac9e0* source) : FUN_008ac9e0(source->name, 0, 1)
 {
     animGroup = group;
@@ -28131,6 +28438,7 @@ public:
 
 float FUN_00403210(float x);
 
+// pdb: TESRegionDataLandscape::BlendInto | TESRegionDataLandscape.obj | tesv_win, vtable, medium
 void Target::FUN_0049f830(Source* src, int enable)
 {
     FUN_00401b10 text;
@@ -28186,6 +28494,8 @@ inline bool IsK2(const NiRTTI* t, const Ctl* o){ if(!o) return false; return o->
 inline Ctl* DC(const NiRTTI* t, Ctl* o){ return IsK(t,o)?o:0; }
 inline Ctl* DC2(const NiRTTI* t, Ctl* o){ return o->IsKindOf(t)?o:0; }
 inline Ctl* DC3(const NiRTTI* t, Ctl* o){ return o ? (o->IsKindOf(t)?o:0) : 0; }
+// pdb: BSBipNode::RemoveObject | BSBipNode.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObject
 void Object::FUN_0049dfc0(int value){
  for(Ctl* p=GetControllers(); p; p=p->GetNext()){
   Ctl* a = DC3(&DAT_01091f0c,p);
@@ -28329,9 +28639,10 @@ struct Owner {
     unsigned unk74;
     unsigned unk78;
     Map map;
-    void FUN_00496e90(Form* item,Container* container);
+    void TESWaterSystem_RemoveTESObjectFromWaterGroup(Form* item,Container* container);
 };
-void Owner::FUN_00496e90(Form* item,Container* container) {
+// pdb: TESWaterSystem::RemoveTESObjectFromWaterGroup | TESWater.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Owner::TESWaterSystem_RemoveTESObjectFromWaterGroup(Form* item,Container* container) {
     Node* position=item->IsSpecial()?container->special.Head():container->normal.Head();
     bool found=false;
     Node* foundPosition=0;
@@ -28821,12 +29132,14 @@ struct WaterMgrW {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38;
     GroupListW groups;
 
-    void FUN_00495010(WaterGroupW* group, WaterRefW* ref);
-    void FUN_00494020();
+    void TESWaterSystem_UpdateWaterShaderProperties(WaterGroupW* group, WaterRefW* ref);
+    void TESWaterSystem_EnableWaterSystem();
     void FUN_00493d10();
     bool FUN_0049a570(WaterRefW* object, const NiPointW* origin, const NiMatrixW* rotation);
 };
 
+// pdb: TESWaterSystem::AddPlaceableWater | TESWater.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apWaterRef, arPosition, arRotation
 bool WaterMgrW::FUN_0049a570(WaterRefW* object, const NiPointW* origin, const NiMatrixW* rotation)
 {
     if (!DAT_0106fdcc)
@@ -28867,7 +29180,7 @@ bool WaterMgrW::FUN_0049a570(WaterRefW* object, const NiPointW* origin, const Ni
                                      object->Get3DW()->GetName(), plane.GetConstant(), (double)location.z);
                     }
                     found = true;
-                    FUN_00495010(record, object);
+                    TESWaterSystem_UpdateWaterShaderProperties(record, object);
                     record->refs.FUN_00883a70(object);
                 }
             } else if (plane.GetConstant() > record->plane.GetConstant()) {
@@ -28883,7 +29196,7 @@ bool WaterMgrW::FUN_0049a570(WaterRefW* object, const NiPointW* origin, const Ni
         added->plane = plane;
         added->plane2 = reverse;
         added->water = base->GetWaterW();
-        FUN_00495010(added, object);
+        TESWaterSystem_UpdateWaterShaderProperties(added, object);
         added->refs.FUN_00883a70(object);
         if (before)
             groups.FUN_004968c0(before, added);
@@ -28894,7 +29207,7 @@ bool WaterMgrW::FUN_0049a570(WaterRefW* object, const NiPointW* origin, const Ni
             added->active = true;
     }
 
-    FUN_00494020();
+    TESWaterSystem_EnableWaterSystem();
     FUN_00493d10();
     return true;
 }
@@ -29557,7 +29870,7 @@ struct ShaderManager {
     ProcessedMap processed;
     Effect* FUN_004941a0(Ref*);
     void FUN_00493ca0(TextureRef*);
-    void FUN_00495410(Params*);
+    void TESWaterSystem_UpdateWaterNoise(Params*);
 };
 extern Settings* DAT_011756b0;
 extern TextureRegistry* DAT_0107a0d8;
@@ -29583,7 +29896,8 @@ inline void* GetRenderer() { return DAT_0116f2f8; }
 inline SurfaceFactory* GetSurfaceFactory() { return DAT_0116ef98; }
 inline ShaderPass* GetShaderPass() { return DAT_0116ef9c; }
 inline Settings* GetSettings() { return DAT_011756b0; }
-void ShaderManager::FUN_00495410(Params* parameters)
+// pdb: TESWaterSystem::UpdateWaterNoise | TESWater.obj | fnv360_0721_beta, udata, high
+void ShaderManager::TESWaterSystem_UpdateWaterNoise(Params* parameters)
 {
     RefListNode* entry = parameters->first;
     RefListNode* next = 0;
@@ -29764,10 +30078,10 @@ struct FUN_0040eda0
 
     FUN_0040eda0();
     static void* operator new(unsigned int size) { return DAT_01090a78.FUN_0086b930(size); }
-    void* FUN_0040a4c0(int type);
-    void FUN_0040ecb0(void* item, int freeItem);
-    void FUN_0041b2c0(Extra* source, int copyAll);
-    void FUN_0040a320(void* item);
+    void* BaseExtraList_GetExtraData(int type);
+    void BaseExtraList_RemoveExtra(void* item, int freeItem);
+    void ExtraDataList_CopyListForContainer(Extra* source, int copyAll);
+    void BaseExtraList_AddExtra(void* item);
 };
 
 struct FUN_0047cdc0
@@ -29844,6 +30158,8 @@ struct Owner
     void FUN_00484d10(void* source, void* destination);
 };
 
+// pdb: InventoryChanges::DuplicateAllItems | InventoryChanges.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apRef, apDupContainer
 void Owner::FUN_00484d10(void* source, void* destination)
 {
     if (!destination || !source)
@@ -29902,13 +30218,13 @@ void Owner::FUN_00484d10(void* source, void* destination)
                             while (nodeA && nodeA->GetItem())
                             {
                                 Extra* extraASlot11 = new Extra;
-                                void* removedASlot21 = nodeA->GetItem()->FUN_0040a4c0(0xd);
+                                void* removedASlot21 = nodeA->GetItem()->BaseExtraList_GetExtraData(0xd);
                                 if (removedASlot21)
-                                    nodeA->GetItem()->FUN_0040ecb0(removedASlot21, 0);
-                                extraASlot11->FUN_0041b2c0(nodeA->GetItem(), 1);
+                                    nodeA->GetItem()->BaseExtraList_RemoveExtra(removedASlot21, 0);
+                                extraASlot11->ExtraDataList_CopyListForContainer(nodeA->GetItem(), 1);
                                 copySlot14->GetExtras()->FUN_0061c430(&extraASlot11);
                                 if (removedASlot21)
-                                    nodeA->GetItem()->FUN_0040a320(removedASlot21);
+                                    nodeA->GetItem()->BaseExtraList_AddExtra(removedASlot21);
                                 nodeA = nodeA->GetNext();
                             }
                         }
@@ -29925,7 +30241,7 @@ void Owner::FUN_00484d10(void* source, void* destination)
                             while (nodeB && nodeB->GetItem())
                             {
                                 Extra* extraB = new Extra;
-                                extraB->FUN_0041b2c0(nodeB->GetItem(), 1);
+                                extraB->ExtraDataList_CopyListForContainer(nodeB->GetItem(), 1);
                                 copySlot14->GetExtras()->FUN_0061c430(&extraB);
                                 nodeB = nodeB->GetNext();
                             }
@@ -29967,13 +30283,13 @@ void Owner::FUN_00484d10(void* source, void* destination)
                         while (nodeC && nodeC->GetItem())
                         {
                             Extra* extraCSlot22 = new Extra;
-                            void* removedCSlot8 = nodeC->GetItem()->FUN_0040a4c0(0xd);
+                            void* removedCSlot8 = nodeC->GetItem()->BaseExtraList_GetExtraData(0xd);
                             if (removedCSlot8)
-                                nodeC->GetItem()->FUN_0040ecb0(removedCSlot8, 0);
-                            extraCSlot22->FUN_0041b2c0(nodeC->GetItem(), 1);
+                                nodeC->GetItem()->BaseExtraList_RemoveExtra(removedCSlot8, 0);
+                            extraCSlot22->ExtraDataList_CopyListForContainer(nodeC->GetItem(), 1);
                             copySlot14->GetExtras()->FUN_0061c430(&extraCSlot22);
                             if (removedCSlot8)
-                                nodeC->GetItem()->FUN_0040a320(removedCSlot8);
+                                nodeC->GetItem()->BaseExtraList_AddExtra(removedCSlot8);
                             nodeC = nodeC->GetNext();
                         }
                     }
@@ -29990,7 +30306,7 @@ void Owner::FUN_00484d10(void* source, void* destination)
                         while (nodeD && nodeD->GetItem())
                         {
                             Extra* extraD = new Extra;
-                            extraD->FUN_0041b2c0(nodeD->GetItem(), 1);
+                            extraD->ExtraDataList_CopyListForContainer(nodeD->GetItem(), 1);
                             copySlot14->GetExtras()->FUN_0061c430(&extraD);
                             nodeD = nodeD->GetNext();
                         }
@@ -30203,6 +30519,8 @@ struct Owner {
     void FUN_004947e0(Camera* source, Scene* scene, int unused, unsigned short index);
 };
 
+// pdb: TESWaterSystem::RenderWaterGroupStencil | TESWater.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apCamera, apWaterGroup, abClearAll, auWriteMask
 void Owner::FUN_004947e0(Camera* source, Scene* scene, int unused, unsigned short index)
 {
     if (!DAT_0106fe0c || !source)
@@ -30435,6 +30753,8 @@ struct Host {
     Resource* FUN_0049b7b0(RenderNode* node,void* source,float radius);
     void FUN_0049ba60(Point2 origin,float height,float radius);
 };
+// pdb: TESWaterSystem::AddRipple | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arPosition, afSize
 void Host::FUN_0049ba60(Point2 origin,float height,float radius) {
     if(!DAT_0106ff64 || !DAT_0106fdb4) return;
     Point2 normalized;
@@ -30669,11 +30989,11 @@ struct TESFile_49e490 {
     int unk258;
     unsigned int chunkSize;
 
-    unsigned char FUN_00448cc0();
-    int FUN_004487d0();
+    unsigned char TESFile_GetTESForm();
+    int TESFile_GetTESChunk();
     void FUN_00447d60(void* dst, unsigned int size);
     void FUN_00448800(void* dst);
-    bool FUN_00447020();
+    bool TESFile_NextChunk();
     unsigned int GetChunkSize() { return chunkSize; }
 };
 
@@ -30683,7 +31003,7 @@ struct RegionPointList_49e490 {
     void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
     RegionPointList_49e490(bool b);
     ~RegionPointList_49e490();
-    void FUN_004a2e30(TESFile_49e490* f);
+    void TESRegionPointList_LoadPoints(TESFile_49e490* f);
     void FUN_004a2720(unsigned int d);
     bool FUN_004a31c0(bool b);
 };
@@ -30757,9 +31077,11 @@ struct TESRegion_49e490 {
     PointListNode_49e490* GetRegionPointLists() { return pointLists; }
     bool FUN_0049e490(TESFile_49e490* file);
     void FUN_00454410(TESFile_49e490* f);
-    void FUN_00454240(bool b);
+    void TESForm_SetInitialized(bool b);
 };
 
+// pdb: TESRegion::Load | TESRegion.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool TESRegion_49e490::FUN_0049e490(TESFile_49e490* file)
 {
     RegionPointList_49e490* invalid;
@@ -30768,13 +31090,13 @@ bool TESRegion_49e490::FUN_0049e490(TESFile_49e490* file)
     RegionPointList_49e490* pointList;
     unsigned char type;
 
-    type = file->FUN_00448cc0();
+    type = file->TESFile_GetTESForm();
     pointList = 0;
     if (type != 55)
         return false;
     FUN_00454410(file);
-    FUN_00454240(false);
-    while (chunk = file->FUN_004487d0())
+    TESForm_SetInitialized(false);
+    while (chunk = file->TESFile_GetTESChunk())
     {
         switch (chunk)
         {
@@ -30803,7 +31125,7 @@ bool TESRegion_49e490::FUN_0049e490(TESFile_49e490* file)
         }
         case 0x444c5052:
             if (pointList)
-                pointList->FUN_004a2e30(file);
+                pointList->TESRegionPointList_LoadPoints(file);
             break;
         case 0x424f4452:
         case 0x44534452:
@@ -30819,7 +31141,7 @@ bool TESRegion_49e490::FUN_0049e490(TESFile_49e490* file)
             DAT_0106cdcc->mgr->Load(file, this);
             break;
         }
-        if (!file->FUN_00447020())
+        if (!file->TESFile_NextChunk())
             break;
     }
     lists = GetRegionPointLists();
@@ -30880,8 +31202,8 @@ struct ScriptEventList
 
 struct Script
 {
-    ScriptLocals* FUN_005195c0();
-    void FUN_00518c40(ScriptEventList* pkEvents, void* pvOwner, int iArg2, int iArg3);
+    ScriptLocals* Script_CloneLocals();
+    void Script_Run(ScriptEventList* pkEvents, void* pvOwner, int iArg2, int iArg3);
 };
 
 struct TESForm
@@ -30912,7 +31234,7 @@ struct FormInfo
     bool FUN_00451d90();
 };
 FormInfo* __cdecl FUN_00451da0(TESBoundObject* pkForm);
-bool __cdecl FUN_00452670(TESBoundObject* pkForm);
+bool __cdecl TESContainer_IsGold(TESBoundObject* pkForm);
 
 inline Script* GetFormScript(TESBoundObject* pkForm)
 {
@@ -31028,22 +31350,22 @@ struct ExtraDataList
     float FUN_0040ac20();
     void FUN_0040b900();
     short FUN_0040ac80();
-    void FUN_0040b910();
-    void FUN_00410170(unsigned short usCount);
+    void ExtraDataList_RemoveCount();
+    void ExtraDataList_SetCount(unsigned short usCount);
     Script* FUN_0040ace0();
     void FUN_0040b480(Script* pkScript);
     void FUN_0040b510(ScriptLocals* pkLocals);
     void* FUN_0040ad00();
-    void FUN_0040b8f0();
-    bool FUN_0040aed0(bool bFlag);
+    void ExtraDataList_RemoveOwnership();
+    bool ExtraDataList_GetWorn(bool bFlag);
     bool FUN_0040c080(bool bFlag);
-    void FUN_0040a250(bool bFlag);
-    void FUN_0041b3c0(ExtraDataList* pkOther);
+    void BaseExtraList_RemoveAll(bool bFlag);
+    void ExtraDataList_DuplicateExtraListForContainer(ExtraDataList* pkOther);
     void FUN_0040b5e0(bool bWorn, bool bLeft);
-    BSExtraData* FUN_0040a4c0(unsigned char ucType);
-    void FUN_0040ecb0(BSExtraData* pkData, bool bDelete);
-    void FUN_0040a320(BSExtraData* pkData);
-    unsigned int FUN_0040a2d0();
+    BSExtraData* BaseExtraList_GetExtraData(unsigned char ucType);
+    void BaseExtraList_RemoveExtra(BSExtraData* pkData, bool bDelete);
+    void BaseExtraList_AddExtra(BSExtraData* pkData);
+    unsigned int BaseExtraList_ItemsInList();
 };
 
 typedef BSSimpleList<ExtraDataList*> ExtraListNode;
@@ -31067,11 +31389,12 @@ struct InventoryEntry
         }
         return 0;
     }
-    bool FUN_0047d260(bool bFlag)
+    // pdb: ItemChange::GetWorn | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+    bool ItemChange_GetWorn(bool bFlag)
     {
         for (ExtraListNode* pkNode = m_pkExtraLists; pkNode && pkNode->GetItem(); pkNode = pkNode->GetNext())
         {
-            if (pkNode->GetItem()->FUN_0040aed0(bFlag))
+            if (pkNode->GetItem()->ExtraDataList_GetWorn(bFlag))
                 return true;
         }
         return false;
@@ -31084,7 +31407,7 @@ struct InventoryEntry
         while (pkNode && pkNode->GetItem())
         {
             ExtraDataList* pkExtra = pkNode->GetItem();
-            if (!pkExtra->FUN_0040c080(false) && (bAll || !pkExtra->FUN_0040aed0(false)))
+            if (!pkExtra->FUN_0040c080(false) && (bAll || !pkExtra->ExtraDataList_GetWorn(false)))
                 iCount += pkExtra->FUN_0040ac80();
             pkNode = pkNode->GetNext();
         }
@@ -31123,10 +31446,11 @@ struct InventoryChanges
 
     TESContainer* GetContainer() { return m_pkOwner ? m_pkOwner->FUN_004e66c0() : 0; }
     InventoryEntry* FUN_0047e180(TESBoundObject* pkForm, int iArg1, int iArg2);
-    void FUN_00485790();
+    void InventoryChanges_InitScripts();
     void FUN_00488b10();
 };
 
+// pdb: InventoryChanges::CleanUpBadData | InventoryChanges.obj | fnv360_0822_retail, call_gap_sim, low
 void InventoryChanges::FUN_00488b10()
 {
     BSSimpleList<ContainerObject*>* pkBase = GetContainer()->GetObjects();
@@ -31154,7 +31478,7 @@ void InventoryChanges::FUN_00488b10()
                         {
                             pkExtra->FUN_0040b900();
                             int iCount = pkExtra->FUN_0040ac80();
-                            pkExtra->FUN_0040b910();
+                            pkExtra->ExtraDataList_RemoveCount();
                             if (pkExtra->IsEmpty())
                             {
                                 pkNode->FUN_00421610(pkExtra);
@@ -31163,7 +31487,7 @@ void InventoryChanges::FUN_00488b10()
                             }
                             else
                             {
-                                pkExtra->FUN_00410170((unsigned short)iCount);
+                                pkExtra->ExtraDataList_SetCount((unsigned short)iCount);
                                 pkNode = pkNode->GetNext();
                             }
                         }
@@ -31173,7 +31497,7 @@ void InventoryChanges::FUN_00488b10()
                 }
             }
 
-            if (pkEntry && FUN_00452670(pkForm) && m_pkOwner == DAT_0107a104 && pkEntry->m_pkExtraLists)
+            if (pkEntry && TESContainer_IsGold(pkForm) && m_pkOwner == DAT_0107a104 && pkEntry->m_pkExtraLists)
             {
                 ExtraListNode* pkNode = pkEntry->m_pkExtraLists;
                 while (pkNode && pkNode->GetItem())
@@ -31201,10 +31525,10 @@ void InventoryChanges::FUN_00488b10()
                                 pkOtherNode->FUN_00415d70();
                                 ExtraDataList* pkCopy = new ExtraDataList;
                                 pkCopy->FUN_0040b480(pkExtra->FUN_0040ace0());
-                                pkCopy->FUN_0040b510(pkCopy->FUN_0040ace0()->FUN_005195c0());
+                                pkCopy->FUN_0040b510(pkCopy->FUN_0040ace0()->Script_CloneLocals());
                                 ScriptEventList* pkEvents = new ScriptEventList;
                                 pkEvents->FUN_004553b0();
-                                pkExtra->FUN_0040ace0()->FUN_00518c40(pkEvents, pkCopy->FUN_0040ad00(), 0, 0);
+                                pkExtra->FUN_0040ace0()->Script_Run(pkEvents, pkCopy->FUN_0040ad00(), 0, 0);
                                 pkOtherNode->FUN_0061c430(pkCopy);
                                 pkOtherNode = pkNode->GetNext();
                             }
@@ -31218,12 +31542,12 @@ void InventoryChanges::FUN_00488b10()
 
             Script* pkScript = GetFormScript(pkForm);
             if (!pkEntry && pkScript)
-                FUN_00485790();
+                InventoryChanges_InitScripts();
             else if (pkEntry && pkEntry->m_iCount >= 0 && pkScript)
             {
                 ExtraListNode* pkNode = pkEntry->m_pkExtraLists;
                 if (!pkNode || pkNode->FUN_00645c20())
-                    FUN_00485790();
+                    InventoryChanges_InitScripts();
                 else
                 {
                     int iMissing = pkEntry->GetCount() - pkNode->FUN_0049fa20();
@@ -31233,10 +31557,10 @@ void InventoryChanges::FUN_00488b10()
                         if (pkExtra && !pkExtra->FUN_0040ace0())
                         {
                             pkExtra->FUN_0040b480(pkScript);
-                            pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->FUN_005195c0());
+                            pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->Script_CloneLocals());
                             ScriptEventList* pkEvents = new ScriptEventList;
                             pkEvents->FUN_004553b0();
-                            pkEntry->FUN_0047d2a0()->FUN_00518c40(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
+                            pkEntry->FUN_0047d2a0()->Script_Run(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
                             delete pkEvents;
                         }
                         pkNode = pkNode->GetNext();
@@ -31246,10 +31570,10 @@ void InventoryChanges::FUN_00488b10()
                     {
                         ExtraDataList* pkExtra = new ExtraDataList;
                         pkExtra->FUN_0040b480(pkEntry->FUN_0047d2a0());
-                        pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->FUN_005195c0());
+                        pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->Script_CloneLocals());
                         ScriptEventList* pkEvents = new ScriptEventList;
                         pkEvents->FUN_004553b0();
-                        pkScript->FUN_00518c40(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
+                        pkScript->Script_Run(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
                         delete pkEvents;
                         pkNode->FUN_0049fac0(pkExtra);
                     }
@@ -31267,16 +31591,16 @@ void InventoryChanges::FUN_00488b10()
                     {
                         pkWorn = pkNode->GetItem();
                         pkNode = pkNode->GetNext();
-                        pkWorn->FUN_0040b8f0();
+                        pkWorn->ExtraDataList_RemoveOwnership();
                     }
                 }
 
-                if (pkEntry->FUN_0047d260(false) && !pkEntry->FUN_0047ce90())
+                if (pkEntry->ItemChange_GetWorn(false) && !pkEntry->FUN_0047ce90())
                 {
                     if (pkEntry->m_iCount > 0 && pkEntry->m_iCount >= pkBase->GetItem()->m_iCount)
                         pkEntry->m_iCount = 0;
                 }
-                else if (pkEntry->FUN_0047d260(false) && pkEntry->FUN_0047ce90())
+                else if (pkEntry->ItemChange_GetWorn(false) && pkEntry->FUN_0047ce90())
                 {
                     if (pkEntry->m_iCount < 0)
                         pkEntry->FUN_00480390(0, 0, true);
@@ -31288,12 +31612,12 @@ void InventoryChanges::FUN_00488b10()
                         {
                             ExtraDataList* pkExtra = pkNode->GetItem();
                             pkNode = pkNode->GetNext();
-                            if (pkExtra && pkExtra->FUN_0040aed0(false) && !pkWorn)
+                            if (pkExtra && pkExtra->ExtraDataList_GetWorn(false) && !pkWorn)
                                 pkWorn = pkExtra;
                             else if (pkWorn)
                             {
-                                pkWorn->FUN_0040a250(true);
-                                pkWorn->FUN_0041b3c0(pkExtra);
+                                pkWorn->BaseExtraList_RemoveAll(true);
+                                pkWorn->ExtraDataList_DuplicateExtraListForContainer(pkExtra);
                                 pkWorn->FUN_0040b5e0(true, false);
                                 pkEntry->GetExtraLists()->FUN_006c8220();
                                 pkEntry->GetExtraLists()->FUN_0049fac0(pkWorn);
@@ -31303,7 +31627,7 @@ void InventoryChanges::FUN_00488b10()
                     if (pkEntry->m_iCount < pkEntry->FUN_0047ce40(false))
                         pkEntry->m_iCount = pkEntry->FUN_0047ce40(false);
                 }
-                else if (pkEntry->FUN_0047d260(false))
+                else if (pkEntry->ItemChange_GetWorn(false))
                 {
                     if (pkEntry->m_iCount < pkEntry->FUN_0047ce40(false))
                         pkEntry->m_iCount = pkEntry->FUN_0047ce40(false);
@@ -31314,8 +31638,8 @@ void InventoryChanges::FUN_00488b10()
                         {
                             ExtraDataList* pkExtra = pkNode->GetItem();
                             pkNode = pkNode->GetNext();
-                            if (pkExtra && pkExtra->FUN_0040aed0(false))
-                                pkExtra->FUN_00410170((unsigned short)pkEntry->m_iCount);
+                            if (pkExtra && pkExtra->ExtraDataList_GetWorn(false))
+                                pkExtra->ExtraDataList_SetCount((unsigned short)pkEntry->m_iCount);
                         }
                     }
                 }
@@ -31345,15 +31669,15 @@ void InventoryChanges::FUN_00488b10()
                             BSExtraData* pkData = pkExtra->GetHead();
                             while (pkData)
                             {
-                                if (pkDest->FUN_0040a4c0(pkData->GetType()))
+                                if (pkDest->BaseExtraList_GetExtraData(pkData->GetType()))
                                 {
-                                    pkExtra->FUN_0040ecb0(pkData, true);
+                                    pkExtra->BaseExtraList_RemoveExtra(pkData, true);
                                     pkData = pkExtra->GetHead();
                                 }
                                 else
                                 {
-                                    pkExtra->FUN_0040ecb0(pkData, false);
-                                    pkDest->FUN_0040a320(pkData);
+                                    pkExtra->BaseExtraList_RemoveExtra(pkData, false);
+                                    pkDest->BaseExtraList_AddExtra(pkData);
                                     pkData = pkExtra->GetHead();
                                 }
                             }
@@ -31374,7 +31698,7 @@ void InventoryChanges::FUN_00488b10()
                     while (pkNode && pkNode->GetItem())
                     {
                         ExtraDataList* pkExtra = pkNode->GetItem();
-                        if (pkExtra->FUN_0040a2d0() < 1)
+                        if (pkExtra->BaseExtraList_ItemsInList() < 1)
                         {
                             pkNode->FUN_00415d70();
                             pkExtra = 0;
@@ -31421,7 +31745,7 @@ void InventoryChanges::FUN_00488b10()
                     {
                         pkExtra->FUN_0040b900();
                         int iCount = pkExtra->FUN_0040ac80();
-                        pkExtra->FUN_0040b910();
+                        pkExtra->ExtraDataList_RemoveCount();
                         if (pkExtra->IsEmpty())
                         {
                             pkNode->FUN_00421610(pkExtra);
@@ -31430,7 +31754,7 @@ void InventoryChanges::FUN_00488b10()
                         }
                         else
                         {
-                            pkExtra->FUN_00410170((unsigned short)iCount);
+                            pkExtra->ExtraDataList_SetCount((unsigned short)iCount);
                             pkNode = pkNode->GetNext();
                         }
                     }
@@ -31460,10 +31784,10 @@ void InventoryChanges::FUN_00488b10()
                             pkOtherNode->FUN_00415d70();
                             ExtraDataList* pkCopy = new ExtraDataList;
                             pkCopy->FUN_0040b480(pkExtra->FUN_0040ace0());
-                            pkCopy->FUN_0040b510(pkCopy->FUN_0040ace0()->FUN_005195c0());
+                            pkCopy->FUN_0040b510(pkCopy->FUN_0040ace0()->Script_CloneLocals());
                             ScriptEventList* pkEvents = new ScriptEventList;
                             pkEvents->FUN_004553b0();
-                            pkExtra->FUN_0040ace0()->FUN_00518c40(pkEvents, pkCopy->FUN_0040ad00(), 0, 0);
+                            pkExtra->FUN_0040ace0()->Script_Run(pkEvents, pkCopy->FUN_0040ad00(), 0, 0);
                             pkOtherNode->FUN_0061c430(pkCopy);
                             pkOtherNode = pkNode->GetNext();
                         }
@@ -31482,7 +31806,7 @@ void InventoryChanges::FUN_00488b10()
             {
                 ExtraListNode* pkNode = pkEntry->m_pkExtraLists;
                 if (!pkNode || pkNode->FUN_00645c20())
-                    FUN_00485790();
+                    InventoryChanges_InitScripts();
                 else
                 {
                     int iMissing = pkEntry->GetCount() - pkNode->FUN_0049fa20();
@@ -31492,10 +31816,10 @@ void InventoryChanges::FUN_00488b10()
                         if (pkExtra && !pkExtra->FUN_0040ace0())
                         {
                             pkExtra->FUN_0040b480(pkScript);
-                            pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->FUN_005195c0());
+                            pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->Script_CloneLocals());
                             ScriptEventList* pkEvents = new ScriptEventList;
                             pkEvents->FUN_004553b0();
-                            pkEntry->FUN_0047d2a0()->FUN_00518c40(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
+                            pkEntry->FUN_0047d2a0()->Script_Run(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
                         }
                         pkNode = pkNode->GetNext();
                     }
@@ -31504,10 +31828,10 @@ void InventoryChanges::FUN_00488b10()
                     {
                         ExtraDataList* pkExtra = new ExtraDataList;
                         pkExtra->FUN_0040b480(pkEntry->FUN_0047d2a0());
-                        pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->FUN_005195c0());
+                        pkExtra->FUN_0040b510(pkExtra->FUN_0040ace0()->Script_CloneLocals());
                         ScriptEventList* pkEvents = new ScriptEventList;
                         pkEvents->FUN_004553b0();
-                        pkScript->FUN_00518c40(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
+                        pkScript->Script_Run(pkEvents, pkExtra->FUN_0040ad00(), 0, 0);
                         delete pkEvents;
                         pkNode->FUN_0049fac0(pkExtra);
                     }
@@ -31529,11 +31853,11 @@ void InventoryChanges::FUN_00488b10()
                 {
                     pkWorn = pkNode->GetItem();
                     pkNode = pkNode->GetNext();
-                    pkWorn->FUN_0040b8f0();
+                    pkWorn->ExtraDataList_RemoveOwnership();
                 }
             }
 
-            if (pkEntry->FUN_0047d260(false))
+            if (pkEntry->ItemChange_GetWorn(false))
             {
                 ExtraListNode* pkNode = pkEntry->GetExtraLists();
                 int iSum = 0;
@@ -31552,8 +31876,8 @@ void InventoryChanges::FUN_00488b10()
                     {
                         ExtraDataList* pkExtra = pkWornNode->GetItem();
                         pkWornNode = pkWornNode->GetNext();
-                        if (pkExtra && pkExtra->FUN_0040aed0(false))
-                            pkExtra->FUN_00410170((unsigned short)pkEntry->m_iCount);
+                        if (pkExtra && pkExtra->ExtraDataList_GetWorn(false))
+                            pkExtra->ExtraDataList_SetCount((unsigned short)pkEntry->m_iCount);
                     }
                 }
             }
@@ -31566,12 +31890,12 @@ void InventoryChanges::FUN_00488b10()
             {
                 ExtraDataList* pkExtra = pkNode->GetItem();
                 if (pkExtra && pkExtra->FUN_0040ace0())
-                    pkExtra->FUN_0040b910();
+                    pkExtra->ExtraDataList_RemoveCount();
                 pkNode = pkNode->GetNext();
             }
         }
 
-        if (pkEntry && FUN_00452670(pkEntryForm) && m_pkOwner == DAT_0107a104 && pkEntry->m_pkExtraLists)
+        if (pkEntry && TESContainer_IsGold(pkEntryForm) && m_pkOwner == DAT_0107a104 && pkEntry->m_pkExtraLists)
         {
             ExtraListNode* pkNode = pkEntry->m_pkExtraLists;
             while (pkNode && pkNode->GetItem())
@@ -31612,15 +31936,15 @@ void InventoryChanges::FUN_00488b10()
                             BSExtraData* pkData = pkExtra->GetHead();
                             while (pkData)
                             {
-                                if (pkDest->FUN_0040a4c0(pkData->GetType()))
+                                if (pkDest->BaseExtraList_GetExtraData(pkData->GetType()))
                                 {
-                                    pkExtra->FUN_0040ecb0(pkData, true);
+                                    pkExtra->BaseExtraList_RemoveExtra(pkData, true);
                                     pkData = pkExtra->GetHead();
                                 }
                                 else
                                 {
-                                    pkExtra->FUN_0040ecb0(pkData, false);
-                                    pkDest->FUN_0040a320(pkData);
+                                    pkExtra->BaseExtraList_RemoveExtra(pkData, false);
+                                    pkDest->BaseExtraList_AddExtra(pkData);
                                     pkData = pkExtra->GetHead();
                                 }
                             }
@@ -31639,7 +31963,7 @@ void InventoryChanges::FUN_00488b10()
                 while (pkNode && pkNode->GetItem())
                 {
                     ExtraDataList* pkExtra = pkNode->GetItem();
-                    if (pkExtra->FUN_0040a2d0() < 1)
+                    if (pkExtra->BaseExtraList_ItemsInList() < 1)
                     {
                         pkNode->FUN_00415d70();
                         pkExtra = 0;
@@ -31685,7 +32009,7 @@ struct Stream130 {
     virtual bool __thiscall v01C(int one, int zero);
     virtual int __thiscall u20();
     virtual unsigned int __thiscall v024();
-    void __thiscall FUN_0048be50(unsigned int first, unsigned int second);
+    void __thiscall NiBinaryStream_Read(unsigned int first, unsigned int second);
     unsigned int Read(void* buffer, unsigned int size) {
         unsigned int count = 1;
         unsigned int bytesRead = read(this, buffer, size, &count, 1);
@@ -31703,6 +32027,8 @@ bool __cdecl FUN_0048c070(Stream130* stream, unsigned char* out, unsigned int si
 int __cdecl FUN_0048be80(void* buf, unsigned int n);
 }
 
+// pdb: LipSynchAnim::LoadFromFile | LipSynchAnim.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFile
 int __cdecl FUN_0048c130(f3m_0048c130::Stream130* s, int a2, int a3) {
     using namespace f3m_0048c130;
     if (s) {
@@ -31716,7 +32042,7 @@ int __cdecl FUN_0048c130(f3m_0048c130::Stream130* s, int a2, int a3) {
                 size2 -= 1;
                 s->v014(one, DAT_00e2c4d0);
                 unsigned char* buf = (unsigned char*)f3m_0048c130::DAT_01090a78.FUN_0086b930(size2);
-                s->FUN_0048be50((unsigned int)buf, size2);
+                s->NiBinaryStream_Read((unsigned int)buf, size2);
                 unsigned int n = 0;
 
                 unsigned char* e = buf + size2;
@@ -31746,7 +32072,7 @@ int __cdecl FUN_0048c130(f3m_0048c130::Stream130* s, int a2, int a3) {
             if (hdr.flag & 1)
                 FUN_0048c070(s, buf2, size2, hdr.size);
             else
-                s->FUN_0048be50((unsigned int)buf2, hdr.size);
+                s->NiBinaryStream_Read((unsigned int)buf2, hdr.size);
             int result = FUN_0048be80(buf2, hdr.size);
             s->v000(one);
             f3m_0048c130::DAT_01090a78.FUN_0086ba60(buf2);
@@ -31911,6 +32237,7 @@ public:
     void FUN_00485660();
 };
 
+// pdb: InventoryChanges::RemoveDefaultLeveledItems | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
 void Changes::FUN_00485660()
 {
     pRef->MarkAsModified(0x8000000);
@@ -31969,6 +32296,8 @@ struct Owner_0049dd70 {
     void FUN_0049dd70(float fTime, UpdateOwner* target);
 };
 
+// pdb: BSBipNode::UpdateBipOnly | BSBipNode.obj | fnv360_0822_retail, call_seq, low, conflict (bridge: Animation::UpdateBipOnly)
+// pdb params: afTime, apAccumRoot
 void Owner_0049dd70::FUN_0049dd70(float fTime, UpdateOwner* target)
 {
     *(int*)((char*)&DAT_0117c000 + 0x2a0) = 3;
@@ -32418,6 +32747,7 @@ Geometry49* FUN_004941a0(Ref49*);
 bool FUN_00493f10(Ref49*,Camera49*);
 void FUN_004943c0();
 };
+// pdb: TESWaterSystem::RenderWadingWaterStencil | TESWater.obj | fnv360_0822_retail, call_gap_sim, low
 void Owner49::FUN_004943c0() {
  Camera49 camera;
  float high=FLT_MAX;
@@ -32509,7 +32839,7 @@ struct XListA0 {
     XListA0();
     bool FUN_0040c080(bool a);
     void FUN_0040e1b0(char hotkey);
-    void FUN_00410170(unsigned short count);
+    void ExtraDataList_SetCount(unsigned short count);
     static void* operator new(unsigned n) { return DAT_01090a78.FUN_0086b930(n); }
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
@@ -32534,7 +32864,7 @@ struct EntryA0 {
     FormA0* GetType() { return type; }
     int GetCount() { return countDelta; }
     int FUN_0047ce40(bool worn);
-    bool FUN_0047d260(bool worn);
+    bool ItemChange_GetWorn(bool worn);
     static void* operator new(unsigned n) { return DAT_01090a78.FUN_0086b930(n); }
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
@@ -32544,6 +32874,8 @@ struct ChangesA0 {
     EntryA0* FUN_0047e180(FormA0* f, int create, int unused);
     void FUN_00480a00(EntryA0* entry, XListA0* extra, unsigned int hotkey);
 };
+// pdb: InventoryChanges::SetHotKeyItem | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apItem, apExtra, aiKey
 void ChangesA0::FUN_00480a00(EntryA0* entry, XListA0* extra, unsigned int hotkey)
 {
     HeapCtxA0 ctx(0x36);
@@ -32565,7 +32897,7 @@ void ChangesA0::FUN_00480a00(EntryA0* entry, XListA0* extra, unsigned int hotkey
                 XListA0* xl = new XListA0;
                 xl->FUN_0040e1b0(hotkey);
                 int cnt = found->countDelta;
-                xl->FUN_00410170(cnt - (found->FUN_0047d260(false) ? 1 : 0) - found->FUN_0047ce40(false));
+                xl->ExtraDataList_SetCount(cnt - (found->ItemChange_GetWorn(false) ? 1 : 0) - found->FUN_0047ce40(false));
                 NodeA0<XListA0*>* lst = found->extendData;
                 lst->FUN_0049fac0(xl);
             } else {
@@ -32600,7 +32932,7 @@ struct Item
     static void operator delete(void* p);
     Item();
     void FUN_0040b5e0(int a, void* b);
-    bool FUN_0040aed0(void* b);
+    bool ExtraDataList_GetWorn(void* b);
 };
 
 struct Node
@@ -32639,10 +32971,12 @@ struct FUN_0040eda0 : Item
 struct Owner
 {
     Node* list;
-    bool FUN_0047d260(void* b);
+    bool ItemChange_GetWorn(void* b);
     void FUN_00480390(bool add, void* b, bool free);
 };
 
+// pdb: ItemChange::SetWorn | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abflag, ableft, abdelete
 void Owner::FUN_00480390(bool add, void* b, bool free)
 {
     Item* item;
@@ -32655,14 +32989,14 @@ void Owner::FUN_00480390(bool add, void* b, bool free)
         list->FUN_0049fac0(&item);
         return;
     }
-    if (!FUN_0047d260(b))
+    if (!ItemChange_GetWorn(b))
         return;
     Node* node = list;
     while (node && node->item)
     {
         item = node->item;
         Item* cur = item;
-        if (item->FUN_0040aed0(b))
+        if (item->ExtraDataList_GetWorn(b))
         {
             node->FUN_00421610(&item);
             if (free)
@@ -32893,8 +33227,8 @@ struct MemoryScope {unsigned saved;MemoryScope(){saved=DAT_0117c298;DAT_0117c298
 struct HeapArmor { void* FUN_0086b930(unsigned int size); void FUN_0086ba60(void* p); };
 extern HeapArmor DAT_01090a78;
 struct ExtraDataList {
-    bool FUN_0040af00();
-    void* FUN_0040a4c0(int type);
+    bool ExtraDataList_GetCanNotWear();
+    void* BaseExtraList_GetExtraData(int type);
     float FUN_0040ac20();
 };
 struct ExtraNode {
@@ -32925,7 +33259,7 @@ __declspec(noinline) void ExtraNode::FUN_0049fac0(ExtraDataList** data) {
     item = *data;
 }
 // The list goes in as a parameter: its load is then a named value, not an expression temporary.
-inline bool IsFirstWorn(ExtraNode* list) { return list->item->FUN_0040af00(); }
+inline bool IsFirstWorn(ExtraNode* list) { return list->item->ExtraDataList_GetCanNotWear(); }
 struct ChangeNode { Entry* item; ChangeNode* next; };
 struct BaseItem { int count; TESBoundObject* object; };
 struct BaseNode { BaseItem* item; BaseNode* next; };
@@ -32933,7 +33267,7 @@ struct Container { int unk00; BaseNode list; bool FUN_004528c0(TESObjectARMO* ar
 struct OwnerObject { Container* FUN_004e66c0(); };
 unsigned int __cdecl FUN_00456720(TESObjectARMO* armor);
 float __cdecl FUN_00582720(unsigned short rating, float health);
-__forceinline float GetHealth(ExtraDataList* data, TESObjectARMO* armor) { return data->FUN_0040a4c0(0x25) ? data->FUN_0040ac20() : (float)FUN_00456720(armor); }
+__forceinline float GetHealth(ExtraDataList* data, TESObjectARMO* armor) { return data->BaseExtraList_GetExtraData(0x25) ? data->FUN_0040ac20() : (float)FUN_00456720(armor); }
 __forceinline unsigned short ScaledRating(TESObjectARMO* armor) { float value = (float)(armor->rating / 100.0); return (unsigned short)value; }
 struct InventoryOwner {
     ChangeNode* changes;
@@ -32942,6 +33276,8 @@ struct InventoryOwner {
     Container* GetContainer() { return owner ? owner->FUN_004e66c0() : 0; }
     Entry* FUN_00488040(int unused, int mask, bool equipped);
 };
+// pdb: InventoryChanges::GetBestArmor | InventoryChanges.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apActorBase, aeBodySlot, abUseCanNotWear
 Entry* InventoryOwner::FUN_00488040(int unused, int mask, bool equipped)
 {
     MemoryScope scope;
@@ -33131,10 +33467,11 @@ struct Owner {
     Source* unk04;
     Info* FUN_0047e180(Form* form, int a, int b);
     Data* GetData() { return unk04 ? unk04->FUN_004e66c0() : 0; }
-    Result* FUN_004852e0(Form* form, int b);
+    Result* InventoryChanges_GetInventoryItem(Form* form, int b);
 };
 
-Result* Owner::FUN_004852e0(Form* form, int b)
+// pdb: InventoryChanges::GetInventoryItem | InventoryChanges.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller), high
+Result* Owner::InventoryChanges_GetInventoryItem(Form* form, int b)
 {
     Info* info = FUN_0047e180(form, 1, b);
     Result* result = 0;
@@ -33437,6 +33774,8 @@ struct Owner {
     FormMap map;
     void FUN_00496f80(Form* item);
 };
+// pdb: TESWaterSystem::RemoveTESObjectFromAllAutoWaterGroups | TESWater.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apObjectRef
 void Owner::FUN_00496f80(Form* item)
 {
     KeyMap* keys = item->extra.FUN_0040e710();
@@ -33576,16 +33915,16 @@ struct ExtraDataList
     static void* operator new(unsigned int uiSize) { return DAT_01090a78.FUN_0086b930(uiSize); }
     static void operator delete(void* pvMem) { DAT_01090a78.FUN_0086ba60(pvMem); }
     ExtraDataList();
-    bool FUN_0040ac70();
-    bool FUN_0040a870(ExtraDataList* pkOther);
+    bool ExtraDataList_HasLeveledItem();
+    bool ExtraDataList_CompareList(ExtraDataList* pkOther);
     short FUN_0040ac80();
-    void FUN_0041b260(ExtraDataList* pkSource);
-    void FUN_00410170(short sCount);
+    void ExtraDataList_CopyList(ExtraDataList* pkSource);
+    void ExtraDataList_SetCount(short sCount);
     signed char FUN_0040e260();
     void FUN_0040e280();
     void FUN_0040b5e0(bool bWorn, bool bFlag);
-    bool FUN_0040af00();
-    void FUN_0040b6f0(bool bFlag);
+    bool ExtraDataList_GetCanNotWear();
+    void ExtraDataList_SetCanNotWear(bool bFlag);
 };
 
 typedef BSSimpleList<ExtraDataList> ExtraListNode;
@@ -33602,7 +33941,7 @@ struct InventoryEntry
     int GetCount() const { return m_iCount; }
     int FUN_0047ce40(int iAll);
     int FUN_0047fe70();
-    bool FUN_0047d260(int iFlag);
+    bool ItemChange_GetWorn(int iFlag);
     void FUN_00424690(int iFree);
 
     // Puts an extra list at the head of the entry's lists unless it is there already.
@@ -33653,7 +33992,7 @@ struct TESForm
     unsigned int unkf4;
     float m_fChargeF8;               // weapon
 
-    bool FUN_0047cb00();             // weapon type test
+    bool TESObjectWEAP_IsThrownWeapon();             // weapon type test
     float GetCharge() { return m_fChargeF8; }
 };
 
@@ -34332,7 +34671,7 @@ struct TESObjectREFR
     LoadedData* GetLoadedData() { return m_pkLoadedData; }
     TESContainer* FUN_004e66c0();
     void FUN_00701ab0(int iArg);
-    ChargeTarget* FUN_006f8f30();
+    ChargeTarget* Actor_GetAnimation();
     void FUN_004f5750(TESForm* pkForm);
     void FUN_0078c030(TESForm* pkForm);
     void FUN_00701b40(TESForm* pkForm);
@@ -34381,6 +34720,8 @@ struct InventoryChanges
                       bool bMode);
 };
 
+// pdb: InventoryChanges::AddWorn | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject, aiNumber, apActor, apExtra, ableft, abForceEquip
 void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* pkActor, ExtraDataList* pkExtra,
                                     bool bFlag, bool bMode)
 {
@@ -34420,7 +34761,7 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
     {
         // Keeps the list head from being reused from the test above; see the closing notes.
         _ReadWriteBarrier();
-        if (pkEntry->m_pkExtraLists->m_item && pkEntry->m_pkExtraLists->m_item->FUN_0040ac70())
+        if (pkEntry->m_pkExtraLists->m_item && pkEntry->m_pkExtraLists->m_item->ExtraDataList_HasLeveledItem())
             iAvailable = iBaseCount - iExtended;
         if (pkExtra)
         {
@@ -34431,7 +34772,7 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
                 while (pkNode && pkNode->m_item)
                 {
                     ExtraDataList* pkOther = pkNode->m_item;
-                    if (pkOther && !pkOther->FUN_0040a870(pkExtra))
+                    if (pkOther && !pkOther->ExtraDataList_CompareList(pkExtra))
                     {
                         pkExtra = pkOther;
                         bFound = true;
@@ -34458,7 +34799,7 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
     }
     else
     {
-        if (pkEntry->FUN_0047d260(0))
+        if (pkEntry->ItemChange_GetWorn(0))
             return;
         ExtraListNode* pkNode = pkEntry->m_pkExtraLists;
         while (pkNode)
@@ -34468,20 +34809,20 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
             pkSelected = pkNode->m_item;
             if (pkExtra && pkExtra == pkSelected)
             {
-                bCreate = pkItem->m_ucFormType == 0x28 && pkItem->FUN_0047cb00();
+                bCreate = pkItem->m_ucFormType == 0x28 && pkItem->TESObjectWEAP_IsThrownWeapon();
                 if (pkSelected->FUN_0040ac80() > 1 && pkItem->m_ucFormType != 0x29 && !bCreate)
                 {
                     pkExtra = new ExtraDataList;
-                    pkExtra->FUN_0041b260(pkSelected);
-                    pkExtra->FUN_00410170(1);
-                    pkSelected->FUN_00410170(pkSelected->FUN_0040ac80() - 1);
+                    pkExtra->ExtraDataList_CopyList(pkSelected);
+                    pkExtra->ExtraDataList_SetCount(1);
+                    pkSelected->ExtraDataList_SetCount(pkSelected->FUN_0040ac80() - 1);
                     if (pkSelected->FUN_0040e260() >= 0)
                         pkSelected->FUN_0040e280();
                 }
                 else
                 {
                     pkSelected->FUN_0040b5e0(true, bFlag);
-                    pkSelected->FUN_00410170(pkEntry->GetCount());
+                    pkSelected->ExtraDataList_SetCount(pkEntry->GetCount());
                 }
                 bCreate = false;
                 continue;
@@ -34492,13 +34833,13 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
                     pkExtra = pkSelected;
                 else
                 {
-                    bCreate = pkItem->m_ucFormType == 0x28 && pkItem->FUN_0047cb00();
+                    bCreate = pkItem->m_ucFormType == 0x28 && pkItem->TESObjectWEAP_IsThrownWeapon();
                     if (pkSelected->FUN_0040ac80() > 1 && pkItem->m_ucFormType != 0x29 && !bCreate)
                     {
                         pkExtra = new ExtraDataList;
-                        pkExtra->FUN_0041b260(pkSelected);
-                        pkExtra->FUN_00410170(1);
-                        pkSelected->FUN_00410170(pkSelected->FUN_0040ac80() - 1);
+                        pkExtra->ExtraDataList_CopyList(pkSelected);
+                        pkExtra->ExtraDataList_SetCount(1);
+                        pkSelected->ExtraDataList_SetCount(pkSelected->FUN_0040ac80() - 1);
                         if (pkSelected->FUN_0040e260() >= 0)
                             pkSelected->FUN_0040e280();
                     }
@@ -34510,10 +34851,10 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
             }
             pkNode = pkNode->m_pkNext;
         }
-        if (pkExtra && !pkExtra->FUN_0040af00())
+        if (pkExtra && !pkExtra->ExtraDataList_GetCanNotWear())
         {
             pkExtra->FUN_0040b5e0(true, bFlag);
-            pkExtra->FUN_00410170(iCount);
+            pkExtra->ExtraDataList_SetCount(iCount);
             bCreate = false;
             pkEntry->AddExtraList(pkExtra);
             pkSelected = pkExtra;
@@ -34524,11 +34865,11 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
         pkSelected = new ExtraDataList;
         pkSelected->FUN_0040b5e0(true, bFlag);
         if (iCount > 1)
-            pkSelected->FUN_00410170(iCount);
+            pkSelected->ExtraDataList_SetCount(iCount);
         pkTarget->AddExtraList(pkSelected);
     }
     if (pkSelected)
-        pkSelected->FUN_0040b6f0(bMode);
+        pkSelected->ExtraDataList_SetCanNotWear(bMode);
 
     if (pkActor->GetProcess())
     {
@@ -34559,7 +34900,7 @@ void InventoryChanges::FUN_00480c70(TESForm* pkItem, int iCount, TESObjectREFR* 
                 }
                 else
                 {
-                    ChargeTarget* pkCharge = pkActor->FUN_006f8f30();
+                    ChargeTarget* pkCharge = pkActor->Actor_GetAnimation();
                     if (pkCharge)
                         pkCharge->FUN_0047cb40(pkWeapon->m_pkForm->GetCharge());
                 }
@@ -34818,6 +35159,7 @@ public:
     Created49bd* FUN_0049b7b0(Data49bd* data, int unused, float scale);
     void FUN_0049bd30();
 };
+// pdb: TESWaterSystem::UpdateActorsInWater | TESWater.obj | fnv360_0822_retail, call_gap, low
 void Owner49bd::FUN_0049bd30()
 {
     Player49bd* player = DAT_0107a0d8->unk34;
@@ -35837,6 +36179,7 @@ int unk8C;
 int unk90;
 int unk94;
 int unk98; bool enabled; void FUN_00494aa0(Vec4,int); void FUN_00497f50(); };
+// pdb: TESWaterSystem::MTRenderWorldReflectionTexture | TESWater.obj | fnv360_0721_beta, objrun, medium
 void Owner::FUN_00497f50() {
  MemScope scope(29);
  if (!DAT_0106fe0c || !DAT_0106fe2c) return;
@@ -36054,7 +36397,7 @@ struct MoveOwner
     unsigned int unk04, unk08, unk0c, unk10, unk14, unk18;
     TESBoundObject* baseForm;
     TESBoundObject* GetObjectReference() { return baseForm; }
-    bool FUN_006f8ff0(TESBoundObject* form);
+    bool Actor_IsInFaction(TESBoundObject* form);
     unsigned int FUN_006f7c80(TESBoundObject* object, bool a, bool b);
 };
 extern MoveOwner* DAT_0107a104;
@@ -36128,7 +36471,7 @@ struct MoveString
         return FUN_00403870(format, args);
     }
 };
-const char* FUN_004526e0(TESBoundObject* object);
+const char* TESFullName_GetFullName(TESBoundObject* object);
 int __cdecl FUN_00403230(char* buffer, unsigned int size, const char* format, ...);
 const char* FUN_0045ba50(TESBoundObject* object, MoveOwner* owner);
 void FUN_0061b850(const char* text, int a, const char* icon, unsigned int sound, float seconds);
@@ -36136,11 +36479,13 @@ void FUN_0061b850(const char* text, int a, const char* icon, unsigned int sound,
 struct InventoryMove
 {
     MoveItemNode* head;
-    void FUN_00481c10(MoveOwner* owner, TESBoundObject* object, bool retainOwner, int count, MoveExtra* extra, int a,
+    void InventoryChanges_RemoveItem(MoveOwner* owner, TESBoundObject* object, bool retainOwner, int count, MoveExtra* extra, int a,
                       MoveOwner* destination, int b, int c, bool d, int e);
     void FUN_00488760(MoveOwner* source, MoveOwner* destination, TESBoundObject* onlyForm);
 };
 
+// pdb: InventoryChanges::RemoveStolenItems | InventoryChanges.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apRef, apStolenContainer, apOwner
 void InventoryMove::FUN_00488760(MoveOwner* source, MoveOwner* destination, TESBoundObject* onlyForm)
 {
     MoveItem* item = 0;
@@ -36182,7 +36527,7 @@ void InventoryMove::FUN_00488760(MoveOwner* source, MoveOwner* destination, TESB
                         if (actor && !onlyForm)
                             onlyForm = actor->GetObjectReference();
                         if (extra->FUN_0040abc0() && extra->FUN_0040abc0() != (TESBoundObject*)source &&
-                            (!actor || actor->GetObjectReference() == ownerForm || actor->FUN_006f8ff0(ownerFaction)))
+                            (!actor || actor->GetObjectReference() == ownerForm || actor->Actor_IsInFaction(ownerFaction)))
                         {
 
                             if (item->GetExtraList()->ItemsInList() <= 1)
@@ -36196,12 +36541,12 @@ void InventoryMove::FUN_00488760(MoveOwner* source, MoveOwner* destination, TESB
                                 int copies = extra->FUN_0040ac80();
                                 if (copies > 1)
                                 {
-                                    formattedItem.FUN_00403a00("%i %s%s %s", copies, FUN_004526e0(form),
+                                    formattedItem.FUN_00403a00("%i %s%s %s", copies, TESFullName_GetFullName(form),
                                                  DAT_00f62d74.GetString(), DAT_00f62da4.GetString());
                                 }
                                 else
                                 {
-                                    formattedItem.FUN_00403a00("%s %s", FUN_004526e0(form),
+                                    formattedItem.FUN_00403a00("%s %s", TESFullName_GetFullName(form),
                                                  DAT_00f62da4.GetString());
                                 }
                                 char iconPath[260];
@@ -36211,7 +36556,7 @@ void InventoryMove::FUN_00488760(MoveOwner* source, MoveOwner* destination, TESB
                                              "Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds",
                                              DAT_0107a104->FUN_006f7c80(form, false, false), 2.0f);
                             }
-                            FUN_00481c10(source, form, false, extra->FUN_0040ac80(), extra, 0, destination, 0, 0, true,
+                            InventoryChanges_RemoveItem(source, form, false, extra->FUN_0040ac80(), extra, 0, destination, 0, 0, true,
                                          0);
                             itemNode = head;
                         }
@@ -36401,6 +36746,8 @@ struct ContainerChanges {
 // Calls callback(entry, param) for every inventory entry: first the base container items that have
 // no changed entry, then the changed entries with their total count; stops when the callback
 // returns true. Returns the number of entries visited.
+// pdb: InventoryChanges::IterateInventory | InventoryChanges.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCallback, apData, aiIterateFlags
 int ContainerChanges::FUN_00486ad0(EntryCallback callback, void* param, int flags)
 {
     int count = 0;
@@ -36932,10 +37279,11 @@ inline bool IsWaterSimple() { return DAT_0106fd48; }
 
 struct WaterMgrW {
     GeomW* FUN_004941a0(WaterRefW* ref);
-    void FUN_00495010(WaterGroupW* group, WaterRefW* ref);
+    void TESWaterSystem_UpdateWaterShaderProperties(WaterGroupW* group, WaterRefW* ref);
 };
 
-void WaterMgrW::FUN_00495010(WaterGroupW* group, WaterRefW* ref)
+// pdb: TESWaterSystem::UpdateWaterShaderProperties | TESWater.obj | fnv360_0721_beta, udata, high
+void WaterMgrW::TESWaterSystem_UpdateWaterShaderProperties(WaterGroupW* group, WaterRefW* ref)
 {
     GeomW* geometry = FUN_004941a0(ref);
     if (geometry)
@@ -37511,8 +37859,8 @@ struct Owner {
     bool FUN_00493f10(Ref* ref, Camera* camera);
     SubOwner* FUN_004941a0(Ref* ref);
     void FUN_00495a70(Entry* entry, int unused1, int unused2);
-    void FUN_00497910(Camera* camera);
-    void FUN_00497d30(Camera* camera);
+    void TESWaterSystem_MTSetupWorldReflectionTexture(Camera* camera);
+    void TESWaterSystem_MTSetupSkyReflectionTexture(Camera* camera);
     void FUN_00497160(Camera* camera, Entry* entry, bool special);
     void FUN_00498350(Camera* camera, Entry* entry);
     void FUN_00497f50();
@@ -37521,11 +37869,13 @@ struct Owner {
     void FUN_00496010(Entry* entry);
     void FUN_004947e0(Camera* source, Entry* entry, bool initial, unsigned short index);
     void FUN_004965a0(Entry* entry, unsigned short index);
-    void FUN_00495010(Entry* entry, Ref* ref);
-    void FUN_00495410(Entry* entry);
+    void TESWaterSystem_UpdateWaterShaderProperties(Entry* entry, Ref* ref);
+    void TESWaterSystem_UpdateWaterNoise(Entry* entry);
     void FUN_00498cf0(Camera* camera, bool force);
 };
 
+// pdb: TESWaterSystem::UpdatePlaceableWater | TESWater.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apCamera, abForceUpdate
 void Owner::FUN_00498cf0(Camera* camera, bool force)
 {
     bool anyVisible = false;
@@ -37635,12 +37985,12 @@ void Owner::FUN_00498cf0(Camera* camera, bool force)
             if (DAT_0106fd56) {
                 DAT_0106fd5c = unk00;
                 unk00++;
-                FUN_00497910(camera);
+                TESWaterSystem_MTSetupWorldReflectionTexture(camera);
             }
             if (DAT_0106fd57) {
                 DAT_0106fd60 = unk00;
                 unk00++;
-                FUN_00497d30(camera);
+                TESWaterSystem_MTSetupSkyReflectionTexture(camera);
             }
         }
         iter = entries.GetHead();
@@ -37755,10 +38105,10 @@ void Owner::FUN_00498cf0(Camera* camera, bool force)
                     while (refIter) {
                         RefNode* refNext = refIter ? refIter->next : 0;
                         if (refIter)
-                            FUN_00495010(entry, refIter->item);
+                            TESWaterSystem_UpdateWaterShaderProperties(entry, refIter->item);
                         refIter = refNext;
                     }
-                    FUN_00495410(entry);
+                    TESWaterSystem_UpdateWaterNoise(entry);
                 }
             }
             iter = next;
@@ -37946,6 +38296,8 @@ extern float DAT_00f60c30;   // fBloodSplatterMaxOpacity2
 extern float DAT_00f60c3c;   // fBloodSplatterOpacityChance
 extern float DAT_00f60c54;   // fBloodSplatterFlareSize
 
+// pdb: ScreenSplatter::CreateGeometry | ScreenSplatter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: auiCount
 Node* __cdecl FUN_00491ee0(unsigned int count)
 {
     Node* node = new Node(0);
@@ -38662,10 +39014,10 @@ struct Item4877 {
 };
 struct StackBase4877 {};
 struct Stack4877 : StackBase4877 {
-    void* FUN_0040a4c0(unsigned);
+    void* BaseExtraList_GetExtraData(unsigned);
     float FUN_0040ac20();
-    bool FUN_0040ac70();
-    bool FUN_0040af00();
+    bool ExtraDataList_HasLeveledItem();
+    bool ExtraDataList_GetCanNotWear();
 };
 struct StackList4877 {
     Stack4877* item;
@@ -38706,9 +39058,11 @@ struct Inventory4877 {
     EntryList4877* entries;
     Ref4877* owner;
     Entry4877* FUN_00483eb0(int,int);
-    int FUN_0047e4f0(Item4877*);
+    int InventoryChanges_GetObjectCount(Item4877*);
     Entry4877* FUN_004877e0(Ref4877*,float*,int,bool);
 };
+// pdb: InventoryChanges::GetBestWeapon | InventoryChanges.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apActorBase, afvalue, aeType, abUseCanNotWear
 Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bool useSelected) {
     ScopedContext context(0x36);
     float bestScore=0.0f;
@@ -38725,7 +39079,7 @@ Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bo
     if(useSelected) {
         Entry4877* z=FUN_00483eb0(5,0);
         if(z) {
-            if(z->Stacks()->Item()->FUN_0040af00()) return z;
+            if(z->Stacks()->Item()->ExtraDataList_GetCanNotWear()) return z;
             if(z->stacks) z->stacks->FUN_006c8220();
             StackList4877* stacks=z->stacks;
             if(stacks) { stacks->FUN_006c8220(); DAT_01090a78.FUN_0086ba60(stacks); }
@@ -38755,7 +39109,7 @@ Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bo
             if(category!=5 && category!=item->FUN_004bcca0()) goto nextBase;
             bool scoreActor=true;
             Item4877* ammoForm=item->unk0a8;
-            if(ammoForm && ammoForm->unk004==0x29) { scoreActor=false; if(FUN_0047e4f0(ammoForm)>0) scoreActor=true; }
+            if(ammoForm && ammoForm->unk004==0x29) { scoreActor=false; if(InventoryChanges_GetObjectCount(ammoForm)>0) scoreActor=true; }
             if(ownerActor && (!ownerActor->FUN_00703990(item,true) || !scoreActor)) goto nextBase;
             item->component.v16();
             Component4877* part=GetPart4877(&item->unk074);
@@ -38768,7 +39122,7 @@ Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bo
                     Stack4877* cur=stackCursor->item;
                     stack=cur;
                     if(cur) {
-                        float health=cur->FUN_0040a4c0(0x25)?cur->FUN_0040ac20():(float)FUN_00456720(item);
+                        float health=cur->BaseExtraList_GetExtraData(0x25)?cur->FUN_0040ac20():(float)FUN_00456720(item);
                         if(health>0.0f) {
                             condition=health/FUN_00456720(item);
                             score=FUN_00584210(ammo,item,condition,0);
@@ -38813,7 +39167,7 @@ Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bo
             {
                 bool scoreActor=true;
                 Item4877* ammoForm=item->unk0a8;
-                if(ammoForm && ammoForm->unk004==0x29) { scoreActor=false; if(FUN_0047e4f0(ammoForm)>0) scoreActor=true; }
+                if(ammoForm && ammoForm->unk004==0x29) { scoreActor=false; if(InventoryChanges_GetObjectCount(ammoForm)>0) scoreActor=true; }
                 if(category!=5 && category!=item->FUN_004bcca0()) goto nextExtra;
                 if(!extra->count) goto nextExtra;
                 if((owner?owner->FUN_004e66c0():0)->FUN_004528c0(item)) goto nextExtra;
@@ -38821,7 +39175,7 @@ Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bo
                 StackList4877* marked=extra->stacks;
                 while(marked) {
                     if(!marked->item) break;
-                    if(marked->item->FUN_0040ac70()) {
+                    if(marked->item->ExtraDataList_HasLeveledItem()) {
                         if(extra->count<0) goto nextExtra;
                         break;
                     }
@@ -38838,7 +39192,7 @@ Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bo
                         Stack4877* cur=stackCursor->item;
                         stack=cur;
                         {
-                            float health=cur->FUN_0040a4c0(0x25)?cur->FUN_0040ac20():(float)FUN_00456720(item);
+                            float health=cur->BaseExtraList_GetExtraData(0x25)?cur->FUN_0040ac20():(float)FUN_00456720(item);
                             if(health>0.0f) {
                                 condition=health/FUN_00456720(item);
                                 score=FUN_00584210(ammo,item,condition,0);
@@ -38871,7 +39225,7 @@ Entry4877* Inventory4877::FUN_004877e0(Ref4877* actor,float* out,int category,bo
     *out=FUN_00581e60(bestScore,0,0);
     if(result) {
         unsigned char type=(unsigned char)result->form->unk0f4;
-        if(type==10 || type==11) result->count=FUN_0047e4f0(result->form);
+        if(type==10 || type==11) result->count=InventoryChanges_GetObjectCount(result->form);
     }
     return result;
 }
@@ -38938,7 +39292,7 @@ struct InvExtraDataList
     bool IsEmpty() const { return !pHead; }
     InvAmmoExtra* FUN_0040e620();
     void FUN_0040e630(void* apOwner, int aiRank);
-    void FUN_0040b910();
+    void ExtraDataList_RemoveCount();
 };
 struct InvRef
 {
@@ -38965,15 +39319,15 @@ struct InvExtraList
     unsigned int unk08, unk0C, unk10, unk14, unk18;
     InvExtraList();
     bool IsEmpty() const { return !pHead; }
-    void FUN_0041b2c0(InvExtraDataList* apSource, bool abCopyAll);
+    void ExtraDataList_CopyListForContainer(InvExtraDataList* apSource, bool abCopyAll);
     void FUN_00410310(float afScale);
     InvForm* FUN_0040abc0();
-    void FUN_0040b8f0();
+    void ExtraDataList_RemoveOwnership();
     void FUN_0040b5e0(bool abWorn, bool abLeft);
     void FUN_0040bca0(InvRef* apRef);
-    bool FUN_0040a7e0(InvExtraList* apOther, bool abFlag);
+    bool ExtraDataList_CompareListForContainer(InvExtraList* apOther, bool abFlag);
     unsigned short FUN_0040ac80();
-    void FUN_00410170(short asCount);
+    void ExtraDataList_SetCount(short asCount);
     static void* operator new(unsigned int auiSize) { return DAT_01090a78.FUN_0086b930(auiSize); }
     static void operator delete(void* apMem) { DAT_01090a78.FUN_0086ba60(apMem); }
 };
@@ -39117,6 +39471,8 @@ struct InventoryChanges
     void FUN_0048b4f0(InvRef* apRef, int aiCount, int aiUnused, bool abWorn);
 };
 
+// pdb: InventoryChanges::AddItem | InventoryChanges.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apObject, ainumber, abAddRefId, abWearit
 void InventoryChanges::FUN_0048b4f0(InvRef* apRef, int aiCount, int aiUnused, bool abWorn)
 {
     InvMemContext kContext(0x36);
@@ -39135,18 +39491,18 @@ void InventoryChanges::FUN_0048b4f0(InvRef* apRef, int aiCount, int aiUnused, bo
     if (pRef)
         pRef->MarkAsModified(0x20);
     InvChange* pEntry = FindEntry(apRef->GetObjectReference(), 1, 0);
-    apRef->kExtraList.FUN_0040b910();
+    apRef->kExtraList.ExtraDataList_RemoveCount();
     InvExtraList* pExtra = new InvExtraList;
     if (!apRef->kExtraList.IsEmpty())
     {
         InvWeapon* pWeapon = 0;
         if (apRef->GetObjectReference()->GetFormType() == 0x28)
             pWeapon = (InvWeapon*)apRef->GetObjectReference();
-        pExtra->FUN_0041b2c0(&apRef->kExtraList, false);
+        pExtra->ExtraDataList_CopyListForContainer(&apRef->kExtraList, false);
         if (apRef->GetObjectReference()->GetFormType() != 0x29 && (!pWeapon || !pWeapon->IsThrown()))
             pExtra->FUN_00410310(apRef->GetScale());
         if (pExtra->FUN_0040abc0() == (InvForm*)DAT_0107a104 && pRef == DAT_0107a104)
-            pExtra->FUN_0040b8f0();
+            pExtra->ExtraDataList_RemoveOwnership();
     }
     if (abWorn)
         pExtra->FUN_0040b5e0(true, false);
@@ -39157,7 +39513,7 @@ void InventoryChanges::FUN_0048b4f0(InvRef* apRef, int aiCount, int aiUnused, bo
         {
             pExtra->FUN_0040bca0(apRef);
             if (aiCount > 1)
-                pExtra->FUN_00410170((short)aiCount);
+                pExtra->ExtraDataList_SetCount((short)aiCount);
             if (!pEntry->pExtraLists)
                 pEntry->pExtraLists = new InvExtraNode;
             pEntry->pExtraLists->FUN_0049fac0(&pExtra);
@@ -39172,12 +39528,12 @@ void InventoryChanges::FUN_0048b4f0(InvRef* apRef, int aiCount, int aiUnused, bo
                 InvExtraList* pCompare = pExtra;
                 bool bDiffer = true;
                 if (pCompare)
-                    bDiffer = pCompare->FUN_0040a7e0(pExisting, false) || pExisting->FUN_0040a7e0(pCompare, false);
+                    bDiffer = pCompare->ExtraDataList_CompareListForContainer(pExisting, false) || pExisting->ExtraDataList_CompareListForContainer(pCompare, false);
                 if (bDiffer)
                     pList = pList->pNext;
                 else
                 {
-                    pExisting->FUN_00410170((short)(pExisting->FUN_0040ac80() + aiCount));
+                    pExisting->ExtraDataList_SetCount((short)(pExisting->FUN_0040ac80() + aiCount));
                     if (pExisting->IsEmpty())
                     {
                         pEntry->pExtraLists->FUN_00421610(&pExisting);
@@ -39219,7 +39575,7 @@ void InventoryChanges::FUN_0048b4f0(InvRef* apRef, int aiCount, int aiUnused, bo
     {
         InvChange* pAdded = new InvChange(apRef->GetObjectReference(), aiCount);
         if (aiCount > 1)
-            pExtra->FUN_00410170((short)aiCount);
+            pExtra->ExtraDataList_SetCount((short)aiCount);
         if (apRef->FUN_004eb8f0())
         {
             pExtra->FUN_0040bca0(apRef);
@@ -39893,6 +40249,8 @@ public:
     void FUN_00498350(FUN_0083b6d0* input, WaterState* state);
 };
 
+// pdb: TESWaterSystem::MTSetupSelectiveDepthTexture | TESWater.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCamera, apWaterGroup
 void Owner::FUN_00498350(FUN_0083b6d0* input, WaterState* state)
 {
     HeapContext context;
@@ -40065,6 +40423,8 @@ struct ItemList {
     }
     ItemList* FUN_0049fb90(ItemList* dest);
 };
+// pdb: TESRegionDataList::Copy | TESRegionDataList.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCopyIntoList
 ItemList* ItemList::FUN_0049fb90(ItemList* dest)
 {
     Node* node = &head;
@@ -40170,9 +40530,9 @@ struct ExtraDataList
     ExtraDataList();
     void* FUN_0040aba0();
     void FUN_0040fce0();
-    bool FUN_0040ac70();
+    bool ExtraDataList_HasLeveledItem();
     void FUN_0040ab20(TESObjectREFR* apRef);
-    void FUN_00410170(unsigned short ausCount);
+    void ExtraDataList_SetCount(unsigned short ausCount);
     void* FUN_0040ace0();
     short FUN_0040ac80();
     bool FUN_0040c080(bool abWorn);
@@ -40236,7 +40596,7 @@ struct ItemChange
         count = 0;
     }
     int FUN_0047ce40(bool abWorn);
-    bool FUN_0047d260(bool abWorn);
+    bool ItemChange_GetWorn(bool abWorn);
     int FUN_0047cec0();
     void* FUN_0047d2a0()
     {
@@ -40272,7 +40632,7 @@ struct ItemChange
         while (node && node->item)
         {
             ExtraDataList* extra = node->item;
-            if (extra && extra->FUN_0040ac70())
+            if (extra && extra->ExtraDataList_HasLeveledItem())
                 return true;
             node = node->next;
         }
@@ -40350,6 +40710,8 @@ struct InventoryChanges
     void FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apRef, bool bdontcopyquestitems);
 };
 
+// pdb: InventoryChanges::CreateCopyofList | InventoryChanges.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCopy, apRef, bdontcopyquestitems
 void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apRef, bool bdontcopyquestitems)
 {
     MemContext tempMemContext(0x36);
@@ -40371,7 +40733,7 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                 current->RemoveOriginalChanges();
             if (entry && current &&
                 (((!current->HasLeveledExtra() || current->FUN_0047cec0() < 1) && current->count + baseCount == 0) ||
-                 (current->GetForm()->IsQuestItem() && bdontcopyquestitems) || current->FUN_0047d260(false)))
+                 (current->GetForm()->IsQuestItem() && bdontcopyquestitems) || current->ItemChange_GetWorn(false)))
             {
                 delete transfer;
             }
@@ -40398,11 +40760,11 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                 }
                 else
                 {
-                    if (!transfer->FUN_0047d260(false))
+                    if (!transfer->ItemChange_GetWorn(false))
                     {
                         ExtraDataList* extraA = new ExtraDataList;
                         extraA->FUN_0040ab20(apRef);
-                        extraA->FUN_00410170(transfer->GetCount());
+                        extraA->ExtraDataList_SetCount(transfer->GetCount());
                         transfer->list->FUN_0049fac0(extraA);
                         apCopy->FUN_00481940(transfer, true);
                     }
@@ -40427,7 +40789,7 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                         transfer->list = new ExtraNode;
                     extra->FUN_0040ab20(apRef);
                     transfer->list->FUN_0049fac0(extra);
-                    if (!transfer->FUN_0047d260(false))
+                    if (!transfer->ItemChange_GetWorn(false))
                         apCopy->FUN_00481940(transfer, true);
                     extras = extras->next;
                 }
@@ -40437,11 +40799,11 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                         transfer->list = new ExtraNode;
                     transfer->count = baseCount + current->count - current->FUN_0047ce40(false);
                     transfer->SetObject(entry->form);
-                    if (!transfer->FUN_0047d260(false))
+                    if (!transfer->ItemChange_GetWorn(false))
                     {
                         ExtraDataList* extraC = new ExtraDataList;
                         extraC->FUN_0040ab20(apRef);
-                        extraC->FUN_00410170(transfer->GetCount());
+                        extraC->ExtraDataList_SetCount(transfer->GetCount());
                         transfer->list->FUN_0049fac0(extraC);
                         apCopy->FUN_00481940(transfer, true);
                     }
@@ -40482,14 +40844,14 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                 }
                 transfer->SetObject(changed->form);
                 transfer->SetCount(changed->GetCount());
-                if (!transfer->FUN_0047d260(false) && count < changed->GetCount())
+                if (!transfer->ItemChange_GetWorn(false) && count < changed->GetCount())
                 {
                     ExtraDataList* extraF = new ExtraDataList;
                     extraF->FUN_0040ab20(apRef);
-                    extraF->FUN_00410170(changed->GetCount() - count);
+                    extraF->ExtraDataList_SetCount(changed->GetCount() - count);
                     transfer->list->FUN_0049fac0(extraF);
                 }
-                if (!transfer->FUN_0047d260(false))
+                if (!transfer->ItemChange_GetWorn(false))
                     apCopy->FUN_00481940(transfer, true);
                 else
                 {
@@ -40519,11 +40881,11 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                             transfer->list = new ExtraNode;
                         chosen->FUN_0040ab20(apRef);
                         transfer->list->FUN_0049fac0(chosen);
-                        if (!transfer->FUN_0047d260(false) && count2 < changed->GetCount())
+                        if (!transfer->ItemChange_GetWorn(false) && count2 < changed->GetCount())
                         {
                             ExtraDataList* extraG = new ExtraDataList;
                             extraG->FUN_0040ab20(apRef);
-                            extraG->FUN_00410170(changed->GetCount() - count2);
+                            extraG->ExtraDataList_SetCount(changed->GetCount() - count2);
                             transfer->list->FUN_0049fac0(extraG);
                         }
                     }
@@ -40531,12 +40893,12 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                     {
                         ExtraDataList* extraH = new ExtraDataList;
                         extraH->FUN_0040ab20(apRef);
-                        extraH->FUN_00410170(changed->GetCount());
+                        extraH->ExtraDataList_SetCount(changed->GetCount());
                         transfer->list->FUN_0049fac0(extraH);
                     }
                     transfer->SetObject(changed->form);
                     transfer->SetCount(changed->GetCount());
-                    if (!transfer->FUN_0047d260(false))
+                    if (!transfer->ItemChange_GetWorn(false))
                     {
                         transfer->SetCount(changed->GetCount());
                         apCopy->FUN_00481940(transfer, true);
@@ -40554,7 +40916,7 @@ void InventoryChanges::FUN_00485e90(InventoryChanges* apCopy, TESObjectREFR* apR
                     transfer->SetCount(changed->GetCount());
                     chosen = new ExtraDataList;
                     chosen->FUN_0040ab20(apRef);
-                    chosen->FUN_00410170(transfer->GetCount());
+                    chosen->ExtraDataList_SetCount(transfer->GetCount());
                     transfer->list->FUN_0049fac0(chosen);
                     apCopy->FUN_00481940(transfer, true);
                 }
@@ -40617,15 +40979,15 @@ struct ExtraDataList
     bool IsEmpty() { return !m_data; }
     ExtraAmmo* FUN_0040e620();
     TESObjectREFR* FUN_0040abc0();
-    void FUN_0040b8f0();
+    void ExtraDataList_RemoveOwnership();
     void FUN_0040b5e0(bool abWorn, bool abWornLeft);
     TESObjectREFR* FUN_0040bd70();
     void FUN_0040bca0(TESObjectREFR* apRef);
     void* FUN_0040ace0();
-    bool FUN_0040ac70();
+    bool ExtraDataList_HasLeveledItem();
     short FUN_0040ac80();
-    void FUN_00410170(unsigned short ausCount);
-    bool FUN_0040a7e0(ExtraDataList* apOther, bool abFlag);
+    void ExtraDataList_SetCount(unsigned short ausCount);
+    bool ExtraDataList_CompareListForContainer(ExtraDataList* apOther, bool abFlag);
     static void* operator new(unsigned int size) { return GetHeap()->FUN_0086b930(size); }
     static void operator delete(void* memory) { GetHeap()->FUN_0086ba60(memory); }
 };
@@ -40779,7 +41141,7 @@ struct ItemChange
     int GetCount() { return count; }
     void SetCount(int aiCount) { count = aiCount; }
     TESForm* GetObject() { return form; }
-    bool FUN_0047d260(bool abWorn);
+    bool ItemChange_GetWorn(bool abWorn);
     void FUN_00424690(unsigned int auiFlags);
     static void* operator new(unsigned int size) { return GetHeap()->FUN_0086b930(size); }
     static void operator delete(void* memory) { GetHeap()->FUN_0086ba60(memory); }
@@ -40900,6 +41262,8 @@ struct InventoryChanges
     void FUN_00487210(TESForm* apObject, ExtraDataList* apExtra, int ainumber);
 };
 
+// pdb: InventoryChanges::AddItem | InventoryChanges.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apObject, pextra, ainumber
 void InventoryChanges::FUN_00487210(TESForm* apObject, ExtraDataList* apExtra, int ainumber)
 {
     MemContext tempMemContext(0x36);
@@ -40920,7 +41284,7 @@ void InventoryChanges::FUN_00487210(TESForm* apObject, ExtraDataList* apExtra, i
         ainumber = 1;
     ItemChange* pitem = GetObjectInList(apObject, true, 0);
     if (apExtra && apExtra->FUN_0040abc0() == DAT_0107a104 && ref == DAT_0107a104)
-        apExtra->FUN_0040b8f0();
+        apExtra->ExtraDataList_RemoveOwnership();
     TESObjectREFR* pActor = 0;
     if (ref && ref->IsActor())
         pActor = ref;
@@ -40934,7 +41298,7 @@ void InventoryChanges::FUN_00487210(TESForm* apObject, ExtraDataList* apExtra, i
                 process->GetAmmoInfo()->SetCount(process->GetAmmoInfo()->GetCount() + ainumber);
             if (process->GetWeaponInfo())
                 process->GetWeaponInfo()->SetCount(process->GetWeaponInfo()->GetCount() + ainumber);
-            if (!pitem || !pitem->FUN_0047d260(false))
+            if (!pitem || !pitem->ItemChange_GetWorn(false))
             {
                 if (!apExtra)
                     apExtra = new ExtraDataList;
@@ -40964,9 +41328,9 @@ void InventoryChanges::FUN_00487210(TESForm* apObject, ExtraDataList* apExtra, i
     else
     {
         if (pitem->GetCount() <= 0 && apExtra && !apExtra->FUN_0040abc0() && !apExtra->FUN_0040ace0() &&
-            pitem->list && pitem->list->FUN_0049fa20() && pitem->list->GetItem()->FUN_0040ac70())
+            pitem->list && pitem->list->FUN_0049fa20() && pitem->list->GetItem()->ExtraDataList_HasLeveledItem())
         {
-            pitem->list->GetItem()->FUN_00410170(pitem->list->GetItem()->FUN_0040ac80() + ainumber);
+            pitem->list->GetItem()->ExtraDataList_SetCount(pitem->list->GetItem()->FUN_0040ac80() + ainumber);
             delete apExtra;
             apExtra = 0;
         }
@@ -40980,12 +41344,12 @@ void InventoryChanges::FUN_00487210(TESForm* apObject, ExtraDataList* apExtra, i
                 ExtraDataList* pcompare = apExtra;
                 bool bcomp = true;
                 if (pcompare)
-                    bcomp = pcompare->FUN_0040a7e0(pCurrent, false) || pCurrent->FUN_0040a7e0(pcompare, false);
+                    bcomp = pcompare->ExtraDataList_CompareListForContainer(pCurrent, false) || pCurrent->ExtraDataList_CompareListForContainer(pcompare, false);
                 if (bcomp)
                     pkFirst = pkFirst->GetNext();
                 else
                 {
-                    pCurrent->FUN_00410170(pCurrent->FUN_0040ac80() + ainumber);
+                    pCurrent->ExtraDataList_SetCount(pCurrent->FUN_0040ac80() + ainumber);
                     if (pCurrent->IsEmpty())
                     {
                         pitem->list->FUN_00421610(pCurrent);
@@ -41164,11 +41528,11 @@ struct ExtraDataList
     ExtraDataList();
     static void* operator new(unsigned int size) { return DAT_01090a78.FUN_0086b930(size); }
     static void operator delete(void* memory) { DAT_01090a78.FUN_0086ba60(memory); }
-    bool FUN_0040ac70();
-    bool FUN_0040aed0(bool worn);
+    bool ExtraDataList_HasLeveledItem();
+    bool ExtraDataList_GetWorn(bool worn);
     bool FUN_0040c080(bool allowWorn);
     short FUN_0040ac80();
-    void FUN_00410170(unsigned short count);
+    void ExtraDataList_SetCount(unsigned short count);
 };
 
 typedef BSSimpleList<ExtraDataList*> ExtraDataListList;
@@ -41195,13 +41559,13 @@ struct FUN_0047cdc0
     bool FUN_0047ce90();
     void* FUN_0047d170();
     int FUN_0047d1a0();
-    bool FUN_0047d260(bool worn);
+    bool ItemChange_GetWorn(bool worn);
     void* FUN_0047d2a0();
     int FUN_0047fee0();
     bool HasWornExtra(bool worn)
     {
         for (ExtraDataListList* node = extendData; node && node->item; node = node->next)
-            if (node->item->FUN_0040aed0(worn))
+            if (node->item->ExtraDataList_GetWorn(worn))
                 return true;
         return false;
     }
@@ -41253,6 +41617,8 @@ struct InventoryChanges
     EntryData* FUN_00484430(int requested);
 };
 
+// pdb: InventoryChanges::GetItembyIndex | InventoryChanges.obj | fnv360_0822_debug, caller, medium
+// pdb params: aiIndex
 EntryData* InventoryChanges::FUN_00484430(int requested)
 {
     MemContext context(0x36);
@@ -41276,7 +41642,7 @@ EntryData* InventoryChanges::FUN_00484430(int requested)
             if (item && change && count <= 0)
                 result = 0;
             else if ((count < 0 && change) || (change && count + change->GetCount() <= 0) ||
-                     (change && change->GetExtendData() && change->GetExtendData()->GetItem() && change->GetExtendData()->GetItem()->FUN_0040ac70()))
+                     (change && change->GetExtendData() && change->GetExtendData()->GetItem() && change->GetExtendData()->GetItem()->ExtraDataList_HasLeveledItem()))
                 result = 0;
             else if (item && index == requested && (!change || (change && !change->FUN_0047fee0())))
             {
@@ -41342,7 +41708,7 @@ EntryData* InventoryChanges::FUN_00484430(int requested)
                     TESObjectWEAP* weapon = 0;
                     if (change->GetType()->GetFormType() == 0x28)
                         weapon = static_cast<TESObjectWEAP*>(change->GetType());
-                    if (!change->FUN_0047ce40(false) && change->FUN_0047d260(false) &&
+                    if (!change->FUN_0047ce40(false) && change->ItemChange_GetWorn(false) &&
                         (change->countDelta <= 0 || change->GetType()->GetFormType() == 0x29 ||
                          (weapon && (weapon->GetWeaponType() == 10 || weapon->GetWeaponType() == 11))))
                         skip = true;
@@ -41394,9 +41760,9 @@ EntryData* InventoryChanges::FUN_00484430(int requested)
             if (GetContainer() && entry)
                 baseCount = GetContainer()->FUN_00452c40(entry->type);
             if (baseCount < 0 && entry->HasWornExtra(false))
-                entry->GetExtendData()->GetItem()->FUN_00410170(-baseCount);
+                entry->GetExtendData()->GetItem()->ExtraDataList_SetCount(-baseCount);
             if (entry && (entry->countDelta > 0 || baseCount < 0) &&
-                ((entry->GetExtendData() && entry->GetExtendData()->GetItem() && entry->GetExtendData()->GetItem()->FUN_0040ac70()) ||
+                ((entry->GetExtendData() && entry->GetExtendData()->GetItem() && entry->GetExtendData()->GetItem()->ExtraDataList_HasLeveledItem()) ||
                  baseCount < 0 || !GetContainer() || !GetContainer()->FUN_004528c0(entry->type)))
             {
                 int sum = 0;
@@ -41443,7 +41809,7 @@ EntryData* InventoryChanges::FUN_00484430(int requested)
                             while (wornNode && wornNode->GetItem())
                             {
                                 ExtraDataList* extra = wornNode->GetItem();
-                                if (!extra->FUN_0040aed0(false) && extra->FUN_0040c080(true))
+                                if (!extra->ExtraDataList_GetWorn(false) && extra->FUN_0040c080(true))
                                     result->extendData->FUN_0061c430(extra);
                                 wornNode = wornNode->GetNext();
                             }
@@ -41496,6 +41862,8 @@ struct LipTable : f3m_0048ba20::Table_48ba20 {
 using namespace f3w_48be80;
 
 namespace f3m_0048c130 {
+// pdb: LipSynchAnim::Scatter | LipSynchAnim.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pBuffer, nBufferSize
 int __cdecl FUN_0048be80(void* buf, unsigned int size) {
     unsigned int* data = (unsigned int*)buf;
     if (!data || !size || size < 4)
@@ -41554,6 +41922,7 @@ struct Target {
     ~Target();
     void* FUN_00491890(unsigned int flags);
 };
+// pdb: BSSplatterExtraData::`scalar deleting destructor' | ScreenSplatter.obj | fnv360_0822_retail, vtable, medium
 void* Target::FUN_00491890(unsigned int flags) {
     this->~Target();
     if (flags & 1) {
@@ -41576,6 +41945,7 @@ struct Holder {
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
 extern Holder* DAT_0106fcf0;
+// pdb: BSSplatterExtraData::KillSDM | ScreenSplatter.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: BSRandom::Bool)
 void __cdecl FUN_004918b0() {
     delete DAT_0106fcf0;
     DAT_0106fcf0 = 0;
@@ -41916,6 +42286,8 @@ inline void SetGamma(float value) {
     }
 }
 
+// pdb: Renderer::Init | Renderer.obj | fnv360_0822_retail, ustr, low, conflict (F3 string "NiXAdapaterDesc::GetDeviceCaps() failed.")
+// pdb params: ahWnd, ahInstance
 Renderer* __cdecl FUN_00490420(HWND window, HINSTANCE instance)
 {
     MemoryContext context(4);

@@ -83,6 +83,7 @@ extern FNV_006b8760_Controller* DAT_0107a104;
 extern float DAT_0116f26c;
 extern float FUN_00f628bc;
 
+// pdb: NightEyeEffect::ApplyVisualEffect | NightEyeEffect.obj | fnv360_0822_retail, call_seq, medium
 void __cdecl FUN_006b8760() {
     FNV_006b8760_Target* target =
         (*(*DAT_0116ef9c).unk08).unk0C;
@@ -256,11 +257,6 @@ class TESForm
     virtual ~TESForm();
 };
 
-struct LightColor32
-{
-    unsigned char r, g, b, a;
-};
-
 class TESObjectLIGH : public TESForm
 {
   public:
@@ -330,6 +326,8 @@ class LightAttachHolder
     void FUN_006b1fa0(unsigned int formID, NiNode* parent);
 };
 
+// pdb: MagicLight::Init | MagicLight.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiLightID, apObj
 void LightAttachHolder::FUN_006b1fa0(unsigned int formID, NiNode* parent)
 {
     TESForm* form = LookupFormByID(formID);
@@ -424,6 +422,8 @@ struct Saver6a1110 {
     int unk0C;
 };
 
+// pdb: ActiveEffect::SaveActiveEffect | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apEffect, apActor
 void FUN_006a1110(Saver6a1110* saver, int arg)
 {
     if (g_saveState6a1110->unk80 >= 0x2a) {
@@ -492,6 +492,8 @@ struct Effect6a1730 {
 
 inline bool HasBit8_6a1730(unsigned int flags) { return (flags >> 8) & 1; }
 
+// pdb: ActiveEffect::AdjustEffectiveness | ActiveEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afMultiplier
 void Effect6a1730::FUN_006a1730(float scale)
 {
     unsigned int flags = unk0C->unk14->unk58;
@@ -512,7 +514,7 @@ public:
     virtual ~TESObjectREFR();
 };
 
-TESForm* FUN_00455190(unsigned int formID);
+TESForm* TESForm_GetFormByNumericID(unsigned int formID);
 
 class Linked6bbe10
 {
@@ -548,11 +550,13 @@ public:
     void FUN_006bbe10(void* file);
 };
 
+// pdb: TelekinesisEffect::FinishInitLoadGame | TelekinesisEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Linked6bbe10::FUN_006bbe10(void* file)
 {
     FUN_006bd1e0(file);
     if (ref58)
-        ref58 = dynamic_cast<TESObjectREFR*>(FUN_00455190((unsigned int)ref58));
+        ref58 = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID((unsigned int)ref58));
     if (ref58)
         FUN_006bb970();
     resolved5D = true;
@@ -597,6 +601,7 @@ struct Obj {
     char unk71;
 };
 
+// pdb: SummonCreatureEffect::Copy | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, medium
 Obj* Obj::FUN_006baab0() {
     Obj* dst = new Obj(unk28, unk08, unk0C);
     FUN_006a2f50(dst);
@@ -619,7 +624,7 @@ Obj* Obj::FUN_006baab0() {
 
 // @f3 0x006a3020 (community match, verified in this file)
 namespace f3m_006a3020 {
-void* __cdecl FUN_00455190(void* value);
+void* __cdecl TESForm_GetFormByNumericID(void* value);
 struct Owner859 {
     int unk00;
     int unk04;
@@ -643,10 +648,12 @@ struct Owner859 {
     void FUN_006a1e60(void* argument);
     void FUN_006a3020(void* argument);
 };
+// pdb: AssociatedItemEffect::InitLoadGame | AssociatedItemEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor
 void Owner859::FUN_006a3020(void* argument) {
     FUN_006a1e60(argument);
     void* value = value48;
-    if (value) value48 = FUN_00455190(value);
+    if (value) value48 = TESForm_GetFormByNumericID(value);
 }
 }   // namespace f3m_006a3020
 
@@ -658,6 +665,8 @@ struct Owner872 {
     void FUN_006a13f0(int first, int second, int third);
     Owner872* FUN_006a6060(int first, int second, int third);
 };
+// pdb: CommandEffect::CommandEffect | CommandEffect.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apEffect
 Owner872* Owner872::FUN_006a6060(int first, int second, int third) {
     FUN_006a13f0(first, second, third);
     vtable00 = &DAT_00e0a1cc;
@@ -673,6 +682,8 @@ struct Owner935 {
     int FUN_006a0260(int argument);
     bool FUN_006a02b0(int argument, int value);
 };
+// pdb: DebugTextManager::SetScreenDebugPage | DebugTextManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apScreen, aiSubPage
 bool Owner935::FUN_006a02b0(int argument, int value) {
     int index = FUN_006a0260(argument);
     if (index != -1) {
@@ -689,21 +700,22 @@ namespace f3m_006a2e20 {
 namespace f3m_006a2e20 {
 typedef void (__cdecl* Callback)();
 struct Stream {
-    unsigned int FUN_006e08a0();
+    unsigned int BGSLoadGameBuffer_LoadVariableSizedValue();
 };
 struct Target {
     void FUN_00635dd0(void* item, Callback cb);
 };
 }
 using namespace f3m_006a2e20;
-void __cdecl FUN_006a2dc0(Stream* s, Target* t);
+void __cdecl ActiveEffect_RevertActiveEffectList(Stream* s, Target* t);
 void* __cdecl FUN_006a1310(Stream* s);
 void __cdecl FUN_006b7a70();
 
-void __cdecl FUN_006a2e20(Stream* s, Target* t)
+// pdb: ActiveEffect::LoadActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, call_gap + bridge(call_gap|call_gap) + skyrim(call_gap_sim), high
+void __cdecl ActiveEffect_LoadActiveEffectList(Stream* s, Target* t)
 {
-    FUN_006a2dc0(s, t);
-    unsigned int n = s->FUN_006e08a0();
+    ActiveEffect_RevertActiveEffectList(s, t);
+    unsigned int n = s->BGSLoadGameBuffer_LoadVariableSizedValue();
     for (unsigned int i = 0; i < n; i++) {
         void* item = FUN_006a1310(s);
         if (item)
@@ -724,6 +736,8 @@ struct Table {
     Entry entries[1];
     int FUN_006a0260(const char* name);
 };
+// pdb: DebugTextManager::FindPageIndex | DebugTextManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apPage
 int Table::FUN_006a0260(const char* name)
 {
     int result = -1;
@@ -755,7 +769,7 @@ struct Flag {
     int unk14;
     int unk18;
     int unk1C;
-    void FUN_005a85f0(int n);
+    void TESPackage_SetPackType(int n);
 };
 void* __cdecl FUN_005a9b40(int n);
 
@@ -1630,10 +1644,10 @@ struct Actor {
     int unkF0;
     int unkF4;
     unsigned char unkF8;
-    void FUN_006fd990(int a);
-    void FUN_006f7bd0(int a);
+    void Actor_SetLifeState(int a);
+    void Actor_SetGhost(int a);
     void FUN_004eeae0(void* p);
-    void FUN_006fef60(int a);
+    void Actor_SetWantWeaponDrawn(int a);
     void FUN_004f9c50();
     void FUN_00701b40(Held* h);
 };
@@ -1734,6 +1748,7 @@ struct Main {
     void FUN_006a2e00(int a);
     void FUN_006b99a0();
 };
+// pdb: ReanimateEffect::Start | ReanimateEffect.obj | fnv360_0721_retail, vtable, medium
 void Main::FUN_006b99a0()
 {
     Ctrl28* c = unk28;
@@ -1744,27 +1759,27 @@ void Main::FUN_006b99a0()
     Actor* a = unk24 ? unk24->FUN_006b6c70() : 0;
     if (a && a->v22C(0)) {
         a->vD4(0);
-        a->FUN_006fd990(4);
+        a->Actor_SetLifeState(4);
         if (a->unkF8)
             a->v428(0);
         Sub* s = a->unk60;
         int q = s->unk28;
         if (!q)
             s->v6EC(1);
-        a->FUN_006f7bd0(1);
+        a->Actor_SetGhost(1);
         a->v2C0(unk28->vf2C());
         if (a->v1D0())
             a->FUN_004eeae0(&a->v1D0()->unk8C);
         a->v1C4();
         a->unk60->v620(0);
-        a->FUN_006fef60(0);
+        a->Actor_SetWantWeaponDrawn(0);
         a->v3A8(0x10, (float)((double)a->unk9C.vf00(0x10) - a->unk9C.vf0C(0x10)), 0);
         if (a->v1D0()) {
             a->FUN_004f9c50();
             a->FUN_00701b40(a->v1D0());
         }
         Flag* fl = (Flag*)FUN_005a9b40(0x1b);
-        fl->FUN_005a85f0(0x1b);
+        fl->TESPackage_SetPackType(0x1b);
         fl->unk1C |= 0x1006;
         fl->unk18 = 0x19;
         a->v2F4(fl, true, true);
@@ -1817,6 +1832,8 @@ struct B3B70Sel { void FUN_006dd040(void* p); };
 extern B3B70Mgr DAT_0107c0a0;
 extern B3B70Sel* DAT_01079ca4;
 
+// pdb: MagicProjectile::InitLoadGame | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiOldFlags
 void B3B70Obj::FUN_006b3b70(int a, int b)
 {
     void* v8C = unk8C;
@@ -1905,7 +1922,7 @@ struct Info6a92 {
 };
 struct Ref6a92 {
     Info6a92* FUN_0044dbf0(Str6a92& s);
-    void FUN_0045c7f0(float v);
+    void NiControllerManager_DeactivateAll(float v);
 };
 struct Obj6a92 {
     int unk000;
@@ -2154,7 +2171,7 @@ struct Obj6a92 {
 };
 struct Self6a92;
 struct Node6a92 {
-    void FUN_006b22b0(float dt);
+    void MagicLight_Update(float dt);
 };
 struct Self6a92 {
     virtual void vf000();
@@ -2400,13 +2417,15 @@ struct Self6a92 {
     int unkB4;
     Node6a92* unkB8;
     Obj6a92* FUN_00764ea0();
-    void FUN_00454260(int a);
+    void TESForm_SetDisabled(int a);
     void FUN_006a92b0(float dt);
 };
 extern Ref6a92* FUN_00424d50(void* tbl, Form6a92* f);
 
 inline bool Bit5_6a92(unsigned int f) { return (f >> 5) & 1; }
 inline float Scale6a92(float v) { return (float)(v * 6.999040126800537); }
+// pdb: MagicBallProjectile::Update | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afDelta
 void Self6a92::FUN_006a92b0(float dt)
 {
     if (dt >= 60.0)
@@ -2440,7 +2459,7 @@ void Self6a92::FUN_006a92b0(float dt)
                     if (t > FUN_00f6258c)
                         v0C4(1);
                     if (unkB8)
-                        unkB8->FUN_006b22b0(dt);
+                        unkB8->MagicLight_Update(dt);
                 }
             }
             break;
@@ -2450,16 +2469,16 @@ void Self6a92::FUN_006a92b0(float dt)
             if (r) {
                 Info6a92* i = r->FUN_0044dbf0(Str6a92(0xdc0a00));
                 if (!i || i->unk34 > i->unk30 || i->unk44 == 0) {
-                    r->FUN_0045c7f0(0.0f);
-                    FUN_00454260(1);
+                    r->NiControllerManager_DeactivateAll(0.0f);
+                    TESForm_SetDisabled(1);
                     v0C4(1);
                 }
             } else {
                 v0C4(1);
-                FUN_00454260(1);
+                TESForm_SetDisabled(1);
             }
             if (unkB8)
-                unkB8->FUN_006b22b0(dt);
+                unkB8->MagicLight_Update(dt);
             break;
         }
         }
@@ -2481,7 +2500,7 @@ public:
 
 struct Selector
 {
-    int FUN_005195c0();
+    int Script_CloneLocals();
     void FUN_005166e0(int value);
     void FUN_005166e0(int a, int b);
 };
@@ -2512,10 +2531,11 @@ struct Menu
     void FUN_006b9f30();
 };
 
+// pdb: ScriptEffect::Start | ScriptEffect.obj | fnv360_0721_retail, vtable, medium
 void Menu::FUN_006b9f30()
 {
     if (selector) {
-        int value = selector->FUN_005195c0();
+        int value = selector->Script_CloneLocals();
         selected = value;
         selector->FUN_005166e0(mapper->vf04(), value);
     }
@@ -2527,6 +2547,8 @@ void Menu::FUN_006b9f30()
 namespace f3m_006a7760 {
 struct File67{char pad[0x80];unsigned char version;};
 unsigned short __stdcall FUN_006a1980(int arg);
+// pdb: DisintegrateArmorEffect::GetSaveSize | DisintegrateArmorEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apActor
 int __stdcall FUN_006a7760(int arg){
     int size=FUN_006a1980(arg);
     if(((File67*)DAT_01079ca4)->version>=0x37)size+=4;
@@ -2558,6 +2580,8 @@ struct PageReporter
 int __cdecl FUN_00c00fcc(char*, unsigned int, const char*);
 // Builds a comma-separated string of up to five page names per batch and passes each batch to the report callback.
 // @fnv 0x00802880
+// pdb: DebugTextManager::OutputDebugPageNames | DebugTextManager.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apfOutput
 void PageReporter::FUN_006a0170(void(__cdecl* report)(const char*))
 {
     char buffer[512];
@@ -2592,6 +2616,7 @@ public:
     FUN_006ad210();
 };
 
+// pdb: MagicCaster::MagicCaster | MagicCaster.obj | fnv360_0822_retail, call_seq, medium
 FUN_006ad210::FUN_006ad210()
 {
     f08 = 0;
@@ -2610,7 +2635,7 @@ struct FUN_00516560 {
  ~FUN_00516560() { FUN_00518ea0(); }
  void FUN_00518670(Buffer*);
 };
-struct Script { FUN_00516560* FUN_005195c0(); };
+struct Script { FUN_00516560* Script_CloneLocals(); };
 struct Effect {
  unsigned unk00;
  unsigned unk04;
@@ -2635,12 +2660,14 @@ struct Effect {
  void FUN_006a23a0(Buffer*);
  void FUN_006ba1a0(Buffer*);
 };
+// pdb: ScriptEffect::LoadGame | ScriptEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Effect::FUN_006ba1a0(Buffer* buffer) {
  FUN_006a23a0(buffer);
  unsigned char hasLocals=0;
  buffer->FUN_006e0750(&hasLocals,1);
  if(hasLocals) {
-  if(!locals) locals=script->FUN_005195c0();
+  if(!locals) locals=script->Script_CloneLocals();
   if(locals) locals->FUN_00518670(buffer);
   else {
    FUN_00516560 temporary;
@@ -2656,6 +2683,8 @@ namespace f3m_006a2210 {
 struct Obj6a{virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void v8();virtual void v9();virtual void v10();virtual void v11();virtual void v12();
     virtual void v13(void* arg);};
 struct Node6a{Obj6a* item;Node6a* next;};
+// pdb: ActiveEffect::RevertActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActiveEffectList, apActor
 void __cdecl FUN_006a2210(Node6a* node,void* arg){
     for(;node;node=node->next){
         if(!node->next&&!node->item)return;
@@ -2693,6 +2722,8 @@ public:
  bool Apply(MagicTarget* target, Position0515 position, MagicItem* item, ActiveEffect* effect, bool immediate) { return target->AddEffectToTarget(this,item,effect,immediate); }
  bool FUN_006adbd0(ActiveEffect*);
 };
+// pdb: MagicCaster::TargetSelf | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apActiveEffect
 bool MagicCaster::FUN_006adbd0(ActiveEffect* effect) {
  MagicTarget* target;
  bool result=false;
@@ -2745,6 +2776,8 @@ public:
     void FUN_006aee30(float value, BoundObject* object, bool immediate, float radiusSquared, bool flag);
 };
 
+// pdb: MagicCaster::TransferDisease | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, apDesiredTarget, abLoadCast
 void MagicCaster::FUN_006afeb0(SpellItem* spell, MagicTarget* target, bool immediate)
 {
     if (spell->GetSpellType() == 1 && target)
@@ -2768,6 +2801,7 @@ public:
     n6b8::FUN_006c8220 member;
     ~FUN_006b8ca0();
 };
+// pdb: NonActorMagicTarget::~NonActorMagicTarget | NonActorMagicTarget.obj | fnv360_0822_debug, call_seq, high
 FUN_006b8ca0::~FUN_006b8ca0()
 {
 }
@@ -2781,6 +2815,7 @@ struct Obj6bb{
     void FUN_006bcc80();void FUN_006bb970();
     void FUN_006bbe80();
 };
+// pdb: TelekinesisEffect::Start | TelekinesisEffect.obj | fnv360_0721_retail, vtable, medium
 void Obj6bb::FUN_006bbe80(){
     FUN_006bcc80();
     time=FUN_00619420();
@@ -2818,6 +2853,8 @@ struct MagicCaster {
     void FUN_006aee30(float, BoundObject*, bool, float, bool);
     void FUN_006afe60(MagicItem*, bool, MagicTarget*, float, bool);
 };
+// pdb: MagicCaster::CastSpellImmediate | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, abLoadCast, apDesiredTarget, afEffectivenessMult, abAdjustOnlyHostileEffectiveness
 void MagicCaster::FUN_006afe60(MagicItem* pItem, bool bArg1, MagicTarget* pTarget, float fValue, bool bArg2)
 {
     if (pTarget)
@@ -2850,6 +2887,7 @@ public:
     FUN_006b8870();
     virtual ~FUN_006b8870();
 };
+// pdb: NonActorMagicCaster::NonActorMagicCaster | NonActorMagicCaster.obj | fnv360_0822_retail, call_gap, low
 FUN_006b8870::FUN_006b8870():Extra6b88(0x32){
     m20=0;m18=0;m1c=0;
 }
@@ -2858,7 +2896,7 @@ FUN_006b8870::FUN_006b8870():Extra6b88(0x32){
 // @f3 0x006ba9d0 (community match, verified in this file)
 namespace f3m_006ba9d0 {
 // FNV 21043: resolve a saved summoned-actor form ID.
-// TESForm and FUN_00455190 are supplied by the claim pack.
+// TESForm and TESForm_GetFormByNumericID are supplied by the claim pack.
 class Actor : public TESForm {};
 namespace Task0524 {
 class Effect {
@@ -2888,13 +2926,15 @@ public:
     void FUN_006ba9d0(void* argument);
 };
 
+// pdb: SummonCreatureEffect::InitLoadGame | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Effect::FUN_006ba9d0(void* argument)
 {
     FUN_006a3020(argument);
     int savedFormId = formId;
     if (savedFormId)
     {
-        formId = (int)dynamic_cast<Actor*>(FUN_00455190((unsigned int)savedFormId));
+        formId = (int)dynamic_cast<Actor*>(TESForm_GetFormByNumericID((unsigned int)savedFormId));
         if (!formId)
             FUN_006a2e00(true);
     }
@@ -2969,13 +3009,12 @@ void __fastcall FUN_006a8f30(Owner* pThis, int, NiRefObject* pObj)
 // @f3 0x006b6c90 (community match, verified in this file)
 namespace f3m_006b6c90 {
 struct Info6b6{char pad[0xc];void* mc;};
-class Base6b6a{public:char pad[0x80];};
 class Sub6b6{
 public:
     virtual void v0();virtual Info6b6* v1();virtual void v2();virtual bool v3();
     void* FUN_006b6c90();
 };
-class Full6b6:public Base6b6a,public Sub6b6{};
+// pdb: ActiveEffect::QConditionsOK | ActiveEffect.obj | tesv_win, call_gap_sim, low
 void* Sub6b6::FUN_006b6c90(){
     void** full=(void**)((char*)this-0x80);
     if(v3())return *full;
@@ -3223,6 +3262,8 @@ struct Projectile {
     float unk9c;
     void FUN_006b3560(int mode);
 };
+// pdb: MagicProjectile::Process | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afDelta
 void Projectile::FUN_006b3560(int mode)
 {
     float delta;
@@ -3251,6 +3292,8 @@ struct FUN_006e17e0_Class {
 };
 
 
+// pdb: FalloutAudio::SaveGame | FalloutAudio.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apSaveGameBuffer
 void __cdecl FUN_006bd7b0(void* arg) {
     FUN_006e17e0_Class* obj = static_cast<FUN_006e17e0_Class*>(arg);
     obj->Method(DAT_01079048, 0);
@@ -3292,6 +3335,8 @@ class FUN_006b6bc0 : public FUN_006b3e70
 };
 
 // @fnv 0x00822920
+// pdb: MagicSprayProjectile::MagicSprayProjectile | MagicSprayProjectile.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apCaster, apSpell, apDominantEffect, apAVEffect, aOrigin, aRotation
 FUN_006b6bc0::FUN_006b6bc0(int iParam1, int iParam2, int iParam3, int iParam4, NiPoint3_8229 kPoint1,
                            NiPoint3_8229 kPoint2)
     : FUN_006b3e70(iParam1, iParam2, iParam3, iParam4, kPoint1, kPoint2)
@@ -3504,6 +3549,8 @@ struct Effect {
     void FUN_0078c030(Actor* actor);
     void FUN_006b9950(Actor* actor);
 };
+// pdb: ReanimateEffect::Revert | ReanimateEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
 void Effect::FUN_006b9950(Actor* actor) {
     FUN_0078c030(actor);
     if (state < 50 && actor && actor->Check() && body)
@@ -3521,6 +3568,7 @@ struct Obj6a8{
     char pad[0x24];Ref6a8* ref;
     void FUN_006a8b10();
 };
+// pdb: LightEffect::Start | LightEffect.obj | fnv360_0721_retail, vtable, low
 void Obj6a8::FUN_006a8b10(){
     if(ref){
         Data6a8* d=ref->FUN_006b6c70();
@@ -3550,6 +3598,7 @@ struct Src6a6{
     int m4;int item;int effect;char pad10[0x18];int caster;
     Dark6a6* FUN_006a6c50();
 };
+// pdb: DarknessEffect::Copy | DarknessEffect.obj | fnv360_0822_retail, objrun, medium
 Dark6a6* Src6a6::FUN_006a6c50(){
     Dark6a6* e=new Dark6a6(caster,item,effect);
     v17(e);
@@ -3566,6 +3615,8 @@ struct Obj {
 }
 using namespace n6ad8f0;
 
+// pdb: MagicCaster::CheckCast | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, afEffectStrength, apReason, abUseBaseMagicka
 bool Obj::FUN_006ad8f0(int a, float* scale, int* offset, int d)
 {
     if (scale)
@@ -3591,7 +3642,8 @@ extern AudioManager* DAT_011790c8;
 }
 using namespace n6bd920;
 
-void FUN_006bd920()
+// pdb: FalloutAudio::MysteriousStrangerKillsTarget | FalloutAudio.obj | fnv360_0721_beta, ustr_rel + bridge(ustr_rel|ustr_rel), high
+void FalloutAudio_MysteriousStrangerKillsTarget()
 {
     SoundHandle h = n6bd920::DAT_011790c8->FUN_00bcfcd0("MUSMysteriousStrangerA02", 0x200101);
     h.FUN_00bd00c0(0);
@@ -3611,6 +3663,7 @@ struct Obj {
 };
 }
 
+// pdb: ValueModifierEffect::IsCausingDamage | ValueModifierEffect.obj | fnv360_0822_retail, objrun, medium
 int n6bd1b0::Obj::FUN_006bd1b0()
 {
     if (type == 0x10) {
@@ -3660,6 +3713,8 @@ struct Effect {
     void FUN_006a2ff0(Actor*);
     void FUN_006ba940(Actor*);
 };
+// pdb: SummonCreatureEffect::LoadGame | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Effect::FUN_006ba940(Actor* actor) {
     unsigned int id;
     unsigned char forced;
@@ -3789,6 +3844,8 @@ int unk19c;
 Member member1a0;
 FUN_006be780(int,int,int);
 };
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BSSoundHandle *>::NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,BSSoundHandle *> | FalloutAudio.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: uiHashSize
 FUN_006be780::FUN_006be780(int a,int b,int c) : SpawnedBase(0,0,a,c) {
 unk00=&DAT_00e0c7e4; unk0c=&DAT_00e0c7a4; unk10=&DAT_00e0c788;
 member1a0.FUN_007f3b60(b);
@@ -3814,6 +3871,8 @@ struct FUN_006a04c0 : n6a04c0::Base {
     NiPointer<NiRefObject> p54;
     NiPointer<NiRefObject> p58;
 };
+// pdb: AbsorbEffect::AbsorbEffect | AbsorbEffect.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apEffect
 FUN_006a04c0::FUN_006a04c0(void* a, void* b, void* c) : n6a04c0::Base(a, b, c)
 {
     p58 = 0;
@@ -3833,9 +3892,10 @@ struct Owner {
     virtual void v00();
     virtual void v01();
     virtual Node* GetList();
-    bool FUN_006b6d00(int id, bool any);
+    bool MagicTarget_IsSpellTarget(int id, bool any);
 };
-bool Owner::FUN_006b6d00(int id, bool any)
+// pdb: MagicTarget::IsSpellTarget | MagicTarget.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(caller), high
+bool Owner::MagicTarget_IsSpellTarget(int id, bool any)
 {
     Node* n = GetList();
     bool found = false;
@@ -3853,6 +3913,8 @@ bool Owner::FUN_006b6d00(int id, bool any)
 // @f3 0x006a7070 (community match, verified in this file)
 namespace f3m_006a7070 {
 struct DispatchState { bool FUN_006a1260(void*); void FUN_006a2e00(int); bool FUN_006a7070(void*); };
+// pdb: TurnUndeadEffect::CheckDeletedCaster | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apCaster
 bool DispatchState::FUN_006a7070(void* value) { bool result=FUN_006a1260(value); if(result) FUN_006a2e00(1); return result; }
 }   // namespace f3m_006a7070
 
@@ -3893,6 +3955,8 @@ struct Effect {
     void FUN_006b1b80(Buffer*);
     void FUN_006b4a60(Buffer*);
 };
+// pdb: MagicShaderHitEffect::SaveGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSaveGameBuffer
 void Effect::FUN_006b4a60(Buffer* buffer) {
     FUN_006b1b80(buffer);
     buffer->FUN_006e1830(&flag28,1,0);
@@ -3916,9 +3980,10 @@ struct Owner {
  int unk00;int unk04;int unk08;State* state0c;
  int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;
  void* value58;
- void FUN_006bbc40();void FUN_006bce80();void FUN_006bc240();
+ void FUN_006bbc40();void FUN_006bce80();void TelekinesisEffect_Finish();
 };
-void Owner::FUN_006bc240(){
+// pdb: TelekinesisEffect::Finish | TelekinesisEffect.obj | fnv360_0721_retail, vtable + skyrim(vtable), high
+void Owner::TelekinesisEffect_Finish(){
  FUN_006bbc40();
  DAT_0107c0a0.FUN_00791090(value58,state0c->item14->value78);
  FUN_006bce80();
@@ -3986,6 +4051,8 @@ struct Owner {
  Node* entries;
  unsigned short FUN_006a1980(int arg);
 };
+// pdb: ActiveEffect::GetSaveSize | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor
 unsigned short Owner::FUN_006a1980(int arg){
  unsigned short size=0x1c;
  if(DAT_01079ca4->version>=0x2a){
@@ -4005,6 +4072,7 @@ unsigned short Owner::FUN_006a1980(int arg){
 
 // @f3 0x006a30c0 (community match, verified in this file)
 namespace f3m_006a30c0 {
+// pdb: bhkCharacterController::QCinfoSize | bhkCharacterListenerSpell.obj | fnv360_0721_beta, objrun, medium
 int __cdecl FUN_006a30c0() {
     return 0xc0;
 }
@@ -4018,12 +4086,14 @@ struct Table { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14;
 struct Item { Table* table; };
 struct Node { Item* item; Node* next; };
 void* __cdecl FUN_006ad8b0(void*);
-void* __cdecl FUN_006b6cc0(void*);
+void* __cdecl MagicTarget_GetMagicTargetByNumericID(void*);
 void* __cdecl FUN_00406050(void*);
 struct Owner { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; void* unk24; void* unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; Node* unk40; void* unk44; void FUN_006a25b0(int); };
+// pdb: ActiveEffect::InitLoadGame | ActiveEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Owner::FUN_006a25b0(int value) {
  unk28=unk28 ? FUN_006ad8b0(unk28) : 0;
- unk24=unk24 ? FUN_006b6cc0(unk24) : 0;
+ unk24=unk24 ? MagicTarget_GetMagicTargetByNumericID(unk24) : 0;
  unk44=unk44 ? FUN_00406050(unk44) : 0;
  for(Node* n=unk40;n;n=n->next) if(n->item) n->item->table->update(n->item,value);
 }
@@ -4037,6 +4107,8 @@ struct Allocation6bab {
     Object6bab* object;
     ~Allocation6bab() { if(object) DAT_01090a78.FUN_0086ba60(object); }
 };
+// pdb: SummonCreatureEffect::Instantiate | SummonCreatureEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 Object6bab* FUN_006bab90(int first,int second,int third)
 {
     Allocation6bab pending = { (Object6bab*)DAT_01090a78.FUN_0086b930(0x74) };
@@ -4093,6 +4165,8 @@ public:
  void FUN_006b5840();
 };
 
+// pdb: BSSimpleArray<NiPointer<ParticleShaderProperty>,1024>::Add | MagicShaderHitEffect.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aValue
 void BSSimpleArray<NiPointer<ParticleShaderProperty>,1024>::FUN_006b5840(){this->BSSimpleArray::~BSSimpleArray();}
 
 // @f3 0x006b9db0 (community match, verified in this file)
@@ -4193,6 +4267,7 @@ struct Effect6A8B30 {
  int unk1c;
  int unk20;
 E6A8B30::Provider* provider; void FUN_006a8920(); void FUN_006a8b30(); };
+// pdb: LightEffect::Finish | LightEffect.obj | fnv360_0721_retail, vtable, low
 void Effect6A8B30::FUN_006a8b30() { FUN_006a8920(); if(provider) { E6A8B30::Object* object=provider->FUN_006b6c70(); if(object) FUN_006a89b0(&object->unk8c); } }
 }   // namespace f3m_006a8b30
 
@@ -4260,10 +4335,12 @@ struct Owner {
  unsigned int unk50;
  unsigned int unk54;
  Form* form;
- void FUN_006a1a10(int);void FUN_006bb710(int);
+ void ActiveEffect_SaveGame(int);void FUN_006bb710(int);
 };
+// pdb: TelekinesisEffect::SaveGame | TelekinesisEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Owner::FUN_006bb710(int arg){
- FUN_006a1a10(arg);
+ ActiveEffect_SaveGame(arg);
  unsigned int id=0;
  if(form) id=form->id;
  DAT_01079ca4->FUN_006defa0(&id,4);
@@ -4304,6 +4381,7 @@ struct Effect6ba2 {
     void FUN_006ba260();
 };
 struct BaseCleanup6ba2 { Effect6ba2* effect; BaseCleanup6ba2(Effect6ba2* p) : effect(p) { p->table=&G6ba2::DAT_00e0c0fc; } ~BaseCleanup6ba2() { effect->FUN_006a2740(); } };
+// pdb: ScriptEffect::`scalar deleting destructor' | ScriptEffect.obj | fnv360_0822_retail, caller_sim, low
 void Effect6ba2::FUN_006ba260() { BaseCleanup6ba2 cleanup(this); delete script; }
 }   // namespace f3m_006ba260
 
@@ -4540,9 +4618,11 @@ struct ActorTable {
  int unk378;
  int unk37C;
  void (__thiscall *set)(Actor*,int,float); };
-struct Actor { ActorTable* table; void FUN_00722a10(); };
+struct Actor { ActorTable* table; void Actor_UpdateAlpha(); };
 struct Owner { void FUN_0078c030(Item*); void FUN_006a5da0(Item*); };
-void Owner::FUN_006a5da0(Item* item) { Actor* a=item->table->get(item); FUN_0078c030(item); if(DAT_0116ef70 && DAT_0116efb0>=2) a->table->set(a,1,0.0f); else a->FUN_00722a10(); }
+// pdb: ChameleonEffect::Revert | ChameleonEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apLoadGameBuffer
+void Owner::FUN_006a5da0(Item* item) { Actor* a=item->table->get(item); FUN_0078c030(item); if(DAT_0116ef70 && DAT_0116efb0>=2) a->table->set(a,1,0.0f); else a->Actor_UpdateAlpha(); }
 }
 }   // namespace f3m_006a5da0
 
@@ -4582,12 +4662,15 @@ Effect6a6a* FUN_006a6a10(int a,int b,int c) { return new Effect6a6a(a,b,c); }
 // @f3 0x006a2f90 (community match, verified in this file)
 namespace f3m_006a2f90 {
 extern unsigned short __stdcall FUN_006a1980(int);
+// pdb: ValueAndConditionsEffect::GetSaveSize | ValueAndConditionsEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor
 unsigned short __stdcall FUN_006a2f90(int value) { unsigned short result=FUN_006a1980(value); result+=4; return result; }
 }   // namespace f3m_006a2f90
 
 // @f3 0x006be8e0 (community match, verified in this file)
 struct Interface8e0; struct Table8e0 {void* unk00;void* unk04;void* unk08;void* unk0c;void* unk10;void* unk14;void* unk18;void* unk1c; int (__stdcall* release)(Interface8e0*); }; struct Interface8e0 { Table8e0* table; };
 extern int DAT_010790fc; extern Interface8e0* DAT_01079110; extern unsigned int DAT_01079028;
+// pdb: FalloutAudioMedia::MediaPause | FalloutAudioMedia.obj | fnv360_0822_retail, objrun_prop, low
 void __cdecl FUN_006be8e0() { if(DAT_010790fc && DAT_01079110) { DAT_01079110->table->release(DAT_01079110); DAT_01079028|=4; } }
 
 // @f3 0x006bdbd0 (community match, verified in this file)
@@ -4618,8 +4701,8 @@ struct SoundHandle {
         value08 = other.value08;
         return *this;
     }
-    void FUN_00bd0140();
-    void FUN_00bd03b0();
+    void BSSoundHandle_Stop();
+    void BSSoundHandle_Release();
     void FUN_00bd0410(unsigned duration);
     void FUN_00bd03e0(unsigned duration);
 };
@@ -4636,13 +4719,15 @@ extern const double DAT_00db8c48;
 extern char DAT_00db3438[];
 extern bool __cdecl FUN_00619160();
 
+// pdb: FalloutAudio::SetAcousticSpace | FalloutAudio.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSpace
 void __cdecl FUN_006bdbd0(SoundInput* input)
 {
     if (DAT_0107904c != input) {
         SoundData* data = input->data30;
         if (FUN_00619160()) {
-            DAT_00f6c288.FUN_00bd0140();
-            DAT_00f6c288.FUN_00bd03b0();
+            DAT_00f6c288.BSSoundHandle_Stop();
+            DAT_00f6c288.BSSoundHandle_Release();
         } else {
             DAT_00f6c288.FUN_00bd0410(static_cast<unsigned>(DAT_01079094 * DAT_00db8c48));
         }
@@ -4696,6 +4781,8 @@ namespace N6B1AF0 { struct Loader {
  int unk7c;
 unsigned char version; void FUN_006db490(void*,unsigned); }; extern Loader* DAT_01079ca4; }
 struct Owner6B1AF0 { int unk00; int unk04; int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;unsigned char unk24; void FUN_006b1af0(int,int); };
+// pdb: MagicHitEffect::LoadGame | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 void Owner6B1AF0::FUN_006b1af0(int a,int b) { N6B1AF0::DAT_01079ca4->FUN_006db490(&unk20,4); N6B1AF0::DAT_01079ca4->FUN_006db490(&unk24,1); if(N6B1AF0::DAT_01079ca4->version>=0x72) N6B1AF0::DAT_01079ca4->FUN_006db490(&unk08,4); unk18=a;unk1c=b; }
 }   // namespace f3m_006b1af0
 
@@ -4715,6 +4802,8 @@ struct Owner {
     Dispatch* table;
     void FUN_006b7070(void*,void*,void*);
 };
+// pdb: MagicTarget::Dispel | MagicTarget.obj | fnv360_0822_retail, call_gap, medium, conflict (bridge: MagicTarget::IsAddicted)
+// pdb params: apEffect, apSpell, apCaster
 void Owner::FUN_006b7070(void* owner,void* category,void* filter) {
     Node* node=table->head(this);
     if(node) {
@@ -4761,6 +4850,8 @@ struct Object {
  Object(int,int,int); static void* operator new(unsigned n) throw() { return DAT_01090a78.FUN_0086b930(n); } static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
 }
+// pdb: ValueModifierEffect::Instantiate | ValueModifierEffect.obj | fnv360_0822_retail, objrun, low
+// pdb params: apCaster, apSpell, apEffect
 SmallFactory::Object* FUN_006bca20(int a,int b,int c) { return new SmallFactory::Object(a,b,c); }
 }   // namespace f3m_006bca20
 
@@ -4850,8 +4941,10 @@ struct Owner6A7790 {
  int unk3c;
  int unk40;
  int unk44;
-N6A7790::Marker* marker; void FUN_006a1a10(int); void FUN_006a7790(int); };
-void Owner6A7790::FUN_006a7790(int arg) { FUN_006a1a10(arg); if(N6A7790::DAT_01079ca4->version>=0x37) { arg=-1; if(marker && marker->object) { TESObjectARMO* armor=dynamic_cast<TESObjectARMO*>(marker->object); if(armor) for(unsigned i=0;i<20;++i) if(armor->biped.FUN_00451f80(i,0,0)) { arg=i; break; } } N6A7790::DAT_01079ca4->FUN_006db460(&arg,4); } }
+N6A7790::Marker* marker; void ActiveEffect_SaveGame(int); void FUN_006a7790(int); };
+// pdb: DisintegrateArmorEffect::SaveGame | DisintegrateArmorEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Owner6A7790::FUN_006a7790(int arg) { ActiveEffect_SaveGame(arg); if(N6A7790::DAT_01079ca4->version>=0x37) { arg=-1; if(marker && marker->object) { TESObjectARMO* armor=dynamic_cast<TESObjectARMO*>(marker->object); if(armor) for(unsigned i=0;i<20;++i) if(armor->biped.FUN_00451f80(i,0,0)) { arg=i; break; } } N6A7790::DAT_01079ca4->FUN_006db460(&arg,4); } }
 }   // namespace f3m_006a7790
 
 // @f3 0x006a5e90 (community match, verified in this file)
@@ -4868,6 +4961,7 @@ struct ChameleonEffect:ValueModifierEffect {
  static void* operator new(unsigned int size){return AllocA::DAT_01090a78.FUN_0086b930(size);}
  static void operator delete(void* p){AllocA::DAT_01090a78.FUN_0086ba60(p);}
 };
+// pdb: ChameleonEffect::Copy | ChameleonEffect.obj | fnv360_0822_retail, objrun_open, low
 ChameleonEffect* __cdecl FUN_006a5e90(void* a,void* b,void* c){return new ChameleonEffect(a,b,c);}
 }   // namespace f3m_006a5e90
 
@@ -4876,6 +4970,7 @@ namespace f3m_006ba4e0 {
 struct FUN_006ba480 {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c; FUN_006ba480(int,int,int); static void* operator new(unsigned n) { return DAT_01090a78.FUN_0086b930(n); } static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); } };
 struct Owner4e0; struct Table4e0 {void* unk00;void* unk04;void* unk08;void* unk0c;void* unk10;void* unk14;void* unk18;void* unk1c;void* unk20;void* unk24;void* unk28;void* unk2c;void* unk30;void* unk34;void* unk38;void* unk3c;void* unk40; void (__thiscall* attach)(Owner4e0*,FUN_006ba480*); };
 struct Owner4e0 { Table4e0* table; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; FUN_006ba480* FUN_006ba4e0(); };
+// pdb: ShieldEffect::Copy | ShieldEffect.obj | fnv360_0822_retail, objrun, medium
 FUN_006ba480* Owner4e0::FUN_006ba4e0() { FUN_006ba480* item=new FUN_006ba480(unk28,unk08,unk0c); table->attach(this,item); return item; }
 }   // namespace f3m_006ba4e0
 
@@ -4884,6 +4979,7 @@ namespace f3m_006a7430 {
 namespace SmallDelete {
 extern int DAT_00e0a484;struct Heap { void FUN_0086ba60(void*); };extern Heap DAT_01090a78;
 struct Object { int* table;void FUN_006a2740();Object* FUN_006a7430(unsigned); };
+// pdb: DetectLifeEffect::`scalar deleting destructor' | DetectLifeEffect.obj | fnv360_0721_retail, vtable, medium
 Object* Object::FUN_006a7430(unsigned flags) { table=&DAT_00e0a484;FUN_006a2740();if(flags&1) DAT_01090a78.FUN_0086ba60(this);return this; }
 }
 }   // namespace f3m_006a7430
@@ -4904,12 +5000,15 @@ struct SmallClear {
  int unk28;
  bool FUN_006a1260(int);
 };
+// pdb: ActiveEffect::CheckDeletedCaster | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster
 bool SmallClear::FUN_006a1260(int value) { bool result=false; if(value==unk28) { unk28=0;result=true; } return result; }
 }   // namespace f3m_006a1260
 
 // @f3 0x006b55b0 (community match, verified in this file)
 namespace f3m_006b55b0 {
 struct Array55b0; extern int DAT_00e0b8a4; extern void (__thiscall* DAT_00e0b8ac)(Array55b0*,void*); struct Array55b0 { void* table; void* data; unsigned size; unsigned capacity; Array55b0* FUN_006b55b0(unsigned); };
+// pdb: BSSimpleArray<char *,1024>::`scalar deleting destructor' | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: `anonymous namespace'::CombinedNodeFilterFunction)
 Array55b0* Array55b0::FUN_006b55b0(unsigned mode) { table=&DAT_00e0b8a4; if(data) { DAT_00e0b8ac(this,data); data=0; capacity=0; size=0; } if(mode&1) DAT_01090a78.FUN_0086ba60(this); return this; }
 }   // namespace f3m_006b55b0
 
@@ -5005,6 +5104,7 @@ struct Owner {
  bool enabled;
  void FUN_006bc360();
 };
+// pdb: TurnUndeadEffect::Finish | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006bc360(){
  if(enabled){
   Actor* actor=source?source->FUN_006b6c70():0;
@@ -5021,6 +5121,8 @@ void Owner::FUN_006bc360(){
 // @f3 0x006a44e0 (community match, verified in this file)
 namespace f3m_006a44e0 {
 struct FUN_006a3f60 {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;int unk80;int unk84;int unk88;int unk8c;int unk90;int unk94;int unk98;int unk9c;int unka0;int unka4;int unka8; FUN_006a3f60(int,int,int); static void* operator new(unsigned n) { return DAT_01090a78.FUN_0086b930(n); } static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); } };
+// pdb: BoundItemEffect::Instantiate | BoundItemEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 FUN_006a3f60* __cdecl FUN_006a44e0(int a,int b,int c) { return new FUN_006a3f60(a,b,c); }
 }   // namespace f3m_006a44e0
 
@@ -5095,6 +5197,8 @@ struct Effect6bc {
     void FUN_006a13f0(int first, int second, Item6bc* item);
     Effect6bc* FUN_006bc930(int first, int second, Item6bc* item);
 };
+// pdb: ValueModifierEffect::ValueModifierEffect | ValueModifierEffect.obj | fnv360_0822_retail, uvref, high
+// pdb params: apCaster, apSpell, apEffect
 Effect6bc* Effect6bc::FUN_006bc930(int first, int second, Item6bc* item) {
     FUN_006a13f0(first, second, item);
     table00 = &DAT_00e0c49c;
@@ -5170,6 +5274,8 @@ struct Owner {
  Child* child;
  unsigned short FUN_006a1980(int);unsigned short FUN_006b9fe0(int);
 };
+// pdb: ScriptEffect::GetSaveSize | ScriptEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apActor
 unsigned short Owner::FUN_006b9fe0(int arg){
  unsigned short size=FUN_006a1980(arg);
  if(DAT_01079ca4->version>=0x2a)size+=2;
@@ -5265,7 +5371,7 @@ struct Lookup;struct Table {
  int unk128;
  int unk12C;
  const char* (__thiscall *name)(Lookup*); };
-struct Lookup { Table* table; };Lookup* FUN_00455190(unsigned);
+struct Lookup { Table* table; };Lookup* TESForm_GetFormByNumericID(unsigned);
 extern char DAT_00e09fa0[];extern char DAT_00db4360[];void __cdecl FUN_00c24b70(const char*,...);
 struct Context {
  int unk000;
@@ -5300,7 +5406,7 @@ struct Context {
  int unk074;
  int unk078;
  int unk07C;
- unsigned char version;unsigned char unk81;unsigned char unk82;unsigned char unk83;int unk84;unsigned char* bytes;bool FUN_006daa00(); };extern Context* DAT_01079ca4;extern bool DAT_01079d20;
+ unsigned char version;unsigned char unk81;unsigned char unk82;unsigned char unk83;int unk84;unsigned char* bytes;bool TESSaveLoadGame_UseSaveGameBlocks(); };extern Context* DAT_01079ca4;extern bool DAT_01079d20;
 struct Item { unsigned short FUN_0047dca0(); };
 struct Owner {
  int unk000;
@@ -5323,7 +5429,9 @@ struct Owner {
  int unk044;
  int unk048;
  Item* primary;Item* entries[20];unsigned short FUN_006a2f90(int);unsigned short FUN_006a3990(int); };
-unsigned short Owner::FUN_006a3990(int flag) { unsigned short total=FUN_006a2f90(flag);unsigned short original=total;if(DAT_01079ca4->FUN_006daa00()) total+=6;++total;if(primary) total+=primary->FUN_0047dca0();for(unsigned i=0;i<20;++i) { ++total;if(entries[i]) total+=entries[i]->FUN_0047dca0(); } if(DAT_01079d20) { unsigned char* bytes=DAT_01079ca4->bytes;if(bytes) { Lookup* lookup=FUN_00455190(*(unsigned*)bytes);unsigned packed=*(unsigned*)(bytes+5);Table* table=lookup->table;FUN_00c24b70(DAT_00db4360,(unsigned short)total-(unsigned short)original,*(unsigned*)bytes,table->name(lookup),packed,0x29B,DAT_00e09fa0); } } if(DAT_01079ca4->version>=65) total+=5;if(DAT_01079ca4->version>=107) total+=1;return total; }
+// pdb: BoundItemEffect::GetSaveSize | BoundItemEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+unsigned short Owner::FUN_006a3990(int flag) { unsigned short total=FUN_006a2f90(flag);unsigned short original=total;if(DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) total+=6;++total;if(primary) total+=primary->FUN_0047dca0();for(unsigned i=0;i<20;++i) { ++total;if(entries[i]) total+=entries[i]->FUN_0047dca0(); } if(DAT_01079d20) { unsigned char* bytes=DAT_01079ca4->bytes;if(bytes) { Lookup* lookup=TESForm_GetFormByNumericID(*(unsigned*)bytes);unsigned packed=*(unsigned*)(bytes+5);Table* table=lookup->table;FUN_00c24b70(DAT_00db4360,(unsigned short)total-(unsigned short)original,*(unsigned*)bytes,table->name(lookup),packed,0x29B,DAT_00e09fa0); } } if(DAT_01079ca4->version>=65) total+=5;if(DAT_01079ca4->version>=107) total+=1;return total; }
 }
 }   // namespace f3m_006a3990
 
@@ -5519,8 +5627,8 @@ struct CharacterTable6a7c {
     void* unk2e4;
     bool (__thiscall* unavailable)(Character*);
 };
-struct Character { CharacterTable6a7c* table; unsigned short FUN_006f4cd0(); };
-extern bool FUN_005859c0(unsigned int,float);
+struct Character { CharacterTable6a7c* table; unsigned short Actor_GetLevel(); };
+extern bool MagicFormulas_CheckTargetLevelMagnitude(unsigned int,float);
 struct Owner6a7c {
     int unk00;
     int unk04;
@@ -5532,11 +5640,13 @@ struct Owner6a7c {
     float value;
     bool FUN_006a7c60(MagicTarget*);
 };
+// pdb: FrenzyEffect::CheckTarget | FrenzyEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apTarget
 bool Owner6a7c::FUN_006a7c60(MagicTarget* target) {
     Character* character=dynamic_cast<Character*>(target);
     if(character && !character->table->blocked(character,0) && !character->table->unavailable(character)) {
         float amount=value;
-        if(FUN_005859c0(character->FUN_006f4cd0(),amount)) return true;
+        if(MagicFormulas_CheckTargetLevelMagnitude(character->Actor_GetLevel(),amount)) return true;
     }
     return false;
 }
@@ -5565,6 +5675,8 @@ int unk3c;
 int unk40;
 int unk44;
 float amount; void FUN_006a6650(N6A67C0::Actor*); void FUN_006a67c0(float); };
+// pdb: ConcussionEffect::Update | ConcussionEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Effect6A67C0::FUN_006a67c0(float delta) { amount+=delta; if(provider) { N6A67C0::Actor* actor=provider->FUN_006b6c70();if(actor) FUN_006a6650(actor); } }
 }   // namespace f3m_006a67c0
 
@@ -5572,6 +5684,8 @@ void Effect6A67C0::FUN_006a67c0(float delta) { amount+=delta; if(provider) { N6A
 namespace f3m_006bae00 {
 namespace Actionae00 { struct Actor; struct Source { Actor* FUN_006b6c70(); }; struct Receiver; struct Table {void* unk000;void* unk004;void* unk008;void* unk00c;void* unk010;void* unk014;void* unk018;void* unk01c;void* unk020;void* unk024;void* unk028;void* unk02c;void* unk030;void* unk034;void* unk038;void* unk03c;void* unk040;void* unk044;void* unk048;void* unk04c;void* unk050;void* unk054;void* unk058;void* unk05c;void* unk060;void* unk064;void* unk068;void* unk06c;void* unk070;void* unk074;void* unk078;void* unk07c;void* unk080;void* unk084;void* unk088;void* unk08c;void* unk090;void* unk094;void* unk098;void* unk09c;void* unk0a0;void* unk0a4;void* unk0a8;void* unk0ac;void* unk0b0;void* unk0b4;void* unk0b8;void* unk0bc;void* unk0c0;void* unk0c4;void* unk0c8;void* unk0cc;void* unk0d0;void* unk0d4;void* unk0d8;void* unk0dc;void* unk0e0;void* unk0e4;void* unk0e8;void* unk0ec;void* unk0f0;void* unk0f4;void* unk0f8;void* unk0fc;void* unk100;void* unk104;void* unk108;void* unk10c;void* unk110;void* unk114;void* unk118;void* unk11c;void* unk120;void* unk124;void* unk128;void* unk12c;void* unk130;void* unk134;void* unk138;void* unk13c;void* unk140;void* unk144;void* unk148;void* unk14c;void* unk150;void* unk154;void* unk158;void* unk15c;void* unk160;void* unk164;void* unk168;void* unk16c;void* unk170;void* unk174;void* unk178;void* unk17c;void* unk180;void* unk184;void* unk188;void* unk18c;void* unk190;void* unk194;void* unk198;void* unk19c;void* unk1a0;void* unk1a4;void* unk1a8;void* unk1ac;void* unk1b0;void* unk1b4;void* unk1b8;void* unk1bc;void* unk1c0;void* unk1c4;void* unk1c8;void* unk1cc;void* unk1d0;void* unk1d4;void* unk1d8;void* unk1dc;void* unk1e0;void* unk1e4;void* unk1e8;void* unk1ec;void* unk1f0;void* unk1f4;void* unk1f8;void* unk1fc;void* unk200;void* unk204;void* unk208;void* unk20c;void* unk210;void* unk214;void* unk218;void* unk21c;void* unk220;void* unk224;void* unk228; bool (__thiscall* blocked)(Receiver*,int); }; struct Receiver { Table* table; }; extern Actor* DAT_0107a104; extern void __cdecl FUN_006a6180(Receiver*,Actor*);
 struct Action {int unk00;float unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;Source* unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;Receiver* unk4c;int unk50;float unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c; bool active; void FUN_006bacb0(Actor*); void FUN_006bac10(); void FUN_006a2e00(int); void FUN_006bae00(int); };
+// pdb: SummonCreatureEffect::Update | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Action::FUN_006bae00(int) { if(unk24) { Actor* actor=unk24->FUN_006b6c70(); if(actor && (!active || (unk4c && !unk4c->table->blocked(unk4c,0)))) { if(unk04>=unk54 && !active) { FUN_006bacb0(actor); if(actor==DAT_0107a104) FUN_006bac10(); active=true; } if(unk4c && !unk4c->table->blocked(unk4c,0)) FUN_006a6180(unk4c,actor); return; } } FUN_006a2e00(0); } }
 }   // namespace f3m_006bae00
 
@@ -5584,6 +5698,8 @@ struct Owner {
  void* form;unsigned int value;bool flag;
  void FUN_005af520(File*);void FUN_006b1bc0(File*);
 };
+// pdb: MagicHitEffect::LoadGame | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Owner::FUN_006b1bc0(File* file){FUN_005af520(file);file->FUN_006e0750(&value,4);file->FUN_006e0750(&flag,1);file->FUN_006e06d0(&form);}
 }
 }   // namespace f3m_006b1bc0
@@ -5685,6 +5801,7 @@ struct Controller6bac {
 };
 struct Category6bac { unsigned char flags; int unk04; int unk08; int unk0c; };
 namespace G6bac { extern Controller6bac* DAT_0107a104; extern const float DAT_00db7260; extern Category6bac DAT_00f462b8[]; extern int DAT_00f62b8c; }
+// pdb: SummonCreatureEffect::LimitPlayerSummonedCreatures | SummonCreatureEffect.obj | fnv360_0721_retail, call_seq, medium
 void FUN_006bac10() {
     Container6bac* container=&G6bac::DAT_0107a104->container;
     Node6bac* node=container->table->head(container);
@@ -5743,6 +5860,8 @@ struct Owner {
  unsigned char unk7c;unsigned char unk7d;unsigned char unk7e;unsigned char flag;
  void FUN_006a8d70(unsigned char);
 };
+// pdb: MobileObject::SetRunsInLow | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abFlag
 void Owner::FUN_006a8d70(unsigned char value){flag=value;}
 }
 }   // namespace f3m_006a8d70
@@ -5867,6 +5986,7 @@ struct Outer {
  int unk078;
  int unk07C;
  Owner member;};
+// pdb: MagicCaster::GetCasterAsActor | MagicCaster.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: ActorValue::IsSkill)
 Outer* Owner::FUN_006ad230() { Item* item=table->get(this);if(item && item->table->valid(item)) return reinterpret_cast<Outer*>(reinterpret_cast<char*>(this)-offsetof(Outer,member));return 0; }
 }
 }   // namespace f3m_006ad230
@@ -5951,6 +6071,7 @@ struct Table6bca {
 };
 namespace G6bca { extern Category6bca* DAT_01073eb8[]; }
 struct Owner6bca { Table6bca* table; int unk04; int unk08; Context6bca* context; int unk10; int unk14; int unk18; float value; int unk20; Caster6bca* caster; Target6bca* target; unsigned Kind(){return table->type(this);} bool HasMarker(){return context->marker!=0;} void FUN_006a27c0(); void FUN_006bcaa0(); };
+// pdb: ValueModifierEffect::Finalize | ValueModifierEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner6bca::FUN_006bcaa0() {
     Actor6bca* actor=caster ? caster->FUN_006b6c70() : 0;
     Definition6bca* definition=context->definition;
@@ -5972,6 +6093,8 @@ void Owner6bca::FUN_006bcaa0() {
 // @f3 0x006b1b60 (community match, verified in this file)
 namespace f3m_006b1b60 {
 namespace copy1b { struct Source { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; }; struct Owner { int unk00; int unk04; int unk08; int unk0C; void FUN_006b1b60(int,Source*); };
+// pdb: MagicHitEffect::InitLoadGame | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 void Owner::FUN_006b1b60(int,Source* source) { if(source) unk0C=source->unk3C; }
 }
 }   // namespace f3m_006b1b60
@@ -6013,6 +6136,8 @@ int unk78;
 int unk7c;
 unsigned char version; };extern Loader* DAT_01079ca4; }
 struct Owner6BA3F0 {unsigned short FUN_006a1980(int);unsigned FUN_006ba3f0(int);};
+// pdb: ShieldEffect::GetSaveSize | ShieldEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
 unsigned Owner6BA3F0::FUN_006ba3f0(int arg) {unsigned result=FUN_006a1980(arg);if(N6BA3F0::DAT_01079ca4->version>=0x6e)result+=4;return result;}
 }   // namespace f3m_006ba3f0
 
@@ -6025,6 +6150,8 @@ struct Actor { Table* table; };
 struct Data { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; unsigned int flags; bool First(){return (flags>>1)&1;} };
 struct Config { int unk000; int unk004; int unk008; int unk00C; int unk010; Data* data; };
 struct Owner { int unk000; int unk004; int unk008; Config* config; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int kind; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int id; void FUN_006ba5e0(Actor*,float); };
+// pdb: ShieldEffect::ModifyAdditionalActorValue | ShieldEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor, afModifier
 void Owner::FUN_006ba5e0(Actor* actor,float value) {
  if(actor && id!=0x49) {
  if(kind==4) actor->table->direct(actor,id,value);
@@ -6041,6 +6168,7 @@ namespace pair628 {
 struct First { void* FUN_006b6c70(); }; struct Second { void* FUN_006ad230(); };
 void __cdecl FUN_006a6120(void*,void*);
 struct Owner { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; First* first; Second* second; void FUN_006a6280(); };
+// pdb: CommandEffect::Start | CommandEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006a6280() {
  First* a=first; void* firstValue=a ? a->FUN_006b6c70() : 0;
  Second* b=second; void* secondValue=b ? b->FUN_006ad230() : 0;
@@ -6052,6 +6180,7 @@ void Owner::FUN_006a6280() {
 // @f3 0x006bd790 (community match, verified in this file)
 namespace f3m_006bd790 {
 namespace Cached790 { struct Manager { void* FUN_0043bcc0(const char*); }; extern Manager* DAT_0106cdcc; extern void* DAT_01079048; extern const char DAT_00e07898[];
+// pdb: FalloutAudio::GetNoActivationSound | FalloutAudio.obj | fnv360_0822_retail, objrun, medium
 void* __cdecl FUN_006bd790() { if(!DAT_01079048) DAT_01079048=DAT_0106cdcc->FUN_0043bcc0(DAT_00e07898); return DAT_01079048; } }
 }   // namespace f3m_006bd790
 
@@ -6060,6 +6189,8 @@ namespace f3m_006bd5c0 {
 namespace CopyRecordA {
 struct Record {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int first;int second;};
 struct Object {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;Record record;Record Get(){return record;}};
+// pdb: FalloutAudio::GetLoopPoints | FalloutAudio.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: apSettingsContext, aiLoopStart, aiLoopEnd
 bool __cdecl FUN_006bd5c0(Object* object,int* first,int* second){
  if(!object)return false;
  if(object->Get().first==0&&object->Get().second==0)return false;
@@ -6206,7 +6337,8 @@ public:
     void FUN_007095b0(FNV_006a7e40_Object* argument);
     void FUN_006a7e40();
 
-    virtual char vf100() { return 0; }
+    // pdb: TESForm::IsActor (slot 64; F3 TESForm vtable 78 slots = FNV360_PDB TESForm 78, Actor's slot 64 returns true)
+    virtual char IsActor() { return 0; }
     virtual void vf104() {}
     virtual void vf108() {}
     virtual void vf10C() {}
@@ -6414,6 +6546,7 @@ public:
 extern FNV_006a7e40_Object** DAT_0107c0a8;
 extern unsigned int DAT_0107c0c4;
 
+// pdb: FrenzyEffect::Finish | FrenzyEffect.obj | fnv360_0721_retail, vtable, medium
 void FNV_006a7e40_Object::FUN_006a7e40() {
     FUN_006bce80();
 
@@ -6427,7 +6560,7 @@ void FNV_006a7e40_Object::FUN_006a7e40() {
                 FNV_006a7e40_Object* object = DAT_0107c0a8[index];
 
                 if (object != target && object != 0) {
-                    if (object->vf100() != 0) {
+                    if (object->IsActor() != 0) {
                         object->FUN_007095b0(target);
 
                         if (object->unkF8 != 0)
@@ -6675,9 +6808,11 @@ struct FNV_006a80c0_VtableBase {
 
 struct FNV_006a80c0_Object : FNV_006a80c0_VtableBase {
     virtual void vf380(int value, float amount) { (void)value; (void)amount; }
-    void FUN_00722a10();
+    void Actor_UpdateAlpha();
 };
 
+// pdb: InvisibilityEffect::Revert | InvisibilityEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
 void __stdcall FUN_006a80c0(int* param) {
     int* value = param;
     FUN_0078c030(value);
@@ -6691,7 +6826,7 @@ void __stdcall FUN_006a80c0(int* param) {
     }
 
     FNV_006a80c0_Object* object = (FNV_006a80c0_Object*)value;
-    object->FUN_00722a10();
+    object->Actor_UpdateAlpha();
 }
 }   // namespace f3m_006a80c0
 
@@ -6714,6 +6849,7 @@ extern const float DAT_00dbe8fc;
 struct UI {float FUN_00bcf760();};
 extern UI* DAT_011790c8;
 void __cdecl FUN_006be9e0(float,int);
+// pdb: FalloutAudioMedia::MediaPlay | FalloutAudioMedia.obj | fnv360_1110_retail, call_seq, low, conflict (bridge: XMPOverrideBackgroundMusic)
 void __cdecl FUN_006bebf0(){
  if(!DAT_00f6c32c||!(DAT_01079028&1)||!DAT_01079104||!DAT_01079110)return;
  if(DAT_01079108>0.0){DAT_01079104->ops->Advance(DAT_01079104,DAT_01079108);DAT_01079108=0.0;}
@@ -6769,6 +6905,8 @@ struct Owner {
  int unk14;
  int unk18;
  float speed;float progress;Object* object;int unk28;int kind;void FUN_006bcda0(float);void FUN_006ba5e0(void*,float);void FUN_006ba6a0(float);};
+// pdb: ShieldEffect::Update | ShieldEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Owner::FUN_006ba6a0(float amount) {FUN_006bcda0(amount);unsigned char bit=(unsigned char)(info->config->flags>>1);if(!(bit&1)){void* target=object?object->FUN_006b6c70():0;if(progress>0.0f || kind==4){amount*=speed;FUN_006ba5e0(target,amount);}}}
 }
 }   // namespace f3m_006ba6a0
@@ -7059,6 +7197,7 @@ struct Owner6a57 {
     void FUN_006bce80();
     void FUN_006a57b0();
 };
+// pdb: CalmEffect::Finish | CalmEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner6a57::FUN_006a57b0() {
     FUN_006bce80();
     if(caster) {
@@ -7087,6 +7226,8 @@ namespace f3m_006b8820 {
 namespace notify882 {
 extern void* DAT_0107a104; void __cdecl FUN_006b8760();
 struct Owner { void FUN_006a1e60(void*); void FUN_006b8820(void*); };
+// pdb: NightEyeEffect::InitLoadGame | NightEyeEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Owner::FUN_006b8820(void* actor) { FUN_006a1e60(actor); if(actor==DAT_0107a104) FUN_006b8760(); }
 }
 }   // namespace f3m_006b8820
@@ -7141,6 +7282,7 @@ struct Owner {Table* table;int unk04;int second;int third;
  int unk20;
  int unk24;
  int first;Product* FUN_006a7ab0();};
+// pdb: DispelEffect::Copy | DispelEffect.obj | fnv360_0721_retail, vtable, medium
 Product* Owner::FUN_006a7ab0(){Product* p=new Product(first,second,third);table->notify(this,p);return p;}
 }
 }   // namespace f3m_006a7ab0
@@ -7205,11 +7347,13 @@ struct Owner {
     int unk44;
     int unk48;
     int data;
-    void FUN_006a1bf0(int);
+    void ActiveEffect_LoadGame(int);
     void FUN_006ba450(int);
 };
+// pdb: ShieldEffect::LoadGame | ShieldEffect.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: DisguiseEffect::LoadGame)
+// pdb params: apActor
 void Owner::FUN_006ba450(int arg) {
-    FUN_006a1bf0(arg);
+    ActiveEffect_LoadGame(arg);
     if(DAT_01079ca4->version>=110) DAT_01079ca4->FUN_006db490(&data,4);
 }
 }
@@ -7271,6 +7415,8 @@ struct Owner {
  int unkB8;
  int unkBC;
  Node* head;bool FUN_006b0580(Item*,Info*);};
+// pdb: MagicFogProjectile::CheckAddTarget | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpellTarget, apEffect
 bool Owner::FUN_006b0580(Item* item,Info* info) {if(!item || !info)return false;if(info->id!=id)return true;int key=item->table->key(item);int value=info->value;for(Node* node=head;node;node=node->next)if(node->key==key && node->value==value)return false;head=new Node(key,value,head);return true;}
 }
 }   // namespace f3m_006b0580
@@ -7592,6 +7738,8 @@ struct Owner {int* table;
  int unk4D8;
  int unk4DC;
  int value;void FUN_008f1290(int);Owner* FUN_006a3070(int,int);};
+// pdb: bhkCharacterListenerSpell::bhkCharacterListenerSpell | bhkCharacterListenerSpell.obj | fnv360_0822_retail, uvref, medium
+// pdb params: arInfo, apProjectile
 Owner* Owner::FUN_006a3070(int first,int second){FUN_008f1290(first);table=&DAT_00e09e54;table260=&DAT_00e09e44;table290=&DAT_00e09e28;value=second;return this;}
 }
 }   // namespace f3m_006a3070
@@ -7599,12 +7747,16 @@ Owner* Owner::FUN_006a3070(int first,int second){FUN_008f1290(first);table=&DAT_
 // @f3 0x006a2e00 (community match, verified in this file)
 namespace f3m_006a2e00 {
 struct State2e00 { int unk00; int unk04; int unk08; int unk0c; unsigned char unk10; unsigned char unk11; unsigned char unk12; bool active; void FUN_006a27e0(float); void FUN_006a2e00(bool); };
+// pdb: ActiveEffect::Dispel | ActiveEffect.obj | fnv360_0822_retail, call_seq, low
+// pdb params: abNow
 void State2e00::FUN_006a2e00(bool reset) { active=true; if(reset) FUN_006a27e0(0.0f); }
 }   // namespace f3m_006a2e00
 
 // @f3 0x006bc830 (community match, verified in this file)
 namespace f3m_006bc830 {
 struct Actorc830; struct Tablec830 {void* unk000;void* unk004;void* unk008;void* unk00c;void* unk010;void* unk014;void* unk018;void* unk01c;void* unk020;void* unk024;void* unk028;void* unk02c;void* unk030;void* unk034;void* unk038;void* unk03c;void* unk040;void* unk044;void* unk048;void* unk04c;void* unk050;void* unk054;void* unk058;void* unk05c;void* unk060;void* unk064;void* unk068;void* unk06c;void* unk070;void* unk074;void* unk078;void* unk07c;void* unk080;void* unk084;void* unk088;void* unk08c;void* unk090;void* unk094;void* unk098;void* unk09c;void* unk0a0;void* unk0a4;void* unk0a8;void* unk0ac;void* unk0b0;void* unk0b4;void* unk0b8;void* unk0bc;void* unk0c0;void* unk0c4;void* unk0c8;void* unk0cc;void* unk0d0;void* unk0d4;void* unk0d8;void* unk0dc;void* unk0e0;void* unk0e4;void* unk0e8;void* unk0ec;void* unk0f0;void* unk0f4;void* unk0f8;void* unk0fc;void* unk100;void* unk104;void* unk108;void* unk10c;void* unk110;void* unk114;void* unk118;void* unk11c;void* unk120;void* unk124;void* unk128;void* unk12c;void* unk130;void* unk134;void* unk138;void* unk13c;void* unk140;void* unk144;void* unk148;void* unk14c;void* unk150;void* unk154;void* unk158;void* unk15c;void* unk160;void* unk164;void* unk168;void* unk16c;void* unk170;void* unk174;void* unk178;void* unk17c;void* unk180;void* unk184;void* unk188;void* unk18c;void* unk190;void* unk194;void* unk198;void* unk19c;void* unk1a0;void* unk1a4;void* unk1a8;void* unk1ac;void* unk1b0;void* unk1b4;void* unk1b8;void* unk1bc;void* unk1c0;void* unk1c4;void* unk1c8;void* unk1cc;void* unk1d0;void* unk1d4;void* unk1d8;void* unk1dc;void* unk1e0;void* unk1e4;void* unk1e8;void* unk1ec;void* unk1f0;void* unk1f4;void* unk1f8;void* unk1fc;void* unk200;void* unk204;void* unk208;void* unk20c;void* unk210;void* unk214;void* unk218;void* unk21c;void* unk220;void* unk224;void* unk228; bool (__thiscall* blocked)(Actorc830*,int); }; struct Actorc830 { Tablec830* table; }; struct Handlec830 { Actorc830* FUN_006b6c70(); };
+// pdb: ValueModifierEffect::CheckTarget | ValueModifierEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apTarget
 int __stdcall FUN_006bc830(Handlec830* handle) { if(handle) { Actorc830* actor=handle->FUN_006b6c70(); if(actor && !actor->table->blocked(actor,0)) return 1; } return 0; }
 }   // namespace f3m_006bc830
 
@@ -7618,6 +7770,8 @@ struct Node { Item* item; Node* next; };
 struct ActorTable { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; int unk060; int unk064; int unk068; int unk06C; int unk070; int unk074; int unk078; int unk07C; int unk080; int unk084; int unk088; int unk08C; int unk090; int unk094; int unk098; int unk09C; int unk0A0; int unk0A4; int unk0A8; int unk0AC; int unk0B0; int unk0B4; int unk0B8; int unk0BC; int unk0C0; int unk0C4; int unk0C8; int unk0CC; int unk0D0; int unk0D4; int unk0D8; int unk0DC; int unk0E0; int unk0E4; int unk0E8; int unk0EC; int unk0F0; int unk0F4; int unk0F8; int unk0FC; int unk100; int unk104; int unk108; int unk10C; int unk110; int unk114; int unk118; int unk11C; int unk120; int unk124; int unk128; int unk12C; int unk130; int unk134; int unk138; int unk13C; int unk140; int unk144; int unk148; int unk14C; int unk150; int unk154; int unk158; int unk15C; int unk160; int unk164; int unk168; int unk16C; int unk170; int unk174; int unk178; int unk17C; int unk180; int unk184; int unk188; int unk18C; int unk190; int unk194; int unk198; int unk19C; int unk1A0; int unk1A4; int unk1A8; int unk1AC; int unk1B0; int unk1B4; int unk1B8; int unk1BC; int unk1C0; int unk1C4; int unk1C8; int unk1CC; int unk1D0; int unk1D4; int unk1D8; int unk1DC; int unk1E0; int unk1E4; int unk1E8; int unk1EC; int unk1F0; int unk1F4; int unk1F8; int unk1FC; int unk200; int unk204; int unk208; int unk20C; int unk210; int unk214; int unk218; int unk21C; int unk220; int unk224; int unk228; int unk22C; int unk230; int unk234; int unk238; int unk23C; int unk240; int unk244; int unk248; int unk24C; int unk250; int unk254; int unk258; int unk25C; int unk260; int unk264; int unk268; int unk26C; int unk270; int unk274; int unk278; int unk27C; int unk280; int unk284; int unk288; int unk28C; int unk290; int unk294; int unk298; int unk29C; int unk2A0; int unk2A4; int unk2A8; int unk2AC; int unk2B0; int unk2B4; int unk2B8; int unk2BC; int unk2C0; int unk2C4; int unk2C8; int unk2CC; int unk2D0; int unk2D4; int unk2D8; int unk2DC; int unk2E0; int unk2E4; int unk2E8; int unk2EC; int unk2F0; int unk2F4; int unk2F8; int unk2FC; int unk300; int unk304; int unk308; int unk30C; int unk310; int unk314; int unk318; int unk31C; int unk320; int unk324; int unk328; int unk32C; int unk330; int unk334; int unk338; int unk33C; int unk340; int unk344; int unk348; int unk34C; int unk350; int unk354; int unk358; int unk35C; int unk360; int unk364; int unk368; int unk36C; int unk370; int unk374; int unk378; int unk37C; int unk380; int unk384; int unk388; int unk38C; int unk390; int unk394; int unk398; int unk39C; int unk3A0; int unk3A4; int unk3A8; int unk3AC; int unk3B0; int unk3B4; int unk3B8; int unk3BC; int unk3C0; int unk3C4; int unk3C8; int unk3CC; int unk3D0; int unk3D4; int unk3D8; int unk3DC; int unk3E0; int unk3E4; int unk3E8; int unk3EC; int unk3F0; int unk3F4; int unk3F8; int unk3FC; int unk400; int unk404; int unk408; int unk40C; int unk410; int unk414; int unk418; int unk41C; int unk420; int unk424; int unk428; int unk42C; int unk430; int unk434; int unk438; int unk43C; int unk440; int unk444; int unk448; int unk44C; int unk450; int unk454; int unk458; int unk45C; int unk460; int unk464; int unk468; int unk46C; int unk470; int unk474; int unk478; int unk47C; int unk480; int unk484; int unk488; int unk48C; int unk490; int unk494; int unk498; int unk49C; int unk4A0; int unk4A4; int unk4A8; int unk4AC; int unk4B0; int unk4B4; int unk4B8; int unk4BC; int unk4C0; int unk4C4; int unk4C8; int unk4CC; int unk4D0; int unk4D4; int unk4D8; int unk4DC; int unk4E0; int unk4E4; int unk4E8; int unk4EC; int unk4F0; int unk4F4; int unk4F8; int unk4FC; int unk500; int unk504; int unk508; int unk50C; int unk510; int unk514; int unk518; int unk51C; int unk520; int unk524; int unk528; int unk52C; int unk530; int unk534; int unk538; int unk53C; int unk540; int unk544; int unk548; int unk54C; int unk550; int unk554; int unk558; int unk55C; int unk560; int unk564; int unk568; int unk56C; int unk570; int unk574; void (__thiscall *update)(Actor*,bool,bool,bool); };
 struct Actor { ActorTable* table; };
 struct Owner { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int unk05C; Actor* actor; };
+// pdb: ActiveEffect::FinishInitLoadGameActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActiveEffectList, apActor
 void __cdecl FUN_006a21c0(Node* list,Owner* owner) {
  for(Node* node=list;node;node=node->next) {
  if(!node->next && !node->item) break;
@@ -7631,6 +7785,7 @@ void __cdecl FUN_006a21c0(Node* list,Owner* owner) {
 // @f3 0x006a7930 (community match, verified in this file)
 namespace f3m_006a7930 {
 namespace Create7930 { struct Heap { void* FUN_0086b930(unsigned); void FUN_0086ba60(void*); }; extern Heap DAT_01090a78; extern int DAT_00e0a59c; struct Created { void* table;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44; void FUN_006a13f0(int,int,int); Created(int a,int b,int c) { FUN_006a13f0(a,b,c); table=&DAT_00e0a59c; } static void* operator new(unsigned n) { return DAT_01090a78.FUN_0086b930(n); } static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); } }; struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28; void FUN_006a1080(Created*); Created* FUN_006a7930(); };
+// pdb: DisintegrateWeaponEffect::Copy | DisintegrateWeaponEffect.obj | fnv360_0721_retail, vtable, medium
 Created* Owner::FUN_006a7930() { Created* result=new Created(unk28,unk08,unk0c); FUN_006a1080(result); return result; } }
 }   // namespace f3m_006a7930
 
@@ -7676,6 +7831,8 @@ int unk8c;
 int unk90;
 int unk94;
 unsigned id;};struct Spell {int unk00;int unk04;int unk08;int unk0c;int unk10;Type* type;};struct Item {int unk00;int unk04;int unk08;Spell* spell;unsigned char unk10;unsigned char unk11;unsigned char unk12;unsigned char disabled;int unk14;unsigned flags;int unk1c;int unk20;int unk24;void* context;void FUN_006a2e00(int);};struct Node {Item* data;Node* next;};struct Owner;struct Table {void* unk00;void* unk04;Node*(__thiscall* head)(Owner*);};struct Owner {Table* table;__forceinline Node* Head(){return table->head(this);}void FUN_006b8530(unsigned,void*);};}
+// pdb: MagicTarget::Dispel | MagicTarget.obj | fnv360_0822_retail, call_seq, low
+// pdb params: aeID, apCaster
 void N6B8530::Owner::FUN_006b8530(unsigned type,void* context){for(Node* node=Head();node;){Node* next=node->next;if(!next&&!node->data)break;Item* item=node->data;bool match=context?context==item->context:true;if(item&&!item->disabled&&item->spell->type->id==type&&match){item->FUN_006a2e00(1);item->flags|=0x80000000u;}else node=next;}}
 }   // namespace f3m_006b8530
 
@@ -7720,6 +7877,7 @@ struct Owner {
     void* first;
     Object* FUN_006b9e30();
 };
+// pdb: ScriptEffect::Copy | ScriptEffect.obj | fnv360_0721_retail, vtable, medium
 Object* Owner::FUN_006b9e30() {
     Object* memory=(Object*)DAT_01090a78.FUN_0086b930(0x50);
     Object* result;
@@ -7771,6 +7929,8 @@ struct Owner {
     void FUN_006aee30(float,int,int,float,int);
     void FUN_006afe20(Input*,int);
 };
+// pdb: MagicCaster::CastRadiation | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, abLoadCast
 void Owner::FUN_006afe20(Input* input,int arg) {
     table->bind(this,input ? &input->member : 0);
     FUN_006aee30(0.0f,0,arg,1.0f,0);
@@ -7787,6 +7947,8 @@ struct Allocation6bbd {
     Object6bbd* object;
     ~Allocation6bbd() { if(object) G6bbd::DAT_01090a78.FUN_0086ba60(object); }
 };
+// pdb: TelekinesisEffect::Instantiate | TelekinesisEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 Object6bbd* FUN_006bbd90(int first,int second,int third)
 {
     Allocation6bbd pending={(Object6bbd*)G6bbd::DAT_01090a78.FUN_0086b930(0x60)};
@@ -7902,8 +8064,10 @@ void* unk18c;
 void* unk190;
 void* unk194;
 void*(__thiscall* query)(Form*);
-};struct Form {Table* table;__forceinline bool Check(){return table->check(this);}__forceinline void* Query(){return table->query(this);}};Form* FUN_00455190(unsigned);}
-void* FUN_006ad8b0(unsigned id){N6AD8B0::Form* form=N6AD8B0::FUN_00455190(id);if(form&&form->Check())return form->Query();return 0;}
+};struct Form {Table* table;__forceinline bool Check(){return table->check(this);}__forceinline void* Query(){return table->query(this);}};Form* TESForm_GetFormByNumericID(unsigned);}
+// pdb: MagicCaster::GetMagicCasterByNumericID | MagicCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiFormID
+void* FUN_006ad8b0(unsigned id){N6AD8B0::Form* form=N6AD8B0::TESForm_GetFormByNumericID(id);if(form&&form->Check())return form->Query();return 0;}
 
 }   // namespace f3m_006ad8b0
 
@@ -7919,6 +8083,8 @@ struct Data { int unk000; int unk004; int unk008; int unk00C; int unk010; int un
 struct Config { int unk000; int unk004; int unk008; int unk00C; int unk010; Data* data; };
 struct OwnerTable { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; int unk048; int unk04C; int unk050; int unk054; int unk058; int (__thiscall *id)(Owner*); };
 struct Owner { OwnerTable* table; int unk04; int unk08; Config* config; int unk10; int unk14; unsigned int flags; float amount; int unk20; First* first; Second* second; bool Enabled(){return (flags>>8)&1;} void FUN_006a1f00(void*); void FUN_006bd1e0(void*); };
+// pdb: ValueModifierEffect::FinishInitLoadGame | ValueModifierEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: ValueModifierEffect::CheckAdjustNoNegativeMagnitude)
+// pdb params: apActor
 void Owner::FUN_006bd1e0(void* argument) {
  FUN_006a1f00(argument);
  if(DAT_01079ca4->value>=0x5f && DAT_01079ca4->value<0x62) {
@@ -9041,6 +9207,7 @@ struct FUN_006a03d0 {
     static void operator delete(void* memory) { DAT_01090a78.FUN_0086ba60(memory); }
 };
 extern FUN_006a03d0* DAT_01077ae0;
+// pdb: DebugTextManager::Initialize | DebugTextManager.obj | fnv360_0822_retail, call_seq, low
 void __cdecl FUN_006a0440() {
     if (!DAT_01077ae0) DAT_01077ae0 = new FUN_006a03d0;
 }
@@ -9059,6 +9226,8 @@ struct Target6ba160 {
     void FUN_006a2240(Peer6ba160*);
     void FUN_006ba160(Peer6ba160*);
 };
+// pdb: ScriptEffect::SaveGame | ScriptEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: DisguiseEffect::EvaluateActiveStatus)
+// pdb params: apSaveGameBuffer
 void Target6ba160::FUN_006ba160(Peer6ba160* arg) {
     FUN_006a2240(arg);
     unsigned char active = field4c != 0;
@@ -9068,7 +9237,6 @@ void Target6ba160::FUN_006ba160(Peer6ba160* arg) {
 }
 Target6ba160* volatile g_obj;
 Peer6ba160* volatile g_peer;
-void caller() { g_obj->FUN_006ba160(g_peer); }
 }   // namespace f3m_006ba160
 
 // @f3 0x006a8fd0 (community match, verified in this file)
@@ -9346,6 +9514,8 @@ struct Owner {
  Child* child;
  void FUN_006a8fd0(int);
 };
+// pdb: bhkCharacterController::SetCollisionFilter | MagicBallProjectile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiFilter
 void Owner::FUN_006a8fd0(int value){Child* current=child;if(current){Inner* inner=current->inner;if(inner){Sub* sub=inner->Get();if(sub)sub->value=value;}current->methods[0x30](current);}}
 }
 }   // namespace f3m_006a8fd0
@@ -9364,19 +9534,22 @@ struct NightEyeEffect:ValueModifierEffect {
  static void* operator new(unsigned int size){return AllocA::DAT_01090a78.FUN_0086b930(size);}
  static void operator delete(void* p){AllocA::DAT_01090a78.FUN_0086ba60(p);}
 };
+// pdb: NightEyeEffect::Copy | NightEyeEffect.obj | fnv360_0822_retail, objrun_open, low
 NightEyeEffect* __cdecl FUN_006b86f0(void* a,void* b,void* c){return new NightEyeEffect(a,b,c);}
 }   // namespace f3m_006b86f0
 
 // @f3 0x006a74f0 (community match, verified in this file)
 namespace f3m_006a74f0 {
 namespace Cleanup74f0 { struct Ref; struct Table { void* unk00; void* (__thiscall* actor)(Ref*); }; struct Ref { Table* table; }; extern void* DAT_0107a104; extern bool DAT_010781b0; struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20; Ref* ref; void FUN_006bcc80(); void FUN_006a74f0(); };
+// pdb: DetectLifeEffect::Start | DetectLifeEffect.obj | fnv360_0721_retail, vtable, low
 void Owner::FUN_006a74f0() { FUN_006bcc80(); if(ref->table->actor(ref)==DAT_0107a104) DAT_010781b0=false; } }
 }   // namespace f3m_006a74f0
 
 // @f3 0x006b6ed0 (community match, verified in this file)
 namespace f3m_006b6ed0 {
-namespace Sum6ed0 { struct Entry { int unk00; int unk04; int unk08; void* key; int unk10; int unk14; int unk18; float value; }; struct Node { Entry* value; Node* next; bool Empty() { return !next && !value; } Entry*& Item() { return value; } }; struct Sub { void* FUN_00403640(); }; struct Input { int unk00; int unk04; int unk08; Sub sub; }; struct Owner; struct Table { void* unk00; void* unk04; Node* (__thiscall* list)(Owner*); }; struct Owner { Table* table; bool FUN_006b6d00(Input*,int); float FUN_006b6ed0(Input*); };
-float Owner::FUN_006b6ed0(Input* input) { float result=0.0f; if(input) { void* key=input->sub.FUN_00403640(); if(key && FUN_006b6d00(input,1)) { for(Node* node=table->list(this);node;node=node->next) { if(node->Empty()) break; Entry* entry=node->Item(); if(entry && entry->key==key) result+=entry->value; } } } return result; } }
+namespace Sum6ed0 { struct Entry { int unk00; int unk04; int unk08; void* key; int unk10; int unk14; int unk18; float value; }; struct Node { Entry* value; Node* next; bool Empty() { return !next && !value; } Entry*& Item() { return value; } }; struct Sub { void* FUN_00403640(); }; struct Input { int unk00; int unk04; int unk08; Sub sub; }; struct Owner; struct Table { void* unk00; void* unk04; Node* (__thiscall* list)(Owner*); }; struct Owner { Table* table; bool MagicTarget_IsSpellTarget(Input*,int); float MagicTarget_GetUsageMonitorEffectMagnitude(Input*); };
+// pdb: MagicTarget::GetUsageMonitorEffectMagnitude | MagicTarget.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(caller), high
+float Owner::MagicTarget_GetUsageMonitorEffectMagnitude(Input* input) { float result=0.0f; if(input) { void* key=input->sub.FUN_00403640(); if(key && MagicTarget_IsSpellTarget(input,1)) { for(Node* node=table->list(this);node;node=node->next) { if(node->Empty()) break; Entry* entry=node->Item(); if(entry && entry->key==key) result+=entry->value; } } } return result; } }
 }   // namespace f3m_006b6ed0
 
 // @f3 0x006afdd0 (community match, verified in this file)
@@ -9412,6 +9585,8 @@ virtual void Select(MagicItem603*);
 void FUN_006aee30(float,void*,bool,float,bool);
 void FUN_006afdd0(Spell603*,bool);
 };
+// pdb: MagicCaster::CastAddiction | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, abLoadCast
 void Caster603::FUN_006afdd0(Spell603* spell,bool immediate) {
     if(spell->item.GetSpellType()==10) {
         Select(&spell->item);
@@ -9430,6 +9605,7 @@ struct Paralysis : FUN_006bc930 { Paralysis(void* a,void* b,void* c):FUN_006bc93
 struct Owner;
 struct Table { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; void (__thiscall *attach)(Owner*,Paralysis*); };
 struct Owner { Table* table; int unk04; void* unk08; void* unk0C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; void* unk28; Paralysis* FUN_006b9090(); };
+// pdb: ParalysisEffect::Copy | ParalysisEffect.obj | fnv360_0822_retail, objrun, medium
 Paralysis* Owner::FUN_006b9090() { Paralysis* result=new Paralysis(unk28,unk08,unk0C); table->attach(this,result); return result; }
 }
 }   // namespace f3m_006b9090
@@ -9505,6 +9681,7 @@ struct Owner {
  void FUN_006bce80();void FUN_006a6bb0();
 };
 void __cdecl FUN_00adbf10(void*,float);
+// pdb: DarknessEffect::Finish | DarknessEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006a6bb0(){
  FUN_006bce80();
  if(source){Actor* actor=source->FUN_006b6c70();if(actor&&actor->methods[0x74](actor)){
@@ -9526,6 +9703,7 @@ struct Demoralize : FUN_006a13f0 { unsigned char flag; Demoralize(void* a,void* 
 struct Owner;
 struct Table { int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; void (__thiscall *attach)(Owner*,Demoralize*); };
 struct Owner { Table* table; int unk04; void* unk08; void* unk0C; int unk010; int unk014; int unk018; int unk01C; int unk020; int unk024; void* unk28; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; unsigned char flag; Demoralize* FUN_006a6ea0(); };
+// pdb: DemoralizeEffect::Copy | DemoralizeEffect.obj | fnv360_0721_retail, vtable, medium
 Demoralize* Owner::FUN_006a6ea0() { Demoralize* result=new Demoralize(unk28,unk08,unk0C); result->flag=flag; table->attach(this,result); return result; }
 }
 }   // namespace f3m_006a6ea0
@@ -9534,14 +9712,16 @@ Demoralize* Owner::FUN_006a6ea0() { Demoralize* result=new Demoralize(unk28,unk0
 extern char DAT_00f46078[],DAT_00f47aa8[];
 namespace f3m_006b1c00 {
 namespace ResolveReferenceA {
-void* __cdecl FUN_00455190(unsigned int);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void* __cdecl FUN_00c0050a(void*,int,const void*,const void*,int);
 union Reference {unsigned int savedId;void* resolved;};
 struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;Reference reference;void FUN_0078c030(void*);void* FUN_006b1c00(void*);};
+// pdb: MagicHitEffect::InitLoadGame | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void* Owner::FUN_006b1c00(void* file){
  FUN_0078c030(file);
  void* result;
- if(reference.savedId)result=FUN_00c0050a(FUN_00455190(reference.savedId),0,DAT_00f46078,DAT_00f47aa8,0);
+ if(reference.savedId)result=FUN_00c0050a(TESForm_GetFormByNumericID(reference.savedId),0,DAT_00f46078,DAT_00f47aa8,0);
  else result=0;
  reference.resolved=result;
  return result;
@@ -9580,6 +9760,7 @@ struct Object {
     static void* operator new(size_t n){return DAT_01090a78.FUN_0086b930(n);}
     static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}
 };
+// pdb: CalmEffect::Copy | CalmEffect.obj | fnv360_0822_retail, objrun_open, low
 Object* __cdecl FUN_006a5880(void* a,void* b,void* c) {return new Object(a,b,c);}
 }
 
@@ -9674,6 +9855,8 @@ struct Owner6a8d {
     void FUN_00454330(const void*,unsigned int);
     void FUN_006a8de0(void*);
 };
+// pdb: MagicBallProjectile::SaveGame | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void Owner6a8d::FUN_006a8de0(void* argument) {
     FUN_006b3a30(argument);
     FUN_00454330(&unka0,4);
@@ -9744,9 +9927,11 @@ struct Owner {
  unsigned int unk40;
  unsigned int unk44;
  unsigned int value;
- void FUN_006a1a10(void*);void FUN_006bb300(void*);
+ void ActiveEffect_SaveGame(void*);void FUN_006bb300(void*);
 };
-void Owner::FUN_006bb300(void* file){FUN_006a1a10(file);if(DAT_01079ca4->version>=0x71)DAT_01079ca4->FUN_006db460(&value,4);}
+// pdb: SunDamageEffect::SaveGame | SunDamageEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
+void Owner::FUN_006bb300(void* file){ActiveEffect_SaveGame(file);if(DAT_01079ca4->version>=0x71)DAT_01079ca4->FUN_006db460(&value,4);}
 }
 
 // @f3 0x006b33c0 (community match, verified in this file)
@@ -9882,8 +10067,8 @@ struct DataA6b33c0 {
     virtual void v004();
     virtual DataB6b33c0* get();
     int unk04, unk08, unk0c;
-    void FUN_006e1850(int, int);
-    int FUN_006e16c0();
+    void BGSSaveGameBuffer_SaveString(int, int);
+    int BGSSaveGameBuffer_StartVariableSizedValue();
     void FUN_006e16e0(int, int);
 };
 struct Name6b33c0 { int unk00, unk04, unk08; const char* name; };
@@ -9896,16 +10081,18 @@ struct Target6b33c0 {
 };
 extern int __cdecl FUN_00424d50(const char*, const char*);
 extern void __cdecl FUN_004eb2e0(int, DataA6b33c0*, float);
+// pdb: MagicModelHitEffect::SaveGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSaveGameBuffer
 void Target6b33c0::FUN_006b33c0(DataA6b33c0* arg) {
     FUN_006b1b80(arg);
-    arg->FUN_006e1850(value2c, 0);
+    arg->BGSSaveGameBuffer_SaveString(value2c, 0);
     Name6b33c0* path = name30;
     int name = 0;
     if (path) {
         path = (Name6b33c0*)path->name;
         name = FUN_00424d50(DAT_01091f04, (const char*)path);
     }
-    int result = arg->FUN_006e16c0();
+    int result = arg->BGSSaveGameBuffer_StartVariableSizedValue();
     int old = arg->unk0c;
     if (name) {
         DataB6b33c0* value = arg->get();
@@ -9921,6 +10108,7 @@ void Target6b33c0::FUN_006b33c0(DataA6b33c0* arg) {
 namespace f3m_006b1a70 {
 namespace ClearFieldA {
 struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;void* value;void FUN_006b1a70();};
+// pdb: MagicHitEffect::ClearTarget | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
 void Owner::FUN_006b1a70(){value=0;}
 }
 }   // namespace f3m_006b1a70
@@ -9933,6 +10121,8 @@ struct Owner006a05b0
     int value;
     int FUN_006a05b0(int a);
 };
+// pdb: LowProcess::SetSecondGenericLocation | HighProcess.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apLoc
 int Owner006a05b0::FUN_006a05b0(int a)
 {
     value = a;
@@ -9948,6 +10138,8 @@ struct Owner006bc580
     int value;
     int FUN_006bc580(int a);
 };
+// pdb: ValueAndConditionsEffect::SetTargetBodyPart | ValueAndConditionsEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aeWhichBodyPart
 int Owner006bc580::FUN_006bc580(int a)
 {
     value = a;
@@ -10043,6 +10235,7 @@ void* n6a5e00::FUN_006bc930::operator new(unsigned int size)
     return DAT_01090a78.FUN_0086b930(size);
 }
 
+// pdb: ChameleonEffect::Copy | ChameleonEffect.obj | fnv360_0721_retail, vtable, medium
 D6a5e00* Tgt6a5e00::FUN_006a5e00()
 {
     D6a5e00* dst = new D6a5e00(m_28, m_08, m_0C);
@@ -10063,6 +10256,8 @@ struct Effect {
  void FUN_005af350(void*,float);
  Effect* FUN_006b19d0(CellSource*,void*);
 };
+// pdb: MagicHitEffect::MagicHitEffect | MagicHitEffect.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apTarget, apEffect
 Effect* Effect::FUN_006b19d0(CellSource* object_,void* effect_){
  FUN_005af350(0,0.0f);methods=PTR_00e0b30c;object=object_;
  if(object_)cell=object_->cell;
@@ -10078,11 +10273,12 @@ extern void* DAT_01070c04;
 extern char DAT_00f46078[],DAT_00f49898[];
 namespace f3m_006a6520 {
 namespace ImageSpaceLookup {
-void* __cdecl FUN_00455190(unsigned int);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
+// pdb: TESImageSpaceModifier::GetConcussion | ConcussionEffect.obj | fnv360_0822_retail, call_seq, medium
 void* __cdecl FUN_006a6520(){
  if(!DAT_00f4ef39)return 0;
- if(!DAT_01070c04)DAT_01070c04=FUN_00c0050a(FUN_00455190(0x164),0,DAT_00f46078,DAT_00f49898,0);
+ if(!DAT_01070c04)DAT_01070c04=FUN_00c0050a(TESForm_GetFormByNumericID(0x164),0,DAT_00f46078,DAT_00f49898,0);
  return DAT_01070c04;
 }
 }
@@ -10144,8 +10340,10 @@ struct Owner{
  int unknown3c;
  int unknown40;
  int unknown44;
- int value;void FUN_006a1bf0(void*);void FUN_006bb330(void*);};}
-void N6BB330::Owner::FUN_006bb330(void* arg){FUN_006a1bf0(arg);if(DAT_01079ca4->version>=0x71)FUN_006db490(&value,4);}
+ int value;void ActiveEffect_LoadGame(void*);void FUN_006bb330(void*);};}
+// pdb: SunDamageEffect::LoadGame | SunDamageEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
+void N6BB330::Owner::FUN_006bb330(void* arg){ActiveEffect_LoadGame(arg);if(DAT_01079ca4->version>=0x71)FUN_006db490(&value,4);}
 }   // namespace f3m_006bb330
 
 // @f3 0x006b4760 (community match, verified in this file)
@@ -10154,6 +10352,8 @@ namespace SaveHitEffect {
 struct Form {int unk00,unk04,unk08;unsigned int id;};
 struct Manager {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c; unsigned char version;void FUN_006db460(const void*,unsigned int);void FUN_006defa0(const unsigned int*,unsigned int);};extern Manager* DAT_01079ca4;
 struct Effect {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24; unsigned char state;Form* form;int unk30;unsigned int value;void FUN_006b1aa0(void*,void*);void FUN_006b4760(void*,void*);};
+// pdb: MagicShaderHitEffect::SaveGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, low
+// pdb params: apEffect, apTarget
 void Effect::FUN_006b4760(void* first,void* second){
  FUN_006b1aa0(first,second);DAT_01079ca4->FUN_006db460(&value,4);
  if(DAT_01079ca4->version>=55){DAT_01079ca4->FUN_006db460(&state,1);unsigned int id=0;Form* object=form;if(object)id=object->id;DAT_01079ca4->FUN_006defa0(&id,4);}
@@ -10164,6 +10364,8 @@ void Effect::FUN_006b4760(void* first,void* second){
 // @f3 0x006bb2d0 (community match, verified in this file)
 namespace f3m_006bb2d0 {
 namespace Adjustb2d0 { struct Manager {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c; unsigned char level; }; extern Manager* DAT_01079ca4; extern unsigned short __stdcall FUN_006a1980(int);
+// pdb: SunDamageEffect::GetSaveSize | SunDamageEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
 unsigned __stdcall FUN_006bb2d0(int value) { unsigned result=FUN_006a1980(value); if(DAT_01079ca4->level>=113) result+=4; return result; } }
 }   // namespace f3m_006bb2d0
 
@@ -10192,6 +10394,8 @@ struct Item {
 struct Node {Item* item;Node* next;};
 struct Dispatch {int unk00;int unk04;Node* (__thiscall* head)(void*);};
 struct Owner {Dispatch* table;void FUN_006b71f0(void*,int);};
+// pdb: MagicTarget::Dispel | MagicTarget.obj | fnv360_0822_debug, caller, medium
+// pdb params: apEnchantmentSource, abNow
 void Owner::FUN_006b71f0(void* filter,int action) {
     if(filter) {
         Node* node=table->head(this);
@@ -10215,6 +10419,8 @@ namespace copy2f5 {
 struct Effect { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; unsigned int value; };
 Effect* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
 struct Owner { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; unsigned int value; void FUN_006a1080(void*); void FUN_006a2f50(void*); };
+// pdb: AssociatedItemEffect::CopyData | AssociatedItemEffect.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apDestination
 void Owner::FUN_006a2f50(void* target) { FUN_006a1080(target); Effect* effect=FUN_00c0050a(target,0,&DAT_00f6b8b4,&DAT_00f6b908,0); if(effect) effect->value=value; }
 }
 }   // namespace f3m_006a2f50
@@ -10269,6 +10475,7 @@ struct Owner {
  int unk14;
  int unk18;
  float speed;int unk20;Object* object;void FUN_006bce80();void FUN_006ba5e0(void*,float);void FUN_006ba710();};
+// pdb: ShieldEffect::Finish | ShieldEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006ba710(){FUN_006bce80();unsigned char bit=(unsigned char)(info->config->flags>>1);if(bit&1){void* target=object?object->FUN_006b6c70():0;FUN_006ba5e0(target,-speed);}}
 }
 }   // namespace f3m_006ba710
@@ -10279,6 +10486,7 @@ namespace SerializedStringSize {
 extern "C" unsigned int __cdecl strlen(const char*);
 struct Owner {void** methods;int unk04,unk08,unk0c,unk10,unk14,unk18;void* context;int unk20,unk24,unk28;const char* text;unsigned short FUN_006b25f0();};
 typedef unsigned short (__thiscall *BaseSize)(Owner*,int,void*);
+// pdb: MagicModelHitEffect::GetSaveSize | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
 unsigned short Owner::FUN_006b25f0(){unsigned int length=strlen(text);unsigned short result=((BaseSize)methods[51])(this,0,context);result+=(unsigned short)length;result+=5;return result;}
 }
 }   // namespace f3m_006b25f0
@@ -10289,6 +10497,7 @@ namespace QueryPlayerEffect {
 struct Value {};
 struct Player {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;int unk80;int unk84;int unk88; Value value;};extern Player* DAT_0107a104;
 struct Owner {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;Value* target;float FUN_006bb140();bool FUN_006bb360();};
+// pdb: SunDamageEffect::IsCausingDamage | SunDamageEffect.obj | fnv360_0721_retail, vtable, medium
 bool Owner::FUN_006bb360(){Value* playerValue=DAT_0107a104?&DAT_0107a104->value:0;if(target==playerValue&&FUN_006bb140()>0.01f)return true;return false;}
 }
 }   // namespace f3m_006bb360
@@ -10301,6 +10510,8 @@ struct Actor {void** methods;int unk04;int unk08;int unk0c;int unk10;int unk14;i
 typedef void (__thiscall *ResetObject)(Object*,int);
 typedef void (__thiscall *ApplyMagnitude)(Actor*,void*,float);
 typedef void (__thiscall *AdjustState)(Actor*,int,int,int);
+// pdb: CommandEffect::CleanupCommandedActor | CommandEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget, apCaster, abClearCommandingActor
 void __cdecl FUN_006a6210(Actor* actor,void* context,bool reset){Object* object=actor->object;if(object&&reset)((ResetObject)object->methods[328])(object,0);((ApplyMagnitude)actor->methods[276])(actor,context,-100.0f);((AdjustState)actor->methods[231])(actor,1,-100,0);}
 }
 }   // namespace f3m_006a6210
@@ -10308,6 +10519,8 @@ void __cdecl FUN_006a6210(Actor* actor,void* context,bool reset){Object* object=
 // @f3 0x006a3920 (community match, verified in this file)
 namespace f3m_006a3920 {
 namespace Remove3920 { struct Array { void** data; unsigned short size; }; struct Owner { Array* FUN_006a38a0(); }; struct Input { int unk00; int unk04; Owner* owner; }; struct Target { void FUN_006a37f0(Owner*); }; extern int DAT_00f6ba64,DAT_00f68788; extern void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
+// pdb: bhkTelekinesisListener::RemoveTelekinesisListeners | bhkTelekinesisListener.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apBody
 void __cdecl FUN_006a3920(Input* input) { Owner* owner=input?input->owner:0; for(int index=0;index<owner->FUN_006a38a0()->size;++index) { void* item=owner->FUN_006a38a0()->data[index]; Target* target=(Target*)FUN_00c0050a(item,0,&DAT_00f68788,&DAT_00f6ba64,0); if(target) { target->FUN_006a37f0(owner); index=0; } } } }
 }   // namespace f3m_006a3920
 
@@ -10323,6 +10536,7 @@ unsigned unk14;
 unsigned unk18;
 unsigned unk1c;
 unsigned unk20;
+// pdb: NightEyeEffect::Finish | NightEyeEffect.obj | fnv360_0721_retail, vtable, medium
 Link*link;void FUN_006bce80();void FUN_006b87f0();};void Owner::FUN_006b87f0(){FUN_006bce80();if(link->table->Get(link)==DAT_0107a104)FUN_006b8760();}}
 }   // namespace f3m_006b87f0
 
@@ -10334,6 +10548,7 @@ struct Table {int unk00;void* (__thiscall *get)(Object*,Data*);};struct Object {
 struct Manager {void FUN_00516710(void*);};
 struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct Owner {int unk000; int unk004; int unk008; int unk00C; int unk010; int unk014; int unk018; int unk01C; int unk020; Object* object;int unk028; int unk02C; int unk030; int unk034; int unk038; int unk03C; int unk040; int unk044; Manager* manager;Data* data;void FUN_006b9f60();};
+// pdb: ScriptEffect::Finish | ScriptEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006b9f60() {
  if(manager) {Object* receiver=object;Data* input=data;void* key=receiver->Get(input);manager->FUN_00516710(key);}
  Data* current=data;
@@ -10363,13 +10578,16 @@ namespace N6A2FF0 {struct Reader{void FUN_006dcdd0(void*,unsigned);};extern Read
  int unknown3c;
  int unknown40;
  int unknown44;
- unsigned value;void FUN_006a1bf0(unsigned);void FUN_006a2ff0(unsigned);};}
-void N6A2FF0::Owner::FUN_006a2ff0(unsigned arg){FUN_006a1bf0(arg);DAT_01079ca4->FUN_006dcdd0(&arg,4);value=arg;}
+ unsigned value;void ActiveEffect_LoadGame(unsigned);void FUN_006a2ff0(unsigned);};}
+// pdb: AssociatedItemEffect::LoadGame | AssociatedItemEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: CommandEffect::LoadGame)
+// pdb params: apActor
+void N6A2FF0::Owner::FUN_006a2ff0(unsigned arg){ActiveEffect_LoadGame(arg);DAT_01079ca4->FUN_006dcdd0(&arg,4);value=arg;}
 }   // namespace f3m_006a2ff0
 
 // @f3 0x006a0750 (community match, verified in this file)
 namespace f3m_006a0750 {
 namespace Create0750 { struct Heap { void* FUN_0086b930(unsigned); void FUN_0086ba60(void*); }; extern Heap DAT_01090a78; struct FUN_006a04c0 {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58; FUN_006a04c0(int,int,int); static void* operator new(unsigned size) { return DAT_01090a78.FUN_0086b930(size); } static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); } }; struct Owner; struct Table {void* unk00;void* unk04;void* unk08;void* unk0c;void* unk10;void* unk14;void* unk18;void* unk1c;void* unk20;void* unk24;void* unk28;void* unk2c;void* unk30;void* unk34;void* unk38;void* unk3c;void* unk40; void (__thiscall* attach)(Owner*,FUN_006a04c0*); }; struct Owner { Table* table;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28; FUN_006a04c0* FUN_006a0750(); };
+// pdb: AbsorbEffect::Copy | AbsorbEffect.obj | fnv360_0822_retail, objrun, medium
 FUN_006a04c0* Owner::FUN_006a0750() { FUN_006a04c0* item=new FUN_006a04c0(unk28,unk08,unk0c); table->attach(this,item); return item; } }
 }   // namespace f3m_006a0750
 
@@ -10382,6 +10600,8 @@ struct Allocation {
     void* ptr;Allocation(void*p):ptr(p){}
     ~Allocation(){if(ptr)DAT_01090a78.FUN_0086ba60(ptr);}
 };
+// pdb: LightEffect::Instantiate | LightEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 Object* __cdecl FUN_006a8a50(void* first,void* second,void* third) {
     Object* memory=(Object*)DAT_01090a78.FUN_0086b930(0x4c);
     Allocation allocation(memory);
@@ -10404,6 +10624,8 @@ struct Object {
  void FUN_006a2240(Stream*);
  void FUN_006bc680(Stream*);
 };
+// pdb: ValueAndConditionsEffect::SaveGame | ValueAndConditionsEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apSaveGameBuffer
 void Object::FUN_006bc680(Stream* stream) {
  FUN_006a2240(stream);
  stream->FUN_006e1830(&unk4c,4,0);
@@ -10424,6 +10646,7 @@ namespace N6A7400 {struct Target;struct Table{void*unknown00;void*(__thiscall*ge
  int unknown1c;
  int unknown20;
  Target*target;void FUN_006bce80();void FUN_006a7400();};}
+// pdb: DetectLifeEffect::Finish | DetectLifeEffect.obj | fnv360_0721_retail, vtable, medium
 void N6A7400::Owner::FUN_006a7400(){FUN_006bce80();if(target->Get()==DAT_0107a104)DAT_010781b0=false;}
 }   // namespace f3m_006a7400
 
@@ -10438,6 +10661,8 @@ struct LockEffect: FUN_006a13f0 {
  static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}
  static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);}
 };
+// pdb: LockEffect::Instantiate | LockEffect.obj | fnv360_0721_retail, caller_sim, low
+// pdb params: apCaster, apSpell, apEffect
 LockEffect* __cdecl FUN_006a8cc0(int a,int b,int c){return new LockEffect(a,b,c);}
 }
 
@@ -10465,6 +10690,8 @@ struct Child {void FUN_00518ed0();};struct Owner {
  int unk44;
  int unk48;
  Child* child;void FUN_0078c030(void*);void FUN_006ba140(void*);};
+// pdb: ScriptEffect::Revert | ScriptEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
 void Owner::FUN_006ba140(void* argument){FUN_0078c030(argument);if(child)child->FUN_00518ed0();}
 }
 }   // namespace f3m_006ba140
@@ -10488,6 +10715,8 @@ void*unk30;
 void*unk34;
 void*unk38;
 void*unk3c;
+// pdb: ActiveEffect::FinishLoadActiveEffectList | ActiveEffect.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apLoadGameBuffer, apActiveEffectList
 void(__thiscall*Apply)(Object*,void*);};struct Object{Table*table;};struct Node{Object*object;Node*next;};void __cdecl FUN_006a2710(void*argument,Node*node){while(node){Object*object=node->object;if(object)object->table->Apply(object,argument);node=node->next;}}}
 }   // namespace f3m_006a2710
 
@@ -10500,6 +10729,8 @@ void Owner6A7200::FUN_006a7200(float value){FUN_006bcda0(value);}
 // @f3 0x006bd350 (community match, verified in this file)
 namespace f3m_006bd350 {
 namespace Castd350 { extern int DAT_00f6bab4,DAT_00f6ba98; extern void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
+// pdb: VampirismEffect::CheckTarget | VampirismEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apTarget
 int __stdcall FUN_006bd350(void* object) { return FUN_00c0050a(object,0,&DAT_00f6ba98,&DAT_00f6bab4,0)!=0; } }
 }   // namespace f3m_006bd350
 
@@ -10508,6 +10739,8 @@ namespace f3m_006a8da0 {
 namespace sizeda0 {
 struct Version {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; unsigned char version;};extern Version* DAT_01079ca4;
 struct Owner {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int kind;unsigned short FUN_006b3a00(void*);unsigned FUN_006a8da0(void*);};
+// pdb: MagicBallProjectile::GetSaveSize | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 unsigned Owner::FUN_006a8da0(void* arg){unsigned result=(unsigned short)(FUN_006b3a00(arg)+8);if(DAT_01079ca4->version<100)result+=4;result+=8;if(kind==2)result+=4;return result;}
 }
 }   // namespace f3m_006a8da0
@@ -10540,6 +10773,8 @@ extern State* DAT_01079ca4;
 extern Actor* DAT_0107a104;
 extern void __cdecl FUN_006b8760();
 struct Effect { void FUN_0078c030(Actor*); void FUN_006b8840(Actor*); };
+// pdb: NightEyeEffect::Revert | NightEyeEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Effect::FUN_006b8840(Actor* actor) {
  FUN_0078c030(actor);
  if(!DAT_01079ca4->mode && actor==DAT_0107a104) FUN_006b8760();
@@ -10556,6 +10791,7 @@ struct Actor {Table* table;int unk004; int unk008; int unk00c; int unk010; int u
 struct RefA {Actor* FUN_006b6c70();};struct RefB {Other* FUN_006ad230();};
 
 struct Owner {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; RefA* a;RefB* b;void FUN_006a6340();};
+// pdb: CommandEffect::Finish | CommandEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006a6340(){Actor* actor=a?a->FUN_006b6c70():0;Other* other=b?b->FUN_006ad230():0;if(actor && other){Sub* sub=actor->sub;if(sub)sub->table->set(sub,0);actor->Apply(other);actor->table->action(actor,1,-100,0);}}
 }
 }   // namespace f3m_006a6340
@@ -10588,6 +10824,8 @@ int state;
  void FUN_006bc7f0(void*);
  void FUN_006ba3b0(void*);
 };
+// pdb: ShieldEffect::CopyData | ShieldEffect.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apDestination
 void Effect::FUN_006ba3b0(void* other) {
  FUN_006bc7f0(other);
  Effect* effect=(Effect*)FUN_00c0050a(other,0,&DAT_00f6b8b4,&DAT_00f6c16c,0);
@@ -10615,6 +10853,8 @@ struct Parent6b4240 {
     Base6b4240 base;
 };
 extern int __cdecl FUN_006b4110(int value);
+// pdb: MagicProjectile::Clone3D | MagicProjectile.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apAVEffect
 int __cdecl FUN_006b4240(Parent6b4240* parent) {
     return FUN_006b4110(parent->base.slot14());
 }
@@ -10626,6 +10866,8 @@ struct Object;
 extern char DAT_00f6c04c,DAT_00f6b8b4;
 Object* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
 struct Object {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int value;void FUN_006bc7f0(void*);void FUN_006bc540(void*);};
+// pdb: ValueAndConditionsEffect::CopyData | ValueAndConditionsEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apDestination
 void Object::FUN_006bc540(void* target){FUN_006bc7f0(target);Object* result=FUN_00c0050a(target,0,&DAT_00f6b8b4,&DAT_00f6c04c,0);if(result)result->value=value;}
 }
 
@@ -10670,7 +10912,7 @@ unsigned char version;
 };
 extern Stream* DAT_01079ca4;
 extern char DAT_00f460fc,DAT_00f46078;
-extern void* __cdecl FUN_00455190(unsigned);
+extern void* __cdecl TESForm_GetFormByNumericID(unsigned);
 extern void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
 struct Effect {
 int unk00;
@@ -10690,13 +10932,15 @@ unsigned char mode;
  void FUN_006b1af0(int,unsigned);
  void FUN_006b47d0(int,unsigned);
 };
+// pdb: MagicShaderHitEffect::LoadGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 void Effect::FUN_006b47d0(int first,unsigned id) {
  FUN_006b1af0(first,id);
  DAT_01079ca4->FUN_006db490(&value,4);
  if(DAT_01079ca4->version>=0x37) {
   DAT_01079ca4->FUN_006db490(&mode,1);
   DAT_01079ca4->FUN_006dcdd0(&id,4);
-  if(id) form=FUN_00c0050a(FUN_00455190(id),0,&DAT_00f46078,&DAT_00f460fc,0);
+  if(id) form=FUN_00c0050a(TESForm_GetFormByNumericID(id),0,&DAT_00f46078,&DAT_00f460fc,0);
  }
 }
 }
@@ -10722,6 +10966,8 @@ unsigned unk3c;
 unsigned unk40;
 unsigned unk44;
 unsigned unk48;
+// pdb: InvisibilityEffect::Instantiate | InvisibilityEffect.obj | fnv360_0721_retail, caller_sim, low
+// pdb params: apCaster, apSpell, apEffect
 void FUN_006bc930(void*,void*,void*);};struct Pending{Effect*effect;~Pending(){if(effect)DAT_01090a78.FUN_0086ba60(effect);}};Effect* __cdecl FUN_006a8370(void*first,void*second,void*third){Pending pending={(Effect*)DAT_01090a78.FUN_0086b930(sizeof(Effect))};Effect*effect=pending.effect;Effect*result=0;if(effect){effect->FUN_006bc930(first,second,third);effect->table=DAT_00e0a72c;result=effect;}pending.effect=0;return result;}}
 }   // namespace f3m_006a8370
 
@@ -10741,6 +10987,7 @@ int state;
  void* effect;
  unsigned char FUN_006b25d0();
 };
+// pdb: MagicModelHitEffect::CheckShouldSave | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
 unsigned char Effect::FUN_006b25d0() { if(state==0 && target && effect) return 1; return 0; }
 }
 }   // namespace f3m_006b25d0
@@ -11008,7 +11255,9 @@ void*unk400;
 void*unk404;
 void*unk408;
 void*unk40c;
-void(__thiscall*SetValue)(Actor*,float);};struct Actor{Table*table;void FUN_00722a10();};extern bool DAT_0116ef70;extern int DAT_0116efb0;extern Actor*DAT_0107a104;extern float DAT_00e0a720;struct Owner{void FUN_006bd1e0(Actor*);void FUN_006a8060(Actor*);};void Owner::FUN_006a8060(Actor*actor){FUN_006bd1e0(actor);if(DAT_0116ef70&&DAT_0116efb0>=2&&actor==DAT_0107a104){actor->table->SetValue(actor,1.0f);actor->table->SetState(actor,1,DAT_00e0a720);}else actor->FUN_00722a10();}}
+// pdb: InvisibilityEffect::FinishInitLoadGame | InvisibilityEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apActor
+void(__thiscall*SetValue)(Actor*,float);};struct Actor{Table*table;void Actor_UpdateAlpha();};extern bool DAT_0116ef70;extern int DAT_0116efb0;extern Actor*DAT_0107a104;extern float DAT_00e0a720;struct Owner{void FUN_006bd1e0(Actor*);void FUN_006a8060(Actor*);};void Owner::FUN_006a8060(Actor*actor){FUN_006bd1e0(actor);if(DAT_0116ef70&&DAT_0116efb0>=2&&actor==DAT_0107a104){actor->table->SetValue(actor,1.0f);actor->table->SetState(actor,1,DAT_00e0a720);}else actor->Actor_UpdateAlpha();}}
 }   // namespace f3m_006a8060
 
 // @f3 0x006b8db0 (community match, verified in this file)
@@ -11025,6 +11274,7 @@ struct Allocation{void* ptr;Allocation(void* p):ptr(p){}~Allocation(){if(ptr)DAT
 struct Owner;
 struct Table{int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; void (__thiscall* attach)(Owner*,Item*);};
 struct Owner{Table* table;int unk04,arg2,arg3;int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int arg1;Item* FUN_006b8db0();};
+// pdb: OpenEffect::Copy | OpenEffect.obj | fnv360_0721_retail, vtable, medium
 Item* Owner::FUN_006b8db0(){
  Item* result=new Item(arg1,arg2,arg3);
  table->attach(this,result);
@@ -11035,6 +11285,8 @@ Item* Owner::FUN_006b8db0(){
 
 // @f3 0x006beb00 (community match, verified in this file)
 namespace f3m_006beb00 {
+// pdb: FalloutRadio::PipboyRadioEnable | FalloutRadio.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: abEnable
 namespace Shutdown{struct Interface;struct Table{void*unk00;void*unk04;unsigned(__stdcall*Release)(Interface*);void*unk0c;void*unk10;void*unk14;void*unk18;void*unk1c;void*unk20;void(__stdcall*Stop)(Interface*);};struct Interface{Table*table;};struct Resource{unsigned unk00,unk04,unk08;Interface interface;};extern unsigned DAT_01079028;extern Interface *DAT_010790fc,*DAT_01079110,*DAT_01079104,*DAT_01079114,*DAT_01079100,*DAT_01079120;extern Resource*DAT_0107911c;void FUN_006beb00(){if(DAT_01079028&1){if((DAT_01079028&2)&&DAT_010790fc){if(DAT_01079110){DAT_01079110->table->Stop(DAT_01079110);DAT_01079028&=~2u;}}
 if(DAT_01079110){DAT_01079110->table->Release(DAT_01079110);DAT_01079110=0;}
 if(DAT_01079104){DAT_01079104->table->Release(DAT_01079104);DAT_01079104=0;}
@@ -11059,6 +11311,7 @@ struct VampirismEffect:FUN_006a13f0 {
  static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}
  static void operator delete(void*p){DAT_01090a78.FUN_0086ba60(p);}
 };
+// pdb: VampirismEffect::Copy | VampirismEffect.obj | fnv360_0721_retail, vtable, medium
 Active* Active::FUN_006bd2c0(){Active* result=new VampirismEffect(arg28,arg08,arg0c);table->copy(this,result);return result;}
 }
 
@@ -11069,6 +11322,8 @@ struct Actor {void** methods;};
 struct Object {Actor* FUN_006b6c70();};
 struct Owner {bool FUN_006a6600(Object*);};
 typedef bool (__thiscall *TestArgument)(Actor*,int);typedef bool (__thiscall *Test)(Actor*);
+// pdb: ConcussionEffect::CheckTarget | ConcussionEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apTarget
 bool Owner::FUN_006a6600(Object* object){if(object){Actor* actor=object->FUN_006b6c70();if(actor&&!((TestArgument)actor->methods[139])(actor,0)&&!((Test)actor->methods[186])(actor))return true;}return false;}
 }
 }   // namespace f3m_006a6600
@@ -11084,6 +11339,8 @@ struct Registry {void FUN_00793f90(Effect*);};extern Registry DAT_0107c0a0;
 struct Owner {int unk00;int unk04;int unk08;Link* link;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c; Node* effects;void FUN_006a17d0();void FUN_006a1f00(void*);};
 typedef void (__thiscall *Restore)(Effect*,Owner*,void*,int);
 static __forceinline unsigned char Bit10(unsigned int flags){return (unsigned char)(flags>>10)&1;}
+// pdb: ActiveEffect::FinishInitLoadGame | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apActor
 void Owner::FUN_006a1f00(void* context){if(DAT_01079ca4->version>=42){Node* node=effects;while(node){if(!node->next&&!node->data)break;Effect* effect=node->data;((Restore)effect->methods[55])(effect,this,context,0);DAT_0107c0a0.FUN_00793f90(effect);node=node->next;}}if(Bit10(link->info->flags))FUN_006a17d0();}
 }
 }   // namespace f3m_006a1f00
@@ -11120,6 +11377,8 @@ struct TurnUndeadEffect : FUN_006a13f0 {
  static void* operator new(unsigned size) { return DAT_01090a78.FUN_0086b930(size); }
  static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
+// pdb: TurnUndeadEffect::Instantiate | TurnUndeadEffect.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: apCaster, apSpell, apEffect
 TurnUndeadEffect* __cdecl FUN_006bc3e0(void* a,void* b,void* c) { return new TurnUndeadEffect(a,b,c); }
 }
 
@@ -11128,6 +11387,8 @@ namespace f3m_006bc6b0 {
 namespace Transfer6bc6 {
 struct Stream;struct Table{unsigned char (__thiscall* version)(Stream*);};struct Stream{Table* table;void FUN_006e0750(void*,unsigned);};
 struct Object{int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int value;void FUN_006a23a0(Stream*);void FUN_006bc6b0(Stream*);};
+// pdb: ValueAndConditionsEffect::LoadGame | ValueAndConditionsEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Object::FUN_006bc6b0(Stream* stream){FUN_006a23a0(stream);if(stream->table->version(stream)>=8)stream->FUN_006e0750(&value,4);}
 }
 }   // namespace f3m_006bc6b0
@@ -11147,8 +11408,9 @@ struct Item { void FUN_006a2e00(bool); };
 struct Node { Item* item; Node* next; bool Empty() { return !next && !item; } };
 struct Owner;
 struct Table { void* unk00;void* unk04;Node* (__thiscall* get)(Owner*); };
-struct Owner { Table* table; void FUN_006b7240(); };
-void Owner::FUN_006b7240() {
+struct Owner { Table* table; void MagicTarget_Dispel(); };
+// pdb: MagicTarget::Dispel | MagicTarget.obj | fnv360_0822_retail, call_seq + bridge(call_gap|caller), high
+void Owner::MagicTarget_Dispel() {
  Node* node=table->get(this);
  while(node && !node->Empty()) {
   Item* item=node->item;
@@ -11161,6 +11423,7 @@ void Owner::FUN_006b7240() {
 
 // @f3 0x006a8fb0 (community match, verified in this file)
 namespace f3m_006a8fb0 {
+// pdb: bhkWorld::QDebugDisplay | GridCell.obj | fnv360_0822_debug, call_gap, low
 namespace optionalfb0 {struct Ref {int FUN_008f9c90(int);};struct Owner {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int unk2b4; int unk2b8; int unk2bc; int unk2c0; int unk2c4; int unk2c8; int unk2cc; int unk2d0; int unk2d4; int unk2d8; int unk2dc; int unk2e0; int unk2e4; int unk2e8; int unk2ec; int unk2f0; int unk2f4; int unk2f8; int unk2fc; int unk300; int unk304; int unk308; int unk30c; int unk310; int unk314; int unk318; int unk31c; int unk320; int unk324; int unk328; int unk32c; int unk330; int unk334; int unk338; int unk33c; int unk340; int unk344; int unk348; int unk34c; int unk350; int unk354; int unk358; int unk35c; int unk360; int unk364; int unk368; int unk36c; int unk370; int unk374; int unk378; int unk37c; int unk380; int unk384; int unk388; int unk38c; int unk390; int unk394; int unk398; int unk39c; int unk3a0; int unk3a4; int unk3a8; int unk3ac; int unk3b0; int unk3b4; int unk3b8; int unk3bc; int unk3c0; int unk3c4; int unk3c8; int unk3cc; int unk3d0; int unk3d4; int unk3d8; int unk3dc; int unk3e0; int unk3e4; int unk3e8; int unk3ec; int unk3f0; int unk3f4; int unk3f8; int unk3fc; int unk400; int unk404; int unk408; int unk40c; int unk410; int unk414; int unk418; int unk41c; int unk420; Ref* ref;int FUN_006a8fb0();};int Owner::FUN_006a8fb0(){Ref* receiver=ref;if(receiver)return receiver->FUN_008f9c90(0);return 0;}}
 }   // namespace f3m_006a8fb0
 
@@ -11168,8 +11431,10 @@ namespace optionalfb0 {struct Ref {int FUN_008f9c90(int);};struct Owner {int unk
 namespace f3m_006a7130 {
 namespace write130 {
 struct Context {void FUN_006db490(void*,unsigned);};extern Context* DAT_01079ca4;
-struct Owner {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; unsigned char value;void FUN_006a1bf0(void*);void FUN_006a7130(void*);};
-void Owner::FUN_006a7130(void* arg){FUN_006a1bf0(arg);DAT_01079ca4->FUN_006db490(&value,1);}
+struct Owner {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; unsigned char value;void ActiveEffect_LoadGame(void*);void FUN_006a7130(void*);};
+// pdb: TurnUndeadEffect::LoadGame | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Owner::FUN_006a7130(void* arg){ActiveEffect_LoadGame(arg);DAT_01079ca4->FUN_006db490(&value,1);}
 }
 }   // namespace f3m_006a7130
 
@@ -11475,6 +11740,7 @@ unsigned int Owner::FUN_006ad910() {
 
 // @f3 0x006a3750 (community match, verified in this file)
 namespace f3m_006a3750 {
+// pdb: bhkTelekinesisListener::`scalar deleting destructor' | bhkTelekinesisListener.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 namespace ListenerDelete{extern void*DAT_00e01b5c[];extern void*DAT_00dcd094[];extern void*DAT_00de70e8[];struct Heap{void FUN_0086ba60(void*);};extern Heap DAT_01090a78;struct hkpCollisionListener{void**table;void Reset(){table=DAT_00de70e8;}};struct hkpEntityListener{void**table;void Reset(){table=DAT_00dcd094;}};struct hkpEntityActivationListener{void**table;void Reset(){table=DAT_00e01b5c;}};struct Owner:hkpCollisionListener,hkpEntityListener,hkpEntityActivationListener{Owner*FUN_006a3750(unsigned);};Owner*Owner::FUN_006a3750(unsigned flags){static_cast<hkpEntityActivationListener*>(this)->Reset();static_cast<hkpEntityListener*>(this)->Reset();static_cast<hkpCollisionListener*>(this)->Reset();if(flags&1)DAT_01090a78.FUN_0086ba60(this);return this;}}
 }   // namespace f3m_006a3750
 
@@ -11754,6 +12020,7 @@ int unk44;
 Value* value;
  void FUN_006a7620();
 };
+// pdb: DisintegrateArmorEffect::Start | DisintegrateArmorEffect.obj | fnv360_0822_retail, ustr, medium
 void Effect::FUN_006a7620() {
  if(ref) {
   Actor* actor=ref->FUN_006b6c70();
@@ -11775,13 +12042,15 @@ namespace serial8b0 {
 struct Context {void FUN_006defa0(void*,unsigned);void FUN_006db460(void*,unsigned);};extern Context* DAT_01079ca4;
 struct Ref {int unk00,unk04,unk08;unsigned id;};struct Vec {float x,y,z;};
 struct Owner {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; Ref* ref;unsigned char flag,unk51,unk52,unk53;float scalar;Vec first,second;void FUN_006a2fb0(void*);void FUN_006ba8b0(void*);};
+// pdb: SummonCreatureEffect::SaveGame | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: DisguiseEffect::InitiatePlayerDetectionFunctor::operator())
+// pdb params: apActor
 void Owner::FUN_006ba8b0(void* arg){FUN_006a2fb0(arg);unsigned id=0;if(ref)id=ref->id;DAT_01079ca4->FUN_006defa0(&id,4);DAT_01079ca4->FUN_006db460(&flag,1);if(!ref){DAT_01079ca4->FUN_006db460(&scalar,4);DAT_01079ca4->FUN_006db460(&first,12);DAT_01079ca4->FUN_006db460(&second,12);}}
 }
 }   // namespace f3m_006ba8b0
 
 // @f3 0x006a1280 (community match, verified in this file)
 namespace f3m_006a1280 {
-namespace Serialize{struct Writer{unsigned unk00,unk04,unk08;unsigned position;void FUN_006e17a0(unsigned,unsigned);void FUN_006e1830(const void*,unsigned,bool);void FUN_006e18e0(unsigned);unsigned FUN_006e16c0();void FUN_006e16e0(unsigned,unsigned);};struct Form{
+namespace Serialize{struct Writer{unsigned unk00,unk04,unk08;unsigned position;void BGSSaveGameBuffer_SaveFormID(unsigned,unsigned);void FUN_006e1830(const void*,unsigned,bool);void BGSSaveGameBuffer_SaveVariableSizedValue(unsigned);unsigned BGSSaveGameBuffer_StartVariableSizedValue();void FUN_006e16e0(unsigned,unsigned);};struct Form{
 unsigned unk00;
 unsigned unk04;
 unsigned unk08;
@@ -11820,17 +12089,21 @@ unsigned unk88;
 unsigned unk8c;
 unsigned unk90;
 unsigned unk94;
-unsigned kind;};struct Entry{unsigned unk00,unk04,unk08,unk0c,unk10;Form*form;};struct Array{unsigned char FUN_00403810(Entry*);};struct Source{unsigned unk00,unk04,unk08;Array array;unsigned FUN_00406000();};struct Object;struct Table{void*unk00;void*unk04;void*unk08;void*unk0c;void*unk10;void(__thiscall*Save)(Object*,Writer*);};struct Object{Table*table;unsigned unk04;Source*source;Entry*entry;};void __cdecl FUN_006a1280(Writer*writer,Object*object){unsigned key=object->source?object->source->FUN_00406000():0;writer->FUN_006e17a0(key,0);unsigned char index=object->source->array.FUN_00403810(object->entry);writer->FUN_006e1830(&index,1,false);writer->FUN_006e18e0(object->entry->form->kind);unsigned marker=writer->FUN_006e16c0();unsigned start=writer->position;object->table->Save(object,writer);writer->FUN_006e16e0(writer->position-start,marker);}}
+// pdb: ActiveEffect::SaveActiveEffect | ActiveEffect.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: TESDataHandler::GetClearingData)
+// pdb params: apSaveGameBuffer, apEffect
+unsigned kind;};struct Entry{unsigned unk00,unk04,unk08,unk0c,unk10;Form*form;};struct Array{unsigned char FUN_00403810(Entry*);};struct Source{unsigned unk00,unk04,unk08;Array array;unsigned FUN_00406000();};struct Object;struct Table{void*unk00;void*unk04;void*unk08;void*unk0c;void*unk10;void(__thiscall*Save)(Object*,Writer*);};struct Object{Table*table;unsigned unk04;Source*source;Entry*entry;};void __cdecl FUN_006a1280(Writer*writer,Object*object){unsigned key=object->source?object->source->FUN_00406000():0;writer->BGSSaveGameBuffer_SaveFormID(key,0);unsigned char index=object->source->array.FUN_00403810(object->entry);writer->FUN_006e1830(&index,1,false);writer->BGSSaveGameBuffer_SaveVariableSizedValue(object->entry->form->kind);unsigned marker=writer->BGSSaveGameBuffer_StartVariableSizedValue();unsigned start=writer->position;object->table->Save(object,writer);writer->FUN_006e16e0(writer->position-start,marker);}}
 }   // namespace f3m_006a1280
 
 // @f3 0x006a5670 (community match, verified in this file)
 namespace f3m_006a5670 {
 namespace gate670 {
 struct Actor;struct Table {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; bool (__thiscall *first)(Actor*,int);int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int unk2b4; int unk2b8; int unk2bc; int unk2c0; int unk2c4; int unk2c8; int unk2cc; int unk2d0; int unk2d4; int unk2d8; int unk2dc; int unk2e0; int unk2e4; bool (__thiscall *second)(Actor*);};
-struct Actor {Table* table;int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; unsigned char active;unsigned short FUN_006f4cd0();};
-struct Ref {Actor* FUN_006b6c70();};bool __cdecl FUN_005859c0(unsigned,float);
+struct Actor {Table* table;int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; unsigned char active;unsigned short Actor_GetLevel();};
+struct Ref {Actor* FUN_006b6c70();};bool __cdecl MagicFormulas_CheckTargetLevelMagnitude(unsigned,float);
 struct Owner {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; float value;bool FUN_006a5670(Ref*);};
-bool Owner::FUN_006a5670(Ref* ref){if(ref){Actor* actor=ref->FUN_006b6c70();if(actor && !actor->table->first(actor,0) && !actor->table->second(actor) && actor->active){float amount=value;if(FUN_005859c0(actor->FUN_006f4cd0(),amount))return true;}}return false;}
+// pdb: CalmEffect::CheckTarget | CalmEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: ReanimateEffect::CheckTarget)
+// pdb params: apTarget
+bool Owner::FUN_006a5670(Ref* ref){if(ref){Actor* actor=ref->FUN_006b6c70();if(actor && !actor->table->first(actor,0) && !actor->table->second(actor) && actor->active){float amount=value;if(MagicFormulas_CheckTargetLevelMagnitude(actor->Actor_GetLevel(),amount))return true;}}return false;}
 }
 }   // namespace f3m_006a5670
 
@@ -11876,6 +12149,8 @@ struct Allocation {
  ~Allocation() {if(memory) ::operator delete(memory);}
  void Release() {memory=0;}
 };
+// pdb: ReanimateEffect::Instantiate | ReanimateEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 Object* __cdecl FUN_006b97f0(void* first,void* second,void* third) {
  Object* object=(Object*)DAT_01090a78.FUN_0086b930(sizeof(Object));
  Allocation guard(object);
@@ -12295,11 +12570,14 @@ namespace N6A6180 {struct Actor;struct Object{
  int unknownf0;
  int unknownf4;
  bool blocked;bool FUN_006f55c0();void FUN_0078c030(Actor*);};extern Actor*DAT_0107a104;}
+// pdb: CommandEffect::UpdateCommandedActor | CommandEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget, apCaster
 void FUN_006a6180(N6A6180::Actor*actor,N6A6180::Actor*target){using namespace N6A6180;if(actor->context){if(actor->context->GetTarget()!=target)actor->context->SetTarget(target);if(!actor->blocked){Object*other=0;if(target!=N6A6180::DAT_0107a104)other=target->context->GetObject();Object*self=actor->context->GetObject();if((!other||other->type==0x12)&&(!self||!actor->FUN_006f55c0()))actor->FUN_0078c030(target);}}}
 }   // namespace f3m_006a6180
 
 // @f3 0x006b48d0 (community match, verified in this file)
 namespace f3m_006b48d0 {
+// pdb: MagicShaderHitEffect::CheckShouldSave | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
 namespace Valid{extern void*DAT_0106c868;struct Owner{unsigned unk00,unk04,unk08,unk0c,unk10,unk14;unsigned first;void*second;unsigned unk20,unk24;bool disabled;unsigned char unk29,unk2a,unk2b;unsigned unk2c;void*resource;bool FUN_006b48d0();};bool Owner::FUN_006b48d0(){if(first==0&&second&&resource&&!disabled&&resource!=DAT_0106c868)return true;return false;}}
 }   // namespace f3m_006b48d0
 
@@ -12307,6 +12585,8 @@ namespace Valid{extern void*DAT_0106c868;struct Owner{unsigned unk00,unk04,unk08
 namespace f3m_006bb6e0 {
 namespace size6e0 {struct Context {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; unsigned char version;};extern Context* DAT_01079ca4;
 struct Owner {unsigned short FUN_006a1980(void*);unsigned FUN_006bb6e0(void*);};
+// pdb: TelekinesisEffect::GetSaveSize | TelekinesisEffect.obj | fnv360_0822_retail, objrun, low
+// pdb params: apActor
 unsigned Owner::FUN_006bb6e0(void* arg){unsigned size=(unsigned short)(FUN_006a1980(arg)+4);if(DAT_01079ca4->version>=64)size+=8;return size;}}
 }   // namespace f3m_006bb6e0
 
@@ -12370,6 +12650,7 @@ struct Owner {
  void* first;
  Child* FUN_006bc6e0();
 };
+// pdb: ValueAndConditionsEffect::Copy | ValueAndConditionsEffect.obj | fnv360_0721_retail, vtable, medium
 Child* Owner::FUN_006bc6e0() {
  Child* child=new Child(first,second,third);
  table->attach(this,child);
@@ -12402,6 +12683,7 @@ unsigned unk48;
 unsigned unk4c;
 unsigned unk50;
 unsigned unk54;
+// pdb: ShieldEffect::Start | ShieldEffect.obj | fnv360_0721_retail, vtable, medium
 unsigned flags;bool Enabled(){return(flags>>1)&1;}};struct Entry{unsigned unk00,unk04,unk08,unk0c,unk10;Form*form;};struct Link{void*FUN_006b6c70();};struct Owner{unsigned unk00,unk04,unk08;Entry*entry;unsigned unk10,unk14,unk18;float amplitude,time;Link*link;void FUN_006bcc80();void FUN_006ba5e0(void*,float);void FUN_006ba640();};void Owner::FUN_006ba640(){FUN_006bcc80();if(entry->form->Enabled()||time==0.0f){void*target=link?link->FUN_006b6c70():0;FUN_006ba5e0(target,amplitude);}}}
 }   // namespace f3m_006ba640
 
@@ -12524,6 +12806,8 @@ void*unk1c0;
 void*unk1c4;
 void*unk1c8;
 void*unk1cc;
+// pdb: MagicLight::Transfer | MagicLight.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: apRef
 void*(__thiscall*Get)(Source*);};struct Source{Table*table;};struct Owner{void FUN_006b23e0(void*);void FUN_006b24e0(Source*);};void Owner::FUN_006b24e0(Source*source){if(source->table->Get(source))FUN_006b23e0(source->table->Get(source));}}
 }   // namespace f3m_006b24e0
 
@@ -12532,6 +12816,8 @@ namespace CopyModifierEffect {
 extern char DAT_00f6b8b4[],DAT_00f6b890[];
 void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
 struct Effect {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44; unsigned int value;void FUN_006a1080(void*);void FUN_006bc7f0(void*);};
+// pdb: ValueModifierEffect::CopyData | ValueModifierEffect.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apDestination
 void Effect::FUN_006bc7f0(void* other){FUN_006a1080(other);Effect* modifier=(Effect*)FUN_00c0050a(other,0,DAT_00f6b8b4,DAT_00f6b890,0);if(modifier)modifier->value=value;}
 }
 
@@ -12544,6 +12830,8 @@ struct Node {Item* item;Node* next;};
 struct Owner;
 struct Table {void* unk00;void* unk04;Node* (__thiscall *getEntries)(Owner*);};
 struct Owner {Table* table;bool FUN_006b6d50(void*,Item*);};
+// pdb: MagicTarget::IsLastEffect | MagicTarget.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSpell, apLastEffect
 bool Owner::FUN_006b6d50(void* key,Item* excluded) {
  if(excluded->state->FUN_00402190()) return false;
  Node* node=table->getEntries(this);
@@ -12563,13 +12851,14 @@ extern char DAT_00f46078[],DAT_00f47aa8[],DAT_00f46980[];
 namespace f3m_006b4980 {
 namespace LoadMagicHitEffect {
 struct Manager {void FUN_006dcdd0(unsigned int*,unsigned int);};extern Manager* DAT_01079ca4;
-void* __cdecl FUN_00455190(unsigned int);void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int);void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
 struct Cell {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;unsigned short unk24;unsigned char type;};
 struct Reference {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38; Cell* cell;};
 struct Effect {void** methods;int unk04,unk08,unk0c,unk10,unk14,unk18;Reference* object;bool FUN_006b4980();};
 typedef void (__thiscall *Bind)(Effect*,int,Reference*);
 typedef void (__thiscall *Apply)(Effect*,int,Reference*,void*);
-bool Effect::FUN_006b4980(){bool valid=true;unsigned int objectId;DAT_01079ca4->FUN_006dcdd0(&objectId,4);object=(Reference*)FUN_00c0050a(FUN_00455190(objectId),0,DAT_00f46078,DAT_00f47aa8,0);if(!object||!object->cell||object->cell->type!=6)valid=false;unsigned int shaderId;DAT_01079ca4->FUN_006dcdd0(&shaderId,4);void* shader=FUN_00c0050a(FUN_00455190(shaderId),0,DAT_00f46078,DAT_00f46980,0);if(!shader)valid=false;((Bind)methods[53])(this,0,object);if(valid){((Bind)methods[54])(this,0,object);((Apply)methods[55])(this,0,object,shader);}return valid;}
+// pdb: MagicShaderHitEffect::LoadGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+bool Effect::FUN_006b4980(){bool valid=true;unsigned int objectId;DAT_01079ca4->FUN_006dcdd0(&objectId,4);object=(Reference*)FUN_00c0050a(TESForm_GetFormByNumericID(objectId),0,DAT_00f46078,DAT_00f47aa8,0);if(!object||!object->cell||object->cell->type!=6)valid=false;unsigned int shaderId;DAT_01079ca4->FUN_006dcdd0(&shaderId,4);void* shader=FUN_00c0050a(TESForm_GetFormByNumericID(shaderId),0,DAT_00f46078,DAT_00f46980,0);if(!shader)valid=false;((Bind)methods[53])(this,0,object);if(valid){((Bind)methods[54])(this,0,object);((Apply)methods[55])(this,0,object,shader);}return valid;}
 }
 }   // namespace f3m_006b4980
 
@@ -12618,7 +12907,7 @@ unsigned kind;
 };
 struct Form { int unk00,unk04,unk08,unk0c,unk10;Descriptor* descriptor; };
 struct Effect { int unk00,unk04,unk08;Form* form; unsigned char unk10,unk11,unk12,inactive;int unk14,unk18;float magnitude;
- void FUN_006a8920(); void FUN_006a8660();
+ void FUN_006a8920(); void LightEffect_AttachLight();
 };
 struct Node { Effect* effect;Node* next; bool Empty(){return !next&&!effect;} };
 struct Owner;
@@ -12626,6 +12915,8 @@ struct Table {void* unk00;void* unk04;Node* (__thiscall* get)(Owner*);};
 struct Owner {Table* table;};
 extern char DAT_00f6bdac,DAT_00f6b8b4;
 extern void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
+// pdb: LightEffect::AttachBestLightEffect | LightEffect.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: apTarget
 void __cdecl FUN_006a89b0(Owner* owner) {
  if(!owner) return;
  Effect* best=0;
@@ -12641,13 +12932,15 @@ void __cdecl FUN_006a89b0(Owner* owner) {
    }
    node=node->next;
   }
-  if(best) best->FUN_006a8660();
+  if(best) best->LightEffect_AttachLight();
  }
 }
 }
 
 // @f3 0x006a7d30 (community match, verified in this file)
 namespace f3m_006a7d30 {
+// pdb: TurnUndeadEffect::GetSaveSize | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apActor
 namespace Query6a7d {struct Object{unsigned short FUN_006a1980(int);unsigned short FUN_006a7d30(int);};unsigned short Object::FUN_006a7d30(int value){unsigned short result=FUN_006a1980(value);++result;return result;}}
 }   // namespace f3m_006a7d30
 
@@ -12681,6 +12974,8 @@ struct Effect : FUN_006a13f0 {
  static void* operator new(unsigned size) { return DAT_01090a78.FUN_0086b930(size); }
  static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
+// pdb: OpenEffect::Instantiate | OpenEffect.obj | fnv360_0721_retail, caller_sim, low
+// pdb params: apCaster, apSpell, apEffect
 Effect* __cdecl FUN_006b8f80(void* a,void* b,void* c) { return new Effect(a,b,c); }
 }
 
@@ -12689,11 +12984,14 @@ namespace f3m_006b9eb0 {
 struct ActiveEffect {virtual ~ActiveEffect();int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;};
 namespace ScriptHeapA {struct Heap {void* FUN_0086b930(unsigned int);void FUN_0086ba60(void*);};extern Heap DAT_01090a78;}
 struct ScriptEffect:ActiveEffect {void* script;unsigned int state;ScriptEffect(void*,void*,void*);static void* operator new(unsigned int size){return ScriptHeapA::DAT_01090a78.FUN_0086b930(size);}static void operator delete(void* p){ScriptHeapA::DAT_01090a78.FUN_0086ba60(p);}};
+// pdb: ScriptEffect::Instantiate | ScriptEffect.obj | fnv360_0721_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 ScriptEffect* __cdecl FUN_006b9eb0(void* a,void* b,void* c){return new ScriptEffect(a,b,c);}
 }   // namespace f3m_006b9eb0
 
 // @f3 0x006b1980 (community match, verified in this file)
 namespace f3m_006b1980 {
+// pdb: MagicHitEffect::MagicHitEffect | MagicHitEffect.obj | fnv360_0822_retail, call_seq, medium
 namespace Init{extern void*DAT_00e0b30c[];extern const float DAT_00db9568;struct Owner{void**table;unsigned unk04;float value;unsigned unk0c,unk10,unk14;void*first;void*second;float elapsed;bool active;void FUN_005af350(unsigned,float);Owner*FUN_006b1980();};Owner*Owner::FUN_006b1980(){FUN_005af350(0,0.0f);elapsed=0.0f;table=DAT_00e0b30c;second=0;value=3.402823466e+38F;first=0;active=false;return this;}}
 }   // namespace f3m_006b1980
 
@@ -12710,6 +13008,8 @@ struct Menu {
     void FUN_006aff00(void* target, int a, int b);
 };
 }
+// pdb: MagicCaster::CastWornEnchantment | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, apSource, abLoadCast
 void n6aff00::Menu::FUN_006aff00(void* target, int a, int b)
 {
     if (target) {
@@ -12733,10 +13033,11 @@ struct Menu {
     virtual void v0();
     virtual void v1();
     virtual Node* GetList();
-    bool FUN_006b6e10(int id);
+    bool MagicTarget_HasEffect(int id);
 };
 }
-bool n6b6e10::Menu::FUN_006b6e10(int id)
+// pdb: MagicTarget::HasEffect | MagicTarget.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(objrun_prop), high
+bool n6b6e10::Menu::MagicTarget_HasEffect(int id)
 {
     Node* node = GetList();
     bool found = false;
@@ -12775,6 +13076,7 @@ unsigned unk3c;
 unsigned unk40;
 unsigned unk44;
 unsigned unk48;
+// pdb: DetectLifeEffect::Copy | DetectLifeEffect.obj | fnv360_0822_retail, objrun_open, low
 void FUN_006bc930(void*,void*,void*);};struct Pending{Effect*effect;~Pending(){if(effect)DAT_01090a78.FUN_0086ba60(effect);}};Effect* __cdecl FUN_006a7520(void*first,void*second,void*third){Pending pending={(Effect*)DAT_01090a78.FUN_0086b930(sizeof(Effect))};Effect*effect=pending.effect;Effect*result=0;if(effect){effect->FUN_006bc930(first,second,third);effect->table=DAT_00e0a484;result=effect;}pending.effect=0;return result;}}
 }   // namespace f3m_006a7520
 
@@ -12783,8 +13085,9 @@ namespace f3m_006b0140 {
 namespace ClearEffectNodes {
 struct Node {int unk00,unk04;Node* next;};
 struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
-struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;int unk80;int unk84;int unk88;int unk8c;int unk90;int unk94;int unk98;int unk9c;int unka0;int unka4;int unka8;int unkac;int unkb0;int unkb4;int unkb8;int unkbc; Node* head;void FUN_006b0140();};
-void Owner::FUN_006b0140(){while(head){Node* node=head;head=node->next;DAT_01090a78.FUN_0086ba60(node);}head=0;}
+struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;int unk80;int unk84;int unk88;int unk8c;int unk90;int unk94;int unk98;int unk9c;int unka0;int unka4;int unka8;int unkac;int unkb0;int unkb4;int unkb8;int unkbc; Node* head;void MagicFogProjectile_ClearTargetList();};
+// pdb: MagicFogProjectile::ClearTargetList | MagicFogProjectile.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+void Owner::MagicFogProjectile_ClearTargetList(){while(head){Node* node=head;head=node->next;DAT_01090a78.FUN_0086ba60(node);}head=0;}
 }
 }   // namespace f3m_006b0140
 
@@ -12824,6 +13127,7 @@ unsigned unk3c;
 unsigned unk40;
 unsigned unk44;
 unsigned unk48;
+// pdb: FrenzyEffect::Copy | FrenzyEffect.obj | fnv360_0721_retail, vtable, medium
 bool active;unsigned char unk4d,unk4e,unk4f;void FUN_006bc930(void*,void*,void*);Effect*Initialize(void*a,void*b,void*c){FUN_006bc930(a,b,c);table=(Table*)DAT_00e0a6ac;active=false;return this;}Effect*FUN_006a7db0();};struct Pending{Effect*effect;~Pending(){if(effect)DAT_01090a78.FUN_0086ba60(effect);}};Effect*Effect::FUN_006a7db0(){Effect*copy;{Pending pending={(Effect*)DAT_01090a78.FUN_0086b930(sizeof(Effect))};copy=pending.effect?pending.effect->Initialize(third,first,second):0;copy->active=active;pending.effect=0;}table->Copy(this,copy);return copy;}}
 }   // namespace f3m_006a7db0
 
@@ -12834,8 +13138,10 @@ struct Manager {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int 
 struct Owned {void FUN_0047fd30();};struct Service {Owned* FUN_00483eb0(int,bool);};struct Query {Service* FUN_0040ab00();};
 struct Actor {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c; Query query;};
 struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
-struct Effect {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44; Owned* object;void FUN_006a1bf0(Actor*);void FUN_006a7820(Actor*);};
-void Effect::FUN_006a7820(Actor* actor){FUN_006a1bf0(actor);if(DAT_01079ca4->version>=55){int id;DAT_01079ca4->FUN_006db490(&id,4);if(id!=-1){Service* service=actor->query.FUN_0040ab00();if(service)object=service->FUN_00483eb0(id,true);Owned* old=object;if(old){old->FUN_0047fd30();DAT_01090a78.FUN_0086ba60(old);}}}}
+struct Effect {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44; Owned* object;void ActiveEffect_LoadGame(Actor*);void FUN_006a7820(Actor*);};
+// pdb: DisintegrateArmorEffect::LoadGame | DisintegrateArmorEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Effect::FUN_006a7820(Actor* actor){ActiveEffect_LoadGame(actor);if(DAT_01079ca4->version>=55){int id;DAT_01079ca4->FUN_006db490(&id,4);if(id!=-1){Service* service=actor->query.FUN_0040ab00();if(service)object=service->FUN_00483eb0(id,true);Owned* old=object;if(old){old->FUN_0047fd30();DAT_01090a78.FUN_0086ba60(old);}}}}
 }
 }   // namespace f3m_006a7820
 
@@ -12919,6 +13225,8 @@ namespace N6B0620 {struct Node{int unknown00,unknown04;Node*next;};struct Manage
  int unknowna4;
  int unknowna8;
  unsigned mode;int unknownb0,unknownb4,unknownb8,unknownbc;Node*list;unsigned short FUN_006b3a00(unsigned);unsigned FUN_006b0620(unsigned);};}
+// pdb: MagicFogProjectile::GetSaveSize | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 unsigned N6B0620::Owner::FUN_006b0620(unsigned flags){unsigned size=(unsigned short)(FUN_006b3a00(flags)+20);if(mode==1)size+=4;if(DAT_01079ca4->version>=0x71){size+=6;for(Node*node=list;node;node=node->next)size+=5;}return size;}
 }   // namespace f3m_006b0620
 
@@ -13149,8 +13457,10 @@ namespace N6A5C40 {extern bool DAT_0116ef70;extern int DAT_0116efb0;struct Targe
  void*unknown374;
  void*unknown378;
  void*unknown37c;
- void(__thiscall*act)(Target*,int,float);};struct Target{Table*table;__forceinline void Act(int mode,float value){table->act(this,mode,value);}void FUN_00722a10();};struct Owner{void FUN_0078c030(Target*);void FUN_006a5c40(Target*);};}
-void N6A5C40::Owner::FUN_006a5c40(Target*target){FUN_0078c030(target);if(DAT_0116ef70&&DAT_0116efb0>=2)target->Act(1,0.0f);else target->FUN_00722a10();}
+ void(__thiscall*act)(Target*,int,float);};struct Target{Table*table;__forceinline void Act(int mode,float value){table->act(this,mode,value);}void Actor_UpdateAlpha();};struct Owner{void FUN_0078c030(Target*);void FUN_006a5c40(Target*);};}
+// pdb: ChameleonEffect::Revert | ChameleonEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void N6A5C40::Owner::FUN_006a5c40(Target*target){FUN_0078c030(target);if(DAT_0116ef70&&DAT_0116efb0>=2)target->Act(1,0.0f);else target->Actor_UpdateAlpha();}
 }   // namespace f3m_006a5c40
 
 // @f3 0x006a7d80 (community match, verified in this file)
@@ -13175,7 +13485,9 @@ unsigned unk3c;
 unsigned unk40;
 unsigned unk44;
 unsigned unk48;
-bool active;void FUN_006a1bf0(void*);void FUN_006a7d80(void*);};void Owner::FUN_006a7d80(void*context){FUN_006a1bf0(context);DAT_01079ca4->FUN_006db490(&active,sizeof(active));}}
+// pdb: FrenzyEffect::LoadGame | FrenzyEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apActor
+bool active;void ActiveEffect_LoadGame(void*);void FUN_006a7d80(void*);};void Owner::FUN_006a7d80(void*context){ActiveEffect_LoadGame(context);DAT_01079ca4->FUN_006db490(&active,sizeof(active));}}
 }   // namespace f3m_006a7d80
 
 // @f3 0x006a79c0 (community match, verified in this file)
@@ -13526,6 +13838,7 @@ struct Menu {
     void FUN_006a79c0();
 };
 }
+// pdb: DisintegrateWeaponEffect::Start | DisintegrateWeaponEffect.obj | fnv360_0822_retail, ustr, medium
 void n6a79c0::Menu::FUN_006a79c0()
 {
     if (!target)
@@ -13562,6 +13875,7 @@ struct VTable_006be910 {
 
 typedef void (__stdcall *MethodPtr)(void*);
 
+// pdb: FalloutAudioMedia::MediaUnPause | FalloutAudioMedia.obj | fnv360_0822_retail, objrun_prop, low
 void __cdecl FUN_006be910() {
     if ((DAT_01079028 & 2) == 0) {
         goto clear_flag;
@@ -13613,6 +13927,8 @@ struct Derived6a6ce0 : Base6bc930 {
     virtual ~Derived6a6ce0();
 };
 
+// pdb: DarknessEffect::Instantiate | DarknessEffect.obj | fnv360_0822_retail, objrun, low
+// pdb params: apCaster, apSpell, apEffect
 Base6bc930* __cdecl FUN_006a6ce0(int a, int b, int c)
 {
     return new Derived6a6ce0(a, b, c);
@@ -13638,6 +13954,8 @@ struct Owner6bb6b0 {
     Inner6bb6b0* unk08;
     void FUN_006bb6b0(Vec3_6bb6b0* out);
 };
+// pdb: bhkMouseSpringAction::GetMousePositionInWorld | TelekinesisEffect.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: arPos
 void Owner6bb6b0::FUN_006bb6b0(Vec3_6bb6b0* out)
 {
     if (this && unk08) {
@@ -13709,6 +14027,7 @@ struct Obj {
     int unk1c;
     unsigned short FUN_006b4900();
 };
+// pdb: MagicShaderHitEffect::GetSaveSize | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
 unsigned short Obj::FUN_006b4900()
 {
     unsigned short size = GetSize(0, unk1c);
@@ -13726,6 +14045,8 @@ void __cdecl FUN_00401dd0(Obj* obj, int a, int b, int c);
 struct Obj {
     void FUN_006ad260(int a, int b, int c);
 };
+// pdb: MagicCaster::CreateActiveEffect | MagicCaster.obj | fnv360_0822_debug, vtable, low, conflict (skyrim: MagicCaster::StartCastImpl)
+// pdb params: apSpell, apEffectItem, apSource
 void Obj::FUN_006ad260(int a, int b, int c)
 {
     FUN_00401dd0(this, a, b, c);
@@ -13746,6 +14067,7 @@ struct Second {
     Derived* FUN_006b6c70();
 };
 struct Derived : First, Second {};
+// pdb: MagicTarget::GetTargetAsActor | MagicTarget.obj | fnv360_0822_retail, call_seq, medium
 Derived* Second::FUN_006b6c70()
 {
     if (IsValid())
@@ -13779,6 +14101,8 @@ struct Owner {
     virtual Node* GetList();
     bool FUN_006b7330(int type, int target, Form* form);
 };
+// pdb: MagicTarget::ResetEffectElapsedTime | MagicTarget.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSpell, apCaster, apActiveEffect
 bool Owner::FUN_006b7330(int type, int target, Form* form)
 {
     bool found = false;
@@ -13866,6 +14190,8 @@ struct Cell {
     void FUN_006a17d0();
     void FUN_006a2630(int arg);
 };
+// pdb: ActiveEffect::FinishLoadGame | ActiveEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: ActiveEffect::ShouldDispelOnDeath)
+// pdb params: apLoadGameBuffer
 void Cell::FUN_006a2630(int arg)
 {
     if ((char)(inner->base->flags >> 10) & 1)
@@ -13893,6 +14219,8 @@ class FUN_006ba480 {
     static void* operator new(unsigned int size) { return n6ba560::DAT_01090a78.FUN_0086b930(size); }
     static void operator delete(void* memory) { n6ba560::DAT_01090a78.FUN_0086ba60(memory); }
 };
+// pdb: ShieldEffect::Instantiate | ShieldEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 FUN_006ba480* __cdecl FUN_006ba560(int a, int b, int c)
 {
     return new FUN_006ba480(a, b, c);
@@ -13902,12 +14230,14 @@ FUN_006ba480* __cdecl FUN_006ba560(int a, int b, int c)
 namespace f3m_006a2690 {
 namespace n6a2690 {
 struct Node { void* item; Node* next; };
-struct Stream { int FUN_006e16c0(); void FUN_006e16e0(int count, int mark); };
+struct Stream { int BGSSaveGameBuffer_StartVariableSizedValue(); void FUN_006e16e0(int count, int mark); };
 void __cdecl FUN_006a1280(Stream* s, void* item);
+// pdb: ActiveEffect::SaveActiveEffectList | ActiveEffect.obj | fnv360_0822_debug, caller_sim, low, conflict (skyrim: ActiveEffect::ClearTarget)
+// pdb params: apSaveGameBuffer, apActiveEffectList
 void __cdecl FUN_006a2690(Stream* s, Node* node)
 {
     int count = 0;
-    int mark = s->FUN_006e16c0();
+    int mark = s->BGSSaveGameBuffer_StartVariableSizedValue();
     for (; node; node = node->next) {
         if (node->item) {
             FUN_006a1280(s, node->item);
@@ -13930,9 +14260,8 @@ struct Globals { char pad[0x5b8]; bool unk5b8; };
 extern Globals* DAT_0107a104;
 extern bool DAT_0107801c;
 extern float DAT_00f62bbc;
-extern float DAT_00eaad58;
 int __cdecl FUN_006a6520(float value, int unk);
-void __cdecl FUN_004c2700(int id);
+void __cdecl ImageSpaceModifierInstanceForm_Trigger(int id);
 struct Handler { virtual void v0(); virtual void v1(); virtual int v2(int type); };
 struct Actor;
 struct Process {
@@ -14168,6 +14497,8 @@ struct Obj {
     float timer;
     void FUN_006a6650(Actor* actor);
 };
+// pdb: ConcussionEffect::CheckApplyConcussion | ConcussionEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apTarget
 void Obj::FUN_006a6650(Actor* actor)
 {
     if (timer > DAT_00f62bbc) {
@@ -14175,7 +14506,7 @@ void Obj::FUN_006a6650(Actor* actor)
         if (actor->FUN_006fa030() == 0.0f && !actor->handler.v2(0x48)) {
             DAT_0107801c = true;
             if (actor->v215() && !DAT_0107a104->unk5b8) {
-                FUN_004c2700(FUN_006a6520(*DAT_00f60b54.FUN_00401eb0(), 0));
+                ImageSpaceModifierInstanceForm_Trigger(FUN_006a6520(*DAT_00f60b54.FUN_00401eb0(), 0));
                 DAT_011790c8->FUN_00bcfcd0("FXCrippleHead", 0x101, 0).FUN_00bd00c0();
             }
             actor->process->v16(actor, 0, 2, 1, 0, 1);
@@ -14193,6 +14524,8 @@ struct Data{int unk000; int unk004; int unk008; int unk00c; int unk010; int unk0
 struct Object;struct Table{int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; unsigned (__thiscall* type)(Object*);};
 struct Object{Table* table;int unk004; int unk008; int unk00c; int unk010; int unk014; unsigned flags;int unk01c; int unk020; Parent* parent;float FUN_006bc860(float);};
 inline bool InR(int t,int lo,int hi){return t>=lo && t<=hi;}
+// pdb: ValueModifierEffect::CheckAdjustNoNegativeMagnitude | ValueModifierEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afMagnitude
 float Object::FUN_006bc860(float value){
  float result=value;
  if((unsigned char)(flags>>7)&1) return value;
@@ -14228,6 +14561,8 @@ struct Q76a0 {
     int unk48;
 };
 }
+// pdb: DisintegrateArmorEffect::Instantiate | DisintegrateArmorEffect.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 f3m_006a76a0::Q76a0* __cdecl FUN_006a76a0(int first, int second, int third)
 {
     return new f3m_006a76a0::Q76a0(first, second, third);
@@ -14249,6 +14584,7 @@ struct Obj {
     void FUN_006bcc80();
     void FUN_006a56f0();
 };
+// pdb: CalmEffect::Start | CalmEffect.obj | fnv360_0721_retail, vtable, medium
 void Obj::FUN_006a56f0()
 {
     FUN_006bcc80();
@@ -14266,6 +14602,8 @@ namespace f3m_006b9870 {
 
 short __stdcall FUN_006a1980(int value);
 
+// pdb: ReanimateEffect::GetSaveSize | ReanimateEffect.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: ReanimateEffect::~ReanimateEffect)
+// pdb params: apActor
 short __stdcall FUN_006b9870(int value)
 {
     short result = FUN_006a1980(value);
@@ -14290,6 +14628,7 @@ struct Owner {
     virtual Node* v2();
     void FUN_006b7520();
 };
+// pdb: MagicTarget::EvaluateSpellConditions | MagicTarget.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: TESObjectREFR::QIsPlayer)
 void Owner::FUN_006b7520()
 {
     for (Node* node = v2(); node; ) {
@@ -14329,6 +14668,8 @@ struct Self6a10f0 {
     void FUN_006a10f0(Arg6a10f0* arg);
 };
 
+// pdb: ActiveEffect::SetEnchantmentSource | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSource
 void Self6a10f0::FUN_006a10f0(Arg6a10f0* arg)
 {
     unk3C = arg;
@@ -14371,6 +14712,7 @@ struct Owner {
     bool FUN_006b0130();
 };
 
+// pdb: MagicCaster::StartCast | MagicCaster.obj | fnv360_0822_retail, vtable, medium
 bool Owner::FUN_006b0130() {
     return FUN_006aff40(0);
 }
@@ -14412,6 +14754,7 @@ struct Owner {
     int FUN_006a68d0();
 };
 
+// pdb: CureEffect::Start | CureEffect.obj | fnv360_0721_retail, vtable, low
 int Owner::FUN_006a68d0()
 {
     int value = unk4C;
@@ -14441,6 +14784,8 @@ struct Obj6a8d60 {
     float f28;
     float FUN_006a8d60(float x);
 };
+// pdb: MobileObject::GetHeading | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abIgnoreImmobile
 float __thiscall Obj6a8d60::FUN_006a8d60(float x) { return f28; }
 }
 }   // namespace f3m_006a8d60
@@ -14449,6 +14794,7 @@ float __thiscall Obj6a8d60::FUN_006a8d60(float x) { return f28; }
 extern unsigned char byte_10781B0;
 namespace f3m_006a7210 {
 
+// pdb: DetectLifeEffect::CheckPlayerRunningDetectLife | DetectLifeEffect.obj | fnv360_0822_retail, call_gap_sim, low
 void __cdecl FUN_006a7210()
 {
     byte_10781B0 = 0;
@@ -14469,16 +14815,17 @@ public:
 class SoundManager {
 public:
     void FUN_00bcfcd0(SoundRef* out, const char* name, int flags);
-    void FUN_00bcff30(const char* name, int flags);
+    void BSAudio_Precache(const char* name, int flags);
 };
 
 extern SoundManager* DAT_011790c8;
 
+// pdb: FalloutAudio::MysteriousStrangerAppears | FalloutAudio.obj | fnv360_0822_retail, ustr, medium
 void __cdecl FUN_006bd8d0() {
     SoundRef ref;
     DAT_011790c8->FUN_00bcfcd0(&ref, "MUSMysteriousStrangerA01", 0x210101);
     ref.FUN_00bd00c0(0);
-    DAT_011790c8->FUN_00bcff30("MUSMysteriousStrangerA02", 0x20200101);
+    DAT_011790c8->BSAudio_Precache("MUSMysteriousStrangerA02", 0x20200101);
 }
 
 }
@@ -14552,6 +14899,7 @@ struct Owner {
     Child* FUN_006b8660();
 };
 
+// pdb: NightEyeEffect::Copy | NightEyeEffect.obj | fnv360_0721_retail, vtable, medium
 Child* Owner::FUN_006b8660()
 {
     Child* p = new Child(unk28, unk08, unk0C);
@@ -14604,6 +14952,7 @@ struct Saver6b2620 {
     void FUN_006b2620();
 };
 
+// pdb: MagicModelHitEffect::SaveGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
 void Saver6b2620::FUN_006b2620()
 {
     unsigned int formID = unk1C->unk0C;
@@ -14632,6 +14981,8 @@ struct Fwd6ad280_Self {
                       int a5, int a6, int a7);
 };
 
+// pdb: MagicCaster::AddTarget | MagicCaster.obj | fnv360_0822_debug, call_gap, low
+// pdb params: apTarget, aSourceLoc, apSpell, apActiveEffect, abAreaTarget
 void Fwd6ad280_Self::FUN_006ad280(Fwd6ad280_Target* target, int a2, int a3, int a4,
                                   int a5, int a6, int a7)
 {
@@ -14692,6 +15043,8 @@ struct Obj6b1aa0 {
     void FUN_006b1aa0(int a, int b);
 };
 
+// pdb: MagicHitEffect::SaveGame | MagicHitEffect.obj | fnv360_0822_retail, vtable, low
+// pdb params: apEffect, apTarget
 void Obj6b1aa0::FUN_006b1aa0(int a, int b)
 {
     ((Save6b1aa0*)DAT_01079ca4)->Write6db460(&unk20, 4);
@@ -14920,6 +15273,8 @@ public:
     int unkFC;
 };
 
+// pdb: ReanimateEffect::CheckTarget | ReanimateEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apTarget
 bool __stdcall FUN_006b9c40(RefSrc6b9c40* src)
 {
     Character* chr = dynamic_cast<Character*>(src->vf04());
@@ -14962,6 +15317,7 @@ struct FUN_006b8c20 : Base6b8c20, FUN_006b75c0 {
     FUN_006b8c20();
 };
 
+// pdb: NonActorMagicTarget::NonActorMagicTarget | NonActorMagicTarget.obj | fnv360_0822_retail, call_gap, low
 FUN_006b8c20::FUN_006b8c20() : m20(0), m24(0) { m1c = 0; }
 }   // namespace f3m_006b8c20
 
@@ -14988,6 +15344,8 @@ struct Cls6b3ad0 {
     void FUN_006b3ad0(int a, int b);
 };
 
+// pdb: MagicProjectile::LoadGame | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiCurrentFlags
 void Cls6b3ad0::FUN_006b3ad0(int a, int b)
 {
     FUN_00765650(a, b);
@@ -15067,6 +15425,8 @@ struct Self {
     bool FUN_006b7bc0(void* p1, Caster* p2, In3* p3);
 };
 
+// pdb: MagicTarget::AddTarget | MagicTarget.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCaster, apSpell, apActiveEffect, abAreaTarget
 bool Self::FUN_006b85b0(void* p1, Caster* p2, In3* p3, int p4)
 {
     Caster* caster = *(Caster* volatile*)&p2;
@@ -15107,11 +15467,13 @@ struct Stream {
 struct Object {
     unsigned char prefix[0x50];
     unsigned field50, field54, field58;
-    void FUN_006a1bf0(void*);
+    void ActiveEffect_LoadGame(void*);
     void FUN_006bb780(void*);
 };
+// pdb: TelekinesisEffect::LoadGame | TelekinesisEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Object::FUN_006bb780(void* input) {
-    FUN_006a1bf0(input);
+    ActiveEffect_LoadGame(input);
     ((Stream*)DAT_01079ca4)->FUN_006dcdd0(&input, 4);
     field58 = (unsigned)input;
     if (((Stream*)DAT_01079ca4)->version >= 0x40) {
@@ -15133,6 +15495,7 @@ struct Owner6aa8d0
     unsigned char __thiscall FUN_006aa8d0();
 };
 
+// pdb: MagicProjectile::IsActive | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
 unsigned char Owner6aa8d0::FUN_006aa8d0()
 {
     return (unsigned char)~(unsigned char)(unk08 >> 5) & 1;
@@ -15145,6 +15508,7 @@ struct Obj6a8 { int unk00; int unk04; unsigned int flags; int unk0C; int unk10; 
     bool IsFlag5() const { return (flags >> 5) & 1; }
     int FUN_006a8d80();
 };
+// pdb: MagicBallProjectile::IsActive | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
 int Obj6a8::FUN_006a8d80() {
     if (type == 2 || IsFlag5()) return 0;
     return 1;
@@ -15157,6 +15521,8 @@ struct Obj6a{virtual void v0();virtual void v1();virtual void v2();virtual void 
     virtual void v10(void* arg);};
 struct Node6a{Obj6a* item;Node6a* next;};
 
+// pdb: ActiveEffect::InitLoadGameActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActiveEffectList, apActor
 void __cdecl FUN_006a2190(Node6a* node, void* arg)
 {
     for (; node; node = node->next) {
@@ -15247,6 +15613,7 @@ public:
     NewInvisibilityEffect* FUN_006a8110();
 };
 
+// pdb: InvisibilityEffect::Copy | InvisibilityEffect.obj | fnv360_0822_retail, objrun, medium
 NewInvisibilityEffect* InvisibilityEffect::FUN_006a8110()
 {
     NewInvisibilityEffect* obj =
@@ -15287,6 +15654,7 @@ struct Owner6a8 {
     int unk04, unk08, unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28;
     Item6a8* FUN_006a8530();
 };
+// pdb: LightEffect::Copy | LightEffect.obj | fnv360_0822_retail, objrun, medium
 Item6a8* Owner6a8::FUN_006a8530() {
     Item6a8* item = new Item6a8(unk28, unk08, unk0C);
     AddItem(item);
@@ -15311,6 +15679,8 @@ struct FUN_006b58f0 {
         }
     }
 };
+// pdb: BSSimpleArray<NiPointer<NiAVObject>,1024>::Add | MagicShaderHitEffect.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aValue
 FUN_006b58f0::~FUN_006b58f0() {
     Clear();
 }
@@ -15332,6 +15702,7 @@ __forceinline void List::FreeItems() {
  if(item) DAT_01090a78.FUN_0086ba60(item);
  }
 }
+// pdb: MagicTarget::~MagicTarget | MagicTarget.obj | fnv360_0822_debug, caller, medium
 FUN_006b7600::~FUN_006b7600() {
  list.FreeItems();
  list.FUN_006c8220();
@@ -15348,30 +15719,32 @@ struct Stream {
     char pad18[0x68];
     unsigned char version;    // 0x80
     void FUN_006db490(void* dest, unsigned int count);
-    void FUN_006d82a0(int count);
+    void TESSaveLoadGame_AdvanceBuffer(int count);
 };
 
 struct Target {
-    void FUN_00516d00();
+    void ScriptLocals_LoadGame();
 };
 
 struct Selector {
-    Target* FUN_005195c0();
+    Target* Script_CloneLocals();
 };
 
 struct Menu {
     char pad00[0x48];
     Selector* selector;    // 0x48
     Target* selected;      // 0x4C
-    void FUN_006a1bf0(int arg);
+    void ActiveEffect_LoadGame(int arg);
     void FUN_006ba0b0(int arg);
 };
 
 extern Stream* DAT_01079ca4;
 
+// pdb: ScriptEffect::LoadGame | ScriptEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Menu::FUN_006ba0b0(int arg)
 {
-    FUN_006a1bf0(arg);
+    ActiveEffect_LoadGame(arg);
 
     unsigned short flag = 0;
     if (DAT_01079ca4->version >= 0x2a) {
@@ -15384,11 +15757,11 @@ void Menu::FUN_006ba0b0(int arg)
     }
 
     if (selected == 0)
-        selected = selector->FUN_005195c0();
+        selected = selector->Script_CloneLocals();
     if (selected)
-        selected->FUN_00516d00();
+        selected->ScriptLocals_LoadGame();
     else
-        DAT_01079ca4->FUN_006d82a0(flag);
+        DAT_01079ca4->TESSaveLoadGame_AdvanceBuffer(flag);
 }
 
 }
@@ -15558,6 +15931,8 @@ unsigned int unk58;
 unsigned int unk5c;
 void* present;};
 struct Owner221{virtual void v0();virtual Target221* GetTarget();virtual Node221* GetList();virtual bool NeedsCheck();void FUN_006b8470(unsigned int key);};
+// pdb: MagicTarget::StartSpell | MagicTarget.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSpell
 void Owner221::FUN_006b8470(unsigned int key){
  Node221* node=GetList();
  if(NeedsCheck()){
@@ -15610,6 +15985,8 @@ struct Offset4C {
     int FUN_006ba880(int arg);
 };
 
+// pdb: SummonCreatureEffect::GetSaveSize | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 int Offset4C::FUN_006ba880(int arg)
 {
     int size = (unsigned short)(FUN_006a2f90(arg) + 5);
@@ -15644,6 +16021,7 @@ virtual void v16();
 struct Clone: Base { float value; char a,b; char tail[2]; Clone(int,int,int); virtual ~Clone(); static void* operator new(unsigned n) throw(){return DAT_01090a78.FUN_0086b930(n);} };
 Clone::Clone(int p,int q,int r):Base(p,q,r),value(0.0f) { b=0; a=0; }
 struct Source { void** table; int x; int a,b; char pad[0x18]; int c; char gap[0x1c]; float value; char a1,b1; Clone* FUN_006baff0(); };
+// pdb: SunDamageEffect::Copy | SunDamageEffect.obj | fnv360_0721_retail, vtable, medium
 Clone* Source::FUN_006baff0(){Clone* p=new Clone(c,a,b); ((void (__thiscall*)(Source*,Clone*))table[17])(this,p); p->value=value; p->a=a1; p->b=b1; return p;}
 }
 }   // namespace f3m_006baff0
@@ -15685,6 +16063,7 @@ struct Owner6a5 {
     int unk04, unk08, unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28;
     Item6a5* FUN_006a57f0();
 };
+// pdb: CalmEffect::Copy | CalmEffect.obj | fnv360_0721_retail, vtable, medium
 Item6a5* Owner6a5::FUN_006a57f0() {
     Item6a5* item = new Item6a5(unk28, unk08, unk0C);
     AddItem(item);
@@ -15761,6 +16140,7 @@ struct Owner {
 extern Visitor* DAT_0116efb8;
 extern int DAT_01078408;
 
+// pdb: LightEffect::DetachLight | LightEffect.obj | fnv360_0721_retail, call_seq, medium
 void Owner::FUN_006a8920()
 {
     Data6a8* data = ref ? ref->FUN_006b6c70() : 0;
@@ -15793,6 +16173,8 @@ namespace f3m_006bd3f0 {
 class Actor {public:virtual void v0();};
 class Character:public Actor {};
 void __stdcall FUN_006a1e60(Actor*);
+// pdb: VampirismEffect::InitLoadGame | VampirismEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 Character* __stdcall FUN_006bd3f0(Actor* actor){FUN_006a1e60(actor);return dynamic_cast<Character*>(actor);}
 }   // namespace f3m_006bd3f0
 
@@ -15801,6 +16183,8 @@ namespace f3m_006b1b80 {
 namespace F3_6b1b80 {
 struct Stream { void FUN_006e1830(void*,unsigned,int); void FUN_006e17e0(int,int); };
 struct Owner { char pad[0x1c]; int n; int x; char y; void FUN_005af4e0(Stream*); void FUN_006b1b80(Stream*); };
+// pdb: MagicHitEffect::SaveGame | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSaveGameBuffer
 void Owner::FUN_006b1b80(Stream* s){ FUN_005af4e0(s); s->FUN_006e1830(&x,4,0); s->FUN_006e1830(&y,1,0); s->FUN_006e17e0(n,0); }
 }
 }   // namespace f3m_006b1b80
@@ -15826,8 +16210,10 @@ unsigned int unk38;
 unsigned int unk3c;
 unsigned int unk40;
 unsigned int unk44;
-Extra228* extra;void FUN_006a1a10(void*);void FUN_006a2fb0(void*);};
-void Owner228::FUN_006a2fb0(void* value){FUN_006a1a10(value);Extra228* current=extra;value=0;if(current)value=current->value;DAT_01079ca4->FUN_006defa0(&value,4);}
+Extra228* extra;void ActiveEffect_SaveGame(void*);void FUN_006a2fb0(void*);};
+// pdb: AssociatedItemEffect::SaveGame | AssociatedItemEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Owner228::FUN_006a2fb0(void* value){ActiveEffect_SaveGame(value);Extra228* current=extra;value=0;if(current)value=current->value;DAT_01079ca4->FUN_006defa0(&value,4);}
 }
 }   // namespace f3m_006a2fb0
 
@@ -15858,7 +16244,7 @@ struct FNV_006a7d50_Owner {
     void __thiscall FUN_006db460(void* data, int size);
 };
 
-void __stdcall FUN_006a1a10(int value);
+void __stdcall ActiveEffect_SaveGame(int value);
 
 struct FNV_006a7d50_Object {
     int unk00;
@@ -15885,9 +16271,11 @@ struct FNV_006a7d50_Object {
     void __thiscall FUN_006a7d50(int value);
 };
 
+// pdb: FrenzyEffect::SaveGame | FrenzyEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void __thiscall FNV_006a7d50_Object::FUN_006a7d50(int value)
 {
-    FUN_006a1a10(value);
+    ActiveEffect_SaveGame(value);
     reinterpret_cast<FNV_006a7d50_Owner*>(DAT_01079ca4)->FUN_006db460(
         reinterpret_cast<char*>(this) + 0x4C, 1);
 }
@@ -15926,6 +16314,8 @@ public:
     void FUN_006a83e0(unsigned int value);
 };
 
+// pdb: LightEffect::FinishInitLoadGame | LightEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void FNV_006a83e0_Owner::FUN_006a83e0(unsigned int value)
 {
     FUN_006a1f00(value);
@@ -15943,7 +16333,6 @@ struct SourceTable {void* unk00;void* (__thiscall *get)(Source*);};
 struct Source {SourceTable* table;};
 struct Checker {bool FUN_005ae140(void*,int);};
 struct Holder {int unk00,unk04,unk08,unk0C,unk10,unk14,unk18;Checker checker;};
-struct Boundary {float value;};
 inline float Evaluate(float value) {return (float)FUN_00c00d40(value);}
 struct Owner {
  int unk00;
@@ -15960,6 +16349,8 @@ struct Owner {
  bool FUN_006a1520();
  void FUN_006a1630(float,bool);
 };
+// pdb: ActiveEffect::EvaluateConditions | ActiveEffect.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: afTimeDelta, abForceUpdate
 void Owner::FUN_006a1630(float delta,bool force) {
  unsigned char bit=(unsigned char)(flags>>7);
  if((bit&1) || trigger) {
@@ -15995,6 +16386,7 @@ struct Candidate {
     void FUN_006bcc80();
     void FUN_006a7ce0();
 };
+// pdb: FrenzyEffect::Start | FrenzyEffect.obj | fnv360_0721_retail, vtable, medium
 void Candidate::FUN_006a7ce0() {
     FUN_006bcc80();
     void* first;
@@ -16040,6 +16432,8 @@ struct FNV_006a8620_Owner {
     void FUN_006a8620(int value);
 };
 
+// pdb: LightEffect::Update | LightEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: afSecondsElapsed
 void FNV_006a8620_Owner::FUN_006a8620(int value) {
     void* item = unk48;
 
@@ -16155,6 +16549,8 @@ namespace f3m_006b3a00 {
 namespace f3m_006b3a00 {
 struct QFile6b3a { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; unsigned char version; };
 unsigned short __stdcall FUN_007655b0(int arg);
+// pdb: MagicProjectile::GetSaveSize | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 int __stdcall FUN_006b3a00(int arg) {
     unsigned short size = FUN_007655b0(arg) + 12;
     int result = size;
@@ -16386,20 +16782,22 @@ public:
  virtual void v0d5();
  virtual void v0d6();
  virtual bool IsDead();
- unsigned short FUN_006f4cd0();
+ unsigned short Actor_GetLevel();
 };
-bool __cdecl FUN_005859c0(int, float);
+bool __cdecl MagicFormulas_CheckTargetLevelMagnitude(int, float);
 struct QA106 {
  int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
  float unk1c;
  bool FUN_006a63b0(MagicTarget* target);
 };
+// pdb: CommandHumanoidEffect::CheckTarget | CommandHumanoidEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apTarget
 bool QA106::FUN_006a63b0(MagicTarget* target) {
  Character* c = dynamic_cast<Character*>(target);
  if (!c) return false;
  if (c->IsDead()) return false;
- volatile float f = unk1c;
- return FUN_005859c0(c->FUN_006f4cd0(), f);
+ float f = unk1c;
+ return MagicFormulas_CheckTargetLevelMagnitude(c->Actor_GetLevel(), f);
 }
 }   // namespace f3m_006a63b0
 
@@ -16709,6 +17107,7 @@ struct QMain {
     void FUN_006bc300();
 };
 
+// pdb: TurnUndeadEffect::Start | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, low
 void QMain::FUN_006bc300()
 {
     QObj* o = unk24 ? unk24->FUN_006b6c70() : 0;
@@ -16730,6 +17129,8 @@ struct QHolder {
     QActor* FUN_006b6c70();
 };
 }
+// pdb: SummonCreatureEffect::CheckTarget | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apTarget
 bool __stdcall FUN_006a7730(f3m_006a7730::QHolder* h)
 {
     f3m_006a7730::QActor* a = h ? h->FUN_006b6c70() : 0;
@@ -16779,6 +17180,8 @@ public:
 };
 }
 
+// pdb: ParalysisEffect::Instantiate | ParalysisEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 f3m_006b9120::FUN_006bc930* FUN_006b9120(int a, int b, int c) {
     return new f3m_006b9120::QDerived(a, b, c);
 }
@@ -16895,8 +17298,9 @@ struct QForm {
 };
 }
 
-int FUN_006b6cc0(unsigned int formID) {
-    f3m_006b6cc0::QForm* form = (f3m_006b6cc0::QForm*)FUN_00455190(formID);
+// pdb: MagicTarget::GetMagicTargetByNumericID | MagicTarget.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+int MagicTarget_GetMagicTargetByNumericID(unsigned int formID) {
+    f3m_006b6cc0::QForm* form = (f3m_006b6cc0::QForm*)TESForm_GetFormByNumericID(formID);
     if (form && form->IsReady())
         return form->GetValue();
     return 0;
@@ -16953,6 +17357,8 @@ public:
     bool FUN_006ad970(MagicItem* item, MagicTarget* target, bool flag);
 };
 
+// pdb: MagicCaster::CastSpell | MagicCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSpell, apDesiredTarget, abLoadCast
 bool Caster::FUN_006ad970(MagicItem* item, MagicTarget* target, bool flag)
 {
     if (item->effects.FUN_00403690()) {
@@ -16988,7 +17394,7 @@ bool Caster::FUN_006ad970(MagicItem* item, MagicTarget* target, bool flag)
 // @f3 0x006a5f00 (community match, verified in this file)
 namespace f3m_006a5f00 {
 namespace f3m_006a5f00 {
-bool __cdecl FUN_005859c0(int value, float scale);
+bool __cdecl MagicFormulas_CheckTargetLevelMagnitude(int value, float scale);
 struct QActor {
     virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c();
     virtual void v010(); virtual void v014(); virtual void v018(); virtual void v01c();
@@ -17025,7 +17431,7 @@ struct QActor {
     virtual void v200(); virtual void v204(); virtual void v208(); virtual void v20c();
     virtual void v210(); virtual void v214(); virtual void v218();
     virtual bool v21c();
-    unsigned short FUN_006f4cd0();
+    unsigned short Actor_GetLevel();
 };
 struct QHolder { QActor* FUN_006b6c70(); };
 struct QObj {
@@ -17037,11 +17443,13 @@ static inline QActor* GetReady(QHolder* h) {
     QActor* a = h ? h->FUN_006b6c70() : 0;
     return a && a->v21c() ? a : 0;
 }
+// pdb: CommandCreatureEffect::CheckTarget | CommandCreatureEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apTarget
 bool QObj::FUN_006a5f00(QHolder* h) {
     QActor* a = GetReady(h);
     if (!a) return false;
     float scale = unk1c;
-    return FUN_005859c0(a->FUN_006f4cd0(), scale);
+    return MagicFormulas_CheckTargetLevelMagnitude(a->Actor_GetLevel(), scale);
 }
 }
 }   // namespace f3m_006a5f00
@@ -17064,6 +17472,8 @@ public:
     int unk00; int unk04; int unk08;
     QMagicTarget128 target;
 };
+// pdb: OpenEffect::CheckTarget | OpenEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apTarget
 bool __stdcall FUN_006b8ee0(MagicTarget* t)
 {
     NonActorMagicTarget* n = dynamic_cast<NonActorMagicTarget*>(t);
@@ -17085,6 +17495,8 @@ struct QFile1a80 { int unk00; int unk04; int unk08; int unk0c; int unk10; int un
   int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
   int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
   unsigned char version; };
+// pdb: MagicHitEffect::GetSaveSize | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 int __stdcall FUN_006b1a80(int a, int b) {
     int r = 5;
     if (((QFile1a80*)DAT_01079ca4)->version >= 0x72) r = 9;
@@ -17127,6 +17539,7 @@ struct Obj {
     }
 };
 
+// pdb: VampirismEffect::Copy | VampirismEffect.obj | fnv360_0822_retail, objrun_open, low
 Obj* __cdecl FUN_006bd380(int first, int second, int third) {
     Obj* p = new Obj(first, second, third);
     return p;
@@ -17138,8 +17551,10 @@ Obj* __cdecl FUN_006bd380(int first, int second, int third) {
 namespace f3m_006bc470 {
 namespace F3_6bc470 {
 struct Stream { void FUN_006db460(void*,unsigned); }; extern Stream* DAT_01079ca4;
-struct Owner { char pad[0x48]; char b; void FUN_006a1a10(void*); void FUN_006bc470(void*); };
-void Owner::FUN_006bc470(void* p) { FUN_006a1a10(p); DAT_01079ca4->FUN_006db460(&b,1); }
+struct Owner { char pad[0x48]; char b; void ActiveEffect_SaveGame(void*); void FUN_006bc470(void*); };
+// pdb: TurnUndeadEffect::SaveGame | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apActor
+void Owner::FUN_006bc470(void* p) { ActiveEffect_SaveGame(p); DAT_01079ca4->FUN_006db460(&b,1); }
 }
 }   // namespace f3m_006bc470
 
@@ -17154,6 +17569,7 @@ struct Obj6b8 {
     void FUN_006bcc80();
     void FUN_006b87c0();
 };
+// pdb: NightEyeEffect::Start | NightEyeEffect.obj | fnv360_0822_retail, objrun, low, conflict (bridge: NightEyeEffect::InitLoadGame)
 void Obj6b8::FUN_006b87c0() {
     scale = 1.0f;
     FUN_006bcc80();
@@ -17166,6 +17582,8 @@ namespace f3m_006a62c0 {
 namespace F3_6a62c0 {
 struct Actor { void** vtable; }; struct First { Actor* FUN_006b6c70(); }; struct Second { void* FUN_006ad230(); }; void __cdecl FUN_006a6180(Actor*,void*);
 struct Owner { char pad[0x24]; First* one; Second* two; void FUN_006a2e00(int); void FUN_006a62c0(int); };
+// pdb: CommandEffect::Update | CommandEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Owner::FUN_006a62c0(int ignored) { Actor* a=one?one->FUN_006b6c70():0; void* b=two?two->FUN_006ad230():0; if(a && b) { if(((bool (__thiscall*)(Actor*,int))a->vtable[139])(a,0) || ((bool (__thiscall*)(Actor*))a->vtable[186])(a)) FUN_006a2e00(0); else FUN_006a6180(a,b); } }
 }
 }   // namespace f3m_006a62c0
@@ -17219,6 +17637,8 @@ class LightEffect : public ActiveEffect
 {
 };
 
+// pdb: LightEffect::CopyData | LightEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apDestination
 void ActiveEffect::FUN_006a85b0(ActiveEffect* apTarget)
 {
     CopyTo(apTarget);
@@ -17290,6 +17710,7 @@ unsigned int field20;
 unsigned int field24;
 unsigned int field28;
 Node243* FUN_006a7460();};
+// pdb: DetectLifeEffect::Copy | DetectLifeEffect.obj | fnv360_0721_retail, vtable, medium
 Node243* Owner243::FUN_006a7460(){Node243* node=new Node243(field28,field08,field0c);Add(node);return node;}
 }
 }   // namespace f3m_006a7460
@@ -17572,6 +17993,8 @@ unsigned int unk18;
 unsigned int unk1c;
 unsigned int unk20;
 Link244* link;void FUN_006bcda0(float);void FUN_006a2e00(int);void FUN_006a5730(float);};
+// pdb: CalmEffect::Update | CalmEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Owner244::FUN_006a5730(float elapsed){FUN_006bcda0(elapsed);if(link){Actor244* actor=link->FUN_006b6c70();if(actor){bool missing;if(actor->GetTarget()){actor->GetTarget();missing=false;}else missing=true;if(actor->Check(0)||actor->OtherCheck()||!missing)FUN_006a2e00(0);}}}
 }
 }   // namespace f3m_006a5730
@@ -18153,6 +18576,7 @@ struct Ctl6a6f {
     void FUN_006a6fd0();
 };
 
+// pdb: DemoralizeEffect::Finish | DemoralizeEffect.obj | fnv360_0721_retail, vtable, medium
 void Ctl6a6f::FUN_006a6fd0()
 {
     if (!unk48)
@@ -18216,6 +18640,8 @@ struct Obj {
     Obj* FUN_006baa20(int first, int second, int third);
 };
 
+// pdb: SummonCreatureEffect::SummonCreatureEffect | SummonCreatureEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apEffect
 Obj* Obj::FUN_006baa20(int first, int second, int third) {
     FUN_006a2e70(first, second, third);
     unk54 = 0.0f;
@@ -18240,6 +18666,8 @@ public:
     bool FUN_006b8bd0(int a0, int a1, int a2, int a3);
 };
 
+// pdb: NonActorMagicTarget::AddTarget | NonActorMagicTarget.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCaster, apSpell, apActiveEffect, abAreaTarget
 bool C6b8bd0::FUN_006b8bd0(int a0, int a1, int a2, int a3)
 {
     bool r = FUN_006b85b0(a0, a1, a2, a3);
@@ -18315,6 +18743,7 @@ public:
     int unk28;
 };
 
+// pdb: ValueModifierEffect::Copy | ValueModifierEffect.obj | fnv360_0822_retail, objrun, medium
 FUN_006bc930* Outer::FUN_006bc9a0() {
     FUN_006bc930* object = new FUN_006bc930(unk28, (void*)unk08, unk0C);
     vf44(object);
@@ -18327,6 +18756,7 @@ FUN_006bc930* Outer::FUN_006bc9a0() {
 // @f3 0x006a7bb0 (community match, verified in this file)
 namespace f3m_006a7bb0 {
 namespace Filter257{struct Owner257;struct Node257{Owner257* item;Node257* next;};struct Source257{virtual void v0();virtual void v4();virtual Node257* List();};struct Provider257{void* FUN_006ad230();};struct Metric257{virtual void v0();virtual float Get(void*);};struct Component257{virtual void v0();virtual void v4();virtual void v8();virtual void vc();virtual void v10();virtual void v14();virtual int State();unsigned int unk04,unk08;Metric257 metric;};struct Info257{unsigned int unk00,unk04,unk08;void*child;};extern float DAT_00f62910;struct Owner257{unsigned int unk00,unk04;Component257*component;Info257*info;unsigned int unk10,unk14,unk18;float value;unsigned int unk20;Source257*source;Provider257*provider;void FUN_006a2e00(int);void FUN_006a7bb0();};
+// pdb: DispelEffect::Start | DispelEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner257::FUN_006a7bb0(){Node257*node=source->List();bool missing=info->child==0;void*context=provider?provider->FUN_006ad230():0;if(node){do{Node257*next=node->next;if(!next&&!node->item)break;Owner257*item=node->item;if(item && item!=this){Component257*part=item->component;if(!part->State()){float threshold=value;if(part->metric.Get(missing?context:0)<=DAT_00f62910*threshold)item->FUN_006a2e00(0);}}node=next;}while(node);}}
 }
 }   // namespace f3m_006a7bb0
@@ -18354,13 +18784,15 @@ struct Eff6ba420 {
     int unk44;
     int unk48;
     void* locals;
-    void FUN_006a1a10(void* stream);
+    void ActiveEffect_SaveGame(void* stream);
     void FUN_006ba420(void* stream);
 };
 
+// pdb: ShieldEffect::SaveGame | ShieldEffect.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: DisguiseEffect::SaveGame)
+// pdb params: apActor
 void Eff6ba420::FUN_006ba420(void* stream)
 {
-    FUN_006a1a10(stream);
+    ActiveEffect_SaveGame(stream);
     if (g_saveState6a1110->unk80 >= 0x6e)
         g_saveState6a1110->Write6db460(&locals, 4);
 }
@@ -18374,6 +18806,8 @@ struct Target6b9 { void FUN_00516740(int value); };
 struct Obj6b9 { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; Interp6b9* interp; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; Target6b9* target; int key;
     void FUN_006b9fb0(float time);
 };
+// pdb: ScriptEffect::Update | ScriptEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Obj6b9::FUN_006b9fb0(float time) {
     if (target) {
         int k = key;
@@ -18413,6 +18847,7 @@ struct Array6b5 {
     int FUN_005e5350();
     int FUN_006b5880(const Ptr6b5& item);
 };
+// pdb: BSSimpleArray<NiPointer<NiAVObject>,1024>::~BSSimpleArray<NiPointer<NiAVObject>,1024> | MagicShaderHitEffect.obj | fnv360_0721_beta, objrun, low, conflict (bridge: BSSimpleArray<NiPointer<ParticleShaderProperty>,1024>::Add)
 int Array6b5::FUN_006b5880(const Ptr6b5& item) {
     int index = FUN_005e5350();
     new (&data[index]) Ptr6b5;
@@ -18487,6 +18922,8 @@ public:
     void FUN_006bcda0(float amount);
 };
 
+// pdb: ValueModifierEffect::Update | ValueModifierEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Main679::FUN_006bcda0(float amount)
 {
     bool v = unk0c->ptr14->b01;
@@ -18549,6 +18986,8 @@ struct C6a8400 {
     void FUN_006a8400(int arg);
 };
 
+// pdb: LightEffect::FinishLoadGame | LightEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void C6a8400::FUN_006a8400(int arg) {
     FUN_006a2630(arg);
     vf50();
@@ -18588,6 +19027,8 @@ struct C6bc650Stream {
     void FUN_006db490(void* buf, int size);
 };
 
+// pdb: ValueAndConditionsEffect::LoadGame | ValueAndConditionsEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void C6bc650::FUN_006bc650(int arg)
 {
     FUN_00a89af0(arg);
@@ -18862,7 +19303,7 @@ virtual void v260();
 virtual void v261();
 virtual void v262();
 virtual Target272* GetTarget();
-bool FUN_006f7060(int);void FUN_00704050(int);};struct Link272{Actor272* FUN_006b6c70();};struct Provider272{Other272* FUN_006ad230();};struct Owner272{
+bool FUN_006f7060(int);void Actor_EndInterruptPackage(int);};struct Link272{Actor272* FUN_006b6c70();};struct Provider272{Other272* FUN_006ad230();};struct Owner272{
 unsigned int unk00;
 unsigned int unk04;
 unsigned int unk08;
@@ -18882,7 +19323,8 @@ unsigned int unk3c;
 unsigned int unk40;
 unsigned int unk44;
 unsigned char applied;void FUN_006a6f30();};
-void Owner272::FUN_006a6f30(){Actor272*actor=link?link->FUN_006b6c70():0;Other272*other=provider?provider->FUN_006ad230():0;if(actor&&other){if(actor->GetTarget()){actor->GetTarget()->FUN_00634f80(other,0);applied=1;}else if(!actor->FUN_006f7060(0)){actor->FUN_00704050(0);actor->Apply(other,1,1,1,0,0,-1.0f,-1.0f);applied=1;}}}
+// pdb: DemoralizeEffect::Start | DemoralizeEffect.obj | fnv360_0721_retail, vtable, medium
+void Owner272::FUN_006a6f30(){Actor272*actor=link?link->FUN_006b6c70():0;Other272*other=provider?provider->FUN_006ad230():0;if(actor&&other){if(actor->GetTarget()){actor->GetTarget()->FUN_00634f80(other,0);applied=1;}else if(!actor->FUN_006f7060(0)){actor->Actor_EndInterruptPackage(0);actor->Apply(other,1,1,1,0,0,-1.0f,-1.0f);applied=1;}}}
 }
 }   // namespace f3m_006a6f30
 
@@ -18902,6 +19344,8 @@ struct C {
     unsigned char byte10;
     void FUN_006a3880(int x);
 };
+// pdb: bhkTelekinesisListener::entityDeactivatedCallback | bhkTelekinesisListener.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: hkpTriggerVolume::entityAddedCallback)
+// pdb params: apEntity
 void C::FUN_006a3880(int x) {
     if (byte10 != 0) {
         B* base = (B*)(&this->unk00) - 2;
@@ -18918,6 +19362,8 @@ struct Obj6b1 {
     int unk00, unk04, unk08, unk0C; float elapsed; float duration; bool flag;
     void FUN_006b1f80(bool f, float d);
 };
+// pdb: MagicLight::Fade | MagicLight.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: hkpPropertyValue::getReal)
+// pdb params: abIn, afTime
 void Obj6b1::FUN_006b1f80(bool f, float d) {
     duration = d;
     flag = f;
@@ -18928,7 +19374,7 @@ void Obj6b1::FUN_006b1f80(bool f, float d) {
 
 // @f3 0x006a26e0 (community match, verified in this file)
 namespace f3m_006a26e0 {
-// FUN_006a26e0 -- walk a singly linked list (next at +4); for every node whose
+// ActiveEffect_InitLoadActiveEffectList -- walk a singly linked list (next at +4); for every node whose
 // object pointer (+0) is non-null, dispatch vtable slot +0x24 with the caller's
 // value as the single stack argument.
 
@@ -18950,7 +19396,8 @@ struct FUN_006a26e0_Node {
     FUN_006a26e0_Node* next;    // +4
 };
 
-void FUN_006a26e0(void* arg, FUN_006a26e0_Node* node)
+// pdb: ActiveEffect::InitLoadActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap_sim), high
+void ActiveEffect_InitLoadActiveEffectList(void* arg, FUN_006a26e0_Node* node)
 {
     while (node) {
         if (node->obj)
@@ -18966,11 +19413,13 @@ struct Save6ba { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk1
 extern Save6ba* DAT_01079ca4;
 struct Anim6ba { unsigned short FUN_00516a20(); void FUN_00516af0(); };
 struct Obj6ba { int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; Anim6ba* anim;
-    void FUN_006a1a10(void* stream);
+    void ActiveEffect_SaveGame(void* stream);
     void FUN_006ba030(void* stream);
 };
+// pdb: ScriptEffect::SaveGame | ScriptEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Obj6ba::FUN_006ba030(void* stream) {
-    FUN_006a1a10(stream);
+    ActiveEffect_SaveGame(stream);
     unsigned int state = 0;
     if (DAT_01079ca4->version >= 0x2a) {
         if (anim) state = anim->FUN_00516a20();
@@ -19067,11 +19516,12 @@ struct Caster6ad {
     virtual void slot9();
     virtual void slot10();
     virtual Ref6ad* GetRef();
-    int FUN_006ad840();
+    int MagicCaster_GetMagicCasterFormID();
 };
 struct Base80 { virtual void vfn00(); int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; };
 struct Actor6ad : Base80, Caster6ad {};
-int Caster6ad::FUN_006ad840() {
+// pdb: MagicCaster::GetMagicCasterFormID | MagicCaster.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_gap), high
+int Caster6ad::MagicCaster_GetMagicCasterFormID() {
     Ref6ad* ref = GetRef();
     Actor6ad* actor = ref && ref->vfn100() ? static_cast<Actor6ad*>(this) : 0;
     NonActorMagicCaster* other = dynamic_cast<NonActorMagicCaster*>(reinterpret_cast<MagicCaster*>(this));
@@ -19096,6 +19546,7 @@ struct FUN_006b1ea0 : FUN_005af3a0 {
     Owner6b1* owner; int unk1C;
     virtual ~FUN_006b1ea0();
 };
+// pdb: MagicHitEffect::~MagicHitEffect | MagicHitEffect.obj | fnv360_0822_retail, call_seq, medium
 FUN_006b1ea0::~FUN_006b1ea0() {
     unk1C = 0;
     if (owner) {
@@ -19122,6 +19573,7 @@ struct FUN_006a7890 : FUN_006a2740 {
     Data6a7* data;
     virtual ~FUN_006a7890();
 };
+// pdb: DisintegrateArmorEffect::`scalar deleting destructor' | DisintegrateArmorEffect.obj | fnv360_0822_retail, caller_sim, low
 FUN_006a7890::~FUN_006a7890() {
     delete data;
 }
@@ -19134,7 +19586,7 @@ extern Heap6ad DAT_01090a78;
 struct Timer6ad {
     int unk00, unk04, unk08, unk0C, unk10; float remaining;
     ~Timer6ad();
-    void FUN_006b22b0(float dt);
+    void MagicLight_Update(float dt);
     static void operator delete(void* p) { DAT_01090a78.Free(p); }
 };
 struct Obj6ad {
@@ -19155,9 +19607,11 @@ struct Obj6ad {
     Timer6ad* timer;
     void FUN_006ad7e0(float dt);
 };
+// pdb: MagicCaster::UpdateLight | MagicCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afDelta
 void Obj6ad::FUN_006ad7e0(float dt) {
     if (timer) {
-        timer->FUN_006b22b0(dt);
+        timer->MagicLight_Update(dt);
         if (!vfn34()) {
             if (!(timer->remaining > 0)) {
                 delete timer;
@@ -19219,6 +19673,7 @@ unsigned int field20;
 unsigned int field24;
 unsigned int field28;
 Node283* FUN_006a5f60();};
+// pdb: CommandCreatureEffect::Copy | CommandCreatureEffect.obj | fnv360_0721_retail, vtable, medium
 Node283* Owner283::FUN_006a5f60(){Node283* node=new Node283(field28,field08,field0c);Add(node);return node;}
 }
 }   // namespace f3m_006a5f60
@@ -19296,6 +19751,7 @@ struct Dst {
     Dst(int a, f3m_006baab0::Node* b, int c);
 };
 
+// pdb: TelekinesisEffect::Copy | TelekinesisEffect.obj | fnv360_0822_retail, objrun, medium
 Dst* Src::FUN_006bb8f0() {
     Dst* p = new Dst(unk28, unk08, unk0C);
     vf44(p);
@@ -19334,6 +19790,8 @@ struct Obj6aa6 {
 
 unsigned short __stdcall FUN_006b3a00(int arg);
 
+// pdb: MagicBoltProjectile::GetSaveSize | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 int Obj6aa6::FUN_006aa6f0(int arg)
 {
     unsigned short n = FUN_006b3a00(arg) + 8;
@@ -19378,6 +19836,7 @@ struct Effect6a {
     void FUN_006a27c0();
 };
 
+// pdb: ActiveEffect::Finalize | ActiveEffect.obj | fnv360_0721_retail, vtable, medium
 void Effect6a::FUN_006a27c0()
 {
     unsigned char bit = (unsigned char)(unk18 >> 7);
@@ -19408,8 +19867,10 @@ unsigned int unk3c;
 unsigned int unk40;
 unsigned int unk44;
 unsigned int unk48;
-unsigned int value;void FUN_006a1a10(void*);void FUN_006bc620(void*);};
-void Owner290::FUN_006bc620(void*input){FUN_006a1a10(input);DAT_01079ca4->FUN_006db460(&value,4);}
+unsigned int value;void ActiveEffect_SaveGame(void*);void FUN_006bc620(void*);};
+// pdb: ValueAndConditionsEffect::SaveGame | ValueAndConditionsEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Owner290::FUN_006bc620(void*input){ActiveEffect_SaveGame(input);DAT_01079ca4->FUN_006db460(&value,4);}
 }
 }   // namespace f3m_006bc620
 
@@ -19492,6 +19953,8 @@ struct Obj6a7a40
     }
 };
 
+// pdb: DisintegrateWeaponEffect::Instantiate | DisintegrateWeaponEffect.obj | fnv360_0721_retail, caller_sim, low
+// pdb params: apCaster, apSpell, apEffect
 Obj6a7a40* __cdecl FUN_006a7a40(int first, int second, int third)
 {
     return new Obj6a7a40(first, second, third);
@@ -19647,7 +20110,7 @@ struct Actor {
     virtual void vf22C();
     virtual void vf230();
     virtual void vf234();
-    void FUN_00765ee0();
+    void MobileObject_StopCurrentDialogue();
 };
 
 struct Holder {
@@ -19661,12 +20124,13 @@ struct Main {
     void FUN_006b8ff0();
 };
 
+// pdb: ParalysisEffect::Start | ParalysisEffect.obj | fnv360_0721_retail, vtable, medium
 void Main::FUN_006b8ff0()
 {
     if (!unk24) return;
     Actor* a = unk24->FUN_006b6c70();
     if (!a) return;
-    a->FUN_00765ee0();
+    a->MobileObject_StopCurrentDialogue();
     a->vf234();
     FUN_006bcc80();
 }
@@ -19708,6 +20172,7 @@ public:
     FUN_006b5750();
 };
 
+// pdb: BSWeightedRandom<char *>::~BSWeightedRandom<char *> | MagicShaderHitEffect.obj | fnv360_0721_beta, objrun, medium
 FUN_006b5750::FUN_006b5750() {}
 }   // namespace f3m_006b5750
 
@@ -19754,6 +20219,7 @@ struct Derived : Obj {
 
 }
 
+// pdb: ValueAndConditionsEffect::Copy | ValueAndConditionsEffect.obj | fnv360_0822_retail, objrun_open, low
 f3m_006bc770::Derived* __cdecl FUN_006bc770(int first, void* second, int third)
 {
     return new f3m_006bc770::Derived(first, second, third);
@@ -19764,8 +20230,10 @@ f3m_006bc770::Derived* __cdecl FUN_006bc770(int first, void* second, int third)
 namespace match_006b9890 {
 struct Stream { void FUN_006db460(void*, unsigned int); };
 extern Stream* DAT_01079ca4;
-struct Object { char pad[0x4c]; int a,b; char c[12],d[16]; void FUN_006a1a10(void*); void FUN_006b9890(void*); };
-void Object::FUN_006b9890(void* x) { FUN_006a1a10(x); DAT_01079ca4->FUN_006db460(&a,4); DAT_01079ca4->FUN_006db460(&b,4); DAT_01079ca4->FUN_006db460(c,12); DAT_01079ca4->FUN_006db460(d,16); }
+struct Object { char pad[0x4c]; int a,b; char c[12],d[16]; void ActiveEffect_SaveGame(void*); void FUN_006b9890(void*); };
+// pdb: ReanimateEffect::SaveGame | ReanimateEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Object::FUN_006b9890(void* x) { ActiveEffect_SaveGame(x); DAT_01079ca4->FUN_006db460(&a,4); DAT_01079ca4->FUN_006db460(&b,4); DAT_01079ca4->FUN_006db460(c,12); DAT_01079ca4->FUN_006db460(d,16); }
 
 }
 
@@ -19773,18 +20241,20 @@ void Object::FUN_006b9890(void* x) { FUN_006a1a10(x); DAT_01079ca4->FUN_006db460
 namespace SizeEffectRecords {
 struct Object {void** methods;};
 struct Node {Object* data;Node* next;};
-struct Manager {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;unsigned char version;int unk84;unsigned char* debugRecord;bool FUN_006daa00();};
+struct Manager {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;unsigned char version;int unk84;unsigned char* debugRecord;bool TESSaveLoadGame_UseSaveGameBlocks();};
 extern Manager* DAT_01079ca4;
 extern bool DAT_01079d20;
-Object* __cdecl FUN_00455190(unsigned int);
+Object* __cdecl TESForm_GetFormByNumericID(unsigned int);
 extern char DAT_00e09d38[],DAT_00db4360[];
 void __cdecl FUN_00c24b70(const char*,...);
 typedef unsigned short (__thiscall *GetSize)(Object*,void*);
 typedef const char* (__thiscall *Describe)(Object*);
 static __forceinline unsigned int ExtraSize(){unsigned int extra=0;if(DAT_01079ca4->version>=42)extra=2;return extra;}
+// pdb: ActiveEffect::GetActiveEffectListSaveSize | ActiveEffect.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apActiveEffectList, apActor
 unsigned short __cdecl FUN_006a1f70(Node* list,void* context){
  unsigned short total=0;
- if(DAT_01079ca4->FUN_006daa00())total=6;
+ if(DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks())total=6;
  total+=2;
  for(Node* node=list;node;node=node->next){
   if(!node->next&&!node->data)break;
@@ -19796,7 +20266,7 @@ unsigned short __cdecl FUN_006a1f70(Node* list,void* context){
  if(DAT_01079d20){
   unsigned char* record=DAT_01079ca4->debugRecord;
   if(record){
-   Object* form=FUN_00455190(*(unsigned int*)record);
+   Object* form=TESForm_GetFormByNumericID(*(unsigned int*)record);
    FUN_00c24b70(DAT_00db4360,(unsigned int)total,*(unsigned int*)record,((Describe)form->methods[76])(form),*(unsigned int*)(record+5),0x3c7,DAT_00e09d38);
   }
  }
@@ -19884,8 +20354,10 @@ struct Act {
 
 Held* __cdecl FUN_006b4110(int v);
 void __cdecl FUN_008da3b0(Held* h, int v);
-void __cdecl FUN_004f37d0(Held* h);
+void __cdecl TESObjectREFR_AddAddonNodes(Held* h);
 
+// pdb: MagicProjectile::Load3D | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abBackgroundLoading
 Held* Act::FUN_006b4260(int unused)
 {
     Held* h = 0;
@@ -19910,7 +20382,7 @@ Held* Act::FUN_006b4260(int unused)
                 bool ob4 = o->flags0C.b4;
                 bool b7 = unk08.b7;
                 if (ob4 && !b7)
-                    FUN_004f37d0(h);
+                    TESObjectREFR_AddAddonNodes(h);
             }
             h->unkCC = this;
             FUN_004f9c50();
@@ -20145,6 +20617,7 @@ struct Outer {
 
 extern f3m_006adab0::SingletonTarget* g_011f42c0;
 
+// pdb: MagicCaster::InterruptCast | MagicCaster.obj | fnv360_0822_retail, call_gap, medium
 void f3m_006adab0::Inner::FUN_006adab0()
 {
     f3m_006adab0::f3m_big* b = v2C();
@@ -20193,8 +20666,10 @@ void f3m_006adab0::Inner::FUN_006adab0()
 namespace match_006b98f0 {
 struct Stream { void FUN_006db490(void*, unsigned int); };
 extern Stream* DAT_01079ca4;
-struct Object { char pad[0x4c]; int a,b; char c[12],d[16]; void FUN_006a1bf0(void*); void FUN_006b98f0(void*); };
-void Object::FUN_006b98f0(void* x) { FUN_006a1bf0(x); DAT_01079ca4->FUN_006db490(&a,4); DAT_01079ca4->FUN_006db490(&b,4); DAT_01079ca4->FUN_006db490(c,12); DAT_01079ca4->FUN_006db490(d,16); }
+struct Object { char pad[0x4c]; int a,b; char c[12],d[16]; void ActiveEffect_LoadGame(void*); void FUN_006b98f0(void*); };
+// pdb: ReanimateEffect::LoadGame | ReanimateEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Object::FUN_006b98f0(void* x) { ActiveEffect_LoadGame(x); DAT_01079ca4->FUN_006db490(&a,4); DAT_01079ca4->FUN_006db490(&b,4); DAT_01079ca4->FUN_006db490(c,12); DAT_01079ca4->FUN_006db490(d,16); }
 
 }
 
@@ -20218,6 +20693,7 @@ struct Owner {
     void FUN_006a1080(Obj* o);
     Obj* FUN_006a7590();
 };
+// pdb: DisintegrateArmorEffect::Copy | DisintegrateArmorEffect.obj | fnv360_0721_retail, vtable, medium
 Obj* Owner::FUN_006a7590() {
     Obj* o = new Obj(unk28, unk08, unk0C);
     FUN_006a1080(o);
@@ -20241,6 +20717,7 @@ class FUN_006aa8e0
     ~FUN_006aa8e0();
 };
 
+// pdb: MagicBoltProjectile::AreaBolt::~AreaBolt | MagicBoltProjectile.obj | fnv360_0721_beta, call_seq, medium
 FUN_006aa8e0::~FUN_006aa8e0()
 {
 }
@@ -20269,6 +20746,7 @@ virtual void v14();
 virtual void v15();
 virtual void v16();
 virtual void notify(Item*); int pad04; int v08,v0c; int pad10[6]; int v28; Item* FUN_006a14a0(); };
+// pdb: ActiveEffect::Copy | ActiveEffect.obj | fnv360_0721_retail, vtable, medium
 Item* Owner::FUN_006a14a0(){ Item* item = new Item(v28,v08,v0c); notify(item); return item; }
 }
 }   // namespace f3m_006a14a0
@@ -20316,6 +20794,7 @@ public:
     Q67* FUN_006a67f0();
 };
 
+// pdb: CureEffect::Copy | CureEffect.obj | fnv360_0721_retail, vtable, medium
 Q67* Q67::FUN_006a67f0()
 {
     Q67* r;
@@ -20371,6 +20850,8 @@ public:
     bool FUN_006b73b0(MagicItem* item, void* caster, QEffect* effect);
 };
 
+// pdb: MagicTarget::StackEffectDuration | MagicTarget.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSpell, apCaster, apActiveEffect
 bool QOwner::FUN_006b73b0(MagicItem* item, void* caster, QEffect* effect)
 {
     bool found = false;
@@ -21057,6 +21538,7 @@ __declspec(noinline) void RestoreList::Remove(RestoreExtra** element)
     }
 }
 
+// pdb: BoundItemEffect::DoSummon | BoundItemEffect.obj | fnv360_0721_retail, call_seq, medium
 void EquipmentRestore::FUN_006a5010()
 {
     RestoreActor* actor = ref ? ref->GetActor() : 0;
@@ -21165,6 +21647,7 @@ struct Owner {
  Owner* FUN_006b5990(unsigned char flags);
 };
 // @fnv 0x00cbaec0
+// pdb: BSSimpleArray<NiPointer<NiAVObject>,1024>::`scalar deleting destructor' | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
 Owner* __thiscall Owner::FUN_006b5990(unsigned char flags)
 {
     void* oldData = m_pData;
@@ -21206,6 +21689,7 @@ struct ArrayObject {
     void FUN_005e5240(void* data, unsigned int count);
     ArrayObject* FUN_006b5930(unsigned char flags);
 };
+// pdb: BSSimpleArray<NiPointer<ParticleShaderProperty>,1024>::`scalar deleting destructor' | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
 ArrayObject* ArrayObject::FUN_006b5930(unsigned char flags)
 {
     void* oldData = data;
@@ -21315,6 +21799,8 @@ struct Object {
     int value;
     bool FUN_006b3c30(int expected);
 };
+// pdb: MagicProjectile::CheckDeletedCaster | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apCaster
 bool Object::FUN_006b3c30(int expected)
 {
     bool changed = false;
@@ -21546,8 +22032,10 @@ int unkB4;
 int unkB8;
 int unkBC;
 Node* head; int saved;
-void FUN_006b0140(); void FUN_006b3ad0(int,int); void FUN_00454340(void*,unsigned); void FUN_00454360(void*,unsigned); void FUN_006b07c0(int a,int b); };
-void Owner::FUN_006b07c0(int a,int b) { FUN_006b0140(); vf1C4(); FUN_006b3ad0(a,b); FUN_00454340(&unkA0,4); FUN_00454340(&unk80,4); FUN_00454340(&unkA4,4); reader07->FUN_006db490(&unkAC,4); FUN_00454340(&unkB0,4); if(unkAC==1) {FUN_00454340(&b,4);saved=b;} if(reader07->version>=0x71) {FUN_00454340(&unkA8,4);FUN_00454340(&a,2);for(unsigned i=0;i<(unsigned short)a;++i) {int key;FUN_00454360(&key,4);FUN_00454340(&b,1);head=new Node(key,(unsigned char)b,head);}} }
+void MagicFogProjectile_ClearTargetList(); void FUN_006b3ad0(int,int); void FUN_00454340(void*,unsigned); void FUN_00454360(void*,unsigned); void FUN_006b07c0(int a,int b); };
+// pdb: MagicFogProjectile::LoadGame | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiCurrentFlags
+void Owner::FUN_006b07c0(int a,int b) { MagicFogProjectile_ClearTargetList(); vf1C4(); FUN_006b3ad0(a,b); FUN_00454340(&unkA0,4); FUN_00454340(&unk80,4); FUN_00454340(&unkA4,4); reader07->FUN_006db490(&unkAC,4); FUN_00454340(&unkB0,4); if(unkAC==1) {FUN_00454340(&b,4);saved=b;} if(reader07->version>=0x71) {FUN_00454340(&unkA8,4);FUN_00454340(&a,2);for(unsigned i=0;i<(unsigned short)a;++i) {int key;FUN_00454360(&key,4);FUN_00454340(&b,1);head=new Node(key,(unsigned char)b,head);}} }
 }
 }   // namespace f3m_006b07c0
 
@@ -21600,6 +22088,8 @@ struct Obj6b7a70 {
 extern "C" int __cdecl sprintf(char* buffer, const char* format, ...);
 extern "C" int __cdecl stricmp(const char* first, const char* second);
 
+// pdb: MagicTarget::ActiveEffectListCompareFn | MagicTarget.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apCompare1, apCompare2
 int __cdecl FUN_006b7a70(f3m_006b7a70::Obj6b7a70* a, f3m_006b7a70::Obj6b7a70* b)
 {
     char buf1[0x100];
@@ -21696,6 +22186,7 @@ int unka4;
 int unka8;
 FUN_004aad20();static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};
 struct Manager {void FUN_00444630(FUN_004aad20*);};extern Manager* DAT_0106cdcc;extern FUN_004aad20* DAT_0107874c;
+// pdb: MagicProjectile::GetDummyObjectReference | MagicProjectile.obj | fnv360_0822_retail, ustr, medium
 FUN_004aad20* __cdecl FUN_006b3860(){if(!DAT_0107874c){FUN_004aad20* p=new FUN_004aad20();p->sub.SetName("marker_error.nif");DAT_0107874c=p;DAT_0106cdcc->FUN_00444630(DAT_0107874c);}return DAT_0107874c;}
 }
 }   // namespace f3m_006b3860
@@ -21781,6 +22272,7 @@ virtual void Apply(Effect*);
 unsigned unk04;void*item;void*effectItem;unsigned unk10,unk14,unk18,unk1c,unk20,unk24;void*caster;
 Effect* FUN_006a6090();
 };
+// pdb: CommandEffect::Copy | CommandEffect.obj | fnv360_0721_retail, vtable, medium
 Effect* Object::FUN_006a6090(){Effect* result=new Effect(caster,item,effectItem);Apply(result);return result;}
 }
 }   // namespace f3m_006a6090
@@ -21876,6 +22368,7 @@ virtual void ApplyEffect(FUN_006a6060*);
  unsigned unk10,unk14,unk18,unk1c,unk20,unk24;Caster* caster28;
  FUN_006a6060* FUN_006a6420();
 };
+// pdb: CommandHumanoidEffect::Copy | CommandHumanoidEffect.obj | fnv360_0721_retail, vtable, medium
 FUN_006a6060* Owner::FUN_006a6420() {FUN_006a6060* effect=new EffectStorage(caster28,item08,effect0c);ApplyEffect(effect);return effect;}
 }
 }   // namespace f3m_006a6420
@@ -21932,6 +22425,7 @@ void* slot40;
 void(__thiscall* Apply)(void*,Effect*);
 };
 struct Owner {Table* vtable;unsigned unk04;void* item;void* effect;unsigned unk10,unk14,unk18,unk1c,unk20,unk24;void* caster;Effect* FUN_006a8b60();};
+// pdb: LockEffect::Copy | LockEffect.obj | fnv360_0721_retail, vtable, medium
 Effect* Owner::FUN_006a8b60() {Effect* p=new Effect(caster,item,effect);vtable->Apply(this,p);return p;}
 }
 }   // namespace f3m_006a8b60
@@ -22038,6 +22532,7 @@ unsigned f3c;
 unsigned f40;
 unsigned f44;
 unsigned char state; Spawned* FUN_006bc270(); };
+// pdb: TurnUndeadEffect::Copy | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, medium
 Spawned* Owner::FUN_006bc270(){Spawned* p=new Spawned(f28,f08,f0c);p->state=state;clone(p);return p;}
 }
 }   // namespace f3m_006bc270
@@ -22045,8 +22540,8 @@ Spawned* Owner::FUN_006bc270(){Spawned* p=new Spawned(f28,f08,f0c);p->state=stat
 // @f3 0x006a2240 (community match, verified in this file)
 namespace f3m_006a2240 {
 namespace task1262 {
-struct SaveFormBuf {void FUN_006e1830(void*,unsigned,int);void FUN_006e17a0(unsigned,unsigned);void FUN_006e17e0(void*,int);unsigned FUN_006e16c0();void FUN_006e16e0(int,unsigned);};
-struct CasterIDShell {unsigned FUN_006ad840();};struct TargetIDShell {unsigned FUN_006b6c90();};struct SpellIDShell {unsigned FUN_00406000();};
+struct SaveFormBuf {void FUN_006e1830(void*,unsigned,int);void BGSSaveGameBuffer_SaveFormID(unsigned,unsigned);void FUN_006e17e0(void*,int);unsigned BGSSaveGameBuffer_StartVariableSizedValue();void FUN_006e16e0(int,unsigned);};
+struct CasterIDShell {unsigned MagicCaster_GetMagicCasterFormID();};struct TargetIDShell {unsigned FUN_006b6c90();};struct SpellIDShell {unsigned FUN_00406000();};
 struct SaveHitEffect
 {
     virtual void s00();
@@ -22097,6 +22592,8 @@ struct SaveHitEffect
 struct SaveHitNode {SaveHitEffect* item;SaveHitNode* next;SaveHitEffect*& GetItem(){return item;}SaveHitNode* GetNext(){return next;}};
 struct ActiveEffectSaveShell {unsigned u0;float m_fEffectMagnitude;unsigned u8,uc;bool bActive,bEffectFlag,bWasPlaying,bPickResultFound,m_bEffectState;unsigned iFlags;float m_fElapsedTime,fDuration;TargetIDShell* pTarget;CasterIDShell* m_pEffectInstance;unsigned u2c,u30,u34,u38;void*pSource;SaveHitNode*pHitEffectList;SpellIDShell*pMagicItem;void FUN_006a2240(SaveFormBuf*);};
 // @fnv 0x00806230
+// pdb: ActiveEffect::SaveGame | ActiveEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: ActiveEffect::EvaluateActiveStatus)
+// pdb params: apSaveGameBuffer
 void ActiveEffectSaveShell::FUN_006a2240(SaveFormBuf* apBuffer)
 {
     apBuffer->FUN_006e1830(&m_fEffectMagnitude, 4, 0);
@@ -22108,12 +22605,12 @@ void ActiveEffectSaveShell::FUN_006a2240(SaveFormBuf* apBuffer)
     apBuffer->FUN_006e1830(&m_fElapsedTime, 4, 0);
     apBuffer->FUN_006e1830(&fDuration, 4, 0);
     apBuffer->FUN_006e1830(&iFlags, 4, 0);
-    apBuffer->FUN_006e17a0(m_pEffectInstance ? m_pEffectInstance->FUN_006ad840() : 0, 0);
-    apBuffer->FUN_006e17a0(pTarget ? pTarget->FUN_006b6c90() : 0, 0);
-    apBuffer->FUN_006e17a0(pMagicItem ? pMagicItem->FUN_00406000() : 0, 0);
+    apBuffer->BGSSaveGameBuffer_SaveFormID(m_pEffectInstance ? m_pEffectInstance->MagicCaster_GetMagicCasterFormID() : 0, 0);
+    apBuffer->BGSSaveGameBuffer_SaveFormID(pTarget ? pTarget->FUN_006b6c90() : 0, 0);
+    apBuffer->BGSSaveGameBuffer_SaveFormID(pMagicItem ? pMagicItem->FUN_00406000() : 0, 0);
     apBuffer->FUN_006e17e0(pSource, 0);
     int iCount7 = 0;
-    unsigned int uiOffset2 = apBuffer->FUN_006e16c0();
+    unsigned int uiOffset2 = apBuffer->BGSSaveGameBuffer_StartVariableSizedValue();
     SaveHitNode* pNode = (SaveHitNode*)pHitEffectList;
     while (pNode)
     {
@@ -22209,6 +22706,8 @@ struct Owner6a6d {
     void FUN_006bd1e0(Actor6a6d*);
     void FUN_006a6d50(Actor6a6d*);
 };
+// pdb: DarknessEffect::FinishInitLoadGame | DarknessEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Owner6a6d::FUN_006a6d50(Actor6a6d* actor) {
     FUN_006bd1e0(actor);
     float value=(float)(1.0-actor->component.table->value(&actor->component,type)/100.0);
@@ -22408,6 +22907,8 @@ struct Actor {
 };
 extern void __cdecl FUN_00adbf10(Root*, float);
 struct Effect { void FUN_0078c030(Actor*); void FUN_006a6e20(Actor*); };
+// pdb: DarknessEffect::Revert | DarknessEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Effect::FUN_006a6e20(Actor* actor) {
     FUN_0078c030(actor);
     if (actor->GetRoot()) FUN_00adbf10(actor->GetRoot(), 1.0f);
@@ -22438,6 +22939,8 @@ struct MagicModelHitEffect: MagicHitEffect {
     MagicModelHitEffect(void* actor,void* context,float time);
 };
 
+// pdb: MagicModelHitEffect::MagicModelHitEffect | MagicModelHitEffect.obj | fnv360_0822_retail, call_seq, high
+// pdb params: apTarget, apFilename, afTime
 MagicModelHitEffect::MagicModelHitEffect(void* actor,void* context,float time):MagicHitEffect(actor,0),unk30((table=&DAT_00e0b41c,(EffectRef6b*)0)),unk34(0),unk38(0) {
         unk30=(EffectRef6b*)0;unk34=(EffectRef6b*)0;
         unk29=false;unk2C=context;unk28=false;
@@ -22502,6 +23005,7 @@ struct Shader6b59 : MagicBase6b59 {
     NiPointer<Ref6b59> ref68;
     Shader6b59();
 };
+// pdb: MagicShaderHitEffect::MagicShaderHitEffect | MagicShaderHitEffect.obj | fnv360_0822_retail, call_seq, medium
 Shader6b59::Shader6b59() : first(this) {
     unk30=0;
     ref68=(Ref6b59*)0;
@@ -22519,6 +23023,7 @@ Shader6b59::Shader6b59() : first(this) {
 namespace f3m_006ad940 {
 namespace N6AD940 {struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;struct Resource {void FUN_006b21b0();~Resource(){FUN_006b21b0();}static void operator delete(void* p){DAT_01090a78.FUN_0086ba60(p);}};}
 struct Owner6AD940 {N6AD940::Resource* resource;virtual ~Owner6AD940();};
+// pdb: MagicCaster::~MagicCaster | MagicCaster.obj | fnv360_0721_beta, call_seq, high
 Owner6AD940::~Owner6AD940(){delete resource;resource=0;}
 }   // namespace f3m_006ad940
 
@@ -22540,6 +23045,7 @@ struct Q6a0600 : QBase6a {
     NiPointer<NiRefObject> unk58;
     virtual ~Q6a0600();
 };
+// pdb: AbsorbEffect::~AbsorbEffect | AbsorbEffect.obj | fnv360_0721_retail, call_seq, medium
 Q6a0600::~Q6a0600() {
     FUN_00b43510(unk4C, unk58);
     unk58 = 0;
@@ -22559,6 +23065,8 @@ struct Base { char pad[0x48]; Base(int,int,int); virtual ~Base(); };
 struct Ref { virtual void a(); virtual void Destroy(); volatile long refs; };
 struct Smart { Ref* p; Smart():p(0){} ~Smart(){if(p && !InterlockedDecrement(&p->refs))p->Destroy();} void reset(){Ref* q=p; if(q) { if(!InterlockedDecrement(&q->refs))q->Destroy(); p=0; }} };
 struct Obj: Base { Smart ref; float x,y; int n; char a,b; Obj(int,int,int); virtual ~Obj(); };
+// pdb: TelekinesisEffect::TelekinesisEffect | TelekinesisEffect.obj | fnv360_0822_retail, uvref, high
+// pdb params: apCaster, apSpell, apEffect
 Obj::Obj(int p,int q,int r):Base(p,q,r) { ref.reset(); x=0; y=0; n=0; a=0; b=0; }
 }
 }   // namespace f3m_006bb7e0
@@ -22570,6 +23078,8 @@ struct Base { char pad[0x44]; Base(int,int,int); virtual ~Base(); };
 struct Ref { virtual void a(); virtual void Destroy(); volatile long refs; };
 struct Smart { Ref* p; Smart():p(0){} ~Smart(){if(p && !InterlockedDecrement(&p->refs))p->Destroy();} void reset(){Ref* q=p; if(q) { if(!InterlockedDecrement(&q->refs))q->Destroy(); p=0; }} };
 struct Obj: Base { Smart ref; Obj(int,int,int); virtual ~Obj(); };
+// pdb: LightEffect::LightEffect | LightEffect.obj | fnv360_0822_retail, uvref, high
+// pdb params: apCaster, apSpell, apEffect
 Obj::Obj(int p,int q,int r):Base(p,q,r) { ref.reset(); }
 }
 }   // namespace f3m_006a8420
@@ -22581,6 +23091,8 @@ namespace Construct227{
 struct Base227{void* vtable;unsigned char type,unk05,unk06,unk07;unsigned int unk08;Base227(){vtable=&DAT_00db5760;type=50;unk08=0;}~Base227(){vtable=&DAT_00db5760;}};
 struct FUN_006ad210{void* vtable;unsigned int unk04,unk08;FUN_006ad210();~FUN_006ad210();};
 struct Owner227:Base227{FUN_006ad210 inner;unsigned int count,capacity;void* value;Owner227(void*);};
+// pdb: NonActorMagicCaster::NonActorMagicCaster | NonActorMagicCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCasterObject
 Owner227::Owner227(void* input){value=input;vtable=&DAT_00e0bf30;inner.vtable=&DAT_00e0bedc;count=0;capacity=0;}
 }
 }   // namespace f3m_006b88f0
@@ -22594,7 +23106,7 @@ int unk08;
 int unk0c;
 int unk10;
 int unk14;
-void* owner;int unk1c;int unk20;unsigned char active;};struct List {Item* data;List* next;void FUN_006c8220() throw();~List() throw(){FUN_006c8220();}static void operator delete(void* p) throw(){DAT_01090a78.FUN_0086ba60(p);} };struct Handle {int unk00;int unk04;int unk08;int unk0c;bool FUN_00bd0390() throw();void FUN_00bd0140() throw();void FUN_00bd03b0() throw();void Clear(){if(FUN_00bd0390()){FUN_00bd0140();FUN_00bd03b0();}}~Handle() throw(){Clear();}};}
+void* owner;int unk1c;int unk20;unsigned char active;};struct List {Item* data;List* next;void FUN_006c8220() throw();~List() throw(){FUN_006c8220();}static void operator delete(void* p) throw(){DAT_01090a78.FUN_0086ba60(p);} };struct Handle {int unk00;int unk04;int unk08;int unk0c;bool BSSoundHandle_IsValid() throw();void BSSoundHandle_Stop() throw();void BSSoundHandle_Release() throw();void Clear(){if(BSSoundHandle_IsValid()){BSSoundHandle_Stop();BSSoundHandle_Release();}}~Handle() throw(){Clear();}};}
 struct Effect6A2740 {virtual ~Effect6A2740();
 int unk04;
 int unk08;
@@ -22608,6 +23120,7 @@ int unk24;
 int unk28;
 int unk2c;
 N6A2740::Handle handle;N6A2740::List* list;};
+// pdb: ActiveEffect::~ActiveEffect | ActiveEffect.obj | fnv360_0721_retail, call_seq, low
 Effect6A2740::~Effect6A2740(){for(N6A2740::List* node=list;node;node=node->next){if(!node->next&&!node->data)break;N6A2740::Item* item=node->data;item->active=1;item->owner=0;}if(list)list->FUN_006c8220();delete list;}
 
 
@@ -22650,6 +23163,7 @@ void __cdecl FUN_006be940()
 namespace f3m_006b75c0 {
 extern int DAT_00e0bd38;
 struct Owner241{void* vtable;unsigned char active,ready,unk06,unk07;unsigned int count,capacity;Owner241();};
+// pdb: MagicTarget::MagicTarget | MagicTarget.obj | fnv360_0822_retail, call_seq, medium
 Owner241::Owner241(){vtable=&DAT_00e0bd38;count=0;capacity=0;active=0;ready=0;}
 }   // namespace f3m_006b75c0
 
@@ -22659,9 +23173,11 @@ class TESForm{public:virtual void v0();};
 class TESSound:public TESForm{};
 namespace Sound291{
 struct Input291{unsigned int FUN_006e0670();};
-TESForm* __cdecl FUN_00455190(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 extern TESSound* DAT_01079048;
-void __cdecl FUN_006bd7d0(Input291* input){DAT_01079048=dynamic_cast<TESSound*>(FUN_00455190(input->FUN_006e0670()));}
+// pdb: FalloutAudio::LoadGame | FalloutAudio.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apLoadGameBuffer
+void __cdecl FUN_006bd7d0(Input291* input){DAT_01079048=dynamic_cast<TESSound*>(TESForm_GetFormByNumericID(input->FUN_006e0670()));}
 }
 }   // namespace f3m_006bd7d0
 
@@ -22730,6 +23246,8 @@ public:
     bhkTelekinesisListener(int first, hkpEntity* entity, int third);
 };
 
+// pdb: bhkTelekinesisListener::bhkTelekinesisListener | bhkTelekinesisListener.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apRef, apBody, aDefaultFilter
 bhkTelekinesisListener::bhkTelekinesisListener(int first, hkpEntity* entity, int third)
 {
     *(volatile int*)&unk14 = 0;
@@ -23008,6 +23526,8 @@ public:
     f3m_006b5ae0::RefPointer node;
 };
 
+// pdb: MagicShaderHitEffect::MagicShaderHitEffect | MagicShaderHitEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTarget, apEffect
 MagicShaderHitEffect::MagicShaderHitEffect(void* caster, f3m_006b5ae0::EffectArgs* args)
     : f3m_006b5ae0::FUN_006b19d0(caster, args)
 {
@@ -23204,6 +23724,8 @@ struct Nested { int unk00; int unk04; int unk08; int unk0c; int unk10; Key* key;
 struct Item { int unk00; int unk04; int unk08; Nested* nested; unsigned char flag; };
 struct Node { Item* item; Node* next; };
 struct Owner { void** table; Node* Head() { return ((Node*(__thiscall*)(Owner*))table[2])(this); } bool FUN_006b6dc0(void*,bool); };
+// pdb: MagicTarget::IsEffectTarget | MagicTarget.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: aeID, abIncludeInactiveSpells
 bool Owner::FUN_006b6dc0(void* key,bool all) {
  Node* node=Head(); bool result=false;
  for(;node;node=node->next) {
@@ -23249,6 +23771,7 @@ struct ValueEffect : FUN_006a6060 {
  static void* operator new(unsigned size) {return DAT_01090a78.FUN_0086b930(size);}
  static void operator delete(void* p) {DAT_01090a78.FUN_0086b9f0(p);}
 };
+// pdb: CommandCreatureEffect::Copy | CommandCreatureEffect.obj | fnv360_0822_retail, objrun_open, low
 ValueEffect* FUN_006a5ff0(Caster* a,Item* b,Effect* c) {return new ValueEffect(a,b,c);}
 }
 }   // namespace f3m_006a5ff0
@@ -23285,6 +23808,7 @@ struct ValueEffect : FUN_006a13f0 {
  static void* operator new(unsigned size) {return DAT_01090a78.FUN_0086b930(size);}
  static void operator delete(void* p) {DAT_01090a78.FUN_0086b9f0(p);}
 };
+// pdb: DispelEffect::Copy | DispelEffect.obj | fnv360_0822_retail, objrun_open, low
 ValueEffect* FUN_006a7b40(Caster* a,Item* b,Effect* c) {return new ValueEffect(a,b,c);}
 }
 }   // namespace f3m_006a7b40
@@ -23541,20 +24065,25 @@ int unkec;
 int unkf0;
 int unkf4;
 int unkf8;
-int state;unsigned short FUN_006f4cd0();};struct Object {Target* FUN_006b6c70();};unsigned char __cdecl FUN_005859c0(unsigned,float);extern char DAT_00f6ba98[];extern char DAT_00f6bc74[];void* __cdecl FUN_00c0050a(void*,int,const void*,const void*,int);struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;float value;float GetValue(){return value;}bool FUN_006a7160(Object*);};bool Owner::FUN_006a7160(Object* object){if(object){Target* target=object->FUN_006b6c70();if(target && !target->table->first(target,0) && !target->table->second(target) && FUN_005859c0(target->FUN_006f4cd0(),GetValue())){if(FUN_00c0050a(object,0,DAT_00f6ba98,DAT_00f6bc74,0) || target->state!=4)return true;}}return false;}}
+// pdb: DemoralizeEffect::CheckTarget | DemoralizeEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apTarget
+int state;unsigned short Actor_GetLevel();};struct Object {Target* FUN_006b6c70();};unsigned char __cdecl MagicFormulas_CheckTargetLevelMagnitude(unsigned,float);extern char DAT_00f6ba98[];extern char DAT_00f6bc74[];void* __cdecl FUN_00c0050a(void*,int,const void*,const void*,int);struct Owner {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;float value;float GetValue(){return value;}bool FUN_006a7160(Object*);};bool Owner::FUN_006a7160(Object* object){if(object){Target* target=object->FUN_006b6c70();if(target && !target->table->first(target,0) && !target->table->second(target) && MagicFormulas_CheckTargetLevelMagnitude(target->Actor_GetLevel(),GetValue())){if(FUN_00c0050a(object,0,DAT_00f6ba98,DAT_00f6bc74,0) || target->state!=4)return true;}}return false;}}
 }   // namespace f3m_006a7160
 
 // @f3 0x006a6560 (community match, verified in this file)
 namespace f3m_006a6560 {
 namespace Clone6aBatch {extern void* DAT_00e0a2ac;struct Object {void* table;int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; float value;void FUN_006a13f0(int,int,int);static void* operator new(unsigned n){return ::DAT_01090a78.FUN_0086b930(n);}static void operator delete(void* p){::DAT_01090a78.FUN_0086ba60(p);}Object(int a,int b,int c){FUN_006a13f0(a,b,c);value=0.0f;table=&DAT_00e0a2ac;}};struct Owner;struct Methods {void* unk00; void* unk04; void* unk08; void* unk0C; void* unk10; void* unk14; void* unk18; void* unk1C; void* unk20; void* unk24; void* unk28; void* unk2C; void* unk30; void* unk34; void* unk38; void* unk3C; void* unk40; void (__thiscall* dispatch)(Owner*,Object*);};struct Owner{Methods* table;int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; float value;Object* FUN_006a6560();};
+// pdb: ConcussionEffect::Copy | ConcussionEffect.obj | fnv360_0721_retail, vtable, medium
 Object* Owner::FUN_006a6560(){Object* result=new Object(unk28,unk08,unk0C);result->value=value;table->dispatch(this,result);return result;}
 }
 }   // namespace f3m_006a6560
 
 // @f3 0x006bc4a0 (community match, verified in this file)
 namespace f3m_006bc4a0 {
-namespace ActorGate6bc {extern int DAT_00f6ba98,DAT_00f6bc74;bool __cdecl FUN_005859c0(unsigned,float);void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);struct Actor;struct Methods {void* unk000; void* unk004; void* unk008; void* unk00C; void* unk010; void* unk014; void* unk018; void* unk01C; void* unk020; void* unk024; void* unk028; void* unk02C; void* unk030; void* unk034; void* unk038; void* unk03C; void* unk040; void* unk044; void* unk048; void* unk04C; void* unk050; void* unk054; void* unk058; void* unk05C; void* unk060; void* unk064; void* unk068; void* unk06C; void* unk070; void* unk074; void* unk078; void* unk07C; void* unk080; void* unk084; void* unk088; void* unk08C; void* unk090; void* unk094; void* unk098; void* unk09C; void* unk0A0; void* unk0A4; void* unk0A8; void* unk0AC; void* unk0B0; void* unk0B4; void* unk0B8; void* unk0BC; void* unk0C0; void* unk0C4; void* unk0C8; void* unk0CC; void* unk0D0; void* unk0D4; void* unk0D8; void* unk0DC; void* unk0E0; void* unk0E4; void* unk0E8; void* unk0EC; void* unk0F0; void* unk0F4; void* unk0F8; void* unk0FC; void* unk100; void* unk104; void* unk108; void* unk10C; void* unk110; void* unk114; void* unk118; void* unk11C; void* unk120; void* unk124; void* unk128; void* unk12C; void* unk130; void* unk134; void* unk138; void* unk13C; void* unk140; void* unk144; void* unk148; void* unk14C; void* unk150; void* unk154; void* unk158; void* unk15C; void* unk160; void* unk164; void* unk168; void* unk16C; void* unk170; void* unk174; void* unk178; void* unk17C; void* unk180; void* unk184; void* unk188; void* unk18C; void* unk190; void* unk194; void* unk198; void* unk19C; void* unk1A0; void* unk1A4; void* unk1A8; void* unk1AC; void* unk1B0; void* unk1B4; void* unk1B8; void* unk1BC; void* unk1C0; void* unk1C4; void* unk1C8; void* unk1CC; void* unk1D0; void* unk1D4; void* unk1D8; void* unk1DC; void* unk1E0; void* unk1E4; void* unk1E8; void* unk1EC; void* unk1F0; void* unk1F4; void* unk1F8; void* unk1FC; void* unk200; void* unk204; void* unk208; void* unk20C; void* unk210; void* unk214; void* unk218; void* unk21C; void* unk220; void* unk224; void* unk228; bool (__thiscall* blocked)(Actor*,int);void* unk230; void* unk234; void* unk238; void* unk23C; void* unk240; void* unk244; void* unk248; void* unk24C; void* unk250; void* unk254; void* unk258; void* unk25C; void* unk260; void* unk264; void* unk268; void* unk26C; void* unk270; void* unk274; void* unk278; void* unk27C; void* unk280; void* unk284; void* unk288; void* unk28C; void* unk290; void* unk294; void* unk298; void* unk29C; void* unk2A0; void* unk2A4; void* unk2A8; void* unk2AC; void* unk2B0; void* unk2B4; void* unk2B8; void* unk2BC; void* unk2C0; void* unk2C4; void* unk2C8; void* unk2CC; void* unk2D0; void* unk2D4; void* unk2D8; void* unk2DC; void* unk2E0; void* unk2E4; bool (__thiscall* unavailable)(Actor*);};struct Actor {Methods* table;int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int kind;unsigned short FUN_006f4cd0();};struct Holder{Actor* FUN_006b6c70();};struct Owner{int unk00,unk04,unk08,unk0C,unk10,unk14,unk18;float amount;float Amount(){return amount;}bool FUN_006bc4a0(Holder*);};
-bool Owner::FUN_006bc4a0(Holder* holder){Actor* actor;if(!holder)goto failed;actor=holder->FUN_006b6c70();if(!actor)goto failed;if(actor->table->blocked(actor,0))goto failed;if(actor->table->unavailable(actor))goto failed;if(!FUN_005859c0(actor->FUN_006f4cd0(),Amount()))goto failed;if(FUN_00c0050a(holder,0,&DAT_00f6ba98,&DAT_00f6bc74,0))goto failed;if(actor->kind==4)return true;goto failed;failed:return false;}
+namespace ActorGate6bc {extern int DAT_00f6ba98,DAT_00f6bc74;bool __cdecl MagicFormulas_CheckTargetLevelMagnitude(unsigned,float);void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);struct Actor;struct Methods {void* unk000; void* unk004; void* unk008; void* unk00C; void* unk010; void* unk014; void* unk018; void* unk01C; void* unk020; void* unk024; void* unk028; void* unk02C; void* unk030; void* unk034; void* unk038; void* unk03C; void* unk040; void* unk044; void* unk048; void* unk04C; void* unk050; void* unk054; void* unk058; void* unk05C; void* unk060; void* unk064; void* unk068; void* unk06C; void* unk070; void* unk074; void* unk078; void* unk07C; void* unk080; void* unk084; void* unk088; void* unk08C; void* unk090; void* unk094; void* unk098; void* unk09C; void* unk0A0; void* unk0A4; void* unk0A8; void* unk0AC; void* unk0B0; void* unk0B4; void* unk0B8; void* unk0BC; void* unk0C0; void* unk0C4; void* unk0C8; void* unk0CC; void* unk0D0; void* unk0D4; void* unk0D8; void* unk0DC; void* unk0E0; void* unk0E4; void* unk0E8; void* unk0EC; void* unk0F0; void* unk0F4; void* unk0F8; void* unk0FC; void* unk100; void* unk104; void* unk108; void* unk10C; void* unk110; void* unk114; void* unk118; void* unk11C; void* unk120; void* unk124; void* unk128; void* unk12C; void* unk130; void* unk134; void* unk138; void* unk13C; void* unk140; void* unk144; void* unk148; void* unk14C; void* unk150; void* unk154; void* unk158; void* unk15C; void* unk160; void* unk164; void* unk168; void* unk16C; void* unk170; void* unk174; void* unk178; void* unk17C; void* unk180; void* unk184; void* unk188; void* unk18C; void* unk190; void* unk194; void* unk198; void* unk19C; void* unk1A0; void* unk1A4; void* unk1A8; void* unk1AC; void* unk1B0; void* unk1B4; void* unk1B8; void* unk1BC; void* unk1C0; void* unk1C4; void* unk1C8; void* unk1CC; void* unk1D0; void* unk1D4; void* unk1D8; void* unk1DC; void* unk1E0; void* unk1E4; void* unk1E8; void* unk1EC; void* unk1F0; void* unk1F4; void* unk1F8; void* unk1FC; void* unk200; void* unk204; void* unk208; void* unk20C; void* unk210; void* unk214; void* unk218; void* unk21C; void* unk220; void* unk224; void* unk228; bool (__thiscall* blocked)(Actor*,int);void* unk230; void* unk234; void* unk238; void* unk23C; void* unk240; void* unk244; void* unk248; void* unk24C; void* unk250; void* unk254; void* unk258; void* unk25C; void* unk260; void* unk264; void* unk268; void* unk26C; void* unk270; void* unk274; void* unk278; void* unk27C; void* unk280; void* unk284; void* unk288; void* unk28C; void* unk290; void* unk294; void* unk298; void* unk29C; void* unk2A0; void* unk2A4; void* unk2A8; void* unk2AC; void* unk2B0; void* unk2B4; void* unk2B8; void* unk2BC; void* unk2C0; void* unk2C4; void* unk2C8; void* unk2CC; void* unk2D0; void* unk2D4; void* unk2D8; void* unk2DC; void* unk2E0; void* unk2E4; bool (__thiscall* unavailable)(Actor*);};struct Actor {Methods* table;int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C; int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4; int unkE8; int unkEC; int unkF0; int unkF4; int unkF8; int kind;unsigned short Actor_GetLevel();};struct Holder{Actor* FUN_006b6c70();};struct Owner{int unk00,unk04,unk08,unk0C,unk10,unk14,unk18;float amount;float Amount(){return amount;}bool FUN_006bc4a0(Holder*);};
+// pdb: TurnUndeadEffect::CheckTarget | TurnUndeadEffect.obj | fnv360_0721_retail, vtable, low
+// pdb params: apTarget
+bool Owner::FUN_006bc4a0(Holder* holder){Actor* actor;if(!holder)goto failed;actor=holder->FUN_006b6c70();if(!actor)goto failed;if(actor->table->blocked(actor,0))goto failed;if(actor->table->unavailable(actor))goto failed;if(!MagicFormulas_CheckTargetLevelMagnitude(actor->Actor_GetLevel(),Amount()))goto failed;if(FUN_00c0050a(holder,0,&DAT_00f6ba98,&DAT_00f6bc74,0))goto failed;if(actor->kind==4)return true;goto failed;failed:return false;}
 }
 }   // namespace f3m_006bc4a0
 
@@ -23832,6 +24361,8 @@ struct Effect {
 };
 struct Manager { void FUN_00793f90(Effect*); void FUN_00791090(Actor*,void*); };
 extern Manager DAT_0107c0a0;
+// pdb: DetectLifeEffect::CheckActorDetected | DetectLifeEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTarget, abCurrentlyDetected
 bool __cdecl FUN_006a7220(Actor* actor,bool remove) {
     void* data=DAT_0106c868;
     if(data && actor && actor!=DAT_0107a104 && actor->process) {
@@ -24531,6 +25062,8 @@ struct Effect {
     TESObjectREFR* GetTarget() {TESObjectREFR* p=target;return p;}
     void FUN_006b4c00(bool*,bool*,float*,Scene**,Scene**);
 };
+// pdb: MagicShaderHitEffect::GetAffectedScenegraph | MagicShaderHitEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: abActorRoot, abSword, afSwordLength, apMembraneRoot, apParticleRoot
 void Effect::FUN_006b4c00(bool* actorFound,bool* weaponFound,float* radius,Scene** first,Scene** second) {
     Scene* result=0;
     Actor* actor=dynamic_cast<Actor*>(GetTarget());
@@ -24574,16 +25107,18 @@ extern Actor* DAT_0107a104;
 struct Source { Actor* FUN_006b6c70(); };
 struct Target { void* FUN_006ad230(); };
 struct Definition { unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0c; unsigned unk10; unsigned unk14; unsigned unk18; unsigned unk1c; unsigned unk20; unsigned unk24; unsigned unk28; unsigned unk2c; unsigned unk30; unsigned unk34; unsigned unk38; unsigned unk3c; unsigned unk40; unsigned unk44; unsigned unk48; unsigned unk4c; unsigned unk50; unsigned unk54;unsigned flags; bool First(){return (flags>>1)&1;} bool Second(){return (flags>>2)&1;} };
-struct Context { unsigned unk00,unk04,unk08,unk0c,unk10; Definition* definition; unsigned FUN_00402330(); };
+struct Context { unsigned unk00,unk04,unk08,unk0c,unk10; Definition* definition; unsigned EffectItem_GetDuration(); };
 struct Owner {
  virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c(); virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c(); virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c(); virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c(); virtual void v50(); virtual void v54(); virtual void v58(); virtual void v5c(); virtual void Apply(Actor*,float,int);
  unsigned unk04,unk08; Context* context; unsigned unk10,unk14,flags; float amount; unsigned unk20; Source* source; Target* target; unsigned mode; unsigned unk30; unsigned unk34; unsigned unk38; unsigned unk3c; unsigned unk40; unsigned unk44;unsigned kind;
  bool Enabled(){return (flags>>8)&1;}
  float FUN_006bc860(float); void FUN_006bcb50(); void FUN_006bcc80();
 };
+// pdb: ActiveEffect::InitLoadGame | ActiveEffect.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: apActor
 void Owner::FUN_006bcc80() {
  Actor* actor=source?source->FUN_006b6c70():0;
- if(context->definition->First() || (!context->FUN_00402330() && !Enabled() && mode!=4 && mode!=1)) {
+ if(context->definition->First() || (!context->EffectItem_GetDuration() && !Enabled() && mode!=4 && mode!=1)) {
   float result=FUN_006bc860(amount);
   amount=result; Apply(actor,amount,-1);
   if(kind==7 && amount<0.0f && actor->values.methods[3](&actor->values,16)<=1.0f) {
@@ -24783,8 +25318,8 @@ struct SmartNode { Node* node; void FUN_008e9650(Node*); };
 struct Sound {
     unsigned id; bool flag; unsigned state;
     Sound& operator=(const Sound& rhs) { id=rhs.id;flag=rhs.flag;state=rhs.state;return *this; }
-    bool FUN_00bd0390();
-    void FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Release();
     void FUN_00bd0290(float,float,float);
     void FUN_00bd0470(Node*);
     void FUN_00bd00c0(int);
@@ -24828,7 +25363,7 @@ struct Source {
     unsigned unk80;
     Model* model;
 };
-struct Owner; struct Attachment { void FUN_004e52d0(Owner*,int); };
+struct Owner; struct Attachment { void TESObjectCELL_AddReference(Owner*,int); };
 struct Owner : RefView {
     unsigned unk04;
     unsigned unk08;
@@ -24883,10 +25418,12 @@ struct Owner : RefView {
     void FUN_004fac30(void*);
     void FUN_006ab6e0(int,int);
 };
+// pdb: MagicBoltProjectile::InitLoadGame | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiOldFlags
 void Owner::FUN_006ab6e0(int a,int b) {
     FUN_006b3b70(a,b);
     if(target.id) {
-        target.ref=dynamic_cast<TESObjectREFR*>(::FUN_00455190(target.id));
+        target.ref=dynamic_cast<TESObjectREFR*>(::TESForm_GetFormByNumericID(target.id));
         if(target.ref) {
             Node* root=reinterpret_cast<RefView*>(target.ref)->RootNode();
             if(root) {
@@ -24897,11 +25434,11 @@ void Owner::FUN_006ab6e0(int a,int b) {
     }
     FUN_006aa9b0();
     FUN_004fac30(loaded);
-    attachment->FUN_004e52d0(this,0);
+    attachment->TESObjectCELL_AddReference(this,0);
     if(source->model) {
         const char* path=source->model->path;
         Sound* handle=&sound;
-        if(handle->FUN_00bd0390())handle->FUN_00bd03b0();
+        if(handle->BSSoundHandle_IsValid())handle->BSSoundHandle_Release();
         if(RootNode()) {
             *handle=DAT_011790c8->FUN_00bcfbb0(path,0x102);
             Vec3 position=*Position();
@@ -24944,6 +25481,8 @@ struct EffectStorage:FUN_006a6060 {
  static void* operator new(unsigned n) {return DAT_01090a78.FUN_0086b930(n);}
  static void operator delete(void* p) {DAT_01090a78.FUN_0086b9f0(p);}
 };
+// pdb: CommandHumanoidEffect::Instantiate | CommandHumanoidEffect.obj | fnv360_0721_retail, caller_sim, low
+// pdb params: apCaster, apSpell, apEffect
 EffectStorage* FUN_006a64b0(Caster* a,Item* b,Effect* c) {return new EffectStorage(a,b,c);}
 }
 }   // namespace f3m_006a64b0
@@ -25262,6 +25801,8 @@ struct Info { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; 
 struct Manager { void release(void*); }; extern Manager g_manager_x;
 struct Resource { void* p; int unk04; ~Resource() { if(p) g_manager_x.release(p); } };
 extern const char name_a[], name_b[]; extern Info* lookup(Obj*,int,const char*,const char*,int); extern void effect(void*,int,int,int,float); struct Audio { void play(int,float); };
+// pdb: MagicCaster::ReleaseCast | MagicCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apSource
 bool Base::FUN_006aff40(int arg) {
  if (!v34()) return false;
  float value = 0.0f;
@@ -25294,8 +25835,9 @@ struct Object { ObjectTable* table; };
 struct Entry { int unk00; int unk04; Object* object; int unk0C; unsigned char enabled; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; void* filter; Object* Get(){if(this) return object; return 0;} };
 struct Node { Entry* entry; Node* next; };
 struct OwnerTable { int unk00; int unk04; Node* (__thiscall *get)(Owner*); };
-struct Owner { OwnerTable* table; bool FUN_006b7560(void*,bool); };
-bool Owner::FUN_006b7560(void* filter,bool include) {
+struct Owner { OwnerTable* table; bool MagicTarget_IsAddicted(void*,bool); };
+// pdb: MagicTarget::IsAddicted | MagicTarget.obj | fnv360_0822_retail, call_gap + skyrim(call_gap), high
+bool Owner::MagicTarget_IsAddicted(void* filter,bool include) {
  Node* node=table->get(this);
  bool found=false;
  while(node && !found) {
@@ -25347,6 +25889,8 @@ struct Owner6b25 {
     void FUN_006b1af0(Source6b25*, unsigned short);
     void FUN_006b2520(Source6b25*, unsigned short);
 };
+// pdb: MagicModelHitEffect::LoadGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 void Owner6b25::FUN_006b2520(Source6b25* source, unsigned short length) {
     FUN_006b1af0(source, length);
     if (source) {
@@ -25394,6 +25938,8 @@ struct ReanimateEffect : EffBase {
     ReanimateEffect* FUN_006b91e0(void*, void*, void*);
 };
 
+// pdb: ReanimateEffect::ReanimateEffect | ReanimateEffect.obj | fnv360_0822_retail, uvref, high
+// pdb params: apCaster, apSpell, apEffect
 ReanimateEffect* ReanimateEffect::FUN_006b91e0(void* a, void* b, void* c) {
     FUN_006a13f0(a, b, c);
     m_48 = 0;
@@ -25446,6 +25992,8 @@ struct Effect {
     void FUN_006b4860(Object*, void*, void*);
 };
 
+// pdb: MagicShaderHitEffect::FinishInitLoadGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget, apData
 void Effect::FUN_006b4860(Object* object, void* arg, void* fallback)
 {
     FUN_008dae70(object, arg, 0);
@@ -25476,6 +26024,7 @@ struct Actor:ActorBase,Target {Values values;};
 struct Potion {int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;int unk80;int unk84;int unk88;int unk8c;int unk90;int unk94;int unk98;int unk9c;int unka0;int unka4;int unka8;int unkac;int unkb0;int unkb4;int unkb8;int unkbc;void*spell;};
 struct Effect {int unk00,unk04;Magic* spell;int unk0c;bool active;};
 struct Owner {int unk00,unk04;Magic*spell;int unk0c,unk10,unk14,unk18,unk1c,unk20;Target* target;int unk28,unk2c,unk30,unk34,unk38,unk3c,unk40;Magic*magic;Target* GetTarget(){return target;}bool FUN_006a1520();};
+// pdb: ActiveEffect::CheckDisplacementSpellOnTarget | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
 bool Owner::FUN_006a1520(){bool result=false;bool ignore=false;if(target->IsActor()){Actor*actor=static_cast<Actor*>(target);if(actor){if(actor->values.Get(0x48)>0)ignore=true;}}void* spellCast=FUN_00c0050a(spell,0,&DAT_00f460a8,&DAT_00f46090,0);if(magic&&GetTarget()){Node*node=GetTarget()->GetEffects();while(node&&!result){Effect*item=node->item;if(item&&item->active){if(item->spell==magic)result=true;else if(item->spell->GetSpellType()==7){Potion*potion=(Potion*)FUN_00c0050a(item->spell,0,&DAT_00f460a8,&DAT_00f460c0,0);if(potion&&potion->spell==spellCast)result=true;}}node=node->next;}}if(result&&ignore)result=false;return result;}
 }
 
@@ -25492,7 +26041,8 @@ struct Item {
  virtual void v28();virtual void v2c();virtual void Process(void*);
 };
 struct Node {Item* item;Node* next;void FUN_006c8220();};
-void FUN_006a2dc0(void* context,Node* list) {
+// pdb: ActiveEffect::RevertActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+void ActiveEffect_RevertActiveEffectList(void* context,Node* list) {
  for(Node* node=list;node;node=node->next) {
   Item* item=node->item;
   if(item) {item->Process(context);delete item;}
@@ -25511,6 +26061,8 @@ struct Sequence{virtual void v000();virtual void v004();virtual void v008();virt
 struct Manager{Sequence*FUN_0044dbf0(const FixedString&);};extern int DAT_01091f04;Manager*__cdecl FUN_00424d50(void*,void*);
 struct Retained{int unk00,unk04,unk08;void*object;void*GetObject(){return object;}};
 struct Effect{virtual void v000();virtual void v004();virtual void v008();virtual void v00c();virtual void v010();virtual void v014();virtual void v018();virtual void v01c();virtual void v020();virtual void v024();virtual void v028();virtual void v02c();virtual void v030();virtual void v034();virtual void v038();virtual void v03c();virtual void v040();virtual void v044();virtual void v048();virtual void v04c();virtual void v050();virtual void v054();virtual void v058();virtual void v05c();virtual void v060();virtual void v064();virtual void v068();virtual void v06c();virtual void v070();virtual void v074();virtual void v078();virtual void v07c();virtual void v080();virtual void v084();virtual void v088();virtual void v08c();virtual void v090();virtual void v094();virtual void v098();virtual void v09c();virtual void v0a0();virtual void v0a4();virtual void v0a8();virtual void v0ac();virtual void v0b0();virtual void v0b4();virtual void v0b8();virtual void v0bc();virtual void v0c0();virtual void v0c4();virtual void Update();int unk04;float particle;int unk0c,unk10,unk14,unk18;Ref*target;float time;bool playing;unsigned char unk25,unk26,unk27;int unk28,unk2c;Retained*retained;Retained*GetRetained(){return retained;}bool FUN_006b1a20(float);bool FUN_006b2e30(float);};
+// pdb: MagicModelHitEffect::Update | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTimeDelta
 bool Effect::FUN_006b2e30(float dt){if(!target||!target->Get()||!FUN_006b1a20(dt))return false;if(GetRetained()){Update();Manager*manager=FUN_00424d50(&DAT_01091f04,GetRetained()->GetObject());if(manager){Sequence*seq=manager->FUN_0044dbf0(FixedString("SpecialIdle_HitEffect"));if(seq){if(seq->GetStart()>seq->GetEnd()&&seq->Active()){if(seq->State()==2||playing){playing=true;seq->Stop(0.0f,false);particle=time;}}}}}if(playing){if(time>(double)particle+2.0)return false;}return true;}
 }
 
@@ -25527,7 +26079,7 @@ struct Queued {
     ~Queued() { FUN_006e05f0(); }
     static void operator delete(void* p) { DAT_01090a78.FUN_0086ba60(p); }
 };
-struct Holder { void* data; Queued* FUN_006e0960(int flag); operator bool() const { return data != 0; } void Release() { DAT_01090a78.FUN_0086ba60(data); data = 0; } };
+struct Holder { void* data; Queued* BGSLoadGameSubBuffer_CreateLoadFormBuffer(int flag); operator bool() const { return data != 0; } void Release() { DAT_01090a78.FUN_0086ba60(data); data = 0; } };
 struct Stats { unsigned unk00; unsigned unk04; unsigned unk08; unsigned unk0c; unsigned unk10; unsigned unk14; unsigned unk18; unsigned unk1c; unsigned unk20; unsigned unk24; unsigned unk28; unsigned unk2c; unsigned unk30; unsigned unk34; unsigned unk38; unsigned unk3c; unsigned unk40; unsigned unk44; unsigned unk48; unsigned unk4c; unsigned unk50; unsigned unk54; unsigned unk58; unsigned unk5c; unsigned unk60; unsigned unk64; unsigned unk68; unsigned unk6c; unsigned unk70; unsigned unk74; unsigned unk78; unsigned unk7c; unsigned unk80; unsigned unk84; unsigned unk88; unsigned unk8c; unsigned unk90; unsigned unk94; unsigned unk98; unsigned unk9c; unsigned unka0; unsigned unka4; unsigned unka8; unsigned unkac; unsigned unkb0; unsigned unkb4; unsigned unkb8; unsigned unkbc; unsigned unkc0; unsigned unkc4; unsigned unkc8; unsigned unkcc; float scale; };
 struct Obj {
     virtual void v000();
@@ -25720,6 +26272,8 @@ struct Menu {
     void FUN_006b3470(Form* form);
 };
 }
+// pdb: MagicModelHitEffect::FinishLoadGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void n6b3470::Menu::FUN_006b3470(Form* form)
 {
     FUN_008cbd30(form);
@@ -25735,7 +26289,7 @@ void n6b3470::Menu::FUN_006b3470(Form* form)
             Obj* obj = form->GetObj();
             Stats* stats = obj ? obj->GetStats() : 0;
             float scale = stats ? stats->scale : -1.0f;
-            Queued* q = holder.FUN_006e0960(0);
+            Queued* q = holder.BGSLoadGameSubBuffer_CreateLoadFormBuffer(0);
             FUN_004eb390(ref, q, scale);
             if (q)
                 delete q;
@@ -25863,6 +26417,8 @@ struct Controller {
  float previousTime;
  void FUN_006aad90(float,Record*);
 };
+// pdb: MagicBoltProjectile::UpdateBranch | MagicBoltProjectile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afDelta, apBranch
 void Controller::FUN_006aad90(float dt,Record* record)
 {
  Output* output=record->output;
@@ -25948,7 +26504,7 @@ virtual void SetText(int,Ref*,char*);
 int unk04,unk08,unk0c,unk10,unk14,unk18;Ref* ref;int unk20,unk24;bool loaded;bool FUN_006b26a0();};
 struct File {void FUN_006dcdd0(void*,unsigned int);void FUN_006db490(void*,unsigned int);};
 extern File* DAT_01079ca4;
-void* __cdecl FUN_00455190(unsigned int);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void* __cdecl FUN_00c0050a(void*,int,const void*,const void*,int);
 extern char DAT_00f46078[],DAT_00f47aa8[];
 struct Heap {void* FUN_0086b930(unsigned int);};
@@ -25957,11 +26513,12 @@ extern Heap DAT_01090a78;
 }
 inline void* operator new[](unsigned int size,LoadReferenceTextA::Heap& heap){return heap.FUN_0086b930(size);}
 namespace LoadReferenceTextA {
+// pdb: MagicModelHitEffect::LoadGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
 bool Owner::FUN_006b26a0(){
  unsigned int id;
  bool valid=true;
  DAT_01079ca4->FUN_006dcdd0(&id,4);
- ref=static_cast<Ref*>(FUN_00c0050a(FUN_00455190(id),0,DAT_00f46078,DAT_00f47aa8,0));
+ ref=static_cast<Ref*>(FUN_00c0050a(TESForm_GetFormByNumericID(id),0,DAT_00f46078,DAT_00f47aa8,0));
  if(!ref||!ref->base||ref->base->kind!=6)valid=false;
  unsigned char length;
  DAT_01079ca4->FUN_006db490(&length,1);
@@ -26006,9 +26563,11 @@ struct Owner {
  int unkAc,unkB0,unkB4,unkB8;Ref* reference;int unkC0,unkC4,unkC8,unkCc;
  void FUN_006b3a30(void*);
  void FUN_00454330(const void*,unsigned);
- void FUN_00454350(const void*,unsigned);
+ void TESForm_SaveNumericID(const void*,unsigned);
  void FUN_006ab560(void*);
 };
+// pdb: MagicBoltProjectile::SaveGame | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void Owner::FUN_006ab560(void* argument) {
  FUN_006b3a30(argument);
  g_writer_ab560->FUN_006db460(&unkA4,4);
@@ -26026,7 +26585,7 @@ void Owner::FUN_006ab560(void* argument) {
  }
  unsigned id=0;
  if(reference)id=reference->id;
- FUN_00454350(&id,4);
+ TESForm_SaveNumericID(&id,4);
  unsigned count=0;
  unsigned short* cursor=g_writer_ab560->cursor;
  FUN_00454330(&count,2);
@@ -26038,7 +26597,7 @@ void Owner::FUN_006ab560(void* argument) {
    Ref* form=FUN_004e7b90(node->object);
    if(form)entryId=form->id;
   }
-  FUN_00454350(&entryId,4);
+  TESForm_SaveNumericID(&entryId,4);
   ++count;
  }
  }
@@ -26099,6 +26658,7 @@ struct QEffect {
     void FUN_006a2e00(int a);
     void FUN_006a4560();
 };
+// pdb: BoundItemEffect::Start | BoundItemEffect.obj | fnv360_0822_retail, ustr_rel, medium
 void QEffect::FUN_006a4560()
 {
     QActor* actor = unk24 ? unk24->FUN_006b6c70() : 0;
@@ -26134,7 +26694,7 @@ void QEffect::FUN_006a4560()
 namespace N6B3A30 {
 struct Loader { int unk00;int unk04;int unk08;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c; unsigned char version; };
 extern Loader* DAT_01079ca4;
-struct Ref8C { int FUN_006ad840(); };
+struct Ref8C { int MagicCaster_GetMagicCasterFormID(); };
 struct Ref90 { int FUN_00406000(); };
 struct Base {
     void FUN_00765600(int value);
@@ -26149,18 +26709,20 @@ struct Obj : Base {
     int unk94;
     int unk98;
     int unk9c;
-    void FUN_00454350(void* data, unsigned size);
+    void TESForm_SaveNumericID(void* data, unsigned size);
     void FUN_00454330(void* data, unsigned size);
     void FUN_006b3a30(int value);
 };
 }
 using namespace N6B3A30;
+// pdb: MagicProjectile::SaveGame | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void Obj::FUN_006b3a30(int value) {
     FUN_00765600(value);
-    int a = unk8c->FUN_006ad840();
-    FUN_00454350(&a, 4);
+    int a = unk8c->MagicCaster_GetMagicCasterFormID();
+    TESForm_SaveNumericID(&a, 4);
     int b = unk90->FUN_00406000();
-    FUN_00454350(&b, 4);
+    TESForm_SaveNumericID(&b, 4);
     FUN_00454330(&unk9c, 4);
     if (DAT_01079ca4->version >= 0x48)
         FUN_00454330(&unk88, 4);
@@ -26237,6 +26799,7 @@ struct Owner {
     Ref* second;
     void FUN_006b4920();
 };
+// pdb: MagicShaderHitEffect::SaveGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
 void Owner::FUN_006b4920(){
     unsigned int firstId=first->id;
     DAT_01079ca4->FUN_006defa0(&firstId,4);
@@ -26263,6 +26826,8 @@ struct Base {void* table;int a04;float duration;int a0c;int a10;int a14;int a18;
 struct A {void* table;void* data;unsigned size;unsigned cap;A(Base* b){b->table=&DAT_00e0b8bc;table=&DAT_00e0b87c;data=0;size=0;cap=0;}void FUN_006b5840();~A(){FUN_006b5840();}};
 struct B {void* table;void* data;unsigned size;unsigned cap;B():table(&DAT_00e0b890),data(0),size(0),cap(0){}void FUN_006b58f0();~B(){FUN_006b58f0();}};
 extern float FUN_00db9568; inline double ClampDuration(float t){if(t<0.0f)return FUN_00db9568;return t;} struct FUN_006b5c50 : Base {bool flag28;int unk2c;Shader* shader;float value34;A first;P ref48;bool player;B second;float value60;float value64;P ref68;void SetDuration(double value){duration=(float)value;} FUN_006b5c50(void*,Shader*,float);};
+// pdb: MagicShaderHitEffect::MagicShaderHitEffect | MagicShaderHitEffect.obj | fnv360_0822_retail, call_seq, medium, conflict (skyrim: UIUtils::ShowHUDMessage)
+// pdb params: apTarget, apEffectData, afTime
 FUN_006b5c50::FUN_006b5c50(void* actor,Shader* s,float time):Base(actor),first(this){shader=s;value34=0.0f;ref68=(Ref*)0;ref48=(Ref*)0;flag28=false;unk2c=0;value64=value60=1.0f;if(target==DAT_0107a104)player=DAT_0107a104->FUN_0076ff40(0)&&!(DAT_0107a104->FUN_0076ff40(0)->flags&1);else player=false;SetDuration(ClampDuration(time));Shader* current=*(Shader* volatile*)&shader;if(current&&current->owner){Node* entry=&current->owner->head;while(entry){if(!entry->next&&!entry->data)break;DAT_0106ca70->FUN_00429eb0(entry->data->id,0,1,0,0,0);entry=entry->next;}}}
 }
 
@@ -26278,7 +26843,7 @@ struct ActorTable { void* unk000; void* unk004; void* unk008; void* unk00c; void
 struct Actor {
     ActorTable* table; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38;
     Cell* cell;
-    bool FUN_004e8840();
+    bool TESObjectREFR_GetInterior();
     void FUN_006ff9e0(int, int);
 };
 struct Source { virtual void unused(); virtual Actor* GetActor(); };
@@ -26292,6 +26857,8 @@ struct Action {
     float FUN_006bb140();
     void FUN_006bb530(float);
 };
+// pdb: SunDamageEffect::Update | SunDamageEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Action::FUN_006bb530(float delta) {
     if (skip) {
         skip = false;
@@ -26300,7 +26867,7 @@ void Action::FUN_006bb530(float delta) {
     if (source && source->GetActor()) {
         Actor* actor = source->GetActor();
         Cell* cell = actor->cell;
-        if (actor->FUN_004e8840() && !(cell && (cell->flags & 0x80))) {
+        if (actor->TESObjectREFR_GetInterior() && !(cell && (cell->flags & 0x80))) {
             FUN_006bb390(false);
             if (actor == DAT_0107a104)
                 DAT_00f6c1bc = *DAT_00f62780.FUN_00401eb0();
@@ -26368,6 +26935,8 @@ struct Action {
             delete list;
             list = 0; } }
 };
+// pdb: SunDamageEffect::UpdateHitEffect | SunDamageEffect.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: abDamaging
 void Action::FUN_006bb390(bool enable) {
     Form* form = definition->form;
     void* model = form->model;
@@ -26426,6 +26995,8 @@ struct Owner {
     void** table; int unk04; int unk08; Context* context; int unk10; int unk14; unsigned int flags; int unk1c; int unk20; int unk24; Second* second; int mode; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int defaultKind; bool Flag7() { return (flags >> 7) & 1; }
     void FUN_006bd020(Actor* target, float amount, int kindArg);
 };
+// pdb: ValueModifierEffect::ModifyActorValue | ValueModifierEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor, afModifier, aeOverrideActorValue
 void Owner::FUN_006bd020(Actor* target, float amount, int kindArg) {
     if (target) {
         int kind = kindArg == -1 ? defaultKind : kindArg;
@@ -26485,7 +27056,7 @@ struct Map { bool FUN_00bea7b0(char*, Sequence**); };
 struct Manager {
     int unk00; int unk04; unsigned short flags; short unk0a; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c;
     Map sequences;
-    void FUN_0045c7f0(float);
+    void NiControllerManager_DeactivateAll(float);
     Sequence* Find(const FixedString& name) { Sequence* found; return sequences.FUN_00bea7b0(name.text, &found) ? found : 0; }
 };
 Manager* __cdecl FUN_00424d50(void*, void*);
@@ -26498,6 +27069,7 @@ struct Owner {
     Point* GetPosition() { return ((Point* (__thiscall*)(Owner*))table[125])(this); }
     void FUN_006a9100();
 };
+// pdb: MagicBallProjectile::Init3D | MagicBallProjectile.obj | fnv360_0822_retail, call_gap, low
 void Owner::FUN_006a9100() {
     Node* node = GetNode();
     if (node) {
@@ -26512,7 +27084,7 @@ void Owner::FUN_006a9100() {
         if (manager) {
             Sequence* sequence = manager->Find(FixedString("SpecialIdle_Projectile"));
             if (sequence) {
-                manager->FUN_0045c7f0(0.0f);
+                manager->NiControllerManager_DeactivateAll(0.0f);
                 sequence->FUN_008aecd0(0, 0, 1.0f, 0.0f, 0, 0);
                 manager->flags |= 8;
                 sequence->limit = -3.4028234663852886e+38f;
@@ -26526,7 +27098,7 @@ void Owner::FUN_006a9100() {
 
 // @f3 0x006a5510 (community match, verified in this file)
 namespace f3m_006a5510 {
-struct Entry { void FUN_0040b6f0(int); };
+struct Entry { void ExtraDataList_SetCanNotWear(int); };
 struct Equip { Entry* item; Entry* GetItem() { return item; } };
 struct Slot { Equip* equip; int unk04; TESForm* form; };
 struct Process {
@@ -26865,11 +27437,11 @@ struct Process {
 struct Actor {
     void** table; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
     Process* process;
-    bool FUN_006f7110();
+    bool Actor_GetWantWeaponDrawn();
     Process* GetProcess() { return process; }
 };
 extern Actor* DAT_0107a104;
-struct Changes { Entry* FUN_0047e280(TESForm*, int); };
+struct Changes { Entry* InventoryChanges_WearingObject(TESForm*, int); };
 Changes* __cdecl FUN_0047e090(Actor*);
 struct Ref { Actor* FUN_006b6c70(); };
 struct Owner {
@@ -26884,6 +27456,8 @@ struct Owner {
     void FUN_006a2e00(int);
     void FUN_006a5510(float);
 };
+// pdb: BoundItemEffect::Update | BoundItemEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Owner::FUN_006a5510(float) {
     if (!started) {
         if (elapsed >= delay) {
@@ -26901,11 +27475,11 @@ void Owner::FUN_006a5510(float) {
                     Slot* slot = actor->process->GetSlot();
                     if (weapon == slot->form && slot->equip) {
                         pending = 0;
-                        slot->equip->GetItem()->FUN_0040b6f0(1);
+                        slot->equip->GetItem()->ExtraDataList_SetCanNotWear(1);
                     }
                 }
             }
-            if (actor == DAT_0107a104 && !actor->process->IsBusy() && !actor->FUN_006f7110()) {
+            if (actor == DAT_0107a104 && !actor->process->IsBusy() && !actor->Actor_GetWantWeaponDrawn()) {
                 FUN_006a2e00(0);
             }
         } else if (pending) {
@@ -26913,10 +27487,10 @@ void Owner::FUN_006a5510(float) {
             TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(source);
             if (armor) {
                 Changes* changes = FUN_0047e090(actor);
-                Entry* entry = changes->FUN_0047e280(armor, 1);
+                Entry* entry = changes->InventoryChanges_WearingObject(armor, 1);
                 if (entry) {
                     pending = 0;
-                    entry->FUN_0040b6f0(1);
+                    entry->ExtraDataList_SetCanNotWear(1);
                 }
             }
         }
@@ -26936,10 +27510,10 @@ public:
     virtual void v000();virtual void v004();virtual void v008();virtual void v00c();virtual void v010();virtual void v014();virtual void v018();virtual void v01c();virtual void v020();virtual void v024();virtual void v028();virtual void v02c();virtual void v030();virtual void v034();virtual void v038();virtual void v03c();virtual void v040();virtual void v044();virtual void v048();virtual void v04c();virtual void v050();virtual void v054();virtual void v058();virtual void v05c();virtual void v060();virtual void v064();virtual void v068();virtual void v06c();virtual void v070();virtual void v074();virtual void v078();virtual void v07c();virtual void v080();virtual void v084();virtual void v088();virtual void v08c();virtual void v090();virtual void v094();virtual void v098();virtual void v09c();virtual void v0a0();virtual void v0a4();virtual void v0a8();virtual void v0ac();virtual void v0b0();virtual void v0b4();virtual void v0b8();virtual void v0bc();virtual void v0c0();virtual void v0c4();virtual void v0c8();virtual void v0cc();virtual void v0d0();virtual void v0d4();virtual void v0d8();virtual void v0dc();virtual void v0e0();virtual void v0e4();virtual void v0e8();virtual void v0ec();virtual void v0f0();virtual void v0f4();virtual void v0f8();virtual void v0fc();virtual void v100();virtual void v104();virtual void v108();virtual void v10c();virtual void v110();virtual void v114();virtual void v118();virtual void v11c();virtual void v120();virtual void v124();virtual void v128();virtual void v12c();
     virtual const char* GetEditorId();
 };
-extern Form* __cdecl FUN_00455190(unsigned int id);
+extern Form* __cdecl TESForm_GetFormByNumericID(unsigned int id);
 struct Owner { unsigned int id; };
 struct Stream {
-    bool FUN_006daa00();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
     void FUN_006db460(void* data, int size);
     int unk00;int unk04;int unk08;int unk0C;int unk10;
     char* pos;
@@ -26952,12 +27526,14 @@ struct Node {
     Node* next;
     bool IsEmpty() { return !next && !data; }
 };
+// pdb: ActiveEffect::SaveActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apActiveEffectList, apActor
 void __cdecl FUN_006a2040(Node* node, void* arg) {
     int blockSize = 0;
     char* sizePos = 0;
     char* start = DAT_01079ca4->pos;
     if (DAT_01079d20) start = DAT_01079ca4->pos;
-    if (DAT_01079ca4->FUN_006daa00()) {
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
         int tag = 'BLOK';
         DAT_01079ca4->FUN_006db460(&tag, 4);
         sizePos = DAT_01079ca4->pos;
@@ -26979,11 +27555,11 @@ void __cdecl FUN_006a2040(Node* node, void* arg) {
         Owner* owner = DAT_01079ca4->owner;
         char* end = DAT_01079ca4->pos;
         if (owner) {
-            Form* form = FUN_00455190(owner->id);
+            Form* form = TESForm_GetFormByNumericID(owner->id);
             FUN_00c24b70(DAT_00db5d40, end - start, owner->id, form->GetEditorId(), *(int*)((char*)owner + 5), 0x3df, DAT_00e09d38);
         }
     }
-    if (DAT_01079ca4->FUN_006daa00())
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks())
         *(unsigned short*)sizePos = (unsigned short)(DAT_01079ca4->pos) - (unsigned short)sizePos;
 }
 }
@@ -27056,7 +27632,7 @@ struct Part {
     virtual void Save(Owner* owner, void* arg);
 };
 struct List { Part* data; List* next; };
-struct First { int FUN_006ad840(); };
+struct First { int MagicCaster_GetMagicCasterFormID(); };
 struct Second { int FUN_006b6c90(); };
 struct Third { int unk00; int unk04; int unk08; int id; };
 struct Owner {
@@ -27069,9 +27645,10 @@ struct Owner {
     int unk2c; int unk30; int unk34; int unk38;
     Third* third;
     List* parts;
-    void FUN_006a1a10(void* arg);
+    void ActiveEffect_SaveGame(void* arg);
 };
-void Owner::FUN_006a1a10(void* arg) {
+// pdb: ActiveEffect::SaveGame | ActiveEffect.obj | fnv360_0721_retail, vtable + bridge(caller|vtable) + skyrim(objopen_prop), high
+void Owner::ActiveEffect_SaveGame(void* arg) {
     DAT_01079ca4->FUN_006db460(&unk04, 4);
     DAT_01079ca4->FUN_006db460(&unk10, 1);
     DAT_01079ca4->FUN_006db460(&unk11, 1);
@@ -27081,7 +27658,7 @@ void Owner::FUN_006a1a10(void* arg) {
     DAT_01079ca4->FUN_006db460(&unk1c, 4);
     DAT_01079ca4->FUN_006db460(&unk20, 4);
     int firstId = 0;
-    if (first) firstId = first->FUN_006ad840();
+    if (first) firstId = first->MagicCaster_GetMagicCasterFormID();
     DAT_01079ca4->FUN_006defa0(&firstId, 4);
     int secondId = 0;
     if (second) secondId = second->FUN_006b6c90();
@@ -27144,7 +27721,7 @@ extern Actor* DAT_0107a104;
 class Self : public Lead, public Target {
 public:
     void Apply(MobileObject* item);
-    void FUN_006b8990();
+    void NonActorMagicCaster_CleanUpOtherMobileObjects();
 };
 __forceinline void Self::Apply(MobileObject* item)
 {
@@ -27155,7 +27732,8 @@ __forceinline void Self::Apply(MobileObject* item)
     else if (projectile)
         projectile->v314(this);
 }
-void Self::FUN_006b8990()
+// pdb: NonActorMagicCaster::CleanUpOtherMobileObjects | NonActorMagicCaster.obj | fnv360_0721_beta, call_seq + bridge(call_gap|call_gap), high
+void Self::NonActorMagicCaster_CleanUpOtherMobileObjects()
 {
     for (unsigned int i = 0; i < DAT_0107c0c4; ++i)
         Apply(DAT_0107c0a8[i]);
@@ -27187,7 +27765,7 @@ struct Actor {
     Process* unk60;
     int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098;
     Values unk9c;
-    float FUN_004e7230();
+    float TESObjectREFR_GetHealth();
 };
 struct Player : Actor { void FUN_0076df50(); };
 extern Player* DAT_0107a104;
@@ -27213,6 +27791,7 @@ struct Self {
     float FUN_006bc860(float value);
     void FUN_006bce80();
 };
+// pdb: ValueModifierEffect::Finish | ValueModifierEffect.obj | fnv360_0721_retail, vtable, medium
 void Self::FUN_006bce80()
 {
     Actor* a = unk24 ? unk24->FUN_006b6c70() : 0;
@@ -27220,7 +27799,7 @@ void Self::FUN_006bce80()
         if (a && unk1c > 0.0f) {
             float m = FUN_006bc860(-unk1c) + unk1c;
             if (v5c() == 0x10) {
-                if (a->FUN_004e7230() + m <= unk1c + 1.0f)
+                if (a->TESObjectREFR_GetHealth() + m <= unk1c + 1.0f)
                     m += 1.0f;
             }
             if (m != 0.0f)
@@ -27250,7 +27829,7 @@ void Self::FUN_006bce80()
 
 // @f3 0x006b3900 (community match, verified in this file)
 namespace n6b3900 {
-struct Main { bool FUN_00433170(int handle, int flag); };
+struct Main { bool TES_IsCellLoaded(int handle, int flag); };
 extern Main* DAT_0107a0d8;
 struct Task {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
@@ -27272,11 +27851,12 @@ struct Task {
     int handle;
     bool FUN_006b3900();
 };
+// pdb: MagicProjectile::ChangeProcessLevel | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
 bool Task::FUN_006b3900()
 {
     bool result = true;
     int h = handle;
-    if (!DAT_0107a0d8->FUN_00433170(h, 1)) {
+    if (!DAT_0107a0d8->TES_IsCellLoaded(h, 1)) {
         v4(1);
         result = false;
     }
@@ -27411,7 +27991,8 @@ struct Ref2f80 {
     virtual void vf0f4();
     virtual void vf0f8();
     virtual void vf0fc();
-    virtual bool vf100();
+    // pdb: TESForm::IsActor (slot 64; F3 TESForm vtable 78 slots = FNV360_PDB TESForm 78, Actor's slot 64 returns true)
+    virtual bool IsActor();
     virtual void vf104();
     virtual void vf108();
     virtual void vf10c();
@@ -27463,7 +28044,8 @@ struct Ref2f80 {
     virtual void vf1c4();
     virtual void vf1c8();
     virtual void vf1cc();
-    virtual Node2f80* vf1d0();
+    // pdb: TESObjectREFR::Get3D (slot 116; F3 TESObjectREFR vtable 144 slots = FNV360_PDB 144, linked slots agree)
+    virtual Node2f80* Get3D();
     virtual void vf1d4();
     virtual void vf1d8();
     virtual void vf1dc();
@@ -27486,8 +28068,10 @@ struct Ref2f80 {
     virtual void vf220();
     virtual void vf224();
     virtual void vf228();
-    virtual bool vf22c(bool a_bArg);
-    virtual bool vf230();
+    // pdb: TESObjectREFR::IsDead (slot 139; F3 TESObjectREFR vtable 144 slots = FNV360_PDB 144, linked slots agree)
+    virtual bool IsDead(bool a_bArg);
+    // pdb: TESObjectREFR::IsKnockedOut (slot 140; F3 TESObjectREFR vtable 144 slots = FNV360_PDB 144, linked slots agree)
+    virtual bool IsKnockedOut();
     int unk004;
     int unk008;
     int unk00c;
@@ -27881,20 +28465,21 @@ struct Owner2f80 {
     void FUN_006b2f80();
 };
 
+// pdb: MagicModelHitEffect::UpdatePosition | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
 void Owner2f80::FUN_006b2f80() {
     Node2f80* pNode;
     if (pRef == DAT_0107a104) {
         ucFlag29 = DAT_0107a104->ucFlag5a8;
         pNode = DAT_0107a104->FUN_0076ff40(0);
     } else {
-        pNode = pRef->vf1d0();
+        pNode = pRef->Get3D();
     }
     FUN_006b1e40(pTarget);
     if (!pNode)
         return;
 
     Point2f80 kPos;
-    if ((pRef->vf100() && pRef->vf22c(false)) || pRef->vf230()) {
+    if ((pRef->IsActor() && pRef->IsDead(false)) || pRef->IsKnockedOut()) {
         bool bLower = true;
         Node2f80* pFirst = pNode->GetAsNode();
         if (pFirst && pFirst->usChildCount > 0) {
@@ -28019,9 +28604,10 @@ struct Self {
     Holder* unk24;
     int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044;
     NiPointer<Light> unk48;
-    void FUN_006a8660();
+    void LightEffect_AttachLight();
 };
-void Self::FUN_006a8660()
+// pdb: LightEffect::AttachLight | LightEffect.obj | fnv360_0822_retail, udata, high
+void Self::LightEffect_AttachLight()
 {
     Actor* a = unk24 ? unk24->FUN_006b6c70() : 0;
     if (!unk48 && a && !a->FUN_004e7f90() && DAT_01078408 <= FUN_00f627cc) {
@@ -28105,6 +28691,8 @@ namespace Own6b4730 {
     struct HitEffect { unsigned short FUN_006b1a80(int first, int second); unsigned FUN_006b4730(int first, int second); };
 }
 
+// pdb: MagicShaderHitEffect::GetSaveSize | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 unsigned Own6b4730::HitEffect::FUN_006b4730(int first, int second)
 {
     unsigned short value = FUN_006b1a80(first, second);
@@ -28139,6 +28727,8 @@ struct FUN_006b8d10 : ExtraData, FUN_006b75c0 {
     virtual ~FUN_006b8d10();
     FUN_006b8d10(void*);
 };
+// pdb: NonActorMagicTarget::NonActorMagicTarget | NonActorMagicTarget.obj | fnv360_0822_retail, call_seq, high
+// pdb params: apTargetObject
 FUN_006b8d10::FUN_006b8d10(void* owner) : ExtraData(0x33), FUN_006b75c0() {
     void* o = *(void* volatile*)&owner;
     value20 = 0;
@@ -28155,7 +28745,7 @@ namespace f3m_006a1e60 {
 class TESObject: public TESForm {};
 class TESBoundObject: public TESObject {};
 namespace N6A1E60 {
-void* FUN_006ad8b0(void*);void* FUN_006b6cc0(void*);TESForm* FUN_00455190(void*);
+void* FUN_006ad8b0(void*);void* MagicTarget_GetMagicTargetByNumericID(void*);TESForm* TESForm_GetFormByNumericID(void*);
 struct Manager {
  int unknown00;
  int unknown04;
@@ -28260,15 +28850,17 @@ struct Owner{
  int unknown1c;
  int unknown20;
  void* effect;void* caster;int unknown2c,unknown30,unknown34,unknown38;TESBoundObject* item;Node* callbacks;
- __forceinline void RestoreEffect(){if(effect)effect=FUN_006b6cc0(effect);}
+ __forceinline void RestoreEffect(){if(effect)effect=MagicTarget_GetMagicTargetByNumericID(effect);}
  void FUN_006a1e60(void*);
 };}
+// pdb: ActiveEffect::InitLoadGame | ActiveEffect.obj | fnv360_0721_retail, vtable, low, conflict (skyrim: ActiveEffect::FinishLoadGame)
+// pdb params: apActor
 void N6A1E60::Owner::FUN_006a1e60(void* arg){
  if(caster)caster=FUN_006ad8b0(caster);
  void* previous=effect;
  RestoreEffect();
  TESBoundObject* saved=item;
- if(previous)item=dynamic_cast<TESBoundObject*>(FUN_00455190(saved));
+ if(previous)item=dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(saved));
  if(DAT_01079ca4->version>=42){
   Node* node=callbacks;
   while(node&&(node->next||node->data)){
@@ -28535,7 +29127,7 @@ unsigned int unk80;
 unsigned int unk84;
 unsigned int unk88;};
 struct Actor:ActorBase,MagicTarget{};
-struct Sound {unsigned id; unsigned flags; unsigned time; bool FUN_00bd0390(); void FUN_00bd0140();};
+struct Sound {unsigned id; unsigned flags; unsigned time; bool BSSoundHandle_IsValid(); void BSSoundHandle_Stop();};
 extern void* DAT_0107a104;
 extern "C" bool FUN_00619160();
 extern "C" int FUN_00887da0(Setting*);
@@ -28571,6 +29163,8 @@ Setting* GetSetting(){return effect->setting;}
 float Age(){return age;} float Duration(){return duration;}
 void FUN_006a27e0(float elapsed);
 };
+// pdb: ActiveEffect::UpdateEffect | ActiveEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afSecondsElapsed
 void Effect::FUN_006a27e0(float elapsed){
  if(Has(0x80)||unk44) FUN_006a1630(elapsed,false);
  if(elapsed>0.0&&!done){
@@ -28623,7 +29217,7 @@ void Effect::FUN_006a27e0(float elapsed){
    }
   }
  }
- if(started&&(done||!active)&&!finished){Finish();finished=true;if(sound.FUN_00bd0390())sound.FUN_00bd0140();}
+ if(started&&(done||!active)&&!finished){Finish();finished=true;if(sound.BSSoundHandle_IsValid())sound.BSSoundHandle_Stop();}
 }
 }
 
@@ -29290,6 +29884,8 @@ struct Second_006a6120 {
     int unk5C;
     Target_006a6120* target;
 };
+// pdb: CommandEffect::InitCommandedActor | CommandEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget, apCaster
 void __cdecl FUN_006a6120(void* firstRaw, void* secondRaw) {
     First_006a6120* firstObject = (First_006a6120*)firstRaw;
     Second_006a6120* secondObject = (Second_006a6120*)secondRaw;
@@ -29906,7 +30502,7 @@ unsigned int unk94;
 
 unsigned int unk98;
 
-Metric275 metric;void FUN_00722a10();};struct Owner275{
+Metric275 metric;void Actor_UpdateAlpha();};struct Owner275{
 
 unsigned int unk00;
 
@@ -29946,7 +30542,9 @@ unsigned int unk44;
 
 unsigned int mode;void FUN_006bd1e0(Actor275*);void FUN_006a5b40(Actor275*);};
 
-void Owner275::FUN_006a5b40(Actor275*actor){FUN_006bd1e0(actor);if(DAT_0116ef70 && DAT_0116efb0>=2){actor->Prepare(1.0f);float value=(float)(actor->metric.Get(mode)/100.0);value=value<DAT_00db38b0?0.0:value;value=value>DAT_00db38a8?1.0:value;float*p=&value;*p=value;float low=FUN_00407b70();float high=FUN_00407b60();actor->Set(1,Blend275(low,high,Normalize275(1.0f-value,0.0f,1.0f)));}else actor->FUN_00722a10();}
+// pdb: ChameleonEffect::FinishInitLoadGame | ChameleonEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
+void Owner275::FUN_006a5b40(Actor275*actor){FUN_006bd1e0(actor);if(DAT_0116ef70 && DAT_0116efb0>=2){actor->Prepare(1.0f);float value=(float)(actor->metric.Get(mode)/100.0);value=value<DAT_00db38b0?0.0:value;value=value>DAT_00db38a8?1.0:value;float*p=&value;*p=value;float low=FUN_00407b70();float high=FUN_00407b60();actor->Set(1,Blend275(low,high,Normalize275(1.0f-value,0.0f,1.0f)));}else actor->Actor_UpdateAlpha();}
 
 }
 
@@ -30014,7 +30612,7 @@ int unkB8;
 int unkBC;
 Spell* addiction; float chance; float GetChance() const {return chance;} };
 struct Target { virtual void v0(); virtual void v4(); virtual void v8(); virtual bool IsActor();
-float FUN_006b6ed0(MagicItem*); bool FUN_006b7560(MagicItem*,bool); void FUN_006b7070(void*,MagicItem*,void*); void FUN_006b74d0(MagicItem*,MagicItem*); void FUN_006b7520(); bool FUN_006b77c0(Item*); };
+float MagicTarget_GetUsageMonitorEffectMagnitude(MagicItem*); bool MagicTarget_IsAddicted(MagicItem*,bool); void FUN_006b7070(void*,MagicItem*,void*); void FUN_006b74d0(MagicItem*,MagicItem*); void FUN_006b7520(); bool FUN_006b77c0(Item*); };
 struct Primary {
 virtual void v000();
 virtual void v004();
@@ -30268,9 +30866,11 @@ struct Caster {virtual void v0(); virtual void Cast(Spell*,bool); int unk04; int
 struct ActorView : Primary, Caster, Target {};
 struct Setting { float* FUN_00401eb0(); }; extern Setting DAT_00f62bdc;
 struct Random { unsigned FUN_0086c4b0(int); }; Random* FUN_0044a2d0();
-void __cdecl FUN_00543420(int,ActorView*,float*); void __cdecl FUN_0048c3a0(int,int); void* __cdecl FUN_00455190(unsigned);
+void __cdecl FUN_00543420(int,ActorView*,float*); void __cdecl FUN_0048c3a0(int,int); void* __cdecl TESForm_GetFormByNumericID(unsigned);
 extern char DAT_00f49898, DAT_00f46078; void* __cdecl FUN_00c0050a(void*,int,void*,void*,int);
-int __cdecl FUN_00403230(char*,unsigned,const char*,...); void __cdecl FUN_0061b850(const char*,int,void*,const char*,float); void __cdecl FUN_004c2700(void*,float,void*);
+int __cdecl FUN_00403230(char*,unsigned,const char*,...); void __cdecl FUN_0061b850(const char*,int,void*,const char*,float); void __cdecl ImageSpaceModifierInstanceForm_Trigger(void*,float,void*);
+// pdb: MagicTarget::CheckAddiction | MagicTarget.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apSpell
 bool Target::FUN_006b77c0(Item* item) {
  float chance=item?item->GetChance():0.0f;
  if(!item||!item->addiction||chance==0.0) return false;
@@ -30278,7 +30878,7 @@ bool Target::FUN_006b77c0(Item* item) {
  if(!actor) return false;
  void* effect=item->effects.FUN_00403640();
  if(effect) {
- float resistance=FUN_006b6ed0(&item->magic);
+ float resistance=MagicTarget_GetUsageMonitorEffectMagnitude(&item->magic);
  if(resistance<=*DAT_00f62bdc.FUN_00401eb0()) return false;
  else chance=(resistance-*DAT_00f62bdc.FUN_00401eb0())/100.0;
  }
@@ -30286,7 +30886,7 @@ bool Target::FUN_006b77c0(Item* item) {
  Random* rng=FUN_0044a2d0();
  int roll=rng->FUN_0086c4b0(-1)%100;
  if(chance*100.0<=roll) { FUN_006b7520(); return false; }
- bool show=actor->IsPlayer()&&!actor->FUN_006b7560(&item->magic,true);
+ bool show=actor->IsPlayer()&&!actor->MagicTarget_IsAddicted(&item->magic,true);
  if(effect) FUN_006b7070(effect,&item->magic,0);
  actor->Cast(item->addiction,false);
  MagicItem* addiction=item->addiction?&item->addiction->magic:0;
@@ -30294,11 +30894,11 @@ bool Target::FUN_006b77c0(Item* item) {
  FUN_006b74d0(magic,addiction);
  if(show) {
  FUN_0048c3a0(10,1);
- void* mod=FUN_00c0050a(FUN_00455190(0x19482),0,&DAT_00f46078,&DAT_00f49898,0);
+ void* mod=FUN_00c0050a(TESForm_GetFormByNumericID(0x19482),0,&DAT_00f46078,&DAT_00f49898,0);
  char buffer[260];
  FUN_00403230(buffer,sizeof(buffer),DAT_00f653c4,magic->name?magic->name:DAT_00db3438);
  FUN_0061b850(buffer,1,0,DAT_00e0bd68,2.0f);
- FUN_004c2700(mod,1.0f,0); return true;
+ ImageSpaceModifierInstanceForm_Trigger(mod,1.0f,0); return true;
  }
  return false;
 }
@@ -30356,6 +30956,7 @@ struct FUN_006b0560_Object {
     unsigned int FUN_006b0560();
 };
 
+// pdb: MagicFogProjectile::IsActive | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
 unsigned int FUN_006b0560_Object::FUN_006b0560()
 {
     unsigned int result = 1;
@@ -31021,6 +31622,8 @@ bool FUN_006ad280(Target*,Vec,Magic*,Item*,int);
 void FUN_006adc20(Magic*,Item*,int,Vec,Target*,Filter*,Node*,bool*,float);
 };
 // @fnv 0x00816f10
+// pdb: MagicCaster::FindTargetsInArea | MagicCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSpell, apActiveEffect, apCell, aLocation, apTarget, apProjectile, aTargetList, abSkillAlreadyUsed, afAreaScale
 void Caster::FUN_006adc20(Magic* magic, Item* item, int enabled, Vec pos, Target* exclude, Filter* filter,
                              Node* list, bool* done, float scale)
 {
@@ -31121,13 +31724,14 @@ public:
 
 struct Ref6b8e
 {
-    int FUN_004e75f0();
+    int TESObjectREFR_GetLock();
     int FUN_004e7630();
-    void FUN_004ec660();
+    void TESObjectREFR_UnLock();
 };
 
-int FUN_0041cda0(int value);
+int REFR_LOCK_NumericValueToEnum(int value);
 
+// pdb: OpenEffect::Start | OpenEffect.obj | fnv360_0721_retail, vtable, medium
 void OpenEffect::FUN_006b8e40()
 {
     MagicTarget* pTarget = target;
@@ -31136,12 +31740,12 @@ void OpenEffect::FUN_006b8e40()
         return;
     if (!pNonActor->target.GetParentRef())
         return;
-    int count = pNonActor->target.GetParentRef()->FUN_004e75f0();
+    int count = pNonActor->target.GetParentRef()->TESObjectREFR_GetLock();
     float fMagnitude = magnitude;
-    int level = FUN_0041cda0((int)fMagnitude);
-    int required = FUN_0041cda0(pNonActor->target.GetParentRef()->FUN_004e7630());
+    int level = REFR_LOCK_NumericValueToEnum((int)fMagnitude);
+    int required = REFR_LOCK_NumericValueToEnum(pNonActor->target.GetParentRef()->FUN_004e7630());
     if (count && level >= required)
-        pNonActor->target.GetParentRef()->FUN_004ec660();
+        pNonActor->target.GetParentRef()->TESObjectREFR_UnLock();
 }
 }   // namespace f3m_006b8e40
 
@@ -31181,6 +31785,8 @@ struct Owner6b74d0 {
     void FUN_006b74d0(int value, int key);
 };
 
+// pdb: MagicTarget::SetDisplacementSpell | MagicTarget.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: MagicCaster::CastAddiction)
+// pdb params: apDisplacementSpell, apDisplacedSpell
 void Owner6b74d0::FUN_006b74d0(int value, int key) {
     Node6b74d0* node = vf08();
     while (node) {
@@ -31202,7 +31808,7 @@ extern bool DAT_01079d20;
 extern const char DAT_00e09fa0[], DAT_00db5d40[];
 struct Item { void FUN_0047dd50(); };
 struct Form { void** table; };
-Form* __cdecl FUN_00455190(unsigned int);
+Form* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void __cdecl FUN_00c24b70(const char*, int, unsigned int, const char*, unsigned int, int, const char*);
 #pragma pack(push, 1)
 struct Record
@@ -31220,7 +31826,7 @@ struct Stream
     unsigned char version;
     char pad81[7];
     Record* record;
-    bool FUN_006daa00();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
     void FUN_006db460(const void*, unsigned int);
 };
 extern Stream* DAT_01079ca4;
@@ -31236,18 +31842,20 @@ struct Owner
     void FUN_006a2fb0(void*);
     void FUN_006a3a80(void*);
 };
+// pdb: BoundItemEffect::SaveGame | BoundItemEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Owner::FUN_006a3a80(void* argument)
 {
     FUN_006a2fb0(argument);
     Stream* stream = DAT_01079ca4;
     unsigned int tag;
     unsigned int zero = 0;
-    char* volatile patch = 0;
+    char* patch = 0;
     char* start = stream->position;
     char* volatile begin = start;
     if (DAT_01079d20)
         begin = start;
-    if (stream->FUN_006daa00())
+    if (stream->TESSaveLoadGame_UseSaveGameBlocks())
     {
         tag = 0x424c4f4b;
         DAT_01079ca4->FUN_006db460(&tag, 4);
@@ -31255,7 +31863,7 @@ void Owner::FUN_006a3a80(void* argument)
         patch = stream->position;
         stream->FUN_006db460(&zero, 2);
     }
-    volatile bool present = false;
+    bool present = false;
     if (item)
         present = true;
     DAT_01079ca4->FUN_006db460(const_cast<const bool*>(&present), 1);
@@ -31291,14 +31899,14 @@ void Owner::FUN_006a3a80(void* argument)
         char* end = stream->position;
         if (record)
         {
-            Form* form = FUN_00455190(record->id);
+            Form* form = TESForm_GetFormByNumericID(record->id);
             typedef const char* (__thiscall *Describe)(Form*);
             unsigned int value = *reinterpret_cast<const unsigned int*>(record->value);
             FUN_00c24b70(DAT_00db5d40, end - *const_cast<char* const*>(&begin), record->id, ((Describe)form->table[0x130 / 4])(form), value, 0x2d1, DAT_00e09fa0);
             stream = DAT_01079ca4;
         }
     }
-    if (stream->FUN_006daa00())
+    if (stream->TESSaveLoadGame_UseSaveGameBlocks())
     {
         char* end = DAT_01079ca4->position;
         char* length = *const_cast<char* const*>(&patch);
@@ -31330,6 +31938,7 @@ public:
     void FUN_006b7a20();
 };
 
+// pdb: MagicTarget::DispelQueuedSpells | MagicTarget.obj | fnv360_0822_retail, call_gap_sim, low
 void FUN_006b7a20_Owner::FUN_006b7a20() {
     FUN_006b7a20_Node* base = &unk08;
     FUN_006b7a20_Node* node = base;
@@ -31351,7 +31960,6 @@ void FUN_006b7a20_Owner::FUN_006b7a20() {
 
 // @f3 0x006b0900 (community match, verified in this file)
 #include <intrin.h>
-extern unsigned int DAT_0106ab70;
 extern float FUN_00f62970;
 extern double FUN_00db38b0;
 extern float DAT_01078750;
@@ -31376,9 +31984,9 @@ struct FNV_006b0900_Target {
 };
 
 struct FNV_006b0900_Helper {
-    bool FUN_00bd0390();
-    void FUN_00bd0140();
-    void FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Stop();
+    void BSSoundHandle_Release();
 };
 
 struct FNV_006b0900_Owner {
@@ -31438,7 +32046,7 @@ public:
     int unkC0;
     FNV_006b0900_Owner* unkC4;
 
-    void FUN_006b0140();
+    void MagicFogProjectile_ClearTargetList();
     void FUN_006b3fa0();
     void FUN_006b0900();
 };
@@ -31448,6 +32056,7 @@ struct FUN_006b0900_Guard {
     ~FUN_006b0900_Guard() { self->FUN_006b3fa0(); }
 };
 
+// pdb: MagicFogProjectile::~MagicFogProjectile | MagicFogProjectile.obj | fnv360_0822_retail, call_seq, medium
 void FUN_006b0900_Class::FUN_006b0900()
 {
     FUN_006b0900_Guard guard;
@@ -31464,12 +32073,12 @@ void FUN_006b0900_Class::FUN_006b0900()
         DAT_01078750 = DAT_01078750 - value;
     }
 
-    FUN_006b0140();
+    MagicFogProjectile_ClearTargetList();
 
     FNV_006b0900_Helper& helper = unkB4;
-    if (helper.FUN_00bd0390()) {
-        helper.FUN_00bd0140();
-        helper.FUN_00bd03b0();
+    if (helper.BSSoundHandle_IsValid()) {
+        helper.BSSoundHandle_Stop();
+        helper.BSSoundHandle_Release();
     }
 
     FNV_006b0900_Owner* owner = unkC4;
@@ -31533,6 +32142,7 @@ struct FUN_006b2820 : Base {
     FUN_006b2820();
     virtual ~FUN_006b2820();
 };
+// pdb: MagicModelHitEffect::MagicModelHitEffect | MagicModelHitEffect.obj | fnv360_0822_retail, call_seq, medium
 FUN_006b2820::FUN_006b2820() : unk38(0) {
     unk30 = 0;
     unk34 = 0;
@@ -32200,7 +32810,7 @@ unsigned unk08c;
 unsigned unk090;
 unsigned unk094;
 unsigned unk098;
-AV av; BaseProcess* GetCurrentProcess(){return process;} void FUN_00722a10();
+AV av; BaseProcess* GetCurrentProcess(){return process;} void Actor_UpdateAlpha();
 };
 struct Target {Actor* FUN_006b6c70();};
 struct Name {
@@ -32316,13 +32926,14 @@ unsigned unk040;
 unsigned unk044;int avIndex;
 void FUN_006bce80();void FUN_006a81a0();
 };
+// pdb: InvisibilityEffect::Finish | InvisibilityEffect.obj | fnv360_0721_retail, vtable, medium
 void Effect::FUN_006a81a0(){
  FUN_006bce80();
  Actor* actor=target?target->FUN_006b6c70():0;
  if(actor && actor->av.Get(avIndex)==0.0f){
   if(Runtime() && actor==DAT_0107a104) actor->SetFloat(1,0.0f);
   else {HighProcess* process=dynamic_cast<HighProcess*>(actor->GetCurrentProcess());if(process && process->State()!=4) process->FUN_0072fd20(actor,0);}
-  actor->FUN_00722a10();
+  actor->Actor_UpdateAlpha();
   FUN_006b29b0* effect=0;
   if(item->setting->Length()>0) effect=new FUN_006b29b0(actor,item->setting->name.Value(-1.0f));
   if(effect && effect->Valid()) DAT_0107c0a0.FUN_00793f90(effect);
@@ -32362,9 +32973,11 @@ struct Self {
     Val* mc4;
     void FUN_006b3a30(int a);
     void FUN_00454330(const void* p, unsigned int n);
-    void FUN_00454350(const void* p, unsigned int n);
+    void TESForm_SaveNumericID(const void* p, unsigned int n);
     void FUN_006b0670(int a);
 };
+// pdb: MagicFogProjectile::SaveGame | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags
 void Self::FUN_006b0670(int a)
 {
     FUN_006b3a30(a);
@@ -32394,7 +33007,7 @@ void Self::FUN_006b0670(int a)
             id = 0;
             if (n->m0)
                 id = n->m0->mc;
-            FUN_00454350(&id, 4);
+            TESForm_SaveNumericID(&id, 4);
             bool b = false;
             if (m90 && n->m4)
                 b = m90->mc.FUN_00403810(n->m4);
@@ -32741,6 +33354,8 @@ int unkc4;
 int unkc8;
 int unkcc;
 void FUN_006b3ad0(int,int);void FUN_00454340(void*,int);void FUN_00454360(void*,int);void FUN_006aa740(int,int);};
+// pdb: MagicBoltProjectile::LoadGame | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiCurrentFlags
 void Object::FUN_006aa740(int a,int b){
  Reset();FUN_006b3ad0(a,b);DAT_01079ca4->FUN_006db490(&unka4,4);FUN_00454340(&unk80,4);
  Data* data=new Data;
@@ -32826,6 +33441,8 @@ struct GameSound
 
 using namespace N6bd420;
 
+// pdb: FalloutAudio::ApplySettingsFromMasterFile | FalloutAudio.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: aSoundHandle, apSettingsContext, aiModifierFlags
 unsigned int __cdecl FUN_006bd420(GameSound* apSound, void* apForm, unsigned int* apFlags)
 {
     unsigned int uiMax2;
@@ -33347,6 +33964,8 @@ int f41c;
 int f420;
 Target* target; void bits(int*); };
 extern Result* __cdecl lookup(int); extern int __cdecl fallback(); extern unsigned int FUN_00f79e58; extern float DAT_01078750; extern float FUN_00f62958;
+// pdb: MagicBallProjectile::FinishInitLoadGame | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiOldFlags
 void Obj::FUN_006a9ca0(int a,int b) {
  init(a,b); Node* n=get(); if(n) { unsigned int hi; if(owner && owner->v02c()) { Obj* p=owner->v02c(); Obj* q=p->v100()?p:0; if(q) hi=q->getbits(&b)[0]>>16; else { Result* r=lookup(p->v1d0()); if(r && r->holder) hi=r->holder->bits(&b)[0]>>16; else hi=fallback(); } } else { Result* r=lookup(v1d0()); if(r && r->holder) { Inner* p=r->holder->inner; Inner* q=p ? (Inner*)((char*)p+16) : 0; hi=(q ? q->bits : 0)>>16; } else { FUN_00f79e58=(FUN_00f79e58+1)&65535; if(!FUN_00f79e58) FUN_00f79e58=10; hi=FUN_00f79e58; } } n->bits(&b); hi <<= 16; unsigned int lo=(*(volatile int*)&b & 0xff80) | 7; hi |= lo; Target* t=n->target; if(t) { Inner* p=t->inner; Inner* q=p ? (Inner*)((char*)p+16) : 0; if(q) q->bits=hi; t->v0c0(); } } if((owner ? owner->v02c():0)!=(Obj*)DAT_0107a104) DAT_01078750+=FUN_00f62958; }
 
@@ -33989,6 +34608,8 @@ struct Summon {
     Named* GetNamed() { return effectItem->named; }
     void FUN_006bacb0(int unused);
 };
+// pdb: SummonCreatureEffect::DoSummon | SummonCreatureEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pOwner
 void Summon::FUN_006bacb0(int unused)
 {
     Actor* actor = GetTarget() ? GetTarget()->FUN_006b6c70() : 0;
@@ -34032,11 +34653,11 @@ namespace n6b0ef0 { extern Heap6b0ef0 DAT_01090a78; }
 struct Sound6b0ef0 {
     unsigned int id; bool flag; unsigned int state;
     Sound6b0ef0& operator=(const Sound6b0ef0& o) { id = o.id; flag = o.flag; state = o.state; return *this; }
-    bool FUN_00bd0390();
-    void FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Release();
 };
 struct Owner6b0ef0;
-struct Link6b0ef0 { void FUN_004e52d0(Owner6b0ef0* who, int flag); };
+struct Link6b0ef0 { void TESObjectCELL_AddReference(Owner6b0ef0* who, int flag); };
 struct Form6b0ef0 {
     unsigned int unk00, unk04, unk08;
     unsigned int formID;
@@ -34062,7 +34683,7 @@ struct Light6b0ef0 {
     static void* operator new(unsigned int n) { return n6b0ef0::DAT_01090a78.FUN_0086b930(n); }
     static void operator delete(void* p) { n6b0ef0::DAT_01090a78.FUN_0086ba60(p); }
 };
-struct Map6b0ef0 { int FUN_00403840(unsigned char k); };
+struct Map6b0ef0 { int EffectItemList_GetEffectItemByIndex(unsigned char k); };
 struct Mapper6b0ef0 { unsigned int unk00, unk04, unk08; Map6b0ef0 map; };
 struct Node6b0ef0 { TESForm* form; int value; Node6b0ef0* next; };
 struct Game6b0ef0 { unsigned int pad[0x20]; unsigned char version; unsigned char GetVersion() { return version; } };
@@ -34087,21 +34708,23 @@ struct Owner6b0ef0 {
     Light6b0ef0* m_pkLight;
     void FUN_006b3b70(int a, int b);
     void FUN_006b0b80();
-    Sound6b0ef0 FUN_00766c00(unsigned int id, int a, int b, int c);
+    Sound6b0ef0 MobileObject_PlaySound(unsigned int id, int a, int b, int c);
     Base6b0ef0* GetBase() { return base; }
     Mapper6b0ef0* GetMapper() { return mapper; }
     void FUN_006b0ef0(int a, int b);
 };
+// pdb: MagicFogProjectile::InitLoadGame | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiOldFlags
 void Owner6b0ef0::FUN_006b0ef0(int a, int b)
 {
     FUN_006b3b70(a, b);
     FUN_006b0b80();
-    unk3c->FUN_004e52d0(this, 0);
+    unk3c->TESObjectCELL_AddReference(this, 0);
     if (mode != 1 && GetBase()->GetSound()) {
         unsigned int uiSoundID = GetBase()->GetSound()->GetFormID();
-        if (m_kSound.FUN_00bd0390())
-            m_kSound.FUN_00bd03b0();
-        m_kSound = FUN_00766c00(uiSoundID, 1, 0x40000102, 1);
+        if (m_kSound.BSSoundHandle_IsValid())
+            m_kSound.BSSoundHandle_Release();
+        m_kSound = MobileObject_PlaySound(uiSoundID, 1, 0x40000102, 1);
     }
     float fFade;
     memcpy(&fFade, &m_pkLight, 4);
@@ -34119,9 +34742,9 @@ void Owner6b0ef0::FUN_006b0ef0(int a, int b)
             unsigned int uiFormID = (unsigned int)pkNode->form;
             unsigned char ucIndex = (unsigned char)pkNode->value;
             if (uiFormID)
-                pkNode->form = dynamic_cast<TESObjectREFR*>(FUN_00455190(uiFormID));
+                pkNode->form = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(uiFormID));
             if (GetMapper())
-                pkNode->value = GetMapper()->map.FUN_00403840(ucIndex);
+                pkNode->value = GetMapper()->map.EffectItemList_GetEffectItemByIndex(ucIndex);
             pkNode = pkNode->next;
         }
     }
@@ -34431,7 +35054,7 @@ struct ActorProcess {
  int unk24;
  int unk28;
 };
-struct InventoryBase { Entry* FUN_0047e280(TESBoundObject*,int); };
+struct InventoryBase { Entry* InventoryChanges_WearingObject(TESBoundObject*,int); };
 struct InventoryAccess { Entry* FUN_0040ab00(int,int); };
 struct EventResult { int unk00,unk04,unk08; };
 struct TargetActor {
@@ -34576,9 +35199,9 @@ struct TargetActor {
  int unk58;
  int unk5c;
  ActorProcess* process60;
- void FUN_007133e0(TESBoundObject*,int,int,int,int,int);
+ void Actor_QueueUnEquipObject(TESBoundObject*,int,int,int,int,int);
  int FUN_004e8650(TESBoundObject*);
- void FUN_007198e0(TESBoundObject*,int,int,int,int,int);
+ void Actor_QueueEquipObject(TESBoundObject*,int,int,int,int,int);
  EventResult FUN_00765b90(const char*,int,unsigned,int);
 };
 struct Controller { TargetActor* FUN_006b6c70(); };
@@ -34655,14 +35278,6 @@ class FUN_006b29b0 : public NiMemObject { public:
 };
 struct TaskManager { void FUN_00793f90(FUN_006b29b0*); };
 extern TaskManager DAT_0107c0a0;
-struct FloatSelector {
- virtual void v000();
- virtual void v004();
- virtual void v008();
- virtual void v00c();
- virtual void v010();
- virtual void* select(float);
-};
 struct Root { 
  int unk00;
  int unk04;
@@ -34720,6 +35335,7 @@ struct CleanupState {
 };
 extern InventoryBase* __cdecl FUN_0047e090(TargetActor*);
 extern bool __cdecl FUN_006a4960(TargetActor*,Entry*,CleanupState*);
+// pdb: BoundItemEffect::Finish | BoundItemEffect.obj | fnv360_0822_retail, ustr, medium
 void CleanupState::FUN_006a4b20() {
  TargetActor* actor=controller24?controller24->FUN_006b6c70():0;
  if(!activea4 || !actor) return;
@@ -34727,14 +35343,14 @@ void CleanupState::FUN_006a4b20() {
  TESObjectARMO* armor=dynamic_cast<TESObjectARMO*>(getForm());
  if(weapon) {
   InventoryBase* inventory=FUN_0047e090(actor);
-  Entry* found=inventory->FUN_0047e280(weapon,0);
+  Entry* found=inventory->InventoryChanges_WearingObject(weapon,0);
   if(found) ((ItemExtra*)found)->FUN_0040b9a0();
-  actor->FUN_007133e0(weapon,1,0,0,0,1);
+  actor->Actor_QueueUnEquipObject(weapon,1,0,0,0,1);
   actor->equipVirtual(weapon,0,1,0,0,0,0,0,1,0);
   if(entry4c) {
    ItemExtra* extra=entry4c->GetList()?*&entry4c->GetList()->Head():0;
    if(actor->FUN_004e8650(entry4c->getObject())>=1)
-    actor->FUN_007198e0(entry4c->getObject(),1,0,1,0,1);
+    actor->Actor_QueueEquipObject(entry4c->getObject(),1,0,1,0,1);
    if(cleara6) {
     TESBoundObject* base=entry4c->getObject();
     TESObjectWEAP* previous=dynamic_cast<TESObjectWEAP*>(base);
@@ -34754,9 +35370,9 @@ void CleanupState::FUN_006a4b20() {
   TESNPC* npc=dynamic_cast<TESNPC*>(actor->getBase());
   if(npc)sex=npc->ModelIndex();
   InventoryBase* inventory=FUN_0047e090(actor);
-  Entry* found=inventory->FUN_0047e280(armor,0);
+  Entry* found=inventory->InventoryChanges_WearingObject(armor,0);
   if(found)((ItemExtra*)found)->FUN_0040b9a0();
-  actor->FUN_007133e0(armor,1,0,0,0,1);
+  actor->Actor_QueueUnEquipObject(armor,1,0,0,0,1);
   actor->equipVirtual(armor,0,1,0,0,0,0,0,1,0);
   int index=0;
   BipedSlots* state=&armor->slots;
@@ -34769,7 +35385,7 @@ void CleanupState::FUN_006a4b20() {
      if(entry->extra)extra=*entry->extra;
      bool changed=false;
      if(actor->FUN_004e8650(entry->getObject())>=1) {
-      actor->FUN_007198e0(entry->getObject(),1,0,1,0,1);
+      actor->Actor_QueueEquipObject(entry->getObject(),1,0,1,0,1);
       Entry* current=actor->inventory40.FUN_0040ab00(index,0)->FUN_00483eb0();
       if(!current || current->getObject()!=entry->getObject())
        changed=FUN_006a4960(actor,entry,this);
@@ -34919,6 +35535,7 @@ struct FUN_006b3fa0 : Base0, ChildCell {
     virtual ~FUN_006b3fa0();
 };
 
+// pdb: MagicProjectile::~MagicProjectile | MagicProjectile.obj | fnv360_0822_retail, call_seq, high
 FUN_006b3fa0::~FUN_006b3fa0()
 {
     if (unk60)
@@ -34994,6 +35611,8 @@ struct FUN_006b2440 {
     FUN_006b2440(int a, int b);
     void FUN_006b1fa0(int a, int b);
 };
+// pdb: MagicLight::MagicLight | MagicLight.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiLightID, apObj
 FUN_006b2440::FUN_006b2440(int a, int b) {
     unk04 = 0;
     unk08 = 0;
@@ -35149,6 +35768,7 @@ struct X {
     float FUN_006bc860(float v);
     void FUN_006a0850();
 };
+// pdb: AbsorbEffect::Finish | AbsorbEffect.obj | fnv360_0721_retail, vtable, medium
 void X::FUN_006a0850() {
     FUN_006bce80();
     if ((unsigned char)(unk0c->info->flags >> 1) & 1) {
@@ -35461,7 +36081,7 @@ struct Actor {
     virtual void vf1C8();
     virtual void vf1CC();
     virtual Node* v1D0();
-    Ctrl* FUN_006f7c60();
+    Ctrl* Actor_GetFaceAnimationData();
 };
 struct ReanimateState {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
@@ -35472,12 +36092,14 @@ struct ReanimateState {
     void FUN_006a1f00(Actor* actor);
     void FUN_006b9ca0(Actor* actor);
 };
+// pdb: ReanimateEffect::FinishInitLoadGame | ReanimateEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void ReanimateState::FUN_006b9ca0(Actor* actor)
 {
     FUN_006a1f00(actor);
     Node* root = actor->v1D0();
     if (root) {
-        Ctrl* ctrl = actor->FUN_006f7c60();
+        Ctrl* ctrl = actor->Actor_GetFaceAnimationData();
         if (ctrl) {
             if (state < 40)
                 ctrl->vD8(true, true);
@@ -35556,6 +36178,7 @@ struct Obj6baea0 {
     bool started;
     void FUN_006baea0();
 };
+// pdb: SummonCreatureEffect::Start | SummonCreatureEffect.obj | fnv360_0822_retail, ustr, medium
 void Obj6baea0::FUN_006baea0()
 {
     if (!src) return;
@@ -36210,6 +36833,7 @@ struct Effect6a0 {
     void FUN_006a0900();
 };
 
+// pdb: AbsorbEffect::Start3D | AbsorbEffect.obj | fnv360_0822_retail, call_seq, medium
 void Effect6a0::FUN_006a0900()
 {
     m_node = new SceneNode(0);
@@ -36285,15 +36909,16 @@ struct Heap {void FUN_0086ba60(void*);};extern Heap DAT_01090a78;
 struct NativeProjectilePrefix37 { virtual ~NativeProjectilePrefix37(); int unk04,unk08,unk0c,unk10,unk14; };
 struct NativeChildCell37 { virtual void ChildCellOp(); };
 struct FUN_006b3fa0 : NativeProjectilePrefix37, NativeChildCell37 {int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c;int unk70;int unk74;int unk78;int unk7c;int unk80;int unk84;int unk88;Object* object;int unk90;int unk94;int unk98;int unk9c;int unka0;int unka4;int unka8; virtual ~FUN_006b3fa0();};
-struct Timer {int unk00,unk04,unk08;bool FUN_00bd0390();void FUN_00bd0140();void FUN_00bd03b0();};
+struct Timer {int unk00,unk04,unk08;bool BSSoundHandle_IsValid();void BSSoundHandle_Stop();void BSSoundHandle_Release();};
 struct Payload {void FUN_006b21b0();};
 static __forceinline float Clamp(float value){if(value<DAT_00db38b0)return 0.0f;return value;}
 namespace Native_FUN_006a9000 {
 struct MagicBallProjectile : FUN_006b3fa0 {Timer timer;Payload* payload;virtual ~MagicBallProjectile(); virtual void ChildCellOp();};
+// pdb: MagicBallProjectile::~MagicBallProjectile | MagicBallProjectile.obj | fnv360_0822_retail, call_seq, medium
 MagicBallProjectile::~MagicBallProjectile(){
  Object* object=this->object;void* owner=object?((GetOwner)object->methods[11])(object):0;
  if(owner!=DAT_0107a104){float amount=Clamp(DAT_00f62958);DAT_01078750-=amount;}
- if(timer.FUN_00bd0390()){timer.FUN_00bd0140();if(timer.FUN_00bd0390())timer.FUN_00bd03b0();}
+ if(timer.BSSoundHandle_IsValid()){timer.BSSoundHandle_Stop();if(timer.BSSoundHandle_IsValid())timer.BSSoundHandle_Release();}
  Payload* old=payload;if(old){old->FUN_006b21b0();DAT_01090a78.FUN_0086ba60(old);}payload=0;
 }
 }
@@ -36349,6 +36974,8 @@ struct Controller
     Subject* subject;
     void FUN_006a0ce0(float dt);
 };
+// pdb: AbsorbEffect::Update3D | AbsorbEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: afDelta
 void Controller::FUN_006a0ce0(float dt)
 {
     if (!reference || !target || !output || !subject || DAT_01077c7c)
@@ -36432,6 +37059,8 @@ struct Loader_4110
 extern Loader_4110* DAT_0106ca70;
 }
 using namespace f3m_006b4110;
+// pdb: MagicProjectile::Clone3D | MagicProjectile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFilename
 AVObject_4110* __cdecl FUN_006b4110(const char* path)
 {
     AVObject_4110* obj = 0;
@@ -36504,6 +37133,8 @@ struct Actor : Ref, MagicTarget {
     bool Check() { return ((bool (__thiscall*)(Actor*))Ref::table00[0xd7])(this); }
 };
 
+// pdb: MagicTarget::HasRecoverableActorValueEffect | MagicTarget.obj | fnv360_0822_retail, objrun, medium
+// pdb params: aeWhich
 bool MagicTarget::FUN_006b6f50(int id)
 {
     bool found = false;
@@ -36618,7 +37249,7 @@ struct TESForm {
     virtual void v4b();
     virtual const char* GetName();
 };
-TESForm* FUN_00455190(unsigned int id);
+TESForm* TESForm_GetFormByNumericID(unsigned int id);
 void FUN_00887da0(const char* format, ...);
 
 struct BoltRecord { unsigned int formID; };
@@ -36630,7 +37261,7 @@ struct Manager {
     int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
     unsigned char version; unsigned char unk81; unsigned char unk82; unsigned char unk83;
     BoltRecord* record;
-    bool FUN_006daa00();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
     void FUN_006db490(void* dest, unsigned int size);
     unsigned char Version() { return version; }
     unsigned int GetTimeStamp() { return stamp; }
@@ -36671,18 +37302,20 @@ struct BoundItemEffect : ActiveEffect {
     void FUN_006a3c40(void* arg);
 };
 
+// pdb: BoundItemEffect::LoadGame | BoundItemEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void BoundItemEffect::FUN_006a3c40(void* arg)
 {
     FUN_006a2ff0(arg);
     unsigned short size = 0;
     unsigned int start = 0;
-    if (DAT_01079ca4->FUN_006daa00()) {
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
         unsigned int tag;
         DAT_01079ca4->FUN_006db490(&tag, 4);
         if (tag != 0x424c4f4b) {
             BoltRecord* rec = DAT_01079ca4->GetRecord();
             if (rec) {
-                TESForm* form = FUN_00455190(rec->formID);
+                TESForm* form = TESForm_GetFormByNumericID(rec->formID);
                 FUN_00887da0(DAT_00db6120, DAT_00e09fa0, 0x2da, rec->formID, form->GetName(),
                              *(unsigned char*)((char*)rec + 9), *(int*)((char*)rec + 5));
             }
@@ -36714,11 +37347,11 @@ void BoundItemEffect::FUN_006a3c40(void* arg)
     }
     if (DAT_01079ca4->Version() >= 0x6b)
         DAT_01079ca4->FUN_006db490(&unka8, 1);
-    if (DAT_01079ca4->FUN_006daa00()) {
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
         unsigned int ts = DAT_01079ca4->GetTimeStamp();
         BoltRecord* rec = DAT_01079ca4->GetRecord();
         if (rec) {
-            TESForm* form = FUN_00455190(rec->formID);
+            TESForm* form = TESForm_GetFormByNumericID(rec->formID);
             if (ts > size + start)
                 FUN_00887da0(DAT_00db5f90, ts - (size + start), DAT_00e09fa0, 0x302, rec->formID, form->GetName(),
                              *(unsigned char*)((char*)rec + 9), *(int*)((char*)rec + 5));
@@ -36853,6 +37486,7 @@ struct MagicShaderHitEffect {
     void FUN_006b5600();
 };
 
+// pdb: MagicShaderHitEffect::ClearTarget | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
 void MagicShaderHitEffect::FUN_006b5600()
 {
     if (target && shader && (shader->formID == 0x852fe || shader->formID == 0x84a51))
@@ -36975,6 +37609,8 @@ struct Owner {
     void FUN_006b70e0(int type);
 };
 
+// pdb: MagicTarget::Dispel | MagicTarget.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: aeSpellType
 void Owner::FUN_006b70e0(int type)
 {
     if (type == 1) {
@@ -37033,8 +37669,8 @@ struct Actor {
     void** methods;
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
     Base* base;
-    bool FUN_004e8840();
-    double FUN_004e9080();
+    bool TESObjectREFR_GetInterior();
+    double TESObjectREFR_GetRelevantWaterHeight();
 };
 typedef Stat* (__thiscall *GetStatFn)(Actor*);
 
@@ -37078,13 +37714,14 @@ struct Owner {
 };
 
 inline float LerpByte(float a, float b, unsigned char x) { return a + (b - a) * (x * (1.0f / 255.0f)); }
+// pdb: SunDamageEffect::GetDamageAmount | SunDamageEffect.obj | fnv360_0721_retail, call_seq, medium
 float Owner::FUN_006bb140()
 {
     Target* tg = target;
     Actor* actor = tg ? tg->GetActor() : 0;
     Base* base = actor ? actor->base : 0;
     float lo = 0.0f, hi = 1.0f;
-    if (actor != 0 && (!actor->FUN_004e8840() || (base && (base->flags24 & 0x80)))) {
+    if (actor != 0 && (!actor->TESObjectREFR_GetInterior() || (base && (base->flags24 & 0x80)))) {
     Sky* sky = DAT_0107a0d8->sky;
     float a = sky->unkec;
     float b = sky->FUN_0057a450();
@@ -37098,7 +37735,7 @@ float Owner::FUN_006bb140()
     }
     bool flag = false;
     if (actor->base->flags24 & 2) {
-        double v = actor->FUN_004e9080();
+        double v = actor->TESObjectREFR_GetRelevantWaterHeight();
         if (((GetStatFn)actor->methods[125])(actor)->unk08 <= v)
             flag = true;
     }
@@ -37134,7 +37771,7 @@ struct Actor {
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
     int unk80, unk84, unk88, unk8c, unk90, unk94, unk98;
     ValueOwner values;
-    void FUN_00722a10();
+    void Actor_UpdateAlpha();
 };
 typedef void (__thiscall *Fn410)(Actor*, float);
 typedef void (__thiscall *Fn380)(Actor*, int, float);
@@ -37153,6 +37790,7 @@ struct Owner {
     void FUN_006a58f0();
 };
 
+// pdb: ChameleonEffect::Start | ChameleonEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006a58f0()
 {
     Actor* actor = source ? source->FUN_006b6c70() : 0;
@@ -37169,7 +37807,7 @@ void Owner::FUN_006a58f0()
             float lo = 0.0f, hi = 1.0f;
             ((Fn380)actor->methods[224])(actor, 1, a + (b - a) * ((x - lo) / (hi - lo)));
         } else {
-            actor->FUN_00722a10();
+            actor->Actor_UpdateAlpha();
         }
     }
 }
@@ -37409,6 +38047,8 @@ struct Mover {
     void FUN_006b0d90(int a0, int a1, int a2, int a3, int arg, bool silent);
 };
 
+// pdb: MagicFogProjectile::Collide | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aContactPoint, apTargetBody, apCollidee, abFizzle
 void Mover::FUN_006b0d90(int a0, int a1, int a2, int a3, int arg, bool silent)
 {
     {
@@ -37567,6 +38207,7 @@ public:
     virtual ~MagicModelHitEffect();
 };
 
+// pdb: MagicModelHitEffect::~MagicModelHitEffect | MagicModelHitEffect.obj | fnv360_0822_retail, call_seq, medium
 MagicModelHitEffect::~MagicModelHitEffect()
 {
     if (model) {
@@ -37691,9 +38332,9 @@ struct Entry {
 };
 struct Sound {
     unsigned int id, state, flags;
-    bool FUN_00bd0390();
-    void FUN_00bd0140();
-    void FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Stop();
+    void BSSoundHandle_Release();
 };
 struct MagicTarget {};
 struct Player {
@@ -37800,6 +38441,7 @@ static __forceinline void AttachToParent(Node* root)
     }
 }
 
+// pdb: MagicBoltProjectile::~MagicBoltProjectile | MagicBoltProjectile.obj | fnv360_0822_retail, call_seq, medium
 MagicBoltProjectile::~MagicBoltProjectile()
 {
     Player* player = DAT_0107a104;
@@ -37836,9 +38478,9 @@ MagicBoltProjectile::~MagicBoltProjectile()
         } while (entries);
     }
 
-    if (sound.FUN_00bd0390()) {
-        sound.FUN_00bd0140();
-        sound.FUN_00bd03b0();
+    if (sound.BSSoundHandle_IsValid()) {
+        sound.BSSoundHandle_Stop();
+        sound.BSSoundHandle_Release();
     }
 }
 }
@@ -37899,7 +38541,7 @@ class ThreeByThreeMatrix
 };
 
 float __cdecl FUN_0040ebd0(float afA, float afB);
-bool __cdecl FUN_00c6a350(NiAVObject* apNode, int aiFlags, bool abA, bool abB, bool abC);
+bool __cdecl bhkWorld_SetMotion(NiAVObject* apNode, int aiFlags, bool abA, bool abB, bool abC);
 
 namespace f3m_6b9320 {
 
@@ -37978,7 +38620,7 @@ struct bhkRigidBody
 
 struct Animation
 {
-    void FUN_00461690(int a, int b, int c, int d);
+    void Animation_PlayGroup(int a, int b, int c, int d);
 };
 
 class FaceGenData
@@ -38687,9 +39329,9 @@ class Actor
     Process* GetProcess() { return process; }
     ExtraList* GetExtraList() { return &extraList; }
     void FUN_00701ab0(bool abReload);
-    void FUN_006fd990(int aiAction);
-    void FUN_006f7bd0(bool abFlag);
-    FaceGenData* FUN_006f7c60();
+    void Actor_SetLifeState(int aiAction);
+    void Actor_SetGhost(bool abFlag);
+    FaceGenData* Actor_GetFaceAnimationData();
 };
 
 void __cdecl FUN_006a6120(Actor* apTarget, Actor* apCaster);
@@ -38737,6 +39379,8 @@ struct LiftEffect
     void FUN_006b9320(float afSecondsElapsed);
 };
 
+// pdb: ReanimateEffect::Update | ReanimateEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void LiftEffect::FUN_006b9320(float afSecondsElapsed)
 {
     Actor* ptarget = GetTarget() ? GetTarget()->FUN_006b6c70() : 0;
@@ -38806,7 +39450,7 @@ void LiftEffect::FUN_006b9320(float afSecondsElapsed)
             {
                 state = 30;
                 ptarget->FUN_00701ab0(true);
-                panim->FUN_00461690(0, 0, -1, -1);
+                panim->Animation_PlayGroup(0, 0, -1, -1);
                 FUN_00915d30(pNode, 0.0f);
                 Process* pprocess = ptarget->GetProcess();
                 if (!pprocess->unk28)
@@ -38823,11 +39467,11 @@ void LiftEffect::FUN_006b9320(float afSecondsElapsed)
                 state = 40;
                 NiAVObject* pNode = ptarget->GetNiNode();
                 if (pNode)
-                    FUN_00c6a350(pNode, 6, true, false, true);
+                    bhkWorld_SetMotion(pNode, 6, true, false, true);
                 TESNPC* pnpc = dynamic_cast<TESNPC*>(ptarget->GetBaseForm());
                 if (pnpc)
                     pnpc->FUN_00559110(DAT_01072138);
-                FaceGenData* pFaceGen = ptarget->FUN_006f7c60();
+                FaceGenData* pFaceGen = ptarget->Actor_GetFaceAnimationData();
                 if (pFaceGen)
                     pFaceGen->Unk_36(false, false);
             }
@@ -38837,8 +39481,8 @@ void LiftEffect::FUN_006b9320(float afSecondsElapsed)
             if (elapsed - stateTime > 1.0)
             {
                 state = 50;
-                ptarget->FUN_006fd990(4);
-                ptarget->FUN_006f7bd0(false);
+                ptarget->Actor_SetLifeState(4);
+                ptarget->Actor_SetGhost(false);
                 FUN_006a6120(ptarget, pcaster);
             }
         }
@@ -39076,6 +39720,8 @@ struct Projectile
     void FUN_006ac2e0(Owner* owner, Arg* arg);
 };
 
+// pdb: MagicBoltProjectile::AddAreaTarget | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apTarget, apActiveEffect
 void Projectile::FUN_006ac2e0(Owner* owner, Arg* arg)
 {
     if (arg && (arg->GetKey() != GetKey() || ref == owner->GetRef()))
@@ -39146,7 +39792,7 @@ class NiPoint3
     float x, y, z;
 };
 
-bool FUN_00c6a350(NiAVObject* apNode, int aiMode, bool abA, bool abB, bool abC);
+bool bhkWorld_SetMotion(NiAVObject* apNode, int aiMode, bool abA, bool abB, bool abC);
 bool FUN_00c69ee0(NiAVObject* apNode, bool abRecurse, bool abForce);
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 extern "C" void __cdecl operator_delete_sized(void* pvMem, unsigned int uiSize);
@@ -39162,7 +39808,7 @@ extern "C" MemoryManagerAA2 g_memoryManager;
 class FUN_00cac980_class
 {
   public:
-    void* FUN_00cac980();
+    void* hkpCharacterProxy_getShapePhantom();
 };
 
 extern const double DAT_00dbe7c0;
@@ -39854,18 +40500,18 @@ class CharController
     void IncRefCount() { InterlockedIncrement(&m_uiRefCount); }
     void DecRefCount();
     void FUN_008e9e90(int time, Actor* actor);
-    void FUN_008ee870(bhkWorld* world);
+    void bhkCharacterController_SetWorld(bhkWorld* world);
     void FUN_004e94e0(NiAVObject* node);
     NiAVObject* FUN_006a8fb0();
     NiAVObject* GetNode() { return nodeHolder ? nodeHolder->FUN_008f9c90(0) : 0; }
-    void FUN_008ea270(const hkVector4& position);
+    void bhkCharacterController_SetPosition(const hkVector4& position);
     __declspec(noinline) void SetPositionNi(const NiPoint3& pos)
     {
         hkVector4 v;
         v.x = pos.x * DAT_00dbe7c0;
         v.y = pos.y * DAT_00dbe7c0;
         v.z = pos.z * DAT_00dbe7c0;
-        FUN_008ea270(v);
+        bhkCharacterController_SetPosition(v);
     }
     FilterInfo FUN_0061f4f0();
 
@@ -40302,6 +40948,7 @@ static __forceinline unsigned int GetNodeFilter3D(Actor* a)
     return (FUN_0051de60() << 16) | 7;
 }
 
+// pdb: MagicBoltProjectile::InitHavok | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
 void Actor::FUN_006ac670()
 {
     if (!process || process->processLevel != 0)
@@ -40366,11 +41013,11 @@ void Actor::FUN_006ac670()
     else
         controller->f3c8 = DAT_00e0abd0;
 
-    void* phantom = controller->phantom ? controller->phantom->FUN_00cac980() : 0;
+    void* phantom = controller->phantom ? controller->phantom->hkpCharacterProxy_getShapePhantom() : 0;
     HkObject* hkObject = ((PhantomHolder*)phantom)->hkObject;
     bhkWorld* current = hkObject ? hkObject->GetWorld() : 0;
 
-    controller->FUN_008ee870(world);
+    controller->bhkCharacterController_SetWorld(world);
     NiAVObject* node = Get3D();
     if (controller->GetNode() != node)
     {
@@ -40381,7 +41028,7 @@ void Actor::FUN_006ac670()
             FUN_00aeeca0(controller->FUN_006a8fb0(), 1);
         }
         FUN_008f3510(node);
-        FUN_00c6a350(node, 6, true, false, true);
+        bhkWorld_SetMotion(node, 6, true, false, true);
     }
 
     NiPoint3 pos = *GetPos();
@@ -40742,6 +41389,7 @@ public:
     NiPointer<SceneNode> m_nodeB8;
     void FUN_006aa9b0();
 };
+// pdb: MagicBoltProjectile::Init3D | MagicBoltProjectile.obj | fnv360_0822_retail, call_seq, medium
 void Owner::FUN_006aa9b0()
 {
     m_nodeB8 = new SceneNode(0);
@@ -41057,7 +41705,7 @@ struct Act {
     int unk94;
     int unk98;
     Av9C unk9C;
-    void FUN_00722a10();
+    void Actor_UpdateAlpha();
 };
 struct Hold { Act* FUN_006b6c70(); };
 float __cdecl FUN_00407b70();
@@ -41087,6 +41735,7 @@ struct Mn {
     void FUN_006bce80();
     void FUN_006a5a10();
 };
+// pdb: ChameleonEffect::Finish | ChameleonEffect.obj | fnv360_0721_retail, vtable, medium
 void Mn::FUN_006a5a10()
 {
     FUN_006bce80();
@@ -41105,7 +41754,7 @@ void Mn::FUN_006a5a10()
         }
         a->v380(1, 0.0f);
     }
-    a->FUN_00722a10();
+    a->Actor_UpdateAlpha();
 }
 }
 }   // namespace f3m_006a5a10
@@ -41284,8 +41933,8 @@ public:
     TESBoundObject* p1C;
     int u20, u24, u28, u2C, u30, u34, u38, u3C;
     Sub40 f40;
-    void FUN_007133e0(TESBoundObject*, int, int, int, int, int);
-    void FUN_007198e0(TESBoundObject*, int, int, int, int, int);
+    void Actor_QueueUnEquipObject(TESBoundObject*, int, int, int, int, int);
+    void Actor_QueueEquipObject(TESBoundObject*, int, int, int, int, int);
 };
 
 class Addr24 {
@@ -41295,7 +41944,7 @@ public:
 
 class Blk {
 public:
-    int FUN_0047e4f0(TESBoundObject*);
+    int InventoryChanges_GetObjectCount(TESBoundObject*);
 };
 
 class Obj {
@@ -41322,6 +41971,8 @@ public:
 extern CallTarget* DAT_0106ca70;
 extern void* DAT_01079ca4;
 
+// pdb: BoundItemEffect::InitLoadGame | BoundItemEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Obj::FUN_006a4650(int arg)
 {
     FUN_006a3020(arg);
@@ -41375,7 +42026,7 @@ void Obj::FUN_006a4650(int arg)
             p4C = t;
         }
         TESBoundObject* form3 = p4C->m_form;
-        p->FUN_007133e0(form3, 1, 0, 0, 0, 1);
+        p->Actor_QueueUnEquipObject(form3, 1, 0, 0, 0, 1);
     }
 
     for (int i = 0; i < 20; i++) {
@@ -41387,7 +42038,7 @@ void Obj::FUN_006a4650(int arg)
                 delete *slot;
                 *slot = t;
             }
-            p->FUN_007133e0((*slot)->m_form, 1, 0, 0, 0, 1);
+            p->Actor_QueueUnEquipObject((*slot)->m_form, 1, 0, 0, 0, 1);
         }
     }
 
@@ -41396,9 +42047,9 @@ void Obj::FUN_006a4650(int arg)
         TESForm* form = p48;
         TESBoundObject* bo = dynamic_cast<TESBoundObject*>(form);
         if (bl) {
-            if (bl->FUN_0047e4f0(bo) == 0) {
+            if (bl->InventoryChanges_GetObjectCount(bo) == 0) {
                 p->v100(bo, 0, 1);
-                p->FUN_007198e0(bo, 1, 0, 1, 0, 1);
+                p->Actor_QueueEquipObject(bo, 1, 0, 1, 0, 1);
             }
         }
     }
@@ -41464,6 +42115,7 @@ struct ActiveEffect
     int caster28;
     ClonedEffect* FUN_006a2eb0();
 };
+// pdb: AssociatedItemEffect::Copy | AssociatedItemEffect.obj | fnv360_0721_retail, vtable, medium
 ClonedEffect* ActiveEffect::FUN_006a2eb0()
 {
     ClonedEffect* result = new ClonedEffect(caster28, item08, effect0c);
@@ -42000,6 +42652,8 @@ struct EffectA
     void FUN_006a0ce0(float dt);
     void FUN_006a0ec0(float dt);
 };
+// pdb: AbsorbEffect::Update | AbsorbEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void EffectA::FUN_006a0ec0(float dt)
 {
     FUN_006bcda0(dt);
@@ -42055,6 +42709,7 @@ struct NativeLightAttachment {
     ~NativeLightAttachment();
 };
 
+// pdb: MagicLight::~MagicLight | MagicLight.obj | fnv360_0721_beta, call_seq, medium
 NativeLightAttachment::~NativeLightAttachment()
 {
     LightParent* receiver = parent.m_pObject;
@@ -42096,7 +42751,7 @@ namespace SoundResolve6bdab0 {
 
     struct DataHandler {
         SoundForm* FUN_0043bcc0(const char* name);
-        void* FUN_0043bd00();
+        void* TESDataHandler_CountCompiled();
         bool IsLoading() const {
             return *reinterpret_cast<const bool*>(reinterpret_cast<const char*>(this) + 0x5a6);
         }
@@ -42106,6 +42761,8 @@ namespace SoundResolve6bdab0 {
     void __cdecl FUN_00887da0(const char*, ...);
     int __cdecl FUN_00c007fc(char*, unsigned, const char*);
 
+    // pdb: FalloutAudio::ResolveSoundName | FalloutAudio.obj | fnv360_0822_retail, ustr, medium
+    // pdb params: apFormName, apFilename, aiSoundTypeFlags, apSettingsContext
     bool __cdecl FUN_006bdab0(const char* name, char* path, unsigned* playbackFlags, SoundForm** form)
     {
         if (!name)
@@ -42132,7 +42789,7 @@ namespace SoundResolve6bdab0 {
 
         }
         DataHandler* handler = DAT_0106cdcc;
-        if (handler && !handler->IsLoading() && handler->FUN_0043bd00())
+        if (handler && !handler->IsLoading() && handler->TESDataHandler_CountCompiled())
             FUN_00887da0(DAT_00e0c5dc, name);
         return false;
     }
@@ -42164,6 +42821,8 @@ namespace ActorUpdate6a5c80 {
         void FUN_006a5c80(Item*);
     };
 
+    // pdb: ChameleonEffect::FinishLoadGame | ChameleonEffect.obj | fnv360_0721_retail, vtable, medium
+    // pdb params: apLoadGameBuffer
     void Owner::FUN_006a5c80(Item* item)
     {
         Actor* actor = item->GetActor();
@@ -42181,7 +42840,7 @@ namespace ActorUpdate6a5c80 {
                 ((Fn380)actor->methods[224])(actor, 1, a + (b - a) * ((x - lo) / (hi - lo)));
                 return;
             }
-            actor->FUN_00722a10();
+            actor->Actor_UpdateAlpha();
         }
     }
 }
@@ -42228,6 +42887,7 @@ inline BucketMap6a03::BucketMap6a03() {
         FUN_00c00610(buckets, zero, bytes);
         table = (unsigned int)&DAT_00e09b98;
 }
+// pdb: DebugTextManager::DebugTextManager | DebugTextManager.obj | fnv360_0822_retail, call_seq, medium
 FUN_006a03d0::FUN_006a03d0() : unk0000(1) {
     unk0014 = 0;
     unk0018 = 0;
@@ -43377,6 +44037,8 @@ struct Projectile : Ref {
 };
 
 // Port of FNV AEProjectile::Impact (magicboltprojectile.cpp): projectile impact at kPos.
+// pdb: MagicBoltProjectile::Collide | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aContactPoint, apTargetBody, apCollidee, abFizzle
 void Projectile::FUN_006ab0c0(NiPoint3 kPos, int iIndex, Ref* pkTarget, bool bSilent)
 {
     Actor* pkHitActor = (pkTarget && pkTarget->IsActor()) ? (Actor*)pkTarget : 0;
@@ -44009,6 +44671,8 @@ void __cdecl FUN_00584d20(float*, float, float, int, int, float, float, float, i
 void __cdecl FUN_00584e70(float*, float, float, int, int, float, float, float, int);
 float __cdecl FUN_0047ca30(float, float);
 
+// pdb: MagicCaster::FindTargets | MagicCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: afEffectStrength, apSource, abLoadCast, afEffectivenessMult, abAdjustOnlyHostileEffectiveness
 void MagicCaster::FUN_006aee30(float power, Form* source, bool immediate, float multiplier, bool abFlag4)
 {
     MagicItem* spellB = GetSpell();
@@ -44237,7 +44901,7 @@ struct Sequence { void FUN_008ac830(float,bool); };
 struct Manager {
     unsigned unk00,unk04; unsigned short flags;
     Sequence* FUN_0044dbf0(const FixedString&);
-    void FUN_0045c7f0(float);
+    void NiControllerManager_DeactivateAll(float);
     bool FUN_0044db50(Sequence*,int,bool,float,float,Sequence*);
 };
 struct Setting {
@@ -44825,6 +45489,7 @@ struct Owner {
     Ptr retained;
     bool FUN_006b2bd0();
 };
+// pdb: MagicModelHitEffect::Init | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
 bool Owner::FUN_006b2bd0() {
     if(effect) {
         firstTime=effect->GetAge();
@@ -44857,7 +45522,7 @@ bool Owner::FUN_006b2bd0() {
                             if(manager) {
                                 Sequence* sequence=manager->FUN_0044dbf0(FixedString("SpecialIdle_HitEffect"));
                                 if(sequence) {
-                                    manager->FUN_0045c7f0(0.0f);
+                                    manager->NiControllerManager_DeactivateAll(0.0f);
                                     manager->FUN_0044db50(sequence,0,false,1.0f,0.0f,0);
                                     manager->flags|=8;
                                     if(firstTime>0.0f) sequence->FUN_008ac830(firstTime,false);
@@ -45271,7 +45936,6 @@ struct Actor : Base0, Base80 {
     bool flag5a8;
 };
 extern Actor* DAT_0107a104;
-extern const float DAT_00dbe1e0;
 struct Source {
     virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03(); virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
     virtual void s08(); virtual void s09(); virtual void s10();
@@ -45290,6 +45954,7 @@ struct Camera {
     bool FUN_006aaef0();
 };
 
+// pdb: MagicBoltProjectile::PostProcess | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
 bool Camera::FUN_006aaef0()
 {
     Actor* actor;
@@ -45343,7 +46008,7 @@ class ThreeByThreeMatrix { public: float m[9]; void FUN_00a59780(float,float,flo
 namespace z6abc {
 using namespace f3m_006a92b0;
 struct Data : Obj6a92 {void FUN_006aa6b0(Pt6a92*); void FUN_0061f4f0(unsigned*); void FUN_006a8fd0(unsigned);};
-struct Timer {int unk00,unk04,unk08;float unk0c; bool FUN_00bd0390();void FUN_00bd0140();void FUN_00bd03b0();};
+struct Timer {int unk00,unk04,unk08;float unk0c; bool BSSoundHandle_IsValid();void BSSoundHandle_Stop();void BSSoundHandle_Release();};
 struct Owner;
 struct Tracker : NiRefObject {
     int unk008;
@@ -45581,6 +46246,8 @@ struct Owner : Self6a92 {
     __forceinline float& Clock() {return reinterpret_cast<float&>(unk9C);}
     __forceinline Link*& Links() {return reinterpret_cast<Link*&>(unkA8);}
 };
+// pdb: MagicBoltProjectile::Update | MagicBoltProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afDelta
 void Owner::FUN_006abcd0(float dt) {
     if(dt==0.0f || Bit5_6a92(unk08)) return;
     Ent6a92* ent=v1D0();
@@ -45669,9 +46336,9 @@ void Owner::FUN_006abcd0(float dt) {
     }
     if((!Tracking()->unk174 && Tracking()->unk078>=Tracking()->unk07c) ||
        (unkA4==1 && Clock()-unkC0.unk0c>3.0)) {
-        if(unkC0.FUN_00bd0390()) {
-            unkC0.FUN_00bd0140();
-            unkC0.FUN_00bd03b0();
+        if(unkC0.BSSoundHandle_IsValid()) {
+            unkC0.BSSoundHandle_Stop();
+            unkC0.BSSoundHandle_Release();
         }
         if(!Links()) v0C4(1);
     }
@@ -45716,13 +46383,13 @@ extern const float FUN_00f62664;
 class FloatSetting {
   public:
     int m_id;
-    bool FUN_00bd0390();
+    bool BSSoundHandle_IsValid();
     void FUN_00bd01c0(float value);
 };
 
 class LightFader {
   public:
-    void FUN_006b22b0(float delta);
+    void MagicLight_Update(float delta);
 };
 
 class FnData {
@@ -45952,6 +46619,8 @@ class FogProj {
     void FUN_006b0180(float delta);
 };
 
+// pdb: MagicFogProjectile::Update | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afDelta
 void FogProj::FUN_006b0180(float delta)
 {
     if (delta >= FUN_00db3e10)
@@ -46001,8 +46670,8 @@ void FogProj::FUN_006b0180(float delta)
         }
         LightFader* fader = unkC4;
         if (fader)
-            fader->FUN_006b22b0(delta);
-        if (unkB4.FUN_00bd0390()) {
+            fader->MagicLight_Update(delta);
+        if (unkB4.BSSoundHandle_IsValid()) {
             float half = unkA4 * FUN_00db7de8;
             if (unkA0 > half)
                 unkB4.FUN_00bd01c0(1.0f - (unkA0 - half) / half);
@@ -46026,7 +46695,7 @@ void FogProj::FUN_006b0180(float delta)
 namespace f3m_006a17d0 {
 extern "C" void _ReadWriteBarrier(void);
 namespace W17 {
-struct Handle { int id; char state; int unk08; bool FUN_00bd0390(); void FUN_00bd0140(); void FUN_00bd03b0(); void FUN_00bd0290(float,float,float); bool FUN_00bd00c0(bool); };
+struct Handle { int id; char state; int unk08; bool BSSoundHandle_IsValid(); void BSSoundHandle_Stop(); void BSSoundHandle_Release(); void FUN_00bd0290(float,float,float); bool FUN_00bd00c0(bool); };
 struct Vec {float x,y,z;};
 struct Actor {void** vt;};
 struct Ref {void** vt; Actor* FUN_006b6c70();};
@@ -46037,8 +46706,9 @@ struct Info {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk
 struct Link {int unk00,unk04,unk08,unk0c,unk10; Info* info;};
 struct Manager { void FUN_00bcfbb0(Handle*,NameT,int); }; extern Manager* manager17;
 int __cdecl FUN_00541960(int);
-struct Playback {Handle* FUN_00766c00(Handle*,NameT,bool,int,int);};
+struct Playback {Handle* MobileObject_PlaySound(Handle*,NameT,bool,int,int);};
 struct Owner {int unk00,unk04; Actor* controller; Link* link; int unk10,unk14,unk18,unk1c,unk20; Ref* ref; int unk28,unk2c; Handle handle; void FUN_006a17d0();};
+// pdb: ActiveEffect::StartSound | ActiveEffect.obj | fnv360_0721_retail, call_seq, medium
 void Owner::FUN_006a17d0() {
  Sound* s=link->info->sound;
  NameT name; if (s) name = s->name; else name.p = 0;
@@ -46049,9 +46719,9 @@ void Owner::FUN_006a17d0() {
   bool loop=(link->info->flags >> 10)&1;
   s=link->info->sound;
   if(s) { Desc d=s->desc; loop=FUN_00541960(d.unk04)!=0; }
-  if(a) { Handle tmp; Handle* result=((Playback*)a)->FUN_00766c00(&tmp,name,loop,loop ? 0x112 : 0x102,0); h.id=result->id; h.state=result->state; h.unk08=result->unk08; }
+  if(a) { Handle tmp; Handle* result=((Playback*)a)->MobileObject_PlaySound(&tmp,name,loop,loop ? 0x112 : 0x102,0); h.id=result->id; h.state=result->state; h.unk08=result->unk08; }
   else { Actor* target=((Actor* (__thiscall*)(Ref*))ref->vt[1])(ref); if(target) {Handle tmp; manager17->FUN_00bcfbb0(&tmp,name,0x102); Vec* p=((Vec* (__thiscall*)(Actor*))target->vt[125])(target); Vec v=*p; tmp.FUN_00bd0290(v.x,v.y,v.z); tmp.FUN_00bd00c0(loop); } }
-  if(loop) {Handle* hp=&handle; if(hp->FUN_00bd0390()) {hp->FUN_00bd0140();hp->FUN_00bd03b0();} hp->id=h.id; hp->state=h.state; hp->unk08=h.unk08;}
+  if(loop) {Handle* hp=&handle; if(hp->BSSoundHandle_IsValid()) {hp->BSSoundHandle_Stop();hp->BSSoundHandle_Release();} hp->id=h.id; hp->state=h.state; hp->unk08=h.unk08;}
  }
 }
 }
@@ -46087,7 +46757,7 @@ struct SaveLoad
     int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
     unsigned char version; unsigned char unk81; unsigned char unk82; unsigned char unk83;
     unsigned char* debugRecord;
-    bool FUN_006daa00();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
     void FUN_006db490(void* buf, unsigned int size);
 };
 
@@ -46108,25 +46778,27 @@ extern char DAT_00db5f90[];
 extern char DAT_00db5f08[];
 extern char DAT_00db5ea8[];
 extern char DAT_00db5e48[];
-LoadForm* __cdecl FUN_00455190(unsigned int formID);
+LoadForm* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 void __cdecl FUN_00887da0(const char* fmt, ...);
 ActiveEffect* __cdecl FUN_006a11b0(void* stream);
 int __cdecl FUN_006b7a70(ActiveEffect* a, ActiveEffect* b);
 
 
 
+// pdb: ActiveEffect::LoadActiveEffectList | ActiveEffect.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apActiveEffectList, apActor
 void __cdecl FUN_006a2b50(EffectList* list, void* stream)
 {
     unsigned short blockSize = 0;
     unsigned int start = 0;
-    if (DAT_01079ca4->FUN_006daa00()) {
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
         unsigned int marker;
         DAT_01079ca4->FUN_006db490(&marker, 4);
         if (marker != 'BLOK') {
             unsigned char* rec = DAT_01079ca4->debugRecord;
             if (rec) {
                 FUN_00887da0(DAT_00db6120, DAT_00e09d38, 0x3e7, *(unsigned int*)rec,
-                    FUN_00455190(*(unsigned int*)rec)->GetName(), rec[9], *(unsigned int*)(rec + 5));
+                    TESForm_GetFormByNumericID(*(unsigned int*)rec)->GetName(), rec[9], *(unsigned int*)(rec + 5));
             }
         }
         start = DAT_01079ca4->position;
@@ -46149,12 +46821,12 @@ void __cdecl FUN_006a2b50(EffectList* list, void* stream)
         if (effect)
             list->FUN_00635dd0(effect, FUN_006b7a70);
     }
-    if (DAT_01079ca4->FUN_006daa00()) {
+    if (DAT_01079ca4->TESSaveLoadGame_UseSaveGameBlocks()) {
         SaveLoad* sl = DAT_01079ca4;
         unsigned char* rec = sl->debugRecord;
         unsigned int pos = sl->position;
         if (rec) {
-            LoadForm* form = FUN_00455190(*(unsigned int*)rec);
+            LoadForm* form = TESForm_GetFormByNumericID(*(unsigned int*)rec);
             if (pos > blockSize + start)
                 FUN_00887da0(DAT_00db5f90, pos - blockSize - start, DAT_00e09d38, 0x40e, *(unsigned int*)rec,
                     form->GetName(), rec[9], *(unsigned int*)(rec + 5));
@@ -46191,6 +46863,8 @@ struct Owner {
     List list;
     void FUN_006b7690(int first, int second, int third);
 };
+// pdb: MagicTarget::QueueSpellDispel | MagicTarget.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apSpell, apCaster, apActiveEffect
 void Owner::FUN_006b7690(int first, int second, int third)
 {
     Triple* rec = new Triple;
@@ -46787,6 +47461,7 @@ __declspec(noinline) Point3 Point3::operator-(const Point3& r) const
     result.z = z - r.z;
     return result;
 }
+// pdb: MagicShaderHitEffect::UpdatePosition | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, low
 void COwner::FUN_006b4dc0()
 {
     bool bSame = unk1c == (Obj*)DAT_0107a104;
@@ -46845,6 +47520,8 @@ struct Owner {
  unsigned short FUN_006b1a80(int,int);
  unsigned short FUN_006b3110(int,int);
 };
+// pdb: MagicModelHitEffect::GetSaveSize | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 unsigned short Owner::FUN_006b3110(int first,int second){
  unsigned short size=FUN_006b1a80(first,second)+2;
  Info* path = info;
@@ -46881,7 +47558,7 @@ struct Effect : f3m_006a9100::Owner {
     Sound m_kSound;
     Light* m_pkLight;
     void FUN_006b3b70(int a, int b);
-    Sound FUN_00766c00(unsigned int id, int a, int b, int c);
+    Sound MobileObject_PlaySound(unsigned int id, int a, int b, int c);
     Base* GetBase() { return reinterpret_cast<Base*>(unk98); }
     f3m_006a9100::Node* GetNode() {
         return static_cast<f3m_006a9100::Node*>(reinterpret_cast<f3m_006b0ef0::Owner6b0ef0*>(this)->Get3D());
@@ -46889,17 +47566,19 @@ struct Effect : f3m_006a9100::Owner {
     void FUN_006a9a80(int a, int b);
 };
 
+// pdb: MagicBallProjectile::InitLoadGame | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiOldFlags
 void Effect::FUN_006a9a80(int a, int b)
 {
     FUN_006b3b70(a, b);
     FUN_006a9100();
-    reinterpret_cast<f3m_006b0ef0::Link6b0ef0*>(unk3c)->FUN_004e52d0(
+    reinterpret_cast<f3m_006b0ef0::Link6b0ef0*>(unk3c)->TESObjectCELL_AddReference(
         reinterpret_cast<f3m_006b0ef0::Owner6b0ef0*>(this), 0);
     if (unka4 != 2 && GetBase()->GetSound()) {
         unsigned int soundID = GetBase()->GetSound()->GetFormID();
-        if (m_kSound.FUN_00bd0390())
-            m_kSound.FUN_00bd03b0();
-        m_kSound = FUN_00766c00(soundID, 1, 0x40000102, 1);
+        if (m_kSound.BSSoundHandle_IsValid())
+            m_kSound.BSSoundHandle_Release();
+        m_kSound = MobileObject_PlaySound(soundID, 1, 0x40000102, 1);
     }
     if (GetNode()) {
         float modelScale = speed;
@@ -46961,7 +47640,7 @@ struct Node {
 
 struct Base {
     void** vt;
-    float FUN_004e7230();
+    float TESObjectREFR_GetHealth();
     float FUN_006f50c0(float, void*);
     __forceinline bool IsValid() { return ((bool (__thiscall*)(Base*))vt[64])(this); }
     __forceinline int Ref() { return ((int (__thiscall*)(Base*))vt[116])(this); }
@@ -46995,6 +47674,8 @@ float FUN_0090d870(float, float);
 
 using namespace N6ae070;
 
+// pdb: MagicCaster::CheckWillKill | MagicCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apTarget, apSpell
 bool Owner::FUN_006ae070(Proc* a, Target* b)
 {
     if (!a || !b) return false;
@@ -47004,7 +47685,7 @@ bool Owner::FUN_006ae070(Proc* a, Target* b)
     if (!b->counter.FUN_00403250()) return false;
     void* t = FUN_006ad230();
     Base* actor = a->Get();
-    float base = actor->FUN_004e7230();
+    float base = actor->TESObjectREFR_GetHealth();
     Node* node = a->List();
     float sum = 0.0f;
     while (node) {
@@ -47103,7 +47784,7 @@ struct MagicTarget {
     virtual void Remove(Effect*);
     unsigned char unk04; bool updating; short unk06; int unk08; int unk0c;
     bool FUN_006b6d50(MagicItem*, Effect*);
-    bool FUN_006b7560(MagicItem*, int);
+    bool MagicTarget_IsAddicted(MagicItem*, int);
     void FUN_006b7a20();
     void FUN_006b8190(float);
 };
@@ -47117,6 +47798,8 @@ int __cdecl FUN_00403230(char*, int, const char*, ...);
 void __cdecl FUN_0061b850(const char*, int, int, const char*, float);
 TESForm* __cdecl FUN_00508e40(int);
 void __cdecl FUN_004c27e0(TESImageSpaceModifier*, float, int);
+// pdb: MagicTarget::UpdateTarget | MagicTarget.obj | fnv360_0822_retail, ustr, medium
+// pdb params: afSecondsElapsed
 void MagicTarget::FUN_006b8190(float dt) {
     Node* head = GetList();
     Node* cur = head;
@@ -47143,7 +47826,7 @@ void MagicTarget::FUN_006b8190(float dt) {
                 MagicTarget* target = e->target;
                 if (target == DAT_0107a104 && item->GetType() == 7 && target->FUN_006b6d50(item, e)) {
                     char buffer[0x104];
-                    if (target->FUN_006b7560(item, 1)) {
+                    if (target->MagicTarget_IsAddicted(item, 1)) {
                         if (DAT_0107a104->GetValue(0x48)) goto done;
                         FUN_00403230(buffer, 0x104, FUN_00f653d0, item->Name());
                     } else {
@@ -47206,6 +47889,8 @@ struct FUN_006b6bc0 : Allocated {
     int unk[40];
 };
 
+// pdb: MagicProjectile::Launch | MagicProjectile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apCaster, apData3D, apLight, apSpell, apDominantEffect, apAVEffect, aOrigin, aRotation
 void __cdecl FUN_006b3610(void* a, unsigned int b, unsigned int c, int d, Timer* timer, ProjectileBase* projectile,
                           Vector3 first, Vector3 second)
 {
@@ -47504,6 +48189,8 @@ struct Self {
     void FUN_008dae70(A* a, Actor* b, int c);
     void FUN_006b3260(A* a, Actor* b, void* c);
 };
+// pdb: MagicModelHitEffect::FinishInitLoadGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget, apData
 void Self::FUN_006b3260(A* a, Actor* b, void* c)
 {
     FUN_008dae70(a, b, 0);
@@ -47587,7 +48274,7 @@ struct Controller {
     float unk5a4;
     Actor* Get594() { return unk594; }
     void FUN_00780cc0();
-    void FUN_007841a0(Node* ref, int kind, float value);
+    void PlayerCharacter_CreateMouseSpring(Node* ref, int kind, float value);
     void FUN_00701790(Vec3* a, Vec3* b, int c);
 };
 extern Controller* DAT_0107a104;
@@ -47621,6 +48308,7 @@ struct Self {
     void FUN_006a2e00(int a);
     void FUN_006bb970();
 };
+// pdb: TelekinesisEffect::CreateSpring | TelekinesisEffect.obj | fnv360_0822_retail, call_seq, medium
 void Self::FUN_006bb970()
 {
     Node* r = unk58;
@@ -47643,7 +48331,7 @@ void Self::FUN_006bb970()
                             DAT_0107a104->FUN_00780cc0();
                         if (!DAT_01079ca4->FUN_008257f0())
                             unk50 = 10000.0f;
-                        DAT_0107a104->FUN_007841a0(unk58, 3, unk50);
+                        DAT_0107a104->PlayerCharacter_CreateMouseSpring(unk58, 3, unk50);
                         Vec3 a;
                         Vec3 b;
                         DAT_0107a104->FUN_00701790(&a, &b, 1);
@@ -48012,6 +48700,8 @@ void FUN_006ae220(Ref*,Vec,Item*,float);
 void FUN_006af9e0(Spell*,int,Vec,Ref*,Ref*,int,float,float);
 };
 
+// pdb: MagicCaster::FindTargets | MagicCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSpell, apCell, aLocation, apProjectile, apCollidee, abLoadCast, afPowerScale, afAreaScale
 void Caster::FUN_006af9e0(Spell* spell, int flags, Vec position, Ref* source, Ref* target,
                                    int unused, float effectiveness, float magnitude)
 {
@@ -48119,6 +48809,7 @@ void* apTargetLight;
 Actor* GetCasterActor(){Ref* r=GetCasterReference();return r&&((IsActor*)r)->Get()?(Actor*)((char*)this-0x80):0;}
 void FUN_006ad450();
 };
+// pdb: MagicCaster::FireProjectile | MagicCaster.obj | fnv360_0822_retail, call_gap, medium
 void Caster::FUN_006ad450(){
  if(!GetSelectedMagicItem())return;
  Ref* s=GetCasterReference();Actor* h=GetCasterActor();Ref* p=GetCurrentMagicTarget()?GetCurrentMagicTarget()->Reference():0;
@@ -48228,7 +48919,7 @@ struct Ctrl95d0 {
     int unk48;
     int unk4C;
     SeqMap95d0 unk50;
-    void FUN_0045c7f0(float t);
+    void NiControllerManager_DeactivateAll(float t);
 };
 
 struct Node95d0 {
@@ -48770,11 +49461,6 @@ struct Base98_95d0 {
     int unk88;
     Form98_95d0* unk8C;
 };
-struct Sub95d0 {
-    int unk00;
-    int unk04;
-    int unk08;
-};
 struct Snd95d0 {
     int unk00;
     int unk04;
@@ -48787,8 +49473,8 @@ struct Audio95d0 {
 };
 extern Audio95d0* DAT_011790c8;
 struct Timer95d0 {
-    bool FUN_00bd0390();
-    void FUN_00bd0140();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Stop();
 };
 struct Self95d0;
 struct Proc8C_95d0 {
@@ -49053,6 +49739,8 @@ struct Self95d0 {
     void FUN_006a95d0(Pt95d0 pos, int arg, Ref95d0* ref, bool skip);
 };
 
+// pdb: MagicBallProjectile::Collide | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aContactPoint, apTargetBody, apCollidee, abFizzle
 void Self95d0::FUN_006a95d0(Pt95d0 pos, int arg, Ref95d0* ref, bool skip)
 {
     if (IsBusy95d0(ref))
@@ -49074,8 +49762,8 @@ void Self95d0::FUN_006a95d0(Pt95d0 pos, int arg, Ref95d0* ref, bool skip)
                 named->unk64 = fabs(unkA8);
         }
     }
-    if (unkAC.FUN_00bd0390())
-        unkAC.FUN_00bd0140();
+    if (unkAC.BSSoundHandle_IsValid())
+        unkAC.BSSoundHandle_Stop();
     if (FUN_00764ea0() && !skip) {
         if (FUN_00764ea0()->unk290.Get() & 0x8000)
             v310();
@@ -49110,7 +49798,7 @@ void Self95d0::FUN_006a95d0(Pt95d0 pos, int arg, Ref95d0* ref, bool skip)
                     seq = ctrl->unk50.FUN_00bea7b0(name, found) ? found : 0;
                 }
                 if (seq) {
-                    ctrl->FUN_0045c7f0(0.0f);
+                    ctrl->NiControllerManager_DeactivateAll(0.0f);
                     seq->FUN_008aecd0(0, 0, 1.0f, 0.0f, 0, 0);
                     ctrl->unk08 |= 8;
                     seq->unk48 = -3.402823466e+38F;
@@ -49221,6 +49909,8 @@ extern bool DAT_0107a0f2;
 }
 using namespace S6b1c50;
 
+// pdb: MagicHitEffect::InstantiateHitEffects | MagicHitEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apEffect
 List* __cdecl FUN_006b1c50(Owner* owner) {
     List* list = 0;
     Data* data = owner->form->data;
@@ -49449,6 +50139,8 @@ static inline bool IsKindA00(F3A00Rt* p, F3A00Rt* target)
 inline void ScaleA00(float& v, float s) { v = v * s; }
 inline void ScaleB00(float& v, float s) { v = s * v; }
 inline float MulA00(float a, float b) { return a * b; }
+// pdb: MagicFogProjectile::AdjustParticles | MagicFogProjectile.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apav
 void F3A00::FUN_006b0a00(F3A00Arg* argument)
 {
     float x = unkA4 * FUN_00f62634;
@@ -49527,6 +50219,8 @@ struct Item {
     int unk4C;
     Attachment* attachments[0x14];
 };
+// pdb: BoundItemEffect::FindConflictingBoundItems | BoundItemEffect.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apTarget, apDisplacedItem, apSource
 bool __cdecl FUN_006a4960(Host* host, Wrapper* source, Item* skip) {
     Slots* wanted = source ? (Slots*)DynCast(source->form, DAT_00f460fc, DAT_00f469f4) : 0;
     if (host && wanted) {
@@ -49567,6 +50261,8 @@ struct Object {
  void FUN_006aee30(float,int,void*,float,int);
  void FUN_006afd80(Input*,void*);
 };
+// pdb: MagicCaster::CastAbility | MagicCaster.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apSpell, abLoadCast
 void Object::FUN_006afd80(Input* input,void* context) {
  Member* member=&input->member;
  if(member->type()==4){attach(member);FUN_006aee30(0.0f,0,context,1.0f,0);}
@@ -49630,6 +50326,8 @@ virtual void rebuild();
 int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;float value;unsigned char flag;
 void FUN_008cbd30(void*);void FUN_006b4bb0(void*);
 };
+// pdb: MagicShaderHitEffect::FinishLoadGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Object::FUN_006b4bb0(void* arg) {
 FUN_008cbd30(arg);float saved=value;unsigned char savedFlag=flag;rebuild();value=saved;flag=savedFlag;reset(0.0f);
 }
@@ -49759,6 +50457,8 @@ virtual void v1cc();
 virtual void* active();int unk04;unsigned flags;bool blocked()const{return(flags>>5)&1;}
 };
 struct Object {int unk00,unk04;float threshold;int unk0c,unk10,unk14,unk18;Owner* owner;float elapsed;bool triggered;bool FUN_006b1a20(float);};
+// pdb: MagicHitEffect::Update | MagicHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTimeDelta
 bool Object::FUN_006b1a20(float delta){
 elapsed+=delta;
 if(owner && owner->active() && !owner->blocked()) {if(elapsed>threshold)triggered=true;return true;}
@@ -49827,6 +50527,8 @@ virtual void slot53();
 virtual void slot54();
 virtual void update(void*,int);long refs;};
 struct Object {Target* target;int enabled;void* payload;void FUN_006b23e0(Target*);};
+// pdb: MagicLight::Transfer | MagicLight.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: apObj
 void Object::FUN_006b23e0(Target* replacement){if(enabled){Target* old=target;if(old!=replacement){if(old){if(!InterlockedDecrement(&old->refs))old->destroy();}target=replacement;if(replacement)InterlockedIncrement(&replacement->refs);}target->update(payload,1);}}
 }
 }   // namespace f3m_006b23e0
@@ -49835,6 +50537,8 @@ void Object::FUN_006b23e0(Target* replacement){if(enabled){Target* old=target;if
 namespace f3m_006a1080 {
 namespace Copy6a1080 {
 struct Object {int unk00;float value04;int value08,value0c;unsigned char value10,value11,value12,value13,value14;unsigned char unk15;unsigned short unk16;int value18;float value1c,value20;int value24,value28,value2c,unk30,unk34,unk38,value3c,unk40,value44;void FUN_006a1080(Object*);};
+// pdb: ActiveEffect::CopyData | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apDestination
 void Object::FUN_006a1080(Object* out){out->value04=value04;out->value08=value08;out->value0c=value0c;out->value10=value10;out->value11=value11;out->value12=value12;out->value13=value13;out->value14=value14;out->value1c=value1c;out->value20=value20;out->value24=value24;out->value28=value28;out->value2c=value2c;out->value3c=value3c;out->value18=value18;out->value44=value44;}
 }
 }   // namespace f3m_006a1080
@@ -49845,6 +50549,8 @@ namespace Create6a6740 {
 struct Heap {void* FUN_0086b930(unsigned);};extern Heap DAT_01090a78;extern char DAT_00e0a2ac;
 struct FUN_006a13f0 {void* vtable;int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; FUN_006a13f0(void*,void*,void*);};
 struct Derived:FUN_006a13f0 {float value;Derived(void* a,void* b,void* c):FUN_006a13f0(a,b,c){value=0;vtable=&DAT_00e0a2ac;}void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}void operator delete(void*);};
+// pdb: ConcussionEffect::Instantiate | ConcussionEffect.obj | fnv360_1110_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 Derived* FUN_006a6740(void* a,void* b,void* c){return new Derived(a,b,c);}
 }
 }   // namespace f3m_006a6740
@@ -49854,6 +50560,8 @@ namespace f3m_006a07d0 {
 namespace Create07d0 {
 struct Heap {void* FUN_0086b930(unsigned);}; extern Heap DAT_01090a78;
 struct FUN_006a04c0 {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; FUN_006a04c0(void*,void*,void*);static void* operator new(unsigned n){return DAT_01090a78.FUN_0086b930(n);}static void operator delete(void*);};
+// pdb: AbsorbEffect::Instantiate | AbsorbEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apCaster, apSpell, apEffect
 FUN_006a04c0* FUN_006a07d0(void* a,void* b,void* c){return new FUN_006a04c0(a,b,c);}
 }
 }   // namespace f3m_006a07d0
@@ -49866,12 +50574,12 @@ struct SaveLoadGame6a11b0 {
     unsigned char version80;
     void FUN_006db490(void* dst, unsigned int size);
     unsigned char FUN_006dcdd0(unsigned int* dst, int size);
-    void FUN_006d82a0(unsigned int size);
+    void TESSaveLoadGame_AdvanceBuffer(unsigned int size);
 };
 extern SaveLoadGame6a11b0* DAT_01079ca4;
 
 struct Sub0c_6a11b0 {
-    void* FUN_00403840(unsigned char idx);
+    void* EffectItemList_GetEffectItemByIndex(unsigned char idx);
 };
 
 struct Form6a11b0 {
@@ -49894,6 +50602,8 @@ struct Result6a11b0 {
 Form6a11b0* __cdecl FUN_00406050(unsigned int id);
 Result6a11b0* __cdecl FUN_00401dd0(int a, Form6a11b0* form, void* item, int b);
 
+// pdb: ActiveEffect::LoadActiveEffect | ActiveEffect.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: apActor
 Result6a11b0* __cdecl FUN_006a11b0(int arg0) {
     unsigned short sz = 0x1c;
     if (DAT_01079ca4->version80 >= 0x2a) {
@@ -49905,14 +50615,14 @@ Result6a11b0* __cdecl FUN_006a11b0(int arg0) {
     DAT_01079ca4->FUN_006db490(&idx, 1);
     Form6a11b0* form = FUN_00406050(id);
     if (form) {
-        void* item = form->sub0c.FUN_00403840(idx);
+        void* item = form->sub0c.EffectItemList_GetEffectItemByIndex(idx);
         if (item) {
             Result6a11b0* res = FUN_00401dd0(0, form, item, 0);
             res->v08(arg0);
             return res;
         }
     }
-    DAT_01079ca4->FUN_006d82a0(sz);
+    DAT_01079ca4->TESSaveLoadGame_AdvanceBuffer(sz);
     return 0;
 }
 }
@@ -49986,6 +50696,7 @@ struct Owner {
     RangePair* FUN_006a38a0();
 };
 
+// pdb: hkpEntity::getEntityActivationListeners | bhkTelekinesisListener.obj | fnv360_0822_retail, call_gap_sim, low
 RangePair* Owner::FUN_006a38a0()
 {
     if (!ranges0CC)
@@ -49999,9 +50710,10 @@ RangePair* Owner::FUN_006a38a0()
 namespace f3m_006b9760 {
 namespace Update6b9760 {
 struct Global {int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int unk2b4; int unk2b8; int unk2bc; int unk2c0; int unk2c4; int unk2c8; int unk2cc; int unk2d0; int unk2d4; int unk2d8; int unk2dc; int unk2e0; int unk2e4; int unk2e8; int unk2ec; int unk2f0; int unk2f4; int unk2f8; int unk2fc; int unk300; int unk304; int unk308; int unk30c; int unk310; int unk314; int unk318; int unk31c; int unk320; int unk324; int unk328; int unk32c; int unk330; int unk334; int unk338; int unk33c; int unk340; int unk344; int unk348; int unk34c; int unk350; int unk354; int unk358; int unk35c; int unk360; int unk364; int unk368; int unk36c; int unk370; int unk374; int unk378; int unk37c; int unk380; int unk384; int unk388; int unk38c; int unk390; int unk394; int unk398; int unk39c; int unk3a0; int unk3a4; int unk3a8; int unk3ac; int unk3b0; int unk3b4; int unk3b8; int unk3bc; int unk3c0; int unk3c4; int unk3c8; int unk3cc; int unk3d0; int unk3d4; int unk3d8; int unk3dc; int unk3e0; int unk3e4; int unk3e8; int unk3ec; int unk3f0; int unk3f4; int unk3f8; int unk3fc; int unk400; int unk404; int unk408; int unk40c; int unk410; int unk414; int unk418; int unk41c; int unk420; int unk424; int unk428; int unk42c; int unk430; int unk434; int unk438; int unk43c; int unk440; int unk444; int unk448; int unk44c; int unk450; int unk454; int unk458; int unk45c; int unk460; int unk464; int unk468; int unk46c; int unk470; int unk474; int unk478; int unk47c; int unk480; int unk484; int unk488; int unk48c; int unk490; int unk494; int unk498; int unk49c; int unk4a0; int unk4a4; int unk4a8; int unk4ac; int unk4b0; int unk4b4; int unk4b8; int unk4bc; int unk4c0; int unk4c4; int unk4c8; int unk4cc; int unk4d0; int unk4d4; int unk4d8; int unk4dc; int unk4e0; int unk4e4; int unk4e8; int unk4ec; int unk4f0; int unk4f4; int unk4f8; int unk4fc; int unk500; int unk504; int unk508; int unk50c; int unk510; int unk514; int unk518; int unk51c; int unk520; int unk524; int unk528; int unk52c; int unk530; int unk534; int unk538; int unk53c; int unk540; int unk544; int unk548; int unk54c; int unk550; int unk554; int unk558; int unk55c; int unk560; int unk564; int unk568; int unk56c; int unk570; int unk574; int unk578; int unk57c; int unk580; int unk584; int unk588; int unk58c; int unk590; int unk594; int unk598; int unk59c; int unk5a0; int unk5a4; char unk5a8;bool disabled;};extern Global* DAT_0106cdcc;
-struct Actor {virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c(); virtual void v010(); virtual void v014(); virtual void v018(); virtual void v01c(); virtual void v020(); virtual void v024(); virtual void v028(); virtual void v02c(); virtual void v030(); virtual void v034(); virtual void v038(); virtual void v03c(); virtual void v040(); virtual void v044(); virtual void v048(); virtual void v04c(); virtual void v050(); virtual void v054(); virtual void v058(); virtual void v05c(); virtual void v060(); virtual void v064(); virtual void v068(); virtual void v06c(); virtual void v070(); virtual void v074(); virtual void v078(); virtual void v07c(); virtual void v080(); virtual void v084(); virtual void v088(); virtual void v08c(); virtual void v090(); virtual void v094(); virtual void v098(); virtual void v09c(); virtual void v0a0(); virtual void v0a4(); virtual void v0a8(); virtual void v0ac(); virtual void v0b0(); virtual void v0b4(); virtual void v0b8(); virtual void v0bc(); virtual void v0c0(); virtual void v0c4(); virtual void v0c8(); virtual void v0cc(); virtual void v0d0(); virtual void v0d4(); virtual void v0d8(); virtual void v0dc(); virtual void v0e0(); virtual void v0e4(); virtual void v0e8(); virtual void v0ec(); virtual void v0f0(); virtual void v0f4(); virtual void v0f8(); virtual void v0fc(); virtual void v100(); virtual void v104(); virtual void v108(); virtual void v10c(); virtual void v110(); virtual void v114(); virtual void v118(); virtual void v11c(); virtual void v120(); virtual void v124(); virtual void v128(); virtual void v12c(); virtual void v130(); virtual void v134(); virtual void v138(); virtual void v13c(); virtual void v140(); virtual void v144(); virtual void v148(); virtual void v14c(); virtual void v150(); virtual void v154(); virtual void v158(); virtual void v15c(); virtual void v160(); virtual void v164(); virtual void v168(); virtual void v16c(); virtual void v170(); virtual void v174(); virtual void v178(); virtual void v17c(); virtual void v180(); virtual void v184(); virtual void v188(); virtual void v18c(); virtual void v190(); virtual void v194(); virtual void v198(); virtual void v19c(); virtual void v1a0(); virtual void v1a4(); virtual void v1a8(); virtual void v1ac(); virtual void v1b0(); virtual void v1b4(); virtual void v1b8(); virtual void v1bc(); virtual void v1c0(); virtual void v1c4(); virtual void v1c8(); virtual void v1cc(); virtual void v1d0(); virtual void v1d4(); virtual void v1d8(); virtual void v1dc(); virtual void v1e0(); virtual void v1e4(); virtual void v1e8(); virtual void v1ec(); virtual void v1f0(); virtual void v1f4(); virtual void v1f8(); virtual void v1fc(); virtual void v200(); virtual void v204(); virtual void v208(); virtual void v20c(); virtual void v210(); virtual void v214(); virtual void v218(); virtual void v21c(); virtual void v220(); virtual void v224(); virtual void v228(); virtual bool check(int);void FUN_006f7bd0(int);void FUN_0071ac50(int,float);};struct Source {Actor* FUN_006b6c70();};struct Link {void* FUN_006ad230();};struct Node {virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c(); virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c(); virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c(); virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c(); virtual void v50(); virtual void v54(); virtual void v58(); virtual void v5c(); virtual void v60(); virtual void v64(); virtual void v68(); virtual void v6c(); virtual void v70(); virtual void v74(); virtual void v78(); virtual void v7c(); virtual void v80(); virtual void v84(); virtual void v88(); virtual void v8c(); virtual void v90(); virtual void v94(); virtual void v98(); virtual void v9c(); virtual void va0(); virtual void va4(); virtual void va8(); virtual void vac(); virtual void vb0(); virtual void vb4(); virtual void vb8(); virtual void vbc(); virtual void vc0(); virtual void vc4(); virtual void vc8(); virtual void vcc(); virtual void vd0(); virtual void vd4(); virtual void vd8(); virtual void set(int);};void FUN_006a6210(Actor*,void*,int);
+struct Actor {virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c(); virtual void v010(); virtual void v014(); virtual void v018(); virtual void v01c(); virtual void v020(); virtual void v024(); virtual void v028(); virtual void v02c(); virtual void v030(); virtual void v034(); virtual void v038(); virtual void v03c(); virtual void v040(); virtual void v044(); virtual void v048(); virtual void v04c(); virtual void v050(); virtual void v054(); virtual void v058(); virtual void v05c(); virtual void v060(); virtual void v064(); virtual void v068(); virtual void v06c(); virtual void v070(); virtual void v074(); virtual void v078(); virtual void v07c(); virtual void v080(); virtual void v084(); virtual void v088(); virtual void v08c(); virtual void v090(); virtual void v094(); virtual void v098(); virtual void v09c(); virtual void v0a0(); virtual void v0a4(); virtual void v0a8(); virtual void v0ac(); virtual void v0b0(); virtual void v0b4(); virtual void v0b8(); virtual void v0bc(); virtual void v0c0(); virtual void v0c4(); virtual void v0c8(); virtual void v0cc(); virtual void v0d0(); virtual void v0d4(); virtual void v0d8(); virtual void v0dc(); virtual void v0e0(); virtual void v0e4(); virtual void v0e8(); virtual void v0ec(); virtual void v0f0(); virtual void v0f4(); virtual void v0f8(); virtual void v0fc(); virtual void v100(); virtual void v104(); virtual void v108(); virtual void v10c(); virtual void v110(); virtual void v114(); virtual void v118(); virtual void v11c(); virtual void v120(); virtual void v124(); virtual void v128(); virtual void v12c(); virtual void v130(); virtual void v134(); virtual void v138(); virtual void v13c(); virtual void v140(); virtual void v144(); virtual void v148(); virtual void v14c(); virtual void v150(); virtual void v154(); virtual void v158(); virtual void v15c(); virtual void v160(); virtual void v164(); virtual void v168(); virtual void v16c(); virtual void v170(); virtual void v174(); virtual void v178(); virtual void v17c(); virtual void v180(); virtual void v184(); virtual void v188(); virtual void v18c(); virtual void v190(); virtual void v194(); virtual void v198(); virtual void v19c(); virtual void v1a0(); virtual void v1a4(); virtual void v1a8(); virtual void v1ac(); virtual void v1b0(); virtual void v1b4(); virtual void v1b8(); virtual void v1bc(); virtual void v1c0(); virtual void v1c4(); virtual void v1c8(); virtual void v1cc(); virtual void v1d0(); virtual void v1d4(); virtual void v1d8(); virtual void v1dc(); virtual void v1e0(); virtual void v1e4(); virtual void v1e8(); virtual void v1ec(); virtual void v1f0(); virtual void v1f4(); virtual void v1f8(); virtual void v1fc(); virtual void v200(); virtual void v204(); virtual void v208(); virtual void v20c(); virtual void v210(); virtual void v214(); virtual void v218(); virtual void v21c(); virtual void v220(); virtual void v224(); virtual void v228(); virtual bool check(int);void Actor_SetGhost(int);void FUN_0071ac50(int,float);};struct Source {Actor* FUN_006b6c70();};struct Link {void* FUN_006ad230();};struct Node {virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c(); virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c(); virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c(); virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c(); virtual void v50(); virtual void v54(); virtual void v58(); virtual void v5c(); virtual void v60(); virtual void v64(); virtual void v68(); virtual void v6c(); virtual void v70(); virtual void v74(); virtual void v78(); virtual void v7c(); virtual void v80(); virtual void v84(); virtual void v88(); virtual void v8c(); virtual void v90(); virtual void v94(); virtual void v98(); virtual void v9c(); virtual void va0(); virtual void va4(); virtual void va8(); virtual void vac(); virtual void vb0(); virtual void vb4(); virtual void vb8(); virtual void vbc(); virtual void vc0(); virtual void vc4(); virtual void vc8(); virtual void vcc(); virtual void vd0(); virtual void vd4(); virtual void vd8(); virtual void set(int);};void FUN_006a6210(Actor*,void*,int);
 struct Object {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;Source* source;Link* link;int unk2c,unk30,unk34,unk38,unk3c,unk40,unk44;Node* node;int level;void FUN_006b9760();};
-void Object::FUN_006b9760(){if(!DAT_0106cdcc->disabled&&source){Actor* a=source->FUN_006b6c70();if(a){if(level<50){a->FUN_006f7bd0(0);if(node)node->set(1);a->FUN_0071ac50(0,0.0f);}else if(!a->check(0))a->FUN_0071ac50(0,0.0f);if(link){void* data=link->FUN_006ad230();if(data)FUN_006a6210(a,data,0);}}}}
+// pdb: ReanimateEffect::Finish | ReanimateEffect.obj | fnv360_0721_retail, vtable, medium
+void Object::FUN_006b9760(){if(!DAT_0106cdcc->disabled&&source){Actor* a=source->FUN_006b6c70();if(a){if(level<50){a->Actor_SetGhost(0);if(node)node->set(1);a->FUN_0071ac50(0,0.0f);}else if(!a->check(0))a->FUN_0071ac50(0,0.0f);if(link){void* data=link->FUN_006ad230();if(data)FUN_006a6210(a,data,0);}}}}
 }
 }   // namespace f3m_006b9760
 
@@ -50012,8 +50724,9 @@ struct State {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; 
 struct Base {virtual ~Base(){} int unk04,unk08;};
 struct FUN_006ad940 {virtual ~FUN_006ad940();int unk04,unk08,unk0c,unk10;};
 struct Resource {void FUN_004f3150();};
-struct FUN_006b8b20:Base,FUN_006ad940 {Resource* resource;void FUN_006b8990();virtual ~FUN_006b8b20();};
-FUN_006b8b20::~FUN_006b8b20(){if(!DAT_0106cdcc->isDisabled()){if(resource)resource->FUN_004f3150();FUN_006b8990();}}
+struct FUN_006b8b20:Base,FUN_006ad940 {Resource* resource;void NonActorMagicCaster_CleanUpOtherMobileObjects();virtual ~FUN_006b8b20();};
+// pdb: NonActorMagicCaster::~NonActorMagicCaster | NonActorMagicCaster.obj | fnv360_0822_retail, call_seq, high
+FUN_006b8b20::~FUN_006b8b20(){if(!DAT_0106cdcc->isDisabled()){if(resource)resource->FUN_004f3150();NonActorMagicCaster_CleanUpOtherMobileObjects();}}
 }
 
 }   // namespace f3m_006b8b20
@@ -50023,9 +50736,11 @@ namespace f3m_006a37f0 {
 namespace Save298 {
 struct Source {virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c(); virtual void v010(); virtual void v014(); virtual void v018(); virtual void v01c(); virtual void v020(); virtual void v024(); virtual void v028(); virtual void v02c(); virtual void v030(); virtual void v034(); virtual void v038(); virtual void v03c(); virtual void v040(); virtual void v044(); virtual void v048(); virtual void v04c(); virtual void v050(); virtual void v054(); virtual void v058(); virtual void v05c(); virtual void v060(); virtual void v064(); virtual void v068(); virtual void v06c(); virtual void v070(); virtual void v074(); virtual void v078(); virtual void v07c(); virtual void v080(); virtual void v084(); virtual void v088(); virtual void v08c(); virtual void v090(); virtual void v094(); virtual void v098(); virtual void v09c(); virtual void v0a0(); virtual void v0a4(); virtual void v0a8(); virtual void v0ac(); virtual void v0b0(); virtual void v0b4(); virtual void v0b8(); virtual void v0bc(); virtual void v0c0(); virtual void v0c4(); virtual void v0c8(); virtual void v0cc(); virtual void v0d0(); virtual void v0d4(); virtual void v0d8(); virtual void v0dc(); virtual void v0e0(); virtual void v0e4(); virtual void v0e8(); virtual void v0ec(); virtual void v0f0(); virtual void v0f4(); virtual void v0f8(); virtual void v0fc(); virtual void v100(); virtual void v104(); virtual void v108(); virtual void v10c(); virtual void v110(); virtual void v114(); virtual void v118(); virtual void v11c(); virtual void v120(); virtual void v124(); virtual void v128(); virtual void v12c(); virtual void v130(); virtual void v134(); virtual void v138(); virtual void v13c(); virtual void v140(); virtual void v144(); virtual void v148(); virtual void v14c(); virtual void v150(); virtual void v154(); virtual void v158(); virtual void v15c(); virtual void v160(); virtual void v164(); virtual void v168(); virtual void v16c(); virtual void v170(); virtual void v174(); virtual void v178(); virtual void v17c(); virtual void v180(); virtual void v184(); virtual void v188(); virtual void v18c(); virtual void v190(); virtual void v194(); virtual void v198(); virtual void v19c(); virtual void v1a0(); virtual void v1a4(); virtual void v1a8(); virtual void v1ac(); virtual void v1b0(); virtual void v1b4(); virtual void v1b8(); virtual void v1bc(); virtual void v1c0(); virtual void v1c4(); virtual void v1c8(); virtual void v1cc();virtual void* query();};struct Target {void FUN_00ad2840(int);};extern char DAT_00f661d4,DAT_00f493a4;void* FUN_00c0050a(void*,int,void*,void*,int);
 struct Data {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28;int value;};struct Item {virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c(); virtual void v010(); virtual void v014(); virtual void v018(); virtual void v01c(); virtual void v020(); virtual void v024(); virtual void v028(); virtual void v02c(); virtual void v030(); virtual void v034(); virtual void v038(); virtual void v03c(); virtual void v040(); virtual void v044(); virtual void v048(); virtual void v04c(); virtual void v050(); virtual void v054(); virtual void v058(); virtual void v05c(); virtual void v060(); virtual void v064(); virtual void v068(); virtual void v06c(); virtual void v070(); virtual void v074(); virtual void v078(); virtual void v07c(); virtual void v080(); virtual void v084(); virtual void v088(); virtual void v08c(); virtual void v090(); virtual void v094(); virtual void v098(); virtual void v09c(); virtual void v0a0(); virtual void v0a4(); virtual void v0a8(); virtual void v0ac(); virtual void v0b0(); virtual void v0b4(); virtual void v0b8(); virtual void v0bc();virtual void commit();int unk04;Data* data;};
-struct Object;struct Stream {void FUN_0090b020(Object*);void FUN_0090b960(int*);void FUN_0090afd0(int*);};
+struct Object;struct Stream {void FUN_0090b020(Object*);void FUN_0090b960(int*);void hkpEntity_removeEntityActivationListener(int*);};
 struct Object {virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c();virtual void finish(int);int first,second;Source* source;Item* item;int value;void FUN_006a37f0(Stream*);};
-void Object::FUN_006a37f0(Stream* stream){if(source){void* raw=source->query();Target* p=(Target*)FUN_00c0050a(raw,0,&DAT_00f493a4,&DAT_00f661d4,0);if(p)p->FUN_00ad2840(2);}Item* p=item;int v=*(volatile int*)&value;if(p){Data* d=p->data;if(d){char* sub=(char*)d+0x10;if(sub)*(int*)(sub+0x1c)=v;}}p->commit();stream->FUN_0090b020(this);stream->FUN_0090b960(&first);stream->FUN_0090afd0(&second);finish(1);}
+// pdb: bhkTelekinesisListener::Finish | bhkTelekinesisListener.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apEntity
+void Object::FUN_006a37f0(Stream* stream){if(source){void* raw=source->query();Target* p=(Target*)FUN_00c0050a(raw,0,&DAT_00f493a4,&DAT_00f661d4,0);if(p)p->FUN_00ad2840(2);}Item* p=item;int v=*(volatile int*)&value;if(p){Data* d=p->data;if(d){char* sub=(char*)d+0x10;if(sub)*(int*)(sub+0x1c)=v;}}p->commit();stream->FUN_0090b020(this);stream->FUN_0090b960(&first);stream->hkpEntity_removeEntityActivationListener(&second);finish(1);}
 }
 
 }   // namespace f3m_006a37f0
@@ -50034,8 +50749,10 @@ void Object::FUN_006a37f0(Stream* stream){if(source){void* raw=source->query();T
 namespace f3m_006bd6f0 {
 namespace Stop310 {
 extern bool DAT_0107903f;extern void* DAT_0107904c;extern float DAT_01079094;extern double DAT_00db8c48;bool FUN_00619160();
-struct Sound {void FUN_00bd0140();void FUN_00bd03b0();void FUN_00bd0410(unsigned);};extern Sound DAT_00f6c288;struct Manager {void FUN_00bcf700(int);};extern Manager* DAT_011790c8;
-void FUN_006bd6f0(void* object){if(!DAT_0107903f&&(!object||object==DAT_0107904c)&&DAT_0107904c){if(FUN_00619160()){DAT_00f6c288.FUN_00bd0140();DAT_00f6c288.FUN_00bd03b0();}else DAT_00f6c288.FUN_00bd0410((unsigned)(DAT_01079094*DAT_00db8c48));DAT_0107904c=0;DAT_011790c8->FUN_00bcf700(0);}}
+struct Sound {void BSSoundHandle_Stop();void BSSoundHandle_Release();void FUN_00bd0410(unsigned);};extern Sound DAT_00f6c288;struct Manager {void FUN_00bcf700(int);};extern Manager* DAT_011790c8;
+// pdb: FalloutAudio::ClearAcousticSpace | FalloutAudio.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apSpace
+void FUN_006bd6f0(void* object){if(!DAT_0107903f&&(!object||object==DAT_0107904c)&&DAT_0107904c){if(FUN_00619160()){DAT_00f6c288.BSSoundHandle_Stop();DAT_00f6c288.BSSoundHandle_Release();}else DAT_00f6c288.FUN_00bd0410((unsigned)(DAT_01079094*DAT_00db8c48));DAT_0107904c=0;DAT_011790c8->FUN_00bcf700(0);}}
 }
 }   // namespace f3m_006bd6f0
 
@@ -50043,6 +50760,7 @@ void FUN_006bd6f0(void* object){if(!DAT_0107903f&&(!object||object==DAT_0107904c
 namespace f3m_006a6b10 {
 namespace Clamp347 {
 struct Values{virtual void v0();virtual void v4();virtual void v8();virtual float get(int);};struct Actor{virtual void v000(); virtual void v004(); virtual void v008(); virtual void v00c(); virtual void v010(); virtual void v014(); virtual void v018(); virtual void v01c(); virtual void v020(); virtual void v024(); virtual void v028(); virtual void v02c(); virtual void v030(); virtual void v034(); virtual void v038(); virtual void v03c(); virtual void v040(); virtual void v044(); virtual void v048(); virtual void v04c(); virtual void v050(); virtual void v054(); virtual void v058(); virtual void v05c(); virtual void v060(); virtual void v064(); virtual void v068(); virtual void v06c(); virtual void v070(); virtual void v074(); virtual void v078(); virtual void v07c(); virtual void v080(); virtual void v084(); virtual void v088(); virtual void v08c(); virtual void v090(); virtual void v094(); virtual void v098(); virtual void v09c(); virtual void v0a0(); virtual void v0a4(); virtual void v0a8(); virtual void v0ac(); virtual void v0b0(); virtual void v0b4(); virtual void v0b8(); virtual void v0bc(); virtual void v0c0(); virtual void v0c4(); virtual void v0c8(); virtual void v0cc(); virtual void v0d0(); virtual void v0d4(); virtual void v0d8(); virtual void v0dc(); virtual void v0e0(); virtual void v0e4(); virtual void v0e8(); virtual void v0ec(); virtual void v0f0(); virtual void v0f4(); virtual void v0f8(); virtual void v0fc(); virtual void v100(); virtual void v104(); virtual void v108(); virtual void v10c(); virtual void v110(); virtual void v114(); virtual void v118(); virtual void v11c(); virtual void v120(); virtual void v124(); virtual void v128(); virtual void v12c(); virtual void v130(); virtual void v134(); virtual void v138(); virtual void v13c(); virtual void v140(); virtual void v144(); virtual void v148(); virtual void v14c(); virtual void v150(); virtual void v154(); virtual void v158(); virtual void v15c(); virtual void v160(); virtual void v164(); virtual void v168(); virtual void v16c(); virtual void v170(); virtual void v174(); virtual void v178(); virtual void v17c(); virtual void v180(); virtual void v184(); virtual void v188(); virtual void v18c(); virtual void v190(); virtual void v194(); virtual void v198(); virtual void v19c(); virtual void v1a0(); virtual void v1a4(); virtual void v1a8(); virtual void v1ac(); virtual void v1b0(); virtual void v1b4(); virtual void v1b8(); virtual void v1bc(); virtual void v1c0(); virtual void v1c4(); virtual void v1c8(); virtual void v1cc(); virtual void* get();int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c; int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c; int unk80; int unk84; int unk88; int unk8c; int unk90; int unk94; int unk98; Values values;};struct Provider{Actor* FUN_006b6c70();};extern double DAT_00dba730;void FUN_00adbf10(void*,float);
+// pdb: DarknessEffect::Start | DarknessEffect.obj | fnv360_0721_retail, vtable, medium
 struct Owner{int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; Provider* provider;int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int key;void FUN_006bcc80();void FUN_006a6b10();};void Owner::FUN_006a6b10(){Provider* p=provider;Actor* actor=p?p->FUN_006b6c70():0;FUN_006bcc80();if(actor&&actor->get()){float value=(float)(1.0-actor->values.get(key)/DAT_00dba730);if(value<0.0f)value=0.0f;else if(value>1.0f)value=1.0f;FUN_00adbf10(actor->get(),value);}}
 }
 }   // namespace f3m_006a6b10
@@ -50089,6 +50807,8 @@ struct LoadedForm
     void FUN_006a8e80(int a, int b);
 };
 
+// pdb: MagicBallProjectile::LoadGame | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiCurrentFlags
 void LoadedForm::FUN_006a8e80(int a, int b)
 {
     InitLoad();
@@ -50152,7 +50872,7 @@ struct ScriptEventList
 
 struct Script
 {
-    ScriptEventList* FUN_005195c0();
+    ScriptEventList* Script_CloneLocals();
 };
 
 struct ScriptEffect
@@ -50166,6 +50886,8 @@ struct ScriptEffect
     void FUN_006ba2e0(void* target);
 };
 
+// pdb: ScriptEffect::CopyData | ScriptEffect.obj | fnv360_0822_retail, uvref, medium
+// pdb params: apDestination
 void ScriptEffect::FUN_006ba2e0(void* target)
 {
     FUN_006a1080(target);
@@ -50175,7 +50897,7 @@ void ScriptEffect::FUN_006ba2e0(void* target)
         effect->script = script;
         if (script && eventList)
         {
-            effect->eventList = script->FUN_005195c0();
+            effect->eventList = script->Script_CloneLocals();
             effect->eventList->FUN_00518470(eventList);
             for (VarNode* node = eventList->vars; node && !node->IsEmpty(); node = node->next)
             {
@@ -50214,6 +50936,8 @@ class Holder6b9 { public: char padTo24[0x24];          // +0x00..+0x23 untouched
                                           //     pass emitted ✗ ) because that value is needed as the next receiver ✓ - a guard read with no further use would have allowed the cheaper form ✓ 
                    void FUN_006b9030(float value); };  // ORIG: 'retn 4' - ONE stack parameter cleaned by the CALLEE ✓✗→✓ and that parameter is a FLOAT ('fld [esp+arg_0]' at the top ✗ ) ; ECX is the receiver, copied to ESI with
                                                   //     'mov esi,ecx' ✗✓ and used for every field access plus as the receiver of that final call ✓ 
+// pdb: ParalysisEffect::Update | ParalysisEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: afSecondsElapsed
 void Holder6b9::FUN_006b9030(float value) {            // ORIG: 'fld [esp+arg_0]' as the very first instruction, before even the register save ✓✗→? a fetch order this compiler chooses on its own; my one use of that parameter below
                                      //     reproduces both the load and the argument store without me trying to force their placement ✗ 
     ((struct Other6b9*)this)->FUN_006bcda0(value);     // ORIG: 'push ecx ; fstp dword ptr [esp] ; mov esi,ecx ; call sub_6BCDA0' ✓✗→✓✓ that push reserves an argument slot which the popping FPU store then fills ✗ so this call
@@ -50274,6 +50998,8 @@ struct SoundForm6bd800 {
 
 } // namespace ns_006bd800
 
+// pdb: FalloutAudio::SoundDistanceTest | FalloutAudio.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSound, aLoc, aMod
 bool __cdecl FUN_006bd800(ns_006bd800::SoundForm6bd800* sound, ns_006bd800::Point3 pos) {
     ns_006bd800::Listener6bd800* listener = ns_006bd800::DAT_011790c8->listener10;
     if (sound && listener) {
@@ -50392,6 +51118,8 @@ struct Owner6b3170 {
     void FUN_006b3170(void* first, Target6b3170* second);
 };
 
+// pdb: MagicModelHitEffect::SaveGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apEffect, apTarget
 void Owner6b3170::FUN_006b3170(void* first, Target6b3170* second)
 {
     FUN_006b1aa0(first, second);
@@ -50466,6 +51194,8 @@ struct Owner {
     void FUN_006b76e0(int category, int filter, Item* target);
 };
 
+// pdb: MagicTarget::Dispel | MagicTarget.obj | fnv360_0822_debug, caller, medium
+// pdb params: apSpell, apCaster, apActiveEffect
 void Owner::FUN_006b76e0(int category, int filter, Item* target)
 {
     Node* node = GetList();
@@ -50509,9 +51239,10 @@ struct Actor;
 struct Process {int u00,u04,u08,u0c,u10,u14,u18,u1c,u20,u24;int state;void FUN_0072fdc0(Actor*);};
 struct Actor {void** vtable; int unk04,unk08,unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;int unk24;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;int unk4c;int unk50;int unk54;int unk58;int unk5c; Process* process;void FUN_0071ac50(int,float);};
 struct Source {void* FUN_006b6c70();};
-struct Toggle {void FUN_004068c0(int);};
+struct Toggle {void MagicItem_Unload(int);};
 void __cdecl FUN_006a6210(Actor*,void*,int);
 struct Owner {int unk00;int unk04;Toggle* toggle;int unk0c;int unk10;int unk14;int unk18;int unk1c;int unk20;Source* source;int unk28;int unk2c;int unk30;int unk34;int unk38;int unk3c;int unk40;int unk44;int unk48;Actor* actor;int unk50;int unk54;int unk58;int unk5c;int unk60;int unk64;int unk68;int unk6c; unsigned char flag70,active;void FUN_006ba7d0();};
+// pdb: SummonCreatureEffect::Finish | SummonCreatureEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006ba7d0(){
  void* value = source ? source->FUN_006b6c70() : 0;
  if(actor && value){
@@ -50527,7 +51258,7 @@ void Owner::FUN_006ba7d0(){
   }
   actor=0;
  }
- if(active && toggle){toggle->FUN_004068c0(0);active=0;}
+ if(active && toggle){toggle->MagicItem_Unload(0);active=0;}
 }
 }
 }   // namespace f3m_006ba7d0
@@ -50539,6 +51270,7 @@ struct State {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; 
 struct Link {int unk00,unk04,unk08,unk0c,unk10;State* state;};
 struct Target {void* FUN_006ad230();};
 struct Owner {void** table;int unk04,unk08;Link* link;int unk10,unk14,unk18;float amount,time;int unk24;Target* target;void FUN_006bcc80();void FUN_006bcb50();void FUN_006a0900();void FUN_006a0e60();};
+// pdb: AbsorbEffect::Start | AbsorbEffect.obj | fnv360_0721_retail, vtable, medium
 void Owner::FUN_006a0e60(){FUN_006bcc80();if(((unsigned char)(link->state->flags>>1)&1)||time==0.0f){void* p=target?target->FUN_006ad230():0;typedef void (__thiscall *Apply)(Owner*,void*,float,int);((Apply)table[0x60/4])(this,p,-amount,-1);}FUN_006bcb50();FUN_006a0900();}
 }
 }   // namespace f3m_006a0e60
@@ -50601,6 +51333,8 @@ struct Owner6B1 {
     void FUN_006b1e40(struct Param6B1* target);      
 };
 
+// pdb: MagicHitEffect::UpdateParentCell | MagicHitEffect.obj | fnv360_0822_retail, caller, medium
+// pdb params: apRoot
 void Owner6B1::FUN_006b1e40(Param6B1* target){
  if(source){lookup=source->lookup3C;if(target && lookup && lookup->FUN_004d5230()){
   Holder18* holder=target->holder18;
@@ -50622,7 +51356,7 @@ struct TESForm;
 struct TESBoundObject;
 struct TESEffectShader;
 
-TESForm* __cdecl FUN_00455190(unsigned int formId);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int formId);
 void* __cdecl FUN_00c0050a(void* object, int unused, const void* baseType, const void* targetType, int isReference);
 
 struct Buffer_6b4ae0 {
@@ -50647,6 +51381,8 @@ struct Owner_6b4ae0 {
     void FUN_006b4ae0(Buffer_6b4ae0* buffer);
 };
 
+// pdb: MagicShaderHitEffect::LoadGame | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Owner_6b4ae0::FUN_006b4ae0(Buffer_6b4ae0* buffer)
 {
     FUN_006b1bc0(buffer);
@@ -50657,8 +51393,8 @@ void Owner_6b4ae0::FUN_006b4ae0(Buffer_6b4ae0* buffer)
         buffer->FUN_006e0750(&unk64, 4);
     }
     buffer->FUN_006e0750(&unk4c, 1);
-    unk2c = (TESBoundObject*)FUN_00c0050a(FUN_00455190(buffer->FUN_006e0670()), 0, DAT_00f46078, DAT_00f460fc, 0);
-    unk30 = (TESEffectShader*)FUN_00c0050a(FUN_00455190(buffer->FUN_006e0670()), 0, DAT_00f46078, DAT_00f46980, 0);
+    unk2c = (TESBoundObject*)FUN_00c0050a(TESForm_GetFormByNumericID(buffer->FUN_006e0670()), 0, DAT_00f46078, DAT_00f460fc, 0);
+    unk30 = (TESEffectShader*)FUN_00c0050a(TESForm_GetFormByNumericID(buffer->FUN_006e0670()), 0, DAT_00f46078, DAT_00f46980, 0);
 }
 }
 }   // namespace f3m_006b4ae0
@@ -50698,6 +51434,8 @@ struct MagicTarget_6b7270 {
     void FUN_006b7270(int arg);
 };
 
+// pdb: MagicTarget::DispelAllSpells | MagicTarget.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: abnow
 void MagicTarget_6b7270::FUN_006b7270(int arg)
 {
     Node_6b7270* node = GetEffectList();
@@ -50735,7 +51473,7 @@ struct Buffer
     unsigned int unk0c;
     void FUN_006e06d0(void* form);
     void FUN_006e0750(void* data, unsigned int size);
-    unsigned int FUN_006e08a0();
+    unsigned int BGSLoadGameBuffer_LoadVariableSizedValue();
 };
 
 struct Owner
@@ -50793,7 +51531,7 @@ struct Entry
 
 struct EntryList
 {
-    Entry* FUN_00403840(bool flag);
+    Entry* EffectItemList_GetEffectItemByIndex(bool flag);
 };
 
 struct Form
@@ -50819,6 +51557,8 @@ struct Result
 Result* __cdecl FUN_00401dd0(int a, Form* form, Entry* entry, int c);
 void __cdecl FUN_006cd570(const char* format, ...);
 
+// pdb: ActiveEffect::LoadActiveEffect | ActiveEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apLoadGameBuffer
 Result* __cdecl FUN_006a1310(Buffer* buffer)
 {
     Form* form = 0;
@@ -50827,19 +51567,19 @@ Result* __cdecl FUN_006a1310(Buffer* buffer)
     form = form ? FUN_00406050((unsigned int)form) : 0;
     bool flag = false;
     buffer->FUN_006e0750(&flag, 1);
-    unsigned int version = buffer->FUN_006e08a0();
+    unsigned int version = buffer->BGSLoadGameBuffer_LoadVariableSizedValue();
     if (form)
     {
-        Entry* entry = form->unk0c.FUN_00403840(flag);
+        Entry* entry = form->unk0c.EffectItemList_GetEffectItemByIndex(flag);
         if (entry && entry->unk14->unk98 == version)
         {
-            buffer->FUN_006e08a0();
+            buffer->BGSLoadGameBuffer_LoadVariableSizedValue();
             Result* result = FUN_00401dd0(0, form, entry, 0);
             result->vf7(buffer);
             return result;
         }
     }
-    buffer->unk0c += buffer->FUN_006e08a0();
+    buffer->unk0c += buffer->BGSLoadGameBuffer_LoadVariableSizedValue();
     FUN_006cd570(DAT_00e09c70, formId, flag, version);
     return 0;
 }
@@ -51558,7 +52298,7 @@ struct Process
     virtual void vf384();
     virtual void vf385();
     virtual int vf386();
-    void FUN_0072fd70(Actor* actor, int a, int b);
+    void HighProcess_FadeOut(Actor* actor, int a, int b);
 };
 
 inline Process* AsProcess(void* object)
@@ -51596,6 +52336,7 @@ struct Effect
     void FUN_006a7f80();
 };
 
+// pdb: InvisibilityEffect::Start | InvisibilityEffect.obj | fnv360_0721_retail, vtable, low
 void Effect::FUN_006a7f80()
 {
     Actor* actor = unk24 ? unk24->FUN_006b6c70() : 0;
@@ -51612,7 +52353,7 @@ void Effect::FUN_006a7f80()
         }
         Process* process = AsProcess(actor->unk60);
         if (process && process->vf386() != 4)
-            process->FUN_0072fd70(actor, 0, 0);
+            process->HighProcess_FadeOut(actor, 0, 0);
     }
 }
 
@@ -52151,6 +52892,8 @@ struct Owner
     void FUN_006b3930();
     void FUN_006b4080(bool flag);
 };
+// pdb: MagicProjectile::SetDisplayGeometry | MagicProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: abTF
 void Owner::FUN_006b4080(bool flag)
 {
     Process* process = FUN_00764ea0();
@@ -52177,6 +52920,8 @@ extern float DAT_00f62bc8,DAT_00f62bd4;
 namespace f3m_006bc590 {
 namespace Small547 {
 struct Owner {unsigned unk00;unsigned unk04;unsigned unk08;unsigned unk0c;unsigned unk10;unsigned unk14;unsigned unk18;unsigned unk1c;unsigned unk20;unsigned unk24;unsigned unk28;unsigned unk2c;unsigned unk30;unsigned unk34;unsigned unk38;unsigned unk3c;unsigned unk40;unsigned unk44;unsigned unk48; int selected;void FUN_006bd020(void*,float,int);void FUN_006bc590(void*,float,int);};
+// pdb: ValueAndConditionsEffect::ModifyActorValue | ValueAndConditionsEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor, afModifier, aeOverrideActorValue
 void Owner::FUN_006bc590(void* object,float value,int unused){if(selected!=-1){float remaining=DAT_00f62bc8*value;FUN_006bd020(object,value,selected);FUN_006bd020(object,remaining,-1);}else{FUN_006bd020(object,value,-1);value*=DAT_00f62bd4;for(int i=25;i<32;++i)FUN_006bd020(object,value,i);}}
 }
 
@@ -52263,6 +53008,8 @@ struct Effect {
   void FUN_006b9190(Actor*);
 };
 
+// pdb: ParalysisEffect::Revert | ParalysisEffect.obj | fnv360_0721_retail, vtable, medium
+// pdb params: apActor
 void Effect::FUN_006b9190(Actor* actor) {
   FUN_0078c030(actor);
   Root* root = actor->GetRoot();
@@ -52289,6 +53036,8 @@ struct FUN_006b28e0 : MagicHitEffect {
     NiPointer<EffectRef6b> first,second;unsigned unk38;
     FUN_006b28e0(void*,Context*);
 };
+// pdb: MagicModelHitEffect::MagicModelHitEffect | MagicModelHitEffect.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apTarget, apEffect
 FUN_006b28e0::FUN_006b28e0(void* actor,Context* context)
     : MagicHitEffect(actor,(int)context),
       first((table=&DAT_00e0b41c,(EffectRef6b*)0)),second(0),unk38(0) {
@@ -52304,7 +53053,7 @@ FUN_006b28e0::FUN_006b28e0(void* actor,Context* context)
 
 // @f3 0x006b2790 (community match, verified in this file)
 namespace Load6b2790 {
-struct Stream { void* FUN_006e07a0(int); };
+struct Stream { void* BGSLoadGameBuffer_LoadString(int); };
 struct Name { void FUN_006e0ad0(Stream*); };
 struct Query { virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3(); virtual void s4(); virtual void* Get(); };
 struct Nested { int unk00, unk04, unk08, unk0c, unk10, unk14; Query query; };
@@ -52323,10 +53072,12 @@ struct Object {
     void FUN_006b1bc0(Stream*);
     void FUN_006b2790(Stream*);
 };
+// pdb: MagicModelHitEffect::LoadGame | MagicModelHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apLoadGameBuffer
 void Object::FUN_006b2790(Stream* stream)
 {
     FUN_006b1bc0(stream);
-    value = stream->FUN_006e07a0(0);
+    value = stream->BGSLoadGameBuffer_LoadString(0);
     loaded = true;
     name.FUN_006e0ad0(stream);
     if (holder && holder->parent->nested->query.Get())
@@ -52465,8 +53216,8 @@ struct QActor {
     int unk54; int unk58; int unk5C;
     QAnim* unk60;
     float FUN_00721aa0();
-    void FUN_00721ad0(float v);
-    void FUN_00722a10();
+    void Actor_SetAlphaMult(float v);
+    void Actor_UpdateAlpha();
 };
 struct QLight {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14;
@@ -52591,6 +53342,8 @@ inline float QClamp(float v)
         v = 0.0f;
     return v;
 }
+// pdb: MagicShaderHitEffect::Update | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afTimeDelta
 bool QThis::FUN_006b5020(float dt)
 {
     if (!FUN_006b1a20(dt) || !unk1C || !unk1C->vb1D0())
@@ -52601,8 +53354,8 @@ bool QThis::FUN_006b5020(float dt)
     float mult = 1.0f;
     if (unk1C->vb100() && unk30 != DAT_0106c868) {
         if (unk68 && unk68->unk6C && unk1C->vb100() && unk1C->FUN_00721aa0() > 0.99f) {
-            unk1C->FUN_00721ad0(0.99f);
-            unk1C->FUN_00722a10();
+            unk1C->Actor_SetAlphaMult(0.99f);
+            unk1C->Actor_UpdateAlpha();
         }
         QProc* proc = unk1C->vb1D0();
         mult = FUN_00424d20(&DAT_0116eeec, proc) ? proc->unkB4 : unk1C->vb414();
@@ -52751,8 +53504,10 @@ struct Table { void* unk00; void* unk04; Node* (__thiscall* list)(Owner*); };
 struct Owner { Table* table; bool FUN_006b6e50(); };
 
 
-inline bool HasFlag(Sub2* f) { return f->unk58 >> 2 & 1; }
+// pdb: hkClassMember::isNotOwner | hkClassMember.obj | fnv360_0822_retail, objrun, high (was: HasFlag)
+inline bool hkClassMember_isNotOwner(Sub2* f) { return f->unk58 >> 2 & 1; }
 
+// pdb: MagicTarget::HasDamageHealthEffect | MagicTarget.obj | fnv360_0822_retail, call_gap_sim, low
 bool Owner::FUN_006b6e50()
 {
     Node* node = table->list(this);
@@ -52768,7 +53523,7 @@ bool Owner::FUN_006b6e50()
             Sub2*& form = sub->unk14;
             if (form->UsesValue())
                 if (sub->ValueType()==0x10)
-                    if (HasFlag(form))
+                    if (hkClassMember_isNotOwner(form))
                         result = true;
         }
         node = node->next;
@@ -52913,6 +53668,8 @@ extern Setting DAT_00f60734;
 extern float DAT_00f60708,DAT_00f60714,DAT_00f60720,DAT_00f6072c,DAT_00f60744;
 extern double DAT_00e0b860;
 }
+// pdb: MagicProjectile::ApplyCollisionForce | MagicProjectile.obj | fnv360_0822_retail, call_gap, low
+// pdb params: aContactPoint, aDirection, apTargetBody
 void __stdcall FUN_006b3c60(float px,float py,float pz,float dx,float dy,float dz,NativeImpulse887::Object* obj) {
  using namespace NativeImpulse887;
  Point3 a(px,py,pz),b(dx,dy,dz);
@@ -52980,6 +53737,7 @@ struct Effect6bcb50 {
     bool Enabled() { return (flags >> 8) & 1; }
     void FUN_006bcb50();
 };
+// pdb: ValueModifierEffect::ShowAttributeReductionMessage | ValueModifierEffect.obj | fnv360_0721_retail, call_seq, medium
 void Effect6bcb50::FUN_006bcb50()
 {
     Target6bcb50* player = DAT_0107a104 ? &DAT_0107a104->target : 0;
@@ -53114,9 +53872,10 @@ extern const float DAT_00db9568;
 extern const double DAT_00dc2d78;
 
 float __cdecl FUN_007b8c50(Object6ade* a, Object6ade* b, bool flag);
-bool __cdecl FUN_007b7890(Actor6ade* caster, Actor6ade* target, float* outDist);
+bool __cdecl CombatUtilities_IsTargetWithinStrikeAngle(Actor6ade* caster, Actor6ade* target, float* outDist);
 Actor6ade* __cdecl FUN_00c0050a(void* ptr, int off, void* fromType, void* toType, int isRef);
 
+// pdb: MagicCaster::GetTouchTarget | MagicCaster.obj | fnv360_0822_retail, vtable, medium
 MagicTarget6ade* MagicCaster6ade::FUN_006ade30()
 {
     Actor6ade* casterActor = GetActor();
@@ -53128,7 +53887,7 @@ MagicTarget6ade* MagicCaster6ade::FUN_006ade30()
 
     if (FUN_007b8c50(casterObj, DAT_0107a104, false) <= reach) {
         float dist = DAT_00db9568;
-        if (!casterActor || FUN_007b7890(casterActor, DAT_0107a104, &dist)) {
+        if (!casterActor || CombatUtilities_IsTargetWithinStrikeAngle(casterActor, DAT_0107a104, &dist)) {
             if (dist <= DAT_00dc2d78) {
                 bestDist = dist;
                 bestActor = DAT_0107a104;
@@ -53144,7 +53903,7 @@ MagicTarget6ade* MagicCaster6ade::FUN_006ade30()
             if (actor != casterObj && !actor->GetDead(false) && actor->Get3D()) {
                 if (FUN_007b8c50(casterObj, actor, false) <= reach) {
                     float dist = DAT_00db9568;
-                    if (!casterActor || FUN_007b7890(casterActor, actor, &dist)) {
+                    if (!casterActor || CombatUtilities_IsTargetWithinStrikeAngle(casterActor, actor, &dist)) {
                         if (dist <= bestDist) {
                             bestDist = dist;
                             bestActor = actor;
@@ -53252,6 +54011,8 @@ extern Result* __cdecl FUN_00477d90(int type);
 extern int __cdecl FUN_0051de60();
 extern void* __cdecl FUN_00c0050a(void* object, int offset, void* from, void* to, int isReference);
 
+// pdb: MagicFogProjectile::FinishInitLoadGame | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
+// pdb params: aiFlags, aiOldFlags
 void Obj::FUN_006b10d0(int a, int b)
 {
  FUN_007698d0(a, b);
@@ -53358,6 +54119,8 @@ struct Listener_6a3110 {
     void FUN_006a3110(EntryList_6a3110* entries, Contacts_6a3110* contacts);
 };
 
+// pdb: bhkCharacterListenerSpell::processConstraintsCallback | bhkCharacterListenerSpell.obj | fnv360_0721_beta, caller_sim, low
+// pdb params: arManifold, arInput
 void Listener_6a3110::FUN_006a3110(EntryList_6a3110* entries, Contacts_6a3110* contacts)
 {
     int count = contacts->count;
@@ -54113,18 +54876,18 @@ class CharController
     void IncRefCount() { InterlockedIncrement(&m_uiRefCount); }
     void DecRefCount();
     void FUN_008e9e90(int time, Actor* actor);
-    void FUN_008ee870(bhkWorld* world);
+    void bhkCharacterController_SetWorld(bhkWorld* world);
     void FUN_004e94e0(NiAVObject* node);
     NiAVObject* FUN_006a8fb0();
     NiAVObject* GetNode() { return nodeHolder ? nodeHolder->FUN_008f9c90(0) : 0; }
-    void FUN_008ea270(const hkVector4& position);
+    void bhkCharacterController_SetPosition(const hkVector4& position);
     __declspec(noinline) void FUN_004e6580(const NiPoint3& pos)
     {
         hkVector4 v;
         v.x = pos.x * DAT_00dbe7c0;
         v.y = pos.y * DAT_00dbe7c0;
         v.z = pos.z * DAT_00dbe7c0;
-        FUN_008ea270(v);
+        bhkCharacterController_SetPosition(v);
     }
     FilterInfo FUN_0061f4f0();
 
@@ -54561,6 +55324,7 @@ static __forceinline unsigned int GetNodeFilter3D(Actor* a)
     return (FUN_0051de60() << 16) | 7;
 }
 
+// pdb: MagicBallProjectile::InitHavok | MagicBallProjectile.obj | fnv360_0822_retail, vtable, medium
 void Actor::FUN_006a9e40()
 {
     if (!process || process->processLevel != 0)
@@ -54629,7 +55393,7 @@ void Actor::FUN_006a9e40()
     HkObject* hkObject = ((PhantomHolder*)phantom)->hkObject;
     bhkWorld* current = hkObject ? hkObject->GetWorld() : 0;
 
-    controller->FUN_008ee870(world);
+    controller->bhkCharacterController_SetWorld(world);
     NiAVObject* node = Get3D();
     if (controller->GetNode() != node)
     {
@@ -54827,7 +55591,7 @@ struct NiAVObject
     void FUN_004236f0(Material* property);
 };
 
-NiAVObject* __cdecl FUN_00ab1a80(float radius, int a, int b, int c);
+NiAVObject* __cdecl BSTestObjects_CreateSphere(float radius, int a, int b, int c);
 
 struct ObjectRef
 {
@@ -54969,6 +55733,7 @@ struct MagicProjectile
 };
 }
 
+// pdb: MagicFogProjectile::BuildAreaEffectGeometry | MagicFogProjectile.obj | fnv360_0822_retail, vtable, medium
 void f3m_006aa4b0::MagicProjectile::FUN_006aa4b0()
 {
     NiAVObject* root = Get3D();
@@ -54979,7 +55744,7 @@ void f3m_006aa4b0::MagicProjectile::FUN_006aa4b0()
     {
         float scale = root->m_localScale;
         float radius = m_baseForm->FUN_00402310() * DAT_00f62450.m_value / scale;
-        NiAVObject* sphere = FUN_00ab1a80(radius, 10, 10, 0);
+        NiAVObject* sphere = BSTestObjects_CreateSphere(radius, 10, 10, 0);
         sphere->FUN_008245d0(BSFixedString(DAT_00e0abd4));
         sphere->m_localTranslate = DAT_0108ec68;
         NiPoint3 zero(0.0f, 0.0f, 0.0f);
@@ -55069,9 +55834,10 @@ struct S006b22b0_Fade {
     float m_fElapsed;
     float m_fDuration;
     bool m_bFadeIn;
-    void FUN_006b22b0(float dt);
+    void MagicLight_Update(float dt);
 };
-void S006b22b0_Fade::FUN_006b22b0(float dt) {
+// pdb: MagicLight::Update | MagicLight.obj | fnv360_0822_retail, call_seq + bridge(call_gap|call_seq), high
+void S006b22b0_Fade::MagicLight_Update(float dt) {
     if (!m_pkSource)
         return;
     if (m_fDuration > 0.0f) {
@@ -55098,17 +55864,12 @@ void S006b22b0_Fade::FUN_006b22b0(float dt) {
 // @f3 0x006a13f0 (community match, verified in this file)
 extern char DAT_00e09cdc;
 namespace ActiveEffectCtorC {
-struct ItemDispatch {
-    void* unk00; void* unk04; void* unk08; void* unk0c;
-    void* unk10; void* unk14;
-    int (__thiscall* GetType)(void*);
-};
 struct EffectView {
     int unk00; int unk04; int unk08; int unk0c;
     int unk10; int unk14; int unk18;
     struct Conditions { void* item; Conditions* next; } conditions;
-    int FUN_004022f0() const;
-    int FUN_00402330() const;
+    int EffectItem_GetMagnitude() const;
+    int EffectItem_GetDuration() const;
     Conditions* Head() { return &conditions; }
 };
 }
@@ -55117,7 +55878,9 @@ namespace f3m_006b9db0 { namespace Task0558 {
    before the argument's stores are emitted; a plain statement puts the call
    first. Not folded: the unused parameter keeps the call on the arg-list path. */
 __forceinline int Fwd1(ActiveEffectCtorC::EffectView* s, int dummy)
-{ (void)dummy; return s->FUN_004022f0(); }
+{ (void)dummy; return s->EffectItem_GetMagnitude(); }
+// pdb: ActiveEffect::ActiveEffect | ActiveEffect.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apEffect
 FUN_006a13f0::FUN_006a13f0(void* caster, void* item, EffectItem* effect)
     : vtable(&DAT_00e09cdc)
 {
@@ -55131,7 +55894,7 @@ FUN_006a13f0::FUN_006a13f0(void* caster, void* item, EffectItem* effect)
     *(float*)&unk1c = (float)Fwd1(view, (unk2c = spellType, unk0c = reinterpret_cast<int>(effect),
      ((unsigned char*)&unk10)[0] = 1, ((unsigned char*)&unk10)[1] = 0,
      ((unsigned char*)&unk10)[2] = 0, ((unsigned char*)&unk10)[3] = 0, 0));
-    *(float*)&unk20 = (float)view->FUN_00402330();
+    *(float*)&unk20 = (float)view->EffectItem_GetDuration();
     unk28 = reinterpret_cast<int>(caster);
     unk24 = 0;
     unk3c = 0;
@@ -55197,7 +55960,7 @@ struct FogEffectSetting
 };
 struct FogEffectItem
 {
-    int FUN_00402330();
+    int EffectItem_GetDuration();
     int FUN_00402310();
 };
 struct FogSoundHandle
@@ -55207,8 +55970,8 @@ struct FogSoundHandle
     unsigned int unk08;
 
     FogSoundHandle() : id(~0u), followsReference(false), unk08(0) {}
-    bool FUN_00bd0390();
-    bool FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    bool BSSoundHandle_Release();
     void FUN_00bd01c0(float);
     FogSoundHandle& operator=(const FogSoundHandle& rhs) {
         id = rhs.id;
@@ -55235,7 +55998,7 @@ struct FogCaster
 };
 struct FogPhysics
 {
-    void FUN_0091ddb0(const FogPhysicsVector&);
+    void hkpCharacterProxy_setLinearVelocity(const FogPhysicsVector&);
 };
 struct FogPhysicsWrapper
 {
@@ -55250,7 +56013,7 @@ struct FogController
 };
 struct FogCell
 {
-    void FUN_004e52d0(MagicFogProjectile*, bool);
+    void TESObjectCELL_AddReference(MagicFogProjectile*, bool);
 };
 
 class FogReferenceForm
@@ -55276,7 +56039,7 @@ public:
     void FUN_004fac30(TESObjectREFR*);
     void FUN_006b4260(TESObjectREFR*);
     FogPhysicsWrapper* FUN_00764ea0();
-    FogSoundHandle FUN_00766c00(unsigned int, bool, unsigned int, bool);
+    FogSoundHandle MobileObject_PlaySound(unsigned int, bool, unsigned int, bool);
     void FUN_006b4390();
 
     unsigned int unk1c;
@@ -55339,12 +56102,14 @@ public:
     FogController* controller;
 };
 
+// pdb: MagicFogProjectile::MagicFogProjectile | MagicFogProjectile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apDominantEffect, apAVEffect, aOrigin, aRotation, apData3D, apLight
 __declspec(noinline) MagicFogProjectile::MagicFogProjectile(FogCaster* source, MagicItem* item, FogEffectItem* effectItem,
                                        FogEffectSetting* effectSetting, FogVector3 position, FogVector3 rotation,
                                        TESObjectREFR* reference, FogController* optionalController)
     : MagicProjectile(source, item, effectItem, effectSetting, position, rotation)
 {
-    float effectDuration = static_cast<float>(effect->FUN_00402330());
+    float effectDuration = static_cast<float>(effect->EffectItem_GetDuration());
     duration = effectDuration > DAT_00f62670 ? effectDuration : DAT_00f62670;
     float effectMagnitude = static_cast<float>(effect->FUN_00402310());
     magnitude = effectMagnitude > DAT_00f6267c ? effectMagnitude : DAT_00f6267c;
@@ -55365,16 +56130,16 @@ __declspec(noinline) MagicFogProjectile::MagicFogProjectile(FogCaster* source, M
     FogPhysicsVector vector = {DAT_00db7260, 0.0f, 0.0f, 0.0f};
     FogPhysicsWrapper* wrapper = FUN_00764ea0();
     if (wrapper && wrapper->physics)
-        wrapper->physics->FUN_0091ddb0(vector);
-    cell->FUN_004e52d0(this, false);
+        wrapper->physics->hkpCharacterProxy_setLinearVelocity(vector);
+    cell->TESObjectCELL_AddReference(this, false);
 
     FogSoundRecord* soundRecord = setting->sound;
     if (soundRecord)
     {
         unsigned int soundId = soundRecord->soundId;
-        if (sound.FUN_00bd0390())
-            sound.FUN_00bd03b0();
-        sound = FUN_00766c00(soundId, true, 0x40000102, true);
+        if (sound.BSSoundHandle_IsValid())
+            sound.BSSoundHandle_Release();
+        sound = MobileObject_PlaySound(soundId, true, 0x40000102, true);
         sound.FUN_00bd01c0(1.0f);
     }
 
@@ -55422,6 +56187,8 @@ extern int DAT_00f460a8, DAT_00f46090, DAT_00f47c40, DAT_00f47ac4, DAT_00f6bab4;
 extern float DAT_00f62454;
 void* __cdecl FUN_00c0050a(void* object, int unused, const void* fromType, const void* toType, int isRef);
 
+// pdb: MagicCaster::FindExplosionLOS | MagicCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apSpell, aeRange, aSpellLocation, apActorList
 void Caster::FUN_006ae670(Spell* apItem, int auiEffectCode, Vec akPos, Special* apTargets)
 {
     if (!apTargets)
@@ -55503,6 +56270,8 @@ void Caster::FUN_006ae670(Spell* apItem, int auiEffectCode, Vec akPos, Special* 
 
 // @f3 0x006b75e0 (community match, verified in this file)
 namespace f3m_006b75e0 {
+// pdb: MagicTarget::CheckResistance | MagicTarget.obj | fnv360_0721_beta, vtable, low
+// pdb params: apCaster, apSpell, apActiveEffect
 float __stdcall FUN_006b75e0(int p0, int p1, int p2)
 {
     return 1.0f;
@@ -56168,6 +56937,8 @@ extern const char DAT_00e0af8c[];
 float __cdecl FUN_00585870(int, int, float, int, int, float);
 void __cdecl FUN_006195d0(const char*, ...);
 
+// pdb: MagicCaster::ExplodeActor | MagicCaster.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apTargetActor, aSourceLoc, apDominantEffect, afSpellCost
 void MagicCaster::FUN_006ae220(Actor* target, NiPoint3 pos, EffectItem* item, float fParam)
 {
     float height = target->GetBoundMax().z - target->GetBoundMin().z;
@@ -57321,7 +58092,8 @@ struct Setting807
 {
     void* m_pvVtbl;
     bool m_bValue;
-    bool* GetBool() { return &m_bValue; }
+    // pdb: hkBufferedStreamWriter::isOk | hkBufferedStreamWriter.obj | fnv360_0822_retail, vtable, high (was: GetBool)
+    bool* hkBufferedStreamWriter_isOk() { return &m_bValue; }
 };
 extern Setting807 DAT_01077d08;
 
@@ -57520,6 +58292,8 @@ class Listener807
     void FUN_006a3250(Event807* pkEvent);
 };
 
+// pdb: bhkCharacterListenerSpell::contactPointAddedCallback | bhkCharacterListenerSpell.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: point
 void Listener807::FUN_006a3250(Event807* pkEvent)
 {
     MagicProjectile* pkProjectile = dynamic_cast<MagicProjectile*>(GetRef(pkEvent->m_pkCollidableA));
@@ -57545,7 +58319,7 @@ void Listener807::FUN_006a3250(Event807* pkEvent)
         return;
     if (pkActor && pkActor->IsStateActive())
         return;
-    if (*DAT_01077d08.GetBool())
+    if (*DAT_01077d08.hkBufferedStreamWriter_isOk())
     {
         EventCopy807 kCopy(pkEvent);
         NiNode* pkNodeA = GetDebugNode807(kCopy.m_pkBodyA->m_pkOwner);
@@ -57577,7 +58351,7 @@ void Listener807::FUN_006a3250(Event807* pkEvent)
     }
     NiPoint3 kPos;
     HavokToNi807(kPos, pkEvent->m_kPosition);
-    if (*DAT_01077d08.GetBool())
+    if (*DAT_01077d08.hkBufferedStreamWriter_isOk())
     {
         NiNode* pkMarker = FUN_00479c00(5.0f, ColorA807(1.0f, 0.0f, 0.0f, 1.0f), 1);
         pkMarker->m_kTranslate = kPos;
@@ -57654,6 +58428,7 @@ struct Clone {
     void FUN_006a2f50(Clone* dst);
     Clone* FUN_006a4280();
 };
+// pdb: BoundItemEffect::Copy | BoundItemEffect.obj | fnv360_0721_retail, vtable, medium
 Clone* Clone::FUN_006a4280()
 {
     Clone* dst = new Clone(unk28, unk08, unk0c);
@@ -57794,9 +58569,10 @@ struct Owner {
     int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
     List<Part*>* parts;
     void SetLegacy() { flags |= 6; }
-    void FUN_006a1bf0(void* arg);
+    void ActiveEffect_LoadGame(void* arg);
 };
-void Owner::FUN_006a1bf0(void* arg)
+// pdb: ActiveEffect::LoadGame | ActiveEffect.obj | fnv360_0721_retail, vtable + bridge(caller_sim|vtable) + skyrim(objopen_prop), high
+void Owner::ActiveEffect_LoadGame(void* arg)
 {
     unsigned int b;
     unsigned int a;
@@ -57855,7 +58631,7 @@ namespace f3m_006a23a0 {
 extern char DAT_00f46078;
 extern char DAT_00f460fc;
 void* __cdecl FUN_00c0050a(void* object, int zero, char* from, char* to, int isReference);
-void* __cdecl FUN_00455190(unsigned int formID);
+void* __cdecl TESForm_GetFormByNumericID(unsigned int formID);
 void __cdecl FUN_00887da0(const char* format, ...);
 void* __cdecl FUN_0089eb90(unsigned int size);
 void __cdecl FUN_0089ebd0(void* p);
@@ -57865,7 +58641,7 @@ struct Buffer {
     void FUN_006e0750(void* data, unsigned int size);
     void FUN_006e06d0(void* ref);
     unsigned int FUN_006e0670();
-    unsigned int FUN_006e08a0();
+    unsigned int BGSLoadGameBuffer_LoadVariableSizedValue();
 };
 struct Owner;
 struct Effect {
@@ -57920,6 +58696,8 @@ struct Owner {
     void FUN_006a23a0(Buffer* buffer);
 };
 
+// pdb: ActiveEffect::LoadGame | ActiveEffect.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apLoadGameBuffer
 void Owner::FUN_006a23a0(Buffer* buffer)
 {
     buffer->FUN_006e0750(&unk04, 4);
@@ -57934,8 +58712,8 @@ void Owner::FUN_006a23a0(Buffer* buffer)
     buffer->FUN_006e06d0(&ref28);
     buffer->FUN_006e06d0(&ref24);
     buffer->FUN_006e06d0(&ref44);
-    form3c = FUN_00c0050a(FUN_00455190(buffer->FUN_006e0670()), 0, &DAT_00f46078, &DAT_00f460fc, 0);
-    unsigned int count = buffer->FUN_006e08a0();
+    form3c = FUN_00c0050a(TESForm_GetFormByNumericID(buffer->FUN_006e0670()), 0, &DAT_00f46078, &DAT_00f460fc, 0);
+    unsigned int count = buffer->BGSLoadGameBuffer_LoadVariableSizedValue();
     for (unsigned int i = 0; i < count; ++i) {
         unsigned char type = 0;
         buffer->FUN_006e0750(&type, 1);
@@ -58048,6 +58826,7 @@ struct WeaponBase {
 struct WeaponView : WeaponBase, Model {
 };
 struct BipedView { void* FUN_00452240(int index); };
+// pdb: BoundItemEffect::~BoundItemEffect | BoundItemEffect.obj | fnv360_0721_retail, call_seq, medium
 FUN_006a4010::~FUN_006a4010()
 {
     int index = 0;
@@ -58159,8 +58938,8 @@ struct EffectItem
     bool IsArchetypeFlagged() const { return GetEffectSetting()->IsArchetypeFlagged(); }
     bool FUN_004023b0();
     BSString FUN_00402af0();
-    int FUN_004022f0();
-    int FUN_00402330();
+    int EffectItem_GetMagnitude();
+    int EffectItem_GetDuration();
 };
 
 struct EffectItemList
@@ -58291,7 +59070,7 @@ struct MagicTarget
     virtual float GetEffectiveness(MagicCaster* pCaster, MagicItem* pSpell, ActiveEffect* pEffect);
     int unk04, unk08;
 
-    bool FUN_006b7560(MagicItem* pSpell, bool bArg);
+    bool MagicTarget_IsAddicted(MagicItem* pSpell, bool bArg);
     void FUN_006b76e0(MagicItem* pSpell, MagicCaster* pCaster, ActiveEffect* pEffect);
     bool FUN_006b73b0(MagicItem* pSpell, MagicCaster* pCaster, ActiveEffect* pEffect);
     bool FUN_006b7330(MagicItem* pSpell, MagicCaster* pCaster, ActiveEffect* pEffect);
@@ -58324,17 +59103,19 @@ extern char DAT_00f6b8b4;
 extern char DAT_00f6c04c;
 
 extern "C" void* __cdecl __RTDynamicCast(void*, long, void*, void*, int);
-void __cdecl FUN_00518df0(EffectSetting* pSetting, ExtraDataList* pExtraList, int iFlag);
+void __cdecl Script_SetActionFlag(EffectSetting* pSetting, ExtraDataList* pExtraList, int iFlag);
 void __cdecl FUN_006195d0(const char* pFormat, ...);
 void __cdecl FUN_00543420(int iEntryPoint, Actor* pActor, float* pValue);
 bool __cdecl FUN_00407b80(EffectItem* pA, EffectItem* pB);
 int __cdecl FUN_006854b0();
 
+// pdb: MagicTarget::CheckAddEffect | MagicTarget.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apCaster, apSpell, apActiveEffect
 bool MagicTarget::FUN_006b7bc0(MagicCaster* pCaster, MagicItem* pSpell, ActiveEffect* pEffect)
 {
     TESObjectREFR* pRef = GetTargetRef();
     if (pRef)
-        FUN_00518df0(pEffect->GetEffectItem()->GetEffectSetting(), &pRef->kExtraList, 0x2000);
+        Script_SetActionFlag(pEffect->GetEffectItem()->GetEffectSetting(), &pRef->kExtraList, 0x2000);
     bool bPermanent = pEffect->GetEffectItem()->IsArchetypeFlagged() ? pSpell->v1c() : false;
     float fEffectiveness =
         pSpell->GetType() != 4 && !bPermanent ? GetEffectiveness(pCaster, pSpell, pEffect) : 1.0f;
@@ -58359,7 +59140,7 @@ bool MagicTarget::FUN_006b7bc0(MagicCaster* pCaster, MagicItem* pSpell, ActiveEf
     EffectItem* pScriptEffect = pSpell->kEffects.FUN_00403640();
     if (pEffect->GetEffectItem() == pScriptEffect)
     {
-        if (FUN_006b7560(pSpell, true))
+        if (MagicTarget_IsAddicted(pSpell, true))
             return false;
         ActiveEffectList* pNode = GetActiveEffectList();
         bool bFound = false;
@@ -58476,8 +59257,8 @@ bool MagicTarget::FUN_006b7bc0(MagicCaster* pCaster, MagicItem* pSpell, ActiveEf
             FUN_006195d0("Effect %s from spell %s added to %s. Mag: %.2f/%d Dur: %.2f/%d",
                          pClone->GetEffectItem()->FUN_00402af0().String(), pSpell->kFullName.CStr(),
                          pRef ? pRef->FUN_004e9a10() : "{NULL}", pClone->GetMagnitude(),
-                         pClone->GetEffectItem()->FUN_004022f0(), pClone->GetDuration(),
-                         pClone->GetEffectItem()->FUN_00402330());
+                         pClone->GetEffectItem()->EffectItem_GetMagnitude(), pClone->GetDuration(),
+                         pClone->GetEffectItem()->EffectItem_GetDuration());
         return true;
     }
     delete pClone;
@@ -58925,6 +59706,8 @@ struct Effect {
  float strength,velocity;Ref* target;bool released,skipCost;
  void FUN_006bcda0(float);void FUN_006a2e00(bool);Ref* FUN_0045cd60(){return caster;}float GetFloatAtOffset1C(){return magnitude;}void FUN_006bbea0(float);
 };
+// pdb: TelekinesisEffect::Update | TelekinesisEffect.obj | fnv360_0822_retail, objrun, medium
+// pdb params: afSecondsElapsed
 void Effect::FUN_006bbea0(float delta)
 {
     float& vel = velocity;
@@ -59087,7 +59870,7 @@ struct EffectData {
  unsigned flags; float factor; float Factor(){return factor;} unsigned char Area() { return (unsigned char)(flags>>29); } };
 struct Effect { int unk00,unk04,unk08,type,unk10; EffectData* data;
  bool Area() { return (data->flags & 0x20000000)!=0; } EffectData* GetData(){return data;} int GetType(){ return type; } float GetFactor(){return data->factor;}
- int FUN_00402310(); int FUN_004022f0(); int FUN_00402330(); };
+ int FUN_00402310(); int EffectItem_GetMagnitude(); int EffectItem_GetDuration(); };
 struct World { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20; unsigned flags; int group;
  void* FUN_00410f00(); };
 extern void* DAT_01071564;
@@ -59246,12 +60029,14 @@ __forceinline void Convert(Vec* out,const Point& in) {
 struct Receiver : Target { bool FUN_006ae070(void*,void*); void FUN_006ad2b0(void*,Point,Effect*,float); void FUN_006ae220(Target*,Point,Effect*,float);
  void FUN_006ae960(Point,World*,void*,Effect*,Link*,float,float);
 };
+// pdb: MagicCaster::DoExplosion | MagicCaster.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aSourceLoc, apCell, apSpell, apDominantEffect, aTargetList, afPowerScale, afAreaScale
 void Receiver::FUN_006ae960(Point position,World* world,void* filter,Effect* effectArg,Link* list,float scale,float radiusScale) {
  Effect* effect=effectArg;
  EffectData* data=effect->data; unsigned flags=data->flags; if((unsigned char)(flags>>29)&1) {
  float radius=effect->FUN_00402310()*DAT_00f62454*radiusScale;
  if(radius>0.0f) {
- float magnitude=FUN_005856a0(effect->GetData()->Factor(),effect->FUN_00402310(),(int)(effect->FUN_00402330()*scale),(int)(effect->FUN_004022f0()*scale),effect->GetType()==2);
+ float magnitude=FUN_005856a0(effect->GetData()->Factor(),effect->FUN_00402310(),(int)(effect->EffectItem_GetDuration()*scale),(int)(effect->EffectItem_GetMagnitude()*scale),effect->GetType()==2);
  float extent=radius*DAT_00db7de8;
  Bounds bounds;
  Convert(&bounds.min,position+Point(-extent,-extent,-extent));
@@ -59537,6 +60322,8 @@ extern S006acae0_AudioManager* g_audioManager;
 extern S006acae0_RefList g_beamList;
 S006acae0_RefObj* S006acae0_CreateBeam(S006acae0_BaseProj* form);
 
+// pdb: MagicBoltProjectile::MagicBoltProjectile | MagicBoltProjectile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apDominantEffect, apAVEffect, aOrigin, aRotation
 MagicBoltProjectile::MagicBoltProjectile(S006acae0_Ref* source, int a2, int a3, int a4, NiPoint3 p1, NiPoint3 p2)
     : S006acae0_Projectile(source, a2, a3, a4, p1, p2)
 {
@@ -59639,6 +60426,8 @@ extern DataHandler* DAT_0106cdcc;
 int __cdecl FUN_00c007fc(char*, unsigned int, const char*);
 unsigned int __cdecl FUN_00541960(unsigned int);
 
+// pdb: FalloutAudio::ResolveSoundID | FalloutAudio.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: aiFormID, apFilename, aiSoundTypeFlags, apSettingsContext
 bool __cdecl FUN_006bd9c0(unsigned int id, char* path, unsigned int* playbackFlags, SoundForm** form)
 {
     SoundForm* sound = DAT_0106cdcc->FUN_0043bc60(id);
@@ -61004,6 +61793,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
     particleObject = object;
 }
 
+// pdb: MagicShaderHitEffect::Init | MagicShaderHitEffect.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: ShaderReferenceEffect::StartParticleShaders)
 bool MagicShaderHitEffect::FUN_006b61b0()
 {
     if (GetEffect())
@@ -61297,7 +62087,7 @@ struct Holder {
     unsigned short unk08;
     unsigned short unk0a; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c;
     SeqMap map;
-    void FUN_0045c7f0(float t);
+    void NiControllerManager_DeactivateAll(float t);
 };
 struct Registry {};
 extern Registry DAT_01091f04;
@@ -61441,6 +62231,7 @@ struct Ref {
     void FUN_006b0a00(NiAVObj* obj);
     void FUN_006b0b80();
 };
+// pdb: MagicFogProjectile::Init3D | MagicFogProjectile.obj | fnv360_0822_retail, call_seq, medium
 void Ref::FUN_006b0b80()
 {
     Node* root = GetRoot();
@@ -61471,7 +62262,7 @@ void Ref::FUN_006b0b80()
     }
     if (!seq)
         return;
-    holder->FUN_0045c7f0(0.0f);
+    holder->NiControllerManager_DeactivateAll(0.0f);
     seq->FUN_008aecd0(0, 0, 1.0f, 0.0f, 0, 0);
     holder->unk08 |= 8;
     seq->unk48 = -3.402823466e+38f;
@@ -61500,7 +62291,7 @@ struct NiPoint3 {
     NiPoint3() {}
     NiPoint3(float ax, float ay, float az) : x(ax), y(ay), z(az) {}
     NiPoint3 operator-(const NiPoint3& p) const { return NiPoint3(x - p.x, y - p.y, z - p.z); }
-    float FUN_00432c00();
+    float NiPoint3_UnitizeGetLength();
 };
 
 struct __declspec(align(16)) Vector4 {
@@ -61543,6 +62334,8 @@ float __cdecl FUN_00585870(int level, int count, float distance, int a4, int a5,
 // virtual call) occupy the same stack slot in the original, which this compiler only does for two locals in
 // separate blocks; the strength and the scaled force are the values carried from one block to the other. The two
 // blocks are probably two inlined helpers in the real source.
+// pdb: MagicCaster::ExplodeRigidBody | MagicCaster.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apRigidBody, aSourceLoc, apDominantEffect, afSpellCost
 void __stdcall FUN_006ad2b0(Actor* actor, NiPoint3 point, Source* source, float level)
 {
     float strength;
@@ -61550,7 +62343,7 @@ void __stdcall FUN_006ad2b0(Actor* actor, NiPoint3 point, Source* source, float 
     {
         NiPoint3 dir = NiPoint3(actor->position.x * DAT_00db88e8, actor->position.y * DAT_00db88e8,
                                 actor->position.z * DAT_00db88e8) - point;
-        strength = FUN_00585870((int)level, (int)(source->FUN_00402310() * DAT_00f62454), dir.FUN_00432c00(), 0, 0, 0.0f);
+        strength = FUN_00585870((int)level, (int)(source->FUN_00402310() * DAT_00f62454), dir.NiPoint3_UnitizeGetLength(), 0, 0, 0.0f);
         if (!(strength > 0.0f))
             return;
         if (strength > DAT_00f625a4)
@@ -61884,7 +62677,7 @@ struct Mat3 {
 
 struct Quat {
     float x, y, z, w;
-    void FUN_0049da00(Mat3* dst);
+    void NiQuaternion_ToRotation(Mat3* dst);
 };
 
 struct IdList {
@@ -62049,7 +62842,7 @@ struct Lookup {
 
 Lookup* __cdecl FUN_00477d90(void* key);
 unsigned int __cdecl FUN_0051de60();
-void* __cdecl FUN_006b6cc0(unsigned int id);
+void* __cdecl MagicTarget_GetMagicTargetByNumericID(unsigned int id);
 
 extern unsigned int DAT_00f79e58;
 extern float DAT_00f62964;
@@ -62726,10 +63519,11 @@ struct Beam {
     Target* unkB4;
     void FUN_007698d0(int a, int b);
     Visual* FUN_00764ea0();
-    void FUN_006ab8b0(int a, int b);
+    void MagicBoltProjectile_FinishInitLoadGame(int a, int b);
 };
 
-void Beam::FUN_006ab8b0(int a, int b)
+// pdb: MagicBoltProjectile::FinishInitLoadGame | MagicBoltProjectile.obj | fnv360_0721_beta, udata + bridge(vtable|vtable), high
+void Beam::MagicBoltProjectile_FinishInitLoadGame(int a, int b)
 {
     FUN_007698d0(a, b);
     Visual* vis = FUN_00764ea0();
@@ -62778,7 +63572,7 @@ void Beam::FUN_006ab8b0(int a, int b)
     BeamNode* node = unkAC;
     if (node) {
         node->pos = packet->pos;
-        packet->rot.FUN_0049da00(&unkAC->rot);
+        packet->rot.NiQuaternion_ToRotation(&unkAC->rot);
         bool aimed = unkA4 != 0;
         Target* target = unkB4;
         if (target) {
@@ -62821,7 +63615,7 @@ void Beam::FUN_006ab8b0(int a, int b)
         unsigned int count = n;
         for (; i < count; i++) {
             unsigned int formId = packet->list->ids[i];
-            void* obj = FUN_006b6cc0(formId);
+            void* obj = MagicTarget_GetMagicTargetByNumericID(formId);
             if (obj)
                 v308(obj, 0);
         }
@@ -63047,6 +63841,7 @@ struct FUN_006b5dd0 : FUN_006b1ea0 {
     virtual ~FUN_006b5dd0();
 };
 
+// pdb: MagicShaderHitEffect::~MagicShaderHitEffect | MagicShaderHitEffect.obj | fnv360_0822_retail, call_seq, medium
 FUN_006b5dd0::~FUN_006b5dd0()
 {
     if (!GetID())
@@ -63118,7 +63913,7 @@ struct __declspec(align(16)) S006aa2b0_Quat {
 };
 
 struct S006aa2b0_Ctrl {
-    void FUN_0091ddb0(const S006aa2b0_Quat *q);
+    void hkpCharacterProxy_setLinearVelocity(const S006aa2b0_Quat *q);
 };
 
 struct S006aa2b0_Node {
@@ -63130,7 +63925,7 @@ struct S006aa2b0_Node {
 struct S006aa2b0_Owner;
 
 struct S006aa2b0_Mgr {
-    void FUN_004e52d0(S006aa2b0_Owner *owner, int flag);
+    void TESObjectCELL_AddReference(S006aa2b0_Owner *owner, int flag);
 };
 
 struct S006aa2b0_Model {
@@ -63138,10 +63933,6 @@ struct S006aa2b0_Model {
     int unk04;
     int unk08;
     void *data0c;
-};
-
-struct S006aa2b0_Ref {
-    int unk00[0x1d];
 };
 
 struct S006aa2b0_Form {
@@ -63192,8 +63983,8 @@ struct S006aa2b0_Handle {
         extra = o.extra;
         return *this;
     }
-    bool FUN_00bd0390();
-    void FUN_00bd03b0();
+    bool BSSoundHandle_IsValid();
+    void BSSoundHandle_Release();
 };
 
 struct S006aa2b0_Mover;
@@ -63271,7 +64062,7 @@ struct S006aa2b0_Owner : S006aa2b0_B0, S006aa2b0_B1 {
     void FUN_006a9100();
     void FUN_006a9e40();
     S006aa2b0_Node *FUN_00764ea0();
-    S006aa2b0_Handle FUN_00766c00(void *data, int a, int b, int c);
+    S006aa2b0_Handle MobileObject_PlaySound(void *data, int a, int b, int c);
     void FUN_006b4390();
     void FUN_004542b0(unsigned int flags);
 };
@@ -63297,6 +64088,8 @@ extern const float DAT_00f6261c;
 extern const float DAT_00db7260;
 extern const float DAT_00f62958;
 
+// pdb: MagicBallProjectile::MagicBallProjectile | MagicBallProjectile.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apCaster, apSpell, apDominantEffect, apAVEffect, aOrigin, aRotation, apData3D, apLight
 FUN_006aa2b0::FUN_006aa2b0(void *a, void *b, void *c, void *d, S006aa2b0_Pt3 p, S006aa2b0_Pt3 q,
                            void *init, S006aa2b0_Mover *mover)
     : S006aa2b0_Owner(a, b, c, d, p, q)
@@ -63319,14 +64112,14 @@ FUN_006aa2b0::FUN_006aa2b0(void *a, void *b, void *c, void *d, S006aa2b0_Pt3 p, 
     rot.z = 0.0f;
     S006aa2b0_Node *node = FUN_00764ea0();
     if (node && node->ctrl08)
-        node->ctrl08->FUN_0091ddb0(&rot);
-    mgr3c->FUN_004e52d0(this, 0);
+        node->ctrl08->hkpCharacterProxy_setLinearVelocity(&rot);
+    mgr3c->TESObjectCELL_AddReference(this, 0);
     S006aa2b0_Model *model = form98->model84;
     if (model) {
         void *data = model->data0c;
-        if (handleAC.FUN_00bd0390())
-            handleAC.FUN_00bd03b0();
-        handleAC = FUN_00766c00(data, 1, 0x40000102, 1);
+        if (handleAC.BSSoundHandle_IsValid())
+            handleAC.BSSoundHandle_Release();
+        handleAC = MobileObject_PlaySound(data, 1, 0x40000102, 1);
     }
     if (mover) {
         mover->FUN_006b24e0(this);
@@ -64145,6 +64938,7 @@ __forceinline void* GetOwnerForm(Collidable* root)
     return owner ? owner->form : 0;
 }
 
+// pdb: MagicProjectile::CheckShotBehindWall | MagicProjectile.obj | fnv360_0822_retail, call_gap, low
 void Actor::FUN_006b4390()
 {
     void* effect = Effect();
@@ -64204,9 +64998,9 @@ struct LockData {
 };
 
 struct TESObjectREFR {
-    LockData* FUN_004e75f0();
-    LockData* FUN_004ec5a0();
-    void FUN_004e8e10();
+    LockData* TESObjectREFR_GetLock();
+    LockData* TESObjectREFR_AddLock();
+    void TESObjectREFR_AddLockChange();
     void FUN_004ec600();
 };
 
@@ -64250,6 +65044,7 @@ public:
     void FUN_006a8bf0();
 };
 
+// pdb: LockEffect::Start | LockEffect.obj | fnv360_0721_retail, vtable, medium
 void LockEffect::FUN_006a8bf0()
 {
     MagicTarget* pTarget = target;
@@ -64258,17 +65053,17 @@ void LockEffect::FUN_006a8bf0()
         return;
     if (!pNonActor->targetRef.GetParentRef())
         return;
-    LockData* lock = pNonActor->targetRef.GetParentRef()->FUN_004e75f0();
+    LockData* lock = pNonActor->targetRef.GetParentRef()->TESObjectREFR_GetLock();
     if (lock && (!(lock->flags & 2) || (lock->flags & 1)))
     {
         FUN_006a2e00(false);
         return;
     }
-    LockData* created = pNonActor->targetRef.GetParentRef()->FUN_004ec5a0();
+    LockData* created = pNonActor->targetRef.GetParentRef()->TESObjectREFR_AddLock();
     created->baseLevel = (unsigned char)magnitude;
     created->key = 0;
     created->flags = 2;
-    pNonActor->targetRef.GetParentRef()->FUN_004e8e10();
+    pNonActor->targetRef.GetParentRef()->TESObjectREFR_AddLockChange();
     pNonActor->targetRef.GetParentRef()->FUN_004ec600();
 }
 
@@ -64333,6 +65128,8 @@ struct MusicForm {
 };
 MusicForm* __cdecl GetDefaultMusicForm(int kind);
 bool __cdecl StartMusicStream(int mode, const char* path, int flags);
+// pdb: FalloutAudioMedia::MediaOpen | FalloutAudioMedia.obj | fnv360_0822_debug, objrun_prop, low
+// pdb params: aiMusicType
 bool __cdecl FUN_006bdcd0(MusicForm* track) {
     struct State { unsigned int flags; bool IsPlaying() const { return (flags >> 1) & 1; } };
     if (g_curTrack_006bdcd0 == track && reinterpret_cast<State&>(g_musicState_006bdcd0).IsPlaying()) return false;
@@ -64390,6 +65187,7 @@ struct ParticleSystem {
     AnimTimer* m_timer;
     void FUN_006b54e0();
 };
+// pdb: MagicShaderHitEffect::ResetAlphaTimer | MagicShaderHitEffect.obj | fnv360_0822_debug, caller, medium
 void ParticleSystem::FUN_006b54e0() {
     float elapsed = 0.0f;
     if (m_timer) {
@@ -64514,6 +65312,7 @@ inline MusicTypeRecord* PlayerMusic()
     return ::DAT_0107a104 ? *(MusicTypeRecord**)((char*)::DAT_0107a104 + 0x700) : 0;
 }
 
+// pdb: FalloutAudioMedia::Update | FalloutAudioMedia.obj | fnv360_0822_retail, call_gap, low
 void __cdecl FUN_006bf3a0()
 {
     long code, param1, param2;
@@ -64743,7 +65542,7 @@ struct Cell { AcousticSpace* FUN_004d3690(); };
 struct RegionData {
     SoundList* Sounds() { return &fieldAt<SoundList>(this, 0xc); }
 };
-struct RegionDataList { RegionData* FUN_0049fa60(int type); };
+struct RegionDataList { RegionData* TESRegionDataList_Find(int type); };
 struct Region {
     RegionDataList* DataList() { return fieldAt<RegionDataList*>(this, 0x18); }
 };
@@ -64791,7 +65590,7 @@ struct SoundHandle {
     static void* operator new(unsigned int bytes) { return GameHeap().FUN_0086b930(bytes); }
     static void operator delete(void* block) { GameHeap().FUN_0086ba60(block); }
     bool FUN_00bd0160();                       // IsPlaying
-    bool FUN_00bd0390();                       // IsValid
+    bool BSSoundHandle_IsValid();                       // IsValid
     bool FUN_00bd03e0(unsigned int millis);    // FadeInPlay
     bool FUN_00bd0410(unsigned int millis);    // FadeOutAndRelease
     bool FUN_00bd00c0(bool loop);
@@ -64896,6 +65695,7 @@ extern unsigned int DAT_01079058;
 extern region_audio::SoundMap DAT_00f6c294;
 extern region_audio::Setting DAT_010790a0, DAT_0107906c;
 
+// pdb: FalloutAudio::UpdateRegionSounds | FalloutAudio.obj | fnv360_0822_retail, ustr, medium
 void FUN_006bde30()
 {
     using namespace region_audio;
@@ -64914,7 +65714,7 @@ void FUN_006bde30()
         FUN_006bd6f0(0);
 
     if (DAT_0107904c && DAT_0107904c->SoundRegion()) {
-        RegionData* data = DAT_0107904c->SoundRegion()->DataList()->FUN_0049fa60(7);
+        RegionData* data = DAT_0107904c->SoundRegion()->DataList()->TESRegionDataList_Find(7);
         if (data)
             sounds = data->Sounds();
     }
@@ -64979,7 +65779,7 @@ void FUN_006bde30()
                     DAT_00f6c294.FUN_00899cf0(sound->ID());
                     delete existingHandle;
                 }
-                else if (existingHandle->FUN_00bd0390() && !existingHandle->FUN_00bd0160() && allowed)
+                else if (existingHandle->BSSoundHandle_IsValid() && !existingHandle->FUN_00bd0160() && allowed)
                     existingHandle->FUN_00bd03e0(static_cast<unsigned int>(*DAT_010790a0.FUN_00401eb0() * 1000.0));
             }
             else if (!looping && allowed) {

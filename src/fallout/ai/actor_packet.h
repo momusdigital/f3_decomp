@@ -34,7 +34,7 @@ class NiControllerSequence
 {
   public:
     float FUN_00508100();
-    void FUN_0098adb0(float);
+    void hkpSimulationIsland_markForWrite(float);
 };
 class NiNode;
 class NiAVObject

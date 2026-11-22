@@ -325,7 +325,7 @@ struct RObj
 {
     int FUN_00a21830(int a, RItem* b, RItem* c, int d, int e);
 };
-int __cdecl FUN_009ac100(void* p1, void* p2, void* p3, int* ints, int n, int sz);
+int __cdecl hkRigidMotionUtilApplyAccumulators(void* p1, void* p2, void* p3, int* ints, int n, int sz);
 void __cdecl FUN_0099a2d0(int p, int* ints, int n);
 
 void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_Item* item)
@@ -339,7 +339,7 @@ void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_I
     S_00d943d0_Elem* e = pBlock->m_pElements + (idx + 1);
     int* ints = pBlock->m_auiHeaderValues + idx;
 
-    it->m_result = FUN_009ac100(&((RCtx*)ctx)->m_inner->unk1A0, &((RCtx*)ctx)->m_inner->unk190, e, ints, n, 0xd0);
+    it->m_result = hkRigidMotionUtilApplyAccumulators(&((RCtx*)ctx)->m_inner->unk1A0, &((RCtx*)ctx)->m_inner->unk190, e, ints, n, 0xd0);
     FUN_0099a2d0(((RCtx*)ctx)->m_inner->unk06C, ints, n);
 
     S_00d943d0_Timer("lt");

@@ -113,7 +113,7 @@ struct CbfOwner
     int unk3C;
     int unk40;
     int m_44;
-    void FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5);
+    void hkpWorldRayCaster_castRay(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5);
 };
 
 // @f3 0x00942be0 (community match, verified in this file)
@@ -171,7 +171,8 @@ class CbfTargetView
     virtual void v50();
     virtual void Cast(CbfRayIn* args, void* owner, int flag);
 };
-void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5)
+// pdb: hkpWorldRayCaster::castRay | hkpWorldRayCaster.obj | fnv360_0822_retail, ustr + skyrim(ustr), high
+void CbfOwner::hkpWorldRayCaster_castRay(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5)
 {
     CbfTimerF3(DAT_00e7a1b8);
     m_04 = src;

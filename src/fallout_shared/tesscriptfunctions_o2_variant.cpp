@@ -363,6 +363,7 @@ struct FUN_00a6aa40 : NiProperty
     virtual void V0();
 };
 // @fnv 0x00a6aa40
+// pdb: NiTexturingProperty::NiTexturingProperty | NiTexturingProperty.obj | fnv360_0822_retail, call_seq, medium
 FUN_00a6aa40::FUN_00a6aa40() : m_uiObjectFlags(0), m_kStringArray(9, 1), m_iArrayLength(0)
 {
     Map* pkMap;

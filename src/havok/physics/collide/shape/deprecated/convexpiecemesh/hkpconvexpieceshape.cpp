@@ -1,38 +1,10 @@
-// havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp: AdjDerived (12 functions)
+// havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp: AdjDerived (7 functions)
 #include "f3_common.h"
 #include "fnv_asm_helpers.h"
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 extern int DAT_010c6fb0;
-extern int DAT_010ece2c;
-extern int DAT_010ece08;
-
-struct FUN_00e607c0
-{
-    void* m_p00;            // +0x00
-    short m_s04;            // +0x04
-    short m_s06;            // +0x06
-    int   m_i08;            // +0x08
-    int   m_i0C;            // +0x0c
-    float m_f10;            // +0x10
-    void* volatile m_p14;   // +0x14
-
-    FUN_00e607c0(float arg);
-};
-
-// Initializes the object's fields from a float argument and assigns fixed globals to its pointers.
-// @fnv 0x00e607c0
-FUN_00e607c0::FUN_00e607c0(float afValue)
-{
-    m_f10 = afValue;
-    m_s06 = 1;
-    m_i08 = 0;
-    m_i0C = 0x14;
-    m_p14 = &DAT_010c6fb0;
-    m_p00 = &DAT_010ece2c;
-    m_p14 = &DAT_010ece08;
-}
 
 struct FUN_00e60680_class {
     int unk00; int unk04; int unk08; int unk0c; int unk10;
@@ -40,6 +12,8 @@ struct FUN_00e60680_class {
     int __thiscall GetNextIndex(int index);
 };
 // @fnv 0x00e60680
+// pdb: hkpConvexPieceShape::getNextKey | hkpConvexPieceShape.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: oldKey
 int __thiscall FUN_00e60680_class::GetNextIndex(int index) {
     int next = index + 1;
     if (next < capacity) return next;
@@ -53,26 +27,11 @@ struct Dispatch { int x0,x4,x8,xc; InnerDispatch inner; };
 struct FUN_00e60690_owner { int unk00; int unk04; int unk08; Dispatch* unk0c; int* unk10; void DispatchToInner(int index,int value); };
 // Calls run on the inner dispatcher with the value from unk10 at index and the given value.
 // @fnv 0x00e60690
+// pdb: hkpConvexPieceShape::getChildShape | hkpConvexPieceShape.obj | fnv360_0822_retail, objopen_prop, medium
+// pdb params: key, buffer
 void FUN_00e60690_owner::DispatchToInner(int index,int value) { unk0c->inner.run(unk10[index],value); }
 
 extern int DAT_010c6fb0;
-extern int DAT_0102e388;
-
-struct AudioAllocator {
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e60c30_cls {
     int m_vptr;
@@ -87,75 +46,20 @@ struct FUN_00e60c30_cls {
     static void operator delete(void* apMemory) throw();
 };
 
-// Sets the vtable and a global pointer, then, if acFlags has bit 0 set, frees this object through the allocator obtained from FUN_00c85750.
-// @fnv 0x00e60c30
-FUN_00e60c30_cls* FUN_00e60c30_cls::Destroy(unsigned char acFlags)
-{
-    m_p14 = (void*)&DAT_010c6fb0;
-    m_vptr = (int)&DAT_0102e388;
-    if (acFlags & 1) {
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
-    }
-    return this;
-}
-
 // @fnv 0x00e60670
+// pdb: BSFileCache::GetCachedFilesCount | DebugTextXenonFileCache.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: __init_collate)
 int FUN_00e60670()
 {
     return 0;
 }
 
 #include <xmmintrin.h>
-struct FUN_00e606c0_cls {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    __m128* m_pSrc;
-
-    void Copy(__m128* apDst);
-};
-
-// @fnv 0x00e606c0
-void FUN_00e606c0_cls::Copy(__m128* apDst)
-{
-    *apDst = *m_pSrc;
-}
 
 struct E606E0Vector4 {
     __m128 m_vComponents;
 
     void operator=(const E606E0Vector4& v) { m_vComponents = v.m_vComponents; }
 };
-
-struct E606E0Shape {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    float m_fSphereRadius;
-    int unk14;
-    E606E0Vector4* m_kVertices;
-    int m_iStridedVertexCount;
-
-    E606E0Vector4* CopyVerticesWithRadius(E606E0Vector4* vertices) const;
-};
-
-// @fnv 0x00e606e0
-E606E0Vector4* E606E0Shape::CopyVerticesWithRadius(E606E0Vector4* apDestVertices) const
-{
-    E606E0Vector4* pDest = apDestVertices;
-    for (int i = 0; i < m_iStridedVertexCount; i++) {
-        *pDest = m_kVertices[i];
-        pDest->m_vComponents.m128_f32[3] = m_fSphereRadius;
-        pDest++;
-    }
-    return apDestVertices;
-}
 
 struct __declspec(align(16)) Vec4 {
     __m128 v;
@@ -201,6 +105,8 @@ struct FUN_00e60730_cls {
 };
 
 // @f3 0x00a978b0 (community match, verified in this file)
+// pdb: hkpConvexPieceShape::convertVertexIdsToVerticesImpl | hkpConvexPieceShape.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: ids, numIds, verticesOut
 void FUN_00e60730_cls::FUN_00e60730(const unsigned short* apIndices, int aiCount, Vec4* apOut)
 {
     Scratch scratch;
@@ -220,57 +126,6 @@ void FUN_00e60730_cls::FUN_00e60730(const unsigned short* apIndices, int aiCount
     }
 }
 
-
-struct Transform_e608 {
-    __m128 m_kColumn0;
-    __m128 m_kColumn1;
-    __m128 m_kColumn2;
-    __m128 m_vTranslation;
-};
-
-inline __m128 TransformedPos_e608(const Transform_e608& a, const __m128& b)
-{
-    const __m128 xb = _mm_shuffle_ps(b, b, 0x00);
-    const __m128 yb = _mm_shuffle_ps(b, b, 0x55);
-    const __m128 zb = _mm_shuffle_ps(b, b, 0xaa);
-    __m128 t0 = _mm_mul_ps(xb, a.m_kColumn0);
-    __m128 t1 = _mm_mul_ps(yb, a.m_kColumn1);
-    __m128 t2 = _mm_mul_ps(zb, a.m_kColumn2);
-    return _mm_add_ps(_mm_add_ps(t0, t1), _mm_add_ps(t2, a.m_vTranslation));
-}
-
-struct Aabb_e608 {
-    __m128 m_kMinimumCorner;
-    __m128 m_kMaximumCorner;
-};
-
-class Shape_e608 {
-public:
-    int unk00, unk04, unk08, unk0c;
-    float m_fSphereRadius;
-    int unk14;
-    __m128* m_kVertices;
-    int m_iStridedVertexCount;
-
-    void FUN_00e60800(const Transform_e608& kLocalToWorld, float fTolerance, Aabb_e608& kOut) const;
-};
-
-// Computes the world-space AABB of the shape's vertices via kLocalToWorld, then expands it by m_fSphereRadius plus fTolerance into kOut.
-// @fnv 0x00e60800
-void Shape_e608::FUN_00e60800(const Transform_e608& kLocalToWorld, float fTolerance, Aabb_e608& kOut) const
-{
-    kOut.m_kMinimumCorner = _mm_set1_ps(3.40282e+38f);
-    kOut.m_kMaximumCorner = _mm_set1_ps(-3.40282e+38f);
-    for (int i = 0; i < m_iStridedVertexCount; i++) {
-        __m128 world = TransformedPos_e608(kLocalToWorld, m_kVertices[i]);
-        kOut.m_kMinimumCorner = _mm_min_ps(kOut.m_kMinimumCorner, world);
-        kOut.m_kMaximumCorner = _mm_max_ps(kOut.m_kMaximumCorner, world);
-    }
-    float fRadius = m_fSphereRadius + fTolerance;
-    __m128 r = _mm_load1_ps(&fRadius);
-    kOut.m_kMinimumCorner = _mm_sub_ps(kOut.m_kMinimumCorner, r);
-    kOut.m_kMaximumCorner = _mm_add_ps(kOut.m_kMaximumCorner, r);
-}
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -390,6 +245,8 @@ struct S_00e609c0_ConvexPieceShape : S_00e609c0_Shape {
 
 // Ray-casts each child shape whose filter allows it and, if any hit, sets results' key to the last hit index; returns whether any child was hit.
 // @fnv 0x00e609c0
+// pdb: hkpConvexPieceShape::castRayImpl | hkpConvexPieceShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: input, results
 S_00e609c0_Bool S_00e609c0_ConvexPieceShape::FUN_00e609c0(const S_00e609c0_RayInput& input, S_00e609c0_RayOutput& results) const
 {
     int hitIndex;
@@ -577,6 +434,8 @@ struct S_00a97e20_Child {
     virtual void func24(const BodyA* bodyA, const S_00a97e20_CdBody* bodyB, void* input);
 };
 
+// pdb: hkpConvexPieceShape::castRayWithCollectorImpl | hkpConvexPieceShape.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: input, cdBody, collector
 void FUN_00e60b00_cls::ProcessCollisionShapes(const BodyA* bodyA, const BodyB* bodyB, void* input) {
     S_00a97e20_Cursor::GetMonitorStream().timerBegin("TtrcConvxPiece");
 

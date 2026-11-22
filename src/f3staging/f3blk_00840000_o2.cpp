@@ -93,6 +93,8 @@ struct FUN_008534e0_shell
     void FUN_008534e0(unsigned int uiIndex, FUN_008534e0_Ptr& spChildOut);
 };
 
+// pdb: NiSwitchNode::DetachChildAt | NiSwitchNode.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: NiSwitchNode::DetachChild)
+// pdb params: i, aspAVObject
 void FUN_008534e0_shell::FUN_008534e0(unsigned int uiIndex, FUN_008534e0_Ptr& spChildOut)
 {
     m_flagB8 = 1;
@@ -151,6 +153,7 @@ struct Owner846060 {
     void FUN_008557c0();
     Owner846060* FUN_00846060(unsigned int flags);
 };
+// pdb: NiTriShapeData::`vector deleting destructor' | NiTriShapeData.obj | tesv_win, vtable_prefix, medium
 Owner846060* Owner846060::FUN_00846060(unsigned int flags) {
     table = &DAT_00e233d4;
     if (list) FUN_0089e890(list);
@@ -170,6 +173,7 @@ Owner846060* Owner846060::FUN_00846060(unsigned int flags) {
 namespace f3m_008557a0 {
 struct Base8557a0 { virtual ~Base8557a0(); virtual void v4(); int pad[15]; Base8557a0(); };
 struct FUN_008557a0 : Base8557a0 { unsigned short value; virtual ~FUN_008557a0(); FUN_008557a0(); };
+// pdb: NiTriBasedGeomData::NiTriBasedGeomData | NiTriBasedGeomData.obj | fnv360_0822_retail, call_seq, high
 FUN_008557a0::FUN_008557a0() { value = 0; }
 }   // namespace f3m_008557a0
 
@@ -184,6 +188,7 @@ struct FUN_00840400_This {
 };
 
 
+// pdb: NiTriStripsDynamicData::CreateObject | NiTriStripsDynamicData.obj | fnv360_0822_retail, objrun_prop, low
 unsigned int* __cdecl FUN_0085e250() {
 
     unsigned int* esi_val = static_cast<unsigned int*>(FUN_0089eb90(0x54));
@@ -208,8 +213,9 @@ unsigned int* __cdecl FUN_0085e250() {
 // @f3 0x00848ed0 (community match, verified in this file)
 namespace f3m_00848ed0 {
 struct P848ed0 { char pad[0xc]; int f; };
-struct O848ed0 { void FUN_00848700(int v); void FUN_0082d9f0(P848ed0* p); void FUN_00848ed0(P848ed0* p); };
-void O848ed0::FUN_00848ed0(P848ed0* p) { FUN_00848700(p->f); FUN_0082d9f0(p); }
+struct O848ed0 { void FUN_00848700(int v); void FUN_0082d9f0(P848ed0* p); void NiBillboardNode_OnVisible(P848ed0* p); };
+// pdb: NiBillboardNode::OnVisible | NiBillboardNode.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+void O848ed0::NiBillboardNode_OnVisible(P848ed0* p) { FUN_00848700(p->f); FUN_0082d9f0(p); }
 }   // namespace f3m_00848ed0
 
 // @f3 0x0084be60 (community match, verified in this file)
@@ -245,6 +251,8 @@ struct Object {
     void FUN_0083bd00(NameArray*);
     void FUN_0085d6f0(NameArray*);
 };
+// pdb: NiScreenSpaceCamera::GetViewerStrings | NiOldScreenSpace.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkStrings
 void Object::FUN_0085d6f0(NameArray* names) {
     FUN_0083bd00(names);
     void* value=FUN_00847b50(DAT_01090864);
@@ -278,6 +286,8 @@ struct Object {
     void FUN_0083f700(NameArray*);
     void FUN_0085d200(NameArray*);
 };
+// pdb: NiScreenGeometry::GetViewerStrings | NiOldScreenSpace.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkStrings
 void Object::FUN_0085d200(NameArray* names) {
     FUN_0083f700(names);
     void* value=FUN_00847b50(DAT_01090854);
@@ -311,6 +321,8 @@ struct Object {
     void FUN_00825b40(NameArray*);
     void FUN_0085a210(NameArray*);
 };
+// pdb: Ni2DBuffer::GetViewerStrings | Ni2DBuffer.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkStrings
 void Object::FUN_0085a210(NameArray* names) {
     FUN_00825b40(names);
     void* value=FUN_00847b50(DAT_01090700);
@@ -344,6 +356,8 @@ struct Object {
     void FUN_00825b40(NameArray*);
     void FUN_008562c0(NameArray*);
 };
+// pdb: NiPalette::GetViewerStrings | NiPalette.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkStrings
 void Object::FUN_008562c0(NameArray* names) {
     FUN_00825b40(names);
     void* value=FUN_00847b50(DAT_01090608);
@@ -377,6 +391,8 @@ struct Object {
     void FUN_0084ba30(NameArray*);
     void FUN_00855450(NameArray*);
 };
+// pdb: NiTriBasedGeom::GetViewerStrings | NiTriBasedGeom.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pkStrings
 void Object::FUN_00855450(NameArray* names) {
     FUN_0084ba30(names);
     void* value=FUN_00847b50(DAT_01090574);
@@ -462,6 +478,8 @@ struct Object {
     void FUN_0083f700(NameArray*);
     void FUN_00851890(NameArray*);
 };
+// pdb: BSResizableTriShape::GetViewerStrings | BSResizableTriShape.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Object::FUN_00851890(NameArray* names) {
     FUN_0083f700(names);
     void* handle=FUN_00847b50(DAT_01090528);
@@ -515,6 +533,8 @@ struct Object {
     void FUN_00832be0(NameArray*);
     void FUN_008556c0(NameArray*);
 };
+// pdb: NiLinesData::GetViewerStrings | NiLinesData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Object::FUN_008556c0(NameArray* names) {
     FUN_00832be0(names);
     void* handle=FUN_00847b50(DAT_0109057c);
@@ -563,6 +583,8 @@ struct Object {
     void FUN_0083e180(NameArray*);
     void FUN_00849d40(NameArray*);
 };
+// pdb: BSPackedAdditionalGeometryData::GetViewerStrings | BSPackedAdditionalGeometryData.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pkStrings
 void Object::FUN_00849d40(NameArray* names) {
     FUN_0083e180(names);
     void* handle=FUN_00847b50(DAT_0108f4b8);
@@ -576,6 +598,7 @@ void Object::FUN_00849d40(NameArray* names) {
 // @f3 0x0085bd20 (community match, verified in this file)
 namespace f3m_0085bd20 {
 namespace f3m_0085bd20 { extern void** DAT_0109083c; extern unsigned int DAT_01090844; }
+// pdb: NiMaterialLibrary::~NiMaterialLibrary | NiMaterialLibrary.obj | fnv360_0721_beta, objrun_prop, low
 void __cdecl FUN_0085bd20(void* p) { using namespace f3m_0085bd20; unsigned int n = DAT_01090844; for (unsigned int i = 0; i < n; i++) { if (DAT_0109083c[i] == p) { if ((int)i >= 0) { n = n - 1; DAT_01090844 = n; DAT_0109083c[i] = DAT_0109083c[n]; } return; } } }
 }   // namespace f3m_0085bd20
 
@@ -629,6 +652,8 @@ struct Object {
     void FUN_00825b40(NameArray*);
     void FUN_0084a860(NameArray*);
 };
+// pdb: NiCollisionObject::GetViewerStrings | NiCollisionObject.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkStrings
 void Object::FUN_0084a860(NameArray* names) {
     FUN_00825b40(names);
     void* handle=FUN_00847b50(DAT_0108f4cc);
@@ -681,6 +706,8 @@ struct Object {
     void FUN_00832be0(NameArray*);
     void FUN_008558d0(NameArray*);
 };
+// pdb: NiTriBasedGeomData::GetViewerStrings | NiTriBasedGeomData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void Object::FUN_008558d0(NameArray* names) {
     FUN_00832be0(names);
     void* handle=FUN_00847b50(DAT_01090584);
@@ -698,6 +725,8 @@ struct NiPalette;
 struct PixelLayout { unsigned int m_uiRedMask, m_uiGreenMask; };
 void* __cdecl FUN_00bffa60(void*, const void*, unsigned int);
 // @fnv 0x00a7a160
+// pdb: NiDevImageConverter::Convert24ToRGB24 | NiDevImageConverter.obj | fnv360_0822_retail, objrun, medium
+// pdb params: uiWidth, uiHeight, uiDestSize, pucDest, pkSrcPal, kDestBits, pucSrc, kSrcBits
 void __cdecl FUN_008448e0(unsigned int uiWidth, unsigned int uiHeight, unsigned int, unsigned char* pDst,
                           const NiPalette*, const PixelLayout&,
                           const unsigned char* pSrc, const PixelLayout& kSrcBits)
@@ -754,6 +783,7 @@ struct Owner845fe0 {
     void FUN_00845fe0();
 };
 
+// pdb: NiTriShapeData::~NiTriShapeData | NiTriShapeData.obj | fnv360_0822_retail, objrun_prop, low, conflict (bridge: NiTriShapeData::GetTriList)
 void Owner845fe0::FUN_00845fe0() {
     table = &DAT_00e233d4;
     if (list) FUN_0089e890(list);
@@ -782,10 +812,10 @@ struct Owner85be90 {
     const void* table;
     long refCount;
     char* name;
-    Owner85be90* FUN_0085be90(unsigned int flags);
+    Owner85be90* NiMaterialLibrary(unsigned int flags);
 };
 
-Owner85be90* Owner85be90::FUN_0085be90(unsigned int flags) {
+Owner85be90* Owner85be90::NiMaterialLibrary(unsigned int flags) {
     table = &DAT_00e251cc;
     FUN_0085bd20(this);
     if (name != DAT_00e207a8) InterlockedDecrement((long*)(name - 8));
@@ -818,6 +848,7 @@ unsigned u38;
 unsigned u3c;
 unsigned u40;
 unsigned short count,unknown46;void* items;void* other;void FUN_008557a0();};
+// pdb: NiTriStripsData::CreateObject | NiTriStripsData.obj | tesv_win, caller_sim, low
 void* __cdecl FUN_008404a0(){Object*p=(Object*)FUN_0089eb90(0x50);if(p){p->FUN_008557a0();p->vtable=&DAT_00e231b4;p->count=0;p->items=0;p->other=0;return p;}return 0;}
 }
 }   // namespace f3m_008404a0
@@ -825,6 +856,8 @@ void* __cdecl FUN_008404a0(){Object*p=(Object*)FUN_0089eb90(0x50);if(p){p->FUN_0
 // @f3 0x0085bd60 (community match, verified in this file)
 #include <windows.h>
 namespace f3m_0085bd60 {
+// pdb: NiTSet<NiMaterialLibrary *,NiTMallocInterface<NiMaterialLibrary *> >::Add | NiMaterialLibrary.obj | fnv360_0721_beta, objrun, medium
+// pdb params: element
 namespace Task85bd{struct Owner;extern int DAT_00e251cc,DAT_00db7764;extern void* DAT_00e207a8;extern long DAT_0108ed80;void __cdecl FUN_0085bd20(Owner*);struct Owner{void*methods;int unk04;void*value;~Owner();};Owner::~Owner(){methods=&DAT_00e251cc;FUN_0085bd20(this);if(value!=DAT_00e207a8)InterlockedDecrement((long*)value-2);methods=&DAT_00db7764;InterlockedDecrement(&DAT_0108ed80);}}
 }   // namespace f3m_0085bd60
 
@@ -832,6 +865,8 @@ namespace Task85bd{struct Owner;extern int DAT_00e251cc,DAT_00db7764;extern void
 #include <string.h>
 namespace f3m_00845ee0 {
 struct ComparedBuffer {int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C; int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C; int unk40; unsigned count;unsigned short* data;bool FUN_008557e0(ComparedBuffer*);bool FUN_00845ee0(ComparedBuffer*);};
+// pdb: NiTriShapeData::IsEqual | NiTriShapeData.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiTriStripsData::IsEqual)
+// pdb params: pkObject
 bool ComparedBuffer::FUN_00845ee0(ComparedBuffer* other){if(!FUN_008557e0(other))return false;if(count!=other->count)return false;if(memcmp(data,other->data,count*2))return false;return true;}
 }   // namespace f3m_00845ee0
 
@@ -839,6 +874,8 @@ bool ComparedBuffer::FUN_00845ee0(ComparedBuffer* other){if(!FUN_008557e0(other)
 namespace f3m_008516a0 {
 struct T8516a0 { int a0; int a4; volatile int a8; volatile float ac; };
 struct O8516a0 { unsigned int unk_pad_0, unk_pad_4, unk_pad_8, unk_pad_12, unk_pad_16, unk_pad_20, unk_pad_24, unk_pad_28; T8516a0* t; unsigned int unk_pad2_0, unk_pad2_4, unk_pad2_8, unk_pad2_12, unk_pad2_16, unk_pad2_20, unk_pad2_24, unk_pad2_28, unk_pad2_32, unk_pad2_36, unk_pad2_40, unk_pad2_44, unk_pad2_48, unk_pad2_52, unk_pad2_56, unk_pad2_60, unk_pad2_64, unk_pad2_68, unk_pad2_72, unk_pad2_76, unk_pad2_80, unk_pad2_84, unk_pad2_88, unk_pad2_92, unk_pad2_96, unk_pad2_100, unk_pad2_104, unk_pad2_108, unk_pad2_112, unk_pad2_116, unk_pad2_120, unk_pad2_124, unk_pad2_128, unk_pad2_132, unk_pad2_136, unk_pad2_140, unk_pad2_144, unk_pad2_148, unk_pad2_152, unk_pad2_156, unk_pad2_160; int c8; int cc; volatile int d0; float d4; void FUN_008516a0(int a, int b, int c, float d); };
+// pdb: BSResizableTriShape::SetLocalBound | BSResizableTriShape.obj | fnv360_0721_beta, objrun_sim, low
+// pdb params: aBound
 void O8516a0::FUN_008516a0(int a,int b,int c,float d) { c8=a; cc=b; d0=c; d4=d; T8516a0* p=t; p->a0=a; p->ac=d; p->a4=b; p->a8=c; }
 }   // namespace f3m_008516a0
 
@@ -854,6 +891,7 @@ void Free(Node* node) { node->item=0; DAT_0106e5a0.FUN_00409a80(0); node->prev=0
 struct List { Node* head; Node* tail; unsigned count; Item* Remove() { Node* node=head; head=node->next; if(head) head->prev=0; else tail=0; Item* item=node->item; Free(node); count+=-1; return item; } void FUN_00bd12d0(); };
 struct Member { int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; void FUN_00c24b70(); };
 struct Owner { void* table; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int unk2b4; int unk2b8; int unk2bc; int unk2c0; int unk2c4; int unk2c8; int unk2cc; int unk2d0; int unk2d4; int unk2d8; int unk2dc; int unk2e0; int unk2e4; int unk2e8; int unk2ec; int unk2f0; int unk2f4; int unk2f8; int unk2fc; int unk300; int unk304; int unk308; int unk30c; int unk310; int unk314; int unk318; int unk31c; int unk320; int unk324; int unk328; int unk32c; int unk330; int unk334; int unk338; int unk33c; int unk340; int unk344; int unk348; int unk34c; int unk350; int unk354; int unk358; int unk35c; int unk360; int unk364; int unk368; int unk36c; int unk370; int unk374; int unk378; int unk37c; int unk380; int unk384; int unk388; int unk38c; int unk390; int unk394; int unk398; int unk39c; int unk3a0; int unk3a4; int unk3a8; int unk3ac; int unk3b0; int unk3b4; int unk3b8; int unk3bc; int unk3c0; int unk3c4; int unk3c8; int unk3cc; int unk3d0; int unk3d4; int unk3d8; int unk3dc; int unk3e0; int unk3e4; int unk3e8; int unk3ec; int unk3f0; int unk3f4; int unk3f8; int unk3fc; int unk400; int unk404; int unk408; int unk40c; int unk410; int unk414; int unk418; int unk41c; int unk420; int unk424; int unk428; int unk42c; int unk430; int unk434; int unk438; int unk43c; int unk440; int unk444; int unk448; int unk44c; int unk450; int unk454; int unk458; int unk45c; int unk460; int unk464; int unk468; int unk46c; int unk470; int unk474; int unk478; int unk47c; int unk480; int unk484; int unk488; int unk48c; int unk490; int unk494; int unk498; int unk49c; int unk4a0; int unk4a4; int unk4a8; int unk4ac; int unk4b0; int unk4b4; int unk4b8; int unk4bc; int unk4c0; int unk4c4; int unk4c8; int unk4cc; int unk4d0; int unk4d4; int unk4d8; int unk4dc; int unk4e0; int unk4e4; int unk4e8; int unk4ec; int unk4f0; int unk4f4; int unk4f8; int unk4fc; int unk500; int unk504; int unk508; int unk50c; int unk510; int unk514; int unk518; int unk51c; int unk520; int unk524; int unk528; int unk52c; int unk530; int unk534; int unk538; int unk53c; int unk540; int unk544; int unk548; int unk54c; int unk550; int unk554; int unk558; int unk55c; int unk560; int unk564; int unk568; int unk56c; int unk570; int unk574; int unk578; int unk57c; int unk580; int unk584; int unk588; int unk58c; int unk590; int unk594; int unk598; int unk59c; int unk5a0; int unk5a4; int unk5a8; int unk5ac; int unk5b0; int unk5b4; int unk5b8; int unk5bc; int unk5c0; int unk5c4; int unk5c8; int unk5cc; int unk5d0; int unk5d4; int unk5d8; int unk5dc; int unk5e0; int unk5e4; int unk5e8; int unk5ec; int unk5f0; int unk5f4; int unk5f8; int unk5fc; int unk600; int unk604; int unk608; int unk60c; int unk610; int unk614; int unk618; int unk61c; int unk620; int unk624; int unk628; int unk62c; int unk630; int unk634; int unk638; int unk63c; int unk640; int unk644; int unk648; int unk64c; int unk650; int unk654; int unk658; int unk65c; int unk660; int unk664; int unk668; int unk66c; int unk670; int unk674; int unk678; int unk67c; int unk680; int unk684; int unk688; int unk68c; int unk690; int unk694; int unk698; int unk69c; int unk6a0; int unk6a4; int unk6a8; int unk6ac; int unk6b0; int unk6b4; int unk6b8; int unk6bc; int unk6c0; int unk6c4; int unk6c8; int unk6cc; int unk6d0; int unk6d4; int unk6d8; int unk6dc; int unk6e0; int unk6e4; int unk6e8; int unk6ec; int unk6f0; int unk6f4; int unk6f8; int unk6fc; int unk700; int unk704; int unk708; int unk70c; int unk710; int unk714; int unk718; int unk71c; int unk720; int unk724; int unk728; int unk72c; int unk730; int unk734; int unk738; int unk73c; int unk740; int unk744; int unk748; int unk74c; int unk750; int unk754; int unk758; int unk75c; int unk760; int unk764; int unk768; int unk76c; int unk770; int unk774; int unk778; int unk77c; Member member; List list; void FUN_00840c70(); void FUN_00845700(); };
+// pdb: NiDevImageConverter::~NiDevImageConverter | NiDevImageConverter.obj | fnv360_0822_retail, caller_sim, medium
 void Owner::FUN_00845700() { table=&DAT_00e232cc; while(list.count) { Item* item=list.Remove(); if(item) item->Destroy(); } list.FUN_00bd12d0(); member.FUN_00c24b70(); FUN_00840c70(); }
 }
 }   // namespace f3m_00845700
@@ -880,6 +918,7 @@ struct SkinPartition1539 {
     bool FUN_0084d0b0(const SkinPartition1539*);
 };
 
+// pdb: NiSkinPartition::Partition::IsEqual | NiSkinPartition.obj | tesv_win, call_seq, medium
 bool SkinPartition1539::FUN_0084d0b0(const SkinPartition1539* other)
 {
     if (vertices1C!=other->vertices1C) return false;
@@ -944,14 +983,14 @@ class NiFixedString
 
 extern "C" void __cdecl FUN_0085bd20(void* p);
 
-class FUN_0085be90 : public NiRefObject
+class NiMaterialLibrary : public NiRefObject // src: F3_EXE vtable 0x00e251cc (old: FUN_0085be90)
 {
   public:
-    virtual ~FUN_0085be90();
+    virtual ~NiMaterialLibrary();
     NiFixedString m_kName;
 };
 
-FUN_0085be90::~FUN_0085be90()
+NiMaterialLibrary::~NiMaterialLibrary()
 {
     FUN_0085bd20(this);
 }
@@ -969,12 +1008,12 @@ struct FUN_0085be90_obj
     const void* m_pVTable;
     long m_lRefCount;
     char* m_kName;
-    FUN_0085be90_obj* FUN_0085be90(unsigned int flags);
+    FUN_0085be90_obj* NiMaterialLibrary(unsigned int flags);
 };
 
 void __cdecl FUN_0085bd20(FUN_0085be90_obj* obj);
 
-FUN_0085be90_obj* FUN_0085be90_obj::FUN_0085be90(unsigned int flags)
+FUN_0085be90_obj* FUN_0085be90_obj::NiMaterialLibrary(unsigned int flags)
 {
     m_pVTable = &DAT_0109f7f4;
     FUN_0085bd20(this);
@@ -996,6 +1035,7 @@ struct CleanupObject8557c0 {
  void FUN_00831f90();
  void FUN_008557c0();
 };
+// pdb: NiTriBasedGeomData::~NiTriBasedGeomData | NiTriBasedGeomData.obj | fnv360_0822_retail, caller, medium
 void CleanupObject8557c0::FUN_008557c0(){table=DAT_00e24c1c;FUN_00831f90();}
 }   // namespace f3m_008557c0
 
@@ -1011,6 +1051,7 @@ struct Owner
     void FUN_0084a740();
 };
 
+// pdb: NiCollisionObject::~NiCollisionObject | NiCollisionObject.obj | fnv360_0721_beta, call_seq, medium
 void Owner::FUN_0084a740()
 {
     *(int*)this = (int)&FUN_00e23964;
@@ -1031,6 +1072,7 @@ struct Owner
     void FUN_008553d0();
 };
 
+// pdb: NiTriBasedGeom::~NiTriBasedGeom | NiTriBasedGeom.obj | fnv360_0822_retail, call_seq, high
 void Owner::FUN_008553d0()
 {
     *(int*)this = (int)&FUN_00e24a5c;
@@ -1090,6 +1132,7 @@ struct Obj {
     Member unk80;
     Obj* FUN_00840c40();
 };
+// pdb: NiImageConverter::NiImageConverter | NiImageConverter.obj | fnv360_0822_retail, objrun, medium
 Obj* Obj::FUN_00840c40() {
     vtable = &DAT_00db7764;
     refCount = 0;
@@ -1119,6 +1162,7 @@ struct Obj {
     Member unk80;
     void FUN_00840c70();
 };
+// pdb: NiImageConverter::~NiImageConverter | NiImageConverter.obj | fnv360_0822_retail, call_seq, medium
 void Obj::FUN_00840c70() {
     vtable = &DAT_00e232ac;
     if (DAT_0108f478) FUN_0089e890(DAT_0108f478);

@@ -26,5 +26,6 @@ struct TypedRecord {
  unsigned unk3C;
  unsigned unk40;
  unsigned type;unsigned FUN_00565d50();};
+// pdb: TESTopicInfo::GetDifficulty | TESTopicInfo.obj | fnv360_0721_retail, objrun, low, conflict (skyrim: BGSCameraPath::GetIndexForChild)
 unsigned TypedRecord::FUN_00565d50() {switch(type){case 1:return DAT_00f5d200;case 2:return DAT_00f5d20c;case 3:return DAT_00f5d218;case 4:return DAT_00f5d224;case 5:return DAT_00f5d230;default:return -1;}}
 }   // namespace f3m_00565d50

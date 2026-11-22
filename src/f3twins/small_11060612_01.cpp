@@ -180,6 +180,7 @@ D_00544ad0::D_00544ad0() {}
 extern char DAT_00db3438;
 struct C_00552f80 { char pad[0x4c]; void* p; void* f(); };
 
+// pdb: TESIdleForm::GetFormEditorID | TESIdleForm.obj | fnv360_0822_retail, vtable, medium
 void* C_00552f80::f()
 {
     if (p) return p;
@@ -217,6 +218,7 @@ D_007f7b60::D_007f7b60() {}
 
 struct C_00886330 { char pad[0x3c]; char m; void* f(); };
 
+// pdb: NiXenonFragmentShader::GetShaderInstanceDesc | NiXenonFragmentShader.obj | fnv360_0822_retail, objrun_sim, low
 void* C_00886330::f()
 {
     return &m;
@@ -248,6 +250,8 @@ void C_0089c170::f()
 
 struct S_008c8f30 { char pad[64]; int v; char __thiscall FUN_008d0e40(const S_008c8f30*); char __thiscall FUN_008c8f30(const S_008c8f30*); };
 
+// pdb: NiFloatsExtraDataController::IsEqual | NiFloatsExtraDataController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkObject
 char S_008c8f30::FUN_008c8f30(const S_008c8f30* o)
 {
     if (!FUN_008d0e40(o)) return false;
@@ -258,6 +262,8 @@ char S_008c8f30::FUN_008c8f30(const S_008c8f30* o)
 
 struct S_0090f1f0 { int a; char b; bool __thiscall FUN_0090f1f0(); };
 
+// pdb: hkPackedNiTriStripsData::IsEqual | hkPackedNiTriStripsShape.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: apObject
 bool S_0090f1f0::FUN_0090f1f0()
 {
     return b == 0;
@@ -492,6 +498,8 @@ Derived::Derived()
 
 struct S_0097dca0 { int a[3]; int n; int __thiscall FUN_0097dca0(int); };
 
+// pdb: hkpShape::hkpShape | hkpListShape.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: flag
 int S_0097dca0::FUN_0097dca0(int i)
 {
     i++;
@@ -504,6 +512,8 @@ int S_0097dca0::FUN_0097dca0(int i)
 struct S_00a60f80 { void __thiscall FUN_00a60f80(); };
 extern S_00a60f80* DAT_0116c490;
 
+// pdb: hkServerProcessHandler::getProcessId | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: Actor::`vector deleting destructor'`adjustor{120}')
+// pdb params: name
 __declspec(noinline) void FUN_009ef270()
 {
     DAT_0116c490->FUN_00a60f80();
@@ -514,6 +524,8 @@ __declspec(noinline) void FUN_009ef270()
 char __stdcall FUN_00abbc20(int);
 struct S_00ab4b80 { char __thiscall FUN_00ab4b80(int); };
 
+// pdb: BSPSysMultiTargetEmitterCtlr::RegisterStreamables | BSPSysMultiTargetEmitterCtlr.obj | fnv360_0822_retail, vtable, medium
+// pdb params: kStream
 char S_00ab4b80::FUN_00ab4b80(int a)
 {
     return FUN_00abbc20(a) != 0;
@@ -523,6 +535,8 @@ char S_00ab4b80::FUN_00ab4b80(int a)
 
 struct S_00abf8f0 { char pad[88]; float v; char __thiscall FUN_00ac6280(const S_00abf8f0*); char __thiscall FUN_00abf8f0(const S_00abf8f0*); };
 
+// pdb: NiPSysCylinderEmitter::IsEqual | NiPSysCylinderEmitter.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiPSysSphereEmitter::IsEqual)
+// pdb params: pkObject
 char S_00abf8f0::FUN_00abf8f0(const S_00abf8f0* o)
 {
     if (!FUN_00ac6280(o)) return 0;
@@ -586,6 +600,7 @@ extern const char DAT_00e15bc4;
 extern S_00430ff0 DAT_0107b5f4;
 void __cdecl FUN_00d97870(void);
 
+// pdb: `dynamic initializer for 'fHealthBarFadeOutSpeed'' | HighProcess.obj | fnv360_0822_debug, ustr, medium
 void FUN_00cf7e60()
 {
     DAT_0107b5f4.FUN_00430ff0(&DAT_00e15bc4, 1.0f);

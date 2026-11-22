@@ -6,6 +6,8 @@
 
 // @f3 0x0061efa0 (community match, verified in this file)
 namespace f3m_0061efa0 {
+// pdb: InterfaceManager::ConvertButton | InterfaceManager.obj | fnv360_0822_debug, objrun, low
+// pdb params: aeButton
 int __cdecl FUN_0061efa0(int value) {
     switch(value) {
     case 9: return 10;
@@ -47,6 +49,8 @@ struct Arr60B790 {
     unsigned FUN_005e5350();
     void FUN_0060b790(unsigned index, void** item);
 };
+// pdb: BSSimpleArray<MessageMenu::MessageMenuEntry *,1024>::Insert | MessageMenu.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: aiIndex, aValue
 void Arr60B790::FUN_0060b790(unsigned index, void** item) {
     if (index == size) {
         unsigned slot = FUN_005e5350();
@@ -89,6 +93,7 @@ struct Owner {
     unsigned mode;
     Point* FUN_00616350(Point* out);
 };
+// pdb: BGSTerrainNode::GetOffsetFromParent | BGSTerrainNode.obj | fnv360_0822_retail, call_seq, medium
 Point* Owner::FUN_00616350(Point* out)
 {
     volatile float v, w;

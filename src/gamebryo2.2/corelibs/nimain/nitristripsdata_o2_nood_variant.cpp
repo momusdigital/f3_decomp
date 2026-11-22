@@ -9,6 +9,7 @@ extern "C" void* NiMalloc(unsigned int, const char* = 0, int = 0, const char* = 
 #include "nitristripsdata_forwarders.h"
 
 // @fnv 0x00a75f30
+// pdb: NiTexturingProperty::GetRTTI | NiTexturingProperty.obj | fnv360_0822_retail, objrun_open, low
 extern "C" const NiRTTI* __cdecl FUN_00a75f30()
 {
     return &DAT_011f4a70;
@@ -22,6 +23,8 @@ class NiTriStripsDataWork : public NiTriStripsData
 };
 
 // @fnv 0x00a75f40
+// pdb: NiTriStripsData::GetStripData | NiTriStripsData.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: usStrips, pusStripLengths, pusTriList, uiStripLengthSum
 void NiTriStripsDataWork::FUN_00a75f40(unsigned short& rNumStrips, const unsigned short*& rStripLengths,
                                        const unsigned short*& rStripLists, unsigned int& rNumIndices)
 {

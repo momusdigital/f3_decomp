@@ -8,14 +8,6 @@ struct BSAudio
 BSAudio* __cdecl FUN_00c85750();
 extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int);
 
-struct BufferHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    void* m_pAllocator;
-};
-
 class BufferOwner
 {
   public:
@@ -26,32 +18,7 @@ class BufferOwner
     BufferOwner* InitBuffer();
 };
 
-// @fnv 0x00cbbd80
-BufferOwner* BufferOwner::InitBuffer()
-{
-    m_pData = (char*)this + 0xc;
-    m_iReferenceCount = 0;
-    m_uiObjectFlags = 0x80000080;
-    BufferHolder* pHolder = reinterpret_cast<BufferHolder*>(FUN_00c85750());
-    void* pAllocator = pHolder->m_pAllocator;
-    int iCount = (int)(m_uiObjectFlags & 0x3fffffff);
-    if (iCount < 1)
-    {
-        int iCapacity = iCount + iCount;
-        if (iCapacity <= 1)
-        {
-            iCapacity = 1;
-        }
-        FUN_00c908c0(pAllocator, this, iCapacity, 1);
-    }
-    m_iReferenceCount = 1;
-    *m_pData = 0;
-    *m_pData = 0;
-    return this;
-}
-
 #include <stdarg.h>
-int __cdecl FUN_00cb0f50(char* buf, int size, const char* fmt, va_list args);
 struct PolymorphicBase
 {
     virtual void v0();
@@ -103,7 +70,7 @@ struct StringBuf : public BufferOwner
 // @f3 0x009236d0 (community match, verified in this file)
 #include <stdarg.h>
 void __cdecl FUN_00901e90(void* self, int size, int flag);
-void __cdecl FUN_00901fb0(void* self, int a, int b, int size);
+void __cdecl hkArrayUtil__reduce(void* self, int a, int b, int size);
 int __cdecl FUN_00923270(char* buf, int size, const char* fmt, va_list args);
 struct StringBufOps : StringBuf
 {
@@ -144,7 +111,7 @@ void StringBuf::FUN_00d61d00(const char* fmt, ...)
             {
                 m_iReferenceCount = iChars + 1;
                 if (iChars + 1 <= GetCapacity())
-                    FUN_00901fb0(this, 1, 0, iChars + 1);
+                    hkArrayUtil__reduce(this, 1, 0, iChars + 1);
                 break;
             }
             ((StringBufOps*)this)->SetSize3(iChars + 1);

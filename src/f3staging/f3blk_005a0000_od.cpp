@@ -103,7 +103,7 @@ struct ThisObj {
     CompTexture icon;
     BSStringT<char> animName;
     void FUN_00454410(FileObj* file);
-    void FUN_00454240(char flag);
+    void TESForm_SetInitialized(char flag);
     bool FUN_005a2aa0(FileObj* file);
 };
 
@@ -260,25 +260,27 @@ struct FileObj {
     int unk254;
     int unk258;
     int unk25c;
-    char FUN_00448cc0();
-    int FUN_004487d0();
-    char FUN_00447020();
+    char TESFile_GetTESForm();
+    int TESFile_GetTESChunk();
+    char TESFile_NextChunk();
     void FUN_00447d60(char* buf, int len);
 };
 
 void FUN_00453570(CompDesc* desc, FileObj* file);
 void FUN_00456560(CompFullName* name, FileObj* file);
-void FUN_0045bab0(CompTexture* icon, FileObj* file);
+void TESTexture_LoadTextureChunk(CompTexture* icon, FileObj* file);
 
+// pdb: ActorValueInfo::Load | ActorValue.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool ThisObj::FUN_005a2aa0(FileObj* file)
 {
-    if (file->FUN_00448cc0() != 'Y')
+    if (file->TESFile_GetTESForm() != 'Y')
         return false;
 
     FUN_00454410(file);
-    FUN_00454240(0);
+    TESForm_SetInitialized(0);
 
-    int type = file->FUN_004487d0();
+    int type = file->TESFile_GetTESChunk();
     if (type != 0) {
         do {
             switch (type) {
@@ -298,7 +300,7 @@ bool ThisObj::FUN_005a2aa0(FileObj* file)
                 FUN_00456560(this ? &fullName : 0, file);
                 break;
             case 0x4e4f4349:
-                FUN_0045bab0(this ? &icon : 0, file);
+                TESTexture_LoadTextureChunk(this ? &icon : 0, file);
                 break;
             case 0x4d414e41:
                 if (file->unk25c) {
@@ -309,7 +311,7 @@ bool ThisObj::FUN_005a2aa0(FileObj* file)
                     animName.Set("", 0);
                 break;
             }
-        } while (file->FUN_00447020() && (type = file->FUN_004487d0()) != 0);
+        } while (file->TESFile_NextChunk() && (type = file->TESFile_GetTESChunk()) != 0);
     }
     return true;
 }

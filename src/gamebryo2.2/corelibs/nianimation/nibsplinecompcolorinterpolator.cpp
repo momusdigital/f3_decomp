@@ -5,24 +5,18 @@
 char __stdcall FUN_00a50b10(char);
 
 // @fnv 0x00a51210
+// pdb: NiXenonPersistentSrcTextureRendererData::RegisterStreamables | NiXenonPersistentSrcTextureRendererData.obj | fnv360_0822_retail, objopen_prop, low, conflict (skyrim: NiDX9PersistentSrcTextureRendererData::RegisterStreamables)
+// pdb params: kStream
 char __stdcall FUN_00a51210(char acValue)
 {
     char r = FUN_00a50b10(acValue);
     return r != 0;
 }
 
-extern "C" void* g_011f4024;
-
-// @fnv 0x00a51770
-void* __cdecl FUN_00a51770()
-{
-    return &g_011f4024;
-}
-
 struct CloningProcess;
 struct FUN_00a50110_obj
 {
-    void FUN_00a57fd0(FUN_00a50110_obj*, CloningProcess&);
+    void NiBSplineInterpolator_CopyMembers(FUN_00a50110_obj*, CloningProcess&);
 };
 
 struct NiBSplineColorInterpolator
@@ -31,9 +25,11 @@ struct NiBSplineColorInterpolator
 };
 
 // @fnv 0x00a51a60
+// pdb: NiBSplineColorInterpolator::CopyMembers | NiBSplineColorInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pkDest, kCloning
 void NiBSplineColorInterpolator::CopyTo(FUN_00a50110_obj* apTarget, CloningProcess& proc)
 {
-    ((FUN_00a50110_obj*)this)->FUN_00a57fd0(apTarget, proc);
+    ((FUN_00a50110_obj*)this)->NiBSplineInterpolator_CopyMembers(apTarget, proc);
     *(int*)((char*)apTarget + 0x1c) = *(int*)((char*)this + 0x1c);
     *(int*)((char*)apTarget + 0x20) = *(int*)((char*)this + 0x20);
     *(int*)((char*)apTarget + 0x24) = *(int*)((char*)this + 0x24);
@@ -78,7 +74,7 @@ struct NiStream
 };
 struct BaseCall
 {
-    void FUN_00a51ca0(NiStream&);
+    void NiBSplineColorInterpolator_SaveBinary(NiStream&);
 };
 struct NiBSplineCompColorInterpolator
 {
@@ -88,9 +84,11 @@ struct NiBSplineCompColorInterpolator
 };
 // Calls the base save routine, then writes the two interpolator values (8 bytes) to the stream.
 // @fnv 0x00a51970
+// pdb: NiBSplineCompColorInterpolator::SaveBinary | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiBSplineCompColorInterpolator::SaveToStream(NiStream& aStream)
 {
-    ((BaseCall*)this)->FUN_00a51ca0(aStream);
+    ((BaseCall*)this)->NiBSplineColorInterpolator_SaveBinary(aStream);
     aStream.m_pBackingStream->Write(m_iFourthElementInteger, 8);
 }
 }  // namespace fnv_00a51970
@@ -110,6 +108,8 @@ struct NiBSplineCompColorInterpolator
     bool IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a51730
+// pdb: NiBSplineCompColorInterpolator::IsEqual | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkObject
 bool NiBSplineCompColorInterpolator::IsEqual(NiObject* pkObject)
 {
     NiBSplineCompColorInterpolator* pkDest;
@@ -140,7 +140,7 @@ struct NiStream
 };
 struct BaseHolder
 {
-    void FUN_00a51d30(NiStream&);
+    void NiBSplineColorInterpolator_LoadBinary(NiStream&);
 };
 struct NiBSplineCompColorInterpolator
 {
@@ -150,9 +150,11 @@ struct NiBSplineCompColorInterpolator
 };
 // Calls the base holder's stream loader, then reads 8 bytes into m_data through the stream's binary reader.
 // @fnv 0x00a51930
+// pdb: NiBSplineCompColorInterpolator::LoadBinary | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiBSplineCompColorInterpolator::LoadFromStream(NiStream& stream)
 {
-    ((BaseHolder*)this)->FUN_00a51d30(stream);
+    ((BaseHolder*)this)->NiBSplineColorInterpolator_LoadBinary(stream);
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
     unsigned int size = 4;
     input->position += input->read(input, m_data, 8, &size, 1);
@@ -160,7 +162,6 @@ void NiBSplineCompColorInterpolator::LoadFromStream(NiStream& stream)
 }  // namespace fnv_00a51930
 
 namespace fnv_00a519b0 {
-char* _FUN_00a7d330(const char*);
 template <class T> struct NiTMallocInterface
 {
 };
@@ -191,13 +192,6 @@ struct NiBSplineCompColorInterpolator : BaseDummy
 {
     void FUN_00a519b0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 };
-// @fnv 0x00a519b0
-void NiBSplineCompColorInterpolator::FUN_00a519b0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
-{
-    AppendColorACPHandleStrings(pkStrings);
-    char* pcString = _FUN_00a7d330((const char*)g_011f4024);
-    pkStrings->Add(pcString);
-}
 }  // namespace fnv_00a519b0
 
 static const float DAT_01099c2c = 3.402823466e+38f;
@@ -225,7 +219,9 @@ struct NiBSplineCompColorInterpolator51 : FUN_00a51ab0
 };
 // Allocates and returns a new NiBSplineCompColorInterpolator51 with default scalar values.
 // @fnv 0x00a518f0
-void* CreateSplineCompColorInterpolator()
+// pdb: NiBSplineCompColorInterpolator::CreateObject | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb: NiBSplineCompColorInterpolator::CreateObject | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, objrun, high (was: CreateSplineCompColorInterpolator)
+void* NiBSplineCompColorInterpolator_CreateObject()
 {
     return new NiBSplineCompColorInterpolator51;
 }
@@ -257,6 +253,8 @@ struct CompColorInterpolator
 };
 // Samples the spline color at the normalized time when the index is valid, caches it, and writes the cached color to output.
 // @fnv 0x00a517a0
+// pdb: NiBSplineCompColorInterpolator::Update | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkInterpTarget, kValue
 char CompColorInterpolator::EvaluateColor(float time, void*, RgbaColor* output)
 {
     if (lastTime == time)
@@ -305,11 +303,12 @@ struct ColorInterpolatorLayout
     int unk30;
     volatile float m_fStartValue, m_fEndValue;
     void FUN_00a51ab0(int, unsigned int, int);
-    ColorInterpolatorLayout* FUN_00a51890(CloningProcess&);
+    ColorInterpolatorLayout* NiBSplineCompColorInterpolator_CreateClone(CloningProcess&);
 };
 // Allocates a new ColorInterpolatorLayout, initializes fields, calls CopyTo with it, then copies this object's start and end values.
 // @fnv 0x00a51890
-ColorInterpolatorLayout* ColorInterpolatorLayout::FUN_00a51890(CloningProcess& process)
+// pdb: NiBSplineCompColorInterpolator::CreateClone | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+ColorInterpolatorLayout* ColorInterpolatorLayout::NiBSplineCompColorInterpolator_CreateClone(CloningProcess& process)
 {
     ColorInterpolatorLayout* __restrict result = (ColorInterpolatorLayout*)FUN_00aa13e0(0x3c);
     if (result)

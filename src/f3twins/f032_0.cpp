@@ -44,6 +44,7 @@ void* C_00b13310::FUN_00b13310(unsigned char f)
 }
 
 struct C_00b141b0 { void* FUN_00b141b0(unsigned char); };
+// pdb: ImageSpaceShaderCopyRenderTarget1::SetState | ImageSpaceManager.obj | fnv360_0822_debug, objrun, medium
 void* C_00b141b0::FUN_00b141b0(unsigned char f)
 {
     *(void**)((char*)this + 0x0) = (void*)&DAT_00e98ce0;
@@ -54,6 +55,7 @@ void* C_00b141b0::FUN_00b141b0(unsigned char f)
 }
 
 struct C_00b14340 { void* FUN_00b14340(unsigned char); };
+// pdb: ImageSpaceShaderStencilCopy::SetState | ImageSpaceManager.obj | fnv360_0822_debug, objrun, medium
 void* C_00b14340::FUN_00b14340(unsigned char f)
 {
     *(void**)((char*)this + 0x0) = (void*)&DAT_00e98e68;
@@ -104,6 +106,7 @@ void* C_00b17be0::FUN_00b17be0(unsigned char f)
 }
 
 struct C_00b17d30 { void* FUN_00b17d30(unsigned char); };
+// pdb: BSImagespaceShaderWaterDisplacementWadingRipple::PreRender | ImageSpaceManager.obj | tesv_win, objrun_sim, low
 void* C_00b17d30::FUN_00b17d30(unsigned char f)
 {
     *(void**)((char*)this + 0x0) = (void*)&DAT_00e9cd70;

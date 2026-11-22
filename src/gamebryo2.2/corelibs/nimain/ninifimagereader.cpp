@@ -5,6 +5,7 @@
 extern "C" int __cdecl NiStricmp(char const*, char const*);
 
 // @fnv 0x00a8ad80
+// pdb: NiNIFImageReader::CanReadFile | NiNIFImageReader.obj | tesv_win, vtable, medium
 char __stdcall IsNifExtension(const char* pcFileExtension)
 {
     return NiStricmp(pcFileExtension, ".nif") == 0;
@@ -107,6 +108,7 @@ class FUN_00a8ae50 : public A8AE50ImageReader
 
 // Constructs the object, initializing its critical section via the base A8AE50ImageReader constructor.
 // @fnv 0x00a8ae50
+// pdb: NiNIFImageReader::NiNIFImageReader | NiNIFImageReader.obj | fnv360_0822_retail, objrun_prop, low
 FUN_00a8ae50::FUN_00a8ae50()
 {}
 
@@ -187,6 +189,7 @@ struct A8Class
 
 // Sets unk00 to DAT_0109f3e4, calls unk100.FUN_00a65300, sets unk00 to DAT_0109f3d0, and deletes the critical section at unk80.
 // @fnv 0x00a8ada0
+// pdb: NiNIFImageReader::~NiNIFImageReader | NiNIFImageReader.obj | fnv360_0822_retail, call_gap, high
 void __thiscall A8Class::FUN_00a8ada0()
 {
     unk00 = DAT_0109f3e4;
@@ -241,6 +244,8 @@ class FUN_00a8add0_cls
 
 // Calls v2 with pcFileExtension, then copies fields from the returned object to the output parameters.
 // @fnv 0x00a8add0
+// pdb: NiNIFImageReader::ReadHeader | NiNIFImageReader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kIst, uiWidth, uiHeight, kFormat, bMipmap, uiFaces
 bool FUN_00a8add0_cls::FUN_00a8add0(const char* pcFileExtension, unsigned int* pOut0, unsigned int* pOut1,
                                     FUN_00a8add0_blob* pBlob, bool* pFlag, unsigned int* pOut2)
 {
@@ -346,6 +351,7 @@ struct FUN_00a8ae80_cls
 
 // Calls Cleanup, updates m_vptr twice, deletes m_cs, and passes this to DAT_011f6238.Free when acFlags bit 0 is set.
 // @fnv 0x00a8ae80
+// pdb: NiNIFImageReader::`scalar deleting destructor' | NiNIFImageReader.obj | fnv360_0721_beta, objrun, medium, conflict (bridge: NiNIFImageReader::~NiNIFImageReader)
 FUN_00a8ae80_cls* FUN_00a8ae80_cls::FUN_00a8ae80(unsigned char acFlags)
 {
     FUN_00a8ae80_member* pMember = &m_100;
@@ -385,12 +391,13 @@ struct SubObj
 
 struct FnvMgr
 {
-    Obj* FUN_00a8aec0(const char* name, int unused);
+    Obj* NiNIFImageReader_ReadFile(const char* name, int unused);
 };
 
 // Calls sub->v04 with name, then returns the object if its node list contains DAT_011f4a90.
 // @fnv 0x00a8aec0
-Obj* FnvMgr::FUN_00a8aec0(const char* name, int unused)
+// pdb: NiNIFImageReader::ReadFile | NiNIFImageReader.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(vtable), high
+Obj* FnvMgr::NiNIFImageReader_ReadFile(const char* name, int unused)
 {
     CRITICAL_SECTION* cs = (CRITICAL_SECTION*)((char*)this + 0x80);
     EnterCriticalSection(cs);

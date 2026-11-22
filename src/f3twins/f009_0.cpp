@@ -255,6 +255,7 @@ __forceinline void H_00d87cd0(C_00d87cd0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiAVObject>,NiTNewInterface<NiPointer<NiAVObject> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | BipedAnim.obj | fnv360_0822_retail, udata, medium, conflict (skyrim: `public: void __thiscall NiTArray<class NiPointer<class NiAVObject>,class NiTNewInterface<class NiPointer<class NiAVObject> > >::SetAt(unsigned int,class NiPointer<class NiAVObject> const &)'::`2'::`dynamic atexit destructor for 'tcmp'')
 void FUN_00d87cd0()
 {
     if (DAT_0106e570) H_00d87cd0(DAT_0106e570);
@@ -291,6 +292,7 @@ __forceinline void H_00d88980(C_00d88980* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::spWaterRoot'' | TESWater.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00d88980()
 {
     if (DAT_0106ff08) H_00d88980(DAT_0106ff08);
@@ -300,6 +302,7 @@ __forceinline void H_00d889b0(C_00d889b0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spWadingWaterHeightMap'' | TESWater.obj | fnv360_0822_retail, udata, high
 void FUN_00d889b0()
 {
     if (DAT_0106fe4c) H_00d889b0(DAT_0106fe4c);
@@ -309,6 +312,7 @@ __forceinline void H_00d889e0(C_00d889e0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spDepthMap'' | TESWater.obj | fnv360_0822_retail, udata, high
 void FUN_00d889e0()
 {
     if (DAT_0106fe50) H_00d889e0(DAT_0106fe50);
@@ -318,6 +322,7 @@ __forceinline void H_00d88a10(C_00d88a10* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spWorldReflectionMap'' | TESWater.obj | fnv360_1110_retail, objrun, medium
 void FUN_00d88a10()
 {
     if (DAT_0106fdc0) H_00d88a10(DAT_0106fdc0);
@@ -327,6 +332,7 @@ __forceinline void H_00d88a40(C_00d88a40* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spSkyReflectionMap'' | TESWater.obj | fnv360_1110_retail, objrun, medium
 void FUN_00d88a40()
 {
     if (DAT_0106ff0c) H_00d88a40(DAT_0106ff0c);
@@ -336,6 +342,7 @@ __forceinline void H_00d88a70(C_00d88a70* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spWorldReflectionSorter'' | TESWater.obj | fnv360_1110_retail, objrun, medium
 void FUN_00d88a70()
 {
     if (DAT_0106ff94) H_00d88a70(DAT_0106ff94);
@@ -345,6 +352,7 @@ __forceinline void H_00d88aa0(C_00d88aa0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spSkyReflectionSorter'' | TESWater.obj | fnv360_1110_retail, objrun, medium
 void FUN_00d88aa0()
 {
     if (DAT_0106fec8) H_00d88aa0(DAT_0106fec8);
@@ -354,6 +362,7 @@ __forceinline void H_00d88ad0(C_00d88ad0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spWorldReflectionCamera'' | TESWater.obj | fnv360_1110_retail, objrun, medium
 void FUN_00d88ad0()
 {
     if (DAT_0106fe2c) H_00d88ad0(DAT_0106fe2c);
@@ -363,6 +372,7 @@ __forceinline void H_00d88b00(C_00d88b00* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::spSkyReflectionCamera'' | TESWater.obj | fnv360_1110_retail, objrun, medium
 void FUN_00d88b00()
 {
     if (DAT_0106ff98) H_00d88b00(DAT_0106ff98);
@@ -381,6 +391,7 @@ __forceinline void H_00d88e10(C_00d88e10* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'TESRegionDataLandscape::spDefaultEmptyMaskTextureProp'' | TESRegionDataLandscape.obj | fnv360_0822_retail, udata, high
 void FUN_00d88e10()
 {
     if (DAT_01070104) H_00d88e10(DAT_01070104);
@@ -408,6 +419,7 @@ __forceinline void H_00d8a070(C_00d8a070* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiTexture>,NiTNewInterface<NiPointer<NiTexture> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | TESNPC.obj | fnv360_0822_retail, udata, high
 void FUN_00d8a070()
 {
     if (DAT_01072298) H_00d8a070(DAT_01072298);
@@ -417,6 +429,7 @@ __forceinline void H_00d8a300(C_00d8a300* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<bhkRigidBody>,NiTNewInterface<NiPointer<bhkRigidBody> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | CellMopp.obj | fnv360_0822_retail, udata, high
 void FUN_00d8a300()
 {
     if (DAT_0107279c) H_00d8a300(DAT_0107279c);
@@ -480,6 +493,7 @@ __forceinline void H_00d954a0(C_00d954a0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'BGSDistantTreeBlock::spSharedAlpha'' | BGSDistantTreeBlock.obj | fnv360_0721_beta, udata, high
 void FUN_00d954a0()
 {
     if (DAT_010757c8) H_00d954a0(DAT_010757c8);
@@ -498,6 +512,7 @@ __forceinline void H_00d95580(C_00d95580* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'BGSTerrainManager::spLODLandRoot'' | BGSTerrainManager.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00d95580()
 {
     if (DAT_01075870) H_00d95580(DAT_01075870);
@@ -507,6 +522,7 @@ __forceinline void H_00d955b0(C_00d955b0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'BGSTerrainManager::spLODObjectRoot'' | BGSTerrainManager.obj | fnv360_0721_retail, udata, high
 void FUN_00d955b0()
 {
     if (DAT_0107585c) H_00d955b0(DAT_0107585c);
@@ -516,6 +532,7 @@ __forceinline void H_00d95aa0(C_00d95aa0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'HUDMainMenu::spScopeModel'' | HUDMainMenu.obj | fnv360_0822_retail, udata, high
 void FUN_00d95aa0()
 {
     if (DAT_01076350) H_00d95aa0(DAT_01076350);
@@ -534,6 +551,7 @@ __forceinline void H_00d95c40(C_00d95c40* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'LockPickMenu::spLockModel'' | LockPickMenu.obj | fnv360_0822_retail, udata, high
 void FUN_00d95c40()
 {
     if (DAT_01076b24) H_00d95c40(DAT_01076b24);
@@ -570,6 +588,7 @@ __forceinline void H_00d960c0(C_00d960c0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'SurgeryMenu::sp3DSkin'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00d960c0()
 {
     if (DAT_01077334) H_00d960c0(DAT_01077334);
@@ -579,6 +598,7 @@ __forceinline void H_00d960f0(C_00d960f0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'SurgeryMenu::spPlayer3D'' | SurgeryMenu.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00d960f0()
 {
     if (DAT_0107739c) H_00d960f0(DAT_0107739c);
@@ -588,6 +608,7 @@ __forceinline void H_00d965b0(C_00d965b0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'FORenderedTerminal::spGeometry'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_prop, low
 void FUN_00d965b0()
 {
     if (DAT_01077944) H_00d965b0(DAT_01077944);
@@ -597,6 +618,7 @@ __forceinline void H_00d96bd0(C_00d96bd0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<BSTempEffect>,NiTNewInterface<NiPointer<BSTempEffect> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | GarbageCollector.obj | fnv360_0822_retail, udata, high
 void FUN_00d96bd0()
 {
     if (DAT_0107a024) H_00d96bd0(DAT_0107a024);
@@ -606,6 +628,7 @@ __forceinline void H_00d96d30(C_00d96d30* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spWorldRoot'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96d30()
 {
     if (DAT_0107a224) H_00d96d30(DAT_0107a224);
@@ -615,6 +638,7 @@ __forceinline void H_00d96d60(C_00d96d60* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spMenuRoot'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96d60()
 {
     if (DAT_0107a4f8) H_00d96d60(DAT_0107a4f8);
@@ -624,6 +648,7 @@ __forceinline void H_00d96d90(C_00d96d90* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::sp3DMenuRoot'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96d90()
 {
     if (DAT_0107a33c) H_00d96d90(DAT_0107a33c);
@@ -633,6 +658,7 @@ __forceinline void H_00d96dc0(C_00d96dc0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spSkyRoot'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96dc0()
 {
     if (DAT_0107a1dc) H_00d96dc0(DAT_0107a1dc);
@@ -642,6 +668,7 @@ __forceinline void H_00d96df0(C_00d96df0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spWeatherRoot'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96df0()
 {
     if (DAT_0107a424) H_00d96df0(DAT_0107a424);
@@ -651,6 +678,7 @@ __forceinline void H_00d96e20(C_00d96e20* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spParticleSystemManager'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96e20()
 {
     if (DAT_0107a3d8) H_00d96e20(DAT_0107a3d8);
@@ -660,6 +688,7 @@ __forceinline void H_00d96e50(C_00d96e50* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spFog'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96e50()
 {
     if (DAT_0107a1b0) H_00d96e50(DAT_0107a1b0);
@@ -669,6 +698,7 @@ __forceinline void H_00d96e80(C_00d96e80* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spMenuBGTexture'' | Main.obj | fnv360_0721_beta, udata, high
 void FUN_00d96e80()
 {
     if (DAT_0107a3c0) H_00d96e80(DAT_0107a3c0);
@@ -678,6 +708,7 @@ __forceinline void H_00d96eb0(C_00d96eb0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spInterfaceFXTex'' | Main.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d96eb0()
 {
     if (DAT_0107a304) H_00d96eb0(DAT_0107a304);
@@ -687,6 +718,7 @@ __forceinline void H_00d96ee0(C_00d96ee0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spVATSTex'' | Main.obj | fnv360_0822_retail, udata, high
 void FUN_00d96ee0()
 {
     if (DAT_0107a1e0) H_00d96ee0(DAT_0107a1e0);
@@ -696,6 +728,7 @@ __forceinline void H_00d96f10(C_00d96f10* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'Main::spMenuBGGeometry'' | Main.obj | fnv360_0721_beta, udata, high
 void FUN_00d96f10()
 {
     if (DAT_0107a32c) H_00d96f10(DAT_0107a32c);
@@ -714,6 +747,7 @@ __forceinline void H_00d98280(C_00d98280* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'NiAlphaProperty::ms_spDefault'' | NiAlphaProperty.obj | fnv360_0822_retail, udata, high
 void FUN_00d98280()
 {
     if (DAT_0108eda4) H_00d98280(DAT_0108eda4);
@@ -741,6 +775,7 @@ __forceinline void H_00d983c0(C_00d983c0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'NiTexturingProperty::ms_spDefault'' | NiTexturingProperty.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void FUN_00d983c0()
 {
     if (DAT_0108f3a0) H_00d983c0(DAT_0108f3a0);
@@ -750,6 +785,7 @@ __forceinline void H_00d98410(C_00d98410* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'NiStencilProperty::ms_spDefault'' | NiStencilProperty.obj | fnv360_0822_retail, udata, high
 void FUN_00d98410()
 {
     if (DAT_0108f408) H_00d98410(DAT_0108f408);
@@ -777,6 +813,7 @@ __forceinline void H_00d984c0(C_00d984c0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiScreenTexture>,NiTNewInterface<NiPointer<NiScreenTexture> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiOldScreenSpace.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00d984c0()
 {
     if (DAT_01090874) H_00d984c0(DAT_01090874);
@@ -786,6 +823,7 @@ __forceinline void H_00d984f0(C_00d984f0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiScreenPolygon>,NiTNewInterface<NiPointer<NiScreenPolygon> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiOldScreenSpace.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00d984f0()
 {
     if (DAT_0109086c) H_00d984f0(DAT_0109086c);
@@ -804,6 +842,7 @@ __forceinline void H_00d98580(C_00d98580* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'NiShadeProperty::ms_spDefault'' | NiShadeProperty.obj | fnv360_0822_retail, udata, high
 void FUN_00d98580()
 {
     if (DAT_010908d8) H_00d98580(DAT_010908d8);
@@ -813,6 +852,7 @@ __forceinline void H_00d985b0(C_00d985b0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'NiFogProperty::ms_spDefault'' | NiFogProperty.obj | fnv360_0822_retail, udata, high
 void FUN_00d985b0()
 {
     if (DAT_01090930) H_00d985b0(DAT_01090930);
@@ -831,6 +871,7 @@ __forceinline void H_00d98610(C_00d98610* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'NiCullingProperty::ms_spDefault'' | NiCullingProperty.obj | fnv360_0822_retail, udata, high
 void FUN_00d98610()
 {
     if (DAT_01090970) H_00d98610(DAT_01090970);
@@ -840,6 +881,7 @@ __forceinline void H_00d98650(C_00d98650* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiMetricsOutputModule>,NiTNewInterface<NiPointer<NiMetricsOutputModule> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiMetricsLayer.obj | fnv360_0822_retail, udata, medium, conflict (skyrim: `public: void __thiscall NiTArray<class NiPointer<class NiMetricsOutputModule>,class NiTNewInterface<class NiPointer<class NiMetricsOutputModule> > >::SetAt(unsigned int,class NiPointer<class NiMetricsOutputModule> const &)'::`2'::`dynamic atexit destructor for 'tcmp'')
 void FUN_00d98650()
 {
     if (DAT_01090a0c) H_00d98650(DAT_01090a0c);
@@ -849,6 +891,7 @@ __forceinline void H_00d98760(C_00d98760* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiShaderConstantMapEntry>,NiTNewInterface<NiPointer<NiShaderConstantMapEntry> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiD3DShaderConstantMap.obj | fnv360_0822_retail, udata, high
 void FUN_00d98760()
 {
     if (DAT_01091c60) H_00d98760(DAT_01091c60);
@@ -858,6 +901,7 @@ __forceinline void H_00d98790(C_00d98790* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiControllerSequence::IDTag::IsTreadController'::`2'::`dynamic atexit destructor for 'pc'' | NiControllerSequence.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: `public: void __thiscall NiTArray<class NiPointer<class NiControllerSequence>,class NiTNewInterface<class NiPointer<class NiControllerSequence> > >::SetAt(unsigned int,class NiPointer<class NiControllerSequence> const &)'::`2'::`dynamic atexit destructor for 'tcmp'')
 void FUN_00d98790()
 {
     if (DAT_01091efc) H_00d98790(DAT_01091efc);
@@ -867,6 +911,7 @@ __forceinline void H_00d98800(C_00d98800* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiInterpController>,NiTNewInterface<NiPointer<NiInterpController> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiControllerSequence.obj | fnv360_0822_retail, udata, high
 void FUN_00d98800()
 {
     if (DAT_01091f24) H_00d98800(DAT_01091f24);
@@ -876,6 +921,7 @@ __forceinline void H_00d98870(C_00d98870* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `public: void __thiscall NiTArray<class NiPointer<class NiTransformController>,class NiTNewInterface<class NiPointer<class NiTransformController> > >::SetAt(unsigned int,class NiPointer<class NiTransformController> const &)'::`2'::`dynamic atexit destructor for 'tcmp'' | NiSequence.obj | tesv_win, udata, high
 void FUN_00d98870()
 {
     if (DAT_01092780) H_00d98870(DAT_01092780);
@@ -912,6 +958,7 @@ __forceinline void H_00d99060(C_00d99060* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiRefObject>,NiTNewInterface<NiPointer<NiRefObject> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiObjectGarbage.obj | fnv360_0822_retail, udata, medium, conflict (skyrim: `public: void __thiscall NiTArray<class NiPointer<class NiRefObject>,class NiTNewInterface<class NiPointer<class NiRefObject> > >::SetAt(unsigned int,class NiPointer<class NiRefObject> const &)'::`2'::`dynamic atexit destructor for 'tcmp'')
 void FUN_00d99060()
 {
     if (DAT_0116d734) H_00d99060(DAT_0116d734);
@@ -921,6 +968,7 @@ __forceinline void H_00d991a0(C_00d991a0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiAVObject>,NiTMallocInterface<NiPointer<NiAVObject> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | BSPSysArrayEmitter.obj | fnv360_0822_retail, udata, high
 void FUN_00d991a0()
 {
     if (DAT_0116eb84) H_00d991a0(DAT_0116eb84);
@@ -930,6 +978,7 @@ __forceinline void H_00d991d0(C_00d991d0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiPSysMeshEmitter::NiSkinnedEmitterData>,NiTNewInterface<NiPointer<NiPSysMeshEmitter::NiSkinnedEmitterData> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiPSysMeshEmitter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low, conflict (skyrim: `public: void __thiscall NiTArray<class NiPointer<class NiPSysMeshEmitter::NiSkinnedEmitterData>,class NiTNewInterface<class NiPointer<class NiPSysMeshEmitter::NiSkinnedEmitterData> > >::SetAt(unsigned int,class NiPointer<class NiPSysMeshEmitter::NiSkinnedEmitterData> const &)'::`2'::`dynamic atexit destructor for 'tcmp'')
 void FUN_00d991d0()
 {
     if (DAT_0116ebf0) H_00d991d0(DAT_0116ebf0);
@@ -939,6 +988,7 @@ __forceinline void H_00d99200(C_00d99200* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `NiTArray<NiPointer<NiGeometry>,NiTNewInterface<NiPointer<NiGeometry> > >::SetAt'::`2'::`dynamic atexit destructor for 'tcmp'' | NiPSysMeshEmitter.obj | fnv360_0721_beta, udata, medium, conflict (skyrim: `public: void __thiscall NiTArray<class NiPointer<class NiGeometry>,class NiTNewInterface<class NiPointer<class NiGeometry> > >::SetAt(unsigned int,class NiPointer<class NiGeometry> const &)'::`2'::`dynamic atexit destructor for 'tcmp'')
 void FUN_00d99200()
 {
     if (DAT_0116ebe8) H_00d99200(DAT_0116ebe8);
@@ -948,6 +998,7 @@ __forceinline void H_00d99250(C_00d99250* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'BSFadeNode::spFadeAlpha'' | BSFadeNode.obj | fnv360_0822_retail, udata, high
 void FUN_00d99250()
 {
     if (DAT_0116ef00) H_00d99250(DAT_0116ef00);
@@ -1218,6 +1269,7 @@ __forceinline void H_00d99b20(C_00d99b20* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'ImageSpaceEffectInterface::spMaskTexture'' | ImageSpaceEffectInterface.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00d99b20()
 {
     if (DAT_01176598) H_00d99b20(DAT_01176598);
@@ -1254,6 +1306,7 @@ __forceinline void H_00d99be0(C_00d99be0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'ImageSpaceEffectVATSScan::spMaskTexture'' | ImageSpaceEffectVATSScan.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00d99be0()
 {
     if (DAT_011765dc) H_00d99be0(DAT_011765dc);
@@ -1299,6 +1352,7 @@ __forceinline void H_00d99db0(C_00d99db0* p)
 {
     if (!IMP_00d9b064(&p->f)) p->v1();
 }
+// pdb: `dynamic atexit destructor for 'GeometryDecalShader::spShaderDecl'' | GeometryDecalShader.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00d99db0()
 {
     if (DAT_01177f80) H_00d99db0(DAT_01177f80);

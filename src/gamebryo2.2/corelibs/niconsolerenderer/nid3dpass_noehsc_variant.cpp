@@ -12,6 +12,8 @@ struct FUN_00e7ee80 : SNAEntry
     ~FUN_00e7ee80() throw();
 };
 // @fnv 0x00e7f0a0
+// pdb: NiTNewInterface<NiD3DRenderStateGroup>::Allocate | NiD3DRenderStateGroup.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiNumElements
 FUN_00e7ee80* FUN_00e7f0a0(unsigned int count)
 {
     return new FUN_00e7ee80[count];

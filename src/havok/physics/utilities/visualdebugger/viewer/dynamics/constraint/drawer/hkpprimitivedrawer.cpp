@@ -7,6 +7,8 @@ struct CpuObject
     void FUN_00e10a10(int value);
 };
 // @fnv 0x00e10a10
+// pdb: BGSUnloadedFormBuffer::BGSUnloadedFormBuffer | BGSUnloadedFormBuffer.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: apBuffer
 void CpuObject::FUN_00e10a10(int value)
 {
     this->value = value;
@@ -14,6 +16,8 @@ void CpuObject::FUN_00e10a10(int value)
 
 // @f3twin 0x00a8f460 of 0x004237f0
 struct F3Twin_00a8f460 : public CpuObject { void F3_FUN_00a8f460(int value) ; };
+// pdb: hkpPrimitiveDrawer::setDisplayHandler | hkpPrimitiveDrawer.obj | fnv360_0822_retail, call_gap, low
+// pdb params: displayHandler
 void F3Twin_00a8f460::F3_FUN_00a8f460(int value) 
 {
     this->value = value;

@@ -14,6 +14,7 @@ struct Constraint {
     Entity* first; Entity* second; unsigned short priority;
     Constraint* FUN_00986650(int,Entity*,Entity*);
 };
+// pdb: hkpReportContactMgr::hkpReportContactMgr | hkpReportContactMgr.obj | tesv_win, uvref, medium
 Constraint* Constraint::FUN_00986650(int value,Entity* a,Entity* b) {
     references=1; count=1; vtable=DAT_00e7d734;
     unsigned short pb=b->priority,pa=a->priority;

@@ -490,6 +490,8 @@ void FUN_004e8730(float);
 void FUN_004e8750(float);
 void FUN_00765230(float);
 };
+// pdb: MobileObject::SetHeading | MobileObject.obj | fnv360_0822_retail, vtable, medium
+// pdb params: afAngle
 void Actor1385::FUN_00765230(float afAngle)
 {
     if (process)
@@ -1270,7 +1272,7 @@ struct Scene {
  Pair* FUN_0061f4f0(Pair*);
  void FUN_0056c440(unsigned int);
  Pair* FUN_00766b00(Pair*);
- void FUN_00919380(int,int);
+ void bhkRagdollPenetrationUtil_Initialize(int,int);
  Scene* FUN_008f9c90(int);
  void FUN_004e94e0(Scene*);
  Scene* FUN_006a8fb0();
@@ -1573,6 +1575,7 @@ struct TLSState {
 };
 extern __declspec(thread) TLSState DAT_TLS;
 __forceinline Scene* Parent(Scene* s) { return s==DAT_TLS.unk24c ? DAT_TLS.unk248 : (s->unk5c ? (Scene*)s->unk5c->unk14 : 0); }
+// pdb: MobileObject::InitHavok | MobileObject.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: Actor::InitHavok)
 void Scene::FUN_00769230() {
  FUN_004f3e40(0);
  if (!unk60 || (unk60->unk28!=0 && unk60->unk28!=1)) return;
@@ -1642,7 +1645,7 @@ void Scene::FUN_00769230() {
   }
  } else if(actor) active=actor; else active=0;
  if(owner && owner->unk20>0) scene->unk294|=(1<<22);
- if(active && special) { Pair p; int h=active->FUN_00766b00(&p)->high; active->unka8->FUN_00919380(active->GetNode(),h); }
+ if(active && special) { Pair p; int h=active->FUN_00766b00(&p)->high; active->unka8->bhkRagdollPenetrationUtil_Initialize(active->GetNode(),h); }
  Scene* current=scene->unk424?scene->unk424->FUN_008f9c90(0):0;
  actor=(ActorView*)Parent(this);
  if(current!=actor) {
@@ -3164,6 +3167,7 @@ struct S7794_Span {
     S7794_Span(float a, float b) : lo(a), hi(b) {}
 };
 
+// pdb: PlayerCharacter::UpdateAutoAimActor | PlayerCharacter.obj | fnv360_0822_retail, call_dedup, medium
 void S7794_Ref::FUN_007794b0()
 {
     if (!Get3D())

@@ -60,9 +60,9 @@ class NiPosData : public NiObject
 {
   public:
     unsigned int m_uiNumKeys;
-    PositionKeyInterpolator* m_pKeyArray;
-    AnimationKey::KeyType m_eRequestType;
-    unsigned char m_ucKeyDataSize;
+    PositionKeyInterpolator* m_pkKeys;  // src: FNV360_PDB +0xC (old: m_pKeyArray)
+    AnimationKey::KeyType m_eType;  // src: FNV360_PDB +0x10 (old: m_eRequestType)
+    unsigned char m_ucKeySize;  // src: FNV360_PDB +0x14 (old: m_ucKeyDataSize)
     unsigned char m_padding15[3];
 };
 
@@ -73,9 +73,9 @@ class NiPoint3Interpolator : public NiKeyBasedInterpolator
     {
         struct
         {
-            NiPoint3 m_kValue;
-            NiPosData* m_spPosData;
-            unsigned int m_uiLastKeyIndex;
+            NiPoint3 m_kPoint3Value;  // src: FNV360_PDB +0xC (old: m_kValue)
+            NiPosData* m_spPoint3Data;  // src: FNV360_PDB +0x18 (old: m_spPosData)
+            unsigned int m_uiLastIdx;  // src: FNV360_PDB +0x1C (old: m_uiLastKeyIndex)
         };
         struct
         {

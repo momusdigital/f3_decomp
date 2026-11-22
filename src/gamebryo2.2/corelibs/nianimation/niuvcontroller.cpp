@@ -2,24 +2,54 @@
 // src/gamebryo2.2/corelibs/nianimation/niuvcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niuvcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct FUN_00a45a90_shell
+// NiUVData's four key channels (FNV360_PDB): count, keys and key type per channel, then the key sizes.
+struct UVData_00a459f0
 {
-    // +0x48
-    void* m_pSomePtr;
+    void* unk00;
+    unsigned int unk04;
+    unsigned int m_uiNumUOffsetKeys;  // src: FNV360_PDB NiUVData +0x8
+    int m_pkUOffsetKeys;  // src: FNV360_PDB +0xC
+    int m_eUOffsetType;  // src: FNV360_PDB +0x10
+    unsigned int m_uiNumVOffsetKeys;  // src: FNV360_PDB +0x14
+    int m_pkVOffsetKeys;  // src: FNV360_PDB +0x18
+    int m_eVOffsetType;  // src: FNV360_PDB +0x1C
+    unsigned int m_uiNumUTilingKeys;  // src: FNV360_PDB +0x20
+    int m_pkUTilingKeys;  // src: FNV360_PDB +0x24
+    int m_eUTilingType;  // src: FNV360_PDB +0x28
+    unsigned int m_uiNumVTilingKeys;  // src: FNV360_PDB +0x2C
+    int m_pkVTilingKeys;  // src: FNV360_PDB +0x30
+    int m_eVTilingType;  // src: FNV360_PDB +0x34
+    float m_fLastUOffset;  // src: FNV360_PDB +0x38
+    float m_fLastVOffset;  // src: FNV360_PDB +0x3C
+    float m_fLastUTiling;  // src: FNV360_PDB +0x40
+    float m_fLastVTiling;  // src: FNV360_PDB +0x44
+    char m_ucUOffsetSize;  // src: FNV360_PDB +0x48
+    char m_ucVOffsetSize;  // src: FNV360_PDB +0x49
+    char m_ucUTilingSize;  // src: FNV360_PDB +0x4A
+    char m_ucVTilingSize;  // src: FNV360_PDB +0x4B
+};
+struct UVController_00a459f0
+{
+    unsigned char unk00[0x48];
+    UVData_00a459f0* m_spUVData;  // src: FNV360_PDB NiUVController +0x48
+};
+struct FUN_00a45a90_shell : UVController_00a459f0
+{
     int __thiscall GetSomeValues(int* a, int* b, char* c);
 };
 
 // Reads fields at offsets 0x20, 0x28, 0x4a and 0x24 from the pointer at this+0x48 into the out params and returns the 0x24 value, or zeros if null.
 // @fnv 0x00a45a90
+// pdb: NiUVController::GetUTilingData | NiUVController.obj | tesv_win, hash, low
 int __thiscall FUN_00a45a90_shell::GetSomeValues(int* piValue1, int* piValue2, char* c)
 {
-    void* p = *(void**)((char*)this + 0x48);
+    UVData_00a459f0* p = m_spUVData;
     if (p)
     {
-        *piValue1 = *(int*)((char*)p + 0x20);
-        *piValue2 = *(int*)((char*)p + 0x28);
-        *c = *(char*)((char*)p + 0x4a);
-        return *(int*)((char*)p + 0x24);
+        *piValue1 = p->m_uiNumUTilingKeys;
+        *piValue2 = p->m_eUTilingType;
+        *c = p->m_ucUTilingSize;
+        return p->m_pkUTilingKeys;
     }
     else
     {
@@ -38,22 +68,22 @@ int* __cdecl FUN_00a45b30()
     return &g_011f3f18;
 }
 
-struct FUN_00a459f0_shell
+struct FUN_00a459f0_shell : UVController_00a459f0
 {
     int __thiscall GetDataFromMember(int* a, int* b, char* c);
 };
 
 // @fnv 0x00a459f0
+// pdb: NiUVController::GetUOffsetData | NiUVController.obj | tesv_win, hash, low
 int __thiscall FUN_00a459f0_shell::GetDataFromMember(int* piValue1, int* piValue2, char* c)
 {
-    void* p = *(void**)((char*)this + 0x48);
+    UVData_00a459f0* p = m_spUVData;
     if (p)
     {
-        char* q = (char*)p;
-        *piValue1 = *(int*)(q + 8);
-        *piValue2 = *(int*)(q + 0x10);
-        *c = q[0x48];
-        return *(int*)(q + 0xc);
+        *piValue1 = p->m_uiNumUOffsetKeys;
+        *piValue2 = p->m_eUOffsetType;
+        *c = p->m_ucUOffsetSize;
+        return p->m_pkUOffsetKeys;
     }
     else
     {
@@ -64,25 +94,23 @@ int __thiscall FUN_00a459f0_shell::GetDataFromMember(int* piValue1, int* piValue
     }
 }
 
-struct FUN_00a45ae0_shell
+struct FUN_00a45ae0_shell : UVController_00a459f0
 {
-    // +0x48
-    void* m_pSomePtr;
     int __thiscall GetSomePtrValues(int* a, int* b, char* c);
 };
 
 // Reads three ints and a byte from the object at this+0x48 into the out params and returns another int, or zeroes them if that pointer is null.
 // @fnv 0x00a45ae0
+// pdb: NiUVController::GetVTilingData | NiUVController.obj | tesv_win, hash, low
 int __thiscall FUN_00a45ae0_shell::GetSomePtrValues(int* piValue1, int* piValue2, char* c)
 {
-    void* p = *(void**)((char*)this + 0x48);
+    UVData_00a459f0* p = m_spUVData;
     if (p)
     {
-        char* pc = (char*)p;
-        *piValue1 = *(int*)(pc + 0x2c);
-        *piValue2 = *(int*)(pc + 0x34);
-        *c = pc[0x4b];
-        return *(int*)(pc + 0x30);
+        *piValue1 = p->m_uiNumVTilingKeys;
+        *piValue2 = p->m_eVTilingType;
+        *c = p->m_ucVTilingSize;
+        return p->m_pkVTilingKeys;
     }
     else
     {
@@ -93,25 +121,23 @@ int __thiscall FUN_00a45ae0_shell::GetSomePtrValues(int* piValue1, int* piValue2
     }
 }
 
-struct FUN_00a45a40_shell
+struct FUN_00a45a40_shell : UVController_00a459f0
 {
-    // +0x48
-    void* m_pSomePtr;
     int __thiscall GetSomeData(int* a, int* b, char* c);
 };
 
 // Reads fields from the object at this+0x48 (offset 0x14) into the three out-params and returns q[1], or zeroes them and returns 0 when that pointer is null.
 // @fnv 0x00a45a40
+// pdb: NiUVController::GetVOffsetData | NiUVController.obj | tesv_win, hash, low
 int __thiscall FUN_00a45a40_shell::GetSomeData(int* piFirst, int* piSecond, char* c)
 {
-    void* p = *(void**)((char*)this + 0x48);
+    UVData_00a459f0* p = m_spUVData;
     if (p)
     {
-        int* q = (int*)((char*)p + 0x14);
-        *piFirst = q[0];
-        *piSecond = q[2];
-        *c = *(char*)((char*)q + 0x35);
-        return q[1];
+        *piFirst = p->m_uiNumVOffsetKeys;
+        *piSecond = p->m_eVOffsetType;
+        *c = p->m_ucVOffsetSize;
+        return p->m_pkVOffsetKeys;
     }
     else
     {
@@ -134,6 +160,7 @@ struct FUN_00a46000_shell
 };
 // Calls FUN_00a45b60, then if bit 0 of flags is set deletes this with size 0x50, and returns this.
 // @fnv 0x00a46000
+// pdb: BSTreeModel::`scalar deleting destructor' | BSTreeModel.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00a46000_shell::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00a45b60();
@@ -186,6 +213,8 @@ struct MyCtrl : Base44
     void FUN_00a46070(MyStream* kStream);
 };
 // @fnv 0x00a46070
+// pdb: NiUVController::SaveBinary | NiUVController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: kStream
 void MyCtrl::FUN_00a46070(MyStream* kStream)
 {
     Base44::FUN_00a6d730(kStream);
@@ -263,6 +292,7 @@ struct NiUVController : BasePad
     bool __thiscall FUN_00a45970(NiStream&);
 };
 // @fnv 0x00a45970
+// pdb: NiUVController::RegisterStreamables | NiUVController.obj | tesv_win, objrun_prop, low
 bool __thiscall NiUVController::FUN_00a45970(NiStream& kStream)
 {
     if (!FUN_00a6d0f0(kStream))
@@ -294,6 +324,8 @@ struct NiUVController
 };
 
 // @fnv 0x00a45cf0
+// pdb: NiUVController::Update | NiUVController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: UpdateData
 void NiUVController::FUN_00a45cf0(NiUpdateData& UpdateData)
 {
     if (!m_TimeController.AdvanceController(UpdateData.fTime))
@@ -332,6 +364,7 @@ struct Holder_00a45fa0
 };
 // Releases the old m48 reference, stores p with an incremented refcount, resets m34/m38/m3c/m40, then calls FUN_00a45bc0.
 // @fnv 0x00a45fa0
+// pdb: NiUVController::`scalar deleting destructor' | NiUVController.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: NiUVController::SetUVData)
 void __thiscall Holder_00a45fa0::AssignRefObj(RefObj_00a45fa0* apRefObj)
 {
     if (m48 != apRefObj)
@@ -382,6 +415,7 @@ struct NiUVController : NiTimeController
 };
 // Links the controller to the stream, replacing its UV data pointer with the stream's object and updating reference counts.
 // @fnv 0x00a45910
+// pdb: NiUVController::LinkObject | NiUVController.obj | tesv_win, caller_sim, low
 void NiUVController::LinkUVData(NiStream& kStream)
 {
     NiTimeController::LinkObject(kStream);
@@ -449,6 +483,7 @@ struct HolderF
 };
 
 // @fnv 0x00a45b40
+// pdb: NiUVController::IsVertexController | NiUVController.obj | fnv360_0721_beta, objopen_prop, low, conflict (skyrim: NiUVController::SetTarget)
 void HolderF::ResetRefObject()
 {
     RefObjF* p = m48;
@@ -522,6 +557,7 @@ struct FUN_00a45b60 : BaseController
 
 // Destructor that releases the controller's shared owner reference via SharedRef::Reset.
 // @fnv 0x00a45b60
+// pdb: NiUVController::TargetIsRequiredType | NiUVController.obj | fnv360_0721_beta, objopen_prop, low, conflict (skyrim: NiUVController::~NiUVController)
 FUN_00a45b60::~FUN_00a45b60() throw()
 {
     owner.Reset();
@@ -577,6 +613,7 @@ struct SpawnedObject
 
 // Allocates and default-constructs a SpawnedObject, then returns the new instance.
 // @fnv 0x00a45f50
+// pdb: NiUVController::CreateObject | NiUVController.obj | fnv360_0822_retail, objrun, medium
 SpawnedObject* __cdecl FUN_00a45f50() throw()
 {
     SpawnedObject* p = new SpawnedObject();
@@ -598,7 +635,7 @@ struct OutputWriter
 };
 struct MyStreamWriter : MyStream
 {
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
     OutputWriter* Output()
     {
         return *reinterpret_cast<OutputWriter**>(&_004[0x248]);
@@ -611,11 +648,13 @@ struct MyUVController : MyCtrl
 };
 
 // @fnv 0x00a46020
+// pdb: NiUVController::LoadBinary | NiUVController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void MyUVController::WriteToStream(MyStreamWriter* stream)
 {
     FUN_00a6d5e0(stream);
     stream->Output()->Write(&m_usValue, sizeof(m_usValue));
-    stream->FUN_00a645b0();
+    stream->NiStream_ReadLinkID();
 }
 
 // IsEqual: base comparison, then the type value and the (optional) child object must match.
@@ -703,6 +742,8 @@ class A59A0Node : public A59A0Base
 };
 
 // @fnv 0x00a459a0
+// pdb: NiUVController::IsEqual | NiUVController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkObject
 bool A59A0Node::FUN_00a459a0(A59A0Base* pkObject)
 {
     A59A0Node* pkOther = (A59A0Node*)pkObject;
@@ -792,6 +833,8 @@ void __fastcall FUN_00a6d220(void* pObject);
 
 // Allocates a MyUVData, initialises it via FUN_00a6cfe0, copies m34/m38/m3C/m40/m44 and the m48 reference, and returns it.
 // @fnv 0x00a460c0
+// pdb: NiUVController::CreateClone | NiUVController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kCloning
 unsigned int* __thiscall MyNiUVController::CloneUVData(unsigned int flags)
 {
     MyUVData* pUVData = new MyUVData;
@@ -870,6 +913,7 @@ struct Holder
 // @f3 0x008bfd40 (community match, verified in this file)
 extern float DAT_00db9568;
 extern float DAT_00db7260;
+// pdb: NiUVController::~NiUVController | NiUVController.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: NiUVController::ResetKeyTimeExtrema)
 void __thiscall Holder::FUN_00a45bc0()
 {
     m14 = DAT_00db9568;
@@ -938,7 +982,7 @@ void __thiscall Holder::FUN_00a45bc0()
 
 
 struct UVKey;
-float __cdecl InterpolateKey(float fTime, UVKey* pkKeys, int eType, unsigned int uiNumKeys, unsigned int* puiLastIdx,
+float __cdecl NiFloatKey_GenInterp(float fTime, UVKey* pkKeys, int eType, unsigned int uiNumKeys, unsigned int* puiLastIdx,
                              unsigned char ucSize);
 struct UVPoint
 {
@@ -1064,6 +1108,7 @@ struct UVGeom
 
 // Applies animated UV offset and tiling to the target geometry's texture coordinates when m_bChanged is set.
 // @fnv 0x00a45d10
+// pdb: NiUVController::OnPreDisplay | NiUVController.obj | fnv360_0822_retail, objrun, medium
 void UVController::UpdateUVTransform()
 {
     if (!m_bChanged)
@@ -1083,22 +1128,22 @@ void UVController::UpdateUVTransform()
         fAnimOffsetU = 0.0f;
         pkKeys = GetDataFromMember(uiNumKeys, eType, ucSize);
         if (pkKeys)
-            fAnimOffsetU = InterpolateKey(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx0, ucSize);
+            fAnimOffsetU = NiFloatKey_GenInterp(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx0, ucSize);
 
         fAnimOffsetV = 0.0f;
         pkKeys = GetSomeData(uiNumKeys, eType, ucSize);
         if (pkKeys)
-            fAnimOffsetV = InterpolateKey(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx2, ucSize);
+            fAnimOffsetV = NiFloatKey_GenInterp(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx2, ucSize);
 
         fAnimTilingU = 1.0f;
         pkKeys = GetSomeValues(uiNumKeys, eType, ucSize);
         if (pkKeys)
-            fAnimTilingU = InterpolateKey(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx1, ucSize);
+            fAnimTilingU = NiFloatKey_GenInterp(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx1, ucSize);
 
         fAnimTilingV = 1.0f;
         pkKeys = GetSomePtrValues(uiNumKeys, eType, ucSize);
         if (pkKeys)
-            fAnimTilingV = InterpolateKey(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx3, ucSize);
+            fAnimTilingV = NiFloatKey_GenInterp(m_fControllerTime, pkKeys, eType, uiNumKeys, &m_uiLastIdx3, ucSize);
     }
 
     float fScaleU = fAnimTilingU / m_pData->m_fTilingU;

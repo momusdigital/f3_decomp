@@ -1,21 +1,10 @@
 #include "f3_common.h"
+#include "havok/hkMonitorStream.h"
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void* __cdecl FUN_00d68e00();
-struct FUN_00dd9380_class
-{
-    void* __thiscall FUN_00dd9380(const char* name, void* func);
-};
 void* DAT_01269cd0;
 void* DAT_01269010;
-
-// @fnv 0x00d68e40
-void* __cdecl RegisterConvexRadius()
-{
-    DAT_01269010 = ((FUN_00dd9380_class*)DAT_01269cd0)->FUN_00dd9380("Convex Radius", FUN_00d68e00);
-    return DAT_01269010;
-}
 
 struct FUN_00d68a70_class
 {
@@ -37,6 +26,8 @@ struct FUN_00d68a70_class
 };
 // Scans the entries array for the first entry whose first int equals key and returns its index, or -1 if none match.
 // @fnv 0x00d68a70
+// pdb: hkpConvexRadiusViewer::findWorld | hkpConvexRadiusViewer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: world
 int FUN_00d68a70_class::FindKeyIndex(int key)
 {
     int limit = count;
@@ -116,6 +107,7 @@ struct D68FC0Object : D68FC0Primary, D68FC0Listener
 };
 
 // @fnv 0x00d68fc0
+// pdb: hkpConvexRadiusViewer::init | hkpConvexRadiusViewer.obj | fnv360_0822_retail, vtable, medium
 void D68FC0Object::FUN_00d68fc0()
 {
     if (m_pOwningWorld)
@@ -134,6 +126,8 @@ struct Outer
     void FUN_00d69000();
 };
 // @fnv 0x00d69000
+// pdb: hkpRigidBodyInertiaViewer::worldRemovedCallback | hkpRigidBodyInertiaViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void Outer::FUN_00d69000()
 {
     ((Target*)((char*)this - 0x20))->FUN_00d68e60();
@@ -150,18 +144,14 @@ struct Sub
 };
 // Calls FindKeyIndex on the Base at this-0x20 with value, and if the result is non-negative passes it to FUN_00d69010.
 // @fnv 0x00d69160
+// pdb: hkpConvexRadiusViewer::worldRemovedCallback | hkpConvexRadiusViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void Sub::FUN_00d69160(int value)
 {
     Base* base = reinterpret_cast<Base*>(reinterpret_cast<char*>(this) - 0x20);
     int result = base->FindKeyIndex(value);
     if (result >= 0)
         base->FUN_00d69010(result);
-}
-
-// @fnv 0x00d69180
-void* __cdecl FUN_00d69180()
-{
-    return DAT_01269010;
 }
 
 struct Heap
@@ -178,36 +168,7 @@ struct Holder
     int unk0C;
     Heap* unk10;
 };
-struct Destructor
-{
-    void FUN_00d690d0();
-};
-struct FUN_00d691d0_Class
-{
-    int unk00;
-    unsigned short allocationSize;
-    unsigned short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    FUN_00d691d0_Class* Destroy(unsigned int flags);
-};
 extern Holder* FUN_00c85750();
-// Runs the destructor, and if flags has bit 0 set, frees this object through the holder's allocator using allocationSize.
-// @fnv 0x00d691d0
-FUN_00d691d0_Class* FUN_00d691d0_Class::Destroy(unsigned int flags)
-{
-    ((Destructor*)this)->FUN_00d690d0();
-    if (flags & 1)
-    {
-        Holder* holder = FUN_00c85750();
-        holder->unk10->free(this, allocationSize);
-    }
-    return this;
-}
 
 extern void* DAT_01269010;
 
@@ -229,6 +190,8 @@ struct FUN_00d68940_cls
 // @f3 0x009f52e0 (community match, verified in this file)
 extern void* DAT_01169828;
 
+// pdb: hkpConvexRadiusViewer::inactiveEntityMovedCallback | hkpConvexRadiusViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: entity
 void FUN_00d68940_cls::DispatchToTarget(char* pData)
 {
     FUN_00d68940_target* target = *(FUN_00d68940_target**)((char*)this - 0x14);
@@ -260,11 +223,6 @@ struct FUN_00d68aa0_mgr
     virtual void v03();
     virtual void v04();
     virtual void v05(void* a, void* b, int c);
-};
-
-struct FUN_00d68aa0_owner
-{
-    int FindKeyIndex(void* key);
 };
 
 extern void* DAT_01269010;
@@ -301,6 +259,8 @@ static void __forceinline RemoveAt(void**& arr, int& count, int i)
     count = count - 1;
     arr[i] = arr[count];
 }
+// pdb: hkpConvexRadiusViewer::entityRemovedCallback | hkpConvexRadiusViewer.obj | fnv360_0822_retail, objrun, medium
+// pdb params: entity
 void FUN_00d68aa0_cls::RemoveItem(FUN_00d68aa0_req* pRequest)
 {
     if (pRequest->m_10 == 0)
@@ -325,38 +285,6 @@ struct S_Heap
     virtual void v2();
     virtual void v3();
     virtual void ReturnMemory(void* p, int n) throw();
-};
-struct S_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_Heap* m10;
-};
-struct S_B0
-{
-    virtual void b0v0();
-    int unk04;
-    void FUN_00d69010(int i) throw();
-};
-struct S_B8
-{
-    virtual void b8v0();
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-struct S_B20
-{
-    virtual void b20v0();
-};
-struct FUN_00ddcc60 : S_B0, S_B8, S_B20
-{
-    int m24;
-    virtual ~FUN_00ddcc60() throw();
 };
 struct S_D28
 {
@@ -395,19 +323,6 @@ struct S_Arr
         m_cap = 0x80000000;
     }
 };
-struct FUN_00d690d0 : FUN_00ddcc60, S_D28, S_D2c
-{
-    S_Arr m30;
-    virtual ~FUN_00d690d0() throw();
-};
-// Destroys the object: calls FUN_00d69010 for each element of m30 in reverse order, then clears and deallocates m30 using the heap from FUN_00c85750.
-// @fnv 0x00d690d0
-FUN_00d690d0::~FUN_00d690d0() throw()
-{
-    for (int i = m30.m_iElementCount - 1; i >= 0; i--)
-        FUN_00d69010(i);
-    m30._clearAndDeallocate(((S_Router*)FUN_00c85750())->heap());
-}
 
 struct SubObj
 {
@@ -563,31 +478,6 @@ void FUN_00d68e60_cls::FUN_00d68e60(Owner* owner)
 static void* DAT_01269018;
 static void* DAT_01269014;
 
-struct T68B0
-{
-    virtual void b0v0();
-    int unk04;
-};
-struct T68B8
-{
-    virtual void b8v0();
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-struct T68B20
-{
-    virtual void b20v0();
-};
-
-struct T68Base : T68B0, T68B8, T68B20
-{
-    int m24;
-    T68Base(int arg);
-};
-
 struct T68D28
 {
     virtual void d28v0();
@@ -609,23 +499,6 @@ struct T68Arr
     T68Arr() : m_data(0), m_iElementCount(0), m_cap(0x80000000u)
     {}
 };
-
-struct FUN_00d68b90 : T68Base, T68D28, T68D2c
-{
-    T68Arr m30;
-    void* m3c;
-    void* m40;
-    FUN_00d68b90(int arg);
-    virtual void b0v0();
-    virtual void b8v0();
-    virtual void b20v0();
-    virtual void d28v0();
-    virtual void d2cv0();
-};
-
-// @fnv 0x00d68b90
-FUN_00d68b90::FUN_00d68b90(int arg) : T68Base(arg), m3c(DAT_01269018), m40(DAT_01269014)
-{}
 
 struct Mem_d65f
 {
@@ -720,11 +593,6 @@ struct Listener_d65f
     virtual void l00();
 };
 
-struct Watch_d65f
-{
-    int unk00;
-};
-
 struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray_d65f<Node_d65f*> m_kNodeCollection;
@@ -748,8 +616,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
 extern DWORD DAT_0126835c;
 extern void* DAT_01269010;
-extern char DAT_010d2080[];
-extern char DAT_010c41f8[];
 
 struct D68970_ProfileRecord
 {
@@ -916,21 +782,12 @@ struct CpuObject
     float FUN_00c91020();
 };
 
+// pdb: hkpConvexRadiusViewer::postSimulationCallback | hkpConvexRadiusViewer.obj | fnv360_0822_retail, vtable, medium
+// pdb params: world
 void D68970_Listener::FUN_00d68970(D68970_Owner* owner)
 {
     __assume(this != 0);
-    volatile DWORD tick;
-    D68970_ProfileBuffer* profile = static_cast<D68970_ProfileBuffer*>(TlsGetValue(DAT_0126835c));
-
-    D68970_ProfileRecord* record = profile->current;
-    if (record < profile->end)
-    {
-        record->name = "TthkpConvexRadiusViewer";
-        _ReadWriteBarrier();
-        tick = __rdtsc();
-        record->tick = tick;
-        profile->current = record + 1;
-    }
+    HK_TIMER_BEGIN("hkpConvexRadiusViewer", HK_NULL);
 
     for (int entityIndex = 0; entityIndex < owner->entityCount; ++entityIndex)
     {
@@ -950,95 +807,9 @@ void D68970_Listener::FUN_00d68970(D68970_Owner* owner)
         }
     }
 
-    profile = static_cast<D68970_ProfileBuffer*>(TlsGetValue(DAT_0126835c));
-    record = profile->current;
-    if (record < profile->end)
-    {
-        record->name = "Et";
-        _ReadWriteBarrier();
-        tick = __rdtsc();
-        record->tick = tick;
-        profile->current = record + 1;
-    }
+    HK_TIMER_END();
 }
 
-
-struct D69190Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d69190();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-};
-
-struct D69190Secondary
-{
-    virtual void FUN_00d69190();
-};
-
-struct D69190Object : D69190Primary, D69190Secondary
-{
-    D69190Object();
-
-// @fnv 0x00d69190
-    virtual void FUN_00d69190();
-};
-
-D69190Object::D69190Object()
-{}
-
-// FUN_00d691a0 : MSVC this-adjusting thunk.
-//
-// The original is 8 bytes:  sub ecx, 0x08 ; jmp 0x00d691d0
-// That is the adjustor thunk MSVC emits for a virtual function that a
-// derived class overrides for a SECONDARY base: calling through the
-// secondary base's vftable passes the base subobject's 	his, so the
-// thunk walks it back to the derived object and tail-jumps to the shared
-// override.
-//
-// Two bases declare the same virtual, so the derived class overrides one
-// function for both of them -> one adjustor per secondary base.  The first
-// base is padded to 8 bytes so the second base lands at +0x08.
-// The override is DECLARED ONLY, so the thunk is the single defined
-// function symbol carrying the name FUN_00d691a0, and a defined key function in the
-// derived class makes the vftable that references the thunk be emitted here.
-struct AdjBase1
-{
-    AdjBase1();
-    virtual void FUN_00d691a0();
-    char pad[0x04];
-};
-
-struct AdjBase2
-{
-    AdjBase2();
-// @fnv 0x00d691a0
-    virtual void FUN_00d691a0();
-};
-
-struct AdjOwner : AdjBase1, AdjBase2
-{
-    AdjOwner();
-    virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d691a0();    // the shared override - declared only
-};
-
-AdjOwner::AdjOwner()
-{}
-void AdjOwner::key_fn()
-{}
-
-AdjOwner* make_adj_owner()
-{
-    static AdjOwner o;
-    return &o;
-}
 
 // sub ecx,0x28; jmp target: MSVC adjustor thunk. PrimaryBase is 0x28 bytes (vptr + 9 ints),
 // so the second base sits at +0x28 and the thunk subtracts 0x28 from this.
@@ -1071,152 +842,7 @@ struct SpawnedObject : PrimaryBase, SecondaryBase
 SpawnedObject::SpawnedObject()
 {}
 
-struct D691C0Primary
-{
-    virtual void vfunc00();
-    virtual void FUN_00d691c0();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-};
-
-struct D691C0Secondary
-{
-    virtual void FUN_00d691c0();
-};
-
-struct D691C0Object : D691C0Primary, D691C0Secondary
-{
-    D691C0Object();
-
-// @fnv 0x00d691c0
-    virtual void FUN_00d691c0();
-};
-
-D691C0Object::D691C0Object()
-{}
-
 namespace fnv_00d68c00 {
-struct S_00d68c00_Arg
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    int unke0;
-    int unke4;
-    unsigned char unke8;
-    unsigned char unke9;
-    unsigned char unkea;
-    unsigned char unkeb;
-    int unkec;
-    int unkf0;
-};
-
-struct S_00d68c00_Elem
-{
-    virtual void* v0(unsigned int flags) throw();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-};
-
-struct S_00d68c00_Arr
-{
-    S_00d68c00_Elem** data;
-    int size;
-    int cap;
-};
-
-struct S_00d68c00_List
-{
-    char** data;
-    int size;
-    int cap;
-};
-
-struct S_00d68c00_Item
-{
-    int unk00;
-    S_00d68c00_List list;
-};
 
 struct S_00d68c00_Heap
 {
@@ -1243,143 +869,6 @@ struct S_00d68c00_Router
 S_00d68c00_Router* __cdecl FUN_00c85750() throw();
 void __cdecl ResizeAudioStream(S_00d68c00_Heap* heap, void* arr, int elemSize) throw();
 
-struct S_00d68c00_Obj
-{
-    virtual void v0() throw();
-    virtual void v1(S_00d68c00_Arr* arr, void* p, char* name, void* dat, int zero) throw();
-    virtual void v2() throw();
-    virtual void v3(int a, char* name, void* dat) throw();
-};
-
-struct S_00d68c00_Log
-{
-    virtual void v0() throw();
-    virtual void v1() throw();
-    virtual void v2() throw();
-    virtual void v3(int a, int b, char* msg, const char* file, int line) throw();
-};
-extern S_00d68c00_Log* DAT_01268360;
-
-struct S_00d68c00_Real
-{
-    float v;
-    void FUN_00de3050() throw();
-};
-
-struct S_00d68c00_Query
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void FUN_00de3060(S_00d68c00_Real* r) throw();
-    void FUN_00de4420(int a, S_00d68c00_Arr* arr) throw();
-};
-
-struct S_00d68c00_Str
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    void FUN_00cb1600(char* buf, int size) throw();
-    void FUN_00cc01c0(const char* s) throw();
-    void FUN_00cc00e0() throw();
-};
-
-struct S_00d68c00_Main
-{
-    virtual void m0() throw();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    S_00d68c00_Obj* unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int FindKeyIndex(int key) throw();
-};
-
-struct S_00d68c00_Listener
-{
-    virtual void FUN_00d68c00(S_00d68c00_Arg* a2) throw();
-    int unk04;
-    S_00d68c00_Item** unk08;
-    int unk0c;
-    int unk10;
-    void* unk14;
-    void* unk18;
-};
-
-struct S_00d68c00_Sub : S_00d68c00_Main, S_00d68c00_Listener
-{
-    virtual void FUN_00d68c00(S_00d68c00_Arg* a2) throw();
-};
-
-// Collects elements via FUN_00de4420, logs and drops those with unk50 == 6 and unk08 == 0, hands the rest to unk18's v1 and v3, then calls v0(1) on each.
-// @fnv 0x00d68c00
-void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
-{
-    if (a2->unk10 == 0)
-        return;
-    int idx = FindKeyIndex(a2->unk08);
-    if (idx < 0)
-        return;
-    S_00d68c00_Item* item = S_00d68c00_Listener::unk08[idx];
-    S_00d68c00_Arr arr;
-    arr.data = 0;
-    arr.size = 0;
-    arr.cap = 0x80000000;
-    S_00d68c00_Real radius;
-    radius.FUN_00de3050();
-    S_00d68c00_Query query;
-    query.FUN_00de3060(&radius);
-    query.FUN_00de4420(a2->unk10, &arr);
-    for (int i = arr.size - 1; i >= 0; i--)
-    {
-        S_00d68c00_Elem* e = arr.data[i];
-        if (e->unk50 == 6 && e->unk08 == 0)
-        {
-            unsigned int buf[128];
-            S_00d68c00_Str msg;
-            msg.FUN_00cb1600((char*)buf, 0x200);
-            msg.FUN_00cc01c0("Unable to build display geometry from hkpShape geometry data");
-            DAT_01268360->v3(0, -1, (char*)buf, ".\\VisualDebugger\\Viewer\\Collide\\hkpConvexRadiusViewer.cpp", 0xa7);
-            msg.FUN_00cc00e0();
-            arr.size--;
-            if (arr.size != i)
-                arr.data[i] = arr.data[arr.size];
-        }
-    }
-    if (arr.size > 0)
-    {
-        char* name = (char*)a2 + 0x13;
-        S_00d68c00_List* list = &item->list;
-        S_00d68c00_Router* r = FUN_00c85750();
-        if (list->size == (list->cap & 0x3fffffff))
-            ResizeAudioStream(r->unk10, list, 4);
-        char** p = list->data + list->size;
-        for (int k = 0; k < 1; k++)
-            p[k] = name;
-        list->size++;
-        S_00d68c00_Main::unk18->v1(&arr, &a2->unkf0, name, DAT_01269010, 0);
-        if (a2->unke8 == 5)
-            S_00d68c00_Main::unk18->v3((int)S_00d68c00_Listener::unk14, name, DAT_01269010);
-        else
-            S_00d68c00_Main::unk18->v3((int)S_00d68c00_Listener::unk18, name, DAT_01269010);
-    }
-    for (int j = 0; j < arr.size; j++)
-    {
-        S_00d68c00_Elem* e = arr.data[j];
-        if (e)
-            e->v0(1);
-    }
-    S_00d68c00_Heap& heap = FUN_00c85750()->heap();
-    arr.size = 0;
-    if ((arr.cap & 0x80000000) == 0)
-        heap.v4(arr.data, (arr.cap & 0x3fffffff) * 4);
-}
 }  // namespace fnv_00d68c00
 
 namespace fnv_00d68e00 {
@@ -1402,22 +891,6 @@ struct hkThreadMemory
 
 extern "C" hkThreadMemory* __cdecl FUN_00c85750();
 
-struct TargetAgent
-{
-    char pad[4];
-    short m_usMemSizeAndFlags;
-    TargetAgent* FUN_00d68b90(void* arg1);
-};
-
-// Allocates a 0x44-byte TargetAgent chunk, sets its size field, calls FUN_00d68b90, and returns the result offset by 8 bytes or null.
-// @fnv 0x00d68e00
-void* __cdecl FUN_00d68e00(void* arg1)
-{
-    TargetAgent* agent = (TargetAgent*)FUN_00c85750()->allocateChunk(0x44);
-    agent->m_usMemSizeAndFlags = 0x44;
-    TargetAgent* res = agent->FUN_00d68b90(arg1);
-    return res ? (char*)res + 8 : 0;
-}
 }  // namespace fnv_00d68e00
 
 struct VObj

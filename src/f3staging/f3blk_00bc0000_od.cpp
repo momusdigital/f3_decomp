@@ -63,7 +63,7 @@ extern long (__stdcall *DAT_00d9b068)(long*);
 
 extern long (__stdcall *DAT_00d9b064)(long*);
 
-void* __cdecl FUN_00bce940(void*);
+void* __cdecl ArchiveManager_TrimFileName(void*);
 
 void __cdecl FUN_00bccca0(void*, PathKey*, PathKey*);
 
@@ -101,6 +101,8 @@ struct ScopedArchive {
 
 }
 
+// pdb: ArchiveManager::InvalidateFile | Archive.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apFileName
 bool __cdecl FUN_00bcb0e0(void* request)
 
 {
@@ -113,7 +115,7 @@ bool __cdecl FUN_00bcb0e0(void* request)
 
         PathKey entryKey;
 
-        void* path = FUN_00bce940(request);
+        void* path = ArchiveManager_TrimFileName(request);
 
         FUN_00bccca0(path, &groupKey, &entryKey);
 
@@ -183,6 +185,7 @@ struct FUN_00bc7610_Owner
     float FUN_00bc7610();
 };
 
+// pdb: SymGen::Next | RobertDavies_Random.obj | fnv360_0822_retail, vtable, medium
 float FUN_00bc7610_Owner::FUN_00bc7610()
 {
     if (m_10 != 0)
@@ -521,6 +524,8 @@ struct Audio {
 };
 struct Heap { void* FUN_0086b930(unsigned); };
 extern Heap DAT_01090a78;
+// pdb: BSAudioManager::SetVoiceState | BSAudioManager.obj | fnv360_0822_retail, ustr, medium
+// pdb params: aiID, apSound
 void Audio::FUN_00bd1850(unsigned key,Sound* sound) {
  MemoryScope context(11);
  FUN_00bd0910 info;

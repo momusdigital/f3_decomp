@@ -306,6 +306,7 @@ struct Heap441 {
     CRITICAL_SECTION lock;
     Heap441* FUN_0086d9d0(void* baseAddress, unsigned int bytes, unsigned int id, unsigned int options);
 };
+// pdb: AbstractHeap::AbstractHeap | AbstractHeap.obj | tesv_win, call_seq, medium
 Heap441* Heap441::FUN_0086d9d0(void* baseAddress, unsigned int bytes, unsigned int id, unsigned int options) {
     identity = id;
     size = bytes;
@@ -743,6 +744,8 @@ struct Factory {
  D3DFORMAT unk5d0;
  void FUN_008734e0(Slot1415* output,unsigned int context,D3DRESOURCETYPE flags);
 };
+// pdb: NiXenonRenderer::CreatePixelFormatArray | NiXenonRenderer.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: NiDX9Renderer::CreatePixelFormatArray)
+// pdb params: ppkFormatArray, uiUsage, eType
 void Factory::FUN_008734e0(Slot1415* output,unsigned int context,D3DRESOURCETYPE flags) {
  Factory* owner=this;
  

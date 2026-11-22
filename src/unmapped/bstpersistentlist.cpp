@@ -1,66 +1,6 @@
 #include "f3_common.h"
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct PoolLock_b1698
-{
-    void Lock(int wait);
-};
-
-struct PoolNode_b1698
-{
-    PoolNode_b1698* m_00;
-    unsigned int m_04;
-};
-
-extern "C" int DAT_011c5f80;
-extern "C" PoolNode_b1698* DAT_011c5f58;
-extern "C" int DAT_011c5f84;
-
-struct FUN_00b63e90_cls
-{
-    unsigned int m_00;
-    unsigned int m_04;
-    unsigned int* m_08;
-    PoolNode_b1698* m_0c;
-
-    void ReleasePoolNodes();
-};
-
-// @fnv 0x00b63e90
-void FUN_00b63e90_cls::ReleasePoolNodes()
-{
-    PoolNode_b1698* cur = m_0c;
-    if (cur != 0)
-    {
-        ((PoolLock_b1698*)&DAT_011c5f80)->Lock(0);
-        do
-        {
-            PoolNode_b1698* node = cur;
-            cur = cur->m_00;
-            ((PoolLock_b1698*)&DAT_011c5f80)->Lock(0);
-            node->m_04 = 0;
-            node->m_00 = DAT_011c5f58;
-            DAT_011c5f84 -= 1;
-            DAT_011c5f58 = node;
-            if (DAT_011c5f84 == 0)
-            {
-                DAT_011c5f80 = 0;
-            }
-        } while (cur != 0);
-        DAT_011c5f84 -= 1;
-        if (DAT_011c5f84 == 0)
-        {
-            DAT_011c5f80 = 0;
-        }
-    }
-    unsigned int* p = m_08;
-    m_0c = 0;
-    if (p != 0)
-    {
-        *p = 0;
-    }
-}
-
 struct FUN_00b63f10_Kind
 {
     int m_type;
@@ -264,6 +204,8 @@ struct FUN_00b63f10_CH
 
 // Checks the target object's kind and m_3c, then dispatches to the handler at g_011f9f80[m_19c] (or index 0) using the sub-object's m_24 and m_0c.
 // @fnv 0x00b63f10
+// pdb: BSShaderAccumulator::hkPackfileWriter_notDuplicateMetaData | BSShaderAccumulator.obj | fnv360_0822_retail, udata, high
+// pdb params: apGeometry
 bool FUN_00b63f10_CH::DispatchHandler(FUN_00b63f10_Arg* apArg)
 {
     FUN_00b63f10_Target* p = apArg->m_9c.m_20;

@@ -10,6 +10,7 @@ extern "C" void __cdecl FUN_00e89970();
 extern void __cdecl __Dummy_00b6fef0(void* p, unsigned int flags);
 
 // @fnv 0x00be0af0
+// pdb: NiBackToFrontAccumulator::`scalar deleting destructor' | NiBackToFrontAccumulator.obj | tesv_win, vtable_prefix, medium
 void* __thiscall NiD3DPixelShader::DestroyPixelShader(unsigned int flags)
 {
     NiD3DPixelShader* p = this;
@@ -27,6 +28,8 @@ struct NiD3DVertexShader
 };
 
 // @fnv 0x00be0bd0
+// pdb: BSPlayerDistanceCheckController::SetCallback | BSPlayerDistanceCheckController.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apfnCallback
 void NiD3DVertexShader::FUN_00be0bd0(COMUnknownInterface* hDecl)
 {
     *(COMUnknownInterface**)((char*)this + 0x38) = hDecl;
@@ -45,62 +48,11 @@ void NiD3DVertexShader::FUN_00be0bf0(bool bSoftwareVP)
 }
 }  // namespace fnv_00be0bf0
 
-struct VTableObj
-{
-    int m_uiX;
-    int m_uiY;
-    virtual void* v0();
-    virtual void* v1();
-    virtual void* v2();
-    virtual void* v3();
-    virtual void Call(int a, int b);
-};
-
-extern "C" void* __cdecl FUN_00c85750();
-
-struct FUN_00c7b0f0_shell
-{
-    int m_kPointA;
-    int m_kPointB;
-    int m_iThirdValue;
-    void FUN_00c7b0f0();
-};
-
-// @fnv 0x00c7b0f0
-void FUN_00c7b0f0_shell::FUN_00c7b0f0()
-{
-    void* p = FUN_00c85750();
-    VTableObj* pTarget = *(VTableObj**)((char*)p + 0x10);
-    m_kPointB = 0;
-    unsigned int uiFlags = m_iThirdValue;
-    if (!(uiFlags & 0x80000000))
-    {
-        int size = (uiFlags & 0x3fffffff) * 4;
-        pTarget->Call(m_kPointA, size);
-    }
-    m_kPointA = 0;
-    m_iThirdValue = 0x80000000;
-}
-
-extern "C" void* g_0126fa40;
-
-// @fnv 0x00e95cc0
-void* __cdecl FUN_00e95cc0()
-{
-    return &g_0126fa40;
-}
-
-extern const void* g_0126fa48;
-
-// @fnv 0x00e95df0
-const void* __cdecl FUN_00e95df0()
-{
-    return &g_0126fa48;
-}
-
 extern void(__cdecl* DAT_fdf3f0)();
 
 // @fnv 0x00ee6e2e
+// pdb: D3DXGetVertexShaderProfile | d3dx9shader.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: D3DXVec3TransformNormal)
+// pdb params: pDevice
 void __cdecl FUN_00ee6e2e()
 {
     return DAT_fdf3f0();
@@ -128,6 +80,7 @@ struct FUN_00be0b70_shell
 
 // Calls FUN_00e89b70, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00be0b70
+// pdb: NiD3DPixelShader::`scalar deleting destructor' | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0721_beta, objopen_prop, low
 void* __thiscall FUN_00be0b70_shell::FUN_00be0b70(unsigned int flags)
 {
     FUN_00e89b70();
@@ -181,6 +134,8 @@ struct FUN_00e95cf0_Holder
 };
 // Frees the stored string at offset 0x30 and replaces it with a newly allocated copy of pcEntryPoint, or null if empty.
 // @fnv 0x00e95cf0
+// pdb: NiD3DHLSLVertexShader::SetEntryPoint | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: NiD3DHLSLPixelShader::SetEntryPoint)
+// pdb params: pcEntryPoint
 void FUN_00e95cf0_Holder::FUN_00e95cf0(const char* pcEntryPoint)
 {
     char* pcNewEntryPoint;
@@ -210,6 +165,8 @@ struct FUN_00e95d60_shell
 };
 // Frees the stored shader target string and replaces it with a newly allocated copy of pcShaderTarget, unless it is null, empty, or already stored.
 // @fnv 0x00e95d60
+// pdb: NiD3DHLSLPixelShader::SetShaderTarget | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: pcShaderTarget
 void __thiscall FUN_00e95d60_shell::FUN_00e95d60(const char* pcShaderTarget)
 {
     char* pcNewShaderTarget;
@@ -241,6 +198,7 @@ struct HlslPixelShaderStandIn
 };
 // Releases the current table and stores pkTable, calling AddRef on it when it differs from the stored one.
 // @fnv 0x00e95dc0
+// pdb: CWindEngine::GetNumWindMatrices | SpeedTreeRT.obj | fnv360_0822_debug, objopen_prop, low, conflict (bridge: NiD3DHLSLPixelShader::SetConstantTable)
 void __thiscall HlslPixelShaderStandIn::AssignTable(ID3DXConstantTable* pkTable)
 {
     if (m_pShaderConstantTable != pkTable)
@@ -260,6 +218,7 @@ struct NiD3DHLSLVertexShader
 };
 void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00e95e00
+// pdb: NiBSplineTransformInterpolator::`scalar deleting destructor' | NiBSplineTransformInterpolator.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall NiD3DHLSLVertexShader::DestroyVertexShader(unsigned int flags)
 {
     FUN_00e971d0();
@@ -280,6 +239,8 @@ struct NiD3DHLSLVertexShader
 };
 // Replaces the stored entry-point string with a copy of pcEntryPoint, freeing the old one and clearing it when the input is null or empty.
 // @fnv 0x00e95e20
+// pdb: NiD3DHLSLPixelShader::SetEntryPoint | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low, conflict (bridge: NiD3DHLSLVertexShader::SetEntryPoint)
+// pdb params: pcEntryPoint
 void __thiscall NiD3DHLSLVertexShader::FUN_00e95e20(const char* pcEntryPoint)
 {
     char* pcNewEntryPoint;
@@ -314,6 +275,8 @@ struct NiD3DHLSLVertexShader
 };
 // Frees the stored shader target string and, if a non-empty target is given, allocates and copies it into the field.
 // @fnv 0x00e95e80
+// pdb: NiD3DHLSLVertexShader::SetShaderTarget | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pcShaderTarget
 void __thiscall NiD3DHLSLVertexShader::FUN_00e95e80(const char* pcShaderTarget)
 {
     if (m_pcShaderProfile != pcShaderTarget)
@@ -392,6 +355,8 @@ struct NiD3DShaderProgramCreatorHLSL
 
 // Compiles HLSL from a memory buffer via D3DXCompileShader, copies the resulting code into pvCode/uiCodeSize, and logs errors on failure.
 // @fnv 0x00e964a0
+// pdb: NiD3DShaderProgramCreatorHLSL::LoadShaderCodeFromBuffer | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pvBuffer, uiBufferSize, pcEntryPoint, pcShaderTarget, pvCode, uiCodeSize, pkConstantTable, bRecoverable
 bool NiD3DShaderProgramCreatorHLSL::CompileShaderFromMemory(const void* apSourceData, unsigned int auiSourceSize,
                                                             const char* pcEntryPoint, const char* pcShaderTarget,
                                                             void*& pvCode, unsigned int& uiCodeSize,
@@ -445,47 +410,9 @@ bool NiD3DShaderProgramCreatorHLSL::CompileShaderFromMemory(const void* apSource
     return true;
 }
 
-struct FUN_00be09e0_shell
-{
-    char m_auiShapeKeys[0x10];
-    char* m_pkShaderProgramName;
-    void FUN_00be09e0(const char* pszName);
-};
-
-extern const char $SG3295[];
 extern "C" int __cdecl strcmp(const char* psz1, const char* psz2);
 void __cdecl _NiFree(void*);
 int __cdecl _strcpy_s(char* str, unsigned int numberOfElements, const char* source);
-
-// @fnv 0x00be09e0
-void FUN_00be09e0_shell::FUN_00be09e0(const char* pszName)
-{
-    if (!pszName || strcmp(pszName, $SG3295) == 0)
-    {
-        _NiFree(m_pkShaderProgramName);
-        m_pkShaderProgramName = 0;
-        return;
-    }
-
-    unsigned int uiNewLen = strlen(pszName) + 1;
-
-    if (m_pkShaderProgramName)
-    {
-        unsigned int uiOldLen = strlen(m_pkShaderProgramName);
-        if (uiOldLen < uiNewLen)
-        {
-            _NiFree(m_pkShaderProgramName);
-            m_pkShaderProgramName = 0;
-        }
-    }
-
-    if (!m_pkShaderProgramName)
-    {
-        m_pkShaderProgramName = (char*)_NiMalloc(uiNewLen);
-    }
-
-    _strcpy_s(m_pkShaderProgramName, uiNewLen, pszName);
-}
 
 void _NiFree(void*);
 int _strcpy_s(char*, unsigned int, const char*);
@@ -501,6 +428,8 @@ struct FUN_00be0920_shell
 
 // Stores a copy of pszName in m_pcName, reallocating the buffer when the new name is longer, or frees it when the name is empty.
 // @fnv 0x00be0920
+// pdb: NiD3DShaderProgram::SetName | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pszName
 void FUN_00be0920_shell::FUN_00be0920(const char* pszName)
 {
     if (!pszName || strcmp(pszName, "") == 0)
@@ -548,51 +477,10 @@ struct FUN_00be0ba0_Class
 };
 
 // @fnv 0x00be0ba0
+// pdb: NiD3DHLSLPixelShader::GetRTTI | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0721_beta, objrun_open, low, conflict (bridge: NiD3DVertexShader::GetRTTI)
 void __thiscall FUN_00be0ba0_Class::FUN_00be0ba0(unsigned int value)
 {
     unk30 = value;
-}
-
-struct S_00e58ea0_Gen
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int FUN_00e587a0();
-    int FUN_00cc0760();
-    void InitFloatArray(int a, int b, float c);
-};
-
-struct S_00e58ea0_Arr
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    void InitFloatArray(int a, int b, float c);
-    void FUN_00c7b0f0();
-};
-
-struct S_00e58ea0_cls
-{
-    int unk00;
-    int FUN_00dbbc00();
-    void FUN_00e58a20(S_00e58ea0_Gen* a, S_00e58ea0_Gen* b, S_00e58ea0_Arr* pkOut);
-    S_00e58ea0_Gen* FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2);
-};
-
-// @fnv 0x00e58ea0
-S_00e58ea0_Gen* S_00e58ea0_cls::FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2)
-{
-    a1->InitFloatArray(a2->FUN_00cc0760(), a2->FUN_00e587a0(), 0.0f);
-    S_00e58ea0_Arr tmpArr;
-    tmpArr.InitFloatArray(FUN_00dbbc00(), a2->FUN_00e587a0(), 0.0f);
-    FUN_00e58a20(a1, a2, &tmpArr);
-    tmpArr.FUN_00c7b0f0();
-    return a1;
 }
 
 struct IUnk_e95
@@ -656,6 +544,8 @@ struct FUN_00e95c40_cls
 };
 
 // @fnv 0x00e95c40
+// pdb: NiD3DShaderProgramCreatorHLSL::RecreatePixelShader | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkPixelShader
 bool FUN_00e95c40_cls::AttachShaderFromCode(Shader_e95* pkShader)
 {
     void* pvCode = pkShader->GetCode();
@@ -788,6 +678,8 @@ class HLSLCreator : public NiD3DShaderProgramCreatorHLSL
 
 // Compiles the shader source, creates the pixel shader handle, fills a new NiD3DHLSLPixelShaderStandIn with it and returns it, or returns 0 on failure.
 // @fnv 0x00e967d0
+// pdb: NiD3DShaderProgramCreatorHLSL::CreateVertexShaderFromBuffer | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pvBuffer, uiBufferSize, pcShaderName, pcEntryPoint, pcShaderTarget, hDecl, uiUsage, bSoftwareVP, bRecoverable
 NiD3DHLSLPixelShaderStandIn* HLSLCreator::FUN_00e967d0(const void* pvBuffer, unsigned int uiBufferSize,
                                                        const char* pcShaderName, const char* pcEntryPoint,
                                                        const char* pcShaderTarget, void* pvHandle,
@@ -846,59 +738,6 @@ struct MatResult
     {}
 };
 
-struct MatrixNm
-{
-    float* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    int m_numRows;
-    int m_numCols;
-
-    MatrixNm(int numRows, int numCols);
-    void Release();
-    int GetNumRows() const;
-    int GetNumCols() const;
-    float* GetPtr(int row, int col);
-    float* GetVecPtr(int i);
-    float Get(int row, int col);
-};
-
-MatResult __cdecl SolveVector(void* solver, MatrixNm& x, MatrixNm& b, int maxIter, float tolerance);
-
-// Solves each column of x against b by copying it into single-column matrices, calling SolveVector, and writing the result back.
-// @fnv 0x00e590f0
-MatResult __cdecl SolveMatrixColumns(void* solver, MatrixNm& x, MatrixNm& b, int maxIter, float tolerance)
-{
-    MatResult result;
-    MatrixNm xColumn(x.GetNumRows(), 1);
-    MatrixNm bColumn(b.GetNumRows(), 1);
-    for (int col = 0; col < x.GetNumCols(); col++)
-    {
-        int row;
-        for (row = 0; row < x.GetNumRows(); row++)
-        {
-            *xColumn.GetVecPtr(row) = *x.GetPtr(row, col);
-            float fValue = b.Get(row, col);
-            *bColumn.GetVecPtr(row) = fValue;
-        }
-        if (!SolveVector(solver, xColumn, bColumn, maxIter, tolerance).m_ok)
-        {
-            result.m_ok = false;
-            bColumn.Release();
-            xColumn.Release();
-            return result;
-        }
-        for (row = 0; row < x.GetNumRows(); row++)
-        {
-            *x.GetPtr(row, col) = *xColumn.GetVecPtr(row);
-        }
-    }
-    result.m_ok = true;
-    bColumn.Release();
-    xColumn.Release();
-    return result;
-}
-
 bool __cdecl NiShaderFindFile(const char* pcFile, char* pcPath, unsigned int uiLen);
 extern "C" long __stdcall D3DXCompileShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
                                                      const char* pFunctionName, const char* pProfile,
@@ -914,6 +753,8 @@ struct HLSLFileCreator : NiD3DShaderProgramCreatorHLSL
 
 // Finds the shader file, compiles it with D3DXCompileShaderFromFileA, copies the compiled code into pvCode and reports errors on failure.
 // @fnv 0x00e962a0
+// pdb: NiD3DShaderProgramCreatorHLSL::LoadShaderCodeFromFile | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcFileName, pcEntryPoint, pcShaderTarget, pvCode, uiCodeSize, pkConstantTable, bRecoverable
 bool HLSLFileCreator::CompileShaderFromFile(const char* pcFileName, const char* pcEntryPoint,
                                             const char* pcShaderTarget, void*& pvCode, unsigned int& uiCodeSize,
                                             ID3DXConstantTable*& pkConstantTable, bool bRecoverable)
@@ -986,6 +827,7 @@ struct FnvCpu_FUN_00be0aa0_CpuObject
     int FUN_00be0aa0();
 };
 // @fnv 0x00be0aa0
+// pdb: LockFreeMap<MobileObject *,NiPointer<LipTask> >::GetCount | LipSyncBackgroundManager.obj | fnv360_0822_retail, vtable, low
 int FnvCpu_FUN_00be0aa0_CpuObject::FUN_00be0aa0()
 {
     return value;
@@ -1000,6 +842,7 @@ struct C00be0be0
 };
 
 // @fnv 0x00be0be0
+// pdb: NiFile::operator bool | NiFile.obj | fnv360_0822_retail, objrun, medium
 unsigned char C00be0be0::FUN_00be0be0()
 {
     return m2c;
@@ -1027,6 +870,7 @@ struct FnvCpu_FUN_00e09630_CpuObject
     int FUN_00e09630();
 };
 // @fnv 0x00e09630
+// pdb: NiD3DHLSLVertexShader::GetRTTI | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, objrun_open, low
 int FnvCpu_FUN_00e09630_CpuObject::FUN_00e09630()
 {
     return value;
@@ -1044,6 +888,7 @@ struct FUN_00e587a0_Class
 };
 
 // @fnv 0x00e587a0
+// pdb: hkpMultiSphereShape::getNumCollisionSpheresImpl | hkpMultiSphereShape.obj | fnv360_0822_retail, objrun_open, low
 int __thiscall FUN_00e587a0_Class::FUN_00e587a0()
 {
     return this->unk10;
@@ -1070,6 +915,7 @@ struct FUN_00e95d50_StandIn
 };
 
 // @fnv 0x00e95d50
+// pdb: hkpConvexListShape::getNumChildShapes | hkpConvexListShape.obj | fnv360_0822_retail, objrun_sim, low
 unsigned int FUN_00e95d50_StandIn::FUN_00e95d50()
 {
     return unk34;
@@ -1098,6 +944,7 @@ struct FnvCpu_FUN_00e95ee0_CpuObject
     int FUN_00e95ee0();
 };
 // @fnv 0x00e95ee0
+// pdb: NiD3DHLSLPixelShader::GetConstantTable | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0721_beta, objrun_open, low
 int FnvCpu_FUN_00e95ee0_CpuObject::FUN_00e95ee0()
 {
     return value;
@@ -1119,6 +966,8 @@ struct HLSLCreator_b10814
 };
 
 // @fnv 0x00e95f20
+// pdb: NiD3DShaderProgramCreatorHLSL::CreateVertexShaderFromD3DXBuffer | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkBuffer, uiBufferSize, pcShaderName, pcEntryPoint, pcShaderTarget, hDecl, uiUsage, bSoftwareVP, bRecoverable
 NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, unsigned int uiCodeSize,
                                                               const char* pcShaderName, const char* pcEntryPoint,
                                                               const char* pcShaderTarget, const char* pcName,
@@ -1271,6 +1120,8 @@ struct PixelShaderCreatorHLSL : NiD3DShaderProgramCreatorHLSL
 };
 
 // @fnv 0x00e96b10
+// pdb: NiD3DShaderProgramCreatorHLSL::CreatePixelShaderFromBuffer | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pvBuffer, uiBufferSize, pcShaderName, pcEntryPoint, pcShaderTarget, bRecoverable
 HLSLPixelShader96* PixelShaderCreatorHLSL::FUN_00e96b10(const void* pvSourceBuffer, unsigned int uiSourceSize,
                                                         const char* pcShaderName, const char* pcEntryPoint,
                                                         const char* pcShaderTarget, bool bRecoverable)
@@ -1328,72 +1179,8 @@ struct SolverVector
     void InitArray(int rows, int columns);
     void FUN_00c7b0f0();
 };
-struct SolverMatrix
-{
-    SolverVector* FUN_00e58ea0(SolverVector* out, SolverVector* other);
-    int FUN_00dbbc00();
-    void FUN_00e58b10(SolverVector*, SolverVector*, SolverVector*);
-    void FUN_00e58a20(SolverVector*, SolverVector*, SolverVector*);
-};
-float DotProduct(SolverVector*, SolverVector*);
 __declspec(noalias) void FUN_00e58960(SolverVector*, float*, SolverVector*);
-void FUN_00e589a0(SolverVector*, SolverVector*);
-void NegateElements(SolverVector*);
 __declspec(noalias) void FUN_00e58900(SolverVector*, SolverVector*, float*, SolverVector*);
-// Runs up to count iterations, returning true when the squared residual is below tolerance squared at an iteration check.
-// @fnv 0x00e58f10
-bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVector* apInitialGuess, SolverVector* apRhs,
-                             int aiMaxIterations, float tolerance)
-{
-    int size = apInitialGuess->FUN_00cc0760();
-    SolverVector temp;
-    SolverVector pResidual, p, pMatVec, x;
-    apRhs->FUN_00e58e80(&pResidual, matrix->FUN_00e58ea0(&temp, apInitialGuess));
-    temp.FUN_00c7b0f0();
-    p.CopyFrom(&pResidual);
-    pMatVec.InitArray(size, 1);
-    x.InitArray(matrix->FUN_00dbbc00(), 1);
-    float fResidualNormSq = DotProduct(&pResidual, &pResidual);
-    float fToleranceSq = tolerance * tolerance;
-    int i = 0;
-    if (aiMaxIterations > 0)
-        do
-        {
-            if (fResidualNormSq < fToleranceSq)
-            {
-                *abConverged = true;
-                goto done;
-            }
-            matrix->FUN_00e58b10(&pMatVec, &p, &x);
-            {
-                float fStepSize = (float)((double)fResidualNormSq / DotProduct(&p, &pMatVec));
-                FUN_00e58960(apInitialGuess, &fStepSize, &p);
-                ++i;
-                if (i % 50 == 0)
-                {
-                    FUN_00e589a0(&pResidual, apRhs);
-                    matrix->FUN_00e58a20(&pResidual, apInitialGuess, &x);
-                    NegateElements(&pResidual);
-                }
-                else
-                {
-                    fStepSize = -fStepSize;
-                    FUN_00e58960(&pResidual, &fStepSize, &pMatVec);
-                }
-            }
-            float fPrevResidualNormSq = fResidualNormSq;
-            fResidualNormSq = DotProduct(&pResidual, &pResidual);
-            float beta = fResidualNormSq / fPrevResidualNormSq;
-            FUN_00e58900(&p, &pResidual, &beta, &p);
-        } while (i < aiMaxIterations);
-    *abConverged = false;
-done:
-    x.FUN_00c7b0f0();
-    pMatVec.FUN_00c7b0f0();
-    p.FUN_00c7b0f0();
-    pResidual.FUN_00c7b0f0();
-    return abConverged;
-}
 
 struct ConstTableE95
 {
@@ -1466,6 +1253,8 @@ class ShaderMgrE95
 
 // Creates a shader handle from pkShader's code and version, stores it and an optional interface, and returns success.
 // @fnv 0x00e95ba0
+// pdb: NiD3DShaderProgramCreatorHLSL::RecreateVertexShader | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkVertexShader
 bool ShaderMgrE95::FUN_00e95ba0(ShaderSrcE95* pkShader)
 {
     void* pvCode = pkShader->GetCode();
@@ -1487,14 +1276,12 @@ bool ShaderMgrE95::FUN_00e95ba0(ShaderSrcE95* pkShader)
     return true;
 }
 
-extern "C" void _ReadWriteBarrier();
 struct S00e96610_CT
 {
     virtual long __stdcall QueryInterface(const void* riid, void** ppv);
     virtual unsigned long __stdcall AddRef();
     virtual unsigned long __stdcall Release();
 };
-struct D3DDeviceStandIn;
 const char* __stdcall FUN_00ee6e2e(void* pDevice);
 
 int __cdecl FUN_00aa0020(int, bool, const char*, ...);
@@ -1620,6 +1407,8 @@ S00e96610_VS::~S00e96610_VS()
 {
 }
 
+// pdb: NiD3DShaderProgramCreatorHLSL::CreateVertexShaderFromFile | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pcFileName, pcShaderName, pcEntryPoint, pcShaderTarget, hDecl, uiUsage, bSoftwareVP, bRecoverable
 S00e96610_VS* S00e96610_Creator::FUN_00e96610(const char* pcFileName, const char* pcShaderName,
                                               const char* pcEntryPoint, ShaderTargetName pcShaderTarget, void* hDecl,
                                               unsigned int uiUsage, unsigned int bSoftwareVP, bool bRecoverable)
@@ -1772,6 +1561,8 @@ struct HLSLFileShaderCreator : NiD3DShaderProgramCreatorHLSL
 
 // Creates an HLSLPixelShaderObj by compiling a shader file and configuring the new object with the compiled code and metadata.
 // @f3 0x00897870 (community match, verified in this file)
+// pdb: NiD3DShaderProgramCreatorHLSL::CreatePixelShaderFromFile | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pcFileName, pcShaderName, pcEntryPoint, pcShaderTarget, bRecoverable
 HLSLPixelShaderObj* HLSLFileShaderCreator::FUN_00e96990(ShaderArgs args, const char* pcEntryPoint,
                                                         const char* pcShaderTarget, bool bRecoverable)
 {
@@ -1822,6 +1613,7 @@ struct Dummy_00cc0760
     int FUN_00cc0760();
 };
 // @fnv 0x00cc0760
+// pdb: hkpMalleableConstraintData::getWrappedConstraintData | hkpMalleableConstraintData.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkpRagdollConstraintData::getMotorsActive)
 int Dummy_00cc0760::FUN_00cc0760()
 {
     return rows;
@@ -1836,6 +1628,8 @@ struct BufferPixelShaderCreator : HLSLFileShaderCreator
 };
 
 // @fnv 0x00e96100
+// pdb: NiD3DShaderProgramCreatorHLSL::CreatePixelShaderFromD3DXBuffer | NiD3DShaderProgramCreatorHLSL.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkBuffer, uiBufferSize, pcShaderName, pcEntryPoint, pcShaderTarget, bRecoverable
 HLSLPixelShaderObj* BufferPixelShaderCreator::FUN_00e96100(ID3DXBuffer* code, unsigned int codeSize, const char* name,
                                                            const char* entryPoint, const char* target, bool recoverable)
 {
@@ -1891,8 +1685,9 @@ int F3Twin_00a484a0::F3_FUN_00a484a0()
 }
 
 // @f3twin 0x00a54fe0 of 0x0042ba00
-struct F3Twin_00a54fe0 : public FnvCpu_FUN_00be0aa0_CpuObject { int F3_FUN_00a54fe0() ; };
-int F3Twin_00a54fe0::F3_FUN_00a54fe0() 
+struct F3Twin_00a54fe0 : public FnvCpu_FUN_00be0aa0_CpuObject { int hkpMoppCachedShapeMediator_getNumPrimitives() ; };
+// pdb: hkpMoppCachedShapeMediator::getNumPrimitives | hkpMoppCachedShapeMediator.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+int F3Twin_00a54fe0::hkpMoppCachedShapeMediator_getNumPrimitives() 
 {
     return value;
 }

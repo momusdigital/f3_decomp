@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (13 functions)
+// gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (12 functions)
 #include "f3_common.h"
 #include "nipixeldata_decls.h"
 
@@ -13,6 +13,8 @@ __forceinline bool pixelCompressed(int f)
 
 // Initializes pixel format, mipmap levels, faces, per-level widths/heights/offsets, allocates data and copies the level tables.
 // @fnv 0x00a7c190
+// pdb: NiPixelData::NiPixelData | NiPixelData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiWidth, uiHeight, kFormat, uiMipmapLevels, uiFaces
 NiPixelData::NiPixelData(unsigned int width, unsigned int height, const NiPixelFormat& format,
                          unsigned int mipmapLevels, unsigned int faces) throw()
 {
@@ -95,6 +97,7 @@ class NiMemObject
 void __fastcall ReleaseSpawnedRefs(void*);
 
 // @fnv 0x00a7c450
+// pdb: NiPixelData::`scalar deleting destructor' | NiPixelData.obj | fnv360_0822_retail, objrun, high
 void* __fastcall FUN_00a7c450(void* pThis, int, unsigned int flags)
 {
     ReleaseSpawnedRefs(pThis);
@@ -108,11 +111,6 @@ struct GlobalObjectO2_00a7b610
     int pad;
 };
 extern GlobalObjectO2_00a7b610 g_011f4a90;
-// @fnv 0x00a7c020
-GlobalObjectO2_00a7b610* __cdecl FUN_00a7c020()
-{
-    return &g_011f4a90;
-}
 
 struct FUN_00a7bee0_target
 {
@@ -164,14 +162,15 @@ class FUN_00a7bee0_cls
     unsigned int unk48;
     FUN_00a7bee0_target* m_pFlagTarget;
 
-    bool FUN_00a5d2f0(unsigned int flags);
-    bool FUN_00a7bee0(unsigned int flags);
+    bool NiObject_RegisterStreamables(unsigned int flags);
+    bool NiPixelData_RegisterStreamables(unsigned int flags);
 };
 
 // @fnv 0x00a7bee0
-bool FUN_00a7bee0_cls::FUN_00a7bee0(unsigned int flags)
+// pdb: NiPixelData::RegisterStreamables | NiPixelData.obj | fnv360_0721_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+bool FUN_00a7bee0_cls::NiPixelData_RegisterStreamables(unsigned int flags)
 {
-    bool ok = FUN_00a5d2f0(flags);
+    bool ok = NiObject_RegisterStreamables(flags);
     if (!ok)
     {
         return ok;
@@ -223,7 +222,9 @@ struct SpawnedPixelData : NiObject
 
 // Allocates and constructs a new SpawnedPixelData object, returning it as a void pointer.
 // @fnv 0x00a7c3f0
-void* __cdecl CreateSpawnedPixelData()
+// pdb: NiPixelData::CreateObject | NiPixelData.obj | fnv360_0822_retail, objrun, high
+// pdb: NiPixelData::CreateObject | NiPixelData.obj | fnv360_0822_retail, objrun, high (was: CreateSpawnedPixelData)
+void* __cdecl NiPixelData_CreateObject()
 {
     return new SpawnedPixelData();
 }
@@ -265,7 +266,7 @@ struct NiObjectSerialization : NiObject
 
 struct NiPixelFormatSerialization : NiPixelFormat
 {
-    void FUN_00a7d1a0(NiStreamSerialization*);
+    void NiPixelFormat_SaveBinary(NiStreamSerialization*);
 };
 
 struct NiPixelDataSerialization : NiPixelData
@@ -282,10 +283,12 @@ static __forceinline void TransferData(NiStreamSerialization* stream, const void
 
 // Serializes the pixel format, palette, mipmap level/stride/width/height/offset arrays, face count and pixel data through the stream.
 // @fnv 0x00a7c670
+// pdb: NiPixelData::SaveBinary | NiPixelData.obj | fnv360_0721_beta, objrun, high
+// pdb params: kStream
 void NiPixelDataSerialization::SaveToStream(NiStreamSerialization* stream)
 {
     reinterpret_cast<NiObjectSerialization*>(this)->FUN_00a89af0(stream);
-    reinterpret_cast<NiPixelFormatSerialization*>(&m_kPixelFormat)->FUN_00a7d1a0(stream);
+    reinterpret_cast<NiPixelFormatSerialization*>(&m_kPixelFormat)->NiPixelFormat_SaveBinary(stream);
     stream->SavePalette(m_spPalette.value);
 
     TransferData(stream, &m_uiMipmapLevels, sizeof(m_uiMipmapLevels));
@@ -493,12 +496,13 @@ struct NiPixelFormatLoad : NiPixelFormat
 
 struct NiPixelDataLoad : NiPixelData
 {
-    void FUN_00a7c470(NiStreamLoad& stream);
+    void NiPixelData_LoadBinary(NiStreamLoad& stream);
 };
 
 // Loads pixel format, mipmap levels, per-mipmap width/height/offset, faces and pixel data from the stream, then allocates and copies them.
 // @fnv 0x00a7c470
-void NiPixelDataLoad::FUN_00a7c470(NiStreamLoad& stream)
+// pdb: NiPixelData::LoadBinary | NiPixelData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|objrun) + skyrim(caller_sim), high
+void NiPixelDataLoad::NiPixelData_LoadBinary(NiStreamLoad& stream)
 {
     ((NiObjectLoad*)this)->LoadBinaryBase(stream);
     ((NiPixelFormatLoad*)&m_kPixelFormat)->LoadBinaryFormat(stream);
@@ -586,6 +590,8 @@ struct FUN_00a7c820_shell : NiPixelData
 };
 // Appends the base debug strings plus Width, Height, mipmap level, face count, total and per-face byte sizes to pkStrings.
 // @f3 0x00847030 (community match, verified in this file)
+// pdb: NiPixelData::GetViewerStrings | NiPixelData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00a7c820_shell::AppendPixelDataDebugStrings(StrArr* pkStrings)
 {
     ((Base00a5d6e0*)this)->AppendCameraPathEntries(pkStrings);
@@ -666,6 +672,8 @@ struct PixelDataBE80 : public RendererDataBase_s
 
 // Calls the base LinkObject on kStream, then loads m_spPalette from the stream via FUN_00a63430.
 // @fnv 0x00a7be80
+// pdb: NiPixelData::LinkObject | NiPixelData.obj | fnv360_0721_retail, objrun, medium
+// pdb params: kStream
 void PixelDataBE80::FUN_00a7be80(NiStream& kStream)
 {
     RendererDataBase_s::LinkObject(kStream);
@@ -695,6 +703,7 @@ struct FUN_00a7c390_cls
 
 // Decrements m_4c's reference count before and after BaseCleanup, deleting either object at zero, then calls BaseTeardown.
 // @fnv 0x00a7c390
+// pdb: NiPixelData::~NiPixelData | NiPixelData.obj | fnv360_0822_retail, objrun, high
 void FUN_00a7c390_cls::ReleaseSpawnedRefs()
 {
     *(void* volatile*)&m_vptr = (void*)&DAT_0109dbb4;
@@ -728,6 +737,8 @@ static inline unsigned int Levels(unsigned int v)
 }
 // Returns the number of mip levels for a texture of the given width and height, or 0 if either dimension is zero.
 // @fnv 0x00a7be30
+// pdb: NiPixelData::ComputeMipmapLevels | NiPixelData.obj | fnv360_0822_retail, callee_sim, low
+// pdb params: uiWidth, uiHeight
 unsigned int GetMipLevelCount(unsigned int width, unsigned int height)
 {
     if (!width || !height)
@@ -743,33 +754,6 @@ unsigned int GetMipLevelCount(unsigned int width, unsigned int height)
 }
 
 #include <string.h>
-struct NiPaletteStub
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual bool IsEqual(void* pkObject);
-};
 
 struct NiPixelFormatCmp
 {
@@ -780,7 +764,7 @@ class NiPixelDataEq : public NiPixelData
 {
   public:
     bool ObjectIsEqual(NiObject* pkObject);
-    bool FUN_00a7bf10(NiObject* pkObject);
+    bool NiPixelData_IsEqual(NiObject* pkObject);
 };
 
 // Compares pixel format, palette, mipmap dimensions, face count, and pixel data of two NiPixelData objects, returning true only if all match.
@@ -801,7 +785,8 @@ __forceinline NiObject* ReadOtherPalette(void* const volatile& pointer)
     return static_cast<NiObject*>(pointer);
 }
 
-bool NiPixelDataEq::FUN_00a7bf10(NiObject* pkObject)
+// pdb: NiPixelData::IsEqual | NiPixelData.obj | fnv360_0822_retail, objopen_prop + bridge(vtable|objrun_sim) + skyrim(objrun), high
+bool NiPixelDataEq::NiPixelData_IsEqual(NiObject* pkObject)
 {
     NiPixelDataEq* rhs = (NiPixelDataEq*)pkObject;
     if (!((PixelBaseCmp*)this)->FUN_008258d0(pkObject))
@@ -914,6 +899,8 @@ class FUN_00a7c030 : public NiObject
 };
 
 // @fnv 0x00a7c030
+// pdb: NiPixelData::NiPixelData | NiPixelData.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: kSrc
 FUN_00a7c030::FUN_00a7c030(const FUN_00a7c030& kSrc) throw()
 {
     m_bNoConvert = false;

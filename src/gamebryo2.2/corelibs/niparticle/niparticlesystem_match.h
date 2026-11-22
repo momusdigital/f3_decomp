@@ -39,6 +39,6 @@ class NiParticleSystem
     char padding30[8];
     const char* name;
     NiPSysModifier* result;
-    void FindModifier();
+    void NiPSysModifierCtlr_GetModifierPointerFromName();
 };
 #endif

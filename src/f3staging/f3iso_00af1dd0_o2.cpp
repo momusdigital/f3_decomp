@@ -130,6 +130,7 @@ inline void RendererAF19Ptr::operator delete(void* memory) throw()
     RendererAF19Imports::DAT_01090a78.FUN_0086ba60(memory);
 }
 
+// pdb: BSTextureManager::~BSTextureManager | BSTextureManager.obj | fnv360_0822_retail, call_gap_sim, medium
 FUN_00b6f0b0::~FUN_00b6f0b0()
 {
     {

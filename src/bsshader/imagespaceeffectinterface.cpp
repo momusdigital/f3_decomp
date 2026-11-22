@@ -395,6 +395,8 @@ struct PipboyShader
 };
 
 // @fnv 0x00bb89b0
+// pdb: ImageSpaceEffectInterface::Setup | ImageSpaceEffectInterface.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apManager, apParam
 void PipboyShader::SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnused)
 
 {

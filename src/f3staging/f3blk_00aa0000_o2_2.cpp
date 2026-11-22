@@ -167,6 +167,8 @@ struct Owner5b
 };
 
 // @fnv 0x00c5b1c0
+// pdb: BSPortalGraph::AttachAlwaysRenderChild | BSPortalGraph.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pkChild
 void Owner5b::FUN_00ab46c0(RefObj5b* p)
 {
     if (!p)
@@ -262,6 +264,8 @@ struct ArrayC5BB
     PtrC5BB FUN_00ab3dd0(unsigned int index);
 };
 // Adapted from FNV reference 138670: array swap-removal with owning pointers.
+// pdb: NiTArray<NiPointer<NiAVObject>,NiTNewInterface<NiPointer<NiAVObject> > >::RemoveAtAndFill | BSPortalGraph.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiIndex
 PtrC5BB ArrayC5BB::FUN_00ab3dd0(unsigned int index)
 {
     if (index >= field_0a)
@@ -284,8 +288,8 @@ struct Setting56 {
     const char* type;
 };
 int __cdecl FUN_00a9d930(const char*);
-void __cdecl FUN_00aa73e0(const Setting56*,char*);
-void __cdecl FUN_00aa7420(const Setting56*,char*);
+void __cdecl INISettingCollection_MainKey(const Setting56*,char*);
+void __cdecl INISettingCollection_SubKey(const Setting56*,char*);
 void __cdecl FUN_0061dbe0(unsigned int,unsigned int*,unsigned int*,unsigned int*,unsigned int*);
 int __cdecl FUN_00403230(char*,unsigned int,const char*,...);
 extern int (__stdcall* DAT_00d9b0fc)(const char*,const char*,const char*,const char*);
@@ -298,6 +302,8 @@ public:
     void* handle;
     bool FUN_00aa7510(const Setting56* setting);
 };
+// pdb: INISettingCollection::WriteSetting | XINISetting_Xenon.obj | fnv360_0822_retail, vtable, medium
+// pdb params: arSetting
 bool ProfileWriter56::FUN_00aa7510(const Setting56* setting) {
     bool result=false;
     if(setting->type) {
@@ -306,8 +312,8 @@ bool ProfileWriter56::FUN_00aa7510(const Setting56* setting) {
         if(handle) {
             int type=FUN_00a9d930(setting->type);
             char section[64],key[64],buffer[256];
-            FUN_00aa73e0(setting,section);
-            FUN_00aa7420(setting,key);
+            INISettingCollection_MainKey(setting,section);
+            INISettingCollection_SubKey(setting,key);
             switch(type) {
             case 6:
                 result=DAT_00d9b0fc(section,key,setting->value.text,filename)!=0;
@@ -360,6 +366,7 @@ struct ObjectArrayBase{virtual void Interface();void* data;unsigned short capaci
 struct SimpleArray16{virtual void Interface();void* data;unsigned int size,capacity;__forceinline SimpleArray16(){data=0;size=0;capacity=0;}~SimpleArray16();};
 struct PortalGraph:RefObject{Array12 first,second,third;Pointer4 root;Array12 fourth;ObjectArray16 objects;Pointer4 room;Array12 fifth,sixth;SimpleArray16 nodes;PortalGraph();virtual ~PortalGraph();};
 typedef char PortalSize[(sizeof(PortalGraph)==0x78)?1:-1];
+// pdb: BSPortalGraph::BSPortalGraph | BSPortalGraph.obj | fnv360_0822_retail, objrun_prop, low
 PortalGraph::PortalGraph(){root=0;room=0;}
 }
 }   // namespace f3m_00ab4a40
@@ -374,6 +381,8 @@ struct RefCounted_00aae7a0 {
     int unk04;
 };
 
+// pdb: BSParticleSystemManager::SetAt | BSParticleSystemManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: i, pkChild, aspAVObject
 void __stdcall FUN_00aae7a0(unsigned int param1, unsigned int param2, int* param3) {
     RefCounted_00aae7a0* object = (RefCounted_00aae7a0*)*param3;
     if (object != 0) {
@@ -404,6 +413,8 @@ struct Primitive {
     Vec3 radii;
     bool FUN_00aa1540(Vec3 point);
 };
+// pdb: BSMultiBoundAABB::FastPointWithin | BSMultiBoundAABB.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kpoint
 bool Primitive::FUN_00aa1540(Vec3 point)
 {
     Vec3 delta = point-center;
@@ -441,6 +452,8 @@ struct Pool {
     void FUN_00aa3000();
     void FUN_00aa3170(Node* node);
 };
+// pdb: LockFreeMap<__int64,NiPointer<BSTask<__int64> > >::LockFreeMapInterface::DeleteNode | IOManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apNode
 void Pool::FUN_00aa3170(Node* node)
 {
     if (node->obj) {
@@ -587,6 +600,8 @@ struct Obj {
     virtual Result* Create(const FixedString& name);
     Extra* FUN_00825200(void* rtti);
 };
+// pdb: BSUtilities::GetObjectByName | BSUtilities.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apScene, apName, bTestScenegraph
 Result* __cdecl FUN_00aab350(Obj* obj, const char* name, bool create)
 {
     if (!obj || !name)
@@ -762,6 +777,8 @@ struct Owner5b
 };
 
 // @fnv 0x00c5b740
+// pdb: BSPortalGraph::DetachQAlwaysRenderChild | BSPortalGraph.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pkChild
 void Owner5b::FUN_00ab3f40(RefObj5b* pkObj)
 
 {
@@ -821,6 +838,8 @@ class FUN_00a32940_cls
 };
 
 // @fnv 0x00a32940
+// pdb: NiTArray<NiPointer<NiAVObject>,NiTMallocInterface<NiPointer<NiAVObject> > >::SetAt | BSPSysArrayEmitter.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiIndex, element
 void FUN_00a32940_cls::FUN_00ab87c0(unsigned int uiIndex, NiRefStubB5652** apNewStub)
 {
     static StaticKeyB5652 key(0);
@@ -997,6 +1016,8 @@ struct Owner_c5b5f0
 };
 
 // @fnv 0x00c5b5f0
+// pdb: BSPortalGraph::AttachQAlwaysRenderChild | BSPortalGraph.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pkChild
 void Owner_c5b5f0::FUN_00ab48d0(RefObj* pkObj)
 {
     if (pkObj == 0)
@@ -1072,6 +1093,7 @@ unsigned unk0a4;
 unsigned unk0a8;
 };
 struct FUN_00aaa120: FUN_00ab5d80 {SmartReference m_kSmartReference;virtual ~FUN_00aaa120();};
+// pdb: BSMultiBoundNode::~BSMultiBoundNode | BSMultiBoundNode.obj | fnv360_0822_retail, call_seq, high
 FUN_00aaa120::~FUN_00aaa120(){m_kSmartReference=static_cast<RefCounted*>(0);}
 }
 }   // namespace f3m_00aaa120
@@ -1111,6 +1133,8 @@ class FUN_00a32940_cls
 };
 
 // @fnv 0x00a32940
+// pdb: NiTArray<NiPointer<NiRefObject>,NiTNewInterface<NiPointer<NiRefObject> > >::SetAt | NiObjectGarbage.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiIndex, element
 void FUN_00a32940_cls::FUN_00aaabd0(unsigned int uiIndex, NiRefStubB5652** apNewStub)
 {
     static StaticKeyB5652 key(0);
@@ -1194,6 +1218,8 @@ struct StaticKeyB5652 {
     ~StaticKeyB5652() throw() { if(m_00 && InterlockedDecrement(&m_00->m_iObjectReferenceCount)==0) m_00->Destroy(); }
 };
 // @fnv 0x00a32940
+// pdb: NiTArray<NiPointer<NiPSysMeshEmitter::NiSkinnedEmitterData>,NiTNewInterface<NiPointer<NiPSysMeshEmitter::NiSkinnedEmitterData> > >::SetAt | NiPSysMeshEmitter.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
+// pdb params: uiIndex, element
 void FUN_00a32940_cls::FUN_00abd4e0(unsigned int uiIndex, NiRefStubB5652** apNewStub)
 {
     static StaticKeyB5652 key(0);
@@ -1298,6 +1324,8 @@ struct S00c3de80_Obj
 };
 
 // @fnv 0x00c3de80
+// pdb: IOManager::AddTask | IOManager.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apTask
 bool S00c3de80_Obj::FUN_00aa2b10(S00c3de80_Key* object)
 {
     S00c3de80_Key* self = object;
@@ -1369,6 +1397,8 @@ class FUN_00aa2860_cls
     bool FUN_00aa2860(FUN_00aa2860_Req* p, RequestValue value);
 };
 
+// pdb: BSTaskManager<__int64>::RequeueTask | IOManager.obj | fnv360_0822_debug, call_seq, medium
+// pdb params: apTask, aNewKey
 bool FUN_00aa2860_cls::FUN_00aa2860(FUN_00aa2860_Req* p, RequestValue value)
 {
     long v = p->m_0c;
@@ -1479,6 +1509,8 @@ struct Dispatcher {
     virtual void Invoke(int,int,Pointer*);
     void FUN_00aae4d0(int,int);
 };
+// pdb: BSParticleSystemManager::SetAt | BSParticleSystemManager.obj | fnv360_0721_beta, vtable, medium
+// pdb params: i, pkChild
 void Dispatcher::FUN_00aae4d0(int first,int second)
 {
     Pointer result;
@@ -1519,6 +1551,7 @@ SpawnList m_50, m_5c;
 void FUN_00ab48d0(void*); void FUN_00ab3f40(void*); void FUN_00ab49c0();
 };
 // @fnv 0x00c5b8d0
+// pdb: BSPortalGraph::ProcessQueue | BSPortalGraph.obj | fnv360_0822_retail, call_gap_sim, low
 void SpawnedObject::FUN_00ab49c0()
 {
     EnterCriticalSection(&DAT_0116daf4);
@@ -1565,6 +1598,7 @@ struct RegistryOpen {
     HKEY hKey;
     bool FUN_00ab5a10(bool create);
 };
+// pdb: RegSettingCollection::Open | XRegSetting.obj | tesv_win, uimport, low
 bool RegistryOpen::FUN_00ab5a10(bool create)
 {
     DWORD disposition;
@@ -1680,6 +1714,8 @@ struct Collector {
     ObjList list;
     void FUN_00ab8cc0(NiAVObject* obj);
 };
+// pdb: BSPSysArrayEmitter::SetObjectPointers | BSPSysArrayEmitter.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pObject
 void Collector::FUN_00ab8cc0(NiAVObject* obj)
 {
     if (!obj)
@@ -1768,6 +1804,7 @@ struct FUN_00aaf800 : Controller {
     virtual void v00();
     FUN_00aaf800();
 };
+// pdb: NiBSBoneLODController::NiBSBoneLODController | NiBSBoneLODController.obj | fnv360_0822_debug, call_seq, low
 FUN_00aaf800::FUN_00aaf800() { index=-1;array.Initialize(0,1); }
 }
 }   // namespace f3m_00aaf800
@@ -1783,6 +1820,8 @@ struct RefObject {
  inline void DeleteThis() { delete this; }
  inline void Release() { if(InterlockedDecrement(&references)==0) DeleteThis(); }
 };
+// pdb: BSSimpleArray<NiPointer<QueuedFile>,1024>::_DestructItems | QueuedFiles.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apFirstAddr, aiCount
 void __stdcall FUN_00aa5720(RefObject** items,unsigned int count) {
  for(unsigned int i=0;i<count;++i) {
   if(items[i]) {
@@ -1814,6 +1853,7 @@ struct Registry {
     Entry* entries;
     void FUN_00aa37d0();
 };
+// pdb: ThreadSpecificInterfaceManager<LockFreeMap<__int64,NiPointer<BSTask<__int64> > >::LockFreeMapInterface>::~ThreadSpecificInterfaceManager<LockFreeMap<__int64,NiPointer<BSTask<__int64> > >::LockFreeMapInterface> | IOManager.obj | fnv360_0822_retail, call_gap, low
 void Registry::FUN_00aa37d0()
 {
     for (unsigned int i = 0; i < count; ++i) {
@@ -1852,6 +1892,8 @@ int unk28;
 int unk2c;
 Semaphore start,done;};
 struct Owner {Worker** workers;void(__cdecl*callback)(void*);void*argument;bool active;void FUN_00aa9fc0(void(__cdecl*)(void*),void*);};
+// pdb: BSParallelTaskManager::RunTask | BSParallelTaskManager.obj | fnv360_0822_retail, call_seq, low
+// pdb params: apTaskFunc, apData
 void Owner::FUN_00aa9fc0(void(__cdecl*cb)(void*),void*arg){active=true;callback=cb;argument=arg;(*workers)->start.Release();callback(argument);(*workers)->done.Wait();active=false;}
 }
 }   // namespace f3m_00aa9fc0
@@ -1939,6 +1981,8 @@ public:
     virtual ~BSMasterParticleSystem();
     BSMasterParticleSystem();
 };
+// pdb: NiTPrimitiveArray<NiParticles *>::NiTPrimitiveArray<NiParticles *> | BSMasterParticleSystem.obj | fnv360_0822_retail, uvref, medium
+// pdb params: uiMaxSize, uiGrowBy
 BSMasterParticleSystem::BSMasterParticleSystem() : NiNode(0) {
     fieldC4=-1;
     fieldC8=-1;
@@ -2003,6 +2047,8 @@ struct Scheduler {
     bool FUN_00aa3df0(ScanState* state, __int64* keyOut, WorkItemRef* item, bool advance);
 };
 
+// pdb: LockFreeMap<__int64,NiPointer<BSTask<__int64> > >::GetNext | IOManager.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arIterator, arKey, arData, abSwitchBuckets
 bool Scheduler::FUN_00aa3df0(ScanState* state, __int64* keyOut, WorkItemRef* item, bool advance)
 {
     bool result = false;
@@ -2156,6 +2202,8 @@ __declspec(noinline) bool TriangulationPolygon::PointInTriangle(Point2 point, un
         return false;
     return SignedEdgeArea(data[a], data[b], x, y) <= 0.0f;
 }
+// pdb: BSPolygon2D::IsAnEar | BSPolygon.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiIndex, aiPrev, aiNext
 __declspec(noinline) bool TriangulationPolygon::FUN_00aac810(unsigned tip, unsigned previous, unsigned next) {
     ShortArray* list = concave;
     if (list) {

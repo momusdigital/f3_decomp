@@ -2,6 +2,7 @@
 #include "f3_common.h"
 #include "nicollisionutils_decls.h"
 // @fnv 0x00eadb90
+// pdb: NiCollisionUtils::IntersectTriangle | NiCollisionUtils.obj | tesv_win, call_gap, low
 bool RayTriangleIntersector::IntersectRayTriangle(const NiPoint3& aOrigin, const NiPoint3& aDirection,
                                                   const NiPoint3& aVertex0, const NiPoint3& aVertex1,
                                                   const NiPoint3& aVertex2, bool cull, NiPoint3& hit, float& t,

@@ -2,14 +2,6 @@
 // src/gamebryo2.2/corelibs/nimain/niscmextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niscmextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern int g_01270908;
-
-// @fnv 0x00ee89a0
-int* __cdecl FUN_00ee89a0()
-{
-    return &g_01270908;
-}
-
 extern int DAT_0110129c;
 void __cdecl NiFreeAlias(void*);
 struct FUN_00a7b300_shell
@@ -26,6 +18,7 @@ struct NiSCMExtraData
     void* Destroy(unsigned int);
 };
 // @fnv 0x00ee89b0
+// pdb: NiSCMExtraData::`scalar deleting destructor' | NiSCMExtraData.obj | fnv360_0822_retail, objrun_open, low
 void* NiSCMExtraData::Destroy(unsigned int auiFlags)
 {
     void* tmp = m_24;
@@ -66,6 +59,7 @@ struct FUN_00ee8910_obj
 };
 
 // @fnv 0x00ee8910
+// pdb: bhkExtraData::bhkExtraData | bhkExtraData.obj | fnv360_0822_retail, caller_sim, low, conflict (bridge: NiSCMExtraData::NiSCMExtraData)
 FUN_00ee8910_obj* FUN_00ee8910_obj::FUN_00ee8910(int a, int aiCountA, int aiCountB)
 {
     ((FUN_00a7b2e0_shell*)this)->FUN_00a7b2e0();

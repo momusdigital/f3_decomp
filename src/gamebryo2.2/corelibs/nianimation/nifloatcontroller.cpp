@@ -18,6 +18,8 @@ struct NiFloatController : NiTimeController
 };
 
 // @fnv 0x00a57970
+// pdb: NiFloatController::LoadBinary | NiFloatController.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: stream
 void NiFloatController::FUN_00a57970(NiStream& stream)
 {
     NiTimeController::LoadBinary(stream);
@@ -65,6 +67,7 @@ struct StandIn00a57a40
 };
 // Calls ProcessClone on this and, if the pointer at offset 0x38 is set, on that object too.
 // @fnv 0x00a57a40
+// pdb: NiFloatController::ProcessClone | NiFloatController.obj | tesv_win, caller_sim, low
 void StandIn00a57a40::FUN_00a57a40(CloningProcess& kCloning)
 {
     ((HelperBase00a57a40*)this)->ProcessClone(kCloning);
@@ -95,6 +98,8 @@ struct FUN_00a57a70_shell
 };
 // Links the object obtained from the stream into the field at offset 0x38, releasing the previous object and incrementing the new one's reference count.
 // @fnv 0x00a57a70
+// pdb: NiFloatController::LinkObject | NiFloatController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: stream
 void FUN_00a57a70_shell::FUN_00a57a70(NiStream& kStream)
 {
     ((CtrlHelper543*)this)->LinkObject(kStream);
@@ -127,6 +132,8 @@ struct FUN_00a57bb0_shell
 };
 // Calls FUN_00a6d830, gets a string via _FUN_00a7d330, grows the array if full, then stores the string at the current size index.
 // @fnv 0x00a57bb0
+// pdb: NiRollController::GetViewerStrings | NiRollController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pStrings
 void FUN_00a57bb0_shell::AppendString(StrArr* pStrArr)
 {
     FUN_00a6d830(pStrArr);
@@ -168,6 +175,7 @@ struct FUN_00a579f0_shell
 };
 // Reads key count, key type and key size from m_spFloatData into the out parameters and returns its key array, or zeroes them and returns null if absent.
 // @fnv 0x00a579f0
+// pdb: NiFloatController::GetAnim | NiFloatController.obj | tesv_win, hash, low
 TimedAnimationKey* FUN_00a579f0_shell::GetFloatKeys(unsigned int& uiNumKeys, AnimationKey::KeyType& eKeyType,
                                                     unsigned char& ucKeySize)
 {
@@ -221,6 +229,7 @@ struct Holder
     bool FUN_00a57ad0(NiStream&);
 };
 // @fnv 0x00a57ad0
+// pdb: NiFloatController::RegisterStreamables | NiFloatController.obj | tesv_win, caller_sim, low
 bool Holder::FUN_00a57ad0(NiStream& stream)
 {
     if (!((BaseCall*)this)->FUN_00a6d0f0(stream))
@@ -256,6 +265,8 @@ struct FakeController
     void __thiscall FUN_00a57b00(NiStream&);
 };
 // @fnv 0x00a57b00
+// pdb: NiFloatController::SaveBinary | NiFloatController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: stream
 void __thiscall FakeController::FUN_00a57b00(NiStream& stream)
 {
     ((BaseHack*)this)->FUN_00a6d730(stream);
@@ -295,6 +306,8 @@ struct CloneableObj
     MyInterp* m_sp;
 };
 // @fnv 0x00a57b50
+// pdb: NiLookAtController::CopyMembers | NiLookAtController.obj | fnv360_0822_retail, caller_sim, low, conflict (skyrim: NiFloatController::CopyMembers)
+// pdb params: pkDest, kCloning
 void CloneableObj::CopyInterpTo(CloneableObj* pkDest, void* pkProc)
 {
     FUN_00a6cfe0(pkDest, pkProc);
@@ -390,6 +403,7 @@ class FUN_00a57990 : public A57990Base
 
 // Destructor that clears the smart pointer member, releasing its referenced object.
 // @fnv 0x00a57990
+// pdb: NiFloatController::~NiFloatController | NiFloatController.obj | tesv_win, uvref, medium
 FUN_00a57990::~FUN_00a57990() throw()
 {
     m_pReferencedObject = 0;
@@ -446,6 +460,8 @@ struct FUN_00a57b20_cls
 
 // Checks FUN_00a6cc80(other), then calls v23 on m_38 with other's m_38 and returns whether it is nonzero.
 // @fnv 0x00a57b20
+// pdb: NiFloatController::IsEqual | NiFloatController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pObject
 bool FUN_00a57b20_cls::FUN_00a57b20(FUN_00a57b20_cls* other)
 {
     if (!FUN_00a6cc80(other))

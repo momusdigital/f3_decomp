@@ -1,10 +1,13 @@
-// gamebryo2.2/corelibs/nimain/nigeometrydata.cpp: NiGeometryData, NiGeometryDataRecovered, NiGeometryDataCmp, GeomData and more (36 functions)
+// gamebryo2.2/corelibs/nimain/nigeometrydata.cpp: NiGeometryData, NiGeometryDataRecovered, NiGeometryDataCmp, GeomData and more (32 functions)
 #include "f3_common.h"
 #include "nigeometrydata_decls.h"
 
 // If additional geometry data is absent or not packed, updates the consistency bits of m_usDirtyFlags to eConsistency.
 // @fnv 0x00a67050
-void NiGeometryData::SetDataConsistency(Consistency eConsistency)
+// pdb: NiGeometryData::SetConsistency | NiGeometryData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: eConsistency
+// pdb: NiGeometryData::SetConsistency | NiGeometryData.obj | fnv360_0822_retail, call_seq, high (was: SetDataConsistency)
+void NiGeometryData::SetConsistency(Consistency eConsistency)
 {
     if (m_spAdditionalGeomData.m_pObject != NULL && m_spAdditionalGeomData.m_pObject->IsPacked())
     {
@@ -15,7 +18,10 @@ void NiGeometryData::SetDataConsistency(Consistency eConsistency)
 
 // ORs the low 12 bits of uiDirtyFlags into m_usDirtyFlags unless the additional geometry data object exists and is packed.
 // @fnv 0x00a67090
-void NiGeometryData::SetDirtyFlags(unsigned int uiDirtyFlags)
+// pdb: NiGeometryData::MarkAsChanged | NiGeometryData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: usFlags
+// pdb: NiGeometryData::MarkAsChanged | NiGeometryData.obj | fnv360_0822_retail, call_seq, high (was: SetDirtyFlags)
+void NiGeometryData::MarkAsChanged(unsigned int uiDirtyFlags)
 {
     if (m_spAdditionalGeomData.m_pObject != NULL && m_spAdditionalGeomData.m_pObject->IsPacked())
     {
@@ -26,6 +32,8 @@ void NiGeometryData::SetDirtyFlags(unsigned int uiDirtyFlags)
 
 // Registers the object and its additional geometry data with the stream, returning false if either registration fails.
 // @fnv 0x00a66f50
+// pdb: NiGeometryData::RegisterStreamables | NiGeometryData.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: kStream
 bool NiGeometryData::RegisterStreamables(NiStream& kStream)
 {
     if (!NiObject::RegisterStreamables(kStream))
@@ -40,6 +48,8 @@ bool NiGeometryData::RegisterStreamables(NiStream& kStream)
 }
 
 // @fnv 0x00a677e0
+// pdb: NiGeometryData::LinkObject | NiGeometryData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void NiGeometryData::LinkObject(NiStream& kStream)
 {
     NiObject::LinkObject(kStream);
@@ -59,7 +69,10 @@ void NiGeometryData::LinkObject(NiStream& kStream)
 }
 
 // @fnv 0x00a67360
-bool NiGeometryData::IsGeometryDataStreamable(bool bWrite)
+// pdb: NiGeometryData::LockPackedVertexData | NiGeometryData.obj | fnv360_1110_retail, call_seq, high
+// pdb params: bWriteAccess
+// pdb: NiGeometryData::LockPackedVertexData | NiGeometryData.obj | fnv360_1110_retail, call_seq, high (was: IsGeometryDataStreamable)
+bool NiGeometryData::LockPackedVertexData(bool bWrite)
 {
     if (m_bIsDynamic)
         return false;
@@ -67,11 +80,11 @@ bool NiGeometryData::IsGeometryDataStreamable(bool bWrite)
     if (pkAdditional && pkAdditional->IsPacked())
     {
         if (bWrite)
-            pkAdditional->FUN_00a725d0(0);
+            pkAdditional->NiAdditionalGeometryData_UnlockDataBlock(0);
         else
         {
             unsigned int uiSize = 0;
-            pkAdditional->FUN_00a72590(0, &uiSize);
+            pkAdditional->NiAdditionalGeometryData_LockDataBlock(0, &uiSize);
         }
     }
     m_bBoundDirty = bWrite;
@@ -80,20 +93,16 @@ bool NiGeometryData::IsGeometryDataStreamable(bool bWrite)
 }
 
 #pragma optimize("", off)
-// @fnv 0x004410f0
-void NiGeometryData::SetCompressFlags(unsigned char ucCompressFlags)
-{
-    m_ucCompressFlags = ucCompressFlags;
-}
 #pragma optimize("", on)
 
 struct FUN_00a673d0_shell : public NiGeometryData
 {
-    void FUN_00a673d0();
+    void NiGeometryData_UnlockPackedVertexData();
 };
 
 // @fnv 0x00a673d0
-void FUN_00a673d0_shell::FUN_00a673d0()
+// pdb: NiGeometryData::UnlockPackedVertexData | NiGeometryData.obj | fnv360_1110_retail, call_seq + bridge(hash|call_gap) + skyrim(call_gap), high
+void FUN_00a673d0_shell::NiGeometryData_UnlockPackedVertexData()
 {
     if (*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a))
     {
@@ -101,25 +110,15 @@ void FUN_00a673d0_shell::FUN_00a673d0()
             *reinterpret_cast<NiAdditionalGeometryData**>(reinterpret_cast<char*>(this) + 0x30);
         if (pkAGD && pkAGD->IsPacked() && !*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3b))
         {
-            pkAGD->FUN_00a725d0(0);
+            pkAGD->NiAdditionalGeometryData_UnlockDataBlock(0);
         }
         *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x3a) = false;
     }
 }
 
 extern NiObjectGroup* DAT_011f4880;
-// @fnv 0x00a669c0
-NiObjectGroup* __cdecl FUN_00a669c0()
-{
-    return DAT_011f4880;
-}
 
 extern NiObjectGroup* DAT_011f4880;
-// @fnv 0x00a669d0
-void __stdcall FUN_00a669d0(NiObjectGroup* pkGroup)
-{
-    DAT_011f4880 = pkGroup;
-}
 
 struct MemoryManager
 {
@@ -133,6 +132,7 @@ struct FUN_00a67000_shell
     void FreeBuffer();
 };
 // @fnv 0x00a67000
+// pdb: NiGeometryData::ClearNormals | NiGeometryData.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: hkpRigidBody::setMass)
 void FUN_00a67000_shell::FreeBuffer()
 {
     if (m_pvBuf)
@@ -149,6 +149,8 @@ struct FUN_00a67020_shell
     void FUN_00a67020(NiBound* kBound);
 };
 // @fnv 0x00a67020
+// pdb: NiGeometryData::SetBound | NiGeometryData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apBound
 void FUN_00a67020_shell::FUN_00a67020(NiBound* kBound)
 {
     if (kBound)
@@ -161,6 +163,7 @@ void FUN_00a67020_shell::FUN_00a67020(NiBound* kBound)
 
 extern const char* const g_011f5b88_arg1;
 // @fnv 0x00a67bf0
+// pdb: NiAVObject::GetRTTI | NiAVObject.obj | fnv360_0822_retail, objrun_open, low
 const char* const* __cdecl FUN_00a67bf0()
 {
     return &g_011f5b88_arg1;
@@ -249,6 +252,7 @@ struct FUN_00a67c00 : _Call_a5d3a0
     FUN_00a67c00();
 };
 // @fnv 0x00a67c00
+// pdb: NiGeometryData::NiGeometryData | NiGeometryData.obj | fnv360_0822_retail, call_seq, high
 FUN_00a67c00::FUN_00a67c00()
 {
     m_usVertices = 0;
@@ -276,6 +280,7 @@ struct FUN_00a68800_shell
     void* FUN_00a68800(unsigned int flags);
 };
 // @fnv 0x00a68800
+// pdb: NiBlendQuaternionInterpolator::`scalar deleting destructor' | NiBlendQuaternionInterpolator.obj | fnv360_0721_beta, objrun, medium
 void* FUN_00a68800_shell::FUN_00a68800(unsigned int flags)
 {
     DestroyGeometryData();
@@ -284,16 +289,6 @@ void* FUN_00a68800_shell::FUN_00a68800(unsigned int flags)
     return this;
 }
 
-struct FUN_00a725d0_shell
-{
-    char pad[8];
-    unsigned int m_uiRefCount;
-    char pad2[0x14];
-    void*** m_ppChildren;
-    char pad3[2];
-    unsigned short m_usElementCount;
-    void FUN_00a725d0(unsigned int idx);
-};
 struct VObj
 {
     virtual void f0();
@@ -309,10 +304,11 @@ struct FUN_00a725d0_shell2
     VObj** m_aiIndexedValues;
     char pad3[2];
     unsigned short m_us;
-    void FUN_00a725d0(unsigned int idx);
+    void NiAdditionalGeometryData_UnlockDataBlock(unsigned int idx);
 };
 // @fnv 0x00a725d0
-void FUN_00a725d0_shell2::FUN_00a725d0(unsigned int uiIndex)
+// pdb: NiAdditionalGeometryData::UnlockDataBlock | NiAdditionalGeometryData.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(caller), high
+void FUN_00a725d0_shell2::NiAdditionalGeometryData_UnlockDataBlock(unsigned int uiIndex)
 {
     if (uiIndex < m_us)
     {
@@ -340,6 +336,8 @@ struct NiGeometryData_shell
 
 // Stores vertex count, vertex/normal/color/texture pointers, and packs texture-set count and NBT method into the flags field.
 // @fnv 0x00a66bb0
+// pdb: NiGeometryData::ReplaceData | NiGeometryData.obj | fnv360_0721_beta, objrun, medium
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod
 void NiGeometryData_shell::FUN_00a66bb0(unsigned short ausVertexCount, NiPoint3* pkVertex, NiPoint3* pkNormal,
                                         RgbaColor* pkColor, NiPoint2* pkTexture, unsigned short usNumTextureSets,
                                         unsigned short eNBTMethod)
@@ -499,6 +497,7 @@ struct FUN_00a67c00
 
 // Destructor wrapper that invokes the base geometry-data destructor on this object.
 // @fnv 0x00a67c70
+// pdb: NiGeometryData::~NiGeometryData | NiGeometryData.obj | fnv360_0822_retail, caller_sim, medium
 void FUN_00a67c70_shell::DestroyGeometryData()
 {
     ((FUN_00a67c00*)this)->FUN_00a67c00::~FUN_00a67c00();
@@ -525,6 +524,8 @@ struct NiGeometryDataRecovered : NiGeometryData
                       NiPoint2* textureCoords, unsigned short textureSetCount, unsigned short normalBinormalMethod);
 };
 // @fnv 0x00a66b30
+// pdb: NiGeometryData::SetData | NiGeometryData.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod
 void NiGeometryDataRecovered::FUN_00a66b30(unsigned short vertexCount, NiPoint3* vertices, NiPoint3* normals,
                                            RgbaColor* colors, NiPoint2* textureCoords, unsigned short textureSetCount,
                                            unsigned short normalBinormalMethod)
@@ -573,6 +574,8 @@ struct NiGeometryDataCmp
 
 // Compares vertex, normal, color and texture data of two vertices selected by usA/usB according to uiFlags, returning -1, 1 or 0.
 // @fnv 0x00a66db0
+// pdb: NiGeometryData::VertexCompare | NiGeometryData.obj | fnv360_0721_beta, objrun, low
+// pdb params: v0, v1, mask
 int NiGeometryDataCmp::CompareVertices(unsigned short usVertexA, unsigned short usVertexB, unsigned int uiCompareFlags)
 {
     float* pkVertex;
@@ -638,6 +641,7 @@ struct FUN_00a66f90_cls : public NiGeometryData
 
 // Computes the total geometry data size from vertex, normal, color and texture buffers and adds the base size.
 // @f3 0x008312c0 (community match, verified in this file)
+// pdb: NiGeometryData::GetBlockAllocationSize | NiGeometryData.obj | fnv360_0822_retail, objrun, medium
 unsigned int FUN_00a66f90_cls::FUN_00a66f90()
 {
     unsigned int total;
@@ -683,6 +687,8 @@ class FUN_00a68820_cls
 };
 
 // @fnv 0x00a68820
+// pdb: NiSkinPartition::MakeBoneMap | NiSkinPartition.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiGeometryData::IndexSort)
+// pdb params: kMap, pusTriangle, pkVertexInteraction
 void FUN_00a68820_cls::BuildIndexMappings(unsigned short** ppusForward, unsigned short** ppusInverse,
                                           unsigned int uiValue)
 {
@@ -799,6 +805,8 @@ struct GeomData : Base380
 
 // Appends this geometry's vertex, normal, color, texture, bound and flag fields to arr, then registers the additional-geometry object or a null entry.
 // @fnv 0x00a688b0
+// pdb: NiGeometryData::GetViewerStrings | NiGeometryData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void GeomData::RegisterFields(StrArr* arr)
 {
     AppendCameraPathEntries(arr);
@@ -873,6 +881,8 @@ struct FUN_00a67b20 : Base302
 };
 // Initialises vertex/normal/color/texture pointers, sets data flags from textureSets and nbt, computes the bound, assigns a new id, and clears dirty flags.
 // @fnv 0x00a67b20
+// pdb: NiGeometryData::NiGeometryData | NiGeometryData.obj | fnv360_0822_retail, call_seq, high
+// pdb params: usVertices, pkVertex, pkNormal, pkColor, pkTexture, usNumTextureSets, eNBTMethod
 FUN_00a67b20::FUN_00a67b20(unsigned short count, NiPoint3* apVertex, NiPoint3* apNormal, RgbaColor* apColor,
                            NiPoint2* apTexture, unsigned short textureSets, unsigned short nbt) throw()
     : vertices(count), dataFlags(0), dirtyFlags(0), vertex(apVertex), normal(apNormal), color(apColor),
@@ -895,6 +905,7 @@ struct GeomView
     unsigned short FUN_00a669e0() const;
 };
 // @fnv 0x00a669e0
+// pdb: TESActorBaseData::GetFatigue | TESActorBaseData.obj | fnv360_0822_retail, vtable, medium
 unsigned short GeomView::FUN_00a669e0() const
 {
     return usVertices;
@@ -923,11 +934,14 @@ struct NormalVec
 
 struct GeomNormals : public NiGeometryData
 {
-    void EnsureNormals(bool bZero);
+    void NiGeometryData_CreateNormals(bool bZero);
 };
 
 // @fnv 0x00a669f0
-void GeomNormals::EnsureNormals(bool bZero)
+// pdb: NiGeometryData::CreateNormals | NiGeometryData.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb params: bInitialize
+// pdb: NiGeometryData::CreateNormals | NiGeometryData.obj | fnv360_0822_retail, call_gap_sim, high (was: EnsureNormals)
+void GeomNormals::NiGeometryData_CreateNormals(bool bZero)
 {
     unsigned int uiMul = 1;
     if ((m_usTrianglePoints & 0xf000) != 0)
@@ -1013,6 +1027,8 @@ static unsigned int Mode(bool f0, unsigned int key)
 }
 
 // @fnv 0x00a67720
+// pdb: NiGeometryData::GetTextureSetIterator | NiGeometryData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: usSet, arIterator
 void FUN_00a67720_cls::GetKeyAndMode(unsigned int uiArg, FUN_00a67720_res* pOut)
 {
     unsigned int a, b, c, u, v, w;
@@ -1222,6 +1238,8 @@ struct Owner
 
 // Doubles a3 three times (multiplying by 8) and writes a2 with that size via the owner's callable BinaryWrite.
 // @fnv 0x00a67ae0
+// pdb: NiColorA::SaveBinary | NiGeometryData.obj | fnv360_0822_retail, call_gap_sim, low, conflict (skyrim: NiPoint2::SaveBinary)
+// pdb params: stream, pkValues, uiNumValues
 void __cdecl FUN_00a67ae0(Owner* pOwner, unsigned int pData, unsigned int a3)
 {
     Callable* pkCallable = pOwner->m_callable;
@@ -1290,6 +1308,8 @@ class GeometryDataA66A
 
 // Sets the normal binormal tangent method, reallocating m_pkNormal to hold one or three NormalA66A per vertex depending on eMethod.
 // @fnv 0x00a66a60
+// pdb: NiGeometryData::StoreNormalBinormalTangent | NiGeometryData.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: eNBTMethod
 void GeometryDataA66A::FUN_00a66a60(unsigned int eMethod)
 {
     if (GetNormalBinormalTangentMethod() == eMethod)
@@ -1384,12 +1404,15 @@ struct RenderOwner
     unsigned char unk38;
     unsigned char unk39;
     bool m_bFlag3a;
-    void GetBounds(BoundOut* pOut);
+    void NiGeometryData_GetNormalsIterator(BoundOut* pOut);
 };
 
 // When m_bFlag3a is set, fills pOut from m_pObj30 or falls back to m_uiField24 and count 0xc.
 // @fnv 0x00a675b0
-void RenderOwner::GetBounds(BoundOut* pOut)
+// pdb: NiGeometryData::GetNormalsIterator | NiGeometryData.obj | fnv360_0822_retail, objrun, high
+// pdb params: arIterator
+// pdb: NiGeometryData::GetNormalsIterator | NiGeometryData.obj | fnv360_0822_retail, objrun, high (was: GetBounds)
+void RenderOwner::NiGeometryData_GetNormalsIterator(BoundOut* pOut)
 {
     if (m_bFlag3a)
     {
@@ -1469,6 +1492,8 @@ template <class T> inline void WriteBinaryArray(NiBinaryStreamA67& os, const T* 
 
 // Writes an array of NiPoint2A67 values to the backing stream of kStream as a flat array of floats.
 // @fnv 0x00a67aa0
+// pdb: NiPoint2::LoadBinary | NiGeometryData.obj | fnv360_0822_retail, call_seq, low, conflict (skyrim: NiColorA::LoadBinary)
+// pdb params: stream, pkValues, uiNumValues
 void __cdecl FUN_00a67aa0(NiStreamA67& kStream, const NiPoint2A67* pkValue, unsigned int uiNumEls)
 {
     WriteBinaryArray(*kStream.m_pBackingStream, (const float*)pkValue, uiNumEls * 2);
@@ -1477,13 +1502,15 @@ void __cdecl FUN_00a67aa0(NiStreamA67& kStream, const NiPoint2A67* pkValue, unsi
 class FUN_00a67dd0_cls
 {
   public:
-    unsigned int MedianOfThree(unsigned short* pBase, unsigned int uiKey, int iLo, int iHi);
+    unsigned int NiGeometryData_ChoosePivot(unsigned short* pBase, unsigned int uiKey, int iLo, int iHi);
     int CompareVertices(unsigned int uiA, unsigned int uiB, unsigned int uiKey);
     void FUN_00a67dd0(unsigned short* pArr, unsigned int uiKey, int iLo, int iHi);
 };
 
 // Reorders the unsigned-short entries in pArr between iLo and iHi using pivot selection and CompareVertices.
 // @fnv 0x00a67dd0
+// pdb: NiTMapBase<NiTPointerAllocator<unsigned int>,unsigned int,float>::SetAt | NiSkinPartition.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: NiGeometryData::IndexQSort)
+// pdb params: key, val
 void FUN_00a67dd0_cls::FUN_00a67dd0(unsigned short* pArr, unsigned int uiKey, int iLo, int iHi)
 {
     if (iHi <= iLo)
@@ -1494,7 +1521,7 @@ void FUN_00a67dd0_cls::FUN_00a67dd0(unsigned short* pArr, unsigned int uiKey, in
     {
         int j = iHi + 1;
         int i = iLo - 1;
-        unsigned int pivot = MedianOfThree(pBase, uiKey, iLo, iHi);
+        unsigned int pivot = NiGeometryData_ChoosePivot(pBase, uiKey, iLo, iHi);
         for (;;)
         {
             do
@@ -1707,12 +1734,13 @@ extern NiObjectGroup* DAT_011f4880;
 
 struct NiGeometryDataSave : NiGeometryData
 {
-    void FUN_00a68520(SaveStream& kStream);
+    void NiGeometryData_SaveBinary(SaveStream& kStream);
 };
 
 // Serializes NiGeometryData vertex, normal, color, texture and bound data to kStream, writing arrays only when m_bVerticesDirty is set.
 // @fnv 0x00a68520
-void NiGeometryDataSave::FUN_00a68520(SaveStream& kStream)
+// pdb: NiGeometryData::SaveBinary | NiGeometryData.obj | fnv360_0822_retail, call_seq + bridge(vtable|call_seq) + skyrim(caller_sim), high
+void NiGeometryDataSave::NiGeometryData_SaveBinary(SaveStream& kStream)
 {
     NiObject::SaveBinary(kStream);
 
@@ -1793,6 +1821,8 @@ class SlotOwner
 
 // Returns true if the slot is occupied, checking m_pOverride first, then the specific slot pointer or m_pLeveled with m_uiLevel thresholds.
 // @fnv 0x00a66c00
+// pdb: NiGeometryData::ContainsVertexData | NiGeometryData.obj | fnv360_0721_beta, objrun, low
+// pdb params: eParameter
 bool SlotOwner::FUN_00a66c00(int iSlot)
 {
     if (m_pOverride && m_pOverride->HasSlot(iSlot))
@@ -1893,6 +1923,8 @@ struct FUN_00a67660_cls
 
 // When enabled, it may return early; otherwise it writes data and stride from the entry object or defaults.
 // @fnv 0x00a67660
+// pdb: NiGeometryData::GetColorsIterator | NiGeometryData.obj | fnv360_1110_retail, call_seq, medium
+// pdb params: arIterator
 void FUN_00a67660_cls::FUN_00a67660(StreamOut_a676* apStreamOut)
 {
     if (!m_bEnableState)
@@ -1979,12 +2011,13 @@ class NiPoint2
 
 struct GeometryEquality : NiGeometryData
 {
-    bool FUN_00a67840(NiObject* pkObject);
+    bool NiGeometryData_IsEqual(NiObject* pkObject);
 };
 
 // Compares this NiGeometryData against pkObject, returning false if vertex, normal, bound, color, texture, or additional data differ.
 // @fnv 0x00a67840
-bool GeometryEquality::FUN_00a67840(NiObject* pkObject)
+// pdb: NiGeometryData::IsEqual | NiGeometryData.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(call_seq), high
+bool GeometryEquality::NiGeometryData_IsEqual(NiObject* pkObject)
 {
     if (!NiObject::IsEqual(pkObject))
         return false;
@@ -2119,8 +2152,6 @@ class MemoryManager
 };
 extern MemoryManager g_memoryManager;
 extern void* DAT_011f4880;
-extern char UNK_0109c040;
-extern char UNK_004a7800;
 
 class StreamEA0
 {
@@ -2278,7 +2309,7 @@ class StreamEA0
     ReaderEA0* m_pkReader;
 
     void* FUN_00a634e0(unsigned int uiID);
-    void FUN_00a645b0();
+    void NiStream_ReadLinkID();
 };
 
 struct AllocEA0
@@ -2297,15 +2328,6 @@ struct Point2EA0 : AllocEA0
     float y;
 };
 
-class ColorEA0 : public AllocEA0
-{
-  public:
-    float r;
-    float g;
-    float b;
-    float a;
-};
-
 struct Point3EA0 : AllocEA0
 {
     Point3EA0()
@@ -2315,287 +2337,8 @@ struct Point3EA0 : AllocEA0
     float z;
 };
 
-class SphereEA0
-{
-  public:
-    Point3EA0 m_kCenter;
-    float m_fBoundRadius;
-    void FUN_00a69ac0(StreamEA0& kStream);
-};
-
-struct BuffEA0
-{
-    void* m_pField0;
-    int m_iField4;
-    void* m_pCurrent;
-    int m_iArrayLength;
-};
-
-class ObjEA0
-{
-  public:
-    virtual ~ObjEA0();
-    virtual const void* GetRTTI() const;
-    virtual ObjEA0* MakeClone(void* pCloning);
-    virtual void CopyMemberData(ObjEA0* pkDest, void* pCloning);
-    virtual void PostLinkObject(StreamEA0& kStream);
-    virtual bool StreamCanSkip();
-    virtual bool GetStreamableRTTIName(char* acName, unsigned int uiMaxSize) const;
-    virtual unsigned int GetBlockAllocationSize() const;
-    virtual void* GetGroup() const;
-    virtual void SetGroup(void* pkGroup);
-    virtual void AddViewerStrings(void* pkViewerStrings);
-    virtual void SetName(unsigned int uiName);
-    virtual bool AddExtraData(ObjEA0* pkExtra);
-    virtual ObjEA0* GetExtraData() const;
-    virtual bool RemoveExtraDataByName(ObjEA0* pkExtra);
-    virtual void UpdateModelBound();
-    virtual bool ResizeExtraData(unsigned short usSize);
-    virtual void GetNumChildren();
-    virtual void ReadGroup(StreamEA0& kStream);
-    virtual void LinkObject(StreamEA0& kStream);
-    virtual bool RegisterStreamables(StreamEA0& kStream);
-    virtual void SaveBinary(StreamEA0& kStream);
-    virtual bool IsEqual(ObjEA0* pkObject);
-    virtual void GetViewerStrings(void* pkViewerStrings);
-    virtual void InsertExtraData(ObjEA0* pkExtra);
-    virtual void ProcessClone(void* pCloning);
-    unsigned int m_uiRefCount;
-};
-
-__forceinline void ReadEA0(StreamEA0& kStream, void* pvDest, int iTotal, int iElem)
-{
-    ReaderEA0* pkReader = kStream.m_pkReader;
-    pkReader->BinaryRead(pvDest, iTotal, iElem);
-}
-
-__forceinline void ReadNormalEA0(StreamEA0& stream, void* data, int count)
-{
-    ReaderEA0* reader = stream.m_pkReader;
-    reader->ReadWrapped(data, count * 12, 4);
-}
-
-__forceinline void ReadPoint2EA0(StreamEA0& stream, void* data, unsigned int count)
-{
-    ReaderEA0* reader = stream.m_pkReader;
-    for (unsigned int i = 0; i < 3; ++i)
-        count += count;
-    reader->BinaryRead(data, count, 4);
-}
-
 void* FUN_00ec61c0(void* pvDest, int iValue, unsigned int uiSize);
 typedef void*(__thiscall* CtorStubEA0)(void*);
-extern "C" void __stdcall _vector_constructor_iterator(void* apvArray, unsigned int uiElemSize, int iCount,
-                                                       CtorStubEA0 pfnCtor);
 void FUN_00a67aa0(StreamEA0& kStream, void* pvDest, int iCount);
-void FUN_00a29680(const char* pcFmt, const char* pcName, int iKBytes);
 
-class GeomEA0 : public ObjEA0
-{
-  public:
-    virtual void* GetBoundObject();
-    virtual void* GetVertexArray();
-    virtual void* GetNormalArray();
-    virtual void* GetColorArray();
-    virtual void* GetTextureArray();
-    virtual void* GetBufferObject();
-    virtual BuffEA0* GetBuffData();
-
-    unsigned short m_usVertices;
-    unsigned short m_usGeometryFlags;
-    unsigned short m_usTrianglePoints;
-    unsigned short m_usDirtyFlags;
-    SphereEA0 m_kBound;
-    Point3EA0* m_pkVertex;
-    Point3EA0* m_pkNormal;
-    ColorEA0* m_pkColor;
-    Point2EA0* m_pkTexture;
-    void* m_spAdditionalGeomData;
-    void* m_pkGeometryRendererData;
-    unsigned char m_ucKeepFlags;
-    unsigned char m_ucCompressFlags;
-    bool m_bIsDynamic;
-    bool m_bBoundDirty;
-    bool m_bVerticesDirty;
-
-    void ReadBinary(StreamEA0& kStream);
-};
-
-// Reads geometry arrays and bound data from the stream, using buffer storage when available and otherwise allocating arrays.
-// @fnv 0x00a67ea0
-void GeomEA0::ReadBinary(StreamEA0& kStream)
-{
-    void* pvCur;
-    ObjEA0::ReadGroup(kStream);
-    if (kStream.m_uiFileVersion >= 0x0a010072)
-    {
-        int pkBuff;
-        ReadEA0(kStream, &pkBuff, 4, 4);
-        DAT_011f4880 = kStream.FUN_00a634e0(pkBuff);
-    }
-    ReadEA0(kStream, &m_usVertices, 2, 2);
-    if (kStream.m_uiFileVersion >= 0x0a000110)
-    {
-        ReadEA0(kStream, &m_ucKeepFlags, 1, 1);
-        ReadEA0(kStream, &m_ucCompressFlags, 1, 1);
-    }
-    bool r;
-    if (kStream.m_uiFileVersion < 0x04010000)
-    {
-        ReadEA0(kStream, &m_pkVertex, 4, 4);
-        r = m_pkVertex != 0;
-    }
-    else
-    {
-        ReadEA0(kStream, &r, 1, 1);
-    }
-    if (r)
-    {
-        if ((pvCur = GetBuffData()) != 0)
-        {
-            int iTotal = 12 * m_usVertices;
-            BuffEA0* tmp = GetBuffData();
-            pvCur = tmp->m_pCurrent;
-            tmp->m_pCurrent = (char*)pvCur + iTotal;
-            tmp->m_iArrayLength++;
-            m_pkVertex = (Point3EA0*)pvCur;
-        }
-        else
-        {
-            m_pkVertex = new Point3EA0[m_usVertices];
-        }
-        if (kStream.m_uiUserVersion >= 0x13 && !m_bVerticesDirty)
-            FUN_00ec61c0(m_pkVertex, 0, m_usVertices * 12);
-        else
-            ReadEA0(kStream, m_pkVertex, m_usVertices * 12, 4);
-    }
-    int iNormalCount = m_usVertices;
-    if (kStream.m_uiFileVersion >= 0x0a000002)
-    {
-        ReadEA0(kStream, &m_usTrianglePoints, 2, 2);
-        if (m_usTrianglePoints & 0xf000)
-            iNormalCount = iNormalCount * 3;
-    }
-    bool uiTexCount;
-    if (kStream.m_uiFileVersion < 0x04010000)
-    {
-        ReadEA0(kStream, &m_pkNormal, 4, 4);
-        uiTexCount = m_pkNormal != 0;
-    }
-    else
-    {
-        ReadEA0(kStream, &uiTexCount, 1, 1);
-    }
-    if (uiTexCount)
-    {
-        if ((pvCur = GetBuffData()) != 0)
-        {
-            BuffEA0* tmp = GetBuffData();
-            pvCur = tmp->m_pCurrent;
-            unsigned int iTotal;
-            iTotal = iNormalCount * 12;
-            tmp->m_pCurrent = (char*)pvCur + iTotal;
-            tmp->m_iArrayLength++;
-            m_pkNormal = (Point3EA0*)pvCur;
-        }
-        else
-        {
-            m_pkNormal = new Point3EA0[iNormalCount];
-        }
-        if (kStream.m_uiUserVersion < 0x13 || m_bVerticesDirty)
-            ReadNormalEA0(kStream, m_pkNormal, iNormalCount);
-    }
-    m_kBound.FUN_00a69ac0(kStream);
-    bool bHasColor;
-    if (kStream.m_uiFileVersion < 0x04010000)
-    {
-        ReadEA0(kStream, &m_pkColor, 4, 4);
-        bHasColor = m_pkColor != 0;
-    }
-    else
-    {
-        ReadEA0(kStream, &bHasColor, 1, 1);
-    }
-    if (bHasColor)
-    {
-        if ((pvCur = GetBuffData()) != 0)
-        {
-            int iTotal = m_usVertices * 16;
-            BuffEA0* tmp = GetBuffData();
-            pvCur = tmp->m_pCurrent;
-            tmp->m_pCurrent = (char*)pvCur + iTotal;
-            tmp->m_iArrayLength++;
-            m_pkColor = (ColorEA0*)pvCur;
-        }
-        else
-        {
-            unsigned int uiColorCount = m_usVertices;
-            ColorEA0* pkColors = new ColorEA0[uiColorCount];
-            if (pkColors)
-                _vector_constructor_iterator(pkColors, 16, uiColorCount, (CtorStubEA0)&UNK_004a7800);
-            else
-                pkColors = 0;
-            m_pkColor = pkColors;
-        }
-        if (kStream.m_uiUserVersion < 0x13 || m_bVerticesDirty)
-            ReadEA0(kStream, m_pkColor, m_usVertices * 16, 4);
-    }
-    if (kStream.m_uiFileVersion < 0x0500000a)
-    {
-        unsigned short usTempFlags;
-        ReadEA0(kStream, &usTempFlags, 2, 2);
-        unsigned short bHasVertex = (usTempFlags ^ m_usTrianglePoints) & 1;
-        m_usTrianglePoints ^= bHasVertex;
-    }
-    else if (kStream.m_uiFileVersion < 0x0a000002)
-    {
-        ReadEA0(kStream, &m_usTrianglePoints, 2, 2);
-    }
-    if (kStream.m_uiFileVersion < 0x04010000)
-        ReadEA0(kStream, &m_pkTexture, 4, 4);
-    unsigned int uiTextureFlags;
-    if (kStream.m_uiUserVersion < 0x1b)
-    {
-        uiTextureFlags = m_usTrianglePoints & 0x1f;
-        if ((unsigned short)uiTextureFlags > 1)
-            m_usTrianglePoints |= 1;
-    }
-    else
-    {
-        uiTextureFlags = 0;
-    }
-    if ((unsigned short)(m_usTrianglePoints & 1) > 0)
-    {
-        unsigned int bHasNormal = (m_usTrianglePoints & 1) * m_usVertices;
-        if ((pvCur = GetBuffData()) != 0)
-        {
-            BuffEA0* tmp = GetBuffData();
-            int iTotal = bHasNormal * 8;
-            pvCur = tmp->m_pCurrent;
-            ++tmp->m_iArrayLength;
-            tmp->m_pCurrent = (char*)pvCur + iTotal;
-            m_pkTexture = (Point2EA0*)pvCur;
-        }
-        else
-        {
-            m_pkTexture = new Point2EA0[bHasNormal];
-        }
-        if (kStream.m_uiUserVersion < 0x13 || m_bVerticesDirty)
-        {
-            ReadPoint2EA0(kStream, m_pkTexture, bHasNormal);
-            if ((unsigned short)uiTextureFlags > 1)
-            {
-                unsigned int uiExtraCount = ((unsigned short)uiTextureFlags - 1) * m_usVertices;
-                Point2EA0* pkTemp = new Point2EA0[uiExtraCount];
-                FUN_00a67aa0(kStream, pkTemp, uiExtraCount);
-                g_memoryManager.Deallocate(pkTemp);
-                FUN_00a29680(&UNK_0109c040, &kStream.m_cName, (uiExtraCount * 8) >> 10);
-            }
-        }
-    }
-    if (kStream.m_uiFileVersion >= 0x0500000a)
-        ReadEA0(kStream, &m_usDirtyFlags, 2, 2);
-    if (kStream.m_uiFileVersion >= 0x0a030007)
-        kStream.FUN_00a645b0();
-}
 }  // namespace fnv_00a67ea0

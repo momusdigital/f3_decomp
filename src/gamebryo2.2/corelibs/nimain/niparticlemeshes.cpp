@@ -23,18 +23,20 @@ class NiParticleMeshes : public NiParticles
 };
 
 // @fnv 0x00a9b120
+// pdb: NiTriShape::NiTriShape | NiTriShape.obj | tesv_win, objrun_prop, low
 NiParticleMeshes::NiParticleMeshes()
 {}
 
 struct FUN_00a98ec0_shell : public NiParticleMeshes
 {
-    void* FUN_00a98ec0();
+    void* NiStringsExtraData_GetRTTI();
 };
 
 extern NiRTTI* g_011f5f14;
 
 // @fnv 0x00a98ec0
-void* FUN_00a98ec0_shell::FUN_00a98ec0()
+// pdb: NiStringsExtraData::GetRTTI | NiStringsExtraData.obj | fnv360_0822_retail, udata + bridge(vtable|udata) + skyrim(objrun_open), high
+void* FUN_00a98ec0_shell::NiStringsExtraData_GetRTTI()
 {
     return &g_011f5f14;
 }
@@ -48,6 +50,7 @@ struct FUN_00a98ed0_shell : public NiParticleMeshes
 
 // Calls FUN_00a80580, then deletes this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00a98ed0
+// pdb: NiParticleMeshes::`scalar deleting destructor' | NiParticleMeshes.obj | fnv360_0822_retail, objrun, medium
 void* FUN_00a98ed0_shell::FUN_00a98ed0(unsigned int flags)
 {
     NiParticleMeshes* p = this;
@@ -61,16 +64,17 @@ class NiRenderer;
 class NiParticleMeshesData;
 struct HackBase
 {
-    void FUN_00a809b0(NiRenderer*);
+    void NiGeometry_PurgeRendererData(NiRenderer*);
 };
 struct FUN_00a99090_shell : public NiParticleMeshes
 {
-    void FUN_00a99090(NiRenderer* pkRenderer);
+    void NiParticleMeshes_PurgeRendererData(NiRenderer* pkRenderer);
 };
 // @fnv 0x00a99090
-void FUN_00a99090_shell::FUN_00a99090(NiRenderer* pkRenderer)
+// pdb: NiParticleMeshes::PurgeRendererData | NiParticleMeshes.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objrun_open), high
+void FUN_00a99090_shell::NiParticleMeshes_PurgeRendererData(NiRenderer* pkRenderer)
 {
-    ((HackBase*)this)->FUN_00a809b0(pkRenderer);
+    ((HackBase*)this)->NiGeometry_PurgeRendererData(pkRenderer);
     NiParticleMeshesData* pkPMData = *(NiParticleMeshesData**)((char*)this + 0xb8);
     if (pkPMData)
     {
@@ -107,6 +111,8 @@ char* __cdecl _FUN_00a7d330(const char*);
 extern const char* const g_011f5f14_arg1;
 // Appends the string returned by _FUN_00a7d330(g_011f5f14_arg1) to pkStrings, growing the array if it is full.
 // @fnv 0x00a990c0
+// pdb: NiBoolInterpController::GetViewerStrings | NiBoolInterpController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void Caller::AppendString(StrArr2* pkStrings)
 {
     FUN_00a9b2e0(pkStrings);
@@ -120,7 +126,7 @@ void Caller::AppendString(StrArr2* pkStrings)
 
 struct FUN_00a808f0_shell
 {
-    void UpdateSelectiveUpdateFlags(bool*, bool, bool*);
+    void NiGeometry_SetSelectiveUpdateFlags(bool*, bool, bool*);
 };
 struct NiNode
 {
@@ -168,12 +174,13 @@ struct NiNode
 };
 struct FUN_00a99000_shell
 {
-    void FUN_00a99000(bool&, bool, bool&);
+    void NiParticleMeshes_SetSelectiveUpdateFlags(bool&, bool, bool&);
 };
 // @fnv 0x00a99000
-void FUN_00a99000_shell::FUN_00a99000(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid)
+// pdb: NiParticleMeshes::SetSelectiveUpdateFlags | NiParticleMeshes.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(objopen_prop), high
+void FUN_00a99000_shell::NiParticleMeshes_SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid)
 {
-    ((FUN_00a808f0_shell*)this)->UpdateSelectiveUpdateFlags(&bSelectiveUpdate, true, &bRigid);
+    ((FUN_00a808f0_shell*)this)->NiGeometry_SetSelectiveUpdateFlags(&bSelectiveUpdate, true, &bRigid);
     NiNode* pkParticlesContainer = *(NiNode**)((char*)*(void**)((char*)this + 0xb8) + 0x70);
     pkParticlesContainer->SetSelectiveUpdateFlags(&bSelectiveUpdate, true, &bRigid);
     bRigid = false;
@@ -242,6 +249,8 @@ struct StandinNiParticleMeshes : NiGeometry
     void UpdatePropertyState(NiPropertyState* pkParentState);
 };
 // @fnv 0x00a99040
+// pdb: NiParticleMeshes::UpdatePropertiesDownward | NiParticleMeshes.obj | fnv360_0822_retail, objrun, medium
+// pdb params: pkParentState
 void StandinNiParticleMeshes::UpdatePropertyState(NiPropertyState* pkParentState)
 {
     NiGeometry::UpdatePropertiesDownwardPass(pkParentState);
@@ -312,6 +321,8 @@ struct S_00a98e30
     void FUN_00a98e30(S_00a98e30_Val* p, int x);
 };
 // @fnv 0x00a98e30
+// pdb: NiParticleMeshes::UpdateDownwardPass | NiParticleMeshes.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: UpdateData, uFlags
 void S_00a98e30::FUN_00a98e30(S_00a98e30_Val* apVal, int x)
 {
     unkC4 = apVal->f;
@@ -384,6 +395,8 @@ struct S_00a98e50 : S_00a98e50_Base
 };
 // Stores kData.m_fTime into m_fLastTime, then forwards kData to the base UpdateDownwardPassIfSelective.
 // @fnv 0x00a98e50
+// pdb: NiParticleMeshes::UpdateSelectedDownwardPass | NiParticleMeshes.obj | fnv360_0822_retail, objrun, low, conflict (bridge: NiParticleMeshes::UpdateDownwardPass)
+// pdb params: UpdateData, uFlags
 void S_00a98e50::FUN_00a98e50(S_00a98e50_UpdateData& kData)
 {
     m_fLastTime = kData.m_fTime;
@@ -460,6 +473,8 @@ struct FUN_00a99070_shell
     void RenderTarget(NiRenderer* pkRenderer);
 };
 // @fnv 0x00a99070
+// pdb: NiParticleMeshes::OnVisible | NiParticleMeshes.obj | fnv360_0822_retail, objrun, high
+// pdb params: kCuller
 void FUN_00a99070_shell::RenderTarget(NiRenderer* pkRenderer)
 {
     m_pUserData->m_pkTarget->Render(pkRenderer);
@@ -484,6 +499,8 @@ struct FUN_00a98f00_shell : public NiParticleMeshes
 
 // Allocates a 0xcc-byte CreatedObj, initialises it with a table pointer and flag, then passes it to FUN_00a9b140 with pArg and returns it.
 // @fnv 0x00a98f00
+// pdb: NiParticleMeshes::CreateClone | NiParticleMeshes.obj | fnv360_0822_retail, objrun, low
+// pdb params: kCloning
 CreatedObj* FUN_00a98f00_shell::CreateAndInitObj(void* pArg)
 {
     CreatedObj* pObj = (CreatedObj*)FUN_00aa13e0(0xcc);
@@ -616,7 +633,7 @@ struct A98F60Renderer
     A98F60Camera* m_pkAccumulationCamera;
     bool m_bValueAt0C;
 
-    void UpdateParticleMeshes();
+    void NiParticleMeshesData_UpdateParticles();
 };
 
 struct A98F60AVObject
@@ -671,12 +688,14 @@ struct FUN_00a98f60 : A98F60AVObject
 
 // Copies the object's world transform to the accumulation camera, updates particle meshes, and calls two functions when the renderer flag is set.
 // @fnv 0x00a98f60
+// pdb: NiParticleMeshes::UpdateWorldData | NiParticleMeshes.obj | fnv360_0721_beta, objrun, medium
+// pdb params: UpdateData
 void FUN_00a98f60::UpdateWorldData(NiUpdateData& kData)
 {
     A98F60AVObject::UpdateWorldData(kData);
     A98F60Renderer* pkRenderer = m_pOwnerShader;
     A98F60Camera* pkCamera = pkRenderer->m_pkAccumulationCamera;
-    pkRenderer->UpdateParticleMeshes();
+    pkRenderer->NiParticleMeshesData_UpdateParticles();
     pkCamera->m_kWorldRotate = m_kWorldRotate;
     pkCamera->m_kWorldTranslate = m_kWorldTranslate;
     pkCamera->m_fWorldScale = A98F60Abs(m_fWorldScale);

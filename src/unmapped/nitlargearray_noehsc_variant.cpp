@@ -90,6 +90,8 @@ struct MyNiFixedStringArray : public NiFixedStringArray
 };
 
 // @fnv 0x00a65140
+// pdb: NiTLargeArray<NiFixedString,NiTNewInterface<NiFixedString> >::SetSize | NiStream.obj | fnv360_0822_retail, call_seq, high
+// pdb params: uiMaxSize
 void MyNiFixedStringArray::FUN_00a65140(unsigned int uiMaxSize)
 {
     if (uiMaxSize == m_uiMaxSize)

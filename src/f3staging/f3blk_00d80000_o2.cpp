@@ -168,6 +168,7 @@ struct DerivedMap_d862a0 : BaseMap_d862a0 {
 extern DerivedMap_d862a0 DAT_0106a794;
 }
 
+// pdb: `dynamic initializer for 'Menu::XMLHash'' | Menu.obj | fnv360_0822_retail, uvref, medium
 void __cdecl FUN_00d862a0()
 {
     using namespace f3m_00d862a0;
@@ -189,6 +190,7 @@ class F3GlobalDispatcher_00d863f0
     void FUN_0086c1f0(unsigned int uiValue);
 };
 
+// pdb: `dynamic initializer for 'Tile3D::xTimer'' | Tile3D.obj | fnv360_0822_retail, udata, medium
 void __cdecl FUN_00d863f0()
 {
     unsigned int uiValue = DAT_00d9b090();
@@ -294,6 +296,7 @@ extern int DAT_00d99180;
 
 void __cdecl FUN_00c00d1f(void* pEntry);
 
+// pdb: `dynamic initializer for 'iAutoViewMinDistance'' | BSSceneGraph.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00d82f60()
 {
     DAT_0116da4c.FUN_0043b7f0(&DAT_00e8aca0, 0x7d0);
@@ -316,6 +319,7 @@ class F3Registrar_43b7f0
 
 void __cdecl FUN_00c00d1f(void* pEntry);
 
+// pdb: `dynamic initializer for 'iAttenuationEffectiveSilence'' | BSAudioManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d858c0()
 {
     DAT_0117918c.FUN_0043b7f0(&DAT_00ea8870, 0x2328);
@@ -339,6 +343,7 @@ class F3Registrar_43b7f0
 
 void __cdecl FUN_00c00d1f(void* pEntry);
 
+// pdb: `dynamic initializer for 'iAttenuationDialogMenuMute'' | BSAudioManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d858e0()
 {
     DAT_01179198.FUN_0043b7f0(&DAT_00ea8894, 0xbb8);
@@ -358,6 +363,7 @@ extern void (*DAT_0116b6fc)(void*);
 extern void* DAT_0116b700;
 }
 
+// pdb: `dynamic initializer for 'hkpGenericConstraintDataTypeInfo'' | hkpGenericConstraintDataClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void __cdecl FUN_00d80d00()
 {
     void* p = f3m_00d80d00::FUN_00a08450();
@@ -405,6 +411,7 @@ extern "C" unsigned int FUN_00a08d80();
 extern "C" void FUN_00a08d60();
 extern "C" void FUN_00a08d50();
 
+// pdb: `dynamic initializer for 'hkpCylinderShapeTypeInfo'' | hkpCylinderShapeClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void FUN_00d815c0() {
     unsigned int result = FUN_00a08d80();
     DAT_0116bcb4 = DAT_00e45308;
@@ -443,6 +450,7 @@ extern short DAT_01076e94;
 extern short DAT_01076e96;
 struct Releaser00d95d30 { void FUN_0086ba60(void* pointer); };
 extern Releaser00d95d30 DAT_01090a78;
+// pdb: `dynamic atexit destructor for 'RaceSexMenu::strNextCaps'' | RaceSexMenu.obj | fnv360_0822_retail, udata, high
 void FUN_00d95d30()
 {
     if (DAT_01076e90 != 0)
@@ -608,6 +616,7 @@ void FUN_00e46020();
 void FUN_00a084c0();
 void FUN_00a084b0();
 
+// pdb: `dynamic initializer for 'hkpConstraintCollisionFilterTypeInfo'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 int __cdecl FUN_00d80dc0()
 {
     unsigned int value = FUN_00a084e0();
@@ -700,6 +709,7 @@ extern void __cdecl FUN_00a08cc0();
 extern void __cdecl FUN_00a08cb0();
 extern unsigned int __cdecl FUN_00a08cf0();
 
+// pdb: `dynamic initializer for 'hkpFastMeshShapeTypeInfo'' | hkpFastMeshShapeClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void __cdecl FUN_00d81500() {
     unsigned int value = FUN_00a08cf0();
     DAT_0116bc34 = (unsigned int)DAT_00e4536c;
@@ -815,6 +825,7 @@ int FUN_00a08780();
 int FUN_00a08760();
 int FUN_00a08750();
 
+// pdb: `dynamic initializer for 'hkpBreakableConstraintDataTypeInfo'' | hkpBreakableConstraintDataClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void __cdecl FUN_00d81010() {
     int created = FUN_00a08780();
     DAT_0116b8f4 = (int)&DAT_00e45c7c;
@@ -886,6 +897,7 @@ void __cdecl FUN_00a089b0();
 void __cdecl FUN_00a089a0();
 unsigned int __cdecl FUN_00a089e0();
 
+// pdb: `dynamic initializer for 'hkpTransformShapeTypeInfo'' | hkpCollideReflections.obj | tesv_win, objopen_prop, low
 void __cdecl FUN_00d81260() {
     unsigned int value = FUN_00a089e0();
     DAT_0116ba74 = (unsigned int)&DAT_00e45520;
@@ -969,6 +981,7 @@ extern "C" unsigned int FUN_00a08080();
 extern "C" void FUN_00a08060();
 extern "C" void FUN_00a08050();
 
+// pdb: `dynamic initializer for 'hkpDefaultWorldMemoryWatchDogTypeInfo'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void FUN_00d808b0() {
     unsigned int result = FUN_00a08080();
     DAT_0116b434 = DAT_00e461e8;
@@ -1146,6 +1159,7 @@ extern void* DAT_0106dcf8;
 extern unsigned short DAT_0106dcfc,DAT_0106dcfe;
 struct Heap { void FUN_0086ba60(void*); };
 extern Heap DAT_01090a78;
+// pdb: `dynamic atexit destructor for 'TESDescription::cDescription'' | TESDescription.obj | fnv360_0822_retail, udata, high
 void FUN_00d876e0() {
  void* data=DAT_0106dcf8;
  if(data) DAT_01090a78.FUN_0086ba60(data);
@@ -1221,6 +1235,7 @@ extern void* DAT_01076e84;
 extern unsigned short DAT_01076e88,DAT_01076e8a;
 struct Heap { void FUN_0086ba60(void*); };
 extern Heap DAT_01090a78;
+// pdb: `dynamic atexit destructor for 'RaceSexMenu::strBackCaps'' | RaceSexMenu.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00d95db0() {
  void* data=DAT_01076e84;
  if(data) DAT_01090a78.FUN_0086ba60(data);
@@ -1482,6 +1497,7 @@ struct Object9a5a0 {
     virtual ~Object9a5a0() { NiFree(data); }
 };
 extern Object9a5a0 DAT_0106a7bc;
+// pdb: `dynamic atexit destructor for 'Menu::xMenuList'' | Menu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d9a5a0() {
     DAT_0106a7bc.Object9a5a0::~Object9a5a0();
 }
@@ -1491,6 +1507,7 @@ void __cdecl FUN_00d9a5a0() {
 struct Holder85500 { void FUN_00ba1ad0(int count); };
 extern Holder85500 DAT_01178308;
 void __cdecl FUN_00d9a070();
+// pdb: `dynamic initializer for 'SIdvRandomImpl::m_cUniform'' | IdvRandom.obj | fnv360_0822_debug, objrun_open, low
 void __cdecl FUN_00d85500() {
     DAT_01178308.FUN_00ba1ad0(4);
     atexit(FUN_00d9a070);
@@ -1516,6 +1533,7 @@ struct Owner {
 };
 extern Owner DAT_00f6dae8;
 }
+// pdb: `dynamic atexit destructor for 'GarbageCollector::ObjectGarbageA'' | GarbageCollector.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96c00() {
     f3m_00d96c00::DAT_00f6dae8.f3m_00d96c00::Owner::~Owner();
 }
@@ -1530,6 +1548,7 @@ struct Owner00d96c20 {
 };
 extern Owner00d96c20 DAT_00f6daf8;
 }
+// pdb: `dynamic atexit destructor for 'GarbageCollector::AnimGarbageA'' | GarbageCollector.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96c20() {
     f3m_00d96c20::DAT_00f6daf8.f3m_00d96c20::Owner00d96c20::~Owner00d96c20();
 }
@@ -1544,6 +1563,7 @@ struct Owner00d96c40 {
 };
 extern Owner00d96c40 DAT_00f6db08;
 }
+// pdb: `dynamic atexit destructor for 'GarbageCollector::BipedGarbageA'' | GarbageCollector.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96c40() {
     f3m_00d96c40::DAT_00f6db08.f3m_00d96c40::Owner00d96c40::~Owner00d96c40();
 }
@@ -1556,6 +1576,7 @@ extern Name DAT_0116d150;
 extern const char DAT_00e8976c[];
 }
 void __cdecl FUN_00d99020();
+// pdb: `dynamic initializer for 'iPostProcessMillisecondsLoadingQueuedPriority'' | IOManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00d82a90() {
     f3m_00d82a90::DAT_0116d150.FUN_0043b7f0(f3m_00d82a90::DAT_00e8976c, 20);
     atexit(FUN_00d99020);
@@ -1569,6 +1590,7 @@ extern Name DAT_0116d15c;
 extern const char DAT_00e897ac[];
 }
 void __cdecl FUN_00d99030();
+// pdb: `dynamic initializer for 'iPostProcessMillisecondsEditor'' | IOManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00d82ab0() {
     f3m_00d82ab0::DAT_0116d15c.FUN_0043b7f0(f3m_00d82ab0::DAT_00e897ac, 50);
     atexit(FUN_00d99030);
@@ -1582,6 +1604,7 @@ extern Name DAT_0116d168;
 extern const char DAT_00e897dc[];
 }
 void __cdecl FUN_00d99040();
+// pdb: `dynamic initializer for 'iPostProcessTaskWarningMilliseconds'' | IOManager.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00d82ad0() {
     f3m_00d82ad0::DAT_0116d168.FUN_0043b7f0(f3m_00d82ad0::DAT_00e897dc, 20);
     atexit(FUN_00d99040);
@@ -1595,6 +1618,7 @@ extern Name DAT_0116da34;
 extern const char DAT_00e8ac60[];
 }
 void __cdecl FUN_00d99160();
+// pdb: `dynamic initializer for 'iAutoViewLowFrameRate'' | BSSceneGraph.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00d82f20() {
     f3m_00d82f20::DAT_0116da34.FUN_0043b7f0(f3m_00d82f20::DAT_00e8ac60, 20);
     atexit(FUN_00d99160);
@@ -1608,6 +1632,7 @@ extern Name DAT_0116da40;
 extern const char DAT_00e8ac80[];
 }
 void __cdecl FUN_00d99170();
+// pdb: `dynamic initializer for 'iAutoViewHiFrameRate'' | BSSceneGraph.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00d82f40() {
     f3m_00d82f40::DAT_0116da40.FUN_0043b7f0(f3m_00d82f40::DAT_00e8ac80, 40);
     atexit(FUN_00d99170);
@@ -1621,6 +1646,7 @@ extern Name DAT_011791c8;
 extern const char DAT_00ea8908[];
 }
 void __cdecl FUN_00d9a290();
+// pdb: `dynamic initializer for 'iAudioHWThread'' | BSAudioManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d85960() {
     f3m_00d85960::DAT_011791c8.FUN_0043b7f0(f3m_00d85960::DAT_00ea8908, 2);
     atexit(FUN_00d9a290);
@@ -1634,6 +1660,7 @@ extern Name DAT_01179790;
 extern const char DAT_00eaa7f0[];
 }
 void __cdecl FUN_00d9a570();
+// pdb: `dynamic initializer for 'iDebugTextFont'' | DebugText.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d861a0() {
     f3m_00d861a0::DAT_01179790.FUN_0043b7f0(f3m_00d861a0::DAT_00eaa7f0, 3);
     atexit(FUN_00d9a570);
@@ -1648,6 +1675,7 @@ extern const char DAT_00ea88d0[];
 
 }
 void __cdecl FUN_00d9a270();
+// pdb: `dynamic initializer for 'iAudioCacheSize'' | BSAudioManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d85920() {
     f3m_00d85920::DAT_011791b0.FUN_0043b7f0(f3m_00d85920::DAT_00ea88d0, 0x800);
     atexit(FUN_00d9a270);
@@ -1662,6 +1690,7 @@ extern const char DAT_00ea88e8[];
 
 }
 void __cdecl FUN_00d9a280();
+// pdb: `dynamic initializer for 'iMaxSizeForCachedSound'' | BSAudioManager.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d85940() {
     f3m_00d85940::DAT_011791bc.FUN_0043b7f0(f3m_00d85940::DAT_00ea88e8, 0x100);
     atexit(FUN_00d9a280);
@@ -1718,6 +1747,7 @@ extern const char DAT_00eaa328[];
 extern const char DAT_00eaa33c[];
 }
 void __cdecl FUN_00d9a4c0();
+// pdb: `dynamic initializer for 'sDefaultTexAtlas'' | Tile.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d85f70() {
     f3m_00d85f70::DAT_011796b8.FUN_0043b7f0(f3m_00d85f70::DAT_00eaa328, f3m_00d85f70::DAT_00eaa33c);
     atexit(FUN_00d9a4c0);
@@ -1732,6 +1762,7 @@ extern const char DAT_00eaa4d4[];
 extern const char DAT_00eaa4e8[];
 }
 void __cdecl FUN_00d9a4d0();
+// pdb: `dynamic initializer for 'FontManager::sFont_1_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d85fe0() {
     f3m_00d85fe0::DAT_0117970c.FUN_0043b7f0(f3m_00d85fe0::DAT_00eaa4d4, f3m_00d85fe0::DAT_00eaa4e8);
     atexit(FUN_00d9a4d0);
@@ -1746,6 +1777,7 @@ extern const char DAT_00eaa50c[];
 extern const char DAT_00eaa520[];
 }
 void __cdecl FUN_00d9a4e0();
+// pdb: `dynamic initializer for 'FontManager::sFont_2_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d86000() {
     f3m_00d86000::DAT_01179718.FUN_0043b7f0(f3m_00d86000::DAT_00eaa50c, f3m_00d86000::DAT_00eaa520);
     atexit(FUN_00d9a4e0);
@@ -1760,6 +1792,7 @@ extern const char DAT_00eaa540[];
 extern const char DAT_00eaa554[];
 }
 void __cdecl FUN_00d9a4f0();
+// pdb: `dynamic initializer for 'FontManager::sFont_3_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d86020() {
     f3m_00d86020::DAT_01179724.FUN_0043b7f0(f3m_00d86020::DAT_00eaa540, f3m_00d86020::DAT_00eaa554);
     atexit(FUN_00d9a4f0);
@@ -1774,6 +1807,7 @@ extern const char DAT_00eaa57c[];
 extern const char DAT_00eaa590[];
 }
 void __cdecl FUN_00d9a500();
+// pdb: `dynamic initializer for 'FontManager::sFont_4_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d86040() {
     f3m_00d86040::DAT_01179730.FUN_0043b7f0(f3m_00d86040::DAT_00eaa57c, f3m_00d86040::DAT_00eaa590);
     atexit(FUN_00d9a500);
@@ -1788,6 +1822,7 @@ extern const char DAT_00eaa5c0[];
 extern const char DAT_00eaa5d4[];
 }
 void __cdecl FUN_00d9a510();
+// pdb: `dynamic initializer for 'FontManager::sFont_5_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d86060() {
     f3m_00d86060::DAT_0117973c.FUN_0043b7f0(f3m_00d86060::DAT_00eaa5c0, f3m_00d86060::DAT_00eaa5d4);
     atexit(FUN_00d9a510);
@@ -1802,6 +1837,7 @@ extern const char DAT_00eaa600[];
 extern const char DAT_00eaa614[];
 }
 void __cdecl FUN_00d9a520();
+// pdb: `dynamic initializer for 'FontManager::sFont_6_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d86080() {
     f3m_00d86080::DAT_01179748.FUN_0043b7f0(f3m_00d86080::DAT_00eaa600, f3m_00d86080::DAT_00eaa614);
     atexit(FUN_00d9a520);
@@ -1816,6 +1852,7 @@ extern const char DAT_00eaa640[];
 extern const char DAT_00eaa654[];
 }
 void __cdecl FUN_00d9a530();
+// pdb: `dynamic initializer for 'FontManager::sFont_7_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d860a0() {
     f3m_00d860a0::DAT_01179754.FUN_0043b7f0(f3m_00d860a0::DAT_00eaa640, f3m_00d860a0::DAT_00eaa654);
     atexit(FUN_00d9a530);
@@ -1830,6 +1867,7 @@ extern const char DAT_00eaa67c[];
 extern const char DAT_00eaa690[];
 }
 void __cdecl FUN_00d9a540();
+// pdb: `dynamic initializer for 'FontManager::sFont_8_Filename'' | Font.obj | fnv360_0822_debug, ustr, medium
 void __cdecl FUN_00d860c0() {
     f3m_00d860c0::DAT_01179760.FUN_0043b7f0(f3m_00d860c0::DAT_00eaa67c, f3m_00d860c0::DAT_00eaa690);
     atexit(FUN_00d9a540);
@@ -1844,6 +1882,7 @@ extern const char DAT_00eaa7d8[];
 
 }
 void __cdecl FUN_00d9a560();
+// pdb: `dynamic initializer for 'xDebugTextColor'' | DebugText.obj | fnv360_0822_debug, ustr, high
 void __cdecl FUN_00d86180() {
     f3m_00d86180::DAT_01179784.FUN_0043b7f0(f3m_00d86180::DAT_00eaa7d8, 0xFFFBE9FFu);
     atexit(FUN_00d9a560);
@@ -1899,6 +1938,7 @@ extern int FUN_00a07800();
 extern void FUN_00a077e0();
 extern void FUN_00a077d0();
 
+// pdb: `dynamic initializer for 'hkpConvexPieceStreamDataTypeInfo'' | hkpInternalReflections.obj | tesv_win, objopen_prop, low
 void FUN_00d801a0()
 {
     int r = FUN_00a07800();
@@ -2214,6 +2254,7 @@ extern int FUN_00a08140();
 extern void FUN_00a08120();
 extern void FUN_00a08110();
 
+// pdb: `dynamic initializer for 'hkpSimulationTypeInfo'' | hkpDynamicsReflections.obj | tesv_win, objopen_prop, low
 void FUN_00d809d0()
 {
     int r = FUN_00a08140();
@@ -2232,14 +2273,14 @@ extern void* DAT_0116b57c;
 extern void* DAT_0116b580;
 namespace f3m_00d80aa0 {
 extern int FUN_00a081d0();
-extern void FUN_00a081a0();
+extern void finishLoadedObjecthkpPointToPathConstraintData();
 extern void FUN_00a08190();
 
 void FUN_00d80aa0()
 {
     int r = FUN_00a081d0();
     DAT_0116b574 = DAT_00e45ae8;
-    DAT_0116b578 = (void*)&FUN_00a081a0;
+    DAT_0116b578 = (void*)&finishLoadedObjecthkpPointToPathConstraintData;
     DAT_0116b57c = (void*)&FUN_00a08190;
     DAT_0116b580 = (void*)r;
 }
@@ -2445,6 +2486,7 @@ extern int FUN_00a088f0();
 extern void FUN_00a088d0();
 extern void FUN_00a088c0();
 
+// pdb: `dynamic initializer for 'hkpTriangleShapeTypeInfo'' | hkpCollideReflections.obj | tesv_win, objopen_prop, low
 void FUN_00d81130()
 {
     int r = FUN_00a088f0();
@@ -2487,6 +2529,7 @@ extern int FUN_00a08320();
 extern void FUN_00a08300();
 extern void FUN_00a082f0();
 
+// pdb: `dynamic initializer for 'hkpMalleableConstraintDataTypeInfo'' | hkpMalleableConstraintDataClass.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, high
 void FUN_00d80c40()
 {
     int r = FUN_00a08320();
@@ -2607,6 +2650,7 @@ struct Buffer_d957d0 {
 
 extern Buffer_d957d0 DAT_00f6a4bc;
 
+// pdb: `dynamic atexit destructor for 'InterfaceManager::xTileUpdateList'' | InterfaceManager.obj | fnv360_0721_retail, udata, high
 void __cdecl FUN_00d957d0() {
     DAT_00f6a4bc.~Buffer_d957d0();
 }
@@ -2825,6 +2869,7 @@ extern short DAT_01076ea0;
 extern short DAT_01076ea2;
 namespace f3m_00d95d70 {
 struct RelX00d95d70 { void FUN_0086ba60(void* pointer); };
+// pdb: `dynamic atexit destructor for 'RaceSexMenu::strDoneCaps'' | RaceSexMenu.obj | fnv360_0822_retail, udata, high
 void FUN_00d95d70()
 {
     if (DAT_01076e9c != 0)
@@ -2944,6 +2989,7 @@ namespace Init416 {
 void* FUN_0089e810(unsigned int);
 void* FUN_00c00610(void*, int, unsigned int);
 void FUN_00d9a590();
+// pdb: `dynamic initializer for 'Menu::XMLParsedHash'' | Menu.obj | fnv360_0822_retail, uvref, medium
 void FUN_00d862f0() {
     DAT_0106a7b0 = FUN_0089e810(0x94);
     FUN_00c00610(DAT_0106a7b0, 0, DAT_0106a7ac * 4);
@@ -3001,6 +3047,7 @@ void MyRef::DecRefCount() {
     if (InterlockedDecrement(&m_uiRefCount) == 0)
         delete this;
 }
+// pdb: `dynamic atexit destructor for 'BSTempEffectSimpleDecal::spPreloadedDecalTextureSets'' | BSTempEffectSimpleDecal.obj | fnv360_0822_retail, objrun_prop, low
 void __cdecl FUN_00d951f0() {
     if (DAT_010744b8) DAT_010744b8->DecRefCount();
 }
@@ -3069,6 +3116,7 @@ struct Manager {
 }
 extern "C" f3m_d98720::Manager* DAT_0109192c;
 
+// pdb: `dynamic atexit destructor for 'PrecipitationShader::spPass'' | PrecipitationShader.obj | fnv360_0822_retail, objrun_prop, low
 void __cdecl FUN_00d98720()
 {
     if (DAT_0109192c) {
@@ -3126,6 +3174,7 @@ namespace close_d87b20 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106e114;
 }
+// pdb: `dynamic atexit destructor for 'uWaterMemoryBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void FUN_00d87b20()
 {
     close_d87b20::DAT_0106e114.FUN_004310a0();
@@ -3154,6 +3203,7 @@ void __cdecl FUN_00d99970() { DAT_01175720.FUN_00b0d730(); }
 // @f3 0x00d9a440 (community match, verified in this file)
 struct GlobalCleanupD9A4 { void FUN_006c8220(); };
 extern GlobalCleanupD9A4 DAT_011796b0;
+// pdb: `dynamic atexit destructor for 'Tile::TextureEntryList'' | Tile.obj | fnv360_0721_retail, udata, high
 void FUN_00d9a440() { DAT_011796b0.FUN_006c8220(); }
 
 // @f3 0x00d8c470 (community match, verified in this file)
@@ -3221,6 +3271,7 @@ void FUN_00d88210() { DAT_0106f670.FUN_004310a0(); }
 // @f3 0x00d97d10 (community match, verified in this file)
 struct StaticCleanupA31 { void FUN_004310a0(); };
 extern StaticCleanupA31 DAT_0107c094;
+// pdb: `dynamic atexit destructor for 'bTaskletActorSceneGraphUpdates'' | ProcessLists.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97d10() { DAT_0107c094.FUN_004310a0(); }
 
 // @f3 0x00d94270 (community match, verified in this file)
@@ -3245,6 +3296,7 @@ namespace close_d96220 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0107747c;
 }
+// pdb: `dynamic atexit destructor for 'bVatsAlwaysHit'' | VATSMenu.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d96220()
 {
     close_d96220::DAT_0107747c.FUN_004310a0();
@@ -3287,6 +3339,7 @@ void FUN_00d92340()
 // @f3 0x00d87a70 (community match, verified in this file)
 struct StaticCleanupA34 { void FUN_004310a0(); };
 extern StaticCleanupA34 DAT_0106e190;
+// pdb: `dynamic atexit destructor for 'uRefCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a70() { DAT_0106e190.FUN_004310a0(); }
 
 // @f3 0x00d8fda0 (community match, verified in this file)
@@ -3315,6 +3368,7 @@ void __cdecl FUN_00d92050(){DAT_00f63b48.FUN_00403170();}
 namespace Cleanup_00d97f90 {
 struct Owner { void FUN_007d0a60(); };
 extern Owner DAT_0108d098;
+// pdb: `dynamic atexit destructor for 'pVATS'' | VATS.obj | fnv360_0822_retail, caller_sim, low
 void FUN_00d97f90() { DAT_0108d098.FUN_007d0a60(); }
 }
 
@@ -3379,6 +3433,7 @@ void __cdecl FUN_00d83e30() {
 // @f3 0x00d96200 (community match, verified in this file)
 struct CleanupObjectD96200 { void FUN_006c8220(); };
 extern CleanupObjectD96200 DAT_010774a8;
+// pdb: `dynamic atexit destructor for 'VATSMenu::xTargetList'' | VATSMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96200(){DAT_010774a8.FUN_006c8220();}
 
 // @f3 0x00d93920 (community match, verified in this file)
@@ -3425,6 +3480,7 @@ namespace close_d87a30 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106e210;
 }
+// pdb: `dynamic atexit destructor for 'uLightCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void FUN_00d87a30()
 {
     close_d87a30::DAT_0106e210.FUN_004310a0();
@@ -3472,6 +3528,7 @@ namespace close_d95a60 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_01076250;
 }
+// pdb: `dynamic atexit destructor for 'fHackingMinSkillVeryHard'' | HackingMenu.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d95a60()
 {
     close_d95a60::DAT_01076250.FUN_004310a0();
@@ -3492,6 +3549,7 @@ void __cdecl FUN_00d947b0(){DAT_00f658dc.FUN_00403170();}
 // @f3 0x00d97400 (community match, verified in this file)
 struct CleanupD974 { void FUN_004310a0(); };
 extern CleanupD974 DAT_0107a320;
+// pdb: `dynamic atexit destructor for 'bAllowYesToAll'' | Main.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d97400() { DAT_0107a320.FUN_004310a0(); }
 
 // @f3 0x00d96fe0 (community match, verified in this file)
@@ -3499,6 +3557,7 @@ struct CleanupB_00d96fe0 {
     void FUN_004310a0();
 };
 extern CleanupB_00d96fe0 DAT_0107a230;
+// pdb: `dynamic atexit destructor for 'sTestFile2'' | Main.obj | tesv_win, udata, high
 void FUN_00d96fe0()
 {
     DAT_0107a230.FUN_004310a0();
@@ -3617,6 +3676,7 @@ void FUN_00d8f180()
 // @f3 0x00d96bb0 (community match, verified in this file)
 struct StaticCleanupA41 { void FUN_004310a0(); };
 extern StaticCleanupA41 DAT_01079ee4;
+// pdb: `dynamic atexit destructor for 'BGSMoviePlayer::sIntroMovie'' | BGSMoviePlayer.obj | tesv_win, udata, high
 void __cdecl FUN_00d96bb0() { DAT_01079ee4.FUN_004310a0(); }
 
 // @f3 0x00d86b70 (community match, verified in this file)
@@ -3649,6 +3709,7 @@ void __cdecl FUN_00d8bb20(){DAT_00f5eed4.FUN_00403170();}
 // @f3 0x00d86f30 (community match, verified in this file)
 struct StaticCleanupA43 { void FUN_004310a0(); };
 extern StaticCleanupA43 DAT_0106ce0c;
+// pdb: `dynamic atexit destructor for 'sLocalSavePath'' | TESDataHandler.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d86f30() { DAT_0106ce0c.FUN_004310a0(); }
 
 // @f3 0x00d88740 (community match, verified in this file)
@@ -4060,6 +4121,7 @@ void FUN_00d91cf0()
 // @f3 0x00d88ca0 (community match, verified in this file)
 struct StaticCleanupA56 { void FUN_004310a0(); };
 extern StaticCleanupA56 DAT_0106ff80;
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::fWadingWaterTextureRes'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88ca0() { DAT_0106ff80.FUN_004310a0(); }
 
 // @f3 0x00d8d180 (community match, verified in this file)
@@ -4097,6 +4159,7 @@ void FUN_00d8f850()
 // @f3 0x00d8a290 (community match, verified in this file)
 struct StaticCleanupA58 { void FUN_00565db0(); };
 extern StaticCleanupA58 DAT_01072678;
+// pdb: `dynamic atexit destructor for 'm_ListResponses'' | TESTopicInfo.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00d8a290() { DAT_01072678.FUN_00565db0(); }
 
 // @f3 0x00d91820 (community match, verified in this file)
@@ -4249,11 +4312,13 @@ void FUN_00d89e20()
 // @f3 0x00d87be0 (community match, verified in this file)
 struct StaticCleanupA63 { void FUN_004310a0(); };
 extern StaticCleanupA63 DAT_0106e160;
+// pdb: `dynamic atexit destructor for 'fMsTriangleCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87be0() { DAT_0106e160.FUN_004310a0(); }
 
 // @f3 0x00d98940 (community match, verified in this file)
 struct CleanupObjectD98940 { void FUN_004310a0(); };
 extern CleanupObjectD98940 DAT_010f2ac8;
+// pdb: `dynamic atexit destructor for 'iHWThread6'' | bhkWorld.obj | tesv_win, udata, high
 void __cdecl FUN_00d98940(){DAT_010f2ac8.FUN_004310a0();}
 
 // @f3 0x00d8f140 (community match, verified in this file)
@@ -4280,6 +4345,7 @@ void FUN_00d89140()
 namespace Cleanup_00d97080 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0107a16c;
+// pdb: `dynamic atexit destructor for 'bUseMyGamesDirectory'' | Main.obj | tesv_win, udata, high
 void FUN_00d97080() { DAT_0107a16c.FUN_004310a0(); }
 }
 
@@ -4291,6 +4357,7 @@ void __cdecl FUN_00d93040(){DAT_00f6473c.FUN_00403170();}
 // @f3 0x00d97290 (community match, verified in this file)
 struct StaticCleanupA64 { void FUN_004310a0(); };
 extern StaticCleanupA64 DAT_0107a278;
+// pdb: `dynamic atexit destructor for 'sCopyProtectionTitle'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97290() { DAT_0107a278.FUN_004310a0(); }
 
 // @f3 0x00d914c0 (community match, verified in this file)
@@ -4374,6 +4441,7 @@ void FUN_00d90d30()
 namespace Cleanup_00d952f0 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_010746c0;
+// pdb: `dynamic atexit destructor for 'fObstacleUpdateDeltaWhenUnknown'' | NavMeshObstacleManager.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d952f0() { DAT_010746c0.FUN_004310a0(); }
 }
 
@@ -4508,6 +4576,7 @@ namespace close_00d97310 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0107a2e0;
 }
+// pdb: `dynamic atexit destructor for 'iRetainFilenameOffsetTable'' | Main.obj | tesv_win, udata, high
 void FUN_00d97310()
 {
     close_00d97310::DAT_0107a2e0.FUN_004310a0();
@@ -4573,6 +4642,7 @@ struct CleanupB_00d88060 {
     void FUN_004310a0();
 };
 extern CleanupB_00d88060 DAT_0106fa54;
+// pdb: `dynamic atexit destructor for 'BSRenderer::bForcePow2Textures'' | BSRenderer.obj | tesv_win, udata, high
 void FUN_00d88060()
 {
     DAT_0106fa54.FUN_004310a0();
@@ -4612,6 +4682,7 @@ void FUN_00d8eed0()
 namespace f3m_00d83bd0 {
 void __cdecl FUN_00d99430();
 int __cdecl FUN_00c00d1f(void (__cdecl* callback)());
+// pdb: `dynamic initializer for 'BSShaderManager::pHideSecretMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83bd0() { FUN_00c00d1f(FUN_00d99430); }
 }   // namespace f3m_00d83bd0
 
@@ -4671,6 +4742,7 @@ struct CleanupB_00d98b50 {
     void FUN_004310a0();
 };
 extern CleanupB_00d98b50 DAT_010f2d74;
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fAngleMax'' | bhkRagdollController.obj | tesv_win, udata, high
 void FUN_00d98b50()
 {
     DAT_010f2d74.FUN_004310a0();
@@ -4684,6 +4756,7 @@ struct Obj {
 extern Obj DAT_01071bbc;
 }
 
+// pdb: `dynamic atexit destructor for 'Script::ReferencesToEnable'' | TESScript.obj | fnv360_0721_retail, udata, high
 void __cdecl FUN_00d89f90() {
     f3_00d89f90::DAT_01071bbc.FUN_006c8220();
 }
@@ -4803,6 +4876,7 @@ struct Obj {
 extern Obj DAT_0107a3a4;
 }
 
+// pdb: `dynamic atexit destructor for 'bUseThreadedMorpher'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97100() {
     f3_00d97100::DAT_0107a3a4.FUN_004310a0();
 }
@@ -4822,6 +4896,7 @@ namespace close_00d87b60 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106e060;
 }
+// pdb: `dynamic atexit destructor for 'uHavokTriCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void FUN_00d87b60()
 {
     close_00d87b60::DAT_0106e060.FUN_004310a0();
@@ -4901,6 +4976,7 @@ namespace f3m_00d83c90 {
 
 void __cdecl FUN_00d99690();
 
+// pdb: `dynamic initializer for 'BSShaderManager::spMainCamera'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83c90() {
     atexit(FUN_00d99690);
 }
@@ -5110,6 +5186,7 @@ namespace close_00d879c0 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106e12c;
 }
+// pdb: `dynamic atexit destructor for 'uEmittersCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void FUN_00d879c0()
 {
     close_00d879c0::DAT_0106e12c.FUN_004310a0();
@@ -5255,6 +5332,7 @@ void __cdecl FUN_00d88910() {
 // @f3 0x00d97f10 (community match, verified in this file)
 struct CleanupObjectD97f10 { void FUN_004310a0(); };
 extern CleanupObjectD97f10 DAT_0108cbc4;
+// pdb: `dynamic atexit destructor for 'fDebugCombatProjectileLOSTime'' | CombatUtilities.obj | tesv_win, udata, high
 void __cdecl FUN_00d97f10(){DAT_0108cbc4.FUN_004310a0();}
 
 // @f3 0x00d8b350 (community match, verified in this file)
@@ -5309,6 +5387,7 @@ void FUN_00d8b160() { DAT_00f5e784.FUN_00403170(); }
 // @f3 0x00d96620 (community match, verified in this file)
 struct StaticCleanupA98 { void FUN_004310a0(); };
 extern StaticCleanupA98 DAT_010778f4;
+// pdb: `dynamic atexit destructor for 'fRenderedTerminalFOV'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d96620() { DAT_010778f4.FUN_004310a0(); }
 
 // @f3 0x00d8c480 (community match, verified in this file)
@@ -5359,6 +5438,7 @@ void __cdecl FUN_00d8c5a0() {
 namespace Cleanup_00d87a00 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0106e24c;
+// pdb: `dynamic atexit destructor for 'uGeometryMemoryBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void FUN_00d87a00() { DAT_0106e24c.FUN_004310a0(); }
 }
 
@@ -5367,6 +5447,7 @@ namespace close_00d98910 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_010f2aa4;
 }
+// pdb: `dynamic atexit destructor for 'iHWThread3'' | bhkWorld.obj | tesv_win, udata, high
 void FUN_00d98910()
 {
     close_00d98910::DAT_010f2aa4.FUN_004310a0();
@@ -5377,6 +5458,7 @@ struct CleanupB_00d97f00 {
     void FUN_004310a0();
 };
 extern CleanupB_00d97f00 DAT_0108cbec;
+// pdb: `dynamic atexit destructor for 'bDebugCombatProjectileLOS'' | CombatUtilities.obj | tesv_win, objrun, medium
 void FUN_00d97f00()
 {
     DAT_0108cbec.FUN_004310a0();
@@ -5412,6 +5494,7 @@ void FUN_00d8dc90()
 // @f3 0x00d99740 (community match, verified in this file)
 struct StaticCleanupA101 { void FUN_004310a0(); };
 extern StaticCleanupA101 DAT_0116f2e8;
+// pdb: `dynamic atexit destructor for 'bDoTestHDR'' | BSShaderManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d99740() { DAT_0116f2e8.FUN_004310a0(); }
 
 // @f3 0x00d936d0 (community match, verified in this file)
@@ -5518,6 +5601,7 @@ void __cdecl FUN_00d903e0() {
 namespace f3m_00d83cf0 {
 void __cdecl FUN_00d996f0();
 void __cdecl FUN_00c00d1f(void (__cdecl* callback)());
+// pdb: `dynamic initializer for 'BSShaderManager::spCurrentShaderAccumulator'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83cf0(){FUN_00c00d1f(FUN_00d996f0);}
 }   // namespace f3m_00d83cf0
 
@@ -5525,6 +5609,7 @@ void __cdecl FUN_00d83cf0(){FUN_00c00d1f(FUN_00d996f0);}
 namespace Cleanup_00d86fb0 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0106ce40;
+// pdb: `dynamic atexit destructor for 'bFileTestLoad'' | TESDataHandler.obj | tesv_win, udata, high
 void FUN_00d86fb0() { DAT_0106ce40.FUN_004310a0(); }
 }
 
@@ -5582,6 +5667,7 @@ struct Obj {
 extern Obj DAT_0107adfc;
 }
 
+// pdb: `dynamic atexit destructor for 'iShowHitVector'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d975f0() {
     f3_00d975f0::DAT_0107adfc.FUN_004310a0();
 }
@@ -5712,6 +5798,7 @@ void __cdecl FUN_00d8a540() { DAT_01072d10.FUN_00575420(); }
 namespace Cleanup_00d95370 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_010748b0;
+// pdb: `anonymous namespace'::`dynamic atexit destructor for 'bCreateDebugInfo'' | BSPathBuilder.obj | tesv_win, objrun, medium
 void FUN_00d95370() { DAT_010748b0.FUN_004310a0(); }
 }
 
@@ -5805,6 +5892,7 @@ void FUN_00d93a00()
 // @f3 0x00d87d60 (community match, verified in this file)
 struct StaticCleanupA115 { void FUN_004310a0(); };
 extern StaticCleanupA115 DAT_0106e908;
+// pdb: `dynamic atexit destructor for 'relForce'' | BGSRagdoll.obj | tesv_win, udata, high
 void __cdecl FUN_00d87d60() { DAT_0106e908.FUN_004310a0(); }
 
 // @f3 0x00d8a160 (community match, verified in this file)
@@ -6048,6 +6136,7 @@ void FUN_00d885a0() { DAT_0106fca8.FUN_0043ba00(); }
 namespace Cleanup_00d97fc0 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0108d128;
+// pdb: `dynamic atexit destructor for 'VATS::fVATSLightAngle'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d97fc0() { DAT_0108d128.FUN_004310a0(); }
 }
 
@@ -6061,6 +6150,7 @@ void FUN_00d8c390() { DAT_00f5f648.FUN_00403170(); }
 // @f3 0x00d99980 (community match, verified in this file)
 struct StaticCleanupA121 { void FUN_004310a0(); };
 extern StaticCleanupA121 DAT_01175708;
+// pdb: `dynamic atexit destructor for 'iRenderingThread1HWThread'' | MTRenderingSystem.obj | tesv_win, udata, high
 void __cdecl FUN_00d99980() { DAT_01175708.FUN_004310a0(); }
 
 // @f3 0x00d92c30 (community match, verified in this file)
@@ -6168,6 +6258,7 @@ namespace close_00d9a4c0 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_011796b8;
 }
+// pdb: `dynamic atexit destructor for 'sDefaultTexAtlas'' | Tile.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d9a4c0()
 {
     close_00d9a4c0::DAT_011796b8.FUN_004310a0();
@@ -6234,6 +6325,7 @@ void FUN_00d98b10()
 namespace Cleanup_00d87000 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0106cf18;
+// pdb: `dynamic atexit destructor for 'bKeepPlugin'' | TESDataHandler.obj | tesv_win, udata, high
 void FUN_00d87000() { DAT_0106cf18.FUN_004310a0(); }
 }
 
@@ -6311,6 +6403,7 @@ namespace close_00d88390 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106f984;
 }
+// pdb: `dynamic atexit destructor for 'BSRenderer::fLODNoiseMipBias'' | BSRenderer.obj | tesv_win, objrun, medium
 void FUN_00d88390()
 {
     close_00d88390::DAT_0106f984.FUN_004310a0();
@@ -6330,6 +6423,7 @@ void __cdecl FUN_00d8e1f0(){DAT_00f60d10.FUN_00403170();}
 namespace Cleanup_00d883d0 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0106fc1c;
+// pdb: `dynamic atexit destructor for 'BSRenderer::bAllowPartialPrecision'' | BSRenderer.obj | tesv_win, udata, high
 void FUN_00d883d0() { DAT_0106fc1c.FUN_004310a0(); }
 }
 
@@ -6413,6 +6507,7 @@ void FUN_00d86aa0()
 // @f3 0x00d86f80 (community match, verified in this file)
 struct StaticCleanupA131 { void FUN_004310a0(); };
 extern StaticCleanupA131 DAT_0106cf00;
+// pdb: `dynamic atexit destructor for 'bFileCheckModelCollision'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86f80() { DAT_0106cf00.FUN_004310a0(); }
 
 // @f3 0x00d86790 (community match, verified in this file)
@@ -6456,6 +6551,7 @@ struct CleanupB_00d86c80 {
     void FUN_004310a0();
 };
 extern CleanupB_00d86c80 DAT_0106cb0c;
+// pdb: `dynamic atexit destructor for 'sEnvReduceColor'' | TES.obj | tesv_win, udata, high
 void FUN_00d86c80()
 {
     DAT_0106cb0c.FUN_004310a0();
@@ -6466,6 +6562,7 @@ namespace f3m_00d972d0 {
 struct T_00d972d0 {
     void __thiscall FUN_004310a0(void);
 };
+// pdb: `dynamic atexit destructor for 'bUseBackgroundFileLoader'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d972d0(void)
 {
     ((T_00d972d0 *)0x107a340)->FUN_004310a0();
@@ -6487,6 +6584,7 @@ namespace close_00d97160 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0107a1b4;
 }
+// pdb: `dynamic atexit destructor for 'sCameraPathDir'' | Main.obj | tesv_win, objrun, medium
 void FUN_00d97160()
 {
     close_00d97160::DAT_0107a1b4.FUN_004310a0();
@@ -6601,6 +6699,7 @@ void __cdecl FUN_00d974a0() {
 namespace Cleanup_00d96f70 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0107a4b0;
+// pdb: `dynamic atexit destructor for 'bUseArchives'' | Main.obj | tesv_win, udata, high
 void FUN_00d96f70() { DAT_0107a4b0.FUN_004310a0(); }
 }
 
@@ -6788,6 +6887,7 @@ void __cdecl FUN_00d86870() {
 // @f3 0x00d87f00 (community match, verified in this file)
 struct CleanupObjectD87f00 { void FUN_004310a0(); };
 extern CleanupObjectD87f00 DAT_0106f6a8;
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDoTexturePass'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d87f00(){DAT_0106f6a8.FUN_004310a0();}
 
 // @f3 0x00d913d0 (community match, verified in this file)
@@ -6808,6 +6908,7 @@ struct Obj {
 extern Obj DAT_01075c2c;
 }
 
+// pdb: `dynamic atexit destructor for 'fMenuPlayerLightDiffuseGreen'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d958e0() {
     f3_00d958e0::DAT_01075c2c.FUN_004310a0();
 }
@@ -6839,6 +6940,7 @@ struct Obj {
 extern Obj DAT_0107622c;
 }
 
+// pdb: `dynamic atexit destructor for 'fHackingMinSkillVeryEasy'' | HackingMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95a20() {
     f3_00d95a20::DAT_0107622c.FUN_004310a0();
 }
@@ -6891,6 +6993,7 @@ struct CleanupB_00d96ff0 {
     void FUN_004310a0();
 };
 extern CleanupB_00d96ff0 DAT_0107a380;
+// pdb: `dynamic atexit destructor for 'sTestFile3'' | Main.obj | tesv_win, udata, high
 void FUN_00d96ff0()
 {
     DAT_0107a380.FUN_004310a0();
@@ -6911,6 +7014,7 @@ void __cdecl FUN_00d97210() {
 // @f3 0x00d88440 (community match, verified in this file)
 struct StaticCleanupA142 { void FUN_004310a0(); };
 extern StaticCleanupA142 DAT_0106fccc;
+// pdb: `dynamic atexit destructor for 'BSRenderer::iLastHDRSetting'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88440() { DAT_0106fccc.FUN_004310a0(); }
 
 // @f3 0x00d8a170 (community match, verified in this file)
@@ -6921,6 +7025,7 @@ struct Obj {
 extern Obj DAT_010724d0;
 }
 
+// pdb: `dynamic atexit destructor for 'TESResponse::sFileTypeSource'' | TESResponse.obj | tesv_win, udata, high
 void __cdecl FUN_00d8a170() {
     f3_00d8a170::DAT_010724d0.FUN_004310a0();
 }
@@ -6930,6 +7035,7 @@ struct CleanupB_00d94940 {
     void FUN_004310a0();
 };
 extern CleanupB_00d94940 DAT_01073ad8;
+// pdb: `dynamic atexit destructor for 'bDebugFaceGenMultithreading'' | BSFaceGenManager.obj | tesv_win, udata, high
 void FUN_00d94940()
 {
     DAT_01073ad8.FUN_004310a0();
@@ -6953,6 +7059,7 @@ struct Obj {
 extern Obj DAT_0107ad44;
 }
 
+// pdb: `dynamic atexit destructor for 'fHitVectorDelay'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d97600() {
     f3_00d97600::DAT_0107ad44.FUN_004310a0();
 }
@@ -7014,6 +7121,7 @@ void __cdecl FUN_00d87270() {
 // @f3 0x00d94960 (community match, verified in this file)
 struct StaticCleanupA145 { void FUN_004310a0(); };
 extern StaticCleanupA145 DAT_01073a40;
+// pdb: `dynamic atexit destructor for 'BSFaceGenManager::bLoadBackgroundFaceGen'' | BSFaceGenManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d94960() { DAT_01073a40.FUN_004310a0(); }
 
 // @f3 0x00d971e0 (community match, verified in this file)
@@ -7029,6 +7137,7 @@ struct Obj {
 extern Obj DAT_0107736c;
 }
 
+// pdb: `dynamic atexit destructor for 'fSurgeryPlayerDefaultHPos'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96180() {
     f3_00d96180::DAT_0107736c.FUN_004310a0();
 }
@@ -7041,6 +7150,7 @@ struct Obj {
 extern Obj DAT_0107b598;
 }
 
+// pdb: `dynamic atexit destructor for 'fHealthBarWidth'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97840() {
     f3_00d97840::DAT_0107b598.FUN_004310a0();
 }
@@ -7212,6 +7322,7 @@ void FUN_00d974b0()
 // @f3 0x00d970b0 (community match, verified in this file)
 struct CleanupObjectD970b0 { void FUN_004310a0(); };
 extern CleanupObjectD970b0 DAT_0107a26c;
+// pdb: `dynamic atexit destructor for 'sStartingCellY'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d970b0(){DAT_0107a26c.FUN_004310a0();}
 
 // @f3 0x00d92aa0 (community match, verified in this file)
@@ -7250,6 +7361,7 @@ struct CleanupB_00d95940 {
     void FUN_004310a0();
 };
 extern CleanupB_00d95940 DAT_01075b68;
+// pdb: `dynamic atexit destructor for 'fXenonMenuStickSpeedMaxMod'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void FUN_00d95940()
 {
     DAT_01075b68.FUN_004310a0();
@@ -7316,6 +7428,7 @@ struct Obj {
 extern Obj DAT_0116f3f4;
 }
 
+// pdb: `dynamic initializer for 'BSShaderManager::WaterPlane'' | BSShaderManager.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00d83d30() {
     f3_00d83d30::DAT_0116f3f4.FUN_00832f20();
 }
@@ -7324,6 +7437,7 @@ void __cdecl FUN_00d83d30() {
 namespace Cleanup_00d87b30 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0106e258;
+// pdb: `dynamic atexit destructor for 'uLightCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void FUN_00d87b30() { DAT_0106e258.FUN_004310a0(); }
 }
 
@@ -7458,6 +7572,7 @@ struct Obj {
 extern Obj DAT_01071914;
 }
 
+// pdb: `dynamic atexit destructor for 'bExternalLODDataFiles'' | TESWorldSpace.obj | tesv_win, udata, high
 void __cdecl FUN_00d89f00() {
     f3_00d89f00::DAT_01071914.FUN_004310a0();
 }
@@ -7521,6 +7636,7 @@ namespace close_00d9a430 {
 struct Object { void FUN_006c8220(); };
 extern Object DAT_011796a8;
 }
+// pdb: `dynamic atexit destructor for 'Tile::xFadeControls'' | Tile.obj | fnv360_0721_retail, udata, high
 void FUN_00d9a430()
 {
     close_00d9a430::DAT_011796a8.FUN_006c8220();
@@ -7530,6 +7646,7 @@ void FUN_00d9a430()
 namespace Cleanup_00d88b90 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0106ffa8;
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::fTileTextureDivisor'' | TESWater1.obj | tesv_win, udata, high
 void FUN_00d88b90() { DAT_0106ffa8.FUN_004310a0(); }
 }
 
@@ -7657,6 +7774,7 @@ struct Obj {
 extern Obj DAT_0107bd58;
 }
 
+// pdb: `dynamic atexit destructor for 'ConflictingObjects'' | PlayerCharacter.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00d97970() {
     f3_00d97970::DAT_0107bd58.FUN_006c8220();
 }
@@ -7743,6 +7861,7 @@ namespace close_00d98bd0 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_010f2dd4;
 }
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::bFootPlacementOn'' | bhkRagdollController.obj | tesv_win, udata, high
 void FUN_00d98bd0()
 {
     close_00d98bd0::DAT_010f2dd4.FUN_004310a0();
@@ -7841,6 +7960,7 @@ struct Obj {
 extern Obj DAT_0106fecc;
 }
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::uMaxExteriorWaterReflections'' | TESWater1.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88cc0() {
     f3_00d88cc0::DAT_0106fecc.FUN_004310a0();
 }
@@ -7891,6 +8011,7 @@ void __cdecl FUN_00d8c810() {
 namespace f3m_00d83bc0 {
 void __cdecl FUN_00d99400();
 void __cdecl FUN_00c00d1f(void* entry);
+// pdb: `dynamic initializer for 'BSShaderManager::pMaskTextureFloor'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83bc0() {
     FUN_00c00d1f(reinterpret_cast<void*>(&FUN_00d99400));
 }
@@ -7899,6 +8020,7 @@ void __cdecl FUN_00d83bc0() {
 // @f3 0x00d97c00 (community match, verified in this file)
 struct CleanupObjectD97c00 { void FUN_004310a0(); };
 extern CleanupObjectD97c00 DAT_0107bbf4;
+// pdb: `dynamic atexit destructor for 'fIronSightsZoomDefault'' | PlayerCharacter_Combat.obj | tesv_win, udata, high
 void __cdecl FUN_00d97c00(){DAT_0107bbf4.FUN_004310a0();}
 
 // @f3 0x00d94040 (community match, verified in this file)
@@ -7913,6 +8035,7 @@ namespace close_00d86f90 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106ce58;
 }
+// pdb: `dynamic atexit destructor for 'bFileGoneMessage'' | TESDataHandler.obj | tesv_win, udata, high
 void FUN_00d86f90()
 {
     close_00d86f90::DAT_0106ce58.FUN_004310a0();
@@ -8088,6 +8211,7 @@ void FUN_00d97470() { DAT_00f6de00.FUN_00403170(); }
 // @f3 0x00d87c80 (community match, verified in this file)
 struct CleanupObjectD87c80 { void FUN_004310a0(); };
 extern CleanupObjectD87c80 DAT_0106e0a8;
+// pdb: `dynamic atexit destructor for 'uActorMemoryBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c80(){DAT_0106e0a8.FUN_004310a0();}
 
 // @f3 0x00d94c70 (community match, verified in this file)
@@ -8122,6 +8246,7 @@ struct Obj {
 extern Obj DAT_0106e1ec;
 }
 
+// pdb: `dynamic atexit destructor for 'uTextureMemoryBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a10() {
     f3_00d87a10::DAT_0106e1ec.FUN_004310a0();
 }
@@ -8138,6 +8263,7 @@ struct CleanupB_00d8a180 {
     void FUN_004310a0();
 };
 extern CleanupB_00d8a180 DAT_01072498;
+// pdb: `dynamic atexit destructor for 'TESResponse::sFileTypeLip'' | TESResponse.obj | tesv_win, udata, high
 void FUN_00d8a180()
 {
     DAT_01072498.FUN_004310a0();
@@ -8184,6 +8310,7 @@ struct CleanupB_00d97040 {
     void FUN_004310a0();
 };
 extern CleanupB_00d97040 DAT_0107a4bc;
+// pdb: `dynamic atexit destructor for 'sTestFile8'' | Main.obj | tesv_win, udata, high
 void FUN_00d97040()
 {
     DAT_0107a4bc.FUN_004310a0();
@@ -8241,6 +8368,7 @@ struct Obj {
 extern Obj DAT_011796dc;
 }
 
+// pdb: `Tile::GetOrCreateValue'::`2'::`dynamic atexit destructor for 'compareVal'' | Tile.obj | fnv360_0721_retail, objrun, medium
 void __cdecl FUN_00d9a470() {
     f3_00d9a470::DAT_011796dc.FUN_00beb070();
 }
@@ -8323,6 +8451,7 @@ void FUN_00d891f0() { DAT_00f4df30.FUN_00403170(); }
 // @f3 0x00d95920 (community match, verified in this file)
 struct CleanupObjectD95920 { void FUN_004310a0(); };
 extern CleanupObjectD95920 DAT_01075c74;
+// pdb: `dynamic atexit destructor for 'iSafeZoneXWide'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95920(){DAT_01075c74.FUN_004310a0();}
 
 // @f3 0x00d8ede0 (community match, verified in this file)
@@ -8355,6 +8484,7 @@ struct Obj {
 extern Obj DAT_0106ce30;
 }
 
+// pdb: `dynamic atexit destructor for 'bFileSkipIconChecks'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86fd0() {
     f3_00d86fd0::DAT_0106ce30.FUN_004310a0();
 }
@@ -8430,6 +8560,7 @@ struct Obj {
 extern Obj DAT_0107a54c;
 }
 
+// pdb: `dynamic atexit destructor for 'bAlwaysActive'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d96f80() {
     f3_00d96f80::DAT_0107a54c.FUN_004310a0();
 }
@@ -8462,6 +8593,7 @@ struct Obj {
 extern Obj DAT_01075c10;
 }
 
+// pdb: `dynamic atexit destructor for 'bAllowConsole'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95890() {
     f3_00d95890::DAT_01075c10.FUN_004310a0();
 }
@@ -8501,6 +8633,7 @@ struct Obj {
 extern Obj DAT_01075bc8;
 }
 
+// pdb: `dynamic atexit destructor for 'fKeyRepeatTime'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95870() {
     f3_00d95870::DAT_01075bc8.FUN_004310a0();
 }
@@ -8535,6 +8668,7 @@ void __cdecl FUN_00d87040() {
 // @f3 0x00d89dd0 (community match, verified in this file)
 struct StaticCleanupA178 { void FUN_004310a0(); };
 extern StaticCleanupA178 DAT_01071704;
+// pdb: `dynamic atexit destructor for 'bFileControllerOnRoot'' | TESObjectREFR_Animation.obj | tesv_win, udata, high
 void __cdecl FUN_00d89dd0() { DAT_01071704.FUN_004310a0(); }
 
 // @f3 0x00d97820 (community match, verified in this file)
@@ -8542,6 +8676,7 @@ namespace close_00d97820 {
 struct Object { void FUN_006c8220(); };
 extern Object DAT_0107b5d8;
 }
+// pdb: `dynamic atexit destructor for 'DoorRefListCrime'' | HighProcess.obj | fnv360_0822_retail, udata, high
 void FUN_00d97820()
 {
     close_00d97820::DAT_0107b5d8.FUN_006c8220();
@@ -8623,6 +8758,7 @@ struct Obj {
 extern Obj DAT_0108c430;
 }
 
+// pdb: `dynamic atexit destructor for 'bTaskletTempEffectsUpdate'' | ProcessLists.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97d30() {
     f3_00d97d30::DAT_0108c430.FUN_004310a0();
 }
@@ -8734,6 +8870,7 @@ void __cdecl FUN_00d8a950() {
 // @f3 0x00d97890 (community match, verified in this file)
 struct StaticCleanupA182 { void FUN_004310a0(); };
 extern StaticCleanupA182 DAT_0107b578;
+// pdb: `dynamic atexit destructor for 'fHealthBarEmittanceFadeTime'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97890() { DAT_0107b578.FUN_004310a0(); }
 
 // @f3 0x00d85ee0 (community match, verified in this file)
@@ -8897,6 +9034,7 @@ namespace close_00d98c60 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_010f2e40;
 }
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fMaxFootCastMilliSec'' | bhkRagdollController.obj | tesv_win, udata, high
 void FUN_00d98c60()
 {
     close_00d98c60::DAT_010f2e40.FUN_004310a0();
@@ -8917,11 +9055,13 @@ void __cdecl FUN_00d928c0() {
 // @f3 0x00d87c50 (community match, verified in this file)
 struct StaticCleanupA186 { void FUN_004310a0(); };
 extern StaticCleanupA186 DAT_0106e1b4;
+// pdb: `dynamic atexit destructor for 'uLoadedAreaNonActorMemoryBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c50() { DAT_0106e1b4.FUN_004310a0(); }
 
 // @f3 0x00d87f30 (community match, verified in this file)
 struct CleanupObjectD87f30 { void FUN_004310a0(); };
 extern CleanupObjectD87f30 DAT_0106f76c;
+// pdb: `dynamic atexit destructor for 'BSRenderer::bForceMultiPass'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d87f30(){DAT_0106f76c.FUN_004310a0();}
 
 // @f3 0x00d93b50 (community match, verified in this file)
@@ -8956,6 +9096,7 @@ namespace close_00d972e0 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0107a284;
 }
+// pdb: `dynamic atexit destructor for 'bCheckRuntimeCollisions'' | Main.obj | tesv_win, udata, high
 void FUN_00d972e0()
 {
     close_00d972e0::DAT_0107a284.FUN_004310a0();
@@ -9071,6 +9212,7 @@ void FUN_00d8eaa0() { DAT_00f613dc.FUN_00403170(); }
 // @f3 0x00d98950 (community match, verified in this file)
 struct StaticCleanupA191 { void FUN_004310a0(); };
 extern StaticCleanupA191 DAT_010f2bc0;
+// pdb: `dynamic atexit destructor for 'bhkWorld::fTimePerSubStep'' | bhkWorld.obj | tesv_win, udata, high
 void __cdecl FUN_00d98950() { DAT_010f2bc0.FUN_004310a0(); }
 
 // @f3 0x00d92e30 (community match, verified in this file)
@@ -9167,6 +9309,7 @@ struct CleanupB_00d96660 {
     void FUN_004310a0();
 };
 extern CleanupB_00d96660 DAT_01077910;
+// pdb: `dynamic atexit destructor for 'fTermScreenLightColorR'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void FUN_00d96660()
 {
     DAT_01077910.FUN_004310a0();
@@ -9190,6 +9333,7 @@ void __cdecl FUN_00d90e10() { DAT_00f62d98.FUN_00403170(); }
 // @f3 0x00d972a0 (community match, verified in this file)
 struct CleanupObjectD972a0 { void FUN_004310a0(); };
 extern CleanupObjectD972a0 DAT_0107a528;
+// pdb: `dynamic atexit destructor for 'sCopyProtectionMessage'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d972a0(){DAT_0107a528.FUN_004310a0();}
 
 // @f3 0x00d8bbb0 (community match, verified in this file)
@@ -9531,6 +9675,7 @@ void __cdecl FUN_00d89260() { DAT_00f4df84.FUN_00403170(); }
 // @f3 0x00d88020 (community match, verified in this file)
 struct CleanupObjectD88020 { void FUN_004310a0(); };
 extern CleanupObjectD88020 DAT_0106f85c;
+// pdb: `dynamic atexit destructor for 'BSRenderer::fIniGetHitShader_BlurAmount'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88020(){DAT_0106f85c.FUN_004310a0();}
 
 // @f3 0x00d91990 (community match, verified in this file)
@@ -9611,6 +9756,7 @@ namespace close_00d882a0 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106f6dc;
 }
+// pdb: `dynamic atexit destructor for 'BSRenderer::fShadowLODMaxStartFade'' | BSRenderer.obj | tesv_win, udata, high
 void FUN_00d882a0()
 {
     close_00d882a0::DAT_0106f6dc.FUN_004310a0();
@@ -9695,6 +9841,7 @@ void __cdecl FUN_00d96740() {
 // @f3 0x00d972f0 (community match, verified in this file)
 struct StaticCleanupA208 { void FUN_004310a0(); };
 extern StaticCleanupA208 DAT_0107a1cc;
+// pdb: `dynamic atexit destructor for 'iRetainDirectoryStringTable'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d972f0() { DAT_0107a1cc.FUN_004310a0(); }
 
 // @f3 0x00d8bba0 (community match, verified in this file)
@@ -9719,6 +9866,7 @@ struct CleanupB_00d97940 {
     void FUN_004310a0();
 };
 extern CleanupB_00d97940 DAT_0107b87c;
+// pdb: BSAttachTechniques::`dynamic atexit destructor for 'AttachTechniqueM'' | PlayerCharacter.obj | tesv_win, objopen_prop, low
 void FUN_00d97940()
 {
     DAT_0107b87c.FUN_004310a0();
@@ -9738,6 +9886,7 @@ void FUN_00d8cf70()
 namespace Cleanup_00d86f50 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0106cea4;
+// pdb: `dynamic atexit destructor for 'sMasterMismatch'' | TESDataHandler.obj | tesv_win, objrun, medium
 void FUN_00d86f50() { DAT_0106cea4.FUN_004310a0(); }
 }
 
@@ -9884,6 +10033,7 @@ struct Obj {
 extern Obj DAT_0106fafc;
 }
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::fLandLOFadeSeconds'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d883a0() {
     f3_00d883a0::DAT_0106fafc.FUN_004310a0();
 }
@@ -9962,6 +10112,7 @@ namespace close_00d86f40 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106ce74;
 }
+// pdb: `dynamic atexit destructor for 'bLoadTheMap'' | TESDataHandler.obj | tesv_win, udata, high
 void FUN_00d86f40()
 {
     close_00d86f40::DAT_0106ce74.FUN_004310a0();
@@ -10026,6 +10177,7 @@ void __cdecl FUN_00d92910() {
 // @f3 0x00d8a2a0 (community match, verified in this file)
 struct StaticCleanupA214 { void FUN_00403170(); };
 extern StaticCleanupA214 DAT_00f5d1fc;
+// pdb: `dynamic atexit destructor for 'iSpeechChallengeDifficultyVeryEasy'' | TESTopicInfo.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a2a0() { DAT_00f5d1fc.FUN_00403170(); }
 
 // @f3 0x00d8b1f0 (community match, verified in this file)
@@ -10046,6 +10198,7 @@ void FUN_00d92850()
 // @f3 0x00d955e0 (community match, verified in this file)
 struct StaticCleanupA215 { void FUN_004310a0(); };
 extern StaticCleanupA215 DAT_01075874;
+// pdb: `dynamic atexit destructor for 'bUseNewTerrainSystem'' | BGSTerrainManager.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d955e0() { DAT_01075874.FUN_004310a0(); }
 
 // @f3 0x00d87730 (community match, verified in this file)
@@ -10053,6 +10206,7 @@ struct CleanupB_00d87730 {
     void FUN_004310a0();
 };
 extern CleanupB_00d87730 DAT_0106dd68;
+// pdb: `dynamic atexit destructor for 'bUseOptimizedTextureLoading'' | TESModel.obj | tesv_win, udata, high
 void FUN_00d87730()
 {
     DAT_0106dd68.FUN_004310a0();
@@ -10155,6 +10309,7 @@ namespace close_00d87e80 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106f990;
 }
+// pdb: `dynamic atexit destructor for 'BSRenderer::iNPatchPositionOrder'' | BSRenderer.obj | tesv_win, udata, high
 void FUN_00d87e80()
 {
     close_00d87e80::DAT_0106f990.FUN_004310a0();
@@ -10164,6 +10319,7 @@ void FUN_00d87e80()
 namespace Cleanup_00d98be0 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_010f2de0;
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fOriginalGroundHeightMS'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void FUN_00d98be0() { DAT_010f2de0.FUN_004310a0(); }
 }
 
@@ -10175,6 +10331,7 @@ struct Obj {
 extern Obj DAT_01179328;
 }
 
+// pdb: `BSAudio::QCreate'::`2'::`dynamic atexit destructor for '_sInstance'' | BSAudio_Xenon.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00d9a300() {
     f3_00d9a300::DAT_01179328.FUN_00bd7d10();
 }
@@ -10223,6 +10380,7 @@ namespace close_00d87880 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106df98;
 }
+// pdb: `dynamic atexit destructor for 'BGSDecalManager::bSkinnedDecals'' | BGSDecalManager.obj | tesv_win, udata, high
 void FUN_00d87880()
 {
     close_00d87880::DAT_0106df98.FUN_004310a0();
@@ -10298,6 +10456,7 @@ void __cdecl FUN_00d882e0() { DAT_0106f6f4.FUN_004310a0(); }
 // @f3 0x00d981a0 (community match, verified in this file)
 struct CleanupObjectD981a0 { void FUN_004310a0(); };
 extern CleanupObjectD981a0 DAT_0108dcac;
+// pdb: `dynamic atexit destructor for 'bDebugSpectatorThreats'' | SpectatorPackage.obj | tesv_win, udata, high
 void __cdecl FUN_00d981a0(){DAT_0108dcac.FUN_004310a0();}
 
 // @f3 0x00d87300 (community match, verified in this file)
@@ -10324,6 +10483,7 @@ void FUN_00d8cb40()
 namespace f3m_00d83be0 {
 void __cdecl FUN_00d99460();
 void __cdecl FUN_00c00d1f(void* entry);
+// pdb: `dynamic initializer for 'BSShaderManager::pDefaultTexEffectMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83be0() {
     FUN_00c00d1f(reinterpret_cast<void*>(&FUN_00d99460));
 }
@@ -10683,6 +10843,7 @@ struct Obj {
 extern Obj DAT_0106e19c;
 }
 
+// pdb: `dynamic atexit destructor for 'uEmittersCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87ac0() {
     f3_00d87ac0::DAT_0106e19c.FUN_004310a0();
 }
@@ -10715,6 +10876,7 @@ struct Obj {
 extern Obj DAT_01075744;
 }
 
+// pdb: `dynamic atexit destructor for 'BGSDistantObjectBlock::BlocksLoaded'' | BGSDistantObjectBlock.obj | fnv360_0721_retail, udata, high
 void __cdecl FUN_00d95430() {
     f3_00d95430::DAT_01075744.FUN_006c8220();
 }
@@ -10781,6 +10943,7 @@ void FUN_00d97240()
 // @f3 0x00d88450 (community match, verified in this file)
 struct StaticCleanupA237 { void FUN_004310a0(); };
 extern StaticCleanupA237 DAT_0106fc10;
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDecalsOnSkinnedGeometry'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88450() { DAT_0106fc10.FUN_004310a0(); }
 
 // @f3 0x00d8b0a0 (community match, verified in this file)
@@ -10808,6 +10971,7 @@ struct Obj {
 extern Obj DAT_01075cb8;
 }
 
+// pdb: `dynamic atexit destructor for 'fXenonMenuMouseXYMult'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95810() {
     f3_00d95810::DAT_01075cb8.FUN_004310a0();
 }
@@ -10827,6 +10991,7 @@ struct CleanupB_00d87030 {
     void FUN_00609350();
 };
 extern CleanupB_00d87030 DAT_0106db84;
+// pdb: `PathManager::QInstance'::`2'::`dynamic atexit destructor for 'instance'' | TESActorBaseData.obj | fnv360_0721_beta, objrun_prop, low
 void FUN_00d87030()
 {
     DAT_0106db84.FUN_00609350();
@@ -10910,6 +11075,7 @@ struct CleanupB_00d9a4a0 {
     void FUN_00bd12d0();
 };
 extern CleanupB_00d9a4a0 DAT_01179678;
+// pdb: `dynamic atexit destructor for 'Tile::xDirtyTiles'' | Tile.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d9a4a0()
 {
     DAT_01179678.FUN_00bd12d0();
@@ -10928,6 +11094,7 @@ void FUN_00d891e0()
 // @f3 0x00d95900 (community match, verified in this file)
 struct CleanupObjectD95900 { void FUN_004310a0(); };
 extern CleanupObjectD95900 DAT_01075c50;
+// pdb: `dynamic atexit destructor for 'iSafeZoneX'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95900(){DAT_01075c50.FUN_004310a0();}
 
 // @f3 0x00d86ed0 (community match, verified in this file)
@@ -11084,6 +11251,7 @@ void FUN_00d9a500()
 // @f3 0x00d95390 (community match, verified in this file)
 struct StaticCleanupA242 { void FUN_004310a0(); };
 extern StaticCleanupA242 DAT_01074898;
+// pdb: `anonymous namespace'::`dynamic atexit destructor for 'bUseOldPathSmoothing'' | BSPathBuilder.obj | tesv_win, udata, high
 void __cdecl FUN_00d95390() { DAT_01074898.FUN_004310a0(); }
 
 // @f3 0x00d94cb0 (community match, verified in this file)
@@ -11152,6 +11320,7 @@ namespace close_00d986a0 {
 struct Object { void FUN_0086bd50(); };
 extern Object DAT_01090a78;
 }
+// pdb: `dynamic atexit destructor for 'MemoryManager::s_Instance'' | MemoryManager.obj | fnv360_0822_retail, caller_sim, low
 void FUN_00d986a0()
 {
     close_00d986a0::DAT_01090a78.FUN_0086bd50();
@@ -11243,6 +11412,7 @@ namespace close_00d8a0a0 {
 struct Object { void FUN_006c8220(); };
 extern Object DAT_01072254;
 }
+// pdb: `dynamic atexit destructor for 'TESNPC::CharGenPresetFaceList'' | TESNPC.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d8a0a0()
 {
     close_00d8a0a0::DAT_01072254.FUN_006c8220();
@@ -11313,6 +11483,7 @@ struct Obj {
 extern Obj DAT_0106ffc0;
 }
 
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::StaticWorldReflectiveObjects'' | TESWater.obj | fnv360_1110_retail, udata, high
 void __cdecl FUN_00d88b60() {
     f3_00d88b60::DAT_0106ffc0.FUN_00bd12d0();
 }
@@ -11457,6 +11628,7 @@ struct Obj {
 extern Obj DAT_0107b788;
 }
 
+// pdb: `dynamic atexit destructor for 'fAimUpDegrees'' | MiddleHighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d978e0() {
     f3_00d978e0::DAT_0107b788.FUN_004310a0();
 }
@@ -11632,6 +11804,7 @@ void __cdecl FUN_00d91ab0() {
 // @f3 0x00d95530 (community match, verified in this file)
 struct CleanupObjectD95530 { void FUN_004310a0(); };
 extern CleanupObjectD95530 DAT_010757b4;
+// pdb: `dynamic atexit destructor for 'uDistantTreeBlockCacheSizePerCell'' | BGSDistantTreeBlock.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d95530(){DAT_010757b4.FUN_004310a0();}
 
 // @f3 0x00d8f420 (community match, verified in this file)
@@ -11707,6 +11880,7 @@ void __cdecl FUN_00d8aa80() { DAT_00f5e25c.FUN_00403170(); }
 namespace f3m_00d83bf0 {
 void __cdecl FUN_00d99490();
 void __cdecl FUN_00c00d1f(void* entry);
+// pdb: `dynamic initializer for 'BSShaderManager::pAnisotropicMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83bf0() {
     FUN_00c00d1f(reinterpret_cast<void*>(&FUN_00d99490));
 }
@@ -11730,6 +11904,7 @@ struct Obj {
 extern Obj DAT_0107b794;
 }
 
+// pdb: `dynamic atexit destructor for 'fAimDownDegrees'' | MiddleHighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d978f0() {
     f3_00d978f0::DAT_0107b794.FUN_004310a0();
 }
@@ -11863,6 +12038,7 @@ void __cdecl FUN_00d93500() {
 namespace f3m_00d864f2 {
 void __cdecl FUN_00d9a5f3();
 int __cdecl FUN_00c00d1f(void (__cdecl* callback)());
+// pdb: `dynamic initializer for 'init_atexit'' | iosptrs.obj | tesv_win, objrun_open, low
 void FUN_00d864f2()
 {
     FUN_00c00d1f(FUN_00d9a5f3);
@@ -11978,6 +12154,7 @@ void FUN_00d94800()
 // @f3 0x00d88b30 (community match, verified in this file)
 struct StaticCleanupA262 { void FUN_00bd12d0(); };
 extern StaticCleanupA262 DAT_0106fe64;
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::DynamicWorldReflectiveObjects'' | TESWater.obj | fnv360_1110_retail, udata, high
 void __cdecl FUN_00d88b30() { DAT_0106fe64.FUN_00bd12d0(); }
 
 // @f3 0x00d8c210 (community match, verified in this file)
@@ -12031,6 +12208,7 @@ namespace close_00d98c10 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_010f2e04;
 }
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fPelvisOffsetDamping'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void FUN_00d98c10()
 {
     close_00d98c10::DAT_010f2e04.FUN_004310a0();
@@ -12153,6 +12331,7 @@ struct Obj {
 extern Obj DAT_0106e16c;
 }
 
+// pdb: `dynamic atexit destructor for 'uWaterCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87af0() {
     f3_00d87af0::DAT_0106e16c.FUN_004310a0();
 }
@@ -12185,6 +12364,7 @@ struct Obj {
 extern Obj DAT_010f2e10;
 }
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fVertErrorGain'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d98c20() {
     f3_00d98c20::DAT_010f2e10.FUN_004310a0();
 }
@@ -12214,6 +12394,7 @@ struct Obj {
 extern Obj DAT_0107acf8;
 }
 
+// pdb: `dynamic atexit destructor for 'fHardLandingDamageThreshold'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d97710() {
     f3_00d97710::DAT_0107acf8.FUN_004310a0();
 }
@@ -12425,6 +12606,7 @@ struct Obj {
 extern Obj DAT_0107b584;
 }
 
+// pdb: `dynamic atexit destructor for 'fHealthBarHeight'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97850() {
     f3_00d97850::DAT_0107b584.FUN_004310a0();
 }
@@ -12485,6 +12667,7 @@ void __cdecl FUN_00d8b4c0() {
 // @f3 0x00d98960 (community match, verified in this file)
 namespace f3m_00d98960 {
 extern struct { void FUN_004310a0(); } DAT_010f2bcc;
+// pdb: `dynamic atexit destructor for 'bhkWorld::iMinNumSubSteps'' | bhkWorld.obj | tesv_win, udata, high
 void __cdecl FUN_00d98960() { DAT_010f2bcc.FUN_004310a0(); }
 }   // namespace f3m_00d98960
 
@@ -12858,6 +13041,7 @@ struct Target
 
 extern Target DAT_0106cb3c;
 
+// pdb: `dynamic atexit destructor for 'sLerpCloseColor'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86c90()
 {
     DAT_0106cb3c.FUN_004310a0();
@@ -12875,6 +13059,7 @@ struct Target
 
 extern Target DAT_0106cca0;
 
+// pdb: `dynamic atexit destructor for 'sBumpFadeColor'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86ca0()
 {
     DAT_0106cca0.FUN_004310a0();
@@ -12892,6 +13077,7 @@ struct Target
 
 extern Target DAT_0106cbc4;
 
+// pdb: `dynamic atexit destructor for 'fAlphReduce'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86cb0()
 {
     DAT_0106cbc4.FUN_004310a0();
@@ -13001,6 +13187,7 @@ struct Target
 
 extern Target DAT_0106cc70;
 
+// pdb: `dynamic atexit destructor for 'fMaxPickTimeDebug'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86d10()
 {
     DAT_0106cc70.FUN_004310a0();
@@ -13018,6 +13205,7 @@ struct Target
 
 extern Target DAT_0106cc64;
 
+// pdb: `dynamic atexit destructor for 'fMaxPickTimeDebugVATS'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86d20()
 {
     DAT_0106cc64.FUN_004310a0();
@@ -13137,6 +13325,7 @@ struct Target
 
 extern Target DAT_0106cba8;
 
+// pdb: `dynamic atexit destructor for 'bCheckPurgedTextureList'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86da0()
 {
     DAT_0106cba8.FUN_004310a0();
@@ -13154,6 +13343,7 @@ struct Target
 
 extern Target DAT_0106ccf8;
 
+// pdb: `dynamic atexit destructor for 'bQueueWarnings'' | TES.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d86db0()
 {
     DAT_0106ccf8.FUN_004310a0();
@@ -13169,6 +13359,7 @@ struct Obj {
 extern Obj DAT_0107a398;
 }
 
+// pdb: `dynamic atexit destructor for 'sTestFile7'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97030() {
     f3_00d97030::DAT_0107a398.FUN_004310a0();
 }
@@ -13183,6 +13374,7 @@ struct Target
 
 extern Target DAT_0106cbe8;
 
+// pdb: `dynamic atexit destructor for 'bUseMultiThreadedTrees'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86dc0()
 {
     DAT_0106cbe8.FUN_004310a0();
@@ -13222,6 +13414,7 @@ namespace close_00d997d0 {
 struct Object { void FUN_00b215a0(); };
 extern Object DAT_01170090;
 }
+// pdb: `dynamic atexit destructor for 'BSShaderLightingProperty::LightListFenceObject'' | BSShaderLightingProperty.obj | fnv360_0822_retail, udata, high
 void FUN_00d997d0()
 {
     close_00d997d0::DAT_01170090.FUN_00b215a0();
@@ -13260,6 +13453,7 @@ void __cdecl FUN_00d87500() {
 // @f3 0x00d98970 (community match, verified in this file)
 struct CleanupObjectD98970 { void FUN_004310a0(); };
 extern CleanupObjectD98970 DAT_010f2bd8;
+// pdb: `dynamic atexit destructor for 'bhavokDebugS'' | bhkVisualDebugger.obj | tesv_win, udata, high
 void __cdecl FUN_00d98970(){DAT_010f2bd8.FUN_004310a0();}
 
 // @f3 0x00d90190 (community match, verified in this file)
@@ -13360,6 +13554,7 @@ void __cdecl FUN_00d8dbd0() {
 namespace Cleanup_00d88590 {
 struct Owner { void FUN_0043ba00(); };
 extern Owner DAT_0106fc9c;
+// pdb: `dynamic atexit destructor for 'BSRenderer::bTransparencyMultisampling'' | BSRenderer.obj | tesv_win, udata, high
 void FUN_00d88590() { DAT_0106fc9c.FUN_0043ba00(); }
 }
 
@@ -13449,6 +13644,7 @@ struct CleanupB_00d96b30 {
     void FUN_004310a0();
 };
 extern CleanupB_00d96b30 DAT_01079b38;
+// pdb: `dynamic atexit destructor for 'bAllowProfileTransfer'' | BGSSaveLoadManager.obj | tesv_win, udata, high
 void FUN_00d96b30()
 {
     DAT_01079b38.FUN_004310a0();
@@ -13485,6 +13681,7 @@ namespace close_00d96610 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0107791c;
 }
+// pdb: `dynamic atexit destructor for 'fRenderedTerminalVPos'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void FUN_00d96610()
 {
     close_00d96610::DAT_0107791c.FUN_004310a0();
@@ -13515,6 +13712,7 @@ void FUN_00d910d0()
 // @f3 0x00d89f10 (community match, verified in this file)
 struct StaticCleanupA284 { void FUN_004310a0(); };
 extern StaticCleanupA284 DAT_01071920;
+// pdb: `dynamic atexit destructor for 'bCheckCellOffsetsOnInit'' | TESWorldSpace.obj | tesv_win, udata, high
 void __cdecl FUN_00d89f10() { DAT_01071920.FUN_004310a0(); }
 
 // @f3 0x00d90e20 (community match, verified in this file)
@@ -13532,6 +13730,7 @@ void __cdecl FUN_00d90e20() {
 // @f3 0x00d97090 (community match, verified in this file)
 struct CleanupObjectD97090 { void FUN_004310a0(); };
 extern CleanupObjectD97090 DAT_0107a1f0;
+// pdb: `dynamic atexit destructor for 'sStartingWorld'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97090(){DAT_0107a1f0.FUN_004310a0();}
 
 // @f3 0x00d8a3d0 (community match, verified in this file)
@@ -13564,6 +13763,7 @@ struct Obj {
 extern Obj DAT_0107a188;
 }
 
+// pdb: `dynamic atexit destructor for 'bRunVTuneTest'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d970c0() {
     f3_00d970c0::DAT_0107a188.FUN_004310a0();
 }
@@ -13577,6 +13777,7 @@ void FUN_00d92e20() { DAT_00f645a4.FUN_00403170(); }
 namespace Cleanup_00d89e10 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_010717a8;
+// pdb: `dynamic atexit destructor for 'bGrassPointLighting'' | BGSGrassManager.obj | tesv_win, udata, high
 void FUN_00d89e10() { DAT_010717a8.FUN_004310a0(); }
 }
 
@@ -13585,6 +13786,7 @@ namespace close_00d86e70 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0106cd04;
 }
+// pdb: `dynamic atexit destructor for 'sSysUtil_DirtyDisc'' | TES.obj | tesv_win, udata, high
 void FUN_00d86e70()
 {
     close_00d86e70::DAT_0106cd04.FUN_004310a0();
@@ -13634,6 +13836,7 @@ struct Target
 
 extern Target DAT_0106cb60;
 
+// pdb: `dynamic atexit destructor for 'sFailureMessage'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86df0()
 {
     DAT_0106cb60.FUN_004310a0();
@@ -13651,6 +13854,7 @@ struct Target
 
 extern Target DAT_0106ccdc;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_Retry'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86e00()
 {
     DAT_0106ccdc.FUN_004310a0();
@@ -13668,6 +13872,7 @@ struct Target
 
 extern Target DAT_0106cd3c;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_AutoSaveWarning'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86e10()
 {
     DAT_0106cd3c.FUN_004310a0();
@@ -13685,6 +13890,7 @@ struct Target
 
 extern Target DAT_0106cb78;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_GameDataInsufficientSpace'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86e20()
 {
     DAT_0106cb78.FUN_004310a0();
@@ -13702,6 +13908,7 @@ struct Target
 
 extern Target DAT_0106cbb4;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_GameDataCorrupt'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86e30()
 {
     DAT_0106cbb4.FUN_004310a0();
@@ -13736,6 +13943,7 @@ struct Target
 
 extern Target DAT_0106ccbc;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_SaveDataCreateNew'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86e40()
 {
     DAT_0106ccbc.FUN_004310a0();
@@ -13753,6 +13961,7 @@ struct Target
 
 extern Target DAT_0106cb84;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_SaveDataInsufficientSpace'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86e50()
 {
     DAT_0106cb84.FUN_004310a0();
@@ -13775,6 +13984,7 @@ struct Target
 
 extern Target DAT_0106cc00;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_DiscEject'' | TES.obj | tesv_win, udata, high
 void __cdecl FUN_00d86e60()
 {
     DAT_0106cc00.FUN_004310a0();
@@ -13792,6 +14002,7 @@ struct Target
 
 extern Target DAT_0106cd10;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_AwardsLoading'' | TES.obj | tesv_win, objrun_prop, low
 void __cdecl FUN_00d86e80()
 {
     DAT_0106cd10.FUN_004310a0();
@@ -13816,6 +14027,7 @@ struct Target
 
 extern Target DAT_0106cc7c;
 
+// pdb: `dynamic atexit destructor for 'sSysUtil_AwardsInstalling'' | TES.obj | tesv_win, objrun_prop, low
 void __cdecl FUN_00d86e90()
 {
     DAT_0106cc7c.FUN_004310a0();
@@ -13889,6 +14101,7 @@ struct Target
 
 extern Target DAT_0106cdf4;
 
+// pdb: `dynamic atexit destructor for 'bDisableDuplicateReferenceCheck_G'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86f10()
 {
     DAT_0106cdf4.FUN_004310a0();
@@ -13911,6 +14124,7 @@ struct Target
 
 extern Target DAT_0106ceb0;
 
+// pdb: `dynamic atexit destructor for 'sLocalMasterPath'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86f20()
 {
     DAT_0106ceb0.FUN_004310a0();
@@ -13938,6 +14152,7 @@ struct Target
 
 extern Target DAT_0106cec8;
 
+// pdb: `dynamic atexit destructor for 'sGMMismatch'' | TESDataHandler.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d86f60()
 {
     DAT_0106cec8.FUN_004310a0();
@@ -13955,6 +14170,7 @@ struct Target
 
 extern Target DAT_0106cf0c;
 
+// pdb: `dynamic atexit destructor for 'bFileSkipModelChecks'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86f70()
 {
     DAT_0106cf0c.FUN_004310a0();
@@ -13972,6 +14188,7 @@ struct Target
 
 extern Target DAT_0106ced4;
 
+// pdb: `dynamic atexit destructor for 'bFileNeededMessage'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86fa0()
 {
     DAT_0106ced4.FUN_004310a0();
@@ -13989,6 +14206,7 @@ struct Target
 
 extern Target DAT_0106cef4;
 
+// pdb: `dynamic atexit destructor for 'bFileUnusedObject'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86fc0()
 {
     DAT_0106cef4.FUN_004310a0();
@@ -14011,6 +14229,7 @@ struct Target
 
 extern Target DAT_0106ce18;
 
+// pdb: `dynamic atexit destructor for 'bFileShowIcons'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86fe0()
 {
     DAT_0106ce18.FUN_004310a0();
@@ -14183,6 +14402,7 @@ struct ThunkClass {
     void __thiscall FUN_00d87ef0();
 };
 }
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDoSpecularPass'' | BSRenderer.obj | tesv_win, udata, high
 void __thiscall f3m_00d87ef0::ThunkClass::FUN_00d87ef0() {
     f3m_00d87ef0::DAT_0106f654.FUN_004310a0();
 }
@@ -14209,6 +14429,7 @@ struct Target
 
 extern Target DAT_0106cee0;
 
+// pdb: `dynamic atexit destructor for 'bFileShowTextures'' | TESDataHandler.obj | tesv_win, udata, high
 void __cdecl FUN_00d86ff0()
 {
     DAT_0106cee0.FUN_004310a0();
@@ -14272,6 +14493,7 @@ struct Target
 
 extern Target DAT_0106dd58;
 
+// pdb: `dynamic atexit destructor for 'bWarnOnMissingFileEntry'' | TESModel.obj | tesv_win, udata, high
 void __cdecl FUN_00d87720()
 {
     DAT_0106dd58.FUN_004310a0();
@@ -14447,6 +14669,7 @@ struct Target
 
 extern Target DAT_0106dfac;
 
+// pdb: `dynamic atexit destructor for 'BGSDecalManager::bDecalMultithreaded'' | BGSDecalManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d87860()
 {
     DAT_0106dfac.FUN_004310a0();
@@ -14474,6 +14697,7 @@ struct Target
 
 extern Target DAT_0106df30;
 
+// pdb: `dynamic atexit destructor for 'BGSDecalManager::bDecals'' | BGSDecalManager.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d87870()
 {
     DAT_0106df30.FUN_004310a0();
@@ -14513,6 +14737,7 @@ struct Target
 
 extern Target DAT_0106e0e4;
 
+// pdb: `dynamic atexit destructor for 'uRefCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87970()
 {
     DAT_0106e0e4.FUN_004310a0();
@@ -14530,6 +14755,7 @@ struct Target
 
 extern Target DAT_0106e108;
 
+// pdb: `dynamic atexit destructor for 'uActorRefCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87980()
 {
     DAT_0106e108.FUN_004310a0();
@@ -14559,6 +14785,7 @@ struct Target
 
 extern Target DAT_0106e184;
 
+// pdb: `dynamic atexit destructor for 'uActiveRefCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87990()
 {
     DAT_0106e184.FUN_004310a0();
@@ -14576,6 +14803,7 @@ struct Target
 
 extern Target DAT_0106e2a0;
 
+// pdb: `dynamic atexit destructor for 'uAnimatedObjectsCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d879a0()
 {
     DAT_0106e2a0.FUN_004310a0();
@@ -14696,6 +14924,7 @@ namespace close_00d98010 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0108d0f4;
 }
+// pdb: `dynamic atexit destructor for 'VATS::fVatsLightColorB'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d98010()
 {
     close_00d98010::DAT_0108d0f4.FUN_004310a0();
@@ -14728,6 +14957,7 @@ struct Target
 
 extern Target DAT_0106e1cc;
 
+// pdb: `dynamic atexit destructor for 'uParticlesCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d879b0()
 {
     DAT_0106e1cc.FUN_004310a0();
@@ -14745,6 +14975,7 @@ struct Target
 
 extern Target DAT_0106e120;
 
+// pdb: `dynamic atexit destructor for 'uGeometryCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d879d0()
 {
     DAT_0106e120.FUN_004310a0();
@@ -14762,6 +14993,7 @@ struct Target
 
 extern Target DAT_0106e0b4;
 
+// pdb: `dynamic atexit destructor for 'uTriangleCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d879e0()
 {
     DAT_0106e0b4.FUN_004310a0();
@@ -14784,6 +15016,7 @@ struct Target
 
 extern Target DAT_0106e0d8;
 
+// pdb: `dynamic atexit destructor for 'uWaterCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d879f0()
 {
     DAT_0106e0d8.FUN_004310a0();
@@ -14801,6 +15034,7 @@ struct Target
 
 extern Target DAT_0106e2bc;
 
+// pdb: `dynamic atexit destructor for 'uWaterMemoryBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a20()
 {
     DAT_0106e2bc.FUN_004310a0();
@@ -14818,6 +15052,7 @@ struct Target
 
 extern Target DAT_0106e148;
 
+// pdb: `dynamic atexit destructor for 'uLightExcessGeometryBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a40()
 {
     DAT_0106e148.FUN_004310a0();
@@ -14829,6 +15064,7 @@ void __cdecl FUN_00d87a40()
 namespace Cleanup_00d97410 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0107a494;
+// pdb: `dynamic atexit destructor for 'bSkipProgramFlows'' | Main.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d97410() { DAT_0107a494.FUN_004310a0(); }
 }
 
@@ -14842,6 +15078,7 @@ struct Target
 
 extern Target DAT_0106e268;
 
+// pdb: `dynamic atexit destructor for 'uDecalCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a50()
 {
     DAT_0106e268.FUN_004310a0();
@@ -14859,6 +15096,7 @@ struct Target
 
 extern Target DAT_0106e06c;
 
+// pdb: `dynamic atexit destructor for 'uHavokTriCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a60()
 {
     DAT_0106e06c.FUN_004310a0();
@@ -14883,6 +15121,7 @@ struct Target
 
 extern Target DAT_0106e274;
 
+// pdb: `dynamic atexit destructor for 'uActorRefCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a80()
 {
     DAT_0106e274.FUN_004310a0();
@@ -14910,6 +15149,7 @@ struct Target
 
 extern Target DAT_0106e13c;
 
+// pdb: `dynamic atexit destructor for 'uActiveRefCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87a90()
 {
     DAT_0106e13c.FUN_004310a0();
@@ -14939,6 +15179,7 @@ struct Target
 
 extern Target DAT_0106e050;
 
+// pdb: `dynamic atexit destructor for 'uAnimatedObjectsCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87aa0()
 {
     DAT_0106e050.FUN_004310a0();
@@ -14956,6 +15197,7 @@ struct Target
 
 extern Target DAT_0106e21c;
 
+// pdb: `dynamic atexit destructor for 'uParticlesCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87ab0()
 {
     DAT_0106e21c.FUN_004310a0();
@@ -14983,6 +15225,7 @@ struct Target
 
 extern Target DAT_0106e024;
 
+// pdb: `dynamic atexit destructor for 'uGeometryCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87ad0()
 {
     DAT_0106e024.FUN_004310a0();
@@ -15000,6 +15243,7 @@ struct Target
 
 extern Target DAT_0106e154;
 
+// pdb: `dynamic atexit destructor for 'uTriangleCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87ae0()
 {
     DAT_0106e154.FUN_004310a0();
@@ -15017,6 +15261,7 @@ struct Target
 
 extern Target DAT_0106e2ec;
 
+// pdb: `dynamic atexit destructor for 'uGeometryMemoryBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87b00()
 {
     DAT_0106e2ec.FUN_004310a0();
@@ -15034,6 +15279,7 @@ struct Target
 
 extern Target DAT_0106e2cc;
 
+// pdb: `dynamic atexit destructor for 'uTextureMemoryBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87b10()
 {
     DAT_0106e2cc.FUN_004310a0();
@@ -15063,6 +15309,7 @@ struct Target
 
 extern Target DAT_0106e230;
 
+// pdb: `dynamic atexit destructor for 'uLightExcessGeometryBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87b40()
 {
     DAT_0106e230.FUN_004310a0();
@@ -15087,6 +15334,7 @@ struct Target
 
 extern Target DAT_0106e084;
 
+// pdb: `dynamic atexit destructor for 'uDecalCountBudgetCapInterior'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87b50()
 {
     DAT_0106e084.FUN_004310a0();
@@ -15109,6 +15357,7 @@ struct Target
 
 extern Target DAT_0106e240;
 
+// pdb: `dynamic atexit destructor for 'fMsRefCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87b70()
 {
     DAT_0106e240.FUN_004310a0();
@@ -15136,6 +15385,7 @@ struct Target
 
 extern Target DAT_0106e0f4;
 
+// pdb: `dynamic atexit destructor for 'fMsActorRefCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87b80()
 {
     DAT_0106e0f4.FUN_004310a0();
@@ -15283,6 +15533,7 @@ struct Obj {
 extern Obj DAT_0107a3e8;
 }
 
+// pdb: `dynamic atexit destructor for 'bUseHardDriveCache'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97180() {
     f3_00d97180::DAT_0107a3e8.FUN_004310a0();
 }
@@ -15304,6 +15555,7 @@ struct Target
 
 extern Target DAT_0106e1a8;
 
+// pdb: `dynamic atexit destructor for 'fMsActiveRefCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87b90()
 {
     DAT_0106e1a8.FUN_004310a0();
@@ -15321,6 +15573,7 @@ struct Target
 
 extern Target DAT_0106e034;
 
+// pdb: `dynamic atexit destructor for 'fMsAnimatedObjectsCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87ba0()
 {
     DAT_0106e034.FUN_004310a0();
@@ -15338,6 +15591,7 @@ struct Target
 
 extern Target DAT_0106e0cc;
 
+// pdb: `dynamic atexit destructor for 'fMsParticlesCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87bb0()
 {
     DAT_0106e0cc.FUN_004310a0();
@@ -15355,6 +15609,7 @@ struct Target
 
 extern Target DAT_0106e078;
 
+// pdb: `dynamic atexit destructor for 'fMsEmittersCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87bc0()
 {
     DAT_0106e078.FUN_004310a0();
@@ -15372,6 +15627,7 @@ struct Target
 
 extern Target DAT_0106e2b0;
 
+// pdb: `dynamic atexit destructor for 'fMsGeometryCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87bd0()
 {
     DAT_0106e2b0.FUN_004310a0();
@@ -15396,6 +15652,7 @@ struct Target
 
 extern Target DAT_0106e2dc;
 
+// pdb: `dynamic atexit destructor for 'fMsWaterCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87bf0()
 {
     DAT_0106e2dc.FUN_004310a0();
@@ -15413,6 +15670,7 @@ struct Target
 
 extern Target DAT_0106e0c0;
 
+// pdb: `dynamic atexit destructor for 'fMsLightExcessGeometryBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c00()
 {
     DAT_0106e0c0.FUN_004310a0();
@@ -15428,6 +15686,7 @@ struct Obj {
 extern Obj DAT_010f2e70;
 }
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::bRigidBodyController'' | bhkRagdollController.obj | tesv_win, udata, high
 void __cdecl FUN_00d98ca0() {
     f3_00d98ca0::DAT_010f2e70.FUN_004310a0();
 }
@@ -15442,6 +15701,7 @@ struct Target
 
 extern Target DAT_0106e098;
 
+// pdb: `dynamic atexit destructor for 'fMsLightCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c10()
 {
     DAT_0106e098.FUN_004310a0();
@@ -15459,6 +15719,7 @@ struct Target
 
 extern Target DAT_0106e28c;
 
+// pdb: `dynamic atexit destructor for 'fMsDecalCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c20()
 {
     DAT_0106e28c.FUN_004310a0();
@@ -15476,6 +15737,7 @@ struct Target
 
 extern Target DAT_0106e1f8;
 
+// pdb: `dynamic atexit destructor for 'fMsHavokTriCountBudgetCap'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c30()
 {
     DAT_0106e1f8.FUN_004310a0();
@@ -15493,6 +15755,7 @@ struct Target
 
 extern Target DAT_0106e204;
 
+// pdb: `dynamic atexit destructor for 'fMaxMsUsagePerFrame'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c40()
 {
     DAT_0106e204.FUN_004310a0();
@@ -15510,6 +15773,7 @@ struct Target
 
 extern Target DAT_0106e178;
 
+// pdb: `dynamic atexit destructor for 'uWastelandLODBudgetAdjustment'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c60()
 {
     DAT_0106e178.FUN_004310a0();
@@ -15527,6 +15791,7 @@ struct Target
 
 extern Target DAT_0106e280;
 
+// pdb: `dynamic atexit destructor for 'uCityLODBudgetAdjustment'' | BGSSceneInfo.obj | tesv_win, udata, high
 void __cdecl FUN_00d87c70()
 {
     DAT_0106e280.FUN_004310a0();
@@ -15568,6 +15833,7 @@ struct Target
 
 extern Target DAT_0106e530;
 
+// pdb: `dynamic atexit destructor for 'bLoadHelmetsInBackground'' | BipedAnim.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d87d00()
 {
     DAT_0106e530.FUN_004310a0();
@@ -15585,6 +15851,7 @@ struct Target
 
 extern Target DAT_0106e594;
 
+// pdb: `dynamic atexit destructor for 'messageHandler'' | Defines.obj | fnv360_0822_retail, caller_sim, high
 void __cdecl FUN_00d87d20()
 {
     DAT_0106e594.FUN_00aa5c70();
@@ -15602,6 +15869,7 @@ struct Target
 
 extern Target DAT_0106e8b4;
 
+// pdb: `dynamic atexit destructor for 'springDamp'' | BGSRagdoll.obj | tesv_win, udata, high
 void __cdecl FUN_00d87d30()
 {
     DAT_0106e8b4.FUN_004310a0();
@@ -15619,6 +15887,7 @@ struct Target
 
 extern Target DAT_0106e8d8;
 
+// pdb: `dynamic atexit destructor for 'springElast'' | BGSRagdoll.obj | tesv_win, udata, high
 void __cdecl FUN_00d87d40()
 {
     DAT_0106e8d8.FUN_004310a0();
@@ -15636,6 +15905,7 @@ struct Target
 
 extern Target DAT_0106e8c0;
 
+// pdb: `dynamic atexit destructor for 'objectDamp'' | BGSRagdoll.obj | tesv_win, udata, high
 void __cdecl FUN_00d87d50()
 {
     DAT_0106e8c0.FUN_004310a0();
@@ -15724,6 +15994,7 @@ void __cdecl FUN_00d8aea0() {
 // @f3 0x00d98c50 (community match, verified in this file)
 struct StaticCleanupA302 { void FUN_004310a0(); };
 extern StaticCleanupA302 DAT_010f2e34;
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fMaxStepVertError'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d98c50() { DAT_010f2e34.FUN_004310a0(); }
 
 // @f3 0x00d88460 (community match, verified in this file)
@@ -15748,6 +16019,7 @@ void __cdecl FUN_00d8b090() {
 // @f3 0x00d97320 (community match, verified in this file)
 struct StaticCleanupA303 { void FUN_004310a0(); };
 extern StaticCleanupA303 DAT_0107a308;
+// pdb: `dynamic atexit destructor for 'sArchiveInvalidationFile'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97320() { DAT_0107a308.FUN_004310a0(); }
 
 // @f3 0x00d8bd80 (community match, verified in this file)
@@ -16061,6 +16333,7 @@ struct CleanupB_00d95540 {
     void FUN_006c8220();
 };
 extern CleanupB_00d95540 DAT_01075804;
+// pdb: `dynamic atexit destructor for 'BGSTerrainChunk::ChunksLoaded'' | BGSTerrainChunk.obj | fnv360_0822_retail, objrun_prop, low
 void FUN_00d95540()
 {
     DAT_01075804.FUN_006c8220();
@@ -16086,6 +16359,7 @@ struct Obj {
 extern Obj DAT_010f2a8c;
 }
 
+// pdb: `dynamic atexit destructor for 'iHWThread1'' | bhkWorld.obj | tesv_win, udata, high
 void __cdecl FUN_00d988f0() {
     f3_00d988f0::DAT_010f2a8c.FUN_004310a0();
 }
@@ -16146,6 +16420,7 @@ struct Target
 
 extern Target DAT_0106f850;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bIgnoreResolutionCheck'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d87e40()
 {
     DAT_0106f850.FUN_004310a0();
@@ -16197,6 +16472,7 @@ struct Target
 
 extern Target DAT_0106fb08;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::iNPatchNormalOrder'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d87e90()
 {
     DAT_0106fb08.FUN_004310a0();
@@ -16272,6 +16548,7 @@ struct Target
 
 extern Target DAT_0106f67c;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDoAmbientPass'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d87ed0()
 {
     DAT_0106f67c.FUN_004310a0();
@@ -16301,6 +16578,7 @@ struct Target
 
 extern Target DAT_0106fa60;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDoDiffusePass'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d87ee0()
 {
     DAT_0106fa60.FUN_004310a0();
@@ -16335,6 +16613,7 @@ struct Target
 
 extern Target DAT_0106f6e8;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDoTallGrassEffect'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d87f40()
 {
     DAT_0106f6e8.FUN_004310a0();
@@ -16614,6 +16893,7 @@ namespace close_00d97830 {
 struct Object { void FUN_006c8220(); };
 extern Object DAT_0107b5ec;
 }
+// pdb: `dynamic atexit destructor for 'TempRefList'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d97830()
 {
     close_00d97830::DAT_0107b5ec.FUN_006c8220();
@@ -16697,6 +16977,7 @@ struct Target
 
 extern Target DAT_0106fc28;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::fIniGetHitShader_HitTexOffset'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88000()
 {
     DAT_0106fc28.FUN_004310a0();
@@ -16714,6 +16995,7 @@ struct Target
 
 extern Target DAT_0106f874;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::fIniGetHitShader_BlockedTexOffset'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88010()
 {
     DAT_0106f874.FUN_004310a0();
@@ -16731,6 +17013,7 @@ struct Target
 
 extern Target DAT_0106f8c8;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bIniAllow20HairShader'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88030()
 {
     DAT_0106f8c8.FUN_004310a0();
@@ -16758,6 +17041,7 @@ struct Target
 
 extern Target DAT_0106f660;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bAllow30Shaders'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88040()
 {
     DAT_0106f660.FUN_004310a0();
@@ -16794,6 +17078,7 @@ struct Target
 
 extern Target DAT_0106fa00;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bForce1XShaders'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88050()
 {
     DAT_0106fa00.FUN_004310a0();
@@ -16811,6 +17096,7 @@ struct Target
 
 extern Target DAT_0106fa6c;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bStaticMenuBG'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88070()
 {
     DAT_0106fa6c.FUN_004310a0();
@@ -16828,6 +17114,7 @@ struct Target
 
 extern Target DAT_0106fb8c;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bReportBadTangentSpace'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88080()
 {
     DAT_0106fb8c.FUN_004310a0();
@@ -16845,6 +17132,7 @@ struct Target
 
 extern Target DAT_0106f748;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bEquippedTorchesCastShadows'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88090()
 {
     DAT_0106f748.FUN_004310a0();
@@ -16899,6 +17187,7 @@ struct Obj {
 extern Obj DAT_0107c064;
 }
 
+// pdb: `dynamic atexit destructor for 'bRunMiddleLowLevelProcess'' | ProcessLists.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97d00() {
     f3_00d97d00::DAT_0107c064.FUN_004310a0();
 }
@@ -16925,6 +17214,7 @@ struct CleanupB_00d97ef0 {
     void FUN_004310a0();
 };
 extern CleanupB_00d97ef0 DAT_0108cc08;
+// pdb: `dynamic atexit destructor for 'fDebugCombatTextSize'' | CombatUtilities.obj | tesv_win, objrun, medium
 void FUN_00d97ef0()
 {
     DAT_0108cc08.FUN_004310a0();
@@ -17164,6 +17454,7 @@ void __cdecl FUN_00d8fa70() { DAT_00f61fb8.FUN_00403170(); }
 namespace Cleanup_00d95360 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0107486c;
+// pdb: `anonymous namespace'::`dynamic atexit destructor for 'bUsePathSmoothing'' | BSPathBuilder.obj | tesv_win, udata, high
 void FUN_00d95360() { DAT_0107486c.FUN_004310a0(); }
 }
 
@@ -17221,6 +17512,7 @@ struct Obj {
 extern Obj DAT_01072470;
 }
 
+// pdb: `dynamic atexit destructor for 'TESResponse::sFileTypeLTF'' | TESResponse.obj | tesv_win, udata, high
 void __cdecl FUN_00d8a190() {
     f3_00d8a190::DAT_01072470.FUN_004310a0();
 }
@@ -17230,6 +17522,7 @@ struct CleanupB_00d97300 {
     void FUN_004310a0();
 };
 extern CleanupB_00d97300 DAT_0107a15c;
+// pdb: `dynamic atexit destructor for 'iRetainFilenameStringTable'' | Main.obj | tesv_win, udata, high
 void FUN_00d97300()
 {
     DAT_0107a15c.FUN_004310a0();
@@ -17480,6 +17773,7 @@ struct Target
 
 extern Target DAT_0106f7b8;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::fShadowLODMinStartFade'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88290()
 {
     DAT_0106f7b8.FUN_004310a0();
@@ -17628,6 +17922,7 @@ struct Target
 
 extern Target DAT_0106faa4;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::fSkinnedDecalLODStart'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88340()
 {
     DAT_0106faa4.FUN_004310a0();
@@ -17746,6 +18041,7 @@ namespace close_00d97020 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_0107a480;
 }
+// pdb: `dynamic atexit destructor for 'sTestFile6'' | Main.obj | tesv_win, udata, high
 void FUN_00d97020()
 {
     close_00d97020::DAT_0107a480.FUN_004310a0();
@@ -17807,6 +18103,7 @@ struct Target
 
 extern Target DAT_0106f820;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::fSkinnedDecalLODStartFade'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88350()
 {
     DAT_0106f820.FUN_004310a0();
@@ -17836,6 +18133,7 @@ struct Target
 
 extern Target DAT_0106f634;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bMTRendering'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88370()
 {
     DAT_0106f634.FUN_004310a0();
@@ -17853,6 +18151,7 @@ struct Target
 
 extern Target DAT_0106fc80;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bLODNoiseAniso'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88380()
 {
     DAT_0106fc80.FUN_004310a0();
@@ -17870,6 +18169,7 @@ struct Target
 
 extern Target DAT_0106fb80;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bActorSelfShadowing'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d883b0()
 {
     DAT_0106fb80.FUN_004310a0();
@@ -17887,6 +18187,7 @@ struct Target
 
 extern Target DAT_0106f700;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bShadowsOnGrass'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d883c0()
 {
     DAT_0106f700.FUN_004310a0();
@@ -17899,6 +18200,7 @@ struct CleanupB_00d9a580 {
     void FUN_00bfcd20();
 };
 extern CleanupB_00d9a580 DAT_0106a794;
+// pdb: `dynamic atexit destructor for 'Menu::XMLHash'' | Menu.obj | fnv360_0822_retail, udata, high
 void FUN_00d9a580()
 {
     DAT_0106a794.FUN_00bfcd20();
@@ -18028,6 +18330,7 @@ struct Target
 
 extern Target DAT_0106f73c;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bTintMipMaps'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d884a0()
 {
     DAT_0106f73c.FUN_004310a0();
@@ -18062,6 +18365,7 @@ struct Target
 
 extern Target DAT_0106f644;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDynamicWindowReflections'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d884e0()
 {
     DAT_0106f644.FUN_004310a0();
@@ -18135,6 +18439,7 @@ void __cdecl FUN_00d88510()
 // @f3 0x00d9a460 (community match, verified in this file)
 struct StaticCleanupA327 { void FUN_00beb070(); };
 extern StaticCleanupA327 DAT_011796c4;
+// pdb: `Tile::GetValue'::`2'::`dynamic atexit destructor for 'compareVal'' | Tile.obj | fnv360_0721_retail, objrun, medium
 void __cdecl FUN_00d9a460() { DAT_011796c4.FUN_00beb070(); }
 
 // @f3 0x00d88530 (community match, verified in this file)
@@ -18147,6 +18452,7 @@ struct Target
 
 extern Target DAT_0106f9f4;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::bDrawShadows'' | BSRenderer.obj | tesv_win, udata, high
 void __cdecl FUN_00d88530()
 {
     DAT_0106f9f4.FUN_0043ba00();
@@ -18342,6 +18648,7 @@ void FUN_00d94030()
 namespace Cleanup_00d97bf0 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0107bc00;
+// pdb: `dynamic atexit destructor for 'bIronSightsZoomEnable'' | PlayerCharacter_Combat.obj | tesv_win, udata, high
 void FUN_00d97bf0() { DAT_0107bc00.FUN_004310a0(); }
 }
 
@@ -18566,6 +18873,7 @@ struct Target
 
 extern Target DAT_0106feb0;
 
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::StaticSkyReflectiveObjects'' | TESWater.obj | fnv360_1110_retail, udata, high
 void __cdecl FUN_00d88b40()
 {
     DAT_0106feb0.FUN_00bd12d0();
@@ -18583,6 +18891,7 @@ struct Target
 
 extern Target DAT_0106ff10;
 
+// pdb: `dynamic atexit destructor for 'PlaceableWaterGroup::DynamicSkyReflectiveObjects'' | TESWater.obj | fnv360_1110_retail, udata, high
 void __cdecl FUN_00d88b50()
 {
     DAT_0106ff10.FUN_00bd12d0();
@@ -18627,6 +18936,7 @@ struct Target
 
 extern Target DAT_0106fdfc;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::fSurfaceTileSize'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88b80()
 {
     DAT_0106fdfc.FUN_004310a0();
@@ -18644,6 +18954,7 @@ struct Target
 
 extern Target DAT_0106fdc8;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bUseWater'' | TESWater1.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88ba0()
 {
     DAT_0106fdc8.FUN_004310a0();
@@ -18661,6 +18972,7 @@ struct Target
 
 extern Target DAT_0106fe08;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bUseWaterShader'' | TESWater1.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88bb0()
 {
     DAT_0106fe08.FUN_004310a0();
@@ -18678,6 +18990,7 @@ struct Target
 
 extern Target DAT_0106fe30;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bUseWaterHiRes'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88bc0()
 {
     DAT_0106fe30.FUN_004310a0();
@@ -18695,6 +19008,7 @@ struct Target
 
 extern Target DAT_0106fdf0;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bUseWaterHDR'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88bd0()
 {
     DAT_0106fdf0.FUN_004310a0();
@@ -18872,6 +19186,7 @@ struct Target
 
 extern Target DAT_0106fd94;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bForceLowDetailReflections'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88c70()
 {
     DAT_0106fd94.FUN_004310a0();
@@ -18935,6 +19250,7 @@ struct Target
 
 extern Target DAT_0106fd68;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::fWaterGroupHeightRange'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88cb0()
 {
     DAT_0106fd68.FUN_004310a0();
@@ -18952,6 +19268,7 @@ struct Target
 
 extern Target DAT_0106fde4;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::uMaxInteriorWaterReflections'' | TESWater1.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88cd0()
 {
     DAT_0106fde4.FUN_004310a0();
@@ -18969,6 +19286,7 @@ struct Target
 
 extern Target DAT_0106fda4;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::fExteriorWaterReflectionThreshold'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88ce0()
 {
     DAT_0106fda4.FUN_004310a0();
@@ -18986,6 +19304,7 @@ struct Target
 
 extern Target DAT_0106ff1c;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::fInteriorWaterReflectionThreshold'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88cf0()
 {
     DAT_0106ff1c.FUN_004310a0();
@@ -19015,6 +19334,7 @@ struct Target
 
 extern Target DAT_0106fdb0;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bUseWaterDisplacements'' | TESWater1.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88d00()
 {
     DAT_0106fdb0.FUN_0043ba00();
@@ -19032,6 +19352,7 @@ struct Target
 
 extern Target DAT_0106ff60;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bUseBulletWaterDisplacements'' | TESWater1.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88d10()
 {
     DAT_0106ff60.FUN_004310a0();
@@ -19049,6 +19370,7 @@ struct Target
 
 extern Target DAT_0106ff34;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::bUseWaterLOD'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88d20()
 {
     DAT_0106ff34.FUN_004310a0();
@@ -19066,6 +19388,7 @@ struct Target
 
 extern Target DAT_0106fd88;
 
+// pdb: `dynamic atexit destructor for 'TESWaterSystem::iAnimFPS'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88d30()
 {
     DAT_0106fd88.FUN_004310a0();
@@ -19171,6 +19494,7 @@ namespace f3m_00d83c10 {
 
 void __cdecl FUN_00d994f0();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pAttenuationZ'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83c10() {
     atexit(FUN_00d994f0);
 }
@@ -19239,6 +19563,7 @@ struct Target
 
 extern Target DAT_0106ff6c;
 
+// pdb: `dynamic atexit destructor for 'sSurfaceTexture'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88da0()
 {
     DAT_0106ff6c.FUN_004310a0();
@@ -19256,6 +19581,7 @@ struct Target
 
 extern Target DAT_0106fef0;
 
+// pdb: `dynamic atexit destructor for 'fRefractionWaterPlaneBias'' | TESWater1.obj | tesv_win, udata, high
 void __cdecl FUN_00d88db0()
 {
     DAT_0106fef0.FUN_004310a0();
@@ -19307,6 +19633,7 @@ struct Target
 
 extern Target DAT_01070338;
 
+// pdb: `dynamic atexit destructor for 'BGSTalkingActivator::RadioStationList'' | BGSTalkingActivator.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00d88e40()
 {
     DAT_01070338.FUN_006c8220();
@@ -19547,6 +19874,7 @@ struct Target
 
 extern Target DAT_01070c40;
 
+// pdb: `dynamic atexit destructor for 'TESImageSpaceModifier::sDefault'' | TESImageSpaceModifier.obj | fnv360_0822_retail, caller_sim, medium
 void __cdecl FUN_00d89b50()
 {
     DAT_01070c40.FUN_004c8c50();
@@ -19581,6 +19909,7 @@ struct Target
 
 extern Target DAT_0107143c;
 
+// pdb: `dynamic atexit destructor for 'bCurrentCellOnly'' | TESLand.obj | tesv_win, udata, high
 void __cdecl FUN_00d89bb0()
 {
     DAT_0107143c.FUN_004310a0();
@@ -20017,6 +20346,7 @@ struct Target
 
 extern Target DAT_01071884;
 
+// pdb: `dynamic atexit destructor for 'TESWaterForm::iWaterNoiseResolution'' | TESWaterForm.obj | tesv_win, udata, high
 void __cdecl FUN_00d89ea0()
 {
     DAT_01071884.FUN_004310a0();
@@ -20034,6 +20364,7 @@ struct Target
 
 extern Target DAT_01071bac;
 
+// pdb: `dynamic atexit destructor for 'Script::ReferencesToDisable'' | TESScript.obj | fnv360_0721_retail, udata, high
 void __cdecl FUN_00d89f80()
 {
     DAT_01071bac.FUN_006c8220();
@@ -20179,6 +20510,7 @@ struct Target
 
 extern Target DAT_01071bc8;
 
+// pdb: `dynamic atexit destructor for 'Script::ReferencesToDelete'' | TESScript.obj | fnv360_0721_retail, udata, high
 void __cdecl FUN_00d89fa0()
 {
     DAT_01071bc8.FUN_006c8220();
@@ -20206,6 +20538,7 @@ struct Target
 
 extern Target DAT_01071bf0;
 
+// pdb: `dynamic atexit destructor for 'Script::ReferencesToFadeDisable'' | TESScript.obj | fnv360_0721_retail, udata, high
 void __cdecl FUN_00d89fb0()
 {
     DAT_01071bf0.FUN_006c8220();
@@ -20223,6 +20556,7 @@ struct Target
 
 extern Target DAT_01071b84;
 
+// pdb: `dynamic atexit destructor for 'fQuestScriptDelayTime'' | TESScript.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d89fc0()
 {
     DAT_01071b84.FUN_004310a0();
@@ -20264,6 +20598,7 @@ struct Target
 
 extern Target DAT_0107278c;
 
+// pdb: `dynamic atexit destructor for 'fLandFriction'' | CellMopp.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a330()
 {
     DAT_0107278c.FUN_004310a0();
@@ -20538,6 +20873,7 @@ struct CleanupB_00d98210 {
     void FUN_007f98b0();
 };
 extern CleanupB_00d98210 DAT_0108eb10;
+// pdb: `BSDiscBootSystemUtility::QInstance'::`2'::`dynamic atexit destructor for 'stdiscBootSystemUtility'' | BSDiscBootSystemUtility_Xenon.obj | fnv360_0822_retail, objopen_prop, low
 void FUN_00d98210()
 {
     DAT_0108eb10.FUN_007f98b0();
@@ -20707,6 +21043,7 @@ void FUN_00d8bf80()
 namespace f3m_00d97060 {
 struct CleanupObject { void FUN_004310a0(); };
 extern CleanupObject DAT_0107a3c8;
+// pdb: `dynamic atexit destructor for 'sTestFile10'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97060() { DAT_0107a3c8.FUN_004310a0(); }
 }   // namespace f3m_00d97060
 
@@ -21177,6 +21514,7 @@ struct CleanupB_00d97ed0 {
     void FUN_004310a0();
 };
 extern CleanupB_00d97ed0 DAT_0108cc28;
+// pdb: `dynamic atexit destructor for 'fLowPerfCombatantVoiceDistance'' | CombatUtilities.obj | tesv_win, udata, high
 void FUN_00d97ed0()
 {
     DAT_0108cc28.FUN_004310a0();
@@ -21747,6 +22085,7 @@ namespace close_00d955f0 {
 struct Object { void FUN_004310a0(); };
 extern Object DAT_01075864;
 }
+// pdb: `dynamic atexit destructor for 'bUseDistantObjectBlocks'' | BGSTerrainManager.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: `dynamic atexit destructor for 'bDisplayCloudLOD'')
 void FUN_00d955f0()
 {
     close_00d955f0::DAT_01075864.FUN_004310a0();
@@ -22022,6 +22361,7 @@ struct Target
 
 extern Target DAT_010739e0;
 
+// pdb: `dynamic atexit destructor for 'BSFaceGenImage::bFaceMipMaps'' | BSFaceGenImage.obj | tesv_win, udata, high
 void __cdecl FUN_00d94860()
 {
     DAT_010739e0.FUN_004310a0();
@@ -22107,6 +22447,7 @@ struct Target
 
 extern Target DAT_01073acc;
 
+// pdb: `dynamic atexit destructor for 'BSFaceGenManager::bUseEyeEnvMapping'' | BSFaceGenManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d94900()
 {
     DAT_01073acc.FUN_004310a0();
@@ -22136,6 +22477,7 @@ struct Target
 
 extern Target DAT_01073a14;
 
+// pdb: `dynamic atexit destructor for 'BSFaceGenManager::bUseRaceMorph'' | BSFaceGenManager.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d94910()
 {
     DAT_01073a14.FUN_004310a0();
@@ -22153,6 +22495,7 @@ struct Target
 
 extern Target DAT_01073b0c;
 
+// pdb: `dynamic atexit destructor for 'BSFaceGenManager::bUseCustomizationMorphs'' | BSFaceGenManager.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d94920()
 {
     DAT_01073b0c.FUN_004310a0();
@@ -22170,6 +22513,7 @@ struct Target
 
 extern Target DAT_01073a68;
 
+// pdb: `dynamic atexit destructor for 'BSFaceGenManager::uiNumActorsAllowedToMorph'' | BSFaceGenManager.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d94930()
 {
     DAT_01073a68.FUN_004310a0();
@@ -22187,6 +22531,7 @@ struct Target
 
 extern Target DAT_01073a8c;
 
+// pdb: `dynamic atexit destructor for 'bDebugFaceGenCriticalSection'' | BSFaceGenManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d94950()
 {
     DAT_01073a8c.FUN_004310a0();
@@ -22426,6 +22771,7 @@ struct Target
 
 extern Target DAT_01073e34;
 
+// pdb: `dynamic atexit destructor for 'ActorCause::kCauseList'' | ActorCause.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00d94d70()
 {
     DAT_01073e34.FUN_006c8220();
@@ -22460,6 +22806,7 @@ struct Target
 
 extern Target DAT_01074580;
 
+// pdb: `dynamic atexit destructor for 'bBackgroundNavmeshUpdate'' | NavMeshObstacleManager.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95290()
 {
     DAT_01074580.FUN_004310a0();
@@ -22477,6 +22824,7 @@ struct Target
 
 extern Target DAT_0107465c;
 
+// pdb: `dynamic atexit destructor for 'fObstacleUpdateDeltaWhenMoving'' | NavMeshObstacleManager.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: `dynamic atexit destructor for 'fPOVSmootherAvoidNodeCost'')
 void __cdecl FUN_00d952e0()
 {
     DAT_0107465c.FUN_004310a0();
@@ -22494,6 +22842,7 @@ struct Target
 
 extern Target DAT_010746cc;
 
+// pdb: `dynamic atexit destructor for 'bCutDoors'' | NavMeshObstacleManager.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95300()
 {
     DAT_010746cc.FUN_004310a0();
@@ -22523,6 +22872,7 @@ struct Target
 
 extern Target DAT_010746b4;
 
+// pdb: `dynamic atexit destructor for 'fObstacleUpdateDeltaWhenUnknown'' | NavMeshObstacleManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d95310()
 {
     DAT_010746b4.FUN_004310a0();
@@ -22557,6 +22907,7 @@ struct Target
 
 extern Target DAT_010746e0;
 
+// pdb: `NavMeshObstacleManager::GetInstance'::`2'::`dynamic atexit destructor for 'theManager'' | NavMeshObstacleManager.obj | fnv360_0822_retail, objrun_prop, low
 void __cdecl FUN_00d95330()
 {
     DAT_010746e0.FUN_005e9890();
@@ -22608,6 +22959,7 @@ struct Target
 
 extern Target DAT_0107488c;
 
+// pdb: `anonymous namespace'::`dynamic atexit destructor for 'bRebuildPathIfSmootherFailed'' | BSPathBuilder.obj | tesv_win, udata, high
 void __cdecl FUN_00d95380()
 {
     DAT_0107488c.FUN_004310a0();
@@ -22625,6 +22977,7 @@ struct Target
 
 extern Target DAT_0107487c;
 
+// pdb: `anonymous namespace'::`dynamic atexit destructor for 'bUseRayCasts'' | BSPathBuilder.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d953a0()
 {
     DAT_0107487c.FUN_004310a0();
@@ -22642,6 +22995,7 @@ struct Target
 
 extern Target DAT_010748a4;
 
+// pdb: `anonymous namespace'::`dynamic atexit destructor for 'bUseAlternateSmoothingForPrime'' | BSPathBuilder.obj | tesv_win, udata, high
 void __cdecl FUN_00d953b0()
 {
     DAT_010748a4.FUN_004310a0();
@@ -22698,6 +23052,7 @@ extern int DAT_0107a1fc;
 namespace f3m_00d96f90 {
 namespace f3m_00d96f90 {
 void __fastcall FUN_004310a0(void*);
+// pdb: `dynamic atexit destructor for 'bCRTMemoryChecks'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d96f90() {
     FUN_004310a0(&DAT_0107a1fc);
 }
@@ -22904,6 +23259,7 @@ struct Target
 
 extern Target DAT_01075850;
 
+// pdb: `dynamic atexit destructor for 'bUseDistantTrees'' | BGSTerrainManager.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95600()
 {
     DAT_01075850.FUN_004310a0();
@@ -23152,6 +23508,7 @@ void __cdecl FUN_00d956d0()
 // @f3 0x00d97ee0 (community match, verified in this file)
 struct StaticCleanupA368 { void FUN_004310a0(); };
 extern StaticCleanupA368 DAT_0108cbd0;
+// pdb: `dynamic atexit destructor for 'bDebugCombatTextColorDark'' | CombatUtilities.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97ee0() { DAT_0108cbd0.FUN_004310a0(); }
 
 // @f3 0x00d956f0 (community match, verified in this file)
@@ -23164,6 +23521,7 @@ struct Target
 
 extern Target DAT_01075914;
 
+// pdb: `dynamic atexit destructor for 'bKeepLowDetailTerrain'' | BGSTerrainNode.obj | tesv_win, udata, high
 void __cdecl FUN_00d956f0()
 {
     DAT_01075914.FUN_004310a0();
@@ -23261,6 +23619,7 @@ struct Target
 
 extern Target DAT_01075bd4;
 
+// pdb: `dynamic atexit destructor for 'InterfaceManager::xActiveListBoxes'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d957c0()
 {
     DAT_01075bd4.FUN_006c8220();
@@ -23382,6 +23741,7 @@ void __cdecl FUN_00d8c940() {
 namespace f3m_00d96650 {
 struct CleanupObject { void FUN_004310a0(); };
 extern CleanupObject DAT_01077948;
+// pdb: `dynamic atexit destructor for 'fTermScreenLightRadius'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d96650() { DAT_01077948.FUN_004310a0(); }
 }   // namespace f3m_00d96650
 
@@ -23395,6 +23755,7 @@ struct Target
 
 extern Target DAT_01075bdc;
 
+// pdb: `dynamic atexit destructor for 'iXenonMenuStickDeadZone'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95820()
 {
     DAT_01075bdc.FUN_004310a0();
@@ -23412,6 +23773,7 @@ struct Target
 
 extern Target DAT_01075bb0;
 
+// pdb: `dynamic atexit destructor for 'fXenonMenuStickSpeed'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95830()
 {
     DAT_01075bb0.FUN_004310a0();
@@ -23429,6 +23791,7 @@ struct Target
 
 extern Target DAT_01075b44;
 
+// pdb: `dynamic atexit destructor for 'fXenonMenuDpadRepeatSpeed'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95840()
 {
     DAT_01075b44.FUN_004310a0();
@@ -23446,6 +23809,7 @@ struct Target
 
 extern Target DAT_01075bf8;
 
+// pdb: `dynamic atexit destructor for 'fActivatePickSphereRadius'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95850()
 {
     DAT_01075bf8.FUN_004310a0();
@@ -23463,6 +23827,7 @@ struct Target
 
 extern Target DAT_01075b98;
 
+// pdb: `dynamic atexit destructor for 'bActivatePickUseGamebryoPick'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95860()
 {
     DAT_01075b98.FUN_004310a0();
@@ -23480,6 +23845,7 @@ struct Target
 
 extern Target DAT_01075c04;
 
+// pdb: `dynamic atexit destructor for 'fKeyRepeatInterval'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95880()
 {
     DAT_01075c04.FUN_004310a0();
@@ -23512,6 +23878,7 @@ struct Target
 
 extern Target DAT_01075c5c;
 
+// pdb: `dynamic atexit destructor for 'fMenuPlayerLightAmbientRed'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d958a0()
 {
     DAT_01075c5c.FUN_004310a0();
@@ -23529,6 +23896,7 @@ struct Target
 
 extern Target DAT_01075bec;
 
+// pdb: `dynamic atexit destructor for 'fMenuPlayerLightAmbientGreen'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d958b0()
 {
     DAT_01075bec.FUN_004310a0();
@@ -23546,6 +23914,7 @@ struct Target
 
 extern Target DAT_01075ba4;
 
+// pdb: `dynamic atexit destructor for 'fMenuPlayerLightAmbientBlue'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d958c0()
 {
     DAT_01075ba4.FUN_004310a0();
@@ -23563,6 +23932,7 @@ struct Target
 
 extern Target DAT_01075c9c;
 
+// pdb: `dynamic atexit destructor for 'fMenuPlayerLightDiffuseRed'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d958d0()
 {
     DAT_01075c9c.FUN_004310a0();
@@ -23580,6 +23950,7 @@ struct Target
 
 extern Target DAT_01075b5c;
 
+// pdb: `dynamic atexit destructor for 'fMenuPlayerLightDiffuseBlue'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d958f0()
 {
     DAT_01075b5c.FUN_004310a0();
@@ -23607,6 +23978,7 @@ struct Target
 
 extern Target DAT_01075c68;
 
+// pdb: `dynamic atexit destructor for 'iSafeZoneY'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95910()
 {
     DAT_01075c68.FUN_004310a0();
@@ -23624,6 +23996,7 @@ struct Target
 
 extern Target DAT_01075c38;
 
+// pdb: `dynamic atexit destructor for 'iSafeZoneYWide'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95930()
 {
     DAT_01075c38.FUN_004310a0();
@@ -23646,6 +24019,7 @@ struct Target
 
 extern Target DAT_01075c1c;
 
+// pdb: `dynamic atexit destructor for 'bCreateOptimizedXMLArchive'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95950()
 {
     DAT_01075c1c.FUN_004310a0();
@@ -23663,6 +24037,7 @@ struct Target
 
 extern Target DAT_01075b50;
 
+// pdb: `dynamic atexit destructor for 'bUseImageSpaceMenuFX'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d95960()
 {
     DAT_01075b50.FUN_004310a0();
@@ -23722,6 +24097,7 @@ struct Target
 
 extern Target DAT_01075d1c;
 
+// pdb: `dynamic atexit destructor for 'bEnableMenuRenderDebugMode'' | InterfaceManager.obj | fnv360_0721_retail, objrun_open, low
 void __cdecl FUN_00d959a0()
 {
     DAT_01075d1c.FUN_004310a0();
@@ -23900,6 +24276,7 @@ struct Target
 
 extern Target DAT_01076218;
 
+// pdb: `dynamic atexit destructor for 'HackingMenu::listSoundsToPlay'' | HackingMenu.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00d95a10()
 {
     DAT_01076218.FUN_0063fda0();
@@ -23917,6 +24294,7 @@ struct Target
 
 extern Target DAT_0107626c;
 
+// pdb: `dynamic atexit destructor for 'fHackingMinSkillEasy'' | HackingMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95a30()
 {
     DAT_0107626c.FUN_004310a0();
@@ -23934,6 +24312,7 @@ struct Target
 
 extern Target DAT_01076280;
 
+// pdb: `dynamic atexit destructor for 'fHackingMinSkillAverage'' | HackingMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95a40()
 {
     DAT_01076280.FUN_004310a0();
@@ -23951,6 +24330,7 @@ struct Target
 
 extern Target DAT_010761f0;
 
+// pdb: `dynamic atexit destructor for 'fHackingMinSkillHard'' | HackingMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95a50()
 {
     DAT_010761f0.FUN_004310a0();
@@ -23982,6 +24362,7 @@ struct Target
 
 extern Target DAT_01076384;
 
+// pdb: `dynamic atexit destructor for 'fXenonMenuStickSpeedPlayerRotMod'' | HUDMainMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95b00()
 {
     DAT_01076384.FUN_004310a0();
@@ -23999,6 +24380,7 @@ struct Target
 
 extern Target DAT_01076330;
 
+// pdb: `dynamic atexit destructor for 'HUDMainMenu::fHUDShakeMult'' | HUDMainMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95b10()
 {
     DAT_01076330.FUN_004310a0();
@@ -24138,6 +24520,7 @@ struct Target
 
 extern Target DAT_01076e60;
 
+// pdb: `dynamic atexit destructor for 'RaceSexMenu::fStartingZoom'' | RaceSexMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95df0()
 {
     DAT_01076e60.FUN_004310a0();
@@ -24155,6 +24538,7 @@ struct Target
 
 extern Target DAT_01076e40;
 
+// pdb: `dynamic atexit destructor for 'fRSMFaceSliderDefaultMin'' | RaceSexMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95e00()
 {
     DAT_01076e40.FUN_004310a0();
@@ -24172,6 +24556,7 @@ struct Target
 
 extern Target DAT_01076e70;
 
+// pdb: `dynamic atexit destructor for 'fRSMFaceSliderDefaultMax'' | RaceSexMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d95e10()
 {
     DAT_01076e70.FUN_004310a0();
@@ -24304,6 +24689,7 @@ void FUN_00d868c0()
 // @f3 0x00d98c80 (community match, verified in this file)
 namespace f3m_00d98c80 {
 extern struct { void FUN_004310a0(); } DAT_010f2e58;
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::uiFeedbackTimeout'' | bhkRagdollController.obj | tesv_win, udata, high
 void __cdecl FUN_00d98c80() { DAT_010f2e58.FUN_004310a0(); }
 }   // namespace f3m_00d98c80
 
@@ -24399,6 +24785,7 @@ struct Target
 
 extern Target DAT_0107738c;
 
+// pdb: `dynamic atexit destructor for 'SurgeryMenu::xLimbWounds'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96120()
 {
     DAT_0107738c.FUN_006c8220();
@@ -24416,6 +24803,7 @@ struct Target
 
 extern Target DAT_010773c0;
 
+// pdb: `dynamic atexit destructor for 'fSurgerySkinScale'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96130()
 {
     DAT_010773c0.FUN_004310a0();
@@ -24433,6 +24821,7 @@ struct Target
 
 extern Target DAT_010773ac;
 
+// pdb: `dynamic atexit destructor for 'fSurgerySkinZoom'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96140()
 {
     DAT_010773ac.FUN_004310a0();
@@ -24450,6 +24839,7 @@ struct Target
 
 extern Target DAT_01077350;
 
+// pdb: `dynamic atexit destructor for 'fSurgerySkinHPos'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96150()
 {
     DAT_01077350.FUN_004310a0();
@@ -24467,6 +24857,7 @@ struct Target
 
 extern Target DAT_01077378;
 
+// pdb: `dynamic atexit destructor for 'fSurgerySkinVPos'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96160()
 {
     DAT_01077378.FUN_004310a0();
@@ -24484,6 +24875,7 @@ struct Target
 
 extern Target DAT_0107730c;
 
+// pdb: `dynamic atexit destructor for 'fSurgeryPlayerZoom'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96170()
 {
     DAT_0107730c.FUN_004310a0();
@@ -24501,6 +24893,7 @@ struct Target
 
 extern Target DAT_01077338;
 
+// pdb: `dynamic atexit destructor for 'fSurgeryPlayerDefaultVPos'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96190()
 {
     DAT_01077338.FUN_004310a0();
@@ -24518,6 +24911,7 @@ struct Target
 
 extern Target DAT_01077344;
 
+// pdb: `dynamic atexit destructor for 'fSurgeryPlayerDefaultScale'' | SurgeryMenu.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d961a0()
 {
     DAT_01077344.FUN_004310a0();
@@ -24552,6 +24946,7 @@ struct Target
 
 extern Target DAT_0107748c;
 
+// pdb: `dynamic atexit destructor for 'VATSMenu::Destructibles'' | VATSMenu.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00d96210()
 {
     DAT_0107748c.FUN_006c8220();
@@ -25092,6 +25487,7 @@ void __cdecl FUN_00d8d0f0() { DAT_00f60050.FUN_00403170(); }
 // @f3 0x00d97980 (community match, verified in this file)
 struct StaticCleanupA384 { void FUN_004310a0(); };
 extern StaticCleanupA384 DAT_0107bc30;
+// pdb: `dynamic atexit destructor for 'bInstantLevelUp'' | PlayerCharacter.obj | tesv_win, udata, high
 void __cdecl FUN_00d97980() { DAT_0107bc30.FUN_004310a0(); }
 
 // @f3 0x00d8fa20 (community match, verified in this file)
@@ -25295,6 +25691,7 @@ void __cdecl FUN_00d96570()
 namespace f3m_00d979d0 {
 struct CleanupObject { void FUN_004310a0(); };
 extern CleanupObject DAT_0107bcac;
+// pdb: `dynamic atexit destructor for 'bTrackProgress'' | PlayerCharacter.obj | tesv_win, udata, high
 void __cdecl FUN_00d979d0() { DAT_0107bcac.FUN_004310a0(); }
 }   // namespace f3m_00d979d0
 
@@ -25342,6 +25739,7 @@ struct Target
 
 extern Target DAT_01077978;
 
+// pdb: `dynamic atexit destructor for 'fRenderedTerminalScanlineScale'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d965e0()
 {
     DAT_01077978.FUN_004310a0();
@@ -25366,6 +25764,7 @@ struct Target
 
 extern Target DAT_01077960;
 
+// pdb: `dynamic atexit destructor for 'fRenderedTerminalZoom'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d965f0()
 {
     DAT_01077960.FUN_004310a0();
@@ -25383,6 +25782,7 @@ struct Target
 
 extern Target DAT_01077934;
 
+// pdb: `dynamic atexit destructor for 'fRenderedTerminalHPos'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d96600()
 {
     DAT_01077934.FUN_004310a0();
@@ -25400,6 +25800,7 @@ struct Target
 
 extern Target DAT_01077928;
 
+// pdb: `dynamic atexit destructor for 'bUseRenderedTerminals'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d96630()
 {
     DAT_01077928.FUN_004310a0();
@@ -25417,6 +25818,7 @@ struct Target
 
 extern Target DAT_01077954;
 
+// pdb: `dynamic atexit destructor for 'fTermScreenLightBaseIntensity'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d96640()
 {
     DAT_01077954.FUN_004310a0();
@@ -25434,6 +25836,7 @@ struct Target
 
 extern Target DAT_0107796c;
 
+// pdb: `dynamic atexit destructor for 'fTermScreenLightColorG'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d96670()
 {
     DAT_0107796c.FUN_004310a0();
@@ -25451,6 +25854,7 @@ struct Target
 
 extern Target DAT_01077900;
 
+// pdb: `dynamic atexit destructor for 'fTermScreenLightColorB'' | FORenderedTerminal.obj | fnv360_0721_beta, objrun_open, low
 void __cdecl FUN_00d96680()
 {
     DAT_01077900.FUN_004310a0();
@@ -25945,6 +26349,7 @@ struct Target
 
 extern Target DAT_010792e8;
 
+// pdb: `dynamic atexit destructor for 'FalloutRadio::ActiveStationList'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d968c0()
 {
     DAT_010792e8.FUN_006c8220();
@@ -25962,6 +26367,7 @@ struct Target
 
 extern Target DAT_0107931c;
 
+// pdb: `dynamic atexit destructor for 'FalloutRadio::ActiveRadioList'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d968d0()
 {
     DAT_0107931c.FUN_006c8220();
@@ -26001,6 +26407,7 @@ struct Target
 
 extern Target DAT_01079328;
 
+// pdb: `dynamic atexit destructor for 'FalloutRadio::DiscoveredStationList'' | FalloutRadio.obj | fnv360_0721_beta, udata, high
 void __cdecl FUN_00d968e0()
 {
     DAT_01079328.FUN_006c8220();
@@ -26018,6 +26425,7 @@ struct Target
 
 extern Target DAT_0107934c;
 
+// pdb: `dynamic atexit destructor for 'iRadioUpdateInterval'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d968f0()
 {
     DAT_0107934c.FUN_004310a0();
@@ -26035,6 +26443,7 @@ struct Target
 
 extern Target DAT_0107938c;
 
+// pdb: `dynamic atexit destructor for 'iRadioStationTimeout'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96900()
 {
     DAT_0107938c.FUN_004310a0();
@@ -26052,6 +26461,7 @@ struct Target
 
 extern Target DAT_01079310;
 
+// pdb: `dynamic atexit destructor for 'fRadioStaticAtOuterRadiusPct'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96910()
 {
     DAT_01079310.FUN_004310a0();
@@ -26069,6 +26479,7 @@ struct Target
 
 extern Target DAT_01079330;
 
+// pdb: `dynamic atexit destructor for 'fRadioDialogMute'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96920()
 {
     DAT_01079330.FUN_004310a0();
@@ -26086,6 +26497,7 @@ struct Target
 
 extern Target DAT_0107933c;
 
+// pdb: `dynamic atexit destructor for 'fCreatureRadioMin'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96930()
 {
     DAT_0107933c.FUN_004310a0();
@@ -26103,6 +26515,7 @@ struct Target
 
 extern Target DAT_010793a4;
 
+// pdb: `dynamic atexit destructor for 'fCreatureRadioMax'' | FalloutRadio.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d96940()
 {
     DAT_010793a4.FUN_004310a0();
@@ -26463,6 +26876,7 @@ void __cdecl FUN_00d8de30() { DAT_00f60a40.FUN_00403170(); }
 namespace Cleanup_00d973d0 {
 struct Owner { void FUN_004310a0(); };
 extern Owner DAT_0107a468;
+// pdb: `dynamic atexit destructor for 'bUseWindowsMessageBox'' | Main.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d973d0() { DAT_0107a468.FUN_004310a0(); }
 }
 
@@ -26595,6 +27009,7 @@ struct Target
 
 extern Target DAT_0107a23c;
 
+// pdb: `dynamic atexit destructor for 'sMasterArchiveList'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d96fc0()
 {
     DAT_0107a23c.FUN_004310a0();
@@ -26612,6 +27027,7 @@ struct Target
 
 extern Target DAT_0107a294;
 
+// pdb: `dynamic atexit destructor for 'sTestFile1'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d96fd0()
 {
     DAT_0107a294.FUN_004310a0();
@@ -26629,6 +27045,7 @@ struct Target
 
 extern Target DAT_0107a510;
 
+// pdb: `dynamic atexit destructor for 'sTestFile4'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97000()
 {
     DAT_0107a510.FUN_004310a0();
@@ -26646,6 +27063,7 @@ struct Target
 
 extern Target DAT_0107a2d4;
 
+// pdb: `dynamic atexit destructor for 'sTestFile5'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97010()
 {
     DAT_0107a2d4.FUN_004310a0();
@@ -26663,6 +27081,7 @@ struct Target
 
 extern Target DAT_0107a134;
 
+// pdb: `dynamic atexit destructor for 'sTestFile9'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97050()
 {
     DAT_0107a134.FUN_004310a0();
@@ -26680,6 +27099,7 @@ struct Target
 
 extern Target DAT_0107a3dc;
 
+// pdb: `dynamic atexit destructor for 'sStartingCell'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97070()
 {
     DAT_0107a3dc.FUN_004310a0();
@@ -26704,6 +27124,7 @@ struct Target
 
 extern Target DAT_0107a500;
 
+// pdb: `dynamic atexit destructor for 'sStartingCellX'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d970a0()
 {
     DAT_0107a500.FUN_004310a0();
@@ -26755,6 +27176,7 @@ struct Target
 
 extern Target DAT_0107a1a4;
 
+// pdb: `dynamic atexit destructor for 'bUseThreadedParticleSystem'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d970f0()
 {
     DAT_0107a1a4.FUN_004310a0();
@@ -26772,6 +27194,7 @@ struct Target
 
 extern Target DAT_0107a350;
 
+// pdb: `dynamic atexit destructor for 'bUseThreadedTempEffects'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97110()
 {
     DAT_0107a350.FUN_004310a0();
@@ -26806,6 +27229,7 @@ struct Target
 
 extern Target DAT_0107a4a4;
 
+// pdb: `dynamic atexit destructor for 'sCameraPathNif'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97140()
 {
     DAT_0107a4a4.FUN_004310a0();
@@ -26911,6 +27335,7 @@ struct Target
 
 extern Target DAT_0107a474;
 
+// pdb: `dynamic atexit destructor for 'iCameraPathFPS'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97150()
 {
     DAT_0107a474.FUN_004310a0();
@@ -26928,6 +27353,7 @@ struct Target
 
 extern Target DAT_0107a540;
 
+// pdb: `dynamic atexit destructor for 'iCameraPathTake'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97170()
 {
     DAT_0107a540.FUN_004310a0();
@@ -26945,6 +27371,7 @@ struct Target
 
 extern Target DAT_0107a400;
 
+// pdb: `dynamic atexit destructor for 'bPreCullActors'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97190()
 {
     DAT_0107a400.FUN_004310a0();
@@ -26962,6 +27389,7 @@ struct Target
 
 extern Target DAT_0107a55c;
 
+// pdb: `dynamic atexit destructor for 'fLODLandVerticalBias'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d971a0()
 {
     DAT_0107a55c.FUN_004310a0();
@@ -27147,6 +27575,7 @@ struct Target
 
 extern Target DAT_0107a2a0;
 
+// pdb: `dynamic atexit destructor for 'sCopyProtectionTitle2'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d972b0()
 {
     DAT_0107a2a0.FUN_004310a0();
@@ -27164,6 +27593,7 @@ struct Target
 
 extern Target DAT_0107a260;
 
+// pdb: `dynamic atexit destructor for 'sCopyProtectionMessage2'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d972c0()
 {
     DAT_0107a260.FUN_004310a0();
@@ -27181,6 +27611,7 @@ struct Target
 
 extern Target DAT_0107a2ec;
 
+// pdb: `dynamic atexit destructor for 'bInvalidateOlderFiles'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97330()
 {
     DAT_0107a2ec.FUN_004310a0();
@@ -27198,6 +27629,7 @@ struct Target
 
 extern Target DAT_0107a4e0;
 
+// pdb: `dynamic atexit destructor for 'iFileLogging'' | Main.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97340()
 {
     DAT_0107a4e0.FUN_004310a0();
@@ -27225,6 +27657,7 @@ struct Target
 
 extern Target DAT_0107a38c;
 
+// pdb: `dynamic atexit destructor for 'sDebugText'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97350()
 {
     DAT_0107a38c.FUN_004310a0();
@@ -27249,6 +27682,7 @@ struct Target
 
 extern Target DAT_0107a330;
 
+// pdb: `dynamic atexit destructor for 'bShowMenuTextureUse'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97360()
 {
     DAT_0107a330.FUN_004310a0();
@@ -27346,6 +27780,7 @@ struct Target
 
 extern Target DAT_0107a194;
 
+// pdb: `dynamic atexit destructor for 'bUseSunbeams'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d97390()
 {
     DAT_0107a194.FUN_004310a0();
@@ -27363,6 +27798,7 @@ struct Target
 
 extern Target DAT_0107a150;
 
+// pdb: `dynamic atexit destructor for 'fScopeScissorAmount'' | Main.obj | tesv_win, udata, high
 void __cdecl FUN_00d973a0()
 {
     DAT_0107a150.FUN_004310a0();
@@ -27380,6 +27816,7 @@ struct Target
 
 extern Target DAT_0107a374;
 
+// pdb: `dynamic atexit destructor for 'sBasePathS'' | Main.obj | fnv360_0822_retail, caller_sim, medium
 void __cdecl FUN_00d973b0()
 {
     DAT_0107a374.FUN_006ed320();
@@ -27409,6 +27846,7 @@ struct Target
 
 extern Target DAT_0107a1e4;
 
+// pdb: `dynamic atexit destructor for 'bBlockMessageBoxes'' | Main.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d973c0()
 {
     DAT_0107a1e4.FUN_004310a0();
@@ -27426,6 +27864,7 @@ struct Target
 
 extern Target DAT_0107a2f8;
 
+// pdb: `dynamic atexit destructor for 'fINIUpgradeTexturesDistance'' | Main.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d973e0()
 {
     DAT_0107a2f8.FUN_004310a0();
@@ -27443,6 +27882,7 @@ struct Target
 
 extern Target DAT_0107a248;
 
+// pdb: `dynamic atexit destructor for 'fINIDegradeTexturesDistance'' | Main.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d973f0()
 {
     DAT_0107a248.FUN_004310a0();
@@ -27460,6 +27900,7 @@ struct Target
 
 extern Target DAT_0107a3f4;
 
+// pdb: `dynamic atexit destructor for 'bSkipInitializationFlows'' | Main.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97420()
 {
     DAT_0107a3f4.FUN_004310a0();
@@ -27477,6 +27918,7 @@ struct Target
 
 extern Target DAT_0107a644;
 
+// pdb: `dynamic atexit destructor for 'bShowCheckMemoryOutput'' | MemoryLevelManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d974c0()
 {
     DAT_0107a644.FUN_004310a0();
@@ -27562,6 +28004,7 @@ struct Target
 
 extern Target DAT_0107ae2c;
 
+// pdb: `dynamic atexit destructor for 'bVATSSmartCameraCheckDebug'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d975c0()
 {
     DAT_0107ae2c.FUN_004310a0();
@@ -27618,6 +28061,7 @@ struct Target
 
 extern Target DAT_0107ad38;
 
+// pdb: `dynamic atexit destructor for 'fMinBloodDamage'' | Actor.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97610()
 {
     DAT_0107ad38.FUN_004310a0();
@@ -27635,6 +28079,7 @@ struct Target
 
 extern Target DAT_0107ad60;
 
+// pdb: `dynamic atexit destructor for 'iMaxHiPerfCombatCount'' | Actor.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97620()
 {
     DAT_0107ad60.FUN_004310a0();
@@ -27652,6 +28097,7 @@ struct Target
 
 extern Target DAT_0107ad2c;
 
+// pdb: `dynamic atexit destructor for 'fJumpAnimDelay'' | Actor.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97630()
 {
     DAT_0107ad2c.FUN_004310a0();
@@ -27669,6 +28115,7 @@ struct Target
 
 extern Target DAT_0107adcc;
 
+// pdb: `dynamic atexit destructor for 'iDetectionPicks'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d97640()
 {
     DAT_0107adcc.FUN_004310a0();
@@ -27686,6 +28133,7 @@ struct Target
 
 extern Target DAT_0107acec;
 
+// pdb: `dynamic atexit destructor for 'iDetectionHighNumPicks'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d97650()
 {
     DAT_0107acec.FUN_004310a0();
@@ -27703,6 +28151,7 @@ struct Target
 
 extern Target DAT_0107ad20;
 
+// pdb: `dynamic atexit destructor for 'bPlayStaggers'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d97660()
 {
     DAT_0107ad20.FUN_004310a0();
@@ -27747,6 +28196,7 @@ void FUN_00d98a60()
 // @f3 0x00d97810 (community match, verified in this file)
 struct StaticCleanupA424 { void FUN_006c8220(); };
 extern StaticCleanupA424 DAT_0107b2ac;
+// pdb: `dynamic atexit destructor for 'BSDoorHavokController::DoorsToReenable'' | BSDoorHavokController.obj | fnv360_0822_retail, objopen_prop, low
 void __cdecl FUN_00d97810() { DAT_0107b2ac.FUN_006c8220(); }
 
 // @f3 0x00d89210 (community match, verified in this file)
@@ -27773,6 +28223,7 @@ void FUN_00d8b500()
 namespace f3m_00d83cc0 {
 void __cdecl FUN_00d995e0();
 void __cdecl FUN_00c00d1f(void (__cdecl* callback)());
+// pdb: `dynamic initializer for 'BSShaderManager::pProjectedShadowTexture'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83cc0() { FUN_00c00d1f(FUN_00d995e0); }
 }   // namespace f3m_00d83cc0
 
@@ -27873,6 +28324,7 @@ struct Target
 
 extern Target DAT_0107ad50;
 
+// pdb: `dynamic atexit destructor for 'bPlayHitLocationIdles'' | Actor.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d97670()
 {
     DAT_0107ad50.FUN_004310a0();
@@ -27900,6 +28352,7 @@ struct Target
 
 extern Target DAT_0107acd0;
 
+// pdb: `dynamic atexit destructor for 'bDisableNPCAttacks'' | Actor.obj | tesv_win, udata, high
 void __cdecl FUN_00d97680()
 {
     DAT_0107acd0.FUN_004310a0();
@@ -28074,6 +28527,7 @@ struct Target
 
 extern Target DAT_0107b5c8;
 
+// pdb: `dynamic atexit destructor for 'fHealthBarSpeed'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97860()
 {
     DAT_0107b5c8.FUN_004310a0();
@@ -28101,6 +28555,7 @@ struct Target
 
 extern Target DAT_0107b5f4;
 
+// pdb: `dynamic atexit destructor for 'fHealthBarFadeOutSpeed'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97870()
 {
     DAT_0107b5f4.FUN_004310a0();
@@ -28128,6 +28583,7 @@ struct Target
 
 extern Target DAT_0107b62c;
 
+// pdb: `dynamic atexit destructor for 'fHealthBarEmittanceTime'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97880()
 {
     DAT_0107b62c.FUN_004310a0();
@@ -28145,6 +28601,7 @@ struct Target
 
 extern Target DAT_0107b608;
 
+// pdb: `dynamic atexit destructor for 'fINIDetectDoorsForPathingTime'' | HighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d978a0()
 {
     DAT_0107b608.FUN_004310a0();
@@ -28162,6 +28619,7 @@ struct Target
 
 extern Target DAT_0107b744;
 
+// pdb: `dynamic atexit destructor for 'MiddleHighTempRefListChairBed'' | MiddleHighProcess.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00d978d0()
 {
     DAT_0107b744.FUN_006c8220();
@@ -28192,6 +28650,7 @@ struct Target
 
 extern Target DAT_0107b770;
 
+// pdb: `dynamic atexit destructor for 'fAimChaseLookingMult'' | MiddleHighProcess.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97900()
 {
     DAT_0107b770.FUN_004310a0();
@@ -28278,6 +28737,7 @@ struct Target
 
 extern Target DAT_0107bd18;
 
+// pdb: `dynamic atexit destructor for 'ConflictingPick'' | PlayerCharacter.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97950()
 {
     DAT_0107bd18.FUN_007fbb80();
@@ -28295,6 +28755,7 @@ struct Target
 
 extern Target DAT_0107be80;
 
+// pdb: `PlayerCharacter::UpdateCamera'::`2'::`dynamic atexit destructor for 'chaseCamera'' | PlayerCharacter.obj | fnv360_0721_beta, objrun, medium
 void __cdecl FUN_00d97960()
 {
     DAT_0107be80.FUN_00839f80();
@@ -28644,6 +29105,7 @@ void FUN_00d868e0()
 // @f3 0x00d8a0b0 (community match, verified in this file)
 struct StaticCleanupA442 { void FUN_00403170(); };
 extern StaticCleanupA442 DAT_00f5cac8;
+// pdb: `dynamic atexit destructor for 'TESNPC::fNPCGeneticVariation'' | TESNPC.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a0b0() { DAT_00f5cac8.FUN_00403170(); }
 
 // @f3 0x00d871c0 (community match, verified in this file)
@@ -28702,6 +29164,7 @@ void FUN_00d942e0()
 // @f3 0x00d98930 (community match, verified in this file)
 struct StaticCleanupA443 { void FUN_004310a0(); };
 extern StaticCleanupA443 DAT_010f2abc;
+// pdb: `dynamic atexit destructor for 'iHWThread5'' | bhkWorld.obj | tesv_win, udata, high
 void __cdecl FUN_00d98930() { DAT_010f2abc.FUN_004310a0(); }
 
 // @f3 0x00d92db0 (community match, verified in this file)
@@ -28793,6 +29256,7 @@ struct Target
 
 extern Target DAT_0107bc0c;
 
+// pdb: `dynamic atexit destructor for 'bHealthBarShowing'' | PlayerCharacter.obj | tesv_win, udata, high
 void __cdecl FUN_00d97990()
 {
     DAT_0107bc0c.FUN_004310a0();
@@ -28827,6 +29291,7 @@ struct Target
 
 extern Target DAT_0107bc90;
 
+// pdb: `dynamic atexit destructor for 'iActorsDismemberedPerFrame'' | PlayerCharacter.obj | tesv_win, udata, high
 void __cdecl FUN_00d979c0()
 {
     DAT_0107bc90.FUN_004310a0();
@@ -28874,6 +29339,7 @@ struct Target
 
 extern Target DAT_0107bc54;
 
+// pdb: `dynamic atexit destructor for 'sTrackProgressPath'' | PlayerCharacter.obj | tesv_win, udata, high
 void __cdecl FUN_00d97a00()
 {
     DAT_0107bc54.FUN_004310a0();
@@ -28932,6 +29398,7 @@ struct Target
 
 extern Target DAT_0107bcc0;
 
+// pdb: `dynamic atexit destructor for 'bShowGunTarget'' | PlayerCharacter_Combat.obj | tesv_win, udata, high
 void __cdecl FUN_00d97a40()
 {
     DAT_0107bcc0.FUN_004310a0();
@@ -28949,6 +29416,7 @@ struct Target
 
 extern Target DAT_0107bafc;
 
+// pdb: `dynamic atexit destructor for 'fVATSFocus_G'' | PlayerCharacter_Combat.obj | tesv_win, objopen_prop, low
 void __cdecl FUN_00d97a50()
 {
     DAT_0107bafc.FUN_004310a0();
@@ -29541,6 +30009,7 @@ struct Target
 
 extern Target DAT_0107c0a0;
 
+// pdb: `dynamic atexit destructor for 'ReferenceProcessLists'' | ProcessLists.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00d97ce0()
 {
     DAT_0107c0a0.FUN_00793150();
@@ -29558,6 +30027,7 @@ struct Target
 
 extern Target DAT_0107c078;
 
+// pdb: `dynamic atexit destructor for 'iLowProcessingMilliseconds'' | ProcessLists.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97cf0()
 {
     DAT_0107c078.FUN_004310a0();
@@ -29575,6 +30045,7 @@ struct Target
 
 extern Target DAT_0108c420;
 
+// pdb: `dynamic atexit destructor for 'bTaskletActorAnimMovementUpdates'' | ProcessLists.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97d20()
 {
     DAT_0108c420.FUN_004310a0();
@@ -29612,6 +30083,7 @@ struct Target
 
 extern Target DAT_0108c738;
 
+// pdb: `dynamic atexit destructor for 'bDebugCombatCoverReservations'' | CombatCoverMap.obj | tesv_win, udata, high
 void __cdecl FUN_00d97d80()
 {
     DAT_0108c738.FUN_004310a0();
@@ -29920,6 +30392,7 @@ struct Target
 
 extern Target DAT_0108cf50;
 
+// pdb: `dynamic atexit destructor for 'bProjectileDebug'' | Projectile.obj | tesv_win, udata, high
 void __cdecl FUN_00d97f60()
 {
     DAT_0108cf50.FUN_004310a0();
@@ -29950,6 +30423,7 @@ struct Target
 
 extern Target DAT_0108cf6c;
 
+// pdb: `dynamic atexit destructor for 'fProjectileDebugDuration'' | Projectile.obj | tesv_win, udata, high
 void __cdecl FUN_00d97f70()
 {
     DAT_0108cf6c.FUN_004310a0();
@@ -30004,6 +30478,7 @@ struct Target
 
 extern Target DAT_0108d08c;
 
+// pdb: `dynamic atexit destructor for 'VATS::fVATSLightLevelMin'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97fa0()
 {
     DAT_0108d08c.FUN_004310a0();
@@ -30021,6 +30496,7 @@ struct Target
 
 extern Target DAT_0108d044;
 
+// pdb: `dynamic atexit destructor for 'VATS::fVATSLightLevelMax'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97fb0()
 {
     DAT_0108d044.FUN_004310a0();
@@ -30038,6 +30514,7 @@ struct Target
 
 extern Target DAT_0108d06c;
 
+// pdb: `dynamic atexit destructor for 'VATS::fVATSLightDistance'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97fd0()
 {
     DAT_0108d06c.FUN_004310a0();
@@ -30055,6 +30532,7 @@ struct Target
 
 extern Target DAT_0108d050;
 
+// pdb: `dynamic atexit destructor for 'VATS::fVATSLightElevation'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97fe0()
 {
     DAT_0108d050.FUN_004310a0();
@@ -30539,6 +31017,7 @@ struct Target
 
 extern Target DAT_0108d038;
 
+// pdb: `dynamic atexit destructor for 'VATS::fVatsLightColorR'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d97ff0()
 {
     DAT_0108d038.FUN_004310a0();
@@ -30569,6 +31048,7 @@ struct Target
 
 extern Target DAT_0108d0e4;
 
+// pdb: `dynamic atexit destructor for 'VATS::fVatsLightColorG'' | VATS.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d98000()
 {
     DAT_0108d0e4.FUN_004310a0();
@@ -30952,6 +31432,7 @@ struct Target
 
 extern Target DAT_0108de60;
 
+// pdb: `BSCacheDriveSystemUtility::QInstance'::`2'::`dynamic atexit destructor for 'stCacheDriveSystemUtility'' | BSCacheDriveSystemUtility_Xenon.obj | fnv360_0822_retail, objopen_prop, low
 void __cdecl FUN_00d981e0()
 {
     DAT_0108de60.FUN_007f97e0();
@@ -30974,6 +31455,7 @@ struct Target
 
 extern Target DAT_0108e290;
 
+// pdb: `BSGameDataSystemUtility::QInstance'::`2'::`dynamic atexit destructor for 'stGameDataSystemUtility'' | BSGameDataSystemUtility_Xenon.obj | fnv360_0822_retail, objopen_prop, low
 void __cdecl FUN_00d981f0()
 {
     DAT_0108e290.FUN_007f9850();
@@ -31138,6 +31620,7 @@ struct Target
 
 extern Target DAT_010f2a98;
 
+// pdb: `dynamic atexit destructor for 'iHWThread2'' | bhkWorld.obj | tesv_win, udata, high
 void __cdecl FUN_00d98900()
 {
     DAT_010f2a98.FUN_004310a0();
@@ -31155,6 +31638,7 @@ struct Target
 
 extern Target DAT_010f2ab0;
 
+// pdb: `dynamic atexit destructor for 'iHWThread4'' | bhkWorld.obj | tesv_win, udata, high
 void __cdecl FUN_00d98920()
 {
     DAT_010f2ab0.FUN_004310a0();
@@ -31226,6 +31710,7 @@ struct Target
 
 extern Target DAT_010f2c60;
 
+// pdb: `dynamic atexit destructor for 'bhkNiCollisionObject::bWONameSync'' | bhkNiCollisionObject.obj | tesv_win, udata, high
 void __cdecl FUN_00d989d0()
 {
     DAT_010f2c60.FUN_004310a0();
@@ -31432,6 +31917,7 @@ struct Target
 
 extern Target DAT_010f2d5c;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fMaxTrackingDist'' | bhkRagdollController.obj | tesv_win, udata, high
 void __cdecl FUN_00d98b30()
 {
     DAT_010f2d5c.FUN_004310a0();
@@ -31449,6 +31935,7 @@ struct Target
 
 extern Target DAT_010f2d68;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fMinTrackingDist'' | bhkRagdollController.obj | tesv_win, udata, high
 void __cdecl FUN_00d98b40()
 {
     DAT_010f2d68.FUN_004310a0();
@@ -31480,6 +31967,7 @@ namespace register_d83b70 {
 void __cdecl FUN_00d99310();
 int __cdecl FUN_00c00d1f(void (__cdecl* cleanup)());
 }
+// pdb: `dynamic initializer for 'BSShaderManager::spDefaultNormalMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void FUN_00d83b70() { register_d83b70::FUN_00c00d1f(register_d83b70::FUN_00d99310); }
 }   // namespace f3m_00d83b70
 
@@ -31586,6 +32074,7 @@ struct Target
 
 extern Target DAT_010f2dec;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fAnkleOffset'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d98bf0()
 {
     DAT_010f2dec.FUN_004310a0();
@@ -31603,6 +32092,7 @@ struct Target
 
 extern Target DAT_010f2df8;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fPelvisUpDownBias'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d98c00()
 {
     DAT_010f2df8.FUN_004310a0();
@@ -31637,6 +32127,7 @@ struct Target
 
 extern Target DAT_010f2e1c;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::iNumFramesFootEaseOut'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d98c30()
 {
     DAT_010f2e1c.FUN_004310a0();
@@ -31666,6 +32157,7 @@ struct Target
 
 extern Target DAT_010f2e28;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fControllerTetherLen'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d98c40()
 {
     DAT_010f2e28.FUN_004310a0();
@@ -31683,6 +32175,7 @@ struct Target
 
 extern Target DAT_010f2e4c;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fDriveGain'' | bhkRagdollController.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d98c70()
 {
     DAT_010f2e4c.FUN_004310a0();
@@ -31700,6 +32193,7 @@ struct Target
 
 extern Target DAT_010f2e64;
 
+// pdb: `dynamic atexit destructor for 'bhkRagdollController::fRagdollFeedback'' | bhkRagdollController.obj | tesv_win, udata, high
 void __cdecl FUN_00d98c90()
 {
     DAT_010f2e64.FUN_004310a0();
@@ -31740,6 +32234,7 @@ struct Target
 
 extern Target DAT_010f2e94;
 
+// pdb: `dynamic atexit destructor for 'bhkCharacterController::fCharControllerWarpDistSqr'' | bhkCharacterController.obj | tesv_win, udata, high
 void __cdecl FUN_00d98ce0()
 {
     DAT_010f2e94.FUN_004310a0();
@@ -31833,6 +32328,7 @@ struct Target
 
 extern Target DAT_0116d15c;
 
+// pdb: `dynamic atexit destructor for 'iPostProcessMillisecondsEditor'' | IOManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d99030()
 {
     DAT_0116d15c.FUN_004310a0();
@@ -31850,6 +32346,7 @@ struct Target
 
 extern Target DAT_0116d168;
 
+// pdb: `dynamic atexit destructor for 'iPostProcessTaskWarningMilliseconds'' | IOManager.obj | tesv_win, udata, high
 void __cdecl FUN_00d99040()
 {
     DAT_0116d168.FUN_004310a0();
@@ -32397,6 +32894,7 @@ struct Target
 
 extern Target DAT_0116eef4;
 
+// pdb: `dynamic atexit destructor for 'BSFadeNode::iMinNearDistance'' | BSFadeNode.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d99280()
 {
     DAT_0116eef4.FUN_004310a0();
@@ -32414,6 +32912,7 @@ struct Target
 
 extern Target DAT_0116ef04;
 
+// pdb: `dynamic atexit destructor for 'BSFadeNode::fLODMultTrees'' | BSFadeNode.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d99290()
 {
     DAT_0116ef04.FUN_004310a0();
@@ -32622,6 +33121,7 @@ struct Target
 
 extern Target DAT_0117839c;
 
+// pdb: `dynamic atexit destructor for 'SIdvRandomImpl::m_cNormal'' | IdvRandom.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00d9a110()
 {
     DAT_0117839c.FUN_00bc6fb0();
@@ -32668,6 +33168,7 @@ struct Target
 
 extern Target DAT_01178750;
 
+// pdb: `BSFileCache::QInstance'::`2'::`dynamic atexit destructor for '_sInstance'' | BSFileCache_Xenon.obj | fnv360_0721_beta, objrun_prop, low
 void __cdecl FUN_00d9a180()
 {
     DAT_01178750.FUN_00bceca0();
@@ -33187,6 +33688,7 @@ struct Target
 
 extern Target DAT_01179684;
 
+// pdb: `dynamic atexit destructor for 'Tile::xHibernatingTiles'' | Tile.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d9a4b0()
 {
     DAT_01179684.FUN_00bd12d0();
@@ -33297,6 +33799,7 @@ struct Target
 
 extern Target DAT_0106a7a8;
 
+// pdb: `dynamic atexit destructor for 'Menu::XMLParsedHash'' | Menu.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00d9a590()
 {
     DAT_0106a7a8.FUN_00bfce40();
@@ -33625,6 +34128,7 @@ struct Obj00f4bf68
 
 extern Obj00f4bf68 DAT_00f4bf68;
 
+// pdb: `public: static class NiTMap<class NiTexture *,bool> & __cdecl `anonymous namespace'::TextureTrack::QTextureTracker(void)'::`2'::`dynamic atexit destructor for 'TextureTracker'' | BGSSceneInfo.obj | tesv_win, caller_sim, low
 void FUN_00d878e0()
 {
     DAT_00f4bf68.FUN_0046ea40();
@@ -33688,6 +34192,7 @@ struct Obj00f4c428
 
 extern Obj00f4c428 DAT_00f4c428;
 
+// pdb: `dynamic atexit destructor for 'sHandToHandIcon'' | BipedAnim.obj | fnv360_0822_retail, objrun_open, low
 void FUN_00d87d10()
 {
     DAT_00f4c428.FUN_00403170();
@@ -33739,6 +34244,7 @@ namespace f3m_00d83b50 {
 
 void __cdecl FUN_00d99640();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pRenderer'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83b50()
 {
     atexit(FUN_00d99640);
@@ -33755,6 +34261,7 @@ namespace f3m_00d83b60 {
 
 void __cdecl FUN_00d992e0();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pCubeMapTexture'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83b60()
 {
     atexit(FUN_00d992e0);
@@ -33771,6 +34278,7 @@ namespace f3m_00d83b80 {
 
 void __cdecl FUN_00d99340();
 
+// pdb: `dynamic initializer for 'BSShaderManager::spDefaultErrorMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83b80()
 {
     atexit(FUN_00d99340);
@@ -33812,6 +34320,7 @@ namespace f3m_00d83b90 {
 
 void __cdecl FUN_00d99370();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pDefaultGlossMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83b90()
 {
     atexit(FUN_00d99370);
@@ -33828,6 +34337,7 @@ namespace f3m_00d83ba0 {
 
 void __cdecl FUN_00d993a0();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pDefaultHeightMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83ba0()
 {
     atexit(FUN_00d993a0);
@@ -33844,6 +34354,7 @@ namespace f3m_00d83bb0 {
 
 void __cdecl FUN_00d993d0();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pMaskTextureSide'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83bb0()
 {
     atexit(FUN_00d993d0);
@@ -33860,6 +34371,7 @@ namespace f3m_00d83c00 {
 
 void __cdecl FUN_00d994c0();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pAttenuationXY'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83c00()
 {
     atexit(FUN_00d994c0);
@@ -33889,6 +34401,7 @@ namespace f3m_00d83c20 {
 
 void __cdecl FUN_00d99520();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pNoiseMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83c20()
 {
     atexit(FUN_00d99520);
@@ -33905,6 +34418,7 @@ namespace f3m_00d83c30 {
 
 void __cdecl FUN_00d99550();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pEmptyNoiseMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83c30()
 {
     atexit(FUN_00d99550);
@@ -33933,6 +34447,7 @@ namespace f3m_00d83c70 {
 
 void __cdecl FUN_00d99580();
 
+// pdb: `dynamic initializer for 'BSShaderManager::spEyeReflectionCubeMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83c70()
 {
     atexit(FUN_00d99580);
@@ -33949,6 +34464,7 @@ namespace f3m_00d83c80 {
 
 void __cdecl FUN_00d995b0();
 
+// pdb: `dynamic initializer for 'BSShaderManager::spArmorReflectionCubeMap'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83c80()
 {
     atexit(FUN_00d995b0);
@@ -33978,6 +34494,7 @@ namespace f3m_00d83cd0 {
 
 void __cdecl FUN_00d99610();
 
+// pdb: `dynamic initializer for 'BSShaderManager::pProjectedShadowMaskTexture'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83cd0()
 {
     atexit(FUN_00d99610);
@@ -33994,6 +34511,7 @@ namespace f3m_00d83ce0 {
 
 void __cdecl FUN_00d996c0();
 
+// pdb: `dynamic initializer for 'BSShaderManager::spShaderAccumulator'' | BSShaderManager.obj | fnv360_0822_retail, objrun, medium
 void __cdecl FUN_00d83ce0()
 {
     atexit(FUN_00d996c0);
@@ -34530,6 +35048,7 @@ struct Target
 
 extern Target DAT_0106f868;
 
+// pdb: `dynamic atexit destructor for 'BSRenderer::fSkinnedDecalLODEnd'' | BSRenderer.obj | tesv_win, objrun, medium
 void __cdecl FUN_00d88360()
 {
     DAT_0106f868.FUN_004310a0();
@@ -34600,6 +35119,7 @@ struct Target
 
 extern Target DAT_0107a570;
 
+// pdb: `Main::DrawWorld_Init'::`7'::`dynamic atexit destructor for 'cullHA'' | Main.obj | fnv360_0822_retail, caller_sim, low
 void __cdecl FUN_00d96d20()
 {
     DAT_0107a570.FUN_0072ab60();
@@ -37523,6 +38043,7 @@ struct Target
 
 extern Target DAT_00f5cad4;
 
+// pdb: `dynamic atexit destructor for 'TESNPC::iVampirismAgeOffset'' | TESNPC.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a0c0()
 {
     DAT_00f5cad4.FUN_00403170();
@@ -37540,6 +38061,7 @@ struct Target
 
 extern Target DAT_00f5cae0;
 
+// pdb: `dynamic atexit destructor for 'fAttributeClassPrimaryBonus'' | TESNPC.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a0d0()
 {
     DAT_00f5cae0.FUN_00403170();
@@ -37557,6 +38079,7 @@ struct Target
 
 extern Target DAT_00f5caec;
 
+// pdb: `dynamic atexit destructor for 'fAttributeClassSecondaryBonus'' | TESNPC.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a0e0()
 {
     DAT_00f5caec.FUN_00403170();
@@ -37654,6 +38177,7 @@ struct Target
 
 extern Target DAT_00f5d208;
 
+// pdb: `dynamic atexit destructor for 'iSpeechChallengeDifficultyEasy'' | TESTopicInfo.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a2b0()
 {
     DAT_00f5d208.FUN_00403170();
@@ -37671,6 +38195,7 @@ struct Target
 
 extern Target DAT_00f5d214;
 
+// pdb: `dynamic atexit destructor for 'iSpeechChallengeDifficultyAverage'' | TESTopicInfo.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a2c0()
 {
     DAT_00f5d214.FUN_00403170();
@@ -37688,6 +38213,7 @@ struct Target
 
 extern Target DAT_00f5d220;
 
+// pdb: `dynamic atexit destructor for 'iSpeechChallengeDifficultyHard'' | TESTopicInfo.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a2d0()
 {
     DAT_00f5d220.FUN_00403170();
@@ -37705,6 +38231,7 @@ struct Target
 
 extern Target DAT_00f5d22c;
 
+// pdb: `dynamic atexit destructor for 'iSpeechChallengeDifficultyVeryHard'' | TESTopicInfo.obj | fnv360_0822_retail, objrun_open, low
 void __cdecl FUN_00d8a2e0()
 {
     DAT_00f5d22c.FUN_00403170();
@@ -61170,6 +61697,7 @@ extern Obj_0116b404 DAT_0116b404;
 extern char DAT_00e46200[];
 extern char DAT_0116b4c4[];
 }
+// pdb: `dynamic initializer for 'hkpDefaultWorldMemoryWatchDogClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d80880() {
     f3m_00d80880::DAT_0116b404.FUN_009b08a0(
         f3m_00d80880::DAT_00e46200, f3m_00d80880::DAT_0116b4c4, 0x120, 0x0,
@@ -61955,6 +62483,7 @@ extern char DAT_00e454c0;
 extern char DAT_00e85414;
 extern char DAT_0116ad64;
 }
+// pdb: `dynamic initializer for 'hkpBvShapeClass'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d81900() {
     f3_00d81900::DAT_0116bec4.FUN_009b08a0(&f3_00d81900::DAT_00e454c0, &f3_00d81900::DAT_0116ad64, 28, 0, 0, 0, 0, &f3_00d81900::DAT_00e85414, 2, 0, 0, 0);
 }
@@ -61983,6 +62512,7 @@ extern char DAT_00e454cc;
 extern char DAT_00e852e0;
 extern char DAT_0116ae54;
 }
+// pdb: `dynamic initializer for 'hkpConvexListShapeClass'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d817e0() {
     f3_00d817e0::DAT_0116be04.FUN_009b08a0(&f3_00d817e0::DAT_00e454cc, &f3_00d817e0::DAT_0116ae54, 80, 0, 1, 0, 0, &f3_00d817e0::DAT_00e852e0, 5, 0, 0, 0);
 }
@@ -61997,6 +62527,7 @@ extern char DAT_00e45354;
 extern char DAT_00e85248;
 extern char DAT_0116ad34;
 }
+// pdb: `dynamic initializer for 'hkpConvexTransformShapeBaseClass'' | hkpCollideReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d81780() {
     f3_00d81780::DAT_0116bdc4.FUN_009b08a0(&f3_00d81780::DAT_00e45354, &f3_00d81780::DAT_0116ad34, 36, 0, 0, 0, 0, &f3_00d81780::DAT_00e85248, 3, 0, 0, 0);
 }
@@ -62286,6 +62817,7 @@ extern Obj_0116b784 DAT_0116b784;
 extern char DAT_00e46020;
 extern char DAT_0116aa54;
 }
+// pdb: `dynamic initializer for 'hkpPairCollisionFilterMapPairFilterKeyOverrideTypeClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d80df0() {
     f3_00d80df0::DAT_0116b784.FUN_009b08a0(&f3_00d80df0::DAT_00e46020, &f3_00d80df0::DAT_0116aa54, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
@@ -62382,6 +62914,7 @@ extern char DAT_00e84980;
 extern char DAT_00e84a28;
 extern char DAT_0116c3c0;
 }
+// pdb: `dynamic initializer for 'hkpPhysicsSystemClass'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d80b50() {
     f3_00d80b50::DAT_0116b5c4.FUN_009b08a0(&f3_00d80b50::DAT_00e462b4, &f3_00d80b50::DAT_0116c3c0, 68, 0, 0, 0, 0, &f3_00d80b50::DAT_00e84980, 7, &f3_00d80b50::DAT_00e84a28, 0, 0);
 }
@@ -62740,6 +63273,7 @@ void __cdecl FUN_00d81fd0() {
 namespace f3m_00d9a5cb {
 struct GlobalObj { void FUN_00bff120(); };
 extern GlobalObj DAT_01179961;
+// pdb: std::`dynamic atexit destructor for 'initlocks'' | iosptrs.obj | tesv_win, objrun_open, low
 void __cdecl FUN_00d9a5cb() {
     DAT_01179961.FUN_00bff120();
 }
@@ -62749,6 +63283,7 @@ void __cdecl FUN_00d9a5cb() {
 namespace f3m_00d9a5df {
 struct GlobalObj { void FUN_00be6e10(); };
 extern GlobalObj DAT_011798d8;
+// pdb: std::`dynamic atexit destructor for 'ferr'' | cerr.obj | fnv360_0822_retail, udata, high
 void __cdecl FUN_00d9a5df() {
     DAT_011798d8.FUN_00be6e10();
 }
@@ -62774,6 +63309,7 @@ void __cdecl FUN_00d9a5d5() {
 namespace f3m_00d9a5f3 {
 struct GlobalObj { void FUN_00bff8f9(); };
 extern GlobalObj DAT_01179ae9;
+// pdb: `dynamic atexit destructor for 'init_atexit'' | iosptrs.obj | tesv_win, caller_sim, low
 void __cdecl FUN_00d9a5f3() {
     DAT_01179ae9.FUN_00bff8f9();
 }
@@ -62782,6 +63318,7 @@ void __cdecl FUN_00d9a5f3() {
 // @f3 0x00d9a5c1 (community match, verified in this file)
 struct ObjD9A5C1 { void FUN_00bbd1e0(); };
 extern ObjD9A5C1 DAT_011798cc;
+// pdb: std::`dynamic atexit destructor for 'classic_locale'' | locale0.obj | tesv_win, udata, high
 void __cdecl FUN_00d9a5c1() {
     DAT_011798cc.FUN_00bbd1e0();
 }

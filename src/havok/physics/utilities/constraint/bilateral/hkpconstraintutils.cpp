@@ -49,20 +49,6 @@ struct hkBool
     }
 };
 
-struct Block5
-{
-    int unk00, unk04, unk08, unk0c, unk10;
-};
-
-struct Block5b
-{
-    int unk00;
-    unsigned short unk04;
-    unsigned char unk06;
-    unsigned char unk07;
-    int unk08, unk0c, unk10;
-};
-
 struct hkRefObj
 {
     void* m_vtbl;
@@ -77,21 +63,6 @@ struct CloneDataBase : hkRefObj
     int unk08, unk0c;
     int unk10, unk14, unk18, unk1c;
     __m128 unk20, unk30, unk40, unk50, unk60, unk70;
-};
-
-struct CloneDataA : CloneDataBase
-{
-    Block5 unk80;
-    Block5b unk94;
-    Block5 unka8;
-    CloneDataA* FUN_00d4f2a0();
-    void FUN_00d4f270(hkBool flag);
-};
-
-struct CloneDataB : CloneDataBase
-{
-    Block5 unk80;
-    CloneDataB* FUN_00d52fc0();
 };
 
 struct SourceDataHeader
@@ -114,21 +85,6 @@ struct SourceDataHeader
 struct SourceData : SourceDataHeader
 {
     __m128 unk20, unk30, unk40, unk50, unk60, unk70, unk80;
-};
-
-struct SourceDataB : SourceData
-{
-    int unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc;
-    Block5 unkc0;
-};
-
-struct SourceDataA : SourceData
-{
-    int unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc, unkc0, unkc4, unkc8, unkcc,
-        unkd0, unkd4, unkd8, unkdc, unke0, unke4, unke8, unkec, unkf0, unkf4, unkf8;
-    Block5 unkfc;
-    Block5b unk110;
-    Block5 unk124;
 };
 
 struct Instance;
@@ -282,7 +238,10 @@ struct FUN_00979fb0 : RefHeader, HavokAllocation {
 
 }
 
-Instance* __cdecl CloneInstanceFromSource(Instance* source)
+// pdb: hkpConstraintUtils::convertToLimits | hkpConstraintUtils.obj | fnv360_0822_retail, call_gap, high
+// pdb params: originalConstraint
+// pdb: hkpConstraintUtils::convertToLimits | hkpConstraintUtils.obj | fnv360_0822_retail, call_gap, high (was: CloneInstanceFromSource)
+Instance* __cdecl hkpConstraintUtils_convertToLimits(Instance* source)
 {
     using namespace ConstraintCloning;
     FUN_00979fb0* instance = reinterpret_cast<FUN_00979fb0*>(source);
@@ -348,92 +307,7 @@ class FnvSink
 
 extern FnvSink* DAT_01268360;
 
-class MsgWriter
-{
-  public:
-    void Init(char* buf, unsigned int cap) throw();
-    void Append(const char* s) throw();
-    void Finish() throw();
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-};
-
-class FnvInner
-{
-  public:
-    virtual void v00() throw();
-    virtual void v04() throw();
-    virtual void v08() throw();
-    virtual void v0C() throw();
-    virtual void v10() throw();
-    virtual void v14() throw();
-    virtual void v18() throw();
-    virtual void v1C() throw();
-    virtual unsigned int GetKind() throw();
-
-    char unk04[0x0c];
-    __m128 m_20;
-    __m128 m_30;
-    char unk40[0x10];
-    __m128 m_50;
-    char unk60[0x30];
-    __m128 m_90;
-};
-
-class FnvHolder
-{
-  public:
-    char unk00[0x0c];
-    FnvInner* m_0c;
-};
-
-// Reads the inner constraint's kind and copies two __m128 vectors into a1/a2, or logs an unsupported-type error and returns 1.
-// @fnv 0x00e5ad40
-int FUN_00e5ad40(FnvHolder* pHolder, __m128* pOutA, __m128* pOutB)
-{
-    FnvInner* inner = pHolder->m_0c;
-
-    switch (inner->GetKind())
-    {
-    case 0:
-        *pOutA = inner->m_20;
-        *pOutB = inner->m_30;
-        return 0;
-    case 1:
-        *pOutA = inner->m_50;
-        *pOutB = inner->m_90;
-        return 0;
-    case 2:
-        *pOutA = inner->m_50;
-        *pOutB = inner->m_90;
-        return 0;
-    case 7:
-        *pOutA = inner->m_50;
-        *pOutB = inner->m_90;
-        return 0;
-    }
-
-    MsgWriter writer;
-    unsigned int bufStorage[0x80];
-    char* buf = (char*)bufStorage;
-    writer.Init(buf, 0x200);
-    writer.Append("Unsupported type of constraint in prepareSystemForRagdoll()");
-    DAT_01268360->Write(1, 0xabbabf3b, buf, ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 0xe2);
-    writer.Finish();
-    return 1;
-}
-
 namespace fnv_00e5ae60 {
-struct S_00e5ae60_Stream
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    S_00e5ae60_Stream(char* buf, int size) throw();
-    S_00e5ae60_Stream& FUN_00cc01c0(const char* s) throw();
-    ~S_00e5ae60_Stream() throw();
-};
 
 struct S_00e5ae60_Err
 {
@@ -444,95 +318,4 @@ struct S_00e5ae60_Err
 };
 extern S_00e5ae60_Err* DAT_01268360;
 
-struct S_00e5ae60_Constraint
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual int GetType() throw();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int m_b0;
-    int FUN_00cdea20() throw();
-    int FUN_00cdea80() throw();
-    int FUN_00cdeaa0() throw();
-};
-
-// Reads motor values from the constraint into a, b and d based on its type; for unsupported types logs an error and returns 1.
-// @fnv 0x00e5ae60
-int __cdecl GetConstraintMotorValues(S_00e5ae60_Constraint* pConstraint, int* piValueA, int* piValueB,
-                                     int* piValueD) throw()
-{
-    switch (pConstraint->GetType())
-    {
-    case 2:
-        *piValueA = pConstraint->m_b0;
-        *piValueB = 0;
-        *piValueD = 0;
-        return 0;
-    case 7:
-        *piValueA = pConstraint->FUN_00cdea20();
-        *piValueB = pConstraint->FUN_00cdea80();
-        *piValueD = pConstraint->FUN_00cdeaa0();
-        return 0;
-    default:
-        *piValueD = 0;
-        *piValueB = 0;
-        *piValueA = 0;
-        {
-            unsigned int buf[128];  // 512-byte text buffer (int array avoids a GS cookie)
-            S_00e5ae60_Stream s((char*)buf, 0x200);
-            s.FUN_00cc01c0("This type of constraint does not have motors");
-            DAT_01268360->FUN_message(1, 0xabbae233, (const char*)buf,
-                                      ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 0x104);
-        }
-        return 1;
-    }
-}
 }  // namespace fnv_00e5ae60

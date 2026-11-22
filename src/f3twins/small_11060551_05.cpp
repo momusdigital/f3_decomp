@@ -17,6 +17,7 @@ void* C_007f7cb0::FUN_007f7cb0(unsigned char f)
 }
 
 struct C_00bc56e0 { void* FUN_00bc56e0(unsigned char); };
+// pdb: CBillboardLeaf::`scalar deleting destructor' | BillboardLeaf.obj | fnv360_0822_retail, vtable, medium
 void* C_00bc56e0::FUN_00bc56e0(unsigned char f)
 {
     FUN_00ba9550(this);
@@ -25,6 +26,7 @@ void* C_00bc56e0::FUN_00bc56e0(unsigned char f)
 }
 
 struct C_00be5820 { void* FUN_00be5820(unsigned char); };
+// pdb: std::basic_streambuf<char,std::char_traits<char> >::`scalar deleting destructor' | algs.obj | fnv360_0822_retail, caller_sim, low
 void* C_00be5820::FUN_00be5820(unsigned char f)
 {
     FUN_00be56b0(this);
@@ -33,6 +35,7 @@ void* C_00be5820::FUN_00be5820(unsigned char f)
 }
 
 struct C_00be6e80 { void* FUN_00be6e80(unsigned char); };
+// pdb: std::codecvt_base::`scalar deleting destructor' | algs.obj | fnv360_0822_debug, objrun_open, low
 void* C_00be6e80::FUN_00be6e80(unsigned char f)
 {
     FUN_00be6e10(this);
@@ -43,20 +46,23 @@ void* C_00be6e80::FUN_00be6e80(unsigned char f)
 // ---- family f066
 
 struct O_0089ef80 { void FUN_0089ef80(int, int); };
-struct O_0089f040 { void FUN_0089f040(int, int); };
+struct O_0089f040 { void NiFile_FileWrite(int, int); };
 struct O_008a0010 { void FUN_008a0010(int, int); };
 struct O_00bca160 { void FUN_00bca160(int, int); };
 
+// pdb: NiFile::ReadNoSwap | NiFile.obj | tesv_win, caller_sim, low
 void FUN_0089f150(O_0089ef80* a, int b, int c)
 {
     a->FUN_0089ef80(b, c);
 }
 
+// pdb: NiFile::WriteNoSwap | NiFile.obj | tesv_win, objrun, medium
 void FUN_0089f170(O_0089f040* a, int b, int c)
 {
-    a->FUN_0089f040(b, c);
+    a->NiFile_FileWrite(b, c);
 }
 
+// pdb: NiTPointerMap<NiObject const *,unsigned int>::NewItem | NiStream.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: NiMemStream::WriteNoSwap)
 void FUN_008a00e0(O_008a0010* a, int b, int c)
 {
     a->FUN_008a0010(b, c);
@@ -76,6 +82,7 @@ void __fastcall FUN_009454b0(void*);
 void __fastcall FUN_00845a20(void*);
 
 struct C_008bdc20 { void* FUN_008bdc20(unsigned char f); };
+// pdb: BSTreadTransfInterpolator::`scalar deleting destructor' | BSTreadTransfInterpolator.obj | fnv360_0822_retail, caller_sim, low
 void* C_008bdc20::FUN_008bdc20(unsigned char f)
 {
     FUN_008bda00(this);
@@ -84,6 +91,7 @@ void* C_008bdc20::FUN_008bdc20(unsigned char f)
 }
 
 struct C_008caa20 { void* FUN_008caa20(unsigned char f); };
+// pdb: NiBSplineFloatInterpolator::`scalar deleting destructor' | NiBSplineFloatInterpolator.obj | fnv360_0822_retail, objrun, medium
 void* C_008caa20::FUN_008caa20(unsigned char f)
 {
     FUN_008d1ba0(this);
@@ -100,6 +108,7 @@ void* C_009455a0::FUN_009455a0(unsigned char f)
 }
 
 struct C_00ab0e60 { void* FUN_00ab0e60(unsigned char f); };
+// pdb: BSBound::`scalar deleting destructor' | BSBound.obj | fnv360_0822_retail, vtable, medium
 void* C_00ab0e60::FUN_00ab0e60(unsigned char f)
 {
     FUN_00845a20(this);
@@ -116,6 +125,7 @@ void __fastcall FUN_00adf010(void*);
 void __fastcall FUN_008b00f0(void*);
 
 struct C_00ac0ba0 { void* FUN_00ac0ba0(unsigned char); };
+// pdb: NiPSysRotationModifier::`scalar deleting destructor' | NiPSysRotationModifier.obj | fnv360_0721_beta, objrun, medium
 void* C_00ac0ba0::FUN_00ac0ba0(unsigned char f)
 {
     FUN_00ac5e40(this);
@@ -124,6 +134,7 @@ void* C_00ac0ba0::FUN_00ac0ba0(unsigned char f)
 }
 
 struct C_00ac88d0 { void* FUN_00ac88d0(unsigned char); };
+// pdb: NiPSysResetOnLoopCtlr::`scalar deleting destructor' | NiPSysResetOnLoopCtlr.obj | fnv360_0822_retail, objrun, medium
 void* C_00ac88d0::FUN_00ac88d0(unsigned char f)
 {
     FUN_00837e80(this);

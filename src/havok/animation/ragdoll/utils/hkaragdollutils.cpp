@@ -10,6 +10,8 @@ extern "C"
 }
 
 // @fnv 0x00cea7c0
+// pdb: hkaRagdollUtils::reorderAndAlignForRagdoll | hkaRagdollUtils.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: rigidBodiesInOut, constraintsInOut, warnOnAlignment
 int __cdecl FUN_00cea7c0(void* apFirst, void* apSecond, void* apThird)
 {
     if (FUN_00cea030(apFirst, apSecond))
@@ -19,36 +21,6 @@ int __cdecl FUN_00cea7c0(void* apFirst, void* apSecond, void* apThird)
     if (FUN_00ce9e90(apSecond))
         return 1;
     return 0;
-}
-
-struct Item
-{
-    int unk00[11];
-    int unk2c;
-};
-struct Container
-{
-    int unk00[2];
-    Item** items;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-struct Counter
-{
-    int unk00[12];
-    int unk30;
-};
-extern "C" void __cdecl AssignNodeFlags(int, int, int);
-// Sets unk2c of every item in the container to value, increments counter->unk30 and passes the new count to AssignNodeFlags with c->unk14 and c->unk18.
-// @fnv 0x00ce9fa0
-void __cdecl FUN_00ce9fa0(Container* pContainer, int value, Counter* counter)
-{
-    for (int i = 0; i < pContainer->unk0c; ++i)
-        pContainer->items[i]->unk2c = value;
-    int count = ++counter->unk30;
-    AssignNodeFlags(pContainer->unk14, pContainer->unk18, count);
 }
 
 struct Inner
@@ -92,7 +64,9 @@ extern hkError* DAT_01268360;
 
 // Returns true if obj->inner->getSomething() is one of 0,1,2,6,7,8; otherwise optionally reports an unsupported-constraint error and returns false.
 // @f3 0x0095e380 (community match, verified in this file)
-static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool reportError) throw()
+// pdb: _isConstraintSupported | hkaRagdollUtils.obj | fnv360_0822_retail, call_gap, high
+// pdb: _isConstraintSupported | hkaRagdollUtils.obj | fnv360_0822_retail, call_gap, high (was: IsSupportedRagdollConstraint)
+static __declspec(noinline) bool _isConstraintSupported(Obj* obj, bool reportError) throw()
 {
     extern hkError* DAT_010f3364;
     int val = ((int (__thiscall*)(Inner*))(*(void***)obj->inner)[4])(obj->inner);
@@ -120,13 +94,13 @@ static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool rep
 
 void caller_of_IsSupportedRagdollConstraint(Obj* obj, bool reportError)
 {
-    IsSupportedRagdollConstraint(obj, reportError);
+    _isConstraintSupported(obj, reportError);
 }
 
 
 void caller(Obj* obj)
 {
-    IsSupportedRagdollConstraint(obj, true);
+    _isConstraintSupported(obj, true);
 }
 
 struct SpawnedAllocator
@@ -497,10 +471,6 @@ static __forceinline void freeBuffer(HeapAllocator* allocator, void* data, int c
     if (!(capacity & 0x80000000))
         allocator->release(data, capacity & 0x3fffffff);
 }
-static __forceinline char& maskAt(char* const& data, int index) throw()
-{
-    return data[index];
-}
 template <class T> struct ArrayBase
 {
     T* data;
@@ -594,67 +564,13 @@ struct Ragdoll
         return --mapped < 0 ? 0 : constraints[mapped];
     }
 };
-extern "C" void __cdecl MarkHierarchyDescendants(Skeleton*, int, char*, int) throw();
-// Splits a Ragdoll into two output Ragdolls by partitioning bones into hierarchy descendants of source and the rest.
-// @fnv 0x00ceaf60
-void __cdecl FUN_00ceaf60(Ragdoll* original, int aiSourceBone, Ragdoll** first, Ragdoll** second)
-{
-    Ragdoll** outputs[2];
-    outputs[0] = first;
-    outputs[1] = second;
-    const char selectors[2] = {0, 1};
-    int maskCount = original->skeleton->boneCount;
-    char* mask = allocateBuffer<char>(scratchState()->heap, maskCount);
-    int maskCapacity = maskCount ? maskCount : 0x80000000;
-    MarkHierarchyDescendants(original->skeleton, aiSourceBone, mask, 1);
-    for (int partition = 0; partition < 2; ++partition)
-    {
-        Array<RigidBody*> bodies;
-        Array<Constraint*> constraints;
-        Array<int> remap;
-        for (int bone = 0; bone < original->skeleton->boneCount; ++bone)
-        {
-            if (maskAt(mask, bone) != selectors[partition])
-            {
-                remap.AddBack(-1);
-                continue;
-            }
-            RigidBody* body = original->getBody(bone);
-            Constraint* constraint = original->GetConstraintForBone(bone);
-            if (!body)
-            {
-                remap.AddBack(-1);
-                continue;
-            }
-            remap.AddBack(bodies.GetLogicalSize());
-            bodies.AddBack(body);
-            if (bone != aiSourceBone && bone != 0)
-                constraints.AddBack(constraint);
-        }
-        Ragdoll* result = (Ragdoll*)scratchState()->heap->AllocateMemoryBlock(0x30);
-        result->memorySizeAndFlags = 0x30;
-        result = result->FUN_00ce2510(bodies, constraints, original->getSkeleton(), remap);
-        *outputs[partition] = result;
-        HeapAllocator* allocator = scratchState()->heap;
-        remap.size = 0;
-        if (!(remap.capacity & 0x80000000))
-            allocator->release(remap.data, (remap.capacity & 0x3fffffff) * 4);
-        remap.data = 0;
-        remap.capacity = 0x80000000;
-        constraints.clear();
-        bodies.clear();
-    }
-    freeBuffer(scratchState()->heap, mask, maskCapacity);
-}
 }  // namespace fnv_00ceaf60
 
-extern "C" void _ReadWriteBarrier();
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
-extern "C" __m128 _mm_load_ps(const float*);
 
 extern "C"
 {
@@ -668,12 +584,6 @@ extern "C"
     __m128 _mm_unpackhi_ps(__m128, __m128);
     __m128 _mm_rcp_ps(__m128);
 }
-
-extern __m128 DAT_010c71e0;
-extern __m128 DAT_010c7170;
-extern __m128 DAT_010c44d0;
-extern __m128 DAT_010c4c00;
-extern __m128 DAT_010c4c10;
 
 struct hkBoolR
 {
@@ -748,14 +658,6 @@ struct hkQuaternion
     void SetConjugate(const hkQuaternion& a);
     inline void FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b);
 };
-inline const hkVec4& hkQuaternion::getImag() const
-{
-    return m_vec;
-}
-inline void hkQuaternion::SetConjugate(const hkQuaternion& a)
-{
-    m_vec.setNeg3(a.getImag());
-}
 inline __m128& hkVec4::getQuad()
 {
     return m_vComponents;
@@ -772,137 +674,7 @@ inline void hkVec4::operator=(const __m128& a)
 {
     getQuad() = a;
 }
-inline void hkVec4::setAdd4(const hkVec4& a, const hkVec4& b)
-{
-    m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
-}
-inline void hkVec4::setMul4(const hkVec4& a, const hkVec4& b)
-{
-    m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
-}
-inline void hkVec4::setAddMul4(const hkVec4& a, const hkVec4& b, const hkVec4& c)
-{
-    m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(b.m_vComponents, c.m_vComponents));
-}
-inline void hkVec4::addMul4(const hkVec4& a, const hkVec4& b)
-{
-    m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
-}
-inline void hkVec4::addMul4(const ScalarValue& a, const hkVec4& b)
-{
-    m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.broadcast(), b.m_vComponents));
-}
-inline void hkVec4::setNeg4(const hkVec4& a)
-{
-    m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c44d0);
-}
-inline void hkVec4::setNeg3(const hkVec4& a)
-{
-    m_vComponents = _mm_xor_ps(a.m_vComponents, DAT_010c4c00);
-}
-inline void hkVec4::setCross(const hkVec4& a, const hkVec4& b)
-{
-    __m128 first = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 201),
-                              _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 210));
-    __m128 second = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 210),
-                               _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 201));
-    m_vComponents = _mm_sub_ps(first, second);
-}
-inline ScalarValue hkVec4::dot3(const hkVec4& a) const
-{
-    __m128 products = _mm_mul_ps(m_vComponents, a.m_vComponents);
-    __m128 xy = _mm_add_ss(_mm_shuffle_ps(products, products, 85), products);
-    return _mm_add_ss(_mm_shuffle_ps(products, products, 170), xy);
-}
-inline void hkVec4::setBroadcast(const hkVec4& a, int i)
-{
-    if (i == 0)
-        m_vComponents = _mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0);
-    else if (i == 1)
-        m_vComponents = _mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 85);
-    else if (i == 2)
-        m_vComponents = _mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 170);
-    else
-        m_vComponents = _mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 255);
-}
-inline void hkVec4::broadcast(int i)
-{
-    setBroadcast(*this, i);
-}
-static inline __m128 reciprocalQuad(__m128 a)
-{
-    __m128 estimate = _mm_rcp_ps(a);
-    return _mm_sub_ps(_mm_add_ps(estimate, estimate), _mm_mul_ps(_mm_mul_ps(estimate, a), estimate));
-}
-inline void hkVec4::setReciprocal4(const hkVec4& a)
-{
-    m_vComponents = reciprocalQuad(a.m_vComponents);
-}
-__forceinline void hkVec4::SetRotatedDirection(const hkQuaternion& a, const hkVec4& b)
-{
-    hkVec4 half;
-    half.getQuad() = DAT_010c71e0;
-    hkVec4 real;
-    real.setBroadcast(a.m_vec, 3);
-    hkVec4 factor;
-    factor.setAddMul4(half, real, real);
-    hkVec4 result;
-    result.setMul4(b, factor);
-    hkVec4 dot;
-    dot.getQuad() = a.getImag().dot3(b).getQuad();
-    dot.broadcast(0);
-    result.addMul4(dot, a.getImag());
-    hkVec4 cross;
-    cross.setCross(a.getImag(), b);
-    result.addMul4(real, cross);
-    setAdd4(result, result);
-}
-__forceinline void hkVec4::setRotatedInverseDir(const hkQuaternion& a, const hkVec4& b)
-{
-    hkVec4 half;
-    half.getQuad() = DAT_010c71e0;
-    hkVec4 real;
-    real.setBroadcast(a.m_vec, 3);
-    hkVec4 factor;
-    factor.setAddMul4(half, real, real);
-    hkVec4 result;
-    result.setMul4(b, factor);
-    hkVec4 dot;
-    dot.getQuad() = a.getImag().dot3(b).getQuad();
-    dot.broadcast(0);
-    result.addMul4(dot, a.getImag());
-    hkVec4 cross;
-    cross.setCross(b, a.getImag());
-    result.addMul4(real, cross);
-    setAdd4(result, result);
-}
 
-inline ScalarValue hkVec4::scalarAt(int i) const
-{
-    switch (i)
-    {
-    case 0:
-        return getQuad();
-    case 1:
-        return _mm_shuffle_ps(getQuad(), getQuad(), 85);
-    case 2:
-        return _mm_shuffle_ps(getQuad(), getQuad(), 170);
-    default:
-        return _mm_shuffle_ps(getQuad(), getQuad(), 255);
-    }
-}
-inline void hkVec4::SetAllComponents(const ScalarValue& a)
-{
-    getQuad() = a.broadcast();
-}
-inline void hkVec4::sub4(const hkVec4& a)
-{
-    getQuad() = _mm_sub_ps(getQuad(), a.getQuad());
-}
-inline void hkVec4::setXYZW(const hkVec4& xyz, const hkVec4& w)
-{
-    getQuad() = _mm_shuffle_ps(xyz.getQuad(), _mm_unpackhi_ps(xyz.getQuad(), w.getQuad()), 196);
-}
 inline void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
 {
     hkVec4 cross;
@@ -917,18 +689,6 @@ inline void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion
     m_vec.setXYZW(cross, product);
 }
 
-inline void hkVec4::setReciprocal3(const hkVec4& a)
-{
-    hkVec4 one;
-    one.getQuad() = DAT_010c7170;
-    hkVec4 combined;
-    combined.setXYZW(a, one);
-    setReciprocal4(combined);
-}
-inline void hkVec4::setXYZ0(const hkVec4& a)
-{
-    m_vComponents = _mm_and_ps(a, DAT_010c4c10);
-}
 struct hkQsXform
 {
     hkVec4 m_vTranslation;
@@ -967,107 +727,6 @@ struct hkXform
     hkVec4 m_vTranslation;
 };
 
-struct MassA
-{
-    void* unk00;
-    void* unk04;
-    unsigned char unk08, unk09, unk0a, unk0b;
-    void FUN_00d733e0();
-};
-struct MassB
-{
-    hkVec4 unk00;
-    void FUN_00d73410();
-};
-struct ErrorIface
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void SetErrorCodeEnabled(int id, hkBoolR enabled);
-    virtual hkBoolR isEnabled(int id);
-};
-struct ShapeObj
-{
-    int unk00;
-    unsigned short m_usMemSizeAndFlags;
-    ShapeObj* FUN_00cf5990(void* shape, const hkXform& t);
-    void FUN_00c905b0();
-};
-struct Body
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void SetCollisionShapeAndKey(ShapeObj* shape);
-    void* m_pCollisionShape;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    int unkd8;
-    int unkdc;
-    int unke0;
-    int unke4;
-    char m_bFlag;
-    int unkec;
-    hkXform m_kMotionTransform;
-    hkVec4 m_vCenterOfMass0;
-    hkVec4 m_vCenterOfMass1;
-    void FUN_00ca8890(const hkXform& t);
-    void FUN_00ca85f0(const hkVec4& com);
-};
-void __cdecl FUN_00d748d0(Body* body, MassA* a, MassB* b);
-
-extern hkQsXform DAT_01268700;
-extern float DAT_01017d00;
-
 struct MemoryRouter : SpawnedGlobal
 {
     __forceinline SpawnedAllocator& heap()
@@ -1076,59 +735,7 @@ struct MemoryRouter : SpawnedGlobal
     }
 };
 
-static __forceinline ErrorIface* GetError()
-{
-    return (ErrorIface*)DAT_01268360;
-}
-
 // @fnv 0x00ce9880
-static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
-{
-    if (t.FUN_00ce5120(DAT_01268700, DAT_01017d00).m_cBooleanValue == 0)
-    {
-        hkQsXform bodyQs;
-        bodyQs.FUN_00ce5070(&body->m_kMotionTransform);
-
-        hkQsXform combined;
-        combined.SetProduct(bodyQs, t);
-        hkQsXform inv;
-        inv.SetConjugate(t);
-        hkVec4 com = body->m_vCenterOfMass1;
-        hkBoolR bErrorEnabled = GetError()->isEnabled(0x2ff8c16f);
-        GetError()->SetErrorCodeEnabled(0x2ff8c16f, false);
-        hkXform kXform;
-        {
-            void* shape = body->m_pCollisionShape;
-            inv.FUN_00ce50b0(&kXform);
-            ShapeObj* pShapeObj = (ShapeObj*)((MemoryRouter*)FUN_00c85750())->heap().allocate(0x70);
-            pShapeObj->m_usMemSizeAndFlags = 0x70;
-            ShapeObj* pTransformedShape = pShapeObj->FUN_00cf5990(shape, kXform);
-            body->SetCollisionShapeAndKey(pTransformedShape);
-            pTransformedShape->FUN_00c905b0();
-        }
-        {
-            MassA a;
-            a.FUN_00d733e0();
-            MassB b;
-            b.FUN_00d73410();
-            FUN_00d748d0(body, &a, &b);
-        }
-        GetError()->SetErrorCodeEnabled(0x2ff8c16f, bErrorEnabled);
-        combined.FUN_00ce50b0(&kXform);
-        body->FUN_00ca8890(kXform);
-        if (body->m_bFlag != 5)
-        {
-            hkVec4 lc;
-            lc.FUN_00c7f690(kXform, com);
-            body->FUN_00ca85f0(lc);
-        }
-    }
-    return 0;
-}
 volatile int g_inT;
 volatile int g_inBody;
 volatile int g_out;
-void CallTarget_ce9880()
-{
-    g_out = FUN_00ce9880(*(const hkQsXform*)g_inT, (Body*)g_inBody);
-}

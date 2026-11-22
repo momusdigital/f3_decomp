@@ -38,18 +38,21 @@ void FUN_00d02bb0()
     DAT_0116932c = &DAT_00f7a4c0;
 }
 
+// pdb: bhkConvert::`dynamic initializer for 'fHk2BSScaleSC'' | bhkLiquidAction.obj | fnv360_0822_debug, objrun_open, low, conflict (skyrim: bhkConvert::`dynamic initializer for 'fBS2HkScaleSC'')
 void FUN_00d03140()
 {
     DAT_00f7b56c = DAT_0116932c;
     DAT_0116932c = &DAT_00f7b568;
 }
 
+// pdb: `dynamic initializer for 'hkSingletonRegisterhkBuiltinTypeRegistry'' | hkBuiltinTypeRegistry.obj | tesv_win, objrun_open, low
 void FUN_00d03230()
 {
     DAT_00f7b784 = DAT_0116932c;
     DAT_0116932c = &DAT_00f7b780;
 }
 
+// pdb: `dynamic initializer for 'hkpExtendedMeshShape_SubpartClass_Members'' | hkpCollidehkpExtendedMeshShapeReflections.obj | tesv_win, objrun_open, low
 void FUN_00d7dd80()
 {
     DAT_0106139c = DAT_0116932c;
@@ -74,6 +77,7 @@ void FUN_00d7dde0()
     DAT_0116932c = &DAT_01061518;
 }
 
+// pdb: `dynamic initializer for 'hkpConstraintInstance::Members'' | hkpDynamicsReflections.obj | tesv_win, objrun_open, low
 void FUN_00d7e510()
 {
     DAT_01063258 = DAT_0116932c;

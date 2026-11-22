@@ -9,6 +9,7 @@ struct S_00cb0da0
 };
 
 // @fnv 0x00cb0da0
+// pdb: hkMonitorStream::reset | hkMonitorStream.obj | tesv_win, objrun_open, low
 void FUN_00cb0da0(S_00cb0da0* p)
 {
     p->m_04 = p->m_00;
@@ -56,7 +57,6 @@ struct SpawnedBuffer
 };
 
 char* FUN_00c85750();
-void FUN_00cb0df0(SpawnedBuffer* buf);
 
 // @f3 0x009448d0 (community match, verified in this file)
 extern unsigned long DAT_010f3170;
@@ -69,6 +69,7 @@ struct StubAllocF3 {
     char* FUN_008f6f60(unsigned int size, int kind);
 };
 
+// pdb: NiObject::NiObject | NiObject.obj | fnv360_0822_debug, objopen_prop, low, conflict (skyrim: hkMonitorStream::resize)
 void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
 {
 
@@ -172,34 +173,4 @@ struct AudioHolder
 
 AudioHolder* __cdecl FUN_00c85750();
 
-struct GrowBuffer
-{
-    char* m_pBegin;
-    char* m_pCurrent;
-    char* m_pRecordEnd;
-    char* m_pReadData;
-    char m_bOwned;
-};
-
-// Frees the owned record buffer and the TLS audio holder block, then clears the TLS slot.
-// @fnv 0x00cb0df0
-void __cdecl FUN_00cb0df0(GrowBuffer* apBuffer)
-{
-    void* pThreadData = TlsGetValue(DAT_0126835c);
-
-    char* pBegin = apBuffer->m_pBegin;
-    if (pBegin != 0 && apBuffer->m_bOwned != 0)
-    {
-        char* pEnd = apBuffer->m_pRecordEnd;
-        AudioHolder* pHolder = FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->FreeArray(pBegin, (int)(pEnd - pBegin));
-    }
-
-    AudioHolder* pHolder2 = FUN_00c85750();
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
-    pAllocator2->Free(pThreadData, 0x14);
-
-    TlsSetValue(DAT_0126835c, 0);
-}
 }  // namespace fnv_00cb0df0

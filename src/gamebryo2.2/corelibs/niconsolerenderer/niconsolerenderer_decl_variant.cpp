@@ -14,7 +14,12 @@ public:
  unsigned int pad[7]; unsigned int count; unsigned int pad24; RendererPacketEntry** entries;
  __declspec(noinline) bool HasPendingPackets();
  static const char* GetD3DFormatName(_D3DFORMAT);
- char remaining[0xb80-44];
+ char unk02C[0x5e0-0x2c];
+ unsigned int unk5E0;
+ float unk5E4;
+ unsigned int unk5E8;
+ unsigned int unk5EC;
+ char unk5F0[0xb80-0x5f0];
  static GraphicsRenderer* Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
  bool Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
 };
@@ -120,11 +125,11 @@ char* NiTPointerListBase<NiTPointerAllocator<unsigned int>,char*>::RemoveTail() 
  return result;
 }
 extern "C" void* g_011f4430;
-void* __cdecl FUN_00a5f200();
+void* __cdecl BSPlayerDistanceCheckController_GetRTTI();
 extern "C" int g_011f443c;
 int __cdecl FUN_00a5f4f0();
 int __cdecl FUN_00a5f500();
-int __cdecl FUN_00dc9e60();
+int __cdecl hkpGenericConstraintData_getType();
 struct NiDX9Renderer {
     unsigned int pad[0x228];
     unsigned int m_8a0;
@@ -140,6 +145,9 @@ struct FUN_00e69600_shell
     unsigned int __thiscall FUN_00e69600();
 };
 struct FUN_00e69900_shell {
+    char unk000[0x628];
+    unsigned int unk628;
+    unsigned int unk62C;
     void SetTwoValues(unsigned int a, unsigned int b);
 };
 void FUN_00e69ad0(const char* path);
@@ -207,7 +215,8 @@ struct FUN_00e72e50_shell {
 extern "C" void* g_0126f0f0;
 void* __cdecl FUN_00e757b0();
 struct FUN_00e757c0_shell {
-    unsigned char* data;
+    unsigned char unk000[0xad0];
+    unsigned char unkAD0;
     unsigned char FUN_00e757c0();
 };
 struct FUN_00e75830_shell : GraphicsRenderer {
@@ -220,7 +229,7 @@ struct FUN_00e75840_shell {
 };
 extern "C" void* g_01270900;
 void* __cdecl FUN_00e766f0();
-struct FUN_00e758f0_shell {
+struct FUN_00e758f0_shell : GraphicsRenderer {
     void PackColorToUInt(float* floats);
 };
 extern int DAT_0126f580[];
@@ -374,14 +383,16 @@ struct Dev
 };
 struct RendererHolder
 {
+ char unk000[0x288];
+ Dev* unk288;
  int __thiscall FUN_00e698a0(int a1, int a2, int a3, int a4);
 };
 struct FUN_00e698d0_shell { char _pad[0x288]; void* m_pDirectInputDevice; void DispatchToVTableSlot82(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4); };
-struct FUN_00e69970_shell { void ClearShader(void* pkShader); };
+struct FUN_00e69970_shell { char unk000[0x8b8]; void* unk8B8; void ClearShader(void* pkShader); };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 int __cdecl FUN_00e68ef0(void*, void*);
-struct StandIn_e6dc40 { bool FUN_00e6dc40(void*); };
+struct StandIn_e6dc40 { unsigned char unk000[0x180]; unsigned char unk180[0x18]; bool FUN_00e6dc40(void*); };
 struct NiVBSet { void Create(unsigned int, void*); };
 int __cdecl CreateRenderedTextureData(void*, void*, unsigned int);
 struct Param_00e6dc80 { unsigned int pad[9]; unsigned int flag; };
@@ -389,7 +400,7 @@ struct Stand_00e6dc80 { char pad[0x8cc]; NiVBSet vb; bool CreateVertexBufferIfNe
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 int __cdecl FUN_00e8abf0(void*, void*);
-struct FUN_00e6dcc0_shell { bool __thiscall FUN_00e6dcc0(void*); };
+struct FUN_00e6dcc0_shell { unsigned char unk000[0x180]; unsigned char unk180[0x18]; bool __thiscall FUN_00e6dcc0(void*); };
 struct NiTMapBaseStub { void __thiscall RemoveAll(); };
 extern int DAT_010eda24;
 extern MemoryManager g_memoryManager;
@@ -433,6 +444,8 @@ struct NiDX9ShaderDeclaration
  virtual int V24(); virtual int V25(); virtual int V26(); virtual int V27(); virtual int V28(); virtual int V29(); virtual int V30(); virtual int V31();
  virtual int V32(); virtual int V33(); virtual int V34(); virtual int V35(); virtual int V36(); virtual int V37(); virtual int V38(); virtual int V39();
  virtual int V40(); virtual int V41(); virtual int V42(); virtual int V43(); virtual int V44(); virtual int V45();
+ unsigned int unk04[7];
+ unsigned int unk20;
  bool FUN_00e76630(unsigned int*, unsigned int*);
 };
 struct P03MM { void* Allocate(unsigned int size); };
@@ -587,6 +600,7 @@ struct Group765 : VBase765 {
 };
 struct FUN_00e76610_shell {
     unsigned int pad[0x34/4];
+    bool unk34;
     void __thiscall SetFlag(bool value);
 };
 extern int DAT_010ee70c;
@@ -620,6 +634,10 @@ struct RenderCopyData { char pad[8]; unsigned int width; unsigned int height; Co
 struct CpRectNi { int left, right, top, bottom; };
 typedef void (__cdecl *CopyMsgFn)(const char*, ...);
 struct FUN_00e6f840_shell {
+    char unk000[0x288];
+    CpDevice* unk288;
+    char unk28C[0x6fc - 0x28c];
+    char unk6FC;
     bool CopySurface(RenderCopyData* src, RenderCopyData* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
@@ -657,7 +675,7 @@ struct FUN_00e79f40_Stream {
     unsigned int pad28;
     char* dst;
 };
-int FUN_00e79f40(FUN_00e79f40_Stream* s);
+int NiD3DShaderDeclaration_Pack_ByteToUByteColor(FUN_00e79f40_Stream* s);
 struct FUN_00e78bd0_shell {
     bool flag;          // +0x00
     void* field_04;     // +0x04
@@ -678,6 +696,10 @@ struct DepthDeviceTable
 };
 struct FUN_00e6c690_shell
 {
+    char unk000[0x3c4];
+    char unk3C4[0x200];
+    unsigned int unk5C4;
+    unsigned int unk5C8;
     char* GetDepthDeviceDescription();
 };
 extern DepthDevice* DAT_0126f0d8;
@@ -685,12 +707,19 @@ int __cdecl _NiSprintf(char*, unsigned int, const char*, int, const char*, ...);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 extern void* DAT_011c5f58;
 void __stdcall ReleaseRefCountedNode(void* param_1);
+struct Entry_00e76500
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int* unk08;
+    unsigned int unk0C;
+};
 struct FUN_00e76500_shell
 {
     unsigned int pad[7];
     unsigned int f1c;
     unsigned int f20;
-    unsigned int* f24;
+    Entry_00e76500* f24;
     unsigned char f28;
     unsigned int pad29[1];
     void* f30;
@@ -3799,7 +3828,7 @@ extern void* g_hE6EC20Module;
 extern void* (__stdcall* g_pfnE6EC20Create)(unsigned int uiVersion);
 extern int (__stdcall* g_pfnE6EC20FreeLibrary)(void* hModule);
 extern E6EC20List g_kE6EC20List;
-void ShutdownE6EC20();
+void NiDX9Renderer__SDMShutdown();
 // Renderer resource setup: original C++ reconstructed from InitializeRendererResources.
 struct RendererStateSlot;
 struct ResourceDescriptor { unsigned char unknown00; unsigned char format; };
@@ -4130,7 +4159,7 @@ struct FUN_00e744b0_Src {
     FUN_00e744b0_VObj* m_b8;
     unsigned int m_bc;
 };
-struct FUN_00e744b0_obj { void ProcessCollector(unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, int f); };
+struct FUN_00e744b0_obj { void NiD3DGeometryGroupManager_AddObjectToGroup(unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, int f); };
 struct FUN_00e744b0_cls {
     unsigned int unk000;
     unsigned int unk004;
@@ -8173,7 +8202,7 @@ static inline unsigned int PackColor_e78910(const short* v, unsigned short comps
         a = (unsigned short)v[3];
     return (((short)a & 0xff00) << 16) | ((v[0] & 0xff00) << 8) | (v[1] & 0xff00) | ((v[2] >> 8) & 0xff);
 }
-int PackVertexColors(Stream_e78910* s);
+int NiD3DShaderDeclaration_Pack_ShortToUByteColor(Stream_e78910* s);
 extern const char DAT_010ee7cc[];
 void __cdecl FUN_00aa1490(void* apMemory, unsigned int auiSize);
 struct FUN_00e78be0_cls {
@@ -8209,7 +8238,7 @@ struct FUN_00e79370_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-unsigned int FUN_00e79370(FUN_00e79370_Info* pkInfo);
+unsigned int NiD3DShaderDeclaration_Pack_UnsignedLongToFloat(FUN_00e79370_Info* pkInfo);
 struct NormalizedStream {
     unsigned short lastComponent, unk02;
     unsigned short type, unk06;
@@ -8597,7 +8626,7 @@ struct PackingPacket {
     void* vertexData;
     void* stripLengths;
     bool FUN_00e8eeb0();
-    void FUN_00e8ef10(unsigned int);
+    void NiGeometryBufferData_SetStreamCount(unsigned int);
     void FUN_00e8eee0();
 };
 struct PackingData {
@@ -10853,7 +10882,7 @@ struct ByteFloatStream {
  unsigned unk14, sourceStride, elementSize, destStride, unk24, unk28;
  unsigned char* dest;
 };
-unsigned __cdecl ConvertByteFloatStream(ByteFloatStream* s);
+unsigned __cdecl NiD3DShaderDeclaration_Pack_ByteToFloat(ByteFloatStream* s);
 struct ColorStream {
     unsigned int unk00;
     unsigned short type, unk06, count, unk0a;
@@ -10863,7 +10892,7 @@ struct ColorStream {
     unsigned char* dst;
 };
 void* _fnv_zlib_memset(void*, int, unsigned int);
-unsigned int ConvertColorStream(ColorStream* s);
+unsigned int NiD3DShaderDeclaration_Pack_UnsignedByteToUByteColor(ColorStream* s);
 struct D3DMATRIX_Custom {
     float _11, _12, _13, _14;
     float _21, _22, _23, _24;
@@ -12352,7 +12381,7 @@ struct FUN_00e759c0_cls {
     unsigned char unk5e3;
     void FUN_00e759c0(float* out);
 };
-unsigned int __cdecl ConvertNormalizedShortsToFloats(NormalizedStream* s);
+unsigned int __cdecl NiD3DShaderDeclaration_Pack_ShortToFloat(NormalizedStream* s);
 struct E6F310Rect {
     int x1;
     int y1;
@@ -13236,7 +13265,7 @@ unsigned int unk00, flags; Owner108* owner; unsigned int unk0c,unk10; bool dynam
 unsigned int activeVertices,vertices,streamCount,unk24; void** streams; unsigned int indexCount,indexOffset; void* indexBuffer; unsigned int unk38,unk3c,stripLengths,triangles,stripCount;void* activeTriangles;void* indices;
 __forceinline void SetVertexCounts(unsigned short av,unsigned short v) { activeVertices=av; vertices=v; }
 __forceinline void SetTriangleCounts(unsigned short at,unsigned short t,void* lens,unsigned short strips,void* idx) { stripLengths=at; triangles=t; activeTriangles=lens; indices=idx; stripCount=strips; }
-bool FUN_00e8eeb0(); void FUN_00e8ef10(unsigned int); void FUN_00e8eee0();
+bool FUN_00e8eeb0(); void NiGeometryBufferData_SetStreamCount(unsigned int); void FUN_00e8eee0();
 };
 struct Geo108 {unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,revision;};
 class NiD3DHLSLVertexShader {public:const char* GetEntryPoint();};
@@ -15563,7 +15592,7 @@ struct S00e76450_Obj {
     bool FUN_00e76450(unsigned int x, unsigned int y, int a, int b, int c, int d, int e, int f);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-unsigned int __cdecl FUN_00e78f80(Stream_e78910* s);
+unsigned int __cdecl NiD3DShaderDeclaration_Pack_FloatToFloat(Stream_e78910* s);
 struct PixRow_00e79760 {
   unsigned short m_w0;        // +0x00
   unsigned short m_w2;        // +0x02
@@ -15581,8 +15610,8 @@ struct PixRow_00e79760 {
   unsigned int m_unk28;       // +0x28
   char* m_dst;                // +0x2c
 };
-unsigned int FUN_00e79760(PixRow_00e79760* r);
-unsigned int FUN_00e79d00(NormalizedStream* s);
+unsigned int NiD3DShaderDeclaration_Pack_UnsignedShortToFloat(PixRow_00e79760* r);
+unsigned int NiD3DShaderDeclaration_Pack_FloatToUByteColor(NormalizedStream* s);
 class DepthStencilE7B {
 public:
     unsigned int m_uiKey;
@@ -15643,6 +15672,7 @@ void* FUN_00aa13e0(unsigned int size);
 void FUN_00e78560(unsigned int a, unsigned int b);
 
 // @fnv 0x00e7a760
+// pdb: NiD3DShaderDeclaration::InitializePackingFunctions | NiD3DShaderDeclaration.obj | tesv_win, objrun_open, low
 bool FUN_00e7a760() {
     if (reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->u0a == 0x12) {
         return true;

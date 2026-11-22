@@ -5,40 +5,21 @@
 extern "C" void __cdecl FUN_00ecc7b0(char* dest, const char* src, int count);
 
 // @fnv 0x00cb10b0
+// pdb: hkString::strNcpy | hkString.obj | fnv360_0822_retail, call_gap, low
+// pdb params: dst, src, n
 void __cdecl CopyIfNonEmpty(char* dest, const char* src, int count)
 {
     if (count)
         FUN_00ecc7b0(dest, src, count);
 }
 
-void __cdecl FUN_00ec8d33(int a, int b, int c);
-
-// @fnv 0x00cb10f0
-void __cdecl CallWithZeroMiddleArg(int aiFirst, int aiThird)
-{
-    FUN_00ec8d33(aiFirst, 0, aiThird);
-}
-
 struct BSAudio;
-struct UnkRet
-{
-    void* p;
-};
-struct UnkHolder
-{
-    UnkRet* FUN_00c85750();
-};
 extern "C" BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl CallSwappedArgs(BSAudio*, int);
-
-// @fnv 0x00cb13c0
-void __cdecl FUN_00cb13c0(int aiAudio)
-{
-    CallSwappedArgs((BSAudio*)aiAudio, *(int*)((char*)FUN_00c85750() + 0x10));
-}
 
 double __cdecl FUN_00ecdf2d(unsigned int value, int mode);
 // @fnv 0x00cb1110
+// pdb: hkString::atof | hkString.obj | fnv360_0822_debug, objrun, medium
+// pdb params: in
 float __cdecl ConvertToFloat(unsigned int value)
 {
     return FUN_00ecdf2d(value, 0);
@@ -54,52 +35,7 @@ class hkBool
     char m_cBooleanValue;
 };
 
-// Returns true if str begins with prefix by comparing characters until the prefix's null terminator.
-// @fnv 0x00cb1310
-hkBool StartsWith(const char* acString, const char* prefix)
-{
-    for (int i = 0; prefix[i] != 0; ++i)
-    {
-        if (acString[i] != prefix[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-int __cdecl FUN_00cb10d0(const char* text);
-
-// Compares the tail of text against suffix and stores whether text ends with suffix into result.
-// @fnv 0x00cb1340
-bool* __cdecl EndsWith(bool* result, const char* text, const char* suffix)
-{
-    int textLength = FUN_00cb10d0(text);
-    int suffixLength = FUN_00cb10d0(suffix);
-    if (textLength < suffixLength)
-    {
-        *result = false;
-        return result;
-    }
-    int offset = textLength - suffixLength;
-    for (int i = 0; i < suffixLength; ++i)
-    {
-        if (text[offset + i] != suffix[i])
-        {
-            *result = false;
-            return result;
-        }
-    }
-    *result = true;
-    return result;
-}
-
-class NineIntegerRecord
-{
-  public:
-    NineIntegerRecord();
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-};
+int __cdecl hkString_strLen(const char* text);
 
 struct BSAudio
 {
@@ -108,12 +44,13 @@ struct BSAudio
 };
 
 BSAudio* FUN_00c85750();
-void __cdecl FUN_00cb11b0(int a, int b, int c);
 
 // Reads unk10 from the BSAudio returned by FUN_00c85750 and passes it with a and b to FUN_00cb11b0.
 // @f3 0x005435a0 (community match, verified in this file)
 extern unsigned int FUN_00f5a830[];
 
+// pdb: BGSEntryPointFunction::ExecuteFunction | BGSEntryPointFunction.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aeFunction, apPerkOwner, aeFunctionType, acArgumentCount, apFunctionArgument, apData
 void __cdecl FUN_00cb13e0(int aiArg1, int aiArg2)
 {
     int* args = &aiArg2;
@@ -126,6 +63,8 @@ void __cdecl FUN_00cb13e0(int aiArg1, int aiArg2)
 
 
 // @fnv 0x00cb1090
+// pdb: hkString::strCpy | hkString.obj | fnv360_0822_retail, objrun, low, conflict (skyrim: hkString::strDup)
+// pdb params: dst, src
 void __cdecl FUN_00cb1090(char* pcDest, const char* pcSrc)
 {
     const char* s = pcSrc;
@@ -148,81 +87,11 @@ int __cdecl FUN_00cb1290(const unsigned char* left,const unsigned char* right,un
 }
 
 
-const char* __cdecl FUN_00cb1150(const char* str, int c);
-
-// @fnv 0x00cb1390
-int __cdecl FUN_00cb1390(const char* str, char acChar)
-{
-    const char* p = FUN_00cb1150(str, acChar);
-    return p ? (int)(p - str) : -1;
-}
-
-struct S_00cb1410_Buf
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    S_00cb1410_Buf();
-};
-int __cdecl FUN_00cb1160(int a, int b);
-
-// Constructs a local S_00cb1410_Buf, reads unk10 from FUN_00c85750()'s result, and passes it with a to FUN_00cb1160.
-// @fnv 0x00cb1410
-void __cdecl FUN_00cb1410(int aiValue)
-{
-    S_00cb1410_Buf buf;
-    int r = FUN_00c85750()->unk10;
-    FUN_00cb1160(aiValue, r);
-}
-
-struct Sink
-{
-    void FUN_00cb0c50(const char* p, int n);
-};
+const char* __cdecl BSTreadTransfInterpolator_IsEqual(const char* str, int c);
 
 const char* __cdecl FUN_00cb1130(const char* a, const char* b);
-int __cdecl FUN_00cb10d0(const char* text);
-char* __cdecl FUN_00cb1140(const char* s, int c);
-
-static __declspec(noinline) char* skip(char* p)
-{
-    while (*p == ' ')
-        ++p;
-    return p;
-}
-
-// Finds needle in hay, skips spaces to an '=', then a quoted string, and passes the quoted text to sink; returns 1 on success, 0 otherwise.
-// @fnv 0x00d48440
-static __declspec(noinline) int ParseQuotedValue(const char* pText, const char* pKey, Sink* sink)
-{
-    const char* p = FUN_00cb1130(pText, pKey);
-    if (!p)
-        return 0;
-    p += FUN_00cb10d0(pKey);
-    p = skip((char*)p);
-    if (*p != '=')
-        return 0;
-    p = skip((char*)p + 1);
-    if (*p != '"')
-        return 0;
-    ++p;
-    char* pQuoteEnd = FUN_00cb1140(p, '"');
-    if (!pQuoteEnd)
-        return 0;
-    sink->FUN_00cb0c50(p, (int)(pQuoteEnd - p));
-    return 1;
-}
-
-int __cdecl call_it(const char* a, const char* b, Sink* s)
-{
-    return ParseQuotedValue(a, b, s);
-}
+int __cdecl hkString_strLen(const char* text);
+char* __cdecl BSBlendTreadTransfInterpolator_IsEqual(const char* s, int c);
 
 void __cdecl FUN_00ecddf1(int a, int b, int c, int d);
 
@@ -236,7 +105,8 @@ namespace fnv_00cb1140 {
 extern "C" char* __cdecl _strchr(const char* s, int c);
 
 // @fnv 0x00cb1140
-char* __cdecl FUN_00cb1140(const char* s, int c)
+// pdb: BSBlendTreadTransfInterpolator::IsEqual | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+char* __cdecl BSBlendTreadTransfInterpolator_IsEqual(const char* s, int c)
 {
     return _strchr(s, c);
 }
@@ -246,7 +116,8 @@ namespace fnv_00cb1150 {
 extern "C" const char* __cdecl FUN_00ec6e30(const char* str, int c);
 
 // @fnv 0x00cb1150
-const char* __cdecl FUN_00cb1150(const char* str, int c)
+// pdb: BSTreadTransfInterpolator::IsEqual | BSTreadTransfInterpolator.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+const char* __cdecl BSTreadTransfInterpolator_IsEqual(const char* str, int c)
 {
     return FUN_00ec6e30(str, c);
 }
@@ -279,7 +150,10 @@ void __cdecl FUN_00cb1280(void* dest, int value, unsigned int count)
 extern "C" int __cdecl FUN_00ecddf1(char* buf, unsigned int n, const char* fmt, va_list args);
 
 // @fnv 0x00cb0f60
-int __cdecl Vsnprintf(char* buf, int n, const char* fmt, ...)
+// pdb: hkString::snprintf | hkString.obj | fnv360_0822_retail, call_seq, high
+// pdb params: buf, len, fmt
+// pdb: hkString::snprintf | hkString.obj | fnv360_0822_retail, call_seq, high (was: Vsnprintf)
+int __cdecl hkString_snprintf(char* buf, int n, const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
@@ -291,7 +165,8 @@ int __cdecl Vsnprintf(char* buf, int n, const char* fmt, ...)
 #include <string.h>
 namespace fnv_00cb10d0 {
 // @fnv 0x00cb10d0
-int __cdecl FUN_00cb10d0(const char* apString)
+// pdb: hkString::strLen | hkString.obj | fnv360_0822_retail, call_seq + bridge(call_seq|call_seq) + skyrim(call_seq), high
+int __cdecl hkString_strLen(const char* apString)
 {
     return (int)strlen(apString);
 }
@@ -299,6 +174,8 @@ int __cdecl FUN_00cb10d0(const char* apString)
 
 namespace fnv_00cb1130 {
 // @fnv 0x00cb1130
+// pdb: BSBlendTreadTransfInterpolator::SaveBinary | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: arStream
 const char* __cdecl FUN_00cb1130(const char* a, const char* b)
 {
     return strstr(a, b);

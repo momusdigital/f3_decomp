@@ -3,6 +3,7 @@
 #include "nigeometry_decls.h"
 
 // @fnv 0x00a89ab0
+// pdb: NiPropertyState::NiPropertyState | NiPropertyState.obj | fnv360_0822_debug, call_seq, medium
 NiGeometry* NiGeometry::CopyMemberData()
 {
     unsigned int* fields = (unsigned int*)this;
@@ -18,20 +19,26 @@ NiGeometry* NiGeometry::CopyMemberData()
 }
 
 // @fnv 0x00a7fd90
+// pdb: NiGeometry::OnVisible | NiGeometry.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: kCuller
 void NiGeometry::OnVisible(NiCullingProcess& process)
 {
     process.Append(this);
 }
 
 // @fnv 0x00a80b50
+// pdb: NiGeometry::LinkObject | NiGeometry.obj | fnv360_0721_beta, objrun_prop, high
+// pdb params: kStream
 void NiGeometry::LinkObject(NiStream& stream)
 {
     NiAVObject::LinkObject(stream);
-    m_spGeometryData = (NiGeometryData*)stream.GetLoadedObject();
-    m_spSkinningInstance = stream.GetLoadedObject();
+    m_spModelData = (NiGeometryData*)stream.GetLoadedObject();
+    m_spSkinInstance = stream.GetLoadedObject();
 }
 
 // @fnv 0x00a80680
+// pdb: NiGeometry::SetModelData | NiGeometry.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkModelData
 void NiGeometry::ReplaceModelData(NiGeometryData* data)
 {
     if (data)
@@ -56,7 +63,7 @@ void NiGeometry::ReplaceModelData(NiGeometryData* data)
             state.flag4 = 0;
             m_spCollisionObject->Unk24(&state);
         }
-        m_spGeometryData = data;
+        m_spModelData = data;
     }
 }
 
@@ -64,17 +71,19 @@ void NiGeometry::ReplaceModelData(NiGeometryData* data)
 extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 extern long DAT_0108ede0;
 extern long DAT_0108ede4;
+// pdb: NiGeometry::UpdatePropertiesDownward | NiGeometry.obj | fnv360_0822_debug, vtable, medium
+// pdb params: pkParentState
 void NiGeometry::UpdatePropertiesDownwardPass(NiPropertyState* state)
 {
     NiAVObject::UpdatePropertiesDownwardPass(state);
     ((RecursiveSpinLock*)&DAT_0108ede0)->Lock(0);
-    *(NiPropertyState*)((char*)this + 0x9c) = *state;
-    NiPropertyNode* node = *(NiPropertyNode**)((char*)this + 0x24);
+    m_PropertyState = *state;
+    NiPropertyNode* node = m_kPropertyList.m_pkHead;
     while (node)
     {
         NiProperty* property = NiPropertyNode::GetNext(node);
         if (property && property->GetType() <= 7)
-            ((NiPropertyState*)((char*)this + 0x9c))->m_kProperties[property->GetType()] = property;
+            m_PropertyState.m_aspProps[property->GetType()] = property;
     }
     if (--DAT_0108ede4 == 0)
     {
@@ -90,19 +99,20 @@ void NiGeometry::UpdatePropertiesDownwardPass(NiPropertyState* state)
 void NiAVObject::FUN_00a5ac90(NiAVObject* dest, CloningProcess& process)
 {
     ((NiObjectNET*)this)->CopyMemberData((NiObjectNET*)dest, process);
-    *(unsigned int*)((char*)dest + 0x30) = *(unsigned int*)((char*)this + 0x30) | 0x80000;
-    *(NiTransform*)((char*)dest + 0x34) = *(NiTransform*)((char*)this + 0x34);
-    if (*(unsigned int*)((char*)this + 0x2c))
-        FUN_00a5abe0(dest, (char*)this + 0x24, process);
+    dest->m_uFlags = m_uFlags | 0x80000;
+    dest->m_kLocal = m_kLocal;
+    if (m_kPropertyList.m_uiCount)
+        FUN_00a5abe0(dest, &m_kPropertyList, process);
     if (m_spCollisionObject)
         dest->AssignCollisionObject(m_spCollisionObject->Clone(process));
 }
 
-// Copies the previous world bound, and if flags 19/13 conditions or a zero radius apply, allocates or updates m_worldBound and refreshes the flag bit 22.
+// Copies the previous world bound, and if flags 19/13 conditions or a zero radius apply, allocates or updates m_kWorldBound and refreshes the flag bit 22.
 // @fnv 0x00a80710
+// pdb: NiGeometry::UpdateWorldBound | NiGeometry.obj | fnv360_0822_debug, vtable, medium
 void NiGeometry::UpdateWorldBound()
 {
-    NiBound* world = m_worldBound;
+    NiBound* world = m_kWorldBound;
     const NiBound& current = PreviousBound(world);
     NiBound previous;
     unsigned int* dst = (unsigned int*)&previous;
@@ -111,7 +121,7 @@ void NiGeometry::UpdateWorldBound()
     dst[1] = src[1];
     dst[2] = src[2];
     dst[3] = src[3];
-    unsigned int& flags = m_flags;
+    unsigned int& flags = m_uFlags;
     if (!(GetFlag19() && !GetFlag13()) && previous.radius != 0.0f)
         return;
     {
@@ -119,22 +129,21 @@ void NiGeometry::UpdateWorldBound()
         {
             NiBound* allocated = (NiBound*)g_memoryManager.Allocate(16);
             SetWorldBound(allocated);
-            m_worldBound->SetCenterAndRadius(NiPoint3::ZERO, 0.0f);
+            m_kWorldBound->SetCenterAndRadius(NiPoint3::ZERO, 0.0f);
         }
-        if (m_spSkinningInstance)
+        if (m_spSkinInstance)
         {
-            ((NiScreenLODData*)m_spSkinningInstance.m_pObject)->UpdateScreenBound((NiLODNode*)m_worldBound);
-            m_worldBound->TransformPoint(*(NiTransform*)((char*)this + 0x68));
+            ((NiScreenLODData*)m_spSkinInstance.m_pObject)->UpdateScreenBound((NiLODNode*)m_kWorldBound);
+            m_kWorldBound->TransformPoint(m_kWorld);
         }
         else
         {
-            m_worldBound->Update(*(NiBound*)((char*)m_spGeometryData.m_pObject + 0x10),
-                                 *(NiTransform*)((char*)this + 0x68));
+            m_kWorldBound->Update(m_spModelData->m_kBound, m_kWorld);
         }
         unsigned int savedFlags = flags;
         if ((unsigned char)(savedFlags >> 22) & 1)
         {
-            if (m_worldBound->FUN_00a92660(previous))
+            if (m_kWorldBound->FUN_00a92660(previous))
                 savedFlags |= 0x400000;
             else
                 savedFlags &= ~0x400000;
@@ -147,6 +156,8 @@ void NiGeometry::UpdateWorldBound()
 extern NiRTTI DAT_01090708;
 extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 
+// pdb: NiGeometry::ProcessClone | NiGeometry.obj | fnv360_0822_debug, vtable, medium
+// pdb params: kCloning
 void NiGeometry::ProcessClone(CloningProcess& process)
 {
     NiAVObject::ProcessClone(process);
@@ -154,22 +165,22 @@ void NiGeometry::ProcessClone(CloningProcess& process)
     ShaderBufferRecord* clone = 0;
     process.m_pCloneMap->GetAt((const char*)this, clone);
     NiGeometry* geometryClone = (NiGeometry*)clone;
-    if (m_spSkinningInstance)
+    if (m_spSkinInstance)
     {
-        if (process.m_pCloneMap->GetAt((const char*)m_spSkinningInstance.m_pObject, clone))
-            *(NiPointer<NiAVObject>*)&geometryClone->m_spSkinningInstance = (NiAVObject*)clone;
+        if (process.m_pCloneMap->GetAt((const char*)m_spSkinInstance.m_pObject, clone))
+            *(NiPointer<NiAVObject>*)&geometryClone->m_spSkinInstance = (NiAVObject*)clone;
         else
         {
-            *(NiPointer<NiAVObject>*)&geometryClone->m_spSkinningInstance =
-                (NiAVObject*)m_spSkinningInstance.m_pObject->Clone(process);
-            m_spSkinningInstance.m_pObject->ProcessClone(process);
+            *(NiPointer<NiAVObject>*)&geometryClone->m_spSkinInstance =
+                (NiAVObject*)m_spSkinInstance.m_pObject->Clone(process);
+            m_spSkinInstance.m_pObject->ProcessClone(process);
         }
     }
 
     NiD3DShaderInterface* shader;
-    if (m_shader)
+    if (m_spShader)
     {
-        unsigned char exactType = NiIsExactKindOf(&DAT_01090708, m_shader);
+        unsigned char exactType = NiIsExactKindOf(&DAT_01090708, m_spShader);
         if (exactType)
         {
             void* memory = NiMemObject::operator new(sizeof(NiD3DShaderInterface));
@@ -177,17 +188,17 @@ void NiGeometry::ProcessClone(CloningProcess& process)
                 shader = new (memory) NiD3DShaderInterface;
             else
                 shader = 0;
-            ((NiAVObject*)shader)->SetName(((NiTexture*)m_shader)->GetFilename());
+            ((NiAVObject*)shader)->SetName(((NiTexture*)m_spShader)->GetFilename());
             ((NonActorMagicCaster*)shader)
-                ->SetSelectedMagicItem((MagicItem*)((NiD3DShaderProgram*)m_shader)->GetName());
-            geometryClone->m_shader = shader;
+                ->SetSelectedMagicItem((MagicItem*)((NiD3DShaderProgram*)m_spShader)->GetName());
+            geometryClone->m_spShader = shader;
         }
         else
         {
-            geometryClone->m_shader = m_shader;
-            m_shader->Attach(geometryClone);
+            geometryClone->m_spShader = m_spShader;
+            m_spShader->Attach(geometryClone);
             ((RecursiveSpinLock*)&DAT_0108ede0)->Lock(0);
-            geometryClone->ApplyPropertyState(*(NiPropertyState*)((char*)this + 0x9c));
+            geometryClone->ApplyPropertyState(m_PropertyState);
             if (--DAT_0108ede4 == 0)
             {
                 unsigned int owner = *(volatile unsigned int*)&DAT_0108ede0;
@@ -205,6 +216,78 @@ struct NiRenderer;
 struct NiShader;
 struct NiTriShape;
 struct NiTriStrips;
+struct NiRenderer
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void UnkF0(void*);
+    virtual void w61();
+    virtual void w62();
+    virtual void w63();
+    virtual void Unk100(void*);
+    virtual void Unk104(void*);
+    unsigned int m_uiRefCount;  // src: FNV360_PDB +0x4
+    void* m_spAccum;  // src: FNV360_PDB +0x8
+    NiPropertyState* m_pkCurrProp;  // src: FNV360_PDB +0xC
+};
 struct FUN_00a80610_shell : public NiGeometry
 {
     void FUN_00a80610(NiRenderer*);
@@ -212,9 +295,11 @@ struct FUN_00a80610_shell : public NiGeometry
 
 struct DummyController
 {
+    char unk00[0x30];
+    DummyController* m_spNext;  // src: FNV360_PDB NiTimeController +0x30
     void OnPreDisplayIterate()
     {
-        for (DummyController* pkCtrl = this; pkCtrl != 0; pkCtrl = *(DummyController**)((char*)pkCtrl + 0x30))
+        for (DummyController* pkCtrl = this; pkCtrl != 0; pkCtrl = pkCtrl->m_spNext)
         {
             (*(void(__thiscall**)(DummyController*))(*(int*)pkCtrl + 0xa8))(pkCtrl);
         }
@@ -223,10 +308,12 @@ struct DummyController
 
 // Stores a pointer to this object's offset 0x9c into the renderer and, if the controller at this+0xc exists, runs its pre-display iterate.
 // @fnv 0x00a80610
+// pdb: NiGeometry::RenderImmediate | NiGeometry.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: pkRenderer
 void FUN_00a80610_shell::FUN_00a80610(NiRenderer* pkRenderer)
 {
-    *(void**)((char*)pkRenderer + 0xc) = (char*)this + 0x9c;
-    DummyController* pkController = *(DummyController**)((char*)this + 0xc);
+    pkRenderer->m_pkCurrProp = &m_PropertyState;
+    DummyController* pkController = (DummyController*)m_spControllers;
     if (pkController)
         pkController->OnPreDisplayIterate();
 }
@@ -254,12 +341,12 @@ struct FUN_00a80650_shell : public NiGeometry
 // @fnv 0x00a80650
 void FUN_00a80650_shell::FUN_00a80650(NiRenderer* pkRenderer)
 {
-    *(char**)((char*)pkRenderer + 0x0C) = (char*)this + 0x9C;
-    void* pNode = *(void**)((char*)this + 0x0C);
-    while (pNode)
+    pkRenderer->m_pkCurrProp = &m_PropertyState;
+    DummyController* pkController = (DummyController*)m_spControllers;
+    while (pkController)
     {
-        (*(void(__thiscall**)(void*))(*(int*)pNode + 0xA8))(pNode);
-        pNode = *(void**)((char*)pNode + 0x30);
+        (*(void(__thiscall**)(DummyController*))(*(int*)pkController + 0xA8))(pkController);
+        pkController = pkController->m_spNext;
     }
 }
 
@@ -273,25 +360,28 @@ struct blob16
 };
 struct FUN_00a808f0_shell : public NiGeometry
 {
-    void UpdateSelectiveUpdateFlags(bool*, bool, bool*);
+    void NiGeometry_SetSelectiveUpdateFlags(bool*, bool, bool*);
 };
 
 struct FUN_00a5a450_helper
 {
-    void FUN_00a5a450(bool* bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool* bRigid);
+    void NiAVObject_SetSelectiveUpdateFlags(bool* bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool* bRigid);
 };
 
-// Calls FUN_00a5a450, then if the field at offset 0xbc is nonzero sets flags 4 and 2 at 0x30, sets *bSelectiveUpdate true and *bRigid false.
+// Calls NiAVObject_SetSelectiveUpdateFlags, then if the field at offset 0xbc is nonzero sets flags 4 and 2 at 0x30, sets *bSelectiveUpdate true and *bRigid false.
 // @fnv 0x00a808f0
-void FUN_00a808f0_shell::UpdateSelectiveUpdateFlags(bool* bSelectiveUpdate, bool bSelectiveUpdateTransforms,
+// pdb: NiGeometry::SetSelectiveUpdateFlags | NiGeometry.obj | fnv360_0822_debug, vtable, high
+// pdb params: bSelectiveUpdate, bSelectiveUpdateTransforms, bRigid
+// pdb: NiGeometry::SetSelectiveUpdateFlags | NiGeometry.obj | fnv360_0822_debug, vtable, high (was: UpdateSelectiveUpdateFlags)
+void FUN_00a808f0_shell::NiGeometry_SetSelectiveUpdateFlags(bool* bSelectiveUpdate, bool bSelectiveUpdateTransforms,
                                                     bool* bRigid)
 {
-    ((FUN_00a5a450_helper*)this)->FUN_00a5a450(bSelectiveUpdate, bSelectiveUpdateTransforms, bRigid);
-    if (*(int*)((char*)this + 0xbc) != 0)
+    ((FUN_00a5a450_helper*)this)->NiAVObject_SetSelectiveUpdateFlags(bSelectiveUpdate, bSelectiveUpdateTransforms, bRigid);
+    if (m_spSkinInstance)
     {
-        *(unsigned int*)((char*)this + 0x30) |= 4;
+        m_uFlags |= 4;
         *bSelectiveUpdate = true;
-        *(unsigned int*)((char*)this + 0x30) |= 2;
+        m_uFlags |= 2;
         *bRigid = false;
     }
 }
@@ -386,7 +476,7 @@ struct blob16
 };
 struct FUN_00a80930_shell : public NiGeometry
 {
-    void FUN_00a80930(bool);
+    void NiGeometry_CalculateConsistency(bool);
 };
 
 struct TimeCtrlView
@@ -433,7 +523,7 @@ struct TimeCtrlView
     virtual void v39();
     virtual bool IsTargetCtrl();
     char pad[0x2c];
-    TimeCtrlView* next;
+    TimeCtrlView* m_spNext;  // src: FNV360_PDB NiTimeController +0x30 (old: next)
 };
 struct RendererView
 {
@@ -482,11 +572,11 @@ struct RendererView
 struct SkinView
 {
     char pad[0xc];
-    void* partition;
+    void* m_spSkinPartition;  // src: FNV360_PDB NiSkinInstance +0xC (old: partition)
 };
 struct ConsStub
 {
-    void SetDataConsistency(int);
+    void SetConsistency(int);
 };
 struct NiRenderer
 {
@@ -494,10 +584,11 @@ struct NiRenderer
 };
 // Scans the controller list and skin partition, then passes a consistency flag (0x4000 or 0) to the object at offset 0xb8.
 // @fnv 0x00a80930
-void FUN_00a80930_shell::FUN_00a80930(bool bTool)
+// pdb: NiGeometry::CalculateConsistency | NiGeometry.obj | fnv360_0822_retail, caller_sim + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void FUN_00a80930_shell::NiGeometry_CalculateConsistency(bool bTool)
 {
     int eConsistency = 0x4000;
-    TimeCtrlView* pkController = *(TimeCtrlView**)((char*)this + 0xc);
+    TimeCtrlView* pkController = (TimeCtrlView*)m_spControllers;
     while (pkController)
     {
         if (pkController->IsTargetCtrl())
@@ -505,17 +596,17 @@ void FUN_00a80930_shell::FUN_00a80930(bool bTool)
             eConsistency = 0;
             break;
         }
-        pkController = pkController->next;
+        pkController = pkController->m_spNext;
     }
-    SkinView* pkSkin = *(SkinView**)((char*)this + 0xbc);
+    SkinView* pkSkin = (SkinView*)m_spSkinInstance.m_pObject;
     if (pkSkin)
     {
         if (bTool)
         {
-            if (!pkSkin->partition)
+            if (!pkSkin->m_spSkinPartition)
                 eConsistency = 0;
         }
-        else if (!pkSkin->partition)
+        else if (!pkSkin->m_spSkinPartition)
         {
             eConsistency = 0;
         }
@@ -526,7 +617,7 @@ void FUN_00a80930_shell::FUN_00a80930(bool bTool)
                 eConsistency = 0;
         }
     }
-    ((ConsStub*)*(void**)((char*)this + 0xb8))->SetDataConsistency(eConsistency);
+    ((ConsStub*)m_spModelData.m_pObject)->SetConsistency(eConsistency);
 }
 }  // namespace fnv_00a80930
 
@@ -555,21 +646,22 @@ struct RegObj
     virtual void a20();
     virtual void vReg(NiStream&);
 };
-struct FUN_00a80430_Holder
+struct FUN_00a80430_Holder : public NiGeometry
 {
     bool FUN_00a59f00(NiStream&);
     bool FUN_00a80430(NiStream&);
 };
 // Calls FUN_00a59f00 on kStream, then invokes vReg on the RegObj at offset 0xb8 and, if present, the one at 0xbc; returns false if the first call fails.
 // @fnv 0x00a80430
+// pdb: NiGeometry::RegisterStreamables | NiGeometry.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 bool FUN_00a80430_Holder::FUN_00a80430(NiStream& kStream)
 {
     if (!FUN_00a59f00(kStream))
         return false;
-    (*(RegObj**)((char*)this + 0xb8))->vReg(kStream);
-    RegObj* pSecondRegObj = *(RegObj**)((char*)this + 0xbc);
-    if (pSecondRegObj)
-        pSecondRegObj->vReg(kStream);
+    m_spModelData->RegisterStreamables(kStream);
+    if (m_spSkinInstance)
+        m_spSkinInstance->RegisterStreamables(kStream);
     return true;
 }
 
@@ -581,98 +673,33 @@ struct FUN_00a80530_shell : public NiGeometry
 extern const char* const g_011f4a48_arg1;
 
 // @fnv 0x00a80530
+// pdb: NiCamera::GetRTTI | NiCamera.obj | fnv360_0822_retail, objrun_open, low
 void* FUN_00a80530_shell::FUN_00a80530()
 {
     return (void*)&g_011f4a48_arg1;
 }
 
-struct NiRenderer
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void v58();
-    virtual void v59();
-    virtual void UnkF0(void*);
-    virtual void w61();
-    virtual void w62();
-    virtual void w63();
-    virtual void Unk100(void*);
-    virtual void Unk104(void*);
-};
 struct BaseStub
 {
     void FUN_00a59e50(NiRenderer*);
 };
 struct GeomStub : BaseStub
 {
-    void FUN_00a809b0(NiRenderer*);
+    char unk00[0xB8];
+    void* m_spModelData;  // src: FNV360_PDB NiGeometry +0xB8
+    fnv_00a80930::SkinView* m_spSkinInstance;  // src: FNV360_PDB NiGeometry +0xBC
+    void NiGeometry_PurgeRendererData(NiRenderer*);
 };
 // @fnv 0x00a809b0
-void GeomStub::FUN_00a809b0(NiRenderer* pkRenderer)
+// pdb: NiGeometry::PurgeRendererData | NiGeometry.obj | fnv360_0822_debug, vtable + bridge(vtable|objrun_prop) + skyrim(objopen_prop), high
+void GeomStub::NiGeometry_PurgeRendererData(NiRenderer* pkRenderer)
 {
     BaseStub::FUN_00a59e50(pkRenderer);
-    pkRenderer->UnkF0(*(void**)((char*)this + 0xb8));
-    void* p = *(void**)((char*)this + 0xbc);
-    if (p)
+    pkRenderer->UnkF0(m_spModelData);
+    if (m_spSkinInstance)
     {
-        pkRenderer->Unk104(p);
-        pkRenderer->Unk100(*(void**)((char*)*(void**)((char*)this + 0xbc) + 0xc));
+        pkRenderer->Unk104(m_spSkinInstance);
+        pkRenderer->Unk100(m_spSkinInstance->m_spSkinPartition);
     }
 }
 
@@ -739,7 +766,7 @@ struct FUN_00a7ff60_data
 // @fnv 0x00a7ff60
 void FUN_00a7ff60_shell::FUN_00a7ff60()
 {
-    ((FUN_00a7ff60_data*)(*(void**)((char*)this + 0xb8)))->CalculateNormals();
+    ((FUN_00a7ff60_data*)m_spModelData.m_pObject)->CalculateNormals();
 }
 }  // namespace fnv_00a7ff60
 
@@ -827,14 +854,14 @@ struct S_00a80470_Data
 
 struct S_00a80470_Owner : public S_00a80470_Data
 {
-    bool FUN_00a5a260(S_00a80470_Data*);
+    bool NiAVObject_IsEqual(S_00a80470_Data*);
     bool FUN_00a80470(S_00a80470_Data*);
 };
 
 // @fnv 0x00a80470
 bool S_00a80470_Owner::FUN_00a80470(S_00a80470_Data* apData)
 {
-    if (!FUN_00a5a260(apData))
+    if (!NiAVObject_IsEqual(apData))
         return false;
 
     S_00a80470_Controller* thisBC = this->unkBC;
@@ -906,15 +933,17 @@ struct ViewerGeometry : NiGeometry
     void FUN_00a80e70(ViewerStrings*);
 };
 // @fnv 0x00a80e70
+// pdb: NiGeometry::GetViewerStrings | NiGeometry.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void ViewerGeometry::FUN_00a80e70(ViewerStrings* strings)
 {
     FUN_00a5ad00(strings);
     strings->Add(FUN_00a7d330(DAT_011f4acc));
-    strings->Add(FUN_00a7d5a0("GeomData", static_cast<NiGeometryData*>(m_spGeometryData)));
-    NiD3DShaderInterface* shader = m_shader;
+    strings->Add(FUN_00a7d5a0("GeomData", static_cast<NiGeometryData*>(m_spModelData)));
+    NiD3DShaderInterface* shader = m_spShader;
     if (shader)
         strings->Add(FUN_00a7d5e0("shader", reinterpret_cast<NamedRTTI*>(shader->GetRTTI())->GetName()));
-    SkinInstanceInfo* skin = static_cast<SkinInstanceInfo*>(m_spSkinningInstance.m_pObject);
+    SkinInstanceInfo* skin = static_cast<SkinInstanceInfo*>(m_spSkinInstance.m_pObject);
     if (skin && skin->partition)
         strings->Add(FUN_00a7d510("skin partitions", skin->partition->GetCount()));
 }
@@ -1128,6 +1157,8 @@ struct FUN_00a80bf0_shell : public NiGeometry
 };
 
 // @fnv 0x00a80bf0
+// pdb: NiGeometry::LoadBinary | NiGeometry.obj | fnv360_0822_retail, uconst, low
+// pdb params: kStream
 void FUN_00a80bf0_shell::FUN_00a80bf0(GeomStream& kStream)
 {
     NiAVObject::LoadBinary((NiStream&)kStream);
@@ -1398,8 +1429,8 @@ class GeometryStub
     int unk0AC;
     int unk0B0;
     int unk0B4;
-    void* m_spGeometryData;
-    void* m_spSkinningInstance;
+    void* m_spModelData;  // src: FNV360_PDB +0xB8 (old: m_spGeometryData)
+    void* m_spSkinInstance;  // src: FNV360_PDB +0xBC (old: m_spSkinningInstance)
     void SaveBinary(StreamStub& stream);
     void FUN_00a80db0(StreamStub& stream);
 };
@@ -1410,11 +1441,13 @@ template <class T> void LoadStreamValue(StreamStub& stream, T& value)
     reader->m_uiPosition += reader->m_pRead(reader, &value, uiElem, &uiElem, 1);
 }
 // @fnv 0x00a80db0
+// pdb: NiGeometry::SaveBinary | NiGeometry.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void GeometryStub::FUN_00a80db0(StreamStub& stream)
 {
     SaveBinary(stream);
-    stream.vfn_30(m_spGeometryData);
-    stream.vfn_30(m_spSkinningInstance);
+    stream.vfn_30(m_spModelData);
+    stream.vfn_30(m_spSkinInstance);
     unsigned int uiData0 = 0;
     stream.m_pkReader->LoadValue(uiData0);
     {
@@ -1501,17 +1534,19 @@ class FUN_00a804e0 : public GeometryBase804e0
     PropertyState804e0 m_propertyState;
     NiGeometryData* m_modelData;
     NiObject* m_skinInstance;
-    NiD3DShaderInterface* m_shader;
+    NiD3DShaderInterface* m_spShader;
 };
 
-// Constructor that stores the NiGeometryData pointer, increments its reference count if non-null, and nulls m_skinInstance and m_shader.
+// Constructor that stores the NiGeometryData pointer, increments its reference count if non-null, and nulls m_skinInstance and m_spShader.
 // @fnv 0x00a804e0
+// pdb: NiGeometry::NiGeometry | NiGeometry.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkModelData
 FUN_00a804e0::FUN_00a804e0(NiGeometryData* apModelData) : m_modelData(apModelData)
 {
     if (apModelData)
         InterlockedIncrement((long volatile*)&apModelData->m_uiRefCount);
     m_skinInstance = 0;
-    m_shader = 0;
+    m_spShader = 0;
 }
 
 struct WideProduct
@@ -1657,19 +1692,20 @@ struct S00a7ff70_Data
 };
 struct S00a7ff70_Geom : NiAVObject
 {
-    S00a7ff70_Data* m_spGeometryData;
+    NiPropertyState m_PropertyState;  // src: FNV360_PDB NiGeometry +0x9C
+    S00a7ff70_Data* m_spModelData;
     const S00a7ff70_Xf& Local() const
     {
-        return *(const S00a7ff70_Xf*)&m_kLocalTransform;
+        return *(const S00a7ff70_Xf*)&m_kLocal;
     }
-    void FUN_00a7ff70(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft);
+    void NiGeometry_ApplyTransform(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft);
 };
 // Updates vertex and normal arrays using kMat and kTrn, with a different calculation when bOnLeft is true, then calls ComputeBoundingSphere.
 // @f3 0x0084ab10 (community match, verified in this file)
 struct MatrixInverseProxy
 {
     float m_afEntries[3][3];
-    bool FUN_00475380(ThreeByThreeMatrix& inv) const;
+    bool NiMatrix3_Inverse(ThreeByThreeMatrix& inv) const;
     S00a7ff70_P3 TransformLeftVertex(const S00a7ff70_P3& p) const
     {
         return S00a7ff70_P3(m_afEntries[0][0] * p.x + m_afEntries[0][1] * p.y + m_afEntries[0][2] * p.z,
@@ -1678,11 +1714,12 @@ struct MatrixInverseProxy
     }
 };
 
-void S00a7ff70_Geom::FUN_00a7ff70(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft)
+// pdb: NiGeometry::ApplyTransform | NiGeometry.obj | fnv360_0822_debug, vtable + bridge(vtable|caller_sim) + skyrim(caller_sim), high
+void S00a7ff70_Geom::NiGeometry_ApplyTransform(const ThreeByThreeMatrix& kMat, const S00a7ff70_P3& kTrn, bool bOnLeft)
 {
-    unsigned short usVertices = m_spGeometryData->GetActiveVertexQuantity();
-    S00a7ff70_P3* pkVertex = m_spGeometryData->m_pkVertex;
-    S00a7ff70_P3* pkNormal = m_spGeometryData->m_pkNormal;
+    unsigned short usVertices = m_spModelData->GetActiveVertexQuantity();
+    S00a7ff70_P3* pkVertex = m_spModelData->m_pkVertex;
+    S00a7ff70_P3* pkNormal = m_spModelData->m_pkNormal;
     unsigned short i;
     if (bOnLeft)
     {
@@ -1698,7 +1735,7 @@ void S00a7ff70_Geom::FUN_00a7ff70(const ThreeByThreeMatrix& kMat, const S00a7ff7
         if (pkNormal)
         {
             ThreeByThreeMatrix kInv;
-            ((const MatrixInverseProxy&)kRot).FUN_00475380(kInv);
+            ((const MatrixInverseProxy&)kRot).NiMatrix3_Inverse(kInv);
             for (i = 0; i < usVertices; i++)
                 pkNormal[i] = pkNormal[i] * kInv;
         }
@@ -1713,11 +1750,11 @@ void S00a7ff70_Geom::FUN_00a7ff70(const ThreeByThreeMatrix& kMat, const S00a7ff7
         if (pkNormal)
         {
             ThreeByThreeMatrix kInv;
-            ((const MatrixInverseProxy&)kMat).FUN_00475380(kInv);
+            ((const MatrixInverseProxy&)kMat).NiMatrix3_Inverse(kInv);
             for (i = 0; i < usVertices; i++)
                 pkNormal[i] = pkNormal[i] * kInv;
         }
     }
-    m_spGeometryData->m_sub.ComputeBoundingSphere(usVertices, pkVertex);
+    m_spModelData->m_sub.ComputeBoundingSphere(usVertices, pkVertex);
 }
 

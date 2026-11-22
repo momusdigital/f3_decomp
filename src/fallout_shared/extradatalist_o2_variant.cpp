@@ -268,6 +268,8 @@ class B5Owner
 };
 
 // @fnv 0x00b5eed0
+// pdb: ShadowSceneNode::RemoveLight | ShadowSceneNode.obj | fnv360_0721_beta, call_seq, medium
+// pdb params: apLight
 void B5Owner::FUN_00b5eed0(unsigned int key)
 {
     if (key == 0)

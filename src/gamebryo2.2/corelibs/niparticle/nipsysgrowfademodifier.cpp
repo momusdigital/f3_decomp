@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/niparticle/nipsysgrowfademodifier.cpp: NiPSysGrowFadeModifier (8 functions)
+// gamebryo2.2/corelibs/niparticle/nipsysgrowfademodifier.cpp: NiPSysGrowFadeModifier (7 functions)
 #include "f3_common.h"
 #include "nipsysgrowfademodifier_decls.h"
 // Loads the modifier's base data, then four fields and, for stream version above 16, one more field from the stream.
 // @fnv 0x00c2a530
+// pdb: NiPSysGrowFadeModifier::LoadBinary | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiPSysGrowFadeModifier::LoadBinary(NiStream& stream)
 {
     NiPSysModifier::LoadBinary(stream);
@@ -17,12 +19,6 @@ void NiPSysGrowFadeModifier::LoadBinary(NiStream& stream)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026f8;
 
-// @fnv 0x00c2a360
-GlobalObjectO2_00a7b610* __cdecl FUN_00c2a360()
-{
-    return &g_012026f8;
-}
-
 void __cdecl FUN_00c31750();
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c2a370_shell : NiPSysGrowFadeModifier
@@ -31,6 +27,7 @@ struct FUN_00c2a370_shell : NiPSysGrowFadeModifier
 };
 // Calls FUN_00c31750, then deletes this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c2a370
+// pdb: NiD3DShaderProgram::`scalar deleting destructor' | NiD3DShaderProgram.obj | fnv360_0721_beta, objopen_prop, low
 FUN_00c2a370_shell* FUN_00c2a370_shell::FUN_00c2a370(unsigned int flags)
 {
     FUN_00c31750();
@@ -50,6 +47,8 @@ struct FUN_00c2a2f0_shell : NiPSysGrowFadeModifier
 };
 
 // @fnv 0x00c2a2f0
+// pdb: NiPSysGrowFadeModifier::IsEqual | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkObject
 bool FUN_00c2a2f0_shell::FUN_00c2a2f0(NiObject* pkObject)
 {
     FUN_00c2a2f0_shell* pkDest = (FUN_00c2a2f0_shell*)pkObject;
@@ -93,6 +92,8 @@ struct FUN_00c2a390_shell : NiPSysGrowFadeModifier
 
 // For each active particle, computes a fade/grow ratio from age and lifespan and writes the clamped scale into data->scales.
 // @fnv 0x00c2a390
+// pdb: NiPSysGrowFadeModifier::Update | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkData
 void FUN_00c2a390_shell::ComputeParticleScales(unsigned int, ParticleData_00c2a390* data)
 {
     float scaleRange = 1.0f - m_fInitialScale;
@@ -153,12 +154,15 @@ struct NiPSysModifierStand
 
 struct FUN_00c2a610_cls : NiPSysGrowFadeModifier
 {
-    void LoadGrowFadeModifier(NiStream& stream);
+    void NiPSysGrowFadeModifier_SaveBinary(NiStream& stream);
 };
 
 // Loads the base modifier stream, then reads five values from the stream into the grow/fade modifier's fields.
 // @fnv 0x00c2a610
-void FUN_00c2a610_cls::LoadGrowFadeModifier(NiStream& stream)
+// pdb: NiPSysGrowFadeModifier::SaveBinary | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
+// pdb: NiPSysGrowFadeModifier::SaveBinary | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, caller_sim, high (was: LoadGrowFadeModifier)
+void FUN_00c2a610_cls::NiPSysGrowFadeModifier_SaveBinary(NiStream& stream)
 {
     reinterpret_cast<NiPSysModifierStand*>(this)->LoadStream(stream);
     GrowFadeStreamView* pStreamView = reinterpret_cast<GrowFadeStreamView*>(&stream);
@@ -201,6 +205,8 @@ struct FUN_00c2a6e0_shell : NiPSysGrowFadeModifier
     void AppendGrowFadeModifierStrings(StrArr* pkStrings);
 };
 // @f3 0x00acab50 (community match, verified in this file)
+// pdb: NiPSysGrowFadeModifier::GetViewerStrings | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00c2a6e0_shell::AppendGrowFadeModifierStrings(StrArr* pkStrings)
 {
     ((Base00c319e0*)this)->FUN_00c319e0(pkStrings);
@@ -250,11 +256,12 @@ class A4b0Cls : public FUN_00c31720
         m_24 = 0;
         m_28 = 0.0f;
     }
-    FUN_00c31720* __thiscall FUN_00c2a4b0(A4b0Clone* cloning);
+    FUN_00c31720* __thiscall NiPSysGrowFadeModifier_CreateClone(A4b0Clone* cloning);
 };
 // Allocates an A4b0Cls, copies the base via FUN_00c31780, then copies m_18, m_1c, m_20, m_24 and m_28 from this object and returns it.
 // @fnv 0x00c2a4b0
-FUN_00c31720* A4b0Cls::FUN_00c2a4b0(A4b0Clone* cloning)
+// pdb: NiPSysGrowFadeModifier::CreateClone | NiPSysGrowFadeModifier.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+FUN_00c31720* A4b0Cls::NiPSysGrowFadeModifier_CreateClone(A4b0Clone* cloning)
 {
     void* mem = FUN_00aa13e0(sizeof(A4b0Cls));
     A4b0Cls* p = mem ? new (mem) A4b0Cls : 0;

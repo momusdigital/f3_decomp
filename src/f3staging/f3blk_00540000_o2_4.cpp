@@ -40,6 +40,8 @@ public:
 extern void FUN_00456560(void* path, TESFile* file);
 extern void FUN_00458210(void* target, TESFile* file);
 
+// pdb: BGSHeadPart::Load | BGSHeadPart.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool TESModel::FUN_005447c0(TESFile* file)
 {
     if (file->GetChunkType() != 9)
@@ -143,14 +145,14 @@ public:
         unk22c, unk230, unk234, unk238, unk23c, unk240,
         unk244, unk248, unk24c, unk250, unk254, unk258;
     unsigned int unk25c;
-    int FUN_00448cc0();
-    unsigned int FUN_004487d0();
-    bool FUN_00447020();
+    int TESFile_GetTESForm();
+    unsigned int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     void FUN_00447d60(void* dest, unsigned int size);
 };
 
 void __cdecl FUN_00456560(void* target, Reader* reader);
-void __cdecl FUN_0045bab0(void* target, Reader* reader);
+void __cdecl TESTexture_LoadTextureChunk(void* target, Reader* reader);
 void __cdecl FUN_0045bab0b(void* target, Reader* reader);
 
 class Target
@@ -241,14 +243,16 @@ public:
     bool FUN_00550f10(Reader* reader);
 };
 
+// pdb: TESEyes::Load | TESEyes.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool Target::FUN_00550f10(Reader* reader)
 {
-    if (reader->FUN_00448cc0() != 0xb)
+    if (reader->TESFile_GetTESForm() != 0xb)
         return false;
     FUN_00454410(reader);
     for (;;)
     {
-        int type = reader->FUN_004487d0();
+        int type = reader->TESFile_GetTESChunk();
         if (!type)
             break;
         switch (type)
@@ -268,13 +272,13 @@ bool Target::FUN_00550f10(Reader* reader)
             break;
         case 0x4e4f4349: // ICON
             // a null form has no icon block of its own: pass this (null) instead
-            FUN_0045bab0(this ? &unk24 : (void*)this, reader);
+            TESTexture_LoadTextureChunk(this ? &unk24 : (void*)this, reader);
             break;
         case 0x4c4c5546: // FULL
             FUN_00456560(this ? &unk18 : 0, reader);
             break;
         }
-        if (!reader->FUN_00447020())
+        if (!reader->TESFile_NextChunk())
             break;
     }
     return true;
@@ -440,9 +444,9 @@ public:
     unsigned unk254;
     unsigned unk258;
     unsigned unk25c;
-    unsigned FUN_00448cc0();
-    int FUN_004487d0();
-    bool FUN_00447020();
+    unsigned TESFile_GetTESForm();
+    int TESFile_GetTESChunk();
+    bool TESFile_NextChunk();
     void FUN_00447d60(void*, unsigned);
 };
 class LoaderBase {
@@ -532,18 +536,20 @@ struct LoaderFullName { void* componentVtable; unsigned unk04, unk08; };
 struct LoaderModel { void* componentVtable; unsigned unk04, unk08, unk0c, unk10, unk14; };
 struct LoaderIcon { void* componentVtable; unsigned unk04, unk08; };
 void __cdecl FUN_00458210(LoaderModel*, RecordFile*);
-void __cdecl FUN_0045bab0(LoaderIcon*, RecordFile*);
+void __cdecl TESTexture_LoadTextureChunk(LoaderIcon*, RecordFile*);
 void __cdecl FUN_00456560(LoaderFullName*, RecordFile*);
 class FormIterWrapper : public LoaderBase, public LoaderFullName, public LoaderModel, public LoaderIcon {
 public:
     unsigned char data;
     bool FUN_00552310(RecordFile*);
 };
+// pdb: TESHair::Load | TESHair.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apFile
 bool FormIterWrapper::FUN_00552310(RecordFile* file)
 {
-    if (file->FUN_00448cc0() != 10) return false;
+    if (file->TESFile_GetTESForm() != 10) return false;
     FUN_00454410(file);
-    int type = file->FUN_004487d0();
+    int type = file->TESFile_GetTESChunk();
     while (type) {
         switch (type) {
         case 0x444e424f:
@@ -563,14 +569,14 @@ bool FormIterWrapper::FUN_00552310(RecordFile* file)
             FUN_00458210(static_cast<LoaderModel*>(this), file);
             break;
         case 0x4e4f4349:
-            FUN_0045bab0(static_cast<LoaderIcon*>(this), file);
+            TESTexture_LoadTextureChunk(static_cast<LoaderIcon*>(this), file);
             break;
         case 0x4c4c5546:
             FUN_00456560(static_cast<LoaderFullName*>(this), file);
             break;
         }
-        if (!file->FUN_00447020()) break;
-        type = file->FUN_004487d0();
+        if (!file->TESFile_NextChunk()) break;
+        type = file->TESFile_GetTESChunk();
     }
     return true;
 }

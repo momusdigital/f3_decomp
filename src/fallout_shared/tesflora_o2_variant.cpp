@@ -18,7 +18,7 @@ struct FUN_00485680
 };
 struct S_00487010
 {
-    void FUN_00487010();
+    void InventoryChanges_GetHotKeyItem();
 };
 struct S_0048a520
 {

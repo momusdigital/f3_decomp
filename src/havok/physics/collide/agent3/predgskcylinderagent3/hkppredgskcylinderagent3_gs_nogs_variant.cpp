@@ -16,11 +16,6 @@ struct FNVObject
 {
     FNVTypeRecord* record;
 };
-struct FNVPair
-{
-    FNVObject* first;
-    FNVObject* second;
-};
 struct FNVFlags
 {
     int unknown0;
@@ -29,8 +24,6 @@ struct FNVFlags
     unsigned char unknownA;
     unsigned char flags;
 };
-extern "C" int __cdecl DispatchInputRecord(FNVPair*, int, FNVFlags*);
-int __cdecl ConvertPairFlags(FNVPair* pair, int mode, FNVFlags* result);
 struct FNVExtendedObject;
 struct ExtendedRecord;
 struct Node;
@@ -48,8 +41,6 @@ struct Manager
     Allocator* allocator;
 };
 extern "C" Manager* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00d41930(void*, void*, void*, void*);
-extern double DAT_010cf218;
 struct Node
 {
     int unk00;
@@ -81,10 +72,6 @@ struct __declspec(align(16)) FNVResult
     float y;
     float z;
     float val;
-};
-struct ExtendedFlags : FNVFlags
-{
-    void Init(void* p1, void* p2, void* p3);
 };
 struct __declspec(align(16)) LocalSource
 {
@@ -123,25 +110,9 @@ struct __declspec(align(16)) LocalSource
 
     void CopyBase(LocalSource* src);
 };
-float __cdecl ComputeExtendedResult(LocalSource* source, void* arg2, FNVFlags* flags_in);
-struct D40AF0State
-{
-    unsigned short m_iSlotIds[4];
-    unsigned char m_uiEdgeIndex;
-    unsigned char m_uiItemCount;
-};
-struct D40AF0Mask
-{
-    int m_pHeadNode;
-    int m_iSecondInteger;
-};
-static void FUN_00d40af0(D40AF0State* s, D40AF0Mask* m);
-void D40AF0Caller(D40AF0State* s, D40AF0Mask* m);
 void __fastcall FUN_00c905b0(void* selfVal);
-static void FUN_00d409d0(void** vals, void** slots);
 void** volatile g_d409d0_vals;
 void** volatile g_d409d0_slots;
-void d409d0_probe_caller(void);
 inline void* operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -157,26 +128,6 @@ struct D40A10Holder
     {
         return *allocator;
     }
-};
-struct D40A10Shape
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    float unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    float unk20;
-    float unk24;
-    float unk28;
-    float unk2c;
-    float unk30;
-    float unk34;
-    float unk38;
-    float unk3c;
-    float FUN_00d571a0();
 };
 struct D40A10Node
 {
@@ -200,14 +151,10 @@ struct D40A10Entry
         m_data = data;
     }
 };
-static void FUN_00d40a10(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out);
-void D40A10Caller(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out);
 
-extern "C" unsigned __int64 __rdtsc(void);
 #include <math.h>
 #include <xmmintrin.h>
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" void _ReadWriteBarrier();
 
 struct Vec
 {
@@ -228,11 +175,6 @@ struct Vec
 struct Transform
 {
     Vec x, y, z, w;
-};
-union RotationScratch
-{
-    Vec axis;
-    Vec translation;
 };
 
 struct ShapeHeader
@@ -347,23 +289,7 @@ struct Trace
     unsigned int* end;
 };
 
-extern unsigned long DAT_0126835c;
 extern const char str_010cf220[], str_010c41f8[];
-
-void profile(const char* label)
-{
-    Trace* t = (Trace*)TlsGetValue(DAT_0126835c);
-    volatile unsigned int* cursor = t->current;
-    if (cursor < t->end)
-    {
-        cursor[0] = (unsigned int)label;
-        _ReadWriteBarrier();
-        volatile unsigned int ticks = (unsigned int)__rdtsc();
-        cursor[1] = ticks;
-        cursor += 3;
-        t->current = (unsigned int*)cursor;
-    }
-}
 
 struct Tracker;
 
@@ -3482,20 +3408,6 @@ struct Tracker
     void** next;
 };
 
-struct ShapeAllocator
-{
-    virtual void v0();
-    virtual Shape* allocate(int);
-};
-
-struct Memory
-{
-    int unk00, unk04, unk08, unk0c;
-    ShapeAllocator* allocator;
-};
-
-Memory* memory();
-
 __forceinline Shape* makeShape(Shape* shape)
 {
     Shape* p = (Shape*)FUN_00c85750()->allocator->allocate(64);
@@ -3521,14 +3433,7 @@ struct Frame
     }
 };
 
-struct VectorOps
-{
-    void FUN_00c7f700(Transform*, Vec*);
-};
-
-void ReleaseAllEntries(void*, void*, void*);
-
-void FUN_00db60c0(Pair*, float, float, float, Cache*, Vec*, Output*);
+void hkGskManifold_cleanup(void*, void*, void*);
 
 struct VertexData
 {
@@ -3536,10 +3441,6 @@ struct VertexData
     Vec normal;
     float radiusA, radiusB, tolerance, radiusSquared;
 };
-
-void FUN_00dae3a0(unsigned char*, VertexData*, int, Output*, void*);
-
-void ProcessCollision(Pair*, State*, Cache*, Feature*, unsigned char*, Vec*, Output*);
 
 float smaller(float a, float b)
 {
@@ -3590,7 +3491,7 @@ extern "C" void FUN_009cc140(void*, void*, void*, void*);
 extern "C" float FUN_009cb280(LocalSource*, void*, FNVFlags*);
 extern "C" void FUN_00a433d0(Pair*, float, float, float, Cache*, Vec*, Output*);
 extern "C" void FUN_00a38200(unsigned char*, VertexData*, int, Output*, void*);
-extern "C" void FUN_00a40940(Pair*, State*, Cache*, Feature*, unsigned char*, Vec*, Output*);
+extern "C" void hkGskAgentUtil_processCollisionNoTim(Pair*, State*, Cache*, Feature*, unsigned char*, Vec*, Output*);
 
 namespace fn_009cb440
 {
@@ -3666,7 +3567,7 @@ namespace fn_009cb440
 
     struct VectorView
     {
-        void FUN_008d2a00(Transform*, Vec*);
+        void hkVector4_setRotatedDir(Transform*, Vec*);
     };
 
     struct VertexShape
@@ -3823,7 +3724,8 @@ namespace fn_009cb440
     }
 } // namespace fn_009cb440
 
-Cache* __cdecl FUN_00d40d80(Pair* pairInput, State* state, Cache* cache, VecArg normal, Output* output)
+// pdb: hkPredGskCylinderAgent3::process | hkpPredGskCylinderAgent3.obj | fnv360_0822_retail, objrun + bridge(ustr_rel|ustr_rel) + skyrim(ustr_rel), high
+Cache* __cdecl hkPredGskCylinderAgent3_process(Pair* pairInput, State* state, Cache* cache, VecArg normal, Output* output)
 {
     using namespace fn_009cb440;
     Agent3Input* pair = reinterpret_cast<Agent3Input*>(pairInput);
@@ -3862,7 +3764,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pairInput, State* state, Cache* cache, VecArg 
             VecOps axis;
             axis.setSub4(shape->maxBound, shape->minBound);
             axis.mul4(InverseLength(axis.lengthSquared3()));
-            ((VectorView*)&axis)->FUN_008d2a00((*bodies[i])->transform, &axis);
+            ((VectorView*)&axis)->hkVector4_setRotatedDir((*bodies[i])->transform, &axis);
             float dotValue = direction.dot3(axis);
             float magnitude = absReal(dotValue);
             if (active[i])
@@ -3871,7 +3773,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pairInput, State* state, Cache* cache, VecArg 
                 {
                     active[i] = 0;
                     cache->feature.flags &= ~(4 << i);
-                    ReleaseAllEntries(&contact->numA, pair->contactMgr, output->stream);
+                    hkGskManifold_cleanup(&contact->numA, pair->contactMgr, output->stream);
                     state->numContacts = contact->numContacts;
                 }
             }
@@ -3880,7 +3782,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pairInput, State* state, Cache* cache, VecArg 
             {
                 active[i] = 1;
                 cache->feature.flags |= 4 << i;
-                ReleaseAllEntries(&contact->numA, pair->contactMgr, output->stream);
+                hkGskManifold_cleanup(&contact->numA, pair->contactMgr, output->stream);
                 state->numContacts = contact->numContacts;
             }
         }
@@ -4017,10 +3919,10 @@ distant:
                 }
             }
         }
-        FUN_00a40940(pairInput, state, cache, feature, &contact->numA, normal, output);
+        hkGskAgentUtil_processCollisionNoTim(pairInput, state, cache, feature, &contact->numA, normal, output);
     }
     else if (contact->numContacts)
-        ReleaseAllEntries(&contact->numA, pair->contactMgr, output->stream);
+        hkGskManifold_cleanup(&contact->numA, pair->contactMgr, output->stream);
     CopyVecScalar(*normal, direction);
 cleanup:
     for (int m = 0; m < 2; ++m)

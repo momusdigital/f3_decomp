@@ -71,6 +71,8 @@ class FUN_00931ad0 : public hkpCdBodyCD2D
 };
 
 
+// pdb: hkpCollidable::hkpCollidable | hkpMouseSpringAction.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: shape, shape, t, ms, type, type
 FUN_00931ad0::FUN_00931ad0(const void* apCollisionShape, const void* motionState, int aiBroadPhaseType)
     : hkpCdBodyCD2D(apCollisionShape, motionState), m_iOwnerOffset(0), m_kBroadPhaseHandle(aiBroadPhaseType),
       m_fAllowedPenetrationDepth(-1.0f)

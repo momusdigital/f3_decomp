@@ -40,6 +40,8 @@ public:
     void FUN_008f9170(Input_f3*);
 };
 typedef void (__thiscall *OwnerCall_f3)(Owner_f3*, void*);
+// pdb: bhkMouseSpringAction::Init | bhkMouseSpringAction.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: arInfo
 void Owner_f3::FUN_008f9170(Input_f3* input) {
     if (input) {
         Object_f3* obj = new Object_f3(align16vec(input->a0, input->a1, input->a2, input->a3), align16vec(input->b0, input->b1, input->b2, input->b3), input->c0, input->c1, input->c3, input->unk04, 0);

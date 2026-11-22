@@ -16,6 +16,8 @@ struct S_00a8d8b0
     unsigned int(__cdecl* fn)(S_00a8d8b0*, void*, unsigned int, unsigned int*, unsigned int);
 };
 // @fnv 0x00a8d8b0
+// pdb: NiStreamLoadBinary<unsigned char> | NiD3DGPUProgramCache.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: binstream, value, uiNumEls
 void __cdecl AdvancePosition(S_00a8d8b0* apState, void* b, unsigned int c)
 {
     unsigned int tmp = 1;
@@ -26,30 +28,12 @@ struct NiTFixedStringMap_NiAVObject___
 {
     void RemoveAll();
 };
-void _NiFreeAlias(void*);
 struct MemoryManager
 {
     void _DeallocateAlias(void*);
 };
 extern MemoryManager g_memoryManager;
 extern int DAT_01101378;
-extern int DAT_01101388;
-struct SomeClass
-{
-    void* FUN_00ee90b0(unsigned int);
-};
-// @fnv 0x00ee90b0
-void* SomeClass::FUN_00ee90b0(unsigned int uiFlags)
-{
-    *(int*)this = (int)&DAT_01101388;
-    ((NiTFixedStringMap_NiAVObject___*)this)->RemoveAll();
-    *(int*)this = (int)&DAT_01101378;
-    ((NiTFixedStringMap_NiAVObject___*)this)->RemoveAll();
-    _NiFreeAlias(*(void**)((char*)this + 8));
-    if (uiFlags & 1)
-        g_memoryManager._DeallocateAlias(this);
-    return this;
-}
 
 void __cdecl FUN_00ee9a60();
 void __cdecl operator delete(void*, unsigned int);
@@ -58,6 +42,7 @@ struct FUN_00ee9ca0_shell
     void* __thiscall FUN_00ee9ca0(unsigned int flags);
 };
 // @fnv 0x00ee9ca0
+// pdb: NiBSplineCompColorInterpolator::`scalar deleting destructor' | NiBSplineCompColorInterpolator.obj | fnv360_0822_retail, objrun, medium
 void* __thiscall FUN_00ee9ca0_shell::FUN_00ee9ca0(unsigned int flags)
 {
     FUN_00ee9a60();
@@ -109,6 +94,7 @@ struct FUN_00ee9070_shell : NiTFixedStringMap_NiAVObject___
 };
 // Sets the vtable, removes all entries, frees the object at offset 8, and optionally deallocates this instance.
 // @fnv 0x00ee9070
+// pdb: NiTMapBase<DFALL<NiTMapItem<TESFile *,TESWorldSpace::OFFSET_DATA *> >,TESFile *,TESWorldSpace::OFFSET_DATA *>::`scalar deleting destructor' | TESWorldSpace.obj | fnv360_0822_retail, vtable, high
 FUN_00ee9070_shell* __thiscall FUN_00ee9070_shell::FUN_00ee9070(bool b)
 {
     *(void**)this = &DAT_01101378;
@@ -141,6 +127,7 @@ struct FUN_00aa2200
 };
 // Allocates a NiStandardAllocator via operator new and stores it in object, then sets initialized to 1.
 // @fnv 0x00aa2200
+// pdb: NiInitOptions::NiInitOptions | NiInitOptions.obj | fnv360_0822_retail, call_seq, high
 FUN_00aa2200::FUN_00aa2200()
 {
     object = new NiStandardAllocator;
@@ -224,6 +211,7 @@ class FixedStringMap
 
 // Reads the current item's key and value into key and val, advances pos to the next item or the next non-empty hash bucket, or sets pos to 0 at the end.
 // @fnv 0x00ee8f10
+// pdb: NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> > >,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> >::`scalar deleting destructor' | NiGPUProgramCache.obj | fnv360_0721_beta, objrun, low, conflict (bridge: NiGPUProgramCache::SaveString)
 void FixedStringMap::GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val)
 {
     MapItem* pkItem = pos;
@@ -324,6 +312,8 @@ struct S_00ee8af0
 };
 
 // @fnv 0x00ee8af0
+// pdb: NiGPUProgramCache::SetWorkingDirectory | NiGPUProgramCache.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: kFilename
 bool S_00ee8af0::SetString(const NiFixedString& akString) throw()
 {
     S_00ee8af0_String kOld = this->m_kString;
@@ -425,6 +415,7 @@ char* __cdecl FUN_00a5b690(char* str);
 
 // Rebuilds m_20 from m_18 and m_1c via BuildAbsolutePath, or clears it and m_39 when either handle is empty; calls onStringChanged if the handle changed.
 // @fnv 0x00ee8c10
+// pdb: NiGPUProgramCache::ComputeFullFilename | NiGPUProgramCache.obj | fnv360_0822_retail, caller_sim, low
 void FixedPathMap::UpdatePathString()
 {
     if (m_1c.m_kHandle != _EmptyFS && m_18.m_kHandle != _EmptyFS)
@@ -472,6 +463,7 @@ struct S_00ee8e10_Arr
 };
 // Releases each stored string pointer, decrementing its reference count when non-null and not the empty-string sentinel, then resets size to 0.
 // @fnv 0x00ee8e10
+// pdb: NiTPtrSet<NiFixedString,NiTNewInterface<NiFixedString> >::RemoveAll | NiGPUProgramCache.obj | fnv360_0822_retail, objrun_sim, low
 void S_00ee8e10_Arr::FUN_00ee8e10()
 {
     for (unsigned int i = 0; i < count; i++)
@@ -501,6 +493,7 @@ class FUN_00ee8fe0_cls
 
 // Removes the element at idx by shifting later slots down with refcount updates, then decrements m_uiSize and releases the last slot.
 // @fnv 0x00ee8fe0
+// pdb: NiTFixedStringMap<NiPointer<NiGPUProgramCache::NiGPUProgramDesc> >::`scalar deleting destructor' | NiGPUProgramCache.obj | fnv360_0721_beta, objrun, low
 void FUN_00ee8fe0_cls::RemoveAt(unsigned int uiIndex)
 {
     if (uiIndex < m_uiSize - 1)
@@ -541,6 +534,8 @@ void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
 
 // Reads a length-prefixed string into a2 via self->fn, advances self->pos, and null-terminates the buffer; returns false if a3 is 0 or a2 is null.
 // @fnv 0x00ee92d0
+// pdb: NiGPUProgramCache::LoadString | NiGPUProgramCache.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: kStream, pcBuffer, stBufferSize
 bool __stdcall FUN_00ee92d0(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3)
 {
     if (a3 == 0)
@@ -662,6 +657,8 @@ struct S_00ee97e0_Cls
 };
 
 // @fnv 0x00ee97e0
+// pdb: NiGPUProgramCache::SaveEntry | NiGPUProgramCache.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream, pkDesc, kName
 bool S_00ee97e0_Cls::WriteToStream(S_00ee97e0_Stream* pStream, S_00ee97e0_Obj* pObj, int* piValue)
 {
     S_00ee97e0_Write(pStream, &unk34);
@@ -706,6 +703,7 @@ struct RecordPair
 extern "C" FUN_00a5e3a0_Helper DAT_011f6238;
 
 // @fnv 0x00ee99b0
+// pdb: NiSCMExtraData::`scalar deleting destructor' | NiSCMExtraData.obj | fnv360_0822_debug, objrun_open, low
 RecordPair* __cdecl CreateRecordPair()
 {
     RecordPair* pRecord = (RecordPair*)DAT_011f6238.FUN_00aa3e40(0xc);
@@ -786,6 +784,8 @@ struct ItemWithDtor
 
 // Clears the item's key and value, then deletes the item through its custom operator delete.
 // @fnv 0x00ee99d0
+// pdb: NiTFixedStringMap<NiPointer<NiGPUProgramCache::NiGPUProgramDesc> >::DeleteItem | NiGPUProgramCache.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: pkItem
 void __stdcall ClearAndDeleteItem(ItemWithDtor* pItem)
 {
     pItem->m_key = (const char*)0;
@@ -854,6 +854,7 @@ class FUN_00ee9a60_cls : public SpawnedRoot
 
 // Destructor: clears the map at m_mapHead, frees its table, then releases the four NiFixedString handles and the base.
 // @fnv 0x00ee9a60
+// pdb: NiGPUProgramCache::~NiGPUProgramCache | NiGPUProgramCache.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 FUN_00ee9a60_cls::~FUN_00ee9a60_cls() throw()
 {
     reinterpret_cast<MapClearHelper*>(&m_mapHead)->FUN_00ee8e10();
@@ -949,6 +950,8 @@ bool Ee9b10_Map::Lookup(NiFixedString& key, Ee9b10_Value*& val)
 
 // Looks up name in m_map, visits each item with visitor, and returns the value's m_pFirst, releasing the string and value references.
 // @fnv 0x00ee9b10
+// pdb: NiGPUProgramCache::FindCachedProgram | NiGPUProgramCache.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pcName, kUniforms
 void* Ee9b10_Owner::LookupAndVisit(const char* name, Ee9b10_Visitor* visitor)
 {
     char* h;
@@ -1043,6 +1046,8 @@ struct FUN_00ee9bf0 : S_00ee9bf0_Base
     FUN_00ee9bf0(void* a, unsigned char b, unsigned char c);
 };
 // @fnv 0x00ee9bf0
+// pdb: NiGPUProgramCache::NiGPUProgramCache | NiGPUProgramCache.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: uiVersion, bAutoWriteCacheToDisk, bLocked
 FUN_00ee9bf0::FUN_00ee9bf0(void* a, unsigned char b, unsigned char c)
 {
     unk34 = a;
@@ -1103,6 +1108,8 @@ struct FUN_00ee90f0_cls
 
 // Marks entries whose keys appear in a1, then removes every unmarked entry from a2 by index in reverse order and returns true.
 // @fnv 0x00ee90f0
+// pdb: NiGPUProgramCache::PruneUnusedConstants | NiGPUProgramCache.obj | fnv360_0721_beta, objrun, medium
+// pdb params: pkProgram, kUniforms
 bool __stdcall RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList)
 {
     unsigned char flags[0x400];
@@ -1147,6 +1154,7 @@ struct C00ee8a70
 };
 
 // @fnv 0x00ee8a70
+// pdb: hkClass::getFlags | hkClass.obj | fnv360_0822_retail, objrun_sim, medium
 int* C00ee8a70::FUN_00ee8a70()
 {
     return &field28;
@@ -1157,6 +1165,7 @@ struct FnvCpu_FUN_00ee8a80_CpuObject
     char* FUN_00ee8a80();
 };
 // @fnv 0x00ee8a80
+// pdb: NiGPUProgramCache::GetShaderProfile | NiGPUProgramCache.obj | fnv360_0822_retail, objrun_open, low
 char* FnvCpu_FUN_00ee8a80_CpuObject::FUN_00ee8a80()
 {
     return reinterpret_cast<char*>(this) + 36;
@@ -1167,6 +1176,7 @@ struct FnvCpu_FUN_00ee8a90_CpuObject
     char* FUN_00ee8a90();
 };
 // @fnv 0x00ee8a90
+// pdb: MagicItemForm::IsMagicItem | EnchantmentItem.obj | fnv360_0721_beta, objrun_open, low
 char* FnvCpu_FUN_00ee8a90_CpuObject::FUN_00ee8a90()
 {
     return reinterpret_cast<char*>(this) + 28;
@@ -1177,6 +1187,7 @@ struct FUN_00ee8aa0_shell
     char __thiscall FUN_00ee8aa0();
 };
 // @fnv 0x00ee8aa0
+// pdb: NiGPUProgramCache::IsLoaded | NiGPUProgramCache.obj | fnv360_0822_retail, objrun_open, low
 char __thiscall FUN_00ee8aa0_shell::FUN_00ee8aa0()
 {
     return *(unsigned char*)((char*)this + 0x39);
@@ -1266,6 +1277,8 @@ class NiFileLoaderW
 };
 
 // @fnv 0x00ee8d60
+// pdb: NiGPUProgramCache::AppendEntry | NiGPUProgramCache.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkDesc, kName
 bool NiFileLoaderW::FUN_00ee8d60(void* pvArg, void* pvArgCur)
 {
     if (!CanOpen())
@@ -1306,6 +1319,7 @@ struct FnvCpu_FUN_00ee8ab0_CpuObject
     unsigned char FUN_00ee8ab0();
 };
 // @fnv 0x00ee8ab0
+// pdb: NiGPUProgramCache::IsLocked | NiGPUProgramCache.obj | fnv360_0822_retail, objrun_open, low
 unsigned char FnvCpu_FUN_00ee8ab0_CpuObject::FUN_00ee8ab0()
 {
     return value;
@@ -1333,6 +1347,8 @@ struct Map
 };
 // Finds the value for key, updates the reference in out with reference-count adjustments, and returns whether the key was found.
 // @fnv 0x00ee8e90
+// pdb: NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> > >,NiPointer<NiGPUProgramCache::NiGPUProgramDesc> >::GetAt | NiGPUProgramCache.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: kKey, val
 bool Map::Lookup(unsigned int* key, RefObject** ppOut)
 {
     unsigned int value = *key;
@@ -1371,6 +1387,8 @@ inline void S_00ee9230_WriteBinary(S_00ee9230_Stream* pkStream, const void* pvBu
 
 // Writes a length-prefixed null-terminated string to pkStream, using a zero length when pcString is null.
 // @fnv 0x00ee9230
+// pdb: NiGPUProgramCache::SaveString | NiGPUProgramCache.obj | fnv360_0822_retail, call_gap_sim, low, conflict (bridge: NiStreamSaveBinary<unsigned char>)
+// pdb params: kStream, pcString
 bool __stdcall FUN_00ee9230(S_00ee9230_Stream* pkStream, const char* pcString)
 {
     if (pcString == 0)
@@ -1400,14 +1418,11 @@ class NiFileE93
     virtual unsigned int GetFileSize();
 };
 
-extern bool DAT_011c2fdd;
 bool __cdecl FUN_00aa1ab0(const char* pcName);
 bool __cdecl FUN_00aa1bb0(const char* pcName);
-NiFileE93* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
 void __cdecl AdvancePosition(NiFileE93* pkFile, char* pcBuffer, unsigned int uiLen);
 int __cdecl FUN_00aa1360(const char* pc1, const char* pc2);
 void __cdecl InvokeAndAccumulate(NiFileE93* pkFile, bool* pbValue);
-void __cdecl FUN_00a575b0(NiFileE93* pkFile, unsigned int* puiValue);
 
 class NiFixedStringE93
 {
@@ -1494,6 +1509,7 @@ struct CacheStringReader {
 NiFileE93* __cdecl FUN_0089f1d0(const char*, int, unsigned int);
 void __cdecl FUN_00857070(NiFileE93*, unsigned int*);
 extern bool DAT_0106c4de;
+// pdb: NiGPUProgramCache::Load | NiGPUProgramCache.obj | fnv360_0822_retail, call_gap_sim, low
 bool NiGPUProgramCacheE93::LoadCacheFile()
 {
     bool bExists = m_pcWorkingDir != DAT_0109b220 && (FUN_00aa1ab0(m_pcWorkingDir) || FUN_00aa1bb0(m_pcWorkingDir));
@@ -1696,6 +1712,7 @@ class GpuCacheWriter
 
 // Writes the GPU cache file header and all map entries to a stream opened from m_20, returning true on success.
 // @fnv 0x00ee9620
+// pdb: NiGPUProgramCache::Save | NiGPUProgramCache.obj | fnv360_0822_retail, ustr_rel, medium
 bool GpuCacheWriter::FUN_00ee9620()
 {
     if (!CanSave())

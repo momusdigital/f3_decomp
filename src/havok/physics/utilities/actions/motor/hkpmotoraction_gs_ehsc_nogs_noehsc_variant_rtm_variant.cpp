@@ -169,7 +169,7 @@ struct __declspec(align(16)) Vector496 {
     float x,y,z,w;
     void FUN_00477880(const void*,const void*);
     void FUN_008d2a80(const Matrix496*,const Vector496&);
-    void FUN_008d2a00(const void*,const Vector496&);
+    void hkVector4_setRotatedDir(const void*,const Vector496&);
     __forceinline float Dot(const Vector496& a) const {return x*a.x+y*a.y+z*a.z;}
     __forceinline void Scale(float scale,const Vector496& a) {x=scale*a.x;y=scale*a.y;z=scale*a.z;w=scale*a.w;}
 };
@@ -231,7 +231,7 @@ void MotorAction::FUN_00d4d860(const TimeInterval& interval) {
     Matrix496 inertia;
     body->motion.Inertia(&inertia);
     angular.FUN_008d2a80(&inertia,angular);
-    angular.FUN_008d2a00(&body->motion.rotation,angular);
+    angular.hkVector4_setRotatedDir(&body->motion.rotation,angular);
     body->Step(interval.m_fTimeStep,angular);
 }
 

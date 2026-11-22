@@ -25,6 +25,8 @@ struct MyHost
     MyCtrl* FUN_00a5c570(const MyRTTI* pkRTTI) const;
 };
 // @fnv 0x00a5c570
+// pdb: NiObjectNET::GetController | NiObjectNET.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkRTTI
 MyCtrl* MyHost::FUN_00a5c570(const MyRTTI* pkRTTI) const
 {
     MyCtrl* pkCtrl = m_pFirstNode;

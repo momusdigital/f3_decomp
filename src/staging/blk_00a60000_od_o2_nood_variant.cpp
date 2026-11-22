@@ -49,6 +49,7 @@ struct A74CB0Matrix3 {
 void FUN_00a74cb0(unsigned short m_usPassCountLocal, const A74CB0Point3* pkIn, A74CB0Point3* pkOut, const A74CB0Matrix3* pkMatrix);
 
 // @fnv 0x00a74880
+// pdb: NiTransformVectorsPentium | NiProcessor.obj | tesv_win, hash, low
 void __cdecl FUN_00a74880(unsigned short count, const float* src, float* dst, const float* matrix) {
     unsigned int n = count;
     fnv_TransformVectors(n, src, dst, matrix);
@@ -58,6 +59,7 @@ struct ScaledMatrix {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
 };
 // @fnv 0x00a74900
+// pdb: NiTransformPointsPentium | NiProcessor.obj | tesv_win, hash, low
 void __cdecl FUN_00a74900(unsigned short count, const Vec3Local* src,
                         Vec3Local* dst, const XfRSLocal* xf) {
     unsigned int n = count;

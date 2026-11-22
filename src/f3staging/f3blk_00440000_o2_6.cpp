@@ -24,6 +24,8 @@ struct FUN_00455330_cls {
     bool FUN_00455330(FUN_00455330_node* p);
 };
 
+// pdb: TESForm::SavesBefore | TESForm.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apGroupFORM
 bool FUN_00455330_cls::FUN_00455330(FUN_00455330_node* p)
 {
     bool r = false;
@@ -68,7 +70,7 @@ public:
     void* items[38];
     FUN_0044ed00();
     void FUN_0044ed20(void* form);
-    void FUN_0044ec40();
+    void FormComponentCollection_ClearDataAllComponents();
 };
 namespace f3m_00453cd0 {
 struct Member18 {
@@ -86,6 +88,7 @@ struct Form {
     Member18 unk18;
     void FUN_00453cd0();
 };
+// pdb: TESForm::ClearDataAllComponents | TESForm.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: TESForm::InitializeDataAllComponents)
 void Form::FUN_00453cd0()
 {
     switch (kind) {
@@ -100,7 +103,7 @@ void Form::FUN_00453cd0()
     }
     FUN_0044ed00 cache;
     cache.FUN_0044ed20(this);
-    cache.FUN_0044ec40();
+    cache.FormComponentCollection_ClearDataAllComponents();
 }
 }
 }   // namespace f3m_00453cd0

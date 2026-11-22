@@ -1,12 +1,15 @@
 #include "f3_common.h"
 #include "nid3dshaderconstantmap_decls.h"
 // @fnv 0x00e87200
+// pdb: NiD3DShaderConstantMap::SortByEnabled | NiD3DShaderConstantMap.obj | fnv360_0822_debug, objrun_open, low
 void NiD3DShaderConstantMap::ResetShaderConstantMap()
 {
     ClearShaderConstantEntries(&entries);
     ClearShaderConstantEntries(&defined);
 }
 // @fnv 0x00b71a40
+// pdb: NiD3DUtility::GetD3DFromNi | NiXenonRenderer.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: kD3D, kNiRot, kNiTrans, fNiScale
 void BuildTransformMatrix(float* afOutMatrix, const ThreeByThreeMatrix& r, const NiPoint3& atTranslation, float afScale)
 {
     afOutMatrix[0] = r.m[0][0] * afScale;
@@ -102,6 +105,8 @@ struct NiShaderConstantMap
 };
 unsigned int __cdecl FUN_00a9bbf0(unsigned int, unsigned int);
 // @fnv 0x00a9c0a0
+// pdb: NiShaderConstantMap::LookUpPredefinedMappingType | NiShaderConstantMap.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: pszMapping
 unsigned int __cdecl FUN_00a9c0a0(const char* name)
 {
     unsigned int a, b;
@@ -112,14 +117,11 @@ unsigned int __cdecl FUN_00a9c0a0(const char* name)
 
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f7c4;
-// @fnv 0x00b7e400
-GlobalObjectO2_00a7b610* __cdecl FUN_00b7e400()
-{
-    return &g_0126f7c4;
-}
 
 void __fastcall UpdateMatrix(void*);
 // @fnv 0x00bc5c20
+// pdb: NiD3DPass::SetPixelConstantMap | NiXenonFragmentShader.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkSCMPixel
 char* __fastcall FUN_00bc5c20(char* self)
 {
     if (self[0x1c])
@@ -128,6 +130,8 @@ char* __fastcall FUN_00bc5c20(char* self)
 }
 
 // @fnv 0x00e826c0
+// pdb: NiD3DShaderConstantMap::GetEntryAtIndex | NiD3DShaderConstantMap.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: uiIndex
 void* __fastcall FUN_00e826c0(char* self, int unused, unsigned int i)
 {
     return (*(void***)(self + 0x10))[i];
@@ -143,17 +147,19 @@ struct FUN_00e82ac0_e
     unsigned int v20;
 };
 extern unsigned char DAT_011f5fb4[];
-bool __cdecl LookupShaderConstantMapping(unsigned int, void*&);
+bool __cdecl NiShaderConstantMap_LookUpObjectMapping(unsigned int, void*&);
 unsigned int __cdecl GetAttributeTypeForMapping(void*, unsigned int*, unsigned int*);
 // Looks up the entry's key, stores a byte from DAT_011f5fb4 indexed by the result into flags, and on success stores the pointer and y into p10 and v20.
 // @fnv 0x00e82ac0
+// pdb: NiD3DShaderConstantMap::SetupObjectEntry | NiD3DShaderConstantMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkEntry
 unsigned int __stdcall UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
 {
     void* x;
     unsigned int uiKey = pEntry->key;
     unsigned int y = 0;
     unsigned int z;
-    if (LookupShaderConstantMapping(uiKey, x))
+    if (NiShaderConstantMap_LookUpObjectMapping(uiKey, x))
     {
         unsigned int idx = GetAttributeTypeForMapping(x, &y, &z);
         pEntry->flags = (pEntry->flags & 0xffffff00) | DAT_011f5fb4[idx];
@@ -216,6 +222,8 @@ const void* __stdcall GetConstantData(void*);
 // @f3 0x008939a0 (community match, verified in this file)
 const void* __stdcall FUN_008928d0(void*);
 
+// pdb: NiD3DShaderConstantMap::SetConstantConstant | NiD3DShaderConstantMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkShaderProgram, pkEntry, uiPass
 unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
 {
     const void* pvData = FUN_008928d0(entry);
@@ -278,6 +286,8 @@ struct RArr
     void FUN_00e86f40(unsigned int, void*);
 };
 // @fnv 0x00e87010
+// pdb: NiD3DShaderConstantMap::RemoveEntry | NiD3DShaderConstantMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pszKey
 unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char* name)
 {
     unsigned int idx = self->LookupSequenceByKey(name);
@@ -303,6 +313,8 @@ unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char
 }
 
 // @fnv 0x00a9bbf0
+// pdb: NiShaderConstantMap::LookUpPredefinedMappingType | NiShaderConstantMap.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: uiMappingID, uiNumRegisters
 unsigned int __cdecl FUN_00a9bbf0(unsigned int aiCode, unsigned int b)
 {
     switch (aiCode)
@@ -447,13 +459,6 @@ FUN_00a9beb0::~FUN_00a9beb0()
 }
 
 extern "C" char DAT_010f003c;
-struct ShaderMapBase
-{
-    virtual void BaseVirtual();
-    unsigned int unk04, unk08;
-    ShaderMapBase(unsigned int);
-    ~ShaderMapBase();
-};
 struct ShaderMapArray
 {
     void* vtable;
@@ -469,24 +474,6 @@ struct ShaderMapArray
     ~ShaderMapArray();
     void FUN_00b799c0();
 };
-struct FUN_00b7e330 : ShaderMapBase
-{
-    ShaderMapArray activeEntries, definedEntries;
-    unsigned char enabled, unk2d, unk2e, unk2f;
-    unsigned int unk30, unk34, unk38, unk3c, unk40;
-    FUN_00b7e330(unsigned int, unsigned int);
-    void FUN_00e81d00(unsigned int);
-    virtual void MapVirtual();
-};
-// Constructs a shader map by initializing base state, calling FUN_00e81d00 with mapId, and preparing activeEntries.
-// @fnv 0x00b7e330
-FUN_00b7e330::FUN_00b7e330(unsigned int mapId, unsigned int initMode)
-    : ShaderMapBase(initMode), activeEntries(), definedEntries(), unk30(0), unk34(0), unk38(0), unk3c(0), unk40(0)
-{
-    enabled = 1;
-    FUN_00e81d00(mapId);
-    activeEntries.FUN_00b799c0();
-}
 
 extern unsigned int DAT_011f5f90[];
 struct EntrySI
@@ -1143,6 +1130,8 @@ class FUN_00e82640_Obj
 
 // Searches two entry arrays by name using FUN_00aa1360 and returns the matching entry, or 0 if not found.
 // @fnv 0x00e82640
+// pdb: NiD3DShaderConstantMap::GetEntry | NiD3DShaderConstantMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pszKey
 FUN_00e82640_Entry* __thiscall FUN_00e82640_Obj::FindEntry(unsigned int name)
 {
     unsigned int count;
@@ -1216,6 +1205,8 @@ class FUN_00e82960_cls
 };
 
 // @fnv 0x00e82960
+// pdb: NiD3DShaderConstantMap::GetEntryIndex | NiD3DShaderConstantMap.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pszKey
 unsigned int FUN_00e82960_cls::FindEntryIndex(const char* name)
 {
     unsigned int n = count;
@@ -1263,6 +1254,8 @@ struct ShaderConstEntry
 
 // Looks up the shader constant type for the entry key, sets flags, dataSize, type, and matrix descriptor fields, returning 0 on success or 0x40 on failure.
 // @fnv 0x00e829b0
+// pdb: NiD3DShaderConstantMap::SetupPredefinedEntry | NiD3DShaderConstantMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkEntry
 unsigned int __stdcall InitShaderConstantEntry(ShaderConstEntry* apEntry)
 {
     unsigned int count = 4;
@@ -1336,6 +1329,8 @@ void __stdcall Transpose(Matrix*, Matrix*);
 void __stdcall Transform(Vector*, Vector*, void*);
 // Computes a matrix or vector constant based on type and mode, applies inverse or transpose in some matrix cases, and passes it to SetConstant.
 // @fnv 0x00e82b40
+// pdb: NiD3DShaderConstantMap::PerformOperatorMultiply | NiD3DShaderConstantMap.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: pkShaderProgram, pkEntry, eType1, eType2, bInverse, bTranspose
 unsigned int __stdcall FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int type, unsigned int mode,
                                     bool inverse, bool transpose)
 {
@@ -1628,6 +1623,8 @@ extern float DAT_0126f7e0[];
 
 // Converts extraData fields according to the mapped type, returning a static buffer, pData, or null.
 // @fnv 0x00e83840
+// pdb: NiD3DShaderConstantMap::MapAttributeValue | NiD3DShaderConstantMap.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkEntry, pkExtra
 const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, ExtraDataStandIn* extraData)
 {
     int type = DAT_011f5fc4[entry->flags & 0xff];
@@ -1745,6 +1742,8 @@ extern float DAT_0126f7e0[16];
 
 // Returns entry data directly for some counts, otherwise converts supported values into static buffers.
 // @fnv 0x00e83a90
+// pdb: NiD3DShaderConstantMap::MapConstantValue | NiD3DShaderConstantMap.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: pkEntry
 const void* __stdcall GetConstantData(void* apEntry)
 {
     ConstantEntryView* entry = static_cast<ConstantEntryView*>(apEntry);
@@ -1968,6 +1967,8 @@ struct TexConstantMap
 
 // Resolves a texture for a TexEntry via cache or geom, looks up its constant data, and calls prog->SetConstant with a size derived from entry->flags.
 // @fnv 0x00e84ba0
+// pdb: NiD3DShaderConstantMap::SetAttributeConstant | NiD3DShaderConstantMap.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkShaderProgram, pkEntry, pkGeometry, pkSkin, pkPartition, pkBuffData, pkState, pkEffects, kWorld, kWorldBound, uiPass, bGlobal, pkExtraData
 unsigned int TexConstantMap::FUN_00e84ba0(TexProgram* prog, TexEntry* entry, NiAVObject* geom, void* apUnused3,
                                           void* apUnused4, void* apUnused5, void* apUnused6, void* apUnused7,
                                           void* apUnused8, void* apUnused9, unsigned int pass, bool global,
@@ -2126,7 +2127,6 @@ unsigned int __stdcall FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConsta
 }
 }  // namespace fnv_00e84d00
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern "C" double __cdecl cos(double);
 
 class NiPoint3_ext : public NiPoint3
@@ -2136,14 +2136,6 @@ class NiPoint3_ext : public NiPoint3
     NiPoint3* FUN_00439ef0(NiPoint3*, const NiPoint3&) const;
     void FUN_004a0c10();
     float Dot(const NiPoint3&) const;
-};
-
-class NiMatrix3_ext : public ThreeByThreeMatrix
-{
-  public:
-    NiMatrix3_ext* FUN_004768c0(NiMatrix3_ext*) const;
-    ThreeByThreeMatrix* FUN_0043f8d0(ThreeByThreeMatrix*, const ThreeByThreeMatrix&) const;
-    NiPoint3* FUN_004b4500(NiPoint3*, const NiPoint3&) const;
 };
 
 class NiTransform
@@ -2165,838 +2157,7 @@ class NiBound
     float m_fBoundRadius;
 };
 
-struct NiRTTI;
-extern const NiRTTI DAT_011f4a98;
-bool __cdecl FUN_0043b300(const NiRTTI*, void*);
-void __cdecl FUN_00b71a40(float* d, const ThreeByThreeMatrix& r, const NiPoint3& t, float s);
-void __cdecl FUN_00b799a0(float* d, const char* t);
-extern const NiPoint3 DAT_011f426c;
-
-struct StandinLight
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    NiTransform m_kWorldSpaceTransform;
-    char unk9c;
-    unsigned char m_ucLightType;
-    char unk9e;
-    char unk9f;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    float m_fDimmer;
-    NiPoint3 m_kAmbient;
-    NiPoint3 m_kDiffuse;
-    NiPoint3 m_kSpecular;
-    int unkec;
-    union
-    {
-        struct
-        {
-            NiPoint3 m_kWorldLocation;
-            NiPoint3 m_kSpotDirection;
-            float m_fOuterAngle;
-            float m_fInnerAngle;
-            float m_fSpotExponent;
-            int unk114;
-        };
-        struct
-        {
-            int unkF0;
-            ThreeByThreeMatrix m_kLightRotate;
-        };
-    };
-    NiPoint3 m_kWorldDirection;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    unsigned int m_uiSubtype;
-    unsigned char m_bAtten;
-    char unk139;
-    char unk13a;
-    char unk13b;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    union
-    {
-        struct
-        {
-            float m_fConstantAtten;
-            float m_fLinearAtten;
-            float m_fQuadAtten;
-            float m_fDistanceLimit;
-        };
-        struct
-        {
-            NiPoint3 m_kPlaneNormal;
-            float m_fPlaneDistance;
-        };
-    };
-};
-
-struct NiD3DMatrix4
-{
-    float m[4][4];
-};
-
-struct LightPlane
-{
-    NiPoint3 normal;
-    float distance;
-};
-struct LightMappingWorkspace
-{
-    volatile float scalar;
-    LightPlane plane;
-    NiD3DMatrix4 matrix;
-    NiPoint3 scaledAtten;
-    NiD3DMatrix4 identity;
-    NiTransform inverse;
-    NiTransform lightWorld;
-    NiPoint3 modelWorldDirection;
-    NiPoint3 modelDirection;
-    NiPoint3 modelPosition;
-    NiPoint3 distantModelPosition;
-    NiPoint3 pointLightDirection;
-    NiPoint3 modelLightDirection;
-    NiPoint3 pointLightModelDirection;
-    ThreeByThreeMatrix modelWorldRotation;
-    NiMatrix3_ext inverseEffectRotation;
-    ThreeByThreeMatrix modelEffectRotation;
-    NiMatrix3_ext inverseWorldRotation;
-    NiMatrix3_ext inverseLightRotation;
-    NiTransform modelLightWorld;
-};
-
-union PointBits
-{
-    NiPoint3 point;
-    struct
-    {
-        unsigned int x, y, z;
-    } words;
-};
-__forceinline void CopyPoint24(NiPoint3& dst, const NiPoint3& src)
-{
-    unsigned int x = ((const PointBits&)src).words.x;
-    unsigned int y = ((const PointBits&)src).words.y;
-    unsigned int z = ((const PointBits&)src).words.z;
-    ((PointBits&)dst).words.z = z;
-    ((PointBits&)dst).words.x = x;
-    ((PointBits&)dst).words.y = y;
-}
-__forceinline void CopyPointValue(NiPoint3& dst, const NiPoint3& src)
-{
-    volatile PointBits& destination = (volatile PointBits&)dst;
-    const volatile PointBits& source = (const volatile PointBits&)src;
-    unsigned int x = source.words.x;
-    unsigned int y = source.words.y;
-    unsigned int z = source.words.z;
-    destination.words.x = x;
-    destination.words.y = y;
-    destination.words.z = z;
-}
-
-static __declspec(noinline) void CopyMatrix(void* dst, const void* src)
-{
-    const float* s = (const float*)src;
-    float* d = (float*)dst;
-    d[0] = s[0];
-    d[1] = s[1];
-    d[2] = s[2];
-    d[3] = s[3];
-    d[4] = s[4];
-    d[5] = s[5];
-    d[6] = s[6];
-    d[7] = s[7];
-    d[8] = s[8];
-    d[9] = s[9];
-    d[10] = s[10];
-    d[11] = s[11];
-    d[12] = s[12];
-    d[13] = s[13];
-    d[14] = s[14];
-    d[15] = s[15];
-}
-
-// Fills pvData with light constant values selected by uiMapping from the StandinLight in pSource, transforming positions and directions with kWorld when needed.
-// @fnv 0x00e84ed0
-bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstantDataSize, unsigned int uiMapping,
-                                   void* pSource, NiGeometry* m_pShaderGeometry, const NiSkinInstance* pSkinInstance,
-                                   const NiSkinPartition::Partition* pPartition, NiGeometryBufferData* pBuffData,
-                                   const NiPropertyState* pState, const NiDynamicEffectState* apDynamicEffectState,
-                                   const NiTransform& kWorld, const NiBound& kWorldBound, unsigned int uiPass)
-{
-    NiPoint3 point;
-    LightMappingWorkspace work;
-    fnv_zlib_memset(&work.identity, 0, sizeof(work.identity));
-    work.identity.m[3][3] = 1.0f;
-    work.identity.m[2][2] = 1.0f;
-    work.identity.m[1][1] = 1.0f;
-    work.identity.m[0][0] = 1.0f;
-
-    StandinLight* apTargetLight = (StandinLight*)pSource;
-
-    switch (uiMapping)
-    {
-    case 1: {
-        float* fData = (float*)apConstantData;
-        if (!apTargetLight)
-        {
-            fData[0] = 0.0f;
-            fData[1] = 0.0f;
-            fData[2] = 0.0f;
-            fData[3] = 0.0f;
-            return false;
-        }
-        fData[0] = apTargetLight->m_fDimmer;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 0.0f;
-        return true;
-    }
-    case 2: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            fData[0] = apTargetLight->m_kAmbient.x;
-            fData[1] = apTargetLight->m_kAmbient.y;
-            fData[2] = apTargetLight->m_kAmbient.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 3: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            fData[0] = apTargetLight->m_kDiffuse.x;
-            fData[1] = apTargetLight->m_kDiffuse.y;
-            fData[2] = apTargetLight->m_kDiffuse.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 4: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            fData[0] = apTargetLight->m_kSpecular.x;
-            fData[1] = apTargetLight->m_kSpecular.y;
-            fData[2] = apTargetLight->m_kSpecular.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 5: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            point = apTargetLight->m_kAmbient;
-            *((NiPoint3_ext*)&point) *= apTargetLight->m_fDimmer;
-            fData[0] = point.x;
-            fData[1] = point.y;
-            fData[2] = point.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 6: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            point = apTargetLight->m_kDiffuse;
-            *((NiPoint3_ext*)&point) *= apTargetLight->m_fDimmer;
-            fData[0] = point.x;
-            fData[1] = point.y;
-            fData[2] = point.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 7: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            point = apTargetLight->m_kSpecular;
-            *((NiPoint3_ext*)&point) *= apTargetLight->m_fDimmer;
-            fData[0] = point.x;
-            fData[1] = point.y;
-            fData[2] = point.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 8: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            if (apTargetLight->m_ucLightType == 3)
-            {
-                point.x = (float)(apTargetLight->m_kWorldLocation.x * -1048576.0);
-                point.y = (float)(apTargetLight->m_kWorldLocation.y * -1048576.0);
-                point.z = (float)(apTargetLight->m_kWorldLocation.z * -1048576.0);
-                fData[0] = point.x;
-                fData[1] = point.y;
-                fData[2] = point.z;
-                fData[3] = 1.0f;
-            }
-            else
-            {
-                fData[0] = apTargetLight->m_kWorldSpaceTransform.m_kTranslation.x;
-                fData[1] = apTargetLight->m_kWorldSpaceTransform.m_kTranslation.y;
-                fData[2] = apTargetLight->m_kWorldSpaceTransform.m_kTranslation.z;
-                fData[3] = 1.0f;
-            }
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 9: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            kWorld.FUN_004b4880(work.lightWorld);
-            if (apTargetLight->m_ucLightType == 3)
-            {
-                point.x = (float)(apTargetLight->m_kWorldLocation.x * -1048576.0);
-                point.y = (float)(apTargetLight->m_kWorldLocation.y * -1048576.0);
-                point.z = (float)(apTargetLight->m_kWorldLocation.z * -1048576.0);
-                {
-                    NiPoint3* __restrict r = work.lightWorld.FUN_00524c40(&work.distantModelPosition, point);
-                    point = *r;
-                }
-            }
-            else
-            {
-                CopyPointValue(point,
-                               *work.lightWorld.FUN_00524c40(&work.modelPosition, apTargetLight->m_kWorldSpaceTransform.m_kTranslation));
-            }
-            fData[0] = point.x;
-            fData[1] = point.y;
-            fData[2] = point.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 10: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            if (apTargetLight->m_ucLightType == 2)
-            {
-                {
-                    NiPoint3* __restrict r =
-                        ((NiPoint3_ext*)&kWorldBound.m_kCenter)
-                            ->FUN_00439ef0(&work.pointLightDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
-                    point = *r;
-                }
-                ((NiPoint3_ext*)&point)->FUN_004a0c10();
-            }
-            else if (apTargetLight->m_ucLightType == 3)
-            {
-                point = apTargetLight->m_kWorldLocation;
-            }
-            else
-            {
-                point = apTargetLight->m_kSpotDirection;
-            }
-            fData[0] = point.x;
-            fData[1] = point.y;
-            fData[2] = point.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 1.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 11: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            if (apTargetLight->m_ucLightType == 2)
-            {
-                {
-                    NiPoint3* __restrict r =
-                        ((NiPoint3_ext*)&kWorldBound.m_kCenter)
-                            ->FUN_00439ef0(&work.pointLightModelDirection, apTargetLight->m_kWorldSpaceTransform.m_kTranslation);
-                    point = *r;
-                }
-                ((NiPoint3_ext*)&point)->FUN_004a0c10();
-            }
-            else if (apTargetLight->m_ucLightType == 3)
-            {
-                point = apTargetLight->m_kWorldLocation;
-            }
-            else
-            {
-                point = apTargetLight->m_kSpotDirection;
-            }
-            CopyPointValue(point, *((NiMatrix3_ext*)&kWorld.m_kOrientation)
-                                       ->FUN_004768c0(&work.inverseLightRotation)
-                                       ->FUN_004b4500(&work.modelLightDirection, point));
-            fData[0] = point.x;
-            fData[1] = point.y;
-            fData[2] = point.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 1.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 12: {
-        if (apTargetLight)
-        {
-            work.identity.m[0][3] = work.identity.m[1][3] = work.identity.m[2][3] = 0.0f;
-            work.identity.m[3][3] = 1.0f;
-            if (apTargetLight->m_ucLightType == 3)
-            {
-                point.x = (float)(apTargetLight->m_kWorldLocation.x * -1048576.0);
-                point.y = (float)(apTargetLight->m_kWorldLocation.y * -1048576.0);
-                point.z = (float)(apTargetLight->m_kWorldLocation.z * -1048576.0);
-                FUN_00b71a40((float*)&work.identity, apTargetLight->m_kWorldSpaceTransform.m_kOrientation, point, apTargetLight->m_kWorldSpaceTransform.m_fScale);
-            }
-            else
-            {
-                FUN_00b799a0((float*)&work.identity, (const char*)&apTargetLight->m_kWorldSpaceTransform);
-            }
-            CopyMatrix(apConstantData, &work.identity);
-            return true;
-        }
-        CopyMatrix(apConstantData, &work.identity);
-        return false;
-    }
-    case 13: {
-        if (apTargetLight)
-        {
-            kWorld.FUN_004b4880(work.inverse);
-            work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
-            work.matrix.m[3][3] = 1.0f;
-            if (apTargetLight->m_ucLightType == 3)
-            {
-                work.lightWorld = apTargetLight->m_kWorldSpaceTransform;
-                point.x = (float)(-1048576.0 * apTargetLight->m_kWorldLocation.x);
-                point.y = (float)(-1048576.0 * apTargetLight->m_kWorldLocation.y);
-                point.z = (float)(-1048576.0 * apTargetLight->m_kWorldLocation.z);
-                work.lightWorld.m_kTranslation = point;
-                FUN_00b799a0((float*)&work.matrix,
-                             (const char*)work.inverse.FUN_0062c250(&work.modelLightWorld, work.lightWorld));
-            }
-            else
-            {
-                FUN_00b799a0((float*)&work.matrix,
-                             (const char*)work.inverse.FUN_0062c250((NiTransform*)&work.identity, apTargetLight->m_kWorldSpaceTransform));
-            }
-            CopyMatrix(apConstantData, &work.matrix);
-            return true;
-        }
-        CopyMatrix(apConstantData, &work.identity);
-        return false;
-    }
-    case 14: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            if (apTargetLight->m_ucLightType == 4)
-            {
-                work.scalar = (float)(apTargetLight->m_fInnerAngle * 3.1415927410125732 / 180.0);
-                work.scalar = (float)cos(work.scalar);
-                fData[0] = work.scalar;
-                work.scalar = (float)(apTargetLight->m_fOuterAngle * 3.1415927410125732 / 180.0);
-                work.scalar = (float)cos(work.scalar);
-                fData[1] = work.scalar;
-                fData[2] = apTargetLight->m_fSpotExponent;
-                fData[3] = 0.0f;
-            }
-            else
-            {
-                fData[0] = -1.0f;
-                fData[1] = -1.0f;
-                fData[2] = 0.0f;
-                fData[3] = 0.0f;
-            }
-            return true;
-        }
-        fData[0] = -1.0f;
-        fData[1] = -1.0f;
-        fData[2] = 0.0f;
-        fData[3] = 0.0f;
-        return false;
-    }
-    case 15: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            if (FUN_0043b300(&DAT_011f4a98, apTargetLight))
-            {
-                fData[0] = apTargetLight->m_kWorldLocation.x;
-                fData[1] = apTargetLight->m_kWorldLocation.y;
-                fData[2] = apTargetLight->m_kWorldLocation.z;
-                fData[3] = 0.0f;
-            }
-            else
-            {
-                fData[0] = 1.0f;
-                fData[1] = 0.0f;
-                fData[2] = 0.0f;
-                fData[3] = 0.0f;
-            }
-            return true;
-        }
-        fData[0] = 1.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 0.0f;
-        return false;
-    }
-    case 16: {
-        if (apTargetLight)
-        {
-            work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
-            work.matrix.m[3][3] = 1.0f;
-            FUN_00b71a40((float*)&work.matrix, apTargetLight->m_kLightRotate, DAT_011f426c, 1.0f);
-            CopyMatrix(apConstantData, &work.matrix);
-            return true;
-        }
-        CopyMatrix(apConstantData, &work.identity);
-        return false;
-    }
-    case 17: {
-        if (apTargetLight)
-        {
-            work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
-            work.matrix.m[3][3] = 1.0f;
-            FUN_00b71a40((float*)&work.matrix,
-                         *((NiMatrix3_ext*)&kWorld.m_kOrientation)
-                              ->FUN_004768c0(&work.inverseEffectRotation)
-                              ->FUN_0043f8d0(&work.modelEffectRotation, apTargetLight->m_kLightRotate),
-                         DAT_011f426c, 1.0f);
-            CopyMatrix(apConstantData, &work.matrix);
-            return true;
-        }
-        CopyMatrix(apConstantData, &work.identity);
-        return false;
-    }
-    case 18: {
-        float* fData = (float*)apConstantData;
-        if (!apTargetLight)
-        {
-            fData[0] = 0.0f;
-            fData[1] = 0.0f;
-            fData[2] = 0.0f;
-            fData[3] = 1.0f;
-            return false;
-        }
-        fData[0] = apTargetLight->m_kWorldDirection.x;
-        fData[1] = apTargetLight->m_kWorldDirection.y;
-        fData[2] = apTargetLight->m_kWorldDirection.z;
-        fData[3] = 1.0f;
-        return true;
-    }
-    case 19: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            kWorld.FUN_004b4880(work.inverse);
-            point = apTargetLight->m_kWorldDirection;
-            {
-                NiPoint3* __restrict r = work.inverse.FUN_00524c40(&work.modelDirection, point);
-                point = *r;
-            }
-            fData[0] = point.x;
-            fData[1] = point.y;
-            fData[2] = point.z;
-            fData[3] = 1.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 1.0f;
-        return false;
-    }
-    case 20: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            if (apTargetLight->m_bAtten)
-            {
-                fData[0] = apTargetLight->m_fConstantAtten;
-                fData[1] = apTargetLight->m_fLinearAtten;
-                fData[2] = apTargetLight->m_fQuadAtten;
-                fData[3] = apTargetLight->m_fDistanceLimit;
-                return true;
-            }
-            fData[0] = 0.0f;
-            fData[1] = 0.0f;
-            fData[2] = 0.0f;
-            fData[3] = 0.0f;
-            return true;
-        }
-        fData[0] = 1.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 0.0f;
-        return false;
-    }
-    case 21: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            if (apTargetLight->m_bAtten)
-            {
-                kWorld.FUN_004b4880(work.inverse);
-
-                work.plane = *(LightPlane*)&apTargetLight->m_kPlaneNormal;
-                ((NiMatrix3_ext*)&work.inverse.m_kOrientation)->FUN_004b4500(&point, work.plane.normal);
-                work.scaledAtten.x = work.plane.normal.x * work.plane.distance;
-                work.scaledAtten.y = work.plane.normal.y * work.plane.distance;
-                work.scaledAtten.z = work.plane.normal.z * work.plane.distance;
-                work.inverse.FUN_00524c40(&work.plane.normal, work.scaledAtten);
-                fData[0] = point.x;
-                fData[1] = point.y;
-                fData[2] = point.z;
-                fData[3] = ((NiPoint3_ext*)&point)->Dot(work.plane.normal);
-                return true;
-            }
-            fData[0] = 0.0f;
-            fData[1] = 0.0f;
-            fData[2] = 0.0f;
-            fData[3] = 0.0f;
-            return true;
-        }
-        fData[0] = 1.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 0.0f;
-        return false;
-    }
-    case 22: {
-        float* fData = (float*)apConstantData;
-        if (apTargetLight)
-        {
-            work.scalar = 0.0f;
-            switch (apTargetLight->m_uiSubtype)
-            {
-            case 0:
-            case 1:
-                work.scalar = 2.0f;
-                break;
-            case 2:
-            case 3:
-                work.scalar = 3.0f;
-                break;
-            case 4:
-                work.scalar = 1.0f;
-                break;
-            }
-            fData[0] = work.scalar;
-            fData[1] = 0.0f;
-            fData[2] = 0.0f;
-            fData[3] = 0.0f;
-            return true;
-        }
-        fData[0] = 0.0f;
-        fData[1] = 0.0f;
-        fData[2] = 0.0f;
-        fData[3] = 0.0f;
-        return false;
-    }
-    case 23: {
-        if (apTargetLight)
-        {
-            work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
-            work.matrix.m[3][3] = 1.0f;
-            FUN_00b71a40((float*)&work.matrix, apTargetLight->m_kLightRotate, apTargetLight->m_kWorldDirection, 1.0f);
-            CopyMatrix(apConstantData, &work.matrix);
-            return true;
-        }
-        CopyMatrix(apConstantData, &work.identity);
-        return false;
-    }
-    case 24: {
-        if (apTargetLight)
-        {
-            work.matrix.m[0][3] = work.matrix.m[1][3] = work.matrix.m[2][3] = 0.0f;
-            work.matrix.m[3][3] = 1.0f;
-            kWorld.FUN_004b4880(work.inverse);
-            point = apTargetLight->m_kWorldDirection;
-            CopyPoint24(point, *work.inverse.FUN_00524c40(&work.modelWorldDirection, point));
-            FUN_00b71a40((float*)&work.matrix,
-                         *((NiMatrix3_ext*)&kWorld.m_kOrientation)
-                              ->FUN_004768c0(&work.inverseWorldRotation)
-                              ->FUN_0043f8d0(&work.modelWorldRotation, apTargetLight->m_kLightRotate),
-                         point, 1.0f);
-            CopyMatrix(apConstantData, &work.matrix);
-            return true;
-        }
-        CopyMatrix(apConstantData, &work.identity);
-        return false;
-    }
-    default:
-        fnv_zlib_memset(apConstantData, 0, uiConstantDataSize);
-        return false;
-    }
-}
-
-struct S00e85c40_Tex
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    void* m_10;
-    unsigned char unk14;
-    unsigned char m_15;
-    unsigned char unk16;
-    unsigned char unk17;
-    unsigned int m_18;
-};
-
-struct S00e85c40_Obj
-{
-    virtual void s00();
-    virtual void s01();
-    virtual void s02();
-    virtual void s03();
-    virtual void s04();
-    virtual void s05();
-    virtual void s06();
-    virtual void s07();
-    virtual void s08();
-    virtual void s09();
-    virtual void s0a();
-    virtual void s0b();
-    virtual void s0c();
-    virtual void s0d();
-    virtual void s0e();
-    virtual void s0f();
-    virtual void s10();
-    virtual void s11();
-    virtual void s12();
-    virtual void s13();
-    virtual void s14();
-    virtual void s15();
-    virtual void s16();
-    virtual void s17();
-    virtual void s18();
-    virtual void s19();
-    virtual void s1a();
-    virtual void s1b();
-    virtual void s1c();
-    virtual bool s1d(S00e85c40_Tex* t, void* data, int flag);
-};
-
 extern unsigned int DAT_011f5f90[];
-extern char DAT_0126f770;
-unsigned int __cdecl GetLightByType(unsigned int a, unsigned int b, unsigned int c);
-bool __cdecl FillLightConstantData(void* data, unsigned int pitch, void* src, unsigned int fmt, int p3, int p4, int p5,
-                                   int p6, int p7, unsigned int p8, int p9, int p10, int p11);
-
-static unsigned int Dbl(unsigned int x)
-{
-    return x + x;
-}
-
-// Gets a format and dimensions, calls FillLightConstantData with the source and derived pitch, then passes the buffer to obj->s1d.
-// @fnv 0x00e85c40
-int __stdcall FUN_00e85c40(S00e85c40_Obj* obj, S00e85c40_Tex* tex, int p3, int p4, int p5, int p6, int p7,
-                           unsigned int auiLightType, int p9, int p10, int p11)
-{
-    int result = 0;
-    unsigned int m18 = tex->m_18;
-    unsigned int idx = tex->m_15;
-    unsigned int uiTableEntry = DAT_011f5f90[idx];
-    unsigned int fmt = GetLightByType(auiLightType, uiTableEntry, m18);
-    void* src = tex->m_10;
-    unsigned int w, h;
-    if (!GetAttributeTypeForMapping(src, &w, &h))
-        return 0x10;
-    unsigned int pitch = Dbl(Dbl(Dbl(Dbl(w))));
-    if (!FillLightConstantData(&DAT_0126f770, pitch, src, fmt, p3, p4, p5, p6, p7, auiLightType, p9, p10, p11))
-        result = 0x60;
-    if (!obj->s1d(tex, &DAT_0126f770, 0))
-        result = 0x50;
-    return result;
-}
 
 struct GlobalObjectO2_00a7b610
 {
@@ -3016,6 +2177,8 @@ struct FUN_00e86a50_object
 
 // Copies the float data from object into the matching slot of g_0126f7c4 based on the type code and returns that code.
 // @fnv 0x00e86a50
+// pdb: NiD3DShaderConstantMap::SetupConstantConstantValue | NiD3DShaderConstantMap.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: uiOperatorNum, pkEntry, uiPass
 unsigned int __stdcall FUN_00e86a50(unsigned int index, FUN_00e86a50_object* object, unsigned int unused)
 {
     float* source = object->data;
@@ -3146,6 +2309,8 @@ struct SCConstantMap
 };
 
 // @fnv 0x00e86ca0
+// pdb: NiD3DShaderConstantMap::SetupAttributeConstantValue | NiD3DShaderConstantMap.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: uiOperatorNum, pkEntry, pkGeometry, pkSkin, pkState, kWorld, kWorldBound, uiPass
 int SCConstantMap::LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, SCGeometry* apGeometry, void* apSkin,
                                 void* apPartition, void* apBuffData, unsigned int auiPass, void* apState)
 {
@@ -3259,6 +2424,7 @@ struct S_00e86f40_Arr
 };
 
 // @fnv 0x00e86f40
+// pdb: NiTPointerMap<char const *,NiControllerSequence *>::NewItem | NiControllerManager.obj | fnv360_0721_beta, objrun_prop, low, conflict (skyrim: NiTArray<class NiPointer<class NiControllerSequence>,class NiTNewInterface<class NiPointer<class NiControllerSequence> > >::SetAt)
 void S_00e86f40_Arr::FUN_00e86f40(unsigned int uiIndex, const S_00e86f40_Ptr& e)
 {
     static const S_00e86f40_Ptr kEmpty;
@@ -3317,6 +2483,8 @@ void ShaderEntryArray::FUN_00e86f40(unsigned int uiIndex, const NiShaderConstant
 
 // Moves enabled shader constant map entries to the front of the array, leaving disabled entries at the end.
 // @fnv 0x00e870c0
+// pdb: NiD3DShaderConstantMap::SortListByEnabled | NiD3DShaderConstantMap.obj | fnv360_0822_debug, objopen_prop, low
+// pdb params: apEntries
 void __stdcall CompactEnabledEntries(ShaderEntryArray* pkArray)
 {
     NiShaderConstantMapEntryPtr spEntry;
@@ -3435,6 +2603,8 @@ struct FUN_00e87220_shell
 
 // Resolves two operand entries, dispatches their evaluation by type, then applies the operator to the shader program and returns the result.
 // @fnv 0x00e87220
+// pdb: NiD3DShaderConstantMap::SetOperatorConstant | NiD3DShaderConstantMap.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkShaderProgram, pkEntry, pkGeometry, pkSkin, pkState, pkEffects, kWorld, kWorldBound, uiPass
 unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry,
                                               const void* pkSkin, const void* pkState, const void* pkEffects,
                                               const void* kWorld, const void* kWorldBound, unsigned int uiPass)
@@ -3547,9 +2717,7 @@ struct __declspec(align(16)) Vec4
 S83_Matrix* __stdcall FUN_00ee6dda(S83_Matrix*, float*, const S83_Matrix*);
 S83_Matrix* __stdcall FUN_00ee6dd4(S83_Matrix*, const S83_Matrix*);
 S83_Matrix* __stdcall FUN_00ee6de0(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
-S83_Matrix* __stdcall FUN_00ee6dfe(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
 void __cdecl SetAffineMatrix(S83_Matrix*, const char*, bool, bool, unsigned int);
-extern float DAT_01099378;
 extern "C" double __cdecl sin(double);
 extern "C" double __cdecl cos(double);
 extern "C" double __cdecl tan(double);
@@ -3678,7 +2846,6 @@ struct Geometry
 };
 extern const char* DAT_011bf65c;
 extern NiPoint3 DAT_011f4998;
-extern unsigned int DAT_011f5f6c;
 struct Light
 {
     void* FUN_00653290(const unsigned int*);
@@ -4382,6 +3549,8 @@ extern "C" LightValue* __cdecl FUN_00424d50(const unsigned int*, Light*);
 struct ConstantGeometry {
     __declspec(nothrow) NiExtraData* FUN_00824a50(const S83_FixedStr&) throw();
 };
+// pdb: NiD3DShaderConstantMap::SetDefinedConstant | NiD3DShaderConstantMap.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: pkShaderProgram, pkEntry, pkGeometry, pkSkin, pkPartition, pkBuffData, pkState, pkEffects, kWorld, kWorldBound, uiPass
 unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* geom, Skin* skin, Partition* partition,
                                        void* buffer, Properties* props, Effects* effects, const void* transform,
                                        const void* bound, unsigned int pass)

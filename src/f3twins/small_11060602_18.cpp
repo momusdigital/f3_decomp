@@ -10,6 +10,7 @@ extern Gl_00b5b380* DAT_0116ef98;
 struct Base_00b5b380 { virtual ~Base_00b5b380(); char pad[0x14]; Lst_00b5b380 l; Item_00b5b380** pp; char pad3[0x38]; };
 struct Der_00b5b380 : Base_00b5b380 { Mem_00b5b380 m; virtual ~Der_00b5b380(); };
 
+// pdb: ImageSpaceEffectRefraction::~ImageSpaceEffectRefraction | ImageSpaceEffectRefraction.obj | fnv360_0822_retail, caller_sim, medium
 Der_00b5b380::~Der_00b5b380()
 {
     if (*pp) {
@@ -42,6 +43,8 @@ int C_00b5c250::FUN_00b5c250(int a, int b, bool c, bool d)
 struct T_00b2c0b0 { int __thiscall FUN_00b2c0b0(int, int, int, int, int, int, int, int); };
 
 struct S_00b5c280 { char pad[0x44]; T_00b2c0b0* o; int __thiscall FUN_00b5c280(int, bool, bool); };
+// pdb: BSShaderPPLightingProperty::AddConstAlphaPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apGeom, abSkinned, abAlphaTest
 int S_00b5c280::FUN_00b5c280(int a, bool b, bool c)
 {
     if (b)

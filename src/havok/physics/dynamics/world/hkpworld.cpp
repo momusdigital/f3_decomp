@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkpWorld.h"
+#include "havok/hkMonitorStream.h"
 
 struct FUN_00cf7c10 {
     void __thiscall PerformThisObjectOperation();
@@ -19,51 +20,18 @@ void __thiscall FUN_00c91120::ExecutePendingOperations()
     ((FUN_00cf7c10*)*(void**)((char*)this + 0x88))->PerformThisObjectOperation();
 }
 
-struct FUN_00c91180_Class {
-    void EnterTlsGuard();
-    void IncrementCounter();
-};
-
-// @fnv 0x00c91180
-void FUN_00c91180_Class::IncrementCounter()
-{
-    EnterTlsGuard();
-    ++(*(int*)((char*)this + 0xbc));
-}
-
 struct FUN_00c91250_Class {
     void* m_p;
     void FUN_00c91250();
 };
 
 // @f3 0x006f7750 (community match, verified in this file)
+// pdb: Actor::QueueReload | Actor.obj | fnv360_0822_retail, call_gap, medium
 void FUN_00c91250_Class::FUN_00c91250() {
     if (*(void**)((char*)this + 0x60))
         ((void (__thiscall*)(void*, int))(*(void***)*(void**)((char*)this + 0x60))[387])(*(void**)((char*)this + 0x60), 2);
 }
 
-
-struct FUN_00cf6d20_Class {
-    void __thiscall FUN_00cf6d20();
-};
-struct FUN_00cf6d30_Class {
-    void __thiscall ResetThreadCheck();
-};
-struct FUN_00c91280_Class {
-    void __thiscall FUN_00c91280(int);
-};
-// Calls ResetThreadCheck on this+0xa8 and on the object at this+0x58+8 when a is zero, otherwise calls FUN_00cf6d20 on both.
-// @fnv 0x00c91280
-void __thiscall FUN_00c91280_Class::FUN_00c91280(int a)
-{
-    if (!a) {
-        ((FUN_00cf6d30_Class*)((char*)this + 0xa8))->ResetThreadCheck();
-        ((FUN_00cf6d30_Class*)(*(char**)((char*)this + 0x58) + 8))->ResetThreadCheck();
-    } else {
-        ((FUN_00cf6d20_Class*)((char*)this + 0xa8))->FUN_00cf6d20();
-        ((FUN_00cf6d20_Class*)(*(char**)((char*)this + 0x58) + 8))->FUN_00cf6d20();
-    }
-}
 
 struct NiBinaryStream {
     void* m_vtbl;
@@ -274,6 +242,8 @@ struct FUN_00caa840_shell {
 };
 
 // @fnv 0x00caa840
+// pdb: hkLimitedHingeConstraintCinfo::SaveBinary | bhkLimitedHingeConstraint.obj | fnv360_0822_retail, objrun_open, medium
+// pdb params: arStream
 void FUN_00caa840_shell::WriteToStream(Ctx_00caa840* ctx)
 {
     FUN_00c8a280(ctx);
@@ -304,6 +274,8 @@ struct Owner788 {
     int unk14; int unk18; int unk1c;
     Data788* data;
 };
+// pdb: QueuedFile::NotifyChildFinished | ModelLoader.obj | fnv360_0822_retail, vtable, low, conflict (skyrim: TrespassPackage::ModNumberActors)
+// pdb params: apChild
 void __fastcall FUN_00c90e40(void* self, void*, int)
 {
     Owner788* owner = static_cast<Owner788*>(self);
@@ -316,44 +288,13 @@ struct FUN_00cf86e0_class {
     void FUN_00cf86e0(float);
 };
 // @fnv 0x00c91040
+// pdb: hkpWorld::setFrameTimeMarker | hkpWorld.obj | tesv_win, objrun_prop, low
 void __fastcall FUN_00c91040(void* p, int edx, float afValue)
 {
     ((FUN_00cf86e0_class*)*((char**)p + 2))->FUN_00cf86e0(afValue);
 }
 
 struct RefObj { void FUN_00c90510(); };
-struct DDCC60World { void removeReference(); };
-struct FUN_00c910d0_Class {
-    void* m_iWordAt00; void* m_iWordAt04; void* m_8; void* m_iThirdValue; void* m_10; void* m_14; void* m_18;
-    void* m_1c; void* m_20; void* m_24; void* m_28; void* m_2c; void* m_30; void* m_34;
-    void* m_38; void* m_3c; void* m_40; void* m_44; void* m_48; void* m_4c; void* m_50;
-    void* m_54; void* m_58; void* m_5c; void* m_60; void* m_64; void* m_68; void* m_6c;
-    void* m_70; void* m_74; void* m_78; void* m_7c; void* m_80; void* m_84; void* m_88;
-    void* m_8c; void* m_90; void* m_94; void* m_98; void* m_9c; void* m_a0; void* m_a4;
-    void* m_a8; void* m_ac; void* m_b0; void* m_b4; void* m_b8; void* m_bc; void* m_c0;
-    void* m_c4; void* m_c8; void* m_cc; void* m_d0; void* m_d4; void* m_d8; void* m_dc;
-    void* m_e0; void* m_e4; void* m_e8; void* m_ec; void* m_f0; void* m_f4; void* m_f8;
-    void* m_fc; void* m_100; void* m_104; void* m_108; void* m_10c; void* m_110; void* m_114;
-    void* m_118; void* m_11c; void* m_120; void* m_124; void* m_128; void* m_12c; void* m_130;
-    void* m_134; void* m_138; void* m_13c; void* m_140; void* m_144; void* m_148; void* m_14c;
-    void* m_150; void* m_154; void* m_158; void* m_15c; void* m_160; void* m_164; void* m_168;
-    void* m_16c; void* m_170; void* m_174; void* m_178; void* m_17c; void* m_180; void* m_184;
-    void* m_188; void* m_18c; void* m_190; void* m_194; void* m_198; void* m_19c; void* m_1a0;
-    void* m_1a4; void* m_1a8; void* m_1ac; void* m_1b0; void* m_1b4; void* m_1b8;
-    void* m_1bc;
-    void SetRefObject(void*);
-};
-// @fnv 0x00c910d0
-void FUN_00c910d0_Class::SetRefObject(void* p)
-{
-    void* old = m_1bc;
-    if (old) {
-        (*(void (__thiscall*)(void*))(*(void***)old)[4])(old);
-        ((DDCC60World*)m_1bc)->removeReference();
-    }
-    m_1bc = p;
-    if (p) ((RefObj*)p)->FUN_00c90510();
-}
 
 struct FUN_00cf7ae0_Class {
     void FUN_00cf7ae0();
@@ -405,76 +346,12 @@ void FUN_00c91140_Class::FUN_00c91140()
     ((FUN_00cf7ae0_Class*)m_88)->FUN_00cf7ae0();
 }
 
-struct S_00cf7540_Ref {
-    void* m_p;
-};
-struct S_00cf7540 {
-    void __thiscall AddEntry(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
-};
-struct FUN_00c91170_Class {
-    void FUN_00c91170(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
-};
-// @fnv 0x00c91170
-void FUN_00c91170_Class::FUN_00c91170(S_00cf7540_Ref* a, S_00cf7540_Ref* b, int c, int d)
-{
-    (*(S_00cf7540**)((char*)this + 0x88))->AddEntry(a, b, c, d);
-}
-
-void __cdecl FUN_00c904e0();
-struct FUN_00c91190_Class {
-    void __thiscall FUN_00c91190();
-};
-// @fnv 0x00c91190
-void __thiscall FUN_00c91190_Class::FUN_00c91190()
-{
-    --*(int*)((char*)this + 0xbc);
-    FUN_00c904e0();
-}
-
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-
-struct FUN_00c911d0_Class {
-    void __thiscall EnterLock(void*);
-};
-
-// @fnv 0x00c911d0
-void __thiscall FUN_00c911d0_Class::EnterLock(void* unused)
-{
-    void* cs = *(void**)(this + 0xb8);
-    if (cs)
-    {
-        EnterCriticalSection(cs);
-        return;
-    }
-}
 
 extern void (__stdcall *DAT_00fdf05c)(void*);
 
-struct FUN_00c911f0_Class {
-    void FUN_00c911f0(void*);
-};
-
-// @fnv 0x00c911f0
-void FUN_00c911f0_Class::FUN_00c911f0(void* p)
-{
-    void* pStoredKey = *(void**)((char*)this + 0xb8);
-    if (pStoredKey)
-        DAT_00fdf05c(pStoredKey);
-}
-
 namespace fnv_00c91f40 {
 struct RefObj { void RetainReference(); void removeReference(); };
-struct FUN_00c91f40_Class {
-    void SetRefObj(RefObj* obj);
-};
-// @fnv 0x00c91f40
-void FUN_00c91f40_Class::SetRefObj(RefObj* apRefObj)
-{
-    if (apRefObj) apRefObj->RetainReference();
-    RefObj* old = *(RefObj**)((char*)this + 0x50);
-    if (old) old->removeReference();
-    *(RefObj**)((char*)this + 0x50) = apRefObj;
-}
 }  // namespace fnv_00c91f40
 
 struct hkpAction;
@@ -508,6 +385,7 @@ struct FUN_00c928c0_Context
 
 // Iterates both owner arrays in context and calls physicsSystem->FUN_00d06590 on every action in each owner's action list.
 // @fnv 0x00c928c0
+// pdb: enumerateAllActionsInWorld | hkpWorld.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: enumerateAllConstraintsInWorld)
 void FUN_00c928c0(
     FUN_00c928c0_Context* context,
     hkpPhysicsSystem* physicsSystem)
@@ -549,44 +427,6 @@ void FUN_00c928c0(
     }
 }
 
-struct hkpWorld_MemUsageOut {
-    int m_maxSize;
-    int m_totalSize;
-    void* m_maxObject;
-};
-
-struct FUN_00c92b50_Class {
-    char pad[0x28];
-    void* m_data;   // +0x28
-    int m_iElementCount;     // +0x2c
-    void __thiscall ComputeMemoryUsage(hkpWorld_MemUsageOut* out);
-};
-
-// Accumulates per-object memory sizes into out->m_totalSize and tracks the largest object in out->m_maxSize/m_maxObject.
-// @fnv 0x00c92b50
-void FUN_00c92b50_Class::ComputeMemoryUsage(hkpWorld_MemUsageOut* out)
-{
-    out->m_maxSize = 0;
-    out->m_totalSize = 0;
-    out->m_maxObject = 0;
-
-    for (int i = m_iElementCount - 1; i >= 0; --i) {
-        void* obj = ((void**)m_data)[i];
-        int a = *(int*)((char*)obj + 0x1c);
-        int b = *(int*)((char*)obj + 0x4c);
-        int q = a / 80;
-        int r = (q + q + 8);
-        int size = r * 3 + *(int*)((char*)obj + 0x14);
-        int size2 = (r + b * 8 + 10) << 4;
-        size = ((size * 4 + 0x17) & 0xfffffff0) + size2 + *(int*)((char*)obj + 0xc);
-        out->m_totalSize += size;
-        if (size > out->m_maxSize) {
-            out->m_maxSize = size;
-            out->m_maxObject = obj;
-        }
-    }
-}
-
 struct CA8B80Command {
     unsigned char m_bType;
     void* m_p;
@@ -597,13 +437,17 @@ struct CA8B80Queue {
 struct FUN_00c97510 {
     void __thiscall ProcessPointer(void*);
 };
-struct FUN_00c97f50_Class {
-    void DispatchOrQueue(void* p);
+struct FUN_00c97f50_Class : hkpWorld
+{
+    void hkpWorld_removeAction(void* p);
 };
 // @f3 0x009084b0 (community match, verified in this file)
-void FUN_00c97f50_Class::DispatchOrQueue(void* p)
+// pdb: hkpWorld::removeAction | hkpWorld.obj | fnv360_0822_retail, call_gap, high
+// pdb params: action
+// pdb: hkpWorld::removeAction | hkpWorld.obj | fnv360_0822_retail, call_gap, high (was: DispatchOrQueue)
+void FUN_00c97f50_Class::hkpWorld_removeAction(void* p)
 {
-    if (*(unsigned int*)((char*)this + 0x84)) {
+    if (m_criticalOperationsLockCount) {
         CA8B80Command cmd;
         cmd.m_bType = 0xb;
         cmd.m_p = p;
@@ -621,6 +465,7 @@ struct FUN_00c98350_Class {
 };
 void __cdecl _Deallocate(void*);
 // @fnv 0x00c98350
+// pdb: hkpSimpleWorldRayCaster::`scalar deleting destructor' | hkpWorld.obj | fnv360_0822_retail, vtable, medium
 void* __thiscall FUN_00c98350_Class::InitAndMaybeFree(int flags)
 {
     m_p = &DAT_010c3bb8;
@@ -632,26 +477,40 @@ void* __thiscall FUN_00c98350_Class::InitAndMaybeFree(int flags)
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
+// hkCriticalSection: m_section (a CRITICAL_SECTION) and two words the Fallout 3 build resets on leave.
+struct ForEachLock
+{
+    char m_section[0x18];
+    int unk18;
+    int unk1C;
+    void __thiscall FUN_00908a00();
+};
+// A listener array (data, size, capacity at +0x08) guarded by the critical section at +0x14.
 struct FUN_00c983e0_Class {
+    int unk00, unk04;
+    void** m_data;
+    int m_size;
+    int m_capacityAndFlags;
+    ForEachLock* m_lock;
     void ForEachCall(int a, int b, int c, int d, int e);
 };
 
 // Locks the critical section, calls the second virtual method of each object in the array with the five arguments, then unlocks.
 // @f3 0x00909470 (community match, verified in this file)
-struct ForEachLock { void __thiscall FUN_00908a00(); };
+
 void FUN_00c983e0_Class::ForEachCall(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
 {
-    void* lock = *(void**)((char*)this + 0x14);
-    ((ForEachLock*)lock)->FUN_00908a00();
-    for (int i = 0; i < *(int*)((char*)this + 0xc); ++i) {
-        void* obj = *(void**)(*(char**)((char*)this + 8) + i * 4);
+        ForEachLock* lock = m_lock;
+    lock->FUN_00908a00();
+    for (int i = 0; i < m_size; ++i) {
+        void* obj = m_data[i];
         void** vtbl = *(void***)obj;
         typedef void (__thiscall* Fn)(void*, int, int, int, int, int);
         ((Fn)vtbl[9])(obj, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
     }
-    lock = *(void**)((char*)this + 0x14);
-    *(int*)((char*)lock + 0x18) = -1;
-    *(int*)((char*)lock + 0x1c) = -1;
+        lock = m_lock;
+    lock->unk18 = -1;
+    lock->unk1C = -1;
     LeaveCriticalSection(lock);
 }
 
@@ -700,108 +559,24 @@ void FUN_00c984a0_Class::FUN_00c984a0(int aiArg1, int aiArg2, int aiArg3)
 }
 
 
-struct FUN_00c98540_Class {
-    void CallAllWithArgs(int a, int b, int c);
-};
-
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-
-// @fnv 0x00c98540
-void FUN_00c98540_Class::CallAllWithArgs(int aiArg1, int aiArg2, int aiArg3)
-{
-    void* pLock = *(void**)((char*)this + 0x14);
-    EnterCriticalSection(pLock);
-    int i = 0;
-    if (*(int*)((char*)this + 0xc) > 0) {
-        do {
-            void* obj = *(void**)(*(int*)((char*)this + 8) + i * 4);
-            void** vtbl = *(void***)obj;
-            void (__thiscall* fn)(void*, int, int, int) = (void (__thiscall*)(void*, int, int, int))vtbl[5];
-            fn(obj, aiArg1, aiArg2, aiArg3);
-            ++i;
-        } while (i < *(int*)((char*)this + 0xc));
-    }
-    void* pLock2 = *(void**)((char*)this + 0x14);
-    LeaveCriticalSection(pLock2);
-}
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* lpCriticalSection);
 
-struct FUN_00c98600_Class {
-    unsigned int unk00;
-    unsigned int unk04;
-    void* m_ppData;      // +0x08
-    int m_uiItemCount;        // +0x0C
-    unsigned int unk10;
-    void* m_cs;         // +0x14
-    void CallVirtualOnAll(int a, int b, int c, int d, int e, int f, int g, int h);
-};
-
-// @fnv 0x00c98600
-void FUN_00c98600_Class::CallVirtualOnAll(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6, int aiArg7)
-{
-    EnterCriticalSection(m_cs);
-    for (int i = 0; i < m_uiItemCount; ++i) {
-        void** arr = (void**)m_ppData;
-        void* obj = arr[i];
-        void** vtbl = *(void***)obj;
-        typedef void (__thiscall* Fn)(void*, int, int, int, int, int, int, int, int);
-        Fn fn = (Fn)vtbl[7];
-        fn(obj, aiArg0, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5, aiArg6, aiArg7);
-    }
-    LeaveCriticalSection(m_cs);
-}
-
-struct FUN_00c990b0_Class {
-    void FUN_00c990b0(int a, int b, int c, int d);
-};
-
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
-// Locks the critical section, calls virtual method at vtable offset 0x2c on each element of the array, then unlocks.
-// @fnv 0x00c990b0
-void FUN_00c990b0_Class::FUN_00c990b0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
-{
-    EnterCriticalSection(*(void**)((char*)this + 0x14));
-    int i = 0;
-    if (*(int*)((char*)this + 0xc) > 0) {
-        do {
-            void* obj = *(void**)(*(int*)((char*)this + 8) + i * 4);
-            void** ppVtable = *(void***)obj;
-            void (__thiscall* fn)(void*, int, int, int, int) = (void (__thiscall*)(void*, int, int, int, int))ppVtable[0x2c / 4];
-            fn(obj, aiArg1, aiArg2, aiArg3, aiArg4);
-            ++i;
-        } while (i < *(int*)((char*)this + 0xc));
-    }
-    LeaveCriticalSection(*(void**)((char*)this + 0x14));
-}
-
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(void*);
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(void*);
-
-struct FUN_00c995f0_Class {
-    void FUN_00c995f0();
-};
-
-// Calls FUN_00fdf05c and FUN_00fdf100 on the pointer at offset 0x14 and clears the int at offset 0xc.
-// @fnv 0x00c995f0
-void FUN_00c995f0_Class::FUN_00c995f0()
-{
-    void* p = *(void**)((char*)this + 0x14);
-    FUN_00fdf05c(p);
-    p = *(void**)((char*)this + 0x14);
-    *(int*)((char*)this + 0xc) = 0;
-    FUN_00fdf100(p);
-}
 
 struct FUN_00c90f30_Class {
     int unk00;
     void* __thiscall FUN_00c90f30();
 };
 // @fnv 0x00c90f30
+// pdb: hkpMultithreadConfig::hkpMultithreadConfig | hkpWorld.obj | fnv360_0822_retail, call_gap_sim, high
 void* FUN_00c90f30_Class::FUN_00c90f30() { unk00 = 70; return this; }
 
 struct CpuScalar {
@@ -819,6 +594,7 @@ struct CpuObject {
     float FUN_00c91020();
 };
 // @fnv 0x00c91020
+// pdb: hkpWorld::getCurrentTime | hkpWorld.obj | fnv360_0822_debug, call_seq, medium, conflict (bridge: hkpWorld::getCurrentPsiTime)
 float CpuObject::FUN_00c91020()
 {
     return value->value;
@@ -841,6 +617,7 @@ struct CpuObject {
     float FUN_00c91030();
 };
 // @fnv 0x00c91030
+// pdb: hkpWorld::getCurrentTime | hkpWorld.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: hkpWorld::getCurrentPsiTime)
 float CpuObject::FUN_00c91030()
 {
     return value->value;
@@ -859,6 +636,8 @@ struct FUN_00c91060_Class {
 };
 
 // @fnv 0x00c91060
+// pdb: hkpWorld::setFrameTimeMarker | hkpWorld.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpWorld::isSimulationAtMarker)
+// pdb params: frameDeltaTime
 void __thiscall FUN_00c91060_Class::FUN_00c91060()
 {
     m_8->IsFieldEqual();
@@ -878,6 +657,7 @@ struct FUN_00c91070_cls
 };
 
 // @fnv 0x00c91070
+// pdb: hkpWorld::isSimulationAtMarker | hkpWorld.obj | fnv360_0822_retail, objrun_open, low, conflict (skyrim: hkpWorld::isSimulationAtPsi)
 void FUN_00c91070_cls::FUN_00c91070()
 {
     m_08->Tail();
@@ -917,6 +697,8 @@ struct FUN_00c91080_cls
 };
 
 // @fnv 0x00c91080
+// pdb: hkpWorld::setMultithreadConfig | hkpWorld.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: config, queue
 int FUN_00c91080_cls::FUN_00c91080(int a)
 {
     return m_08->Tail(a);
@@ -953,6 +735,8 @@ struct FnvCpu_FUN_00c91090_CpuOwner {
     void FUN_00c91090(int arg0);
 };
 // @fnv 0x00c91090
+// pdb: hkpWorld::checkDeterminismOfIslandBroadPhase | hkpWorld.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: island
 void FnvCpu_FUN_00c91090_CpuOwner::FUN_00c91090(int arg0)
 {
     target->Invoke(arg0);
@@ -1092,50 +876,7 @@ struct WorldWithPending : hkpWorld {
 // @fnv 0x00c91160
 void __thiscall WorldWithPending::FUN_00c91160()
 {
-    ((PendingOperations*)m_pPendingOperations)->FUN_00cf7690();
-}
-
-struct Target
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void Forward(int a);
-};
-
-struct FUN_00c91270_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    Target* m_5C;
-    void FUN_00c91270(int a);
-};
-
-// @fnv 0x00c91270
-void FUN_00c91270_cls::FUN_00c91270(int a)
-{
-    m_5C->Forward(a);
+    ((PendingOperations*)m_pendingOperations)->FUN_00cf7690();
 }
 
 struct FUN_00c98250_Class {
@@ -1146,12 +887,15 @@ struct FUN_00c98250_Class {
 };
 
 // @fnv 0x00c98250
+// pdb: BSContentPackage::DisplayName | BSContentPackage_Xenon.obj | fnv360_0822_retail, vtable, high
 void* __thiscall FUN_00c98250_Class::FUN_00c98250(int, int, int)
 {
-    return (void*)((char*)this + 8);
+    return &m_8;
 }
 
 // @fnv 0x00c982a0
+// pdb: hkpNullCollisionFilter::isCollisionEnabled | hkpWorld.obj | fnv360_0721_beta, vtable, high
+// pdb params: input, a, b, bContainer, bKey
 void __stdcall FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6)
 {
     *pFlag = 1;
@@ -1159,6 +903,8 @@ void __stdcall FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6)
 
 // FUN_00c982b0: stdcall with 8 stack parameters; writes 1 through the first parameter pointer.
 // @fnv 0x00c982b0
+// pdb: hkpNullCollisionFilter::isCollisionEnabled | hkpWorld.obj | fnv360_0721_beta, vtable, high
+// pdb params: input, collectionBodyA, collectionBodyB, containerShapeA, containerShapeB, keyA, keyB
 void __stdcall FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
     *flag = 1;
@@ -1219,7 +965,7 @@ inline C67Owner* getEntityOwner(C67Collidable* coll)
 }
 
 struct C67Sink {
-    void RemoveEntities(C67Entry** entries, unsigned int count);
+    void hkpWorld_removeEntityBatch(C67Entry** entries, unsigned int count);
 };
 
 class FUN_00c67aa0_Class {
@@ -1257,7 +1003,7 @@ void FUN_00c67aa0_Class::FlushEntries()
         unsigned int start = count - num;
         C67Sink* sink = getSink();
         if (sink) {
-            sink->RemoveEntities(&m_entries[start], num);
+            sink->hkpWorld_removeEntityBatch(&m_entries[start], num);
             for (unsigned int i = start; i < m_iNumberOfEntries; i++) {
                 C67Owner* owner = getEntityOwner(&m_entries[i]->m_kCollidable);
                 if (owner) {
@@ -1273,349 +1019,13 @@ void FUN_00c67aa0_Class::FlushEntries()
     }
 }
 
-struct WorldExt : public hkpWorld {
-    float FUN_00c91020() throw();
-    void FUN_00c91040(float f) throw();
-    void FUN_00c91bd0() throw();
-    bool FUN_00c91060() throw();
-    float FUN_00c91030() throw();
-    void FUN_00c91b10(float f) throw();
-    void FUN_00c93ae0(int a, int b, float f) throw();
-    void FUN_00c91120() throw();
-    void FUN_00c91140() throw();
-};
-
-struct Class_012677d0 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    void EnsureObjectsCreated(unsigned char val) throw();
-};
-
-extern float DAT_012677c4;
-extern char DAT_012677a0;
-extern int DAT_012677c8;
-extern unsigned char DAT_012677a2;
-extern unsigned int DAT_011afe80;
-extern float DAT_011afe68;
-extern unsigned char DAT_01267b2c;
-extern Class_012677d0* DAT_012677d0;
-extern float DAT_01267b38;
-extern float DAT_011ac3a0;
-extern float DAT_012677ac;
-extern float DAT_011afe64;
-extern char DAT_012677cd;
-
-struct bhkWorld {
-    virtual void v00() throw();
-    virtual void v01() throw();
-    virtual void v02() throw();
-    virtual void v03() throw();
-    virtual void v04() throw();
-    virtual void v05() throw();
-    virtual void v06() throw();
-    virtual void v07() throw();
-    virtual void v08() throw();
-    virtual void v09() throw();
-    virtual void v10() throw();
-    virtual void v11() throw();
-    virtual void v12() throw();
-    virtual void v13() throw();
-    virtual void v14() throw();
-    virtual void v15() throw();
-    virtual void v16() throw();
-    virtual void v17() throw();
-    virtual void v18() throw();
-    virtual void v19() throw();
-    virtual void v20() throw();
-    virtual void v21() throw();
-    virtual void v22() throw();
-    virtual void v23() throw();
-    virtual void v24() throw();
-    virtual void v25() throw();
-    virtual void v26() throw();
-    virtual void v27() throw();
-    virtual void v28() throw();
-    virtual void v29() throw();
-    virtual void v30() throw();
-    virtual void v31() throw();
-    virtual void v32() throw();
-    virtual void v33() throw();
-    virtual void v34() throw();
-    virtual void v35() throw();
-    virtual void v36() throw();
-    virtual WorldExt* GetHkpWorld() throw();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    char unk14;
-    char unk15;
-    char unk16;
-    char unk17;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    void** unk2C;
-    unsigned int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    unsigned int unk50;
-
-    void FUN_00c674d0(void* p, unsigned int count) throw();
-    void ProcessConstraints() throw();
-    void FUN_00c6aac0() throw();
-    void FUN_00c6a540(float f) throw();
-    void FUN_00c66a00() throw();
-    void FUN_00c66e20(float f) throw();
-    void FUN_00c68de0() throw();
-    void FlushEntries() throw();
-    void SetProcessEnabled(int arg) throw();
-
-    bool StepSimulation();
-};
-
-// @fnv 0x00c6ae70
-bool bhkWorld::StepSimulation() {
-    DAT_012677c4 = 0.0f;
-    DAT_012677a0 = 1;
-    DAT_012677c8 = 0;
-    bool result = false;
-
-    if (this->unk30 > 0) {
-        if (!DAT_012677a2) {
-            if (this->unk30 >= 0xbb8) {
-                this->unk30 = 0xbb8;
-            }
-            unsigned int val = this->unk30;
-            unsigned int count = DAT_011afe80;
-            if (val < count) {
-                count = val;
-            }
-            unsigned int remaining = val - count;
-            this->FUN_00c674d0(&this->unk2C[remaining], count);
-            this->unk30 = remaining;
-            DAT_012677a2 = 1;
-        }
-        this->ProcessConstraints();
-        this->FUN_00c6aac0();
-    }
-
-    if (this->unk15 != 0 && DAT_011afe68 > 0.0f) {
-        WorldExt* world = this->GetHkpWorld();
-        bool isMultithreaded = (world->m_iMaxEntriesPerNarrowphaseToiTask == 3);
-        if (isMultithreaded) {
-            DAT_012677d0->EnsureObjectsCreated(DAT_01267b2c);
-        }
-        DAT_012677ac = DAT_011ac3a0 * DAT_01267b38;
-        this->FUN_00c6a540(DAT_011afe64);
-        this->FUN_00c66a00();
-
-        this->GetHkpWorld();
-        if (world->m_iCriticalOperationsLockCount == 0 && world->m_bBlockExecutingPendingOperations == 0) {
-            if (world->m_iPendingOperationCount != 0) {
-                world->FUN_00c91120();
-            }
-            if (world->m_iPendingOperationQueueCount == 1 && world->m_iQueuedOperationCount != 0) {
-                world->FUN_00c91140();
-            }
-        }
-
-        this->GetHkpWorld();
-        world->FUN_00c91020();
-        world->FUN_00c91040(DAT_011afe64);
-        world->FUN_00c91bd0();
-        while (!world->FUN_00c91060()) {
-            world->FUN_00c91030();
-            if (!isMultithreaded) {
-                world->FUN_00c91b10(DAT_012677ac);
-            } else {
-                world->FUN_00c93ae0(DAT_012677d0->unk14, DAT_012677d0->unk18, DAT_012677ac);
-            }
-        }
-
-        this->FUN_00c66e20(DAT_011afe68);
-        this->FUN_00c68de0();
-        result = true;
-    }
-
-    if (this->unk50 > 0) {
-        this->FlushEntries();
-    }
-
-    if (DAT_012677cd != 0) {
-        this->SetProcessEnabled(1);
-        DAT_012677cd = 0;
-    }
-
-    DAT_012677a0 = 0;
-    return result;
-}
-
 // 0x00c910a0  ret 4
 // @fnv 0x00c910a0
-void __stdcall FUN_00c910a0(int) {
-}
-
-// @fnv 0x00c911a0
-void FUN_00c911a0()
-{
+// pdb: hkpConstraintInstance::entityAddedCallback | hkpConstraintInstance.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(vtable), high
+void __stdcall hkpConstraintInstance_entityAddedCallback(int) {
 }
 
 extern void (__stdcall *DAT_00fdf100)(void*);
-
-struct FUN_00c91230_World : hkpWorld {
-    void __thiscall FUN_00c91230(void* param);
-};
-
-// @fnv 0x00c91230
-void __thiscall FUN_00c91230_World::FUN_00c91230(void* param) {
-    if (m_pModifyConstraintCriticalSection != 0) {
-        DAT_00fdf100(m_pModifyConstraintCriticalSection);
-    }
-}
-
-struct FUN_00c912c0_Class : hkpWorld {
-    unsigned int FUN_00c912c0();
-};
-// @fnv 0x00c912c0
-unsigned int FUN_00c912c0_Class::FUN_00c912c0()
-{
-    volatile unsigned short* markCount = &m_kMultiThreadCheck.m_usMarkedForWrite;
-    unsigned char highBit = static_cast<unsigned char>(*markCount >> 15);
-    return highBit & 1;
-}
-
-struct Comparator {
-    virtual void unused_00();
-    virtual void unused_01();
-    virtual void unused_02();
-    virtual void unused_03();
-    virtual void unused_04();
-    virtual void unused_05();
-    virtual void unused_06();
-    virtual void unused_07();
-    virtual void unused_08();
-    virtual void unused_09();
-    virtual void unused_0a();
-    virtual void unused_0b();
-    virtual void unused_0c();
-    virtual void unused_0d();
-    virtual void unused_0e();
-    virtual void unused_0f();
-    virtual void unused_10();
-    virtual void unused_11();
-    virtual void unused_12();
-    virtual bool accepts(const void* left, const void* right);
-};
-struct FilterCore {
-    virtual void reserved();
-    virtual unsigned char* evaluate(unsigned char* answer, const void* left, const void* right);
-};
-struct FilterOwner {
-    void* unknown_00;
-    void* unknown_04;
-    FilterCore core;
-};
-struct Pair {
-    const void* left;
-    const void* right;
-};
-struct OpPacket {
-    unsigned char opcode;
-    const void* left;
-    const void* right;
-};
-struct EventSink {
-    void FUN_00cf7080(const Pair* p, int action, FilterCore* core);
-};
-int __cdecl FindEntryValue(const void*, const void*);
-struct FUN_00c913b0_Class {
-    void* unknown_00;
-    void* unknown_04;
-    void* unknown_08;
-    void* unknown_0c;
-    void* unknown_10;
-    void* unknown_14;
-    void* unknown_18;
-    void* unknown_1c;
-    void* unknown_20;
-    void* unknown_24;
-    void* unknown_28;
-    void* unknown_2c;
-    void* unknown_30;
-    void* unknown_34;
-    void* unknown_38;
-    void* unknown_3c;
-    void* unknown_40;
-    void* unknown_44;
-    void* unknown_48;
-    void* unknown_4c;
-    void* unknown_50;
-    void* unknown_54;
-    Comparator* m_comparator;
-    void* unknown_5c;
-    void* unknown_60;
-    EventSink* m_callback;
-    void* unknown_68;
-    void* unknown_6c;
-    void* unknown_70;
-    void* unknown_74;
-    void* unknown_78;
-    FilterOwner* m_iFilter;
-    void* unknown_80;
-    void* unknown_84;
-    void* unknown_88;
-    void* unknown_8c;
-    void* unknown_90;
-    void* m_pDataAtOffset94;
-    void FUN_00c91160(const OpPacket* packet);
-    void ProcessPair(const void* left, const void* right);
-};
-// @fnv 0x00c913b0
-void FUN_00c913b0_Class::ProcessPair(const void* left, const void* right)
-{
-    OpPacket command;
-    Pair pair;
-    if (m_pDataAtOffset94) {
-        command.opcode = 0x13;
-        command.left = left;
-        command.right = right;
-        FUN_00c91160(&command);
-        return;
-    }
-
-    const char* a = static_cast<const char*>(left);
-    const char* b = static_cast<const char*>(right);
-    const void* primaryB = b + 0x24;
-    const void* primaryA = a + 0x24;
-    if (m_comparator->accepts(primaryA, primaryB)) {
-        unsigned char answer;
-        const void* secondaryB = b + 0x10;
-        const void* secondaryA = a + 0x10;
-        if (*m_iFilter->core.evaluate(&answer, secondaryA, secondaryB)) {
-            if (!FindEntryValue(secondaryA, secondaryB)) {
-                pair.left = primaryA;
-                pair.right = primaryB;
-                m_callback->FUN_00cf7080(&pair, 1, m_iFilter ? &m_iFilter->core : 0);
-            }
-        }
-    }
-}
-
-struct Sh00c91160 { void FUN_00c91160(void* rec); };
 
 struct QueuedOp
 {
@@ -1639,18 +1049,20 @@ struct Sim
 struct WorldQ
 {
     char pad0[8];
-    Sim* m_pSimulation;                              // +0x08
-    char pad_c[0x94 - 0xc];
-    int m_iCriticalOperationsLockCount;               // +0x94
+    Sim* m_simulation;                              // +0x08
+    char pad_c[0x84 - 0xc];
+    int m_criticalOperationsLockCount;               // +0x84
 
     void __thiscall DispatchOp(int a0, int a1, int a2);
 };
 
 // @f3 0x00902740 (community match, verified in this file)
 struct Sh00902570F3 { void FUN_00902570(QueuedOp* op); };
+// pdb: hkpWorld::reintegrateAndRecollideEntities | hkpWorld.obj | fnv360_0822_retail, objrun_sim, low
+// pdb params: entityBatch, numEntities, mode
 void WorldQ::DispatchOp(int aiArg0, int aiArg1, int aiArg2)
 {
-    if (*(int*)((char*)this + 0x84))
+    if (m_criticalOperationsLockCount)
     {
         QueuedOp op;
         op.m_ucOperationType = 0x16;
@@ -1660,7 +1072,7 @@ void WorldQ::DispatchOp(int aiArg0, int aiArg1, int aiArg2)
         ((Sh00902570F3*)this)->FUN_00902570(&op);
         return;
     }
-    Sim* sim = m_pSimulation;
+    Sim* sim = m_simulation;
     sim->m_vtbl->invoke(sim, aiArg0, aiArg1, this, aiArg2);
 }
 
@@ -1671,7 +1083,7 @@ class hkpMotionC914;
 void __cdecl FUN_00cf1480(float fA, float fB, int* piOut) throw();
 
 struct hkpCollidableQualityC914 {
-    void SetFlagBits(unsigned char ucA, unsigned char ucB, unsigned char ucC) throw();
+    void hkpMotion_setWorldSelectFlagsNeg(unsigned char ucA, unsigned char ucB, unsigned char ucC) throw();
 };
 
 class hkpEntityC914 {
@@ -1798,16 +1210,16 @@ public:
     int m_80;
     int m_84;
     int m_88;
-    int m_iPendingOperationCount;
+    int m_pendingOperationsCount;
     int m_iQueuedOperationCount;
-    int m_iCriticalOperationsLockCount;
+    int m_criticalOperationsLockCount;
     int m_98;
-    bool m_bBlockExecutingPendingOperations;
-    bool m_bBlockExecutingPendingOperationQueues;
+    bool m_blockExecutingPendingOperations;
+    bool m_criticalOperationsAllowed;
     char m_9e;
     char m_9f;
     int m_a0;
-    int m_iPendingOperationQueueCount;
+    int m_pendingOperationQueueCount;
     int m_a8;
     int m_ac;
     int m_b0;
@@ -1964,15 +1376,15 @@ public:
     unsigned char m_306;
     unsigned char m_307;
 
-    bool areCriticalOperationsLocked() const { return m_iCriticalOperationsLockCount != 0; }
-    void lockCriticalOperations() { m_iCriticalOperationsLockCount++; }
+    bool areCriticalOperationsLocked() const { return m_criticalOperationsLockCount != 0; }
+    void lockCriticalOperations() { m_criticalOperationsLockCount++; }
     void unlockAndAttemptToExecutePendingOperations()
     {
-        m_iCriticalOperationsLockCount--;
-        if (m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations) {
-            if (m_iPendingOperationCount)
+        m_criticalOperationsLockCount--;
+        if (m_criticalOperationsLockCount == 0 && !m_blockExecutingPendingOperations) {
+            if (m_pendingOperationsCount)
                 FUN_00c91120();
-            if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
+            if (m_pendingOperationQueueCount == 1 && m_iQueuedOperationCount)
                 FUN_00c91140();
         }
     }
@@ -1981,11 +1393,9 @@ public:
     void FUN_00c91140() throw();
     void FUN_00c91160(const hkWorldOperationBaseC914& kOperation) throw();
 
-    hkpEntityC914* FUN_00c914d0(hkpEntityC914* pkEntity, int iInitialActivationState) throw();
+    hkpEntityC914* hkpWorld_addEntity(hkpEntityC914* pkEntity, int iInitialActivationState) throw();
 };
 
-void __cdecl FUN_00cb4640(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity, int iInitialActivationState) throw();
-void __cdecl FUN_00cb59f0(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity) throw();
 void __cdecl NotifyEntityAdded(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity) throw();
 void __cdecl FUN_00cffa00(hkpEntityC914* pkEntity) throw();
 
@@ -2006,11 +1416,11 @@ struct WorldView9027a0 {
     int f20, f24, f28, f2c, f30, f34, f38, f3c;
     int f40, f44, f48, f4c, f50, f54, f58, f5c;
     int f60, f64, f68, f6c, f70, f74, f78, f7c;
-    int m_iPendingOperationCount;
-    int m_iCriticalOperationsLockCount;
+    int m_pendingOperationsCount;
+    int m_criticalOperationsLockCount;
     int f88;
-    bool m_bBlockExecutingPendingOperations;
-    bool m_bBlockExecutingPendingOperationQueues;
+    bool m_blockExecutingPendingOperations;
+    bool m_criticalOperationsAllowed;
     char f8e, f8f;
     int f90, f94, f98, f9c, fa0, fa4, fa8, fac;
     int fb0, fb4, fb8, fbc, fc0, fc4, fc8, fcc;
@@ -2039,13 +1449,14 @@ struct WorldView9027a0 {
 };
 
 void __cdecl FUN_009266b0(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity, int iInitialActivationState) throw();
-void __cdecl FUN_00928050(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity) throw();
+void __cdecl hkpWorldOperationUtil_addEntityBP(hkpWorldC914* pkWorld, hkpEntityC914* pkEntity) throw();
 void __cdecl FUN_00987d30(hkpEntityC914* pkEntity) throw();
 
-hkpEntityC914* hkpWorldC914::FUN_00c914d0(hkpEntityC914* pkEntity, int iInitialActivationState) throw()
+// pdb: hkpWorld::addEntity | hkpWorld.obj | fnv360_0822_retail, call_seq + bridge(call_gap_sim|call_seq) + skyrim(call_gap_sim), high
+hkpEntityC914* hkpWorldC914::hkpWorld_addEntity(hkpEntityC914* pkEntity, int iInitialActivationState) throw()
 {
     WorldView9027a0* pkWorld = reinterpret_cast<WorldView9027a0*>(this);
-    if (pkWorld->m_iCriticalOperationsLockCount != 0) {
+    if (pkWorld->m_criticalOperationsLockCount != 0) {
         hkWorldOperationAddEntityC914 kOp;
         kOp.m_pEntity = pkEntity;
         kOp.m_iActivationState = iInitialActivationState;
@@ -2061,24 +1472,24 @@ hkpEntityC914* hkpWorldC914::FUN_00c914d0(hkpEntityC914* pkEntity, int iInitialA
     EntityShorts9027a0* entShorts = reinterpret_cast<EntityShorts9027a0*>(&pkEntity->m_d8);
     entShorts->fieldDa = 0;
     entShorts->fieldDc = 0;
-    pkWorld->m_bBlockExecutingPendingOperationQueues = false;
+    pkWorld->m_criticalOperationsAllowed = false;
     pkEntity->m_c0 = ++pkWorld->m_uiLastEntityUid;
     reinterpret_cast<EntityOps9027a0*>(pkEntity)->FUN_009316e0();
     FUN_009266b0(this, pkEntity, iInitialActivationState);
-    reinterpret_cast<hkpCollidableQualityC914*>(&pkEntity->m_d0)->SetFlagBits(
+    reinterpret_cast<hkpCollidableQualityC914*>(&pkEntity->m_d0)->hkpMotion_setWorldSelectFlagsNeg(
         pkWorld->m_2c5,
         pkWorld->m_2c6,
         pkWorld->m_2c7
     );
 
-    pkWorld->m_iCriticalOperationsLockCount++;
-    pkWorld->m_bBlockExecutingPendingOperationQueues = true;
-    FUN_00928050(this, pkEntity);
+    pkWorld->m_criticalOperationsLockCount++;
+    pkWorld->m_criticalOperationsAllowed = true;
+    hkpWorldOperationUtil_addEntityBP(this, pkEntity);
     NotifyEntityAdded(this, pkEntity);
     FUN_00987d30(pkEntity);
-    pkWorld->m_iCriticalOperationsLockCount--;
-    if (pkWorld->m_iCriticalOperationsLockCount == 0 && !pkWorld->m_bBlockExecutingPendingOperations) {
-        if (pkWorld->m_iPendingOperationCount)
+    pkWorld->m_criticalOperationsLockCount--;
+    if (pkWorld->m_criticalOperationsLockCount == 0 && !pkWorld->m_blockExecutingPendingOperations) {
+        if (pkWorld->m_pendingOperationsCount)
             pkWorld->FUN_00902550();
     }
     return pkEntity;
@@ -2095,102 +1506,6 @@ struct PointerArray {
         return -1;
     }
 };
-struct ObjectTable {
-    unsigned int unk000;
-unsigned int unk004;
-unsigned int unk008;
-unsigned int unk00c;
-unsigned int unk010;
-unsigned int unk014;
-unsigned int unk018;
-unsigned int unk01c;
-unsigned int unk020;
-unsigned int unk024;
-unsigned int unk028;
-unsigned int unk02c;
-unsigned int unk030;
-unsigned int unk034;
-unsigned int unk038;
-unsigned int unk03c;
-unsigned int unk040;
-unsigned int unk044;
-unsigned int unk048;
-unsigned int unk04c;
-unsigned int unk050;
-unsigned int unk054;
-unsigned int unk058;
-unsigned int unk05c;
-unsigned int unk060;
-unsigned int unk064;
-unsigned int unk068;
-unsigned int unk06c;
-unsigned int unk070;
-unsigned int unk074;
-unsigned int unk078;
-unsigned int unk07c;
-unsigned int unk080;
-unsigned int unk084;
-unsigned int unk088;
-unsigned int unk08c;
-unsigned int unk090;
-unsigned int unk094;
-unsigned int unk098;
-unsigned int unk09c;
-unsigned int unk0a0;
-unsigned int unk0a4;
-unsigned int unk0a8;
-unsigned int unk0ac;
-unsigned int unk0b0;
-unsigned int unk0b4;
-unsigned int unk0b8;
-unsigned int unk0bc;
-unsigned int unk0c0;
-unsigned int unk0c4;
-unsigned int unk0c8;
-unsigned int unk0cc;
-unsigned int unk0d0;
-unsigned int unk0d4;
-unsigned int unk0d8;
-unsigned int unk0dc;
-unsigned int unk0e0;
-unsigned int unk0e4;
-unsigned int unk0e8;
-unsigned int unk0ec;
-unsigned int unk0f0;
-unsigned int unk0f4;
-unsigned int unk0f8;
-unsigned int unk0fc;
-unsigned int unk100;
-unsigned int unk104;
-unsigned int unk108;
-unsigned int unk10c;
-unsigned int unk110;
-unsigned int unk114;
-unsigned int unk118;
-unsigned int unk11c;
-unsigned int unk120;
-unsigned int unk124;
-unsigned int unk128;
-unsigned int unk12c;
-unsigned int unk130;
-unsigned int unk134;
-unsigned int unk138;
-unsigned int unk13c;
-unsigned int unk140;
-unsigned int unk144;
-unsigned int unk148;
-unsigned int unk14c;
-unsigned int unk150;
-unsigned int unk154;
-    PointerArray pointers;
-    void RemovePointer(void* value);
-};
-// Finds value in the pointers array and clears its slot to null.
-// @fnv 0x00c91840
-void ObjectTable::RemovePointer(void* value) {
-    int index=pointers.Find(value);
-    pointers.elements[index]=0;
-}
 
 struct SearchArray {
 unsigned int unk000;
@@ -2287,9 +1602,6 @@ int count;
 void ClearValue(int value);
 int find(int value) const { for(int i=0;i<count;++i){if(items[i]==value)return i;}return -1;}
 };
-// Finds value in items and sets the matching entry to 0.
-// @fnv 0x00c918e0
-void SearchArray::ClearValue(int value){items[find(value)]=0;}
 
 struct EntryListNode {
     int* volatile entries;
@@ -2309,35 +1621,6 @@ struct EntryListNode {
         return -1;
     }
 };
-struct FUN_00c919d0_Class {
-    void FUN_00c919d0(int value);
-};
-// @fnv 0x00c919d0
-void FUN_00c919d0_Class::FUN_00c919d0(int value) {
-    EntryListNode& list=*(EntryListNode*)((char*)this+0x188);
-    list.entries[list.findIndex(value)]=0;
-}
-
-struct CD22Registry {
-    void __thiscall IncrementCounter();
-    void __thiscall FUN_00c91190();
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual int v5();
-    int FUN_00c91ba0();
-};
-
-// @fnv 0x00c91ba0
-int CD22Registry::FUN_00c91ba0()
-{
-    IncrementCounter();
-    int r = ((CD22Registry*)*(void**)((char*)this + 8))->v5();
-    FUN_00c91190();
-    return r;
-}
 
 struct hkShapeC927 {
     unsigned short m_type;
@@ -2375,6 +1658,7 @@ public:
 };
 
 // @f3 0x009033f0 (community match, verified in this file)
+// pdb: enumerateAllConstraintsInIsland | hkpWorld.obj | fnv360_0822_retail, call_seq, medium, conflict (bridge: hkpPhysicsSystem::addPhantom)
 void __cdecl FUN_00c927f0(hkWorldC927* world, hkSetC927* set)
 {
     for (int i = 0; i < world->m_iActorEntryCount; i++) {
@@ -2401,49 +1685,49 @@ struct PendingOps {
 struct HandlerRegistration { void* data; void* other; HandlerRegistration* next; };
 struct WorldSave {
     void* m_vtbl; unsigned short m_usMemSizeAndFlags; short m_sReferenceCount;
-    void* m_pSimulation; unsigned int m_unknown0c;
-    hkVector4 m_kGravity;
-    void* m_pFixedIsland; void* m_pFixedRigidBody;
-    hkArrayRaw m_kActiveSimulationIslands;
-    hkArrayRaw m_kInactiveSimulationIslands;
-    hkArrayRaw m_kDirtySimulationIslands;
-    void* m_pMaintenanceManager; void* m_pMemoryWatchDog;
+    void* m_simulation; unsigned int m_unknown0c;
+    hkVector4 m_gravity;
+    void* m_fixedIsland; void* m_fixedRigidBody;
+    hkArrayRaw m_activeSimulationIslands;
+    hkArrayRaw m_inactiveSimulationIslands;
+    hkArrayRaw m_dirtySimulationIslands;
+    void* m_maintenanceMgr; void* m_memoryWatchDog;
     unsigned char m_bAssertOnRunningOutOfSolverMemory;
-    void* m_pJobSemaphore; void* m_pKdTreeManager;
+    void* m_broadPhase; void* m_pKdTreeManager;
     unsigned char m_bUseKdTree;
-    void* m_pBroadPhaseDispatcher; void* m_pPhantomBroadPhaseListener;
-    void* m_pEntityEntityBroadPhaseListener; void* m_pBroadPhaseBorderListener;
-    void* m_pMultithreadedSimulationJobData;
-    void* m_pCollisionInput; void* m_pCollisionFilter; void* m_pDispatcher;
-    void* m_pConvexListCollisionFilter; PendingOps* m_pPendingOperations;
-    int m_iPendingOperationCount; int m_iQueuedOperationCount;
-    int m_iCriticalOperationsLockCount; int m_iCriticalOperationsLockCountForPhantoms;
-    unsigned char m_bBlockExecutingPendingOperations; unsigned char m_bBlockExecutingPendingOperationQueues;
-    HandlerRegistration* m_pPendingOperationQueues; int m_iPendingOperationQueueCount;
-    hkMultiThreadCheck m_kMultiThreadCheck;
-    unsigned char m_bProcessActionsInSingleThread;
+    void* m_broadPhaseDispatcher; void* m_phantomBroadPhaseListener;
+    void* m_entityEntityBroadPhaseListener; void* m_broadPhaseBorderListener;
+    void* m_multithreadedSimulationJobData;
+    void* m_collisionInput; void* m_collisionFilter; void* m_collisionDispatcher;
+    void* m_convexListFilter; PendingOps* m_pendingOperations;
+    int m_pendingOperationsCount; int m_iQueuedOperationCount;
+    int m_criticalOperationsLockCount; int m_criticalOperationsLockCountForPhantoms;
+    unsigned char m_blockExecutingPendingOperations; unsigned char m_criticalOperationsAllowed;
+    HandlerRegistration* m_pendingOperationQueues; int m_pendingOperationQueueCount;
+    hkMultiThreadCheck m_multiThreadCheck;
+    unsigned char m_processActionsInSingleThread;
     unsigned char m_bAllowUnconstrainedIslandJob;
-    unsigned int m_uiMinDesiredIslandSize;
-    void* m_pModifyConstraintCriticalSection; int m_iIsLocked;
-    void* m_pIslandDirtyListCriticalSection; void* m_pPropertyMasterLock;
-    unsigned char m_bWantSimulationIslands;
-    float m_fSnapCollisionToConvexEdgeThreshold; float m_fSnapCollisionToConcaveEdgeThreshold;
-    unsigned char m_bEnableToiWeldRejection; unsigned char m_bWantDeactivation;
-    unsigned char m_bActivateOnBodyTransformChange;
-    float m_fDeactivationReferenceDistance; float m_fToiCollisionResponseRotateNormal;
-    int m_iMaxSectorsPerMidphaseTask; unsigned char m_bProcessToisMultithreaded;
-    int m_iMaxSectorsPerNarrowphaseTask; int m_iMaxEntriesPerMidphaseToiTask;
-    int m_iMaxEntriesPerNarrowphaseToiTask;
+    unsigned int m_minDesiredIslandSize;
+    void* m_modifyConstraintCriticalSection; int m_isLocked;
+    void* m_islandDirtyListCriticalSection; void* m_propertyMasterLock;
+    unsigned char m_wantSimulationIslands;
+    float m_snapCollisionToConvexEdgeThreshold; float m_snapCollisionToConcaveEdgeThreshold;
+    unsigned char m_enableToiWeldRejection; unsigned char m_wantDeactivation;
+    unsigned char m_shouldActivateOnRigidBodyTransformChange;
+    float m_deactivationReferenceDistance; float m_toiCollisionResponseRotateNormal;
+    int m_iMaxSectorsPerMidphaseTask; unsigned char m_processToisMultithreaded;
+    int m_maxEntriesPerToiCollideTask; int m_maxNumToiCollisionPairsSinglethreaded;
+    int m_simulationType;
     float m_fSimplifiedToiPenetrationThreshold; float m_fToiPenetrationThreshold;
     float m_fHigherToiPenetrationThreshold; float m_fForcedToiPenetrationThreshold;
-    unsigned int m_uiLastEntityUid; unsigned int m_uiLastIslandUid; unsigned int m_uiLastConstraintUid;
-    hkArrayRaw m_kPhantoms; hkArrayRaw m_kActionListeners; hkArrayRaw m_kEntityListenerArray;
-    hkArrayRaw m_kPhantomListeners; hkArrayRaw m_kConstraintListeners; hkArrayRaw m_kWorldDeletionListeners;
-    hkArrayRaw m_kIslandActivationListeners; hkArrayRaw m_kWorldPostSimulationListeners;
-    hkArrayRaw m_kWorldPostIntegrateListeners; hkArrayRaw m_kWorldPostCollideListeners;
-    hkArrayRaw m_kIslandPostIntegrateListeners; hkArrayRaw m_kIslandPostCollideListeners;
-    hkArrayRaw m_kContactListeners; hkArrayRaw m_kContactImpulseLimitBreachedListeners;
-    void* m_pViolatedConstraintArray; void* m_pBroadPhaseBorder;
+    unsigned int m_uiLastEntityUid; unsigned int m_uiLastIslandUid; unsigned int m_lastConstraintUid;
+    hkArrayRaw m_phantoms; hkArrayRaw m_actionListeners; hkArrayRaw m_entityListeners;
+    hkArrayRaw m_phantomListeners; hkArrayRaw m_constraintListeners; hkArrayRaw m_worldDeletionListeners;
+    hkArrayRaw m_islandActivationListeners; hkArrayRaw m_worldPostSimulationListeners;
+    hkArrayRaw m_worldPostIntegrateListeners; hkArrayRaw m_worldPostCollideListeners;
+    hkArrayRaw m_islandPostIntegrateListeners; hkArrayRaw m_islandPostCollideListeners;
+    hkArrayRaw m_contactListeners; hkArrayRaw m_contactImpulseLimitBreachedListeners;
+    void* m_pViolatedConstraintArray; void* m_broadPhaseBorder;
     void FUN_00c92db0(struct ObjectWriter* writer, void* unused);
 };
 struct ObjectWriter {
@@ -2452,7 +1736,7 @@ struct ObjectWriter {
     virtual void slot08();
     virtual void WriteValue(char* name, void* value, int flags);
     virtual void slot10();
-    virtual void WriteArray(int kind, char* name, void* array, int length, void* bounded);
+    virtual void writeArray64(int kind, char* name, void* array, int length, void* bounded);
     virtual void OpenBlock(char* name);
     virtual void CloseBlock();
     int m_unknown04;
@@ -2461,130 +1745,15 @@ struct ObjectWriter {
     unsigned char m_writeAll10;
     void DispatchWithMode(char* name, void* value, unsigned int length, int flags);
 };
-void* __cdecl FUN_00d06f80(void* array, unsigned int bytes);
-extern char str_010c6700;
-extern char str_0109c938;
-extern char str_010c66f0;
-extern char str_010c66e4;
-extern char str_010c6084;
-extern char str_010c66d8;
-extern char str_010c41a4;
-extern char str_010c66b8;
-extern char str_010c6698;
-extern char str_010c6684;
-extern char str_010c6664;
-extern char str_010c664c;
-extern char str_010c6630;
-extern char str_010c6624;
-extern char str_010c6618;
-extern char str_010c660c;
-extern char str_010c6600;
-extern char str_010c65f8;
-extern char str_010c65e8;
-extern char str_010c65d8;
-extern char str_010c65c4;
-extern char str_010c65bc;
-extern char str_010c65b0;
-extern char str_010c65a4;
-extern char str_010c6598;
-extern char str_010c6580;
-extern char str_010c6578;
-extern char str_010c6564;
-extern char str_010c6558;
-extern char str_010c654c;
-extern char str_010c6540;
-extern char str_010c6534;
-extern char str_010c6524;
-extern char str_010c6514;
-extern char str_010c6504;
-extern char str_010c64f4;
-extern char str_010c64e4;
-extern char str_010c64d4;
-extern char str_010c64c8;
-static __forceinline void SaveArray(ObjectWriter* writer,hkArrayRaw& array,char* name,unsigned int stride) {
-    if ((array.m_iCapacityState & 0x80000000u) == 0 || writer->m_writeAll10) {
-        void* ptr = array.m_data;
-         unsigned int capacity = (array.m_iCapacityState & 0x3fffffff);
-         void* bounded = FUN_00d06f80(ptr, capacity * stride);
-        writer->WriteArray(3, name, array.m_data, array.m_iElementCount * stride, bounded);
-    }
-}
-static __forceinline void SaveBlob(ObjectWriter* writer,char* name,void* address,unsigned int length) {
-    writer->DispatchWithMode(name,address,length,0);
-}
-
-// Serializes the WorldSave to the writer: writes arrays, blobs and nested blocks for its members, then clears the writer reference.
-// @fnv 0x00c92db0
-void WorldSave::FUN_00c92db0(ObjectWriter* writer,void* unused) {
-    writer->m_reference08 = m_pCollisionInput;
-    SaveArray(writer, m_kActiveSimulationIslands, &str_010c6700, 4);
-    for (int i = m_kActiveSimulationIslands.m_iElementCount - 1; i >= 0; --i) writer->WriteValue(&str_0109c938, m_kActiveSimulationIslands.m_data[i], 0);
-    SaveArray(writer, m_kInactiveSimulationIslands, &str_010c66f0, 4);
-    for (int i = m_kInactiveSimulationIslands.m_iElementCount - 1; i >= 0; --i) writer->WriteValue(&str_010c66e4, m_kInactiveSimulationIslands.m_data[i], 0);
-    writer->WriteValue(&str_010c6084, reinterpret_cast<void*>(m_pFixedIsland), 0);
-    SaveArray(writer, m_kPhantoms, &str_010c66d8, 4);
-    for (int i = 0; i < m_kPhantoms.m_iElementCount; ++i) writer->WriteValue(&str_010c41a4, m_kPhantoms.m_data[i], 0);
-    if (m_pModifyConstraintCriticalSection) {    SaveBlob(writer,&str_010c66b8, reinterpret_cast<void*>(m_pModifyConstraintCriticalSection), 0x18);}
-    SaveBlob(writer,&str_010c6698, reinterpret_cast<void*>(m_pIslandDirtyListCriticalSection), 0x18);
-    if (m_pPropertyMasterLock) {    SaveBlob(writer,&str_010c6684, reinterpret_cast<void*>(m_pPropertyMasterLock), 0x18);}
-    SaveBlob(writer,&str_010c6664, reinterpret_cast<void*>(m_pMultithreadedSimulationJobData), 0x120);
-    if (m_pPendingOperationQueues) {
-       HandlerRegistration* position = m_pPendingOperationQueues;
-       do {
-    SaveBlob(writer,&str_010c664c, reinterpret_cast<void*>(m_pPendingOperationQueues), 0x10);
-          if (m_pPendingOperationQueues->data) {
-              hkArrayRaw* batch = static_cast<hkArrayRaw*>(m_pPendingOperationQueues->data);
-    SaveArray(writer, (*batch), &str_010c6630, 20);
-          }
-          position = position->next;
-       } while (position);
-    }
-    writer->OpenBlock(&str_010c6624);
-    writer->WriteValue(&str_010c6618, reinterpret_cast<void*>(m_pSimulation), 0);
-    SaveArray(writer, m_kDirtySimulationIslands, &str_010c660c, 4);
-    writer->WriteValue(&str_010c6600, reinterpret_cast<void*>(m_pMaintenanceManager), 0);
-    SaveBlob(writer,&str_010c65f8, reinterpret_cast<void*>(m_pPendingOperations), 0x28);
-    writer->OpenBlock(&str_010c65f8);
-    SaveArray(writer, m_pPendingOperations->m_10, &str_010c65e8, 20);
-    SaveArray(writer, m_pPendingOperations->m_1c, &str_010c65d8, 16);
-    writer->CloseBlock();
-    writer->WriteValue(&str_010c65c4, reinterpret_cast<void*>(m_pBroadPhaseBorder), 0);
-    writer->OpenBlock(&str_010c65bc);
-    writer->WriteValue(&str_010c65b0, reinterpret_cast<void*>(m_pJobSemaphore), 0);
-    SaveBlob(writer,&str_010c65a4, reinterpret_cast<void*>(m_pBroadPhaseDispatcher), 0x10c);
-    SaveBlob(writer,&str_010c65a4, reinterpret_cast<void*>(m_pEntityEntityBroadPhaseListener), 0x10);
-    SaveBlob(writer,&str_010c65a4, reinterpret_cast<void*>(m_pPhantomBroadPhaseListener), 0xc);
-    SaveBlob(writer,&str_010c65a4, reinterpret_cast<void*>(m_pBroadPhaseBorderListener), 0xc);
-    SaveBlob(writer,&str_010c6598, reinterpret_cast<void*>(m_pCollisionInput), 0x80);
-    if (m_pCollisionInput) {
-      SaveBlob(writer,&str_010c6580,*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(m_pCollisionInput)+0x70),0x10);
-    }
-    writer->WriteValue(&str_010c6578, reinterpret_cast<void*>(m_pCollisionFilter), 0);
-    writer->WriteValue(&str_010c6564, reinterpret_cast<void*>(m_pConvexListCollisionFilter), 0);
-    writer->WriteValue(&str_010c6558, reinterpret_cast<void*>(m_pDispatcher), 0);
-    writer->CloseBlock(); writer->CloseBlock();
-    writer->OpenBlock(&str_010c654c);
-    SaveArray(writer, m_kEntityListenerArray, &str_010c6540, 4);
-    SaveArray(writer, m_kPhantomListeners, &str_010c6534, 4);
-    SaveArray(writer, m_kConstraintListeners, &str_010c6524, 4);
-    SaveArray(writer, m_kWorldDeletionListeners, &str_010c6514, 4);
-    SaveArray(writer, m_kIslandActivationListeners, &str_010c6504, 4);
-    SaveArray(writer, m_kWorldPostSimulationListeners, &str_010c64f4, 4);
-    SaveArray(writer, m_kWorldPostIntegrateListeners, &str_010c64e4, 4);
-    SaveArray(writer, m_kWorldPostCollideListeners, &str_010c64d4, 4);
-    SaveArray(writer, m_kIslandPostIntegrateListeners, &str_010c64e4, 4);
-    SaveArray(writer, m_kContactListeners, &str_010c64c8, 4);
-    writer->CloseBlock();
-    writer->m_reference08 = 0;
-}
 
 struct WorldWatchDogHolder : hkpWorld {
     void* __thiscall FUN_00c93570();
 };
 
 // @fnv 0x00c93570
+// pdb: TESGrass::GetUnderwaterState | TESGrass.obj | fnv360_0822_retail, vtable, low
 void* WorldWatchDogHolder::FUN_00c93570() {
-    return m_pMemoryWatchDog;
+    return m_memoryWatchDog;
 }
 
 inline void* __cdecl operator new(unsigned int, void* p) { return p; }
@@ -2602,8 +1771,6 @@ struct ThreadMemHolder {
 
 void* FUN_00c85750();
 void ResizeAudioStream(void* alloc, void* array, int elemSize);
-void QueryEntityIntoBuffer(hkpWorld* world, hkpPhantom* phantom);
-void NotifyPhantomAdded(hkpWorld* world, hkpPhantom* phantom);
 
 struct PendingOperation {
     unsigned char m_type;
@@ -2674,10 +1841,10 @@ struct W29World {
     int unk74;
     int unk78;
     int unk7C;
-    int m_iPendingOperationCount;
-    int m_iCriticalOperationsLockCount;
-    int m_iCriticalOperationsLockCountForPhantoms;
-    unsigned char m_bBlockExecutingPendingOperations;
+    int m_pendingOperationsCount;
+    int m_criticalOperationsLockCount;
+    int m_criticalOperationsLockCountForPhantoms;
+    unsigned char m_blockExecutingPendingOperations;
     unsigned char unk8D; unsigned char unk8E; unsigned char unk8F;
     int unk90;
     int unk94;
@@ -2700,18 +1867,18 @@ struct W29World {
     int unkD8;
     int unkDC;
     int unkE0;
-    W29Array m_kPhantoms;
+    W29Array m_phantoms;
     void FUN_00902570(PendingOperation* op);
     void FUN_00902550();
 };
 void FUN_00901f10(void* arr, int elemSize);
-void FUN_00928190(void* world, hkpPhantom* phantom);
-void FUN_00988840(void* world, hkpPhantom* phantom);
+void hkpWorldOperationUtil_addPhantomBP(void* world, hkpPhantom* phantom);
+void hkpWorldCallbackUtil_firePhantomAdded(void* world, hkpPhantom* phantom);
 
 hkpPhantom* FUN_00c936a0_World::FUN_00c936a0(hkpPhantom* phantom)
 {
     W29World* self = (W29World*)this;
-    if (self->m_iCriticalOperationsLockCount + self->m_iCriticalOperationsLockCountForPhantoms) {
+    if (self->m_criticalOperationsLockCount + self->m_criticalOperationsLockCountForPhantoms) {
         PendingOperation op;
         op.m_type = 0xD;
         op.m_pPhantom = phantom;
@@ -2719,7 +1886,7 @@ hkpPhantom* FUN_00c936a0_World::FUN_00c936a0(hkpPhantom* phantom)
         return 0;
     }
 
-    self->m_iCriticalOperationsLockCount++;
+    self->m_criticalOperationsLockCount++;
 
     if (!phantom->unk18) {
         phantom->unk18 = phantom->vfunc10();
@@ -2728,18 +1895,18 @@ hkpPhantom* FUN_00c936a0_World::FUN_00c936a0(hkpPhantom* phantom)
     phantom->m_pOwningWorld = (hkpWorld*)this;
     ((W29Ref*)phantom)->FUN_009316e0();
 
-    W29Array* arr = &self->m_kPhantoms;
+    W29Array* arr = &self->m_phantoms;
     if (arr->count == (int)(arr->capState & 0x3FFFFFFF)) {
         FUN_00901f10(arr, 4);
     }
     arr->data[arr->count] = phantom;
     arr->count++;
 
-    FUN_00928190(this, phantom);
-    FUN_00988840(this, phantom);
+    hkpWorldOperationUtil_addPhantomBP(this, phantom);
+    hkpWorldCallbackUtil_firePhantomAdded(this, phantom);
     ((W29Phantom*)phantom)->FUN_00989860();
 
-    if (--self->m_iCriticalOperationsLockCount == 0 && !self->m_bBlockExecutingPendingOperations && self->m_iPendingOperationCount) {
+    if (--self->m_criticalOperationsLockCount == 0 && !self->m_blockExecutingPendingOperations && self->m_pendingOperationsCount) {
         self->FUN_00902550();
     }
 
@@ -2787,101 +1954,6 @@ public:
     }
 };
 
-class hkpEntityListenerXc937e0;
-
-class hkpWorldXc937e0 {
-public:
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    hkArrayXc937e0<void*> m_kEntityListenerArray;
-
-    void FUN_00c937e0(hkpEntityListenerXc937e0* pkListener);
-};
-
-// Appends pkListener to the world's entity listener array, growing it if needed.
-// @fnv 0x00c937e0
-void hkpWorldXc937e0::FUN_00c937e0(hkpEntityListenerXc937e0* pkListener)
-{
-    m_kEntityListenerArray.AddBack(pkListener);
-}
 }  // namespace fnv_00c937e0
 
 namespace fnv_00c93820 {
@@ -3002,16 +2074,11 @@ public:
     int unk11C;
     int unk120;
     int unk124;
-    hkArrayC938<void*> m_kEntityListenerArray;
+    hkArrayC938<void*> m_entityListeners;
 
     void FUN_00c93820(hkpEntityListenerC938* pkListener);
 };
 
-// @fnv 0x00c93820
-void hkpWorldC938::FUN_00c93820(hkpEntityListenerC938* pkListener)
-{
-    m_kEntityListenerArray.AddBack(pkListener);
-}
 }  // namespace fnv_00c93820
 
 namespace fnv_00c93860 {
@@ -3054,97 +2121,6 @@ public:
     }
 };
 
-class hkpEntityListenerXc93860;
-
-class hkpWorldXc93860 {
-public:
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    hkArrayXc93860<void*> m_kEntityListenerArray;
-
-    void FUN_00c93860(hkpEntityListenerXc93860* pkListener);
-};
-
-// @fnv 0x00c93860
-void hkpWorldXc93860::FUN_00c93860(hkpEntityListenerXc93860* pkListener)
-{
-    m_kEntityListenerArray.AddBack(pkListener);
-}
 }  // namespace fnv_00c93860
 
 namespace fnv_00c938a0 {
@@ -3187,107 +2163,6 @@ public:
     }
 };
 
-class hkpEntityListenerXc938a0;
-
-class hkpWorldXc938a0 {
-public:
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    hkArrayXc938a0<void*> m_kEntityListenerArray;
-
-    void FUN_00c938a0(hkpEntityListenerXc938a0* pkListener);
-};
-
-// Appends pkListener to the world's entity listener array, growing it if needed.
-// @fnv 0x00c938a0
-void hkpWorldXc938a0::FUN_00c938a0(hkpEntityListenerXc938a0* pkListener)
-{
-    m_kEntityListenerArray.AddBack(pkListener);
-}
 }  // namespace fnv_00c938a0
 
 namespace fnv_00c938e0 {
@@ -3408,24 +2283,18 @@ public:
     int unk11C;
     int unk120;
     int unk124;
-    hkArrayC938<void*> m_kEntityListenerArray;
-    hkArrayC938<void*> m_kPhantomListeners;
-    hkArrayC938<void*> m_kConstraintListeners;
-    hkArrayC938<void*> m_kWorldDeletionListeners;
-    hkArrayC938<void*> m_kIslandActivationListeners;
-    hkArrayC938<void*> m_kWorldPostSimulationListeners;
-    hkArrayC938<void*> m_kWorldPostIntegrateListeners;
-    hkArrayC938<void*> m_kWorldPostCollideListeners;
+    hkArrayC938<void*> m_entityListeners;
+    hkArrayC938<void*> m_phantomListeners;
+    hkArrayC938<void*> m_constraintListeners;
+    hkArrayC938<void*> m_worldDeletionListeners;
+    hkArrayC938<void*> m_islandActivationListeners;
+    hkArrayC938<void*> m_worldPostSimulationListeners;
+    hkArrayC938<void*> m_worldPostIntegrateListeners;
+    hkArrayC938<void*> m_worldPostCollideListeners;
 
     void AddPostCollideListener(hkpWorldPostCollideListenerC938* pkListener);
 };
 
-// Appends pkListener to the world's post-collide listener array.
-// @fnv 0x00c938e0
-void hkpWorldC938::AddPostCollideListener(hkpWorldPostCollideListenerC938* pkListener)
-{
-    m_kWorldPostCollideListeners.AddBack(pkListener);
-}
 }  // namespace fnv_00c938e0
 
 namespace fnv_00c93920 {
@@ -3468,110 +2337,6 @@ public:
     }
 };
 
-class hkpEntityListenerXc93920;
-
-class hkpWorldXc93920 {
-public:
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    hkArrayXc93920<void*> m_kEntityListenerArray;
-
-    void FUN_00c93920(hkpEntityListenerXc93920* pkListener);
-};
-
-// Appends pkListener to the world's entity listener array, growing it if needed.
-// @fnv 0x00c93920
-void hkpWorldXc93920::FUN_00c93920(hkpEntityListenerXc93920* pkListener)
-{
-    m_kEntityListenerArray.AddBack(pkListener);
-}
 }  // namespace fnv_00c93920
 
 namespace fnv_00c93960 {
@@ -3692,23 +2457,17 @@ public:
     int unk11C;
     int unk120;
     int unk124;
-    hkArrayC939<void*> m_kEntityListenerArray;
-    hkArrayC939<void*> m_kPhantomListeners;
-    hkArrayC939<void*> m_kConstraintListeners;
-    hkArrayC939<void*> m_kWorldDeletionListeners;
-    hkArrayC939<void*> m_kIslandActivationListeners;
-    hkArrayC939<void*> m_kWorldPostSimulationListeners;
-    hkArrayC939<void*> m_kWorldPostIntegrateListeners;
+    hkArrayC939<void*> m_entityListeners;
+    hkArrayC939<void*> m_phantomListeners;
+    hkArrayC939<void*> m_constraintListeners;
+    hkArrayC939<void*> m_worldDeletionListeners;
+    hkArrayC939<void*> m_islandActivationListeners;
+    hkArrayC939<void*> m_worldPostSimulationListeners;
+    hkArrayC939<void*> m_worldPostIntegrateListeners;
 
     void FUN_00c93960(hkpWorldPostIntegrateListenerC939* pkListener);
 };
 
-// Appends pkListener to the world's post-integrate listener array.
-// @fnv 0x00c93960
-void hkpWorldC939::FUN_00c93960(hkpWorldPostIntegrateListenerC939* pkListener)
-{
-    m_kWorldPostIntegrateListeners.AddBack(pkListener);
-}
 }  // namespace fnv_00c93960
 
 namespace fnv_00c939e0 {
@@ -3829,25 +2588,19 @@ public:
     int unk11C;
     int unk120;
     int unk124;
-    hkArrayC939<void*> m_kEntityListenerArray;
-    hkArrayC939<void*> m_kPhantomListeners;
-    hkArrayC939<void*> m_kConstraintListeners;
-    hkArrayC939<void*> m_kWorldDeletionListeners;
-    hkArrayC939<void*> m_kIslandActivationListeners;
-    hkArrayC939<void*> m_kWorldPostSimulationListeners;
-    hkArrayC939<void*> m_kWorldPostIntegrateListeners;
-    hkArrayC939<void*> m_kWorldPostCollideListeners;
-    hkArrayC939<void*> m_kIslandPostIntegrateListeners;
+    hkArrayC939<void*> m_entityListeners;
+    hkArrayC939<void*> m_phantomListeners;
+    hkArrayC939<void*> m_constraintListeners;
+    hkArrayC939<void*> m_worldDeletionListeners;
+    hkArrayC939<void*> m_islandActivationListeners;
+    hkArrayC939<void*> m_worldPostSimulationListeners;
+    hkArrayC939<void*> m_worldPostIntegrateListeners;
+    hkArrayC939<void*> m_worldPostCollideListeners;
+    hkArrayC939<void*> m_islandPostIntegrateListeners;
 
     void FUN_00c939e0(hkpIslandPostIntegrateListenerC939* pkListener);
 };
 
-// Appends pkListener to the world's post-integrate listener array.
-// @fnv 0x00c939e0
-void hkpWorldC939::FUN_00c939e0(hkpIslandPostIntegrateListenerC939* pkListener)
-{
-    m_kIslandPostIntegrateListeners.AddBack(pkListener);
-}
 }  // namespace fnv_00c939e0
 
 namespace fnv_00c93a20 {
@@ -3890,163 +2643,7 @@ public:
     }
 };
 
-class hkpEntityListenerXc93a20;
-
-class hkpWorldXc93a20 {
-public:
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    hkArrayXc93a20<void*> m_kEntityListenerArray;
-
-    void FUN_00c93a20(hkpEntityListenerXc93a20* pkListener);
-};
-
-// Appends pkListener to the world's entity listener array, growing it if it is full.
-// @fnv 0x00c93a20
-void hkpWorldXc93a20::FUN_00c93a20(hkpEntityListenerXc93a20* pkListener)
-{
-    m_kEntityListenerArray.AddBack(pkListener);
-}
 }  // namespace fnv_00c93a20
-
-struct FUN_00c93ae0_Vt {
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0c(void* p, int n);
-    virtual void slot10();
-};
-
-struct FUN_00c93ae0_Dtm {
-    void FUN_00d051b0();
-};
-
-struct FUN_00c93ae0_Cb {
-    int FUN_00c92d70(void* p, float f);
-};
-
-struct FUN_00c93ae0_Pair {
-    void FUN_00c91c00(void* a, void* b);
-};
-
-struct FUN_00c93ae0_class {
-    void FUN_00c93ae0(void* p1, void* p2, float f);
-};
-
-// Calls FUN_00c92d70 on this with p1 and f; if it returns 0, invokes slot0c(p1, 11), FUN_00d051b0 on p1, slot10, then FUN_00c91c00(p1, p2).
-// @fnv 0x00c93ae0
-void FUN_00c93ae0_class::FUN_00c93ae0(void* p1, void* p2, float fValue) {
-    if (reinterpret_cast<FUN_00c93ae0_Cb*>(this)->FUN_00c92d70(p1, fValue)) {
-        return;
-    }
-    FUN_00c93ae0_Vt* o = reinterpret_cast<FUN_00c93ae0_Vt*>(p2);
-    o->slot0c(p1, 11);
-    reinterpret_cast<FUN_00c93ae0_Dtm*>(p1)->FUN_00d051b0();
-    o->slot10();
-    reinterpret_cast<FUN_00c93ae0_Pair*>(this)->FUN_00c91c00(p1, p2);
-}
 
 template <class T>
 struct hkArrayC93D {
@@ -4073,46 +2670,6 @@ public:
 
     hkReferencedObjectC93D() throw() : m_sReferenceCount(1) {}
 };
-
-class FUN_00c93d10 : public hkReferencedObjectC93D {
-public:
-    void* m_pSimulation;
-    char m_padC[0x4];
-    hkVector4 m_kGravity;
-    void* m_pFixedIsland;
-    void* m_pFixedRigidBody;
-    hkArrayC93D<void*> m_kActiveSimulationIslands;
-    hkArrayC93D<void*> m_kInactiveSimulationIslands;
-    hkArrayC93D<void*> m_kDirtySimulationIslands;
-    void* m_pMaintenanceManager;
-    void* m_pMemoryWatchDog;
-    char m_pad54[0x54];
-    hkMultiThreadCheckC93D m_kMultiThreadCheck;
-    char m_padB0[0x6c];
-    hkArrayC93D<void*> m_kPhantoms;
-    hkArrayC93D<void*> m_kActionListeners;
-    hkArrayC93D<void*> m_kEntityListenerArray;
-    hkArrayC93D<void*> m_kPhantomListeners;
-    hkArrayC93D<void*> m_kConstraintListeners;
-    hkArrayC93D<void*> m_kWorldDeletionListeners;
-    hkArrayC93D<void*> m_kIslandActivationListeners;
-    hkArrayC93D<void*> m_kWorldPostSimulationListeners;
-    hkArrayC93D<void*> m_kWorldPostIntegrateListeners;
-    hkArrayC93D<void*> m_kWorldPostCollideListeners;
-    hkArrayC93D<void*> m_kIslandPostIntegrateListeners;
-    hkArrayC93D<void*> m_kIslandPostCollideListeners;
-    hkArrayC93D<void*> m_kContactListeners;
-
-    FUN_00c93d10(int iUnused) throw();
-    virtual void CalcContentStatistics() throw();
-};
-
-// Initializes the object by setting the pointer member at offset 0x50 to null.
-// @fnv 0x00c93d10
-FUN_00c93d10::FUN_00c93d10(int iUnused) throw()
-    : m_pMemoryWatchDog(0)
-{
-}
 
 namespace fnv_00c976a0 {
 struct hkAllocatorC976 {
@@ -4226,30 +2783,6 @@ public:
     hkpSimulationIslandC976* GetSimulationIsland() const { return m_pCurrentSimulationIsland; }
 };
 
-// @fnv 0x00c976a0
-void __stdcall RemoveActionFromEntity(hkpActionC976* pkAction, hkpEntityC976* pkEntity) throw()
-{
-    pkEntity->m_ppActions.removeAt(pkEntity->m_ppActions.indexOf(pkAction));
-    hkpSimulationIslandC976* pkIsland = pkEntity->GetSimulationIsland();
-    pkIsland->m_bSplitCheckRequested = true;
-    pkIsland->m_isSparse = false;
-
-    hkInplaceArrayC976<hkpEntityC976*, 4> kEntities;
-    pkAction->GetEntities(kEntities);
-
-    hkpSimulationIslandC976* pkNewIsland = 0;
-    for (int i = 0; i < kEntities.GetLogicalSize(); i++) {
-        if (kEntities[i] != pkEntity) {
-            pkNewIsland = kEntities[i]->GetSimulationIsland();
-            if (!pkNewIsland->isFixed())
-                break;
-        }
-    }
-    if (pkNewIsland != pkAction->GetSimulationIsland()) {
-        pkAction->GetSimulationIsland()->RemoveEntry(pkAction);
-        pkNewIsland->AddItem(pkAction);
-    }
-}
 }  // namespace fnv_00c976a0
 
 struct SystemObject {
@@ -4286,8 +2819,8 @@ inline int findNull(const hkArray<void*>& values) {
 }
 struct SystemWorld : hkpWorld {
     void FUN_00c94bd0(void**, int, int);
-    void FUN_00c914d0(void*, int);
-    void FUN_00c954e0(void**, int);
+    void hkpWorld_addEntity(void*, int);
+    void hkpWorld_addPhantomBatch(void**, int);
     void FUN_00c936a0(void*);
     void FUN_00c97370(void*);
     void FUN_00c97d30(SystemObject*);
@@ -4302,13 +2835,13 @@ void SystemWorld::FUN_00c97f80(PhysicsSystem* system) {
         } else {
             for (int i = 0; i < system->entities.m_iElementCount; ++i) {
                 if (system->entities.m_data[i])
-                    FUN_00c914d0(system->entities.m_data[i], system->isActive() ? 1 : 0);
+                    hkpWorld_addEntity(system->entities.m_data[i], system->isActive() ? 1 : 0);
             }
         }
     }
     if (system->phantoms.m_iElementCount > 0) {
         if (findNull(system->phantoms) == -1) {
-            FUN_00c954e0(system->phantoms.m_data, system->phantoms.m_iElementCount);
+            hkpWorld_addPhantomBatch(system->phantoms.m_data, system->phantoms.m_iElementCount);
         } else {
             for (int i = 0; i < system->phantoms.m_iElementCount; ++i) {
                 if (system->phantoms.m_data[i])
@@ -4366,19 +2899,19 @@ public:
     hkArrayC980<hkpRigidBodyC980*> m_ppRigidBodies;
     hkArrayC980<hkpConstraintInstanceC980*> m_ppConstraints;
     hkArrayC980<hkpActionC980*> m_ppActions;
-    hkArrayC980<hkpPhantomC980*> m_kPhantoms;
+    hkArrayC980<hkpPhantomC980*> m_phantoms;
 
     const hkArrayC980<hkpRigidBodyC980*>& getRigidBodies() const { return m_ppRigidBodies; }
     const hkArrayC980<hkpConstraintInstanceC980*>& getConstraints() const { return m_ppConstraints; }
     const hkArrayC980<hkpActionC980*>& getActions() const { return m_ppActions; }
-    const hkArrayC980<hkpPhantomC980*>& getPhantomArray() const { return m_kPhantoms; }
+    const hkArrayC980<hkpPhantomC980*>& getPhantomArray() const { return m_phantoms; }
 };
 
 class hkpWorldC980 {
 public:
     hkBoolRetC980 FUN_00c97e80(hkpConstraintInstanceC980* pkConstraint) throw();
-    void DispatchOrQueue(hkpActionC980* pkAction) throw();
-    void RemoveEntities(hkpEntityC980* const* ppkEntityBatch, int iNumEntities) throw();
+    void hkpWorld_removeAction(hkpActionC980* pkAction) throw();
+    void hkpWorld_removeEntityBatch(hkpEntityC980* const* ppkEntityBatch, int iNumEntities) throw();
     hkBoolRetC980 ProcessTarget(hkpEntityC980* pkEntity) throw();
     void FUN_00c95800(hkpPhantomC980* const* ppkPhantomBatch, int iNumPhantoms) throw();
     void FUN_00c92c70(hkpPhantomC980* pkPhantom) throw();
@@ -4395,10 +2928,10 @@ void hkpWorldC980::FUN_00c980d0(const hkpPhysicsSystemC980* pkSys) throw()
     }
     for (int a = 0; a < pkSys->getActions().GetLogicalSize(); ++a) {
         if (pkSys->getActions()[a])
-            DispatchOrQueue(pkSys->getActions()[a]);
+            hkpWorld_removeAction(pkSys->getActions()[a]);
     }
     if (pkSys->getRigidBodies().indexOf(0) == -1) {
-        RemoveEntities((hkpEntityC980* const*)pkSys->getRigidBodies().begin(), pkSys->getRigidBodies().GetLogicalSize());
+        hkpWorld_removeEntityBatch((hkpEntityC980* const*)pkSys->getRigidBodies().begin(), pkSys->getRigidBodies().GetLogicalSize());
     } else {
         for (int r = 0; r < pkSys->getRigidBodies().GetLogicalSize(); ++r) {
             if (pkSys->getRigidBodies()[r])
@@ -4445,26 +2978,6 @@ public:
     }
 };
 
-class hkPrimaryC982 : public hkReferencedObjectC982 {
-};
-
-class hkSecondaryC982 : public hkReferencedObjectC982 {
-};
-
-class hkListenerPairC982 : public hkPrimaryC982, public hkSecondaryC982 {
-public:
-    hkListenerPairC982* DestroyAndMaybeFree(unsigned int uiFlags) throw();
-};
-
-// Destroys the object, then frees it via hkPrimaryC982::operator delete when uiFlags has bit 0 set, and returns this.
-// @fnv 0x00c98260
-hkListenerPairC982* hkListenerPairC982::DestroyAndMaybeFree(unsigned int uiFlags) throw()
-{
-    this->hkListenerPairC982::~hkListenerPairC982();
-    if (uiFlags & 1)
-        hkPrimaryC982::operator delete(this);
-    return this;
-}
 }  // namespace fnv_00c98260
 
 namespace fnv_00c982e0 {
@@ -4500,15 +3013,6 @@ public:
     FUN_00cfa860* FUN_00c982e0(unsigned int uiFlags) throw();
 };
 
-// Runs the destructor, then frees the object through operator delete when bit 0 of uiFlags is set, and returns this.
-// @fnv 0x00c982e0
-FUN_00cfa860* FUN_00cfa860::FUN_00c982e0(unsigned int uiFlags) throw()
-{
-    this->FUN_00cfa860::~FUN_00cfa860();
-    if (uiFlags & 1)
-        FUN_00cfa860::operator delete(this);
-    return this;
-}
 }  // namespace fnv_00c982e0
 
 namespace fnv_00c98370 {
@@ -4541,29 +3045,12 @@ public:
     }
 };
 
-class hkPrimaryC983 : public hkReferencedObjectC983 {
-};
-
 class hkSecondaryC983 {
 public:
     virtual ~hkSecondaryC983() throw() {}
     int m_0c;
 };
 
-class hkListenerPairC983 : public hkPrimaryC983, public hkSecondaryC983 {
-public:
-    hkListenerPairC983* FUN_00c98370(unsigned int uiFlags) throw();
-};
-
-// Destroys the object and, when bit 0 of uiFlags is set, frees its memory via operator delete; returns this.
-// @fnv 0x00c98370
-hkListenerPairC983* hkListenerPairC983::FUN_00c98370(unsigned int uiFlags) throw()
-{
-    this->hkListenerPairC983::~hkListenerPairC983();
-    if (uiFlags & 1)
-        hkPrimaryC983::operator delete(this);
-    return this;
-}
 }  // namespace fnv_00c98370
 
 namespace fnv_00c983b0 {
@@ -4580,22 +3067,6 @@ struct FnvCpu_FUN_00c983b0_CpuAllocatorHolder {
     FnvCpu_FUN_00c983b0_CpuAllocator* allocator;
 };
 FnvCpu_FUN_00c983b0_CpuAllocatorHolder* __cdecl FUN_00c85750();
-struct FnvCpu_FUN_00c983b0_CpuObject {
-    unsigned int unk00;
-    unsigned short size;
-    void FUN_00c93e50();
-    FnvCpu_FUN_00c983b0_CpuObject* FUN_00c983b0(unsigned int flags);
-};
-// @fnv 0x00c983b0
-FnvCpu_FUN_00c983b0_CpuObject* FnvCpu_FUN_00c983b0_CpuObject::FUN_00c983b0(unsigned int flags)
-{
-    FUN_00c93e50();
-    if (flags & 1) {
-        FnvCpu_FUN_00c983b0_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
-    }
-    return this;
-}
 }  // namespace fnv_00c983b0
 
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
@@ -4606,28 +3077,6 @@ public:
     virtual void v04();
     virtual void onEvent(int a, int b, int c, int d, int e);
 };
-
-class hkDispatcherC984 {
-public:
-    int unk00;
-    int unk04;
-    hkListenerC984** m_kListeners;
-    int m_numListeners;
-    int unk10;
-    void* m_kCriticalSection;
-
-    void DispatchEvent(int a, int b, int c, int d, int e);
-};
-
-// Locks the critical section, calls onEvent on every registered listener with the five arguments, then unlocks it.
-// @fnv 0x00c98440
-void hkDispatcherC984::DispatchEvent(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4)
-{
-    EnterCriticalSection(m_kCriticalSection);
-    for (int i = 0; i < m_numListeners; i++)
-        m_kListeners[i]->onEvent(aiArg0, aiArg1, aiArg2, aiArg3, aiArg4);
-    LeaveCriticalSection(m_kCriticalSection);
-}
 
 namespace fnv_00c984f0 {
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
@@ -4641,26 +3090,6 @@ struct hkListenerC984 {
     virtual void v10(void* a, void* b, void* c);
 };
 
-struct hkObjC984 {
-    int unk00;
-    int unk04;
-    hkListenerC984** m_kListeners;
-    int m_numListeners;
-    int unk10;
-    void* m_kCriticalSection;
-
-    void FUN_00c984f0(void* a, void* b, void* c);
-};
-
-// Enters the critical section, calls v10 on each listener with the three arguments, then leaves the critical section.
-// @fnv 0x00c984f0
-void hkObjC984::FUN_00c984f0(void* a, void* b, void* c)
-{
-    EnterCriticalSection(m_kCriticalSection);
-    for (int i = 0; i < m_numListeners; i++)
-        m_kListeners[i]->v10(a, b, c);
-    LeaveCriticalSection(m_kCriticalSection);
-}
 }  // namespace fnv_00c984f0
 
 extern void(__stdcall* DAT_00fdf05c)(void* pvSection);
@@ -4671,12 +3100,6 @@ public:
     int m_kCriticalSection[6];
     void enter() { DAT_00fdf05c(this); }
     void leave() { DAT_00fdf100(this); }
-};
-
-struct hkVector3C985 {
-    float x;
-    float y;
-    float z;
 };
 
 class hkListenerC985 {
@@ -4751,97 +3174,32 @@ public:
 };
 
 // @f3 0x00909410 (community match, verified in this file)
+// hkCriticalSection: m_section (a CRITICAL_SECTION) and two words the Fallout 3 build resets on leave.
 struct ListenerLockStand
 {
+    char m_section[0x18];
+    int unk18;
+    int unk1C;
     void __thiscall FUN_00908a00();
 };
 void hkpListenerListC986::FUN_00c98670(int aiArg0, int aiArg1, int aiArg2, int aiArg3)
 {
-    void* lock = m_pWorldLock;
-    ((ListenerLockStand*)lock)->FUN_00908a00();
+    ListenerLockStand* lock = (ListenerLockStand*)m_pWorldLock;
+    lock->FUN_00908a00();
     for (int i = 0; i < m_iElementCount; i++)
         m_data[i]->notify(aiArg0, aiArg1, aiArg2, aiArg3);
-    lock = m_pWorldLock;
-    *(int*)((char*)lock + 0x18) = -1;
-    *(int*)((char*)lock + 0x1c) = -1;
+    lock = (ListenerLockStand*)m_pWorldLock;
+    lock->unk18 = -1;
+    lock->unk1C = -1;
     LeaveCriticalSection(lock);
 }
 
-
-class hkpListenerC98B {
-public:
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void V4() throw();
-    virtual void V5() throw();
-    virtual void V6() throw();
-    virtual void V7() throw();
-    virtual void V8() throw();
-    virtual void notify(int a, int b, int c, int d, int e) throw();
-};
-
-class hkpListenerListC98B {
-public:
-    int unk00;
-    int unk04;
-    hkpListenerC98B** m_data;
-    int m_iElementCount;
-    int unk10;
-    void* m_pWorldLock;
-
-    void FUN_00c986c0(int a, int b, int c, int d, int e);
-};
-
-// @fnv 0x00c986c0
-void hkpListenerListC98B::FUN_00c986c0(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4)
-{
-    EnterCriticalSection(m_pWorldLock);
-    for (int i = 0; i < m_iElementCount; i++)
-        m_data[i]->notify(aiArg0, aiArg1, aiArg2, aiArg3, aiArg4);
-    LeaveCriticalSection(m_pWorldLock);
-}
 
 // 0x00c98720  unit_74447a602ec8.cpp  /MT /O2 /GS /EHsc /Gy
 // thiscall, 6 stack args (ret 0x18): lock pointer at this+0x14, walk the array at
 // this+8 for this->count0c elements, call vtable slot 0x28 with the six args, unlock.
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-
-struct Listener00c98720 {
-    virtual void s00();
-    virtual void s04();
-    virtual void s08();
-    virtual void s0c();
-    virtual void s10();
-    virtual void s14();
-    virtual void s18();
-    virtual void s1c();
-    virtual void s20();
-    virtual void s24();
-    virtual void s28(int, int, int, int, int, int);
-};
-
-struct C00c98720 {
-    char pad00[0x8];
-    Listener00c98720** arr08;
-    int count0c;
-    char pad10[0x4];
-    void* pCS14;
-
-    void FUN_00c98720(int a, int b, int c, int d, int e, int f);
-};
-
-// Locks the critical section, calls s28 with the six arguments on each listener in arr08, then unlocks it.
-// @fnv 0x00c98720
-void C00c98720::FUN_00c98720(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5) {
-    EnterCriticalSection(pCS14);
-    for (int i = 0; i < count0c; ++i) {
-        arr08[i]->s28(aiArg0, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
-    }
-    LeaveCriticalSection(pCS14);
-}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
     float m128_f32[4];
@@ -4851,171 +3209,15 @@ extern "C" __m128 __cdecl _mm_setzero_ps(void);
 extern "C" __m128 __cdecl _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 __cdecl _mm_sub_ps(__m128 a, __m128 b);
 
-struct FUN_00c986c0_Obj {
-    void FUN_00c986c0(__m128* a, __m128* b, int c, int d, int e);
-};
-
-struct FUN_00c98b60_Class {
-    void FUN_00c98b60(__m128* v, float f, int c, int d, int e);
-};
-
-// For each of the first three axes, builds a vector with f on that axis and calls FUN_00c986c0 with the sum and difference against *v.
-// @fnv 0x00c98b60
-void FUN_00c98b60_Class::FUN_00c98b60(__m128* v, float f, int c, int d, int e)
-{
-    int i = 0;
-    __m128 vecZero = _mm_setzero_ps();
-    for (; i < 3; ++i) {
-        union {
-            __m128 v;
-            float f[4];
-        } vecAxis;
-        vecAxis.v = vecZero;
-        vecAxis.f[i] = f;
-        __m128 vecSum = _mm_add_ps(*v, vecAxis.v);
-        __m128 diff = _mm_sub_ps(*v, vecAxis.v);
-        reinterpret_cast<FUN_00c986c0_Obj*>(this)->FUN_00c986c0(&vecSum, &diff, c, d, e);
-    }
-}
-
-struct IListener {
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v0a();
-    virtual void v0b();
-    virtual void v0c(void* a1, void* a2, void* a3, void* a4, void* a5);
-};
-
-struct ListenerManager {
-    int unk00;
-    int unk04;
-    IListener** m_kListeners;
-    int m_uiItemCount;
-    int unk10;
-    void* m_cs;
-
-    void FUN_00c99100(void* a1, void* a2, void* a3, void* a4, void* a5);
-};
-
-// @fnv 0x00c99100
-void ListenerManager::FUN_00c99100(void* apArg1, void* apArg2, void* apArg3, void* apArg4, void* apArg5) {
-    EnterCriticalSection(m_cs);
-    for (int i = 0; i < m_uiItemCount; ++i) {
-        m_kListeners[i]->v0c(apArg1, apArg2, apArg3, apArg4, apArg5);
-    }
-    LeaveCriticalSection(m_cs);
-}
-
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(void*);
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(void*);
-struct FUN_00c99160_Dispatch {
-    virtual void fn00();
-    virtual void fn04();
-    virtual void fn08();
-    virtual void fn0c();
-    virtual void fn10();
-    virtual void fn14();
-    virtual void fn18();
-    virtual void fn1c();
-    virtual void fn20();
-    virtual void fn24();
-    virtual void fn28();
-    virtual void fn2c();
-    virtual void fn30();
-    virtual void fn34();
-    virtual void fn38();
-    virtual void fn3c(int a, int b, int c, int d, int e);
-};
-struct FUN_00c99160_Owner {
-    int unk00;
-    int unk04;
-    FUN_00c99160_Dispatch** listeners;
-    int listenerCount;
-    int unk10;
-    void* mutex;
-    void DispatchToListeners(int a, int b, int c, int d, int e);
-};
-// @fnv 0x00c99160
-void FUN_00c99160_Owner::DispatchToListeners(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4) {
-    FUN_00fdf05c(mutex);
-    for(int i = 0; i < listenerCount; ++i) {
-        listeners[i]->fn3c(aiArg0, aiArg1, aiArg2, aiArg3, aiArg4);
-    }
-    FUN_00fdf100(mutex);
-}
-
-struct FUN_00c991c0_Interface {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1c();
-    virtual void vf20();
-    virtual void vf24();
-    virtual void vf28();
-    virtual void vf2c();
-    virtual void vf30();
-    virtual void vf34();
-    virtual void __thiscall slot38(int, int, int, int);
-};
-
-struct FUN_00c991c0_Class {
-    void* m_iWordAt00;
-    void* m_iWordAt04;
-    FUN_00c991c0_Interface** m_8;
-    int m_iThirdValue;
-    void* m_10;
-    void* m_14;
-
-    void __thiscall DispatchToSlots(int, int, int, int);
-};
 
 extern void (__stdcall *DAT_00fdf05c)(void*);
 extern void (__stdcall *DAT_00fdf100)(void*);
 
-// @fnv 0x00c991c0
-void __thiscall FUN_00c991c0_Class::DispatchToSlots(int aiArg1, int aiArg2, int aiArg3, int aiArg4) {
-    FUN_00c991c0_Class* self = this;
-
-    DAT_00fdf05c(self->m_14);
-
-    int index = 0;
-    while (index < self->m_iThirdValue) {
-        FUN_00c991c0_Interface* object = self->m_8[index];
-        object->slot38(aiArg1, aiArg2, aiArg3, aiArg4);
-        ++index;
-    }
-
-    DAT_00fdf100(self->m_14);
-}
-
-struct HavokHelper {
-    void DrawAxes(const hkRotation& rot, float a2, int a3, int a4);
-    void FUN_00c99870(const hkQuaternion& a1, float a2, int a3, int a4);
-};
-
 struct __declspec(align(16)) AlignedRotation : hkRotation {
     void FUN_00ce52e0(const hkQuaternion& a1);
 };
-
-// Builds an aligned rotation from the quaternion a1 and forwards it with a2, a3 and a4 to DrawAxes.
-// @fnv 0x00c99870
-void HavokHelper::FUN_00c99870(const hkQuaternion& aQuat, float afValue, int aiArg3, int aiArg4) {
-    AlignedRotation rot;
-    rot.FUN_00ce52e0(aQuat);
-    DrawAxes(rot, afValue, aiArg3, aiArg4);
-}
 
 namespace fnv_00c99eb0 {
 struct FNV_Allocator {
@@ -5030,122 +3232,7 @@ struct FNV_AllocatorContext {
     FNV_Allocator* allocator;
 };
 FNV_AllocatorContext* __cdecl FUN_00c85750();
-struct FNV_Subobject {
-    void* FUN_00cf6da0(unsigned int value);
-};
-extern void* DAT_010c69cc;
-struct FUN_00c99eb0 {
-    void* m_ppVirtualMethodTable;
-    unsigned short m_04;
-    unsigned short m_flag06;
-    unsigned int m_08;
-    unsigned int m_0C;
-    unsigned int m_10;
-    void* m_14;
-    FUN_00c99eb0();
-};
-// Initialises the object's fields, allocates 0x18 bytes from the allocator and stores the result of FUN_00cf6da0(1000) in m_14.
-// @fnv 0x00c99eb0
-FUN_00c99eb0::FUN_00c99eb0() {
-    m_flag06 = 1;
-    m_ppVirtualMethodTable = &DAT_010c69cc;
-    m_08 = 0;
-    m_0C = 0;
-    m_10 = 0x80000000u;
-    FNV_AllocatorContext* context = FUN_00c85750();
-    void* memory = context->allocator->allocate(0x18);
-    void* pSubobject = memory
-        ? static_cast<FNV_Subobject*>(memory)->FUN_00cf6da0(1000)
-        : 0;
-    m_14 = pSubobject;
-}
 }  // namespace fnv_00c99eb0
-
-struct FUN_00ca8420_Local {
-    unsigned char unk00;
-    unsigned int unk04;
-    unsigned char unk08;
-    unsigned char unk09;
-    unsigned char unk0A;
-};
-
-struct FUN_00ca8420_Target {
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    void* unk10;
-    void* unk14;
-    void* unk18;
-    void* unk1C;
-    void* unk20;
-    void* unk24;
-    void* unk28;
-    void* unk2C;
-    void* unk30;
-    void* unk34;
-    void* unk38;
-    void* unk3C;
-    void* unk40;
-    void* unk44;
-    void* unk48;
-    void* unk4C;
-    void* unk50;
-    void* unk54;
-    void* unk58;
-    void* unk5C;
-    void* unk60;
-    void* unk64;
-    void* unk68;
-    void* unk6C;
-    void* unk70;
-    void* unk74;
-    void* unk78;
-    void* unk7C;
-    void* unk80;
-    void* unk84;
-    void* unk88;
-    void* unk8C;
-    int unk90;
-    int unk94;
-
-    void __thiscall FUN_00c91160(FUN_00ca8420_Local* local);
-};
-
-struct FUN_00ca8420_Class {
-    void* unk00;
-    void* unk04;
-    FUN_00ca8420_Target* unk08;
-
-    void __thiscall FUN_00ca8420(int param2, int param3, int param4);
-};
-
-void __cdecl FUN_00cb6f70(void* param1, int param2, int param3, int param4);
-void __cdecl NotifyEntitySetMotionType(void* param1, void* param2);
-void __cdecl InvokeMotionTypeCallbacks(void* param1);
-
-// @fnv 0x00ca8420
-void __thiscall FUN_00ca8420_Class::FUN_00ca8420(int aiArg1, int aiArg2, int aiArg3)
-{
-    if (unk08 != 0 && unk08->unk94 != 0) {
-        FUN_00ca8420_Local local;
-        local.unk08 = (unsigned char)aiArg1;
-        local.unk09 = (unsigned char)aiArg2;
-        local.unk00 = 4;
-        local.unk04 = (unsigned int)this;
-        local.unk0A = (unsigned char)aiArg3;
-        unk08->FUN_00c91160(&local);
-        return;
-    }
-
-    FUN_00cb6f70(this, aiArg1, aiArg2, aiArg3);
-
-    if (unk08 != 0) {
-        NotifyEntitySetMotionType(unk08, this);
-    }
-
-    InvokeMotionTypeCallbacks(this);
-}
 
 struct hkVector3CA8A {
     float x;
@@ -5169,14 +3256,10 @@ struct hkSetVelocityOpCA8A : public hkWorldOperationBaseCA8A {
 class hkpWorldCA8A {
 public:
     int unk00[0x25];
-    int m_iCriticalOperationsLockCount;
+    int m_criticalOperationsLockCount;
 
-    bool areCriticalOperationsLocked() const { return m_iCriticalOperationsLockCount != 0; }
+    bool areCriticalOperationsLocked() const { return m_criticalOperationsLockCount != 0; }
     void FUN_00c91160(const hkWorldOperationBaseCA8A& kOperation) throw();
-};
-
-struct UnkCall {
-    void FUN_00c9c1d0();
 };
 
 class hkpMotionCA8A {
@@ -5219,9 +3302,9 @@ struct M4_Entity;
 struct M4_World
 {
     char unk00[0x84];
-    int m_iCriticalOperationsLockCount;
+    int m_criticalOperationsLockCount;
 
-    bool areCriticalOperationsLocked() const { return m_iCriticalOperationsLockCount != 0; }
+    bool areCriticalOperationsLocked() const { return m_criticalOperationsLockCount != 0; }
 };
 struct M4_Op
 {
@@ -5265,6 +3348,7 @@ struct M4_Entity
     void FUN_0090b500();
 };
 
+// pdb: hkpRigidBody::setLinearVelocityAsCriticalOperation | hkpRigidBody.obj | tesv_win, objrun_open, low
 void hkpEntityCA8A::FUN_00ca8a80(const hkVector3CA8A& v)
 {
     M4_Entity* self = (M4_Entity*)this;
@@ -5372,6 +3456,8 @@ namespace Native1483 {struct Owner {
  int unk7c;
  FUN_00ca94c0_Elem** elements;int count;
 };}
+// pdb: hkpPhantom::fireCollidableAdded | bhkAvoidBox.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: collidable
 int FUN_00ca94c0_Class::FUN_00ca94c0(unsigned int arg){
  Native1483::Owner*self=reinterpret_cast<Native1483::Owner*>(this);
  FUN_00ca94c0_Ctx ctx;ctx.self=this;ctx.arg=arg;ctx.result=0;
@@ -5381,9 +3467,6 @@ int FUN_00ca94c0_Class::FUN_00ca94c0(unsigned int arg){
 }
 
 
-struct Allocator9 { void* __thiscall FUN_00aa3e40(unsigned int size); };
-extern Allocator9 DAT_011f6238;
-extern "C" int DAT_010c5dc0;
 extern __declspec(thread) unsigned char threadContext9;
 struct Guard9 {
     int previous;
@@ -5397,33 +3480,6 @@ struct Guard9 {
         *flag = previous;
     }
 };
-struct Node9 { void* vtable; int value; int references; int previous; int next; };
-struct Class9 {
-    void* unk00; void* unk04; int callbackFlag; int* data;
-    void __thiscall CopyFromSource(Node9* node);
-    int* __thiscall GetOrCreateData(unsigned char* wasEmpty);
-};
-// @fnv 0x00caa5d0
-int* Class9::GetOrCreateData(unsigned char* wasEmpty) {
-    Guard9 guard;
-    *wasEmpty = (data == 0);
-    if (*wasEmpty) {
-        Node9* allocated = (Node9*)DAT_011f6238.FUN_00aa3e40(20);
-        int* nextData;
-        if (allocated) {
-            int* contents = &allocated->value;
-            allocated->references = 1;
-            allocated->previous = 0;
-            allocated->next = 0;
-            allocated->vtable = &DAT_010c5dc0;
-            *contents = 0;
-            nextData = contents;
-        } else nextData = 0;
-        data = nextData;
-        if (callbackFlag) CopyFromSource(data ? (Node9*)((char*)data - 4) : 0);
-    }
-    return data;
-}
 
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
@@ -5494,10 +3550,6 @@ inline void ByteSwapBlk(Blk40& blk)
     SwapEndianBlocks(&blk);
 }
 
-struct FUN_00d1df70 {
-    void removeReference();
-};
-
 struct Data_caa6a0 : Data_00caa840 {
     void SetReferencedObject(hkReferencedObject* obj);
 };
@@ -5520,6 +3572,8 @@ void __cdecl FUN_008fe580(void*);
 inline void SwapBlock1255(Blk40& b){unsigned long* u=(unsigned long*)&b;SwapDword(u[12]);SwapDword(u[13]);SwapDword(u[14]);SwapDword(u[15]);FUN_008fe580(&b);}
 inline void Release1255(hkReferencedObject* p){if(p->m_usMemSizeAndFlags){if(--p->m_sReferenceCount==0) delete p;}}
 // @fnv 0x00caa6a0
+// pdb: hkLimitedHingeConstraintCinfo::LoadBinary | bhkLimitedHingeConstraint.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arStream
 void FUN_00d53200_class::ReadFromStream(NiStream& stream)
 {
     reinterpret_cast<Base1255*>(this)->FUN_008fc580(stream);
@@ -5735,10 +3789,6 @@ struct MemoryScope {
  MemoryScope() {previous=threadData.unk2B4;threadData.unk2B4=16;}
  ~MemoryScope() {threadData.unk2B4=previous;}
 };
-struct Point3 { float x,y,z; char* FUN_00a59af0(const char*); };
-Point3& FUN_004a3970(Point3&,const hkVector4&);
-char* FUN_00a7d550(const char*,float);
-char* FUN_00a7d5e0(const char*,const char*);
 struct Strings {
  void* unk00; char** unk04;
  unsigned short unk08,unk0A,unk0C,unk0E;
@@ -5802,6 +3852,8 @@ char* __cdecl FUN_00847dd0(const char*,float);char* __cdecl FUN_00847e70(const c
 struct NativeStrings {void* table;char** data;unsigned short capacity,size,count,grow;void FUN_00555790(unsigned);void FUN_005b3880(unsigned,char*&);void Append(char* text){unsigned n=size;if(n>=capacity)FUN_00555790(n+grow);FUN_005b3880(n,text);}};
 }
 // @fnv 0x00caa960
+// pdb: hkLimitedHingeConstraintCinfo::GetViewerStrings | bhkLimitedHingeConstraint.obj | fnv360_0822_retail, ustr, medium
+// pdb params: apStrings
 void Owner::AppendConstraintToStrings(Strings* strings) {
 
  ((Task2015::NativeOwner*)this)->FUN_008fc920(strings);
@@ -5873,6 +3925,7 @@ public:
 
 // Initializes the object's m_20 field to 0.
 // @fnv 0x00cbfba0
+// pdb: hkpCollisionFilter::hkpCollisionFilter | hkpCollisionFilter.obj | fnv360_0822_retail, uvref, high
 FUN_00cbfba0::FUN_00cbfba0() throw()
     : m_20(0)
 {
@@ -5888,11 +3941,6 @@ __declspec(thread) Tls676 g_tls676;
 struct Elem676;
 struct Sub676 { char m_pad0000[0x14]; unsigned char m_14; };
 struct Elem676 { char m_pad0000[0xc]; Sub676* m_iThirdValue; void removeReference(); };
-
-struct Q676 {
-    void FUN_00c954e0(Elem676** arr, int count);
-    void FUN_00c92c70(Elem676* e);
-};
 
 struct GC676 { void* m_p; int m_unused; };
 
@@ -5990,10 +4038,6 @@ struct Guard676 {
     ~Guard676() { g_tls676.m_2b4 = m_saved; }
 };
 
-extern GC676* FUN_00c85ef0(GC676* out, Elem676* obj, void* rtti);
-extern void* FUN_00ec61c0(void* dst, int value, unsigned int size);
-extern unsigned char DAT_01267b70;
-
 // Caps the count at 200, then for each array element updates it via the v37 queue, calls g36, removes its reference, and finally zeroes the array and count.
 // @f3 0x008d5db0 (community match, verified in this file)
 // 0x008d5db0 -- This676::ClearIndexedValues, __thiscall, void.
@@ -6065,6 +4109,7 @@ struct Lookup676 {
 
 extern unsigned char DAT_010f2c30;
 
+// pdb: bhkWorld::AdjustForceAddCount | bhkWorld.obj | tesv_win, objopen_prop, low
 void This676::ClearIndexedValues()
 {
     ClearThis676* self = (ClearThis676*)this;
@@ -6077,7 +4122,7 @@ void This676::ClearIndexedValues()
         SystemWorld* world = ((Poly676*)this)->v38();
         if (world != 0)
         {
-            world->FUN_00c954e0((void**)self->m_aiIndexedValues, (int)self->m_uiItemCount);
+            world->hkpWorld_addPhantomBatch((void**)self->m_aiIndexedValues, (int)self->m_uiItemCount);
 
             for (unsigned int i = 0; i < self->m_uiItemCount; i++)
             {
@@ -6277,6 +4322,8 @@ struct EntFO3
     void FUN_009316e0();
 };
 
+// pdb: bhkWorld::Remove | bhkWorld.obj | fnv360_0822_retail, objrun_prop, low, conflict (skyrim: bhkWorld::SetMotionOnObjectIfNotFixed)
+// pdb params: apEntity
 bool WorldC68BF0::FUN_00c68bf0(EntityC68BF0* pkEntity)
 {
     WorldFO3* self = (WorldFO3*)this;
@@ -6313,20 +4360,6 @@ bool WorldC68BF0::FUN_00c68bf0(EntityC68BF0* pkEntity)
     return bResult;
 }
 
-
-struct FUN_00c91000_Class
-{
-    __m128 m_iWordAt00;
-    __m128 m_10;
-
-    void __thiscall FUN_00c91000(const __m128* value);
-};
-
-// @fnv 0x00c91000
-void FUN_00c91000_Class::FUN_00c91000(const __m128* value)
-{
-    m_10 = *value;
-}
 
 struct FUN_00c91620_Target;
 
@@ -6378,26 +4411,32 @@ struct FUN_00c91620_Class {
     unsigned char* ProcessTarget(unsigned char* result, FUN_00c91620_Target* target);
 };
 
-void __cdecl FUN_00cb5c10(FUN_00c91620_Class* self, FUN_00c91620_Target* target);
 void __cdecl FUN_00d005a0(FUN_00c91620_Class* self, FUN_00c91620_Target* target);
 void __cdecl FUN_00cffab0(FUN_00c91620_Target* target);
-void __cdecl FUN_00cb4740(FUN_00c91620_Class* self, FUN_00c91620_Target* target);
+void __cdecl hkpWorldOperationUtil_removeEntitySI(FUN_00c91620_Class* self, FUN_00c91620_Target* target);
 
 // If m_94 is nonzero, calls FUN_00c91160 with type 2 and writes 0 to *result; otherwise runs the helper calls on target and writes 1 to *result.
 // @f3 0x009037f0 (community match, verified in this file)
 extern unsigned long DAT_010f3170;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
+extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct FO3Target;
 struct FO3Args {
     unsigned char type;
     FO3Target* target;
 };
 
+class hkClass;
+class hkStatisticsCollector;
+// hkpEntity: the six slots of its Fallout 3 vtable (0x00e35ddc), named as the New Vegas Xbox 360 PDB names them.
 struct FO3Target {
-    virtual void vf00(); virtual void vf04(); virtual void vf08();
-    virtual void vf0c(); virtual void vf10(); virtual void vf14();
+    virtual ~FO3Target();
+    virtual const hkClass* getClassType() const;
+    virtual void calcContentStatistics(hkStatisticsCollector* collector, const hkClass* cls) const;
+    virtual int setShape(const void* shape);
+    virtual void* getMotionState();
+    virtual void deallocateInternalArrays();
 
-    unsigned short m_04;
+    unsigned short m_04;  // m_memSizeAndFlags
     void* m_08; void* m_0c; void* m_10; void* m_14;
     void* m_18; void* m_1c; void* m_20; void* m_24;
     void* m_28; void* m_2c;
@@ -6432,11 +4471,13 @@ struct FUN_008f6d90_Pool {
     void FUN_008f6d90(void* p, unsigned int size, int tag);
 };
 
-void __cdecl FUN_009282b0(FO3Cls* self, FO3Target* target);
-void __cdecl FUN_009886e0(FO3Cls* self, FO3Target* target);
+void __cdecl hkpWorldOperationUtil_removeEntityBP(FO3Cls* self, FO3Target* target);
+void __cdecl hkpWorldCallbackUtil_fireEntityRemoved(FO3Cls* self, FO3Target* target);
 void __cdecl FUN_00987de0(FO3Target* target);
 void __cdecl FUN_00927460(FO3Cls* self, FO3Target* target);
 
+// pdb: hkpWorld::removeEntity | hkpWorld.obj | fnv360_0822_retail, call_seq, high
+// pdb params: entity
 unsigned char* FUN_00c91620_Class::ProcessTarget(
     unsigned char* result, FUN_00c91620_Target* pTarget)
 {
@@ -6453,8 +4494,8 @@ unsigned char* FUN_00c91620_Class::ProcessTarget(
     }
 
     self->m_84 = 1;
-    FUN_009282b0(self, target);
-    FUN_009886e0(self, target);
+    hkpWorldOperationUtil_removeEntityBP(self, target);
+    hkpWorldCallbackUtil_fireEntityRemoved(self, target);
     FUN_00987de0(target);
     self->m_8d = 0;
     FUN_00927460(self, target);
@@ -6469,7 +4510,7 @@ unsigned char* FUN_00c91620_Class::ProcessTarget(
     }
 
     if (target->m_04 == 0) {
-        target->vf14();
+        target->deallocateInternalArrays();
     }
     target->FUN_009316f0();
 
@@ -6576,6 +4617,8 @@ struct World {
  int indexOf(void* const& t)const{for(int i=0;i<count;++i)if(data[i]==t)return i;return -1;}
 };
 }
+// pdb: hkpWorld::removeActionListener | hkpWorld.obj | fnv360_0822_retail, call_dedup, medium
+// pdb params: worldListener
 void hkWorldXc91700::FUN_00c91700(void* entry){
  Native1477::World*self=reinterpret_cast<Native1477::World*>(this);
  self->data[self->indexOf(entry)]=0;
@@ -6599,21 +4642,6 @@ public:
     }
 };
 
-class hkWorldC9175 {
-public:
-    int unk000[80];
-    hkArrayC9175<void*> m_entries;
-
-    void FUN_00c91750(void* entry);
-};
-
-// Sets the entry at the index found by indexOf to 0, clearing it from the m_entries array.
-// @fnv 0x00c91750
-void hkWorldC9175::FUN_00c91750(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
-
 template <class T>
 class hkArrayC917 {
 public:
@@ -6630,21 +4658,6 @@ public:
         return -1;
     }
 };
-
-class hkWorldC917 {
-public:
-    int unk000[74];
-    hkArrayC917<void*> m_entries;
-
-    void FUN_00c917a0(void* entry);
-};
-
-// Sets the m_entries slot at indexOf(entry) to null.
-// @fnv 0x00c917a0
-void hkWorldC917::FUN_00c917a0(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
 
 template <class T>
 class hkArrayC91F {
@@ -6663,21 +4676,6 @@ public:
     }
 };
 
-class hkWorldC91F {
-public:
-    int unk000[77];
-    hkArrayC91F<void*> m_entries;
-
-    void FUN_00c917f0(void* entry);
-};
-
-// Sets the array slot containing the given entry to null.
-// @fnv 0x00c917f0
-void hkWorldC91F::FUN_00c917f0(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
-
 template <class T>
 class hkArrayC918 {
 public:
@@ -6694,21 +4692,6 @@ public:
         return -1;
     }
 };
-
-class hkWorldC918 {
-public:
-    int unk000[95];
-    hkArrayC918<void*> m_entries;
-
-    void FUN_00c91890(void* entry);
-};
-
-// Sets the array slot at indexOf(entry) to 0, clearing the entry from m_entries.
-// @fnv 0x00c91890
-void hkWorldC918::FUN_00c91890(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
 
 template <class T>
 class hkArrayXc91930 {
@@ -6727,21 +4710,6 @@ public:
     }
 };
 
-class hkWorldXc91930 {
-public:
-    int unk000[92];
-    hkArrayXc91930<void*> m_entries;
-
-    void FUN_00c91930(void* entry);
-};
-
-// Sets the entry at the index found by indexOf to 0, clearing the slot in the m_entries array.
-// @fnv 0x00c91930
-void hkWorldXc91930::FUN_00c91930(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
-
 template <class T>
 class hkArrayXc91980 {
 public:
@@ -6758,21 +4726,6 @@ public:
         return -1;
     }
 };
-
-class hkWorldXc91980 {
-public:
-    int unk000[101];
-    hkArrayXc91980<void*> m_entries;
-
-    void FUN_00c91980(void* entry);
-};
-
-// Sets the entry at the index found by indexOf to 0, clearing it from the m_entries array.
-// @fnv 0x00c91980
-void hkWorldXc91980::FUN_00c91980(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
 
 template <class T>
 class hkArrayXc91a20 {
@@ -6791,21 +4744,6 @@ public:
     }
 };
 
-class hkWorldXc91a20 {
-public:
-    int unk000[104];
-    hkArrayXc91a20<void*> m_entries;
-
-    void FUN_00c91a20(void* entry);
-};
-
-// Sets the entry at the index found by indexOf to 0, clearing the slot in m_entries.
-// @fnv 0x00c91a20
-void hkWorldXc91a20::FUN_00c91a20(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
-
 template <class T>
 class hkArrayXc91a70 {
 public:
@@ -6823,21 +4761,6 @@ public:
     }
 };
 
-class hkWorldXc91a70 {
-public:
-    int unk000[83];
-    hkArrayXc91a70<void*> m_entries;
-
-    void FUN_00c91a70(void* entry);
-};
-
-// Sets the m_entries slot at indexOf(entry) to null.
-// @fnv 0x00c91a70
-void hkWorldXc91a70::FUN_00c91a70(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
-
 template <class T>
 class hkArrayXc91ac0 {
 public:
@@ -6854,21 +4777,6 @@ public:
         return -1;
     }
 };
-
-class hkWorldXc91ac0 {
-public:
-    int unk000[107];
-    hkArrayXc91ac0<void*> m_entries;
-
-    void FUN_00c91ac0(void* entry);
-};
-
-// Sets the entry at the index found by indexOf to null.
-// @fnv 0x00c91ac0
-void hkWorldXc91ac0::FUN_00c91ac0(void* entry)
-{
-    m_entries.m_data[m_entries.indexOf(entry)] = 0;
-}
 
 struct Allocator {
     virtual void v00();
@@ -6936,13 +4844,13 @@ struct JobBase {
 };
 
 __declspec(align(16)) struct Job : JobBase {
-    void* m_pCollisionInput;
+    void* m_collisionInput;
     int m_iFirstIndex;
     RayCastCommand* m_pCommands;
     int m_iCommandCount;
     int unk2C;
     int unk30;
-    void* m_pJobSemaphore;
+    void* m_broadPhase;
     int unk38;
     void* m_kdTreeUnk0C;
     void* m_kdTreeUnk10;
@@ -6954,12 +4862,12 @@ __declspec(align(16)) struct Job : JobBase {
         : JobBase(3, sizeof(Job))
     {
         m_pJobDoneHeader = jobHeader;
-        m_pCollisionInput = input;
+        m_collisionInput = input;
         m_pCompletionSemaphore = semaphore;
         m_iFirstIndex = sizeof(RayCastCommand);
         m_pCommands = commandArray;
         m_iCommandCount = numCommands;
-        m_pJobSemaphore = broadphase;
+        m_broadPhase = broadphase;
         m_pJobDoneHeader->m_iJobId = (numCommands == 0) ? 1 : (numCommands - 1) / 64 + 1;
         unk38 = 0;
         m_kdTreeUnk0C = 0;
@@ -6996,38 +4904,6 @@ struct KdTreeManager {
 struct hkpWorldHelper : hkpWorld {
     void ExecuteRayCastJobs(RayCastCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob);
 };
-
-// Splits the commands into jobs of numCommandsPerJob queued on jobQueue, runs the thread pool, then calls FUN_00d04380 on semaphore.
-// @fnv 0x00c92110
-void hkpWorldHelper::ExecuteRayCastJobs(RayCastCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob) {
-    ThreadStorage* ts = (ThreadStorage*)FUN_00c85750();
-    JobDoneHeader* jobHeader = (JobDoneHeader*)ts->m_pThreadAllocator->Allocate(sizeof(JobDoneHeader));
-
-    Job job(m_pCollisionInput, jobHeader, commandArray, numCommands, m_pJobSemaphore, semaphore);
-
-    if (m_pKdTreeManager && ((KdTreeManager*)m_pKdTreeManager)->isTreeActive()) {
-        KdTreeManager* kd = (KdTreeManager*)m_pKdTreeManager;
-        job.m_kdTreeUnk0C = kd->m_treeData0C;
-        job.m_kdTreeUnk10 = kd->m_treeData10;
-        job.m_pJobSemaphore = 0;
-    }
-
-    while (job.m_iCommandCount > 0) {
-        Job subJob = job;
-        subJob.m_iCommandCount = (job.m_iCommandCount < numCommandsPerJob) ? job.m_iCommandCount : numCommandsPerJob;
-        job.m_pCommands += numCommandsPerJob;
-        job.m_iCommandCount -= numCommandsPerJob;
-        jobQueue->AddObjectCopy(subJob, 1);
-    }
-
-    threadPool->processWork(jobQueue, 0xb);
-    threadPool->RunWorkerThread();
-
-    FUN_00d04380(semaphore);
-
-    ts = (ThreadStorage*)FUN_00c85750();
-    ts->m_pThreadAllocator->Deallocate(jobHeader, sizeof(JobDoneHeader));
-}
 
 namespace fnv_00c92290 {
 struct Allocator {
@@ -7085,7 +4961,7 @@ struct CollisionQueryJob {
     int unk0C;
     void* m_pCompletionSemaphore;
     JobDoneHeader* m_pJobDoneHeader;
-    CollisionInput* m_pCollisionInput;
+    CollisionInput* m_collisionInput;
     int unk1C;
 
     __forceinline CollisionQueryJob(unsigned char subType, unsigned short size)
@@ -7096,7 +4972,7 @@ struct CollisionQueryJob {
 };
 
 __declspec(align(16)) struct ClosestPointsJob : CollisionQueryJob {
-    void* m_pJobSemaphore;
+    void* m_broadPhase;
     void* m_kdTreeUnk0C;
     void* m_kdTreeUnk10;
     float m_fScalar;
@@ -7113,8 +4989,8 @@ __declspec(align(16)) struct ClosestPointsJob : CollisionQueryJob {
             commandArray[i].m_iResultCapacity = 0;
         }
         m_iCommandCount = numCommands;
-        m_pCollisionInput = input;
-        m_pJobSemaphore = broadphase;
+        m_collisionInput = input;
+        m_broadPhase = broadphase;
         m_fScalar = tolerance;
         m_pCompletionSemaphore = semaphore;
         m_pCommands = commandArray;
@@ -7156,51 +5032,13 @@ struct hkpWorldHelper : hkpWorld {
     void SubmitClosestPointsJobs(ClosestPointsCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob);
 };
 
-// Splits commandArray into ClosestPointsJob batches, queues them on jobQueue, runs threadPool, calls FUN_00d04380(semaphore), and frees the job header.
-// @fnv 0x00c92290
-void hkpWorldHelper::SubmitClosestPointsJobs(ClosestPointsCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob) {
-    ThreadStorage* ts = (ThreadStorage*)FUN_00c85750();
-    JobDoneHeader* jobHeader = (JobDoneHeader*)ts->m_pThreadAllocator->Allocate(sizeof(JobDoneHeader));
-
-    CollisionInput* input = (CollisionInput*)m_pCollisionInput;
-    ClosestPointsJob job(input, jobHeader, commandArray, numCommands, m_pJobSemaphore, input->m_fScalar, semaphore);
-    job.FUN_00d05de0();
-
-    if (m_pKdTreeManager && ((KdTreeManager*)m_pKdTreeManager)->isTreeActive()) {
-        KdTreeManager* kd = (KdTreeManager*)m_pKdTreeManager;
-        job.m_kdTreeUnk0C = kd->m_treeData0C;
-        job.m_kdTreeUnk10 = kd->m_treeData10;
-        job.m_pJobSemaphore = 0;
-    }
-
-    while (job.m_iCommandCount > 0) {
-        ClosestPointsJob subJob = job;
-        subJob.m_iCommandCount = (job.m_iCommandCount < numCommandsPerJob) ? job.m_iCommandCount : numCommandsPerJob;
-        job.m_pCommands += numCommandsPerJob;
-        job.m_iCommandCount -= numCommandsPerJob;
-        jobQueue->AddObjectCopy(subJob, 1);
-    }
-
-    threadPool->processWork(jobQueue, 0xb);
-    threadPool->RunWorkerThread();
-
-    FUN_00d04380(semaphore);
-
-    ts = (ThreadStorage*)FUN_00c85750();
-    ts->m_pThreadAllocator->Deallocate(jobHeader, sizeof(JobDoneHeader));
-}
 }  // namespace fnv_00c92290
 
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
 extern unsigned int DAT_0126835c;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
-extern const char str_010c64b8[];
+extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010c41f8[];
-extern void* DAT_010c6488;
-extern float DAT_0104da4c;
-struct TimerEntry { const char* name; unsigned int ticks; unsigned int unk08; };
-struct TimerBuffer { unsigned int unk00; TimerEntry* current; unsigned int unk08; TimerEntry* end; };
 struct __declspec(align(16)) LinearCaster {
     void* unk00;
     unsigned int unk04;
@@ -7237,12 +5075,6 @@ struct __declspec(align(16)) LinearCaster {
     float unk80;
     void FUN_00cfaed0(void*,void*,void*,void*,void*,int,int,void*,void*);
 };
-struct QueryTree {
-    virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0C();
-    virtual bool enabled();
-    virtual void slot14(); virtual void slot18(); virtual void slot1C();
-    virtual void cast(void*,void*,void*,void*,int,void*,void*);
-};
 struct CollisionInput {
     unsigned int unk00;
     unsigned int unk04;
@@ -7274,40 +5106,6 @@ struct CollisionInput {
     unsigned int unk6C;
     int unk70;
 };
-struct WorldQuery : hkpWorld { void FUN_00c92430(void*,void*,void*,void*); };
-// Records a timer, then performs a collision cast via the KD-tree manager if enabled, otherwise via a linear caster, and records a second timer.
-// @fnv 0x00c92430
-void WorldQuery::FUN_00c92430(void* a,void* b,void* c,void* d) {
-    TimerBuffer* timer = (TimerBuffer*)TlsGetValue(DAT_0126835c);
-    TimerEntry* entry = timer->current;
-    if (entry < timer->end) {
-        entry->name = str_010c64b8;
-        _ReadWriteBarrier();
-        volatile unsigned int ticks = (unsigned int)__rdtsc();
-        entry->ticks = ticks;
-        timer->current = entry + 1;
-    }
-    if (m_pKdTreeManager && ((QueryTree*)m_pKdTreeManager)->enabled()) {
-        void* filter = m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : 0;
-        CollisionInput* input = (CollisionInput*)m_pCollisionInput;
-        ((QueryTree*)m_pKdTreeManager)->cast(a,b,filter,input,input->unk70,c,d);
-    } else {
-        LinearCaster caster;
-        caster.unk80 = DAT_0104da4c;
-        caster.unk00 = &DAT_010c6488;
-        caster.unk24 = 0;
-        caster.FUN_00cfaed0(m_pJobSemaphore,a,b,m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : 0,m_pCollisionInput,((CollisionInput*)m_pCollisionInput)->unk70,0,c,d);
-    }
-    timer = (TimerBuffer*)TlsGetValue(DAT_0126835c);
-    entry = timer->current;
-    if (entry < timer->end) {
-        entry->name = str_010c41f8;
-        _ReadWriteBarrier();
-        volatile unsigned int ticks = (unsigned int)__rdtsc();
-        entry->ticks = ticks;
-        timer->current = entry + 1;
-    }
-}
 
 namespace fnv_00c92540 {
 struct Allocator {
@@ -7361,7 +5159,7 @@ struct JobBase {
     int unk0C;
     void* m_pCompletionSemaphore;
     JobDoneHeader* m_pJobDoneHeader;
-    void* m_pCollisionInput;
+    void* m_collisionInput;
     int unk1C;
 
     __forceinline JobBase(unsigned char subType, unsigned short size)
@@ -7375,7 +5173,7 @@ __declspec(align(16)) struct Job : JobBase {
     int m_maxNumResults;
     LinearCastCommand* m_pCommands;
     int m_iCommandCount;
-    void* m_pJobSemaphore;
+    void* m_broadPhase;
     int unk30;
     void* m_kdTreeUnk0C;
     void* m_kdTreeUnk10;
@@ -7385,12 +5183,12 @@ __declspec(align(16)) struct Job : JobBase {
         : JobBase(2, sizeof(Job))
     {
         m_pJobDoneHeader = jobHeader;
-        m_pCollisionInput = input;
+        m_collisionInput = input;
         m_maxNumResults = 0x40;
         m_pCompletionSemaphore = semaphore;
         m_pCommands = commandArray;
         m_iCommandCount = numCommands;
-        m_pJobSemaphore = broadphase;
+        m_broadPhase = broadphase;
         jobHeader->m_iJobId = (numCommands - 1) / 64 + 1;
         unk30 = 0;
         m_kdTreeUnk0C = 0;
@@ -7426,38 +5224,6 @@ struct hkpWorldHelper : hkpWorld {
     void ExecuteLinearCastCommands(LinearCastCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob);
 };
 
-// Splits the commands into jobs of numCommandsPerJob queued on jobQueue, runs the thread pool, then calls FUN_00d04380 on semaphore.
-// @fnv 0x00c92540
-void hkpWorldHelper::ExecuteLinearCastCommands(LinearCastCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob) {
-    ThreadStorage* ts = (ThreadStorage*)FUN_00c85750();
-    JobDoneHeader* jobHeader = (JobDoneHeader*)ts->m_pThreadAllocator->Allocate(sizeof(JobDoneHeader));
-
-    Job job(m_pCollisionInput, jobHeader, commandArray, numCommands, m_pJobSemaphore, semaphore);
-
-    if (m_pKdTreeManager && ((KdTreeManager*)m_pKdTreeManager)->isTreeActive()) {
-        KdTreeManager* kd = (KdTreeManager*)m_pKdTreeManager;
-        job.m_pJobSemaphore = 0;
-        job.m_kdTreeUnk0C = kd->m_treeData0C;
-        job.m_kdTreeUnk10 = kd->m_treeData10;
-    }
-    job.m_kHeader.m_executionFlags = 1;
-
-    while (job.m_iCommandCount > 0) {
-        Job subJob = job;
-        subJob.m_iCommandCount = (job.m_iCommandCount < numCommandsPerJob) ? job.m_iCommandCount : numCommandsPerJob;
-        job.m_pCommands += numCommandsPerJob;
-        job.m_iCommandCount -= numCommandsPerJob;
-        jobQueue->AddObjectCopy(subJob, 1);
-    }
-
-    threadPool->processWork(jobQueue, 0xb);
-    threadPool->RunWorkerThread();
-
-    FUN_00d04380(semaphore);
-
-    ts = (ThreadStorage*)FUN_00c85750();
-    ts->m_pThreadAllocator->Deallocate(jobHeader, sizeof(JobDoneHeader));
-}
 }  // namespace fnv_00c92540
 
 extern "C" void __cdecl FUN_00c927f0(void* object, void* value);
@@ -7466,6 +5232,7 @@ struct zzVal_c92860 { void* v; };
 
 // Calls FUN_00c927f0 on each owner in m_owners1 and m_owners2 with the given value.
 // @fnv 0x00c92860
+// pdb: enumerateAllConstraintsInWorld | hkpWorld.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: enumerateAllPhantomsInWorld)
 static __declspec(noinline) void InvokeOnAllOwners(FUN_00c928c0_Context* ctx, zzVal_c92860 value)
 {
     void* v = value.v;
@@ -7494,7 +5261,7 @@ void zz_call_c92860(void)
     InvokeOnAllOwners(zz_ctx_c92860, s);
 }
 
-void __cdecl FUN_00d06cb0(void* apvArray, int iSizeElem);
+void __cdecl hkSmallArrayUtil__reserveMore(void* apvArray, int iSizeElem);
 
 class EntityC92B;
 
@@ -7525,35 +5292,37 @@ struct hkSmallArrayC92B {
     void AddBack(const T& e)
     {
         if (m_iElementCount == getCapacity())
-            FUN_00d06cb0(this, sizeof(T));
+            hkSmallArrayUtil__reserveMore(this, sizeof(T));
         m_data[m_iElementCount++] = e;
     }
 };
 
+// hkpEntity, at its Fallout 3 offsets (New Vegas Xbox 360 PDB names): the island, the motion's type and the actions.
 class WorldC92B {
 public:
-    int unk00[0xcc / 4];
-    IslandC92B* m_pFixedIsland;
-    int unkD0[(0xe8 - 0xd0) / 4];
-    unsigned char m_iMaxEntriesPerNarrowphaseToiTask;
-    unsigned char unkE9[0x208 - 0xe9];
-    hkSmallArrayC92B<EntityC92B*> m_kActorEntries;
+    int unk00[0xb8 / 4];
+    IslandC92B* m_simulationIsland;                // +0xB8
+    int unkBC[(0xd8 - 0xbc) / 4];
+    unsigned char m_motionType;                    // +0xD8 m_motion.m_type
+    unsigned char unkD9[0x1f8 - 0xd9];
+    hkSmallArrayC92B<EntityC92B*> m_actions;       // +0x1F8
 };
 
 class ListenerC92B {
 public:
-    void FUN_00c92bd0(EntityC92B* pkEntity, WorldC92B* pkWorld);
+    void hkpWorld_attachActionToEntity(EntityC92B* pkEntity, WorldC92B* pkWorld);
 };
 
-void __cdecl FUN_00cb5570(ListenerC92B* pkThis, WorldC92B* pkWorld, int* pkCurrentObject);
+void __cdecl hkpWorldOperationUtil_mergeIslands(ListenerC92B* pkThis, WorldC92B* pkWorld, int* pkCurrentObject);
 
-// Appends pkEntity to m_kActorEntries; moves it to the fixed island if its island's storage index is 0xffff, else calls FUN_00cb5570 if islands differ.
+// Appends the action to the entity's m_actions; moves it to the fixed island if its island's storage index is 0xffff, else calls hkpWorldOperationUtil_mergeIslands if islands differ.
 // @f3 0x009038e0 (community match, verified in this file)
 void __cdecl FUN_0098a9f0(void* array, int elementSize);
 
-void ListenerC92B::FUN_00c92bd0(EntityC92B* pkEntity, WorldC92B* pkWorld)
+// pdb: hkpWorld::attachActionToEntity | hkpWorld.obj | fnv360_0822_retail, caller_sim + bridge(caller_sim|caller_sim) + skyrim(caller_sim), high
+void ListenerC92B::hkpWorld_attachActionToEntity(EntityC92B* pkEntity, WorldC92B* pkWorld)
 {
-    hkSmallArrayC92B<EntityC92B*>* pkEntries = (hkSmallArrayC92B<EntityC92B*>*)((char*)pkWorld + 0x1f8);
+    hkSmallArrayC92B<EntityC92B*>* pkEntries = &pkWorld->m_actions;
     unsigned short usCapacity = (unsigned short)(pkEntries->m_iCapacityState & 0x3fff);
     if (pkEntries->m_iElementCount == usCapacity)
         FUN_0098a9f0(pkEntries, sizeof(EntityC92B*));
@@ -7562,18 +5331,18 @@ void ListenerC92B::FUN_00c92bd0(EntityC92B* pkEntity, WorldC92B* pkWorld)
     IslandC92B* pkIsland = pkEntity->m_pSimulationIsland;
     if (pkIsland->m_usStorageIndex == 0xffff)
     {
-        if (*((unsigned char*)pkWorld + 0xd8) != 7)
+                if (pkWorld->m_motionType != 7)
         {
             pkIsland->RemoveEntry(pkEntity);
-            (*(IslandC92B**)((char*)pkWorld + 0xb8))->AddItem(pkEntity);
+            pkWorld->m_simulationIsland->AddItem(pkEntity);
             return;
         }
     }
-    if (*(IslandC92B**)((char*)pkWorld + 0xb8) == pkIsland)
+        if (pkWorld->m_simulationIsland == pkIsland)
         return;
-    if (*((unsigned char*)pkWorld + 0xd8) == 7)
+    if (pkWorld->m_motionType == 7)
         return;
-    FUN_00cb5570(this, pkWorld, *pkIsland->m_pEntities);
+    hkpWorldOperationUtil_mergeIslands(this, pkWorld, *pkIsland->m_pEntities);
 }
 
 
@@ -7634,7 +5403,6 @@ public:
 
 class WorldC92C;
 void __cdecl FUN_00d00820(WorldC92C* pkWorld, ActionC92C* pkAction);
-void __cdecl FUN_00cb5d00(WorldC92C* pkWorld, ActionC92C* pkAction);
 
 struct RemoveActionOpC92C {
     unsigned char m_type;
@@ -7646,14 +5414,14 @@ public:
     int unk000, unk004, unk008, unk00C, unk010, unk014, unk018, unk01C, unk020, unk024, unk028, unk02C;
     int unk030, unk034, unk038, unk03C, unk040, unk044, unk048, unk04C, unk050, unk054, unk058, unk05C;
     int unk060, unk064, unk068, unk06C, unk070, unk074, unk078, unk07C, unk080, unk084, unk088;
-    int m_iPendingOperationCount;
+    int m_pendingOperationsCount;
     int m_iQueuedOperationCount;
-    int m_iCriticalOperationsLockCount;
-    int m_iCriticalOperationsLockCountForPhantoms;
-    bool m_bBlockExecutingPendingOperations;
+    int m_criticalOperationsLockCount;
+    int m_criticalOperationsLockCountForPhantoms;
+    bool m_blockExecutingPendingOperations;
     char unk09D[3];
     int unkA0;
-    int m_iPendingOperationQueueCount;
+    int m_pendingOperationQueueCount;
     int unk0A8, unk0AC, unk0B0, unk0B4, unk0B8, unk0BC, unk0C0, unk0C4, unk0C8, unk0CC, unk0D0, unk0D4;
     int unk0D8, unk0DC, unk0E0, unk0E4, unk0E8, unk0EC, unk0F0, unk0F4, unk0F8, unk0FC, unk100, unk104;
     int unk108, unk10C;
@@ -7661,15 +5429,15 @@ public:
 
     bool areCriticalOperationsLocked() const
     {
-        return m_iCriticalOperationsLockCount + m_iCriticalOperationsLockCountForPhantoms != 0;
+        return m_criticalOperationsLockCount + m_criticalOperationsLockCountForPhantoms != 0;
     }
-    void lockCriticalOperations() { m_iCriticalOperationsLockCount++; }
+    void lockCriticalOperations() { m_criticalOperationsLockCount++; }
     void unlockCriticalOperations()
     {
-        if (--m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations) {
-            if (m_iPendingOperationCount)
+        if (--m_criticalOperationsLockCount == 0 && !m_blockExecutingPendingOperations) {
+            if (m_pendingOperationsCount)
                 FUN_00c91120();
-            if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
+            if (m_pendingOperationQueueCount == 1 && m_iQueuedOperationCount)
                 FUN_00c91140();
         }
     }
@@ -7706,7 +5474,7 @@ struct WorldOps92C {
     void FUN_00902550();
 };
 extern "C" void __cdecl FUN_008888f0(WorldView92C* pkWorld, ActionC92C* pkAction);
-extern "C" void __cdecl FUN_009283d0(WorldView92C* pkWorld, ActionC92C* pkAction);
+extern "C" void __cdecl hkpWorldOperationUtil_removePhantomBP(WorldView92C* pkWorld, ActionC92C* pkAction);
 template <class T>
 struct hkArray92C {
     T* m_data;
@@ -7728,28 +5496,29 @@ struct WorldView92C {
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
-    int m_iPendingOperationCount;
-    int m_iCriticalOperationsLockCount;
-    int m_iCriticalOperationsLockCountForPhantoms;
-    char m_bBlockExecutingPendingOperations;
+    int m_pendingOperationsCount;
+    int m_criticalOperationsLockCount;
+    int m_criticalOperationsLockCountForPhantoms;
+    char m_blockExecutingPendingOperations;
     char unk8D[0xE4 - 0x8D];
     hkArray92C<ActionC92C*> m_ppActions;
 };
 
+// pdb: hkpWorld::removeAll | hkpWorld.obj | fnv360_0822_retail, call_dedup, low, conflict (skyrim: hkpWorld::removePhantom)
 void WorldC92C::FUN_00c92c70(ActionC92C* pkAction)
 {
     WorldView92C* pkWorld = (WorldView92C*)this;
-    if (pkWorld->m_iCriticalOperationsLockCount + pkWorld->m_iCriticalOperationsLockCountForPhantoms != 0) {
+    if (pkWorld->m_criticalOperationsLockCount + pkWorld->m_criticalOperationsLockCountForPhantoms != 0) {
         RemoveActionOpC92C kOp;
         kOp.m_type = 0xe;
         kOp.m_pAction = pkAction;
         ((WorldOps92C*)this)->FUN_00902570(kOp);
         return;
     }
-    pkWorld->m_iCriticalOperationsLockCount++;
+    pkWorld->m_criticalOperationsLockCount++;
     FUN_008888f0(pkWorld, pkAction);
     ((ActionOps92C*)pkAction)->FUN_00989820();
-    FUN_009283d0(pkWorld, pkAction);
+    hkpWorldOperationUtil_removePhantomBP(pkWorld, pkAction);
     int iIndex = pkWorld->m_ppActions.indexOf(pkAction);
     pkWorld->m_ppActions.m_iElementCount--;
     pkWorld->m_ppActions.m_data[iIndex] = pkWorld->m_ppActions.m_data[pkWorld->m_ppActions.m_iElementCount];
@@ -7757,8 +5526,8 @@ void WorldC92C::FUN_00c92c70(ActionC92C* pkAction)
     if (pkAction->m_usMemSizeAndFlags == 0)
         ((ActionVt92C*)pkAction)->v30();
     ((ActionOps92C*)pkAction)->FUN_009316f0();
-    if (--pkWorld->m_iCriticalOperationsLockCount == 0 && !pkWorld->m_bBlockExecutingPendingOperations) {
-        if (pkWorld->m_iPendingOperationCount)
+    if (--pkWorld->m_criticalOperationsLockCount == 0 && !pkWorld->m_blockExecutingPendingOperations) {
+        if (pkWorld->m_pendingOperationsCount)
             ((WorldOps92C*)this)->FUN_00902550();
     }
 }
@@ -7805,20 +5574,6 @@ public:
         m_iElementCount++;
     }
 };
-
-class hkOwnerXc937a0 {
-public:
-    int unk00[71];
-    hkArrayXc937a0<void*> m_kNode;
-
-    void FUN_00c937a0(void* item);
-};
-
-// @fnv 0x00c937a0
-void hkOwnerXc937a0::FUN_00c937a0(void* item)
-{
-    m_kNode.AddBack(item);
-}
 
 class hkMemoryAllocatorC93 {
 public:
@@ -8261,86 +6016,86 @@ public:
     void FUN_00c93580() throw();
     hkBoolC93 IsEntityAdded(void* pkEntity) throw();
 
-    hkReferencedObjectC93* m_pSimulation;
+    hkReferencedObjectC93* m_simulation;
     unsigned int unk0c;
     float m_gravityX;
     float m_gravityY;
     float m_gravityZ;
     float m_gravityW;
-    WorldDeletableC93* m_pFixedIsland;
-    void* m_pFixedRigidBody;
-    hkArrayC93<void*> m_kActiveSimulationIslands;
-    hkArrayC93<void*> m_kInactiveSimulationIslands;
-    hkArrayC93<void*> m_kDirtySimulationIslands;
-    hkReferencedObjectC93* m_pMaintenanceManager;
-    hkRefPtrC93<hkReferencedObjectC93> m_pMemoryWatchDog;
+    WorldDeletableC93* m_fixedIsland;
+    void* m_fixedRigidBody;
+    hkArrayC93<void*> m_activeSimulationIslands;
+    hkArrayC93<void*> m_inactiveSimulationIslands;
+    hkArrayC93<void*> m_dirtySimulationIslands;
+    hkReferencedObjectC93* m_maintenanceMgr;
+    hkRefPtrC93<hkReferencedObjectC93> m_memoryWatchDog;
     bool m_bAssertOnRunningOutOfSolverMemory;
-    hkReferencedObjectC93* m_pJobSemaphore;
+    hkReferencedObjectC93* m_broadPhase;
     hkReferencedObjectC93* m_pKdTreeManager;
     bool m_bUseKdTree;
-    BroadPhaseDispatcherC93* m_pBroadPhaseDispatcher;
-    WorldDeletableC93* m_pPhantomBroadPhaseListener;
-    WorldDeletableC93* m_pEntityEntityBroadPhaseListener;
-    WorldDeletableC93* m_pBroadPhaseBorderListener;
-    MtSimulationJobDataC93* m_pMultithreadedSimulationJobData;
-    ProcessCollisionInputC93* m_pCollisionInput;
-    hkReferencedObjectC93* m_pCollisionFilter;
-    hkReferencedObjectC93* m_pDispatcher;
-    hkReferencedObjectC93* m_pConvexListCollisionFilter;
-    WorldOperationQueueC93* m_pPendingOperations;
-    int m_iPendingOperationCount;
+    BroadPhaseDispatcherC93* m_broadPhaseDispatcher;
+    WorldDeletableC93* m_phantomBroadPhaseListener;
+    WorldDeletableC93* m_entityEntityBroadPhaseListener;
+    WorldDeletableC93* m_broadPhaseBorderListener;
+    MtSimulationJobDataC93* m_multithreadedSimulationJobData;
+    ProcessCollisionInputC93* m_collisionInput;
+    hkReferencedObjectC93* m_collisionFilter;
+    hkReferencedObjectC93* m_collisionDispatcher;
+    hkReferencedObjectC93* m_convexListFilter;
+    WorldOperationQueueC93* m_pendingOperations;
+    int m_pendingOperationsCount;
     int m_iQueuedOperationCount;
-    int m_iCriticalOperationsLockCount;
-    int m_iCriticalOperationsLockCountForPhantoms;
-    bool m_bBlockExecutingPendingOperations;
-    bool m_bBlockExecutingPendingOperationQueues;
-    void* m_pPendingOperationQueues;
-    int m_iPendingOperationQueueCount;
+    int m_criticalOperationsLockCount;
+    int m_criticalOperationsLockCountForPhantoms;
+    bool m_blockExecutingPendingOperations;
+    bool m_criticalOperationsAllowed;
+    void* m_pendingOperationQueues;
+    int m_pendingOperationQueueCount;
     unsigned int m_multiThreadCheckThreadId;
     unsigned int m_multiThreadCheckMarks;
-    bool m_bProcessActionsInSingleThread;
+    bool m_processActionsInSingleThread;
     bool m_bAllowUnconstrainedIslandJob;
-    unsigned int m_uiMinDesiredIslandSize;
-    CriticalSectionC93* m_pModifyConstraintCriticalSection;
-    int m_iIsLocked;
-    CriticalSectionC93* m_pIslandDirtyListCriticalSection;
-    CriticalSectionC93* m_pPropertyMasterLock;
-    bool m_bWantSimulationIslands;
-    float m_fSnapCollisionToConvexEdgeThreshold;
-    float m_fSnapCollisionToConcaveEdgeThreshold;
-    bool m_bEnableToiWeldRejection;
-    bool m_bWantDeactivation;
-    bool m_bActivateOnBodyTransformChange;
-    float m_fDeactivationReferenceDistance;
-    float m_fToiCollisionResponseRotateNormal;
+    unsigned int m_minDesiredIslandSize;
+    CriticalSectionC93* m_modifyConstraintCriticalSection;
+    int m_isLocked;
+    CriticalSectionC93* m_islandDirtyListCriticalSection;
+    CriticalSectionC93* m_propertyMasterLock;
+    bool m_wantSimulationIslands;
+    float m_snapCollisionToConvexEdgeThreshold;
+    float m_snapCollisionToConcaveEdgeThreshold;
+    bool m_enableToiWeldRejection;
+    bool m_wantDeactivation;
+    bool m_shouldActivateOnRigidBodyTransformChange;
+    float m_deactivationReferenceDistance;
+    float m_toiCollisionResponseRotateNormal;
     int m_iMaxSectorsPerMidphaseTask;
-    bool m_bProcessToisMultithreaded;
-    int m_iMaxSectorsPerNarrowphaseTask;
-    int m_iMaxEntriesPerMidphaseToiTask;
-    int m_iMaxEntriesPerNarrowphaseToiTask;
+    bool m_processToisMultithreaded;
+    int m_maxEntriesPerToiCollideTask;
+    int m_maxNumToiCollisionPairsSinglethreaded;
+    int m_simulationType;
     float m_fSimplifiedToiPenetrationThreshold;
     float m_fToiPenetrationThreshold;
     float m_fHigherToiPenetrationThreshold;
     float m_fForcedToiPenetrationThreshold;
     unsigned int m_uiLastEntityUid;
     unsigned int m_uiLastIslandUid;
-    unsigned int m_uiLastConstraintUid;
-    hkArrayC93<void*> m_kPhantoms;
-    hkArrayC93<void*> m_kActionListeners;
-    hkArrayC93<void*> m_kEntityListenerArray;
-    hkArrayC93<void*> m_kPhantomListeners;
-    hkArrayC93<void*> m_kConstraintListeners;
-    hkArrayC93<void*> m_kWorldDeletionListeners;
-    hkArrayC93<void*> m_kIslandActivationListeners;
-    hkArrayC93<void*> m_kWorldPostSimulationListeners;
-    hkArrayC93<void*> m_kWorldPostIntegrateListeners;
-    hkArrayC93<void*> m_kWorldPostCollideListeners;
-    hkArrayC93<void*> m_kIslandPostIntegrateListeners;
-    hkArrayC93<void*> m_kIslandPostCollideListeners;
-    hkArrayC93<void*> m_kContactListeners;
-    hkArrayC93<void*> m_kContactImpulseLimitBreachedListeners;
+    unsigned int m_lastConstraintUid;
+    hkArrayC93<void*> m_phantoms;
+    hkArrayC93<void*> m_actionListeners;
+    hkArrayC93<void*> m_entityListeners;
+    hkArrayC93<void*> m_phantomListeners;
+    hkArrayC93<void*> m_constraintListeners;
+    hkArrayC93<void*> m_worldDeletionListeners;
+    hkArrayC93<void*> m_islandActivationListeners;
+    hkArrayC93<void*> m_worldPostSimulationListeners;
+    hkArrayC93<void*> m_worldPostIntegrateListeners;
+    hkArrayC93<void*> m_worldPostCollideListeners;
+    hkArrayC93<void*> m_islandPostIntegrateListeners;
+    hkArrayC93<void*> m_islandPostCollideListeners;
+    hkArrayC93<void*> m_contactListeners;
+    hkArrayC93<void*> m_contactImpulseLimitBreachedListeners;
     ViolatedConstraintArrayC93* m_pViolatedConstraintArray;
-    hkReferencedObjectC93* m_pBroadPhaseBorder;
+    hkReferencedObjectC93* m_broadPhaseBorder;
 };
 
 void __cdecl ClearSlotReference(FUN_00c93e50* pkWorld, WorldDeletableC93* pkIsland) throw();
@@ -8350,59 +6105,59 @@ void __cdecl FUN_00d00e80(FUN_00c93e50* pkWorld) throw();
 // @fnv 0x00c93e50
 FUN_00c93e50::~FUN_00c93e50() throw()
 {
-    delete m_pMultithreadedSimulationJobData;
+    delete m_multithreadedSimulationJobData;
 
-    m_pMaintenanceManager->removeReference();
-    m_pMaintenanceManager = 0;
+    m_maintenanceMgr->removeReference();
+    m_maintenanceMgr = 0;
 
-    if (m_pModifyConstraintCriticalSection) {
-        delete m_pModifyConstraintCriticalSection;
-        m_pModifyConstraintCriticalSection = 0;
+    if (m_modifyConstraintCriticalSection) {
+        delete m_modifyConstraintCriticalSection;
+        m_modifyConstraintCriticalSection = 0;
     }
-    if (m_pPropertyMasterLock) {
-        delete m_pPropertyMasterLock;
-        m_pPropertyMasterLock = 0;
+    if (m_propertyMasterLock) {
+        delete m_propertyMasterLock;
+        m_propertyMasterLock = 0;
     }
-    if (m_pIslandDirtyListCriticalSection) {
-        delete m_pIslandDirtyListCriticalSection;
-        m_pIslandDirtyListCriticalSection = 0;
+    if (m_islandDirtyListCriticalSection) {
+        delete m_islandDirtyListCriticalSection;
+        m_islandDirtyListCriticalSection = 0;
     }
 
-    m_pMemoryWatchDog = 0;
+    m_memoryWatchDog = 0;
 
     FUN_00c93580();
 
-    IsEntityAdded(m_pFixedRigidBody);
-    m_pFixedRigidBody = 0;
+    IsEntityAdded(m_fixedRigidBody);
+    m_fixedRigidBody = 0;
 
-    ClearSlotReference(this, m_pFixedIsland);
-    delete m_pFixedIsland;
-    m_pFixedIsland = 0;
+    ClearSlotReference(this, m_fixedIsland);
+    delete m_fixedIsland;
+    m_fixedIsland = 0;
 
     FUN_00d00e80(this);
 
-    m_pJobSemaphore->removeReference();
-    m_pJobSemaphore = 0;
-    m_pDispatcher->removeReference();
-    m_pDispatcher = 0;
+    m_broadPhase->removeReference();
+    m_broadPhase = 0;
+    m_collisionDispatcher->removeReference();
+    m_collisionDispatcher = 0;
 
-    delete m_pBroadPhaseDispatcher;
+    delete m_broadPhaseDispatcher;
 
-    if (m_pBroadPhaseBorder) m_pBroadPhaseBorder->removeReference();
+    if (m_broadPhaseBorder) m_broadPhaseBorder->removeReference();
 
-    delete m_pPhantomBroadPhaseListener;
-    delete m_pEntityEntityBroadPhaseListener;
-    delete m_pBroadPhaseBorderListener;
+    delete m_phantomBroadPhaseListener;
+    delete m_entityEntityBroadPhaseListener;
+    delete m_broadPhaseBorderListener;
 
-    m_pCollisionFilter->removeReference();
-    m_pConvexListCollisionFilter->removeReference();
+    m_collisionFilter->removeReference();
+    m_convexListFilter->removeReference();
 
-    delete m_pCollisionInput->m_pConfiguration;
-    delete m_pCollisionInput;
+    delete m_collisionInput->m_pConfiguration;
+    delete m_collisionInput;
 
-    m_pSimulation->removeReference();
+    m_simulation->removeReference();
 
-    delete m_pPendingOperations;
+    delete m_pendingOperations;
 
     if (m_pKdTreeManager) m_pKdTreeManager->removeReference();
 
@@ -8657,15 +6412,15 @@ struct hkpWorldCallbackUtilC97 {
 
 class hkpWorldC97 {
 public:
-    bool areCriticalOperationsLocked() const { return m_iCriticalOperationsLockCount != 0; }
-    void lockCriticalOperations() { m_iCriticalOperationsLockCount++; }
-    void unlockCriticalOperations() { m_iCriticalOperationsLockCount--; }
+    bool areCriticalOperationsLocked() const { return m_criticalOperationsLockCount != 0; }
+    void lockCriticalOperations() { m_criticalOperationsLockCount++; }
+    void unlockCriticalOperations() { m_criticalOperationsLockCount--; }
     __forceinline void attemptToExecutePendingOperations()
     {
-        if (m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations) {
-            if (m_iPendingOperationCount)
+        if (m_criticalOperationsLockCount == 0 && !m_blockExecutingPendingOperations) {
+            if (m_pendingOperationsCount)
                 ExecutePendingOperations();
-            if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
+            if (m_pendingOperationQueueCount == 1 && m_iQueuedOperationCount)
                 ExecutePendingOperationQueues();
         }
     }
@@ -8714,14 +6469,14 @@ public:
     unsigned int unk80;
     unsigned int unk84;
     unsigned int unk88;
-    int m_iPendingOperationCount;
+    int m_pendingOperationsCount;
     int m_iQueuedOperationCount;
-    int m_iCriticalOperationsLockCount;
-    int m_iCriticalOperationsLockCountForPhantoms;
-    bool m_bBlockExecutingPendingOperations;
-    bool m_bBlockExecutingPendingOperationQueues;
-    void* m_pPendingOperationQueues;
-    int m_iPendingOperationQueueCount;
+    int m_criticalOperationsLockCount;
+    int m_criticalOperationsLockCountForPhantoms;
+    bool m_blockExecutingPendingOperations;
+    bool m_criticalOperationsAllowed;
+    void* m_pendingOperationQueues;
+    int m_pendingOperationQueueCount;
 };
 
 // @f3 0x00907120 (community match, verified in this file)
@@ -8762,6 +6517,8 @@ struct LocalEntity {
     hkpSimulationIslandC97* GetSimulationIsland() const { return m_pSimulationIsland; }
 };
 
+// pdb: hkpWorld::addAction | hkpWorld.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: action
 hkpActionC97* hkpWorldC97::FUN_00c97370(hkpActionC97* pkAction) throw()
 {
     if (this->unk84 != 0) {
@@ -8799,7 +6556,7 @@ hkpActionC97* hkpWorldC97::FUN_00c97370(hkpActionC97* pkAction) throw()
         ((LocalEntity*)kEntities[0])->GetSimulationIsland()->RegisterAction(pkAction);
     }
 
-    if (--this->unk84 == 0 && !*(unsigned char*)&this->m_iPendingOperationCount && this->unk80) {
+    if (--this->unk84 == 0 && !*(unsigned char*)&this->m_pendingOperationsCount && this->unk80) {
         ExecutePendingOperations();
     }
 
@@ -8873,6 +6630,8 @@ struct hkThreadMemoryAlloc {
 };
 }
 
+// pdb: hkpWorld::createAndAddConstraintInstance | hkpWorld.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: bodyA, bodyB, constraintData
 FUN_00cf3ea0* FUN_00c97e30_C::Create(void* a1, void* a2, InfoC97E* a3)
 {
     f3m_009083a0::hkThreadMemoryAlloc* mem = (f3m_009083a0::hkThreadMemoryAlloc*)TlsGetValue(DAT_010f3170);
@@ -8921,47 +6680,16 @@ struct C97E80CleanupShell {
     void __thiscall FUN_00c91120();
     void __thiscall FUN_00c91140();
 };
-void __cdecl FUN_00cb3dd0(hkpWorld* world, C97E80Action* action, int flags);
+void __cdecl hkpWorldOperationUtil_removeConstraintImmediately(hkpWorld* world, C97E80Action* action, int flags);
 struct C97E80Return { bool m_iResultCode; };
 struct C97E80World : hkpWorld {
     C97E80Return __thiscall FUN_00c97e80(C97E80Action* action);
 };
-// If m_iCriticalOperationsLockCount is nonzero, queues a type-9 pending operation and returns false; otherwise runs helper calls on action and returns true.
-// @fnv 0x00c97e80
-C97E80Return __thiscall C97E80World::FUN_00c97e80(C97E80Action* action) {
-    if (m_iCriticalOperationsLockCount) {
-        C97E80PendingOperation operation;
-        operation.m_type = 9;
-        operation.m_pAction = action;
-        ((C97E80PendingShell*)this)->FUN_00c91160(&operation);
-        C97E80Return r = {false};
-        return r;
-    }
-
-    m_iCriticalOperationsLockCount = 1;
-    if (action->getReferenceCount() == 1 &&
-        ((C97E80Owner*)action->m_owner44)->m_pOwningWorld == this) {
-        ((C97E80RemoveShell*)this)->FUN_00c97510(action->m_owner44);
-    }
-    ((RefObj*)action)->FUN_00c90510();
-    FUN_00cb3dd0(this, action, 1);
-    ((C97E80ActionChangeShell*)action)->RemoveReferenceFromSlots(this);
-    ((C97E80ReleaseShell*)action)->FUN_00c905b0();
-    --m_iCriticalOperationsLockCount;
-    if (m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations) {
-        if (m_iPendingOperationCount) {
-            ((C97E80CleanupShell*)this)->FUN_00c91120();
-        }
-        if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount) {
-            ((C97E80CleanupShell*)this)->FUN_00c91140();
-        }
-    }
-    C97E80Return r = {true};
-    return r;
-}
 
 // Returns the larger of fA and fB.
 // @fnv 0x00c98210
+// pdb: TESObjectWEAP::GetVATSToHitChance | CombatFormulas.obj | fnv360_0822_retail, call_gap, low, conflict (skyrim: hkMath::max2<float>)
+// pdb params: bModValue
 float __cdecl FUN_00c98210(float fA, float fB)
 {
     return (fA > fB) ? fA : fB;
@@ -8973,9 +6701,6 @@ struct __declspec(align(16)) FUN_00c987e0_Pose {
     hkVector4 scale;
     void FUN_00ce52e0(int a1);
 };
-struct FUN_00c98780_Obj {
-    void FUN_00c98780(FUN_00c987e0_Pose* pose, int a2,int a3,int a4,int a5,int a6);
-};
 struct FUN_00c987e0_Cls {
     void FUN_00c987e0(int a1,int a2,int a3,int a4,int a5);
 };
@@ -8984,6 +6709,8 @@ struct FUN_00c987e0_Cls {
 struct FUN_009094d0_Obj {
     void FUN_009094d0(FUN_00c987e0_Pose* pose, int a2, int a3, int a4, int a5);
 };
+// pdb: hkDebugDisplay::displayRayModelSpace | hkDebugDisplay.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: worldFromModel, start, direction, color, id, tag
 void FUN_00c987e0_Cls::FUN_00c987e0(int a1,int a2,int a3,int a4,int a5)
 {
     FUN_00c987e0_Pose pose;
@@ -9010,6 +6737,8 @@ struct Helper1611 {
  void FUN_009099a0(EC98BE0Vector*,float,int,int);
 };
 }
+// pdb: hkDebugDisplay::displayStarModelSpace | hkDebugDisplay.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: worldFromModel, position, scale, color, id, tag
 void EC98BE0Owner::FUN_00c98be0(int x,int y,float scalar,int a,int b) {
  EC98BE0Vector position;
  position.FUN_00c7f7a0(x,y);
@@ -9020,20 +6749,6 @@ void EC98BE0Owner::FUN_00c98be0(int x,int y,float scalar,int a,int b) {
 struct __declspec(align(16)) FUN_00c7f640_Class {
     void FUN_00c7f640(const void* m, const void* p);
 };
-
-struct FUN_00c98c30_Class {
-    void FUN_00c98b60(const void* p, float c, int d, int e, int f);
-    void FUN_00c98c30(const void* a, const void* b, float c, int d, int e, int f);
-};
-
-// Builds a temporary via FUN_00c7f640(a, b), then calls FUN_00c98b60 with its address and c, d, e, f.
-// @fnv 0x00c98c30
-void FUN_00c98c30_Class::FUN_00c98c30(const void* a, const void* b, float c, int d, int e, int f)
-{
-    FUN_00c7f640_Class v;
-    v.FUN_00c7f640(a, b);
-    FUN_00c98b60(&v, c, d, e, f);
-}
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
@@ -9093,6 +6808,8 @@ struct C995LockF3
         LeaveCriticalSection(this);
     }
 };
+// pdb: hkDebugDisplay::removeDebugDisplayHandler | hkDebugDisplay.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: debugDisplay
 void hkListenerListC995::RemoveListener(void* listener)
 {
     ((C995LockF3*)m_pWorldLock)->FUN_00908a00();
@@ -9150,22 +6867,6 @@ public:
     }
 };
 
-class hkOwnerXc99ce0 {
-public:
-    int unk00[2];
-    hkArrayXc99ce0<void*> m_kNode;
-    int* m_lock;
-
-    void Add(void* item);
-};
-
-// @fnv 0x00c99ce0
-void hkOwnerXc99ce0::Add(void* item)
-{
-    DAT_00fdf05c(m_lock);
-    m_kNode.AddBack(item);
-    DAT_00fdf100(m_lock);
-}
 }  // namespace fnv_00c99ce0
 
 class Ce52e0Helper
@@ -9229,29 +6930,19 @@ public:
     void FUN_00c91a70(hkListenerBD0AD* pkListener);
 };
 
-// Decrements the shared object's m_useCount and at zero calls FUN_00d9e280 on its member, FUN_00c91750 and FUN_00c91a70 on the world, then FUN_00c905b0.
-// @fnv 0x00d0adf0
-void __cdecl ReleaseSharedObject(hkpWorldD0AD* pkWorld)
-{
-    hkSharedD0AD* pkShared = pkWorld->m_pSharedObject;
-    if (--pkShared->m_useCount == 0) {
-        pkShared->m_kMemberDescriptor.FUN_00d9e280(pkWorld);
-        pkWorld->FUN_00c91750(pkShared);
-        pkWorld->FUN_00c91a70(pkShared);
-        pkShared->FUN_00c905b0();
-    }
-}
-
 class FlagState {
 public:
     unsigned int unk00, unk04;
     unsigned char unk08, state;
     unsigned short first, second;
-    void SetFlagBits(unsigned int a, unsigned int b, int code);
+    void hkpMotion_setWorldSelectFlagsNeg(unsigned int a, unsigned int b, int code);
 };
 // Sets the top two bits of first from a and of second from b, inverting a if (code & 3) < (state & 3) and b if code < state.
 // @f3 0x00902180 (community match, verified in this file)
-void FlagState::SetFlagBits(unsigned int a, unsigned int b, int code)
+// pdb: hkpMotion::setWorldSelectFlagsNeg | hkpWorld.obj | fnv360_0822_retail, call_seq, high
+// pdb params: worldFlag0, worldFlag1, worldDeactivationIntegrateCounter
+// pdb: hkpMotion::setWorldSelectFlagsNeg | hkpWorld.obj | fnv360_0822_retail, call_seq, high (was: SetFlagBits)
+void FlagState::hkpMotion_setWorldSelectFlagsNeg(unsigned int a, unsigned int b, int code)
 {
     int worldFlag0 = static_cast<int>(a);
     int worldFlag1 = static_cast<int>(b);
@@ -9307,7 +6998,9 @@ struct OverlapContext {
 };
 // Adds or removes other from phantom and, when other is type 2, mirrors the change on other's owner based on the filter result.
 // @fnv 0x00c90f40
-static __declspec(noinline) void SyncOverlap(OverlapPhantom* phantom, OverlapCollidable* other, OverlapContext* context)
+// pdb: hkWorld_updateFilterOnSinglePhantom | hkpWorld.obj | fnv360_0822_retail, call_gap_sim, high
+// pdb: hkWorld_updateFilterOnSinglePhantom | hkpWorld.obj | fnv360_0822_retail, call_gap_sim, high (was: SyncOverlap)
+static __declspec(noinline) void hkWorld_updateFilterOnSinglePhantom(OverlapPhantom* phantom, OverlapCollidable* other, OverlapContext* context)
 {
     OverlapResult old = phantom->overlaps(other);
     if (context->filter.enabled(&phantom->collidable, other).value) {
@@ -9332,17 +7025,7 @@ OverlapPhantom* volatile overlapPhantom;
 OverlapCollidable* volatile overlapOther;
 OverlapContext* volatile overlapContext;
 void invokeOverlap() {
-    SyncOverlap(overlapPhantom, overlapOther, overlapContext);
-}
-
-// @fnv 0x00c910b0
-void FUN_00c910b0()
-{
-}
-
-// @fnv 0x00c911b0
-void __cdecl FUN_00c911b0(void)
-{
+    hkWorld_updateFilterOnSinglePhantom(overlapPhantom, overlapOther, overlapContext);
 }
 
 namespace c912 {
@@ -9357,7 +7040,6 @@ struct Router {
 };
 }
 namespace c912 { inline Router* router() { return (Router*)FUN_00c85750(); } }
-extern int DAT_010c6420;
 extern int DAT_010c6378;
 
 struct CFB240ContactMgrFactory {
@@ -9373,14 +7055,6 @@ struct CFB240ContactMgrFactory {
     void removeReference() throw();
     CFB240ContactMgrFactory() throw() { m_sReferenceCount = 1; }
 };
-struct FUN_00cfd450 : CFB240ContactMgrFactory {
-    int unk08;
-    FUN_00cfd450(void*) throw();
-};
-struct FUN_00cfca20 : CFB240ContactMgrFactory {
-    int unk08;
-    FUN_00cfca20(void*) throw();
-};
 struct OtherC912 {
     void* vtable; short unknown; short refs; int kind;
     OtherC912() throw() { refs = 1; kind = 3; vtable = &DAT_010c6378; }
@@ -9392,29 +7066,6 @@ struct FactoryThreeC912 : CFB240ContactMgrFactory {
     {
     }
 };
-struct CFB240Dispatcher {
-    void SetContactMgrFactory(CFB240ContactMgrFactory*, int);
-};
-
-// Creates two factories from world and a third, registers them with the dispatcher at slots 1, 2 and 3, then releases the local references.
-// @fnv 0x00c912e0
-static void RegisterContactMgrFactories(CFB240Dispatcher* dispatcher, void* world)
-{
-    FUN_00cfd450* first = new FUN_00cfd450(world);
-    FUN_00cfca20* second = new FUN_00cfca20(world);
-    FactoryThreeC912* third = new FactoryThreeC912;
-    dispatcher->SetContactMgrFactory(first, 1);
-    dispatcher->SetContactMgrFactory(second, 2);
-    dispatcher->SetContactMgrFactory(third, 3);
-    ((FUN_00d1df70*)first)->removeReference();
-    ((FUN_00d1df70*)second)->removeReference();
-    ((FUN_00d1df70*)third)->removeReference();
-}
-
-void c912e0_caller(CFB240Dispatcher* d, void* w)
-{
-    RegisterContactMgrFactories(d, w);
-}
 
 struct Shape64 {};
 struct Container64 {
@@ -9438,6 +7089,7 @@ struct Context64 {
 };
 // Adds every shape of every element in context to container, then stores whether elementCount is greater than zero in result.
 // @fnv 0x00c92760
+// pdb: enumerateAllActiveEntitiesInWorld | hkpWorld.obj | fnv360_0822_retail, call_dedup, low
 unsigned char* __cdecl CollectShapes(unsigned char* pbHasElements, Context64* context, Container64* volatile container)
 {
     Element64** element = context->elements;
@@ -9539,25 +7191,26 @@ unsigned unkd4;
 unsigned unkd8;
 unsigned unkdc;
 unsigned unke0;
-struct Array {hkpPhantom** m_data;int m_iElementCount;int capacity;} m_kPhantoms; Border* FUN_00902500();};
+struct Array {hkpPhantom** m_data;int m_iElementCount;int capacity;} m_phantoms; Border* FUN_00902500();};
 struct Sink {void FUN_00989fb0(hkpPhantom*);};
 }
 // @fnv 0x00c92950
+// pdb: enumerateAllPhantomsInWorld | hkpWorld.obj | fnv360_0822_retail, call_dedup, low, conflict (bridge: enumerateAllActiveEntitiesInWorld)
 static __declspec(noinline) void FUN_00c92950(PhantomWorld* worldInput, PhantomSink* sinkInput)
 {
     phantom1437::World* world=(phantom1437::World*)worldInput; phantom1437::Sink* apSink=(phantom1437::Sink*)sinkInput;
     phantom1437::Border* border = world->FUN_00902500();
     if (border) {
-        for (int i = 0; i < world->m_kPhantoms.m_iElementCount; ++i) {
-            hkpPhantom* p = world->m_kPhantoms.m_data[i];
+        for (int i = 0; i < world->m_phantoms.m_iElementCount; ++i) {
+            hkpPhantom* p = world->m_phantoms.m_data[i];
             if (p != border->p18 && p != border->p1c &&
                 p != border->p20 && p != border->p24 &&
                 p != border->p28 && p != border->p2c)
                 apSink->FUN_00989fb0(p);
         }
     } else {
-        for (int i = 0; i < world->m_kPhantoms.m_iElementCount; ++i)
-            apSink->FUN_00989fb0(world->m_kPhantoms.m_data[i]);
+        for (int i = 0; i < world->m_phantoms.m_iElementCount; ++i)
+            apSink->FUN_00989fb0(world->m_phantoms.m_data[i]);
     }
 }
 
@@ -9705,18 +7358,6 @@ struct PairArray {
     int capacityAndFlags;
     OverlapPair storage[128];
     __forceinline void init() { data = storage; size = 0; capacityAndFlags = 0x80000080; }
-};
-struct Broadphase {
-    virtual void unused00(); virtual void unused04();
-    virtual void unused08(); virtual void unused0c();
-    virtual void unused10(); virtual void unused14();
-    virtual void unused18(); virtual void unused1c();
-    virtual void unused20(); virtual void unused24();
-    virtual void unused28(); virtual void unused2c();
-    virtual void unused30(); virtual void unused34();
-    virtual void unused38(); virtual void unused3c();
-    virtual void unused40(); virtual void unused44();
-    virtual void query(BroadphaseHandle*, PairArray*);
 };
 struct CollisionFilterInterface {
     virtual void unused00();
@@ -10196,7 +7837,7 @@ struct MemoryRouter {
 };
 
 void ResizeAudioStream(void*, void*, int);
-static __declspec(noinline) void __cdecl SyncOverlap(PhantomInterface* phantom, CollisionObject* other, CollisionFilter* filter) {
+static __declspec(noinline) void __cdecl hkWorld_updateFilterOnSinglePhantom(PhantomInterface* phantom, CollisionObject* other, CollisionFilter* filter) {
     FilterBool overlapping = phantom->hasOverlap(other);
     CollisionObject* self = &phantom->collidable;
     if (filter->filter.enabled(self, other).value) {
@@ -10216,9 +7857,6 @@ static __declspec(noinline) void __cdecl SyncOverlap(PhantomInterface* phantom, 
 void FUN_00cc1160(Agent*);
 void FUN_00cfeba0(Agent*, void*, EntityState*);
 void FUN_00cf7130(PairArray*, PairArray*);
-struct BroadphaseDispatcher {
-    void FUN_00cf7080(OverlapPair*, int, CollisionFilterInterface*);
-};
 struct FilterCommand {
     unsigned char type;
     CollisionEntity* entity;
@@ -10226,7 +7864,7 @@ struct FilterCommand {
     unsigned char updateShape;
 };
 struct CallRet : hkpWorld {
-    void FUN_00c946e0(CollisionEntity*, int, int);
+    void hkpWorld_updateCollisionFilterOnEntity(CollisionEntity*, int, int);
     void FUN_00c91160(FilterCommand*);
     void FUN_00c91120();
     void FUN_00c91140();
@@ -10397,7 +8035,7 @@ __forceinline void releasePairArray(PairArray& pairs) {
 // The caller needs this overlap helper in the same unit for its private calling convention.
 // Keep the helper private to this reconstruction so it does not redefine the full unit global helper.
 namespace f3m_009062d0 {
-static void SyncOverlap(OverlapPhantom* phantom, OverlapCollidable* other, OverlapContext* context) {
+static void hkWorld_updateFilterOnSinglePhantom(OverlapPhantom* phantom, OverlapCollidable* other, OverlapContext* context) {
     OverlapResult overlapping = phantom->overlaps(other);
     OverlapCollidable* self = &phantom->collidable;
     if (context->filter.enabled(self, other).value) {
@@ -10418,7 +8056,8 @@ static void SyncOverlap(OverlapPhantom* phantom, OverlapCollidable* other, Overl
 
 }
 
-void CallRet::FUN_00c946e0(CollisionEntity* entity, int updateCollection, int updateShape)
+// pdb: hkpWorld::updateCollisionFilterOnEntity | hkpWorld.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void CallRet::hkpWorld_updateCollisionFilterOnEntity(CollisionEntity* entity, int updateCollection, int updateShape)
 {
     using namespace f3m_009062d0;
     WorldView& w = *(WorldView*)this;
@@ -10446,7 +8085,7 @@ void CallRet::FUN_00c946e0(CollisionEntity* entity, int updateCollection, int up
             if (object->handle.type == 2) {
                 CollisionObject* phantom = (CollisionObject*)((char*)object + object->ownerOffset);
                 if (phantom) {
-                    f3m_009062d0::SyncOverlap((OverlapPhantom*)phantom, (OverlapCollidable*)&e.collidable, (OverlapContext*)w.filter);
+                    f3m_009062d0::hkWorld_updateFilterOnSinglePhantom((OverlapPhantom*)phantom, (OverlapCollidable*)&e.collidable, (OverlapContext*)w.filter);
                     if (updateShape)
                         ((PhantomView*)phantom)->refresh();
                     --pairs.size;
@@ -10505,50 +8144,11 @@ void CallRet::FUN_00c946e0(CollisionEntity* entity, int updateCollection, int up
 PhantomInterface* volatile probePhantom;
 CollisionObject* volatile probeObject;
 CollisionFilter* volatile probeFilter;
-void probeOverlapCaller() { SyncOverlap(probePhantom, probeObject, probeFilter); }
+void probeOverlapCaller() { hkWorld_updateFilterOnSinglePhantom(probePhantom, probeObject, probeFilter); }
 
 extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
 extern "C" __m128 __cdecl _mm_add_ss(__m128, __m128);
 extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, int);
-extern __m128 DAT_010c71e0;
-
-struct RotationInput {
-    __m128 translation;
-    __m128 rotation;
-};
-struct VectorTemporary {
-    union { __m128 value; float components[4]; };
-    void FUN_00c7f7a0(const RotationInput*, const __m128*);
-};
-struct RotationOwner {
-    void FUN_00c98820(const VectorTemporary*, const __m128*, int, int, int);
-    void ApplyRotation(const RotationInput*, const __m128*, const __m128*, int, int, int);
-};
-// Transforms position via FUN_00c7f7a0, rotates direction by the transform's quaternion, then calls FUN_00c98820 with both plus a, b and c.
-// @fnv 0x00c99610
-void RotationOwner::ApplyRotation(const RotationInput* transform, const __m128* position,
-    const __m128* direction, int a, int b, int c)
-{
-    VectorTemporary worldPosition;
-    __m128 worldDirection;
-    worldPosition.FUN_00c7f7a0(transform, position);
-    __m128 q = transform->rotation;
-    __m128 v = *direction;
-    __m128 w = _mm_shuffle_ps(q, q, 0xff);
-    __m128 product = _mm_mul_ps(v, q);
-    __m128 sum01 = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
-    __m128 dot3 = _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), sum01);
-    __m128 crossA = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2));
-    __m128 crossB = _mm_mul_ps(_mm_shuffle_ps(v, v, 0xd2), _mm_shuffle_ps(q, q, 0xc9));
-    __m128 cross = _mm_sub_ps(crossB, crossA);
-    cross = _mm_mul_ps(cross, w);
-    __m128 square = _mm_mul_ps(w, w);
-    __m128 weighted = _mm_mul_ps(_mm_add_ps(square, DAT_010c71e0), v);
-    __m128 projected = _mm_mul_ps(_mm_shuffle_ps(dot3, dot3, 0), q);
-    __m128 rotated = _mm_add_ps(cross, _mm_add_ps(weighted, projected));
-    worldDirection = _mm_add_ps(rotated, rotated);
-    FUN_00c98820(&worldPosition, &worldDirection, a, b, c);
-}
 
 extern "C" __m128 __cdecl _mm_setr_ps(float, float, float, float);
 
@@ -10566,39 +8166,6 @@ struct __declspec(align(16)) hkVector4C997 {
     void setSub4(const hkVector4C997& a, const hkVector4C997& b) { getQuad() = _mm_sub_ps(*(__m128*)&a.x, *(__m128*)&b.x); }
     void FUN_00c7f7a0(const hkTransformC997& kTransform, const hkVector4C997& kVector) throw();
 };
-
-class hkDebugDisplayHandlerC997 {
-public:
-    void FUN_00c98880(const hkVector4C997& kFrom, const hkVector4C997& kWorldPosition, unsigned int uiColor, int aiSoundId, int aiAllocationTag) throw();
-    void DrawAxes(const hkTransformC997& kWorldFromLocal, float fSize, int aiSoundId, int aiAllocationTag) throw();
-};
-
-// Transforms a local origin and three axis vectors by kWorldFromLocal, then draws red, green, and blue debug lines from the origin along each axis.
-// @fnv 0x00c99720
-void hkDebugDisplayHandlerC997::DrawAxes(const hkTransformC997& kWorldFromLocal, float afLength, int aiSoundId, int aiAllocationTag) throw()
-{
-    hkVector4C997 kTemp;
-    kTemp.setZero4();
-    hkVector4C997 akStart;
-    akStart.FUN_00c7f7a0(kWorldFromLocal, kTemp);
-
-    hkVector4C997 akAxes[3];
-    kTemp.set(afLength, 0.0f, 0.0f);
-    akAxes[0].FUN_00c7f7a0(kWorldFromLocal, kTemp);
-    kTemp.set(0.0f, afLength, 0.0f);
-    akAxes[1].FUN_00c7f7a0(kWorldFromLocal, kTemp);
-    kTemp.set(0.0f, 0.0f, afLength);
-    akAxes[2].FUN_00c7f7a0(kWorldFromLocal, kTemp);
-
-    hkVector4C997 akDirs[3];
-    akDirs[0].setSub4(akAxes[0], akStart);
-    akDirs[1].setSub4(akAxes[1], akStart);
-    akDirs[2].setSub4(akAxes[2], akStart);
-
-    FUN_00c98880(akStart, akDirs[0], 0xffff0000, aiSoundId, aiAllocationTag);
-    FUN_00c98880(akStart, akDirs[1], 0xff008000, aiSoundId, aiAllocationTag);
-    FUN_00c98880(akStart, akDirs[2], 0xff0000ff, aiSoundId, aiAllocationTag);
-}
 
 #include <stdarg.h>
 struct RigidBody_s {
@@ -10659,6 +8226,7 @@ struct BoolResult {
 };
 // Adds rigid bodies of m_owner0 and of each owner in m_owners2 to a3; returns true if m_ownerCount2 > 0 or m_owner0 has bodies.
 // @fnv 0x00c926a0
+// pdb: enumerateAllInactiveEntitiesInWorld | hkpWorld.obj | fnv360_0822_retail, call_dedup, low
 static __declspec(noinline) BoolResult AddBodiesToSystem(Context_s* a2, ...) {
     va_list args;
     va_start(args, a2);
@@ -10687,26 +8255,6 @@ Context_s* volatile retry_context;
 System_s* volatile retry_system;
 volatile char retry_result;
 void retryCaller() { retry_result = AddBodiesToSystem(retry_context, retry_system).value; }
-
-// FUN_00c98240 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)
-struct A1_00c98240 {
-    A1_00c98240();
-    virtual void FUN_00c98240();
-    char pad[0x04];
-};
-struct A2_00c98240 {
-    A2_00c98240();
-    virtual void FUN_00c98240();
-};
-struct Own_00c98240 : A1_00c98240, A2_00c98240 {
-    Own_00c98240();
-    virtual void key_fn();
-// @fnv 0x00c98240
-    void FUN_00c98240();
-};
-Own_00c98240::Own_00c98240() { }
-void Own_00c98240::key_fn() { }
-Own_00c98240* make_00c98240() { static Own_00c98240 o; return &o; }
 
 // FUN_00c98310 : MSVC this-adjusting thunk  (sub ecx, 0x14 ; jmp <impl>)
 struct A1_00c98310 {
@@ -10812,227 +8360,6 @@ struct HkRefPtr {
             return *this;
         }
 };
-
-struct Sub_78_70 { float f00; int i04; };
-
-struct Sub_78 {
-    char pad00[0x6c];
-    unsigned char b6c;
-    unsigned char b6d;
-    char pad6e[0x02];
-    Sub_78_70* p70;
-};
-
-struct Sub_80 {
-    char pad00[0x1e40];
-    float f1e40;
-    float f1e44;
-};
-
-struct Sub_08 {
-    char pad00[0x24];
-    float f24;
-};
-
-struct Dst_00c91c50 {
-    char pad00[0x10];
-    __m128 v10;
-    int i_20;
-    float f_24;
-    unsigned char b_28;
-    unsigned char b_29;
-    char pad2a[0x06];
-    __m128 v30;
-    __m128 v40;
-    unsigned char b_50;
-    char pad51[0x02];
-    unsigned char b_53;
-    float f_54;
-    HkRefPtr p58;
-    HkRefPtr p5c;
-    float f_60;
-    int i_64;
-    float f_68;
-    HkRefPtr p6c;
-    int i_70;
-    unsigned char b_74;
-    unsigned char b_75;
-    char pad76[0x02];
-    float f_78;
-    float f_7c;
-    int i_80;
-    int i_84;
-    float f_88;
-    unsigned char b_8c;
-    char pad8d[0x03];
-    volatile float f_90;
-    char pad94[0x04];
-    unsigned char b_98;
-    unsigned char b_99;
-    char pad9a[0x02];
-    float f_9c;
-    int i_a0;
-    unsigned char b_a4;
-    unsigned char b_a5;
-    unsigned char b_a6;
-    unsigned char b_a7;
-    float f_a8;
-    float f_ac;
-    int i_b0;
-    unsigned char b_b4;
-    char padb5[0x03];
-    int i_b8;
-    int i_bc;
-    float f_c0;
-    float f_c4;
-    float f_c8;
-    float f_cc;
-    unsigned char b_d0;
-    unsigned char b_d1;
-    unsigned char b_d2;
-    char padd3[0x01];
-    int i_d4;
-    unsigned char b_d8;
-    unsigned char b_d9;
-    char padda[0x02];
-    float f_dc;
-    unsigned char b_e0;
-};
-
-struct Src_00c91c50 {
-    char pad00[0x08];
-    Sub_08* p08;
-    char pad0c[0x04];
-    __m128 v10;
-    char pad20[0x30];
-    HkRefPtr p50;
-    char pad54[0x08];
-    int i5c;
-    unsigned char b60;
-    char pad61[0x17];
-    Sub_78* p78;
-    HkRefPtr p7c;
-    Sub_80* p80;
-    HkRefPtr p84;
-    char pad88[0x28];
-    unsigned char b_b0;
-    unsigned char b_b1;
-    char padb2[0x02];
-    int i_b4;
-    char padb8[0x10];
-    unsigned char b_c8;
-    char padc9[0x03];
-    float f_cc;
-    float f_d0;
-    unsigned char b_d4;
-    unsigned char b_d5;
-    unsigned char b_d6;
-    char padd7[0x01];
-    float f_d8;
-    float f_dc;
-    int i_e0;
-    unsigned char b_e4;
-    char pade5[0x03];
-    int i_e8;
-    int i_ec;
-    unsigned char b_f0;
-    char padf1[0x03];
-    float f_f4;
-    float f_f8;
-    float f_fc;
-    float f_100;
-    char pad104[0xb8];
-    void* p_1bc;
-    int i_1c0;
-    char pad1c4[0x20];
-    float f_1e4;
-    float f_1e8;
-    char pad1ec[0x54];
-    float f_240;
-    char pad244[0xb0];
-    int i_2f4;
-    int i_2f8;
-    char pad2fc[0x08];
-    unsigned char b_304;
-    unsigned char b_305;
-    unsigned char b_306;
-    unsigned char b_307;
-    float f_308;
-    char pad30c[0x04];
-    __m128 v_310;
-    __m128 v_320;
-    int i_330;
-    int i_334;
-    int i_338;
-    char pad33c[0x04];
-    unsigned char b_340;
-    void FUN_00c91c50(Dst_00c91c50* pOut);
-};
-
-// Copies fields from this into pOut, calling FUN_00c90510 on p50 and FUN_00c905b0 on pOut->p6c before transferring the reference.
-// @fnv 0x00c91c50
-void Src_00c91c50::FUN_00c91c50(Dst_00c91c50* pOut)
-{
-    unsigned char unkZero;
-
-    pOut->v10 = this->v10;
-    pOut->i_20 = this->i_338;
-    pOut->v30 = this->v_310;
-    pOut->v40 = this->v_320;
-    pOut->f_54 = *(float*)((char*)this->p78 + 8);
-    pOut->p58 = this->p7c;
-    pOut->p5c = this->p84;
-    pOut->b_28 = (unsigned char)(this->p_1bc ? *(int*)((char*)this->p_1bc + 0x30) : 3);
-        pOut->b_29 = *(this->p_1bc ? (unsigned char*)((char*)this->p_1bc + 0x34) : &(unkZero = 0));
-    pOut->b_50 = (this->i5c != 0);
-    pOut->b_53 = this->b60;
-    pOut->f_60 = *(float*)((char*)this->p80 + 0x1e40);
-    pOut->f_68 = *(float*)((char*)this->p80 + 0x1e44);
-    pOut->f_90 = this->f_cc;
-    pOut->f_90 = this->f_d0;
-    pOut->b_98 = this->b_d4;
-    if (this->p50.m_p)
-        this->p50.m_p->FUN_00c90510();
-    if (pOut->p6c.m_p)
-        pOut->p6c.m_p->FUN_00c905b0();
-    pOut->p6c.m_p = this->p50.m_p;
-    pOut->i_70 = this->i_330;
-    pOut->i_64 = this->i_334;
-    pOut->b_74 = this->b_340;
-    pOut->b_75 = this->p78->b6d;
-    pOut->f_24 = this->f_240;
-    pOut->f_78 = this->f_1e4;
-    pOut->f_7c = this->f_1e8;
-    pOut->i_80 = this->i_2f4;
-    pOut->i_84 = this->i_2f8;
-    pOut->f_88 = (float)sqrt(this->f_308);
-    pOut->b_8c = this->b_304;
-    pOut->b_a4 = this->b_305;
-    pOut->b_a5 = this->b_306;
-    pOut->b_a6 = this->b_307;
-    pOut->f_9c = this->p78->p70->f00;
-    pOut->i_a0 = this->p78->p70->i04;
-    pOut->b_99 = this->p78->b6c;
-    pOut->b_a7 = this->b_d6;
-    pOut->f_ac = this->f_dc;
-    pOut->i_b0 = this->i_e0;
-    pOut->b_b4 = this->b_e4;
-    pOut->i_b8 = this->i_e8;
-    pOut->i_bc = this->i_ec;
-    pOut->f_a8 = this->f_d8;
-    pOut->f_c0 = this->f_f4;
-    pOut->f_c4 = this->f_f8;
-    pOut->f_c8 = this->f_fc;
-    pOut->f_cc = this->f_100;
-    pOut->b_d0 = this->b_d5;
-    pOut->b_d1 = this->b_f0;
-    pOut->f_dc = this->p08->f24;
-    pOut->b_d2 = this->b_c8;
-    pOut->b_d8 = this->b_b0;
-    pOut->b_d9 = this->b_b1;
-    pOut->i_d4 = this->i_b4;
-    pOut->b_e0 = (this->i_1c0 != 0);
-}
 
 struct MatchAllocator {
     virtual void v00();
@@ -11155,7 +8482,6 @@ struct MatchWorld {
     MatchPhantoms* FUN_00c91110();
     void __thiscall AddPhysicsSystem(hkArrayXc937a0<FUN_00d065e0*>* systems);
 };
-struct FUN_00d065e0Value { FUN_00d065e0* p; };
 struct FUN_00d065e0;
 MatchStatus __cdecl AddBodiesToSystem(MatchWorld*, FUN_00d065e0*);
 MatchStatus __cdecl CollectShapes(MatchWorld*, FUN_00d065e0*);
@@ -11253,6 +8579,8 @@ static __declspec(noinline) void InvokeOwners904470(FUN_00c928c0_Context* ctx, z
         FUN_00c927f0(*p, value.v);
 }
 
+// pdb: hkpWorld::getWorldAsSystems | hkpWorld.obj | fnv360_0822_retail, call_dedup, low
+// pdb params: systemsInOut
 void MatchWorld::AddPhysicsSystem(hkArrayXc937a0<FUN_00d065e0*>* systems)
 {
     FUN_00d065e0* system;
@@ -11278,16 +8606,10 @@ void MatchWorld::AddPhysicsSystem(hkArrayXc937a0<FUN_00d065e0*>* systems)
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern unsigned int DAT_0126835c;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
-extern const char str_010c6758[];
+extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010c6748[];
-extern const char str_010c6734[];
-extern const char str_010c6720[];
 extern const char str_01076f38[];
 
-struct TimerEntryC944 { const char* name; unsigned int ticks; unsigned int unk08; };
-struct TimerEntryC9442 { const char* name; unsigned int ticks; unsigned int unk08; const char* name2; };
-struct TimerBufferC944 { unsigned int unk00; void* current; unsigned int unk08; void* end; };
 
 struct AllocatorC944 {
     virtual void v00();
@@ -11387,7 +8709,7 @@ struct hkpCollidableCollidableFilter {
     virtual FilterResult IsCollisionEnabled(const CollidableC944*,const CollidableC944*);
 };
 struct hkpCollisionFilter : hkReferencedObject, hkpCollidableCollidableFilter {};
-static __declspec(noinline) void SyncOverlap(PhantomC944* phantom,CollidableC944* collidable,hkpCollisionFilter* filter)
+static __declspec(noinline) void hkWorld_updateFilterOnSinglePhantom(PhantomC944* phantom,CollidableC944* collidable,hkpCollisionFilter* filter)
 {
     FilterResult added = phantom->GetFilterResult(collidable);
     if (filter->IsCollisionEnabled(&phantom->m_kCollidable,collidable).value) {
@@ -11406,17 +8728,11 @@ static __declspec(noinline) void SyncOverlap(PhantomC944* phantom,CollidableC944
 }
 
 struct PhantomArgC944 { PhantomC944* p; PhantomArgC944(PhantomC944* q) : p(q) {} };
-struct WorldC944 : hkpWorld { void UpdatePhantom(PhantomC944*, int); void FUN_00c91160(PendingOp*); void FUN_00c91120(); void FUN_00c91140(); };
+struct WorldC944 : hkpWorld { void hkpWorld_updateCollisionFilterOnPhantom(PhantomC944*, int); void FUN_00c91160(PendingOp*); void FUN_00c91120(); void FUN_00c91140(); };
 
 // Queries broad phase for overlaps with a phantom, applies collision filters, and optionally processes contact points.
 // @f3 0x00906090 (community match, verified in this file)
 namespace S906090 {
-extern unsigned int DAT_0116913c;
-extern const char FUN_00e34ef0[];
-extern const char FUN_00e34ee0[];
-extern const char FUN_00e34ecc[];
-extern const char FUN_00e34eb8[];
-extern const char FUN_00e0811c[];
 
 
 struct hkThreadMemoryF90 {
@@ -11486,14 +8802,14 @@ struct WorldFieldsF90 {
     unsigned int unk64;
     unsigned int unk68;
     unsigned int unk6C;
-    hkpCollisionFilter* m_pCollisionFilter;
+    hkpCollisionFilter* m_collisionFilter;
     unsigned int unk74;
     unsigned int unk78;
     unsigned int unk7C;
-    int m_iPendingOperationCount;
-    int m_iCriticalOperationsLockCount;
+    int m_pendingOperationsCount;
+    int m_criticalOperationsLockCount;
     unsigned int unk88;
-    bool m_bBlockExecutingPendingOperations;
+    bool m_blockExecutingPendingOperations;
     unsigned int m_090; unsigned int m_094; unsigned int m_098; unsigned int m_09c; unsigned int m_0a0; unsigned int m_0a4; unsigned int m_0a8; unsigned int m_0ac;
     unsigned int m_0b0; unsigned int m_0b4; unsigned int m_0b8; unsigned int m_0bc; unsigned int m_0c0; unsigned int m_0c4; unsigned int m_0c8; unsigned int m_0cc;
     unsigned int m_0d0; unsigned int m_0d4; unsigned int m_0d8; unsigned int m_0dc; unsigned int m_0e0; unsigned int m_0e4; unsigned int m_0e8; unsigned int m_0ec;
@@ -11514,15 +8830,18 @@ struct WorldFieldsF90 {
     unsigned int m_2b0; unsigned int m_2b4; unsigned int m_2b8; unsigned int m_2bc; unsigned int m_2c0; unsigned int m_2c4; unsigned int m_2c8; unsigned int m_2cc;
     unsigned int m_2d0; unsigned int m_2d4; unsigned int m_2d8; unsigned int m_2dc; unsigned int m_2e0; unsigned int m_2e4; unsigned int m_2e8; unsigned int m_2ec;
     unsigned int m_2f0; unsigned int m_2f4;
-    int m_iBroadPhaseQuerySize;
+    int m_broadPhaseQuerySize;
 };
 
 }
 using S906090::hkThreadMemoryF90; using S906090::LocalPairArrayF90; using S906090::BroadPhaseF90; using S906090::WorldFieldsF90;
-void WorldC944::UpdatePhantom(PhantomC944* apPhantom, int abProcessContacts)
+// pdb: hkpWorld::updateCollisionFilterOnPhantom | hkpWorld.obj | fnv360_0822_retail, ustr, high
+// pdb params: phantom, updateShapeCollectionFilter
+// pdb: hkpWorld::updateCollisionFilterOnPhantom | hkpWorld.obj | fnv360_0822_retail, ustr, high (was: UpdatePhantom)
+void WorldC944::hkpWorld_updateCollisionFilterOnPhantom(PhantomC944* apPhantom, int abProcessContacts)
 {
     WorldFieldsF90* w = reinterpret_cast<WorldFieldsF90*>(this);
-    if (w->m_iCriticalOperationsLockCount != 0)
+    if (w->m_criticalOperationsLockCount != 0)
     {
         PendingOp op;
         op.m_type = 0x13;
@@ -11531,74 +8850,28 @@ void WorldC944::UpdatePhantom(PhantomC944* apPhantom, int abProcessContacts)
         ((Sh00902570F3*)this)->FUN_00902570((QueuedOp*)&op);
         return;
     }
-    w->m_iCriticalOperationsLockCount = 1;
-    volatile unsigned int ticks;
+    w->m_criticalOperationsLockCount = 1;
 
+    HK_TIMER_BEGIN_LIST("UpdateFilterOnPhantom", "broadphase");
+    CollidableC944* collidable = &apPhantom->m_kCollidable;
+    LocalPairArrayF90 arr(w->m_broadPhaseQuerySize);
+    w->m_pBroadPhase->querySingleAabb(&collidable->m_kBroadPhaseHandle, &arr);
+    HK_TIMER_SPLIT_LIST("UpdateOverlaps");
+    for (int i = 0; i < arr.m_size; i++)
     {
-        TimerBufferC944* t = (TimerBufferC944*)TlsGetValue(S906090::DAT_0116913c);
-        TimerEntryC9442* e = (TimerEntryC9442*)t->current;
-        if (e < t->end)
-        {
-            e->name = S906090::FUN_00e34ef0;
-            e->name2 = S906090::FUN_00e34ee0;
-            _ReadWriteBarrier();
-            ticks = (unsigned int)__rdtsc();
-            e->ticks = ticks;
-            t->current = e + 1;
-        }
+        HandleC944* h = arr.m_data[i].second;
+        if (h != &collidable->m_kBroadPhaseHandle)
+            hkWorld_updateFilterOnSinglePhantom(apPhantom, h->getOwner(), w->m_collisionFilter);
     }
+    if (abProcessContacts)
     {
-        CollidableC944* collidable = &apPhantom->m_kCollidable;
-        LocalPairArrayF90 arr(w->m_iBroadPhaseQuerySize);
-        w->m_pBroadPhase->querySingleAabb(&collidable->m_kBroadPhaseHandle, &arr);
-        {
-            TimerBufferC944* t = (TimerBufferC944*)TlsGetValue(S906090::DAT_0116913c);
-            TimerEntryC944* e = (TimerEntryC944*)t->current;
-            if (e < t->end)
-            {
-                e->name = S906090::FUN_00e34ecc;
-                _ReadWriteBarrier();
-                ticks = (unsigned int)__rdtsc();
-                e->ticks = ticks;
-                t->current = e + 1;
-            }
-        }
-        for (int i = 0; i < arr.m_size; i++)
-        {
-            HandleC944* h = arr.m_data[i].second;
-            if (h != &collidable->m_kBroadPhaseHandle)
-                SyncOverlap(apPhantom, h->getOwner(), w->m_pCollisionFilter);
-        }
-        if (abProcessContacts)
-        {
-            TimerBufferC944* t = (TimerBufferC944*)TlsGetValue(S906090::DAT_0116913c);
-            TimerEntryC944* e = (TimerEntryC944*)t->current;
-            if (e < t->end)
-            {
-                e->name = S906090::FUN_00e34eb8;
-                _ReadWriteBarrier();
-                volatile unsigned int ticks = (unsigned int)__rdtsc();
-                e->ticks = ticks;
-                t->current = e + 1;
-            }
-            apPhantom->v2c();
-        }
-        if (--w->m_iCriticalOperationsLockCount == 0 && !w->m_bBlockExecutingPendingOperations && w->m_iPendingOperationCount != 0)
-            ((FO3Cls*)this)->FUN_00902550();
-        {
-            TimerBufferC944* t = (TimerBufferC944*)TlsGetValue(S906090::DAT_0116913c);
-            TimerEntryC944* e = (TimerEntryC944*)t->current;
-            if (e < t->end)
-            {
-                e->name = S906090::FUN_00e0811c;
-                _ReadWriteBarrier();
-                volatile unsigned int ticks = (unsigned int)__rdtsc();
-                e->ticks = ticks;
-                t->current = e + 1;
-            }
-        }
-        arr.release();
+        HK_TIMER_SPLIT_LIST("collectionFilter");
+        apPhantom->v2c();
     }
+    if (--w->m_criticalOperationsLockCount == 0 && !w->m_blockExecutingPendingOperations && w->m_pendingOperationsCount != 0)
+        ((FO3Cls*)this)->FUN_00902550();
+    HK_TIMER_END_LIST();
+    arr.release();
 }
 
 
@@ -11610,58 +8883,7 @@ inline void* getMemoryRouter() throw() { return &hkRouterXc937a0::FUN_00c85750()
 extern "C" void __cdecl FUN_00c908c0(void* inst, void* arr, int num, int elemSize) throw();
 extern "C" void __cdecl FUN_00d005a0(hkpWorld* world, void* entity) throw();
 extern "C" void __cdecl FUN_00cffab0(void* entity) throw();
-extern "C" void __cdecl FUN_00cb4740(hkpWorld* world, void* entity) throw();
-
-struct MyPendingQueue {
-    void __thiscall FUN_00c91160(void* op) throw();
-};
-
-struct FUN_00cf70f0_Class {
-    void __thiscall DispatchPairs(void* data, int size) throw();
-};
-
-struct FUN_00d01a80_Class {
-    void __thiscall FreeStorage() throw();
-};
-
-struct FUN_00c905b0_Class {
-    void __thiscall FUN_00c905b0() throw();
-};
-
-struct MyExecPending {
-    void __thiscall ExecutePendingOperations() throw();
-    void __thiscall FUN_00c91120() throw();
-};
-
-struct MyExecBodyPending {
-    void __thiscall FUN_00c91140() throw();
-};
-
-class hkpSimulation_00c951b0 {
-public:
-    virtual ~hkpSimulation_00c951b0() throw();
-    virtual void slot04() throw();
-    virtual void slot08() throw();
-    virtual void slot0c() throw();
-    virtual void slot10() throw();
-    virtual void slot14() throw();
-    virtual void slot18() throw();
-    virtual void slot1c() throw();
-    virtual void removeEntities(void* const* entities, int numEntities, hkpWorld* world, int unk) throw();
-};
-
-class hkpBroadPhase_00c951b0 {
-public:
-    virtual ~hkpBroadPhase_00c951b0() throw();
-    virtual void slot04() throw();
-    virtual void slot08() throw();
-    virtual void slot0c() throw();
-    virtual void slot10() throw();
-    virtual void slot14() throw();
-    virtual void slot18() throw();
-    virtual void slot1c() throw();
-    virtual void DispatchCollisionPairs(void* array, void* pairs) throw();
-};
+extern "C" void __cdecl hkpWorldOperationUtil_removeEntitySI(hkpWorld* world, void* entity) throw();
 
 class hkMemory_00c951b0 {
 public:
@@ -11670,46 +8892,6 @@ public:
     virtual void slot08() throw();
     virtual void slot0c() throw();
     virtual void deallocate(void* p, int numBytes) throw();
-};
-
-struct DummyCollidable_00c951b0 {
-    void* m_pCollisionShape;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    void* m_10;
-    void* m_kBroadPhaseHandle;
-};
-
-struct EntityMember {
-    void* unk00; void* unk04; void* unk08; void* unk0c;
-    void* unk10; void* unk14; void* unk18; void* unk1c; void* unk20;
-    void FreeStorage() throw();
-};
-struct DummyEntity_00c951b0 {
-    virtual ~DummyEntity_00c951b0() throw();
-    virtual void v04() throw();
-    virtual void v08() throw();
-    virtual void v0c() throw();
-    virtual void v10() throw();
-    virtual void v14() throw();
-    short memSizeAndFlags;
-    short referenceCount;
-    void* unk08;
-    void* unk0c;
-    DummyCollidable_00c951b0 collidable;
-    void* unk28;
-    void* unk2c;
-    EntityMember member;
-    void* world;
-};
-
-struct WorldOp_00c951b0 {
-    unsigned char m_type;
-    unsigned char pad0;
-    unsigned short pad1;
-    void* m_kActorEntries;
-    short m_iActorEntryCount;
 };
 
 struct MonitorCommand {
@@ -11824,25 +9006,13 @@ struct MyLocalArray : public MyArrayBase<Pair_00c951b0> {
     }
 };
 
-union PendingOrHandles {
-    WorldOp_00c951b0 operation;
-    hkArray<void*> handles;
-};
-union TimerOrEnd { volatile unsigned int stamp; void* const* end; };
 struct HostWorld_00c951b0 : hkpWorld {
-    void RemoveEntities(void* const* entityBatch, int numEntities) throw();
+    void hkpWorld_removeEntityBatch(void* const* entityBatch, int numEntities) throw();
 };
 
 // Removes a batch of entities from the simulation, dispatches broad-phase collision pairs, and invokes per-entity removal callbacks.
 // @f3 0x00906d80 (community match, verified in this file)
 namespace f3m_00906d80 {
-extern char DAT_00e34fc0[];
-extern char DAT_00e34fb0[];
-extern char DAT_00e34fa0[];
-extern char DAT_00e34f94[];
-extern char DAT_00e34f88[];
-extern unsigned long DAT_0116913c;
-struct Q6DMon { int r0; char* cur; int r8; char* end; };
 struct Q6DRouter {
     virtual void s00() throw(); virtual void s04() throw(); virtual void s08() throw();
     virtual void s0c() throw(); virtual void s10() throw();
@@ -12120,12 +9290,15 @@ struct Q6DWorld {
     void FUN_00902570(Q6DOp* op) throw();
     void FUN_00902550() throw();
 };
-void __cdecl FUN_009886e0(Q6DWorld* w, Q6DEntity* e) throw();
+void __cdecl hkpWorldCallbackUtil_fireEntityRemoved(Q6DWorld* w, Q6DEntity* e) throw();
 void __cdecl FUN_00987de0(Q6DEntity* e) throw();
 void __cdecl FUN_00927460(Q6DWorld* w, Q6DEntity* e) throw();
 }
 
-void HostWorld_00c951b0::RemoveEntities(void* const* entityBatch, int numEntities) throw()
+// pdb: hkpWorld::removeEntityBatch | hkpWorld.obj | fnv360_0822_retail, ustr, high
+// pdb params: entityBatch, numEntities
+// pdb: hkpWorld::removeEntityBatch | hkpWorld.obj | fnv360_0822_retail, ustr, high (was: RemoveEntities)
+void HostWorld_00c951b0::hkpWorld_removeEntityBatch(void* const* entityBatch, int numEntities) throw()
 {
     using namespace f3m_00906d80;
     Q6DWorld* w = reinterpret_cast<Q6DWorld*>(this);
@@ -12143,22 +9316,7 @@ void HostWorld_00c951b0::RemoveEntities(void* const* entityBatch, int numEntitie
         return;
     }
     w->lock++;
-    {
-        Q6DMon* m = (Q6DMon*)TlsGetValue(DAT_0116913c);
-        char* p = m->cur;
-        if (p < m->end) {
-            *(const char**)p = DAT_00e34fc0;
-            *(const char**)(p + 0xc) = DAT_00e34fb0;
-            _ReadWriteBarrier();
-            unsigned int t;
-            __asm {
-                rdtsc
-                mov dword ptr[t], eax
-            }
-            *(unsigned int*)(p + 4) = t;
-            m->cur = p + 0x10;
-        }
-    }
+    HK_TIMER_BEGIN_LIST("RemEntities", "Init+CallBck");
     w->simulation->removeEntities(entityBatch, numEntities, w, Q6DBool(1));
     void* const* end;
     {
@@ -12170,60 +9328,18 @@ void HostWorld_00c951b0::RemoveEntities(void* const* entityBatch, int numEntitie
             if (c->shape)
                 handles.data[handles.size++] = &c->handle;
         }
-        {
-            Q6DMon* m = (Q6DMon*)TlsGetValue(DAT_0116913c);
-            char* p = m->cur;
-            if (p < m->end) {
-                *(const char**)p = DAT_00e34fa0;
-                _ReadWriteBarrier();
-                unsigned int t;
-            __asm {
-                rdtsc
-                mov dword ptr[t], eax
-            }
-                *(unsigned int*)(p + 4) = t;
-                m->cur = p + 0xc;
-            }
-        }
+        HK_TIMER_SPLIT_LIST("BroadPhase");
         Q6DLocalArray<Q6DPair> pairs;
         pairs.init(w->querySize);
         w->broadPhase->removeObjectBatch(&handles, &pairs);
-        {
-            Q6DMon* m = (Q6DMon*)TlsGetValue(DAT_0116913c);
-            char* p = m->cur;
-            if (p < m->end) {
-                *(const char**)p = DAT_00e34f94;
-                _ReadWriteBarrier();
-                unsigned int t;
-            __asm {
-                rdtsc
-                mov dword ptr[t], eax
-            }
-                *(unsigned int*)(p + 4) = t;
-                m->cur = p + 0xc;
-            }
-        }
+        HK_TIMER_SPLIT_LIST("DelAgents");
         w->dispatcher->FUN_00984cc0(pairs.data, pairs.size);
         pairs.release();
         handles.release();
     }
-    {
-        Q6DMon* m = (Q6DMon*)TlsGetValue(DAT_0116913c);
-        char* p = m->cur;
-        if (p < m->end) {
-            *(const char**)p = DAT_00e34f88;
-            _ReadWriteBarrier();
-            unsigned int t;
-            __asm {
-                rdtsc
-                mov dword ptr[t], eax
-            }
-            *(unsigned int*)(p + 4) = t;
-            m->cur = p + 0xc;
-        }
-    }
+    HK_TIMER_SPLIT_LIST("RemoveCb");
     for (void* const* it = entityBatch; it != end; it++) {
-        FUN_009886e0(w, (Q6DEntity*)*it);
+        hkpWorldCallbackUtil_fireEntityRemoved(w, (Q6DEntity*)*it);
         FUN_00987de0((Q6DEntity*)*it);
         FUN_00927460(w, (Q6DEntity*)*it);
         Q6DEntity* e = (Q6DEntity*)*it;
@@ -12238,21 +9354,7 @@ void HostWorld_00c951b0::RemoveEntities(void* const* entityBatch, int numEntitie
             e2->deallocateInternalArrays();
         ((Q6DEntity*)*it)->FUN_009316f0();
     }
-    {
-        Q6DMon* m = (Q6DMon*)TlsGetValue(DAT_0116913c);
-        char* p = m->cur;
-        if (p < m->end) {
-            *(const char**)p = "lt";
-            _ReadWriteBarrier();
-            unsigned int t;
-            __asm {
-                rdtsc
-                mov dword ptr[t], eax
-            }
-            *(unsigned int*)(p + 4) = t;
-            m->cur = p + 0xc;
-        }
-    }
+    HK_TIMER_END_LIST();
     if (--w->lock == 0 && !w->block && w->pendingCount != 0)
         w->FUN_00902550();
 }
@@ -12268,11 +9370,6 @@ struct Sub {
   virtual void T24(Req r, Pt* out);
 };
 struct Item;
-struct Dev {
-  virtual void a0(); virtual void a1(); virtual void a2(); virtual void a3(); virtual void a4(); virtual void a5(); virtual void a6(); virtual void a7();
-  virtual int T20();
-  virtual void T24(Req r, Pt* out);
-};
 struct Item {
   virtual void a0(); virtual void a1(); virtual void a2(); virtual void a3(); virtual void a4(); virtual void a5();
   virtual int T18();
@@ -12338,8 +9435,7 @@ struct Mgr {
   void FUN_00c97370(Info* i);
   void* FUN_00c97d30(Item* it);
 };
-extern void* __cdecl FUN_00cb3ca0(Mgr*, Item*, unsigned int);
-// If m_94 is nonzero, queues an op of type 8 for it and returns 0; otherwise sets it up, calls FUN_00cb3ca0 and returns its result.
+// If m_94 is nonzero, queues an op of type 8 for it and returns 0; otherwise sets it up, calls hkpWorldOperationUtil_addConstraintImmediately and returns its result.
 // @f3 0x009082b0 (community match, verified in this file)
 struct SubFix
 {
@@ -12413,6 +9509,8 @@ struct MgrFix
 };
 void* __cdecl FUN_00926420(MgrFix* mgr, ItemFix* it, unsigned int flag);
 
+// pdb: hkpWorld::addConstraint | hkpWorld.obj | fnv360_0822_retail, callee_sim, medium
+// pdb params: constraint
 void* Mgr::FUN_00c97d30(Item* item)
 {
     ItemFix* it = (ItemFix*)item;
@@ -12448,6 +9546,7 @@ void* Mgr::FUN_00c97d30(Item* item)
 
 // Calls AddBodiesToSystem, stores the result of CollectShapes into system->active, and returns that value.
 // @fnv 0x00c927c0
+// pdb: enumerateAllEntitiesInWorld | hkpWorld.obj | fnv360_0822_retail, objrun, medium
 static __declspec(noinline) unsigned char FUN_00c927c0(MatchWorld* world, FUN_00d065e0* system)
 {
     AddBodiesToSystem(world, system);
@@ -12475,16 +9574,15 @@ void __stdcall FUN_00c982c0(unsigned char* out, int a1, int a2, int a3, int a4)
 
 
 // @fnv 0x00c982d0
+// pdb: hkpNullCollisionFilter::isCollisionEnabled | hkpWorld.obj | fnv360_0721_beta, objrun_open, low
+// pdb params: a, b
 void __stdcall FUN_00c982d0(unsigned char* out, int a2, int a3)
 {
     *out = 1;
 }
 
 namespace fnv_00c96df0 {
-extern double DAT_01012060;
-extern const char str_010c68ec[];
 extern const char str_010c6748[];
-extern const char str_010c68dc[];
 extern const char str_01076f38[];
 extern "C" unsigned __int64 __rdtsc() throw();
 extern "C" void _ReadWriteBarrier();
@@ -12504,17 +9602,6 @@ struct ThreadMemory {
     int unk08;
     int unk0c;
     MemoryManager* m_pMemoryAllocator;
-};
-
-struct BroadPhaseHandle {
-    int m_iOwnerObjectOffset;
-    char m_type;
-    signed char m_iOwnerOffset;
-};
-
-struct BroadPhaseHandlePair {
-    void* m_kPointA;
-    BroadPhaseHandle* m_kPointB;
 };
 
 template <class T, int N>
@@ -12776,7 +9863,7 @@ struct World {
     int unk4c;
     int unk50;
     int unk54;
-    BroadPhase* m_pJobSemaphore;
+    BroadPhase* m_broadPhase;
     int unk5c;
     int unk60;
     int unk64;
@@ -12784,97 +9871,17 @@ struct World {
     int unk6c;
     int unk70;
     int unk74;
-    QueryCollisionInput* m_pCollisionInput;
-    C96CollisionFilter* m_pCollisionFilter;
+    QueryCollisionInput* m_collisionInput;
+    C96CollisionFilter* m_collisionFilter;
 
     void FUN_00c96df0(Collidable* collA, const QueryCollisionInput* input, Collector* collector) throw();
 };
 
-// @fnv 0x00c96df0
-void World::FUN_00c96df0(Collidable* collA, const QueryCollisionInput* input, Collector* collector) throw() {
-
-    C96MonitorStream& ms1 = C96MonitorStream::GetMonitorStream();
-    char* pos1 = ms1.m_pos;
-    if (pos1 < ms1.m_endLimit) {
-        ((MonitorCommand*)pos1)->m_name = str_010c68ec;
-        ((MonitorCommand*)pos1)->m_category = str_010c6748;
-        _ReadWriteBarrier();
-        unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
-        ((MonitorCommand*)pos1)->m_ticks = t;
-        ms1.m_pos = pos1 + 16;
-    }
-
-    float diff = input->m_fScalar - this->m_pCollisionInput->m_fScalar * 0.5;
-    float tol = (diff < DAT_01012060) ? 0.0f : diff;
-
-    Aabb aabb;
-    collA->m_pCollisionShape->getAabb(collA->m_kMotionTransform, tol, aabb);
-
-    InplaceArray<BroadPhaseHandlePair, 128> pairs;
-    this->m_pJobSemaphore->GetAabbHits(aabb, &pairs);
-
-    int typeA = collA->m_pCollisionShape->m_type;
-    const BroadPhaseHandlePair* p = pairs.m_data;
-
-    C96MonitorStream& ms2 = C96MonitorStream::GetMonitorStream();
-    char* pos2 = ms2.m_pos;
-    if (pos2 < ms2.m_endLimit) {
-        ((MonitorCommand*)pos2)->m_name = str_010c68dc;
-        _ReadWriteBarrier();
-        unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
-        ((MonitorCommand*)pos2)->m_ticks = t;
-        ms2.m_pos = pos2 + 12;
-    }
-
-    int count = pairs.m_iElementCount;
-    while (--count >= 0) {
-        BroadPhaseHandle* handleB = p->m_kPointB;
-        Collidable* collB = (Collidable*)((char*)handleB + handleB->m_iOwnerOffset);
-        if (collA != collB) {
-            if (this->m_pCollisionFilter->IsCollisionEnabled(collA, collB).val) {
-                Shape* shapeB = collB->m_pCollisionShape;
-                if (shapeB) {
-                    unsigned char agentType = input->m_pCollisionDispatcher->m_agent2TypeMap[typeA][shapeB->m_type];
-                    input->m_pCollisionDispatcher->m_entries[agentType].m_func(collA, collB, input, collector);
-                    if (collector->m_earlyOutHit) {
-                        break;
-                    }
-                }
-            }
-        }
-        ++p;
-    }
-
-    C96MonitorStream& ms3 = C96MonitorStream::GetMonitorStream();
-    char* pos3 = ms3.m_pos;
-    if (pos3 < ms3.m_endLimit) {
-        ((MonitorCommand*)pos3)->m_name = str_01076f38;
-        _ReadWriteBarrier();
-        unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
-        ((MonitorCommand*)pos3)->m_ticks = t;
-        ms3.m_pos = pos3 + 12;
-    }
-}
 }  // namespace fnv_00c96df0
 
 struct S96_BoolResult {char value;};
-extern const char str_010c6908[];
 struct S96_TimerEntry {const char* name; unsigned tick; unsigned unk08;};
 struct S96_Timer {int unk00; S96_TimerEntry* unk04; int unk08; S96_TimerEntry* unk0C;};
-struct S96_Allocator {virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void Free(void*,int);};
-struct S96_AllocatorHolder {int unk00,unk04,unk08,unk0C; S96_Allocator* unk10;};
 struct S96_Collidable {int unk00,unk04,unk08,unk0C,unk10,unk14; short unk18; signed char unk1A;};
 struct S96_Constraint {unsigned char unk00,unk01,unk02,unk03; int unk04,unk08,unk0C; S96_Collidable* unk10; S96_Collidable* unk14;};
 struct S96_EntityArray {void** data; int size; int capacity;};
@@ -12887,13 +9894,7 @@ void __cdecl FUN_00cfeba0(S96_Constraint*,void*,S96_Island*);
 void __cdecl FUN_00cc1160(S96_Constraint*);
 struct S96_RemovalList {S96_Constraint** data; int size; int capacity; S96_Constraint* local[32]; void clear(){size=0;} int GetLogicalSize() const {return size;} S96_Constraint*& back(){return data[size-1];} void popBack(){--size;}};
 struct S96_WorldShell : hkpWorld {
- void FUN_00c91160(const S96_Operation&); void FUN_00c946e0(void*,int,int); void UpdatePhantom(void*,int); void FUN_00c91120(); void FUN_00c91140();
- __forceinline void S96_attempt() {
-  if(!m_iCriticalOperationsLockCount && !m_bBlockExecutingPendingOperations) {
-   if(m_iPendingOperationCount) FUN_00c91120();
-   if(m_iPendingOperationQueueCount==1 && m_iQueuedOperationCount) FUN_00c91140();
-  }
- }
+ void FUN_00c91160(const S96_Operation&); void hkpWorld_updateCollisionFilterOnEntity(void*,int,int); void hkpWorld_updateCollisionFilterOnPhantom(void*,int); void FUN_00c91120(); void FUN_00c91140();
  static __forceinline void S96_TimerBegin(const char* name) {
   S96_Timer* timer=(S96_Timer*)TlsGetValue(DAT_0126835c);
   if(timer->unk04<timer->unk0C) {
@@ -12923,9 +9924,9 @@ struct S96_WorldShell : hkpWorld {
   }
  }
  __forceinline bool S96_enabled(S96_Constraint* c) {
-  return ((S96_Filter*)m_pCollisionFilter)->unk08.Check(c->unk10,c->unk14).value && ((char*)m_pDispatcher)[0x1bb0+c->unk10->unk1A*10+c->unk14->unk1A];
+  return ((S96_Filter*)m_collisionFilter)->unk08.Check(c->unk10,c->unk14).value && ((char*)m_collisionDispatcher)[0x1bb0+c->unk10->unk1A*10+c->unk14->unk1A];
  }
- void FUN_00c96ff0(int mode,int update);
+ void hkpWorld_updateCollisionFilterOnWorld(int mode,int update);
 };
 // @f3 0x00907f30 (community match, verified in this file)
 struct TimingEntry1135 {
@@ -12953,8 +9954,8 @@ unsigned int unk18;
 unsigned int unk1c;
 unsigned int unk20;
 unsigned int unk24;
-S96_IslandArray m_kActiveSimulationIslands;
-S96_IslandArray m_kInactiveSimulationIslands;
+S96_IslandArray m_activeSimulationIslands;
+S96_IslandArray m_inactiveSimulationIslands;
 unsigned int unk40;
 unsigned int unk44;
 unsigned int unk48;
@@ -12966,15 +9967,15 @@ unsigned int unk5c;
 unsigned int unk60;
 unsigned int unk64;
 unsigned int unk68;
-void* m_pCollisionInput;
-void* m_pCollisionFilter;
-void* m_pDispatcher;
+void* m_collisionInput;
+void* m_collisionFilter;
+void* m_collisionDispatcher;
 unsigned int unk78;
 unsigned int unk7c;
-int m_iPendingOperationCount;
-int m_iCriticalOperationsLockCount;
+int m_pendingOperationsCount;
+int m_criticalOperationsLockCount;
 unsigned int unk88;
-unsigned char m_bBlockExecutingPendingOperations;
+unsigned char m_blockExecutingPendingOperations;
 unsigned char unk8d,unk8e,unk8f;
 unsigned int unk90;
 unsigned int unk94;
@@ -12997,7 +9998,7 @@ unsigned int unkd4;
 unsigned int unkd8;
 unsigned int unkdc;
 unsigned int unke0;
-S96_EntityArray m_kPhantoms;
+S96_EntityArray m_phantoms;
 void FUN_00902570(const S96_Operation&); void FUN_009062d0(void*,int,int); void FUN_00906090(void*,int); void FUN_00902550();
 };
 struct NativeAlloc1960 { void FUN_008f6d90(void*,int,int); };
@@ -13006,7 +10007,7 @@ extern TlsFn1960 const DAT_00d9b080;
 void __cdecl FUN_00901f10(S96_RemovalList*,int); void __cdecl FUN_00998570(S96_Constraint*,void*,S96_Island*); void __cdecl FUN_009447d0(S96_Constraint*);
 struct NativeCollidable1960 { int unk00,unk04,unk08,unk0c,unk10,unk14; unsigned short unk18,kind1a; };
 static __forceinline bool Enabled1960(NativeWorld1960* self,S96_Constraint* c) {
- return ((S96_Filter*)self->m_pCollisionFilter)->unk08.Check(c->unk10,c->unk14).value && ((char*)self->m_pDispatcher)[0x1bb0+((NativeCollidable1960*)c->unk10)->kind1a*10+((NativeCollidable1960*)c->unk14)->kind1a];
+ return ((S96_Filter*)self->m_collisionFilter)->unk08.Check(c->unk10,c->unk14).value && ((char*)self->m_collisionDispatcher)[0x1bb0+((NativeCollidable1960*)c->unk10)->kind1a*10+((NativeCollidable1960*)c->unk14)->kind1a];
 }
 template <typename T>
 static __forceinline void Deallocate1960(T* const& data, int count, int memoryClass) {
@@ -13029,9 +10030,10 @@ static __forceinline void End1960() {
   reinterpret_cast<TimingEntry1135*>(entry)->setTime(); timer->unk04=entry+1;
  }
 }
-void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
+// pdb: hkpWorld::updateCollisionFilterOnWorld | hkpWorld.obj | fnv360_0822_retail, ustr + bridge(ustr|ustr) + skyrim(ustr), high
+void S96_WorldShell::hkpWorld_updateCollisionFilterOnWorld(int mode,int update) {
  NativeWorld1960* self=(NativeWorld1960*)this;
- if(self->m_iCriticalOperationsLockCount) {
+ if(self->m_criticalOperationsLockCount) {
   S96_Operation op;
   op.unk00=20;
   op.unk01=(unsigned char)mode;
@@ -13039,20 +10041,20 @@ void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
   self->FUN_00902570(op);
   return;
  }
- self->m_bBlockExecutingPendingOperations=true;
+ self->m_blockExecutingPendingOperations=true;
  Begin1960();
  if(mode==0) {
-  for(int i=0;i<self->m_kActiveSimulationIslands.size;++i) {
-   S96_EntityArray& entities=((S96_Island*)self->m_kActiveSimulationIslands.data[i])->unk48;
+  for(int i=0;i<self->m_activeSimulationIslands.size;++i) {
+   S96_EntityArray& entities=((S96_Island*)self->m_activeSimulationIslands.data[i])->unk48;
    for(int j=0;j<entities.size;++j) self->FUN_009062d0(entities.data[j],0,update);
   }
-  for(int i=0;i<self->m_kInactiveSimulationIslands.size;++i) {
-   S96_EntityArray& entities=((S96_Island*)self->m_kInactiveSimulationIslands.data[i])->unk48;
+  for(int i=0;i<self->m_inactiveSimulationIslands.size;++i) {
+   S96_EntityArray& entities=((S96_Island*)self->m_inactiveSimulationIslands.data[i])->unk48;
    for(int j=0;j<entities.size;++j) self->FUN_009062d0(entities.data[j],0,update);
   }
   } else {
-  ++self->m_iCriticalOperationsLockCount;
-  S96_IslandArray* arrays[2]={(S96_IslandArray*)&self->m_kActiveSimulationIslands,(S96_IslandArray*)&self->m_kInactiveSimulationIslands};
+  ++self->m_criticalOperationsLockCount;
+  S96_IslandArray* arrays[2]={(S96_IslandArray*)&self->m_activeSimulationIslands,(S96_IslandArray*)&self->m_inactiveSimulationIslands};
   for(int a=0;a<2;++a) {
    S96_RemovalList removed;
    removed.data=removed.local;
@@ -13070,7 +10072,7 @@ void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
        if(removed.size==(removed.capacity&0x3fffffff)) FUN_00901f10(&removed,4);
        removed.data[removed.size++]=current;
        island->unk25=(island->unk25&~2)|1;
-      } else if(update==1) FUN_00998570(current,(void*)self->m_pCollisionInput,island);
+      } else if(update==1) FUN_00998570(current,(void*)self->m_collisionInput,island);
      }
     }
     while(removed.GetLogicalSize()) {
@@ -13083,26 +10085,17 @@ void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
     Deallocate1960(removed.data,removed.capacity&0x3fffffff,23);
    }
   }
-  --self->m_iCriticalOperationsLockCount;
+  --self->m_criticalOperationsLockCount;
  }
  if(mode==0) {
-  for(int i=0;i<self->m_kPhantoms.size;++i) self->FUN_00906090(self->m_kPhantoms.data[i],update);
+  for(int i=0;i<self->m_phantoms.size;++i) self->FUN_00906090(self->m_phantoms.data[i],update);
  }
- self->m_bBlockExecutingPendingOperations=false;
- if(!self->m_iCriticalOperationsLockCount && self->m_iPendingOperationCount) self->FUN_00902550();
+ self->m_blockExecutingPendingOperations=false;
+ if(!self->m_criticalOperationsLockCount && self->m_pendingOperationsCount) self->FUN_00902550();
  End1960();
 }
 
 
-extern double DAT_01011588;
-extern const char str_010c699c[];
-extern const char str_010c698c[];
-extern const char str_010c697c[];
-extern const char str_010c6970[];
-extern const char str_010c6964[];
-extern const char str_010c6938[];
-extern const char str_010c692c[];
-extern const char str_010c6920[];
 extern const char str_01076f38[];
 
 struct S97_Bool {
@@ -13148,28 +10141,6 @@ struct S97_MonitorStream {
         const char* m_pFirst;
     };
 };
-
-static __forceinline void S97_timerList(const char* name1, const char* name2)
-{
-    S97_MonitorStream& mStream = S97_MonitorStream::GetMonitorStream();
-    if (mStream.memoryAvailable()) {
-        S97_MonitorStream::TimedNameRecord* h = reinterpret_cast<S97_MonitorStream::TimedNameRecord*>(mStream.GetStreamEnd());
-        h->m_pCommandName = name1;
-        h->m_pFirst = name2;
-        h->setTime();
-        mStream.setEnd((char*)(h + 1));
-    }
-}
-static __forceinline void S97_timer(const char* name)
-{
-    S97_MonitorStream& mStream = S97_MonitorStream::GetMonitorStream();
-    if (mStream.memoryAvailable()) {
-        S97_MonitorStream::CommandTimingEntry* h = reinterpret_cast<S97_MonitorStream::CommandTimingEntry*>(mStream.GetStreamEnd());
-        h->m_pCommandName = name;
-        h->setTime();
-        mStream.setEnd((char*)(h + 1));
-    }
-}
 
 struct S97_MemoryAllocator {
     virtual ~S97_MemoryAllocator();
@@ -13237,9 +10208,6 @@ struct S97_Collidable {
 struct S97_CollisionInput;
 typedef void (__cdecl* S97_GetClosestPointsFunc)(const S97_Collidable&, const S97_Collidable&, const S97_CollisionInput&, void*);
 struct S97_AgentFuncs { S97_GetClosestPointsFunc m_pGetPenetrationsFunc; int f04; int f08; int f0C; int f10; };
-struct S97_DispatcherHead {
-    int unk000; int unk004; int unk008; int unk00C;
-};
 struct S97_Dispatcher {
     __forceinline S97_GetClosestPointsFunc getGetClosestPointsFunc(int typeA, int typeB) const
     {
@@ -13283,94 +10251,19 @@ struct S97_TreeWorldManager {
     __forceinline const void* getKdTree() const { return m_pKdTree; }
 };
 
-void __cdecl FUN_00d1c560(const void* tree, const S97_Aabb* aabb, void* callback, S97_ArrayBase<void*>* hits, void* mask, void* context);
-__declspec(noinline) void __cdecl CallWithDefaults(const void* tree, const S97_Aabb& aabb, S97_ArrayBase<void*>& hits) {
-    if (tree) FUN_00d1c560(tree, &aabb, 0, &hits, 0, 0);
-}
-void __cdecl FUN_00d1b850(const void* tree, const S97_Aabb& aabb, S97_Array<unsigned long, S97_TempAllocator>& hits);
-
 struct S97_World {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
     int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54;
-    S97_BroadPhase* m_pJobSemaphore;
+    S97_BroadPhase* m_broadPhase;
     S97_TreeWorldManager* m_pKdTreeManager;
     int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74;
-    S97_CollisionInput* m_pCollisionInput;
-    S97_CollisionFilter* m_pCollisionFilter;
-    inline const S97_CollisionInput* getCollisionInput() const { return m_pCollisionInput; }
-    inline const S97_CollisionFilter* getCollisionFilter() const { return m_pCollisionFilter; }
+    S97_CollisionInput* m_collisionInput;
+    S97_CollisionFilter* m_collisionFilter;
+    inline const S97_CollisionInput* getCollisionInput() const { return m_collisionInput; }
+    inline const S97_CollisionFilter* getCollisionFilter() const { return m_collisionFilter; }
     void FUN_00c97850(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const;
 };
-
-// @fnv 0x00c97850
-void S97_World::FUN_00c97850(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const
-{
-    S97_Aabb aabb;
-    collA->getShape()->getAabb(collA->getTransform(), input.getTolerance() - getCollisionInput()->getTolerance() * DAT_01011588, aabb);
-
-    if (m_pKdTreeManager && m_pKdTreeManager->isUpToDate()) {
-        S97_timerList(str_010c699c, str_010c698c);
-        const void* tree = m_pKdTreeManager->getAabbTree();
-        const void* kdTree = m_pKdTreeManager->getKdTree();
-        if (tree) {
-            S97_InplaceArray<void*, 128> hits;
-            CallWithDefaults(tree, aabb, hits);
-            S97_timer(str_010c697c);
-            int typeA = collA->getShape()->getType();
-            for (int i = 0; i < hits.GetLogicalSize(); i++) {
-                const S97_Collidable* collB = (const S97_Collidable*)hits[i];
-                if (collA == collB) continue;
-                if (!getCollisionFilter()->IsCollisionEnabled(*collA, *collB)) continue;
-                const S97_Shape* shapeB = collB->getShape();
-                if (!shapeB) continue;
-                int typeB = shapeB->getType();
-                S97_GetClosestPointsFunc func = input.m_pCollisionDispatcher->getGetClosestPointsFunc(typeA, typeB);
-                func(*collA, *collB, input, collector);
-            }
-            hits.ClearAndRelease();
-        }
-        if (kdTree) {
-            S97_timer(str_010c6970);
-            S97_Array<unsigned long, S97_TempAllocator> hits;
-            FUN_00d1b850(kdTree, aabb, hits);
-            S97_timer(str_010c6964);
-            int typeA = collA->getShape()->getType();
-            for (int i = 0; i < hits.GetLogicalSize(); i++) {
-                const S97_Collidable* collB = (const S97_Collidable*)hits[i];
-                if (collA == collB) continue;
-                if (!getCollisionFilter()->IsCollisionEnabled(*collA, *collB)) continue;
-                const S97_Shape* shapeB = collB->getShape();
-                if (!shapeB) continue;
-                int typeB = shapeB->getType();
-                S97_GetClosestPointsFunc func = input.m_pCollisionDispatcher->getGetClosestPointsFunc(typeA, typeB);
-                func(*collA, *collB, input, collector);
-            }
-            hits.ClearAndRelease();
-        }
-        S97_timer(str_01076f38);
-    } else {
-        S97_timerList(str_010c6938, str_010c692c);
-        S97_InplaceArray<S97_HandlePair, 128> hits;
-        m_pJobSemaphore->FindOverlappingPairs(aabb, hits);
-        S97_HandlePair* p = hits.begin();
-        int typeA = collA->getShape()->getType();
-        S97_timer(str_010c6920);
-        for (int i = hits.GetLogicalSize() - 1; i >= 0; p++, i--) {
-            const S97_TypedHandle* tp = p->m_kPointB;
-            const S97_Collidable* collB = static_cast<const S97_Collidable*>(tp->getOwner());
-            if (collA == collB) continue;
-            if (!getCollisionFilter()->IsCollisionEnabled(*collA, *collB)) continue;
-            const S97_Shape* shapeB = collB->getShape();
-            if (!shapeB) continue;
-            int typeB = shapeB->getType();
-            S97_GetClosestPointsFunc func = input.m_pCollisionDispatcher->getGetClosestPointsFunc(typeA, typeB);
-            func(*collA, *collB, input, collector);
-        }
-        S97_timer(str_01076f38);
-        hits.ClearAndRelease();
-    }
-    }
 
 namespace fnv_00c91f70 {
 #pragma intrinsic(__rdtsc)
@@ -13380,27 +10273,6 @@ extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern unsigned long g_monitorTls;
-extern const char g_rayBegin[];
-extern const char g_rayEnd[];
-struct RayTimerEntry { const char* volatile name; unsigned int ticks; unsigned int secondCounter; };
-struct RayMonitor { void* unk00; RayTimerEntry* current; void* unk08; RayTimerEntry* end; };
-inline void RecordRayTimer(const char* name) {
-    RayMonitor* monitor=(RayMonitor*)TlsGetValue(g_monitorTls);
-    RayTimerEntry* entry=monitor->current;
-    if(entry < monitor->end) {
-        entry->name=name;
-        _ReadWriteBarrier();
-        volatile unsigned int ticks=(unsigned int)__rdtsc();
-        entry->ticks=ticks;
-        monitor->current=entry+1;
-    }
-}
-struct RayManager {
-    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
-    virtual bool IsEnabled(); virtual void slot5();
-    virtual void CastRay(const void*,void*,void*);
-};
 struct RayCaster {
     virtual void Process();
     int unk04,unk08,unk0c;
@@ -13410,48 +10282,11 @@ struct RayCaster {
     RayCaster() : m_pCollisionShape(0),m_uiCollisionShapeKey(0) {}
     void CastRay(void*,const void*,void*,int,void*);
 };
-struct RayWorld : hkpWorld { void FUN_00c91f70(const void* input,void* output); };
-// Records ray timer markers, then dispatches the ray cast to the RayManager if enabled or to a local RayCaster otherwise.
-// @fnv 0x00c91f70
-void RayWorld::FUN_00c91f70(const void* input,void* output) {
-    RecordRayTimer(g_rayBegin);
-    if(m_pKdTreeManager && ((RayManager*)m_pKdTreeManager)->IsEnabled()) {
-        ((RayManager*)m_pKdTreeManager)->CastRay(input,m_pCollisionFilter,output);
-    } else {
-        __declspec(align(16)) RayCaster caster;
-        caster.CastRay(m_pJobSemaphore,input,m_pCollisionFilter,0,output);
-    }
-    RecordRayTimer(g_rayEnd);
-}
 }  // namespace fnv_00c91f70
 
 namespace fnv_00c92040 {
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-
-struct S00c92040_Rec {
-    const char* name;
-    unsigned int tsc;
-    unsigned int unk08;
-};
-
-struct S00c92040_Pool {
-    void* unk00;
-    S00c92040_Rec* cur;
-    void* unk08;
-    S00c92040_Rec* end;
-};
-
-struct S00c92040_Ifc {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual bool v4();
-    virtual void v5(int, int, int);
-    virtual void v6();
-    virtual void v7(int, int, int);
-};
 
 struct __declspec(align(16)) S00c92040_Arg {
     const char* p00;
@@ -13471,107 +10306,13 @@ struct __declspec(align(16)) S00c92040_Arg {
     int f38;
     int f3C;
 
-    void RecordAndDispatch(void* p58, int a, int p7c, int zero, int b);
+    void hkpSimpleWorldRayCaster_castRaysFromSinglePoint(void* p58, int a, int p7c, int zero, int b);
 };
 
-struct S00c92040_Obj {
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    void* unk10;
-    void* unk14;
-    void* unk18;
-    void* unk1C;
-    void* unk20;
-    void* unk24;
-    void* unk28;
-    void* unk2C;
-    void* unk30;
-    void* unk34;
-    void* unk38;
-    void* unk3C;
-    void* unk40;
-    void* unk44;
-    void* unk48;
-    void* unk4C;
-    void* unk50;
-    void* unk54;
-    void* p58;
-    S00c92040_Ifc* p5C;
-    void* unk60;
-    void* unk64;
-    void* unk68;
-    void* unk6C;
-    void* unk70;
-    void* unk74;
-    void* unk78;
-    int p7C;
-
-    void FUN_00c92040(int a, int b);
-};
-
-// @fnv 0x00c92040
-void S00c92040_Obj::FUN_00c92040(int a, int b)
-{
-    extern void* DAT_00fdf044;
-    extern unsigned long DAT_0126835c;
-    extern const char str_010c64a8[];
-    extern const char str_010c41f8[];
-    extern const char DAT_010c647c[];
-
-    typedef S00c92040_Pool* (__stdcall* AllocFn)(unsigned long);
-    AllocFn alloc = (AllocFn)DAT_00fdf044;
-
-    S00c92040_Pool* pool = alloc(DAT_0126835c);
-    S00c92040_Rec* rec = pool->cur;
-
-    if (rec < pool->end) {
-        rec->name = str_010c64a8;
-        _ReadWriteBarrier();
-        volatile unsigned int ts = (unsigned int)__rdtsc();
-        rec->tsc = ts;
-        rec++;
-        pool->cur = rec;
-    }
-
-    if (p5C != 0 && p5C->v4()) {
-        p5C->v7(a, p7C, b);
-    } else {
-        S00c92040_Arg arg;
-        arg.p00 = DAT_010c647c;
-        arg.f30 = 0;
-        arg.f34 = 0;
-        arg.RecordAndDispatch(p58, a, p7C, 0, b);
-    }
-
-    pool = alloc(DAT_0126835c);
-    rec = pool->cur;
-
-    if (rec < pool->end) {
-        rec->name = str_010c41f8;
-        _ReadWriteBarrier();
-        volatile unsigned int ts = (unsigned int)__rdtsc();
-        rec->tsc = ts;
-        rec++;
-        pool->cur = rec;
-    }
-}
 }  // namespace fnv_00c92040
 
 namespace fnv_00c93c30 {
 struct FnvBody;
-
-struct FnvBodyArrayEntry {
-    void* unk00;
-    FnvBody* unk04;
-};
-
-struct FnvBodyArray {
-    FnvBodyArrayEntry* m_data;
-    int m_uiItemCount;
-    int m_pRayCursor;
-};
 
 struct FnvBody {
     unsigned char unk00;
@@ -13595,22 +10336,6 @@ struct FnvBody {
     unsigned char unk18;
 };
 
-struct FnvAdjustedBody {
-    signed char unk10;
-    unsigned char unk11;
-    unsigned char unk12;
-    unsigned char unk13;
-    unsigned char unk14;
-    unsigned char unk15;
-    unsigned char unk16;
-    unsigned char unk17;
-    unsigned char unk18;
-};
-
-struct FnvActionTarget {
-    void __thiscall FUN_00c9c1d0();
-};
-
 struct FnvAllocator {
     virtual void* vf00();
     virtual void* vf04(int size);
@@ -13627,81 +10352,8 @@ struct FnvAudioManager {
     FnvAllocator* unk10;
 };
 
-struct FnvBroadPhase {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10();
-    virtual void vf14();
-    virtual void vf18();
-    virtual void vf1C();
-    virtual void vf20();
-    virtual void vf24();
-    virtual void vf28();
-    virtual void vf2C();
-    virtual void vf30();
-    virtual void vf34();
-    virtual void vf38();
-    virtual void vf3C();
-    virtual void vf40();
-    virtual void vf44(int flags, FnvBodyArray* bodies);
-};
-
 FnvAudioManager* __cdecl FUN_00c85750();
-void __cdecl FUN_00cb1260(void* data, void* owner, int size);
 
-struct FnvMsg {
-    unsigned char unk00;
-    void* unk04;
-};
-
-struct FnvWorld : WorldWithPending {
-    void __thiscall FUN_00c91160(FnvMsg* msg);
-    void __thiscall FUN_00c93c30(int flags);
-};
-
-// When locked, queues a message via FUN_00c91160; otherwise queries bodies from the broad phase and calls FUN_00c9c1d0 on each whose adjusted byte 0x18 is 1.
-// @fnv 0x00c93c30
-void __thiscall FnvWorld::FUN_00c93c30(int flags) {
-    if (m_iCriticalOperationsLockCount != 0) {
-        FnvMsg msg;
-        msg.unk00 = 0x20;
-
-        FnvAudioManager* audio = FUN_00c85750();
-        void* buffer = audio->unk10->vf04(0x20);
-        msg.unk04 = buffer;
-        FUN_00cb1260(buffer, (void*)flags, 0x20);
-        this->FUN_00c91160(&msg);
-        return;
-    }
-
-    FnvBroadPhase* broadPhase = (FnvBroadPhase*)m_pJobSemaphore;
-    FnvBodyArray bodies;
-    bodies.m_data = 0;
-    bodies.m_uiItemCount = 0;
-    bodies.m_pRayCursor = 0x80000000;
-
-    broadPhase->vf44(flags, &bodies);
-
-    int index = 0;
-    while (index < bodies.m_uiItemCount) {
-        FnvBody* body = bodies.m_data[index].unk04;
-        unsigned char* pAdjusted = (unsigned char*)body + body->unk05;
-        if (pAdjusted[0x18] == 1) {
-            FnvActionTarget* target = (FnvActionTarget*)(pAdjusted + (signed char)pAdjusted[0x10]);
-            if (target != 0)
-                target->FUN_00c9c1d0();
-        }
-        ++index;
-    }
-
-    FnvAudioManager* audio = FUN_00c85750();
-    FnvAllocator* alloc = audio->unk10;
-    bodies.m_uiItemCount = 0;
-    if ((bodies.m_pRayCursor & 0x80000000) == 0)
-        alloc->vf10(bodies.m_data, (bodies.m_pRayCursor & 0x3FFFFFFF) * 8);
-}
 }  // namespace fnv_00c93c30
 
 namespace std{ class type_info; } typedef float TR;
@@ -14342,11 +10994,7 @@ mStream.setEnd((char*)(h+1)); } } ;
 }
 
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" void __movsd(unsigned long*, unsigned long const*, size_t);
-extern const char str_010c68c8[];
 extern const char str_010c41f8[];
-struct Sbp_TimerEntry { const char* name; unsigned int tick; unsigned int unk08; };
-struct Sbp_Timer { void* unk00; Sbp_TimerEntry* unk04; void* unk08; Sbp_TimerEntry* unk0C; };
 struct Sbp_Allocator {
     virtual void slot0(); virtual void slot1(); virtual void slot2();
     virtual void* BufAlloc(int& bytes);
@@ -14354,8 +11002,6 @@ struct Sbp_Allocator {
 };
 struct Sbp_Router { int unk00; int unk04; int unk08; int unk0C; Sbp_Allocator* unk10; };
 static inline Sbp_Router* Sbp_router() { return (Sbp_Router*)FUN_00c85750(); }
-void __cdecl FUN_00d1a330(void*, void*, int);
-struct Sbp_Pair { void* a; void* b; };
 template <class T> struct Sbp_Array {
     T* data; int size; int capacity;
     void destroy() { ClearAndRelease(Sbp_router()->unk10); }
@@ -14368,190 +11014,16 @@ struct Sbp_Vec {
     __m128 q;
     void add4(const Sbp_Vec& a) { q = _mm_add_ps(q, a.q); }
 };
-struct Sbp_BroadPhase {
-    virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
-    virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
-    virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
-    virtual void v20();
-    virtual void ShiftBroadPhase(const Sbp_Vec& shift, Sbp_Vec& effective, Sbp_Array<Sbp_Pair>& pairs);
-    virtual void GetOffsetLowHigh32Bit(Sbp_Vec& low, Sbp_Vec& high);
-};
-struct Sbp_CollisionInput {
-    int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
-    Sbp_Vec m_kAabbMin;
-    Sbp_Vec m_kAabbMaximum;
-};
-struct Sbp_Dispatcher { void FUN_00cf7080(Sbp_Pair* pairs, int count, void* filter); };
 struct Sbp_Phantom {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04();
     virtual int getType();
 };
-struct Sbp_AabbPhantom : Sbp_Phantom {
-    int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
-    int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
-    int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C;
-    int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C;
-    int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C;
-    int unkA0; int unkA4; int unkA8; int unkAC;
-    Sbp_Vec m_aabbMin;
-    Sbp_Vec m_aabbMax;
-};
-struct Sbp_ShapePhantom : Sbp_Phantom {
-    int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
-    int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
-    int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C;
-    int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C;
-    int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C;
-    int unkA0; int unkA4; int unkA8; int unkAC; int unkB0; int unkB4; int unkB8; int unkBC;
-    int unkC0; int unkC4; int unkC8; int unkCC; int unkD0; int unkD4; int unkD8; int unkDC;
-    Sbp_Vec m_vTranslation;
-};
 struct Sbp_Border {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14;
-    Sbp_Phantom* m_kPhantoms[6];
+    Sbp_Phantom* m_phantoms[6];
     void shiftPhantoms(__m128& raw);
 };
-static inline Sbp_Phantom* Sbp_getPhantom(Sbp_Border* b, const int& i) { return b->m_kPhantoms[i]; }
-__forceinline void Sbp_Border::shiftPhantoms(__m128& raw) { Sbp_Vec& effective=(Sbp_Vec&)raw;
-    Sbp_Phantom* const* phantoms = m_kPhantoms;
-    for (int i = 0; i < 6; i++) {
-        Sbp_Phantom* phantom = phantoms[i];
-        switch (phantom->getType()) {
-        case 0:
-            ((Sbp_AabbPhantom*)phantom)->m_aabbMin.add4(effective);
-            ((Sbp_AabbPhantom*)phantom)->m_aabbMax.q = _mm_add_ps(effective.q, ((Sbp_AabbPhantom*)phantom)->m_aabbMax.q);
-            break;
-        case 1:
-        case 2:
-            ((Sbp_ShapePhantom*)phantom)->m_vTranslation.add4(effective);
-            break;
-        }
-    }
-}
-struct Sbp_Entity { int unk00; int unk04; int unk08; int unk0C; void* unk10; };
-struct Sbp_Island {
-    int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
-    int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
-    int unk40; int unk44;
-    Sbp_Array<Sbp_Entity*> m_kActorEntries;
-};
-template <class T> static __forceinline T* Sbp_bufAlloc(Sbp_Allocator* heap, int& n) {
-    int bytes = n * sizeof(T);
-    T* p = (T*)heap->BufAlloc(bytes);
-    n = bytes / (int)sizeof(T);
-    return p;
-}
-template <class T> static __forceinline void Sbp_freeArray(Sbp_Allocator* heap, T* data, int cap) {
-    if ((cap & 0x80000000) == 0) heap->BufFree(data, (cap & 0x3fffffff) * sizeof(T));
-}
-template <class T> static inline void Sbp_copy(T* dst, const T* src, int n) {
-    for (int i = 0; i < n; i++) dst[i] = src[i];
-}
-static __forceinline void Sbp_initArray(Sbp_Island**& data, int& size, int& cap, int n) {
-    size = n;
-    Sbp_Router* r = Sbp_router();
-    Sbp_Allocator* heap = r->unk10;
-    _ReadWriteBarrier();
-    data = size ? Sbp_bufAlloc<Sbp_Island*>(heap, size) : 0;
-    cap = size ? size : 0x80000000;
-}
-
-struct Sbp_World : hkpWorld {
-    void FUN_00c96a20(const __m128& rawShift, __m128& rawEffective, int update);
-    void FUN_00c91120();
-    void FUN_00c91140();
-};
-static __forceinline void doShift(Sbp_World* self,const __m128& rawShift, __m128& rawEffective, int update){
-    const Sbp_Vec& shift = (const Sbp_Vec&)rawShift;
-    Sbp_Vec& effective = (Sbp_Vec&)rawEffective;
-
-
-    {
-        Sbp_Timer* timer = (Sbp_Timer*)TlsGetValue(DAT_0126835c);
-        Sbp_TimerEntry* entry = timer->unk04;
-        if (entry < timer->unk0C) {
-            entry->name = str_010c68c8;
-            unsigned int openingTick;
-            __asm {
-                rdtsc
-                mov dword ptr[openingTick], eax
-            }
-            entry->tick = openingTick;
-            timer->unk04 = entry + 1;
-        }
-    }
-    Sbp_Array<Sbp_Pair> pairs;
-    pairs.data = 0;
-    pairs.size = 0;
-    pairs.capacity = 0x80000000;
-    ((Sbp_BroadPhase*)self->m_pJobSemaphore)->ShiftBroadPhase(shift, effective, pairs);
-    Sbp_CollisionInput* input = (Sbp_CollisionInput*)self->m_pCollisionInput;
-    ((Sbp_BroadPhase*)self->m_pJobSemaphore)->GetOffsetLowHigh32Bit(input->m_kAabbMin, input->m_kAabbMaximum);
-    Sbp_Vec* ext = (Sbp_Vec*)self->m_kBroadPhaseAabb;
-    ext[0].add4(effective);
-    ext[1].add4(effective);
-    ++self->m_iCriticalOperationsLockCount;
-    ((Sbp_Dispatcher*)self->m_pBroadPhaseDispatcher)->FUN_00cf7080(pairs.data, pairs.size,
-        self->m_pCollisionFilter ? (char*)self->m_pCollisionFilter + 8 : 0);
-    Sbp_Border* border = (Sbp_Border*)self->m_pBroadPhaseBorder;
-    if (border) border->shiftPhantoms(effective.q);
-    if (update == 0) {
-        Sbp_Array<Sbp_Entity*> entities;
-        entities.data = 0;
-        entities.size = 0;
-        entities.capacity = 0x80000000;
-        int numInactive = self->m_kInactiveSimulationIslands.m_iElementCount;
-        void* fixedIsland = self->m_pFixedIsland;
-        Sbp_Island** islandData;
-        int numIslands; int islandCap;
-        Sbp_initArray(islandData, numIslands, islandCap, numInactive + self->m_kActiveSimulationIslands.m_iElementCount + 1);
-        int numFixed = fixedIsland != 0;
-        void** src = fixedIsland ? &fixedIsland : 0;
-        Sbp_copy(islandData, (Sbp_Island**)src, numFixed);
-        Sbp_copy(islandData + numFixed, (Sbp_Island**)self->m_kActiveSimulationIslands.m_data, self->m_kActiveSimulationIslands.m_iElementCount);
-        Sbp_copy(islandData + (self->m_kActiveSimulationIslands.m_iElementCount + numFixed), (Sbp_Island**)self->m_kInactiveSimulationIslands.m_data, self->m_kInactiveSimulationIslands.m_iElementCount);
-        for (int i = 0; i < numIslands; i++) {
-            Sbp_Island* island = islandData[i];
-            for (int j = 0; j < island->m_kActorEntries.size; j++) {
-                Sbp_Entity*& entity = island->m_kActorEntries.data[j];
-                if (entity->unk10 != 0) {
-                    Sbp_Router* router = Sbp_router();
-                    if (entities.size == (entities.capacity & 0x3fffffff)) ResizeAudioStream(router->unk10, &entities, 4);
-                    entities.data[entities.size++] = entity;
-                }
-            }
-        }
-        FUN_00d1a330(self->m_pCollisionInput, entities.data, entities.size);
-        {
-            Sbp_freeArray(Sbp_router()->unk10, islandData, islandCap);
-        }
-        entities.destroy();
-    }
-    if (--self->m_iCriticalOperationsLockCount == 0 && !self->m_bBlockExecutingPendingOperations) {
-        if (self->m_iPendingOperationCount) self->FUN_00c91120();
-        if (self->m_iPendingOperationQueueCount == 1 && self->m_iQueuedOperationCount) self->FUN_00c91140();
-    }
-    {
-        Sbp_Timer* timer = (Sbp_Timer*)TlsGetValue(DAT_0126835c);
-        Sbp_TimerEntry* entry = timer->unk04;
-        if (entry < timer->unk0C) {
-            entry->name = str_010c41f8;
-            unsigned int closingTick;
-            __asm {
-                rdtsc
-                mov dword ptr[closingTick], eax
-            }
-            entry->tick = closingTick;
-            timer->unk04 = entry + 1;
-        }
-    }
-    pairs.destroy();
-}
-
-// @fnv 0x00c96a20
-void Sbp_World::FUN_00c96a20(const __m128& rawShift, __m128& rawEffective, int update) { doShift(this,rawShift,rawEffective,update); }
+static inline Sbp_Phantom* Sbp_getPhantom(Sbp_Border* b, const int& i) { return b->m_phantoms[i]; }
 
 namespace fnv_00c977c0 {
 class hkMemoryAllocatorC977 {
@@ -14570,10 +11042,6 @@ struct hkMemoryRouterC977 {
 };
 
 extern "C" hkMemoryRouterC977& __cdecl FUN_00c85750() throw();
-
-struct FUN_00c90510_s {
-    void FUN_00c90510() throw();
-};
 
 struct FUN_00c905b0_s {
     void FUN_00c905b0() throw();
@@ -14619,39 +11087,6 @@ public:
     virtual ~hkpNullCollisionFilterC977() throw();
 };
 
-struct hkpCollisionInputC977 {
-    int unk00;
-    int unk04;
-    int unk08;
-    FUN_00cbfba0* m_iFilter;
-};
-
-class hkpWorldC977 {
-public:
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
-    int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
-    int unk60, unk64, unk68, unk6C, unk70, unk74;
-    hkpCollisionInputC977* m_pCollisionInput;
-    FUN_00cbfba0* m_pCollisionFilter;
-
-    void FUN_00c96ff0(int updateMode, int ProcessContactPoints);
-    void FUN_00c977c0(FUN_00cbfba0* filter, hkBoolC977 runUpdate, int updateMode, int ProcessContactPoints);
-};
-
-// Uses filter, or a new hkpNullCollisionFilterC977 if null, as m_pCollisionFilter and in m_pCollisionInput, optionally calling FUN_00c96ff0 when runUpdate.
-// @fnv 0x00c977c0
-void hkpWorldC977::FUN_00c977c0(FUN_00cbfba0* filter, hkBoolC977 runUpdate, int updateMode, int ProcessContactPoints)
-{
-    if (filter == 0)
-        filter = new hkpNullCollisionFilterC977();
-    else
-        ((FUN_00c90510_s*)filter)->FUN_00c90510();
-    ((FUN_00c905b0_s*)m_pCollisionFilter)->FUN_00c905b0();
-    m_pCollisionFilter = filter;
-    m_pCollisionInput->m_iFilter = m_pCollisionFilter;
-    if (runUpdate)
-        FUN_00c96ff0(updateMode, ProcessContactPoints);
-}
 }  // namespace fnv_00c977c0
 
 typedef float hkReal_S;
@@ -14778,8 +11213,6 @@ extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
 extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
 extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
 extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sqrt_ss(__m128 _A);
-extern __m128 _mm_unpackhi_ps(__m128 _A,__m128 _B);
 extern __m128 _mm_setr_ps(float _A,float _B,float _C,float _D);
 extern void _mm_store_ss(float*_V,__m128 _A);};
 typedef __m128 hkQuadReal;
@@ -14809,7 +11242,6 @@ return m_vValue;
 private:
 hkQuadReal m_vValue;};
 typedef const VectorComponentValue&hkSimdRealParameter;
-extern const hkQuadReal g_vQuadRealConstant;
 class hkQuaternion_S;
 class hkTransform_S;
 class hkQsTransform_S;
@@ -14877,141 +11309,6 @@ m_vComponents=v.m_vComponents;
 inline void hkVector4_S::set(hkReal_S a,hkReal_S b,hkReal_S c,hkReal_S d)
 {
 m_vComponents=_mm_setr_ps(a,b,c,d);
-}
-inline void hkVector4_S::SetAllComponents(hkSimdRealParameter a)
-{
-m_vComponents=_mm_shuffle_ps(a.getQuad(),a.getQuad(),(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-}
-inline void hkVector4_S::add4(const hkVector4_S&v)
-{
-m_vComponents=_mm_add_ps(m_vComponents,v.m_vComponents);
-}
-inline void hkVector4_S::setAdd4(const hkVector4_S&v0,const hkVector4_S&v1)
-{
-m_vComponents=_mm_add_ps(v0.m_vComponents,v1.m_vComponents);
-}
-inline void hkVector4_S::sub4(const hkVector4_S&v)
-{
-m_vComponents=_mm_sub_ps(m_vComponents,v.m_vComponents);
-}
-inline void hkVector4_S::setSub4(const hkVector4_S&v0,const hkVector4_S&v1)
-{
-m_vComponents=_mm_sub_ps(v0.m_vComponents,v1.m_vComponents);
-}
-inline void hkVector4_S::setMul4(const hkVector4_S&a,const hkVector4_S&b)
-{
-m_vComponents=_mm_mul_ps(a.m_vComponents,b.m_vComponents);
-}
-inline void hkVector4_S::addMul4(hkSimdRealParameter r,const hkVector4_S&v1)
-{
-m_vComponents=_mm_add_ps(m_vComponents,
-_mm_mul_ps(r.broadcast(),v1.m_vComponents));
-}
-inline void hkVector4_S::addMul4(const hkVector4_S&x,const hkVector4_S&y)
-{
-m_vComponents=_mm_add_ps(m_vComponents,
-_mm_mul_ps(x.m_vComponents,y.m_vComponents));
-}
-inline void hkVector4_S::setAddMul4(const hkVector4_S&a,const hkVector4_S&x,const hkVector4_S&y)
-{
-m_vComponents=_mm_add_ps(a.m_vComponents,
-_mm_mul_ps(x.m_vComponents,y.m_vComponents));
-}
-inline void hkVector4_S::setCross(const hkVector4_S&v0,const hkVector4_S&v1)
-{
-hkQuadReal cross0;
-cross0=_mm_mul_ps(
-_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))),
-_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))));
-hkQuadReal cross1;
-cross1=_mm_mul_ps(
-_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))),
-_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))));
-m_vComponents=_mm_sub_ps(cross0,cross1);}
-inline VectorComponentValue hkVector4_S::dot3(const hkVector4_S&a)const
-{
-hkQuadReal x2=_mm_mul_ps(m_vComponents,a.m_vComponents);
-hkQuadReal xySum=_mm_add_ss(_mm_shuffle_ps(x2,x2,(((1)<<6)|((1)<<4)|((1)<<2)|((1)))),x2);
-return _mm_add_ss(_mm_shuffle_ps(x2,x2,(((2)<<6)|((2)<<4)|((2)<<2)|((2)))),xySum);}
-inline VectorComponentValue hkVector4_S::length3()const
-{
-return _mm_sqrt_ss(this->dot3(*this).getQuad());
-}
-inline void hkVector4_S::setXYZW(const hkVector4_S&xyz,const hkVector4_S&w)
-{
-m_vComponents=_mm_shuffle_ps(xyz.m_vComponents,_mm_unpackhi_ps(xyz.m_vComponents,w.m_vComponents),(((3)<<6)|((0)<<4)|((1)<<2)|((0))));
-}
-inline VectorComponentValue hkVector4_S::getSimdAt(int i)const
-{
-switch(i)
-{
-case 0:
-return m_vComponents;
-case 1:
-return _mm_shuffle_ps(m_vComponents,m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
-case 2:
-return _mm_shuffle_ps(m_vComponents,m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
-case 3:
-default:
-return _mm_shuffle_ps(m_vComponents,m_vComponents,(((3)<<6)|((3)<<4)|((3)<<2)|((3))));
-}
-}
-inline void hkVector4_S::broadcast(int i)
-{
-if(i==0)
-{
-m_vComponents=_mm_shuffle_ps(m_vComponents,m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-}
-}
-inline void hkVector4_S::setBroadcast(const hkVector4_S&v,int i)
-{
-if(i==0)
-{
-m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-}
-else if(i==3)
-{
-m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((3)<<6)|((3)<<4)|((3)<<2)|((3))));
-}
-}
-__forceinline void hkVector4_S::SetRotatedDirection(const hkQuaternion_S&quat,const hkVector4_S&direction)
-{
-hkVector4_S minusHalf;minusHalf.getQuad()=g_vQuadRealConstant;
-hkVector4_S qreal;
-qreal.setBroadcast(quat.m_vec,3);
-hkVector4_S q2minus1;
-q2minus1.setAddMul4(minusHalf,qreal,qreal);
-hkVector4_S ret;
-ret.setMul4(direction,q2minus1);
-hkVector4_S imagDotDir;
-imagDotDir.getQuad()=quat.getImag().dot3(direction).getQuad();
-imagDotDir.broadcast(0);
-ret.addMul4(imagDotDir,quat.getImag());
-hkVector4_S imagCrossDir;
-imagCrossDir.setCross(quat.getImag(),direction);
-ret.addMul4(qreal,imagCrossDir);
-this->setAdd4(ret,ret);}
-inline const hkVector4_S&hkQuaternion_S::getImag()const
-{
-return m_vec;
-}
-inline void hkQuaternion_S::SetProduct(const hkQuaternion_S&q0,const hkQuaternion_S&q1)
-{
-hkVector4_S vec;
-vec.setCross(q0.getImag(),q1.getImag());
-vec.addMul4(q0.m_vec.getSimdAt(3),q1.getImag());
-hkVector4_S dot;
-dot.SetAllComponents(q0.m_vec.dot3(q1.m_vec));
-hkVector4_S w;
-w.sub4(dot);
-m_vec.setXYZW(vec,w);}
-const hkVector4_S&hkQsTransform_S::getTranslation()const
-{
-return m_vTranslation;
-}
-const hkQuaternion_S&hkQsTransform_S::getRotation()const
-{
-return m_rotation;
 }
 class hkDisplayGeometry;
 class hkDebugDisplayHandler
@@ -15087,61 +11384,6 @@ protected:
 hkArray_S<hkDebugDisplayHandler*>m_kDebugDisplayHandlers;
 mutable class PhysicsSimulationContext*m_pPhysicsSimulationContext;
 };
-// Renders bone hierarchy lines and local axis frames for a skeleton pose by transforming model-space positions and rotations into world space.
-// @fnv 0x00c998b0
-void hkDebugDisplay::FUN_00c998b0(int numTransforms,const hkInt16_S*parentIndices,const hkQsTransform_S*modelSpacePose,const hkQsTransform_S&worldFromModel,int id,int tag,int color,hkReal_S boneAxisSize,hkBool_S showRootTranslation)
-{
-const hkInt16_S numBones=static_cast<hkInt16_S>(numTransforms);
-for(hkInt16_S i=0;i<numBones;i++)
-{
-hkVector4_S p1;
-p1.SetTransformedPoint(worldFromModel,modelSpacePose[i].getTranslation());
-hkReal_S boneLen=1.0f;
-const hkInt16_S parent=parentIndices[i];
-if(parent==-1)
-{
-if(showRootTranslation)
-{
-hkVector4_S p2;
-p2.set(0,0,0,0);
-p2.SetTransformedPoint(worldFromModel,p2);
-DisplayLine(p1,p2,color,id,tag);
-}
-}
-else
-{
-hkVector4_S p2;
-p2.SetTransformedPoint(worldFromModel,modelSpacePose[parent].getTranslation());
-DisplayLine(p1,p2,color,id,tag);
-hkVector4_S bone;
-bone.setSub4(p1,p2);
-boneLen=bone.length3();
-boneLen=(boneLen>10.0f)? 10.0f:boneLen;
-boneLen=(boneLen<0.1f)? 0.1f:boneLen;
-}
-const hkVector4_S worldPosition=p1;
-hkQuaternion_S worldRotation;worldRotation.SetProduct(worldFromModel.getRotation(),modelSpacePose[i].getRotation());
-{
-hkVector4_S boneLocalFrame;
-hkVector4_S p2;
-p1=worldPosition;
-boneLocalFrame.set(boneAxisSize*boneLen,0,0,0);
-p2.SetRotatedDirection(worldRotation,boneLocalFrame);
-p2.add4(p1);
-DisplayLine(p1,p2,0x7fff0000,id,tag);
-p1=worldPosition;
-boneLocalFrame.set(0,boneAxisSize*boneLen,0,0);
-p2.SetRotatedDirection(worldRotation,boneLocalFrame);
-p2.add4(p1);
-DisplayLine(p1,p2,0x7f00ff00,id,tag);
-p1=worldPosition;
-boneLocalFrame.set(0,0,boneAxisSize*boneLen,0);
-p2.SetRotatedDirection(worldRotation,boneLocalFrame);
-p2.add4(p1);
-DisplayLine(p1,p2,0x7f0000ff,id,tag);
-}
-}
-}
 
 extern "C" __m128 __cdecl _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 __cdecl _mm_add_ss(__m128 a, __m128 b);
@@ -15181,18 +11423,6 @@ public:
     hkVector4DAD m_vec;
 };
 
-__forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat, const hkVector4DAD& direction)
-{
-    hkVector4DAD qreal; qreal.setBroadcast3(quat.m_vec);
-    hkVector4DAD q2minus1; q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
-    hkVector4DAD ret; ret.setMul4(q2minus1, direction);
-    hkVector4DAD imagDotDir; imagDotDir.m_vComponents = quat.getImag().dot3(direction); imagDotDir.m_vComponents = _mm_shuffle_ps(imagDotDir.m_vComponents, imagDotDir.m_vComponents, 0);
-    hkVector4DAD imagCrossDir; imagCrossDir.setCross(quat.getImag(), direction);
-    ret.addMul4(imagDotDir, quat.getImag());
-    ret.addMul4(qreal, imagCrossDir);
-    setAdd4(ret, ret);
-}
-
 class hkQsTransformDAD {
 public:
     __forceinline void SetProduct(const hkQsTransformDAD& t1, const hkQsTransformDAD& t2)
@@ -15208,46 +11438,6 @@ public:
     hkQuaternionDAD m_rotation;
     hkVector4DAD m_vScale;
 };
-
-extern const hkQsTransformDAD DAT_01268700;
-
-struct hkStackDAD {
-    char* m_cur;
-};
-
-struct hkRouterDAD {
-    static hkStackDAD* __cdecl FUN_00c85750() throw();
-};
-
-__forceinline void transformLocalPoseToModelPoseDAD(int numTransforms, const short* parentIndices, const hkQsTransformDAD& worldFromModel, const hkQsTransformDAD* poseLocal, hkQsTransformDAD* poseModelOut)
-{
-    for (int i = 0; i < numTransforms; i++)
-    {
-        const int parentId = parentIndices[i];
-        const hkQsTransformDAD& worldFromParent = (-1 != parentId) ? poseModelOut[parentId] : worldFromModel;
-        poseModelOut[i].SetProduct(worldFromParent, poseLocal[i]);
-    }
-}
-
-class PoseUserDAD {
-public:
-    void FUN_00c998b0(int numBones, const short* parents, hkQsTransformDAD* poseModel, int a4, int a5, int a6, int a7, float a8, int a9);
-    void FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, int a4, int a5, int a6, int a7, float a8, int a9);
-};
-
-// Converts local bone poses to model space on the stack and forwards them to FUN_00c998b0.
-// @fnv 0x00c99d40
-void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, int a4, int a5, int a6, int a7, float a8, int a9)
-{
-    hkStackDAD* stack = hkRouterDAD::FUN_00c85750();
-    hkQsTransformDAD* poseModel = (hkQsTransformDAD*)stack->m_cur;
-    stack->m_cur += (numBones * sizeof(hkQsTransformDAD) + 0x7f) & ~0x7f;
-
-    transformLocalPoseToModelPoseDAD(numBones, parents, DAT_01268700, poseLocal, poseModel);
-    FUN_00c998b0(numBones, parents, poseModel, a4, a5, a6, a7, a8, a9);
-
-    hkRouterDAD::FUN_00c85750()->m_cur = (char*)poseModel;
-}
 
 namespace fnv_00caa3f0 {
 class hkMemoryAllocator {
@@ -15454,18 +11644,6 @@ public:
  static void* operator new(unsigned int size) {void* p=FUN_00c85750()->heap().AllocateMemoryBlock(size); static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags=(unsigned short)size;return p;}
  static void operator delete(void* p) {FUN_00c85750()->heap().ReleaseBlock(p,0xe0);}
 };
-class LimitedHingeWrapper {
-public: unsigned int unk00;hkpLimitedHingeConstraintData* data;
- unsigned int FUN_00caa3f0();
-};
-// Ensures the hkpLimitedHingeConstraintData is allocated and returns its size.
-// @fnv 0x00caa3f0
-unsigned int LimitedHingeWrapper::FUN_00caa3f0()
-{
- AutoMemoryContext context(0x10);
- if(!data) data=new hkpLimitedHingeConstraintData;
- return sizeof(hkpLimitedHingeConstraintData);
-}
 }  // namespace fnv_00caa3f0
 
 extern "C" void _ReadWriteBarrier();
@@ -15474,8 +11652,6 @@ extern int DAT_0108febc;
 extern int DAT_01268188;
 extern int DAT_01268318;
 void* FUN_00aa13e0(unsigned int size);
-void FUN_00c876f0(void);
-void FUN_00c87700(void);
 
 struct TlsBlk_caa4a0 {
     unsigned int m_0000;
@@ -15784,6 +11960,8 @@ public:
     }
 };
 
+// pdb: bhkLimitedHingeConstraint::CreateClone | bhkLimitedHingeConstraint.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: arCloneData
 bhkRefObject* caa4a0_Target::FUN_00caa4a0(unsigned int param)
 {
     DAT_00d9b09c(&DAT_010f3194);
@@ -15816,16 +11994,6 @@ static inline void** AddBack(hkArray<void*>* arr, void* listener) {
     return p;
 }
 
-struct FUN_00c939a0_Class : hkpWorld {
-    void** FUN_00c939a0(void* listener);
-};
-
-// Adds the given listener to the island post-collide listener array and returns a pointer to the new slot.
-// @fnv 0x00c939a0
-void** FUN_00c939a0_Class::FUN_00c939a0(void* listener) {
-    return AddBack(&m_kIslandPostCollideListeners, listener);
-}
-
 struct hkThreadMemory {
     int unk00;
     int unk04;
@@ -15836,30 +12004,8 @@ struct hkThreadMemory {
 
 void ResizeAudioStream(void*, void*, int);
 
-struct hkpWorld_Listener : hkpWorld {
-    void*& FUN_00c93a60(void* listener);
-};
-
-// Appends a listener pointer to m_kWorldDeletionListeners, growing the array via ResizeAudioStream when full, and returns the stored pointer.
-// @fnv 0x00c93a60
-void*& hkpWorld_Listener::FUN_00c93a60(void* listener) {
-    hkArray<void*>* arr = &m_kWorldDeletionListeners;
-    hkThreadMemory* mem = (hkThreadMemory*)FUN_00c85750();
-    if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff)) {
-        ResizeAudioStream(mem->unk10, arr, 4);
-    }
-    void** slot = &arr->m_data[arr->m_iElementCount];
-    *slot = listener;
-    arr->m_iElementCount++;
-    return *slot;
-}
-
 struct FUN_00c92c70_Class {
     void __thiscall FUN_00c92c70(void* phantom);
-};
-
-struct FUN_00c936a0_Class {
-    void __thiscall FUN_00c936a0(void* phantom);
 };
 
 struct NiRTTI;
@@ -15889,7 +12035,7 @@ struct ActionObj {
 };
 
 struct FUN_00cac980_Holder {
-    void* __thiscall FUN_00cac980();
+    void* __thiscall hkpCharacterProxy_getShapePhantom();
 };
 
 struct FUN_00cac910_shell : FUN_00cac980_Holder {
@@ -15933,63 +12079,7 @@ struct HostClass : NiObject {
     bool __thiscall FUN_00c6d3f0(ArgClass* a1, int a2);
 };
 
-// If the action's current entity differs from a1->unk08, calls world->FUN_00c92c70, a virtual with a1->unk08, then FUN_00c936a0; returns true if so.
-// @fnv 0x00c6d3f0
-bool __thiscall HostClass::FUN_00c6d3f0(ArgClass* a1, int aiUnused) {
-    FUN_00cac910_shell* obj = this->unk08;
-    if (obj) {
-        ActionObj* action = (ActionObj*)obj->FUN_00cac980();
-        if (action) {
-            void* curEnt = action->m_pEntity;
-            void* ent = a1 ? a1->unk08 : 0;
-            if (curEnt != ent) {
-                FUN_00c92c70_Class* world = action->m_pOwningWorld;
-                SavedPosition position(getPosition());
-                if (world) {
-                    world->FUN_00c92c70(action);
-                }
-                action->AssignEntity(a1 ? a1->unk08 : 0);
-                if (world) {
-                    ((FUN_00c936a0_Class*)world)->FUN_00c936a0(action);
-                }
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-struct hkThreadMemoryQ {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pMemoryAllocator;
-};
-
 void ResizeAudioStream(void*, void*, int);
-
-template <typename T>
-inline T* hkArrayPushBack(hkArray<T>& arr, hkThreadMemoryQ* mem, const T& t) {
-    if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff)) {
-        ResizeAudioStream(mem->m_pMemoryAllocator, &arr, sizeof(T));
-    }
-    T* p = &arr.m_data[arr.m_iElementCount];
-    *p = t;
-    arr.m_iElementCount++;
-    return p;
-}
-
-struct FUN_00c93aa0_Class : hkpWorld {
-    void* FUN_00c93aa0(void* listener);
-};
-
-// Adds a listener to m_kContactImpulseLimitBreachedListeners via hkArrayPushBack and returns a pointer to the new element.
-// @fnv 0x00c93aa0
-void* FUN_00c93aa0_Class::FUN_00c93aa0(void* listener) {
-    hkArray<void*>* arr = &m_kContactImpulseLimitBreachedListeners;
-    return hkArrayPushBack(*arr, (hkThreadMemoryQ*)FUN_00c85750(), listener);
-}
 
 struct PhantomBatchAllocator {
     virtual void slot00() throw();
@@ -16015,22 +12105,6 @@ struct hkpBroadPhaseHandle {
 
 struct hkpPhantom;
 void __cdecl FUN_00d00820(hkpWorld* world, hkpPhantom* phantom) throw();
-
-struct PhantomBatchAccess : hkpPhantom {
-    int unk1C;
-    int unk20;
-    hkpBroadPhaseHandle m_handle;
-    virtual void slot14() throw();
-    virtual void slot18() throw();
-    virtual void slot1C() throw();
-    virtual void slot20() throw();
-    virtual void slot24() throw();
-    virtual void slot28() throw();
-    virtual void slot2C() throw();
-    virtual void slot30() throw();
-    virtual void slot34() throw();
-    void FUN_00d07b50() throw();
-};
 
 struct BroadPhaseCastCollector {
     hkpBroadPhaseHandle* m_kPointA;
@@ -16098,20 +12172,8 @@ __forceinline void PhantomBatchRemoveAt(hkArray<hkpPhantom*>& arr, int index) th
 
 struct RemovePhantomBatchOp {
     unsigned char m_type;
-    hkpPhantom** m_kPhantoms;
+    hkpPhantom** m_phantoms;
     unsigned short m_iPhantomCount;
-};
-
-struct BroadPhaseVt {
-    virtual void s00() throw();
-    virtual void s04() throw();
-    virtual void s08() throw();
-    virtual void s0C() throw();
-    virtual void s10() throw();
-    virtual void s14() throw();
-    virtual void s18() throw();
-    virtual void s1C() throw();
-    virtual void RemoveObjectBatch(hkArray<hkpBroadPhaseHandle*>& handles, hkArray<BroadPhaseCastCollector>& pairs) throw();
 };
 
 struct BroadPhaseDispatcher {
@@ -16224,7 +12286,7 @@ struct Q78World {
     void FUN_00902570(Q78Op* op) throw();
     void FUN_00902550() throw();
 };
-void __cdecl FUN_009888f0(Q78World* w, Q78Phantom* p) throw();
+void __cdecl hkpWorldCallbackUtil_firePhantomRemoved(Q78World* w, Q78Phantom* p) throw();
 }
 
 void World_RemovePhantomBatch::FUN_00c95800(hkpPhantom** phantomBatch, int numPhantoms) throw()
@@ -16246,7 +12308,7 @@ void World_RemovePhantomBatch::FUN_00c95800(hkpPhantom** phantomBatch, int numPh
         Q78Phantom* p = (Q78Phantom*)phantomBatch[i];
         handles.data[handles.size] = &p->handle;
         handles.size++;
-        FUN_009888f0(w, p);
+        hkpWorldCallbackUtil_firePhantomRemoved(w, p);
         p->FUN_00989820();
     }
     {
@@ -16293,8 +12355,6 @@ void Cls_00c98780::FUN_00c98780(const hkTransform& tr, const hkVector4& a, const
 }
 
 
-extern const float DAT_01011d78;
-
 struct Vec_00c98c80 {
     __m128 m_vComponents;
     void set(const float& x, const float& y, const float& z, const float& w)
@@ -16302,80 +12362,6 @@ struct Vec_00c98c80 {
         m_vComponents = _mm_setr_ps(x, y, z, w);
     }
 };
-
-struct Aabb_00c98c80 {
-    Vec_00c98c80 m_kMinimumCorner;
-    Vec_00c98c80 m_kMaximumCorner;
-};
-
-struct Line_00c98c80 {
-    Vec_00c98c80 a;
-    Vec_00c98c80 b;
-};
-
-struct Disp_00c98c80 {
-    void FUN_00c986c0(const Vec_00c98c80* a, const Vec_00c98c80* b, int p2, int p3, int p4);
-    void FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4);
-};
-
-// Builds the 12 edge lines of the AABB box and draws each with FUN_00c986c0.
-// @fnv 0x00c98c80
-void Disp_00c98c80::FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4)
-{
-    const float* pMin = box->m_kMinimumCorner.m_vComponents.m128_f32;
-    const float* pMax = box->m_kMaximumCorner.m_vComponents.m128_f32;
-    Line_00c98c80 aabbEdges[12];
-    aabbEdges[0].a.set(pMin[0], pMin[1], pMin[2], DAT_01011d78);
-    aabbEdges[0].b.set(pMin[0], pMax[1], pMin[2], DAT_01011d78);
-    aabbEdges[1].a.set(pMin[0], pMin[1], pMin[2], DAT_01011d78);
-    aabbEdges[1].b.set(pMin[0], pMin[1], pMax[2], DAT_01011d78);
-    aabbEdges[2].a.set(pMin[0], pMin[1], pMin[2], DAT_01011d78);
-    aabbEdges[2].b.set(pMax[0], pMin[1], pMin[2], DAT_01011d78);
-    aabbEdges[3].a.set(pMax[0], pMax[1], pMax[2], DAT_01011d78);
-    aabbEdges[3].b.set(pMax[0], pMax[1], pMin[2], DAT_01011d78);
-    aabbEdges[4].a.set(pMax[0], pMax[1], pMax[2], DAT_01011d78);
-    aabbEdges[4].b.set(pMin[0], pMax[1], pMax[2], DAT_01011d78);
-    aabbEdges[5].a.set(pMax[0], pMax[1], pMax[2], DAT_01011d78);
-    aabbEdges[5].b.set(pMax[0], pMin[1], pMax[2], DAT_01011d78);
-    aabbEdges[6].a.set(pMin[0], pMax[1], pMin[2], DAT_01011d78);
-    aabbEdges[6].b.set(pMax[0], pMax[1], pMin[2], DAT_01011d78);
-    aabbEdges[7].a.set(pMin[0], pMax[1], pMin[2], DAT_01011d78);
-    aabbEdges[7].b.set(pMin[0], pMax[1], pMax[2], DAT_01011d78);
-    aabbEdges[8].a.set(pMax[0], pMax[1], pMin[2], DAT_01011d78);
-    aabbEdges[8].b.set(pMax[0], pMin[1], pMin[2], DAT_01011d78);
-    aabbEdges[9].a.set(pMin[0], pMax[1], pMax[2], DAT_01011d78);
-    aabbEdges[9].b.set(pMin[0], pMin[1], pMax[2], DAT_01011d78);
-    aabbEdges[10].a.set(pMin[0], pMin[1], pMax[2], DAT_01011d78);
-    aabbEdges[10].b.set(pMax[0], pMin[1], pMax[2], DAT_01011d78);
-    aabbEdges[11].a.set(pMax[0], pMin[1], pMax[2], DAT_01011d78);
-    aabbEdges[11].b.set(pMax[0], pMin[1], pMin[2], DAT_01011d78);
-
-    for (int i = 0; i < 12; i++)
-    {
-        FUN_00c986c0(&aabbEdges[i].a, &aabbEdges[i].b, p2, p3, p4);
-    }
-}
-
-struct Xf_00c996e0 {
-    __m128 c0;
-    __m128 c1;
-    __m128 c2;
-    void FUN_00ce52e0(const hkQsTransform& a);
-};
-
-struct Pose_00c996e0 {
-    void ApplyRotation(const Xf_00c996e0& t, int b, int c, int d, int e, int g);
-    void FUN_00c996e0(const hkQsTransform& a, int b, int c, int d, int e, int g);
-};
-
-// Converts an hkQsTransform into a local Xf_00c996e0 and forwards it to ApplyRotation with the remaining parameters.
-// @fnv 0x00c996e0
-void Pose_00c996e0::FUN_00c996e0(const hkQsTransform& a, int b, int c, int d, int e, int g)
-{
-    Xf_00c996e0 t;
-    t.FUN_00ce52e0(a);
-    ApplyRotation(t, b, c, d, e, g);
-}
 
 extern __declspec(thread) unsigned int t_uiMemContextCAA;
 
@@ -16443,111 +12429,6 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 };
-
-class ShapeChildCAA {
-public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual hkReferencedObjectCAA* v0C();
-};
-
-class ShapeCAA : public hkReferencedObjectCAA {
-public:
-    ShapeCAA(); // FUN_00cb9090
-
-    void SetReferencedObject(hkReferencedObjectCAA* obj);
-
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4CAA m_v20;
-    hkVector4CAA m_v30;
-    hkVector4CAA m_v40;
-    hkVector4CAA m_v50;
-    hkVector4CAA m_v60;
-    hkVector4CAA m_v70;
-    hkVector4CAA m_v80;
-    hkVector4CAA m_v90;
-    unsigned char unkA0;
-    unsigned char unkA1;
-    unsigned char m_flagA2;
-    unsigned char unkA3;
-    int unkA4;
-    int unkA8;
-    int unkAC;
-    ShapeChildCAA* m_pChildAtom;
-    int unkB4;
-    int unkB8;
-    float m_fBC;
-    float unkC0;
-    float m_fC4;
-    float m_fC8;
-    int unkCC;
-    int unkD0;
-    int unkD4;
-    int unkD8;
-    int unkDC;
-};
-
-struct ShapeCinfoCAA {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    float m_vScale;
-};
-
-void __cdecl FUN_00cbd9e0(float scale, ShapeCAA* shape);
-
-class ShapeClonerCAA {
-public:
-    ShapeCAA* ReleaseObject(ShapeCAA* shape, ShapeCinfoCAA* cinfo);
-    ShapeCAA* FUN_00caa250(ShapeCAA* dst, ShapeCinfoCAA* cinfo);
-
-    int unk00;
-    ShapeCAA* m_pCollisionShape;
-};
-
-// Copies fields from m_pCollisionShape into dst (new if null), applies cinfo->m_vScale if not 1.0, copies the child atom, and returns ReleaseObject(dst, cinfo).
-// @fnv 0x00caa250
-ShapeCAA* ShapeClonerCAA::FUN_00caa250(ShapeCAA* apDstShape, ShapeCinfoCAA* cinfo)
-{
-    AutoMemContextCAA kContext(0x10);
-    ShapeCAA* src = m_pCollisionShape;
-    if (!apDstShape)
-    {
-        apDstShape = new ShapeCAA;
-    }
-    apDstShape->m_v20 = src->m_v20;
-    apDstShape->m_v30 = src->m_v30;
-    apDstShape->m_v40 = src->m_v40;
-    apDstShape->m_v50 = src->m_v50;
-    apDstShape->m_v60 = src->m_v60;
-    apDstShape->m_v70 = src->m_v70;
-    apDstShape->m_v80 = src->m_v80;
-    apDstShape->m_v90 = src->m_v90;
-    apDstShape->m_fBC = src->m_fBC;
-    apDstShape->m_fC4 = src->m_fC4;
-    apDstShape->m_fC8 = src->m_fC8;
-    float scale = cinfo->m_vScale;
-    if (scale != 1.0f)
-    {
-        FUN_00cbd9e0(scale, apDstShape);
-    }
-    ShapeChildCAA* pChildAtom = src->m_pChildAtom;
-    if (pChildAtom)
-    {
-        hkReferencedObjectCAA* obj = pChildAtom->v0C();
-        apDstShape->SetReferencedObject(obj);
-        obj->FUN_00c905b0();
-        apDstShape->m_flagA2 = src->m_flagA2;
-    }
-    return ReleaseObject(apDstShape, cinfo);
-}
 
 namespace BatchAdd {
 class hkMemory {
@@ -16678,7 +12559,7 @@ struct PendingOp {
     unsigned char m_uiStandInValue;
     unsigned char m_iValueAfterStandIn;
     unsigned char m_pAuxiliaryObject;
-    hkpPhantom* const* m_kPhantoms;
+    hkpPhantom* const* m_phantoms;
     short m_iPhantomCount;
     short m_pad3;
 };
@@ -16688,7 +12569,7 @@ struct WorldHelper : public hkpWorld {
     void __thiscall FUN_00c91120() throw();
     void __thiscall FUN_00c91140() throw();
 
-    void FUN_00c954e0(hkpPhantom* const* phantomBatch, int numPhantoms) throw();
+    void hkpWorld_addPhantomBatch(hkpPhantom* const* phantomBatch, int numPhantoms) throw();
 };
 
 // Adds a batch of phantoms to the world (queued as a pending op if locked), updates broad phase pairs, and passes them to FUN_00cf7080.
@@ -16788,10 +12669,11 @@ struct Q75World {
     void FUN_00902570(Q75Op* op) throw();
     void FUN_00902550() throw();
 };
-void __cdecl FUN_00988840(Q75World* w, Q75Phantom* p) throw();
+void __cdecl hkpWorldCallbackUtil_firePhantomAdded(Q75World* w, Q75Phantom* p) throw();
 }
 
-void BatchAdd::WorldHelper::FUN_00c954e0(hkpPhantom* const* phantomBatch, int numPhantoms) throw()
+// pdb: hkpWorld::addPhantomBatch | hkpWorld.obj | fnv360_0822_retail, call_seq + bridge(call_gap_sim|caller_sim) + skyrim(call_gap), high
+void BatchAdd::WorldHelper::hkpWorld_addPhantomBatch(hkpPhantom* const* phantomBatch, int numPhantoms) throw()
 {
     using namespace f3m_00907570;
     Q75World* w = reinterpret_cast<Q75World*>(this);
@@ -16823,7 +12705,7 @@ void BatchAdd::WorldHelper::FUN_00c954e0(hkpPhantom* const* phantomBatch, int nu
             f3m_00907570::FUN_00901f10(&a, 4);
         a.data[a.size] = p;
         a.size++;
-        FUN_00988840(w, p);
+        hkpWorldCallbackUtil_firePhantomAdded(w, p);
         p->FUN_00989860();
     }
 
@@ -16838,9 +12720,6 @@ void BatchAdd::WorldHelper::FUN_00c954e0(hkpPhantom* const* phantomBatch, int nu
 
 
 }
-
-struct PendingCalls_00c97510 { void FUN_00c91120(); void FUN_00c91140(); };
-
 
 struct hkAllocQ70 {
     virtual void unk00();
@@ -16963,8 +12842,6 @@ struct hkpSimulationIsland {
     void RemoveEntry(hkpAction* action);
 };
 
-void __cdecl NotifyActionRemoved(::hkpWorld* world, hkpAction* action);
-
 struct hkpWorldDecomp : ::hkpWorld {
     void FUN_00c97510(hkpAction* action);
 };
@@ -17052,7 +12929,7 @@ struct Entity {
     char p00[0x1f8];
     SmallArray<Action*> actions;
 };
-void __cdecl FUN_00988580(World* w, Action* a) throw();
+void __cdecl hkpWorldCallbackUtil_fireActionRemoved(World* w, Action* a) throw();
 }
 void hkpWorldDecomp::FUN_00c97510(hkpAction* a)
 {
@@ -17061,7 +12938,7 @@ void hkpWorldDecomp::FUN_00c97510(hkpAction* a)
     World* self = (World*)this;
     action->AddReference();
     self->lockCount++;
-    FUN_00988580(self, action);
+    hkpWorldCallbackUtil_fireActionRemoved(self, action);
     {
         InplaceArray<Entity*, 4> entities;
         action->GetEntities(entities);
@@ -17086,134 +12963,37 @@ void hkpWorldDecomp::FUN_00c97510(hkpAction* a)
 }
 
 
-struct FUN_00c91210_Class {
-    void* m_iWordAt00;
-    void* m_iWordAt04;
-    void* m_8;
-    void* m_iThirdValue;
-    void* m_10;
-    void* m_14;
-    void* m_18;
-    void* m_1c;
-    void* m_20;
-    void* m_24;
-    void* m_28;
-    void* m_2c;
-    void* m_30;
-    void* m_34;
-    void* m_38;
-    void* m_3c;
-    void* m_40;
-    void* m_44;
-    void* m_48;
-    void* m_4c;
-    void* m_50;
-    void* m_54;
-    void* m_58;
-    void* m_5c;
-    void* m_60;
-    void* m_64;
-    void* m_68;
-    void* m_6c;
-    void* m_70;
-    void* m_74;
-    void* m_78;
-    void* m_7c;
-    void* m_80;
-    void* m_84;
-    void* m_88;
-    void* m_8c;
-    void* m_90;
-    void* m_94;
-    void* m_98;
-    void* m_9c;
-    void* m_a0;
-    void* m_a4;
-    void* m_a8;
-    void* m_ac;
-    void* m_b0;
-    void* m_b4;
-    void* m_b8;
-    void FUN_00c91210(void*);
-};
-// @fnv 0x00c91210
-void FUN_00c91210_Class::FUN_00c91210(void* cs)
-{
-    if (m_b8)
-        LeaveCriticalSection(m_b8);
-}
-
-struct FUN_00c91180_Helper {
-    void IncrementCounter();
-    void FUN_00c91190();
-};
-struct FUN_00c91b70_Class {
-    void* m_iWordAt00;
-    void* m_iWordAt04;
-    void* m_8;
-    void* FUN_00c91b70(float f);
-};
-// Between IncrementCounter and FUN_00c91190, calls vtable entry 4 of the object at m_8 with f and returns its result.
-// @fnv 0x00c91b70
-void* FUN_00c91b70_Class::FUN_00c91b70(float afValue)
-{
-    ((FUN_00c91180_Helper*)this)->IncrementCounter();
-    void* p = ((void* (__thiscall*)(void*, float))(*((void***)m_8))[4])(m_8, afValue);
-    ((FUN_00c91180_Helper*)this)->FUN_00c91190();
-    return p;
-}
-
 namespace AdvanceTimeDetail {
-struct WorldLock {
-    void __thiscall IncrementCounter();
-    void __thiscall FUN_00c91190();
-};
 
-struct Simulation {
-    virtual ~Simulation();
-    virtual const hkClass* GetClassType() const;
-    virtual void CalcContentStatistics(void*, const hkClass*) const;
-    virtual int SimulateForDeltaTime(float);
-    virtual int integrate(float);
-    virtual int collide();
-    virtual int AdvanceSimulationTime();
-};
-}
-
-struct WorldAdvanceEntry : hkpWorld {
-    int FUN_00c91bd0();
-};
-
-// Calls IncrementCounter, then a virtual method on m_pSimulation, then FUN_00c91190, and returns the virtual method's result.
-// @fnv 0x00c91bd0
-int WorldAdvanceEntry::FUN_00c91bd0()
-{
-    reinterpret_cast<AdvanceTimeDetail::WorldLock*>(this)->IncrementCounter();
-    int result = reinterpret_cast<AdvanceTimeDetail::Simulation*>(m_pSimulation)->AdvanceSimulationTime();
-    reinterpret_cast<AdvanceTimeDetail::WorldLock*>(this)->FUN_00c91190();
-    return result;
 }
 
 // @f3twin 0x009023f0 of 0x004ae3c0
 struct F3Twin_009023f0 : public WorldWatchDogHolder { void* F3_FUN_009023f0() ; };
+// pdb: hkpWorld::getBroadPhaseBorder | hkpWorld.obj | fnv360_0822_retail, objrun_open, low
 void* F3Twin_009023f0::F3_FUN_009023f0() 
 {
-    return m_pMemoryWatchDog;
+    return m_memoryWatchDog;
 }
 
 // @f3twin 0x00a73f40 of 0x009088f0
+// pdb: hkpDisableEntityCollisionFilter::isCollisionEnabled | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, a, b, bContainer, bKey
 void __stdcall F3_FUN_00a73f40(char* pFlag, int a2, int a3, int a4, int a5, int a6)
 {
     *pFlag = 1;
 }
 
 // @f3twin 0x00a73f60 of 0x00908900
+// pdb: hkpDisableEntityCollisionFilter::isCollisionEnabled | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: input, collectionBodyA, collectionBodyB, containerShapeA, containerShapeB, keyA, keyB
 void __stdcall F3_FUN_00a73f60(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
     *flag = 1;
 }
 
 // @f3twin 0x00a73f70 of 0x009088e0
+// pdb: hkpDisableEntityCollisionFilter::isCollisionEnabled | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, collidableB
 void __stdcall F3_FUN_00a73f70(unsigned char* out, int a2, int a3)
 {
     *out = 1;

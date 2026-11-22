@@ -71,6 +71,8 @@ struct Object381 {
     unsigned int state;
 };
 struct Owner381 { Object381* FUN_00826590(unsigned int kind); };
+// pdb: BSShader::SetupGeometry | BSShader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apGeometry
 bool __stdcall FUN_00b57630(Owner381* owner) {
     Object381* object = owner->FUN_00826590(3);
     int matches = 0;
@@ -95,6 +97,7 @@ struct FUN_00b54940 {
     unsigned char unk00[0xec];
 };
 
+// pdb: HairShader::CreateShader | HairShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00b54940* FUN_00b54b30()
 {
     void* a = FUN_0087e9a0(DAT_0116f2f8, 6, 1);
@@ -142,6 +145,7 @@ typedef void (__thiscall* FUN_00b53190_V0)(void*);
 typedef void (__thiscall* FUN_00b53190_V1)(void*, void*);
 typedef void (__thiscall* FUN_00b53190_V5)(void*, int, int, int, int, int);
 
+// pdb: SkinShader::CreateShader | SkinShader.obj | fnv360_0822_retail, call_gap, medium
 void* FUN_00b53190()
 {
     void* a = FUN_0087e9a0(DAT_0116f2f8, 6, 1);
@@ -266,6 +270,8 @@ struct FUN_00b51b90_cls {
     void FUN_00b51b90(UnkReq* p);
 };
 
+// pdb: ParallaxShader::SetupGeometryTextures | ParallaxShader.obj | fnv360_0721_beta, objrun, medium
+// pdb params: apState
 void FUN_00b51b90_cls::FUN_00b51b90(UnkReq* p)
 {
     unsigned int sel = (unsigned int)DAT_0116efd4;
@@ -513,6 +519,7 @@ struct FUN_00b48bd0_cls {
     bool FUN_00b48bd0();
 };
 
+// pdb: VolumetricFogShader::LoadStagesAndPasses | VolumetricFogShader.obj | fnv360_0822_retail, objrun_prop, medium
 bool FUN_00b48bd0_cls::FUN_00b48bd0()
 {
     Slot** slots = &unk6c;
@@ -763,6 +770,7 @@ extern unsigned int DAT_01177ce4;
 unsigned int __cdecl FUN_00b42bd0();
 void __cdecl FUN_00b42c00();
 
+// pdb: BoltShaderProperty::BoltShaderProperty | BoltShaderProperty.obj | fnv360_0822_retail, call_gap, low
 FUN_00b43df0::FUN_00b43df0()
 {
     field84 = 0.0f;
@@ -845,6 +853,8 @@ struct ShaderSelector
 };
 // Chooses a pass id from the seven boolean flags and type, submits it via pPasses when type is 1, otherwise increments count; sets out to false and returns 0.
 // @fnv 0x00bda0a0
+// pdb: BSShaderPPLightingProperty::AddAmbDiffTexPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeom, apSunlight, asCount, abUpdateList, abFirst, abSkinned, abAlphaTest, abGlowMap, abFacegenBlend, abFog, abVertexColors, abTreeBranch
 int ShaderSelector::FUN_00b5c2c0(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count, unsigned char type,
                                  bool* out, bool a, bool b, bool c, bool d, bool e, bool f, bool g)
 {
@@ -1898,6 +1908,7 @@ struct ShaderManager
     void FUN_00b51fe0();
 };
 // @fnv 0x00bce950
+// pdb: SkinShader::LoadVertexShaders | SkinShader.obj | fnv360_0822_retail, ustr, medium
 void ShaderManager::FUN_00b51fe0()
 {
     ShaderEntry entries[26];
@@ -2546,6 +2557,7 @@ struct FeatureManager
     void __thiscall FUN_00b529b0();
 };
 // @fnv 0x00bcf320
+// pdb: SkinShader::LoadPixelShaders | SkinShader.obj | fnv360_0822_retail, ustr, medium
 void FeatureManager::FUN_00b529b0()
 {
     FeatureDescription descriptors[13];
@@ -2704,6 +2716,8 @@ struct ShaderTarget
                      bool, bool, bool, bool, bool, bool);
 };
 // @fnv 0x00bdc0d0
+// pdb: BSShaderPPLightingProperty::AddAmbDiff2Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, apSunlight, apPtLight, asCount, abUpdateList, abFirst, abSkinned, abGlowMap, abFacegenBlend, abMultitexture, abProjShadow, abParallax, abTreeBranch
 int ShaderTarget::FUN_00b5e380(NiGeometry* geometry, ShadowSceneLight* light0, ShadowSceneLight* light1,
                                unsigned short* count, unsigned char type, bool* out, bool a, bool b, bool c,
                                bool unused, bool d, bool e, bool f)
@@ -2915,6 +2929,8 @@ struct ShaderTwoLightSelector
 };
 
 // @fnv 0x00bdca60
+// pdb: BSShaderPPLightingProperty::AddAmbDiffTexPass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, apSunlight, asCount, abUpdateList, abFirst, abSkinned, abGlowMap, abFacegenBlend, abMultitexture, abProjShadow, abParallax, abModelSpaceNormals, abTreeBranch, abTreeBillboard, abHair, abAlphaTest
 int ShaderTwoLightSelector::FUN_00b5ed10(NiGeometry* geometry, ShadowSceneLight* light0, ShadowSceneLight* light1,
                                                unsigned short* count, unsigned char type, bool* first, bool a, bool b,
                                                bool c, bool unused, bool e, bool f, bool g, bool h)
@@ -3126,6 +3142,8 @@ struct ShaderSelector {
     int FUN_00b5b760(NiGeometry*, ShadowSceneLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
 };
 // @fnv 0x00bd9540
+// pdb: BSShaderPPLightingProperty::AddAmbientPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apSunlight, asCount, abUpdateList, abFirst, abSkinned, abAlphaTest, abGlowMap, abTreeBranch
 int ShaderSelector::FUN_00b5b760(NiGeometry* geom, ShadowSceneLight* light, unsigned short* pusCount,
                                   unsigned char type, bool* pbOut, bool a, bool b, bool c, bool d)
 {
@@ -3313,6 +3331,7 @@ struct Manager0214
 };
 
 // @fnv 0x00bd0540
+// pdb: HairShader::LoadVertexShaders | HairShader.obj | fnv360_0822_retail, ustr, medium
 void Manager0214::FUN_00b53bb0()
 {
     Elem540 arrB[7];
@@ -3594,6 +3613,7 @@ struct FUN_00b54360 : FUN_00afc720
     ~FUN_00b54360();
 };
 // @fnv 0x00bd0ce0
+// pdb: HairShader::~HairShader | HairShader.obj | fnv360_0822_retail, objrun, medium
 FUN_00b54360::~FUN_00b54360()
 {
     for (int i = 0; i < 7; ++i)
@@ -3643,6 +3663,8 @@ struct ShaderPassOwner
                                  bool b12, bool b13, bool b14);
 };
 // @fnv 0x00bdc530
+// pdb: BSShaderPPLightingProperty::AddAmbDiff3Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apSunlight, apPtLight, apPtLight2, asCount, abUpdateList, abFirst, abSkinned, abGlowMap, abFacegenBlend, abMultitexture, abProjShadow, abParallax, abTreeBranch
 int __thiscall ShaderPassOwner::FUN_00b5e7e0(NiGeometry* apGeometry, ShadowSceneLight* apLight0,
                                               ShadowSceneLight* apLight1, ShadowSceneLight* apLight2,
                                               unsigned short* count, bool flag, bool* out, bool b8, bool b9, bool b10,
@@ -3913,6 +3935,8 @@ struct ShaderPassBuilder : Shader_00bd9540
 };
 // Selects a shader pass index from the boolean flags and adds it to pPasses when type==1, otherwise increments *count; sets *out to false and returns 0.
 // @fnv 0x00bdd520
+// pdb: BSShaderPPLightingProperty::AddAmbDiffTexSpecular2Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, apSunlight, apPtLight, asCount, abUpdateList, abFirst, abSkinned, abGlowMap, abFacegenBlend, abMultitexture, abProjShadow, abParallax, abTreeBranch, abHair
 int ShaderPassBuilder::FUN_00b5f7e0(NiGeometry* geometry, ShadowSceneLight* light0, ShadowSceneLight* light1,
                                     unsigned short* count, unsigned char type, bool* out, bool a, bool b, bool c,
                                     bool d, bool e, bool f, bool g, bool h)
@@ -4141,6 +4165,8 @@ struct ShaderPassSelector
     int FUN_00b5fce0(NiGeometry* geom, ShadowSceneLight* light0, ShadowSceneLight* light1, unsigned short* count, unsigned char type, bool* out, bool a, bool b, bool c, bool d, bool e);
 };
 // @fnv 0x00bdda20
+// pdb: BSShaderPPLightingProperty::AddDiffusePt2Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeom, apPtLight1, apPtLight2, asCount, abUpdateList, abFirst, abSkinned, abFacegenBlend, abMultitexture, abParallax, abTreeBranch
 int ShaderPassSelector::FUN_00b5fce0(NiGeometry* geom, ShadowSceneLight* light0, ShadowSceneLight* light1,
                                      unsigned short* count, unsigned char type, bool* out, bool a, bool b, bool c,
                                      bool d, bool e)
@@ -4264,6 +4290,8 @@ struct Shader
                      bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h);
 };
 // @fnv 0x00bdd050
+// pdb: BSShaderPPLightingProperty::AddAmbDiffTexSpecularPass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apSunlight, asCount, abUpdateList, abFirst, abSkinned, abGlowMap, abFacegenBlend, abMultitexture, abProjShadow, abParallax, abTreeBranch, abHair
 int Shader::FUN_00b5f310(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count, unsigned char type,
                          bool* out, bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h)
 {
@@ -4883,6 +4911,8 @@ struct FUN_00b45d40
     void FUN_00b459e0();
 };
 // @fnv 0x00bd6190
+// pdb: DistantLODGroup::DistantLODGroup | DistantLODGroup.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apCachedGeometry, aiCellChunk, abLowDetail
 FUN_00b45d40::FUN_00b45d40(Source* src, int argValue, bool flag)
 {
     capacity = src->count;
@@ -5109,6 +5139,8 @@ struct Shader9840
 };
 // Chooses a pass index from the boolean flags and type, calls the pass array for type 1 or increments count otherwise, then clears out and returns 0.
 // @fnv 0x00bd9840
+// pdb: BSShaderPPLightingProperty::AddDiffusePass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apLight, asCount, abUpdateList, abFirst, abSkinned, abPointLight, abMultitexture, abTreeBranch
 int Shader9840::FUN_00b5ba60(NiGeometry* geometry, ShadowSceneLight* light, unsigned short* count, unsigned char type,
                              bool& out, bool a, bool b, bool c, bool d)
 {
@@ -5348,6 +5380,8 @@ struct TerrainShader : ShaderBase_00b690d0
 
 // Appends base debug info plus height map, light flags and point-light status strings to arr.
 // @fnv 0x00bc4460
+// pdb: HairShaderProperty::GetViewerStrings | HairShaderProperty.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSLightingShaderMaterialMultiLayerParallax::ComputeCRC32)
+// pdb params: apStrings
 void TerrainShader::FUN_00b47b50(StrArray* arr)
 {
     FUN_00aec6a0(arr);
@@ -5587,6 +5621,8 @@ struct FUN_00b42d20 : FUN_00b64170
 };
 
 // @fnv 0x00bc0c90
+// pdb: BoltShader::BoltShader | BoltShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl
 FUN_00b42d20::FUN_00b42d20(CountedRef* apSource)
     : FUN_00b64170(), pt1(), pt2(), pass(), f16C(0.0f), f170(0.0f), f174(0.0f), f178(0.0f), f17C(0.0f), f180(0.0f),
       f184(0.0f), f188(0.0f), first(), second()
@@ -5766,6 +5802,7 @@ struct TargetBeam
 };
 // Builds source and binary paths for the beam vertex and pixel shaders and assigns the compiled shader objects to vertex and pixel.
 // @fnv 0x00bc4680
+// pdb: BoltShader::LoadShaders | BoltShader.obj | fnv360_0822_retail, ustr, medium
 void TargetBeam::FUN_00b42a40()
 {
     BeamDesc vertexDesc("bolt\\v\\bolt.v.hlsl");
@@ -6091,6 +6128,8 @@ class FUN_00b5b090 : public FUN_0083b6d0
 
 // Stores iArg in m_114, nulls m_spArr/m_sp130/m_sp138, sets a tan(pi/4) perspective frustum via UpdateViewFrustum, and creates a FUN_00ae9090 in m_sp13c.
 // @fnv 0x00bd8290
+// pdb: BSCubeMapCamera::BSCubeMapCamera | BSCubeMapCamera.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: aecubemaptype
 FUN_00b5b090::FUN_00b5b090(int iArg)
 {
     m_114 = iArg;
@@ -6250,6 +6289,7 @@ struct FUN_00b54160_class : ShaderBase
 };
 
 // @fnv 0x00bd0ae0
+// pdb: HairShader::LoadStagesAndPasses | HairShader.obj | fnv360_0822_retail, objrun, medium
 bool FUN_00b54160_class::FUN_00b54160()
 {
     for (int i = 0; i < 2; i++)
@@ -6422,6 +6462,7 @@ struct FUN_00b472a0 : FUN_00aea2f0
 };
 // Constructor: clears the effect pointers, initialises three vectors from DAT_0108ec68, zeroes the floats, and sets unk1c to 9.
 // @fnv 0x00bc3bb0
+// pdb: HairShaderProperty::HairShaderProperty | HairShaderProperty.obj | fnv360_0822_retail, objrun, medium
 FUN_00b472a0::FUN_00b472a0()
 {
     third = 0;
@@ -6536,6 +6577,7 @@ struct TargetBeam
     void FUN_00b47d60();
 };
 // @fnv 0x00bc4680
+// pdb: BeamShader::LoadShaders | BeamShader.obj | fnv360_0822_retail, ustr, low, conflict (skyrim: BSLightingShaderMaterialMultiLayerParallax::GetTextures)
 void TargetBeam::FUN_00b47d60()
 {
     BeamDesc vertexDesc("beam\\v\\beam.v.hlsl");
@@ -6670,6 +6712,7 @@ struct FUN_00b46120
 };
 // Releases the three object references, detaches the owner's callback, frees allocation10 and allocation14, and calls FUN_00b45cf0.
 // @fnv 0x00bd6570
+// pdb: DistantLODGroup::~DistantLODGroup | DistantLODGroup.obj | fnv360_0822_retail, call_seq, medium
 FUN_00b46120::~FUN_00b46120()
 {
     additional.Reset();
@@ -6778,6 +6821,7 @@ struct VolumetricFog
 };
 
 // @fnv 0x00bc51a0
+// pdb: VolumetricFogShader::LoadPixelShaders | VolumetricFogShader.obj | fnv360_0822_retail, ustr, medium
 void VolumetricFog::FUN_00b48860()
 {
     const char* shaderTargets[2];
@@ -6902,6 +6946,8 @@ struct FUN_00b54940 : FUN_00afc480
 };
 
 // @fnv 0x00bd12c0
+// pdb: HairShader::HairShader | HairShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl, apSkinnedShaderDecl
 FUN_00b54940::FUN_00b54940(Ref_bd12c0* apRefA, Ref_bd12c0* apRefB) : FUN_00afc480(apRefA, apRefB, 0, 0)
 {
     unk68 = 2;
@@ -6941,6 +6987,8 @@ int FUN_00b5fe80(NiGeometry* geom, ShadowSceneLight* l0, ShadowSceneLight* l1, S
                                      bool abFlagC, bool abFlagD, bool abFlagE);
 };
 // @fnv 0x00bddbc0
+// pdb: BSShaderPPLightingProperty::AddDiffusePt3Pass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apPtLight1, apPtLight2, apPtLight3, asCount, abUpdateList, abFirst, abSkinned, abFacegenBlend, abMultitexture, abParallax, abTreeBranch
 int Shader244::FUN_00b5fe80(NiGeometry* geom, ShadowSceneLight* l0, ShadowSceneLight* l1, ShadowSceneLight* l2,
                                      unsigned short* count, unsigned char type, bool* out, bool abFlagA, bool abFlagB,
                                      bool abFlagC, bool abFlagD, bool abFlagE)
@@ -7519,6 +7567,8 @@ struct Cam_bd7620
 };
 
 // @fnv 0x00bd7620
+// pdb: BSCubeMapCamera::RenderGeomForLight | BSCubeMapCamera.obj | fnv360_1110_retail, call_gap, low
+// pdb params: apLight
 void Cam_bd7620::FUN_00b5a420(Scene_bd7620* scene)
 {
     if (!scene)
@@ -7667,6 +7717,7 @@ struct FUN_00b470e0 : FUN_00aea720
 };
 // Clears the three NiPointer members and resets each of the three m_akPts points to DAT_0108ec68 and each m_afVals entry to 0.0f.
 // @fnv 0x00bc39f0
+// pdb: HairShaderProperty::~HairShaderProperty | HairShaderProperty.obj | fnv360_0822_retail, caller_sim, low
 FUN_00b470e0::~FUN_00b470e0()
 {
     m_sp17c = 0;
@@ -7821,6 +7872,8 @@ struct FUN_00b47f10 : FUN_00b64170
     virtual ~FUN_00b47f10();
 };
 // @fnv 0x00bc4830
+// pdb: BeamShader::BeamShader | BeamShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl
 FUN_00b47f10::FUN_00b47f10(CountedRef* pSource)
 {
     mode = 16;
@@ -7922,6 +7975,7 @@ struct FUN_00b562b0 : FUN_00b62e90
 
 // Destructor releases the four pixel shader and two vertex shader references held by the object.
 // @fnv 0x00bd2c40
+// pdb: SpeedTreeFrondShader::~SpeedTreeFrondShader | SpeedTreeFrondShader.obj | fnv360_0822_retail, objrun, medium
 FUN_00b562b0::~FUN_00b562b0()
 {
     for (unsigned int i = 0; i < 4; i++)
@@ -8073,6 +8127,8 @@ RenderPassStack* stack;
 };
 // Checks the actor's resource key against DAT_0108f450, enables the last render pass, and returns a new FUN_00b2b020 (0x2d6/0x2d7) or increments missed.
 // @fnv 0x00bdb380
+// pdb: BSShaderPPLightingProperty::AddSelfIllumAlphaPass | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeom, asCount, abUpdateList, abSkinned, abGlow
 FUN_00b2b020* Shader::FUN_00b5d5b0(void* actor, unsigned short* missed, unsigned char passType,
                                    unsigned char useAlternate, unsigned int context)
 {
@@ -8290,6 +8346,7 @@ struct FUN_00b43020 : FUN_00b62e90
 };
 
 // @fnv 0x00bc0f80
+// pdb: BoltShader::~BoltShader | BoltShader.obj | fnv360_0822_retail, objrun, medium
 FUN_00b43020::~FUN_00b43020()
 {
     DAT_01177cd8 = 0;
@@ -8583,6 +8640,8 @@ struct FUN_00bd4ba0_class
 };
 
 // @fnv 0x00bd4ba0
+// pdb: SpeedTreeBranchShader::SetupGeometryConstants | SpeedTreeBranchShader.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apState
 void FUN_00bd4ba0_class::FUN_00b58210(PassArg* pPassArg)
 {
     GeomStub* geom = *DAT_0116efd0;
@@ -8840,6 +8899,7 @@ struct FUN_00b57b30 : NiMemObject
     int unk128;
 };
 // @fnv 0x00bd4750
+// pdb: SpeedTreeBranchShader::CreateShader | SpeedTreeBranchShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00b57b30* FUN_00b57dc0()
 {
     NiD3DShaderDeclaration* pDecl = (NiD3DShaderDeclaration*)FUN_0087e9a0(DAT_0116f2f8, 6, 1);
@@ -9027,6 +9087,7 @@ struct FUN_00bd2d50_class
 
 // Creates a shader pass, builds a stage, configures it with FUN_00b62c70, assigns the stage to the pass, and sets the pass's two shader objects.
 // @fnv 0x00bd2d50
+// pdb: SpeedTreeFrondShader::LoadStagesAndPasses | SpeedTreeFrondShader.obj | fnv360_0822_retail, call_seq, medium
 void FUN_00bd2d50_class::FUN_00b563c0()
 {
     FUN_00888f80(m_spPass);
@@ -9277,6 +9338,7 @@ struct FUN_00b50a20
 
 // Creates a pass with six stages, finishes it, constructs a FUN_00b50a20 from it, runs several init calls, sets the pass and returns the object.
 // @fnv 0x00bcd680
+// pdb: ParallaxShader::CreateShader | ParallaxShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00b50a20* __cdecl FUN_00b50d10()
 {
     PassStub* pass = FUN_0087e9a0(DAT_0116f2f8, 6, 1);
@@ -9326,6 +9388,8 @@ struct Shader_00bd9bc0
 };
 
 // @fnv 0x00bd9bc0
+// pdb: BSShaderPPLightingProperty::AddFogPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned, abTreeBranch, abAlphaBlend
 int Shader_00bd9bc0::FUN_00b5bde0(NiGeometry* geom, unsigned short* count, unsigned char type, bool* enabled, bool a,
                                   bool b, bool c)
 {
@@ -9455,6 +9519,7 @@ struct FUN_00bc5070_shell
     void FUN_00b48730();
 };
 // @fnv 0x00bc5070
+// pdb: VolumetricFogShader::LoadVertexShaders | VolumetricFogShader.obj | fnv360_0822_retail, ustr, medium
 void FUN_00bc5070_shell::FUN_00b48730()
 {
     const char* profileNames[2] = {"vs_2_0", "vs_3_0"};
@@ -9571,6 +9636,8 @@ struct FUN_00b52e80 : FUN_00afc480
 };
 
 // @fnv 0x00bcf7f0
+// pdb: SkinShader::SkinShader | SkinShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl, apSkinnedShaderDecl
 FUN_00b52e80::FUN_00b52e80(ShaderRefObject* pPixel, ShaderRefObject* pVertex) : FUN_00afc480(pPixel, pVertex, 0, 0)
 {
     unk68 = 4;
@@ -9852,13 +9919,14 @@ struct ShaderBdaf10
     unsigned short GetShadowCount() const { return m_c8; }
     IterObj* __thiscall FUN_00af32e0(void*);
     IterObj* __thiscall FUN_00af33d0(void*);
-    void __thiscall FUN_00b5d130(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
+    void __thiscall BSShaderPPLightingProperty_AddLandscapePasses_1x(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
                                      unsigned char type, bool* out, bool flag6);
 };
 
 // Emits shadow rendering passes for geom and light into m_3c, or increments *count when type is not 1.
 // @fnv 0x00bdaf10
-void __thiscall ShaderBdaf10::FUN_00b5d130(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
+// pdb: BSShaderPPLightingProperty::AddLandscapePasses_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, udata + bridge(caller_sim|caller_sim), high
+void __thiscall ShaderBdaf10::BSShaderPPLightingProperty_AddLandscapePasses_1x(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
                                                unsigned char type, bool* out, bool flag6)
 {
     GeomInfo* info = geom->FUN_00826590(3);
@@ -10158,6 +10226,7 @@ struct ParticleBounds0568
 
 // Computes a bounding sphere from m_kFloatData positions (skipping z <= -2147483648.0f) and passes it to unk00's SetObjectBound and SetCount.
 // @fnv 0x00bd5e40
+// pdb: DistantLODGroup::UpdateGroupBound | DistantLODGroup.obj | fnv360_0822_retail, call_dedup, medium
 void ParticleBounds0568::FUN_00b459e0()
 {
     float limit = 5000000000.0f;
@@ -10422,6 +10491,8 @@ extern bool DAT_01176995;
 struct D36 { int unk00,unk04; unsigned char dim; }; extern D36* DAT_01176e70;
 double __cdecl FUN_005b4fe0(double,float);
 double __cdecl FUN_00af4610(double,double);
+// pdb: Lighting30Shader::SetupGeometryConstants_MaterialAlpha | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: aWorldBound, apProp, apState, auiCurrentPass
 void __stdcall FUN_00b41030(const P36* original, O36* lighting, F36** state,
                             unsigned int renderMode)
 {
@@ -10575,6 +10646,7 @@ public:
 extern NiPointer<NiRefObject> DAT_01177f80;
 extern NiPointer<NiRefObject> DAT_01177f84;
 
+// pdb: GeometryDecalShader::~GeometryDecalShader | GeometryDecalShader.obj | fnv360_0822_retail, objrun_prop, low
 ShaderResources::~ShaderResources()
 {
     NiRefObject* empty = 0;
@@ -10970,6 +11042,7 @@ struct FUN_00b561d0
 };
 
 // @fnv 0x00bd2e70
+// pdb: SpeedTreeFrondShader::CreateShader | SpeedTreeFrondShader.obj | fnv360_0822_retail, call_gap, medium
 FUN_00b561d0* __cdecl FUN_00b564e0()
 {
     MemContextGuard kGuard(0x1f);
@@ -11341,7 +11414,7 @@ struct ShaderPassBuilder : DynCastHelper
     void FUN_00b5bbe0(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
                       bool);
     void FUN_00b5bce0(SceneGeometry*, unsigned short*, unsigned char, bool*, bool, bool);
-    void FUN_00b5d130(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool);
+    void BSShaderPPLightingProperty_AddLandscapePasses_1x(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool);
     void FUN_00b5bde0(SceneGeometry*, unsigned short*, unsigned char, bool*, bool, bool, bool);
     ShaderPassEntry* FUN_00b5c1b0(SceneGeometry*, unsigned short*, unsigned char, bool*, bool);
     ShaderPassEntry* FUN_00b5bf20(SceneGeometry*, unsigned short*, unsigned char, bool*, bool);
@@ -11678,7 +11751,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
     }
 afterLighting:
     if (opaque)
-        FUN_00b5d130(geometry, primaryLight, count, effectType, &first, false);
+        BSShaderPPLightingProperty_AddLandscapePasses_1x(geometry, primaryLight, count, effectType, &first, false);
     if (passMask == DAT_00e8ff6c && !needsShadow)
         FUN_00b5bde0(geometry, count, effectType, &first, hasNoOverlay, attr0, useAlpha);
     if (extraContext)
@@ -11701,6 +11774,8 @@ afterLighting:
             passes->entries[i]->status = static_cast<unsigned char>(missingPassStatus);
 }
 // @fnv 0x00b5d6d0
+// pdb: BSShaderPPLightingProperty::GetRenderPasses_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: apGeom, aiEnabledPasses, asCount, auiRenderMode, apAccumulator, abUpdateList
 void ShaderPassBuilder::FUN_00b5d6d0(SceneGeometry* geometry, unsigned int passMask, unsigned short* count, int mode,
                                      LightConfiguration* config, unsigned char effectType)
 {
@@ -12024,6 +12099,8 @@ public:
     void FUN_00b449a0(ViewerStrings* strings);
 };
 
+// pdb: BoltShaderProperty::GetViewerStrings | BoltShaderProperty.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apStrings
 void Owner::FUN_00b449a0(ViewerStrings* strings)
 {
     FUN_00b2b9f0(strings);
@@ -12062,6 +12139,8 @@ public:
     void FUN_00b46b00(ViewerStrings* strings);
 };
 
+// pdb: BSRefractionFirePeriodController::GetViewerStrings | BSRefractionFirePeriodController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: pkStrings
 void Owner::FUN_00b46b00(ViewerStrings* strings)
 {
     FUN_008d1230(strings);
@@ -12217,6 +12296,7 @@ struct FUN_00b51f80_cls {
     void FUN_00b51f80();
 };
 
+// pdb: SkinShader::RecreateRendererData | SkinShader.obj | fnv360_0822_retail, objrun_open, medium
 void FUN_00b51f80_cls::FUN_00b51f80()
 {
     FUN_00b51f80_child** slot = unk8C;
@@ -12454,6 +12534,7 @@ struct SpawnedObject {
     unsigned int unkBC;
 };
 
+// pdb: BSOrderedNode::CreateObject | BSOrderedNode.obj | fnv360_0721_beta, objrun_sim, low
 SpawnedObject* FUN_00b46360()
 {
     return new SpawnedObject();
@@ -12497,6 +12578,7 @@ struct FUN_00b46e90_cls {
     unsigned int unk6C;
 };
 
+// pdb: VolumetricFogShaderProperty::CreateObject | VolumetricFogShaderProperty.obj | fnv360_0822_retail, objrun, low, conflict (bridge: VolumetricFogShaderProperty::CreateClone)
 FUN_00b46e90_cls* FUN_00b46fa0()
 {
     return new FUN_00b46e90_cls();
@@ -12608,6 +12690,7 @@ struct FUN_00b472a0_cls {
     unsigned int unk17C;
 };
 
+// pdb: HairShaderProperty::CreateObject | HairShaderProperty.obj | fnv360_0721_beta, objrun_prop, low
 FUN_00b472a0_cls* FUN_00b47a30()
 {
     return new FUN_00b472a0_cls();
@@ -12772,10 +12855,11 @@ struct Owner_b47040
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     ViewerColor_b47040 color60;
     void FUN_00b2b9f0(ViewerStrings_b47040* strings);
-    void FUN_00b47040(ViewerStrings_b47040* strings);
+    void VolumetricFogShaderProperty_GetViewerStrings(ViewerStrings_b47040* strings);
 };
 
-void Owner_b47040::FUN_00b47040(ViewerStrings_b47040* strings)
+// pdb: VolumetricFogShaderProperty::GetViewerStrings | VolumetricFogShaderProperty.obj | fnv360_0822_retail, ustr_rel + bridge(ustr_rel|ustr_rel), high
+void Owner_b47040::VolumetricFogShaderProperty_GetViewerStrings(ViewerStrings_b47040* strings)
 {
     FUN_00b2b9f0(strings);
     strings->Add(FUN_00847b50((const char*)DAT_0126bea0));
@@ -12885,6 +12969,8 @@ struct ShellBC_00b44150 {
  void FUN_00b44150(int row,int col,int previous,int next);
 };
 
+// pdb: BoltShaderProperty::CreateSegment | BoltShaderProperty.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: aiBolt, aiSegment, aiLastSegment, aiLookBackSegment
 void ShellBC_00b44150::FUN_00b44150(int row,int col,int previous,int next) {
  int index=row*unk140+col;
  Point4 a=points[row*unk140+previous];
@@ -12936,6 +13022,8 @@ void __stdcall FUN_008d1230(FUN_00b468a0_Param* param);
 char* __cdecl FUN_00847b50(char* value);
 
 
+// pdb: BSMaterialEmittanceMultController::GetViewerStrings | BSMaterialEmittanceMultController.obj | fnv360_0721_retail, objrun_open, low
+// pdb params: pkStrings
 void __stdcall FUN_00b468a0(FUN_00b468a0_Param* object) {
     FUN_008d1230(object);
     char* str = FUN_00847b50(DAT_01177d2c);
@@ -13036,6 +13124,8 @@ struct f3m_00b46730_Controller
     void FUN_00b46730(const float& time);
 };
 
+// pdb: BSMaterialEmittanceMultController::Update | BSMaterialEmittanceMultController.obj | fnv360_0721_retail, objrun_open, low
+// pdb params: UpdateData
 void f3m_00b46730_Controller::FUN_00b46730(const float& time)
 {
     if (GetMC())
@@ -13091,6 +13181,7 @@ struct __declspec(novtable) Derived46840 : public NiFloatInterpController
     static void* operator new(unsigned int size) { return FUN_0089eb90(size); }
 };
 
+// pdb: BSMaterialEmittanceMultController::CreateObject | BSMaterialEmittanceMultController.obj | fnv360_0721_retail, objopen_prop, low
 Derived46840* __cdecl FUN_00b46840()
 {
     return new Derived46840();
@@ -13135,6 +13226,8 @@ struct Owner467c0
     Derived467c0* FUN_00b467c0(int arg);
 };
 
+// pdb: BSMaterialEmittanceMultController::CreateClone | BSMaterialEmittanceMultController.obj | fnv360_0721_retail, objopen_prop, low
+// pdb params: kCloning
 Derived467c0* Owner467c0::FUN_00b467c0(int arg)
 {
     Derived467c0* p = new Derived467c0();
@@ -13156,6 +13249,8 @@ struct FUN_00b47aa0_owner
     fo3_b472a0::FUN_00b472a0* FUN_00b47aa0(int arg);
 };
 
+// pdb: HairShaderProperty::CreateClone | HairShaderProperty.obj | fnv360_0721_beta, objrun, low, conflict (skyrim: BSLightingShaderMaterialMultiLayerParallax::CopyMembers)
+// pdb params: arCloneData
 fo3_b472a0::FUN_00b472a0* FUN_00b47aa0_owner::FUN_00b47aa0(int arg)
 {
     f3_0262::MemContextGuard guard(0x28);
@@ -13170,6 +13265,7 @@ extern int DAT_0116efb0;
 extern unsigned int DAT_01177cd0;
 namespace f3m_00b42bd0 {
 
+// pdb: BoltShader::GetMaxSegments | BoltShader.obj | fnv360_0822_retail, call_gap, medium
 unsigned int __cdecl FUN_00b42bd0()
 {
     unsigned int v = DAT_01177cd0;
@@ -13197,6 +13293,8 @@ struct ShaderSelector {
     RenderPassSink* passes;
     ShaderPassEntry* FUN_00b5c1b0(SceneGeometry*, unsigned short*, unsigned char, bool*, bool);
 };
+// pdb: BSShaderPPLightingProperty::AddZOnlyTextureEffectPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned
 ShaderPassEntry* ShaderSelector::FUN_00b5c1b0(SceneGeometry* geometry, unsigned short* count,
  unsigned char type, bool* first, bool overlay) {
  if (overlay) {
@@ -13234,6 +13332,8 @@ struct Holder {
     int FUN_00b5e2e0(void* geom, unsigned short* counter, unsigned char flag, unsigned char* enabled, unsigned char outer);
 };
 
+// pdb: BSShaderPPLightingProperty::AddTextureEffectPass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned
 int Holder::FUN_00b5e2e0(void* geom, unsigned short* counter, unsigned char flag, unsigned char* enabled, unsigned char outer)
 {
     if (outer != 0)
@@ -13371,6 +13471,8 @@ struct Owner {
     void FUN_00b45cf0();
 };
 
+// pdb: NiTListBase<NiTPointerAllocator<unsigned int>,DistantLODGroup *>::AddNodeTail | DistantLODShaderProperty.obj | fnv360_0822_debug, objrun_open, low
+// pdb params: pkNode
 void Owner::FUN_00b45cf0()
 {
     for (int i = 0; i < count; ++i) {
@@ -13412,6 +13514,7 @@ public:
     FUN_00b46e90();
     Color4 color;
 };
+// pdb: VolumetricFogShaderProperty::VolumetricFogShaderProperty | VolumetricFogShaderProperty.obj | fnv360_0822_retail, call_gap, medium
 FUN_00b46e90::FUN_00b46e90() {
     *(int*)&color.r = DAT_011a9be0;
     *(int*)&color.g = DAT_011a9be4;
@@ -13483,6 +13586,8 @@ struct Target {int unk00,unk04;void* data;void FUN_0088f050(int);void FUN_0088fc
 struct Link {Target* target;};
 struct Manager {int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;Link* link;};
 extern Manager* DAT_01091980;
+// pdb: SpeedTreeLeafShader::SetupGeometryTextures | SpeedTreeLeafShader.obj | fnv360_0822_retail, objrun_prop, low
+// pdb params: apState
 void __stdcall FUN_00b4c3b0(Arg* arg) {
  Target* target=DAT_01091980->link->target;
  if(target) {
@@ -13602,6 +13707,8 @@ int unk88;
 void* resource;
 int FUN_00b4eaf0(void*,First*,Second*,void*,void*,void*,void*,void*);
 };
+// pdb: GeometryDecalShader::SetupBoneMatrices | GeometryDecalShader.obj | fnv360_0822_retail, objrun, medium
+// pdb params: apGeometry, apSkin, apPartition, apBuffData, apState, apEffects, aWorld, aWorldBound
 int Object::FUN_00b4eaf0(void* a,First* first,Second* second,void* d,void* e,void* f,void* context,void* h) {
  if(first && second && !busy && resource) {
  DAT_0116f2f8->FUN_00874f80(first,context,0,3,1);
@@ -13649,6 +13756,8 @@ struct ShaderOneLightSelector
                      bool* first, bool a, bool b, bool c, bool d, bool e, bool f);
 };
 
+// pdb: BSShaderPPLightingProperty::AddSpecularPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, apLight, asCount, abUpdateList, abFirst, abSkinned, abPointLight, abMultitexture, abBaseSpecular, abDecalSpecular, abTreeBranch
 int ShaderOneLightSelector::FUN_00b5bbe0(NiGeometry* geometry, ShadowSceneLight* light, unsigned short* count,
                                          unsigned char type, bool* first, bool a, bool b, bool c, bool d, bool e,
                                          bool f)
@@ -13687,6 +13796,8 @@ void* FUN_0089eb90(unsigned);
 struct Data {int a,b,c,d;};
 struct FUN_00b46e90 {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;Data data;FUN_00b46e90();static void* operator new(unsigned n){return FUN_0089eb90(n);}static void operator delete(void*);};
 struct Object {int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;Data data;void FUN_00b2ad60(FUN_00b46e90*,int);FUN_00b46e90* FUN_00b46f10(int);};
+// pdb: VolumetricFogShaderProperty::CreateClone | VolumetricFogShaderProperty.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 FUN_00b46e90* Object::FUN_00b46f10(int mode){FUN_00b46e90* clone=new FUN_00b46e90;FUN_00b2ad60(clone,mode);clone->data=data;return clone;}
 }
 }   // namespace f3m_00b46f10
@@ -13706,6 +13817,8 @@ struct Holder {
     int FUN_00b5bce0(void* geom, unsigned short* counter, unsigned char flag, bool* enabled, bool outer, bool inner);
 };
 
+// pdb: BSShaderPPLightingProperty::AddEnvmapPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned, abVertexColors
 int Holder::FUN_00b5bce0(void* geom, unsigned short* counter, unsigned char flag, bool* enabled, bool outer, bool inner)
 {
     if (!outer)
@@ -13781,6 +13894,8 @@ struct Shader_00b5bf20
     ShaderPassEntry* FUN_00b5bf20(NiGeometry* geom, unsigned short* count, unsigned char type, bool* enabled, bool flag);
 };
 
+// pdb: BSShaderPPLightingProperty::AddTextureEffectPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap_sim, medium
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned
 ShaderPassEntry* Shader_00b5bf20::FUN_00b5bf20(NiGeometry* geom, unsigned short* count, unsigned char type,
                                                bool* enabled, bool flag)
 {
@@ -13864,6 +13979,8 @@ struct ShaderState
     void FUN_00b5b2b0(int arg);
 };
 
+// pdb: BSCubeMapCamera::Click | BSCubeMapCamera.obj | fnv360_1110_retail, caller_sim, medium
+// pdb params: aiFace
 void ShaderState::FUN_00b5b2b0(int arg)
 {
     switch (state)
@@ -13922,6 +14039,8 @@ struct O00b59570 {
     void FUN_00b59570(const char* name);
 };
 
+// pdb: NiPointer<TallGrassShaderProperty>::operator= | TallGrassGroup.obj | fnv360_0721_beta, objrun, low, conflict (bridge: TallGrassGroup::SetGrassParam)
+// pdb params: pObject
 void O00b59570::FUN_00b59570(const char* name)
 {
     if (name) memmove(name1c, name, 0x20);
@@ -13955,6 +14074,8 @@ int unk38;
 Passes* passes;
 void* FUN_00b5bfc0(void*,unsigned short*,unsigned char,bool*,bool,bool);
 };
+// pdb: BSShaderPPLightingProperty::AddRenderNormalsPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned, abRefractionFire
 void* Owner::FUN_00b5bfc0(void* geometry,unsigned short* count,unsigned char type,bool* first,bool overlay,bool effect) {
  if(effect) {
   if(type==1) { passes->FUN_00b2c0b0(geometry,0x1e4,*first,0,0,0,0,0); }
@@ -13985,6 +14106,8 @@ struct Owner {
  void** items;
  unsigned int FUN_00b59480(unsigned short);
 };
+// pdb: TallGrassGroup::RemoveTerrainChunk | TallGrassGroup.obj | fnv360_0721_beta, objrun, low
+// pdb params: alTerrainChunkSeed
 unsigned int Owner::FUN_00b59480(unsigned short index) {
  if(index<count) {
   if(index!=count-1) {
@@ -14028,6 +14151,8 @@ struct OwnerB44640 {
     void __thiscall FUN_00b44640(int steps);
 };
 
+// pdb: BoltShaderProperty::ExtendSegments | BoltShaderProperty.obj | fnv360_0721_beta, objrun, medium
+// pdb params: aiNewSegments
 void OwnerB44640::FUN_00b44640(int steps) {
     for (int s = 0; s < steps; ++s) {
         ++unk7C;
@@ -14132,6 +14257,8 @@ struct Owner {
 void FUN_0082daa0(Derived*,void*);
 Derived* FUN_00b44b40(void*);
 };
+// pdb: BSClearZNode::CreateClone | BSClearZNode.obj | fnv360_0822_retail, objrun, medium
+// pdb params: arCloneData
 Derived* Owner::FUN_00b44b40(void* context) {
  Derived* result=new Derived;
  FUN_0082daa0(result,context);
@@ -14164,6 +14291,8 @@ int unk38;
 Passes* passes;
 void* FUN_00b5b990(void*,void*,void*,unsigned short*,unsigned char,bool*,bool,bool);
 };
+// pdb: BSShaderPPLightingProperty::AddAmbDiffDirAndPtPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apSunlight, apPtLight, asCount, abUpdateList, abFirst, abSkinned, abTreeBranch
 void* Owner::FUN_00b5b990(void* geometry,void* light0,void* light1,unsigned short* count,unsigned char type,bool* first,bool overlay,bool effect) {
  if(!overlay) {
   if(!effect) {
@@ -14205,6 +14334,8 @@ int unk38;
 Passes* passes;
 void* FUN_00b5c120(void*,unsigned short*,unsigned char,bool*,bool,bool);
 };
+// pdb: BSShaderPPLightingProperty::AddZOnlyPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned, abAlphaTest
 void* Owner::FUN_00b5c120(void* geometry,unsigned short* count,unsigned char type,bool* first,bool overlay,bool effect) {
  if(overlay) {
   if(type==1) passes->FUN_00b2c0b0(geometry,3,*first,0,0,0,0,0);
@@ -14286,6 +14417,8 @@ struct FUN_00b50a20 : FUN_00afc480
     virtual ~FUN_00b50a20();
 };
 
+// pdb: ParallaxShader::ParallaxShader | ParallaxShader.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: apShaderDecl
 FUN_00b50a20::FUN_00b50a20(Ref_b50a20* a) : FUN_00afc480(a, 0, 0, 0)
 {
     unk68 = 3;
@@ -14308,6 +14441,7 @@ extern Scalar* DAT_01177ccc;
 extern unsigned int DAT_01177cd0;
 extern int DAT_0116efb0,DAT_01068958;
 inline unsigned int GetCount() { if(!DAT_01177cd0) DAT_01177cd0=DAT_0116efb0>=2 ? 235:75; return DAT_01177cd0; }
+// pdb: BoltShader::GetSegmentIndices | BoltShader.obj | fnv360_0721_beta, objrun, medium
 Scalar* __cdecl FUN_00b42c00() {
  if(!DAT_01177ccc) {
   unsigned int count=GetCount()*DAT_01068958;
@@ -14351,6 +14485,8 @@ struct ShaderSelector {
     ShaderPassEntry* FUN_00b5c080(SceneGeometry*, unsigned short*, unsigned char, bool*, bool);
 };
 
+// pdb: BSShaderPPLightingProperty::AddRenderNormalsClearPass_1x | BSShaderPPLightingProperty_Passes_1x.obj | fnv360_0822_retail, call_gap, medium
+// pdb params: apGeom, asCount, abUpdateList, abFirst, abSkinned
 ShaderPassEntry* ShaderSelector::FUN_00b5c080(SceneGeometry* geometry, unsigned short* count,
     unsigned char type, bool* first, bool overlay) {
     if (!overlay) {
@@ -14399,6 +14535,8 @@ struct ShaderSelector {
                      unsigned char, bool*, bool, bool, bool);
 };
 
+// pdb: BSShaderPPLightingProperty::AddEnvmapPass_2x | BSShaderPPLightingProperty_Passes_2x.obj | fnv360_0822_retail, call_gap, low
+// pdb params: apGeom, apSunLight, apPtLight, asCount, abUpdateList, abFirst, abSkinned, abEyeReflect, abWindowReflect
 int ShaderSelector::FUN_00b5e210(SceneGeometry* geometry, ShadowSceneLight* fallback,
     ShadowSceneLight* light, unsigned short* count, unsigned char type, bool* first,
     bool outer, bool wide, bool extra) {
@@ -14537,6 +14675,8 @@ struct Ring216_b43c50 {
     void FUN_00b43c50(float value);
 };
 
+// pdb: BoltShaderProperty::MoveAllSegments | BoltShaderProperty.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: afMoveDelta
 void Ring216_b43c50::FUN_00b43c50(float value)
 {
     int i = this->index;
@@ -14619,6 +14759,7 @@ struct Worker {
  void FUN_00b59620();
 };
 
+// pdb: TallGrassGroup::UpdateGroupBound | TallGrassGroup.obj | fnv360_0822_retail, call_gap, medium
 void Worker::FUN_00b59620() {
  float limit=FUN_00ea1280;
  if(!count) limit=0.0f;
@@ -14724,6 +14865,8 @@ public:
     void FUN_00b5b4d0(int a1, int a2, int a3, int a4);
 };
 
+// pdb: ImageSpaceEffectRefraction::Render | ImageSpaceEffectRefraction.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: apGeometry, apRenderer, apParam, abEndFrame
 void Owner::FUN_00b5b4d0(int a1, int a2, int a3, int a4)
 {
     if (m_05) {
@@ -14805,6 +14948,8 @@ struct FUN_00b40790_cls {
     Tgt* unk34;
     void FUN_00b40790(int aiShaderIndex);
 };
+// pdb: Lighting30Shader::SetupPassConstants | Lighting30Shader.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: auiCurrentPass
 void FUN_00b40790_cls::FUN_00b40790(int aiShaderIndex) {
     if (aiShaderIndex == 480 || aiShaderIndex == 481) return;
     int iTableIndex;
@@ -15040,6 +15185,7 @@ struct S00b41c10_SkinShader {
     void FUN_00b41c10();
 };
 
+// pdb: Lighting30Shader::CreateConstantMaps | Lighting30Shader.obj | fnv360_0822_retail, ustr, medium
 void S00b41c10_SkinShader::FUN_00b41c10()
 {
     if (m_spVertexConstantMap == 0 && !g_S00b41c10_initGlobals)
@@ -16512,6 +16658,8 @@ __forceinline Shader* Shader::UpdateFrustum(Clip* clip, Plane* src, Shader* vola
     clip->FUN_00af4660(out);
     return owner;
 }
+// pdb: Lighting30Shader::SetupGeometryConstants | Lighting30Shader.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: apState
 void Shader::FUN_00b415f0(Args* args)
 {
     Shader* self=this;
@@ -16685,6 +16833,8 @@ struct Pass
     Switch* unk178;
     void FUN_00b4a480(unsigned int id);
 };
+// pdb: BSShaderNoLighting::SetupPassConstants | BSShaderNoLighting.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
+// pdb params: auiCurrentPass
 void Pass::FUN_00b4a480(unsigned int id)
 {
     if (id >= 0x52 && id <= 0x57)

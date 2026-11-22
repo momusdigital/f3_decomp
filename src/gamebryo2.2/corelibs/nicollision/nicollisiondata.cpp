@@ -4,18 +4,14 @@
 
 extern void* g_0126fab4;
 
-// @fnv 0x00eacd20
-void* __cdecl FUN_00eacd20()
-{
-    return &g_0126fab4;
-}
-
 extern "C" void* __cdecl _NiMalloc(unsigned int);
 extern "C" unsigned int __cdecl strlen(const char*);
 int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 
 // Allocates a string sized from pcPrefix and formats it as "<pcPrefix> = <mode name>" based on eMode, returning the buffer.
 // @fnv 0x00eacef0
+// pdb: NiCollisionData::GetViewerString | NiCollisionData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eMode
 char* __stdcall FUN_00eacef0(const char* pcPrefix, unsigned int eMode)
 {
     char* pString;
@@ -62,6 +58,8 @@ struct NiCollisionData
 };
 
 // @fnv 0x00eacd30
+// pdb: BaseProcess::GetCurrentPackageLocation | BaseProcess.obj | fnv360_0822_retail, vtable, medium
+// pdb params: apActor
 NiPoint3 NiCollisionData::FUN_00eacd30()
 {
     NiPoint3 p;
@@ -92,6 +90,8 @@ struct NiCollisionData
     void SetBoundingVolume(NiBoundingVolume* pkBV);
 };
 // @fnv 0x00eace50
+// pdb: NiCollisionData::SetModelSpaceABV | NiCollisionData.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: pkBV
 void NiCollisionData::SetBoundingVolume(NiBoundingVolume* pkBV)
 {
     if (_2c)
@@ -133,6 +133,8 @@ struct FUN_00eaceb0_shell
     void __thiscall AssignFromSource(void*);
 };
 // @fnv 0x00eaceb0
+// pdb: NiCollisionData::Initialize | NiCollisionData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: pkData
 void __thiscall FUN_00eaceb0_shell::AssignFromSource(void* pSource)
 {
     ((void(__thiscall*)(void*, void*))(*(void***)this)[35])(this, *(void**)pSource);
@@ -153,6 +155,7 @@ struct NiCollisionData
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00eacde0, then deletes this with size 0x50 when bit 0 of uFlags is set, and returns this.
 // @fnv 0x00ead0b0
+// pdb: NiTriStripsData::`scalar deleting destructor' | NiTriStripsData.obj | fnv360_0822_retail, objrun, medium
 void* NiCollisionData::DestroyIfFlagged(unsigned int auiFlags)
 {
     FUN_00eacde0();
@@ -196,6 +199,8 @@ struct NiCollisionData
     void CloneCollisionData(NiCollisionData*, CloningProcess&);
 };
 // @fnv 0x00ead610
+// pdb: NiCollisionData::CopyMembers | NiCollisionData.obj | fnv360_0822_retail, caller_sim, medium
+// pdb params: pkDest, kCloning
 void NiCollisionData::CloneCollisionData(NiCollisionData* pkDest, CloningProcess& kCloning)
 {
     FUN_00aa1000(pkDest, kCloning);
@@ -299,6 +304,8 @@ struct NiCollisionData : NiCollisionObject
     void FUN_00ead760(NiStream&);
 };
 // @fnv 0x00ead760
+// pdb: NiCollisionData::LinkObject | NiCollisionData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void NiCollisionData::FUN_00ead760(NiStream& kStream)
 {
     NiCollisionObject::LinkObject(kStream);
@@ -345,7 +352,6 @@ struct StrArr
         return m_usGrow;
     }
 };
-char* __cdecl _FUN_00a7d330(const char*);
 struct NiCollisionData
 {
     virtual void v00();
@@ -377,18 +383,6 @@ struct NiCollisionData
     void FUN_00a81100(StrArr*);
     void FUN_00ead870(StrArr*);
 };
-// @fnv 0x00ead870
-void NiCollisionData::FUN_00ead870(StrArr* pkStrings)
-{
-    FUN_00a81100(pkStrings);
-    char* pszDup = _FUN_00a7d330((const char*)g_0126fab4);
-    unsigned int uiSize = pkStrings->GetSize();
-    unsigned int uiMax = pkStrings->GetAllocatedSize();
-    if (uiSize >= uiMax)
-        pkStrings->SetSize(uiSize + pkStrings->GetGrowSize());
-    pkStrings->SetAt(uiSize, pszDup);
-    VirtAt64(pkStrings);
-}
 }  // namespace fnv_00ead870
 
 // FUN_00eacd00 - forwards its single argument to the collection's stream
@@ -408,6 +402,8 @@ void NiCollisionData::FUN_00ead870(StrArr* pkStrings)
 extern "C" unsigned char __stdcall MyColl_WriteToStream(void* pStream);
 
 // @fnv 0x00eacd00
+// pdb: BSMultiBoundShape::RegisterStreamables | BSMultiBoundShape.obj | fnv360_0822_retail, vtable, high
+// pdb params: arStream
 bool __stdcall FUN_00eacd00(void* pStream)
 {
     return MyColl_WriteToStream(pStream);
@@ -448,6 +444,7 @@ struct FUN_00eacd60
 
 // Constructor: calls Init(0), zeroes several fields, stores pointers to DAT_010f18bc and values from DAT_011f426c/4270/4274, and sets m_24=2, m_28=3.
 // @f3 0x0080fa90 (community match, verified in this file)
+// pdb: NiCollisionData::NiCollisionData | NiCollisionData.obj | fnv360_0822_retail, caller_sim, medium
 FUN_00eacd60::FUN_00eacd60()
 {
     Init(0);
@@ -519,6 +516,7 @@ struct FUN_00eacde0_cls
 };
 
 // @fnv 0x00eacde0
+// pdb: NiCollisionData::~NiCollisionData | NiCollisionData.obj | fnv360_0822_retail, caller_sim, medium
 void FUN_00eacde0_cls::FUN_00eacde0()
 {
     unsigned int a = m_40;
@@ -726,6 +724,7 @@ struct S_00ead250
 
 // If unk08's m18() result is non-null and unk40 and unk48 are set, calls g_011aa050 with the second object's unk20 and m90() and clears unk48.
 // @fnv 0x00ead250
+// pdb: NiCollisionData::UpdateWorldVertices | NiCollisionData.obj | fnv360_0822_retail, call_seq, medium
 void S_00ead250::FUN_00ead250()
 {
     S_00ead250_First* first = unk08;
@@ -745,98 +744,6 @@ void S_00ead250::FUN_00ead250()
             unk48 = 0;
         }
     }
-}
-
-struct FUN_00ead2b0_node
-{
-    void* vft;
-    FUN_00ead2b0_node* m_04;
-};
-
-struct FUN_00ead2b0_cls
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual FUN_00ead2b0_node* unk08();
-    virtual int unk0c();
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    FUN_00ead2b0_cls* m_2c;
-    bool __thiscall Probe(void* p);
-    bool __thiscall MatchesOther(FUN_00ead2b0_cls* other);
-};
-
-// Checks Probe(other), a node list for g_0126fab4, equal m_28/m_24, and equal m_2c unk0c values; returns true on match, false otherwise.
-// @fnv 0x00ead2b0
-bool FUN_00ead2b0_cls::MatchesOther(FUN_00ead2b0_cls* other)
-{
-    FUN_00ead2b0_node* node;
-    FUN_00ead2b0_cls* a;
-    FUN_00ead2b0_cls* b;
-    if (!Probe(other))
-    {
-        goto fail;
-    }
-    if (other == 0)
-    {
-        goto fail;
-    }
-    node = other->unk08();
-    if (node == 0)
-    {
-        goto fail;
-    }
-    do
-    {
-        if (node == (FUN_00ead2b0_node*)&g_0126fab4)
-        {
-            goto found;
-        }
-        node = node->m_04;
-    } while (node != 0);
-    goto fail;
-found:
-    if (other->m_28 != m_28)
-    {
-        goto fail;
-    }
-    if (other->m_24 != m_24)
-    {
-        goto fail;
-    }
-    a = other->m_2c;
-    if (a == 0)
-    {
-        goto tail;
-    }
-    b = m_2c;
-    if (b != 0)
-    {
-        int ra = a->unk0c();
-        int rb = b->unk0c();
-        if (ra == rb)
-        {
-            goto ok;
-        }
-        goto fail;
-    }
-tail:
-    if (a != m_2c)
-    {
-        goto fail;
-    }
-ok:
-    return true;
-fail:
-    return false;
 }
 
 struct NiRTTI
@@ -1089,6 +996,8 @@ struct CollisionData
 
 // Builds m_pkTriData from the scene object's triangle or triangle-strip geometry, creating world normals first if needed.
 // @fnv 0x00ead380
+// pdb: NiCollisionData::CreateOBB | NiCollisionData.obj | fnv360_0721_retail, call_seq, medium
+// pdb params: iBinSize
 void CollisionData::CreateTriData(int iParam)
 {
     if (m_pkSceneObject && m_pkSceneObject->IsKindOfType(&g_NiTriShapeRTTI))
@@ -1261,6 +1170,8 @@ struct FNV_Owner
 };
 
 // @fnv 0x00ead550
+// pdb: NiCollisionData::Convert | NiCollisionData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: uiVersion, pkData
 void FNV_Owner::UpdateCollideState(unsigned int arg, unsigned int arg2)
 {
     (void)arg2;
@@ -1397,6 +1308,8 @@ struct FUN_00ead670_cls
 
 // Reads two ints (or one for older file versions), a bool, and if set loads an object and stores its v06() result.
 // @fnv 0x00ead670
+// pdb: NiCollisionData::LoadBinary | NiCollisionData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void FUN_00ead670_cls::LoadFromStream(NiStreamImpl& stream)
 {
     FUN_00a80fd0(stream);
@@ -1649,6 +1562,8 @@ class EAD7B0Object : public EAD7B0Base
 
 // Saves the base fields, m_iValue0 and m_iValue1, then a presence flag and the child's SaveBinary if m_pkChild is set.
 // @fnv 0x00ead7b0
+// pdb: NiCollisionData::SaveBinary | NiCollisionData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: kStream
 void EAD7B0Object::FUN_00ead7b0(EAD7B0Stream& kStream)
 {
     SaveBinaryBase(kStream);
@@ -1679,6 +1594,8 @@ struct FUN_00eada20_cls
 };
 
 // @fnv 0x00eada20
+// pdb: NiCollisionData::CreateClone | NiCollisionData.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kCloning
 void* __thiscall FUN_00eada20_cls::FUN_00eada20(void* arg)
 {
     void* result;
@@ -1774,7 +1691,7 @@ struct NiCollDataStandIn
     unsigned char m_b49;
     int m_i4C;
 
-    __declspec(noinline) NiAVObjectStandIn* FUN_00ead0d0(NiAVObjectStandIn* pkNode);
+    __declspec(noinline) NiAVObjectStandIn* NiCollisionData_FindAncestorWithCollisionData(NiAVObjectStandIn* pkNode);
     void UpdateCollision(NiAVObjectStandIn* pkObject);
 };
 
@@ -1787,7 +1704,8 @@ __forceinline NiPoint3b operator+(const NiPoint3b& kA, const NiPoint3b& kB)
     return kResult;
 }
 
-NiAVObjectStandIn* NiCollDataStandIn::FUN_00ead0d0(NiAVObjectStandIn* pkNode)
+// pdb: NiCollisionData::FindAncestorWithCollisionData | NiCollisionData.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+NiAVObjectStandIn* NiCollDataStandIn::NiCollisionData_FindAncestorWithCollisionData(NiAVObjectStandIn* pkNode)
 {
     if (pkNode == 0)
         return 0;
@@ -1801,6 +1719,8 @@ NiAVObjectStandIn* NiCollDataStandIn::FUN_00ead0d0(NiAVObjectStandIn* pkNode)
 }
 
 // @fnv 0x00ead0f0
+// pdb: NiCollisionData::UpdateWorldData | NiCollisionData.obj | fnv360_0822_retail, objrun, medium
+// pdb params: UpdateData
 void NiCollDataStandIn::UpdateCollision(NiAVObjectStandIn* pkObject)
 {
     if (m_pkCollisionObject)
@@ -1819,7 +1739,7 @@ void NiCollDataStandIn::UpdateCollision(NiAVObjectStandIn* pkObject)
                 if (pkNode)
                 {
                     if (pkNode->m_pkCollisionObject == 0)
-                        pkNode = FUN_00ead0d0(pkNode);
+                        pkNode = NiCollisionData_FindAncestorWithCollisionData(pkNode);
                     if (pkNode)
                         pkData = pkNode->m_pkCollisionObject;
                 }
@@ -1903,6 +1823,8 @@ struct FUN_00ead8d0_shell : FUN_00a81160_base
 
 // Appends viewer strings for propagation/collision modes, the ABV model and local/world velocities to pkStrings.
 // @f3 0x00810610 (community match, verified in this file)
+// pdb: NiCollisionData::AddViewerStrings | NiCollisionData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pkStrings
 void FUN_00ead8d0_shell::FUN_00ead8d0(StrArr* pkStrings)
 {
     WriteToStream(pkStrings);
@@ -1930,6 +1852,8 @@ void FUN_00a305b0(char* buf, unsigned int size, const char* fmt, const char* nam
 
 // Obtains a buffer sized from name length and formats name into it using the mode-selected format string.
 // @fnv 0x00eacfd0
+// pdb: NiCollisionData::GetViewerString | NiCollisionData.obj | fnv360_0822_retail, ustr, medium
+// pdb params: pcPrefix, eMode
 char* __stdcall FormatName(const char* name, int mode)
 {
     unsigned int len = strlen(name);
@@ -2076,6 +2000,7 @@ struct Target
     void FUN_00ead1e0();
 };
 // @fnv 0x00ead1e0
+// pdb: NiCollisionData::CreateWorldVertices | NiCollisionData.obj | fnv360_0822_retail, call_seq, medium
 void Target::FUN_00ead1e0()
 {
     if (node)

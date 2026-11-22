@@ -12,6 +12,8 @@ struct THREADNAME_INFO
 };
 
 // @f3 0x0089fee0 (community match, verified in this file)
+// pdb: SetThreadName | NiThread_Xenon.obj | fnv360_0721_beta, caller, low
+// pdb params: dwThreadID, szThreadName
 void __cdecl SetDebuggerThreadName(unsigned long dwThreadID, const char* szThreadName)
 {
     THREADNAME_INFO info;

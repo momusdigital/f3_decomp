@@ -1,20 +1,14 @@
-// gamebryo2.2/corelibs/nianimation/nibsplinecompfloatinterpolator.cpp: NiBSplineCompFloatInterpolator, FObj (10 functions)
+// gamebryo2.2/corelibs/nianimation/nibsplinecompfloatinterpolator.cpp: NiBSplineCompFloatInterpolator, FObj (8 functions)
 #include "f3_common.h"
 #include "nibsplinecompfloatinterpolator_decls.h"
 // Calls the base NiBSplineFloatInterpolator::LoadBinary and then reads a value from the stream input into a member.
 // @fnv 0x00a51660
+// pdb: NiBSplineCompFloatInterpolator::LoadBinary | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void NiBSplineCompFloatInterpolator::LoadBinary(NiStream& stream)
 {
     NiBSplineFloatInterpolator::LoadBinary(stream);
     stream.input->Read(m_afOffsetAndHalfRange);
-}
-
-extern int g_011f401c;
-
-// @fnv 0x00a51520
-int* __cdecl FUN_00a51520()
-{
-    return &g_011f401c;
 }
 
 struct FUN_00a52d20_shell
@@ -24,6 +18,7 @@ struct FUN_00a52d20_shell
 };
 
 // @fnv 0x00a52d20
+// pdb: NiBoolInterpolator::GetKeys | NiBoolTimelineInterpolator.obj | tesv_win, hash, low
 int __thiscall FUN_00a52d20_shell::FUN_00a52d20(int* b, int* c, char* d)
 {
     int* p = *(int**)((char*)this + 0x10);
@@ -51,47 +46,14 @@ struct FUN_00a509f0_shell
 };
 // Calls FUN_00a57f20 with a and c, sets the vtable pointer to DAT_010997f4, stores b at offset 0x20, and returns this.
 // @fnv 0x00a509f0
+// pdb: NiBSplineFloatInterpolator::NiBSplineFloatInterpolator | NiBSplineFloatInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: pkData, kFloatCPHandle, pkBasisData
 FUN_00a509f0_shell* __thiscall FUN_00a509f0_shell::FUN_00a509f0(int aiArg1, int b, int aiArg2)
 {
     ((FUN_00a57f20_shell*)this)->FUN_00a57f20(aiArg1, aiArg2);
     *(int*)this = (int)&DAT_010997f4;
     *(int*)((char*)this + 0x20) = b;
     return this;
-}
-
-char* __cdecl _FUN_00a7d330(const char*);
-struct StrArr
-{
-    void* m_pData;
-    int _unk4;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short _unkC;
-    unsigned short m_usGrowBy;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
-};
-struct BaseX
-{
-    void __thiscall SerializeToStrings(StrArr*);
-};
-struct FUN_00a516e0_shell : BaseX
-{
-    void __thiscall AppendString(StrArr*);
-};
-// Calls the base handler, gets a string from g_011f401c, grows pkStrings if full, and stores the string at the next free index.
-// @fnv 0x00a516e0
-void __thiscall FUN_00a516e0_shell::AppendString(StrArr* pkStrings)
-{
-    SerializeToStrings(pkStrings);
-    char* pszString = _FUN_00a7d330((const char*)g_011f401c);
-    unsigned int uiSize = pkStrings->m_usSize;
-    unsigned int uiMax = pkStrings->m_usMaxSize;
-    if (uiSize >= uiMax)
-    {
-        pkStrings->SetSize(uiSize + pkStrings->m_usGrowBy);
-    }
-    pkStrings->SetAt(uiSize, pszString);
 }
 
 struct FUN_00a50b30_shell
@@ -105,6 +67,8 @@ struct FUN_00a514e0_shell
     bool __thiscall Equals(void* pkObject);
 };
 // @fnv 0x00a514e0
+// pdb: NiBSplineCompFloatInterpolator::IsEqual | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: pkObject
 bool __thiscall FUN_00a514e0_shell::Equals(void* pkObject)
 {
     FUN_00a514e0_shell* pkDest;
@@ -122,7 +86,7 @@ bool __thiscall FUN_00a514e0_shell::Equals(void* pkObject)
 
 struct BaseShell
 {
-    void __thiscall LoadFloatInterpolator(void*);
+    void __thiscall NiBSplineFloatInterpolator_SaveBinary(void*);
 };
 struct BinaryOutputStream
 {
@@ -138,9 +102,11 @@ struct FUN_00a516a0_shell
     void __thiscall WriteToStream(void* kStream);
 };
 // @fnv 0x00a516a0
+// pdb: NiBSplineCompFloatInterpolator::SaveBinary | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, caller_sim, high
+// pdb params: kStream
 void __thiscall FUN_00a516a0_shell::WriteToStream(void* kStream)
 {
-    ((BaseShell*)this)->LoadFloatInterpolator(kStream);
+    ((BaseShell*)this)->NiBSplineFloatInterpolator_SaveBinary(kStream);
     BinaryOutputStream* __restrict pkOstr = *(BinaryOutputStream**)((char*)kStream + 0x250);
     unsigned int size = 4;
     pkOstr->m_pos += pkOstr->m_write(pkOstr, m_data, 8, &size, 1);
@@ -168,6 +134,8 @@ struct FUN_00a51530_cls
 };
 
 // @fnv 0x00a51530
+// pdb: NiBSplineCompFloatInterpolator::Update | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, objrun, medium
+// pdb params: fTime, pkInterpTarget, fValue
 bool FUN_00a51530_cls::EvaluateAtTime(float afTime, unsigned int unused, float* pfOut)
 {
     float t;
@@ -219,7 +187,7 @@ struct FObj : FBase
         pfScalars[1] = kMaxCompScalar;
     }
     virtual void LoadBinary(NiStream&);
-    FObj* __thiscall FUN_00a515c0(int arg);
+    FObj* __thiscall NiBSplineCompFloatInterpolator_CreateClone(int arg);
 };
 
 struct FUN_00a50aa0_shell
@@ -228,7 +196,8 @@ struct FUN_00a50aa0_shell
 };
 
 // @fnv 0x00a515c0
-FObj* __thiscall FObj::FUN_00a515c0(int arg)
+// pdb: NiBSplineCompFloatInterpolator::CreateClone | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, objrun + bridge(vtable|objrun) + skyrim(caller_sim), high
+FObj* __thiscall FObj::NiBSplineCompFloatInterpolator_CreateClone(int arg)
 {
     FObj* p = (FObj*)FUN_00aa13e0(0x2c);
     if (p)
@@ -280,7 +249,8 @@ class Object51620 : public Base51620
 
 // Allocates and returns a new Object51620 instance with default constructor values.
 // @fnv 0x00a51620
-Base51620* FUN_00a51620()
+// pdb: NiBSplineCompFloatInterpolator::CreateObject | NiBSplineCompFloatInterpolator.obj | fnv360_0822_retail, objrun + bridge(hash|objrun), high
+Base51620* NiBSplineCompFloatInterpolator_CreateObject()
 {
     return new Object51620;
 }

@@ -13,8 +13,8 @@ class TESFile
 {
 public:
     bool FUN_00449ac0(int first, int second);
-    bool FUN_00448f60(unsigned int fileOffset);
-    unsigned int FUN_00448cc0();
+    bool TESFile_SetOffset(unsigned int fileOffset);
+    unsigned int TESFile_GetTESForm();
     unsigned int currentFormId() const
     {
         return *reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(this) + 0x24c);
@@ -24,7 +24,7 @@ public:
 class TESNPC
 {
 public:
-    bool FUN_00555620(TESFile* file) const;
+    bool TESNPC_FindInFileFast(TESFile* file) const;
     unsigned int savedRecordOffset() const
     {
         return *reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(this) + 0x1c8);
@@ -35,10 +35,11 @@ public:
     }
 };
 
-bool TESNPC::FUN_00555620(TESFile* file) const
+// pdb: TESNPC::FindInFileFast | TESNPC.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(caller_sim), high
+bool TESNPC::TESNPC_FindInFileFast(TESFile* file) const
 {
     if (file && savedRecordOffset() && file->FUN_00449ac0(0, 0)
-        && file->FUN_00448f60(savedRecordOffset()) && file->FUN_00448cc0() == DAT_00f4a940
+        && file->TESFile_SetOffset(savedRecordOffset()) && file->TESFile_GetTESForm() == DAT_00f4a940
         && file->currentFormId() == formId())
         return true;
     return false;

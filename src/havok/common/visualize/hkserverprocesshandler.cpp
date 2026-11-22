@@ -10,6 +10,7 @@ struct FUN_00d60bb0
     FUN_00d60bb0(unsigned char);
 };
 // @fnv 0x00d60bb0
+// pdb: hkpSaveContactPointsUtil::EntitySelector::`scalar deleting destructor' | hkpSaveContactPointsUtil.obj | fnv360_0822_retail, vtable, high
 FUN_00d60bb0::FUN_00d60bb0(unsigned char p)
 {
     m_p = &DAT_010d1508;
@@ -20,6 +21,8 @@ FUN_00d60bb0::FUN_00d60bb0(unsigned char p)
 extern "C" void* DAT_011b5d38;
 
 // @fnv 0x00d60bf0
+// pdb: hkServerProcessHandler::getConsumableCommands | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: commands, numCommands
 void __stdcall FUN_00d60bf0(void** ppOut, void** b)
 {
     *ppOut = &DAT_011b5d38;
@@ -46,11 +49,13 @@ struct FUN_00d60ca0_s
 {
     int FUN_00d60ca0(int a, int b);
 };
-int __cdecl FUN_00cb10d0(int);
+int __cdecl hkString_strLen(int);
 // @fnv 0x00d60ca0
+// pdb: hkServerProcessHandler::registerProcess | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: name, id
 int FUN_00d60ca0_s::FUN_00d60ca0(int a, int b)
 {
-    int iClamped = FUN_00cb10d0(a);
+    int iClamped = hkString_strLen(a);
     if (iClamped > 0xffff)
         iClamped = 0xffff;
     ((FUN_00d60940_s*)*(void**)((char*)this + 0x10))->WriteInt32(iClamped + 7);
@@ -67,7 +72,7 @@ struct FUN_00d60940_Class
 };
 struct FUN_00d605d0_Class
 {
-    void FUN_00d605d0(unsigned int);
+    void hkOArchive_write8u(unsigned int);
 };
 struct FUN_00d60d10_Class
 {
@@ -75,10 +80,12 @@ struct FUN_00d60d10_Class
     int FUN_00d60d10(unsigned int a);
 };
 // @fnv 0x00d60d10
+// pdb: hkServerProcessHandler::selectProcess | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: id
 int FUN_00d60d10_Class::FUN_00d60d10(unsigned int a)
 {
     ((FUN_00d60940_Class*)(*(int**)((char*)this + 0x10)))->WriteInt(5);
-    ((FUN_00d605d0_Class*)(*(int**)((char*)this + 0x10)))->FUN_00d605d0(0xc1);
+    ((FUN_00d605d0_Class*)(*(int**)((char*)this + 0x10)))->hkOArchive_write8u(0xc1);
     ((FUN_00d60940_Class*)(*(int**)((char*)this + 0x10)))->WriteInt(a);
     return 0;
 }
@@ -114,6 +121,8 @@ struct FUN_00d60c10_s
 };
 
 // @fnv 0x00d60c10
+// pdb: hkServerProcessHandler::consumeCommand | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: command
 void FUN_00d60c10_s::HandleCommand(unsigned char ucCommand)
 {
     switch (ucCommand)
@@ -164,6 +173,8 @@ struct FUN_00d60d40_Class
     int FUN_00d60d40(int value);
 };
 
+// pdb: hkServerProcessHandler::findProcessByTag | hkServerProcessHandler.obj | fnv360_0822_retail, call_seq, medium
+// pdb params: tag
 int FUN_00d60d40_Class::FUN_00d60d40(int value)
 {
     int count = m_uiItemCount;
@@ -183,52 +194,17 @@ struct FUN_00dd9270_Class
     void FindEntry();
 };
 // @fnv 0x00d61240
+// pdb: TESForm::SaveGameDataOLD | TESForm.obj | fnv360_0721_beta, call_dedup, low
+// pdb params: apData, aiSize
 void __cdecl FUN_00d61240()
 {
     ((FUN_00dd9270_Class*)DAT_01269cd0)->FindEntry();
 }
 
-struct FUN_00d61260_Class
-{
-    void* m_p;
-    unsigned short m_iElementCount;
-
-    void FUN_00d610e0();
-    void* FUN_00d61260(int flags);
-};
-
-struct FUN_00d61260_MemoryManager
-{
-    virtual void FUN_00d61260_0();
-    virtual void FUN_00d61260_1();
-    virtual void Deallocate(void* p, unsigned short size);
-};
-
-struct FUN_00d61260_Router
-{
-    void* m_p[4];
-    FUN_00d61260_MemoryManager* m_pMemoryManager;
-};
-
-FUN_00d61260_Router* __cdecl _D1A0E0GetMemoryRouter();
-
-// @fnv 0x00d61260
-void* FUN_00d61260_Class::FUN_00d61260(int flags)
-{
-    FUN_00d610e0();
-
-    if (flags & 1)
-    {
-        FUN_00d61260_Router* router = _D1A0E0GetMemoryRouter();
-        router->m_pMemoryManager->Deallocate(this, m_iElementCount);
-    }
-
-    return this;
-}
-
 extern int DAT_01268fb8;
 
 // @fnv 0x00d61210
+// pdb: BSFaceGenManager::QFaceGenLockCount | BSFaceGenManager.obj | fnv360_0721_beta, objrun, medium
 int __cdecl FUN_00d61210()
 {
     return DAT_01268fb8;
@@ -305,6 +281,7 @@ struct hkEntry20D
     int unk10;
 };
 
+// pdb: hkServerProcessHandler::registerAllAvailableProcesss | hkServerProcessHandler.obj | fnv360_0822_retail, call_gap_sim, low
 int hkObjD60D::VisitEntryNames()
 {
     hkEntryArrayD60D& entries = reinterpret_cast<hkRegistryD60D*>(DAT_0116c490)->m_entries;
@@ -351,6 +328,8 @@ struct FUN_00d60dd0_Class
 
 // Calls FUN_00d60dd0_v6(f) on each element in unk2c in reverse order, then passes f and unk08 to unk18.ReadCommands if unk08 is set.
 // @fnv 0x00d60dd0
+// pdb: hkServerProcessHandler::step | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: frameTimeInMs
 void FUN_00d60dd0_Class::ApplyToElements(float afValue)
 {
     for (int i = unk30 - 1; i >= 0; i--)
@@ -459,38 +438,6 @@ class hkInterfaceBD610
     int unk04;
 };
 
-class hkOwnedD610
-{
-  public:
-    virtual ~hkOwnedD610() throw();
-};
-
-class FUN_00d610e0 : public hkReferencedObjectD610, public hkInterfaceAD610, public hkInterfaceBD610
-{
-  public:
-    virtual ~FUN_00d610e0() throw();
-
-    hkOwnedD610* m_14;
-    hkOwnedD610* m_18;
-    hkOwnedD610* m_1c;
-    int unk20;
-    hkReferencedObjectD610 m_24;
-    hkPointerMapD610 m_2c;
-    hkArrayD610<hkOwnedD610*> m_38;
-    hkArrayD610<int> m_44;
-};
-
-// Destructor: deletes every element of m_38, then deletes m_14, m_18 and m_1c; member destructors run afterwards.
-// @fnv 0x00d610e0
-FUN_00d610e0::~FUN_00d610e0() throw()
-{
-    for (int i = 0; i < m_38.m_iElementCount; i++)
-        delete m_38.m_data[i];
-    delete m_14;
-    delete m_18;
-    delete m_1c;
-}
-
 struct hkBoolD611
 {
     char m_cBooleanValue;
@@ -519,6 +466,7 @@ class hkObjD611
 
 // Returns 1 if m_inner is non-null and its ForwardValueToObject() returns true, otherwise 0.
 // @fnv 0x00d611e0
+// pdb: hkProcess::isOk | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
 int hkObjD611::FUN_00d611e0() const throw()
 {
     if (m_inner && m_inner->ForwardValueToObject())
@@ -531,6 +479,8 @@ struct FUN_00dd9240_Class
     void FUN_00dd9240();
 };
 // @fnv 0x00d61250
+// pdb: TESForm::LoadGameDataOLD | TESForm.obj | fnv360_0822_retail, call_gap_sim, low
+// pdb params: apData, apData, apData, apData, aiSize, aiSize, aiSize, aiSize
 void __cdecl FUN_00d61250()
 {
     ((FUN_00dd9240_Class*)DAT_01269cd0)->FUN_00dd9240();
@@ -606,13 +556,6 @@ class FUN_00dd9cc0 : public hkReferencedObjectDD9C, public hkListenerBaseDD9C
     virtual ~FUN_00dd9cc0() throw();
 };
 
-// Stores pvOwner and allocates a FUN_00cf6da0 with capacity 1000 into the second member.
-// @fnv 0x00dd9cc0
-FUN_00dd9cc0::FUN_00dd9cc0(void* pvOwner) throw()
-{
-    m_pOwnerObject = pvOwner;
-    m_kNodePool = new FUN_00cf6da0(1000);
-}
 }  // namespace fnv_00dd9cc0
 
 template <int SIZE> __forceinline void memCpyOneAlignedD60E(void* dst, const void* src)
@@ -683,12 +626,6 @@ class EntryD60E
     ListenerD60E* m_pkListener;
 };
 
-class EntryFactoryD60E
-{
-  public:
-    EntryD60E* InvokeRecord(int aiSoundId, void* pvParam);
-};
-
 class EntryListD60E
 {
   public:
@@ -736,6 +673,8 @@ struct StubEntryListD60E
 };
 extern int DAT_0116c490;
 void __cdecl FUN_00901f10(void* pArray, int iSizeElem);
+// pdb: hkServerProcessHandler::createProcess | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: id
 int OwnerD60E::FUN_00d60e80(int aiSoundId)
 {
     int aiId = aiSoundId;
@@ -795,11 +734,6 @@ struct Item_d60e
     virtual ~Item_d60e();
 };
 
-struct Owner_d60e
-{
-    int FUN_00d60d40(void* key);
-};
-
 struct Listeners_d60e
 {
     void FUN_00dd95b0(Item_d60e* item);
@@ -836,6 +770,8 @@ struct Part_d60eF3
     Item_d60eF3** m_pItems;
     int m_iCount;
 };
+// pdb: hkServerProcessHandler::deleteProcess | hkServerProcessHandler.obj | fnv360_0822_retail, vtable, medium
+// pdb params: id
 int Part_d60e::FUN_00d60e20(void* key)
 {
     Part_d60eF3* self = (Part_d60eF3*)this;
@@ -1005,10 +941,6 @@ struct OwnerObject : RefObject
     void ProcessInputData(struct ListenerC* listener) throw();
 };
 
-struct ListenerB
-{
-    virtual void ListenerB_v0();
-};
 struct ListenerC
 {
     virtual void ListenerC_v0();
@@ -1017,18 +949,6 @@ struct ListenerC
     {}
 };
 
-struct OwnerHolder : OwnerObject
-{
-
-    void ProcessInputData(ListenerC* listener) throw();
-};
-
-struct FUN_00ddabe0 : RefObject
-{
-    int unk08;
-    int unk0c;
-    FUN_00ddabe0(void* src) throw();
-};
 struct FUN_00dda6e0 : RefObject
 {
     int unk08;
@@ -1046,31 +966,4 @@ struct FUN_00dd9cc0 : RefObject, ChildBase
     FUN_00dd9cc0(FUN_00dda6e0* src) throw();
 };
 
-struct FUN_00d60f30 : RefObject, ListenerB, ListenerC
-{
-    FUN_00ddabe0* m_pHeadNode;
-    FUN_00dda6e0* m_iSecondInteger;
-    ChildBase* m_pChildAtom;
-    ListenerB* m_kListener;
-    OwnerObject m_pOwnerObject;
-    PtrArray m_arr38;
-    PtrArray m_arr44;
-
-    FUN_00d60f30(const PtrArray& arr, void* first, void* second);
-    virtual void Thing_v1();
-    virtual void ListenerB_v0();
-    virtual void ListenerC_v0();
-};
-
-// Calls m_pOwnerObject.ProcessInputData(this), copies arr to m_arr44, conditionally constructs two objects, then constructs a child and assigns m_kListener.
-// @fnv 0x00d60f30
-FUN_00d60f30::FUN_00d60f30(const PtrArray& apArray, void* first, void* second)
-{
-    m_pOwnerObject.ProcessInputData(this);
-    m_arr44 = apArray;
-    m_pHeadNode = first ? new FUN_00ddabe0(first) : 0;
-    m_iSecondInteger = second ? new FUN_00dda6e0(second) : 0;
-    m_pChildAtom = new FUN_00dd9cc0(m_iSecondInteger);
-    m_kListener = this;
-}
 }  // namespace fnv_00d60f30

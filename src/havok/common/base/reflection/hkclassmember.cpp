@@ -17,6 +17,7 @@ struct hkClassMember_FUN_00d86960
 };
 
 // @fnv 0x00d86960
+// pdb: hkClassMember::getAttribute | hkClassMember.obj | tesv_win, objrun, medium
 const hkVariant* hkClassMember_FUN_00d86960::FUN_00d86960(const char* name) const
 {
     if (m_pCustomAttributes)
@@ -36,6 +37,8 @@ int __cdecl FUN_00d86980();
 
 // Stores v into p as a char, short or int depending on the size returned by FUN_00d86980.
 // @fnv 0x00d86bc0
+// pdb: hkClassMember::setEnumValue | hkClassMember.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: memberAddress, value
 void __stdcall FUN_00d86bc0(int apTarget, int aiValue)
 {
     switch (FUN_00d86980())
@@ -56,6 +59,7 @@ void __stdcall FUN_00d86bc0(int apTarget, int aiValue)
 
 // @f3 0x004b2630 (community match, verified in this file)
 extern hkClassMember::Type DAT_01071650, DAT_01071654, DAT_01071658;
+// pdb: TESObject::IsOcclusionMarker | TESObject.obj | fnv360_0822_retail, vtable, medium
 bool __fastcall FUN_00d868b0(hkClassMember::Type t) {
     if (t && ((unsigned char*)t)[4] == 0x20 &&
         (DAT_01071654 == t || DAT_01071650 == t || DAT_01071658 == t))
@@ -66,11 +70,6 @@ bool __fastcall FUN_00d868b0(hkClassMember::Type t) {
 typedef bool (__fastcall *FT)(hkClassMember::Type);
 volatile FT kp_d868b0 = &FUN_00d868b0;
 
-
-void dummy(hkClassMember::Type x)
-{
-    FUN_00d868b0(x);
-}
 
 struct TestClass : public hkClassMember
 {
@@ -91,6 +90,7 @@ struct Struct_d86920
 };
 
 // @fnv 0x00d86920
+// pdb: hkClass::getParent | hkClass.obj | fnv360_0822_retail, call_seq, high
 int Struct_d86920::FUN_00d86920()
 {
     return unk04;
@@ -107,48 +107,10 @@ class FUN_00d86930_StandIn
 };
 
 // @fnv 0x00d86930
+// pdb: hkClass::getObjectSize | hkClass.obj | fnv360_0822_retail, call_dedup, medium
 hkClassEnum* FUN_00d86930_StandIn::FUN_00d86930()
 {
     return unk08;
-}
-
-struct FUN_00dba990_Obj
-{
-    int FUN_00dba990();
-};
-
-struct FUN_00d86bc0_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    unsigned char unk0C;
-    void FUN_00d86bc0(int a, int b);
-};
-
-// @fnv 0x00dc1bf0
-unsigned int __stdcall FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
-{
-    FUN_00d86bc0_Obj* member = (FUN_00d86bc0_Obj*)pMember;
-    unsigned int type = member->unk0C;
-
-    switch (type)
-    {
-    case 0x18:
-        if (member->unk08 != 0)
-        {
-            int result = ((FUN_00dba990_Obj*)pSource)->FUN_00dba990();
-            member->FUN_00d86bc0(aiArg, result);
-        }
-        return 0;
-    case 0x1f:
-        if (member->unk08 != 0)
-        {
-            member->FUN_00d86bc0(aiArg, ((FUN_00dba990_Obj*)pSource)->FUN_00dba990());
-        }
-        return 0;
-    }
-    return 1;
 }
 
 struct NativeTypePropertyD86A
@@ -191,12 +153,13 @@ class hkClassMemberD86A
 class hkClassD86A
 {
   public:
-    int FUN_00d46f00() const;
+    int hkClass_getNumMembers() const;
     const hkClassMemberD86A& FUN_00d46f20(int i) const;
 };
 
 // Returns the memory alignment of this class member, derived from its type, struct member alignments, or explicit ALIGN_8/ALIGN_16 flags.
 // @fnv 0x00d86a90
+// pdb: hkClassMember::getAlignment | hkClassMember.obj | fnv360_0822_retail, call_seq, high
 int hkClassMemberD86A::GetAlignment() const
 {
     int type = m_type;
@@ -207,7 +170,7 @@ int hkClassMemberD86A::GetAlignment() const
     if (type == TYPE_STRUCT)
     {
         int structAlign = 1;
-        for (int i = 0; i < m_class->FUN_00d46f00(); i++)
+        for (int i = 0; i < m_class->hkClass_getNumMembers(); i++)
         {
             if (m_class->FUN_00d46f20(i).GetAlignment() > structAlign)
                 structAlign = m_class->FUN_00d46f20(i).GetAlignment();
@@ -228,33 +191,6 @@ int hkClassMemberD86A::GetAlignment() const
     return align;
 }
 
-struct TypeDescription
-{
-    const char* name;
-    const char* displayName;
-    int size;
-};
-extern TypeDescription DAT_011b6ab4[];
-extern const char str_010d3a74[];
-struct TypeNameOutput
-{
-    void FUN_00d61c10(const char*);
-};
-extern void __cdecl FUN_00d61d00(TypeNameOutput*, const char*, const char*, const char*);
-// Writes the selected type name to output, calling FUN_00d61d00 with that name and detail when detail is non-null.
-// @fnv 0x00d868e0
-static __declspec(noinline) void FUN_00d868e0(TypeNameOutput* output, const char* detail, int type)
-{
-    if (!detail)
-        output->FUN_00d61c10(DAT_011b6ab4[type].name);
-    else
-        FUN_00d61d00(output, str_010d3a74, DAT_011b6ab4[type].name, detail);
-}
-void formatTypeName(TypeNameOutput* output, const char* detail, int type)
-{
-    FUN_00d868e0(output, detail, type);
-}
-
 class OwnerD869
 {
   public:
@@ -267,6 +203,7 @@ class OwnerD869
 };
 
 // @fnv 0x00d86940
+// pdb: hkClassMember::getCstyleArraySize | hkClassMember.obj | fnv360_0822_retail, call_dedup, low
 int OwnerD869::FUN_00d86940() const
 {
     return m_sValue;
@@ -309,6 +246,7 @@ static inline const TypeProps_d869* typeProps_d869()
 
 // For handled types, multiplies the selected type-property value or referenced class alignment by the member count; otherwise returns -1.
 // @f3 0x0093d900 (community match, verified in this file)
+// pdb: hkClassMember::getSizeInBytes | hkClassMember.obj | fnv360_0822_retail, call_dedup, medium
 int ClassMember_d869::FUN_00d86980() const
 {
     int size = -1;

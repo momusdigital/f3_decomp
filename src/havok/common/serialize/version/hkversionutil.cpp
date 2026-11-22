@@ -16,6 +16,7 @@ struct FUN_00db7a80_Class
 };
 
 // @fnv 0x00db7a80
+// pdb: hkStaticClassNameRegistry::checkIfReady | hkStaticClassNameRegistry.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
 void FUN_00db7a80_Class::EnsureInitialized()
 {
     if (!m_iFourthElementInteger)
@@ -23,52 +24,6 @@ void FUN_00db7a80_Class::EnsureInitialized()
         VisitObjectList(m_kPointB, m_iThirdValue);
         m_iFourthElementInteger = 1;
     }
-}
-
-struct MemoryManager
-{
-    virtual void FUN_00e00000() = 0;
-    virtual void FUN_00e00004() = 0;
-    virtual void FUN_00e00008(void*, unsigned short) = 0;
-};
-
-struct MemoryRouter
-{
-    void* m_p00;
-    void* m_p04;
-    void* m_p08;
-    void* m_p0C;
-    MemoryManager* m_pMemoryManager;
-};
-
-MemoryRouter* _D1A0E0GetMemoryRouter();
-
-struct Object
-{
-    void FUN_00e03160();
-};
-
-struct FUN_00e049d0_Class : Object
-{
-    unsigned int m_auiShapeKeys;
-    unsigned short m_type;
-
-    FUN_00e049d0_Class* FUN_00e049d0(int flags);
-};
-
-// @fnv 0x00e049d0
-FUN_00e049d0_Class* FUN_00e049d0_Class::FUN_00e049d0(int flags)
-{
-    Object::FUN_00e03160();
-
-    if (flags & 1)
-    {
-        MemoryRouter* router = _D1A0E0GetMemoryRouter();
-        unsigned short type = m_type;
-        router->m_pMemoryManager->FUN_00e00008(this, type);
-    }
-
-    return this;
 }
 
 extern "C" char str_010cf830[];
@@ -98,6 +53,8 @@ struct FUN_00d871a0
 extern "C" void* __cdecl FUN_00cb1260(void*, const void*, unsigned int);
 
 // @fnv 0x00dc0fc0
+// pdb: hkVersionUtil::renameMember | hkVersionUtil.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: oldObj, oldName, newObj, newName
 void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4)
 {
     FUN_00d871a0 obj1(a1, a2);
@@ -113,15 +70,6 @@ struct FUN_00d46d40_s
 {
     const char* FUN_00d46d40() const throw();
 };
-
-class GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
-{
-  public:
-    int m_00;
-};
-extern GlobalObjectO2_00d472a0 g_01268748;
-
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB) throw();
 
 class hkClassMemberDC11
 {
@@ -146,38 +94,6 @@ class hkClassMemberDC11
     int FUN_00d86920() const throw();
     const FUN_00d46d40_s& FUN_00d86910() const throw();
 };
-
-class hkVersionCheckDC11
-{
-  public:
-    int FUN_00e032d0(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
-    int IsMemberCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw();
-};
-
-// Returns 1 if the old class member is compatible with the new one by type/subtype, cstring-to-stringptr, or variant-to-pointer conversion; otherwise 0.
-// @fnv 0x00dc1100
-int hkVersionCheckDC11::IsMemberCompatible(const hkClassMemberDC11* pkOld, const hkClassMemberDC11* pkNew) throw()
-{
-    bool bTypeCompatible = (pkOld->m_type == pkNew->m_type) || (pkOld->m_type == hkClassMemberDC11::TYPE_SIMPLEARRAY &&
-                                                                pkNew->m_type == hkClassMemberDC11::TYPE_ARRAY);
-    bool bCStringToStringPtr =
-        (pkOld->m_type == hkClassMemberDC11::TYPE_CSTRING && pkNew->m_type == hkClassMemberDC11::TYPE_STRINGPTR);
-    bool bVariantToPtr =
-        (pkOld->m_type == hkClassMemberDC11::TYPE_VARIANT && pkNew->m_type == hkClassMemberDC11::TYPE_POINTER &&
-         pkNew->m_eSubtype == hkClassMemberDC11::TYPE_STRUCT && pkNew->FUN_00d86920() &&
-         FUN_00cb0fa0(g_01268748.FUN_00d46d40(), pkNew->FUN_00d86910().FUN_00d46d40()) == 0);
-    bool bSubTypeCompatible =
-        (pkOld->m_eSubtype == pkNew->m_eSubtype) || (pkOld->m_eSubtype == hkClassMemberDC11::TYPE_CSTRING &&
-                                                     pkNew->m_eSubtype == hkClassMemberDC11::TYPE_STRINGPTR);
-    bool bSubVariantToPtr =
-        (pkOld->m_eSubtype == hkClassMemberDC11::TYPE_VARIANT && pkNew->m_eSubtype == hkClassMemberDC11::TYPE_POINTER &&
-         pkNew->FUN_00d86920() && FUN_00cb0fa0(g_01268748.FUN_00d46d40(), pkNew->FUN_00d86910().FUN_00d46d40()) == 0);
-
-    if (FUN_00e032d0(pkOld, pkNew) || bCStringToStringPtr || bVariantToPtr ||
-        (bTypeCompatible && (bSubTypeCompatible || bSubVariantToPtr)))
-        return 1;
-    return 0;
-}
 
 class hkMemoryAllocatorDC12;
 
@@ -226,7 +142,7 @@ class hkVisitorDC12
         FUN_00dc1670();
     }
     void FUN_00dc1670() throw();
-    void FUN_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
+    void hkStructureLayout_computeMemberOffsetsInplace(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
 };
 
 // @f3 0x0093e5f0 (community match, verified in this file)
@@ -244,6 +160,8 @@ struct StubVisitDC12 {
     void FUN_009b2a50(void* pvObject, StubPMDC12& kDone);
 };
 
+// pdb: hkVersionUtil::recomputeClassMemberOffsets | hkVersionUtil.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, medium
+// pdb params: classes, classVersion
 extern "C" void __cdecl FUN_00dc1230(int apvList, int iFlags)
 {
     void* const* ppvList = reinterpret_cast<void* const*>(apvList);
@@ -309,17 +227,18 @@ class SectionsDC10
 {
   public:
     int FUN_00d470d0() throw();
-    int FUN_00d46f00() throw();
+    int hkClass_getNumMembers() throw();
     EntryDC10* FUN_00d46f20(int i) throw();
     void InvokeTarget(int i, FUN_00d27520* pkWriter) throw();
 };
 
 // Writes entries from pkSections whose key is not in pkSet to pvBuf via a FUN_00d274c0 writer.
 // @fnv 0x00dc1070
-void __cdecl FUN_00dc1070(void* apvBuffer, SetDC10* pkSet, SectionsDC10* pkSections)
+// pdb: hkVersionUtil::copyDefaults | hkVersionUtil.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void __cdecl hkVersionUtil_copyDefaults(void* apvBuffer, SetDC10* pkSet, SectionsDC10* pkSections)
 {
     FUN_00d274c0 kWriter(apvBuffer, pkSections->FUN_00d470d0(), false);
-    for (int i = 0; i < pkSections->FUN_00d46f00(); i++)
+    for (int i = 0; i < pkSections->hkClass_getNumMembers(); i++)
     {
         EntryDC10* pkEntry = pkSections->FUN_00d46f20(i);
         int key = pkEntry->m_key;
@@ -350,82 +269,9 @@ struct S00dc15a0_AudioSystem
     S00dc15a0_Buffer* unk0C;
 };
 
-struct S00dc15a0_Params
-{
-    void* unk00;
-    int unk04;
-};
-
-struct S00dc15a0_Array
-{
-    int* m_data;
-    int m_iElementCount;
-    int m_capFlags;
-};
-
 namespace fnvc_adapt {
 extern "C" S00dc15a0_AudioSystem* __cdecl FUN_00c85750();
 }
-extern "C" void __cdecl FUN_00c908c0(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
-
-static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
-{
-    arr->m_iElementCount = (int)&params + (int)&value + (int)&flags;
-    return arr->m_capFlags;
-}
-
-// Builds an array containing 0..count-1, passes it to FUN_00dc12c0, and returns that call's result.
-// @fnv 0x00dc15a0
-int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
-{
-    S00dc15a0_Array arr;
-    int count = params->unk04;
-    arr.m_data = 0;
-    arr.m_iElementCount = 0;
-    arr.m_capFlags = 0x80000000;
-
-    S00dc15a0_AudioSystem* pAudioSystem = fnvc_adapt::FUN_00c85750();
-    S00dc15a0_Buffer* heap = pAudioSystem->unk0C;
-    int iCurrentCap = arr.m_capFlags & 0x3fffffff;
-    if (iCurrentCap < count)
-    {
-        int newCap = iCurrentCap + iCurrentCap;
-        if (count >= newCap)
-            newCap = count;
-        FUN_00c908c0(heap, &arr.m_data, newCap, 4);
-    }
-
-    int index = 0;
-    arr.m_iElementCount = count;
-    if (params->unk04 > 0)
-    {
-        do
-        {
-            arr.m_data[index] = index;
-            ++index;
-        } while (index < params->unk04);
-    }
-
-    int result = FUN_00dc12c0(params, value, flags, &arr);
-
-    pAudioSystem = fnvc_adapt::FUN_00c85750();
-    S00dc15a0_Buffer* heap2 = pAudioSystem->unk0C;
-    arr.m_iElementCount = 0;
-    if ((arr.m_capFlags & 0x80000000) == 0)
-    {
-        heap2->vf10(arr.m_data, (arr.m_capFlags & 0x3fffffff) * 4);
-    }
-
-    return result;
-}
-
-struct hkStructureLayoutDC10
-{
-    char m_ucBytesInPointer;
-    char m_bLittleEndian;
-    char m_bReusePaddingOptimization;
-    char m_bEmptyBaseClassOptimization;
-};
 
 struct hkFlagsDC10
 {
@@ -435,25 +281,8 @@ struct hkFlagsDC10
 };
 
 namespace FUN_00e03120 {
-class hkObjectCopier
-{
-  public:
-    hkObjectCopier(const hkStructureLayoutDC10& kSrc, const hkStructureLayoutDC10& kDst, hkFlagsDC10 kFlags);
-    virtual void CopyContents();
-    int unk04, unk08, unk0C;
-};
 }
 
 namespace FUN_00dc1040 {
-class PackfileObjectCopier : public FUN_00e03120::hkObjectCopier
-{
-  public:
-    PackfileObjectCopier(const hkStructureLayoutDC10& kSrc, const hkStructureLayoutDC10& kDst);
-    virtual void CopyContents();
-};
 
-// @fnv 0x00dc1040
-PackfileObjectCopier::PackfileObjectCopier(const hkStructureLayoutDC10& kSrc, const hkStructureLayoutDC10& kDst)
-    : FUN_00e03120::hkObjectCopier(kSrc, kDst, 0)
-{}
 }

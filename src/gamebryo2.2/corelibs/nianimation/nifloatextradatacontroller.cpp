@@ -1,8 +1,10 @@
-// gamebryo2.2/corelibs/nianimation/nifloatextradatacontroller.cpp: NiFloatExtraDataController (9 functions)
+// gamebryo2.2/corelibs/nianimation/nifloatextradatacontroller.cpp: NiFloatExtraDataController (8 functions)
 #include "f3_common.h"
 #include "nifloatextradatacontroller_decls.h"
 
 // @fnv 0x00a41300
+// pdb: NiFloatExtraDataController::Update | NiFloatExtraDataController.obj | fnv360_0822_retail, objopen_prop, low
+// pdb params: UpdateData
 void NiFloatExtraDataController::Update(NiUpdateData& update)
 {
     if (GetManagerControlled())
@@ -33,6 +35,8 @@ struct NiPSysModifierCtlr
 };
 
 // @fnv 0x00a4fbd0
+// pdb: BSRefractionFirePeriodController::LoadBinary | BSRefractionFirePeriodController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void __fastcall LoadBinaryWithVersionCheck(NiPSysModifierCtlr* pThis, int, NiStream& kStream)
 {
     pThis->LoadBinary(kStream);
@@ -51,6 +55,7 @@ struct NiTimeController_Call
 };
 
 // @fnv 0x00a572a0
+// pdb: NiExtraDataController::NiExtraDataController | NiExtraDataController.obj | fnv360_0721_beta, objrun, medium
 int* __fastcall InitTimeController(int* pThis)
 {
     reinterpret_cast<NiTimeController_Call*>(pThis)->SetControllerActive();
@@ -67,6 +72,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3e6c;
 
 // @fnv 0x00a41230
+// pdb: BGSDecalNode::GetRTTI | BGSDecalNode.obj | fnv360_0822_retail, vtable, medium
 const GlobalObjectO2_00a7b610* __cdecl FUN_00a41230()
 {
     return &g_011f3e6c;
@@ -94,6 +100,8 @@ struct FloatSrc
 
 // Allocates a FUN_00a3c390 fade node constructed from the float value returned by the FloatSrc at self+0x3c.
 // @fnv 0x00a41240
+// pdb: NiFloatExtraDataController::CreatePoseInterpolator | NiFloatExtraDataController.obj | fnv360_0822_retail, objrun_open, low
+// pdb params: usIndex
 void* __fastcall CreateFadeNodeFromFloatSource(void* self, int edx, unsigned short usIndex)
 {
     return new FUN_00a3c390((*(FloatSrc**)((char*)self + 0x3c))->Get());
@@ -119,7 +127,8 @@ static void* Init(void* p)
 }
 
 // @fnv 0x00a41280
-void* __fastcall FUN_00a41280(CopyHelper* self, int edx, void* kCloning)
+// pdb: NiFloatExtraDataController::CreateClone | NiFloatExtraDataController.obj | fnv360_1110_retail, objopen_prop + bridge(vtable|objopen_prop) + skyrim(caller_sim), high
+void* __fastcall NiFloatExtraDataController_CreateClone(CopyHelper* self, int edx, void* kCloning)
 {
     void* pMemory = BSFadeNode::operator new(0x40);
     void* pkObject = pMemory ? Init(pMemory) : 0;
@@ -147,6 +156,8 @@ void __stdcall FUN_00a57420(ArrHelper* a);
 ActorCombatGroup* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610* g);
 
 // @fnv 0x00a41380
+// pdb: NiAVObjectPalette::GetViewerStrings | NiAVObjectPalette.obj | fnv360_0822_retail, call_gap, low
+// pdb params: pkStrings
 void __stdcall AppendGlobalObject(ArrHelper* pkStrings)
 {
     FUN_00a57420(pkStrings);
@@ -188,6 +199,8 @@ struct StreamView
 };
 
 // @fnv 0x00a4fc00
+// pdb: NiColorExtraDataController::LinkObject | NiColorExtraDataController.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: kStream
 void __fastcall LinkColorInterpolator(NiPSysModifierCtlr* self, int edx, NiStream* kStream)
 {
     self->LinkObject(*kStream);
@@ -208,32 +221,3 @@ void __fastcall LinkColorInterpolator(NiPSysModifierCtlr* self, int edx, NiStrea
     }
 }
 }  // namespace fnv_00a4fc00
-
-// NiFloatExtraDataController helper: push the controller's float extra-data value
-// into the fade node that owns it (if the node is registered for this controller).
-struct FadeNode
-{
-    FadeNode* LookupNode(void* pKey);
-    void SetValue(float fValue);
-};
-
-extern int g_011f3738;
-
-struct FUN_00a412d0_cls : public NiFloatExtraDataController
-{
-    void ApplyFadeValue(FadeNode* pFadeNode, int iIndex);
-};
-
-// Looks up the fade node for g_011f3738 and sets its value from this controller's float extra data.
-// @fnv 0x00a412d0
-void FUN_00a412d0_cls::ApplyFadeValue(FadeNode* pFadeNode, int iIndex)
-{
-    FadeNode* pTarget;
-    if (pFadeNode == 0)
-        pTarget = 0;
-    else
-        pTarget = pFadeNode->LookupNode(&g_011f3738);
-
-    NiFloatExtraData* pExtraData = static_cast<NiFloatExtraData*>(this->m_pExtraData.operator->());
-    pTarget->SetValue(pExtraData->m_fValue);
-}

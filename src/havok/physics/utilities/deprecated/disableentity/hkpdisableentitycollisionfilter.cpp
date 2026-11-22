@@ -17,6 +17,8 @@ void __stdcall FUN_00e46780(unsigned char* flag, int p2, int p3, int p4, int p5,
 }
 
 // @fnv 0x00e46790
+// pdb: hkpNullCollisionFilter::isCollisionEnabled | hkpWorld.obj | fnv360_0721_beta, vtable, high
+// pdb params: aInput, bShape, bContainer, bKey
 void __stdcall FUN_00e46790(char* flag, int a, int b, int c, int d)
 {
     *flag = 1;
@@ -27,51 +29,6 @@ void __stdcall FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, 
 {
     *flag = 1;
 }
-
-void* __cdecl FUN_00c85750(void);
-
-struct FUN_00e46900_Obj
-{
-    void FUN_00e46900();
-};
-
-struct FUN_00dff930_Alloc
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08(void* p, int n);
-};
-
-struct FUN_00dff930_Mgr
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00dff930_Alloc* m_10;
-};
-
-struct FUN_00dff930_class : hkpDisableEntityCollisionFilter
-{
-    void* FUN_00dff930(unsigned char flag);
-};
-
-// @fnv 0x00dff930
-void* FUN_00dff930_class::FUN_00dff930(unsigned char uiFlags)
-{
-    reinterpret_cast<FUN_00e46900_Obj*>(this)->FUN_00e46900();
-    if (uiFlags & 1)
-    {
-        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(FUN_00c85750());
-        mgr->m_10->slot08(this, m_usMemSizeAndFlags);
-    }
-    return this;
-}
-
-// Empty function that takes an unsigned int argument and does nothing.
-// @fnv 0x00e467c0
-void __stdcall FUN_00e467c0(unsigned int a1)
-{}
 
 struct hkBoolE467
 {
@@ -140,6 +97,8 @@ class hkpProjectileGunE467
 
 // Returns false if either collidable is found among the rigid bodies' collidables in the array, otherwise true.
 // @fnv 0x00e467d0
+// pdb: hkpDisableEntityCollisionFilter::isCollisionEnabled | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, vtable, high
+// pdb params: a, b
 hkBoolE467 hkpProjectileGunE467::FUN_00e467d0(const hkpCollidableE467& kA, const hkpCollidableE467& kB) const
 {
     for (int i = 0; i < m_kRigidBodies.GetLogicalSize(); i++)
@@ -153,11 +112,12 @@ hkBoolE467 hkpProjectileGunE467::FUN_00e467d0(const hkpCollidableE467& kA, const
 
 struct FnvDisabledCollisionFilter : hkpDisableEntityCollisionFilter
 {
-    char* FUN_00e46820(char* wasRemoved, hkpEntity* entity);
+    char* hkpDisableEntityCollisionFilter_removeEntityFromFilter(char* wasRemoved, hkpEntity* entity);
 };
 // Removes the entity from the filter's array by swapping in the last element, writing 1 to wasRemoved if found, else 0.
 // @f3 0x00a73fe0 (community match, verified in this file)
-char* FnvDisabledCollisionFilter::FUN_00e46820(char* wasRemoved, hkpEntity* entity)
+// pdb: hkpDisableEntityCollisionFilter::removeEntityFromFilter | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, call_seq + skyrim(call_seq), high
+char* FnvDisabledCollisionFilter::hkpDisableEntityCollisionFilter_removeEntityFromFilter(char* wasRemoved, hkpEntity* entity)
 {
     if (!entity)
     {
@@ -168,10 +128,7 @@ char* FnvDisabledCollisionFilter::FUN_00e46820(char* wasRemoved, hkpEntity* enti
     {
         if (m_kDisabledEntities.m_data[index] == entity)
         {
-            volatile int& count = m_kDisabledEntities.m_iElementCount;
-            --count;
-            int last = count;
-            m_kDisabledEntities.m_data[index] = m_kDisabledEntities.m_data[last];
+                        m_kDisabledEntities.removeAt(index);
             *wasRemoved = 1;
             return wasRemoved;
         }
@@ -219,23 +176,24 @@ class hkpEntityListenerE46
 {
   public:
     virtual void EntityAddedCallback(hkpEntityE46* entity);
-    virtual void FUN_00e46880(hkpEntityE46* entity);
+    virtual void hkpDisableEntityCollisionFilter_entityRemovedCallback(hkpEntityE46* entity);
 };
 
 class hkpDisableEntityCollisionFilterE46 : public hkpCollisionFilterE46, public hkpEntityListenerE46
 {
   public:
-    hkBoolE46 FUN_00e46820(hkpEntityE46* entity);
-    virtual void FUN_00e46880(hkpEntityE46* entity);
+    hkBoolE46 hkpDisableEntityCollisionFilter_removeEntityFromFilter(hkpEntityE46* entity);
+    virtual void hkpDisableEntityCollisionFilter_entityRemovedCallback(hkpEntityE46* entity);
 };
 
-// If entity is non-null, calls FUN_00e46820(entity) and then FUN_00c9c670(this) on the entity.
+// If entity is non-null, calls hkpDisableEntityCollisionFilter_removeEntityFromFilter(entity) and then FUN_00c9c670(this) on the entity.
 // @f3 0x00a74040 (community match, verified in this file)
-void hkpDisableEntityCollisionFilterE46::FUN_00e46880(hkpEntityE46* entity)
+// pdb: hkpDisableEntityCollisionFilter::entityRemovedCallback | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+void hkpDisableEntityCollisionFilterE46::hkpDisableEntityCollisionFilter_entityRemovedCallback(hkpEntityE46* entity)
 {
     if (entity)
     {
-        FUN_00e46820(entity);
+        hkpDisableEntityCollisionFilter_removeEntityFromFilter(entity);
         entity->FUN_00c9c670(this);
     }
 }
@@ -445,6 +403,7 @@ struct FUN_00a74070 : Base_a74070, Listener_a74070
     virtual ~FUN_00a74070();
 };
 
+// pdb: hkpDisableEntityCollisionFilter::hkpDisableEntityCollisionFilter | hkpDisableEntityCollisionFilter.obj | fnv360_0822_retail, objrun, medium
 FUN_00a74070::FUN_00a74070()
 {
 }

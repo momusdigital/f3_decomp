@@ -194,6 +194,7 @@ static __declspec(noinline) void FUN_00817310(
     }
 }
 
+// pdb: CaseNoZeros | NiDistSegBox.obj | fnv360_0822_retail via fnv_pc_unpacked, bridge_fnvpc, low
 static __declspec(noinline) void FUN_00817a50(
     const OrientedBox& rkBox,
     BoxVec3& rkPnt,

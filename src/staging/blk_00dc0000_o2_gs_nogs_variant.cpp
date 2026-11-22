@@ -59,7 +59,7 @@ struct FUN_00ddf050_cls
 {
     void ClearContainer();
 };
-extern "C" void __cdecl FUN_00d51760(int* p1, int* p2);
+extern "C" void __cdecl hkpConstraintConstructionKit_computeConstraintInfo(int* p1, int* p2);
 struct FUN_00dd0420_Class
 {
     int m_00;
@@ -74,7 +74,7 @@ struct FUN_00dd0420_Class
 };
 struct FUN_00dd4b70_class
 {
-    void __thiscall FUN_00dd4b70(unsigned char value);
+    void __thiscall hkpMoppCompiler_enableInterleavedBuilding(unsigned char value);
 };
 extern int DAT_0102e388;
 struct FUN_00dd51d0_class
@@ -545,7 +545,8 @@ struct IniTokenStream
     void* m_vt;
 };
 extern "C" void ReadIniLine(void);
-static __declspec(noinline) unsigned short FUN_00dcc240(IniTokenStream* stream, unsigned char* negative)
+// pdb: readInteger64 | hkIStream.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) unsigned short readInteger64(IniTokenStream* stream, unsigned char* negative)
 {
     *negative = 0;
     ReadIniLine();
@@ -596,11 +597,12 @@ struct S_00dcc790_Class
 
     S_00dcc790_Class* __thiscall ReadSignedValue(unsigned short* result);
 };
-extern "C" void __cdecl SkipWhitespace(void);
-static __declspec(noinline) unsigned short FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader)
+extern "C" void __cdecl eatWhiteSpace(void);
+// pdb: readInteger64 | hkIStream.obj | fnv360_0822_retail, caller_sim + skyrim(caller_sim), high
+static __declspec(noinline) unsigned short readInteger64(unsigned char* ok, S_00dcc240_Reader* reader)
 {
     *ok = 0;
-    SkipWhitespace();
+    eatWhiteSpace();
     return reader->unk08;
 }
 typedef __int64 FNVInt64;
@@ -666,7 +668,7 @@ static __declspec(noinline) void SkipWhitespace285(Stream285* stream)
         count = stream->Read(buffer, 64);
     }
 }
-int __cdecl FUN_00cb0fd0(const char*, const char*, unsigned);
+int __cdecl hkString_strNcmp(const char*, const char*, unsigned);
 struct Reader285
 {
     int unk00, unk04;
@@ -674,20 +676,22 @@ struct Reader285
     Reader285* FUN_00dcc4a0(bool* value);
 };
 // @fnv 0x00dcc4a0
+// pdb: hkIstream::operator>> | hkIStream.obj | fnv360_0822_retail, caller_sim, low
+// pdb params: b
 Reader285* Reader285::FUN_00dcc4a0(bool* value)
 {
     SkipWhitespace285(stream);
     char buffer[6];
     stream->BeginPeek(6);
     int count = stream->Read(buffer, 6);
-    if (count >= 4 && FUN_00cb0fd0(buffer, "true", 4) == 0 && (count == 4 || Space285(buffer[4])))
+    if (count >= 4 && hkString_strNcmp(buffer, "true", 4) == 0 && (count == 4 || Space285(buffer[4])))
     {
         *value = true;
         stream->EndPeek();
         stream->Advance(4);
         return this;
     }
-    if (count >= 5 && FUN_00cb0fd0(buffer, "false", 4) == 0 && (count == 5 || Space285(buffer[5])))
+    if (count >= 5 && hkString_strNcmp(buffer, "false", 4) == 0 && (count == 5 || Space285(buffer[5])))
     {
         *value = false;
         stream->EndPeek();

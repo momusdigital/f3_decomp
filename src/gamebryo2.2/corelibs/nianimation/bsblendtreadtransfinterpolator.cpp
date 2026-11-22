@@ -1,6 +1,8 @@
 #include "f3_common.h"
 #include "bsblendtreadtransfinterpolator_decls.h"
 // @fnv 0x00a432d0
+// pdb: BSBlendTreadTransfInterpolator::Update | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, objrun_prop, high
+// pdb params: fTime, pkInterpTarget, kValue
 bool BSBlendTreadTransfInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& arValue)
 {
     bool result = false;
@@ -19,7 +21,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3ed0;
 
 // @fnv 0x00a42fe0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a42fe0()
+// pdb: BSTextureSet::GetRTTI | TESObjectTREE.obj | fnv360_0822_retail, vtable + bridge(vtable|vtable) + skyrim(objopen_prop), high
+GlobalObjectO2_00a7b610* __cdecl BSTextureSet_GetRTTI()
 {
     return &g_011f3ed0;
 }
@@ -38,6 +41,8 @@ struct CloneOwner
     void* __thiscall Clone(void* kCloning);
 };
 // @fnv 0x00a42ff0
+// pdb: BSBlendTreadTransfInterpolator::CreateClone | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, objrun, high
+// pdb params: kCloning
 void* __thiscall CloneOwner::Clone(void* kCloning)
 {
     CloneOwner* pkObject;
@@ -111,6 +116,8 @@ class NiInterpolator
 };
 
 // @fnv 0x00a39100
+// pdb: NiBlendTransformInterpolator::InterpolatorIsCorrectType | NiBlendTransformInterpolator.obj | fnv360_0721_beta, objrun_sim, low
+// pdb params: pkInterpolator
 bool __stdcall FUN_00a39100(NiInterpolator* pkInterpolator)
 {
     return pkInterpolator->IsCorrectType();
@@ -200,6 +207,8 @@ struct BSBlendInterpClass
     bool BlendInterpolators(float time, NiObjectNET* object, NiQuatTransform& result);
 };
 // @fnv 0x00a43160
+// pdb: BSBlendTreadTransfInterpolator::BlendValues | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fTime, pkInterpTarget, kValue
 bool BSBlendInterpClass::BlendInterpolators(float time, NiObjectNET* object, NiQuatTransform& arResult)
 {
     float total = 0.0f;
@@ -253,6 +262,8 @@ void __cdecl FUN_00a40a10()
 void __cdecl FUN_00a37980();
 
 // @fnv 0x00a42fc0
+// pdb: Script::SaveEdit | TESScript.obj | fnv360_0822_retail, vtable, medium
+// pdb params: pFile
 void __cdecl FUN_00a42fc0()
 {
     FUN_00a37980();
@@ -334,6 +345,8 @@ class TreadOwner
     bool UpdateTreadTransform(float, NiObjectNET*, NiQuatTransform&);
 };
 // @fnv 0x00a43040
+// pdb: BSBlendTreadTransfInterpolator::StoreSingleValue | BSBlendTreadTransfInterpolator.obj | fnv360_0822_retail, objrun_prop, medium
+// pdb params: fTime, pkInterpTarget, kValue
 bool TreadOwner::UpdateTreadTransform(float afTime, NiObjectNET* target, NiQuatTransform& arTransform)
 {
     if (flags & 1)
@@ -405,6 +418,7 @@ typedef class FUN_00a36890 BlendConstructor;
 
 // Initializes BlendConstructor members, setting array and single interpolator pointers to null and weight fields to BlendTimeValue.
 // @fnv 0x00a36890
+// pdb: NiBlendInterpolator::NiBlendInterpolator | NiBlendInterpolator.obj | fnv360_0822_retail, call_seq, high
 BlendConstructor::FUN_00a36890()
     : m_uiObjectFlags((m_ppVirtualMethodTable = &DAT_0109697c, 0)), m_ucArraySize(0), m_ucInterpCount(0), m_ucSingleIdx(0xff),
       m_cHighPriority(-128), m_cNextHighPriority(-128), m_pInterpArray(0), m_pSingleInterpolator(0),
